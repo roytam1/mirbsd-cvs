@@ -4,7 +4,7 @@
 /*                                                                         */
 /*    The FreeType private base classes (specification).                   */
 /*                                                                         */
-/*  Copyright 1996-2001, 2002, 2003, 2004 by                               */
+/*  Copyright 1996-2001, 2002, 2003, 2004, 2005, 2006 by                   */
 /*  David Turner, Robert Wilhelm, and Werner Lemberg.                      */
 /*                                                                         */
 /*  This file is part of the FreeType project, and may only be used,       */
@@ -27,7 +27,6 @@
 #define __FTOBJS_H__
 
 #include <ft2build.h>
-#include FT_CONFIG_STANDARD_LIBRARY_H   /* for ft_setjmp and ft_longjmp */
 #include FT_RENDER_H
 #include FT_SIZES_H
 #include FT_INTERNAL_MEMORY_H
@@ -81,109 +80,12 @@ FT_BEGIN_HEADER
 #define FT_PIX_CEIL( x )      FT_PIX_FLOOR( (x) + 63 )
 
 
-  /*************************************************************************/
-  /*************************************************************************/
-  /*************************************************************************/
-  /****                                                                 ****/
-  /****                                                                 ****/
-  /****                    V A L I D A T I O N                          ****/
-  /****                                                                 ****/
-  /****                                                                 ****/
-  /*************************************************************************/
-  /*************************************************************************/
-  /*************************************************************************/
-
-  /* handle to a validation object */
-  typedef struct FT_ValidatorRec_*  FT_Validator;
-
-
-  /*************************************************************************/
-  /*                                                                       */
-  /* There are three distinct validation levels defined here:              */
-  /*                                                                       */
-  /* FT_VALIDATE_DEFAULT ::                                                */
-  /*   A table that passes this validation level can be used reliably by   */
-  /*   FreeType.  It generally means that all offsets have been checked to */
-  /*   prevent out-of-bound reads, array counts are correct, etc.          */
-  /*                                                                       */
-  /* FT_VALIDATE_TIGHT ::                                                  */
-  /*   A table that passes this validation level can be used reliably and  */
-  /*   doesn't contain invalid data.  For example, a charmap table that    */
-  /*   returns invalid glyph indices will not pass, even though it can     */
-  /*   be used with FreeType in default mode (the library will simply      */
-  /*   return an error later when trying to load the glyph).               */
-  /*                                                                       */
-  /*   It also check that fields that must be a multiple of 2, 4, or 8     */
-  /*   don't have incorrect values, etc.                                   */
-  /*                                                                       */
-  /* FT_VALIDATE_PARANOID ::                                               */
-  /*   Only for font debugging.  Checks that a table follows the           */
-  /*   specification by 100%.  Very few fonts will be able to pass this    */
-  /*   level anyway but it can be useful for certain tools like font       */
-  /*   editors/converters.                                                 */
-  /*                                                                       */
-  typedef enum  FT_ValidationLevel_
-  {
-    FT_VALIDATE_DEFAULT = 0,
-    FT_VALIDATE_TIGHT,
-    FT_VALIDATE_PARANOID
-
-  } FT_ValidationLevel;
-
-
-  /* validator structure */
-  typedef struct  FT_ValidatorRec_
-  {
-    const FT_Byte*      base;        /* address of table in memory       */
-    const FT_Byte*      limit;       /* `base' + sizeof(table) in memory */
-    FT_ValidationLevel  level;       /* validation level                 */
-    FT_Error            error;       /* error returned. 0 means success  */
-
-    ft_jmp_buf          jump_buffer; /* used for exception handling      */
-
-  } FT_ValidatorRec;
-
-
-#define FT_VALIDATOR( x )  ((FT_Validator)( x ))
-
-
-  FT_BASE( void )
-  ft_validator_init( FT_Validator        valid,
-                     const FT_Byte*      base,
-                     const FT_Byte*      limit,
-                     FT_ValidationLevel  level );
-
-  FT_BASE( FT_Int )
-  ft_validator_run( FT_Validator  valid );
-
-  /* Sets the error field in a validator, then calls `longjmp' to return */
-  /* to high-level caller.  Using `setjmp/longjmp' avoids many stupid    */
-  /* error checks within the validation routines.                        */
-  /*                                                                     */
-  FT_BASE( void )
-  ft_validator_error( FT_Validator  valid,
-                      FT_Error      error );
-
-
-  /* Calls ft_validate_error.  Assumes that the `valid' local variable */
-  /* holds a pointer to the current validator object.                  */
-  /*                                                                   */
-#define FT_INVALID( _error )  ft_validator_error( valid, _error )
-
-  /* called when a broken table is detected */
-#define FT_INVALID_TOO_SHORT  FT_INVALID( FT_Err_Invalid_Table )
-
-  /* called when an invalid offset is detected */
-#define FT_INVALID_OFFSET     FT_INVALID( FT_Err_Invalid_Offset )
-
-  /* called when an invalid format/value is detected */
-#define FT_INVALID_FORMAT     FT_INVALID( FT_Err_Invalid_Table )
-
-  /* called when an invalid glyph index is detected */
-#define FT_INVALID_GLYPH_ID   FT_INVALID( FT_Err_Invalid_Glyph_Index )
-
-  /* called when an invalid field value is detected */
-#define FT_INVALID_DATA       FT_INVALID( FT_Err_Invalid_Table )
+  /*
+   *  Return the highest power of 2 that is <= value; this correspond to
+   *  the highest bit in a given 32-bit value.
+   */
+  FT_BASE( FT_UInt32 )
+  ft_highpow2( FT_UInt32  value );
 
 
   /*************************************************************************/
@@ -257,7 +159,7 @@ FT_BEGIN_HEADER
                FT_CharMap     charmap,
                FT_CMap       *acmap );
 
-  /* destroy a charmap (don't remove it from face's list though) */
+  /* destroy a charmap and remove it from face's list */
   FT_BASE( void )
   FT_CMap_Done( FT_CMap  cmap );
 
@@ -311,9 +213,10 @@ FT_BEGIN_HEADER
   /*                                                                       */
   typedef struct  FT_Face_InternalRec_
   {
-    FT_UShort           max_points;
-    FT_Short            max_contours;
-
+#ifdef FT_CONFIG_OPTION_OLD_INTERNALS
+    FT_UShort           reserved1;
+    FT_Short            reserved2;
+#endif
     FT_Matrix           transform_matrix;
     FT_Vector           transform_delta;
     FT_Int              transform_flags;
@@ -549,26 +452,58 @@ FT_BEGIN_HEADER
 
  /* */
 
- /*
-  * Free the bitmap of a given glyphslot when needed
-  * (i.e., only when it was allocated with ft_glyphslot_alloc_bitmap).
-  */
+#define FT_REQUEST_WIDTH( req )                                            \
+          ( (req)->horiResolution                                          \
+              ? (FT_Pos)( (req)->width * (req)->horiResolution + 36 ) / 72 \
+              : (req)->width )
+
+#define FT_REQUEST_HEIGHT( req )                                            \
+          ( (req)->vertResolution                                           \
+              ? (FT_Pos)( (req)->height * (req)->vertResolution + 36 ) / 72 \
+              : (req)->height )
+
+
+  /* Set the metrics according to a bitmap strike. */
+  FT_BASE( void )
+  FT_Select_Metrics( FT_Face   face,
+                     FT_ULong  strike_index );
+
+
+  /* Set the metrics according to a size request. */
+  FT_BASE( void )
+  FT_Request_Metrics( FT_Face          face,
+                      FT_Size_Request  req );
+
+
+  /* Match a size request against `available_sizes'. */
+  FT_BASE( FT_Error )
+  FT_Match_Size( FT_Face          face,
+                 FT_Size_Request  req,
+                 FT_Bool          ignore_width,
+                 FT_ULong*        size_index );
+
+
+  /* Use the horizontal metrics to synthesize the vertical metrics. */
+  /* If `advance' is zero, it is also synthesized.                  */
+  FT_BASE( void )
+  ft_synthesize_vertical_metrics( FT_Glyph_Metrics*  metrics,
+                                  FT_Pos             advance );
+
+
+  /* Free the bitmap of a given glyphslot when needed (i.e., only when it */
+  /* was allocated with ft_glyphslot_alloc_bitmap).                       */
   FT_BASE( void )
   ft_glyphslot_free_bitmap( FT_GlyphSlot  slot );
 
 
- /*
-  * Allocate a new bitmap buffer in a glyph slot.
-  */
+  /* Allocate a new bitmap buffer in a glyph slot. */
   FT_BASE( FT_Error )
   ft_glyphslot_alloc_bitmap( FT_GlyphSlot  slot,
                              FT_ULong      size );
 
 
- /*
-  * Set the bitmap buffer in a glyph slot to a given pointer.
-  * The buffer will not be freed by a later call to ft_glyphslot_free_bitmap.
-  */
+  /* Set the bitmap buffer in a glyph slot to a given pointer.  The buffer */
+  /* will not be freed by a later call to ft_glyphslot_free_bitmap.        */
   FT_BASE( void )
   ft_glyphslot_set_bitmap( FT_GlyphSlot  slot,
                            FT_Byte*      buffer );
@@ -680,17 +615,15 @@ FT_BEGIN_HEADER
   /*************************************************************************/
 
 
-/* this hook is used by the TrueType debugger. It must be set to an alternate
- * truetype bytecode interpreter function
- */
+  /* This hook is used by the TrueType debugger.  It must be set to an */
+  /* alternate truetype bytecode interpreter function.                 */
 #define FT_DEBUG_HOOK_TRUETYPE            0
 
 
-/* set this debug hook to a non-null pointer to force unpatented hinting
- * for all faces when both TT_CONFIG_OPTION_BYTECODE_INTERPRETER and
- * TT_CONFIG_OPTION_UNPATENTED_HINTING are defined. this is only used
- * during debugging
- */
+  /* Set this debug hook to a non-null pointer to force unpatented hinting */
+  /* for all faces when both TT_CONFIG_OPTION_BYTECODE_INTERPRETER and     */
+  /* TT_CONFIG_OPTION_UNPATENTED_HINTING are defined. this is only used    */
+  /* during debugging.                                                     */
 #define FT_DEBUG_HOOK_UNPATENTED_HINTING  1
 
 
@@ -807,7 +740,7 @@ FT_BEGIN_HEADER
   /* <Return>                                                              */
   /*    A pointer to the new memory object.  0 in case of error.           */
   /*                                                                       */
-  FT_EXPORT( FT_Memory )
+  FT_BASE( FT_Memory )
   FT_New_Memory( void );
 
 
@@ -822,7 +755,7 @@ FT_BEGIN_HEADER
   /* <Input>                                                               */
   /*    memory :: A handle to the memory manager.                          */
   /*                                                                       */
-  FT_EXPORT( void )
+  FT_BASE( void )
   FT_Done_Memory( FT_Memory  memory );
 
 #endif /* !FT_CONFIG_OPTION_NO_DEFAULT_SYSTEM */

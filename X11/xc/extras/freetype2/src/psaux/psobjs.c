@@ -4,7 +4,7 @@
 /*                                                                         */
 /*    Auxiliary functions for PostScript fonts (body).                     */
 /*                                                                         */
-/*  Copyright 1996-2001, 2002, 2003, 2004 by                               */
+/*  Copyright 1996-2001, 2002, 2003, 2004, 2005, 2006 by                   */
 /*  David Turner, Robert Wilhelm, and Werner Lemberg.                      */
 /*                                                                         */
 /*  This file is part of the FreeType project, and may only be used,       */
@@ -21,6 +21,7 @@
 #include FT_INTERNAL_DEBUG_H
 
 #include "psobjs.h"
+#include "psconv.h"
 
 #include "psauxerr.h"
 
@@ -87,9 +88,9 @@
   shift_elements( PS_Table  table,
                   FT_Byte*  old_base )
   {
-    FT_Long    delta  = (FT_Long)( table->block - old_base );
-    FT_Byte**  offset = table->elements;
-    FT_Byte**  limit  = offset + table->max_elems;
+    FT_PtrDist  delta  = table->block - old_base;
+    FT_Byte**   offset = table->elements;
+    FT_Byte**   limit  = offset + table->max_elems;
 
 
     for ( ; offset < limit; offset++ )
@@ -266,64 +267,6 @@
   /*************************************************************************/
   /*************************************************************************/
 
-  /* In the PostScript Language Reference Manual (PLRM) the following */
-  /* characters are called `whitespace characters'.                   */
-#define IS_T1_WHITESPACE( c )  ( (c) == ' '  || (c) == '\t' )
-#define IS_T1_LINESPACE( c )   ( (c) == '\r' || (c) == '\n' || (c) == '\f' )
-#define IS_T1_NULLSPACE( c )   ( (c) == '\0' )
-
-  /* According to the PLRM all whitespace characters are equivalent, */
-  /* except in comments and strings.                                 */
-#define IS_T1_SPACE( c )  ( IS_T1_WHITESPACE( c ) || \
-                            IS_T1_LINESPACE( c )  || \
-                            IS_T1_NULLSPACE( c )  )
-
-
-  /* The following array is used by various functions to quickly convert */
-  /* digits (both decimal and non-decimal) into numbers.                 */
-
-#if 'A' == 65
-  /* ASCII */
-
-  static const char ft_char_table[128] =
-  {
-    /* 0x00 */
-    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
-    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
-    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
-     0,  1,  2,  3,  4,  5,  6,  7,  8,  9, -1, -1, -1, -1, -1, -1,
-    -1, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24,
-    25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, -1, -1, -1, -1, -1,
-    -1, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24,
-    25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, -1, -1, -1, -1, -1,
-  };
-
-  /* no character >= 0x80 can represent a valid number */
-#define OP  >=
-
-#endif /* 'A' == 65 */
-
-#if 'A' == 193
-  /* EBCDIC */
-
-  static const char ft_char_table[128] =
-  {
-    /* 0x80 */
-    -1, 10, 11, 12, 13, 14, 15, 16, 17, 18, -1, -1, -1, -1, -1, -1,
-    -1, 19, 20, 21, 22, 23, 24, 25, 26, 27, -1, -1, -1, -1, -1, -1,
-    -1, -1, 28, 29, 30, 31, 32, 33, 34, 35, -1, -1, -1, -1, -1, -1,
-    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
-    -1, 10, 11, 12, 13, 14, 15, 16, 17, 18, -1, -1, -1, -1, -1, -1,
-    -1, 19, 20, 21, 22, 23, 24, 25, 26, 27, -1, -1, -1, -1, -1, -1,
-    -1, -1, 28, 29, 30, 31, 32, 33, 34, 35, -1, -1, -1, -1, -1, -1,
-     0,  1,  2,  3,  4,  5,  6,  7,  8,  9, -1, -1, -1, -1, -1, -1,
-  }
-
-  /* no character < 0x80 can represent a valid number */
-#define OP  <
-
-#endif /* 'A' == 193 */
-
 
   /* first character must be already part of the comment */
 
@@ -336,7 +279,7 @@
 
     while ( cur < limit )
     {
-      if ( IS_T1_LINESPACE( *cur ) )
+      if ( IS_PS_NEWLINE( *cur ) )
         break;
       cur++;
     }
@@ -354,7 +297,7 @@
 
     while ( cur < limit )
     {
-      if ( !IS_T1_SPACE( *cur ) )
+      if ( !IS_PS_SPACE( *cur ) )
       {
         if ( *cur == '%' )
           /* According to the PLRM, a comment is equal to a space. */
@@ -412,24 +355,20 @@
 
     while ( ++cur < limit )
     {
-      int  d;
-
-
       /* All whitespace characters are ignored. */
       skip_spaces( &cur, limit );
       if ( cur >= limit )
         break;
 
-      if ( *cur OP 0x80 )
-        break;
-
-      d = ft_char_table[*cur & 0x7F];
-      if ( d < 0 || d >= 16 )
+      if ( !IS_PS_XDIGIT( *cur ) )
         break;
     }
 
     if ( cur < limit && *cur != '>' )
+    {
+      FT_ERROR(( "skip_string: missing closing delimiter `>'\n" ));
       parser->error = PSaux_Err_Invalid_File_Format;
+    }
     else
       cur++;
 
@@ -492,6 +431,8 @@
       cur++;
       if ( cur >= limit || *cur != '>' )             /* >> */
       {
+        FT_ERROR(( "ps_parser_skip_PS_token: "
+                   "unexpected closing delimiter `>'\n" ));
         parser->error = PSaux_Err_Invalid_File_Format;
         goto Exit;
       }
@@ -505,20 +446,15 @@
     /* anything else */
     while ( cur < limit )
     {
-      if ( IS_T1_SPACE( *cur )        ||
-           *cur == '('                ||
-           *cur == '/'                ||
-           *cur == '%'                ||
-           *cur == '[' || *cur == ']' ||
-           *cur == '{' || *cur == '}' ||
-           *cur == '<' || *cur == '>' )
-        break;
-
       if ( *cur == ')' )
       {
+        FT_ERROR(( "ps_parser_skip_PS_token: "
+                   "unexpected closing delimiter `)'\n" ));
         parser->error = PSaux_Err_Invalid_File_Format;
         goto Exit;
       }
+      else if ( IS_PS_DELIM( *cur ) )
+        break;
 
       cur++;
     }
@@ -685,268 +621,6 @@
   }
 
 
-  /* first character must be already part of the number */
-
-  static FT_Long
-  ps_radix( FT_Long    radixBase,
-            FT_Byte*  *acur,
-            FT_Byte*   limit )
-  {
-    FT_Long   result = 0;
-    FT_Byte*  cur    = *acur;
-
-
-    if ( radixBase < 2 || radixBase > 36 )
-      return 0;
-
-    while ( cur < limit )
-    {
-      int  d;
-
-
-      if ( *cur OP 0x80 )
-        break;
-
-      d = ft_char_table[*cur & 0x7F];
-      if ( d < 0 || d >= radixBase )
-        break;
-
-      result = result * radixBase + d;
-
-      cur++;
-    }
-
-    *acur = cur;
-
-    return result;
-  }
-
-
-  /* first character must be already part of the number */
-
-  static FT_Long
-  ps_toint( FT_Byte*  *acur,
-            FT_Byte*   limit )
-  {
-    FT_Long   result = 0;
-    FT_Byte*  cur    = *acur;
-    FT_Byte   c;
-
-
-    if ( cur >= limit )
-      goto Exit;
-
-    c = *cur;
-    if ( c == '-' )
-      cur++;
-
-    while ( cur < limit )
-    {
-      int  d;
-
-
-      if ( *cur == '#' )
-      {
-        cur++;
-        result = ps_radix( result, &cur, limit );
-        break;
-      }
-
-      if ( *cur OP 0x80 )
-        break;
-
-      d = ft_char_table[*cur & 0x7F];
-      if ( d < 0 || d >= 10 )
-        break;
-      result = result * 10 + d;
-
-      cur++;
-    };
-
-    if ( c == '-' )
-      result = -result;
-
-  Exit:
-    *acur = cur;
-    return result;
-  }
-
-
-  /* first character must be `<' if `delimiters' is non-zero */
-
-  static FT_Error
-  ps_tobytes( FT_Byte*  *acur,
-              FT_Byte*   limit,
-              FT_Long    max_bytes,
-              FT_Byte*   bytes,
-              FT_Long*   pnum_bytes,
-              FT_Bool    delimiters )
-  {
-    FT_Error  error = PSaux_Err_Ok;
-
-    FT_Byte*  cur = *acur;
-    FT_Long   n   = 0;
-
-
-    if ( cur >= limit )
-      goto Exit;
-
-    if ( delimiters )
-    {
-      if ( *cur != '<' )
-      {
-        error = PSaux_Err_Invalid_File_Format;
-        goto Exit;
-      }
-
-      cur++;
-    }
-
-    max_bytes = max_bytes * 2;
-
-    for ( n = 0; cur < limit; n++, cur++ )
-    {
-      int  d;
-
-
-      if ( n >= max_bytes )
-        /* buffer is full */
-        goto Exit;
-
-      /* All whitespace characters are ignored. */
-      skip_spaces( &cur, limit );
-      if ( cur >= limit )
-        break;
-
-      if ( *cur OP 0x80 )
-        break;
-
-      d = ft_char_table[*cur & 0x7F];
-      if ( d < 0 || d >= 16 )
-        break;
-
-      /* <f> == <f0> != <0f> */
-      bytes[n / 2] = (FT_Byte)( ( n % 2 ) ? bytes[n / 2] + d
-                                          : d * 16 );
-    }
-
-    if ( delimiters )
-    {
-      if ( cur < limit && *cur != '>' )
-      {
-        error = PSaux_Err_Invalid_File_Format;
-        goto Exit;
-      }
-
-      cur++;
-    }
-
-    *acur = cur;
-
-  Exit:
-    *pnum_bytes = ( n + 1 ) / 2;
-
-    return error;
-  }
-
-
-  /* first character must be already part of the number */
-
-  static FT_Long
-  ps_tofixed( FT_Byte*  *acur,
-              FT_Byte*   limit,
-              FT_Long    power_ten )
-  {
-    FT_Byte*  cur  = *acur;
-    FT_Long   num, divider, result;
-    FT_Int    sign = 0;
-
-
-    if ( cur >= limit )
-      return 0;
-
-    /* first of all, check the sign */
-    if ( *cur == '-' && cur + 1 < limit )
-    {
-      sign = 1;
-      cur++;
-    }
-
-    /* then, read the integer part, if any */
-    if ( *cur != '.' )
-      result = ps_toint( &cur, limit ) << 16;
-    else
-      result = 0;
-
-    num     = 0;
-    divider = 1;
-
-    if ( cur >= limit )
-      goto Exit;
-
-    /* read decimal part, if any */
-    if ( *cur == '.' && cur + 1 < limit )
-    {
-      cur++;
-
-      for (;;)
-      {
-        int  d;
-
-
-        if ( *cur OP 0x80 )
-          break;
-
-        d = ft_char_table[*cur & 0x7F];
-        if ( d < 0 || d >= 10 )
-          break;
-
-        if ( divider < 10000000L )
-        {
-          num      = num * 10 + d;
-          divider *= 10;
-        }
-
-        cur++;
-        if ( cur >= limit )
-          break;
-      }
-    }
-
-    /* read exponent, if any */
-    if ( cur + 1 < limit && ( *cur == 'e' || *cur == 'E' ) )
-    {
-      cur++;
-      power_ten += ps_toint( &cur, limit );
-    }
-
-  Exit:
-    /* raise to power of ten if needed */
-    while ( power_ten > 0 )
-    {
-      result = result * 10;
-      num    = num * 10;
-      power_ten--;
-    }
-
-    while ( power_ten < 0 )
-    {
-      result  = result / 10;
-      divider = divider * 10;
-      power_ten++;
-    }
-
-    if ( num )
-      result += FT_DivFix( num, divider );
-
-    if ( sign )
-      result = -result;
-
-    *acur = cur;
-    return result;
-  }
-
-
   /* first character must be a delimiter or a part of a number */
 
   static FT_Int
@@ -994,7 +668,8 @@
         break;
       }
 
-      coords[count] = (FT_Short)( ps_tofixed( &cur, limit, 0 ) >> 16 );
+      coords[count] =
+        (FT_Short)( PS_Conv_ToFixed( &cur, limit, 0 ) >> 16 );
       count++;
 
       if ( !ender )
@@ -1055,7 +730,7 @@
         break;
       }
 
-      values[count] = ps_tofixed( &cur, limit, power_ten );
+      values[count] = PS_Conv_ToFixed( &cur, limit, power_ten );
       count++;
 
       if ( !ender )
@@ -1241,29 +916,29 @@
         goto Store_Integer;
 
       case T1_FIELD_TYPE_FIXED:
-        val = ps_tofixed( &cur, limit, 0 );
+        val = PS_Conv_ToFixed( &cur, limit, 0 );
         goto Store_Integer;
 
       case T1_FIELD_TYPE_FIXED_1000:
-        val = ps_tofixed( &cur, limit, 3 );
+        val = PS_Conv_ToFixed( &cur, limit, 3 );
         goto Store_Integer;
 
       case T1_FIELD_TYPE_INTEGER:
-        val = ps_toint( &cur, limit );
+        val = PS_Conv_ToInt( &cur, limit );
         /* fall through */
 
       Store_Integer:
         switch ( field->size )
         {
-        case 1:
+        case (8 / FT_CHAR_BIT):
           *(FT_Byte*)q = (FT_Byte)val;
           break;
 
-        case 2:
+        case (16 / FT_CHAR_BIT):
           *(FT_UShort*)q = (FT_UShort)val;
           break;
 
-        case 4:
+        case (32 / FT_CHAR_BIT):
           *(FT_UInt32*)q = (FT_UInt32)val;
           break;
 
@@ -1415,9 +1090,11 @@
   ps_parser_to_int( PS_Parser  parser )
   {
     ps_parser_skip_spaces( parser );
-    return ps_toint( &parser->cursor, parser->limit );
+    return PS_Conv_ToInt( &parser->cursor, parser->limit );
   }
 
+
+  /* first character must be `<' if `delimiters' is non-zero */
 
   FT_LOCAL_DEF( FT_Error )
   ps_parser_to_bytes( PS_Parser  parser,
@@ -1426,13 +1103,49 @@
                       FT_Long*   pnum_bytes,
                       FT_Bool    delimiters )
   {
+    FT_Error  error = PSaux_Err_Ok;
+    FT_Byte*  cur;
+    
+    
     ps_parser_skip_spaces( parser );
-    return ps_tobytes( &parser->cursor,
-                       parser->limit,
-                       max_bytes,
-                       bytes,
-                       pnum_bytes,
-                       delimiters );
+    cur = parser->cursor;
+
+    if ( cur >= parser->limit )
+      goto Exit;
+
+    if ( delimiters )
+    {
+      if ( *cur != '<' )
+      {
+        FT_ERROR(( "ps_parser_to_bytes: Missing starting delimiter `<'\n" ));
+        error = PSaux_Err_Invalid_File_Format;
+        goto Exit;
+      }
+
+      cur++;
+    }
+
+    *pnum_bytes = PS_Conv_ASCIIHexDecode( &cur,
+                                          parser->limit,
+                                          bytes,
+                                          max_bytes );
+
+    if ( delimiters )
+    {
+      if ( cur < parser->limit && *cur != '>' )
+      {
+        FT_ERROR(( "ps_tobytes: Missing closing delimiter `>'\n" ));
+        error = PSaux_Err_Invalid_File_Format;
+        goto Exit;
+      }
+
+      cur++;
+    }
+
+    parser->cursor = cur;
+
+  Exit:
+    return error;
   }
 
 
@@ -1441,7 +1154,7 @@
                       FT_Int     power_ten )
   {
     ps_parser_skip_spaces( parser );
-    return ps_tofixed( &parser->cursor, parser->limit, power_ten );
+    return PS_Conv_ToFixed( &parser->cursor, parser->limit, power_ten );
   }
 
 
@@ -1543,7 +1256,7 @@
                    FT_GlyphSlot  glyph,
                    FT_Bool       hinting )
   {
-    builder->path_begun  = 0;
+    builder->parse_state = T1_Parse_Start;
     builder->load_points = 1;
 
     builder->face   = face;
@@ -1614,7 +1327,7 @@
   t1_builder_check_points( T1_Builder  builder,
                            FT_Int      count )
   {
-    return FT_GlyphLoader_CheckPoints( builder->loader, count, 0 );
+    return FT_GLYPHLOADER_CHECK_POINTS( builder->loader, count, 0 );
   }
 
 
@@ -1680,7 +1393,7 @@
       return PSaux_Err_Ok;
     }
 
-    error = FT_GlyphLoader_CheckPoints( builder->loader, 0, 1 );
+    error = FT_GLYPHLOADER_CHECK_POINTS( builder->loader, 0, 1 );
     if ( !error )
     {
       if ( outline->n_contours > 0 )
@@ -1700,17 +1413,21 @@
                           FT_Pos      x,
                           FT_Pos      y )
   {
-    FT_Error  error = 0;
+    FT_Error  error = PSaux_Err_Invalid_File_Format;
 
 
     /* test whether we are building a new contour */
-    if ( !builder->path_begun )
+
+    if ( builder->parse_state == T1_Parse_Have_Path )
+      error = PSaux_Err_Ok;
+    else if ( builder->parse_state == T1_Parse_Have_Moveto )
     {
-      builder->path_begun = 1;
+      builder->parse_state = T1_Parse_Have_Path;
       error = t1_builder_add_contour( builder );
       if ( !error )
         error = t1_builder_add_point1( builder, x, y );
     }
+
     return error;
   }
 
@@ -1721,6 +1438,9 @@
   {
     FT_Outline*  outline = builder->current;
 
+
+    if ( !outline )
+      return;
 
     /* XXXX: We must not include the last point in the path if it */
     /*       is located on the first point.                       */
@@ -1764,16 +1484,11 @@
               FT_Offset  length,
               FT_UShort  seed )
   {
-    while ( length > 0 )
-    {
-      FT_Byte  plain;
-
-
-      plain     = (FT_Byte)( *buffer ^ ( seed >> 8 ) );
-      seed      = (FT_UShort)( ( *buffer + seed ) * 52845U + 22719 );
-      *buffer++ = plain;
-      length--;
-    }
+    PS_Conv_EexecDecode( &buffer,
+                         buffer + length,
+                         buffer,
+                         length,
+                         &seed );
   }
 
 

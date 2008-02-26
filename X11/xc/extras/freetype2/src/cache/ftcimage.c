@@ -4,7 +4,7 @@
 /*                                                                         */
 /*    FreeType Image cache (body).                                         */
 /*                                                                         */
-/*  Copyright 2000-2001, 2003, 2004 by                                     */
+/*  Copyright 2000-2001, 2003, 2004, 2006 by                               */
 /*  David Turner, Robert Wilhelm, and Werner Lemberg.                      */
 /*                                                                         */
 /*  This file is part of the FreeType project, and may only be used,       */
@@ -18,7 +18,7 @@
 
 #include <ft2build.h>
 #include FT_CACHE_H
-#include FT_CACHE_INTERNAL_IMAGE_H
+#include "ftcimage.h"
 #include FT_INTERNAL_MEMORY_H
 
 #include "ftccback.h"
@@ -26,10 +26,11 @@
 
 
   /* finalize a given glyph image node */
-  FT_EXPORT_DEF( void )
-  FTC_INode_Free( FTC_INode  inode,
+  FT_LOCAL_DEF( void )
+  ftc_inode_free( FTC_Node   ftcinode,
                   FTC_Cache  cache )
   {
+    FTC_INode  inode = (FTC_INode)ftcinode;
     FT_Memory  memory = cache->memory;
 
 
@@ -45,15 +46,15 @@
 
 
   FT_LOCAL_DEF( void )
-  ftc_inode_free( FTC_INode  inode,
+  FTC_INode_Free( FTC_INode  inode,
                   FTC_Cache  cache )
   {
-    FTC_INode_Free( inode, cache );
+    ftc_inode_free( FTC_NODE( inode ), cache );
   }
 
 
   /* initialize a new glyph image node */
-  FT_EXPORT_DEF( FT_Error )
+  FT_LOCAL_DEF( FT_Error )
   FTC_INode_New( FTC_INode   *pinode,
                  FTC_GQuery   gquery,
                  FTC_Cache    cache )
@@ -77,6 +78,11 @@
       /* we will now load the glyph image */
       error = clazz->family_load_glyph( family, gindex, cache,
                                         &inode->glyph );
+      if ( error )
+      {
+        FTC_INode_Free( inode, cache );
+        inode = NULL;
+      }
     }
 
     *pinode = inode;
@@ -85,19 +91,27 @@
 
 
   FT_LOCAL_DEF( FT_Error )
-  ftc_inode_new( FTC_INode   *pinode,
-                 FTC_GQuery   gquery,
-                 FTC_Cache    cache )
+  ftc_inode_new( FTC_Node   *ftcpinode,
+                 FT_Pointer  ftcgquery,
+                 FTC_Cache   cache )
   {
+    FTC_INode  *pinode = (FTC_INode*)ftcpinode;
+    FTC_GQuery  gquery = (FTC_GQuery)ftcgquery;
+
+
     return FTC_INode_New( pinode, gquery, cache );
   }
 
 
-  FT_EXPORT_DEF( FT_ULong )
-  FTC_INode_Weight( FTC_INode  inode )
+  FT_LOCAL_DEF( FT_ULong )
+  ftc_inode_weight( FTC_Node   ftcinode,
+                    FTC_Cache  ftccache )
   {
-    FT_ULong  size  = 0;
-    FT_Glyph  glyph = inode->glyph;
+    FTC_INode  inode = (FTC_INode)ftcinode;
+    FT_ULong   size  = 0;
+    FT_Glyph   glyph = inode->glyph;
+
+    FT_UNUSED( ftccache );
 
 
     switch ( glyph->format )
@@ -108,7 +122,7 @@
 
 
         bitg = (FT_BitmapGlyph)glyph;
-        size = bitg->bitmap.rows * labs( bitg->bitmap.pitch ) +
+        size = bitg->bitmap.rows * ft_labs( bitg->bitmap.pitch ) +
                sizeof ( *bitg );
       }
       break;
@@ -135,11 +149,15 @@
   }
 
 
+#if 0
+
   FT_LOCAL_DEF( FT_ULong )
-  ftc_inode_weight( FTC_INode  inode )
+  FTC_INode_Weight( FTC_INode  inode )
   {
-    return FTC_INode_Weight( inode );
+    return ftc_inode_weight( FTC_NODE( inode ), NULL );
   }
+
+#endif /* 0 */
 
 
 /* END */

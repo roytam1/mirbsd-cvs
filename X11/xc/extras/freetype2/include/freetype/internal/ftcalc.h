@@ -4,7 +4,7 @@
 /*                                                                         */
 /*    Arithmetic computations (specification).                             */
 /*                                                                         */
-/*  Copyright 1996-2001, 2002, 2003 by                                     */
+/*  Copyright 1996-2001, 2002, 2003, 2004, 2005, 2006 by                   */
 /*  David Turner, Robert Wilhelm, and Werner Lemberg.                      */
 /*                                                                         */
 /*  This file is part of the FreeType project, and may only be used,       */
@@ -27,12 +27,28 @@
 FT_BEGIN_HEADER
 
 
-  FT_EXPORT( FT_Int32 )
+  /*************************************************************************/
+  /*                                                                       */
+  /* <Function>                                                            */
+  /*    FT_FixedSqrt                                                       */
+  /*                                                                       */
+  /* <Description>                                                         */
+  /*    Computes the square root of a 16.16 fixed point value.             */
+  /*                                                                       */
+  /* <Input>                                                               */
+  /*    x :: The value to compute the root for.                            */
+  /*                                                                       */
+  /* <Return>                                                              */
+  /*    The result of `sqrt(x)'.                                           */
+  /*                                                                       */
+  /* <Note>                                                                */
+  /*    This function is not very fast.                                    */
+  /*                                                                       */
+  FT_BASE( FT_Int32 )
   FT_SqrtFixed( FT_Int32  x );
 
 
-#define SQRT_32( x )  FT_Sqrt32( x )
-
+#ifdef FT_CONFIG_OPTION_OLD_INTERNALS
 
   /*************************************************************************/
   /*                                                                       */
@@ -51,6 +67,8 @@ FT_BEGIN_HEADER
   /*                                                                       */
   FT_EXPORT( FT_Int32 )
   FT_Sqrt32( FT_Int32  x );
+
+#endif /* FT_CONFIG_OPTION_OLD_INTERNALS */
 
 
   /*************************************************************************/
