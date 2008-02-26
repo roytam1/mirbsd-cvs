@@ -15,6 +15,7 @@ HEADERS= \
 	svpscmap.h \
 	svsfnt.h \
 	svttcmap.h \
+	svttglyf.h \
 	svxf86nm.h
 
 BuildIncludes($(HEADERS),freetype2/freetype/internal/services,../../../..)
@@ -30,4 +31,5 @@ LinkSourceFile(svpfr.h,$(FREETYPEINC)/internal/services)
 LinkSourceFile(svpscmap.h,$(FREETYPEINC)/internal/services)
 LinkSourceFile(svsfnt.h,$(FREETYPEINC)/internal/services)
 LinkSourceFile(svttcmap.h,$(FREETYPEINC)/internal/services)
+LinkSourceFile(svttglyf.h,$(FREETYPEINC)/internal/services)
 LinkSourceFile(svxf86nm.h,$(FREETYPEINC)/internal/services)

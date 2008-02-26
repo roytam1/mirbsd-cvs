@@ -17,10 +17,12 @@ HEADERS= \
         ftchapters.h \
 	fterrdef.h \
         fterrors.h \
+        ftgasp.h \
         ftglyph.h \
         ftgzip.h \
         ftimage.h \
         ftincrem.h \
+        ftlcdfil.h \
         ftlist.h \
         ftmac.h \
         ftmm.h \
@@ -57,10 +59,12 @@ LinkSourceFile(ftcache.h,$(FREETYPEINC))
 LinkSourceFile(ftchapters.h,$(FREETYPEINC))
 LinkSourceFile(fterrdef.h,$(FREETYPEINC))
 LinkSourceFile(fterrors.h,$(FREETYPEINC))
+LinkSourceFile(ftgasp.h,$(FREETYPEINC))
 LinkSourceFile(ftglyph.h,$(FREETYPEINC))
 LinkSourceFile(ftgzip.h,$(FREETYPEINC))
 LinkSourceFile(ftimage.h,$(FREETYPEINC))
 LinkSourceFile(ftincrem.h,$(FREETYPEINC))
+LinkSourceFile(ftlcdfil.h,$(FREETYPEINC))
 LinkSourceFile(ftlist.h,$(FREETYPEINC))
 LinkSourceFile(ftmac.h,$(FREETYPEINC))
 LinkSourceFile(ftmm.h,$(FREETYPEINC))

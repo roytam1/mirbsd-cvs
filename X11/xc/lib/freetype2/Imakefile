@@ -68,9 +68,12 @@ SRCS_BASE = ftapi.c \
             ftbbox.c \
             ftbdf.c \
             ftdebug.c \
+	    ftgasp.c \
             ftglyph.c \
             ftinit.c \
+	    ftlcdfil.c \
             ftmm.c \
+	    ftpatent.c \
             ftpfr.c \
             ftstroke.c \
             ftsynth.c \
@@ -84,9 +87,12 @@ OBJS_BASE = ftapi.o \
             ftbbox.o \
             ftbdf.o \
             ftdebug.o \
+	    ftgasp.o \
             ftglyph.o \
             ftinit.o \
+	    ftlcdfil.o \
             ftmm.o \
+	    ftpatent.o \
             ftpfr.o \
             ftstroke.o \
             ftsynth.o \
@@ -95,8 +101,12 @@ OBJS_BASE = ftapi.o \
             ftwinfnt.o \
             ftxf86.o
 
-SRCS_AUTOFIT  = autofit.c
-OBJS_AUTOFIT  = autofit.o
+SRCS_AUTOFIT  = autofit.c \
+		aflatin2.c \
+		afindic.c
+OBJS_AUTOFIT  = autofit.o \
+		aflatin2.o \
+		afindic.o
 
 SRCS_AUTOHINT = autohint.c
 OBJS_AUTOHINT = autohint.o
@@ -222,9 +232,12 @@ LinkSourceFile(ftbase.c,$(FREETYPESRC)/base)
 LinkSourceFile(ftbdf.c,$(FREETYPESRC)/base)
 LinkSourceFile(ftbbox.c,$(FREETYPESRC)/base)
 LinkSourceFile(ftdebug.c,$(FREETYPESRC)/base)
+LinkSourceFile(ftgasp.c,$(FREETYPESRC)/base)
 LinkSourceFile(ftglyph.c,$(FREETYPESRC)/base)
 LinkSourceFile(ftinit.c,$(FREETYPESRC)/base)
+LinkSourceFile(ftlcdfil.c,$(FREETYPESRC)/base)
 LinkSourceFile(ftmm.c,$(FREETYPESRC)/base)
+LinkSourceFile(ftpatent.c,$(FREETYPESRC)/base)
 LinkSourceFile(ftpfr.c,$(FREETYPESRC)/base)
 LinkSourceFile(ftstroke.c,$(FREETYPESRC)/base)
 LinkSourceFile(ftsynth.c,$(FREETYPESRC)/base)
@@ -238,6 +251,8 @@ LinkSourceFile(ftmac.c,$(FREETYPESRC)/base)
 #endif
 
 LinkSourceFile(autofit.c,$(FREETYPESRC)/autofit)
+LinkSourceFile(aflatin2.c,$(FREETYPESRC)/autofit)
+LinkSourceFile(afindic.c,$(FREETYPESRC)/autofit)
 LinkSourceFile(autohint.c,$(FREETYPESRC)/autohint)
 LinkSourceFile(bdf.c,$(FREETYPESRC)/bdf)
 LinkSourceFile(cff.c,$(FREETYPESRC)/cff)
