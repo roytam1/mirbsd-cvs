@@ -1,6 +1,7 @@
 /*
  * Copyright 2000 Computing Research Labs, New Mexico State University
- * Copyright 2001, 2002, 2003, 2004, 2005, 2006 Francesco Zappa Nardelli
+ * Copyright 2001, 2002, 2003, 2004, 2005, 2006, 2007
+ *   Francesco Zappa Nardelli
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -1263,7 +1264,6 @@
   {
     unsigned long   propid;
     hashnode        hn;
-    int             len;
     bdf_property_t  *prop, *fp;
     FT_Memory       memory = font->memory;
     FT_Error        error = BDF_Err_Ok;
@@ -1282,19 +1282,11 @@
         /* Delete the current atom if it exists. */
         FT_FREE( fp->value.atom );
 
-        if ( value == 0 )
-          len = 1;
-        else
-          len = ft_strlen( value ) + 1;
-
-        if ( len > 1 )
+        if ( value && value[0] != 0 )
         {
-          if ( FT_NEW_ARRAY( fp->value.atom, len ) )
+          if ( FT_STRDUP( fp->value.atom, value ) )
             goto Exit;
-          FT_MEM_COPY( fp->value.atom, value, len );
         }
-        else
-          fp->value.atom = 0;
         break;
 
       case BDF_INTEGER:
@@ -1359,19 +1351,12 @@
     switch ( prop->format )
     {
     case BDF_ATOM:
-      if ( value == 0 )
-        len = 1;
-      else
-        len = ft_strlen( value ) + 1;
-
-      if ( len > 1 )
+      fp->value.atom = 0;
+      if ( value != 0 && value[0] )
       {
-        if ( FT_NEW_ARRAY( fp->value.atom, len ) )
+        if ( FT_STRDUP( fp->value.atom, value ) )
           goto Exit;
-        FT_MEM_COPY( fp->value.atom, value, len );
       }
-      else
-        fp->value.atom = 0;
       break;
 
     case BDF_INTEGER:
@@ -1552,6 +1537,12 @@
       _bdf_list_shift( &p->list, 1 );
 
       s = _bdf_list_join( &p->list, ' ', &slen );
+
+      if ( !s )
+      {
+        error = BDF_Err_Invalid_File_Format;
+        goto Exit;
+      }
 
       if ( FT_NEW_ARRAY( p->glyph_name, slen + 1 ) )
         goto Exit;
@@ -2133,6 +2124,13 @@
       _bdf_list_shift( &p->list, 1 );
 
       s = _bdf_list_join( &p->list, ' ', &slen );
+
+      if ( !s )
+      {
+        error = BDF_Err_Invalid_File_Format;
+        goto Exit;
+      }
+
       if ( FT_NEW_ARRAY( p->font->name, slen + 1 ) )
         goto Exit;
       FT_MEM_COPY( p->font->name, s, slen + 1 );
@@ -2222,7 +2220,7 @@
                  bdf_options_t*  opts,
                  bdf_font_t*    *font )
   {
-    unsigned long  lineno;
+    unsigned long  lineno = 0; /* make compiler happy */
     _bdf_parse_t   *p;
 
     FT_Memory      memory = extmemory;
@@ -2242,7 +2240,7 @@
     error = _bdf_readstream( stream, _bdf_parse_start,
                              (void *)p, &lineno );
     if ( error )
-      goto Exit;
+      goto Fail;
 
     if ( p->font != 0 )
     {
@@ -2317,11 +2315,19 @@
       {
         /* The ENDFONT field was never reached or did not exist. */
         if ( !( p->flags & _BDF_GLYPHS ) )
+        {
           /* Error happened while parsing header. */
           FT_ERROR(( "bdf_load_font: " ERRMSG2, lineno ));
+          error = BDF_Err_Corrupted_Font_Header;
+          goto Exit;
+        }
         else
+        {
           /* Error happened when parsing glyphs. */
           FT_ERROR(( "bdf_load_font: " ERRMSG3, lineno ));
+          error = BDF_Err_Corrupted_Font_Glyphs;
+          goto Exit;
+        }
       }
     }
 
@@ -2334,7 +2340,7 @@
         if ( FT_RENEW_ARRAY( p->font->comments,
                              p->font->comments_len,
                              p->font->comments_len + 1 ) )
-          goto Exit;
+          goto Fail;
 
         p->font->comments[p->font->comments_len] = 0;
       }
@@ -2355,6 +2361,15 @@
     }
 
     return error;
+
+  Fail:
+    bdf_free_font( p->font );
+
+    memory = extmemory;
+
+    FT_FREE( p->font );
+
+    goto Exit;
   }
 
 
