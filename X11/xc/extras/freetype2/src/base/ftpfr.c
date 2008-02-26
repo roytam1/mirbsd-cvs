@@ -1,12 +1,10 @@
-/* $XFree86: xc/extras/freetype2/src/base/ftpfr.c,v 1.2 2005/02/28 23:19:13 dawes Exp $ */
-
 /***************************************************************************/
 /*                                                                         */
 /*  ftpfr.c                                                                */
 /*                                                                         */
 /*    FreeType API for accessing PFR-specific data (body).                 */
 /*                                                                         */
-/*  Copyright 2002, 2003 by                                                */
+/*  Copyright 2002, 2003, 2004 by                                          */
 /*  David Turner, Robert Wilhelm, and Werner Lemberg.                      */
 /*                                                                         */
 /*  This file is part of the FreeType project, and may only be used,       */
@@ -20,7 +18,6 @@
 #include <ft2build.h>
 #include FT_INTERNAL_OBJECTS_H
 #include FT_SERVICE_PFR_H
-#include FT_PFR_H
 
 
   /* check the format */
@@ -35,6 +32,8 @@
     return service;
   }
 
+
+  /* documentation is in ftpfr.h */
 
   FT_EXPORT_DEF( FT_Error )
   FT_Get_PFR_Metrics( FT_Face    face,
@@ -81,6 +80,8 @@
   }
 
 
+  /* documentation is in ftpfr.h */
+
   FT_EXPORT_DEF( FT_Error )
   FT_Get_PFR_Kerning( FT_Face     face,
                       FT_UInt     left,
@@ -103,6 +104,8 @@
     return error;
   }
 
+
+  /* documentation is in ftpfr.h */
 
   FT_EXPORT_DEF( FT_Error )
   FT_Get_PFR_Advance( FT_Face   face,

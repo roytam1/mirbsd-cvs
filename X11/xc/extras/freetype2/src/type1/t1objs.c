@@ -4,7 +4,7 @@
 /*                                                                         */
 /*    Type 1 objects manager (body).                                       */
 /*                                                                         */
-/*  Copyright 1996-2001, 2002, 2003, 2004 by                               */
+/*  Copyright 1996-2001, 2002, 2003, 2004, 2005, 2006, 2007 by             */
 /*  David Turner, Robert Wilhelm, and Werner Lemberg.                      */
 /*                                                                         */
 /*  This file is part of the FreeType project, and may only be used,       */
@@ -14,7 +14,7 @@
 /*  understand and accept it fully.                                        */
 /*                                                                         */
 /***************************************************************************/
-/* $XFree86: xc/extras/freetype2/src/type1/t1objs.c,v 1.4 2004/04/26 16:15:55 dawes Exp $ */
+
 
 #include <ft2build.h>
 #include FT_INTERNAL_DEBUG_H
@@ -111,18 +111,21 @@
 
 
   FT_LOCAL_DEF( FT_Error )
-  T1_Size_Reset( T1_Size  size )
+  T1_Size_Request( T1_Size          size,
+                   FT_Size_Request  req )
   {
     PSH_Globals_Funcs  funcs = T1_Size_Get_Globals_Funcs( size );
-    FT_Error           error = 0;
 
+
+    FT_Request_Metrics( size->root.face, req );
 
     if ( funcs )
-      error = funcs->set_scale( (PSH_Globals)size->root.internal,
-                                size->root.metrics.x_scale,
-                                size->root.metrics.y_scale,
-                                0, 0 );
-    return error;
+      funcs->set_scale( (PSH_Globals)size->root.internal,
+                        size->root.metrics.x_scale,
+                        size->root.metrics.y_scale,
+                        0, 0 );
+
+    return T1_Err_Ok;
   }
 
 
@@ -188,16 +191,24 @@
   FT_LOCAL_DEF( void )
   T1_Face_Done( T1_Face  face )
   {
-    FT_Memory  memory;
-    T1_Font    type1 = &face->type1;
-
-
     if ( face )
     {
-      memory = face->root.memory;
+      FT_Memory  memory = face->root.memory;
+      T1_Font    type1  = &face->type1;
+
 
 #ifndef T1_CONFIG_OPTION_NO_MM_SUPPORT
       /* release multiple masters information */
+      FT_ASSERT( ( face->len_buildchar == 0 ) == ( face->buildchar == NULL ) );
+
+      if ( face->buildchar )
+      {
+        FT_FREE( face->buildchar );
+
+        face->buildchar     = NULL;
+        face->len_buildchar = 0;
+      }
+
       T1_Done_Blend( face );
       face->blend = 0;
 #endif
@@ -233,12 +244,15 @@
 #ifndef T1_CONFIG_OPTION_NO_AFM
       /* release afm data if present */
       if ( face->afm_data )
-        T1_Done_AFM( memory, (T1_AFM*)face->afm_data );
+        T1_Done_Metrics( memory, (AFM_FontInfo)face->afm_data );
 #endif
 
       /* release unicode map, if any */
-      FT_FREE( face->unicode_map.maps );
-      face->unicode_map.num_maps = 0;
+#if 0
+      FT_FREE( face->unicode_map_rec.maps );
+      face->unicode_map_rec.num_maps = 0;
+      face->unicode_map              = NULL;
+#endif
 
       face->root.family_name = 0;
       face->root.style_name  = 0;
@@ -329,9 +343,10 @@
       root->num_glyphs = type1->num_glyphs;
       root->face_index = face_index;
 
-      root->face_flags  = FT_FACE_FLAG_SCALABLE;
-      root->face_flags |= FT_FACE_FLAG_HORIZONTAL;
-      root->face_flags |= FT_FACE_FLAG_GLYPH_NAMES;
+      root->face_flags = FT_FACE_FLAG_SCALABLE    |
+                         FT_FACE_FLAG_HORIZONTAL  |
+                         FT_FACE_FLAG_GLYPH_NAMES |
+                         FT_FACE_FLAG_HINTER;
 
       if ( info->is_fixed_pitch )
         root->face_flags |= FT_FACE_FLAG_FIXED_WIDTH;
@@ -410,8 +425,10 @@
 
       root->ascender  = (FT_Short)( root->bbox.yMax );
       root->descender = (FT_Short)( root->bbox.yMin );
-      root->height    = (FT_Short)(
-        ( ( root->ascender - root->descender ) * 12 ) / 10 );
+
+      root->height = (FT_Short)( ( root->units_per_EM * 12 ) / 10 );
+      if ( root->height < root->ascender - root->descender )
+        root->height = (FT_Short)( root->ascender - root->descender );
 
       /* now compute the maximum advance width */
       root->max_advance_width =
@@ -433,9 +450,6 @@
 
       root->underline_position  = (FT_Short)info->underline_position;
       root->underline_thickness = (FT_Short)info->underline_thickness;
-
-      root->internal->max_points   = 0;
-      root->internal->max_contours = 0;
     }
 
     {

@@ -1,6 +1,7 @@
+#  Content (c) 2002, 2004, 2006, 2007 David Turner <david@freetype.org>
 #
-#  this file contains routines used to parse the content of documentation
-#  comment block and build a more structured objects out of them
+#  This file contains routines used to parse the content of documentation
+#  comment blocks and build more structured objects out of them.
 #
 
 from sources import *
@@ -8,7 +9,7 @@ from utils import *
 import string, re
 
 
-# this regular expresion is used to detect code sequences. these
+# this regular expression is used to detect code sequences. these
 # are simply code fragments embedded in '{' and '}' like in:
 #
 #  {
@@ -19,7 +20,7 @@ import string, re
 #    }
 #  }
 #
-# note that identation of the starting and ending accolades must be
+# note that indentation of the starting and ending accolades must be
 # exactly the same. the code sequence can contain accolades at greater
 # indentation
 #
@@ -59,13 +60,13 @@ class DocCode:
         lines = self.dump_lines( 0, width )
         for l in lines:
             print prefix + l
-    
+
     def dump_lines( self, margin=0, width=60 ):
         result = []
         for l in self.lines:
             result.append( " "*margin + l )
         return result
-    
+
 
 
 #############################################################################
@@ -87,7 +88,7 @@ class DocPara:
         lines = self.dump_lines( 0, width )
         for l in lines:
             print prefix + l
-    
+
     def dump_lines( self, margin=0, width = 60 ):
         cur    = ""  # current line
         col    = 0   # current width
@@ -110,17 +111,17 @@ class DocPara:
 
         if col > 0:
             result.append( " "*margin + cur )
-            
+
         return result
 
-    
+
 
 
 #############################################################################
 #
 #  The DocField class is used to store a list containing either DocPara or
 #  DocCode objects. Each DocField also has an optional "name" which is used
-#  when the object corresponds to a field of value definition
+#  when the object corresponds to a field or value definition
 #
 class DocField:
 
@@ -210,15 +211,15 @@ class DocField:
         for p in self.items:
             if nl:
                 result.append( "" )
-                
+
             result.extend( p.dump_lines( margin, width ) )
             nl = 1
-            
+
         return result
 
 # this regular expression is used to detect field definitions
 #
-re_field  = re.compile( r"\s*(\w*)\s*::" )
+re_field  = re.compile( r"\s*(\w*|\w(\w|\.)*\w)\s*::" )
 
 
 
@@ -261,14 +262,14 @@ class DocMarkup:
 
         except:
             return None
-        
+
     def get_start( self ):
         try:
             result = ""
             for word in self.fields[0].items[0].words:
                 result = result + " " + word
             return result[1:]
-        
+
         except:
             return "ERROR"
 
@@ -320,7 +321,7 @@ class DocSection:
     def process( self ):
         # lookup one block that contains a valid section description
         for block in self.defs:
-            title = block.get_markup_text( "Title" )
+            title = block.get_markup_text( "title" )
             if title:
                 self.title       = title
                 self.abstract    = block.get_markup_words( "abstract" )
@@ -583,3 +584,5 @@ class DocBlock:
             return m.fields[0].items
         except:
             return None
+
+# eof

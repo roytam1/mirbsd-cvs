@@ -10,14 +10,11 @@
 
 /* @(#) $Id$ */
 
-/* $XFree86: xc/extras/freetype2/src/gzip/zutil.h,v 1.3 2004/04/26 16:15:54 dawes Exp $ */
-
 #ifndef _Z_UTIL_H
 #define _Z_UTIL_H
 
 #include "zlib.h"
 
-#if 0
 #ifdef STDC
 #  include <stddef.h>
 #  include <string.h>
@@ -27,7 +24,6 @@
     extern int errno;
 #else
 #   include <errno.h>
-#endif
 #endif
 
 #ifndef local
@@ -84,7 +80,6 @@ typedef unsigned long  ulg;
 #     include <alloc.h>
 #    endif
 #  else /* MSC or DJGPP */
-#    include <malloc.h>
 #  endif
 #endif
 
@@ -99,7 +94,7 @@ typedef unsigned long  ulg;
 #if defined(VAXC) || defined(VMS)
 #  define OS_CODE  0x02
 #  define F_OPEN(name, mode) \
-     fopen((name), (mode), "mbc=60", "ctx=stm", "rfm=fix", "mrs=512")
+     ft_fopen((name), (mode), "mbc=60", "ctx=stm", "rfm=fix", "mrs=512")
 #endif
 
 #ifdef AMIGA
@@ -145,7 +140,7 @@ typedef unsigned long  ulg;
 #endif
 
 #ifndef F_OPEN
-#  define F_OPEN(name, mode) fopen((name), (mode))
+#  define F_OPEN(name, mode) ft_fopen((name), (mode))
 #endif
 
          /* functions */
@@ -208,7 +203,7 @@ typedef unsigned long  ulg;
 
 
 typedef uLong (*check_func) OF((uLong check, const Bytef *buf,
-				       uInt len));
+                                uInt len));
 local voidpf zcalloc OF((voidpf opaque, unsigned items, unsigned size));
 local void   zcfree  OF((voidpf opaque, voidpf ptr));
 

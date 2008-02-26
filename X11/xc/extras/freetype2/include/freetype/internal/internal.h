@@ -14,7 +14,7 @@
 /*  understand and accept it fully.                                        */
 /*                                                                         */
 /***************************************************************************/
-/* $XFree86: xc/extras/freetype2/include/freetype/internal/internal.h,v 1.12 2004/04/26 21:07:50 dawes Exp $ */
+
 
   /*************************************************************************/
   /*                                                                       */
@@ -35,6 +35,7 @@
 #define FT_INTERNAL_SFNT_H                <freetype/internal/sfnt.h>
 #define FT_INTERNAL_SERVICE_H             <freetype/internal/ftserv.h>
 #define FT_INTERNAL_RFORK_H               <freetype/internal/ftrfork.h>
+#define FT_INTERNAL_VALIDATE_H            <freetype/internal/ftvalid.h>
 
 #define FT_INTERNAL_TRUETYPE_TYPES_H      <freetype/internal/tttypes.h>
 #define FT_INTERNAL_TYPE1_TYPES_H         <freetype/internal/t1types.h>

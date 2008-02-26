@@ -1,11 +1,40 @@
-/* $XFree86: xc/extras/freetype2/src/autofit/autofit.c,v 1.2 2005/02/28 23:19:13 dawes Exp $ */
+/***************************************************************************/
+/*                                                                         */
+/*  autofit.c                                                              */
+/*                                                                         */
+/*    Auto-fitter module (body).                                           */
+/*                                                                         */
+/*  Copyright 2003, 2004, 2005, 2006, 2007 by                              */
+/*  David Turner, Robert Wilhelm, and Werner Lemberg.                      */
+/*                                                                         */
+/*  This file is part of the FreeType project, and may only be used,       */
+/*  modified, and distributed under the terms of the FreeType project      */
+/*  license, LICENSE.TXT.  By continuing to use, modify, or distribute     */
+/*  this file you indicate that you have read the license and              */
+/*  understand and accept it fully.                                        */
+/*                                                                         */
+/***************************************************************************/
+
 
 #define FT_MAKE_OPTION_SINGLE_OBJECT
 #include <ft2build.h>
 #include "afangles.c"
+#include "afglobal.c"
 #include "afhints.c"
+
 #include "afdummy.c"
 #include "aflatin.c"
-#include "afglobal.c"
+#ifdef FT_OPTION_AUTOFIT2
+#include "aflatin2.c"
+#endif
+#include "afcjk.c"
+#include "afindic.c"
+
 #include "afloader.c"
 #include "afmodule.c"
+
+#ifdef AF_USE_WARPER
+#include "afwarp.c"
+#endif
+
+/* END */

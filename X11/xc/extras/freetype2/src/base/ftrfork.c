@@ -4,7 +4,7 @@
 /*                                                                         */
 /*    Embedded resource forks accessor (body).                             */
 /*                                                                         */
-/*  Copyright 2004 by                                                      */
+/*  Copyright 2004, 2005, 2006 by                                          */
 /*  Masatake YAMATO and Redhat K.K.                                        */
 /*                                                                         */
 /*  FT_Raccess_Get_HeaderInfo() and raccess_guess_darwin_hfsplus() are     */
@@ -22,7 +22,6 @@
 /* Development of the code in this file is support of                      */
 /* Information-technology Promotion Agency, Japan.                         */
 /***************************************************************************/
-/* $XFree86: xc/extras/freetype2/src/base/ftrfork.c,v 1.2 2004/06/09 18:52:02 tsi Exp $ */
 
 
 #include <ft2build.h>
@@ -180,7 +179,7 @@
         if ( error )
           return error;
 
-        if ( FT_ALLOC( offsets_internal, *count * sizeof( FT_Long ) ) )
+        if ( FT_NEW_ARRAY( offsets_internal, *count ) )
           return error;
 
         for ( j = 0; j < *count; ++j )
@@ -427,20 +426,25 @@
     FT_Error   error;
     char*      newpath;
     FT_Memory  memory;
+    FT_Long    base_file_len = ft_strlen( base_file_name );
 
     FT_UNUSED( stream );
 
 
     memory = library->memory;
 
-    if ( FT_ALLOC( newpath,
-                   ft_strlen( base_file_name ) + ft_strlen( "/rsrc" ) + 1 ) )
+    if ( base_file_len > FT_INT_MAX )
+      return FT_Err_Array_Too_Large;
+
+    if ( FT_ALLOC( newpath, base_file_len + 6 ) )
       return error;
 
-    ft_strcpy( newpath, base_file_name );
-    ft_strcat( newpath, "/rsrc" );
+    FT_MEM_COPY( newpath, base_file_name, base_file_len );
+    FT_MEM_COPY( newpath + base_file_len, "/rsrc", 6 );
+
     *result_file_name = newpath;
-    *result_offset = 0;
+    *result_offset    = 0;
+
     return FT_Err_Ok;
   }
 
@@ -570,27 +574,27 @@
   {
     FT_Int32   magic_from_stream;
     FT_Error   error;
-    FT_Int32   version_number;
+    FT_Int32   version_number = 0;
     FT_UShort  n_of_entries;
 
     int        i;
-    FT_UInt32  entry_id, entry_offset, entry_length;
+    FT_UInt32  entry_id, entry_offset, entry_length = 0;
 
     const FT_UInt32  resource_fork_entry_id = 0x2;
 
     FT_UNUSED( library );
     FT_UNUSED( base_file_name );
+    FT_UNUSED( version_number );
+    FT_UNUSED( entry_length   );
 
 
-    if ( FT_READ_LONG ( magic_from_stream ) )
+    if ( FT_READ_LONG( magic_from_stream ) )
       return error;
     if ( magic_from_stream != magic )
       return FT_Err_Unknown_File_Format;
 
     if ( FT_READ_LONG( version_number ) )
       return error;
-
-    FT_UNUSED( version_number );
 
     /* filler */
     error = FT_Stream_Skip( stream, 16 );
@@ -613,8 +617,6 @@
           continue;
         *result_offset = entry_offset;
 
-	FT_UNUSED( entry_length );
-
         return FT_Err_Ok;
       }
       else
@@ -635,6 +637,7 @@
     char *        nouse = NULL;
     FT_Error      error;
 
+
     args2.flags    = FT_OPEN_PATHNAME;
     args2.pathname = file_name;
     error = FT_Stream_New( library, &args2, &stream2 );
@@ -644,7 +647,7 @@
     error = raccess_guess_apple_double( library, stream2, file_name,
                                         &nouse, result_offset );
 
-    FT_Stream_Close( stream2 );
+    FT_Stream_Free( stream2, 0 );
 
     return error;
   }
@@ -659,13 +662,14 @@
     char*        tmp;
     const char*  slash;
     unsigned     new_length;
-    FT_ULong     error;
+    FT_Error     error = FT_Err_Ok;
+
+    FT_UNUSED( error );
+
 
     new_length = ft_strlen( original_name ) + ft_strlen( insertion );
     if ( FT_ALLOC( new_name, new_length + 1 ) )
       return NULL;
-
-    FT_UNUSED( error );
 
     tmp = ft_strrchr( original_name, '/' );
     if ( tmp )
@@ -703,6 +707,10 @@
                     FT_Error   *errors )
   {
     int  i;
+
+    FT_UNUSED( library );
+    FT_UNUSED( stream );
+    FT_UNUSED( base_name );
 
 
     for ( i = 0; i < FT_RACCESS_N_RULES; i++ )
