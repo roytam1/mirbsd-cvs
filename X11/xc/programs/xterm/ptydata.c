@@ -1,12 +1,12 @@
-/* $XTermId: ptydata.c,v 1.59 2005/01/10 00:26:13 tom Exp $ */
+/* $XTermId: ptydata.c,v 1.72 2006/02/13 01:14:59 tom Exp $ */
 
 /*
- * $XFree86: xc/programs/xterm/ptydata.c,v 1.22 2005/01/14 01:50:03 dickey Exp $
+ * $XFree86: xc/programs/xterm/ptydata.c,v 1.25 2006/02/13 01:14:59 dickey Exp $
  */
 
 /************************************************************
 
-Copyright 1999-2004,2005 by Thomas E. Dickey
+Copyright 1999-2005,2006 by Thomas E. Dickey
 
                         All Rights Reserved
 
@@ -37,6 +37,10 @@ authorization.
 ********************************************************/
 
 #include <data.h>
+
+#if OPT_WIDE_CHARS
+#include <menu.h>
+#endif
 
 /*
  * Check for both EAGAIN and EWOULDBLOCK, because some supposedly POSIX
@@ -190,7 +194,7 @@ readPtyData(TScreen * screen, PtySelect * select_mask, PtyData * data)
     if (FD_ISSET(screen->respond, select_mask)) {
 	trimPtyData(screen, data);
 
-	size = read(screen->respond, (char *) data->last, BUF_SIZE);
+	size = read(screen->respond, (char *) data->last, (unsigned) FRG_SIZE);
 	if (size <= 0) {
 	    /*
 	     * Yes, I know this is a majorly f*ugly hack, however it seems to
@@ -231,7 +235,7 @@ readPtyData(TScreen * screen, PtySelect * select_mask, PtyData * data)
 #endif
 	data->last += size;
 #ifdef ALLOWLOGGING
-	term->screen.logstart = VTbuffer.next;
+	term->screen.logstart = VTbuffer->next;
 #endif
     }
 
@@ -248,7 +252,7 @@ Bool
 morePtyData(TScreen * screen GCC_UNUSED, PtyData * data)
 {
     Bool result = (data->last > data->next);
-    if (result && screen->utf8_mode) {
+    if (result && screen->utf8_inparse) {
 	if (!data->utf_size)
 	    result = decodeUtf8(data);
     }
@@ -267,7 +271,7 @@ IChar
 nextPtyData(TScreen * screen, PtyData * data)
 {
     IChar result;
-    if (screen->utf8_mode) {
+    if (screen->utf8_inparse) {
 	result = data->utf_data;
 	data->next += data->utf_size;
 	data->utf_size = 0;
@@ -290,18 +294,38 @@ switchPtyData(TScreen * screen, int flag)
 {
     if (screen->utf8_mode != flag) {
 	screen->utf8_mode = flag;
+	screen->utf8_inparse = (flag != 0);
 
 	TRACE(("turning UTF-8 mode %s\n", BtoS(flag)));
+	update_font_utf8_mode();
     }
 }
 #endif
 
 void
-initPtyData(PtyData * data)
+initPtyData(PtyData ** result)
 {
+    PtyData *data;
+
+    TRACE(("initPtyData given minBufSize %d, maxBufSize %d\n",
+	   FRG_SIZE, BUF_SIZE));
+
+    if (FRG_SIZE < 64)
+	FRG_SIZE = 64;
+    if (BUF_SIZE < FRG_SIZE)
+	BUF_SIZE = FRG_SIZE;
+    if (BUF_SIZE % FRG_SIZE)
+	BUF_SIZE = BUF_SIZE + FRG_SIZE - (BUF_SIZE % FRG_SIZE);
+
+    TRACE(("initPtyData using minBufSize %d, maxBufSize %d\n",
+	   FRG_SIZE, BUF_SIZE));
+
+    data = (PtyData *) XtMalloc(sizeof(*data) + BUF_SIZE + FRG_SIZE);
+
     memset(data, 0, sizeof(*data));
     data->next = data->buffer;
     data->last = data->buffer;
+    *result = data;
 }
 
 /*
@@ -341,16 +365,16 @@ fillPtyData(TScreen * screen, PtyData * data, char *value, int length)
     /* remove the used portion of the buffer */
     trimPtyData(screen, data);
 
-    VTbuffer.last += length;
-    size = VTbuffer.last - VTbuffer.next;
+    VTbuffer->last += length;
+    size = VTbuffer->last - VTbuffer->next;
 
     /* shift the unused portion up to make room */
     for (n = size; n >= length; --n)
-	VTbuffer.next[n] = VTbuffer.next[n - length];
+	VTbuffer->next[n] = VTbuffer->next[n - length];
 
     /* insert the new bytes to interpret */
     for (n = 0; n < length; n++)
-	VTbuffer.next[n] = CharOf(value[n]);
+	VTbuffer->next[n] = CharOf(value[n]);
 }
 
 #if OPT_WIDE_CHARS
@@ -380,17 +404,31 @@ convertToUTF8(Char * lp, unsigned c)
 void
 writePtyData(int f, IChar * d, unsigned len)
 {
-    static Char *dbuf;
-    static unsigned dlen;
     unsigned n = (len << 1);
 
-    if (dlen <= len) {
-	dlen = n;
-	dbuf = (Char *) XtRealloc((char *) dbuf, dlen);
+    if (VTbuffer->write_len <= len) {
+	VTbuffer->write_len = n;
+	VTbuffer->write_buf = (Char *) XtRealloc((char *)
+						 VTbuffer->write_buf, VTbuffer->write_len);
     }
 
     for (n = 0; n < len; n++)
-	dbuf[n] = d[n];
-    v_write(f, dbuf, n);
+	VTbuffer->write_buf[n] = d[n];
+    v_write(f, VTbuffer->write_buf, n);
+}
+#endif /* OPT_WIDE_CHARS */
+
+#ifdef NO_LEAKS
+void
+noleaks_ptydata(void)
+{
+    if (VTbuffer != 0) {
+#if OPT_WIDE_CHARS
+	if (VTbuffer->write_buf != 0)
+	    free(VTbuffer->write_buf);
+#endif
+	free(VTbuffer);
+	VTbuffer = 0;
+    }
 }
 #endif

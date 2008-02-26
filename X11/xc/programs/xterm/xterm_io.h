@@ -1,9 +1,11 @@
+/* $XTermId: xterm_io.h,v 1.47 2006/02/13 01:15:00 tom Exp $ */
+
 /*
- * $XFree86: xc/programs/xterm/xterm_io.h,v 1.17 2005/02/06 21:42:38 dickey Exp $
+ * $XFree86: xc/programs/xterm/xterm_io.h,v 1.20 2006/02/13 01:15:00 dickey Exp $
  */
 
 /*
- * Copyright 2000-2003,2004 by Thomas E. Dickey
+ * Copyright 2000-2005,2006 by Thomas E. Dickey
  *
  *                         All Rights Reserved
  *
@@ -58,7 +60,7 @@
 #define USE_SYSV_TERMIO
 #endif
 
-#if defined(__FreeBSD__) || defined(__NetBSD__) || defined(__OpenBSD__) || defined(__INTERIX) || defined(__APPLE__)
+#if defined(__DragonFly__) || defined(__FreeBSD__) || defined(__NetBSD__) || defined(__OpenBSD__) || defined(__INTERIX) || defined(__APPLE__) || defined(__UNIXWARE__)
 #ifndef USE_POSIX_TERMIOS
 #define USE_POSIX_TERMIOS
 #endif
@@ -77,7 +79,9 @@
 
 #ifdef __SCO__
 #define USE_TERMIOS
+#ifndef _SVID3
 #define _SVID3
+#endif
 #endif
 
 #ifdef Lynx
@@ -126,7 +130,7 @@
  */
 #ifdef __QNX__
 #include <ioctl.h>
-#elif !defined(__CYGWIN__)
+#else
 #include <sys/ioctl.h>
 #endif
 
@@ -270,11 +274,11 @@ extern int ptioctl(int fd, int func, void* data);
 #undef TIOCSLTC
 #endif
 
-#if defined (__sgi) || (defined(__linux__) && defined(__sparc__))
+#if defined (__sgi) || (defined(__linux__) && defined(__sparc__)) || defined(__UNIXWARE__)
 #undef TIOCLSET /* XXX why is this undef-ed again? */
 #endif
 
-#ifdef sun
+#if defined(sun) || defined(__UNIXWARE__)
 #include <sys/filio.h>
 #endif
 
