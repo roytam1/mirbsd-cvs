@@ -1,3 +1,0 @@
-@comment $OpenBSD: PLIST,v 1.1.1.1 2001/09/09 21:57:12 obecian Exp $
-bin/crawl
-man/man1/crawl.1
