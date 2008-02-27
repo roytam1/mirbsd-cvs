@@ -1,5 +1,7 @@
-MD5 (mcabber-0.9.3.tar.bz2) = 26bc2d698c1311e1ef4eec5109a45c39
-RMD160 (mcabber-0.9.3.tar.bz2) = 5bc5d28442fe287ed2591154b7183fa0020b7f7a
-SHA1 (mcabber-0.9.3.tar.bz2) = a829eb4d3d39717e761ecfa7179673f8861f1548
-SIZE (mcabber-0.9.3.tar.bz2) = 437100
-TIGER (mcabber-0.9.3.tar.bz2) = 93b3a406c5cd5eeb33e3675c50aba35e34428d1e711c83be
+$MirOS$
+
+MD5 (mcabber-0.9.6.tar.bz2) = b3dc7d38f235b701a82a4926ea3caf91
+RMD160 (mcabber-0.9.6.tar.bz2) = ac349286dbc2a9129e3601316532eb7ab1ba9e7b
+SHA1 (mcabber-0.9.6.tar.bz2) = 7aa87943cce3e7c2cd42fe74960b53a0cd240331
+SIZE (mcabber-0.9.6.tar.bz2) = 480333
+TIGER (mcabber-0.9.6.tar.bz2) = b0cee6a7606aaf4738550df53eac25a6a2a35d6f421078ab
