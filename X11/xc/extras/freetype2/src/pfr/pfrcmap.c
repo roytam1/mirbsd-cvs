@@ -17,6 +17,7 @@
 
 
 #include "pfrcmap.h"
+#include "pfrerror.h"
 #include "pfrobjs.h"
 #include FT_INTERNAL_DEBUG_H
 

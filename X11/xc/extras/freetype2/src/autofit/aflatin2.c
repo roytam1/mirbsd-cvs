@@ -16,6 +16,7 @@
 /***************************************************************************/
 
 
+#include "aftypes.h"
 #include "aflatin.h"
 #include "aflatin2.h"
 #include "aferrors.h"
