@@ -1,4 +1,4 @@
-/* $OpenBSD: clientloop.c,v 1.182 2007/09/04 03:21:03 djm Exp $ */
+/* $OpenBSD: clientloop.c,v 1.188 2008/02/22 20:44:02 dtucker Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -149,7 +149,6 @@ static int connection_in;	/* Connection to server (input). */
 static int connection_out;	/* Connection to server (output). */
 static int need_rekeying;	/* Set to non-zero if rekeying is requested. */
 static int session_closed = 0;	/* In SSH2: login session closed. */
-static int server_alive_timeouts = 0;
 
 static void client_init_dispatch(void);
 int	session_ident = -1;
@@ -459,14 +458,14 @@ client_check_window_change(void)
 static void
 client_global_request_reply(int type, u_int32_t seq, void *ctxt)
 {
-	server_alive_timeouts = 0;
+	keep_alive_timeouts = 0;
 	client_global_request_reply_fwd(type, seq, ctxt);
 }
 
 static void
 server_alive_check(void)
 {
-	if (++server_alive_timeouts > options.server_alive_count_max) {
+	if (++keep_alive_timeouts > options.server_alive_count_max) {
 		logit("Timeout, server not responding.");
 		cleanup_exit(255);
 	}
@@ -874,6 +873,7 @@ client_process_control(fd_set *readset)
 				xfree(cctx->env);
 			xfree(cctx->term);
 			buffer_free(&cctx->cmd);
+			close(client_fd);
 			xfree(cctx);
 			return;
 		}
@@ -944,6 +944,9 @@ process_cmdline(void)
 	int local = 0;
 	u_short cancel_port;
 	Forward fwd;
+
+	bzero(&fwd, sizeof(fwd));
+	fwd.listen_host = fwd.connect_host = NULL;
 
 	leave_raw_mode();
 	handler = signal(SIGINT, SIG_IGN);
@@ -1044,6 +1047,10 @@ out:
 	enter_raw_mode();
 	if (cmd)
 		xfree(cmd);
+	if (fwd.listen_host != NULL)
+		xfree(fwd.listen_host);
+	if (fwd.connect_host != NULL)
+		xfree(fwd.connect_host);
 }
 
 /* process the characters one by one */
@@ -1724,7 +1731,7 @@ client_request_forwarded_tcpip(const char *request_type, int rchan)
 	}
 	c = channel_new("forwarded-tcpip",
 	    SSH_CHANNEL_CONNECTING, sock, sock, -1,
-	    CHAN_TCP_WINDOW_DEFAULT, CHAN_TCP_WINDOW_DEFAULT, 0,
+	    CHAN_TCP_WINDOW_DEFAULT, CHAN_TCP_PACKET_DEFAULT, 0,
 	    originator_address, 1);
 	xfree(originator_address);
 	xfree(listen_address);
@@ -1782,7 +1789,7 @@ client_request_agent(const char *request_type, int rchan)
 		return NULL;
 	c = channel_new("authentication agent connection",
 	    SSH_CHANNEL_OPEN, sock, sock, -1,
-	    CHAN_X11_WINDOW_DEFAULT, CHAN_TCP_WINDOW_DEFAULT, 0,
+	    CHAN_X11_WINDOW_DEFAULT, CHAN_TCP_PACKET_DEFAULT, 0,
 	    "authentication agent connection", 1);
 	c->force_drain = 1;
 	return c;

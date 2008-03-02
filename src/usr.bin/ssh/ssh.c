@@ -1,4 +1,4 @@
-/* $OpenBSD: ssh.c,v 1.303 2007/09/04 11:15:55 djm Exp $ */
+/* $OpenBSD: ssh.c,v 1.309 2008/01/19 20:51:26 djm Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -643,11 +643,15 @@ main(int ac, char **av)
 	}
 
 	if (options.proxy_command != NULL &&
-	    strcmp(options.proxy_command, "none") == 0)
+	    strcmp(options.proxy_command, "none") == 0) {
+		xfree(options.proxy_command);
 		options.proxy_command = NULL;
+	}
 	if (options.control_path != NULL &&
-	    strcmp(options.control_path, "none") == 0)
+	    strcmp(options.control_path, "none") == 0) {
+		xfree(options.control_path);
 		options.control_path = NULL;
+	}
 
 	if (options.control_path != NULL) {
 		char thishost[NI_MAXHOST];
@@ -657,6 +661,7 @@ main(int ac, char **av)
 		snprintf(buf, sizeof(buf), "%d", options.port);
 		cp = tilde_expand_filename(options.control_path,
 		    original_real_uid);
+		xfree(options.control_path);
 		options.control_path = percent_expand(cp, "p", buf, "h", host,
 		    "r", options.user, "l", thishost, (char *)NULL);
 		xfree(cp);
@@ -978,6 +983,11 @@ ssh_session(void)
 	/* Initiate port forwardings. */
 	ssh_init_forwarding();
 
+	/* Execute a local command */
+	if (options.local_command != NULL &&
+	    options.permit_local_command)
+		ssh_local_cmd(options.local_command);
+
 	/* If requested, let ssh continue in the background. */
 	if (fork_after_authentication_flag)
 		if (daemon(1, 1) < 0)
@@ -1201,6 +1211,7 @@ static void
 load_public_identity_files(void)
 {
 	char *filename, *cp, thishost[NI_MAXHOST];
+	char *pwdir = NULL, *pwname = NULL;
 	int i = 0;
 	Key *public;
 	struct passwd *pw;
@@ -1229,14 +1240,16 @@ load_public_identity_files(void)
 #endif /* SMARTCARD */
 	if ((pw = getpwuid(original_real_uid)) == NULL)
 		fatal("load_public_identity_files: getpwuid failed");
+	pwname = xstrdup(pw->pw_name);
+	pwdir = xstrdup(pw->pw_dir);
 	if (gethostname(thishost, sizeof(thishost)) == -1)
 		fatal("load_public_identity_files: gethostname: %s",
 		    strerror(errno));
 	for (; i < options.num_identity_files; i++) {
 		cp = tilde_expand_filename(options.identity_files[i],
 		    original_real_uid);
-		filename = percent_expand(cp, "d", pw->pw_dir,
-		    "u", pw->pw_name, "l", thishost, "h", host,
+		filename = percent_expand(cp, "d", pwdir,
+		    "u", pwname, "l", thishost, "h", host,
 		    "r", options.user, (char *)NULL);
 		xfree(cp);
 		public = key_load_public(filename, NULL);
@@ -1246,6 +1259,10 @@ load_public_identity_files(void)
 		options.identity_files[i] = filename;
 		options.identity_keys[i] = public;
 	}
+	bzero(pwname, strlen(pwname));
+	xfree(pwname);
+	bzero(pwdir, strlen(pwdir));
+	xfree(pwdir);
 }
 
 static void
@@ -1257,8 +1274,12 @@ control_client_sighandler(int signo)
 static void
 control_client_sigrelay(int signo)
 {
+	int save_errno = errno;
+
 	if (control_server_pid > 1)
 		kill(control_server_pid, signo);
+
+	errno = save_errno;
 }
 
 static int
@@ -1351,6 +1372,8 @@ control_client(const char *path)
 		flags |= SSHMUX_FLAG_X11_FWD;
 	if (options.forward_agent)
 		flags |= SSHMUX_FLAG_AGENT_FWD;
+
+	signal(SIGPIPE, SIG_IGN);
 
 	buffer_init(&m);
 

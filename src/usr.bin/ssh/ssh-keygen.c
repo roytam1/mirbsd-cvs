@@ -1,4 +1,4 @@
-/* $OpenBSD: ssh-keygen.c,v 1.162 2007/09/11 15:47:17 gilles Exp $ */
+/* $OpenBSD: ssh-keygen.c,v 1.165 2008/01/19 22:37:19 djm Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1994 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -497,7 +497,7 @@ do_fingerprint(struct passwd *pw)
 	FILE *f;
 	Key *public;
 	char *comment = NULL, *cp, *ep, line[16*1024], *fp;
-	int i, skip = 0, num = 1, invalid = 1;
+	int i, skip = 0, num = 0, invalid = 1;
 	enum fp_rep rep;
 	enum fp_type fptype;
 	struct stat st;
@@ -528,9 +528,9 @@ do_fingerprint(struct passwd *pw)
 	f = fopen(identity_file, "r");
 	if (f != NULL) {
 		while (fgets(line, sizeof(line), f)) {
-			i = strlen(line) - 1;
-			if (line[i] != '\n') {
-				error("line %d too long: %.40s...", num, line);
+			if ((cp = strchr(line, '\n')) == NULL) {
+				error("line %d too long: %.40s...",
+				    num + 1, line);
 				skip = 1;
 				continue;
 			}
@@ -539,7 +539,7 @@ do_fingerprint(struct passwd *pw)
 				skip = 0;
 				continue;
 			}
-			line[i] = '\0';
+			*cp = '\0';
 
 			/* Skip leading whitespace, empty and comment lines. */
 			for (cp = line; *cp == ' ' || *cp == '\t'; cp++)
@@ -590,7 +590,7 @@ do_fingerprint(struct passwd *pw)
 }
 
 static void
-print_host(FILE *f, char *name, Key *public, int hash)
+print_host(FILE *f, const char *name, Key *public, int hash)
 {
 	if (hash && (name = host_hash(name, NULL, 0)) == NULL)
 		fatal("hash_host failed");
@@ -607,7 +607,7 @@ do_known_hosts(struct passwd *pw, const char *name)
 	Key *public;
 	char *cp, *cp2, *kp, *kp2;
 	char line[16*1024], tmp[MAXPATHLEN], old[MAXPATHLEN];
-	int c, i, skip = 0, inplace = 0, num = 0, invalid = 0, has_unhashed = 0;
+	int c, skip = 0, inplace = 0, num = 0, invalid = 0, has_unhashed = 0;
 
 	if (!have_identity) {
 		cp = tilde_expand_filename(_PATH_SSH_USER_HOSTFILE, pw->pw_uid);
@@ -642,19 +642,18 @@ do_known_hosts(struct passwd *pw, const char *name)
 	}
 
 	while (fgets(line, sizeof(line), in)) {
-		num++;
-		i = strlen(line) - 1;
-		if (line[i] != '\n') {
-			error("line %d too long: %.40s...", num, line);
+		if ((cp = strchr(line, '\n')) == NULL) {
+			error("line %d too long: %.40s...", num + 1, line);
 			skip = 1;
 			invalid = 1;
 			continue;
 		}
+		num++;
 		if (skip) {
 			skip = 0;
 			continue;
 		}
-		line[i] = '\0';
+		*cp = '\0';
 
 		/* Skip leading whitespace, empty and comment lines. */
 		for (cp = line; *cp == ' ' || *cp == '\t'; cp++)
@@ -718,7 +717,8 @@ do_known_hosts(struct passwd *pw, const char *name)
 					printf("# Host %s found: "
 					    "line %d type %s\n", name,
 					    num, key_type(public));
-					print_host(out, cp, public, hash_hosts);
+					print_host(out, name, public,
+					    hash_hosts);
 				}
 				if (delete_host && !c)
 					print_host(out, cp, public, 0);
@@ -742,7 +742,7 @@ do_known_hosts(struct passwd *pw, const char *name)
 	fclose(in);
 
 	if (invalid) {
-		fprintf(stderr, "%s is not a valid known_host file.\n",
+		fprintf(stderr, "%s is not a valid known_hosts file.\n",
 		    identity_file);
 		if (inplace) {
 			fprintf(stderr, "Not replacing existing known_hosts "
