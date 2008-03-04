@@ -1,5 +1,7 @@
-MD5 (tor-0.1.2.17.tar.gz) = ef8fc7f45d167875c337063d437c9832
-RMD160 (tor-0.1.2.17.tar.gz) = 7ec316cdcc57ab5e817af1dcda913438b332f7e3
-SHA1 (tor-0.1.2.17.tar.gz) = 01092fb75c407b5c1d7f33db069cf7641973d94d
-SIZE (tor-0.1.2.17.tar.gz) = 1251636
-TIGER (tor-0.1.2.17.tar.gz) = 813ca103d9ea715ea15ce649431bc54a86ae08761d004ed5
+$MirOS$
+
+MD5 (tor-0.1.2.19.tar.gz) = 4b3f9963b843010af5aa3bd6266d11e0
+RMD160 (tor-0.1.2.19.tar.gz) = 4f1b5474a4bbad2e3c82ef0fce2dd838907e48d5
+SHA1 (tor-0.1.2.19.tar.gz) = 5022dab0de2499e2c6638e1a2e9eee6c79fb707c
+SIZE (tor-0.1.2.19.tar.gz) = 1264275
+TIGER (tor-0.1.2.19.tar.gz) = 894a3f0abf227955abea73d42ddda255548ce4440c12ff16
