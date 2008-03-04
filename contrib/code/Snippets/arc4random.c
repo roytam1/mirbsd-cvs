@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/Snippets/arc4random.c,v 1.1 2007/09/07 19:28:08 tg Exp $ */
+/* $MirOS: contrib/code/Snippets/arc4random.c,v 1.2 2007/09/09 22:14:04 tg Exp $ */
 
 /*-
  * Arc4 random number generator for OpenBSD.
@@ -94,7 +94,8 @@ arc4_stir(struct arc4_stream *as)
 	struct {
 		struct timeval tv;
 		u_int rnd[(128 - sizeof(struct timeval)) / sizeof(u_int)];
-	}       rdat;
+	} rdat;
+	size_t sz = 0;
 
 	gettimeofday(&rdat.tv, NULL);
 
@@ -102,24 +103,27 @@ arc4_stir(struct arc4_stream *as)
 	/* Try to use /dev/urandom before sysctl. */
 	fd = open("/dev/urandom", O_RDONLY);
 	if (fd != -1) {
-		read(fd, rdat.rnd, sizeof(rdat.rnd));
+		sz = (size_t)read(fd, rdat.rnd, sizeof (rdat.rnd));
 		close(fd);
-	} else {
+	}
+	if (sz > sizeof (rdat.rnd))
+		sz = 0;
+	if (fd == -1 || sz != sizeof (rdat.rnd)) {
 		/* /dev/urandom failed? Maybe we're in a chroot. */
 //#if defined(CTL_KERN) && defined(KERN_RANDOM) && defined(RANDOM_UUID)
 #ifdef _LINUX_SYSCTL_H
 		/* XXX this is for Linux, which uses enums */
 
 		int mib[3];
-		size_t i, len;
+		size_t i = sz / sizeof (u_int), len;
 
 		mib[0] = CTL_KERN;
 		mib[1] = KERN_RANDOM;
 		mib[2] = RANDOM_UUID;
 
-		for (i = 0; i < sizeof(rdat.rnd) / sizeof(u_int); i ++) {
+		while (i < sizeof (rdat.rnd) / sizeof (u_int)) {
 			len = sizeof(u_int);
-			if (sysctl(mib, 3, &rdat.rnd[i], &len, NULL, 0) == -1) {
+			if (sysctl(mib, 3, &rdat.rnd[i++], &len, NULL, 0) == -1) {
 				fprintf(stderr, "warning: no entropy source\n");
 				break;
 			}
