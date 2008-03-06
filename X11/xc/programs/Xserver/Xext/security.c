@@ -1690,7 +1690,7 @@ SecurityLoadPropertyAccessList(void)
 	return;
 
 #ifndef __UNIXOS2__
-    f = fopen(SecurityPolicyFile, "r");
+    f = Fopen(SecurityPolicyFile, "r");
 #else
     f = fopen((char*)__XOS2RedirRoot(SecurityPolicyFile), "r");
 #endif    
@@ -1776,7 +1776,7 @@ SecurityLoadPropertyAccessList(void)
     }
 #endif /* PROPDEBUG */
 
-    fclose(f);
+    Fclose(f);
 } /* SecurityLoadPropertyAccessList */
 
 
