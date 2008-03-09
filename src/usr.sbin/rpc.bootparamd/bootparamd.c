@@ -1,3 +1,4 @@
+/**	$MirOS: src/usr.sbin/rpc.bootparamd/bootparamd.c,v 1.2 2005/03/13 19:17:24 tg Exp $ */
 /*	$OpenBSD: bootparamd.c,v 1.17 2003/12/25 19:05:09 deraadt Exp $	*/
 
 /*
@@ -16,8 +17,6 @@
 
 #include <rpc/rpc.h>
 #include <rpcsvc/bootparam_prot.h>
-#include <rpcsvc/ypclnt.h>
-#include <rpcsvc/yp_prot.h>
 #include <arpa/inet.h>
 
 #include <stdio.h>
@@ -88,7 +87,7 @@ main(int argc, char *argv[])
 				warnx("no such host: %s", optarg);
 				usage();
 			}
-			bcopy(he->h_addr, (char *) &route_addr.s_addr,
+			memmove((char *) &route_addr.s_addr, he->h_addr,
 			    sizeof(route_addr.s_addr));
 			break;
 		case 'f':
@@ -112,7 +111,7 @@ main(int argc, char *argv[])
 
 	if (!route_addr.s_addr) {
 		get_myaddress(&my_addr);
-		bcopy(&my_addr.sin_addr.s_addr, &route_addr.s_addr,
+		memmove(&route_addr.s_addr, &my_addr.sin_addr.s_addr,
 		    sizeof(route_addr.s_addr));
 	}
 	if (!debug) {
@@ -154,8 +153,8 @@ bootparamproc_whoami_1_svc(bp_whoami_arg *whoami, struct svc_req *rqstp)
 		    255 & whoami->client_address.bp_address_u.ip_addr.lh,
 		    255 & whoami->client_address.bp_address_u.ip_addr.impno);
 
-	bcopy((char *) &whoami->client_address.bp_address_u.ip_addr,
-	    &haddr, sizeof(haddr));
+	memmove(&haddr, (char *) &whoami->client_address.bp_address_u.ip_addr,
+	    sizeof(haddr));
 	he = gethostbyaddr((char *) &haddr, sizeof(haddr), AF_INET);
 	if (!he)
 		goto failed;
@@ -173,8 +172,8 @@ bootparamproc_whoami_1_svc(bp_whoami_arg *whoami, struct svc_req *rqstp)
 
 		if (res.router_address.address_type != IP_ADDR_TYPE) {
 			res.router_address.address_type = IP_ADDR_TYPE;
-			bcopy(&route_addr.s_addr,
-			    &res.router_address.bp_address_u.ip_addr, 4);
+			memmove(&res.router_address.bp_address_u.ip_addr,
+				&route_addr.s_addr, 4);
 		}
 		if (debug)
 			warnx("Returning %s   %s    %d.%d.%d.%d",
@@ -228,7 +227,7 @@ bootparamproc_getfile_1_svc(bp_getfile_arg *getfile, struct svc_req *rqstp)
 		he = gethostbyname(res.server_name);
 		if (!he)
 			goto failed;
-		bcopy(he->h_addr, &res.server_address.bp_address_u.ip_addr, 4);
+		memmove(&res.server_address.bp_address_u.ip_addr, he->h_addr, 4);
 		res.server_address.address_type = IP_ADDR_TYPE;
 	} else if (err == ENOENT && !strcmp(getfile->file_id, "dump")) {
 		/* Special for dump, answer with null strings. */
@@ -268,10 +267,6 @@ lookup_bootparam(char *client, char *client_canonical, char *id,
     char **server, char **path)
 {
 	FILE   *f = fopen(bootpfile, "r");
-#ifdef YP
-	static char *ypbuf = NULL;
-	static int ypbuflen = 0;
-#endif
 	static char buf[BUFSIZ];
 	char   *bp, *word = NULL;
 	size_t  idlen = id == NULL ? 0 : strlen(id);
@@ -298,21 +293,9 @@ lookup_bootparam(char *client, char *client_canonical, char *id,
 				continue;
 			if ((word = strsep(&bp, " \t\n")) == NULL)
 				continue;
-#ifdef YP
-			/* A + in the file means try YP now */
-			if (!strcmp(word, "+")) {
-				char   *ypdom;
-
-				if (yp_get_default_domain(&ypdom) ||
-				    yp_match(ypdom, "bootparams", client,
-					strlen(client), &ypbuf, &ypbuflen))
-					continue;
-				bp = ypbuf;
-				word = client;
-				contin *= -1;
-				break;
-			}
-#endif
+			/* wildcard hack */
+			if (strcmp(word, "*"))
+				/* the if below is the body */
 			/* See if this line's client is the one we are
 			 * looking for */
 			if (strcasecmp(word, client) != 0) {

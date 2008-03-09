@@ -1,3 +1,4 @@
+#	$MirOS: src/sys/lib/libkern/Makefile.inc,v 1.4 2007/02/06 18:49:40 tg Exp $
 #	$OpenBSD: Makefile.inc,v 1.11 2000/06/29 16:28:29 mickey Exp $
 #	$NetBSD: Makefile.inc,v 1.22 1996/09/30 15:54:35 ws Exp $
 #
@@ -6,23 +7,21 @@
 KERNDIR=	$S/lib/libkern
 
 KERNDST?=	${.OBJDIR}/lib/kern
-KERN_AS?=	obj
+KERN_AS?=	library		# or obj
 
 .if (${KERN_AS} == "library")
 KERNLIB=	${KERNDST}/libkern.a
-KERNLIB_PROF=	${KERNDST}/libkern_p.a
 .else
 KERNLIB=	${KERNDST}/libkern.o
-KERNLIB_PROF=	${KERNDST}/libkern.po
 .endif
 
 KERNMAKE= \
-	cd ${KERNDIR} && MAKEOBJDIR=${KERNDST} ${MAKE} \
-	    CC='${CC}' CFLAGS='${CFLAGS}' AS='${AS}' AFLAGS='${AFLAGS}' \
-	    LD='${LD}' STRIP='${STRIP}' CPP='${CPP}' STRIP='${STRIP}' \
-	    AR='${AR}' NM='${NM}' LORDER='${LORDER}' XMACHINE='${MACHINE}' \
-	    XMACHINE_ARCH='${MACHINE_ARCH}' KERNDIR=${KERNDIR} \
-	    KERNCPPFLAGS='${CPPFLAGS:S@^-I.@-I../../.@g}'
+	cd ${KERNDIR} && MAKEOBJDIR=${KERNDST} ${MAKE} S=${S:Q} \
+	    CC=${CC:Q} CFLAGS=${CFLAGS:Q} AS=${AS:Q} AFLAGS=${AFLAGS:Q} \
+	    LD=${LD:Q} STRIP=${STRIP:Q} CPP=${CPP:Q} STRIP=${STRIP:Q} \
+	    AR=${AR:Q} NM=${NM:Q} LORDER=${LORDER:Q} XMACHINE=${MACHINE:Q} \
+	    XMACHINE_ARCH=${MACHINE_ARCH:Q} KERNDIR=${KERNDIR} COPTS= \
+	    KERNCPPFLAGS=${CPPFLAGS:S@^-I.@-I../../.@g:Q}
 
 ${KERNLIB}:		.NOTMAIN __always_make_kernlib
 	@echo making sure the kern library is up to date...
@@ -30,14 +29,6 @@ ${KERNLIB}:		.NOTMAIN __always_make_kernlib
 	@${KERNMAKE} libkern.a
 .else
 	@${KERNMAKE} libkern.o
-.endif
-
-${KERNLIB_PROF}:	.NOTMAIN __always_make_kernlib
-	@echo making sure the profiled kern library is up to date...
-.if (${KERN_AS} == "library")
-	@${KERNMAKE} libkern_p.a
-.else
-	@${KERNMAKE} libkern.po
 .endif
 
 clean::			.NOTMAIN __always_make_kernlib

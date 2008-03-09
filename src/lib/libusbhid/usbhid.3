@@ -46,7 +46,7 @@
 .Nm hid_set_data
 .Nd USB HID access routines
 .Sh SYNOPSIS
-.Fd #include \*[Lt]usbhid.h\*[Gt]
+.Fd #include \*(Ltusbhid.h\*(Gt
 .Ft report_desc_t
 .Fn hid_get_report_desc "int file"
 .Ft report_desc_t
@@ -118,7 +118,7 @@ To parse the report descriptor the
 function should be called with a report descriptor and a set that
 describes which items that are interesting.
 The set is obtained by or-ing together values
-.Fa "(1 \*[Lt]\*[Lt] k)"
+.Fa "(1 \*(Lt\*(Lt k)"
 where
 .Fa k
 is an item of type

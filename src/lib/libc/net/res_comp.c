@@ -1,11 +1,9 @@
 /*	$OpenBSD: res_comp.c,v 1.13 2005/08/06 20:30:03 espie Exp $	*/
 
 /*
- * ++Copyright++ 1985, 1993
- * -
  * Copyright (c) 1985, 1993
  *    The Regents of the University of California.  All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met:
@@ -17,7 +15,7 @@
  * 3. Neither the name of the University nor the names of its contributors
  *    may be used to endorse or promote products derived from this software
  *    without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS ``AS IS'' AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -31,14 +29,14 @@
  * SUCH DAMAGE.
  * -
  * Portions Copyright (c) 1993 by Digital Equipment Corporation.
- * 
+ *
  * Permission to use, copy, modify, and distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies, and that
  * the name of Digital Equipment Corporation not be used in advertising or
  * publicity pertaining to distribution of the document or software without
  * specific, written prior permission.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS" AND DIGITAL EQUIPMENT CORP. DISCLAIMS ALL
  * WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING ALL IMPLIED WARRANTIES
  * OF MERCHANTABILITY AND FITNESS.   IN NO EVENT SHALL DIGITAL EQUIPMENT
@@ -47,11 +45,8 @@
  * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS
  * ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
  * SOFTWARE.
- * -
- * --Copyright--
  */
 
-#include <sys/types.h>
 #include <sys/param.h>
 #include <netinet/in.h>
 #include <arpa/nameser.h>
@@ -63,7 +58,9 @@
 #include <unistd.h>
 #include <string.h>
 
-static int dn_find(u_char *, u_char *, u_char **, u_char **);
+__RCSID("$MirOS: src/lib/libc/net/res_comp.c,v 1.3 2006/12/06 13:05:03 tg Exp $");
+
+static int dn_find(const u_char *, u_char *, u_char **, u_char **);
 
 /*
  * Expand compressed domain name 'comp_dn' to full domain name.
@@ -158,12 +155,13 @@ int
 dn_comp(const char *exp_dn, u_char *comp_dn, int length, u_char **dnptrs,
     u_char **lastdnptr)
 {
-	u_char *cp, *dn;
+	u_char *cp;
+	const u_char *dn;
 	int c, l;
 	u_char **cpp, **lpp, *sp, *eob;
 	u_char *msg;
 
-	dn = (u_char *)exp_dn;
+	dn = (const u_char *)exp_dn;
 	cp = comp_dn;
 	eob = cp + length;
 	lpp = cpp = NULL;
@@ -275,11 +273,11 @@ mklower(int ch)
  * not the pointer to the start of the message.
  */
 static int
-dn_find(u_char *exp_dn, u_char *msg, u_char **dnptrs, u_char **lastdnptr)
+dn_find(const u_char *exp_dn, u_char *msg, u_char **dnptrs, u_char **lastdnptr)
 {
-	u_char *dn, *cp, **cpp;
+	const u_char *dn, *cp, *sp;
+	u_char **cpp;
 	int n;
-	u_char *sp;
 
 	for (cpp = dnptrs; cpp < lastdnptr; cpp++) {
 		dn = exp_dn;
@@ -331,6 +329,7 @@ dn_find(u_char *exp_dn, u_char *msg, u_char **dnptrs, u_char **lastdnptr)
  */
 #define PERIOD 0x2e
 #define	hyphenchar(c) ((c) == 0x2d)
+#define	uscorechar(c) ((c) == 0x5f)
 #define bslashchar(c) ((c) == 0x5c)
 #define periodchar(c) ((c) == PERIOD)
 #define asterchar(c) ((c) == 0x2a)
@@ -339,7 +338,7 @@ dn_find(u_char *exp_dn, u_char *msg, u_char **dnptrs, u_char **lastdnptr)
 #define digitchar(c) ((c) >= 0x30 && (c) <= 0x39)
 
 #define borderchar(c) (alphachar(c) || digitchar(c))
-#define middlechar(c) (borderchar(c) || hyphenchar(c))
+#define middlechar(c) (borderchar(c) || hyphenchar(c) || uscorechar(c))
 #define	domainchar(c) ((c) > 0x20 && (c) < 0x7f)
 
 int

@@ -1,17 +1,19 @@
+# $MirOS: src/sbin/modload/Makefile,v 1.2 2005/03/06 19:50:16 tg Exp $
 # $OpenBSD: Makefile,v 1.4 2002/01/08 21:28:38 ericj Exp $
 
-PROG=	modload
-MAN=	modload.8
+PROG=		modload
+SRCS=		modload.c
+MAN=		modload.8
 
-SRCS=	modload.c
+.include <bsd.own.mk>
 
-.include <bsd.own.mk>	# for ELF_TOOLCHAIN
-
-.if (${ELF_TOOLCHAIN:L} == "yes")
-SRCS+=	elf.c
-.else
-SRCS+=	a.out.c
-CFLAGS+=	-DUSE_AOUT
+.if ${OBJECT_FMT:U} == "ELF"
+SRCS+=		elf.c
+CLEANFILES+=	a.out.o
+.elif ${OBJECT_FMT:L} == "aout"
+SRCS+=		a.out.c
+CLEANFILES+=	elf.o
+CPPFLAGS+=	-DUSE_AOUT
 .endif
 
 .include <bsd.prog.mk>

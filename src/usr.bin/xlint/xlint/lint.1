@@ -394,6 +394,10 @@ Also shut off complaints about unused function arguments.
 .Xc
 Suppresses any intra-file warning except those dealing with
 unused variables or functions.
+Warnings about unused static variables can be suppressed by
+prefixing the variable name with
+.Dv __LINTED__
+instead.
 This directive should be placed on the line immediately
 preceding where the
 .Nm

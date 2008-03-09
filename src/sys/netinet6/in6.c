@@ -1,3 +1,4 @@
+/**	$MirOS: src/sys/netinet6/in6.c,v 1.3 2005/04/14 19:09:23 tg Exp $ */
 /*	$OpenBSD: in6.c,v 1.60 2004/10/07 12:08:25 henning Exp $	*/
 /*	$KAME: in6.c,v 1.372 2004/06/14 08:14:21 itojun Exp $	*/
 
@@ -592,8 +593,9 @@ in6_control(so, cmd, data, ifp, p)
 			 * XXX: adjust expiration time assuming time_t is
 			 * signed.
 			 */
-			maxexpire = (-1) &
-			    ~(1 << ((sizeof(maxexpire) * 8) - 1));
+			maxexpire = (sizeof(maxexpire) == 8)
+			    ? 0x7FFFFFFFFFFFFFFFLL
+			    : 0x7FFFFFFFLL;
 			if (ia->ia6_lifetime.ia6t_vltime <
 			    maxexpire - ia->ia6_updatetime) {
 				retlt->ia6t_expire = ia->ia6_updatetime +
@@ -610,8 +612,9 @@ in6_control(so, cmd, data, ifp, p)
 			 * XXX: adjust expiration time assuming time_t is
 			 * signed.
 			 */
-			maxexpire = (-1) &
-			    ~(1 << ((sizeof(maxexpire) * 8) - 1));
+			maxexpire = (sizeof(maxexpire) == 8)
+			    ? 0x7FFFFFFFFFFFFFFFLL
+			    : 0x7FFFFFFFLL;
 			if (ia->ia6_lifetime.ia6t_pltime <
 			    maxexpire - ia->ia6_updatetime) {
 				retlt->ia6t_preferred = ia->ia6_updatetime +

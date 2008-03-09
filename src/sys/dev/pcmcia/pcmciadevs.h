@@ -1,11 +1,12 @@
-/*	$OpenBSD: pcmciadevs.h,v 1.126 2005/04/27 15:40:18 jakob Exp $	*/
+/* $MirOS$ */
 
-/*
+/*-
  * THIS FILE AUTOMATICALLY GENERATED.  DO NOT EDIT.
  *
  * generated from:
- *		OpenBSD: pcmciadevs,v 1.123 2005/04/27 15:39:39 jakob Exp 
+ *	MirOS: src/sys/dev/pcmcia/pcmciadevs,v 1.3 2005/07/04 01:15:48 tg Exp 
  */
+/* $OpenBSD: pcmciadevs,v 1.123 2005/04/27 15:39:39 jakob Exp $ */
 /* $NetBSD: pcmciadevs,v 1.13 1998/08/17 23:10:12 thorpej Exp $ */
 
 /*

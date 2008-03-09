@@ -408,6 +408,8 @@ static boolean_t	 pmap_try_steal_pv(struct pv_head *,
 						struct pv_entry *,
 						struct pv_entry *);
 static void		pmap_unmap_ptes(struct pmap *);
+static void		pmap_exec_account(struct pmap *, vaddr_t,
+						pt_entry_t, pt_entry_t);
 
 void			pmap_pinit(pmap_t);
 void			pmap_release(pmap_t);
@@ -423,7 +425,7 @@ void			pmap_zero_phys(paddr_t);
  *		of course the kernel is always loaded
  */
 
-__inline static boolean_t
+boolean_t
 pmap_is_curpmap(pmap)
 	struct pmap *pmap;
 {
@@ -437,7 +439,7 @@ pmap_is_curpmap(pmap)
  * => returns with pmap_tmpptp_lock held
  */
 
-__inline static vaddr_t
+vaddr_t
 pmap_tmpmap_pa(pa)
 	paddr_t pa;
 {
@@ -456,7 +458,7 @@ pmap_tmpmap_pa(pa)
  * => we release pmap_tmpptp_lock
  */
 
-__inline static void
+void
 pmap_tmpunmap_pa()
 {
 #if defined(DIAGNOSTIC)
@@ -475,7 +477,7 @@ pmap_tmpunmap_pa()
  * => we may grab pmap_tmpptp_lock and return with it held
  */
 
-__inline static pt_entry_t *
+pt_entry_t *
 pmap_tmpmap_pvepte(pve)
 	struct pv_entry *pve;
 {
@@ -498,7 +500,7 @@ pmap_tmpmap_pvepte(pve)
  * => we will release pmap_tmpptp_lock if we hold it
  */
 
-__inline static void
+void
 pmap_tmpunmap_pvepte(pve)
 	struct pv_entry *pve;
 {
@@ -516,7 +518,7 @@ pmap_tmpunmap_pvepte(pve)
  * => must be undone with pmap_unmap_ptes before returning
  */
 
-__inline static pt_entry_t *
+pt_entry_t *
 pmap_map_ptes(pmap)
 	struct pmap *pmap;
 {
@@ -556,7 +558,7 @@ pmap_map_ptes(pmap)
  * pmap_unmap_ptes: unlock the PTE mapping of "pmap"
  */
 
-__inline static void
+void
 pmap_unmap_ptes(pmap)
 	struct pmap *pmap;
 {
@@ -571,7 +573,7 @@ pmap_unmap_ptes(pmap)
 	}
 }
 
-__inline static void
+void
 pmap_exec_account(struct pmap *pm, vaddr_t va,
     pt_entry_t opte, pt_entry_t npte)
 {
@@ -1043,7 +1045,7 @@ pmap_init()
  * "try" is for optional functions like pmap_copy().
  */
 
-__inline static struct pv_entry *
+struct pv_entry *
 pmap_alloc_pv(pmap, mode)
 	struct pmap *pmap;
 	int mode;
@@ -1329,7 +1331,7 @@ pmap_add_pvpage(pvp, need_entry)
  * => we must be holding pvalloc_lock
  */
 
-__inline static void
+void
 pmap_free_pv_doit(pv)
 	struct pv_entry *pv;
 {
@@ -1364,7 +1366,7 @@ pmap_free_pv_doit(pv)
  * => we gain the pvalloc_lock
  */
 
-__inline static void
+void
 pmap_free_pv(pmap, pv)
 	struct pmap *pmap;
 	struct pv_entry *pv;
@@ -1389,7 +1391,7 @@ pmap_free_pv(pmap, pv)
  * => we gain the pvalloc_lock
  */
 
-__inline static void
+void
 pmap_free_pvs(pmap, pvs)
 	struct pmap *pmap;
 	struct pv_entry *pvs;
@@ -1488,7 +1490,7 @@ pmap_free_pvpage()
  * => caller should adjust ptp's wire_count before calling
  */
 
-__inline static void
+void
 pmap_enter_pv(pvh, pve, pmap, va, ptp)
 	struct pv_head *pvh;
 	struct pv_entry *pve;	/* preallocated pve for us to use */
@@ -1515,7 +1517,7 @@ pmap_enter_pv(pvh, pve, pmap, va, ptp)
  * => we return the removed pve
  */
 
-__inline static struct pv_entry *
+struct pv_entry *
 pmap_remove_pv(pvh, pmap, va)
 	struct pv_head *pvh;
 	struct pmap *pmap;
@@ -1554,7 +1556,7 @@ pmap_remove_pv(pvh, pmap, va)
  * 	from another pmap (e.g. during optional functions like pmap_copy)
  */
 
-__inline static struct vm_page *
+struct vm_page *
 pmap_alloc_ptp(pmap, pde_index, just_try)
 	struct pmap *pmap;
 	int pde_index;

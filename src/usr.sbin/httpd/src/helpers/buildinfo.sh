@@ -6,7 +6,7 @@
 ##
 #
 # This script falls under the Apache License.
-# See http://www.apache.org/docs/LICENSE
+# See /usr/share/doc/legal/LICENSE.httpd
 
 
 #
@@ -157,4 +157,3 @@ else
         -e "s;%m;$time_monthname;g" |\
     awk '-F&' '{ printf("%s", $1); }'
 fi
-

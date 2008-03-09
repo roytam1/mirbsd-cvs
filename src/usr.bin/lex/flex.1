@@ -331,7 +331,7 @@ is identical to
 .Dl ([0-9])+"."([0-9])*
 .Pp
 and matches one-or-more digits followed by a
-.Sq .\&
+.Sq \&.
 followed by zero-or-more digits.
 .Pp
 The
@@ -390,7 +390,7 @@ These are:
 .It x
 Match the character
 .Sq x .
-.It .\&
+.It \&.
 Any character
 .Pq byte
 except newline.
@@ -555,7 +555,7 @@ lose their special meaning except escape
 .Pq Sq \e
 and the character class operators,
 .Sq - ,
-.Sq ]\& ,
+.Sq \&] ,
 and, at the beginning of the class,
 .Sq ^ .
 .Pp
@@ -604,7 +604,7 @@ and
 delimiters (which themselves must appear between the
 .Sq [
 and
-.Sq ]\&
+.Sq \&]
 of the
 character class; other elements may occur inside the character class, too).
 The valid expressions are:
@@ -1216,7 +1216,7 @@ returning a float, and taking two floats as arguments.
 Note that if arguments are given to the scanning routine using a
 K&R-style/non-prototyped function declaration,
 the definition must be terminated with a semi-colon
-.Pq Sq ;\& .
+.Pq Sq \&; .
 .Pp
 Whenever
 .Fn yylex
@@ -1538,7 +1538,7 @@ of a string like
 By default it will treat it as three tokens: the integer
 .Qq 123 ,
 a dot
-.Pq Sq .\& ,
+.Pq Sq \&. ,
 and the integer
 .Qq 456 .
 But if the string is preceded earlier in the line by the string
@@ -2614,7 +2614,7 @@ This option is equivalent to
 Generates a help summary of
 .Nm flex Ns 's
 options to stdout and then exits.
-.Fl ?\&
+.Fl \&?
 and
 .Fl Fl help
 are synonyms for
@@ -3897,7 +3897,7 @@ will not match the string
 because when the macro is expanded the rule is equivalent to
 .Qq foo[A-Z][A-Z0-9]*?
 and the precedence is such that the
-.Sq ?\&
+.Sq \&?
 is associated with
 .Qq [A-Z0-9]* .
 With

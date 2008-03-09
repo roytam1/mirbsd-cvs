@@ -36,15 +36,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-extern void kbd_list(void);
-extern void kbd_set(char *, int);
+__RCSID("$MirOS$");
 
-extern char *__progname;
+extern void kbd_list(int);
+extern void kbd_set(char *, int);
+static void usage(void) __dead;
+
+extern const char *__progname;
 
 static void
 usage(void)
 {
-	fprintf(stderr, "usage: %s -l  or  %s [-q] name\n",
+	fprintf(stderr, "usage: %s -[q]l  or  %s [-q] name\n",
 	    __progname, __progname);
 	exit(1);
 }
@@ -52,7 +55,7 @@ usage(void)
 int
 main(int argc, char *argv[])
 {
-	char *optstring = "lq";
+	const char *optstring = "lq";
 	int ch, list_tables = 0, verbose = 1;
 
 	while ((ch = getopt(argc, argv, optstring)) != -1)
@@ -70,7 +73,7 @@ main(int argc, char *argv[])
 		usage();
 
 	if (list_tables)
-		kbd_list();
+		kbd_list(verbose);
 	else
 		kbd_set(argv[optind], verbose);
 	exit(0);

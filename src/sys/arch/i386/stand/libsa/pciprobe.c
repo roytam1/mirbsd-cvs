@@ -55,7 +55,7 @@ pciprobe(void)
 
 	printf(" pci");
 #ifdef DEBUG
-	printf("[V%d.%d, %x 0x%x %d]", (rev>>8)&0xFF, (rev&0xFF),
+	printf("[V%d.%d, %X 0x%X %d]", (rev>>8)&0xFF, (rev&0xFF),
 		hw_chars, entry32, (rc>>8)&0xFF);
 #endif
 

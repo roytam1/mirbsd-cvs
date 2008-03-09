@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: ex_print.c,v 1.6 2002/02/19 19:39:39 millert Exp $	*/
 
 /*-
@@ -11,9 +12,8 @@
 
 #include "config.h"
 
-#ifndef lint
-static const char sccsid[] = "@(#)ex_print.c	10.18 (Berkeley) 5/12/96";
-#endif /* not lint */
+__SCCSID("@(#)ex_print.c	10.18 (Berkeley) 5/12/96");
+__RCSID("$MirOS$");
 
 #include <sys/types.h>
 #include <sys/queue.h>
@@ -119,7 +119,7 @@ ex_print(sp, cmdp, fp, tp, flags)
 		 */
 		if (LF_ISSET(E_C_HASH)) {
 			if (from <= 999999) {
-				snprintf(buf, sizeof(buf), "%6ld  ", from);
+				snprintf(buf, sizeof(buf), "%6ld  ", (long)from);
 				p = buf;
 			} else
 				p = "TOOBIG  ";

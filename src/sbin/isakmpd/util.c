@@ -1,3 +1,4 @@
+/* $MirOS: src/sbin/isakmpd/util.c,v 1.2 2005/03/06 19:50:06 tg Exp $ */
 /* $OpenBSD: util.c,v 1.57 2005/04/08 23:15:26 hshoexer Exp $	 */
 /* $EOM: util.c,v 1.23 2000/11/23 12:22:08 niklas Exp $	 */
 
@@ -280,7 +281,7 @@ text2sockaddr(char *address, char *port, struct sockaddr **sa, sa_family_t af,
 		if (!strcmp(address, "default")) {
 			fd = socket(PF_ROUTE, SOCK_RAW, af);
 
-			bzero(buf, sizeof(buf));
+			memset(buf, 0, sizeof(buf));
 
 			rtm = (struct rt_msghdr *)buf;
 			rtm->rtm_version = RTM_VERSION;

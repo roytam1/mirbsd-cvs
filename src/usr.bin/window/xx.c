@@ -251,7 +251,7 @@ xxwrite(row, col, p, n, m)
 	xp->arg2 = n;
 	xp->arg3 = m;
 	xp->buf = xxbufp;
-	bcopy(p, xxbufp, n);
+	memmove(xxbufp, p, n);
 	xxbufp += n;
 	*xxbufp++ = char_sep;
 }

@@ -1,3 +1,4 @@
+/**	$MirOS$	*/
 /*	$OpenBSD: adwmcode.c,v 1.2 2001/11/06 19:53:19 miod Exp $ */
 /*      $NetBSD: adwmcode.c,v 1.5 2000/05/27 18:24:50 dante Exp $        */
 
@@ -85,7 +86,7 @@ AdwInitCarriers(carr_dmap, carriers)
 	ADW_CARRIER	*carriers;
 {
 	ADW_CARRIER	*carr;
-	u_int32_t	carr_next = NULL;
+	u_int32_t	carr_next = (u_int32_t)NULL;
 	int		i;
 
 	bzero(carriers, sizeof(ADW_CARRIER) * ADW_MAX_CARRIER);

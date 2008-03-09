@@ -1,4 +1,5 @@
-	$OpenBSD: pcmciadevs,v 1.123 2005/04/27 15:39:39 jakob Exp $
+$MirOS: src/sys/dev/pcmcia/pcmciadevs,v 1.2 2005/03/14 21:05:53 tg Exp $
+/* $OpenBSD: pcmciadevs,v 1.123 2005/04/27 15:39:39 jakob Exp $ */
 /* $NetBSD: pcmciadevs,v 1.13 1998/08/17 23:10:12 thorpej Exp $ */
 
 /*

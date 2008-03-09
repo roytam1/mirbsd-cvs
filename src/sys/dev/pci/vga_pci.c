@@ -319,8 +319,6 @@ vga_pci_ioctl(v, cmd, addr, flag, p)
 
 	switch (cmd) {
 	case AGPIOC_INFO:
-		if (!sc->sc_chipc)
-			return (ENXIO);
 	case AGPIOC_ACQUIRE:
 	case AGPIOC_RELEASE:
 	case AGPIOC_SETUP:
@@ -328,6 +326,8 @@ vga_pci_ioctl(v, cmd, addr, flag, p)
 	case AGPIOC_DEALLOCATE:
 	case AGPIOC_BIND:
 	case AGPIOC_UNBIND:
+		if (sc->sc_methods == NULL || sc->sc_chipc == NULL)
+			return (ENXIO);
 		if (cmd != AGPIOC_INFO && !(flag & FWRITE))
 			return (EPERM);
 		break;

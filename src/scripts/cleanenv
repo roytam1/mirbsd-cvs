@@ -1,0 +1,12 @@
+#!/bin/sh
+# $MirOS: src/scripts/cleanenv,v 1.1 2007/06/06 12:27:35 tg Exp $
+
+if test x"$1" = x"-"; then
+	shift
+	exec /usr/bin/env -i \
+	    PATH=/bin:/usr/bin:/sbin:/usr/sbin:/usr/X11R6/bin TZ=UTC HOME=/ \
+	    "$@"
+fi
+exec /usr/bin/env -i PATH=/bin:/usr/bin:/sbin:/usr/sbin:/usr/X11R6/bin TZ=UTC \
+    DISPLAY="$DISPLAY" HOME="${HOME:-/}" TERM="${TERM:-vt100}" USER="${USER}" \
+    $(locale 2>/dev/null | fgrep LC_CTYPE) "$@"

@@ -1,3 +1,4 @@
+/**	$MirOS: src/sys/kern/vfs_bio.c,v 1.2 2005/03/06 21:28:03 tg Exp $ */
 /*	$OpenBSD: vfs_bio.c,v 1.77 2005/06/27 22:08:39 pedro Exp $	*/
 /*	$NetBSD: vfs_bio.c,v 1.44 1996/06/11 11:15:36 pk Exp $	*/
 
@@ -112,7 +113,7 @@ int getnewbuf(int slpflag, int slptimeo, struct buf **);
  *  hidirtypages  - high water mark for buffer cleaning daemon.
  *  numfreepages  - number of pages on BQ_CLEAN and BQ_DIRTY queues. unused.
  *  numcleanpages - number of pages on BQ_CLEAN queue.
- *		    Used to track the need to speedup the cleaner and 
+ *		    Used to track the need to speedup the cleaner and
  *		    as a reserve for special processes like syncer.
  *  mincleanpages - the lowest byte count on BQ_CLEAN.
  *  numemptybufs  - number of buffers on BQ_EMPTY. unused.
@@ -359,7 +360,7 @@ bwrite(struct buf *bp)
 		reassignbuf(bp);
 	} else
 		curproc->p_stats->p_ru.ru_oublock++;
-	
+
 
 	/* Initiate disk write.  Make sure the appropriate party is charged. */
 	bp->b_vp->v_numoutput++;
@@ -827,7 +828,7 @@ start:
 	splx(s);
 
 #ifdef DIAGNOSTIC
-	/* CLEAN buffers must have no dependencies */ 
+	/* CLEAN buffers must have no dependencies */
 	if (LIST_FIRST(&bp->b_dep) != NULL)
 		panic("BQ_CLEAN has buffer with dependencies");
 #endif
@@ -863,6 +864,12 @@ buf_daemon(struct proc *p)
 	for (;;) {
 		if (numdirtypages < hidirtypages) {
 			tsleep(&bd_req, PRIBIO - 7, "cleaner", 0);
+			/*
+			 * Between being awaken and actually running, the
+			 * situation might have changed (due to the syncer
+			 * being ran, for example), so do the check again.
+			 */
+			continue;
 		}
 
 		starttime = time;

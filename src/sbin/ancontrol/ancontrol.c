@@ -895,7 +895,7 @@ an_setconfig(int act, void *arg)
 		if (addr == NULL)
 			errx(1, "badly formatted address");
 		bzero(cfg->an_macaddr, ETHER_ADDR_LEN);
-		bcopy((char *)addr, (char *)&cfg->an_macaddr, ETHER_ADDR_LEN);
+		memmove((char *)&cfg->an_macaddr, (char *)addr, ETHER_ADDR_LEN);
 		break;
 	case ACT_ENABLE_WEP:
 		switch(atoi(arg)) {
@@ -993,19 +993,19 @@ an_setap(int act, void *arg)
 	switch(act) {
 	case ACT_SET_AP1:
 		bzero(ap->an_ap1, ETHER_ADDR_LEN);
-		bcopy((char *)addr, (char *)&ap->an_ap1, ETHER_ADDR_LEN);
+		memmove((char *)&ap->an_ap1, (char *)addr, ETHER_ADDR_LEN);
 		break;
 	case ACT_SET_AP2:
 		bzero(ap->an_ap2, ETHER_ADDR_LEN);
-		bcopy((char *)addr, (char *)&ap->an_ap2, ETHER_ADDR_LEN);
+		memmove((char *)&ap->an_ap2, (char *)addr, ETHER_ADDR_LEN);
 		break;
 	case ACT_SET_AP3:
 		bzero(ap->an_ap3, ETHER_ADDR_LEN);
-		bcopy((char *)addr, (char *)&ap->an_ap3, ETHER_ADDR_LEN);
+		memmove((char *)&ap->an_ap3, (char *)addr, ETHER_ADDR_LEN);
 		break;
 	case ACT_SET_AP4:
 		bzero(ap->an_ap4, ETHER_ADDR_LEN);
-		bcopy((char *)addr, (char *)&ap->an_ap4, ETHER_ADDR_LEN);
+		memmove((char *)&ap->an_ap4, (char *)addr, ETHER_ADDR_LEN);
 		break;
 	default:
 		errx(1, "unknown action");
@@ -1135,7 +1135,7 @@ an_str2key(char *s, struct an_ltv_key *k)
 		k->klen = n;
 	} else {
 		/* No, just copy it in */
-		bcopy(s, k->key, strlen(s));
+		memmove(k->key, s, strlen(s));
 		k->klen = strlen(s);
 	}
 

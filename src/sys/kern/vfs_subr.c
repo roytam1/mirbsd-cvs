@@ -1,3 +1,4 @@
+/**	$MirOS: src/sys/kern/vfs_subr.c,v 1.2 2005/03/06 21:28:03 tg Exp $ */
 /*	$OpenBSD: vfs_subr.c,v 1.114 2005/05/26 00:33:45 pedro Exp $	*/
 /*	$NetBSD: vfs_subr.c,v 1.53 1996/04/22 01:39:13 christos Exp $	*/
 
@@ -193,7 +194,7 @@ vfs_unbusy(struct mount *mp, struct proc *p)
 }
 
 int
-vfs_isbusy(struct mount *mp) 
+vfs_isbusy(struct mount *mp)
 {
 	return (lockstatus(&mp->mnt_lock));
 }
@@ -894,7 +895,7 @@ struct ctldebug debug1 = { "busyprt", &busyprt };
 #endif
 
 int
-vfs_mount_foreach_vnode(struct mount *mp, 
+vfs_mount_foreach_vnode(struct mount *mp,
     int (*func)(struct vnode *, void *), void *arg) {
 	struct vnode *vp, *nvp;
 	int error = 0;
@@ -905,7 +906,7 @@ loop:
 		if (vp->v_mount != mp)
 			goto loop;
 		nvp = LIST_NEXT(vp, v_mntvnodes);
-		simple_lock(&vp->v_interlock);		
+		simple_lock(&vp->v_interlock);
 		simple_unlock(&mntvnode_slock);
 
 		error = func(vp, arg);
@@ -959,7 +960,7 @@ vflush_vnode(struct vnode *vp, void *arg) {
 		vgonel(vp, p);
 		return (0);
 	}
-		
+
 	/*
 	 * If FORCECLOSE is set, forcibly close the vnode.
 	 * For block or character devices, revert to an
@@ -1083,7 +1084,6 @@ vclean(vp, flags, p)
 
 		simple_unlock(&vp->v_interlock);
 	}
-	cache_purge(vp);
 
 	/*
 	 * Done with purge, notify sleepers of the grim news.

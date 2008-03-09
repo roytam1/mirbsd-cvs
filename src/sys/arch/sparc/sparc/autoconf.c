@@ -1,3 +1,4 @@
+/**	$MirOS: src/sys/arch/sparc/sparc/autoconf.c,v 1.6 2007/06/11 00:44:48 tg Exp $	*/
 /*	$OpenBSD: autoconf.c,v 1.59 2003/06/23 09:23:31 miod Exp $	*/
 /*	$NetBSD: autoconf.c,v 1.73 1997/07/29 09:41:53 fair Exp $ */
 
@@ -93,6 +94,7 @@
 int	fbnode;		/* node ID of ROM's console frame buffer */
 int	optionsnode;	/* node ID of ROM's options */
 int	mmu_3l;		/* SUN4_400 models have a 3-level MMU */
+char	root_devname[16];
 
 #ifdef KGDB
 extern	int kgdb_debug_panic;
@@ -487,7 +489,7 @@ bootpath_build()
 
 /*
  * Fake a ROM generated bootpath.
- * The argument `cp' points to a string such as "xd(0,0,0)netbsd"
+ * The argument 'cp' points to a string such as "xd(0,0,0)netbsd"
  */
 
 static void
@@ -614,8 +616,8 @@ bootpath_fake(bp, cp)
 	 */
 	if (cp[0] == 'f' && cp[1] == 'd') {
 		/*
-		 * Assume `fd(c,u,p)' means:
-		 * partition `p' on floppy drive `u' on controller `c'
+		 * Assume 'fd(c,u,p)' means:
+		 * partition 'p' on floppy drive 'u' on controller 'c'
 		 */
 		BP_APPEND(bp, "fd", v0val[0], v0val[1], v0val[2]);
 		return;
@@ -723,7 +725,7 @@ crazymap(prop, map)
 
 	if (!CPU_ISSUN4 && promvec->pv_romvec_vers < 2) {
 		/*
-		 * Machines with real v0 proms have an `s[dt]-targets' property
+		 * Machines with real v0 proms have an 's[dt]-targets' property
 		 * which contains the mapping for us to use. v2 proms donot
 		 * require remapping.
 		 */
@@ -787,7 +789,7 @@ st_crazymap(n)
 /*
  * Determine mass storage and memory configuration for a machine.
  * We get the PROM's root device and make sure we understand it, then
- * attach it as `mainbus0'.  We also set up to handle the PROM `sync'
+ * attach it as 'mainbus0'.  We also set up to handle the PROM 'sync'
  * command.
  */
 void
@@ -906,7 +908,7 @@ cpu_configure()
 }
 
 /*
- * Console `sync' command.  SunOS just does a `panic: zero' so I guess
+ * Console 'sync' command.  SunOS just does a 'panic: zero' so I guess
  * no one really wants anything fancy...
  */
 void
@@ -963,7 +965,7 @@ findroot()
 }
 
 /*
- * Given a `first child' node number, locate the node with the given name.
+ * Given a 'first child' node number, locate the node with the given name.
  * Return the node number, or 0 if not found.
  */
 int
@@ -1000,12 +1002,12 @@ romprop(rp, cp, node)
 	    strcmp(getpropstring(node, "device_type"), "hierarchical") == 0)
 		len = 0;
 	if (len % sizeof(struct rom_reg)) {
-		printf("%s \"reg\" %s = %d (need multiple of %d)\n",
+		printf("%s \"reg\" %s = %d (need multiple of %lu)\n",
 			cp, pl, len, sizeof(struct rom_reg));
 		return (0);
 	}
 	if (len > RA_MAXREG * sizeof(struct rom_reg))
-		printf("warning: %s \"reg\" %s %d > %d, excess ignored\n",
+		printf("warning: %s \"reg\" %s %d > %lu, excess ignored\n",
 		    cp, pl, len, RA_MAXREG * sizeof(struct rom_reg));
 	rp->ra_node = node;
 	rp->ra_name = cp;
@@ -1097,8 +1099,8 @@ int autoconf_nzs = 0;	/* must be global so obio.c can see it */
  * Attach the mainbus.
  *
  * Our main job is to attach the CPU (the root node we got in cpu_configure())
- * and iterate down the list of `mainbus devices' (children of that node).
- * We also record the `node id' of the default frame buffer, if any.
+ * and iterate down the list of 'mainbus devices' (children of that node).
+ * We also record the 'node id' of the default frame buffer, if any.
  */
 static void
 mainbus_attach(parent, dev, aux)
@@ -1182,7 +1184,7 @@ mainbus_attach(parent, dev, aux)
 	printf(": %s\n", mainbus_model);
 
 	/*
-	 * Locate and configure the ``early'' devices.  These must be
+	 * Locate and configure the 'early' devices.  These must be
 	 * configured before we can do the rest.  For instance, the
 	 * EEPROM contains the Ethernet address for the LANCE chip.
 	 * If the device cannot be located or configured, panic.
@@ -1480,7 +1482,7 @@ makememarr(ap, max, which)
 		 * Version 2 PROMs use a property array to describe them.
 		 */
 		if (max > MAXMEMINFO) {
-			printf("makememarr: limited to %d\n", MAXMEMINFO);
+			printf("makememarr: limited to %lu\n", MAXMEMINFO);
 			max = MAXMEMINFO;
 		}
 		if ((node = findnode(firstchild(findroot()), "memory")) == 0)
@@ -1956,6 +1958,10 @@ setroot()
 #if defined(NFSCLIENT)
 	extern char *nfsbootdevname;
 #endif
+	extern int rootdev_override;
+
+	if (rootdev_override)
+		mountroot = dk_mountroot;
 
 	bp = nbootpath == 0 ? NULL : &bootpath[nbootpath-1];
 #ifdef RAMDISK_HOOKS
@@ -1964,6 +1970,7 @@ setroot()
 	bootdv = (bp == NULL) ? NULL : bp->dev;
 #endif
 
+	part = (bp == NULL) ? 0 : bp->val[2];
 	/*
 	 * (raid) device auto-configuration could have returned
 	 * the root device's id in rootdev.  Check this case.
@@ -1982,7 +1989,7 @@ setroot()
 	}
 
 	/*
-	 * If `swap generic' and we couldn't determine boot device,
+	 * If 'swap generic' and we couldn't determine boot device,
 	 * ask the user.
 	 */
 	if (mountroot == NULL && bootdv == NULL)
@@ -1995,7 +2002,7 @@ setroot()
 				printf("(default %s%c)",
 					bootdv->dv_xname,
 					bootdv->dv_class == DV_DISK
-						? bp->val[2]+'a' : ' ');
+						? part+'a' : ' ');
 			printf(": ");
 			len = getstr(buf, sizeof(buf));
 			if (len == 0 && bootdv != NULL) {
@@ -2011,7 +2018,7 @@ setroot()
 					goto gotswap;
 				}
 			}
-			dv = getdisk(buf, len, bp?bp->val[2]:0, &nrootdev);
+			dv = getdisk(buf, len, part, &nrootdev);
 			if (dv != NULL) {
 				bootdv = dv;
 				break;
@@ -2066,7 +2073,7 @@ gotswap:
 	} else if (mountroot == NULL) {
 
 		/*
-		 * `swap generic': Use the device the ROM told us to use.
+		 * 'swap generic': Use the device the ROM told us to use.
 		 */
 		majdev = findblkmajor(bootdv);
 		if (majdev >= 0) {
@@ -2075,7 +2082,6 @@ gotswap:
 			 * val[2] of the boot device is the partition number.
 			 * Assume swap is on partition b.
 			 */
-			part = bp->val[2];
 			unit = bootdv->dv_unit;
 			rootdev = MAKEDISKDEV(majdev, unit, part);
 			nswapdev = dumpdev = MAKEDISKDEV(major(rootdev),
@@ -2092,12 +2098,14 @@ gotswap:
 	} else {
 
 		/*
-		 * `root DEV swap DEV': honour rootdev/swdevt.
+		 * 'root DEV swap DEV': honour rootdev/swdevt.
 		 * rootdev/swdevt/mountroot already properly set.
 		 */
-		if (bootdv->dv_class == DV_DISK)
-			printf("root on %s%c\n", bootdv->dv_xname,
-			    part + 'a');
+		if (bootdv->dv_class == DV_DISK) {
+			snprintf(root_devname, 16, "%s%c",
+			    bootdv->dv_xname, part + 'a');
+			printf("root on %s\n", root_devname);
+		}
 		majdev = major(rootdev);
 		unit = DISKUNIT(rootdev);
 		part = DISKPART(rootdev);
@@ -2116,8 +2124,9 @@ gotswap:
 		majdev = major(rootdev);
 		unit = DISKUNIT(rootdev);
 		part = DISKPART(rootdev);
-		printf("root on %s%c\n", bootdv->dv_xname,
-		    part + 'a');
+		snprintf(root_devname, 16, "%s%c",
+		    bootdv->dv_xname, part + 'a');
+		printf("root on %s\n", root_devname);
 		break;
 	default:
 		printf("can't figure root, hope your kernel is right\n");
@@ -2146,14 +2155,14 @@ gotswap:
 			dumpdev = swdevt[0].sw_dev;
 	}
 
-gotroot:
+ gotroot:
 	/*
 	 * Find mountroot hook and execute.
 	 */
 	for (mrhp = mrh_list.lh_first; mrhp != NULL;
 	     mrhp = mrhp->mr_link.le_next)
 		if (mrhp->mr_device == bootdv) {
-			if (findblkmajor(mrhp->mr_device) == major(rootdev)) 
+			if (findblkmajor(mrhp->mr_device) == major(rootdev))
 				(*mrhp->mr_func)(bootdv);
 			else
 				(*mrhp->mr_func)(NULL);

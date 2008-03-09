@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: swapctl.c,v 1.14 2005/04/12 06:41:57 deraadt Exp $	*/
 /*	$NetBSD: swapctl.c,v 1.9 1998/07/26 20:23:15 mycroft Exp $	*/
 
@@ -31,7 +32,7 @@
 
 /*
  * swapctl command:
- *	-A		add all devices listed as `sw' in /etc/fstab
+ *	-A		add all devices listed as 'sw' in /etc/fstab
  *	-t [blk|noblk]	if -A, add either all block device or all non-block
  *			devices
  *	-a <path>	add this device
@@ -44,7 +45,7 @@
  *
  * or, if invoked as "swapon" (compatibility mode):
  *
- *	-a		all devices listed as `sw' in /etc/fstab
+ *	-a		all devices listed as 'sw' in /etc/fstab
  *	-t		same as -t above (feature not present in old
  *			swapon(8) command)
  *	<dev>		add this device
@@ -64,6 +65,8 @@
 #include <fstab.h>
 
 #include "swapctl.h"
+
+__RCSID("$MirOS$");
 
 int	command;
 
@@ -103,7 +106,7 @@ int	pflag;		/* priority was specified */
 char	*tflag;		/* swap device type (blk or noblk) */
 #define	TFLAG_CMDS	(CMD_A)
 
-int	pri;		/* uses 0 as default pri */
+int	pri = 1;	/* default priority */
 
 static	void change_priority(char *);
 static	void add_swap(char *);

@@ -1,5 +1,24 @@
+$MirOS: src/libexec/anoncvssh/README,v 1.3 2005/05/04 11:14:21 tg Exp $
 
-        So, you want to run an anoncvs server.
+On MirBSD, the directory structure outlined below, as well
+as the anoncvssh and accompanying programmes, are already
+installed in /var/anoncvs and its subdirectories.
+Just set a password (may be empty) for user "_anoncvssh",
+pull the CVSROOT into /var/anoncvs/anoncvs/cvs and you are
+set up. For empty passwords, remember to configure the SSH
+daemon appropiately.
+Please be reminded that /var/anoncvs must not be mounted
+nodev or nosuid, because anoncvssh is suid root, and
+dev/null and dev/zero must be accessible within the chroot tree.
+
+To use anonymous rsync, place a statically linked rsync
+executable into /var/anoncvs/anoncvs/bin and make it
+chmod 111, chown root:wheel.
+
+Please change the defaults to fit your needs.
+_______________________________________________________________________________
+
+	So, you want to run an anoncvs server.
 
         A summary of the steps you'll need to do is:
 
@@ -8,18 +27,18 @@
 
 2) Compile and install anoncvssh, the shell used for the anoncvs user.
    ( If you aren't using OpenBSD you'll probably need to compile a sup
-     client as well. The easier path is to use OpenBSD ;).
+     client as well. The easier path is to use OpenBSD ;)
 
 3) Add the anoncvs user to the password file, with no password, and
    anoncvssh as it's shell. Decide on a user that will run sup to maintain
-   the archive (this is a different user, NOT the anoncvs user).
+   the archive (this is a different user, NOT the anoncvs user)
 
 4) Make a home directory for the anoncvs user. The anoncvs user's
    home directory is a chroot jail in which the anoncvssh processes
    run when servicing anoncvs requests. The jail must contain the
    cvs binary as well as whatever shared libraries and support files
    are needed to run them unless you compile and link everything
-   statically. This example shows what is needed for OpenBSD. If you
+   staticly. This example shows what is needed for OpenBSD. If you
    use another platform you'll need to be familiar with what needs
    to go in a chroot jail for your platform.
 
@@ -29,25 +48,25 @@
    (If you aren't using OpenBSD you will need to compile and install
     a sup client).
 
-7) Run sup to retrieve the distribution from the server.
+7) Run sup to retrieve the distribution from the server
 
 8) Once you get the distribution in, set up a cron job to run sup
    periodically to keep your server up to date.
 
 **********************************************************************
 STEP 1) find enough disk space.
-    You need roughly 2GB.
+    You need roughly 1.6GB.
     Mount it on /open.
     If you are not able to mount it as /open, substitute it's location
-    throughout the rest of this description.
+	throughout the rest of this description.
 
 **********************************************************************
-STEP 2) compile the anoncvssh binary.
-    In the Makefile, change the variable CVSROOT.
+STEP 2) compile the anoncvssh binary
+    In the Makefile, change the variable CVSROOT
     Install the binary setuid-root in /open/anoncvssh.
 
 **********************************************************************
-STEP 3) Create the anoncvs account and decide who will run "sup"
+STEP 3) Create the anoncvs account. and decide who will run "sup"
     to maintain the archive. The anoncvs account should *NOT* be the one
     running sup to maintain the archive.
 
@@ -55,16 +74,13 @@ create an account similar to:
 
     anoncvs::32766:32766:Anonymous CVS User:/open/anoncvs:/open/anoncvssh
 
-Yes, that is right - the account has no password. Be sure that the
+Yes, that is right. the account has no password. Be sure that the
 uid and gid are unique for your system, if the ones above aren't,
 pick different values.
 
-Decide who will run sup to maintain the archive. Call that user
+Decide who will run sup to maintain the archive. call that user
 $SUPUSER.  Oh, and in case it hasn't been previously mentioned,
-$SUPUSER should *NOT* be the anoncvs user :).
-
-Set "PermitEmptyPasswords yes" option in /etc/ssh/sshd_config and
-restart your sshd daemon.
+$SUPUSER should *NOT* be the anoncvs user :)
 
 **********************************************************************
 STEP 4) Build the anoncvs user's home directory chroot jail. This
@@ -91,13 +107,13 @@ Put a message like the following in .plan:
 
     chown root:wheel .hushlogin .profile .plan
 
-    mkdir bin dev tmp usr var etc
+    mkdir bin dev tmp etc
     cp /bin/{cat,pwd,rm,sh} bin/
+    ln -s . var
 
 Using mknod, make a dev/null that has the same major/minor numbers as
-    your /dev/null, and make it mode 666.
-
-Some shared library systems require a dev/zero created in the same way.
+    your /dev/null, and make it mode 666. A dev/zero must be created
+    the same way.
 
 Fill etc space for the account
     cp /etc/{group,hosts,passwd,protocols} etc/
@@ -105,16 +121,16 @@ Fill etc space for the account
     modify these files to suit your idea of system security
 
 anoncvssh (by setting the environment variable CVSREADONLYFS) uses
-a tiny extension provided in the openbsd cvs server code which
-permits the use of read-only cvs repositories, therefore you MUST
-compile the openbsd version of cvs.  Luckily this is not a problem
-on a non-openbsd machine, since the cvs sources are imported verbatim
-into the openbsd tree.  They are in gnu/usr.bin/cvs.  The sources
-are integrated in such way that Makefile.bsd-wrapper knows how to build
+an tiny extension provided in the openbsd cvs server code which
+permits the use of read-only cvs repositories.  therefore you MUST
+compile the openbsd version of cvs.  luckily this is not a problem
+on a non-openbsd machine since the cvs sources are imported verbatim
+into the openbsd tree.  they are in gnu/usr.bin/cvs.  The sources
+are integrated such that Makefile.bsd-wrapper knows how to build
 the sources on an OpenBSD machine, using obj directories.
 
 Create tmp space for the account
-    # (cd var && ln -s ../tmp tmp)
+    # cd var; ln -s ../tmp tmp
     # chmod a+rwx tmp
 
     # mkdir usr/{bin,lib}
@@ -126,38 +142,36 @@ If your system has ld.so in /usr/libexec,
 
 If using shared libraries, use ldd to find out which shared libs you need:
     # ldd /usr/bin/cvs
-        /usr/bin/cvs:
-                Start    End      Type Ref Name
-                00000000 00000000 exe   1  /usr/bin/cvs
-                0015f000 20165000 rlib  1  /usr/lib/libz.so.2.0
-                0016d000 20172000 rlib  1  /usr/lib/libgssapi.so.2.0
-                0017f000 2018d000 rlib  1  /usr/lib/libkrb5.so.5.2
-                00141000 20145000 rlib  1  /usr/lib/libasn1.so.3.1
-                00089000 200ba000 rlib  1  /usr/lib/libcrypto.so.10.0
-                00177000 2017c000 rlib  1  /usr/lib/libdes.so.8.0
-                00169000 2016d000 rlib  1  /usr/lib/libcom_err.so.1.0
-                00009000 20053000 rlib  1  /usr/lib/libc.so.30.0
-                00002000 00002000 rtld  1  /usr/libexec/ld.so
+    /usr/bin/cvs:
+	    -lz.1 => /usr/lib/libz.so.1.4 (0x40097000)
+	    -lgssapi.1 => /usr/lib/libgssapi.so.1.0 (0x400a4000)
+	    -lkrb.10 => /usr/lib/libkrb.so.10.0 (0x400ae000)
+	    -lkrb5.4 => /usr/lib/libkrb5.so.4.0 (0x400c8000)
+	    -lasn1.2 => /usr/lib/libasn1.so.2.0 (0x400ff000)
+	    -lcrypto.6 => /usr/lib/libcrypto.so.6.0 (0x4011d000)
+	    -ldes.7 => /usr/lib/libdes.so.7.0 (0x40203000)
+	    -lkafs.10 => /usr/lib/libkafs.so.10.0 (0x4020d000)
+	    -lc.28 => /usr/lib/libc.so.28.5 (0x40210000)
 
     and then copy the required libraries to usr/lib/
 
 As a final pass, make sure that all the files you have just created are
-not world writable (except dev/null).
+not world writable (except dev/null and dev/zero).
 
 For :pserver: support (optional)
   - Create an entry in /etc/services
-     cvspserver 2401/tcp    # CVS client/server operations
+     cvspserver		2401/tcp		# CVS client/server operations
   - Create an entry in /etc/inetd.conf
-     cvspserver stream tcp nowait anoncvs /open/anoncvssh anoncvssh pserver
+     cvspserver	stream	tcp nowait anoncvs /open/anoncvssh anoncvssh pserver
   - Create a file /open/anoncvs/cvs/CVSROOT/passwd with the following entry
-        anoncvs:AHDysQkJIubEc
+	anoncvs:AHDysQkJIubEc
     which would be a password of "anoncvs" (as per anoncvs.html)
   - Create a file /open/anoncvs/cvs/CVSROOT/readers with a single entry:
-        anoncvs
+	anoncvs
     which tells cvs that user "anoncvs" is allowed readonly access.
   - Create a zero-length file /open/anoncvs/cvs/CVSROOT/writers since you don't
     want anyone to be able to write to the mirror.
-        % cp /dev/null /open/anoncvs/cvs/CVSROOT/writers
+	% cp /dev/null /open/anoncvs/cvs/CVSROOT/writers
 
 See the example layout below for full details.
 
@@ -167,22 +181,22 @@ send mail to sup@openbsd.org
 1) to have sup permissions granted on an appropriate machine for you
    to sup from. We will need to know your host's real hostname and
    IP address.
-2) to have an anoncvsN.COUNTRY.openbsd.org alias created.
+2) to have an anoncvsN.COUNTRY.openbsd.org alias created
 3) to have your site mentioned in the http://www.openbsd.org page.
 
 **********************************************************************
-STEP 6): Configure sup.
+STEP 6): Configure sup
 
 If you're running OpenBSD, you already have a sup client in
 /usr/bin/sup.  If not you may need to build it. On an IRIX or other
 SYSV machine, ensure that your kernel does not allow a user to chown
-a file to another user (you may have heard of this particular brand
-of evil referred to as "chown giveaway"). This will cause sup to
+a file to another user (You may have heard of this particular brand
+of evil referred to as "chown giveaway"). this will cause sup to
 give away the files to root before chmod'ing them readable.
 michaels@openbsd.org knows how to fix this.
 
 The file /open/anoncvs/sup/ss contains a line that tells sup where
-to get the cvs tree from. It will normally contain:
+to get the cvs tree from. it will normally contain:
 
     cvs host=anoncvs.ca.openbsd.org hostbase=/usr/OpenBSD base=/open/anoncvs delete
 
@@ -194,11 +208,11 @@ It should contain the following lines:
     cvs/CVSROOT/writers
     cvs/CVSROOT/passwd
 
-If you ever fetch the file cvs/CVSROOT/history, delete it. It will
+if you ever fetch the file cvs/CVSROOT/history, delete it. it will
 cause you problems.
 
 **********************************************************************
-STEP 7): Run sup to retrieve the tree for the first time.
+STEP 7): Run sup to retrieve the tree for the first time
 
 Log in as or become the $SUPUSER, and run
 
@@ -208,7 +222,7 @@ If you have sup permission, and have specified the correct host and
 hostbase in /open/anoncvs/sup/ss you should see a list of files start
 coming in after a short while. Don't panic if nothing happens
 immediately.  Watch for errors (sup can timeout or die). If you can't
-access files contact the sup server maintainer. If you get a timeout
+access files contact the sup server maintainer, If you get a timeout
 or if sup dies you can restart and it should continue where it left off.
 
 It can take a good while (and a couple of restarts) to obtain the
@@ -341,7 +355,7 @@ NOTES FOR OTHER PLATFORMS:
 
 If you're not that familiar with your other platform (i.e. you haven't
 built a chroot jail for a server on it) you may be better off
-finding an OpenBSD machine to use and duplicating the example above.
+finding an OpenBSD machine to use. (and duplicating the example above)
 
 **SunOS 5)
 Bob Beck <Bob.Beck@ualberta.ca> has done this. E-mail for

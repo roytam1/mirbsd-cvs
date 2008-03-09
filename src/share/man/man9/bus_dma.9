@@ -321,13 +321,13 @@ function.
 .It Dv BUS_DMA_READ
 This is a hint to the machine-dependent back-end that indicates the
 mapping will be used only for a
-.Em "device -\*[Gt] memory"
+.Em "device -\*(Gt memory"
 transaction.
 The back-end may perform optimizations based on this information.
 .It Dv BUS_DMA_WRITE
 This is a hint to the machine-dependent back-end that indicates the
 mapping will be used only for a
-.Em "memory -\*[Gt] device"
+.Em "memory -\*(Gt device"
 transaction.
 The back-end may perform optimizations based on this information.
 .El

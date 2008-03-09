@@ -40,9 +40,11 @@
 #include <string.h>
 #include <unistd.h>
 
+__RCSID("$MirOS$");
+
 #define	NUM_KBD	10
 
-char *kbtype_tab[] = {
+const char *kbtype_tab[] = {
 	"pc-xt/pc-at",
 	"usb",
 	"adb",
@@ -85,7 +87,7 @@ int rebuild = 0;
 
 struct nameint {
 	int value;
-	char *name;
+	const char *name;
 };
 
 struct nameint kbdenc_tab[] = {
@@ -100,14 +102,14 @@ struct nameint kbdvar_tab[] = {
 	{ 0, 0 }
 };
 
-extern char *__progname;
+extern const char *__progname;
 
-void	kbd_show_enc(kvm_t *kd, int idx);
-void	kbd_list(void);
+static void kbd_show_enc(kvm_t *, int, int);
+void	kbd_list(int);
 void	kbd_set(char *name, int verbose);
 
 void
-kbd_show_enc(kvm_t *kd, int idx)
+kbd_show_enc(kvm_t *kd, int idx, int v)
 {
 #ifndef NOKVM
 	struct wscons_keydesc r;
@@ -122,14 +124,16 @@ kbd_show_enc(kvm_t *kd, int idx)
 #ifndef NOKVM
 	p = nl[idx].n_value;
 	if (p == 0) {
-		printf("no tables available for %s keyboard\n\n",
-		    kbtype_tab[idx]);
+		if (v)
+			printf("no tables available for %s keyboard\n\n",
+			    kbtype_tab[idx]);
 		return;
 	}
 #endif
 
-	printf("tables available for %s keyboard:\nencoding\n\n",
-	    kbtype_tab[idx]);
+	if (v)
+		printf("tables available for %s keyboard:\nencoding\n\n",
+		    kbtype_tab[idx]);
 
 #ifdef NOKVM
 	for (i = 0; kbdenc_tab[i].value; i++)
@@ -169,11 +173,12 @@ kbd_show_enc(kvm_t *kd, int idx)
 		kvm_read(kd, p, &r, sizeof(r));
 	}
 #endif
-	printf("\n");
+	if (v)
+		printf("\n");
 }
 
 void
-kbd_list(void)
+kbd_list(int vb)
 {
 	int	kbds[SA_MAX];
 	int	fd, i, kbtype;
@@ -238,12 +243,12 @@ kbd_list(void)
 
 	for (i = 0; i < SA_MAX; i++)
 		if (kbds[i] != 0)
-			kbd_show_enc(kd, i);
+			kbd_show_enc(kd, i, vb);
 
 #ifndef NOKVM
 	kvm_close(kd);
 #endif
-	if (rebuild > 0)
+	if (rebuild > 0 && vb)
 		printf("Unknown encoding or variant. kbd(8) needs to be rebuilt.\n");
 }
 

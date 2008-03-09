@@ -1,28 +1,29 @@
+/**	$MirOS$ */
 /*	$OpenBSD: db_interface.c,v 1.12 2003/05/18 02:43:12 andreas Exp $	*/
 /*	$NetBSD: db_interface.c,v 1.22 1996/05/03 19:42:00 christos Exp $	*/
 
-/* 
+/*
  * Mach Operating System
  * Copyright (c) 1991,1990 Carnegie Mellon University
  * All Rights Reserved.
- * 
+ *
  * Permission to use, copy, modify and distribute this software and its
  * documentation is hereby granted, provided that both the copyright
  * notice and this permission notice appear in all copies of the
  * software, derivative works or modified versions, and any portions
  * thereof, and that both notices appear in supporting documentation.
- * 
+ *
  * CARNEGIE MELLON ALLOWS FREE USE OF THIS SOFTWARE IN ITS "AS IS"
  * CONDITION.  CARNEGIE MELLON DISCLAIMS ANY LIABILITY OF ANY KIND FOR
  * ANY DAMAGES WHATSOEVER RESULTING FROM THE USE OF THIS SOFTWARE.
- * 
+ *
  * Carnegie Mellon requests users of this software to return to
- * 
+ *
  *  Software Distribution Coordinator  or  Software.Distribution@CS.CMU.EDU
  *  School of Computer Science
  *  Carnegie Mellon University
  *  Pittsburgh PA 15213-3890
- * 
+ *
  * any improvements or extensions that they make and grant Carnegie Mellon
  * the rights to redistribute these changes.
  *
@@ -154,11 +155,11 @@ db_sysregs_cmd(addr, have_addr, count, modif)
 
 	__asm__ __volatile__("sidt %0" : "=m" (idtr));
 	db_printf("idtr:   0x%08x/%04x\n",
-	    (unsigned int)(idtr >> 16), idtr & 0xffff);
+	    (unsigned)(idtr >> 16), (unsigned)(idtr & 0xffff));
 
 	__asm__ __volatile__("sgdt %0" : "=m" (gdtr));
 	db_printf("gdtr:   0x%08x/%04x\n",
-	    (unsigned int)(gdtr >> 16), gdtr & 0xffff);
+	    (unsigned)(gdtr >> 16), (unsigned)(gdtr & 0xffff));
 
 	__asm__ __volatile__("sldt %0" : "=g" (ldtr));
 	db_printf("ldtr:   0x%04x\n", ldtr);

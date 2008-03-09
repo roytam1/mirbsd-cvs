@@ -1,3 +1,4 @@
+/**	$MirOS: src/sys/sys/disklabel.h,v 1.3 2005/07/07 14:39:27 tg Exp $ */
 /*	$OpenBSD: disklabel.h,v 1.26 2005/03/29 16:30:21 deraadt Exp $	*/
 /*	$NetBSD: disklabel.h,v 1.41 1996/05/10 23:07:37 mark Exp $	*/
 
@@ -240,11 +241,13 @@ static char *dktypenames[] = {
 #define	FS_ADOS		14		/* AmigaDOS fast file system */
 #define	FS_HFS		15		/* Macintosh HFS */
 #define	FS_ADFS		16		/* Acorn Disk Filing System */
-#define FS_EXT2FS	17		/* ext2fs */
-#define FS_CCD		18		/* ccd component */
-#define FS_RAID		19		/* RAIDframe */
-#define FS_NTFS		20		/* Windows/NT file system */
-#define FS_UDF		21		/* UDF (DVD) filesystem */
+#define	FS_EXT2FS	17		/* ext2fs */
+#define	FS_CCD		18		/* ccd component */
+#define	FS_RAID		19		/* RAIDframe */
+#define	FS_NTFS		20		/* NT OS/2 file system */
+#define	FS_UDF		21		/* UDF (DVD) filesystem */
+#define	FS_APPLEUFS	22		/* Apple UFS */
+#define	FS_MANUAL	23		/* manual / reserved, e.g. vnd(4) */
 
 #ifdef DKTYPENAMES
 static char *fstypenames[] = {
@@ -270,6 +273,8 @@ static char *fstypenames[] = {
 	"RAID",
 	"NTFS",
 	"UDF",
+	"Apple UFS",
+	"manual",
 	NULL
 };
 
@@ -297,6 +302,8 @@ static char *fstypesnames[] = {
 	"",		/* 19 */
 	"ntfs",		/* 20 */
 	"udf",		/* 21 */
+	"",		/* 22 */
+	"",		/* 23 */
 	NULL
 };
 

@@ -24,6 +24,7 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  *
+ * $MirOS$
  * $OpenBSD: alias_nbt.c,v 1.9 2004/05/31 02:21:17 brad Exp $
  *
  *  TODO:
@@ -40,10 +41,10 @@
 */
 
 /* Includes */
+#include <sys/types.h>
 #include <ctype.h>
 #include <stdio.h>
 #include <string.h>
-#include <sys/types.h>
 #include <netinet/in_systm.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
@@ -52,6 +53,8 @@
 #include <netinet/tcp.h>
 
 #include "alias_local.h"
+
+__RCSID("$MirOS$");
 
 typedef struct {
 	struct in_addr		oldaddr;
@@ -111,7 +114,7 @@ static void PrintRcode( u_char rcode )  {
 		case CFT_ERR:
 			printf("\nName in conflict error.\n");
 		default:
-			printf("\n?%c?=%0x\n", '?', rcode);
+			printf("\n?%c? = %0x\n", '?', rcode );
 
 	}
 }
@@ -356,7 +359,7 @@ AliasHandleResourceNB(
 #ifdef DEBUG
 		printf("<%s>", inet_ntoa(nb->addr) );
 #endif
-		if (!bcmp(&nbtarg->oldaddr,&nb->addr, sizeof(struct in_addr) ) ) {
+		if (!memcmp(&nbtarg->oldaddr,&nb->addr, sizeof(struct in_addr) ) ) {
 			if ( *nbtarg->uh_sum != 0 ) {
             	int acc;
             	u_short *sptr;
@@ -424,7 +427,7 @@ AliasHandleResourceA(
 #ifdef DEBUG
 		printf("..%s", inet_ntoa(a->addr) );
 #endif
-		if ( !bcmp(&nbtarg->oldaddr, &a->addr, sizeof(struct in_addr) ) ) {
+		if ( !memcmp(&nbtarg->oldaddr, &a->addr, sizeof(struct in_addr) ) ) {
 			if ( *nbtarg->uh_sum != 0 ) {
             	int acc;
             	u_short *sptr;

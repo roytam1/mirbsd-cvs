@@ -212,7 +212,7 @@ wi_attach(struct wi_softc *sc, struct wi_funcs *funcs)
 	int			error;
 
 	sc->sc_funcs = funcs;
-	sc->wi_cmd_count = 500;
+	sc->wi_cmd_count = 1500;
 
 	wi_reset(sc);
 
@@ -1023,9 +1023,9 @@ wi_cor_reset(sc)
 	 * Do a soft reset of the card; this is required for Symbol cards.
 	 * This shouldn't hurt other cards but there have been reports
 	 * of the COR reset messing up old Lucent firmware revisions so
-	 * we only soft reset Symbol cards for now.
+	 * we avoid soft reset Lucent cards for now.
 	 */
-	if (sc->sc_firmware_type == WI_SYMBOL) {
+	if (sc->sc_firmware_type != WI_LUCENT) {
 		cor_value = bus_space_read_1(sc->wi_ltag, sc->wi_lhandle,
 		    sc->wi_cor_offset);
 		bus_space_write_1(sc->wi_ltag, sc->wi_lhandle,
@@ -1049,7 +1049,7 @@ wi_read_record_io(sc, ltv)
 {
 	u_int8_t		*ptr;
 	int			len, code;
-	struct wi_ltv_gen	*oltv, p2ltv;
+	struct wi_ltv_gen	*oltv = NULL, p2ltv;
 
 	if (sc->sc_firmware_type != WI_LUCENT) {
 		oltv = ltv;

@@ -1,7 +1,7 @@
 /*	$OpenBSD: binary.c,v 1.15 2005/04/25 08:21:20 otto Exp $	*/
 
 /*-
- * Copyright (c) 1999 James Howard and Dag-Erling Coïdan Smørgrav
+ * Copyright (c) 1999 James Howard and Dag-Erling CoÃ¯dan SmÃ¸rgrav
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,7 +33,7 @@
 
 #include "grep.h"
 
-#define	isbinary(ch)	(!isprint((ch)) && !isspace((ch)) && (ch) != '\b')
+__RCSID("$MirOS$");
 
 int
 bin_file(FILE *f)
@@ -49,7 +49,7 @@ bin_file(FILE *f)
 		return 0;
 
 	for (i = 0; i < m; i++)
-		if (isbinary(buf[i])) {
+		if (isbinry(buf[i])) {
 			ret = 1;
 			break;
 		}
@@ -73,7 +73,7 @@ gzbin_file(gzFile *f)
 		return 0;
 
 	for (i = 0; i < m; i++)
-		if (isbinary(buf[i])) {
+		if (isbinry(buf[i])) {
 			ret = 1;
 			break;
 		}
@@ -87,11 +87,11 @@ gzbin_file(gzFile *f)
 int
 mmbin_file(mmf_t *f)
 {
-	int i;
+	size_t i;
 
 	/* XXX knows too much about mmf internals */
 	for (i = 0; i < BUFSIZ && i < f->len; i++)
-		if (isbinary(f->base[i]))
+		if (isbinry(f->base[i]))
 			return 1;
 	return 0;
 }

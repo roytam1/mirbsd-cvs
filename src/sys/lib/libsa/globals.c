@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: globals.c,v 1.3 1996/09/23 14:18:54 mickey Exp $	*/
 /*	$NetBSD: globals.c,v 1.3 1995/09/18 21:19:27 pk Exp $	*/
 
@@ -23,7 +24,7 @@ char	rootpath[FNAME_SIZE] = "/";	/* root mount path */
 char	bootfile[FNAME_SIZE];		/* bootp says to boot this */
 char	hostname[FNAME_SIZE];		/* our hostname */
 int	hostnamelen;
-char	domainname[FNAME_SIZE];		/* our DNS domain */
+char	domainname[1];			/* our YP domain */
 int	domainnamelen;
 char	ifname[IFNAME_SIZE];		/* name of interface (e.g. "le0") */
 struct	in_addr myip;			/* my ip address */

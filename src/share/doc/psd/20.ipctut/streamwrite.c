@@ -66,7 +66,7 @@ main(argc, argv)
 		fprintf(stderr, "%s: unknown host\n", argv[1]);
 		exit(2);
 	}
-	bcopy(hp->h_addr, &server.sin_addr, hp->h_length);
+	memmove(&server.sin_addr, hp->h_addr, hp->h_length);
 	server.sin_port = htons(atoi(argv[2]));
 
 	if (connect(sock, &server, sizeof(server)) < 0) {

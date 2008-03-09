@@ -1,7 +1,10 @@
+/**	$MirOS$ */
 /*	$OpenBSD: extern.h,v 1.6 2003/06/03 02:56:20 millert Exp $	*/
 /*	$NetBSD: extern.h,v 1.4 1995/11/01 00:45:22 pk Exp $	*/
 
 /*-
+ * Copyright (c) 2007
+ *	Thorsten Glaser <tg@mirbsd.de>
  * Copyright (c) 1991, 1993
  *	The Regents of the University of California.  All rights reserved.
  *
@@ -34,16 +37,27 @@
 
 typedef struct {
 	enum { STRING1, STRING2 } which;
-	enum { EOS, INFINITE, NORMAL, RANGE, SEQUENCE, SET } state;
-	int	 cnt;			/* character count */
-	int	 lastch;		/* last character */
-	int	equiv[2];		/* equivalence set */
-	int	*set;			/* set of characters */
-	unsigned char	*str;		/* user's string */
+	enum { EOS, INFINITE, NORMAL, RANGE, SEQUENCE, SET, WCLASS, WTRANS } state;
+	int cnt;			/* character count */
+	union {
+		wchar_t *set_;		/* set of characters */
+		wctype_t class_;	/* character class */
+	} setext;
+#define set	setext.set_
+#define wclass	setext.class_
+	wchar_t *str;			/* user's string */
+	wchar_t equiv[2];		/* equivalence set */
+#define cnext equiv[0]			/* next char to try with class */
+	wctrans_t wtrans;		/* character conversion class */
+	wchar_t lastch;			/* last character */
+	bool use_wctrans;
 } STR;
 
-#include <limits.h>
-#define	NCHARS	(UCHAR_MAX + 1)		/* Number of possible characters. */
-#define	OOBCH	(UCHAR_MAX + 1)		/* Out of band character value. */
+#if WCHAR_MAX != 0xFFFD
+#warning results untested, WCHAR_MAX ≠ 0xFFFD
+#endif
 
-int	 next(STR *);
+#define	NCHARS	(WCHAR_MAX + 1)		/* Number of possible characters. */
+#define	OOBCH	(WCHAR_MAX + 1)		/* Out of band character value. */
+
+bool next(STR *);

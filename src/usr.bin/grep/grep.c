@@ -1,7 +1,7 @@
 /*	$OpenBSD: grep.c,v 1.33 2005/04/03 19:18:33 jaredy Exp $	*/
 
 /*-
- * Copyright (c) 1999 James Howard and Dag-Erling Coïdan Smørgrav
+ * Copyright (c) 1999 James Howard and Dag-Erling CoÃ¯dan SmÃ¸rgrav
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -107,7 +107,7 @@ SLIST_HEAD(, patfile)		 patfilelh;
 
 extern char *__progname;
 
-static void
+static __dead void
 usage(void)
 {
 	fprintf(stderr,
@@ -122,9 +122,9 @@ usage(void)
 }
 
 #ifdef NOZ
-static char *optstr = "0123456789A:B:CEFGHILPSRUVabce:f:hilnoqrsuvwxy";
+static const char *optstr = "0123456789A:B:CEFGHILPSRUVabce:f:hilnoqrsuvwxy";
 #else
-static char *optstr = "0123456789A:B:CEFGHILPSRUVZabce:f:hilnoqrsuvwxy";
+static const char *optstr = "0123456789A:B:CEFGHILPSRUVZabce:f:hilnoqrsuvwxy";
 #endif
 
 struct option long_options[] =

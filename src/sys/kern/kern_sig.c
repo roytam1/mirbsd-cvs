@@ -1,8 +1,10 @@
+/**	$MirOS: src/sys/kern/kern_sig.c,v 1.2 2005/03/06 21:28:00 tg Exp $ */
 /*	$OpenBSD: kern_sig.c,v 1.70 2004/04/06 17:24:11 mickey Exp $	*/
 /*	$NetBSD: kern_sig.c,v 1.54 1996/04/22 01:38:32 christos Exp $	*/
 
-/*
- * Copyright (c) 1997 Theo de Raadt. All rights reserved. 
+/*-
+ * Copyright (c) 2003, 2005 Thorsten Glaser
+ * Copyright (c) 1997 Theo de Raadt. All rights reserved.
  * Copyright (c) 1982, 1986, 1989, 1991, 1993
  *	The Regents of the University of California.  All rights reserved.
  * (c) UNIX System Laboratories, Inc.
@@ -79,7 +81,6 @@ struct filterops sig_filtops =
 	{ 0, filt_sigattach, filt_sigdetach, filt_signal };
 
 void proc_stop(struct proc *p);
-void killproc(struct proc *, char *);
 int cansignal(struct proc *, struct pcred *, struct proc *, int);
 
 struct pool sigacts_pool;	/* memory pool for sigacts structures */
@@ -329,15 +330,6 @@ setsigvec(p, signum, sa)
 		ps->ps_sigonstack |= bit;
 	else
 		ps->ps_sigonstack &= ~bit;
-#ifdef COMPAT_SUNOS
-	{
-		extern struct emul emul_sunos;
-		if (p->p_emul == &emul_sunos && sa->sa_flags & SA_USERTRAMP)
-			ps->ps_usertramp |= bit;
-		else
-			ps->ps_usertramp &= ~bit;
-	}
-#endif
 	/*
 	 * Set bit in p_sigignore for signals that are set to SIG_IGN,
 	 * and for signals set to SIG_DFL where the default is to ignore.
@@ -505,14 +497,15 @@ sys_sigsuspend(p, v, retval)
 	return (EINTR);
 }
 
+#ifdef COMPAT_OPENBSD
 /* ARGSUSED */
 int
-sys_osigaltstack(p, v, retval)
+compat_35_sys_osigaltstack(p, v, retval)
 	struct proc *p;
 	void *v;
 	register_t *retval;
 {
-	register struct sys_osigaltstack_args /* {
+	register struct compat_35_sys_osigaltstack_args /* {
 		syscallarg(const struct osigaltstack *) nss;
 		syscallarg(struct osigaltstack *) oss;
 	} */ *uap = v;
@@ -550,6 +543,7 @@ sys_osigaltstack(p, v, retval)
 	psp->ps_sigstk.ss_flags = ss.ss_flags;
 	return (0);
 }
+#endif
 
 int
 sys_sigaltstack(p, v, retval)
@@ -642,11 +636,11 @@ killpg1(cp, signum, pgid, all)
 	int nfound = 0;
 
 	if (all)
-		/* 
+		/*
 		 * broadcast
 		 */
 		for (p = LIST_FIRST(&allproc); p; p = LIST_NEXT(p, p_list)) {
-			if (p->p_pid <= 1 || p->p_flag & P_SYSTEM || 
+			if (p->p_pid <= 1 || p->p_flag & P_SYSTEM ||
 			    p == cp || !cansignal(cp, pc, p, signum))
 				continue;
 			nfound++;
@@ -1224,7 +1218,7 @@ postsig(signum)
 #ifdef KTRACE
 	if (KTRPOINT(p, KTR_PSIG)) {
 		siginfo_t si;
-		
+
 		initsiginfo(&si, signum, code, type, sigval);
 		ktrpsig(p, signum, action, ps->ps_flags & SAS_OLDMASK ?
 		    ps->ps_oldmask : p->p_sigmask, type, &si);
@@ -1282,20 +1276,6 @@ postsig(signum)
 }
 
 /*
- * Kill the current process for stated reason.
- */
-void
-killproc(p, why)
-	struct proc *p;
-	char *why;
-{
-
-	log(LOG_ERR, "pid %d was killed: %s\n", p->p_pid, why);
-	uprintf("sorry, pid %d was killed: %s\n", p->p_pid, why);
-	psignal(p, SIGKILL);
-}
-
-/*
  * Force the current process to exit with the specified signal, dumping core
  * if appropriate.  We bypass the normal tests for masked and caught signals,
  * allowing unrecoverable failures to terminate the process without changing
@@ -1308,6 +1288,41 @@ sigexit(p, signum)
 	register struct proc *p;
 	int signum;
 {
+	switch (signum) {
+	case 0:
+	case SIGHUP:
+	case SIGINT:
+	case SIGKILL:
+	case SIGPIPE:
+	case SIGALRM:
+	case SIGTERM:
+	case SIGSTOP:
+	case SIGTSTP:
+	case SIGTTIN:
+	case SIGTTOU:
+	case SIGUSR1:
+	case SIGUSR2:
+		break;
+	default:
+		if (p->p_pptr != NULL)
+			log(LOG_INFO,
+			    "signal %d received by (%.32s:%d) UID(%lu)"
+			    " EUID(%lu), parent (%.32s:%d) UID(%lu)"
+			    " EUID(%lu)\n",
+			    signum, p->p_comm, p->p_pid,
+			    (unsigned long) p->p_cred->p_ruid,
+			    (unsigned long) p->p_ucred->cr_uid,
+			    p->p_pptr->p_comm, p->p_pptr->p_pid,
+			    (unsigned long) p->p_pptr->p_cred->p_ruid,
+			    (unsigned long) p->p_pptr->p_ucred->cr_uid);
+		else
+			log(LOG_INFO,
+			    "signal %d received by (%.32s:%d) UID(%lu)"
+			    " EUID(%lu), zombie\n",
+			    signum, p->p_comm, p->p_pid,
+			    (unsigned long) p->p_cred->p_ruid,
+			    (unsigned long) p->p_ucred->cr_uid);
+	}
 
 	/* Mark process as going away */
 	p->p_flag |= P_WEXIT;
@@ -1448,6 +1463,13 @@ out:
 	crfree(cred);
 	if (error == 0)
 		error = error1;
+    if (!error)
+	log(LOG_WARNING, "core dumped for pid %d (%s)\n",
+	    p->p_pid, p->p_comm);
+    else
+	log(LOG_WARNING, "error %d while dumping core for pid %d (%s)\n",
+	    error, p->p_pid, p->p_comm);
+
 	return (error);
 }
 

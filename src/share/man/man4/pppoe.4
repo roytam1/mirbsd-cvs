@@ -1,3 +1,4 @@
+.\"	$MirOS: src/share/man/man4/pppoe.4,v 1.7 2005/09/18 19:29:59 tg Exp $
 .\"	$OpenBSD: pppoe.4,v 1.5 2004/11/30 12:42:21 jmc Exp $
 .\"	$NetBSD: pppoe.4,v 1.26 2003/10/02 07:06:36 wiz Exp $
 .\"
@@ -91,6 +92,8 @@ The
 mode, selected by setting
 .Em link0 ,
 is to wait for incoming PPPoE session.
+This option is not set in the GENERIC kernel and discouraged
+because it does not offer authentication.
 .Pp
 Before a
 .Nm
@@ -119,13 +122,22 @@ A typical
 file looks like this:
 .Bd -literal -offset indent
 pppoedev ne0
-! /sbin/ifconfig ne0 up
-! /usr/sbin/spppcontrol \e$if myauthproto=pap myauthname=testcaller \e
+!/sbin/ifconfig ne0 up
+!/usr/sbin/spppcontrol \e$if myauthproto=pap myauthname=testcaller \e
 	myauthkey=donttell
-! /sbin/ifconfig \e$if inet 0.0.0.0 0.0.0.1 netmask 0xffffffff
-! /sbin/route add default 0.0.0.1
-up
+!/usr/sbin/ifwatchd -d /etc/ppp/ip-down -u /etc/ppp/ip-up \e$if
+!/sbin/ifconfig \e$if inet 0.0.0.0 0.0.0.1 netmask 0xFFFFFFFF
+!/sbin/route -n add -inet default 0.0.0.1 -mtu 1454
+.No up Em link2
 .Ed
+.Pp
+.Sy Attention
+regarding the
+.Em link2
+option given; please read about it under
+.Sx OPTIONS
+below before using (it is only included as the majority of users
+probably does want to use this flag).
 .Pp
 Since this is a PPP interface, the addresses assigned to the interface
 may change during PPP negotiation.
@@ -155,13 +167,17 @@ sessions received by the Ethernet interface used for a configured
 .Nm
 interface.
 To do this,
-add the following to your kernel config file:
-.Pp
-.Dl option PPPOE_TERM_UNKNOWN_SESSIONS
+set the link2 flag on any interface.
 .Pp
 Note that this will break all userland
 .Nm PPPoE
 implementations using the same Ethernet interface!
+But if this Kernel
+.Nm PPPoE
+is the only implementation used, it is a useful device in case
+you accidentally destroy an interface while a session is open;
+in the case of German NetDSL it can reduce downtimes from 5 to
+10 minutes down to half a minute or less.
 .Pp
 This option is only useful if you have a static IP address assigned and
 your ISP does not use LCP echo requests to monitor the link status.
@@ -177,6 +193,7 @@ the orphaned session and allow a new one to be established.
 .Sh SEE ALSO
 .Xr hostname.if 5 ,
 .Xr ifconfig 8 ,
+.Xr ifwatchd 8 ,
 .Xr ppp 8 ,
 .Xr pppoe 8 ,
 .Xr spppcontrol 8
@@ -185,11 +202,19 @@ the orphaned session and allow a new one to be established.
 .%T A Method for Transmitting PPP Over Ethernet (PPPoE)
 .%D February 1999
 .Re
+.Pp
+.Pa http://www.mynetwatchman.com/kb/adsl/pppoemtu.htm
+has got an explanation how PPPoE is further encapsulated
+on the way to your ISP and why 1454 is the optimum MTU.
 .Sh HISTORY
 The
 .Nm
 device appeared in
-.Ox 3.7 .
+.Nx 1.6
+and was ported via
+.Ox 3.7
+to
+.Mx 8 .
 .Sh BUGS
 This implementation is client side only.
 .Pp

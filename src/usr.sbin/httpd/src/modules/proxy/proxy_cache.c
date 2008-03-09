@@ -385,7 +385,7 @@ static int sub_garbage_coll(request_rec *r, array_header *files,
     char *filename;
     size_t fnlen;
 
-    ap_snprintf(cachedir, sizeof(cachedir), "%s%s", cachebasedir, cachesubdir);
+    snprintf(cachedir, sizeof(cachedir), "%s%s", cachebasedir, cachesubdir);
     fnlen = strlen(cachedir) + HASH_LEN + 2;
     filename = ap_palloc(r->pool, fnlen);
     ap_log_error(APLOG_MARK, APLOG_DEBUG | APLOG_NOERRNO, r->server, "GC Examining directory %s", cachedir);
@@ -445,10 +445,10 @@ static int sub_garbage_coll(request_rec *r, array_header *files,
         if (S_ISDIR(buf.st_mode)) {
             char newcachedir[HUGE_STRING_LEN];
             close(fd);
-            ap_snprintf(newcachedir, sizeof(newcachedir),
+            snprintf(newcachedir, sizeof(newcachedir),
                         "%s%s/", cachesubdir, ent->d_name);
             if (!sub_garbage_coll(r, files, cachebasedir, newcachedir)) {
-                ap_snprintf(newcachedir, sizeof(newcachedir),
+                snprintf(newcachedir, sizeof(newcachedir),
                             "%s%s", cachedir, ent->d_name);
 #if TESTING
                 fprintf(stderr, "Would remove directory %s\n", newcachedir);

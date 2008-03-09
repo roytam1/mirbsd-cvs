@@ -1,3 +1,4 @@
+.\"	$MirOS$
 .\"	$OpenBSD: chgrp.1,v 1.6 2004/02/14 18:14:14 jmc Exp $
 .\"
 .\" Copyright (c) 1983, 1990, 1993, 1994
@@ -32,7 +33,7 @@
 .\"
 .\"     from: @(#)chgrp.1	8.3 (Berkeley) 3/31/94
 .\"
-.Dd January 25, 1997
+.Dd May 20, 2007
 .Dt CHGRP 1
 .Os
 .Sh NAME
@@ -44,8 +45,7 @@
 .Fl R
 .Op Fl H | L | P
 .Oc
-.Op Fl f
-.Op Fl h
+.Op Fl fh
 .Ar group
 .Ar file Op Ar ...
 .Sh DESCRIPTION
@@ -114,6 +114,7 @@ group ID file
 .El
 .Sh SEE ALSO
 .Xr chown 2 ,
+.Xr lchown 2 ,
 .Xr fts 3 ,
 .Xr group 5 ,
 .Xr passwd 5 ,

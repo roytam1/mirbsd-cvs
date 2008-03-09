@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: ip6_mroute.h,v 1.6 2003/07/08 10:23:32 itojun Exp $	*/
 /*	$KAME: ip6_mroute.h,v 1.17 2001/02/10 02:05:52 itojun Exp $	*/
 
@@ -93,8 +94,8 @@ typedef	struct if_set {
 #define	IF_SET(n, p)	((p)->ifs_bits[(n)/NIFBITS] |= (1 << ((n) % NIFBITS)))
 #define	IF_CLR(n, p)	((p)->ifs_bits[(n)/NIFBITS] &= ~(1 << ((n) % NIFBITS)))
 #define	IF_ISSET(n, p)	((p)->ifs_bits[(n)/NIFBITS] & (1 << ((n) % NIFBITS)))
-#define	IF_COPY(f, t)	bcopy(f, t, sizeof(*(f)))
-#define	IF_ZERO(p)	bzero(p, sizeof(*(p)))
+#define	IF_COPY(f, t)	memmove(t, f, sizeof(*(f)))
+#define	IF_ZERO(p)	memset(p, 0, sizeof(*(p)))
 
 /*
  * Argument structure for MRT6_ADD_IF.

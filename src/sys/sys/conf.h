@@ -1,3 +1,4 @@
+/**	$MirOS: src/sys/sys/conf.h,v 1.2 2005/03/06 21:28:33 tg Exp $ */
 /*	$OpenBSD: conf.h,v 1.76 2005/07/31 06:39:07 dlg Exp $	*/
 /*	$NetBSD: conf.h,v 1.33 1996/05/03 20:03:32 christos Exp $	*/
 
@@ -351,19 +352,6 @@ extern struct cdevsw cdevsw[];
 	(dev_type_stop((*))) enodev, 0, dev_init(c,n,poll), \
 	(dev_type_mmap((*))) enodev }
 
-#define	cdev_svr4_net_init(c,n) { \
-	dev_init(c,n,open), (dev_type_close((*))) enodev, \
-	(dev_type_read((*))) enodev, (dev_type_write((*))) enodev, \
-	(dev_type_ioctl((*))) enodev, (dev_type_stop((*))) nullop, \
-	0, (dev_type_poll((*))) enodev, (dev_type_mmap((*))) enodev }
-
-/* open, close, read, write, ioctl, poll, nokqfilter */
-#define cdev_xfs_init(c, n) { \
-	dev_init(c,n,open), dev_init(c,n,close), dev_init(c,n,read), \
-	dev_init(c,n,write), dev_init(c,n,ioctl), \
-	(dev_type_stop((*))) enodev, 0, dev_init(c,n,poll), \
-	(dev_type_mmap((*))) enodev }
-
 /* open, close, read */
 #define cdev_ksyms_init(c,n) { \
 	dev_init(c,n,open), dev_init(c,n,close), dev_init(c,n,read), \
@@ -603,13 +591,6 @@ cdev_decl(wsdisplay);
 cdev_decl(wskbd);
 cdev_decl(wsmouse);
 cdev_decl(wsmux);
-
-#ifdef COMPAT_SVR4
-# define NSVR4_NET	1
-#else
-# define NSVR4_NET	0
-#endif
-cdev_decl(svr4_net);
 
 cdev_decl(ksyms);
 

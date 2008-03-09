@@ -64,6 +64,8 @@
 #include <uvm/uvm_extern.h>
 #include <sys/user.h>		/* for coredump */
 
+#if defined(COMPAT_OPENBSD)
+
 int
 compat_43_sys_sigblock(p, v, retval)
 	register struct proc *p;
@@ -209,3 +211,4 @@ compat_43_sys_killpg(p, v, retval)
 		return (EINVAL);
 	return (killpg1(p, SCARG(uap, signum), SCARG(uap, pgid), 0));
 }
+#endif /* def COMPAT_OPENBSD */

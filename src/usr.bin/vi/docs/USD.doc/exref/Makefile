@@ -1,5 +1,5 @@
-#	$OpenBSD: Makefile,v 1.4 2004/01/30 23:14:26 jmc Exp $
-
+# $MirOS$
+# $OpenBSD: Makefile,v 1.4 2004/01/30 23:14:26 jmc Exp $
 
 DIR=	usd/13.ex
 SRCS=	ex.rm
@@ -8,13 +8,9 @@ MACROS=	-ms
 CLEANFILES=summary.*
 
 paper.ps: ${SRCS} summary.ps
-	${ROFF} ${SRCS} > ${.TARGET}
-paper.txt: ${SRCS} summary.txt
-	${ROFF} -Tascii ${SRCS} > ${.TARGET}
+	${ROFF} ${SRCS} >${.TARGET}
 
 summary.ps: ex.summary
-	${TBL} ex.summary | ${ROFF} > ${.TARGET}
-summary.txt: ex.summary
-	${TBL} ex.summary | ${ROFF} -Tascii > ${.TARGET}
+	${TBL} ex.summary | ${ROFF} >${.TARGET}
 
 .include <bsd.doc.mk>

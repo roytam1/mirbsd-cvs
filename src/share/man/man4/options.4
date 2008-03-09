@@ -1,3 +1,4 @@
+.\"	$MirOS: src/share/man/man4/options.4,v 1.3 2005/12/16 21:34:51 tg Exp $
 .\"	$OpenBSD: options.4,v 1.142 2004/05/05 00:23:29 millert Exp $
 .\"	$NetBSD: options.4,v 1.21 1997/06/25 03:13:00 thorpej Exp $
 .\"
@@ -54,63 +55,6 @@ options are passed to the compile process as
 flags to the C compiler.
 .Ss Compatibility Options
 .Bl -ohang
-.It Cd option COMPAT_23
-Enables compatibility with
-.Ox 2.3 .
-This makes it possible to run binaries that use old versions of the
-.Xr msgctl 2 ,
-.Xr shmctl 2
-and
-.Xr semctl 2
-system calls which changed semantics in
-.Ox 2.4 .
-.It Cd option COMPAT_25
-Enables compatibility with
-.Ox 2.5 .
-This makes it possible to run binaries that use old versions of the
-.Xr statfs 2 ,
-.Xr fstatfs 2
-and
-.Xr getfsstat 2
-system calls which were replaced in
-.Ox 2.6
-when
-.Li struct stat
-was expanded.
-.It Cd option COMPAT_35
-Enables compatibility with
-.Ox 3.5 .
-This makes it possible to run binaries that use old versions of the
-.Xr semop 2
-and
-.Xr shmget 2
-system calls which were replaced in
-.Ox 3.6
-when
-.Li struct stat
-their arguments were changed to match
-.St -p1003.1-2003 .
-.It Cd option COMPAT_SVR4
-On those architectures that support it, this enables binary
-compatibility with
-.At V.4
-binaries built for the same architecture.
-This currently includes the sparc and i386.
-Possibly the most widely known operating system
-based on this binary architecture is Sun's Solaris 2.x.
-See
-.Xr compat_svr4 8 .
-.It Cd option COMPAT_BSDOS
-On those architectures that support it, this enables binary
-compatibility with
-.Em BSD/OS
-applications.
-This option is supported on the i386 architecture.
-See
-.Xr compat_bsdos 8 .
-It also requires the use of
-.Cm option COMPAT_43
-for proper operation.
 .It Cd option COMPAT_LINUX
 On those architectures that support it, this enables binary
 compatibility with
@@ -120,99 +64,16 @@ applications built for the same architecture.
 This option is supported on the i386 architecture.
 See
 .Xr compat_linux 8 .
-.It Cd option COMPAT_SUNOS
-On those architectures that support it, this enables binary
-compatibility with
-.Em SunOS 4.x
+.Pp
+This option also enables execution of ET_DYN binaries, such as
+.Pa ld-linux.so.2 .
+.It Cd option COMPAT_OPENBSD
+This enables binary compatibility with
+.Em OpenBSD
 applications built for the same architecture.
-This option is supported on sparc and all m68k architectures.
+This option is available on all architectures.
 See
-.Xr compat_sunos 8 .
-.It Cd option COMPAT_ULTRIX
-On those architectures that support it, this enables binary
-compatibility with
-.Tn Ultrix
-applications built for the same architecture.
-This option is available on the vax architecture.
-See
-.Xr compat_ultrix 8 .
-.It Cd option COMPAT_FREEBSD
-On those architectures that support it, this enables binary
-compatibility with
-.Em FreeBSD
-applications built for the same architecture.
-This option is available on the i386 architecture.
-See
-.Xr compat_freebsd 8 .
-.It Cd option COMPAT_HPUX
-On those architectures that support it, this enables binary
-compatibility with
-.Em HP-UX
-applications built for the same architecture.
-This option is available on some m68k architectures.
-See
-.Xr compat_hpux 8 .
-.It Cd option COMPAT_IBCS2
-On those architectures that support it, this enables binary
-compatibility with
-.Em iBCS2
-applications built for the same architecture.
-This option is available on the i386 architecture.
-See
-.Xr compat_ibcs2 8 .
-.It Cd option COMPAT_NETBSD
-On those architectures that support it, this enables binary
-compatibility with
-.Em NetBSD
-applications built for the same architecture.
-.\" See
-.\" .Xr compat_netbsd 8 .
-This option is available on the alpha architecture.
-.It Cd option COMPAT_OSF1
-On those architectures that support it, this enables binary
-compatibility with
-.Em Digital UNIX
-(formerly
-.Em OSF/1 )
-applications built for the same architecture.
-This option is available on the alpha architecture.
-See
-.Xr compat_osf1 8 .
-.It Cd option COMPAT_AOUT
-On those ELF architectures that require it, this enables
-full compatibility with old a.out binaries, by allowing the
-a.out dynamic linking system to reside under
-.Pa /emul/a.out .
-This option is available on the i386 architecture.
-See
-.Xr compat_aout 8 .
-.It Cd option COMPAT_43
-Use of this option is discouraged.
-It enables compatibility with
-.Bx 4.3 .
-It adds an old syscall for
-.Fn lseek
-as well as ioctls for
-.Dv TIOCGETP
-and
-.Dv TIOCSETP .
-The return values for the
-.Xr getpid 2 ,
-.Xr getgid 2 ,
-and
-.Xr getuid 2
-system calls are modified as well, to return the parent's PID and UID as well
-as the current process's.
-It also enables the deprecated
-.Dv NTTYDISC
-terminal line discipline.
-It provides backwards compatibility with the
-.Dq old
-SIOC[GS]IF{ADDR,DSTADDR,BRDADDR,NETMASK} interface ioctls, including
-binary compatibility for code written before the introduction of the
-.Li sa_len
-field in sockaddrs.
-It also enables support for some older pre BSD 4.4 socket calls.
+.Xr compat_openbsd 8 .
 .El
 .Ss Debugging Options
 .Bl -ohang
@@ -318,15 +179,6 @@ for details.
 Includes code implementing the Berkeley Fast File System
 .Em ( FFS ) .
 Most machines need this if they are not running diskless.
-.It Cd option ADOSFS
-Includes code implementing the AmigaDOS Fast File System
-.Em ( ADOSFS ) .
-Note that the Professional and Smart File Systems are
-.Em not
-supported.
-See
-.Xr mount_ados 8
-for details.
 .It Cd option EXT2FS
 Includes code implementing the Second Extended File System
 .Em ( EXT2FS ) .
@@ -471,13 +323,6 @@ This filesystem is still experimental and is known to be somewhat unstable.
 See
 .Xr mount_union 8
 for details.
-.It Cd option XFS
-Includes the kernel support for the AFS-compatible Arla filesystem.
-Since the xfs interface is simple and generic it can be used for other
-filesystems as well.
-See
-.Xr mount_xfs 8
-for details.
 .El
 .Ss File System Options
 .Bl -ohang
@@ -564,8 +409,6 @@ in large directories.
 .It Cd option PCIVERBOSE
 Makes the boot process more verbose for PCI peripherals
 (vendor names and other information is printed, etc.).
-.It Cd option EISAVERBOSE
-Makes the boot process more verbose for EISA peripherals.
 .It Cd option PCMCIAVERBOSE
 Makes the boot process more verbose for PCMCIA peripherals.
 .It Cd option MACOBIOVERBOSE
@@ -696,6 +539,11 @@ server on some architectures.
 See
 .Xr vga 4
 for details.
+.It Cd option INCLUDE_CONFIG_FILE
+Includes the configuration file given to
+.Xr config 8
+in the kernel image. It can be recovered later by executing
+.Em strings -n4 /bsd | sed -n 's/^=CF=//p'
 .El
 .Ss Networking Options
 .Bl -ohang
@@ -758,22 +606,6 @@ for debugging IPv6 neighbor discovery protocol handling.
 See
 .Xr sysctl 3
 for details.
-.It Cd option NS
-Include support for the Xerox XNS protocol stack.
-See
-.Xr ns 4
-for details.
-.It Cd option ISO,TPIP
-Include support for the ubiquitous OSI protocol stack.
-See
-.Xr iso 4
-for details.
-.It Cd option EON
-Include support for OSI tunneling over IP.
-.It Cd option CCITT,LLC,HDLC
-Include support for the X.25 protocol stack.
-The state of this code is currently unknown.
-It probably contains bugs.
 .It Cd option IPX, IPXIP
 Include support for Internetwork Packet Exchange protocol commonly in
 use by
@@ -852,8 +684,9 @@ defined (the current default).
 .It Cd option PPP_BSDCOMP
 Enables BSD compressor for PPP connections.
 .It Cd option PPP_DEFLATE
-For use in conjunction with PPP_BSDCOMP; provides an interface to zlib for PPP
-for deflate compression/decompression.
+This option is currently not supported in MirOS.
+.\" For use in conjunction with PPP_BSDCOMP; provides an interface to zlib for PPP
+.\" for deflate compression/decompression.
 .It Cd option IPSEC
 This option enables IP security protocol support.
 See
@@ -995,6 +828,18 @@ See
 .Xr semctl 2 ,
 .Xr semget 2 ,
 .Xr semop 2 .
+.It Cd option VFORK_SHM
+Allows for evil things with
+.Xr vfork 2 .
+Normally, doing anything else after a vfork than
+.Xr execve 2
+family call or
+.Xr _exit 2
+is undefined.
+With this option, the old-fashioned behaviour of the
+child and parent sharing the memory until the lock is
+released is restored.
+This will break on some arches.
 .It Cd option SYSVSHM
 Includes support for
 .At V

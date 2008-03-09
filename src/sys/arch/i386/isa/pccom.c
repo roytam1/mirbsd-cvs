@@ -905,7 +905,7 @@ comopen(dev, flag, mode, p)
 #endif
 		if (ISSET(sc->sc_hwflags, COM_HW_FIFO)) {
 			u_int8_t fifo = FIFO_ENABLE|FIFO_RCV_RST|FIFO_XMT_RST;
-			u_int8_t lcr;
+			u_int8_t lcr = 0;
 
 			switch (sc->sc_uarttype) {
 			case COM_UART_ST16650V2:
@@ -1371,7 +1371,7 @@ comparam(tp, t)
 		if (!ISSET(sc->sc_hwflags, COM_HW_HAYESP) &&
 		    ISSET(sc->sc_hwflags, COM_HW_FIFO)) {
 			u_int8_t fifo = FIFO_ENABLE;
-			u_int8_t lcr2;
+			u_int8_t lcr2 = 0;
 
 			switch (sc->sc_uarttype) {
 			case COM_UART_ST16650V2:

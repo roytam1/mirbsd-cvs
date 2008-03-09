@@ -1,9 +1,10 @@
-#	$OpenBSD: Makefile,v 1.2 2004/09/28 15:10:50 millert Exp $
+# $MirOS$
+# $OpenBSD: Makefile,v 1.2 2004/09/28 15:10:50 millert Exp $
 
 .include <bsd.own.mk>
 
 SUBDIR=	lib sudo visudo
-.if !defined(NOPIC)
+.if !defined(NOPIC) || ${NOPIC:L} == "no"
 SUBDIR+= noexec
 .endif
 

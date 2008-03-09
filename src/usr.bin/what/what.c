@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: what.c,v 1.11 2003/07/10 00:06:52 david Exp $	*/
 /*	$NetBSD: what.c,v 1.4 1994/12/20 16:01:03 jtc Exp $	*/
 
@@ -30,21 +31,7 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-static char copyright[] =
-"@(#) Copyright (c) 1980, 1988, 1993\n\
-	The Regents of the University of California.  All rights reserved.\n";
-#endif /* not lint */
-
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)what.c	8.1 (Berkeley) 6/6/93";
-#endif
-static char rcsid[] = "$OpenBSD: what.c,v 1.11 2003/07/10 00:06:52 david Exp $";
-#endif /* not lint */
-
 #include <sys/types.h>
-#include <sys/utsname.h>
 #include <stdio.h>
 #include <ctype.h>
 #include <err.h>
@@ -52,13 +39,18 @@ static char rcsid[] = "$OpenBSD: what.c,v 1.11 2003/07/10 00:06:52 david Exp $";
 #include <string.h>
 #include <unistd.h>
 
-static void search(char *);
-static void usage(void);
+__COPYRIGHT("Copyright (c) 1980, 1988, 1993\n\
+	The Regents of the University of California.  All rights reserved.\n");
+__SCCSID("@(#)what.c	8.1 (Berkeley) 6/6/93");
+__RCSID("$MirOS$");
+
+static void search(void);
+static __dead void usage(void);
 
 static int matches;
 static int sflag;
 
-extern char *__progname;
+extern const char *__progname;
 
 /*
  * what
@@ -67,8 +59,6 @@ extern char *__progname;
 int
 main(int argc, char *argv[])
 {
-	struct utsname utsn;
-	char match[256];
 	int c;
 
 	matches = sflag = 0;
@@ -84,43 +74,27 @@ main(int argc, char *argv[])
 	argc -= optind;
 	argv += optind;
 
-	if (uname(&utsn) == -1)
-		err(1, "uname");
-	strlcpy(match, utsn.sysname, sizeof match);
-
 	if (argc < 1) {
-		usage();
+		printf("/dev/stdin\n");
+		search();
 	} else do {
 		if (!freopen(*argv, "r", stdin)) {
 			perror(*argv);
 			exit(matches ? 0 : 1);
 		}
 		printf("%s\n", *argv);
-		search(match);
+		search();
 	} while(*++argv);
 	exit(matches ? 0 : 1);
 }
 
 static void
-search(char *match)
+search(void)
 {
 	int c;
-	int i;
 
 	while ((c = getchar()) != EOF) {
-loop:		if (c == '$') {
-			for (i = 0; match[i]; i++)
-				if ((c = getchar()) != match[i])
-					goto loop;
-			printf("\t$%s", match);
-			while (isprint(c = getchar()))
-				putchar(c);
-			putchar('\n');
-			matches++;
-			if (sflag)
-				break;
-			goto loop;
-		}
+ loop:
 		if (c != '@')
 			continue;
 		if ((c = getchar()) != '(')
@@ -143,7 +117,6 @@ loop:		if (c == '$') {
 static void
 usage(void)
 {
-
-	(void)fprintf(stderr, "usage: %s [-s] file ...\n", __progname);
+	fprintf(stderr, "usage: %s [-s] [file [...]]\n", __progname);
 	exit(1);
 }

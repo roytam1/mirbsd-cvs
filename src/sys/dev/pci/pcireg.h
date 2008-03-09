@@ -1,3 +1,5 @@
+/**	$MirOS: src/sys/dev/pci/pcireg.h,v 1.2 2005/03/06 21:27:50 tg Exp $	*/
+/*	$NetBSD: pcireg.h,v 1.40 2003/03/25 21:56:20 thorpej Exp $	*/
 /*	$OpenBSD: pcireg.h,v 1.27 2004/11/16 00:31:02 brad Exp $	*/
 /*	$NetBSD: pcireg.h,v 1.26 2000/05/10 16:58:42 thorpej Exp $	*/
 

@@ -1,5 +1,6 @@
 /*	$OpenBSD: strftime.c,v 1.16 2005/08/08 08:05:38 espie Exp $ */
 #include "private.h"
+#define KITCHEN_SINK
 
 /*
 ** Based on the UCB version with the ID appearing below.
@@ -33,17 +34,15 @@
 ** SUCH DAMAGE.
 */
 
-#if 0
-#ifndef LIBC_SCCS
-#ifndef lint
-static const char	sccsid[] = "@(#)strftime.c	5.4 (Berkeley) 3/14/89";
-#endif /* !defined lint */
-#endif /* !defined LIBC_SCCS */
-#endif
+#include <sys/cdefs.h>
+__SCCSID("@(#)strftime.c	5.4 (Berkeley) 3/14/89");
+__RCSID("$MirOS$");
 
 #include "tzfile.h"
 #include "fcntl.h"
 #include "locale.h"
+
+#include <sys/taitime.h>	/* for MJD functions */
 
 struct lc_time_T {
 	const char *	mon[MONSPERYEAR];
@@ -266,6 +265,25 @@ label:
 					(t->tm_hour % 12) : 12,
 					"%02d", pt, ptlim);
 				continue;
+			case 'J': {
+				/* modified julian date, as per DJB */
+				mjd_t t_mjd;
+				/* julian date, as per http://tycho.usno.navy.mil/mjd.html */
+				double t_jd;
+				/* like _conv(), width from SQLite3 */
+				char buf[50];
+
+				t_mjd = tm2mjd(*t);
+				t_jd = t_mjd.sec;
+				/* how many seconds has our day? */
+				t_mjd.sec = 86400;
+				t_jd /= (double)((mjd2tm(t_mjd).tm_sec == 60) ?
+				    86401 : 86400);
+				t_jd += 2400000.5 + (double)t_mjd.mjd;
+
+				snprintf(buf, sizeof (buf), "%.16g", t_jd);
+				pt = _add(buf, pt, ptlim);
+				continue; }
 			case 'j':
 				pt = _conv(t->tm_yday + 1, "%03d", pt, ptlim);
 				continue;

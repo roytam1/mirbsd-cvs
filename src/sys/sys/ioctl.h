@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: ioctl.h,v 1.8 2003/06/02 23:28:21 millert Exp $	*/
 /*	$NetBSD: ioctl.h,v 1.20 1996/01/30 18:21:47 thorpej Exp $	*/
 
@@ -79,8 +80,6 @@ __END_DECLS
  * Source level -> #define USE_OLD_TTY
  * Kernel level -> options COMPAT_43 or COMPAT_SUNOS or ...
  */
-#if defined(USE_OLD_TTY) || defined(COMPAT_43) || defined(COMPAT_SUNOS) || \
-    defined(COMPAT_SVR4) || defined(COMPAT_FREEBSD) || defined(COMPAT_OSF1) || \
-    defined(COMPAT_LINUX)
+#if defined(USE_OLD_TTY) || defined(COMPAT_43) || defined(COMPAT_LINUX)
 #include <sys/ioctl_compat.h>
 #endif

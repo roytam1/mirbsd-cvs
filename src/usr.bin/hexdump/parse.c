@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: parse.c,v 1.14 2004/11/21 19:57:16 otto Exp $	*/
 /*	$NetBSD: parse.c,v 1.12 2001/12/07 13:37:39 bjh21 Exp $	*/
 
@@ -30,11 +31,6 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-/*static char sccsid[] = "from: @(#)parse.c	5.6 (Berkeley) 3/9/91";*/
-static char rcsid[] = "$OpenBSD: parse.c,v 1.14 2004/11/21 19:57:16 otto Exp $";
-#endif /* not lint */
-
 #include <sys/types.h>
 #include <sys/file.h>
 
@@ -47,6 +43,9 @@ static char rcsid[] = "$OpenBSD: parse.c,v 1.14 2004/11/21 19:57:16 otto Exp $";
 #include <string.h>
 
 #include "hexdump.h"
+
+__SCCSID("from: @(#)parse.c	5.6 (Berkeley) 3/9/91");
+__RCSID("$MirOS$");
 
 FU *endfu;					/* format at end-of-data */
 
@@ -345,7 +344,7 @@ rewrite(FS *fs)
 					pr->flags = F_ADDRESS;
 					++p2;
 					switch(p1[2]) {
-					case 'd': case 'o': case'x':
+					case 'd': case 'o': case 'x': case 'X':
 						cs[0] = 'q';
 						cs[1] = p1[2];
 						cs[2] = '\0';

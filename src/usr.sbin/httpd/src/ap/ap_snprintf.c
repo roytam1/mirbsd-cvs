@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /* $OpenBSD: ap_snprintf.c,v 1.15 2005/03/28 21:11:22 niallo Exp $ */
 
 /* ====================================================================
@@ -73,6 +74,9 @@
 #include <string.h>
 #include <stdlib.h>
 #include <math.h>
+#include "sa_len.h"
+
+__RCSID("$MirOS$");
 
 typedef enum {
         NO = 0, YES = 1
@@ -398,7 +402,7 @@ conv_10(register wide_int num, register bool_int is_unsigned,
 	}
 
 	/*
-	* We use a do-while loop so that we write at least 1 digit 
+	* We use a do-while loop so that we write at least 1 digit
 	*/
 	do {
 		register u_wide_int new_magnitude = magnitude / 10;
@@ -456,7 +460,7 @@ conv_10_quad(widest_int num, register bool_int is_unsigned,
 	}
 
 	/*
-	* We use a do-while loop so that we write at least 1 digit 
+	* We use a do-while loop so that we write at least 1 digit
 	*/
 	do {
 		u_widest_int new_magnitude = magnitude / 10;
@@ -508,6 +512,43 @@ conv_sockaddr_in(struct sockaddr_in *si, char *buf_end, int *len)
 	*len = buf_end - p;
 	return (p);
 }
+
+
+
+#ifdef INET6
+static char *conv_sockaddr(struct sockaddr *sa, char *buf_end, int *len)
+{
+	char *p = buf_end;
+	char hostnamebuf[MAXHOSTNAMELEN];
+	char portnamebuf[MAXHOSTNAMELEN];
+	char *q;
+	int salen;
+
+#ifndef SIN6_LEN
+	salen = SA_LEN(sa);
+#else
+	salen = sa->sa_len;
+#endif
+	if (getnameinfo(sa, salen, hostnamebuf, sizeof (hostnamebuf),
+	    portnamebuf, sizeof (portnamebuf),
+	    NI_NUMERICHOST | NI_NUMERICSERV)) {
+		strcpy(hostnamebuf, "???");
+		strcpy(portnamebuf, "???");
+	}
+	if (strcmp(portnamebuf,"0") == 0)
+		strcpy(portnamebuf, "*");
+	q = portnamebuf + strlen(portnamebuf);
+	while (portnamebuf < q)
+		*--p = *--q;
+	*--p = ':';
+	q = hostnamebuf + strlen(hostnamebuf);
+	while (hostnamebuf < q)
+		*--p = *--q;
+
+	*len = buf_end - p;
+	return (p);
+}
+#endif /*INET6*/
 
 
 
@@ -1096,6 +1137,7 @@ ap_vformatter(int (*flush_func)(ap_vformatter_buff *),
 				/* print a struct sockaddr_in as a.b.c.d:port */
 				case 'I':
 				{
+#ifndef INET6
 					struct sockaddr_in *si;
 
 					si = va_arg(ap, struct sockaddr_in *);
@@ -1103,6 +1145,15 @@ ap_vformatter(int (*flush_func)(ap_vformatter_buff *),
 						s = conv_sockaddr_in(si,
 						    &num_buf[NUM_BUF_SIZE],
 						    &s_len);
+#else
+					struct sockaddr *sa;
+
+					sa = va_arg(ap, struct sockaddr *);
+					if (sa != NULL) {
+						s = conv_sockaddr(sa,
+						    &num_buf[NUM_BUF_SIZE],
+						    &s_len);
+#endif
 						if (adjust_precision &&
 						    precision < s_len)
 							s_len = precision;
@@ -1194,7 +1245,7 @@ ap_vformatter(int (*flush_func)(ap_vformatter_buff *),
 			}
 
 			/*
-			* Print the string s. 
+			* Print the string s.
 			*/
 			for (i = s_len; i != 0; i--) {
 				INS_CHAR(*s, sp, bep, cc);

@@ -48,12 +48,16 @@
 #include <ddb/db_sym.h>
 #include <ddb/db_extern.h>
 
+extern label_t		*db_recover;
 void
 db_trap(type, code)
 	int	type, code;
 {
 	boolean_t	bkpt;
 	boolean_t	watchpt;
+	label_t		db_jmpbuf;
+	label_t         *savejmp;
+
 
 	bkpt = IS_BREAKPOINT_TRAP(type, code);
 	watchpt = IS_WATCHPOINT_TRAP(type, code);
@@ -71,7 +75,14 @@ db_trap(type, code)
 		else
 			db_printf("Stopped at\t");
 		db_dot = PC_REGS(DDB_REGS);
-		db_print_loc_and_inst(db_dot);
+
+
+		savejmp = db_recover;
+		db_recover = &db_jmpbuf;
+		if (setjmp(&db_jmpbuf) == 0)
+			db_print_loc_and_inst(db_dot);
+
+		db_recover = savejmp;
 
 		if (panicstr != NULL) {
 			if (db_print_position() != 0)

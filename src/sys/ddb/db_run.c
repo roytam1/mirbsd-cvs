@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: db_run.c,v 1.16 2003/02/12 14:41:07 jason Exp $	*/
 /*	$NetBSD: db_run.c,v 1.8 1996/02/05 01:57:12 christos Exp $	*/
 
@@ -124,7 +125,7 @@ db_stop_at_pc(regs, is_breakpoint)
 		 * bug is now gone and probably this #ifndef should go too.
 		 */
 #ifndef m88k
-		PC_REGS(regs) = old_pc;
+		PC_REGS_L(regs) = old_pc;
 #endif
 #endif
 	}

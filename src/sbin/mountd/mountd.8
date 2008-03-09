@@ -1,3 +1,4 @@
+.\"	$MirOS$
 .\"	$OpenBSD: mountd.8,v 1.15 2003/08/08 09:34:10 jmc Exp $
 .\"	$NetBSD: mountd.8,v 1.11 1996/02/18 11:57:51 fvdl Exp $
 .\"
@@ -41,6 +42,7 @@ mount requests
 .Sh SYNOPSIS
 .Nm mountd
 .Op Fl dn
+.Op Fl p Ar port
 .Op Ar exportsfile
 .Sh DESCRIPTION
 .Nm
@@ -71,6 +73,11 @@ that need it.
 The use of
 .Fl n
 is STRONGLY discouraged, as it opens up a wide range of security problems.
+.It Fl p
+Bind to the specified port on both UDP and TCP.
+By default,
+.Nm
+binds to a random port.
 .It Ar exportsfile
 The
 .Ar exportsfile

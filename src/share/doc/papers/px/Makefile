@@ -1,5 +1,5 @@
-#	$OpenBSD: Makefile,v 1.3 2004/02/01 14:22:45 jmc Exp $
-
+# $MirOS$
+# $OpenBSD: Makefile,v 1.3 2004/02/01 14:22:45 jmc Exp $
 
 DIR=	papers/px
 SRCS=	pxin0.n pxin1.n pxin2.n pxin3.n pxin4.n
@@ -9,10 +9,7 @@ EXTRA=	fig1.1.n fig1.2.n fig1.3.n fig2.3.raw fig2.4.n fig3.2.n \
 CLEANFILES+=fig2.3.n
 
 paper.ps: ${SRCS} fig2.3.n
-	${SOELIM} ${SRCS} | ${TBL} | ${ROFF} > ${.TARGET}
-
-paper.txt: ${SRCS} fig2.3.n
-	${SOELIM} ${SRCS} | ${TBL} | ${ROFF} -Tascii > ${.TARGET}
+	${SOELIM} ${SRCS} | ${TBL} | ${ROFF} >${.TARGET}
 
 fig2.3.n: fig2.3.raw
 	sort fig2.3.raw >fig2.3.n

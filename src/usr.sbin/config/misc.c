@@ -25,10 +25,6 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef LINT
-static char rcsid[] = "$OpenBSD: misc.c,v 1.5 2005/04/28 22:28:00 deraadt Exp $";
-#endif
-
 #include <sys/types.h>
 #include <err.h>
 #include <stdio.h>
@@ -37,6 +33,8 @@ static char rcsid[] = "$OpenBSD: misc.c,v 1.5 2005/04/28 22:28:00 deraadt Exp $"
 #include <string.h>
 
 #include "misc.h"
+
+__RCSID("$MirOS$");
 
 extern int verbose;
 
