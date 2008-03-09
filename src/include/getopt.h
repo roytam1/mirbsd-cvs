@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: getopt.h,v 1.1 2002/12/03 20:24:29 millert Exp $	*/
 /*	$NetBSD: getopt.h,v 1.4 2000/07/07 10:43:54 ad Exp $	*/
 
@@ -41,6 +42,9 @@
 #define _GETOPT_H_
 
 #include <sys/cdefs.h>
+#ifndef __MirBSD__
+#include <unistd.h>
+#endif
 
 /*
  * GNU-like getopt_long() and 4.4BSD getsubopt()/optreset extensions
@@ -81,5 +85,5 @@ extern   int optreset;
 extern   char *suboptarg;               /* getsubopt(3) external variable */
 #endif
 __END_DECLS
- 
+
 #endif /* !_GETOPT_H_ */
