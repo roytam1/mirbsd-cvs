@@ -1,9 +1,6 @@
-# $MirOS: src/usr.bin/xinstall/Makefile,v 1.2 2005/06/02 22:45:53 tg Exp $
+# $MirOS: src/usr.bin/xinstall/Makefile,v 1.3 2005/06/02 22:47:53 tg Exp $
 
-PROG=	xinstall
-MAN=	install.1
-
-afterinstall:
-	cd ${DESTDIR}${BINDIR} && mv ${PROG} install
+PROG=	install
+SRCS=	xinstall.c
 
 .include <bsd.prog.mk>
