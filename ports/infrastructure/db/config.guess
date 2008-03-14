@@ -1,6 +1,6 @@
 #! /bin/sh
-# $MirOS: contrib/gnu/config/config.guess,v 1.12 2008/03/12 22:42:22 tg Exp $
-# $miros: contrib/gnu/config/config.guess,v 1.12 2008/03/12 22:42:22 tg Exp $
+# $MirOS: contrib/gnu/config/config.guess,v 1.14 2008/03/13 00:07:05 tg Exp $
+# $miros: contrib/gnu/config/config.guess,v 1.14 2008/03/13 00:07:05 tg Exp $
 # Attempt to guess a canonical system name.
 #   Copyright (C) 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
 #   2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008
@@ -213,16 +213,12 @@ case "${UNAME_MACHINE}:${UNAME_SYSTEM}:${UNAME_RELEASE}:${UNAME_VERSION}" in
     *:SolidBSD:*:*)
 	echo ${UNAME_MACHINE}-unknown-solidbsd${UNAME_RELEASE}
 	exit ;;
-    macppc:MirBSD:*:*)
-	echo powerpc-ecce-mirbsd${UNAME_RELEASE}
-	exit ;;
     *:MirBSD:*:*)
 	echo ${UNAME_MACHINE}-ecce-mirbsd${UNAME_RELEASE}
 	exit ;;
     *:MidnightBSD:*:*)
-#	UNAME_RELEASE=`echo "${UNAME_RELEASE}" | sed -e 's/[-(].*//'`
-#	echo ${UNAME_MACHINE}-unknown-midnightbsd${UNAME_RELEASE}
-	echo ${UNAME_MACHINE}-unknown-freebsd6.0
+	UNAME_RELEASE=`echo "${UNAME_RELEASE}" | sed -e 's/[-(].*//'`
+	echo ${UNAME_MACHINE}-unknown-midnightbsd${UNAME_RELEASE}
 	exit ;;
     alpha:OSF1:*:*)
 	case $UNAME_RELEASE in
