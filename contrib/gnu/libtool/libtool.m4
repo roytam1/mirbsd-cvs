@@ -1,5 +1,5 @@
 # libtool.m4 - Configure libtool for the host system. -*-Autoconf-*-
-# $MirOS: contrib/gnu/libtool/libtool.m4,v 1.54 2007/05/07 17:37:46 tg Exp $
+# $MirOS: contrib/gnu/libtool/libtool.m4,v 1.55 2007/05/07 22:07:41 tg Exp $
 ## Copyright 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005, 2006
 ## Free Software Foundation, Inc.
 ## Originally by Gordon Matzigkeit <gord@gnu.ai.mit.edu>, 1996
@@ -1261,7 +1261,7 @@ if test "$_LT_AC_TAGVAR(lt_cv_prog_compiler_c_o, $1)" = no && test "$need_locks"
   ln conftest.a conftest.b 2>/dev/null && hard_links=no
   AC_MSG_RESULT([$hard_links])
   if test "$hard_links" = no; then
-    AC_MSG_WARN([`$CC' does not support `-c -o', so `make -j' may be unsafe])
+    AC_MSG_WARN(['$CC' does not support '-c -o', so 'make -j' may be unsafe])
     need_locks=warn
   fi
 else
@@ -1984,15 +1984,15 @@ AC_DEFUN([_LT_AC_TAGCONFIG],
 
 if test -f "$ltmain" && test -n "$tagnames"; then
   if test ! -f "${ofile}"; then
-    AC_MSG_WARN([output file `$ofile' does not exist])
+    AC_MSG_WARN([output file '$ofile' does not exist])
   fi
 
   if test -z "$LTCC"; then
     eval "`$SHELL ${ofile} --config | grep '^LTCC='`"
     if test -z "$LTCC"; then
-      AC_MSG_WARN([output file `$ofile' does not look like a libtool script])
+      AC_MSG_WARN([output file '$ofile' does not look like a libtool script])
     else
-      AC_MSG_WARN([using `LTCC=$LTCC', extracted from `$ofile'])
+      AC_MSG_WARN([using 'LTCC=$LTCC', extracted from '$ofile'])
     fi
   fi
   if test -z "$LTCFLAGS"; then
