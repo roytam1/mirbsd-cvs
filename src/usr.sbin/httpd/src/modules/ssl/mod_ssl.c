@@ -199,7 +199,7 @@ static command_rec ssl_config_cmds[] = {
                "Require the SSL protocol for the per-directory context "
                "(no arguments)")
     AP_DIR_CMD(Require, AUTHCFG, RAW_ARGS,
-               "Require a boolean expresion to evaluate to true for granting access"
+               "Require a boolean expression to evaluate to true for granting access"
                "(arbitrary complex boolean expression - see manual)")
 
     AP_END_CMD
