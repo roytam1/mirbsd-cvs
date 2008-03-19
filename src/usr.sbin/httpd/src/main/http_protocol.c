@@ -1,4 +1,4 @@
-/*	$OpenBSD: http_protocol.c,v 1.30 2006/02/11 19:15:57 otto Exp $ */
+/*	$OpenBSD: http_protocol.c,v 1.32 2008/01/24 11:56:29 krw Exp $ */
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
@@ -2922,7 +2922,8 @@ API_EXPORT(void) ap_send_error_response(request_rec *r, int recursive_error)
 	    ap_rvputs(r, "The expectation given in the Expect request-header"
 	              "\nfield could not be met by this server.<P>\n"
 	              "The client sent<PRE>\n    Expect: ",
-	              ap_table_get(r->headers_in, "Expect"), "\n</PRE>\n"
+	              ap_escape_html(r->pool, ap_table_get(r->headers_in,
+		      "Expect")), "\n</PRE>\n"
 	              "but we only allow the 100-continue expectation.\n",
 	              NULL);
 	    break;
@@ -3095,7 +3096,7 @@ int ap_read_etag_state(pool *pconf)
 
     /* read 4 random 32-bit uints from file and update the hash context */
     for (u = 0; u < 4; u++) {
-        if (read(fd, &rnd, sizeof(rnd)) < sizeof(rnd))
+        if (read(fd, &rnd, sizeof(rnd)) != sizeof(rnd))
             return (-1);
 
         ap_SHA1Update_binary(&baseCtx, (const unsigned char *)&rnd,

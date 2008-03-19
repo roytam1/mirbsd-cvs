@@ -1,4 +1,4 @@
-/* $OpenBSD: http_main.c,v 1.45 2006/07/28 14:07:22 henning Exp $ */
+/* $OpenBSD: http_main.c,v 1.49 2007/08/09 10:44:54 martynas Exp $ */
 
 /* ====================================================================
  * The Apache Software License, Version 1.1
@@ -295,7 +295,7 @@ static char *server_version = NULL;
 static int version_locked = 0;
 
 /* Global, alas, so http_core can talk to us */
-enum server_token_type ap_server_tokens = SrvTk_FULL;
+enum server_token_type ap_server_tokens = SrvTk_PRODUCT_ONLY;
 
 /* Also global, for http_core and http_protocol */
 API_VAR_EXPORT int ap_protocol_req_check = 1;
@@ -310,7 +310,7 @@ API_VAR_EXPORT int ap_change_shmem_uid = 0;
 static void reset_version(void *dummy)
 {
     version_locked = 0;
-    ap_server_tokens = SrvTk_FULL;
+    ap_server_tokens = SrvTk_PRODUCT_ONLY;
     server_version = NULL;
 }
 
@@ -1333,6 +1333,17 @@ static int find_child_by_pid(int pid)
     return -1;
 }
 
+static int safe_child_kill(pid_t pid, int sig)
+{
+    if (getpgid(pid) == getpgrp()) {
+        return kill(pid, sig);
+    }
+    else {
+        errno = EINVAL;
+        return -1;
+    }
+}
+
 static void reclaim_child_processes(int terminate)
 {
     int i, status;
@@ -1347,7 +1358,7 @@ static void reclaim_child_processes(int terminate)
 	/* don't want to hold up progress any more than 
 	 * necessary, but we need to allow children a few moments to exit.
 	 * Set delay with an exponential backoff. NOTE: if we get
- 	 * interupted, we'll wait longer than expected...
+ 	 * interrupted, we'll wait longer than expected...
 	 */
 	tv.tv_sec = waittime / 1000000;
 	tv.tv_usec = waittime % 1000000;
@@ -1380,7 +1391,7 @@ static void reclaim_child_processes(int terminate)
 			    server_conf,
 		    "child process %d did not exit, sending another SIGHUP",
 			    pid);
-		kill(pid, SIGHUP);
+		safe_child_kill(pid, SIGHUP);
 		waittime = 1024 * 16;
 		break;
 	    case 4:     /*  16ms */
@@ -1393,14 +1404,14 @@ static void reclaim_child_processes(int terminate)
 			    server_conf,
 		   "child process %d still did not exit, sending a SIGTERM",
 			    pid);
-		kill(pid, SIGTERM);
+		safe_child_kill(pid, SIGTERM);
 		break;
 	    case 8:     /*  6 sec */
 		/* die child scum */
 		ap_log_error(APLOG_MARK, APLOG_NOERRNO|APLOG_ERR, server_conf,
 		   "child process %d still did not exit, sending a SIGKILL",
 			    pid);
-		kill(pid, SIGKILL);
+		safe_child_kill(pid, SIGKILL);
 		waittime = 1024 * 16; /* give them some time to die */
 		break;
 	    case 9:     /*   6 sec */
@@ -2778,7 +2789,7 @@ static void perform_idle_server_maintenance(void)
 		else if (ps->last_rtime + ss->timeout_len < now) {
 		    /* no progress, and the timeout length has been exceeded */
 		    ss->timeout_len = 0;
-		    kill(ps->pid, SIG_TIMEOUT_KILL);
+		    safe_child_kill(ps->pid, SIG_TIMEOUT_KILL);
 		}
 	    }
 	}
@@ -2790,7 +2801,7 @@ static void perform_idle_server_maintenance(void)
 	 * while we were counting. Use the define SIG_IDLE_KILL to reflect
 	 * which signal should be used on the specific OS.
 	 */
-	kill(ap_scoreboard_image->parent[to_kill].pid, SIG_IDLE_KILL);
+	safe_child_kill(ap_scoreboard_image->parent[to_kill].pid, SIG_IDLE_KILL);
 	idle_spawn_rate = 1;
     }
     else if (idle_count < ap_daemons_min_free) {
@@ -3224,10 +3235,12 @@ int REALMAIN(int argc, char *argv[])
 	    ap_cpystrn(ap_server_confname, optarg, sizeof(ap_server_confname));
 	    break;
 	case 'v':
+	    ap_server_tokens = SrvTk_FULL;
 	    ap_set_version();
 	    printf("Server version: %s\n", ap_get_server_version());
 	    exit(0);
 	case 'V':
+	    ap_server_tokens = SrvTk_FULL;
 	    ap_set_version();
 	    show_compile_settings();
 	    exit(0);

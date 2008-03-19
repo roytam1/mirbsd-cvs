@@ -113,7 +113,7 @@
  * be done.
  *
  * On an error except for EAGAIN, ERROR will be set in the flags and no
- * futher I/O will be done
+ * further I/O will be done
  */
 
 
@@ -570,7 +570,7 @@ API_EXPORT(int) ap_bgets(char *buff, int n, BUFF *fb)
 	if (ch == LF) {  /* got LF */
 	    if (ct == 0)
 		buff[ct++] = '\n';
-/* if just preceeded by CR, replace CR with LF */
+/* if just preceded by CR, replace CR with LF */
 	    else if (buff[ct - 1] == CR)
 		buff[ct - 1] = '\n';
 	    else if (ct < n - 1)
@@ -1072,7 +1072,7 @@ API_EXPORT(int) ap_bflush(BUFF *fb)
 /*
  * Flushes and closes the file, even if an error occurred.
  * Discards an data that was not read, or not written by bflush()
- * Sets the EOF flag to indicate no futher data can be read,
+ * Sets the EOF flag to indicate no further data can be read,
  * and the EOUT flag to indicate no further data can be written.
  */
 API_EXPORT(int) ap_bclose(BUFF *fb)

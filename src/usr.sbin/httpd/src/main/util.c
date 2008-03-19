@@ -577,7 +577,7 @@ API_EXPORT(char *) ap_make_dirstr_parent(pool *p, const char *s)
 
 
 /*
- * This function is deprecated.  Use one of the preceeding two functions
+ * This function is deprecated.  Use one of the preceding two functions
  * which are faster.
  */
 API_EXPORT(char *) ap_make_dirstr(pool *p, const char *s, int n)
@@ -750,7 +750,7 @@ API_EXPORT(char *) ap_getword_conf(pool *p, const char **line)
     char *res;
     char quote;
 
-    while (*str && ap_isspace(*str))
+    while (ap_isspace(*str))
 	++str;
 
     if (!*str) {
@@ -782,7 +782,7 @@ API_EXPORT(char *) ap_getword_conf(pool *p, const char **line)
 	res = substring_conf(p, str, strend - str, 0);
     }
 
-    while (*strend && ap_isspace(*strend))
+    while (ap_isspace(*strend))
 	++strend;
     *line = strend;
     return res;
@@ -1314,7 +1314,7 @@ API_EXPORT(char *) ap_get_token(pool *p, const char **accept_line, int accept_wh
 
     /* Find first non-white byte */
 
-    while (*ptr && ap_isspace(*ptr))
+    while (ap_isspace(*ptr))
 	++ptr;
 
     tok_start = ptr;
@@ -1336,7 +1336,7 @@ API_EXPORT(char *) ap_get_token(pool *p, const char **accept_line, int accept_wh
 
     /* Advance accept_line pointer to the next non-white byte */
 
-    while (*ptr && ap_isspace(*ptr))
+    while (ap_isspace(*ptr))
 	++ptr;
 
     *accept_line = ptr;
