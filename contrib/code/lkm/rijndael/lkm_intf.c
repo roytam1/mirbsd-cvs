@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/lkm/rijndael/lkm_intf.c,v 1.2 2008/03/20 19:27:02 tg Exp $ */
+/* $MirOS: contrib/code/lkm/rijndael/lkm_intf.c,v 1.3 2008/03/20 19:34:51 tg Exp $ */
 
 /*-
  * Copyright (c) 2005, 2008
@@ -40,6 +40,8 @@
 struct cdevsw rijndael_cdevsw = cdev_rijndael_init(NRIJNDAEL, rijndael);
 
 rijndael_ctx thectx;
+uint8_t thedata[240];
+uint8_t thebuf[240];
 
 MOD_DEV("rijndael", LM_DT_CHAR, -1, &rijndael_cdevsw)
 
@@ -97,17 +99,84 @@ rijndaelclose(dev_t dev, int fflag, int devtype, struct proc *p)
 int
 rijndaelread(dev_t dev, struct uio *uio, int ioflag)
 {
+	rijndael_do_cbc_t theop;
+	u32 iv[4] = { 0, 0, 0, 0 };
+
 	_PD("rijndael: device %s read %zu from\n",
 	    minor_names[rlkm_minor(dev)], uio->uio_resid);
-	return (ENOCOFFEE);
+
+	switch (minor(dev)) {
+	case RLKM_SW_KEY:
+	case RLKM_HW_KEY:
+		return (ENOCOFFEE);
+	case RLKM_SW_ENC:
+		theop = rijndael_cbc_encrypt;
+		break;
+	case RLKM_HW_ENC:
+		theop = rijndael_cbc_encrypt_fast;
+		break;
+	case RLKM_SW_DEC:
+		theop = rijndael_cbc_decrypt;
+		break;
+	case RLKM_HW_DEC:
+		theop = rijndael_cbc_decrypt_fast;
+		break;
+	default:
+		return (ENOCOFFEE);
+	}
+
+	(*theop)(&thectx, iv, thedata, thebuf, 1);
+	(*theop)(&thectx, iv, thedata + 16, thebuf + 16, 2);
+	(*theop)(&thectx, iv, thedata + 48, thebuf + 48, 3);
+	(*theop)(&thectx, iv, thedata + 96, thebuf + 96, 4);
+	(*theop)(&thectx, iv, thedata + 160, thebuf + 160, 5);
+	return (uiomove((caddr_t)thebuf,
+	    MIN(sizeof (thebuf), uio->uio_resid), uio));
 }
 
 int
 rijndaelwrite(dev_t dev, struct uio *uio, int ioflag)
 {
+	int rv;
+	rijndael_setkey_t theop;
+	uint8_t thekey[256/8];
+
 	_PD("rijndael: device %s written %zu to\n",
 	    minor_names[rlkm_minor(dev)], uio->uio_resid);
-	return (ENOCOFFEE);
+
+	switch (minor(dev)) {
+	case RLKM_SW_KEY:
+		theop = rijndael_set_key;
+		break;
+	case RLKM_HW_KEY:
+		theop = rijndael_set_key_fast;
+		break;
+	case RLKM_SW_ENC:
+	case RLKM_HW_ENC:
+	case RLKM_SW_DEC:
+	case RLKM_HW_DEC:
+		return (uiomove((caddr_t)thedata,
+		    MIN(sizeof (thedata), uio->uio_resid), uio));
+	default:
+		return (ENOCOFFEE);
+	}
+
+	switch (uio->uio_resid) {
+	case 128/8:
+	case 192/8:
+	case 256/8:
+		break;
+	default:
+		return (EINVAL);
+	}
+	if ((rv = uiomove((caddr_t)thekey, uio->uio_resid, uio)))
+		return (rv);
+
+	if (((*theop)(&thectx, thekey, uio->uio_resid * 8))) {
+		printf("rijndael: rijndael_set_key failed!\n");
+		return (EINVAL);
+	}
+	return (0);
 }
 
 int
