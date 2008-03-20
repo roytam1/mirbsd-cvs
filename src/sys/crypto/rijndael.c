@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/crypto/rijndael.c,v 1.1.1.2.4.7 2008/03/20 19:14:50 tg Exp $ */
+/**	$MirOS: src/sys/crypto/rijndael.c,v 1.1.1.2.4.8 2008/03/20 19:18:00 tg Exp $ */
 /*	$OpenBSD: rijndael.c,v 1.18 2005/05/25 05:47:53 markus Exp $ */
 
 /**
@@ -1313,7 +1313,8 @@ rijndael_cbc_encrypt(rijndael_ctx *ctx, u_char *iv,
 		data[1] ^= d_iv[1];
 		data[2] ^= d_iv[2];
 		data[3] ^= d_iv[3];
-		rijndaelEncrypt(ctx->ek, ctx->Nr, data, data);
+		rijndaelEncrypt(ctx->ek, ctx->Nr,
+		    (u_char *)data, (u_char *)data);
 		memcpy(d_iv, data, sizeof (data));
 		memcpy(dst, data, sizeof (data));
 		dst += sizeof (data);
@@ -1331,7 +1332,8 @@ rijndael_cbc_decrypt(rijndael_ctx *ctx, u_char *iv,
 	memcpy(d_iv, iv, sizeof (d_iv));
 	while (nblocks--) {
 		memcpy(data, src, sizeof (data));
-		rijndaelDecrypt(ctx->dk, ctx->Nr, data, data);
+		rijndaelDecrypt(ctx->dk, ctx->Nr,
+		    (u_char *)data, (u_char *)data);
 		data[0] ^= d_iv[0];
 		data[1] ^= d_iv[1];
 		data[2] ^= d_iv[2];
