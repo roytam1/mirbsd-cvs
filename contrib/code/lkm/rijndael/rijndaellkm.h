@@ -1,8 +1,8 @@
-/* $MirOS: contrib/code/lkm/programmer/programmerlkm.h,v 1.2 2005/12/17 05:46:08 tg Exp $ */
+/* $MirOS: contrib/code/lkm/rijndael/rijndaellkm.h,v 1.1.1.1 2008/03/20 19:19:51 tg Exp $ */
 
 /*-
- * Copyright (c) 2005
- *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+ * Copyright (c) 2005, 2008
+ *	Thorsten "mirabilos" Glaser <tg@66h.42h.de>
  *
  * Licensee is hereby permitted to deal in this work without restric-
  * tion, including unlimited rights to use, publicly perform, modify,
@@ -27,11 +27,11 @@
  * Interface to the Terry Lambert LKM system (MirOS BSD, OpenBSD)
  */
 
-#ifndef _PROGRAMMERLKM_H
-#define _PROGRAMMERLKM_H
+#ifndef _RIJNDAELLKM_H
+#define _RIJNDAELLKM_H
 
-#ifndef NPROGRAMMER
-#define	NPROGRAMMER	1
+#ifndef NRIJNDAEL
+#define	NRIJNDAEL	1
 #endif
 
 #ifndef PLKM_DEBUG
@@ -44,7 +44,7 @@
 #define	_PD(format, ...)	printf(format, ## __VA_ARGS__)
 #endif
 
-#define cdev_programmer_init(c,n)			\
+#define cdev_rijndael_init(c,n)			\
 	{					\
 		dev_init(c,n,open),		\
 		dev_init(c,n,close),		\
@@ -60,9 +60,9 @@
 	}
 
 __BEGIN_DECLS
-cdev_decl(programmer);
+cdev_decl(rijndael);
 
-int programmer_lkmentry(struct lkm_table *, int, int);
+int rijndael_lkmentry(struct lkm_table *, int, int);
 __END_DECLS
 
 #endif

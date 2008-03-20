@@ -1,8 +1,8 @@
-/* $MirOS: contrib/code/lkm/programmer/lkm_intf.c,v 1.2 2005/12/17 05:46:08 tg Exp $ */
+/* $MirOS: contrib/code/lkm/rijndael/lkm_intf.c,v 1.1.1.1 2008/03/20 19:19:51 tg Exp $ */
 
 /*-
- * Copyright (c) 2005
- *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+ * Copyright (c) 2005, 2008
+ *	Thorsten "mirabilos" Glaser <tg@66h.42h.de>
  *
  * Licensee is hereby permitted to deal in this work without restric-
  * tion, including unlimited rights to use, publicly perform, modify,
@@ -34,68 +34,68 @@
 #include <sys/ioctl.h>
 #include <sys/systm.h>
 #include <sys/lkm.h>
-#include "programmerlkm.h"
+#include "rijndaellkm.h"
 
-struct cdevsw programmer_cdevsw = cdev_programmer_init(NPROGRAMMER, programmer);
+struct cdevsw rijndael_cdevsw = cdev_rijndael_init(NRIJNDAEL, rijndael);
 
-MOD_DEV("programmer", LM_DT_CHAR, -1, &programmer_cdevsw)
+MOD_DEV("rijndael", LM_DT_CHAR, -1, &rijndael_cdevsw)
 
-static int programmer_modload(struct lkm_table *, int);
+static int rijndael_modload(struct lkm_table *, int);
 
 int
-programmer_lkmentry(struct lkm_table *lkmtp, int cmd, int ver)
+rijndael_lkmentry(struct lkm_table *lkmtp, int cmd, int ver)
 {
-	DISPATCH(lkmtp, cmd, ver, programmer_modload, programmer_modload, lkm_nofunc)
+	DISPATCH(lkmtp, cmd, ver, rijndael_modload, rijndael_modload, lkm_nofunc)
 }
 
 static int
-programmer_modload(struct lkm_table *lkmtp, int cmd)
+rijndael_modload(struct lkm_table *lkmtp, int cmd)
 {
 	switch (cmd) {
 	case LKM_E_LOAD:
-		_PD("programmer: module loaded\n");
+		_PD("rijndael: module loaded\n");
 		break;
 	case LKM_E_UNLOAD:
-		_PD("programmer: module unloaded\n");
+		_PD("rijndael: module unloaded\n");
 		break;
 	default:
-		printf("programmer: illegal modload operation %d\n", cmd);
+		printf("rijndael: illegal modload operation %d\n", cmd);
 		return (EINVAL);
 	}
 	return (0);
 }
 
 int
-programmeropen(dev_t dev, int oflags, int devtype, struct proc *p)
+rijndaelopen(dev_t dev, int oflags, int devtype, struct proc *p)
 {
-	_PD("programmer: device opened\n");
+	_PD("rijndael: device opened\n");
 	return (0);
 }
 
 int
-programmerclose(dev_t dev, int fflag, int devtype, struct proc *p)
+rijndaelclose(dev_t dev, int fflag, int devtype, struct proc *p)
 {
-	_PD("programmer: device closed\n");
+	_PD("rijndael: device closed\n");
 	return (0);
 }
 
 int
-programmerread(dev_t dev, struct uio *uio, int ioflag)
+rijndaelread(dev_t dev, struct uio *uio, int ioflag)
 {
-	_PD("programmer: device read from\n");
+	_PD("rijndael: device read from\n");
 	return (ENOCOFFEE);
 }
 
 int
-programmerwrite(dev_t dev, struct uio *uio, int ioflag)
+rijndaelwrite(dev_t dev, struct uio *uio, int ioflag)
 {
-	_PD("programmer: device written to\n");
+	_PD("rijndael: device written to\n");
 	return (ENOCOFFEE);
 }
 
 int
-programmerioctl(dev_t dev, u_long cmd, caddr_t data, int fflag, struct proc *p)
+rijndaelioctl(dev_t dev, u_long cmd, caddr_t data, int fflag, struct proc *p)
 {
-	_PD("programmer: device ioctl called\n");
+	_PD("rijndael: device ioctl called\n");
 	return (ENOCOFFEE);
 }
