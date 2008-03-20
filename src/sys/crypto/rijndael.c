@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/crypto/rijndael.c,v 1.1.1.2.4.6 2008/03/20 18:58:58 tg Exp $ */
+/**	$MirOS: src/sys/crypto/rijndael.c,v 1.1.1.2.4.7 2008/03/20 19:14:50 tg Exp $ */
 /*	$OpenBSD: rijndael.c,v 1.18 2005/05/25 05:47:53 markus Exp $ */
 
 /**
@@ -1343,3 +1343,8 @@ rijndael_cbc_decrypt(rijndael_ctx *ctx, u_char *iv,
 	}
 	memcpy(iv, d_iv, sizeof (d_iv));
 }
+
+rijndael_setkey_t rijndael_set_key_fast = rijndael_set_key;
+rijndael_setkey_t rijndael_set_key_enc_only_fast = rijndael_set_key_enc_only;
+rijndael_do_cbc_t rijndael_cbc_decrypt_fast = rijndael_cbc_decrypt;
+rijndael_do_cbc_t rijndael_cbc_encrypt_fast = rijndael_cbc_encrypt;

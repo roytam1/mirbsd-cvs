@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/crypto/rijndael.h,v 1.1.1.2.4.8 2008/03/20 19:07:05 tg Exp $ */
+/**	$MirOS: src/sys/crypto/rijndael.h,v 1.1.1.2.4.9 2008/03/20 19:14:50 tg Exp $ */
 /*	$OpenBSD: rijndael.h,v 1.11 2005/05/25 05:47:53 markus Exp $ */
 
 /**
@@ -37,6 +37,10 @@ typedef unsigned char	u8;
 typedef unsigned short	u16;
 typedef unsigned int	u32;
 
+typedef int (*rijndael_setkey_t)(rijndael_ctx *, u_char *, int);
+typedef void (*rijndael_do_cbc_t)(rijndael_ctx *, u_char *, u_char *, u_char *,
+    int);
+
 /*  VIA C3 additional information */
 struct viac3_rijndael_ctx {
 	uint32_t cw0;			/* control word */
@@ -64,6 +68,11 @@ void	 rijndael_cbc_decrypt(rijndael_ctx *, u_char *, u_char *, u_char *,
 	    int);
 void	 rijndael_cbc_encrypt(rijndael_ctx *, u_char *, u_char *, u_char *,
 	    int);
+
+extern rijndael_setkey_t rijndael_set_key_fast;
+extern rijndael_setkey_t rijndael_set_key_enc_only_fast;
+extern rijndael_do_cbc_t rijndael_cbc_decrypt_fast;
+extern rijndael_do_cbc_t rijndael_cbc_encrypt_fast;
 
 int	rijndaelKeySetupEnc(unsigned int [], const unsigned char [], int);
 int	rijndaelKeySetupDec(unsigned int [], const unsigned char [], int);
