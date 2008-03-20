@@ -1,9 +1,7 @@
-/**	$MirOS: src/sys/arch/i386/i386/via.c,v 1.1.1.1.4.1 2007/10/21 17:48:12 tg Exp $ */
 /*	$OpenBSD: via.c,v 1.1 2004/04/11 18:12:10 deraadt Exp $	*/
 /*	$NetBSD: machdep.c,v 1.214 1996/11/10 03:16:17 thorpej Exp $	*/
 
 /*-
- * Copyright (c) 2007 Thorsten Glaser
  * Copyright (c) 2003 Jason Wright
  * Copyright (c) 2003, 2004 Theo de Raadt
  * All rights reserved.
@@ -57,16 +55,11 @@
 
 #include <dev/rndvar.h>
 
-void viac3_rnd(void *);
+void	viac3_rnd(void *);
 int viac3_crypto_present;
 
-#ifdef CRYPTO
 
-void viac3_rijndael_decrypt(rijndael_ctx *, u_char *, u_char *);
-void viac3_rijndael_encrypt(rijndael_ctx *, u_char *, u_char *);
-void viac3_rijndael_xcrypt(rijndael_ctx *, u_char *, u_char *, int);
-int viac3_rijndael_set_key(rijndael_ctx *, u_char *, int);
-int viac3_rijndael_set_key_enc_only(rijndael_ctx *, u_char *, int);
+#ifdef CRYPTO
 
 struct viac3_session {
 	u_int32_t	ses_ekey[4 * (MAXNR + 1) + 4];	/* 128 bit aligned */
@@ -99,7 +92,6 @@ void viac3_crypto_setup(void);
 int viac3_crypto_newsession(u_int32_t *, struct cryptoini *);
 int viac3_crypto_process(struct cryptop *);
 int viac3_crypto_freesession(u_int64_t);
-static __inline void viac3_ecb(void *, void *, void *, void *, int);
 static __inline void viac3_cbc(void *, void *, void *, void *, int, void *);
 
 void
@@ -216,24 +208,8 @@ viac3_crypto_freesession(u_int64_t tid)
 }
 
 static __inline void
-viac3_ecb(void *cw, void *src, void *dst, void *key, int rep)
-{
-	unsigned int creg0;
-
-	creg0 = rcr0();		/* Permit access to SIMD/FPU path */
-	lcr0(creg0 & ~(CR0_EM|CR0_TS));
-
-	/* Do the deed */
-	__asm __volatile("pushfl; popfl");
-	__asm __volatile("rep xcrypt-ecb" :
-	    : "b" (key), "c" (rep), "d" (cw), "S" (src), "D" (dst)
-	    : "memory", "cc");
-
-	lcr0(creg0);
-}
-
-static __inline void
-viac3_cbc(void *cw, void *src, void *dst, void *key, int rep, void *iv)
+viac3_cbc(void *cw, void *src, void *dst, void *key, int rep,
+    void *iv)
 {
 	unsigned int creg0;
 
@@ -264,7 +240,7 @@ viac3_crypto_process(struct cryptop *crp)
 	}
 	crd = crp->crp_desc;
 	if (crd == NULL || crd->crd_next != NULL ||
-	    crd->crd_alg != CRYPTO_AES_CBC || 
+	    crd->crd_alg != CRYPTO_AES_CBC ||
 	    (crd->crd_len % 16) != 0) {
 		err = EINVAL;
 		goto out;
@@ -366,100 +342,6 @@ out:
 	return (err);
 }
 
-int
-viac3_rijndael_set_key(rijndael_ctx *ctx, u_char *key, int bits)
-{
-	int i, cw0;
-
-	if ((i = rijndael_set_key(ctx, key, bits)))
-		return (i);
-
-	switch (bits) {
-	case 128:
-		cw0 = C3_CRYPT_CWLO_KEY128;
-		break;
-	case 192:
-		cw0 = C3_CRYPT_CWLO_KEY192;
-		break;
-	case 256:
-		cw0 = C3_CRYPT_CWLO_KEY256;
-		break;
-	default:
-		return (0);
-	}
-
-	for (i = 0; i < 4 * (MAXNR + 1); i++) {
-		ctx->ek[i] = ntohl(ctx->ek[i]);
-		ctx->dk[i] = ntohl(ctx->dk[i]);
-	}
-
-	ctx->hwcr_info.via.cw0 = cw0 | C3_CRYPT_CWLO_ALG_AES |
-	    C3_CRYPT_CWLO_KEYGEN_SW | C3_CRYPT_CWLO_NORMAL;
-	ctx->hwcr_nr = RIJNDAEL_HWCR_VIA;
-	return (0);
-}
-
-int
-viac3_rijndael_set_key_enc_only(rijndael_ctx *ctx, u_char *key, int bits)
-{
-	int i, cw0;
-
-	if ((i = rijndael_set_key_enc_only(ctx, key, bits)))
-		return (i);
-
-	switch (bits) {
-	case 128:
-		cw0 = C3_CRYPT_CWLO_KEY128;
-		break;
-	case 192:
-		cw0 = C3_CRYPT_CWLO_KEY192;
-		break;
-	case 256:
-		cw0 = C3_CRYPT_CWLO_KEY256;
-		break;
-	default:
-		return (0);
-	}
-
-	for (i = 0; i < 4 * (MAXNR + 1); i++)
-		ctx->ek[i] = ntohl(ctx->ek[i]);
-
-	ctx->hwcr_info.via.cw0 = cw0 | C3_CRYPT_CWLO_ALG_AES |
-	    C3_CRYPT_CWLO_KEYGEN_SW | C3_CRYPT_CWLO_NORMAL;
-	ctx->hwcr_nr = RIJNDAEL_HWCR_VIA;
-	return (0);
-}
-
-void
-viac3_rijndael_xcrypt(rijndael_ctx *ctx, u_char *src, u_char *dst, int encr)
-{
-	uint32_t op_cw[4] __attribute__((aligned (16))) = { 0, 0, 0, 0 };
-	uint8_t op_buf[16] __attribute__((aligned (16)));
-
-	memcpy(op_buf, src, sizeof (op_buf));
-	op_cw[0] = ctx->hwcr_info.via.cw0 |
-	    encr ? C3_CRYPT_CWLO_ENCRYPT : C3_CRYPT_CWLO_DECRYPT;
-	viac3_ecb(&op_cw, op_buf, op_buf, encr ? ctx->ek : ctx->dk, 1);
-	memcpy(dst, op_buf, sizeof (op_buf));
-}
-
-void
-viac3_rijndael_encrypt(rijndael_ctx *ctx, u_char *src, u_char *dst)
-{
-	if (ctx->hwcr_nr == RIJNDAEL_HWCR_VIA)
-		viac3_rijndael_xcrypt(ctx, src, dst, 1);
-	else
-		rijndael_encrypt(ctx, src, dst);
-}
-
-void
-viac3_rijndael_decrypt(rijndael_ctx *ctx, u_char *src, u_char *dst)
-{
-	if (ctx->hwcr_nr == RIJNDAEL_HWCR_VIA)
-		viac3_rijndael_xcrypt(ctx, src, dst, 0);
-	else
-		rijndael_decrypt(ctx, src, dst);
-}
 #endif /* CRYPTO */
 
 #if defined(I686_CPU)
@@ -514,4 +396,5 @@ viac3_rnd(void *v)
 
 	timeout_add(tmo, (hz > 100) ? (hz / 100) : 1);
 }
+
 #endif /* defined(I686_CPU) */
