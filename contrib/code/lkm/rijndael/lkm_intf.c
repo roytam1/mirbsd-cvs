@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/lkm/rijndael/lkm_intf.c,v 1.1.1.1 2008/03/20 19:19:51 tg Exp $ */
+/* $MirOS: contrib/code/lkm/rijndael/lkm_intf.c,v 1.2 2008/03/20 19:27:02 tg Exp $ */
 
 /*-
  * Copyright (c) 2005, 2008
@@ -34,13 +34,28 @@
 #include <sys/ioctl.h>
 #include <sys/systm.h>
 #include <sys/lkm.h>
+#include <crypto/rijndael.h>
 #include "rijndaellkm.h"
 
 struct cdevsw rijndael_cdevsw = cdev_rijndael_init(NRIJNDAEL, rijndael);
 
+rijndael_ctx thectx;
+
 MOD_DEV("rijndael", LM_DT_CHAR, -1, &rijndael_cdevsw)
 
 static int rijndael_modload(struct lkm_table *, int);
+
+#define rlkm_minor(dev) (minor(dev) > 6 ? 0 : minor(dev))
+
+const char *minor_names[] = {
+	"invalid",
+	"soft_key",
+	"soft_encr",
+	"soft_decr",
+	"ptr_key",
+	"ptr_encr",
+	"ptr_decr"
+};
 
 int
 rijndael_lkmentry(struct lkm_table *lkmtp, int cmd, int ver)
@@ -68,34 +83,36 @@ rijndael_modload(struct lkm_table *lkmtp, int cmd)
 int
 rijndaelopen(dev_t dev, int oflags, int devtype, struct proc *p)
 {
-	_PD("rijndael: device opened\n");
+	_PD("rijndael: device %s opened\n", minor_names[rlkm_minor(dev)]);
 	return (0);
 }
 
 int
 rijndaelclose(dev_t dev, int fflag, int devtype, struct proc *p)
 {
-	_PD("rijndael: device closed\n");
+	_PD("rijndael: device %s closed\n", minor_names[rlkm_minor(dev)]);
 	return (0);
 }
 
 int
 rijndaelread(dev_t dev, struct uio *uio, int ioflag)
 {
-	_PD("rijndael: device read from\n");
+	_PD("rijndael: device %s read %zu from\n",
+	    minor_names[rlkm_minor(dev)], uio->uio_resid);
 	return (ENOCOFFEE);
 }
 
 int
 rijndaelwrite(dev_t dev, struct uio *uio, int ioflag)
 {
-	_PD("rijndael: device written to\n");
+	_PD("rijndael: device %s written %zu to\n",
+	    minor_names[rlkm_minor(dev)], uio->uio_resid);
 	return (ENOCOFFEE);
 }
 
 int
 rijndaelioctl(dev_t dev, u_long cmd, caddr_t data, int fflag, struct proc *p)
 {
-	_PD("rijndael: device ioctl called\n");
+	_PD("rijndael: device %s ioctl called\n", minor_names[rlkm_minor(dev)]);
 	return (ENOCOFFEE);
 }

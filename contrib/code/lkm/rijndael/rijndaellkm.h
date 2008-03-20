@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/lkm/rijndael/rijndaellkm.h,v 1.1.1.1 2008/03/20 19:19:51 tg Exp $ */
+/* $MirOS: contrib/code/lkm/rijndael/rijndaellkm.h,v 1.2 2008/03/20 19:27:02 tg Exp $ */
 
 /*-
  * Copyright (c) 2005, 2008
@@ -33,6 +33,13 @@
 #ifndef NRIJNDAEL
 #define	NRIJNDAEL	1
 #endif
+
+#define RLKM_SW_KEY	1
+#define RLKM_SW_ENC	2
+#define RLKM_SW_DEC	3
+#define RLKM_HW_KEY	4
+#define RLKM_HW_ENC	5
+#define RLKM_HW_DEC	6
 
 #ifndef PLKM_DEBUG
 #define PLKM_DEBUG 1
