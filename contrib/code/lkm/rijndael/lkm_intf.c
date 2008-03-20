@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/lkm/rijndael/lkm_intf.c,v 1.4 2008/03/20 19:54:54 tg Exp $ */
+/* $MirOS: contrib/code/lkm/rijndael/lkm_intf.c,v 1.5 2008/03/20 21:24:18 tg Exp $ */
 
 /*-
  * Copyright (c) 2005, 2008
@@ -125,11 +125,11 @@ rijndaelread(dev_t dev, struct uio *uio, int ioflag)
 		return (ENOCOFFEE);
 	}
 
-	(*theop)(&thectx, iv, thedata, thebuf, 1);
-	(*theop)(&thectx, iv, thedata + 16, thebuf + 16, 2);
-	(*theop)(&thectx, iv, thedata + 48, thebuf + 48, 3);
-	(*theop)(&thectx, iv, thedata + 96, thebuf + 96, 4);
-	(*theop)(&thectx, iv, thedata + 160, thebuf + 160, 5);
+	(*theop)(&thectx, (u_char *)iv, thedata, thebuf, 1);
+	(*theop)(&thectx, (u_char *)iv, thedata + 16, thebuf + 16, 2);
+	(*theop)(&thectx, (u_char *)iv, thedata + 48, thebuf + 48, 3);
+	(*theop)(&thectx, (u_char *)iv, thedata + 96, thebuf + 96, 4);
+	(*theop)(&thectx, (u_char *)iv, thedata + 160, thebuf + 160, 5);
 	return (uiomove((caddr_t)thebuf,
 	    MIN(sizeof (thebuf), uio->uio_resid), uio));
 }
