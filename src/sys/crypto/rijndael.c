@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/sys/crypto/rijndael.c,v 1.1.1.2.4.6 2008/03/20 18:58:58 tg Exp $ */
 /*	$OpenBSD: rijndael.c,v 1.18 2005/05/25 05:47:53 markus Exp $ */
 
 /**
@@ -25,6 +25,27 @@
  * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
  * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*-
+ * CBC mode and hardware cryptography integration is
+ * Copyright (c) 2008
+ *	Thorsten Glaser <tg@mirbsd.de>
+ *
+ * Provided that these terms and disclaimer and all copyright notices
+ * are retained or reproduced in an accompanying document, permission
+ * is granted to deal in this work without restriction, including un-
+ * limited rights to use, publicly perform, distribute, sell, modify,
+ * merge, give away, or sublicence.
+ *
+ * This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
+ * the utmost extent permitted by applicable law, neither express nor
+ * implied; without malicious intent or gross negligence. In no event
+ * may a licensor, author or contributor be held liable for indirect,
+ * direct, other damage, loss, or other issues arising in any way out
+ * of dealing in the work, even if advised of the possibility of such
+ * damage or existence of a defect, except proven that it results out
+ * of said person's immediate fault when using the work as intended.
  */
 
 #include <sys/param.h>
@@ -1232,6 +1253,7 @@ rijndael_set_key_enc_only(rijndael_ctx *ctx, u_char *key, int bits)
 
 	ctx->Nr = rounds;
 	ctx->enc_only = 1;
+	ctx->hwcr_id = RIJNDAEL_HWCR_SOFTWARE;
 
 	return 0;
 }
@@ -1250,41 +1272,31 @@ rijndael_set_key(rijndael_ctx *ctx, u_char *key, int bits)
 
 	ctx->Nr = rounds;
 	ctx->enc_only = 0;
+	ctx->hwcr_id = RIJNDAEL_HWCR_SOFTWARE;
 
 	return 0;
 }
 
+#define rijndael_hwcr_issoft(ctx) do {			\
+	u8 x_id = (ctx)->hwcr_id;			\
+	if (x_id != RIJNDAEL_HWCR_SOFTWARE)		\
+		printf("rijndael: corrupt data: %s:"	\
+		    " hwcr ID %u\n", __func__, x_id);	\
+} while (0)
+
 void
 rijndael_decrypt(rijndael_ctx *ctx, u_char *src, u_char *dst)
 {
+	rijndael_hwcr_issoft(ctx);
 	rijndaelDecrypt(ctx->dk, ctx->Nr, src, dst);
 }
 
 void
 rijndael_encrypt(rijndael_ctx *ctx, u_char *src, u_char *dst)
 {
+	rijndael_hwcr_issoft(ctx);
 	rijndaelEncrypt(ctx->ek, ctx->Nr, src, dst);
 }
-
-/*-
- * Copyright (c) 2008
- *	Thorsten Glaser <tg@mirbsd.de>
- *
- * Provided that these terms and disclaimer and all copyright notices
- * are retained or reproduced in an accompanying document, permission
- * is granted to deal in this work without restriction, including un-
- * limited rights to use, publicly perform, distribute, sell, modify,
- * merge, give away, or sublicence.
- *
- * This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
- * the utmost extent permitted by applicable law, neither express nor
- * implied; without malicious intent or gross negligence. In no event
- * may a licensor, author or contributor be held liable for indirect,
- * direct, other damage, loss, or other issues arising in any way out
- * of dealing in the work, even if advised of the possibility of such
- * damage or existence of a defect, except proven that it results out
- * of said person's immediate fault when using the work as intended.
- */
 
 void
 rijndael_cbc_encrypt(rijndael_ctx *ctx, u_char *iv,
@@ -1292,6 +1304,7 @@ rijndael_cbc_encrypt(rijndael_ctx *ctx, u_char *iv,
 {
 	u32 d_iv[4], data[4];
 
+	rijndael_hwcr_issoft(ctx);
 	memcpy(d_iv, iv, sizeof (d_iv));
 	while (nblocks--) {
 		memcpy(data, src, sizeof (data));
@@ -1314,6 +1327,7 @@ rijndael_cbc_decrypt(rijndael_ctx *ctx, u_char *iv,
 {
 	u32 d_iv[4], data[4];
 
+	rijndael_hwcr_issoft(ctx);
 	memcpy(d_iv, iv, sizeof (d_iv));
 	while (nblocks--) {
 		memcpy(data, src, sizeof (data));
