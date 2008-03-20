@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/crypto/rijndael.h,v 1.1.1.2.4.6 2008/03/20 16:51:06 tg Exp $ */
+/**	$MirOS: src/sys/crypto/rijndael.h,v 1.1.1.2.4.7 2008/03/20 18:58:59 tg Exp $ */
 /*	$OpenBSD: rijndael.h,v 1.11 2005/05/25 05:47:53 markus Exp $ */
 
 /**
@@ -41,8 +41,8 @@ typedef unsigned int	u32;
 typedef struct {
 	u32	ek[4*(MAXNR + 1) + 4];	/* encrypt key schedule */
 	u32	dk[4*(MAXNR + 1) + 4];	/* decrypt key schedule */
-	int	enc_only;		/* context contains only encrypt schedule */
-	int	Nr;			/* key-length-dependent number of rounds */
+	u8	enc_only;		/* context contains only encrypt schedule */
+	u8	Nr;			/* key-length-dependent number of rounds */
 } rijndael_ctx __attribute__((aligned (16)));
 
 int	 rijndael_set_key(rijndael_ctx *, u_char *, int);
