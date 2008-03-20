@@ -1,4 +1,3 @@
-/**	$MirOS: src/sys/crypto/rijndael.c,v 1.1.1.2.4.3 2007/10/21 17:16:21 tg Exp $ */
 /*	$OpenBSD: rijndael.c,v 1.18 2005/05/25 05:47:53 markus Exp $ */
 
 /**
@@ -1232,7 +1231,6 @@ rijndael_set_key_enc_only(rijndael_ctx *ctx, u_char *key, int bits)
 
 	ctx->Nr = rounds;
 	ctx->enc_only = 1;
-	ctx->hwcr_nr = RIJNDAEL_HWCR_SOFTWARE;
 
 	return 0;
 }
@@ -1251,7 +1249,6 @@ rijndael_set_key(rijndael_ctx *ctx, u_char *key, int bits)
 
 	ctx->Nr = rounds;
 	ctx->enc_only = 0;
-	ctx->hwcr_nr = RIJNDAEL_HWCR_SOFTWARE;
 
 	return 0;
 }
@@ -1259,20 +1256,11 @@ rijndael_set_key(rijndael_ctx *ctx, u_char *key, int bits)
 void
 rijndael_decrypt(rijndael_ctx *ctx, u_char *src, u_char *dst)
 {
-	if (ctx->hwcr_nr != RIJNDAEL_HWCR_SOFTWARE)
-		printf("rijndael: corrupt data: hwcr ID %u\n", ctx->hwcr_nr);
 	rijndaelDecrypt(ctx->dk, ctx->Nr, src, dst);
 }
 
 void
 rijndael_encrypt(rijndael_ctx *ctx, u_char *src, u_char *dst)
 {
-	if (ctx->hwcr_nr != RIJNDAEL_HWCR_SOFTWARE)
-		printf("rijndael: corrupt data: hwcr ID %u\n", ctx->hwcr_nr);
 	rijndaelEncrypt(ctx->ek, ctx->Nr, src, dst);
 }
-
-rijndael_xcrypt_t rijndael_decrypt_fast = rijndael_decrypt;
-rijndael_xcrypt_t rijndael_encrypt_fast = rijndael_encrypt;
-rijndael_setkey_t rijndael_set_key_fast = rijndael_set_key;
-rijndael_setkey_t rijndael_set_key_enc_only_fast = rijndael_set_key_enc_only;
