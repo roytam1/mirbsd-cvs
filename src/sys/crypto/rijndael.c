@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: rijndael.c,v 1.18 2005/05/25 05:47:53 markus Exp $ */
 
 /**
@@ -1263,4 +1264,68 @@ void
 rijndael_encrypt(rijndael_ctx *ctx, u_char *src, u_char *dst)
 {
 	rijndaelEncrypt(ctx->ek, ctx->Nr, src, dst);
+}
+
+/*-
+ * Copyright (c) 2008
+ *	Thorsten Glaser <tg@mirbsd.de>
+ *
+ * Provided that these terms and disclaimer and all copyright notices
+ * are retained or reproduced in an accompanying document, permission
+ * is granted to deal in this work without restriction, including un-
+ * limited rights to use, publicly perform, distribute, sell, modify,
+ * merge, give away, or sublicence.
+ *
+ * This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
+ * the utmost extent permitted by applicable law, neither express nor
+ * implied; without malicious intent or gross negligence. In no event
+ * may a licensor, author or contributor be held liable for indirect,
+ * direct, other damage, loss, or other issues arising in any way out
+ * of dealing in the work, even if advised of the possibility of such
+ * damage or existence of a defect, except proven that it results out
+ * of said person's immediate fault when using the work as intended.
+ */
+
+void
+rijndael_cbc_encrypt(rijndael_ctx *ctx, u_char *iv,
+    u_char *src, u_char *dst, int nblocks)
+{
+	u32 d_iv[4], data[4];
+
+	memcpy(d_iv, iv, sizeof (d_iv));
+	while (nblocks--) {
+		memcpy(data, src, sizeof (data));
+		src += sizeof (data);
+		data[0] ^= d_iv[0];
+		data[1] ^= d_iv[1];
+		data[2] ^= d_iv[2];
+		data[3] ^= d_iv[3];
+		rijndaelEncrypt(ctx->ek, ctx->Nr, data, data);
+		memcpy(d_iv, data, sizeof (data));
+		memcpy(dst, data, sizeof (data));
+		dst += sizeof (data);
+	}
+	memcpy(iv, d_iv, sizeof (d_iv));
+}
+
+void
+rijndael_cbc_decrypt(rijndael_ctx *ctx, u_char *iv,
+    u_char *src, u_char *dst, int nblocks)
+{
+	u32 d_iv[4], data[4];
+
+	memcpy(d_iv, iv, sizeof (d_iv));
+	while (nblocks--) {
+		memcpy(data, src, sizeof (data));
+		rijndaelDecrypt(ctx->dk, ctx->Nr, data, data);
+		data[0] ^= d_iv[0];
+		data[1] ^= d_iv[1];
+		data[2] ^= d_iv[2];
+		data[3] ^= d_iv[3];
+		memcpy(dst, data, sizeof (data));
+		dst += sizeof (data);
+		memcpy(d_iv, src, sizeof (data));
+		src += sizeof (data);
+	}
+	memcpy(iv, d_iv, sizeof (d_iv));
 }
