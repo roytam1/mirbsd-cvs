@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/lkm/rijndael/lkm_intf.c,v 1.3 2008/03/20 19:34:51 tg Exp $ */
+/* $MirOS: contrib/code/lkm/rijndael/lkm_intf.c,v 1.4 2008/03/20 19:54:54 tg Exp $ */
 
 /*-
  * Copyright (c) 2005, 2008
@@ -40,8 +40,8 @@
 struct cdevsw rijndael_cdevsw = cdev_rijndael_init(NRIJNDAEL, rijndael);
 
 rijndael_ctx thectx;
-uint8_t thedata[240];
-uint8_t thebuf[240];
+u_char thedata[240];
+u_char thebuf[240];
 
 MOD_DEV("rijndael", LM_DT_CHAR, -1, &rijndael_cdevsw)
 
@@ -102,8 +102,8 @@ rijndaelread(dev_t dev, struct uio *uio, int ioflag)
 	rijndael_do_cbc_t theop;
 	u32 iv[4] = { 0, 0, 0, 0 };
 
-	_PD("rijndael: device %s read %zu from\n",
-	    minor_names[rlkm_minor(dev)], uio->uio_resid);
+	_PD("rijndael: device %s read %lu from\n",
+	    minor_names[rlkm_minor(dev)], (u_long)uio->uio_resid);
 
 	switch (minor(dev)) {
 	case RLKM_SW_KEY:
@@ -141,8 +141,8 @@ rijndaelwrite(dev_t dev, struct uio *uio, int ioflag)
 	rijndael_setkey_t theop;
 	uint8_t thekey[256/8];
 
-	_PD("rijndael: device %s written %zu to\n",
-	    minor_names[rlkm_minor(dev)], uio->uio_resid);
+	_PD("rijndael: device %s written %lu to\n",
+	    minor_names[rlkm_minor(dev)], (u_long)uio->uio_resid);
 
 	switch (minor(dev)) {
 	case RLKM_SW_KEY:
