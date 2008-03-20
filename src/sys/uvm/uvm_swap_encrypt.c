@@ -1,4 +1,3 @@
-/**	$MirOS: src/sys/uvm/uvm_swap_encrypt.c,v 1.2.4.1 2007/10/20 23:05:12 tg Exp $ */
 /*	$OpenBSD: uvm_swap_encrypt.c,v 1.12 2003/12/26 10:04:49 markus Exp $	*/
 
 /*
@@ -139,7 +138,7 @@ swap_encrypt(struct swap_key *key, caddr_t src, caddr_t dst,
 	count /= sizeof(u_int32_t);
 
 	iv[0] = block >> 32; iv[1] = block; iv[2] = ~iv[0]; iv[3] = ~iv[1];
-	(*rijndael_encrypt_fast)(&swap_ctxt, (u_char *)iv, (u_char *)iv);
+	rijndael_encrypt(&swap_ctxt, (u_char *)iv, (u_char *)iv);
 	iv1 = iv[0]; iv2 = iv[1]; iv3 = iv[2]; iv4 = iv[3];
 
 	for (; count > 0; count -= 4) {
@@ -151,8 +150,7 @@ swap_encrypt(struct swap_key *key, caddr_t src, caddr_t dst,
 		 * Do not worry about endianess, it only needs to decrypt
 		 * on this machine
 		 */
-		(*rijndael_encrypt_fast)(&swap_ctxt, (u_char *)ddst,
-		    (u_char *)ddst);
+		rijndael_encrypt(&swap_ctxt, (u_char *)ddst, (u_char *)ddst);
 		iv1 = ddst[0];
 		iv2 = ddst[1];
 		iv3 = ddst[2];
@@ -185,7 +183,7 @@ swap_decrypt(struct swap_key *key, caddr_t src, caddr_t dst,
 	count /= sizeof(u_int32_t);
 
 	iv[0] = block >> 32; iv[1] = block; iv[2] = ~iv[0]; iv[3] = ~iv[1];
-	(*rijndael_encrypt_fast)(&swap_ctxt, (u_char *)iv, (u_char *)iv);
+	rijndael_encrypt(&swap_ctxt, (u_char *)iv, (u_char *)iv);
 	iv1 = iv[0]; iv2 = iv[1]; iv3 = iv[2]; iv4 = iv[3];
 
 	for (; count > 0; count -= 4) {
@@ -193,8 +191,7 @@ swap_decrypt(struct swap_key *key, caddr_t src, caddr_t dst,
 		ddst[1] = niv2 = dsrc[1];
 		ddst[2] = niv3 = dsrc[2];
 		ddst[3] = niv4 = dsrc[3];
-		(*rijndael_decrypt_fast)(&swap_ctxt, (u_char *)ddst,
-		    (u_char *)ddst);
+		rijndael_decrypt(&swap_ctxt, (u_char *)ddst, (u_char *)ddst);
 		ddst[0] ^= iv1;
 		ddst[1] ^= iv2;
 		ddst[2] ^= iv3;
@@ -221,10 +218,10 @@ swap_key_prepare(struct swap_key *key, int encrypt)
 		return;
 
 	if (encrypt)
-		(*rijndael_set_key_enc_only_fast)(&swap_ctxt, (u_char *)key->key,
+		rijndael_set_key_enc_only(&swap_ctxt, (u_char *)key->key,
 		    sizeof(key->key) * 8);
 	else
-		(*rijndael_set_key_fast)(&swap_ctxt, (u_char *)key->key,
+		rijndael_set_key(&swap_ctxt, (u_char *)key->key,
 		    sizeof(key->key) * 8);
 
 	kcur = key;
