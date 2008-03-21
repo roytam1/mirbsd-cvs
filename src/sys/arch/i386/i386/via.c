@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/i386/via.c,v 1.1.1.1.4.5 2008/03/21 01:14:58 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/i386/via.c,v 1.1.1.1.4.6 2008/03/21 02:55:05 tg Exp $ */
 /*	$OpenBSD: via.c,v 1.1 2004/04/11 18:12:10 deraadt Exp $	*/
 /*	$NetBSD: machdep.c,v 1.214 1996/11/10 03:16:17 thorpej Exp $	*/
 
@@ -122,6 +122,13 @@ viac3_crypto_setup(void)
 	crypto_register(vc3_sc->sc_cid, algs, viac3_crypto_newsession,
 	    viac3_crypto_freesession, viac3_crypto_process);
 	i386_has_xcrypt = 1;
+
+	/* take over */
+	rijndael_set_key_fast = viac3_rijndael_set_key;
+	rijndael_set_key_enc_only_fast = viac3_rijndael_set_key_enc_only;
+	rijndael_cbc_decrypt_fast = viac3_rijndael_decrypt;
+	rijndael_cbc_encrypt_fast = viac3_rijndael_encrypt;
+	printf("cpu0: VIA C3 AES functions used for swapencrypt\n");
 }
 
 int
