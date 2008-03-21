@@ -1,4 +1,10 @@
+/**	$MirOS: src/sys/crypto/rijndael.h,v 1.1.1.2.4.12 2008/03/21 19:51:53 tg Exp $ */
 /*	$OpenBSD: rijndael.h,v 1.11 2005/05/25 05:47:53 markus Exp $ */
+
+/*-
+ * Adaptions for VIA C3 hardware cryptography and integration is
+ * Copyright (c) 2008 Thorsten Glaser
+ */
 
 /**
  * rijndael-alg-fst.h
@@ -25,6 +31,7 @@
  * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 #ifndef __RIJNDAEL_H
 #define __RIJNDAEL_H
 
@@ -36,18 +43,44 @@ typedef unsigned char	u8;
 typedef unsigned short	u16;
 typedef unsigned int	u32;
 
+/*  VIA C3 additional information */
+struct viac3_rijndael_ctx {
+	uint32_t cw0;			/* control word */
+};
+
 /*  The structure for key information */
 typedef struct {
-	int	enc_only;		/* context contains only encrypt schedule */
-	int	Nr;			/* key-length-dependent number of rounds */
-	u32	ek[4*(MAXNR + 1)];	/* encrypt key schedule */
-	u32	dk[4*(MAXNR + 1)];	/* decrypt key schedule */
-} rijndael_ctx;
+	u32	ek[4*(MAXNR + 1) + 4]	/* encrypt key schedule */
+	    __attribute__((aligned (16)));
+	u32	dk[4*(MAXNR + 1) + 4]	/* decrypt key schedule */
+	    __attribute__((aligned (16)));
+	union {
+		struct viac3_rijndael_ctx via;
+	} hwcr_info;
+	u8	enc_only;		/* context contains only encrypt schedule */
+	u8	Nr;			/* key-length-dependent number of rounds */
+#define RIJNDAEL_HWCR_SOFTWARE	0
+#define RIJNDAEL_HWCR_VIA	1
+	u8	hwcr_id;		/* which crypto processor is used */
+} rijndael_ctx __attribute__((aligned (16)));
+
+typedef int (*rijndael_setkey_t)(rijndael_ctx *, u_char *, int);
+typedef void (*rijndael_do_cbc_t)(rijndael_ctx *, u_char *, u_char *, u_char *,
+    int);
 
 int	 rijndael_set_key(rijndael_ctx *, u_char *, int);
 int	 rijndael_set_key_enc_only(rijndael_ctx *, u_char *, int);
 void	 rijndael_decrypt(rijndael_ctx *, u_char *, u_char *);
 void	 rijndael_encrypt(rijndael_ctx *, u_char *, u_char *);
+void	 rijndael_cbc_decrypt(rijndael_ctx *, u_char *, u_char *, u_char *,
+	    int);
+void	 rijndael_cbc_encrypt(rijndael_ctx *, u_char *, u_char *, u_char *,
+	    int);
+
+extern rijndael_setkey_t rijndael_set_key_fast;
+extern rijndael_setkey_t rijndael_set_key_enc_only_fast;
+extern rijndael_do_cbc_t rijndael_cbc_decrypt_fast;
+extern rijndael_do_cbc_t rijndael_cbc_encrypt_fast;
 
 int	rijndaelKeySetupEnc(unsigned int [], const unsigned char [], int);
 int	rijndaelKeySetupDec(unsigned int [], const unsigned char [], int);

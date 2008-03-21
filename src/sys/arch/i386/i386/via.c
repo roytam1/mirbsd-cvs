@@ -1,5 +1,26 @@
+/**	$MirOS: src/sys/arch/i386/i386/via.c,v 1.1.1.1.4.14 2008/03/21 19:47:51 tg Exp $ */
 /*	$OpenBSD: via.c,v 1.1 2004/04/11 18:12:10 deraadt Exp $	*/
 /*	$NetBSD: machdep.c,v 1.214 1996/11/10 03:16:17 thorpej Exp $	*/
+
+/*-
+ * Copyright (c) 2008
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.de>
+ *
+ * Provided that these terms and disclaimer and all copyright notices
+ * are retained or reproduced in an accompanying document, permission
+ * is granted to deal in this work without restriction, including un-
+ * limited rights to use, publicly perform, distribute, sell, modify,
+ * merge, give away, or sublicence.
+ *
+ * This work is provided “AS IS” and WITHOUT WARRANTY of any kind, to
+ * the utmost extent permitted by applicable law, neither express nor
+ * implied; without malicious intent or gross negligence. In no event
+ * may a licensor, author or contributor be held liable for indirect,
+ * direct, other damage, loss, or other issues arising in any way out
+ * of dealing in the work, even if advised of the possibility of such
+ * damage or existence of a defect, except proven that it results out
+ * of said person’s immediate fault when using the work as intended.
+ */
 
 /*-
  * Copyright (c) 2003 Jason Wright
@@ -55,32 +76,30 @@
 
 #include <dev/rndvar.h>
 
-void	viac3_rnd(void *);
+void viac3_rnd(void *);
 int viac3_crypto_present;
 
-
 #ifdef CRYPTO
-
 struct viac3_session {
-	u_int32_t	ses_ekey[4 * (MAXNR + 1) + 4];	/* 128 bit aligned */
-	u_int32_t	ses_dkey[4 * (MAXNR + 1) + 4];	/* 128 bit aligned */
-	u_int8_t	ses_iv[16];			/* 128 bit aligned */
+	u_int32_t	ses_ekey[4*(MAXNR+1)+4] __attribute__((aligned (16)));
+	u_int32_t	ses_dkey[4*(MAXNR+1)+4] __attribute__((aligned (16)));
+	u_int8_t	ses_iv[16] __attribute__((aligned (16)));
 	u_int32_t	ses_cw0;
 	int		ses_klen;
 	int		ses_used;
 	int		ses_pad;			/* to multiple of 16 */
-};
+} __attribute__((aligned (16)));
 
 struct viac3_softc {
-	u_int32_t		op_cw[4];		/* 128 bit aligned */
-	u_int8_t		op_iv[16];		/* 128 bit aligned */
+	u_int32_t		op_cw[4] __attribute__((aligned (16)));
+	u_int8_t		op_iv[16] __attribute__((aligned (16)));
 	void			*op_buf;
 
 	/* normal softc stuff */
 	int32_t			sc_cid;
 	int			sc_nsessions;
 	struct viac3_session	*sc_sessions;
-};
+} __attribute__((aligned (16)));
 
 #define VIAC3_SESSION(sid)		((sid) & 0x0fffffff)
 #define	VIAC3_SID(crd,ses)		(((crd) << 28) | ((ses) & 0x0fffffff))
@@ -93,6 +112,16 @@ int viac3_crypto_newsession(u_int32_t *, struct cryptoini *);
 int viac3_crypto_process(struct cryptop *);
 int viac3_crypto_freesession(u_int64_t);
 static __inline void viac3_cbc(void *, void *, void *, void *, int, void *);
+
+static uint32_t viac3_r_cw[4] __attribute__((aligned (16)));
+static uint8_t viac3_r_iv[16] __attribute__((aligned (16)));
+static uint8_t viac3_r_buf[16] __attribute__((aligned (16)));
+
+void viac3_rijndael_decrypt(rijndael_ctx *, u_char *, u_char *, u_char *, int);
+void viac3_rijndael_encrypt(rijndael_ctx *, u_char *, u_char *, u_char *, int);
+void viac3_rijndael_cbc(rijndael_ctx *, u_char *, u_char *, u_char *, int, int);
+int viac3_rijndael_set_key(rijndael_ctx *, u_char *, int);
+int viac3_rijndael_set_key_enc_only(rijndael_ctx *, u_char *, int);
 
 void
 viac3_crypto_setup(void)
@@ -113,6 +142,13 @@ viac3_crypto_setup(void)
 	crypto_register(vc3_sc->sc_cid, algs, viac3_crypto_newsession,
 	    viac3_crypto_freesession, viac3_crypto_process);
 	i386_has_xcrypt = 1;
+
+	/* take over */
+	rijndael_set_key_fast = viac3_rijndael_set_key;
+	rijndael_set_key_enc_only_fast = viac3_rijndael_set_key_enc_only;
+	rijndael_cbc_decrypt_fast = viac3_rijndael_decrypt;
+	rijndael_cbc_encrypt_fast = viac3_rijndael_encrypt;
+	printf("cpu0: VIA C3 AES functions used for swapencrypt\n");
 }
 
 int
@@ -216,10 +252,12 @@ viac3_cbc(void *cw, void *src, void *dst, void *key, int rep,
 	creg0 = rcr0();		/* Permit access to SIMD/FPU path */
 	lcr0(creg0 & ~(CR0_EM|CR0_TS));
 
-	/* Do the deed */
-	__asm __volatile("pushfl; popfl");
-	__asm __volatile("rep xcrypt-cbc" :
-	    : "a" (iv), "b" (key), "c" (rep), "d" (cw), "S" (src), "D" (dst)
+	/* ensure the key is reloaded */
+	__asm__ volatile("pushfl; popfl");
+	/* actual encryption */
+	__asm__ volatile("rep xcrypt-cbc"
+	    : "+a" (iv), "+S" (src), "+D" (dst)
+	    : "b" (key), "c" (rep), "d" (cw)
 	    : "memory", "cc");
 
 	lcr0(creg0);
@@ -240,7 +278,7 @@ viac3_crypto_process(struct cryptop *crp)
 	}
 	crd = crp->crp_desc;
 	if (crd == NULL || crd->crd_next != NULL ||
-	    crd->crd_alg != CRYPTO_AES_CBC || 
+	    crd->crd_alg != CRYPTO_AES_CBC ||
 	    (crd->crd_len % 16) != 0) {
 		err = EINVAL;
 		goto out;
@@ -342,6 +380,144 @@ out:
 	return (err);
 }
 
+int
+viac3_rijndael_set_key(rijndael_ctx *ctx, u_char *key, int bits)
+{
+	int i, cw0;
+
+	if ((i = rijndael_set_key(ctx, key, bits)))
+		return (i);
+
+	switch (bits) {
+	case 128:
+		cw0 = C3_CRYPT_CWLO_KEY128;
+		break;
+	case 192:
+		cw0 = C3_CRYPT_CWLO_KEY192;
+		break;
+	case 256:
+		cw0 = C3_CRYPT_CWLO_KEY256;
+		break;
+	default:
+		return (0);
+	}
+
+	for (i = 0; i < 4 * (MAXNR + 1); i++) {
+		ctx->ek[i] = bswap32(ctx->ek[i]);
+		ctx->dk[i] = bswap32(ctx->dk[i]);
+	}
+
+	ctx->hwcr_info.via.cw0 = cw0 | C3_CRYPT_CWLO_ALG_AES |
+	    C3_CRYPT_CWLO_KEYGEN_SW | C3_CRYPT_CWLO_NORMAL;
+	ctx->hwcr_id = RIJNDAEL_HWCR_VIA;
+	return (0);
+}
+
+int
+viac3_rijndael_set_key_enc_only(rijndael_ctx *ctx, u_char *key, int bits)
+{
+	int i, cw0;
+
+	if ((i = rijndael_set_key_enc_only(ctx, key, bits)))
+		return (i);
+
+	switch (bits) {
+	case 128:
+		cw0 = C3_CRYPT_CWLO_KEY128;
+		break;
+	case 192:
+		cw0 = C3_CRYPT_CWLO_KEY192;
+		break;
+	case 256:
+		cw0 = C3_CRYPT_CWLO_KEY256;
+		break;
+	default:
+		return (0);
+	}
+
+	for (i = 0; i < 4 * (MAXNR + 1); i++)
+		ctx->ek[i] = bswap32(ctx->ek[i]);
+
+	ctx->hwcr_info.via.cw0 = cw0 | C3_CRYPT_CWLO_ALG_AES |
+	    C3_CRYPT_CWLO_KEYGEN_SW | C3_CRYPT_CWLO_NORMAL;
+	ctx->hwcr_id = RIJNDAEL_HWCR_VIA;
+	return (0);
+}
+
+void
+viac3_rijndael_cbc(rijndael_ctx *ctx, u_char *iv, u_char *src, u_char *dst,
+    int nblocks, int encr)
+{
+	void *op_buf;
+	size_t len = nblocks * sizeof (viac3_r_buf);
+
+	bzero(viac3_r_cw, sizeof (viac3_r_cw));
+	viac3_r_cw[0] = ctx->hwcr_info.via.cw0 |
+	    (encr ? C3_CRYPT_CWLO_ENCRYPT : C3_CRYPT_CWLO_DECRYPT);
+
+	if (iv == NULL)
+		bzero(viac3_r_iv, sizeof (viac3_r_iv));
+	else
+		memcpy(viac3_r_iv, iv, sizeof (viac3_r_iv));
+
+	if ((op_buf = malloc(len, M_DEVBUF, M_NOWAIT)) == NULL) {
+		/* may be OOM situation (swapencrypt?) but warn/inform */
+		printf("%s: notice: cannot allocate %lu bytes", __func__, len);
+
+		/* use viac3_r_buf to handle 16 bytes at a time only */
+		while (nblocks--) {
+			memcpy(viac3_r_buf, src, sizeof (viac3_r_buf));
+
+			viac3_cbc(&viac3_r_cw, viac3_r_buf, viac3_r_buf,
+			    encr ? ctx->ek : ctx->dk, 1, viac3_r_iv);
+			/* adjust IV manually (sigh) */
+			memcpy(viac3_r_iv, encr ? viac3_r_buf : src,
+			    sizeof (viac3_r_iv));
+
+			memcpy(dst, viac3_r_buf, sizeof (viac3_r_buf));
+			src += sizeof (viac3_r_buf);
+			dst += sizeof (viac3_r_buf);
+		}
+	} else {
+		/* handle all blocks at once */
+		memcpy(op_buf, src, len);
+
+		viac3_cbc(&viac3_r_cw, op_buf, op_buf,
+		    encr ? ctx->ek : ctx->dk, nblocks, viac3_r_iv);
+		/* adjust IV manually (sigh) */
+		memcpy(viac3_r_iv,
+		    (encr ? op_buf : src) + len - sizeof (viac3_r_iv),
+		    sizeof (viac3_r_iv));
+
+		memcpy(dst, op_buf, len);
+
+		bzero(op_buf, len);
+		free(op_buf, M_DEVBUF);
+	}
+
+	if (iv != NULL)
+		memcpy(iv, viac3_r_iv, sizeof (viac3_r_iv));
+}
+
+void
+viac3_rijndael_encrypt(rijndael_ctx *ctx, u_char *iv, u_char *src,
+    u_char *dst, int nblocks)
+{
+	if (ctx->hwcr_id == RIJNDAEL_HWCR_VIA)
+		viac3_rijndael_cbc(ctx, iv, src, dst, nblocks, 1);
+	else
+		rijndael_cbc_encrypt(ctx, iv, src, dst, nblocks);
+}
+
+void
+viac3_rijndael_decrypt(rijndael_ctx *ctx, u_char *iv, u_char *src,
+    u_char *dst, int nblocks)
+{
+	if (ctx->hwcr_id == RIJNDAEL_HWCR_VIA)
+		viac3_rijndael_cbc(ctx, iv, src, dst, nblocks, 0);
+	else
+		rijndael_cbc_decrypt(ctx, iv, src, dst, nblocks);
+}
 #endif /* CRYPTO */
 
 #if defined(I686_CPU)
@@ -396,5 +572,4 @@ viac3_rnd(void *v)
 
 	timeout_add(tmo, (hz > 100) ? (hz / 100) : 1);
 }
-
 #endif /* defined(I686_CPU) */
