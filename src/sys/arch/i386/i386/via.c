@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/sys/arch/i386/i386/via.c,v 1.1.1.1.4.4 2008/03/21 01:06:37 tg Exp $ */
 /*	$OpenBSD: via.c,v 1.1 2004/04/11 18:12:10 deraadt Exp $	*/
 /*	$NetBSD: machdep.c,v 1.214 1996/11/10 03:16:17 thorpej Exp $	*/
 
@@ -427,7 +427,10 @@ viac3_rijndael_cbc_xcrypt(rijndael_ctx *ctx, u_char *iv, u_char *src,
 
 	op_cw[0] = ctx->hwcr_info.via.cw0 |
 	    encr ? C3_CRYPT_CWLO_ENCRYPT : C3_CRYPT_CWLO_DECRYPT;
-	memcpy(op_iv, iv, sizeof (op_iv));
+	if (iv == NULL)
+		bzero(op_iv, sizeof (op_iv));
+	else
+		memcpy(op_iv, iv, sizeof (op_iv));
 
 	op_buf = (char *)malloc(len, M_DEVBUF, M_NOWAIT);
 	if (op_buf == NULL) {
@@ -444,8 +447,10 @@ viac3_rijndael_cbc_xcrypt(rijndael_ctx *ctx, u_char *iv, u_char *src,
 	bzero(op_buf, len);
 	free(op_buf, M_DEVBUF);
 
-	/* we have to adjust the IV manually */
-	memcpy(iv, (encr ? dst : src) + len - sizeof (op_iv), sizeof (op_iv));
+	if (iv != NULL)
+		/* we have to adjust the IV manually */
+		memcpy(iv, (encr ? dst : src) + len - sizeof (op_iv),
+		    sizeof (op_iv));
 }
 
 void
