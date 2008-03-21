@@ -1,7 +1,8 @@
-/**	$MirOS: src/sys/uvm/uvm_swap_encrypt.c,v 1.2.4.4 2008/03/21 01:29:03 tg Exp $ */
+/**	$MirOS: src/sys/uvm/uvm_swap_encrypt.c,v 1.2.4.8 2008/03/21 03:53:07 tg Exp $ */
 /*	$OpenBSD: uvm_swap_encrypt.c,v 1.12 2003/12/26 10:04:49 markus Exp $	*/
 
-/*
+/*-
+ * Copyright 2008 Thorsten Glaser <tg@66h.42h.de>
  * Copyright 1999 Niels Provos <provos@citi.umich.edu>
  * All rights reserved.
  *
@@ -134,8 +135,9 @@ swap_encrypt(struct swap_key *key, caddr_t src, caddr_t dst,
 	swap_key_prepare(key, 1);
 
 	iv[0] = block >> 32; iv[1] = block; iv[2] = ~iv[0]; iv[3] = ~iv[1];
-	rijndael_cbc_encrypt(&swap_ctxt, NULL, (u_char *)iv, (u_char *)iv, 1);
-	rijndael_cbc_encrypt(&swap_ctxt, (u_char *)iv, (u_char *)src,
+	(*rijndael_cbc_encrypt_fast)(&swap_ctxt, NULL, (u_char *)iv,
+	    (u_char *)iv, 1);
+	(*rijndael_cbc_encrypt_fastt)(&swap_ctxt, (u_char *)iv, (u_char *)src,
 	    (u_char *)dst, count / 16);
 }
 
@@ -156,8 +158,9 @@ swap_decrypt(struct swap_key *key, caddr_t src, caddr_t dst,
 	swap_key_prepare(key, 0);
 
 	iv[0] = block >> 32; iv[1] = block; iv[2] = ~iv[0]; iv[3] = ~iv[1];
-	rijndael_cbc_encrypt(&swap_ctxt, NULL, (u_char *)iv, (u_char *)iv, 1);
-	rijndael_cbc_decrypt(&swap_ctxt, (u_char *)iv, (u_char *)src,
+	(*rijndael_cbc_encrypt_fast)(&swap_ctxt, NULL, (u_char *)iv,
+	    (u_char *)iv, 1);
+	(*rijndael_cbc_decrypt_fast)(&swap_ctxt, (u_char *)iv, (u_char *)src,
 	    (u_char *)dst, count / 16);
 }
 
@@ -172,11 +175,11 @@ swap_key_prepare(struct swap_key *key, int encrypt)
 		return;
 
 	if (encrypt)
-		rijndael_set_key_enc_only(&swap_ctxt, (u_char *)key->key,
-		    sizeof(key->key) * 8);
+		(*rijndael_set_key_enc_only_fast)(&swap_ctxt,
+		    (u_char *)key->key, sizeof (key->key) * 8);
 	else
-		rijndael_set_key(&swap_ctxt, (u_char *)key->key,
-		    sizeof(key->key) * 8);
+		(*rijndael_set_key_fast)(&swap_ctxt,
+		    (u_char *)key->key, sizeof (key->key) * 8);
 
 	kcur = key;
 }
