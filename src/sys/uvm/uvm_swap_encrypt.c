@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/uvm/uvm_swap_encrypt.c,v 1.2.4.8 2008/03/21 03:53:07 tg Exp $ */
+/**	$MirOS: src/sys/uvm/uvm_swap_encrypt.c,v 1.2.4.9 2008/03/21 19:54:57 tg Exp $ */
 /*	$OpenBSD: uvm_swap_encrypt.c,v 1.12 2003/12/26 10:04:49 markus Exp $	*/
 
 /*-
@@ -137,7 +137,7 @@ swap_encrypt(struct swap_key *key, caddr_t src, caddr_t dst,
 	iv[0] = block >> 32; iv[1] = block; iv[2] = ~iv[0]; iv[3] = ~iv[1];
 	(*rijndael_cbc_encrypt_fast)(&swap_ctxt, NULL, (u_char *)iv,
 	    (u_char *)iv, 1);
-	(*rijndael_cbc_encrypt_fastt)(&swap_ctxt, (u_char *)iv, (u_char *)src,
+	(*rijndael_cbc_encrypt_fast)(&swap_ctxt, (u_char *)iv, (u_char *)src,
 	    (u_char *)dst, count / 16);
 }
 
