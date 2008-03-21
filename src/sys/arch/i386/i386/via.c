@@ -1,9 +1,11 @@
+/**	$MirOS$ */
 /*	$OpenBSD: via.c,v 1.1 2004/04/11 18:12:10 deraadt Exp $	*/
 /*	$NetBSD: machdep.c,v 1.214 1996/11/10 03:16:17 thorpej Exp $	*/
 
 /*-
  * Copyright (c) 2003 Jason Wright
  * Copyright (c) 2003, 2004 Theo de Raadt
+ * Copyright (c) 2008 Thorsten Glaser
  * All rights reserved.
  *
  * Permission to use, copy, modify, and distribute this software for any
@@ -55,7 +57,7 @@
 
 #include <dev/rndvar.h>
 
-void	viac3_rnd(void *);
+void viac3_rnd(void *);
 int viac3_crypto_present;
 
 
@@ -69,7 +71,7 @@ struct viac3_session {
 	int		ses_klen;
 	int		ses_used;
 	int		ses_pad;			/* to multiple of 16 */
-};
+} __attribute__((aligned (16)));
 
 struct viac3_softc {
 	u_int32_t		op_cw[4];		/* 128 bit aligned */
@@ -80,7 +82,7 @@ struct viac3_softc {
 	int32_t			sc_cid;
 	int			sc_nsessions;
 	struct viac3_session	*sc_sessions;
-};
+} __attribute__((aligned (16)));
 
 #define VIAC3_SESSION(sid)		((sid) & 0x0fffffff)
 #define	VIAC3_SID(crd,ses)		(((crd) << 28) | ((ses) & 0x0fffffff))
@@ -93,6 +95,13 @@ int viac3_crypto_newsession(u_int32_t *, struct cryptoini *);
 int viac3_crypto_process(struct cryptop *);
 int viac3_crypto_freesession(u_int64_t);
 static __inline void viac3_cbc(void *, void *, void *, void *, int, void *);
+
+void viac3_rijndael_decrypt(rijndael_ctx *, u_char *, u_char *, u_char *, int);
+void viac3_rijndael_encrypt(rijndael_ctx *, u_char *, u_char *, u_char *, int);
+void viac3_rijndael_cbc_xcrypt(rijndael_ctx *, u_char *, u_char *, u_char *,
+    int, bool);
+int viac3_rijndael_set_key(rijndael_ctx *, u_char *, int);
+int viac3_rijndael_set_key_enc_only(rijndael_ctx *, u_char *, int);
 
 void
 viac3_crypto_setup(void)
@@ -342,6 +351,122 @@ out:
 	return (err);
 }
 
+int
+viac3_rijndael_set_key(rijndael_ctx *ctx, u_char *key, int bits)
+{
+	int i, cw0;
+
+	if ((i = rijndael_set_key(ctx, key, bits)))
+		return (i);
+
+	switch (bits) {
+	case 128:
+		cw0 = C3_CRYPT_CWLO_KEY128;
+		break;
+	case 192:
+		cw0 = C3_CRYPT_CWLO_KEY192;
+		break;
+	case 256:
+		cw0 = C3_CRYPT_CWLO_KEY256;
+		break;
+	default:
+		return (0);
+	}
+
+	for (i = 0; i < 4 * (MAXNR + 1); i++) {
+		ctx->ek[i] = bswap32(ctx->ek[i]);
+		ctx->dk[i] = bswap32(ctx->dk[i]);
+	}
+
+	ctx->hwcr_info.via.cw0 = cw0 | C3_CRYPT_CWLO_ALG_AES |
+	    C3_CRYPT_CWLO_KEYGEN_SW | C3_CRYPT_CWLO_NORMAL;
+	ctx->hwcr_id = RIJNDAEL_HWCR_VIA;
+	return (0);
+}
+
+int
+viac3_rijndael_set_key_enc_only(rijndael_ctx *ctx, u_char *key, int bits)
+{
+	int i, cw0;
+
+	if ((i = rijndael_set_key_enc_only(ctx, key, bits)))
+		return (i);
+
+	switch (bits) {
+	case 128:
+		cw0 = C3_CRYPT_CWLO_KEY128;
+		break;
+	case 192:
+		cw0 = C3_CRYPT_CWLO_KEY192;
+		break;
+	case 256:
+		cw0 = C3_CRYPT_CWLO_KEY256;
+		break;
+	default:
+		return (0);
+	}
+
+	for (i = 0; i < 4 * (MAXNR + 1); i++)
+		ctx->ek[i] = bswap32(ctx->ek[i]);
+
+	ctx->hwcr_info.via.cw0 = cw0 | C3_CRYPT_CWLO_ALG_AES |
+	    C3_CRYPT_CWLO_KEYGEN_SW | C3_CRYPT_CWLO_NORMAL;
+	ctx->hwcr_id = RIJNDAEL_HWCR_VIA;
+	return (0);
+}
+
+void
+viac3_rijndael_cbc_xcrypt(rijndael_ctx *ctx, u_char *iv, u_char *src,
+    u_char *dst, int nblocks, bool encr)
+{
+	uint32_t op_cw[4] __attribute__((aligned (16))) = { 0, 0, 0, 0 };
+	uint8_t op_iv[16] __attribute__((aligned (16)));
+//	uint8_t a_blk[16] __attribute__((aligned (16)));
+	void *op_buf;
+	size_t len = nblocks * 16;
+
+	op_cw[0] = ctx->hwcr_info.via.cw0 |
+	    encr ? C3_CRYPT_CWLO_ENCRYPT : C3_CRYPT_CWLO_DECRYPT;
+	memcpy(op_iv, iv, sizeof (op_iv));
+
+	op_buf = (char *)malloc(len, M_DEVBUF, M_NOWAIT);
+	if (op_buf == NULL) {
+		printf("%s: cannot allocate %lu bytes for buffer,"
+		    " data corrupted\n", __func__, len);
+		return;
+	}
+
+	memcpy(op_buf, src, len);
+	viac3_cbc(&op_cw, op_buf, op_buf, encr ? ctx->ek : ctx->dk,
+	    nblocks, op_iv);
+	memcpy(dst, op_buf, len);
+
+	bzero(op_buf, len);
+	free(op_buf, M_DEVBUF);
+
+	/* we have to adjust the IV manually */
+	memcpy(iv, (encr ? dst : src) + len - sizeof (op_iv), sizeof (op_iv));
+}
+
+void
+viac3_rijndael_encrypt(rijndael_ctx *ctx, u_char *iv, u_char *src,
+    u_char *dst, int nblocks)
+{
+	if (ctx->hwcr_id == RIJNDAEL_HWCR_VIA)
+		viac3_rijndael_cbc_xcrypt(ctx, iv, src, dst, nblocks, true);
+	else
+		rijndael_cbc_encrypt(ctx, iv, src, dst, nblocks);
+}
+
+void
+viac3_rijndael_decrypt(rijndael_ctx *ctx, u_char *iv, u_char *src,
+    u_char *dst, int nblocks)
+{
+	if (ctx->hwcr_id == RIJNDAEL_HWCR_VIA)
+		viac3_rijndael_cbc_xcrypt(ctx, iv, src, dst, nblocks, false);
+	else
+		rijndael_cbc_decrypt(ctx, iv, src, dst, nblocks);
+}
 #endif /* CRYPTO */
 
 #if defined(I686_CPU)
