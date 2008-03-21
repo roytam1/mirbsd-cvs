@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: uvm_swap_encrypt.c,v 1.12 2003/12/26 10:04:49 markus Exp $	*/
 
 /*
@@ -117,7 +118,7 @@ swap_key_delete(struct swap_key *key)
 }
 
 /*
- * Encrypt the data before it goes to swap, the size should be 64-bit
+ * Encrypt the data before it goes to swap, the size should be 128-bit
  * aligned.
  */
 
@@ -125,44 +126,21 @@ void
 swap_encrypt(struct swap_key *key, caddr_t src, caddr_t dst,
 	     u_int64_t block, size_t count)
 {
-	u_int32_t *dsrc = (u_int32_t *)src;
-	u_int32_t *ddst = (u_int32_t *)dst;
 	u_int32_t iv[4];
-	u_int32_t iv1, iv2, iv3, iv4;
 
 	if (!swap_encrypt_initialized)
 		swap_encrypt_initialized = 1;
 
 	swap_key_prepare(key, 1);
 
-	count /= sizeof(u_int32_t);
-
 	iv[0] = block >> 32; iv[1] = block; iv[2] = ~iv[0]; iv[3] = ~iv[1];
-	rijndael_encrypt(&swap_ctxt, (u_char *)iv, (u_char *)iv);
-	iv1 = iv[0]; iv2 = iv[1]; iv3 = iv[2]; iv4 = iv[3];
-
-	for (; count > 0; count -= 4) {
-		ddst[0] = dsrc[0] ^ iv1;
-		ddst[1] = dsrc[1] ^ iv2;
-		ddst[2] = dsrc[2] ^ iv3;
-		ddst[3] = dsrc[3] ^ iv4;
-		/*
-		 * Do not worry about endianess, it only needs to decrypt
-		 * on this machine
-		 */
-		rijndael_encrypt(&swap_ctxt, (u_char *)ddst, (u_char *)ddst);
-		iv1 = ddst[0];
-		iv2 = ddst[1];
-		iv3 = ddst[2];
-		iv4 = ddst[3];
-
-		dsrc += 4;
-		ddst += 4;
-	}
+	rijndael_cbc_encrypt(&swap_ctxt, NULL, (u_char *)iv, (u_char *)iv, 1);
+	rijndael_cbc_encrypt(&swap_ctxt, (u_char *)iv, (u_char *)src,
+	    (u_char *)dst, count / 16);
 }
 
 /*
- * Decrypt the data after we retrieved it from swap, the size should be 64-bit
+ * Decrypt the data after we retrieved it from swap, the size should be 128-bit
  * aligned.
  */
 
@@ -170,41 +148,17 @@ void
 swap_decrypt(struct swap_key *key, caddr_t src, caddr_t dst,
 	     u_int64_t block, size_t count)
 {
-	u_int32_t *dsrc = (u_int32_t *)src;
-	u_int32_t *ddst = (u_int32_t *)dst;
 	u_int32_t iv[4];
-	u_int32_t iv1, iv2, iv3, iv4, niv1, niv2, niv3, niv4;
 
 	if (!swap_encrypt_initialized)
 		panic("swap_decrypt: key not initialized");
 
 	swap_key_prepare(key, 0);
 
-	count /= sizeof(u_int32_t);
-
 	iv[0] = block >> 32; iv[1] = block; iv[2] = ~iv[0]; iv[3] = ~iv[1];
-	rijndael_encrypt(&swap_ctxt, (u_char *)iv, (u_char *)iv);
-	iv1 = iv[0]; iv2 = iv[1]; iv3 = iv[2]; iv4 = iv[3];
-
-	for (; count > 0; count -= 4) {
-		ddst[0] = niv1 = dsrc[0];
-		ddst[1] = niv2 = dsrc[1];
-		ddst[2] = niv3 = dsrc[2];
-		ddst[3] = niv4 = dsrc[3];
-		rijndael_decrypt(&swap_ctxt, (u_char *)ddst, (u_char *)ddst);
-		ddst[0] ^= iv1;
-		ddst[1] ^= iv2;
-		ddst[2] ^= iv3;
-		ddst[3] ^= iv4;
-
-		iv1 = niv1;
-		iv2 = niv2;
-		iv3 = niv3;
-		iv4 = niv4;
-
-		dsrc += 4;
-		ddst += 4;
-	}
+	rijndael_cbc_encrypt(&swap_ctxt, NULL, (u_char *)iv, (u_char *)iv, 1);
+	rijndael_cbc_decrypt(&swap_ctxt, (u_char *)iv, (u_char *)src,
+	    (u_char *)dst, count / 16);
 }
 
 void
