@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/i386/via.c,v 1.1.1.1.4.11 2008/03/21 18:43:46 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/i386/via.c,v 1.1.1.1.4.12 2008/03/21 18:53:21 tg Exp $ */
 /*	$OpenBSD: via.c,v 1.1 2004/04/11 18:12:10 deraadt Exp $	*/
 /*	$NetBSD: machdep.c,v 1.214 1996/11/10 03:16:17 thorpej Exp $	*/
 
@@ -232,11 +232,11 @@ viac3_cbc(void *cw, void *src, void *dst, void *key, int rep,
 	creg0 = rcr0();		/* Permit access to SIMD/FPU path */
 	lcr0(creg0 & ~(CR0_EM|CR0_TS));
 
-	/* Do the deed */
-	__asm __volatile("pushfl; popfl");
-	__asm __volatile("rep xcrypt-cbc" :
-	    : "a" (iv), "b" (key), "c" (rep), "d" (cw), "S" (src), "D" (dst)
-	    : "a", "b", "c", "d", "S", "D", "memory", "cc");
+	__asm__ volatile("pushfl; popfl");
+	__asm__ volatile("rep xcrypt-cbc"
+	    : "+a" (iv), "+S" (src), "+D" (dst)
+	    : "b" (key), "c" (rep), "d" (cw)
+	    : "memory", "cc");
 
 	lcr0(creg0);
 }
