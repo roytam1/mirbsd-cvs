@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/crypto/rijndael.c,v 1.1.1.2.4.8 2008/03/20 19:18:00 tg Exp $ */
+/**	$MirOS: src/sys/crypto/rijndael.c,v 1.1.1.2.4.9 2008/03/20 23:23:39 tg Exp $ */
 /*	$OpenBSD: rijndael.c,v 1.18 2005/05/25 05:47:53 markus Exp $ */
 
 /**
@@ -1305,7 +1305,10 @@ rijndael_cbc_encrypt(rijndael_ctx *ctx, u_char *iv,
 	u32 d_iv[4], data[4];
 
 	rijndael_hwcr_issoft(ctx);
-	memcpy(d_iv, iv, sizeof (d_iv));
+	if (iv == NULL)
+		bzero(d_iv, sizeof (d_iv));
+	else
+		memcpy(d_iv, iv, sizeof (d_iv));
 	while (nblocks--) {
 		memcpy(data, src, sizeof (data));
 		src += sizeof (data);
@@ -1319,7 +1322,8 @@ rijndael_cbc_encrypt(rijndael_ctx *ctx, u_char *iv,
 		memcpy(dst, data, sizeof (data));
 		dst += sizeof (data);
 	}
-	memcpy(iv, d_iv, sizeof (d_iv));
+	if (iv != NULL)
+		memcpy(iv, d_iv, sizeof (d_iv));
 }
 
 void
@@ -1329,7 +1333,10 @@ rijndael_cbc_decrypt(rijndael_ctx *ctx, u_char *iv,
 	u32 d_iv[4], data[4];
 
 	rijndael_hwcr_issoft(ctx);
-	memcpy(d_iv, iv, sizeof (d_iv));
+	if (iv == NULL)
+		bzero(d_iv, sizeof (d_iv));
+	else
+		memcpy(d_iv, iv, sizeof (d_iv));
 	while (nblocks--) {
 		memcpy(data, src, sizeof (data));
 		rijndaelDecrypt(ctx->dk, ctx->Nr,
@@ -1343,7 +1350,8 @@ rijndael_cbc_decrypt(rijndael_ctx *ctx, u_char *iv,
 		memcpy(d_iv, src, sizeof (data));
 		src += sizeof (data);
 	}
-	memcpy(iv, d_iv, sizeof (d_iv));
+	if (iv != NULL)
+		memcpy(iv, d_iv, sizeof (d_iv));
 }
 
 rijndael_setkey_t rijndael_set_key_fast = rijndael_set_key;
