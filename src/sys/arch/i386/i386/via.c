@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/i386/via.c,v 1.1.1.1.4.6 2008/03/21 02:55:05 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/i386/via.c,v 1.1.1.1.4.7 2008/03/21 02:55:35 tg Exp $ */
 /*	$OpenBSD: via.c,v 1.1 2004/04/11 18:12:10 deraadt Exp $	*/
 /*	$NetBSD: machdep.c,v 1.214 1996/11/10 03:16:17 thorpej Exp $	*/
 
@@ -428,7 +428,7 @@ viac3_rijndael_cbc_xcrypt(rijndael_ctx *ctx, u_char *iv, u_char *src,
 {
 	uint32_t op_cw[4] __attribute__((aligned (16))) = { 0, 0, 0, 0 };
 	uint8_t op_iv[16] __attribute__((aligned (16)));
-//	uint8_t a_blk[16] __attribute__((aligned (16)));
+	uint8_t a_blk[16] __attribute__((aligned (16)));
 	void *op_buf;
 	size_t len = nblocks * 16;
 
@@ -440,24 +440,37 @@ viac3_rijndael_cbc_xcrypt(rijndael_ctx *ctx, u_char *iv, u_char *src,
 		memcpy(op_iv, iv, sizeof (op_iv));
 
 	op_buf = (char *)malloc(len, M_DEVBUF, M_NOWAIT);
+
 	if (op_buf == NULL) {
-		printf("%s: cannot allocate %lu bytes for buffer,"
-		    " data corrupted\n", __func__, len);
-		return;
+		/* may be OOM situation (swapencrypt?) but warn/inform */
+		printf("%s: cannot allocate %lu bytes", __func__, len);
+
+		/* use a_blk to handle 16 bytes at a time only */
+		while (nblocks--) {
+			memcpy(a_blk, src, sizeof (a_blk));
+			viac3_cbc(&op_cw, a_blk, a_blk,
+			    encr ? ctx->ek : ctx->dk, 1, op_iv);
+			/* adjust IV manually (sigh) */
+			memcpy(op_iv, encr ? a_blk : src, sizeof (op_iv));
+			memcpy(dst, a_blk, sizeof (a_blk));
+			src += sizeof (a_blk);
+			dst += sizeof (a_blk);
+		}
+	} else {
+		memcpy(op_buf, src, len);
+		viac3_cbc(&op_cw, op_buf, op_buf, encr ? ctx->ek : ctx->dk,
+		    nblocks, op_iv);
+		/* adjust IV manually (sigh) */
+		memcpy(op_iv, (encr ? op_buf : src) + len - sizeof (op_iv),
+		    sizeof (op_iv));
+		memcpy(dst, op_buf, len);
+
+		bzero(op_buf, len);
+		free(op_buf, M_DEVBUF);
 	}
 
-	memcpy(op_buf, src, len);
-	viac3_cbc(&op_cw, op_buf, op_buf, encr ? ctx->ek : ctx->dk,
-	    nblocks, op_iv);
-	memcpy(dst, op_buf, len);
-
-	bzero(op_buf, len);
-	free(op_buf, M_DEVBUF);
-
 	if (iv != NULL)
-		/* we have to adjust the IV manually */
-		memcpy(iv, (encr ? dst : src) + len - sizeof (op_iv),
-		    sizeof (op_iv));
+		memcpy(iv, op_iv, sizeof (op_iv));
 }
 
 void
