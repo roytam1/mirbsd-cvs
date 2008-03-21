@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/i386/via.c,v 1.1.1.1.4.10 2008/03/21 18:19:30 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/i386/via.c,v 1.1.1.1.4.11 2008/03/21 18:43:46 tg Exp $ */
 /*	$OpenBSD: via.c,v 1.1 2004/04/11 18:12:10 deraadt Exp $	*/
 /*	$NetBSD: machdep.c,v 1.214 1996/11/10 03:16:17 thorpej Exp $	*/
 
@@ -236,7 +236,7 @@ viac3_cbc(void *cw, void *src, void *dst, void *key, int rep,
 	__asm __volatile("pushfl; popfl");
 	__asm __volatile("rep xcrypt-cbc" :
 	    : "a" (iv), "b" (key), "c" (rep), "d" (cw), "S" (src), "D" (dst)
-	    : "memory", "cc");
+	    : "a", "b", "c", "d", "S", "D", "memory", "cc");
 
 	lcr0(creg0);
 }
