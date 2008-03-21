@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/i386/via.c,v 1.1.1.1.4.7 2008/03/21 02:55:35 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/i386/via.c,v 1.1.1.1.4.8 2008/03/21 04:07:15 tg Exp $ */
 /*	$OpenBSD: via.c,v 1.1 2004/04/11 18:12:10 deraadt Exp $	*/
 /*	$NetBSD: machdep.c,v 1.214 1996/11/10 03:16:17 thorpej Exp $	*/
 
@@ -422,55 +422,64 @@ viac3_rijndael_set_key_enc_only(rijndael_ctx *ctx, u_char *key, int bits)
 	return (0);
 }
 
+static uint32_t cbc_xcrypt_op_cw[4] __attribute__((aligned (16)));
+static uint8_t cbc_xcrypt_op_iv[16] __attribute__((aligned (16)));
+static uint8_t cbc_xcrypt_a_blk[16] __attribute__((aligned (16)));
+
 void
 viac3_rijndael_cbc_xcrypt(rijndael_ctx *ctx, u_char *iv, u_char *src,
     u_char *dst, int nblocks, int encr)
 {
-	uint32_t op_cw[4] __attribute__((aligned (16))) = { 0, 0, 0, 0 };
-	uint8_t op_iv[16] __attribute__((aligned (16)));
-	uint8_t a_blk[16] __attribute__((aligned (16)));
-	void *op_buf;
-	size_t len = nblocks * 16;
+	void *cbc_xcrypt_op_buf;
+	size_t len = nblocks * sizeof (cbc_xcrypt_a_blk);
 
-	op_cw[0] = ctx->hwcr_info.via.cw0 |
+	cbc_xcrypt_op_cw[0] = ctx->hwcr_info.via.cw0 |
 	    encr ? C3_CRYPT_CWLO_ENCRYPT : C3_CRYPT_CWLO_DECRYPT;
+	cbc_xcrypt_op_cw[1] = cbc_xcrypt_op_cw[2] = cbc_xcrypt_op_cw[3] = 0;
 	if (iv == NULL)
-		bzero(op_iv, sizeof (op_iv));
+		bzero(cbc_xcrypt_op_iv, sizeof (cbc_xcrypt_op_iv));
 	else
-		memcpy(op_iv, iv, sizeof (op_iv));
+		memcpy(cbc_xcrypt_op_iv, iv, sizeof (cbc_xcrypt_op_iv));
 
-	op_buf = (char *)malloc(len, M_DEVBUF, M_NOWAIT);
+	cbc_xcrypt_op_buf = (char *)malloc(len, M_DEVBUF, M_NOWAIT);
 
-	if (op_buf == NULL) {
+	if (cbc_xcrypt_op_buf == NULL) {
 		/* may be OOM situation (swapencrypt?) but warn/inform */
 		printf("%s: cannot allocate %lu bytes", __func__, len);
 
-		/* use a_blk to handle 16 bytes at a time only */
+		/* use cbc_xcrypt_a_blk to handle 16 bytes at a time only */
 		while (nblocks--) {
-			memcpy(a_blk, src, sizeof (a_blk));
-			viac3_cbc(&op_cw, a_blk, a_blk,
-			    encr ? ctx->ek : ctx->dk, 1, op_iv);
+			memcpy(cbc_xcrypt_a_blk, src,
+			    sizeof (cbc_xcrypt_a_blk));
+			viac3_cbc(&cbc_xcrypt_op_cw, cbc_xcrypt_a_blk,
+			    cbc_xcrypt_a_blk, encr ? ctx->ek : ctx->dk, 1,
+			    cbc_xcrypt_op_iv);
 			/* adjust IV manually (sigh) */
-			memcpy(op_iv, encr ? a_blk : src, sizeof (op_iv));
-			memcpy(dst, a_blk, sizeof (a_blk));
-			src += sizeof (a_blk);
-			dst += sizeof (a_blk);
+			memcpy(cbc_xcrypt_op_iv, encr ? cbc_xcrypt_a_blk : src,
+			    sizeof (cbc_xcrypt_op_iv));
+			memcpy(dst, cbc_xcrypt_a_blk,
+			    sizeof (cbc_xcrypt_a_blk));
+			src += sizeof (cbc_xcrypt_a_blk);
+			dst += sizeof (cbc_xcrypt_a_blk);
 		}
 	} else {
-		memcpy(op_buf, src, len);
-		viac3_cbc(&op_cw, op_buf, op_buf, encr ? ctx->ek : ctx->dk,
-		    nblocks, op_iv);
+		memcpy(cbc_xcrypt_op_buf, src, len);
+		viac3_cbc(&cbc_xcrypt_op_cw, cbc_xcrypt_op_buf,
+		    cbc_xcrypt_op_buf, encr ? ctx->ek : ctx->dk,
+		    nblocks, cbc_xcrypt_op_iv);
 		/* adjust IV manually (sigh) */
-		memcpy(op_iv, (encr ? op_buf : src) + len - sizeof (op_iv),
-		    sizeof (op_iv));
-		memcpy(dst, op_buf, len);
+		memcpy(cbc_xcrypt_op_iv,
+		    (encr ? cbc_xcrypt_op_buf : src) +
+		    len - sizeof (cbc_xcrypt_op_iv),
+		    sizeof (cbc_xcrypt_op_iv));
+		memcpy(dst, cbc_xcrypt_op_buf, len);
 
-		bzero(op_buf, len);
-		free(op_buf, M_DEVBUF);
+		bzero(cbc_xcrypt_op_buf, len);
+		free(cbc_xcrypt_op_buf, M_DEVBUF);
 	}
 
 	if (iv != NULL)
-		memcpy(iv, op_iv, sizeof (op_iv));
+		memcpy(iv, cbc_xcrypt_op_iv, sizeof (cbc_xcrypt_op_iv));
 }
 
 void
