@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/uvm/uvm_swap_encrypt.c,v 1.2.4.6 2008/03/21 03:32:01 tg Exp $ */
+/**	$MirOS: src/sys/uvm/uvm_swap_encrypt.c,v 1.2.4.4 2008/03/21 01:29:03 tg Exp $ */
 /*	$OpenBSD: uvm_swap_encrypt.c,v 1.12 2003/12/26 10:04:49 markus Exp $	*/
 
 /*
@@ -135,10 +135,6 @@ swap_encrypt(struct swap_key *key, caddr_t src, caddr_t dst,
 
 	iv[0] = block >> 32; iv[1] = block; iv[2] = ~iv[0]; iv[3] = ~iv[1];
 	rijndael_cbc_encrypt(&swap_ctxt, NULL, (u_char *)iv, (u_char *)iv, 1);
-	printf("%s: on %d bytes, iv %08X-%08X-%08X-%08X ", __func__, (int)count, iv[0], iv[1], iv[2], iv[3]);
-	iv[0] = block >> 32; iv[1] = block; iv[2] = ~iv[0]; iv[3] = ~iv[1];
-	rijndael_encrypt(&swap_ctxt, (u_char *)iv, (u_char *)iv); 
-	printf("should be %08X-%08X-%08X-%08X\n", iv[0], iv[1], iv[2], iv[3]);
 	rijndael_cbc_encrypt(&swap_ctxt, (u_char *)iv, (u_char *)src,
 	    (u_char *)dst, count / 16);
 }
@@ -161,10 +157,6 @@ swap_decrypt(struct swap_key *key, caddr_t src, caddr_t dst,
 
 	iv[0] = block >> 32; iv[1] = block; iv[2] = ~iv[0]; iv[3] = ~iv[1];
 	rijndael_cbc_encrypt(&swap_ctxt, NULL, (u_char *)iv, (u_char *)iv, 1);
-	printf("%s: on %d bytes, iv %08X-%08X-%08X-%08X ", __func__, (int)count, iv[0], iv[1], iv[2], iv[3]);
-	iv[0] = block >> 32; iv[1] = block; iv[2] = ~iv[0]; iv[3] = ~iv[1];
-	rijndael_encrypt(&swap_ctxt, (u_char *)iv, (u_char *)iv); 
-	printf("should be %08X-%08X-%08X-%08X\n", iv[0], iv[1], iv[2], iv[3]);
 	rijndael_cbc_decrypt(&swap_ctxt, (u_char *)iv, (u_char *)src,
 	    (u_char *)dst, count / 16);
 }
