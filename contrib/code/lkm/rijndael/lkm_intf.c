@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/lkm/rijndael/lkm_intf.c,v 1.5 2008/03/20 21:24:18 tg Exp $ */
+/* $MirOS: contrib/code/lkm/rijndael/lkm_intf.c,v 1.6 2008/03/20 21:26:46 tg Exp $ */
 
 /*-
  * Copyright (c) 2005, 2008
@@ -137,7 +137,7 @@ rijndaelread(dev_t dev, struct uio *uio, int ioflag)
 int
 rijndaelwrite(dev_t dev, struct uio *uio, int ioflag)
 {
-	int rv;
+	int rv, bits;
 	rijndael_setkey_t theop;
 	uint8_t thekey[256/8];
 
@@ -165,6 +165,7 @@ rijndaelwrite(dev_t dev, struct uio *uio, int ioflag)
 	case 128/8:
 	case 192/8:
 	case 256/8:
+		bits = uio->uio_resid * 8;
 		break;
 	default:
 		return (EINVAL);
@@ -172,7 +173,7 @@ rijndaelwrite(dev_t dev, struct uio *uio, int ioflag)
 	if ((rv = uiomove((caddr_t)thekey, uio->uio_resid, uio)))
 		return (rv);
 
-	if (((*theop)(&thectx, thekey, uio->uio_resid * 8))) {
+	if (((*theop)(&thectx, thekey, bits))) {
 		printf("rijndael: rijndael_set_key failed!\n");
 		return (EINVAL);
 	}
