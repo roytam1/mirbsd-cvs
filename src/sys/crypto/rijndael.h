@@ -1,5 +1,10 @@
-/**	$MirOS: src/sys/crypto/rijndael.h,v 1.1.1.2.4.10 2008/03/20 19:18:00 tg Exp $ */
+/**	$MirOS: src/sys/crypto/rijndael.h,v 1.1.1.2.4.11 2008/03/20 21:21:53 tg Exp $ */
 /*	$OpenBSD: rijndael.h,v 1.11 2005/05/25 05:47:53 markus Exp $ */
+
+/*-
+ * Adaptions for VIA C3 hardware cryptography and integration is
+ * Copyright (c) 2008 Thorsten Glaser
+ */
 
 /**
  * rijndael-alg-fst.h
@@ -26,6 +31,7 @@
  * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 #ifndef __RIJNDAEL_H
 #define __RIJNDAEL_H
 
@@ -44,8 +50,10 @@ struct viac3_rijndael_ctx {
 
 /*  The structure for key information */
 typedef struct {
-	u32	ek[4*(MAXNR + 1) + 4];	/* encrypt key schedule */
-	u32	dk[4*(MAXNR + 1) + 4];	/* decrypt key schedule */
+	u32	ek[4*(MAXNR + 1) + 4]	/* encrypt key schedule */
+	    __attribute__((aligned (16)));
+	u32	dk[4*(MAXNR + 1) + 4]	/* decrypt key schedule */
+	    __attribute__((aligned (16)));
 	union {
 		struct viac3_rijndael_ctx via;
 	} hwcr_info;
