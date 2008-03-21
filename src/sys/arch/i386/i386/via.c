@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/i386/via.c,v 1.1.1.1.4.9 2008/03/21 18:09:23 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/i386/via.c,v 1.1.1.1.4.10 2008/03/21 18:19:30 tg Exp $ */
 /*	$OpenBSD: via.c,v 1.1 2004/04/11 18:12:10 deraadt Exp $	*/
 /*	$NetBSD: machdep.c,v 1.214 1996/11/10 03:16:17 thorpej Exp $	*/
 
@@ -442,6 +442,7 @@ viac3_rijndael_cbc_xcrypt(rijndael_ctx *ctx, u_char *iv, u_char *src,
 		memcpy(cbc_xcrypt_op_iv, iv, sizeof (cbc_xcrypt_op_iv));
 
 	cbc_xcrypt_op_buf = (char *)malloc(len, M_DEVBUF, M_NOWAIT);
+printf("%s: got %lu bytes at %p from malloc\n", __func__, len, cbc_xcrypt_op_buf);
 
 	if (cbc_xcrypt_op_buf == NULL) {
 		/* may be OOM situation (swapencrypt?) but warn/inform */
@@ -475,6 +476,7 @@ viac3_rijndael_cbc_xcrypt(rijndael_ctx *ctx, u_char *iv, u_char *src,
 		memcpy(dst, cbc_xcrypt_op_buf, len);
 
 		bzero(cbc_xcrypt_op_buf, len);
+printf("%s: trying to free at %p ...\n", __func__, cbc_xcrypt_op_buf);
 		free(cbc_xcrypt_op_buf, M_DEVBUF);
 	}
 
