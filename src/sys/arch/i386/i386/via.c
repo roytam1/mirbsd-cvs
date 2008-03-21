@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/i386/via.c,v 1.1.1.1.4.8 2008/03/21 04:07:15 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/i386/via.c,v 1.1.1.1.4.9 2008/03/21 18:09:23 tg Exp $ */
 /*	$OpenBSD: via.c,v 1.1 2004/04/11 18:12:10 deraadt Exp $	*/
 /*	$NetBSD: machdep.c,v 1.214 1996/11/10 03:16:17 thorpej Exp $	*/
 
@@ -434,7 +434,7 @@ viac3_rijndael_cbc_xcrypt(rijndael_ctx *ctx, u_char *iv, u_char *src,
 	size_t len = nblocks * sizeof (cbc_xcrypt_a_blk);
 
 	cbc_xcrypt_op_cw[0] = ctx->hwcr_info.via.cw0 |
-	    encr ? C3_CRYPT_CWLO_ENCRYPT : C3_CRYPT_CWLO_DECRYPT;
+	    (encr ? C3_CRYPT_CWLO_ENCRYPT : C3_CRYPT_CWLO_DECRYPT);
 	cbc_xcrypt_op_cw[1] = cbc_xcrypt_op_cw[2] = cbc_xcrypt_op_cw[3] = 0;
 	if (iv == NULL)
 		bzero(cbc_xcrypt_op_iv, sizeof (cbc_xcrypt_op_iv));
