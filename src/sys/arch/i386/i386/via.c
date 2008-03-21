@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/i386/via.c,v 1.1.1.1.4.4 2008/03/21 01:06:37 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/i386/via.c,v 1.1.1.1.4.5 2008/03/21 01:14:58 tg Exp $ */
 /*	$OpenBSD: via.c,v 1.1 2004/04/11 18:12:10 deraadt Exp $	*/
 /*	$NetBSD: machdep.c,v 1.214 1996/11/10 03:16:17 thorpej Exp $	*/
 
@@ -99,7 +99,7 @@ static __inline void viac3_cbc(void *, void *, void *, void *, int, void *);
 void viac3_rijndael_decrypt(rijndael_ctx *, u_char *, u_char *, u_char *, int);
 void viac3_rijndael_encrypt(rijndael_ctx *, u_char *, u_char *, u_char *, int);
 void viac3_rijndael_cbc_xcrypt(rijndael_ctx *, u_char *, u_char *, u_char *,
-    int, bool);
+    int, int);
 int viac3_rijndael_set_key(rijndael_ctx *, u_char *, int);
 int viac3_rijndael_set_key_enc_only(rijndael_ctx *, u_char *, int);
 
@@ -417,7 +417,7 @@ viac3_rijndael_set_key_enc_only(rijndael_ctx *ctx, u_char *key, int bits)
 
 void
 viac3_rijndael_cbc_xcrypt(rijndael_ctx *ctx, u_char *iv, u_char *src,
-    u_char *dst, int nblocks, bool encr)
+    u_char *dst, int nblocks, int encr)
 {
 	uint32_t op_cw[4] __attribute__((aligned (16))) = { 0, 0, 0, 0 };
 	uint8_t op_iv[16] __attribute__((aligned (16)));
@@ -458,7 +458,7 @@ viac3_rijndael_encrypt(rijndael_ctx *ctx, u_char *iv, u_char *src,
     u_char *dst, int nblocks)
 {
 	if (ctx->hwcr_id == RIJNDAEL_HWCR_VIA)
-		viac3_rijndael_cbc_xcrypt(ctx, iv, src, dst, nblocks, true);
+		viac3_rijndael_cbc_xcrypt(ctx, iv, src, dst, nblocks, 1);
 	else
 		rijndael_cbc_encrypt(ctx, iv, src, dst, nblocks);
 }
@@ -468,7 +468,7 @@ viac3_rijndael_decrypt(rijndael_ctx *ctx, u_char *iv, u_char *src,
     u_char *dst, int nblocks)
 {
 	if (ctx->hwcr_id == RIJNDAEL_HWCR_VIA)
-		viac3_rijndael_cbc_xcrypt(ctx, iv, src, dst, nblocks, false);
+		viac3_rijndael_cbc_xcrypt(ctx, iv, src, dst, nblocks, 0);
 	else
 		rijndael_cbc_decrypt(ctx, iv, src, dst, nblocks);
 }
