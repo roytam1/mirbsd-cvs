@@ -1,11 +1,30 @@
-/**	$MirOS: src/sys/arch/i386/i386/via.c,v 1.1.1.1.4.12 2008/03/21 18:53:21 tg Exp $ */
+/**	$MirOS$ */
 /*	$OpenBSD: via.c,v 1.1 2004/04/11 18:12:10 deraadt Exp $	*/
 /*	$NetBSD: machdep.c,v 1.214 1996/11/10 03:16:17 thorpej Exp $	*/
 
 /*-
+ * Copyright (c) 2008
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.de>
+ *
+ * Provided that these terms and disclaimer and all copyright notices
+ * are retained or reproduced in an accompanying document, permission
+ * is granted to deal in this work without restriction, including un-
+ * limited rights to use, publicly perform, distribute, sell, modify,
+ * merge, give away, or sublicence.
+ *
+ * This work is provided “AS IS” and WITHOUT WARRANTY of any kind, to
+ * the utmost extent permitted by applicable law, neither express nor
+ * implied; without malicious intent or gross negligence. In no event
+ * may a licensor, author or contributor be held liable for indirect,
+ * direct, other damage, loss, or other issues arising in any way out
+ * of dealing in the work, even if advised of the possibility of such
+ * damage or existence of a defect, except proven that it results out
+ * of said person’s immediate fault when using the work as intended.
+ */
+
+/*-
  * Copyright (c) 2003 Jason Wright
  * Copyright (c) 2003, 2004 Theo de Raadt
- * Copyright (c) 2008 Thorsten Glaser
  * All rights reserved.
  *
  * Permission to use, copy, modify, and distribute this software for any
@@ -60,13 +79,11 @@
 void viac3_rnd(void *);
 int viac3_crypto_present;
 
-
 #ifdef CRYPTO
-
 struct viac3_session {
-	u_int32_t	ses_ekey[4 * (MAXNR + 1) + 4];	/* 128 bit aligned */
-	u_int32_t	ses_dkey[4 * (MAXNR + 1) + 4];	/* 128 bit aligned */
-	u_int8_t	ses_iv[16];			/* 128 bit aligned */
+	u_int32_t	ses_ekey[4*(MAXNR+1)+4] __attribute__((aligned (16)));
+	u_int32_t	ses_dkey[4*(MAXNR+1)+4] __attribute__((aligned (16)));
+	u_int8_t	ses_iv[16] __attribute__((aligned (16)));
 	u_int32_t	ses_cw0;
 	int		ses_klen;
 	int		ses_used;
@@ -74,8 +91,8 @@ struct viac3_session {
 } __attribute__((aligned (16)));
 
 struct viac3_softc {
-	u_int32_t		op_cw[4];		/* 128 bit aligned */
-	u_int8_t		op_iv[16];		/* 128 bit aligned */
+	u_int32_t		op_cw[4] __attribute__((aligned (16)));
+	u_int8_t		op_iv[16] __attribute__((aligned (16)));
 	void			*op_buf;
 
 	/* normal softc stuff */
@@ -96,10 +113,13 @@ int viac3_crypto_process(struct cryptop *);
 int viac3_crypto_freesession(u_int64_t);
 static __inline void viac3_cbc(void *, void *, void *, void *, int, void *);
 
+static uint32_t viac3_r_cw[4] __attribute__((aligned (16)));
+static uint8_t viac3_r_iv[16] __attribute__((aligned (16)));
+static uint8_t viac3_r_buf[16] __attribute__((aligned (16)));
+
 void viac3_rijndael_decrypt(rijndael_ctx *, u_char *, u_char *, u_char *, int);
 void viac3_rijndael_encrypt(rijndael_ctx *, u_char *, u_char *, u_char *, int);
-void viac3_rijndael_cbc_xcrypt(rijndael_ctx *, u_char *, u_char *, u_char *,
-    int, int);
+void viac3_rijndael_cbc(rijndael_ctx *, u_char *, u_char *, u_char *, int, int);
 int viac3_rijndael_set_key(rijndael_ctx *, u_char *, int);
 int viac3_rijndael_set_key_enc_only(rijndael_ctx *, u_char *, int);
 
@@ -232,7 +252,9 @@ viac3_cbc(void *cw, void *src, void *dst, void *key, int rep,
 	creg0 = rcr0();		/* Permit access to SIMD/FPU path */
 	lcr0(creg0 & ~(CR0_EM|CR0_TS));
 
+	/* ensure the key is reloaded */
 	__asm__ volatile("pushfl; popfl");
+	/* actual encryption */
 	__asm__ volatile("rep xcrypt-cbc"
 	    : "+a" (iv), "+S" (src), "+D" (dst)
 	    : "b" (key), "c" (rep), "d" (cw)
@@ -422,66 +444,59 @@ viac3_rijndael_set_key_enc_only(rijndael_ctx *ctx, u_char *key, int bits)
 	return (0);
 }
 
-static uint32_t cbc_xcrypt_op_cw[4] __attribute__((aligned (16)));
-static uint8_t cbc_xcrypt_op_iv[16] __attribute__((aligned (16)));
-static uint8_t cbc_xcrypt_a_blk[16] __attribute__((aligned (16)));
-
 void
-viac3_rijndael_cbc_xcrypt(rijndael_ctx *ctx, u_char *iv, u_char *src,
-    u_char *dst, int nblocks, int encr)
+viac3_rijndael_cbc(rijndael_ctx *ctx, u_char *iv, u_char *src, u_char *dst,
+    int nblocks, int encr)
 {
-	void *cbc_xcrypt_op_buf;
-	size_t len = nblocks * sizeof (cbc_xcrypt_a_blk);
+	void *op_buf;
+	size_t len = nblocks * sizeof (viac3_r_buf);
 
-	cbc_xcrypt_op_cw[0] = ctx->hwcr_info.via.cw0 |
+	bzero(viac3_r_cw, sizeof (viac3_r_cw));
+	viac3_r_cw[0] = ctx->hwcr_info.via.cw0 |
 	    (encr ? C3_CRYPT_CWLO_ENCRYPT : C3_CRYPT_CWLO_DECRYPT);
-	cbc_xcrypt_op_cw[1] = cbc_xcrypt_op_cw[2] = cbc_xcrypt_op_cw[3] = 0;
+
 	if (iv == NULL)
-		bzero(cbc_xcrypt_op_iv, sizeof (cbc_xcrypt_op_iv));
+		bzero(viac3_r_iv, sizeof (viac3_r_iv));
 	else
-		memcpy(cbc_xcrypt_op_iv, iv, sizeof (cbc_xcrypt_op_iv));
+		memcpy(viac3_r_iv, iv, sizeof (viac3_r_iv));
 
-	cbc_xcrypt_op_buf = (char *)malloc(len, M_DEVBUF, M_NOWAIT);
-printf("%s: got %lu bytes at %p from malloc\n", __func__, len, cbc_xcrypt_op_buf);
-
-	if (cbc_xcrypt_op_buf == NULL) {
+	if ((op_buf = malloc(len, M_DEVBUF, M_NOWAIT)) == NULL) {
 		/* may be OOM situation (swapencrypt?) but warn/inform */
-		printf("%s: cannot allocate %lu bytes", __func__, len);
+		printf("%s: notice: cannot allocate %lu bytes", __func__, len);
 
-		/* use cbc_xcrypt_a_blk to handle 16 bytes at a time only */
+		/* use viac3_r_buf to handle 16 bytes at a time only */
 		while (nblocks--) {
-			memcpy(cbc_xcrypt_a_blk, src,
-			    sizeof (cbc_xcrypt_a_blk));
-			viac3_cbc(&cbc_xcrypt_op_cw, cbc_xcrypt_a_blk,
-			    cbc_xcrypt_a_blk, encr ? ctx->ek : ctx->dk, 1,
-			    cbc_xcrypt_op_iv);
+			memcpy(viac3_r_buf, src, sizeof (viac3_r_buf));
+
+			viac3_cbc(&viac3_r_cw, viac3_r_buf, viac3_r_buf,
+			    encr ? ctx->ek : ctx->dk, 1, viac3_r_iv);
 			/* adjust IV manually (sigh) */
-			memcpy(cbc_xcrypt_op_iv, encr ? cbc_xcrypt_a_blk : src,
-			    sizeof (cbc_xcrypt_op_iv));
-			memcpy(dst, cbc_xcrypt_a_blk,
-			    sizeof (cbc_xcrypt_a_blk));
-			src += sizeof (cbc_xcrypt_a_blk);
-			dst += sizeof (cbc_xcrypt_a_blk);
+			memcpy(viac3_r_iv, encr ? viac3_r_buf : src,
+			    sizeof (viac3_r_iv));
+
+			memcpy(dst, viac3_r_buf, sizeof (viac3_r_buf));
+			src += sizeof (viac3_r_buf);
+			dst += sizeof (viac3_r_buf);
 		}
 	} else {
-		memcpy(cbc_xcrypt_op_buf, src, len);
-		viac3_cbc(&cbc_xcrypt_op_cw, cbc_xcrypt_op_buf,
-		    cbc_xcrypt_op_buf, encr ? ctx->ek : ctx->dk,
-		    nblocks, cbc_xcrypt_op_iv);
-		/* adjust IV manually (sigh) */
-		memcpy(cbc_xcrypt_op_iv,
-		    (encr ? cbc_xcrypt_op_buf : src) +
-		    len - sizeof (cbc_xcrypt_op_iv),
-		    sizeof (cbc_xcrypt_op_iv));
-		memcpy(dst, cbc_xcrypt_op_buf, len);
+		/* handle all blocks at once */
+		memcpy(op_buf, src, len);
 
-		bzero(cbc_xcrypt_op_buf, len);
-printf("%s: trying to free at %p ...\n", __func__, cbc_xcrypt_op_buf);
-		free(cbc_xcrypt_op_buf, M_DEVBUF);
+		viac3_cbc(&viac3_r_cw, op_buf, op_buf,
+		    encr ? ctx->ek : ctx->dk, nblocks, viac3_r_iv);
+		/* adjust IV manually (sigh) */
+		memcpy(viac3_r_iv,
+		    (encr ? op_buf : src) + len - sizeof (viac3_r_iv),
+		    sizeof (viac3_r_iv));
+
+		memcpy(dst, op_buf, len);
+
+		bzero(op_buf, len);
+		free(op_buf, M_DEVBUF);
 	}
 
 	if (iv != NULL)
-		memcpy(iv, cbc_xcrypt_op_iv, sizeof (cbc_xcrypt_op_iv));
+		memcpy(iv, viac3_r_iv, sizeof (viac3_r_iv));
 }
 
 void
@@ -489,7 +504,7 @@ viac3_rijndael_encrypt(rijndael_ctx *ctx, u_char *iv, u_char *src,
     u_char *dst, int nblocks)
 {
 	if (ctx->hwcr_id == RIJNDAEL_HWCR_VIA)
-		viac3_rijndael_cbc_xcrypt(ctx, iv, src, dst, nblocks, 1);
+		viac3_rijndael_cbc(ctx, iv, src, dst, nblocks, 1);
 	else
 		rijndael_cbc_encrypt(ctx, iv, src, dst, nblocks);
 }
@@ -499,7 +514,7 @@ viac3_rijndael_decrypt(rijndael_ctx *ctx, u_char *iv, u_char *src,
     u_char *dst, int nblocks)
 {
 	if (ctx->hwcr_id == RIJNDAEL_HWCR_VIA)
-		viac3_rijndael_cbc_xcrypt(ctx, iv, src, dst, nblocks, 0);
+		viac3_rijndael_cbc(ctx, iv, src, dst, nblocks, 0);
 	else
 		rijndael_cbc_decrypt(ctx, iv, src, dst, nblocks);
 }
@@ -557,5 +572,4 @@ viac3_rnd(void *v)
 
 	timeout_add(tmo, (hz > 100) ? (hz / 100) : 1);
 }
-
 #endif /* defined(I686_CPU) */
