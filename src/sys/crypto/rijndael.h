@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/crypto/rijndael.h,v 1.1.1.2.4.12 2008/03/21 19:51:53 tg Exp $ */
+/**	$MirOS: src/sys/crypto/rijndael.h,v 1.2 2008/03/21 20:57:31 tg Exp $ */
 /*	$OpenBSD: rijndael.h,v 1.11 2005/05/25 05:47:53 markus Exp $ */
 
 /*-
@@ -35,6 +35,12 @@
 #ifndef __RIJNDAEL_H
 #define __RIJNDAEL_H
 
+#if !defined(SMALL_KERNEL) || (defined(i386) && defined(CRYPTO))
+#define __RIJNDAEL_ALIGNED	__attribute__((aligned (16)))
+#else
+#define __RIJNDAEL_ALIGNED	__attribute__((aligned (4)))
+#endif
+
 #define MAXKC	(256/32)
 #define MAXKB	(256/8)
 #define MAXNR	14
@@ -51,9 +57,9 @@ struct viac3_rijndael_ctx {
 /*  The structure for key information */
 typedef struct {
 	u32	ek[4*(MAXNR + 1) + 4]	/* encrypt key schedule */
-	    __attribute__((aligned (16)));
+	    __RIJNDAEL_ALIGNED;
 	u32	dk[4*(MAXNR + 1) + 4]	/* decrypt key schedule */
-	    __attribute__((aligned (16)));
+	    __RIJNDAEL_ALIGNED;
 	union {
 		struct viac3_rijndael_ctx via;
 	} hwcr_info;
@@ -62,7 +68,7 @@ typedef struct {
 #define RIJNDAEL_HWCR_SOFTWARE	0
 #define RIJNDAEL_HWCR_VIA	1
 	u8	hwcr_id;		/* which crypto processor is used */
-} rijndael_ctx __attribute__((aligned (16)));
+} rijndael_ctx __RIJNDAEL_ALIGNED;
 
 typedef int (*rijndael_setkey_t)(rijndael_ctx *, u_char *, int);
 typedef void (*rijndael_do_cbc_t)(rijndael_ctx *, u_char *, u_char *, u_char *,

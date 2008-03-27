@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/i386/via.c,v 1.1.1.1.4.14 2008/03/21 19:47:51 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/i386/via.c,v 1.2 2008/03/21 20:57:29 tg Exp $ */
 /*	$OpenBSD: via.c,v 1.1 2004/04/11 18:12:10 deraadt Exp $	*/
 /*	$NetBSD: machdep.c,v 1.214 1996/11/10 03:16:17 thorpej Exp $	*/
 
@@ -81,25 +81,25 @@ int viac3_crypto_present;
 
 #ifdef CRYPTO
 struct viac3_session {
-	u_int32_t	ses_ekey[4*(MAXNR+1)+4] __attribute__((aligned (16)));
-	u_int32_t	ses_dkey[4*(MAXNR+1)+4] __attribute__((aligned (16)));
-	u_int8_t	ses_iv[16] __attribute__((aligned (16)));
+	u_int32_t	ses_ekey[4*(MAXNR+1)+4] __RIJNDAEL_ALIGNED;
+	u_int32_t	ses_dkey[4*(MAXNR+1)+4] __RIJNDAEL_ALIGNED;
+	u_int8_t	ses_iv[16] __RIJNDAEL_ALIGNED;
 	u_int32_t	ses_cw0;
 	int		ses_klen;
 	int		ses_used;
 	int		ses_pad;			/* to multiple of 16 */
-} __attribute__((aligned (16)));
+} __RIJNDAEL_ALIGNED;
 
 struct viac3_softc {
-	u_int32_t		op_cw[4] __attribute__((aligned (16)));
-	u_int8_t		op_iv[16] __attribute__((aligned (16)));
+	u_int32_t		op_cw[4] __RIJNDAEL_ALIGNED;
+	u_int8_t		op_iv[16] __RIJNDAEL_ALIGNED;
 	void			*op_buf;
 
 	/* normal softc stuff */
 	int32_t			sc_cid;
 	int			sc_nsessions;
 	struct viac3_session	*sc_sessions;
-} __attribute__((aligned (16)));
+} __RIJNDAEL_ALIGNED;
 
 #define VIAC3_SESSION(sid)		((sid) & 0x0fffffff)
 #define	VIAC3_SID(crd,ses)		(((crd) << 28) | ((ses) & 0x0fffffff))
@@ -113,9 +113,9 @@ int viac3_crypto_process(struct cryptop *);
 int viac3_crypto_freesession(u_int64_t);
 static __inline void viac3_cbc(void *, void *, void *, void *, int, void *);
 
-static uint32_t viac3_r_cw[4] __attribute__((aligned (16)));
-static uint8_t viac3_r_iv[16] __attribute__((aligned (16)));
-static uint8_t viac3_r_buf[16] __attribute__((aligned (16)));
+static uint32_t viac3_r_cw[4] __RIJNDAEL_ALIGNED;
+static uint8_t viac3_r_iv[16] __RIJNDAEL_ALIGNED;
+static uint8_t viac3_r_buf[PAGE_SIZE] __RIJNDAEL_ALIGNED;
 
 void viac3_rijndael_decrypt(rijndael_ctx *, u_char *, u_char *, u_char *, int);
 void viac3_rijndael_encrypt(rijndael_ctx *, u_char *, u_char *, u_char *, int);
@@ -448,8 +448,7 @@ void
 viac3_rijndael_cbc(rijndael_ctx *ctx, u_char *iv, u_char *src, u_char *dst,
     int nblocks, int encr)
 {
-	void *op_buf;
-	size_t len = nblocks * sizeof (viac3_r_buf);
+	size_t len;
 
 	bzero(viac3_r_cw, sizeof (viac3_r_cw));
 	viac3_r_cw[0] = ctx->hwcr_info.via.cw0 |
@@ -460,39 +459,22 @@ viac3_rijndael_cbc(rijndael_ctx *ctx, u_char *iv, u_char *src, u_char *dst,
 	else
 		memcpy(viac3_r_iv, iv, sizeof (viac3_r_iv));
 
-	if ((op_buf = malloc(len, M_DEVBUF, M_NOWAIT)) == NULL) {
-		/* may be OOM situation (swapencrypt?) but warn/inform */
-		printf("%s: notice: cannot allocate %lu bytes", __func__, len);
+	/* use viac3_r_buf to handle a page at a time */
+	while (nblocks) {
+		len = MIN(sizeof (viac3_r_buf), nblocks * 16);
+		nblocks -= len / 16;
 
-		/* use viac3_r_buf to handle 16 bytes at a time only */
-		while (nblocks--) {
-			memcpy(viac3_r_buf, src, sizeof (viac3_r_buf));
+		memcpy(viac3_r_buf, src, len);
 
-			viac3_cbc(&viac3_r_cw, viac3_r_buf, viac3_r_buf,
-			    encr ? ctx->ek : ctx->dk, 1, viac3_r_iv);
-			/* adjust IV manually (sigh) */
-			memcpy(viac3_r_iv, encr ? viac3_r_buf : src,
-			    sizeof (viac3_r_iv));
-
-			memcpy(dst, viac3_r_buf, sizeof (viac3_r_buf));
-			src += sizeof (viac3_r_buf);
-			dst += sizeof (viac3_r_buf);
-		}
-	} else {
-		/* handle all blocks at once */
-		memcpy(op_buf, src, len);
-
-		viac3_cbc(&viac3_r_cw, op_buf, op_buf,
-		    encr ? ctx->ek : ctx->dk, nblocks, viac3_r_iv);
+		viac3_cbc(&viac3_r_cw, viac3_r_buf, viac3_r_buf,
+		    encr ? ctx->ek : ctx->dk, len / 16, viac3_r_iv);
 		/* adjust IV manually (sigh) */
-		memcpy(viac3_r_iv,
-		    (encr ? op_buf : src) + len - sizeof (viac3_r_iv),
+		memcpy(viac3_r_iv, encr ? viac3_r_buf : src,
 		    sizeof (viac3_r_iv));
 
-		memcpy(dst, op_buf, len);
-
-		bzero(op_buf, len);
-		free(op_buf, M_DEVBUF);
+		memcpy(dst, viac3_r_buf, len);
+		src += len;
+		dst += len;
 	}
 
 	if (iv != NULL)
