@@ -373,8 +373,12 @@ Balloc(int k)
 		freelist[k] = rv->next;
 		}
 	else {
+		size_t nbytes;
+
 		x = 1 << k;
-		rv = (Bigint *)MALLOC(sizeof(Bigint) + (x-1)*sizeof(Long));
+		rv = (Bigint *)MALLOC(((nbytes = sizeof(Bigint) + (x-1)*sizeof(Long))));
+		if (rv == NULL)
+			err(255, "strtod: cannot allocate %zu bytes", nbytes);
 		rv->k = k;
 		rv->maxwds = x;
 		}
