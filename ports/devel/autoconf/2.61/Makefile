@@ -1,8 +1,9 @@
-# $MirOS: ports/devel/autoconf/2.60/Makefile,v 1.6 2006/11/16 22:07:25 tg Exp $
+# $MirOS: ports/devel/autoconf/2.61/Makefile,v 1.1 2007/05/08 20:38:25 tg Exp $
 
 COMMENT=		automatically configure source code on many Un*x platforms
 SUFFIX=			-2.61
 DISTNAME=		autoconf${SUFFIX}
+DASH_VER=		1
 CATEGORIES=		devel
 MASTER_SITES=		${MASTER_SITE_GNU:=autoconf/}
 HOMEPAGE=		http://www.gnu.org/software/autoconf/

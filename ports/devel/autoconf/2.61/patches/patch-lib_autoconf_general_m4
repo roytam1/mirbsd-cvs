@@ -1,6 +1,6 @@
-$MirOS: ports/devel/autoconf/2.60/patches/patch-lib_autoconf_general_m4,v 1.3 2006/07/01 13:30:18 tg Exp $
+$MirOS: ports/devel/autoconf/2.61/patches/patch-lib_autoconf_general_m4,v 1.1 2007/05/08 20:38:26 tg Exp $
 --- lib/autoconf/general.m4.orig	Fri Nov 17 00:36:54 2006
-+++ lib/autoconf/general.m4	Tue May  8 20:11:14 2007
++++ lib/autoconf/general.m4	Sat Apr  5 17:57:34 2008
 @@ -292,7 +292,7 @@ m4_define([AC_REVISION],
  # Autoconf, which is certainly not what the user intended.
  AU_DEFUN([AC_PREREQ],
@@ -10,7 +10,15 @@ $MirOS: ports/devel/autoconf/2.60/patches/patch-lib_autoconf_general_m4,v 1.3 20
  
  
  # AC_PREREQ(VERSION)
-@@ -1577,7 +1577,7 @@ AC_DEFUN([AC_CONFIG_AUX_DIR_DEFAULT],
+@@ -301,6 +301,7 @@ AU_DEFUN([AC_PREREQ],
+ m4_copy([m4_version_prereq], [AC_PREREQ])
+ 
+ 
++m4_copy([m4_PACKAGE_VERSIONNR], [AC_AUTOCONF_VERSION])
+ 
+ 
+ 
+@@ -1577,7 +1578,7 @@ AC_DEFUN([AC_CONFIG_AUX_DIR_DEFAULT],
  # do not automatically need to distribute the other auxiliary files.
  AC_DEFUN([AC_CONFIG_AUX_DIRS],
  [ac_aux_dir=
