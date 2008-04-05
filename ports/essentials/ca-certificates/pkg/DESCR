@@ -1,7 +1,8 @@
 This port packages some X.509 CA certificates which
 come with the MirOS base installation, for use e.g.
 with OpenBSD and Mac OSX. This bundle is a superset
-of the Debian package with the same name, where in-
+of the Debian package with the same name, plus some
+certificates from M*zilla/cURL and Opera, where in-
 valid certificates have been removed. It's endorsed
 by the Lynx developers and users.
 
