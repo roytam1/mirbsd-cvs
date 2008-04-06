@@ -59,7 +59,9 @@ in this Software without prior written authorization from the X Consortium.
 #include <string.h>
 #include <unistd.h>
 
-extern char *__progname;
+__RCSID("$MirOS$");
+
+extern const char *__progname;
 
 int silent = 0;			/* -silent */
 int ignore_links = 0;		/* -ignorelinks */
@@ -207,7 +209,13 @@ dodir(char *fn, struct stat *fs, struct stat *ts, int rel)
 	*p++ = '/';
 	n_dirs = fs->st_nlink;
 	while ((dp = readdir(df))) {
+#if defined(__GLIBC__) && !defined(_DIRENT_HAVE_D_NAMLEN)
+		size_t d_namlen = strlen(dp->d_name);
+
+		if (d_namlen == 0 || dp->d_name[d_namlen - 1] == '~')
+#else
 		if (dp->d_namlen == 0 || dp->d_name[dp->d_namlen - 1] == '~')
+#endif
 			continue;
 		for (cur = exceptions; cur != NULL; cur = cur->next) {
 			if (!strcmp(dp->d_name, cur->name))
