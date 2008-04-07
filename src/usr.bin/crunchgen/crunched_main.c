@@ -36,10 +36,11 @@
  *	the crunched binary without creating all the links.
  */
 
+#include <sys/param.h>
 #include <stdio.h>
 #include <string.h>
 
-__RCSID("$MirOS: src/usr.bin/crunchgen/crunched_main.c,v 1.2 2007/02/18 02:39:14 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/crunchgen/crunched_main.c,v 1.3 2007/02/18 03:43:06 tg Exp $");
 
 static const struct stub {
 	const char *name;
@@ -49,26 +50,31 @@ static const struct stub {
 static int crunched_main(int, char **, char **);
 static int crunched_usage(void);
 
+extern char *__progname;
+extern char __progname_storage[NAME_MAX + 1];
+
 int
 main(int argc, char *argv[], char **envp)
 {
-	char *slash, *basename;
+	char *slash;
 	const struct stub *ep;
 
 	if (argv == NULL || argv[0] == NULL || *argv[0] == '\0')
 		return (crunched_usage());
 
 	slash = strrchr(argv[0], '/');
-	basename = slash ? slash + 1 : argv[0];
+	strlcpy(__progname_storage, slash ? slash + 1 : argv[0],
+	    sizeof (__progname_storage));
+	__progname = __progname_storage;
 
 	for (ep = entry_points; ep->name != NULL; ep++)
-		if (!strcmp(basename, ep->name))
+		if (!strcmp(__progname, ep->name))
 			break;
 
 	if (ep->name)
 		return (ep->f(argc, argv, envp));
 
-	fprintf(stderr, "%s: %s not compiled in\n", EXECNAME, basename);
+	fprintf(stderr, "%s: %s not compiled in\n", EXECNAME, __progname);
 	return (crunched_usage());
 }
 
