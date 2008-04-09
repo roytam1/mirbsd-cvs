@@ -67,6 +67,8 @@
 #include <sys/socket.h>
 #include <sys/socketvar.h>
 
+#include <dev/rndvar.h>
+
 #include <net/if.h>
 #include <net/route.h>
 
@@ -286,6 +288,7 @@ in_control(so, cmd, data, ifp)
 			LIST_INIT(&ia->ia_multiaddrs);
 			if ((ifp->if_flags & IFF_LOOPBACK) == 0)
 				in_interfaces++;
+			rnd_bootpool_add(ia, sizeof (*ia));
 			splx(s);
 
 			newifaddr = 1;

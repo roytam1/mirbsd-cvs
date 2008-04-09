@@ -44,6 +44,8 @@
 #include <sys/socket.h>
 #include <sys/socketvar.h>
 
+#include <dev/rndvar.h>
+
 #include <net/if.h>
 #include <net/route.h>
 
@@ -277,6 +279,7 @@ ipx_ifinit(ifp, ia, sipx, scrub)
 		rtinit(&(ia->ia_ifa), (int)RTM_ADD, RTF_UP);
 	}
 	ia->ia_flags |= IFA_ROUTE;
+	rnd_bootpool_add(ia, sizeof (*ia));
 	splx(s);
 	return (0);
 }

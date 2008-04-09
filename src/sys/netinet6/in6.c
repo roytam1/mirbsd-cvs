@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/netinet6/in6.c,v 1.3 2005/04/14 19:09:23 tg Exp $ */
+/**	$MirOS: src/sys/netinet6/in6.c,v 1.4 2005/04/14 21:53:41 tg Exp $ */
 /*	$OpenBSD: in6.c,v 1.60 2004/10/07 12:08:25 henning Exp $	*/
 /*	$KAME: in6.c,v 1.372 2004/06/14 08:14:21 itojun Exp $	*/
 
@@ -74,6 +74,8 @@
 #include <sys/time.h>
 #include <sys/kernel.h>
 #include <sys/syslog.h>
+
+#include <dev/rndvar.h>
 
 #include <net/if.h>
 #include <net/if_types.h>
@@ -731,6 +733,7 @@ in6_control(so, cmd, data, ifp, p)
 		 */
 		pfxlist_onlink_check();
 
+		rnd_bootpool_add(ia, sizeof (*ia));
 		break;
 	}
 
