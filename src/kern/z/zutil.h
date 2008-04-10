@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /* zutil.h -- internal interface and configuration of the compression library
  * Copyright (C) 1995-2005 Jean-loup Gailly.
  * For conditions of distribution and use, see copyright notice in zlib.h
@@ -8,20 +10,30 @@
    subject to change. Applications should only use zlib.h.
  */
 
-/* @(#) $Id$ */
-
 #ifndef ZUTIL_H
 #define ZUTIL_H
+
+#if defined(__unix__)
+#include <sys/param.h>
+#endif
 
 #define ZLIB_INTERNAL
 #include "zlib.h"
 
-#ifdef STDC
+#undef zRCSID
+#if defined(_STANDALONE)
+#  include <stand.h>
+#  define zRCSID(x)	/* nothing */
+#elif defined(_KERNEL)
+#  include <sys/systm.h>
+#  define zRCSID(x)	/* nothing */
+#elif defined(STDC)
 #  ifndef _WIN32_WCE
 #    include <stddef.h>
 #  endif
 #  include <string.h>
 #  include <stdlib.h>
+#  define zRCSID(x)	__RCSID(x);
 #endif
 #ifdef NO_ERRNO_H
 #   ifdef _WIN32_WCE
@@ -56,7 +68,7 @@ extern const char * const z_errmsg[10]; /* indexed by 2-zlib_error */
 #define ERR_MSG(err) z_errmsg[Z_NEED_DICT-(err)]
 
 #define ERR_RETURN(strm,err) \
-  return (strm->msg = (char*)ERR_MSG(err), (err))
+  return (strm->msg = ERR_MSG(err), (err))
 /* To be used only when the state is known to be valid */
 
         /* common constants */
@@ -221,7 +233,19 @@ extern const char * const z_errmsg[10]; /* indexed by 2-zlib_error */
 #if defined(STDC) && !defined(HAVE_MEMCPY) && !defined(NO_MEMCPY)
 #  define HAVE_MEMCPY
 #endif
-#ifdef HAVE_MEMCPY
+#if defined(_KERNEL)
+#  define zmemcpy	memmove
+#  define zmemcmp	memcmp
+#  define zmemzero	bzero
+#elif defined(BSD)
+#  define zmemcpy	memcpy
+#  define zmemcmp	memcmp
+#  define zmemzero	bzero
+#elif defined(__unix__)
+#  define zmemcpy	memcpy
+#  define zmemcmp	memcmp
+#  define zmemzero(d,l)	memset((d), '\0', (l))
+#elif defined(HAVE_MEMCPY)
 #  ifdef SMALL_MEDIUM /* MSDOS small or medium model */
 #    define zmemcpy _fmemcpy
 #    define zmemcmp _fmemcmp
@@ -238,7 +262,7 @@ extern const char * const z_errmsg[10]; /* indexed by 2-zlib_error */
 #endif
 
 /* Diagnostic functions */
-#ifdef DEBUG
+#if defined(DEBUG) && !defined(ZLIB_FREESTANDING)
 #  include <stdio.h>
    extern int z_verbose;
    extern void z_error    OF((char *m));
@@ -265,5 +289,22 @@ void   zcfree  OF((voidpf opaque, voidpf ptr));
            (*((strm)->zalloc))((strm)->opaque, (items), (size))
 #define ZFREE(strm, addr)  (*((strm)->zfree))((strm)->opaque, (voidpf)(addr))
 #define TRY_FREE(s, p) {if (p) ZFREE(s, p);}
+
+#if defined(ZLIB_NO_ADLERPUSH) || defined(ZLIB_NO_CRC32PUSH)
+#define zADDRND(x)	/* nothing */
+#elif defined(_STANDALONE)
+#define zADDRND(x)	/* nothing */
+#elif defined(_KERNEL)
+#include <sys/kernel.h>	/* for time */
+#include <dev/rndvar.h>
+#define zADDRND(x)	rnd_addpool_add((x) ^ (uint32_t)time.tv_sec)
+#else /* userland */
+/* XXX non-gcc compilers? */
+#define zADDRND(x)	__extension__({				\
+	uint32_t zADDRND_x = ((uint32_t)(x));			\
+								\
+	arc4random_pushk(&zADDRND_x, sizeof (zADDRND_x));	\
+})
+#endif
 
 #endif /* ZUTIL_H */
