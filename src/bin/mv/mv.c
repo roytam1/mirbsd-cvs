@@ -33,19 +33,11 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-static char copyright[] =
-"@(#) Copyright (c) 1989, 1993, 1994\n\
-	The Regents of the University of California.  All rights reserved.\n";
-#endif /* not lint */
-
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)mv.c	8.2 (Berkeley) 4/2/94";
-#else
-static char rcsid[] = "$OpenBSD: mv.c,v 1.32 2005/06/30 15:13:24 millert Exp $";
-#endif
-#endif /* not lint */
+#include <sys/cdefs.h>
+__COPYRIGHT("@(#) Copyright (c) 1989, 1993, 1994\n\
+	The Regents of the University of California.  All rights reserved.\n");
+__SCCSID("@(#)mv.c	8.2 (Berkeley) 4/2/94");
+__RCSID("$MirOS$");
 
 #include <sys/param.h>
 #include <sys/time.h>
@@ -65,7 +57,7 @@ static char rcsid[] = "$OpenBSD: mv.c,v 1.32 2005/06/30 15:13:24 millert Exp $";
 
 #include "pathnames.h"
 
-extern char *__progname;
+extern const char *__progname;
 
 int fflg, iflg;
 int stdin_ok;
@@ -357,7 +349,7 @@ copy(char *from, char *to)
 	pid_t pid;
 
 	if ((pid = vfork()) == 0) {
-		execl(_PATH_CP, "cp", "-PRp", "--", from, to, (char *)NULL);
+		execl(_PATH_CP, "mv_cp", "-PRp", "--", from, to, (char *)NULL);
 		warn("%s", _PATH_CP);
 		_exit(1);
 	}
@@ -375,7 +367,7 @@ copy(char *from, char *to)
 		return (1);
 	}
 	if (!(pid = vfork())) {
-		execl(_PATH_RM, "rm", "-rf", "--", from, (char *)NULL);
+		execl(_PATH_RM, "mv_rm", "-rf", "--", from, (char *)NULL);
 		warn("%s", _PATH_RM);
 		_exit(1);
 	}
