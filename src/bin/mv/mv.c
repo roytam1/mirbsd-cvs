@@ -357,7 +357,7 @@ copy(char *from, char *to)
 	pid_t pid;
 
 	if ((pid = vfork()) == 0) {
-		execl(_PATH_CP, "mv", "-PRp", from, to, (char *)NULL);
+		execl(_PATH_CP, "mv", "-PRp", "--", from, to, (char *)NULL);
 		warn("%s", _PATH_CP);
 		_exit(1);
 	}
@@ -375,7 +375,7 @@ copy(char *from, char *to)
 		return (1);
 	}
 	if (!(pid = vfork())) {
-		execl(_PATH_RM, "mv", "-rf", from, (char *)NULL);
+		execl(_PATH_RM, "mv", "-rf", "--", from, (char *)NULL);
 		warn("%s", _PATH_RM);
 		_exit(1);
 	}
