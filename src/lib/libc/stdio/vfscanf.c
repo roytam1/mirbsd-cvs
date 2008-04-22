@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: vfscanf.c,v 1.15 2005/08/08 08:05:36 espie Exp $ */
 /*-
  * Copyright (c) 1990, 1993
@@ -31,15 +32,19 @@
  * SUCH DAMAGE.
  */
 
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include <limits.h>
 #include <stdarg.h>
 #include "local.h"
 
 #ifdef FLOATING_POINT
 #include "floatio.h"
 #endif
+
+__RCSID("$MirOS: src/lib/libc/stdio/vfprintf.c,v 1.7 2008/04/03 18:02:53 tg Exp $");
 
 #define	BUF		513	/* Maximum length of numeric string. */
 
@@ -53,6 +58,7 @@
 #define	SUPPRESS	0x10	/* suppress assignment */
 #define	POINTER		0x20	/* weird %p pointer (`fake hex') */
 #define	NOSKIP		0x40	/* do not skip blanks */
+#define	SHORTDBL	0x80	/* hh: char */
 
 /*
  * The following are used in numeric conversions only:
@@ -80,7 +86,7 @@
 #define u_char unsigned char
 #define u_long unsigned long
 
-static u_char *__sccl(char *, u_char *);
+static const u_char *__sccl(char *, const u_char *);
 
 #if !defined(VFSCANF)
 #define VFSCANF	vfscanf
@@ -92,7 +98,7 @@ static u_char *__sccl(char *, u_char *);
 int
 VFSCANF(FILE *fp, const char *fmt0, _BSD_VA_LIST_ ap)
 {
-	u_char *fmt = (u_char *)fmt0;
+	const u_char *fmt = (const u_char *)fmt0;
 	int c;		/* character from format, or conversion */
 	size_t width;	/* field width, or 0 */
 	char *p;	/* points into all kinds of strings */
@@ -102,9 +108,10 @@ VFSCANF(FILE *fp, const char *fmt0, _BSD_VA_LIST_ ap)
 	int nassigned;		/* number of fields assigned */
 	int nread;		/* number of characters consumed from fp */
 	int base;		/* base argument to strtoq/strtouq */
-	u_quad_t (*ccfn)();	/* conversion function (strtoq/strtouq) */
 	char ccltab[256];	/* character class table for %[...] */
 	char buf[BUF];		/* buffer for numeric conversions */
+			/* conversion function (strtoq/strtouq) */
+	u_quad_t (*ccfn)(const char *, char **, int);
 
 	/* `basefix' is used to avoid `if' tests in the integer scanner */
 	static short basefix[17] =
@@ -153,7 +160,18 @@ literal:
 			flags |= LONGDBL;
 			goto again;
 		case 'h':
-			flags |= SHORT;
+			if (*fmt == 'h') {
+				fmt++;
+				flags |= SHORTDBL;
+			} else
+				flags |= SHORT;
+			goto again;
+		case 'j':
+#if (INTMAX_MIN != INT64_MIN) || (INTMAX_MAX != INT64_MAX) || \
+    (UINTMAX_MAX != UINT64_MAX)
+#error This code assumes that intmax_t = int64_t, uintmax_t = uint64_t
+#endif
+			flags |= QUAD;
 			goto again;
 		case 'l':
 			if (*fmt == 'l') {
@@ -184,13 +202,13 @@ literal:
 			/* FALLTHROUGH */
 		case 'd':
 			c = CT_INT;
-			ccfn = (u_quad_t (*)())strtoq;
+			ccfn = (u_quad_t (*)(const char *, char **, int))strtoq;
 			base = 10;
 			break;
 
 		case 'i':
 			c = CT_INT;
-			ccfn = (u_quad_t (*)())strtoq;
+			ccfn = (u_quad_t (*)(const char *, char **, int))strtoq;
 			base = 0;
 			break;
 
@@ -252,8 +270,11 @@ literal:
 		case 'n':
 			if (flags & SUPPRESS)	/* ??? */
 				continue;
+			/* XXX what about QUAD? */
 			if (flags & SHORT)
 				*va_arg(ap, short *) = nread;
+			else if (flags & SHORTDBL)
+				*va_arg(ap, signed char *) = nread;
 			else if (flags & LONG)
 				*va_arg(ap, long *) = nread;
 			else
@@ -270,7 +291,7 @@ literal:
 			if (isupper(c))
 				flags |= LONG;
 			c = CT_INT;
-			ccfn = (u_quad_t (*)())strtoq;
+			ccfn = (u_quad_t (*)(const char *, char **, int))strtoq;
 			base = 10;
 			break;
 		}
@@ -312,7 +333,7 @@ literal:
 			if (flags & SUPPRESS) {
 				size_t sum = 0;
 				for (;;) {
-					if ((n = fp->_r) < width) {
+					if ((size_t)(n = fp->_r) < width) {
 						sum += n;
 						width -= n;
 						fp->_p += n;
@@ -543,6 +564,8 @@ literal:
 					*va_arg(ap, long *) = res;
 				else if (flags & SHORT)
 					*va_arg(ap, short *) = res;
+				else if (flags & SHORTDBL)
+					*va_arg(ap, signed char *) = res;
 				else
 					*va_arg(ap, int *) = res;
 				nassigned++;
@@ -657,8 +680,8 @@ match_failure:
  * closing `]'.  The table has a 1 wherever characters should be
  * considered part of the scanset.
  */
-static u_char *
-__sccl(char *tab, u_char *fmt)
+static const u_char *
+__sccl(char *tab, const u_char *fmt)
 {
 	int c, n, v;
 
