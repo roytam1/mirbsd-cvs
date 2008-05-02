@@ -1,5 +1,5 @@
 #! /bin/sh
-# $MirOS$
+# $MirOS: contrib/gnu/automake/lib/ylwrap,v 1.4 2008/05/02 23:31:54 tg Exp $
 #-
 # ylwrap - wrapper for lex/yacc invocations.
 
@@ -109,8 +109,8 @@ mkdir $dirname || exit 1
 cd $dirname
 
 case $# in
-  0) $prog "$input" ;;
-  *) $prog "$@" "$input" ;;
+  0) "$prog" "$input" ;;
+  *) "$prog" "$@" "$input" ;;
 esac
 ret=$?
 
