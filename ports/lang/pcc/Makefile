@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/lang/pcc/Makefile,v 1.1.201.1 2008/05/02 18:29:52 tg Exp $
 
 ONLY_FOR_PLATFORM=	Darwin:*:i386 \
 			Darwin:*:powerpc \
@@ -9,9 +9,6 @@ ONLY_FOR_PLATFORM=	Darwin:*:i386 \
 			OpenBSD:*:powerpc \
 			OpenBSD:*:sparc64 \
 			OpenBSD:*:vax
-
-# broken system headers
-NOT_FOR_PLATFORM+=	MidnightBSD:*:*
 
 # using wrong assembler syntax
 NOT_FOR_PLATFORM+=	Darwin:*:i386
