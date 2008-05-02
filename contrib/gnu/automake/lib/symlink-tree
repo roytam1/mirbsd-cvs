@@ -1,5 +1,6 @@
 #!/bin/sh
 # $MirOS$
+#-
 # Create a symlink tree.
 #
 # Copyright (C) 1995, 2000, 2003  Free Software Foundation, Inc.
