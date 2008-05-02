@@ -1,11 +1,12 @@
 #! /bin/sh
-# $MirOS: contrib/gnu/config/config.guess,v 1.13 2008/03/13 00:02:02 tg Exp $
+# $MirOS$
+#-
 # Attempt to guess a canonical system name.
 #   Copyright (C) 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
 #   2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008
 #   Free Software Foundation, Inc.
 
-timestamp='2008-03-12 (MirOS)'
+timestamp='2008-04-14 (MirOS)'
 
 # This file is free software; you can redistribute it and/or modify it
 # under the terms of the GNU General Public License as published by
@@ -986,9 +987,6 @@ EOF
 		;;
 	  a.out-i386-linux)
 		echo "${UNAME_MACHINE}-pc-linux-gnuaout"
-		exit ;;
-	  coff-i386)
-		echo "${UNAME_MACHINE}-pc-linux-gnucoff"
 		exit ;;
 	  "")
 		# Either a pre-BFD a.out linker (linux-gnuoldld) or
