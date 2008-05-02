@@ -1,11 +1,11 @@
-$MirOS$
+$MirOS: ports/www/php/extensions/patches/patch-ext_curl_interface_c,v 1.1 2008/05/02 15:30:44 tg Exp $
 
 	Some deprecated functions have been removed from
 	recent curl versions, so PHP can’t use them any
 	more either… this will break scripts using them.
 
---- ext/curl/interface.c.orig	Fri May  2 13:54:41 2008
-+++ ext/curl/interface.c	Fri May  2 13:54:57 2008
+--- ext/curl/interface.c.orig	Fri May  2 15:30:26 2008
++++ ext/curl/interface.c	Fri May  2 15:30:37 2008
 @@ -170,7 +170,7 @@ PHP_MINIT_FUNCTION(curl)
  	REGISTER_CURL_CONSTANT(CURLOPT_FTPAPPEND);
  	REGISTER_CURL_CONSTANT(CURLOPT_NETRC);
@@ -15,7 +15,7 @@ $MirOS$
  	REGISTER_CURL_CONSTANT(CURLOPT_PUT);
  #if CURLOPT_MUTE != 0
  	REGISTER_CURL_CONSTANT(CURLOPT_MUTE);
-@@ -208,7 +207,6 @@ PHP_MINIT_FUNCTION(curl)
+@@ -208,7 +208,6 @@ PHP_MINIT_FUNCTION(curl)
  	REGISTER_CURL_CONSTANT(CURLOPT_FILETIME);
  	REGISTER_CURL_CONSTANT(CURLOPT_WRITEFUNCTION);
  	REGISTER_CURL_CONSTANT(CURLOPT_READFUNCTION);
