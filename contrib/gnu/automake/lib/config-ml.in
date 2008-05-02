@@ -1,5 +1,3 @@
-# $MirOS$
-#-
 # Configure fragment invoked in the post-target section for subdirs
 # wanting multilib support.
 #
