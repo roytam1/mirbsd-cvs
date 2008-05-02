@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: ports/lang/pcc/files/os/midnightbsd/ccconfig.h,v 1.1.201.1 2008/05/02 18:29:52 tg Exp $ */
 /* $Id$ */
 /*-
  * Copyright (c) 2007, 2008
@@ -31,6 +31,7 @@
 	"-D__FreeBSD__",			\
 	"-D__unix__",				\
 	"-D__unix",				\
+	"-Dunix",				\
 	"-D__ELF__",				\
 	"-D_LONGLONG",				\
 	NULL					\
@@ -65,9 +66,16 @@
 	NULL,					\
 }
 #elif defined(mach_sparc64)
-#error untested
 #define CPPMDADD	{			\
 	"-D__sparc64__",			\
+	"-D__sparc_v9__",			\
+	"-D__sparcv9",				\
+	"-D__sparc__",				\
+	"-D__sparc",				\
+	"-Dsparc",				\
+	"-D__arch64__",				\
+	"-D__LP64__",				\
+	"-D_LP64",				\
 	NULL,					\
 }
 #elif defined(mach_amd64)
