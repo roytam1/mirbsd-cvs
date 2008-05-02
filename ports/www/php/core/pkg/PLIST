@@ -1,4 +1,4 @@
-@comment $MirOS: ports/www/php/core/pkg/PLIST,v 1.4 2006/01/25 20:06:58 tg Exp $
+@comment $MirOS: ports/www/php/core/pkg/PLIST,v 1.5 2007/02/02 12:01:48 tg Exp $
 @comment $OpenBSD: PLIST,v 1.1.1.1 2004/10/02 12:36:49 robert Exp $
 @pkgcfl php-core-*
 @pkgcfl php4-core-*
@@ -18,6 +18,3 @@ share/doc/php/php.ini-dist
 share/doc/php/php.ini-recommended
 %%SHARED%%
 @dirrm share/doc/php
-@dirrm lib/php/modules
-@exec mkdir -p %D/lib/php/modules
-@dirrm lib/php
