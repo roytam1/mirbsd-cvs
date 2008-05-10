@@ -1,8 +1,9 @@
-# $MirOS$
+# $MirOS: ports/textproc/patchutils/Makefile,v 1.1 2008/05/06 19:47:09 bsiegert Exp $
 
 COMMENT=		tools for manipulating patch files
 
 VERSION=		0.2.31
+DASH_VER=		1
 DISTNAME=		patchutils-${VERSION}
 CATEGORIES=		textproc devel
 
@@ -18,6 +19,7 @@ PERMIT_DISTFILES_FTP=	Yes
 
 CONFIGURE_STYLE= 	autoconf
 AUTOCONF_NEW=		Yes
+USE_GMAKE=		Yes # for regression tests
 
 BASH_SCRIPTS=		editdiff.in espdiff.in move-to-front \
 			tests/combine2/run-test tests/combine3/run-test
