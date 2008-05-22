@@ -36,6 +36,7 @@
 #include <sys/types.h>
 
 #include <openssl/evp.h>
+#include <openssl/rand.h>
 
 #include <stdio.h>
 #include <string.h>
@@ -46,6 +47,10 @@
 #include "uuencode.h"
 #include "buffer.h"
 #include "log.h"
+
+__RCSID("$MirOS$");
+
+static void key_gen_callback(int, int, void *);
 
 Key *
 key_new(int type)
@@ -566,7 +571,7 @@ rsa_generate_private_key(u_int bits)
 {
 	RSA *private;
 
-	private = RSA_generate_key(bits, 35, NULL, NULL);
+	private = RSA_generate_key(bits, 35, key_gen_callback, NULL);
 	if (private == NULL)
 		fatal("rsa_generate_private_key: key generation failed.");
 	return private;
@@ -575,7 +580,10 @@ rsa_generate_private_key(u_int bits)
 static DSA*
 dsa_generate_private_key(u_int bits)
 {
-	DSA *private = DSA_generate_parameters(bits, NULL, 0, NULL, NULL, NULL, NULL);
+	DSA *private;
+
+	private = DSA_generate_parameters(bits, NULL, 0, NULL, NULL,
+	    key_gen_callback, NULL);
 
 	if (private == NULL)
 		fatal("dsa_generate_private_key: DSA_generate_parameters failed");
@@ -860,4 +868,15 @@ key_demote(const Key *k)
 	}
 
 	return (pk);
+}
+
+static void
+key_gen_callback(int p __attribute__((unused)),
+    int n __attribute__((unused)), void *arg __attribute__((unused)))
+{
+	uint32_t oldentropy, newentropy;
+
+	RAND_bytes((u_char *)&oldentropy, sizeof (uint32_t));
+	newentropy = arc4random_pushb(&oldentropy, sizeof (uint32_t));
+	RAND_add(&newentropy, 4, 3.9);
 }
