@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/kern/kern_sig.c,v 1.2 2005/03/06 21:28:00 tg Exp $ */
+/**	$MirOS: src/sys/kern/kern_sig.c,v 1.3 2005/03/27 20:47:44 tg Exp $ */
 /*	$OpenBSD: kern_sig.c,v 1.70 2004/04/06 17:24:11 mickey Exp $	*/
 /*	$NetBSD: kern_sig.c,v 1.54 1996/04/22 01:38:32 christos Exp $	*/
 
@@ -1296,6 +1296,7 @@ sigexit(p, signum)
 	case SIGPIPE:
 	case SIGALRM:
 	case SIGTERM:
+	case SIGPROF:
 	case SIGSTOP:
 	case SIGTSTP:
 	case SIGTTIN:
