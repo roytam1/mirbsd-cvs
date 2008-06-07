@@ -1,4 +1,4 @@
-# $MirOS: src/libexec/anoncvssh/Makefile,v 1.5 2006/01/11 00:40:01 tg Exp $
+# $MirOS: src/libexec/anoncvssh/Makefile,v 1.6 2006/06/02 00:01:47 tg Exp $
 
 # Note: you DO want to compile this, as well as the anoncvsbin
 # and rsync, statically. It is not possible, however, to do that
@@ -16,6 +16,7 @@ DEFS+=	-DLOCALROOT=\"/cvs\"
 #    Advantage: a warning will be issued if someone
 #    other than the user specified (or root) invokes us.
 #DEFS+=	-DANONCVS_USER=\"_anoncvs\" -DFQDN=\"host.domain.com\"
+DEFS+=	-DANONUSERLIST='"_anoncvs", "_rsync", "anoncvs", "rsync"'
 
 # Enable rsync for the user.
 # Warning: this also makes rsync writes possible

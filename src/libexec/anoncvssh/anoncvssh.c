@@ -1,28 +1,23 @@
-/* $MirOS: src/libexec/anoncvssh/anoncvssh.c,v 1.7 2006/03/29 21:41:29 tg Exp $ */
+/* $MirOS: src/share/misc/licence.template,v 1.24 2008/04/22 11:43:31 tg Rel $ */
 
 /*-
- * Copyright (c) 2004, 2005, 2006
- *	Thorsten "mirabile" Glaser <tg@mirbsd.de>
+ * Copyright (c) 2004, 2005, 2006, 2008
+ *	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
  *
- * Licensee is hereby permitted to deal in this work without restric-
- * tion, including unlimited rights to use, publicly perform, modify,
- * merge, distribute, sell, give away or sublicence, provided all co-
- * pyright notices above, these terms and the disclaimer are retained
- * in all redistributions or reproduced in accompanying documentation
- * or other materials provided with binary redistributions.
+ * Provided that these terms and disclaimer and all copyright notices
+ * are retained or reproduced in an accompanying document, permission
+ * is granted to deal in this work without restriction, including un-
+ * limited rights to use, publicly perform, distribute, sell, modify,
+ * merge, give away, or sublicence.
  *
- * All advertising materials mentioning features or use of this soft-
- * ware must display the following acknowledgement:
- *	This product includes material provided by Thorsten Glaser.
- *
- * Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
- * express, or implied, to the maximum extent permitted by applicable
- * law, without malicious intent or gross negligence; in no event may
- * licensor, an author or contributor be held liable for any indirect
- * or other damage, or direct damage except proven a consequence of a
- * direct error of said person and intended use of this work, loss or
- * other issues arising in any way out of its use, even if advised of
- * the possibility of such damage or existence of a nontrivial bug.
+ * This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
+ * the utmost extent permitted by applicable law, neither express nor
+ * implied; without malicious intent or gross negligence. In no event
+ * may a licensor, author or contributor be held liable for indirect,
+ * direct, other damage, loss, or other issues arising in any way out
+ * of dealing in the work, even if advised of the possibility of such
+ * damage or existence of a defect, except proven that it results out
+ * of said person's immediate fault when using the work as intended.
  *-
  * user shell to be used for chrooted access (anonymous or personali-
  * sed, read-only or read-write) to cvs and possibly rsync.
@@ -122,7 +117,7 @@
 /****************************************************************/
 
 static const char progID[] = "@(#) " HOSTNAME ":" LOCALROOT
-    "\n@(#) $MirOS: src/libexec/anoncvssh/anoncvssh.c,v 1.7 2006/03/29 21:41:29 tg Exp $";
+    "\n@(#) $MirOS: src/libexec/anoncvssh/anoncvssh.c,v 1.8 2006/06/02 00:01:47 tg Exp $";
 
 #ifdef USE_SYSLOG
 #include <string.h>
@@ -152,12 +147,25 @@ const char * const env[] = {
 	NULL
 };
 
+#ifdef ANONUSERLIST
+const char * const anonusers[] = {
+#ifdef ANONCVS_USER
+	ANONCVS_USER,
+#endif
+	ANONUSERLIST,
+	NULL
+};
+#endif
+
 int
 main(int argc, char *argv[])
 {
 	struct passwd *pw;
 	int niceness;
 	char *chrootdir, *pgm;
+#ifdef ANONUSERLIST
+	const char * const *ccpp;
+#endif
 #ifdef CHROOT_PARENT_DIR
 	char *s;
 #endif
@@ -188,20 +196,31 @@ main(int argc, char *argv[])
 		DO_LOG0("Can't set process priority!");
 	}
 
-#ifdef ANONCVS_USER
+#if defined(ANONCVS_USER) || defined(ANONUSERLIST)
 	/*
 	 * I love lusers who have to test every setuid binary on my machine.
 	 */
-	if (getuid() != 0 && (strcmp(pw->pw_name, ANONCVS_USER) != 0)) {
-		fprintf(stderr, "You're not supposed to be running me!\n");
+	if (getuid() == 0)
+		goto user_ok;
+
+#ifdef ANONUSERLIST
+	for (ccpp = anonusers; *ccpp; ++ccpp)
+		if (!strcmp(pw->pw_name, *ccpp))
+			goto user_ok;
+#else
+	if (!strcmp(pw->pw_name, ANONCVS_USER))
+		goto user_ok;
+#endif
+
+	fprintf(stderr, "You're not supposed to be running me!\n");
 #ifdef USE_SYSLOG
-		syslog(LOG_NOTICE,
-		    "User %s(%d) invoked %s - Possible twink?",
-		    pw->pw_name, pw->pw_uid, ANONCVSSH_NAME);
+	syslog(LOG_NOTICE, "User %s(%d) invoked %s - Possible twink?",
+	    pw->pw_name, pw->pw_uid, ANONCVSSH_NAME);
 #endif /* def USE_SYSLOG */
-		exit(1);
-	}
-#endif /* def ANONCVS_USER */
+	exit(1);
+
+ user_ok:
+#endif /* def ANONCVS_USER || def ANONUSERLIST */
 
 	setuid(0);
 	if ((chrootdir = strdup(pw->pw_dir)) == NULL) {

@@ -1,9 +1,9 @@
-$MirOS: src/libexec/anoncvssh/README,v 1.3 2005/05/04 11:14:21 tg Exp $
+$MirOS: src/libexec/anoncvssh/README,v 1.4 2006/03/29 21:42:23 tg Exp $
 
 On MirBSD, the directory structure outlined below, as well
 as the anoncvssh and accompanying programmes, are already
 installed in /var/anoncvs and its subdirectories.
-Just set a password (may be empty) for user "_anoncvssh",
+Just set a password (may be empty) for user "_anoncvs",
 pull the CVSROOT into /var/anoncvs/anoncvs/cvs and you are
 set up. For empty passwords, remember to configure the SSH
 daemon appropiately.
