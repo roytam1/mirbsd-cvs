@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /****************************************************************************
 *
 *						Realmode X86 Emulator Library
@@ -169,6 +171,7 @@ void 	X86EMU_halt_sys(void);
 #define DEBUG_DISASSEMBLE_F     0x000008
 #define DEBUG_BREAK_F           0x000010
 #define DEBUG_SVC_F             0x000020
+#define DEBUG_SAVE_IP_CS_F      0x000040
 #define DEBUG_FS_F              0x000080
 #define DEBUG_PROC_F            0x000100
 #define DEBUG_SYSINT_F          0x000200 /* bios system interrupts. */
@@ -178,7 +181,7 @@ void 	X86EMU_halt_sys(void);
 #define DEBUG_IO_TRACE_F        0x002000 
 #define DEBUG_TRACECALL_REGS_F  0x004000
 #define DEBUG_DECODE_NOPRINT_F  0x008000 
-#define DEBUG_SAVE_IP_CS_F      0x010000
+#define DEBUG_EXIT              0x010000
 #define DEBUG_SYS_F             (DEBUG_SVC_F|DEBUG_FS_F|DEBUG_PROC_F)
 
 void 	X86EMU_trace_regs(void);

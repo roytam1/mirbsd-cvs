@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /****************************************************************************
 *
 *						Realmode X86 Emulator Library
@@ -37,7 +39,6 @@
 *               instructions.
 *
 ****************************************************************************/
-/* $XFree86: xc/extras/x86emu/src/x86emu/ops2.c,v 1.7 2004/02/06 17:15:28 tsi Exp $ */
 
 #include "x86emu/x86emui.h"
 
@@ -63,6 +64,40 @@ static void x86emuOp2_illegal_op(
 }
 
 #define xorl(a,b)   ((a) && !(b)) || (!(a) && (b))
+
+/****************************************************************************
+REMARKS:
+Handles opcode 0x0f,0x31
+****************************************************************************/
+static void x86emuOp2_rdtsc(u8 X86EMU_UNUSED(op2))
+{
+#ifdef __HAS_LONG_LONG__
+    static u64 counter = 0;
+#else
+    static u32 counter = 0;
+#endif
+
+    counter += 0x10000;
+
+    /* read timestamp counter */
+    /*
+     * Note that instead of actually trying to accurately measure this, we just
+     * increase the counter by a fixed amount every time we hit one of these
+     * instructions.  Feel free to come up with a better method.
+     */
+    START_OF_INSTR();
+    DECODE_PRINTF("RDTSC\n");
+    TRACE_AND_STEP();
+#ifdef __HAS_LONG_LONG__
+    M.x86.R_EAX = counter & 0xffffffff;
+    M.x86.R_EDX = counter >> 32;
+#else
+    M.x86.R_EAX = counter;
+    M.x86.R_EDX = 0;
+#endif
+    DECODE_CLEAR_SEGOVR();
+    END_OF_INSTR();
+}
 
 /****************************************************************************
 REMARKS:
@@ -131,7 +166,7 @@ static void x86emuOp2_long_jump(u8 op2)
         break;
       case 0x8d:
         name = "JNL\t";
-        cond = xorl(ACCESS_FLAG(F_SF), ACCESS_FLAG(F_OF));
+        cond = !(xorl(ACCESS_FLAG(F_SF), ACCESS_FLAG(F_OF)));
         break;
       case 0x8e:
         name = "JLE\t";
@@ -290,6 +325,20 @@ static void x86emuOp2_pop_FS(u8 X86EMU_UNUSED(op2))
     DECODE_PRINTF("POP\tFS\n");
     TRACE_AND_STEP();
     M.x86.R_FS = pop_word();
+    DECODE_CLEAR_SEGOVR();
+    END_OF_INSTR();
+}
+
+/****************************************************************************
+REMARKS: CPUID takes EAX/ECX as inputs, writes EAX/EBX/ECX/EDX as output
+Handles opcode 0x0f,0xa2
+****************************************************************************/
+static void x86emuOp2_cpuid(u8 X86EMU_UNUSED(op2))
+{
+    START_OF_INSTR();
+    DECODE_PRINTF("CPUID\n");
+    TRACE_AND_STEP();
+    cpuid();
     DECODE_CLEAR_SEGOVR();
     END_OF_INSTR();
 }
@@ -700,10 +749,9 @@ static void x86emuOp2_pop_GS(u8 X86EMU_UNUSED(op2))
     END_OF_INSTR();
 }
 
-#if 0
 /****************************************************************************
 REMARKS:
-Handles opcode 0x0f,0xaa
+Handles opcode 0x0f,0xab
 ****************************************************************************/
 static void x86emuOp2_bts_R(u8 X86EMU_UNUSED(op2))
 {
@@ -839,7 +887,6 @@ static void x86emuOp2_bts_R(u8 X86EMU_UNUSED(op2))
     DECODE_CLEAR_SEGOVR();
     END_OF_INSTR();
 }
-#endif
 
 /****************************************************************************
 REMARKS:
@@ -2132,7 +2179,7 @@ static void x86emuOp2_bsf(u8 X86EMU_UNUSED(op2))
     uint srcoffset;
 
     START_OF_INSTR();
-    DECODE_PRINTF("BSF\n");
+    DECODE_PRINTF("BSF\t");
     FETCH_DECODE_MODRM(mod, rh, rl);
     switch(mod) {
     case 0:
@@ -2212,25 +2259,25 @@ static void x86emuOp2_bsf(u8 X86EMU_UNUSED(op2))
 	break;
     case 3:				/* register to register */
 	if (M.x86.mode & SYSMODE_PREFIX_DATA) {
-	    u32 *srcreg, *dstreg;
+	    u32 srcval, *dstreg;
 
-	    srcreg = DECODE_RM_LONG_REGISTER(rl);
+	    srcval = *DECODE_RM_LONG_REGISTER(rl);
 	    DECODE_PRINTF(",");
 	    dstreg = DECODE_RM_LONG_REGISTER(rh);
 	    TRACE_AND_STEP();
-	    CONDITIONAL_SET_FLAG(*srcreg == 0, F_ZF);
+	    CONDITIONAL_SET_FLAG(srcval == 0, F_ZF);
 	    for(*dstreg = 0; *dstreg < 32; (*dstreg)++)
-		if ((*srcreg >> *dstreg) & 1) break;
+		if ((srcval >> *dstreg) & 1) break;
 	} else {
-	    u16 *srcreg, *dstreg;
+	    u16 srcval, *dstreg;
 
-	    srcreg = DECODE_RM_WORD_REGISTER(rl);
+	    srcval = *DECODE_RM_WORD_REGISTER(rl);
 	    DECODE_PRINTF(",");
 	    dstreg = DECODE_RM_WORD_REGISTER(rh);
 	    TRACE_AND_STEP();
-	    CONDITIONAL_SET_FLAG(*srcreg == 0, F_ZF);
+	    CONDITIONAL_SET_FLAG(srcval == 0, F_ZF);
 	    for(*dstreg = 0; *dstreg < 16; (*dstreg)++)
-		if ((*srcreg >> *dstreg) & 1) break;
+		if ((srcval >> *dstreg) & 1) break;
 	}
 	break;
     }
@@ -2248,7 +2295,7 @@ static void x86emuOp2_bsr(u8 X86EMU_UNUSED(op2))
     uint srcoffset;
 
     START_OF_INSTR();
-    DECODE_PRINTF("BSF\n");
+    DECODE_PRINTF("BSR\t");
     FETCH_DECODE_MODRM(mod, rh, rl);
     switch(mod) {
     case 0:
@@ -2328,25 +2375,25 @@ static void x86emuOp2_bsr(u8 X86EMU_UNUSED(op2))
 	break;
     case 3:				/* register to register */
 	if (M.x86.mode & SYSMODE_PREFIX_DATA) {
-	    u32 *srcreg, *dstreg;
+	    u32 srcval, *dstreg;
 
-	    srcreg = DECODE_RM_LONG_REGISTER(rl);
+	    srcval = *DECODE_RM_LONG_REGISTER(rl);
 	    DECODE_PRINTF(",");
 	    dstreg = DECODE_RM_LONG_REGISTER(rh);
 	    TRACE_AND_STEP();
-	    CONDITIONAL_SET_FLAG(*srcreg == 0, F_ZF);
+	    CONDITIONAL_SET_FLAG(srcval == 0, F_ZF);
 	    for(*dstreg = 31; *dstreg > 0; (*dstreg)--)
-		if ((*srcreg >> *dstreg) & 1) break;
+		if ((srcval >> *dstreg) & 1) break;
 	} else {
-	    u16 *srcreg, *dstreg;
+	    u16 srcval, *dstreg;
 
-	    srcreg = DECODE_RM_WORD_REGISTER(rl);
+	    srcval = *DECODE_RM_WORD_REGISTER(rl);
 	    DECODE_PRINTF(",");
 	    dstreg = DECODE_RM_WORD_REGISTER(rh);
 	    TRACE_AND_STEP();
-	    CONDITIONAL_SET_FLAG(*srcreg == 0, F_ZF);
+	    CONDITIONAL_SET_FLAG(srcval == 0, F_ZF);
 	    for(*dstreg = 15; *dstreg > 0; (*dstreg)--)
-		if ((*srcreg >> *dstreg) & 1) break;
+		if ((srcval >> *dstreg) & 1) break;
 	}
 	break;
     }
@@ -2583,7 +2630,7 @@ void (*x86emu_optab2[256])(u8) =
 /*  0x2f */ x86emuOp2_illegal_op,
 
 /*  0x30 */ x86emuOp2_illegal_op,
-/*  0x31 */ x86emuOp2_illegal_op,
+/*  0x31 */ x86emuOp2_rdtsc,
 /*  0x32 */ x86emuOp2_illegal_op,
 /*  0x33 */ x86emuOp2_illegal_op,
 /*  0x34 */ x86emuOp2_illegal_op,
@@ -2703,7 +2750,7 @@ void (*x86emu_optab2[256])(u8) =
 
 /*  0xa0 */ x86emuOp2_push_FS,
 /*  0xa1 */ x86emuOp2_pop_FS,
-/*  0xa2 */ x86emuOp2_illegal_op,
+/*  0xa2 */ x86emuOp2_cpuid,
 /*  0xa3 */ x86emuOp2_bt_R,
 /*  0xa4 */ x86emuOp2_shld_IMM,
 /*  0xa5 */ x86emuOp2_shld_CL,
@@ -2712,7 +2759,7 @@ void (*x86emu_optab2[256])(u8) =
 /*  0xa8 */ x86emuOp2_push_GS,
 /*  0xa9 */ x86emuOp2_pop_GS,
 /*  0xaa */ x86emuOp2_illegal_op,
-/*  0xab */ x86emuOp2_bt_R,
+/*  0xab */ x86emuOp2_bts_R,
 /*  0xac */ x86emuOp2_shrd_IMM,
 /*  0xad */ x86emuOp2_shrd_CL,
 /*  0xae */ x86emuOp2_illegal_op,

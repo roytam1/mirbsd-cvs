@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /****************************************************************************
 *
 *						Realmode X86 Emulator Library
@@ -97,12 +99,18 @@
 *
 ****************************************************************************/
 
+#include <stdlib.h>
+
 #define	PRIM_OPS_NO_REDEFINE_ASM
 #include "x86emu/x86emui.h"
 
-/*------------------------- Global Variables ------------------------------*/
+#if defined(__GNUC__)
+# if defined (__i386__) || defined(__i386) || defined(__AMD64__) || defined(__x86_64__) || defined(__amd64__)
+#  include "x86emu/prim_x86_gcc.h"
+# endif
+#endif
 
-#ifndef	__HAVE_INLINE_ASSEMBLER__
+/*------------------------- Global Variables ------------------------------*/
 
 static u32 x86emu_parity_tab[8] =
 {
@@ -116,14 +124,10 @@ static u32 x86emu_parity_tab[8] =
 	0x69969669,
 };
 
-#endif
-
 #define PARITY(x)   (((x86emu_parity_tab[(x) / 32] >> ((x) % 32)) & 1) == 0)
 #define XOR2(x) 	(((x) ^ ((x)>>1)) & 0x1)
 
 /*----------------------------- Implementation ----------------------------*/
-
-#ifndef	__HAVE_INLINE_ASSEMBLER__
 
 /****************************************************************************
 REMARKS:
@@ -1652,20 +1656,11 @@ u16 shld_word (u16 d, u16 fill, u8 s)
 {
 	unsigned int cnt, res, cf;
 
-	if (s < 32) {
-		cnt = s % 32;
+	if (s < 16) {
+		cnt = s % 16;
 		if (cnt > 0) {
-			if (cnt > 15) {
-				res = (unsigned int)fill << (cnt - 16);
-				if (cnt == 16)
-					cf = d & 0x1;
-				else
-					cf = res & 0x10000;
-			}
-			else {
-				res = (d << cnt) | (fill >> (16-cnt));
-				cf = d & (1 << (16 - cnt));
-			}
+			res = (d << cnt) | (fill >> (16-cnt));
+			cf = d & (1 << (16 - cnt));
 			CONDITIONAL_SET_FLAG(cf, F_CF);
 			CONDITIONAL_SET_FLAG((res & 0xffff) == 0, F_ZF);
 			CONDITIONAL_SET_FLAG(res & 0x8000, F_SF);
@@ -1735,19 +1730,11 @@ u16 shrd_word (u16 d, u16 fill, u8 s)
 {
 	unsigned int cnt, res, cf;
 
-	if (s < 32) {
-		cnt = s % 32;
+	if (s < 16) {
+		cnt = s % 16;
 		if (cnt > 0) {
-			if (cnt > 15) {
-				if (cnt == 16)
-					cf = d & 0x8000;
-				else
-					cf = fill & (1 << (cnt - 17));
-				res = fill >> (cnt - 16);
-			} else {
-				cf = d & (1 << (cnt - 1));
-				res = (d >> cnt) | (fill << (16 - cnt));
-			}
+			cf = d & (1 << (cnt - 1));
+			res = (d >> cnt) | (fill << (16 - cnt));
 			CONDITIONAL_SET_FLAG(cf, F_CF);
 			CONDITIONAL_SET_FLAG((res & 0xffff) == 0, F_ZF);
 			CONDITIONAL_SET_FLAG(res & 0x8000, F_SF);
@@ -1758,9 +1745,9 @@ u16 shrd_word (u16 d, u16 fill, u8 s)
 
 		if (cnt == 1) {
 			CONDITIONAL_SET_FLAG(XOR2(res >> 14), F_OF);
-		} else {
+        } else {
 			CLEAR_FLAG(F_OF);
-		}
+        }
 	} else {
 		res = 0;
 		CLEAR_FLAG(F_CF);
@@ -1768,7 +1755,7 @@ u16 shrd_word (u16 d, u16 fill, u8 s)
 		SET_FLAG(F_ZF);
 		CLEAR_FLAG(F_SF);
 		CLEAR_FLAG(F_PF);
-	}
+    }
 	return (u16)res;
 }
 
@@ -2103,7 +2090,7 @@ Implements the IMUL instruction and side effects.
 void imul_long_direct(u32 *res_lo, u32* res_hi,u32 d, u32 s)
 {
 #ifdef	__HAS_LONG_LONG__
-	s64 res = (s32)d * (s32)s;
+	s64 res = (s64)(s32)d * (s32)s;
 
 	*res_lo = (u32)res;
 	*res_hi = (u32)(res >> 32);
@@ -2195,7 +2182,7 @@ Implements the MUL instruction and side effects.
 void mul_long(u32 s)
 {
 #ifdef	__HAS_LONG_LONG__
-	u64 res = (u32)M.x86.R_EAX * (u32)s;
+	u64 res = (u64)M.x86.R_EAX * s;
 
 	M.x86.R_EAX = (u32)res;
 	M.x86.R_EDX = (u32)(res >> 32);
@@ -2471,8 +2458,6 @@ void div_long(u32 s)
 	M.x86.R_EDX = (u32)mod;
 }
 
-#endif	/* __HAVE_INLINE_ASSEMBLER__ */
-
 /****************************************************************************
 REMARKS:
 Implements the IN string instruction and side effects.
@@ -2677,255 +2662,63 @@ DB(	if (CHECK_SP_ACCESS())
     return res;
 }
 
-#ifdef	__HAVE_INLINE_ASSEMBLER__
-
-u16 aaa_word (u16 d)
-{ return aaa_word_asm(&M.x86.R_EFLG,d); }
-
-u16 aas_word (u16 d)
-{ return aas_word_asm(&M.x86.R_EFLG,d); }
-
-u16 aad_word (u16 d)
-{ return aad_word_asm(&M.x86.R_EFLG,d); }
-
-u16 aam_word (u8 d)
-{ return aam_word_asm(&M.x86.R_EFLG,d); }
-
-u8 adc_byte (u8 d, u8 s)
-{ return adc_byte_asm(&M.x86.R_EFLG,d,s); }
-
-u16 adc_word (u16 d, u16 s)
-{ return adc_word_asm(&M.x86.R_EFLG,d,s); }
-
-u32 adc_long (u32 d, u32 s)
-{ return adc_long_asm(&M.x86.R_EFLG,d,s); }
-
-u8 add_byte (u8 d, u8 s)
-{ return add_byte_asm(&M.x86.R_EFLG,d,s); }
-
-u16 add_word (u16 d, u16 s)
-{ return add_word_asm(&M.x86.R_EFLG,d,s); }
-
-u32 add_long (u32 d, u32 s)
-{ return add_long_asm(&M.x86.R_EFLG,d,s); }
-
-u8 and_byte (u8 d, u8 s)
-{ return and_byte_asm(&M.x86.R_EFLG,d,s); }
-
-u16 and_word (u16 d, u16 s)
-{ return and_word_asm(&M.x86.R_EFLG,d,s); }
-
-u32 and_long (u32 d, u32 s)
-{ return and_long_asm(&M.x86.R_EFLG,d,s); }
-
-u8 cmp_byte (u8 d, u8 s)
-{ return cmp_byte_asm(&M.x86.R_EFLG,d,s); }
-
-u16 cmp_word (u16 d, u16 s)
-{ return cmp_word_asm(&M.x86.R_EFLG,d,s); }
-
-u32 cmp_long (u32 d, u32 s)
-{ return cmp_long_asm(&M.x86.R_EFLG,d,s); }
-
-u8 daa_byte (u8 d)
-{ return daa_byte_asm(&M.x86.R_EFLG,d); }
-
-u8 das_byte (u8 d)
-{ return das_byte_asm(&M.x86.R_EFLG,d); }
-
-u8 dec_byte (u8 d)
-{ return dec_byte_asm(&M.x86.R_EFLG,d); }
-
-u16 dec_word (u16 d)
-{ return dec_word_asm(&M.x86.R_EFLG,d); }
-
-u32 dec_long (u32 d)
-{ return dec_long_asm(&M.x86.R_EFLG,d); }
-
-u8 inc_byte (u8 d)
-{ return inc_byte_asm(&M.x86.R_EFLG,d); }
-
-u16 inc_word (u16 d)
-{ return inc_word_asm(&M.x86.R_EFLG,d); }
-
-u32 inc_long (u32 d)
-{ return inc_long_asm(&M.x86.R_EFLG,d); }
-
-u8 or_byte (u8 d, u8 s)
-{ return or_byte_asm(&M.x86.R_EFLG,d,s); }
-
-u16 or_word (u16 d, u16 s)
-{ return or_word_asm(&M.x86.R_EFLG,d,s); }
-
-u32 or_long (u32 d, u32 s)
-{ return or_long_asm(&M.x86.R_EFLG,d,s); }
-
-u8 neg_byte (u8 s)
-{ return neg_byte_asm(&M.x86.R_EFLG,s); }
-
-u16 neg_word (u16 s)
-{ return neg_word_asm(&M.x86.R_EFLG,s); }
-
-u32 neg_long (u32 s)
-{ return neg_long_asm(&M.x86.R_EFLG,s); }
-
-u8 not_byte (u8 s)
-{ return not_byte_asm(&M.x86.R_EFLG,s); }
-
-u16 not_word (u16 s)
-{ return not_word_asm(&M.x86.R_EFLG,s); }
-
-u32 not_long (u32 s)
-{ return not_long_asm(&M.x86.R_EFLG,s); }
-
-u8 rcl_byte (u8 d, u8 s)
-{ return rcl_byte_asm(&M.x86.R_EFLG,d,s); }
-
-u16 rcl_word (u16 d, u8 s)
-{ return rcl_word_asm(&M.x86.R_EFLG,d,s); }
-
-u32 rcl_long (u32 d, u8 s)
-{ return rcl_long_asm(&M.x86.R_EFLG,d,s); }
-
-u8 rcr_byte (u8 d, u8 s)
-{ return rcr_byte_asm(&M.x86.R_EFLG,d,s); }
-
-u16 rcr_word (u16 d, u8 s)
-{ return rcr_word_asm(&M.x86.R_EFLG,d,s); }
-
-u32 rcr_long (u32 d, u8 s)
-{ return rcr_long_asm(&M.x86.R_EFLG,d,s); }
-
-u8 rol_byte (u8 d, u8 s)
-{ return rol_byte_asm(&M.x86.R_EFLG,d,s); }
-
-u16 rol_word (u16 d, u8 s)
-{ return rol_word_asm(&M.x86.R_EFLG,d,s); }
-
-u32 rol_long (u32 d, u8 s)
-{ return rol_long_asm(&M.x86.R_EFLG,d,s); }
-
-u8 ror_byte (u8 d, u8 s)
-{ return ror_byte_asm(&M.x86.R_EFLG,d,s); }
-
-u16 ror_word (u16 d, u8 s)
-{ return ror_word_asm(&M.x86.R_EFLG,d,s); }
-
-u32 ror_long (u32 d, u8 s)
-{ return ror_long_asm(&M.x86.R_EFLG,d,s); }
-
-u8 shl_byte (u8 d, u8 s)
-{ return shl_byte_asm(&M.x86.R_EFLG,d,s); }
-
-u16 shl_word (u16 d, u8 s)
-{ return shl_word_asm(&M.x86.R_EFLG,d,s); }
-
-u32 shl_long (u32 d, u8 s)
-{ return shl_long_asm(&M.x86.R_EFLG,d,s); }
-
-u8 shr_byte (u8 d, u8 s)
-{ return shr_byte_asm(&M.x86.R_EFLG,d,s); }
-
-u16 shr_word (u16 d, u8 s)
-{ return shr_word_asm(&M.x86.R_EFLG,d,s); }
-
-u32 shr_long (u32 d, u8 s)
-{ return shr_long_asm(&M.x86.R_EFLG,d,s); }
-
-u8 sar_byte (u8 d, u8 s)
-{ return sar_byte_asm(&M.x86.R_EFLG,d,s); }
-
-u16 sar_word (u16 d, u8 s)
-{ return sar_word_asm(&M.x86.R_EFLG,d,s); }
-
-u32 sar_long (u32 d, u8 s)
-{ return sar_long_asm(&M.x86.R_EFLG,d,s); }
-
-u16 shld_word (u16 d, u16 fill, u8 s)
-{ return shld_word_asm(&M.x86.R_EFLG,d,fill,s); }
-
-u32 shld_long (u32 d, u32 fill, u8 s)
-{ return shld_long_asm(&M.x86.R_EFLG,d,fill,s); }
-
-u16 shrd_word (u16 d, u16 fill, u8 s)
-{ return shrd_word_asm(&M.x86.R_EFLG,d,fill,s); }
-
-u32 shrd_long (u32 d, u32 fill, u8 s)
-{ return shrd_long_asm(&M.x86.R_EFLG,d,fill,s); }
-
-u8 sbb_byte (u8 d, u8 s)
-{ return sbb_byte_asm(&M.x86.R_EFLG,d,s); }
-
-u16 sbb_word (u16 d, u16 s)
-{ return sbb_word_asm(&M.x86.R_EFLG,d,s); }
-
-u32 sbb_long (u32 d, u32 s)
-{ return sbb_long_asm(&M.x86.R_EFLG,d,s); }
-
-u8 sub_byte (u8 d, u8 s)
-{ return sub_byte_asm(&M.x86.R_EFLG,d,s); }
-
-u16 sub_word (u16 d, u16 s)
-{ return sub_word_asm(&M.x86.R_EFLG,d,s); }
-
-u32 sub_long (u32 d, u32 s)
-{ return sub_long_asm(&M.x86.R_EFLG,d,s); }
-
-void test_byte (u8 d, u8 s)
-{ test_byte_asm(&M.x86.R_EFLG,d,s); }
-
-void test_word (u16 d, u16 s)
-{ test_word_asm(&M.x86.R_EFLG,d,s); }
-
-void test_long (u32 d, u32 s)
-{ test_long_asm(&M.x86.R_EFLG,d,s); }
-
-u8 xor_byte (u8 d, u8 s)
-{ return xor_byte_asm(&M.x86.R_EFLG,d,s); }
-
-u16 xor_word (u16 d, u16 s)
-{ return xor_word_asm(&M.x86.R_EFLG,d,s); }
-
-u32 xor_long (u32 d, u32 s)
-{ return xor_long_asm(&M.x86.R_EFLG,d,s); }
-
-void imul_byte (u8 s)
-{ imul_byte_asm(&M.x86.R_EFLG,&M.x86.R_AX,M.x86.R_AL,s); }
-
-void imul_word (u16 s)
-{ imul_word_asm(&M.x86.R_EFLG,&M.x86.R_AX,&M.x86.R_DX,M.x86.R_AX,s); }
-
-void imul_long (u32 s)
-{ imul_long_asm(&M.x86.R_EFLG,&M.x86.R_EAX,&M.x86.R_EDX,M.x86.R_EAX,s); }
-
-void imul_long_direct(u32 *res_lo, u32* res_hi,u32 d, u32 s)
-{ imul_long_asm(&M.x86.R_EFLG,res_lo,res_hi,d,s); }
-
-void mul_byte (u8 s)
-{ mul_byte_asm(&M.x86.R_EFLG,&M.x86.R_AX,M.x86.R_AL,s); }
-
-void mul_word (u16 s)
-{ mul_word_asm(&M.x86.R_EFLG,&M.x86.R_AX,&M.x86.R_DX,M.x86.R_AX,s); }
-
-void mul_long (u32 s)
-{ mul_long_asm(&M.x86.R_EFLG,&M.x86.R_EAX,&M.x86.R_EDX,M.x86.R_EAX,s); }
-
-void idiv_byte (u8 s)
-{ idiv_byte_asm(&M.x86.R_EFLG,&M.x86.R_AL,&M.x86.R_AH,M.x86.R_AX,s); }
-
-void idiv_word (u16 s)
-{ idiv_word_asm(&M.x86.R_EFLG,&M.x86.R_AX,&M.x86.R_DX,M.x86.R_AX,M.x86.R_DX,s); }
-
-void idiv_long (u32 s)
-{ idiv_long_asm(&M.x86.R_EFLG,&M.x86.R_EAX,&M.x86.R_EDX,M.x86.R_EAX,M.x86.R_EDX,s); }
-
-void div_byte (u8 s)
-{ div_byte_asm(&M.x86.R_EFLG,&M.x86.R_AL,&M.x86.R_AH,M.x86.R_AX,s); }
-
-void div_word (u16 s)
-{ div_word_asm(&M.x86.R_EFLG,&M.x86.R_AX,&M.x86.R_DX,M.x86.R_AX,M.x86.R_DX,s); }
-
-void div_long (u32 s)
-{ div_long_asm(&M.x86.R_EFLG,&M.x86.R_EAX,&M.x86.R_EDX,M.x86.R_EAX,M.x86.R_EDX,s); }
-
+/****************************************************************************
+REMARKS:
+CPUID takes EAX/ECX as inputs, writes EAX/EBX/ECX/EDX as output
+****************************************************************************/
+void cpuid (void)
+{
+    u32 feature = M.x86.R_EAX;
+
+#ifdef X86EMU_HAS_HW_CPUID
+    /* If the platform allows it, we will base our values on the real
+     * results from the CPUID instruction.  We limit support to the
+     * first two features, and the results of those are sanitized.
+     */
+    if (feature <= 1)
+	hw_cpuid(&M.x86.R_EAX, &M.x86.R_EBX, &M.x86.R_ECX, &M.x86.R_EDX);
 #endif
+
+    switch (feature) {
+    case 0:
+        /* Regardless if we have real data from the hardware, the emulator
+	 * will only support upto feature 1, which we set in register EAX.
+	 * Registers EBX:EDX:ECX contain a string identifying the CPU.
+	 */
+        M.x86.R_EAX = 1;
+#ifndef X86EMU_HAS_HW_CPUID
+        /* EBX:EDX:ECX = "GenuineIntel" */
+        M.x86.R_EBX = 0x756e6547;
+        M.x86.R_EDX = 0x49656e69;
+        M.x86.R_ECX = 0x6c65746e;
+#endif
+        break;
+    case 1:
+#ifndef X86EMU_HAS_HW_CPUID
+        /* If we don't have x86 compatible hardware, we return values from an
+	 * Intel 486dx4; which was one of the first processors to have CPUID.
+	 */
+        M.x86.R_EAX = 0x00000480;
+        M.x86.R_EBX = 0x00000000;
+        M.x86.R_ECX = 0x00000000;
+        M.x86.R_EDX = 0x00000002;	/* VME */
+#else
+        /* In the case that we have hardware CPUID instruction, we make sure
+	 * that the features reported are limited to TSC and VME.
+	 */
+        M.x86.R_EDX &= 0x00000012;
+#endif
+        break;
+    default:
+        /* Finally, we don't support any additional features.  Most CPUs
+	 * return all zeros when queried for invalid or unsupported feature
+	 * numbers.
+	 */
+        M.x86.R_EAX = 0;
+        M.x86.R_EBX = 0;
+        M.x86.R_ECX = 0;
+        M.x86.R_EDX = 0;
+        break;
+    }
+}
+

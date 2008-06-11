@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /****************************************************************************
 *
 *						Realmode X86 Emulator Library
@@ -42,6 +44,8 @@
 #ifdef IN_MODULE
 #include "xf86_ansic.h"
 #else
+#include <stdio.h>
+#include <string.h>
 #include <stdarg.h>
 #include <stdlib.h>
 #endif
@@ -307,7 +311,8 @@ void x86emu_single_step (void)
             }
             break;
           case 'q':
-            exit(1);
+          M.x86.debug |= DEBUG_EXIT;
+          return;
 	  case 'P':
 	      noDecode = (noDecode)?0:1;
 	      printk("Toggled decoding to %s\n",(noDecode)?"FALSE":"TRUE");

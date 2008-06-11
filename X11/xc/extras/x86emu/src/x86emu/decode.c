@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /****************************************************************************
 *
 *						Realmode X86 Emulator Library
@@ -104,8 +106,14 @@ DB(		if (CHECK_IP_FETCH())
 		INC_DECODED_INST_LEN(1);
 		if (M.x86.intr) {
 			if (M.x86.intr & INTR_HALTED) {
-DB(				printk("halted\n");
-				X86EMU_trace_regs();)
+DB(             if (M.x86.R_SP != 0) {
+                    printk("halted\n");
+                    X86EMU_trace_regs();
+                    }
+                else {
+                    if (M.x86.debug)
+                        printk("Service completed successfully\n");
+                    })
 				return;
             }
 			if (((M.x86.intr & INTR_SYNCH) && (M.x86.intno == 0 || M.x86.intno == 2)) ||
@@ -115,6 +123,10 @@ DB(				printk("halted\n");
 		}
 		op1 = (*sys_rdb)(((u32)M.x86.R_CS << 4) + (M.x86.R_IP++));
 		(*x86emu_optab[op1])(op1);
+        if (M.x86.debug & DEBUG_EXIT) {
+            M.x86.debug &= ~DEBUG_EXIT;
+            return;
+        }
     }
 }
 
@@ -833,6 +845,7 @@ u32 decode_rm00_address(
     int sib;
 
     if (M.x86.mode & SYSMODE_PREFIX_ADDR) {
+        /* 32-bit addressing */
 	switch (rm) {
 	  case 0:
 		DECODE_PRINTF("[EAX]");
@@ -862,21 +875,22 @@ u32 decode_rm00_address(
 	}
 	HALT_SYS();
     } else {
+        /* 16-bit addressing */
 	switch (rm) {
 	  case 0:
 		DECODE_PRINTF("[BX+SI]");
-		return M.x86.R_BX + M.x86.R_SI;
+            return (M.x86.R_BX + M.x86.R_SI) & 0xffff;
 	  case 1:
 		DECODE_PRINTF("[BX+DI]");
-		return M.x86.R_BX + M.x86.R_DI;
+            return (M.x86.R_BX + M.x86.R_DI) & 0xffff;
 	  case 2:
 		DECODE_PRINTF("[BP+SI]");
 		M.x86.mode |= SYSMODE_SEG_DS_SS;
-		return M.x86.R_BP + M.x86.R_SI;
+            return (M.x86.R_BP + M.x86.R_SI) & 0xffff;
 	  case 3:
 		DECODE_PRINTF("[BP+DI]");
 		M.x86.mode |= SYSMODE_SEG_DS_SS;
-		return M.x86.R_BP + M.x86.R_DI;
+            return (M.x86.R_BP + M.x86.R_DI) & 0xffff;
 	  case 4:
 		DECODE_PRINTF("[SI]");
 		return M.x86.R_SI;
@@ -918,6 +932,7 @@ u32 decode_rm01_address(
 	displacement = (s8)fetch_byte_imm();
 
     if (M.x86.mode & SYSMODE_PREFIX_ADDR) {
+        /* 32-bit addressing */
 	switch (rm) {
 	  case 0:
 		DECODE_PRINTF2("%d[EAX]", displacement);
@@ -948,34 +963,35 @@ u32 decode_rm01_address(
 	}
 	HALT_SYS();
     } else {
+        /* 16-bit addressing */
 	switch (rm) {
 	  case 0:
 		DECODE_PRINTF2("%d[BX+SI]", displacement);
-		return M.x86.R_BX + M.x86.R_SI + displacement;
+            return (M.x86.R_BX + M.x86.R_SI + displacement) & 0xffff;
 	  case 1:
 		DECODE_PRINTF2("%d[BX+DI]", displacement);
-		return M.x86.R_BX + M.x86.R_DI + displacement;
+            return (M.x86.R_BX + M.x86.R_DI + displacement) & 0xffff;
 	  case 2:
 		DECODE_PRINTF2("%d[BP+SI]", displacement);
 		M.x86.mode |= SYSMODE_SEG_DS_SS;
-		return M.x86.R_BP + M.x86.R_SI + displacement;
+            return (M.x86.R_BP + M.x86.R_SI + displacement) & 0xffff;
 	  case 3:
 		DECODE_PRINTF2("%d[BP+DI]", displacement);
 		M.x86.mode |= SYSMODE_SEG_DS_SS;
-		return M.x86.R_BP + M.x86.R_DI + displacement;
+            return (M.x86.R_BP + M.x86.R_DI + displacement) & 0xffff;
 	  case 4:
 		DECODE_PRINTF2("%d[SI]", displacement);
-		return M.x86.R_SI + displacement;
+            return (M.x86.R_SI + displacement) & 0xffff;
 	  case 5:
 		DECODE_PRINTF2("%d[DI]", displacement);
-		return M.x86.R_DI + displacement;
+            return (M.x86.R_DI + displacement) & 0xffff;
 	  case 6:
 		DECODE_PRINTF2("%d[BP]", displacement);
 		M.x86.mode |= SYSMODE_SEG_DS_SS;
-		return M.x86.R_BP + displacement;
+            return (M.x86.R_BP + displacement) & 0xffff;
 	  case 7:
 		DECODE_PRINTF2("%d[BX]", displacement);
-		return M.x86.R_BX + displacement;
+            return (M.x86.R_BX + displacement) & 0xffff;
 	}
 	HALT_SYS();
     }
@@ -1009,6 +1025,7 @@ u32 decode_rm10_address(
     }
 
     if (M.x86.mode & SYSMODE_PREFIX_ADDR) {
+        /* 32-bit addressing */
       switch (rm) {
 	  case 0:
 		DECODE_PRINTF2("%08x[EAX]", displacement);
@@ -1028,6 +1045,7 @@ u32 decode_rm10_address(
 		displacement = (u32)fetch_long_imm();
 		DECODE_PRINTF2("%08x", displacement);
 		return decode_sib_address(sib, 2) + displacement;
+		break;
 	  case 5:
 		DECODE_PRINTF2("%08x[EBP]", displacement);
 		return M.x86.R_EBP + displacement;
@@ -1040,34 +1058,35 @@ u32 decode_rm10_address(
 	}
 	HALT_SYS();
     } else {
+        /* 16-bit addressing */
       switch (rm) {
 	  case 0:
-		DECODE_PRINTF2("%04x[BX+SI]", displacement);
-		return M.x86.R_BX + M.x86.R_SI + displacement;
+            DECODE_PRINTF2("%04x[BX+SI]", displacement);
+            return (M.x86.R_BX + M.x86.R_SI + displacement) & 0xffff;
 	  case 1:
-		DECODE_PRINTF2("%04x[BX+DI]", displacement);
-		return M.x86.R_BX + M.x86.R_DI + displacement;
+            DECODE_PRINTF2("%04x[BX+DI]", displacement);
+            return (M.x86.R_BX + M.x86.R_DI + displacement) & 0xffff;
 	  case 2:
 		DECODE_PRINTF2("%04x[BP+SI]", displacement);
 		M.x86.mode |= SYSMODE_SEG_DS_SS;
-		return M.x86.R_BP + M.x86.R_SI + displacement;
+            return (M.x86.R_BP + M.x86.R_SI + displacement) & 0xffff;
 	  case 3:
 		DECODE_PRINTF2("%04x[BP+DI]", displacement);
 		M.x86.mode |= SYSMODE_SEG_DS_SS;
-		return M.x86.R_BP + M.x86.R_DI + displacement;
+            return (M.x86.R_BP + M.x86.R_DI + displacement) & 0xffff;
 	  case 4:
-		DECODE_PRINTF2("%04x[SI]", displacement);
-		return M.x86.R_SI + displacement;
+            DECODE_PRINTF2("%04x[SI]", displacement);
+            return (M.x86.R_SI + displacement) & 0xffff;
 	  case 5:
-		DECODE_PRINTF2("%04x[DI]", displacement);
-		return M.x86.R_DI + displacement;
+            DECODE_PRINTF2("%04x[DI]", displacement);
+            return (M.x86.R_DI + displacement) & 0xffff;
 	  case 6:
 		DECODE_PRINTF2("%04x[BP]", displacement);
 		M.x86.mode |= SYSMODE_SEG_DS_SS;
-		return M.x86.R_BP + displacement;
+            return (M.x86.R_BP + displacement) & 0xffff;
 	  case 7:
-		DECODE_PRINTF2("%04x[BX]", displacement);
-		return M.x86.R_BX + displacement;
+            DECODE_PRINTF2("%04x[BX]", displacement);
+            return (M.x86.R_BX + displacement) & 0xffff;
 	}
 	HALT_SYS();
     }
