@@ -199,11 +199,12 @@ vndattach(int num)
 	if (num <= 0)
 		return;
 	size = num * sizeof(struct vnd_softc);
-	mem = malloc(size, M_DEVBUF, M_NOWAIT | M_ZERO);
+	mem = malloc(size, M_DEVBUF, M_NOWAIT);
 	if (mem == NULL) {
 		printf("WARNING: no memory for vnode disks\n");
 		return;
 	}
+	bzero(mem, size);
 	vnd_softc = (struct vnd_softc *)mem;
 	for (i = 0; i < num; i++) {
 		rw_init(&vnd_softc[i].sc_rwlock, "vndlock");
