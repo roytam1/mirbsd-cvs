@@ -76,7 +76,6 @@
 #include <sys/mount.h>
 #include <sys/vnode.h>
 #include <sys/file.h>
-#include <sys/rwlock.h>
 #include <sys/uio.h>
 #include <sys/conf.h>
 
@@ -133,12 +132,13 @@ struct vnd_softc {
 	struct ucred	*sc_cred;		/* credentials */
 	struct buf	 sc_tab;		/* transfer queue */
 	blf_ctx		*sc_keyctx;		/* key context */
-	struct rwlock	 sc_rwlock;
 };
 
 /* sc_flags */
 #define	VNF_ALIVE	0x0001
 #define	VNF_INITED	0x0002
+#define	VNF_WANTED	0x0040
+#define	VNF_LOCKED	0x0080
 #define	VNF_LABELLING	0x0100
 #define	VNF_WLABEL	0x0200
 #define	VNF_HAVELABEL	0x0400
@@ -164,8 +164,8 @@ void	vndgetdisklabel(dev_t, struct vnd_softc *, struct disklabel *, int);
 void	vndencrypt(struct vnd_softc *, caddr_t, size_t, daddr_t, int);
 size_t	vndbdevsize(struct vnode *, struct proc *);
 
-#define vndlock(sc) rw_enter(&sc->sc_rwlock, RW_WRITE|RW_INTR)
-#define vndunlock(sc) rw_exit_write(&sc->sc_rwlock)
+int	vndlock(struct vnd_softc *);
+void	vndunlock(struct vnd_softc *);
 
 void
 vndencrypt(struct vnd_softc *vnd, caddr_t addr, size_t size, daddr_t off,
@@ -194,7 +194,6 @@ vndattach(int num)
 {
 	char *mem;
 	u_long size;
-	int i;
 
 	if (num <= 0)
 		return;
@@ -206,9 +205,6 @@ vndattach(int num)
 	}
 	bzero(mem, size);
 	vnd_softc = (struct vnd_softc *)mem;
-	for (i = 0; i < num; i++) {
-		rw_init(&vnd_softc[i].sc_rwlock, "vndlock");
-	}
 	numvnd = num;
 
 	pool_init(&vndbufpl, sizeof(struct vndbuf), 0, 0, 0, "vndbufpl", NULL);
@@ -1066,4 +1062,38 @@ vnddump(dev_t dev, daddr_t blkno, caddr_t va, size_t size)
 
 	/* Not implemented. */
 	return (ENXIO);
+}
+
+/*
+ * Wait interruptibly for an exclusive lock.
+ *
+ * XXX
+ * Several drivers do this; it should be abstracted and made MP-safe.
+ */
+int
+vndlock(struct vnd_softc *sc)
+{
+	int error;
+
+	while ((sc->sc_flags & VNF_LOCKED) != 0) {
+		sc->sc_flags |= VNF_WANTED;
+		if ((error = tsleep(sc, PRIBIO | PCATCH, "vndlck", 0)) != 0)
+			return (error);
+	}
+	sc->sc_flags |= VNF_LOCKED;
+	return (0);
+}
+
+/*
+ * Unlock and wake up any waiters.
+ */
+void
+vndunlock(struct vnd_softc *sc)
+{
+
+	sc->sc_flags &= ~VNF_LOCKED;
+	if ((sc->sc_flags & VNF_WANTED) != 0) {
+		sc->sc_flags &= ~VNF_WANTED;
+		wakeup(sc);
+	}
 }
