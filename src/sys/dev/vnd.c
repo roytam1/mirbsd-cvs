@@ -161,14 +161,14 @@ int	vndsetcred(struct vnd_softc *, struct ucred *);
 void	vndiodone(struct buf *);
 void	vndshutdown(void);
 void	vndgetdisklabel(dev_t, struct vnd_softc *, struct disklabel *, int);
-void	vndencrypt(struct vnd_softc *, caddr_t, size_t, daddr64_t, int);
+void	vndencrypt(struct vnd_softc *, caddr_t, size_t, daddr_t, int);
 size_t	vndbdevsize(struct vnode *, struct proc *);
 
 #define vndlock(sc) rw_enter(&sc->sc_rwlock, RW_WRITE|RW_INTR)
 #define vndunlock(sc) rw_exit_write(&sc->sc_rwlock)
 
 void
-vndencrypt(struct vnd_softc *vnd, caddr_t addr, size_t size, daddr64_t off,
+vndencrypt(struct vnd_softc *vnd, caddr_t addr, size_t size, daddr_t off,
     int encrypt)
 {
 	int i, bsize;
@@ -316,7 +316,7 @@ vndgetdisklabel(dev_t dev, struct vnd_softc *sc, struct disklabel *lp,
 	strncpy(lp->d_typename, "vnd device", sizeof(lp->d_typename));
 	lp->d_type = DTYPE_VND;
 	strncpy(lp->d_packname, "fictitious", sizeof(lp->d_packname));
-	DL_SETDSIZE(lp, sc->sc_size);
+	lp->d_secperunit = sc->sc_size;
 	lp->d_rpm = 3600;
 	lp->d_interleave = 1;
 	lp->d_flags = 0;
@@ -444,7 +444,7 @@ vndstrategy(struct buf *bp)
 		/* Loop until all queued requests are handled.  */
 		for (;;) {
 			int part = DISKPART(bp->b_dev);
-			daddr64_t off = DL_GETPOFFSET(&vnd->sc_dk.dk_label->d_partitions[part]);
+			int off = vnd->sc_dk.dk_label->d_partitions[part].p_offset;
 
 			aiov.iov_base = bp->b_data;
 			auio.uio_resid = aiov.iov_len = bp->b_bcount;
@@ -512,7 +512,7 @@ vndstrategy(struct buf *bp)
 	}
 
 	/* The old-style buffercache bypassing method.  */
-	bn += DL_GETPOFFSET(&vnd->sc_dk.dk_label->d_partitions[DISKPART(bp->b_dev)]);
+	bn += vnd->sc_dk.dk_label->d_partitions[DISKPART(bp->b_dev)].p_offset;
 	bn = dbtob(bn);
 	bsize = vnd->sc_vp->v_mount->mnt_stat.f_iosize;
 	addr = bp->b_data;
@@ -1044,7 +1044,7 @@ vndclear(struct vnd_softc *vnd)
 	vnd->sc_size = 0;
 }
 
-daddr64_t
+int
 vndsize(dev_t dev)
 {
 	int unit = vndunit(dev);
@@ -1056,7 +1056,7 @@ vndsize(dev_t dev)
 }
 
 int
-vnddump(dev_t dev, daddr64_t blkno, caddr_t va, size_t size)
+vnddump(dev_t dev, daddr_t blkno, caddr_t va, size_t size)
 {
 
 	/* Not implemented. */
