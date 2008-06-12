@@ -520,7 +520,7 @@ vndstrategy(struct buf *bp)
 	flags = bp->b_flags | B_CALL;
 	for (resid = bp->b_resid; resid; resid -= sz) {
 		struct vnode *vp;
-		daddr64_t nbn;
+		daddr_t nbn;
 		int off, nra;
 
 		nra = 0;
@@ -824,7 +824,7 @@ vndioctl(dev_t dev, u_long cmd, caddr_t addr, int flag, struct proc *p)
 		}
 
 		if (vio->vnd_keylen > 0) {
-			char key[BLF_MAXUTILIZED];
+			char key[72];
 
 			if (vio->vnd_keylen > sizeof(key))
 				vio->vnd_keylen = sizeof(key);
