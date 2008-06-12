@@ -14,6 +14,7 @@ HEADERS= \
         ftbbox.h \
 	ftbdf.h \
         ftcache.h \
+        ftcid.h \
         ftchapters.h \
 	fterrdef.h \
         fterrors.h \
@@ -56,6 +57,7 @@ LinkSourceFile(freetype.h,$(FREETYPEINC))
 LinkSourceFile(ftbbox.h,$(FREETYPEINC))
 LinkSourceFile(ftbdf.h,$(FREETYPEINC))
 LinkSourceFile(ftcache.h,$(FREETYPEINC))
+LinkSourceFile(ftcid.h,$(FREETYPEINC))
 LinkSourceFile(ftchapters.h,$(FREETYPEINC))
 LinkSourceFile(fterrdef.h,$(FREETYPEINC))
 LinkSourceFile(fterrors.h,$(FREETYPEINC))
