@@ -15,13 +15,6 @@
  * 2. Redistributions in binary form must reproduce the above copyright
  *    notice, this list of conditions and the following disclaimer in the
  *    documentation and/or other materials provided with the distribution.
- * 3. All advertising materials mentioning features or use of this software
- *    must display the following acknowledgement:
- *        This product includes software developed by the NetBSD
- *        Foundation, Inc. and its contributors.
- * 4. Neither the name of The NetBSD Foundation nor the names of its
- *    contributors may be used to endorse or promote products derived
- *    from this software without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE NETBSD FOUNDATION, INC. AND CONTRIBUTORS
  * ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
@@ -63,6 +56,9 @@
 #include <openssl/hmac.h>
 
 #include "pkcs5_pbkdf2.h"
+
+__RCSID("$MirOS$");
+__RCSID("$NetBSD: pkcs5_pbkdf2.c,v 1.5 2004/03/17 01:29:13 dan Exp $");
 
 static void	int_encode(u_int8_t *, int);
 static void	prf_iterate(u_int8_t *, const u_int8_t *, int,
@@ -124,7 +120,7 @@ prf_iterate(u_int8_t *r, const u_int8_t *P, int Plen,
 		if (first_time) {
 			memcpy(r, tmp, PRF_BLOCKLEN);
 			first_time = 0;
-		} else 
+		} else
 			memxor(r, tmp, PRF_BLOCKLEN);
 		memcpy(data, tmp, PRF_BLOCKLEN);
 		datalen = PRF_BLOCKLEN;
@@ -161,7 +157,7 @@ pkcs5_pbkdf2(u_int8_t **r, int dkLen, const u_int8_t *P, int Plen,
 
 	/* Step 3 */
 	for (i=0; i < l; i++)
-		prf_iterate(*r + (PRF_BLOCKLEN * i), P, Plen, S, Slen, c, 
+		prf_iterate(*r + (PRF_BLOCKLEN * i), P, Plen, S, Slen, c,
 			(compat?i:i+1));
 
 	/* Step 4 and 5

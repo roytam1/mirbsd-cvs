@@ -57,6 +57,11 @@
 
 #include "pkcs5_pbkdf2.h"
 
+__RCSID("$MirOS$");
+__RCSID("$OpenBSD: mount_vnd.c,v 1.4 2007/09/29 07:10:09 fkr Exp $");
+__RCSID("Utah $Hdr: vnconfig.c 1.1 93/12/15$");
+__SCCSID("@(#)vnconfig.c	8.1 (Berkeley) 12/15/93");
+
 #define DEFAULT_VND	"svnd0"
 
 #define VND_CONFIG	1
