@@ -1,11 +1,10 @@
 /***************************************************************************/
 /*                                                                         */
-/*  otvalid.c                                                              */
+/*  svcid.h                                                                */
 /*                                                                         */
-/*    FreeType validator for OpenType tables (body only).                  */
+/*    The FreeType CID font services (specification).                      */
 /*                                                                         */
-/*  Copyright 2004, 2007 by                                                */
-/*  David Turner, Robert Wilhelm, and Werner Lemberg.                      */
+/*  Copyright 2007 by Derek Clegg.                                         */
 /*                                                                         */
 /*  This file is part of the FreeType project, and may only be used,       */
 /*  modified, and distributed under the terms of the FreeType project      */
@@ -15,17 +14,36 @@
 /*                                                                         */
 /***************************************************************************/
 
-#define FT_MAKE_OPTION_SINGLE_OBJECT
 
-#include <ft2build.h>
+#ifndef __SVCID_H__
+#define __SVCID_H__
 
-#include "otvbase.c"
-#include "otvcommn.c"
-#include "otvgdef.c"
-#include "otvgpos.c"
-#include "otvgsub.c"
-#include "otvjstf.c"
-#include "otvmath.c"
-#include "otvmod.c"
+#include FT_INTERNAL_SERVICE_H
+
+
+FT_BEGIN_HEADER
+
+
+#define FT_SERVICE_ID_CID  "CID"
+
+  typedef FT_Error
+  (*FT_CID_GetRegistryOrderingSupplementFunc)( FT_Face       face,
+                                               const char*  *registry,
+                                               const char*  *ordering,
+                                               FT_Int       *supplement );
+
+  FT_DEFINE_SERVICE( CID )
+  {
+    FT_CID_GetRegistryOrderingSupplementFunc  get_ros;
+  };
+
+  /* */
+
+
+FT_END_HEADER
+
+
+#endif /* __SVCID_H__ */
+
 
 /* END */
