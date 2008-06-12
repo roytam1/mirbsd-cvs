@@ -305,6 +305,7 @@ vndgetdisklabel(dev_t dev, struct vnd_softc *sc, struct disklabel *lp,
 	char *errstring = NULL;
 
 	bzero(lp, sizeof(struct disklabel));
+	bzero(sc->sc_dk.dk_cpulabel, sizeof(struct cpu_disklabel));
 
 	lp->d_secsize = 512;
 	lp->d_ntracks = 1;
@@ -326,7 +327,8 @@ vndgetdisklabel(dev_t dev, struct vnd_softc *sc, struct disklabel *lp,
 	lp->d_checksum = dkcksum(lp);
 
 	/* Call the generic disklabel extraction routine */
-	errstring = readdisklabel(VNDLABELDEV(dev), vndstrategy, lp, spoofonly);
+	errstring = readdisklabel(VNDLABELDEV(dev), vndstrategy, lp,
+	    sc->sc_dk.dk_cpulabel, spoofonly);
 	if (errstring) {
 		DNPRINTF(VDB_IO, "%s: %s\n", sc->sc_dev.dv_xname,
 		    errstring);
@@ -422,7 +424,8 @@ vndstrategy(struct buf *bp)
 
 	/* If we have a label, do a boundary check. */
 	if (vnd->sc_flags & VNF_HAVELABEL) {
-		if (bounds_check_with_label(bp, vnd->sc_dk.dk_label, 1) <= 0) {
+		if (bounds_check_with_label(bp, vnd->sc_dk.dk_label,
+		    vnd->sc_dk.dk_cpulabel, 1) <= 0) {
 			s = splbio();
 			biodone(bp);
 			splx(s);
@@ -950,11 +953,13 @@ vndioctl(dev_t dev, u_long cmd, caddr_t addr, int flag, struct proc *p)
 		vnd->sc_flags |= VNF_LABELLING;
 
 		error = setdisklabel(vnd->sc_dk.dk_label,
-		    (struct disklabel *)addr, /*vnd->sc_dk.dk_openmask : */0);
+		    (struct disklabel *)addr, /*vnd->sc_dk.dk_openmask : */0,
+		    vnd->sc_dk.dk_cpulabel);
 		if (error == 0) {
 			if (cmd == DIOCWDINFO)
 				error = writedisklabel(VNDLABELDEV(dev),
-				    vndstrategy, vnd->sc_dk.dk_label);
+				    vndstrategy, vnd->sc_dk.dk_label,
+				    vnd->sc_dk.dk_cpulabel);
 		}
 
 		vnd->sc_flags &= ~VNF_LABELLING;
