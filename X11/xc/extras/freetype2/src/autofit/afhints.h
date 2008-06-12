@@ -1,4 +1,4 @@
-/* $MirOS: X11/xc/extras/freetype2/src/autofit/afhints.h,v 1.2 2006/06/29 20:24:35 tg Exp $ */
+/* $MirOS: X11/xc/extras/freetype2/src/autofit/afhints.h,v 1.3 2008/02/26 20:04:49 bsiegert Exp $ */
 /* $XFree86: xc/extras/freetype2/src/autofit/afhints.h,v 1.2 2004/06/09 18:52:02 tsi Exp $ */
 
 /***************************************************************************/
@@ -7,7 +7,7 @@
 /*                                                                         */
 /*    Auto-fitter hinting routines (specification).                        */
 /*                                                                         */
-/*  Copyright 2003, 2004, 2005, 2006, 2007 by                              */
+/*  Copyright 2003, 2004, 2005, 2006, 2007, 2008 by                        */
 /*  David Turner, Robert Wilhelm, and Werner Lemberg.                      */
 /*                                                                         */
 /*  This file is part of the FreeType project, and may only be used,       */
@@ -33,7 +33,7 @@ FT_BEGIN_HEADER
   *  script analysis routines (until now).
   */
 
-  typedef enum
+  typedef enum  AF_Dimension_
   {
     AF_DIMENSION_HORZ = 0,  /* x coordinates,                    */
                             /* i.e., vertical segments & edges   */
@@ -47,7 +47,7 @@ FT_BEGIN_HEADER
 
   /* hint directions -- the values are computed so that two vectors are */
   /* in opposite directions iff `dir1 + dir2 == 0'                      */
-  typedef enum
+  typedef enum  AF_Direction_
   {
     AF_DIR_BOTH  =  0,
 
@@ -61,7 +61,7 @@ FT_BEGIN_HEADER
 
 
   /* point hint flags */
-  typedef enum
+  typedef enum  AF_Flags_
   {
     AF_FLAG_NONE = 0,
 
@@ -92,7 +92,7 @@ FT_BEGIN_HEADER
 
 
   /* edge hint flags */
-  typedef enum
+  typedef enum  AF_Edge_Flags_
   {
     AF_EDGE_NORMAL = 0,
     AF_EDGE_ROUND  = 1 << 0,
