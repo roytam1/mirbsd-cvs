@@ -9,7 +9,7 @@
  *
  * This code is derived from software contributed to Berkeley by
  * Vern Paxson.
- * 
+ *
  * The United States Government has rights in this work pursuant
  * to contract no. DE-AC03-76SF00098 between the United States
  * Department of Energy and the University of California.
@@ -34,10 +34,12 @@
  * PURPOSE.
  */
 
-/* $Header$ */
-
 #include "flexdef.h"
 #include "parse.h"
+
+#ifdef __IDSTRING
+__IDSTRING(rcsid, "$MirOS$");
+#endif
 
 #define ACTION_ECHO add_action( yytext )
 #define ACTION_IFDEF(def, should_define) \
