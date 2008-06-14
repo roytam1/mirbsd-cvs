@@ -26,7 +26,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-/* $MirOS$ */
+/* $MirOS: X11/xc/lib/font/FreeType/ftfuncs.c,v 1.4 2006/07/01 19:48:30 tg Exp $ */
 /* $XdotOrg: xc/lib/font/FreeType/ftfuncs.c,v 1.11 2005/07/03 07:00:58 daniels Exp $ */
 /* $XFree86: xc/lib/font/FreeType/ftfuncs.c,v 1.45 2004/04/14 15:32:43 dawes Exp $ */
 
@@ -34,6 +34,7 @@ THE SOFTWARE.
 
 #ifndef FONTMODULE
 #include <string.h>
+#include <ctype.h>
 #include <math.h>
 #else
 #include "Xmd.h"
