@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.24 2008/04/22 11:43:31 tg Rel $ */
+/* $MirOS: contrib/code/Snippets/coroutine.h,v 1.1 2008/06/18 20:27:16 tg Exp $ */
 
 /*-
  * $Id$ is
@@ -107,9 +107,9 @@ main(void)
 /* configuration: implementation style to use */
 #if !defined(__COROUTINE_DUFF)
 #ifdef __GNUC__
-#define __COROUTINE_DUFF	0
+#define __COROUTINE_DUFF	0	/* use address of local label */
 #else
-#define __COROUTINE_DUFF	1
+#define __COROUTINE_DUFF	1	/* use Duff's Device (ANSI C) */
 #endif
 #endif
 
@@ -119,9 +119,9 @@ main(void)
 
 
 #if __COROUTINE_DUFF
-#define __coroutine_content	void *ptr
-#else
 #define __coroutine_content	unsigned long lno
+#else
+#define __coroutine_content	void *ptr
 #endif
 
 #define __coroutine_decl(_typename, _rettype, ...)			\
@@ -158,37 +158,6 @@ main(void)
 
 #if __COROUTINE_DUFF
 
-#define __coroutine_begin(_name)					\
-			} __cr_data;					\
-		} *__cr_ictx;						\
-									\
-	if (*__cr_ectx == NULL) {					\
-		__coroutine_initctx(_name);				\
-		(*__cr_ectx)->ptr = NULL;				\
-		goto __CR(endlbl, _name);				\
-	} else								\
-		__coroutine_checkctx(_name);				\
-	if ((*__cr_ectx)->ptr != NULL)					\
-		__extension__({ goto *((*__cr_ectx)->ptr); })
-
-#define __coroutine_return(value) __extension__({			\
-	__label__ __cr_tmplbl;						\
-									\
-	(*__cr_ectx)->ptr = &&__cr_tmplbl;				\
-	return value;	/* no parens: void function support */		\
- __cr_tmplbl:								\
-	;								\
-})
-
-#define __coroutine_end(_name)						\
-	if (*__cr_ectx != NULL) {					\
-		__coroutine_free(*__cr_ectx);				\
-		*__cr_ectx = NULL;					\
-	}								\
-	__CR(endlbl, _name):
-
-#else /* !__COROUTINE_DUFF */
-
 #ifndef __extension__
 #define __extension__		/* nothing */
 #endif
@@ -216,6 +185,37 @@ main(void)
 			__coroutine_free(*__cr_ectx);			\
 			*__cr_ectx = NULL;				\
 		}							\
+	}								\
+	__CR(endlbl, _name):
+
+#else /* !__COROUTINE_DUFF */
+
+#define __coroutine_begin(_name)					\
+			} __cr_data;					\
+		} *__cr_ictx;						\
+									\
+	if (*__cr_ectx == NULL) {					\
+		__coroutine_initctx(_name);				\
+		(*__cr_ectx)->ptr = NULL;				\
+		goto __CR(endlbl, _name);				\
+	} else								\
+		__coroutine_checkctx(_name);				\
+	if ((*__cr_ectx)->ptr != NULL)					\
+		__extension__({ goto *((*__cr_ectx)->ptr); })
+
+#define __coroutine_return(value) __extension__({			\
+	__label__ __cr_tmplbl;						\
+									\
+	(*__cr_ectx)->ptr = &&__cr_tmplbl;				\
+	return value;	/* no parens: void function support */		\
+ __cr_tmplbl:								\
+	;								\
+})
+
+#define __coroutine_end(_name)						\
+	if (*__cr_ectx != NULL) {					\
+		__coroutine_free(*__cr_ectx);				\
+		*__cr_ectx = NULL;					\
 	}								\
 	__CR(endlbl, _name):
 
