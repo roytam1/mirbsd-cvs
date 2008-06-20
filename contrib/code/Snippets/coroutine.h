@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/Snippets/coroutine.h,v 1.2 2008/06/18 20:42:00 tg Exp $ */
+/* $MirOS: contrib/code/Snippets/coroutine.h,v 1.3 2008/06/20 15:32:12 tg Exp $ */
 
 /*-
  * $Id$ is
@@ -44,7 +44,8 @@ __coroutine_defn(<typename>, <name>, <return type> [, <arguments>])
 	return (<value>);
 }
 
- * A coroutine can yield by using __cr_return(<value>);
+ * A coroutine can yield by using __cr_return(<value>); and pass execu-
+ * tion to another function with the same <typename> with __cr_pass.
  * Local variables can be accessed in a coroutine with __cr_var(<name>)
  *
  * To access a coroutine, first create a pointer to a state variable
@@ -145,6 +146,12 @@ main(void)
 	__cr_ictx = (struct __CR(internal, _name) *)(*__cr_ectx);	\
 } while (/* CONSTCOND */ 0)
 
+#define __coroutine_pass(_name, ...) do {				\
+	__coroutine_free(*__cr_ectx);					\
+	*__cr_ectx = __coroutine_new(typeof (**__cr_ectx), _name);	\
+	return ((*__cr_ectx)->__fptr(__cr_ectx, ##__VA_ARGS__));	\
+} while (/* CONSTCOND */ 0)
+
 #define __coroutine_proto(_typename, _name, _rettype, ...)		\
 	_rettype _name(_typename **, ##__VA_ARGS__)
 
@@ -234,6 +241,7 @@ main(void)
 #define __cr_begin		__coroutine_begin
 #define __cr_end		__coroutine_end
 #define __cr_call(_ctx, ...)	((_ctx)->__fptr(&(_ctx), ##__VA_ARGS__))
+#define __cr_pass		__coroutine_pass
 #define __cr_return(v)		__coroutine_return(v)
 #define __cr_var(_name)		(__cr_ictx->__cr_data._name)
 
