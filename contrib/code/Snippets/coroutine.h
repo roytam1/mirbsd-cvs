@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/Snippets/coroutine.h,v 1.1 2008/06/18 20:27:16 tg Exp $ */
+/* $MirOS: contrib/code/Snippets/coroutine.h,v 1.2 2008/06/18 20:42:00 tg Exp $ */
 
 /*-
  * $Id$ is
@@ -138,6 +138,13 @@ main(void)
 	(*__cr_ectx)->__fptr = &_name;					\
 } while (/* CONSTCOND */ 0)
 
+#define __coroutine_checkctx(_name) do {				\
+	/* check if the struct passed matches */			\
+	if ((*__cr_ectx)->__fptr != &_name)				\
+		abort();						\
+	__cr_ictx = (struct __CR(internal, _name) *)(*__cr_ectx);	\
+} while (/* CONSTCOND */ 0)
+
 #define __coroutine_proto(_typename, _name, _rettype, ...)		\
 	_rettype _name(_typename **, ##__VA_ARGS__)
 
@@ -148,13 +155,6 @@ main(void)
 			/* __cr_internal must be first */		\
 			_typename __cr_internal;			\
 			struct	/* ... yes, here the macro ends */
-
-#define __coroutine_checkctx(_name) do {				\
-	/* check if the struct passed matches */			\
-	if ((*__cr_ectx)->__fptr != &_name)				\
-		abort();						\
-	__cr_ictx = (struct __CR(internal, _name) *)(*__cr_ectx);	\
-} while (/* CONSTCOND */ 0)
 
 #if __COROUTINE_DUFF
 
