@@ -50,7 +50,7 @@ __coroutine_defn(<typename>, <name>, <return type> [, <arguments>])
  *
  * To access a coroutine, first create a pointer to a state variable
  * of its <typename>, initialise it with something like
- *	<pointervar> = __cr_new(<typename>, <name>);
+ *	__cr_new(<pointervar>, <typename>, <name>);
  * and call the coroutine using __cr_call(<pointervar> [, <arguments>]).
  *
  * Example:
@@ -100,7 +100,7 @@ main(void)
 	footype *c;
 	int i;
 
-	c = __cr_new(footype, foo);
+	__cr_new(c, footype, foo);
 	for (i = 1; i <= 6; ++i)
 		printf("#%d: ret = %d\n", i, __cr_call(c, i));
 
@@ -164,7 +164,7 @@ main(void)
 
 #define __coroutine_pass(_name, ...) do {				\
 	__coroutine_free(*__cr_ectx);					\
-	*__cr_ectx = __coroutine_new(typeof (**__cr_ectx), _name);	\
+	__coroutine_new(*__cr_ectx, typeof (**__cr_ectx), _name);	\
 	return ((*__cr_ectx)->__fptr(__cr_ectx, ##__VA_ARGS__));	\
 } while (/* CONSTCOND */ 0)
 
@@ -244,13 +244,13 @@ main(void)
 
 #endif /* !__COROUTINE_DUFF */
 
-#define __coroutine_new(_typename, _name) __extension__({		\
+#define __coroutine_new(_ptrvar, _typename, _name) do {			\
 	_typename *__cr_tmp1 = NULL;					\
 	void (*__cr_tmp2)(_typename **) =				\
 	    (void (*)(_typename **))&_name;				\
 	(*__cr_tmp2)(&__cr_tmp1);					\
-	(__cr_tmp1);							\
-})
+	_ptrvar = __cr_tmp1;						\
+} while (/* CONSTCOND */ 0)
 
 #define __cr_new		__coroutine_new
 #define __cr_free		__coroutine_free
