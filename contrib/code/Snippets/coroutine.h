@@ -29,12 +29,19 @@
 /**
  * Information on how to use this header file:
  *
+ * You will need to include <stdlib.h> for malloc/free, abort, NULL.
  * To create a coroutine, use this:
 
+ * once per <typename>, in a header file:
 __coroutine_decl(<typename>, <return type> [, <arguments>]);
 
+ * once per function <name>, in a header file:
 __coroutine_proto(<typename>, <name>, <return type> [, <arguments>]);
 
+ * once per <typename>, in a source file, with no trailing semicolon:
+__coroutine_impl(<typename>)
+
+ * once per function <name>, in a header file:
 __coroutine_defn(<typename>, <name>, <return type> [, <arguments>])
 {
 	<local variables>
@@ -45,12 +52,13 @@ __coroutine_defn(<typename>, <name>, <return type> [, <arguments>])
 }
 
  * A coroutine can yield by using __cr_return(<value>); and pass execu-
- * tion to another function with the same <typename> with __cr_pass.
+ * tion to another function with the same <typename> with __cr_pass (or
+ * __cr_passv if the function return type is "void").
  * Local variables can be accessed in a coroutine with __cr_var(<name>)
  *
  * To access a coroutine, first create a pointer to a state variable
- * of its <typename>, initialise it with something like
- *	__cr_new(<pointervar>, <typename>, <name>);
+ * of its <typename> and initialise it with something like
+ *	__cr_init(<typename>, <pointervar>, <name>);
  * and call the coroutine using __cr_call(<pointervar> [, <arguments>]).
  *
  * Example:
@@ -59,10 +67,14 @@ __coroutine_defn(<typename>, <name>, <return type> [, <arguments>])
 #include <stdio.h>
 #include "coroutine.h"
 
+static const char rcsid[] = "$MirOS$";
+
 __coroutine_decl(footype, int, int);
 
 __coroutine_proto(footype, foo, int, int);
 __coroutine_proto(footype, bar, int, int);
+
+__coroutine_impl(footype)	/* no trailing semicolon here, sadly */
 
 __coroutine_defn(footype, foo, int, int arg)
 {
@@ -95,12 +107,14 @@ __coroutine_defn(footype, bar, int, int arg)
 }
 
 int
-main(void)
+main(int argc, char *argv[])
 {
-	footype *c;
+	__cr_init(footype, c, foo);
 	int i;
 
-	__cr_new(c, footype, foo);
+	if (argc > 1 && argv[1][0] == '-' && argv[1][1] == 'v')
+		printf("%s\n", rcsid);
+
 	for (i = 1; i <= 6; ++i)
 		printf("#%d: ret = %d\n", i, __cr_call(c, i));
 
@@ -141,6 +155,7 @@ main(void)
 #define __coroutine_content	void *ptr
 #endif
 
+/* declare a <typename>, its structures, and initialiser function */
 #define __coroutine_decl(_typename, _rettype, ...)			\
 	struct __CR(struct, _typename);					\
 	typedef _rettype (*__CR(ptr, _typename))(			\
@@ -148,29 +163,45 @@ main(void)
 	typedef struct __CR(struct, _typename) {			\
 		__CR(ptr, _typename) __fptr;				\
 		__coroutine_content;					\
-	} _typename
+	} _typename;							\
+	_typename *__CR(init, _typename)(void (*)(_typename **))
 
-#define __coroutine_initctx(_name) do {					\
-	*__cr_ectx = __coroutine_malloc(sizeof (*__cr_ictx));		\
-	(*__cr_ectx)->__fptr = &_name;					\
-} while (/* CONSTCOND */ 0)
+/* implement a <typename>'s initialiser function */
+#define __coroutine_impl(_typename)					\
+	_typename *__CR(init, _typename)(void (*ptr)(_typename **))	\
+	{								\
+		_typename *__cr_tmp1 = NULL;				\
+		(*ptr)(&__cr_tmp1);					\
+		return (__cr_tmp1);					\
+	}
 
-#define __coroutine_checkctx(_name) do {				\
-	/* check if the struct passed matches */			\
-	if ((*__cr_ectx)->__fptr != &_name)				\
-		abort();						\
-	__cr_ictx = (struct __CR(internal, _name) *)(*__cr_ectx);	\
-} while (/* CONSTCOND */ 0)
+/* declare and initialise a context pointer variable */
+#define __coroutine_init(_typename, _ptrvar, _name)			\
+	_typename *_ptrvar =						\
+	    __CR(init, _typename)((void (*)(_typename **))&_name)
 
+/* pass execution to another coroutine of the same <typename> ret. non-void */
 #define __coroutine_pass(_typename, _name, ...) do {			\
 	__coroutine_free(*__cr_ectx);					\
-	__coroutine_new(*__cr_ectx, _typename, _name);			\
+	*__cr_ectx =							\
+	    __CR(init, _typename)((void (*)(_typename **))&_name);	\
 	return ((*__cr_ectx)->__fptr(__cr_ectx, ##__VA_ARGS__));	\
 } while (/* CONSTCOND */ 0)
 
+/* pass execution to another coroutine of the same <typename> returning void */
+#define __coroutine_passv(_typename, _name, ...) do {			\
+	__coroutine_free(*__cr_ectx);					\
+	*__cr_ectx =							\
+	    __CR(init, _typename)((void (*)(_typename **))&_name);	\
+	(*__cr_ectx)->__fptr(__cr_ectx, ##__VA_ARGS__);			\
+	return;								\
+} while (/* CONSTCOND */ 0)
+
+/* declare a coroutine function prototype */
 #define __coroutine_proto(_typename, _name, _rettype, ...)		\
 	_rettype _name(_typename **, ##__VA_ARGS__)
 
+/* define a coroutine function */
 #define __coroutine_defn(_typename, _name, _rettype, ...)		\
 	_rettype _name(_typename **__cr_ectx, ##__VA_ARGS__)		\
 	{								\
@@ -179,12 +210,10 @@ main(void)
 			_typename __cr_internal;			\
 			struct	/* ... yes, here the macro ends */
 
+
 #if __COROUTINE_DUFF
 
-#ifndef __extension__
-#define __extension__		/* nothing */
-#endif
-
+/* begin execution of a coroutine function */
 #define __coroutine_begin(_name)					\
 			} __cr_data;					\
 		} *__cr_ictx;						\
@@ -198,11 +227,13 @@ main(void)
 	switch ((*__cr_ectx)->lno) {					\
 	case 0:
 
+/* yield from a coroutine to its caller */
 #define __coroutine_return(x) do {					\
 	/* the following must all be on the same line */		\
 	(*__cr_ectx)->lno = __LINE__; return x; case __LINE__: ;	\
 } while (/* CONSTCOND */ 0)
 
+/* finish execution of a coroutine function */
 #define __coroutine_end(_name)						\
 		if (*__cr_ectx != NULL) {				\
 			__coroutine_free(*__cr_ectx);			\
@@ -213,6 +244,7 @@ main(void)
 
 #else /* !__COROUTINE_DUFF */
 
+/* begin execution of a coroutine function */
 #define __coroutine_begin(_name)					\
 			} __cr_data;					\
 		} *__cr_ictx;						\
@@ -226,6 +258,7 @@ main(void)
 	if ((*__cr_ectx)->ptr != NULL)					\
 		__extension__({ goto *((*__cr_ectx)->ptr); })
 
+/* yield from a coroutine to its caller */
 #define __coroutine_return(value) __extension__({			\
 	__label__ __cr_tmplbl;						\
 									\
@@ -235,6 +268,7 @@ main(void)
 	;								\
 })
 
+/* finish execution of a coroutine function */
 #define __coroutine_end(_name)						\
 	if (*__cr_ectx != NULL) {					\
 		__coroutine_free(*__cr_ectx);				\
@@ -244,20 +278,30 @@ main(void)
 
 #endif /* !__COROUTINE_DUFF */
 
-#define __coroutine_new(_ptrvar, _typename, _name) do {			\
-	_typename *__cr_tmp1 = NULL;					\
-	void (*__cr_tmp2)(_typename **) =				\
-	    (void (*)(_typename **))&_name;				\
-	(*__cr_tmp2)(&__cr_tmp1);					\
-	_ptrvar = __cr_tmp1;						\
+
+/* internal: fill in a context pointer and local variables variable */
+#define __coroutine_initctx(_name) do {					\
+	*__cr_ectx = __coroutine_malloc(sizeof (*__cr_ictx));		\
+	(*__cr_ectx)->__fptr = &_name;					\
 } while (/* CONSTCOND */ 0)
 
-#define __cr_new		__coroutine_new
+/* internal: check a context pointer for validity and load it */
+#define __coroutine_checkctx(_name) do {				\
+	/* check if the struct passed matches */			\
+	if ((*__cr_ectx)->__fptr != &_name)				\
+		abort();						\
+	__cr_ictx = (struct __CR(internal, _name) *)(*__cr_ectx);	\
+} while (/* CONSTCOND */ 0)
+
+
+/* API exported to the user */
+#define __cr_init		__coroutine_init
 #define __cr_free		__coroutine_free
 #define __cr_begin		__coroutine_begin
 #define __cr_end		__coroutine_end
 #define __cr_call(_ctx, ...)	((_ctx)->__fptr(&(_ctx), ##__VA_ARGS__))
 #define __cr_pass		__coroutine_pass
+#define __cr_passv		__coroutine_passv
 #define __cr_return(v)		__coroutine_return(v)
 #define __cr_var(_name)		(__cr_ictx->__cr_data._name)
 
