@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/Snippets/coroutine.h,v 1.10 2008/06/23 19:02:17 tg Stab $ */
+/* $MirOS: contrib/code/Snippets/coroutine.h,v 1.11 2008/06/23 19:59:04 tg Rel $ */
 
 /*-
  * $Id$ is
@@ -67,7 +67,7 @@ __coroutine_defn(<typename>, <name>, <return type> [, <arguments>])
 #include <stdio.h>
 #include "coroutine.h"
 
-static const char rcsid[] = "$MirOS: contrib/code/Snippets/coroutine.h,v 1.10 2008/06/23 19:02:17 tg Stab $";
+static const char rcsid[] = "$MirOS: contrib/code/Snippets/coroutine.h,v 1.11 2008/06/23 19:59:04 tg Rel $";
 
 __coroutine_decl(footype, int, int);
 
@@ -158,8 +158,8 @@ main(int argc, char *argv[])
 /* declare a <typename>, its structures, and initialiser function */
 #define __coroutine_decl(_typename, _rettype, ...)			\
 	struct __CR(struct, _typename);					\
-	typedef _rettype (*__CR(ptr, _typename))(			\
-	    struct __CR(struct, _typename) **, ##__VA_ARGS__);		\
+	typedef _rettype (*__CR(ptr, _typename))(struct			\
+	    __CR(struct, _typename) **, ##__VA_ARGS__);			\
 	typedef struct __CR(struct, _typename) {			\
 		__CR(ptr, _typename) __fptr;				\
 		__coroutine_content;					\
@@ -169,23 +169,23 @@ main(int argc, char *argv[])
 /* implement a <typename>'s initialiser function */
 #define __coroutine_impl(_typename)					\
 	_typename *							\
-	__CR(init, _typename)(void (*ptr)(_typename **))		\
+	__CR(init, _typename)(void (*__cr_ptr)(_typename **))		\
 	{								\
 		_typename *__cr_tmp1 = NULL;				\
-		(*ptr)(&__cr_tmp1);					\
+		(*__cr_ptr)(&__cr_tmp1);				\
 		return (__cr_tmp1);					\
 	}
 
 /* declare and initialise a context pointer variable */
 #define __coroutine_init(_typename, _ptrvar, _name)			\
 	_typename *_ptrvar =						\
-	    __CR(init, _typename)((void (*)(_typename **))&_name)
+	    __CR(init, _typename)((void (*)(_typename **))&(_name))
 
 /* pass execution to another coroutine of the same <typename> ret. non-void */
 #define __coroutine_pass(_typename, _name, ...) do {			\
 	__coroutine_free(*__cr_ectx);					\
 	*__cr_ectx =							\
-	    __CR(init, _typename)((void (*)(_typename **))&_name);	\
+	    __CR(init, _typename)((void (*)(_typename **))&(_name));	\
 	return ((*__cr_ectx)->__fptr(__cr_ectx, ##__VA_ARGS__));	\
 } while (/* CONSTCOND */ 0)
 
@@ -193,7 +193,7 @@ main(int argc, char *argv[])
 #define __coroutine_passv(_typename, _name, ...) do {			\
 	__coroutine_free(*__cr_ectx);					\
 	*__cr_ectx =							\
-	    __CR(init, _typename)((void (*)(_typename **))&_name);	\
+	    __CR(init, _typename)((void (*)(_typename **))&(_name));	\
 	(*__cr_ectx)->__fptr(__cr_ectx, ##__VA_ARGS__);			\
 	return;								\
 } while (/* CONSTCOND */ 0)
@@ -284,13 +284,13 @@ main(int argc, char *argv[])
 /* internal: fill in a context pointer and local variables variable */
 #define __coroutine_initctx(_name) do {					\
 	*__cr_ectx = __coroutine_malloc(sizeof (*__cr_ictx));		\
-	(*__cr_ectx)->__fptr = &_name;					\
+	(*__cr_ectx)->__fptr = &(_name);				\
 } while (/* CONSTCOND */ 0)
 
 /* internal: check a context pointer for validity and load it */
 #define __coroutine_checkctx(_name) do {				\
 	/* check if the struct passed matches */			\
-	if ((*__cr_ectx)->__fptr != &_name)				\
+	if ((*__cr_ectx)->__fptr != &(_name))				\
 		abort();						\
 	__cr_ictx = (struct __CR(internal, _name) *)(*__cr_ectx);	\
 } while (/* CONSTCOND */ 0)
@@ -305,6 +305,6 @@ main(int argc, char *argv[])
 #define __cr_pass		__coroutine_pass
 #define __cr_passv		__coroutine_passv
 #define __cr_return(v)		__coroutine_return(v)
-#define __cr_var(_name)		(__cr_ictx->__cr_data._name)
+#define __cr_var(_name)		((__cr_ictx->__cr_data)._name)
 
 #endif /* __COROUTINE_H */
