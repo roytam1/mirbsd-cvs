@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/Snippets/coroutine.h,v 1.3 2008/06/20 15:32:12 tg Exp $ */
+/* $MirOS: contrib/code/Snippets/coroutine.h,v 1.4 2008/06/20 15:41:26 tg Exp $ */
 
 /*-
  * $Id$ is
@@ -62,18 +62,35 @@ __coroutine_defn(<typename>, <name>, <return type> [, <arguments>])
 __coroutine_decl(footype, int, int);
 
 __coroutine_proto(footype, foo, int, int);
+__coroutine_proto(footype, bar, int, int);
 
-__coroutine_defn(footype, foo, int, int bar)
+__coroutine_defn(footype, foo, int, int arg)
 {
 	int a;
 
 	__cr_begin(foo);
 	__cr_var(a) = 0;
 	while (1) {
-		__cr_var(a) += bar;
+		if (arg > 3)
+			__cr_pass(bar, arg);
+		__cr_var(a) += arg;
 		__cr_return(__cr_var(a));
 	}
 	__cr_end(foo);
+	return (0);
+}
+
+__coroutine_defn(footype, bar, int, int arg)
+{
+	unsigned short k;
+
+	__cr_begin(bar);
+	__cr_var(k) = 0;
+	while (1) {
+		__cr_var(k) += arg;
+		__cr_return(1000 + __cr_var(k));
+	}
+	__cr_end(bar);
 	return (0);
 }
 
@@ -81,12 +98,11 @@ int
 main(void)
 {
 	footype *c;
-	int i = 0;
+	int i;
 
 	c = __cr_new(footype, foo);
-	for (i = 1; i <= 3; i++) {
-		printf("%d: ret=%d\n", i, __cr_call(c, i));
-	}
+	for (i = 1; i <= 6; ++i)
+		printf("#%d: ret = %d\n", i, __cr_call(c, i));
 
 	return (0);
 }
