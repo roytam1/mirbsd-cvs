@@ -72,7 +72,7 @@ __coroutine_defn(footype, foo, int, int arg)
 	__cr_var(a) = 0;
 	while (1) {
 		if (arg > 3)
-			__cr_pass(bar, arg);
+			__cr_pass(footype, bar, arg);
 		__cr_var(a) += arg;
 		__cr_return(__cr_var(a));
 	}
@@ -162,9 +162,9 @@ main(void)
 	__cr_ictx = (struct __CR(internal, _name) *)(*__cr_ectx);	\
 } while (/* CONSTCOND */ 0)
 
-#define __coroutine_pass(_name, ...) do {				\
+#define __coroutine_pass(_typename, _name, ...) do {			\
 	__coroutine_free(*__cr_ectx);					\
-	__coroutine_new(*__cr_ectx, typeof (**__cr_ectx), _name);	\
+	__coroutine_new(*__cr_ectx, _typename, _name);			\
 	return ((*__cr_ectx)->__fptr(__cr_ectx, ##__VA_ARGS__));	\
 } while (/* CONSTCOND */ 0)
 
