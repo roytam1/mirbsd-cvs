@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/Snippets/coroutine.h,v 1.9 2008/06/23 19:00:48 tg Exp $ */
+/* $MirOS: contrib/code/Snippets/coroutine.h,v 1.10 2008/06/23 19:02:17 tg Stab $ */
 
 /*-
  * $Id$ is
@@ -67,7 +67,7 @@ __coroutine_defn(<typename>, <name>, <return type> [, <arguments>])
 #include <stdio.h>
 #include "coroutine.h"
 
-static const char rcsid[] = "$MirOS: contrib/code/Snippets/coroutine.h,v 1.9 2008/06/23 19:00:48 tg Exp $";
+static const char rcsid[] = "$MirOS: contrib/code/Snippets/coroutine.h,v 1.10 2008/06/23 19:02:17 tg Stab $";
 
 __coroutine_decl(footype, int, int);
 
@@ -168,7 +168,8 @@ main(int argc, char *argv[])
 
 /* implement a <typename>'s initialiser function */
 #define __coroutine_impl(_typename)					\
-	_typename *__CR(init, _typename)(void (*ptr)(_typename **))	\
+	_typename *							\
+	__CR(init, _typename)(void (*ptr)(_typename **))		\
 	{								\
 		_typename *__cr_tmp1 = NULL;				\
 		(*ptr)(&__cr_tmp1);					\
@@ -203,7 +204,8 @@ main(int argc, char *argv[])
 
 /* define a coroutine function */
 #define __coroutine_defn(_typename, _name, _rettype, ...)		\
-	_rettype _name(_typename **__cr_ectx, ##__VA_ARGS__)		\
+	_rettype							\
+	_name(_typename **__cr_ectx, ##__VA_ARGS__)			\
 	{								\
 		struct __CR(internal, _name) {				\
 			/* __cr_internal must be first */		\
