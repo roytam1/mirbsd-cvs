@@ -70,7 +70,7 @@ __coroutine_defn(footype, foo, int, int arg)
 
 	__cr_begin(foo);
 	__cr_var(a) = 0;
-	while (1) {
+	while (__cr_var(a) < 1000000) {
 		if (arg > 3)
 			__cr_pass(footype, bar, arg);
 		__cr_var(a) += arg;
@@ -86,7 +86,7 @@ __coroutine_defn(footype, bar, int, int arg)
 
 	__cr_begin(bar);
 	__cr_var(k) = 0;
-	while (1) {
+	while (__cr_var(k) < 10000) {
 		__cr_var(k) += arg;
 		__cr_return(1000 + __cr_var(k));
 	}
