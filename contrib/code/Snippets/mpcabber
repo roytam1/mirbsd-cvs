@@ -1,5 +1,5 @@
 #!/usr/bin/env mksh
-# $MirOS: contrib/code/Snippets/mpcabber,v 1.2 2008/06/30 21:28:44 tg Exp $
+# $MirOS: contrib/code/Snippets/mpcabber,v 1.3 2008/06/30 21:54:31 tg Exp $
 #-
 # Copyright (c) 2008
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -30,18 +30,39 @@ integer usestate=1	# use Away Status
 integer usetunes=1	# use User Tunes (XEP #0118)
 
 
+function usage {
+	print -u2 "usage: mpcabber [-[Pp] player] file ..."
+	print -u2 "\tdefault player is mpg123"
+	print -u2 "\tif -P is used, stderr is passed as-is"
+	exit 1
+}
+
 integer rv gotintr=0
 curdir=
-if [[ $1 = -p ]]; then
-	shift
-	player=$1
-	shift
-fi
+
+# command line processing
+integer redir2=1
+player=mpg123
+
+while getopts "hP:p:" ch; do
+	case $ch {
+	(P)	redir2=0
+		player=$OPTARG ;;
+	(p)	player=$OPTARG ;;
+	(*)	usage ;;
+	}
+done
+shift $((OPTIND - 1))
+
 
 trap 'gotintr=1' INT
 
 exec 0>&3
-${player:-mpg123} "$@" <&3 2>&1 |&
+if (( redir2 )); then
+	"$player" "$@" <&3 2>&1 |&
+else
+	"$player" "$@" <&3 |&
+fi
 subpid=$!
 
 while :; do
