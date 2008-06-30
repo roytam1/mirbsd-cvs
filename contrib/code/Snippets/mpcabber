@@ -30,13 +30,6 @@ integer usestate=1	# use Away Status
 integer usetunes=1	# use User Tunes (XEP #0118)
 
 
-function usage {
-	print -u2 "usage: mpcabber [-[Pp] player] file ..."
-	print -u2 "\tdefault player is mpg123"
-	print -u2 "\tif -P is used, stderr is passed as-is"
-	exit 1
-}
-
 function settitle {
 	typeset title=$1
 
@@ -78,28 +71,14 @@ function settitle {
 integer rv gotintr=0
 curdir=
 
-# command line processing
-integer redir2=1
-player=mpg123
-
-if [[ $1 = -h ]]; then
-	usage
-elif [[ $1 = -[Pp] ]]; then
-	[[ $1 = -P ]] && redir2=0
-	[[ $# -gt 1 ]] || usage
-	player=$2
-	shift
-	shift
-fi
-
-
 trap 'gotintr=1' INT
 
 exec 0>&3
-if (( redir2 )); then
-	"$player" "$@" <&3 2>&1 |&
+if [[ $1 = - ]]; then
+	shift
+	"$@" <&3 |&
 else
-	"$player" "$@" <&3 |&
+	"$@" <&3 2>&1 |&
 fi
 subpid=$!
 
