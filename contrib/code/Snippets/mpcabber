@@ -1,5 +1,5 @@
 #!/usr/bin/env mksh
-# $MirOS: src/share/misc/licence.template,v 1.24 2008/04/22 11:43:31 tg Rel $
+# $MirOS: contrib/code/Snippets/mpcabber,v 1.1 2008/06/26 13:01:20 tg Exp $
 #-
 # Copyright (c) 2008
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -32,10 +32,15 @@ integer usetunes=1	# use User Tunes (XEP #0118)
 
 integer rv gotintr=0
 curdir=
+if [[ $1 = -p ]]; then
+	shift
+	player=$1
+	shift
+fi
 
 trap 'gotintr=1' INT
 
-mpg123 "$@" 2>&1 |&
+${player:-mpg123} "$@" 2>&1 |&
 subpid=$!
 
 while :; do
@@ -66,6 +71,16 @@ while :; do
 		[[ -n $curdir ]] && title=$curdir$title
 		curdir=
 		;;
+	(@(decoding of file )*)
+		title=${line##decoding of file ?(\')}
+		title=${title%\'}
+		curdir=
+		;;
+	(@(Playing )*.)
+		title=${line#Playing }
+		title=${title%.}
+		curdir=
+		;;
 	(*)
 		continue
 		;;
@@ -74,7 +89,7 @@ while :; do
 	title=${title##[Nn]?(ow )[Pp]?(laying):}
 	title=${title##+([	 ])}
 	title=${title%%+([	 ])}
-	title=${title%%.[Mm][Pp][23]}
+	title=${title%%.@([Mm][Pp][234CcPp]|[Aa][Vv][Ii]|[Mm][Kk][Vv]|[Ff][Ll][Aa][Cc]|[Ff][Ll][Vv])}
 	title=${title%%+([	 ])}
 	[[ -n $title ]] || continue
 
