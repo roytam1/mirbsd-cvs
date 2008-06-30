@@ -44,15 +44,15 @@ curdir=
 integer redir2=1
 player=mpg123
 
-while getopts "hP:p:" ch; do
-	case $ch {
-	(P)	redir2=0
-		player=$OPTARG ;;
-	(p)	player=$OPTARG ;;
-	(*)	usage ;;
-	}
-done
-shift $((OPTIND - 1))
+if [[ $1 = -h ]]; then
+	usage
+elif [[ $1 = -[Pp] ]]; then
+	[[ $1 = -P ]] && redir2=0
+	[[ $# -gt 1 ]] || usage
+	player=$2
+	shift
+	shift
+fi
 
 
 trap 'gotintr=1' INT
