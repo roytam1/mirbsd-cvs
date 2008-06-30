@@ -152,7 +152,7 @@ while :; do
 	title=${title%%.@([Mm][Pp][234CcPp]|[Aa][Vv][Ii]|[Mm][Kk][Vv]|[Ff][Ll][Aa][Cc]|[Ff][Ll][Vv])}
 	title=${title%%+([	 ])}
 	[[ -n $title ]] || continue
-	settitle "$title"
+	settitle "$title" &
 done
 
 settitle # empty
