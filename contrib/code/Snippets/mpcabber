@@ -1,5 +1,5 @@
 #!/usr/bin/env mksh
-# $MirOS: contrib/code/Snippets/mpcabber,v 1.3 2008/06/30 21:54:31 tg Exp $
+# $MirOS: contrib/code/Snippets/mpcabber,v 1.5 2008/06/30 22:19:49 tg Exp $
 #-
 # Copyright (c) 2008
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -36,6 +36,44 @@ function usage {
 	print -u2 "\tif -P is used, stderr is passed as-is"
 	exit 1
 }
+
+function settitle {
+	typeset title=$1
+
+	# Debugging
+	#print -ru2 -- "setting title: $title"
+
+	if [[ -n $title ]]; then
+		titlemsg="♫ $title"
+		titlexml="<title>$(sed \
+		    -e "s/&/\&#38;/g" \
+		    -e "s/</\&#60;/g" \
+		    -e "s/>/\&#62;/g" \
+		    -e "s/'/\&#39;/g" \
+		    <<<"$title")</title>"
+	else
+		titlemsg=∅
+		titlexml=
+	fi
+
+	# Is mcabber running and listening on the FIFO?
+	[[ -p ~/.etc/mcabber/mcabber.fifo ]] || continue
+
+	# Away Status
+	(( usestate )) && print -r -- "/status message $titlemsg" \
+	    >~/.etc/mcabber/mcabber.fifo
+
+	# Give the mcabber FIFO some rest, will ya?
+	(( usestate && usetunes )) && sleep 1
+
+	# User Tunes
+	(( usetunes )) && print -r -- '/rawxml send <iq type="set"><pubsub' \
+	    'xmlns="http://jabber.org/protocol/pubsub"><publish' \
+	    'node="http://jabber.org/protocol/tune"><item id="0"><tune' \
+	    'xmlns="http://jabber.org/protocol/tune">'"${titlexml}</tune></item></publish></pubsub></iq>" \
+	    >~/.etc/mcabber/mcabber.fifo
+}
+
 
 integer rv gotintr=0
 curdir=
@@ -114,35 +152,8 @@ while :; do
 	title=${title%%.@([Mm][Pp][234CcPp]|[Aa][Vv][Ii]|[Mm][Kk][Vv]|[Ff][Ll][Aa][Cc]|[Ff][Ll][Vv])}
 	title=${title%%+([	 ])}
 	[[ -n $title ]] || continue
-
-	# Debugging
-	#print -ru2 -- "setting title: $title"
-
-	# Is mcabber running and listening on the FIFO?
-	[[ -p ~/.etc/mcabber/mcabber.fifo ]] || continue
-
-	# Away Status
-	(( usestate )) && print -r -- "/status message ♫ $title" >~/.etc/mcabber/mcabber.fifo
-
-	# Give the mcabber FIFO some rest, will ya?
-	(( usestate && usetunes )) && sleep 1
-
-	# User Tunes
-	(( usetunes )) && print -r -- '/rawxml send <iq type="set"><pubsub xmlns="http://jabber.org/protocol/pubsub"><publish node="http://jabber.org/protocol/tune"><item id="0"><tune xmlns="http://jabber.org/protocol/tune"><title>'"$(sed \
-	    -e "s/&/\&#38;/g" \
-	    -e "s/</\&#60;/g" \
-	    -e "s/>/\&#62;/g" \
-	    -e "s/'/\&#39;/g" \
-	    <<<"$title")"'</title></tune></item></publish></pubsub></iq>' >~/.etc/mcabber/mcabber.fifo
+	settitle "$title"
 done
 
-if [[ -p ~/.etc/mcabber/mcabber.fifo ]]; then
-	# Away Status
-	(( usestate )) && print '/status message ∅' >~/.etc/mcabber/mcabber.fifo
-	# Give the mcabber FIFO some rest
-	(( usestate && usetunes )) && sleep 1
-	# User Tunes
-	(( usetunes )) && print '/rawxml send <iq type="set"><pubsub xmlns="http://jabber.org/protocol/pubsub"><publish node="http://jabber.org/protocol/tune"><item id="0"><tune xmlns="http://jabber.org/protocol/tune" /></item></publish></pubsub></iq>' >~/.etc/mcabber/mcabber.fifo
-fi
-
+settitle # empty
 exit 0
