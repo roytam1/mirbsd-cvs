@@ -1,0 +1,12 @@
+$MirOS$
+--- qmake/generators/unix/unixmake2.cpp.orig	2008-02-24 19:08:52.000000000 +0100
++++ qmake/generators/unix/unixmake2.cpp	2008-02-24 19:09:28.000000000 +0100
+@@ -167,7 +167,7 @@ UnixMakefileGenerator::writeMakeParts(QT
+     t << "CHK_DIR_EXISTS= " << var("QMAKE_CHK_DIR_EXISTS") << endl;
+     t << "MKDIR         = " << var("QMAKE_MKDIR") << endl;
+     if(!project->isEmpty("QMAKE_MACOSX_DEPLOYMENT_TARGET"))
+-        t << "export MACOSX_DEPLOYMENT_TARGET = " //exported to children processes
++        t << "MACOSX_DEPLOYMENT_TARGET = " //exported to children processes
+           << project->first("QMAKE_MACOSX_DEPLOYMENT_TARGET") << endl;
+     t << endl;
+ 
