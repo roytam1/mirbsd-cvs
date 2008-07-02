@@ -1,5 +1,5 @@
 #!/usr/bin/env mksh
-# $MirOS: contrib/code/Snippets/mpcabber,v 1.8 2008/06/30 22:40:04 tg Exp $
+# $MirOS: contrib/code/Snippets/mpcabber,v 1.9 2008/07/01 01:57:17 tg Exp $
 #-
 # Copyright (c) 2008
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -50,7 +50,7 @@ function settitle {
 	fi
 
 	# Is mcabber running and listening on the FIFO?
-	[[ -p ~/.etc/mcabber/mcabber.fifo ]] || continue
+	[[ -p ~/.etc/mcabber/mcabber.fifo ]] || return
 
 	# Away Status
 	(( usestate )) && print -r -- "/status message $titlemsg" \
