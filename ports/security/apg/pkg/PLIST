@@ -1,8 +1,0 @@
-@comment $OpenBSD: PLIST,v 1.2 2002/01/24 19:35:16 jsyn Exp $
-bin/apg
-bin/apgbfm
-bin/apgcli
-man/man1/apg.1
-man/man1/apgbfm.1
-man/man8/apgd.8
-sbin/apgd

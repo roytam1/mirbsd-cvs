@@ -1,9 +1,0 @@
-@comment $MirOS$
-${P5SITE}/File/Temp.pm
-@comment ${P5ARCH}/auto/File/Temp/.packlist
-man/man3/File::Temp${P5MAN3EXT}
-@comment @dirrm ${P5ARCH}/auto/File/Temp
-@comment @dirrm ${P5ARCH}/auto/File
-@comment @dirrm ${P5ARCH}/auto
-@comment @dirrm ${P5ARCH}
-@dirrm ${P5SITE}/File

@@ -1,9 +1,0 @@
-@comment $OpenBSD: PLIST,v 1.1.1.1 2005/01/26 12:25:59 espie Exp $
-@comment $MirOS$
-bin/dvd+rw-booktype
-bin/dvd+rw-format
-bin/dvd+rw-mediainfo
-bin/growisofs
-man/cat1/growisofs.0
-share/doc/dvd+rw-tools/index.html
-@dirrm share/doc/dvd+rw-tools

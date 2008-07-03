@@ -1,9 +1,0 @@
-$MirOS$
---- hw/sun4u.c.orig	Tue Nov 15 12:09:48 2005
-+++ hw/sun4u.c	Tue Nov 15 12:10:00 2005
-@@ -372,4 +372,5 @@ QEMUMachine sun4u_machine = {
-     "sun4u",
-     "Sun4u platform",
-     sun4u_init,
-+    NULL
- };
