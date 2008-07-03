@@ -1,0 +1,30 @@
+README for the MirOS CVS Repository administrative files
+
+• We use $MirOS $ as the only keyword, all others, like $Id $ are disabled
+
+• All texts are in UTF-8 (or should be)… well, actually CESU-8, but that
+  doesn’t matter as we stay in the BMP. Or plain ISO_646.irv:1991 (ASCII).
+
+• CVSweb is at
+  ‣ http://cvs.mirbsd.de/CVSROOT/		(AllBSD Japan)
+  ‣ http://www.mirbsd.org/cvs.cgi/CVSROOT/	(MirOS Germany)
+
+• We use a patched CVS version, cf. mircvs://ports/devel/cvs/patches/
+
+• The patched CVS version exposes the new ‘%I’ specifier to the loginfo
+  et al. scripts containing the commit ID; if you want to use our scripts
+  either patch your CVS (highly recommended) or replace them with ‘-’ (a
+  single dash) to use the process group (needs mksh R34+ or Perl)
+
+• You will need mksh: http://mirbsd.de/mksh
+
+• Some other programmes required are ed, expand/unexpand, hostname, some
+  sendmail-like tool (if sending mails), cvs itself (e.g. for diffs),
+  (non-GNU) sed, date, a standard-conforming ls (might be replaced by
+  use of stat soon), readlink (soon using mksh realpath builtin)
+
+• Contact us at ＜miros-discuss＠mirbsd.{de,org}＞ for further information
+  or join IRC at 「#MirBSD」 on the 「irc.ipv6.freenode.net:6667」 network
+
+⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼
+$MirOS$
