@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/sys/ddb/db_command.c,v 1.2 2005/03/06 21:27:33 tg Exp $ */
 /*	$OpenBSD: db_command.c,v 1.35 2004/04/25 03:21:50 itojun Exp $	*/
 /*	$NetBSD: db_command.c,v 1.20 1996/03/30 22:30:05 christos Exp $	*/
 
@@ -428,6 +428,7 @@ struct db_command db_show_cmds[] = {
 };
 
 struct db_command db_boot_cmds[] = {
+	{ "shut",	db_boot_shut_cmd,	0,	0 },
 	{ "sync",	db_boot_sync_cmd,	0,	0 },
 	{ "crash",	db_boot_crash_cmd,	0,	0 },
 	{ "dump",	db_boot_dump_cmd,	0,	0 },
@@ -603,6 +604,12 @@ db_fncall(addr, have_addr, count, modif)
 	retval = (*func)(args[0], args[1], args[2], args[3], args[4],
 			 args[5], args[6], args[7], args[8], args[9]);
 	db_printf("%#n\n", (int)retval);
+}
+
+void
+db_boot_shut_cmd(db_expr_t addr, int haddr, db_expr_t count, char *modif)
+{
+	boot(RB_HALT | RB_TIMEBAD | RB_USERREQ);
 }
 
 void
