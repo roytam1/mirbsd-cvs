@@ -109,12 +109,17 @@
  *
  */
 
+#ifdef MBSD_CB_ARND
+#include <sys/param.h>
+#include <sys/sysctl.h>
+#endif
 #define NON_MAIN
 #include "apps.h"
 #undef NON_MAIN
 #include <openssl/bio.h>
 #include <openssl/rand.h>
 
+__RCSID("$MirOS$");
 
 static int seeded = 0;
 static int egdsocket = 0;
@@ -215,4 +220,17 @@ int app_RAND_write_file(const char *file, BIO *bio_e)
 void app_RAND_allow_write_file(void)
 	{
 	seeded = 1;
+	}
+
+void app_RAND_pushback(void)
+	{
+#ifdef MBSD_CB_ARND
+	uint8_t oldentropy[16];
+	uint32_t newentropy;
+
+	RAND_bytes(oldentropy, sizeof (oldentropy));
+	newentropy = arc4random_pushb(oldentropy, sizeof (oldentropy));
+	RAND_add(&newentropy, 4, 3.9);
+#endif
+	return;
 	}
