@@ -37,7 +37,7 @@
 #define __RCSID(x)			__IDSTRING(rcsid,x)
 #endif
 
-__RCSID("$MirOS: contrib/hosted/p5/BSD/arc4random/arc4rnd_xs.c,v 1.1.201.1 2008/07/08 00:44:10 tg Exp $");
+__RCSID("$MirOS: contrib/hosted/p5/BSD/arc4random/arc4rnd_xs.c,v 1.2 2008/07/08 01:37:31 tg Exp $");
 
 #ifndef HAVE_ARC4RANDOM_PUSHB
 #define HAVE_ARC4RANDOM_PUSHB	1
@@ -115,6 +115,11 @@ XS(XS_BSD__arc4random_arc4random_pushk_xs)
 	XSRETURN(1);
 }
 
+static char file[] = __FILE__;
+static char func_a4r[] = "BSD::arc4random::arc4random_xs";
+static char func_a4rpb[] = "BSD::arc4random::arc4random_pushb_xs";
+static char func_a4rpk[] = "BSD::arc4random::arc4random_pushk_xs";
+
 #ifdef __cplusplus
 extern "C"
 #endif
@@ -122,10 +127,6 @@ XS(boot_BSD__arc4random);
 XS(boot_BSD__arc4random)
 {
 	dXSARGS;
-	char file[] = __FILE__;
-	char func_a4r[] = "BSD::arc4random::arc4random_xs";
-	char func_a4rpb[] = "BSD::arc4random::arc4random_pushb_xs";
-	char func_a4rpk[] = "BSD::arc4random::arc4random_pushk_xs";
 
 	XS_VERSION_BOOTCHECK;
 
