@@ -1,4 +1,4 @@
-BSD::arc4random version 0.12
+BSD::arc4random version 0.14
 ============================
 
 The README is used to introduce the module and provide instructions on
@@ -33,6 +33,11 @@ e.g. -lbsd on Debian or -lcrypt on Interix, and possibly the INC
 line to use the appropriate header, e.g. something like this for
 Debian libbsd: '-include /usr/include/bsd/bsd.h'
 
+NOTE: This version of BSD::arc4random comes with an experimental
+implementation tested on Debian instead, since libbsd is not yet
+ready to use. This is a kludge and will go away. It is only used
+automatically on Debian GNU/HURD, GNU/kFreeBSD, and GNU/Linux.
+
 To install this module type the following:
 
    perl Makefile.PL
@@ -41,7 +46,9 @@ To install this module type the following:
 
 DEPENDENCIES
 
-This module requires arc4random(3) in libc.
+This module requires arc4random(3) in libc. There are configuration
+options in Makefile.PL, to change for example, if a different library
+like libcrypt on Interix is required.
 
 COPYRIGHT AND LICENCE
 
