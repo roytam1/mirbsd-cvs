@@ -1,4 +1,4 @@
-BSD::arc4random version 0.11
+BSD::arc4random version 0.12
 ============================
 
 The README is used to introduce the module and provide instructions on
@@ -16,7 +16,16 @@ INSTALLATION
 
 If your system does not have arc4random_pushb(3), edit the DEFINE
 line in Makefile.PL to define HAVE_ARC4RANDOM_PUSHB to 0 and make
-sure at least arc4random_addrandom(3) exists.
+sure at least arc4random_addrandom(3) exists. *HOWEVER* note that
+then, entropy pushed into the system will end up in the process's
+own pool instead of in the kernel. You can fix this by regularily
+calling arc4random() or arc4random_bytes() and writing the output
+to /dev/urandom or similar (after obtaining permissions) FROM THE
+SAME PROCESS/SCRIPT (other ithread is okay) or, better, providing
+at compile time an arc4random_pushb(3)* implementation collecting
+entropy, sending it to a sensible place, e.g. a gathering daemon.
+
+*) http://www.mirbsd.org/man3/arc4random
 
 If your system’s arc4random(3) function suite is not in libc, edit
 the LIBS line in Makefile.PL to include the appropriate library,
