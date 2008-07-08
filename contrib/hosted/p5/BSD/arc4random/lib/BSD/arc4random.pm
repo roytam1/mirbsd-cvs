@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/p5/BSD/arc4random/lib/BSD/arc4random.pm,v 1.2 2008/07/08 00:46:59 tg Exp $
+# $MirOS: contrib/hosted/p5/BSD/arc4random/lib/BSD/arc4random.pm,v 1.3 2008/07/08 00:52:04 tg Exp $
 #-
 # Copyright (c) 2008
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -23,12 +23,13 @@ package BSD::arc4random;
 use 5.000;
 use strict;
 use warnings;
+use threads::shared;
 
 BEGIN {
 	require Exporter;
 	require DynaLoader;
 	our ($VERSION, @ISA, @EXPORT, @EXPORT_OK, %EXPORT_TAGS);
-	$VERSION = 0.02;
+	$VERSION = 0.03;
 	@ISA = qw(Exporter DynaLoader);
 	@EXPORT = qw();
 	%EXPORT_TAGS = ();
@@ -36,11 +37,14 @@ BEGIN {
 }
 our @EXPORT_OK;
 
+my $arcfour_lock : shared;
+
 bootstrap BSD::arc4random $BSD::arc4random::VERSION;
 
 sub
 arc4random()
 {
+	lock($arcfour_lock);
 	return arc4random_xs();
 }
 
@@ -49,6 +53,7 @@ arc4random_pushb($)
 {
 	my $buf = shift;
 
+	lock($arcfour_lock);
 	return arc4random_pushb_xs($buf);
 }
 
@@ -57,6 +62,7 @@ arc4random_pushk($)
 {
 	my $buf = shift;
 
+	lock($arcfour_lock);
 	return arc4random_pushk_xs($buf);
 }
 
@@ -78,6 +84,7 @@ BSD::arc4random - Perl interface to the arc4 random number generator
 
 This set of functions maps the L<arc4random(3)> family of libc functions
 into Perl code.
+All functions are ithreads-safe.
 
 =item B<arc4random>
 
