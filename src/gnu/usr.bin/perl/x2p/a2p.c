@@ -1,13 +1,22 @@
-#ifndef lint
-static const char yysccsid[] = "@(#)yaccpar	1.9 (Berkeley) 02/21/93";
-#endif
+#include <stdlib.h>
+#include <string.h>
+__SCCSID("@(#)yaccpar	1.9 (Berkeley) 02/21/93");
+__RCSID("$MirOS: src/usr.bin/yacc/skeleton.c,v 1.6 2008/07/08 19:24:30 tg Exp $");
+__RCSID("$miros: src/usr.bin/yacc/skeleton.c,v 1.6 2008/07/08 19:24:30 tg Exp $");
 #define YYBYACC 1
 #define YYMAJOR 1
 #define YYMINOR 9
-#define yyclearin (yychar=(-1))
+#define YYLEX yylex()
+#define YYEMPTY -1
+#define yyclearin (yychar=(YYEMPTY))
 #define yyerrok (yyerrflag=0)
-#define YYRECOVERING (yyerrflag!=0)
-extern int yyparse(void);
+#define YYRECOVERING() (yyerrflag!=0)
+int
+#if defined(__cplusplus) || defined(__STDC__)
+yyparse(void);
+#else
+yyparse();
+#endif
 #define YYPREFIX "yy"
 #line 2 "a2p.y"
 /* $RCSfile$$Revision$$Date$
@@ -22,6 +31,9 @@ extern int yyparse(void);
  * Revision 1.8  2006/03/28 19:23:15  millert
  * merge in perl 5.8.8
  *
+ * Revision 1.7  2003/12/03 03:02:53  millert
+ * Resolve conflicts for perl 5.8.2, remove old files, and add OpenBSD-specific scaffolding
+ *
  */
 
 #include "INTERN.h"
@@ -31,7 +43,7 @@ int root;
 int begins = Nullop;
 int ends = Nullop;
 
-#line 32 "y.tab.c"
+#line 47 "y.tab.c"
 #define BEGIN 257
 #define END 258
 #define REGEX 259
@@ -83,7 +95,12 @@ int ends = Nullop;
 #define VFIELD 305
 #define SVFIELD 306
 #define YYERRCODE 256
-short yylhs[] = {                                        -1,
+#if defined(__cplusplus) || defined(__STDC__)
+const short yylhs[] =
+#else
+short yylhs[] =
+#endif
+	{                                        -1,
     0,    3,    6,    6,    2,    2,    7,    7,    7,    7,
     7,    7,    9,    8,    8,   11,   11,   11,   11,   11,
    15,   15,   15,   15,   14,   14,   14,   14,   13,   13,
@@ -100,7 +117,12 @@ short yylhs[] = {                                        -1,
    27,   27,   27,   25,   25,   25,   25,   25,   25,   25,
    25,
 };
-short yylen[] = {                                         2,
+#if defined(__cplusplus) || defined(__STDC__)
+const short yylen[] =
+#else
+short yylen[] =
+#endif
+	{                                         2,
     2,    6,    5,    2,    3,    0,    1,    5,   10,    4,
     1,    1,    1,    1,    3,    1,    1,    1,    1,    5,
     3,    4,    4,    2,    3,    3,    3,    3,    3,    3,
@@ -117,7 +139,12 @@ short yylen[] = {                                         2,
     1,    1,    1,    6,    9,    6,    7,   10,    9,    6,
     5,
 };
-short yydefred[] = {                                     97,
+#if defined(__cplusplus) || defined(__STDC__)
+const short yydefred[] =
+#else
+short yydefred[] =
+#endif
+	{                                     97,
     0,    0,   99,  100,  101,   98,    0,   96,    0,    0,
    31,    0,    0,   38,    0,    0,    0,    0,    0,    0,
     0,    0,   40,    0,    0,    0,   41,    0,    0,    0,
@@ -152,12 +179,22 @@ short yydefred[] = {                                     97,
   140,    0,    0,    0,    9,  103,  103,    0,  137,    0,
     0,  103,  135,  139,    0,  138,
 };
-short yydgoto[] = {                                       1,
+#if defined(__cplusplus) || defined(__STDC__)
+const short yydgoto[] =
+#else
+short yydgoto[] =
+#endif
+	{                                       1,
     2,    7,   38,   74,  128,   39,   40,   41,  171,  104,
    75,  193,   44,   45,   46,   47,   48,   49,  106,    8,
   129,  234,  194,  195,  196,  266,  260,
 };
-short yysindex[] = {                                      0,
+#if defined(__cplusplus) || defined(__STDC__)
+const short yysindex[] =
+#else
+short yysindex[] =
+#endif
+	{                                      0,
     0,  -52,    0,    0,    0,    0, 6281,    0,  -83,  -65,
     0,   27,   28,    0,   43,   46,   29,   48,   50,   51,
  -218,   64,    0,  -14,   65,   66,    0, 8153, 8153, 6722,
@@ -190,9 +227,13 @@ short yysindex[] = {                                      0,
     0,    0,    0,    0,    0,    0,    0, -210,    0, 4777,
  4777, 4777, 2656,  -51, 6722,    0, -210, 6014,  -85,    0,
     0,  151, 2656,  -35,    0,    0,    0,  152,    0, 4777,
- 4777,    0,    0,    0, 4777,    0,
-};
-short yyrindex[] = {                                      0,
+ 4777,    0,    0,    0, 4777,    0,};
+#if defined(__cplusplus) || defined(__STDC__)
+const short yyrindex[] =
+#else
+short yyrindex[] =
+#endif
+	{                                      0,
     0, 2742,    0,    0,    0,    0,  194,    0,    0,    0,
     0,   56,    0,    0,  111,    0, 3174,    0,    0,    0,
     0,    0,    0,    1,    0,    0,    0,    0,    0,    0,
@@ -225,15 +266,24 @@ short yyrindex[] = {                                      0,
     0,    0,    0,    0,    0,    0,    0, 6065,    0,    0,
     0,    0,  161,    0,    0,    0, 5534,    0, 6180,    0,
     0,    0,  161,    0,    0,    0,    0,    0,    0,    0,
-    0,    0,    0,    0,    0,    0,
-};
-short yygindex[] = {                                      0,
+    0,    0,    0,    0,    0,    0,};
+#if defined(__cplusplus) || defined(__STDC__)
+const short yygindex[] =
+#else
+short yygindex[] =
+#endif
+	{                                      0,
   -17,    0,    0, 4597,  -87,    0,    0,    0,    0,   12,
    23, 4555,  -12,   -8,   -3, 8435, 4752,    0,  -70,    0,
     0,    0, -124, -191,    0, -264,   -7,
 };
 #define YYTABLESIZE 8719
-short yytable[] = {                                     130,
+#if defined(__cplusplus) || defined(__STDC__)
+const short yytable[] =
+#else
+short yytable[] =
+#endif
+	{                                     130,
    85,  285,   82,  286,   97,  319,    6,  313,   17,   95,
    93,   82,   94,   18,   96,  233,  258,   16,   19,  159,
   160,   82,   80,   82,   76,   82,  281,   82,   77,   42,
@@ -1107,7 +1157,12 @@ short yytable[] = {                                     130,
     0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
    91,   91,   91,   91,   91,    0,   91,   91,   91,
 };
-short yycheck[] = {                                      41,
+#if defined(__cplusplus) || defined(__STDC__)
+const short yycheck[] =
+#else
+short yycheck[] =
+#endif
+	{                                      41,
     0,   41,   63,   41,   37,   41,   59,   59,   63,   42,
    43,   63,   45,   63,   47,   59,   62,   41,   63,  107,
   108,   63,   40,   63,   37,   63,  123,   63,   37,    7,
@@ -1987,7 +2042,12 @@ short yycheck[] = {                                      41,
 #endif
 #define YYMAXTOKEN 306
 #if YYDEBUG
-char *yyname[] = {
+#if defined(__cplusplus) || defined(__STDC__)
+const char * const yyname[] =
+#else
+char *yyname[] =
+#endif
+	{
 "end-of-file",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,"'%'",0,0,"'('","')'","'*'","'+'","','","'-'",0,"'/'",0,0,0,0,0,0,0,0,0,0,
 "':'","';'","'<'",0,"'>'","'?'",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -2002,8 +2062,12 @@ char *yyname[] = {
 "DELETE","ASGNOP","OROR","ANDAND","NUMBER","VAR","SUBSTR","INDEX","MATCHOP",
 "RELOP","OR","STRING","UMINUS","NOT","INCR","DECR","FIELD","VFIELD","SVFIELD",
 };
-char *yyrule[] = {
-"$accept : program",
+#if defined(__cplusplus) || defined(__STDC__)
+const char * const yyrule[] =
+#else
+char *yyrule[] =
+#endif
+	{"$accept : program",
 "program : junk hunks",
 "begin : BEGIN '{' maybe states '}' junk",
 "end : END '{' maybe states '}'",
@@ -2157,10 +2221,12 @@ typedef int YYSTYPE;
 #ifdef YYMAXDEPTH
 #define YYSTACKSIZE YYMAXDEPTH
 #else
-#define YYSTACKSIZE 500
-#define YYMAXDEPTH 500
+#define YYSTACKSIZE 10000
+#define YYMAXDEPTH 10000
 #endif
 #endif
+#define YYINITSTACKSIZE 200
+/* LINTUSED */
 int yydebug;
 int yynerrs;
 int yyerrflag;
@@ -2169,39 +2235,101 @@ short *yyssp;
 YYSTYPE *yyvsp;
 YYSTYPE yyval;
 YYSTYPE yylval;
-short yyss[YYSTACKSIZE];
-YYSTYPE yyvs[YYSTACKSIZE];
-#define yystacksize YYSTACKSIZE
-#line 429 "a2p.y"
+short *yyss;
+short *yysslim;
+YYSTYPE *yyvs;
+int yystacksize;
+#line 435 "a2p.y"
 
 int yyparse (void);
 
 #include "a2py.c"
-#line 2178 "y.tab.c"
+#line 2196 "y.tab.c"
+/* allocate initial stack or double stack size, up to YYMAXDEPTH */
+#if defined(__cplusplus) || defined(__STDC__)
+static int yygrowstack(void)
+#else
+static int yygrowstack()
+#endif
+{
+    int newsize, i;
+    short *newss;
+    YYSTYPE *newvs;
+
+    if ((newsize = yystacksize) == 0)
+        newsize = YYINITSTACKSIZE;
+    else if (newsize >= YYMAXDEPTH)
+        return -1;
+    else if ((newsize *= 2) > YYMAXDEPTH)
+        newsize = YYMAXDEPTH;
+    i = yyssp - yyss;
+#ifdef SIZE_MAX
+#define YY_SIZE_MAX SIZE_MAX
+#else
+#define YY_SIZE_MAX 0xffffffffU
+#endif
+    if (newsize && YY_SIZE_MAX / newsize < sizeof *newss)
+        goto bail;
+    newss = yyss ? (short *)realloc(yyss, newsize * sizeof *newss) :
+      (short *)malloc(newsize * sizeof *newss); /* overflow check above */
+    if (newss == NULL)
+        goto bail;
+    yyss = newss;
+    yyssp = newss + i;
+    if (newsize && YY_SIZE_MAX / newsize < sizeof *newvs)
+        goto bail;
+    newvs = yyvs ? (YYSTYPE *)realloc(yyvs, newsize * sizeof *newvs) :
+      (YYSTYPE *)malloc(newsize * sizeof *newvs); /* overflow check above */
+    if (newvs == NULL)
+        goto bail;
+    yyvs = newvs;
+    yyvsp = newvs + i;
+    yystacksize = newsize;
+    yysslim = yyss + newsize - 1;
+    return 0;
+bail:
+    if (yyss)
+            free(yyss);
+    if (yyvs)
+            free(yyvs);
+    yyss = yyssp = NULL;
+    yyvs = yyvsp = NULL;
+    yystacksize = 0;
+    return -1;
+}
+
 #define YYABORT goto yyabort
 #define YYREJECT goto yyabort
 #define YYACCEPT goto yyaccept
 #define YYERROR goto yyerrlab
 int
+#if defined(__cplusplus) || defined(__STDC__)
 yyparse(void)
+#else
+yyparse()
+#endif
 {
-    register int yym, yyn, yystate;
+    int yym, yyn, yystate;
 #if YYDEBUG
-    register char *yys;
-    extern char *getenv();
+#if defined(__cplusplus) || defined(__STDC__)
+    const char *yys;
+#else /* !(defined(__cplusplus) || defined(__STDC__)) */
+    char *yys;
+#endif /* !(defined(__cplusplus) || defined(__STDC__)) */
 
-    if ((yys = getenv("YYDEBUG")))
+    if (((yys = getenv("YYDEBUG"))))
     {
         yyn = *yys;
         if (yyn >= '0' && yyn <= '9')
             yydebug = yyn - '0';
     }
-#endif
+#endif /* YYDEBUG */
 
     yynerrs = 0;
     yyerrflag = 0;
     yychar = (-1);
 
+    if (yyss == NULL && yygrowstack()) goto yyoverflow;
     yyssp = yyss;
     yyvsp = yyvs;
     *yyssp = yystate = 0;
@@ -2230,7 +2358,7 @@ yyloop:
             printf("%sdebug: state %d, shifting to state %d\n",
                     YYPREFIX, yystate, yytable[yyn]);
 #endif
-        if (yyssp >= yyss + yystacksize - 1)
+        if (yyssp >= yysslim && yygrowstack())
         {
             goto yyoverflow;
         }
@@ -2247,12 +2375,12 @@ yyloop:
         goto yyreduce;
     }
     if (yyerrflag) goto yyinrecovery;
-#ifdef lint
+#if defined(lint) || defined(__GNUC__)
 
 #endif
 
     yyerror("syntax error");
-#ifdef lint
+#if defined(lint) || defined(__GNUC__)
 
 #endif
 
@@ -2271,7 +2399,7 @@ yyinrecovery:
                     printf("%sdebug: state %d, error recovery shifting\
  to state %d\n", YYPREFIX, *yyssp, yytable[yyn]);
 #endif
-                if (yyssp >= yyss + yystacksize - 1)
+                if (yyssp >= yysslim && yygrowstack())
                 {
                     goto yyoverflow;
                 }
@@ -2315,128 +2443,131 @@ yyreduce:
                 YYPREFIX, yystate, yyn, yyrule[yyn]);
 #endif
     yym = yylen[yyn];
-    yyval = yyvsp[1-yym];
+    if (yym)
+        yyval = yyvsp[1-yym];
+    else
+        memset(&yyval, 0, sizeof yyval);
     switch (yyn)
     {
 case 1:
-#line 52 "a2p.y"
+#line 58 "a2p.y"
 { root = oper4(OPROG,yyvsp[-1],begins,yyvsp[0],ends); }
 break;
 case 2:
-#line 56 "a2p.y"
+#line 62 "a2p.y"
 { begins = oper4(OJUNK,begins,yyvsp[-3],yyvsp[-2],yyvsp[0]); in_begin = FALSE;
 		    yyval = Nullop; }
 break;
 case 3:
-#line 61 "a2p.y"
+#line 67 "a2p.y"
 { ends = oper3(OJUNK,ends,yyvsp[-2],yyvsp[-1]); yyval = Nullop; }
 break;
 case 4:
-#line 63 "a2p.y"
+#line 69 "a2p.y"
 { yyval = yyvsp[-1]; }
 break;
 case 5:
-#line 67 "a2p.y"
+#line 73 "a2p.y"
 { yyval = oper3(OHUNKS,yyvsp[-2],yyvsp[-1],yyvsp[0]); }
 break;
 case 6:
-#line 69 "a2p.y"
+#line 75 "a2p.y"
 { yyval = Nullop; }
 break;
 case 7:
-#line 73 "a2p.y"
+#line 79 "a2p.y"
 { yyval = oper1(OHUNK,yyvsp[0]); need_entire = TRUE; }
 break;
 case 8:
-#line 75 "a2p.y"
+#line 81 "a2p.y"
 { yyval = oper2(OHUNK,yyvsp[-4],oper2(OJUNK,yyvsp[-2],yyvsp[-1])); }
 break;
 case 9:
-#line 77 "a2p.y"
+#line 83 "a2p.y"
 { fixfargs(yyvsp[-8],yyvsp[-6],0); yyval = oper5(OUSERDEF,yyvsp[-8],yyvsp[-6],yyvsp[-4],yyvsp[-2],yyvsp[-1]); }
 break;
 case 10:
-#line 79 "a2p.y"
+#line 85 "a2p.y"
 { yyval = oper2(OHUNK,Nullop,oper2(OJUNK,yyvsp[-2],yyvsp[-1])); }
 break;
 case 13:
-#line 85 "a2p.y"
+#line 91 "a2p.y"
 { yyval = rememberargs(yyval); }
 break;
 case 14:
-#line 89 "a2p.y"
+#line 95 "a2p.y"
 { yyval = oper1(OPAT,yyvsp[0]); }
 break;
 case 15:
-#line 91 "a2p.y"
+#line 97 "a2p.y"
 { yyval = oper2(ORANGE,yyvsp[-2],yyvsp[0]); }
 break;
 case 20:
-#line 99 "a2p.y"
+#line 105 "a2p.y"
 { yyval = oper3(OCOND,yyvsp[-4],yyvsp[-2],yyvsp[0]); }
 break;
 case 21:
-#line 104 "a2p.y"
+#line 110 "a2p.y"
 { yyval = oper1(OCPAREN,yyvsp[-1]); }
 break;
 case 22:
-#line 106 "a2p.y"
+#line 112 "a2p.y"
 { yyval = oper3(OCANDAND,yyvsp[-3],yyvsp[-1],yyvsp[0]); }
 break;
 case 23:
-#line 108 "a2p.y"
+#line 114 "a2p.y"
 { yyval = oper3(OCOROR,yyvsp[-3],yyvsp[-1],yyvsp[0]); }
 break;
 case 24:
-#line 110 "a2p.y"
+#line 116 "a2p.y"
 { yyval = oper1(OCNOT,yyvsp[0]); }
 break;
 case 25:
-#line 114 "a2p.y"
+#line 120 "a2p.y"
 { yyval = oper3(ORELOP,yyvsp[-1],yyvsp[-2],yyvsp[0]); }
 break;
 case 26:
-#line 116 "a2p.y"
+#line 122 "a2p.y"
 { yyval = oper3(ORELOP,string(">",1),yyvsp[-2],yyvsp[0]); }
 break;
 case 27:
-#line 118 "a2p.y"
+#line 124 "a2p.y"
 { yyval = oper3(ORELOP,string("<",1),yyvsp[-2],yyvsp[0]); }
 break;
 case 28:
-#line 120 "a2p.y"
+#line 126 "a2p.y"
 { yyval = oper1(ORPAREN,yyvsp[-1]); }
 break;
 case 29:
-#line 124 "a2p.y"
+#line 130 "a2p.y"
 { yyval = oper3(OMATCHOP,yyvsp[-1],yyvsp[-2],yyvsp[0]); }
 break;
 case 30:
-#line 126 "a2p.y"
+#line 132 "a2p.y"
 { yyval = oper3(OMATCHOP,yyvsp[-1],yyvsp[-2],oper1(OREGEX,yyvsp[0])); }
 break;
 case 31:
-#line 128 "a2p.y"
+#line 134 "a2p.y"
 { yyval = oper1(OREGEX,yyvsp[0]); }
 break;
 case 32:
-#line 130 "a2p.y"
+#line 136 "a2p.y"
 { yyval = oper1(OMPAREN,yyvsp[-1]); }
 break;
 case 33:
-#line 134 "a2p.y"
+#line 140 "a2p.y"
 { yyval = yyvsp[0]; }
 break;
 case 34:
-#line 136 "a2p.y"
+#line 142 "a2p.y"
 { yyval = oper2(OCONCAT,yyvsp[-1],yyvsp[0]); }
 break;
 case 35:
-#line 138 "a2p.y"
+#line 144 "a2p.y"
 { yyval = oper3(OCOND,yyvsp[-4],yyvsp[-2],yyvsp[0]); }
 break;
 case 36:
-#line 140 "a2p.y"
+#line 146 "a2p.y"
 {
 		    yyval = oper3(OASSIGN,yyvsp[-1],yyvsp[-2],yyvsp[0]);
 		    if ((ops[yyvsp[-2]].ival & 255) == OFLD)
@@ -2446,47 +2577,47 @@ case 36:
 		}
 break;
 case 39:
-#line 153 "a2p.y"
+#line 159 "a2p.y"
 { yyval = yyvsp[0]; }
 break;
 case 40:
-#line 155 "a2p.y"
+#line 161 "a2p.y"
 { yyval = oper1(ONUM,yyvsp[0]); }
 break;
 case 41:
-#line 157 "a2p.y"
+#line 163 "a2p.y"
 { yyval = oper1(OSTR,yyvsp[0]); }
 break;
 case 42:
-#line 159 "a2p.y"
+#line 165 "a2p.y"
 { yyval = oper2(OADD,yyvsp[-2],yyvsp[0]); }
 break;
 case 43:
-#line 161 "a2p.y"
+#line 167 "a2p.y"
 { yyval = oper2(OSUBTRACT,yyvsp[-2],yyvsp[0]); }
 break;
 case 44:
-#line 163 "a2p.y"
+#line 169 "a2p.y"
 { yyval = oper2(OMULT,yyvsp[-2],yyvsp[0]); }
 break;
 case 45:
-#line 165 "a2p.y"
+#line 171 "a2p.y"
 { yyval = oper2(ODIV,yyvsp[-2],yyvsp[0]); }
 break;
 case 46:
-#line 167 "a2p.y"
+#line 173 "a2p.y"
 { yyval = oper2(OMOD,yyvsp[-2],yyvsp[0]); }
 break;
 case 47:
-#line 169 "a2p.y"
+#line 175 "a2p.y"
 { yyval = oper2(OPOW,yyvsp[-2],yyvsp[0]); }
 break;
 case 48:
-#line 171 "a2p.y"
+#line 177 "a2p.y"
 { yyval = oper2(ODEFINED,aryrefarg(yyvsp[0]),yyvsp[-2]); }
 break;
 case 49:
-#line 173 "a2p.y"
+#line 179 "a2p.y"
 {
 		    yyval = oper1(OPOSTINCR,yyvsp[-1]);
 		    if ((ops[yyvsp[-1]].ival & 255) == OFLD)
@@ -2496,7 +2627,7 @@ case 49:
 		}
 break;
 case 50:
-#line 181 "a2p.y"
+#line 187 "a2p.y"
 {
 		    yyval = oper1(OPOSTDECR,yyvsp[-1]);
 		    if ((ops[yyvsp[-1]].ival & 255) == OFLD)
@@ -2506,7 +2637,7 @@ case 50:
 		}
 break;
 case 51:
-#line 189 "a2p.y"
+#line 195 "a2p.y"
 {
 		    yyval = oper1(OPREINCR,yyvsp[0]);
 		    if ((ops[yyvsp[0]].ival & 255) == OFLD)
@@ -2516,7 +2647,7 @@ case 51:
 		}
 break;
 case 52:
-#line 197 "a2p.y"
+#line 203 "a2p.y"
 {
 		    yyval = oper1(OPREDECR,yyvsp[0]);
 		    if ((ops[yyvsp[0]].ival & 255) == OFLD)
@@ -2526,255 +2657,255 @@ case 52:
 		}
 break;
 case 53:
-#line 205 "a2p.y"
+#line 211 "a2p.y"
 { yyval = oper1(OUMINUS,yyvsp[0]); }
 break;
 case 54:
-#line 207 "a2p.y"
+#line 213 "a2p.y"
 { yyval = oper1(OUPLUS,yyvsp[0]); }
 break;
 case 55:
-#line 209 "a2p.y"
+#line 215 "a2p.y"
 { yyval = oper1(OPAREN,yyvsp[-1]); }
 break;
 case 56:
-#line 211 "a2p.y"
+#line 217 "a2p.y"
 { yyval = oper0(OGETLINE); }
 break;
 case 57:
-#line 213 "a2p.y"
+#line 219 "a2p.y"
 { yyval = oper1(OGETLINE,yyvsp[0]); }
 break;
 case 58:
-#line 215 "a2p.y"
+#line 221 "a2p.y"
 { yyval = oper3(OGETLINE,Nullop,string("<",1),yyvsp[0]);
 		    if (ops[yyvsp[0]].ival != OSTR + (1<<8)) do_fancy_opens = TRUE; }
 break;
 case 59:
-#line 218 "a2p.y"
+#line 224 "a2p.y"
 { yyval = oper3(OGETLINE,yyvsp[-2],string("<",1),yyvsp[0]);
 		    if (ops[yyvsp[0]].ival != OSTR + (1<<8)) do_fancy_opens = TRUE; }
 break;
 case 60:
-#line 221 "a2p.y"
+#line 227 "a2p.y"
 { yyval = oper3(OGETLINE,Nullop,string("|",1),yyvsp[-2]);
 		    if (ops[yyvsp[-2]].ival != OSTR + (1<<8)) do_fancy_opens = TRUE; }
 break;
 case 61:
-#line 224 "a2p.y"
+#line 230 "a2p.y"
 { yyval = oper3(OGETLINE,yyvsp[0],string("|",1),yyvsp[-3]);
 		    if (ops[yyvsp[-3]].ival != OSTR + (1<<8)) do_fancy_opens = TRUE; }
 break;
 case 62:
-#line 227 "a2p.y"
+#line 233 "a2p.y"
 { yyval = oper0(yyvsp[0]); need_entire = do_chop = TRUE; }
 break;
 case 63:
-#line 229 "a2p.y"
+#line 235 "a2p.y"
 { yyval = oper1(yyvsp[-2],Nullop); need_entire = do_chop = TRUE; }
 break;
 case 64:
-#line 231 "a2p.y"
+#line 237 "a2p.y"
 { yyval = oper1(yyvsp[-3],yyvsp[-1]); }
 break;
 case 65:
-#line 233 "a2p.y"
+#line 239 "a2p.y"
 { yyval = oper1(yyvsp[-3],yyvsp[-1]); }
 break;
 case 66:
-#line 235 "a2p.y"
+#line 241 "a2p.y"
 { yyval = oper2(OUSERFUN,yyvsp[-3],yyvsp[-1]); }
 break;
 case 67:
-#line 237 "a2p.y"
+#line 243 "a2p.y"
 { yyval = oper1(OSPRINTF,yyvsp[-1]); }
 break;
 case 68:
-#line 239 "a2p.y"
+#line 245 "a2p.y"
 { yyval = oper1(OSPRINTF,yyvsp[0]); }
 break;
 case 69:
-#line 241 "a2p.y"
+#line 247 "a2p.y"
 { yyval = oper3(OSUBSTR,yyvsp[-5],yyvsp[-3],yyvsp[-1]); }
 break;
 case 70:
-#line 243 "a2p.y"
+#line 249 "a2p.y"
 { yyval = oper2(OSUBSTR,yyvsp[-3],yyvsp[-1]); }
 break;
 case 71:
-#line 245 "a2p.y"
+#line 251 "a2p.y"
 { yyval = oper3(OSPLIT,yyvsp[-5],aryrefarg(numary(yyvsp[-3])),yyvsp[-1]); }
 break;
 case 72:
-#line 247 "a2p.y"
+#line 253 "a2p.y"
 { yyval = oper3(OSPLIT,yyvsp[-5],aryrefarg(numary(yyvsp[-3])),oper1(OREGEX,yyvsp[-1]));}
 break;
 case 73:
-#line 249 "a2p.y"
+#line 255 "a2p.y"
 { yyval = oper2(OSPLIT,yyvsp[-3],aryrefarg(numary(yyvsp[-1]))); }
 break;
 case 74:
-#line 251 "a2p.y"
+#line 257 "a2p.y"
 { yyval = oper2(OINDEX,yyvsp[-3],yyvsp[-1]); }
 break;
 case 75:
-#line 253 "a2p.y"
+#line 259 "a2p.y"
 { yyval = oper2(OMATCH,yyvsp[-3],oper1(OREGEX,yyvsp[-1])); }
 break;
 case 76:
-#line 255 "a2p.y"
+#line 261 "a2p.y"
 { yyval = oper2(OMATCH,yyvsp[-3],yyvsp[-1]); }
 break;
 case 77:
-#line 257 "a2p.y"
+#line 263 "a2p.y"
 { yyval = oper2(OSUB,yyvsp[-3],yyvsp[-1]); }
 break;
 case 78:
-#line 259 "a2p.y"
+#line 265 "a2p.y"
 { yyval = oper2(OSUB,oper1(OREGEX,yyvsp[-3]),yyvsp[-1]); }
 break;
 case 79:
-#line 261 "a2p.y"
+#line 267 "a2p.y"
 { yyval = oper2(OGSUB,yyvsp[-3],yyvsp[-1]); }
 break;
 case 80:
-#line 263 "a2p.y"
+#line 269 "a2p.y"
 { yyval = oper2(OGSUB,oper1(OREGEX,yyvsp[-3]),yyvsp[-1]); }
 break;
 case 81:
-#line 265 "a2p.y"
+#line 271 "a2p.y"
 { yyval = oper3(OSUB,yyvsp[-5],yyvsp[-3],yyvsp[-1]); }
 break;
 case 82:
-#line 267 "a2p.y"
+#line 273 "a2p.y"
 { yyval = oper3(OSUB,oper1(OREGEX,yyvsp[-5]),yyvsp[-3],yyvsp[-1]); }
 break;
 case 83:
-#line 269 "a2p.y"
+#line 275 "a2p.y"
 { yyval = oper3(OGSUB,yyvsp[-5],yyvsp[-3],yyvsp[-1]); }
 break;
 case 84:
-#line 271 "a2p.y"
+#line 277 "a2p.y"
 { yyval = oper3(OGSUB,oper1(OREGEX,yyvsp[-5]),yyvsp[-3],yyvsp[-1]); }
 break;
 case 85:
-#line 275 "a2p.y"
+#line 281 "a2p.y"
 { yyval = oper1(OVAR,yyvsp[0]); }
 break;
 case 86:
-#line 277 "a2p.y"
+#line 283 "a2p.y"
 { yyval = oper2(OVAR,aryrefarg(yyvsp[-3]),yyvsp[-1]); }
 break;
 case 87:
-#line 279 "a2p.y"
+#line 285 "a2p.y"
 { yyval = oper1(OFLD,yyvsp[0]); }
 break;
 case 88:
-#line 281 "a2p.y"
+#line 287 "a2p.y"
 { yyval = oper1(OVFLD,oper1(OVAR,yyvsp[0])); }
 break;
 case 89:
-#line 283 "a2p.y"
+#line 289 "a2p.y"
 { yyval = oper1(OVFLD,yyvsp[0]); }
 break;
 case 92:
-#line 290 "a2p.y"
+#line 296 "a2p.y"
 { yyval = Nullop; }
 break;
 case 93:
-#line 294 "a2p.y"
+#line 300 "a2p.y"
 { yyval = oper3(OCOMMA,yyvsp[-3],yyvsp[-1],yyvsp[0]); }
 break;
 case 94:
-#line 296 "a2p.y"
+#line 302 "a2p.y"
 { yyval = oper3(OCOMMA,yyvsp[-3],yyvsp[-1],yyvsp[0]); }
 break;
 case 95:
-#line 298 "a2p.y"
+#line 304 "a2p.y"
 { yyval = yyvsp[-1]; }
 break;
 case 96:
-#line 302 "a2p.y"
+#line 308 "a2p.y"
 { yyval = oper2(OJUNK,yyvsp[-1],yyvsp[0]); }
 break;
 case 97:
-#line 304 "a2p.y"
+#line 310 "a2p.y"
 { yyval = Nullop; }
 break;
 case 98:
-#line 308 "a2p.y"
+#line 314 "a2p.y"
 { yyval = oper2(OJUNK,oper0(OSEMICOLON),oper0(ONEWLINE)); }
 break;
 case 99:
-#line 310 "a2p.y"
+#line 316 "a2p.y"
 { yyval = oper2(OJUNK,oper0(OSEMICOLON),oper0(ONEWLINE)); }
 break;
 case 100:
-#line 312 "a2p.y"
+#line 318 "a2p.y"
 { yyval = oper0(ONEWLINE); }
 break;
 case 101:
-#line 314 "a2p.y"
+#line 320 "a2p.y"
 { yyval = oper1(OCOMMENT,yyvsp[0]); }
 break;
 case 102:
-#line 318 "a2p.y"
+#line 324 "a2p.y"
 { yyval = oper2(OJUNK,yyvsp[-1],yyvsp[0]); }
 break;
 case 103:
-#line 320 "a2p.y"
+#line 326 "a2p.y"
 { yyval = Nullop; }
 break;
 case 104:
-#line 324 "a2p.y"
+#line 330 "a2p.y"
 { yyval = oper0(ONEWLINE); }
 break;
 case 105:
-#line 326 "a2p.y"
+#line 332 "a2p.y"
 { yyval = oper1(OCOMMENT,yyvsp[0]); }
 break;
 case 106:
-#line 331 "a2p.y"
+#line 337 "a2p.y"
 { yyval = oper2(OJUNK,oper0(OSEMICOLON),yyvsp[0]); }
 break;
 case 107:
-#line 333 "a2p.y"
+#line 339 "a2p.y"
 { yyval = oper2(OJUNK,oper0(OSNEWLINE),yyvsp[0]); }
 break;
 case 108:
-#line 335 "a2p.y"
+#line 341 "a2p.y"
 { yyval = oper2(OJUNK,oper0(OSNEWLINE),yyvsp[0]); }
 break;
 case 109:
-#line 337 "a2p.y"
+#line 343 "a2p.y"
 { yyval = oper2(OJUNK,oper1(OSCOMMENT,yyvsp[-1]),yyvsp[0]); }
 break;
 case 110:
-#line 341 "a2p.y"
+#line 347 "a2p.y"
 { yyval = oper2(OSTATES,yyvsp[-1],yyvsp[0]); }
 break;
 case 111:
-#line 343 "a2p.y"
+#line 349 "a2p.y"
 { yyval = Nullop; }
 break;
 case 112:
-#line 348 "a2p.y"
+#line 354 "a2p.y"
 { yyval = oper2(OJUNK,oper2(OSTATE,yyvsp[-2],yyvsp[-1]),yyvsp[0]); }
 break;
 case 113:
-#line 350 "a2p.y"
+#line 356 "a2p.y"
 { yyval = oper2(OSTATE,Nullop,oper2(OJUNK,oper0(OSEMICOLON),yyvsp[0])); }
 break;
 case 114:
-#line 352 "a2p.y"
+#line 358 "a2p.y"
 { yyval = oper2(OSTATE,Nullop,oper2(OJUNK,oper0(OSNEWLINE),yyvsp[0])); }
 break;
 case 117:
-#line 358 "a2p.y"
+#line 364 "a2p.y"
 { yyval = Nullop; }
 break;
 case 119:
-#line 364 "a2p.y"
+#line 370 "a2p.y"
 { yyval = oper3(OPRINT,yyvsp[-2],yyvsp[-1],yyvsp[0]);
 		    do_opens = TRUE;
 		    saw_ORS = saw_OFS = TRUE;
@@ -2782,102 +2913,102 @@ case 119:
 		    if (ops[yyvsp[0]].ival != OSTR + (1<<8)) do_fancy_opens = TRUE; }
 break;
 case 120:
-#line 370 "a2p.y"
+#line 376 "a2p.y"
 { yyval = oper1(OPRINT,yyvsp[0]);
 		    if (!yyvsp[0]) need_entire = TRUE;
 		    saw_ORS = saw_OFS = TRUE;
 		}
 break;
 case 121:
-#line 375 "a2p.y"
+#line 381 "a2p.y"
 { yyval = oper3(OPRINTF,yyvsp[-2],yyvsp[-1],yyvsp[0]);
 		    do_opens = TRUE;
 		    if (!yyvsp[-2]) need_entire = TRUE;
 		    if (ops[yyvsp[0]].ival != OSTR + (1<<8)) do_fancy_opens = TRUE; }
 break;
 case 122:
-#line 380 "a2p.y"
+#line 386 "a2p.y"
 { yyval = oper1(OPRINTF,yyvsp[0]);
 		    if (!yyvsp[0]) need_entire = TRUE;
 		}
 break;
 case 123:
-#line 384 "a2p.y"
+#line 390 "a2p.y"
 { yyval = oper0(OBREAK); }
 break;
 case 124:
-#line 386 "a2p.y"
+#line 392 "a2p.y"
 { yyval = oper0(ONEXT); }
 break;
 case 125:
-#line 388 "a2p.y"
+#line 394 "a2p.y"
 { yyval = oper0(OEXIT); }
 break;
 case 126:
-#line 390 "a2p.y"
+#line 396 "a2p.y"
 { yyval = oper1(OEXIT,yyvsp[0]); }
 break;
 case 127:
-#line 392 "a2p.y"
+#line 398 "a2p.y"
 { yyval = oper0(OCONTINUE); }
 break;
 case 128:
-#line 394 "a2p.y"
+#line 400 "a2p.y"
 { yyval = oper0(ORETURN); }
 break;
 case 129:
-#line 396 "a2p.y"
+#line 402 "a2p.y"
 { yyval = oper1(ORETURN,yyvsp[0]); }
 break;
 case 130:
-#line 398 "a2p.y"
+#line 404 "a2p.y"
 { yyval = oper2(ODELETE,aryrefarg(yyvsp[-3]),yyvsp[-1]); }
 break;
 case 131:
-#line 402 "a2p.y"
+#line 408 "a2p.y"
 { yyval = oper1(OREDIR,string(">",1)); }
 break;
 case 132:
-#line 404 "a2p.y"
+#line 410 "a2p.y"
 { yyval = oper1(OREDIR,string(">>",2)); }
 break;
 case 133:
-#line 406 "a2p.y"
+#line 412 "a2p.y"
 { yyval = oper1(OREDIR,string("|",1)); }
 break;
 case 134:
-#line 411 "a2p.y"
+#line 417 "a2p.y"
 { yyval = oper2(OIF,yyvsp[-3],bl(yyvsp[0],yyvsp[-1])); }
 break;
 case 135:
-#line 413 "a2p.y"
+#line 419 "a2p.y"
 { yyval = oper3(OIF,yyvsp[-6],bl(yyvsp[-3],yyvsp[-4]),bl(yyvsp[0],yyvsp[-1])); }
 break;
 case 136:
-#line 415 "a2p.y"
+#line 421 "a2p.y"
 { yyval = oper2(OWHILE,yyvsp[-3],bl(yyvsp[0],yyvsp[-1])); }
 break;
 case 137:
-#line 417 "a2p.y"
+#line 423 "a2p.y"
 { yyval = oper2(ODO,bl(yyvsp[-4],yyvsp[-5]),yyvsp[-1]); }
 break;
 case 138:
-#line 419 "a2p.y"
+#line 425 "a2p.y"
 { yyval = oper4(OFOR,yyvsp[-7],yyvsp[-5],yyvsp[-3],bl(yyvsp[0],yyvsp[-1])); }
 break;
 case 139:
-#line 421 "a2p.y"
+#line 427 "a2p.y"
 { yyval = oper4(OFOR,yyvsp[-6],string("",0),yyvsp[-3],bl(yyvsp[0],yyvsp[-1])); }
 break;
 case 140:
-#line 423 "a2p.y"
+#line 429 "a2p.y"
 { yyval = oper2(OFORIN,yyvsp[-3],bl(yyvsp[0],yyvsp[-1])); }
 break;
 case 141:
-#line 425 "a2p.y"
+#line 431 "a2p.y"
 { yyval = oper3(OBLOCK,oper2(OJUNK,yyvsp[-3],yyvsp[-2]),Nullop,yyvsp[0]); }
 break;
-#line 2878 "y.tab.c"
+#line 2960 "y.tab.c"
     }
     yyssp -= yym;
     yystate = *yyssp;
@@ -2920,7 +3051,7 @@ break;
         printf("%sdebug: after reduction, shifting from state %d \
 to state %d\n", YYPREFIX, *yyssp, yystate);
 #endif
-    if (yyssp >= yyss + yystacksize - 1)
+    if (yyssp >= yysslim && yygrowstack())
     {
         goto yyoverflow;
     }
@@ -2930,7 +3061,21 @@ to state %d\n", YYPREFIX, *yyssp, yystate);
 yyoverflow:
     yyerror("yacc stack overflow");
 yyabort:
+    if (yyss)
+            free(yyss);
+    if (yyvs)
+            free(yyvs);
+    yyss = yyssp = NULL;
+    yyvs = yyvsp = NULL;
+    yystacksize = 0;
     return (1);
 yyaccept:
+    if (yyss)
+            free(yyss);
+    if (yyvs)
+            free(yyvs);
+    yyss = yyssp = NULL;
+    yyvs = yyvsp = NULL;
+    yystacksize = 0;
     return (0);
 }
