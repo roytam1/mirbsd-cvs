@@ -1,4 +1,4 @@
-# $MirOS: src/share/misc/licence.template,v 1.24 2008/04/22 11:43:31 tg Rel $
+# $MirOS: contrib/code/Snippets/randex.pl,v 1.1 2008/07/08 23:36:00 tg Exp $
 #-
 # Copyright (c) 2008
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -36,20 +36,6 @@ $VERSION = '200807082330';
 	commands	=> "randex"
 );
 
-my $debug = 1;
-
-sub
-dprintf
-{
-	my $text = shift;
-
-	if (!$debug) {
-		return;
-	}
-
-	Irssi::print("D: randex: ${text}");
-}
-
 sub
 cmd_randex
 {
@@ -78,7 +64,6 @@ cmd_randex
 	$s = pack("u", BSD::arc4random::arc4random_bytes(32, "for $towho"));
 	chop($s);
 	$recip->send_raw("PRIVMSG ${towho} :\caENTROPY ${s}\ca");
-	dprintf("initiating protocol with '${towho}': 「${s}」");
 }
 
 sub
@@ -89,8 +74,6 @@ process_entropy_request
 	    "from $nick $args"));
 	chop($evalue);
 	$server->ctcp_send_reply("NOTICE ${nick} :\caRANDOM ${evalue}\ca");
-	dprintf("incoming request from '${nick}': 「${args}」");
-	dprintf("outgoing response to '${nick}': 「${evalue}」");
 }
 
 sub
@@ -99,7 +82,6 @@ process_random_response
 	my ($server, $args, $nick, $address, $target) = @_;
 
 	BSD::arc4random::arc4random_pushk("by $nick $args");
-	dprintf("incoming response from '${nick}': 「${args}」");
 }
 
 Irssi::command_bind('randex', 'cmd_randex');
