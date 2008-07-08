@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/p5/BSD/arc4random/lib/BSD/arc4random.pm,v 1.5 2008/07/08 01:08:35 tg Exp $
+# $MirOS: contrib/hosted/p5/BSD/arc4random/lib/BSD/arc4random.pm,v 1.7 2008/07/08 01:46:36 tg Exp $
 #-
 # Copyright (c) 2008
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -30,7 +30,7 @@ BEGIN {
 	require Exporter;
 	require DynaLoader;
 	our ($VERSION, @ISA, @EXPORT, @EXPORT_OK, %EXPORT_TAGS);
-	$VERSION = 0.10;
+	$VERSION = 0.11;
 	@ISA = qw(Exporter DynaLoader);
 	@EXPORT = qw();
 	@EXPORT_OK = qw(
@@ -86,6 +86,15 @@ arc4random_bytes($;$)
 	if (defined($buf)) {
 		$val = arc4random_pushb($buf);
 		$vleft = 4;
+	}
+	while (($len - $idx) >= 4) {
+		if ($vleft < 4) {
+			$val = arc4random();
+			$vleft = 4;
+		}
+		vec($rv, $idx / 4, 32) = $val;
+		$idx += 4;
+		$vleft = 0;
 	}
 	while ($idx < $len) {
 		if ($vleft == 0) {
