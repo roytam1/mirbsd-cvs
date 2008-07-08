@@ -1,4 +1,4 @@
-BSD::arc4random version 0.01
+BSD::arc4random version 0.10
 ============================
 
 The README is used to introduce the module and provide instructions on
@@ -13,6 +13,16 @@ good idea to provide version information here so that people can
 decide whether fixes for the module are worth downloading.
 
 INSTALLATION
+
+If your system does not have arc4random_pushb(3), edit the DEFINE
+line in Makefile.PL to define HAVE_ARC4RANDOM_PUSHB to 0 and make
+sure at least arc4random_addrandom(3) exists.
+
+If your system’s arc4random(3) function suite is not in libc, edit
+the LIBS line in Makefile.PL to include the appropriate library,
+e.g. -lbsd on Debian or -lcrypt on Interix, and possibly the INC
+line to use the appropriate header, e.g. something like this for
+Debian libbsd: '-include /usr/include/bsd/bsd.h'
 
 To install this module type the following:
 

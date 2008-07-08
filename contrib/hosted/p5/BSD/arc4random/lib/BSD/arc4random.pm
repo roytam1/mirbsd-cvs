@@ -30,10 +30,15 @@ BEGIN {
 	require Exporter;
 	require DynaLoader;
 	our ($VERSION, @ISA, @EXPORT, @EXPORT_OK, %EXPORT_TAGS);
-	$VERSION = 0.05;
+	$VERSION = 0.10;
 	@ISA = qw(Exporter DynaLoader);
 	@EXPORT = qw();
-	@EXPORT_OK = qw(&arc4random &arc4random_pushb &arc4random_pushk);
+	@EXPORT_OK = qw(
+		&arc4random
+		&arc4random_bytes
+		&arc4random_pushb
+		&arc4random_pushk
+	);
 	%EXPORT_TAGS = (
 		all => [ @EXPORT_OK ],
 	);
@@ -69,6 +74,32 @@ arc4random_pushk($)
 	return arc4random_pushk_xs($buf);
 }
 
+sub
+arc4random_bytes($;$)
+{
+	my ($len, $buf) = @_;
+	my $val;
+	my $vleft = 0;
+	my $rv = '';
+	my $idx = 0;
+
+	if (defined($buf)) {
+		$val = arc4random_pushb($buf);
+		$vleft = 4;
+	}
+	while ($idx < $len) {
+		if ($vleft == 0) {
+			$val = arc4random();
+			$vleft = 4;
+		}
+		vec($rv, $idx, 8) = $val & 0xFF;
+		$idx++;
+		$val >>= 8;
+		$vleft--;
+	}
+	return $rv;
+}
+
 1;
 __END__
 
@@ -82,6 +113,7 @@ BSD::arc4random - Perl interface to the arc4 random number generator
   $v = arc4random();
   $v = arc4random_pushb("entropy to pass to the system");
   $v = arc4random_pushk("entropy to pass to the kernel");
+  $s = arc4random_bytes(16);
 
 =head1 DESCRIPTION
 
@@ -89,28 +121,34 @@ This set of functions maps the L<arc4random(3)> family of libc functions
 into Perl code.
 All functions are ithreads-safe.
 
-=item B<arc4random>
+=head2 LOW-LEVEL FUNCTIONS
+
+=item B<arc4random>()
 
 This function returns an unsigned 32-bit integer random value.
 
-=item B<arc4random_pushb>
+=item B<arc4random_pushb>(I<pbuf>)
 
-This function first pushes the argument to the kernel if possible,
+This function first pushes the I<pbuf> argument to the kernel if possible,
 then the entropy returned by the kernel into the libc pool, then
 returns an unsigned 32-bit integer random value from it.
 
-=item B<arc4random_pushk>
+=item B<arc4random_pushk>(I<pbuf>)
 
-This function first pushes the argument to the kernel if possible,
+This function first pushes the I<pbuf> argument to the kernel if possible,
 then returns an unsigned 32-bit integer random value from the kernel.
 
-=head1 CAVEATS
+=head2 HIGH-LEVEL FUNCTIONS
 
-More functions will be implemented soon.
+=item B<arc4random_bytes>(I<num>[, I<pbuf>])
+
+This function returns a string containing as many random bytes as
+requested by the integral argument I<num>.
+An optional I<pbuf> argument is passed to the system first.
 
 =head1 AUTHOR
 
-Thorsten Glaser, E<lt>tg@mirbsd.deE<gt>
+Thorsten Glaser E<lt>tg@mirbsd.deE<gt>
 
 =head1 SEE ALSO
 
@@ -121,6 +159,7 @@ L<http://www.mirbsd.org/man/arc4random.3>
 
 Copyright (c) 2008 Thorsten Glaser
 
-This module is covered by the MirOS Licence.
+This module is covered by the MirOS Licence:
+L<http://mirbsd.de/MirOS-Licence>
 
 =cut
