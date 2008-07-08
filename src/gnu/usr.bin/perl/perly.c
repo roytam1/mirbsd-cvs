@@ -1,6 +1,8 @@
 #ifndef lint
 /* static char yysccsid[] = "@(#)yaccpar 1.8 (Berkeley) 01/20/91"; */
 #endif
+#include <stdlib.h>
+#include <string.h>
 #define YYBYACC 1
 #line 25 "perly.y"
 #include "EXTERN.h"
@@ -1596,7 +1598,10 @@ yyreduce:
                 yystate, yyn, yyrule[yyn]);
 #endif
     yym = yylen[yyn];
-    yyval = yyvsp[1-yym];
+    if (yym)
+	yyval = yyvsp[1-yym];
+    else
+	memset(&yyval, 0, sizeof yyval);
     switch (yyn)
     {
 case 1:
