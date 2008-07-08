@@ -1,4 +1,4 @@
-# $MirOS: src/share/misc/licence.template,v 1.24 2008/04/22 11:43:31 tg Rel $
+# $MirOS: contrib/hosted/p5/BSD/arc4random/lib/BSD/arc4random.pm,v 1.1.201.1 2008/07/08 00:44:10 tg Exp $
 #-
 # Copyright (c) 2008
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -41,36 +41,23 @@ bootstrap BSD::arc4random $BSD::arc4random::VERSION;
 sub
 arc4random()
 {
-	my $rv;
-
-	print "D: calling arc4random()...";
-	$rv = arc4random_xs();
-	print " got ${rv}\n";
-	return $rv;
+	return arc4random_xs();
 }
 
 sub
 arc4random_pushb($)
 {
 	my $buf = shift;
-	my $rv;
 
-	print "D: calling arc4random_pushb(${buf})...";
-	$rv = arc4random_pushb_xs($buf);
-	print " got ${rv}\n";
-	return $rv;
+	return arc4random_pushb_xs($buf);
 }
 
 sub
 arc4random_pushk($)
 {
 	my $buf = shift;
-	my $rv;
 
-	print "D: calling arc4random_pushk(${buf})...";
-	$rv = arc4random_pushk_xs($buf);
-	print " got ${rv}\n";
-	return $rv;
+	return arc4random_pushk_xs($buf);
 }
 
 1;
