@@ -37,7 +37,7 @@
 #define __RCSID(x)			__IDSTRING(rcsid,x)
 #endif
 
-__RCSID("$MirOS: contrib/hosted/p5/BSD/arc4random/arc4rnd_xs.c,v 1.2 2008/07/08 01:37:31 tg Exp $");
+__RCSID("$MirOS: contrib/hosted/p5/BSD/arc4random/arc4rnd_xs.c,v 1.3 2008/07/08 01:41:44 tg Exp $");
 
 #ifndef HAVE_ARC4RANDOM_PUSHB
 #define HAVE_ARC4RANDOM_PUSHB	1
@@ -87,6 +87,12 @@ XS(XS_BSD__arc4random_arc4random_pushb_xs)
 
 	XSRETURN(1);
 }
+
+#ifndef arc4random_pushk
+#if HAVE_ARC4RANDOM_PUSHB
+#define arc4random_pushk	arc4random_pushb
+#endif
+#endif
 
 XS(XS_BSD__arc4random_arc4random_pushk_xs);
 XS(XS_BSD__arc4random_arc4random_pushk_xs)
