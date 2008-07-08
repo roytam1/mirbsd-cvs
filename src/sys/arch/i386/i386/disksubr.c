@@ -1,11 +1,11 @@
-/**	$MirOS: src/sys/arch/i386/i386/disksubr.c,v 1.3 2007/07/11 22:28:40 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/i386/disksubr.c,v 1.4 2007/07/18 10:34:00 tg Exp $ */
 /*	$OpenBSD: disksubr.c,v 1.44 2004/03/17 14:16:04 miod Exp $	*/
 /*	$NetBSD: disksubr.c,v 1.21 1996/05/03 19:42:03 christos Exp $	*/
 
 /*
  * Copyright (c) 1996 Theo de Raadt
  * Copyright (c) 1982, 1986, 1988 Regents of the University of California.
- * Copyright (c) 2004, 2007
+ * Copyright (c) 2004, 2007, 2008
  *	Thorsten "mirabilos" Glaser <tg@66h.42h.de>
  * All rights reserved.
  *
@@ -43,6 +43,8 @@
 #include <sys/disklabel.h>
 #include <sys/syslog.h>
 #include <sys/disk.h>
+
+#include <dev/rndvar.h>
 
 void
 dk_establish(dk, dev)
@@ -323,6 +325,17 @@ readdisklabel(dev_t dev, void (*strat)(struct buf *), struct disklabel *lp,
 	/* don't read the on-disk label if we are in spoofed-only mode */
 	if (spoofonly)
 		goto done;
+
+	/* retrieve the PBR, for fun */
+	if (dospartoff) {
+		bp->b_blkno = dospartoff;
+		bp->b_cylinder = cyl;
+		bp->b_bcount = lp->d_secsize;
+		bp->b_flags = B_BUSY | B_READ;
+		(*strat)(bp);
+		if (!biowait(bp))
+			rnd_bootpool_add(bp->b_data, lp->d_secsize);
+	}
 
 	/* next, dig out disk label */
 	bp->b_blkno = dospartoff + LABELSECTOR;
