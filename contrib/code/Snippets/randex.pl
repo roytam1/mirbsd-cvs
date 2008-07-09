@@ -1,4 +1,4 @@
-# $MirOS: contrib/code/Snippets/randex.pl,v 1.1 2008/07/08 23:36:00 tg Exp $
+# $MirOS: contrib/code/Snippets/randex.pl,v 1.2 2008/07/08 23:36:27 tg Exp $
 #-
 # Copyright (c) 2008
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -23,7 +23,7 @@
 require BSD::arc4random;
 
 use vars qw($VERSION %IRSSI);
-$VERSION = '200807082330';
+$VERSION = '200807090012';
 %IRSSI = (
 	authors		=> 'Thorsten Glaser',
 	contact		=> 'tg@mirbsd.de',
@@ -87,3 +87,4 @@ process_random_response
 Irssi::command_bind('randex', 'cmd_randex');
 Irssi::signal_add('ctcp msg entropy', \&process_entropy_request);
 Irssi::signal_add('ctcp reply random', \&process_random_response);
+Irssi::ctcp_register("ENTROPY");
