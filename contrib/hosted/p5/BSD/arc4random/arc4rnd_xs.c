@@ -37,11 +37,7 @@
 #define __RCSID(x)			__IDSTRING(rcsid,x)
 #endif
 
-__RCSID("$MirOS: contrib/hosted/p5/BSD/arc4random/arc4rnd_xs.c,v 1.5 2008/07/10 16:20:29 tg Exp $");
-
-#ifndef HAVE_ARC4RANDOM_PUSHB
-#define HAVE_ARC4RANDOM_PUSHB	1
-#endif
+__RCSID("$MirOS: contrib/hosted/p5/BSD/arc4random/arc4rnd_xs.c,v 1.6 2008/07/10 16:29:39 tg Exp $");
 
 XS(XS_BSD__arc4random_arc4random_xs);
 XS(XS_BSD__arc4random_arc4random_xs)
@@ -78,6 +74,10 @@ XS(XS_BSD__arc4random_arc4random_addrandom_xs)
 	XSRETURN(1);
 }
 
+#ifndef HAVE_ARC4RANDOM_PUSHB
+#define HAVE_ARC4RANDOM_PUSHB	1
+#endif
+
 XS(XS_BSD__arc4random_arc4random_pushb_xs);
 XS(XS_BSD__arc4random_arc4random_pushb_xs)
 {
@@ -90,24 +90,21 @@ XS(XS_BSD__arc4random_arc4random_pushb_xs)
 
 	sv = ST(0);
 	buf = SvPV(sv, len);
-#if HAVE_ARC4RANDOM_PUSHB
 	rv = arc4random_pushb((const void *)buf, (size_t)len);
-#else
-	arc4random_addrandom((const unsigned char *)buf, (int)len);
-	rv = arc4random();
-#endif
 	XSprePUSH;
 	PUSHu((UV)rv);
 
 	XSRETURN(1);
 }
-
-#ifndef arc4random_pushk
-#if HAVE_ARC4RANDOM_PUSHB
-#define arc4random_pushk	arc4random_pushb
+#elif defined(arc4random_pushk)
+#define XS_BSD__arc4random_arc4random_pushb_xs \
+	XS_BSD__arc4random_arc4random_pushk_xs
+#else
+#define XS_BSD__arc4random_arc4random_pushb_xs \
+	XS_BSD__arc4random_arc4random_addrandom_xs
 #endif
-#endif
 
+#if defined(arc4random_pushk)
 XS(XS_BSD__arc4random_arc4random_pushk_xs);
 XS(XS_BSD__arc4random_arc4random_pushk_xs)
 {
@@ -120,17 +117,26 @@ XS(XS_BSD__arc4random_arc4random_pushk_xs)
 
 	sv = ST(0);
 	buf = SvPV(sv, len);
-#ifdef arc4random_pushk
 	rv = arc4random_pushk((const void *)buf, (size_t)len);
-#else
-	arc4random_addrandom((const unsigned char *)buf, (int)len);
-	rv = arc4random();
-#endif
 	XSprePUSH;
 	PUSHu((UV)rv);
 
 	XSRETURN(1);
 }
+#elif HAVE_ARC4RANDOM_PUSHB
+#define XS_BSD__arc4random_arc4random_pushk_xs \
+	XS_BSD__arc4random_arc4random_pushb_xs
+#else
+#define XS_BSD__arc4random_arc4random_pushk_xs \
+	XS_BSD__arc4random_arc4random_addrandom_xs
+#endif
+
+#undef HAVE_ARC4RANDOM_KINTF
+#if HAVE_ARC4RANDOM_PUSHB || defined(arc4random_pushk)
+#define HAVE_ARC4RANDOM_KINTF	1
+#else
+#define HAVE_ARC4RANDOM_KINTF	0
+#endif
 
 static char file[] = __FILE__;
 static char func_a4r[] = "BSD::arc4random::arc4random_xs";
