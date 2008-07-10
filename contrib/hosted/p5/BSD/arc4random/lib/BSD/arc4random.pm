@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/p5/BSD/arc4random/lib/BSD/arc4random.pm,v 1.12 2008/07/10 16:29:39 tg Exp $
+# $MirOS: contrib/hosted/p5/BSD/arc4random/lib/BSD/arc4random.pm,v 1.13 2008/07/10 16:54:07 tg Exp $
 #-
 # Copyright (c) 2008
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -30,7 +30,7 @@ BEGIN {
 	require Exporter;
 	require DynaLoader;
 	our ($VERSION, @ISA, @EXPORT, @EXPORT_OK, %EXPORT_TAGS);
-	$VERSION = 0.30;
+	$VERSION = 0.31;
 	@ISA = qw(Exporter DynaLoader);
 	@EXPORT = qw();
 	@EXPORT_OK = qw(
