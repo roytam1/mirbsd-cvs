@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/p5/BSD/arc4random/lib/BSD/arc4random.pm,v 1.9 2008/07/08 18:25:29 tg Exp $
+# $MirOS: contrib/hosted/p5/BSD/arc4random/lib/BSD/arc4random.pm,v 1.10 2008/07/08 23:48:20 tg Exp $
 #-
 # Copyright (c) 2008
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -53,7 +53,7 @@ sub
 arc4random()
 {
 	lock($arcfour_lock);
-	return arc4random_xs();
+	return &arc4random_xs();
 }
 
 sub
@@ -62,7 +62,7 @@ arc4random_pushb($)
 	my $buf = shift;
 
 	lock($arcfour_lock);
-	return arc4random_pushb_xs($buf);
+	return &arc4random_pushb_xs($buf);
 }
 
 sub
@@ -71,7 +71,7 @@ arc4random_pushk($)
 	my $buf = shift;
 
 	lock($arcfour_lock);
-	return arc4random_pushk_xs($buf);
+	return &arc4random_pushk_xs($buf);
 }
 
 sub
