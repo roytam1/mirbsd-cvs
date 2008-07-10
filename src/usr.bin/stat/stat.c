@@ -43,6 +43,7 @@
 
 #include <sys/cdefs.h>
 #if !defined(lint)
+__RCSID("$MirOS$");
 __RCSID("$NetBSD: stat.c,v 1.20 2004/12/31 03:24:31 atatat Exp $");
 #endif
 
@@ -116,9 +117,9 @@ __RCSID("$NetBSD: stat.c,v 1.20 2004/12/31 03:24:31 atatat Exp $");
 	"  Size: %-11z  FileType: %HT%n" \
 	"  Mode: (%04OLp/%.10Sp)         Uid: (%5u/%8Su)  Gid: (%5g/%8Sg)%n" \
 	"Device: %Hd,%Ld   Inode: %i    Links: %l%n" \
-	"Access: %Sa%n" \
-	"Modify: %Sm%n" \
-	"Change: %Sc"
+	"Access: %Sa.%09La%n" \
+	"Modify: %Sm.%09Lm%n" \
+	"Change: %Sc.%09Lc"
 
 #define TIME_FORMAT	"%b %e %T %Y"
 
@@ -302,7 +303,7 @@ main(int argc, char *argv[])
 	case 'x':
 		statfmt = LINUX_FORMAT;
 		if (timefmt == NULL)
-			timefmt = "%c";
+			timefmt = "%F %T";
 		break;
 	default:
 		usage(synopsis);
@@ -736,6 +737,11 @@ format1(const struct stat *st,
 		sdata = path;
 		formats = FMTF_DECIMAL | FMTF_OCTAL | FMTF_UNSIGNED | FMTF_HEX |
 		    FMTF_FLOAT | FMTF_STRING;
+		if (hilo == LOW_PIECE) {
+			data = nsecs;
+			small = (sizeof(nsecs) == 4);
+			hilo = 0;
+		}
 		if (ofmt == 0)
 			ofmt = FMTF_DECIMAL;
 		break;
