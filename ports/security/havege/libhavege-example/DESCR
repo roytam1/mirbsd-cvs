@@ -3,4 +3,4 @@ then write 16 bytes to the kernel buffer, the remaining bytes
 (for inspection e.g.) to standard output.
 
 The following invocation works approximately like cprng(8):
-$ mksh -T- -c 'libhavege-example >&- &'
+$ mksh -T- -c 'libhavege-example &'
