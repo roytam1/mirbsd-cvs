@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.bin/stat/stat.c,v 1.2 2005/03/13 18:33:36 tg Exp $ */
+/**	$MirOS: src/usr.bin/stat/stat.c,v 1.4 2008/07/10 13:23:13 tg Exp $ */
 /*	$NetBSD: stat.c,v 1.20 2004/12/31 03:24:31 atatat Exp $ */
 
 /*
@@ -37,21 +37,21 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#if HAVE_NBTOOL_CONFIG_H
+#if defined(HAVE_NBTOOL_CONFIG_H) && HAVE_NBTOOL_CONFIG_H
 #include "nbtool_config.h"
 #endif
 
 #include <sys/cdefs.h>
 #if !defined(lint)
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/stat/stat.c,v 1.4 2008/07/10 13:23:13 tg Exp $");
 __RCSID("$NetBSD: stat.c,v 1.20 2004/12/31 03:24:31 atatat Exp $");
 #endif
 
-#if ! HAVE_NBTOOL_CONFIG_H
+#if !defined(HAVE_NBTOOL_CONFIG_H) || (!HAVE_NBTOOL_CONFIG_H)
 #define HAVE_STRUCT_STAT_ST_FLAGS 1
 #define HAVE_STRUCT_STAT_ST_GEN 1
 #if defined(__OpenBSD__) && !defined(_POSIX_SOURCE) && !defined(st_birthtime)
-#undef HAVE_STRUCT_STAT_ST_BIRTHTIME
+#define HAVE_STRUCT_STAT_ST_BIRTHTIME 0
 #else
 #define HAVE_STRUCT_STAT_ST_BIRTHTIME 1
 #endif
@@ -94,7 +94,7 @@ __RCSID("$NetBSD: stat.c,v 1.20 2004/12/31 03:24:31 atatat Exp $");
 #define SHELL_B
 #endif /* HAVE_STRUCT_STAT_ST_BIRTHTIME */
 
-#if HAVE_STRUCT_STAT_ST_ATIM
+#if defined(HAVE_STRUCT_STAT_ST_ATIM) && HAVE_STRUCT_STAT_ST_ATIM
 #define st_atimespec st_atim
 #define st_ctimespec st_ctim
 #define st_mtimespec st_mtim
@@ -195,7 +195,7 @@ int	format1(const struct stat *,	/* stat info */
 	    int, int, int, int,		/* the parsed format */
 	    int, int);
 
-char *timefmt;
+const char *timefmt;
 int linkfail;
 
 #define addchar(s, c, nl) \
@@ -210,7 +210,7 @@ main(int argc, char *argv[])
 	struct stat st;
 	int ch, rc, errs, am_readlink;
 	int lsF, fmtchar, usestat, fn, nonl, quiet;
-	char *statfmt, *options, *synopsis;
+	const char *statfmt, *options, *synopsis;
 
 	am_readlink = 0;
 	lsF = 0;
@@ -571,7 +571,7 @@ format1(const struct stat *st,
     int hilo, int what)
 {
 	u_int64_t data;
-	char *sdata, lfmt[24], tmp[20];
+	char *sdata, lfmt[24], tmp[20], sdatac[20];
 	char smode[12], sid[12], path[PATH_MAX + 4];
 	struct passwd *pw;
 	struct group *gr;
@@ -603,7 +603,7 @@ format1(const struct stat *st,
 		    S_ISBLK(st->st_mode) ? S_IFBLK :
 		    0U);
 		if (sdata == NULL)
-			sdata = "???";
+			strlcpy(sdata = sdatac, "???", sizeof (sdatac));
 #endif /* HAVE_DEVNAME */
 		if (hilo == HIGH_PIECE) {
 			data = major(data);
@@ -805,7 +805,7 @@ format1(const struct stat *st,
 		}
 		else {
 			linkfail = 1;
-			sdata = "";
+			*(sdata = sdatac) = '\0';
 		}
 		formats = FMTF_STRING;
 		if (ofmt == 0)
@@ -846,25 +846,27 @@ format1(const struct stat *st,
 			hilo = 0;
 		}
 		else if (hilo == HIGH_PIECE) {
+			const char *sdatap;
 			switch (st->st_mode & S_IFMT) {
-			case S_IFIFO:	sdata = "Fifo File";		break;
-			case S_IFCHR:	sdata = "Character Device";	break;
-			case S_IFDIR:	sdata = "Directory";		break;
-			case S_IFBLK:	sdata = "Block Device";		break;
-			case S_IFREG:	sdata = "Regular File";		break;
-			case S_IFLNK:	sdata = "Symbolic Link";	break;
+			case S_IFIFO:	sdatap = "Fifo File";		break;
+			case S_IFCHR:	sdatap = "Character Device";	break;
+			case S_IFDIR:	sdatap = "Directory";		break;
+			case S_IFBLK:	sdatap = "Block Device";	break;
+			case S_IFREG:	sdatap = "Regular File";	break;
+			case S_IFLNK:	sdatap = "Symbolic Link";	break;
 #ifdef S_IFSOCK
-			case S_IFSOCK:	sdata = "Socket";		break;
+			case S_IFSOCK:	sdatap = "Socket";		break;
 #endif
 #ifdef S_IFWHT
-			case S_IFWHT:	sdata = "Whiteout File";	break;
+			case S_IFWHT:	sdatap = "Whiteout File";	break;
 #endif /* S_IFWHT */
 #ifdef S_IFDOOR
-			case S_IFDOOR:	sdata = "Door";			break;
+			case S_IFDOOR:	sdatap = "Door";		break;
 #endif /* S_IFDOOR */
-			default:	sdata = "???";			break;
+			default:	sdatap = "???";			break;
 			}
 			hilo = 0;
+			strlcpy(sdata = sdatac, sdatap, sizeof (sdatac));
 		}
 		formats = FMTF_STRING;
 		if (ofmt == 0)
