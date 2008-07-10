@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/p5/BSD/arc4random/lib/BSD/arc4random.pm,v 1.16 2008/07/10 17:19:56 tg Exp $
+# $MirOS: contrib/hosted/p5/BSD/arc4random/lib/BSD/arc4random.pm,v 1.17 2008/07/10 17:27:44 tg Exp $
 #-
 # Copyright (c) 2008
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -30,7 +30,7 @@ BEGIN {
 	require Exporter;
 	require DynaLoader;
 	use vars qw($VERSION @ISA @EXPORT @EXPORT_OK %EXPORT_TAGS);
-	$VERSION = 0.34;
+	$VERSION = 1.00;
 	@ISA = qw(Exporter DynaLoader);
 	@EXPORT = qw();
 	@EXPORT_OK = qw(
@@ -143,7 +143,9 @@ BSD::arc4random - Perl interface to the arc4 random number generator
 
 This set of functions maps the L<arc4random(3)> family of libc functions
 into Perl code.
-All functions are ithreads-safe.
+All functions listed below are ithreads-safe.
+The internal XS functions are not, but you are not supposed
+to call them, either.
 
 =head2 LOW-LEVEL FUNCTIONS
 
@@ -192,7 +194,7 @@ L<http://www.mirbsd.org/man/arc4random.3>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (c) 2008 Thorsten Glaser
+Copyright (c) 2008 Thorsten "mirabilos" Glaser
 
 This module is covered by the MirOS Licence:
 L<http://mirbsd.de/MirOS-Licence>

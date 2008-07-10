@@ -1,4 +1,4 @@
-BSD::arc4random version 0.14
+BSD::arc4random version 1.00
 ============================
 
 The README is used to introduce the module and provide instructions on
@@ -14,6 +14,11 @@ decide whether fixes for the module are worth downloading.
 
 INSTALLATION
 
+Perl 5.004_63 required.
+
+Makefile.PL tries to auto-detect existence of arc4random_pushb by
+looking at the operating system used; see below if this fails:
+
 If your system does not have arc4random_pushb(3), edit the DEFINE
 line in Makefile.PL to define HAVE_ARC4RANDOM_PUSHB to 0 and make
 sure at least arc4random_addrandom(3) exists. *HOWEVER* note that
@@ -27,7 +32,7 @@ entropy, sending it to a sensible place, e.g. a gathering daemon.
 
 *) http://www.mirbsd.org/man3/arc4random
 
-If your system’s arc4random(3) function suite is not in libc, edit
+If your system's arc4random(3) function suite is not in libc, edit
 the LIBS line in Makefile.PL to include the appropriate library,
 e.g. -lbsd on Debian or -lcrypt on Interix, and possibly the INC
 line to use the appropriate header, e.g. something like this for
@@ -46,12 +51,15 @@ To install this module type the following:
 
 DEPENDENCIES
 
-This module requires arc4random(3) in libc. There are configuration
-options in Makefile.PL, to change for example, if a different library
-like libcrypt on Interix is required.
+This module requires arc4random(3) and arc4random_addrandom(3) in
+libc. There are configuration options in Makefile.PL, to change
+for example, if a different library like libcrypt on Interix is
+required to pull in these functions.
 
 COPYRIGHT AND LICENCE
 
-Copyright (c) 2008 by Thorsten Glaser
+Copyright (c) 2008 by Thorsten "mirabilos" Glaser, MirOS Project
+Uploaded to CPAN by: Sebastian "Vutral" Schwarz (PAUSE ID: SJSZ)
+The arc4random(9) PRNG has been invented by the OpenBSD Project.
 
-This module is covered by the MirOS Licence.
+This module is covered by the MirOS Licence: http://mirbsd.de/MirOS-Licence
