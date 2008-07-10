@@ -37,7 +37,7 @@
 #define __RCSID(x)			__IDSTRING(rcsid,x)
 #endif
 
-__RCSID("$MirOS: contrib/hosted/p5/BSD/arc4random/arc4rnd_xs.c,v 1.3 2008/07/08 01:41:44 tg Exp $");
+__RCSID("$MirOS: contrib/hosted/p5/BSD/arc4random/arc4rnd_xs.c,v 1.4 2008/07/08 18:21:45 tg Exp $");
 
 #ifndef HAVE_ARC4RANDOM_PUSHB
 #define HAVE_ARC4RANDOM_PUSHB	1
@@ -49,9 +49,6 @@ XS(XS_BSD__arc4random_arc4random_xs)
 	dXSARGS;
 	dXSTARG;
 	uint32_t rv;
-
-	if (items != 0)
-		Perl_croak(aTHX_ "Usage: BSD::arc4random::arc4random_xs()");
 
 	rv = arc4random();
 
@@ -70,9 +67,6 @@ XS(XS_BSD__arc4random_arc4random_pushb_xs)
 	const char *buf;
 	STRLEN len;
 	uint32_t rv;
-
-	if (items != 1)
-		Perl_croak(aTHX_ "Usage: BSD::arc4random::arc4random_pushb_xs(buf)");
 
 	sv = ST(0);
 	buf = SvPV(sv, len);
@@ -103,9 +97,6 @@ XS(XS_BSD__arc4random_arc4random_pushk_xs)
 	const char *buf;
 	STRLEN len;
 	uint32_t rv;
-
-	if (items != 1)
-		Perl_croak(aTHX_ "Usage: BSD::arc4random::arc4random_pushk_xs(buf)");
 
 	sv = ST(0);
 	buf = SvPV(sv, len);
