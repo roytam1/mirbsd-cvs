@@ -37,7 +37,7 @@
 #define __RCSID(x)			__IDSTRING(rcsid,x)
 #endif
 
-__RCSID("$MirOS: contrib/hosted/p5/BSD/arc4random/arc4rnd_xs.c,v 1.10 2008/07/10 17:19:56 tg Exp $");
+__RCSID("$MirOS: contrib/hosted/p5/BSD/arc4random/arc4rnd_xs.c,v 1.11 2008/07/10 17:27:43 tg Exp $");
 
 XS(XS_BSD__arc4random_arc4random_xs);
 XS(XS_BSD__arc4random_arc4random_xs)
@@ -156,7 +156,11 @@ __IDSTRING(api_text, "BSD::arc4random " XS_VERSION " with {"
 #if defined(arc4random_pushk)
     " arc4random_pushk"
 #endif
-    " have_kintf(" #HAVE_ARC4RANDOM_KINTF ")"
+#if HAVE_ARC4RANDOM_KINTF
+    " have_kintf:=1"
+#else
+    " have_kintf:=0"
+#endif
     " }");
 
 static char file[] = __FILE__;
