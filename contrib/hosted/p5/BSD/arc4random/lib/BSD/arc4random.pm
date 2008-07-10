@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/p5/BSD/arc4random/lib/BSD/arc4random.pm,v 1.10 2008/07/08 23:48:20 tg Exp $
+# $MirOS: contrib/hosted/p5/BSD/arc4random/lib/BSD/arc4random.pm,v 1.11 2008/07/10 16:21:29 tg Exp $
 #-
 # Copyright (c) 2008
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -30,11 +30,12 @@ BEGIN {
 	require Exporter;
 	require DynaLoader;
 	our ($VERSION, @ISA, @EXPORT, @EXPORT_OK, %EXPORT_TAGS);
-	$VERSION = 0.14;
+	$VERSION = 0.20;
 	@ISA = qw(Exporter DynaLoader);
 	@EXPORT = qw();
 	@EXPORT_OK = qw(
 		&arc4random
+		&arc4random_addrandom
 		&arc4random_bytes
 		&arc4random_pushb
 		&arc4random_pushk
@@ -54,6 +55,15 @@ arc4random()
 {
 	lock($arcfour_lock);
 	return &arc4random_xs();
+}
+
+sub
+arc4random_addrandom($)
+{
+	my $buf = shift;
+
+	lock($arcfour_lock);
+	return &arc4random_addrandom_xs($buf);
 }
 
 sub
@@ -135,6 +145,11 @@ All functions are ithreads-safe.
 =item B<arc4random>()
 
 This function returns an unsigned 32-bit integer random value.
+
+=item B<arc4random_addrandom>(I<pbuf>)
+
+This function adds the entropy from I<pbuf> into the libc pool, then
+returns an unsigned 32-bit integer random value from it.
 
 =item B<arc4random_pushb>(I<pbuf>)
 
