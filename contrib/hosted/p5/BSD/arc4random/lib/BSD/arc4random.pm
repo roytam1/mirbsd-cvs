@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/p5/BSD/arc4random/lib/BSD/arc4random.pm,v 1.13 2008/07/10 16:54:07 tg Exp $
+# $MirOS: contrib/hosted/p5/BSD/arc4random/lib/BSD/arc4random.pm,v 1.14 2008/07/10 17:06:42 tg Exp $
 #-
 # Copyright (c) 2008
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -29,8 +29,8 @@ use threads::shared;
 BEGIN {
 	require Exporter;
 	require DynaLoader;
-	our ($VERSION, @ISA, @EXPORT, @EXPORT_OK, %EXPORT_TAGS);
-	$VERSION = 0.31;
+	use vars qw($VERSION @ISA @EXPORT @EXPORT_OK %EXPORT_TAGS);
+	$VERSION = 0.32;
 	@ISA = qw(Exporter DynaLoader);
 	@EXPORT = qw();
 	@EXPORT_OK = qw(
@@ -44,7 +44,6 @@ BEGIN {
 		all => [ @EXPORT_OK ],
 	);
 }
-our @EXPORT_OK;
 
 sub have_kintf() {}
 
