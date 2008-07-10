@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/p5/BSD/arc4random/lib/BSD/arc4random.pm,v 1.14 2008/07/10 17:06:42 tg Exp $
+# $MirOS: contrib/hosted/p5/BSD/arc4random/lib/BSD/arc4random.pm,v 1.15 2008/07/10 17:09:33 tg Exp $
 #-
 # Copyright (c) 2008
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -30,7 +30,7 @@ BEGIN {
 	require Exporter;
 	require DynaLoader;
 	use vars qw($VERSION @ISA @EXPORT @EXPORT_OK %EXPORT_TAGS);
-	$VERSION = 0.32;
+	$VERSION = 0.33;
 	@ISA = qw(Exporter DynaLoader);
 	@EXPORT = qw();
 	@EXPORT_OK = qw(
@@ -45,7 +45,7 @@ BEGIN {
 	);
 }
 
-sub have_kintf() {}
+sub have_kintf() {}	# public constant function, prototyped
 
 my $arcfour_lock : shared;
 
@@ -129,10 +129,14 @@ BSD::arc4random - Perl interface to the arc4 random number generator
 
 =head1 SYNOPSIS
 
-  use BSD::arc4random;
+  use BSD::arc4random qw(:all);
   $v = arc4random();
-  $v = arc4random_pushb("entropy to pass to the system");
-  $v = arc4random_pushk("entropy to pass to the kernel");
+  if (!BSD::arc4random::have_kintf()) {
+    $v = arc4random_addrandom("entropy to pass to the system");
+  } else {
+    $v = arc4random_pushb("entropy to pass to the system");
+    $v = arc4random_pushk("entropy to pass to the kernel");
+  }
   $s = arc4random_bytes(16);
 
 =head1 DESCRIPTION
@@ -162,6 +166,12 @@ returns an unsigned 32-bit integer random value from it.
 
 This function first pushes the I<pbuf> argument to the kernel if possible,
 then returns an unsigned 32-bit integer random value from the kernel.
+
+=item B<have_kintf>()
+
+This constant function returns 1 if B<arc4random_pushb> and/or
+B<arc4random_pushk> actually call the kernel interfaces, 0 if
+they merely map to B<arc4random_addrandom> instead.
 
 =head2 HIGH-LEVEL FUNCTIONS
 
