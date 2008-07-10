@@ -1,2 +1,0 @@
-user "0001112223339988776655440001"
-connect 'chat -vf /etc/ppp/peers/isp.chat'

@@ -1,7 +1,0 @@
-# $MirOS$
-
-SRCDIRS	distrib/ramtools distrib/special
-SRCDIRS	bin sbin usr.bin usr.sbin libexec
-SRCDIRS	sys/arch/sparc/stand
-
-LIBS	-lutil -locurses -lm -lz

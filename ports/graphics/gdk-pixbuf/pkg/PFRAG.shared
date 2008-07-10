@@ -1,4 +1,0 @@
-@comment $MirOS$
-@comment $OpenBSD: PFRAG.shared,v 1.5 2002/02/25 18:39:41 brad Exp $
-@lib lib/libgdk_pixbuf.so.2.0
-@lib lib/libgdk_pixbuf_xlib.so.2.0

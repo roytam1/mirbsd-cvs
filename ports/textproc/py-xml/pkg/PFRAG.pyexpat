@@ -1,2 +1,0 @@
-@comment $OpenBSD: PFRAG.pyexpat,v 1.2 2003/07/31 19:12:00 sturm Exp $
-lib/python${MODPY_VERSION}/site-packages/_xmlplus/parsers/pyexpat.so
