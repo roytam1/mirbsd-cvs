@@ -37,7 +37,7 @@
 #define __RCSID(x)			__IDSTRING(rcsid,x)
 #endif
 
-__RCSID("$MirOS: contrib/hosted/p5/BSD/arc4random/arc4rnd_xs.c,v 1.9 2008/07/10 17:06:42 tg Exp $");
+__RCSID("$MirOS: contrib/hosted/p5/BSD/arc4random/arc4rnd_xs.c,v 1.10 2008/07/10 17:19:56 tg Exp $");
 
 XS(XS_BSD__arc4random_arc4random_xs);
 XS(XS_BSD__arc4random_arc4random_xs)
@@ -91,13 +91,13 @@ XS(XS_BSD__arc4random_arc4random_pushb_xs)
 	PERL_UNUSED_DECL dITEMS;
 	dXSTARG;
 	SV *sv;
-	const char *buf;
+	char *buf;
 	STRLEN len;
 	uint32_t rv;
 
 	sv = ST(0);
 	buf = SvPV(sv, len);
-	rv = arc4random_pushb((const void *)buf, (size_t)len);
+	rv = arc4random_pushb((void *)buf, (size_t)len);
 	XSprePUSH;
 	PUSHu((UV)rv);
 
@@ -120,13 +120,13 @@ XS(XS_BSD__arc4random_arc4random_pushk_xs)
 	PERL_UNUSED_DECL dITEMS;
 	dXSTARG;
 	SV *sv;
-	const char *buf;
+	char *buf;
 	STRLEN len;
 	uint32_t rv;
 
 	sv = ST(0);
 	buf = SvPV(sv, len);
-	rv = arc4random_pushk((const void *)buf, (size_t)len);
+	rv = arc4random_pushk((void *)buf, (size_t)len);
 	XSprePUSH;
 	PUSHu((UV)rv);
 
@@ -146,6 +146,18 @@ XS(XS_BSD__arc4random_arc4random_pushk_xs)
 #else
 #define HAVE_ARC4RANDOM_KINTF	0
 #endif
+
+__IDSTRING(api_text, "BSD::arc4random " XS_VERSION " with {"
+    " arc4random"
+    " arc4random_addrandom"
+#if HAVE_ARC4RANDOM_PUSHB
+    " arc4random_pushb"
+#endif
+#if defined(arc4random_pushk)
+    " arc4random_pushk"
+#endif
+    " have_kintf(" #HAVE_ARC4RANDOM_KINTF ")"
+    " }");
 
 static char file[] = __FILE__;
 static char func_a4r[] = "BSD::arc4random::arc4random_xs";
