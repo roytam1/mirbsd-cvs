@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/usr.bin/stat/stat.c,v 1.2 2005/03/13 18:33:36 tg Exp $ */
 /*	$NetBSD: stat.c,v 1.20 2004/12/31 03:24:31 atatat Exp $ */
 
 /*
@@ -731,7 +731,6 @@ format1(const struct stat *st,
 #endif /* HAVE_STRUCT_STAT_ST_BIRTHTIME */
 		small = (sizeof(secs) == 4);
 		data = secs;
-		small = 1;
 		tm = localtime(&secs);
 		(void)strftime(path, sizeof(path), timefmt, tm);
 		sdata = path;
