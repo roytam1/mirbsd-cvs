@@ -37,7 +37,7 @@
 #define __RCSID(x)			__IDSTRING(rcsid,x)
 #endif
 
-__RCSID("$MirOS: contrib/hosted/p5/BSD/arc4random/arc4rnd_xs.c,v 1.6 2008/07/10 16:29:39 tg Exp $");
+__RCSID("$MirOS: contrib/hosted/p5/BSD/arc4random/arc4rnd_xs.c,v 1.7 2008/07/10 16:35:22 tg Exp $");
 
 XS(XS_BSD__arc4random_arc4random_xs);
 XS(XS_BSD__arc4random_arc4random_xs)
@@ -151,6 +151,7 @@ XS(boot_BSD__arc4random);
 XS(boot_BSD__arc4random)
 {
 	dXSARGS;
+	HV *stash;
 
 	XS_VERSION_BOOTCHECK;
 
@@ -158,6 +159,9 @@ XS(boot_BSD__arc4random)
 	newXS(func_a4add, XS_BSD__arc4random_arc4random_addrandom_xs, file);
 	newXS(func_a4rpb, XS_BSD__arc4random_arc4random_pushb_xs, file);
 	newXS(func_a4rpk, XS_BSD__arc4random_arc4random_pushk_xs, file);
+
+	stash = gv_stashpv("BSD::arc4random", TRUE);
+	newCONSTSUB(stash, "have_kintf", newSViv(HAVE_ARC4RANDOM_KINTF));
 
 	XSRETURN_YES;
 }

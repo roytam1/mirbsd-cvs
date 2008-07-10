@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/p5/BSD/arc4random/lib/BSD/arc4random.pm,v 1.11 2008/07/10 16:21:29 tg Exp $
+# $MirOS: contrib/hosted/p5/BSD/arc4random/lib/BSD/arc4random.pm,v 1.12 2008/07/10 16:29:39 tg Exp $
 #-
 # Copyright (c) 2008
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -20,7 +20,7 @@
 
 package BSD::arc4random;
 
-use 5.000;
+use 5.004_63;
 use strict;
 use warnings;
 use integer;
@@ -30,7 +30,7 @@ BEGIN {
 	require Exporter;
 	require DynaLoader;
 	our ($VERSION, @ISA, @EXPORT, @EXPORT_OK, %EXPORT_TAGS);
-	$VERSION = 0.20;
+	$VERSION = 0.30;
 	@ISA = qw(Exporter DynaLoader);
 	@EXPORT = qw();
 	@EXPORT_OK = qw(
@@ -45,6 +45,8 @@ BEGIN {
 	);
 }
 our @EXPORT_OK;
+
+sub have_kintf() {}
 
 my $arcfour_lock : shared;
 
