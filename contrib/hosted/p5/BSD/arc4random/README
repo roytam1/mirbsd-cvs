@@ -42,7 +42,7 @@ NOTE: This version of BSD::arc4random comes with an experimental
 implementation tested on Debian instead, since libbsd is not yet
 ready to use. This is a kludge and will go away. It is only used
 automatically on Debian GNU/HURD, GNU/kFreeBSD, GNU/Linux, and
-Cygwin.
+Cygwin and Solaris.
 
 To install this module type the following:
 
