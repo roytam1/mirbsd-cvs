@@ -1,5 +1,5 @@
 #!/usr/bin/env mksh
-# $MirOS: src/share/misc/licence.template,v 1.24 2008/04/22 11:43:31 tg Rel $
+# $MirOS: ports/infrastructure/scripts/cvdistinfo,v 1.1 2008/06/08 17:54:06 tg Exp $
 #-
 # Copyright (c) 2008
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -22,7 +22,7 @@
 # Shell script to convert a distinfo file
 # - from OpenBSD ports to MirPorts
 # - from NetBSD pkgsrc to MirPorts: no action needed
-# - from MirPorts to OpenBSD ports: not implemented
+# - from MirPorts to OpenBSD ports
 # - from MirPorts to NetBSD pkgsrc: not implemented
 
 set -A algos MD4 MD5 RMD160 SHA1 SHA256 SHA384 SHA512 TIGER WHIRLPOOL
@@ -30,13 +30,13 @@ set -A algsz 32  32  40     40   64     96     128    48    128
 set -A b64sz 24  24  28     28   44     64     88     32    88
 
 function usage {
-	print -u2 "syntax: $0 -o file [...]"
+	print -u2 "syntax: $0 -[Oo] file [...]"
 	exit 1
 }
 
 integer mode=0
 
-while getopts "o" ch; do
+while getopts "Oo" ch; do
 	case $ch {
 	(O)	mode=2 ;;	# to openbsd
 	(o)	mode=1 ;;	# from openbsd
@@ -73,9 +73,24 @@ for file in "$@"; do
 		done
 		(( alg < ${#algos[*]} )) || continue
 		hash=${fields[${#fields[*]}-1]}
-		(( ${#hash} == ${b64sz[alg]} )) || continue
-		content[i - 1]=${line/$hash/$(b64decode -r <<<"$hash" | \
-		    hexdump -ve '1/1 "%02x"')}
+		case $mode {
+		(1)
+			(( ${#hash} == ${b64sz[alg]} )) || continue
+			content[i-1]=${line/$hash/$(b64decode -r <<<"$hash" | \
+			    hexdump -ve '1/1 "%02x"')}
+			;;
+		(2)
+			(( ${#hash} == ${algsz[alg]} )) || continue
+			oldhash=$hash
+			newhash=
+			while [[ -n $oldhash ]]; do
+				newhash="${newhash}\\x${oldhash::2}"
+				oldhash=${oldhash:2}
+			done
+			content[i-1]=${line/$hash/$(print -n "$newhash" | \
+			    b64encode -r)}
+			;;
+		}
 	done
 
 	for line in "${content[@]}"; do
