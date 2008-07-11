@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/p5/BSD/arc4random/Makefile.PL,v 1.2 2008/07/08 01:46:35 tg Exp $
+# $MirOS: contrib/hosted/p5/BSD/arc4random/Makefile.PL,v 1.3 2008/07/08 23:48:19 tg Exp $
 
 use 5.000;
 use ExtUtils::MakeMaker;
@@ -20,9 +20,11 @@ if ($cfg eq 'auto') {
 	}
 	if (($^O eq 'gnu') ||
 	    ($^O eq 'gnukfreebsd') ||
+	    ($^O eq 'cygwin') ||
 	    ($^O eq 'linux')) {
 		# Debian GNU/HURD, GNU/kFreeBSD, GNU/Linux
 		# use libbsd once in testing?
+		# Cygwin: use arc4random.c contributed file
 		#$incs = '-include /usr/include/bsd/bsd.h';
 		#$libs = '-lbsd';
 		# as of now, libbsd is not enough, need arc4random.c

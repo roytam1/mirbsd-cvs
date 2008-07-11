@@ -1,4 +1,4 @@
-BSD::arc4random version 1.00
+BSD::arc4random version 1.01
 ============================
 
 The README is used to introduce the module and provide instructions on
@@ -41,7 +41,8 @@ Debian libbsd: '-include /usr/include/bsd/bsd.h'
 NOTE: This version of BSD::arc4random comes with an experimental
 implementation tested on Debian instead, since libbsd is not yet
 ready to use. This is a kludge and will go away. It is only used
-automatically on Debian GNU/HURD, GNU/kFreeBSD, and GNU/Linux.
+automatically on Debian GNU/HURD, GNU/kFreeBSD, GNU/Linux, and
+Cygwin.
 
 To install this module type the following:
 
