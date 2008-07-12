@@ -21,6 +21,12 @@
 #include <sys/types.h>
 #include <stdlib.h>
 
+#if defined(HAVE_STDINT_H) && HAVE_STDINT_H
+#include <stdint.h>
+#elif defined(USE_INTTYPES)
+#include <inttypes.h>
+#endif
+
 #include "EXTERN.h"
 #include "perl.h"
 #include "XSUB.h"
@@ -37,7 +43,16 @@
 #define __RCSID(x)			__IDSTRING(rcsid,x)
 #endif
 
-__RCSID("$MirOS: contrib/hosted/p5/BSD/arc4random/arc4rnd_xs.c,v 1.12 2008/07/10 17:30:20 tg Exp $");
+__RCSID("$MirOS: contrib/hosted/p5/BSD/arc4random/arc4rnd_xs.c,v 1.13 2008/07/12 19:06:42 tg Exp $");
+
+#ifdef REDEF_USCORETYPES
+#define u_int32_t	uint32_t
+#endif
+
+#ifdef NEED_ARC4RANDOM_DECL
+u_int32_t arc4random(void);
+void arc4random_addrandom(u_char *, int);
+#endif
 
 XS(XS_BSD__arc4random_arc4random_xs);
 XS(XS_BSD__arc4random_arc4random_xs)

@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/Snippets/arc4random.c,v 1.3 2008/03/04 22:53:14 tg Exp $ */
+/* $MirOS: contrib/hosted/p5/BSD/arc4random/arc4random.c,v 1.1 2008/07/08 23:48:19 tg Exp $ */
 /* $miros: contrib/code/Snippets/arc4random.c,v 1.3 2008/03/04 22:53:14 tg Exp $ */
 
 /*-
@@ -39,10 +39,16 @@
 #include <fcntl.h>
 #if HAVE_STDINT_H
 #include <stdint.h>
+#elif defined(USE_INTTYPES)
+#include <inttypes.h>
 #endif
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+
+#ifdef REDEF_USCORETYPES
+#define u_int32_t	uint32_t
+#endif
 
 struct arc4_stream {
 	uint8_t i;
