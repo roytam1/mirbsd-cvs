@@ -64,3 +64,6 @@ Uploaded to CPAN by: Sebastian "Vutral" Schwarz (PAUSE ID: SJSZ)
 The arc4random(9) PRNG has been invented by the OpenBSD Project.
 
 This module is covered by the MirOS Licence: http://mirbsd.de/MirOS-Licence
+
+___________________________________________________________________________________
+$MirOS$
