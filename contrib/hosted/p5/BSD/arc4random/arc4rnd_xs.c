@@ -37,14 +37,12 @@
 #define __RCSID(x)			__IDSTRING(rcsid,x)
 #endif
 
-__RCSID("$MirOS: contrib/hosted/p5/BSD/arc4random/arc4rnd_xs.c,v 1.11 2008/07/10 17:27:43 tg Exp $");
+__RCSID("$MirOS: contrib/hosted/p5/BSD/arc4random/arc4rnd_xs.c,v 1.12 2008/07/10 17:30:20 tg Exp $");
 
 XS(XS_BSD__arc4random_arc4random_xs);
 XS(XS_BSD__arc4random_arc4random_xs)
 {
-	dSP;
-	dAXMARK;
-	PERL_UNUSED_DECL dITEMS;
+	dXSARGS;
 	dXSTARG;
 	uint32_t rv;
 
@@ -59,9 +57,7 @@ XS(XS_BSD__arc4random_arc4random_xs)
 XS(XS_BSD__arc4random_arc4random_addrandom_xs);
 XS(XS_BSD__arc4random_arc4random_addrandom_xs)
 {
-	dSP;
-	dAXMARK;
-	PERL_UNUSED_DECL dITEMS;
+	dXSARGS;
 	dXSTARG;
 	SV *sv;
 	char *buf;
@@ -86,9 +82,7 @@ XS(XS_BSD__arc4random_arc4random_addrandom_xs)
 XS(XS_BSD__arc4random_arc4random_pushb_xs);
 XS(XS_BSD__arc4random_arc4random_pushb_xs)
 {
-	dSP;
-	dAXMARK;
-	PERL_UNUSED_DECL dITEMS;
+	dXSARGS;
 	dXSTARG;
 	SV *sv;
 	char *buf;
@@ -115,9 +109,7 @@ XS(XS_BSD__arc4random_arc4random_pushb_xs)
 XS(XS_BSD__arc4random_arc4random_pushk_xs);
 XS(XS_BSD__arc4random_arc4random_pushk_xs)
 {
-	dSP;
-	dAXMARK;
-	PERL_UNUSED_DECL dITEMS;
+	dXSARGS;
 	dXSTARG;
 	SV *sv;
 	char *buf;
