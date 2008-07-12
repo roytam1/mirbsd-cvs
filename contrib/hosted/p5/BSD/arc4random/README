@@ -1,16 +1,10 @@
-BSD::arc4random version 1.02
+BSD::arc4random version 1.03
 ============================
 
-The README is used to introduce the module and provide instructions on
-how to install the module, any machine dependencies it may have (for
-example C compilers and installed libraries) and any other information
-that should be provided before the module is installed.
-
-A README file is required for CPAN modules since CPAN extracts the
-README file from a module distribution so that people browsing the
-archive can use it get an idea of the modules uses. It is usually a
-good idea to provide version information here so that people can
-decide whether fixes for the module are worth downloading.
+This module provides a Perl API for the BSDs' arc4random(3) suite
+of functions. The Perl functions are ithreads-safe. Furthermore,
+Perl's internal PRNG is re-seeded with entropy obtained from the
+arc4random generator on module loading, once.
 
 INSTALLATION
 
@@ -66,4 +60,4 @@ The arc4random(9) PRNG has been invented by the OpenBSD Project.
 This module is covered by the MirOS Licence: http://mirbsd.de/MirOS-Licence
 
 ___________________________________________________________________________________
-$MirOS$
+$MirOS: contrib/hosted/p5/BSD/arc4random/README,v 1.10 2008/07/12 23:19:35 tg Exp $

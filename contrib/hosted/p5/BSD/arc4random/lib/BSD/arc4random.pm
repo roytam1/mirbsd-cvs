@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/p5/BSD/arc4random/lib/BSD/arc4random.pm,v 1.19 2008/07/11 15:17:23 tg Exp $
+# $MirOS: contrib/hosted/p5/BSD/arc4random/lib/BSD/arc4random.pm,v 1.20 2008/07/12 19:21:56 tg Exp $
 #-
 # Copyright (c) 2008
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -30,7 +30,7 @@ BEGIN {
 	require Exporter;
 	require DynaLoader;
 	use vars qw($VERSION @ISA @EXPORT @EXPORT_OK %EXPORT_TAGS);
-	$VERSION = 1.02;
+	$VERSION = 1.03;
 	@ISA = qw(Exporter DynaLoader);
 	@EXPORT = qw();
 	@EXPORT_OK = qw(
@@ -120,6 +120,9 @@ arc4random_bytes($;$)
 	return $rv;
 }
 
+# we are nice and re-seed perl's internal PRNG as well
+srand(arc4random_pushb(pack("F*", rand(), rand(), rand(), rand())));
+
 1;
 __END__
 
@@ -146,6 +149,10 @@ into Perl code.
 All functions listed below are ithreads-safe.
 The internal XS functions are not, but you are not supposed
 to call them, either.
+
+On module load, perl's internal PRNG is re-seeded, as a bonus, using
+B<srand> with an argument calculated from using B<arc4random_pushb>
+on some entropy returned from B<rand>'s previous state.
 
 =head2 LOW-LEVEL FUNCTIONS
 
@@ -191,6 +198,8 @@ Thorsten Glaser E<lt>tg@mirbsd.deE<gt>
 
 The L<arc4random(3)> manual page, available online at:
 L<http://www.mirbsd.org/man/arc4random.3>
+
+Perl's L<rand> and L<srand> functions via L<perlfunc> and L<perlfaq4>.
 
 =head1 COPYRIGHT AND LICENSE
 
