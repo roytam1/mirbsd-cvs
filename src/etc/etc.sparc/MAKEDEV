@@ -1,5 +1,6 @@
 #!/bin/mksh
-# $MirOS: src/etc/MAKEDEV.mi,v 1.9 2008/03/27 13:48:26 tg Exp $
+#=beginstrip=
+# $MirOS: src/etc/MAKEDEV.mi,v 1.10 2008/07/13 17:55:50 tg Exp $
 #
 # THIS FILE AUTOMATICALLY GENERATED.  DO NOT EDIT.
 # generated from:
@@ -7,9 +8,9 @@
 #	OpenBSD: etc.sparc/MAKEDEV.md,v 1.28 2005/07/17 12:23:14 miod Exp 
 #	MirOS: src/etc/etc.sparc/MAKEDEV.md,v 1.7 2006/06/17 16:28:22 tg Exp 
 #	OpenBSD: MAKEDEV.common,v 1.19 2005/06/29 18:23:26 todd Exp 
-#	MirOS: src/etc/MAKEDEV.common,v 1.8 2007/02/02 16:45:10 tg Exp 
+#	MirOS: src/etc/MAKEDEV.common,v 1.9 2008/06/27 21:02:22 tg Exp 
 #	OpenBSD: MAKEDEV.mi,v 1.73 2005/02/07 06:14:18 david Exp 
-#	MirOS: src/etc/MAKEDEV.mi,v 1.9 2008/03/27 13:48:26 tg Exp 
+#	MirOS: src/etc/MAKEDEV.mi,v 1.10 2008/07/13 17:55:50 tg Exp 
 #	OpenBSD: MAKEDEV.sub,v 1.14 2005/02/07 06:14:18 david Exp 
 #	MirOS: src/etc/MAKEDEV.sub,v 1.4 2005/07/24 12:49:10 tg Exp 
 #
@@ -81,6 +82,7 @@
 #	systrace*	System call tracing device
 #	tun*	Network tunnel driver
 #	uk*	Unknown SCSI devices
+#=endstrip=
 PATH=/usr/dsbin:/sbin:/usr/sbin:/usr/dbin:/bin:/usr/bin
 T=$0
 
@@ -350,9 +352,9 @@ pty*)
 		continue
 	fi
 	set -A letters p q r s t u v w x y z P Q R S T
-	set -A suffixes 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q \
-	    r s t u v w x y z A B C D E F G H I J K L M N O P Q R S T U V W X \
-	    Y Z
+	set -A suffixes 0 1 2 3 4 5 6 7 8 9 \
+	    a b c d e f g h i j k l m n o p q r s t u v w x y z \
+	    A B C D E F G H I J K L M N O P Q R S T U V W X Y Z
 
 	name=${letters[$U]}
 	n=0
