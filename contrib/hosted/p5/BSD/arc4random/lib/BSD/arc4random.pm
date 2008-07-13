@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/p5/BSD/arc4random/lib/BSD/arc4random.pm,v 1.22 2008/07/13 01:46:50 tg Exp $
+# $MirOS: contrib/hosted/p5/BSD/arc4random/lib/BSD/arc4random.pm,v 1.23 2008/07/13 02:21:02 tg Exp $
 #-
 # Copyright (c) 2008
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -29,7 +29,7 @@ BEGIN {
 	require Exporter;
 	require DynaLoader;
 	use vars qw($VERSION @ISA @EXPORT @EXPORT_OK %EXPORT_TAGS);
-	$VERSION = 1.20;
+	$VERSION = 1.21;
 	@ISA = qw(Exporter DynaLoader);
 	@EXPORT = qw();
 	@EXPORT_OK = qw(
@@ -127,6 +127,16 @@ arc4random_bytes($;$)
 
 # Perl implementation of arc4random_uniform(3)
 # C implementation contributed by djm@openbsd.org, Jinmei_Tatuya@isc.org
+#
+# Calculate a uniformly distributed random number less than upper_bound
+# avoiding "modulo bias".
+#
+# Uniformity is achieved by generating new random numbers until the one
+# returned is outside the range [0, 2**32 % upper_bound).  This
+# guarantees the selected random number will be inside
+# [2**32 % upper_bound, 2**32) which maps back to [0, upper_bound)
+# after reduction modulo upper_bound.
+
 sub
 arc4random_uniform($)
 {
@@ -138,6 +148,7 @@ arc4random_uniform($)
 	$upper_bound &= ~0;	# convert to UV (unsigned integer value)
 	return 0 if $upper_bound < 2 || $upper_bound > 0xFFFFFFFF;
 
+	# Calculate (2**32 % upper_bound) avoiding 64-bit math
 	if ($upper_bound > 0x80000000) {
 		$min = 1 + ~$upper_bound;	# 2**32 - upper_bound
 	} else {
@@ -145,6 +156,10 @@ arc4random_uniform($)
 		$min = ((0xFFFFFFFF - $upper_bound) + 1) % $upper_bound;
 	}
 
+	# This could theoretically loop forever but each retry has
+	# p > 0.5 (worst case, usually far better) of selecting a
+	# number inside the range we need, so it should rarely need
+	# to re-roll.
 	while (1) {
 		$r = arc4random();
 		last if $r >= $min;
