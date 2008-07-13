@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/p5/BSD/arc4random/lib/BSD/arc4random.pm,v 1.21 2008/07/12 23:59:21 tg Exp $
+# $MirOS: contrib/hosted/p5/BSD/arc4random/lib/BSD/arc4random.pm,v 1.22 2008/07/13 01:46:50 tg Exp $
 #-
 # Copyright (c) 2008
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -29,7 +29,7 @@ BEGIN {
 	require Exporter;
 	require DynaLoader;
 	use vars qw($VERSION @ISA @EXPORT @EXPORT_OK %EXPORT_TAGS);
-	$VERSION = 1.10;
+	$VERSION = 1.20;
 	@ISA = qw(Exporter DynaLoader);
 	@EXPORT = qw();
 	@EXPORT_OK = qw(
@@ -39,6 +39,7 @@ BEGIN {
 		&arc4random_bytes
 		&arc4random_pushb
 		&arc4random_pushk
+		&arc4random_uniform
 	);
 	%EXPORT_TAGS = (
 		all => [ @EXPORT_OK ],
@@ -124,6 +125,34 @@ arc4random_bytes($;$)
 	return $rv;
 }
 
+# Perl implementation of arc4random_uniform(3)
+# C implementation contributed by djm@openbsd.org, Jinmei_Tatuya@isc.org
+sub
+arc4random_uniform($)
+{
+	my $upper_bound = shift;
+	my $r;
+	my $min;
+
+	return 0 unless defined($upper_bound);
+	$upper_bound &= ~0;	# convert to UV (unsigned integer value)
+	return 0 if $upper_bound < 2 || $upper_bound > 0xFFFFFFFF;
+
+	if ($upper_bound > 0x80000000) {
+		$min = 1 + ~$upper_bound;	# 2**32 - upper_bound
+	} else {
+		# (2**32 - x) % x == 2**32 % x when x <= 2**31
+		$min = ((0xFFFFFFFF - $upper_bound) + 1) % $upper_bound;
+	}
+
+	while (1) {
+		$r = arc4random();
+		last if $r >= $min;
+	}
+
+	return ($r % $upper_bound);
+}
+
 # private implementation for a tied $RANDOM variable
 sub
 TIESCALAR
@@ -143,9 +172,7 @@ FETCH
 {
 	my $self = shift;
 
-	my $x = ($$self == 0 ? arc4random() : (arc4random() % ($$self + 1)));
-
-	return $x;
+	return ($$self == 0 ? arc4random() : arc4random_uniform($$self + 1));
 }
 
 sub
@@ -174,6 +201,7 @@ BSD::arc4random - Perl interface to the arc4 random number generator
 
   use BSD::arc4random qw(:all);
   $v = arc4random();
+  $v = arc4random_uniform($hz);
   if (!BSD::arc4random::have_kintf()) {
     $v = arc4random_addrandom("entropy to pass to the system");
   } else {
@@ -231,6 +259,11 @@ This function returns a string containing as many random bytes as
 requested by the integral argument I<num>.
 An optional I<pbuf> argument is passed to the system first.
 
+=item B<arc4random_uniform>(I<upper_bound>)
+
+Calculate a uniformly distributed random number less than upper_bound
+avoiding "modulo bias".
+
 =head2 PACKAGE VARIABLES
 
 =item B<$RANDOM>
@@ -263,5 +296,8 @@ Copyright (c) 2008 Thorsten "mirabilos" Glaser
 
 This module is covered by the MirOS Licence:
 L<http://mirbsd.de/MirOS-Licence>
+
+The original C implementation of arc4random_uniform was contributed by
+Damien Miller from OpenBSD, with simplifications by Jinmei Tatuya.
 
 =cut
