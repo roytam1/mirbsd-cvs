@@ -1,3 +1,0 @@
-@comment $MirOS$
-@lib lib/libcups.so.2.2
-@lib lib/libcupsimage.so.2.2

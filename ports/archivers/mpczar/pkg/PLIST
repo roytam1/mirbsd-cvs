@@ -1,4 +1,0 @@
-@comment $MirOS$
-bin/mpczar
-libexec/mpczar.z
-man/cat1/mpczar.0

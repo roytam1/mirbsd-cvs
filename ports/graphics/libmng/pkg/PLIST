@@ -1,9 +1,0 @@
-@comment $MirOS: ports/graphics/libmng/pkg/PLIST,v 1.2 2005/04/28 20:43:54 tg Exp $
-@comment $OpenBSD: PLIST,v 1.1.1.1 2001/02/19 18:51:05 brad Exp $
-include/libmng.h
-include/libmng_conf.h
-include/libmng_types.h
-lib/libmng.la
-man/man3/libmng.3
-man/man5/jng.5
-man/man5/mng.5

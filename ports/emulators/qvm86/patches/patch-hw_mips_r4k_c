@@ -1,9 +1,0 @@
-$MirOS: ports/emulators/qemu/patches/patch-hw_mips_r4k_c,v 1.1 2005/11/15 12:25:09 tg Exp $
---- hw/mips_r4k.c.orig	Tue Nov 15 12:09:49 2005
-+++ hw/mips_r4k.c	Tue Nov 15 12:09:53 2005
-@@ -256,4 +256,5 @@ QEMUMachine mips_machine = {
-     "mips",
-     "mips r4k platform",
-     mips_r4k_init,
-+    NULL
- };

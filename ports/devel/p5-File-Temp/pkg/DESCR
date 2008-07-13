@@ -1,4 +1,0 @@
-This module can be used to generate temporary files (providing a
-filename and filehandle) or directories.  Possible race conditions are
-avoided and some security checks are performed (for example making sure
-the sticky bit is set on world writeable temp directories).
