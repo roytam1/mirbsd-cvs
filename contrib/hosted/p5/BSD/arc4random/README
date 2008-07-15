@@ -1,4 +1,4 @@
-BSD::arc4random version 1.21
+BSD::arc4random version 1.22
 ============================
 
 This module provides a Perl API for the BSDs' arc4random(3) suite
@@ -67,4 +67,4 @@ kernel code, contributed by Damien Miller.
 This module is covered by the MirOS Licence: http://mirbsd.de/MirOS-Licence
 
 ___________________________________________________________________________________
-$MirOS: contrib/hosted/p5/BSD/arc4random/README,v 1.14 2008/07/13 02:23:58 tg Exp $
+$MirOS: contrib/hosted/p5/BSD/arc4random/README,v 1.15 2008/07/13 16:10:34 tg Exp $
