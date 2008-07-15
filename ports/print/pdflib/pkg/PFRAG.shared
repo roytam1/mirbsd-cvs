@@ -1,3 +1,0 @@
-@comment $MirOS$
-@comment $OpenBSD: PFRAG.shared,v 1.2 2002/07/03 16:36:48 jakob Exp $
-@lib lib/libpdf.so.2.3

@@ -1,9 +1,0 @@
-$MirOS$
---- config.h.in.orig	Mon Oct 23 13:06:09 2006
-+++ config.h.in	Wed Mar 12 22:59:35 2008
-@@ -661,3 +661,5 @@
- #undef PTYRANGE0
- #undef PTYRANGE1
- 
-+#undef HAVE_UTIL_H
-+#undef HAVE_LIBUTIL_H

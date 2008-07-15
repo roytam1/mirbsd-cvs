@@ -1,5 +1,0 @@
-@comment $OpenBSD: PLIST,v 1.2 2003/02/16 15:13:14 markus Exp $
-bin/mk
-man/man1/mk.1
-share/doc/mk/mk.pdf
-@dirrm share/doc/mk

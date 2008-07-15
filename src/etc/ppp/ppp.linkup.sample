@@ -1,5 +1,0 @@
-# $Id$
-
-MYADDR:
- add! default HISADDR
- !bg /bin/ksh /etc/ppp/ip-up tun0 vtty sync MYADDR HISADDR

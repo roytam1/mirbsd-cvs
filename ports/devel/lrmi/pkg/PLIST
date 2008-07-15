@@ -1,4 +1,0 @@
-@comment $MirOS$
-bin/lrmi-vbetest
-lib/liblrmi.a
-%%SHARED%%

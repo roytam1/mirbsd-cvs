@@ -1,9 +1,0 @@
-Filesystem Alteration Monitor module for PHP.
-
-FAM monitors files and directories, notifying interested 
-applications of changes.
-A PHP script may specify a list of files for FAM to monitor 
-using the functions provided by this extension.
-The FAM process is started when the first connection from 
-any application to it is opened. It exits after all 
-connections to it have been closed. 
