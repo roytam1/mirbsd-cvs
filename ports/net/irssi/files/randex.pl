@@ -1,4 +1,4 @@
-# $MirOS: contrib/code/Snippets/randex.pl,v 1.3 2008/07/09 00:16:30 tg Exp $
+# $MirOS: ports/net/irssi/files/randex.pl,v 1.1 2008/07/13 22:46:29 tg Exp $
 #-
 # Copyright (c) 2008
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -20,10 +20,8 @@
 #-
 # Irssi extension to support MirSirc's randex protocol
 
-require BSD::arc4random;
-
 use vars qw($VERSION %IRSSI);
-$VERSION = '200807090012';
+$VERSION = '20080715';
 %IRSSI = (
 	authors		=> 'Thorsten Glaser',
 	contact		=> 'tg@mirbsd.de',
@@ -32,9 +30,13 @@ $VERSION = '200807090012';
 	license		=> 'MirOS',
 	url		=> 'http://cvs.mirbsd.de/ports/net/sirc/dist/dsircp',
 	changed		=> $VERSION,
-	modules		=> '',
+	modules		=> 'BSD::arc4random',
 	commands	=> "randex"
 );
+
+use BSD::arc4random qw(:all);
+
+our $irssi_ctcp_version_reply = '';
 
 sub
 cmd_randex
@@ -61,18 +63,20 @@ cmd_randex
 		return;
 	}
 
-	$s = pack("u", BSD::arc4random::arc4random_bytes(32, "for $towho"));
+	$s = pack("u", arc4random_bytes(32, "for $towho"));
 	chop($s);
 	$recip->send_raw("PRIVMSG ${towho} :\caENTROPY ${s}\ca");
+	Irssi::print("Initiating the RANDEX protocol with ${towho}");
 }
 
 sub
 process_entropy_request
 {
 	my ($server, $args, $nick, $address, $target) = @_;
-	my $evalue = pack("u", BSD::arc4random::arc4random_bytes(32,
-	    "from $nick $args"));
+	my $evalue = pack("u", arc4random_bytes(32,
+	    "from $nick $args $address $target"));
 	chop($evalue);
+	Irssi::print("${nick} initiated the RANDEX protocol with ${target}");
 	$server->ctcp_send_reply("NOTICE ${nick} :\caRANDOM ${evalue}\ca");
 }
 
@@ -80,11 +84,43 @@ sub
 process_random_response
 {
 	my ($server, $args, $nick, $address, $target) = @_;
+	my $t = (BSD::arc4random::have_kintf() ? "" : "not ") .
+	    "pushing to kernel";
 
-	BSD::arc4random::arc4random_pushk("by $nick $args");
+	arc4random_pushb("by $nick $args $address $target");
+	Irssi::print("RANDEX protocol reply from $nick to $target, $t");
+}
+
+sub
+process_ctcp_before
+{
+	my $v = Irssi::settings_get_str("ctcp_version_reply");
+
+	if (!$v) {
+		$v = 'irssi v$J - running on $sysname $sysarch';
+	}
+	$irssi_ctcp_version_reply = $v;
+	$v .= " (RANDOM=" . $RANDOM . ")";
+	Irssi::settings_set_str("ctcp_version_reply", $v);
+}
+
+sub
+process_ctcp_after
+{
+	if ($irssi_ctcp_version_reply) {
+		Irssi::settings_set_str("ctcp_version_reply",
+		    $irssi_ctcp_version_reply);
+	}
 }
 
 Irssi::command_bind('randex', 'cmd_randex');
 Irssi::signal_add('ctcp msg entropy', \&process_entropy_request);
 Irssi::signal_add('ctcp reply random', \&process_random_response);
 Irssi::ctcp_register("ENTROPY");
+Irssi::signal_add_first('ctcp msg version', \&process_ctcp_before);
+Irssi::signal_add_last('ctcp msg version', \&process_ctcp_after);
+Irssi::print("randex.pl ${VERSION} loaded, entropy is " .
+    (BSD::arc4random::have_kintf() ? "" : "not ") .
+    "pushed to the kernel");
+
+1;
