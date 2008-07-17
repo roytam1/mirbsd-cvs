@@ -1,4 +1,4 @@
-/* $MirOS: ports/lang/pcc/files/os/midnightbsd/ccconfig.h,v 1.1.201.1 2008/05/02 18:29:52 tg Exp $ */
+/* $MirOS: ports/lang/pcc/files/os/midnightbsd/ccconfig.h,v 1.2 2008/05/02 19:29:53 tg Exp $ */
 /* $Id$ */
 /*-
  * Copyright (c) 2007, 2008
@@ -24,9 +24,14 @@
  * Configuration for pcc on a MidnightBSD (amd64, i386 or sparc64) target
  */
 
-/* mi part */
+/* === mi part === */
 
-#define CPPADD		{			\
+#ifndef LIBDIR
+#define LIBDIR			"/usr/lib/"
+#endif
+
+/* cpp MI defines */
+#define CPPADD			{		\
 	"-D__MidnightBSD__",			\
 	"-D__FreeBSD__",			\
 	"-D__unix__",				\
@@ -36,37 +41,75 @@
 	"-D_LONGLONG",				\
 	NULL					\
 }
-#define DYNLINKER	{			\
+
+/* for dynamically linked binaries */
+#define DYNLINKER		{		\
 	"-dynamic-linker",			\
 	"/libexec/ld-elf.so.1",			\
 	NULL					\
 }
-#define STARTFILES	{			\
-	"/usr/lib/crti.o",			\
-	"/usr/lib/crtbegin.o",			\
+#define STARTFILES		{		\
+	LIBDIR "crti.o",			\
+	LIBDIR "crtbegin.o",			\
 	NULL					\
 }
-#define ENDFILES	{			\
-	"/usr/lib/crtend.o",			\
-	"/usr/lib/crtn.o",			\
+#define ENDFILES		{		\
+	LIBDIR "crtend.o",			\
+	LIBDIR "crtn.o",			\
 	NULL					\
 }
-#define CRT0FILE		"/usr/lib/crt1.o"
-#define CRT0FILE_PROFILE	"/usr/lib/gcrt1.o"
+
+/* for shared libraries */
+#define STARTFILES_S		{		\
+	LIBDIR "crti.o",			\
+	LIBDIR "crtbeginS.o",			\
+	NULL					\
+}
+#define ENDFILES_S		{		\
+	LIBDIR "crtendS.o",			\
+	LIBDIR "crtn.o",			\
+	NULL					\
+}
+
+/* for statically linked binaries */
+#define STARTFILES_T		{		\
+	LIBDIR "crti.o",			\
+	LIBDIR "crtbeginT.o",			\
+	NULL					\
+}
+
+/* normally -lpcc instead of -lgcc, but that is not in MirPorts yet */
+#define LIBCLIBS		{		\
+	"-lc",					\
+	"-lgcc",				\
+	NULL					\
+}
+#define LIBCLIBS_PROFILE	{		\
+	"-lc_p",				\
+	"-lgcc",				\
+	NULL					\
+}
+
+
+/* C run-time startup */
+#define CRT0FILE		LIBDIR "crt1.o"
+#define CRT0FILE_PROFILE	LIBDIR "gcrt1.o"
 #define STARTLABEL		"_start"
+
+/* debugging info */
 #define STABS
 
-/* md part */
+/* === md part === */
 
 #if defined(mach_i386)
-#define CPPMDADD	{			\
+#define CPPMDADD		{		\
 	"-D__i386__",				\
 	"-D__i386",				\
 	"-Di386",				\
 	NULL,					\
 }
 #elif defined(mach_sparc64)
-#define CPPMDADD	{			\
+#define CPPMDADD		{		\
 	"-D__sparc64__",			\
 	"-D__sparc_v9__",			\
 	"-D__sparcv9",				\

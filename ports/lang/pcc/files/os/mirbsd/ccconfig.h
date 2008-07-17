@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: ports/lang/pcc/files/os/mirbsd/ccconfig.h,v 1.1.201.1 2008/05/02 18:29:52 tg Exp $ */
 /* $Id$ */
 /*-
  * Copyright (c) 2007, 2008
@@ -30,9 +30,14 @@
  * On MirBSD, wchar_t is a 16-bit unsigned short UCS-2 value.
  */
 
-/* mi part */
+/* === mi part === */
 
-#define CPPADD		{			\
+#ifndef LIBDIR
+#define LIBDIR			"/usr/lib/"
+#endif
+
+/* cpp MI defines */
+#define CPPADD			{		\
 	"-D__MirBSD__",				\
 	"-D__OpenBSD__",			\
 	"-D__unix__",				\
@@ -41,28 +46,60 @@
 	"-D__ELF__",				\
 	NULL					\
 }
-#define DYNLINKER	{			\
+
+/* for dynamically linked binaries */
+#define DYNLINKER		{		\
 	"-dynamic-linker",			\
 	"/usr/libexec/ld.so",			\
 	NULL					\
 }
-#define STARTFILES	{			\
-	"/usr/lib/crti.o",			\
-	"/usr/lib/crtbegin.o",			\
+#define STARTFILES		{		\
+	LIBDIR "crti.o",			\
+	LIBDIR "crtbegin.o",			\
 	NULL					\
 }
-#define ENDFILES	{			\
-	"/usr/lib/crtend.o",			\
-	"/usr/lib/crtn.o",			\
+#define ENDFILES		{		\
+	LIBDIR "crtend.o",			\
+	LIBDIR "crtn.o",			\
 	NULL					\
 }
-#define CRT0FILE		"/usr/lib/crt0.o"
+
+/* for shared libraries */
+#define STARTFILES_S		{		\
+	LIBDIR "crti.o",			\
+	LIBDIR "crtbeginS.o",			\
+	NULL					\
+}
+#define ENDFILES_S		{		\
+	LIBDIR "crtendS.o",			\
+	LIBDIR "crtn.o",			\
+	NULL					\
+}
+
+/* for statically linked binaries */
+#define STARTFILES_T		{		\
+	LIBDIR "crti.o",			\
+	LIBDIR "crtbeginT.o",			\
+	NULL					\
+}
+
+/* libc contains helper functions, so -lpcc is not needed */
+#define LIBCLIBS		{		\
+	"-lc",					\
+	NULL					\
+}
+
+/* C run-time startup */
+#define CRT0FILE		LIBDIR "crt0.o"
+#define STARTLABEL		"__start"
+
+/* debugging info */
 #define STABS
 
-/* md part */
+/* === md part === */
 
 #if defined(mach_i386)
-#define CPPMDADD	{			\
+#define CPPMDADD		{		\
 	"-D__i386__",				\
 	"-D__i386",				\
 	"-Di386",				\
