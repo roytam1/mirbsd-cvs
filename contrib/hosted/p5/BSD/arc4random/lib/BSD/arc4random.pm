@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/p5/BSD/arc4random/lib/BSD/arc4random.pm,v 1.24 2008/07/13 16:10:34 tg Exp $
+# $MirOS: contrib/hosted/p5/BSD/arc4random/lib/BSD/arc4random.pm,v 1.25 2008/07/15 21:37:36 tg Exp $
 #-
 # Copyright (c) 2008
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -29,7 +29,7 @@ BEGIN {
 	require Exporter;
 	require DynaLoader;
 	use vars qw($VERSION @ISA @EXPORT @EXPORT_OK %EXPORT_TAGS);
-	$VERSION = 1.22;
+	$VERSION = 1.30;
 	@ISA = qw(Exporter DynaLoader);
 	@EXPORT = qw();
 	@EXPORT_OK = qw(
@@ -39,6 +39,7 @@ BEGIN {
 		&arc4random_bytes
 		&arc4random_pushb
 		&arc4random_pushk
+		&arc4random_stir
 		&arc4random_uniform
 	);
 	%EXPORT_TAGS = (
@@ -88,6 +89,14 @@ arc4random_pushk($)
 
 	lock($arcfour_lock);
 	return &arc4random_pushk_xs($buf);
+}
+
+sub
+arc4random_stir()
+{
+	lock($arcfour_lock);
+	&arc4random_stir_xs();
+	return;
 }
 
 sub
@@ -223,6 +232,8 @@ BSD::arc4random - Perl interface to the arc4 random number generator
     $v = arc4random_pushb("entropy to pass to the system");
     $v = arc4random_pushk("entropy to pass to the kernel");
   }
+  $s = arc4random_bytes(16, "entropy to pass to libc");
+  arc4random_stir();
   $s = arc4random_bytes(16);
   print $RANDOM;
 
@@ -246,7 +257,7 @@ This function returns an unsigned 32-bit integer random value.
 
 =item B<arc4random_addrandom>(I<pbuf>)
 
-This function adds the entropy from I<pbuf> into the libc pool, then
+This function adds the entropy from I<pbuf> into the libc pool and
 returns an unsigned 32-bit integer random value from it.
 
 =item B<arc4random_pushb>(I<pbuf>)
@@ -259,6 +270,13 @@ returns an unsigned 32-bit integer random value from it.
 
 This function first pushes the I<pbuf> argument to the kernel if possible,
 then returns an unsigned 32-bit integer random value from the kernel.
+
+=item B<arc4random_stir>()
+
+This procedure attempts to retrieve new entropy from the kernel and add
+it to the libc pool.
+Usually, this means you must have access to the L<urandom(4)> device;
+create it inside L<chroot(2)> jails first if you use them.
 
 =item B<have_kintf>()
 

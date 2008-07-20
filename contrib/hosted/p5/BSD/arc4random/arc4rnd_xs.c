@@ -43,7 +43,7 @@
 #define __RCSID(x)			__IDSTRING(rcsid,x)
 #endif
 
-__RCSID("$MirOS: contrib/hosted/p5/BSD/arc4random/arc4rnd_xs.c,v 1.13 2008/07/12 19:06:42 tg Exp $");
+__RCSID("$MirOS: contrib/hosted/p5/BSD/arc4random/arc4rnd_xs.c,v 1.14 2008/07/12 19:21:56 tg Exp $");
 
 #ifdef REDEF_USCORETYPES
 #define u_int32_t	uint32_t
@@ -67,6 +67,16 @@ XS(XS_BSD__arc4random_arc4random_xs)
 	PUSHu((UV)rv);
 
 	XSRETURN(1);
+}
+
+XS(XS_BSD__arc4random_stir_xs);
+XS(XS_BSD__arc4random_stir_xs)
+{
+	dXSARGS;
+
+	arc4random_stir();
+
+	XSRETURN_EMPTY;
 }
 
 XS(XS_BSD__arc4random_arc4random_addrandom_xs);
@@ -175,6 +185,7 @@ static char func_a4r[] = "BSD::arc4random::arc4random_xs";
 static char func_a4add[] = "BSD::arc4random::arc4random_addrandom_xs";
 static char func_a4rpb[] = "BSD::arc4random::arc4random_pushb_xs";
 static char func_a4rpk[] = "BSD::arc4random::arc4random_pushk_xs";
+static char func_astir[] = "BSD::arc4random::arc4random_stir_xs";
 static char func_kintf[] = "BSD::arc4random::have_kintf";
 
 #ifdef __cplusplus
@@ -191,6 +202,7 @@ XS(boot_BSD__arc4random)
 	newXS(func_a4add, XS_BSD__arc4random_arc4random_addrandom_xs, file);
 	newXS(func_a4rpb, XS_BSD__arc4random_arc4random_pushb_xs, file);
 	newXS(func_a4rpk, XS_BSD__arc4random_arc4random_pushk_xs, file);
+	newXS(func_astir, XS_BSD__arc4random_stir_xs, file);
 
 	newCONSTSUB(NULL, func_kintf, newSViv(HAVE_ARC4RANDOM_KINTF));
 

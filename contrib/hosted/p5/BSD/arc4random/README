@@ -1,4 +1,4 @@
-BSD::arc4random version 1.22
+BSD::arc4random version 1.30
 ============================
 
 This module provides a Perl API for the BSDs' arc4random(3) suite
@@ -52,10 +52,11 @@ To install this module type the following:
 
 DEPENDENCIES
 
-This module requires arc4random(3) and arc4random_addrandom(3) in
-libc. There are configuration options in Makefile.PL, to change
-for example, if a different library like libcrypt on Interix is
-required to pull in these functions.
+This module requires arc4random(3), arc4random_addrandom(3) and
+arc4random_stir(3) in libc. There are configuration options in
+Makefile.PL, to change for example, if a different library like
+libcrypt on Interix or libbsd on Debian is required to pull in
+these functions.
 
 COPYRIGHT AND LICENCE
 
@@ -68,4 +69,4 @@ kernel code, contributed by Damien Miller.
 This module is covered by the MirOS Licence: http://mirbsd.de/MirOS-Licence
 
 ___________________________________________________________________________________
-$MirOS: contrib/hosted/p5/BSD/arc4random/README,v 1.16 2008/07/15 21:37:36 tg Exp $
+$MirOS: contrib/hosted/p5/BSD/arc4random/README,v 1.17 2008/07/20 15:08:37 tg Exp $
