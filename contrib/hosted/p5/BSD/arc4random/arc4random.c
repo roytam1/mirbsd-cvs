@@ -1,4 +1,4 @@
-/* $MirOS: contrib/hosted/p5/BSD/arc4random/arc4random.c,v 1.1 2008/07/08 23:48:19 tg Exp $ */
+/* $MirOS: contrib/hosted/p5/BSD/arc4random/arc4random.c,v 1.2 2008/07/12 19:21:56 tg Exp $ */
 /* $miros: contrib/code/Snippets/arc4random.c,v 1.3 2008/03/04 22:53:14 tg Exp $ */
 
 /*-
@@ -59,6 +59,7 @@ struct arc4_stream {
 static int rs_initialized;
 static struct arc4_stream rs;
 static pid_t arc4_stir_pid;
+static int arc4_count;
 
 static uint8_t arc4_getbyte(struct arc4_stream *);
 
@@ -100,7 +101,8 @@ arc4_stir(struct arc4_stream *as)
 	int     n, fd;
 	struct {
 		struct timeval tv;
-		u_int rnd[(128 - sizeof(struct timeval)) / sizeof(u_int)];
+		pid_t pid;
+		u_int rnd[(128 - (sizeof (struct timeval) + sizeof (pid_t))) / sizeof(u_int)];
 	} rdat;
 	size_t sz = 0;
 
@@ -141,7 +143,7 @@ arc4_stir(struct arc4_stream *as)
 #endif
 	}
 
-	arc4_stir_pid = getpid();
+	rdat.pid = arc4_stir_pid = getpid();
 	/*
 	 * Time to give up. If no entropy could be found then we will just
 	 * use gettimeofday.
@@ -155,6 +157,22 @@ arc4_stir(struct arc4_stream *as)
 	 */
 	for (n = 0; n < 256 * 4; n ++)
 		arc4_getbyte(as);
+
+	/* discard by a randomly fuzzed factor as well */
+	n = (arc4_getbyte(as) & 0x0F) + 1;
+	while (n--)
+		arc4_getbyte(as);
+
+	/* take a chance to write back to the kernel (works e.g. on Cygwin) */
+	if ((fd = open("/dev/urandom", O_WRONLY)) != -1) {
+		for (n = 0; n < 16; ++n)
+			rdat.rnd[n] = arc4_getbyte(as);
+		write(fd, rdat.rnd, 16);
+		close(fd);
+		arc4_getbyte(as); /* discard one */
+	}
+
+	arc4_count = 400000;
 }
 
 static uint8_t
@@ -203,7 +221,7 @@ arc4random_addrandom(u_char *dat, int datlen)
 u_int32_t
 arc4random(void)
 {
-	if (!rs_initialized || arc4_stir_pid != getpid())
+	if (--arc4_count == 0 || !rs_initialized || arc4_stir_pid != getpid())
 		arc4random_stir();
 	return arc4_getword(&rs);
 }
