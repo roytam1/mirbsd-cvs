@@ -47,6 +47,7 @@ To install this module type the following:
 
    perl Makefile.PL
    make
+   make test
    make install
 
 DEPENDENCIES
@@ -67,4 +68,4 @@ kernel code, contributed by Damien Miller.
 This module is covered by the MirOS Licence: http://mirbsd.de/MirOS-Licence
 
 ___________________________________________________________________________________
-$MirOS: contrib/hosted/p5/BSD/arc4random/README,v 1.15 2008/07/13 16:10:34 tg Exp $
+$MirOS: contrib/hosted/p5/BSD/arc4random/README,v 1.16 2008/07/15 21:37:36 tg Exp $

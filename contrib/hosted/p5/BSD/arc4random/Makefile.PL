@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/p5/BSD/arc4random/Makefile.PL,v 1.6 2008/07/12 19:21:56 tg Exp $
+# $MirOS: contrib/hosted/p5/BSD/arc4random/Makefile.PL,v 1.7 2008/07/15 21:37:35 tg Exp $
 
 use 5.000;
 use ExtUtils::MakeMaker;
@@ -12,6 +12,7 @@ my $incs = '';
 my $objs = '';
 # do not override below for auto mode
 if ($cfg eq 'auto') {
+	# note order is important
 	if ($^O ne 'mirbsd') {
 		$defs = '-DHAVE_ARC4RANDOM_PUSHB=0';
 	}
@@ -25,7 +26,7 @@ if ($cfg eq 'auto') {
 		# use libbsd once in testing?
 		#$incs = '-include /usr/include/bsd/bsd.h';
 		#$libs = '-lbsd';
-		# as of now, libbsd is not enough, need arc4random.c
+		# as of now, libbsd is not popular enough, need arc4random.c
 		# XXX the presence of arc4random.c here is a KLUDGE going away!
 		$objs = 'arc4random.o';
 		$defs .= ' -DHAVE_SYS_SYSCTL_H=0 -DHAVE_STDINT_H=1';

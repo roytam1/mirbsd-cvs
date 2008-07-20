@@ -1,4 +1,5 @@
 lib/BSD/arc4random.pm
+t/check.t
 MANIFEST
 Makefile.PL
 README
