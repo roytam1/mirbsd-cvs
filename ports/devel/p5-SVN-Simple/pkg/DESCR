@@ -1,5 +1,0 @@
-SVN::Simple is a simple interface to Subversion's editor interface.  
-Subversion is a version control system, you can find more information
-at http://subversion.tigris.org/.
-
-The editor interface is for describing deltas between trees.

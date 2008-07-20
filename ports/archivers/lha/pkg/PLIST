@@ -1,3 +1,0 @@
-@comment $OpenBSD: PLIST,v 1.4 2002/02/04 22:16:17 naddy Exp $
-bin/lha
-man/ja_JP.EUC/man1/lha.1
