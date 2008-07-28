@@ -29,8 +29,6 @@ include/xfce4/libxfcegui4/xfce_movehandler.h
 include/xfce4/libxfcegui4/xfce_systemtray.h
 include/xfce4/libxfcegui4/xfce_togglebutton.h
 include/xfce4/libxfcegui4/xinerama.h
-lib/libxfcegui4.a
 lib/libxfcegui4.la
 lib/pkgconfig/libxfcegui4-1.0.pc
-%%SHARED%%
 @dirrm include/xfce4/libxfcegui4
