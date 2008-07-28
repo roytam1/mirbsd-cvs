@@ -13,8 +13,6 @@ from the arc4random generator once on module load time.
 
 INSTALLATION
 
-Perl 5.004_63 required.
-
 Makefile.PL tries to auto-detect existence of arc4random_pushb by
 looking at the operating system used; see below if this fails:
 
@@ -69,4 +67,4 @@ kernel code, contributed by Damien Miller.
 This module is covered by the MirOS Licence: http://mirbsd.de/MirOS-Licence
 
 ___________________________________________________________________________________
-$MirOS: contrib/hosted/p5/BSD/arc4random/README,v 1.17 2008/07/20 15:08:37 tg Exp $
+$MirOS: contrib/hosted/p5/BSD/arc4random/README,v 1.18 2008/07/20 15:27:54 tg Exp $

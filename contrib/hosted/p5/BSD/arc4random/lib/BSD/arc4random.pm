@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/p5/BSD/arc4random/lib/BSD/arc4random.pm,v 1.25 2008/07/15 21:37:36 tg Exp $
+# $MirOS: contrib/hosted/p5/BSD/arc4random/lib/BSD/arc4random.pm,v 1.26 2008/07/20 15:27:54 tg Exp $
 #-
 # Copyright (c) 2008
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -20,7 +20,6 @@
 
 package BSD::arc4random;
 
-use 5.004_63;
 use strict;
 use warnings;
 use threads::shared;
