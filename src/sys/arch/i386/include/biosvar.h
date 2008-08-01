@@ -192,6 +192,13 @@ typedef struct _bios_consdev {
 	int	conspeed;
 } bios_consdev_t;
 
+#define BOOTARG_SMPINFO 6		/* struct mp_float[] */
+
+#define BOOTARG_BOOTMAC	7
+typedef struct _bios_bootmac {
+	char	mac[6];
+} bios_bootmac_t;
+
 #if defined(_KERNEL) || defined (_STANDALONE)
 
 #ifdef _LOCORE
