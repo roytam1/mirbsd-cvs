@@ -1,4 +1,4 @@
-/*	$OpenBSD: devopen.c,v 1.2 2004/03/22 15:06:59 tom Exp $	*/
+/*	$OpenBSD: devopen.c,v 1.4 2007/07/27 17:46:57 tom Exp $	*/
 
 /*
  * Copyright (c) 2004 Tom Cosgrove
@@ -38,9 +38,11 @@ extern char *fs_name[];
 extern int nfsname;
 extern struct devsw netsw[];
 
+extern char *bootmac;		/* Gets passed to kernel for network boot */
+
 /* XXX use slot for 'rd' for 'hd' pseudo-device */
 const char bdevs[][4] = {
-	"wd", "", "fd", "wt", "sd", "st", "cd", "mcd",
+	"wd", "", "fd", "", "sd", "st", "cd", "mcd",
 	"", "", "", "", "", "", "", "scd", "", "hd", ""
 };
 const int nbdevs = NENTS(bdevs);
@@ -95,6 +97,16 @@ devopen(struct open_file *f, const char *fname, char **file)
 			return rc;
 		}
 	}
+
+	/*
+	 * Assume that any network filesystems would be caught by the
+	 * code above, so that the next phase of devopen() is only for
+	 * local devices.
+	 *
+	 * Clear bootmac, to signal that we loaded this file from a
+	 * non-network device.
+	 */
+	bootmac = NULL;
 
 	for (i = 0; i < ndevs && rc != 0; dp++, i++) {
 #ifdef DEBUG

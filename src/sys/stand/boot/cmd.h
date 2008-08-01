@@ -1,4 +1,4 @@
-/*	$OpenBSD: cmd.h,v 1.14 2003/08/11 06:23:07 deraadt Exp $	*/
+/*	$OpenBSD: cmd.h,v 1.16 2007/06/13 02:17:32 drahn Exp $	*/
 
 /*
  * Copyright (c) 1997 Michael Shalayeff
@@ -27,6 +27,8 @@
  *
  */
 
+#define CMD_BUFF_SIZE		133
+#define BOOTDEVLEN		1024
 
 struct cmd_table {
 	char *cmd_name;
@@ -39,7 +41,7 @@ struct cmd_table {
 };
 
 struct cmd_state {
-	char bootdev[16]; /* device */
+	char bootdev[BOOTDEVLEN]; /* device */
 	char image[MAXPATHLEN - 16]; /* image */
 	int  boothowto; /* howto */
 	char *conf; /* /etc/boot.conf normally */
@@ -57,3 +59,5 @@ int getcmd(void);
 int read_conf(void);
 int bootparse(int);
 void boot(dev_t);
+
+int docmd(void);		/* No longer static: needed by regress test */

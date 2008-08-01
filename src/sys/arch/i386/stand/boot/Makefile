@@ -1,9 +1,9 @@
-#	$OpenBSD: Makefile,v 1.31 2003/04/17 12:06:05 mickey Exp $
+#	$OpenBSD: Makefile,v 1.34 2007/11/25 18:25:31 deraadt Exp $
 
 .include "${.CURDIR}/../Makefile.inc"
 
 MAN=	boot.8
-MLINKS=	boot.8 boot.conf.8
+MLINKS=	boot.8 boot.conf.5
 
 .if ${MACHINE} == "i386"
 PROG=	boot
@@ -28,6 +28,9 @@ LDADD=	${LIBSA} ${LIBZ}
 DPADD=	${LIBSA} ${LIBZ}
 
 .PATH:	${S}/stand/boot
+
+.PATH:	${S}/lib/libkern/arch/i386 ${S}/lib/libkern
+SRCS+=	strlcpy.c moddi3.c divdi3.c qdivrem.c
 
 boot.bin: boot
 	objcopy -v -O binary ${PROG} boot.bin

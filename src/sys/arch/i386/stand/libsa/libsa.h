@@ -1,4 +1,4 @@
-/*	$OpenBSD: libsa.h,v 1.42 2004/08/21 19:09:42 tom Exp $	*/
+/*	$OpenBSD: libsa.h,v 1.44 2007/04/27 10:08:34 tom Exp $	*/
 
 /*
  * Copyright (c) 1996-1999 Michael Shalayeff
@@ -54,8 +54,8 @@ void cdprobe(void);
 void apmprobe(void);
 void apmfixmem(void);
 void dump_biosmem(bios_memmap_t *);
-int mem_add(long, long);
-int mem_delete(long, long);
+int mem_add(long long, long long);
+int mem_delete(long long, long long);
 void mem_pass(void);
 
 void devboot(dev_t, char *);
@@ -78,3 +78,5 @@ extern bios_diskinfo_t bios_diskinfo[];
 extern u_int32_t bios_cksumlen;
 
 #define MACHINE_CMD	cmd_machine /* we have i386-specific commands */
+
+#define CHECK_SKIP_CONF	check_skip_conf	/* we can skip boot.conf with Ctrl */

@@ -1,4 +1,4 @@
-/*	$OpenBSD: pxe.c,v 1.3 2005/03/13 22:07:23 tom Exp $ */
+/*	$OpenBSD: pxe.c,v 1.5 2007/07/27 17:46:56 tom Exp $ */
 /*	$NetBSD: pxe.c,v 1.5 2003/03/11 18:29:00 drochner Exp $	*/
 
 /*
@@ -97,6 +97,9 @@
 #include <lib/libsa/net.h>
 #include <lib/libsa/bootp.h>
 
+#include <stand/boot/bootarg.h>
+#include <machine/biosvar.h>
+
 #include "pxeboot.h"
 #include "pxe.h"
 #include "pxe_netif.h"
@@ -111,6 +114,8 @@ char pxe_command_buf[256];
 BOOTPLAYER bootplayer;
 
 struct in_addr servip;			/* for tftp */	/* XXX init this */
+
+extern char *bootmac;			/* To pass to kernel */
 
 /* static struct btinfo_netif bi_netif; */
 
@@ -221,12 +226,13 @@ pxe_netif_open()
 	pxe_call(PXENV_UDP_OPEN);
 
 	if (uo->status != PXENV_STATUS_SUCCESS) {
-		printf("pxe_netif_open: PXENV_UDP_OPEN failed: 0x%x\n",
+		printf("\npxe_netif_open: PXENV_UDP_OPEN failed: 0x%x\n",
 		    uo->status);
 		return -1;
 	}
 
 	bcopy(bootplayer.CAddr, desc.myea, ETHER_ADDR_LEN);
+	bootmac = bootplayer.CAddr;
 
 	/*
 	 * Since the PXE BIOS has already done DHCP, make sure we
