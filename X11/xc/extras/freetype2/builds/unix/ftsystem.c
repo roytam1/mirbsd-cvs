@@ -30,7 +30,7 @@
 #include <fcntl.h>
 
   /* memory-mapping includes and definitions */
-#ifdef HAVE_UNISTD_H
+#if defined(HAVE_UNISTD_H) || defined(MBSD_BUILD)
 #include <unistd.h>
 #endif
 
