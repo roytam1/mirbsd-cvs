@@ -139,6 +139,7 @@ extern void *MALLOC(size_t);
 
 #include "ctype.h"
 #include "errno.h"
+#include <err.h>
 
 #ifdef Bad_float_h
 #ifdef IEEE_BIG_ENDIAN
