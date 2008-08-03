@@ -1,5 +1,6 @@
-@comment $MirOS: ports/lang/python/${VERSION}/pkg/PLIST,v 1.1 2008/07/15 19:18:55 bsiegert Exp $
-@comment bin/idle${VERSION}
+@comment $MirOS: ports/lang/python/2.5/pkg/PLIST,v 1.2 2008/07/19 17:01:25 bsiegert Exp ${VERSION}/pkg/PLIST,v 1.1 2008/07/15 19:18:55 bsiegert Exp $
+@option no-default-conflict
+@pkgcfl python-2.5*
 bin/pydoc${VERSION}
 bin/python-config
 bin/python${VERSION}
@@ -1765,7 +1766,6 @@ lib/python${VERSION}/lib-dynload/_codecs_jp.so
 lib/python${VERSION}/lib-dynload/_codecs_kr.so
 lib/python${VERSION}/lib-dynload/_codecs_tw.so
 lib/python${VERSION}/lib-dynload/_csv.so
-lib/python${VERSION}/lib-dynload/_ctypes.so
 lib/python${VERSION}/lib-dynload/_ctypes_test.so
 lib/python${VERSION}/lib-dynload/_curses.so
 lib/python${VERSION}/lib-dynload/_curses_panel.so
@@ -3606,7 +3606,7 @@ lib/python${VERSION}/xmlrpclib.pyo
 lib/python${VERSION}/zipfile.py
 lib/python${VERSION}/zipfile.pyc
 lib/python${VERSION}/zipfile.pyo
-man/man1/python2.3.1
+man/man1/python${VERSION}.1
 share/doc/python${VERSION}/CHANGES.MirPorts
 share/doc/python${VERSION}/CHANGES.OpenBSD
 %%SHARED%%
