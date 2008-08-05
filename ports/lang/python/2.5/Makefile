@@ -1,8 +1,8 @@
-# $MirOS: ports/lang/python/2.5/Makefile,v 1.3 2008/08/03 21:30:02 tg Exp $
+# $MirOS: ports/lang/python/2.5/Makefile,v 1.4 2008/08/03 22:06:55 tg Exp $
 
 VERSION=		2.5
 PATCHLEVEL=		.2
-DASH_VER=		2
+DASH_VER=		3
 
 CONFIGURE_ARGS+=	--without-cxx
 CONFIGURE_ENV+=		OPT=${CFLAGS:Q} \
