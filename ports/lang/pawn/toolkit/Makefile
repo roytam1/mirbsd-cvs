@@ -1,10 +1,4 @@
-# $MirOS$
-
-BROKEN=			porting in progress
-# lib*.so -> *.so
-# argument.p segfaults
-# readfile.p missing symbol and breaks
-# traffic.p missing symbol, dunno
+# $MirOS: ports/lang/pawn/toolkit/Makefile,v 1.1.1.1 2008/08/08 15:53:57 tg Exp $
 
 COMMENT=		embeddable C-like scripting language
 DISTNAME=		pawn-3.3.3951

@@ -1,17 +1,17 @@
-@comment $MirOS$
+@comment $MirOS: ports/lang/pawn/toolkit/PLIST,v 1.1.1.1 2008/08/08 15:53:57 tg Exp $
 bin/pawncc
 bin/pawndbg
 bin/pawndisasm
 bin/pawnrun
 lib/libpawnc.a
-libexec/pawn/libamxArgs.so
-libexec/pawn/libamxDGram.so
-libexec/pawn/libamxFile.so
-libexec/pawn/libamxFixed.so
-libexec/pawn/libamxFloat.so
-libexec/pawn/libamxProcess.so
-libexec/pawn/libamxString.so
-libexec/pawn/libamxTime.so
+libexec/pawn/amxArgs.so
+libexec/pawn/amxDGram.so
+libexec/pawn/amxFile.so
+libexec/pawn/amxFixed.so
+libexec/pawn/amxFloat.so
+libexec/pawn/amxProcess.so
+libexec/pawn/amxString.so
+libexec/pawn/amxTime.so
 share/doc/pawn/history.txt
 share/doc/pawn/license.txt
 share/doc/pawn/readme.txt
