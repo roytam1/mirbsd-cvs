@@ -1,0 +1,10 @@
+# $MirOS$
+
+{
+ global:
+	amx_FixedCleanup;
+	amx_FixedInit;
+
+ local:
+	*;
+};

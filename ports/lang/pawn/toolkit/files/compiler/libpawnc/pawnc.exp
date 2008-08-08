@@ -1,0 +1,12 @@
+# $MirOS$
+
+{
+ global:
+	pc_addconstant;
+	pc_addtag;
+	pc_compile;
+	pc_enablewarning;
+
+ local:
+	*;
+};
