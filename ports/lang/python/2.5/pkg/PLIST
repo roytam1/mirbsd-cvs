@@ -1,4 +1,4 @@
-@comment $MirOS: ports/lang/python/2.5/pkg/PLIST,v 1.7 2008/08/08 20:58:28 tg Exp $
+@comment $MirOS: ports/lang/python/2.5/pkg/PLIST,v 1.8 2008/08/12 09:38:13 tg Exp $
 @option no-default-conflict
 @pkgcfl python-2.5*
 bin/pydoc${VERSION}
@@ -1782,6 +1782,7 @@ lib/python${VERSION}/lib-dynload/_random.so
 lib/python${VERSION}/lib-dynload/_sha256.so
 lib/python${VERSION}/lib-dynload/_sha512.so
 lib/python${VERSION}/lib-dynload/_socket.so
+lib/python${VERSION}/lib-dynload/_sqlite3.so
 lib/python${VERSION}/lib-dynload/_ssl.so
 lib/python${VERSION}/lib-dynload/_struct.so
 lib/python${VERSION}/lib-dynload/_testcapi.so
