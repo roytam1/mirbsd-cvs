@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/net/if_pppoe.c,v 1.2 2005/07/04 01:33:54 tg Exp $ */
+/* $MirOS: src/sys/net/if_pppoe.c,v 1.3 2005/07/04 04:25:47 tg Exp $ */
 /* $OpenBSD: if_pppoe.c,v 1.4 2005/06/07 05:10:57 canacar Exp $ */
 /* $NetBSD: if_pppoe.c,v 1.51 2003/11/28 08:56:48 keihan Exp $ */
 
@@ -467,7 +467,7 @@ static void pppoe_dispatch_disc_pkt(struct mbuf *m, int off)
 		pt = (struct pppoetag *)(mtod(n, caddr_t) + noff);
 		tag = ntohs(pt->tag);
 		len = ntohs(pt->len);
-		if (off + len > m->m_pkthdr.len) {
+		if (off + len + sizeof(*pt) > m->m_pkthdr.len) {
 			printf("pppoe: tag 0x%x len 0x%x is too long\n",
 			    tag, len);
 			goto done;
