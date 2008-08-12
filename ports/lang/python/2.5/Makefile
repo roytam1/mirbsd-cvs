@@ -1,8 +1,8 @@
-# $MirOS: ports/lang/python/2.5/Makefile,v 1.5 2008/08/05 19:11:49 bsiegert Exp $
+# $MirOS: ports/lang/python/2.5/Makefile,v 1.6 2008/08/08 20:51:07 tg Exp $
 
 VERSION=		2.5
 PATCHLEVEL=		.2
-DASH_VER=		4
+DASH_VER=		5
 
 LIB_DEPENDS+=		ffi::devel/libffi
 
