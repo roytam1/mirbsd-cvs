@@ -1,0 +1,11 @@
+$MirOS$
+--- configure.ac.orig	Tue Aug 12 13:43:37 2008
++++ configure.ac	Tue Aug 12 14:25:39 2008
+@@ -183,6 +183,7 @@ case "$host" in
+   *-*-freebsd7*) plat_name="FreeBSD";  plat_def="__freebsd__";  os_v="7";;
+   *-*-kfreebsd5*) plat_name="kFreeBSD";  plat_def="__FreeBSD_kernel__";  os_v="5";;
+   *-*-kfreebsd6*) plat_name="kFreeBSD";  plat_def="__FreeBSD_kernel__";  os_v="6";;
++  *-*-mirbsd*)   plat_name="MirBSD";   plat_def="__mirbsd__";   os_v="10";;
+   *-*-netbsd*)   plat_name="NetBSD";   plat_def="__netbsd__";   os_v="1";;
+   *-*-openbsd*)  plat_name="OpenBSD";  plat_def="__openbsd__";  os_v="3";;
+   *-*-sco*)      plat_name="OSR5";     plat_def="__osr5__";     os_v="5";;

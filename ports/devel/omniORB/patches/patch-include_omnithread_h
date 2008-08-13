@@ -1,0 +1,23 @@
+$MirOS$
+--- include/omnithread.h.orig	Fri May 11 10:16:59 2007
++++ include/omnithread.h	Tue Aug 12 14:30:36 2008
+@@ -154,6 +154,9 @@ class omni_thread;
+ #elif defined(__irix__)
+ #include <omnithread/posix.h>
+ 
++#elif defined(__netbsd__)
++#include <omnithread/posix.h>
++
+ #elif defined(__freebsd__)
+ #include <omnithread/posix.h>
+ 
+@@ -161,6 +164,9 @@ class omni_thread;
+ #include <omnithread/posix.h>
+ 
+ #elif defined(__openbsd__)
++#include <omnithread/posix.h>
++
++#elif defined(__mirbsd__) || defined(__MidnightBSD__)
+ #include <omnithread/posix.h>
+ 
+ #elif defined(__rtems__)
