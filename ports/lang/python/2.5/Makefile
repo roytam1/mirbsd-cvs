@@ -1,8 +1,8 @@
-# $MirOS: ports/lang/python/2.5/Makefile,v 1.7 2008/08/12 09:38:13 tg Exp $
+# $MirOS: ports/lang/python/2.5/Makefile,v 1.8 2008/08/12 12:00:01 tg Exp $
 
 VERSION=		2.5
 PATCHLEVEL=		.2
-DASH_VER=		5
+DASH_VER=		6
 
 LIB_DEPENDS+=		ffi::devel/libffi
 LIB_DEPENDS+=		sqlite3::databases/sqlite
