@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/databases/py-psycopg2/Makefile,v 1.1 2008/08/20 07:22:27 tg Exp $
 
 CATEGORIES=		databases python
 COMMENT=		PostgreSQL database adapter for Python
@@ -17,8 +17,8 @@ MASTER_SITES=		http://initd.org/pub/software/psycopg/
 
 MODULES+=		lang/python
 LIB_DEPENDS+=		pq::databases/postgresql
-RUN_DEPENDS+=		:postgresql-client-*:databases/postgresql
-REGRESS_DEPENDS+=	:postgresql-client-*:databases/postgresql
+RUN_DEPENDS+=		:postgresql-*:databases/postgresql
+REGRESS_DEPENDS+=	:postgresql-*:databases/postgresql
 
 # To run the tests, create and start a test database as follows:
 #	createdb psycopg2_test
