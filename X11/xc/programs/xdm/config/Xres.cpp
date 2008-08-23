@@ -104,8 +104,8 @@ xlogin*greetColor: white
 xlogin*background: black
 xlogin*failColor: white
 xlogin*promptColor: white
-*Foreground: white
-*Background: black
+xlogin*Foreground: white
+xlogin*Background: black
 #else
 xlogin*borderWidth: 3
 xlogin*Foreground: black
