@@ -1,11 +1,11 @@
-# $MirOS$
+# $MirOS: ports/devel/ipython/Makefile,v 1.1 2008/08/12 08:40:09 tg Exp $
 # $OpenBSD: Makefile,v 1.10 2008/06/03 23:30:28 wcmaier Exp $
 
 COMMENT=		enhanced interactive Python shell
 MODPY_EGG_VERSION=	0.8.4
 DISTNAME=		ipython-${MODPY_EGG_VERSION}
 CATEGORIES=		devel
-HOMEPAGE=		http://ipython.scipy.org/
+HOMEPAGE=		http://ipython.scipy.org/moin/
 MODULES=		lang/python
 
 # BSD
