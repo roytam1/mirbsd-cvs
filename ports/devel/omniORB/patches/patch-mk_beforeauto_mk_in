@@ -1,7 +1,7 @@
-$MirOS$
+$MirOS: ports/devel/omniORB/patches/patch-mk_beforeauto_mk_in,v 1.1 2008/08/13 10:02:02 tg Exp $
 --- mk/beforeauto.mk.in.orig	Fri May 11 10:16:58 2007
-+++ mk/beforeauto.mk.in	Tue Aug 12 16:07:56 2008
-@@ -723,10 +727,10 @@ endif
++++ mk/beforeauto.mk.in	Tue Aug 26 14:33:52 2008
+@@ -723,10 +723,10 @@ endif
  #
  # Default compiler rules
  #
@@ -14,7 +14,7 @@ $MirOS$
  CXXLINK         = $(CXX)
  CXXLINKOPTIONS  = $(CXXDEBUGFLAGS) $(CXXOPTIONS)
  
-@@ -1030,7 +1034,23 @@ endif
+@@ -1030,7 +1030,23 @@ endif
  ifdef NetBSD
  IMPORT_CPPFLAGS += -D__netbsd__
  
