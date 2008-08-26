@@ -1,8 +1,9 @@
-# $MirOS$
+# $MirOS: ports/devel/omniORBpy/Makefile,v 1.1 2008/08/13 10:02:03 tg Exp $
 
 CATEGORIES=		devel
 COMMENT=		Python bindings for ombiORB
 DISTNAME=		omniORBpy-3.2
+DASH_VER=		1
 HOMEPAGE=		http://omniorb.sourceforge.net/
 
 # GNU LGPLv2.1

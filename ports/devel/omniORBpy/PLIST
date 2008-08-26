@@ -1,4 +1,4 @@
-@comment $MirOS$
+@comment $MirOS: ports/devel/omniORBpy/PLIST,v 1.1 2008/08/13 10:02:03 tg Exp $
 include/omniORB4/pydistdate.hh
 include/omniORBpy.h
 lib/python${MODPY_VERSION}/site-packages/CORBA.py
@@ -323,8 +323,8 @@ lib/python${MODPY_VERSION}/site-packages/omniORB/sslTP.py
 lib/python${MODPY_VERSION}/site-packages/omniORB/sslTP.pyc
 lib/python${MODPY_VERSION}/site-packages/omniORB/tcInternal.py
 lib/python${MODPY_VERSION}/site-packages/omniORB/tcInternal.pyc
-lib/python${MODPY_VERSION}/site-packages/omniidl_be/__init__.py
-lib/python${MODPY_VERSION}/site-packages/omniidl_be/__init__.pyc
+@comment lib/python${MODPY_VERSION}/site-packages/omniidl_be/__init__.py
+@comment lib/python${MODPY_VERSION}/site-packages/omniidl_be/__init__.pyc
 lib/python${MODPY_VERSION}/site-packages/omniidl_be/python.py
 lib/python${MODPY_VERSION}/site-packages/omniidl_be/python.pyc
 @dirrm lib/python${MODPY_VERSION}/site-packages/omniidl_be
