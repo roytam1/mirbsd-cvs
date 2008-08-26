@@ -1,8 +1,9 @@
-# $MirOS$
+# $MirOS: ports/devel/omniORB/Makefile,v 1.1 2008/08/13 10:02:01 tg Exp $
 
 CATEGORIES=		devel
 COMMENT=		ORB implementing CORBA 2.6, with Python interface
 DISTNAME=		omniORB-4.1.2
+DASH_VER=		1
 HOMEPAGE=		http://omniorb.sourceforge.net/
 
 # GNU GPLv2
