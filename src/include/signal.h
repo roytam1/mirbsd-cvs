@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: signal.h,v 1.8 2004/05/03 17:25:00 millert Exp $	*/
 /*	$NetBSD: signal.h,v 1.8 1996/02/29 00:04:57 jtc Exp $	*/
 
@@ -96,8 +97,8 @@ extern __inline int sigismember(const sigset_t *set, int signo) {
 #endif
 
 /* List definitions after function declarations, or Reiser cpp gets upset. */
-#define	sigemptyset(set)	(*(set) = 0, 0)
-#define	sigfillset(set)		(*(set) = ~(sigset_t)0, 0)
+#define sigemptyset(set)	((int)(*(set) = 0))
+#define sigfillset(set)		((int)~(*(set) = ~(sigset_t)0))
 
 #ifndef _POSIX_SOURCE
 int	killpg(pid_t, int);
