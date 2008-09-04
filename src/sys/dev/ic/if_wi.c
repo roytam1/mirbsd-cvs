@@ -212,7 +212,7 @@ wi_attach(struct wi_softc *sc, struct wi_funcs *funcs)
 	int			error;
 
 	sc->sc_funcs = funcs;
-	sc->wi_cmd_count = 1500;
+	sc->wi_cmd_count = 500;
 
 	wi_reset(sc);
 
@@ -293,6 +293,8 @@ wi_attach(struct wi_softc *sc, struct wi_funcs *funcs)
 		/* older prism firmware is slow so crank the count */
 		if (sc->sc_sta_firmware_ver < 10000)
 			sc->wi_cmd_count = 5000;
+		else
+			sc->wi_cmd_count = 2000;
 		if (sc->sc_sta_firmware_ver >= 800) {
 #ifndef SMALL_KERNEL
 			if (sc->sc_sta_firmware_ver != 10402)
