@@ -42,7 +42,6 @@
 #include <login_cap.h>
 
 void	to64(char *, int32_t, int n);
-char	*bcrypt_gensalt(u_int8_t);
 int	pwd_gensalt(char *, int, login_cap_t *, char);
 
 #define	YPCIPHER_DEF		"old"
