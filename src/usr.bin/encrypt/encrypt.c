@@ -1,6 +1,8 @@
 /*	$OpenBSD: encrypt.c,v 1.21 2004/07/13 21:09:48 millert Exp $	*/
 
 /*
+ * Copyright (c) 2008
+ *	Thorsten Glaser <tg@mirbsd.de>
  * Copyright (c) 1996, Jason Downs.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -36,6 +38,8 @@
 #include <unistd.h>
 #include <login_cap.h>
 
+__RCSID("$MirOS$");
+
 /*
  * Very simple little program, for encrypting passwords from the command
  * line.  Useful for scripts and such.
@@ -45,11 +49,13 @@
 #define DO_DES     1
 #define DO_MD5     2
 #define DO_BLF     3
+#define DO_CLASS   4
+#define DO_SAME    5
 
-extern char *__progname;
+extern const char *__progname;
 char buffer[_PASSWORD_LEN];
 
-void	usage(void);
+void	usage(void) __dead;
 char	*trim(char *);
 void	print_passwd(char *, int, void *);
 
@@ -58,7 +64,7 @@ usage(void)
 {
 
 	(void)fprintf(stderr,
-	    "usage: %s [-k] [-b rounds] [-c class] [-m] [-s salt] [-p | string]\n",
+	    "usage: %s [-k] [-b rounds] [-c class] [-m] [-[Ss] salt] [-p | string]\n",
 	    __progname);
 	exit(1);
 }
@@ -83,7 +89,7 @@ trim(char *line)
 void
 print_passwd(char *string, int operation, void *extra)
 {
-	char msalt[3], *salt;
+	char msalt[3], *salt = NULL;
 	login_cap_t *lc;
 	int pwd_gensalt(char *, int, login_cap_t *, char);
 	void to64(char *, int32_t, int n);
@@ -118,13 +124,17 @@ print_passwd(char *string, int operation, void *extra)
 		salt = extra;
 		break;
 
-	default:
+	case DO_CLASS:
 		if ((lc = login_getclass(extra)) == NULL)
 			errx(1, "unable to get login class `%s'",
 			    extra ? (char *)extra : "default");
 		if (!pwd_gensalt(buffer, _PASSWORD_LEN, lc, 'l'))
 			errx(1, "can't generate salt");
 		salt = buffer;
+		break;
+
+	case DO_SAME:
+		salt = extra;
 		break;
 	}
 
@@ -143,7 +153,7 @@ main(int argc, char **argv)
 	if (strcmp(__progname, "makekey") == 0)
 		operation = DO_MAKEKEY;
 
-	while ((opt = getopt(argc, argv, "kmps:b:c:")) != -1) {
+	while ((opt = getopt(argc, argv, "b:c:kmpS:s:")) != -1) {
 		switch (opt) {
 		case 'k':                       /* Stdin/Stdout Unix crypt */
 			if (operation != -1 || prompt)
@@ -163,6 +173,13 @@ main(int argc, char **argv)
 			prompt = 1;
 			break;
 
+		case 'S':			/* BSD crypt (all algos) */
+			if (operation != -1)
+				usage();
+			operation = DO_SAME;
+			extra = optarg;
+			break;
+
 		case 's':                       /* Unix crypt (DES) */
 			if (operation != -1 || optarg[0] == '$')
 				usage();
@@ -179,14 +196,19 @@ main(int argc, char **argv)
 			break;
 
 		case 'c':                       /* user login class */
+			if (operation == DO_SAME)
+				usage();
 			extra = optarg;
-			operation = -1;
+			operation = DO_CLASS;
 			break;
 
 		default:
 			usage();
 		}
 	}
+
+	if (operation == -1)
+		operation = DO_CLASS;
 
 	if (((argc - optind) < 1) || operation == DO_MAKEKEY) {
 		char line[BUFSIZ], *string;

@@ -1,3 +1,4 @@
+.\"	$MirOS$
 .\"	$OpenBSD: encrypt.1,v 1.18 2003/06/14 23:19:18 millert Exp $
 .\"
 .\" Copyright (c) 1996, Jason Downs.  All rights reserved.
@@ -23,7 +24,7 @@
 .\" OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 .\" SUCH DAMAGE.
 .\"
-.Dd May 18, 1999
+.Dd $Mdocdate$
 .Dt ENCRYPT 1
 .Os
 .Sh NAME
@@ -31,12 +32,22 @@
 .Nd encrypt passwords from the command line or standard input
 .Sh SYNOPSIS
 .Nm encrypt
-.Op Fl k
-.Op Fl b Ar rounds
-.Op Fl c Ar class
-.Op Fl m
-.Op Fl s Ar salt
+.Fl b Ar rounds
 .Op Fl p | Ar string
+.Nm encrypt
+.Op Fl c Ar class
+.Op Fl p | Ar string
+.Nm encrypt
+.Fl m
+.Op Fl p | Ar string
+.Nm encrypt
+.Fl S Ar salt
+.Op Fl p | Ar string
+.Nm encrypt
+.Fl s Ar salt
+.Op Fl p | Ar string
+.Nm encrypt
+.Fl k
 .Nm makekey
 .Sh DESCRIPTION
 .Nm
@@ -46,7 +57,7 @@ to the standard output.
 This is mostly useful for encrypting passwords from within scripts.
 .Pp
 The options are as follows:
-.Bl -tag -width Ds
+.Bl -tag -width xbxrounds
 .It Fl k
 Run in
 .Nm makekey
@@ -65,6 +76,11 @@ for more information.
 Encrypt the string using MD5.
 .It Fl p
 Prompt for a single string with echo turned off.
+.It Fl S Ar salt
+Encrypt the string with the specified
+.Ar salt ,
+using the algorithm specified by
+.Ar salt .
 .It Fl s Ar salt
 Encrypt the string using DES, with the specified
 .Ar salt .
@@ -81,8 +97,11 @@ as a command line option, the algorithm specified in the default class in
 .Pa /etc/login.conf
 will be used.
 .Pp
-For MD5 and Blowfish, a new random salt is automatically generated for each
-password.
+For MD5 and Blowfish as well as any algorithm determined from the login
+.Ar class ,
+a new random salt is automatically generated for each password, except if the
+.Fl S
+option is used.
 .Pp
 Specifying the
 .Ar string
@@ -104,3 +123,8 @@ A
 .Nm makekey
 command appeared in
 .At v7 .
+.Pp
+The
+.Fl S
+option first appeared in
+.Mx 11 .
