@@ -1,8 +1,9 @@
-# $MirOS$
+# $MirOS: ports/databases/py-SQLAlchemy/Makefile,v 1.1 2008/09/02 09:55:07 tg Exp $
 # $OpenBSD: Makefile,v 1.11 2008/08/30 02:10:13 fgsch Exp $
 
 COMMENT=		database toolkit for Python
 MODPY_EGG_VERSION=	0.5.0beta3
+DASH_VER=		1
 DISTNAME=		SQLAlchemy-${MODPY_EGG_VERSION}
 PKGNAME=		py-${DISTNAME}-${DASH_VER}
 CATEGORIES=		databases
