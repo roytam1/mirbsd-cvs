@@ -1,4 +1,4 @@
-@comment $MirOS$
+@comment $MirOS: ports/databases/py-SQLAlchemy/PLIST,v 1.1 2008/09/02 09:55:07 tg Exp $
 @comment $OpenBSD: PLIST,v 1.5 2008/05/19 23:58:49 wcmaier Exp $
 lib/python${MODPY_VERSION}/site-packages/SQLAlchemy-${MODPY_EGG_VERSION}-py${MODPY_VERSION}.egg-info/PKG-INFO
 lib/python${MODPY_VERSION}/site-packages/SQLAlchemy-${MODPY_EGG_VERSION}-py${MODPY_VERSION}.egg-info/SOURCES.txt
@@ -183,6 +183,7 @@ share/doc/py-sqlalchemy/scripts.js
 share/doc/py-sqlalchemy/session.html
 share/doc/py-sqlalchemy/sqlalchemy_databases_access.html
 share/doc/py-sqlalchemy/sqlalchemy_databases_firebird.html
+share/doc/py-sqlalchemy/sqlalchemy_databases_informix.html
 share/doc/py-sqlalchemy/sqlalchemy_databases_maxdb.html
 share/doc/py-sqlalchemy/sqlalchemy_databases_mssql.html
 share/doc/py-sqlalchemy/sqlalchemy_databases_mysql.html
@@ -221,11 +222,11 @@ share/doc/py-sqlalchemy/syntaxhighlight.css
 share/doc/py-sqlalchemy/types.html
 share/examples/py-sqlalchemy/README
 share/examples/py-sqlalchemy/adjacencytree/basic_tree.py
-share/examples/py-sqlalchemy/adjacencytree/byroot_tree.py
 share/examples/py-sqlalchemy/association/basic_association.py
 share/examples/py-sqlalchemy/association/proxied_association.py
 share/examples/py-sqlalchemy/collections/large_collection.py
 share/examples/py-sqlalchemy/custom_attributes/custom_management.py
+share/examples/py-sqlalchemy/custom_attributes/listen_for_events.py
 share/examples/py-sqlalchemy/derived_attributes/attributes.py
 share/examples/py-sqlalchemy/dynamic_dict/dynamic_dict.py
 share/examples/py-sqlalchemy/elementtree/adjacency_list.py
