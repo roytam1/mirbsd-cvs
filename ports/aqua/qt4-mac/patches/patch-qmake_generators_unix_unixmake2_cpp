@@ -1,7 +1,7 @@
-$MirOS$
---- qmake/generators/unix/unixmake2.cpp.orig	2008-02-24 19:08:52.000000000 +0100
-+++ qmake/generators/unix/unixmake2.cpp	2008-02-24 19:09:28.000000000 +0100
-@@ -167,7 +167,7 @@ UnixMakefileGenerator::writeMakeParts(QT
+$MirOS: ports/aqua/qt4-mac/patches/patch-qmake_generators_unix_unixmake2_cpp,v 1.1 2008/07/02 18:49:44 bsiegert Exp $
+--- qmake/generators/unix/unixmake2.cpp.orig	2008-07-29 12:23:33.000000000 +0200
++++ qmake/generators/unix/unixmake2.cpp	2008-08-25 14:56:12.000000000 +0200
+@@ -176,7 +176,7 @@ UnixMakefileGenerator::writeMakeParts(QT
      t << "CHK_DIR_EXISTS= " << var("QMAKE_CHK_DIR_EXISTS") << endl;
      t << "MKDIR         = " << var("QMAKE_MKDIR") << endl;
      if(!project->isEmpty("QMAKE_MACOSX_DEPLOYMENT_TARGET"))
