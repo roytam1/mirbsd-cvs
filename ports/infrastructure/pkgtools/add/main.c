@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/add/main.c,v 1.3 2005/09/19 18:07:56 tg Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/add/main.c,v 1.4 2005/12/16 12:12:52 tg Exp $ */
 /* $OpenBSD: main.c,v 1.18 2003/08/06 20:46:36 millert Exp $	*/
 
 /*
@@ -25,7 +25,7 @@
 #include "lib.h"
 #include "add.h"
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/add/main.c,v 1.3 2005/09/19 18:07:56 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/add/main.c,v 1.4 2005/12/16 12:12:52 tg Exp $");
 
 static char Options[] = "d:fhIMNnp:qRSt:v";
 
@@ -215,6 +215,29 @@ main(int argc, char **argv)
 	else if (ch > 1 && AddMode == MASTER)
 	    pwarnx("only one package name may be specified with master mode"),
 	    usage();
+	else {
+	    int fd;
+	    char *dbdir;
+
+	    /* create a test file to see if dbdir is writable.
+	     * if the file already exists, O_EXCL does not touch it
+	     * (possible security issue)
+	     */
+	    cp = toabs(".test", (dbdir = getenv(PKG_DBDIR)) ?
+		    dbdir : DEF_LOG_DIR);
+	    fd = open(cp, O_WRONLY|O_CREAT|O_EXCL, 0600);
+
+	    if (fd == -1) {
+		pwarn("the package database directory is not writable");
+		pwarnx("the installation is likely to fail (%s)",
+			Force ? "continuing anyway" : "aborting");
+		if (!Force)
+		    exit(1);
+	    } else {
+		unlink(cp);
+		close(fd);
+	    }
+	}
     }
     if ((error = pkg_perform(pkgs)) != 0) {
 	if (Verbose)
