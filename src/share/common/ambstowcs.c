@@ -1,5 +1,5 @@
 /*-
- * Copyright (c) 2007
+ * Copyright (c) 2008
  *	Thorsten Glaser <tg@mirbsd.de>
  *
  * Provided that these terms and disclaimer and all copyright notices
@@ -22,31 +22,17 @@
 #include <wchar.h>
 #include "ambstowcs.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/share/common/ambstowcs.c,v 1.1 2007/07/16 15:12:02 tg Exp $");
 
 wchar_t *
 ambstowcs(const char *s)
 {
-	wchar_t *ws = NULL;
-	size_t n = 0, p = 0, ilen, b;
+	wchar_t *ws;
+	size_t n;
 
-	ilen = strlen(s);
-
- ambstowcs_loop:
-	if (p >= n && (ws = realloc(ws,
-	    (n = (n ? n << 1 : 32)) * sizeof (wchar_t))) == NULL)
+	if ((ws = calloc((n = mbstowcs(NULL, s, 0) + 1),
+	    sizeof (wchar_t))) == NULL)
 		err(1, "out of memory allocating %zu wide chars", n);
-	if (ilen == 0) {
-		ws[p] = L'\0';
-		return (ws);
-	} else if ((b = mbtowc(ws + p, s, ilen)) == (size_t)-1) {
-		ws[p] = 0xFFFD;
-		++s;
-		--ilen;
-	} else {
-		s += b;
-		ilen -= b;
-	}
-	++p;
-	goto ambstowcs_loop;
+	mbstowcs(ws, s, n);
+	return (ws);
 }
