@@ -1,5 +1,7 @@
-MD5 (SVK-v2.0.2.tar.gz) = 501d823231bd276e5b8f22b6ebe6cf2e
-RMD160 (SVK-v2.0.2.tar.gz) = 5eeaa465355cd3026f7230b120d83051705fc86d
-SHA1 (SVK-v2.0.2.tar.gz) = 8d691c6e6b914e5b8e71ba75dee60b61fe90e54f
-SIZE (SVK-v2.0.2.tar.gz) = 445041
-TIGER (SVK-v2.0.2.tar.gz) = f989f215bfc134e48ed568e134761de5f3fb7870ad7072d8
+$MirOS$
+
+MD5 (SVK-v2.2.0.tar.gz) = cd241de739d367cb2d5f1ce48597bda2
+RMD160 (SVK-v2.2.0.tar.gz) = 459063615d9082d44c228e77b8b7e141aa86d31e
+SHA1 (SVK-v2.2.0.tar.gz) = b9edc4a620e2ebb4ee045eef9374994460a44ca1
+SIZE (SVK-v2.2.0.tar.gz) = 519646
+TIGER (SVK-v2.2.0.tar.gz) = a8791ed09c38793bfedce014d5cd70b986b6fb3997187733
