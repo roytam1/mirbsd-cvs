@@ -1,4 +1,4 @@
-@comment $MirOS: ports/lang/python/2.5/pkg/PLIST,v 1.8 2008/08/12 09:38:13 tg Exp $
+@comment $MirOS: ports/lang/python/2.5/pkg/PLIST,v 1.9 2008/08/12 12:00:01 tg Exp $
 @option no-default-conflict
 @pkgcfl python-2.5*
 bin/pydoc${VERSION}
@@ -3626,7 +3626,7 @@ share/doc/python${VERSION}/CHANGES.MirPorts
 @dirrm lib/python${VERSION}/site-packages
 @dirrm lib/python${VERSION}/plat-${MACHDEP}
 @dirrm lib/python${VERSION}/logging
-@dirrm lib/python${VERSION}/lib-tk
+@comment @dirrm lib/python${VERSION}/lib-tk
 @dirrm lib/python${VERSION}/lib-dynload
 @dirrm lib/python${VERSION}/idlelib/Icons
 @dirrm lib/python${VERSION}/idlelib
