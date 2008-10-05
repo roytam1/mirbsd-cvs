@@ -1,4 +1,4 @@
-.\" $MirOS$
+.\" $MirOS: src/share/doc/usd/21.troff/table2,v 1.1.7.1 2005/03/06 16:17:48 tg Exp $
 .\"
 .\" Copyright (c) 1979, 1980, 1981, 1986, 1988, 1990, 1991, 1992
 .\"     The Regents of the University of California.
@@ -42,41 +42,41 @@
 .\"
 .\"	@(#)table2	6.2 (Berkeley) 4/17/91
 .\"
-.pn33
+.pn 33
 .sp 100
 .br
 .de mx
 .nf
-.ftI
+.ft I
 .ta .25iC .5i +.45i 3.25iC +.25i +.45i
 		Input	Character		Input	Character
 	Char	Name	Name	Char	Name	Name
-.ftR
-.sp.2
+.ft R
+.sp .2
 .nr cl 0
 .mk
 ..
 .br
 .tr ~~
 .nf
-.ps12
+.ps 12
 .vs 14p
 .ft B
 .ce
 Table II
 .sp
-.ce2
+.ce 2
 Input Naming Conventions for \', \`, and  \-
 and for Non-ASCII Special Characters
 .sp .5i
-.ftR
-.ps10
-.vs12p
-.ftB
+.ft R
+.ps 10
+.vs 12p
+.ft B
 .bd I 3
 Non-\s-1ASCII\s+1 characters and \fIminus\fP on the standard fonts.
 .sp
-.ftR
+.ft R
 .de cl
 .ie \\n+(cl<2 \{.po +3.0i
 .rt \}
@@ -113,7 +113,7 @@ Non-\s-1ASCII\s+1 characters and \fIminus\fP on the standard fonts.
 	\(co	\e(co	copyright
 ..
 .di zz
-.lg0
+.lg 0
 .qq
 .di
 .lg
@@ -126,14 +126,14 @@ Non-\s-1ASCII\s+1 characters and \fIminus\fP on the standard fonts.
 .sp |\n(bbu
 .ch cl 12i
 .fi
-.sp2
-.ftB
+.sp 2
+.ft B
 .bd I
 Non-\s-1ASCII\s+1 characters and \', \`, \_\|, \(pl, \(mi, \(eq, and \(** on the special font.
-.sp.4
-.ftR
+.sp .4
+.ft R
 .fi
-.ps10
+.ps 10
 The ASCII characters @, #, ", \', \`, <, >, \\, {, }, ~, ^, and \(ul exist
 \fIonly\fR on the special font and are printed as a 1-em space if that font
 is not mounted.
@@ -145,7 +145,7 @@ The special math plus, minus, and equals are provided to
 insulate the appearance of equations from the choice of standard fonts.
 .bd I 3
 .nf
-.ps10
+.ps 10
 .sp
 .de sc
 .po 26i/27u
@@ -246,7 +246,9 @@ insulate the appearance of equations from the choice of standard fonts.
 	\(dd	\\(dd	double dagger
 	\(rh	\\(rh	right hand
 	\(lh	\\(lh	left hand
+.if !\n(.g \{\
 	\(bs	\\(bs	Bell System logo (typesetter-dependent)
+.\}
 	\(or	\\(or	or
 	\(ci	\\(ci	circle
 	\(lt	\\(lt	left top of big curly bracket

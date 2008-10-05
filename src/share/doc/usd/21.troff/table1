@@ -1,4 +1,4 @@
-.\" $MirOS$
+.\" $MirOS: src/share/doc/usd/21.troff/table1,v 1.1.7.1 2005/03/06 16:17:48 tg Exp $
 .\"
 .\" Copyright (c) 1979, 1980, 1981, 1986, 1988, 1990, 1991, 1992
 .\"     The Regents of the University of California.
@@ -53,19 +53,19 @@
 abcdefghijklmnopqrstuvwxyz
 ABCDEFGHIJKLMNOPQRSTUVWXYZ
 1234567890
-.ss9
+.ss 9
 ! $ % & ( ) ` ' * + \- . , / : ; = ? [ ] |
 .fi
 \(bu \(sq \(em \(hy \(ru \(14 \(12 \(34 \(fi \(fl \(ff
 \(Fi \(Fl
 \(de \(dg \(fm
 \(ct \(rg \(co
-.ss12
+.ss 12
 ..
 .de bb
-.ss9
+.ss 9
 .fi
-.ll5i
+.ll 5i
 " \' \e ^ \_ \` ~ \(sl < > { } # @ \(pl \(mi \(eq \(**
 .br
 \(*a \(*b \(*g \(*d \(*e \(*z \(*y \(*h \(*i \(*k \(*l \(*m
@@ -78,15 +78,20 @@ ABCDEFGHIJKLMNOPQRSTUVWXYZ
 \(di \(+- \(cu \(ca \(sb \(sp \(ib \(ip \(if \(pd
 .br
 \(sc \(gr \(no \(is \(pt \(es \(mo
+.ie \n(.g \{\
+\(dd \(rh \(lh \(or \(ci
+.\}
+.el \{\
 \(dd \(rh \(lh \(bs \(or \(ci
+.\}
 \(lt \(lb \(rt \(rb \(lk \(rk \(bv \(lf \(rf \(lc \(rc
 \(br
 .br
-.ss12
+.ss 12
 .nf
 ..
 .nf
-.ps12
+.ps 12
 .vs 14p
 .ft B
 .ce
@@ -96,7 +101,7 @@ Table I
 .ce
 Font Style Examples
 .sp .5i
-.ftR
+.ft R
 .ps 10
 .fi
 .vs 12p
@@ -107,27 +112,27 @@ non-alphanumeric characters separated by \(14\|em space (all measurements
 on 8.5 \(mu 11 inch paper prior to photoreduction).
 This font sample is printed on an APS-5 phototypesetter at University of California,
 Berkeley.
-.sp.5i
-.ps12
-.vs14p
-.ftR
+.sp .5i
+.ps 12
+.vs 14p
+.ft R
 Times Roman
-.sp.5
+.sp .5
 .aa
 .sp
-.ftI
+.ft I
 Times Italic
-.sp.5
+.sp .5
 .aa
 .sp
-.ftB
+.ft B
 Times Bold
-.sp.5
+.sp .5
 .aa
 .sp
-.ftR
+.ft R
 Special Mathematical Font
-.sp.5
+.sp .5
 .fi
 .ll 5i
 .bb

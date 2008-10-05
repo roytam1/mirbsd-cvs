@@ -1,4 +1,4 @@
-.\" $MirOS: src/share/doc/usd/21.troff/m1,v 1.1.7.1 2005/03/06 16:17:47 tg Exp $
+.\" $MirOS: src/share/doc/usd/21.troff/m1,v 1.2 2005/12/15 01:03:19 tg Exp $
 .\"
 .\" Copyright (c) 1979, 1980, 1981, 1986, 1988, 1990, 1991, 1992
 .\"     The Regents of the University of California.
@@ -42,19 +42,19 @@
 .\"
 .\"	@(#)m1	6.2 (Berkeley) 4/17/91
 .\"
-.pn8
+.pn 8
 .tr |
 .tr ~|
 .rm mx
 .br
 .ce
-.ftB
-.ps+2
+.ft B
+.ps +2
 .rs
 .\".sp1.0i
 REFERENCE MANUAL
-.ftR
-.ps-2
+.ft R
+.ps -2
 .sp
 .mh
 General Explanation
@@ -222,9 +222,9 @@ then
 .br
 .tr &.
 .x1
-.ftB
+.ft B
 \&.ll  (4.25i\(pl\enxP\(pl3)\(sl2u
-.ftR
+.ft R
 .x2
 will set the line length to 1\(sl2 the sum of 4.25 inches \(pl 2 picas \(pl 30 points.
 .sc
@@ -594,7 +594,7 @@ using \fBtr\fR (\(sc10.5).
 .tr &.
 .sc
 Interrupted text.
-The copying of a input line in \fInofill\f (non-fill) mode can be \fIinterrupted\fR
+The copying of a input line in \fInofill\fR (non-fill) mode can be \fIinterrupted\fR
 by terminating
 the partial line with a \fB\ec\fR.
 The \fInext\fR encountered input text line will be considered to be a continuation
@@ -615,7 +615,7 @@ the line is output without adjustment.
 Text lines beginning with space characters
 and empty text lines (blank lines) also cause a break.
 .bt
-.lg0
+.lg 0
 \fB&fi\fR	\(fill|on	-	B,E	Fill subsequent output lines.
 .lg
 The register \fB.u\fR is 1 in fill mode and 0 in nofill mode.

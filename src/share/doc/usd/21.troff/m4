@@ -1,4 +1,4 @@
-.\" $MirOS$
+.\" $MirOS: src/share/doc/usd/21.troff/m4,v 1.1.7.1 2005/03/06 16:17:48 tg Exp $
 .\"
 .\" Copyright (c) 1979, 1980, 1981, 1986, 1988, 1990, 1991, 1992
 .\"     The Regents of the University of California.
@@ -214,9 +214,9 @@ accept \fIanything\fR.
 The built-in condition names are:
 .TS
 center box;
-c2|c2
-c2|c2
-c2|l2.
+c2|c
+c2|c
+c2|l.
 Condition
 Name	True If
 _
@@ -245,21 +245,21 @@ A subsequent and matching \fBel\fR (else) request then uses the reverse sense of
 .pg
 Some examples are:
 .x1
-.ftB
+.ft B
 .ne 1
 &if e .tl \'\|Even Page %\'\'\'
-.ftR
+.ft R
 .x2
 which outputs a title if the page number is even; and
 .x1
-.ftB
+.ft B
 .ne 3.1
 &ie \en%>1 \e{\e
 \&\'sp 0.5i
 &tl \'\|Page %\'\'\'
 \&\'sp ~\|1.2i|\e}
 &el .sp ~\|2.5i
-.ftR
+.ft R
 .x2
 which treats page 1 differently from other pages.
 .mh
@@ -380,7 +380,7 @@ Print \fIstring\fR on standard error and terminate immediately.  The
 default \fIstring\fR is "User Abort". Does not cause a break.  Only output
 preceding the last break is written.
 .bt
-.lg0
+.lg 0
 \fB&fl\fR	-	-	B	\c
 .lg
 Flush output buffer.

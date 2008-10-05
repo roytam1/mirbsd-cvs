@@ -1,4 +1,4 @@
-.\" $MirOS$
+.\" $MirOS: src/share/doc/usd/21.troff/m2,v 1.1.7.1 2005/03/06 16:17:47 tg Exp $
 .\"
 .\" Copyright (c) 1979, 1980, 1981, 1986, 1988, 1990, 1991, 1992
 .\"     The Regents of the University of California.
@@ -145,24 +145,24 @@ If an invoked argument doesn't exist,
 a null string results.
 For example, the macro \fIxx\fR may be defined by
 .x1
-.ftB
+.ft B
 .ta .75i
 &de xx	\e"begin definition
 Today is \e\e$1 the \e\e$2.
 &.	\e"end definition
-.ftR
+.ft R
 .x2
 and called by
 .x1
-.ftB
+.ft B
 &xx Monday 14th
-.ftR
+.ft R
 .x2
 to produce the text
 .x1
-.ftB
+.ft B
 Today is Monday the 14th.
-.ftR
+.ft R
 .x2
 Note that the \fB\e$\fR
 was concealed in the definition with a prepended \fB\e\fR.
@@ -347,10 +347,10 @@ the following access sequences have the effect shown:
 .TS
 center box;
 c2|c2|c
-c2|c2|c2
-l2|c2|c2
-l2|c2|c2
-l2|l2|c2.
+c2|c2|c
+l2|c2|c
+l2|c2|c
+l2|l2|c.
 	Effect on	Value
 Sequence	Register	Interpolated
 _
