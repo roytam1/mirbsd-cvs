@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/netinet6/in6.c,v 1.4 2005/04/14 21:53:41 tg Exp $ */
+/**	$MirOS: src/sys/netinet6/in6.c,v 1.5 2008/04/09 05:56:49 tg Exp $ */
 /*	$OpenBSD: in6.c,v 1.60 2004/10/07 12:08:25 henning Exp $	*/
 /*	$KAME: in6.c,v 1.372 2004/06/14 08:14:21 itojun Exp $	*/
 
@@ -2006,6 +2006,31 @@ in6ifa_ifpwithaddr(ifp, addr)
 	}
 
 	return ((struct in6_ifaddr *)ifa);
+}
+
+/*
+ * find the internet address on a given interface corresponding to a neighbor's
+ * address.
+ */
+struct in6_ifaddr *
+in6ifa_ifplocaladdr(const struct ifnet *ifp, const struct in6_addr *addr)
+{
+	struct ifaddr *ifa;
+	struct in6_ifaddr *ia;
+
+	TAILQ_FOREACH(ifa, &ifp->if_addrlist, ifa_list) {
+		if (ifa->ifa_addr == NULL)
+			continue;	/* just for safety */
+		if (ifa->ifa_addr->sa_family != AF_INET6)
+			continue;
+		ia = (struct in6_ifaddr *)ifa;
+		if (IN6_ARE_MASKED_ADDR_EQUAL(addr,
+				&ia->ia_addr.sin6_addr,
+				&ia->ia_prefixmask.sin6_addr))
+			return ia;
+	}
+
+	return NULL;
 }
 
 /*
