@@ -1,4 +1,4 @@
-.\" $MirOS$
+.\" $MirOS: src/share/tmac/tmac.sU,v 1.1.7.1 2005/03/06 16:33:42 tg Exp $
 .\"
 .\" Copyright (c) 1992 The Regents of the University of California.
 .\" All rights reserved.
@@ -36,7 +36,7 @@
 .so /usr/share/tmac/tmac.s
 .nr P1 1	\" page number on page 1
 .nr LL 6.5i
-.ll \\n(LLu
+.ll \n(LLu
 .lt 6.5i
 .de MH
 AT&T Bell Laboratories
