@@ -1,4 +1,4 @@
-/*	$OpenBSD: misc.c,v 1.35 2006/03/20 10:55:19 espie Exp $	*/
+/*	$OpenBSD: misc.c,v 1.40 2008/08/21 20:59:14 espie Exp $	*/
 /*	$NetBSD: misc.c,v 1.6 1995/09/28 05:37:41 tls Exp $	*/
 
 /*
@@ -54,11 +54,11 @@ char *endest;		/* end of string space	       */
 static size_t strsize = STRSPMAX;
 static size_t bufsize = BUFSIZE;
 
-char *buf;			/* push-back buffer	       */
-char *bufbase;			/* the base for current ilevel */
-char *bbase[MAXINP];		/* the base for each ilevel    */
-char *bp; 			/* first available character   */
-char *endpbb;			/* end of push-back buffer     */
+unsigned char *buf;			/* push-back buffer	       */
+unsigned char *bufbase;			/* the base for current ilevel */
+unsigned char *bbase[MAXINP];		/* the base for each ilevel    */
+unsigned char *bp; 			/* first available character   */
+unsigned char *endpbb;			/* end of push-back buffer     */
 
 
 /*
@@ -163,7 +163,7 @@ initspaces()
 	strspace = xalloc(strsize+1, NULL);
 	ep = strspace;
 	endest = strspace+strsize;
-	buf = (char *)xalloc(bufsize, NULL);
+	buf = (unsigned char *)xalloc(bufsize, NULL);
 	bufbase = buf;
 	bp = buf;
 	endpbb = buf + bufsize;
@@ -195,7 +195,7 @@ enlarge_strspace()
 void
 enlarge_bufspace()
 {
-	char *newbuf;
+	unsigned char *newbuf;
 	int i;
 
 	bufsize += bufsize/2;
@@ -263,16 +263,17 @@ extern char *__progname;
 void
 m4errx(int eval, const char *fmt, ...)
 {
-	va_list ap;
-
-	va_start(ap, fmt);
 	fprintf(stderr, "%s: ", __progname);
 	fprintf(stderr, "%s at line %lu: ", CURRENT_NAME, CURRENT_LINE);
-	if (fmt != NULL)
+	if (fmt != NULL) {
+		va_list ap;
+
+		va_start(ap, fmt);
 		vfprintf(stderr, fmt, ap);
+		va_end(ap);
+	}
 	fprintf(stderr, "\n");
 	exit(eval);
-	va_end(ap);
 }
 
 /*
@@ -340,7 +341,9 @@ xstrdup(const char *s)
 void
 usage()
 {
-	fprintf(stderr, "usage: m4 [-gs] [-Dname[=value]] [-d flags] [-I dirname] [-o filename] [-t macro] [-Uname]\n");
+	fprintf(stderr, "usage: m4 [-gs] [-Dname[=value]] [-d flags] "
+			"[-I dirname] [-o filename]\n"
+			"\t[-t macro] [-Uname] [file ...]\n");
 	exit(1);
 }
 
@@ -415,7 +418,7 @@ buffer_mark()
 void
 dump_buffer(FILE *f, size_t m)
 {
-	char *s;
+	unsigned char *s;
 
 	for (s = bp; s-buf > m;)
 		fputc(*--s, f);
