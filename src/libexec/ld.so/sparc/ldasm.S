@@ -1,3 +1,4 @@
+/*	$MirOS$ */
 /*	$OpenBSD: ldasm.S,v 1.15 2006/05/03 16:10:52 drahn Exp $	*/
 
 /*
@@ -98,6 +99,9 @@ _dl_start:
 
 	call	_dl_boot_bind		! _dl_boot_bind(sp,dl_data,dynamicp)
 	 mov	%l3, %o1
+
+	call	__guard_setup
+	 nop
 
 	mov	%l3, %o3
 	ld	[%l0], %l3		! argc = *sp
