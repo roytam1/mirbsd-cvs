@@ -39,6 +39,7 @@
 
 #include <sys/param.h>
 #include <err.h>
+#include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
 #include <unistd.h>
@@ -57,6 +58,8 @@ static	char *system = NULL;
 #include <machine/eeprom.h>
 
 #include "defs.h"
+
+__RCSID("$MirOS$");
 
 struct	keytabent eekeytab[] = {
 	{ "hwupdate",		0x10,	ee_hwupdate },
