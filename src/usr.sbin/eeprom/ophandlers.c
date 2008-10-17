@@ -47,11 +47,14 @@
 #include <stdlib.h>
 #include <string.h>
 #include <vis.h>
+#include <unistd.h>
 
 #include <machine/eeprom.h>
 #include <machine/openpromio.h>
 
 #include "defs.h"
+
+__RCSID("$MirOS$");
 
 extern	char *path_openprom;
 extern	int eval;

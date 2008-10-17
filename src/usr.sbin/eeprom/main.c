@@ -52,14 +52,14 @@
 
 #include <machine/openpromio.h>
 
-static	char *system = NULL;
+static char *sysimg = NULL;
 #endif /* __sparc__ */
 
 #include <machine/eeprom.h>
 
 #include "defs.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.sbin/eeprom/main.c,v 1.2 2008/10/17 01:24:54 tg Exp $");
 
 struct	keytabent eekeytab[] = {
 	{ "hwupdate",		0x10,	ee_hwupdate },
@@ -152,7 +152,7 @@ main(int argc, char *argv[])
 			break;
 
 		case 'N':
-			system = optarg;
+			sysimg = optarg;
 			break;
 
 #endif /* __sparc__ */
@@ -165,7 +165,7 @@ main(int argc, char *argv[])
 	argv += optind;
 
 #ifdef __sparc__
-	if (system != NULL) {
+	if (sysimg != NULL) {
 		gid = getgid();
 		if (setresgid(gid, gid, gid) == -1)
 			err(1, "setresgid");
