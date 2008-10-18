@@ -1,7 +1,4 @@
-# $MirOS$
-
-ONLY_FOR_PLATFORM=	Darwin:*:* \
-			MirBSD:*:i386 MidnightBSD:*:i386 OpenBSD:*:i386
+# $MirOS: ports/math/boinc/Makefile,v 1.1 2008/04/06 00:01:43 tg Exp $
 
 COMMENT=		Berkeley Open Infrastructure for Network Computing client
 VERSION=		5.10.45
@@ -40,9 +37,9 @@ CONFIGURE_ARGS+=	--enable-client \
 			--with-wx-config=false \
 			--disable-static-linkage
 
-.if ${OStype} == "Darwin"
+.if (${OStype} == "Darwin") || (${OStype} == "Interix")
 ERRORS+=		"not yet ported to ${OStype}"
-.else
+.elif ${MACHINE_ARCH} == "i386"
 CONFIGURE_ARGS+=	--with-boinc-alt-platform=i686-pc-linux-gnu
 .endif
 
