@@ -1,4 +1,4 @@
-/*	$OpenBSD: extern.h,v 1.15 2004/12/22 00:54:39 david Exp $	*/
+/*	$OpenBSD: extern.h,v 1.17 2008/09/12 16:12:08 moritz Exp $	*/
 /*	$NetBSD: extern.h,v 1.2 1995/04/11 02:44:49 cgd Exp $	*/
 
 /*
@@ -69,7 +69,7 @@ void	dologout(int);
 void	fatal(char *);
 int	ftpd_pclose(FILE *);
 FILE   *ftpd_popen(char *, char *);
-char   *getline(char *, int, FILE *);
+int     getline(char *, int, FILE *);
 void	ftpdlogwtmp(char *, char *, char *);
 void	lreply(int, const char *, ...);
 void	makedir(char *);
