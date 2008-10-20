@@ -110,6 +110,7 @@
  * logical pages.
  */
 #define	NKMEMPAGES_MIN_DEFAULT	((6 * 1024 * 1024) >> PAGE_SHIFT)
+/* WARNING: Do *not* change the following value due to OpenBSD/sparc bugs! */
 #define	NKMEMPAGES_MAX_DEFAULT	((6 * 1024 * 1024) >> PAGE_SHIFT)
 
 /* pages ("clicks") to disk blocks */
