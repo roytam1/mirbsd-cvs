@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: srt0.S,v 1.2 2002/08/11 12:20:43 art Exp $	*/
 /*	$NetBSD: srt0.S,v 1.5.4.2 1996/07/17 01:51:46 jtc Exp $	*/
 
@@ -66,6 +67,26 @@ start:
 	 */
 1:	call	2f
 	 nop
+
+#ifdef BOOTXX
+	/*
+	 * Little-Endian BSD disklabel
+	 */
+	.p2align 3
+Lle_disklabel_start:
+	.byte	0x57, 0x45, 0x56, 0x82
+	.byte	0x00, 0x00
+	.byte	0x90, 0x90
+
+	. = Lle_disklabel_start + 404 - 4
+	.byte	0x00, 0x00, 0x90, 0x90
+Lle_disklabel_end:
+	.p2align 3
+#endif
+
+	/*
+	 * Relocate.
+	 */
 2:	add	%o7, (start-1b), %l0
 	set	start, %l1
 	set	_C_LABEL(end), %o0
