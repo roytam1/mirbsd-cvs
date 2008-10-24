@@ -1,4 +1,4 @@
-static const char __rcsid[] = "$MirOS: contrib/code/Snippets/arc4random.c,v 1.3 2008/03/04 22:53:14 tg Exp $";
+static const char __rcsid[] = "$MirOS: contrib/code/Snippets/arc4random.c,v 1.4 2008/10/20 11:37:38 tg Exp $";
 
 /*-
  * Arc4 random number generator for OpenBSD.
@@ -63,6 +63,7 @@ static const char __rcsid[] = "$MirOS: contrib/code/Snippets/arc4random.c,v 1.3 
 #endif
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <unistd.h>
 
 #ifdef __CYGWIN__
@@ -72,6 +73,13 @@ static const char __rcsid[] = "$MirOS: contrib/code/Snippets/arc4random.c,v 1.3 
 #define _WIN32_WINNT 0x400
 #include <windows.h>
 #include <wincrypt.h>
+#endif
+
+#ifndef MIN
+#define	MIN(a,b)	(((a)<(b))?(a):(b))
+#endif
+#ifndef MAX
+#define	MAX(a,b)	(((a)>(b))?(a):(b))
 #endif
 
 struct arc4_stream {
