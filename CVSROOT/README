@@ -12,6 +12,7 @@ README for the MirOS CVS Repository administrative files
 • We use a patched CVS version, cf. mircvs://ports/devel/cvs/patches/
   You need, in *all* cases, GNU CVS 1.12.x (x ≥ 12 has been tested)!
   Make sure CVSROOT/config has UseNewInfoFmtStrings=yes set as well!
+  GNU CVS 1.12.14 might cause problems.
 
 • The patched CVS version exposes the new ‘%I’ specifier to the loginfo
   et al. scripts containing the commit ID; if you want to use our scripts
@@ -53,4 +54,4 @@ README for the MirOS CVS Repository administrative files
   or join IRC at 「#MirBSD」 on the 「irc.ipv6.freenode.net:6667」 network
 
 ⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼
-$MirOS: CVSROOT/README,v 1.1 2008/07/03 17:44:09 tg Exp $
+$MirOS: CVSROOT/README,v 1.2 2008/07/03 21:12:19 tg Exp $

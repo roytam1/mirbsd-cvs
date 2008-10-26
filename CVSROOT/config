@@ -1,8 +1,8 @@
-# $MirOS: CVSROOT/config,v 1.4 2005/04/19 22:32:59 tg Exp $
+# $MirOS: CVSROOT/config,v 1.5 2007/06/06 13:52:49 tg Exp $
 #-
 
 # Set 'SystemAuth' to 'no' if pserver shouldn't check system users/passwords.
-#SystemAuth=no
+SystemAuth=no
 
 # Set 'LocalKeyword' to specify a local alias for a standard keyword.
 #LocalKeyword=MYCVS=CVSHeader
