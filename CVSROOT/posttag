@@ -1,4 +1,4 @@
-# $MirOS: CVSROOT/posttag,v 1.14 2008/02/29 11:19:17 tg Exp $
+# $MirOS: CVSROOT/posttag,v 1.15 2008/07/03 17:34:39 tg Exp $
 #-
 # The "posttag" file is called after the "tag" command finishes
 # processing a directory.
@@ -41,10 +41,13 @@
 
 # normal operation
 ^contrib/hosted/fwcf\(/\|$\)	$CVSROOT/CVSROOT/mklogtag %I %o '%b' %t %r %p -R freewrt-developers@freewrt.org -m miros-hosted-fwcf@mirbsd.de -f $CVSROOT/Logs/ChangeLog %{sVv}
-
+^contrib/hosted/bsiegert\(/\|$\)	$CVSROOT/CVSROOT/mklogtag %I %o '%b' %t %r %p -m bsiegert@mirbsd.org %{sVv}
+^contrib/hosted/tg\(/\|$\)		$CVSROOT/CVSROOT/mklogtag %I %o '%b' %t %r %p -m tg@mirbsd.org %{sVv}
 DEFAULT		$CVSROOT/CVSROOT/mklogtag %I %o '%b' %t %r %p -I http://www.mirbsd.org/clogs/ChangeLog -R miros-discuss@mirbsd.de -m miros-changes@mirbsd.de -f $CVSROOT/Logs/ChangeLog %{sVv}
 
 # non-MirBSD operation
 #^contrib/hosted/fwcf\(/\|$\)	$CVSROOT/CVSROOT/mklogtag - %o '%b' %t %r %p -R freewrt-developers@freewrt.org -m miros-hosted-fwcf@mirbsd.de -f $CVSROOT/Logs/ChangeLog %{sVv}
+#^contrib/hosted/bsiegert\(/\|$\)	$CVSROOT/CVSROOT/mklogtag - %o '%b' %t %r %p -m bsiegert@mirbsd.org %{sVv}
+#^contrib/hosted/tg\(/\|$\)		$CVSROOT/CVSROOT/mklogtag - %o '%b' %t %r %p -m tg@mirbsd.org %{sVv}
 #
 #DEFAULT		$CVSROOT/CVSROOT/mklogtag - %o '%b' %t %r %p -I http://www.mirbsd.org/clogs/ChangeLog -R miros-discuss@mirbsd.de -m miros-changes@mirbsd.de -f $CVSROOT/Logs/ChangeLog %{sVv}
