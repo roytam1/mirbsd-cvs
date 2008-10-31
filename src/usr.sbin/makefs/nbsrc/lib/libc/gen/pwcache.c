@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$NetBSD: pwcache.c,v 1.30 2008/04/28 20:22:59 martin Exp $	*/
 
 /*-
@@ -75,6 +76,7 @@
 static char sccsid[] = "@(#)cache.c	8.1 (Berkeley) 5/31/93";
 #else
 __RCSID("$NetBSD: pwcache.c,v 1.30 2008/04/28 20:22:59 martin Exp $");
+__IDSTRING(mbsdid, "$MirOS$");
 #endif
 #endif /* LIBC_SCCS and not lint */
 
@@ -91,13 +93,13 @@ __RCSID("$NetBSD: pwcache.c,v 1.30 2008/04/28 20:22:59 martin Exp $");
 #include <string.h>
 #include <unistd.h>
 
-#if HAVE_NBTOOL_CONFIG_H
+#if HAVE_NBTOOL_CONFIG_H || defined(__MirBSD__)
 /* XXX Now, re-apply the renaming that we undid above. */
 #define	group_from_gid	__nbcompat_group_from_gid
 #define	user_from_uid	__nbcompat_user_from_uid
 #endif
 
-#ifdef __weak_alias
+#if defined(__weak_alias) && !defined(__MirBSD__)
 __weak_alias(user_from_uid,_user_from_uid)
 __weak_alias(group_from_gid,_group_from_gid)
 __weak_alias(pwcache_userdb,_pwcache_userdb)

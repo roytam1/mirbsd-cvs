@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$NetBSD: makefs.h,v 1.19 2006/10/10 01:55:45 dbj Exp $	*/
 
 /*
@@ -41,12 +42,24 @@
 #if HAVE_NBTOOL_CONFIG_H
 #include "nbtool_config.h"
 #else
+#ifndef HAVE_STRUCT_STAT_ST_FLAGS
 #define HAVE_STRUCT_STAT_ST_FLAGS 1
+#endif
+#ifndef HAVE_STRUCT_STAT_ST_GEN
 #define HAVE_STRUCT_STAT_ST_GEN 1
+#endif
+#ifndef HAVE_STRUCT_STAT_ST_MTIMENSEC
 #define HAVE_STRUCT_STAT_ST_MTIMENSEC 1
+#endif
+#ifndef HAVE_STRUCT_STATVFS_F_IOSIZE
 #define HAVE_STRUCT_STATVFS_F_IOSIZE 1
+#endif
+#ifndef HAVE_STRUCT_STAT_BIRTHTIME
 #define HAVE_STRUCT_STAT_BIRTHTIME 1
+#endif
+#ifndef HAVE_FSTATVFS
 #define HAVE_FSTATVFS 1
+#endif
 #endif
 
 #include <sys/stat.h>

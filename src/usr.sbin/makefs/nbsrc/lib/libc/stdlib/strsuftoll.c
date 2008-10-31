@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$NetBSD: strsuftoll.c,v 1.8 2008/04/28 20:23:00 martin Exp $	*/
 /*-
  * Copyright (c) 2001-2002,2004 The NetBSD Foundation, Inc.
@@ -64,10 +65,15 @@
 #include "nbtool_config.h"
 #endif
 
+#ifdef __MirBSD__
+#include "mbsdtree.h"
+#endif
+
 #include <sys/cdefs.h>
 
 #if defined(LIBC_SCCS) && !defined(lint)
 __RCSID("$NetBSD: strsuftoll.c,v 1.8 2008/04/28 20:23:00 martin Exp $");
+__IDSTRING(mbsdid, "$MirOS$");
 #endif /* LIBC_SCCS and not lint */
 
 #ifdef _LIBC

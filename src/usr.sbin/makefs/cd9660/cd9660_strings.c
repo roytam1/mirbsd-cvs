@@ -1,4 +1,5 @@
-/*	$NetBSD: cd9660_strings.c,v 1.3 2005/12/24 20:56:41 perry Exp $	*/
+/**	$MirOS$ */
+/*	$NetBSD: cd9660_strings.c,v 1.4 2007/01/16 17:32:05 hubertf Exp $	*/
 
 /*
  * Copyright (c) 2005 Daniel Watt, Walter Deignan, Ryan Gabrys, Alan
@@ -34,22 +35,23 @@
 
 #if HAVE_NBTOOL_CONFIG_H
 #include "nbtool_config.h"
+#else
+#ifdef __MirBSD__
+#include <sys/param.h>
+#endif
+#include <sys/mount.h>
 #endif
 
 #include <sys/cdefs.h>
 #include <sys/param.h>
 #include <ctype.h>
 
-#if !HAVE_NBTOOL_CONFIG_H
-#include <sys/mount.h>
-#endif
-
 #include "makefs.h"
 #include "cd9660.h"
 
-#include <sys/cdefs.h>
 #if defined(__RCSID) && !defined(__lint)
-__RCSID("$NetBSD: cd9660_strings.c,v 1.3 2005/12/24 20:56:41 perry Exp $");
+__RCSID("$NetBSD: cd9660_strings.c,v 1.4 2007/01/16 17:32:05 hubertf Exp $");
+__IDSTRING(mbsdid, "$MirOS$");
 #endif  /* !__lint */
 
 

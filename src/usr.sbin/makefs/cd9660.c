@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$NetBSD: cd9660.c,v 1.22 2008/10/30 18:43:13 ahoka Exp $	*/
 
 /*
@@ -98,12 +99,16 @@
 #if HAVE_NBTOOL_CONFIG_H
 #include "nbtool_config.h"
 #else
+#ifdef __MirBSD__
+#include <sys/param.h>
+#endif
 #include <sys/mount.h>
 #endif
 
 #include <sys/cdefs.h>
 #if defined(__RCSID) && !defined(__lint)
 __RCSID("$NetBSD: cd9660.c,v 1.22 2008/10/30 18:43:13 ahoka Exp $");
+__IDSTRING(mbsdid, "$MirOS$");
 #endif  /* !__lint */
 
 #include <string.h>
