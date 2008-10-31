@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$NetBSD: mkfs.c,v 1.21 2004/12/20 20:51:42 jmc Exp $	*/
 
 /*
@@ -49,6 +50,7 @@ static char sccsid[] = "@(#)mkfs.c	8.11 (Berkeley) 5/3/95";
 #else
 #ifdef __RCSID
 __RCSID("$NetBSD: mkfs.c,v 1.21 2004/12/20 20:51:42 jmc Exp $");
+__IDSTRING(mbsdid, "$MirOS$");
 #endif
 #endif
 #endif /* not lint */
@@ -78,6 +80,12 @@ static void initcg(int, time_t, const fsinfo_t *);
 static int ilog2(int);
 
 static int count_digits(int);
+
+#ifdef __MirBSD__
+#define randomx arc4random
+#else
+#define randomx random
+#endif
 
 /*
  * make file system for cylinder-group style file systems
@@ -444,7 +452,7 @@ ffs_mkfs(const char *fsys, const fsinfo_t *fsopts)
 	sblock.fs_clean = FS_ISCLEAN;
 	sblock.fs_ronly = 0;
 	sblock.fs_id[0] = start_time.tv_sec;
-	sblock.fs_id[1] = random();
+	sblock.fs_id[1] = randomx();
 	sblock.fs_fsmnt[0] = '\0';
 	csfrags = howmany(sblock.fs_cssize, sblock.fs_fsize);
 	sblock.fs_dsize = sblock.fs_size - sblock.fs_sblkno -
@@ -560,12 +568,20 @@ ffs_write_superblock(struct fs *fs, const fsinfo_t *fsopts)
         memcpy(writebuf, &sblock, sbsize);
 	if (fsopts->needswap)
 		ffs_sb_swap(fs, (struct fs*)writebuf);
+#ifdef __MirBSD__
+	((struct fs *)writebuf)->fs_firstfield = arc4random();
+	((struct fs *)writebuf)->fs_unused_1 = arc4random();
+#endif
 	ffs_wtfs(fs->fs_sblockloc / sectorsize, sbsize, writebuf, fsopts);
 
 	/* Write out the duplicate super blocks */
-	for (cylno = 0; cylno < fs->fs_ncg; cylno++)
+	for (cylno = 0; cylno < fs->fs_ncg; cylno++) {
+#ifdef __MirBSD__
+		((struct fs *)writebuf)->fs_unused_1 = arc4random();
+#endif
 		ffs_wtfs(fsbtodb(fs, cgsblock(fs, cylno)),
 		    sbsize, writebuf, fsopts);
+	}
 
 	/* Write out the cylinder group summaries */
 	size = fs->fs_cssize;
@@ -749,10 +765,10 @@ initcg(int cylno, time_t utime, const fsinfo_t *fsopts)
 	for (i = 0; i < acg.cg_initediblk; i++) {
 		if (sblock.fs_magic == FS_UFS1_MAGIC) {
 			/* No need to swap, it'll stay random */
-			dp1->di_gen = random();
+			dp1->di_gen = randomx();
 			dp1++;
 		} else {
-			dp2->di_gen = random();
+			dp2->di_gen = randomx();
 			dp2++;
 		}
 	}
@@ -767,7 +783,7 @@ initcg(int cylno, time_t utime, const fsinfo_t *fsopts)
 		     i += sblock.fs_frag) {
 			dp1 = (struct ufs1_dinode *)(&iobuf[start]);
 			for (j = 0; j < INOPB(&sblock); j++) {
-				dp1->di_gen = random();
+				dp1->di_gen = randomx();
 				dp1++;
 			}
 			ffs_wtfs(fsbtodb(&sblock, cgimin(&sblock, cylno) + i),
