@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/usr.sbin/makefs/nbsrc/lib/libc/gen/pwcache.h,v 1.6 2008/10/31 19:45:30 tg Exp $ */
 /*	$NetBSD: pwcache.h,v 1.5 2003/11/10 08:51:51 wiz Exp $	*/
 
 /*-
@@ -87,4 +87,7 @@ int pwcache_groupdb(
 	void		(*a_endgrent)(void),
 	struct group *	(*a_getgrnam)(const char *),
 	struct group *	(*a_getgrgid)(gid_t));
+
+#define user_from_uid __nbcompat_user_from_uid
+#define group_from_gid __nbcompat_group_from_gid
 #endif
