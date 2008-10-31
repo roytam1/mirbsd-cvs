@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/makefs/cd9660/iso9660_rrip.c,v 1.6 2008/10/31 21:31:37 tg Exp $ */
+/**	$MirOS: src/usr.sbin/makefs/cd9660/iso9660_rrip.c,v 1.7 2008/10/31 22:19:12 tg Exp $ */
 /*	$NetBSD: iso9660_rrip.c,v 1.4 2006/12/18 21:03:29 christos Exp $	*/
 
 /*
@@ -45,7 +45,7 @@
 #include <sys/cdefs.h>
 #if defined(__RCSID) && !defined(__lint)
 __RCSID("$NetBSD: iso9660_rrip.c,v 1.4 2006/12/18 21:03:29 christos Exp $");
-__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/cd9660/iso9660_rrip.c,v 1.6 2008/10/31 21:31:37 tg Exp $");
+__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/cd9660/iso9660_rrip.c,v 1.7 2008/10/31 22:19:12 tg Exp $");
 #endif  /* !__lint */
 
 static void cd9660_rrip_initialize_inode(cd9660node *);
@@ -430,6 +430,7 @@ cd9660node_susp_create_node(int susp_type, int entry_type, const char *type_id,
 		CD9660_MEM_ALLOC_ERROR("cd9660node_susp_create_node");
 		exit(1);
 	}
+	memset(temp, '\0', sizeof (struct ISO_SUSP_ATTRIBUTES));
 
 	temp->susp_type = susp_type;
 	temp->entry_type = entry_type;
