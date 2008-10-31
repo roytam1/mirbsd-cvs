@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/makefs/cd9660.c,v 1.8 2008/10/31 20:13:19 tg Exp $ */
+/**	$MirOS: src/usr.sbin/makefs/cd9660.c,v 1.9 2008/10/31 20:35:39 tg Exp $ */
 /*	$NetBSD: cd9660.c,v 1.22 2008/10/30 18:43:13 ahoka Exp $	*/
 
 /*
@@ -108,7 +108,7 @@
 #include <sys/cdefs.h>
 #if defined(__RCSID) && !defined(__lint)
 __RCSID("$NetBSD: cd9660.c,v 1.22 2008/10/30 18:43:13 ahoka Exp $");
-__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/cd9660.c,v 1.8 2008/10/31 20:13:19 tg Exp $");
+__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/cd9660.c,v 1.9 2008/10/31 20:35:39 tg Exp $");
 #endif  /* !__lint */
 
 #include <string.h>
@@ -632,22 +632,20 @@ cd9660_finalize_PVD(void)
 
 	/* Set up all the important numbers in the PVD */
 	cd9660_bothendian_dword(diskStructure.totalSectors,
-	    (unsigned char *)diskStructure.primaryDescriptor.volume_space_size);
+	    diskStructure.primaryDescriptor.volume_space_size);
 	cd9660_bothendian_word(1,
-	    (unsigned char *)diskStructure.primaryDescriptor.volume_set_size);
+	    diskStructure.primaryDescriptor.volume_set_size);
 	cd9660_bothendian_word(1,
-	    (unsigned char *)
-		diskStructure.primaryDescriptor.volume_sequence_number);
+	    diskStructure.primaryDescriptor.volume_sequence_number);
 	cd9660_bothendian_word(diskStructure.sectorSize,
-	    (unsigned char *)
-		diskStructure.primaryDescriptor.logical_block_size);
+	    diskStructure.primaryDescriptor.logical_block_size);
 	cd9660_bothendian_dword(diskStructure.pathTableLength,
-	    (unsigned char *)diskStructure.primaryDescriptor.path_table_size);
+	    diskStructure.primaryDescriptor.path_table_size);
 
 	cd9660_731(diskStructure.primaryLittleEndianTableSector,
-		(u_char *)diskStructure.primaryDescriptor.type_l_path_table);
+	    diskStructure.primaryDescriptor.type_l_path_table);
 	cd9660_732(diskStructure.primaryBigEndianTableSector,
-		(u_char *)diskStructure.primaryDescriptor.type_m_path_table);
+	    diskStructure.primaryDescriptor.type_m_path_table);
 
 	diskStructure.primaryDescriptor.file_structure_version[0] = 1;
 
@@ -672,9 +670,9 @@ cd9660_finalize_PVD(void)
 	/* Setup dates */
 	time(&tim);
 	cd9660_time_8426(tim,
-	    (unsigned char *)diskStructure.primaryDescriptor.creation_date);
+	    diskStructure.primaryDescriptor.creation_date);
 	cd9660_time_8426(tim,
-	    (unsigned char *)diskStructure.primaryDescriptor.modification_date);
+	    diskStructure.primaryDescriptor.modification_date);
 
 	/*
 	cd9660_set_date(now, diskStructure.primaryDescriptor.expiration_date);
@@ -682,7 +680,7 @@ cd9660_finalize_PVD(void)
 
 	memset(diskStructure.primaryDescriptor.expiration_date, '0' ,17);
 	cd9660_time_8426(tim,
-	    (unsigned char *)diskStructure.primaryDescriptor.effective_date);
+	    diskStructure.primaryDescriptor.effective_date);
 }
 
 static void

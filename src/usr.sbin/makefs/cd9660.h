@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/makefs/cd9660.h,v 1.6 2008/10/31 20:13:19 tg Exp $ */
+/**	$MirOS: src/usr.sbin/makefs/cd9660.h,v 1.7 2008/10/31 20:33:47 tg Exp $ */
 /*	$NetBSD: cd9660.h,v 1.12 2008/07/27 10:29:32 reinoud Exp $	*/
 
 /*
@@ -71,14 +71,14 @@
 	void __CONCAT(cd9660_real_, name)(type, unsigned char *)
 	    __attribute__((__bounded__ (__minbytes__, 2, bytes)))
 #define cd9660_DATATYPE_INVOCATION(name, bytes, val, buf) \
-	__CONCAT(cd9660_real_, name)(val, buf)
+	__CONCAT(cd9660_real_, name)(val, (unsigned char *)(buf))
 #elif defined(DEBUG)
 /* compile-time assertion */
 #define cd9660_DATATYPE_PROTO(name, bytes, type) \
 	void __CONCAT(cd9660_real_, name)(type, unsigned char *)
 #define cd9660_DATATYPE_INVOCATION(name, bytes, val, buf) do {		\
 	int cd9660_DATATYPE_CHECK[sizeof (buf) >= bytes ? 1 : -1];	\
-	__CONCAT(cd9660_real_, name)(val, buf);				\
+	__CONCAT(cd9660_real_, name)(val, (unsigned char *)(buf));	\
 } while (/* CONSTCOND */ 0)
 #else
 /* run-time assertion */
@@ -86,7 +86,7 @@
 	void __CONCAT(cd9660_real_, name)(type, unsigned char *)
 #define cd9660_DATATYPE_INVOCATION(name, bytes, val, buf) do {		\
 	assert(sizeof (buf) >= bytes);					\
-	__CONCAT(cd9660_real_, name)(val, buf);				\
+	__CONCAT(cd9660_real_, name)(val, (unsigned char *)(buf));	\
 } while (/* CONSTCOND */ 0)
 #endif
 

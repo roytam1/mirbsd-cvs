@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$NetBSD: iso9660_rrip.c,v 1.4 2006/12/18 21:03:29 christos Exp $	*/
 
 /*
@@ -44,6 +45,7 @@
 #include <sys/cdefs.h>
 #if defined(__RCSID) && !defined(__lint)
 __RCSID("$NetBSD: iso9660_rrip.c,v 1.4 2006/12/18 21:03:29 christos Exp $");
+__IDSTRING(mbsdid, "$MirOS$");
 #endif  /* !__lint */
 
 static void cd9660_rrip_initialize_inode(cd9660node *);
@@ -179,18 +181,16 @@ cd9660_rrip_finalize_node(cd9660node *node)
 			if (node->rr_relocated == NULL)
 				return -1;
 			cd9660_bothendian_dword(
-				node->rr_relocated->fileDataSector,
-				(unsigned char *)
-				    t->attr.rr_entry.CL.dir_loc);
+			    node->rr_relocated->fileDataSector,
+			    t->attr.rr_entry.CL.dir_loc);
 			break;
 		case SUSP_ENTRY_RRIP_PL:
 			/* Look at rr_real_parent */
 			if (node->rr_real_parent == NULL)
 				return -1;
 			cd9660_bothendian_dword(
-				node->rr_real_parent->fileDataSector,
-				(unsigned char *)
-				    t->attr.rr_entry.PL.dir_loc);
+			    node->rr_real_parent->fileDataSector,
+			    t->attr.rr_entry.PL.dir_loc);
 			break;
 		}
 	}
