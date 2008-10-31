@@ -1,7 +1,9 @@
-#	$NetBSD: Makefile,v 1.22 2008/08/29 00:02:25 gmcgarry Exp $
-#
+# $MirOS$
+# $NetBSD: Makefile,v 1.22 2008/08/29 00:02:25 gmcgarry Exp $
 
 .include <bsd.own.mk>
+
+EXPERIMENTAL=Yes
 
 PROG=	makefs
 SRCS=	buf.c \
@@ -16,6 +18,12 @@ SRCS=	buf.c \
 	walk.c
 MAN=	makefs.8
 
+NETBSDSRCDIR?=	${.CURDIR}/nbsrc
+CDIAGFLAGS+=	-Wmissing-declarations -Wmissing-prototypes
+CPPFLAGS+=	-DHAVE_STRUCT_STAT_BIRTHTIME=0 \
+		-DHAVE_NBTOOL_CONFIG_H=0 -DHAVE_NETDB_H=1 \
+		-DHAVE_PWCACHE_USERDB=0 -DHAVE_STRSUFTOLL=0
+
 MKNODSRC=	${NETBSDSRCDIR}/sbin/mknod
 MTREESRC=	${NETBSDSRCDIR}/usr.sbin/mtree
 UFSSRC=		${NETBSDSRCDIR}/sys/ufs
@@ -23,10 +31,16 @@ CD9660SRC=	${NETBSDSRCDIR}/sys/fs/cd9660
 
 CPPFLAGS+=	-I${.CURDIR} \
 		-I${MKNODSRC} -I${MTREESRC} -I${CD9660SRC}
+CPPFLAGS+=	-I${NETBSDSRCDIR}/sys \
+		-I${BSDSRCDIR}/sbin/mknod -I${BSDSRCDIR}/usr.sbin/mtree \
+		-I${BSDSRCDIR}/sys -I${BSDSRCDIR}/sys/isofs/cd9660
 .PATH:		${.CURDIR}/ffs ${UFSSRC}/ffs \
 		${.CURDIR}/cd9660 ${CD9660SRC} \
 		${MKNODSRC} ${MTREESRC}
+.PATH:		${BSDSRCDIR}/sys/ufs/ffs ${BSDSRCDIR}/sys/isofs/cd9660 \
+		${BSDSRCDIR}/sbin/mknod ${BSDSRCDIR}/usr.sbin/mtree
 
+.if ${OStype} != "MirBSD"
 .if (${HOSTPROG:U} == "")
 DPADD+= ${LIBUTIL}
 LDADD+= -lutil
@@ -40,6 +54,20 @@ WARNS?=	3
 COPTS.${f}.c+=  -Wno-pointer-sign
 .endfor
 .endif
+.endif
+
+.else	# MirBSD
+
+SRCS+=		pwcache.c
+CPPFLAGS+=	-I${NETBSDSRCDIR}/lib/libc/gen
+.PATH: ${NETBSDSRCDIR}/lib/libc/gen
+
+SRCS+=		strsuftoll.c
+CPPFLAGS+=	-I${NETBSDSRCDIR}/lib/libc/stdlib
+.PATH: ${NETBSDSRCDIR}/lib/libc/stdlib
+
+SRCS+=		stat_flags.c
+.PATH: ${NETBSDSRCDIR}/lib/libutil
 .endif
 
 .include <bsd.prog.mk>

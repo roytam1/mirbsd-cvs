@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$NetBSD: ufs_bswap.h,v 1.18 2006/01/29 21:42:42 dsl Exp $	*/
 
 /*
@@ -37,7 +38,11 @@
 #include "opt_ffs.h"
 #endif
 
+#ifdef __MirBSD__
+#include <sys/endian.h>
+#else
 #include <sys/bswap.h>
+#endif
 
 /* Macros to access UFS flags */
 #ifdef FFS_EI
