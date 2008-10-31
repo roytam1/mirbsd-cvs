@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$NetBSD: makefs.c,v 1.26 2006/10/22 21:11:56 christos Exp $	*/
 
 /*
@@ -39,9 +40,14 @@
 #include "nbtool_config.h"
 #endif
 
+#ifdef __MirBSD__
+#include "mbsdtree.h"
+#endif
+
 #include <sys/cdefs.h>
 #if defined(__RCSID) && !defined(__lint)
 __RCSID("$NetBSD: makefs.c,v 1.26 2006/10/22 21:11:56 christos Exp $");
+__IDSTRING(mbsdid, "$MirOS$");
 #endif	/* !__lint */
 
 #include <assert.h>

@@ -1,9 +1,7 @@
-# $MirOS: src/usr.sbin/makefs/Makefile,v 1.16 2008/10/31 19:25:48 tg Exp $
+# $MirOS: src/usr.sbin/makefs/Makefile,v 1.17 2008/10/31 19:38:18 tg Exp $
 # $NetBSD: Makefile,v 1.22 2008/08/29 00:02:25 gmcgarry Exp $
 
 .include <bsd.own.mk>
-
-EXPERIMENTAL=Yes
 
 PROG=	makefs
 SRCS=	buf.c \

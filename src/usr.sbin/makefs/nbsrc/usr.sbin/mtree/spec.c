@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$NetBSD: spec.c,v 1.65 2008/04/28 20:24:17 martin Exp $	*/
 
 /*-
@@ -62,12 +63,17 @@
 #include "nbtool_config.h"
 #endif
 
+#ifdef __MirBSD__
+#include "mbsdtree.h"
+#endif
+
 #include <sys/cdefs.h>
 #if defined(__RCSID) && !defined(lint)
 #if 0
 static char sccsid[] = "@(#)spec.c	8.2 (Berkeley) 4/28/95";
 #else
 __RCSID("$NetBSD: spec.c,v 1.65 2008/04/28 20:24:17 martin Exp $");
+__IDSTRING(mbsdid, "$MirOS$");
 #endif
 #endif /* not lint */
 
@@ -87,6 +93,10 @@ __RCSID("$NetBSD: spec.c,v 1.65 2008/04/28 20:24:17 martin Exp $");
 
 #include "extern.h"
 #include "pack_dev.h"
+
+#ifdef __MirBSD__
+#include "pwcache.h"
+#endif
 
 size_t	mtree_lineno;			/* Current spec line number */
 int	mtree_Mflag;			/* Merge duplicate entries */

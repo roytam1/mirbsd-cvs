@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/usr.sbin/makefs/makefs.h,v 1.6 2008/10/31 19:38:19 tg Exp $ */
 /*	$NetBSD: makefs.h,v 1.19 2006/10/10 01:55:45 dbj Exp $	*/
 
 /*
@@ -233,7 +233,7 @@ extern	struct timespec	start_time;
 		gettimeofday(&end, NULL);		\
 		timersub(&end, &(x), &td);		\
 		printf("%s took %ld.%06ld seconds\n",	\
-		    (d), td.tv_sec, td.tv_usec);	\
+		    (d), (long)td.tv_sec, td.tv_usec);	\
 	}
 
 

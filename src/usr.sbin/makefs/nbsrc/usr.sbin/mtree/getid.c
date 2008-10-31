@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$NetBSD: getid.c,v 1.7 2008/04/28 20:24:17 martin Exp $	*/
 /*	from: NetBSD: getpwent.c,v 1.48 2000/10/03 03:22:26 enami Exp */
 /*	from: NetBSD: getgrent.c,v 1.41 2002/01/12 23:51:30 lukem Exp */
@@ -66,6 +67,7 @@
 
 #include <sys/cdefs.h>
 __RCSID("$NetBSD: getid.c,v 1.7 2008/04/28 20:24:17 martin Exp $");
+__IDSTRING(mbsdid, "$MirOS$");
 
 #include <sys/param.h>
 
@@ -79,6 +81,10 @@ __RCSID("$NetBSD: getid.c,v 1.7 2008/04/28 20:24:17 martin Exp $");
 #include <unistd.h>
 
 #include "extern.h"
+
+#ifdef __MirBSD__
+#include "pwcache.h"
+#endif
 
 static	struct group *	gi_getgrnam(const char *);
 static	struct group *	gi_getgrgid(gid_t);
