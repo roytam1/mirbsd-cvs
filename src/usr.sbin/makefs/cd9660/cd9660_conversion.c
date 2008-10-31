@@ -168,7 +168,7 @@ cd9660_compute_gm_offset(time_t tim)
 
 /* Long dates: 17 characters */
 void
-cd9660_time_8426(unsigned char *buf, time_t tim)
+cd9660_time_8426(time_t tim, unsigned char *buf)
 {
 	struct tm t;
 	char temp[18];
@@ -188,7 +188,7 @@ cd9660_time_8426(unsigned char *buf, time_t tim)
 
 /* Short dates: 7 characters */
 void
-cd9660_time_915(unsigned char *buf, time_t tim)
+cd9660_time_915(time_t tim, unsigned char *buf)
 {
 	struct tm t;
 

@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/makefs/cd9660.c,v 1.5 2008/10/31 19:38:18 tg Exp $ */
+/**	$MirOS: src/usr.sbin/makefs/cd9660.c,v 1.6 2008/10/31 19:51:52 tg Exp $ */
 /*	$NetBSD: cd9660.c,v 1.22 2008/10/30 18:43:13 ahoka Exp $	*/
 
 /*
@@ -108,7 +108,7 @@
 #include <sys/cdefs.h>
 #if defined(__RCSID) && !defined(__lint)
 __RCSID("$NetBSD: cd9660.c,v 1.22 2008/10/30 18:43:13 ahoka Exp $");
-__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/cd9660.c,v 1.5 2008/10/31 19:38:18 tg Exp $");
+__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/cd9660.c,v 1.6 2008/10/31 19:51:52 tg Exp $");
 #endif  /* !__lint */
 
 #include <string.h>
@@ -670,21 +670,18 @@ cd9660_finalize_PVD(void)
 
 	/* Setup dates */
 	time(&tim);
-	cd9660_time_8426(
-	    (unsigned char *)diskStructure.primaryDescriptor.creation_date,
-	    tim);
-	cd9660_time_8426(
-	    (unsigned char *)diskStructure.primaryDescriptor.modification_date,
-	    tim);
+	cd9660_time_8426(tim,
+	    (unsigned char *)diskStructure.primaryDescriptor.creation_date);
+	cd9660_time_8426(tim,
+	    (unsigned char *)diskStructure.primaryDescriptor.modification_date);
 
 	/*
 	cd9660_set_date(diskStructure.primaryDescriptor.expiration_date, now);
 	*/
 
 	memset(diskStructure.primaryDescriptor.expiration_date, '0' ,17);
-	cd9660_time_8426(
-	    (unsigned char *)diskStructure.primaryDescriptor.effective_date,
-	    tim);
+	cd9660_time_8426(tim,
+	    (unsigned char *)diskStructure.primaryDescriptor.effective_date);
 }
 
 static void
@@ -828,7 +825,7 @@ cd9960_translate_node_common(cd9660node *newnode)
 	/* If we want to use the current date and time */
 	time(&tim);
 
-	cd9660_time_915(newnode->isoDirRecord->date, tim);
+	cd9660_time_915(tim, newnode->isoDirRecord->date);
 
 	cd9660_bothendian_dword(newnode->fileDataLength,
 	    newnode->isoDirRecord->size);
@@ -873,7 +870,7 @@ cd9660_translate_node(fsnode *node, cd9660node *newnode)
 		return 0;
 
 	/* Finally, overwrite some of the values that are set by default */
-	cd9660_time_915(newnode->isoDirRecord->date, node->inode->st.st_mtime);
+	cd9660_time_915(node->inode->st.st_mtime, newnode->isoDirRecord->date);
 
 	return 1;
 }
