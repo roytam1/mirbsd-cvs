@@ -1,5 +1,5 @@
-# $MirOS: src/usr.sbin/makefs/Makefile,v 1.13 2007/05/19 22:51:43 tg Exp $
-# $NetBSD: Makefile,v 1.19 2006/05/12 01:18:25 mrg Exp $
+#	$NetBSD: Makefile,v 1.22 2008/08/29 00:02:25 gmcgarry Exp $
+#
 
 .include <bsd.own.mk>
 
@@ -11,46 +11,35 @@ SRCS=	buf.c \
 	getid.c \
 	makefs.c misc.c mkfs.c \
 	pack_dev.c \
-	spec.c stat_flags.c \
+	spec.c \
 	ufs_bmap.c \
 	walk.c
 MAN=	makefs.8
 
-DPADD+=		${LIBUTIL}
-LDADD+=		-lutil
+MKNODSRC=	${NETBSDSRCDIR}/sbin/mknod
+MTREESRC=	${NETBSDSRCDIR}/usr.sbin/mtree
+UFSSRC=		${NETBSDSRCDIR}/sys/ufs
+CD9660SRC=	${NETBSDSRCDIR}/sys/fs/cd9660
 
-CDIAGFLAGS+=	-Wmissing-declarations -Wmissing-prototypes
-CDIAGFLAGS+=	-Wno-unused -Wno-old-style-definition
+CPPFLAGS+=	-I${.CURDIR} \
+		-I${MKNODSRC} -I${MTREESRC} -I${CD9660SRC}
+.PATH:		${.CURDIR}/ffs ${UFSSRC}/ffs \
+		${.CURDIR}/cd9660 ${CD9660SRC} \
+		${MKNODSRC} ${MTREESRC}
 
-LSSRC=		${BSDSRCDIR}/bin/ls
-MKNODSRC=	${BSDSRCDIR}/sbin/mknod
-MTREESRC=	${BSDSRCDIR}/usr.sbin/mtree
-UFSSRC=		${BSDSRCDIR}/sys/ufs
-CD9660SRC=	${BSDSRCDIR}/sys/isofs/cd9660
+.if (${HOSTPROG:U} == "")
+DPADD+= ${LIBUTIL}
+LDADD+= -lutil
+.endif
 
-CPPFLAGS+=	-DHAVE_STRUCT_STAT_BIRTHTIME=0
-CPPFLAGS+=	-DHAVE_NBTOOL_CONFIG_H=0 -DHAVE_NETDB_H=1 \
-		-DHAVE_PWCACHE_USERDB=0 -DHAVE_STRSUFTOLL=0
+WARNS?=	3
 
-NBASSOC=	${.CURDIR}/nbsrc
-
-CPPFLAGS+=	\
-		-I${NBASSOC}/sys \
-		-I${NBASSOC}/bin/ls -I${LSSRC} \
-		-I${NBASSOC}/sbin/mknod -I${MKNODSRC} \
-		-I${NBASSOC}/usr.sbin/mtree -I${MTREESRC} \
-		-I${NBASSOC}/sys/isofs/cd9660 -I${CD9660SRC}
-.PATH:		${.CURDIR}/ffs ${NBASSOC}/sys/ufs/ffs ${UFSSRC}/ffs \
-		${.CURDIR}/cd9660 ${NBASSOC}/sys/isofs/cd9660 ${CD9660SRC} \
-		${NBASSOC}/bin/ls ${LSSRC} \
-		${NBASSOC}/sbin/mknod ${MKNODSRC} \
-		${NBASSOC}/usr.sbin/mtree ${MTREESRC}
-
-SRCS+=		pwcache.c
-CPPFLAGS+=	-I${NBASSOC}/lib/libc/gen
-.PATH:		${NBASSOC}/lib/libc/gen
-
-SRCS+=		strsuftoll.c
-.PATH:		${NBASSOC}/lib/libc/stdlib
+.if !defined(HOSTPROGNAME)
+.if (defined(HAVE_GCC) && ${HAVE_GCC} == 4) || defined(HAVE_PCC)
+.for f in cd9660_debug cd9660_write
+COPTS.${f}.c+=  -Wno-pointer-sign
+.endfor
+.endif
+.endif
 
 .include <bsd.prog.mk>

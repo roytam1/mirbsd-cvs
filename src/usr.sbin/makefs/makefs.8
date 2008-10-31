@@ -1,5 +1,4 @@
-.\"	$MirOS$
-.\"	$NetBSD: makefs.8,v 1.25 2006/03/12 11:18:31 rpaulo Exp $
+.\"	$NetBSD: makefs.8,v 1.30 2008/05/10 19:00:07 skrll Exp $
 .\"
 .\" Copyright (c) 2001-2003 Wasabi Systems, Inc.
 .\" All rights reserved.
@@ -34,7 +33,7 @@
 .\" ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 .\" POSSIBILITY OF SUCH DAMAGE.
 .\"
-.Dd July 5, 2006
+.Dd May 10, 2008
 .Dt MAKEFS 8
 .Os
 .Sh NAME
@@ -228,30 +227,31 @@ The following keywords are supported:
 .Pp
 .Bl -tag -width optimization -offset indent -compact
 .It Sy avgfilesize
-Expected average file size
+Expected average file size.
 .It Sy avgfpdir
-Expected number of files per directory
+Expected number of files per directory.
 .It Sy bsize
-Block size
+Block size.
 .It Sy density
-Bytes per inode
+Bytes per inode.
 .It Sy fsize
-Fragment size
+Fragment size.
 .It Sy maxbpg
-Maximum blocks per file in a cylinder group
+Maximum blocks per file in a cylinder group.
 .It Sy minfree
-Minimum % free
+Minimum % free.
 .It Sy optimization
 Optimization preference; one of
 .Ql space
 or
 .Ql time .
 .It Sy extent
-Maximum extent size
+Maximum extent size.
 .It Sy maxbpcg
-Maximum total number of blocks in a cylinder group
+Maximum total number of blocks in a cylinder group.
 .It Sy version
-UFS version. 1 for FFS (default), 2 for UFS2
+UFS version.
+1 for FFS (default), 2 for UFS2.
 .El
 .Ss CD9660-specific options
 .Sy cd9660
@@ -290,6 +290,8 @@ is one of
 .Ql macppc ,
 or
 .Ql powerpc .
+.It Sy generic-bootimage
+Load a generic boot image into the first 32K of the cd9660 image.
 .It Sy hard-disk-boot
 Boot image is a hard disk image.
 .It Sy keep-bad-images
@@ -317,6 +319,7 @@ Use RockRidge extensions (for longer filenames, etc.).
 Volume set identifier of the image.
 .El
 .Sh SEE ALSO
+.Xr strsuftoll 3 ,
 .Xr installboot 8 ,
 .Xr mtree 8 ,
 .Xr newfs 8

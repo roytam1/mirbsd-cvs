@@ -1,4 +1,4 @@
-/*	$NetBSD: pack_dev.c,v 1.8 2004/05/11 17:09:58 christos Exp $	*/
+/*	$NetBSD: pack_dev.c,v 1.9 2008/04/28 20:23:09 martin Exp $	*/
 
 /*-
  * Copyright (c) 1998, 2001 The NetBSD Foundation, Inc.
@@ -15,13 +15,6 @@
  * 2. Redistributions in binary form must reproduce the above copyright
  *    notice, this list of conditions and the following disclaimer in the
  *    documentation and/or other materials provided with the distribution.
- * 3. All advertising materials mentioning features or use of this software
- *    must display the following acknowledgement:
- *        This product includes software developed by the NetBSD
- *        Foundation, Inc. and its contributors.
- * 4. Neither the name of The NetBSD Foundation nor the names of its
- *    contributors may be used to endorse or promote products derived
- *    from this software without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE NETBSD FOUNDATION, INC. AND CONTRIBUTORS
  * ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
@@ -42,8 +35,7 @@
 
 #include <sys/cdefs.h>
 #if !defined(lint)
-__RCSID("$MirOS$");
-__RCSID("$NetBSD: pack_dev.c,v 1.8 2004/05/11 17:09:58 christos Exp $");
+__RCSID("$NetBSD: pack_dev.c,v 1.9 2008/04/28 20:23:09 martin Exp $");
 #endif /* not lint */
 
 #include <sys/types.h>
@@ -78,7 +70,7 @@ pack_native(int n, u_long numbers[], const char **error)
 
 	if (n == 2) {
 		dev = makedev(numbers[0], numbers[1]);
-		if ((u_long)major(dev) != numbers[0])
+		if (major(dev) != numbers[0])
 			*error = iMajorError;
 		else if (minor(dev) != numbers[1])
 			*error = iMinorError;
@@ -105,8 +97,8 @@ pack_netbsd(int n, u_long numbers[], const char **error)
 }
 
 
-#define	major_freebsd(x)	((uint32_t)(((x) & 0x0000ff00) >> 8))
-#define	minor_freebsd(x)	((uint32_t)(((x) & 0xffff00ff) >> 0))
+#define	major_freebsd(x)	((int32_t)(((x) & 0x0000ff00) >> 8))
+#define	minor_freebsd(x)	((int32_t)(((x) & 0xffff00ff) >> 0))
 #define	makedev_freebsd(x,y)	((portdev_t)((((x) << 8) & 0x0000ff00) | \
 					 (((y) << 0) & 0xffff00ff)))
 
@@ -127,8 +119,8 @@ pack_freebsd(int n, u_long numbers[], const char **error)
 }
 
 
-#define	major_8_8(x)		((uint32_t)(((x) & 0x0000ff00) >> 8))
-#define	minor_8_8(x)		((uint32_t)(((x) & 0x000000ff) >> 0))
+#define	major_8_8(x)		((int32_t)(((x) & 0x0000ff00) >> 8))
+#define	minor_8_8(x)		((int32_t)(((x) & 0x000000ff) >> 0))
 #define	makedev_8_8(x,y)	((portdev_t)((((x) << 8) & 0x0000ff00) | \
 					 (((y) << 0) & 0x000000ff)))
 
@@ -149,8 +141,8 @@ pack_8_8(int n, u_long numbers[], const char **error)
 }
 
 
-#define	major_12_20(x)		((uint32_t)(((x) & 0xfff00000) >> 20))
-#define	minor_12_20(x)		((uint32_t)(((x) & 0x000fffff) >>  0))
+#define	major_12_20(x)		((int32_t)(((x) & 0xfff00000) >> 20))
+#define	minor_12_20(x)		((int32_t)(((x) & 0x000fffff) >>  0))
 #define	makedev_12_20(x,y)	((portdev_t)((((x) << 20) & 0xfff00000) | \
 					 (((y) <<  0) & 0x000fffff)))
 
@@ -171,8 +163,8 @@ pack_12_20(int n, u_long numbers[], const char **error)
 }
 
 
-#define	major_14_18(x)		((uint32_t)(((x) & 0xfffc0000) >> 18))
-#define	minor_14_18(x)		((uint32_t)(((x) & 0x0003ffff) >>  0))
+#define	major_14_18(x)		((int32_t)(((x) & 0xfffc0000) >> 18))
+#define	minor_14_18(x)		((int32_t)(((x) & 0x0003ffff) >>  0))
 #define	makedev_14_18(x,y)	((portdev_t)((((x) << 18) & 0xfffc0000) | \
 					 (((y) <<  0) & 0x0003ffff)))
 
@@ -193,8 +185,8 @@ pack_14_18(int n, u_long numbers[], const char **error)
 }
 
 
-#define	major_8_24(x)		((uint32_t)(((x) & 0xff000000) >> 24))
-#define	minor_8_24(x)		((uint32_t)(((x) & 0x00ffffff) >>  0))
+#define	major_8_24(x)		((int32_t)(((x) & 0xff000000) >> 24))
+#define	minor_8_24(x)		((int32_t)(((x) & 0x00ffffff) >>  0))
 #define	makedev_8_24(x,y)	((portdev_t)((((x) << 24) & 0xff000000) | \
 					 (((y) <<  0) & 0x00ffffff)))
 
@@ -215,9 +207,9 @@ pack_8_24(int n, u_long numbers[], const char **error)
 }
 
 
-#define	major_12_12_8(x)	((uint32_t)(((x) & 0xfff00000) >> 20))
-#define	unit_12_12_8(x)		((uint32_t)(((x) & 0x000fff00) >>  8))
-#define	subunit_12_12_8(x)	((uint32_t)(((x) & 0x000000ff) >>  0))
+#define	major_12_12_8(x)	((int32_t)(((x) & 0xfff00000) >> 20))
+#define	unit_12_12_8(x)		((int32_t)(((x) & 0x000fff00) >>  8))
+#define	subunit_12_12_8(x)	((int32_t)(((x) & 0x000000ff) >>  0))
 #define	makedev_12_12_8(x,y,z)	((portdev_t)((((x) << 20) & 0xfff00000) | \
 					 (((y) <<  8) & 0x000fff00) | \
 					 (((z) <<  0) & 0x000000ff)))

@@ -1,4 +1,4 @@
-/*	$NetBSD: cd9660_eltorito.c,v 1.11 2006/04/22 17:38:20 christos Exp $	*/
+/*	$NetBSD: cd9660_eltorito.c,v 1.12 2008/07/27 10:29:32 reinoud Exp $	*/
 
 /*
  * Copyright (c) 2005 Daniel Watt, Walter Deignan, Ryan Gabrys, Alan
@@ -36,7 +36,7 @@
 
 #include <sys/cdefs.h>
 #if defined(__RCSID) && !defined(__lint)
-__RCSID("$NetBSD: cd9660_eltorito.c,v 1.11 2006/04/22 17:38:20 christos Exp $");
+__RCSID("$NetBSD: cd9660_eltorito.c,v 1.12 2008/07/27 10:29:32 reinoud Exp $");
 #endif  /* !__lint */
 
 #ifdef DEBUG
@@ -46,6 +46,7 @@ __RCSID("$NetBSD: cd9660_eltorito.c,v 1.11 2006/04/22 17:38:20 christos Exp $");
 #endif
 
 static struct boot_catalog_entry *cd9660_init_boot_catalog_entry(void);
+static struct boot_catalog_entry *cd9660_boot_setup_validation_entry(char);
 static struct boot_catalog_entry *cd9660_boot_setup_default_entry(
     struct cd9660_boot_image *);
 static struct boot_catalog_entry *cd9660_boot_setup_section_head(char);
@@ -240,7 +241,7 @@ cd9660_boot_setup_validation_entry(char sys)
 	boot_catalog_validation_entry *ve;
 	int16_t checksum;
 	unsigned char *csptr;
-	size_t i;
+	int i;
 	entry = cd9660_init_boot_catalog_entry();
 
 	if (entry == NULL) {
@@ -371,7 +372,7 @@ cd9660_setup_boot(int first_sector)
 	/* Point to catalog: For now assume it consumes one sector */
 	ELTORITO_DPRINTF(("Boot catalog will go in sector %d\n", first_sector));
 	diskStructure.boot_catalog_sector = first_sector;
-	cd9660_731(first_sector,
+	cd9660_bothendian_dword(first_sector,
 		diskStructure.boot_descriptor->boot_catalog_pointer);
 
 	/* Step 1: Generate boot catalog */
@@ -483,7 +484,7 @@ cd9660_setup_boot(int first_sector)
 }
 
 int
-cd9660_setup_boot_volume_descritpor(volume_descriptor *bvd)
+cd9660_setup_boot_volume_descriptor(volume_descriptor *bvd)
 {
 	boot_volume_descriptor *bvdData =
 	    (boot_volume_descriptor*)bvd->volumeDescriptorData;

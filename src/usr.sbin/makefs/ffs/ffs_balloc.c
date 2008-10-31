@@ -38,7 +38,6 @@
 
 #include <sys/cdefs.h>
 #if defined(__RCSID) && !defined(__lint)
-__RCSID("$MirOS$");
 __RCSID("$NetBSD: ffs_balloc.c,v 1.13 2004/06/20 22:20:18 jmc Exp $");
 #endif	/* !__lint */
 
@@ -129,7 +128,7 @@ ffs_balloc_ufs1(struct inode *ip, off_t offset, int bufsize, struct buf **bpp)
 
 	if (lbn < NDADDR) {
 		nb = ufs_rw32(ip->i_ffs1_db[lbn], needswap);
-		if (nb != 0 && (off_t)ip->i_ffs1_size >= lblktosize(fs, lbn + 1)) {
+		if (nb != 0 && ip->i_ffs1_size >= lblktosize(fs, lbn + 1)) {
 
 			/*
 			 * The block is an already-allocated direct block
@@ -184,7 +183,7 @@ ffs_balloc_ufs1(struct inode *ip, off_t offset, int bufsize, struct buf **bpp)
 			 * allocate a new block or fragment.
 			 */
 
-			if ((off_t)ip->i_ffs1_size < lblktosize(fs, lbn + 1))
+			if (ip->i_ffs1_size < lblktosize(fs, lbn + 1))
 				nsize = fragroundup(fs, size);
 			else
 				nsize = fs->fs_bsize;
@@ -380,7 +379,7 @@ ffs_balloc_ufs2(struct inode *ip, off_t offset, int bufsize, struct buf **bpp)
 
 	if (lbn < NDADDR) {
 		nb = ufs_rw64(ip->i_ffs2_db[lbn], needswap);
-		if (nb != 0 && (off_t)ip->i_ffs2_size >= lblktosize(fs, lbn + 1)) {
+		if (nb != 0 && ip->i_ffs2_size >= lblktosize(fs, lbn + 1)) {
 
 			/*
 			 * The block is an already-allocated direct block
@@ -435,7 +434,7 @@ ffs_balloc_ufs2(struct inode *ip, off_t offset, int bufsize, struct buf **bpp)
 			 * allocate a new block or fragment.
 			 */
 
-			if ((off_t)ip->i_ffs2_size < lblktosize(fs, lbn + 1))
+			if (ip->i_ffs2_size < lblktosize(fs, lbn + 1))
 				nsize = fragroundup(fs, size);
 			else
 				nsize = fs->fs_bsize;

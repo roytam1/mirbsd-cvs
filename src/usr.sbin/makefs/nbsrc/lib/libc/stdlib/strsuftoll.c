@@ -1,4 +1,4 @@
-/*	$NetBSD: strsuftoll.c,v 1.6 2004/03/05 05:58:29 lukem Exp $	*/
+/*	$NetBSD: strsuftoll.c,v 1.8 2008/04/28 20:23:00 martin Exp $	*/
 /*-
  * Copyright (c) 2001-2002,2004 The NetBSD Foundation, Inc.
  * All rights reserved.
@@ -14,13 +14,6 @@
  * 2. Redistributions in binary form must reproduce the above copyright
  *    notice, this list of conditions and the following disclaimer in the
  *    documentation and/or other materials provided with the distribution.
- * 3. All advertising materials mentioning features or use of this software
- *    must display the following acknowledgement:
- *        This product includes software developed by the NetBSD
- *        Foundation, Inc. and its contributors.
- * 4. Neither the name of The NetBSD Foundation nor the names of its
- *    contributors may be used to endorse or promote products derived
- *    from this software without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE NETBSD FOUNDATION, INC. AND CONTRIBUTORS
  * ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
@@ -74,7 +67,7 @@
 #include <sys/cdefs.h>
 
 #if defined(LIBC_SCCS) && !defined(lint)
-__RCSID("$NetBSD: strsuftoll.c,v 1.6 2004/03/05 05:58:29 lukem Exp $");
+__RCSID("$NetBSD: strsuftoll.c,v 1.8 2008/04/28 20:23:00 martin Exp $");
 #endif /* LIBC_SCCS and not lint */
 
 #ifdef _LIBC
@@ -95,21 +88,12 @@ __RCSID("$NetBSD: strsuftoll.c,v 1.6 2004/03/05 05:58:29 lukem Exp $");
 #include <stdlib.h>
 #include <string.h>
 
-__RCSID("$MirOS$");
-
 #ifdef _LIBC
 # ifdef __weak_alias
 __weak_alias(strsuftoll, _strsuftoll)
 __weak_alias(strsuftollx, _strsuftollx)
 # endif
 #endif /* LIBC */
-
-/* LONGLONG */
-long long strsuftoll(const char *desc, const char *val,
-    long long min, long long max);
-/* LONGLONG */
-long long strsuftollx(const char *desc, const char *val,
-    long long min, long long max, char *ebuf, size_t ebuflen);
 
 /*
  * Convert an expression of the following forms to a (u)int64_t.
@@ -163,18 +147,12 @@ strsuftollx(const char *desc, const char *val,
 	while (isspace((unsigned char)*val))	/* Skip leading space */
 		val++;
 
-	if (*val == '0')
-		num = strtoll(val, &expr, 0);
-	else
-		num = strtoll(val, &expr, 10);
+	num = strtoll(val, &expr, 10);
 	if (errno == ERANGE)
 		goto erange;			/* Overflow */
 
 	if (expr == val)			/* No digits */
 		goto badnum;
-
-	if (*val == '0')
-		goto suffix_done;
 
 	switch (*expr) {
 	case 'b':
@@ -186,28 +164,28 @@ strsuftollx(const char *desc, const char *val,
 		break;
 	case 'k':
 		t = num;
-		num *= 1024;			/* 1 kilobyte */
+		num *= 1024;			/* 1 kibibyte */
 		if (t > num)
 			goto erange;
 		++expr;
 		break;
 	case 'm':
 		t = num;
-		num *= 1048576;			/* 1 megabyte */
+		num *= 1048576;			/* 1 mebibyte */
 		if (t > num)
 			goto erange;
 		++expr;
 		break;
 	case 'g':
 		t = num;
-		num *= 1073741824;		/* 1 gigabyte */
+		num *= 1073741824;		/* 1 gibibyte */
 		if (t > num)
 			goto erange;
 		++expr;
 		break;
 	case 't':
 		t = num;
-		num *= 1099511627776LL;		/* 1 terabyte */
+		num *= 1099511627776LL;		/* 1 tebibyte */
 		if (t > num)
 			goto erange;
 		++expr;
@@ -221,7 +199,6 @@ strsuftollx(const char *desc, const char *val,
 		break;
 	}
 
- suffix_done:
 	switch (*expr) {
 	case '\0':
 		break;

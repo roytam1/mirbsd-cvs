@@ -1,5 +1,4 @@
-/**	$MirOS: src/usr.sbin/makefs/ffs.c,v 1.4 2007/05/19 23:17:48 tg Exp $ */
-/*	$NetBSD: ffs.c,v 1.39 2006/04/22 17:40:49 christos Exp $	*/
+/*	$NetBSD: ffs.c,v 1.42 2006/12/18 21:03:29 christos Exp $	*/
 
 /*
  * Copyright (c) 2001 Wasabi Systems, Inc.
@@ -72,8 +71,7 @@
 
 #include <sys/cdefs.h>
 #if defined(__RCSID) && !defined(__lint)
-__RCSID("$MirOS: src/usr.sbin/makefs/ffs.c,v 1.4 2007/05/19 23:17:48 tg Exp $");
-__RCSID("$NetBSD: ffs.c,v 1.39 2006/04/22 17:40:49 christos Exp $");
+__RCSID("$NetBSD: ffs.c,v 1.42 2006/12/18 21:03:29 christos Exp $");
 #endif	/* !__lint */
 
 #include <sys/param.h>
@@ -106,8 +104,6 @@ __RCSID("$NetBSD: ffs.c,v 1.39 2006/04/22 17:40:49 christos Exp $");
 #include "ffs/ufs_inode.h"
 #include "ffs/newfs_extern.h"
 #include "ffs/ffs_extern.h"
-
-__RCSID("$MirOS: src/usr.sbin/makefs/ffs.c,v 1.4 2007/05/19 23:17:48 tg Exp $");
 
 #undef DIP
 #define DIP(dp, field) \
@@ -212,7 +208,7 @@ ffs_parse_opts(const char *option, fsinfo_t *fsopts)
 					"max # of blocks per group" },
 		{ "version",	&ffs_opts->version,	1,	2,
 					"UFS version" },
-		{ NULL, NULL, 0, 0, NULL }
+		{ .name = NULL }
 	};
 
 	char	*var, *val;
@@ -221,7 +217,6 @@ ffs_parse_opts(const char *option, fsinfo_t *fsopts)
 	assert(option != NULL);
 	assert(fsopts != NULL);
 	assert(ffs_opts != NULL);
-	(void)&ffs_options;
 
 	if (debug & DEBUG_FS_PARSE_OPTS)
 		printf("ffs_parse_opts: got `%s'\n", option);
@@ -324,7 +319,7 @@ static void
 ffs_validate(const char *dir, fsnode *root, fsinfo_t *fsopts)
 {
 	int32_t	ncg = 1;
-#ifdef notyet
+#if notyet
 	int32_t	spc, nspf, ncyl, fssize;
 #endif
 	ffs_opt_t	*ffs_opts = fsopts->fs_specific;
@@ -431,7 +426,7 @@ ffs_validate(const char *dir, fsnode *root, fsinfo_t *fsopts)
 
 		/* now check calculated sizes vs requested sizes */
 	if (fsopts->maxsize > 0 && fsopts->size > fsopts->maxsize) {
-		errx(1, "'%s' size of %lld is larger than the maxsize of %lld.",
+		errx(1, "`%s' size of %lld is larger than the maxsize of %lld.",
 		    dir, (long long)fsopts->size, (long long)fsopts->maxsize);
 	}
 }
@@ -591,8 +586,6 @@ ffs_size_dir(fsnode *root, fsinfo_t *fsopts)
 	curdirsize = 0;
 	for (node = root; node != NULL; node = node->next) {
 		ADDDIRENT(node->name);
-		if (FSNODE_EXCLUDE_P(fsopts, node))
-			continue;
 		if (node == root) {			/* we're at "." */
 			assert(strcmp(node->name, ".") == 0);
 			ADDDIRENT("..");
@@ -607,7 +600,7 @@ ffs_size_dir(fsnode *root, fsinfo_t *fsopts)
 			if (node->type == S_IFREG)
 				ADDSIZE(node->inode->st.st_size);
 			if (node->type == S_IFLNK) {
-				size_t	slen;
+				int	slen;
 
 				slen = strlen(node->symlink) + 1;
 				if (slen >= (ffs_opts->version == 1 ?
@@ -630,7 +623,7 @@ static void *
 ffs_build_dinode1(struct ufs1_dinode *dinp, dirbuf_t *dbufp, fsnode *cur,
 		 fsnode *root, fsinfo_t *fsopts)
 {
-	size_t slen;
+	int slen;
 	void *membuf;
 
 	memset(dinp, 0, sizeof(*dinp));
@@ -678,7 +671,7 @@ static void *
 ffs_build_dinode2(struct ufs2_dinode *dinp, dirbuf_t *dbufp, fsnode *cur,
 		 fsnode *root, fsinfo_t *fsopts)
 {
-	size_t slen;
+	int slen;
 	void *membuf;
 
 	memset(dinp, 0, sizeof(*dinp));
@@ -750,8 +743,6 @@ ffs_populate_dir(const char *dir, fsnode *root, fsinfo_t *fsopts)
 		 * pass 1: allocate inode numbers, build directory `file'
 		 */
 	for (cur = root; cur != NULL; cur = cur->next) {
-		if (FSNODE_EXCLUDE_P(fsopts, cur))
-			continue;
 		if ((cur->inode->flags & FI_ALLOCATED) == 0) {
 			cur->inode->flags |= FI_ALLOCATED;
 			if (cur == root && cur->parent != NULL)
@@ -786,13 +777,11 @@ ffs_populate_dir(const char *dir, fsnode *root, fsinfo_t *fsopts)
 	if (debug & DEBUG_FS_POPULATE)
 		printf("ffs_populate_dir: PASS 2  dir %s\n", dir);
 	for (cur = root; cur != NULL; cur = cur->next) {
-		if (FSNODE_EXCLUDE_P(fsopts, cur))
-			continue;
 		if (cur->inode->flags & FI_WRITTEN)
 			continue;		/* skip hard-linked entries */
 		cur->inode->flags |= FI_WRITTEN;
 
-		if ((size_t)snprintf(path, sizeof(path), "%s/%s", dir, cur->name)
+		if (snprintf(path, sizeof(path), "%s/%s", dir, cur->name)
 		    >= sizeof(path))
 			errx(1, "Pathname too long.");
 
@@ -831,11 +820,9 @@ ffs_populate_dir(const char *dir, fsnode *root, fsinfo_t *fsopts)
 	if (debug & DEBUG_FS_POPULATE)
 		printf("ffs_populate_dir: PASS 3  dir %s\n", dir);
 	for (cur = root; cur != NULL; cur = cur->next) {
-		if (FSNODE_EXCLUDE_P(fsopts, cur))
-			continue;
 		if (cur->child == NULL)
 			continue;
-		if ((size_t)snprintf(path, sizeof(path), "%s/%s", dir, cur->name)
+		if (snprintf(path, sizeof(path), "%s/%s", dir, cur->name)
 		    >= sizeof(path))
 			errx(1, "Pathname too long.");
 		if (! ffs_populate_dir(path, cur->child, fsopts))
@@ -999,7 +986,7 @@ ffs_make_dirbuf(dirbuf_t *dbuf, const char *name, fsnode *node, int needswap)
 	de.d_fileno = ufs_rw32(node->inode->ino, needswap);
 	de.d_type = IFTODT(node->type);
 	de.d_namlen = (uint8_t)strlen(name);
-	strlcpy(de.d_name, name, sizeof (de.d_name));
+	strcpy(de.d_name, name);
 	reclen = DIRSIZ(0, &de, needswap);
 	de.d_reclen = ufs_rw16(reclen, needswap);
 
@@ -1046,11 +1033,10 @@ ffs_write_inode(union dinode *dp, uint32_t ino, const fsinfo_t *fsopts)
 	struct ufs2_dinode *dp2, *dip;
 	struct cg	*cgp;
 	struct fs	*fs;
-	int		cg, i;
-	unsigned	cgino;
+	int		cg, cgino, i;
 	daddr_t		d;
 	char		sbbuf[FFS_MAXBSIZE];
-	uint32_t	initediblk;
+	int32_t		initediblk;
 	ffs_opt_t	*ffs_opts = fsopts->fs_specific;
 
 	assert (dp != NULL);
@@ -1105,8 +1091,9 @@ ffs_write_inode(union dinode *dp, uint32_t ino, const fsinfo_t *fsopts)
 	    initediblk < ufs_rw32(cgp->cg_niblk, fsopts->needswap)) {
 		memset(buf, 0, fs->fs_bsize);
 		dip = (struct ufs2_dinode *)buf;
+		srandom(time(NULL));
 		for (i = 0; i < INOPB(fs); i++) {
-			dip->di_gen = arc4random() / 2 + 1;
+			dip->di_gen = random() / 2 + 1;
 			dip++;
 		}
 		ffs_wtfs(fsbtodb(fs, ino_to_fsba(fs,

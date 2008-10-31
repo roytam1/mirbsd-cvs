@@ -1,4 +1,4 @@
-/*	$NetBSD: makefs.h,v 1.17 2005/08/13 01:53:01 fvdl Exp $	*/
+/*	$NetBSD: makefs.h,v 1.19 2006/10/10 01:55:45 dbj Exp $	*/
 
 /*
  * Copyright (c) 2001 Wasabi Systems, Inc.
@@ -41,24 +41,12 @@
 #if HAVE_NBTOOL_CONFIG_H
 #include "nbtool_config.h"
 #else
-#ifndef HAVE_STRUCT_STAT_ST_FLAGS
 #define HAVE_STRUCT_STAT_ST_FLAGS 1
-#endif /* HAVE_STRUCT_STAT_ST_FLAGS */
-#ifndef HAVE_STRUCT_STAT_ST_GEN
 #define HAVE_STRUCT_STAT_ST_GEN 1
-#endif /* HAVE_STRUCT_STAT_ST_GEN */
-#ifndef HAVE_STRUCT_STAT_ST_MTIMENSEC
 #define HAVE_STRUCT_STAT_ST_MTIMENSEC 1
-#endif /* HAVE_STRUCT_STAT_ST_MTIMENSEC */
-#ifndef HAVE_STRUCT_STATVFS_F_IOSIZE
 #define HAVE_STRUCT_STATVFS_F_IOSIZE 1
-#endif /* HAVE_STRUCT_STATVFS_F_IOSIZE */
-#ifndef HAVE_STRUCT_STAT_BIRTHTIME
 #define HAVE_STRUCT_STAT_BIRTHTIME 1
-#endif /* HAVE_STRUCT_STAT_BIRTHTIME */
-#ifndef HAVE_FSTATVFS
 #define HAVE_FSTATVFS 1
-#endif /* HAVE_FSTATVFS */
 #endif
 
 #include <sys/stat.h>
@@ -96,7 +84,7 @@
 enum fi_flags {
 	FI_SIZED =	1<<0,		/* inode sized */
 	FI_ALLOCATED =	1<<1,		/* fsinode->ino allocated */
-	FI_WRITTEN =	1<<2		/* inode written */
+	FI_WRITTEN =	1<<2,		/* inode written */
 };
 
 typedef struct {
@@ -165,11 +153,12 @@ typedef struct {
 } option_t;
 
 
-void		apply_specfile(const char *, const char *, fsnode *);
+void		apply_specfile(const char *, const char *, fsnode *, int);
 void		dump_fsnodes(const char *, fsnode *);
 const char *	inode_type(mode_t);
 int		set_option(option_t *, const char *, const char *);
 fsnode *	walk_dir(const char *, fsnode *);
+void		free_fsnodes(fsnode *);
 
 void		ffs_prep_opts(fsinfo_t *);
 int		ffs_parse_opts(const char *, fsinfo_t *);
@@ -218,6 +207,7 @@ extern	struct timespec	start_time;
 #define	DEBUG_BUF_GETBLK		0x02000000
 #define	DEBUG_APPLY_SPECFILE		0x04000000
 #define	DEBUG_APPLY_SPECENTRY		0x08000000
+#define	DEBUG_APPLY_SPECONLY		0x10000000
 
 
 #define	TIMER_START(x)				\
@@ -229,8 +219,8 @@ extern	struct timespec	start_time;
 		struct timeval end, td;			\
 		gettimeofday(&end, NULL);		\
 		timersub(&end, &(x), &td);		\
-		printf("%s took %lld.%06ld seconds\n",	\
-		    (d), (int64_t)td.tv_sec, td.tv_usec);\
+		printf("%s took %ld.%06ld seconds\n",	\
+		    (d), td.tv_sec, td.tv_usec);	\
 	}
 
 

@@ -1,4 +1,4 @@
-/*	$NetBSD: cd9660.c,v 1.13 2006/06/01 21:06:37 hubertf Exp $	*/
+/*	$NetBSD: cd9660.c,v 1.22 2008/10/30 18:43:13 ahoka Exp $	*/
 
 /*
  * Copyright (c) 2005 Daniel Watt, Walter Deignan, Ryan Gabrys, Alan
@@ -97,23 +97,19 @@
 
 #if HAVE_NBTOOL_CONFIG_H
 #include "nbtool_config.h"
+#else
+#include <sys/mount.h>
 #endif
 
 #include <sys/cdefs.h>
 #if defined(__RCSID) && !defined(__lint)
-__RCSID("$MirOS: src/usr.sbin/makefs/cd9660.c,v 1.2 2006/09/21 20:16:22 tg Exp $");
-__RCSID("$NetBSD: cd9660.c,v 1.13 2006/06/01 21:06:37 hubertf Exp $");
+__RCSID("$NetBSD: cd9660.c,v 1.22 2008/10/30 18:43:13 ahoka Exp $");
 #endif  /* !__lint */
 
 #include <string.h>
 #include <ctype.h>
-#include <sys/cdefs.h>
 #include <sys/param.h>
 #include <sys/queue.h>
-
-#if !HAVE_NBTOOL_CONFIG_H
-#include <sys/mount.h>
-#endif
 
 #include "makefs.h"
 #include "cd9660.h"
@@ -154,12 +150,12 @@ static void cd9660_convert_structure(fsnode *, cd9660node *, int,
     int *, int *);
 static void cd9660_free_structure(cd9660node *);
 static int cd9660_generate_path_table(void);
-static int cd9660_level1_convert_filename(const char *, char *, int, size_t);
-static int cd9660_level2_convert_filename(const char *, char *, int, size_t);
+static int cd9660_level1_convert_filename(const char *, char *, int);
+static int cd9660_level2_convert_filename(const char *, char *, int);
 #if 0
 static int cd9660_joliet_convert_filename(const char *, char *, int);
 #endif
-static int cd9660_convert_filename(const char *, char *, int, size_t);
+static int cd9660_convert_filename(const char *, char *, int);
 static void cd9660_populate_dot_records(cd9660node *);
 static int cd9660_compute_offsets(cd9660node *, int);
 #if 0
@@ -167,8 +163,9 @@ static int cd9660_copy_stat_info(cd9660node *, cd9660node *, int);
 #endif
 static cd9660node *cd9660_create_virtual_entry(const char *, cd9660node *, int,
     int);
-static cd9660node *cd9660_create_file(const char *, cd9660node *);
-static cd9660node *cd9660_create_directory(const char *, cd9660node *);
+static cd9660node *cd9660_create_file(const char *, cd9660node *, cd9660node *);
+static cd9660node *cd9660_create_directory(const char *, cd9660node *,
+    cd9660node *);
 static cd9660node *cd9660_create_special_directory(u_char, cd9660node *);
 
 
@@ -237,15 +234,14 @@ cd9660_set_defaults(void)
 	memset(diskStructure.primaryDescriptor.abstract_file_id, 0x20,128);
 	memset(diskStructure.primaryDescriptor.bibliographic_file_id, 0x20,128);
 
-#ifdef __MirBSD__
-	memcpy(diskStructure.primaryDescriptor.system_id, "MirBSD", 7);
-#else
-	memcpy(diskStructure.primaryDescriptor.system_id, "NetBSD", 7);
-#endif
+	strcpy(diskStructure.primaryDescriptor.system_id,"NetBSD");
 
 	cd9660_defaults_set = 1;
 
 	/* Boot support: Initially disabled */
+	diskStructure.has_generic_bootimage = 0;
+	diskStructure.generic_bootimage = NULL;
+
 	diskStructure.boot_image_directory = 0;
 	/*memset(diskStructure.boot_descriptor, 0, 2048);*/
 
@@ -255,13 +251,13 @@ cd9660_set_defaults(void)
 }
 
 void
-cd9660_prep_opts(fsinfo_t *fsopts)
+cd9660_prep_opts(fsinfo_t *fsopts __unused)
 {
 	cd9660_set_defaults();
 }
 
 void
-cd9660_cleanup_opts(fsinfo_t *fsopts)
+cd9660_cleanup_opts(fsinfo_t *fsopts __unused)
 {
 
 }
@@ -310,7 +306,7 @@ cd9660_parse_opts(const char *option, fsinfo_t *fsopts)
 		  "Turns on verbose output" },
 		{ "v", &diskStructure.verbose_level, 0 , 2,
 		  "Turns on verbose output"},
-		{ NULL, NULL, 0, 0, NULL }
+		{ .name = NULL }
 	};
 
 	if (cd9660_defaults_set == 0)
@@ -388,6 +384,11 @@ cd9660_parse_opts(const char *option, fsinfo_t *fsopts)
 			cd9660_arguments_set_string(val, "Boot Image Directory",
 			    12 , 'd', diskStructure.boot_image_directory);
 		}
+	} else if (CD9660_IS_COMMAND_ARG_DUAL(var, "G", "generic-bootimage")) {
+		if (val == NULL)
+			warnx("error: The Boot Image parameter requires a valid boot information string");
+		else
+			rv = cd9660_add_generic_bootimage(val);
 	} else if (CD9660_IS_COMMAND_ARG(var, "no-trailing-padding"))
 		diskStructure.include_padding_areas = 0;
 	/* RRIP */
@@ -692,6 +693,7 @@ cd9660_populate_iso_dir_record(struct _iso_directory_record_cd9660 *record,
 	record->interleave[0] = 0;
 	cd9660_bothendian_word(1, record->volume_sequence_number);
 	record->name_len[0] = name_len;
+	memset(record->name, '\0', sizeof (record->name));
 	memcpy(record->name, name, name_len);
 	record->length[0] = 33 + name_len;
 
@@ -750,7 +752,7 @@ cd9660_setup_volume_descriptors(void)
 		t->sector = 17;
 		if (diskStructure.verbose_level > 0)
 			printf("Setting up boot volume descriptor\n");
-		cd9660_setup_boot_volume_descritpor(t);
+		cd9660_setup_boot_volume_descriptor(t);
 		sector++;
 	}
 
@@ -807,7 +809,7 @@ cd9960_translate_node_common(cd9660node *newnode)
 	memset(temp, 0, ISO_FILENAME_MAXLENGTH_WITH_PADDING);
 
 	test = cd9660_convert_filename(newnode->node->name,
-		temp, !(S_ISDIR(newnode->node->type)), sizeof (temp));
+		temp, !(S_ISDIR(newnode->node->type)));
 
 	flag = ISO_FLAG_CLEAR;
 	if (S_ISDIR(newnode->node->type))
@@ -959,13 +961,6 @@ cd9660_sorted_child_insert(cd9660node *parent, cd9660node *cn_new)
 	/* TODO: Optimize? */
 	cn_new->parent = parent;
 
-#if 0	/* XXXDCY did this serve any purpose when head was a cd9660node? */
-	if (head == cn_new) {
-		head->parent->child = head;
-		return;
-	}
-#endif
-
 	/*
 	 * first will either be 0, the . or the ..
 	 * if . or .., this means no other entry may be written before first
@@ -977,7 +972,8 @@ cd9660_sorted_child_insert(cd9660node *parent, cd9660node *cn_new)
 		 * Dont insert a node twice -
 		 * that would cause an infinite loop
 		 */
-		assert(cn_new != cn);
+		if (cn_new == cn)
+			return;
 
 		compare = cd9660_compare_filename(cn_new->isoDirRecord->name,
 			cn->isoDirRecord->name);
@@ -1062,7 +1058,7 @@ cd9660_rename_filename(cd9660node *iter, int num, int delete_chars)
 	else
 		maxlength = ISO_FILENAME_MAXLENGTH_BEFORE_VERSION;
 
-	tmp = malloc(maxlength + 1);
+	tmp = malloc(ISO_FILENAME_MAXLENGTH_WITH_PADDING);
 
 	while (i < num) {
 		powers = 1;
@@ -1130,8 +1126,7 @@ cd9660_rename_filename(cd9660node *iter, int num, int delete_chars)
 		while (digits > 0) {
 			digit = (int)(temp / powers);
 			temp = temp - digit * powers;
-			snprintf(&tmp[numbts], maxlength + 1 - numbts,
-			    "%d", digit);
+			sprintf(&tmp[numbts] , "%d", digit);
 			digits--;
 			numbts++;
 			powers = powers / 10;
@@ -1145,12 +1140,13 @@ cd9660_rename_filename(cd9660node *iter, int num, int delete_chars)
 
 		tmp[numbts] = ';';
 		tmp[numbts+1] = '1';
+		tmp[numbts+2] = '\0';
 
 		/*
 		 * now tmp has exactly the identifier
 		 * we want so we'll copy it back to record
 		 */
-		memcpy((iter->isoDirRecord->name), tmp, numbts + 2);
+		memcpy((iter->isoDirRecord->name), tmp, numbts + 3);
 
 		iter = TAILQ_NEXT(iter, cn_next_child);
 		i++;
@@ -1260,18 +1256,18 @@ cd9660_rrip_move_directory(cd9660node *dir)
 	if (diskStructure.rr_moved_dir == NULL) {
 		diskStructure.rr_moved_dir =
 			cd9660_create_directory(ISO_RRIP_DEFAULT_MOVE_DIR_NAME,
-				diskStructure.rootNode);
+				diskStructure.rootNode, dir);
 		if (diskStructure.rr_moved_dir == NULL)
 			return 0;
 	}
 
 	/* Create a file with the same ORIGINAL name */
-	tfile = cd9660_create_file(dir->node->name, dir->parent);
+	tfile = cd9660_create_file(dir->node->name, dir->parent, dir);
 	if (tfile == NULL)
 		return NULL;
 
 	diskStructure.rock_ridge_move_count++;
-	snprintf(newname, sizeof (newname), "%08i",
+	snprintf(newname, sizeof(newname), "%08i",
 	    diskStructure.rock_ridge_move_count);
 
 	/* Point to old parent */
@@ -1575,29 +1571,28 @@ cd9660_generate_path_table(void)
 }
 
 void
-cd9660_compute_full_filename(cd9660node *node, char *buf, int level, size_t sz)
+cd9660_compute_full_filename(cd9660node *node, char *buf, int level)
 {
 	cd9660node *parent;
 
 	parent = (node->rr_real_parent == NULL ?
 		  node->parent : node->rr_real_parent);
 	if (parent != NULL) {
-		cd9660_compute_full_filename(parent, buf, level + 1, sz);
-		strlcat(buf, node->node->name, sz);
+		cd9660_compute_full_filename(parent, buf, level + 1);
+		strcat(buf, node->node->name);
 	} else {
 		/* We are at the root */
-		strlcat(buf, diskStructure.rootFilesystemPath, sz);
+		strcat(buf, diskStructure.rootFilesystemPath);
 		if (buf[strlen(buf) - 1] == '/')
 			buf[strlen(buf) - 1] = '\0';
 	}
 
 	if (level != 0)
-		strlcat(buf, "/", sz);
+		strcat(buf, "/");
 }
 
 /* NEW filename conversion method */
-typedef int(*cd9660_filename_conversion_functor)(const char *, char *, int,
-    size_t);
+typedef int(*cd9660_filename_conversion_functor)(const char *, char *, int);
 
 
 /*
@@ -1607,8 +1602,7 @@ typedef int(*cd9660_filename_conversion_functor)(const char *, char *, int,
  * XXX bounds checking!
  */
 static int
-cd9660_level1_convert_filename(const char *oldname, char *newname, int is_file,
-    size_t namsz)
+cd9660_level1_convert_filename(const char *oldname, char *newname, int is_file)
 {
 	/*
 	 * ISO 9660 : 10.1
@@ -1619,7 +1613,6 @@ cd9660_level1_convert_filename(const char *oldname, char *newname, int is_file,
 	int namelen = 0;
 	int extlen = 0;
 	int found_ext = 0;
-	char *namptr = newname;
 
 	while (*oldname != '\0') {
 		/* Handle period first, as it is special */
@@ -1658,15 +1651,14 @@ cd9660_level1_convert_filename(const char *oldname, char *newname, int is_file,
 		if (!found_ext && !diskStructure.omit_trailing_period)
 			*newname++ = '.';
 		/* Add version */
-		snprintf(newname, namsz - (newname - namptr), ";%i", 1);
+		sprintf(newname, ";%i", 1);
 	}
 	return namelen + extlen + found_ext;
 }
 
 /* XXX bounds checking! */
 static int
-cd9660_level2_convert_filename(const char *oldname, char *newname, int is_file,
-    size_t namsz)
+cd9660_level2_convert_filename(const char *oldname, char *newname, int is_file)
 {
 	/*
 	 * ISO 9660 : 7.5.1
@@ -1680,7 +1672,6 @@ cd9660_level2_convert_filename(const char *oldname, char *newname, int is_file,
 	int namelen = 0;
 	int extlen = 0;
 	int found_ext = 0;
-	char *namptr = newname;
 
 	while (*oldname != '\0') {
 		/* Handle period first, as it is special */
@@ -1716,7 +1707,7 @@ cd9660_level2_convert_filename(const char *oldname, char *newname, int is_file,
 		if (!found_ext && !diskStructure.omit_trailing_period)
 			*newname++ = '.';
 		/* Add version */
-		snprintf(newname, namsz - (newname - namptr), ";%i", 1);
+		sprintf(newname, ";%i", 1);
 	}
 	return namelen + extlen + found_ext;
 }
@@ -1739,16 +1730,15 @@ cd9660_joliet_convert_filename(const char *oldname, char *newname, int is_file)
  * @returns int The length of the new string
  */
 static int
-cd9660_convert_filename(const char *oldname, char *newname, int is_file,
-    size_t namsz)
+cd9660_convert_filename(const char *oldname, char *newname, int is_file)
 {
 	/* NEW */
-	cd9660_filename_conversion_functor conversion_function = NULL;
+	cd9660_filename_conversion_functor conversion_function = 0;
 	if (diskStructure.isoLevel == 1)
 		conversion_function = &cd9660_level1_convert_filename;
 	else if (diskStructure.isoLevel == 2)
 		conversion_function = &cd9660_level2_convert_filename;
-	return (*conversion_function)(oldname, newname, is_file, namsz);
+	return (*conversion_function)(oldname, newname, is_file);
 }
 
 int
@@ -1966,10 +1956,9 @@ cd9660_create_virtual_entry(const char *name, cd9660node *parent, int file,
 		return NULL;
 	}
 
-	memcpy(tfsnode->name, name, strlen(name) + 1);
+	strcpy(tfsnode->name, name);
 
-	cd9660_convert_filename(tfsnode->name, temp->isoDirRecord->name, file,
-	    sizeof (temp->isoDirRecord->name));
+	cd9660_convert_filename(tfsnode->name, temp->isoDirRecord->name, file);
 
 	temp->node = tfsnode;
 	temp->parent = parent;
@@ -2005,7 +1994,7 @@ cd9660_create_virtual_entry(const char *name, cd9660node *parent, int file,
 }
 
 static cd9660node *
-cd9660_create_file(const char * name, cd9660node *parent)
+cd9660_create_file(const char * name, cd9660node *parent, cd9660node *me)
 {
 	cd9660node *temp;
 
@@ -2016,6 +2005,10 @@ cd9660_create_file(const char * name, cd9660node *parent)
 	temp->fileDataLength = 0;
 
 	temp->type = CD9660_TYPE_FILE | CD9660_TYPE_VIRTUAL;
+
+	if ((temp->node->inode = calloc(1, sizeof(fsinode))) == NULL)
+		return NULL;
+	*temp->node->inode = *me->node->inode;
 
 	if (cd9960_translate_node_common(temp) == 0)
 		return NULL;
@@ -2029,7 +2022,7 @@ cd9660_create_file(const char * name, cd9660node *parent)
  * @returns cd9660node * Pointer to the new directory
  */
 static cd9660node *
-cd9660_create_directory(const char *name, cd9660node *parent)
+cd9660_create_directory(const char *name, cd9660node *parent, cd9660node *me)
 {
 	cd9660node *temp;
 
@@ -2039,6 +2032,10 @@ cd9660_create_directory(const char *name, cd9660node *parent)
 	temp->node->type |= S_IFDIR;
 
 	temp->type = CD9660_TYPE_DIR | CD9660_TYPE_VIRTUAL;
+
+	if ((temp->node->inode = calloc(1, sizeof(fsinode))) == NULL)
+		return NULL;
+	*temp->node->inode = *me->node->inode;
 
 	if (cd9960_translate_node_common(temp) == 0)
 		return NULL;
@@ -2091,3 +2088,39 @@ cd9660_create_special_directory(u_char type, cd9660node *parent)
 	return temp;
 }
 
+int
+cd9660_add_generic_bootimage(const char *bootimage)
+{
+	struct stat stbuf;
+
+	assert(bootimage != NULL);
+
+	if (*bootimage == '\0') {
+		warnx("Error: Boot image must be a filename");
+		return 0;
+	}
+
+	if ((diskStructure.generic_bootimage = strdup(bootimage)) == NULL) {
+		warn("%s: strdup", __func__);
+		return 0;
+	}
+
+	/* Get information about the file */
+	if (lstat(diskStructure.generic_bootimage, &stbuf) == -1)
+		err(EXIT_FAILURE, "%s: lstat(\"%s\")", __func__,
+		    diskStructure.generic_bootimage);
+
+	if (stbuf.st_size > 32768) {
+		warnx("Error: Boot image must be no greater than 32768 bytes");
+		return 0;
+	}
+
+	if (diskStructure.verbose_level > 0) {
+		printf("Generic boot image image has size %lld\n",
+		    (long long)stbuf.st_size);
+	}
+
+	diskStructure.has_generic_bootimage = 1;
+
+	return 1;
+}

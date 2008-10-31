@@ -1,4 +1,4 @@
-/*	$NetBSD: extern.h,v 1.29 2004/07/22 16:51:45 lukem Exp $	*/
+/*	$NetBSD: extern.h,v 1.30 2006/12/14 20:09:36 he Exp $	*/
 
 /*-
  * Copyright (c) 1991, 1993
@@ -41,6 +41,7 @@
  
 #include <err.h> 
 #include <fts.h>
+#include <util.h>
 
 #if HAVE_NETDB_H
 /* For MAXHOSTNAMELEN on some platforms. */
@@ -60,7 +61,6 @@ void	 dump_nodes(const char *, NODE *, int);
 void	 init_excludes(void);
 int	 matchtags(NODE *);
 void	 mtree_err(const char *, ...)
-	    __attribute__((noreturn))
 	    __attribute__((__format__(__printf__, 1, 2)));
 const char *nodetype(u_int);
 u_int	 parsekey(const char *, int *);
@@ -78,5 +78,3 @@ extern int	ftsoptions, keys;
 extern char	fullpath[];
 extern slist_t	includetags, excludetags;
 
-
-#include "stat_flags.h"

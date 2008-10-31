@@ -1,4 +1,4 @@
-/*	$NetBSD: makefs.c,v 1.22 2005/08/13 01:53:01 fvdl Exp $	*/
+/*	$NetBSD: makefs.c,v 1.26 2006/10/22 21:11:56 christos Exp $	*/
 
 /*
  * Copyright (c) 2001-2003 Wasabi Systems, Inc.
@@ -41,8 +41,7 @@
 
 #include <sys/cdefs.h>
 #if defined(__RCSID) && !defined(__lint)
-__RCSID("$MirOS: src/usr.sbin/makefs/makefs.c,v 1.4 2006/07/05 20:27:24 tg Exp $");
-__RCSID("$NetBSD: makefs.c,v 1.22 2005/08/13 01:53:01 fvdl Exp $");
+__RCSID("$NetBSD: makefs.c,v 1.26 2006/10/22 21:11:56 christos Exp $");
 #endif	/* !__lint */
 
 #include <assert.h>
@@ -57,13 +56,6 @@ __RCSID("$NetBSD: makefs.c,v 1.22 2005/08/13 01:53:01 fvdl Exp $");
 #include "makefs.h"
 #include "mtree.h"
 #include "cd9660.h"
-
-/* LONGLONG */
-long long strsuftoll(const char *desc, const char *val,
-    long long min, long long max);
-/* LONGLONG */
-long long strsuftollx(const char *desc, const char *val,
-    long long min, long long max, char *ebuf, size_t ebuflen);
 
 /*
  * list of supported file systems and dispatch functions
@@ -81,14 +73,14 @@ static fstype_t fstypes[] = {
 	{ "ffs", ffs_prep_opts,	ffs_parse_opts,	ffs_cleanup_opts, ffs_makefs },
 	{ "cd9660", cd9660_prep_opts, cd9660_parse_opts, cd9660_cleanup_opts,
 	  cd9660_makefs},
-	{ NULL, NULL, NULL, NULL, NULL	},
+	{ .type = NULL	},
 };
 
 u_int		debug;
 struct timespec	start_time;
 
 static	fstype_t *get_fstype(const char *);
-static	void	usage(void) __dead;
+static	void	usage(void);
 int		main(int, char *[]);
 
 int
@@ -159,8 +151,7 @@ main(int argc, char *argv[])
 			break;
 
 		case 'd':
-			debug =
-			    (int)strsuftoll("debug mask", optarg, 0, UINT_MAX);
+			debug = strtoll(optarg, NULL, 0);
 			break;
 
 		case 'f':
@@ -266,7 +257,7 @@ main(int argc, char *argv[])
 
 	if (specfile) {		/* apply a specfile */
 		TIMER_START(start);
-		apply_specfile(specfile, argv[1], root);
+		apply_specfile(specfile, argv[1], root, fsoptions.onlyspec);
 		TIMER_RESULTS(start, "apply_specfile");
 	}
 
@@ -280,6 +271,8 @@ main(int argc, char *argv[])
 	TIMER_START(start);
 	fstype->make_fs(argv[0], argv[1], root, &fsoptions);
 	TIMER_RESULTS(start, "make_fs");
+
+	free_fsnodes(root);
 
 	exit(0);
 	/* NOTREACHED */
