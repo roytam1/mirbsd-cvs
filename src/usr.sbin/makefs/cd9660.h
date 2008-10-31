@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/makefs/cd9660.h,v 1.4 2008/10/31 19:51:52 tg Exp $ */
+/**	$MirOS: src/usr.sbin/makefs/cd9660.h,v 1.5 2008/10/31 20:12:10 tg Exp $ */
 /*	$NetBSD: cd9660.h,v 1.12 2008/07/27 10:29:32 reinoud Exp $	*/
 
 /*
@@ -330,7 +330,9 @@ void			cd9660_722(uint16_t, unsigned char *);
 void			cd9660_732(uint32_t, unsigned char *);
 void 			cd9660_bothendian_dword(uint32_t dw, unsigned char *);
 void 			cd9660_bothendian_word(uint16_t dw, unsigned char *);
-void			cd9660_set_date(char *, time_t);
+#if 0
+void			cd9660_set_date(time_t, char *);
+#endif
 void			cd9660_time_8426(time_t, unsigned char *);
 void			cd9660_time_915(time_t, unsigned char *);
 
