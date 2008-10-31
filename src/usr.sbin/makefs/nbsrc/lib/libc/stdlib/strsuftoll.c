@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/usr.sbin/makefs/nbsrc/lib/libc/stdlib/strsuftoll.c,v 1.6 2008/10/31 19:38:20 tg Exp $ */
 /*	$NetBSD: strsuftoll.c,v 1.8 2008/04/28 20:23:00 martin Exp $	*/
 /*-
  * Copyright (c) 2001-2002,2004 The NetBSD Foundation, Inc.
@@ -73,7 +73,7 @@
 
 #if defined(LIBC_SCCS) && !defined(lint)
 __RCSID("$NetBSD: strsuftoll.c,v 1.8 2008/04/28 20:23:00 martin Exp $");
-__IDSTRING(mbsdid, "$MirOS$");
+__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/nbsrc/lib/libc/stdlib/strsuftoll.c,v 1.6 2008/10/31 19:38:20 tg Exp $");
 #endif /* LIBC_SCCS and not lint */
 
 #ifdef _LIBC
@@ -153,12 +153,18 @@ strsuftollx(const char *desc, const char *val,
 	while (isspace((unsigned char)*val))	/* Skip leading space */
 		val++;
 
-	num = strtoll(val, &expr, 10);
+	if (*val == '0')
+		num = strtoll(val, &expr, 0);
+	else
+		num = strtoll(val, &expr, 10);
 	if (errno == ERANGE)
 		goto erange;			/* Overflow */
 
 	if (expr == val)			/* No digits */
 		goto badnum;
+
+	if (*val == '0')
+		goto suffix_done;
 
 	switch (*expr) {
 	case 'b':
@@ -205,6 +211,7 @@ strsuftollx(const char *desc, const char *val,
 		break;
 	}
 
+ suffix_done:
 	switch (*expr) {
 	case '\0':
 		break;
