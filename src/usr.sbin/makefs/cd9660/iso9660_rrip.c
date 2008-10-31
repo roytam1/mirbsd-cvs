@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/usr.sbin/makefs/cd9660/iso9660_rrip.c,v 1.3 2008/10/31 20:42:29 tg Exp $ */
 /*	$NetBSD: iso9660_rrip.c,v 1.4 2006/12/18 21:03:29 christos Exp $	*/
 
 /*
@@ -45,7 +45,7 @@
 #include <sys/cdefs.h>
 #if defined(__RCSID) && !defined(__lint)
 __RCSID("$NetBSD: iso9660_rrip.c,v 1.4 2006/12/18 21:03:29 christos Exp $");
-__IDSTRING(mbsdid, "$MirOS$");
+__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/cd9660/iso9660_rrip.c,v 1.3 2008/10/31 20:42:29 tg Exp $");
 #endif  /* !__lint */
 
 static void cd9660_rrip_initialize_inode(cd9660node *);
@@ -655,26 +655,40 @@ cd9660node_rrip_nm(struct ISO_SUSP_ATTRIBUTES *p, cd9660node *file_node)
 int
 cd9660node_rrip_tf(struct ISO_SUSP_ATTRIBUTES *p, fsnode *_node)
 {
-	p->attr.rr_entry.TF.flags[0] = TF_MODIFY | TF_ACCESS | TF_ATTRIBUTES;
-	p->attr.rr_entry.TF.h.length[0] = 4;
-	p->attr.rr_entry.TF.h.version[0] = 1;
+	struct cd9660node_rrip_tf_data {
+		ISO_SUSP_HEADER		 h;
+		u_char flags		 [ISODCL ( 4, 4)];
+#if 0
+		u_char timestamp	 [ISODCL ( 5, 256)];
+#else
+		/* using short form */
+		u_char ts_atime		 [ISODCL ( 5, 11)];
+		u_char ts_mtime		 [ISODCL (12, 18)];
+		u_char ts_ctime		 [ISODCL (19, 25)];
+		u_char _ts_rest		 [ISODCL (26, 256)];
+#endif
+	} *tfp;
+
+	/* memory alias */
+	tfp = (struct cd9660node_rrip_tf_data *)(&(p->attr.rr_entry.TF));
+
+	tfp->flags[0] = TF_MODIFY | TF_ACCESS | TF_ATTRIBUTES;
+	tfp->h.length[0] = 4;
+	tfp->h.version[0] = 1;
 
 	/*
 	 * Need to add creation time, backup time,
 	 * expiration time, and effective time.
 	 */
 
-	cd9660_time_915(_node->inode->st.st_atime,
-	    p->attr.rr_entry.TF.timestamp);
-	p->attr.rr_entry.TF.h.length[0] += 7;
+	cd9660_time_915(_node->inode->st.st_atime, tfp->ts_atime);
+	tfp->h.length[0] += 7;
 
-	cd9660_time_915(_node->inode->st.st_mtime,
-	    p->attr.rr_entry.TF.timestamp + 7);
-	p->attr.rr_entry.TF.h.length[0] += 7;
+	cd9660_time_915(_node->inode->st.st_mtime, tfp->ts_mtime);
+	tfp->h.length[0] += 7;
 
-	cd9660_time_915(_node->inode->st.st_ctime,
-	    p->attr.rr_entry.TF.timestamp + 14);
-	p->attr.rr_entry.TF.h.length[0] += 7;
+	cd9660_time_915(_node->inode->st.st_ctime, tfp->ts_ctime);
+	tfp->h.length[0] += 7;
 	return 1;
 }
 
