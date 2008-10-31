@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/usr.sbin/makefs/nbsrc/lib/libc/gen/pwcache.c,v 1.4 2008/10/31 19:38:19 tg Exp $ */
 /*	$NetBSD: pwcache.c,v 1.30 2008/04/28 20:22:59 martin Exp $	*/
 
 /*-
@@ -76,11 +76,13 @@
 static char sccsid[] = "@(#)cache.c	8.1 (Berkeley) 5/31/93";
 #else
 __RCSID("$NetBSD: pwcache.c,v 1.30 2008/04/28 20:22:59 martin Exp $");
-__IDSTRING(mbsdid, "$MirOS$");
+__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/nbsrc/lib/libc/gen/pwcache.c,v 1.4 2008/10/31 19:38:19 tg Exp $");
 #endif
 #endif /* LIBC_SCCS and not lint */
 
+#ifdef _LIBC
 #include "namespace.h"
+#endif
 
 #include <sys/types.h>
 #include <sys/param.h>
