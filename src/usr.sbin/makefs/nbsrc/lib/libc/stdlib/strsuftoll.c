@@ -1,4 +1,4 @@
-/*	$NetBSD: strsuftoll.c,v 1.6 2004/03/05 05:58:29 lukem Exp $	*/
+/*	$NetBSD: strsuftoll.c,v 1.8 2008/04/28 20:23:00 martin Exp $	*/
 /*-
  * Copyright (c) 2001-2002,2004 The NetBSD Foundation, Inc.
  * All rights reserved.
@@ -14,13 +14,6 @@
  * 2. Redistributions in binary form must reproduce the above copyright
  *    notice, this list of conditions and the following disclaimer in the
  *    documentation and/or other materials provided with the distribution.
- * 3. All advertising materials mentioning features or use of this software
- *    must display the following acknowledgement:
- *        This product includes software developed by the NetBSD
- *        Foundation, Inc. and its contributors.
- * 4. Neither the name of The NetBSD Foundation nor the names of its
- *    contributors may be used to endorse or promote products derived
- *    from this software without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE NETBSD FOUNDATION, INC. AND CONTRIBUTORS
  * ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
@@ -74,7 +67,7 @@
 #include <sys/cdefs.h>
 
 #if defined(LIBC_SCCS) && !defined(lint)
-__RCSID("$NetBSD: strsuftoll.c,v 1.6 2004/03/05 05:58:29 lukem Exp $");
+__RCSID("$NetBSD: strsuftoll.c,v 1.8 2008/04/28 20:23:00 martin Exp $");
 #endif /* LIBC_SCCS and not lint */
 
 #ifdef _LIBC
@@ -171,28 +164,28 @@ strsuftollx(const char *desc, const char *val,
 		break;
 	case 'k':
 		t = num;
-		num *= 1024;			/* 1 kilobyte */
+		num *= 1024;			/* 1 kibibyte */
 		if (t > num)
 			goto erange;
 		++expr;
 		break;
 	case 'm':
 		t = num;
-		num *= 1048576;			/* 1 megabyte */
+		num *= 1048576;			/* 1 mebibyte */
 		if (t > num)
 			goto erange;
 		++expr;
 		break;
 	case 'g':
 		t = num;
-		num *= 1073741824;		/* 1 gigabyte */
+		num *= 1073741824;		/* 1 gibibyte */
 		if (t > num)
 			goto erange;
 		++expr;
 		break;
 	case 't':
 		t = num;
-		num *= 1099511627776LL;		/* 1 terabyte */
+		num *= 1099511627776LL;		/* 1 tebibyte */
 		if (t > num)
 			goto erange;
 		++expr;

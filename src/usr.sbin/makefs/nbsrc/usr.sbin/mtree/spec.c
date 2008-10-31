@@ -1,4 +1,4 @@
-/*	$NetBSD: spec.c,v 1.62 2006/04/12 19:49:59 dsl Exp $	*/
+/*	$NetBSD: spec.c,v 1.65 2008/04/28 20:24:17 martin Exp $	*/
 
 /*-
  * Copyright (c) 1989, 1993
@@ -44,13 +44,6 @@
  * 2. Redistributions in binary form must reproduce the above copyright
  *    notice, this list of conditions and the following disclaimer in the
  *    documentation and/or other materials provided with the distribution.
- * 3. All advertising materials mentioning features or use of this software
- *    must display the following acknowledgement:
- *        This product includes software developed by the NetBSD
- *        Foundation, Inc. and its contributors.
- * 4. Neither the name of The NetBSD Foundation nor the names of its
- *    contributors may be used to endorse or promote products derived
- *    from this software without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE NETBSD FOUNDATION, INC. AND CONTRIBUTORS
  * ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
@@ -74,7 +67,7 @@
 #if 0
 static char sccsid[] = "@(#)spec.c	8.2 (Berkeley) 4/28/95";
 #else
-__RCSID("$NetBSD: spec.c,v 1.62 2006/04/12 19:49:59 dsl Exp $");
+__RCSID("$NetBSD: spec.c,v 1.65 2008/04/28 20:24:17 martin Exp $");
 #endif
 #endif /* not lint */
 
@@ -122,7 +115,7 @@ spec(FILE *fp)
 	memset(&ginfo, 0, sizeof(ginfo));
 	for (mtree_lineno = 0;
 	    (buf = fparseln(fp, NULL, &mtree_lineno, NULL,
-		FPARSELN_UNESCCOMM | FPARSELN_UNESCCONT | FPARSELN_UNESCESC));
+		FPARSELN_UNESCCOMM));
 	    free(buf)) {
 		/* Skip leading whitespace. */
 		for (p = buf; *p && isspace((unsigned char)*p); ++p)
@@ -313,6 +306,7 @@ dump_nodes(const char *dir, NODE *root, int pathlast)
 	NODE	*cur;
 	char	path[MAXPATHLEN];
 	const char *name;
+	char	*str;
 
 	for (cur = root; cur != NULL; cur = cur->next) {
 		if (cur->type != F_DIR && !matchtags(cur))
@@ -371,9 +365,11 @@ dump_nodes(const char *dir, NODE *root, int pathlast)
 			printf("sha384=%s ", cur->sha384digest);
 		if (MATCHFLAG(F_SHA512))
 			printf("sha512=%s ", cur->sha512digest);
-		if (MATCHFLAG(F_FLAGS))
-			printf("flags=%s ",
-			    flags_to_string(cur->st_flags, "none"));
+		if (MATCHFLAG(F_FLAGS)) {
+			str = flags_to_string(cur->st_flags, "none");
+			printf("flags=%s ", str);
+			free(str);
+		}
 		if (MATCHFLAG(F_IGN))
 			printf("ignore ");
 		if (MATCHFLAG(F_OPT))

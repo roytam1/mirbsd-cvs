@@ -1,4 +1,4 @@
-/*	$NetBSD: ffs_extern.h,v 1.53 2006/05/14 21:32:45 elad Exp $	*/
+/*	$NetBSD: ffs_extern.h,v 1.70 2008/10/10 09:21:58 hannken Exp $	*/
 
 /*-
  * Copyright (c) 1991, 1993, 1994
@@ -44,10 +44,6 @@
 #define FFS_LOG_CHANGEOPT	5	/* log optimalization strategy change */
 #define FFS_MAXID		6	/* number of valid ffs ids */
 
-#define	FFS_ITIMES(ip, acc, mod, cre) \
-	while ((ip)->i_flag & (IN_ACCESS | IN_CHANGE | IN_UPDATE | IN_MODIFY)) \
-		ffs_itimes(ip, acc, mod, cre)
-
 struct buf;
 struct fid;
 struct fs;
@@ -68,13 +64,17 @@ struct cg;
 
 #if defined(_KERNEL)
 
+#include <sys/pool.h>
+
+#define FFS_NOBLK		((daddr_t)-1)
+
 #define	FFS_ITIMES(ip, acc, mod, cre) \
 	while ((ip)->i_flag & (IN_ACCESS | IN_CHANGE | IN_UPDATE | IN_MODIFY)) \
 		ffs_itimes(ip, acc, mod, cre)
 
-extern struct pool ffs_inode_pool;	/* memory pool for inodes */
-extern struct pool ffs_dinode1_pool;	/* memory pool for UFS1 dinodes */
-extern struct pool ffs_dinode2_pool;	/* memory pool for UFS2 dinodes */
+extern pool_cache_t ffs_inode_cache;	/* memory pool for inodes */
+extern pool_cache_t ffs_dinode1_cache;	/* memory pool for UFS1 dinodes */
+extern pool_cache_t ffs_dinode2_cache;	/* memory pool for UFS2 dinodes */
 
 #endif /* defined(_KERNEL) */
 
@@ -82,8 +82,12 @@ __BEGIN_DECLS
 
 #if defined(_KERNEL)
 
+#include <sys/param.h>
+#include <sys/mount.h>
+#include <sys/wapbl.h>
+
 /* ffs_alloc.c */
-int	ffs_alloc(struct inode *, daddr_t, daddr_t , int, kauth_cred_t,
+int	ffs_alloc(struct inode *, daddr_t, daddr_t , int, int, kauth_cred_t,
 		  daddr_t *);
 int	ffs_realloccg(struct inode *, daddr_t, daddr_t, int, int ,
 		      kauth_cred_t, struct buf **, daddr_t *);
@@ -91,8 +95,9 @@ int	ffs_realloccg(struct inode *, daddr_t, daddr_t, int, int ,
 int	ffs_reallocblks(void *);
 #endif
 int	ffs_valloc(struct vnode *, int, kauth_cred_t, struct vnode **);
-daddr_t	ffs_blkpref_ufs1(struct inode *, daddr_t, int, int32_t *);
-daddr_t	ffs_blkpref_ufs2(struct inode *, daddr_t, int, int64_t *);
+daddr_t	ffs_blkpref_ufs1(struct inode *, daddr_t, int, int, int32_t *);
+daddr_t	ffs_blkpref_ufs2(struct inode *, daddr_t, int, int, int64_t *);
+int	ffs_blkalloc(struct inode *, daddr_t, long);
 void	ffs_blkfree(struct fs *, struct vnode *, daddr_t, long, ino_t);
 int	ffs_vfree(struct vnode *, ino_t, int);
 void	ffs_clusteracct(struct fs *, struct cg *, int32_t, int);
@@ -105,26 +110,14 @@ int	ffs_balloc(struct vnode *, off_t, int, kauth_cred_t, int,
 /* ffs_inode.c */
 int	ffs_update(struct vnode *, const struct timespec *,
     const struct timespec *, int);
-int	ffs_truncate(struct vnode *, off_t, int, kauth_cred_t, struct lwp *);
+int	ffs_truncate(struct vnode *, off_t, int, kauth_cred_t);
 
 /* ffs_vfsops.c */
-void	ffs_init(void);
-void	ffs_reinit(void);
-void	ffs_done(void);
-int	ffs_mountroot(void);
-int	ffs_mount(struct mount *, const char *, void *, struct nameidata *,
-		  struct lwp *);
-int	ffs_reload(struct mount *, kauth_cred_t, struct lwp *);
-int	ffs_mountfs(struct vnode *, struct mount *, struct lwp *);
-int	ffs_unmount(struct mount *, int, struct lwp *);
+VFS_PROTOS(ffs);
+
+int     ffs_reload(struct mount *, kauth_cred_t, struct lwp *);
+int     ffs_mountfs(struct vnode *, struct mount *, struct lwp *);
 int	ffs_flushfiles(struct mount *, int, struct lwp *);
-int	ffs_statvfs(struct mount *, struct statvfs *, struct lwp *);
-int	ffs_sync(struct mount *, int, kauth_cred_t, struct lwp *);
-int	ffs_vget(struct mount *, ino_t, struct vnode **);
-int	ffs_fhtovp(struct mount *, struct fid *, struct vnode **);
-int	ffs_vptofh(struct vnode *, struct fid *);
-int	ffs_extattrctl(struct mount *, int, struct vnode *, int,
-		       const char *, struct lwp *);
 int	ffs_sbupdate(struct ufsmount *, int);
 int	ffs_cgupdate(struct ufsmount *, int);
 
@@ -141,20 +134,23 @@ int	ffs_getextattr(void *);
 int	ffs_setextattr(void *);
 int	ffs_listextattr(void *);
 int	ffs_deleteextattr(void *);
-
-#ifdef SYSCTL_SETUP_PROTO
-SYSCTL_SETUP_PROTO(sysctl_vfs_ffs_setup);
-#endif /* SYSCTL_SETUP_PROTO */
+int	ffs_lock(void *);
+int	ffs_unlock(void *);
+int	ffs_islocked(void *);
+int	ffs_full_fsync(struct vnode *, int);
 
 /*
  * Snapshot function prototypes.
  */
+int	ffs_snapshot_init(struct ufsmount *);
+void	ffs_snapshot_fini(struct ufsmount *);
 int	ffs_snapblkfree(struct fs *, struct vnode *, daddr_t, long, ino_t);
 void	ffs_snapremove(struct vnode *);
 int	ffs_snapshot(struct mount *, struct vnode *, struct timespec *);
 void	ffs_snapshot_mount(struct mount *);
 void	ffs_snapshot_unmount(struct mount *);
 void	ffs_snapgone(struct inode *);
+int	ffs_snapshot_read(struct vnode *, struct uio *, int);
 
 /*
  * Soft dependency function prototypes.
@@ -163,6 +159,7 @@ void	softdep_initialize(void);
 void	softdep_reinitialize(void);
 int	softdep_mount(struct vnode *, struct mount *, struct fs *,
 		      kauth_cred_t);
+void	softdep_unmount(struct mount *);
 int	softdep_flushworklist(struct mount *, int *, struct lwp *);
 int	softdep_flushfiles(struct mount *, int, struct lwp *);
 void	softdep_update_inodeblock(struct inode *, struct buf *, int);
@@ -179,7 +176,18 @@ void	softdep_setup_allocindir_page(struct inode *, daddr_t,
 				      struct buf *, int, daddr_t, daddr_t,
 				      struct buf *);
 void	softdep_fsync_mountdev(struct vnode *);
-int	softdep_sync_metadata(void *);
+int	softdep_sync_metadata(struct vnode *);
+
+/* Write Ahead Physical Block Logging */
+void	ffs_wapbl_verify_inodes(struct mount *, const char *);
+void	ffs_wapbl_replay_finish(struct mount *);
+int	ffs_wapbl_start(struct mount *);
+int	ffs_wapbl_stop(struct mount *, int);
+int	ffs_wapbl_replay_start(struct mount *, struct fs *, struct vnode *);
+void	ffs_wapbl_blkalloc(struct fs *, struct vnode *, daddr_t, int);
+
+void	ffs_wapbl_sync_metadata(struct mount *, daddr_t *, int *, int);
+void	ffs_wapbl_abort_sync_metadata(struct mount *, daddr_t *, int *, int);
 
 extern int (**ffs_vnodeop_p)(void *);
 extern int (**ffs_specop_p)(void *);
@@ -206,7 +214,10 @@ void	ffs_csumtotal_swap(struct csum_total *, struct csum_total *);
 void	ffs_cg_swap(struct cg *, struct cg *, struct fs *);
 
 /* ffs_subr.c */
+#if defined(_KERNEL)
 void	ffs_load_inode(struct buf *, struct inode *, struct fs *, ino_t);
+int	ffs_getblk(struct vnode *, daddr_t, daddr_t, int, bool, buf_t **);
+#endif /* defined(_KERNEL) */
 int	ffs_freefile(struct fs *, struct vnode *, ino_t, int);
 void	ffs_fragacct(struct fs *, int, int32_t[], int, int);
 int	ffs_isblock(struct fs *, u_char *, int32_t);
