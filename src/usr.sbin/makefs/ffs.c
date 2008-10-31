@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/makefs/ffs.c,v 1.7 2008/10/31 21:05:35 tg Exp $ */
+/**	$MirOS: src/usr.sbin/makefs/ffs.c,v 1.8 2008/10/31 21:24:23 tg Exp $ */
 /*	$NetBSD: ffs.c,v 1.42 2006/12/18 21:03:29 christos Exp $	*/
 
 /*
@@ -73,7 +73,7 @@
 #include <sys/cdefs.h>
 #if defined(__RCSID) && !defined(__lint)
 __RCSID("$NetBSD: ffs.c,v 1.42 2006/12/18 21:03:29 christos Exp $");
-__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/ffs.c,v 1.7 2008/10/31 21:05:35 tg Exp $");
+__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/ffs.c,v 1.8 2008/10/31 21:24:23 tg Exp $");
 #endif	/* !__lint */
 
 #include <sys/param.h>
@@ -988,7 +988,7 @@ ffs_make_dirbuf(dirbuf_t *dbuf, const char *name, fsnode *node, int needswap)
 	de.d_fileno = ufs_rw32(node->inode->ino, needswap);
 	de.d_type = IFTODT(node->type);
 	de.d_namlen = (uint8_t)strlen(name);
-	strcpy(de.d_name, name);
+	strlcpy(de.d_name, name, sizeof (de.d_name));
 	reclen = DIRSIZ(0, &de, needswap);
 	de.d_reclen = ufs_rw16(reclen, needswap);
 

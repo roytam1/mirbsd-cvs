@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/makefs/nbsrc/usr.sbin/mtree/spec.c,v 1.6 2008/10/31 19:45:31 tg Exp $ */
+/**	$MirOS: src/usr.sbin/makefs/nbsrc/usr.sbin/mtree/spec.c,v 1.7 2008/10/31 21:24:26 tg Exp $ */
 /*	$NetBSD: spec.c,v 1.65 2008/04/28 20:24:17 martin Exp $	*/
 
 /*-
@@ -73,7 +73,7 @@
 static char sccsid[] = "@(#)spec.c	8.2 (Berkeley) 4/28/95";
 #else
 __RCSID("$NetBSD: spec.c,v 1.65 2008/04/28 20:24:17 martin Exp $");
-__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/nbsrc/usr.sbin/mtree/spec.c,v 1.6 2008/10/31 19:45:31 tg Exp $");
+__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/nbsrc/usr.sbin/mtree/spec.c,v 1.7 2008/10/31 21:24:26 tg Exp $");
 #endif
 #endif /* not lint */
 
@@ -207,11 +207,12 @@ noparent:		mtree_err("no parent node");
 				mtree_err("%s: empty leaf element", tname);
 		}
 
-		if ((centry = calloc(1, sizeof(NODE) + strlen(p))) == NULL)
+		if ((centry = calloc(1, sizeof(NODE) + strlen(p) + 1)) == NULL)
 			mtree_err("%s", strerror(errno));
 		*centry = ginfo;
 		centry->lineno = mtree_lineno;
-		strcpy(centry->name, p);
+		memcpy(centry->name, p, strlen(p));
+		centry->name[strlen(p)] = '\0';
 #define	MAGIC	"?*["
 		if (strpbrk(p, MAGIC))
 			centry->flags |= F_MAGIC;

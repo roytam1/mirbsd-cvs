@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/makefs/cd9660.c,v 1.10 2008/10/31 20:42:28 tg Exp $ */
+/**	$MirOS: src/usr.sbin/makefs/cd9660.c,v 1.11 2008/10/31 21:31:36 tg Exp $ */
 /*	$NetBSD: cd9660.c,v 1.22 2008/10/30 18:43:13 ahoka Exp $	*/
 
 /*
@@ -108,7 +108,7 @@
 #include <sys/cdefs.h>
 #if defined(__RCSID) && !defined(__lint)
 __RCSID("$NetBSD: cd9660.c,v 1.22 2008/10/30 18:43:13 ahoka Exp $");
-__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/cd9660.c,v 1.10 2008/10/31 20:42:28 tg Exp $");
+__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/cd9660.c,v 1.11 2008/10/31 21:31:36 tg Exp $");
 #endif  /* !__lint */
 
 #include <string.h>
@@ -244,7 +244,8 @@ cd9660_set_defaults(void)
 	memset(diskStructure.primaryDescriptor.abstract_file_id, 0x20,128);
 	memset(diskStructure.primaryDescriptor.bibliographic_file_id, 0x20,128);
 
-	strcpy(diskStructure.primaryDescriptor.system_id, ISO_DEFAULT_SYSID);
+	strlcpy(diskStructure.primaryDescriptor.system_id, ISO_DEFAULT_SYSID,
+	    sizeof (diskStructure.primaryDescriptor.system_id));
 
 	cd9660_defaults_set = 1;
 
@@ -1959,7 +1960,7 @@ cd9660_create_virtual_entry(const char *name, cd9660node *parent, int file,
 	}
 
 	/* Assume for now name is a valid length */
-	if ((tfsnode->name = malloc(strlen(name) + 1)) == NULL) {
+	if ((tfsnode->name = strdup(name)) == NULL) {
 		CD9660_MEM_ALLOC_ERROR("cd9660_create_virtual_entry");
 		return NULL;
 	}
@@ -1969,8 +1970,6 @@ cd9660_create_virtual_entry(const char *name, cd9660node *parent, int file,
 		CD9660_MEM_ALLOC_ERROR("cd9660_create_virtual_entry");
 		return NULL;
 	}
-
-	strcpy(tfsnode->name, name);
 
 	cd9660_convert_filename(tfsnode->name, temp->isoDirRecord->name,
 	    sizeof (temp->isoDirRecord->name), file);
