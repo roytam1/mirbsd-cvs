@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/usr.sbin/makefs/cd9660.c,v 1.5 2008/10/31 19:38:18 tg Exp $ */
 /*	$NetBSD: cd9660.c,v 1.22 2008/10/30 18:43:13 ahoka Exp $	*/
 
 /*
@@ -108,7 +108,7 @@
 #include <sys/cdefs.h>
 #if defined(__RCSID) && !defined(__lint)
 __RCSID("$NetBSD: cd9660.c,v 1.22 2008/10/30 18:43:13 ahoka Exp $");
-__IDSTRING(mbsdid, "$MirOS$");
+__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/cd9660.c,v 1.5 2008/10/31 19:38:18 tg Exp $");
 #endif  /* !__lint */
 
 #include <string.h>
@@ -239,7 +239,7 @@ cd9660_set_defaults(void)
 	memset(diskStructure.primaryDescriptor.abstract_file_id, 0x20,128);
 	memset(diskStructure.primaryDescriptor.bibliographic_file_id, 0x20,128);
 
-	strcpy(diskStructure.primaryDescriptor.system_id,"NetBSD");
+	strcpy(diskStructure.primaryDescriptor.system_id, ISO_DEFAULT_SYSID);
 
 	cd9660_defaults_set = 1;
 

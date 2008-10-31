@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$NetBSD: cd9660.h,v 1.12 2008/07/27 10:29:32 reinoud Exp $	*/
 
 /*
@@ -89,6 +90,12 @@ typedef struct {
 #define ISO_DEFAULT_APPID "MAKEFS"
 #define ISO_DEFAULT_PUBLISHER "MAKEFS"
 #define ISO_DEFAULT_PREPARER "MAKEFS"
+
+#ifdef __MirBSD__
+#define ISO_DEFAULT_SYSID "MirBSD"
+#else
+#define ISO_DEFAULT_SYSID "NetBSD"
+#endif
 
 #define ISO_VOLUME_DESCRIPTOR_STANDARD_ID "CD001"
 #define ISO_VOLUME_DESCRIPTOR_BOOT 0
