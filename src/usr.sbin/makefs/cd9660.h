@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/makefs/cd9660.h,v 1.5 2008/10/31 20:12:10 tg Exp $ */
+/**	$MirOS: src/usr.sbin/makefs/cd9660.h,v 1.6 2008/10/31 20:13:19 tg Exp $ */
 /*	$NetBSD: cd9660.h,v 1.12 2008/07/27 10:29:32 reinoud Exp $	*/
 
 /*
@@ -63,6 +63,38 @@
 #else /* DEBUG */
 #define	INODE_WARNX(__x)
 #endif /* DEBUG */
+
+/* prototype with bounds checking */
+#if 0 /* defined(__GNUC__) && (defined(__OpenBSD__) || defined(__MirBSD__)) */
+/* Anil Madhavapeddy's gcc bounds checker, doesn't trigger */
+#define cd9660_DATATYPE_PROTO(name, bytes, type) \
+	void __CONCAT(cd9660_real_, name)(type, unsigned char *)
+	    __attribute__((__bounded__ (__minbytes__, 2, bytes)))
+#define cd9660_DATATYPE_INVOCATION(name, bytes, val, buf) \
+	__CONCAT(cd9660_real_, name)(val, buf)
+#elif defined(DEBUG)
+/* compile-time assertion */
+#define cd9660_DATATYPE_PROTO(name, bytes, type) \
+	void __CONCAT(cd9660_real_, name)(type, unsigned char *)
+#define cd9660_DATATYPE_INVOCATION(name, bytes, val, buf) do {		\
+	int cd9660_DATATYPE_CHECK[sizeof (buf) >= bytes ? 1 : -1];	\
+	__CONCAT(cd9660_real_, name)(val, buf);				\
+} while (/* CONSTCOND */ 0)
+#else
+/* run-time assertion */
+#define cd9660_DATATYPE_PROTO(name, bytes, type) \
+	void __CONCAT(cd9660_real_, name)(type, unsigned char *)
+#define cd9660_DATATYPE_INVOCATION(name, bytes, val, buf) do {		\
+	assert(sizeof (buf) >= bytes);					\
+	__CONCAT(cd9660_real_, name)(val, buf);				\
+} while (/* CONSTCOND */ 0)
+#endif
+
+#ifdef CD9660_CONVERSION_IMPL
+#undef cd9660_DATATYPE_INVOCATION
+#define cd9660_DATATYPE_INVOCATION(name, bytes, val, buf) \
+	__CONCAT(cd9660_real_, name)(val, buf)
+#endif
 
 #define CD9660MAXPATH 4096
 
@@ -324,17 +356,35 @@ int			cd9660_valid_d_chars(const char *);
 void			cd9660_uppercase_characters(char *, int);
 
 /* ISO Data Types */
-void			cd9660_721(uint16_t, unsigned char *);
-void			cd9660_731(uint32_t, unsigned char *);
-void			cd9660_722(uint16_t, unsigned char *);
-void			cd9660_732(uint32_t, unsigned char *);
-void 			cd9660_bothendian_dword(uint32_t dw, unsigned char *);
-void 			cd9660_bothendian_word(uint16_t dw, unsigned char *);
+#define cd9660_721(val, buf) \
+	cd9660_DATATYPE_INVOCATION(721, 2, val, buf)
+cd9660_DATATYPE_PROTO(721, 2, uint16_t);
+#define cd9660_731(val, buf) \
+	cd9660_DATATYPE_INVOCATION(731, 4, val, buf)
+cd9660_DATATYPE_PROTO(731, 4, uint32_t);
+#define cd9660_722(val, buf) \
+	cd9660_DATATYPE_INVOCATION(722, 2, val, buf)
+cd9660_DATATYPE_PROTO(722, 2, uint16_t);
+#define cd9660_732(val, buf) \
+	cd9660_DATATYPE_INVOCATION(732, 4, val, buf)
+cd9660_DATATYPE_PROTO(732, 4, uint32_t);
+#define cd9660_bothendian_dword(val, buf) \
+	cd9660_DATATYPE_INVOCATION(bothendian_dword, 8, val, buf)
+cd9660_DATATYPE_PROTO(bothendian_dword, 8, uint32_t);
+#define cd9660_bothendian_word(val, buf) \
+	cd9660_DATATYPE_INVOCATION(bothendian_word, 4, val, buf)
+cd9660_DATATYPE_PROTO(bothendian_word, 4, uint16_t);
 #if 0
-void			cd9660_set_date(time_t, char *);
+#define cd9660_set_date(val, buf) \
+	cd9660_DATATYPE_INVOCATION(set_date, ?, val, buf)
+cd9660_DATATYPE_PROTO(set_date, ?, time_t);
 #endif
-void			cd9660_time_8426(time_t, unsigned char *);
-void			cd9660_time_915(time_t, unsigned char *);
+#define cd9660_time_8426(val, buf) \
+	cd9660_DATATYPE_INVOCATION(time_8426, 17, val, buf)
+cd9660_DATATYPE_PROTO(time_8426, 17, time_t);
+#define cd9660_time_915(val, buf) \
+	cd9660_DATATYPE_INVOCATION(time_915, 7, val, buf)
+cd9660_DATATYPE_PROTO(time_915, 7, time_t);
 
 /*** Boot Functions ***/
 int	cd9660_write_generic_bootimage(FILE *);

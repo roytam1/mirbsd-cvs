@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$NetBSD: cd9660_conversion.c,v 1.4 2007/03/14 14:11:17 christos Exp $	*/
 
 /*
@@ -31,11 +32,14 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY
  * OF SUCH DAMAGE.
  */
+
+#define CD9660_CONVERSION_IMPL
 #include "cd9660.h"
 
 #include <sys/cdefs.h>
 #if defined(__RCSID) && !defined(__lint)
 __RCSID("$NetBSD: cd9660_conversion.c,v 1.4 2007/03/14 14:11:17 christos Exp $");
+__IDSTRING(mbsdid, "$MirOS$");
 #endif  /* !__lint */
 
 
