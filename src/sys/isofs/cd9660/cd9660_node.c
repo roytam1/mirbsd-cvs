@@ -1,7 +1,10 @@
+/**	$MirOS$ */
 /*	$OpenBSD: cd9660_node.c,v 1.14 2003/06/02 23:28:05 millert Exp $	*/
 /*	$NetBSD: cd9660_node.c,v 1.17 1997/05/05 07:13:57 mycroft Exp $	*/
 
 /*-
+ * Copyright (c) 2008
+ *	Thorsten Glaser <tg@mirbsd.de>
  * Copyright (c) 1982, 1986, 1989, 1994
  *	The Regents of the University of California.  All rights reserved.
  *
@@ -48,6 +51,7 @@
 #include <sys/kernel.h>
 #include <sys/malloc.h>
 #include <sys/stat.h>
+#include <sys/taitime.h>
 
 #include <isofs/cd9660/iso.h>
 #include <isofs/cd9660/cd9660_extern.h>
@@ -398,45 +402,25 @@ cd9660_deftstamp(isodir,inop,bp)
 }
 
 int
-cd9660_tstamp_conv7(pi,pu)
-	u_char *pi;
-	struct timespec *pu;
+cd9660_tstamp_conv7(u_char *pi, struct timespec *pu)
 {
-	int crtime, days;
-	int y, m, d, hour, minute, second;
-	signed char tz;
-	
-	y = pi[0] + 1900;
-	m = pi[1];
-	d = pi[2];
-	hour = pi[3];
-	minute = pi[4];
-	second = pi[5];
-	tz = (signed char) pi[6];
-	
-	if (y < 1970) {
-		pu->tv_sec  = 0;
-		pu->tv_nsec = 0;
-		return (0);
-	} else {
-#ifdef	ORIGINAL
-		/* computes day number relative to Sept. 19th,1989 */
-		/* don't even *THINK* about changing formula. It works! */
-		days = 367*(y-1980)-7*(y+(m+9)/12)/4-3*((y+(m-9)/7)/100+1)/4+275*m/9+d-100;
-#else
-		/*
-		 * Changed :-) to make it relative to Jan. 1st, 1970
-		 * and to disambiguate negative division
-		 */
-		days = 367*(y-1960)-7*(y+(m+9)/12)/4-3*((y+(m+9)/12-1)/100+1)/4+275*m/9+d-239;
-#endif
-		crtime = ((((days * 24) + hour) * 60 + minute) * 60) + second;
-		
-		/* timezone offset is unreliable on some disks */
-		if (-48 <= tz && tz <= 52)
-			crtime -= tz * 15 * 60;
-	}
-	pu->tv_sec  = crtime;
+	struct tm tm;
+
+	tm.tm_year = pi[0];
+	tm.tm_mon = pi[1] - 1;
+	tm.tm_mday = pi[2];
+	tm.tm_hour = pi[3];
+	tm.tm_min = pi[4];
+	tm.tm_sec = pi[5];
+	tm.tm_gmtoff = (signed char)pi[6];
+
+	/* timezone offset is unreliable on some disks */
+	if (-48 <= tm.tm_gmtoff && tm.tm_gmtoff <= 52)
+		tm.tm_gmtoff *= 15 * 60;
+	else
+		tm.tm_gmtoff = 0;
+
+	pu->tv_sec = tai2timet(mjd2tai(tm2mjd(tm)));
 	pu->tv_nsec = 0;
 	return (1);
 }
@@ -456,34 +440,39 @@ cd9660_chars2ui(begin,len)
 }
 
 int
-cd9660_tstamp_conv17(pi,pu)
-	u_char *pi;
-	struct timespec *pu;
+cd9660_tstamp_conv17(u_char *pi, struct timespec *pu)
 {
-	u_char buf[7];
-	
+	struct tm tm;
+
 	/* year:"0001"-"9999" -> -1900  */
-	buf[0] = cd9660_chars2ui(pi,4) - 1900;
+	tm.tm_year = cd9660_chars2ui(pi,4) - 1900;
 	
-	/* month: " 1"-"12"      -> 1 - 12 */
-	buf[1] = cd9660_chars2ui(pi + 4,2);
+	/* month: " 1"-"12"      -> 0 - 11 */
+	tm.tm_mon = cd9660_chars2ui(pi + 4,2) - 1;
 	
 	/* day:   " 1"-"31"      -> 1 - 31 */
-	buf[2] = cd9660_chars2ui(pi + 6,2);
+	tm.tm_mday = cd9660_chars2ui(pi + 6,2);
 	
 	/* hour:  " 0"-"23"      -> 0 - 23 */
-	buf[3] = cd9660_chars2ui(pi + 8,2);
+	tm.tm_hour = cd9660_chars2ui(pi + 8,2);
 	
 	/* minute:" 0"-"59"      -> 0 - 59 */
-	buf[4] = cd9660_chars2ui(pi + 10,2);
+	tm.tm_min = cd9660_chars2ui(pi + 10,2);
 	
-	/* second:" 0"-"59"      -> 0 - 59 */
-	buf[5] = cd9660_chars2ui(pi + 12,2);
+	/* second:" 0"-"59"      -> 0 - 60 */
+	tm.tm_sec = cd9660_chars2ui(pi + 12,2);
 	
 	/* difference of GMT */
-	buf[6] = pi[16];
+	tm.tm_gmtoff = (signed char)pi[16];
+	/* timezone offset is unreliable on some disks */
+	if (-48 <= tm.tm_gmtoff && tm.tm_gmtoff <= 52)
+		tm.tm_gmtoff *= 15 * 60;
+	else
+		tm.tm_gmtoff = 0;
 	
-	return (cd9660_tstamp_conv7(buf,pu));
+	pu->tv_sec = tai2timet(mjd2tai(tm2mjd(tm)));
+	pu->tv_nsec = 0;
+	return (1);
 }
 
 ino_t
