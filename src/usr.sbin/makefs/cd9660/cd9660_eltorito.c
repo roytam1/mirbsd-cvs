@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$NetBSD: cd9660_eltorito.c,v 1.12 2008/07/27 10:29:32 reinoud Exp $	*/
 
 /*
@@ -37,6 +38,7 @@
 #include <sys/cdefs.h>
 #if defined(__RCSID) && !defined(__lint)
 __RCSID("$NetBSD: cd9660_eltorito.c,v 1.12 2008/07/27 10:29:32 reinoud Exp $");
+__IDSTRING(mbsdid, "$MirOS$");
 #endif  /* !__lint */
 
 #ifdef DEBUG
@@ -372,7 +374,7 @@ cd9660_setup_boot(int first_sector)
 	/* Point to catalog: For now assume it consumes one sector */
 	ELTORITO_DPRINTF(("Boot catalog will go in sector %d\n", first_sector));
 	diskStructure.boot_catalog_sector = first_sector;
-	cd9660_bothendian_dword(first_sector,
+	cd9660_731(first_sector,
 		diskStructure.boot_descriptor->boot_catalog_pointer);
 
 	/* Step 1: Generate boot catalog */
