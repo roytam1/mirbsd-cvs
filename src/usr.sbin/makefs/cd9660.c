@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/makefs/cd9660.c,v 1.7 2008/10/31 20:12:09 tg Exp $ */
+/**	$MirOS: src/usr.sbin/makefs/cd9660.c,v 1.8 2008/10/31 20:13:19 tg Exp $ */
 /*	$NetBSD: cd9660.c,v 1.22 2008/10/30 18:43:13 ahoka Exp $	*/
 
 /*
@@ -108,13 +108,14 @@
 #include <sys/cdefs.h>
 #if defined(__RCSID) && !defined(__lint)
 __RCSID("$NetBSD: cd9660.c,v 1.22 2008/10/30 18:43:13 ahoka Exp $");
-__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/cd9660.c,v 1.7 2008/10/31 20:12:09 tg Exp $");
+__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/cd9660.c,v 1.8 2008/10/31 20:13:19 tg Exp $");
 #endif  /* !__lint */
 
 #include <string.h>
 #include <ctype.h>
 #include <sys/param.h>
 #include <sys/queue.h>
+#include <inttypes.h>
 
 #include "makefs.h"
 #include "cd9660.h"

@@ -40,6 +40,8 @@
 __RCSID("$NetBSD: cd9660_write.c,v 1.9 2008/05/10 19:00:07 skrll Exp $");
 #endif  /* !__lint */
 
+#include <inttypes.h>
+
 static int cd9660_write_volume_descriptors(FILE *);
 static int cd9660_write_path_table(FILE *, int, int);
 static int cd9660_write_path_tables(FILE *);
