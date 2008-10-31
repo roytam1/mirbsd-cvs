@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$NetBSD: ffs.c,v 1.42 2006/12/18 21:03:29 christos Exp $	*/
 
 /*
@@ -72,6 +73,7 @@
 #include <sys/cdefs.h>
 #if defined(__RCSID) && !defined(__lint)
 __RCSID("$NetBSD: ffs.c,v 1.42 2006/12/18 21:03:29 christos Exp $");
+__IDSTRING(mbsdid, "$MirOS$");
 #endif	/* !__lint */
 
 #include <sys/param.h>
@@ -1091,9 +1093,15 @@ ffs_write_inode(union dinode *dp, uint32_t ino, const fsinfo_t *fsopts)
 	    initediblk < ufs_rw32(cgp->cg_niblk, fsopts->needswap)) {
 		memset(buf, 0, fs->fs_bsize);
 		dip = (struct ufs2_dinode *)buf;
+#ifndef __MirBSD__
 		srandom(time(NULL));
+#endif
 		for (i = 0; i < INOPB(fs); i++) {
+#ifdef __MirBSD__
+			dip->di_gen = arc4random() / 4 + 1;
+#else
 			dip->di_gen = random() / 2 + 1;
+#endif
 			dip++;
 		}
 		ffs_wtfs(fsbtodb(fs, ino_to_fsba(fs,
