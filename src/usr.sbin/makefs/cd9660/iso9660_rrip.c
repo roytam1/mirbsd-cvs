@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/makefs/cd9660/iso9660_rrip.c,v 1.4 2008/10/31 20:55:16 tg Exp $ */
+/**	$MirOS: src/usr.sbin/makefs/cd9660/iso9660_rrip.c,v 1.5 2008/10/31 20:56:49 tg Exp $ */
 /*	$NetBSD: iso9660_rrip.c,v 1.4 2006/12/18 21:03:29 christos Exp $	*/
 
 /*
@@ -45,7 +45,7 @@
 #include <sys/cdefs.h>
 #if defined(__RCSID) && !defined(__lint)
 __RCSID("$NetBSD: iso9660_rrip.c,v 1.4 2006/12/18 21:03:29 christos Exp $");
-__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/cd9660/iso9660_rrip.c,v 1.4 2008/10/31 20:55:16 tg Exp $");
+__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/cd9660/iso9660_rrip.c,v 1.5 2008/10/31 20:56:49 tg Exp $");
 #endif  /* !__lint */
 
 static void cd9660_rrip_initialize_inode(cd9660node *);
@@ -644,7 +644,9 @@ cd9660node_rrip_nm(struct ISO_SUSP_ATTRIBUTES *p, cd9660node *file_node)
 	int nm_length = strlen(file_node->isoDirRecord->name) + 5;
         p->attr.rr_entry.NM.h.type[0] = 'N';
 	p->attr.rr_entry.NM.h.type[1] = 'M';
-	sprintf(p->attr.rr_entry.NM.altname, "%s", file_node->isoDirRecord->name);
+	snprintf(p->attr.rr_entry.NM.altname,
+	    sizeof (p->attr.rr_entry.NM.altname),
+	    "%s", file_node->isoDirRecord->name);
 	p->attr.rr_entry.NM.h.length[0] = (unsigned char)nm_length;
 	p->attr.rr_entry.NM.h.version[0] = (unsigned char)1;
 	p->attr.rr_entry.NM.flags[0] = (unsigned char) NM_PARENT;

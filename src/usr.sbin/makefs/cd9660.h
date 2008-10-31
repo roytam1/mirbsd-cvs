@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/makefs/cd9660.h,v 1.8 2008/10/31 20:42:29 tg Exp $ */
+/**	$MirOS: src/usr.sbin/makefs/cd9660.h,v 1.9 2008/10/31 21:24:23 tg Exp $ */
 /*	$NetBSD: cd9660.h,v 1.12 2008/07/27 10:29:32 reinoud Exp $	*/
 
 /*
@@ -63,6 +63,12 @@
 #else /* DEBUG */
 #define	INODE_WARNX(__x)
 #endif /* DEBUG */
+
+#if defined(__GNUC__) && (defined(__OpenBSD__) || defined(__MirBSD__))
+#define __bounded(...)	__attribute__((__bounded__ (__VA_ARGS__)))
+#else
+#define __bounded(...)	/* nothing */
+#endif
 
 /* prototype with bounds checking */
 #if 0 /* defined(__GNUC__) && (defined(__OpenBSD__) || defined(__MirBSD__)) */
