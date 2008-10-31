@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/makefs/cd9660.c,v 1.13 2008/10/31 21:39:52 tg Exp $ */
+/**	$MirOS: src/usr.sbin/makefs/cd9660.c,v 1.14 2008/10/31 23:04:07 tg Exp $ */
 /*	$NetBSD: cd9660.c,v 1.22 2008/10/30 18:43:13 ahoka Exp $	*/
 
 /*
@@ -108,7 +108,7 @@
 #include <sys/cdefs.h>
 #if defined(__RCSID) && !defined(__lint)
 __RCSID("$NetBSD: cd9660.c,v 1.22 2008/10/30 18:43:13 ahoka Exp $");
-__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/cd9660.c,v 1.13 2008/10/31 21:39:52 tg Exp $");
+__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/cd9660.c,v 1.14 2008/10/31 23:04:07 tg Exp $");
 #endif  /* !__lint */
 
 #include <string.h>
@@ -386,7 +386,7 @@ cd9660_parse_opts(const char *option, fsinfo_t *fsopts)
 			     " requires a directory name\n");
 		else {
 			if ((diskStructure.boot_image_directory =
-			     malloc(strlen(val) + 1)) == NULL) {
+			     calloc(1, strlen(val) + 1)) == NULL) {
 				CD9660_MEM_ALLOC_ERROR("cd9660_parse_opts");
 				exit(1);
 			}
@@ -721,7 +721,7 @@ cd9660_setup_volume_descriptors(void)
 	volume_descriptor *temp, *t;
 
 	/* Set up the PVD */
-	if ((temp = malloc(sizeof(volume_descriptor))) == NULL) {
+	if ((temp = calloc(1, sizeof (volume_descriptor))) == NULL) {
 		CD9660_MEM_ALLOC_ERROR("cd9660_setup_volume_descriptors");
 		exit(1);
 	}
@@ -738,7 +738,7 @@ cd9660_setup_volume_descriptors(void)
 	sector++;
 	/* Set up boot support if enabled. BVD must reside in sector 17 */
 	if (diskStructure.is_bootable) {
-		if ((t = malloc(sizeof(volume_descriptor))) == NULL) {
+		if ((t = calloc(1, sizeof (volume_descriptor))) == NULL) {
 			CD9660_MEM_ALLOC_ERROR(
 			    "cd9660_setup_volume_descriptors");
 			exit(1);
@@ -758,7 +758,7 @@ cd9660_setup_volume_descriptors(void)
 	}
 
 	/* Set up the terminator */
-	if ((t = malloc(sizeof(volume_descriptor))) == NULL) {
+	if ((t = calloc(1, sizeof (volume_descriptor))) == NULL) {
 		CD9660_MEM_ALLOC_ERROR("cd9660_setup_volume_descriptors");
 		exit(1);
 	}
@@ -788,7 +788,7 @@ static int
 cd9660_fill_extended_attribute_record(cd9660node *node)
 {
 	if ((node->isoExtAttributes =
-	    malloc(sizeof(struct iso_extended_attributes))) == NULL) {
+	    calloc(1, sizeof (struct iso_extended_attributes))) == NULL) {
 		CD9660_MEM_ALLOC_ERROR("cd9660_fill_extended_attribute_record");
 		exit(1);
 	};
@@ -852,7 +852,7 @@ cd9660_translate_node(fsnode *node, cd9660node *newnode)
 		return 0;
 	}
 	if ((newnode->isoDirRecord =
-		malloc(sizeof(iso_directory_record_cd9660))) == NULL) {
+		calloc(1, sizeof (iso_directory_record_cd9660))) == NULL) {
 		CD9660_MEM_ALLOC_ERROR("cd9660_translate_node");
 		return 0;
 	}
@@ -1058,7 +1058,7 @@ cd9660_rename_filename(cd9660node *iter, int num, int delete_chars)
 	else
 		maxlength = ISO_FILENAME_MAXLENGTH_BEFORE_VERSION;
 
-	tmp = malloc(ISO_FILENAME_MAXLENGTH_WITH_PADDING);
+	tmp = calloc(1, ISO_FILENAME_MAXLENGTH_WITH_PADDING);
 
 	while (i < num) {
 		powers = 1;
@@ -1497,7 +1497,7 @@ struct ptq_entry
 } *n;
 
 #define PTQUEUE_NEW(n,s,r,t){\
-	n = malloc(sizeof(struct s));	\
+	n = calloc(1, sizeof (struct s));	\
 	if (n == NULL)	\
 		return r; \
 	n->node = t;\
@@ -1949,7 +1949,7 @@ cd9660_create_virtual_entry(const char *name, cd9660node *parent, int file,
 	if (temp == NULL)
 		return NULL;
 
-	if ((tfsnode = malloc(sizeof(fsnode))) == NULL) {
+	if ((tfsnode = calloc(1, sizeof (fsnode))) == NULL) {
 		CD9660_MEM_ALLOC_ERROR("cd9660_create_virtual_entry");
 		return NULL;
 	}
@@ -1961,7 +1961,7 @@ cd9660_create_virtual_entry(const char *name, cd9660node *parent, int file,
 	}
 
 	if ((temp->isoDirRecord =
-	    malloc(sizeof(iso_directory_record_cd9660))) == NULL) {
+	    calloc(1, sizeof (iso_directory_record_cd9660))) == NULL) {
 		CD9660_MEM_ALLOC_ERROR("cd9660_create_virtual_entry");
 		return NULL;
 	}
