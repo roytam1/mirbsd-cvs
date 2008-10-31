@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/makefs/cd9660/iso9660_rrip.c,v 1.5 2008/10/31 20:56:49 tg Exp $ */
+/**	$MirOS: src/usr.sbin/makefs/cd9660/iso9660_rrip.c,v 1.6 2008/10/31 21:31:37 tg Exp $ */
 /*	$NetBSD: iso9660_rrip.c,v 1.4 2006/12/18 21:03:29 christos Exp $	*/
 
 /*
@@ -45,7 +45,7 @@
 #include <sys/cdefs.h>
 #if defined(__RCSID) && !defined(__lint)
 __RCSID("$NetBSD: iso9660_rrip.c,v 1.4 2006/12/18 21:03:29 christos Exp $");
-__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/cd9660/iso9660_rrip.c,v 1.5 2008/10/31 20:56:49 tg Exp $");
+__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/cd9660/iso9660_rrip.c,v 1.6 2008/10/31 21:31:37 tg Exp $");
 #endif  /* !__lint */
 
 static void cd9660_rrip_initialize_inode(cd9660node *);
@@ -626,13 +626,13 @@ cd9660node_rrip_pn(struct ISO_SUSP_ATTRIBUTES *pn_field, fsnode *fnode)
 	pn_field->attr.rr_entry.PN.h.length[0] = 20;
 	pn_field->attr.rr_entry.PN.h.version[0] = 1;
 
-	if (sizeof (fnode->inode->st.st_dev) > 32)
-		cd9660_bothendian_dword((uint64_t)fnode->inode->st.st_dev >> 32,
+	if (sizeof (fnode->inode->st.st_rdev) > 32)
+		cd9660_bothendian_dword((uint64_t)fnode->inode->st.st_rdev >> 32,
 		    pn_field->attr.rr_entry.PN.high);
 	else
 		cd9660_bothendian_dword(0, pn_field->attr.rr_entry.PN.high);
 
-	cd9660_bothendian_dword(fnode->inode->st.st_dev & 0xffffffff,
+	cd9660_bothendian_dword(fnode->inode->st.st_rdev & 0xffffffff,
 		pn_field->attr.rr_entry.PN.low);
 	return 1;
 }
