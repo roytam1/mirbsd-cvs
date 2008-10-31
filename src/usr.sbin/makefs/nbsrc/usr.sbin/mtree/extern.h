@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$NetBSD: extern.h,v 1.30 2006/12/14 20:09:36 he Exp $	*/
 
 /*-
@@ -61,6 +62,7 @@ void	 dump_nodes(const char *, NODE *, int);
 void	 init_excludes(void);
 int	 matchtags(NODE *);
 void	 mtree_err(const char *, ...)
+	    __dead
 	    __attribute__((__format__(__printf__, 1, 2)));
 const char *nodetype(u_int);
 u_int	 parsekey(const char *, int *);

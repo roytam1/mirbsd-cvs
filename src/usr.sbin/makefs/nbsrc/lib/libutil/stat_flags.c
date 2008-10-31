@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$NetBSD: stat_flags.c,v 1.2 2007/01/16 17:34:02 cbiere Exp $	*/
 
 /*-
@@ -35,12 +36,17 @@
 #define HAVE_STRUCT_STAT_ST_FLAGS 1
 #endif
 
+#ifdef __MirBSD__
+#include "mbsdtree.h"
+#endif
+
 #include <sys/cdefs.h>
 #if !defined(lint)
 #if 0
 static char sccsid[] = "@(#)stat_flags.c	8.2 (Berkeley) 7/28/94";
 #else
 __RCSID("$NetBSD: stat_flags.c,v 1.2 2007/01/16 17:34:02 cbiere Exp $");
+__IDSTRING(mbsdid, "$MirOS$");
 #endif
 #endif /* not lint */
 

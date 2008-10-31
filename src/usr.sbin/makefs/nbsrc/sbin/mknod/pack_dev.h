@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$NetBSD: pack_dev.h,v 1.7 2008/04/28 20:23:09 martin Exp $	*/
 
 /*-
@@ -42,8 +43,8 @@ typedef	portdev_t pack_t(int, u_long [], const char **);
 pack_t	*pack_find(const char *);
 pack_t	 pack_native;
 
-#define	major_netbsd(x)		((int32_t)((((x) & 0x000fff00) >>  8)))
-#define	minor_netbsd(x)		((int32_t)((((x) & 0xfff00000) >> 12) | \
+#define	major_netbsd(x)		((uint32_t)((((x) & 0x000fff00) >>  8)))
+#define	minor_netbsd(x)		((uint32_t)((((x) & 0xfff00000) >> 12) | \
 					   (((x) & 0x000000ff) >>  0)))
 #define	makedev_netbsd(x,y)	((dev_t)((((x) <<  8) & 0x000fff00) | \
 					 (((y) << 12) & 0xfff00000) | \

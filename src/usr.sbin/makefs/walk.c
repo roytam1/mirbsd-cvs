@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$NetBSD: walk.c,v 1.23 2006/10/10 01:55:45 dbj Exp $	*/
 
 /*
@@ -42,6 +43,7 @@
 #include <sys/cdefs.h>
 #if defined(__RCSID) && !defined(__lint)
 __RCSID("$NetBSD: walk.c,v 1.23 2006/10/10 01:55:45 dbj Exp $");
+__IDSTRING(mbsdid, "$MirOS$");
 #endif	/* !__lint */
 
 #include <sys/param.h>
@@ -93,7 +95,7 @@ walk_dir(const char *dir, fsnode *parent)
 			continue;
 		if (debug & DEBUG_WALK_DIR_NODE)
 			printf("scanning %s/%s\n", dir, dent->d_name);
-		if (snprintf(path, sizeof(path), "%s/%s", dir, dent->d_name)
+		if ((size_t)snprintf(path, sizeof(path), "%s/%s", dir, dent->d_name)
 		    >= sizeof(path))
 			errx(1, "Pathname too long.");
 		if (lstat(path, &stbuf) == -1)
@@ -323,7 +325,7 @@ apply_specdir(const char *dir, NODE *specnode, fsnode *dirnode, int speconly)
 			if (strcmp(curnode->name, curfsnode->name) == 0)
 				break;
 		}
-		if (snprintf(path, sizeof(path), "%s/%s",
+		if ((size_t)snprintf(path, sizeof(path), "%s/%s",
 		    dir, curnode->name) >= sizeof(path))
 			errx(1, "Pathname too long.");
 		if (curfsnode == NULL) {	/* need new entry */
@@ -491,7 +493,7 @@ dump_fsnodes(const char *dir, fsnode *root)
 	assert (dir != NULL);
 	printf("dump_fsnodes: %s %p\n", dir, root);
 	for (cur = root; cur != NULL; cur = cur->next) {
-		if (snprintf(path, sizeof(path), "%s/%s", dir, cur->name)
+		if ((size_t)snprintf(path, sizeof(path), "%s/%s", dir, cur->name)
 		    >= sizeof(path))
 			errx(1, "Pathname too long.");
 

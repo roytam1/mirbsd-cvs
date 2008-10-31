@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/usr.sbin/makefs/cd9660/cd9660_eltorito.c,v 1.5 2008/10/31 20:44:04 tg Exp $ */
 /*	$NetBSD: cd9660_eltorito.c,v 1.12 2008/07/27 10:29:32 reinoud Exp $	*/
 
 /*
@@ -38,7 +38,7 @@
 #include <sys/cdefs.h>
 #if defined(__RCSID) && !defined(__lint)
 __RCSID("$NetBSD: cd9660_eltorito.c,v 1.12 2008/07/27 10:29:32 reinoud Exp $");
-__IDSTRING(mbsdid, "$MirOS$");
+__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/cd9660/cd9660_eltorito.c,v 1.5 2008/10/31 20:44:04 tg Exp $");
 #endif  /* !__lint */
 
 #ifdef DEBUG
@@ -52,7 +52,6 @@ static struct boot_catalog_entry *cd9660_boot_setup_validation_entry(char);
 static struct boot_catalog_entry *cd9660_boot_setup_default_entry(
     struct cd9660_boot_image *);
 static struct boot_catalog_entry *cd9660_boot_setup_section_head(char);
-static struct boot_catalog_entry *cd9660_boot_setup_validation_entry(char);
 #if 0
 static u_char cd9660_boot_get_system_type(struct cd9660_boot_image *);
 #endif
@@ -243,7 +242,7 @@ cd9660_boot_setup_validation_entry(char sys)
 	boot_catalog_validation_entry *ve;
 	int16_t checksum;
 	unsigned char *csptr;
-	int i;
+	unsigned int i;
 	entry = cd9660_init_boot_catalog_entry();
 
 	if (entry == NULL) {

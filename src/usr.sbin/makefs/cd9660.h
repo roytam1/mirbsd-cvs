@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/makefs/cd9660.h,v 1.7 2008/10/31 20:33:47 tg Exp $ */
+/**	$MirOS: src/usr.sbin/makefs/cd9660.h,v 1.8 2008/10/31 20:42:29 tg Exp $ */
 /*	$NetBSD: cd9660.h,v 1.12 2008/07/27 10:29:32 reinoud Exp $	*/
 
 /*
@@ -77,7 +77,7 @@
 #define cd9660_DATATYPE_PROTO(name, bytes, type) \
 	void __CONCAT(cd9660_real_, name)(type, unsigned char *)
 #define cd9660_DATATYPE_INVOCATION(name, bytes, val, buf) do {		\
-	int cd9660_DATATYPE_CHECK[sizeof (buf) >= bytes ? 1 : -1];	\
+	int cd9660_CHECK[sizeof (buf) >= bytes ? 1 : -1] __unused;	\
 	__CONCAT(cd9660_real_, name)(val, (unsigned char *)(buf));	\
 } while (/* CONSTCOND */ 0)
 #else

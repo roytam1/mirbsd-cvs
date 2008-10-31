@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/usr.sbin/makefs/ffs/mkfs.c,v 1.6 2008/10/31 21:09:33 tg Exp $ */
 /*	$NetBSD: mkfs.c,v 1.21 2004/12/20 20:51:42 jmc Exp $	*/
 
 /*
@@ -50,7 +50,7 @@ static char sccsid[] = "@(#)mkfs.c	8.11 (Berkeley) 5/3/95";
 #else
 #ifdef __RCSID
 __RCSID("$NetBSD: mkfs.c,v 1.21 2004/12/20 20:51:42 jmc Exp $");
-__IDSTRING(mbsdid, "$MirOS$");
+__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/ffs/mkfs.c,v 1.6 2008/10/31 21:09:33 tg Exp $");
 #endif
 #endif
 #endif /* not lint */
@@ -613,6 +613,7 @@ initcg(int cylno, time_t utime, const fsinfo_t *fsopts)
 {
 	daddr_t cbase, dmax;
 	int32_t i, j, d, dlower, dupper, blkno;
+	uint32_t k;
 	struct ufs1_dinode *dp1;
 	struct ufs2_dinode *dp2;
 	int start;
@@ -680,8 +681,8 @@ initcg(int cylno, time_t utime, const fsinfo_t *fsopts)
 	}
 	acg.cg_cs.cs_nifree += sblock.fs_ipg;
 	if (cylno == 0)
-		for (i = 0; i < ROOTINO; i++) {
-			setbit(cg_inosused(&acg, 0), i);
+		for (k = 0; k < ROOTINO; k++) {
+			setbit(cg_inosused(&acg, 0), k);
 			acg.cg_cs.cs_nifree--;
 		}
 	if (cylno > 0) {

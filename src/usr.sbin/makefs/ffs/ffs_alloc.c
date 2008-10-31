@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$NetBSD: ffs_alloc.c,v 1.17 2006/12/18 21:03:29 christos Exp $	*/
 /* From: NetBSD: ffs_alloc.c,v 1.50 2001/09/06 02:16:01 lukem Exp */
 
@@ -48,6 +49,7 @@
 #include <sys/cdefs.h>
 #if defined(__RCSID) && !defined(__lint)
 __RCSID("$NetBSD: ffs_alloc.c,v 1.17 2006/12/18 21:03:29 christos Exp $");
+__IDSTRING(mbsdid, "$MirOS$");
 #endif	/* !__lint */
 
 #include <sys/param.h>
@@ -106,7 +108,7 @@ ffs_alloc(struct inode *ip, daddr_t lbn __unused, daddr_t bpref, int size,
 	int cg;
 	
 	*bnp = 0;
-	if ((u_int)size > fs->fs_bsize || fragoff(fs, size) != 0) {
+	if (size > fs->fs_bsize || fragoff(fs, size) != 0) {
 		errx(1, "ffs_alloc: bad size: bsize %d size %d",
 		    fs->fs_bsize, size);
 	}
@@ -195,11 +197,7 @@ ffs_blkpref_ufs1(struct inode *ip, daddr_t lbn, int indx, int32_t *bap)
 }
 
 daddr_t
-ffs_blkpref_ufs2(ip, lbn, indx, bap)
-	struct inode *ip;
-	daddr_t lbn;
-	int indx;
-	int64_t *bap;
+ffs_blkpref_ufs2(struct inode *ip, daddr_t lbn, int indx, int64_t *bap)
 {
 	struct fs *fs;
 	int cg;
@@ -397,7 +395,7 @@ ffs_alloccgblk(struct inode *ip, struct buf *bp, daddr_t bpref)
 
 	cgp = (struct cg *)bp->b_data;
 	blksfree = cg_blksfree(cgp, needswap);
-	if (bpref == 0 || dtog(fs, bpref) != ufs_rw32(cgp->cg_cgx, needswap)) {
+	if (bpref == 0 || (uint32_t)dtog(fs, bpref) != ufs_rw32(cgp->cg_cgx, needswap)) {
 		bpref = ufs_rw32(cgp->cg_rotor, needswap);
 	} else {
 		bpref = blknum(fs, bpref);
@@ -444,7 +442,7 @@ ffs_blkfree(struct inode *ip, daddr_t bno, long size)
 	struct fs *fs = ip->i_fs;
 	const int needswap = UFS_FSNEEDSWAP(fs);
 
-	if ((u_int)size > fs->fs_bsize || fragoff(fs, size) != 0 ||
+	if (size > fs->fs_bsize || fragoff(fs, size) != 0 ||
 	    fragnum(fs, bno) + numfrags(fs, size) > fs->fs_frag) {
 		errx(1, "blkfree: bad size: bno %lld bsize %d size %ld",
 		    (long long)bno, fs->fs_bsize, size);
@@ -631,7 +629,7 @@ ffs_clusteracct(struct fs *fs, struct cg *cgp, int32_t blkno, int cnt)
 	 */
 	start = blkno + 1;
 	end = start + fs->fs_contigsumsize;
-	if (end >= ufs_rw32(cgp->cg_nclusterblks, needswap))
+	if ((unsigned)end >= ufs_rw32(cgp->cg_nclusterblks, needswap))
 		end = ufs_rw32(cgp->cg_nclusterblks, needswap);
 	mapp = &freemapp[start / NBBY];
 	map = *mapp++;

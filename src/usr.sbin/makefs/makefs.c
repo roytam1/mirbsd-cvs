@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/usr.sbin/makefs/makefs.c,v 1.7 2008/10/31 19:45:30 tg Exp $ */
 /*	$NetBSD: makefs.c,v 1.26 2006/10/22 21:11:56 christos Exp $	*/
 
 /*
@@ -47,7 +47,7 @@
 #include <sys/cdefs.h>
 #if defined(__RCSID) && !defined(__lint)
 __RCSID("$NetBSD: makefs.c,v 1.26 2006/10/22 21:11:56 christos Exp $");
-__IDSTRING(mbsdid, "$MirOS$");
+__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/makefs.c,v 1.7 2008/10/31 19:45:30 tg Exp $");
 #endif	/* !__lint */
 
 #include <assert.h>
@@ -86,7 +86,7 @@ u_int		debug;
 struct timespec	start_time;
 
 static	fstype_t *get_fstype(const char *);
-static	void	usage(void);
+static	void	usage(void) __dead;
 int		main(int, char *[]);
 
 int

@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$NetBSD: fs.h,v 1.51 2008/07/31 08:49:47 simonb Exp $	*/
 
 /*
@@ -688,9 +689,9 @@ struct ocg {
  * Determining the size of a file block in the file system.
  */
 #define	blksize(fs, ip, lbn) \
-	(((lbn) >= NDADDR || (ip)->i_size >= lblktosize(fs, (lbn) + 1)) \
-	    ? (fs)->fs_bsize \
-	    : (fragroundup(fs, blkoff(fs, (ip)->i_size))))
+	(((lbn) >= NDADDR || (off_t)(ip)->i_size >= lblktosize(fs, (lbn) + 1)) \
+	    ? (int32_t)(fs)->fs_bsize \
+	    : (int32_t)(fragroundup(fs, blkoff(fs, (ip)->i_size))))
 
 #define	sblksize(fs, size, lbn) \
 	(((lbn) >= NDADDR || (size) >= ((lbn) + 1) << (fs)->fs_bshift) \

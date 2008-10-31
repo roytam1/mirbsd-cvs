@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/usr.sbin/makefs/ffs.c,v 1.7 2008/10/31 21:05:35 tg Exp $ */
 /*	$NetBSD: ffs.c,v 1.42 2006/12/18 21:03:29 christos Exp $	*/
 
 /*
@@ -73,7 +73,7 @@
 #include <sys/cdefs.h>
 #if defined(__RCSID) && !defined(__lint)
 __RCSID("$NetBSD: ffs.c,v 1.42 2006/12/18 21:03:29 christos Exp $");
-__IDSTRING(mbsdid, "$MirOS$");
+__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/ffs.c,v 1.7 2008/10/31 21:05:35 tg Exp $");
 #endif	/* !__lint */
 
 #include <sys/param.h>
@@ -321,7 +321,7 @@ static void
 ffs_validate(const char *dir, fsnode *root, fsinfo_t *fsopts)
 {
 	int32_t	ncg = 1;
-#if notyet
+#ifdef notyet
 	int32_t	spc, nspf, ncyl, fssize;
 #endif
 	ffs_opt_t	*ffs_opts = fsopts->fs_specific;
@@ -602,7 +602,7 @@ ffs_size_dir(fsnode *root, fsinfo_t *fsopts)
 			if (node->type == S_IFREG)
 				ADDSIZE(node->inode->st.st_size);
 			if (node->type == S_IFLNK) {
-				int	slen;
+				size_t	slen;
 
 				slen = strlen(node->symlink) + 1;
 				if (slen >= (ffs_opts->version == 1 ?
@@ -625,7 +625,7 @@ static void *
 ffs_build_dinode1(struct ufs1_dinode *dinp, dirbuf_t *dbufp, fsnode *cur,
 		 fsnode *root, fsinfo_t *fsopts)
 {
-	int slen;
+	size_t slen;
 	void *membuf;
 
 	memset(dinp, 0, sizeof(*dinp));
@@ -673,7 +673,7 @@ static void *
 ffs_build_dinode2(struct ufs2_dinode *dinp, dirbuf_t *dbufp, fsnode *cur,
 		 fsnode *root, fsinfo_t *fsopts)
 {
-	int slen;
+	size_t slen;
 	void *membuf;
 
 	memset(dinp, 0, sizeof(*dinp));
@@ -783,7 +783,7 @@ ffs_populate_dir(const char *dir, fsnode *root, fsinfo_t *fsopts)
 			continue;		/* skip hard-linked entries */
 		cur->inode->flags |= FI_WRITTEN;
 
-		if (snprintf(path, sizeof(path), "%s/%s", dir, cur->name)
+		if ((size_t)snprintf(path, sizeof(path), "%s/%s", dir, cur->name)
 		    >= sizeof(path))
 			errx(1, "Pathname too long.");
 
@@ -824,7 +824,7 @@ ffs_populate_dir(const char *dir, fsnode *root, fsinfo_t *fsopts)
 	for (cur = root; cur != NULL; cur = cur->next) {
 		if (cur->child == NULL)
 			continue;
-		if (snprintf(path, sizeof(path), "%s/%s", dir, cur->name)
+		if ((size_t)snprintf(path, sizeof(path), "%s/%s", dir, cur->name)
 		    >= sizeof(path))
 			errx(1, "Pathname too long.");
 		if (! ffs_populate_dir(path, cur->child, fsopts))
@@ -1035,10 +1035,11 @@ ffs_write_inode(union dinode *dp, uint32_t ino, const fsinfo_t *fsopts)
 	struct ufs2_dinode *dp2, *dip;
 	struct cg	*cgp;
 	struct fs	*fs;
-	int		cg, cgino, i;
+	int		cg, i;
+	unsigned	cgino;
 	daddr_t		d;
 	char		sbbuf[FFS_MAXBSIZE];
-	int32_t		initediblk;
+	uint32_t	initediblk;
 	ffs_opt_t	*ffs_opts = fsopts->fs_specific;
 
 	assert (dp != NULL);

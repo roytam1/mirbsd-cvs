@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/usr.sbin/makefs/nbsrc/usr.sbin/mtree/spec.c,v 1.6 2008/10/31 19:45:31 tg Exp $ */
 /*	$NetBSD: spec.c,v 1.65 2008/04/28 20:24:17 martin Exp $	*/
 
 /*-
@@ -73,7 +73,7 @@
 static char sccsid[] = "@(#)spec.c	8.2 (Berkeley) 4/28/95";
 #else
 __RCSID("$NetBSD: spec.c,v 1.65 2008/04/28 20:24:17 martin Exp $");
-__IDSTRING(mbsdid, "$MirOS$");
+__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/nbsrc/usr.sbin/mtree/spec.c,v 1.6 2008/10/31 19:45:31 tg Exp $");
 #endif
 #endif /* not lint */
 
@@ -322,7 +322,7 @@ dump_nodes(const char *dir, NODE *root, int pathlast)
 		if (cur->type != F_DIR && !matchtags(cur))
 			continue;
 
-		if (snprintf(path, sizeof(path), "%s%s%s",
+		if ((size_t)snprintf(path, sizeof(path), "%s%s%s",
 		    dir, *dir ? "/" : "", cur->name)
 		    >= sizeof(path))
 			mtree_err("Pathname too long.");
