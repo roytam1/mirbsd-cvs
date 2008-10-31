@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/makefs/cd9660.c,v 1.12 2008/10/31 21:36:39 tg Exp $ */
+/**	$MirOS: src/usr.sbin/makefs/cd9660.c,v 1.13 2008/10/31 21:39:52 tg Exp $ */
 /*	$NetBSD: cd9660.c,v 1.22 2008/10/30 18:43:13 ahoka Exp $	*/
 
 /*
@@ -108,7 +108,7 @@
 #include <sys/cdefs.h>
 #if defined(__RCSID) && !defined(__lint)
 __RCSID("$NetBSD: cd9660.c,v 1.22 2008/10/30 18:43:13 ahoka Exp $");
-__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/cd9660.c,v 1.12 2008/10/31 21:36:39 tg Exp $");
+__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/cd9660.c,v 1.13 2008/10/31 21:39:52 tg Exp $");
 #endif  /* !__lint */
 
 #include <string.h>
@@ -493,14 +493,10 @@ cd9660_makefs(const char *image, const char *dir, fsnode *root,
 
 	real_root = cd9660_allocate_cd9660node();
 	if ((real_root->isoDirRecord =
-		malloc( sizeof(iso_directory_record_cd9660) )) == NULL) {
+		calloc(1, sizeof (iso_directory_record_cd9660))) == NULL) {
 		CD9660_MEM_ALLOC_ERROR("cd9660_makefs");
 		exit(1);
 	}
-
-	/* Leave filename blank for root */
-	memset(real_root->isoDirRecord->name, 0,
-	    ISO_FILENAME_MAXLENGTH_WITH_PADDING);
 
 	real_root->level = 0;
 	diskStructure.rootNode = real_root;
@@ -747,14 +743,13 @@ cd9660_setup_volume_descriptors(void)
 			    "cd9660_setup_volume_descriptors");
 			exit(1);
 		}
-		if ((t->volumeDescriptorData = malloc(2048)) == NULL) {
+		if ((t->volumeDescriptorData = calloc(1, 2048)) == NULL) {
 			CD9660_MEM_ALLOC_ERROR(
 			    "cd9660_setup_volume_descriptors");
 			exit(1);
 		}
 		temp->next = t;
 		temp = t;
-		memset(t->volumeDescriptorData, 0, 2048);
 		t->sector = 17;
 		if (diskStructure.verbose_level > 0)
 			printf("Setting up boot volume descriptor\n");
@@ -767,13 +762,12 @@ cd9660_setup_volume_descriptors(void)
 		CD9660_MEM_ALLOC_ERROR("cd9660_setup_volume_descriptors");
 		exit(1);
 	}
-	if ((t->volumeDescriptorData = malloc(2048)) == NULL) {
+	if ((t->volumeDescriptorData = calloc(1, 2048)) == NULL) {
 		CD9660_MEM_ALLOC_ERROR("cd9660_setup_volume_descriptors");
 		exit(1);
 	}
 
 	temp->next = t;
-	memset(t->volumeDescriptorData, 0, 2048);
 	t->volumeDescriptorData[0] = ISO_VOLUME_DESCRIPTOR_TERMINATOR;
 	t->next = 0;
 	t->volumeDescriptorData[6] = 1;

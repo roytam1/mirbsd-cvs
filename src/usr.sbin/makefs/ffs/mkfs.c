@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/makefs/ffs/mkfs.c,v 1.6 2008/10/31 21:09:33 tg Exp $ */
+/**	$MirOS: src/usr.sbin/makefs/ffs/mkfs.c,v 1.7 2008/10/31 21:24:25 tg Exp $ */
 /*	$NetBSD: mkfs.c,v 1.21 2004/12/20 20:51:42 jmc Exp $	*/
 
 /*
@@ -50,7 +50,7 @@ static char sccsid[] = "@(#)mkfs.c	8.11 (Berkeley) 5/3/95";
 #else
 #ifdef __RCSID
 __RCSID("$NetBSD: mkfs.c,v 1.21 2004/12/20 20:51:42 jmc Exp $");
-__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/ffs/mkfs.c,v 1.6 2008/10/31 21:09:33 tg Exp $");
+__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/ffs/mkfs.c,v 1.7 2008/10/31 21:24:25 tg Exp $");
 #endif
 #endif
 #endif /* not lint */
@@ -509,11 +509,10 @@ ffs_mkfs(const char *fsys, const fsinfo_t *fsopts)
 		iobufsize = SBLOCKSIZE + 3 * sblock.fs_bsize;
 	else
 		iobufsize = 4 * sblock.fs_bsize;
-	if ((iobuf = malloc(iobufsize)) == 0) {
+	if ((iobuf = calloc(1, iobufsize)) == 0) {
 		printf("Cannot allocate I/O buffer\n");
 		exit(38);
 	}
-	memset(iobuf, 0, iobufsize);
 	/*
 	 * Make a copy of the superblock into the buffer that we will be
 	 * writing out in each cylinder group.

@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/usr.sbin/makefs/cd9660/cd9660_write.c,v 1.5 2008/10/31 21:39:53 tg Exp $ */
 /*	$NetBSD: cd9660_write.c,v 1.9 2008/05/10 19:00:07 skrll Exp $	*/
 
 /*
@@ -39,7 +39,7 @@
 #include <sys/cdefs.h>
 #if defined(__RCSID) && !defined(__lint)
 __RCSID("$NetBSD: cd9660_write.c,v 1.9 2008/05/10 19:00:07 skrll Exp $");
-__IDSTRING(mbsdid, "$MirOS$");
+__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/cd9660/cd9660_write.c,v 1.5 2008/10/31 21:39:53 tg Exp $");
 #endif  /* !__lint */
 
 #include <inttypes.h>
@@ -175,14 +175,13 @@ cd9660_write_path_table(FILE *fd, int sector, int mode)
 	path_table_entry temp_entry;
 	cd9660node *ptcur;
 
-	buffer = malloc(diskStructure.sectorSize * path_table_sectors);
+	buffer = calloc(diskStructure.sectorSize, path_table_sectors);
 	if (buffer == NULL) {
 		warnx("%s: Memory allocation error allocating buffer",
 		    __func__);
 		return 0;
 	}
 	buffer_head = buffer;
-	memset(buffer, 0, diskStructure.sectorSize * path_table_sectors);
 
 	ptcur = diskStructure.rootNode;
 
@@ -279,11 +278,9 @@ cd9660_write_file(FILE *fd, cd9660node *writenode)
 
 	/* Todo : clean up variables */
 
-	temp_file_name = malloc(CD9660MAXPATH + 1);
+	temp_file_name = calloc(1, CD9660MAXPATH + 1);
 	if (temp_file_name == NULL)
 		err(EXIT_FAILURE, "%s: malloc", __func__);
-
-	memset(temp_file_name, 0, CD9660MAXPATH + 1);
 
 	buf = malloc(diskStructure.sectorSize);
 	if (buf == NULL)

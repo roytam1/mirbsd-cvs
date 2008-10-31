@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/makefs/cd9660/cd9660_eltorito.c,v 1.5 2008/10/31 20:44:04 tg Exp $ */
+/**	$MirOS: src/usr.sbin/makefs/cd9660/cd9660_eltorito.c,v 1.6 2008/10/31 21:24:24 tg Exp $ */
 /*	$NetBSD: cd9660_eltorito.c,v 1.12 2008/07/27 10:29:32 reinoud Exp $	*/
 
 /*
@@ -38,7 +38,7 @@
 #include <sys/cdefs.h>
 #if defined(__RCSID) && !defined(__lint)
 __RCSID("$NetBSD: cd9660_eltorito.c,v 1.12 2008/07/27 10:29:32 reinoud Exp $");
-__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/cd9660/cd9660_eltorito.c,v 1.5 2008/10/31 20:44:04 tg Exp $");
+__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/cd9660/cd9660_eltorito.c,v 1.6 2008/10/31 21:24:24 tg Exp $");
 #endif  /* !__lint */
 
 #ifdef DEBUG
@@ -47,7 +47,8 @@ __IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/cd9660/cd9660_eltorito.c,v 1.5 2
 #define	ELTORITO_DPRINTF(__x)
 #endif
 
-static struct boot_catalog_entry *cd9660_init_boot_catalog_entry(void);
+#define cd9660_init_boot_catalog_entry() \
+	((struct boot_catalog_entry *)(calloc(1, sizeof (struct boot_catalog_entry))))
 static struct boot_catalog_entry *cd9660_boot_setup_validation_entry(char);
 static struct boot_catalog_entry *cd9660_boot_setup_default_entry(
     struct cd9660_boot_image *);
@@ -95,12 +96,11 @@ cd9660_add_boot_disk(const char *boot_info)
 		printf("Found bootdisk with system %s, and filename %s\n",
 		    sysname, filename);
 	}
-	if ((new_image = malloc(sizeof(*new_image))) == NULL) {
+	if ((new_image = calloc(1, sizeof (*new_image))) == NULL) {
 		warn("%s: malloc", __func__);
 		free(temp);
 		return 0;
 	}
-	(void)memset(new_image, 0, sizeof(*new_image));
 	new_image->loadSegment = 0;	/* default for now */
 
 	/* Decode System */
@@ -222,17 +222,6 @@ cd9660_eltorito_add_boot_option(const char *option_string, const char *value)
 		return 0;
 	}
 	return 1;
-}
-
-static struct boot_catalog_entry *
-cd9660_init_boot_catalog_entry(void)
-{
-	struct boot_catalog_entry *temp;
-
-	if ((temp = malloc(sizeof(*temp))) == NULL)
-		return NULL;
-
-	return memset(temp, 0, sizeof(*temp));
 }
 
 static struct boot_catalog_entry *
