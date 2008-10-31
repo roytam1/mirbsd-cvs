@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/makefs/cd9660.c,v 1.11 2008/10/31 21:31:36 tg Exp $ */
+/**	$MirOS: src/usr.sbin/makefs/cd9660.c,v 1.12 2008/10/31 21:36:39 tg Exp $ */
 /*	$NetBSD: cd9660.c,v 1.22 2008/10/30 18:43:13 ahoka Exp $	*/
 
 /*
@@ -108,7 +108,7 @@
 #include <sys/cdefs.h>
 #if defined(__RCSID) && !defined(__lint)
 __RCSID("$NetBSD: cd9660.c,v 1.22 2008/10/30 18:43:13 ahoka Exp $");
-__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/cd9660.c,v 1.11 2008/10/31 21:31:36 tg Exp $");
+__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/cd9660.c,v 1.12 2008/10/31 21:36:39 tg Exp $");
 #endif  /* !__lint */
 
 #include <string.h>
@@ -1579,24 +1579,25 @@ cd9660_generate_path_table(void)
 }
 
 void
-cd9660_compute_full_filename(cd9660node *node, char *buf, int level)
+cd9660_compute_full_filename(cd9660node *node, char *buf, size_t buflen,
+    int level)
 {
 	cd9660node *parent;
 
 	parent = (node->rr_real_parent == NULL ?
 		  node->parent : node->rr_real_parent);
 	if (parent != NULL) {
-		cd9660_compute_full_filename(parent, buf, level + 1);
-		strcat(buf, node->node->name);
+		cd9660_compute_full_filename(parent, buf, buflen, level + 1);
+		strlcat(buf, node->node->name, buflen);
 	} else {
 		/* We are at the root */
-		strcat(buf, diskStructure.rootFilesystemPath);
+		strlcat(buf, diskStructure.rootFilesystemPath, buflen);
 		if (buf[strlen(buf) - 1] == '/')
 			buf[strlen(buf) - 1] = '\0';
 	}
 
 	if (level != 0)
-		strcat(buf, "/");
+		strlcat(buf, "/", buflen);
 }
 
 /* NEW filename conversion method */

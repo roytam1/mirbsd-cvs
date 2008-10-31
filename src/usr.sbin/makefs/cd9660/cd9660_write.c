@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$NetBSD: cd9660_write.c,v 1.9 2008/05/10 19:00:07 skrll Exp $	*/
 
 /*
@@ -38,6 +39,7 @@
 #include <sys/cdefs.h>
 #if defined(__RCSID) && !defined(__lint)
 __RCSID("$NetBSD: cd9660_write.c,v 1.9 2008/05/10 19:00:07 skrll Exp $");
+__IDSTRING(mbsdid, "$MirOS$");
 #endif  /* !__lint */
 
 #include <inttypes.h>
@@ -299,7 +301,7 @@ cd9660_write_file(FILE *fd, cd9660node *writenode)
 			    __func__, (int)inode->st.st_ino, inode->ino));
 			inode->flags |= FI_WRITTEN;
 			cd9660_compute_full_filename(writenode,
-			    temp_file_name, 0);
+			    temp_file_name, CD9660MAXPATH + 1, 0);
 			ret = cd9660_copy_file(fd, writenode->fileDataSector,
 			    temp_file_name);
 			if (ret == 0)
