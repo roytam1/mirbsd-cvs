@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: iso.h,v 1.13 2003/06/02 23:28:05 millert Exp $	*/
 /*	$NetBSD: iso.h,v 1.20 1997/07/07 22:45:34 cgd Exp $	*/
 
@@ -200,8 +201,7 @@ isonum_712(char *p)
 
 /* 7.2.1: unsigned little-endian 16-bit value.  NOT USED IN KERNEL. */
 static __inline int
-isonum_721(p)
-	u_char *p;
+isonum_721(u_char *p)
 {
 #if defined(UNALIGNED_ACCESS) && (BYTE_ORDER == LITTLE_ENDIAN)
 	return *(u_int16t *)p;
@@ -212,8 +212,7 @@ isonum_721(p)
 
 /* 7.2.2: unsigned big-endian 16-bit value.  NOT USED IN KERNEL. */
 static __inline int     
-isonum_722(p)
-	unsigned char *p;
+isonum_722(unsigned char *p)
 {
 #if defined(UNALIGNED_ACCESS) && (BYTE_ORDER == BIG_ENDIAN)
 	return *(u_int16t *)p;
@@ -240,8 +239,7 @@ isonum_723(u_char *p)
 
 /* 7.3.1: unsigned little-endian 32-bit value.  NOT USED IN KERNEL. */
 static __inline int
-isonum_731(p)
-	u_char *p;
+isonum_731(u_char *p)
 {
 #if defined(UNALIGNED_ACCESS) && (BYTE_ORDER == LITTLE_ENDIAN)
 	return *(u_int32t *)p;
@@ -252,8 +250,7 @@ isonum_731(p)
 
 /* 7.3.2: unsigned big-endian 32-bit value.  NOT USED IN KERNEL. */
 static __inline int
-isonum_732(p)
-	unsigned char *p;
+isonum_732(unsigned char *p)
 {
 #if defined(UNALIGNED_ACCESS) && (BYTE_ORDER == BIG_ENDIAN)
 	return *(u_int32t *)p;
