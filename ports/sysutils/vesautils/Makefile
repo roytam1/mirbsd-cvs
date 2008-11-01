@@ -1,15 +1,14 @@
-# $MirOS$
+# $MirOS: ports/sysutils/vesautils/Makefile,v 1.1 2006/12/30 23:12:21 tg Exp $
 
-PKGNAME=vesautils-20060000-0 #XXX
-BROKEN=			SVN_DISTF not implemented yet
+BROKEN=			uses ioperm, iopl, ipv libarch functions
 
 ONLY_FOR_PLATFORM=	*BSD:*:* Linux:*:*
 
 COMMENT=		VESA video mode utilities
 CATEGORIES=		devel multimedia sysutils
-SVN_DISTREPO=		svn://svn.mplayerhq.hu/vesautils/trunk
-SVN_DISTDATE=		2006/xx/xx
-SVN_DISTMODS=		vesautils
+SVN_DISTFILE=		vesautils
+SVN_DISTPATH=		svn://svn.mplayerhq.hu/vesautils/trunk
+SVN_DISTREV=		12
 RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.de>
 HOMEPAGE=		http://www.mplayerhq.hu/vesautils/
 
@@ -19,9 +18,9 @@ PERMIT_DISTFILES_FTP=	Yes
 PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes
 
-LIB_DEPENDS+=		lrmi::devel/lrmi
+BUILD_DEPENDS+=		:mirmake->=20081012:devel/mirmake
+LIB_DEPENDS+=		lrmi:lrmi->=20061230-1:devel/lrmi
 NO_REGRESS=		Yes
-
-# TODO: copy BSDmakefile stuff over
+MAKE_FILE=		${.CURDIR}/build.mk
 
 .include <bsd.port.mk>

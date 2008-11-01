@@ -1,9 +1,10 @@
-# $MirOS$
+# $MirOS: ports/devel/lrmi/Makefile,v 1.1 2006/12/30 21:48:48 tg Exp $
 
 ONLY_FOR_PLATFORM=	*BSD:*:* Linux:*:*
 
 COMMENT=		*nix real mode interface library
 CATEGORIES=		devel sysutils
+DASH_VER=		1
 CVS_DISTREPO=		:pserver:anonymous@lrmi.cvs.sourceforge.net:/cvsroot/lrmi
 CVS_DISTDATE=		2006/12/30
 CVS_DISTMODS=		lrmi
@@ -16,11 +17,12 @@ PERMIT_DISTFILES_FTP=	Yes
 PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes
 
+BUILD_DEPENDS+=		:mirmake->=20081012:devel/mirmake
+# mirmake 20081101 or ↓
+EXTRA_FAKE_FLAGS+=	HDRDST=${WRKINST:Q}${TRUEPREFIX:Q}/include
+# mirmake 20081101 or ↑
 NO_REGRESS=		Yes
-MAKE_FILE=		Makefile.MirPorts
-EXTRA_XAKE_FLAGS+=	MAKE_FILE=${MAKE_FILE}
-
-post-extract:
-	ln -s ${.CURDIR}/${MAKE_FILE} ${WRKSRC}/
+MAKE_FILE=		${.CURDIR}/Makefile.MirPorts
+EXTRA_XAKE_FLAGS+=	MAKE_FILE=${MAKE_FILE:Q}
 
 .include <bsd.port.mk>
