@@ -1,4 +1,5 @@
-#	$OpenBSD: compress,v 1.4 2004/06/03 03:14:19 tedu Exp $
+# $MirOS$
+# $OpenBSD: compress,v 1.4 2004/06/03 03:14:19 tedu Exp $
 
 #------------------------------------------------------------------------------
 # compress:  file(1) magic for pure-compression formats (no archives)
@@ -24,7 +25,24 @@
 >2	byte		>8		\b, unknown method
 >3	byte		&0x01		\b, ASCII
 >3	byte		&0x02		\b, continuation
->3	byte		&0x04		\b, extra field
+>3	byte&0x6	=0x06		\b, extra field
+# little endian, but we cannot force this here
+>>3	byte		&0x08
+>>>(10.s+12)	string	x		\b, was "%s"
+>3	byte&0x6	=0x04
+>>12	leshort		<0x5347		\b, extra field
+# little endian, but we cannot force this here
+>>>3	byte		&0x08
+>>>>(10.s+12)	string	x		\b, was "%s"
+>>12	leshort		>0x5347		\b, extra field
+# little endian, but we cannot force this here
+>>>3	byte		&0x08
+>>>>(10.s+12)	string	x		\b, was "%s"
+>>12	leshort		=0x5347
+>>>16	byte		x		\b, gzsig v%d signed
+# little endian, but we cannot force this here
+>>>3	byte		&0x08
+>>>>(10.s+12)	string	x		\b, was "%s"
 >3	byte&0xC	=0x08
 >>10	string		x		\b, was "%s"
 >9	byte		=0x00		\b, from MS-DOS
@@ -38,9 +56,10 @@
 >9	byte		=0x0B		\b, from Win/32
 >3	byte		&0x10		\b, comment
 >3	byte		&0x20		\b, encrypted
-### >4	ledate		x		last modified: %s,
 >8	byte		2		\b, max compression
 >8	byte		4		\b, max speed
+>4	ulelong		>0
+>>4	ledate		x		\b, last modified: %s
 
 # packed data, Huffman (minimum redundancy) codes on a byte-by-byte basis
 0	string		\037\036	packed data
