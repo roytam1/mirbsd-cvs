@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: cd9660_rrip.c,v 1.8 2003/06/02 23:28:05 millert Exp $	*/
 /*	$NetBSD: cd9660_rrip.c,v 1.17 1997/01/24 00:27:32 cgd Exp $	*/
 
@@ -431,14 +432,16 @@ cd9660_rrip_device(v, ana)
 {
 	ISO_RRIP_DEVICE *p = v;
 	u_int high, low;
+	uint64_t tdev;
 	
 	high = isonum_733(p->dev_t_high);
 	low  = isonum_733(p->dev_t_low);
-	
-	if (high == 0)
-		ana->inop->inode.iso_rdev = makedev(major(low), minor(low));
-	else
-		ana->inop->inode.iso_rdev = makedev(high, minor(low));
+
+	tdev = (uint32_t)high;
+	tdev <<= 32;
+	tdev |= (uint32_t)low;
+	ana->inop->inode.iso_rdev = (dev_t)tdev;
+
 	ana->fields &= ~ISO_SUSP_DEVICE;
 	return (ISO_SUSP_DEVICE);
 }
