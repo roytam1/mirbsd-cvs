@@ -1,4 +1,4 @@
-@comment $MirOS: ports/devel/omniORBpy/PLIST,v 1.1 2008/08/13 10:02:03 tg Exp $
+@comment $MirOS: ports/devel/omniORBpy/PLIST,v 1.2 2008/08/26 16:34:27 tg Exp $
 include/omniORB4/pydistdate.hh
 include/omniORBpy.h
 lib/python${MODPY_VERSION}/site-packages/CORBA.py
@@ -15,20 +15,20 @@ lib/python${MODPY_VERSION}/site-packages/PortableServer__POA.py
 lib/python${MODPY_VERSION}/site-packages/PortableServer__POA.pyc
 lib/python${MODPY_VERSION}/site-packages/__init__.py
 lib/python${MODPY_VERSION}/site-packages/__init__.pyc
-@comment WARNING: no @lib for these! -v-
+@comment WARNING: no @lib for these! ↓
 lib/python${MODPY_VERSION}/site-packages/_omniConnMgmtmodule.so
 lib/python${MODPY_VERSION}/site-packages/_omniConnMgmtmodule.so.3
-lib/python${MODPY_VERSION}/site-packages/_omniConnMgmtmodule.so.3.2
+lib/python${MODPY_VERSION}/site-packages/_omniConnMgmtmodule.so.3.3
 lib/python${MODPY_VERSION}/site-packages/_omnicodesetsmodule.so
 lib/python${MODPY_VERSION}/site-packages/_omnicodesetsmodule.so.3
-lib/python${MODPY_VERSION}/site-packages/_omnicodesetsmodule.so.3.2
+lib/python${MODPY_VERSION}/site-packages/_omnicodesetsmodule.so.3.3
 lib/python${MODPY_VERSION}/site-packages/_omnipymodule.so
 lib/python${MODPY_VERSION}/site-packages/_omnipymodule.so.3
-lib/python${MODPY_VERSION}/site-packages/_omnipymodule.so.3.2
+lib/python${MODPY_VERSION}/site-packages/_omnipymodule.so.3.3
 lib/python${MODPY_VERSION}/site-packages/_omnisslTPmodule.so
 lib/python${MODPY_VERSION}/site-packages/_omnisslTPmodule.so.3
-lib/python${MODPY_VERSION}/site-packages/_omnisslTPmodule.so.3.2
-@comment WARNING: no @lib for these! -^-
+lib/python${MODPY_VERSION}/site-packages/_omnisslTPmodule.so.3.3
+@comment WARNING: no @lib for these! ↑
 lib/python${MODPY_VERSION}/site-packages/omniORB.pth
 lib/python${MODPY_VERSION}/site-packages/omniORB/BiDirPolicy.py
 lib/python${MODPY_VERSION}/site-packages/omniORB/BiDirPolicy.pyc

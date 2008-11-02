@@ -1,9 +1,8 @@
-# $MirOS: ports/devel/omniORBpy/Makefile,v 1.1 2008/08/13 10:02:03 tg Exp $
+# $MirOS: ports/devel/omniORBpy/Makefile,v 1.2 2008/08/26 16:34:27 tg Exp $
 
 CATEGORIES=		devel
 COMMENT=		Python bindings for ombiORB
-DISTNAME=		omniORBpy-3.2
-DASH_VER=		1
+DISTNAME=		omniORBpy-3.3
 HOMEPAGE=		http://omniorb.sourceforge.net/
 
 # GNU LGPLv2.1
@@ -18,17 +17,12 @@ MODPY_USE_DISTUTILS=	No
 MODULES+=		devel/pkgconfig
 LIB_DEPENDS+=		omniORB4::devel/omniORB
 
-#BINOWN!=		id -un
-#BINGRP!=		id -gn
 MASTER_SITES=		${MASTER_SITE_SOURCEFORGE:=omniorb/}
 MAKE_FILE=		GNUmakefile
 USE_GMAKE=		Yes
 USE_CXX=		Yes
 CONFIGURE_STYLE=	autoconf no-autoheader
 AUTOCONF_NEW=		Yes
-#CONFIGURE_ENV+=		PYTHON=${LOCALBASE:Q}/bin/python${MODPY_VERSION}
 CONFIGURE_ARGS+=	--with-openssl=/usr
-#CONFIGURE_ARGS+=	--with-omniORB-config=${SYSCONFDIR:Q}/omniORB.cfg
-#EXTRA_XAKE_FLAGS+=	CDEBUGFLAGS=${CFLAGS:Q} CXXDEBUGFLAGS=${CXXFLAGS:Q}
 
 .include <bsd.port.mk>
