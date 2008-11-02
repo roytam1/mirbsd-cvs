@@ -1,6 +1,6 @@
-$MirOS: ports/devel/omniORB/patches/patch-mk_beforeauto_mk_in,v 1.1 2008/08/13 10:02:02 tg Exp $
---- mk/beforeauto.mk.in.orig	Fri May 11 10:16:58 2007
-+++ mk/beforeauto.mk.in	Tue Aug 26 14:33:52 2008
+$MirOS: ports/devel/omniORB/patches/patch-mk_beforeauto_mk_in,v 1.2 2008/08/26 15:36:58 tg Exp $
+--- mk/beforeauto.mk.in.orig	Fri Aug  8 13:44:42 2008
++++ mk/beforeauto.mk.in	Sun Nov  2 03:28:39 2008
 @@ -723,10 +723,10 @@ endif
  #
  # Default compiler rules
@@ -14,11 +14,13 @@ $MirOS: ports/devel/omniORB/patches/patch-mk_beforeauto_mk_in,v 1.1 2008/08/13 1
  CXXLINK         = $(CXX)
  CXXLINKOPTIONS  = $(CXXDEBUGFLAGS) $(CXXOPTIONS)
  
-@@ -1030,7 +1030,23 @@ endif
- ifdef NetBSD
- IMPORT_CPPFLAGS += -D__netbsd__
+@@ -1068,10 +1068,40 @@ OMNITHREAD_LIB += -pthread
+ endif
  
--OMNITHREAD_CPPFLAGS = -D_REENTRANT
+ ###################
++ifdef MidnightBSD
++IMPORT_CPPFLAGS += -D__midnightbsd__
++
 +CLINKOPTIONS    = $(CDEBUGFLAGS) $(COPTIONS) -Wl,-rpath,$(INSTALLLIBDIR)
 +CXXLINKOPTIONS  = $(CXXDEBUGFLAGS) $(CXXOPTIONS) -Wl,-rpath,$(INSTALLLIBDIR)
 +SharedLibraryPlatformLinkFlagsTemplate = $(CXXLINKOPTIONS) -shared -Wl,-soname,$$soname
@@ -28,9 +30,24 @@ $MirOS: ports/devel/omniORB/patches/patch-mk_beforeauto_mk_in,v 1.1 2008/08/13 1
 +OMNITHREAD_LIB += -pthread
 +endif
 +
++###################
 +ifdef MirBSD
 +IMPORT_CPPFLAGS += -D__mirbsd__
 +
++CLINKOPTIONS    = $(CDEBUGFLAGS) $(COPTIONS) -Wl,-rpath,$(INSTALLLIBDIR)
++CXXLINKOPTIONS  = $(CXXDEBUGFLAGS) $(CXXOPTIONS) -Wl,-rpath,$(INSTALLLIBDIR)
++SharedLibraryPlatformLinkFlagsTemplate = $(CXXLINKOPTIONS) -shared -Wl,-soname,$$soname
++
++OMNITHREAD_CPPFLAGS = -D_REENTRANT -D_THREAD_SAFE
++OMNITHREAD_POSIX_CPPFLAGS = -DUsePthread -DPthreadDraftVersion=10
++OMNITHREAD_LIB += -pthread
++endif
++
++###################
+ ifdef NetBSD
+ IMPORT_CPPFLAGS += -D__netbsd__
+ 
+-OMNITHREAD_CPPFLAGS = -D_REENTRANT
 +CLINKOPTIONS    = $(CDEBUGFLAGS) $(COPTIONS) -Wl,-rpath,$(INSTALLLIBDIR)
 +CXXLINKOPTIONS  = $(CXXDEBUGFLAGS) $(CXXOPTIONS) -Wl,-rpath,$(INSTALLLIBDIR)
 +SharedLibraryPlatformLinkFlagsTemplate = $(CXXLINKOPTIONS) -shared -Wl,-soname,$$soname

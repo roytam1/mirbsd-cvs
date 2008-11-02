@@ -1,9 +1,8 @@
-# $MirOS: ports/devel/omniORB/Makefile,v 1.1 2008/08/13 10:02:01 tg Exp $
+# $MirOS: ports/devel/omniORB/Makefile,v 1.2 2008/08/26 15:37:25 tg Exp $
 
 CATEGORIES=		devel
 COMMENT=		ORB implementing CORBA 2.6, with Python interface
-DISTNAME=		omniORB-4.1.2
-DASH_VER=		1
+DISTNAME=		omniORB-4.1.3
 HOMEPAGE=		http://omniorb.sourceforge.net/
 
 # GNU GPLv2
@@ -17,14 +16,13 @@ MODPY_USE_DISTUTILS=	No
 
 MODULES+=		devel/pkgconfig
 
-BINOWN!=		id -un
-BINGRP!=		id -gn
 MASTER_SITES=		${MASTER_SITE_SOURCEFORGE:=omniorb/}
 MAKE_FILE=		GNUmakefile
 USE_GMAKE=		Yes
 USE_CXX=		Yes
 CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		Yes
+MODSIMPLE_USE_INSTALL=	${INSTALL} -c
 CONFIGURE_ENV+=		PYTHON=${LOCALBASE:Q}/bin/python${MODPY_VERSION}
 CONFIGURE_ARGS+=	--with-openssl=/usr
 CONFIGURE_ARGS+=	--with-omniORB-config=${SYSCONFDIR:Q}/omniORB.cfg

@@ -1,5 +1,4 @@
-@comment $MirOS$
-@comment $NetBSD$
+@comment $MirOS: ports/devel/omniORB/PLIST,v 1.1 2008/08/13 10:02:01 tg Exp $
 bin/catior
 bin/convertior
 bin/genior
