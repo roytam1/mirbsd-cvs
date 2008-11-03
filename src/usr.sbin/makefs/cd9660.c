@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/makefs/cd9660.c,v 1.16 2008/11/03 20:54:54 tg Exp $ */
+/**	$MirOS: src/usr.sbin/makefs/cd9660.c,v 1.17 2008/11/03 22:37:50 tg Exp $ */
 /*	$NetBSD: cd9660.c,v 1.22 2008/10/30 18:43:13 ahoka Exp $	*/
 
 /*
@@ -108,7 +108,7 @@
 #include <sys/cdefs.h>
 #if defined(__RCSID) && !defined(__lint)
 __RCSID("$NetBSD: cd9660.c,v 1.22 2008/10/30 18:43:13 ahoka Exp $");
-__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/cd9660.c,v 1.16 2008/11/03 20:54:54 tg Exp $");
+__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/cd9660.c,v 1.17 2008/11/03 22:37:50 tg Exp $");
 #endif  /* !__lint */
 
 #include <string.h>
@@ -678,8 +678,9 @@ cd9660_finalize_PVD(void)
 	/*
 	cd9660_set_date(now, diskStructure.primaryDescriptor.expiration_date);
 	*/
+	memcpy(diskStructure.primaryDescriptor.expiration_date,
+	    /* 16 "0" + one NUL */ "0000000000000000", 17);
 
-	memset(diskStructure.primaryDescriptor.expiration_date, '0' ,17);
 	cd9660_time_8426(tim,
 	    diskStructure.primaryDescriptor.effective_date);
 }
