@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/makefs/cd9660.c,v 1.14 2008/10/31 23:04:07 tg Exp $ */
+/**	$MirOS: src/usr.sbin/makefs/cd9660.c,v 1.15 2008/10/31 23:07:02 tg Exp $ */
 /*	$NetBSD: cd9660.c,v 1.22 2008/10/30 18:43:13 ahoka Exp $	*/
 
 /*
@@ -108,7 +108,7 @@
 #include <sys/cdefs.h>
 #if defined(__RCSID) && !defined(__lint)
 __RCSID("$NetBSD: cd9660.c,v 1.22 2008/10/30 18:43:13 ahoka Exp $");
-__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/cd9660.c,v 1.14 2008/10/31 23:04:07 tg Exp $");
+__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/cd9660.c,v 1.15 2008/10/31 23:07:02 tg Exp $");
 #endif  /* !__lint */
 
 #include <string.h>
@@ -685,6 +685,16 @@ cd9660_finalize_PVD(void)
 }
 
 static void
+cd9660_name_iso_dir_record(struct _iso_directory_record_cd9660 *record,
+    const char *name, u_char name_len)
+{
+	record->name_len[0] = name_len;
+	memset(record->name, '\0', sizeof (record->name));
+	memcpy(record->name, name, name_len);
+	record->length[0] = ((33 + name_len + 1) >> 1) << 1;
+}
+
+static void
 cd9660_populate_iso_dir_record(struct _iso_directory_record_cd9660 *record,
 			       u_char ext_attr_length, u_char flags,
 			       u_char name_len, const char * name)
@@ -694,13 +704,7 @@ cd9660_populate_iso_dir_record(struct _iso_directory_record_cd9660 *record,
 	record->file_unit_size[0] = 0;
 	record->interleave[0] = 0;
 	cd9660_bothendian_word(1, record->volume_sequence_number);
-	record->name_len[0] = name_len;
-	memset(record->name, '\0', sizeof (record->name));
-	memcpy(record->name, name, name_len);
-	record->length[0] = 33 + name_len;
-
-	/* Todo : better rounding */
-	record->length[0] += (record->length[0] & 1) ? 1 : 0;
+	cd9660_name_iso_dir_record(record, name, name_len);
 }
 
 static void
@@ -1267,6 +1271,12 @@ cd9660_rrip_move_directory(cd9660node *dir)
 	tfile = cd9660_create_file(dir->node->name, dir->parent, dir);
 	if (tfile == NULL)
 		return NULL;
+	/*
+	 * Because files get a trailing period and version appended,
+	 * we must retain the correct ORIGINAL name ourselves.
+	 */
+	cd9660_name_iso_dir_record(tfile->isoDirRecord,
+	    dir->isoDirRecord->name, dir->isoDirRecord->name_len[0]);
 
 	diskStructure.rock_ridge_move_count++;
 	snprintf(newname, sizeof(newname), "%08i",
@@ -1295,8 +1305,7 @@ cd9660_rrip_move_directory(cd9660node *dir)
 	/* TODO: Inherit permissions / ownership (basically the entire inode) */
 
 	/* Set the new name */
-	memset(dir->isoDirRecord->name, 0, ISO_FILENAME_MAXLENGTH_WITH_PADDING);
-	strncpy(dir->isoDirRecord->name, newname, 8);
+	cd9660_name_iso_dir_record(dir->isoDirRecord, newname, 8);
 
 	return dir;
 }

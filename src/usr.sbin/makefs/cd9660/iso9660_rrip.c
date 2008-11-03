@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/makefs/cd9660/iso9660_rrip.c,v 1.8 2008/10/31 22:55:17 tg Exp $ */
+/**	$MirOS: src/usr.sbin/makefs/cd9660/iso9660_rrip.c,v 1.9 2008/10/31 23:04:08 tg Exp $ */
 /*	$NetBSD: iso9660_rrip.c,v 1.4 2006/12/18 21:03:29 christos Exp $	*/
 
 /*
@@ -45,7 +45,7 @@
 #include <sys/cdefs.h>
 #if defined(__RCSID) && !defined(__lint)
 __RCSID("$NetBSD: iso9660_rrip.c,v 1.4 2006/12/18 21:03:29 christos Exp $");
-__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/cd9660/iso9660_rrip.c,v 1.8 2008/10/31 22:55:17 tg Exp $");
+__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/cd9660/iso9660_rrip.c,v 1.9 2008/10/31 23:04:08 tg Exp $");
 #endif  /* !__lint */
 
 static void cd9660_rrip_initialize_inode(cd9660node *);
@@ -211,10 +211,12 @@ cd9660_susp_handle_continuation_common(cd9660node *node, int space)
 	TAILQ_FOREACH(temp, &node->head, rr_ll) {
 		if (working < 0)
 			break;
-		/*
-		 * printf("SUSP Entry found, length is %i\n",
-		 * CD9660_SUSP_ENTRY_SIZE(temp));
-		 */
+#ifdef DEBUG
+		printf("SUSP entry %c%c found, length %d\n",
+		    temp->attr.su_entry.SP.h.type[0],
+		    temp->attr.su_entry.SP.h.type[1],
+		    temp->attr.su_entry.SP.h.length[0]);
+#endif
 		working -= CD9660_SUSP_ENTRY_SIZE(temp);
 		if (working >= 28) {
 			last = temp;
@@ -414,7 +416,6 @@ cd9660_rrip_initialize_node(cd9660node *node, cd9660node *parent,
 			cd9660_rrip_PL(current,node->dot_dot_record);
 			TAILQ_INSERT_TAIL(&node->dot_dot_record->head, current,
 			    rr_ll);
-			TAILQ_INSERT_TAIL(&node->head, current, rr_ll);
 		}
 	}
 	return 1;
