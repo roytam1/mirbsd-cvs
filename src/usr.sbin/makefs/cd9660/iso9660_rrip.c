@@ -461,6 +461,7 @@ cd9660_rrip_initialize_node(cd9660node *node, cd9660node *parent,
 			cd9660_rrip_PL(current,node->dot_dot_record);
 			TAILQ_INSERT_TAIL(&node->dot_dot_record->head, current,
 			    rr_ll);
+			TAILQ_INSERT_TAIL(&node->head, current, rr_ll);
 		}
 	}
 	return 1;
