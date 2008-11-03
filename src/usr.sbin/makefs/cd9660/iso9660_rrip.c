@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/makefs/cd9660/iso9660_rrip.c,v 1.10 2008/11/03 20:54:55 tg Exp $ */
+/**	$MirOS: src/usr.sbin/makefs/cd9660/iso9660_rrip.c,v 1.11 2008/11/03 21:26:48 tg Exp $ */
 /*	$NetBSD: iso9660_rrip.c,v 1.4 2006/12/18 21:03:29 christos Exp $	*/
 
 /*
@@ -45,7 +45,7 @@
 #include <sys/cdefs.h>
 #if defined(__RCSID) && !defined(__lint)
 __RCSID("$NetBSD: iso9660_rrip.c,v 1.4 2006/12/18 21:03:29 christos Exp $");
-__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/cd9660/iso9660_rrip.c,v 1.10 2008/11/03 20:54:55 tg Exp $");
+__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/cd9660/iso9660_rrip.c,v 1.11 2008/11/03 21:26:48 tg Exp $");
 #endif  /* !__lint */
 
 static void cd9660_rrip_initialize_inode(cd9660node *);
@@ -54,13 +54,18 @@ static int cd9660_susp_handle_continuation_common(cd9660node *, int);
 
 int
 cd9660_susp_initialize(cd9660node *node, cd9660node *parent,
-    cd9660node *grandparent)
+    cd9660node *grandparent, int shortcut)
 {
 	cd9660node *cn;
 	int r;
 
 	/* Make sure the node is not NULL. If it is, there are major problems */
 	assert(node != NULL);
+
+	if (shortcut == 2) {
+		shortcut = 0;
+		goto cd9660_susp_initialize_shortcut;
+	}
 
 	if (!(node->type & CD9660_TYPE_DOT) &&
 	    !(node->type & CD9660_TYPE_DOTDOT))
@@ -80,6 +85,44 @@ cd9660_susp_initialize(cd9660node *node, cd9660node *parent,
 		return r;
 
 	/*
+	 * If we are the root node, we need to initialise the entries for
+	 * our dot node now (out of the below loop) with shortcut set to
+	 * 1, then move all of its entries (save PX to prevent duplicates)
+	 * into it, then finalise the dot node out of bounds but after us
+	 * again. The “shortcut” variable is unused after the label, thus
+	 * it can be used as temporary to speed up the loop.
+	 */
+
+	if (shortcut == 1)
+		return 1;
+ cd9660_susp_initialize_shortcut:
+	/* assert: shortcut == 0 here */
+
+	if (node == diskStructure.rootNode) {
+		/* We are the root node. */
+		struct ISO_SUSP_ATTRIBUTES *temp;
+
+		/* Initialise our dot record. */
+		if ((r = cd9660_susp_initialize(node->dot_record, node,
+		    parent, 1)) < 0)
+			return r;
+
+		/* Move SUSP entries. */
+		while ((temp = TAILQ_FIRST(&node->head))) {
+			TAILQ_REMOVE(&node->head, temp, rr_ll);
+			if (temp->attr.su_entry.SP.h.type[0] != 'P' ||
+			    temp->attr.su_entry.SP.h.type[1] != 'X')
+				TAILQ_INSERT_TAIL(&node->dot_record->head,
+				    temp, rr_ll);
+		}
+
+		/* Note that we are the root node. */
+		shortcut = 1;
+
+		/* Now go on process ourselves normally. */
+	}
+
+	/*
 	 * See if we need a CE record, and set all of the
 	 * associated counters.
 	 *
@@ -91,7 +134,9 @@ cd9660_susp_initialize(cd9660node *node, cd9660node *parent,
 
 	/* Recurse on children. */
 	TAILQ_FOREACH(cn, &node->cn_children, cn_next_child) {
-		if ((r = cd9660_susp_initialize(cn, node, parent)) < 0)
+		if ((r = cd9660_susp_initialize(cn, node, parent,
+		    /* root node? */ shortcut && cn == node->dot_record ?
+		    /* finish only */ 2 : /* full operation */ 0)) < 0)
 			return 0;
 	}
 	return 1;

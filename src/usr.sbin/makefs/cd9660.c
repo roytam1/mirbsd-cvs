@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/makefs/cd9660.c,v 1.15 2008/10/31 23:07:02 tg Exp $ */
+/**	$MirOS: src/usr.sbin/makefs/cd9660.c,v 1.16 2008/11/03 20:54:54 tg Exp $ */
 /*	$NetBSD: cd9660.c,v 1.22 2008/10/30 18:43:13 ahoka Exp $	*/
 
 /*
@@ -108,7 +108,7 @@
 #include <sys/cdefs.h>
 #if defined(__RCSID) && !defined(__lint)
 __RCSID("$NetBSD: cd9660.c,v 1.22 2008/10/30 18:43:13 ahoka Exp $");
-__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/cd9660.c,v 1.15 2008/10/31 23:07:02 tg Exp $");
+__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/cd9660.c,v 1.16 2008/11/03 20:54:54 tg Exp $");
 #endif  /* !__lint */
 
 #include <string.h>
@@ -526,7 +526,7 @@ cd9660_makefs(const char *image, const char *dir, fsnode *root,
 	/* Rock ridge / SUSP init pass */
 	if (diskStructure.rock_ridge_enabled) {
 		cd9660_susp_initialize(diskStructure.rootNode,
-		    diskStructure.rootNode, NULL);
+		    diskStructure.rootNode, NULL, 0);
 	}
 
 	/* Build path table structure */

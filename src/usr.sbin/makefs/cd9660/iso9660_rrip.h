@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/usr.sbin/makefs/cd9660/iso9660_rrip.h,v 1.2 2008/11/01 00:15:56 tg Exp $ */
 /*	$NetBSD: iso9660_rrip.h,v 1.4 2006/02/01 22:19:35 dyoung Exp $	*/
 
 /*
@@ -270,7 +270,7 @@ struct ISO_SUSP_ATTRIBUTES *cd9660_susp_ES(struct ISO_SUSP_ATTRIBUTES*,
 /* Helper functions */
 
 /* Common SUSP/RRIP functions */
-int cd9660_susp_initialize(cd9660node *, cd9660node *, cd9660node *);
+int cd9660_susp_initialize(cd9660node *, cd9660node *, cd9660node *, int);
 int cd9660_susp_initialize_node(cd9660node *);
 struct ISO_SUSP_ATTRIBUTES *cd9660node_susp_create_node(int, int, const char *,
     int);
