@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/makefs/cd9660/iso9660_rrip.h,v 1.2 2008/11/01 00:15:56 tg Exp $ */
+/**	$MirOS: src/usr.sbin/makefs/cd9660/iso9660_rrip.h,v 1.3 2008/11/03 22:37:51 tg Exp $ */
 /*	$NetBSD: iso9660_rrip.h,v 1.4 2006/02/01 22:19:35 dyoung Exp $	*/
 
 /*
@@ -102,7 +102,7 @@ typedef struct {
 	u_char links		[ISODCL(13,20)];
 	u_char uid		[ISODCL(21,28)];
 	u_char gid		[ISODCL(29,36)];
-	u_char serial		[ISODCL(37,44)];/* Not used */
+	u_char serial		[ISODCL(37,44)];
 } ISO_RRIP_PX;
 
 typedef struct {

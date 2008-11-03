@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/makefs/cd9660/iso9660_rrip.c,v 1.11 2008/11/03 21:26:48 tg Exp $ */
+/**	$MirOS: src/usr.sbin/makefs/cd9660/iso9660_rrip.c,v 1.13 2008/11/03 22:44:55 tg Exp $ */
 /*	$NetBSD: iso9660_rrip.c,v 1.4 2006/12/18 21:03:29 christos Exp $	*/
 
 /*
@@ -45,7 +45,7 @@
 #include <sys/cdefs.h>
 #if defined(__RCSID) && !defined(__lint)
 __RCSID("$NetBSD: iso9660_rrip.c,v 1.4 2006/12/18 21:03:29 christos Exp $");
-__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/cd9660/iso9660_rrip.c,v 1.11 2008/11/03 21:26:48 tg Exp $");
+__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/cd9660/iso9660_rrip.c,v 1.13 2008/11/03 22:44:55 tg Exp $");
 #endif  /* !__lint */
 
 static void cd9660_rrip_initialize_inode(cd9660node *);
@@ -652,7 +652,7 @@ cd9660_createSL(cd9660node *node)
 int
 cd9660node_rrip_px(struct ISO_SUSP_ATTRIBUTES *v, fsnode *pxinfo)
 {
-	v->attr.rr_entry.PX.h.length[0] = 36;
+	v->attr.rr_entry.PX.h.length[0] = 44;
 	v->attr.rr_entry.PX.h.version[0] = 1;
 	cd9660_bothendian_dword(pxinfo->inode->st.st_mode,
 	    v->attr.rr_entry.PX.mode);
@@ -662,8 +662,11 @@ cd9660node_rrip_px(struct ISO_SUSP_ATTRIBUTES *v, fsnode *pxinfo)
 	    v->attr.rr_entry.PX.uid);
 	cd9660_bothendian_dword(pxinfo->inode->st.st_gid,
 	    v->attr.rr_entry.PX.gid);
+	/* XXX works only with 32-bit inode numbers */
+	/* XXX maybe use a path cache like paxmirabilis? */
+	cd9660_bothendian_dword(pxinfo->inode->st.st_ino,
+	    v->attr.rr_entry.PX.serial);
 
-	/* Ignoring the serial number for now */
 	return 1;
 }
 
