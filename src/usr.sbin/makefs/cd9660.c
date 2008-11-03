@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/makefs/cd9660.c,v 1.17 2008/11/03 22:37:50 tg Exp $ */
+/**	$MirOS: src/usr.sbin/makefs/cd9660.c,v 1.18 2008/11/03 23:13:58 tg Exp $ */
 /*	$NetBSD: cd9660.c,v 1.22 2008/10/30 18:43:13 ahoka Exp $	*/
 
 /*
@@ -108,7 +108,7 @@
 #include <sys/cdefs.h>
 #if defined(__RCSID) && !defined(__lint)
 __RCSID("$NetBSD: cd9660.c,v 1.22 2008/10/30 18:43:13 ahoka Exp $");
-__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/cd9660.c,v 1.17 2008/11/03 22:37:50 tg Exp $");
+__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/cd9660.c,v 1.18 2008/11/03 23:13:58 tg Exp $");
 #endif  /* !__lint */
 
 #include <string.h>
@@ -134,7 +134,7 @@ static int cd9660_arguments_set_string(const char *, const char *, int,
 static void cd9660_populate_iso_dir_record(
     struct _iso_directory_record_cd9660 *, u_char, u_char, u_char,
     const char *);
-static void cd9660_setup_root_node(void);
+static void cd9660_setup_root_node(fsnode *);
 static int cd9660_setup_volume_descriptors(void);
 #if 0
 static int cd9660_fill_extended_attribute_record(cd9660node *);
@@ -518,7 +518,7 @@ cd9660_makefs(const char *image, const char *dir, fsnode *root,
 	/* Add the dot and dot dot records */
 	cd9660_add_dot_records(real_root);
 
-	cd9660_setup_root_node();
+	cd9660_setup_root_node(root);
 
 	if (diskStructure.verbose_level > 0)
 		printf("cd9660_makefs: done converting tree\n");
@@ -709,11 +709,17 @@ cd9660_populate_iso_dir_record(struct _iso_directory_record_cd9660 *record,
 }
 
 static void
-cd9660_setup_root_node(void)
+cd9660_setup_root_node(fsnode *makefs_root)
 {
 	cd9660_populate_iso_dir_record(diskStructure.rootNode->isoDirRecord,
 	    0, ISO_FLAG_DIRECTORY, 1, "\0");
 
+	cd9660_time_915(makefs_root->inode->st.st_mtime,
+	    diskStructure.rootNode->isoDirRecord->date);
+	cd9660_time_915(makefs_root->inode->st.st_mtime,
+	    diskStructure.rootNode->dot_record->isoDirRecord->date);
+	cd9660_time_915(makefs_root->inode->st.st_mtime,
+	    diskStructure.rootNode->dot_dot_record->isoDirRecord->date);
 }
 
 /*********** SUPPORT FUNCTIONS ***********/
