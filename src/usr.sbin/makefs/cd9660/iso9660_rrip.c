@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/makefs/cd9660/iso9660_rrip.c,v 1.9 2008/10/31 23:04:08 tg Exp $ */
+/**	$MirOS: src/usr.sbin/makefs/cd9660/iso9660_rrip.c,v 1.10 2008/11/03 20:54:55 tg Exp $ */
 /*	$NetBSD: iso9660_rrip.c,v 1.4 2006/12/18 21:03:29 christos Exp $	*/
 
 /*
@@ -45,7 +45,7 @@
 #include <sys/cdefs.h>
 #if defined(__RCSID) && !defined(__lint)
 __RCSID("$NetBSD: iso9660_rrip.c,v 1.4 2006/12/18 21:03:29 christos Exp $");
-__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/cd9660/iso9660_rrip.c,v 1.9 2008/10/31 23:04:08 tg Exp $");
+__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/cd9660/iso9660_rrip.c,v 1.10 2008/11/03 20:54:55 tg Exp $");
 #endif  /* !__lint */
 
 static void cd9660_rrip_initialize_inode(cd9660node *);
@@ -204,13 +204,13 @@ cd9660_susp_handle_continuation_common(cd9660node *node, int space)
 	struct ISO_SUSP_ATTRIBUTES *temp, *last = NULL, *CE;
 
 	working = 254 - space;
-	/* printf("There are %i bytes to work with\n",working); */
+#ifdef DEBUG
+	printf("There are %i bytes to work with\n", working);
+#endif
 
 	susp_used = 0;
 	ca_used = 0;
 	TAILQ_FOREACH(temp, &node->head, rr_ll) {
-		if (working < 0)
-			break;
 #ifdef DEBUG
 		printf("SUSP entry %c%c found, length %d\n",
 		    temp->attr.su_entry.SP.h.type[0],
@@ -221,7 +221,8 @@ cd9660_susp_handle_continuation_common(cd9660node *node, int space)
 		if (working >= 28) {
 			last = temp;
 			susp_used += CD9660_SUSP_ENTRY_SIZE(temp);
-		}
+		} else if (working < 0)
+			break;
 	}
 
 	/* A CE entry is needed */
@@ -229,8 +230,7 @@ cd9660_susp_handle_continuation_common(cd9660node *node, int space)
 		CE = cd9660node_susp_create_node(SUSP_TYPE_SUSP,
 			SUSP_ENTRY_SUSP_CE, "CE", SUSP_LOC_ENTRY);
 		cd9660_susp_ce(CE, node);
-		/* This will automatically insert at the appropriate location */
-		TAILQ_INSERT_TAIL(&node->head, CE, rr_ll);
+		TAILQ_INSERT_BEFORE(temp, CE, rr_ll);
 		susp_used += 28;
 
 		/* Count how much CA data is necessary */
