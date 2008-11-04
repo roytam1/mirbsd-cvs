@@ -36,7 +36,7 @@
 
 #include <sys/cdefs.h>
 __SCCSID("@(#)strftime.c	5.4 (Berkeley) 3/14/89");
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libc/time/strftime.c,v 1.2 2007/06/16 21:57:08 tg Exp $");
 
 #include "tzfile.h"
 #include "fcntl.h"
@@ -271,7 +271,7 @@ label:
 				/* julian date, as per http://tycho.usno.navy.mil/mjd.html */
 				double t_jd;
 				/* like _conv(), width from SQLite3 */
-				char buf[50];
+				char buf[20];
 
 				t_mjd = tm2mjd(*t);
 				t_jd = t_mjd.sec;
