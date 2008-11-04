@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/makefs/cd9660.h,v 1.10 2008/10/31 21:31:36 tg Exp $ */
+/**	$MirOS: src/usr.sbin/makefs/cd9660.h,v 1.11 2008/10/31 21:39:52 tg Exp $ */
 /*	$NetBSD: cd9660.h,v 1.12 2008/07/27 10:29:32 reinoud Exp $	*/
 
 /*
@@ -157,7 +157,8 @@ typedef struct {
 #define ISO_PATHTABLE_ENTRY_BASESIZE 8
 
 #define ISO_RRIP_DEFAULT_MOVE_DIR_NAME "RR_MOVED"
-#define RRIP_DEFAULT_MOVE_DIR_NAME ".rr_moved"
+#define RRIP_DEFAULT_MOVE_DIR_NAME \
+	(diskStructure.hide_rr_moved ? "" : ".rr_moved")
 
 #define	CD9660_BLOCKS(__sector_size, __bytes)	\
 	howmany((__bytes), (__sector_size))
@@ -316,6 +317,7 @@ typedef struct _iso9660_disk {
 	int verbose_level;
 	int displayHelp;
 	int keep_bad_images;
+	int hide_rr_moved;	/*XXX why int and not bool? */
 
 	/* SUSP options and variables */
 	int susp_continuation_area_start_sector;

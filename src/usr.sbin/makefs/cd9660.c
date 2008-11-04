@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/makefs/cd9660.c,v 1.18 2008/11/03 23:13:58 tg Exp $ */
+/**	$MirOS: src/usr.sbin/makefs/cd9660.c,v 1.19 2008/11/03 23:26:15 tg Exp $ */
 /*	$NetBSD: cd9660.c,v 1.22 2008/10/30 18:43:13 ahoka Exp $	*/
 
 /*
@@ -108,7 +108,7 @@
 #include <sys/cdefs.h>
 #if defined(__RCSID) && !defined(__lint)
 __RCSID("$NetBSD: cd9660.c,v 1.22 2008/10/30 18:43:13 ahoka Exp $");
-__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/cd9660.c,v 1.18 2008/11/03 23:13:58 tg Exp $");
+__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/cd9660.c,v 1.19 2008/11/03 23:26:15 tg Exp $");
 #endif  /* !__lint */
 
 #include <string.h>
@@ -231,6 +231,7 @@ cd9660_set_defaults(void)
 	    diskStructure.allow_illegal_chars =
 	    diskStructure.allow_lowercase =
 	    diskStructure.allow_multidot =
+	    diskStructure.hide_rr_moved =
 	    diskStructure.omit_trailing_period = 0;
 
 	/* Make sure the PVD is clear */
@@ -407,6 +408,8 @@ cd9660_parse_opts(const char *option, fsinfo_t *fsopts)
 		diskStructure.rock_ridge_enabled = 1;
 	else if (CD9660_IS_COMMAND_ARG_DUAL(var, "K", "keep-bad-images"))
 		diskStructure.keep_bad_images = 1;
+	else if (CD9660_IS_COMMAND_ARG(var, "hide-rr-moved"))
+		diskStructure.hide_rr_moved = 1;
 	else if (CD9660_IS_COMMAND_ARG(var, "allow-deep-trees"))
 		diskStructure.allow_deep_trees = 1;
 	else if (CD9660_IS_COMMAND_ARG(var, "allow-max-name"))
