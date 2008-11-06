@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/makefs/cd9660.c,v 1.19 2008/11/03 23:26:15 tg Exp $ */
+/**	$MirOS: src/usr.sbin/makefs/cd9660.c,v 1.20 2008/11/04 00:19:00 tg Exp $ */
 /*	$NetBSD: cd9660.c,v 1.22 2008/10/30 18:43:13 ahoka Exp $	*/
 
 /*
@@ -108,7 +108,7 @@
 #include <sys/cdefs.h>
 #if defined(__RCSID) && !defined(__lint)
 __RCSID("$NetBSD: cd9660.c,v 1.22 2008/10/30 18:43:13 ahoka Exp $");
-__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/cd9660.c,v 1.19 2008/11/03 23:26:15 tg Exp $");
+__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/cd9660.c,v 1.20 2008/11/04 00:19:00 tg Exp $");
 #endif  /* !__lint */
 
 #include <string.h>
@@ -237,13 +237,20 @@ cd9660_set_defaults(void)
 	/* Make sure the PVD is clear */
 	memset(&diskStructure.primaryDescriptor, 0, 2048);
 
-	memset(diskStructure.primaryDescriptor.volume_set_id,	0x20,32);
-	memset(diskStructure.primaryDescriptor.publisher_id,	0x20,128);
-	memset(diskStructure.primaryDescriptor.preparer_id,	0x20,128);
-	memset(diskStructure.primaryDescriptor.application_id,	0x20,128);
-	memset(diskStructure.primaryDescriptor.copyright_file_id, 0x20,128);
-	memset(diskStructure.primaryDescriptor.abstract_file_id, 0x20,128);
-	memset(diskStructure.primaryDescriptor.bibliographic_file_id, 0x20,128);
+	memset(diskStructure.primaryDescriptor.volume_set_id, 0x20,
+	    sizeof (diskStructure.primaryDescriptor.volume_set_id));
+	memset(diskStructure.primaryDescriptor.publisher_id, 0x20,
+	    sizeof (diskStructure.primaryDescriptor.publisher_id));
+	memset(diskStructure.primaryDescriptor.preparer_id, 0x20,
+	    sizeof (diskStructure.primaryDescriptor.preparer_id));
+	memset(diskStructure.primaryDescriptor.application_id, 0x20,
+	    sizeof (diskStructure.primaryDescriptor.application_id));
+	memset(diskStructure.primaryDescriptor.copyright_file_id, 0x20,
+	    sizeof (diskStructure.primaryDescriptor.copyright_file_id));
+	memset(diskStructure.primaryDescriptor.abstract_file_id, 0x20,
+	    sizeof (diskStructure.primaryDescriptor.abstract_file_id));
+	memset(diskStructure.primaryDescriptor.bibliographic_file_id, 0x20,
+	    sizeof (diskStructure.primaryDescriptor.bibliographic_file_id));
 
 	strlcpy(diskStructure.primaryDescriptor.system_id, ISO_DEFAULT_SYSID,
 	    sizeof (diskStructure.primaryDescriptor.system_id));
@@ -358,20 +365,25 @@ cd9660_parse_opts(const char *option, fsinfo_t *fsopts)
 		diskStructure.follow_sym_links = 1;
 		rv = 1;
 	} else if (CD9660_IS_COMMAND_ARG_DUAL(var, "L", "label")) {
-		rv = cd9660_arguments_set_string(val, "Disk Label", 32, 'd',
-			diskStructure.primaryDescriptor.volume_id);
+		rv = cd9660_arguments_set_string(val, "Disk Label",
+		    sizeof (diskStructure.primaryDescriptor.volume_id),
+		    'd', diskStructure.primaryDescriptor.volume_id);
 	} else if (CD9660_IS_COMMAND_ARG_DUAL(var, "A", "applicationid")) {
-		rv = cd9660_arguments_set_string(val, "Application Identifier", 128, 'a',
-			diskStructure.primaryDescriptor.application_id);
+		rv = cd9660_arguments_set_string(val, "Application Identifier",
+		    sizeof (diskStructure.primaryDescriptor.application_id),
+		    'a', diskStructure.primaryDescriptor.application_id);
 	} else if(CD9660_IS_COMMAND_ARG_DUAL(var, "P", "publisher")) {
 		rv = cd9660_arguments_set_string(val, "Publisher Identifier",
-			128, 'a', diskStructure.primaryDescriptor.publisher_id);
+		    sizeof (diskStructure.primaryDescriptor.publisher_id),
+		    'a', diskStructure.primaryDescriptor.publisher_id);
 	} else if (CD9660_IS_COMMAND_ARG_DUAL(var, "p", "preparer")) {
 		rv = cd9660_arguments_set_string(val, "Preparer Identifier",
-		    128, 'a', diskStructure.primaryDescriptor.preparer_id);
+		    sizeof (diskStructure.primaryDescriptor.preparer_id),
+		    'a', diskStructure.primaryDescriptor.preparer_id);
 	} else if (CD9660_IS_COMMAND_ARG_DUAL(var, "V", "volumeid")) {
 		rv = cd9660_arguments_set_string(val, "Volume Set Identifier",
-		    128, 'a', diskStructure.primaryDescriptor.volume_set_id);
+		    sizeof (diskStructure.primaryDescriptor.volume_set_id),
+		    'a', diskStructure.primaryDescriptor.volume_set_id);
 	/* Boot options */
 	} else if (CD9660_IS_COMMAND_ARG_DUAL(var, "B", "bootimage")) {
 		if (val == NULL)
@@ -394,7 +406,8 @@ cd9660_parse_opts(const char *option, fsinfo_t *fsopts)
 
 			/* BIG TODO: Add the max length function here */
 			cd9660_arguments_set_string(val, "Boot Image Directory",
-			    12 , 'd', diskStructure.boot_image_directory);
+			    sizeof (diskStructure.boot_image_directory),
+			    'd', diskStructure.boot_image_directory);
 		}
 	} else if (CD9660_IS_COMMAND_ARG_DUAL(var, "G", "generic-bootimage")) {
 		if (val == NULL)
@@ -654,29 +667,20 @@ cd9660_finalize_PVD(void)
 	diskStructure.primaryDescriptor.file_structure_version[0] = 1;
 
 	/* Pad all strings with spaces instead of nulls */
-	cd9660_pad_string_spaces(diskStructure.primaryDescriptor.volume_id, 32);
-	cd9660_pad_string_spaces(diskStructure.primaryDescriptor.system_id, 32);
-	cd9660_pad_string_spaces(diskStructure.primaryDescriptor.volume_set_id,
-	    128);
-	cd9660_pad_string_spaces(diskStructure.primaryDescriptor.publisher_id,
-	    128);
-	cd9660_pad_string_spaces(diskStructure.primaryDescriptor.preparer_id,
-	    128);
-	cd9660_pad_string_spaces(diskStructure.primaryDescriptor.application_id,
-	    128);
-	cd9660_pad_string_spaces(
-	    diskStructure.primaryDescriptor.copyright_file_id, 128);
-	cd9660_pad_string_spaces(
-		diskStructure.primaryDescriptor.abstract_file_id, 128);
-	cd9660_pad_string_spaces(
-		diskStructure.primaryDescriptor.bibliographic_file_id, 128);
+	cd9660_pad_string_spaces(diskStructure.primaryDescriptor.volume_id);
+	cd9660_pad_string_spaces(diskStructure.primaryDescriptor.system_id);
+	cd9660_pad_string_spaces(diskStructure.primaryDescriptor.volume_set_id);
+	cd9660_pad_string_spaces(diskStructure.primaryDescriptor.publisher_id);
+	cd9660_pad_string_spaces(diskStructure.primaryDescriptor.preparer_id);
+	cd9660_pad_string_spaces(diskStructure.primaryDescriptor.application_id);
+	cd9660_pad_string_spaces(diskStructure.primaryDescriptor.copyright_file_id);
+	cd9660_pad_string_spaces(diskStructure.primaryDescriptor.abstract_file_id);
+	cd9660_pad_string_spaces(diskStructure.primaryDescriptor.bibliographic_file_id);
 
 	/* Setup dates */
 	time(&tim);
-	cd9660_time_8426(tim,
-	    diskStructure.primaryDescriptor.creation_date);
-	cd9660_time_8426(tim,
-	    diskStructure.primaryDescriptor.modification_date);
+	cd9660_time_8426(tim, diskStructure.primaryDescriptor.creation_date);
+	cd9660_time_8426(tim, diskStructure.primaryDescriptor.modification_date);
 
 	/*
 	cd9660_set_date(now, diskStructure.primaryDescriptor.expiration_date);
@@ -684,8 +688,7 @@ cd9660_finalize_PVD(void)
 	memcpy(diskStructure.primaryDescriptor.expiration_date,
 	    /* 16 "0" + one NUL */ "0000000000000000", 17);
 
-	cd9660_time_8426(tim,
-	    diskStructure.primaryDescriptor.effective_date);
+	cd9660_time_8426(tim, diskStructure.primaryDescriptor.effective_date);
 }
 
 static void

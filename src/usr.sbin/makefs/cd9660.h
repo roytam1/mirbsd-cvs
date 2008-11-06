@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/makefs/cd9660.h,v 1.11 2008/10/31 21:39:52 tg Exp $ */
+/**	$MirOS: src/usr.sbin/makefs/cd9660.h,v 1.12 2008/11/04 00:19:00 tg Exp $ */
 /*	$NetBSD: cd9660.h,v 1.12 2008/07/27 10:29:32 reinoud Exp $	*/
 
 /*
@@ -425,6 +425,8 @@ void	debug_dump_string(const char *,unsigned char *,int);
 void	debug_dump_directory_record_9_1(unsigned char *);
 void	debug_dump_to_xml_volume_descriptor(unsigned char *,int);
 
-void	cd9660_pad_string_spaces(char *, int);
+#define cd9660_pad_string_spaces(x) \
+	cd9660_pad_string_spaces_((x), sizeof (x))
+void	cd9660_pad_string_spaces_(char *, size_t);
 
 #endif

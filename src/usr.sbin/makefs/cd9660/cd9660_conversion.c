@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/usr.sbin/makefs/cd9660/cd9660_conversion.c,v 1.5 2008/10/31 20:33:47 tg Exp $ */
 /*	$NetBSD: cd9660_conversion.c,v 1.4 2007/03/14 14:11:17 christos Exp $	*/
 
 /*
@@ -39,7 +39,7 @@
 #include <sys/cdefs.h>
 #if defined(__RCSID) && !defined(__lint)
 __RCSID("$NetBSD: cd9660_conversion.c,v 1.4 2007/03/14 14:11:17 christos Exp $");
-__IDSTRING(mbsdid, "$MirOS$");
+__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/cd9660/cd9660_conversion.c,v 1.5 2008/10/31 20:33:47 tg Exp $");
 #endif  /* !__lint */
 
 
@@ -141,9 +141,9 @@ cd9660_bothendian_word(uint16_t dw, unsigned char *fourchar)
 }
 
 void
-cd9660_pad_string_spaces(char *str, int len)
+cd9660_pad_string_spaces_(char *str, size_t len)
 {
-	int i;
+	size_t i;
 
 	for (i = 0; i < len; i ++) {
 		if (str[i] == '\0')
