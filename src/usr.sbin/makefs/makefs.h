@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/makefs/makefs.h,v 1.6 2008/10/31 19:38:19 tg Exp $ */
+/**	$MirOS: src/usr.sbin/makefs/makefs.h,v 1.7 2008/10/31 19:45:30 tg Exp $ */
 /*	$NetBSD: makefs.h,v 1.19 2006/10/10 01:55:45 dbj Exp $	*/
 
 /*
@@ -71,8 +71,9 @@
  *	fsinode, optional symlink name, and tree pointers
  *
  * fsinode - 
- *	equivalent to an inode, containing target file system inode number,
- *	refcount (nlink), and stat buffer
+ *	equivalent to an inode, containing serial number (sort of virtual
+ *	fs independent inode number) target file system inode number (file
+ *	data sector in the cd9660 case), refcount (nlink), and stat buffer
  *
  * A tree of fsnodes looks like this:
  *
@@ -101,6 +102,7 @@ enum fi_flags {
 };
 
 typedef struct {
+	uint32_t	 serno;		/* serial number / virtual inode no. */
 	uint32_t	 ino;		/* inode number used on target fs */
 	uint32_t	 nlink;		/* number of links to this entry */
 	enum fi_flags	 flags;		/* flags used by fs specific code */

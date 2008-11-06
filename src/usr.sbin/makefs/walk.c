@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/usr.sbin/makefs/walk.c,v 1.4 2008/10/31 21:24:24 tg Exp $ */
 /*	$NetBSD: walk.c,v 1.23 2006/10/10 01:55:45 dbj Exp $	*/
 
 /*
@@ -43,7 +43,7 @@
 #include <sys/cdefs.h>
 #if defined(__RCSID) && !defined(__lint)
 __RCSID("$NetBSD: walk.c,v 1.23 2006/10/10 01:55:45 dbj Exp $");
-__IDSTRING(mbsdid, "$MirOS$");
+__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/walk.c,v 1.4 2008/10/31 21:24:24 tg Exp $");
 #endif	/* !__lint */
 
 #include <sys/param.h>
@@ -66,6 +66,7 @@ static	void	 apply_specentry(const char *, NODE *, fsnode *);
 static	fsnode	*create_fsnode(const char *, struct stat *);
 static	fsinode	*link_check(fsinode *);
 
+static uint32_t vinode = 3;
 
 /*
  * walk_dir --
@@ -122,10 +123,6 @@ walk_dir(const char *dir, fsnode *parent)
 			prev = cur;
 			if (!first)
 				first = cur;
-			if (S_ISDIR(cur->type)) {
-				cur->child = walk_dir(path, cur);
-				continue;
-			}
 		}
 		if (stbuf.st_nlink > 1) {
 			fsinode	*curino;
@@ -140,6 +137,12 @@ walk_dir(const char *dir, fsnode *parent)
 					    curino->st.st_dev,
 					    (unsigned long long)curino->st.st_ino);
 			}
+		}
+		if (!cur->inode->serno)
+			cur->inode->serno = vinode++;
+		if (S_ISDIR(cur->type) && strcmp(dent->d_name, ".") != 0) {
+			cur->child = walk_dir(path, cur);
+			continue;
 		}
 		if (S_ISLNK(cur->type)) {
 			char	slink[PATH_MAX+1];
@@ -491,7 +494,7 @@ dump_fsnodes(const char *dir, fsnode *root)
 	char	path[MAXPATHLEN + 1];
 
 	assert (dir != NULL);
-	printf("dump_fsnodes: %s %p\n", dir, root);
+	printf("dump_fsnodes: %s(%d) %p\n", dir, root->inode->serno, root);
 	for (cur = root; cur != NULL; cur = cur->next) {
 		if ((size_t)snprintf(path, sizeof(path), "%s/%s", dir, cur->name)
 		    >= sizeof(path))
@@ -500,7 +503,8 @@ dump_fsnodes(const char *dir, fsnode *root)
 		if (debug & DEBUG_DUMP_FSNODES_VERBOSE)
 			printf("cur=%8p parent=%8p first=%8p ",
 			    cur, cur->parent, cur->first);
-		printf("%7s: %s", inode_type(cur->type), path);
+		printf("%7s %5d: %s", inode_type(cur->type),
+		    cur->inode->serno, path);
 		if (S_ISLNK(cur->type)) {
 			assert(cur->symlink != NULL);
 			printf(" -> %s", cur->symlink);
