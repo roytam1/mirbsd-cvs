@@ -1,0 +1,12 @@
+$MirOS$
+--- dpi/downloads.cc.orig	Thu Nov  6 21:17:13 2008
++++ dpi/downloads.cc	Thu Nov  6 21:17:14 2008
+@@ -332,7 +332,7 @@ DLItem::DLItem(const char *full_filename
+       dl_argv[i++] = (char*)"-c";
+    }
+    dl_argv[i++] = (char*)"--load-cookies";
+-   dl_argv[i++] = dStrconcat(dGethomedir(), "/.dillo/cookies.txt", NULL);
++   dl_argv[i++] = dStrconcat(dGethomedir(), "/.etc/dillo/cookies.txt", NULL);
+    dl_argv[i++] = (char*)"-O";
+    dl_argv[i++] = fullname;
+    dl_argv[i++] = esc_url;

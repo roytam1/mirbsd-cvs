@@ -1,0 +1,29 @@
+$MirOS$
+--- dpi/https.c.orig	Thu Nov  6 21:22:38 2008
++++ dpi/https.c	Thu Nov  6 21:19:12 2008
+@@ -162,7 +162,7 @@ static void yes_ssl_support(void)
+    }
+ 
+    if (exit_error == 0){
+-      snprintf(buf, 4095, "%s/.dillo/certs/", dGethomedir());
++      snprintf(buf, 4095, "%s/.etc/dillo/certs/", dGethomedir());
+       if (SSL_CTX_load_verify_locations(ssl_context, NULL, buf )==0){
+          MSG("Error opening user x509 certificate location\n");
+          exit_error = 1;
+@@ -581,13 +581,13 @@ static int save_certificate_home(X509 * 
+    int retval = 1;
+ 
+    /*Attempt to create .dillo/certs blindly - check later*/
+-   snprintf(buf,4096,"%s/.dillo/", dGethomedir());
++   snprintf(buf,4096,"%s/.etc/dillo/", dGethomedir());
+    mkdir(buf, 01777);
+-   snprintf(buf,4096,"%s/.dillo/certs/", dGethomedir());
++   snprintf(buf,4096,"%s/.etc/dillo/certs/", dGethomedir());
+    mkdir(buf, 01777);
+ 
+    do{
+-      snprintf(buf, 4096, "%s/.dillo/certs/%lx.%u",
++      snprintf(buf, 4096, "%s/.etc/dillo/certs/%lx.%u",
+                dGethomedir(), X509_subject_name_hash(cert), i);
+ 
+       fp=fopen(buf, "r");

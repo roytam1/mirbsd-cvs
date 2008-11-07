@@ -1,0 +1,21 @@
+$MirOS$
+--- src/IO/dpi.c.orig	Thu Nov  6 21:23:08 2008
++++ src/IO/dpi.c	Thu Nov  6 21:23:24 2008
+@@ -300,7 +300,7 @@ static int Dpi_start_dpid(void)
+    pid = fork();
+    if (pid == 0) {
+       /* This is the child process.  Execute the command. */
+-      char *path1 = dStrconcat(dGethomedir(), "/.dillo/dpid", NULL);
++      char *path1 = dStrconcat(dGethomedir(), "/.etc/dillo/dpid", NULL);
+       Dpi_close_fd(st_pipe[0]);
+       if (execl(path1, "dpid", NULL) == -1) {
+          dFree(path1);
+@@ -374,7 +374,7 @@ static char *Dpi_get_dpid_uds_dir(void)
+    char dpid_uds_dir[256], *p = NULL;
+ 
+    saved_name_filename =
+-      dStrconcat(dGethomedir(), "/.dillo/dpi_socket_dir", NULL);
++      dStrconcat(dGethomedir(), "/.etc/dillo/dpi_socket_dir", NULL);
+    in = fopen(saved_name_filename, "r");
+    dFree(saved_name_filename);
+ 

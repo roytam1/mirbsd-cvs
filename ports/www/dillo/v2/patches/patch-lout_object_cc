@@ -1,0 +1,12 @@
+$MirOS$
+--- lout/object.cc.orig	Thu Nov  6 22:09:51 2008
++++ lout/object.cc	Thu Nov  6 22:09:53 2008
+@@ -154,7 +154,7 @@ int Integer::hashValue()
+ void Integer::intoStringBuffer(misc::StringBuffer *sb)
+ {
+    char buf[64];
+-   sprintf(buf, "%d", value);
++   snprintf(buf, sizeof(buf), "%d", value);
+    sb->append(buf);
+ }
+ 
