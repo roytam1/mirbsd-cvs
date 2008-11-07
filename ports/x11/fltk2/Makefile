@@ -1,8 +1,9 @@
-# $MirOS: ports/x11/libxklavier/Makefile,v 1.4 2007/07/03 19:54:42 bsiegert Exp $
+# $MirOS: ports/x11/fltk2/Makefile,v 1.1 2008/11/04 21:00:08 bsiegert Exp $
 
 COMMENT=		fast, lightweight toolkit, version 2
 
 VERSION=		2.0
+DASH_VER=		1
 PKGNAME=		fltk2-${VERSION}.${SVN_DISTREV}-${DASH_VER}
 CATEGORIES=		x11 x11/gnome
 
@@ -29,5 +30,7 @@ AUTOCONF_NEW=		Yes
 NO_REGRESS=		Yes
 
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
+CONFIGURE_ARGS+=	--disable-cairo
+CONFIGURE_ARGS+=	--disable-xft
 
 .include <bsd.port.mk>
