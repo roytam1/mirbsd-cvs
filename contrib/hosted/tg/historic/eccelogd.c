@@ -1,39 +1,34 @@
 /* compile: gcc -O2 -Wall -ansi -o eccelogd eccelogd.c -lbsd */
 
+/* $MirOS: src/share/misc/licence.template,v 1.24 2008/04/22 11:43:31 tg Rel $ */
+
+/*-
+ * Copyright (c) 2000
+ *	Thorsten Glaser <tg@mirbsd.org>
+ *
+ * Provided that these terms and disclaimer and all copyright notices
+ * are retained or reproduced in an accompanying document, permission
+ * is granted to deal in this work without restriction, including un-
+ * limited rights to use, publicly perform, distribute, sell, modify,
+ * merge, give away, or sublicence.
+ *
+ * This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
+ * the utmost extent permitted by applicable law, neither express nor
+ * implied; without malicious intent or gross negligence. In no event
+ * may a licensor, author or contributor be held liable for indirect,
+ * direct, other damage, loss, or other issues arising in any way out
+ * of dealing in the work, even if advised of the possibility of such
+ * damage or existence of a defect, except proven that it results out
+ * of said person's immediate fault when using the work as intended.
+ */
+
 /****************************************************************************
-* The code beyond is material protected by the following Terms and Copyright:
-* (c) 2000 Thorsten Glaser <DrSid86@hotmail.com>
-* This code may freely be used, distributed, compiled, modified etc.  also as
-* a part of commercial distribution. You must not remove  the visible comment
-* "includes material provided by Th.Glaser"  (or more authors).  You must not
-* use our code under  your name and/or copyright;  neither you are allowed to
-* distribute modified code  without stating (beyond the second line above) it
-* is modified. (Add your copyright beyond.) - You generally _must not_ damage
-* the authors' mental ownership. Source code even of modificated work must be
-* made available, also if the work is part of a  commercial distribution, and
-* under no different  Terms and Conditions than above, under our names inclu-
-* ding yours. If the work is included into another work or even just gave you
-* the idea, solely the part standing under this copyright and License must be
-* made available,  including your modifications.  The remainder parts of your
-* work don't need to be free.
-* Due to the authors being a human it is impossible to write errorless and/or
-* error-tolerant code. Due to this code being marked "free", even not "public
-* domain", I am not responsible for making update, bugfixes, documentation of
-* any kind; neither I am responsible for anything  done (or not done) by this
-* code. This also affects every people  that has modificated  the code beyond
-* and put the name under my own one that resides in the second star-initiated
-* line.  The code beyond is provided "AS IS" and with NO further restrictions
-* and/or warranties than granted above, EVEN IF STATED OTHERWISE, e.g. by the
-* law, even if done in writing. If you use this piece of code you are automa-
-* tically accepting this Conditions. (This is signed by every author and con-
-* tributor that wrote his name above.)
-* I wish you can enjoy our hardly done work.                    Mirabilos(TM)
-*****************************************************************************
 * eccelogd Version 1.00 - the ecce!GNU/Linux system log daemon
 * see also (not included in this distribution): syslogd(8)
 *----------------------------------------------------------------------------
 * This is a simple daemon that puts all the stuff to be logged to tty12.
 * Now it seems to work... thanks to ISBN 3-446-21093-8 (german reference)
+* Remember that the root filesystem has to be mounted read-write first!
 *****************************************************************************/
 
 #include <fcntl.h>
@@ -70,7 +65,7 @@ void main(void)
 		exit(-1);
 	if(daemon(0,0))
 		exit(-1);
-	
+
 	sprintf(buf,"%u\n",getpid());
 
 	if((pid=open("/var/run/eccelogd.pid",
@@ -101,7 +96,7 @@ void main(void)
 		close(s1);
 		exit(-1);
 	}
-		
+
 	sprintf(buf,"eccelogd [%u]: started by sysop.\n",getpid());
 	write(term,buf,strlen(buf));
 
