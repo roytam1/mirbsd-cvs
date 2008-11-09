@@ -1,7 +1,7 @@
 #!/bin/mksh
 print Content-type: text/plain
 print Entropy: $RANDOM
-print RCSID: '$MirOS$'
+print RCSID: '$MirOS: contrib/hosted/tg/conninfo.cgi,v 1.2 2008/11/09 01:29:27 tg Exp $'
 print
 if [[ -z $HTTPS ]]; then
 	print -n "INSECURE (non-SSL) "
@@ -12,12 +12,12 @@ else
 	print -n ") "
 fi
 if [[ $REMOTE_ADDR = +([0-9]).+([0-9]).+([0-9]).+([0-9]) ]]; then
-	print -n "IPv4 "
+	print -n IPv4
 elif [[ $REMOTE_ADDR = +([0-9a-fA-F:]):+([0-9a-fA-F:]) ]]; then
-	print -n "IPv6 "
+	print -n IPv6
 else
-	print -n "AF_UNKNOWN "
+	print -n AF_UNKNOWN
 fi
-print -r "connection from [$REMOTE_ADDR]:$REMOTE_PORT
+print -r " connection from [$REMOTE_ADDR]:$REMOTE_PORT
 $SERVER_PROTOCOL request to [$SERVER_ADDR]:$SERVER_PORT ($SERVER_NAME)"
 exit 0
