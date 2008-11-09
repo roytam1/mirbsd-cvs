@@ -1,7 +1,7 @@
-/* $MirOS: src/sys/sys/stdarg.h,v 1.2 2007/10/01 18:58:08 tg Exp $ */
+/* $MirOS: src/sys/sys/stdarg.h,v 1.3 2007/10/01 21:05:40 tg Exp $ */
 
 /*-
- * Copyright (c) 2007
+ * Copyright (c) 2007, 2008
  *	Thorsten Glaser <tg@mirbsd.de>
  *
  * Provided that these terms and disclaimer and all copyright notices
@@ -26,7 +26,8 @@
 /* ragge's pcc and gcc3+ do stdargs in a machine-independent way */
 #if (defined(__PCC__) && ((__PCC__ > 0) || (__PCC_MINOR__ > 9) || \
      ((__PCC_MINOR__ == 9) && (__PCC_MINORMINOR__ > 8)))) || \
-    (defined(__GNUC__) && (__GNUC__ >= 3))
+    (defined(__GNUC__) && (__GNUC__ >= 3)) || \
+    (defined(__llvm__) && defined(__clang__))
 
 #ifdef __PCC__
 typedef char *va_list;
@@ -41,7 +42,11 @@ typedef __builtin_va_list __gnuc_va_list;
 typedef __gnuc_va_list va_list;
 #endif /* !__PCC__ */
 
+#if defined(__llvm__) && defined(__clang__)
+#define va_start(ap,list)	__builtin_va_start((ap), (list))
+#else
 #define va_start(ap,list)	__builtin_stdarg_start((ap), (list))
+#endif
 /* note: “type” must be promoted, i.e. “short” is not valid, use “int” */
 #define va_arg(ap,type)		__builtin_va_arg((ap), type)
 #define va_end(ap)		__builtin_va_end(ap)
