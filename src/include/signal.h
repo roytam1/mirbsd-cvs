@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/include/signal.h,v 1.2 2008/09/04 08:40:02 tg Exp $ */
 /*	$OpenBSD: signal.h,v 1.8 2004/05/03 17:25:00 millert Exp $	*/
 /*	$NetBSD: signal.h,v 1.8 1996/02/29 00:04:57 jtc Exp $	*/
 
@@ -63,9 +63,12 @@ int	sigprocmask(int, const sigset_t *, sigset_t *);
 int	sigsuspend(const sigset_t *);
 
 #if defined(__GNUC__)
-extern __inline int sigaddset(sigset_t *set, int signo) {
-	extern int errno;
 
+#if !defined(errno) && !defined(_STANDALONE)
+#include <sys/errno.h>
+#endif
+
+extern __inline int sigaddset(sigset_t *set, int signo) {
 	if (signo <= 0 || signo >= _NSIG) {
 		errno = 22;			/* EINVAL */
 		return -1;
@@ -75,8 +78,6 @@ extern __inline int sigaddset(sigset_t *set, int signo) {
 }
 
 extern __inline int sigdelset(sigset_t *set, int signo) {
-	extern int errno;
-
 	if (signo <= 0 || signo >= _NSIG) {
 		errno = 22;			/* EINVAL */
 		return -1;
@@ -86,8 +87,6 @@ extern __inline int sigdelset(sigset_t *set, int signo) {
 }
 
 extern __inline int sigismember(const sigset_t *set, int signo) {
-	extern int errno;
-
 	if (signo <= 0 || signo >= _NSIG) {
 		errno = 22;			/* EINVAL */
 		return -1;
