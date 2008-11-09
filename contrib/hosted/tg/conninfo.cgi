@@ -1,6 +1,7 @@
 #!/bin/mksh
 print Content-type: text/plain
 print Entropy: $RANDOM
+print RCSID: '$MirOS$'
 print
 if [[ -z $HTTPS ]]; then
 	print -n "INSECURE (non-SSL) "
