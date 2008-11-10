@@ -1,0 +1,265 @@
+$MirOS$
+
+	hacky, not recommended to feed upstream
+
+--- gcc/config/mirbsd.h.orig	Thu Jan  1 00:00:00 1970
++++ gcc/config/mirbsd.h	Sun Nov  9 22:37:21 2008
+@@ -0,0 +1,258 @@
++/* $MirOS$ */
++
++/* The compiler is configured with ONLY the gcc/g++ standard headers.  */
++#undef INCLUDE_DEFAULTS
++#define INCLUDE_DEFAULTS			\
++  {						\
++    { GPLUSPLUS_INCLUDE_DIR, "G++", 1, 1 },	\
++    { GPLUSPLUS_TOOL_INCLUDE_DIR, "G++", 1, 1 }, \
++    { GPLUSPLUS_BACKWARD_INCLUDE_DIR, "G++", 1, 1 }, \
++    { STANDARD_INCLUDE_DIR, STANDARD_INCLUDE_COMPONENT, 0, 0 }, \
++    { 0, 0, 0, 0 }				\
++  }
++
++/* Controlling the compilation driver.  */
++/* TARGET_OS_CPP_BUILTINS() common to all OpenBSD targets.  */
++#define MIRBSD_OS_CPP_BUILTINS()		\
++  do						\
++    {						\
++      builtin_define ("__MirBSD__");		\
++      builtin_define ("__OpenBSD__");		\
++      builtin_define ("__unix__");		\
++      builtin_define ("__STDC_ISO_10646__=200009L");		\
++      builtin_define ("__ANSI_COMPAT");		\
++      builtin_assert ("system=unix");		\
++      builtin_assert ("system=bsd");		\
++      builtin_assert ("system=MirBSD");		\
++    }						\
++  while (0)
++
++#ifdef CPP_CPU_SPEC
++#define MIRBSD_CPP_SPEC			\
++  "%(cpp_cpu) 				\
++   %{posix:-D_POSIX_SOURCE}		\
++   %{pthread:-D_POSIX_THREADS}"
++#else
++#define MIRBSD_CPP_SPEC			\
++  "%{posix:-D_POSIX_SOURCE}		\
++   %{pthread:-D_POSIX_THREADS}"
++#endif
++
++#undef CPP_SPEC
++#define CPP_SPEC			MIRBSD_CPP_SPEC
++
++#define MIRBSD_LIB_SPEC		\
++  "%{pthread:-lpthread}		\
++   %{!shared:			\
++     %{!symbolic:-lc}}"
++
++#undef LIB_SPEC
++#define LIB_SPEC		MIRBSD_LIB_SPEC
++
++#undef SWITCH_TAKES_ARG
++#define SWITCH_TAKES_ARG(CHAR) \
++  (DEFAULT_SWITCH_TAKES_ARG (CHAR) \
++   || (CHAR) == 'R')
++
++/* Since we use gas, stdin -> - is a good idea.  */
++#define AS_NEEDS_DASH_FOR_PIPED_INPUT
++
++/* Provide a STARTFILE_SPEC appropriate for MirOS BSD.  Here we
++   provide support for the special GCC option -static.  On ELF
++   targets, we also add the crtbegin.o file, which provides part
++   of the support for getting C++ file-scope static objects
++   constructed before entering "main".  */
++
++#define MIRBSD_STARTFILE_SPEC	\
++  "%:if-exists(crti%O%s)	\
++   %{!shared:crt0%O%s}		\
++   %{static:			\
++     %:if-exists-else(crtbeginT%O%s crtbegin%O%s)} \
++   %{!static:			\
++     %{!shared:crtbegin%O%s}	\
++     %{shared:crtbeginS%O%s}}"
++
++#undef STARTFILE_SPEC
++#define STARTFILE_SPEC MIRBSD_STARTFILE_SPEC
++
++
++/* Provide an ENDFILE_SPEC appropriate for MirOS BSD.  Here we
++   add crtend.o, which provides part of the support for getting
++   C++ file-scope static objects deconstructed after exiting "main".  */
++
++#define MIRBSD_ENDFILE_SPEC	\
++  "%{!shared:crtend%O%s}	\
++   %{shared:crtendS%O%s}	\
++   %:if-exists(crtn%O%s)"
++
++#undef ENDFILE_SPEC
++#define ENDFILE_SPEC MIRBSD_ENDFILE_SPEC
++
++#define MIRBSD_LINK_SPEC			\
++  "%{assert*} %{R*} %{rpath*}			\
++   %{!shared:					\
++     -dc -dp					\
++     %{!nostdlib:%{!r*:%{!e*:-e __start}}}	\
++     %{!static:					\
++       %{rdynamic:-export-dynamic}		\
++       %{!dynamic-linker:			\
++	 -dynamic-linker /usr/libexec/ld.so}}	\
++     %{static:-Bstatic}}			\
++   %{!static:-Bdynamic}				\
++   %{shared:-shared}"
++
++#undef LINK_SPEC
++#define LINK_SPEC MIRBSD_LINK_SPEC
++
++#undef TYPE_ASM_OP
++#undef SIZE_ASM_OP
++#undef SET_ASM_OP
++#undef GLOBAL_ASM_OP
++
++#define TYPE_ASM_OP	"\t.type\t"
++#define SIZE_ASM_OP	"\t.size\t"
++#define SET_ASM_OP	"\t.set\t"
++#define GLOBAL_ASM_OP	"\t.globl\t"
++
++/* The following macro defines the format used to output the second
++   operand of the .type assembler directive.  */
++#undef TYPE_OPERAND_FMT
++#define TYPE_OPERAND_FMT	"@%s"
++
++/* Provision if extra assembler code is needed to declare a function's result
++   (taken from svr4, not needed yet actually).  */
++#ifndef ASM_DECLARE_RESULT
++#define ASM_DECLARE_RESULT(FILE, RESULT)
++#endif
++
++/* These macros generate the special .type and .size directives which
++   are used to set the corresponding fields of the linker symbol table
++   entries under OpenBSD.  These macros also have to output the starting 
++   labels for the relevant functions/objects.  */
++
++#ifndef OBSD_HAS_DECLARE_FUNCTION_NAME
++/* Extra assembler code needed to declare a function properly.
++   Some assemblers may also need to also have something extra said 
++   about the function's return value.  We allow for that here.  */
++#undef ASM_DECLARE_FUNCTION_NAME
++#define ASM_DECLARE_FUNCTION_NAME(FILE, NAME, DECL)			\
++  do {									\
++    ASM_OUTPUT_TYPE_DIRECTIVE (FILE, NAME, "function");			\
++    ASM_DECLARE_RESULT (FILE, DECL_RESULT (DECL));			\
++    ASM_OUTPUT_LABEL(FILE, NAME);					\
++  } while (0)
++#endif
++
++#ifndef OBSD_HAS_DECLARE_FUNCTION_SIZE
++/* Declare the size of a function.  */
++#undef ASM_DECLARE_FUNCTION_SIZE
++#define ASM_DECLARE_FUNCTION_SIZE(FILE, FNAME, DECL)		\
++  do {								\
++    if (!flag_inhibit_size_directive)				\
++      ASM_OUTPUT_MEASURED_SIZE (FILE, FNAME);			\
++  } while (0)
++#endif
++
++#ifndef OBSD_HAS_DECLARE_OBJECT
++/* Extra assembler code needed to declare an object properly.  */
++#undef ASM_DECLARE_OBJECT_NAME
++#define ASM_DECLARE_OBJECT_NAME(FILE, NAME, DECL)		\
++  do {								\
++      HOST_WIDE_INT size;					\
++      ASM_OUTPUT_TYPE_DIRECTIVE (FILE, NAME, "object");		\
++      size_directive_output = 0;				\
++      if (!flag_inhibit_size_directive				\
++	  && (DECL) && DECL_SIZE (DECL))			\
++	{							\
++	  size_directive_output = 1;				\
++	  size = int_size_in_bytes (TREE_TYPE (DECL));		\
++	  ASM_OUTPUT_SIZE_DIRECTIVE (FILE, NAME, size);		\
++	}							\
++      ASM_OUTPUT_LABEL (FILE, NAME);				\
++  } while (0)
++
++/* Output the size directive for a decl in rest_of_decl_compilation
++   in the case where we did not do so before the initializer.
++   Once we find the error_mark_node, we know that the value of
++   size_directive_output was set by ASM_DECLARE_OBJECT_NAME 
++   when it was run for the same decl.  */
++#undef ASM_FINISH_DECLARE_OBJECT
++#define ASM_FINISH_DECLARE_OBJECT(FILE, DECL, TOP_LEVEL, AT_END)	 \
++do {									 \
++     const char *name = XSTR (XEXP (DECL_RTL (DECL), 0), 0);		 \
++     HOST_WIDE_INT size;						 \
++     if (!flag_inhibit_size_directive && DECL_SIZE (DECL)		 \
++         && ! AT_END && TOP_LEVEL					 \
++	 && DECL_INITIAL (DECL) == error_mark_node			 \
++	 && !size_directive_output)					 \
++       {								 \
++	 size_directive_output = 1;					 \
++	 size = int_size_in_bytes (TREE_TYPE (DECL));			 \
++	 ASM_OUTPUT_SIZE_DIRECTIVE (FILE, name, size);			 \
++       }								 \
++   } while (0)
++#endif
++
++
++/* Those are `generic' ways to weaken/globalize a label. We shouldn't need
++   to override a processor specific definition. Hence, #ifndef ASM_*
++   In case overriding turns out to be needed, one can always #undef ASM_* 
++   before including this file.  */
++
++/* Tell the assembler that a symbol is weak.  */
++/* Note: netbsd arm32 assembler needs a .globl here. An override may 
++   be needed when/if we go for arm32 support.  */
++#ifndef ASM_WEAKEN_LABEL
++#define ASM_WEAKEN_LABEL(FILE,NAME) \
++  do { fputs ("\t.weak\t", FILE); assemble_name (FILE, NAME); \
++       fputc ('\n', FILE); } while (0)
++#endif
++
++/* Storage layout.  */
++
++
++/* Otherwise, since we support weak, gthr.h erroneously tries to use
++   #pragma weak.  */
++#define GTHREAD_USE_WEAK 0
++
++/* bug work around: we don't want to support #pragma weak, but the current
++   code layout needs HANDLE_PRAGMA_WEAK asserted for __attribute((weak)) to
++   work.  On the other hand, we don't define HANDLE_PRAGMA_WEAK directly,
++   as this depends on a few other details as well...  */
++#define HANDLE_SYSV_PRAGMA 1
++
++/* Stack is explicitly denied execution rights on OpenBSD platforms.  */
++#define ENABLE_EXECUTE_STACK						\
++extern void __enable_execute_stack (void *);				\
++void									\
++__enable_execute_stack (void *addr)					\
++{									\
++  long size = getpagesize ();						\
++  long mask = ~(size-1);						\
++  char *page = (char *) (((long) addr) & mask); 			\
++  char *end  = (char *) ((((long) (addr + TRAMPOLINE_SIZE)) & mask) + size); \
++								      \
++  if (mprotect (page, end - page, PROT_READ | PROT_WRITE | PROT_EXEC) < 0) \
++    perror ("mprotect of trampoline code");				\
++}
++
++/* Define some types that are the same on all MirOS BSD platforms,
++   making them agree with <machine/ansi.h>.  */
++
++#undef WCHAR_TYPE
++#define WCHAR_TYPE "short unsigned int"
++
++#undef WCHAR_TYPE_SIZE
++#define WCHAR_TYPE_SIZE 16
++
++#undef WINT_TYPE
++#define WINT_TYPE "unsigned int"
++
++#undef SIZE_TYPE
++#define SIZE_TYPE "long unsigned int"
++
++#undef PTRDIFF_TYPE
++#define PTRDIFF_TYPE "long int"
++
++#include <sys/types.h>
++#include <sys/mman.h>
