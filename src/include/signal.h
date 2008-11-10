@@ -1,4 +1,4 @@
-/**	$MirOS: src/include/signal.h,v 1.2 2008/09/04 08:40:02 tg Exp $ */
+/**	$MirOS: src/include/signal.h,v 1.3 2008/11/09 20:13:38 tg Exp $ */
 /*	$OpenBSD: signal.h,v 1.8 2004/05/03 17:25:00 millert Exp $	*/
 /*	$NetBSD: signal.h,v 1.8 1996/02/29 00:04:57 jtc Exp $	*/
 
@@ -64,11 +64,17 @@ int	sigsuspend(const sigset_t *);
 
 #if defined(__GNUC__)
 
+#  if  defined(__GNUC_STDC_INLINE__)
+#define __SIGNAL_INLINE	extern __inline __attribute((__gnu_inline__))
+#  else
+#define __SIGNAL_INLINE	extern __inline
+#  endif
+
 #if !defined(errno) && !defined(_STANDALONE)
 #include <sys/errno.h>
 #endif
 
-extern __inline int sigaddset(sigset_t *set, int signo) {
+__SIGNAL_INLINE int sigaddset(sigset_t *set, int signo) {
 	if (signo <= 0 || signo >= _NSIG) {
 		errno = 22;			/* EINVAL */
 		return -1;
@@ -77,7 +83,7 @@ extern __inline int sigaddset(sigset_t *set, int signo) {
 	return (0);
 }
 
-extern __inline int sigdelset(sigset_t *set, int signo) {
+__SIGNAL_INLINE int sigdelset(sigset_t *set, int signo) {
 	if (signo <= 0 || signo >= _NSIG) {
 		errno = 22;			/* EINVAL */
 		return -1;
@@ -86,7 +92,7 @@ extern __inline int sigdelset(sigset_t *set, int signo) {
 	return (0);
 }
 
-extern __inline int sigismember(const sigset_t *set, int signo) {
+__SIGNAL_INLINE int sigismember(const sigset_t *set, int signo) {
 	if (signo <= 0 || signo >= _NSIG) {
 		errno = 22;			/* EINVAL */
 		return -1;
