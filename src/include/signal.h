@@ -1,4 +1,4 @@
-/**	$MirOS: src/include/signal.h,v 1.3 2008/11/09 20:13:38 tg Exp $ */
+/**	$MirOS: src/include/signal.h,v 1.4 2008/11/10 18:36:27 tg Exp $ */
 /*	$OpenBSD: signal.h,v 1.8 2004/05/03 17:25:00 millert Exp $	*/
 /*	$NetBSD: signal.h,v 1.8 1996/02/29 00:04:57 jtc Exp $	*/
 
@@ -62,7 +62,7 @@ int	sigpending(sigset_t *);
 int	sigprocmask(int, const sigset_t *, sigset_t *);
 int	sigsuspend(const sigset_t *);
 
-#if defined(__GNUC__)
+#if defined(__GNUC__) && (!defined(__clang__) || (__STDC_VERSION__ < 199901L))
 
 #  if  defined(__GNUC_STDC_INLINE__)
 #define __SIGNAL_INLINE	extern __inline __attribute((__gnu_inline__))
