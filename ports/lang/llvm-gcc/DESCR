@@ -7,4 +7,4 @@ for MidnightBSD is mostly missing; MirBSD 10uA3 and up are the
 only tested targets (Darwin might work). MirBSD 10 (release)
 *will not work*. C++ sucks.
 
-This port is badly maintained. Check the dependencies.
+This port is quite hacky, expect rough edges.

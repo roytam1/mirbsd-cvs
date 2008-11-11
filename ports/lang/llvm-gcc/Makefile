@@ -1,9 +1,10 @@
-# $MirOS: ports/lang/llvm-gcc/Makefile,v 1.1 2008/11/02 17:30:19 tg Exp $
+# $MirOS: ports/lang/llvm-gcc/Makefile,v 1.2 2008/11/10 20:30:54 tg Exp $
 
 ONLY_FOR_PLATFORM=	Darwin:*:* MirBSD:*:i386
 
 COMMENT=		Low Level Virtual Machine gcc front-end
 SVN_DISTREV=		58935
+DASH_VER=		1
 CATEGORIES=		lang devel
 HOMEPAGE=		http://www.llvm.org/
 
@@ -25,8 +26,6 @@ USE_GMAKE=		Yes
 VMEM_WARNING=		Yes
 MODULES+=		converters/libiconv
 BUILD_DEPENDS+=		:bison-*:devel/bison
-BUILD_DEPENDS+=		:groff-*-!no_x11:textproc/groff
-BUILD_DEPENDS+=		:m4-*:lang/m4
 B_R_DEPENDS+=		:llvm-*:lang/llvm
 LIB_DEPENDS+=		ltdl::devel/libtool
 LIB_DEPENDS+=		gmp:gmp->=4.1:devel/gmp
@@ -34,7 +33,8 @@ LIB_DEPENDS+=		mpfr:mpfr->=2.3.2:math/mpfr
 SUBST_VARS+=		OStriplet
 
 CONFIGURE_STYLE=	autoconf no-autoheader
-CONFIGURE_ENV+=		LIBTOOL=${LOCALBASE:Q}/bin/libtool
+CONFIGURE_ENV+=		LIBTOOL=${LOCALBASE:Q}/bin/libtool \
+			M4=/usr/bin/m4
 CONFIGURE_ARGS+=	--enable-static \
 			${CONFIGURE_SHARED} \
 			--disable-libada \
@@ -51,7 +51,7 @@ CONFIGURE_ARGS+=	--enable-static \
 			--program-prefix=llvm- \
 			--enable-llvm=${LOCALBASE:Q} \
 			--enable-languages=c,objc,c++,obj-c++,fortran \
-			--disable-threads \
+			--enable-threads \
 			--enable-target-optspace \
 			--with-libiconv-prefix=${ICONV_PREFIX:Q} \
 			--with-gnu-ld \
