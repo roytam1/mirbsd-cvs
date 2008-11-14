@@ -187,6 +187,12 @@ uvm_pglistalloc(size, low, high, alignment, boundary, rlist, nsegs, waitok)
 		}
 	}
 
+	/*
+	 * We could not allocate a contiguous range.  This is where
+	 * we should try harder if nsegs > 1...
+	 */
+	goto out;
+
 #if PGFL_NQUEUES != 2
 #error uvm_pglistalloc needs to be updated
 #endif
