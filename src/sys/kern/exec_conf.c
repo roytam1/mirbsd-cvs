@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/sys/kern/exec_conf.c,v 1.2 2005/03/06 21:28:00 tg Exp $ */
 /*	$OpenBSD: exec_conf.c,v 1.17 2004/04/15 00:22:42 tedu Exp $	*/
 /*	$NetBSD: exec_conf.c,v 1.16 1995/12/09 05:34:47 cgd Exp $	*/
 
@@ -58,15 +58,15 @@ extern struct emul emul_native, emul_elf32, emul_elf64, emul_aout,
 
 struct execsw execsw[] = {
 	{ MAXINTERP, exec_script_makecmds, &emul_native, },	/* shell scripts */
+#ifdef _KERN_DO_ECOFF
+	{ ECOFF_HDR_SIZE, exec_ecoff_makecmds, &emul_native },	/* ecoff binaries */
+#endif
 #ifdef _KERN_DO_AOUT
 #ifdef COMPAT_OPENBSD
 	{ sizeof(struct exec), exec_aout_makecmds, &emul_openbsd_aout },
 #else
 	{ sizeof(struct exec), exec_aout_makecmds, &emul_native },	/* a.out binaries */
 #endif
-#endif
-#ifdef _KERN_DO_ECOFF
-	{ ECOFF_HDR_SIZE, exec_ecoff_makecmds, &emul_native },	/* ecoff binaries */
 #endif
 #ifdef _KERN_DO_ELF
 	{ sizeof(Elf32_Ehdr), exec_elf32_makecmds, &emul_native },	/* elf binaries */
