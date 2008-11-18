@@ -1,3 +1,0 @@
-# $MirOS$
-
-CFLAGS+= -Wall

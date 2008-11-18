@@ -1,5 +1,0 @@
-@comment $MirOS: ports/devel/popt/pkg/PLIST,v 1.1.7.1 2005/03/18 15:45:22 tg Exp $
-@comment $OpenBSD: PLIST,v 1.3 2003/12/15 16:51:05 naddy Exp $
-include/popt.h
-lib/libpopt.la
-man/man3/popt.3
