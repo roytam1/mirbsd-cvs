@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/Snippets/coroutine.h,v 1.12 2008/06/23 20:33:06 tg Rel $ */
+/* $MirOS: contrib/code/Snippets/coroutine.h,v 1.13 2008/11/19 01:23:12 tg Exp $ */
 
 /*-
  * $Id$ is
@@ -41,7 +41,7 @@ __coroutine_proto(<typename>, <name>, <return type> [, <arguments>]);
  * once per <typename>, in a source file, with no trailing semicolon:
 __coroutine_impl(<typename>)
 
- * once per function <name>, in a header file:
+ * once per function <name>, in a source (*.c) file:
 __coroutine_defn(<typename>, <name>, <return type> [, <arguments>])
 {
 	<local variables>
@@ -67,7 +67,7 @@ __coroutine_defn(<typename>, <name>, <return type> [, <arguments>])
 #include <stdio.h>
 #include "coroutine.h"
 
-static const char rcsid[] = "$MirOS: contrib/code/Snippets/coroutine.h,v 1.12 2008/06/23 20:33:06 tg Rel $";
+static const char rcsid[] = "$MirOS: contrib/code/Snippets/coroutine.h,v 1.13 2008/11/19 01:23:12 tg Exp $";
 
 __coroutine_decl(footype, int, int);
 
