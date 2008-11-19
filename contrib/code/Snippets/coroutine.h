@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/Snippets/coroutine.h,v 1.11 2008/06/23 19:59:04 tg Rel $ */
+/* $MirOS: contrib/code/Snippets/coroutine.h,v 1.12 2008/06/23 20:33:06 tg Rel $ */
 
 /*-
  * $Id$ is
@@ -67,7 +67,7 @@ __coroutine_defn(<typename>, <name>, <return type> [, <arguments>])
 #include <stdio.h>
 #include "coroutine.h"
 
-static const char rcsid[] = "$MirOS: contrib/code/Snippets/coroutine.h,v 1.11 2008/06/23 19:59:04 tg Rel $";
+static const char rcsid[] = "$MirOS: contrib/code/Snippets/coroutine.h,v 1.12 2008/06/23 20:33:06 tg Rel $";
 
 __coroutine_decl(footype, int, int);
 
@@ -76,7 +76,8 @@ __coroutine_proto(footype, bar, int, int);
 
 __coroutine_impl(footype)
 
-__coroutine_defn(footype, foo, int, int arg)
+__coroutine_defn(footype,
+foo, int, int arg)
 {
 	int a;
 
@@ -92,7 +93,8 @@ __coroutine_defn(footype, foo, int, int arg)
 	return (0);
 }
 
-__coroutine_defn(footype, bar, int, int arg)
+__coroutine_defn(footype,
+bar, int, int arg)
 {
 	unsigned short k;
 
