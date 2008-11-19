@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/Snippets/coroutine.h,v 1.15 2008/11/19 01:53:56 tg Exp $ */
+/* $MirOS: contrib/code/Snippets/coroutine.h,v 1.16 2008/11/19 02:17:30 tg Rel $ */
 
 /*-
  * $Id$ is
@@ -72,7 +72,7 @@ __coroutine_defn_na(<typename>, <name>, <return type>)
 #include <stdio.h>
 #include "coroutine.h"
 
-static const char rcsid[] = "$MirOS: contrib/code/Snippets/coroutine.h,v 1.15 2008/11/19 01:53:56 tg Exp $";
+static const char rcsid[] = "$MirOS: contrib/code/Snippets/coroutine.h,v 1.16 2008/11/19 02:17:30 tg Rel $";
 
 __coroutine_decl(footype, int, int);
 __coroutine_decl(foovtype, void, int);
@@ -93,7 +93,7 @@ __coroutine_impl(foovtype)
 __coroutine_impl(foontype)
 __coroutine_impl(foovntype)
 
-int global_state;
+int gvar;
 
 __coroutine_defn(footype,
 foo, int, int arg)
@@ -138,7 +138,7 @@ foov, void, int arg)
 		if (arg > 3)
 			__cr_passv(foovtype, barv, arg);
 		__cr_var(a) += arg;
-		global_state = __cr_var(a);
+		gvar = __cr_var(a);
 		__cr_return();
 	}
 	__cr_end(foov);
@@ -154,7 +154,7 @@ barv, void, int arg)
 	__cr_var(k) = 0;
 	while (__cr_var(k) < 10000) {
 		__cr_var(k) += arg;
-		global_state = 1000 + __cr_var(k);
+		gvar = 1000 + __cr_var(k);
 		__cr_return();
 	}
 	__cr_end(barv);
@@ -171,7 +171,7 @@ foon, int)
 	while (__cr_var(a) < 1000000) {
 		if (__cr_var(a) > 3)
 			__cr_pass_na(foontype, barn);
-		__cr_var(a) += 1;
+		++__cr_var(a);
 		__cr_return(__cr_var(a));
 	}
 	__cr_end(foon);
@@ -186,7 +186,7 @@ barn, int)
 	__cr_begin(barn);
 	__cr_var(k) = 0;
 	while (__cr_var(k) < 10000) {
-		__cr_var(k) += 1;
+		++__cr_var(k);
 		__cr_return(1000 + __cr_var(k));
 	}
 	__cr_end(barn);
@@ -203,8 +203,8 @@ foovn, void)
 	while (__cr_var(a) < 1000000) {
 		if (__cr_var(a) > 3)
 			__cr_passv_na(foovntype, barvn);
-		__cr_var(a) += 1;
-		global_state = __cr_var(a);
+		++__cr_var(a);
+		gvar = __cr_var(a);
 		__cr_return();
 	}
 	__cr_end(foovn);
@@ -219,8 +219,8 @@ barvn, void)
 	__cr_begin(barvn);
 	__cr_var(k) = 0;
 	while (__cr_var(k) < 10000) {
-		__cr_var(k) += 1;
-		global_state = 1000 + __cr_var(k);
+		++__cr_var(k);
+		gvar = 1000 + __cr_var(k);
 		__cr_return();
 	}
 	__cr_end(barvn);
@@ -232,28 +232,24 @@ main(int argc, char *argv[])
 {
 	__cr_init(footype, c, foo);
 	__cr_init(foovtype, cv, foov);
-	__cr_init(foontype, cn, foon);
-	__cr_init(foovntype, cvn, foovn);
+	__cr_init(foontype, n, foon);
+	__cr_init(foovntype, nv, foovn);
 	int i;
 
 	printf("%s\n", rcsid);
 
-	global_state = 0;
-	for (i = 1; i <= 6; ++i)
-		printf("#%d: ret = %d\n", i, __cr_call(c, i));
+	gvar = 0;
 	for (i = 1; i <= 6; ++i) {
 		__cr_call(cv, i);
-		printf("#%d: ret = %d\n", i, global_state);
+		printf("#%d: ret = %d\t\tgv = %d\n", i, __cr_call(c, i), gvar);
 	}
-	global_state = 0;
-	for (i = 1; i <= 6; ++i)
-		printf("#%d: ret = %d\n", i, __cr_call_na(cn));
-	for (i = 1; i <= 6; ++i) {
-		__cr_call_na(cvn);
-		printf("#%d: ret = %d\n", i, global_state);
-	}
-
 	printf("%s[%d]: ret = %d\n", argv[0], argc, __cr_call(c, argc));
+
+	gvar = 0;
+	for (i = 1; i <= 6; ++i) {
+		__cr_call_na(nv);
+		printf("#%d: ret = %d\t\tgv = %d\n", i, __cr_call_na(n), gvar);
+	}
 
 	return (0);
 }
