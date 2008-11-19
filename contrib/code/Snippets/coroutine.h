@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/Snippets/coroutine.h,v 1.14 2008/11/19 01:28:00 tg Exp $ */
+/* $MirOS: contrib/code/Snippets/coroutine.h,v 1.15 2008/11/19 01:53:56 tg Exp $ */
 
 /*-
  * $Id$ is
@@ -30,21 +30,22 @@
  * Information on how to use this header file:
  *
  * You will need to include <stdlib.h> for malloc/free, abort, NULL.
- * Note that ", <arguments>" is NOT optional unless you use GNU cpp,
- * but compilers such as pcc work fine for functions WITH arguments;
- * see below for *_na macros. To create a coroutine, use this:
+ * To create a coroutine, use this:
 
  * once per <typename>, in a header file:
-__coroutine_decl(<typename>, <return type> [, <arguments>]);
+__coroutine_decl(<typename>, <return type>, <arguments>);
+__coroutine_decl_na(<typename>, <return type>);
 
  * once per function <name>, in a header file:
-__coroutine_proto(<typename>, <name>, <return type> [, <arguments>]);
+__coroutine_proto(<typename>, <name>, <return type>, <arguments>);
+__coroutine_proto_na(<typename>, <name>, <return type>);
 
  * once per <typename>, in a source file, with no trailing semicolon:
 __coroutine_impl(<typename>)
 
  * once per function <name>, in a source (*.c) file:
-__coroutine_defn(<typename>, <name>, <return type> [, <arguments>])
+__coroutine_defn(<typename>, <name>, <return type>, <arguments>)
+__coroutine_defn_na(<typename>, <name>, <return type>)
 {
 	<local variables>
 	__cr_begin(<name>);
@@ -55,17 +56,15 @@ __coroutine_defn(<typename>, <name>, <return type> [, <arguments>])
 
  * A coroutine can yield by using __cr_return(<value>); and pass execu-
  * tion to another function with the same <typename> with __cr_pass (or
- * __cr_passv if the function return type is "void").
+ * __cr_passv if the function return type is "void") or __cr_pass_na or
+ * __cr_passv_na, respectively, for functions taking no arguments.
  * Local variables can be accessed in a coroutine with __cr_var(<name>)
  *
  * To access a coroutine, first create a pointer to a state variable
  * of its <typename> and initialise it with something like
  *	__cr_init(<typename>, <pointervar>, <name>);
- * and call the coroutine using __cr_call(<pointervar> [, <arguments>]).
- *
- * The __coroutine_decl_na, __coroutine_pass_na, __coroutine_passv_na,
- * __coroutine_proto_na, __coroutine_defn_na, __cr_call_na variants are
- * provided for ISO C variadic macro cpp implementations.
+ * and call the coroutine using __cr_call(<pointervar>, <arguments>) or
+ * __cr_call_na(<pointervar>).
  *
  * Example:
 
@@ -73,14 +72,28 @@ __coroutine_defn(<typename>, <name>, <return type> [, <arguments>])
 #include <stdio.h>
 #include "coroutine.h"
 
-static const char rcsid[] = "$MirOS: contrib/code/Snippets/coroutine.h,v 1.14 2008/11/19 01:28:00 tg Exp $";
+static const char rcsid[] = "$MirOS: contrib/code/Snippets/coroutine.h,v 1.15 2008/11/19 01:53:56 tg Exp $";
 
 __coroutine_decl(footype, int, int);
+__coroutine_decl(foovtype, void, int);
+__coroutine_decl_na(foontype, int);
+__coroutine_decl_na(foovntype, void);
 
 __coroutine_proto(footype, foo, int, int);
 __coroutine_proto(footype, bar, int, int);
+__coroutine_proto(foovtype, foov, void, int);
+__coroutine_proto(foovtype, barv, void, int);
+__coroutine_proto_na(foontype, foon, int);
+__coroutine_proto_na(foontype, barn, int);
+__coroutine_proto_na(foovntype, foovn, void);
+__coroutine_proto_na(foovntype, barvn, void);
 
 __coroutine_impl(footype)
+__coroutine_impl(foovtype)
+__coroutine_impl(foontype)
+__coroutine_impl(foovntype)
+
+int global_state;
 
 __coroutine_defn(footype,
 foo, int, int arg)
@@ -114,17 +127,133 @@ bar, int, int arg)
 	return (0);
 }
 
+__coroutine_defn(foovtype,
+foov, void, int arg)
+{
+	int a;
+
+	__cr_begin(foov);
+	__cr_var(a) = 0;
+	while (__cr_var(a) < 1000000) {
+		if (arg > 3)
+			__cr_passv(foovtype, barv, arg);
+		__cr_var(a) += arg;
+		global_state = __cr_var(a);
+		__cr_return();
+	}
+	__cr_end(foov);
+	return;
+}
+
+__coroutine_defn(foovtype,
+barv, void, int arg)
+{
+	unsigned short k;
+
+	__cr_begin(barv);
+	__cr_var(k) = 0;
+	while (__cr_var(k) < 10000) {
+		__cr_var(k) += arg;
+		global_state = 1000 + __cr_var(k);
+		__cr_return();
+	}
+	__cr_end(barv);
+	return;
+}
+
+__coroutine_defn_na(foontype,
+foon, int)
+{
+	int a;
+
+	__cr_begin(foon);
+	__cr_var(a) = 0;
+	while (__cr_var(a) < 1000000) {
+		if (__cr_var(a) > 3)
+			__cr_pass_na(foontype, barn);
+		__cr_var(a) += 1;
+		__cr_return(__cr_var(a));
+	}
+	__cr_end(foon);
+	return (0);
+}
+
+__coroutine_defn_na(foontype,
+barn, int)
+{
+	unsigned short k;
+
+	__cr_begin(barn);
+	__cr_var(k) = 0;
+	while (__cr_var(k) < 10000) {
+		__cr_var(k) += 1;
+		__cr_return(1000 + __cr_var(k));
+	}
+	__cr_end(barn);
+	return (0);
+}
+
+__coroutine_defn_na(foovntype,
+foovn, void)
+{
+	int a;
+
+	__cr_begin(foovn);
+	__cr_var(a) = 0;
+	while (__cr_var(a) < 1000000) {
+		if (__cr_var(a) > 3)
+			__cr_passv_na(foovntype, barvn);
+		__cr_var(a) += 1;
+		global_state = __cr_var(a);
+		__cr_return();
+	}
+	__cr_end(foovn);
+	return;
+}
+
+__coroutine_defn_na(foovntype,
+barvn, void)
+{
+	unsigned short k;
+
+	__cr_begin(barvn);
+	__cr_var(k) = 0;
+	while (__cr_var(k) < 10000) {
+		__cr_var(k) += 1;
+		global_state = 1000 + __cr_var(k);
+		__cr_return();
+	}
+	__cr_end(barvn);
+	return;
+}
+
 int
 main(int argc, char *argv[])
 {
 	__cr_init(footype, c, foo);
+	__cr_init(foovtype, cv, foov);
+	__cr_init(foontype, cn, foon);
+	__cr_init(foovntype, cvn, foovn);
 	int i;
 
-	if (argc > 1 && argv[1][0] == '-' && argv[1][1] == 'v')
-		printf("%s\n", rcsid);
+	printf("%s\n", rcsid);
 
+	global_state = 0;
 	for (i = 1; i <= 6; ++i)
 		printf("#%d: ret = %d\n", i, __cr_call(c, i));
+	for (i = 1; i <= 6; ++i) {
+		__cr_call(cv, i);
+		printf("#%d: ret = %d\n", i, global_state);
+	}
+	global_state = 0;
+	for (i = 1; i <= 6; ++i)
+		printf("#%d: ret = %d\n", i, __cr_call_na(cn));
+	for (i = 1; i <= 6; ++i) {
+		__cr_call_na(cvn);
+		printf("#%d: ret = %d\n", i, global_state);
+	}
+
+	printf("%s[%d]: ret = %d\n", argv[0], argc, __cr_call(c, argc));
 
 	return (0);
 }
@@ -167,7 +296,7 @@ main(int argc, char *argv[])
 #define __coroutine_decl(_typename, _rettype, ...)			\
 	struct __CR(struct, _typename);					\
 	typedef _rettype (*__CR(ptr, _typename))(struct			\
-	    __CR(struct, _typename) **, ##__VA_ARGS__);			\
+	    __CR(struct, _typename) **, __VA_ARGS__);			\
 	typedef struct __CR(struct, _typename) {			\
 		__CR(ptr, _typename) __fptr;				\
 		__coroutine_content;					\
@@ -204,7 +333,7 @@ main(int argc, char *argv[])
 	__coroutine_free(*__cr_ectx);					\
 	*__cr_ectx =							\
 	    __CR(init, _typename)((void (*)(_typename **))&(_name));	\
-	return ((*__cr_ectx)->__fptr(__cr_ectx, ##__VA_ARGS__));	\
+	return ((*__cr_ectx)->__fptr(__cr_ectx, __VA_ARGS__));		\
 } while (/* CONSTCOND */ 0)
 
 #define __coroutine_pass_na(_typename, _name) do {			\
@@ -219,7 +348,7 @@ main(int argc, char *argv[])
 	__coroutine_free(*__cr_ectx);					\
 	*__cr_ectx =							\
 	    __CR(init, _typename)((void (*)(_typename **))&(_name));	\
-	(*__cr_ectx)->__fptr(__cr_ectx, ##__VA_ARGS__);			\
+	(*__cr_ectx)->__fptr(__cr_ectx, __VA_ARGS__);			\
 	return;								\
 } while (/* CONSTCOND */ 0)
 
@@ -233,7 +362,7 @@ main(int argc, char *argv[])
 
 /* declare a coroutine function prototype */
 #define __coroutine_proto(_typename, _name, _rettype, ...)		\
-	_rettype _name(_typename **, ##__VA_ARGS__)
+	_rettype _name(_typename **, __VA_ARGS__)
 
 #define __coroutine_proto_na(_typename, _name, _rettype)		\
 	_rettype _name(_typename **)
@@ -241,7 +370,7 @@ main(int argc, char *argv[])
 /* define a coroutine function */
 #define __coroutine_defn(_typename, _name, _rettype, ...)		\
 	_rettype							\
-	_name(_typename **__cr_ectx, ##__VA_ARGS__)			\
+	_name(_typename **__cr_ectx, __VA_ARGS__)			\
 	{								\
 		struct __CR(internal, _name) {				\
 			/* __cr_internal must be first */		\
@@ -346,7 +475,7 @@ main(int argc, char *argv[])
 #define __cr_free		__coroutine_free
 #define __cr_begin		__coroutine_begin
 #define __cr_end		__coroutine_end
-#define __cr_call(_ctx, ...)	((_ctx)->__fptr(&(_ctx), ##__VA_ARGS__))
+#define __cr_call(_ctx, ...)	((_ctx)->__fptr(&(_ctx), __VA_ARGS__))
 #define __cr_call_na(_ctx)	((_ctx)->__fptr(&(_ctx)))
 #define __cr_pass		__coroutine_pass
 #define __cr_pass_na		__coroutine_pass_na
