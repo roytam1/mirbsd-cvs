@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/Snippets/coroutine.h,v 1.13 2008/11/19 01:23:12 tg Exp $ */
+/* $MirOS: contrib/code/Snippets/coroutine.h,v 1.14 2008/11/19 01:28:00 tg Exp $ */
 
 /*-
  * $Id$ is
@@ -30,7 +30,9 @@
  * Information on how to use this header file:
  *
  * You will need to include <stdlib.h> for malloc/free, abort, NULL.
- * To create a coroutine, use this:
+ * Note that ", <arguments>" is NOT optional unless you use GNU cpp,
+ * but compilers such as pcc work fine for functions WITH arguments;
+ * see below for *_na macros. To create a coroutine, use this:
 
  * once per <typename>, in a header file:
 __coroutine_decl(<typename>, <return type> [, <arguments>]);
@@ -61,13 +63,17 @@ __coroutine_defn(<typename>, <name>, <return type> [, <arguments>])
  *	__cr_init(<typename>, <pointervar>, <name>);
  * and call the coroutine using __cr_call(<pointervar> [, <arguments>]).
  *
+ * The __coroutine_decl_na, __coroutine_pass_na, __coroutine_passv_na,
+ * __coroutine_proto_na, __coroutine_defn_na, __cr_call_na variants are
+ * provided for ISO C variadic macro cpp implementations.
+ *
  * Example:
 
 #include <stdlib.h>
 #include <stdio.h>
 #include "coroutine.h"
 
-static const char rcsid[] = "$MirOS: contrib/code/Snippets/coroutine.h,v 1.13 2008/11/19 01:23:12 tg Exp $";
+static const char rcsid[] = "$MirOS: contrib/code/Snippets/coroutine.h,v 1.14 2008/11/19 01:28:00 tg Exp $";
 
 __coroutine_decl(footype, int, int);
 
@@ -168,6 +174,16 @@ main(int argc, char *argv[])
 	} _typename;							\
 	_typename *__CR(init, _typename)(void (*)(_typename **))
 
+#define __coroutine_decl_na(_typename, _rettype)			\
+	struct __CR(struct, _typename);					\
+	typedef _rettype (*__CR(ptr, _typename))(struct			\
+	    __CR(struct, _typename) **);				\
+	typedef struct __CR(struct, _typename) {			\
+		__CR(ptr, _typename) __fptr;				\
+		__coroutine_content;					\
+	} _typename;							\
+	_typename *__CR(init, _typename)(void (*)(_typename **))
+
 /* implement a <typename>'s initialiser function */
 #define __coroutine_impl(_typename)					\
 	_typename *							\
@@ -191,6 +207,13 @@ main(int argc, char *argv[])
 	return ((*__cr_ectx)->__fptr(__cr_ectx, ##__VA_ARGS__));	\
 } while (/* CONSTCOND */ 0)
 
+#define __coroutine_pass_na(_typename, _name) do {			\
+	__coroutine_free(*__cr_ectx);					\
+	*__cr_ectx =							\
+	    __CR(init, _typename)((void (*)(_typename **))&(_name));	\
+	return ((*__cr_ectx)->__fptr(__cr_ectx));			\
+} while (/* CONSTCOND */ 0)
+
 /* pass execution to another coroutine of the same <typename> returning void */
 #define __coroutine_passv(_typename, _name, ...) do {			\
 	__coroutine_free(*__cr_ectx);					\
@@ -200,14 +223,34 @@ main(int argc, char *argv[])
 	return;								\
 } while (/* CONSTCOND */ 0)
 
+#define __coroutine_passv_na(_typename, _name) do {			\
+	__coroutine_free(*__cr_ectx);					\
+	*__cr_ectx =							\
+	    __CR(init, _typename)((void (*)(_typename **))&(_name));	\
+	(*__cr_ectx)->__fptr(__cr_ectx);				\
+	return;								\
+} while (/* CONSTCOND */ 0)
+
 /* declare a coroutine function prototype */
 #define __coroutine_proto(_typename, _name, _rettype, ...)		\
 	_rettype _name(_typename **, ##__VA_ARGS__)
+
+#define __coroutine_proto_na(_typename, _name, _rettype)		\
+	_rettype _name(_typename **)
 
 /* define a coroutine function */
 #define __coroutine_defn(_typename, _name, _rettype, ...)		\
 	_rettype							\
 	_name(_typename **__cr_ectx, ##__VA_ARGS__)			\
+	{								\
+		struct __CR(internal, _name) {				\
+			/* __cr_internal must be first */		\
+			_typename __cr_internal;			\
+			struct	/* ... yes, here the macro ends */
+
+#define __coroutine_defn_na(_typename, _name, _rettype)			\
+	_rettype							\
+	_name(_typename **__cr_ectx)					\
 	{								\
 		struct __CR(internal, _name) {				\
 			/* __cr_internal must be first */		\
@@ -304,8 +347,11 @@ main(int argc, char *argv[])
 #define __cr_begin		__coroutine_begin
 #define __cr_end		__coroutine_end
 #define __cr_call(_ctx, ...)	((_ctx)->__fptr(&(_ctx), ##__VA_ARGS__))
+#define __cr_call_na(_ctx)	((_ctx)->__fptr(&(_ctx)))
 #define __cr_pass		__coroutine_pass
+#define __cr_pass_na		__coroutine_pass_na
 #define __cr_passv		__coroutine_passv
+#define __cr_passv_na		__coroutine_passv_na
 #define __cr_return(v)		__coroutine_return(v)
 #define __cr_var(_name)		((__cr_ictx->__cr_data)._name)
 
