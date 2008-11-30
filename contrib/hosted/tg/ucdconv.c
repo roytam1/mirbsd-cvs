@@ -250,10 +250,6 @@ void output_toupper_table (void)
           unsigned int ch = 256*p + 8*i1 + i2;
           unsigned int ch2 = uppercase(ch);
           int j = ((int)ch2 - (int)ch) & 0xffff;
-          if (ch2 != ch + (short)j) {
-            fprintf(stderr, "toupper maps 0x%04x to different plane\n", ch);
-            exit(1);
-          }
           fprintf(f, "0x%04x%s ", j, (8*i1+i2<255?",":" "));
         }
         fprintf(f, "/* 0x%02x-0x%02x */\n", 8*i1, 8*i1+7);
@@ -319,10 +315,6 @@ void output_tolower_table (void)
           unsigned int ch = 256*p + 8*i1 + i2;
           unsigned int ch2 = lowercase(ch);
           int j = ((int)ch2 - (int)ch) & 0xffff;
-          if (ch2 != ch + (short)j) {
-            fprintf(stderr, "tolower maps 0x%04x to different plane\n", ch);
-            exit(1);
-          }
           fprintf(f, "0x%04x%s ", j, (8*i1+i2<255?",":" "));
         }
         fprintf(f, "/* 0x%02x-0x%02x */\n", 8*i1, 8*i1+7);
@@ -374,16 +366,12 @@ void output_attribute_table (void)
   int pages[0x100];
   int p, q, p1, p2, i;
   unsigned int ch;
-  const char* filename = "attribute.h";
+  const char* filename = "tbl_attr.c";
   FILE* f = fopen(filename, "w");
   if (!f) {
     fprintf(stderr, "error during fopen of `%s'\n", filename);
     exit(1);
   }
-  fprintf(f, "\n");
-  fprintf(f, "/* attribute table */\n");
-  fprintf(f, "/* Generated automatically by the gentables utility. */\n");
-  fprintf(f, "\n");
   for (ch = 0; ch < 0x10000; ch++) {
     int attributes = 0;
     if ((uppercase(ch) == ch || titlecase(uppercase(ch)) == ch)
@@ -460,12 +448,15 @@ void output_attribute_table (void)
   }
   for (p = 0; p < 0x100; p++)
     if (pages[p] < 0) {
-      fprintf(f, "static const unsigned char attribute_table_page%02x[256] = {\n", p);
+      if (p)
+	fprintf(f, "static const unsigned char attribute_table_page%02x[256] = {\n", p);
+      else
+	fprintf(f, "const unsigned char __C_attribute_table_pg[256] = {\n");
       for (i = 0; i < 0x100; i++) {
         unsigned int ch = 256*p + i;
         int attributes = table[ch];
         int next = 0;
-        fprintf(f, "  /* 0x%04x */ ", ch);
+        fprintf(f, "\t/* 0x%04x */ ", ch);
         if (attributes & upper) {
           if (next) fprintf(f, " | ");
           fprintf(f, "upper");
@@ -537,16 +528,17 @@ void output_attribute_table (void)
     }
   fprintf(f, "const unsigned char * const attribute_table[0x100] = {\n");
   for (p1 = 0; p1 < 0x80; p1++) {
-    fprintf(f, "  ");
     for (p2 = 0; p2 < 2; p2++) {
       p = 2*p1 + p2;
-      fprintf(f, "attribute_table_page%02x%s ", (pages[p] >= 0 ? pages[p] : p),
-                 (p<0x100-1?",":" "));
+      if (p)
+	fprintf(f, "%cattribute_table_page%02x%s", p2 == 0 ? '\t' : ' ', (pages[p] >= 0 ? pages[p] : p),
+                 (p<0x100-1?",":""));
+      else
+	fprintf(f, "\t__C_attribute_table_pg,");
     }
-    fprintf(f, "/* 0x%02x-0x%02x */\n", 2*p1, 2*p1+1);
+    fprintf(f, "\n");
   }
   fprintf(f, "};\n");
-  fprintf(f, "\n");
   if (ferror(f)) {
     fprintf(stderr, "error writing on `%s'\n", filename);
     exit(1);
