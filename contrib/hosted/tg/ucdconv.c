@@ -260,7 +260,7 @@ void output_toupper_table (void)
       fprintf(f, "\n");
     }
   fprintf(f, "const short * const toupper_table[0x100] = {\n");
-  for (p1 = 0; p1 < 0x440; p1++) {
+  for (p1 = 0; p1 < 0x40; p1++) {
     fprintf(f, "  ");
     for (p2 = 0; p2 < 4; p2++) {
       p = 4*p1 + p2;
@@ -325,7 +325,7 @@ void output_tolower_table (void)
       fprintf(f, "\n");
     }
   fprintf(f, "const short * const tolower_table[0x100] = {\n");
-  for (p1 = 0; p1 < 0x440; p1++) {
+  for (p1 = 0; p1 < 0x40; p1++) {
     fprintf(f, "  ");
     for (p2 = 0; p2 < 4; p2++) {
       p = 4*p1 + p2;
