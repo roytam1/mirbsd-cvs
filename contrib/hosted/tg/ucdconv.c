@@ -3,8 +3,7 @@
 
    The GNU UTF-8 Library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Library General Public License as
-   published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
+   published by the Free Software Foundation; version 2 of the Licence.
 
    The GNU UTF-8 Library is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -41,7 +40,7 @@ struct unicode_attribute {
 
 #define NONE (~(unsigned int)0)
 
-struct unicode_attribute unicode_attributes [0x110000];
+struct unicode_attribute unicode_attributes [0x10000];
 
 static void fill_attribute (unsigned int i,
                             const char* field1, const char* field2,
@@ -54,7 +53,7 @@ static void fill_attribute (unsigned int i,
 {
   struct unicode_attribute * uni;
 
-  if (i >= 0x110000) {
+  if (i >= 0x10000) {
     fprintf(stderr, "index too large\n");
     exit(1);
   }
@@ -108,7 +107,7 @@ static void fill_attributes (const char* unicodedata_filename)
   char field14 [100];
   int lineno = 0;
 
-  for (i = 0; i < 0x110000; i++)
+  for (i = 0; i < 0x10000; i++)
     unicode_attributes[i].name = NULL;
 
   f = fopen(unicodedata_filename, "r");
@@ -220,7 +219,7 @@ static int isCLbothcase (unsigned int ch)
 /* Create uni_upcase.c, used by clisp. */
 void output_clisp_upcase_table (void)
 {
-  int pages[0x1100];
+  int pages[0x100];
   int p, p1, p2, i1, i2;
   const char* filename = "uni_upcase.c";
   FILE* f = fopen(filename, "w");
@@ -235,9 +234,9 @@ void output_clisp_upcase_table (void)
   fprintf(f, " * Generated automatically by the gentables utility.\n");
   fprintf(f, " */\n");
   fprintf(f, "\n");
-  for (p = 0; p < 0x1100; p++)
+  for (p = 0; p < 0x100; p++)
     pages[p] = 0;
-  for (p = 0; p < 0x1100; p++)
+  for (p = 0; p < 0x100; p++)
     for (i1 = 0; i1 < 0x100; i1++) {
       unsigned int ch = 0x100*p + i1;
       if (isCLbothcase(ch) && (uppercase(ch) != ch)) {
@@ -245,7 +244,7 @@ void output_clisp_upcase_table (void)
         break;
       }
     }
-  for (p = 0; p < 0x1100; p++)
+  for (p = 0; p < 0x100; p++)
     if (pages[p]) {
       fprintf(f, "static const cint up_case_table_page%02x[256] = {\n", p);
       for (i1 = 0; i1 < 32; i1++) {
@@ -265,15 +264,15 @@ void output_clisp_upcase_table (void)
       fprintf(f, "};\n");
       fprintf(f, "\n");
     }
-  fprintf(f, "static const cint * const up_case_table[0x1100] = {\n");
+  fprintf(f, "static const cint * const up_case_table[0x100] = {\n");
   for (p1 = 0; p1 < 0x440; p1++) {
     fprintf(f, "  ");
     for (p2 = 0; p2 < 4; p2++) {
       p = 4*p1 + p2;
       if (pages[p])
-        fprintf(f, "up_case_table_page%02x%s ", p, (p<0x1100-1?",":" "));
+        fprintf(f, "up_case_table_page%02x%s ", p, (p<0x100-1?",":" "));
       else
-        fprintf(f, "nop_page%s ", (p<0x1100-1?",":" "));
+        fprintf(f, "nop_page%s ", (p<0x100-1?",":" "));
     }
     fprintf(f, "/* 0x%02x-0x%02x */\n", 4*p1, 4*p1+3);
   }
@@ -292,7 +291,7 @@ void output_clisp_upcase_table (void)
 /* Create uni_downcase.c, used by clisp. */
 void output_clisp_downcase_table (void)
 {
-  int pages[0x1100];
+  int pages[0x100];
   int p, p1, p2, i1, i2;
   const char* filename = "uni_downcase.c";
   FILE* f = fopen(filename, "w");
@@ -307,9 +306,9 @@ void output_clisp_downcase_table (void)
   fprintf(f, " * Generated automatically by the gentables utility.\n");
   fprintf(f, " */\n");
   fprintf(f, "\n");
-  for (p = 0; p < 0x1100; p++)
+  for (p = 0; p < 0x100; p++)
     pages[p] = 0;
-  for (p = 0; p < 0x1100; p++)
+  for (p = 0; p < 0x100; p++)
     for (i1 = 0; i1 < 0x100; i1++) {
       unsigned int ch = 0x100*p + i1;
       if (isCLbothcase(ch) && (lowercase(ch) != ch)) {
@@ -317,7 +316,7 @@ void output_clisp_downcase_table (void)
         break;
       }
     }
-  for (p = 0; p < 0x1100; p++)
+  for (p = 0; p < 0x100; p++)
     if (pages[p]) {
       fprintf(f, "static const cint down_case_table_page%02x[256] = {\n", p);
       for (i1 = 0; i1 < 32; i1++) {
@@ -337,15 +336,15 @@ void output_clisp_downcase_table (void)
       fprintf(f, "};\n");
       fprintf(f, "\n");
     }
-  fprintf(f, "static const cint * const down_case_table[0x1100] = {\n");
+  fprintf(f, "static const cint * const down_case_table[0x100] = {\n");
   for (p1 = 0; p1 < 0x440; p1++) {
     fprintf(f, "  ");
     for (p2 = 0; p2 < 4; p2++) {
       p = 4*p1 + p2;
       if (pages[p])
-        fprintf(f, "down_case_table_page%02x%s ", p, (p<0x1100-1?",":" "));
+        fprintf(f, "down_case_table_page%02x%s ", p, (p<0x100-1?",":" "));
       else
-        fprintf(f, "nop_page%s ", (p<0x1100-1?",":" "));
+        fprintf(f, "nop_page%s ", (p<0x100-1?",":" "));
     }
     fprintf(f, "/* 0x%02x-0x%02x */\n", 4*p1, 4*p1+3);
   }
@@ -385,7 +384,7 @@ static void output_copyright (FILE* f)
 /* Create toupper.h, used by libutf8. */
 void output_toupper_table (void)
 {
-  int pages[0x1100];
+  int pages[0x100];
   int p, p1, p2, i1, i2;
   const char* filename = "toupper.h";
   FILE* f = fopen(filename, "w");
@@ -398,9 +397,9 @@ void output_toupper_table (void)
   fprintf(f, "/* toupper table */\n");
   fprintf(f, "/* Generated automatically by the gentables utility. */\n");
   fprintf(f, "\n");
-  for (p = 0; p < 0x1100; p++)
+  for (p = 0; p < 0x100; p++)
     pages[p] = 0;
-  for (p = 0; p < 0x1100; p++)
+  for (p = 0; p < 0x100; p++)
     for (i1 = 0; i1 < 0x100; i1++) {
       unsigned int ch = 0x100*p + i1;
       if (uppercase(ch) != ch) {
@@ -408,7 +407,7 @@ void output_toupper_table (void)
         break;
       }
     }
-  for (p = 0; p < 0x1100; p++)
+  for (p = 0; p < 0x100; p++)
     if (pages[p]) {
       fprintf(f, "static const short toupper_table_page%02x[256] = {\n", p);
       for (i1 = 0; i1 < 32; i1++) {
@@ -428,15 +427,15 @@ void output_toupper_table (void)
       fprintf(f, "};\n");
       fprintf(f, "\n");
     }
-  fprintf(f, "const short * const toupper_table[0x1100] = {\n");
+  fprintf(f, "const short * const toupper_table[0x100] = {\n");
   for (p1 = 0; p1 < 0x440; p1++) {
     fprintf(f, "  ");
     for (p2 = 0; p2 < 4; p2++) {
       p = 4*p1 + p2;
       if (pages[p])
-        fprintf(f, "toupper_table_page%02x%s ", p, (p<0x1100-1?",":" "));
+        fprintf(f, "toupper_table_page%02x%s ", p, (p<0x100-1?",":" "));
       else
-        fprintf(f, "nop_page%s ", (p<0x1100-1?",":" "));
+        fprintf(f, "nop_page%s ", (p<0x100-1?",":" "));
     }
     fprintf(f, "/* 0x%02x-0x%02x */\n", 4*p1, 4*p1+3);
   }
@@ -455,7 +454,7 @@ void output_toupper_table (void)
 /* Create tolower.h, used by libutf8. */
 void output_tolower_table (void)
 {
-  int pages[0x1100];
+  int pages[0x100];
   int p, p1, p2, i1, i2;
   const char* filename = "tolower.h";
   FILE* f = fopen(filename, "w");
@@ -468,9 +467,9 @@ void output_tolower_table (void)
   fprintf(f, "/* tolower table */\n");
   fprintf(f, "/* Generated automatically by the gentables utility. */\n");
   fprintf(f, "\n");
-  for (p = 0; p < 0x1100; p++)
+  for (p = 0; p < 0x100; p++)
     pages[p] = 0;
-  for (p = 0; p < 0x1100; p++)
+  for (p = 0; p < 0x100; p++)
     for (i1 = 0; i1 < 0x100; i1++) {
       unsigned int ch = 0x100*p + i1;
       if (lowercase(ch) != ch) {
@@ -478,7 +477,7 @@ void output_tolower_table (void)
         break;
       }
     }
-  for (p = 0; p < 0x1100; p++)
+  for (p = 0; p < 0x100; p++)
     if (pages[p]) {
       fprintf(f, "static const short tolower_table_page%02x[256] = {\n", p);
       for (i1 = 0; i1 < 32; i1++) {
@@ -498,15 +497,15 @@ void output_tolower_table (void)
       fprintf(f, "};\n");
       fprintf(f, "\n");
     }
-  fprintf(f, "const short * const tolower_table[0x1100] = {\n");
+  fprintf(f, "const short * const tolower_table[0x100] = {\n");
   for (p1 = 0; p1 < 0x440; p1++) {
     fprintf(f, "  ");
     for (p2 = 0; p2 < 4; p2++) {
       p = 4*p1 + p2;
       if (pages[p])
-        fprintf(f, "tolower_table_page%02x%s ", p, (p<0x1100-1?",":" "));
+        fprintf(f, "tolower_table_page%02x%s ", p, (p<0x100-1?",":" "));
       else
-        fprintf(f, "nop_page%s ", (p<0x1100-1?",":" "));
+        fprintf(f, "nop_page%s ", (p<0x100-1?",":" "));
     }
     fprintf(f, "/* 0x%02x-0x%02x */\n", 4*p1, 4*p1+3);
   }
@@ -538,8 +537,8 @@ void output_tolower_table (void)
 /* Create attribute.h, used by libutf8. */
 void output_attribute_table (void)
 {
-  int table[0x110000];
-  int pages[0x1100];
+  int table[0x10000];
+  int pages[0x100];
   int p, q, p1, p2, i;
   unsigned int ch;
   const char* filename = "attribute.h";
@@ -553,7 +552,7 @@ void output_attribute_table (void)
   fprintf(f, "/* attribute table */\n");
   fprintf(f, "/* Generated automatically by the gentables utility. */\n");
   fprintf(f, "\n");
-  for (ch = 0; ch < 0x110000; ch++) {
+  for (ch = 0; ch < 0x10000; ch++) {
     int attributes = 0;
     if ((uppercase(ch) == ch || titlecase(uppercase(ch)) == ch)
         && lowercase(ch) != ch)
@@ -611,7 +610,7 @@ void output_attribute_table (void)
       attributes |= alnum;
     table[ch] = attributes;
   }
-  for (p = 0; p < 0x1100; p++) {
+  for (p = 0; p < 0x100; p++) {
     pages[p] = -1;
     for (q = 0; q < p; q++)
       if (pages[q] < 0) {
@@ -627,7 +626,7 @@ void output_attribute_table (void)
         }
       }
   }
-  for (p = 0; p < 0x1100; p++)
+  for (p = 0; p < 0x100; p++)
     if (pages[p] < 0) {
       fprintf(f, "static const unsigned char attribute_table_page%02x[256] = {\n", p);
       for (i = 0; i < 0x100; i++) {
@@ -704,13 +703,13 @@ void output_attribute_table (void)
       fprintf(f, "};\n");
       fprintf(f, "\n");
     }
-  fprintf(f, "const unsigned char * const attribute_table[0x1100] = {\n");
-  for (p1 = 0; p1 < 0x880; p1++) {
+  fprintf(f, "const unsigned char * const attribute_table[0x100] = {\n");
+  for (p1 = 0; p1 < 0x80; p1++) {
     fprintf(f, "  ");
     for (p2 = 0; p2 < 2; p2++) {
       p = 2*p1 + p2;
       fprintf(f, "attribute_table_page%02x%s ", (pages[p] >= 0 ? pages[p] : p),
-                 (p<0x1100-1?",":" "));
+                 (p<0x100-1?",":" "));
     }
     fprintf(f, "/* 0x%02x-0x%02x */\n", 2*p1, 2*p1+1);
   }
@@ -794,7 +793,7 @@ void output_nonspacing_table (void)
       fprintf(f, "\n");
     }
   fprintf(f, "static const unsigned char * const nonspacing_table[0x440] = {\n");
-  for (p1 = 0; p1 < 0x110; p1++) {
+  for (p1 = 0; p1 < 0x10; p1++) {
     fprintf(f, "  ");
     for (p2 = 0; p2 < 4; p2++) {
       p = 4*p1 + p2;
