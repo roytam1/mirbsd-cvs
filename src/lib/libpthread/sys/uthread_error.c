@@ -34,9 +34,14 @@
  *
  * $FreeBSD: uthread_error.c,v 1.2 1999/08/05 12:14:13 deischen Exp $
  */
+
 #ifdef _THREAD_SAFE
 #include <pthread.h>
 #include "pthread_private.h"
+
+__RCSID("$MirOS$");
+
+#undef errno
 extern	int	errno;
 
 int *
