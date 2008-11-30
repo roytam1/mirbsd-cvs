@@ -216,171 +216,6 @@ static int isCLbothcase (unsigned int ch)
          );
 }
 
-/* Create uni_upcase.c, used by clisp. */
-void output_clisp_upcase_table (void)
-{
-  int pages[0x100];
-  int p, p1, p2, i1, i2;
-  const char* filename = "uni_upcase.c";
-  FILE* f = fopen(filename, "w");
-  if (!f) {
-    fprintf(stderr, "error during fopen of `%s'\n", filename);
-    exit(1);
-  }
-  fprintf(f, "/*\n");
-  fprintf(f, " * %s\n", filename);
-  fprintf(f, " *\n");
-  fprintf(f, " * Common Lisp upcase table.\n");
-  fprintf(f, " * Generated automatically by the gentables utility.\n");
-  fprintf(f, " */\n");
-  fprintf(f, "\n");
-  for (p = 0; p < 0x100; p++)
-    pages[p] = 0;
-  for (p = 0; p < 0x100; p++)
-    for (i1 = 0; i1 < 0x100; i1++) {
-      unsigned int ch = 0x100*p + i1;
-      if (isCLbothcase(ch) && (uppercase(ch) != ch)) {
-        pages[p] = 1;
-        break;
-      }
-    }
-  for (p = 0; p < 0x100; p++)
-    if (pages[p]) {
-      fprintf(f, "static const cint up_case_table_page%02x[256] = {\n", p);
-      for (i1 = 0; i1 < 32; i1++) {
-        fprintf(f, "  ");
-        for (i2 = 0; i2 < 8; i2++) {
-          unsigned int ch = 256*p + 8*i1 + i2;
-          unsigned int ch2 = (isCLbothcase(ch) ? uppercase(ch) : ch);
-          int j = ((int)ch2 - (int)ch) & 0xffff;
-          if (ch2 != ch + (short)j) {
-            fprintf(stderr, "upper case maps 0x%04x to different plane\n", ch);
-            exit(1);
-          }
-          fprintf(f, "0x%04x%s ", j, (8*i1+i2<255?",":" "));
-        }
-        fprintf(f, "/* 0x%02x-0x%02x */\n", 8*i1, 8*i1+7);
-      }
-      fprintf(f, "};\n");
-      fprintf(f, "\n");
-    }
-  fprintf(f, "static const cint * const up_case_table[0x100] = {\n");
-  for (p1 = 0; p1 < 0x440; p1++) {
-    fprintf(f, "  ");
-    for (p2 = 0; p2 < 4; p2++) {
-      p = 4*p1 + p2;
-      if (pages[p])
-        fprintf(f, "up_case_table_page%02x%s ", p, (p<0x100-1?",":" "));
-      else
-        fprintf(f, "nop_page%s ", (p<0x100-1?",":" "));
-    }
-    fprintf(f, "/* 0x%02x-0x%02x */\n", 4*p1, 4*p1+3);
-  }
-  fprintf(f, "};\n");
-  fprintf(f, "\n");
-  if (ferror(f)) {
-    fprintf(stderr, "error writing on `%s'\n", filename);
-    exit(1);
-  }
-  if (fclose(f)) {
-    fprintf(stderr, "error closing `%s'\n", filename);
-    exit(1);
-  }
-}
-
-/* Create uni_downcase.c, used by clisp. */
-void output_clisp_downcase_table (void)
-{
-  int pages[0x100];
-  int p, p1, p2, i1, i2;
-  const char* filename = "uni_downcase.c";
-  FILE* f = fopen(filename, "w");
-  if (!f) {
-    fprintf(stderr, "error during fopen of `%s'\n", filename);
-    exit(1);
-  }
-  fprintf(f, "/*\n");
-  fprintf(f, " * %s\n", filename);
-  fprintf(f, " *\n");
-  fprintf(f, " * Common Lisp downcase table.\n");
-  fprintf(f, " * Generated automatically by the gentables utility.\n");
-  fprintf(f, " */\n");
-  fprintf(f, "\n");
-  for (p = 0; p < 0x100; p++)
-    pages[p] = 0;
-  for (p = 0; p < 0x100; p++)
-    for (i1 = 0; i1 < 0x100; i1++) {
-      unsigned int ch = 0x100*p + i1;
-      if (isCLbothcase(ch) && (lowercase(ch) != ch)) {
-        pages[p] = 1;
-        break;
-      }
-    }
-  for (p = 0; p < 0x100; p++)
-    if (pages[p]) {
-      fprintf(f, "static const cint down_case_table_page%02x[256] = {\n", p);
-      for (i1 = 0; i1 < 32; i1++) {
-        fprintf(f, "  ");
-        for (i2 = 0; i2 < 8; i2++) {
-          unsigned int ch = 256*p + 8*i1 + i2;
-          unsigned int ch2 = (isCLbothcase(ch) ? lowercase(ch) : ch);
-          int j = ((int)ch2 - (int)ch) & 0xffff;
-          if (ch2 != ch + (short)j) {
-            fprintf(stderr, "lower case maps 0x%04x to different plane\n", ch);
-            exit(1);
-          }
-          fprintf(f, "0x%04x%s ", j, (8*i1+i2<255?",":" "));
-        }
-        fprintf(f, "/* 0x%02x-0x%02x */\n", 8*i1, 8*i1+7);
-      }
-      fprintf(f, "};\n");
-      fprintf(f, "\n");
-    }
-  fprintf(f, "static const cint * const down_case_table[0x100] = {\n");
-  for (p1 = 0; p1 < 0x440; p1++) {
-    fprintf(f, "  ");
-    for (p2 = 0; p2 < 4; p2++) {
-      p = 4*p1 + p2;
-      if (pages[p])
-        fprintf(f, "down_case_table_page%02x%s ", p, (p<0x100-1?",":" "));
-      else
-        fprintf(f, "nop_page%s ", (p<0x100-1?",":" "));
-    }
-    fprintf(f, "/* 0x%02x-0x%02x */\n", 4*p1, 4*p1+3);
-  }
-  fprintf(f, "};\n");
-  fprintf(f, "\n");
-  if (ferror(f)) {
-    fprintf(stderr, "error writing on `%s'\n", filename);
-    exit(1);
-  }
-  if (fclose(f)) {
-    fprintf(stderr, "error closing `%s'\n", filename);
-    exit(1);
-  }
-}
-
-static void output_copyright (FILE* f)
-{
-  fprintf(f, "/* Copyright (C) 1999-2001 Free Software Foundation, Inc.\n");
-  fprintf(f, "   This file is part of the GNU UTF-8 Library.\n");
-  fprintf(f, "\n");
-  fprintf(f, "   The GNU UTF-8 Library is free software; you can redistribute it and/or\n");
-  fprintf(f, "   modify it under the terms of the GNU Library General Public License as\n");
-  fprintf(f, "   published by the Free Software Foundation; either version 2 of the\n");
-  fprintf(f, "   License, or (at your option) any later version.\n");
-  fprintf(f, "\n");
-  fprintf(f, "   The GNU UTF-8 Library is distributed in the hope that it will be useful,\n");
-  fprintf(f, "   but WITHOUT ANY WARRANTY; without even the implied warranty of\n");
-  fprintf(f, "   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU\n");
-  fprintf(f, "   Library General Public License for more details.\n");
-  fprintf(f, "\n");
-  fprintf(f, "   You should have received a copy of the GNU Library General Public\n");
-  fprintf(f, "   License along with the GNU UTF-8 Library; see the file COPYING.LIB.  If not,\n");
-  fprintf(f, "   write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,\n");
-  fprintf(f, "   Boston, MA 02111-1307, USA.  */\n");
-}
-
 /* Create toupper.h, used by libutf8. */
 void output_toupper_table (void)
 {
@@ -392,7 +227,6 @@ void output_toupper_table (void)
     fprintf(stderr, "error during fopen of `%s'\n", filename);
     exit(1);
   }
-  output_copyright(f);
   fprintf(f, "\n");
   fprintf(f, "/* toupper table */\n");
   fprintf(f, "/* Generated automatically by the gentables utility. */\n");
@@ -462,7 +296,6 @@ void output_tolower_table (void)
     fprintf(stderr, "error during fopen of `%s'\n", filename);
     exit(1);
   }
-  output_copyright(f);
   fprintf(f, "\n");
   fprintf(f, "/* tolower table */\n");
   fprintf(f, "/* Generated automatically by the gentables utility. */\n");
@@ -547,7 +380,6 @@ void output_attribute_table (void)
     fprintf(stderr, "error during fopen of `%s'\n", filename);
     exit(1);
   }
-  output_copyright(f);
   fprintf(f, "\n");
   fprintf(f, "/* attribute table */\n");
   fprintf(f, "/* Generated automatically by the gentables utility. */\n");
@@ -725,97 +557,6 @@ void output_attribute_table (void)
   }
 }
 
-static int nonspacing (unsigned int ch)
-{
-  /* We use the "Non-spacing" property in PropList.txt here, because the
-     SUSV2 spec (curses section) talks about "non-spacing wide characters". */
-#if 0
-  /* This code catches only a subset of the combining characters! */
-  const char* combining = unicode_attributes[ch].combining;
-  if (combining != NULL && strcmp(combining,"") && strcmp(combining,"0"))
-    return 1;
-#else
-  if (unicode_attributes[ch].bidi != NULL && !strcmp(unicode_attributes[ch].bidi,"NSM"))
-    return 1;
-#endif
-  /* Format control characters have width 0 as well. */
-  if (unicode_attributes[ch].bidi != NULL && !strcmp(unicode_attributes[ch].category,"Cf"))
-    return 1;
-  /* Zero width characters have width 0 as well. */
-  if (unicode_attributes[ch].name != NULL && !strncmp(unicode_attributes[ch].name,"ZERO WIDTH ",11))
-    return 1;
-  return 0;
-}
-
-/* Create nonspacing.h, used by libutf8. */
-void output_nonspacing_table (void)
-{
-  int pages[0x440];
-  int p, p1, p2, i1, i2, i3;
-  const char* filename = "nonspacing.h";
-  FILE* f = fopen(filename, "w");
-  if (!f) {
-    fprintf(stderr, "error during fopen of `%s'\n", filename);
-    exit(1);
-  }
-  output_copyright(f);
-  fprintf(f, "\n");
-  fprintf(f, "/* Non-spacing attribute table */\n");
-  fprintf(f, "/* Generated automatically by the gentables utility. */\n");
-  fprintf(f, "\n");
-  for (p = 0; p < 0x440; p++)
-    pages[p] = 0;
-  for (p = 0; p < 0x440; p++)
-    for (i1 = 0; i1 < 0x400; i1++) {
-      unsigned int ch = 0x400*p + i1;
-      if (nonspacing(ch)) {
-        pages[p] = 1;
-        break;
-      }
-    }
-  for (p = 0; p < 0x440; p++)
-    if (pages[p]) {
-      fprintf(f, "static const unsigned char nonspacing_table_page%02x[128] = {\n", 4*p);
-      for (i1 = 0; i1 < 16; i1++) {
-        fprintf(f, "  ");
-        for (i2 = 0; i2 < 8; i2++) {
-          unsigned char w = 0;
-          for (i3 = 0; i3 < 8; i3++) {
-            unsigned int ch = 0x400*p + 64*i1 + 8*i2 + i3;
-            if (nonspacing(ch))
-              w |= (1 << i3);
-          }
-          fprintf(f, "0x%02x%s ", w, (8*i1+i2<127?",":" "));
-        }
-        fprintf(f, "/* 0x%04x-0x%04x */\n", 0x400*p+64*i1, 0x400*p+64*i1+63);
-      }
-      fprintf(f, "};\n");
-      fprintf(f, "\n");
-    }
-  fprintf(f, "static const unsigned char * const nonspacing_table[0x440] = {\n");
-  for (p1 = 0; p1 < 0x10; p1++) {
-    fprintf(f, "  ");
-    for (p2 = 0; p2 < 4; p2++) {
-      p = 4*p1 + p2;
-      if (pages[p])
-        fprintf(f, "nonspacing_table_page%02x%s ", 4*p, (p<0x440-1?",":" "));
-      else
-        fprintf(f, "NULL%s ", (p<0x440-1?",":" "));
-    }
-    fprintf(f, "/* 0x%04x-0x%04x */\n", 0x1000*p1, 0x1000*p1+0xfff);
-  }
-  fprintf(f, "};\n");
-  fprintf(f, "\n");
-  if (ferror(f)) {
-    fprintf(stderr, "error writing on `%s'\n", filename);
-    exit(1);
-  }
-  if (fclose(f)) {
-    fprintf(stderr, "error closing `%s'\n", filename);
-    exit(1);
-  }
-}
-
 int main (int argc, char* argv[])
 {
   if (argc != 2)
@@ -823,14 +564,9 @@ int main (int argc, char* argv[])
 
   fill_attributes(argv[1]);
 
-#if 0
-  output_clisp_upcase_table();
-  output_clisp_downcase_table();
-#endif
   output_toupper_table();
   output_tolower_table();
   output_attribute_table();
-  output_nonspacing_table();
 
   return 0;
 }
