@@ -453,14 +453,14 @@ void output_attribute_table (void)
   for (p = 0; p < 0x100; p++)
     if (pages[p] < 0) {
       if (p)
-	fprintf(f, "static const unsigned char attribute_table_page%02x[256] = {\n", p);
+	fprintf(f, "static const unsigned char attribute_table_page%02X[256] = {\n", p);
       else
 	fprintf(f, "const unsigned char __C_attribute_table_pg[256] = {\n");
       for (i = 0; i < 0x100; i++) {
         unsigned int ch = 256*p + i;
         int attributes = table[ch];
         int next = 0;
-        fprintf(f, "\t/* 0x%04x */ ", ch);
+        fprintf(f, "\t/* 0x%04X */ ", ch);
         if (attributes & upper) {
           if (next) fprintf(f, " | ");
           fprintf(f, "upper");
@@ -535,7 +535,7 @@ void output_attribute_table (void)
     for (p2 = 0; p2 < 2; p2++) {
       p = 2*p1 + p2;
       if (p)
-	fprintf(f, "%cattribute_table_page%02x%s", p2 == 0 ? '\t' : ' ', (pages[p] >= 0 ? pages[p] : p),
+	fprintf(f, "%cattribute_table_page%02X%s", p2 == 0 ? '\t' : ' ', (pages[p] >= 0 ? pages[p] : p),
                  (p<0x100-1?",":""));
       else
 	fprintf(f, "\t__C_attribute_table_pg,");
