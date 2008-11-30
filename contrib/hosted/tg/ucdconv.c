@@ -205,19 +205,6 @@ static unsigned int titlecase (unsigned int ch)
     return ch;
 }
 
-static int isCLbothcase (unsigned int ch)
-{
-  unsigned int ch1 = uppercase(ch);
-  unsigned int ch2 = lowercase(ch);
-  return ((ch1 == ch || ch2 == ch)
-          && (ch1 != ch2)
-          && uppercase(ch1) == ch1
-          && uppercase(ch2) == ch1
-          && lowercase(ch1) == ch2
-          && lowercase(ch2) == ch2
-         );
-}
-
 /* Create toupper.h, used by libutf8. */
 void output_toupper_table (void)
 {
