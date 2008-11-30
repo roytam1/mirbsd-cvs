@@ -17,9 +17,11 @@
 
 /* Generate tables for towlower, towupper, and the isw* functions. */
 
+#define _ALL_SOURCE
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <wchar.h>
 
 struct unicode_attribute {
   const char* name;           /* Character name */
@@ -428,6 +430,8 @@ void output_attribute_table (void)
       attributes |= punct;
     if (((attributes & alpha) != 0) || ((attributes & digit) != 0))
       attributes |= alnum;
+    if (iswoctet(ch))
+      attributes = 0;
     table[ch] = attributes;
   }
   for (p = 0; p < 0x100; p++) {
