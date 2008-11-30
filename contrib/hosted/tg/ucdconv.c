@@ -1,5 +1,5 @@
 /* Copyright (C) 1999-2001 Free Software Foundation, Inc.
-   This file is part of the GNU UTF-8 Library.
+   Copyright (c) 2006-2008 The MirOS Project
 
    The GNU UTF-8 Library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Library General Public License as
@@ -243,13 +243,13 @@ void output_toupper_table (void)
     }
   for (p = 0; p < 0x100; p++)
     if (pages[p]) {
-      fprintf(f, "static const uint16_t toupper_table_page%02x[256] = {\n", p);
+      fprintf(f, "static const uint16_t toupper_table_page%02X[256] = {\n", p);
       for (i1 = 0; i1 < 32; i1++) {
         for (i2 = 0; i2 < 8; i2++) {
           unsigned int ch = 256*p + 8*i1 + i2;
           unsigned int ch2 = uppercase(ch);
           int j = ((int)ch2 - (int)ch) & 0xffff;
-          fprintf(f, "%c0x%04x%s", i2==0?'\t':' ', j, (8*i1+i2<255?",":""));
+          fprintf(f, "%c0x%04X%s", i2==0?'\t':' ', j, (8*i1+i2<255?",":""));
         }
         fprintf(f, "\n");
       }
@@ -257,11 +257,11 @@ void output_toupper_table (void)
       fprintf(f, "\n");
     }
   fprintf(f, "const uint16_t * const toupper_table[0x100] = {\n");
-  for (p1 = 0; p1 < 0x40; p1++) {
-    for (p2 = 0; p2 < 4; p2++) {
-      p = 4*p1 + p2;
+  for (p1 = 0; p1 < 0x80; p1++) {
+    for (p2 = 0; p2 < 2; p2++) {
+      p = 2*p1 + p2;
       if (pages[p])
-        fprintf(f, "%ctoupper_table_page%02x%s", p2?' ':'\t', p, (p<0x100-1?",":""));
+        fprintf(f, "%ctoupper_table_page%02X%s", p2?' ':'\t', p, (p<0x100-1?",":""));
       else
         fprintf(f, "%cnop_page%s", p2?' ':'\t', (p<0x100-1?",":""));
     }
@@ -303,13 +303,13 @@ void output_tolower_table (void)
     }
   for (p = 0; p < 0x100; p++)
     if (pages[p]) {
-      fprintf(f, "static const uint16_t tolower_table_page%02x[256] = {\n", p);
+      fprintf(f, "static const uint16_t tolower_table_page%02X[256] = {\n", p);
       for (i1 = 0; i1 < 32; i1++) {
         for (i2 = 0; i2 < 8; i2++) {
           unsigned int ch = 256*p + 8*i1 + i2;
           unsigned int ch2 = lowercase(ch);
           int j = ((int)ch2 - (int)ch) & 0xffff;
-          fprintf(f, "%c0x%04x%s", i2?' ':'\t', j, (8*i1+i2<255?",":""));
+          fprintf(f, "%c0x%04X%s", i2?' ':'\t', j, (8*i1+i2<255?",":""));
         }
         fprintf(f, "\n");
       }
@@ -317,11 +317,11 @@ void output_tolower_table (void)
       fprintf(f, "\n");
     }
   fprintf(f, "const uint16_t * const tolower_table[0x100] = {\n");
-  for (p1 = 0; p1 < 0x40; p1++) {
-    for (p2 = 0; p2 < 4; p2++) {
-      p = 4*p1 + p2;
+  for (p1 = 0; p1 < 0x80; p1++) {
+    for (p2 = 0; p2 < 2; p2++) {
+      p = 2*p1 + p2;
       if (pages[p])
-        fprintf(f, "%ctolower_table_page%02x%s", p2?' ':'\t', p, (p<0x100-1?",":""));
+        fprintf(f, "%ctolower_table_page%02X%s", p2?' ':'\t', p, (p<0x100-1?",":""));
       else
         fprintf(f, "%cnop_page%s", p2?' ':'\t', (p<0x100-1?",":""));
     }
