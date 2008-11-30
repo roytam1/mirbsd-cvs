@@ -223,21 +223,19 @@ void output_toupper_table (void)
 {
   int pages[0x100];
   int p, p1, p2, i1, i2;
-  const char* filename = "toupper.h";
+  const char* filename = "tbl_towu.c";
   FILE* f = fopen(filename, "w");
   if (!f) {
     fprintf(stderr, "error during fopen of `%s'\n", filename);
     exit(1);
   }
-  fprintf(f, "\n");
-  fprintf(f, "/* toupper table */\n");
-  fprintf(f, "/* Generated automatically by the gentables utility. */\n");
-  fprintf(f, "\n");
   for (p = 0; p < 0x100; p++)
     pages[p] = 0;
   for (p = 0; p < 0x100; p++)
     for (i1 = 0; i1 < 0x100; i1++) {
       unsigned int ch = 0x100*p + i1;
+      if (iswoctet(ch))
+	continue;
       if (uppercase(ch) != ch) {
         pages[p] = 1;
         break;
@@ -245,34 +243,31 @@ void output_toupper_table (void)
     }
   for (p = 0; p < 0x100; p++)
     if (pages[p]) {
-      fprintf(f, "static const short toupper_table_page%02x[256] = {\n", p);
+      fprintf(f, "static const uint16_t toupper_table_page%02x[256] = {\n", p);
       for (i1 = 0; i1 < 32; i1++) {
-        fprintf(f, "  ");
         for (i2 = 0; i2 < 8; i2++) {
           unsigned int ch = 256*p + 8*i1 + i2;
           unsigned int ch2 = uppercase(ch);
           int j = ((int)ch2 - (int)ch) & 0xffff;
-          fprintf(f, "0x%04x%s ", j, (8*i1+i2<255?",":" "));
+          fprintf(f, "%c0x%04x%s", i2==0?'\t':' ', j, (8*i1+i2<255?",":""));
         }
-        fprintf(f, "/* 0x%02x-0x%02x */\n", 8*i1, 8*i1+7);
+        fprintf(f, "\n");
       }
       fprintf(f, "};\n");
       fprintf(f, "\n");
     }
-  fprintf(f, "const short * const toupper_table[0x100] = {\n");
+  fprintf(f, "const uint16_t * const toupper_table[0x100] = {\n");
   for (p1 = 0; p1 < 0x40; p1++) {
-    fprintf(f, "  ");
     for (p2 = 0; p2 < 4; p2++) {
       p = 4*p1 + p2;
       if (pages[p])
-        fprintf(f, "toupper_table_page%02x%s ", p, (p<0x100-1?",":" "));
+        fprintf(f, "%ctoupper_table_page%02x%s", p2?' ':'\t', p, (p<0x100-1?",":""));
       else
-        fprintf(f, "nop_page%s ", (p<0x100-1?",":" "));
+        fprintf(f, "%cnop_page%s", p2?' ':'\t', (p<0x100-1?",":""));
     }
-    fprintf(f, "/* 0x%02x-0x%02x */\n", 4*p1, 4*p1+3);
+    fprintf(f, "\n");
   }
   fprintf(f, "};\n");
-  fprintf(f, "\n");
   if (ferror(f)) {
     fprintf(stderr, "error writing on `%s'\n", filename);
     exit(1);
@@ -288,21 +283,19 @@ void output_tolower_table (void)
 {
   int pages[0x100];
   int p, p1, p2, i1, i2;
-  const char* filename = "tolower.h";
+  const char* filename = "tbl_towl.c";
   FILE* f = fopen(filename, "w");
   if (!f) {
     fprintf(stderr, "error during fopen of `%s'\n", filename);
     exit(1);
   }
-  fprintf(f, "\n");
-  fprintf(f, "/* tolower table */\n");
-  fprintf(f, "/* Generated automatically by the gentables utility. */\n");
-  fprintf(f, "\n");
   for (p = 0; p < 0x100; p++)
     pages[p] = 0;
   for (p = 0; p < 0x100; p++)
     for (i1 = 0; i1 < 0x100; i1++) {
       unsigned int ch = 0x100*p + i1;
+      if (iswoctet(ch))
+	continue;
       if (lowercase(ch) != ch) {
         pages[p] = 1;
         break;
@@ -310,34 +303,31 @@ void output_tolower_table (void)
     }
   for (p = 0; p < 0x100; p++)
     if (pages[p]) {
-      fprintf(f, "static const short tolower_table_page%02x[256] = {\n", p);
+      fprintf(f, "static const uint16_t tolower_table_page%02x[256] = {\n", p);
       for (i1 = 0; i1 < 32; i1++) {
-        fprintf(f, "  ");
         for (i2 = 0; i2 < 8; i2++) {
           unsigned int ch = 256*p + 8*i1 + i2;
           unsigned int ch2 = lowercase(ch);
           int j = ((int)ch2 - (int)ch) & 0xffff;
-          fprintf(f, "0x%04x%s ", j, (8*i1+i2<255?",":" "));
+          fprintf(f, "%c0x%04x%s", i2?' ':'\t', j, (8*i1+i2<255?",":""));
         }
-        fprintf(f, "/* 0x%02x-0x%02x */\n", 8*i1, 8*i1+7);
+        fprintf(f, "\n");
       }
       fprintf(f, "};\n");
       fprintf(f, "\n");
     }
-  fprintf(f, "const short * const tolower_table[0x100] = {\n");
+  fprintf(f, "const uint16_t * const tolower_table[0x100] = {\n");
   for (p1 = 0; p1 < 0x40; p1++) {
-    fprintf(f, "  ");
     for (p2 = 0; p2 < 4; p2++) {
       p = 4*p1 + p2;
       if (pages[p])
-        fprintf(f, "tolower_table_page%02x%s ", p, (p<0x100-1?",":" "));
+        fprintf(f, "%ctolower_table_page%02x%s", p2?' ':'\t', p, (p<0x100-1?",":""));
       else
-        fprintf(f, "nop_page%s ", (p<0x100-1?",":" "));
+        fprintf(f, "%cnop_page%s", p2?' ':'\t', (p<0x100-1?",":""));
     }
-    fprintf(f, "/* 0x%02x-0x%02x */\n", 4*p1, 4*p1+3);
+    fprintf(f, "\n");
   }
   fprintf(f, "};\n");
-  fprintf(f, "\n");
   if (ferror(f)) {
     fprintf(stderr, "error writing on `%s'\n", filename);
     exit(1);
