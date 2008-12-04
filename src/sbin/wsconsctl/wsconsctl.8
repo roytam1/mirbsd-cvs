@@ -1,3 +1,4 @@
+.\" $MirOS$
 .\" $OpenBSD: wsconsctl.8,v 1.18 2004/07/30 23:28:23 jmc Exp $
 .\" $NetBSD: wsconsctl.8,v 1.5 1999/09/12 18:47:11 kleink Exp $
 .\"
@@ -35,7 +36,7 @@
 .\" ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 .\" POSSIBILITY OF SUCH DAMAGE.
 .\"/
-.Dd December 24, 1998
+.Dd $Mdocdate$
 .Dt WSCONSCTL 8
 .Os
 .Sh NAME
@@ -108,9 +109,6 @@ Use the
 .Xr kbd 8
 utility to determine which keyboard encodings are available for your
 country.
-.Pp
-A keyboard mapping can also be specified in
-.Pa /etc/kbdtype .
 .Sh FILES
 .Bl -tag -width /usr/include/dev/wscons/wsconsio.h -compact
 .It Pa /dev/ttyC0
@@ -119,8 +117,6 @@ display control device
 keyboard control device
 .It Pa /dev/wsmouse0
 mouse control device
-.It Pa /etc/kbdtype
-default keyboard mapping
 .It Pa /etc/wsconsctl.conf
 a list of parameters that get set at system startup time from
 .Xr rc 8
