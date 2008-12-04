@@ -1,4 +1,4 @@
-.\" $MirOS$
+.\" $MirOS: src/sbin/wsconsctl/wsconsctl.8,v 1.2 2008/12/04 15:36:08 tg Exp $
 .\" $OpenBSD: wsconsctl.8,v 1.18 2004/07/30 23:28:23 jmc Exp $
 .\" $NetBSD: wsconsctl.8,v 1.5 1999/09/12 18:47:11 kleink Exp $
 .\"
@@ -36,7 +36,7 @@
 .\" ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 .\" POSSIBILITY OF SUCH DAMAGE.
 .\"/
-.Dd $Mdocdate$
+.Dd $Mdocdate: December 4 2008 $
 .Dt WSCONSCTL 8
 .Os
 .Sh NAME
@@ -44,15 +44,27 @@
 .Nd get or set wscons state
 .Sh SYNOPSIS
 .Nm wsconsctl
+.Op Fl d Ar /dev/ttyC0
+.Op Fl k Ar /dev/wskdb0
+.Op Fl m Ar /dev/wsmouse0
 .Op Fl n
 .Fl a
 .Nm wsconsctl
+.Op Fl d Ar /dev/ttyC0
+.Op Fl k Ar /dev/wskdb0
+.Op Fl m Ar /dev/wsmouse0
 .Op Fl n
 .Ar name ...
 .Nm wsconsctl
+.Op Fl d Ar /dev/ttyC0
+.Op Fl k Ar /dev/wskdb0
+.Op Fl m Ar /dev/wsmouse0
 .Op Fl n
 .Ar name Ns = Ns Ar value ...
 .Nm wsconsctl
+.Op Fl d Ar /dev/ttyC0
+.Op Fl k Ar /dev/wskdb0
+.Op Fl m Ar /dev/wsmouse0
 .Op Fl n
 .Ar name Ns += Ns Ar value ...
 .Sh DESCRIPTION
@@ -62,11 +74,23 @@ command displays or sets various wscons system driver variables.
 If a list of variables is present on the command line,
 .Nm
 prints the current value of those variables for the specified device.
+Similarily, if a list of top-level entries is present,
+.Nm
+prints the current values of their children.
 .Pp
 The options are as follows:
 .Bl -tag -width Ds
 .It Fl a
 Print all device variables and their current values.
+.It Fl d Ar ctldev
+Set the control device for display to
+.Ar ctldev .
+.It Fl k Ar ctldev
+Set the control device for keyboard to
+.Ar ctldev .
+.It Fl m Ar ctldev
+Set the control device for mouse to
+.Ar ctldev .
 .It Fl n
 Suppress printing of the variable name in the output.
 .It Ar name Ns = Ns Ar value
@@ -197,3 +221,9 @@ command first appeared in
 .Nx 1.4
 and
 .Ox 2.8 .
+The ability to print subtrees, similar to
+.Xr sysctl 8 ,
+and the
+.Fl d , k , No and Fl m
+options first appeared in
+.Mx 11 .

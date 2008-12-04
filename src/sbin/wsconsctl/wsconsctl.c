@@ -45,6 +45,8 @@
 #include <unistd.h>
 #include "wsconsctl.h"
 
+__RCSID("$MirOS$");
+
 #define PATH_KEYBOARD		"/dev/wskbd0"
 #define PATH_MOUSE		"/dev/wsmouse0"
 #define PATH_DISPLAY		"/dev/ttyC0"
@@ -82,10 +84,10 @@ usage(char *msg)
 		fprintf(stderr, "%s: %s\n", __progname, msg);
 
 	fprintf(stderr,
-	    "usage: %s [-n] -a\n"
-	    "       %s [-n] name ...\n"
-	    "       %s [-n] name=value ...\n"
-	    "       %s [-n] name+=value ...\n",
+	    "usage: %s [-[kmd] ctlfile] [-n] -a\n"
+	    "       %s [-[kmd] ctlfile] [-n] name ...\n"
+	    "       %s [-[kmd] ctlfile] [-n] name=value ...\n"
+	    "       %s [-[kmd] ctlfile] [-n] name+=value ...\n",
 	    __progname, __progname, __progname, __progname);
 
 	exit(1);
@@ -99,10 +101,25 @@ main(int argc, char *argv[])
 	char *sep = "=", *p;
 	struct field *f;
 
-	while ((ch = getopt(argc, argv, "anw")) != -1) {
+	while ((ch = getopt(argc, argv, "ad:k:m:nw")) != -1) {
 		switch(ch) {
 		case 'a':
 			aflag = 1;
+			break;
+		case 'd':
+			for (sw = typesw; sw->name; sw++)
+				if (!strcmp(sw->name, "display"))
+					sw->file = strdup(optarg);
+			break;
+		case 'k':
+			for (sw = typesw; sw->name; sw++)
+				if (!strcmp(sw->name, "keyboard"))
+					sw->file = strdup(optarg);
+			break;
+		case 'm':
+			for (sw = typesw; sw->name; sw++)
+				if (!strcmp(sw->name, "mouse"))
+					sw->file = strdup(optarg);
 			break;
 		case 'n':
 			sep = NULL;
@@ -146,7 +163,33 @@ main(int argc, char *argv[])
 	} else if (argc > 0) {
 		for (i = 0; i < argc; i++) {
 			p = strchr(argv[i], '=');
-			if (p == NULL) {
+			if (p == NULL && strchr(argv[i], '.') == NULL) {
+				for (sw = typesw; sw->name; sw++)
+					if (!strcmp(sw->name, argv[i]))
+						break;
+				if (!sw->name)
+					continue;
+				if (sw->fd < 0 &&
+				    (sw->fd = open(sw->file, O_WRONLY)) < 0 &&
+				    (sw->fd = open(sw->file, O_RDONLY)) < 0) {
+					warn("%s", sw->file);
+					error = 1;
+					continue;
+				}
+				for (f = sw->field_tab; f->name; f++)
+					if ((f->flags & (FLG_NOAUTO|FLG_WRONLY)) == 0)
+						f->flags |= FLG_GET;
+				(*sw->getval)(sw->name, sw->fd);
+				for (f = sw->field_tab; f->name; f++)
+					if (f->flags & FLG_DEAD)
+						continue;
+					else if (f->flags & FLG_NOAUTO)
+						warnx("Use explicit arg to view %s.%s.",
+						      sw->name, f->name);
+					else if (f->flags & FLG_GET)
+						pr_field(sw->name, f, sep);
+				continue;
+			} else if (p == NULL) {
 				sw = tab_by_name(argv[i]);
 				if (!sw)
 					continue;
