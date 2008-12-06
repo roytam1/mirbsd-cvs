@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/devel/libffi/Makefile,v 1.1.1.1 2008/08/08 15:53:57 tg Exp $
 
 COMMENT=		foreign function calling interface library
 CATEGORIES=		devel
@@ -19,6 +19,7 @@ CONFIGURE_STYLE=	autogen
 AUTOMAKE_VERSION=	1.9
 AUTOCONF_NEW=		Yes
 MAKE_FLAGS+=		'libffi_la_OBJECTS=$$(libffi_la_SOURCES:T:R:=.lo)'
+EXTRA_XAKE_FLAGS+=	toolexeclibdir='$$(libdir)'
 
 post-extract:
 	print '/libtool.m4/d\nwq' | ed -s ${WRKSRC}/acinclude.m4
