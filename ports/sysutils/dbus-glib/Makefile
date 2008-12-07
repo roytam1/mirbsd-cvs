@@ -1,6 +1,5 @@
-# $MirOS$
+# $MirOS: ports/sysutils/dbus-glib/Makefile,v 1.1 2007/06/17 18:15:15 bsiegert Exp $
 # $NetBSD: Makefile,v 1.12 2007/03/13 11:11:27 drochner Exp $
-#
 
 COMMENT=		glib bindings for the D-BUS message bus system
 DISTNAME=		dbus-glib-0.73
@@ -15,12 +14,12 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-
 CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		Yes
 USE_GMAKE=		Yes
-MODULES+=		converters/libiconv devel/pkgconfig
-
+MODULES+=		converters/libiconv
+MODULES+=		devel/pkgconfig
+MODULES+=		textproc/expat
 LIB_DEPENDS+=		dbus-1::sysutils/dbus
 LIB_DEPENDS+=		glib-2.0.0.0,gobject-2.0.0.0::devel/glib
 
