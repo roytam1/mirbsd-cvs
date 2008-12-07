@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/essentials/xorg-reachover/Makefile,v 1.1 2008/12/07 18:09:51 tg Exp $
 
 ONLY_FOR_PLATFORM=	MidnightBSD:*:*
 COMMENT=		x.org pkg-config reachover for MidnightBSD
@@ -25,7 +25,7 @@ PCLINKS=		fixesproto fontconfig freetype2 kbproto renderproto \
 do-install:
 	${INSTALL_DATA_DIR} ${PREFIX}/lib/pkgconfig
 	cd ${PREFIX}/lib/pkgconfig && for name in ${PCLINKS}; do \
-		ln -s /usr/local/lib/$$name.pc $$name.pc; \
+		ln -s /usr/local/libdata/pkgconfig/$$name.pc $$name.pc; \
 	done
 
 .include <bsd.port.mk>
