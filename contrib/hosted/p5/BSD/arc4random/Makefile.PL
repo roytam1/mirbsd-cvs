@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/p5/BSD/arc4random/Makefile.PL,v 1.7 2008/07/15 21:37:35 tg Exp $
+# $MirOS: contrib/hosted/p5/BSD/arc4random/Makefile.PL,v 1.8 2008/07/20 15:08:37 tg Exp $
 
 use 5.000;
 use ExtUtils::MakeMaker;
@@ -13,7 +13,7 @@ my $objs = '';
 # do not override below for auto mode
 if ($cfg eq 'auto') {
 	# note order is important
-	if ($^O ne 'mirbsd') {
+	if ($^O ne 'mirbsd' && $^O ne 'cygwin') {
 		$defs = '-DHAVE_ARC4RANDOM_PUSHB=0';
 	}
 	if ($^O eq 'interix') {
