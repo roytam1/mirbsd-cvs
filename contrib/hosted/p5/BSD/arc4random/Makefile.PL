@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/p5/BSD/arc4random/Makefile.PL,v 1.8 2008/07/20 15:08:37 tg Exp $
+# $MirOS: contrib/hosted/p5/BSD/arc4random/Makefile.PL,v 1.9 2008/12/08 13:41:41 tg Exp $
 
 use 5.000;
 use ExtUtils::MakeMaker;
@@ -38,9 +38,11 @@ if ($cfg eq 'auto') {
 		# XXX the presence of arc4random.c here is a KLUDGE going away!
 		# XXX Solaris 10 has <stdint.h> but Cygwin and Solaris 8 don't.
 		$objs = 'arc4random.o';
-		$defs .= ' -DHAVE_SYS_SYSCTL_H=0 -DHAVE_STDINT_H=0';
 		$defs .= ' -DNEED_ARC4RANDOM_DECL';
-		$defs .= ' -DUSE_INTTYPES -DREDEF_USCORETYPES';
+		if ($^O eq 'solaris') {
+			$defs .= ' -DHAVE_SYS_SYSCTL_H=0 -DHAVE_STDINT_H=0';
+			$defs .= ' -DUSE_INTTYPES -DREDEF_USCORETYPES';
+		}
 	}
 }
 
