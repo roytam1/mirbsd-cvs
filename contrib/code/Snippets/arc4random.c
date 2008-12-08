@@ -1,4 +1,6 @@
-static const char __rcsid[] = "$MirOS: contrib/code/Snippets/arc4random.c,v 1.6 2008/10/24 21:15:21 tg Exp $";
+static const char __vcsid[] =
+    "@(#)rcsid_master: $MirOS: contrib/code/Snippets/arc4random.c,v 1.7 2008/12/08 12:41:04 tg Exp $"
+    ;
 
 /*-
  * Arc4 random number generator for OpenBSD.
@@ -60,6 +62,8 @@ static const char __rcsid[] = "$MirOS: contrib/code/Snippets/arc4random.c,v 1.6 
 #include <fcntl.h>
 #if HAVE_STDINT_H
 #include <stdint.h>
+#elif defined(USE_INTTYPES)
+#include <inttypes.h>
 #endif
 #include <stdio.h>
 #include <stdlib.h>
@@ -71,8 +75,6 @@ static const char __rcsid[] = "$MirOS: contrib/code/Snippets/arc4random.c,v 1.6 
 #endif
 
 #ifdef USE_MS_CRYPTOAPI
-#include <stdbool.h>
-
 #define WIN32_WINNT 0x400
 #define _WIN32_WINNT 0x400
 #include <windows.h>
@@ -84,6 +86,10 @@ static const char __rcsid[] = "$MirOS: contrib/code/Snippets/arc4random.c,v 1.6 
 #endif
 #ifndef MAX
 #define	MAX(a,b)	(((a)>(b))?(a):(b))
+#endif
+
+#ifdef REDEF_USCORETYPES
+#define u_int32_t	uint32_t
 #endif
 
 struct arc4_stream {
@@ -99,16 +105,20 @@ static int arc4_count;
 
 static uint8_t arc4_getbyte(struct arc4_stream *);
 static void stir_finish(struct arc4_stream *, int);
-#ifdef USE_MS_CRYPTOAPI
-static bool w32_cryptoapi_getrand(uint8_t *, size_t);
 static void arc4_atexit(void);
+static char arc4_writeback(uint8_t *, size_t, char);
+#ifdef USE_MS_CRYPTOAPI
+static char w32_cryptoapi_getrand(uint8_t *, size_t);
+#define arc4_writeback(buf, n, do_rd)	w32_cryptoapi_getrand((buf), (n))
 #endif
 
+#ifndef arc4random_pushk
 u_int32_t arc4random(void);
 void arc4random_addrandom(u_char *, int);
 void arc4random_stir(void);
 #ifdef USE_MS_CRYPTOAPI
 uint32_t arc4random_pushb(const void *, size_t);
+#endif
 #endif
 
 static void
@@ -145,12 +155,14 @@ arc4_stir(struct arc4_stream *as)
 	int fd;
 	struct {
 		struct timeval tv;
-		u_int rnd[(128 - sizeof(struct timeval)) / sizeof(u_int)];
+		pid_t pid;
+		u_int rnd[(128 - (sizeof (struct timeval) + sizeof (pid_t))) / sizeof(u_int)];
 	} rdat;
 	size_t sz = 0;
 
 	gettimeofday(&rdat.tv, NULL);
-	memcpy(rdat.rnd, __rcsid, MIN(sizeof (__rcsid), sizeof (rdat.rnd)));
+	rdat.pid = getpid();
+	memcpy(rdat.rnd, __vcsid, MIN(sizeof (__vcsid), sizeof (rdat.rnd)));
 
 #ifdef USE_MS_CRYPTOAPI
 	if (w32_cryptoapi_getrand((char *)rdat.rnd, sizeof (rdat.rnd)))
@@ -199,7 +211,7 @@ arc4_stir(struct arc4_stream *as)
 
 	/*
 	 * Time to give up. If no entropy could be found then we will just
-	 * use gettimeofday.
+	 * use gettimeofday and getpid.
 	 */
 	arc4_addrandom(as, (void *)&rdat, sizeof(rdat));
 
@@ -210,6 +222,7 @@ static void
 stir_finish(struct arc4_stream *as, int av)
 {
 	size_t n;
+	uint8_t tb[16];
 
 	arc4_stir_pid = getpid();
 
@@ -225,6 +238,10 @@ stir_finish(struct arc4_stream *as, int av)
 		av >>= 4;
 	}
 	while (n--)
+		arc4_getbyte(as);
+	while (n < sizeof (tb))
+		tb[n++] = arc4_getbyte(as);
+	if (arc4_writeback(tb, sizeof (tb), 0))
 		arc4_getbyte(as);
 	arc4_count = 400000;
 }
@@ -260,9 +277,7 @@ arc4random_stir(void)
 	if (!rs_initialized) {
 		arc4_init(&rs);
 		rs_initialized = 1;
-#ifdef USE_MS_CRYPTOAPI
 		atexit(arc4_atexit);
-#endif
 	}
 	arc4_stir(&rs);
 }
@@ -284,25 +299,46 @@ arc4random(void)
 }
 
 #ifdef USE_MS_CRYPTOAPI
-static bool
+static char
 w32_cryptoapi_getrand(uint8_t *buf, size_t len)
 {
-	static bool has_provider = false;
+	static char has_provider = 0;
 	static HCRYPTPROV p;
 
 	if (!has_provider) {
 		if (!CryptAcquireContext(&p, NULL, NULL, PROV_RSA_FULL, 0)) {
 			if ((HRESULT)GetLastError() != NTE_BAD_KEYSET)
-				return (false);
+				return (0);
 			if (!CryptAcquireContext(&p, NULL, NULL, PROV_RSA_FULL,
 			    CRYPT_NEWKEYSET))
-				return (false);
+				return (0);
 		}
-		has_provider = true;
+		has_provider = 1;
 	}
-	return (CryptGenRandom(p, len, buf) ? true : false);
+	return (CryptGenRandom(p, len, buf) ? 1 : 0);
 }
+#else
+static char
+arc4_writeback(uint8_t *buf, size_t n, char do_rd)
+{
+	int fd;
 
+#ifdef arc4random_pushk
+	fd = arc4random_pushk(buf, n);
+	memcpy(buf, &fd, sizeof (fd));
+	return (do_rd ? 0 : 1);
+#else
+	if ((fd = open("/dev/urandom", O_WRONLY)) != -1) {
+		if (write(fd, buf, n) < 4)
+			do_rd = 1;
+		close(fd);
+	}
+	return (do_rd || fd == -1 ? 0 : 1);
+#endif
+}
+#endif
+
+#if defined(USE_MS_CRYPTOAPI) || defined(arc4random_pushk)
 uint32_t
 arc4random_pushb(const void *src, size_t len)
 {
@@ -325,7 +361,7 @@ arc4random_pushb(const void *src, size_t len)
 		idat.buf[rlen % sizeof (idat)] ^= cbuf[rlen];
 	rlen = MIN(sizeof (idat), MAX(sizeof (struct timeval), len));
 
-	if (w32_cryptoapi_getrand(&idat.buf[0], rlen))
+	if (arc4_writeback(&idat.buf[0], rlen, 1))
 		res = 0;
 	arc4_addrandom(&rs, &idat.buf[0], rlen);
 	if (res)
@@ -335,6 +371,7 @@ arc4random_pushb(const void *src, size_t len)
 		stir_finish(&rs, idat.buf[5]);
 	return (res ^ arc4_getword(&rs));
 }
+#endif
 
 static void
 arc4_atexit(void)
@@ -351,6 +388,5 @@ arc4_atexit(void)
 	buf.spid = arc4_stir_pid;
 	buf.cnt = arc4_count;
 
-	w32_cryptoapi_getrand((uint8_t *)&buf, sizeof (buf));
+	arc4_writeback((uint8_t *)&buf, sizeof (buf), 0);
 }
-#endif
