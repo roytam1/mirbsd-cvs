@@ -1,5 +1,5 @@
-static const char __vcsid[] =
-    "@(#)rcsid_master: $MirOS: contrib/code/Snippets/arc4random.c,v 1.8 2008/12/08 13:31:58 tg Exp $"
+static const char __vcsid[] = "@(#) MirOS contributed arc4random.c (old)"
+    "\n	@(#)rcsid_master: $MirOS: contrib/code/Snippets/arc4random.c,v 1.9 2008/12/08 13:37:44 tg Exp $"
     ;
 
 /*-
@@ -111,10 +111,11 @@ static const char __randomdev[] = _PATH_URANDOM;
 static uint8_t arc4_getbyte(struct arc4_stream *);
 static void stir_finish(struct arc4_stream *, int);
 static void arc4_atexit(void);
-static char arc4_writeback(uint8_t *, size_t, char);
 #ifdef USE_MS_CRYPTOAPI
 static char w32_cryptoapi_getrand(uint8_t *, size_t);
 #define arc4_writeback(buf, n, do_rd)	w32_cryptoapi_getrand((buf), (n))
+#else
+static char arc4_writeback(uint8_t *, size_t, char);
 #endif
 
 #ifndef arc4random_pushk
