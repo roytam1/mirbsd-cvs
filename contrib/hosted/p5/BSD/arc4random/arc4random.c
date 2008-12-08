@@ -1,6 +1,6 @@
 static const char __vcsid[] = "@(#) MirOS contributed arc4random.c (old)"
-    "\n	@(#)rcsid_master: $miros: contrib/code/Snippets/arc4random.c,v 1.10 2008/12/08 13:45:18 tg Exp $"
-    "\n	@(#)rcsid_p5_mod: $MirOS: contrib/code/Snippets/arc4random.c,v 1.10 2008/12/08 13:45:18 tg Exp $"
+    "\n	@(#)rcsid_master: $miros: contrib/code/Snippets/arc4random.c,v 1.12 2008/12/08 18:51:53 tg Exp $"
+    "\n	@(#)rcsid_p5_mod: $MirOS: contrib/hosted/p5/BSD/arc4random/arc4random.c,v 1.5 2008/12/08 13:46:12 tg Exp $"
     ;
 
 /*-
@@ -57,11 +57,11 @@ static const char __vcsid[] = "@(#) MirOS contributed arc4random.c (old)"
 #include <sys/param.h>
 #include <sys/types.h>
 #include <sys/time.h>
-#if HAVE_SYS_SYSCTL_H
+#if defined(HAVE_SYS_SYSCTL_H) && HAVE_SYS_SYSCTL_H
 #include <sys/sysctl.h>
 #endif
 #include <fcntl.h>
-#if HAVE_STDINT_H
+#if defined(HAVE_STDINT_H) && HAVE_STDINT_H
 #include <stdint.h>
 #elif defined(USE_INTTYPES)
 #include <inttypes.h>
@@ -71,8 +71,9 @@ static const char __vcsid[] = "@(#) MirOS contributed arc4random.c (old)"
 #include <string.h>
 #include <unistd.h>
 
-#if defined(__CYGWIN__)
+#if defined(__CYGWIN__) || defined(WIN32)
 #define USE_MS_CRYPTOAPI
+#define REDEF_USCORETYPES
 #endif
 
 #ifdef USE_MS_CRYPTOAPI
@@ -80,6 +81,9 @@ static const char __vcsid[] = "@(#) MirOS contributed arc4random.c (old)"
 #define _WIN32_WINNT 0x400
 #include <windows.h>
 #include <wincrypt.h>
+
+static uint8_t w32_buf[16*16384];	/* force reseed */
+static uint8_t w32_rng[128];		/* registry key */
 #endif
 
 #ifndef MIN
@@ -112,12 +116,7 @@ static const char __randomdev[] = _PATH_URANDOM;
 static uint8_t arc4_getbyte(struct arc4_stream *);
 static void stir_finish(struct arc4_stream *, int);
 static void arc4_atexit(void);
-#ifdef USE_MS_CRYPTOAPI
-static char w32_cryptoapi_getrand(uint8_t *, size_t);
-#define arc4_writeback(buf, n, do_rd)	w32_cryptoapi_getrand((buf), (n))
-#else
 static char arc4_writeback(uint8_t *, size_t, char);
-#endif
 
 #ifndef arc4random_pushk
 u_int32_t arc4random(void);
@@ -172,7 +171,7 @@ arc4_stir(struct arc4_stream *as)
 	memcpy(rdat.rnd, __vcsid, MIN(sizeof (__vcsid), sizeof (rdat.rnd)));
 
 #ifdef USE_MS_CRYPTOAPI
-	if (w32_cryptoapi_getrand((char *)rdat.rnd, sizeof (rdat.rnd)))
+	if (arc4_writeback((char *)rdat.rnd, sizeof (rdat.rnd), 1))
 		goto stir_okay;
 #endif
 
@@ -310,45 +309,75 @@ arc4random(void)
 	return arc4_getword(&rs);
 }
 
-#ifdef USE_MS_CRYPTOAPI
 static char
-w32_cryptoapi_getrand(uint8_t *buf, size_t len)
+arc4_writeback(uint8_t *buf, size_t len, char do_rd)
 {
+#ifdef USE_MS_CRYPTOAPI
 	static char has_provider = 0;
 	static HCRYPTPROV p;
+	HKEY hKey;
+	DWORD ksz = sizeof (w32_rng);
+	size_t i, rv = 1, has_rkey = 0;
 
+	if (RegOpenKeyEx(HKEY_LOCAL_MACHINE,
+	    "SOFTWARE\\Microsoft\\Cryptography\\RNG", 0,
+	    KEY_QUERY_VALUE | KEY_SET_VALUE, &hKey) == ERROR_SUCCESS &&
+	    RegQueryValueEx(hKey, "Seed", NULL, NULL, w32_rng, &ksz)
+	    == ERROR_SUCCESS)
+		has_rkey = 1;
 	if (!has_provider) {
 		if (!CryptAcquireContext(&p, NULL, NULL, PROV_RSA_FULL, 0)) {
 			if ((HRESULT)GetLastError() != NTE_BAD_KEYSET)
-				return (0);
+				goto nogen_out;
 			if (!CryptAcquireContext(&p, NULL, NULL, PROV_RSA_FULL,
 			    CRYPT_NEWKEYSET))
-				return (0);
+				goto nogen_out;
 		}
 		has_provider = 1;
 	}
-	return (CryptGenRandom(p, len, buf) ? 1 : 0);
-}
-#else
-static char
-arc4_writeback(uint8_t *buf, size_t n, char do_rd)
-{
-	int fd;
+	if (!CryptGenRandom(p, sizeof (w32_buf), w32_buf)) {
+ nogen_out:
+		rv = 0;
+	}
+	if (has_rkey) {
+		for (i = 0; i < MAX(96, ksz); ++i)
+			w32_buf[i % 96] ^= w32_rng[i % ksz]
+			    ^ (i < 96 ? arc4_getbyte(&rs) : 0);
+		for (i = 97; i < sizeof (w32_buf) - len; ++i)
+			w32_buf[i % 96] ^= w32_buf[i];
+		for (i = 0; i < MAX(96, len); ++i)
+			w32_buf[i % 96] ^= buf[i % len];
+		if (rv && RegSetValueEx(hKey, "Seed", 0, REG_BINARY,
+		    w32_buf, 80) != ERROR_SUCCESS && !do_rd)
+			rv = 0;
+		RegCloseKey(hKey);
+		arc4_addrandom(&rs, w32_buf + 80, 16);
+		memset(w32_rng, '\0', sizeof (w32_rng));
+	}
+	if (rv)
+		memcpy(buf, w32_buf + sizeof (w32_buf) - len, len);
+	else if (has_rkey)
+		for (i = 0; i < MAX(80, len); ++i)
+			buf[i % len] ^= w32_buf[i % 80];
+	memset(w32_buf, '\0', sizeof (w32_buf));
+	return (rv);
+#elif defined(arc4random_pushk)
+	uint32_t num;
 
-#ifdef arc4random_pushk
-	fd = arc4random_pushk(buf, n);
-	memcpy(buf, &fd, sizeof (fd));
+	num = arc4random_pushk(buf, len);
+	memcpy(buf, &num, sizeof (num));
 	return (do_rd ? 0 : 1);
 #else
+	int fd;
+
 	if ((fd = open(__randomdev, O_WRONLY)) != -1) {
-		if (write(fd, buf, n) < 4)
+		if (write(fd, buf, len) < 4)
 			do_rd = 1;
 		close(fd);
 	}
 	return (do_rd || fd == -1 ? 0 : 1);
 #endif
 }
-#endif
 
 #if defined(USE_MS_CRYPTOAPI) || defined(arc4random_pushk)
 uint32_t
@@ -391,7 +420,7 @@ arc4_atexit(void)
 	struct {
 		pid_t spid;
 		int cnt;
-		u_int8_t carr[240];
+		uint8_t carr[240];
 	} buf;
 	int i = 0;
 
