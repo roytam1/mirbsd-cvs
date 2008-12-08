@@ -1,4 +1,4 @@
-static const char __rcsid[] = "$MirOS: contrib/code/Snippets/arc4random.c,v 1.5 2008/10/24 21:14:38 tg Exp $";
+static const char __rcsid[] = "$MirOS: contrib/code/Snippets/arc4random.c,v 1.6 2008/10/24 21:15:21 tg Exp $";
 
 /*-
  * Arc4 random number generator for OpenBSD.
@@ -66,7 +66,11 @@ static const char __rcsid[] = "$MirOS: contrib/code/Snippets/arc4random.c,v 1.5 
 #include <string.h>
 #include <unistd.h>
 
-#ifdef __CYGWIN__
+#if defined(__CYGWIN__)
+#define USE_MS_CRYPTOAPI
+#endif
+
+#ifdef USE_MS_CRYPTOAPI
 #include <stdbool.h>
 
 #define WIN32_WINNT 0x400
@@ -91,17 +95,19 @@ struct arc4_stream {
 static int rs_initialized;
 static struct arc4_stream rs;
 static pid_t arc4_stir_pid;
+static int arc4_count;
 
 static uint8_t arc4_getbyte(struct arc4_stream *);
 static void stir_finish(struct arc4_stream *, int);
-#ifdef __CYGWIN__
+#ifdef USE_MS_CRYPTOAPI
 static bool w32_cryptoapi_getrand(uint8_t *, size_t);
+static void arc4_atexit(void);
 #endif
 
 u_int32_t arc4random(void);
 void arc4random_addrandom(u_char *, int);
 void arc4random_stir(void);
-#ifdef __CYGWIN__
+#ifdef USE_MS_CRYPTOAPI
 uint32_t arc4random_pushb(const void *, size_t);
 #endif
 
@@ -146,7 +152,7 @@ arc4_stir(struct arc4_stream *as)
 	gettimeofday(&rdat.tv, NULL);
 	memcpy(rdat.rnd, __rcsid, MIN(sizeof (__rcsid), sizeof (rdat.rnd)));
 
-#ifdef __CYGWIN__
+#ifdef USE_MS_CRYPTOAPI
 	if (w32_cryptoapi_getrand((char *)rdat.rnd, sizeof (rdat.rnd)))
 		goto stir_okay;
 #endif
@@ -186,7 +192,7 @@ arc4_stir(struct arc4_stream *as)
 #endif
 	}
 
-#ifdef __CYGWIN__
+#ifdef USE_MS_CRYPTOAPI
  stir_okay:
 #endif
 	fd = arc4_getbyte(as);
@@ -220,6 +226,7 @@ stir_finish(struct arc4_stream *as, int av)
 	}
 	while (n--)
 		arc4_getbyte(as);
+	arc4_count = 400000;
 }
 
 static uint8_t
@@ -253,6 +260,9 @@ arc4random_stir(void)
 	if (!rs_initialized) {
 		arc4_init(&rs);
 		rs_initialized = 1;
+#ifdef USE_MS_CRYPTOAPI
+		atexit(arc4_atexit);
+#endif
 	}
 	arc4_stir(&rs);
 }
@@ -268,12 +278,12 @@ arc4random_addrandom(u_char *dat, int datlen)
 u_int32_t
 arc4random(void)
 {
-	if (!rs_initialized || arc4_stir_pid != getpid())
+	if (--arc4_count == 0 || !rs_initialized || arc4_stir_pid != getpid())
 		arc4random_stir();
 	return arc4_getword(&rs);
 }
 
-#ifdef __CYGWIN__
+#ifdef USE_MS_CRYPTOAPI
 static bool
 w32_cryptoapi_getrand(uint8_t *buf, size_t len)
 {
@@ -324,5 +334,23 @@ arc4random_pushb(const void *src, size_t len)
 		/* we got entropy from the kernel, so consider us stirred */
 		stir_finish(&rs, idat.buf[5]);
 	return (res ^ arc4_getword(&rs));
+}
+
+static void
+arc4_atexit(void)
+{
+	struct {
+		pid_t spid;
+		int cnt;
+		u_int8_t carr[240];
+	} buf;
+	int i = 0;
+
+	while (i < 240)
+		buf.carr[i++] = arc4_getbyte(&rs);
+	buf.spid = arc4_stir_pid;
+	buf.cnt = arc4_count;
+
+	w32_cryptoapi_getrand((uint8_t *)&buf, sizeof (buf));
 }
 #endif
