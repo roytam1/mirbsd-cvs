@@ -1,5 +1,5 @@
 static const char __vcsid[] =
-    "@(#)rcsid_master: $MirOS: contrib/code/Snippets/arc4random.c,v 1.7 2008/12/08 12:41:04 tg Exp $"
+    "@(#)rcsid_master: $MirOS: contrib/code/Snippets/arc4random.c,v 1.8 2008/12/08 13:31:58 tg Exp $"
     ;
 
 /*-
@@ -92,6 +92,10 @@ static const char __vcsid[] =
 #define u_int32_t	uint32_t
 #endif
 
+#ifndef _PATH_URANDOM
+#define _PATH_URANDOM	"/dev/urandom"
+#endif
+
 struct arc4_stream {
 	uint8_t i;
 	uint8_t j;
@@ -102,6 +106,7 @@ static int rs_initialized;
 static struct arc4_stream rs;
 static pid_t arc4_stir_pid;
 static int arc4_count;
+static const char __randomdev[] = _PATH_URANDOM;
 
 static uint8_t arc4_getbyte(struct arc4_stream *);
 static void stir_finish(struct arc4_stream *, int);
@@ -171,7 +176,7 @@ arc4_stir(struct arc4_stream *as)
 
 	/* /dev/urandom is a multithread interface, sysctl is not. */
 	/* Try to use /dev/urandom before sysctl. */
-	fd = open("/dev/urandom", O_RDONLY);
+	fd = open(__randomdev, O_RDONLY);
 	if (fd != -1) {
 		sz = (size_t)read(fd, rdat.rnd, sizeof (rdat.rnd));
 		close(fd);
@@ -180,21 +185,26 @@ arc4_stir(struct arc4_stream *as)
 		sz = 0;
 	if (fd == -1 || sz != sizeof (rdat.rnd)) {
 		/* /dev/urandom failed? Maybe we're in a chroot. */
-//#if defined(CTL_KERN) && defined(KERN_RANDOM) && defined(RANDOM_UUID)
-#ifdef _LINUX_SYSCTL_H
-		/* XXX this is for Linux, which uses enums */
-
-		int mib[3];
+#if /* Linux */ defined(_LINUX_SYSCTL_H) || \
+    /* OpenBSD */ (defined(CTL_KERN) && defined(KERN_ARND))
+		int mib[3], nmib = 3;
 		size_t i = sz / sizeof (u_int), len;
 
+#ifdef _LINUX_SYSCTL_H
 		mib[0] = CTL_KERN;
 		mib[1] = KERN_RANDOM;
 		mib[2] = RANDOM_UUID;
+#else
+		mib[0] = CTL_KERN;
+		mib[1] = KERN_ARND;
+		nmib = 2;
+#endif
 
 		while (i < sizeof (rdat.rnd) / sizeof (u_int)) {
 			len = sizeof(u_int);
-			if (sysctl(mib, 3, &rdat.rnd[i++], &len, NULL, 0) == -1) {
-				fprintf(stderr, "warning: no entropy source\n");
+			if (sysctl(mib, nmib, &rdat.rnd[i++], &len,
+			    NULL, 0) == -1) {
+				fputs("warning: no entropy source\n", stderr);
 				break;
 			}
 		}
@@ -328,7 +338,7 @@ arc4_writeback(uint8_t *buf, size_t n, char do_rd)
 	memcpy(buf, &fd, sizeof (fd));
 	return (do_rd ? 0 : 1);
 #else
-	if ((fd = open("/dev/urandom", O_WRONLY)) != -1) {
+	if ((fd = open(__randomdev, O_WRONLY)) != -1) {
 		if (write(fd, buf, n) < 4)
 			do_rd = 1;
 		close(fd);
