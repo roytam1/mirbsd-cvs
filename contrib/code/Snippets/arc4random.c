@@ -1,5 +1,5 @@
 static const char __vcsid[] = "@(#) MirOS contributed arc4random.c (old)"
-    "\n	@(#)rcsid_master: $MirOS: contrib/code/Snippets/arc4random.c,v 1.10 2008/12/08 13:45:18 tg Exp $"
+    "\n	@(#)rcsid_master: $MirOS: contrib/code/Snippets/arc4random.c,v 1.11 2008/12/08 18:46:01 tg Exp $"
     ;
 
 /*-
@@ -70,8 +70,9 @@ static const char __vcsid[] = "@(#) MirOS contributed arc4random.c (old)"
 #include <string.h>
 #include <unistd.h>
 
-#if defined(__CYGWIN__)
+#if defined(__CYGWIN__) || defined(WIN32)
 #define USE_MS_CRYPTOAPI
+#define REDEF_USCORETYPES
 #endif
 
 #ifdef USE_MS_CRYPTOAPI
@@ -418,7 +419,7 @@ arc4_atexit(void)
 	struct {
 		pid_t spid;
 		int cnt;
-		u_int8_t carr[240];
+		uint8_t carr[240];
 	} buf;
 	int i = 0;
 
