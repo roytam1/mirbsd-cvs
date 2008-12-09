@@ -1,4 +1,5 @@
-$rcsid=q<$MirOS: src/share/misc/licence.template,v 1.24 2008/04/22 11:43:31 tg Rel $>;
+#!/usr/bin/env perl
+$rcsid=q<$MirOS: contrib/hosted/tg/mirtropy.pl,v 1.1 2008/12/08 20:06:33 tg Exp $>;
 #-
 # Copyright (c) 2008
 #	Thorsten Glaser <tg@mirbsd.org>
