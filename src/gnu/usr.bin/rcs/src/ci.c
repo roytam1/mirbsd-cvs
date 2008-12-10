@@ -1,5 +1,3 @@
-/* $MirOS$ */
-
 /* Check in revisions of RCS files from working files.  */
 
 /* Copyright 1982, 1988, 1989 Walter Tichy
@@ -279,7 +277,7 @@ static struct Symrev *assoclst, **nextassoc;
 
 const char cmdid[] = "ci";
 __IDSTRING(baseid,RCSBASE);
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/gnu/usr.bin/rcs/src/ci.c,v 1.2 2005/03/13 15:36:37 tg Exp $");
 
 int main(int argc, char *argv[])
 {
@@ -287,6 +285,7 @@ int main(int argc, char *argv[])
 		"\nci usage: ci -{fIklMqru}[rev] -d[date] -mmsg -{nN}name -sstate -ttext -T -Vn -wwho -xsuff -zzone file ...";
 	static char const default_state[] = DEFAULTSTATE;
 
+	char global_session_id[20];
 	char altdate[datesize];
 	char olddate[datesize];
 	char newdatebuf[datesize + zonelenmax];
@@ -304,6 +303,9 @@ int main(int argc, char *argv[])
 	time_t mtime, wtime;
 	struct hshentry *workdelta;
 
+	snprintf(global_session_id, sizeof (global_session_id),
+	    "1%010llX%04X%04X", (uint64_t)time (NULL),
+	    (int)getpid() & 0xFFFF, (int)arc4random() & 0xFFFF);
 	setrid();
 
 	author = rev = state = textfile = 0;
@@ -538,6 +540,7 @@ int main(int argc, char *argv[])
 	newdelta.name = 0;
 	clear_buf(&newdelta.ig);
 	clear_buf(&newdelta.igtext);
+	newdelta.commitid = global_session_id;
 	/* set author */
 	if (author)
 		newdelta.author=author;     /* set author given by -w         */
