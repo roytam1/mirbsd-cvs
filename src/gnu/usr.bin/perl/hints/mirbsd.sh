@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.bin/perl/hints/mirbsd.sh,v 1.2 2007/05/07 18:16:25 tg Exp $
+# $MirOS: src/gnu/usr.bin/perl/hints/mirbsd.sh,v 1.3 2007/05/07 20:32:09 tg Exp $
 #
 # hints file for MirOS by Thorsten Glaser <tg@mirbsd.de>
 # based upon hints for OpenBSD
@@ -125,7 +125,7 @@ case "$mirbsd_distribution" in
 	locincpth='/usr/local/include'
 	loclibpth='/usr/local/lib'
 	# Link perl with shared libperl
-	if [ "$usedl" = "$define" -a -r shlib_version ]; then
+	if [[ $usedl = @(y|$define) && -r shlib_version ]]; then
 		useshrplib=true
 		libperl=$(. ./shlib_version; echo libperl.so.${major}.${minor})
 	fi
