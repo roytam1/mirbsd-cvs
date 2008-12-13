@@ -1,3 +1,5 @@
+# $MirOS$
+
 .include <bsd.own.mk>
 
 # If we are cross-compiling, we use the native pod2man.
