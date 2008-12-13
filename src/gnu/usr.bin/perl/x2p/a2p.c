@@ -19,6 +19,12 @@ extern int yyparse(void);
  *    License or the Artistic License, as specified in the README file.
  *
  * $Log$
+ * Revision 1.9  2008/07/09 13:56:10  millert
+ * Incorporate Otto's yacc skeleton fix.
+ *
+ * Revision 1.9  2008/07/09 13:54:44  millert
+ * Incorporate Otto's yacc skeleton fix.
+ *
  * Revision 1.8  2006/03/28 19:23:15  millert
  * merge in perl 5.8.8
  *
@@ -2315,7 +2321,10 @@ yyreduce:
                 YYPREFIX, yystate, yyn, yyrule[yyn]);
 #endif
     yym = yylen[yyn];
-    yyval = yyvsp[1-yym];
+    if (yym)
+	yyval = yyvsp[1-yym];
+    else
+	memset(&yyval, 0, sizeof(yyval));
     switch (yyn)
     {
 case 1:
