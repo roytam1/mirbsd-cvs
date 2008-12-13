@@ -505,7 +505,7 @@ MANSRCALL=
     vmsish 3p			lib/vmsish.pm \
     warnings 3p			lib/warnings.pm \
     warnings::register 3p	lib/warnings/register.pm
-.  ifndef NOMAN
+.  if !defined(NOMAN) || ${NOMAN:L} == "no"
 MANALL+= ${page}.cat${sect}
 MANSRCALL+= ${page}.${sect}
 MANSRC_COOKIE=stamp-mansrc.build
