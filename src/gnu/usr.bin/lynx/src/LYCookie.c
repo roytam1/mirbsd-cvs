@@ -1,5 +1,5 @@
 /*
- * $LynxId: LYCookie.c,v 1.88 2007/11/12 01:11:06 tom Exp $
+ * $LynxId: LYCookie.c,v 1.94 2008/12/14 19:38:59 tom Exp $
  *
  *			       Lynx Cookie Support		   LYCookie.c
  *			       ===================
@@ -145,7 +145,7 @@ static cookie *newCookie(void)
 
     if (p == NULL)
 	outofmem(__FILE__, "newCookie");
-    HTSprintf0(&(p->lynxID), "%p", p);
+    HTSprintf0(&(p->lynxID), "%p", (void *) p);
     p->port = 80;
     return p;
 }
@@ -680,7 +680,7 @@ static char *scan_cookie_sublist(char *hostname,
 	if ((co) &&		/* speed-up host_matches() and limit trace output */
 	    (LYstrstr(hostname, co->domain) != NULL)) {
 	    CTrace((tfp, "Checking cookie %p %s=%s\n",
-		    hl,
+		    (void *) hl,
 		    (co->name ? co->name : "(no name)"),
 		    (co->value ? co->value : "(no value)")));
 	    CTrace((tfp, "\t%s %s %d %s %s %d%s\n",
@@ -1051,8 +1051,8 @@ static unsigned parse_attribute(unsigned flags,
 		cur_cookie->expires = (time_t) 0;
 	    } else {
 		cur_cookie->expires = (time(NULL) + temp);
-		CTrace((tfp, "LYSetCookie: expires %ld, %s",
-			(long) cur_cookie->expires,
+		CTrace((tfp, "LYSetCookie: expires %" PRI_time_t ", %s",
+			CAST_time_t(cur_cookie->expires),
 			ctime(&cur_cookie->expires)));
 	    }
 	    flags |= FLAGS_MAXAGE_ATTR;
@@ -1072,8 +1072,8 @@ static unsigned parse_attribute(unsigned flags,
 		cur_cookie->flags |= COOKIE_FLAG_EXPIRES_SET;
 		cur_cookie->expires = LYmktime(value, FALSE);
 		if (cur_cookie->expires > 0) {
-		    CTrace((tfp, "LYSetCookie: expires %ld, %s",
-			    (long) cur_cookie->expires,
+		    CTrace((tfp, "LYSetCookie: expires %" PRI_time_t ", %s",
+			    CAST_time_t(cur_cookie->expires),
 			    ctime(&cur_cookie->expires)));
 		}
 	    }
@@ -1713,8 +1713,8 @@ static void LYProcessSetCookies(const char *SetCookie,
 		(co->name ? co->name : "[no name]"),
 		(co->value ? co->value : "[no value]")));
 	if (co->expires > 0) {
-	    CTrace((tfp, "                    expires: %ld, %s\n",
-		    (long) co->expires,
+	    CTrace((tfp, "                    expires: %" PRI_time_t ", %s\n",
+		    CAST_time_t(co->expires),
 		    ctime(&co->expires)));
 	}
 	if (isHTTPS_URL(address) &&
@@ -1865,7 +1865,7 @@ char *LYAddCookieHeader(char *hostname,
 #ifdef USE_PERSISTENT_COOKIES
 static int number_of_file_cookies = 0;
 
-/* rjp - experiment cookie loading */
+/* rjp - cookie loading */
 void LYLoadCookies(char *cookie_file)
 {
     FILE *cookie_handle;
@@ -2019,13 +2019,19 @@ void LYLoadCookies(char *cookie_file)
     LYCloseInput(cookie_handle);
 }
 
-/* rjp - experimental persistent cookie support */
+static FILE *NewCookieFile(char *cookie_file)
+{
+    CTrace((tfp, "LYStoreCookies: save cookies to %s on exit\n", cookie_file));
+    return LYNewTxtFile(cookie_file);
+}
+
+/* rjp - persistent cookie support */
 void LYStoreCookies(char *cookie_file)
 {
     HTList *dl, *cl;
     domain_entry *de;
     cookie *co;
-    FILE *cookie_handle;
+    FILE *cookie_handle = NULL;
     time_t now = time(NULL);	/* system specific? - RP */
 
     if (isEmpty(cookie_file) || !strcmp(cookie_file, "/dev/null")) {
@@ -2044,11 +2050,13 @@ void LYStoreCookies(char *cookie_file)
 	return;
     }
 
-    CTrace((tfp, "LYStoreCookies: save cookies to %s on exit\n", cookie_file));
+    /* if we read cookies from the file, we'll update it even if now empty */
+    if (number_of_file_cookies != 0) {
+	cookie_handle = NewCookieFile(cookie_file);
+	if (cookie_handle == NULL)
+	    return;
+    }
 
-    cookie_handle = LYNewTxtFile(cookie_file);
-    if (cookie_handle == NULL)
-	return;
     for (dl = domain_list; dl != NULL; dl = dl->next) {
 	de = (domain_entry *) (dl->object);
 	if (de == NULL)
@@ -2067,8 +2075,8 @@ void LYStoreCookies(char *cookie_file)
 	    if ((co = (cookie *) cl->object) == NULL)
 		continue;
 
-	    CTrace((tfp, "LYStoreCookies: %ld cf %ld ",
-		    (long) now, (long) co->expires));
+	    CTrace((tfp, "LYStoreCookies: %" PRI_time_t " cf %" PRI_time_t " ",
+		    CAST_time_t(now), CAST_time_t(co->expires)));
 
 	    if ((co->flags & COOKIE_FLAG_DISCARD)) {
 		CTrace((tfp, "not stored - DISCARD\n"));
@@ -2081,12 +2089,20 @@ void LYStoreCookies(char *cookie_file)
 		continue;
 	    }
 
-	    fprintf(cookie_handle, "%s\t%s\t%s\t%s\t%ld\t%s\t%s%s%s\n",
+	    /* when we're sure we'll write to the file - open it */
+	    if (cookie_handle == NULL) {
+		cookie_handle = NewCookieFile(cookie_file);
+		if (cookie_handle == NULL)
+		    return;
+	    }
+
+	    fprintf(cookie_handle, "%s\t%s\t%s\t%s\t%" PRI_time_t
+		    "\t%s\t%s%s%s\n",
 		    de->domain,
 		    (de->domain[0] == '.') ? "TRUE" : "FALSE",
 		    co->path,
 		    co->flags & COOKIE_FLAG_SECURE ? "TRUE" : "FALSE",
-		    (long) co->expires, co->name,
+		    CAST_time_t(co->expires), co->name,
 		    (co->quoted ? "\"" : ""),
 		    NonNull(co->value),
 		    (co->quoted ? "\"" : ""));
@@ -2094,9 +2110,10 @@ void LYStoreCookies(char *cookie_file)
 	    CTrace((tfp, "STORED\n"));
 	}
     }
-    LYCloseOutput(cookie_handle);
-
-    HTSYS_purge(cookie_file);
+    if (cookie_handle != NULL) {
+	LYCloseOutput(cookie_handle);
+	HTSYS_purge(cookie_file);
+    }
 }
 #endif
 
@@ -2548,7 +2565,6 @@ static int LYHandleCookies(const char *arg,
  *      comma-delimited list of domains.  cookie_domain_flags handles
  *      invcheck behavior, as well as accept/reject behavior. - BJP
  */
-
 static void cookie_domain_flag_set(char *domainstr,
 				   int flag)
 {

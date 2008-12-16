@@ -1,5 +1,5 @@
 /*
- * $LynxId: HTML.c,v 1.113 2007/07/02 23:43:40 tom Exp $
+ * $LynxId: HTML.c,v 1.116 2008/12/14 20:03:28 tom Exp $
  *
  *		Structured stream to Rich hypertext converter
  *		============================================
@@ -1279,38 +1279,40 @@ static int HTML_start_element(HTStructured * me, int element_number,
 
 	    /*
 	     * Handle links with a REV attribute.  - FM
+	     * Handle REV="made" or REV="owner".  - LM & FM
+	     * Handle REL="author" -TD
 	     */
 	    if (present &&
-		present[HTML_LINK_REV] && value[HTML_LINK_REV]) {
+		((present[HTML_LINK_REV] &&
+		  value[HTML_LINK_REV] &&
+		  (!strcasecomp("made", value[HTML_LINK_REV]) ||
+		   !strcasecomp("owner", value[HTML_LINK_REV]))) ||
+		 (present[HTML_LINK_REL] &&
+		  value[HTML_LINK_REL] &&
+		  (!strcasecomp("author", value[HTML_LINK_REL]))))) {
 		/*
-		 * Handle REV="made" or REV="owner".  - LM & FM
+		 * Load the owner element.  - FM
 		 */
-		if (!strcasecomp("made", value[HTML_LINK_REV]) ||
-		    !strcasecomp("owner", value[HTML_LINK_REV])) {
-		    /*
-		     * Load the owner element.  - FM
-		     */
-		    HTAnchor_setOwner(me->node_anchor, href);
-		    CTRACE((tfp, "HTML: DOC OWNER '%s' found\n", href));
-		    FREE(href);
+		HTAnchor_setOwner(me->node_anchor, href);
+		CTRACE((tfp, "HTML: DOC OWNER '%s' found\n", href));
+		FREE(href);
 
-		    /*
-		     * Load the RevTitle element if a TITLE attribute and value
-		     * are present.  - FM
-		     */
-		    if (present && present[HTML_LINK_TITLE] &&
-			value[HTML_LINK_TITLE] &&
-			*value[HTML_LINK_TITLE] != '\0') {
-			StrAllocCopy(title, value[HTML_LINK_TITLE]);
-			TRANSLATE_AND_UNESCAPE_ENTITIES(&title, TRUE, FALSE);
-			LYTrimHead(title);
-			LYTrimTail(title);
-			if (*title != '\0')
-			    HTAnchor_setRevTitle(me->node_anchor, title);
-			FREE(title);
-		    }
-		    break;
+		/*
+		 * Load the RevTitle element if a TITLE attribute and value
+		 * are present.  - FM
+		 */
+		if (present && present[HTML_LINK_TITLE] &&
+		    value[HTML_LINK_TITLE] &&
+		    *value[HTML_LINK_TITLE] != '\0') {
+		    StrAllocCopy(title, value[HTML_LINK_TITLE]);
+		    TRANSLATE_AND_UNESCAPE_ENTITIES(&title, TRUE, FALSE);
+		    LYTrimHead(title);
+		    LYTrimTail(title);
+		    if (*title != '\0')
+			HTAnchor_setRevTitle(me->node_anchor, title);
+		    FREE(title);
 		}
+		break;
 	    }
 
 	    /*
@@ -4478,26 +4480,7 @@ static int HTML_start_element(HTStructured * me, int element_number,
 	    HTkcode specified_kcode = NOKANJI;
 
 	    /* init */
-	    I.align = NULL;
-	    I.accept = NULL;
-	    I.checked = NO;
-	    I.iclass = NULL;
-	    I.disabled = NO;
-	    I.error = NULL;
-	    I.height = NULL;
-	    I.id = NULL;
-	    I.lang = NULL;
-	    I.max = NULL;
-	    I.maxlength = NULL;
-	    I.md = NULL;
-	    I.min = NULL;
-	    I.name = NULL;
-	    I.size = 0;
-	    I.src = NULL;
-	    I.type = NULL;
-	    I.value = NULL;
-	    I.width = NULL;
-	    I.accept_cs = NULL;
+	    memset(&I, 0, sizeof(I));
 	    I.name_cs = ATTR_CS_IN;
 	    I.value_cs = ATTR_CS_IN;
 
@@ -4780,6 +4763,8 @@ static int HTML_start_element(HTStructured * me, int element_number,
 		 */
 		I.value = ImageSrc;
 	    }
+	    if (present && present[HTML_INPUT_READONLY])
+		I.disabled = YES;
 	    if (present && present[HTML_INPUT_CHECKED])
 		I.checked = YES;
 	    if (present && present[HTML_INPUT_SIZE] &&
@@ -5015,9 +5000,9 @@ static int HTML_start_element(HTStructured * me, int element_number,
 
 	if (present && present[HTML_TEXTAREA_COLS] &&
 	    value[HTML_TEXTAREA_COLS] &&
-	    isdigit(UCH(*value[HTML_TEXTAREA_COLS])))
+	    isdigit(UCH(*value[HTML_TEXTAREA_COLS]))) {
 	    me->textarea_cols = atoi(value[HTML_TEXTAREA_COLS]);
-	else {
+	} else {
 	    int width;
 
 	    width = LYcolLimit -
@@ -5034,16 +5019,23 @@ static int HTML_start_element(HTStructured * me, int element_number,
 
 	if (present && present[HTML_TEXTAREA_ROWS] &&
 	    value[HTML_TEXTAREA_ROWS] &&
-	    isdigit(UCH(*value[HTML_TEXTAREA_ROWS])))
+	    isdigit(UCH(*value[HTML_TEXTAREA_ROWS]))) {
 	    me->textarea_rows = atoi(value[HTML_TEXTAREA_ROWS]);
-	else
+	} else {
 	    me->textarea_rows = DFT_TEXTAREA_ROWS;
+	}
 	LimitValue(me->textarea_rows, MAX_TEXTAREA_ROWS);
+
+	/*
+	 * Lynx treats disabled and readonly textarea's the same -
+	 * unmodifiable in either case.
+	 */
+	me->textarea_disabled = NO;
+	if (present && present[HTML_TEXTAREA_READONLY])
+	    me->textarea_disabled = YES;
 
 	if (present && present[HTML_TEXTAREA_DISABLED])
 	    me->textarea_disabled = YES;
-	else
-	    me->textarea_disabled = NO;
 
 	if (present && present[HTML_TEXTAREA_ID]
 	    && non_empty(value[HTML_TEXTAREA_ID])) {
@@ -6800,25 +6792,7 @@ static int HTML_end_element(HTStructured * me, int element_number,
 	    /*
 	     * Initialize.
 	     */
-	    I.align = NULL;
-	    I.accept = NULL;
-	    I.checked = NO;
-	    I.iclass = NULL;
-	    I.disabled = NO;
-	    I.error = NULL;
-	    I.height = NULL;
-	    I.id = NULL;
-	    I.lang = NULL;
-	    I.max = NULL;
-	    I.maxlength = NULL;
-	    I.md = NULL;
-	    I.min = NULL;
-	    I.name = NULL;
-	    I.size = 0;
-	    I.src = NULL;
-	    I.type = NULL;
-	    I.value = NULL;
-	    I.width = NULL;
+	    memset(&I, 0, sizeof(I));
 	    I.value_cs = current_char_set;
 
 	    UPDATE_STYLE;
@@ -7886,7 +7860,7 @@ static void CacheThru_do_free(HTStream *me)
     } else if (me->status != HT_OK) {
 	if (me->chunk) {
 	    CTRACE((tfp, "SourceCacheWriter: memory chunk %p had errors.\n",
-		    me->chunk));
+		    (void *) me->chunk));
 	    HTChunkFree(me->chunk);
 	    me->chunk = me->last_chunk = NULL;
 	}

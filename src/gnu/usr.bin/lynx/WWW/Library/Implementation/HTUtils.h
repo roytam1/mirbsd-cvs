@@ -1,5 +1,5 @@
 /*
- * $LynxId: HTUtils.h,v 1.78 2008/02/17 19:36:08 Zdenek.Prikryl Exp $
+ * $LynxId: HTUtils.h,v 1.90 2008/12/14 19:34:34 tom Exp $
  *
  * Utility macros for the W3 code library
  * MACROS FOR GENERAL USE
@@ -535,6 +535,97 @@ extern int WWW_TraceMask;
 #define TRACE_GRIDTEXT  (TRACE_bit(7))
 #define TRACE_TIMING    (TRACE_bit(8))
 
+/*
+ * Get printing/scanning formats.
+ */
+#if defined(HAVE_INTTYPES_H)
+#include <inttypes.h>
+#endif
+
+/*
+ * Printing/scanning-formats for "off_t", as well as cast needed to fit.
+ */
+#if defined(HAVE_INTTYPES_H) && defined(SIZEOF_OFF_T)
+#if (SIZEOF_OFF_T == 8) && defined(PRId64)
+
+#define PRI_off_t	PRId64
+#define SCN_off_t	SCNd64
+#define CAST_off_t(n)	(int64_t)(n)
+
+#elif (SIZEOF_OFF_T == 4) && defined(PRId32)
+
+#define PRI_off_t	PRId32
+#define SCN_off_t	SCNd32
+
+#if (SIZEOF_INT == 4)
+#define CAST_off_t(n)	(int)(n)
+#elif (SIZEOF_LONG == 4)
+#define CAST_off_t(n)	(long)(n)
+#else
+#define CAST_off_t(n)	(int32_t)(n)
+#endif
+
+#endif
+#endif
+
+#ifndef PRI_off_t
+#if (SIZEOF_OFF_T > SIZEOF_LONG)
+#define PRI_off_t	"lld"
+#define SCN_off_t	"lld"
+#define CAST_off_t(n)	(long long)(n)
+#else
+#define PRI_off_t	"ld"
+#define SCN_off_t	"ld"
+#define CAST_off_t(n)	(long)(n)
+#endif
+#endif
+
+/*
+ * Printing-format for "time_t", as well as cast needed to fit.
+ */
+#if defined(HAVE_INTTYPES_H) && defined(SIZEOF_TIME_T)
+#if (SIZEOF_TIME_T == 8) && defined(PRId64)
+
+#define PRI_time_t	PRId64
+#define SCN_time_t	SCNd64
+#define CAST_time_t(n)	(int64_t)(n)
+
+#elif (SIZEOF_TIME_T == 4) && defined(PRId32)
+
+#define PRI_time_t	PRId32
+#define SCN_time_t	SCNd32
+
+#if (SIZEOF_INT == 4)
+#define CAST_time_t(n)	(int)(n)
+#elif (SIZEOF_LONG == 4)
+#define CAST_time_t(n)	(long)(n)
+#else
+#define CAST_time_t(n)	(int32_t)(n)
+#endif
+
+#endif
+#endif
+
+#ifndef PRI_time_t
+#if (SIZEOF_TIME_T > SIZEOF_LONG)
+#define PRI_time_t	"lld"
+#define SCN_time_t	"lld"
+#define CAST_time_t(n)	(long long)(n)
+#else
+#define PRI_time_t	"ld"
+#define SCN_time_t	"ld"
+#define CAST_time_t(n)	(long)(n)
+#endif
+#endif
+
+/*
+ * Printing-format for "UCode_t".
+ */
+#define PRI_UCode_t	"ld"
+
+/*
+ * Verbose-tracing.
+ */
 #if defined(USE_VERTRACE) && !defined(LY_TRACELINE)
 #define LY_TRACELINE __LINE__
 #endif
@@ -613,7 +704,10 @@ extern int WWW_TraceMask;
 
 #else
 
-#ifdef USE_GNUTLS_INCL
+#if defined(USE_GNUTLS_FUNCS)
+#include <tidy_tls.h>
+#define USE_GNUTLS_INCL 1	/* do this for the ".c" ifdef's */
+#elif defined(USE_GNUTLS_INCL)
 #include <gnutls/openssl.h>
 /*
  * GNUTLS's implementation of OpenSSL is very incomplete and rudimentary.

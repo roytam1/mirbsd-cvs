@@ -1,4 +1,6 @@
-/* $LynxId: LYMain.c,v 1.181 2008/02/17 19:30:56 Gisle.Vanem Exp $ */
+/*
+ * $LynxId: LYMain.c,v 1.188 2008/12/14 18:07:56 tom Exp $
+ */
 #include <HTUtils.h>
 #include <HTTP.h>
 #include <HTParse.h>
@@ -191,6 +193,7 @@ BOOLEAN LYinternal_flag = FALSE;	/* override no-cache b/c internal link */
 BOOLEAN LYoverride_no_cache = FALSE;	/*override no-cache b/c history etc */
 BOOLEAN LYresubmit_posts = ALWAYS_RESUBMIT_POSTS;
 BOOLEAN LYtrimInputFields = FALSE;
+BOOLEAN LYxhtml_parsing = FALSE;
 BOOLEAN bold_H1 = FALSE;
 BOOLEAN bold_headers = FALSE;
 BOOLEAN bold_name_anchors = FALSE;
@@ -447,16 +450,16 @@ char *proxyauth_info[2] =
 {NULL, NULL};			/* Id:Password for protected proxy servers */
 
 #ifdef USE_SESSIONS
-BOOLEAN LYAutoSession = FALSE;	/* enable/disable auto saving/restoring of
+BOOLEAN LYAutoSession = FALSE;	/* enable/disable auto saving/restoring of */
 
-				   session */
+				/* session */
 char *LYSessionFile = NULL;	/* the session file from lynx.cfg */
 char *session_file = NULL;	/* the current session file */
 char *sessionin_file = NULL;	/* only resume session from this file */
 char *sessionout_file = NULL;	/* only save session to this file */
-short session_limit = 250;	/* maximal number of entries saved for
+short session_limit = 250;	/* maximal number of entries saved per */
 
-				   session file, rest will be ignored */
+				/* session file, rest will be ignored */
 #endif /* USE_SESSIONS */
 char *startfile = NULL;		/* the first file */
 char *startrealm = NULL;	/* the startfile realm */
@@ -482,6 +485,7 @@ int MessageSecs;		/* time-delay for important Messages   */
 int ReplaySecs;			/* time-delay for command-scripts */
 int crawl_count = 0;		/* Starting number for lnk#.dat files in crawls */
 int dump_output_width = 0;
+int dump_server_status = 0;
 int lynx_temp_subspace = 0;	/* > 0 if we made temp-directory */
 int max_cookies_domain = 50;
 int max_cookies_global = 500;
@@ -552,6 +556,7 @@ int ssl_noprompt = FORCE_PROMPT_DFT;
 #endif
 
 int connect_timeout = 18000; /*=180000*0.1 - used in HTDoConnect.*/
+int reading_timeout = 18000; /*=180000*0.1 - used in HTDoConnect.*/
 
 #ifdef EXP_JUSTIFY_ELTS
 BOOL ok_justify = FALSE;
@@ -612,6 +617,7 @@ static BOOLEAN number_links = FALSE;
 static BOOLEAN number_fields = FALSE;
 static BOOLEAN LYPrependBase = FALSE;
 static HTList *LYStdinArgs = NULL;
+HTList *positionable_editor = NULL;
 
 #ifndef EXTENDED_OPTION_LOGIC
 /* if set then '--' will be recognized as the end of options */
@@ -800,6 +806,7 @@ static void free_lynx_globals(void)
 #if EXTENDED_STARTFILE_RECALL
     FREE(nonoption);
 #endif
+    LYFreeStringList(positionable_editor);
 
     return;
 }
@@ -1026,13 +1033,6 @@ int main(int argc,
 
 #endif /* _WINDOWS */
 
-#if 0				/* defined(__CYGWIN__) - does not work with screen */
-    if (strcmp(ttyname(fileno(stdout)), "/dev/conout") != 0) {
-	printf("please \"$CYGWIN=notty\"\n");
-	exit_immediately(EXIT_SUCCESS);
-    }
-#endif
-
 #if defined(WIN_EX)
     /* 1997/10/19 (Sun) 21:40:54 */
     system_is_NT = (BOOL) is_windows_nt();
@@ -1085,11 +1085,33 @@ int main(int argc,
     }
 
     /*
+     * Set up trace, the anonymous account defaults, validate restrictions,
+     * and/or the nosocks flag, if requested, and an alternate configuration
+     * file, if specified, NOW.  Also, if we only want the help menu, output
+     * that and exit.  - FM
+     */
+#ifndef NO_LYNX_TRACE
+    if (LYGetEnv("LYNX_TRACE") != 0) {
+	WWW_TraceFlag = TRUE;
+    }
+#endif
+
+    /*
+     * Set up the TRACE log path, and logging if appropriate.  - FM
+     */
+    if ((cp = LYGetEnv("LYNX_TRACE_FILE")) == 0)
+	cp = FNAME_LYNX_TRACE;
+    LYTraceLogPath = typeMallocn(char, LY_MAXPATH);
+
+    LYAddPathToHome(LYTraceLogPath, LY_MAXPATH, cp);
+
+    /*
      * Act on -help NOW, so we only output the help and exit.  - FM
      */
     for (i = 1; i < argc; i++) {
 	parse_arg(&argv[i], 1, &i);
     }
+    LYOpenTraceLog();
 
 #ifdef LY_FIND_LEAKS
     /*
@@ -1284,17 +1306,6 @@ int main(int argc,
     no_newspost = (BOOL) (LYNewsPosting == FALSE);
 #endif
 
-    /*
-     * Set up trace, the anonymous account defaults, validate restrictions,
-     * and/or the nosocks flag, if requested, and an alternate configuration
-     * file, if specified, NOW.  Also, if we only want the help menu, output
-     * that and exit.  - FM
-     */
-#ifndef NO_LYNX_TRACE
-    if (LYGetEnv("LYNX_TRACE") != 0) {
-	WWW_TraceFlag = TRUE;
-    }
-#endif
     for (i = 1; i < argc; i++) {
 	parse_arg(&argv[i], 2, &i);
     }
@@ -1385,18 +1396,6 @@ int main(int argc,
 	LYRestricted = TRUE;
 	LYUseTraceLog = FALSE;
     }
-
-    /*
-     * Set up the TRACE log path, and logging if appropriate.  - FM
-     */
-    if ((cp = LYGetEnv("LYNX_TRACE_FILE")) == 0)
-	cp = FNAME_LYNX_TRACE;
-    LYTraceLogPath = typeMallocn(char, LY_MAXPATH);
-
-    LYAddPathToHome(LYTraceLogPath, LY_MAXPATH, cp);
-
-    LYOpenTraceLog();
-
 #ifdef EXP_CMD_LOGGING
     /*
      * Open command-script, if specified
@@ -2142,8 +2141,7 @@ int main(int argc,
 		    i + 1, HTList_count(Goto_URLs), startfile));
 	    status = mainloop();
 	    if (!no_list &&
-		!crawl &&	/* For -crawl it has already been done! */
-		links_are_numbered())
+		!crawl)		/* For -crawl it has already been done! */
 		printlist(stdout, FALSE);
 	    if (i != 0)
 		printf("\n");
@@ -3779,6 +3777,10 @@ or CJK mode for the startup character set"
       "realm",		4|SET_ARG,		check_realm,
       "restricts access to URLs in the starting realm"
    ),
+   PARSE_INT(
+      "read_timeout",	4|NEED_INT_ARG,		reading_timeout,
+      "=N\nset the N-second read-timeout"
+   ),
    PARSE_SET(
       "reload",		4|SET_ARG,		reloading,
       "flushes the cache on a proxy server\n(only the first document affected)"
@@ -3917,11 +3919,11 @@ bug which treated '>' as a co-terminator for\ndouble-quotes and tags"
 #endif
 #ifndef NO_LYNX_TRACE
    PARSE_SET(
-      "trace",		2|SET_ARG,		WWW_TraceFlag,
+      "trace",		1|SET_ARG,		WWW_TraceFlag,
       "turns on Lynx trace mode"
    ),
    PARSE_INT(
-      "trace_mask",	2|INT_ARG,		WWW_TraceMask,
+      "trace_mask",	1|INT_ARG,		WWW_TraceMask,
       "customize Lynx trace mode"
    ),
 #endif
@@ -3986,6 +3988,10 @@ with filenames of these images"
       "emit backspaces in output if -dumping or -crawling\n(like 'man' does)"
    ),
 #endif
+   PARSE_SET(
+      "xhtml-parsing",	4|SET_ARG,		LYxhtml_parsing,
+      "enable XHTML 1.0 parsing"
+   ),
    PARSE_NIL
 };
 /* *INDENT-ON* */
@@ -4458,7 +4464,7 @@ Lynx now exiting with signal:  %d\r\n\r\n", sig);
 	/*
 	 * Exit without dumping core.
 	 */
-	exit_immediately(EXIT_SUCCESS);
+	exit_immediately(EXIT_FAILURE);
     }
 }
 #endif /* !VMS */

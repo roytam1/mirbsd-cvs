@@ -1,5 +1,8 @@
-/* $LynxId: LYGlobalDefs.h,v 1.108 2008/02/17 19:14:40 Paul.B.Mahol Exp $ */
-/* global variable definitions */
+/*
+ * $LynxId: LYGlobalDefs.h,v 1.113 2008/12/14 18:07:20 tom Exp $
+ *
+ * global variable definitions
+ */
 
 #ifndef LYGLOBALDEFS_H
 #define LYGLOBALDEFS_H
@@ -138,8 +141,8 @@ extern "C" {
 #define ADVANCED_MODE 	  2
     extern BOOLEAN LYUseNoviceLineTwo;	/* True if TOGGLE_HELP is not mapped */
 
-#define MAX_LINE 1024		/* Hope that no window is larger than this */
-#define MAX_COLS 999		/* we don't expect wider than this */
+#define MAX_LINE 1024		/* No window can be wider than this */
+#define MAX_COLS (MAX_LINE-10)	/* we don't expect wider than this */
 #define DFT_COLS 80		/* ...and normally only this */
 #define DFT_ROWS 24		/* ...corresponding nominal height */
 
@@ -211,6 +214,7 @@ extern "C" {
     extern BOOLEAN LYoverride_no_cache;		/* don't need fresh copy, from history */
     extern BOOLEAN LYresubmit_posts;
     extern BOOLEAN LYtrimInputFields;
+    extern BOOLEAN LYxhtml_parsing;
     extern BOOLEAN bold_H1;
     extern BOOLEAN bold_headers;
     extern BOOLEAN bold_name_anchors;
@@ -241,6 +245,7 @@ extern "C" {
     extern BOOLEAN vi_keys;	/* TRUE to turn on vi-like key movement */
 
     extern HTList *Goto_URLs;
+    extern HTList *positionable_editor;
 
     extern char *LYRequestReferer;	/* Referer, may be set in getfile() */
     extern char *LYRequestTitle;	/* newdoc.title in calls to getfile() */
@@ -284,6 +289,7 @@ extern "C" {
     extern int LYTransferRate;	/* see enum TransferRate */
     extern int display_lines;	/* number of lines in the display */
     extern int dump_output_width;
+    extern int dump_server_status;
     extern int keypad_mode;	/* NUMBERS_AS_ARROWS or LINKS_ARE_NUMBERED */
     extern int lynx_temp_subspace;
     extern int max_cookies_buffer;
@@ -580,6 +586,7 @@ extern "C" {
 
     extern BOOL force_empty_hrefless_a;
     extern int connect_timeout;
+    extern int reading_timeout;
 
 #ifdef TEXTFIELDS_MAY_NEED_ACTIVATION
     extern BOOL textfields_need_activation;

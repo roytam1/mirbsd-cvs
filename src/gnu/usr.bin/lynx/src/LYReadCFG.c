@@ -1,4 +1,6 @@
-/* $LynxId: LYReadCFG.c,v 1.127 2008/02/11 00:54:34 Paul.B.Mahol Exp $ */
+/*
+ * $LynxId: LYReadCFG.c,v 1.131 2008/12/09 01:01:34 tom Exp $
+ */
 #ifndef NO_RULES
 #include <HTRules.h>
 #else
@@ -379,7 +381,7 @@ The special strings 'nocolor' or 'default', or\n")
 		Color_Strings[i], Color_Strings[i + 1],
 		Color_Strings[i + 2], Color_Strings[i + 3]);
     }
-    fprintf(stderr, "%s\n%s\n", gettext("Offending line:"), error_line);
+    fprintf(stderr, "%s\nCOLOR:%s\n", gettext("Offending line:"), error_line);
     exit_immediately(EXIT_FAILURE);
 }
 #endif /* defined(USE_COLOR_TABLE) || defined(EXP_ASSUMED_COLOR) */
@@ -1496,6 +1498,7 @@ static Config_Type Config_Table [] =
 #endif /* USE_PERSISTENT_COOKIES */
      PARSE_STR(RC_PERSONAL_EXTENSION_MAP, personal_extension_map),
      PARSE_STR(RC_PERSONAL_MAILCAP,     personal_type_map),
+     PARSE_LST(RC_POSITIONABLE_EDITOR,	positionable_editor),
      PARSE_STR(RC_PREFERRED_CHARSET,    pref_charset),
      PARSE_ENU(RC_PREFERRED_ENCODING,   LYAcceptEncoding, tbl_preferred_encoding),
      PARSE_STR(RC_PREFERRED_LANGUAGE,   language),
@@ -1509,6 +1512,7 @@ static Config_Type Config_Table [] =
 #endif
      PARSE_ADD(RC_PRINTER,              printers),
      PARSE_SET(RC_QUIT_DEFAULT_YES,     LYQuitDefaultYes),
+     PARSE_INT(RC_READ_TIMEOUT,         reading_timeout),
      PARSE_FUN(RC_REFERER_WITH_QUERY,   referer_with_query_fun),
 #ifdef EXP_CMD_LOGGING
      PARSE_TIM(RC_REPLAYSECS,           ReplaySecs),
@@ -1600,6 +1604,7 @@ static Config_Type Config_Table [] =
      PARSE_FUN(RC_VIEWER,               viewer_fun),
      PARSE_Env(RC_WAIS_PROXY,           0),
      PARSE_STR(RC_XLOADIMAGE_COMMAND,   XLoadImageCommand),
+     PARSE_SET(RC_XHTML_PARSING,        LYxhtml_parsing),
      PARSE_PRG(RC_ZCAT_PATH,            ppZCAT),
      PARSE_PRG(RC_ZIP_PATH,             ppZIP),
 

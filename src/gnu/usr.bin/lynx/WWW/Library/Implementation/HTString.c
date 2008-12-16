@@ -1,5 +1,5 @@
 /*
- * $LynxId: HTString.c,v 1.51 2008/02/17 19:30:56 Gisle.Vanem Exp $
+ * $LynxId: HTString.c,v 1.54 2008/09/20 14:32:29 tom Exp $
  *
  *	Case-independent string comparison		HTString.c
  *
@@ -19,6 +19,11 @@
 #ifndef NO_LYNX_TRACE
 BOOLEAN WWW_TraceFlag = 0;	/* Global trace flag for ALL W3 code */
 int WWW_TraceMask = 0;		/* Global trace flag for ALL W3 code */
+#endif
+
+#ifdef _WINDOWS
+#undef VC
+#define VC "2.14FM"
 #endif
 
 #ifndef VC
@@ -1160,7 +1165,9 @@ void HTSABCopy(bstring **dest, const char *src,
     bstring *t;
     unsigned need = len + 1;
 
-    CTRACE2(TRACE_BSTRING, (tfp, "HTSABCopy(%p, %p, %d)\n", dest, src, len));
+    CTRACE2(TRACE_BSTRING,
+	    (tfp, "HTSABCopy(%p, %p, %d)\n",
+	     (void *) dest, (const void *) src, len));
     HTSABFree(dest);
     if (src) {
 	if (TRACE_BSTRING) {
@@ -1201,7 +1208,9 @@ void HTSABCat(bstring **dest, const char *src,
 {
     bstring *t = *dest;
 
-    CTRACE2(TRACE_BSTRING, (tfp, "HTSABCat(%p, %p, %d)\n", dest, src, len));
+    CTRACE2(TRACE_BSTRING,
+	    (tfp, "HTSABCat(%p, %p, %d)\n",
+	     (void *) dest, (const void *) src, len));
     if (src) {
 	unsigned need = len + 1;
 

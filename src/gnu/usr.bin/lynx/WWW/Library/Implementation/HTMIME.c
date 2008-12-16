@@ -1,5 +1,5 @@
 /*
- * $LynxId: HTMIME.c,v 1.62 2007/07/03 00:16:30 tom Exp $
+ * $LynxId: HTMIME.c,v 1.67 2008/12/14 18:46:52 tom Exp $
  *
  *			MIME Message Parse			HTMIME.c
  *			==================
@@ -37,6 +37,16 @@
 
 typedef enum {
     MIME_TRANSPARENT,		/* put straight through to target ASAP! */
+    /* states for "Transfer-Encoding: chunked" */
+    MIME_CHUNKED,
+    mcCHUNKED_COUNT_DIGIT,
+    mcCHUNKED_COUNT_CR,
+    mcCHUNKED_COUNT_LF,
+    mcCHUNKED_EXTENSION,
+    mcCHUNKED_DATA,
+    mcCHUNKED_DATA_CR,
+    mcCHUNKED_DATA_LF,
+    /* character state-machine */
     miBEGINNING_OF_LINE,	/* first character and not a continuation */
     miA,
     miACCEPT_RANGES,
@@ -138,8 +148,12 @@ struct _HTStream {
 
     char *refresh_url;		/* "Refresh:" URL */
 
-    HTFormat encoding;		/* Content-Transfer-Encoding */
+    HTFormat c_t_encoding;	/* Content-Transfer-Encoding */
     char *compression_encoding;
+
+    BOOL chunked_encoding;	/* Transfer-Encoding: chunked */
+    long chunked_size;		/* ...counter for "chunked" */
+
     HTFormat format;		/* Content-Type */
     HTStream *target;		/* While writing out */
     HTStreamClass targetClass;
@@ -201,8 +215,66 @@ static void dequote(char *url)
     }
 }
 
+/*
+ * Strip off any compression-suffix from the address and check if the result
+ * looks like one of the presentable suffixes.  If so, return the corresponding
+ * MIME type.
+ */
+static const char *UncompressedContentType(HTStream *me, CompressFileType method)
+{
+    const char *result = 0;
+    char *address = me->anchor->address;
+    const char *expected = HTCompressTypeToSuffix(method);
+    const char *actual = strrchr(address, '.');
+
+    /*
+     * We have to ensure the suffix is consistent, to use HTFileFormat().
+     */
+    if (actual != 0 && !strcasecomp(actual, expected)) {
+	HTFormat format;
+	HTAtom *pencoding = 0;
+	const char *description = 0;
+
+	format = HTFileFormat(address, &pencoding, &description);
+	result = HTAtom_name(format);
+    }
+
+    return result;
+}
+
 static int pumpData(HTStream *me)
 {
+    CompressFileType method;
+    const char *new_encoding;
+    const char *new_content;
+
+    CTRACE((tfp, "Begin pumpData\n"));
+    /*
+     * If the content-type says it is compressed, and there is no
+     * content-encoding, check further and see if the address (omitting the
+     * suffix for a compressed type) looks like a type we can present.  If so,
+     * rearrange things so we'll present the StreamStack code with the
+     * presentable type, already marked as compressed.
+     */
+    CTRACE((tfp, "...address{%s}\n", me->anchor->address));
+    method = HTContentTypeToCompressType(me->anchor->content_type_params);
+    if ((method != cftNone)
+	&& isEmpty(me->anchor->content_encoding)
+	&& (new_content = UncompressedContentType(me, method)) != 0) {
+
+	new_encoding = HTCompressTypeToEncoding(method);
+	CTRACE((tfp, "reinterpreting as content-type:%s, encoding:%s\n",
+		new_content, new_encoding));
+
+	StrAllocCopy(me->anchor->content_encoding, new_encoding);
+	FREE(me->compression_encoding);
+	StrAllocCopy(me->compression_encoding, new_encoding);
+
+	strcpy(me->value, new_content);
+	StrAllocCopy(me->anchor->content_type_params, me->value);
+	me->format = HTAtom_for(me->value);
+    }
+
     if (strchr(HTAtom_name(me->format), ';') != NULL) {
 	char *cp = NULL, *cp1, *cp2, *cp3 = NULL, *cp4;
 
@@ -437,67 +509,72 @@ static int pumpData(HTStream *me)
 	    }
 	}
     }
+    CTRACE((tfp, "...pumpData finished reading header\n"));
     if (me->head_only) {
 	/* We are done! - kw */
 	me->state = MIME_IGNORE;
-	return HT_OK;
-    }
-
-    if (me->no_streamstack) {
-	me->target = me->sink;
     } else {
-	if (!me->compression_encoding) {
-	    CTRACE((tfp,
-		    "HTMIME: MIME Content-Type is '%s', converting to '%s'\n",
-		    HTAtom_name(me->format), HTAtom_name(me->targetRep)));
+
+	if (me->no_streamstack) {
+	    me->target = me->sink;
 	} else {
+	    if (!me->compression_encoding) {
+		CTRACE((tfp,
+			"HTMIME: MIME Content-Type is '%s', converting to '%s'\n",
+			HTAtom_name(me->format), HTAtom_name(me->targetRep)));
+	    } else {
+		/*
+		 * Change the format to that for "www/compressed" and set up a
+		 * stream to deal with it.  - FM
+		 */
+		CTRACE((tfp, "HTMIME: MIME Content-Type is '%s',\n",
+			HTAtom_name(me->format)));
+		me->format = HTAtom_for("www/compressed");
+		CTRACE((tfp, "        Treating as '%s'.  Converting to '%s'\n",
+			HTAtom_name(me->format), HTAtom_name(me->targetRep)));
+		FREE(me->compression_encoding);
+	    }
+	    me->target = HTStreamStack(me->format, me->targetRep,
+				       me->sink, me->anchor);
+	    if (!me->target) {
+		CTRACE((tfp, "HTMIME: Can't translate! ** \n"));
+		me->target = me->sink;	/* Cheat */
+	    }
+	}
+	if (me->target) {
+	    me->targetClass = *me->target->isa;
 	    /*
-	     * Change the format to that for "www/compressed" and set up a
-	     * stream to deal with it.  - FM
+	     * Pump rest of data right through, according to the transfer encoding.
 	     */
-	    CTRACE((tfp, "HTMIME: MIME Content-Type is '%s',\n", HTAtom_name(me->format)));
-	    me->format = HTAtom_for("www/compressed");
-	    CTRACE((tfp, "        Treating as '%s'.  Converting to '%s'\n",
-		    HTAtom_name(me->format), HTAtom_name(me->targetRep)));
-	    FREE(me->compression_encoding);
+	    me->state = (me->chunked_encoding
+			 ? MIME_CHUNKED
+			 : MIME_TRANSPARENT);
+	} else {
+	    me->state = MIME_IGNORE;	/* What else to do? */
 	}
-	me->target = HTStreamStack(me->format, me->targetRep,
-				   me->sink, me->anchor);
-	if (!me->target) {
-	    CTRACE((tfp, "HTMIME: Can't translate! ** \n"));
-	    me->target = me->sink;	/* Cheat */
-	}
-    }
-    if (me->target) {
-	me->targetClass = *me->target->isa;
-	/*
-	 * Check for encoding and select state from there, someday, but until
-	 * we have the relevant code, from now push straight through.  - FM
-	 */
-	me->state = MIME_TRANSPARENT;	/* Pump rest of data right through */
-    } else {
-	me->state = MIME_IGNORE;	/* What else to do? */
-    }
-    if (me->refresh_url != NULL && !content_is_compressed(me)) {
-	char *url = NULL;
-	char *num = NULL;
-	char *txt = NULL;
-	const char *base = "";	/* FIXME: refresh_url may be relative to doc */
+	if (me->refresh_url != NULL && !content_is_compressed(me)) {
+	    char *url = NULL;
+	    char *num = NULL;
+	    char *txt = NULL;
+	    const char *base = "";	/* FIXME: refresh_url may be relative to doc */
 
-	LYParseRefreshURL(me->refresh_url, &num, &url);
-	if (url != NULL && me->format == WWW_HTML) {
-	    CTRACE((tfp, "Formatting refresh-url as first line of result\n"));
-	    HTSprintf0(&txt, gettext("Refresh: "));
-	    HTSprintf(&txt, gettext("%s seconds "), num);
-	    dequote(url);
-	    HTSprintf(&txt, "<a href=\"%s%s\">%s</a><br>", base, url, url);
-	    CTRACE((tfp, "URL %s%s\n", base, url));
-	    (me->isa->put_string) (me, txt);
-	    free(txt);
+	    LYParseRefreshURL(me->refresh_url, &num, &url);
+	    if (url != NULL && me->format == WWW_HTML) {
+		CTRACE((tfp,
+			"Formatting refresh-url as first line of result\n"));
+		HTSprintf0(&txt, gettext("Refresh: "));
+		HTSprintf(&txt, gettext("%s seconds "), num);
+		dequote(url);
+		HTSprintf(&txt, "<a href=\"%s%s\">%s</a><br>", base, url, url);
+		CTRACE((tfp, "URL %s%s\n", base, url));
+		(me->isa->put_string) (me, txt);
+		free(txt);
+	    }
+	    FREE(num);
+	    FREE(url);
 	}
-	FREE(num);
-	FREE(url);
     }
+    CTRACE((tfp, "...end of pumpData\n"));
     return HT_OK;
 }
 
@@ -754,7 +831,7 @@ static int dispatchField(HTStream *me)
 	 * Force the Content-Transfer-Encoding value to all lower case.  - FM
 	 */
 	LYLowerCase(me->value);
-	me->encoding = HTAtom_for(me->value);
+	me->c_t_encoding = HTAtom_for(me->value);
 	break;
     case miCONTENT_TYPE:
 	HTMIME_TrimDoubleQuotes(me->value);
@@ -937,6 +1014,8 @@ static int dispatchField(HTStream *me)
 	HTMIME_TrimDoubleQuotes(me->value);
 	CTRACE((tfp, "HTMIME: PICKED UP Transfer-Encoding: '%s'\n",
 		me->value));
+	if (!strcmp(me->value, "chunked"))
+	    me->chunked_encoding = YES;
 	break;
     case miUPGRADE:
 	HTMIME_TrimDoubleQuotes(me->value);
@@ -990,9 +1069,83 @@ static int dispatchField(HTStream *me)
 static void HTMIME_put_character(HTStream *me,
 				 char c)
 {
-    if (me->state == MIME_TRANSPARENT) {
-	(*me->targetClass.put_character) (me->target, c);	/* MUST BE FAST */
+    /* MUST BE FAST */
+    switch (me->state) {
+      begin_transparent:
+    case MIME_TRANSPARENT:
+	(*me->targetClass.put_character) (me->target, c);
 	return;
+
+	/* RFC-2616 describes chunked transfer coding */
+    case mcCHUNKED_DATA:
+	(*me->targetClass.put_character) (me->target, c);
+	me->chunked_size--;
+	if (me->chunked_size <= 0)
+	    me->state = mcCHUNKED_DATA_CR;
+	return;
+
+    case mcCHUNKED_DATA_CR:
+	me->state = mcCHUNKED_DATA_LF;
+	if (c == CR) {
+	    return;
+	}
+	/* FALLTHRU */
+
+    case mcCHUNKED_DATA_LF:
+	me->state = MIME_CHUNKED;
+	if (c == LF) {
+	    return;
+	}
+
+	CTRACE((tfp, "HTIME_put_character expected LF in chunked data\n"));
+	me->state = MIME_TRANSPARENT;
+	goto begin_transparent;
+
+	/* FALLTHRU */
+      begin_chunked:
+    case MIME_CHUNKED:
+	me->chunked_size = 0;
+	me->state = mcCHUNKED_COUNT_DIGIT;
+
+	/* FALLTHRU */
+    case mcCHUNKED_COUNT_DIGIT:
+	if (isxdigit(UCH(c))) {
+	    me->chunked_size <<= 4;
+	    if (isdigit(UCH(c)))
+		me->chunked_size += UCH(c) - '0';
+	    else
+		me->chunked_size += TOUPPER(UCH(c)) - 'A' + 10;
+	    return;
+	}
+	if (c == ';')
+	    me->state = mcCHUNKED_EXTENSION;
+
+	/* FALLTHRU */
+    case mcCHUNKED_EXTENSION:
+	if (c != CR && c != LF) {
+	    return;
+	}
+	me->state = mcCHUNKED_COUNT_CR;
+
+	/* FALLTHRU */
+    case mcCHUNKED_COUNT_CR:
+	me->state = mcCHUNKED_COUNT_LF;
+	if (c == CR) {
+	    return;
+	}
+
+	/* FALLTHRU */
+    case mcCHUNKED_COUNT_LF:
+	me->state = ((me->chunked_size != 0)
+		     ? mcCHUNKED_DATA
+		     : MIME_CHUNKED);
+	if (c == LF) {
+	    return;
+	}
+	goto begin_chunked;
+
+    default:
+	break;
     }
 
     /*
@@ -1025,7 +1178,14 @@ static void HTMIME_put_character(HTStream *me,
 	return;
 
     case MIME_TRANSPARENT:	/* Not reached see above */
-	(*me->targetClass.put_character) (me->target, c);
+    case MIME_CHUNKED:
+    case mcCHUNKED_COUNT_DIGIT:
+    case mcCHUNKED_COUNT_CR:
+    case mcCHUNKED_COUNT_LF:
+    case mcCHUNKED_EXTENSION:
+    case mcCHUNKED_DATA:
+    case mcCHUNKED_DATA_CR:
+    case mcCHUNKED_DATA_LF:
 	return;
 
     case MIME_NET_ASCII:
@@ -2049,7 +2209,7 @@ HTStream *HTMIMEConvert(HTPresentation *pres,
     me->set_cookie = NULL;	/* Not set yet */
     me->set_cookie2 = NULL;	/* Not set yet */
     me->refresh_url = NULL;	/* Not set yet */
-    me->encoding = 0;		/* Not set yet */
+    me->c_t_encoding = 0;	/* Not set yet */
     me->compression_encoding = NULL;	/* Not set yet */
     me->net_ascii = NO;		/* Local character set */
     HTAnchor_setUCInfoStage(me->anchor, current_char_set,
