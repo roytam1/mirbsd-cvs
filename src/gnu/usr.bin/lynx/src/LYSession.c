@@ -1,4 +1,4 @@
-/* $LynxId: LYSession.c,v 1.4 2008/02/11 00:00:19 Paul.B.Mahol Exp $ */
+/* $LynxId: LYSession.c,v 1.6 2008/07/02 21:24:27 Paul.B.Mahol Exp $ */
 
 #include <LYSession.h>
 
@@ -63,9 +63,9 @@ void RestoreSession(void)
     DocInfo doc;
     VisitedLink *vl;
     int i = 0;
-    short errors = 10;		/* how many syntax errors are allowed in
+    short errors = 10;		/* how many syntax errors are allowed in */
 
-				   session file before aborting. */
+    /* session file before aborting. */
     char *value1, *value2, *rsline, *linktext, *rslevel;
 
     /*
@@ -84,8 +84,8 @@ void RestoreSession(void)
     if ((fp = fopen(my_filename, TXT_R)) != NULL) {
 
 	/*
-	 * This should be safe, entries are added to lynx until memory i
-	 * exhausteds
+	 * This should be safe, entries are added to lynx until memory is
+	 * exhausted
 	 */
 	while (LYSafeGets(&buffer, fp) != 0) {
 	    LYTrimNewline(buffer);
@@ -247,15 +247,17 @@ void SaveSession(void)
 
 	for (i = j; i < k; i++) {
 	    vl = (VisitedLink *) HTList_objectAt(Visited_Links, i);
-	    fprintf(fp, "V %d ", vl->level);
-	    fputs(vl->address, fp);
-	    fprintf(fp, "\t");
-	    fputs(vl->title, fp);
-	    fprintf(fp, "\n");
+	    if (vl != NULL) {
+		fprintf(fp, "V %d ", vl->level);
+		fputs(vl->address, fp);
+		fprintf(fp, "\t");
+		fputs(vl->title, fp);
+		fprintf(fp, "\n");
+	    }
 	}
-	LYCloseOutput(fp);
 #endif /* VLINK_IN_SESSION */
 
+	LYCloseOutput(fp);
     }
     SetDefaultMode(O_BINARY);
 }
