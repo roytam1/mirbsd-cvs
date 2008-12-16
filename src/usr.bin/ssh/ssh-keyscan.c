@@ -1,4 +1,4 @@
-/* $OpenBSD: ssh-keyscan.c,v 1.75 2007/12/27 14:22:08 dtucker Exp $ */
+/* $OpenBSD: ssh-keyscan.c,v 1.77 2008/11/01 11:14:36 sobrado Exp $ */
 /*
  * Copyright 1995, 1996 by David Mazieres <dm@lcs.mit.edu>.
  *
@@ -51,7 +51,7 @@ int ssh_port = SSH_DEFAULT_PORT;
 #define KT_DSA	2
 #define KT_RSA	4
 
-int get_keytypes = KT_RSA1;	/* Get only RSA1 keys by default */
+int get_keytypes = KT_RSA;	/* Get only RSA keys by default */
 
 int hash_hosts = 0;		/* Hash hostname on output */
 
@@ -698,8 +698,9 @@ fatal(const char *fmt,...)
 static void
 usage(void)
 {
-	fprintf(stderr, "usage: %s [-46Hv] [-f file] [-p port] [-T timeout] [-t type]\n"
-	    "\t\t   [host | addrlist namelist] [...]\n",
+	fprintf(stderr,
+	    "usage: %s [-46Hv] [-f file] [-p port] [-T timeout] [-t type]\n"
+	    "\t\t   [host | addrlist namelist] ...\n",
 	    __progname);
 	exit(1);
 }

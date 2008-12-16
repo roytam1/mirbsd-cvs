@@ -1,4 +1,4 @@
-/* $OpenBSD: readconf.c,v 1.165 2008/01/19 23:09:49 djm Exp $ */
+/* $OpenBSD: readconf.c,v 1.173 2008/12/09 02:58:16 djm Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -127,6 +127,7 @@ typedef enum {
 	oServerAliveInterval, oServerAliveCountMax, oIdentitiesOnly,
 	oSendEnv, oControlPath, oControlMaster, oHashKnownHosts,
 	oTunnel, oTunnelDevice, oLocalCommand, oPermitLocalCommand,
+	oVisualHostKey, oZeroKnowledgePasswordAuthentication,
 	oDeprecated, oUnsupported
 } OpCodes;
 
@@ -223,6 +224,14 @@ static struct {
 	{ "tunneldevice", oTunnelDevice },
 	{ "localcommand", oLocalCommand },
 	{ "permitlocalcommand", oPermitLocalCommand },
+	{ "visualhostkey", oVisualHostKey },
+#ifdef JPAKE
+	{ "zeroknowledgepasswordauthentication",
+	    oZeroKnowledgePasswordAuthentication },
+#else
+	{ "zeroknowledgepasswordauthentication", oUnsupported },
+#endif
+
 	{ NULL, oBadOption }
 };
 
@@ -242,10 +251,9 @@ add_local_forward(Options *options, const Forward *newfwd)
 		fatal("Too many local forwards (max %d).", SSH_MAX_FORWARDS_PER_DIRECTION);
 	fwd = &options->local_forwards[options->num_local_forwards++];
 
-	fwd->listen_host = (newfwd->listen_host == NULL) ?
-	    NULL : xstrdup(newfwd->listen_host);
+	fwd->listen_host = newfwd->listen_host;
 	fwd->listen_port = newfwd->listen_port;
-	fwd->connect_host = xstrdup(newfwd->connect_host);
+	fwd->connect_host = newfwd->connect_host;
 	fwd->connect_port = newfwd->connect_port;
 }
 
@@ -263,10 +271,9 @@ add_remote_forward(Options *options, const Forward *newfwd)
 		    SSH_MAX_FORWARDS_PER_DIRECTION);
 	fwd = &options->remote_forwards[options->num_remote_forwards++];
 
-	fwd->listen_host = (newfwd->listen_host == NULL) ?
-	    NULL : xstrdup(newfwd->listen_host);
+	fwd->listen_host = newfwd->listen_host;
 	fwd->listen_port = newfwd->listen_port;
-	fwd->connect_host = xstrdup(newfwd->connect_host);
+	fwd->connect_host = newfwd->connect_host;
 	fwd->connect_port = newfwd->connect_port;
 }
 
@@ -403,6 +410,10 @@ parse_flag:
 
 	case oPasswordAuthentication:
 		intptr = &options->password_authentication;
+		goto parse_flag;
+
+	case oZeroKnowledgePasswordAuthentication:
+		intptr = &options->zero_knowledge_password_authentication;
 		goto parse_flag;
 
 	case oKbdInteractiveAuthentication:
@@ -699,54 +710,37 @@ parse_int:
 
 	case oLocalForward:
 	case oRemoteForward:
+	case oDynamicForward:
 		arg = strdelim(&s);
 		if (arg == NULL || *arg == '\0')
 			fatal("%.200s line %d: Missing port argument.",
 			    filename, linenum);
-		arg2 = strdelim(&s);
-		if (arg2 == NULL || *arg2 == '\0')
-			fatal("%.200s line %d: Missing target argument.",
-			    filename, linenum);
 
-		/* construct a string for parse_forward */
-		snprintf(fwdarg, sizeof(fwdarg), "%s:%s", arg, arg2);
+		if (opcode == oLocalForward ||
+		    opcode == oRemoteForward) {
+			arg2 = strdelim(&s);
+			if (arg2 == NULL || *arg2 == '\0')
+				fatal("%.200s line %d: Missing target argument.",
+				    filename, linenum);
 
-		if (parse_forward(&fwd, fwdarg) == 0)
+			/* construct a string for parse_forward */
+			snprintf(fwdarg, sizeof(fwdarg), "%s:%s", arg, arg2);
+		} else if (opcode == oDynamicForward) {
+			strlcpy(fwdarg, arg, sizeof(fwdarg));
+		}
+
+		if (parse_forward(&fwd, fwdarg,
+		    opcode == oDynamicForward ? 1 : 0) == 0)
 			fatal("%.200s line %d: Bad forwarding specification.",
 			    filename, linenum);
 
 		if (*activep) {
-			if (opcode == oLocalForward)
+			if (opcode == oLocalForward ||
+			    opcode == oDynamicForward)
 				add_local_forward(options, &fwd);
 			else if (opcode == oRemoteForward)
 				add_remote_forward(options, &fwd);
 		}
-		break;
-
-	case oDynamicForward:
-		arg = strdelim(&s);
-		if (!arg || *arg == '\0')
-			fatal("%.200s line %d: Missing port argument.",
-			    filename, linenum);
-		memset(&fwd, '\0', sizeof(fwd));
-		fwd.connect_host = "socks";
-		fwd.listen_host = hpdelim(&arg);
-		if (fwd.listen_host == NULL ||
-		    strlen(fwd.listen_host) >= NI_MAXHOST)
-			fatal("%.200s line %d: Bad forwarding specification.",
-			    filename, linenum);
-		if (arg) {
-			fwd.listen_port = a2port(arg);
-			fwd.listen_host = cleanhostname(fwd.listen_host);
-		} else {
-			fwd.listen_port = a2port(fwd.listen_host);
-			fwd.listen_host = NULL;
-		}
-		if (fwd.listen_port == 0)
-			fatal("%.200s line %d: Badly formatted port number.",
-			    filename, linenum);
-		if (*activep)
-			add_local_forward(options, &fwd);
 		break;
 
 	case oClearAllForwardings:
@@ -910,6 +904,10 @@ parse_int:
 		intptr = &options->permit_local_command;
 		goto parse_flag;
 
+	case oVisualHostKey:
+		intptr = &options->visual_host_key;
+		goto parse_flag;
+
 	case oDeprecated:
 		debug("%s line %d: Deprecated option \"%s\"",
 		    filename, linenum, keyword);
@@ -948,7 +946,6 @@ read_config_file(const char *filename, const char *host, Options *options,
 	int active, linenum;
 	int bad_options = 0;
 
-	/* Open the file. */
 	if ((f = fopen(filename, "r")) == NULL)
 		return 0;
 
@@ -1060,6 +1057,8 @@ initialize_options(Options * options)
 	options->tun_remote = -1;
 	options->local_command = NULL;
 	options->permit_local_command = -1;
+	options->visual_host_key = -1;
+	options->zero_knowledge_password_authentication = -1;
 }
 
 /*
@@ -1194,6 +1193,10 @@ fill_default_options(Options * options)
 		options->tun_remote = SSH_TUNID_ANY;
 	if (options->permit_local_command == -1)
 		options->permit_local_command = 0;
+	if (options->visual_host_key == -1)
+		options->visual_host_key = 0;
+	if (options->zero_knowledge_password_authentication == -1)
+		options->zero_knowledge_password_authentication = 0;
 	/* options->local_command should not be set by default */
 	/* options->proxy_command should not be set by default */
 	/* options->user will be set in the main program if appropriate */
@@ -1205,11 +1208,14 @@ fill_default_options(Options * options)
 /*
  * parse_forward
  * parses a string containing a port forwarding specification of the form:
+ *   dynamicfwd == 0
  *	[listenhost:]listenport:connecthost:connectport
+ *   dynamicfwd == 1
+ *	[listenhost:]listenport
  * returns number of arguments parsed or zero on error
  */
 int
-parse_forward(Forward *fwd, const char *fwdspec)
+parse_forward(Forward *fwd, const char *fwdspec, int dynamicfwd)
 {
 	int i;
 	char *p, *cp, *fwdarg[4];
@@ -1226,11 +1232,23 @@ parse_forward(Forward *fwd, const char *fwdspec)
 		if ((fwdarg[i] = hpdelim(&cp)) == NULL)
 			break;
 
-	/* Check for trailing garbage in 4-arg case*/
+	/* Check for trailing garbage */
 	if (cp != NULL)
 		i = 0;	/* failure */
 
 	switch (i) {
+	case 1:
+		fwd->listen_host = NULL;
+		fwd->listen_port = a2port(fwdarg[0]);
+		fwd->connect_host = xstrdup("socks");
+		break;
+
+	case 2:
+		fwd->listen_host = xstrdup(cleanhostname(fwdarg[0]));
+		fwd->listen_port = a2port(fwdarg[1]);
+		fwd->connect_host = xstrdup("socks");
+		break;
+
 	case 3:
 		fwd->listen_host = NULL;
 		fwd->listen_port = a2port(fwdarg[0]);
@@ -1250,7 +1268,17 @@ parse_forward(Forward *fwd, const char *fwdspec)
 
 	xfree(p);
 
-	if (fwd->listen_port == 0 || fwd->connect_port == 0)
+	if (dynamicfwd) {
+		if (!(i == 1 || i == 2))
+			goto fail_free;
+	} else {
+		if (!(i == 3 || i == 4))
+			goto fail_free;
+		if (fwd->connect_port == 0)
+			goto fail_free;
+	}
+
+	if (fwd->listen_port == 0)
 		goto fail_free;
 
 	if (fwd->connect_host != NULL &&
@@ -1260,9 +1288,13 @@ parse_forward(Forward *fwd, const char *fwdspec)
 	return (i);
 
  fail_free:
-	if (fwd->connect_host != NULL)
+	if (fwd->connect_host != NULL) {
 		xfree(fwd->connect_host);
-	if (fwd->listen_host != NULL)
+		fwd->connect_host = NULL;
+	}
+	if (fwd->listen_host != NULL) {
 		xfree(fwd->listen_host);
+		fwd->listen_host = NULL;
+	}
 	return (0);
 }
