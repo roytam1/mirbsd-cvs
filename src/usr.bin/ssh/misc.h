@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /* $OpenBSD: misc.h,v 1.38 2008/06/12 20:38:28 dtucker Exp $ */
 
 /*
@@ -89,5 +90,11 @@ void		put_u16(void *, u_int16_t)
 char	*read_passphrase(const char *, int);
 int	 ask_permission(const char *, ...) __attribute__((format(printf, 1, 2)));
 int	 read_keyfile_line(FILE *, const char *, char *, size_t, u_long *);
+
+/* arc4hlp.c */
+extern void arc4_preexec(void);
+extern void arc4random_buf(void *, size_t)
+    __attribute__((bounded (buffer, 1, 2)));
+extern u_int32_t arc4random_uniform(u_int32_t);
 
 #endif /* _MISC_H */
