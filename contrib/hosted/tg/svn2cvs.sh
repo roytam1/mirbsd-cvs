@@ -1,5 +1,5 @@
 #!/usr/bin/env mksh
-id='$MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $'
+id='$MirOS: contrib/hosted/tg/svn2cvs.sh,v 1.1 2008/12/17 23:19:13 tg Exp $'
 #-
 # Copyright (c) 2008
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -123,6 +123,10 @@ R=$repo/$module
 rp=${R%/*}
 bp=${R##*/}
 
+[[ $url = -* ]] && die SVN repository URL cannot begin with a dash
+[[ $module = -* ]] && die CVS module cannot begin with a dash
+[[ $bp = -* ]] && die last component of CVS module cannot begin with a dash
+
 T=$(mktemp -d ${TMPDIR:-/tmp}/svn2cvs.XXXXXXXXXXXX) || die cannot create \
     temporary directory
 trap "cd /; rm -rf $T; exit 0" 0
@@ -175,11 +179,9 @@ while IFS= read -pr line; do
 		print -u2 ${bi}=== Generating list of files${bo}
 		rm -f f.*
 		for dir in c s; do
-			cd $dir
-			find "$bp" -type f | \
+			(cd $dir; find "$bp" -type f) | \
 			    fgrep -v -e /CVS/ -e /.svn/ | \
-			    sort >../f.$dir
-			cd ..
+			    sort >f.$dir
 		done
 
 		IFS=$nl
@@ -262,10 +264,9 @@ while IFS= read -pr line; do
 done
 
 print -u2 ${bi}=== Fixing up properties${bo}
-if [[ -d $T/s/$bp/. ]]; then
-	cd "$T/s/$bp"
-	(svn proplist -v -R .; print Properties end) |&
-	rm -f "$T/binlist"
+if [[ -d s/$bp/. ]]; then
+	(cd "s/$bp"; svn proplist -v -R .; print Properties end) |&
+	rm -f binlist
 	while read -p x y z line; do
 		if [[ $x = Properties ]]; then
 			fn=${z#\'}
@@ -276,14 +277,13 @@ if [[ -d $T/s/$bp/. ]]; then
 		elif [[ $x = svn:executable ]]; then
 			chmod +x "$R/${fn},v"
 		elif [[ $x = svn:mime-type && $z = application/* ]]; then
-			print -r -- "${fn},v" >>"$T/binlist"
+			print -r -- "$bp/${fn},v" >>binlist
 		fi
 	done
 fi
-cd "$R"
-find . -name '*,v' >"$T/f.rcs"
-[[ -s $T/f.rcs ]] && xargs rcs -kkv <"$T/f.rcs"
-[[ -e $T/binlist ]] && xargs rcs -kb <"$T/binlist"
+(cd "$rp"; find "$bp" -name '*,v') >f.rcs
+[[ -s f.rcs ]] && (cd "$rp"; xargs rcs -kkv) <f.rcs
+[[ -e binlist ]] && (cd "$rp"; xargs rcs -kb) <binlist
 
 print -u2 ${bm}=== All done.${bo}
 cd /
