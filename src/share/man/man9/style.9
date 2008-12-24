@@ -1,7 +1,7 @@
-.\" $MirOS: src/share/man/man9/style.9,v 1.8 2007/01/22 15:51:54 tg Exp $
+.\" $MirOS: src/share/man/man9/style.9,v 1.9 2007/05/18 00:32:44 tg Exp $
 .\" $OpenBSD: style.9,v 1.40 2005/07/09 08:05:08 jmc Exp $
 .\"-
-.\" Copyright (c) 2002-2006 The MirOS Project.
+.\" Copyright (c) 2002-2008 The MirOS Project.
 .\" Copyright (c) ? OpenBSD
 .\" Copyright (c) 1995 FreeBSD Inc.
 .\" All rights reserved.
@@ -27,7 +27,7 @@
 .\" OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 .\" SUCH DAMAGE.
 .\"-
-.Dd May 17, 2007
+.Dd $Mdocdate$
 .Dt STYLE 9 IMP
 .Os
 .Sh NAME
@@ -403,6 +403,13 @@ while (cnt < 20)
 .Pp
 Do not add whitespace at the end of a line, and only use tabs
 followed by spaces to form the indentation.
+.Nm vim
+users are
+.Em required
+to put
+.Dq Li let c_space_errors = 1
+into their
+.Pa ~/.vimrc .
 Do not use more spaces than a tab will produce
 and do not use spaces in front of tabs.
 .Pp
