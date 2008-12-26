@@ -1,4 +1,6 @@
 #!/usr/bin/make -f
+# $MirOS$
+#-
 # -*- makefile -*-
 # Sample debian/rules that uses debhelper.
 # This file was originally written by Joey Hess and Craig Small.

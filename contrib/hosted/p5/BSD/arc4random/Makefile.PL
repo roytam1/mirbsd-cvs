@@ -1,14 +1,14 @@
-# $MirOS: contrib/hosted/p5/BSD/arc4random/Makefile.PL,v 1.9 2008/12/08 13:41:41 tg Exp $
+# $MirOS: contrib/hosted/p5/BSD/arc4random/Makefile.PL,v 1.10 2008/12/08 18:55:53 tg Exp $
 
 use 5.000;
 use ExtUtils::MakeMaker;
 
 # configuration, set to auto or manual
-my $cfg = 'auto';
+my $cfg = 'manual';
 # override these values if manual mode
-my $libs = '';
-my $defs = '-DHAVE_ARC4RANDOM_PUSHB=1';
-my $incs = '';
+my $libs = '-lbsd';
+my $defs = '-DHAVE_ARC4RANDOM_PUSHB=0';
+my $incs = '-include /usr/include/bsd/bsd.h';
 my $objs = '';
 # do not override below for auto mode
 if ($cfg eq 'auto') {
