@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/makefs/makefs.h,v 1.7 2008/10/31 19:45:30 tg Exp $ */
+/**	$MirOS: src/usr.sbin/makefs/makefs.h,v 1.8 2008/11/06 18:13:22 tg Exp $ */
 /*	$NetBSD: makefs.h,v 1.19 2006/10/10 01:55:45 dbj Exp $	*/
 
 /*
@@ -93,6 +93,11 @@
  *	-   first always points to first entry, at current level, which
  *	    must be "." when the tree has been built; during build it may
  *	    not be if "." hasn't yet been found by readdir(2).
+ *
+ *	-   serno is the same for a directory and its dot entry, but they
+ *	    are not hardlinked to each other because the ffs code doesn't
+ *	    like that; otherwise, they are unique and mostly sequential,
+ *	    and the filesystems' code does the right thing anyway
  */
 
 enum fi_flags {

@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/makefs/walk.c,v 1.5 2008/11/06 18:13:22 tg Exp $ */
+/**	$MirOS: src/usr.sbin/makefs/walk.c,v 1.6 2008/12/26 23:02:16 tg Exp $ */
 /*	$NetBSD: walk.c,v 1.23 2006/10/10 01:55:45 dbj Exp $	*/
 
 /*
@@ -43,7 +43,7 @@
 #include <sys/cdefs.h>
 #if defined(__RCSID) && !defined(__lint)
 __RCSID("$NetBSD: walk.c,v 1.23 2006/10/10 01:55:45 dbj Exp $");
-__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/walk.c,v 1.5 2008/11/06 18:13:22 tg Exp $");
+__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/walk.c,v 1.6 2008/12/26 23:02:16 tg Exp $");
 #endif	/* !__lint */
 
 #include <sys/param.h>
@@ -113,6 +113,8 @@ walk_dir(const char *dir, fsnode *parent)
 		cur->parent = parent;
 		if (strcmp(dent->d_name, ".") == 0) {
 				/* ensure "." is at the start of the list */
+			if (cur->parent)
+				cur->inode->serno = cur->parent->inode->serno;
 			cur->next = first;
 			first = cur;
 			if (! prev)
@@ -124,6 +126,7 @@ walk_dir(const char *dir, fsnode *parent)
 			if (!first)
 				first = cur;
 			if (S_ISDIR(cur->type)) {
+				cur->inode->serno = vinode++;
 				cur->child = walk_dir(path, cur);
 				continue;
 			}
