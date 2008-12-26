@@ -1,0 +1,8 @@
+$MirOS$
+
+• write an improved arc4random(3) et al. implementation, which can
+  talk to an EGD/PRNGD as well as have more system interfaces
+• integrate seedfile support from the randex.pl irssi plugin
+• reduce amount of data drawn from /dev/urandom on e.g. Linux
+• expose some more APIs
+• write an entropy pool dæmon, use it
