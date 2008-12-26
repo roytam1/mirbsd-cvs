@@ -1,7 +1,16 @@
-lib/BSD/arc4random.pm
-t/check.t
 MANIFEST
 Makefile.PL
+Makefile.PL.diff
 README
+TODO
 arc4random.c
 arc4rnd_xs.c
+debian/changelog
+debian/compat
+debian/control
+debian/copyright
+debian/rules
+debian/watch
+lib/BSD/arc4random.pm
+t/check.t
+META.yml                                 Module meta-data (added by MakeMaker)
