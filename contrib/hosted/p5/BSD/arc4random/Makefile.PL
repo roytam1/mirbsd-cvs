@@ -4,11 +4,11 @@ use 5.000;
 use ExtUtils::MakeMaker;
 
 # configuration, set to auto or manual
-my $cfg = 'manual';
+my $cfg = 'auto';
 # override these values if manual mode
-my $libs = '-lbsd';
-my $defs = '-DHAVE_ARC4RANDOM_PUSHB=0';
-my $incs = '-include /usr/include/bsd/bsd.h';
+my $libs = '';
+my $defs = '-DHAVE_ARC4RANDOM_PUSHB=1';
+my $incs = '';
 my $objs = '';
 # do not override below for auto mode
 if ($cfg eq 'auto') {
