@@ -1,4 +1,4 @@
-BSD::arc4random version 1.30
+BSD::arc4random version 1.40
 ============================
 
 This module provides a Perl API for the BSDs' arc4random(3) suite
@@ -27,6 +27,10 @@ SAME PROCESS/SCRIPT (other ithread is okay) or, better, providing
 at compile time an arc4random_pushb(3)* implementation collecting
 entropy, sending it to a sensible place, e.g. a gathering daemon.
 
+Using a seed file, similar to the randex.pl Irssi plugin, is also
+a viable option. Future versions of this module will have support
+for seed files and entropy daemons included.
+
 *) http://www.mirbsd.org/man3/arc4random
 
 If your system's arc4random(3) function suite is not in libc, edit
@@ -39,7 +43,8 @@ NOTE: This version of BSD::arc4random comes with an experimental
 implementation tested on Debian instead, since libbsd is not yet
 ready to use. This is a kludge and will go away. It is only used
 automatically on Debian GNU/HURD, GNU/kFreeBSD, GNU/Linux, and
-Cygwin and Solaris.
+Cygwin and Solaris. It can be used on some BSDs as well; support
+for pushing back entropy is available on Cygwin/WIN32 and MirBSD.
 
 To install this module type the following:
 
@@ -61,10 +66,11 @@ COPYRIGHT AND LICENCE
 Copyright (c) 2008 by Thorsten "mirabilos" Glaser, MirOS Project
 Uploaded to CPAN by: Sebastian "Vutral" Schwarz (PAUSE ID: SJSZ)
 The arc4random(9) PRNG has been invented by the OpenBSD Project.
-The arc4random_uniform implementation is derived from OpenBSD
-kernel code, contributed by Damien Miller.
+The arc4random_uniform algorithm is derived from the code in the
+OpenBSD kernel, published by Damien Miller under the ISC licence
+(although no code was copied, acknowledgement is granted).
 
 This module is covered by the MirOS Licence: http://mirbsd.de/MirOS-Licence
 
 ___________________________________________________________________________________
-$MirOS: contrib/hosted/p5/BSD/arc4random/README,v 1.18 2008/07/20 15:27:54 tg Exp $
+$MirOS: contrib/hosted/p5/BSD/arc4random/README,v 1.19 2008/07/28 01:42:06 tg Exp $

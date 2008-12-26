@@ -1,8 +1,10 @@
-$MirOS$
+$MirOS: contrib/hosted/p5/BSD/arc4random/TODO,v 1.1 2008/12/26 14:02:47 tg Exp $
 
 • write an improved arc4random(3) et al. implementation, which can
   talk to an EGD/PRNGD as well as have more system interfaces
 • integrate seedfile support from the randex.pl irssi plugin
 • reduce amount of data drawn from /dev/urandom on e.g. Linux
 • expose some more APIs
+• move have_kintf to the arc4random implementation
 • write an entropy pool dæmon, use it
+• share the new arc4random implementation with MirOS libc

@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/p5/BSD/arc4random/lib/BSD/arc4random.pm,v 1.27 2008/07/28 01:42:07 tg Exp $
+# $MirOS: contrib/hosted/p5/BSD/arc4random/lib/BSD/arc4random.pm,v 1.28 2008/12/08 13:41:44 tg Exp $
 #-
 # Copyright (c) 2008
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -28,7 +28,7 @@ BEGIN {
 	require Exporter;
 	require DynaLoader;
 	use vars qw($VERSION @ISA @EXPORT @EXPORT_OK %EXPORT_TAGS);
-	$VERSION = "1.32";
+	$VERSION = "1.40";
 	@ISA = qw(Exporter DynaLoader);
 	@EXPORT = qw();
 	@EXPORT_OK = qw(
@@ -318,9 +318,13 @@ Thorsten Glaser E<lt>tg@mirbsd.deE<gt>
 =head1 SEE ALSO
 
 The L<arc4random(3)> manual page, available online at:
-L<http://www.mirbsd.org/man/arc4random.3>
+L<https://www.mirbsd.org/man/arc4random.3>
 
 Perl's L<rand> and L<srand> functions via L<perlfunc> and L<perlfaq4>.
+
+The B<randex.pl> plugin for Irssi, implementing the MirOS RANDEX
+protocol (entropy exchange over IRC), with CVSweb at:
+L<http://cvs.mirbsd.de/ports/net/irssi/files/randex.pl>
 
 =head1 COPYRIGHT AND LICENSE
 
