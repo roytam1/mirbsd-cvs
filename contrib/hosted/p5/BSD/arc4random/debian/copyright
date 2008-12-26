@@ -1,8 +1,8 @@
 This package was debianised by Thorsten Glaser <tg@mirbsd.de> on
-Tue, 15 Jul 2008 21:23:05 +0000.
+Tue, 15 Jul 2008 21:23:05 +0000. It has since been converted into
+a Debian native package, which will be uploaded to CPAN as well.
 
-It was downloaded from http://search.cpan.org/dist/BSD-arc4random/
-and is available under the MirOS Licence:
+p5-BSD-arc4random is available under the MirOS Licence:
 
 Copyright (c) 2008
 	Thorsten Glaser <tg@mirbsd.org>

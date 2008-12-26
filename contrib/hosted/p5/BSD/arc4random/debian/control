@@ -4,6 +4,9 @@ Priority: optional
 Maintainer: Thorsten Glaser <tg@mirbsd.de>
 Build-Depends: debhelper (>= 4.0.0), libbsd-dev, perl (>= 5.6.0-16)
 Standards-Version: 3.8.0
+DM-Upload-Allowed: yes
+Vcs-CVS: _anoncvs@anoncvs.mirbsd.org:/cvs contrib/hosted/p5/BSD/arc4random
+Vcs-Browser: http://cvs.mirbsd.de/contrib/hosted/p5/BSD/arc4random/
 
 Package: libbsd-arc4random-perl
 Architecture: any

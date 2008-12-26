@@ -1,4 +1,5 @@
 MANIFEST
+META.yml
 Makefile.PL
 Makefile.PL.diff
 README
@@ -10,7 +11,5 @@ debian/compat
 debian/control
 debian/copyright
 debian/rules
-debian/watch
 lib/BSD/arc4random.pm
 t/check.t
-META.yml                                 Module meta-data (added by MakeMaker)
