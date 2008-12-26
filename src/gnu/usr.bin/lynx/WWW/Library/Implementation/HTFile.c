@@ -1336,6 +1336,8 @@ CompressFileType HTContentTypeToCompressType(const char *ct)
 {
     CompressFileType method = cftNone;
 
+    if (ct == NULL)
+	return cftNone;
     if (!strncasecomp(ct, "application/gzip", 16) ||
 	!strncasecomp(ct, "application/x-gzip", 18)) {
 	method = cftGzip;
