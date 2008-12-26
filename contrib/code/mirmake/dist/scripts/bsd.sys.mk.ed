@@ -1,6 +1,0 @@
-0a
-# $MirOS: contrib/code/mirmake/dist/scripts/bsd.sys.mk.ed,v 1.2 2005/02/23 21:29:44 tg Exp $
-.
-/defined(EXPERIMENTAL/;/endif/+d
-/defined(DESTDIR/;/endif/+d
-wq

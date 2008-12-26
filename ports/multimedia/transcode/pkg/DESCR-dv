@@ -1,4 +1,0 @@
-transcode is a text console video-stream processing tool.
-
-This package adds DV export and previewing functionality to
-transcode with help from the libdv package.
