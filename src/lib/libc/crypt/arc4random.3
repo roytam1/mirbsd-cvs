@@ -1,4 +1,4 @@
-.\" $OpenBSD: arc4random.3,v 1.19 2005/07/17 08:50:55 jaredy Exp $
+.\" $OpenBSD: arc4random.3,v 1.27 2008/12/23 18:31:02 deraadt Exp $
 .\"
 .\" Copyright 1997 Niels Provos <provos@physnet.uni-hamburg.de>
 .\" All rights reserved.
@@ -30,11 +30,13 @@
 .\"
 .\" Manual page, using -mandoc macros
 .\"
-.Dd April 15, 1997
+.Dd $Mdocdate: December 23 2008 $
 .Dt ARC4RANDOM 3
 .Os
 .Sh NAME
 .Nm arc4random ,
+.Nm arc4random_buf ,
+.Nm arc4random_uniform ,
 .Nm arc4random_stir ,
 .Nm arc4random_addrandom
 .Nd arc4 random number generator
@@ -42,6 +44,10 @@
 .Fd #include <stdlib.h>
 .Ft u_int32_t
 .Fn arc4random "void"
+.Ft void
+.Fn arc4random_buf "void *buf" "size_t nbytes"
+.Ft u_int32_t
+.Fn arc4random_uniform "u_int32_t upper_bound"
 .Ft void
 .Fn arc4random_stir "void"
 .Ft void
@@ -73,10 +79,27 @@ versus the fast but poor quality interfaces described in
 and
 .Xr drand48 3 .
 .Pp
+.Fn arc4random_buf
+fills the region
+.Fa buf
+of length
+.Fa nbytes
+with ARC4-derived random data.
+.Pp
+.Fn arc4random_uniform
+will return a uniformly distributed random number less than
+.Fa upper_bound .
+.Fn arc4random_uniform
+is recommended over constructions like
+.Dq Li arc4random() % upper_bound
+as it avoids "modulo bias" when the upper bound is not a power of two.
+.Pp
 The
 .Fn arc4random_stir
-function reads data from
-.Pa /dev/arandom
+function reads data using
+.Xr sysctl 3
+from
+.Va kern.arandom
 and uses it to permute the S-Boxes via
 .Fn arc4random_addrandom .
 .Pp
@@ -87,6 +110,9 @@ before using
 since
 .Fn arc4random
 automatically initializes itself.
+.Sh RETURN VALUES
+These functions are always successful, and no return value is
+reserved to indicate an error.
 .Sh SEE ALSO
 .Xr rand 3 ,
 .Xr rand48 3 ,
@@ -99,11 +125,13 @@ It was considered a trade secret.
 Because it was a trade secret, it obviously could not be patented.
 A clone of this was posted anonymously to USENET and confirmed to
 be equivalent by several sources who had access to the original cipher.
-Because of the trade secret situation, RSA Data Security, Inc. can do
-nothing about the release of the ARC4 algorithm.
+Because of the trade secret situation, RSA Data Security, Inc. could
+do nothing about the release of the
+.Ql Alleged RC4
+algorithm.
 Since
 .Pa RC4
-used to be a trade secret, the cipher is now referred to as
+was trademarked, the cipher is now referred to as
 .Pa ARC4 .
 .Pp
 These functions first appeared in
