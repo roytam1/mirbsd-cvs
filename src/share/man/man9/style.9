@@ -22,9 +22,9 @@
 .\" OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 .\" SUCH DAMAGE.
 .\"
-.\"	$OpenBSD: style.9,v 1.40 2005/07/09 08:05:08 jmc Exp $
+.\"	$OpenBSD: style.9,v 1.50 2008/11/14 13:42:05 tedu Exp $
 .\"
-.Dd June 18, 2001
+.Dd $Mdocdate: November 14 2008 $
 .Dt STYLE 9
 .Os
 .Sh NAME
@@ -251,10 +251,8 @@ typedef struct _bar {
 int
 main(int argc, char *argv[])
 {
-	long num;
-	int ch;
-	char *ep;
-
+	int aflag, bflag, ch, num;
+	const char *errstr;
 .Ed
 .Pp
 For consistency,
@@ -277,14 +275,12 @@ while ((ch = getopt(argc, argv, "abn:")) != -1)
 		bflag = 1;
 		break;
 	case 'n':
-		num = strtol(optarg, &ep, 10);
-		if (num <= 0 || *ep != '\e0') {
-			warnx("illegal number, -n argument -- %s",
-			    optarg);
+		num = strtonum(optarg, 0, INT_MAX, &errstr);
+		if (errstr) {
+			warnx("number is %s: %s", errstr, optarg);
 			usage();
 		}
 		break;
-	case '?':
 	default:
 		usage();
 		/* NOTREACHED */
@@ -302,10 +298,6 @@ Use a space after keywords
 No braces are
 used for control statements with zero or only a single statement unless that
 statement is more than a single line, in which case they are permitted.
-Forever loops are done with
-.Li for ,
-not
-.Li while .
 .Bd -literal -offset indent
 for (p = buf; *p != '\e0'; ++p)
 	;	/* nothing */
@@ -337,7 +329,7 @@ Second level indents are four spaces.
 .Bd -literal -offset indent
 while (cnt < 20)
 	z = a + really + long + statement + that + needs +
-	    two lines + gets + indented + four + spaces +
+	    two + lines + gets + indented + four + spaces +
 	    on + the + second + and + subsequent + lines;
 .Ed
 .Pp
@@ -422,12 +414,7 @@ char *six, seven, eight, nine, ten, eleven, twelve;
 four = myfunction();
 .Ed
 .Pp
-Do not declare functions inside other functions: ANSI C says that
-such declarations have file scope regardless of the nesting of the
-declaration.
-Hiding file declarations in what appears to be a local scope is
-undesirable and will elicit complaints from a good compiler, such as
-.Dq Li gcc -Wtraditional .
+Do not declare functions inside other functions.
 .Pp
 Casts and
 .Fn sizeof
@@ -518,17 +505,6 @@ Use
 instead of
 (type\ *)0 or (type\ *)NULL in all cases except for arguments to variadic
 functions where the compiler does not know the type.
-Test pointers
-against
-.Dv NULL ,
-i.e., use:
-.Bd -literal -offset indent
-(p = f()) == NULL
-.Ed
-not:
-.Bd -literal -offset indent -compact
-!(p = f())
-.Ed
 .Pp
 Don't use
 .Ql \&!
@@ -597,7 +573,7 @@ usage(void)
 	extern char *__progname;	/* from crt0.o */
 .Ed
 .Pp
-Usage statements should look like the manual pages.
+Usage statements should take the same form as the synopsis in manual pages.
 Options without
 operands come first, in alphabetical order inside a single set of
 braces, followed by options with operands, in alphabetical order,
@@ -623,7 +599,7 @@ That is, with no regard to whether an option takes an argument.
 .Pp
 The
 .Li __progname
-string, should be used instead of hard-coding the program name.
+string may be used instead of hard-coding the program name.
 .Bd -literal -offset indent
 (void)fprintf(stderr, "usage: %s [-ab]\en", __progname);
 exit(1);
@@ -634,16 +610,11 @@ New core kernel code should be reasonably compliant with the style guides.
 The guidelines for third-party maintained modules and device drivers are more
 relaxed but at a minimum should be internally consistent with their style.
 .Pp
-Stylistic changes (including whitespace changes) are hard on the source
-repository and are to be avoided without good reason.
-Code that is approximately KNF compliant in the repository must not diverge
-from compliance.
-.Pp
 Whenever possible, code should be run through a code checker
 (e.g.,
-.Dq Li gcc -Wall -W -Wtraditional -Wpointer-arith -Wbad-function-cast ... ,
+.Dq Li gcc -Wall -W -Wpointer-arith -Wbad-function-cast ... ,
 .Xr lint 1
-or lclint from the ports tree) and produce minimal warnings.
+or splint from the ports tree) and produce minimal warnings.
 .Pp
 Note that documentation follows its own style guide,
 as documented in
