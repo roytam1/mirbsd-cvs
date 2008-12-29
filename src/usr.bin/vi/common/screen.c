@@ -29,6 +29,9 @@ static const char sccsid[] = "@(#)screen.c	10.15 (Berkeley) 9/15/96";
 
 #include "common.h"
 #include "../vi/vi.h"
+#ifdef HAVE_PERL_INTERP
+#include "perl_extern.h"
+#endif
 
 /*
  * screen_init --

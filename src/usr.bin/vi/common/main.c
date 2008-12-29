@@ -40,6 +40,9 @@ static const char sccsid[] = "@(#)main.c	10.48 (Berkeley) 10/11/96";
 #include "common.h"
 #include "../vi/vi.h"
 #include "pathnames.h"
+#ifdef HAVE_PERL_INTERP
+#include "perl_extern.h"
+#endif
 
 static void	 attach(GS *);
 static void	 v_estr(char *, int, char *);

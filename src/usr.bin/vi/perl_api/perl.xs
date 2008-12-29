@@ -35,6 +35,7 @@ static const char sccsid[] = "@(#)perl.xs	8.27 (Berkeley) 10/16/96";
 
 #include "../common/common.h"
 
+#define PERL_POLLUTE
 #include <EXTERN.h>
 #include <perl.h>
 #include <XSUB.h>
@@ -793,7 +794,7 @@ MapKey(screen, key, perlproc)
 	PREINIT:
 	void (*scr_msg)(SCR *, mtype_t, char *, size_t);
 	int rval;
-	int length;
+	STRLEN length;
 	char *command;
 	SV *svc;
 
@@ -1015,7 +1016,7 @@ STORE(screen, key, perlproc)
 	PREINIT:
 	void (*scr_msg)(SCR *, mtype_t, char *, size_t);
 	int rval;
-	int length;
+	STRLEN length;
 	char *command;
 	SV *svc;
 

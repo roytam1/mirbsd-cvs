@@ -1,21 +1,24 @@
-#	$OpenBSD: Makefile,v 1.16 2004/01/25 23:22:10 mickey Exp $
-#	@(#)Makefile.in	8.75 (Berkeley) 10/23/96
+# $MirOS$
+# $OpenBSD: Makefile,v 1.16 2004/01/25 23:22:10 mickey Exp $
+# @(#)Makefile.in	8.75 (Berkeley) 10/23/96
 
-PROG=	vi
+PROG=		vi
 CLEANFILES+=	_h2ph _h2ph_pre.ph vi.recover
+CPPFLAGS+=	-I${.CURDIR} -I${.CURDIR}/../include
 
 # Uncomment to build with an embedded perl interpreter
-#PERLINTERP=	yes
+#PERLINTERP=	#defined
 
+.ifndef USE_OCURSES
 # Modern curses (ncurses)
-CFLAGS+=-I${.CURDIR} -I${.CURDIR}/../include
-LDADD+=-lcurses
-DPADD+= ${LIBCURSES}
-
+LDADD+=		-lcurses
+DPADD+=		${LIBCURSES}
+.else
 # Old BSD curses
-#CFLAGS+=-I${.CURDIR} -I${.CURDIR}/../include -D_USE_OLD_CURSES_
-#LDADD+= -locurses
-#DPADD+= ${LIBOLDCURSES}
+CPPFLAGS+=	-D_USE_OLD_CURSES_
+LDADD+=		-locurses
+DPADD+=		${LIBOLDCURSES}
+.endif
 
 SRCS=	cl_bsd.c cl_funcs.c cl_main.c cl_read.c cl_screen.c cl_term.c \
 	cut.c delete.c ex.c ex_abbrev.c ex_append.c ex_args.c ex_argv.c \
@@ -37,11 +40,11 @@ SRCS=	cl_bsd.c cl_funcs.c cl_main.c cl_read.c cl_screen.c cl_term.c \
 	vs_smap.c vs_split.c
 
 .ifdef PERLINTERP
-SRCS+=	api.c perl.c perlsfio.c
-PERLARCH!=perl -MConfig -e 'print $$Config{archlibexp}'
-CFLAGS+=-DHAVE_PERL_5_003_01 -DHAVE_PERL_INTERP -I${PERLARCH}/CORE
-LDADD+= -lperl ${PERLARCH}/auto/DynaLoader/DynaLoader.a
-DPADD+= ${LIBPERL}
+SRCS+=		api.c perl.c perlsfio.c
+PERLARCH!=	perl -MConfig -e 'print $$Config{archlibexp}'
+CPPFLAGS+=	-DHAVE_PERL_5_003_01 -DHAVE_PERL_INTERP -I${PERLARCH}/CORE
+LDADD+=		-lperl ${PERLARCH}/auto/DynaLoader/DynaLoader.a
+DPADD+=		${LIBPERL}
 .endif
 
 LINKS=	${BINDIR}/vi ${BINDIR}/ex

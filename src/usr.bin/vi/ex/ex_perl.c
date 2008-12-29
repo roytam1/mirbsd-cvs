@@ -32,6 +32,9 @@ static const char sccsid[] = "@(#)ex_perl.c	8.10 (Berkeley) 9/15/96";
 #include <unistd.h>
 
 #include "../common/common.h"
+#ifdef HAVE_PERL_INTERP
+#include "perl_extern.h"
+#endif
 
 /* 
  * ex_perl -- :[line [,line]] perl [command]

@@ -31,6 +31,7 @@ static const char sccsid[] = "@(#)perlsfio.c	8.1 (Berkeley) 9/24/96";
 
 #include "../common/common.h"
 
+#define PERL_POLLUTE
 #include <EXTERN.h>
 #include <perl.h>
 #include <XSUB.h>

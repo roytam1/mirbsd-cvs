@@ -25,7 +25,9 @@ static const char sccsid[] = "@(#)cl_screen.c	10.49 (Berkeley) 9/24/96";
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#ifndef _USE_OLD_CURSES_
 #include <term.h>
+#endif
 #include <termios.h>
 #include <unistd.h>
 
