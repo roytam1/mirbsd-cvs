@@ -1,4 +1,4 @@
-; $MirOS: contrib/gnu/e3/e3.asm,v 1.3 2008/12/30 01:20:36 tg Exp $
+; $MirOS: contrib/gnu/e3/e3.asm,v 1.4 2008/12/30 01:31:37 tg Exp $
 ;
 ;--------------------------------------------------------------------
 ;
@@ -4366,7 +4366,11 @@ Utime:	mov al,SYS_utime
 Fork:	mov al,SYS_fork
 	jmp short IntCall
 ;-------
-Pipe:	
+Pipe:
+%ifdef MIRBSD
+	mov ax,SYS_pipe
+	jmp short IntCall2
+%else	
 %ifdef FREEBSD
 	mov eax,SYS_pipe
 	push edi
@@ -4384,6 +4388,7 @@ Pipe:
 %else
 	mov al,SYS_pipe
 	jmp short IntCall
+%endif
 %endif
 ;-------
 Dup2:	mov al,SYS_dup2
