@@ -1,4 +1,4 @@
-; $MirOS$
+; $MirOS: contrib/gnu/e3/e3.asm,v 1.2 2008/12/30 01:04:36 tg Exp $
 ;
 ;--------------------------------------------------------------------
 ;
@@ -2103,7 +2103,11 @@ GC34:
 %ifndef FREEBSD
 	mov al,8
 %else
+%ifdef MIRBSD
+	mov al,8
+%else
 	mov al,7
+%endif
 %endif
 RC_No7F:
 ;-------
