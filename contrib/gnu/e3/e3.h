@@ -1,3 +1,5 @@
+; $MirOS$
+;
 ;--------------------------------------------------------------------------
 ;  e3.asm v2.7.0 Copyright (C) 2000-06 Albrecht Kleine <kleine@ak.sax.de>
 ;
@@ -35,6 +37,10 @@
   %undef UTF8RTS
 %endif
 
+%ifdef MIRBSD
+%define UTF8
+%define OPENBSD
+%endif
 %ifdef NETBSD
 %define FREEBSD
 %endif
@@ -384,6 +390,7 @@ db "R/O file system",10			;30
 %endif
 
 ;-------
+%ifdef LINUX
 %ifdef UTF8
  %define NEW_CURSOR_MGNT		;switch cursor depending of 'INSERT'-mode
  %undef CURSORMGNT			;switch cursor depending of 'INSERT'-mode
@@ -395,6 +402,10 @@ db "R/O file system",10			;30
  %ifdef AMD64
   %undef CURSORMGNT			;work around January 2006
  %endif
+%endif
+%else
+ %undef NEW_CURSOR_MGNT
+ %undef CURSORMGNT
 %endif
 ;--------
 
@@ -493,9 +504,19 @@ db "Broken pipe",10			;32
 	%define TSize   word			;due oversized ICANON
 ;------
 
+%ifdef MIRBSD
+%define time_t	resq
+%else
+%define time_t	resd
+%endif
+
 	struc stat_struc
 .st_dev:	resd 1
 .st_ino:	resd 1
+%ifdef MIRBSD
+.st_mode:	resd 1
+.st_nlink:	resd 1
+%else
 %ifdef OPENBSD
 .st_mode:	resw 1				;for syscall 279
 .st_nlink:	resw 1				;ditto
@@ -503,21 +524,22 @@ db "Broken pipe",10			;32
 .st_mode:	resd 1
 .st_nlink:	resd 1
 %endif
+%endif
 .st_uid:	resd 1
 .st_gid:	resd 1
 .st_rdev:	resd 1
-.st_atime:	resd 1
+.st_atime:	time_t 1
 .st_atimes:	resd 1
-.st_mtime:	resd 1
+.st_mtime:	time_t 1
 .st_mtimes:	resd 1
-.st_ctime:	resd 1
+.st_ctime:	time_t 1
 .st_ctimes:	resd 1
 .st_size:	resd 2
 .st_blocks:	resd 2
 .st_blksize:	resd 1
 .st_flags:	resd 1
 .st_gen:	resd 1
-.st_spare:	resd 5
+.st_spare:	resd 6
 	endstruc
 
 %define SYS_exit	1
@@ -555,8 +577,12 @@ db "Broken pipe",10			;32
 %undef SYS_sigaction	;currently only for old COMPAT layer working
 %endif
 
-
-%define time_t	resd
+%ifdef MIRBSD
+%define SYS_kill	37
+%define SYS_sigaction	46
+%undef  SYS_fstat	
+%define SYS_fstat	293
+%endif
 
 	struc utimbuf_struc
 .actime: time_t  2
@@ -774,7 +800,6 @@ c_ospeed speed_t3 1
 ;-------
 %ifndef LINUX
  %undef CRIPLED_ELF
- %undef UTF8
 %endif
 ;--------
 ;

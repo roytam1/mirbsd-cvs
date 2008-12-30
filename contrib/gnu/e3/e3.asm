@@ -1,3 +1,5 @@
+; $MirOS$
+;
 ;--------------------------------------------------------------------
 ;
 ;  e3.asm v2.7.1 Copyright (C) 2000-2007 Albrecht Kleine <kleine@ak.sax.de>
@@ -6360,6 +6362,15 @@ align 4
  dd 0 
 %endif 
 ;-----------------------------------------------------------------------
+%ifdef MIRBSD
+section .note.miros.ident
+align 4
+ dd 10
+ dd 4
+ dd 1
+ db "MirOS BSD",0,0,0
+ dd 0
+%else
 %ifdef OPENBSD
 section .note.openbsd.ident
 align 4
@@ -6368,6 +6379,7 @@ align 4
  dd 1
  db "OpenBSD",0
  dd 0 
+%endif 
 %endif 
 ;-----------------------------------------------------------------------
 section .bss
