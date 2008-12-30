@@ -1,4 +1,4 @@
-; $MirOS: contrib/gnu/e3/e3.asm,v 1.2 2008/12/30 01:04:36 tg Exp $
+; $MirOS: contrib/gnu/e3/e3.asm,v 1.3 2008/12/30 01:20:36 tg Exp $
 ;
 ;--------------------------------------------------------------------
 ;
@@ -4356,8 +4356,10 @@ Select:	xor ebx,ebx
 %endif
 ;-----------------------------------------------------------------------
 %ifdef SYS_readlink
+%ifdef SYS_utime
 Utime:	mov al,SYS_utime
 	jmp short IntCall
+%endif
 %endif
 ;-------
 %ifdef USE_PIPE
@@ -4770,8 +4772,10 @@ notready:mov ecx,screenbuffer
 	mov ebx,esi
 	call CloseFile			;close original file
 	pop ebx				;original file path
+%ifdef SYS_utime
 	mov ecx,accesstime		;i.e. a data structure of 2* 32 bit
 	call Utime			;set change time
+%endif
 	POP_ALL
 	ret
 %endif

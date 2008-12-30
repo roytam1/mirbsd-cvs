@@ -1,4 +1,4 @@
-; $MirOS$
+; $MirOS: contrib/gnu/e3/e3.h,v 1.2 2008/12/30 01:04:36 tg Exp $
 ;
 ;--------------------------------------------------------------------------
 ;  e3.asm v2.7.0 Copyright (C) 2000-06 Albrecht Kleine <kleine@ak.sax.de>
@@ -578,9 +578,12 @@ db "Broken pipe",10			;32
 %endif
 
 %ifdef MIRBSD
+%undef  SYS_utime
+%undef  SYS_pipe
+%define SYS_pipe	263
 %define SYS_kill	37
 %define SYS_sigaction	46
-%undef  SYS_fstat	
+%undef  SYS_fstat
 %define SYS_fstat	293
 %endif
 
