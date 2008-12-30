@@ -1,4 +1,4 @@
-# $MirOS: contrib/gnu/e3/Makefile,v 1.2 2008/12/30 01:04:36 tg Exp $
+# $MirOS: contrib/gnu/e3/Makefile,v 1.3 2008/12/30 01:06:56 tg Exp $
 
 PROG=		e3
 BINDIR?=	${BSD_PREFIX}/bin
@@ -15,7 +15,6 @@ NASMFLAGS+=	-w+orphan-labels
 NASMFLAGS+=	-O7
 NASMFLAGS+=	-DMIRBSD
 
-LDFLAGS+=	-s
 LDFLAGS+=	-e _start
 LDFLAGS+=	-Bstatic
 
@@ -23,6 +22,12 @@ LDFLAGS+=	-Bstatic
 NASMFLAGS+=	-DSED
 #NASMFLAGS+=	-DEX
 #NASMFLAGS+=	-DPERLPIPE
+
+.include <bsd.own.mk>
+
+.ifdef DEBUG
+NASMFLAGS+=	-g
+.endif
 
 .SUFFIXES: .asm
 CLEANFILES+=	${PROG}~
@@ -32,7 +37,7 @@ CLEANFILES+=	${PROG}~
 
 ${PROG}: ${OBJS}
 	ld ${LDFLAGS} -o $@~ ${OBJS}
-	strip -s -R .comment $@~
+	${STRIP} -s -R .comment $@~
 	mv -f $@~ $@
 
 .include <bsd.prog.mk>
