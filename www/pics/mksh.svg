@@ -10,7 +10,7 @@
 		Based on an experimental draft of a new MirOS logo (CC-BY-IDC)
 		Utilising Gentium Book Basic (Bold Oblique)
 
-		$MirOS: www/pics/mksh.svg,v 1.4 2008/12/30 19:11:03 tg Exp $
+		$MirOS: www/pics/mksh.svg,v 1.5 2008/12/30 19:16:25 tg Exp $
 		Copyright © 2008 Lukas Upton ＜smultron@midnightbsd.org＞
 		Copyright © 2008 Thorsten „mirabilos“ Glaser ＜tg@mirbsd.de＞
 
@@ -19,6 +19,7 @@
 		used have to be obtained separately.
 	</desc>
 	<g id="monitor">
+		<path fill="#FF0000" d="M144,200h512v400h-512z" />
 		<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="400.4946" y1="597.9512" x2="400.4946" y2="203.0825">
 			<stop  offset="0" style="stop-color:#CCCCCC"/>
 			<stop  offset="1" style="stop-color:#B3B3B3"/>
