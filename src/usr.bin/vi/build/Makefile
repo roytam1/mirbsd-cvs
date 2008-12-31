@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/usr.bin/vi/build/Makefile,v 1.3 2008/12/29 23:54:06 tg Exp $
 # $OpenBSD: Makefile,v 1.16 2004/01/25 23:22:10 mickey Exp $
 # @(#)Makefile.in	8.75 (Berkeley) 10/23/96
 
@@ -7,9 +7,15 @@ CLEANFILES+=	_h2ph _h2ph_pre.ph vi.recover
 CPPFLAGS+=	-I${.CURDIR} -I${.CURDIR}/../include
 
 # Uncomment to build with an embedded perl interpreter
-#PERLINTERP=	#defined
+#PERLINTERP=	Yes
 
-.ifndef USE_OCURSES
+# Uncommend to build against old BSD curses instead of ncursesw
+#USE_OCURSES=	Yes
+
+PERLINTERP?=	No
+USE_OCURSES?=	No
+
+.if ${USE_OCURSES:L} == "yes"
 # Modern curses (ncurses)
 LDADD+=		-lcurses
 DPADD+=		${LIBCURSES}
@@ -39,7 +45,7 @@ SRCS=	cl_bsd.c cl_funcs.c cl_main.c cl_read.c cl_screen.c cl_term.c \
 	v_zexit.c vi.c vs_line.c vs_msg.c vs_refresh.c vs_relative.c \
 	vs_smap.c vs_split.c
 
-.ifdef PERLINTERP
+.if ${PERLINTERP:L} == "yes"
 SRCS+=		api.c perl.c perlsfio.c
 PERLARCH!=	perl -MConfig -e 'print $$Config{archlibexp}'
 CPPFLAGS+=	-DHAVE_PERL_5_003_01 -DHAVE_PERL_INTERP -I${PERLARCH}/CORE
@@ -81,7 +87,7 @@ afterinstall:
 	${INSTALL} -d ${DESTDIR}${SHAREDIR}/vi/catalog
 	(cd ${.CURDIR}/../catalog && ${INSTALL} -m ${NONBINMODE} -c ${CATALOGS} ${DESTDIR}/usr/share/vi/catalog )
 	${INSTALL} -m ${BINMODE} -o ${BINOWN} -g ${BINGRP} -c vi.recover ${DESTDIR}/usr/libexec/
-.ifdef PERLINTERP
+.if ${PERLINTERP:L} == "yes"
 	${INSTALL} -d ${DESTDIR}${SHAREDIR}/vi/perl
 	(cd ${.CURDIR}/../perl_scripts; for i in *.pl; do ${INSTALL} -m ${NONBINMODE} -c $$i ${DESTDIR}/usr/share/vi/perl; done)
 .endif
