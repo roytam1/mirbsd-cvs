@@ -1,4 +1,4 @@
-/*	$MirOS$ */
+/*	$MirOS: src/sys/arch/i386/stand/libsa/gidt.S,v 1.2 2009/01/01 19:45:02 tg Exp $ */
 /*	$OpenBSD: gidt.S,v 1.32 2006/12/26 19:30:44 tom Exp $	*/
 
 /*
@@ -81,10 +81,10 @@
 	/* reload real cs:ip */					\
 	data32 ljmp	$(LINKADDR >> 4), $1f - LINKADDR;	\
 1:								\
-	movw	%cs, %ax;	/* setup: %ds, %es, %ss = %cs */ \
+	movw	%cs, %ax;	/* setup: %ds, %es = %cs */	\
 	movw	%ax, %ds;					\
 	movw	%ax, %es;					\
-	xorw	%ax, %ax;					\
+	xorw	%ax, %ax;	/* setup: %ss = 0x0000 */	\
 	movw	%ax, %ss;					\
 								\
 	gidt_debug2;						\
