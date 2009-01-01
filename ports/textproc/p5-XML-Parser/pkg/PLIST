@@ -1,3 +1,4 @@
+@comment $MirOS$
 @comment $OpenBSD: PLIST,v 1.4 2003/12/20 19:51:27 naddy Exp $
 ${P5ARCH}/XML/Parser.pm
 ${P5ARCH}/XML/Parser/Encodings/Japanese_Encodings.msg
@@ -22,10 +23,9 @@ ${P5ARCH}/XML/Parser/Expat.pm
 ${P5ARCH}/XML/Parser/LWPExternEnt.pl
 @comment ${P5ARCH}/auto/XML/Parser/.packlist
 ${P5ARCH}/auto/XML/Parser/Expat/Expat.bs
-${P5ARCH}/auto/XML/Parser/Expat/Expat.so
-man/man3/XML::Parser.3p
-man/man3/XML::Parser::Expat.3p
-@dirrm man/man3
+${P5ARCH}/auto/XML/Parser/Expat/Expat${P5DLEXT}
+man/man3/XML::Parser${P5MAN3EXT}
+man/man3/XML::Parser::Expat${P5MAN3EXT}
 @dirrm ${P5ARCH}/auto/XML/Parser/Expat
 @dirrm ${P5ARCH}/auto/XML/Parser
 @dirrm ${P5ARCH}/auto/XML
