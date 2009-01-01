@@ -1,3 +1,4 @@
+/*	$MirOS$ */
 /*	$OpenBSD: gidt.S,v 1.32 2006/12/26 19:30:44 tom Exp $	*/
 
 /*
@@ -159,26 +160,43 @@ ENTRY(_rtt)
 	movl	$0, %esp	/* segment violation */
 	ret
 
-	.align	8, 0x90
-pmm_init:
-	/* load idtr for interrupts */
-	lidt	Idtr
-	ret
+	/*
+	 * set up the protected mode Interrupt Descriptor Table:
+	 * first, reserve space for 80 entries, 8 bytes each,
+	 * then the IDT descriptor.
+	 */
+	.p2align 4
+idt:
+	. = idt + (80 * 8)
+	.globl Idtr
+Idtr:	.word	. - idt - 1
+	.long	idt
+	.word	0		/* XXX what for? */
 
+	.intel_syntax noprefix
 
 #ifdef __STDC__
 #define IPROC(n)	X##n
 #define IEMU(n)		IPROC(emu##n)
+#define idtb(b)		idte(emu##b)
 #else
 #define IPROC(n)	X/**/n
 #define IEMU(n)		IPROC(emu/**/n)
+#define idtb(b)		idte(emu/**/b)
 #endif
-	.align 8, 0x90
-idt:
-#define idte(e)	\
-	.short	IPROC(e); .short (S32TEXT); \
-	.short	((0x80|SDT_SYS386TGT) << 8); .short (LINKADDR >> 16)
-/* internal (0-31) */
+
+#define idte(e)						\
+	mov	ebx,offset IPROC(e);			\
+	mov	ax,bx; stosw;				\
+	mov	ax,S32TEXT; stosw;			\
+	mov	al,0; stosb;				\
+	mov	al,(0x80 | SDT_SYS386TGT); stosb;	\
+	mov	eax,ebx; shr eax,16; stosw		\
+
+pmm_init:
+	mov	edi,offset idt
+	cld
+		/* internal / CPU (0-31) */
 	idte(de); idte(db); idte(nmi); idte(bp); idte(of); idte(br)
 	idte(ud); idte(nm); idte(df);  idte(fo); idte(ts); idte(np)
 	idte(ss); idte(gp); idte(pf);  idte(xx); idte(mf); idte(ac)
@@ -189,11 +207,6 @@ idt:
 		/* Maskable interrupts (32-255) */
 		/* BIOS entry points (32-63) */
 		/* DOS entry points (64-80) */
-#ifdef __STDC__
-#define idtb(b)	idte(emu##b)
-#else
-#define idtb(b)	idte(emu/**/b)
-#endif
 	idtb(0);  idtb(1);  idtb(2);  idtb(3);  idtb(4);  idtb(5)
 	idtb(6);  idtb(7);  idtb(8);  idtb(9);  idtb(10); idtb(11)
 	idtb(12); idtb(13); idtb(14); idtb(15); idtb(16); idtb(17)
@@ -202,11 +215,11 @@ idt:
 	idtb(30); idtb(31); idtb(32); idtb(33); idtb(34); idtb(35)
 	idtb(36); idtb(37); idtb(38); idtb(39); idtb(40); idtb(41)
 	idtb(42); idtb(43); idtb(44); idtb(45); idtb(46); idtb(47)
-#undef idte
-	.globl	Idtr
-Idtr:	.word	. - idt - 1
-	.long	idt
-	.word	0
+
+	lidt	Idtr
+	ret
+
+	.att_syntax
 
 	.align	8
 	.globl	Idtr_real
