@@ -1,4 +1,4 @@
-# $MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $
+# $MirOS: contrib/hosted/tg/.gdbinit,v 1.1 2009/01/01 20:53:28 tg Exp $
 #-
 # Copyright (c) 2009
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -26,6 +26,8 @@ y
  set architecture i8086
  set language asm
  set $user_csz = 16
+ echo \nSet to 16 bit assembly debugging.\n
+ u
 end
 
 define c32
@@ -33,6 +35,8 @@ y
  set architecture i386
  set language asm
  set $user_csz = 32
+ echo \nSet to 32 bit assembly debugging.\n
+ u
 end
 
 define u
@@ -53,12 +57,25 @@ y
  end
 end
 
+define d
+y
+ x/$arg2 (($arg0<<4)+$arg1)
+end
+
 define t
 y
  u
+ echo \n
  si
  info r
+ echo \n
  uu 3
+end
+
+define qemu
+y
+ target remote :1234
+ c32
 end
 
 set disassembly-flavor intel
