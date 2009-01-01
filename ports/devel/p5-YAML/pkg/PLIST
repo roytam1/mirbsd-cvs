@@ -1,3 +1,4 @@
+@comment $MirOS$
 @comment $OpenBSD: PLIST,v 1.1.1.1 2004/05/19 21:13:34 msf Exp $
 bin/phone2yaml
 bin/xyx
@@ -14,7 +15,9 @@ man/man1/phone2yaml.1
 man/man1/xyx.1
 man/man1/yaml2outline.1
 man/man1/ysh.1
-man/man3/YAML.3p
-man/man3/YAML::Node.3p
+man/man3/YAML${P5MAN3EXT}
+man/man3/YAML::Node${P5MAN3EXT}
 @comment @dirrm ${P5ARCH}/auto/YAML
+@comment @dirrm ${P5ARCH}/auto
+@comment @dirrm ${P5ARCH}
 @dirrm ${P5SITE}/YAML
