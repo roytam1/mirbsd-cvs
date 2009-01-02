@@ -1,0 +1,2 @@
+This module manages a set of Log::Dispatch::* objects, allowing you to
+add and remove output objects as desired.
