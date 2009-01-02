@@ -53,6 +53,9 @@ const char cdevs[][4] = {
 };
 const int ncdevs = NENTS(cdevs);
 
+const int i386_bootdev = 0;
+const int i386_toridev = 0;
+
 /* pass dev_t to the open routines */
 int
 devopen(struct open_file *f, const char *fname, char **file)
