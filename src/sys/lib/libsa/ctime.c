@@ -43,7 +43,7 @@ ctime(const time_t *clock)
 	static const u_int monthcnt[] = {
 		31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31
 	};
-	static char buf[64];
+	static char buf[32];
 	int ss, mm, hh, wday, month, year;
 	time_t tt = *clock;
 
