@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/qt4.port.mk,v 1.1 2008/08/10 09:16:48 bsiegert Exp $
+# $MirOS: ports/infrastructure/mk/qt4.port.mk,v 1.2 2008/09/13 14:38:12 bsiegert Exp $
 
 USE_CXX=		Yes
 
@@ -9,5 +9,5 @@ MODQT_MOC=		${QTDIR}/bin/moc
 MODQT_UIC=		${QTDIR}/bin/uic
 
 .if ${MODQT_NO_DEPENDS:L} != "yes"
-LIB_DEPEDS+=		../qt4/lib/QtCore.la::aqua/qt4
+LIB_DEPENDS+=		../qt4/lib/QtCore.la::aqua/qt4
 .endif
