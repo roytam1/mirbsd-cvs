@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/makefs/cd9660/iso9660_rrip.c,v 1.17 2008/11/04 00:29:37 tg Exp $ */
+/**	$MirOS: src/usr.sbin/makefs/cd9660/iso9660_rrip.c,v 1.18 2008/11/06 18:13:23 tg Exp $ */
 /*	$NetBSD: iso9660_rrip.c,v 1.4 2006/12/18 21:03:29 christos Exp $	*/
 
 /*
@@ -45,7 +45,7 @@
 #include <sys/cdefs.h>
 #if defined(__RCSID) && !defined(__lint)
 __RCSID("$NetBSD: iso9660_rrip.c,v 1.4 2006/12/18 21:03:29 christos Exp $");
-__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/cd9660/iso9660_rrip.c,v 1.17 2008/11/04 00:29:37 tg Exp $");
+__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/cd9660/iso9660_rrip.c,v 1.18 2008/11/06 18:13:23 tg Exp $");
 #endif  /* !__lint */
 
 static void cd9660_rrip_initialize_inode(cd9660node *);
@@ -285,7 +285,8 @@ cd9660_susp_handle_continuation_common(cd9660node *node, int space)
 		}
 	}
 
-	node->susp_entry_size = susp_used;
+	/* align to even size */
+	node->susp_entry_size = ((susp_used + 1) >> 1) << 1;
 	node->susp_entry_ce_length = ca_used;
 
 	diskStructure.susp_continuation_area_size += ca_used;

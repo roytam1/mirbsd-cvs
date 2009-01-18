@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/makefs/cd9660/cd9660_write.c,v 1.5 2008/10/31 21:39:53 tg Exp $ */
+/**	$MirOS: src/usr.sbin/makefs/cd9660/cd9660_write.c,v 1.6 2008/10/31 23:04:08 tg Exp $ */
 /*	$NetBSD: cd9660_write.c,v 1.9 2008/05/10 19:00:07 skrll Exp $	*/
 
 /*
@@ -39,7 +39,7 @@
 #include <sys/cdefs.h>
 #if defined(__RCSID) && !defined(__lint)
 __RCSID("$NetBSD: cd9660_write.c,v 1.9 2008/05/10 19:00:07 skrll Exp $");
-__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/cd9660/cd9660_write.c,v 1.5 2008/10/31 21:39:53 tg Exp $");
+__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/cd9660/cd9660_write.c,v 1.6 2008/10/31 23:04:08 tg Exp $");
 #endif  /* !__lint */
 
 #include <inttypes.h>
@@ -507,6 +507,12 @@ cd9660_write_rr(FILE *fd, cd9660node *writenode, int offset, int sector)
 				in_ca = 1;
 			}
 		}
+	}
+	if (!in_ca && (offset & 1)) {
+		/* align to even size */
+		char x = 0;
+
+		fwrite(&x, 1, 1, fd);
 	}
 
 	return in_ca;
