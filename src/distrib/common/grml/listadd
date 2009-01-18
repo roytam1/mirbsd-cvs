@@ -1,0 +1,20 @@
+# $MirOS$
+
+CRUNCHSPECIAL tinyirc	srcdir distrib/common/grml/tinyirc
+
+# needs special legal permission!
+LINK	instbin					usr/bin/tinyirc
+
+# install stuff
+SPECIAL	rm -f upgrade
+
+# needs special legal permission!
+SPECIAL	install -c -s -o root -g bin -m 555 ${TOPDIR}/../contrib/gnu/e3/obj/e3 usr/bin/
+SPECIAL	ln usr/bin/e3 usr/bin/e3ws
+SPECIAL	ln usr/bin/e3 usr/bin/e3em
+SPECIAL	ln usr/bin/e3 usr/bin/e3pi
+SPECIAL	ln usr/bin/e3 usr/bin/e3vi
+SPECIAL	ln usr/bin/e3 usr/bin/e3ne
+
+# tweak
+SPECIAL	print '/^Welcome/,/^This work/-1c\nWelcome to MirOS for grml!\n\nWelcome to the MirOS BSD based rescue system for grml. For further\ninformation please visit http://mirbsd.de/\nNote that the network is not set up yet.\n.\n/_forceloop=/s/=/=s/\n/IRCUSER=MirBSD/s//IRCUSER=grmlBSD/\nwq' | ed -s .profile
