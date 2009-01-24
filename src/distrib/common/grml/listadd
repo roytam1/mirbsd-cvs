@@ -1,9 +1,12 @@
-# $MirOS$
+# $MirOS: src/distrib/common/grml/listadd,v 1.1 2009/01/18 15:54:49 tg Exp $
 
 CRUNCHSPECIAL tinyirc	srcdir distrib/common/grml/tinyirc
 
 # needs special legal permission!
 LINK	instbin					usr/bin/tinyirc
+
+# devices stuff
+SPECIAL	cd dev; mksh MAKEDEV ttyC3 ttyC4 ttyC5
 
 # install stuff
 SPECIAL	rm -f upgrade
@@ -17,4 +20,4 @@ SPECIAL	ln usr/bin/e3 usr/bin/e3vi
 SPECIAL	ln usr/bin/e3 usr/bin/e3ne
 
 # tweak
-SPECIAL	print '/^Welcome/,/^This work/-1c\nWelcome to MirOS for grml!\n\nWelcome to the MirOS BSD based rescue system for grml. For further\ninformation please visit http://mirbsd.de/\nNote that the network is not set up yet.\n.\n/_forceloop=/s/=/=s/\n/IRCUSER=MirBSD/s//IRCUSER=grmlBSD/\nwq' | ed -s .profile
+SPECIAL	print '/^Welcome/,/^This work/-1c\nWelcome to MirOS for grml!\n\nWelcome to the MirOS BSD based rescue system for grml. For further\ninformation please visit http://mirbsd.de/\nNote that the network is not set up yet. Ctrl-Alt-F2 switches VCs.\n.\n/_forceloop=/s/=/=s/\n/-lT1/a\nmksh -lT2 >/dev/null 2>&1\nmksh -lT3 >/dev/null 2>&1\nmksh -lT4 >/dev/null 2>&1\nmksh -lT5 >/dev/null 2>&1\n.\n/IRCUSER=MirBSD/s//IRCUSER=grmlBSD/\nwq' | ed -s .profile
