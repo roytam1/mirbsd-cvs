@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/distrib/common/grml/Makefile,v 1.1 2009/01/18 15:54:49 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -14,6 +14,8 @@ RAMDISK_PREP=	print 'rootdev 17 0\nquit' | config -ef $@
 
 FLOPPY=		no
 CDROM=		no
+CDROM_OPTS+=	bootimage=i386\;eltorito.loo
+CDROM_OPTS+=	no-emul-boot
 
 bsd: ${BSDOBJDIR}/distrib/generic/bsd
 	cp -f $> $@
@@ -30,3 +32,20 @@ gnustuff: .PHONY
 	done
 
 .include "../Makefile"
+
+# for testing this in stand-alone mode
+
+cdrom-mdcopy:
+	dd if=/dev/arandom bs=2048 count=1 of=eltorito.loo
+
+cdrom-mdboot:
+	getextent_cd9660 -f ${CDROM} b_${MACHINE}.ldr | \
+	    ${MKSH} ${BOOTSH} -S 2 | \
+	    dd of=${CDROM} conv=notrunc 2>/dev/null
+	getextent_cd9660 -f ${CDROM} b_${MACHINE}.ldr | \
+	    ${MKSH} ${BOOTSH} -B 11 | \
+	    dd of=${CDROM} conv=notrunc bs=2048 seek=$$(getextent_cd9660 \
+	    -f ${CDROM} -b '$$BootImage$$') 2>/dev/null
+
+cdrom-test: .PHONY
+	cd ${.CURDIR} && exec ${MAKE} CDROM=cdrom${OSrev}.iso
