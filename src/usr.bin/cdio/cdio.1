@@ -1,3 +1,4 @@
+.\" $MirOS$
 .\" $OpenBSD: cdio.1,v 1.30 2005/01/22 10:21:26 robert Exp $
 .\"
 .\" Copyright (c) 1995 Serge V. Vakulenko
@@ -29,7 +30,7 @@
 .\" (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 .\" THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .\"
-.Dd July 3, 1995
+.Dd $Mdocdate$
 .Dt CDIO 1
 .Os
 .Sh NAME
@@ -123,6 +124,13 @@ A synonym for
 Print the list of available commands.
 .It Ic info
 Print the table of contents.
+.It Ic lock
+Lock the drive door, preventing it from being opened manually.
+The lock is only in effect during run time of
+.Nm ,
+and can be rescinded with, for example, the
+.Ic eject
+command.
 .It Ic next
 Play the next track.
 If we're at the last track, stop.

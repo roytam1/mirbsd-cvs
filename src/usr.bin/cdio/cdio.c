@@ -70,6 +70,8 @@
 
 #include "extern.h"
 
+__RCSID("$MirOS$");
+
 #define ASTS_INVALID    0x00  /* Audio status byte not valid */
 #define ASTS_PLAYING    0x11  /* Audio play operation in progress */
 #define ASTS_PAUSED     0x12  /* Audio play operation paused */
@@ -101,6 +103,7 @@
 #define CMD_REPLAY	18
 #define CMD_CDDB	19
 #define CMD_CDID	20
+#define CMD_LOCK	21
 
 struct cmdtab {
 	int command;
@@ -115,6 +118,7 @@ struct cmdtab {
 { CMD_HELP,     "?",            1, 0 },
 { CMD_HELP,     "help",         1, "" },
 { CMD_INFO,     "info",         1, "" },
+{ CMD_LOCK,	"lock",		1, "" },
 { CMD_NEXT,	"next",		1, "" },
 { CMD_PAUSE,    "pause",        2, "" },
 { CMD_PLAY,     "play",         1, "min1:sec1[.fram1] [min2:sec2[.fram2]]" },
@@ -413,6 +417,13 @@ run(int cmd, char *arg)
 			free_names(track_names);
 		track_names = NULL;
 		return (0);
+
+	case CMD_LOCK:
+		if (fd < 0 && ! open_cd(cdname))
+			return (0);
+
+		rc = ioctl(fd, CDIOCPREVENT);
+		return (rc < 0 ? rc : 0);
 
 	case CMD_CLOSE:
 #if defined(CDIOCCLOSE)
