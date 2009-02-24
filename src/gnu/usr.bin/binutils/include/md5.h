@@ -1,10 +1,12 @@
-/* $MirOS: src/gnu/usr.bin/binutils/include/md5.h,v 1.2 2005/03/13 16:07:00 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/binutils/include/md5.h,v 1.3 2005/11/22 17:17:12 tg Exp $ */
 
 #ifndef _MD5_H
 
 #ifdef __OpenBSD__
 /* include md5 functions from libc */
 #include "/usr/include/md5.h"
+#elif defined(MBSD_BUG)
+#include "mbsd_md5.h"
 #else
 #include_next "md5.h"
 #endif
