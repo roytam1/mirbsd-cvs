@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/lang/ewe/Makefile,v 1.1 2008/10/05 15:26:57 tg Exp $
 
 NOT_FOR_PLATFORM=	Interix:*:*
 
@@ -47,6 +47,7 @@ DESCR=			${PKGDIR}/DESCR
 SUBST_VARS+=		VERSION
 
 # Dependencies
+BUILD_DEPENDS+=		:mirmake->=20090304:devel/mirmake
 LIB_DEPENDS+=		jpeg::graphics/jpeg
 
 .if !defined(PACKAGING) || \
