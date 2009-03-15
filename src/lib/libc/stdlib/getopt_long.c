@@ -62,6 +62,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+__RCSID("$MirOS$");
+
 #define	REPLACE_GETOPT		/* use this getopt as the system getopt(3) */
 
 #ifdef REPLACE_GETOPT
@@ -417,7 +419,7 @@ start:
 	}
 
 	if ((optchar = (int)*place++) == (int)':' ||
-	    optchar == (int)'-' && *place != '\0' ||
+	    (optchar == (int)'-' && *place != '\0') ||
 	    (oli = strchr(options, optchar)) == NULL) {
 		/*
 		 * If the user specified "-" and  '-' isn't listed in
