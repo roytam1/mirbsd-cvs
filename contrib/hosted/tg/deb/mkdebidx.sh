@@ -1,5 +1,5 @@
 #!/bin/mksh
-rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.2 2009/03/20 18:37:09 tg Exp $'
+rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.3 2009/03/20 18:45:02 tg Exp $'
 #-
 # Copyright (c) 2008, 2009
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -20,6 +20,7 @@ rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.2 2009/03/20 18:37:09 tg Ex
 # of said person's immediate fault when using the work as intended.
 
 allarchs='all amd64 i386'
+ourkey=0x405422DD
 
 function putfile {
 	tee $1 | gzip -n9 >$1.gz
@@ -70,7 +71,7 @@ for suite in dists/*; do
 		set -A x -- $(md5sum $n)
 		print \ ${x[0]} $(stat -c '%s %n' $n)
 	done) >$suite/Release
-	gpg -sb $suite/Release
+	gpg -u $ourkey -sb $suite/Release
 	mv -f $suite/Release.sig $suite/Release.gpg
 done
 
@@ -191,7 +192,7 @@ done
  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
  <meta name="MSSmartTagsPreventParsing" content="TRUE" />
  <title>MirDebian “WTF” Repository Index</title>
- <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.2 2009/03/20 18:37:09 tg Exp $" />
+ <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.3 2009/03/20 18:45:02 tg Exp $" />
  <style type="text/css">
   table {
    border: 1px solid black;
