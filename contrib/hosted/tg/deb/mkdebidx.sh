@@ -1,5 +1,5 @@
 #!/bin/mksh
-rcsid='$MirOS$'
+rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.1 2009/03/20 18:29:36 tg Exp $'
 #-
 # Copyright (c) 2008, 2009
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -19,7 +19,7 @@ rcsid='$MirOS$'
 # damage or existence of a defect, except proven that it results out
 # of said person's immediate fault when using the work as intended.
 
-allarchs='amd64 i386'
+allarchs='all amd64 i386'
 
 function putfile {
 	tee $1 | gzip -n9 >$1.gz
@@ -41,8 +41,10 @@ for suite in dists/*; do
 	archs=
 	. $suite/distinfo.sh
 	: ${archs:=allarchs}
+	components=Components:
 	for dist in $suite/*; do
 		[[ -d $dist/. ]] || continue
+		components="$components ${dist##*/}"
 		for arch in $archs; do
 			mkdir -p $dist/binary-$arch
 			dpkg-scanpackages -a $arch $dist | \
@@ -57,8 +59,8 @@ for suite in dists/*; do
 		Suite: ${suite##*/}
 		Codename: ${suite##*/}
 		Date: $(date)
-		Architectures: $archs
-		Components: main
+		Architectures: $archs source
+		$components
 		Description: WTF ${nick} Repository
 		MD5Sum:
 	EOF
@@ -192,7 +194,7 @@ done
  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
  <meta name="MSSmartTagsPreventParsing" content="TRUE" />
  <title>MirDebian “WTF” Repository Index</title>
- <meta name="generator" content="$MirOS$" />
+ <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.1 2009/03/20 18:29:36 tg Exp $" />
  <style type="text/css">
   table {
    border: 1px solid black;
