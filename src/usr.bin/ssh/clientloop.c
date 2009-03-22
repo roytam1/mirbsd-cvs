@@ -1,4 +1,4 @@
-/* $OpenBSD: clientloop.c,v 1.207 2008/12/09 22:37:33 stevesk Exp $ */
+/* $OpenBSD: clientloop.c,v 1.209 2009/02/12 03:00:56 djm Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -756,7 +756,7 @@ process_cmdline(void)
 	char *s, *cmd, *cancel_host;
 	int delete = 0;
 	int local = 0, remote = 0, dynamic = 0;
-	u_short cancel_port;
+	int cancel_port;
 	Forward fwd;
 
 	bzero(&fwd, sizeof(fwd));
@@ -834,13 +834,13 @@ process_cmdline(void)
 			cancel_port = a2port(cancel_host);
 			cancel_host = NULL;
 		}
-		if (cancel_port == 0) {
+		if (cancel_port <= 0) {
 			logit("Bad forwarding close port");
 			goto out;
 		}
 		channel_request_rforward_cancel(cancel_host, cancel_port);
 	} else {
-		if (!parse_forward(&fwd, s, dynamic ? 1 : 0)) {
+		if (!parse_forward(&fwd, s, dynamic, remote)) {
 			logit("Bad forwarding specification.");
 			goto out;
 		}
@@ -1626,7 +1626,7 @@ client_request_forwarded_tcpip(const char *request_type, int rchan)
 {
 	Channel *c = NULL;
 	char *listen_address, *originator_address;
-	int listen_port, originator_port;
+	u_short listen_port, originator_port;
 
 	/* Get rest of the packet */
 	listen_address = packet_get_string(NULL);
@@ -1652,7 +1652,7 @@ client_request_x11(const char *request_type, int rchan)
 {
 	Channel *c = NULL;
 	char *originator;
-	int originator_port;
+	u_short originator_port;
 	int sock;
 
 	if (!options.forward_x11) {

@@ -1,4 +1,4 @@
-/* $OpenBSD: serverloop.c,v 1.154 2008/12/02 19:08:59 markus Exp $ */
+/* $OpenBSD: serverloop.c,v 1.157 2009/02/12 03:16:01 djm Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -910,7 +910,7 @@ server_request_direct_tcpip(void)
 {
 	Channel *c;
 	char *target, *originator;
-	int target_port, originator_port;
+	u_short target_port, originator_port;
 
 	target = packet_get_string(NULL);
 	target_port = packet_get_int();
@@ -1058,7 +1058,7 @@ server_input_global_request(int type, u_int32_t seq, void *ctxt)
 {
 	char *rtype;
 	int want_reply;
-	int success = 0;
+	int success = 0, allocated_listen_port = 0;
 
 	rtype = packet_get_string(NULL);
 	want_reply = packet_get_char();
@@ -1081,13 +1081,16 @@ server_input_global_request(int type, u_int32_t seq, void *ctxt)
 		/* check permissions */
 		if (!options.allow_tcp_forwarding ||
 		    no_port_forwarding_flag ||
-		    (listen_port < IPPORT_RESERVED && pw->pw_uid != 0)) {
+		    (!want_reply && listen_port == 0) ||
+		    (listen_port != 0 && listen_port < IPPORT_RESERVED &&
+		    pw->pw_uid != 0)) {
 			success = 0;
 			packet_send_debug("Server has disabled port forwarding.");
 		} else {
 			/* Start listening on the port */
 			success = channel_setup_remote_fwd_listener(
-			    listen_address, listen_port, options.gateway_ports);
+			    listen_address, listen_port,
+			    &allocated_listen_port, options.gateway_ports);
 		}
 		xfree(listen_address);
 	} else if (strcmp(rtype, "cancel-tcpip-forward") == 0) {
@@ -1109,6 +1112,8 @@ server_input_global_request(int type, u_int32_t seq, void *ctxt)
 	if (want_reply) {
 		packet_start(success ?
 		    SSH2_MSG_REQUEST_SUCCESS : SSH2_MSG_REQUEST_FAILURE);
+		if (success && allocated_listen_port > 0)
+			packet_put_int(allocated_listen_port);
 		packet_send();
 		packet_write_wait();
 	}

@@ -1,4 +1,4 @@
-/* $OpenBSD: ssh.c,v 1.322 2008/11/01 17:40:33 stevesk Exp $ */
+/* $OpenBSD: ssh.c,v 1.325 2009/03/17 21:37:00 markus Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -196,7 +196,7 @@ int
 main(int ac, char **av)
 {
 	int i, opt, exit_status, use_syslog;
-	char *p, *cp, *line, buf[256];
+	char *p, *cp, *line, *argv0, buf[256];
 	struct stat st;
 	struct passwd *pw;
 	int dummy, timeout_ms;
@@ -257,6 +257,7 @@ main(int ac, char **av)
 	/* Parse command-line arguments. */
 	host = NULL;
 	use_syslog = 0;
+	argv0 = av[0];
 
  again:
 	while ((opt = getopt(ac, av, "1246ab:c:e:fgi:kl:m:no:p:qstvx"
@@ -430,7 +431,7 @@ main(int ac, char **av)
 			break;
 		case 'p':
 			options.port = a2port(optarg);
-			if (options.port == 0) {
+			if (options.port <= 0) {
 				fprintf(stderr, "Bad port '%s'\n", optarg);
 				exit(255);
 			}
@@ -440,7 +441,7 @@ main(int ac, char **av)
 			break;
 
 		case 'L':
-			if (parse_forward(&fwd, optarg, 0))
+			if (parse_forward(&fwd, optarg, 0, 0))
 				add_local_forward(&options, &fwd);
 			else {
 				fprintf(stderr,
@@ -451,7 +452,7 @@ main(int ac, char **av)
 			break;
 
 		case 'R':
-			if (parse_forward(&fwd, optarg, 0)) {
+			if (parse_forward(&fwd, optarg, 0, 1)) {
 				add_remote_forward(&options, &fwd);
 			} else {
 				fprintf(stderr,
@@ -462,7 +463,7 @@ main(int ac, char **av)
 			break;
 
 		case 'D':
-			if (parse_forward(&fwd, optarg, 1)) {
+			if (parse_forward(&fwd, optarg, 1, 0)) {
 				add_local_forward(&options, &fwd);
 			} else {
 				fprintf(stderr,
@@ -587,7 +588,7 @@ main(int ac, char **av)
 	 * Initialize "log" output.  Since we are the client all output
 	 * actually goes to stderr.
 	 */
-	log_init(av[0],
+	log_init(argv0,
 	    options.log_level == -1 ? SYSLOG_LEVEL_INFO : options.log_level,
 	    SYSLOG_FACILITY_USER, !use_syslog);
 
@@ -615,7 +616,7 @@ main(int ac, char **av)
 	channel_set_af(options.address_family);
 
 	/* reinit */
-	log_init(av[0], options.log_level, SYSLOG_FACILITY_USER, !use_syslog);
+	log_init(argv0, options.log_level, SYSLOG_FACILITY_USER, !use_syslog);
 
 	if (options.user == NULL)
 		options.user = xstrdup(pw->pw_name);
@@ -818,9 +819,16 @@ ssh_confirm_remote_forward(int type, u_int32_t seq, void *ctxt)
 {
 	Forward *rfwd = (Forward *)ctxt;
 
+	/* XXX verbose() on failure? */
 	debug("remote forward %s for: listen %d, connect %s:%d",
 	    type == SSH2_MSG_REQUEST_SUCCESS ? "success" : "failure",
 	    rfwd->listen_port, rfwd->connect_host, rfwd->connect_port);
+	if (type == SSH2_MSG_REQUEST_SUCCESS && rfwd->listen_port == 0) {
+		logit("Allocated port %u for remote forward to %s:%d",
+			packet_get_int(),
+			rfwd->connect_host, rfwd->connect_port);
+	}
+	
 	if (type == SSH2_MSG_REQUEST_FAILURE) {
 		if (options.exit_on_forward_failure)
 			fatal("Error: remote port forwarding failed for "
