@@ -1,5 +1,5 @@
 #!/bin/mksh
-rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.5 2009/03/23 09:23:22 tg Exp $'
+rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.6 2009/03/23 09:43:04 tg Exp $'
 #-
 # Copyright (c) 2008, 2009
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -41,7 +41,7 @@ for suite in dists/*; do
 	[[ $suites = : || $suites = *:$suite:* ]] || continue
 	archs=
 	. $suite/distinfo.sh
-	: ${archs:=allarchs}
+	: ${archs:=$allarchs}
 	components=Components:
 	for dist in $suite/*; do
 		[[ -d $dist/. ]] || continue
@@ -186,7 +186,7 @@ done
  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
  <meta name="MSSmartTagsPreventParsing" content="TRUE" />
  <title>MirDebian “WTF” Repository Index</title>
- <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.5 2009/03/23 09:23:22 tg Exp $" />
+ <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.6 2009/03/23 09:43:04 tg Exp $" />
  <style type="text/css">
   table {
    border: 1px solid black;
