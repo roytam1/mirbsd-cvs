@@ -1,5 +1,5 @@
 #!/bin/mksh
-rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.3 2009/03/20 18:45:02 tg Exp $'
+rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.4 2009/03/20 18:48:48 tg Exp $'
 #-
 # Copyright (c) 2008, 2009
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -103,13 +103,7 @@ for suite in dists/*; do
 				pv=${line##Version:*([	 ])}
 				;;
 			(@(Binary: )*)
-				pd=
-				for x in $(tr ', ' '\n' \
-				    <<<"${line##Binary:*([	 ])}" | \
-				    sort); do
-					pd="$pd, $x"
-				done
-				pd=Binary:${pd#,}
+				pd=${line##Binary:*([	 ])}
 				;;
 			(@(Directory: )*)
 				pp=${line##Directory:*([	 ])}
@@ -120,7 +114,7 @@ for suite in dists/*; do
 				if [[ -n $pn && -n $pv && -n $pd && -n $pp ]]; then
 					i=0
 					while (( i < nsrc )); do
-						[[ ${sp_name[i]} = $pn && ${sp_desc[i]} = $pd && \
+						[[ ${sp_name[i]} = $pn && \
 						    ${sp_dist[i]} = $distname ]] && break
 						let i++
 					done
@@ -130,7 +124,7 @@ for suite in dists/*; do
 					#sp_suites[i]="${sp_suites[i]} $suitename"
 					eval sp_ver_${suitename}[i]=\$pv
 					eval sp_dir_${suitename}[i]=\$pp/
-					sp_desc[i]=$pd
+					sp_desc[i]=${sp_desc[i]},$pd
 				fi
 				pn=; pv=; pd=; pp=
 				;;
@@ -192,7 +186,7 @@ done
  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
  <meta name="MSSmartTagsPreventParsing" content="TRUE" />
  <title>MirDebian “WTF” Repository Index</title>
- <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.3 2009/03/20 18:45:02 tg Exp $" />
+ <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.4 2009/03/20 18:48:48 tg Exp $" />
  <style type="text/css">
   table {
    border: 1px solid black;
@@ -246,6 +240,7 @@ print "<h2>Packages</h2>"
 print "<table width=\"100%\"><thead>"
 print "<tr class=\"tablehead\">"
 print " <th>package name</th>"
+print " <th>dist</th>"
 print " <th>description</th>"
 for suitename in $allsuites; do
 	print " <th>$suitename</th>"
@@ -269,7 +264,12 @@ while read -p num rest; do
 	print "\n<!-- sp #$num = ${sp_name[num]} -->"
 	print "<tr class=\"srcpkgline\">"
 	print " <td class=\"srcpkgname\">${sp_name[num]}</td>"
-	print " <td class=\"srcpkgdesc\">[${sp_dist[num]}] ${sp_desc[num]}</td>"
+	print " <td class=\"srcpkgdist\">${sp_dist[num]}</td>"
+	pd=
+	for x in $(tr ', ' '\n' <<<"${sp_desc[num]}" | sort -u); do
+		[[ -n $x ]] && pd="$pd, $x"
+	done
+	print " <td class=\"srcpkgdesc\">Binary:${pd#,}</td>"
 	for suitename in $allsuites; do
 		eval pv=\${sp_ver_${suitename}[num]}
 		eval pp=\${sp_dir_${suitename}[num]}
@@ -288,7 +288,7 @@ while read -p num rest; do
 		print "<!-- bp #$i -->"
 		print "<tr class=\"binpkgline\">"
 		print " <td class=\"binpkgname\">${bp_disp[i]}</td>"
-		print " <td class=\"binpkgdesc\">${bp_desc[i]}</td>"
+		print " <td class=\"binpkgdesc\" colspan=\"2\">${bp_desc[i]}</td>"
 		for suitename in $allsuites; do
 			eval pv=\${bp_ver_${suitename}[i]}
 			[[ -z $pv ]] && pv=-
