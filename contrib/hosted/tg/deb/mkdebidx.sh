@@ -1,5 +1,5 @@
 #!/bin/mksh
-rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.10 2009/03/23 15:58:45 tg Exp $'
+rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.11 2009/03/23 16:00:17 tg Exp $'
 #-
 # Copyright (c) 2008, 2009
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -84,12 +84,12 @@ for suite in dists/*; do
 		suitename=${suite##*/}
 		if [[ $suitename != +([a-z_]) ]]; then
 			print -u2 "Invalid suite name '$suitename'"
-			exit 1
+			continue 2
 		fi
 		distname=${dist##*/}
 		if [[ $distname != +([a-z_-]) ]]; then
 			print -u2 "Invalid dist name '$distname'"
-			exit 1
+			continue
 		fi
 
 		pn=; pv=; pd=; pp=; pN=; pf=
@@ -190,7 +190,7 @@ done
  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
  <meta name="MSSmartTagsPreventParsing" content="TRUE" />
  <title>MirDebian “WTF” Repository Index</title>
- <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.10 2009/03/23 15:58:45 tg Exp $" />
+ <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.11 2009/03/23 16:00:17 tg Exp $" />
  <style type="text/css">
   table {
    border: 1px solid black;
