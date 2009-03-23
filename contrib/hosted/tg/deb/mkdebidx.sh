@@ -1,5 +1,5 @@
 #!/bin/mksh
-rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.11 2009/03/23 16:00:17 tg Exp $'
+rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.12 2009/03/23 16:27:22 tg Exp $'
 #-
 # Copyright (c) 2008, 2009
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -94,7 +94,8 @@ for suite in dists/*; do
 
 		pn=; pv=; pd=; pp=; pN=; pf=
 
-		while IFS= read -r line; do
+		gzip -dc $dist/source/Sources.gz |&
+		while IFS= read -pr line; do
 			case $line {
 			(@(Package: )*)
 				pn=${line##Package:*([	 ])}
@@ -129,9 +130,9 @@ for suite in dists/*; do
 				pn=; pv=; pd=; pp=
 				;;
 			}
-		done <$dist/source/Sources
+		done
 
-		cat $dist/binary-*/Packages |&
+		gzip -dc $dist/binary-*/Packages.gz |&
 		while IFS= read -pr line; do
 			case $line {
 			(@(Package: )*)
@@ -190,7 +191,7 @@ done
  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
  <meta name="MSSmartTagsPreventParsing" content="TRUE" />
  <title>MirDebian “WTF” Repository Index</title>
- <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.11 2009/03/23 16:00:17 tg Exp $" />
+ <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.12 2009/03/23 16:27:22 tg Exp $" />
  <style type="text/css">
   table {
    border: 1px solid black;
