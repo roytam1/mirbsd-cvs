@@ -1,5 +1,5 @@
 #!/bin/mksh
-rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.6 2009/03/23 09:43:04 tg Exp $'
+rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.7 2009/03/23 09:59:22 tg Exp $'
 #-
 # Copyright (c) 2008, 2009
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -92,7 +92,7 @@ for suite in dists/*; do
 			exit 1
 		fi
 
-		pn=; pv=; pd=; pp=; pN=
+		pn=; pv=; pd=; pp=; pN=; pf=
 
 		while IFS= read -r line; do
 			case $line {
@@ -149,6 +149,9 @@ for suite in dists/*; do
 			(@(Architecture: )*)
 				pp=${line##Architecture:*([	 ])}
 				;;
+			(@(Filename: )*)
+				pf=${line##Filename:*([	 ])}
+				;;
 			(?*)	# anything else
 				;;
 			(*)	# empty line
@@ -166,6 +169,7 @@ for suite in dists/*; do
 					bp_dist[i]=$distname
 					#bp_suites[i]="${bp_suites[i]} $suitename"
 					eval x=\${bp_ver_${suitename}[i]}
+					[[ -n $pf ]] && pv="<a href=\"$pf\">$pv</a>"
 					pv="$pp: $pv"
 					[[ $br$x$br = *@($br$pv$br)* ]] || x=$x${x:+$br}$pv
 					eval bp_ver_${suitename}[i]=\$x
@@ -186,7 +190,7 @@ done
  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
  <meta name="MSSmartTagsPreventParsing" content="TRUE" />
  <title>MirDebian “WTF” Repository Index</title>
- <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.6 2009/03/23 09:43:04 tg Exp $" />
+ <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.7 2009/03/23 09:59:22 tg Exp $" />
  <style type="text/css">
   table {
    border: 1px solid black;
