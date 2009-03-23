@@ -1,5 +1,5 @@
 #!/bin/mksh
-rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.4 2009/03/20 18:48:48 tg Exp $'
+rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.5 2009/03/23 09:23:22 tg Exp $'
 #-
 # Copyright (c) 2008, 2009
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -186,7 +186,7 @@ done
  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
  <meta name="MSSmartTagsPreventParsing" content="TRUE" />
  <title>MirDebian “WTF” Repository Index</title>
- <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.4 2009/03/20 18:48:48 tg Exp $" />
+ <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.5 2009/03/23 09:23:22 tg Exp $" />
  <style type="text/css">
   table {
    border: 1px solid black;
@@ -304,9 +304,9 @@ for i in ${bp_sort[*]}; do
 	if (( !num )); then
 		print "\n<!-- sp ENOENT -->"
 		print "<tr class=\"srcpkgline\">"
-		print " <td class=\"srcpkgname\">-ENOENT</td>"
-		print " <td class=\"srcpkgdesc\">binary packages without a matching" \
-		    "source package</td>"
+		print " <td class=\"srcpkgname\">~ENOENT~</td>"
+		print " <td class=\"srcpkgdesc\" colspan=\"2\">binary" \
+		    "packages without a matching source package</td>"
 		for suitename in $allsuites; do
 			print " <td class=\"srcpkgitem\">-</td>"
 		done
@@ -317,7 +317,8 @@ for i in ${bp_sort[*]}; do
 	print "<!-- bp #$i -->"
 	print "<tr class=\"binpkgline\">"
 	print " <td class=\"binpkgname\">${bp_disp[i]}</td>"
-	print " <td class=\"binpkgdesc\">[${bp_dist[i]}] ${bp_desc[i]}</td>"
+	print " <td class=\"binpkgdist\">${bp_dist[i]}</td>"
+	print " <td class=\"binpkgdesc\">${bp_desc[i]}</td>"
 	for suitename in $allsuites; do
 		eval pv=\${bp_ver_${suitename}[i]}
 		[[ -z $pv ]] && pv=-
