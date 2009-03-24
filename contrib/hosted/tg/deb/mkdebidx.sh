@@ -1,5 +1,5 @@
 #!/bin/mksh
-rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.16 2009/03/24 14:41:41 tg Exp $'
+rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.17 2009/03/24 15:40:40 tg Exp $'
 #-
 # Copyright (c) 2008, 2009
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -191,7 +191,7 @@ done
  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
  <meta name="MSSmartTagsPreventParsing" content="TRUE" />
  <title>MirDebian “WTF” Repository Index</title>
- <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.16 2009/03/24 14:41:41 tg Exp $" />
+ <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.17 2009/03/24 15:40:40 tg Exp $" />
  <style type="text/css">
   table {
    border: 1px solid black;
@@ -281,7 +281,7 @@ while read -p num rest; do
 		if [[ -z $pv ]]; then
 			pv=-
 		elif [[ $pp != ?(/) ]]; then
-			pv="<a href=\"$pp/${sp_name[num]}_${pv##+([0-9]):}.dsc\">$pv</a>"
+			pv="<a href=\"$pp${sp_name[num]}_${pv##+([0-9]):}.dsc\">$pv</a>"
 		fi
 		[[ $pp != ?(/) ]] && pv="<a href=\"$pp\">[dir]</a> $pv"
 		print " <td class=\"srcpkgitem\">$pv</td>"
