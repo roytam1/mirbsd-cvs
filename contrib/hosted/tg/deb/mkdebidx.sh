@@ -1,5 +1,5 @@
 #!/bin/mksh
-rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.14 2009/03/23 16:29:04 tg Exp $'
+rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.15 2009/03/24 08:19:49 tg Exp $'
 #-
 # Copyright (c) 2008, 2009
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -191,7 +191,7 @@ done
  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
  <meta name="MSSmartTagsPreventParsing" content="TRUE" />
  <title>MirDebian “WTF” Repository Index</title>
- <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.14 2009/03/23 16:29:04 tg Exp $" />
+ <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.15 2009/03/24 08:19:49 tg Exp $" />
  <style type="text/css">
   table {
    border: 1px solid black;
@@ -278,8 +278,12 @@ while read -p num rest; do
 	for suitename in $allsuites; do
 		eval pv=\${sp_ver_${suitename}[num]}
 		eval pp=\${sp_dir_${suitename}[num]}
-		[[ -z $pv ]] && pv=-
-		[[ $pp != ?(/) ]] && pv="<a href=\"$pp\">$pv</a>"
+		if [[ -z $pv ]]; then
+			pv=-
+		elif [[ $pp != ?(/) ]]; then
+			pv="<a href=\"$pp/${sp_name[num]}_${pv}.dsc\">$pv</a>"
+		fi
+		[[ $pp != ?(/) ]] && pv="<a href=\"$pp\">[dir]</a> $pv"
 		print " <td class=\"srcpkgitem\">$pv</td>"
 	done
 	print "</tr>"
