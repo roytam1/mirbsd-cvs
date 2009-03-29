@@ -62,7 +62,7 @@ GNAT Reference Manual
 
 @noindent
 GNAT, The GNU Ada 95 Compiler@*
-Version @value{gnat_version}@*
+Version @value{version-GCC}@*
 Document revision level $Revision$@*
 Date: $Date$
 
