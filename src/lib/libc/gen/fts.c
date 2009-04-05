@@ -632,6 +632,14 @@ fts_build(FTS *sp, int type)
 	len++;
 	maxlen = sp->fts_pathlen - len;
 
+	if (cur->fts_level == SHRT_MAX) {
+		(void)closedir(dirp);
+		cur->fts_info = FTS_ERR;
+		SET(FTS_STOP);
+		errno = ENAMETOOLONG;
+		return (NULL);
+	}
+
 	level = cur->fts_level + 1;
 
 	/* Read the directory, attaching each entry to the `link' pointer. */
