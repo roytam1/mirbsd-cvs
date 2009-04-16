@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.bin/elf2aout/elf2aout.c,v 1.6 2006/07/01 14:56:37 tg Exp $ */
+/**	$MirOS: src/usr.bin/elf2aout/elf2aout.c,v 1.7 2006/07/01 15:39:31 tg Exp $ */
 /*	$NetBSD: elf2aout.c,v 1.11 2004/04/23 02:55:11 simonb Exp $	*/
 
 /*
@@ -65,7 +65,7 @@
 #include <string.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: src/usr.bin/elf2aout/elf2aout.c,v 1.6 2006/07/01 14:56:37 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/elf2aout/elf2aout.c,v 1.7 2006/07/01 15:39:31 tg Exp $");
 
 bool is_lefile;
 
@@ -519,6 +519,7 @@ translate_syms(int out, int in, off_t symoff, off_t symsize,
 		}
 	}
 	/* Write out the string table length... */
+	newstringsize = ((nsp - newstrings + /* just in case */ 1) + 15) & ~15;
 	newstringsize2 = htof32(newstringsize);
 	if (write(out, &newstringsize2, sizeof (newstringsize2))
 	    != sizeof (newstringsize2)) {
