@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/sparc/stand/common/srt0.S,v 1.2 2008/10/22 17:46:03 tg Exp $ */
+/**	$MirOS: src/sys/arch/sparc/stand/common/srt0.S,v 1.3 2009/02/01 15:02:16 tg Exp $ */
 /*	$OpenBSD: srt0.S,v 1.2 2002/08/11 12:20:43 art Exp $	*/
 /*	$NetBSD: srt0.S,v 1.5.4.2 1996/07/17 01:51:46 jtc Exp $	*/
 
@@ -84,6 +84,20 @@ _le_disklabel_start:
 	.globl	_le_disklabel_end
 _le_disklabel_end:
 	.p2align 3
+#else
+	/*
+	 * Address vectors for a.out
+	 */
+	.p2align 2
+	.globl	_aout_advecs_start
+_aout_advecs_start:
+	.byte	0x20, 0x35, 0x56, 0x01	! begin, 0x01 entries/version
+	.byte	0xFF, 0xFF, 0xFF, 0xFF	! additive checksum over entries
+	.byte	0x00, 0x00, 0x00, 0x00	! first entry (__defkernel)
+	.byte	0x21, 0x35, 0x56, 0x01	! end
+	.globl	_aout_advecs_end
+_aout_advecs_end:
+	.p2align 2
 #endif
 
 	/*
