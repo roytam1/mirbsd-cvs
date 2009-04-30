@@ -1,5 +1,5 @@
 #!/bin/mksh
-rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.17 2009/03/24 15:40:40 tg Exp $'
+rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.18 2009/03/24 15:41:28 tg Exp $'
 #-
 # Copyright (c) 2008, 2009
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -75,8 +75,25 @@ for suite in dists/*; do
 	mv -f $suite/Release.sig $suite/Release.gpg
 done
 
-integer nsrc=0 nbin=0
+set -A preplsrc
+set -A prepldst
+integer nsrc=0 nbin=0 nrpl=0
 br='<br />'
+
+# syntax:	${suitename}/${distname}/${pN}/${pp} <suite>
+# example:	sid/wtf/openntpd/i386 lenny
+if [[ -s mkdebidx.lnk ]]; then
+	while read pn pd; do
+		[[ $pn = @(#)* ]] && continue
+		if [[ $pn != +([a-z0-9_])/+([a-z0-9_-])/+([!/])/+([a-z0-9]) || \
+		    $pd != +([a-z0-9_]) ]]; then
+			print -u2 "Invalid lnk line '$pn' '$pd'"
+			continue
+		fi
+		preplsrc[nrpl]=$pn
+		prepldst[nrpl++]=$pd
+	done <mkdebidx.lnk
+fi
 
 for suite in dists/*; do
 	for dist in $suite/*; do
@@ -169,9 +186,18 @@ for suite in dists/*; do
 					bp_disp[i]=$pN
 					bp_dist[i]=$distname
 					#bp_suites[i]="${bp_suites[i]} $suitename"
-					eval x=\${bp_ver_${suitename}[i]}
+					if (( nrpl )); then
+						x=${suitename}/${distname}/${pN}/${pp}
+						j=0
+						while (( j < nrpl )); do
+							[[ ${preplsrc[j]} = $x ]] && break
+							let j++
+						done
+						(( j < nrpl )) && pv="from ${prepldst[j]}"
+					fi
 					[[ -n $pf ]] && pv="<a href=\"$pf\">$pv</a>"
 					pv="$pp: $pv"
+					eval x=\${bp_ver_${suitename}[i]}
 					[[ $br$x$br = *@($br$pv$br)* ]] || x=$x${x:+$br}$pv
 					eval bp_ver_${suitename}[i]=\$x
 					bp_desc[i]=$pd
@@ -191,7 +217,7 @@ done
  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
  <meta name="MSSmartTagsPreventParsing" content="TRUE" />
  <title>MirDebian “WTF” Repository Index</title>
- <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.17 2009/03/24 15:40:40 tg Exp $" />
+ <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.18 2009/03/24 15:41:28 tg Exp $" />
  <style type="text/css">
   table {
    border: 1px solid black;
