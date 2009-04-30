@@ -1,5 +1,5 @@
 #!/bin/mksh
-rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.20 2009/04/30 22:14:01 tg Exp $'
+rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.21 2009/04/30 22:30:30 tg Exp $'
 #-
 # Copyright (c) 2008, 2009
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -85,7 +85,7 @@ br='<br />'
 if [[ -s mkdebidx.lnk ]]; then
 	while read pn pd; do
 		[[ $pn = @(#)* ]] && continue
-		if [[ $pn != +([a-z0-9_])/+([a-z0-9_-])/+([!/])/+([a-z0-9]) || \
+		if [[ $pn != +([a-z0-9_])/+([a-z0-9_-])/+([!/])/@(%|=|+([a-z0-9])) || \
 		    $pd != +([a-z0-9_]) ]]; then
 			print -u2 "Invalid lnk line '$pn' '$pd'"
 			continue
@@ -226,7 +226,7 @@ done
  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
  <meta name="MSSmartTagsPreventParsing" content="TRUE" />
  <title>MirDebian “WTF” Repository Index</title>
- <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.20 2009/04/30 22:14:01 tg Exp $" />
+ <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.21 2009/04/30 22:30:30 tg Exp $" />
  <style type="text/css">
   table {
    border: 1px solid black;
@@ -313,17 +313,18 @@ while read -p num rest; do
 	for suitename in $allsuites; do
 		eval pv=\${sp_ver_${suitename}[num]}
 		eval pp=\${sp_dir_${suitename}[num]}
+		pN=
 		if [[ -z $pv ]]; then
-			pv=-
 			if (( nrpl )); then
-				x=${suitename}/${sp_dist[num]}/%/${sp_name[num]}
+				x=${suitename}/${sp_dist[num]}/${sp_name[num]}/%
 				j=0
 				while (( j < nrpl )); do
 					[[ ${preplsrc[j]} = $x ]] && break
 					let j++
 				done
-				(( j < nrpl )) && pv=${prepldst[j]}
+				(( j < nrpl )) && pN=${prepldst[j]}
 			fi
+			pv=${pN:--}
 		elif [[ $pp != ?(/) ]]; then
 			pv="<a href=\"$pp${sp_name[num]}_${pv##+([0-9]):}.dsc\">$pv</a>"
 		fi
@@ -344,7 +345,7 @@ while read -p num rest; do
 		print " <td class=\"binpkgdesc\" colspan=\"2\">${bp_desc[i]}</td>"
 		for suitename in $allsuites; do
 			eval pv=\${bp_ver_${suitename}[i]}
-			[[ -z $pv ]] && pv=-
+			[[ -n $pv ]] || pv=${pN:--}
 			print " <td class=\"binpkgitem\">$pv</td>"
 		done
 		print "</tr>"
@@ -374,7 +375,18 @@ for i in ${bp_sort[*]}; do
 	print " <td class=\"binpkgdesc\">${bp_desc[i]}</td>"
 	for suitename in $allsuites; do
 		eval pv=\${bp_ver_${suitename}[i]}
-		[[ -z $pv ]] && pv=-
+		if [[ -z $pv ]]; then
+			if (( nrpl )); then
+				x=${suitename}/${bp_dist[num]}/${bp_disp[num]}/=
+				j=0
+				while (( j < nrpl )); do
+					[[ ${preplsrc[j]} = $x ]] && break
+					let j++
+				done
+				(( j < nrpl )) && pN=${prepldst[j]}
+			fi
+			pv=${pN:--}
+		fi
 		print " <td class=\"binpkgitem\">$pv</td>"
 	done
 	print "</tr>"
