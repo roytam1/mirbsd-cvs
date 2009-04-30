@@ -1,5 +1,5 @@
 #!/bin/mksh
-rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.21 2009/04/30 22:30:30 tg Exp $'
+rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.22 2009/04/30 22:36:37 tg Exp $'
 #-
 # Copyright (c) 2008, 2009
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -226,7 +226,7 @@ done
  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
  <meta name="MSSmartTagsPreventParsing" content="TRUE" />
  <title>MirDebian “WTF” Repository Index</title>
- <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.21 2009/04/30 22:30:30 tg Exp $" />
+ <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.22 2009/04/30 22:36:37 tg Exp $" />
  <style type="text/css">
   table {
    border: 1px solid black;
@@ -313,8 +313,8 @@ while read -p num rest; do
 	for suitename in $allsuites; do
 		eval pv=\${sp_ver_${suitename}[num]}
 		eval pp=\${sp_dir_${suitename}[num]}
-		pN=
 		if [[ -z $pv ]]; then
+			pv=-
 			if (( nrpl )); then
 				x=${suitename}/${sp_dist[num]}/${sp_name[num]}/%
 				j=0
@@ -322,9 +322,8 @@ while read -p num rest; do
 					[[ ${preplsrc[j]} = $x ]] && break
 					let j++
 				done
-				(( j < nrpl )) && pN=${prepldst[j]}
+				(( j < nrpl )) && pv=${prepldst[j]}
 			fi
-			pv=${pN:--}
 		elif [[ $pp != ?(/) ]]; then
 			pv="<a href=\"$pp${sp_name[num]}_${pv##+([0-9]):}.dsc\">$pv</a>"
 		fi
@@ -332,12 +331,12 @@ while read -p num rest; do
 		print " <td class=\"srcpkgitem\">$pv</td>"
 	done
 	print "</tr>"
-	j=0
-	while (( j < nbin )); do
-		(( (i = bp_sort[j++]) < 0 )) && continue
+	k=0
+	while (( k < nbin )); do
+		(( (i = bp_sort[k++]) < 0 )) && continue
 		[[ ${bp_name[i]} = ${sp_name[num]} && \
 		    ${bp_dist[i]} = ${sp_dist[num]} ]] || continue
-		bp_sort[j - 1]=-1
+		bp_sort[k - 1]=-1
 		#print "<!-- bp #$i for${bp_suites[i]} -->"
 		print "<!-- bp #$i -->"
 		print "<tr class=\"binpkgline\">"
@@ -345,7 +344,18 @@ while read -p num rest; do
 		print " <td class=\"binpkgdesc\" colspan=\"2\">${bp_desc[i]}</td>"
 		for suitename in $allsuites; do
 			eval pv=\${bp_ver_${suitename}[i]}
-			[[ -n $pv ]] || pv=${pN:--}
+			if [[ -z $pv ]]; then
+				pv=-
+				if (( nrpl )); then
+					x=${suitename}/${sp_dist[num]}/${sp_name[num]}/%
+					j=0
+					while (( j < nrpl )); do
+						[[ ${preplsrc[j]} = $x ]] && break
+						let j++
+					done
+					(( j < nrpl )) && pv=${prepldst[j]}
+				fi
+			fi
 			print " <td class=\"binpkgitem\">$pv</td>"
 		done
 		print "</tr>"
@@ -376,6 +386,7 @@ for i in ${bp_sort[*]}; do
 	for suitename in $allsuites; do
 		eval pv=\${bp_ver_${suitename}[i]}
 		if [[ -z $pv ]]; then
+			pv=-
 			if (( nrpl )); then
 				x=${suitename}/${bp_dist[num]}/${bp_disp[num]}/=
 				j=0
@@ -383,9 +394,8 @@ for i in ${bp_sort[*]}; do
 					[[ ${preplsrc[j]} = $x ]] && break
 					let j++
 				done
-				(( j < nrpl )) && pN=${prepldst[j]}
+				(( j < nrpl )) && pv=${prepldst[j]}
 			fi
-			pv=${pN:--}
 		fi
 		print " <td class=\"binpkgitem\">$pv</td>"
 	done
