@@ -1,5 +1,5 @@
 #!/usr/bin/env mksh
-id='$MirOS: contrib/hosted/tg/svn2cvs.sh,v 1.1 2008/12/17 23:19:13 tg Exp $'
+id='$MirOS: contrib/hosted/tg/svn2cvs.sh,v 1.2 2008/12/20 16:04:59 tg Exp $'
 #-
 # Copyright (c) 2008
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -61,6 +61,7 @@ function usage {
 	print -u2 "${bi}Syntax${bo}:\tmksh svn2cvs.sh [-ht] [-B baserev] [-H headrev]"
 	print -u2 "\t[-m module] -r repo -s svnurl"
 	print -u2 "Normal conversion goes from baserev (1) to headrev (HEAD)"
+	print -u2 "WARNING: This script is not yet whitespace-in-pathname safe!"
 	print -u2 "\nExample:"
 	print -u2 \$ mksh svn2cvs -t -r /cvs -s \
 	    svn+ssh://www.FreeWRT.org/svn/trunk
