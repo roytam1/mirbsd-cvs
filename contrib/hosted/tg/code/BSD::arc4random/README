@@ -72,5 +72,5 @@ OpenBSD kernel, published by Damien Miller under the ISC licence
 
 This module is covered by the MirOS Licence: http://mirbsd.de/MirOS-Licence
 
-___________________________________________________________________________________
-$MirOS: contrib/hosted/p5/BSD/arc4random/README,v 1.20 2008/12/26 14:11:08 tg Exp $
+________________________________________________________________________________________
+$MirOS: contrib/hosted/tg/code/BSD::arc4random/README,v 1.1 2009/05/17 13:01:00 tg Exp $
