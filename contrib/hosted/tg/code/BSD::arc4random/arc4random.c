@@ -1,6 +1,6 @@
 static const char __vcsid[] = "@(#) MirOS contributed arc4random.c (old)"
     "\n	@(#)rcsid_master: $miros: contrib/code/Snippets/arc4random.c,v 1.12 2008/12/08 18:51:53 tg Exp $"
-    "\n	@(#)rcsid_p5_mod: $MirOS: contrib/hosted/p5/BSD/arc4random/arc4random.c,v 1.5 2008/12/08 13:46:12 tg Exp $"
+    "\n	@(#)rcsid_p5_mod: $MirOS: contrib/hosted/p5/BSD/arc4random/arc4random.c,v 1.6 2008/12/08 18:52:37 tg Exp $"
     ;
 
 /*-

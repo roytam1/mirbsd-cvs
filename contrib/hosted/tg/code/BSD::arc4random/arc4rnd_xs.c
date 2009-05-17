@@ -43,7 +43,7 @@
 #define __RCSID(x)			__IDSTRING(rcsid,x)
 #endif
 
-__RCSID("$MirOS: contrib/hosted/p5/BSD/arc4random/arc4rnd_xs.c,v 1.14 2008/07/12 19:21:56 tg Exp $");
+__RCSID("$MirOS: contrib/hosted/p5/BSD/arc4random/arc4rnd_xs.c,v 1.15 2008/07/20 15:27:54 tg Exp $");
 
 #ifdef REDEF_USCORETYPES
 #define u_int32_t	uint32_t

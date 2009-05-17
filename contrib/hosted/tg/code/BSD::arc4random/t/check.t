@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/p5/BSD/arc4random/t/check.t,v 1.1 2008/07/20 15:08:38 tg Exp $
+# $MirOS: contrib/hosted/p5/BSD/arc4random/t/check.t,v 1.2 2008/12/11 17:37:57 tg Exp $
 
 print "1..12\n";
 

@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/p5/BSD/arc4random/Makefile.PL,v 1.10 2008/12/08 18:55:53 tg Exp $
+# $MirOS: contrib/hosted/p5/BSD/arc4random/Makefile.PL,v 1.12 2008/12/26 14:13:51 tg Exp $
 
 use 5.000;
 use ExtUtils::MakeMaker;

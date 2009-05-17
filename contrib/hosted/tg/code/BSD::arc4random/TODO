@@ -1,4 +1,4 @@
-$MirOS: contrib/hosted/p5/BSD/arc4random/TODO,v 1.1 2008/12/26 14:02:47 tg Exp $
+$MirOS: contrib/hosted/p5/BSD/arc4random/TODO,v 1.2 2008/12/26 14:11:08 tg Exp $
 
 • write an improved arc4random(3) et al. implementation, which can
   talk to an EGD/PRNGD as well as have more system interfaces
