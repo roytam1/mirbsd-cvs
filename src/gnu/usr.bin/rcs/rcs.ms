@@ -1,10 +1,41 @@
-.\" $MirOS$
+.\" $MirOS: src/gnu/usr.bin/rcs/rcs.ms,v 1.2 2005/03/13 15:36:36 tg Exp $
+.\"-
+.\" Written by Walter F. Tichy
 .\"
+.\" Redistribution and use in source and binary forms, with or without
+.\" modification, are permitted provided that the following conditions
+.\" are met:
+.\"
+.\" 1. Redistributions of source code must retain the above copyright
+.\"    notice, this list of conditions and the following disclaimer.
+.\" 2. The name of the author may not be used to endorse or promote products
+.\"    derived from this software without specific prior written permission.
+.\"
+.\" THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES,
+.\" INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY
+.\" AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
+.\" THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+.\" EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+.\" PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+.\" OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+.\" WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+.\" OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+.\" ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+.\"-
 .\" Format this file with:
 .\" pic file | tbl | troff -ms
 .\"
 .\" \*s stands for $, and avoids problems when this file is checked in.
 .ds s $
+.\" PS and PE center pic diagrammes. (The corresponding ms-macros may not.)
+.de PS
+.nr pE (\\n(.lu-\\$2u)/2u
+.in +\\n(pEu
+.ne \\$1u
+..
+.de PE
+.in -\\n(pEu
+..
 .de D(
 .DS
 .nr VS 12p
@@ -46,7 +77,7 @@ This paper introduces basic version control concepts and
 discusses the practice of version control
 using RCS.
 For conserving space, RCS stores deltas, i.e., differences between
-successive revisions.  Several delta storage methods are discussed.
+successive revisions. Several delta storage methods are discussed.
 Usage statistics show that RCS's delta storage method is
 space and time efficient.
 The paper concludes with a detailed survey of version control tools.
@@ -61,6 +92,9 @@ An earlier version of this paper was published in
 7 (July 1985), 637-654.
 .FE
 .nr VS 18p
+.EQ
+delim $$
+.EN
 .LP
 .NH
 Introduction
@@ -72,9 +106,9 @@ commands that assist with that task.
 .PP
 RCS' primary function is to manage \fIrevision groups\fR.
 A revision group is a set of text documents, called \fIrevisions\fR,
-that evolved from each other.  A new revision is
+that evolved from each other. A new revision is
 created by manually editing an existing one.
-RCS organizes the revisions into an ancestral tree.  The initial revision
+RCS organizes the revisions into an ancestral tree. The initial revision
 is the root of the tree, and the tree edges indicate
 from which revision a given one evolved.
 Besides managing individual revision groups, RCS provides
@@ -101,7 +135,7 @@ counterproductive, it is possible to loosen the controls.
 .PP
 Although RCS was originally intended for programs, it is useful for any
 text that is revised frequently and whose previous revisions must be
-preserved.  RCS has been applied successfully to store the source
+preserved. RCS has been applied successfully to store the source
 text for drawings, VLSI layouts, documentation, specifications,
 test data, form letters and articles.
 .PP
@@ -183,7 +217,7 @@ To be able to proceed with the check-in in the present case, first execute
 rcs  \-l  f.c
 .D)
 This command retroactively locks the latest revision, unless someone
-else locked it in the meantime.  In this case, the two programmers
+else locked it in the meantime. In this case, the two programmers
 involved have to negotiate whose
 modifications should take precedence.
 .PP
@@ -193,7 +227,7 @@ may be disabled.
 If strict locking is disabled,
 the owner of the RCS file need not have a lock for check-in.
 For safety reasons, all others
-still do.  Turning strict locking off and on is done with the commands:
+still do. Turning strict locking off and on is done with the commands:
 .D(
 rcs  \-U  f.c       \fRand\fP         rcs  \-L  f.c
 .D)
@@ -207,8 +241,8 @@ to a subdirectory with the name \fIRCS\fR.
 RCS commands look first into that directory for RCS files.
 All the commands presented above work
 with the \fIRCS\fR subdirectory without change.\(dg
-.FS \(dg
-Pairs of RCS and working files can actually be specified in 3 ways:
+.FS
+\(dg Pairs of RCS and working files can actually be specified in 3 ways:
 a) both are given, b) only the working file is given, c) only the
 RCS file is given.
 If a pair is given, both files may have arbitrary path prefixes;
@@ -223,11 +257,11 @@ Invoking
 ci  \-l  f.c
 .D)
 checks in \fIf.c\fR as usual, but performs an additional
-check-out with locking afterwards.  Thus, the working file does
+check-out with locking afterwards. Thus, the working file does
 not disappear after the check-in.
 Similarly, the option
 \fI\-u\fR does a check-in followed by a check-out without
-locking.  This option is useful if the file is needed for compilation after the check-in.
+locking. This option is useful if the file is needed for compilation after the check-in.
 Both options update the identification markers in the working file
 (see below).
 .PP
@@ -265,9 +299,9 @@ The check-out operation will replace this marker with a string of the form
 This string need never be touched, because \fIco\fR keeps it
 up to date automatically.
 To propagate the marker into object code, simply put
-it into a literal character string.  In C, this is done as follows:
+it into a literal character string. In C, this is done as follows:
 .D(
-static char rcsid[] = \&"\*sId\*s\&";
+static char rcsid[] = "\*sId\*s";
 .D)
 The command \fIident\fR extracts such markers from any file, in particular from
 object code.
@@ -283,12 +317,12 @@ The marker
 .D(
 \*sLog\*s
 .D)
-has a similar function.  It accumulates
+has a similar function. It accumulates
 the log messages that are requested during check-in.
 Thus, one can maintain the complete history of a revision directly inside it,
 by enclosing it in a comment.
 Figure 1 is an edited version of a log contained in revision 4.1 of
-the file \fIci.c\fR.  The log appears at the beginning of the file,
+the file \fIci.c\fR. The log appears at the beginning of the file,
 and makes it easy to determine what the recent modifications were.
 .sp
 .nr VS 12p
@@ -335,9 +369,9 @@ RCS arranges revisions in an ancestral tree.
 The \fIci\fR command builds this tree; the auxiliary command \fIrcs\fR
 prunes it.
 The tree has a root revision, normally numbered 1.1, and successive revisions
-are numbered 1.2, 1.3, etc.  The first field of a revision number
+are numbered 1.2, 1.3, etc. The first field of a revision number
 is called the \fIrelease number\fR and the second one
-the \fIlevel number\fR.  Unless given explicitly,
+the \fIlevel number\fR. Unless given explicitly,
 the \fIci\fR command assigns a new revision number
 by incrementing the level number of the previous revision.
 The release number must be incremented explicitly, using the
@@ -385,9 +419,9 @@ Figure 2.  A slender revision tree.
 .sp 0
 Now imagine a customer requesting a fix of
 a problem in revision 1.3, although actual development has moved on
-to release 2.  RCS does not permit an extra
+to release 2. RCS does not permit an extra
 revision to be spliced in between 1.3 and 2.1, since that would not reflect
-the actual development history.  Instead, create a branch
+the actual development history. Instead, create a branch
 at revision 1.3, and check in the fix on that branch.
 The first branch starting at 1.3 has number 1.3.1, and
 the revisions on that branch are numbered 1.3.1.1, 1.3.1.2, etc.
@@ -404,9 +438,9 @@ branch 1.3.1 and add revision 1.3.1.1:
 .TS
 tab(%);
 l l l.
-     %co  \-r1.3  f.c% \*- check out revision 1.3
-     %edit  f.c% \*- change it
-     %ci  \-r1.3.1  f.c% \*- check it in on branch 1.3.1
+     %co  \-r1.3  f.c		% \*- check out revision 1.3
+     %edit  f.c			% \*- change it
+     %ci  \-r1.3.1  f.c		% \*- check it in on branch 1.3.1
 .TE
 .nr VS 18p
 .vs 18p
@@ -415,7 +449,7 @@ This sequence of commands transforms the tree of Figure 2 into
 the one in Figure 3.
 Note that it may be necessary to incorporate the differences
 between 1.3 and 1.3.1.1
-into a revision at level 2.  The operation \fIrcsmerge\fR automates this
+into a revision at level 2. The operation \fIrcsmerge\fR automates this
 process (see the Appendix).
 .ne 7
 .PS 4i
@@ -489,26 +523,26 @@ in developing a national computer network.
 .sp 0
 Sometimes it is desirable to explore an alternate design or
 a different implementation technique in parallel with the
-main line development.  Such development
+main line development. Such development
 should be carried out on a side branch.
 The experimental changes may later be moved into the main line, or abandoned.
 .IP "\fIConflicting updates\fR"
 .sp 0
 A common occurrence is that one programmer
 has checked out a revision, but cannot complete the assignment
-for some reason.  In the meantime, another person
+for some reason. In the meantime, another person
 must perform another modification
-immediately.  In that case, the second person should check-out the same revision,
+immediately. In that case, the second person should check-out the same revision,
 modify it, and check it in on a side branch, for later merging.
 .PP
 Every node in a revision tree consists of the following attributes:
 a revision number, a check-in date and time, the author's identification,
-a log entry, a state and the actual text.  All these attributes
+a log entry, a state and the actual text. All these attributes
 are determined at the time the revision is checked in.
 The state attribute indicates the status of a revision.
 It is set automatically to `experimental' during check-in.
 A revision can later be promoted to a higher status, for example
-`stable' or `released'.  The set of states is user-defined.
+`stable' or `released'. The set of states is user-defined.
 .NH 2
 Revisions are represented as deltas
 .PP
@@ -517,7 +551,7 @@ of deltas, i.e., as differences between revisions.
 The user interface completely hides this fact.
 .PP
 A delta is a sequence of edit commands that transforms one string
-into another.  The deltas employed by RCS are line-based, which means
+into another. The deltas employed by RCS are line-based, which means
 that the only edit commands allowed are insertion and deletion of lines.
 If a single character in a line is changed, the
 edit scripts consider the entire line changed.
@@ -547,15 +581,15 @@ revision with a reverse delta, and keeps the rest of the old deltas.
 Thus, \fIci\fR requires the computation
 of only one new delta.
 .PP
-Branches need special treatment.  The naive solution would be to
+Branches need special treatment. The naive solution would be to
 store complete copies for the tips of all branches.
-Clearly, this approach would cost too much space.  Instead,
-RCS uses \fIforward\fR deltas for branches.  Regenerating a revision
-on a side branch proceeds as follows.  First, extract the latest revision
+Clearly, this approach would cost too much space. Instead,
+RCS uses \fIforward\fR deltas for branches. Regenerating a revision
+on a side branch proceeds as follows. First, extract the latest revision
 on the trunk; secondly, apply reverse deltas until the fork revision for
 the branch is obtained; thirdly, apply forward deltas until the desired
-branch revision is reached.  Figure 5 illustrates a tree with
-one side branch.  Triangles pointing to the left and right represent
+branch revision is reached. Figure 5 illustrates a tree with
+one side branch. Triangles pointing to the left and right represent
 reverse and forward deltas, respectively.
 .ne 8
 .PS 4i
@@ -590,9 +624,9 @@ Figure 5.  A revision tree with reverse and forward deltas.
 .PP
 Although implementing fast check-out for the latest trunk revision,
 this arrangement has the disadvantage that generation of other revisions
-takes time proportional to the number of deltas applied.  For example,
+takes time proportional to the number of deltas applied. For example,
 regenerating the branch tip in Figure 5 requires application of five
-deltas (including the initial one).  Since usage statistics show that
+deltas (including the initial one). Since usage statistics show that
 the latest trunk revision is the one that is retrieved in 95 per cent
 of all cases (see the section on usage statistics), biasing check-out time
 in favor of that revision results in significant savings.
@@ -605,16 +639,16 @@ The naive one is to pass each delta to a general-purpose text editor.
 A prototype of RCS invoked the UNIX editor \fIed\fR both
 for applying deltas and for expanding the identification markers.
 Although easy to implement, performance was poor, owing to the
-high start-up costs and excess generality of \fIed\fR.  An intermediate
+high start-up costs and excess generality of \fIed\fR. An intermediate
 version of RCS used a special-purpose, stream-oriented editor.
 This technique reduced the cost of applying a delta to the cost of
-checking out the latest trunk revision.  The reason for this behavior
+checking out the latest trunk revision. The reason for this behavior
 is that each delta application involves a complete pass over
 the preceding revision.
 .PP
-However, there is a much better algorithm.  Note that the deltas are
+However, there is a much better algorithm. Note that the deltas are
 line oriented and that most of the work of a stream editor involves
-copying unchanged lines from one revision to the next.  A faster
+copying unchanged lines from one revision to the next. A faster
 algorithm avoids unnecessary copying of character strings by using
 a \fIpiece table\fR.
 A piece table is a one-dimensional array, specifying how a given
@@ -623,16 +657,16 @@ Suppose piece table \fIPT\dr\u\fR represents revision \fIr\fR.
 Then \fIPT\dr\u[i]\fR contains the starting position of line \fIi\fR
 of revision \fIr\fR.
 Application of the next delta transforms piece table \fIPT\dr\u\fR
-into \fIPT\dr+1\u\fR.  For instance, a delete command removes a
-series of entries from the piece table.  An insertion command inserts
+into \fIPT\dr+1\u\fR. For instance, a delete command removes a
+series of entries from the piece table. An insertion command inserts
 new entries, moving the entries following the insertion point further down the
-array.  The inserted entries point to the text lines in the delta.
-Thus, no I/O is involved except for reading the delta itself.  When all
+array. The inserted entries point to the text lines in the delta.
+Thus, no I/O is involved except for reading the delta itself. When all
 deltas have been applied to the piece table, a sequential pass
 through the table looks up each line in the RCS file and copies it to
 the output file, updating identification markers at the same time.
 Of course, the RCS file must permit random access, since the copied
-lines are scattered throughout that file.  Figure 6 illustrates an
+lines are scattered throughout that file. Figure 6 illustrates an
 RCS file with two revisions and the corresponding piece tables.
 .ne 13
 .sp 6
@@ -645,27 +679,27 @@ Figure 6.  An RCS file and its piece tables
 .PP
 The piece table approach has the property that the time for applying a single
 delta is roughly determined by the size of the delta, and not by the
-size of the revision.  For example, if a delta is
+size of the revision. For example, if a delta is
 10 per cent of the size of a revision, then applying it takes only
-10 per cent of the time to generate the latest trunk revision.  (The stream
+10 per cent of the time to generate the latest trunk revision. (The stream
 editor would take 100 per cent.)
 .PP
 There is an important alternative for representing deltas that affects
-performance.  SCCS\u3\d,
+performance. SCCS\u3\d,
 a precursor of RCS, uses \fIinterleaved\fR deltas.
 A file containing interleaved deltas is partitioned into blocks of lines.
 Each block has a header that specifies to which revision(s) the block
-belongs.  The blocks are sorted out in such a way that a single
+belongs. The blocks are sorted out in such a way that a single
 pass over the file can pick up all the lines belonging to a given
-revision.  Thus, the regeneration time for all revisions is the same:
+revision. Thus, the regeneration time for all revisions is the same:
 all headers must be inspected, and the associated blocks either copied
-or skipped.  As the number of revisions increases, the cost of retrieving
+or skipped. As the number of revisions increases, the cost of retrieving
 any revision is much higher than the cost of checking out the
-latest trunk revision with reverse deltas.  A detailed comparison
+latest trunk revision with reverse deltas. A detailed comparison
 of SCCS's interleaved deltas and RCS's reverse deltas can be found
 in Reference 4.
 This reference considers the version of RCS with the
-stream editor only.  The piece table method improves performance
+stream editor only. The piece table method improves performance
 further, so that RCS is always faster than SCCS, except if 10
 or more deltas are applied.
 .PP
@@ -684,13 +718,13 @@ caused by `real-world' considerations.
 RCS must prevent two or more persons from depositing competing changes of the
 same revision.
 Suppose two programmers check out revision 2.4 and
-modify it.  Programmer A checks in a revision before programmer B\&.
+modify it. Programmer A checks in a revision before programmer B.
 Unfortunately, programmer B has not seen A's
 changes, so the effect is that A's changes are covered up by B's deposit.
 A's changes are not lost since all revisions
-are saved, but they are confined to a single revision.\(dd
-.FS \(dd
-Note that this problem is entirely different from the atomicity problem.
+are saved, but they are confined to a single revision\(dd.
+.FS
+\(dd Note that this problem is entirely different from the atomicity problem.
 Atomicity means that
 concurrent update operations on the same RCS file cannot be permitted,
 because that may result in inconsistent data.
@@ -702,7 +736,7 @@ This conflict is prevented in RCS by locking.
 Whenever someone intends to edit a revision (as opposed
 to reading or compiling it), the revision should be checked out
 and locked,
-using the \fI\-l\fR option on \fIco\fR.  On subsequent check-in,
+using the \fI\-l\fR option on \fIco\fR. On subsequent check-in,
 \fIci\fR tests the lock and then removes it.
 At most one programmer at a time may
 lock a particular revision, and only this programmer may check in
@@ -714,20 +748,20 @@ An important maxim for software tools like RCS is that they must
 not stand in the way of making progress with a project.
 This consideration leads to several weakenings of the locking mechanism.
 First of all, even if a revision is locked, it can
-still be checked out.  This is necessary if other people
+still be checked out. This is necessary if other people
 wish to compile or inspect the locked revision
-while the next one is in preparation.  The only operations they
-cannot do are to lock the revision or to check in the succeeding one.  Secondly,
+while the next one is in preparation. The only operations they
+cannot do are to lock the revision or to check in the succeeding one. Secondly,
 check-in operations on other branches in the RCS file are still possible; the
 locking of one revision does not affect any other revision.
 Thirdly, revisions are occasionally locked for a long period of time
 because a programmer is absent or otherwise unable to complete
-the assignment.  If another programmer has to make a pressing change,
+the assignment. If another programmer has to make a pressing change,
 there are the following three alternatives for making progress:
 a) find out who is holding the lock and ask that person to release it;
 b) check out the locked revision, modify it, check it
 in on a branch, and merge the changes later;
-c) break the lock.  Breaking a lock leaves a highly visible
+c) break the lock. Breaking a lock leaves a highly visible
 trace, namely an electronic mail message that is sent automatically to the
 holder of the lock, recording the breaker and a commentary requested from him.
 Thus, breaking locks is tolerated under certain circumstances,
@@ -749,11 +783,11 @@ and that no lock is needed for doing so.
 .PP
 As added protection,
 each RCS file contains an access list that specifies the users
-who may execute update operations.  If an access list is empty,
-only normal UNIX file protection applies.  Thus, the access list is
+who may execute update operations. If an access list is empty,
+only normal UNIX file protection applies. Thus, the access list is
 useful for restricting the set of people who would otherwise have update
-permission.  Just as with locking, the access list
-has no effect on read-only operations such as \fIco\fR.  This approach
+permission. Just as with locking, the access list
+has no effect on read-only operations such as \fIco\fR. This approach
 is consistent with the UNIX philosophy of openness, which contributes
 to a productive software development environment.
 .NH
@@ -776,8 +810,8 @@ RCS Selection Functions
 .IP "\fIDefault selection\fR"
 .sp 0
 During development, the usual selection criterion is to choose
-the latest revision of all components.  The \fIco\fR command
-makes this selection by default.  For example, the command
+the latest revision of all components. The \fIco\fR command
+makes this selection by default. For example, the command
 .D(
 co  *,v
 .D)
@@ -804,7 +838,7 @@ development has moved on to the next release.
 .sp 0
 If the highest level number within a given release number
 is not the desired one,
-the state attribute can help.  For example,
+the state attribute can help. For example,
 .D(
 co  \-r2  \-sReleased  *,v
 .D)
@@ -819,7 +853,7 @@ using the \fI\-w\fR option.
 .sp 0
 Revisions may also be selected by date.
 Suppose a release of an entire system was
-completed and current on March 4, at 1:00 p.m. local time.  Then the command
+completed and current on March 4, at 1:00 p.m. local time. Then the command
 .D(
 co  \-d'March 4, 1:00 pm LT'  *,v
 .D)
@@ -840,7 +874,7 @@ Thus, a single revision number or date passed to the \fIco\fR command
 will not suffice to select the right revisions.
 Symbolic revision numbers solve this problem.
 Each RCS file may contain a set of symbolic names that are mapped
-to numeric revision numbers.  For example, assume
+to numeric revision numbers. For example, assume
 the symbol \fIV3\fR is bound to release number 2 in file \fIs,v\fR, and to
 revision number 15.9 in \fIt,v\fR.
 Then the single command
@@ -861,12 +895,12 @@ in every RCS file.
 The assigned symbolic revision number selects all components
 of the configuration.
 If necessary, symbolic numbers
-may even be intermixed with numeric ones.  Thus, \fIV3.5\fR in the
+may even be intermixed with numeric ones. Thus, \fIV3.5\fR in the
 above example
 would select revision 2.5 in \fIs,v\fR and branch 15.9.5 in \fIt,v\fR.
 .PP
 The options \fI\-r\fR, \fI\-s\fR, \fI\-w\fR and \fI\-d\fR
-may be combined.  If a branch is given, the latest revision
+may be combined. If a branch is given, the latest revision
 on that branch satisfying all conditions is retrieved;
 otherwise, the default branch is used.
 .NH 2
@@ -953,8 +987,8 @@ can be regenerated easily and reliably.
 Usage Statistics
 .PP
 The following usage statistics were collected on two DEC VAX-11/780
-computers of the Purdue Computer Science Department.  Both machines
-are mainly used for research purposes.  Thus, the data
+computers of the Purdue Computer Science Department. Both machines
+are mainly used for research purposes. Thus, the data
 reflect an environment in which the majority of projects
 involve prototyping and advanced software development,
 but relatively little long-term maintenance.
@@ -990,7 +1024,7 @@ the third line shows the combination.
 Recall that \fIci\fR performs an implicit check-out to obtain
 a revision for computing the delta.
 In all measures presented, the most recent revision (stored intact)
-counts as one delta.  The number of deltas applied represents
+counts as one delta. The number of deltas applied represents
 the number of passes necessary, where the first `pass' is a copying step.
 .PP
 Note that the check-out operation is executed more than
@@ -1020,9 +1054,9 @@ reverse deltas are clearly the method of choice.
 .PP
 The second experiment, conducted in March of 1984,
 involved surveying the existing RCS files
-on our two machines.  The goal was to determine the mean number of
+on our two machines. The goal was to determine the mean number of
 revisions per RCS file, as well as the space consumed by them.
-Table II shows the results.  (Tables I and II were produced at different
+Table II shows the results. (Tables I and II were produced at different
 times and are unrelated.)
 .sp 0
 .nr VS 12p
@@ -1057,10 +1091,10 @@ systems programmers routinely check in all source files
 on the distribution tapes, even though they may never touch them again.
 To get a better indication of how much space savings are possible
 with deltas, all measures with those files
-that contained 2 or more revisions were recomputed.  Only for those files
+that contained 2 or more revisions were recomputed. Only for those files
 is RCS necessary.
 As shown in the second line, the average number of revisions for those files is
-3.10, with an overhead of 1.34.  This means that the extra 2.10 deltas
+3.10, with an overhead of 1.34. This means that the extra 2.10 deltas
 require 34 per cent extra space, or
 16 per cent per extra revision.
 Rochkind\u3\d
@@ -1078,11 +1112,11 @@ programs, a revision group with 5\-10 members was smaller
 than a single cleartext copy.
 .PP
 The above observations demonstrate clearly that the space needed
-for extra revisions is small.  With delta storage, the luxury of
+for extra revisions is small. With delta storage, the luxury of
 keeping multiple revisions online is certainly affordable.
 In fact, introducing a system with delta storage may reduce
 storage requirements, because programmers often save back-up copies
-anyway.  Since back-up copies are stored much more efficiently with deltas,
+anyway. Since back-up copies are stored much more efficiently with deltas,
 introducing a system such as RCS may
 actually free a considerable amount of space.
 .NH
@@ -1100,8 +1134,8 @@ corresponding file is edited.
 .PP
 Tape archives are suitable for long-term, offline storage.
 If all changed files are dumped on a back-up tape once per day, old revisions
-remain accessible.  However, tape archives are unsatisfactory
-for version control in several ways.  First, backing up the file
+remain accessible. However, tape archives are unsatisfactory
+for version control in several ways. First, backing up the file
 system every 24 hours does not capture intermediate revisions.
 Secondly, the old revisions are not online,
 and accessing them is tedious and time-consuming.
@@ -1156,7 +1190,7 @@ for uniquely identifying each revision.
 An efficient delta technique
 reduces the space consumed by each revision group.
 SDC is much simpler than SCCS because it stores not more than
-two revisions.  However, it maintains a complete log for all old
+two revisions. However, it maintains a complete log for all old
 revisions, some of which may be on back-up tape.
 CMS, like SCCS, manages tree-structured revision groups,
 but offers no identification mechanism.
@@ -1176,7 +1210,7 @@ Since the selection rules are primitive,
 the System Modeller appears to be somewhat tedious to use.
 Apollo's DSEE\u5\d
 is a sophisticated software engineering environment.
-It manages revision groups in a way similar to SCCS and CMS.  Configurations
+It manages revision groups in a way similar to SCCS and CMS. Configurations
 are built using `configuration threads'.
 A configuration thread states which revision of each group
 named in a configuration should be chosen.
@@ -1266,7 +1300,7 @@ The option \fI\-k\fR searches the checked in file for identification
 markers containing
 the attributes
 revision number, check-in date, author and state, and assigns these
-to the new revision rather than computing them.  This option is
+to the new revision rather than computing them. This option is
 useful for software distribution: Recipients of distributed software
 using RCS should check in updates with the \fI\-k\fR option.
 This convention guarantees that revision numbers, check-in dates,
@@ -1274,7 +1308,7 @@ etc., are the same at all sites.
 .IP "\fIco\fP \fB\- check out revisions\fP"
 .sp 0
 \fICo\fR retrieves revisions according to revision number,
-date, author and state attributes.  It either places the revision
+date, author and state attributes. It either places the revision
 into the working file, or prints it on the standard output.
 \fICo\fR always expands the identification markers.
 .IP "\fIident\fP \fB\- extract identification markers\fP"
@@ -1286,7 +1320,7 @@ from any file and prints them.
 \fIRcs\fR is an administrative operation that changes access lists,
 locks, unlocks, breaks locks, toggles the strict-locking feature,
 sets state attributes and symbolic revision numbers, changes the
-description, and deletes revisions.  A revision can
+description, and deletes revisions. A revision can
 only be deleted if it is not the fork of a side branch.
 .br
 .ne 10
@@ -1314,7 +1348,7 @@ This command is useful for accurately recording a configuration.*
 with respect to a common ancestor.
 A 3-way file comparison determines the segments of lines that
 are (a) the same in all three revisions, or (b) the same in 2 revisions,
-or (c) different in all three.  For all segments of type (b) where
+or (c) different in all three. For all segments of type (b) where
 \fIrev1\fR is the differing revision,
 the segment in \fIrev1\fR replaces the corresponding segment of \fIrev2\fR.
 Type (c) indicates an overlapping change, is flagged as an error, and requires user
