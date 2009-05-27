@@ -1,5 +1,5 @@
 #!/bin/mksh
-rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.22 2009/04/30 22:36:37 tg Exp $'
+rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.23 2009/04/30 22:41:01 tg Exp $'
 #-
 # Copyright (c) 2008, 2009
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -147,7 +147,7 @@ for suite in dists/*; do
 							[[ ${preplsrc[j]} = $x ]] && break
 							let j++
 						done
-						(( j < nrpl )) && pv="from ${prepldst[j]}"
+						(( j < nrpl )) && pv="${pv}from ${prepldst[j]}"
 					fi
 					eval sp_ver_${suitename}[i]=\$pv
 					eval sp_dir_${suitename}[i]=\$pp/
@@ -226,7 +226,7 @@ done
  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
  <meta name="MSSmartTagsPreventParsing" content="TRUE" />
  <title>MirDebian “WTF” Repository Index</title>
- <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.22 2009/04/30 22:36:37 tg Exp $" />
+ <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.23 2009/04/30 22:41:01 tg Exp $" />
  <style type="text/css">
   table {
    border: 1px solid black;
@@ -313,6 +313,12 @@ while read -p num rest; do
 	for suitename in $allsuites; do
 		eval pv=\${sp_ver_${suitename}[num]}
 		eval pp=\${sp_dir_${suitename}[num]}
+		if [[ $pv = *@()* ]]; then
+			pvdsc=${pv%%@()*}
+			pv=${pv##*@()}
+		else
+			pvdsc=$pv
+		fi
 		if [[ -z $pv ]]; then
 			pv=-
 			if (( nrpl )); then
@@ -325,7 +331,7 @@ while read -p num rest; do
 				(( j < nrpl )) && pv=${prepldst[j]}
 			fi
 		elif [[ $pp != ?(/) ]]; then
-			pv="<a href=\"$pp${sp_name[num]}_${pv##+([0-9]):}.dsc\">$pv</a>"
+			pv="<a href=\"$pp${sp_name[num]}_${pvdsc##+([0-9]):}.dsc\">$pv</a>"
 		fi
 		[[ $pp != ?(/) ]] && pv="<a href=\"$pp\">[dir]</a> $pv"
 		print " <td class=\"srcpkgitem\">$pv</td>"
