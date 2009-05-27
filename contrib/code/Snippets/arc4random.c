@@ -1,5 +1,5 @@
 static const char __vcsid[] = "@(#) MirOS contributed arc4random.c (old)"
-    "\n	@(#)rcsid_master: $MirOS: contrib/code/Snippets/arc4random.c,v 1.11 2008/12/08 18:46:01 tg Exp $"
+    "\n	@(#)rcsid_master: $MirOS: contrib/code/Snippets/arc4random.c,v 1.12 2008/12/08 18:51:53 tg Exp $"
     ;
 
 /*-
@@ -132,7 +132,7 @@ arc4_init(struct arc4_stream *as)
 	int     n;
 
 	for (n = 0; n < 256; n++)
-		as->s[n] = n;
+		as->s[n] = (uint8_t)n;
 	as->i = 0;
 	as->j = 0;
 }
@@ -145,9 +145,9 @@ arc4_addrandom(struct arc4_stream *as, u_char *dat, int datlen)
 
 	as->i--;
 	for (n = 0; n < 256; n++) {
-		as->i = (as->i + 1);
+		as->i++;
 		si = as->s[as->i];
-		as->j = (as->j + si + dat[n % datlen]);
+		as->j = (uint8_t)(as->j + si + dat[n % datlen]);
 		as->s[as->i] = as->s[as->j];
 		as->s[as->j] = si;
 	}
@@ -223,7 +223,7 @@ arc4_stir(struct arc4_stream *as)
 	 * Time to give up. If no entropy could be found then we will just
 	 * use gettimeofday and getpid.
 	 */
-	arc4_addrandom(as, (void *)&rdat, sizeof(rdat));
+	arc4_addrandom(as, (u_char *)&rdat, sizeof(rdat));
 
 	stir_finish(as, fd);
 }
@@ -242,7 +242,7 @@ stir_finish(struct arc4_stream *as, int av)
 	 * We discard 256 words. A long word is 4 bytes.
 	 * We also discard a randomly fuzzed amount.
 	 */
-	n = 256 * 4 + (arc4_getbyte(as) & 0x0F);
+	n = 256 * 4 + (arc4_getbyte(as) & 0x0FU);
 	while (av) {
 		n += (av & 0x0F);
 		av >>= 4;
@@ -261,9 +261,9 @@ arc4_getbyte(struct arc4_stream *as)
 {
 	uint8_t si, sj;
 
-	as->i = (as->i + 1);
+	as->i++;
 	si = as->s[as->i];
-	as->j = (as->j + si);
+	as->j = (uint8_t)(as->j + si);
 	sj = as->s[as->j];
 	as->s[as->i] = sj;
 	as->s[as->j] = si;
@@ -274,11 +274,11 @@ static uint32_t
 arc4_getword(struct arc4_stream *as)
 {
 	uint32_t val;
-	val = arc4_getbyte(as) << 24;
-	val |= arc4_getbyte(as) << 16;
-	val |= arc4_getbyte(as) << 8;
-	val |= arc4_getbyte(as);
-	return val;
+	val = (uint32_t)arc4_getbyte(as) << 24;
+	val |= (uint32_t)arc4_getbyte(as) << 16;
+	val |= (uint32_t)arc4_getbyte(as) << 8;
+	val |= (uint32_t)arc4_getbyte(as);
+	return (val);
 }
 
 void
