@@ -1,11 +1,5 @@
-/* $MirOS$ */
+/* $MirOS: ports/net/djbdns/files/build/src/fromhex.h,v 1.1 2006/07/27 00:58:15 tg Exp $ */
 
-#if 0 /* XXX doesn't work, why? */
-#define	fromhex(c)	\
-	(((c >= '0') && (c <= '9')) ? (c - '0') : \
-	(((c >= 'a') && (c <= 'f')) ? (c - 'a' + 10) : \
-	(((c >= 'A') && (c <= 'F')) ? (c - 'A' + 10) : (-1))))
-#else
 static inline int fromhex(unsigned char);
 
 static inline int
@@ -19,4 +13,3 @@ fromhex(unsigned char c)
 		return (c - 'A' + 10);
 	return (-1);
 }
-#endif
