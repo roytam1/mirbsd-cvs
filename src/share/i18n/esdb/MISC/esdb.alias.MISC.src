@@ -1,5 +1,8 @@
+# $MirOS$
+
 # MISC
 shift_jis			Shift_JIS
+shift-jis			Shift_JIS
 sjis				Shift_JIS
 big5				Big5
 big5eten			Big5
