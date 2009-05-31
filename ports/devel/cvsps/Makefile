@@ -1,8 +1,9 @@
-# $MirOS$
+# $MirOS: ports/devel/cvsps/Makefile,v 1.2 2009/05/31 13:42:29 tg Exp $
 # $OpenBSD: Makefile,v 1.2 2007/09/16 02:52:58 merdely Exp $
 
 COMMENT=		generate patchsets from CVS repositories
 DISTNAME=		cvsps-2.1
+DASH_VER=		1
 CATEGORIES=		devel
 HOMEPAGE=		http://www.cobite.com/cvsps/
 
