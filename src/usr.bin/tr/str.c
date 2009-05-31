@@ -42,7 +42,7 @@
 #include "extern.h"
 
 __SCCSID("@(#)str.c	8.2 (Berkeley) 4/28/95");
-__RCSID("$MirOS: src/usr.bin/tr/str.c,v 1.2 2007/07/15 19:10:31 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/tr/str.c,v 1.3 2007/07/15 19:28:39 tg Exp $");
 
 static wchar_t	backslash(STR *);
 static bool	bracket(STR *);
@@ -276,7 +276,7 @@ genseq(STR *s)
 
 /*
  * Translate \??? into a character.  Up to 3 octal digits, if no digits either
- * an escape code or a literal character.
+ * an escape code or a literal character.  Spew out a MirOS OPTU-16 raw octet.
  */
 static wchar_t
 backslash(STR *s)
@@ -294,7 +294,7 @@ backslash(STR *s)
 		}
 	}
 	if (cnt)
-		return (val);
+		return ((val &= 0xFF) < 0x80 ? val : 0xEF00 | val);
 	if (ch != L'\0')
 		++s->str;
 	switch (ch) {
