@@ -1,5 +1,5 @@
 #!/usr/bin/env perl -W
-# $MirOS: ports/infrastructure/scripts/cpan2port,v 1.1 2009/01/01 17:11:34 bsiegert Exp $
+# $MirOS: ports/infrastructure/scripts/cpan2port,v 1.2 2009/01/03 20:56:55 bsiegert Exp $
 #-
 # Copyright (c) 2008, 2009,
 #	Benny Siegert <bsiegert@gmx.de>
@@ -40,6 +40,7 @@ my %mp_exceptions = (
 	"ANSIColor"		 => "base",
 	"Attribute-Handlers"	 => "base",
 	"CGI"			 => "base",
+	"CGI.pm"		 => "base",
 	"constant"		 => "base",
 	"Digest"		 => "base",
 	"Exporter"		 => "base",
@@ -97,18 +98,15 @@ sub is_port {
 	return $dirs[0];
 }
 
-sub guess_descr {
+sub write_descr {
 	my $p = shift;		# params reference
-	my $dist = shift;
-	my $mod = shift;
 
-	local $CWD = $dist->dir;
 	my $file;
 	my $indescr = 0;
 	my $inname = 0;
 
-	$file =  catfile("lib", split /::/,
-			($mod ? $mod->id : $dist->containsmods()->[0]));
+	$file =  catfile($p->{"dist"}->dir, "lib", split /::/,
+			($p->{"mod"} ? $p->{"mod"}->id : $p->{"dist"}->containsmods()->[0]));
 	unless (open MOD, "<", $file . ".pod") {
 		unless (open MOD, "<", $file . ".pm") {
 			print STDERR "Warning: Cannot open module to guess description\n";
@@ -116,9 +114,12 @@ sub guess_descr {
 		}
 	}
 
+	unless (open DESCR, ">", "DESCR") {
+		print STDERR "Cannot open DESCR for writing: $!\n";
+		return;
+	}
 	my $parser = Pod::Text->new(indent => 0, width => 72);
-	$p->{"DESCR"} = "";
-	$parser->output_string(\$p->{"DESCR"});
+	$parser->output_fh(*DESCR);
 
 	while (<MOD>) {
 		if ($inname == 0 and m/^=head1\s+NAME/) {
@@ -146,6 +147,7 @@ sub guess_descr {
 
 	$parser->parse_lines(undef);
 	close MOD;
+	close DESCR;
 }
 
 sub has_xs {
@@ -254,14 +256,18 @@ sub guess_params {
 	my $port = is_port($p{"NAME"});
 	if ($port) {
 		print "This module exists already in $port.\n";
-		return;
+		return unless prompt("Still continue?", "n") eq "y";
+		$port =~ m/(.*)\//;
+		print "If you choose $1 as a category, the original port will be overwritten.\n";
 	}
 
 	print "====> "; # message is printed by CPAN.pm
 	$dist->make;
 	$p{"DECLS"} = handle_prereq($dist->prereq_pm) . has_xs($dist);
 
-	guess_descr(\%p, $dist, $mod);
+	#guess_descr(\%p, $dist, $mod);
+	$p{"dist"} = $dist;
+	$p{"mod"} = $mod;
 
 	return %p;
 }
@@ -304,23 +310,6 @@ sub write_makefile {
 
 	close TMPL;
 	close OUT;
-}
-
-sub write_descr {
-	my $p = shift;
-
-	unless ($p->{"DESCR"}) {
-		print STDERR "Warning: no description found, please create DESCR yourself\n";
-		return;
-	}
-
-	unless (open DESCR, "> DESCR") {
-		print STDERR "Cannot open DESCR for writing\n";
-		return;
-	}
-
-	print DESCR $p->{"DESCR"};
-	close DESCR;
 }
 
 sub copy_distfile {
@@ -420,8 +409,8 @@ foreach my $i (@things) {
 	$CWD = $dir;
 
 	print "====> Writing files for " . $params{"DISTNAME"} . "\n";
-	write_makefile(\%params);
 	write_descr(\%params);
+	write_makefile(\%params);
 	copy_distfile(\%params);
 
 	print "====> Dropping to a shell in $dir, press Ctrl+D to return\n";
