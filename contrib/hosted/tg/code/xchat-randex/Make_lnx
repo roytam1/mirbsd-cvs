@@ -1,0 +1,5 @@
+# $MirOS$
+
+CPPFLAGS+=	-DUSE_INTTYPES
+
+include Make_bsd

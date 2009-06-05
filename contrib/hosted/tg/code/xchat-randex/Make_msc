@@ -1,0 +1,27 @@
+# $MirOS$
+
+CC=		cl
+LD=		link
+CFLAGS=		-O1 -G5
+LDFLAGS=	/OPT:NOWIN98 /BASE:0x00D40000
+EXTRA_FLAGS=	-MD -DWIN32
+
+SRCS=		arc4random.c main.c
+OBJS=		arc4random.obj main.obj
+LIB=		randex
+
+#all: $(LIB).dll
+all:
+	@echo Sorry, Microsoft C is currently not available.
+	@echo Fixes welcome.
+	@exit 1
+
+$(LIB).dll: $(LIB).def $(OBJS)
+	$(LD) /DLL /OUT:$(LIB).dll /SUBSYSTEM:WINDOWS \
+	    /DEF:$(LIB).def $(LDFLAGS) $(OBJS)
+	$(CCLD) -Wl,-O2 -Wl,--version-script,$(LIB).exp \
+	    $(CFLAGS) $(EXTRA_FLAGS) -shared $(LDFLAGS) \
+	    -Wl,--export-dynamic -o $@ $(OBJS)
+
+.c.obj:
+	$(CC) $(CPPFLAGS) $(CFLAGS) $(EXTRA_FLAGS) -c $<

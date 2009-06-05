@@ -1,0 +1,21 @@
+# $MirOS$
+
+CC?=		gcc
+CCLD?=		${CC}
+CFLAGS?=	-Os -g
+LDFLAGS?=
+EXTRA_FLAGS?=	-fno-strict-aliasing -fwrapv -no-cpp-precomp
+
+SRCS=		arc4random.c main.c
+OBJS=		arc4random.o main.o
+LIB=		randex
+
+all: ${LIB}.so
+
+${LIB}.so: ${OBJS}
+	${CCLD} -flat_namespace -undefined suppress \
+	    ${CFLAGS} ${EXTRA_FLAGS} -bundle ${LDFLAGS} \
+	    -o $@ ${OBJS}
+
+.c.o:
+	${CC} ${CPPFLAGS} ${CFLAGS} ${EXTRA_FLAGS} -c -o $@ $<

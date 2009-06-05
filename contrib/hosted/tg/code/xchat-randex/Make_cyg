@@ -1,0 +1,20 @@
+# $MirOS$
+
+CC?=		gcc
+CCLD?=		${CC}
+CFLAGS?=	-Os -g
+EXTRA_FLAGS?=	-fno-strict-aliasing -fwrapv -DWIN32 -mno-cygwin
+CPPFLAGS+=	-DUSE_INTTYPES
+
+SRCS=		arc4random.c main.c
+OBJS=		arc4random.o main.o
+LIB=		randex
+
+all: ${LIB}.dll
+
+${LIB}.dll: ${LIB}.def ${OBJS}
+	dllwrap --def ${LIB}.def --dllname $@ ${OBJS} \
+	    -mno-cygwin --target=i386-mingw32
+
+.c.o:
+	${CC} ${CPPFLAGS} ${CFLAGS} ${EXTRA_FLAGS} -c -o $@ $<
