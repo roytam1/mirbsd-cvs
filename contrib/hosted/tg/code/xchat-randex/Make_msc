@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: contrib/hosted/tg/code/xchat-randex/Make_msc,v 1.1 2009/06/05 23:42:20 tg Exp $
 
 CC=		cl
 LD=		link
@@ -14,7 +14,11 @@ LIB=		randex
 all:
 	@echo Sorry, Microsoft C is currently not available.
 	@echo Fixes welcome.
+	@echo
 	@exit 1
+
+clean:
+	del $(OBJS) $(LIB).dll
 
 $(LIB).dll: $(LIB).def $(OBJS)
 	$(LD) /DLL /OUT:$(LIB).dll /SUBSYSTEM:WINDOWS \

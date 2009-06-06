@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: contrib/hosted/tg/code/xchat-randex/Make_bsd,v 1.1 2009/06/05 23:42:20 tg Exp $
 
 CC?=		gcc
 CCLD?=		${CC}
@@ -11,6 +11,9 @@ OBJS=		arc4random.o main.o
 LIB=		randex
 
 all: ${LIB}.so
+
+clean:
+	-rm -f ${OBJS} ${LIB}.so
 
 ${LIB}.so: ${LIB}.exp ${OBJS}
 	${CCLD} -Wl,-O2 -Wl,--version-script,${LIB}.exp \
