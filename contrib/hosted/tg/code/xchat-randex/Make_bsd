@@ -1,8 +1,6 @@
-# $MirOS: contrib/hosted/tg/code/xchat-randex/Make_bsd,v 1.4 2009/06/06 10:18:21 tg Exp $
+# $MirOS: contrib/hosted/tg/code/xchat-randex/Make_bsd,v 1.5 2009/06/06 10:18:58 tg Exp $
 
 EXTRA_FLAGS?=	-fPIC -DPIC
-LINK_COMMAND?=	${CCLD} -shared -Wl,--version-script,${LIB}.exp \
-		    -Wl,--export-dynamic
 
 ARC4RANDOM_C=	#empty
 ARC4RANDOM_O=	#empty

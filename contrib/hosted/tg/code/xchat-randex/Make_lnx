@@ -1,7 +1,5 @@
-# $MirOS: contrib/hosted/tg/code/xchat-randex/Make_lnx,v 1.1 2009/06/05 23:42:20 tg Exp $
+# $MirOS: contrib/hosted/tg/code/xchat-randex/Make_lnx,v 1.2 2009/06/06 10:13:51 tg Exp $
 
 EXTRA_FLAGS?=	-DUSE_INTTYPES -fPIC -DPIC
-LINK_COMMAND?=	${CCLD} -shared -Wl,--version-script,${LIB}.exp \
-		    -Wl,--export-dynamic
 
 include "Make_nix"
