@@ -19,7 +19,7 @@
  */
 
 static const char __rcsid[] =
-    "$MirOS: contrib/hosted/tg/code/xchat-randex/main.c,v 1.1 2009/06/05 23:42:20 tg Exp $";
+    "$MirOS: contrib/hosted/tg/code/xchat-randex/main.c,v 1.2 2009/06/06 11:36:39 tg Exp $";
 
 #include <sys/types.h>
 #if defined(HAVE_STDINT_H) && HAVE_STDINT_H
@@ -61,7 +61,7 @@ static char buf[128];
 /* The X-Chat API is not const clean */
 static char randex_name[] = "randex";
 static char randex_desc[] = "MirOS RANDomness EXchange plugin";
-static char randex_vers[] = "1.02";
+static char randex_vers[] = "1.04";
 static char null[] = "";
 
 int xchat_plugin_init(xchat_plugin *, char **, char **, char **, char *);
@@ -107,6 +107,7 @@ xchat_plugin_init(xchat_plugin *handle, char **name, char **desc,
 	xchat_hook_command(ph, "RANDOM", XCHAT_PRI_NORM,
 	    cmdfn_random, "Show a random number", NULL);
 
+	/* goes to the current tab */
 	xchat_printf(ph, "Constructed RANDEX plugin v%s\n", randex_vers);
 	return (1);
 }
@@ -116,6 +117,7 @@ xchat_plugin_deinit(void)
 {
 	arc4random_stir();
 
+	/* goes to the current tab */
 	xchat_print(ph, "Destructed RANDEX plugin\n");
 	return (1);
 }
@@ -200,6 +202,7 @@ cmdfn_randex(char *word[], char *word_eol[], void *user_data)
 	const char *ichan, *inetw;
 
 	if (xchat_get_info(ph, "server") == NULL) {
+		/* goes to the current tab */
 		xchat_print(ph, "You are not connected to the server.\n");
 		return (XCHAT_EAT_ALL);
 	}
@@ -216,12 +219,14 @@ cmdfn_randex(char *word[], char *word_eol[], void *user_data)
 	}
 
 	if (!ichan || !ichan[0]) {
+		/* goes to the current tab */
 		xchat_print(ph, "You must specify a nick or channel!\n");
 		return (XCHAT_EAT_ALL);
 	}
 
 	snprintf(buf, sizeof(buf), "to %s for %s", ichan, word_eol[3] ?
 	    word_eol[3] : "\001(null)");
+	/* goes to the current tab */
 	xchat_printf(ph, "Initiating the RANDEX protocol with %s\n", ichan);
 	entropyio(buf, sizeof(buf));
 	xchat_commandf(ph, "quote PRIVMSG %s :\001ENTROPY %s\001", ichan, buf);
@@ -234,6 +239,7 @@ static int
 cmdfn_randstir(char *word[], char *word_eol[], void *user_data)
 {
 	arc4random_stir();
+	/* goes to the current tab */
 	xchat_print(ph, "Entropy pool stirred.\n");
 	return (XCHAT_EAT_XCHAT);
 }
@@ -244,6 +250,7 @@ cmdfn_random(char *word[], char *word_eol[], void *user_data)
 	unsigned long v;
 
 	v = arc4random();
+	/* goes to the current tab */
 	xchat_printf(ph, "Random number: 0x%08X (%lu)\n", v, v);
 	return (XCHAT_EAT_XCHAT);
 }
@@ -252,12 +259,12 @@ cmdfn_random(char *word[], char *word_eol[], void *user_data)
 #define NMAX	5552	/* largest n: 255n(n+1)/2 + (n+1)(BASE-1) <= 2^32-1 */
 
 static unsigned long
-adler32(unsigned long s1, const unsigned char *buf, unsigned len)
+adler32(unsigned long s1, const unsigned char *bp, unsigned len)
 {
 	unsigned long s2;
 	unsigned n;
 
-	if (buf == NULL)
+	if (bp == NULL)
 		return (1UL);
 
 	s2 = (s1 >> 16) & 0xFFFFUL;
@@ -266,7 +273,7 @@ adler32(unsigned long s1, const unsigned char *buf, unsigned len)
 	while (len) {
 		len -= (n = MIN(len, NMAX));
 		while (n--) {
-			s1 += *buf++;
+			s1 += *bp++;
 			s2 += s1;
 		}
 		s1 %= BASE;
@@ -293,6 +300,10 @@ do_randex(int is_req, char *rsrc, char *dst, char *line)
 	    i != 2)
 		j = 0;
 	if (!j)
+		/*
+		 * should go to the server tab, but there is no way
+		 * to do so even with xchat_find_context => doesn't
+		 */
 		xchat_printf(ph, is_req ?
 		    "%s initiated the RANDEX protocol with %s\n" :
 		    "RANDEX protocol reply from %s to %s, processing\n",
