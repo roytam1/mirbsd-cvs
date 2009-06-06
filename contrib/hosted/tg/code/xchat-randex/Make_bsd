@@ -1,24 +1,7 @@
-# $MirOS: contrib/hosted/tg/code/xchat-randex/Make_bsd,v 1.1 2009/06/05 23:42:20 tg Exp $
+# $MirOS: contrib/hosted/tg/code/xchat-randex/Make_bsd,v 1.2 2009/06/06 09:56:55 tg Exp $
 
-CC?=		gcc
-CCLD?=		${CC}
-CFLAGS?=	-Os -g
-LDFLAGS?=
-EXTRA_FLAGS?=	-fno-strict-aliasing -fwrapv -fPIC -DPIC
+EXTRA_FLAGS?=	-fPIC -DPIC
+LINK_COMMAND?=	${CCLD} -shared -Wl,--version-script,${LIB}.exp \
+		    -Wl,--export-dynamic
 
-SRCS=		arc4random.c main.c
-OBJS=		arc4random.o main.o
-LIB=		randex
-
-all: ${LIB}.so
-
-clean:
-	-rm -f ${OBJS} ${LIB}.so
-
-${LIB}.so: ${LIB}.exp ${OBJS}
-	${CCLD} -Wl,-O2 -Wl,--version-script,${LIB}.exp \
-	    ${CFLAGS} ${EXTRA_FLAGS} -shared ${LDFLAGS} \
-	    -Wl,--export-dynamic -o $@ ${OBJS}
-
-.c.o:
-	${CC} ${CPPFLAGS} ${CFLAGS} ${EXTRA_FLAGS} -c -o $@ $<
+.include "Make_nix"

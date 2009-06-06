@@ -1,0 +1,39 @@
+# $MirOS: contrib/hosted/tg/code/xchat-randex/Make_bsd,v 1.2 2009/06/06 09:56:55 tg Exp $
+
+# overwrite these as desired (e.g. ports)
+CC?=		gcc
+CCLD?=		${CC}
+CPPFLAGS?=
+CFLAGS?=	-Os -g
+LDFLAGS?=
+# overwrite these only when really needed
+EXTRA_CFLAGS?=	-fno-strict-aliasing -fwrapv
+EXTRA_LDFLAGS?=	-Wl,-O2
+# overwritten in Make_xxx for machdep stuff
+EXTRA_FLAGS?=
+LINK_COMMAND?=	${CCLD} -shared -Wl,-E
+
+# constant section
+SRCS=		arc4random.c main.c
+OBJS=		arc4random.o main.o
+LIB=		randex
+
+DPADD?=		${LIB}.exp
+PLUGIN?=	${LIB}.so
+
+ALL_CFLAGS=	${CPPFLAGS} ${CFLAGS} ${EXTRA_CFLAGS} ${EXTRA_FLAGS}
+ALL_LDFLAGS=	${LDFLAGS} ${EXTRA_LDFLAGS}
+
+all: ${PLUGIN}
+
+clean:
+	-rm -f ${OBJS} ${LIB}.dll ${LIB}.so
+
+${LIB}.so: ${OBJS} ${DPADD}
+	${LINK_COMMAND} ${ALL_CFLAGS} ${ALL_LDFLAGS} -o $@ ${OBJS}
+
+${LIB}.dll: ${OBJS} ${DPADD}
+	${DLL_COMMAND} ${OBJS}
+
+.c.o:
+	${CC} ${ALL_CFLAGS} -c -o $@ $<
