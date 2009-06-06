@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/tg/code/xchat-randex/Make_msc,v 1.1 2009/06/05 23:42:20 tg Exp $
+# $MirOS: contrib/hosted/tg/code/xchat-randex/Make_msc,v 1.2 2009/06/06 09:56:56 tg Exp $
 
 CC=		cl
 LD=		link
@@ -23,9 +23,6 @@ clean:
 $(LIB).dll: $(LIB).def $(OBJS)
 	$(LD) /DLL /OUT:$(LIB).dll /SUBSYSTEM:WINDOWS \
 	    /DEF:$(LIB).def $(LDFLAGS) $(OBJS)
-	$(CCLD) -Wl,-O2 -Wl,--version-script,$(LIB).exp \
-	    $(CFLAGS) $(EXTRA_FLAGS) -shared $(LDFLAGS) \
-	    -Wl,--export-dynamic -o $@ $(OBJS)
 
 .c.obj:
 	$(CC) $(CPPFLAGS) $(CFLAGS) $(EXTRA_FLAGS) -c $<
