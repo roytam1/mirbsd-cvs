@@ -1,14 +1,15 @@
-# $MirOS: contrib/hosted/tg/code/xchat-randex/Make_nix,v 1.2 2009/06/06 10:18:21 tg Exp $
+# $MirOS: contrib/hosted/tg/code/xchat-randex/Make_nix,v 1.3 2009/06/06 10:34:37 tg Exp $
 
 # overwrite these as desired (e.g. ports)
 CC?=		gcc
 CCLD?=		${CC}
+LD?=		ld
 CPPFLAGS?=
 CFLAGS?=	-Os -g
 LDFLAGS?=
 # overwrite these only when really needed
 EXTRA_CFLAGS?=	-fno-strict-aliasing -fwrapv
-LDFLAGS_RELOC?=	-Wl,-O2 -Wl,-r -nostartfiles -nodefaultlibs -nostdlib
+LDFLAGS_RELOC?=	-O2 -dc -r
 EXTRA_LDFLAGS?=	-Wl,-O2
 # overwritten in Make_xxx for machdep stuff
 EXTRA_FLAGS?=
@@ -35,7 +36,7 @@ clean:
 	-rm -f ${OBJS} ${LIB}.dll ${LIB}.o ${LIB}.o~ ${LIB}.so
 
 ${LIB}.o: ${LIB}.sym ${OBJS}
-	${CCLD} ${ALL_CFLAGS} ${LDFLAGS_RELOC} -o $@~ ${OBJS}
+	${LD} ${LDFLAGS_RELOC} -o $@~ ${OBJS}
 	objcopy --keep-global-symbols ${LIB}.sym $@~ $@
 	-rm -f $@~
 
