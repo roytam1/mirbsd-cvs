@@ -16,10 +16,31 @@
  * of dealing in the work, even if advised of the possibility of such
  * damage or existence of a defect, except proven that it results out
  * of said person's immediate fault when using the work as intended.
+ *-
+ * MirOS RANDEX protocol plugin for XChat (Win32, BSD, *nix).
+ *
+ * Protocol implementation status:
+ *	- violation: CTCP CLIENTINFO does not list support for the protocol
+ *	- violation: CTCP VERSION will not be amended by " (RANDOM=%d)"
+ *	^ these stem from limitation of the XChat Plugin API 2.0
+ *	- other than that, the protocol is fully supported
+ *
+ * On MirBSD (arc4random_pushk) and Win32, the entropy received will be fed
+ * back to the operating system; on other OSes, this plugin acts mostly as
+ * a pool which can be accessed by the protocol and the /RANDOM command.
+ *
+ * Additional features over other implementations:
+ *	- /RANDOM (output a random number, like /eval print $RANDOM in sirc)
+ *	- /RANDEX * (send to the current channel/query, like in sirc)
+ *
+ * Missing features over other implementations:
+ *	- no persistent seed file, no periodic stir (unlike irssi/randex.pl)
+ *	- no support for contributing to the pool directly, getting entropy
+ *	  from the pool other than /RANDOM, or using EGD or similar methods
  */
 
 static const char __rcsid[] =
-    "$MirOS: contrib/hosted/tg/code/xchat-randex/main.c,v 1.2 2009/06/06 11:36:39 tg Exp $";
+    "$MirOS: contrib/hosted/tg/code/xchat-randex/main.c,v 1.3 2009/06/06 12:24:15 tg Exp $";
 
 #include <sys/types.h>
 #if defined(HAVE_STDINT_H) && HAVE_STDINT_H
@@ -58,10 +79,10 @@ static unsigned long adler32(unsigned long, const unsigned char *, unsigned);
 static xchat_plugin *ph;
 static char buf[128];
 
-/* The X-Chat API is not const clean */
+/* The XChat Plugin API 2.0 is not const clean */
 static char randex_name[] = "randex";
-static char randex_desc[] = "MirOS RANDomness EXchange plugin";
-static char randex_vers[] = "1.04";
+static char randex_desc[] = "MirOS RANDomness EXchange protocol support";
+static char randex_vers[] = "1.05";
 static char null[] = "";
 
 int xchat_plugin_init(xchat_plugin *, char **, char **, char **, char *);
@@ -77,13 +98,13 @@ static int do_randex(int, char *, char *, char *);
 static void entropyio(void *, size_t);
 
 void
-xchat_plugin_get_info(char **name, char **desc, char **vers, void **reserved)
+xchat_plugin_get_info(char **name, char **desc, char **vers, void **resv)
 {
 	*name = randex_name;
 	*desc = randex_desc;
 	*vers = randex_vers;
-	if (reserved)
-		*reserved = NULL;
+	if (resv)
+		*resv = NULL;
 }
 
 int
