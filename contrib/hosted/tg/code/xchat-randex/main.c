@@ -19,7 +19,7 @@
  */
 
 static const char __rcsid[] =
-    "$MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $";
+    "$MirOS: contrib/hosted/tg/code/xchat-randex/main.c,v 1.1 2009/06/05 23:42:20 tg Exp $";
 
 #include <sys/types.h>
 #if defined(HAVE_STDINT_H) && HAVE_STDINT_H
@@ -61,7 +61,7 @@ static char buf[128];
 /* The X-Chat API is not const clean */
 static char randex_name[] = "randex";
 static char randex_desc[] = "MirOS RANDomness EXchange plugin";
-static char randex_vers[] = "1.00";
+static char randex_vers[] = "1.02";
 static char null[] = "";
 
 int xchat_plugin_init(xchat_plugin *, char **, char **, char **, char *);
@@ -197,17 +197,34 @@ entropyio(void *p, size_t len)
 static int
 cmdfn_randex(char *word[], char *word_eol[], void *user_data)
 {
-	if (!word[2] || !word[2][0]) {
+	const char *ichan, *inetw;
+
+	if (xchat_get_info(ph, "server") == NULL) {
+		xchat_print(ph, "You are not connected to the server.\n");
+		return (XCHAT_EAT_ALL);
+	}
+
+	ichan = word[2];
+	/* make "/randex *" address the current tab */
+	if (ichan && ichan[0] == '*' && (!ichan[1] || ichan[1] == ' ' ||
+	    ichan[1] == '\t' || ichan[1] == '\r')) {
+		ichan = xchat_get_info(ph, "channel");
+		inetw = xchat_get_info(ph, "network");
+		if (!ichan || !*ichan || (inetw && !strcmp(ichan, inetw)))
+			/* no current talk channel, or server tab active */
+			ichan = NULL;
+	}
+
+	if (!ichan || !ichan[0]) {
 		xchat_print(ph, "You must specify a nick or channel!\n");
 		return (XCHAT_EAT_ALL);
 	}
 
-	snprintf(buf, sizeof(buf), "to %s for %s", word[2], word_eol[3] ?
+	snprintf(buf, sizeof(buf), "to %s for %s", ichan, word_eol[3] ?
 	    word_eol[3] : "\001(null)");
-	xchat_printf(ph, "Initiating the RANDEX protocol with %s\n", word[2]);
+	xchat_printf(ph, "Initiating the RANDEX protocol with %s\n", ichan);
 	entropyio(buf, sizeof(buf));
-	xchat_commandf(ph, "quote PRIVMSG %s :\001ENTROPY %s\001", word[2],
-	    buf);
+	xchat_commandf(ph, "quote PRIVMSG %s :\001ENTROPY %s\001", ichan, buf);
 
 	memset(buf, 0, sizeof(buf));
 	return (XCHAT_EAT_XCHAT);
