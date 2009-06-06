@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/tg/code/xchat-randex/Make_nix,v 1.3 2009/06/06 10:34:37 tg Exp $
+# $MirOS: contrib/hosted/tg/code/xchat-randex/Make_nix,v 1.4 2009/06/06 12:34:28 tg Exp $
 
 # overwrite these as desired (e.g. ports)
 CC?=		gcc
@@ -9,11 +9,14 @@ CFLAGS?=	-Os -g
 LDFLAGS?=
 # overwrite these only when really needed
 EXTRA_CFLAGS?=	-fno-strict-aliasing -fwrapv
-LDFLAGS_RELOC?=	-O2 -dc -r
-EXTRA_LDFLAGS?=	-Wl,-O2
+LDFLAGS_RELOC?=	-r
+EXTRA_LDFLAGS?=
 # overwritten in Make_xxx for machdep stuff
 EXTRA_FLAGS?=
+CCLD_FLAGS?=	-Wl,-O2
+LD_R_FLAGS?=	-O2 -dc
 LINK_COMMAND?=	${CCLD} -shared -Wl,-E
+SYMCP_COMMAND?=	objcopy --keep-global-symbols ${LIB}.sym
 
 # constant section
 ARC4RANDOM_C?=	arc4random.c
@@ -28,7 +31,7 @@ DPADD?=
 LDADD?=
 
 ALL_CFLAGS=	${CPPFLAGS} ${CFLAGS} ${EXTRA_CFLAGS} ${EXTRA_FLAGS}
-ALL_LDFLAGS=	${LDFLAGS} ${EXTRA_LDFLAGS}
+ALL_LDFLAGS=	${LDFLAGS} ${EXTRA_LDFLAGS} ${CCLD_FLAGS}
 
 all: ${PLUGIN}
 
@@ -36,8 +39,8 @@ clean:
 	-rm -f ${OBJS} ${LIB}.dll ${LIB}.o ${LIB}.o~ ${LIB}.so
 
 ${LIB}.o: ${LIB}.sym ${OBJS}
-	${LD} ${LDFLAGS_RELOC} -o $@~ ${OBJS}
-	objcopy --keep-global-symbols ${LIB}.sym $@~ $@
+	${LD} ${LDFLAGS_RELOC} ${LD_R_FLAGS} -o $@~ ${OBJS}
+	${SYMCP_COMMAND} $@~ $@
 	-rm -f $@~
 
 ${LIB}.so: ${LIB}.o ${DPADD}
