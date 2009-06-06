@@ -1,7 +1,15 @@
-# $MirOS: contrib/hosted/tg/code/xchat-randex/Make_bsd,v 1.2 2009/06/06 09:56:55 tg Exp $
+# $MirOS: contrib/hosted/tg/code/xchat-randex/Make_bsd,v 1.3 2009/06/06 10:13:15 tg Exp $
+
+all:
+install:
+
+.include <bsd.prog.mk>
 
 EXTRA_FLAGS?=	-fPIC -DPIC
 LINK_COMMAND?=	${CCLD} -shared -Wl,--version-script,${LIB}.exp \
 		    -Wl,--export-dynamic
+
+ARC4RANDOM_C=	#empty
+ARC4RANDOM_O=	#empty
 
 .include "Make_nix"

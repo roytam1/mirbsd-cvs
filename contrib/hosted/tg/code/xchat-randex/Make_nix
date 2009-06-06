@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/tg/code/xchat-randex/Make_bsd,v 1.2 2009/06/06 09:56:55 tg Exp $
+# $MirOS: contrib/hosted/tg/code/xchat-randex/Make_nix,v 1.1 2009/06/06 10:13:15 tg Exp $
 
 # overwrite these as desired (e.g. ports)
 CC?=		gcc
@@ -14,8 +14,11 @@ EXTRA_FLAGS?=
 LINK_COMMAND?=	${CCLD} -shared -Wl,-E
 
 # constant section
-SRCS=		arc4random.c main.c
-OBJS=		arc4random.o main.o
+ARC4RANDOM_C?=	arc4random.c
+ARC4RANDOM_O?=	arc4random.o
+
+SRCS=		main.c ${ARC4RANDOM_C}
+OBJS=		main.o ${ARC4RANDOM_O}
 LIB=		randex
 
 DPADD?=		${LIB}.exp
