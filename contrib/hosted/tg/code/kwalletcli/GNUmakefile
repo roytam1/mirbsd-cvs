@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/tg/code/kwalletcli/GNUmakefile,v 1.1 2009/06/10 18:28:31 tg Exp $
+# $MirOS: contrib/hosted/tg/code/kwalletcli/GNUmakefile,v 1.2 2009/06/10 18:32:27 tg Exp $
 #-
 # Copyright © 2009
 #	Thorsten Glaser <t.glaser@tarent.de>
@@ -28,7 +28,7 @@ PROG=		kwalletcli
 SRCS=		main.c kwif.cc
 OBJS=		main.o kwif.o
 
-CPPFLAGS+=	-I/usr/include/qt3 -I/usr/include/kde
+CPPFLAGS+=	-I/usr/include/qt3 -I/usr/include/kde -D_GNU_SOURCE
 LDADD+=		-lkwalletclient
 
 CC?=		gcc
