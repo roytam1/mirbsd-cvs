@@ -1,5 +1,5 @@
 <?php
-// $MirOS: www/mk/ttf2png,v 1.2 2009/06/21 11:07:18 tg Exp $
+// $MirOS: www/mk/ttf2png,v 1.3 2009/06/21 11:49:45 tg Exp $
 
 /*-
  * Copyright (c) 2009
@@ -47,11 +47,11 @@ if (isset($argv[3]))
 
 
 // Get bounding box
-$bbox = imagettfbbox($fontsize, 0, $font, $text);
+$bbox = imageftbbox($fontsize, 0, $font, $text);
 // Transform coordinates into width+height and position
 $size_w = abs($bbox[2] - $bbox[0]);	// right - left
 $size_h = abs($bbox[7] - $bbox[1]);	// top - bottom
-$x = -abs($bbox[0]);			// left
+$x = -$bbox[0];				// left (offset)
 $y = $size_h - abs($bbox[1]);		// lower
 
 // Create image
@@ -63,7 +63,7 @@ $fgcol = imagecolorallocate($im, 0xFF, 0xFF, 0xFF);
 // Fill image with background colour
 imagefilledrectangle($im, 0, 0, $size_w - 1, $size_h - 1, $bgcol);
 // Render text into image
-imagettftext($im, $fontsize, 0, $x, $y, $fgcol, $font, $text);
+imagefttext($im, $fontsize, 0, $x, $y, $fgcol, $font, $text);
 
 // Convert true colour image (needed for above) to palette image
 imagetruecolortopalette($im, FALSE, 256);
