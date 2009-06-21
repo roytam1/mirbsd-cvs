@@ -1,249 +1,71 @@
 <?php
-$md5_secret_key = 'changeme';
+// $MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $
 
-// returns parameters and md5 sign for 
-// text generating service
-function img_params($text, $size, $fore) 
-{
-  global $md5_secret_key;
-  $p = '?text='.urlencode($text).'&size='.$size.'&a=';
-  return $p.md5($md5_secret_key.$text.$size);
-}
-?>
+/*-
+ * Copyright (c) 2009
+ *	Thorsten Glaser <tg@mirbsd.org>
+ *
+ * Provided that these terms and disclaimer and all copyright notices
+ * are retained or reproduced in an accompanying document, permission
+ * is granted to deal in this work without restriction, including un-
+ * limited rights to use, publicly perform, distribute, sell, modify,
+ * merge, give away, or sublicence.
+ *
+ * This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
+ * the utmost extent permitted by applicable law, neither express nor
+ * implied; without malicious intent or gross negligence. In no event
+ * may a licensor, author or contributor be held liable for indirect,
+ * direct, other damage, loss, or other issues arising in any way out
+ * of dealing in the work, even if advised of the possibility of such
+ * damage or existence of a defect, except proven that it results out
+ * of said person's immediate fault when using the work as intended.
+ */
 
-<html><head><title>Font test</title></head>
-<body>
 
-<center>
-<img src="./font.php<?php echo img_params('MirOS BSD', 90,);?>">
-<br><br>
-<img src="./font.php<?php echo img_params('Welcome to the MirOS Project!', 30); ?>">
-<br><br>
-<a href="http://www.mirbsd.org">
-<img src="./font.php<?php echo img_params('Click here to go to the MirOS BSD Homepage', 22); ?>">
-</a>
-<br><br>
-<img src="./font.php<?php echo img_params('Dynamically generated text from PHP using Gentium typeface!', 14); ?>">
-</center>
-
-</body>
-</html>
-<?php
-
-// Checking for gd and Freetype support 
+/* if 0
 if (!function_exists('gd_info'))
-  die('No <a href="http://ua.php.net/manual/en/ref.image.php">gd</a> support in PHP.');
-
+	die("Install php5-gd first.");
 $gd = gd_info();
 if ($gd["FreeType Support"] == false)
-  die('No FreeType support in gd</a>');
-
-// If you're sure about gd & freetype support
-// -- comment out this block 
+	die("Compile php5-gd with FreeType 2 support.");
+ * endif */
 
 
+$font = "/usr/mpkg/lib/X11/fonts/gentium/GenI102.ttf";
+$fontsize = 30;
+$text = "EINVAL";
 
-// directory for caching generated images 
-// should be writable 
-$cache_dir = 'cache'; // DO NOT FORGET TO CHANGE
-
-
-// testing cache dir 
-// remove these lines if you're sure 
-// that your cache dir is really writable to PHP scripts
-$tf = $cache_dir.'/'.md5(rand()).".test";
-$f = @fopen($tf, "w");
-if ($f == false)
-    die("Fatal error! {$cache_dir} is not writable. Set 'chmod 777 {$cache_dir}' 
-           or something like this");
-fclose($f);
-unlink($tf);
-// testing cache dir END 
+if (isset($argv[1]))
+	$text = $argv[1];
+if (isset($argv[2]))
+	$fontsize = $argv[2];
+if (isset($argv[3]))
+	$font = $argv[3];
 
 
+// Get bounding box
+$bbox = imagettfbbox($fontsize, 0, $font, $text);
+// Transform coordinates into width+height and position
+$size_w = abs($bbox[2] - $bbox[0]);	// right - left
+$size_h = abs($bbox[7] - $bbox[1]);	// top - bottom
+$x = -abs($bbox[0]);			// left
+$y = $size_h - abs($bbox[1]);		// lower
 
-
-// full path to preferred TTF font 
-// you could change this to be HTTP parameter 
-$font = '/var/www/font/GenBasR.ttf'; // DO NOT FORGET TO CHANGE
-
-
-// md5 secret 
-$md5_secret_key = 'changeme'; // DO NOT FORGET TO CHANGE
-
-
-// md5 sign of parameters
-$auth_sign = isset($_GET['a'])?$_GET['a']:'';
-
-// checking for cached file:
-$cache_file = $cache_dir.'/'.$auth_sign.'.png';
-
-if (file_exists($cache_file))
-{
-  // if cached file exists
-  // output it and quit
-  header("Content-type: image/png");
-  readfile($cache_file);
-  exit();
-}
-
-// no cached file exists 
-
-
-// input parameters: text and size 
-$text = isset($_GET['text'])?$_GET['text']:'default';
-
-$font_size = isset($_GET['size'])?intval($_GET['size']):30;
-if ($font_size == 0) $font_size = 30;
-// 
-
-
-// basic sign checking: 
-$computed_sign = md5($md5_secret_key.$text.$font_size);
-// computing md5 sum of concatenation 
-// of secret key and parameters
-
-// hmac-based alrorithm would fit this case more 
-// but for real-world purpose md5 of concatenation
-// is enought 
-
-if ($computed_sign != $auth_sign)
-  die('Auth failed'); // auth error, provided sign is invalid 
-
-
-
-
-// getting bounding box 
-$bbox = imagettfbbox($font_size, 0, $font, $text);
-// imagettfbbox returns very strange results 
-// so transforming them to plain width and height 
-
-$size_w = abs($bbox[2] - $bbox[0]);
-// width: right corner X - left corner X
-
-$size_h = abs($bbox[7] - $bbox[1]);
-// height: top Y - bottom Y
-
-// This is a lower-left corner 
-// but imagettfbbox() sets (0,0) point
-// inside bounding box
-// so we shifting lower-left corner
-$x = -abs($bbox[0]); 
-$y = $size_h - abs($bbox[1]);
-
+// Create image
 $im = imagecreatetruecolor($size_w, $size_h);
-// creating image
+// Allocate colours
+$bgcol = imagecolorallocate($im, 0x24, 0x24, 0x24);
+$fgcol = imagecolorallocate($im, 0xFF, 0xFF, 0xFF);
 
-$back = imagecolorallocate($im, 36, 36, 36); // background color
-$fore = imagecolorallocate($im, 255, 255, 255); // foreground color
+// Fill image with background colour
+imagefilledrectangle($im, 0, 0, $size_w - 1, $size_h - 1, $bgcol);
+// Render text into image
+imagettftext($im, $fontsize, 0, $x, $y, $fgcol, $font, $text);
 
-imagefilledrectangle($im, 0, 0, $size_w - 1, $size_h - 1, $back);
-// filling with background color
+// Convert true colour image (needed for above) to palette image
+imagetruecolortopalette($im, FALSE, 256);
 
-imagettftext($im, $font_size, 0, $x, $y, $fore, $font, $text);
-// rendering text
-
-imagepng($im, $cache_file); // outputing PNG image to file cache 
-
-imagedestroy($im); // destroy image 
-
-
-// sending data from cache file 
-header("Content-type: image/png");
-readfile($cache_file);
-?>
-<?
-/*
-To draw the PNG - call this script with a URL like the following:
-
-http://www.yoursite.com/text_png.php3?msg=testing+class&rot=15&size=48&font=fonts/ARIAL.TTF
-*/
-
-Header("Content-type: image/png");
-
-class textPNG {
-	var $font = 'GenBasR.ttf'; //default font. directory relative to script directory.
-	var $msg = "undefined"; // default text to display.
-	var $size = 24;
-	var $rot = 0; // rotation in degrees.
-	var $pad = 0; // padding.
-	var $transparent = 1; // transparency set to on.
-	var $red = 0; // white text...
-	var $grn = 0;
-	var $blu = 0;
-	var $bg_red = 255; // on black background.
-	var $bg_grn = 255;
-	var $bg_blu = 255;
-
-function draw() {
-	$width = 0;
-	$height = 0;
-	$offset_x = 0;
-	$offset_y = 0;
-	$bounds = array();
-	$image = "";
-	
-	// determine font height.
-	$bounds = ImageTTFBBox($this->size, $this->rot, $this->font, "W");
-	if ($this->rot < 0) {
-		$font_height = abs($bounds[7]-$bounds[1]);		
-	} else if ($this->rot > 0) {
-		$font_height = abs($bounds[1]-$bounds[7]);
-	} else {
-		$font_height = abs($bounds[7]-$bounds[1]);
-	}
-
-	// determine bounding box.
-	$bounds = ImageTTFBBox($this->size, $this->rot, $this->font, $this->msg);
-	if ($this->rot < 0) {
-		$width = abs($bounds[4]-$bounds[0]);
-		$height = abs($bounds[3]-$bounds[7]);
-		$offset_y = $font_height;
-		$offset_x = 0;
-		
-	} else if ($this->rot > 0) {
-		$width = abs($bounds[2]-$bounds[6]);
-		$height = abs($bounds[1]-$bounds[5]);
-		$offset_y = abs($bounds[7]-$bounds[5])+$font_height;
-		$offset_x = abs($bounds[0]-$bounds[6]);
-		
-	} else {
-		$width = abs($bounds[4]-$bounds[6]);
-		$height = abs($bounds[7]-$bounds[1]);
-		$offset_y = $font_height;;
-		$offset_x = 0;
-	}
-	
-	$image = imagecreate($width+($this->pad*2)+1,$height+($this->pad*2)+1);
-	
-	$background = ImageColorAllocate($image, $this->bg_red, $this->bg_grn, $this->bg_blu);
-	$foreground = ImageColorAllocate($image, $this->red, $this->grn, $this->blu);
-	
-	if ($this->transparent) ImageColorTransparent($image, $background);
-	ImageInterlace($image, false);
-	
-	// render it.
-	ImageTTFText($image, $this->size, $this->rot, $offset_x+$this->pad, $offset_y+$this->pad, $foreground, $this->font, $this->msg);
-	
-	// output PNG object.
-	imagePNG($image);
-}
-}
-
-$text = new textPNG;
-
-if (isset($msg)) $text->msg = $msg; // text to display
-if (isset($font)) $text->font = $font; // font to use (include directory if needed).
-if (isset($size)) $text->size = $size; // size in points
-if (isset($rot)) $text->rot = $rot; // rotation
-if (isset($pad)) $text->pad = $pad; // padding in pixels around text.
-if (isset($red)) $text->red = $red; // text color
-if (isset($grn)) $text->grn = $grn; // ..
-if (isset($blu)) $text->blu = $blu; // ..
-if (isset($bg_red)) $text->bg_red = $bg_red; // background color.
-if (isset($bg_grn)) $text->bg_grn = $bg_grn; // ..
-if (isset($bg_blu)) $text->bg_blu = $bg_blu; // ..
-if (isset($tr)) $text->transparent = $tr; // transparency flag (boolean).
-
-$text->draw();
+// Output created image
+imagepng($im, NULL, 9);
+exit;
 ?>
