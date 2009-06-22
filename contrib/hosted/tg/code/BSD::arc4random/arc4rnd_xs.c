@@ -1,5 +1,5 @@
 /*-
- * Copyright (c) 2008
+ * Copyright (c) 2008, 2009
  *	Thorsten Glaser <tg@mirbsd.org>
  *
  * Provided that these terms and disclaimer and all copyright notices
@@ -31,6 +31,10 @@
 #include "perl.h"
 #include "XSUB.h"
 
+#ifdef USE_LIBBSD
+#undef __RCSID
+#endif
+
 #ifndef __RCSID
 #undef __IDSTRING
 #undef __IDSTRING_CONCAT
@@ -43,7 +47,7 @@
 #define __RCSID(x)			__IDSTRING(rcsid,x)
 #endif
 
-__RCSID("$MirOS: contrib/hosted/p5/BSD/arc4random/arc4rnd_xs.c,v 1.15 2008/07/20 15:27:54 tg Exp $");
+__RCSID("$MirOS: contrib/hosted/tg/code/BSD::arc4random/arc4rnd_xs.c,v 1.1 2009/05/17 13:01:01 tg Exp $");
 
 #ifdef REDEF_USCORETYPES
 #define u_int32_t	uint32_t
