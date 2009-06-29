@@ -47,7 +47,7 @@
 #define __RCSID(x)			__IDSTRING(rcsid,x)
 #endif
 
-__RCSID("$MirOS: contrib/hosted/tg/code/BSD::arc4random/arc4rnd_xs.c,v 1.1 2009/05/17 13:01:01 tg Exp $");
+__RCSID("$MirOS: contrib/hosted/tg/code/BSD::arc4random/arc4rnd_xs.c,v 1.2 2009/06/22 16:29:54 tg Exp $");
 
 #ifdef REDEF_USCORETYPES
 #define u_int32_t	uint32_t
@@ -168,22 +168,40 @@ XS(XS_BSD__arc4random_arc4random_pushk_xs)
 #define HAVE_ARC4RANDOM_KINTF	0
 #endif
 
+
+/*
+ * These may be needed because praeprocessor commands inside a
+ * macro's argument list may not work
+ */
+
+#if HAVE_ARC4RANDOM_PUSHB
+#define IDT_ARC4RANDOM_PUSHB	" arc4random_pushb"
+#else
+#define IDT_ARC4RANDOM_PUSHB	""
+#endif
+
+#if defined(arc4random_pushk)
+#define IDT_arc4random_pushk	" arc4random_pushk"
+#else
+#define IDT_arc4random_pushk	""
+#endif
+
+#if HAVE_ARC4RANDOM_KINTF
+#define IDT_ARC4RANDOM_KINTF	" have_kintf:=1"
+#else
+#define IDT_ARC4RANDOM_KINTF	" have_kintf:=0"
+#endif
+
 __IDSTRING(api_text, "BSD::arc4random " XS_VERSION " with {"
     " arc4random"
     " arc4random_addrandom"
-#if HAVE_ARC4RANDOM_PUSHB
-    " arc4random_pushb"
-#endif
-#if defined(arc4random_pushk)
-    " arc4random_pushk"
-#endif
-#if HAVE_ARC4RANDOM_KINTF
-    " have_kintf:=1"
-#else
-    " have_kintf:=0"
-#endif
+    IDT_ARC4RANDOM_PUSHB
+    IDT_arc4random_pushk
+    IDT_ARC4RANDOM_KINTF
     " }");
 
+
+/* the Perl API is not const clean */
 static char file[] = __FILE__;
 static char func_a4r[] = "BSD::arc4random::arc4random_xs";
 static char func_a4add[] = "BSD::arc4random::arc4random_addrandom_xs";
