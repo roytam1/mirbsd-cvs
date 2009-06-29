@@ -1,4 +1,4 @@
-# $MirOS: contrib/gnu/e3/Makefile,v 1.3 2008/12/30 01:06:56 tg Exp $
+# $MirOS: contrib/gnu/e3/Makefile,v 1.4 2008/12/30 01:20:29 tg Exp $
 
 PROG=		e3
 BINDIR?=	${BSD_PREFIX}/bin
@@ -14,6 +14,9 @@ NASMFLAGS+=	-i${.CURDIR:Q}/
 NASMFLAGS+=	-w+orphan-labels
 NASMFLAGS+=	-O7
 NASMFLAGS+=	-DMIRBSD
+
+# we use Esc+X instead of Alt-X
+NASMFLAGS+=	-DALT_IS_META
 
 LDFLAGS+=	-e _start
 LDFLAGS+=	-Bstatic

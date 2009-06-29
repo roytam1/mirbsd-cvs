@@ -1,4 +1,4 @@
-; $MirOS: contrib/gnu/e3/e3.asm,v 1.4 2008/12/30 01:31:37 tg Exp $
+; $MirOS: contrib/gnu/e3/e3.asm,v 1.5 2008/12/30 01:43:29 tg Exp $
 ;
 ;--------------------------------------------------------------------
 ;
@@ -21,6 +21,12 @@
 ;----------------------------------------------------------------------
 ;
 %include "e3.h"
+;
+%ifdef ALT_IS_META
+%define ALT_TEXT "Esc"
+%else
+%define ALT_TEXT "alt"
+%endif
 ;
 section .text
 bits 32
@@ -3287,7 +3293,11 @@ RestoreStatusLine:PUSH_ALL		;important e.g. for asksave
 	jnz NOVI0
 	mov ebx,'CMD '
 	jmp short RSL1
+%ifdef ALT_IS_META
+RSL0:	mov dword [eax],'EscH'
+%else
 RSL0:	mov dword [eax],'altH'
+%endif
 	mov dword [eax+4],'=hel'	;'p' is stored with editor mode name
 	mov ebx,editmode
 	mov edx,[ebx]
@@ -6220,13 +6230,13 @@ db "	^X^W Write new	^X^H Help	^X^P Pipe buffer thru 'sed'",10
 %endif
 db 10
 db "Move:	^P   Up		^N  Down	^B   Left	^F   Right",10
-db "	altV Pg up	^V  Pg down	altB Left word	altF Right word",10
-db "	^A   Home	^E  End		alt< BOF	alt> EOF",10
-db "	altG Go line#	^L  Center Pos",10
+db "	", ALT_TEXT, "V Pg up	^V  Pg down	", ALT_TEXT, "B Left word	", ALT_TEXT, "F Right word",10
+db "	^A   Home	^E  End		", ALT_TEXT, "< BOF	", ALT_TEXT, "> EOF",10
+db "	", ALT_TEXT, "G Go line#	^L  Center Pos",10
 db 10
-db "Search:	^S Find fwd	^R Find bwd	alt% Search&Replace like WS",10
+db "Search:	^S Find fwd	^R Find bwd	", ALT_TEXT, "% Search&Replace like WS",10
 db 10
-db "Buffer:	altW Copy	^Y Yank		^<SPC> Mark	^X^X Xchg Mark/Pt",10
+db "Buffer:	", ALT_TEXT, "W Copy	^Y Yank		^<SPC> Mark	^X^X Xchg Mark/Pt",10
 db 10
 db "Delete:	^K Line		^W Region	^H Left	Chr	^D This Chr",10
 db 10
@@ -6236,7 +6246,7 @@ db "Other:	^O Open line	           	^I Ins Tab	^Q Quoted Ins",10
 %else
 db "Other:	^O Open line	^T Xchg Chr	^I Ins Tab	^Q Quoted Ins",10
 %endif
-db "	^M NL		^J NL+indent	altX Set edit mode",10
+db "	^M NL		^J NL+indent	", ALT_TEXT, "X Set edit mode",10
 %ifdef USE_MATH
 db "	^X^N Calculate"
 %else
@@ -6324,7 +6334,7 @@ db "		^Y  UTF8 view",10
 %ifdef USE_MATH
 db "		^K  Calculate",10
 %endif
-db "		altH Help"
+db "		", ALT_TEXT, "H Help"
 %ifdef SYS_kill
 db "	^Z Suspend"
 %endif
