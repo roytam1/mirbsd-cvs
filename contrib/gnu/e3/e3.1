@@ -1,3 +1,5 @@
+.\" $MirOS$
+.\"
 .TH E3 1
 
 .SH NAME
@@ -12,9 +14,9 @@ E3 \- A mini text editor
 \fIe3\fP is a complete mini application written fully in assembler,
 with a code size less than 10000 byte. There is a status & input line,
 where you can enter filenames, blocknames, find-texts and line numbers.
-The editor commands are similary the families of \fIWordstar\fP-like 
-or \fIEmacs\fP or \fIPico\fP or \fIvi\fP or \fINedit\fP editors.  
-For online help press ESC:h in vi mode, else Alt-H.
+The editor commands are similary the families of \fIWordstar\fP-like
+or \fIEmacs\fP or \fIPico\fP or \fIvi\fP or \fINedit\fP editors.
+For online help press ESC:h in vi mode, else Esc+H.
 This man page describes Wordstar key bindings only.
 
 .SH KEYBOARD COMMANDS FOR WS
@@ -87,10 +89,10 @@ Suspend (simple ^Z in other editor modes)
 Repeat last ^QF or ^QA
 .TP
 \fB^M
-Enter new line  
+Enter new line
 .TP
 \fB^QA
-Search & Replace (a prompt appears). For options compare ^QF. 
+Search & Replace (a prompt appears). For options compare ^QF.
 .TP
 \fB^QB
 Go to block begin
@@ -177,12 +179,12 @@ Scroll down
 .PP
 \fIe3\fP has an UNDO mode starting in v2.2. There is no predefined
 UNDO level count. You can expect to UNDO at least \fIone\fP last insert-,
-delete-, overwrite- or sed_pipe-operation, but in most cases there 
-are \fIlots\fP of UNDO stages available. e3 has a fixed size undo buffer 
-and will use an external helper file if some deleted data is bigger 
-sized than the undo buffer.  This buffer is organized as a ring, 
-overwriting older UNDO information if neccessary. So one never can 
-say exactly how many UNDO operations are possible. 
+delete-, overwrite- or sed_pipe-operation, but in most cases there
+are \fIlots\fP of UNDO stages available. e3 has a fixed size undo buffer
+and will use an external helper file if some deleted data is bigger
+sized than the undo buffer.  This buffer is organized as a ring,
+overwriting older UNDO information if neccessary. So one never can
+say exactly how many UNDO operations are possible.
 For using the UNDO press one of:
 .TP
 \fB^U
@@ -202,9 +204,9 @@ in Nedit mode
 
 .SH BUILT IN CALCULATOR
 .PP
-\fIe3\fP has an arithmetic calculator built in for some simple 
-arithmetic calculations inside your text. Place cursor at 
-begin of the task i.e. something like:  -3.002*-(2--3)=   
+\fIe3\fP has an arithmetic calculator built in for some simple
+arithmetic calculations inside your text. Place cursor at
+begin of the task i.e. something like:  -3.002*-(2--3)=
 and press one of:
 .TP
 \fB^KN
@@ -223,7 +225,7 @@ in vi command mode
 in Nedit mode
 .PP
 This will insert the result into text.
-Use the values between -999999999999.999999 ... 999999999999.999999 
+Use the values between -999999999999.999999 ... 999999999999.999999
 with up to 6 decimal digits and the operators +-*/  and parenthesis ( ).
 Also available are p for constant PI and r for accessing the result
 of last calculation
@@ -239,8 +241,8 @@ in Wordstar mode
 \fB^QM
 in Pico mode
 .TP
-\fBaltX
-in Emacs mode
+\fBAlt-X
+(or Esc+X) in Emacs mode
 .TP
 \fB<ESC>;
 in vi command mode
@@ -248,7 +250,7 @@ in vi command mode
 \fB^E
 in Nedit mode
 .PP
-e3 will set a prompt \fISET MODE\fP . Now enter one of e3ws, e3em, e3pi, e3vi, e3ne 
+e3 will set a prompt \fISET MODE\fP . Now enter one of e3ws, e3em, e3pi, e3vi, e3ne
 for setting \fIWordstar\fP-like or \fIEmacs\fP or \fIPico\fP or \fIvi\fP or \fINedit\fP style.
 
 
@@ -262,7 +264,7 @@ depending of the binary name, one of \fIe3ws\fP, \fIe3em\fP, \fIe3pi\fP, \fIe3vi
 .SH FILES
 .PP
 .TP
-\fBe3 
+\fBe3
 is an assembled executable for Linux, FreeBSD, NetBSD, OpenBSD, BeOS(tm), QNX(tm).
 \fIe3ws\fP, \fIe3em\fP, \fIe3pi\fP, \fIe3vi\fP, \fIe3ne\fP are symbolic links to e3.
 .TP
