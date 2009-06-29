@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/makefs/cd9660/iso9660_rrip.h,v 1.3 2008/11/03 22:37:51 tg Exp $ */
+/**	$MirOS: src/usr.sbin/makefs/cd9660/iso9660_rrip.h,v 1.4 2008/11/03 23:11:29 tg Exp $ */
 /*	$NetBSD: iso9660_rrip.h,v 1.4 2006/02/01 22:19:35 dyoung Exp $	*/
 
 /*
@@ -284,5 +284,9 @@ void cd9660_createSL(cd9660node *);
 /* Functions that probably can be removed */
 /* int cd9660node_initialize_node(int, char *); */
 
+
+/* Global variables */
+
+extern int rrip_squash_ugid;
 
 #endif
