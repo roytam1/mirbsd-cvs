@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/makefs/cd9660/cd9660_write.c,v 1.6 2008/10/31 23:04:08 tg Exp $ */
+/**	$MirOS: src/usr.sbin/makefs/cd9660/cd9660_write.c,v 1.7 2009/01/18 18:47:06 tg Exp $ */
 /*	$NetBSD: cd9660_write.c,v 1.9 2008/05/10 19:00:07 skrll Exp $	*/
 
 /*
@@ -39,7 +39,7 @@
 #include <sys/cdefs.h>
 #if defined(__RCSID) && !defined(__lint)
 __RCSID("$NetBSD: cd9660_write.c,v 1.9 2008/05/10 19:00:07 skrll Exp $");
-__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/cd9660/cd9660_write.c,v 1.6 2008/10/31 23:04:08 tg Exp $");
+__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/cd9660/cd9660_write.c,v 1.7 2009/01/18 18:47:06 tg Exp $");
 #endif  /* !__lint */
 
 #include <inttypes.h>
@@ -74,6 +74,10 @@ cd9660_write_image(const char* image)
 
 	if (diskStructure.verbose_level > 0)
 		printf("Writing image\n");
+
+	/* write padding first, it gets overwritten if we have none */
+	memset(buf, 0, 2048);
+	cd9660_write_filedata(fd, diskStructure.totalSectors - 1, buf, 1);
 
 	if (diskStructure.has_generic_bootimage) {
 		status = cd9660_copy_file(fd, 0,
@@ -119,10 +123,6 @@ cd9660_write_image(const char* image)
 	if (diskStructure.is_bootable) {
 		cd9660_write_boot(fd);
 	}
-
-	/* Write padding bits. This is temporary */
-	memset(buf, 0, 2048);
-	cd9660_write_filedata(fd, diskStructure.totalSectors - 1, buf, 1);
 
 	if (diskStructure.verbose_level > 0)
 		printf("Files written\n");
