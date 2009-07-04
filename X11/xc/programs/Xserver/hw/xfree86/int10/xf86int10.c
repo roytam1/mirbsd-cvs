@@ -665,7 +665,7 @@ int1A_handler(xf86Int10InfoPtr pInt)
 	return 1;
     case 0xb108:
 	if ((tag = findPci(pInt, X86_EBX)) != PCI_NOT_FOUND) {
-	    X86_CL = pciReadByte(tag, X86_EDI);
+	    X86_CL = pciReadByte(tag, X86_DI);
 	    X86_EAX = X86_AL | (SUCCESSFUL << 8);
 	    X86_EFLAGS &= ~((unsigned long)0x01); /* clear carry flag */
 	} else {
@@ -678,7 +678,7 @@ int1A_handler(xf86Int10InfoPtr pInt)
 	return 1;
     case 0xb109:
 	if ((tag = findPci(pInt, X86_EBX)) != PCI_NOT_FOUND) {
-	    X86_CX = pciReadWord(tag, X86_EDI);
+	    X86_CX = pciReadWord(tag, X86_DI);
 	    X86_EAX = X86_AL | (SUCCESSFUL << 8);
 	    X86_EFLAGS &= ~((unsigned long)0x01); /* clear carry flag */
 	} else {
@@ -691,7 +691,7 @@ int1A_handler(xf86Int10InfoPtr pInt)
 	return 1;
     case 0xb10a:
 	if ((tag = findPci(pInt, X86_EBX)) != PCI_NOT_FOUND) {
-	    X86_ECX = pciReadLong(tag, X86_EDI);
+	    X86_ECX = pciReadLong(tag, X86_DI);
 	    X86_EAX = X86_AL | (SUCCESSFUL << 8);
 	    X86_EFLAGS &= ~((unsigned long)0x01); /* clear carry flag */
 	} else {
@@ -704,7 +704,7 @@ int1A_handler(xf86Int10InfoPtr pInt)
 	return 1;
     case 0xb10b:
 	if ((tag = findPci(pInt, X86_EBX)) != PCI_NOT_FOUND) {
-	    pciWriteByte(tag, X86_EDI, X86_CL);
+	    pciWriteByte(tag, X86_DI, X86_CL);
 	    X86_EAX = X86_AL | (SUCCESSFUL << 8);
 	    X86_EFLAGS &= ~((unsigned long)0x01); /* clear carry flag */
 	} else {
@@ -717,7 +717,7 @@ int1A_handler(xf86Int10InfoPtr pInt)
 	return 1;
     case 0xb10c:
 	if ((tag = findPci(pInt, X86_EBX)) != PCI_NOT_FOUND) {
-	    pciWriteWord(tag, X86_EDI, X86_CX);
+	    pciWriteWord(tag, X86_DI, X86_CX);
 	    X86_EAX = X86_AL | (SUCCESSFUL << 8);
 	    X86_EFLAGS &= ~((unsigned long)0x01); /* clear carry flag */
 	} else {
@@ -730,7 +730,7 @@ int1A_handler(xf86Int10InfoPtr pInt)
 	return 1;
     case 0xb10d:
 	if ((tag = findPci(pInt, X86_EBX)) != PCI_NOT_FOUND) {
-	    pciWriteLong(tag, X86_EDI, X86_ECX);
+	    pciWriteLong(tag, X86_DI, X86_ECX);
 	    X86_EAX = X86_AL | (SUCCESSFUL << 8);
 	    X86_EFLAGS &= ~((unsigned long)0x01); /* clear carry flag */
 	} else {
