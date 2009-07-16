@@ -1,3 +1,0 @@
-@comment $OpenBSD: PLIST,v 1.4 2003/05/13 03:06:41 cannings Exp $
-bin/wily
-man/man1/wily.1
