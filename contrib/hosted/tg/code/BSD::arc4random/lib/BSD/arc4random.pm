@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/tg/code/BSD::arc4random/lib/BSD/arc4random.pm,v 1.2 2009/07/16 12:24:31 tg Exp $
+# $MirOS: contrib/hosted/tg/code/BSD::arc4random/lib/BSD/arc4random.pm,v 1.3 2009/07/16 13:03:07 tg Exp $
 #-
 # Copyright (c) 2008, 2009
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -251,6 +251,7 @@ on some entropy returned from B<rand>'s previous state.
 =head2 LOW-LEVEL FUNCTIONS
 
 =over 4
+
 =item B<arc4random>()
 
 This function returns an unsigned 32-bit integer random value.
@@ -289,6 +290,7 @@ they merely map to B<arc4random_addrandom> instead.
 =head2 HIGH-LEVEL FUNCTIONS
 
 =over 4
+
 =item B<arc4random_bytes>(I<num>[, I<pbuf>])
 
 This function returns a string containing as many random bytes as
@@ -305,6 +307,7 @@ avoiding "modulo bias".
 =head2 PACKAGE VARIABLES
 
 =over 4
+
 =item B<$RANDOM>
 
 The B<$RANDOM> returns a random value in the range S<[0; 32767]> on
