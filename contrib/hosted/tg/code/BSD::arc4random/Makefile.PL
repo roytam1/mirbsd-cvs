@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/p5/BSD/arc4random/Makefile.PL,v 1.12 2008/12/26 14:13:51 tg Exp $
+# $MirOS: contrib/hosted/tg/code/BSD::arc4random/Makefile.PL,v 1.1 2009/05/17 13:01:00 tg Exp $
 
 use 5.000;
 use ExtUtils::MakeMaker;
@@ -23,11 +23,10 @@ if ($cfg eq 'auto') {
 	    ($^O eq 'gnukfreebsd') ||
 	    ($^O eq 'linux')) {
 		# Debian GNU/HURD, GNU/kFreeBSD, GNU/Linux
-		# use libbsd once in testing?
+		# either use libbsd (lenny and up):
 		#$incs = '-include /usr/include/bsd/bsd.h';
 		#$libs = '-lbsd';
-		# as of now, libbsd is not popular enough, need arc4random.c
-		# XXX the presence of arc4random.c here is a KLUDGE going away!
+		# or use the contributed arc4random.c file
 		$objs = 'arc4random.o';
 		$defs .= ' -DHAVE_SYS_SYSCTL_H=0 -DHAVE_STDINT_H=1';
 		$defs .= ' -DNEED_ARC4RANDOM_DECL';

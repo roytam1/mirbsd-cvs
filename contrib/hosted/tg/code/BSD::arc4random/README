@@ -1,4 +1,4 @@
-BSD::arc4random version 1.40
+BSD::arc4random version 1.41
 ============================
 
 This module provides a Perl API for the BSDs' arc4random(3) suite
@@ -40,9 +40,9 @@ line to use the appropriate header, e.g. something like this for
 Debian libbsd: '-include /usr/include/bsd/bsd.h'
 
 NOTE: This version of BSD::arc4random comes with an experimental
-implementation tested on Debian instead, since libbsd is not yet
-ready to use. This is a kludge and will go away. It is only used
-automatically on Debian GNU/HURD, GNU/kFreeBSD, GNU/Linux, and
+implementation tested on BSD, Cygwin, Debian and Solaris; this is
+a kludge and will most likely go away. It is only used automati-
+cally on Debian GNU/HURD, GNU/kFreeBSD, GNU/Linux, as well as
 Cygwin and Solaris. It can be used on some BSDs as well; support
 for pushing back entropy is available on Cygwin/WIN32 and MirBSD.
 
@@ -63,7 +63,8 @@ these functions.
 
 COPYRIGHT AND LICENCE
 
-Copyright (c) 2008 by Thorsten "mirabilos" Glaser, MirOS Project
+Copyright (c) 2008, 2009
+	Thorsten "mirabilos" Glaser, MirOS Project
 Uploaded to CPAN by: Sebastian "Vutral" Schwarz (PAUSE ID: SJSZ)
 The arc4random(9) PRNG has been invented by the OpenBSD Project.
 The arc4random_uniform algorithm is derived from the code in the
@@ -73,4 +74,4 @@ OpenBSD kernel, published by Damien Miller under the ISC licence
 This module is covered by the MirOS Licence: http://mirbsd.de/MirOS-Licence
 
 ________________________________________________________________________________________
-$MirOS: contrib/hosted/tg/code/BSD::arc4random/README,v 1.1 2009/05/17 13:01:00 tg Exp $
+$MirOS: contrib/hosted/tg/code/BSD::arc4random/README,v 1.2 2009/05/17 13:05:50 tg Exp $
