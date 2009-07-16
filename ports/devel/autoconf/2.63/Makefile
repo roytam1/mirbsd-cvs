@@ -1,4 +1,7 @@
-# $MirOS: ports/devel/autoconf/2.61/Makefile,v 1.2 2008/04/05 17:59:49 tg Exp $
+# $MirOS: ports/devel/autoconf/2.63/Makefile,v 1.1 2009/07/15 16:43:31 bsiegert Exp $
+
+# for now
+ONLY_FOR_PLATFORM=	Darwin:*:*
 
 COMMENT=		automatically configure source code on many Un*x platforms
 SUFFIX=			-2.63
