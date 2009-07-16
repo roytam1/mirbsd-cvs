@@ -1,6 +1,6 @@
-# $MirOS: contrib/hosted/tg/code/BSD::arc4random/lib/BSD/arc4random.pm,v 1.1 2009/05/17 13:01:01 tg Exp $
+# $MirOS: contrib/hosted/tg/code/BSD::arc4random/lib/BSD/arc4random.pm,v 1.2 2009/07/16 12:24:31 tg Exp $
 #-
-# Copyright (c) 2008
+# Copyright (c) 2008, 2009
 #	Thorsten Glaser <tg@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
@@ -250,6 +250,7 @@ on some entropy returned from B<rand>'s previous state.
 
 =head2 LOW-LEVEL FUNCTIONS
 
+=over 4
 =item B<arc4random>()
 
 This function returns an unsigned 32-bit integer random value.
@@ -283,8 +284,11 @@ This constant function returns 1 if B<arc4random_pushb> and/or
 B<arc4random_pushk> actually call the kernel interfaces, 0 if
 they merely map to B<arc4random_addrandom> instead.
 
+=back
+
 =head2 HIGH-LEVEL FUNCTIONS
 
+=over 4
 =item B<arc4random_bytes>(I<num>[, I<pbuf>])
 
 This function returns a string containing as many random bytes as
@@ -296,8 +300,11 @@ An optional I<pbuf> argument is passed to the system first.
 Calculate a uniformly distributed random number less than upper_bound
 avoiding "modulo bias".
 
+=back
+
 =head2 PACKAGE VARIABLES
 
+=over 4
 =item B<$RANDOM>
 
 The B<$RANDOM> returns a random value in the range S<[0; 32767]> on
@@ -310,6 +317,8 @@ You can tie any scalar variable to this package; the I<max> argument
 is the maximum number returned; if undefined, 0 or S<E<62>= 0xFFFFFFFF>,
 no bound is used, and values in the range S<[0; 2**32-1]> are returned.
 They will behave like B<$RANDOM>.
+
+=back
 
 =head1 AUTHOR
 
@@ -328,7 +337,7 @@ L<http://cvs.mirbsd.de/ports/net/irssi/files/randex.pl>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (c) 2008 Thorsten "mirabilos" Glaser
+Copyright (c) 2008, 2009 Thorsten "mirabilos" Glaser
 
 This module is covered by the MirOS Licence:
 L<http://mirbsd.de/MirOS-Licence>
