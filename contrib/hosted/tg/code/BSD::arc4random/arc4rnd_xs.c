@@ -31,11 +31,8 @@
 #include "perl.h"
 #include "XSUB.h"
 
-#ifdef USE_LIBBSD
+#if !defined(__RCSID) || !defined(__IDSTRING)
 #undef __RCSID
-#endif
-
-#ifndef __RCSID
 #undef __IDSTRING
 #undef __IDSTRING_CONCAT
 #undef __IDSTRING_EXPAND
@@ -47,7 +44,7 @@
 #define __RCSID(x)			__IDSTRING(rcsid,x)
 #endif
 
-__RCSID("$MirOS: contrib/hosted/tg/code/BSD::arc4random/arc4rnd_xs.c,v 1.2 2009/06/22 16:29:54 tg Exp $");
+__RCSID("$MirOS: contrib/hosted/tg/code/BSD::arc4random/arc4rnd_xs.c,v 1.3 2009/06/29 16:25:17 tg Exp $");
 
 #ifdef REDEF_USCORETYPES
 #define u_int32_t	uint32_t
