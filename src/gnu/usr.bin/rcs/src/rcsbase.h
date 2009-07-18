@@ -1,8 +1,8 @@
-/* $MirOS: src/gnu/usr.bin/rcs/src/rcsbase.h,v 1.2 2005/03/13 15:36:38 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/rcs/src/rcsbase.h,v 1.3 2005/06/05 16:08:49 tg Exp $ */
 
 /* RCS common definitions and data structures */
 
-#define RCSBASE "$MirOS: src/gnu/usr.bin/rcs/src/rcsbase.h,v 1.2 2005/03/13 15:36:38 tg Exp $"
+#define RCSBASE "$MirOS: src/gnu/usr.bin/rcs/src/rcsbase.h,v 1.3 2005/06/05 16:08:49 tg Exp $"
 
 /* Copyright 1982, 1988, 1989 Walter F. Tichy, Purdue CS
    Copyright 1990, 1991, 1992, 1993, 1994, 1995 Paul Eggert
@@ -391,7 +391,7 @@ struct assoc {
 #define REVISION        "Revision"
 #define SOURCE          "Source"
 #define STATE           "State"
-#define keylength 8 /* max length of any of the above keywords */
+#define keylength	12	/* max length of any of the above keywords */
 
 enum markers { Nomatch, Author, Date, Header, Id,
 	       Locker, Log, Name, RCSfile, Revision, Source, State, LocalId };
