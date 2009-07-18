@@ -2,6 +2,7 @@
 .ds Rv \\$3
 .ds Dt \\$4
 ..
+.\" $MirOS$
 .Id $Id$
 .ds i \&\s-1ISO\s0
 .ds r \&\s-1RCS\s0
@@ -654,6 +655,15 @@ option of
 .BR rcs (1)
 or
 .BR ci (1).
+.TP
+.B $\fILocalID\fB$
+Where
+.I LocalID
+is the value of the environment variable
+.BR RCSLOCALID :
+The same as
+.BR $\&Id$ ,
+just under a different (user-defined) name.
 .PP
 The following characters in keyword values are represented by escape sequences
 to keep keyword strings well-formed.
