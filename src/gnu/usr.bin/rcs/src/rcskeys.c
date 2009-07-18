@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/gnu/usr.bin/rcs/src/rcskeys.c,v 1.2 2005/03/13 15:36:38 tg Exp $ */
 
 /* RCS keyword table and match operation */
 
@@ -66,7 +66,7 @@ Report problems and direct all questions to:
 
 #include "rcsbase.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/gnu/usr.bin/rcs/src/rcskeys.c,v 1.2 2005/03/13 15:36:38 tg Exp $");
 
 char const *Keyword[] = {
     /* This must be in the same order as rcsbase.h's enum markers type. */
@@ -75,6 +75,7 @@ char const *Keyword[] = {
 	LOCKER, LOG, NAME, RCSFILE, REVISION, SOURCE, STATE, NULL
 };
 
+int onlyRCSlocalId = 0;
 
 
 	enum markers
@@ -88,6 +89,8 @@ trymatch(string)
         register int j;
 	register char const *p, *s;
 	for (j = sizeof(Keyword)/sizeof(*Keyword);  (--j);  ) {
+		if (onlyRCSlocalId && (j != LocalId))
+			continue;
 		if (Keyword[j] != NULL) {
 			/* try next keyword */
 			p = Keyword[j];
@@ -114,6 +117,10 @@ setRCSlocalId(string)
 {
 	static char local_id[keylength+1];
 
+	if (*string == '!') {
+		++string;
+		onlyRCSlocalId = 1;
+	}
 	if (strlen(string) > keylength)
 		warn("LocalId is too long");
 	strlcpy(local_id, string, keylength+1);

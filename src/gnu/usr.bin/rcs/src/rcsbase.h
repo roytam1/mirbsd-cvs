@@ -492,6 +492,7 @@ int getoldkeys(RILE*);
 
 /* rcskeys */
 extern char const *Keyword[];
+extern int onlyRCSlocalId;
 void setRCSlocalId(char const *);
 enum markers trymatch(char const*);
 

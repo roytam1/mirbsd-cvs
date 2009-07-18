@@ -2,7 +2,7 @@
 .ds Rv \\$3
 .ds Dt \\$4
 ..
-.\" $MirOS$
+.\" $MirOS: src/gnu/usr.bin/rcs/man/co.1,v 1.2 2009/07/18 12:49:24 tg Exp $
 .Id $Id$
 .ds i \&\s-1ISO\s0
 .ds r \&\s-1RCS\s0
@@ -664,6 +664,16 @@ is the value of the environment variable
 The same as
 .BR $\&Id$ ,
 just under a different (user-defined) name.
+.RS
+.LP
+If
+.B RCSLOCALID
+begins with an exclamation sign ('!'),
+.I only
+this keyword is matched. This is a MirBSD extension to the
+.B RCSLOCALID
+handling, which is an OpenBSD extension to GNU RCS.
+.RE
 .PP
 The following characters in keyword values are represented by escape sequences
 to keep keyword strings well-formed.
@@ -712,6 +722,10 @@ options prepended to the argument list, separated by spaces.
 See
 .BR ci (1)
 for details.
+.TP
+.B \s-1RCSLOCALID\s0
+Local keyword to substitute.
+See above for details.
 .SH DIAGNOSTICS
 The \*r pathname, the working pathname,
 and the revision number retrieved are
