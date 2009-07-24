@@ -1,7 +1,10 @@
+/* $MirOS$ */
 /* $OpenBSD: wsemul_vt100.c,v 1.17 2007/01/07 13:31:36 miod Exp $ */
 /* $NetBSD: wsemul_vt100.c,v 1.13 2000/04/28 21:56:16 mycroft Exp $ */
 
 /*
+ * Copyright (c) 2009
+ *	Thorsten Glaser <tg@mirbsd.org>
  * Copyright (c) 1998
  *	Matthias Drochner.  All rights reserved.
  *
@@ -63,6 +66,9 @@ const struct wsemul_ops wsemul_vt100_ops = {
 };
 
 struct wsemul_vt100_emuldata wsemul_vt100_console_emuldata;
+
+/* re-use this as a mere indicator for MirBSD extension ESC x 1, x=()*+ */
+#define mbsd_stf ((void *)&wsemul_vt100_console_emuldata)
 
 void wsemul_vt100_init(struct wsemul_vt100_emuldata *,
 			    const struct wsscreen_descr *, void *, int, int,
@@ -353,7 +359,7 @@ wsemul_vt100_output_normal(edp, c, kernel)
 		} else
 			ct = edp->chartab_G[edp->chartab0];
 	}
-	dc = (ct ? ct[c] : c);
+	dc = (ct == mbsd_stf ? c | 0x80 : ct ? ct[c] : c);
 
 	if ((edp->flags & VTFL_INSERTMODE) && COLS_LEFT)
 		COPYCOLS(edp->ccol, edp->ccol + 1, COLS_LEFT);
@@ -611,6 +617,9 @@ wsemul_vt100_output_scs94(edp, c)
 		break;
 	case '>': /* DEC tech */
 		edp->chartab_G[edp->designating] = edp->dectechtab;
+		break;
+	case 1: /* MirBSD straight-to-font Meta-ASCII (128..255) */
+		edp->chartab_G[edp->designating] = mbsd_stf;
 		break;
 	    default:
 #ifdef VT100_PRINTUNKNOWN
