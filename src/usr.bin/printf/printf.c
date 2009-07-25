@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.bin/printf/printf.c,v 1.2 2005/07/23 18:53:22 tg Exp $ */
+/**	$MirOS: src/usr.bin/printf/printf.c,v 1.3 2005/08/26 22:04:19 tg Exp $ */
 /*	$OpenBSD: printf.c,v 1.12 2004/05/31 15:48:26 pedro Exp $	*/
 
 /*-
@@ -45,7 +45,17 @@ char copyright[] =
 #include <err.h>
 
 __SCCSID("@(#)printf.c	5.9 (Berkeley) 6/1/90");
-__RCSID("$MirOS: src/usr.bin/printf/printf.c,v 1.2 2005/07/23 18:53:22 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/printf/printf.c,v 1.3 2005/08/26 22:04:19 tg Exp $");
+
+#ifdef SHELL
+#define main printfcmd
+#include "bltin.h"
+#include <stdarg.h>
+#endif /* SHELL */
+
+#ifdef MKSH_PRINTF_BUILTIN
+int c_printf(const char **);
+#endif
 
 static int	 print_escape_str(const char *);
 static int	 print_escape(const char *);
@@ -58,24 +68,16 @@ static unsigned long getulong(void);
 static const char *getstr(void);
 static char	*mklong(const char *, int);
 static void      check_conversion(const char *, const char *);
-static void	 usage(void);
+
+static int usage(void);
+static int real_main(const char *[]);
 
 static int	rval;
-static char  **gargv;
+static const char **gargv;
 
 #define isodigit(c)	((c) >= '0' && (c) <= '7')
 #define octtobin(c)	((c) - '0')
 #define hextobin(c)	((c) >= 'A' && (c) <= 'F' ? c - 'A' + 10 : (c) >= 'a' && (c) <= 'f' ? c - 'a' + 10 : c - '0')
-
-#ifdef SHELL
-#define main printfcmd
-#include "bltin.h"
-#include <stdarg.h>
-#endif /* SHELL */
-
-#ifdef BUILTIN
-int progprintf(int, char *[]);
-#endif
 
 #define PF(f, func) { \
 	if (fieldwidth) \
@@ -89,24 +91,36 @@ int progprintf(int, char *[]);
 		(void)printf(f, func); \
 }
 
+#ifdef MKSH_PRINTF_BUILTIN
+extern void mksh_flush(void);
+
 int
-#ifdef BUILTIN
-progprintf(int argc, char *argv[])
+c_printf(const char **wp)
+{
+	int rv;
+
+	mksh_flush();
+	rv = wp[1] ? real_main(wp) : usage();
+	fflush(NULL);
+	return (rv);
+}
 #else
+int
 main(int argc, char *argv[])
+{
+	return (argc < 2 ? usage() : real_main((const char **)argv));
+}
 #endif
+
+int
+real_main(const char *argv[])
 {
 	char *fmt, *start;
 	int fieldwidth, precision;
 	char convch, nextch;
 	char *format;
 
-	if (argc < 2) {
-		usage();
-		return (1);
-	}
-
-	format = *++argv;
+	format = strdup(*++argv);
 	gargv = ++argv;
 
 #define SKIP1	"#-+ 0"
@@ -482,8 +496,9 @@ check_conversion(const char *s, const char *ep)
 	}
 }
 
-static void
+static int
 usage(void)
 {
 	(void)fprintf(stderr, "usage: printf format [arg ...]\n");
+	return (1);
 }
