@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/sys/dev/wscons/wsemul_vt100.c,v 1.2 2009/07/24 17:41:04 tg Exp $ */
 /* $OpenBSD: wsemul_vt100.c,v 1.17 2007/01/07 13:31:36 miod Exp $ */
 /* $NetBSD: wsemul_vt100.c,v 1.13 2000/04/28 21:56:16 mycroft Exp $ */
 
@@ -618,7 +618,7 @@ wsemul_vt100_output_scs94(edp, c)
 	case '>': /* DEC tech */
 		edp->chartab_G[edp->designating] = edp->dectechtab;
 		break;
-	case 1: /* MirBSD straight-to-font Meta-ASCII (128..255) */
+	case '|': /* MirBSD straight-to-font Meta-ASCII (128..255) */
 		edp->chartab_G[edp->designating] = mbsd_stf;
 		break;
 	    default:
