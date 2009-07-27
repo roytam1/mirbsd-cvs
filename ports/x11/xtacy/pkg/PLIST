@@ -1,3 +1,0 @@
-@comment $OpenBSD: PLIST,v 1.2 2000/08/21 03:33:19 kevlo Exp $
-bin/xtacy
-man/man1/xtacy.1

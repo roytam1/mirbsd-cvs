@@ -1,8 +1,0 @@
-@comment $OpenBSD: PLIST,v 1.7 2004/01/18 04:09:24 naddy Exp $
-${P5SITE}/CDDB.pm
-@comment ${P5ARCH}/auto/CDDB/.packlist
-man/man3/CDDB.3p
-@dirrm man/man3
-@comment @dirrm ${P5ARCH}/auto/CDDB
-@comment @dirrm ${P5ARCH}/auto
-@comment @dirrm ${P5ARCH}
