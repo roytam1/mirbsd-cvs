@@ -1,0 +1,20 @@
+mws_setname subprojects/kwalletcli "kwalletcli – CLI for the KDE Wallet"
+mws_setheadline CLI for the KDE Wallet
+mws_putheader '$MirOS$
+mws_content <<'EOF'
+<p><img src="@@RELPATH@@pics/kwalletcli64.png" alt="kwalletcli Icon" /></p>
+
+<p>There isn’t any content yet. Please see <a
+ href="@@RELPATH@@permalinks/wlog-10_e20090708-tg.htm">the wlog entry
+ announcing kwalletcli public beta test</a> for now.</p>
+
+<p style="margin-bottom: 500px">&nbsp;</p>
+<p>Do <em>not</em> send mail to <a
+ href="mailto:junk@mirbsd.de">junk@mirbsd.de</a>, <a
+ href="mailto:junk@mirsolutions.de">junk@mirsolutions.de</a>, <a
+ href="mailto:junk@mirbsd.org">junk@mirbsd.org</a> or <a
+ href="mailto:junk@mirbsd.org">junk@mirbsd.org</a>.
+ It won't do good to you.</p>
+EOF
+mws_putfooter
+exit 0
