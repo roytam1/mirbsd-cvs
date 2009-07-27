@@ -1,6 +1,6 @@
 mws_setname subprojects/kwalletcli "kwalletcli – CLI for the KDE Wallet"
 mws_setheadline CLI for the KDE Wallet
-mws_putheader '$MirOS$
+mws_putheader '$MirOS: www/src/kwalletcli.hts,v 1.1 2009/07/27 12:05:01 tg Exp $'
 mws_content <<'EOF'
 <p><img src="@@RELPATH@@pics/kwalletcli64.png" alt="kwalletcli Icon" /></p>
 
