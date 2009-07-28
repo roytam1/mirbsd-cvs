@@ -1,7 +1,7 @@
-# $MirOS: ports/net/p5-Socket6/Makefile,v 1.4 2006/09/14 00:12:07 tg Exp $
+# $MirOS: ports/devel/p5-version/Makefile,v 1.1 2007/09/15 13:54:57 bsiegert Exp $
 
 COMMENT=		version objects from perl 5.9 and 5.10
-DISTNAME=		version-0.7203
+DISTNAME=		version-0.77
 PKGNAME=		p5-${DISTNAME}-${DASH_VER}
 CATEGORIES=		devel perl5
 MASTER_SITES=		${MASTER_SITE_PERL_CPAN:=version/}
