@@ -1,7 +1,7 @@
-# $MirOS: ports/devel/p5-Algorithm-Annotate/Makefile,v 1.1 2007/09/15 22:34:57 bsiegert Exp $
+# $MirOS: ports/devel/p5-Getopt-Long/Makefile,v 1.1 2007/10/04 21:37:36 bsiegert Exp $
 
 COMMENT=		extended processing of command line options
-DISTNAME=		Getopt-Long-2.37
+DISTNAME=		Getopt-Long-2.38
 PKGNAME=		p5-${DISTNAME}-${DASH_VER}
 CATEGORIES=		devel perl5
 MASTER_SITES=		${MASTER_SITE_PERL_CPAN:=Getopt/}
