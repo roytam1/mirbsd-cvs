@@ -1,4 +1,3 @@
-/**	$MirOS: src/usr.bin/printf/printf.c,v 1.3 2005/08/26 22:04:19 tg Exp $ */
 /*	$OpenBSD: printf.c,v 1.12 2004/05/31 15:48:26 pedro Exp $	*/
 
 /*-
@@ -30,56 +29,63 @@
  * SUCH DAMAGE.
  */
 
-#if 0
-char copyright[] =
-"@(#) Copyright (c) 1989 The Regents of the University of California.\n\
- All rights reserved.\n";
-#endif
+#ifdef MKSH_PRINTF_BUILTIN
+
+/* MirBSD Korn Shell */
+#include "sh.h"
+#include <ctype.h>
+#include <err.h>
+
+#else
+
+/* stand-alone executable */
+#include <sys/types.h>
 
 #include <ctype.h>
+#include <err.h>
+#include <errno.h>
+#include <limits.h>
+#include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <limits.h>
-#include <errno.h>
-#include <err.h>
 
-__SCCSID("@(#)printf.c	5.9 (Berkeley) 6/1/90");
-__RCSID("$MirOS: src/usr.bin/printf/printf.c,v 1.3 2005/08/26 22:04:19 tg Exp $");
-
+/* NetBSD ash */
 #ifdef SHELL
 #define main printfcmd
 #include "bltin.h"
-#include <stdarg.h>
-#endif /* SHELL */
-
-#ifdef MKSH_PRINTF_BUILTIN
-int c_printf(const char **);
 #endif
 
-static int	 print_escape_str(const char *);
-static int	 print_escape(const char *);
+#endif
 
-static int	 getchr(void);
-static double	 getdouble(void);
-static int	 getint(void);
-static long	 getlong(void);
+__COPYRIGHT("Copyright (c) 1989 The Regents of the University of California.\n\
+All rights reserved.\n");
+__SCCSID("@(#)printf.c	5.9 (Berkeley) 6/1/90");
+__RCSID("$MirOS: src/usr.bin/printf/printf.c,v 1.4 2009/07/25 18:28:24 tg Exp $");
+
+static int print_escape_str(const char *);
+static int print_escape(const char *);
+
+static int getchr(void);
+static double getdouble(void);
+static int getinteger(void);
+static long getlong(void);
 static unsigned long getulong(void);
 static const char *getstr(void);
-static char	*mklong(const char *, int);
-static void      check_conversion(const char *, const char *);
+static char *mklong(const char *, int);
+static void check_conversion(const char *, const char *);
 
 static int usage(void);
-static int real_main(const char *[]);
+static inline int real_main(const char *[]);
 
-static int	rval;
+static int rval;
 static const char **gargv;
 
 #define isodigit(c)	((c) >= '0' && (c) <= '7')
 #define octtobin(c)	((c) - '0')
 #define hextobin(c)	((c) >= 'A' && (c) <= 'F' ? c - 'A' + 10 : (c) >= 'a' && (c) <= 'f' ? c - 'a' + 10 : c - '0')
 
-#define PF(f, func) { \
+#define PF(f, func) do { \
 	if (fieldwidth) \
 		if (precision) \
 			(void)printf(f, fieldwidth, precision, func); \
@@ -89,30 +95,9 @@ static const char **gargv;
 		(void)printf(f, precision, func); \
 	else \
 		(void)printf(f, func); \
-}
+} while (/* CONSTCOND */ 0)
 
-#ifdef MKSH_PRINTF_BUILTIN
-extern void mksh_flush(void);
-
-int
-c_printf(const char **wp)
-{
-	int rv;
-
-	mksh_flush();
-	rv = wp[1] ? real_main(wp) : usage();
-	fflush(NULL);
-	return (rv);
-}
-#else
-int
-main(int argc, char *argv[])
-{
-	return (argc < 2 ? usage() : real_main((const char **)argv));
-}
-#endif
-
-int
+static inline int
 real_main(const char *argv[])
 {
 	char *fmt, *start;
@@ -154,13 +139,13 @@ real_main(const char *argv[])
 
 				/* skip to field width */
 				for (; strchr(SKIP1, *fmt); ++fmt) ;
-				fieldwidth = *fmt == '*' ? getint() : 0;
+				fieldwidth = *fmt == '*' ? getinteger() : 0;
 
 				/* skip to possible '.', get following precision */
 				for (; strchr(SKIP2, *fmt); ++fmt) ;
 				if (*fmt == '.')
 					++fmt;
-				precision = *fmt == '*' ? getint() : 0;
+				precision = *fmt == '*' ? getinteger() : 0;
 
 				for (; strchr(SKIP2, *fmt); ++fmt) ;
 				if (!*fmt) {
@@ -237,6 +222,26 @@ real_main(const char *argv[])
 
 	return (rval);
 }
+
+#ifdef MKSH_PRINTF_BUILTIN
+int
+c_printf(const char **wp)
+{
+	int rv;
+
+	shf_flush(shl_stdout);
+	shf_flush(shl_out);
+	rv = wp[1] ? real_main(wp) : usage();
+	fflush(NULL);
+	return (rv);
+}
+#else
+int
+main(int argc, char *argv[])
+{
+	return (argc < 2 ? usage() : real_main((const char **)argv));
+}
+#endif
 
 
 /*
@@ -415,7 +420,7 @@ getstr(void)
 }
 
 static int
-getint(void)
+getinteger(void)
 {
 	static const char *number = "+-.0123456789";
 	if (!*gargv)
