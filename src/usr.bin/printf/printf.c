@@ -60,13 +60,15 @@
 __COPYRIGHT("Copyright (c) 1989 The Regents of the University of California.\n\
 All rights reserved.\n");
 __SCCSID("@(#)printf.c	5.9 (Berkeley) 6/1/90");
-__RCSID("$MirOS: src/usr.bin/printf/printf.c,v 1.5 2009/07/30 19:10:33 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/printf/printf.c,v 1.6 2009/08/01 15:17:30 tg Exp $");
 
 static int print_escape_str(const char *);
 static int print_escape(const char *);
 
 static int getchr(void);
+#ifndef NO_STRTOD
 static double getdouble(void);
+#endif
 static int getinteger(void);
 static long getlong(void);
 static unsigned long getulong(void);
@@ -200,6 +202,7 @@ real_main(const char *argv[])
 					PF(f, p);
 					break;
 				}
+#ifndef NO_STRTOD
 				case 'e':
 				case 'E':
 				case 'f':
@@ -209,6 +212,7 @@ real_main(const char *argv[])
 					PF(start, p);
 					break;
 				}
+#endif
 				default:
 					uwarnx(UWARNX "%s: invalid directive", start);
 					return(1);
@@ -479,6 +483,7 @@ getulong(void)
 	return val;
 }
 
+#ifndef NO_STRTOD
 static double
 getdouble(void)
 {
@@ -496,6 +501,7 @@ getdouble(void)
 	check_conversion(*gargv++, ep);
 	return val;
 }
+#endif
 
 static void
 check_conversion(const char *s, const char *ep)
