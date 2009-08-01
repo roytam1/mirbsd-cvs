@@ -60,7 +60,7 @@
 __COPYRIGHT("Copyright (c) 1989 The Regents of the University of California.\n\
 All rights reserved.\n");
 __SCCSID("@(#)printf.c	5.9 (Berkeley) 6/1/90");
-__RCSID("$MirOS: src/usr.bin/printf/printf.c,v 1.7 2009/08/01 15:19:13 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/printf/printf.c,v 1.8 2009/08/01 19:21:28 tg Exp $");
 
 static int print_escape_str(const char *);
 static int print_escape(const char *);
@@ -77,7 +77,7 @@ static char *mklong(const char *, int);
 static void check_conversion(const char *, const char *);
 
 static int usage(void);
-static inline int real_main(const char *[]);
+static int real_main(const char *[]);
 
 static int rval;
 static const char **gargv;
@@ -106,7 +106,7 @@ static const char **gargv;
 #define UWARNX /* nothing */
 #endif
 
-static inline int
+static int
 real_main(const char *argv[])
 {
 	char *fmt, *start;
