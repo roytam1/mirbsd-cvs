@@ -60,7 +60,7 @@
 __COPYRIGHT("Copyright (c) 1989 The Regents of the University of California.\n\
 All rights reserved.\n");
 __SCCSID("@(#)printf.c	5.9 (Berkeley) 6/1/90");
-__RCSID("$MirOS: src/usr.bin/printf/printf.c,v 1.8 2009/08/01 19:21:28 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/printf/printf.c,v 1.9 2009/08/01 19:56:01 tg Exp $");
 
 static int print_escape_str(const char *);
 static int print_escape(const char *);
@@ -77,7 +77,7 @@ static char *mklong(const char *, int);
 static void check_conversion(const char *, const char *);
 
 static int usage(void);
-static int real_main(const char *[]);
+static int real_main(char *, const char *[]);
 
 static int rval;
 static const char **gargv;
@@ -107,14 +107,13 @@ static const char **gargv;
 #endif
 
 static int
-real_main(const char *argv[])
+real_main(char *format, const char *argv[])
 {
 	char *fmt, *start;
 	int fieldwidth, precision;
 	char convch, nextch;
-	char *format;
 
-	format = strdup(*++argv);
+	++argv;
 	gargv = ++argv;
 
 #define SKIP1	"#-+ 0"
@@ -240,12 +239,15 @@ c_printf(const char **wp)
 {
 	int rv;
 	const char *old_kshname;
+	char *fmt;
 
 	old_kshname = kshname;
 	kshname = wp[0];
 	shf_flush(shl_stdout);
 	shf_flush(shl_out);
-	rv = wp[1] ? real_main(wp) : usage();
+	strdupx(fmt, wp[1], ATEMP);
+	rv = wp[1] ? real_main(fmt, wp) : usage();
+	afree(fmt, ATEMP);
 	fflush(NULL);
 	kshname = old_kshname;
 	return (rv);
@@ -254,7 +256,7 @@ c_printf(const char **wp)
 int
 main(int argc, char *argv[])
 {
-	return (argc < 2 ? usage() : real_main((const char **)argv));
+	return (argc < 2 ? usage() : real_main(argv[1], (const char **)argv));
 }
 #endif
 
