@@ -60,7 +60,7 @@
 __COPYRIGHT("Copyright (c) 1989 The Regents of the University of California.\n\
 All rights reserved.\n");
 __SCCSID("@(#)printf.c	5.9 (Berkeley) 6/1/90");
-__RCSID("$MirOS: src/usr.bin/printf/printf.c,v 1.6 2009/08/01 15:17:30 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/printf/printf.c,v 1.7 2009/08/01 15:19:13 tg Exp $");
 
 static int print_escape_str(const char *);
 static int print_escape(const char *);
@@ -325,7 +325,7 @@ print_escape(const char *str)
 
 	case 'x':
 		str++;
-		for (value = 0; isxdigit(*str); str++) {
+		for (value = 0; isxdigit((unsigned char)*str); str++) {
 			value <<= 4;
 			value += hextobin(*str);
 		}
