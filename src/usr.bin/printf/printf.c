@@ -34,7 +34,6 @@
 /* MirBSD Korn Shell */
 #include "sh.h"
 #include <ctype.h>
-#include <err.h>
 
 #else
 
@@ -61,7 +60,7 @@
 __COPYRIGHT("Copyright (c) 1989 The Regents of the University of California.\n\
 All rights reserved.\n");
 __SCCSID("@(#)printf.c	5.9 (Berkeley) 6/1/90");
-__RCSID("$MirOS: src/usr.bin/printf/printf.c,v 1.4 2009/07/25 18:28:24 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/printf/printf.c,v 1.5 2009/07/30 19:10:33 tg Exp $");
 
 static int print_escape_str(const char *);
 static int print_escape(const char *);
@@ -96,6 +95,14 @@ static const char **gargv;
 	else \
 		(void)printf(f, func); \
 } while (/* CONSTCOND */ 0)
+
+#ifdef MKSH_PRINTF_BUILTIN
+#define uwarnx warningf
+#define UWARNX false,
+#else
+#define uwarnx warnx
+#define UWARNX /* nothing */
+#endif
 
 static inline int
 real_main(const char *argv[])
@@ -149,7 +156,7 @@ real_main(const char *argv[])
 
 				for (; strchr(SKIP2, *fmt); ++fmt) ;
 				if (!*fmt) {
-					warnx ("missing format character");
+					uwarnx(UWARNX "missing format character");
 					return(1);
 				}
 
@@ -172,7 +179,7 @@ real_main(const char *argv[])
 					long p;
 					char *f = mklong(start, convch);
 					if (!f) {
-						warnx("out of memory");
+						uwarnx(UWARNX "out of memory");
 						return (1);
 					}
 					p = getlong();
@@ -186,7 +193,7 @@ real_main(const char *argv[])
 					unsigned long p;
 					char *f = mklong(start, convch);
 					if (!f) {
-						warnx("out of memory");
+						uwarnx(UWARNX "out of memory");
 						return (1);
 					}
 					p = getulong();
@@ -203,7 +210,7 @@ real_main(const char *argv[])
 					break;
 				}
 				default:
-					warnx ("%s: invalid directive", start);
+					uwarnx(UWARNX "%s: invalid directive", start);
 					return(1);
 				}
 				*(fmt + 1) = nextch;
@@ -228,11 +235,15 @@ int
 c_printf(const char **wp)
 {
 	int rv;
+	const char *old_kshname;
 
+	old_kshname = kshname;
+	kshname = wp[0];
 	shf_flush(shl_stdout);
 	shf_flush(shl_out);
 	rv = wp[1] ? real_main(wp) : usage();
 	fflush(NULL);
+	kshname = old_kshname;
 	return (rv);
 }
 #else
@@ -315,7 +326,7 @@ print_escape(const char *str)
 			value += hextobin(*str);
 		}
 		if ((unsigned)value > UCHAR_MAX) {
-			warnx ("escape sequence out of range for character");
+			uwarnx(UWARNX "escape sequence out of range for character");
 			rval = 1;
 		}
 		putchar (value);
@@ -368,7 +379,7 @@ print_escape(const char *str)
 
 	default:
 		putchar(*str);
-		warnx("unknown escape sequence `\\%c'", *str);
+		uwarnx(UWARNX "unknown escape sequence `\\%c'", *str);
 		rval = 1;
 	}
 
@@ -491,12 +502,12 @@ check_conversion(const char *s, const char *ep)
 {
 	if (*ep) {
 		if (ep == s)
-			warnx ("%s: expected numeric value", s);
+			uwarnx(UWARNX "%s: expected numeric value", s);
 		else
-			warnx ("%s: not completely converted", s);
+			uwarnx(UWARNX "%s: not completely converted", s);
 		rval = 1;
 	} else if (errno == ERANGE) {
-		warnx ("%s: %s", s, strerror(ERANGE));
+		uwarnx(UWARNX "%s: %s", s, strerror(ERANGE));
 		rval = 1;
 	}
 }
