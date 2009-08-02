@@ -1,5 +1,5 @@
 static const char __vcsid[] = "@(#) MirOS contributed arc4random.c (old)"
-    "\n	@(#)rcsid_master: $MirOS: contrib/code/Snippets/arc4random.c,v 1.12 2008/12/08 18:51:53 tg Exp $"
+    "\n	@(#)rcsid_master: $MirOS: contrib/code/Snippets/arc4random.c,v 1.14 2009/05/27 09:52:42 tg Stab $"
     ;
 
 /*-
@@ -32,8 +32,8 @@ static const char __vcsid[] = "@(#) MirOS contributed arc4random.c (old)"
  */
 
 /*-
- * Copyright (c) 2008
- *	Thorsten Glaser <tg@mirbsd.de>
+ * Copyright (c) 2008, 2009
+ *	Thorsten Glaser <tg@mirbsd.org>
  * This is arc4random(3) made more portable,
  * as well as arc4random_pushb(3) for Cygwin.
  *
@@ -100,20 +100,19 @@ static uint8_t w32_rng[128];		/* registry key */
 #define _PATH_URANDOM	"/dev/urandom"
 #endif
 
-struct arc4_stream {
+static struct arc4_stream {
 	uint8_t i;
 	uint8_t j;
 	uint8_t s[256];
-};
+} arc4_ctx;
 
 static int rs_initialized;
-static struct arc4_stream rs;
 static pid_t arc4_stir_pid;
 static int arc4_count;
 static const char __randomdev[] = _PATH_URANDOM;
 
-static uint8_t arc4_getbyte(struct arc4_stream *);
-static void stir_finish(struct arc4_stream *, int);
+static uint8_t arc4_getbyte(void);
+static void stir_finish(int);
 static void arc4_atexit(void);
 static char arc4_writeback(uint8_t *, size_t, char);
 
@@ -127,35 +126,35 @@ uint32_t arc4random_pushb(const void *, size_t);
 #endif
 
 static void
-arc4_init(struct arc4_stream *as)
+arc4_init(void)
 {
-	int     n;
+	int n;
 
 	for (n = 0; n < 256; n++)
-		as->s[n] = (uint8_t)n;
-	as->i = 0;
-	as->j = 0;
+		arc4_ctx.s[n] = (uint8_t)n;
+	arc4_ctx.i = 0;
+	arc4_ctx.j = 0;
 }
 
 static void
-arc4_addrandom(struct arc4_stream *as, u_char *dat, int datlen)
+arc4_addrandom(u_char *dat, int datlen)
 {
-	int     n;
+	int n;
 	uint8_t si;
 
-	as->i--;
+	arc4_ctx.i--;
 	for (n = 0; n < 256; n++) {
-		as->i++;
-		si = as->s[as->i];
-		as->j = (uint8_t)(as->j + si + dat[n % datlen]);
-		as->s[as->i] = as->s[as->j];
-		as->s[as->j] = si;
+		arc4_ctx.i++;
+		si = arc4_ctx.s[arc4_ctx.i];
+		arc4_ctx.j = (uint8_t)(arc4_ctx.j + si + dat[n % datlen]);
+		arc4_ctx.s[arc4_ctx.i] = arc4_ctx.s[arc4_ctx.j];
+		arc4_ctx.s[arc4_ctx.j] = si;
 	}
-	as->j = as->i;
+	arc4_ctx.j = arc4_ctx.i;
 }
 
 static void
-arc4_stir(struct arc4_stream *as)
+arc4_stir(void)
 {
 	int fd;
 	struct {
@@ -217,19 +216,19 @@ arc4_stir(struct arc4_stream *as)
 #ifdef USE_MS_CRYPTOAPI
  stir_okay:
 #endif
-	fd = arc4_getbyte(as);
+	fd = arc4_getbyte();
 
 	/*
 	 * Time to give up. If no entropy could be found then we will just
 	 * use gettimeofday and getpid.
 	 */
-	arc4_addrandom(as, (u_char *)&rdat, sizeof(rdat));
+	arc4_addrandom((u_char *)&rdat, sizeof(rdat));
 
-	stir_finish(as, fd);
+	stir_finish(fd);
 }
 
 static void
-stir_finish(struct arc4_stream *as, int av)
+stir_finish(int av)
 {
 	size_t n;
 	uint8_t tb[16];
@@ -242,42 +241,42 @@ stir_finish(struct arc4_stream *as, int av)
 	 * We discard 256 words. A long word is 4 bytes.
 	 * We also discard a randomly fuzzed amount.
 	 */
-	n = 256 * 4 + (arc4_getbyte(as) & 0x0FU);
+	n = 256 * 4 + (arc4_getbyte() & 0x0FU);
 	while (av) {
 		n += (av & 0x0F);
 		av >>= 4;
 	}
 	while (n--)
-		arc4_getbyte(as);
+		arc4_getbyte();
 	while (n < sizeof (tb))
-		tb[n++] = arc4_getbyte(as);
+		tb[n++] = arc4_getbyte();
 	if (arc4_writeback(tb, sizeof (tb), 0))
-		arc4_getbyte(as);
+		arc4_getbyte();
 	arc4_count = 400000;
 }
 
 static uint8_t
-arc4_getbyte(struct arc4_stream *as)
+arc4_getbyte(void)
 {
 	uint8_t si, sj;
 
-	as->i++;
-	si = as->s[as->i];
-	as->j = (uint8_t)(as->j + si);
-	sj = as->s[as->j];
-	as->s[as->i] = sj;
-	as->s[as->j] = si;
-	return (as->s[(si + sj) & 0xff]);
+	arc4_ctx.i++;
+	si = arc4_ctx.s[arc4_ctx.i];
+	arc4_ctx.j = (uint8_t)(arc4_ctx.j + si);
+	sj = arc4_ctx.s[arc4_ctx.j];
+	arc4_ctx.s[arc4_ctx.i] = sj;
+	arc4_ctx.s[arc4_ctx.j] = si;
+	return (arc4_ctx.s[(si + sj) & 0xff]);
 }
 
 static uint32_t
-arc4_getword(struct arc4_stream *as)
+arc4_getword(void)
 {
 	uint32_t val;
-	val = (uint32_t)arc4_getbyte(as) << 24;
-	val |= (uint32_t)arc4_getbyte(as) << 16;
-	val |= (uint32_t)arc4_getbyte(as) << 8;
-	val |= (uint32_t)arc4_getbyte(as);
+	val = (uint32_t)arc4_getbyte() << 24;
+	val |= (uint32_t)arc4_getbyte() << 16;
+	val |= (uint32_t)arc4_getbyte() << 8;
+	val |= (uint32_t)arc4_getbyte();
 	return (val);
 }
 
@@ -285,11 +284,11 @@ void
 arc4random_stir(void)
 {
 	if (!rs_initialized) {
-		arc4_init(&rs);
+		arc4_init();
 		rs_initialized = 1;
 		atexit(arc4_atexit);
 	}
-	arc4_stir(&rs);
+	arc4_stir();
 }
 
 void
@@ -297,7 +296,7 @@ arc4random_addrandom(u_char *dat, int datlen)
 {
 	if (!rs_initialized)
 		arc4random_stir();
-	arc4_addrandom(&rs, dat, datlen);
+	arc4_addrandom(dat, datlen);
 }
 
 u_int32_t
@@ -305,7 +304,7 @@ arc4random(void)
 {
 	if (--arc4_count == 0 || !rs_initialized || arc4_stir_pid != getpid())
 		arc4random_stir();
-	return arc4_getword(&rs);
+	return arc4_getword();
 }
 
 static char
@@ -341,7 +340,7 @@ arc4_writeback(uint8_t *buf, size_t len, char do_rd)
 	if (has_rkey) {
 		for (i = 0; i < MAX(96, ksz); ++i)
 			w32_buf[i % 96] ^= w32_rng[i % ksz]
-			    ^ (i < 96 ? arc4_getbyte(&rs) : 0);
+			    ^ (i < 96 ? arc4_getbyte() : 0);
 		for (i = 97; i < sizeof (w32_buf) - len; ++i)
 			w32_buf[i % 96] ^= w32_buf[i];
 		for (i = 0; i < MAX(96, len); ++i)
@@ -350,7 +349,7 @@ arc4_writeback(uint8_t *buf, size_t len, char do_rd)
 		    w32_buf, 80) != ERROR_SUCCESS && !do_rd)
 			rv = 0;
 		RegCloseKey(hKey);
-		arc4_addrandom(&rs, w32_buf + 80, 16);
+		arc4_addrandom(w32_buf + 80, 16);
 		memset(w32_rng, '\0', sizeof (w32_rng));
 	}
 	if (rv)
@@ -392,7 +391,7 @@ arc4random_pushb(const void *src, size_t len)
 	uint32_t res = 1;
 
 	if (!rs_initialized) {
-		arc4_init(&rs);
+		arc4_init();
 		rs_initialized = 1;
 	}
 
@@ -403,13 +402,13 @@ arc4random_pushb(const void *src, size_t len)
 
 	if (arc4_writeback(&idat.buf[0], rlen, 1))
 		res = 0;
-	arc4_addrandom(&rs, &idat.buf[0], rlen);
+	arc4_addrandom(&idat.buf[0], rlen);
 	if (res)
 		res = idat.xbuf;
 	else
 		/* we got entropy from the kernel, so consider us stirred */
-		stir_finish(&rs, idat.buf[5]);
-	return (res ^ arc4_getword(&rs));
+		stir_finish(idat.buf[5]);
+	return (res ^ arc4_getword());
 }
 #endif
 
@@ -424,7 +423,7 @@ arc4_atexit(void)
 	int i = 0;
 
 	while (i < 240)
-		buf.carr[i++] = arc4_getbyte(&rs);
+		buf.carr[i++] = arc4_getbyte();
 	buf.spid = arc4_stir_pid;
 	buf.cnt = arc4_count;
 
