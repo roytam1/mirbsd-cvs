@@ -1,4 +1,4 @@
-# $MirOS: CVSROOT/config,v 1.5 2007/06/06 13:52:49 tg Exp $
+# $MirOS: CVSROOT/config,v 1.6 2008/10/26 21:02:40 tg Exp $
 #-
 
 # Set 'SystemAuth' to 'no' if pserver shouldn't check system users/passwords.
@@ -45,7 +45,7 @@ RereadLogAfterVerify=never
 # The following string would enable all 'cvs admin' commands for all
 # users:
 #UserAdminOptions=aAbceIklLmnNostuU
-UserAdminOptions=k
+UserAdminOptions=ks
 
 # Set 'UseNewInfoFmtStrings' to 'no' if you must support a legacy system by
 # enabling the deprecated old style info file command line format strings.
