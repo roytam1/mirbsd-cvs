@@ -1,5 +1,5 @@
 static const char __vcsid[] = "@(#) MirOS contributed arc4random.c (old)"
-    "\n	@(#)rcsid_master: $MirOS: contrib/code/Snippets/arc4random.c,v 1.14 2009/05/27 09:52:42 tg Stab $"
+    "\n	@(#)rcsid_master: $MirOS: contrib/code/Snippets/arc4random.c,v 1.15 2009/08/02 11:24:40 tg Exp $"
     ;
 
 /*-
@@ -82,7 +82,10 @@ static const char __vcsid[] = "@(#) MirOS contributed arc4random.c (old)"
 #include <wincrypt.h>
 
 static uint8_t w32_buf[16*16384];	/* force reseed */
-static uint8_t w32_rng[128];		/* registry key */
+static uint8_t w32_hklm[80];		/* registry key (MS, Admin) */
+static uint8_t w32_hkcu[256];		/* registry key (per user) */
+
+static char w32_subkey[] = "SOFTWARE\\Microsoft\\Cryptography\\RNG";
 #endif
 
 #ifndef MIN
@@ -160,16 +163,16 @@ arc4_stir(void)
 	struct {
 		struct timeval tv;
 		pid_t pid;
-		u_int rnd[(128 - (sizeof (struct timeval) + sizeof (pid_t))) / sizeof(u_int)];
+		u_int rnd[(128 - (sizeof(struct timeval) + sizeof(pid_t))) / sizeof(u_int)];
 	} rdat;
 	size_t sz = 0;
 
 	gettimeofday(&rdat.tv, NULL);
 	rdat.pid = getpid();
-	memcpy(rdat.rnd, __vcsid, MIN(sizeof (__vcsid), sizeof (rdat.rnd)));
+	memcpy(rdat.rnd, __vcsid, MIN(sizeof(__vcsid), sizeof(rdat.rnd)));
 
 #ifdef USE_MS_CRYPTOAPI
-	if (arc4_writeback((char *)rdat.rnd, sizeof (rdat.rnd), 1))
+	if (arc4_writeback((char *)rdat.rnd, sizeof(rdat.rnd), 1))
 		goto stir_okay;
 #endif
 
@@ -177,17 +180,17 @@ arc4_stir(void)
 	/* Try to use /dev/urandom before sysctl. */
 	fd = open(__randomdev, O_RDONLY);
 	if (fd != -1) {
-		sz = (size_t)read(fd, rdat.rnd, sizeof (rdat.rnd));
+		sz = (size_t)read(fd, rdat.rnd, sizeof(rdat.rnd));
 		close(fd);
 	}
-	if (sz > sizeof (rdat.rnd))
+	if (sz > sizeof(rdat.rnd))
 		sz = 0;
-	if (fd == -1 || sz != sizeof (rdat.rnd)) {
+	if (fd == -1 || sz != sizeof(rdat.rnd)) {
 		/* /dev/urandom failed? Maybe we're in a chroot. */
 #if /* Linux */ defined(_LINUX_SYSCTL_H) || \
     /* OpenBSD */ (defined(CTL_KERN) && defined(KERN_ARND))
 		int mib[3], nmib = 3;
-		size_t i = sz / sizeof (u_int), len;
+		size_t i = sz / sizeof(u_int), len;
 
 #ifdef _LINUX_SYSCTL_H
 		mib[0] = CTL_KERN;
@@ -199,7 +202,7 @@ arc4_stir(void)
 		nmib = 2;
 #endif
 
-		while (i < sizeof (rdat.rnd) / sizeof (u_int)) {
+		while (i < sizeof(rdat.rnd) / sizeof(u_int)) {
 			len = sizeof(u_int);
 			if (sysctl(mib, nmib, &rdat.rnd[i++], &len,
 			    NULL, 0) == -1) {
@@ -248,9 +251,9 @@ stir_finish(int av)
 	}
 	while (n--)
 		arc4_getbyte();
-	while (n < sizeof (tb))
+	while (n < sizeof(tb))
 		tb[n++] = arc4_getbyte();
-	if (arc4_writeback(tb, sizeof (tb), 0))
+	if (arc4_writeback(tb, sizeof(tb), 0))
 		arc4_getbyte();
 	arc4_count = 400000;
 }
@@ -307,22 +310,56 @@ arc4random(void)
 	return arc4_getword();
 }
 
+/*
+ * Returns 0 if write error; 0 if do_rd and read error;
+ * 1 if !do_rd and read error but not write error;
+ * 1 if no error occured.
+ */
 static char
 arc4_writeback(uint8_t *buf, size_t len, char do_rd)
 {
 #ifdef USE_MS_CRYPTOAPI
 	static char has_provider = 0;
 	static HCRYPTPROV p;
-	HKEY hKey;
-	DWORD ksz = sizeof (w32_rng);
-	size_t i, rv = 1, has_rkey = 0;
+	HKEY hKeyLM, hKeyCU;
+	DWORD ksz;
+	char rc = 6, has_rkey = 0, w32_a4b[16];
+	size_t i, j, xlen;
 
-	if (RegOpenKeyEx(HKEY_LOCAL_MACHINE,
-	    "SOFTWARE\\Microsoft\\Cryptography\\RNG", 0,
-	    KEY_QUERY_VALUE | KEY_SET_VALUE, &hKey) == ERROR_SUCCESS &&
-	    RegQueryValueEx(hKey, "Seed", NULL, NULL, w32_rng, &ksz)
-	    == ERROR_SUCCESS)
-		has_rkey = 1;
+	for (i = 0; i < sizeof(w32_a4b); ++i)
+		w32_a4b[i] = arc4_getbyte();
+	for (i = arc4_getbyte() & 15; i; --i)
+		arc4_getbyte();
+
+	ksz = sizeof(w32_buf);
+	if ((/* read-write */ RegOpenKeyEx(HKEY_LOCAL_MACHINE, w32_subkey,
+	    0, KEY_QUERY_VALUE | KEY_SET_VALUE, &hKeyLM) == ERROR_SUCCESS ||
+	    /* try read-only */ RegOpenKeyEx(HKEY_LOCAL_MACHINE, w32_subkey,
+	    0, KEY_QUERY_VALUE, &hKeyLM) == ERROR_SUCCESS) && /* get value */
+	    (RegQueryValueEx(hKeyLM, "Seed", NULL, NULL, w32_buf, &ksz) ==
+	    ERROR_SUCCESS) && /* got any content? */ ksz) {
+		/* we got HKLM key, read-write or read-only */
+		has_rkey |= 1;
+		/* move content to destination */
+		memset(w32_hklm, '\0', sizeof(w32_hklm));
+		for (i = 0; i < MAX(ksz, sizeof(w32_hklm)); ++i)
+			w32_hklm[i % sizeof(w32_hklm)] ^= w32_buf[i % ksz];
+	}
+	ksz = sizeof(w32_buf);
+	if ((/* read-write */ RegCreateKeyEx(HKEY_CURRENT_USER, w32_subkey,
+	    0, NULL, 0, KEY_QUERY_VALUE | KEY_SET_VALUE, NULL, &hKeyCU,
+	    NULL) == ERROR_SUCCESS || /* R/O */ RegOpenKeyEx(HKEY_CURRENT_USER,
+	    w32_subkey, 0, KEY_QUERY_VALUE, &hKeyLM) == ERROR_SUCCESS) &&
+	    /* get value */ (RegQueryValueEx(hKeyLM, "Seed", NULL, NULL,
+	    w32_buf, &ksz) == ERROR_SUCCESS) && /* got any content? */ ksz) {
+		/* we got HKCU key, created, read-write or read-only */
+		has_rkey |= 2;
+		/* move content to destination */
+		memset(w32_hkcu, '\0', sizeof(w32_hkcu));
+		for (i = 0; i < MAX(ksz, sizeof(w32_hkcu)); ++i)
+			w32_hkcu[i % sizeof(w32_hkcu)] ^= w32_buf[i % ksz];
+	}
+
 	if (!has_provider) {
 		if (!CryptAcquireContext(&p, NULL, NULL, PROV_RSA_FULL, 0)) {
 			if ((HRESULT)GetLastError() != NTE_BAD_KEYSET)
@@ -333,37 +370,63 @@ arc4_writeback(uint8_t *buf, size_t len, char do_rd)
 		}
 		has_provider = 1;
 	}
-	if (!CryptGenRandom(p, sizeof (w32_buf), w32_buf)) {
+	i = 0;
+	while (i < 256)
+		w32_buf[i++] = arc4_getbyte();
+	if (!CryptGenRandom(p, sizeof(w32_buf), w32_buf)) {
  nogen_out:
-		rv = 0;
+		rc |= 1;
+		memset(w32_buf, '\0', 256);
 	}
-	if (has_rkey) {
-		for (i = 0; i < MAX(96, ksz); ++i)
-			w32_buf[i % 96] ^= w32_rng[i % ksz]
-			    ^ (i < 96 ? arc4_getbyte() : 0);
-		for (i = 97; i < sizeof (w32_buf) - len; ++i)
-			w32_buf[i % 96] ^= w32_buf[i];
-		for (i = 0; i < MAX(96, len); ++i)
-			w32_buf[i % 96] ^= buf[i % len];
-		if (rv && RegSetValueEx(hKey, "Seed", 0, REG_BINARY,
-		    w32_buf, 80) != ERROR_SUCCESS && !do_rd)
-			rv = 0;
-		RegCloseKey(hKey);
-		arc4_addrandom(w32_buf + 80, 16);
-		memset(w32_rng, '\0', sizeof (w32_rng));
+	xlen = MIN(sizeof(w32_buf) - sizeof(w32_hklm) - sizeof(w32_hkcu) -
+	    sizeof(w32_a4b), len);
+	j = xlen + sizeof(w32_buf) + sizeof(w32_hklm) + sizeof(w32_hkcu) +
+	    sizeof(w32_a4b);
+	for (i = 0; i < MAX(j, len); ++i)
+		w32_buf[i % j] ^= w32_hklm[i % sizeof(w32_hklm)] ^
+		    w32_hkcu[i % sizeof(w32_hkcu)] ^ buf[i % len] ^
+		    arc4_getbyte();
+	if (has_rkey & 1) {
+		if (RegSetValueEx(hKeyLM, "Seed", 0, REG_BINARY,
+		    w32_buf, sizeof(w32_hklm)) == ERROR_SUCCESS)
+			rc &= ~2;
+		RegCloseKey(hKeyLM);
 	}
-	if (rv)
-		memcpy(buf, w32_buf + sizeof (w32_buf) - len, len);
-	else if (has_rkey)
-		for (i = 0; i < MAX(80, len); ++i)
-			buf[i % len] ^= w32_buf[i % 80];
-	memset(w32_buf, '\0', sizeof (w32_buf));
-	return (rv);
+	if (has_rkey & 2) {
+		if (RegSetValueEx(hKeyCU, "Seed", 0, REG_BINARY,
+		    w32_buf + sizeof(w32_hklm), sizeof(w32_hkcu)) ==
+		    ERROR_SUCCESS)
+			rc &= ~4;
+		RegCloseKey(hKeyCU);
+	}
+	for (i = 0; i < sizeof(w32_a4b); ++i)
+		w32_a4b[i] ^= w32_buf[sizeof(w32_hklm) + sizeof(w32_hkcu) + i];
+	arc4_addrandom(w32_a4b, sizeof(w32_a4b));
+
+	i = sizeof(w32_hklm) + sizeof(w32_hkcu) + sizeof(w32_a4b);
+	while (len) {
+		memcpy(buf, w32_buf + i, xlen);
+		buf += xlen;
+		i += xlen;
+		len -= xlen;
+	}
+
+	memset(w32_buf, '\0', sizeof(w32_buf));
+
+	return (
+	    /* read error occured */
+	    (!has_rkey && (rc & 1)) ? 0 :
+	    /* don't care about write errors */
+	    !do_rd ? 1 :
+	    /* couldn't write */
+	    (rc & 6) == 6 ? 0 :
+	    /* at least one RegSetValueEx succeeded */
+	    1);
 #elif defined(arc4random_pushk)
 	uint32_t num;
 
 	num = arc4random_pushk(buf, len);
-	memcpy(buf, &num, sizeof (num));
+	memcpy(buf, &num, sizeof(num));
 	return (do_rd ? 0 : 1);
 #else
 	int fd;
@@ -397,8 +460,8 @@ arc4random_pushb(const void *src, size_t len)
 
 	gettimeofday(&idat.tv, NULL);
 	for (rlen = 0; rlen < len; ++rlen)
-		idat.buf[rlen % sizeof (idat)] ^= cbuf[rlen];
-	rlen = MIN(sizeof (idat), MAX(sizeof (struct timeval), len));
+		idat.buf[rlen % sizeof(idat)] ^= cbuf[rlen];
+	rlen = MIN(sizeof(idat), MAX(sizeof(struct timeval), len));
 
 	if (arc4_writeback(&idat.buf[0], rlen, 1))
 		res = 0;
@@ -427,5 +490,5 @@ arc4_atexit(void)
 	buf.spid = arc4_stir_pid;
 	buf.cnt = arc4_count;
 
-	arc4_writeback((uint8_t *)&buf, sizeof (buf), 0);
+	arc4_writeback((uint8_t *)&buf, sizeof(buf), 0);
 }
