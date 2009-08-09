@@ -1,4 +1,4 @@
-/*	$OpenBSD: ext2fs_alloc.c,v 1.18 2005/05/02 13:13:21 pedro Exp $	*/
+/*	$OpenBSD: ext2fs_alloc.c,v 1.21 2007/03/14 13:56:42 pedro Exp $	*/
 /*	$NetBSD: ext2fs_alloc.c,v 1.10 2001/07/05 08:38:27 toshii Exp $	*/
 
 /*
@@ -45,7 +45,6 @@
 
 #include <ufs/ufs/quota.h>
 #include <ufs/ufs/inode.h>
-#include <ufs/ufs/extattr.h>
 #include <ufs/ufs/ufsmount.h>
 #include <ufs/ufs/ufs_extern.h>
 
@@ -171,13 +170,13 @@ ext2fs_inode_alloc(struct inode *pip, mode_t mode, struct ucred *cred,
 		panic("ext2fs_valloc: dup alloc");
 	}
 
-	bzero(&(ip->i_e2din), sizeof(struct ext2fs_dinode));
+	bzero(ip->i_e2din, sizeof(struct ext2fs_dinode));
 
 	/*
 	 * Set up a new generation number for this inode.
 	 */
-	if (++ext2gennumber < (u_long)time.tv_sec)
-		ext2gennumber = time.tv_sec;
+	if (++ext2gennumber < (u_long)time_second)
+		ext2gennumber = time_second;
 	ip->i_e2fs_gen = ext2gennumber;
 	return (0);
 noinodes:
@@ -342,7 +341,7 @@ ext2fs_alloccg(ip, cg, bpref, size)
 	error = bread(ip->i_devvp, fsbtodb(fs,
 		fs->e2fs_gd[cg].ext2bgd_b_bitmap),
 		(int)fs->e2fs_bsize, NOCRED, &bp);
-	if (error) {
+	if (error || fs->e2fs_gd[cg].ext2bgd_nbfree == 0) {
 		brelse(bp);
 		return (0);
 	}

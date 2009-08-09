@@ -1,4 +1,4 @@
-/*	$OpenBSD: ext2fs_vfsops.c,v 1.38 2005/07/28 23:11:25 pedro Exp $	*/
+/*	$OpenBSD: ext2fs_vfsops.c,v 1.40 2005/11/06 00:24:17 pedro Exp $	*/
 /*	$NetBSD: ext2fs_vfsops.c,v 1.1 1997/06/11 09:34:07 bouyer Exp $	*/
 
 /*
@@ -308,7 +308,7 @@ ext2fs_mount(mp, path, data, ndp, p)
 	if (fs->e2fs_fmod != 0) {	/* XXX */
 		fs->e2fs_fmod = 0;
 		if (fs->e2fs.e2fs_state == 0)
-			fs->e2fs.e2fs_wtime = time.tv_sec;
+			fs->e2fs.e2fs_wtime = time_second;
 		else
 			printf("%s: file system not clean; please fsck(8)\n",
 				mp->mnt_stat.f_mntfromname);
@@ -362,7 +362,7 @@ ext2fs_reload_vnode(struct vnode *vp, void *args) {
 		return (error);
 	}
 	cp = (caddr_t)bp->b_data +
-	    (ino_to_fsbo(era->fs, ip->i_number) * EXT2_DINODE_SIZE);
+	    (ino_to_fsbo(era->fs, ip->i_number) * EXT2_DINODE_SIZE(era->fs));
 	e2fs_iload((struct ext2fs_dinode *)cp, &ip->i_e2din);
 	brelse(bp);
 	vput(vp);
@@ -440,7 +440,7 @@ ext2fs_reload(mountp, cred, p)
 	fs->e2fs_bmask = ~fs->e2fs_qbmask;
 	fs->e2fs_ngdb = howmany(fs->e2fs_ncg,
 			fs->e2fs_bsize / sizeof(struct ext2_gd));
-	fs->e2fs_ipb = fs->e2fs_bsize / EXT2_DINODE_SIZE;
+	fs->e2fs_ipb = fs->e2fs_bsize / EXT2_DINODE_SIZE(fs);
 	fs->e2fs_itpg = fs->e2fs.e2fs_ipg/fs->e2fs_ipb;
 
 	/*
@@ -517,8 +517,7 @@ ext2fs_mountfs(devvp, mp, p)
 	ump = NULL;
 
 #ifdef DEBUG_EXT2
-	printf("sb size: %d ino size %d\n", sizeof(struct ext2fs),
-	    EXT2_DINODE_SIZE);
+	printf("ext2 sb size: %d\n", sizeof(struct ext2fs));
 #endif
 	error = bread(devvp, (SBOFF / DEV_BSIZE), SBSIZE, cred, &bp);
 	if (error)
@@ -537,6 +536,10 @@ ext2fs_mountfs(devvp, mp, p)
 	m_fs = ump->um_e2fs;
 	m_fs->e2fs_ronly = ronly;
 	ump->um_fstype = UM_EXT2FS;
+	       
+#ifdef DEBUG_EXT2
+	printf("ext2 ino size %d\n", EXT2_DINODE_SIZE(m_fs));
+#endif
 	if (ronly == 0) {
 		if (m_fs->e2fs.e2fs_state == E2FS_ISCLEAN)
 			m_fs->e2fs.e2fs_state = 0;
@@ -557,7 +560,7 @@ ext2fs_mountfs(devvp, mp, p)
 	m_fs->e2fs_bmask = ~m_fs->e2fs_qbmask;
 	m_fs->e2fs_ngdb = howmany(m_fs->e2fs_ncg,
 		m_fs->e2fs_bsize / sizeof(struct ext2_gd));
-	m_fs->e2fs_ipb = m_fs->e2fs_bsize / EXT2_DINODE_SIZE;
+	m_fs->e2fs_ipb = m_fs->e2fs_bsize / EXT2_DINODE_SIZE(m_fs);
 	m_fs->e2fs_itpg = m_fs->e2fs.e2fs_ipg/m_fs->e2fs_ipb;
 
 	m_fs->e2fs_gd = malloc(m_fs->e2fs_ngdb * m_fs->e2fs_bsize,
@@ -764,7 +767,7 @@ ext2fs_sync_vnode(struct vnode *vp, void *args)
  * go through the inodes to write those that have been modified;
  * initiate the writing of the super block if it has been modified.
  *
- * Note: we are always called with the filesystem marked `MPBUSY'.
+ * Should always be called with the mount point locked.
  */
 int
 ext2fs_sync(mp, waitfor, cred, p)
@@ -810,7 +813,7 @@ ext2fs_sync(mp, waitfor, cred, p)
 	 */
 	if (fs->e2fs_fmod != 0) {
 		fs->e2fs_fmod = 0;
-		fs->e2fs.e2fs_wtime = time.tv_sec;
+		fs->e2fs.e2fs_wtime = time_second;
 		if ((error = ext2fs_cgupdate(ump, waitfor)))
 			allerror = error;
 	}
@@ -893,10 +896,10 @@ ext2fs_vget(mp, ino, vpp)
 		*vpp = NULL;
 		return (error);
 	}
-	bcopy(((struct ext2fs_dinode*)bp->b_data + ino_to_fsbo(fs, ino)),
-				&ip->i_e2din, sizeof(struct ext2fs_dinode));
+	bcopy(((struct ext2fs_dinode *)((char *)bp->b_data +
+	    EXT2_DINODE_SIZE(fs) * ino_to_fsbo(fs, ino))),
+	    &ip->i_e2din, sizeof(struct ext2fs_dinode));
 	ip->i_effnlink = ip->i_e2fs_nlink;
-	brelse(bp);
 
 	/*
 	 * The fields for storing the UID and GID of an ext2fs inode are
@@ -908,6 +911,8 @@ ext2fs_vget(mp, ino, vpp)
 	 */
 	ip->i_e2fs_uid = ip->i_e2fs_uid_low | (ip->i_e2fs_uid_high << 16);
 	ip->i_e2fs_gid = ip->i_e2fs_gid_low | (ip->i_e2fs_gid_high << 16);
+
+	brelse(bp);
 
 	/* If the inode was deleted, reset all fields */
 	if (ip->i_e2fs_dtime != 0) {
@@ -934,8 +939,8 @@ ext2fs_vget(mp, ino, vpp)
 	 * already have one. This should only happen on old filesystems.
 	 */
 	if (ip->i_e2fs_gen == 0) {
-		if (++ext2gennumber < (u_long)time.tv_sec)
-			ext2gennumber = time.tv_sec;
+		if (++ext2gennumber < (u_long)time_second)
+			ext2gennumber = time_second;
 		ip->i_e2fs_gen = ext2gennumber;
 		if ((vp->v_mount->mnt_flag & MNT_RDONLY) == 0)
 			ip->i_flag |= IN_MODIFIED;
@@ -1038,7 +1043,7 @@ ext2fs_sbupdate(mp, waitfor)
 	int error = 0;
 
 	bp = getblk(mp->um_devvp, SBLOCK, SBSIZE, 0, 0);
-	bcopy((caddr_t)(&fs->e2fs), bp->b_data, SBSIZE);
+	e2fs_sbsave(&fs->e2fs, (struct ext2fs *) bp->b_data);
 	if (waitfor == MNT_WAIT)
 		error = bwrite(bp);
 	else
@@ -1094,9 +1099,8 @@ ext2fs_checksb(fs, ronly)
 		return (EIO);	   /* XXX needs translation */
 	}
 	if (fs2h32(fs->e2fs_rev) > E2FS_REV0) {
-		if (fs2h32(fs->e2fs_first_ino) != EXT2_FIRSTINO ||
-		    fs2h16(fs->e2fs_inode_size) != EXT2_DINODE_SIZE) {
-			printf("Ext2 fs: unsupported inode size\n");
+		if (fs2h32(fs->e2fs_first_ino) != EXT2_FIRSTINO) {
+			printf("Ext2 fs: unsupported first inode position");
 			return (EINVAL);      /* XXX needs translation */
 		}
 		if (fs2h32(fs->e2fs_features_incompat) &

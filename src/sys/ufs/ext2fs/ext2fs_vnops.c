@@ -1,4 +1,4 @@
-/*	$OpenBSD: ext2fs_vnops.c,v 1.38 2005/04/30 13:58:55 niallo Exp $	*/
+/*	$OpenBSD: ext2fs_vnops.c,v 1.41 2005/08/14 12:41:44 pedro Exp $	*/
 /*	$NetBSD: ext2fs_vnops.c,v 1.1 1997/06/11 09:34:09 bouyer Exp $	*/
 
 /*
@@ -61,7 +61,6 @@
 #include <miscfs/fifofs/fifo.h>
 #include <miscfs/specfs/specdev.h>
 
-#include <ufs/ufs/extattr.h>
 #include <ufs/ufs/quota.h>
 #include <ufs/ufs/inode.h>
 #include <ufs/ufs/ufs_extern.h>
@@ -216,8 +215,10 @@ ext2fs_getattr(v)
 	register struct vnode *vp = ap->a_vp;
 	register struct inode *ip = VTOI(vp);
 	register struct vattr *vap = ap->a_vap;
+	struct timeval tv;
 
-	EXT2FS_ITIMES(ip, &time, &time);
+	getmicrotime(&tv);
+	EXT2FS_ITIMES(ip, &tv, &tv);
 	/*
 	 * Copy from inode table
 	 */
@@ -1193,8 +1194,7 @@ ext2fs_symlink(v)
 		    UIO_SYSSPACE, IO_NODELOCKED, ap->a_cnp->cn_cred, NULL,
 		    (struct proc *)0);
 bad:	
-	if (error)
-		vput(vp);
+	vput(vp);
 	return (error);
 }
 
@@ -1347,23 +1347,25 @@ ext2fs_reclaim(v)
 	struct inode *ip;
 	extern int prtactive;
 
-    if (prtactive && vp->v_usecount != 0) 
-        vprint("ext2fs_reclaim: pushing active", vp);
-    /*
-     * Remove the inode from its hash chain.
-     */
-    ip = VTOI(vp);
-    ufs_ihashrem(ip);
-    /*
-     * Purge old data structures associated with the inode.
-     */
-    cache_purge(vp);
-    if (ip->i_devvp) {
-        vrele(ip->i_devvp);
-    }
+	if (prtactive && vp->v_usecount != 0) 
+		vprint("ext2fs_reclaim: pushing active", vp);
+
+	/*
+	 * Remove the inode from its hash chain.
+	 */
+	ip = VTOI(vp);
+	ufs_ihashrem(ip);
+
+	/*
+	 * Purge old data structures associated with the inode.
+	 */
+	cache_purge(vp);
+	if (ip->i_devvp)
+		vrele(ip->i_devvp);
 
 	FREE(vp->v_data, M_EXT2FSNODE);
 	vp->v_data = NULL;
+
 	return (0);
 }
 
