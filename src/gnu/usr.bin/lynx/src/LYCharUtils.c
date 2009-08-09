@@ -1,5 +1,5 @@
 /*
- * $LynxId: LYCharUtils.c,v 1.93 2008/12/29 21:22:28 tom Exp $
+ * $LynxId: LYCharUtils.c,v 1.102 2009/06/23 19:44:06 tom Exp $
  *
  *  Functions associated with LYCharSets.c and the Lynx version of HTML.c - FM
  *  ==========================================================================
@@ -113,7 +113,10 @@ void LYEntify(char **str,
      * Allocate space and convert.  - FM
      */
     q = typecallocn(char,
-		    (strlen(*str) + (4 * amps) + (3 * lts) + (3 * gts) + 1));
+		    (strlen(*str)
+		     + (unsigned)(4 * amps)
+		     + (unsigned)(3 * lts)
+		     + (unsigned)(3 * gts) + 1));
     if ((cp = q) == NULL)
 	outofmem(__FILE__, "LYEntify");
     for (p = *str; *p; p++) {
@@ -226,6 +229,62 @@ void LYEntify(char **str,
 }
 
 /*
+ * Callers to LYEntifyTitle/LYEntifyValue do not look at the 'target' param.
+ * Optimize things a little by avoiding the memory allocation if not needed,
+ * as is usually the case.
+ */
+static BOOL MustEntify(const char *source)
+{
+    BOOL result;
+
+#ifdef CJK_EX
+    if (IS_CJK_TTY && strchr(source, '\033') != 0) {
+	result = TRUE;
+    } else
+#endif
+    {
+	size_t length = strlen(source);
+	size_t reject = strcspn(source, "<&>");
+
+	result = (BOOL) (length != reject);
+    }
+
+    return result;
+}
+
+/*
+ * Wrappers for LYEntify() which do not assume that the source was allocated,
+ * e.g., output from gettext().
+ */
+const char *LYEntifyTitle(char **target, const char *source)
+{
+    const char *result = 0;
+
+    if (MustEntify(source)) {
+	StrAllocCopy(*target, source);
+	LYEntify(target, TRUE);
+	result = *target;
+    } else {
+	result = source;
+    }
+    return result;
+}
+
+const char *LYEntifyValue(char **target, const char *source)
+{
+    const char *result = 0;
+
+    if (MustEntify(source)) {
+	StrAllocCopy(*target, source);
+	LYEntify(target, FALSE);
+	result = *target;
+    } else {
+	result = source;
+    }
+    return result;
+}
+
+/*
  *  This function trims characters <= that of a space (32),
  *  including HT_NON_BREAK_SPACE (1) and HT_EN_SPACE (2),
  *  but not ESC, from the heads of strings. - FM
@@ -261,7 +320,7 @@ void LYTrimTail(char *str)
     if (isEmpty(str))
 	return;
 
-    i = strlen(str) - 1;
+    i = (int) strlen(str) - 1;
     while (i >= 0) {
 	if (WHITE(str[i]))
 	    str[i] = '\0';
@@ -1532,139 +1591,7 @@ char **LYUCFullyTranslateString(char **str,
 		state = S_recover;
 		break;
 	    } else {
-		code = lcode;
-		if ((code == 1) ||
-		    (code > 127 && code < 156)) {
-		    /*
-		     * Assume these are Microsoft code points, inflicted on
-		     * us by FrontPage.  - FM
-		     *
-		     * MS FrontPage uses syntax like &#153; in 128-159
-		     * range and doesn't follow Unicode standards for this
-		     * area.  Windows-1252 codepoints are assumed here.
-		     */
-		    switch (code) {
-		    case 1:
-			/*
-			 * WHITE SMILING FACE
-			 */
-			code = 0x263a;
-			break;
-		    case 128:
-			/*
-			 * EURO currency sign
-			 */
-			code = 0x20ac;
-			break;
-		    case 130:
-			/*
-			 * SINGLE LOW-9 QUOTATION MARK (sbquo)
-			 */
-			code = 0x201a;
-			break;
-		    case 132:
-			/*
-			 * DOUBLE LOW-9 QUOTATION MARK (bdquo)
-			 */
-			code = 0x201e;
-			break;
-		    case 133:
-			/*
-			 * HORIZONTAL ELLIPSIS (hellip)
-			 */
-			code = 0x2026;
-			break;
-		    case 134:
-			/*
-			 * DAGGER (dagger)
-			 */
-			code = 0x2020;
-			break;
-		    case 135:
-			/*
-			 * DOUBLE DAGGER (Dagger)
-			 */
-			code = 0x2021;
-			break;
-		    case 137:
-			/*
-			 * PER MILLE SIGN (permil)
-			 */
-			code = 0x2030;
-			break;
-		    case 139:
-			/*
-			 * SINGLE LEFT-POINTING ANGLE QUOTATION MARK (lsaquo)
-			 */
-			code = 0x2039;
-			break;
-		    case 145:
-			/*
-			 * LEFT SINGLE QUOTATION MARK (lsquo)
-			 */
-			code = 0x2018;
-			break;
-		    case 146:
-			/*
-			 * RIGHT SINGLE QUOTATION MARK (rsquo)
-			 */
-			code = 0x2019;
-			break;
-		    case 147:
-			/*
-			 * LEFT DOUBLE QUOTATION MARK (ldquo)
-			 */
-			code = 0x201c;
-			break;
-		    case 148:
-			/*
-			 * RIGHT DOUBLE QUOTATION MARK (rdquo)
-			 */
-			code = 0x201d;
-			break;
-		    case 149:
-			/*
-			 * BULLET (bull)
-			 */
-			code = 0x2022;
-			break;
-		    case 150:
-			/*
-			 * EN DASH (ndash)
-			 */
-			code = 0x2013;
-			break;
-		    case 151:
-			/*
-			 * EM DASH (mdash)
-			 */
-			code = 0x2014;
-			break;
-		    case 152:
-			/*
-			 * SMALL TILDE (tilde)
-			 */
-			code = 0x02dc;
-			break;
-		    case 153:
-			/*
-			 * TRADE MARK SIGN (trade)
-			 */
-			code = 0x2122;
-			break;
-		    case 155:
-			/*
-			 * SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (rsaquo)
-			 */
-			code = 0x203a;
-			break;
-		    default:
-			/*
-			 * Do not attempt a conversion to valid Unicode values.
-			 */
-			break;
-		    }
-		}
+		code = LYcp1252ToUnicode(lcode);
 		state = S_check_uni;
 	    }
 	    break;
@@ -2074,7 +2001,7 @@ char *LYParseTagParam(char *from,
 	}
 	if (strlen(string) < len)
 	    return NULL;
-    } while (strncasecomp(string, name, len) != 0);
+    } while (strncasecomp(string, name, (int) len) != 0);
     string += len;
     while (*string != '\0' && (isspace(UCH(*string)) || *string == '=')) {
 	string++;
@@ -2186,9 +2113,9 @@ void LYHandleMETA(HTStructured * me, const BOOL *present,
     }
     CTRACE((tfp,
 	    "LYHandleMETA: HTTP-EQUIV=\"%s\" NAME=\"%s\" CONTENT=\"%s\"\n",
-	    (http_equiv ? http_equiv : "NULL"),
-	    (name ? name : "NULL"),
-	    (content ? content : "NULL")));
+	    NONNULL(http_equiv),
+	    NONNULL(name),
+	    NONNULL(content)));
 
     /*
      * Make sure we have META name/value pairs to handle.  - FM
@@ -2807,31 +2734,12 @@ void LYHandleSELECT(HTStructured * me, const BOOL *present,
 	me->select_disabled = FALSE;
 
 	/*
-	 * Make sure we're in a form.
-	 */
-	if (!me->inFORM) {
-	    if (LYBadHTML(me))
-		CTRACE((tfp,
-			"Bad HTML: SELECT start tag not within FORM tag\n"));
-
-	    /*
-	     * We should have covered all crash possibilities with the current
-	     * TagSoup parser, so we'll allow it because some people with other
-	     * browsers use SELECT for "information" popups, outside of FORM
-	     * blocks, though no Lynx user would do anything that awful, right? 
-	     * - FM
-	     */
-	       /***
-	    return;
-		***/
-	}
-
-	/*
 	 * Check for unclosed TEXTAREA.
 	 */
 	if (me->inTEXTAREA) {
-	    if (LYBadHTML(me))
-		CTRACE((tfp, "Bad HTML: Missing TEXTAREA end tag\n"));
+	    if (LYBadHTML(me)) {
+		LYShowBadHTML("Bad HTML: Missing TEXTAREA end tag\n");
+	    }
 	}
 
 	/*
@@ -2905,8 +2813,9 @@ void LYHandleSELECT(HTStructured * me, const BOOL *present,
 	 * Make sure we had a select start tag.
 	 */
 	if (!me->inSELECT) {
-	    if (LYBadHTML(me))
-		CTRACE((tfp, "Bad HTML: Unmatched SELECT end tag\n"));
+	    if (LYBadHTML(me)) {
+		LYShowBadHTML("Bad HTML: Unmatched SELECT end tag\n");
+	    }
 	    return;
 	}
 

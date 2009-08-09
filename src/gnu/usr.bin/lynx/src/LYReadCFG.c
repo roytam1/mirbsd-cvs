@@ -1,5 +1,5 @@
 /*
- * $LynxId: LYReadCFG.c,v 1.133 2008/12/26 18:26:52 tom Exp $
+ * $LynxId: LYReadCFG.c,v 1.139 2009/06/07 16:57:29 tom Exp $
  */
 #ifndef NO_RULES
 #include <HTRules.h>
@@ -191,7 +191,7 @@ static void add_item_to_list(char *buffer,
 	/*
 	 * Process name field
 	 */
-	cur_item->name = typecallocn(char, colon - buffer + 1);
+	cur_item->name = typecallocn(char, (unsigned) (colon - buffer + 1));
 
 	if (cur_item->name == NULL)
 	    outofmem(__FILE__, "read_cfg");
@@ -208,7 +208,7 @@ static void add_item_to_list(char *buffer,
 	    next_colon = colon + strlen(colon);
 	}
 	if (next_colon - (colon + 1) > 0) {
-	    cur_item->command = typecallocn(char, next_colon - colon);
+	    cur_item->command = typecallocn(char, (unsigned) (next_colon - colon));
 
 	    if (cur_item->command == NULL)
 		outofmem(__FILE__, "read_cfg");
@@ -249,7 +249,7 @@ int match_item_by_name(lynx_list_item_type *ptr, char *name,
 {
     return
 	(ptr->command != 0
-	 && !strncasecomp(ptr->name, name, strlen(ptr->name))
+	 && !strncasecomp(ptr->name, name, (int) strlen(ptr->name))
 	 && (only_overriders ? ptr->override_primary_action : 1));
 }
 
@@ -861,6 +861,14 @@ static int referer_with_query_fun(char *value)
     return 0;
 }
 
+static int status_buffer_size_fun(char *value)
+{
+    status_buf_size = atoi(value);
+    if (status_buf_size < 2)
+	status_buf_size = 2;
+    return 0;
+}
+
 static int suffix_fun(char *value)
 {
     char *mime_type, *p;
@@ -1060,7 +1068,7 @@ static int parse_charset_choice(char *p,
     LYTrimTail(p);
     CTRACE((tfp, "parsing charset choice for %s:\"%s\"",
 	    (display_charset ? "display charset" : "assumed doc charset"), p));
-    len = strlen(p);
+    len = (int) strlen(p);
     if (!len) {
 	CTRACE((tfp, " - EMPTY STRING\n"));
 	return 1;
@@ -1484,6 +1492,7 @@ static Config_Type Config_Table [] =
      PARSE_SET(RC_NO_FROM_HEADER,       LYNoFromHeader),
      PARSE_SET(RC_NO_ISMAP_IF_USEMAP,   LYNoISMAPifUSEMAP),
      PARSE_SET(RC_NO_MARGINS,           no_margins),
+     PARSE_SET(RC_NO_PAUSE,             no_pause),
      PARSE_Env(RC_NO_PROXY,             0),
      PARSE_SET(RC_NO_REFERER_HEADER,    LYNoRefererHeader),
      PARSE_SET(RC_NO_TABLE_CENTER,      no_table_center),
@@ -1555,6 +1564,7 @@ static Config_Type Config_Table [] =
 #endif
      PARSE_STR(RC_SSL_CERT_FILE,        SSL_cert_file),
      PARSE_STR(RC_STARTFILE,            startfile),
+     PARSE_FUN(RC_STATUS_BUFFER_SIZE,   status_buffer_size_fun),
      PARSE_SET(RC_STRIP_DOTDOT_URLS,    LYStripDotDotURLs),
      PARSE_SET(RC_SUBSTITUTE_UNDERSCORES, use_underscore),
      PARSE_FUN(RC_SUFFIX,               suffix_fun),
@@ -1640,11 +1650,11 @@ void free_lynx_cfg(void)
 #ifdef VMS
 		    Define_VMSLogical(name, NULL);
 #else
-# ifdef HAVE_UNSETENV
-		    unsetenv(name);
-# else
+# ifdef HAVE_PUTENV
 		    if (putenv(name))
 			break;
+# else
+		    unsetenv(name);
 # endif
 #endif
 		}
@@ -1748,7 +1758,7 @@ typedef BOOL (optidx_set_t)[NOPTS_];
     {\
 	unsigned i1;\
 	for (i1 = 0; i1 < NOPTS_; ++i1) \
-	    (r)[i1]= (a)[i1] || (b)[i1]; \
+	    (r)[i1]= (BOOLEAN) ((a)[i1] || (b)[i1]); \
     }
 
 /*
@@ -1777,7 +1787,7 @@ void LYSetConfigValue(char *name,
 	if (q->int_value != 0) {
 	    float ival;
 
-	    if (1 == sscanf(value, "%f", &ival)) {
+	    if (1 == LYscanFloat(value, &ival)) {
 		*(q->int_value) = (int) SECS2Secs(ival);
 	    }
 	}

@@ -1,5 +1,5 @@
 /*
- * $LynxId: HTMIME.c,v 1.67 2008/12/14 18:46:52 tom Exp $
+ * $LynxId: HTMIME.c,v 1.70 2009/04/08 19:55:32 tom Exp $
  *
  *			MIME Message Parse			HTMIME.c
  *			==================
@@ -193,7 +193,7 @@ void HTMIME_TrimDoubleQuotes(char *value)
 static BOOL content_is_compressed(HTStream *me)
 {
     char *encoding = me->anchor->content_encoding;
-    BOOL result = (HTEncodingToCompressType(encoding) != cftNone);
+    BOOL result = (BOOL) (HTEncodingToCompressType(encoding) != cftNone);
 
     CTRACE((tfp, "content is%s compressed\n", result ? "" : " NOT"));
     return result;
@@ -791,7 +791,7 @@ static int dispatchField(HTStream *me)
 	me->anchor->content_length = atoi(me->value);
 	if (me->anchor->content_length < 0)
 	    me->anchor->content_length = 0;
-	CTRACE((tfp, "        Converted to integer: '%d'\n",
+	CTRACE((tfp, "        Converted to integer: '%ld'\n",
 		me->anchor->content_length));
 	break;
     case miCONTENT_LOCATION:
@@ -2501,7 +2501,6 @@ int HTrjis(char **t,
  */
 /*
  * RJIS ( Recover JIS code from broken file )
- * $Header$
  * Copyright (C) 1992 1994
  * Hironobu Takahashi (takahasi@tiny.or.jp)
  *

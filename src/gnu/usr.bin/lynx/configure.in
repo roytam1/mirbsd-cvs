@@ -1,4 +1,4 @@
-dnl $LynxId: configure.in,v 1.181 2008/12/31 20:58:39 tom Exp $
+dnl $LynxId: configure.in,v 1.191 2009/04/12 12:45:06 tom Exp $
 dnl
 dnl Process this file with autoconf to produce a configure script.
 dnl
@@ -7,7 +7,7 @@ dnl by T.E.Dickey <dickey@invisible-island.net>
 dnl and Jim Spath <jspath@mail.bcpl.lib.md.us>
 dnl
 dnl ---------------------------------------------------------------------------
-dnl Copyright 1997-2007,2008 by Thomas E. Dickey
+dnl Copyright 1997-2008,2009 by Thomas E. Dickey
 dnl 
 dnl Permission to use, copy, modify, and distribute this software and its
 dnl documentation for any purpose and without fee is hereby granted,
@@ -29,7 +29,7 @@ dnl ---------------------------------------------------------------------------
 dnl
 dnl ask PRCS to plug-in the project-version for the configure-script.
 dnl $Format: "AC_REVISION($ProjectVersion$)"$
-AC_REVISION(2.8.7dev.12)
+AC_REVISION(2.8.7rel.1)
 
 # Save the original $CFLAGS so we can distinguish whether the user set those
 # in the environment, or whether autoconf added -O and -g options:
@@ -62,7 +62,7 @@ AC_ARG_WITH(system-type,
 PACKAGE=lynx
 dnl ask PRCS to plug-in the project-version for the packages.
 # $Format: "VERSION=$ProjectVersion$"$
-VERSION=2.8.7dev.12
+VERSION=2.8.7rel.1
 
 AC_SUBST(PACKAGE)
 AC_SUBST(VERSION)
@@ -93,6 +93,14 @@ esac
 AC_PROG_CC
 AC_PROG_CPP
 AC_PROG_LN_S
+case $host_os in
+mingw*)
+LN_S="cp -p"
+AC_MSG_RESULT(Override: No symbolic links in mingw.)
+	;;
+*)
+	;;
+esac
 AC_PROG_MAKE_SET
 AC_PROG_INSTALL
 AC_PROG_YACC
@@ -103,9 +111,8 @@ AC_ISC_POSIX
 
 CF_BUILD_CC([#],[])
 
-AC_CHECK_TOOL(RANLIB, ranlib, ':')
-AC_CHECK_TOOL(AR, ar, ar)
-CF_SUBST(archiver options,AR_OPTS,rv)
+CF_PROG_RANLIB
+CF_AR_FLAGS
 
 dnl --------------------------------------------------------------------------
 dnl Debug/development/test
@@ -260,7 +267,7 @@ linux*)
 	TRY_CFLAGS="$TRY_CFLAGS -DLINUX"
 	;;
 mingw*)
-	# put these directlyin CPPFLAGS since they will not work in lynx_cfg.h
+	# put these directly in CPPFLAGS since they will not work in lynx_cfg.h
 	CF_ADD_CFLAGS(\
 		-DWIN32_LEAN_AND_MEAN \
 		-DDOSPATH \
@@ -339,6 +346,12 @@ ultrix*)
 	;;
 esac
 
+case $host_os in
+mingw*)
+	EXTRA_OBJS="$EXTRA_OBJS LYIcon\$o"
+	;;
+esac
+
 CF_ANSI_CC_REQD
 
 dnl --------------------------------------------------------------------------
@@ -356,7 +369,12 @@ dnl --------------------------------------------------------------------------
 dnl Set of available languages (based on source distribution)
 if test -z "$ALL_LINGUAS" ; then
 	ALL_LINGUAS=`test -d $srcdir/po && cd $srcdir/po && echo *.po|sed -e 's/\.po//g' -e 's/*//'`
-	ALL_LINGUAS="$ALL_LINGUAS en"
+	AM_PATH_PROG_WITH_TEST(MSGINIT, msginit,
+		[$ac_dir/$ac_word --no-translator --version /dev/null >/dev/null 2>&1], :)
+	if test "$MSGINIT" != ":" ; then
+		CF_VERBOSE(adding en.po)
+		ALL_LINGUAS="$ALL_LINGUAS en"
+	fi
 fi
 
 CF_BUNDLED_INTL(makefile,disable)
@@ -536,6 +554,8 @@ slang)
 	dft_color_style=no
 	;;
 esac
+
+CF_CURSES_CHTYPE
 
 AC_MSG_CHECKING(if you want the wide-curses features)
 CF_ARG_ENABLE(widec, 
@@ -845,11 +865,11 @@ CF_ARG_ENABLE(addrlist-page,
 AC_MSG_RESULT($use_addrlist_page)
 test $use_addrlist_page != no && AC_DEFINE(EXP_ADDRLIST_PAGE)
 
-AC_MSG_CHECKING(if experimental ascii case-conversion)
+AC_MSG_CHECKING(if experimental ascii case-conversion should be used)
 CF_ARG_ENABLE(ascii-ctypes,
 [  --enable-ascii-ctypes   use experimental ascii case-conversion],
 	[use_ascii_ctypes=$enableval],
-	[use_ascii_ctypes=no])
+	[use_ascii_ctypes=yes])
 AC_MSG_RESULT($use_ascii_ctypes)
 test $use_ascii_ctypes != no && AC_DEFINE(EXP_ASCII_CTYPES)
 

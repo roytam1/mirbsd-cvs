@@ -1,5 +1,5 @@
 /*
- * $LynxId: HTML.c,v 1.117 2008/12/29 21:22:28 tom Exp $
+ * $LynxId: HTML.c,v 1.129 2009/06/23 19:47:33 tom Exp $
  *
  *		Structured stream to Rich hypertext converter
  *		============================================
@@ -46,6 +46,7 @@
 #include <LYMap.h>
 #include <LYList.h>
 #include <LYBookmark.h>
+#include <LYHistory.h>
 
 #ifdef VMS
 #include <LYCurses.h>
@@ -214,14 +215,56 @@ static void change_paragraph_style(HTStructured * me, HTStyle *style)
     me->in_word = NO;
 }
 
+/*
+ * Return true if we should write a message (to LYNXMESSAGES, or the trace
+ * file) telling about some bad HTML that we've found.
+ */
 BOOL LYBadHTML(HTStructured * me)
 {
-    if (!TRACE && !me->inBadHTML) {
-	HTUserMsg(BAD_HTML_USE_TRACE);
-	me->inBadHTML = TRUE;
-	return FALSE;
+    BOOL code = FALSE;
+
+    switch ((enumBadHtml) cfg_bad_html) {
+    case BAD_HTML_IGNORE:
+	break;
+    case BAD_HTML_TRACE:
+	code = TRUE;
+	break;
+    case BAD_HTML_MESSAGE:
+	code = TRUE;
+	break;
+    case BAD_HTML_WARN:
+	/*
+	 * If we're already tracing, do not add a warning.
+	 */
+	if (!TRACE && !me->inBadHTML) {
+	    HTUserMsg(BAD_HTML_USE_TRACE);
+	    me->inBadHTML = TRUE;
+	}
+	code = TRACE;
+	break;
     }
-    return TRUE;
+    return code;
+}
+
+/*
+ * Handle the formatted message.
+ */
+void LYShowBadHTML(const char *message)
+{
+    switch ((enumBadHtml) cfg_bad_html) {
+    case BAD_HTML_IGNORE:
+	break;
+    case BAD_HTML_TRACE:
+	CTRACE((tfp, "%s", message));
+	break;
+    case BAD_HTML_MESSAGE:
+	CTRACE((tfp, "%s", message));
+	LYstore_message(message);
+	break;
+    case BAD_HTML_WARN:
+	CTRACE((tfp, "%s", message));
+	break;
+    }
 }
 
 /*_________________________________________________________________________
@@ -672,7 +715,8 @@ void HTML_write(HTStructured * me, const char *s, int l)
    string (resolution of relative URLs etc.).  This variable only used
    locally here, don't confuse with LYinternal_flag which is for
    overriding non-caching similar to LYoverride_no_cache. - kw */
-#define CHECK_FOR_INTERN(flag,s) flag = (s && (*s=='#' || *s=='\0')) ? TRUE : FALSE
+#define CHECK_FOR_INTERN(flag,s) \
+   	flag = (BOOLEAN) ((s && (*s=='#' || *s=='\0')) ? TRUE : FALSE)
 
 /* Last argument to pass to HTAnchor_findChildAndLink() calls,
    just an abbreviation. - kw */
@@ -693,10 +737,10 @@ static void free_Style_className(void)
 
 static void addClassName(const char *prefix,
 			 const char *actual,
-			 int length)
+			 unsigned length)
 {
-    int offset = strlen(prefix);
-    unsigned have = (Style_className_end - Style_className);
+    unsigned offset = strlen(prefix);
+    unsigned have = (unsigned) (Style_className_end - Style_className);
     unsigned need = (offset + length + 1);
 
     if ((have + need) >= Style_className_len) {
@@ -1064,9 +1108,9 @@ static int HTML_start_element(HTStructured * me, int element_number,
     force_classname = FALSE;
 
     if (force_current_tag_style == FALSE) {
-	current_tag_style = class_name[0]
-	    ? -1
-	    : cached_tag_styles[element_number];
+	current_tag_style = (class_name[0]
+			     ? -1
+			     : cached_tag_styles[element_number]);
     } else {
 	force_current_tag_style = FALSE;
     }
@@ -1135,7 +1179,7 @@ static int HTML_start_element(HTStructured * me, int element_number,
     }
 #endif /* !OMIT_SCN_KEEPING */
 
-    HText_characterStyle(me->text, hcode, 1);
+    HText_characterStyle(me->text, hcode, STACK_ON);
 #endif /* USE_COLOR_STYLE */
 
     /*
@@ -1532,12 +1576,12 @@ static int HTML_start_element(HTStructured * me, int element_number,
 		CTRACE2(TRACE_STYLE,
 			(tfp, "STYLE.link: using style <%s>\n", tmp));
 
-		HText_characterStyle(me->text, hash_code(tmp), 1);
+		HText_characterStyle(me->text, hash_code(tmp), STACK_ON);
 		HTML_put_string(me, title);
 		HTML_put_string(me, " (");
 		HTML_put_string(me, value[HTML_LINK_CLASS]);
 		HTML_put_string(me, ")");
-		HText_characterStyle(me->text, hash_code(tmp), 0);
+		HText_characterStyle(me->text, hash_code(tmp), STACK_OFF);
 		FREE(tmp);
 	    } else
 #endif
@@ -2784,7 +2828,7 @@ static int HTML_start_element(HTStructured * me, int element_number,
 	UPDATE_STYLE;
 	if (me->sp->tag_number == (int) ElementNumber)
 	    LYEnsureDoubleSpace(me);
-	CHECK_ID(HTML_FN_ID);
+	CHECK_ID(HTML_GEN_ID);
 	if (me->inUnderline == FALSE)
 	    HText_appendCharacter(me->text, LY_UNDERLINE_START_CHAR);
 	HTML_put_string(me, "FOOTNOTE:");
@@ -4088,7 +4132,7 @@ static int HTML_start_element(HTStructured * me, int element_number,
 	LYEnsureDoubleSpace(me);
 	LYResetParagraphAlignment(me);
 	me->inCREDIT = TRUE;
-	CHECK_ID(HTML_CREDIT_ID);
+	CHECK_ID(HTML_GEN_ID);
 	if (me->inUnderline == FALSE)
 	    HText_appendCharacter(me->text, LY_UNDERLINE_START_CHAR);
 	HTML_put_string(me, "CREDIT:");
@@ -4268,13 +4312,13 @@ static int HTML_start_element(HTStructured * me, int element_number,
     case HTML_FIELDSET:
 	LYEnsureDoubleSpace(me);
 	LYResetParagraphAlignment(me);
-	CHECK_ID(HTML_FIELDSET_ID);
+	CHECK_ID(HTML_GEN_ID);
 	break;
 
     case HTML_LEGEND:
 	LYEnsureDoubleSpace(me);
 	LYResetParagraphAlignment(me);
-	CHECK_ID(HTML_LEGEND_ID);
+	CHECK_ID(HTML_CAPTION_ID);
 	break;
 
     case HTML_LABEL:
@@ -4315,35 +4359,24 @@ static int HTML_start_element(HTStructured * me, int element_number,
 	    I.value_cs = ATTR_CS_IN;
 
 	    UPDATE_STYLE;
-	    if ((present && present[HTML_BUTTON_TYPE] &&
-		 value[HTML_BUTTON_TYPE]) &&
-		(!strcasecomp(value[HTML_BUTTON_TYPE], "submit") ||
-		 !strcasecomp(value[HTML_BUTTON_TYPE], "reset"))) {
-		/*
-		 * It's a button for submitting or resetting a form.  - FM
-		 */
-		I.type = value[HTML_BUTTON_TYPE];
+	    if (present &&
+		present[HTML_BUTTON_TYPE] &&
+		value[HTML_BUTTON_TYPE]) {
+		if (!strcasecomp(value[HTML_BUTTON_TYPE], "submit") ||
+		    !strcasecomp(value[HTML_BUTTON_TYPE], "reset")) {
+		    /*
+		     * It's a button for submitting or resetting a form.  - FM
+		     */
+		    I.type = value[HTML_BUTTON_TYPE];
+		} else {
+		    /*
+		     * Ugh, it's a button for a script.  - FM
+		     */
+		    I.type = value[HTML_BUTTON_TYPE];
+		}
 	    } else {
-		/*
-		 * Ugh, it's a button for a script.  - FM
-		 */
-		HTML_put_string(me, " [BUTTON] ");
-		break;
-	    }
-
-	    /*
-	     * Make sure we're in a form.
-	     */
-	    if (!me->inFORM) {
-		if (LYBadHTML(me))
-		    CTRACE((tfp,
-			    "Bad HTML: BUTTON tag not within FORM tag\n"));
-		/*
-		 * We'll process it, since the chances of a crash are small,
-		 * and we probably do have a form started.  - FM
-		 *
-		 break;
-		 */
+		/* default, if no type given, is a submit button */
+		I.type = "submit";
 	    }
 
 	    /*
@@ -4390,6 +4423,12 @@ static int HTML_start_element(HTStructured * me, int element_number,
 		 * trailing spaces.  - FM
 		 */
 		LYReduceBlanks(I.value);
+	    } else if (!strcasecomp(I.type, "button")) {
+		if (!isEmpty(I.name)) {
+		    StrAllocCopy(I.value, I.name);
+		} else {
+		    StrAllocCopy(I.value, "BUTTON");
+		}
 	    }
 
 	    if (present && present[HTML_BUTTON_DISABLED])
@@ -4549,8 +4588,7 @@ static int HTML_start_element(HTStructured * me, int element_number,
 		    /*
 		     * Ugh, a button for a script.
 		     */
-		    HTML_put_string(me, "[BUTTON] ");
-		    break;
+		    not_impl = "[BUTTON Input]";
 		}
 		if (not_impl != NULL) {
 		    if (me->inUnderline == FALSE) {
@@ -4571,29 +4609,15 @@ static int HTML_start_element(HTStructured * me, int element_number,
 		}
 	    }
 
-	    /*
-	     * Check if we're in a form.  - FM
-	     */
-	    if (!me->inFORM) {
-		if (LYBadHTML(me))
-		    CTRACE((tfp,
-			    "Bad HTML: INPUT tag not within FORM tag\n"));
-		/*
-		 * We'll process it, since the chances of a crash are small,
-		 * and we probably do have a form started.  - FM
-		 *
-		 break;
-		 */
-	    }
-
 	    CTRACE((tfp, "Ok, we're trying type=[%s]\n", NONNULL(I.type)));
 
 	    /*
 	     * Check for an unclosed TEXTAREA.
 	     */
 	    if (me->inTEXTAREA) {
-		if (LYBadHTML(me))
-		    CTRACE((tfp, "Bad HTML: Missing TEXTAREA end tag.\n"));
+		if (LYBadHTML(me)) {
+		    LYShowBadHTML("Bad HTML: Missing TEXTAREA end tag.\n");
+		}
 	    }
 
 	    /*
@@ -4953,19 +4977,6 @@ static int HTML_start_element(HTStructured * me, int element_number,
 
     case HTML_TEXTAREA:
 	/*
-	 * Make sure we're in a form.
-	 */
-	if (!me->inFORM) {
-	    if (LYBadHTML(me))
-		CTRACE((tfp,
-			"Bad HTML: TEXTAREA start tag not within FORM tag\n"));
-	    /*
-	     * Too likely to cause a crash, so we'll ignore it.  - FM
-	     */
-	    break;
-	}
-
-	/*
 	 * Set to know we are in a textarea.
 	 */
 	me->inTEXTAREA = TRUE;
@@ -5061,9 +5072,9 @@ static int HTML_start_element(HTStructured * me, int element_number,
 	 * Check for an already open SELECT block.  - FM
 	 */
 	if (me->inSELECT) {
-	    if (LYBadHTML(me))
-		CTRACE((tfp,
-			"Bad HTML: SELECT start tag in SELECT element.  Faking SELECT end tag. *****\n"));
+	    if (LYBadHTML(me)) {
+		LYShowBadHTML("Bad HTML: SELECT start tag in SELECT element.  Faking SELECT end tag. *****\n");
+	    }
 	    if (me->sp->tag_number != HTML_SELECT) {
 		SET_SKIP_STACK(HTML_SELECT);
 	    }
@@ -5090,9 +5101,9 @@ static int HTML_start_element(HTStructured * me, int element_number,
 	     * Make sure we're in a select tag.
 	     */
 	    if (!me->inSELECT) {
-		if (LYBadHTML(me))
-		    CTRACE((tfp,
-			    "Bad HTML: OPTION tag not within SELECT tag\n"));
+		if (LYBadHTML(me)) {
+		    LYShowBadHTML("Bad HTML: OPTION tag not within SELECT tag\n");
+		}
 
 		/*
 		 * Too likely to cause a crash, so we'll ignore it.  - FM
@@ -5192,8 +5203,12 @@ static int HTML_start_element(HTStructured * me, int element_number,
 		}
 
 		if (me->select_disabled ||
-		    (present && present[HTML_OPTION_DISABLED]))
+		    (0 && present && present[HTML_OPTION_DISABLED])) {
+		    /* 2009/5/25 - suppress check for "disabled" attribute
+		     * for Debian #525934 -TD
+		     */
 		    I.disabled = YES;
+		}
 
 		if (present && present[HTML_OPTION_ID]
 		    && non_empty(value[HTML_OPTION_ID])) {
@@ -5279,7 +5294,7 @@ static int HTML_start_element(HTStructured * me, int element_number,
 		if (opnum > 0 && opnum < 100000) {
 		    sprintf(marker, "(%d)", opnum);
 		    HTML_put_string(me, marker);
-		    for (i = strlen(marker); i < 5; ++i) {
+		    for (i = (int) strlen(marker); i < 5; ++i) {
 			HTML_put_character(me, '_');
 		    }
 		}
@@ -5840,8 +5855,9 @@ static int HTML_end_element(HTStructured * me, int element_number,
      * Check for unclosed TEXTAREA.  - FM
      */
     if (me->inTEXTAREA && element_number != HTML_TEXTAREA) {
-	if (LYBadHTML(me))
-	    CTRACE((tfp, "Bad HTML: Missing TEXTAREA end tag\n"));
+	if (LYBadHTML(me)) {
+	    LYShowBadHTML("Bad HTML: Missing TEXTAREA end tag\n");
+	}
     }
 
     if (!me->text && !LYMapsOnly) {
@@ -5855,16 +5871,21 @@ static int HTML_end_element(HTStructured * me, int element_number,
 
     case HTML_HTML:
 	if (me->inA || me->inSELECT || me->inTEXTAREA) {
-	    if (LYBadHTML(me))
-		CTRACE((tfp,
-			"Bad HTML: %s%s%s%s%s not closed before HTML end tag *****\n",
-			me->inSELECT ? "SELECT" : "",
-			(me->inSELECT && me->inTEXTAREA) ? ", " : "",
-			me->inTEXTAREA ? "TEXTAREA" : "",
-			(((me->inSELECT || me->inTEXTAREA) && me->inA)
-			 ? ", "
-			 : ""),
-			me->inA ? "A" : ""));
+	    if (LYBadHTML(me)) {
+		char *msg = NULL;
+
+		HTSprintf0(&msg,
+			   "Bad HTML: %s%s%s%s%s not closed before HTML end tag *****\n",
+			   me->inSELECT ? "SELECT" : "",
+			   (me->inSELECT && me->inTEXTAREA) ? ", " : "",
+			   me->inTEXTAREA ? "TEXTAREA" : "",
+			   (((me->inSELECT || me->inTEXTAREA) && me->inA)
+			    ? ", "
+			    : ""),
+			   me->inA ? "A" : "");
+		LYShowBadHTML(msg);
+		FREE(msg);
+	    }
 	}
 	break;
 
@@ -5960,16 +5981,21 @@ static int HTML_end_element(HTStructured * me, int element_number,
 
     case HTML_BODY:
 	if (me->inA || me->inSELECT || me->inTEXTAREA) {
-	    if (LYBadHTML(me))
-		CTRACE((tfp,
-			"Bad HTML: %s%s%s%s%s not closed before BODY end tag *****\n",
-			me->inSELECT ? "SELECT" : "",
-			(me->inSELECT && me->inTEXTAREA) ? ", " : "",
-			me->inTEXTAREA ? "TEXTAREA" : "",
-			(((me->inSELECT || me->inTEXTAREA) && me->inA)
-			 ? ", "
-			 : ""),
-			me->inA ? "A" : ""));
+	    if (LYBadHTML(me)) {
+		char *msg = NULL;
+
+		HTSprintf0(&msg,
+			   "Bad HTML: %s%s%s%s%s not closed before BODY end tag *****\n",
+			   me->inSELECT ? "SELECT" : "",
+			   (me->inSELECT && me->inTEXTAREA) ? ", " : "",
+			   me->inTEXTAREA ? "TEXTAREA" : "",
+			   (((me->inSELECT || me->inTEXTAREA) && me->inA)
+			    ? ", "
+			    : ""),
+			   me->inA ? "A" : "");
+		LYShowBadHTML(msg);
+		FREE(msg);
+	    }
 	}
 	break;
 
@@ -6335,10 +6361,15 @@ static int HTML_end_element(HTStructured * me, int element_number,
 		 * We had more end tags than start tags, so we have bad HTML or
 		 * otherwise misparsed.  - FM
 		 */
-		if (LYBadHTML(me))
-		    CTRACE((tfp,
-			    "Bad HTML: Unmatched OBJECT start and end tags.  Discarding content:\n%s\n",
-			    me->object.data));
+		if (LYBadHTML(me)) {
+		    char *msg = NULL;
+
+		    HTSprintf0(&msg,
+			       "Bad HTML: Unmatched OBJECT start and end tags.  Discarding content:\n%s\n",
+			       me->object.data);
+		    LYShowBadHTML(msg);
+		    FREE(msg);
+		}
 		goto End_Object;
 	    }
 	    if (s > e) {
@@ -6470,9 +6501,9 @@ static int HTML_end_element(HTStructured * me, int element_number,
 			goto End_Object;
 		    }
 		} else {
-		    if (LYBadHTML(me))
-			CTRACE((tfp,
-				"Bad HTML: Unmatched OBJECT start and end tags.  Discarding content.\n"));
+		    if (LYBadHTML(me)) {
+			LYShowBadHTML("Bad HTML: Unmatched OBJECT start and end tags.  Discarding content.\n");
+		    }
 		    goto End_Object;
 		}
 	    }
@@ -6709,8 +6740,9 @@ static int HTML_end_element(HTStructured * me, int element_number,
 	 * FORM-related globals in GridText.c are initialized.  - FM
 	 */
 	if (!me->inFORM) {
-	    if (LYBadHTML(me))
-		CTRACE((tfp, "Bad HTML: Unmatched FORM end tag\n"));
+	    if (LYBadHTML(me)) {
+		LYShowBadHTML("Bad HTML: Unmatched FORM end tag\n");
+	    }
 	}
 	EMIT_IFDEF_EXP_JUSTIFY_ELTS(form_in_htext = FALSE);
 
@@ -6724,9 +6756,9 @@ static int HTML_end_element(HTStructured * me, int element_number,
 	 * SELECT.  - kw
 	 */
 	if (me->inSELECT) {
-	    if (LYBadHTML(me))
-		CTRACE((tfp,
-			"Bad HTML: Open SELECT at FORM end. Faking SELECT end tag. *****\n"));
+	    if (LYBadHTML(me)) {
+		LYShowBadHTML("Bad HTML: Open SELECT at FORM end. Faking SELECT end tag. *****\n");
+	    }
 	    if (me->sp->tag_number != HTML_SELECT) {
 		SET_SKIP_STACK(HTML_SELECT);
 	    }
@@ -6777,8 +6809,9 @@ static int HTML_end_element(HTStructured * me, int element_number,
 	     * Make sure we had a textarea start tag.
 	     */
 	    if (!me->inTEXTAREA) {
-		if (LYBadHTML(me))
-		    CTRACE((tfp, "Bad HTML: Unmatched TEXTAREA end tag\n"));
+		if (LYBadHTML(me)) {
+		    LYShowBadHTML("Bad HTML: Unmatched TEXTAREA end tag\n");
+		}
 		break;
 	    }
 
@@ -6967,14 +7000,15 @@ static int HTML_end_element(HTStructured * me, int element_number,
 
     case HTML_SELECT:
 	{
-	    char *ptr;
+	    char *ptr = NULL;
 
 	    /*
 	     * Make sure we had a select start tag.
 	     */
 	    if (!me->inSELECT) {
-		if (LYBadHTML(me))
-		    CTRACE((tfp, "Bad HTML: Unmatched SELECT end tag *****\n"));
+		if (LYBadHTML(me)) {
+		    LYShowBadHTML("Bad HTML: Unmatched SELECT end tag *****\n");
+		}
 		break;
 	    }
 
@@ -6992,9 +7026,9 @@ static int HTML_end_element(HTStructured * me, int element_number,
 	     * Make sure we're in a form.
 	     */
 	    if (!me->inFORM) {
-		if (LYBadHTML(me))
-		    CTRACE((tfp,
-			    "Bad HTML: SELECT end tag not within FORM element *****\n"));
+		if (LYBadHTML(me)) {
+		    LYShowBadHTML("Bad HTML: SELECT end tag not within FORM element *****\n");
+		}
 		/*
 		 * Hopefully won't crash, so we'll ignore it.  - kw
 		 */
@@ -7007,13 +7041,14 @@ static int HTML_end_element(HTStructured * me, int element_number,
 	    /*
 	     * Finish the previous option.
 	     */
-	    ptr = HText_setLastOptionValue(me->text,
-					   me->option.data,
-					   me->LastOptionValue,
-					   LAST_ORDER,
-					   me->LastOptionChecked,
-					   me->UCLYhndl,
-					   ATTR_CS_IN);
+	    if (!me->first_option)
+		ptr = HText_setLastOptionValue(me->text,
+					       me->option.data,
+					       me->LastOptionValue,
+					       LAST_ORDER,
+					       me->LastOptionChecked,
+					       me->UCLYhndl,
+					       ATTR_CS_IN);
 	    FREE(me->LastOptionValue);
 
 	    me->LastOptionChecked = FALSE;
@@ -7223,7 +7258,7 @@ static int HTML_end_element(HTStructured * me, int element_number,
 */
 int HTML_put_entity(HTStructured * me, int entity_number)
 {
-    int nent = HTML_dtd.number_of_entities;
+    int nent = (int) HTML_dtd.number_of_entities;
 
     if (entity_number < nent) {
 	HTML_put_string(me, p_entity_values[entity_number]);
@@ -7304,9 +7339,9 @@ static void HTML_free(HTStructured * me)
 	     * close of a still-open form, something must have gone very wrong. 
 	     * - kw
 	     */
-	    if (LYBadHTML(me))
-		CTRACE((tfp,
-			"Bad HTML: SELECT or OPTION not ended properly *****\n"));
+	    if (LYBadHTML(me)) {
+		LYShowBadHTML("Bad HTML: SELECT or OPTION not ended properly *****\n");
+	    }
 	    HTChunkTerminate(&me->option);
 	    /*
 	     * Output the left-over data as text, maybe it was invalid markup
@@ -7323,9 +7358,9 @@ static void HTML_free(HTStructured * me)
 	     * close of a still-open form, something must have gone very wrong. 
 	     * - kw
 	     */
-	    if (LYBadHTML(me))
-		CTRACE((tfp,
-			"Bad HTML: TEXTAREA not used properly *****\n"));
+	    if (LYBadHTML(me)) {
+		LYShowBadHTML("Bad HTML: TEXTAREA not used properly *****\n");
+	    }
 	    HTChunkTerminate(&me->textarea);
 	    /*
 	     * Output the left-over data as text, maybe it was invalid markup
@@ -7369,9 +7404,9 @@ static void HTML_free(HTStructured * me)
 	 * If we still have data in the me->option chunk after forcing a close
 	 * of a still-open form, something must have gone very wrong.  - kw
 	 */
-	if (LYBadHTML(me))
-	    CTRACE((tfp,
-		    "Bad HTML: SELECT or OPTION not ended properly *****\n"));
+	if (LYBadHTML(me)) {
+	    LYShowBadHTML("Bad HTML: SELECT or OPTION not ended properly *****\n");
+	}
 	if (TRACE) {
 	    HTChunkTerminate(&me->option);
 	    CTRACE((tfp, "HTML_free: ***** leftover option data: %s\n",
@@ -7385,9 +7420,9 @@ static void HTML_free(HTStructured * me)
 	 * close of a still-open form, something must have gone very wrong.  -
 	 * kw
 	 */
-	if (LYBadHTML(me))
-	    CTRACE((tfp,
-		    "Bad HTML: TEXTAREA not used properly *****\n"));
+	if (LYBadHTML(me)) {
+	    LYShowBadHTML("Bad HTML: TEXTAREA not used properly *****\n");
+	}
 	if (TRACE) {
 	    HTChunkTerminate(&me->textarea);
 	    CTRACE((tfp, "HTML_free: ***** leftover textarea data: %s\n",
@@ -7944,7 +7979,7 @@ static void CacheThru_write(HTStream *me, const char *str, int l)
 {
     if (me->status == HT_OK && l != 0) {
 	if (me->fp) {
-	    fwrite(str, 1, l, me->fp);
+	    fwrite(str, 1, (unsigned) l, me->fp);
 	    if (ferror(me->fp))
 		me->status = HT_ERROR;
 	} else if (me->chunk) {

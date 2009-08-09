@@ -1,4 +1,4 @@
-/* $LynxId: LYCurses.h,v 1.77 2007/07/02 00:09:00 tom Exp $ */
+/* $LynxId: LYCurses.h,v 1.80 2009/04/07 00:03:47 tom Exp $ */
 #ifndef LYCURSES_H
 #define LYCURSES_H
 
@@ -50,6 +50,7 @@
 
 #ifdef USE_SLANG
 #include <slang.h>
+typedef unsigned long chtype;
 
 #undef WINDOW
 typedef struct {
@@ -116,7 +117,22 @@ typedef struct {
 
 #ifdef VMS
 #define FANCY_CURSES
+
 #endif /* VMS */
+
+#ifndef HAVE_TYPE_CHTYPE
+
+#ifdef __PDCURSES__
+#define HAVE_TYPE_CHTYPE 1
+#endif
+
+#if defined(_VMS_CURSES) || defined(VMS)
+typedef char chtype;
+
+#define HAVE_TYPE_CHTYPE 1
+#endif
+
+#endif /* ! HAVE_TYPE_CHTYPE */
 
 /*
  *	CR may be defined before the curses.h include occurs.
@@ -427,7 +443,7 @@ extern "C" {
     extern int LYshiftWin;
     extern int LYwideLines;
     extern int LYtableCols;
-    extern BOOL LYuseCursesPads;
+    extern BOOLEAN LYuseCursesPads;
 
 #else
 #define LYwin stdscr

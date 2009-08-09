@@ -1,5 +1,5 @@
 /*
- * $LynxId: SGML.h,v 1.40 2008/09/18 23:36:15 tom Exp $
+ * $LynxId: SGML.h,v 1.43 2009/04/16 00:50:16 tom Exp $
  *			       SGML parse and stream definition for libwww
  *                             SGML AND STRUCTURED STREAMS
  *
@@ -100,6 +100,13 @@ extern "C" {
     /* special relations */
 #define Tgc_same	0x80000
 
+/*
+ * Groups for contains-data.
+ */
+#define Tgc_INLINElike	(Tgc_Alike | Tgc_APPLETlike | Tgc_BRlike | Tgc_EMlike | Tgc_FONTlike | Tgc_SELECTlike)
+#define Tgc_LISTlike	(Tgc_LIlike | Tgc_ULlike)
+#define Tgc_BLOCKlike	(Tgc_DIVlike | Tgc_LISTlike)
+
 /* Some more properties of tags (or rather, elements) and rules how
    to deal with them. - kw */
     typedef int TagFlags;
@@ -139,7 +146,7 @@ extern "C" {
     struct _tag {
 	const char *name;	/* The name of the tag */
 #ifdef USE_COLOR_STYLE
-	int name_len;		/* The length of the name */
+	unsigned name_len;	/* The length of the name */
 #endif
 #ifdef EXP_JUSTIFY_ELTS
 	BOOL can_justify;	/* justification allowed? */

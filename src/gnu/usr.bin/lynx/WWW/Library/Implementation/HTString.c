@@ -1,5 +1,5 @@
 /*
- * $LynxId: HTString.c,v 1.55 2008/12/31 22:03:25 tom Exp $
+ * $LynxId: HTString.c,v 1.57 2009/03/17 22:27:59 tom Exp $
  *
  *	Case-independent string comparison		HTString.c
  *
@@ -604,9 +604,9 @@ typedef enum {
     Format
 } PRINTF;
 
-#define VA_INTGR(type) ival = va_arg((*ap), type)
-#define VA_FLOAT(type) fval = va_arg((*ap), type)
-#define VA_POINT(type) pval = (char *)va_arg((*ap), type)
+#define VA_INTGR(type) ival = (int)    va_arg((*ap), type)
+#define VA_FLOAT(type) fval = (double) va_arg((*ap), type)
+#define VA_POINT(type) pval = (char *) va_arg((*ap), type)
 
 #define NUM_WIDTH 10		/* allow for width substituted for "*" in "%*s" */
 		/* also number of chars assumed to be needed in addition
@@ -962,6 +962,18 @@ char *HTQuoteParameter(const char *parameter)
 	outofmem(__FILE__, "HTQuoteParameter");
 
     n = 0;
+#if (USE_QUOTED_PARAMETER == 1)
+    /*
+     * Only double-quotes are used in Win32/DOS -TD
+     */
+    if (quoted)
+	result[n++] = D_QUOTE;
+    for (i = 0; i < last; i++) {
+	result[n++] = parameter[i];
+    }
+    if (quoted)
+	result[n++] = D_QUOTE;
+#else
     if (quoted)
 	result[n++] = S_QUOTE;
     for (i = 0; i < last; i++) {
@@ -984,6 +996,7 @@ char *HTQuoteParameter(const char *parameter)
     }
     if (quoted)
 	result[n++] = S_QUOTE;
+#endif
     result[n] = '\0';
     return result;
 }

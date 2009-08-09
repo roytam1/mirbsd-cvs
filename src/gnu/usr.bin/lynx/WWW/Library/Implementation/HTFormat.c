@@ -1,5 +1,5 @@
 /*
- * $LynxId: HTFormat.c,v 1.66 2008/12/26 18:08:32 tom Exp $
+ * $LynxId: HTFormat.c,v 1.68 2009/05/10 23:07:26 tom Exp $
  *
  *		Manage different file formats			HTFormat.c
  *		=============================
@@ -288,7 +288,7 @@ int HTGetCharacter(void)
 }
 
 #ifdef USE_SSL
-char HTGetSSLCharacter(void *handle)
+int HTGetSSLCharacter(void *handle)
 {
     char ch;
 
@@ -861,9 +861,9 @@ int HTCopy(HTParentAnchor *anchor,
 	 * put up by the HTTP module or elsewhere can linger in the statusline
 	 * for a while.  - kw
 	 */
-	suppress_readprogress = (anchor && anchor->content_type &&
-				 !strcmp(anchor->content_type,
-					 "message/x-http-redirection"));
+	suppress_readprogress = (BOOL) (anchor && anchor->content_type &&
+					!strcmp(anchor->content_type,
+						"message/x-http-redirection"));
 #ifdef NOT_ASCII
 	{
 	    char *p;
