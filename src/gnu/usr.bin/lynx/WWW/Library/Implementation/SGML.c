@@ -1,5 +1,5 @@
 /*
- * $LynxId: SGML.c,v 1.119 2008/12/31 20:19:38 tom Exp $
+ * $LynxId: SGML.c,v 1.131 2009/05/30 11:21:28 tom Exp $
  *
  *			General SGML Parser code		SGML.c
  *			========================
@@ -80,9 +80,15 @@ static void fake_put_character(void *p GCC_UNUSED,
     }
 
 #define PUTS(str) ((*context->actions->put_string)(context->target, str))
-#define PUTC(ch)  ((*context->actions->put_character)(context->target, ch))
+#define PUTC(ch)  ((*context->actions->put_character)(context->target, (char) ch))
 #define PUTUTF8(code) (UCPutUtf8_charstring((HTStream *)context->target, \
 		      (putc_func_t*)(context->actions->put_character), code))
+
+#ifdef USE_PRETTYSRC
+#define PRETTYSRC_PUTC(c) if (psrc_view) PUTC(c)
+#else
+#define PRETTYSRC_PUTC(c)	/* nothing */
+#endif
 
 /*the following macros are used for pretty source view. */
 #define IS_C(attr) (attr.type == HTMLA_CLASS)
@@ -335,7 +341,7 @@ static void HTMLSRC_apply_markup(HTStream *context,
     }
 }
 
-#define PSRCSTART(x)  HTMLSRC_apply_markup(context,HTL_##x,START)
+#define PSRCSTART(x)	HTMLSRC_apply_markup(context,HTL_##x,START)
 #define PSRCSTOP(x)   HTMLSRC_apply_markup(context,HTL_##x,STOP)
 
 #define attr_is_href context->cur_attr_is_href
@@ -968,18 +974,21 @@ static void handle_sgmlatt(HTStream *context)
 
 static BOOL element_valid_within(HTTag * new_tag, HTTag * stacked_tag, BOOL direct)
 {
+    BOOL result = YES;
     TagClass usecontains, usecontained;
 
-    if (!stacked_tag || !new_tag)
-	return YES;
-    usecontains = (direct ? stacked_tag->contains : stacked_tag->icontains);
-    usecontained = (direct ? new_tag->contained : new_tag->icontained);
-    if (new_tag == stacked_tag)
-	return (BOOL) ((Tgc_same & usecontains) &&
-		       (Tgc_same & usecontained));
-    else
-	return (BOOL) ((new_tag->tagclass & usecontains) &&
-		       (stacked_tag->tagclass & usecontained));
+    if (stacked_tag && new_tag) {
+	usecontains = (direct ? stacked_tag->contains : stacked_tag->icontains);
+	usecontained = (direct ? new_tag->contained : new_tag->icontained);
+	if (new_tag == stacked_tag) {
+	    result = (BOOL) ((Tgc_same & usecontains) &&
+			     (Tgc_same & usecontained));
+	} else {
+	    result = (BOOL) ((new_tag->tagclass & usecontains) &&
+			     (stacked_tag->tagclass & usecontained));
+	}
+    }
+    return result;
 }
 
 typedef enum {
@@ -990,15 +999,22 @@ typedef enum {
 
 static canclose_t can_close(HTTag * new_tag, HTTag * stacked_tag)
 {
-    if (!stacked_tag)
-	return close_NO;
-    if (stacked_tag->flags & Tgf_endO)
-	return close_valid;
-    else if (new_tag == stacked_tag)
-	return ((Tgc_same & new_tag->canclose) ? close_error : close_NO);
-    else
-	return ((stacked_tag->tagclass & new_tag->canclose) ?
-		close_error : close_NO);
+    canclose_t result;
+
+    if (!stacked_tag) {
+	result = close_NO;
+    } else if (stacked_tag->flags & Tgf_endO) {
+	result = close_valid;
+    } else if (new_tag == stacked_tag) {
+	result = ((Tgc_same & new_tag->canclose)
+		  ? close_error
+		  : close_NO);
+    } else {
+	result = ((stacked_tag->tagclass & new_tag->canclose)
+		  ? close_error
+		  : close_NO);
+    }
+    return result;
 }
 
 static void do_close_stacked(HTStream *context)
@@ -1020,8 +1036,10 @@ static void do_close_stacked(HTStream *context)
 					  &context->include);
     context->element_stack = stacked->next;
     pool_free(stacked);
-    context->no_lynx_specialcodes = context->element_stack ?
-	(context->element_stack->tag->flags & Tgf_nolyspcl) : NO;
+    context->no_lynx_specialcodes =
+	(BOOL) (context->element_stack
+		? (context->element_stack->tag->flags & Tgf_nolyspcl)
+		: NO);
 }
 
 static int is_on_stack(HTStream *context, HTTag * old_tag)
@@ -1161,8 +1179,10 @@ static void end_element(HTStream *context, HTTag * old_tag)
 	    context->element_stack = N->next;	/* Remove from stack */
 	    pool_free(N);
 	}
-	context->no_lynx_specialcodes = context->element_stack ?
-	    (context->element_stack->tag->flags & Tgf_nolyspcl) : NO;
+	context->no_lynx_specialcodes =
+	    (BOOL) (context->element_stack
+		    ? (context->element_stack->tag->flags & Tgf_nolyspcl)
+		    : NO);
 #ifdef WIND_DOWN_STACK
 	if (old_tag == t)
 	    return;		/* Correct sequence */
@@ -1196,7 +1216,8 @@ static void start_element(HTStream *context)
 	       (canclose_check == close_valid ||
 		(canclose_check == close_error &&
 		 new_tag == context->element_stack->tag)) &&
-	       !(valid = element_valid_within(new_tag, context->element_stack->tag,
+	       !(valid = element_valid_within(new_tag,
+					      context->element_stack->tag,
 					      direct_container))) {
 	    canclose_check = can_close(new_tag, context->element_stack->tag);
 	    if (canclose_check != close_NO) {
@@ -1219,7 +1240,8 @@ static void start_element(HTStream *context)
 	}
 	if (context->element_stack && !valid &&
 	    (context->element_stack->tag->flags & Tgf_strict) &&
-	    !(valid = element_valid_within(new_tag, context->element_stack->tag,
+	    !(valid = element_valid_within(new_tag,
+					   context->element_stack->tag,
 					   direct_container))) {
 	    CTRACE((tfp, "SGML: Still open %s \t<- ***ignoring start <%s>\n",
 		    context->element_stack->tag->name,
@@ -1339,7 +1361,7 @@ static void start_element(HTStream *context)
 	N->next = context->element_stack;
 	N->tag = new_tag;
 	context->element_stack = N;
-	context->no_lynx_specialcodes = (new_tag->flags & Tgf_nolyspcl);
+	context->no_lynx_specialcodes = (BOOLEAN) (new_tag->flags & Tgf_nolyspcl);
 
     } else if (e == HTML_META) {
 	/*
@@ -1876,8 +1898,21 @@ static void SGML_character(HTStream *context, char c_in)
      * nor HTCJK is set.  - FM
      */
     if (TOASCII(unsign_c) > 127 && TOASCII(unsign_c) < 160 &&	/* S/390 -- gil -- 0847 */
-	!(PASSHICTRL || IS_CJK_TTY))
+	!(PASSHICTRL || IS_CJK_TTY)) {
+	/*
+	 * If we happen to be reading from an "ISO-8859-1" or "US-ASCII"
+	 * document, allow the cp-1252 codes, to accommodate the HTML5 draft
+	 * recommendation for replacement encoding:
+	 *
+	 * http://www.whatwg.org/specs/web-apps/current-work/multipage/infrastructure.html#character-encodings-0
+	 */
+	if (context->inUCLYhndl == LATIN1
+	    || context->inUCLYhndl == US_ASCII) {
+	    clong = LYcp1252ToUnicode(c);
+	    goto top1;
+	}
 	goto after_switch;
+    }
 
     /* Almost all CJK characters are double byte but only Japanese
      * JIS X0201 Kana is single byte. To prevent to fail SGML parsing
@@ -2324,13 +2359,31 @@ static void SGML_character(HTStream *context, char c_in)
 		testlast >= 0 && !testtag->name[testlast]) {
 #ifdef USE_PRETTYSRC
 		if (psrc_view) {
+		    char *trailing = NULL;
+
+		    if (context->trailing_spaces) {
+			StrAllocCopy(trailing,
+				     string->data
+				     + string->size
+				     - 1
+				     - context->trailing_spaces);
+			trailing[context->trailing_spaces] = '\0';
+		    }
+
 		    PSRCSTART(abracket);
 		    PUTS("</");
 		    PSRCSTOP(abracket);
 		    PSRCSTART(tag);
+
 		    strcpy(string->data, context->current_tag->name);
 		    transform_tag(context, string);
 		    PUTS(string->data);
+
+		    if (trailing) {
+			PUTS(trailing);
+			FREE(trailing);
+		    }
+
 		    PSRCSTOP(tag);
 		    PSRCSTART(abracket);
 		    PUTC('>');
@@ -2543,8 +2596,9 @@ static void SGML_character(HTStream *context, char c_in)
     case S_incro:
 	/* S/390 -- gil -- 1075 */
 	if ((TOASCII(unsign_c) < 127) &&
-	    (context->isHex ? isxdigit(UCH(c)) :
-	     isdigit(UCH(c)))) {
+	    (context->isHex
+	     ? isxdigit(UCH(c))
+	     : isdigit(UCH(c)))) {
 	    /*
 	     * Accept only valid hex or ASCII digits.  - FM
 	     */
@@ -2580,138 +2634,7 @@ static void SGML_character(HTStream *context, char c_in)
 	    if ((context->isHex ? sscanf(string->data, "%lx", &code) :
 		 sscanf(string->data, "%lu", &code)) == 1) {
 /* =============== work in ASCII below here ===============  S/390 -- gil -- 1092 */
-		if ((code == 1) ||
-		    (code > 127 && code < 156)) {
-		    /*
-		     * Assume these are Microsoft code points, inflicted on us
-		     * by FrontPage.  - FM
-		     *
-		     * MS FrontPage uses syntax like &#153; in 128-159 range
-		     * and doesn't follow Unicode standards for this area. 
-		     * Windows-1252 codepoints are assumed here.
-		     */
-		    switch (code) {
-		    case 1:
-			/*
-			 * WHITE SMILING FACE
-			 */
-			code = 0x263a;
-			break;
-		    case 128:
-			/*
-			 * EURO currency sign
-			 */
-			code = 0x20ac;
-			break;
-		    case 130:
-			/*
-			 * SINGLE LOW-9 QUOTATION MARK (sbquo)
-			 */
-			code = 0x201a;
-			break;
-		    case 132:
-			/*
-			 * DOUBLE LOW-9 QUOTATION MARK (bdquo)
-			 */
-			code = 0x201e;
-			break;
-		    case 133:
-			/*
-			 * HORIZONTAL ELLIPSIS (hellip)
-			 */
-			code = 0x2026;
-			break;
-		    case 134:
-			/*
-			 * DAGGER (dagger)
-			 */
-			code = 0x2020;
-			break;
-		    case 135:
-			/*
-			 * DOUBLE DAGGER (Dagger)
-			 */
-			code = 0x2021;
-			break;
-		    case 137:
-			/*
-			 * PER MILLE SIGN (permil)
-			 */
-			code = 0x2030;
-			break;
-		    case 139:
-			/*
-			 * SINGLE LEFT-POINTING ANGLE QUOTATION MARK (lsaquo)
-			 */
-			code = 0x2039;
-			break;
-		    case 145:
-			/*
-			 * LEFT SINGLE QUOTATION MARK (lsquo)
-			 */
-			code = 0x2018;
-			break;
-		    case 146:
-			/*
-			 * RIGHT SINGLE QUOTATION MARK (rsquo)
-			 */
-			code = 0x2019;
-			break;
-		    case 147:
-			/*
-			 * LEFT DOUBLE QUOTATION MARK (ldquo)
-			 */
-			code = 0x201c;
-			break;
-		    case 148:
-			/*
-			 * RIGHT DOUBLE QUOTATION MARK (rdquo)
-			 */
-			code = 0x201d;
-			break;
-		    case 149:
-			/*
-			 * BULLET (bull)
-			 */
-			code = 0x2022;
-			break;
-		    case 150:
-			/*
-			 * EN DASH (ndash)
-			 */
-			code = 0x2013;
-			break;
-		    case 151:
-			/*
-			 * EM DASH (mdash)
-			 */
-			code = 0x2014;
-			break;
-		    case 152:
-			/*
-			 * SMALL TILDE (tilde)
-			 */
-			code = 0x02dc;
-			break;
-		    case 153:
-			/*
-			 * TRADE MARK SIGN (trade)
-			 */
-			code = 0x2122;
-			break;
-		    case 155:
-			/*
-			 * SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (rsaquo)
-			 */
-			code = 0x203a;
-			break;
-		    default:
-			/*
-			 * Do not attempt a conversion to valid Unicode values.
-			 */
-			break;
-		    }
-		}
+		code = LYcp1252ToUnicode(code);
 		/*
 		 * Check for special values.  - FM
 		 */
@@ -3629,11 +3552,12 @@ static void SGML_character(HTStream *context, char c_in)
 		PUTS(string->data);
 		if (c == '=' || WHITE(c))
 		    PUTC(c);
-		if (c == '=' || c == '>' || WHITE(c)) {
-		    if (context->current_attribute_number == INVALID)
+		if (c == '=' || c == '>') {
+		    if (context->current_attribute_number == INVALID) {
 			PSRCSTOP(badattr);
-		    else
+		    } else {
 			PSRCSTOP(attrib);
+		    }
 		}
 		if (c == '>') {
 		    PSRCSTART(abracket);
@@ -3653,7 +3577,7 @@ static void SGML_character(HTStream *context, char c_in)
 
     case S_attr_gap:		/* Expecting attribute or '=' or '>' */
 	if (WHITE(c)) {
-	    PUTC(c);
+	    PRETTYSRC_PUTC(c);
 	    break;		/* Gap after attribute */
 	}
 	if (c == '>') {		/* End of tag */
@@ -3693,7 +3617,7 @@ static void SGML_character(HTStream *context, char c_in)
 
     case S_equals:		/* After attr = */
 	if (WHITE(c)) {
-	    PUTC(c);
+	    PRETTYSRC_PUTC(c);
 	    break;		/* Before attribute value */
 	}
 	if (c == '>') {		/* End of tag */
@@ -4382,12 +4306,23 @@ static void SGML_character(HTStream *context, char c_in)
     }
 }				/* SGML_character */
 
-static void SGML_string(HTStream *context, const char *str)
+static void InferUtfFromBom(HTStream *context, int chndl)
 {
-    const char *p;
+    HTAnchor_setUCInfoStage(context->node_anchor, chndl,
+			    UCT_STAGE_PARSER,
+			    UCT_SETBY_PARSER);
+    change_chartrans_handling(context);
+}
 
-    for (p = str; *p; p++)
-	SGML_character(context, *p);
+/*
+ * Avoid rewrite of SGML_character() to handle hypothetical case of UTF-16
+ * webpages, by pretending that the data is UTF-8.
+ */
+static void SGML_widechar(HTStream *context, long ch)
+{
+    if (!UCPutUtf8_charstring(context, SGML_character, ch)) {
+	SGML_character(context, UCH(ch));
+    }
 }
 
 static void SGML_write(HTStream *context, const char *str, int l)
@@ -4395,8 +4330,45 @@ static void SGML_write(HTStream *context, const char *str, int l)
     const char *p;
     const char *e = str + l;
 
-    for (p = str; p < e; p++)
-	SGML_character(context, *p);
+    if (sgml_offset == 0) {
+	if (l > 3
+	    && !memcmp(str, "\357\273\277", 3)) {
+	    CTRACE((tfp, "SGML_write found UTF-8 BOM\n"));
+	    InferUtfFromBom(context, UTF8_handle);
+	    str += 3;
+	} else if (l > 2) {
+	    if (!memcmp(str, "\377\376", 2)) {
+		CTRACE((tfp, "SGML_write found UCS-2 LE BOM\n"));
+		InferUtfFromBom(context, UTF8_handle);
+		str += 2;
+		context->T.ucs_mode = -1;
+	    } else if (!memcmp(str, "\376\377", 2)) {
+		CTRACE((tfp, "SGML_write found UCS-2 BE BOM\n"));
+		InferUtfFromBom(context, UTF8_handle);
+		str += 2;
+		context->T.ucs_mode = 1;
+	    }
+	}
+    }
+    switch (context->T.ucs_mode) {
+    case -1:
+	for (p = str; p < e; p += 2)
+	    SGML_widechar(context, (UCH(p[1]) << 8) | UCH(p[0]));
+	break;
+    case 1:
+	for (p = str; p < e; p += 2)
+	    SGML_widechar(context, (UCH(p[0]) << 8) | UCH(p[1]));
+	break;
+    default:
+	for (p = str; p < e; p++)
+	    SGML_character(context, *p);
+	break;
+    }
+}
+
+static void SGML_string(HTStream *context, const char *str)
+{
+    SGML_write(context, str, strlen(str));
 }
 
 /*_______________________________________________________________________
@@ -4507,11 +4479,12 @@ HTStream *SGML_new(const SGML_dtd * dtd,
  */
 int SGML_offset(void)
 {
+    int result = sgml_offset;
+
 #ifdef USE_PRETTYSRC
-    return sgml_offset + psrc_view;
-#else
-    return sgml_offset;
+    result += psrc_view;
 #endif
+    return result;
 }
 
 /*		Asian character conversion functions

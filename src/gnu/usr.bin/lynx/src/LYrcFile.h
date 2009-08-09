@@ -1,5 +1,5 @@
 /*
- * $LynxId: LYrcFile.h,v 1.29 2008/12/26 18:34:05 tom Exp $
+ * $LynxId: LYrcFile.h,v 1.33 2009/06/07 16:56:00 tom Exp $
  */
 #ifndef LYRCFILE_H
 #define LYRCFILE_H
@@ -21,6 +21,7 @@
 #define RC_ASSUME_UNREC_CHARSET         "assume_unrec_charset"
 #define RC_AUTO_SESSION                 "auto_session"
 #define RC_AUTO_UNCACHE_DIRLISTS        "auto_uncache_dirlists"
+#define RC_BAD_HTML                     "bad_html"
 #define RC_BIBP_BIBHOST                 "bibp_bibhost"
 #define RC_BIBP_GLOBALSERVER            "bibp_globalserver"
 #define RC_BLOCK_MULTI_BOOKMARKS        "block_multi_bookmarks"
@@ -156,6 +157,7 @@
 #define RC_NO_FROM_HEADER               "no_from_header"
 #define RC_NO_ISMAP_IF_USEMAP           "no_ismap_if_usemap"
 #define RC_NO_MARGINS                   "no_margins"
+#define RC_NO_PAUSE                     "no_pause"
 #define RC_NO_PROXY                     "no_proxy"
 #define RC_NO_REFERER_HEADER            "no_referer_header"
 #define RC_NO_TABLE_CENTER              "no_table_center"
@@ -200,6 +202,7 @@
 #define RC_SEEK_FRAG_AREA_IN_CUR        "seek_frag_area_in_cur"
 #define RC_SEEK_FRAG_MAP_IN_CUR         "seek_frag_map_in_cur"
 #define RC_SELECT_POPUPS                "select_popups"
+#define RC_SEND_USERAGENT               "send_useragent"
 #define RC_SESSION_FILE                 "session_file"
 #define RC_SESSION_LIMIT                "session_limit"
 #define RC_SET_COOKIES                  "set_cookies"
@@ -216,6 +219,7 @@
 #define RC_SOURCE_CACHE_FOR_ABORTED     "source_cache_for_aborted"
 #define RC_SSL_CERT_FILE                "ssl_cert_file"
 #define RC_STARTFILE                    "startfile"
+#define RC_STATUS_BUFFER_SIZE           "status_buffer_size"
 #define RC_STRIP_DOTDOT_URLS            "strip_dotdot_urls"
 #define RC_SUBSTITUTE_UNDERSCORES       "substitute_underscores"
 #define RC_SUB_BOOKMARKS                "sub_bookmarks"

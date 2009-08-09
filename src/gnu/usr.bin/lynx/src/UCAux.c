@@ -1,5 +1,5 @@
 /*
- * $LynxId: UCAux.c,v 1.38 2009/01/01 00:42:23 tom Exp $
+ * $LynxId: UCAux.c,v 1.40 2009/03/10 21:13:12 tom Exp $
  */
 #include <HTUtils.h>
 
@@ -172,6 +172,11 @@ void UCSetTransParams(UCTransParams * pT, int cs_in,
     pT->transp = (BOOL) (!strcmp(p_in->MIMEname, "x-transparent") ||
 			 !strcmp(p_out->MIMEname, "x-transparent"));
 
+    /*
+     * UCS-2 is handled as a special case in SGML_write().
+     */
+    pT->ucs_mode = 0;
+
     if (pT->transp) {
 	/*
 	 * Set up the structure for "transparent".  - FM
@@ -342,14 +347,19 @@ void UCSetBoxChars(int cset,
 	 * This is important if we have loaded a font, which would
 	 * confuse curses.
 	 */
-#ifdef EXP_CHARTRANS_AUTOSWITCH
 	/* US-ASCII vs Latin-1 is safe (usually) */
 	if ((cset == US_ASCII
 	     || cset == LATIN1)
 	    && (linedrawing_char_set == US_ASCII
 		|| linedrawing_char_set == LATIN1)) {
+#if (defined(FANCY_CURSES) && defined(A_ALTCHARSET)) || defined(USE_SLANG)
+	    vert_in = 0;
+	    hori_in = 0;
+#else
 	    ;
+#endif
 	}
+#ifdef EXP_CHARTRANS_AUTOSWITCH
 #if defined(NCURSES_VERSION) || defined(HAVE_TIGETSTR)
 	else {
 	    static BOOL first = TRUE;
