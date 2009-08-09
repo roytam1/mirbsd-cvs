@@ -125,7 +125,7 @@ ext2fs_inactive(v)
 #endif
 
 	/* Get rid of inodes related to stale file handles. */
-	if (ip->i_e2din == NULL || ip->i_e2fs_mode == 0 || ip->i_e2fs_dtime)
+	if (ip->i_e2fs_mode == 0 || ip->i_e2fs_dtime)
 		goto out;
 
 	error = 0;
@@ -133,7 +133,7 @@ ext2fs_inactive(v)
 		if (ext2fs_size(ip) != 0) {
 			error = ext2fs_truncate(ip, (off_t)0, 0, NOCRED);
 		}
-		getnanotime(&ts);
+		TIMEVAL_TO_TIMESPEC(&time, &ts);
 		ip->i_e2fs_dtime = ts.tv_sec;
 		ip->i_flag |= IN_CHANGE | IN_UPDATE;
 		ext2fs_inode_free(ip, ip->i_number, ip->i_e2fs_mode);
@@ -147,7 +147,7 @@ out:
 	 * If we are done with the inode, reclaim it
 	 * so that it can be reused immediately.
 	 */
-	if (ip->i_e2din == NULL || ip->i_e2fs_dtime != 0)
+	if (ip->i_e2fs_dtime != 0)
 		vrecycle(vp, NULL, p);
 	return (error);
 }   
@@ -174,7 +174,7 @@ ext2fs_update(struct inode *ip, struct timespec *atime, struct timespec *mtime,
 
 	if (ITOV(ip)->v_mount->mnt_flag & MNT_RDONLY)
 		return (0);
-	getnanotime(&ts);
+	TIMEVAL_TO_TIMESPEC(&time, &ts);
 	EXT2FS_ITIMES(ip,
 	    atime ? atime : &ts,
 	    mtime ? mtime : &ts);
