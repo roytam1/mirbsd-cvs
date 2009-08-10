@@ -181,7 +181,7 @@ setup(char *dev)
 	 * read in the summary info.
 	 */
 
-	sblock.e2fs_gd = malloc(sblock.e2fs_ngdb * sblock.e2fs_bsize);
+	sblock.e2fs_gd = calloc(sblock.e2fs_ngdb, sblock.e2fs_bsize);
 	if (sblock.e2fs_gd == NULL)
 		errexit("out of memory\n");
 	asked = 0;
