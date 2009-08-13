@@ -27,12 +27,12 @@
  * I merely needed this for my mixedly-encoded bookmark.htm file…
  */
 
-__RCSID("$MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $");
-
 #include <err.h>
 #include <errno.h>
 #include <unistd.h>
 #include <wchar.h>
+
+__RCSID("$MirOS: contrib/hosted/tg/any2cesu8.c,v 1.1 2009/08/13 17:00:30 tg Exp $");
 
 #define CHUNKSZ 65536
 
