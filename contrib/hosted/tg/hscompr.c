@@ -25,9 +25,10 @@
 #include <err.h>
 #include <fcntl.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $");
+__RCSID("$MirOS: contrib/hosted/tg/hscompr.c,v 1.1 2009/01/03 21:47:53 tg Exp $");
 
 uint8_t deco_table[256] = {
 	0x00, 0xFF, 0x89, 0x8B, 0x04, 0x83, 0xE8, 0x75,
@@ -85,9 +86,11 @@ uint8_t enco_size[256] = {
 	8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8
 };
 
+uint8_t buf[131072];
+
 extern const char *__progname;
 
-void doit(const char *, const char *);
+void doit(const char *, const char *, int);
 extern unsigned int gent_sz;
 extern void gent_proc(void *);
 
@@ -95,6 +98,47 @@ static void
 asm_gentable(void)
 {
 	gent_proc(deco_table);
+}
+
+struct bla {
+	int frequency;
+	uint8_t code;
+} frequencies[256];
+
+static int
+cmpf(const void *a, const void *b)
+{
+	const struct bla *v1 = a;
+	const struct bla *v2 = b;
+
+	return (v2->frequency - v1->frequency);
+}
+
+static void
+freq_gentable(size_t n)
+{
+	size_t i;
+
+	for (i = 0; i < 256; ++i) {
+		frequencies[i].code = i;
+		frequencies[i].frequency = 0;
+	}
+
+	i = 0;
+	while (i < n)
+		frequencies[buf[i++]].frequency++;
+
+	qsort(frequencies, 256, sizeof(frequencies[0]), cmpf);
+
+	for (i = 0; i < 256; ++i)
+		deco_table[i] = frequencies[i].code;
+
+	printf("deco\t 0   1   2   3   4   5   6   7   8   9   a   b   c   d   e   f\n");
+	for (i = 0; i < 256; ++i)
+		if (i & 15)
+			printf("%02X%s", deco_table[i], (i&15)==15?"\n":", ");
+		else
+			printf("%x\t%02X, ", (int)i>>4, deco_table[i]);
 }
 
 int
@@ -105,17 +149,16 @@ main(int argc, char *argv[])
 		return (1);
 	}
 
-	doit(argv[1], "opt");
+	doit(argv[1], "opt", 0);
 	asm_gentable();
-	doit(argv[1], "mir");
+	doit(argv[1], "mir", 0);
 	printf("asm size: %u\n", gent_sz);
+	doit(argv[1], "frq", 1);
 	return (0);
 }
 
-uint8_t buf[65536];
-
 void
-doit(const char *ifile, const char *ext)
+doit(const char *ifile, const char *ext, int type)
 {
 	int ifd, ofd;
 	size_t n, i;
@@ -129,29 +172,46 @@ doit(const char *ifile, const char *ext)
 	if ((ofd = open(ofile, O_WRONLY | O_CREAT, 0666)) < 0)
 		err(1, "open outfile %s", ofile);
 
-	if ((n = read(ifd, buf, 65536)) == (size_t)-1)
+	if ((n = read(ifd, buf, 131072)) == (size_t)-1)
 		err(1, "read");
 	close(ifd);
 
+	if (type)
+		freq_gentable(n);
+
 	ch = n & 0xFF;
 	write(ofd, &ch, 1);
-	ch = n >> 8;
+	ch = (n >> 8) & 0xFF;
+	write(ofd, &ch, 1);
+	ch = n >> 16;
 	write(ofd, &ch, 1);
 	ch = 0;
-	write(ofd, &ch, 1);
 	write(ofd, &ch, 1);
 
 	/* generate enco_table */
 	for (i = 0; i < 256; ++i)
 		enco_table[deco_table[i]] = i;
 
+	printf("enco\t 0   1   2   3   4   5   6   7   8   9   a   b   c   d   e   f\n");
+	for (i = 0; i < 256; ++i)
+		if (i & 15)
+			printf("%02X%s", enco_table[i], (i&15)==15?"\n":", ");
+		else
+			printf("%x\t%02X, ", (int)i>>4, enco_table[i]);
+
 	/* compress */
 	for (i = 0; i < n; ++i) {
 		ch = enco_table[buf[i]];
 		k = enco_size[ch];
-		wch = wch << 3 | (k - 1);
-		wch = wch << k | ch;
-		bits += 3 + k;
+		if (k == 1) {
+			wch = (wch << 4) | (ch & 1);
+			bits += 4;
+		} else {
+			--k;
+			wch = (wch << 3) | k;
+			wch = (wch << k) | (ch & ((1 << k) - 1));
+			bits += 3 + k;
+		}
 
 		/*-
 			 0: .... .... .... .... .... .... .... ....
