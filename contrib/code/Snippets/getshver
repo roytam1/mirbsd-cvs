@@ -1,0 +1,136 @@
+# assumes a POSIX compatible or Bourne shell
+# DEC ULTRIX 4.5 /bin/sh cannot do this
+# of course, this won't catch all shells
+get_sh_version() {
+	if test x"`echo u ^ echo x`" = x"x"; then
+		# Bourne shell, maybe Heirloom sh (tested)
+		echo bourne
+		return
+	fi
+	if test x"$(echo u)" != x"u"; then
+		# other non-POSIX shell, maybe Solaris /bin/sh
+		echo binsh
+		return
+	fi
+	# POSIX shell
+
+	case $ZSH_VERSION in
+	*[0-9]*) echo zsh; return ;;
+	esac
+
+	case x$SHELL_VERSION in
+	x) ;;
+	*[0-9]*build*)
+		if ( (set -o korn) && (set -o bash) ) >&- 2>&-; then
+			# MKS {,Korn,Bash} Shell (untested, I have none)
+			( # subshell, just in case
+			typeset _o _pp _pb _pk
+
+			_o=`set -o`
+			set +o posix
+			set +o bash
+			set -o korn
+			_pp='*@(posix+( )on)*'
+			_pb='*@(bash+( )on)*'
+			_pk='*@(korn+( )on)*'
+			if eval [[ \$_o = $_pp ]]; then
+				echo mkssh
+			elif eval [[ \$_o = $_pb ]]; then
+				echo mksbash
+			elif eval [[ \$_o = $_pk ]]; then
+				echo mksksh
+			else
+				echo mkssh
+			fi ) || echo mks
+			return
+		fi
+		# may still be MKS? we do not know...
+		;;
+	esac
+
+	case x$BASH_VERSION in
+	# no GNU bash
+	x) ;;
+	# known GNU bash versions
+	x2*) echo bash2; return ;;
+	x3*) echo bash3; return ;;
+	x4*) echo bash4; return ;;
+	# either bash1 or an unlikely version
+	*) echo bash; return ;;
+	esac
+
+	# mksh, mirbsdksh (pre-mksh), oksh (3.7+), pdksh
+	case $KSH_VERSION in
+	*MIRBSD\ KSH*) echo mksh; return ;;
+	*PD\ KSH*MirOS*) echo pdksh-mbsd; return ;;
+	*PD\ KSH*)
+		if test x"`typeset -i10 x=0x10 2>&-; echo $x`" = x"16"; then
+			echo pdksh-obsd
+		else
+			# unspecified: Debian (modern), 5.2.14 (sorta modern),
+			# some older or vendor-modified version, old oksh
+			echo pdksh
+		fi
+		return ;;
+	esac
+
+	case x"`(echo ${.sh.version}) 2>&- || echo fail`" in
+	x|xfail) ;;
+	*) echo ksh93; return ;;
+	esac
+	if (
+		typeset _p
+
+		_p='f+([ o])bar'
+		eval [[ foobar = $_p '&&' \"foo bar\" = $_p ]]
+	) 2>&-; then
+		echo ksh88
+		return
+	fi
+
+	if test x"$POSH_VERSION" != x""; then
+		echo posix-posh
+		return
+	fi
+	if ( [[ 0 < 1 ]] ) 2>&-; then
+		echo posix-ext
+		return
+	fi
+	if test x"`
+		foo() {
+			local a
+
+			a=2
+		}
+		a=1
+		foo
+		echo $a
+	    `" = x"1"; then
+		# we have a working "local"
+		if test x"$(PATH=/nonexistent; export PATH
+		    printf 'f%so' o)" = x"foo"; then
+			# probably, but not certain
+			echo posix-dash
+			return
+		fi
+		# test if we fulfil Debian Policy 10.4
+		if ( test 1 -eq 1 -a a = a ) && test x"`echo -n a;
+		    echo -n b`" = x"ab"; then
+			echo posix-debian
+			return
+		fi
+	fi
+	if test x"`echo -n a; echo -n b`" = x"ab"; then
+		echo posix-echon
+		return
+	fi
+	if test x"`echo a'\c'; echo b`" = x"ab"; then
+		echo posix-echoc
+		return
+	fi
+	echo posix
+}
+
+echo determining...
+res=`get_sh_version`
+echo "done: <$res>"
