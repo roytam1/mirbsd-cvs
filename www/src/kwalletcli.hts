@@ -1,12 +1,16 @@
 mws_setname subprojects/kwalletcli "kwalletcli – CLI for the KDE Wallet"
 mws_setheadline CLI for the KDE Wallet
-mws_putheader '$MirOS: www/src/kwalletcli.hts,v 1.2 2009/07/27 12:07:00 tg Exp $'
+mws_putheader '$MirOS: www/src/kwalletcli.hts,v 1.3 2009/08/02 18:37:07 tg Exp $'
 mws_content <<'EOF'
-<p><img src="@@RELPATH@@pics/kwalletcli64.png" alt="kwalletcli Icon" /></p>
 
+<table width="100%"><tr><td>
 <p>There isn’t any content yet. Please see <a
  href="@@RELPATH@@permalinks/wlog-10_e20090708-tg.htm">the wlog entry
  announcing kwalletcli public beta test</a> for now.</p>
+<p>Get the Logo (<a href="@@RELPATH@@pics/kwalletcli.svg">SVG</a>).</p>
+</td><td style="width:160px;"><object data="@@RELPATH@@pics/kwalletcli.svg"
+ type="image/svg+xml" width="128" height="100"><img alt="kwalletcli Logo"
+ src="@@RELPATH@@pics/kwalletcli128.png" /></object></td></tr></table>
 
 <p>We have an 1.00 distfile; website and packaging coming soon.</p><ul>
  <li>RMD160 (kwalletcli-1.00.tar.gz) = f04ebd39e9714212a915b6d7d4524c8cc2daaee7</li>
