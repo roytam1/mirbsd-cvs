@@ -1,21 +1,12 @@
 $MirOS$
---- dpid/dpi.c.orig	Thu Nov  6 21:31:07 2008
-+++ dpid/dpi.c	Thu Nov  6 21:31:29 2008
-@@ -33,7 +33,7 @@
-  */
- char *a_Dpi_sockdir_file(void)
- {
--   char *dpi_socket_dir, *dirfile_path = "/.dillo/dpi_socket_dir";
-+   char *dpi_socket_dir, *dirfile_path = "/.etc/dillo/dpi_socket_dir";
+--- dpid/dpidc.orig	Sun Aug 23 17:12:11 2009
++++ dpid/dpidc	Sun Aug 23 17:12:23 2009
+@@ -10,7 +10,7 @@ use strict;
+ use IO::Socket::UNIX;
  
-    dpi_socket_dir = dStrconcat(dGethomedir(), dirfile_path, NULL);
-    return dpi_socket_dir;
-@@ -53,7 +53,7 @@ char *a_Dpi_rd_dpi_socket_dir(char *dirn
-    FILE *dir;
-    char *sockdir = NULL, *rcpath;
+ # Get socket directory name
+-open(DSD, "<$ENV{HOME}/.dillo/dpi_socket_dir");
++open(DSD, "<$ENV{HOME}/.etc/dillo/dpi_socket_dir");
+ my $dir = <DSD>;
+ close(DSD);
  
--   rcpath = dStrconcat(dGethomedir(), "/.dillo", NULL);
-+   rcpath = dStrconcat(dGethomedir(), "/.etc/dillo", NULL);
- 
-    /* If .dillo does not exist it is an unrecoverable error */
-    if (access(rcpath, F_OK) == -1) {

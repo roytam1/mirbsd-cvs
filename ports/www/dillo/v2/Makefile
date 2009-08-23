@@ -1,10 +1,9 @@
-# $MirOS: ports/www/dillo/stable/Makefile,v 1.10 2007/04/16 19:27:39 bsiegert Exp $
+# $MirOS: ports/www/dillo/v2/Makefile,v 1.1 2008/11/07 18:05:51 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.18 2004/02/26 13:43:26 couderc Exp $
 
 COMMENT=		Fast and lightweight web browser
 
-VERSION=		2.0
-DASH_VER=		0
+VERSION=		2.1.1
 DISTNAME=		dillo-${VERSION}
 CATEGORIES=     	www
 

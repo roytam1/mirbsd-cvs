@@ -1,7 +1,7 @@
-$MirOS$
---- dpi/cookies.c.orig	Thu Nov  6 21:22:12 2008
-+++ dpi/cookies.c	Thu Nov  6 21:20:07 2008
-@@ -245,13 +245,13 @@ static void Cookies_init()
+$MirOS: ports/www/dillo/v2/patches/patch-dpi_cookies_c,v 1.1 2008/11/07 18:05:52 bsiegert Exp $
+--- dpi/cookies.c.orig	Sat Jun 27 16:42:12 2009
++++ dpi/cookies.c	Sun Aug 23 17:03:44 2009
+@@ -244,13 +244,13 @@ static void Cookies_init()
     }
  
     /* Get a stream for the cookies file */
@@ -17,7 +17,7 @@ $MirOS$
        return;
     }
  
-@@ -337,9 +337,9 @@ static void Cookies_init()
+@@ -341,9 +341,9 @@ static void Cookies_init()
        }
     }
  
@@ -29,7 +29,7 @@ $MirOS$
  
        /* Get all lines in the file */
        while (!feof(old_cookies_file_stream)) {
-@@ -1224,7 +1224,7 @@ static int Cookie_control_init(void)
+@@ -1237,7 +1237,7 @@ static int Cookie_control_init(void)
     bool_t enabled = FALSE;
  
     /* Get a file pointer */

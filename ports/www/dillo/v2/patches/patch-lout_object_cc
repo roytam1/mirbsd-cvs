@@ -1,7 +1,7 @@
-$MirOS$
---- lout/object.cc.orig	Thu Nov  6 22:09:51 2008
-+++ lout/object.cc	Thu Nov  6 22:09:53 2008
-@@ -154,7 +154,7 @@ int Integer::hashValue()
+$MirOS: ports/www/dillo/v2/patches/patch-lout_object_cc,v 1.1 2008/11/07 18:05:52 bsiegert Exp $
+--- lout/object.cc.orig	Sun Jun  7 05:40:26 2009
++++ lout/object.cc	Sun Aug 23 17:03:44 2009
+@@ -153,7 +153,7 @@ int Integer::hashValue()
  void Integer::intoStringBuffer(misc::StringBuffer *sb)
  {
     char buf[64];
