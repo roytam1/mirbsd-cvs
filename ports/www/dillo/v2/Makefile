@@ -1,14 +1,12 @@
-# $MirOS: ports/www/dillo/v2/Makefile,v 1.1 2008/11/07 18:05:51 bsiegert Exp $
+# $MirOS: ports/www/dillo/v2/Makefile,v 1.2 2009/08/23 15:27:57 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.18 2004/02/26 13:43:26 couderc Exp $
 
 COMMENT=		Fast and lightweight web browser
-
 VERSION=		2.1.1
 DISTNAME=		dillo-${VERSION}
+DASH_VER=		1
 CATEGORIES=     	www
-
 HOMEPAGE=		http://www.dillo.org/
-
 RESPONSIBLE=		Benny Siegert <bsiegert@gmx.de>
 
 # GPL license
@@ -27,12 +25,17 @@ RUN_DEPENDS+=		::net/wget
 #USE_GMAKE=		Yes
 USE_X11=		Yes
 USE_CXX=		Yes
-CONFIGURE_STYLE=	autogen
+#CONFIGURE_STYLE=	autogen
+CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		Yes
-AUTOMAKE_VERSION=	1.9
+#AUTOMAKE_VERSION=	1.9
 
 CONFIGURE_ARGS+=	--enable-cookies
 CONFIGURE_ARGS+=	--enable-ipv6
 CONFIGURE_ARGS+=	--disable-threaded-dns
+CONFIGURE_ARGS+=	--enable-ssl
+
+post-install:
+	mv ${WRKINST:Q}/${SYSCONFDIR:Q}/dillo ${PREFIX:Q}/share/examples/
 
 .include <bsd.port.mk>

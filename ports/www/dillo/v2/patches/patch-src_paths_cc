@@ -1,6 +1,15 @@
-$MirOS$
---- src/paths.cc.orig	Sun Aug 23 17:10:03 2009
-+++ src/paths.cc	Sun Aug 23 17:10:32 2009
+$MirOS: ports/www/dillo/v2/patches/patch-src_paths_cc,v 1.1 2009/08/23 15:27:59 bsiegert Exp $
+--- src/paths.cc.orig	Wed Jun 24 18:17:12 2009
++++ src/paths.cc	Mon Aug 24 16:29:45 2009
+@@ -25,7 +25,7 @@
+ static char* oldWorkingDir = NULL;
+ 
+ /*
+- * Changes current working directory to /tmp and creates ~/.dillo
++ * Changes current working directory to /tmp and creates ~/.etc/dillo
+  * if not exists.
+  */
+ void Paths::init(void)
 @@ -42,7 +42,7 @@ void Paths::init(void)
            dStrerror(errno));
     }
