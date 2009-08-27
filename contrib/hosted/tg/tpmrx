@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $
+# $MirOS: contrib/hosted/tg/tpmrx,v 1.1 2009/05/17 14:12:22 tg Exp $
 #-
 # Copyright (c) 2009
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -34,10 +34,12 @@ if [[ $1 = seed ]]; then
 	dd if=/dev/tpm bs=4096 count=1 2>/dev/null | hd >&$dfd
 fi
 
-printf '\x0\xc1\x0\x0\x0\xe\x0\x0\x0\x46\x0\x0\x1\x0' >/dev/tpm
+print -n '\x0\xc1\x0\x0\x0\xe\x0\x0\x0\x46\x0\x0\x1\x0' >/dev/tpm
 dd if=/dev/tpm bs=4096 count=1 2>/dev/null | if [[ $1 = - ]]; then
 	dd bs=1 skip=14 2>/dev/null
+elif [[ $dfd = - ]]; then
+	dd bs=1 skip=14 of=/dev/wrandom 2>/dev/null
+	print -n .
 else
 	tee /dev/wrandom | hd >&$dfd
-	[[ $dfd = - ]] && print -n .
 fi
