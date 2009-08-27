@@ -32,7 +32,7 @@
 #include <unistd.h>
 #include <wchar.h>
 
-__RCSID("$MirOS: contrib/hosted/tg/any2cesu8.c,v 1.1 2009/08/13 17:00:30 tg Exp $");
+__RCSID("$MirOS: contrib/hosted/tg/any2cesu8.c,v 1.2 2009/08/13 17:01:02 tg Exp $");
 
 #define CHUNKSZ 65536
 
@@ -88,7 +88,7 @@ main(void)
 	free(cbuf);
 	n = 0;
 	while ((wc = wcbuf[n++]))
-		if (iswoctet(wc))
+		if (iswoctet(wc) || (wc & ~0x1F) == 0x0080)
 			wcbuf[n - 1] = vistable[wc & 0x7F];
 	cbuf = awcstombs(wcbuf);
 	free(wcbuf);
