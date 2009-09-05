@@ -1,4 +1,0 @@
-@comment $OpenBSD: PFRAG.shared,v 1.2 2002/02/18 23:47:23 pvalchev Exp $
-lib/jpilot/plugins/libexpense.so
-lib/jpilot/plugins/libkeyring.so
-lib/jpilot/plugins/libsynctime.so

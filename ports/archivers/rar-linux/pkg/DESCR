@@ -1,7 +1,0 @@
-This is the statically linked GNU/Linux binary of the
-commercial RAR archiver, currently the only way to
-extract the most recent RAR archives.
-
-RAR is shareware; you must register or de-install it
-after 40 days of use. Please read the accompanying
-file ${PREFIX}/share/doc/rar/license.txt for details.

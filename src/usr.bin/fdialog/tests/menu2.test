@@ -1,1 +1,0 @@
-${FDIALOG} menu "my menu text" --item item1 --item item2 --item item3 --item item4 20 20 --sleep 2 

@@ -1,3 +1,0 @@
-This is a small utility, subset of the wsconfig(8) tool
-of MirOS, which tries to find out if you have an utf-8
-terminal or not.
