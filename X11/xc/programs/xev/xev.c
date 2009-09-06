@@ -41,7 +41,10 @@ from the X Consortium.
 #include <X11/Xos.h>
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
+#include <math.h>
 #include <X11/Xproto.h>
+
+__RCSID("$MirOS$");
 
 #define INNER_WINDOW_WIDTH 50
 #define INNER_WINDOW_HEIGHT 50
@@ -100,7 +103,7 @@ do_KeyPress (XEvent *eventp)
     KeyCode kc = 0;
     Bool kc_set = False;
     char *ksname;
-    int nbytes, nmbbytes = 0;
+    int nbytes, i, nmbbytes = 0;
     char str[256+1];
     static char *buf = NULL;
     static int bsize = 8;
@@ -138,6 +141,24 @@ do_KeyPress (XEvent *eventp)
     printf ("    state 0x%x, keycode %u (keysym 0x%lx, %s), same_screen %s,\n",
 	    e->state, e->keycode, (unsigned long) ks, ksname,
 	    e->same_screen ? Yes : No);
+    printf ("    modifier: ");
+    if (e->state) {
+      if (e->state & (int)pow(2, 0)) printf("%s ", "shift");
+      if (e->state & (int)pow(2, 1)) printf("%s ", "lock");
+      if (e->state & (int)pow(2, 2)) printf("%s ", "control");
+      for (i=3; i<8; i++) {
+          if (e->state & (int)pow(2, i)) {
+              printf("mod%d ", i-2);
+          }
+      }
+      /* for the sake of completeness */
+      for (i=8; i<17; i++) {
+          if (e->state & (int)pow(2, i)) {
+              printf("Button%d ", i-7);
+          }
+      }
+    }
+    printf("\n");
     if (kc_set && e->keycode != kc)
 	printf ("    XKeysymToKeycode returns keycode: %u\n",kc);
     if (nbytes < 0) nbytes = 0;
@@ -175,12 +196,31 @@ do_KeyRelease (XEvent *eventp)
 static void
 do_ButtonPress (XEvent *eventp)
 {
+    int i;
     XButtonEvent *e = (XButtonEvent *) eventp;
 
     printf ("    root 0x%lx, subw 0x%lx, time %lu, (%d,%d), root:(%d,%d),\n",
 	    e->root, e->subwindow, e->time, e->x, e->y, e->x_root, e->y_root);
     printf ("    state 0x%x, button %u, same_screen %s\n",
 	    e->state, e->button, e->same_screen ? Yes : No);
+    printf ("    modifier: ");
+    if (e->state) {
+      if (e->state & (int)pow(2, 0)) printf("%s ", "shift");
+      if (e->state & (int)pow(2, 1)) printf("%s ", "lock");
+      if (e->state & (int)pow(2, 2)) printf("%s ", "control");
+      for (i=3; i<8; i++) {
+          if (e->state & (int)pow(2, i)) {
+              printf("mod%d ", i-2);
+          }
+      }
+      /* for the sake of completeness */
+      for (i=8; i<17; i++) {
+          if (e->state & (int)pow(2, i)) {
+              printf("Button%d ", i-7);
+          }
+      }
+    }
+    printf("\n");
 }
 
 static void
@@ -212,7 +252,7 @@ do_EnterNotify (XEvent *eventp)
       case NotifyGrab:  mode = "NotifyGrab"; break;
       case NotifyUngrab:  mode = "NotifyUngrab"; break;
       case NotifyWhileGrabbed:  mode = "NotifyWhileGrabbed"; break;
-      default:  mode = dmode, sprintf (dmode, "%u", e->mode); break;
+      default:  mode = dmode, snprintf (dmode, sizeof(dmode), "%u", e->mode); break;
     }
 
     switch (e->detail) {
@@ -224,7 +264,7 @@ do_EnterNotify (XEvent *eventp)
       case NotifyPointer:  detail = "NotifyPointer"; break;
       case NotifyPointerRoot:  detail = "NotifyPointerRoot"; break;
       case NotifyDetailNone:  detail = "NotifyDetailNone"; break;
-      default:  detail = ddetail; sprintf (ddetail, "%u", e->detail); break;
+      default:  detail = ddetail; snprintf (ddetail, sizeof(ddetail), "%u", e->detail); break;
     }
 
     printf ("    root 0x%lx, subw 0x%lx, time %lu, (%d,%d), root:(%d,%d),\n",
@@ -252,7 +292,7 @@ do_FocusIn (XEvent *eventp)
       case NotifyGrab:  mode = "NotifyGrab"; break;
       case NotifyUngrab:  mode = "NotifyUngrab"; break;
       case NotifyWhileGrabbed:  mode = "NotifyWhileGrabbed"; break;
-      default:  mode = dmode, sprintf (dmode, "%u", e->mode); break;
+      default:  mode = dmode, snprintf (dmode, sizeof(dmode), "%u", e->mode); break;
     }
 
     switch (e->detail) {
@@ -264,7 +304,7 @@ do_FocusIn (XEvent *eventp)
       case NotifyPointer:  detail = "NotifyPointer"; break;
       case NotifyPointerRoot:  detail = "NotifyPointerRoot"; break;
       case NotifyDetailNone:  detail = "NotifyDetailNone"; break;
-      default:  detail = ddetail; sprintf (ddetail, "%u", e->detail); break;
+      default:  detail = ddetail; snprintf (ddetail, sizeof(ddetail), "%u", e->detail); break;
     }
 
     printf ("    mode %s, detail %s\n", mode, detail);
@@ -309,7 +349,7 @@ do_GraphicsExpose (XEvent *eventp)
     switch (e->major_code) {
       case X_CopyArea:  m = "CopyArea";  break;
       case X_CopyPlane:  m = "CopyPlane";  break;
-      default:  m = mdummy; sprintf (mdummy, "%d", e->major_code); break;
+      default:  m = mdummy; snprintf (mdummy, sizeof(mdummy), "%d", e->major_code); break;
     }
 
     printf ("    (%d,%d), width %d, height %d, count %d,\n",
@@ -327,7 +367,7 @@ do_NoExpose (XEvent *eventp)
     switch (e->major_code) {
       case X_CopyArea:  m = "CopyArea";  break;
       case X_CopyPlane:  m = "CopyPlane";  break;
-      default:  m = mdummy; sprintf (mdummy, "%d", e->major_code); break;
+      default:  m = mdummy; snprintf (mdummy, sizeof(mdummy), "%d", e->major_code); break;
     }
 
     printf ("    major %s, minor %d\n", m, e->minor_code);
@@ -345,7 +385,7 @@ do_VisibilityNotify (XEvent *eventp)
       case VisibilityUnobscured:  v = "VisibilityUnobscured"; break;
       case VisibilityPartiallyObscured:  v = "VisibilityPartiallyObscured"; break;
       case VisibilityFullyObscured:  v = "VisibilityFullyObscured"; break;
-      default:  v = vdummy; sprintf (vdummy, "%d", e->state); break;
+      default:  v = vdummy; snprintf (vdummy, sizeof(vdummy), "%d", e->state); break;
     }
 
     printf ("    state %s\n", v);
@@ -431,7 +471,7 @@ do_ConfigureRequest (XEvent *eventp)
       case TopIf:  detail = "TopIf";  break;
       case BottomIf:  detail = "BottomIf"; break;
       case Opposite:  detail = "Opposite"; break;
-      default:  detail = ddummy; sprintf (ddummy, "%d", e->detail); break;
+      default:  detail = ddummy; snprintf (ddummy, sizeof(ddummy), "%d", e->detail); break;
     }
 
     printf ("    parent 0x%lx, window 0x%lx, (%d,%d), width %d, height %d,\n",
@@ -467,7 +507,7 @@ do_CirculateNotify (XEvent *eventp)
     switch (e->place) {
       case PlaceOnTop:  p = "PlaceOnTop"; break;
       case PlaceOnBottom:  p = "PlaceOnBottom"; break;
-      default:  p = pdummy; sprintf (pdummy, "%d", e->place); break;
+      default:  p = pdummy; snprintf (pdummy, sizeof(pdummy), "%d", e->place); break;
     }
 
     printf ("    event 0x%lx, window 0x%lx, place %s\n",
@@ -484,7 +524,7 @@ do_CirculateRequest (XEvent *eventp)
     switch (e->place) {
       case PlaceOnTop:  p = "PlaceOnTop"; break;
       case PlaceOnBottom:  p = "PlaceOnBottom"; break;
-      default:  p = pdummy; sprintf (pdummy, "%d", e->place); break;
+      default:  p = pdummy; snprintf (pdummy, sizeof(pdummy), "%d", e->place); break;
     }
 
     printf ("    parent 0x%lx, window 0x%lx, place %s\n",
@@ -502,7 +542,7 @@ do_PropertyNotify (XEvent *eventp)
     switch (e->state) {
       case PropertyNewValue:  s = "PropertyNewValue"; break;
       case PropertyDelete:  s = "PropertyDelete"; break;
-      default:  s = sdummy; sprintf (sdummy, "%d", e->state); break;
+      default:  s = sdummy; snprintf (sdummy, sizeof(sdummy), "%d", e->state); break;
     }
 
     printf ("    atom 0x%lx (%s), time %lu, state %s\n",
@@ -571,7 +611,7 @@ do_ColormapNotify (XEvent *eventp)
     switch (e->state) {
       case ColormapInstalled:  s = "ColormapInstalled"; break;
       case ColormapUninstalled:  s = "ColormapUninstalled"; break;
-      default:  s = sdummy; sprintf (sdummy, "%d", e->state); break;
+      default:  s = sdummy; snprintf (sdummy, sizeof(sdummy), "%d", e->state); break;
     }
 
     printf ("    colormap 0x%lx, new %s, state %s\n",
@@ -614,7 +654,7 @@ do_MappingNotify (XEvent *eventp)
       case MappingModifier:  r = "MappingModifier"; break;
       case MappingKeyboard:  r = "MappingKeyboard"; break;
       case MappingPointer:  r = "MappingPointer"; break;
-      default:  r = rdummy; sprintf (rdummy, "%d", e->request); break;
+      default:  r = rdummy; snprintf (rdummy, sizeof(rdummy), "%d", e->request); break;
     }
 
     printf ("    request %s, first_keycode %d, count %d\n",
@@ -693,6 +733,7 @@ usage (void)
 "    -s                                  set save-unders attribute",
 "    -name string                        window name",
 "    -rv                                 reverse video",
+"    -l                                  limit to Key and Button events",
 "",
 NULL};
     const char **cpp;
@@ -739,6 +780,7 @@ main (int argc, char **argv)
     int done;
     char *name = "Event Tester";
     Bool reverse = False;
+    Bool limit = False;
     unsigned long back, fore;
     XIM xim;
     XIMStyles *xim_styles;
@@ -795,6 +837,9 @@ main (int argc, char **argv)
 		continue;
 	      case 'r':			/* -rv */
 		reverse = True;
+		continue;
+	      case 'l':			/* -l */
+		limit = True;
 		continue;
 	      case 's':			/* -s */
 		attr.save_under = True;
@@ -924,6 +969,7 @@ main (int argc, char **argv)
     }
 
     for (done = 0; !done; ) {
+	BOOL event_done = True; /* with BOOL limit */
 	XEvent event;
 
 	XNextEvent (dpy, &event);
@@ -945,6 +991,12 @@ main (int argc, char **argv)
 	    prologue (&event, "ButtonRelease");
 	    do_ButtonRelease (&event);
 	    break;
+	  default:
+	    event_done = False;
+	    break;
+	}
+	if (!limit && !event_done) {
+	 switch (event.type) {
 	  case MotionNotify:
 	    prologue (&event, "MotionNotify");
 	    do_MotionNotify (&event);
@@ -1064,6 +1116,7 @@ main (int argc, char **argv)
 	  default:
 	    printf ("Unknown event type %d\n", event.type);
 	    break;
+	 }
 	}
     }
 
