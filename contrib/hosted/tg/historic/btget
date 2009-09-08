@@ -1,22 +1,23 @@
-#!/bin/sh
-# $MirBSD: licence.template,v 1.9 2004/03/19 23:25:19 tg Stab $
+#!/bin/mksh
+# $MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $
 #-
-# Copyright (c) year
-#	Thorsten "mirabile" Glaser <x86@ePost.de>
+# Copyright (c) 2004
+#	Thorsten Glaser <tg@mirbsd.org>
 #
-# Subject to these terms, everybody who obtained a copy of this work
-# is hereby permitted to deal in the work without restriction inclu-
-# ding without limitation the rights to use, distribute, sell, modi-
-# fy, publically perform, give away, merge or sublicence it provided
-# this notice is kept and the authors and contributors are given due
-# credit in derivates or accompanying documents.
+# Provided that these terms and disclaimer and all copyright notices
+# are retained or reproduced in an accompanying document, permission
+# is granted to deal in this work without restriction, including un-
+# limited rights to use, publicly perform, distribute, sell, modify,
+# merge, give away, or sublicence.
 #
-# This work is provided by its developers (authors and contributors)
-# "as is" and without any warranties whatsoever, express or implied,
-# to the maximum extent permitted by applicable law; in no event may
-# developers be held liable for damage caused, directly or indirect-
-# ly, but not by a developer's malice intent, even if advised of the
-# possibility of such damage.
+# This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
+# the utmost extent permitted by applicable law, neither express nor
+# implied; without malicious intent or gross negligence. In no event
+# may a licensor, author or contributor be held liable for indirect,
+# direct, other damage, loss, or other issues arising in any way out
+# of dealing in the work, even if advised of the possibility of such
+# damage or existence of a defect, except proven that it results out
+# of said person's immediate fault when using the work as intended.
 #-
 # Simple shell front-end for bugtorrent
 
@@ -65,7 +66,7 @@ if [ x"$DO_UNZIP" = x"1" ]; then
 	gzip -d ${F}.gz || mv ${F}.gz $F
 fi
 
-/usr/local/bin/btdownload${T}.py $P "$@"
+/usr/mpkg/bin/btdownload${T}.py $P "$@"
 
 printf '\r\n\n%s\nThe downloader just worked on was: %s\n' \
 	============================================================ "$F"

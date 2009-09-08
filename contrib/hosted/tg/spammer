@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/share/misc/licence.template,v 1.24 2008/04/22 11:43:31 tg Rel $
+# $MirOS: contrib/hosted/tg/spammer,v 1.1 2009/08/27 18:34:00 tg Exp $
 #-
 # Copyright (c) 2008, 2009
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -29,6 +29,7 @@ h=$(sed '/^$/,$d' <<<"$m" |
     grep -vi '^Received:.*from eurynome.mirbsd.org.*by herc.mirbsd.org' | \
     fgrep -v fetchmail)
 print "「$h」"
+# these are taken from _Sumdel
 cksum -b \
     -a cksum -a md4 -a sfv -a tiger -a rmd160 -a sha384 \
     -a whirlpool -a adler32 -a cdb -a sum -a oaat -a sha1 -a suma \
