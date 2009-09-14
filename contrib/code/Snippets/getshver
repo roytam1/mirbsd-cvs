@@ -24,17 +24,17 @@ test 1 = "$x" && goto CSH
 if test x"`echo u ^ echo x`" = x"x"; then
 	# Bourne shell, maybe Heirloom sh (tested)
 	echo bourne
-	return
+	exit 0
 fi
 if test x"$(echo u)" != x"u"; then
 	# other non-POSIX shell, maybe Solaris /bin/sh
 	echo binsh
-	return
+	exit 0
 fi
 # POSIX shell
 
 case $ZSH_VERSION in
-*[0-9]*) echo zsh; return ;;
+*[0-9]*) echo zsh; exit 0 ;;
 esac
 
 case x$SHELL_VERSION in
@@ -61,7 +61,7 @@ x) ;;
 		else
 			echo mkssh
 		fi ) || echo mks
-		return
+		exit 0
 	fi
 	# may still be MKS? we do not know...
 	;;
@@ -71,17 +71,17 @@ case x$BASH_VERSION in
 # no GNU bash
 x) ;;
 # known GNU bash versions
-x2*) echo bash2; return ;;
-x3*) echo bash3; return ;;
-x4*) echo bash4; return ;;
+x2*) echo bash2; exit 0 ;;
+x3*) echo bash3; exit 0 ;;
+x4*) echo bash4; exit 0 ;;
 # either bash1 or an unlikely version
-*) echo bash; return ;;
+*) echo bash; exit 0 ;;
 esac
 
 # mksh, mirbsdksh (pre-mksh), oksh (3.7+), pdksh
 case $KSH_VERSION in
-*MIRBSD\ KSH*) echo mksh; return ;;
-*PD\ KSH*MirOS*) echo pdksh-mbsd; return ;;
+*MIRBSD\ KSH*) echo mksh; exit 0 ;;
+*PD\ KSH*MirOS*) echo pdksh-mbsd; exit 0 ;;
 *PD\ KSH*)
 	if test x"`typeset -i10 x=0x10 2>&-; echo $x`" = x"16"; then
 		echo pdksh-obsd
@@ -90,14 +90,14 @@ case $KSH_VERSION in
 		# some older or vendor-modified version, old oksh
 		echo pdksh
 	fi
-	return ;;
+	exit 0 ;;
 esac
 
 x=.sh.version
 (eval x=\$\{$x\}) 2>&- || x=fail
 if test fail != "$x"; then
 	echo ksh93
-	return
+	exit 0
 fi
 if (
 	typeset _p
@@ -106,16 +106,16 @@ if (
 	eval [[ foobar = $_p '&&' \"foo bar\" = $_p ]]
 ) 2>&-; then
 	echo ksh88
-	return
+	exit 0
 fi
 
 if test x"$POSH_VERSION" != x""; then
 	echo posix-posh
-	return
+	exit 0
 fi
 if ( [[ 0 < 1 ]] ) 2>&-; then
 	echo posix-ext
-	return
+	exit 0
 fi
 if test x"`
 	foo() {
@@ -131,26 +131,27 @@ if test x"`
 	if test x"$(PATH=/nonexistent; export PATH
 	    printf 'f%so' o)" = x"foo"; then
 		# probably, but not certain
+		# also: NetBSD /bin/sh on MirBSD
 		echo posix-dash
-		return
+		exit 0
 	fi
 	# test if we fulfil Debian Policy 10.4
 	if ( test 1 -eq 1 -a a = a ) && test x"`echo -n a;
 	    echo -n b`" = x"ab"; then
 		echo posix-debian
-		return
+		exit 0
 	fi
 fi
 if test x"`echo -n a; echo -n b`" = x"ab"; then
 	echo posix-echon
-	return
+	exit 0
 fi
 if test x"`echo a'\c'; echo b`" = x"ab"; then
 	echo posix-echoc
-	return
+	exit 0
 fi
 echo posix
-return
+exit 0
 
 CSH:
 
@@ -159,3 +160,4 @@ if { bindkey >& /dev/null } then
 else
 	echo csh
 endif
+exit 0
