@@ -1,4 +1,4 @@
-# $MirOS: contrib/code/Snippets/getshver,v 1.2 2009/09/14 17:19:45 tg Exp $
+# $MirOS: contrib/code/Snippets/getshver,v 1.5 2009/09/14 17:36:28 tg Exp $
 #-
 # Copyright (c) 2009
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -34,7 +34,7 @@ fi
 # POSIX shell
 
 case $ZSH_VERSION in
-*[0-9]*) echo zsh; exit 0 ;;
+*[0-9]*) echo "zsh $ZSH_VERSION"; exit 0 ;;
 esac
 
 case x$SHELL_VERSION in
@@ -67,28 +67,34 @@ x) ;;
 	;;
 esac
 
+x=
 case x$BASH_VERSION in
 # no GNU bash
 x) ;;
 # known GNU bash versions
-x2*) echo bash2; exit 0 ;;
-x3*) echo bash3; exit 0 ;;
-x4*) echo bash4; exit 0 ;;
+x2*) x=bash2 ;;
+x3*) x=bash3 ;;
+x4*) x=bash4 ;;
 # either bash1 or an unlikely version
-*) echo bash; exit 0 ;;
+*) x=bash ;;
 esac
+if test x"$x" != x""; then
+	echo "$x $BASH_VERSION"
+	exit 0
+fi
 
 # mksh, mirbsdksh (pre-mksh), oksh (3.7+), pdksh
 case $KSH_VERSION in
-*MIRBSD\ KSH*) echo mksh; exit 0 ;;
-*PD\ KSH*MirOS*) echo pdksh-mbsd; exit 0 ;;
+*MIRBSD\ KSH*) echo "mksh ${KSH_VERSION#*KSH }" ; exit 0 ;;
+*PD\ KSH*MirOS*) echo "pdksh-mbsd${KSH_VERSION#*PD KSH}"; exit 0 ;;
 *PD\ KSH*)
 	if test x"`typeset -i10 x=0x10 2>&-; echo $x`" = x"16"; then
-		echo pdksh-obsd
+		# printing KSH_VERSION here is rather useless though
+		echo "pdksh-obsd ${KSH_VERSION#*KSH }"
 	else
 		# unspecified: Debian (modern), 5.2.14 (sorta modern),
 		# some older or vendor-modified version, old oksh
-		echo pdksh
+		echo "pdksh ${KSH_VERSION#*KSH }"
 	fi
 	exit 0 ;;
 esac
@@ -96,7 +102,7 @@ esac
 x=.sh.version
 (eval x=\$\{$x\}) 2>&- || x=fail
 if test fail != "$x"; then
-	echo ksh93
+	eval echo 'ksh93 ${.sh.version#Version }'
 	exit 0
 fi
 if (
@@ -110,7 +116,7 @@ if (
 fi
 
 if test x"$POSH_VERSION" != x""; then
-	echo posix-posh
+	echo "posix-posh $POSH_VERSION"
 	exit 0
 fi
 if ( [[ 0 < 1 ]] ) 2>&-; then
@@ -131,7 +137,7 @@ if test x"`
 	if test x"$(PATH=/nonexistent; export PATH
 	    printf 'f%so' o)" = x"foo"; then
 		# probably, but not certain
-		# also: NetBSD /bin/sh on MirBSD
+		# also: NetBSD /bin/sh on MirBSD; dash on Debian
 		echo posix-dash
 		exit 0
 	fi
@@ -156,7 +162,7 @@ exit 0
 CSH:
 
 if { bindkey >& /dev/null } then
-	echo "tcsh $version"
+	echo "tcsh $tcsh"
 else
 	echo csh
 endif
