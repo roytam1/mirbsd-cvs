@@ -1,4 +1,4 @@
-# $MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $
+# $MirOS: contrib/code/Snippets/getshver,v 1.2 2009/09/14 17:19:45 tg Exp $
 #-
 # Copyright (c) 2009
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -17,6 +17,9 @@
 # of dealing in the work, even if advised of the possibility of such
 # damage or existence of a defect, except proven that it results out
 # of said person's immediate fault when using the work as intended.
+
+set x = 1
+test 1 = "$x" && goto CSH
 
 if test x"`echo u ^ echo x`" = x"x"; then
 	# Bourne shell, maybe Heirloom sh (tested)
@@ -145,3 +148,12 @@ if test x"`echo a'\c'; echo b`" = x"ab"; then
 	return
 fi
 echo posix
+return
+
+CSH:
+
+if { bindkey >& /dev/null } then
+	echo "tcsh $version"
+else
+	echo csh
+endif
