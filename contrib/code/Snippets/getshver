@@ -93,10 +93,12 @@ case $KSH_VERSION in
 	return ;;
 esac
 
-case x"`(echo ${.sh.version}) 2>&- || echo fail`" in
-x|xfail) ;;
-*) echo ksh93; return ;;
-esac
+x=.sh.version
+(eval x=\$\{$x\}) 2>&- || x=fail
+if test fail != "$x"; then
+	echo ksh93
+	return
+fi
 if (
 	typeset _p
 
