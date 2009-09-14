@@ -18,8 +18,16 @@
 # damage or existence of a defect, except proven that it results out
 # of said person's immediate fault when using the work as intended.
 
+# escape this from tclsh \
 set x = 1
+# escape this from tclsh \
 test 1 = "$x" && goto CSH
+
+# escape this from tclsh \
+if false; then
+	puts tclsh
+	exit 0
+fi
 
 if test x"`echo u ^ echo x`" = x"x"; then
 	# Bourne shell, maybe Heirloom sh (tested)
