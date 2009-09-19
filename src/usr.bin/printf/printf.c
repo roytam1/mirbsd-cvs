@@ -60,7 +60,7 @@
 __COPYRIGHT("Copyright (c) 1989 The Regents of the University of California.\n\
 All rights reserved.\n");
 __SCCSID("@(#)printf.c	5.9 (Berkeley) 6/1/90");
-__RCSID("$MirOS: src/usr.bin/printf/printf.c,v 1.9 2009/08/01 19:56:01 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/printf/printf.c,v 1.10 2009/08/01 20:38:50 tg Exp $");
 
 static int print_escape_str(const char *);
 static int print_escape(const char *);
@@ -78,6 +78,14 @@ static void check_conversion(const char *, const char *);
 
 static int usage(void);
 static int real_main(char *, const char *[]);
+
+#ifdef MKSH_PRINTF_BUILTIN
+static int s_get(void);
+static void s_put(int);
+static void s_prt(int);
+
+static const char *s_ptr;
+#endif
 
 static int rval;
 static const char **gargv;
@@ -268,11 +276,30 @@ main(int argc, char *argv[])
 static int
 print_escape_str(const char *str)
 {
+#ifndef MKSH_PRINTF_BUILTIN
 	int value;
+#endif
 	int c;
 
 	while (*str) {
 		if (*str == '\\') {
+#ifdef MKSH_PRINTF_BUILTIN
+			s_ptr = str + 1;
+			c = unbksl(false, s_get, s_put);
+			str = s_ptr;
+			if (c == -1) {
+				if ((c = *str++) == 'c')
+					return (1);
+				else if (!c)
+					--str;
+				putchar(c);
+				uwarnx(UWARNX
+				    "unknown escape sequence `\\%c'", c);
+				rval = 1;
+			} else
+				s_prt(c);
+			continue;
+#else
 			str++;
 			/*
 			 * %b string octal constants are not like those in C.
@@ -293,6 +320,7 @@ print_escape_str(const char *str)
 				str--;
 				str += print_escape(str);
 			}
+#endif
 		} else {
 			putchar (*str);
 		}
@@ -308,6 +336,29 @@ print_escape_str(const char *str)
 static int
 print_escape(const char *str)
 {
+#ifdef MKSH_PRINTF_BUILTIN
+	int c;
+
+	s_ptr = str + 1;
+	c = unbksl(true, s_get, s_put);
+	if (c == -1) {
+		s_ptr = str + 1;
+		switch ((c = *s_ptr++)) {
+		case '\\':
+		case '\'':
+		case '"':
+			break;
+		case '\0':
+			--s_ptr;
+			/* FALLTHROUGH */
+		default:
+			uwarnx(UWARNX "unknown escape sequence `\\%c'", c);
+			rval = 1;
+		}
+	}
+	s_prt(c);
+	return (s_ptr - str - 1);
+#else
 	const char *start = str;
 	int value;
 	int c;
@@ -390,6 +441,7 @@ print_escape(const char *str)
 	}
 
 	return 1;
+#endif
 }
 
 static char *
@@ -526,3 +578,33 @@ usage(void)
 	(void)fprintf(stderr, "usage: printf format [arg ...]\n");
 	return (1);
 }
+
+#ifdef MKSH_PRINTF_BUILTIN
+static int
+s_get(void)
+{
+	return (*s_ptr++);
+}
+
+static void
+s_put(int c __unused)
+{
+	--s_ptr;
+}
+
+static void
+s_prt(int c)
+{
+	char ts[4];
+
+	if ((unsigned int)c < 0x100) {
+		ts[0] = c;
+		c = 1;
+	} else
+		c = utf_wctomb(ts, c - 0x100);
+
+	ts[c] = 0;
+	for (c = 0; ts[c]; ++c)
+		putchar(ts[c]);
+}
+#endif
