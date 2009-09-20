@@ -1,5 +1,5 @@
 static const char __vcsid[] = "@(#) MirOS contributed arc4random.c (old)"
-    "\n	@(#)rcsid_master: $MirOS: contrib/code/Snippets/arc4random.c,v 1.15 2009/08/02 11:24:40 tg Exp $"
+    "\n	@(#)rcsid_master: $MirOS: contrib/code/Snippets/arc4random.c,v 1.16 2009/08/02 13:09:12 tg Stab $"
     ;
 
 /*-
@@ -380,8 +380,7 @@ arc4_writeback(uint8_t *buf, size_t len, char do_rd)
 	}
 	xlen = MIN(sizeof(w32_buf) - sizeof(w32_hklm) - sizeof(w32_hkcu) -
 	    sizeof(w32_a4b), len);
-	j = xlen + sizeof(w32_buf) + sizeof(w32_hklm) + sizeof(w32_hkcu) +
-	    sizeof(w32_a4b);
+	j = xlen + sizeof(w32_hklm) + sizeof(w32_hkcu) + sizeof(w32_a4b);
 	for (i = 0; i < MAX(j, len); ++i)
 		w32_buf[i % j] ^= w32_hklm[i % sizeof(w32_hklm)] ^
 		    w32_hkcu[i % sizeof(w32_hkcu)] ^ buf[i % len] ^
@@ -405,10 +404,10 @@ arc4_writeback(uint8_t *buf, size_t len, char do_rd)
 
 	i = sizeof(w32_hklm) + sizeof(w32_hkcu) + sizeof(w32_a4b);
 	while (len) {
-		memcpy(buf, w32_buf + i, xlen);
-		buf += xlen;
-		i += xlen;
-		len -= xlen;
+		j = MIN(len, xlen);
+		memcpy(buf, w32_buf + i, j);
+		buf += j;
+		len -= j;
 	}
 
 	memset(w32_buf, '\0', sizeof(w32_buf));
