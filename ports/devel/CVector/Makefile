@@ -1,4 +1,4 @@
-# $MirOS: ports/chemistry/openbabel/Makefile,v 1.1 2009/09/15 18:26:22 bsiegert Exp $
+# $MirOS: ports/devel/CVector/Makefile,v 1.1 2009/09/15 19:44:09 bsiegert Exp $
 
 COMMENT=		dynamic array API for ANSI C
 
@@ -21,7 +21,7 @@ pre-patch:
 	cp ${FILESDIR}/Makefile ${WRKSRC}
 
 post-install:
-	mkdir -p ${DOCDIR}
-	cp ${WRKSRC}/README_CVector.* ${DOCDIR}
+	${INSTALL_DATA_DIR} ${DOCDIR}
+	${INSTALL_DATA} ${WRKSRC}/README_CVector.* ${DOCDIR}/
 
 .include <bsd.port.mk>

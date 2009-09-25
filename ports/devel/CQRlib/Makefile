@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/CVector/Makefile,v 1.1 2009/09/15 19:44:09 bsiegert Exp $
+# $MirOS: ports/devel/CQRlib/Makefile,v 1.1 2009/09/24 20:24:16 bsiegert Exp $
 
 COMMENT=		quaternion rotation API
 
@@ -21,7 +21,7 @@ pre-patch:
 	cp ${FILESDIR}/Makefile ${WRKSRC}
 
 post-install:
-	mkdir -p ${DOCDIR}
-	cp ${WRKSRC}/README_CQRlib.* ${DOCDIR}
+	${INSTALL_DATA_DIR} ${DOCDIR}
+	${INSTALL_DATA} ${WRKSRC}/README_CQRlib.* ${DOCDIR}/
 
 .include <bsd.port.mk>
