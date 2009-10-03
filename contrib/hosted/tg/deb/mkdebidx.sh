@@ -1,5 +1,5 @@
 #!/bin/mksh
-rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.23 2009/04/30 22:41:01 tg Exp $'
+rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.24 2009/05/27 22:42:31 tg Exp $'
 #-
 # Copyright (c) 2008, 2009
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -136,7 +136,14 @@ for suite in dists/*; do
 						    ${sp_dist[i]} = $distname ]] && break
 						let i++
 					done
-					(( i == nsrc )) && let nsrc++
+					if (( i == nsrc )); then
+						let nsrc++
+						pvo=
+						ppo=
+					else
+						eval pvo=\$\{sp_ver_${suitename}[i]\}
+						eval ppo=\$\{sp_dir_${suitename}[i]\}
+					fi
 					sp_name[i]=$pn
 					sp_dist[i]=$distname
 					#sp_suites[i]="${sp_suites[i]} $suitename"
@@ -149,8 +156,8 @@ for suite in dists/*; do
 						done
 						(( j < nrpl )) && pv="${pv}from ${prepldst[j]}"
 					fi
-					eval sp_ver_${suitename}[i]=\$pv
-					eval sp_dir_${suitename}[i]=\$pp/
+					eval sp_ver_${suitename}[i]='${pvo:+$pvo,}$pv'
+					eval sp_dir_${suitename}[i]='${ppo:+$ppo,}$pp/'
 					sp_desc[i]=${sp_desc[i]},$pd
 				fi
 				pn=; pv=; pd=; pp=
@@ -226,7 +233,7 @@ done
  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
  <meta name="MSSmartTagsPreventParsing" content="TRUE" />
  <title>MirDebian “WTF” Repository Index</title>
- <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.23 2009/04/30 22:41:01 tg Exp $" />
+ <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.24 2009/05/27 22:42:31 tg Exp $" />
  <style type="text/css">
   table {
    border: 1px solid black;
@@ -311,30 +318,44 @@ while read -p num rest; do
 	done
 	print " <td class=\"srcpkgdesc\">Binary:${pd#,}</td>"
 	for suitename in $allsuites; do
-		eval pv=\${sp_ver_${suitename}[num]}
-		eval pp=\${sp_dir_${suitename}[num]}
-		if [[ $pv = *@()* ]]; then
-			pvdsc=${pv%%@()*}
-			pv=${pv##*@()}
-		else
-			pvdsc=$pv
-		fi
-		if [[ -z $pv ]]; then
-			pv=-
-			if (( nrpl )); then
-				x=${suitename}/${sp_dist[num]}/${sp_name[num]}/%
-				j=0
-				while (( j < nrpl )); do
-					[[ ${preplsrc[j]} = $x ]] && break
-					let j++
-				done
-				(( j < nrpl )) && pv=${prepldst[j]}
+		eval pvo=\${sp_ver_${suitename}[num]}
+		eval ppo=\${sp_dir_${suitename}[num]}
+		saveIFS=$IFS
+		IFS=,
+		set -A pva -- $pvo
+		set -A ppa -- $ppo
+		IFS=$saveIFS
+		(( ${#pva[*]} )) || pva[0]=
+		y=
+		i=0
+		while (( i < ${#pva[*]} )); do
+			pv=${pva[i]}
+			pp=${ppa[i]}
+			if [[ $pv = *@()* ]]; then
+				pvdsc=${pv%%@()*}
+				pv=${pv##*@()}
+			else
+				pvdsc=$pv
 			fi
-		elif [[ $pp != ?(/) ]]; then
-			pv="<a href=\"$pp${sp_name[num]}_${pvdsc##+([0-9]):}.dsc\">$pv</a>"
-		fi
-		[[ $pp != ?(/) ]] && pv="<a href=\"$pp\">[dir]</a> $pv"
-		print " <td class=\"srcpkgitem\">$pv</td>"
+			if [[ -z $pv ]]; then
+				pv=-
+				if (( nrpl )); then
+					x=${suitename}/${sp_dist[num]}/${sp_name[num]}/%
+					j=0
+					while (( j < nrpl )); do
+						[[ ${preplsrc[j]} = $x ]] && break
+						let j++
+					done
+					(( j < nrpl )) && pv=${prepldst[j]}
+				fi
+			elif [[ $pp != ?(/) ]]; then
+				pv="<a href=\"$pp${sp_name[num]}_${pvdsc##+([0-9]):}.dsc\">$pv</a>"
+			fi
+			[[ $pp != ?(/) ]] && pv="<a href=\"$pp\">[dir]</a> $pv"
+			y=${y:+"$y<br />"}$pv
+			let i++
+		done
+		print " <td class=\"srcpkgitem\">$y</td>"
 	done
 	print "</tr>"
 	k=0
