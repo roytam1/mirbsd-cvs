@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/hosted/tg/rcp,v 1.1 2009/04/10 17:43:39 tg Exp $
+# $MirOS: contrib/hosted/tg/rcp,v 1.2 2009/08/25 16:34:02 tg Exp $
 #-
 # Copyright (c) 2009
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -47,4 +47,4 @@ while (( i < ${#args[*]} )); do
 	let ++i
 done
 
-exec rsync -rxlztpgavPHKS --stats "$sshx" "${args[@]}"
+exec rsync -xzavPHKS --stats "$sshx" "${args[@]}"
