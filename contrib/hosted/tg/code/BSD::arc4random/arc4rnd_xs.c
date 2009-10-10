@@ -31,6 +31,10 @@
 #include "perl.h"
 #include "XSUB.h"
 
+#if !defined(__attribute__) && (!defined(__GNUC__) || (__GNUC__ < 1) || (__GNUC__ == 2 && __GNUC_MINOR__ < 5))
+#define __attribute__(x)		/* nothing */
+#endif
+
 #if !defined(__RCSID) || !defined(__IDSTRING)
 #undef __RCSID
 #undef __IDSTRING
@@ -44,7 +48,7 @@
 #define __RCSID(x)			__IDSTRING(rcsid,x)
 #endif
 
-__RCSID("$MirOS: contrib/hosted/tg/code/BSD::arc4random/arc4rnd_xs.c,v 1.3 2009/06/29 16:25:17 tg Exp $");
+__RCSID("$MirOS: contrib/hosted/tg/code/BSD::arc4random/arc4rnd_xs.c,v 1.4 2009/07/16 12:12:52 tg Exp $");
 
 #ifdef REDEF_USCORETYPES
 #define u_int32_t	uint32_t
