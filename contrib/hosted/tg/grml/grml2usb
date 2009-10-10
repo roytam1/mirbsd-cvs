@@ -15,7 +15,15 @@ This script installs a grml system (either a running system or ISO[s]) to a USB 
 # from __future__ import with_statement
 from optparse import OptionParser
 from inspect import isroutine, isclass
-import datetime, logging, os, re, subprocess, sys, tempfile, time, os.path
+import datetime
+import logging
+import os
+import os.path
+import re
+import subprocess
+import sys
+import tempfile
+import time
 
 # global variables
 PROG_VERSION = "0.9.13-pre1"
