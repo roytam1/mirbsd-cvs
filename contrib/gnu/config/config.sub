@@ -1,12 +1,12 @@
 #! /bin/sh
-# $MirOS$
+# $MirOS: contrib/gnu/config/config.sub,v 1.11 2008/05/02 23:37:48 tg Exp $
 #-
 # Configuration validation subroutine script.
 #   Copyright (C) 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
-#   2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008
+#   2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009
 #   Free Software Foundation, Inc.
 
-timestamp='2008-04-14 (MirOS)'
+timestamp='2009-06-11 (MirOS)'
 
 # This file is (in principle) common to ALL GNU software.
 # The presence of a machine in this file suggests that SOME GNU software
@@ -124,6 +124,7 @@ maybe_os=`echo $1 | sed 's/^\(.*\)-\([^-]*-[^-]*\)$/\2/'`
 case $maybe_os in
   nto-qnx* | linux-gnu* | linux-dietlibc | linux-newlib* | linux-uclibc* | \
   uclinux-uclibc* | uclinux-gnu* | kfreebsd*-gnu* | knetbsd*-gnu* | netbsd*-gnu* | \
+  kopensolaris*-gnu* | \
   storm-chaos* | os2-emx* | rtmk-nova*)
     os=-$maybe_os
     basic_machine=`echo $1 | sed 's/^\(.*\)-\([^-]*-[^-]*\)$/\1/'`
@@ -153,6 +154,9 @@ case $os in
 	-apple | -axis | -knuth | -cray)
 		os=
 		basic_machine=$1
+		;;
+        -bluegene*)
+	        os=-cnk
 		;;
 	-sim | -cisco | -oki | -wec | -winbond)
 		os=
@@ -251,6 +255,7 @@ case $basic_machine in
 	| h8300 | h8500 | hppa | hppa1.[01] | hppa2.0 | hppa2.0[nw] | hppa64 \
 	| i370 | i860 | i960 | ia64 \
 	| ip2k | iq2000 \
+	| lm32 \
 	| m32c | m32r | m32rle | m68000 | m68k | m88k \
 	| maxq | mb | microblaze | mcore | mep | metag \
 	| mips | mipsbe | mipseb | mipsel | mipsle \
@@ -272,6 +277,7 @@ case $basic_machine in
 	| mipsisa64sr71k | mipsisa64sr71kel \
 	| mipstx39 | mipstx39el \
 	| mn10200 | mn10300 \
+	| moxie \
 	| mt \
 	| msp430 \
 	| nios | nios2 \
@@ -281,7 +287,7 @@ case $basic_machine in
 	| powerpc | powerpc64 | powerpc64le | powerpcle | ppcbe \
 	| pyramid \
 	| score \
-	| sh | sh[1234] | sh[24]a | sh[23]e | sh[34]eb | sheb | shbe | shle | sh[1234]le | sh3ele \
+	| sh | sh[1234] | sh[24]a | sh[24]aeb | sh[23]e | sh[34]eb | sheb | shbe | shle | sh[1234]le | sh3ele \
 	| sh64 | sh64le \
 	| sparc | sparc64 | sparc64b | sparc64v | sparc86x | sparclet | sparclite \
 	| sparcv8 | sparcv9 | sparcv9b | sparcv9v \
@@ -290,7 +296,7 @@ case $basic_machine in
 	| v850 | v850e \
 	| we32k \
 	| x86 | xc16x | xscale | xscalee[bl] | xstormy16 | xtensa \
-	| z8k)
+	| z8k | z80)
 		basic_machine=$basic_machine-unknown
 		;;
 	m6811 | m68hc11 | m6812 | m68hc12)
@@ -333,6 +339,7 @@ case $basic_machine in
 	| hppa-* | hppa1.[01]-* | hppa2.0-* | hppa2.0[nw]-* | hppa64-* \
 	| i*86-* | i860-* | i960-* | ia64-* \
 	| ip2k-* | iq2000-* \
+	| lm32-* \
 	| m32c-* | m32r-* | m32rle-* \
 	| m68000-* | m680[012346]0-* | m68360-* | m683?2-* | m68k-* \
 	| m88110-* | m88k-* | maxq-* | mcore-* | metag-* \
@@ -364,7 +371,7 @@ case $basic_machine in
 	| powerpc-* | powerpc64-* | powerpc64le-* | powerpcle-* | ppcbe-* \
 	| pyramid-* \
 	| romp-* | rs6000-* \
-	| sh-* | sh[1234]-* | sh[24]a-* | sh[23]e-* | sh[34]eb-* | sheb-* | shbe-* \
+	| sh-* | sh[1234]-* | sh[24]a-* | sh[24]aeb-* | sh[23]e-* | sh[34]eb-* | sheb-* | shbe-* \
 	| shle-* | sh[1234]le-* | sh3ele-* | sh64-* | sh64le-* \
 	| sparc-* | sparc64-* | sparc64b-* | sparc64v-* | sparc86x-* | sparclet-* \
 	| sparclite-* \
@@ -377,7 +384,7 @@ case $basic_machine in
 	| x86-* | x86_64-* | xc16x-* | xps100-* | xscale-* | xscalee[bl]-* \
 	| xstormy16-* | xtensa*-* \
 	| ymp-* \
-	| z8k-*)
+	| z8k-* | z80-*)
 		;;
 	# Recognize the basic CPU types without company name, with glob match.
 	xtensa*)
@@ -445,6 +452,10 @@ case $basic_machine in
 		basic_machine=m68k-apollo
 		os=-bsd
 		;;
+	aros)
+		basic_machine=i386-pc
+		os=-aros
+		;;
 	aux)
 		basic_machine=m68k-apple
 		os=-aux
@@ -461,9 +472,17 @@ case $basic_machine in
 		basic_machine=bfin-`echo $basic_machine | sed 's/^[^-]*-//'`
 		os=-linux
 		;;
+	bluegene*)
+		basic_machine=powerpc-ibm
+		os=-cnk
+		;;
 	c90)
 		basic_machine=c90-cray
 		os=-unicos
+		;;
+        cegcc)
+		basic_machine=arm-unknown
+		os=-cegcc
 		;;
 	convex-c1)
 		basic_machine=c1-convex
@@ -1138,6 +1157,10 @@ case $basic_machine in
 		basic_machine=z8k-unknown
 		os=-sim
 		;;
+	z80-*-coff)
+		basic_machine=z80-unknown
+		os=-sim
+		;;
 	none)
 		basic_machine=none-none
 		os=-none
@@ -1176,7 +1199,7 @@ case $basic_machine in
 	we32k)
 		basic_machine=we32k-att
 		;;
-	sh[1234] | sh[24]a | sh[34]eb | sh[1234]le | sh[23]ele)
+	sh[1234] | sh[24]a | sh[24]aeb | sh[34]eb | sh[1234]le | sh[23]ele)
 		basic_machine=sh-unknown
 		;;
 	sparc | sparcv8 | sparcv9 | sparcv9b | sparcv9v)
@@ -1246,19 +1269,20 @@ case $os in
 	# Each alternative MUST END IN A *, to match a version number.
 	# -sysv* is not here because it comes later, after sysvr4.
 	-gnu* | -bsd* | -mach* | -minix* | -genix* | -ultrix* | -irix* \
-	      | -*vms* | -sco* | -esix* | -isc* | -aix* | -sunos | -sunos[34]*\
+	      | -*vms* | -sco* | -esix* | -isc* | -aix* | -cnk* | -sunos | -sunos[34]*\
 	      | -hpux* | -unos* | -osf* | -luna* | -dgux* | -solaris* | -sym* \
+	      | -kopensolaris* \
 	      | -amigaos* | -amigados* | -msdos* | -newsos* | -unicos* | -aof* \
-	      | -aos* \
+	      | -aos* | -aros* \
 	      | -nindy* | -vxsim* | -vxworks* | -ebmon* | -hms* | -mvs* \
 	      | -clix* | -riscos* | -uniplus* | -iris* | -rtu* | -xenix* \
-	      | -hiux* | -386bsd* | -knetbsd* | -midnightbsd* \
-	      | -mirbsd* | -netbsd* | -openbsd* | -solidbsd* \
+	      | -hiux* | -386bsd* | -knetbsd* | -mirbsd* | -netbsd* \
+	      | -openbsd* | -solidbsd* | -midnightbsd* \
 	      | -ekkobsd* | -kfreebsd* | -freebsd* | -riscix* | -lynxos* \
 	      | -bosx* | -nextstep* | -cxux* | -aout* | -elf* | -oabi* \
 	      | -ptx* | -coff* | -ecoff* | -winnt* | -domain* | -vsta* \
 	      | -udi* | -eabi* | -lites* | -ieee* | -go32* | -aux* \
-	      | -chorusos* | -chorusrdb* \
+	      | -chorusos* | -chorusrdb* | -cegcc* \
 	      | -cygwin* | -pe* | -psos* | -moss* | -proelf* | -rtems* \
 	      | -mingw32* | -linux-gnu* | -linux-newlib* | -linux-uclibc* \
 	      | -uxpv* | -beos* | -mpeix* | -udk* \
@@ -1598,7 +1622,7 @@ case $basic_machine in
 			-sunos*)
 				vendor=sun
 				;;
-			-aix*)
+			-cnk*|-aix*)
 				vendor=ibm
 				;;
 			-beos*)
