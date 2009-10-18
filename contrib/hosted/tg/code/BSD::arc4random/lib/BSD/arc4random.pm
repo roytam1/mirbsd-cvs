@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/tg/code/BSD::arc4random/lib/BSD/arc4random.pm,v 1.3 2009/07/16 13:03:07 tg Exp $
+# $MirOS: contrib/hosted/tg/code/BSD::arc4random/lib/BSD/arc4random.pm,v 1.4 2009/07/16 13:13:54 tg Exp $
 #-
 # Copyright (c) 2008, 2009
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -22,7 +22,6 @@ package BSD::arc4random;
 
 use strict;
 use warnings;
-use threads::shared;
 
 BEGIN {
 	require Exporter;
@@ -49,9 +48,15 @@ BEGIN {
 use vars qw($RANDOM);		# public tied integer variable
 sub have_kintf() {}		# public constant function, prototyped
 
-
-# private thread lock
-my $arcfour_lock : shared;
+my $have_threadlock = 1;
+my $arcfour_lock;
+eval { require threads::shared; };
+if ($@) {
+	$have_threadlock = 0; # module not available
+} else{
+	# private thread lock
+	threads::shared::share($arcfour_lock);
+};
 
 bootstrap BSD::arc4random $BSD::arc4random::VERSION;
 
@@ -59,7 +64,7 @@ bootstrap BSD::arc4random $BSD::arc4random::VERSION;
 sub
 arc4random()
 {
-	lock($arcfour_lock);
+	lock($arcfour_lock) if $have_threadlock;;
 	return &arc4random_xs();
 }
 
@@ -68,7 +73,7 @@ arc4random_addrandom($)
 {
 	my $buf = shift;
 
-	lock($arcfour_lock);
+	lock($arcfour_lock) if $have_threadlock;
 	return &arc4random_addrandom_xs($buf);
 }
 
@@ -77,7 +82,7 @@ arc4random_pushb($)
 {
 	my $buf = shift;
 
-	lock($arcfour_lock);
+	lock($arcfour_lock) if $have_threadlock;
 	return &arc4random_pushb_xs($buf);
 }
 
@@ -86,14 +91,14 @@ arc4random_pushk($)
 {
 	my $buf = shift;
 
-	lock($arcfour_lock);
+	lock($arcfour_lock) if $have_threadlock;
 	return &arc4random_pushk_xs($buf);
 }
 
 sub
 arc4random_stir()
 {
-	lock($arcfour_lock);
+	lock($arcfour_lock) if $have_threadlock;
 	&arc4random_stir_xs();
 	return;
 }
