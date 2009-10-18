@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/tg/code/BSD::arc4random/lib/BSD/arc4random.pm,v 1.4 2009/07/16 13:13:54 tg Exp $
+# $MirOS: contrib/hosted/tg/code/BSD::arc4random/lib/BSD/arc4random.pm,v 1.5 2009/10/18 15:02:10 bsiegert Exp $
 #-
 # Copyright (c) 2008, 2009
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -52,8 +52,8 @@ my $have_threadlock = 1;
 my $arcfour_lock;
 eval { require threads::shared; };
 if ($@) {
-	$have_threadlock = 0; # module not available
-} else{
+	$have_threadlock = 0;	# module not available
+} else {
 	# private thread lock
 	threads::shared::share($arcfour_lock);
 };
@@ -64,7 +64,7 @@ bootstrap BSD::arc4random $BSD::arc4random::VERSION;
 sub
 arc4random()
 {
-	lock($arcfour_lock) if $have_threadlock;;
+	lock($arcfour_lock) if $have_threadlock;
 	return &arc4random_xs();
 }
 
