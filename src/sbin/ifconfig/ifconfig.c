@@ -1,4 +1,4 @@
-/**	$MirOS: src/sbin/ifconfig/ifconfig.c,v 1.3 2006/06/23 14:19:15 tg Exp $ */
+/**	$MirOS: src/sbin/ifconfig/ifconfig.c,v 1.4 2006/11/06 12:50:27 tg Exp $ */
 /*	$OpenBSD: ifconfig.c,v 1.121 2004/12/01 15:57:44 jmc Exp $	*/
 /*	$NetBSD: ifconfig.c,v 1.40 1997/10/01 02:19:43 enami Exp $	*/
 
@@ -113,7 +113,7 @@
 
 __COPYRIGHT("@(#) Copyright (c) 1983, 1993\n\
 	The Regents of the University of California.  All rights reserved.\n");
-__RCSID("$MirOS: src/sbin/ifconfig/ifconfig.c,v 1.3 2006/06/23 14:19:15 tg Exp $");
+__RCSID("$MirOS: src/sbin/ifconfig/ifconfig.c,v 1.4 2006/11/06 12:50:27 tg Exp $");
 
 struct	ifreq		ifr, ridreq;
 struct	ifaliasreq	addreq;
@@ -2848,23 +2848,36 @@ sec2str(time_t total)
 }
 #endif /* INET6 */
 
+/* interface names to skip */
+static const char * const list_if_skips[] = {
+	"enc",
+	"irip",
+	"pflog",
+	"pfsync",
+	NULL
+};
+
 void
 list_if(void)
 {
-	struct ifaddrs *ifap, *ifa;
-	char name2[IFNAMSIZ];
+	struct ifaddrs *ifap, *ifa, *ifl = NULL;
+	const char * const *cp;
 
 	if (getifaddrs(&ifap) != 0)
 		err(1, "getifaddrs");
 
-	ifa = ifap;
-	strlcpy(name2, ifa->ifa_name, sizeof(name2));
-
-	for ( ; ifa; ifa = ifa->ifa_next)
-		if ( !strcmp(name2, ifa->ifa_name) == 0) {
-			fputs(ifa->ifa_name, stdout);
-			putchar(' ');
-			strlcpy(name2, ifa->ifa_name, sizeof (name2));
+	for (ifa = ifap; ifa; ifa = ifa->ifa_next) {
+		if (ifl && !strcmp(ifl->ifa_name, ifa->ifa_name))
 			continue;
+		for (cp = list_if_skips; *cp; ++cp) {
+			if (strncmp(ifa->ifa_name, *cp, strlen(*cp)))
+				continue;
+			if (isdigit(ifa->ifa_name[strlen(*cp)]))
+				break;
 		}
+		if (*cp)
+			continue;
+		printf("%s%s", ifa == ifap ? "" : " ", ifa->ifa_name);
+		ifl = ifa;
+	}
 }
