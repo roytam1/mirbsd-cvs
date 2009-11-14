@@ -1,0 +1,34 @@
+$MirOS$
+--- daemon/ekey-rekey.in.orig	Wed Oct 14 15:28:56 2009
++++ daemon/ekey-rekey.in	Sat Nov 14 21:48:09 2009
+@@ -7,10 +7,20 @@ fi
+ usage () {
+     cat <<EOF >&2
+ ekey-rekey: Utility to re-key an Entropy Key's Long-term-key
+-Usage: ekey-rekey SERIAL MASTERKEY
++Usage: ekey-rekey [-d PATH] SERIAL MASTERKEY
+ EOF
+ }
+ 
++if test "x$1" = "x-d"; then
++    if test "x$2" = "x"; then
++        usage
++        exit 1
++    fi
++    DEVICE=$2
++    shift
++    shift
++fi
++
+ if test "x$1" = "x"; then
+     usage
+     exit 1
+@@ -35,7 +45,7 @@ SERIAL="$1"
+ # alter the serial number to ensure it contains no path separators
+ SERIALP="$(echo "$1" | tr / .)"
+ MASTERKEY="$2"
+-DEVICE="/dev/entropykey/$SERIALP"
++: ${DEVICE="/dev/entropykey/$SERIALP"}
+ SOCKET="/var/run/entropykeys/$SERIALP"
+ NODETOUSE="$DEVICE"
+ 

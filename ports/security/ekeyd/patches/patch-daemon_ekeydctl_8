@@ -1,0 +1,12 @@
+$MirOS$
+--- daemon/ekeydctl.8.orig	Tue Aug 25 17:34:29 2009
++++ daemon/ekeydctl.8	Sat Nov 14 21:48:09 2009
+@@ -126,7 +126,7 @@ The number of bits per second being writ
+ .SH "SEE ALSO"
+ ekeyd(8)
+ .SH AUTHOR
+-Copyright © 2009 Simtec Electronics.
++Copyright \(co 2009 Simtec Electronics.
+ All rights reserved.
+ 
+ Permission is hereby granted, free of charge, to any person obtaining a copy 

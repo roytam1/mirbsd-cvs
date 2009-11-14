@@ -1,0 +1,23 @@
+$MirOS$
+--- daemon/ekey-setkey.c.orig	Fri Nov  6 12:33:09 2009
++++ daemon/ekey-setkey.c	Sat Nov 14 21:48:09 2009
+@@ -40,6 +40,8 @@
+ /** Exit code returned when utility is unable to write updated keyring */
+ #define EXIT_CODE_WRITEKEYRING 6
+ 
++#define DEVEKEY "/dev/entropykey/"
++
+ /** Conenction state. */
+ struct econ_state_s {
+     uint8_t *mkey; /**< Master key. */
+@@ -247,8 +249,8 @@ main(int argc, char **argv)
+             fprintf(stderr, usage, argv[0]);
+             return EXIT_CODE_CMDLINE;
+         } else {
+-            key_path = calloc(1, 17 + strlen("/dev/entropykey/"));
+-            sprintf(key_path, "/dev/entropykey/");
++            key_path = calloc(1, 17 + strlen(DEVEKEY));
++            memcpy(key_path, DEVEKEY, 1 + strlen(DEVEKEY));
+             pem64_encode_bytes(snum, 12, key_path + 16);
+         }
+     } else {

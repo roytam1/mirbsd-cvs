@@ -1,0 +1,20 @@
+$MirOS$
+--- daemon/ekeyd.c.orig	Fri Nov  6 12:33:09 2009
++++ daemon/ekeyd.c	Sat Nov 14 21:48:09 2009
+@@ -163,10 +163,13 @@ open_file_output(const char *fname)
+ bool
+ open_kernel_output(int bits_per_byte)
+ {
+-    static char *fname = "/dev/random";
+-#ifdef EKEY_OS_OPENBSD
+-    fname = "/dev/srandom";
++    static char fname[] =
++#if defined(EKEY_OS_OPENBSD) || defined(EKEY_OS_MIRBSD)
++      "/dev/srandom"
++#else
++      "/dev/random"
+ #endif
++      ;
+     if (output_stream != NULL) {
+         errno = EADDRINUSE;
+         return false;

@@ -1,0 +1,12 @@
+$MirOS$
+--- daemon/ekey-ulusbd.8.orig	Sun Aug 30 14:58:55 2009
++++ daemon/ekey-ulusbd.8	Sat Nov 14 21:48:09 2009
+@@ -39,7 +39,7 @@ Print the version number and exit.
+ .SH "SEE ALSO"
+ ekeyd(8) ekeyd.conf(5), ekey-rekey(8), ekey-setkey(8)
+ .SH AUTHOR
+-Copyright © 2009 Simtec Electronics.
++Copyright \(co 2009 Simtec Electronics.
+ All rights reserved.
+ 
+ Permission is hereby granted, free of charge, to any person obtaining a copy 
