@@ -4,3 +4,16 @@ This is a collection of utilities to drive the Simtec Entropy Key.
 The ekey-ulusbd may not work, as it requires to specify bus and
 device ID, which I could not find out. The regular ekeyd requires
 at least MirBSD #10-current (2009-11-05).
+
+
+The following snippet can be added to /etc/daily.local for monitoring:
+
+print
+print "Daily eKey stats"
+(${PREFIX}/sbin/ekeydctl list | column -ts,) 2>&1
+${PREFIX}/sbin/ekeydctl list 2>/dev/null | while IFS=, read nr rest; do
+	[[ $nr = +([0-9]) ]] || continue
+	print
+	print "Daily stats for eKey #$nr"
+	${PREFIX}/sbin/ekeydctl stats $nr
+done 2>&1
