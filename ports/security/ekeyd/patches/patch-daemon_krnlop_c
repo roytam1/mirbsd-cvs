@@ -1,7 +1,7 @@
-$MirOS$
---- daemon/krnlop.c.orig	Fri Nov  6 11:19:55 2009
-+++ daemon/krnlop.c	Sat Nov 14 21:48:09 2009
-@@ -24,46 +24,80 @@
+$MirOS: ports/security/ekeyd/patches/patch-daemon_krnlop_c,v 1.1 2009/11/14 21:45:31 tg Exp $
+--- daemon/krnlop.c.orig	Fri Nov  6 10:19:55 2009
++++ daemon/krnlop.c	Sat Nov 14 21:58:04 2009
+@@ -24,10 +24,11 @@
  #include <sys/ioctl.h>
  #endif
  
@@ -14,46 +14,36 @@ $MirOS$
  #endif
  
  #include "stream.h"
- #include "krnlop.h"
+@@ -35,19 +36,20 @@
  
  static int krnlop_bpb;
--
+ 
 -#if defined(EKEY_OS_LINUX) || defined(EKEY_OS_OPENBSD)
 +/*-
 + * Disabled for OpenBSD and MirBSD, because at least MirBSD doesn't
 + * implement RNDADDENTROPY (chances are OpenBSD doesn't, either).
-+ *
-+ * #if defined(EKEY_OS_LINUX) || defined(EKEY_OS_OPENBSD) || \
-+ *   defined(EKEY_OS_MIRBSD)
++ * Furthermore, struct rand_pool_info contains the entropy directly,
++ * whereas struct rnd_pool_info contains a pointer to the entropy
++ * buffer (so the code below cannot work on OpenBSD/MirBSD anyway).
 + */
 +#ifdef EKEY_OS_LINUX
  ssize_t
  krnl_write(int fd, const void *buf, size_t count)
  {
- #ifdef EKEY_OS_LINUX
--    struct rand_pool_info *rndpool;
--    rndpool = alloca(sizeof(struct rand_pool_info) + count);
-+    struct rand_pool_info rndpool;
- #endif
+-#ifdef EKEY_OS_LINUX
+     struct rand_pool_info *rndpool;
+     rndpool = alloca(sizeof(struct rand_pool_info) + count);
+-#endif
 -#ifdef EKEY_OS_OPENBSD
 -    struct rnd_pool_info *rndpool;
 -    rndpool = alloca(sizeof(struct rnd_pool_info) + count);
-+#if defined(EKEY_OS_OPENBSD) || defined(EKEY_OS_MIRBSD)
-+    struct rnd_pool_info rndpool;
- #endif
-     
--    rndpool->entropy_count = count * krnlop_bpb;
--    rndpool->buf_size = count;
--    memcpy(rndpool->buf, buf, count);
-+    rndpool.entropy_count = count * krnlop_bpb;
-+    rndpool.buf_size = count;
-+    /* broken API */
-+    rndpool.buf = (void *)buf;
- 
--    if (ioctl(fd, RNDADDENTROPY, rndpool) == -1) {
-+    if (ioctl(fd, RNDADDENTROPY, &rndpool) == -1) {
-         perror("ioctl");
-         return -1;
+-#endif
+-    
++
+     rndpool->entropy_count = count * krnlop_bpb;
+     rndpool->buf_size = count;
+     memcpy(rndpool->buf, buf, count);
+@@ -58,12 +60,40 @@ krnl_write(int fd, const void *buf, size
      }
      return count;
  }
