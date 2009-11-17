@@ -1,4 +1,4 @@
-/*	$OpenBSD: look.c,v 1.21 2009/10/14 17:23:17 sthen Exp $	*/
+/*	$OpenBSD: look.c,v 1.19 2009/06/26 22:03:17 guenther Exp $	*/
 
 /*
  * Copyright (c) 1989, 1993
@@ -231,19 +231,11 @@ void
 setup_builtin(const char *name, unsigned int type)
 {
 	ndptr n;
-	char *name2;
 
-	if (prefix_builtins) {
-		name2 = xalloc(strlen(name)+3+1, NULL);
-		memcpy(name2, "m4_", 3);
-		memcpy(name2 + 3, name, strlen(name)+1);
-	} else
-		name2 = xstrdup(name);
-
-	n = create_entry(name2);
+	n = create_entry(name);
 	n->builtin_type = type;
 	n->d = xalloc(sizeof(struct macro_definition), NULL);
-	n->d->defn = name2;
+	n->d->defn = xstrdup(name);
 	n->d->type = type;
 	n->d->next = NULL;
 }
