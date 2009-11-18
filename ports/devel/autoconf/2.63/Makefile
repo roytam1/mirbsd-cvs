@@ -1,12 +1,9 @@
-# $MirOS: ports/devel/autoconf/2.63/Makefile,v 1.2 2009/07/16 15:27:27 tg Exp $
-
-# for now
-ONLY_FOR_PLATFORM=	Darwin:*:*
+# $MirOS: ports/devel/autoconf/2.63/Makefile,v 1.3 2009/08/10 17:25:17 tg Exp $
 
 COMMENT=		automatically configure source code on many Un*x platforms
 SUFFIX=			-2.63
 DISTNAME=		autoconf${SUFFIX}
-DASH_VER=		0
+DASH_VER=		1
 CATEGORIES=		devel
 MASTER_SITES=		${MASTER_SITE_GNU:=autoconf/}
 HOMEPAGE=		http://www.gnu.org/software/autoconf/
@@ -18,7 +15,8 @@ PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes
 
 BUILD_DEPENDS=		:help2man-*:devel/help2man
-_NEED_NEW_M4=		Yes
+B_R_DEPENDS+=		:m4->1.4.4:lang/m4
+M4=			gm4
 
 CONFIGURE_STYLE=	gnu
 CONFIGURE_ARGS+=	--program-suffix=${SUFFIX} \
