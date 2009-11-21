@@ -54,6 +54,8 @@
 #include "extern.h"
 #include "pathnames.h"
 
+__RCSID("$MirOS$");
+
 static void	dodefn(const char *);
 static void	dopushdef(const char *, const char *);
 static void	dodump(const char *[], int);
@@ -424,8 +426,11 @@ expand_builtin(const char *argv[], int argc, int td)
 	 */
 		if (argc > 2) {
 			for (n = 2; n < argc; n++)
-				fprintf(stderr, "%s ", argv[n]);
-			fprintf(stderr, "\n");
+				fprintf(stderr, "%s%s",
+				    mimic_gnu && n == 2 ? "" : " ",
+				    argv[n]);
+			if (!mimic_gnu)
+				fprintf(stderr, "\n");
 		}
 		break;
 
