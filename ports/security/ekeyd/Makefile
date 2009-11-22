@@ -1,8 +1,8 @@
-# $MirOS$
+# $MirOS: ports/security/ekeyd/Makefile,v 1.1 2009/11/14 21:45:28 tg Exp $
 
 COMMENT=		driver daemons for the Simtec EntropyKey
 CATEGORIES=		sysutils security
-DISTNAME=		ekeyd-1.1.0
+DISTNAME=		ekeyd-1.1.1
 HOMEPAGE=		http://www.entropykey.co.uk/
 RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.org>
 

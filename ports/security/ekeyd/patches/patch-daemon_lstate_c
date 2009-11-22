@@ -1,0 +1,24 @@
+$MirOS$
+--- daemon/lstate.c.orig	Thu Aug 20 23:01:28 2009
++++ daemon/lstate.c	Sun Nov 22 19:29:49 2009
+@@ -155,7 +155,7 @@ l_query_ekey(lua_State *L)
+ {
+     OpaqueEkey *ekey = (OpaqueEkey *)lua_touserdata(L, 1);
+     int status;
+-    char buffer[16];
++    char *buffer;
+     
+     if (ekey == NULL) {
+         lua_pushnil(L);
+@@ -209,8 +209,9 @@ l_query_ekey(lua_State *L)
+         break;
+     }
+     
+-    if (retrieve_ekey_serial(ekey, buffer)) {
+-        lua_pushlstring(L, buffer, 16);
++    if ((buffer = retrieve_ekey_serial(ekey)) != NULL) {
++        lua_pushlstring(L, buffer, strlen(buffer));
++        free(buffer);
+         return 3;
+     }
+     

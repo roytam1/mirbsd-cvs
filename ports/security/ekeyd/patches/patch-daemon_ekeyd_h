@@ -1,0 +1,18 @@
+$MirOS$
+--- daemon/ekeyd.h.orig	Mon Aug  3 14:19:35 2009
++++ daemon/ekeyd.h	Sun Nov 22 19:28:08 2009
+@@ -59,12 +59,9 @@ extern int query_ekey_status(OpaqueEkey 
+  * Retrieve the serial number associated with an ekey.
+  *
+  * @param ekey The ekey structure to interrogate.
+- * @param buf A buffer into which to write the serial number.
+- * @return true if the ekey has a serial number, false otherwise.
+- * @note buf must be at least 16 chars long, a terminating null
+- *       will not be added, the serial number will be PEM encoded.
++ * @return malloc'd string if the ekey has a serial number, NULL otherwise.
+  */
+-extern bool retrieve_ekey_serial(OpaqueEkey *ekey, char *buf);
++extern char *retrieve_ekey_serial(OpaqueEkey *ekey);
+ 
+ /**
+  * Open an output stream for writing entropy to a file.

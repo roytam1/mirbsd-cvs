@@ -1,35 +1,14 @@
 $MirOS$
---- daemon/ekey-rekey.8.orig	Tue Aug 11 10:53:57 2009
-+++ daemon/ekey-rekey.8	Sat Nov 14 21:48:09 2009
-@@ -3,6 +3,8 @@
- ekey-rekey - Entropy Key Long Term Session Key tool
- .SH SYNOPSIS
- .B ekey-rekey
-+.RB [ \-d
-+.IR DEVNAME ]
- SerialNumber
- MasterKey
- .SH DESCRIPTION
-@@ -11,6 +13,13 @@ MasterKey
- is a tool which sets the long-term key of an Entropy Key using its Master Key. It ensures any running ekey daemons are updated with the altered keys. 
- .SH "OPTIONS"
+--- daemon/ekey-rekey.8.orig	Mon Nov 16 15:19:21 2009
++++ daemon/ekey-rekey.8	Sun Nov 22 19:09:28 2009
+@@ -19,7 +19,9 @@ Specifies the serial number of the key t
+ Specifies the Master Key of the device being re-keyed.
  .TP
-+.BI \-d \ DEVNAME
-+Sets the device to use, for example
-+.I /dev/cuaU0
-+for BSD.
-+Default:
-+.I /dev/entropykey/SERIALNUMBER
-+.TP
- .B SerialNumber
- Specifies the serial number of the key to re-key.
- .TP
-@@ -19,7 +28,7 @@ Specifies the Master Key of the device b
+ .B DeviceNode
+-If \-d or \-\-device is specified, then the tool expects to be give the device node to use (such as /dev/ttyACM0) rather than attempting to work it out from the serial number provided.
++If \-d or \-\-device is specified, then the tool expects to be given
++the device node to use (such as Linux /dev/ttyACM0 or BSD /dev/cuaU0)
++rather than attempting to work it out from the serial number provided.
  .SH "SEE ALSO"
  ekey-setkey(8), ekeyd(8)
  .SH AUTHOR
--Copyright © 2009 Simtec Electronics.
-+Copyright \(co 2009 Simtec Electronics.
- All rights reserved.
- 
- Permission is hereby granted, free of charge, to any person obtaining a copy 
