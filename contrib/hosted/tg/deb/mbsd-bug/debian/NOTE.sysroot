@@ -1,0 +1,3 @@
+This is the sysroot directory for the MirBSD cross toolchain.
+Please place the usr/include and usr/lib directories of your
+MirOS BSD installation in here.

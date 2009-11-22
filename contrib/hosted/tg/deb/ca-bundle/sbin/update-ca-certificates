@@ -1,0 +1,17 @@
+#!/bin/sh
+
+for i in "$@"; do
+	case $i in
+	--fresh|-f)
+		;;
+	--verbose|-v)
+		echo "$0: no longer needed"
+		;;
+	--help|-h|*)
+		echo >&2 "Syntax: $0 [-fhv] [--fresh] [--help] [--verbose]"
+		exit
+		;;
+	esac
+done
+
+exit 0

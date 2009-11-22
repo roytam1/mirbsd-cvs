@@ -1,0 +1,5 @@
+# who cares?
+#ca-bundle source: package-uses-deprecated-debhelper-compat-version 4
+
+# expect these on lenny and hardy
+ca-bundle source: newer-standards-version 3.8.2 (current is 3.8.0)
