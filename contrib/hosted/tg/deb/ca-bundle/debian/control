@@ -2,7 +2,7 @@ Source: ca-bundle
 Section: misc
 Priority: optional
 Maintainer: Thorsten Glaser <tg@mirbsd.de>
-Build-Depends: debhelper (>= 5)
+Build-Depends: debhelper (>= 5), openssl
 Standards-Version: 3.8.3
 XS-DM-Upload-Allowed: yes
 
@@ -28,6 +28,6 @@ Description: ca-certificates and -java replacement (WTF suite, from MirBSD)
  Mozilla ckbi source builds. It will also replace KDE and J2RE/J2SDK
  keystore files.
  .
- $MirOS$
+ $MirOS: contrib/hosted/tg/deb/ca-bundle/debian/control,v 1.2 2009/11/23 14:21:30 tg Exp $
  .
   Homepage: http://mirbsd.de/
