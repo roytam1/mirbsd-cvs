@@ -1,3 +1,5 @@
+# $MirOS$
+#-
 etc/ssl/certs/java/cacerts etc/ia32-java-1.5.0-sun/security/cacerts
 etc/ssl/certs/java/cacerts etc/ia32-java-6-sun/security/cacerts
 etc/ssl/certs/java/cacerts etc/j2se/1.4/security/cacerts

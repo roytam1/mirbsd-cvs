@@ -1,4 +1,5 @@
 #!/bin/sh
+# $MirOS$
 
 set -e
 

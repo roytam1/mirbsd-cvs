@@ -1,3 +1,13 @@
+ca-bundle (20091122) unstable; urgency=low
+
+  * Target etch, hardy, lenny, sid all at once, with
+    lintian-cleanliness for sid only, but building on etch
+  * Generate ksslcalist automatically
+  * Upgrade to latest MirBSD version
+  * Bump Standards-Version (no relevant changes)
+
+ -- Thorsten Glaser <tg@mirbsd.de>  Mon, 23 Nov 2009 14:20:01 +0000
+
 ca-bundle (20090727) unstable; urgency=low
 
   * Replace JKS Keystore if empty too, not just if nonexistant

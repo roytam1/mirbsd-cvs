@@ -1,4 +1,5 @@
 #!/usr/bin/make -f
+# $MirOS$
 #-
 # -*- makefile -*-
 # Sample debian/rules that uses debhelper.
@@ -16,6 +17,12 @@ generated/.build_stamp:
 	cd generated/pem && \
 	    sh ../../bsd/ssl.certs.shar && \
 	    cat * >../ca-certificates.crt
+	for f in generated/pem/*; do \
+		printf '[%s]\ncode=true\nemail=true\nsite=true\nx509=' \
+		    "$$(openssl x509 -noout -subject -in $$f | \
+		    sed 's/^subject= //')"; \
+		fgrep -v -- ----- $$f | tr -d '\n'; echo; echo; \
+	done >generated/ksslcalist
 	touch $@
 
 clean:

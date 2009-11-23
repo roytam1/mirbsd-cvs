@@ -2,10 +2,9 @@ Source: ca-bundle
 Section: misc
 Priority: optional
 Maintainer: Thorsten Glaser <tg@mirbsd.de>
-Homepage: http://mirbsd.de/
-Build-Depends: debhelper (>= 4.0.0)
-Standards-Version: 3.8.2
-DM-Upload-Allowed: yes
+Build-Depends: debhelper (>= 5)
+Standards-Version: 3.8.3
+XS-DM-Upload-Allowed: yes
 
 Package: ca-bundle
 Architecture: all
@@ -28,3 +27,7 @@ Description: ca-certificates and -java replacement (WTF suite, from MirBSD)
  packages public keystores for OpenSSL, GnuTLS, Java™/JKS, as well as
  Mozilla ckbi source builds. It will also replace KDE and J2RE/J2SDK
  keystore files.
+ .
+ $MirOS$
+ .
+  Homepage: http://mirbsd.de/
