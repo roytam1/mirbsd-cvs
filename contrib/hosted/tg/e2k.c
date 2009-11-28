@@ -42,7 +42,7 @@
 #include <string.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $");
+__RCSID("$MirOS: contrib/hosted/tg/e2k.c,v 1.1 2009/11/24 17:23:57 tg Exp $");
 
 #define POOLBYTES 4096
 uint8_t buf[POOLBYTES];
@@ -75,8 +75,8 @@ main(int argc, char *argv[])
 		else
 			errx(2, "read");
 	}
-	if (ebits > (size_t)n * 8) {
-		ebits = (size_t)n * 8;
+	if (ebits > (size_t)siz * 8) {
+		ebits = (size_t)siz * 8;
 		rv |= 8;
 	}
 	if ((fd = open("/dev/urandom", O_RDWR)) == -1)
