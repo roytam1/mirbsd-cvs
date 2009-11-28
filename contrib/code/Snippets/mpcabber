@@ -1,5 +1,5 @@
 #!/usr/bin/env mksh
-# $MirOS: contrib/code/Snippets/mpcabber,v 1.13 2009/05/24 20:19:22 tg Exp $
+# $MirOS: contrib/code/Snippets/mpcabber,v 1.14 2009/05/24 20:20:26 tg Exp $
 #-
 # Copyright (c) 2008, 2009
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -31,8 +31,33 @@ integer usestate=1	# use Away Status
 integer usetunes=1	# use User Tunes (XEP #0118)
 
 
+set -U
+function toutf8 {
+	local intext="$*" outtext=''
+	typeset -i i=0 n=${#intext}
+	typeset -i1 c
+	typeset -Uui16 -Z5 x
+
+	while (( i < n )); do
+		c=1#${intext:(i++):1}
+		if (( (c & 0xFF80) == 0xEF80 )); then
+			(( c &= 0xFF ))
+		fi
+		if (( c < 32 || c == 1#% )); then
+			let x=c
+			outtext=${outtext}%${x#16#}
+		elif (( c > 0x7E && c < 0xA0 )); then
+			outtext=${outtext}�
+		else
+			outtext=${outtext}${c#1#}
+		fi
+	done
+
+	print -nr -- "$outtext"
+}
+
 function settitle {
-	typeset title=$1
+	typeset title=$(toutf8 "$*")
 
 	# Debugging
 	#print -ru2 -- "setting title: $title"
