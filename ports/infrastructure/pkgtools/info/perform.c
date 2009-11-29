@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/info/perform.c,v 1.4 2005/11/15 19:33:58 tg Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/info/perform.c,v 1.5 2006/12/09 17:34:38 bsiegert Exp $ */
 /*	$OpenBSD: perform.c,v 1.16 2003/08/23 09:14:43 tedu Exp $	*/
 
 /* This is MirPorts pkg_install, based on:
@@ -33,7 +33,7 @@
 #include <ctype.h>
 #include <libgen.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/info/perform.c,v 1.4 2005/11/15 19:33:58 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/info/perform.c,v 1.5 2006/12/09 17:34:38 bsiegert Exp $");
 
 static char    *Home;
 
@@ -42,7 +42,7 @@ __dead void cleanup_and_exit(int);
 static int
 pkg_do(char *pkg)
 {
-	bool		installed = false, isTMP = false;
+	bool		isTMP = false;
 	char            log_dir[FILENAME_MAX];
 	char            fname[FILENAME_MAX];
 	package_t       plist;
@@ -84,7 +84,7 @@ pkg_do(char *pkg)
 				strlcpy(fname, cp, sizeof(fname));
 				isTMP = true;
 				isurl = 1;
-			} else if (*cp != '/') {
+			} else if (cp && *cp != '/') {
 				if (!getcwd(fname, sizeof(fname))) {
 				    	cleanup(0);
 					err(1, "fatal error during execution: "
@@ -136,7 +136,6 @@ installed:
 			return 1;
 		}
 		pkg = strdup(basename(log_dir));
-		installed = true;
 	}
 
 	/*
