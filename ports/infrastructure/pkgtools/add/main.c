@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/add/main.c,v 1.4 2005/12/16 12:12:52 tg Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/add/main.c,v 1.5 2008/09/19 17:27:44 bsiegert Exp $ */
 /* $OpenBSD: main.c,v 1.18 2003/08/06 20:46:36 millert Exp $	*/
 
 /*
@@ -25,7 +25,7 @@
 #include "lib.h"
 #include "add.h"
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/add/main.c,v 1.4 2005/12/16 12:12:52 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/add/main.c,v 1.5 2008/09/19 17:27:44 bsiegert Exp $");
 
 static char Options[] = "d:fhIMNnp:qRSt:v";
 
@@ -53,10 +53,8 @@ int
 main(int argc, char **argv)
 {
     int ch, error;
-    char **start;
     char *cp;
 
-    start = argv;
     while ((ch = getopt(argc, argv, Options)) != -1) {
 	switch(ch) {
 	case 'd':
