@@ -1,4 +1,4 @@
-$MirOS$
+$MirOS: ports/lang/llvm-gcc/patches/patch-configure_in,v 1.2 2009/12/05 13:22:48 tg Exp $
 --- configure.in.orig	Thu Jan  1 00:00:00 1970
 +++ configure.in	Mon Nov 10 05:26:41 2008
 @@ -351,7 +351,7 @@ if test x$enable_libgomp = x ; then
@@ -23,7 +23,7 @@ $MirOS$
 +	;;
 +    esac
 +    ;;
-+  *-*-midrbsd*)
++  *-*-mirbsd*)
 +    noconfigdirs="$noconfigdirs target-newlib target-libgloss"
 +    case $target in
 +      i*86-*-*) ;;
