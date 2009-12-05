@@ -1,0 +1,27 @@
+$MirOS: ports/lang/llvm-gcc/patches/patch-gcc_config_t-mirbsd,v 1.1 2008/11/11 05:30:59 tg Exp $
+
+	DWARF2 unwind support for OpenBSD/MirBSD, from mgcc
+
+--- gcc/config/t-mirbsd.orig	Sat Dec  5 14:27:37 2009
++++ gcc/config/t-mirbsd	Sat Dec  5 14:30:11 2009
+@@ -0,0 +1,20 @@
++# $MirOS: gcc/gcc/config/t-mirbsd,v 1.12 2009/09/12 13:52:38 tg Exp $
++
++# We don't need GCC's own include files.
++USER_H =
++
++# Use unwind-dw2-fde-openbsd
++# Provide weak dummy POSIX threads functions for exception handling
++LIB2ADDEHSTATIC = $(srcdir)/gthr-gnat.c $(srcdir)/unwind-dw2-fde-openbsd.c \
++  $(srcdir)/unwind-c.c $(srcdir)/unwind-dw2.c $(srcdir)/unwind-sjlj.c
++LIB2ADDEHSHARED = $(LIB2ADDEHSTATIC) $(srcdir)/gthr-posix.c
++LIB2ADDEHDEP = unwind.inc unwind-dw2-fde.h unwind-dw2-fde.c \
++  unwind-dw2-fde-glibc.c gthr-posix.c
++LIB2ADDEH = $(LIB2ADDEHSHARED)
++
++# Compile crtbegin.o and crtend.o (and crtbeginT.o) with
++# pie, and crtbeginS.o and crtendS.o with pic.
++CRTSTUFF_T_COMMON = -fno-stack-protector-all -fno-stack-protector \
++  -fno-omit-frame-pointer -fno-unit-at-a-time
++CRTSTUFF_T_CFLAGS = ${CRTSTUFF_T_COMMON} -fPIE
++CRTSTUFF_T_CFLAGS_S = ${CRTSTUFF_T_COMMON} -fPIC
