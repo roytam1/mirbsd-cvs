@@ -1,10 +1,11 @@
-# $MirOS: ports/lang/egcs/gcc4.4/Makefile,v 1.1 2009/12/05 15:38:52 tg Exp $
+# $MirOS: ports/lang/egcs/gcc4.4/Makefile,v 1.2 2009/12/06 15:52:17 tg Exp $
 
 # for now...
 #ONLY_FOR_PLATFORM+=	Darwin:*:*
 ONLY_FOR_PLATFORM+=	MirBSD:*:i386
 
 COMMENT=		GNU Compiler Collection
+COMMENT-rtl=		GNU Compiler Collection: Runtime Libraries
 CATEGORIES=		lang devel
 VSN=			4.4.2
 
@@ -20,7 +21,11 @@ MASTER_SITES=		${MASTER_SITE_GCC:=releases/gcc-${VSN}/}
 DISTNAME=		gcc-${VSN}
 DISTFILES=		gcc-core-${VSN}${EXTRACT_SUFX}
 DISTFILES+=		gcc-objc-${VSN}${EXTRACT_SUFX}
+PKGNAME-rtl=		gcc-rtl-${VSN}-${DASH_VER}
 NO_REGRESS=		Yes
+
+MULTI_PACKAGES=		-rtl
+SUBPACKAGE?=
 
 USE_CCACHE=		No
 USE_GMAKE=		Yes
@@ -97,10 +102,24 @@ IGNORE+=		"cannot be built: Operating System too old and unsupported"
 .  endif
 .endif
 
+.if defined(PACKAGING)
+.  if empty(${SUBPACKAGE})
+RUN_DEPENDS+=		:gcc-rtl-${VSN}-*:lang/egcs/gcc4.4,-rtl
+.  else
+B_R_DEPENDS:=
+LIB_DEPENDS:=
+RUN_DEPENDS:=
+.  endif
+.endif
+
 post-install:
 	cd ${PREFIX}/info && for f in *.info; do \
 		mv $$f $${f%.info}-4.4.2.info; \
 	done
+	mv ${PREFIX}/lib/fpic/libiberty.a \
+	    ${PREFIX}/lib/gcc/${OStriplet}/${VSN}/fpic/
+	rmdir ${PREFIX}/lib/fpic
+	mv ${PREFIX}/lib/libiberty.a ${PREFIX}/lib/gcc/${OStriplet}/${VSN}/
 
 .include <bsd.port.mk>
 

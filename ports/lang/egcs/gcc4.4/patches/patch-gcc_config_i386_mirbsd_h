@@ -1,7 +1,7 @@
-$MirOS$
---- gcc/config/i386/mirbsd.h.orig	Sat Dec  5 14:27:41 2009
-+++ gcc/config/i386/mirbsd.h	Sat Dec  5 14:40:57 2009
-@@ -0,0 +1,90 @@
+$MirOS: ports/lang/egcs/gcc4.4/patches/patch-gcc_config_i386_mirbsd_h,v 1.1 2009/12/05 15:38:54 tg Exp $
+--- gcc/config/i386/mirbsd.h.orig	Sun Dec  6 17:33:26 2009
++++ gcc/config/i386/mirbsd.h	Sun Dec  6 18:14:48 2009
+@@ -0,0 +1,91 @@
 +/* $MirOS: gcc/gcc/config/i386/mirbsd.h,v 1.6 2008/11/08 23:03:42 tg Exp $ */
 +
 +/* Definitions of target machine for GCC,
@@ -9,7 +9,7 @@ $MirOS$
 +   Copyright (C) 2001, 2002, 2005, 2006, 2009
 +   Free Software Foundation, Inc.
 +   Contributed by matthew green <mrg@eterna.com.au>
-+   Hacked by Thorsten Glaser <tg@mirbsd.org>
++   Hacked by Thorsten “mirabilos” Glaser <tg@mirbsd.org>
 +
 +This file is part of GCC.
 +
@@ -86,9 +86,10 @@ $MirOS$
 +#undef TARGET_SUBTARGET_DEFAULT
 +#define TARGET_SUBTARGET_DEFAULT (MASK_80387 | MASK_IEEE_FP | MASK_FLOAT_RETURNS)
 +
-+#undef TARGET_VERSION
-+#define TARGET_VERSION fprintf (stderr, " (MirPorts gcc MirOS BSD/i386)");
-+
-+/* This gets defined in tm.h->linux.h->svr4.h, and keeps us from using
++/* This gets defined in elfos.h, and keeps us from using
 +   libraries compiled with the native cc, so undef it. */
 +#undef NO_DOLLAR_IN_LABEL
++
++
++#undef TARGET_VERSION
++#define TARGET_VERSION fprintf (stderr, " (MirPorts-gcc4.4 BSD/i386)");
