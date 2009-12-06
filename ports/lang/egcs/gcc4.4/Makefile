@@ -1,4 +1,4 @@
-# $MirOS: ports/lang/egcs/gcc4.4/Makefile,v 1.4 2009/12/06 19:08:49 tg Exp $
+# $MirOS: ports/lang/egcs/gcc4.4/Makefile,v 1.5 2009/12/06 19:28:38 tg Exp $
 
 # for now...
 #ONLY_FOR_PLATFORM+=	Darwin:*:*
@@ -39,7 +39,9 @@ MODULES+=		converters/libiconv
 BUILD_DEPENDS+=		:bison-*:devel/bison
 LIB_DEPENDS+=		gmp:gmp->=4.1:devel/gmp
 LIB_DEPENDS+=		mpfr:mpfr->=2.3.2:math/mpfr
+.  if ${SUBPACKAGE} != "-rtl"
 RUN_DEPENDS+=		:gcc-rtl-${VSN}-*:lang/egcs/gcc4.4,-rtl
+.  endif
 .endif
 
 SUBST_VARS+=		OStriplet
