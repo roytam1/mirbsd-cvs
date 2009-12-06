@@ -1,4 +1,4 @@
-# $MirOS: ports/lang/egcs/gcc4.4/Makefile,v 1.3 2009/12/06 19:05:02 tg Exp $
+# $MirOS: ports/lang/egcs/gcc4.4/Makefile,v 1.4 2009/12/06 19:08:49 tg Exp $
 
 # for now...
 #ONLY_FOR_PLATFORM+=	Darwin:*:*
@@ -8,6 +8,7 @@ COMMENT=		GNU Compiler Collection
 COMMENT-rtl=		GNU Compiler Collection: Runtime Libraries
 CATEGORIES=		lang devel
 VSN=			4.4.2
+HOMEPAGE=		http://gcc.gnu.org/
 
 # GNU GPLv3
 PERMIT_DISTFILES_CDROM=	Yes
@@ -28,12 +29,19 @@ MULTI_PACKAGES=		-rtl
 SUBPACKAGE?=
 
 USE_CCACHE=		No
+USE_CXX=		No
 USE_GMAKE=		Yes
 VMEM_WARNING=		Yes
+.if defined(PACKAGING) && (${SUBPACKAGE} == "-rtl")
+MODULES=
+.else
 MODULES+=		converters/libiconv
 BUILD_DEPENDS+=		:bison-*:devel/bison
 LIB_DEPENDS+=		gmp:gmp->=4.1:devel/gmp
 LIB_DEPENDS+=		mpfr:mpfr->=2.3.2:math/mpfr
+RUN_DEPENDS+=		:gcc-rtl-${VSN}-*:lang/egcs/gcc4.4,-rtl
+.endif
+
 SUBST_VARS+=		OStriplet
 
 MODGNU_RECURSE_DIRS=	${WRKSRC}
@@ -114,15 +122,4 @@ post-install:
 .include <bsd.port.mk>
 
 _PASS_CC=		${_ORIG_CC}
-_PASS_CXX=		${_ORIG_CXX}
 AUTOCONF_ENV+=		MKSH=${MKSH:Q} PORTSDIR=${PORTSDIR:Q} WRKSRC=${WRKSRC:Q}
-
-.if defined(PACKAGING)
-.  if empty(${SUBPACKAGE})
-RUN_DEPENDS+=		:gcc-rtl-${VSN}-*:lang/egcs/gcc4.4,-rtl
-.  else
-B_R_DEPENDS:=
-LIB_DEPENDS:=
-RUN_DEPENDS:=
-.  endif
-.endif
