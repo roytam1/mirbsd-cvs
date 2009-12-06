@@ -1,4 +1,6 @@
-@comment $MirOS: ports/lang/egcs/gcc4.4/PLIST,v 1.2 2009/12/06 17:29:19 tg Exp $
+@comment $MirOS: ports/lang/egcs/gcc4.4/PLIST,v 1.3 2009/12/06 19:05:02 tg Exp $
+@option no-default-conflict
+@pkgcfl gcc-${VSN}-*
 @unexec install-info --delete --info-dir=%D/info %D/info/cpp-4.4.2.info
 @unexec install-info --delete --info-dir=%D/info %D/info/cppinternals-4.4.2.info
 @unexec install-info --delete --info-dir=%D/info %D/info/gcc-4.4.2.info

@@ -1,4 +1,4 @@
-# $MirOS: ports/lang/egcs/gcc4.4/Makefile,v 1.2 2009/12/06 15:52:17 tg Exp $
+# $MirOS: ports/lang/egcs/gcc4.4/Makefile,v 1.3 2009/12/06 19:05:02 tg Exp $
 
 # for now...
 #ONLY_FOR_PLATFORM+=	Darwin:*:*
@@ -102,16 +102,6 @@ IGNORE+=		"cannot be built: Operating System too old and unsupported"
 .  endif
 .endif
 
-.if defined(PACKAGING)
-.  if empty(${SUBPACKAGE})
-RUN_DEPENDS+=		:gcc-rtl-${VSN}-*:lang/egcs/gcc4.4,-rtl
-.  else
-B_R_DEPENDS:=
-LIB_DEPENDS:=
-RUN_DEPENDS:=
-.  endif
-.endif
-
 post-install:
 	cd ${PREFIX}/info && for f in *.info; do \
 		mv $$f $${f%.info}-4.4.2.info; \
@@ -126,3 +116,13 @@ post-install:
 _PASS_CC=		${_ORIG_CC}
 _PASS_CXX=		${_ORIG_CXX}
 AUTOCONF_ENV+=		MKSH=${MKSH:Q} PORTSDIR=${PORTSDIR:Q} WRKSRC=${WRKSRC:Q}
+
+.if defined(PACKAGING)
+.  if empty(${SUBPACKAGE})
+RUN_DEPENDS+=		:gcc-rtl-${VSN}-*:lang/egcs/gcc4.4,-rtl
+.  else
+B_R_DEPENDS:=
+LIB_DEPENDS:=
+RUN_DEPENDS:=
+.  endif
+.endif

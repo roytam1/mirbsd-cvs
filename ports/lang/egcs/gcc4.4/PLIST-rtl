@@ -1,4 +1,6 @@
-@comment $MirOS$
+@comment $MirOS: ports/lang/egcs/gcc4.4/PLIST-rtl,v 1.1 2009/12/06 19:05:03 tg Exp $
+@option no-default-conflict
+@pkgcfl gcc-rtl-${VSN}-*
 lib/gcc/${OStriplet}/${VSN}/fpic/libgcc_s.so.1
 lib/gcc/${OStriplet}/${VSN}/fpic/libobjc.la
 lib/gcc/${OStriplet}/${VSN}/fpic/libssp.la
