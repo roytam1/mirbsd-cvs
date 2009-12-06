@@ -1,6 +1,4 @@
-# $MirOS$
-
-BROKEN=			autohell trouble...
+# $MirOS: ports/lang/egcs/gcc4.4/Makefile,v 1.1 2009/12/05 15:38:52 tg Exp $
 
 # for now...
 #ONLY_FOR_PLATFORM+=	Darwin:*:*
@@ -26,6 +24,7 @@ NO_REGRESS=		Yes
 
 USE_CCACHE=		No
 USE_GMAKE=		Yes
+VMEM_WARNING=		Yes
 MODULES+=		converters/libiconv
 BUILD_DEPENDS+=		:bison-*:devel/bison
 LIB_DEPENDS+=		gmp:gmp->=4.1:devel/gmp
@@ -39,9 +38,9 @@ MODGNU_RECURSE_DIRS+=	${WRKSRC}/gcc
 MODGNU_RECURSE_DIRS+=	${WRKSRC}/libcpp
 MODGNU_RECURSE_DIRS+=	${WRKSRC}/libdecnumber
 MODGNU_RECURSE_DIRS+=	${WRKSRC}/libgcc
-MODGNU_RECURSE_DIRS+=	${WRKSRC}/libgomp
+#MODGNU_RECURSE_DIRS+=	${WRKSRC}/libgomp
 MODGNU_RECURSE_DIRS+=	${WRKSRC}/libiberty
-MODGNU_RECURSE_DIRS+=	${WRKSRC}/libmudflap
+#MODGNU_RECURSE_DIRS+=	${WRKSRC}/libmudflap
 MODGNU_RECURSE_DIRS+=	${WRKSRC}/libobjc
 MODGNU_RECURSE_DIRS+=	${WRKSRC}/libssp
 #MODGNU_RECURSE_DIRS+=	${WRKSRC}/zlib
@@ -57,13 +56,16 @@ CONFIGURE_ARGS+=	--enable-static \
 			--disable-objc-gc \
 			--disable-bootstrap \
 			--enable-serial-configure \
+			--with-gmp=${LOCALBASE:Q} \
 			--disable-werror \
 			--enable-languages=c,objc \
+			--enable-threads \
 			--disable-sjlj-exceptions \
 			--disable-cld \
 			--enable-version-specific-runtime-libs \
 			--with-gnu-ld \
 			--with-gnu-as \
+			--with-system-zlib \
 			--with-libiconv-prefix=${ICONV_PREFIX:Q} \
 			--disable-nls \
 			--enable-cpp \
@@ -72,7 +74,14 @@ CONFIGURE_ARGS+=	--enable-static \
 			--disable-libstdcxx-pch \
 			--enable-cxx-flags='-O1 -fno-omit-frame-pointer' \
 			--enable-wchar_t \
-			--with-system-zlib
+			--program-suffix=-${VSN:Q}
+EXTRA_XAKE_FLAGS+=	MAKEINFOFLAGS=--no-split
+EXTRA_XAKE_FLAGS+=	GNUSYSTEM_AUX_DIR=${GNUSYSTEM_AUX_DIR:Q}
+# stupid libgcc tries to install during build
+ASUSER_INSTALL_PROGRAM=	${INSTALL} ${INSTALL_COPY} -m ${BINMODE}
+ASUSER_INSTALL_DATA=	${INSTALL} ${INSTALL_COPY} -m ${SHAREMODE}
+EXTRA_MAKE_FLAGS+=	INSTALL_PROGRAM=${ASUSER_INSTALL_PROGRAM:Q} \
+			INSTALL_DATA=${ASUSER_INSTALL_DATA:Q}
 
 .if (${OStype} != "Darwin") && (${MACHINE_ARCH} == "i386")
 CONFIGURE_ARGS+=	--with-arch=i486 --with-tune=pentium-mmx
@@ -80,19 +89,21 @@ CONFIGURE_ARGS+=	--with-arch=i486 --with-tune=pentium-mmx
 
 .if ${OStype} == "MirBSD"
 .  if ${OSver:R} < 10
-CONFIGURE_ARGS+=	--enable-cld
+IGNORE+=		"cannot be built: Operating System too old and unsupported"
 .  elif ${OSver:R} == 10
-.    if ${OSver:E} < 160
-CONFIGURE_ARGS+=	--enable-cld
+.    if ${OSver:E} < 171
+IGNORE+=		"cannot be built: Operating System too old and unsupported"
 .    endif
 .  endif
-.else
-CONFIGURE_ARGS+=	--enable-cld
 .endif
+
+post-install:
+	cd ${PREFIX}/info && for f in *.info; do \
+		mv $$f $${f%.info}-4.4.2.info; \
+	done
 
 .include <bsd.port.mk>
 
 _PASS_CC=		${_ORIG_CC}
 _PASS_CXX=		${_ORIG_CXX}
-AUTOCONF_ENV+=		MKSH=${MKSH:Q} PORTSDIR=${PORTSDIR:Q}
-AUTOCONF_ENV+=		MODGNU_RECURSE_DIRS=${MODGNU_RECURSE_DIRS:Q}
+AUTOCONF_ENV+=		MKSH=${MKSH:Q} PORTSDIR=${PORTSDIR:Q} WRKSRC=${WRKSRC:Q}

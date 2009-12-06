@@ -1,6 +1,6 @@
-$MirOS$
---- configure.ac.orig	Sat Apr 25 06:10:05 2009
-+++ configure.ac	Sat Dec  5 15:16:13 2009
+$MirOS: ports/lang/egcs/gcc4.4/patches/patch-configure_ac,v 1.1 2009/12/05 15:38:53 tg Exp $
+--- configure.ac.orig	Sat Apr 25 04:10:05 2009
++++ configure.ac	Sun Dec  6 14:52:48 2009
 @@ -305,7 +305,7 @@ if test "${ENABLE_GOLD}" = "yes"; then
    case "${target}" in
      *-*-elf* | *-*-sysv4* | *-*-unixware* | *-*-eabi* | hppa*64*-*-hpux* \
@@ -20,32 +20,24 @@ $MirOS$
    *-*-netbsd*)
      noconfigdirs="$noconfigdirs rcs"
      ;;
-@@ -427,7 +430,7 @@ if test x$enable_libgomp = x ; then
-     case "${target}" in
-     *-*-linux* | *-*-gnu* | *-*-k*bsd*-gnu | *-*-kopensolaris*-gnu)
- 	;;
--    *-*-netbsd* | *-*-freebsd* | *-*-openbsd*)
-+    *-*-mirbsd* | *-*-netbsd* | *-*-freebsd* | *-*-openbsd*)
- 	;;
-     *-*-solaris2* | *-*-sysv4* | *-*-irix6* | *-*-osf* | *-*-hpux11*)
- 	;;
-@@ -485,6 +488,15 @@ case "${target}" in
+@@ -485,6 +488,16 @@ case "${target}" in
      skipdirs="$skipdirs zlib fastjar target-libjava target-boehm-gc target-zlib"
      noconfigdirs="$noconfigdirs target-libgloss"
      ;;
 +  *-*-mirbsd*)
 +    noconfigdirs="$noconfigdirs target-newlib target-libgloss"
-+    case "${target}" in
-+      i*86-*-*) ;;
-+      *)
++# no libgcj for now
++#    case "${target}" in
++#      i*86-*-*) ;;
++#      *)
 +	noconfigdirs="$noconfigdirs ${libgcj}"
-+	;;
-+    esac
++#	;;
++#    esac
 +    ;;
    *-*-netbsd*)
      # Skip some stuff on all NetBSD configurations.
      noconfigdirs="$noconfigdirs target-newlib target-libiberty target-libgloss"
-@@ -1106,6 +1118,9 @@ case "${host}" in
+@@ -1106,6 +1119,9 @@ case "${host}" in
      ;;
    *-*-sysv4*)
      host_makefile_frag="config/mh-sysv4"
