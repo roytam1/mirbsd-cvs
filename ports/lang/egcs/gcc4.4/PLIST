@@ -1,4 +1,4 @@
-@comment $MirOS$
+@comment $MirOS: ports/lang/egcs/gcc4.4/PLIST,v 1.1 2009/12/06 15:52:17 tg Exp $
 @unexec install-info --delete --info-dir=%D/info %D/info/cpp-4.4.2.info
 @unexec install-info --delete --info-dir=%D/info %D/info/cppinternals-4.4.2.info
 @unexec install-info --delete --info-dir=%D/info %D/info/gcc-4.4.2.info
@@ -9,6 +9,7 @@ bin/gcc-${VSN}
 @comment bin/gccbug-${VSN}
 bin/gcov-${VSN}
 bin/${OStriplet}-gcc-${VSN}
+@comment bin/${OStriplet}-gcc-tmp
 info/cpp-${VSN}.info
 info/cppinternals-${VSN}.info
 info/gcc-${VSN}.info

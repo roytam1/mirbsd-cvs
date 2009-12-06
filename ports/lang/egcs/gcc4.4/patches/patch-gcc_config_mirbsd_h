@@ -1,8 +1,8 @@
-$MirOS: ports/lang/egcs/gcc4.4/patches/patch-gcc_config_mirbsd_h,v 1.1 2009/12/05 15:38:54 tg Exp $
---- gcc/config/mirbsd.h.orig	Sun Dec  6 13:40:09 2009
-+++ gcc/config/mirbsd.h	Sun Dec  6 13:46:36 2009
-@@ -0,0 +1,393 @@
-+/* $MirOS: ports/lang/egcs/gcc4.4/patches/patch-gcc_config_mirbsd_h,v 1.1 2009/12/05 15:38:54 tg Exp $ */
+$MirOS: ports/lang/egcs/gcc4.4/patches/patch-gcc_config_mirbsd_h,v 1.2 2009/12/06 15:52:18 tg Exp $
+--- gcc/config/mirbsd.h.orig	Sun Dec  6 15:55:37 2009
++++ gcc/config/mirbsd.h	Sun Dec  6 17:01:31 2009
+@@ -0,0 +1,389 @@
++/* $MirOS: ports/lang/egcs/gcc4.4/patches/patch-gcc_config_mirbsd_h,v 1.2 2009/12/06 15:52:18 tg Exp $ */
 +
 +/* Base configuration file for all MirOS BSD targets.
 +   Copyright (C) 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2005, 2006, 2007,
@@ -104,10 +104,6 @@ $MirOS: ports/lang/egcs/gcc4.4/patches/patch-gcc_config_mirbsd_h,v 1.1 2009/12/0
 +
 +#undef TARGET_HAS_F_SETLKW
 +#define TARGET_HAS_F_SETLKW
-+
-+/* Otherwise, since we support weak, gthr.h erroneously tries to use
-+   #pragma weak.  */
-+#define GTHREAD_USE_WEAK 0
 +
 +/* Handle #pragma weak and #pragma pack.  */
 +
