@@ -1,3 +1,9 @@
+ca-bundle (20091122+1) unstable; urgency=low
+
+  * Replace gajim's own CA bundle as well
+
+ -- Thorsten Glaser <tg@mirbsd.de>  Mon, 23 Nov 2009 14:29:47 +0001
+
 ca-bundle (20091122) unstable; urgency=low
 
   * Target etch, hardy, lenny, sid all at once, with
