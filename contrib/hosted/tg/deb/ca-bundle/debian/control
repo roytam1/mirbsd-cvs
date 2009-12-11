@@ -29,4 +29,10 @@ Description: ca-certificates and -java replacement (WTF suite, from MirBSD)
  Mozilla ckbi source builds. It will also replace KDE and J2RE/J2SDK
  keystore files.
  .
+ Note that the ksslcalist format used by KDE 3 and KDE 4 is FUBAR BAD,
+ as it uses the DN of a certificate as index/primary key into the cert
+ database, not taking into account that different certs may have the
+ DN, for instance when a CA has both RSA and DSA keys… therefore, many
+ HTTPS sites *will* probably fail Konqueror’s validation.
+ .
   Homepage: http://mirbsd.de/
