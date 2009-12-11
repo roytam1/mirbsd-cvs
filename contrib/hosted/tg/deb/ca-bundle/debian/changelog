@@ -1,8 +1,11 @@
 ca-bundle (20091122+1) unstable; urgency=low
 
   * Replace gajim's own CA bundle as well
+  * On deconfigure, purge and upgrade, remove the generated
+    bundles for GnuTLS and JKS, so that later versions can
+    install their own bundles there, if unchanged by sysop
 
- -- Thorsten Glaser <tg@mirbsd.de>  Mon, 23 Nov 2009 14:29:47 +0001
+ -- Thorsten Glaser <tg@mirbsd.de>  Mon, 23 Nov 2009 14:29:47 +0002
 
 ca-bundle (20091122) unstable; urgency=low
 
