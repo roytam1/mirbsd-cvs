@@ -1,8 +1,11 @@
-# $MirOS: ports/lang/egcs/gcc4.4/Makefile,v 1.5 2009/12/06 19:28:38 tg Exp $
+# $MirOS: ports/lang/egcs/gcc4.4/Makefile,v 1.6 2009/12/06 19:30:50 tg Exp $
+
+# for now...
+IGNORE+=		'port is not released yet'
 
 # for now...
 #ONLY_FOR_PLATFORM+=	Darwin:*:*
-ONLY_FOR_PLATFORM+=	MirBSD:*:i386
+ONLY_FOR_PLATFORM+=	MirBSD:10.171:i386
 
 COMMENT=		GNU Compiler Collection
 COMMENT-rtl=		GNU Compiler Collection: Runtime Libraries
@@ -100,16 +103,6 @@ EXTRA_MAKE_FLAGS+=	INSTALL_PROGRAM=${ASUSER_INSTALL_PROGRAM:Q} \
 
 .if (${OStype} != "Darwin") && (${MACHINE_ARCH} == "i386")
 CONFIGURE_ARGS+=	--with-arch=i486 --with-tune=pentium-mmx
-.endif
-
-.if ${OStype} == "MirBSD"
-.  if ${OSver:R} < 10
-IGNORE+=		"cannot be built: Operating System too old and unsupported"
-.  elif ${OSver:R} == 10
-.    if ${OSver:E} < 171
-IGNORE+=		"cannot be built: Operating System too old and unsupported"
-.    endif
-.  endif
 .endif
 
 post-install:
