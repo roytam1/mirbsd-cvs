@@ -1,4 +1,4 @@
-# $MirOS: ports/lang/egcs/gcc4.4/Makefile,v 1.7 2009/12/12 23:50:33 tg Exp $
+# $MirOS: ports/lang/egcs/gcc4.4/Makefile,v 1.8 2009/12/20 22:32:43 tg Exp $
 
 # for now...
 #ONLY_FOR_PLATFORM+=	Darwin:*:*
@@ -110,7 +110,11 @@ post-install:
 	    ${PREFIX}/lib/gcc/${OStriplet}/${VSN}/fpic/
 	rmdir ${PREFIX}/lib/fpic
 	mv ${PREFIX}/lib/libiberty.a ${PREFIX}/lib/gcc/${OStriplet}/${VSN}/
-	cd ${PREFIX}/lib/gcc/${OStriplet}/${VSN} && mv fpic/libgcc_s.so.1.0 .
+	cd ${PREFIX}/lib/gcc/${OStriplet}/${VSN} && \
+	    rm -f libgcc_s.so fpic/libgcc_s.so && \
+	    for a in fpic/*.so.*; do \
+		ln -f $$a .; \
+	done && rm -f fpic/libgcc_s.so.*
 
 .include <bsd.port.mk>
 
