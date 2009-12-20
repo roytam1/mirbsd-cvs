@@ -1,11 +1,11 @@
-$MirOS: ports/lang/egcs/gcc4.4/patches/patch-gcc_config_t-mirbsd,v 1.1 2009/12/05 15:38:54 tg Exp $
+$MirOS: ports/lang/egcs/gcc4.4/patches/patch-gcc_config_t-mirbsd,v 1.2 2009/12/06 15:52:18 tg Exp $
 
 	DWARF2 unwind support for OpenBSD/MirBSD, from mgcc
 
---- gcc/config/t-mirbsd.orig	Sun Dec  6 14:23:31 2009
-+++ gcc/config/t-mirbsd	Sun Dec  6 14:45:22 2009
-@@ -0,0 +1,20 @@
-+# $MirOS: ports/lang/egcs/gcc4.4/patches/patch-gcc_config_t-mirbsd,v 1.1 2009/12/05 15:38:54 tg Exp $
+--- gcc/config/t-mirbsd.orig	Sun Dec 20 21:36:34 2009
++++ gcc/config/t-mirbsd	Sun Dec 20 21:55:51 2009
+@@ -0,0 +1,24 @@
++# $MirOS: ports/lang/egcs/gcc4.4/patches/patch-gcc_config_t-mirbsd,v 1.2 2009/12/06 15:52:18 tg Exp $
 +
 +# We don't need GCC's own include files.
 +USER_H =
@@ -25,3 +25,7 @@ $MirOS: ports/lang/egcs/gcc4.4/patches/patch-gcc_config_t-mirbsd,v 1.1 2009/12/0
 +  -fno-omit-frame-pointer -fno-unit-at-a-time
 +CRTSTUFF_T_CFLAGS = ${CRTSTUFF_T_COMMON} -fPIE
 +CRTSTUFF_T_CFLAGS_S = ${CRTSTUFF_T_COMMON} -fPIC
++
++# Make the shared libraries know themselves
++SHLIB_SOVERSION = 1.0
++SHLIB_SONAME = libgcc_s.so.$(SHLIB_SOVERSION)

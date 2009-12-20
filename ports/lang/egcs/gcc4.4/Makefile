@@ -1,7 +1,4 @@
-# $MirOS: ports/lang/egcs/gcc4.4/Makefile,v 1.6 2009/12/06 19:30:50 tg Exp $
-
-# for now...
-IGNORE+=		'port is not released yet'
+# $MirOS: ports/lang/egcs/gcc4.4/Makefile,v 1.7 2009/12/12 23:50:33 tg Exp $
 
 # for now...
 #ONLY_FOR_PLATFORM+=	Darwin:*:*
@@ -113,6 +110,7 @@ post-install:
 	    ${PREFIX}/lib/gcc/${OStriplet}/${VSN}/fpic/
 	rmdir ${PREFIX}/lib/fpic
 	mv ${PREFIX}/lib/libiberty.a ${PREFIX}/lib/gcc/${OStriplet}/${VSN}/
+	cd ${PREFIX}/lib/gcc/${OStriplet}/${VSN} && mv fpic/libgcc_s.so.1.0 .
 
 .include <bsd.port.mk>
 
