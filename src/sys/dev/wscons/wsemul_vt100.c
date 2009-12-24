@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/dev/wscons/wsemul_vt100.c,v 1.2 2009/07/24 17:41:04 tg Exp $ */
+/* $MirOS: src/sys/dev/wscons/wsemul_vt100.c,v 1.3 2009/07/25 12:47:43 tg Exp $ */
 /* $OpenBSD: wsemul_vt100.c,v 1.17 2007/01/07 13:31:36 miod Exp $ */
 /* $NetBSD: wsemul_vt100.c,v 1.13 2000/04/28 21:56:16 mycroft Exp $ */
 
@@ -159,16 +159,16 @@ wsemul_vt100_cnattach(type, cookie, ccol, crow, defattr)
 	edp->cbcookie = NULL;
 
 #ifndef WS_KERNEL_FG
-#define WS_KERNEL_FG WSCOL_WHITE
+#define WS_KERNEL_FG WSCOL_BLUE
 #endif
 #ifndef WS_KERNEL_BG
-#define WS_KERNEL_BG WSCOL_BLUE
+#define WS_KERNEL_BG WSCOL_WHITE
 #endif
 #ifndef WS_KERNEL_COLATTR
 #define WS_KERNEL_COLATTR 0
 #endif
 #ifndef WS_KERNEL_MONOATTR
-#define WS_KERNEL_MONOATTR 0
+#define WS_KERNEL_MONOATTR (WSATTR_REVERSE | WSATTR_UNDERLINE)
 #endif
 	if (type->capabilities & WSSCREEN_WSCOLORS)
 		res = (*edp->emulops->alloc_attr)(cookie,
