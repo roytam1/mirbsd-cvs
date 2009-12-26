@@ -6,6 +6,13 @@ device ID, which I could not find out. The regular ekeyd requires
 at least MirBSD #10-current (2009-11-05).
 
 
+The following snippet can be added to /etc/rc.local for automatic start:
+
+if [ -x /usr/mpkg/sbin/ekeyd ]; then
+	echo -n ' ekeyd';	/usr/mpkg/sbin/ekeyd
+fi
+
+
 The following snippet can be added to /etc/daily.local for monitoring:
 
 print
