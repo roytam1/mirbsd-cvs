@@ -27,6 +27,7 @@
 #include "node.h"
 #include "sectioning.h"
 
+__RCSID("$MirOS$");
 
 /* Append CHAR to BUFFER, (re)allocating as necessary.  We don't handle
    null characters.  */
@@ -213,7 +214,7 @@ html_output_head (void)
 
   add_html_block_elt_args ("%s\n<html lang=\"%s\">\n<head>\n",
       "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\""
-      " \"http://www.w3.org/TR/html401/loose.dtd\">",
+      " \"http://www.w3.org/TR/html4/loose.dtd\">",
       language_table[language_code].abbrev);
 
   /* When splitting, add current node's name to title if it's available and not

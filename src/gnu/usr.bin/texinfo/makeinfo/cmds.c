@@ -1,5 +1,4 @@
 /* cmds.c -- Texinfo commands.
-   $MirOS$
    $Id$
 
    Copyright (C) 1998, 1999, 2000, 2001, 2002, 2003, 2004 Free Software
@@ -39,6 +38,8 @@
 #else
 #include <time.h>
 #endif
+
+__RCSID("$MirOS$");
 
 /* Options. */
 static void cm_exampleindent (void),
@@ -1105,8 +1106,8 @@ cm_strong (int arg, int start_pos, int end_pos)
   if (!xml && !html && !docbook && !no_headers
       && arg == END
       && end_pos - start_pos >= 6
-      && (strncasecmp ((char *) output_paragraph + start_pos, "*Note:", 6)
-          || strncasecmp ((char *) output_paragraph + start_pos, "*Note ", 6)))
+      && (strncasecmp ((char *) output_paragraph + start_pos, "*Note:", 6) == 0
+          || strncasecmp ((char *) output_paragraph + start_pos, "*Note ", 6) == 0))
     {
       /* Translators: "Note:" is literal here and should not be
          translated.  @strong{Nota}, say, does not cause the problem.  */
