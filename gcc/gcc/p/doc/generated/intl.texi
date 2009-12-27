@@ -1,3 +1,5 @@
+WARNING: The intl unit is NOT part of the gpc accompanying MirOS!
+
 @c Generated automatically from intl.pas
 @c DO NOT CHANGE THIS FILE MANUALLY!
 
