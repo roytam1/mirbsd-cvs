@@ -39,7 +39,7 @@
 #include <time.h>
 #endif
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/gnu/usr.bin/texinfo/makeinfo/cmds.c,v 1.3 2009/12/27 17:35:13 tg Exp $");
 
 /* Options. */
 static void cm_exampleindent (void),
@@ -832,12 +832,10 @@ cm_code (int arg)
           if (arg == START)
             { /* If @samp specifically, add quotes a la TeX output.  */
               if (STREQ (command, "samp")) add_char ('`');
-              add_word ("<samp>");
             }
-          insert_html_tag_with_attribute (arg, "span", "class=\"%s\"",command);
+          insert_html_tag_with_attribute (arg, "samp", "class=\"%s\"",command);
           if (arg == END)
             {
-              add_word ("</samp>");
               if (STREQ (command, "samp")) add_char ('\'');
             }
         }
