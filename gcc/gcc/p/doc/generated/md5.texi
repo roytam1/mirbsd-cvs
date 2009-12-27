@@ -1,0 +1,76 @@
+@c Generated automatically from md5.pas
+@c DO NOT CHANGE THIS FILE MANUALLY!
+
+@smallexample
+@{ Functions to compute MD5 message digest of files or memory blocks,
+  according to the definition of MD5 in RFC 1321 from April 1992.
+
+  Copyright (C) 1995, 1996, 2000-2006 Free Software Foundation, Inc.
+
+  Author: Frank Heckenbach <frank@@pascal.gnu.de>
+
+  Based on the C code written by Ulrich Drepper
+  <drepper@@gnu.ai.mit.edu>, 1995 as part of glibc.
+
+  This file is part of GNU Pascal.
+
+  GNU Pascal is free software; you can redistribute it and/or modify
+  it under the terms of the GNU Library General Public License as
+  published by the Free Software Foundation, version 2.
+
+  GNU Pascal is distributed in the hope that it will be useful, but
+  WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+  Library General Public License for more details.
+
+  You should have received a copy of the GNU Library General Public
+  License along with this library; see the file COPYING.LIB. If not,
+  write to the Free Software Foundation, Inc., 59 Temple Place -
+  Suite 330, Boston, MA 02111-1307, USA. @}
+
+@{$gnu-pascal,I-@}
+@{$if __GPC_RELEASE__ < 20030303@}
+@{$error This unit requires GPC release 20030303 or newer.@}
+@{$endif@}
+
+unit MD5;
+
+interface
+
+uses GPC;
+
+@{ Representation of a MD5 value. It is always in little endian byte
+  order and therefore portable. @}
+type
+  Card8 = Cardinal attribute (Size = 8);
+  TMD5 = array [1 .. 16] of Card8;
+
+const
+  MD5StrLength = 2 * High (TMD5);
+
+type
+  MD5String = String (MD5StrLength);
+
+@{ Computes MD5 message digest for Length bytes in Buffer. @}
+procedure MD5Buffer (const Buffer; Length: SizeType; var MD5: TMD5);
+
+@{ Computes MD5 message digest for the contents of the file f. @}
+procedure MD5File (var f: File; var MD5: TMD5); attribute
+  (iocritical);
+
+@{ Initializes a MD5 value with zeros. @}
+procedure MD5Clear (var MD5: TMD5);
+
+@{ Compares two MD5 values for equality. @}
+function MD5Compare (const Value1, Value2: TMD5): Boolean;
+
+@{ Converts an MD5 value to a string. @}
+function MD5Str (const MD5: TMD5) = s: MD5String;
+
+@{ Converts a string to an MD5 value. Returns True if successful. @}
+function MD5Val (const s: String; var MD5: TMD5): Boolean;
+
+@{ Composes two MD5 values to a single one. @}
+function MD5Compose (const Value1, Value2: TMD5) = Dest: TMD5;
+
+@end smallexample
