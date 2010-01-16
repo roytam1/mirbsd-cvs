@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $
+# $MirOS: src/sys/arch/i386/stand/bootxx_ustarfs/tarcksum,v 1.1 2010/01/10 01:28:50 tg Exp $
 #-
 # Copyright (c) 2010
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -19,18 +19,24 @@
 # damage or existence of a defect, except proven that it results out
 # of said person's immediate fault when using the work as intended.
 
-buf=($(dd if="$1" count=1 2>&- | hexdump -ve '1/1 "0x%02X "'))
-buf[0x94]=0
-buf[0x95]=0
-buf[0x96]=0
-buf[0x97]=0
-buf[0x98]=0
-buf[0x99]=0
-buf[0x9A]=0
-buf[0x9B]=0
-i=0
-typeset -Z9 -Uui8 chksum=256
-while (( i < 512 )); do
-	(( chksum += buf[i++] ))
-done
-print ${chksum#8#}
+function tarcksum {
+	typeset buf i
+
+	buf=($(dd if="$1" count=1 2>/dev/null | hexdump -ve '1/1 "0x%02X "'))
+	buf[0x94]=0
+	buf[0x95]=0
+	buf[0x96]=0
+	buf[0x97]=0
+	buf[0x98]=0
+	buf[0x99]=0
+	buf[0x9A]=0
+	buf[0x9B]=0
+	i=0
+	typeset -Z9 -Uui8 chksum=256
+	while (( i < 512 )); do
+		(( chksum += buf[i++] ))
+	done
+	print ${chksum#8#}
+}
+
+tarcksum "$1"
