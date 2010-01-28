@@ -1,4 +1,4 @@
-.\"	$MirOS$
+.\"	$MirOS: src/usr.bin/getopt/getopt.1,v 1.2 2005/03/13 18:33:00 tg Exp $
 .\"	$OpenBSD: getopt.1,v 1.8 2003/02/17 13:39:37 jmc Exp $	-*- nroff -*-
 .\"
 .\" This material, written by Henry Spencer, was released by him
@@ -48,6 +48,8 @@ and the option
 which requires an argument.
 .Pp
 .Bd -literal -offset indent
+# make the errorlevel test in the two lines below work with mksh
+set \-o sh
 set \-\- \`getopt abo: $*\`
 if test $? != 0
 then
@@ -93,8 +95,25 @@ Please do not use
 in new scripts, use the
 .Nm getopts
 builtin in
-.Xr ksh 1
+.Xr mksh 1
 instead.
+See also the
+.Sx CAVEATS
+below for more reasons.
+.Sh CAVEATS
+The return value of
+.Li set \-\- \`getopt abo: $*\`
+will be 0 in
+.Px
+-conformant
+shells, such as
+.Xr mksh 1 .
+Only the Bourne shell and
+.At
+.Nm ksh88
+have the historic behaviour of returning the exit code of
+.Nm
+there.
 .Sh BUGS
 Whatever
 .Xr getopt 3
