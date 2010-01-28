@@ -1,3 +1,9 @@
+ca-bundle (20100128) xunstable; urgency=low
+
+  * Bump Standards-Version, no relevant change
+
+ -- Thorsten Glaser <tg@mirbsd.de>  Fri, 11 Dec 2009 11:38:09 +0001
+
 ca-bundle (20091211) unstable; urgency=low
 
   * Replace gajim’s own CA bundle as well
