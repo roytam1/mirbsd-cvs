@@ -1,7 +1,7 @@
 #!/bin/mksh
-# $MirOS: contrib/hosted/tg/tpmrx,v 1.1 2009/05/17 14:12:22 tg Exp $
+# $MirOS: contrib/hosted/tg/tpmrx,v 1.2 2009/08/27 18:45:46 tg Exp $
 #-
-# Copyright (c) 2009
+# Copyright (c) 2009, 2010
 #	Thorsten Glaser <tg@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
@@ -19,6 +19,28 @@
 # damage or existence of a defect, except proven that it results out
 # of said person's immediate fault when using the work as intended.
 
+function c_dump {
+	if [[ $dfd = - ]]; then
+		cat >"${1:-/dev/null}"
+	elif [[ -n $1 ]]; then
+		tee "$1" | hd >&$dfd
+	else
+		hd >&$dfd
+	fi
+}
+
+function do_read {
+	print -n '\x0\xc1\x0\x0\x0\xe\x0\x0\x0\x46\x0\x0\x1\x0' >/dev/tpm
+	dd if=/dev/tpm bs=4096 count=1 2>/dev/null
+}
+
+function do_seed {
+	(print -n '\x0\xc1\x0\x0\x1\xd\x0\x0\x0\x47\x0\x0\x0\xff'; \
+	    dd if=/dev/arandom count=1 bs=255 2>/dev/null) | \
+	    dd of=/dev/tpm obs=4096 2>/dev/null
+	dd if=/dev/tpm bs=4096 count=1 2>/dev/null | c_dump
+}
+
 if [[ $1 = -v ]]; then
 	dfd=2
 	shift
@@ -26,20 +48,32 @@ else
 	dfd=-
 fi
 
-if [[ $1 = seed ]]; then
+if [[ $1 = auto ]]; then
 	shift
-	(print -n '\x0\xc1\x0\x0\x1\xd\x0\x0\x0\x47\x0\x0\x0\xff'; \
-	    dd if=/dev/arandom count=1 bs=255 2>/dev/null) | \
-	    dd of=/dev/tpm obs=4096 2>/dev/null
-	dd if=/dev/tpm bs=4096 count=1 2>/dev/null | hd >&$dfd
+	n=0
+	while :; do
+		if (( !n )); then
+			do_seed
+			(( n = 39 + (RANDOM & 31) ))
+			print
+		fi
+		sleep $((16 + (RANDOM & 7)))
+		do_read | c_dump /dev/wrandom
+		print -n .
+	done
+	exit 0
 fi
 
-print -n '\x0\xc1\x0\x0\x0\xe\x0\x0\x0\x46\x0\x0\x1\x0' >/dev/tpm
-dd if=/dev/tpm bs=4096 count=1 2>/dev/null | if [[ $1 = - ]]; then
+if [[ $1 = seed ]]; then
+	shift
+	do_seed
+fi
+
+do_read | if [[ $1 = - ]]; then
 	dd bs=1 skip=14 2>/dev/null
 elif [[ $dfd = - ]]; then
 	dd bs=1 skip=14 of=/dev/wrandom 2>/dev/null
 	print -n .
 else
-	tee /dev/wrandom | hd >&$dfd
+	c_dump /dev/wrandom
 fi
