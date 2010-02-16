@@ -1,3 +1,9 @@
+mbsd-bug (20090225-3) xunstable; urgency=low
+
+  * debian/source/format: Enforce "1.0" manually, for now
+
+ -- Thorsten Glaser <tg@mirbsd.de>  Thu, 26 Feb 2009 11:38:27 +0101
+
 mbsd-bug (20090225-2) unstable; urgency=low
 
   * Enable support for all architectures in libbfd
