@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/hosted/tg/deb/BuildDSC.sh,v 1.2 2010/02/19 11:02:20 tg Exp $
+# $MirOS: contrib/hosted/tg/deb/BuildDSC.sh,v 1.3 2010/02/19 11:10:40 tg Exp $
 #-
 # Copyright (c) 2010
 #	Thorsten Glaser <t.glaser@tarent.de>
@@ -37,7 +37,7 @@ fi
 mydir=$(pwd)
 version=$(dpkg-parsechangelog -n1 | sed -n '/^Version: /s///p')
 upstreamversion=${version%%-*([!-])}
-upstreamversion=${version#+([0-9]):}
+upstreamversion=${upstreamversion#+([0-9]):}
 pkgstem=$(dpkg-parsechangelog -n1 | sed -n '/^Source: /s///p')
 cd ..
 curname=${mydir##*/}
