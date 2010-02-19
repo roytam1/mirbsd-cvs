@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS$
+# $MirOS: contrib/hosted/tg/deb/BuildDSC.sh,v 1.1 2010/02/18 14:46:30 tg Exp $
 #-
 # Copyright (c) 2010
 #	Thorsten Glaser <t.glaser@tarent.de>
@@ -40,12 +40,14 @@ upstreamversion=${version%%-*([!-])}
 upstreamversion=${version#+([0-9]):}
 pkgstem=$(dpkg-parsechangelog -n1 | sed -n '/^Source: /s///p')
 cd ..
-mv "${mydir##*/}" "$pkgstem-$upstreamversion"
-cd "$pkgstem-$upstreamversion"
+curname=${mydir##*/}
+newname=
+[[ $newname = $curname ]] || mv "$curname" "$newname"
+cd "$newname"
 dpkg-buildpackage -rfakeroot -S -I
 rv=$?
 fakeroot debian/rules clean
 cd ..
-mv "$pkgstem-$upstreamversion" "${mydir##*/}"
+[[ $newname = $curname ]] || mv "$newname" "$curname"
 
 exit $rv
