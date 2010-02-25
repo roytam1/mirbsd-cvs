@@ -1,7 +1,7 @@
 #!/bin/mksh
-rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.24 2009/05/27 22:42:31 tg Exp $'
+rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.25 2009/10/03 18:35:57 tg Exp $'
 #-
-# Copyright (c) 2008, 2009
+# Copyright (c) 2008, 2009, 2010
 #	Thorsten Glaser <tg@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
@@ -48,12 +48,16 @@ for suite in dists/*; do
 		components="$components ${dist##*/}"
 		for arch in $archs; do
 			mkdir -p $dist/binary-$arch
+			print "\n===> Creating ${dist#dists/}/$arch/Packages\n"
 			dpkg-scanpackages -a $arch $dist | \
 			    putfile $dist/binary-$arch/Packages
 		done
 		mkdir -p $dist/source
+		print "\n===> Creating ${dist#dists/}/Sources"
 		dpkg-scansources $dist | putfile $dist/source/Sources
+		print done.
 	done
+	print "\n===> Creating ${suite#dists/}/Release.gpg"
 	(cat <<-EOF
 		Origin: The MirOS Project
 		Label: wtf
@@ -74,6 +78,8 @@ for suite in dists/*; do
 	gpg -u $ourkey -sb $suite/Release
 	mv -f $suite/Release.sig $suite/Release.gpg
 done
+
+print "\n===> Creating debidx.htm\n"
 
 set -A preplsrc
 set -A prepldst
@@ -233,7 +239,7 @@ done
  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
  <meta name="MSSmartTagsPreventParsing" content="TRUE" />
  <title>MirDebian “WTF” Repository Index</title>
- <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.24 2009/05/27 22:42:31 tg Exp $" />
+ <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.25 2009/10/03 18:35:57 tg Exp $" />
  <style type="text/css">
   table {
    border: 1px solid black;
@@ -440,3 +446,4 @@ cat <<EOF
 EOF
 
 :) >debidx.htm
+print done.
