@@ -5,7 +5,6 @@ Maintainer: Thorsten Glaser <tg@mirbsd.de>
 Build-Depends: debhelper (>= 5)
 Build-Depends-Indep: openssl
 Standards-Version: 3.8.4
-XS-DM-Upload-Allowed: yes
 
 Package: ca-bundle
 Architecture: all

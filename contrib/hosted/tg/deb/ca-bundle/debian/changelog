@@ -2,8 +2,9 @@ ca-bundle (20100128) xunstable; urgency=low
 
   * Bump Standards-Version, no relevant change
   * debian/source/format: Enforce "1.0" manually, for now
+  * debian/control: Remove DMUA, I'm a DD now
 
- -- Thorsten Glaser <tg@mirbsd.de>  Fri, 11 Dec 2009 11:38:09 +0002
+ -- Thorsten Glaser <tg@mirbsd.de>  Fri, 11 Dec 2009 11:38:09 +0003
 
 ca-bundle (20091211) unstable; urgency=low
 

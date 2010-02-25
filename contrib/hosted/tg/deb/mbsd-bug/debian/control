@@ -6,7 +6,6 @@ Homepage: http://mirbsd.de/
 Build-Depends: debhelper (>= 4.0.0), binutils-dev, bison, flex,
  sharutils, texinfo
 Standards-Version: 3.8.0
-DM-Upload-Allowed: yes
 Vcs-CVS: _anoncvs@anoncvs.mirbsd.org:/cvs
 Vcs-Browser: http://cvs.mirbsd.de/
 
