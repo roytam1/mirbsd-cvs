@@ -1,4 +1,4 @@
-/* $OpenBSD: cddb.c,v 1.8 2003/06/09 11:33:14 espie Exp $ */
+/* $OpenBSD: cddb.c,v 1.15 2008/04/27 23:06:40 fgsch Exp $ */
 /*
  * Copyright (c) 2002 Marc Espie.
  *
@@ -24,7 +24,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <sys/types.h>
+#include <sys/param.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <sys/cdio.h>
@@ -106,11 +106,10 @@ safe_copy(char **p, const char *title)
 	if (*p == NULL)
 		*p = strdup(copy_buffer);
 	else {
-		size_t len = strlen(*p) + strlen(copy_buffer) + 1;
-		char *n = malloc(len);
-		if (n == NULL)
+		char *n;
+
+		if (asprintf(&n, "%s%s", *p, copy_buffer) == -1)
 			return;
-		snprintf(n, len, "%s%s", *p, copy_buffer);
 		free(*p);
 		*p = n;
 	}
@@ -249,6 +248,7 @@ cddb(const char *host_port, int n, struct cd_toc_entry *e, char *arg)
 	char *line;
 	char **result = NULL;
 	int i;
+	const char *errstr;
 
 	s = parse_connect_to(host_port, "cddb");
 	if (s == -1)
@@ -294,7 +294,11 @@ cddb(const char *host_port, int n, struct cd_toc_entry *e, char *arg)
 		goto end;
 	}
 	if (strcmp(line, "211") == 0 || strcmp(line, "212") == 0) {
-		int number = atoi(arg);
+		int number = strtonum(arg, 0, INT_MAX, &errstr);
+		if (errstr != NULL && *arg != NULL) {
+			warnx("cddb: invalid index");
+			goto end;
+		}
 		if (number == 0) {
 			if (strcmp(line, "211") == 0)
 				printf("cddb: multiple matches\n");
@@ -327,7 +331,7 @@ cddb(const char *host_port, int n, struct cd_toc_entry *e, char *arg)
 		}
 	} else if (strcmp(line, "200") != 0 || !further_query(cout, type))
 		goto end;
-	result = malloc(sizeof(char *) * n+1);
+	result = calloc(sizeof(char *), n + 1);
 	if (!result)
 		goto end;
 	for (i = 0; i <= n; i++)
@@ -343,7 +347,7 @@ cddb(const char *host_port, int n, struct cd_toc_entry *e, char *arg)
 		if (!line)
 			goto end2;
 		if (strcmp(line, ".") == 0)
-			goto end;
+			break;
 		if (strncmp(line, "TTITLE", 6) != 0)
 			continue;
 		line += 6;
