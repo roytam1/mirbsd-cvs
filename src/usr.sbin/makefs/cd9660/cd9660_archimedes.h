@@ -1,8 +1,8 @@
-/*	$NetBSD: newfs_extern.h,v 1.3 2009/10/21 01:07:47 snj Exp $	*/
-/* From: NetBSD: extern.h,v 1.3 2000/12/01 12:03:27 simonb Exp $ */
+/* $NetBSD: cd9660_archimedes.h,v 1.1 2009/01/10 22:06:29 bjh21 Exp $ */
 
-/*
- * Copyright (c) 1997 Christos Zoulas.  All rights reserved.
+/*-
+ * Copyright (c) 1998, 2009 Ben Harris
+ * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -12,7 +12,9 @@
  * 2. Redistributions in binary form must reproduce the above copyright
  *    notice, this list of conditions and the following disclaimer in the
  *    documentation and/or other materials provided with the distribution.
- *
+ * 3. The name of the author may not be used to endorse or promote products
+ *    derived from this software without specific prior written permission.
+ * 
  * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
  * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
  * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
@@ -24,11 +26,23 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+/*
+ * cd9660_archimedes.c - support for RISC OS "ARCHIMEDES" extension
+ */
 
-/* prototypes */
-struct fs	*ffs_mkfs(const char *, const fsinfo_t *);
-void		ffs_write_superblock(struct fs *, const fsinfo_t *);
-void		ffs_rdfs(daddr_t, int, void *, const fsinfo_t *);
-void		ffs_wtfs(daddr_t, int, void *, const fsinfo_t *);
+struct ISO_ARCHIMEDES {
+	char		magic[10];	/* "ARCHIMEDES" */
+	unsigned char	loadaddr[4];	/* Load address, little-endian */
+	unsigned char	execaddr[4];	/* Exec address, little-endian */
+	unsigned char	ro_attr;	/* RISC OS attributes */
+#define RO_ACCESS_UR	0x01 /* Owner read */
+#define RO_ACCESS_UW	0x02 /* Owner write */
+#define RO_ACCESS_L	0x04 /* Locked */
+#define RO_ACCESS_OR	0x10 /* Public read */
+#define RO_ACCESS_OW	0x20 /* Public write */
+	unsigned char	cdfs_attr;	/* Extra attributes for CDFS */
+#define CDFS_PLING	0x01	/* Filename begins with '!' */
+	char		reserved[12];
+};
 
-#define	FFS_MAXBSIZE	65536
+extern void archimedes_convert_tree(cd9660node *);
