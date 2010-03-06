@@ -1,5 +1,4 @@
-/**	$MirOS$ */
-/*	$NetBSD: pack_dev.c,v 1.9 2008/04/28 20:23:09 martin Exp $	*/
+/*	$NetBSD: pack_dev.c,v 1.10 2009/02/13 01:37:23 lukem Exp $	*/
 
 /*-
  * Copyright (c) 1998, 2001 The NetBSD Foundation, Inc.
@@ -36,8 +35,7 @@
 
 #include <sys/cdefs.h>
 #if !defined(lint)
-__RCSID("$NetBSD: pack_dev.c,v 1.9 2008/04/28 20:23:09 martin Exp $");
-__IDSTRING(mbsdid, "$MirOS$");
+__RCSID("$NetBSD: pack_dev.c,v 1.10 2009/02/13 01:37:23 lukem Exp $");
 #endif /* not lint */
 
 #include <sys/types.h>
@@ -74,7 +72,7 @@ pack_native(int n, u_long numbers[], const char **error)
 		dev = makedev(numbers[0], numbers[1]);
 		if ((u_long)major(dev) != numbers[0])
 			*error = iMajorError;
-		else if (minor(dev) != numbers[1])
+		else if ((u_long)minor(dev) != numbers[1])
 			*error = iMinorError;
 	} else
 		*error = tooManyFields;
@@ -89,9 +87,9 @@ pack_netbsd(int n, u_long numbers[], const char **error)
 
 	if (n == 2) {
 		dev = makedev_netbsd(numbers[0], numbers[1]);
-		if (major_netbsd(dev) != numbers[0])
+		if ((u_long)major_netbsd(dev) != numbers[0])
 			*error = iMajorError;
-		else if (minor_netbsd(dev) != numbers[1])
+		else if ((u_long)minor_netbsd(dev) != numbers[1])
 			*error = iMinorError;
 	} else
 		*error = tooManyFields;
@@ -99,8 +97,8 @@ pack_netbsd(int n, u_long numbers[], const char **error)
 }
 
 
-#define	major_freebsd(x)	((uint32_t)(((x) & 0x0000ff00) >> 8))
-#define	minor_freebsd(x)	((uint32_t)(((x) & 0xffff00ff) >> 0))
+#define	major_freebsd(x)	((int32_t)(((x) & 0x0000ff00) >> 8))
+#define	minor_freebsd(x)	((int32_t)(((x) & 0xffff00ff) >> 0))
 #define	makedev_freebsd(x,y)	((portdev_t)((((x) << 8) & 0x0000ff00) | \
 					 (((y) << 0) & 0xffff00ff)))
 
@@ -111,9 +109,9 @@ pack_freebsd(int n, u_long numbers[], const char **error)
 
 	if (n == 2) {
 		dev = makedev_freebsd(numbers[0], numbers[1]);
-		if (major_freebsd(dev) != numbers[0])
+		if ((u_long)major_freebsd(dev) != numbers[0])
 			*error = iMajorError;
-		if (minor_freebsd(dev) != numbers[1])
+		if ((u_long)minor_freebsd(dev) != numbers[1])
 			*error = iMinorError;
 	} else
 		*error = tooManyFields;
@@ -121,8 +119,8 @@ pack_freebsd(int n, u_long numbers[], const char **error)
 }
 
 
-#define	major_8_8(x)		((uint32_t)(((x) & 0x0000ff00) >> 8))
-#define	minor_8_8(x)		((uint32_t)(((x) & 0x000000ff) >> 0))
+#define	major_8_8(x)		((int32_t)(((x) & 0x0000ff00) >> 8))
+#define	minor_8_8(x)		((int32_t)(((x) & 0x000000ff) >> 0))
 #define	makedev_8_8(x,y)	((portdev_t)((((x) << 8) & 0x0000ff00) | \
 					 (((y) << 0) & 0x000000ff)))
 
@@ -133,9 +131,9 @@ pack_8_8(int n, u_long numbers[], const char **error)
 
 	if (n == 2) {
 		dev = makedev_8_8(numbers[0], numbers[1]);
-		if (major_8_8(dev) != numbers[0])
+		if ((u_long)major_8_8(dev) != numbers[0])
 			*error = iMajorError;
-		if (minor_8_8(dev) != numbers[1])
+		if ((u_long)minor_8_8(dev) != numbers[1])
 			*error = iMinorError;
 	} else
 		*error = tooManyFields;
@@ -143,8 +141,8 @@ pack_8_8(int n, u_long numbers[], const char **error)
 }
 
 
-#define	major_12_20(x)		((uint32_t)(((x) & 0xfff00000) >> 20))
-#define	minor_12_20(x)		((uint32_t)(((x) & 0x000fffff) >>  0))
+#define	major_12_20(x)		((int32_t)(((x) & 0xfff00000) >> 20))
+#define	minor_12_20(x)		((int32_t)(((x) & 0x000fffff) >>  0))
 #define	makedev_12_20(x,y)	((portdev_t)((((x) << 20) & 0xfff00000) | \
 					 (((y) <<  0) & 0x000fffff)))
 
@@ -155,9 +153,9 @@ pack_12_20(int n, u_long numbers[], const char **error)
 
 	if (n == 2) {
 		dev = makedev_12_20(numbers[0], numbers[1]);
-		if (major_12_20(dev) != numbers[0])
+		if ((u_long)major_12_20(dev) != numbers[0])
 			*error = iMajorError;
-		if (minor_12_20(dev) != numbers[1])
+		if ((u_long)minor_12_20(dev) != numbers[1])
 			*error = iMinorError;
 	} else
 		*error = tooManyFields;
@@ -165,8 +163,8 @@ pack_12_20(int n, u_long numbers[], const char **error)
 }
 
 
-#define	major_14_18(x)		((uint32_t)(((x) & 0xfffc0000) >> 18))
-#define	minor_14_18(x)		((uint32_t)(((x) & 0x0003ffff) >>  0))
+#define	major_14_18(x)		((int32_t)(((x) & 0xfffc0000) >> 18))
+#define	minor_14_18(x)		((int32_t)(((x) & 0x0003ffff) >>  0))
 #define	makedev_14_18(x,y)	((portdev_t)((((x) << 18) & 0xfffc0000) | \
 					 (((y) <<  0) & 0x0003ffff)))
 
@@ -177,9 +175,9 @@ pack_14_18(int n, u_long numbers[], const char **error)
 
 	if (n == 2) {
 		dev = makedev_14_18(numbers[0], numbers[1]);
-		if (major_14_18(dev) != numbers[0])
+		if ((u_long)major_14_18(dev) != numbers[0])
 			*error = iMajorError;
-		if (minor_14_18(dev) != numbers[1])
+		if ((u_long)minor_14_18(dev) != numbers[1])
 			*error = iMinorError;
 	} else
 		*error = tooManyFields;
@@ -187,8 +185,8 @@ pack_14_18(int n, u_long numbers[], const char **error)
 }
 
 
-#define	major_8_24(x)		((uint32_t)(((x) & 0xff000000) >> 24))
-#define	minor_8_24(x)		((uint32_t)(((x) & 0x00ffffff) >>  0))
+#define	major_8_24(x)		((int32_t)(((x) & 0xff000000) >> 24))
+#define	minor_8_24(x)		((int32_t)(((x) & 0x00ffffff) >>  0))
 #define	makedev_8_24(x,y)	((portdev_t)((((x) << 24) & 0xff000000) | \
 					 (((y) <<  0) & 0x00ffffff)))
 
@@ -199,9 +197,9 @@ pack_8_24(int n, u_long numbers[], const char **error)
 
 	if (n == 2) {
 		dev = makedev_8_24(numbers[0], numbers[1]);
-		if (major_8_24(dev) != numbers[0])
+		if ((u_long)major_8_24(dev) != numbers[0])
 			*error = iMajorError;
-		if (minor_8_24(dev) != numbers[1])
+		if ((u_long)minor_8_24(dev) != numbers[1])
 			*error = iMinorError;
 	} else
 		*error = tooManyFields;
@@ -209,9 +207,9 @@ pack_8_24(int n, u_long numbers[], const char **error)
 }
 
 
-#define	major_12_12_8(x)	((uint32_t)(((x) & 0xfff00000) >> 20))
-#define	unit_12_12_8(x)		((uint32_t)(((x) & 0x000fff00) >>  8))
-#define	subunit_12_12_8(x)	((uint32_t)(((x) & 0x000000ff) >>  0))
+#define	major_12_12_8(x)	((int32_t)(((x) & 0xfff00000) >> 20))
+#define	unit_12_12_8(x)		((int32_t)(((x) & 0x000fff00) >>  8))
+#define	subunit_12_12_8(x)	((int32_t)(((x) & 0x000000ff) >>  0))
 #define	makedev_12_12_8(x,y,z)	((portdev_t)((((x) << 20) & 0xfff00000) | \
 					 (((y) <<  8) & 0x000fff00) | \
 					 (((z) <<  0) & 0x000000ff)))
@@ -223,17 +221,17 @@ pack_bsdos(int n, u_long numbers[], const char **error)
 
 	if (n == 2) {
 		dev = makedev_12_20(numbers[0], numbers[1]);
-		if (major_12_20(dev) != numbers[0])
+		if ((u_long)major_12_20(dev) != numbers[0])
 			*error = iMajorError;
-		if (minor_12_20(dev) != numbers[1])
+		if ((u_long)minor_12_20(dev) != numbers[1])
 			*error = iMinorError;
 	} else if (n == 3) {
 		dev = makedev_12_12_8(numbers[0], numbers[1], numbers[2]);
-		if (major_12_12_8(dev) != numbers[0])
+		if ((u_long)major_12_12_8(dev) != numbers[0])
 			*error = iMajorError;
-		if (unit_12_12_8(dev) != numbers[1])
+		if ((u_long)unit_12_12_8(dev) != numbers[1])
 			*error = "invalid unit number";
-		if (subunit_12_12_8(dev) != numbers[2])
+		if ((u_long)subunit_12_12_8(dev) != numbers[2])
 			*error = "invalid subunit number";
 	} else
 		*error = tooManyFields;
