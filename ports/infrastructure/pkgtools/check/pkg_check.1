@@ -1,5 +1,4 @@
-.\"	$MirOS$
-.\"
+.\" $MirOS: ports/infrastructure/pkgtools/check/pkg_check.1,v 1.1 2010/03/09 19:38:49 bsiegert Exp $
 .\"-
 .\" Copyright (c) 2010
 .\"	Benny Siegert <bsiegert@gmx.de>
@@ -18,7 +17,6 @@
 .\" of dealing in the work, even if advised of the possibility of such
 .\" damage or existence of a defect, except proven that it results out
 .\" of said person's immediate fault when using the work as intended.
-.\"
 .\"-
 .\" Copyright (c) 2008, 2009
 .\"	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
@@ -75,7 +73,7 @@
 .\" with -mandoc, it might implement .Mx itself, but we want to
 .\" use our own definition. And .Dd must come *first*, always.
 .\"
-.Dd $Mdocdate: November 22 2009 $
+.Dd $Mdocdate: March 9 2010 $
 .\"
 .\" Check which macro package we use
 .\"
@@ -153,7 +151,7 @@
 .Nd shell interface to pkgtools matching routines
 .Sh SYNOPSIS
 .Nm pkg_check
-.Ar version1 op version2
+.Ar version1 \&op version2
 .Nm pkg_check
 .Op Fl q
 .Fl m Ar pattern
@@ -172,40 +170,42 @@ strings
 and
 .Ar version2 .
 The second argument, the operator, is one of
-.Cm < , Cm > , Cm <= , Cm >=
+.Cm \*(Lt , Cm \*(Gt ,
+.Cm \*(Lt= , Cm \*(Gt=
 or the text equivalents
-.Cm lt , Cm gt , Cm le
+.Cm \&lt , Cm \&gt , Cm \&le
 and
-.Cm ge .
+.Cm \&ge .
 The exit code is 0 if the comparison is true or 1 if it is false.
 .Pp
 The second mode allows to check whether one or more package names
-.Pq Ar pkgname
-matches
-.Ar pattern 
+.Ar pkgname
+match the
+.Ar pattern
 given as the argument to the
 .Fl m
 flag.
 Unless
-.Fl q Pq quiet
-is given, the matching package names are written to
-.Pa stdout ,
+.Fl q
+.Pq quiet
+is given, the matching package names are written to standard output,
 one per line.
-The exit status is 0 if there was at least one match, else 1.
+The exit status is 0 if there was at least one match, 1 otherwise.
 .Sh EXAMPLES
 .D1 pkg_check 1.4.5 ge 2.0
 returns 1.
-.D1 pkg_check 23.42-0 '<' 23.42-5
+.D1 pkg_check 23.42-0 '\*(Lt' 23.42-5
 returns 0.
 .Pp
-.D1 pkg_check -m 'autoconf->=2.50' autoconf-2.13 autoconf-2.62
+.D1 pkg_check -m 'autoconf-\*(Gt=2.50' autoconf-2.13 autoconf-2.62
 prints
 .Qq autoconf-2.62 .
 .Sh SEE ALSO
-.Xr ports 7 ,
 .Xr pkg_add 1 ,
-.Xr pkg_info 1 .
+.Xr pkg_info 1 ,
+.Xr ports 7 .
 .Sh HISTORY
 The
 .Nm
-utility was introduced into MirPorts by Benny Siegert.
+utility was introduced into The MirPorts Framework by
+.An Benny Siegert Aq bsiegert@mirbsd.org .
