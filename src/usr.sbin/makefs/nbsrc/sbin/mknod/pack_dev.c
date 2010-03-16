@@ -36,12 +36,14 @@
 #include <sys/cdefs.h>
 #if !defined(lint)
 __RCSID("$NetBSD: pack_dev.c,v 1.10 2009/02/13 01:37:23 lukem Exp $");
+__IDSTRING(mbsdid, "$MirOS$");
 #endif /* not lint */
 
 #include <sys/types.h>
 #include <sys/stat.h>
 
 #include <limits.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
