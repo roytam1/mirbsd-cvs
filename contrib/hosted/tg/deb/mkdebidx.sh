@@ -1,5 +1,5 @@
 #!/bin/mksh
-rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.26 2010/02/25 10:41:41 tg Exp $'
+rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.27 2010/03/25 13:38:20 tg Exp $'
 #-
 # Copyright (c) 2008, 2009, 2010
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -77,7 +77,7 @@ for suite in dists/*; do
 		MD5Sum:
 	EOF
 	cd $suite
-	find * -name Packages\* -o -name Sources\* -o -name Release | \
+	find * -name Packages\* -o -name Sources\* | \
 	    sort | while read n; do
 		set -A x -- $(md5sum $n)
 		print \ ${x[0]} $(stat -c '%s %n' $n)
@@ -246,7 +246,7 @@ done
  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
  <meta name="MSSmartTagsPreventParsing" content="TRUE" />
  <title>MirDebian “WTF” Repository Index</title>
- <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.26 2010/02/25 10:41:41 tg Exp $" />
+ <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.27 2010/03/25 13:38:20 tg Exp $" />
  <style type="text/css">
   table {
    border: 1px solid black;
