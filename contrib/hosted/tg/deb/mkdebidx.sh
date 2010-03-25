@@ -1,5 +1,5 @@
 #!/bin/mksh
-rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.26 2010/02/25 10:41:41 tg Exp $'
+rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.29 2010/03/25 14:31:50 tg Exp $'
 #-
 # Copyright (c) 2008, 2009, 2010
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -20,9 +20,19 @@ rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.26 2010/02/25 10:41:41 tg E
 # of said person's immediate fault when using the work as intended.
 
 set -A normarchs -- i386
+repo_keyid=0x405422DD
+repo_origin='The MirOS Project'
+repo_label=wtf
+repo_title='MirDebian “WTF” Repository'
+function repo_description {
+	typeset suite_nick=$1
+
+	print -nr -- "WTF ${suite_nick} Repository"
+}
+
+
 set -A dpkgarchs -- alpha amd64 arm armeb armel avr32 hppa i386 ia64 lpia \
     m32r m68k mips mipsel powerpc ppc64 s390 s390x sh3 sh3eb sh4 sh4eb sparc
-ourkey=0x405422DD
 
 function putfile {
 	tee $1 | gzip -n9 >$1.gz
@@ -96,14 +106,14 @@ for suite in dists/*; do
 	print "\n===> Creating ${suite#dists/}/Release.gpg"
 	rm -f $suite/Release*
 	(cat <<-EOF
-		Origin: The MirOS Project
-		Label: wtf
+		Origin: ${repo_origin}
+		Label: ${repo_label}
 		Suite: ${suite##*/}
 		Codename: ${suite##*/}
 		Date: $(date -u)
 		Architectures: all ${dpkgarchs[*]} source
 		$components
-		Description: WTF ${nick} Repository
+		Description: $(repo_description "$nick")
 		MD5Sum:
 	EOF
 	cd $suite
@@ -112,7 +122,7 @@ for suite in dists/*; do
 		set -A x -- $(md5sum $n)
 		print \ ${x[0]} $(stat -c '%s %n' $n)
 	done) >$suite/Release
-	gpg -u $ourkey -sb $suite/Release
+	gpg -u $repo_keyid -sb $suite/Release
 	mv -f $suite/Release.sig $suite/Release.gpg
 done
 
@@ -275,8 +285,10 @@ done
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"><head>
  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
  <meta name="MSSmartTagsPreventParsing" content="TRUE" />
- <title>MirDebian “WTF” Repository Index</title>
- <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.26 2010/02/25 10:41:41 tg Exp $" />
+EOF
+print -r -- " <title>${repo_title} Index</title>"
+cat <<'EOF'
+ <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.29 2010/03/25 14:31:50 tg Exp $" />
  <style type="text/css">
   table {
    border: 1px solid black;
@@ -303,7 +315,9 @@ done
   }
  </style>
 </head><body>
-<h1>MirDebian “WTF” Repository</h1>
+EOF
+print -r -- "<h1>${repo_title}</h1>"
+cat <<'EOF'
 <p><a href="dists/">Browse</a> the repository or read about how to amend <a
  href="sources.txt">/etc/apt/sources.list</a> in order to use it.</p>
 <h2>Suites</h2>
