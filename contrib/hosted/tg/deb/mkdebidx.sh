@@ -1,5 +1,5 @@
 #!/bin/mksh
-rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.27 2010/03/25 13:38:20 tg Exp $'
+rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.26 2010/02/25 10:41:41 tg Exp $'
 #-
 # Copyright (c) 2008, 2009, 2010
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -19,17 +19,37 @@ rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.27 2010/03/25 13:38:20 tg E
 # damage or existence of a defect, except proven that it results out
 # of said person's immediate fault when using the work as intended.
 
-allarchs='all amd64 i386'
+set -A normarchs -- i386
+set -A dpkgarchs -- alpha amd64 arm armeb armel avr32 hppa i386 ia64 lpia \
+    m32r m68k mips mipsel powerpc ppc64 s390 s390x sh3 sh3eb sh4 sh4eb sparc
 ourkey=0x405422DD
 
 function putfile {
 	tee $1 | gzip -n9 >$1.gz
 }
 
-export LC_ALL=C TZ=UTC
-unset LANG LANGUAGE
+function sortlist {
+	typeset x u=$1
+
+	if [[ $u = -u ]]; then
+		shift
+	else
+		u=
+	fi
+
+	for x in "$@"; do
+		print -r -- "$x"
+	done | sort $u
+}
+
+export LC_ALL=C
+unset LANGUAGE
 saveIFS=$IFS
 cd "$(dirname "$0")"
+
+IFS=:
+dpkgarchl=:all:"${dpkgarchs[*]}":
+IFS=$saveIFS
 
 suites=:
 for suite in "$@"; do
@@ -42,43 +62,53 @@ for suite in dists/*; do
 	[[ $suites = : || $suites = *:$suite:* ]] || continue
 	archs=
 	. $suite/distinfo.sh
-	suitearchs=${archs:-$allarchs}
-	set -A suiteallarchs
+	suitearchs=${archs:-${normarchs[*]}}
 	components=Components:
 	for dist in $suite/*; do
 		[[ -d $dist/. ]] || continue
+		rm -rf $dist/binary-* $dist/source
 		components="$components ${dist##*/}"
 		archs=
 		[[ -s $dist/distinfo.sh ]] && . $dist/distinfo.sh
-		for arch in ${archs:-$suitearchs}; do
-			IFS=:; st="${suiteallarchs[*]}"; IFS=$saveIFS
-			[[ :$st: = *:$arch:* ]] || \
-			    suiteallarchs[${#suiteallarchs[*]}]=$arch
-			mkdir -p $dist/binary-$arch
-			print "\n===> Creating ${dist#dists/}/$arch/Packages\n"
-			dpkg-scanpackages -a $arch $dist | \
-			    putfile $dist/binary-$arch/Packages
+		set -A distarchs -- $(sortlist -u all ${archs:-$suitearchs})
+		IFS=:; distarchl=:"${distarchs[*]}":; IFS=$saveIFS
+		for arch in $(sortlist -u ${distarchs[*]} ${dpkgarchs[*]}); do
+			if [[ $dpkgarchl != *:$arch:* ]]; then
+				print -u2 "Invalid arch '$arch' in $dist"
+				exit 1
+			elif [[ $distarchl != *:$arch:* ]]; then
+				print "\n===> Linking all =>" \
+				    "${dist#dists/}/$arch/Packages"
+				ln -s binary-all $dist/binary-$arch
+			else
+				print "\n===> Creating" \
+				    "${dist#dists/}/$arch/Packages\n"
+				mkdir -p $dist/binary-$arch
+				dpkg-scanpackages -a $arch $dist | \
+				    putfile $dist/binary-$arch/Packages
+			fi
 		done
-		mkdir -p $dist/source
 		print "\n===> Creating ${dist#dists/}/Sources"
+		mkdir -p $dist/source
 		dpkg-scansources $dist | putfile $dist/source/Sources
 		print done.
 	done
 	print "\n===> Creating ${suite#dists/}/Release.gpg"
+	rm -f $suite/Release*
 	(cat <<-EOF
 		Origin: The MirOS Project
 		Label: wtf
 		Suite: ${suite##*/}
 		Codename: ${suite##*/}
-		Date: $(date)
-		Architectures: ${suiteallarchs[*]} source
+		Date: $(date -u)
+		Architectures: all ${dpkgarchs[*]} source
 		$components
 		Description: WTF ${nick} Repository
 		MD5Sum:
 	EOF
 	cd $suite
-	find * -name Packages\* -o -name Sources\* | \
-	    sort | while read n; do
+	for n in */{binary-*,source}/{Packag,Sourc}es*; do
+		[[ -f $n && -s $n ]] || continue
 		set -A x -- $(md5sum $n)
 		print \ ${x[0]} $(stat -c '%s %n' $n)
 	done) >$suite/Release
@@ -246,7 +276,7 @@ done
  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
  <meta name="MSSmartTagsPreventParsing" content="TRUE" />
  <title>MirDebian “WTF” Repository Index</title>
- <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.27 2010/03/25 13:38:20 tg Exp $" />
+ <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.26 2010/02/25 10:41:41 tg Exp $" />
  <style type="text/css">
   table {
    border: 1px solid black;
@@ -333,7 +363,6 @@ while read -p num rest; do
 	for suitename in $allsuites; do
 		eval pvo=\${sp_ver_${suitename}[num]}
 		eval ppo=\${sp_dir_${suitename}[num]}
-		saveIFS=$IFS
 		IFS=,
 		set -A pva -- $pvo
 		set -A ppa -- $ppo
@@ -447,7 +476,7 @@ cat <<EOF
 </tbody></table>
 
 <p>• <a href="http://validator.w3.org/check/referer">Valid XHTML/1.1!</a>
- • <small>Generated on $(date +'%F %T') by <tt
+ • <small>Generated on $(date -u +'%F %T') by <tt
  style="white-space:pre;">$rcsid</tt></small> •</p>
 </body></html>
 EOF
