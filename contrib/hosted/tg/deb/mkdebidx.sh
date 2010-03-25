@@ -1,5 +1,5 @@
 #!/bin/mksh
-rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.25 2009/10/03 18:35:57 tg Exp $'
+rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.26 2010/02/25 10:41:41 tg Exp $'
 #-
 # Copyright (c) 2008, 2009, 2010
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -28,6 +28,7 @@ function putfile {
 
 export LC_ALL=C TZ=UTC
 unset LANG LANGUAGE
+saveIFS=$IFS
 cd "$(dirname "$0")"
 
 suites=:
@@ -41,12 +42,18 @@ for suite in dists/*; do
 	[[ $suites = : || $suites = *:$suite:* ]] || continue
 	archs=
 	. $suite/distinfo.sh
-	: ${archs:=$allarchs}
+	suitearchs=${archs:-$allarchs}
+	set -A suiteallarchs
 	components=Components:
 	for dist in $suite/*; do
 		[[ -d $dist/. ]] || continue
 		components="$components ${dist##*/}"
-		for arch in $archs; do
+		archs=
+		[[ -s $dist/distinfo.sh ]] && . $dist/distinfo.sh
+		for arch in ${archs:-$suitearchs}; do
+			IFS=:; st="${suiteallarchs[*]}"; IFS=$saveIFS
+			[[ :$st: = *:$arch:* ]] || \
+			    suiteallarchs[${#suiteallarchs[*]}]=$arch
 			mkdir -p $dist/binary-$arch
 			print "\n===> Creating ${dist#dists/}/$arch/Packages\n"
 			dpkg-scanpackages -a $arch $dist | \
@@ -64,7 +71,7 @@ for suite in dists/*; do
 		Suite: ${suite##*/}
 		Codename: ${suite##*/}
 		Date: $(date)
-		Architectures: $archs source
+		Architectures: ${suiteallarchs[*]} source
 		$components
 		Description: WTF ${nick} Repository
 		MD5Sum:
@@ -239,7 +246,7 @@ done
  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
  <meta name="MSSmartTagsPreventParsing" content="TRUE" />
  <title>MirDebian “WTF” Repository Index</title>
- <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.25 2009/10/03 18:35:57 tg Exp $" />
+ <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.26 2010/02/25 10:41:41 tg Exp $" />
  <style type="text/css">
   table {
    border: 1px solid black;
