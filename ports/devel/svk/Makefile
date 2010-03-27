@@ -1,9 +1,9 @@
-# $MirOS: ports/devel/svk/Makefile,v 1.3 2007/10/12 19:40:23 tg Exp $
+# $MirOS: ports/devel/svk/Makefile,v 1.4 2008/10/04 19:46:50 bsiegert Exp $
 
 COMMENT=		distributed version control system
 
 VERSION=		2.2.0
-DASH_VER=		0
+DASH_VER=		1
 DISTNAME=		SVK-v${VERSION}
 PKGNAME=		svk-${VERSION}-${DASH_VER}
 CATEGORIES=		devel net
@@ -19,6 +19,7 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
+B_R_DEPENDS+=		::archivers/p5-Compress-Zlib
 B_R_DEPENDS+=		::archivers/p5-PerlIO-via-Bzip2
 B_R_DEPENDS+=		::archivers/p5-PerlIO-gzip
 B_R_DEPENDS+=		::devel/p5-version
@@ -48,6 +49,7 @@ B_R_DEPENDS+=		::devel/p5-SVN-Mirror
 B_R_DEPENDS+=		::devel/p5-Path-Class
 B_R_DEPENDS+=		::devel/p5-Class-Autouse
 B_R_DEPENDS+=		::devel/p5-Time-Progress
+B_R_DEPENDS+=		::www/p5-libwww
 
 CONFIGURE_STYLE= 	perl
 CONFIGURE_ARGS+=	--defaultdeps
