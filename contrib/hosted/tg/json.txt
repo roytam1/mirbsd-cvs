@@ -13,6 +13,10 @@ Macintosh code: TEXT
 default encoding and content-transfer-encoding: UTF-8, 8bit
 alternative: UTF-16 and UTF-32, binary
 
+A JSON text consists of an optional Unicode BOM <U+FEFF> in either
+UTF-16 variant (or UTF-8) and one expansion of the syntactical goal
+either JSON<RFC> or JSON<ECMA> (or, probably, their subset).
+
 
 primitive types:
 - string
@@ -100,4 +104,4 @@ so neither next element lookup nor mandatory whitespace are required.
 - Arrays emit undefined values as literalnull
 
 _____________________________________________________________________
-$MirOS$
+$MirOS: contrib/hosted/tg/json.txt,v 1.1 2010/03/17 20:47:02 tg Exp $
