@@ -1,7 +1,9 @@
-# $MirOS: ports/devel/nspr/Makefile,v 1.6 2010/02/02 20:36:19 bsiegert Exp $
+# $MirOS: ports/security/nss/Makefile,v 1.1 2010/03/23 20:44:18 bsiegert Exp $
 
 COMMENT=		Network Security Services from the Mozilla project
 VERSION=		3.12.4
+MAJOR_VERSION=		3
+DASH_VER=		1
 V=			${VERSION:S/./_/g}
 DISTNAME=		nss-${VERSION}
 CATEGORIES=		security devel
@@ -35,6 +37,13 @@ MAKE_ENV+=		NSS_USE_SYSTEM_SQLITE=1
 ALL_TARGET=		build_coreconf build_dbm all
 CPPFLAGS+=		-I${LOCALBASE}/include/nspr
 
+PC_SED=			sed -e "s,@prefix@,$(TRUEPREFIX)," \
+			-e "s,@exec_prefix@,$(TRUEPREFIX)/bin," \
+			-e "s,@libdir@,$(TRUEPREFIX)/lib," \
+			-e "s,@includedir@,$(TRUEPREFIX)/include," \
+			-e "s,@NSS_MAJOR_VERSION@,$(MAJOR_VERSION),g" \
+			-e "s,@NSS_VERSION@,$(VERSION),g"
+
 post-extract:
 	cd ${WRKSRC}/lib/ckfw/builtins/ && \
 	    cp ${FILESDIR}/certdata.{c,txt} . && \
@@ -49,5 +58,9 @@ do-regress:
 post-install:
 	cd ${WRKDIST}/dist/*.OBJ && pax -rw -L . ${PREFIX}
 	cd ${WRKDIST}/dist/public && pax -rw -L . ${PREFIX}/include
+	mkdir -p ${PREFIX}/lib/pkgconfig
+	${PC_SED} ${FILESDIR}/nss.pc.in > ${PREFIX}/lib/pkgconfig/nss.pc
+	${PC_SED} ${FILESDIR}/nss-config.in > ${PREFIX}/bin/nss-config
+	chmod +x ${PREFIX}/bin/nss-config
 
 .include <bsd.port.mk>

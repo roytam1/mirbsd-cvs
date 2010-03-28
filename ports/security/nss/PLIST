@@ -1,4 +1,4 @@
-@comment $MirOS$
+@comment $MirOS: ports/security/nss/PLIST,v 1.1 2010/03/23 20:44:18 bsiegert Exp $
 bin/addbuiltin
 bin/atob
 bin/baddbdir
@@ -19,6 +19,7 @@ bin/makepqg
 bin/mangle
 bin/modutil
 bin/nonspr10
+bin/nss-config
 bin/ocspclnt
 bin/oidcalc
 bin/p7content
@@ -172,6 +173,8 @@ lib/libsmime.a
 lib/libsoftokn.a
 lib/libsoftokn3.chk
 lib/libssl.a
+lib/pkgconfig/nss.pc
 %%SHARED%%
+@dirrm lib/pkgconfig
 @dirrm include/nss
 @dirrm include/dbm
