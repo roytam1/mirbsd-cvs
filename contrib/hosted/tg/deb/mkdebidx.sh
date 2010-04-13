@@ -1,5 +1,5 @@
 #!/bin/mksh
-rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.30 2010/03/25 14:38:09 tg Exp $'
+rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.31 2010/04/10 20:38:26 tg Exp $'
 #-
 # Copyright (c) 2008, 2009, 2010
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -226,6 +226,7 @@ for suite in dists/*; do
 				;;
 			(@(Source: )*)
 				pn=${line##Source:*([	 ])}
+				pn=${pn%% *}
 				;;
 			(@(Version: )*)
 				pv=${line##Version:*([	 ])}
@@ -288,7 +289,7 @@ done
 EOF
 print -r -- " <title>${repo_title} Index</title>"
 cat <<'EOF'
- <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.30 2010/03/25 14:38:09 tg Exp $" />
+ <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.31 2010/04/10 20:38:26 tg Exp $" />
  <style type="text/css">
   table {
    border: 1px solid black;
