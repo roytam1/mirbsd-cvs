@@ -1,5 +1,5 @@
 #!/bin/mksh
-rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.31 2010/04/10 20:38:26 tg Exp $'
+rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.32 2010/04/13 08:12:17 tg Exp $'
 #-
 # Copyright (c) 2008, 2009, 2010
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -289,7 +289,7 @@ done
 EOF
 print -r -- " <title>${repo_title} Index</title>"
 cat <<'EOF'
- <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.31 2010/04/10 20:38:26 tg Exp $" />
+ <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.32 2010/04/13 08:12:17 tg Exp $" />
  <style type="text/css">
   table {
    border: 1px solid black;
@@ -311,8 +311,23 @@ cat <<'EOF'
    background-color: #000000;
    color: #FFFFFF;
   }
+  .tableheadcell {
+   border: 1px solid #999999;
+   padding: 3px;
+   white-space: nowrap;
+  }
   .srcpkgline {
    background-color: #CCCCCC;
+  }
+  .srcpkgdist {
+   background-color: #666666;
+   color: #FFFFFF;
+   font-weight: bold;
+  }
+  .binpkgdist {
+   background-color: #999999;
+   color: #FFFFFF;
+   font-weight: bold;
   }
  </style>
 </head><body>
@@ -344,12 +359,13 @@ print "</ul>"
 print "<h2>Packages</h2>"
 print "<table width=\"100%\"><thead>"
 print "<tr class=\"tablehead\">"
-print " <th>package name</th>"
-print " <th>dist</th>"
-print " <th>description</th>"
+print " <th class=\"tableheadcell\">dist</th>"
+print " <th class=\"tableheadcell\" rowspan=\"2\">Binary / Description</th>"
 for suitename in $allsuites; do
-	print " <th>$suitename</th>"
+	print " <th class=\"tableheadcell\" rowspan=\"2\">$suitename</th>"
 done
+print "</tr><tr class=\"tablehead\">"
+print " <th class=\"tableheadcell\">package name</th>"
 print "</tr></thead><tbody>"
 
 set -A bp_sort
@@ -368,13 +384,12 @@ done | sort -k2 |&
 while read -p num rest; do
 	print "\n<!-- sp #$num = ${sp_name[num]} -->"
 	print "<tr class=\"srcpkgline\">"
-	print " <td class=\"srcpkgname\">${sp_name[num]}</td>"
 	print " <td class=\"srcpkgdist\">${sp_dist[num]}</td>"
 	pd=
 	for x in $(tr ', ' '\n' <<<"${sp_desc[num]}" | sort -u); do
 		[[ -n $x ]] && pd="$pd, $x"
 	done
-	print " <td class=\"srcpkgdesc\">Binary:${pd#,}</td>"
+	print " <td rowspan=\"2\" class=\"srcpkgdesc\">${pd#, }</td>"
 	for suitename in $allsuites; do
 		eval pvo=\${sp_ver_${suitename}[num]}
 		eval ppo=\${sp_dir_${suitename}[num]}
@@ -412,8 +427,10 @@ while read -p num rest; do
 			y=${y:+"$y<br />"}$pv
 			let i++
 		done
-		print " <td class=\"srcpkgitem\">$y</td>"
+		print " <td rowspan=\"2\" class=\"srcpkgitem\">$y</td>"
 	done
+	print "</tr><tr class=\"srcpkgline\">"
+	print " <td class=\"srcpkgname\">${sp_name[num]}</td>"
 	print "</tr>"
 	k=0
 	while (( k < nbin )); do
@@ -425,7 +442,7 @@ while read -p num rest; do
 		print "<!-- bp #$i -->"
 		print "<tr class=\"binpkgline\">"
 		print " <td class=\"binpkgname\">${bp_disp[i]}</td>"
-		print " <td class=\"binpkgdesc\" colspan=\"2\">${bp_desc[i]}</td>"
+		print " <td class=\"binpkgdesc\">${bp_desc[i]}</td>"
 		for suitename in $allsuites; do
 			eval pv=\${bp_ver_${suitename}[i]}
 			if [[ -z $pv ]]; then
@@ -453,7 +470,7 @@ for i in ${bp_sort[*]}; do
 		print "\n<!-- sp ENOENT -->"
 		print "<tr class=\"srcpkgline\">"
 		print " <td class=\"srcpkgname\">~ENOENT~</td>"
-		print " <td class=\"srcpkgdesc\" colspan=\"2\">binary" \
+		print " <td class=\"srcpkgdesc\">binary" \
 		    "packages without a matching source package</td>"
 		for suitename in $allsuites; do
 			print " <td class=\"srcpkgitem\">-</td>"
@@ -464,9 +481,8 @@ for i in ${bp_sort[*]}; do
 	#print "<!-- bp #$i for${bp_suites[i]} -->"
 	print "<!-- bp #$i -->"
 	print "<tr class=\"binpkgline\">"
-	print " <td class=\"binpkgname\">${bp_disp[i]}</td>"
 	print " <td class=\"binpkgdist\">${bp_dist[i]}</td>"
-	print " <td class=\"binpkgdesc\">${bp_desc[i]}</td>"
+	print " <td rowspan=\"2\" class=\"binpkgdesc\">${bp_desc[i]}</td>"
 	for suitename in $allsuites; do
 		eval pv=\${bp_ver_${suitename}[i]}
 		if [[ -z $pv ]]; then
@@ -481,8 +497,10 @@ for i in ${bp_sort[*]}; do
 				(( j < nrpl )) && pv=${prepldst[j]}
 			fi
 		fi
-		print " <td class=\"binpkgitem\">$pv</td>"
+		print " <td rowspan=\"2\" class=\"binpkgitem\">$pv</td>"
 	done
+	print "</tr><tr class=\"binpkgline\">"
+	print " <td class=\"binpkgname\">${bp_disp[i]}</td>"
 	print "</tr>"
 done
 
