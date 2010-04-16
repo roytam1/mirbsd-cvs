@@ -595,6 +595,7 @@ cd9660_readdir(v)
 	}
 	idp->eofflag = 1;
 	idp->curroff = uio->uio_offset;
+	idp->uio_off = uio->uio_offset;
 
 	if ((entryoffsetinblock = idp->curroff & bmask) &&
 	    (error = cd9660_bufatoff(dp, (off_t)idp->curroff, NULL, &bp))) {
