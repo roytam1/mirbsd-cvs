@@ -1,5 +1,5 @@
 #!/bin/mksh
-rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.32 2010/04/13 08:12:17 tg Exp $'
+rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.33 2010/04/13 19:41:39 tg Exp $'
 #-
 # Copyright (c) 2008, 2009, 2010
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -77,6 +77,10 @@ for suite in dists/*; do
 	for dist in $suite/*; do
 		[[ -d $dist/. ]] || continue
 		rm -rf $dist/binary-* $dist/source
+		ovf= oef= osf=
+		[[ -s $dist/override.file ]] && ovf=$dist/override.file
+		[[ -s $dist/override.extra ]] && oef="-e $dist/override.extra"
+		[[ -s $dist/override.src ]] && osf="-s $dist/override.src"
 		components="$components ${dist##*/}"
 		archs=
 		[[ -s $dist/distinfo.sh ]] && . $dist/distinfo.sh
@@ -94,13 +98,15 @@ for suite in dists/*; do
 				print "\n===> Creating" \
 				    "${dist#dists/}/$arch/Packages\n"
 				mkdir -p $dist/binary-$arch
-				dpkg-scanpackages -a $arch $dist | \
+				dpkg-scanpackages $oef -m -a $arch \
+				    $dist $ovf | \
 				    putfile $dist/binary-$arch/Packages
 			fi
 		done
 		print "\n===> Creating ${dist#dists/}/Sources"
 		mkdir -p $dist/source
-		dpkg-scansources $dist | putfile $dist/source/Sources
+		dpkg-scansources $oef $osf $dist $ovf | \
+		    putfile $dist/source/Sources
 		print done.
 	done
 	print "\n===> Creating ${suite#dists/}/Release.gpg"
@@ -289,7 +295,7 @@ done
 EOF
 print -r -- " <title>${repo_title} Index</title>"
 cat <<'EOF'
- <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.32 2010/04/13 08:12:17 tg Exp $" />
+ <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.33 2010/04/13 19:41:39 tg Exp $" />
  <style type="text/css">
   table {
    border: 1px solid black;
