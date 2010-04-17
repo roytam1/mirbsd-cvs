@@ -1,5 +1,5 @@
 #!/bin/mksh
-rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.33 2010/04/13 19:41:39 tg Exp $'
+rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.34 2010/04/17 13:56:19 tg Exp $'
 #-
 # Copyright (c) 2008, 2009, 2010
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -56,6 +56,7 @@ export LC_ALL=C
 unset LANGUAGE
 saveIFS=$IFS
 cd "$(dirname "$0")"
+rm -f dpkg_578162_workaround
 
 IFS=:
 dpkgarchl=:all:"${dpkgarchs[*]}":
@@ -105,7 +106,11 @@ for suite in dists/*; do
 		done
 		print "\n===> Creating ${dist#dists/}/Sources"
 		mkdir -p $dist/source
-		dpkg-scansources $oef $osf $dist $ovf | \
+		[[ -e dpkg_578162_workaround ]] || (dpkg-scansources $oef $osf \
+		    $dist $ovf || touch dpkg_578162_workaround) | \
+		    putfile $dist/source/Sources
+		[[ -e dpkg_578162_workaround ]] && dpkg-scansources $osf \
+		    $dist $ovf | \
 		    putfile $dist/source/Sources
 		print done.
 	done
@@ -295,7 +300,7 @@ done
 EOF
 print -r -- " <title>${repo_title} Index</title>"
 cat <<'EOF'
- <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.33 2010/04/13 19:41:39 tg Exp $" />
+ <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.34 2010/04/17 13:56:19 tg Exp $" />
  <style type="text/css">
   table {
    border: 1px solid black;
