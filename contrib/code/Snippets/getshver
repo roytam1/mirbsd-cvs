@@ -1,4 +1,4 @@
-# $MirOS: contrib/code/Snippets/getshver,v 1.5 2009/09/14 17:36:28 tg Exp $
+# $MirOS: contrib/code/Snippets/getshver,v 1.7 2009/09/14 18:04:26 tg Exp $
 #-
 # Copyright (c) 2009
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -110,7 +110,11 @@ esac
 x=.sh.version
 (eval x=\$\{$x\}) 2>&- || x=fail
 if test fail != "$x"; then
-	eval echo 'ksh93 ${.sh.version#Version }'
+	if builtin XBell >/dev/null 2>&1; then
+		eval echo 'dtksh ${.sh.version#Version }'
+	else
+		eval echo 'ksh93 ${.sh.version#Version }'
+	fi
 	exit 0
 fi
 if (
