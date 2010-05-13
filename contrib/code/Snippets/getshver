@@ -1,4 +1,4 @@
-# $MirOS: contrib/code/Snippets/getshver,v 1.7 2009/09/14 18:04:26 tg Exp $
+# $MirOS: contrib/code/Snippets/getshver,v 1.8 2010/04/27 21:09:12 tg Exp $
 #-
 # Copyright (c) 2009
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -49,29 +49,20 @@ case x$SHELL_VERSION in
 x) ;;
 *[0-9]*build*)
 	if ( (set -o korn) && (set -o bash) ) >&- 2>&-; then
-		# MKS {,Korn,Bash} Shell (untested, I have none)
+		# MKS {,Korn,Bash} Shell (fixed by Michael Langguth)
 		( # subshell, just in case
-		typeset _o _pp _pb _pk
+		typeset _o
 
 		_o=`set -o`
-		set +o posix
-		set +o bash
-		set -o korn
-		_pp='*@(posix+( )on)*'
-		_pb='*@(bash+( )on)*'
-		_pk='*@(korn+( )on)*'
-		if eval [[ \$_o = $_pp ]]; then
-			echo mkssh
-		elif eval [[ \$_o = $_pb ]]; then
-			echo mksbash
-		elif eval [[ \$_o = $_pk ]]; then
-			echo mksksh
+		if [ -z "${_o##*-o bash*}" ]; then
+			echo "mksbash $SHELL_VERSION"
+		elif [ -z "${_o##*-o korn*}" ]; then
+			echo "mksksh $SHELL_VERSION"
 		else
-			echo mkssh
-		fi ) || echo mks
+			echo "mkssh $SHELL_VERSION"
+		fi ) || echo "mks $SHELL_VERSION"
 		exit 0
 	fi
-	# may still be MKS? we do not know...
 	;;
 esac
 
