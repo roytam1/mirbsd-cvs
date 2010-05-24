@@ -60,7 +60,7 @@ void  input(FILE *);
 void  maketbl(void);
 void  print(void);
 void  r_columnate(void);
-void  usage(void);
+void  usage(void) __dead;
 
 int termwidth = 80;		/* default terminal width */
 
@@ -68,7 +68,7 @@ int entries;			/* number of records */
 int eval;			/* exit value */
 int maxlength;			/* longest record */
 char **list;			/* array of pointers to records */
-char *separator = "\t ";	/* field separator for table option */
+const char *separator = "\t ";	/* field separator for table option */
 
 int
 main(int argc, char *argv[])
@@ -223,10 +223,10 @@ maketbl(void)
 		for (coloff = 0, p = *lp; (cols[coloff] = strtok(p, separator));
 		    p = NULL)
 			if (++coloff == maxcols) {
-				if (!(cols2 = realloc(cols, (u_int)maxcols +
-				    DEFCOLS * sizeof(char *))) ||
+				if (!(cols2 = realloc(cols, ((u_int)maxcols +
+				    DEFCOLS) * sizeof(char *))) ||
 				    !(lens2 = realloc(lens,
-				    (u_int)maxcols + DEFCOLS * sizeof(int))))
+				    ((u_int)maxcols + DEFCOLS) * sizeof(int))))
 					err(1, NULL);
 				cols = cols2;
 				lens = lens2;
