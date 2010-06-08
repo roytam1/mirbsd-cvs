@@ -1,4 +1,4 @@
-.\"	$MirOS: src/usr.bin/host/host.1,v 1.1.7.1 2005/03/06 16:46:48 tg Exp $
+.\"	$MirOS: src/usr.bin/host/host.1,v 1.2 2010/06/08 09:00:53 tg Exp $
 .\"	$OpenBSD: host.1,v 1.6 2000/08/02 15:58:09 provos Exp $
 .\"	@(#)host.1              e07@nikhef.nl (Eric Wassenaar) 961010
 .\"
@@ -805,13 +805,13 @@ specified in the environment variable \fIHOSTALIASES\fP.
 .SH "SPECIAL CONSIDERATIONS"
 The complete set of resource record information for a domain name
 is available from an authoritative nameserver only. Therefore,
-if you query another server with the "-a" option, only a subset
+if you query another server with the "\-a" option, only a subset
 of the data may be presented, since this option asks for any data
 that the latter server currently knows about, not all data that
-may possibly exist.  Note that the "-v" option shows whether an
+may possibly exist.  Note that the "\-v" option shows whether an
 answer is authoritative or not.
 .PP
-When listing a zone with the "-l" option, information will be fetched
+When listing a zone with the "\-l" option, information will be fetched
 from authoritative nameservers for that zone. This is implemented by
 doing a complete zone transfer and then filtering out the information
 that you have asked for.
