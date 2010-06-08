@@ -1,8 +1,16 @@
-.\"	$MirOS$
+.\"	$MirOS: src/usr.bin/host/host.1,v 1.1.7.1 2005/03/06 16:46:48 tg Exp $
 .\"	$OpenBSD: host.1,v 1.6 2000/08/02 15:58:09 provos Exp $
 .\"	@(#)host.1              e07@nikhef.nl (Eric Wassenaar) 961010
 .\"
 .TH host 1 "961010"
+.\"
+.\" Whatever .fw is, it's unknown, so let's invent it.
+.\"
+.de fw
+\\fB\\$1\\fR
+.br
+..
+.\"
 .SH NAME
 host \- query nameserver about domain names and zones
 .SH SYNOPSIS
