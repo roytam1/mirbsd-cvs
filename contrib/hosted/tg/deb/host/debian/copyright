@@ -1,0 +1,40 @@
+This package was debianised by Thorsten Glaser <t.glaser@tarent.de> on
+Tue, 08 Jun 2010 11:03:48 +0200.
+
+$MirOS: contrib/hosted/tg/deb/makefs/debian/copyright,v 1.4 2010/03/07 00:39:16 tg Exp $
+
+It was downloaded from:
+cvs -qd _anoncvs@anoncvs.mirbsd.org:/cvs export \
+    -D"2010/06/08 10:00 UTC" -d mirhost-20100608/src src/usr.bin/host
+
+
+Licence:
+
+/*-
+ * Copyright (c) 2001, 2002, 2003, 2004, 2006, 2010
+ *	Thorsten Glaser <tg@mirbsd.de>
+ *
+ * Licensee is hereby permitted to deal in this work without restric-
+ * tion, including unlimited rights to use, publicly perform, modify,
+ * merge, distribute, sell, give away or sublicence, provided all co-
+ * pyright notices above, these terms and the disclaimer are retained
+ * in all redistributions or reproduced in accompanying documentation
+ * or other materials provided with binary redistributions.
+ *
+ * Advertising materials mentioning features or use of this work must
+ * display the following acknowledgement:
+ *	This product includes material provided by Thorsten Glaser.
+ *
+ * Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
+ * express, or implied, to the maximum extent permitted by applicable
+ * law, without malicious intent or gross negligence; in no event may
+ * licensor, an author or contributor be held liable for any indirect
+ * or other damage, or direct damage except proven a consequence of a
+ * direct error of said person and intended use of this work, loss or
+ * other issues arising in any way out of its use, even if advised of
+ * the possibility of such damage or existence of a defect.
+ *-
+ * Based upon code by:
+ * Copyright (c) 1985, 1989 Regents of the University of California.
+ * Copyright (c) by Eric Wassenaar, Nikhef-H, <e07@nikhef.nl>
+ */

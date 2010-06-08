@@ -1,0 +1,5 @@
+mirhost (20100608) unstable; urgency=low
+
+  * Initial package.
+
+ -- Thorsten Glaser <tg@mirbsd.de>  Tue, 08 Jun 2010 10:00:11 +0000
