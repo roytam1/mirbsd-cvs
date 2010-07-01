@@ -1,6 +1,6 @@
 # 99 bottles of beer in Brainf*ck
 # Copyright (C) 2008 Raphael Bois
-# 1671 brainf*ck instructions.
+# Copyright © 2010 Thorsten Glaser
 # Published under GPL v2
 
 Initialization
@@ -114,7 +114,21 @@ Go back to (7) with final initialization step (remove 1 to all bytes)
          >---------- ---------- ---------- -- sets (15) to 'N'
 
          >>>++.--  DOT
-         >..       LF LF
+         >.        LF
+
+         at (19)  25 has end of song 27 28 scratch?
+         >>>>>>   at (25)
+         copy to 27 and 28
+         >>[-]>[-]<<<[->>+>+<<<]
+         >>>      at (28)
+         copy back to 25 setting 28 to 0
+         [-<<<+>>>]
+         negate 27 into 28: set 28 to 1 then conditionally set 28 to 0
+         +<       at (27)
+         [->-<]>  at (28)
+         conditionally echo LF
+         [-<<<<<<<<<.>>>>>>>>>]
+         <<<<<<<<< at (19)
     >>>] at (22)
 
     >>>[->[-]<<<<<<<[<]<[-]>>[>]>>>>>]+ if end of song reset bottles counter
