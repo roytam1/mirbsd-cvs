@@ -1,7 +1,9 @@
-# 99 bottles of beer in Brainf*ck
+[ $MirOS$
+# 99 bottles of beer in Brainfuck
 # Copyright (C) 2008 Raphael Bois
 # Copyright © 2010 Thorsten Glaser
 # Published under GPL v2
+]
 
 Initialization
 ++    Counter for loop (a)
