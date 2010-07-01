@@ -116,7 +116,7 @@ Go back to (7) with final initialization step (remove 1 to all bytes)
          >>>++.--  DOT
          >.        LF
 
-         at (19)  25 has end of song 27 28 scratch?
+         at (19)  25 has end of song (0 or 1) 27 28 scratch?
          >>>>>>   at (25)
          copy to 27 and 28
          >>[-]>[-]<<<[->>+>+<<<]
@@ -128,8 +128,7 @@ Go back to (7) with final initialization step (remove 1 to all bytes)
          [->-<]>  at (28)
          conditionally echo LF
          [-<<<<<<<<<.>>>>>>>>>]
-         <<<<<<<<< at (19)
-    >>>] at (22)
+    <<<<<<] at (22)
 
     >>>[->[-]<<<<<<<[<]<[-]>>[>]>>>>>]+ if end of song reset bottles counter
     >[-<[-] at (25)
