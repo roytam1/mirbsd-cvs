@@ -1,4 +1,4 @@
-/*	$OpenBSD: printf.c,v 1.12 2004/05/31 15:48:26 pedro Exp $	*/
+/*	$OpenBSD: printf.c,v 1.17 2009/10/27 23:59:41 deraadt Exp $	*/
 
 /*
  * Copyright (c) 1989 The Regents of the University of California.
@@ -29,19 +29,6 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-#if !defined(SHELL) && !defined(BUILTIN)
-char copyright[] =
-"@(#) Copyright (c) 1989 The Regents of the University of California.\n\
- All rights reserved.\n";
-#endif
-#endif /* not lint */
-
-#ifndef lint
-/*static char sccsid[] = "from: @(#)printf.c	5.9 (Berkeley) 6/1/90";*/
-static char rcsid[] = "$OpenBSD: printf.c,v 1.12 2004/05/31 15:48:26 pedro Exp $";
-#endif /* not lint */
-
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -71,26 +58,6 @@ static char  **gargv;
 #define octtobin(c)	((c) - '0')
 #define hextobin(c)	((c) >= 'A' && (c) <= 'F' ? c - 'A' + 10 : (c) >= 'a' && (c) <= 'f' ? c - 'a' + 10 : c - '0')
 
-#ifdef SHELL
-#define main printfcmd
-#include "../../bin/sh/bltin/bltin.h"
-#include <stdarg.h>
-
-static void 
-warnx(const char *fmt, ...)
-{
-	
-	char buf[64];
-	va_list ap;
-
-	va_start(ap, fmt);
-	vsnprintf(buf, sizeof buf, fmt, ap);
-	va_end(ap);
-
-	error(buf);
-}
-#endif /* SHELL */
-
 #define PF(f, func) { \
 	if (fieldwidth) \
 		if (precision) \
@@ -104,20 +71,20 @@ warnx(const char *fmt, ...)
 }
 
 int
-#ifdef BUILTIN
-progprintf(int argc, char *argv[])
-#else
 main(int argc, char *argv[])
-#endif
 {
 	char *fmt, *start;
 	int fieldwidth, precision;
 	char convch, nextch;
 	char *format;
 
-#if !defined(SHELL) && !defined(BUILTIN)
 	setlocale (LC_ALL, "");
-#endif
+
+	/* Need to accept/ignore "--" option. */
+	if (argc > 1 && strcmp(argv[1], "--") == 0) {
+		argc--;
+		argv++;
+	}
 
 	if (argc < 2) {
 		usage();
@@ -128,7 +95,7 @@ main(int argc, char *argv[])
 	gargv = ++argv;
 
 #define SKIP1	"#-+ 0"
-#define SKIP2	"*0123456789"
+#define SKIP2	"0123456789"
 	do {
 		/*
 		 * Basic algorithm is to scan the format string for conversion
@@ -157,16 +124,28 @@ main(int argc, char *argv[])
 				}
 
 				/* skip to field width */
-				for (; strchr(SKIP1, *fmt); ++fmt) ;
-				fieldwidth = *fmt == '*' ? getint() : 0;
-
-				/* skip to possible '.', get following precision */
-				for (; strchr(SKIP2, *fmt); ++fmt) ;
-				if (*fmt == '.')
+				for (; strchr(SKIP1, *fmt); ++fmt)
+					;
+				if (*fmt == '*') {
 					++fmt;
-				precision = *fmt == '*' ? getint() : 0;
+					fieldwidth = getint();
+				} else
+					fieldwidth = 0;
 
-				for (; strchr(SKIP2, *fmt); ++fmt) ;
+				/* skip to field precision */
+				for (; strchr(SKIP2, *fmt); ++fmt)
+					;
+				precision = 0;
+				if (*fmt == '.') {
+					++fmt;
+					if (*fmt == '*') {
+						++fmt;
+						precision = getint();
+					}
+					for (; strchr(SKIP2, *fmt); ++fmt)
+						;
+				}
+
 				if (!*fmt) {
 					warnx ("missing format character");
 					return(1);
@@ -212,9 +191,12 @@ main(int argc, char *argv[])
 					PF(f, p);
 					break;
 				}
+				case 'a':
+				case 'A':
 				case 'e':
 				case 'E':
 				case 'f':
+				case 'F':
 				case 'g':
 				case 'G': {
 					double p = getdouble();
