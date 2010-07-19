@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/hosted/tg/deb/BuildDSC.sh,v 1.3 2010/02/19 11:10:40 tg Exp $
+# $MirOS: contrib/hosted/tg/deb/BuildDSC.sh,v 1.4 2010/02/19 11:30:43 tg Exp $
 #-
 # Copyright (c) 2010
 #	Thorsten Glaser <t.glaser@tarent.de>
@@ -24,21 +24,75 @@
 # source package. It will then be renamed to the proper dirname, and
 # a source package (*.dsc + others) will be created, then it will be
 # renamed back.
+# -s arg: make a snapshot with "arg" being the version number suffix
+# -S: build a snapshot with snapshot.YYYYMMDD.HHMMSS (UTC) as suffix
+
+unset LANGUAGE
+export LC_ALL=C
+
+# preload
+sync
+date >/dev/null
+stime_rfc=$(date +"%a, %d %b %Y %H:%M:%S %z")
+stime_vsn=$(date -u +"%Y%m%d.%H%M%S")
+
+snap=0
+ssuf=
+while getopts "Ss:" ch; do
+	case $ch {
+	(S)	snap=1
+		ssuf=snapshot.$stime_vsn
+		;;
+	(s)	snap=1
+		ssuf=$OPTARG
+		;;
+	(*)	print -u2 Syntax error.
+		exit 1
+		;;
+	}
+done
+
+if (( snap )) && [[ -z $DEBEMAIL ]]; then
+	print -u2 'Please set $DEBEMAIL to "First M. Last <email@domain.com>"'
+	exit 1
+fi
 
 echo >&2 "=== trying . = $(pwd)"
 if ! dh_testdir >/dev/null 2>&1; then
 	cd "$(dirname "$0")"
-	echo >&2 "=== trying basedir = $(pwd)"
+	print -u2 "=== trying basedir = $(pwd)"
 	if ! dh_testdir >/dev/null 2>&1; then
-		echo >&2 "FAILED! Please change to the correct directory."
+		print -u2 "FAILED! Please change to the correct directory."
 		exit 1
 	fi
 fi
 mydir=$(pwd)
+pkgstem=$(dpkg-parsechangelog -n1 | sed -n '/^Source: /s///p')
 version=$(dpkg-parsechangelog -n1 | sed -n '/^Version: /s///p')
+if (( snap )); then
+	updir=$(cd ..; pwd)
+	if ! T=$(mktemp "$updir/BuildDSC.tmp.XXXXXXXXXX"); then
+		print -u2 Could not create temporary file.
+		exit 1
+	fi
+	cat debian/changelog >"$T"
+	touch -r debian/changelog "$T"
+	dist=$(dpkg-parsechangelog -n1 | sed -n '/^Distribution: /s///p')
+	if [[ $dist = @(xunstable|UNRELEASED) ]]; then
+		# we’re at “current” already, reduce
+		version=$version'~'$ssuf
+	else
+		# we’re at an uploaded version, raise
+		version=$version'+'$ssuf
+	fi
+	print "$pkgstem ($version) UNRELEASED; urgency=low\n\n  *" \
+	    "Automatically built snapshot package.\n\n --" \
+	    "$DEBEMAIL  $stime_rfc\n" >debian/changelog
+	cat "$T" >>debian/changelog
+	touch -r "$T" debian/changelog
+fi
 upstreamversion=${version%%-*([!-])}
 upstreamversion=${upstreamversion#+([0-9]):}
-pkgstem=$(dpkg-parsechangelog -n1 | sed -n '/^Source: /s///p')
 cd ..
 curname=${mydir##*/}
 newname=$pkgstem-$upstreamversion
@@ -49,5 +103,12 @@ rv=$?
 fakeroot debian/rules clean
 cd ..
 [[ $newname = $curname ]] || mv "$newname" "$curname"
+
+if (( snap )); then
+	cd "$curname"
+	cat "$T" >debian/changelog
+	touch -r "$T" debian/changelog
+	rm -f "$T"
+fi
 
 exit $rv
