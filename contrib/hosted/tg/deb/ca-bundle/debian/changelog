@@ -1,10 +1,13 @@
-ca-bundle (20100128) xunstable; urgency=low
+ca-bundle (20100723) unstable; urgency=low
 
   * Bump Standards-Version, no relevant change
   * debian/source/format: Enforce "1.0" manually, for now
   * debian/control: Remove DMUA, I'm a DD now
+  * debian/control: Depends += ${misc:Depends}
+  * debian/control: Recommends += openssl
+  * Update from MirOS sources
 
- -- Thorsten Glaser <tg@mirbsd.de>  Fri, 11 Dec 2009 11:38:09 +0003
+ -- Thorsten Glaser <tg@mirbsd.de>  Fri, 23 Jul 2010 08:33:07 +0000
 
 ca-bundle (20091211) unstable; urgency=low
 

@@ -1,5 +1,5 @@
-$MirOS: contrib/hosted/tg/deb/mircpio/debian/files/fgetln.c,v 1.2 2009/11/22 22:15:35 tg Exp $
+$MirOS: contrib/hosted/tg/deb/ca-bundle/bsd/certdata.txt,v 1.2 2009/11/22 22:27:32 tg Exp $
 
 placeholder: pull from ↓ instead!
 
-mircvs://ports/www/firesomething/files/certdata.txt
+mircvs://ports/security/nss/files/certdata.txt

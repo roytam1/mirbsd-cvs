@@ -4,10 +4,12 @@ Priority: optional
 Maintainer: Thorsten Glaser <tg@mirbsd.de>
 Build-Depends: debhelper (>= 5)
 Build-Depends-Indep: openssl
-Standards-Version: 3.8.4
+Standards-Version: 3.9.0
 
 Package: ca-bundle
 Architecture: all
+Depends: ${misc:Depends}
+Recommends: openssl
 Conflicts: ca-certificates, ca-certificates-java
 Replaces: ca-certificates, ca-certificates-java,
  cacao-oj6-jre-headless, gajim, ia32-sun-java5-bin, ia32-sun-java6-bin,
