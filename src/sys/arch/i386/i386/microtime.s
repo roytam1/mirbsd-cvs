@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/sys/arch/i386/i386/microtime.s,v 1.2 2005/03/06 21:26:58 tg Exp $ */
 /*	$OpenBSD: microtime.s,v 1.19 2003/06/04 16:36:14 deraadt Exp $	*/
 /*	$NetBSD: microtime.s,v 1.16 1995/04/17 12:06:47 cgd Exp $	*/
 
@@ -49,8 +49,6 @@ ENTRY(microtime)
 	movl	_C_LABEL(pentium_mhz), %ecx
 	testl	%ecx, %ecx
 	jne	pentium_microtime
-#else
-	xorl	%ecx,%ecx
 #endif
 	movb	$(TIMER_SEL0|TIMER_LATCH),%al
 
