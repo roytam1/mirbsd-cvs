@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/hosted/tg/ps2pdfmir,v 1.2 2010/07/31 20:59:49 tg Exp $
+# $MirOS: contrib/hosted/tg/ps2pdfmir,v 1.3 2010/07/31 22:21:14 tg Exp $
 # Convert PostScript or PDF to PDF 1.3 (Acrobat 4-and-later compatible),
 # or, if the -a option is given, to something resembling PDF/A (PDF 1.4,
 # Acrobat 5-and-later compatible, ISO standardised).
@@ -16,32 +16,46 @@ function addargs {
 function usage {
 	print -u2 "Syntax:"
 	print -ru2 "	$0 [-a] infile [outfile]"
+	print -ru2 "	$0 [-a] -o outfile infile [...]"
+	print -ru2 "	$0 [-a] -c -o outfile pscommand [... -f infile ...]"
 	exit 1
 }
 
 pdfa=0
-while getopts "a" c; do
+icmd=0
+outfile=
+while getopts "aco:" c; do
 	case $c {
 	(a)	pdfa=1 ;;
+	(c)	icmd=1 ;;
+	(o)	outfile=$OPTARG ;;
 	(*)	usage ;;
 	}
 done
 shift $((OPTIND - 1))
 
-case $# {
-(1)	infile=$1
-	if [[ $infile = - ]]; then
-		outfile=-
-	else
-		outfile=${infile%.?(e)ps}.pdf
-	fi
-	;;
-(2)	infile=$1
-	outfile=$2
-	;;
-(*)	usage
-	;;
-}
+if [[ -n $outfile ]]; then
+	(( $# )) || usage
+	infile=
+else
+	case $# {
+	(1)	infile=$1
+		if [[ -z $infile ]]; then
+			usage
+		elif [[ $infile = - ]]; then
+			outfile=-
+		else
+			outfile=${infile%.?(e)ps}.pdf
+		fi
+		;;
+	(2)	infile=$1
+		outfile=$2
+		[[ -z $infile || -z $outfile ]] && usage
+		;;
+	(*)	usage
+		;;
+	}
+fi
 
 r=${0%/*}
 [[ $r = $0 ]] && r=.
@@ -64,5 +78,11 @@ if (( pdfa )); then
 	    -c /ICCProfile "($p)" def -f "$d"
 fi
 
-addargs -c .setpdfwrite -f "$infile"
+if [[ -n $infile ]]; then
+	addargs -c .setpdfwrite -f "$infile"
+elif (( icmd )); then
+	addargs -c .setpdfwrite "$@"
+else
+	addargs -c .setpdfwrite -f "$@"
+fi
 exec gs "${args[@]}"
