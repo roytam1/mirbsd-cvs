@@ -1,5 +1,24 @@
 #!/bin/mksh
-# $MirOS: contrib/hosted/tg/ps2pdfmir,v 1.5 2010/07/31 22:45:11 tg Exp $
+# $MirOS: contrib/hosted/tg/ps2pdfmir,v 1.6 2010/07/31 23:01:30 tg Exp $
+#-
+# Copyright (c) 2009, 2010
+#	Thorsten Glaser <tg@mirbsd.org>
+#
+# Provided that these terms and disclaimer and all copyright notices
+# are retained or reproduced in an accompanying document, permission
+# is granted to deal in this work without restriction, including un-
+# limited rights to use, publicly perform, distribute, sell, modify,
+# merge, give away, or sublicence.
+#
+# This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
+# the utmost extent permitted by applicable law, neither express nor
+# implied; without malicious intent or gross negligence. In no event
+# may a licensor, author or contributor be held liable for indirect,
+# direct, other damage, loss, or other issues arising in any way out
+# of dealing in the work, even if advised of the possibility of such
+# damage or existence of a defect, except proven that it results out
+# of said person's immediate fault when using the work as intended.
+#-
 # Convert PostScript or PDF to PDF 1.3 (Acrobat 4-and-later compatible),
 # or, if the -a option is given, to something resembling PDF/A (PDF 1.4,
 # Acrobat 5-and-later compatible, ISO standardised).
@@ -80,9 +99,9 @@ if (( pdfa )); then
 	p=$r/sRGB_IEC61966-2-1_black_scaled.icc
 	d=$r/ps2pdfa.ps
 	if [[ ! -s $p || ! -s $d ]]; then
-		print -u2 "Cannot find definition files:"
-		print -ru2 "• $d"
-		print -ru2 "• $p"
+		print -u2 "Cannot find definition and profile files:"
+		print -ru2 -- "- $d"
+		print -ru2 -- "- $p"
 		exit 1
 	fi
 	addargs -dNOOUTERSAVE -dPDFA -sProcessColorModel=DeviceCMYK \
