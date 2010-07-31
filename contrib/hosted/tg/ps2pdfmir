@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/hosted/tg/ps2pdfmir,v 1.4 2010/07/31 22:40:11 tg Exp $
+# $MirOS: contrib/hosted/tg/ps2pdfmir,v 1.5 2010/07/31 22:45:11 tg Exp $
 # Convert PostScript or PDF to PDF 1.3 (Acrobat 4-and-later compatible),
 # or, if the -a option is given, to something resembling PDF/A (PDF 1.4,
 # Acrobat 5-and-later compatible, ISO standardised).
@@ -15,9 +15,9 @@ function addargs {
 
 function usage {
 	print -u2 "Syntax:"
-	print -ru2 "	$0 [-a] [-p papersize] infile [outfile]"
-	print -ru2 "	$0 [-a] [-p p.] -o outfile infile [...]"
-	print -ru2 "	$0 [-a] [-p p.] -c -o outfile pscommand [... -f infile ...]"
+	print -ru2 "	$0 [-a] [-p papersize] [-t title] infile [outfile]"
+	print -ru2 "	$0 [-a] [-p p.] [-t t.] -o outfile infile [...]"
+	print -ru2 "	$0 [-a] [-p p.] [-t t.] -c -o outfile pscommand [... -f infile ...]"
 	exit 1
 }
 
@@ -25,16 +25,24 @@ pdfa=0
 icmd=0
 outfile=
 papersize=
-while getopts "aco:p:" c; do
+overtitle=
+while getopts "aco:p:t:" c; do
 	case $c {
 	(a)	pdfa=1 ;;
 	(c)	icmd=1 ;;
 	(o)	outfile=$OPTARG ;;
 	(p)	papersize=$OPTARG ;;
+	(t)	overtitle=$OPTARG ;;
 	(*)	usage ;;
 	}
 done
 shift $((OPTIND - 1))
+
+#XXX
+if [[ $overtitle = *@(\(|\))* ]]; then
+	print -u2 Cannot deal with parentheses in title.
+	exit 1
+fi
 
 if [[ -n $outfile ]]; then
 	(( $# )) || usage
@@ -81,11 +89,14 @@ if (( pdfa )); then
 	    -c /ICCProfile "($p)" def -f "$d"
 fi
 
+addargs -c .setpdfwrite
+[[ -n $overtitle ]] && addargs '[' /Title "($overtitle)" /DOCINFO pdfmark
+
 if [[ -n $infile ]]; then
-	addargs -c .setpdfwrite -f "$infile"
+	addargs -f "$infile"
 elif (( icmd )); then
-	addargs -c .setpdfwrite "$@"
+	addargs "$@"
 else
-	addargs -c .setpdfwrite -f "$@"
+	addargs -f "$@"
 fi
 exec gs "${args[@]}"
