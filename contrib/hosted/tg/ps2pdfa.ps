@@ -1,10 +1,7 @@
 %!
+% $MirOS$
 % $Id$
 % This is a sample prefix file for creating a PDF/A document.
-% Feel free to modify entries marked with "Customize".
-
-% This assumes an ICC profile to reside in the file (ISO Coated sb.icc),
-% unless the user modifies the corresponding line below.
 
 
 systemdict /ProcessColorModel known {
@@ -19,10 +16,7 @@ systemdict /ProcessColorModel known {
 
 % Define entries to the document Info dictionary :
 
-/ICCProfile (ISO Coated sb.icc)   % Customize.
-def
-
-[ /Title (Title)                  % Customize.
+[ /Title (Default Title for PDF/A with ps2pdfmir)
   /DOCINFO pdfmark
 
 % Define an ICC profile :
@@ -38,6 +32,5 @@ def
   /Type /OutputIntent             % Must be so (the standard requires).
   /S /GTS_PDFA1                   % Must be so (the standard requires).
   /DestOutputProfile {icc_PDFA}            % Must be so (see above).
-  /OutputConditionIdentifier (CGATS TR001)      % Customize
 >> /PUT pdfmark
 [{Catalog} <</OutputIntents [ {OutputIntent_PDFA} ]>> /PUT pdfmark

@@ -1,9 +1,68 @@
-#!/bin/sh
-# $MirOS: contrib/hosted/tg/ps2pdfmir,v 1.1 2009/06/29 16:29:50 tg Exp $
-# Convert PostScript or PDF to PDF 1.3 (Acrobat 4-and-later compatible).
+#!/bin/mksh
+# $MirOS: contrib/hosted/tg/ps2pdfmir,v 1.2 2010/07/31 20:59:49 tg Exp $
+# Convert PostScript or PDF to PDF 1.3 (Acrobat 4-and-later compatible),
+# or, if the -a option is given, to something resembling PDF/A (PDF 1.4,
+# Acrobat 5-and-later compatible, ISO standardised).
 
-exec gs -q -dNOPAUSE -dBATCH -sDEVICE=pdfwrite \
-    -sOutputFile="${2:-${1%.?(e)ps}.pdf}" \
-    -dSAFER -dCompatibilityLevel=1.3 \
-    -dSubsetFonts=true -dEmbedAllFonts=true \
-    -c .setpdfwrite -f "$1"
+set -A args
+function addargs {
+	typeset _i
+
+	for _i in "$@"; do
+		args[${#args[*]}]=$_i
+	done
+}
+
+function usage {
+	print -u2 "Syntax:"
+	print -ru2 "	$0 [-a] infile [outfile]"
+	exit 1
+}
+
+pdfa=0
+while getopts "a" c; do
+	case $c {
+	(a)	pdfa=1 ;;
+	(*)	usage ;;
+	}
+done
+shift $((OPTIND - 1))
+
+case $# {
+(1)	infile=$1
+	if [[ $infile = - ]]; then
+		outfile=-
+	else
+		outfile=${infile%.?(e)ps}.pdf
+	fi
+	;;
+(2)	infile=$1
+	outfile=$2
+	;;
+(*)	usage
+	;;
+}
+
+r=${0%/*}
+[[ $r = $0 ]] && r=.
+r=$(realpath "$r")
+(( pdfa )) && addargs -I"$r"
+
+addargs -q -dNOPAUSE -dBATCH -sDEVICE=pdfwrite -sOutputFile="$outfile" \
+    -dSAFER -dCompatibilityLevel=1.3 -dSubsetFonts=true -dEmbedAllFonts=true
+
+if (( pdfa )); then
+	p=$r/sRGB_IEC61966-2-1_black_scaled.icc
+	d=$r/ps2pdfa.ps
+	if [[ ! -s $p || ! -s $d ]]; then
+		print -u2 "Cannot find definition files:"
+		print -ru2 "• $d"
+		print -ru2 "• $p"
+		exit 1
+	fi
+	addargs -dPDFA -sProcessColorModel=DeviceCMYK \
+	    -c /ICCProfile "($p)" def -f "$d"
+fi
+
+addargs -c .setpdfwrite -f "$infile"
+exec gs "${args[@]}"
