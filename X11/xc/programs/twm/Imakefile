@@ -52,7 +52,7 @@ deftwmrc.c:  system.twmrc
 	echo '    (char *) 0 };' >>$@
 
 ComplexProgramTarget(twm)
-InstallNonExecFile(system.twmrc,$(TWMDIR))
+InstallNonExecFileNoClobber(system.twmrc,$(TWMDIR))
 
 LinkConfDirectory(twm,.,twm,.)
 
