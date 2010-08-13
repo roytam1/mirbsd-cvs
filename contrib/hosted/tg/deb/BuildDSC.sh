@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/hosted/tg/deb/BuildDSC.sh,v 1.4 2010/02/19 11:30:43 tg Exp $
+# $MirOS: contrib/hosted/tg/deb/BuildDSC.sh,v 1.5 2010/07/19 11:45:19 tg Exp $
 #-
 # Copyright (c) 2010
 #	Thorsten Glaser <t.glaser@tarent.de>
@@ -57,21 +57,38 @@ if (( snap )) && [[ -z $DEBEMAIL ]]; then
 	exit 1
 fi
 
-echo >&2 "=== trying . = $(pwd)"
-if ! dh_testdir >/dev/null 2>&1; then
+rmc=0
+while :; do
+	echo >&2 "=== trying . = $(pwd)"
+	dh_testdir >/dev/null 2>&1 && break
+	if [[ -s debian/control.in && -s debian/rules && \
+	    -x debian/rules && ! -e debian/control ]]; then
+		rmc=1
+		cp debian/control.in debian/control
+	fi
+	dh_testdir >/dev/null 2>&1 && break
+	(( rmc )) && rm -f debian/control
+	rmc=0
 	cd "$(dirname "$0")"
 	print -u2 "=== trying basedir = $(pwd)"
-	if ! dh_testdir >/dev/null 2>&1; then
-		print -u2 "FAILED! Please change to the correct directory."
-		exit 1
+	dh_testdir >/dev/null 2>&1 && break
+	if [[ -s debian/control.in && -s debian/rules && \
+	    -x debian/rules && ! -e debian/control ]]; then
+		rmc=1
+		cp debian/control.in debian/control
 	fi
-fi
+	dh_testdir >/dev/null 2>&1 && break
+	(( rmc )) && rm -f debian/control
+	print -u2 "FAILED! Please change to the correct directory."
+	exit 1
+done
 mydir=$(pwd)
 pkgstem=$(dpkg-parsechangelog -n1 | sed -n '/^Source: /s///p')
 version=$(dpkg-parsechangelog -n1 | sed -n '/^Version: /s///p')
 if (( snap )); then
 	updir=$(cd ..; pwd)
 	if ! T=$(mktemp "$updir/BuildDSC.tmp.XXXXXXXXXX"); then
+		(( rmc )) && rm -f debian/control
 		print -u2 Could not create temporary file.
 		exit 1
 	fi
@@ -104,8 +121,9 @@ fakeroot debian/rules clean
 cd ..
 [[ $newname = $curname ]] || mv "$newname" "$curname"
 
+cd "$curname"
+(( rmc )) && rm -f debian/control
 if (( snap )); then
-	cd "$curname"
 	cat "$T" >debian/changelog
 	touch -r "$T" debian/changelog
 	rm -f "$T"
