@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/hosted/tg/deb/BuildDSC.sh,v 1.5 2010/07/19 11:45:19 tg Exp $
+# $MirOS: contrib/hosted/tg/deb/BuildDSC.sh,v 1.6 2010/08/13 13:49:40 tg Exp $
 #-
 # Copyright (c) 2010
 #	Thorsten Glaser <t.glaser@tarent.de>
@@ -64,7 +64,7 @@ while :; do
 	if [[ -s debian/control.in && -s debian/rules && \
 	    -x debian/rules && ! -e debian/control ]]; then
 		rmc=1
-		cp debian/control.in debian/control
+		debian/rules debian/control
 	fi
 	dh_testdir >/dev/null 2>&1 && break
 	(( rmc )) && rm -f debian/control
@@ -75,7 +75,7 @@ while :; do
 	if [[ -s debian/control.in && -s debian/rules && \
 	    -x debian/rules && ! -e debian/control ]]; then
 		rmc=1
-		cp debian/control.in debian/control
+		debian/rules debian/control
 	fi
 	dh_testdir >/dev/null 2>&1 && break
 	(( rmc )) && rm -f debian/control
