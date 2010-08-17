@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/hosted/tg/deb/BuildDSC.sh,v 1.8 2010/08/17 07:21:23 tg Exp $
+# $MirOS: contrib/hosted/tg/deb/BuildDSC.sh,v 1.9 2010/08/17 07:32:09 tg Exp $
 #-
 # Copyright (c) 2010
 #	Thorsten Glaser <t.glaser@tarent.de>
@@ -26,7 +26,7 @@
 # renamed back.
 # -s arg: make a snapshot with "arg" being the version number suffix
 # -S: build a snapshot with snapshot.YYYYMMDD.HHMMSS (UTC) as suffix
-# Any further settings will be passed to debian/rules debian/control
+# Any further arguments will be passed to debian/rules via MAKEFLAGS
 
 unset LANGUAGE
 export LC_ALL=C
@@ -52,6 +52,8 @@ while getopts "Ss:" ch; do
 		;;
 	}
 done
+shift $((OPTIND - 1))
+export MAKEFLAGS="$*"
 
 if (( snap )) && [[ -z $DEBEMAIL ]]; then
 	print -u2 'Please set $DEBEMAIL to "First M. Last <email@domain.com>"'
@@ -65,10 +67,10 @@ while :; do
 	if [[ -s debian/control.in && -s debian/rules && \
 	    -x debian/rules && ! -e debian/control ]]; then
 		rmc=1
-		debian/rules debian/control "$@"
+		debian/rules debian/control
 	fi
 	dh_testdir >/dev/null 2>&1 && break
-	(( rmc )) && debian/rules remove/control "$@"
+	(( rmc )) && debian/rules remove/control
 	rmc=0
 	cd "$(dirname "$0")"
 	print -u2 "=== trying basedir = $(pwd)"
@@ -76,10 +78,10 @@ while :; do
 	if [[ -s debian/control.in && -s debian/rules && \
 	    -x debian/rules && ! -e debian/control ]]; then
 		rmc=1
-		debian/rules debian/control "$@"
+		debian/rules debian/control
 	fi
 	dh_testdir >/dev/null 2>&1 && break
-	(( rmc )) && debian/rules remove/control "$@"
+	(( rmc )) && debian/rules remove/control
 	print -u2 "FAILED! Please change to the correct directory."
 	exit 1
 done
@@ -89,7 +91,7 @@ version=$(dpkg-parsechangelog -n1 | sed -n '/^Version: /s///p')
 if (( snap )); then
 	updir=$(cd ..; pwd)
 	if ! T=$(mktemp "$updir/BuildDSC.tmp.XXXXXXXXXX"); then
-		(( rmc )) && debian/rules remove/control "$@"
+		(( rmc )) && debian/rules remove/control
 		print -u2 Could not create temporary file.
 		exit 1
 	fi
@@ -108,6 +110,10 @@ if (( snap )); then
 	    "$DEBEMAIL  $stime_rfc\n" >debian/changelog
 	cat "$T" >>debian/changelog
 	touch -r "$T" debian/changelog
+	if (( rmc )); then
+		rm -f debian/control
+		debian/rules debian/control
+	fi
 fi
 upstreamversion=${version%%-*([!-])}
 upstreamversion=${upstreamversion#+([0-9]):}
@@ -123,11 +129,11 @@ cd ..
 [[ $newname = $curname ]] || mv "$newname" "$curname"
 
 cd "$curname"
-(( rmc )) && debian/rules remove/control "$@"
 if (( snap )); then
 	cat "$T" >debian/changelog
 	touch -r "$T" debian/changelog
 	rm -f "$T"
 fi
+(( rmc )) && debian/rules remove/control
 
 exit $rv
