@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/hosted/tg/deb/BuildDSC.sh,v 1.6 2010/08/13 13:49:40 tg Exp $
+# $MirOS: contrib/hosted/tg/deb/BuildDSC.sh,v 1.7 2010/08/14 20:24:51 tg Exp $
 #-
 # Copyright (c) 2010
 #	Thorsten Glaser <t.glaser@tarent.de>
@@ -26,6 +26,7 @@
 # renamed back.
 # -s arg: make a snapshot with "arg" being the version number suffix
 # -S: build a snapshot with snapshot.YYYYMMDD.HHMMSS (UTC) as suffix
+# Any further settings will be passed to debian/rules debian/control
 
 unset LANGUAGE
 export LC_ALL=C
@@ -64,10 +65,10 @@ while :; do
 	if [[ -s debian/control.in && -s debian/rules && \
 	    -x debian/rules && ! -e debian/control ]]; then
 		rmc=1
-		debian/rules debian/control
+		debian/rules debian/control "$@"
 	fi
 	dh_testdir >/dev/null 2>&1 && break
-	(( rmc )) && rm -f debian/control
+	(( rmc )) && debian/rules remove/control "$@"
 	rmc=0
 	cd "$(dirname "$0")"
 	print -u2 "=== trying basedir = $(pwd)"
@@ -75,10 +76,10 @@ while :; do
 	if [[ -s debian/control.in && -s debian/rules && \
 	    -x debian/rules && ! -e debian/control ]]; then
 		rmc=1
-		debian/rules debian/control
+		debian/rules debian/control "$@"
 	fi
 	dh_testdir >/dev/null 2>&1 && break
-	(( rmc )) && rm -f debian/control
+	(( rmc )) && debian/rules remove/control "$@"
 	print -u2 "FAILED! Please change to the correct directory."
 	exit 1
 done
