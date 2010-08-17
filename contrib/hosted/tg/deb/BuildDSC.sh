@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/hosted/tg/deb/BuildDSC.sh,v 1.7 2010/08/14 20:24:51 tg Exp $
+# $MirOS: contrib/hosted/tg/deb/BuildDSC.sh,v 1.8 2010/08/17 07:21:23 tg Exp $
 #-
 # Copyright (c) 2010
 #	Thorsten Glaser <t.glaser@tarent.de>
@@ -89,7 +89,7 @@ version=$(dpkg-parsechangelog -n1 | sed -n '/^Version: /s///p')
 if (( snap )); then
 	updir=$(cd ..; pwd)
 	if ! T=$(mktemp "$updir/BuildDSC.tmp.XXXXXXXXXX"); then
-		(( rmc )) && rm -f debian/control
+		(( rmc )) && debian/rules remove/control "$@"
 		print -u2 Could not create temporary file.
 		exit 1
 	fi
@@ -123,7 +123,7 @@ cd ..
 [[ $newname = $curname ]] || mv "$newname" "$curname"
 
 cd "$curname"
-(( rmc )) && rm -f debian/control
+(( rmc )) && debian/rules remove/control "$@"
 if (( snap )); then
 	cat "$T" >debian/changelog
 	touch -r "$T" debian/changelog
