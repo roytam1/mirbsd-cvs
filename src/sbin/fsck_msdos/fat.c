@@ -34,10 +34,6 @@
  */
 
 
-#ifndef lint
-static char rcsid[] = "$OpenBSD: fat.c,v 1.16 2006/11/11 11:34:32 pedro Exp $";
-#endif /* not lint */
-
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
@@ -45,6 +41,8 @@ static char rcsid[] = "$OpenBSD: fat.c,v 1.16 2006/11/11 11:34:32 pedro Exp $";
 #include <unistd.h>
 
 #include "ext.h"
+
+__RCSID("$MirOS$");
 
 static int checkclnum(struct bootblock *, int, cl_t, cl_t *);
 static int clustdiffer(cl_t, cl_t *, cl_t *, int);
@@ -539,7 +537,9 @@ checklost(int dosfs, struct bootblock *boot, struct fatEntry *fat)
 				ret = 1;
 			}
 		}
-		if (boot->NumFree && fat[boot->FSNext].next != CLUST_FREE) {
+		if (boot->NumFree &&
+		    ((boot->FSNext >= boot->NumClusters) ||
+		    (fat[boot->FSNext].next != CLUST_FREE))) {
 			pwarn("Next free cluster in FSInfo block (%u) not free\n",
 			      boot->FSNext);
 			if (ask(1, "fix"))
