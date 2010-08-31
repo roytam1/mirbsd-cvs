@@ -1,8 +1,9 @@
-# $MirOS$
+# $MirOS: ports/print/ttf-anonymous-pro/Makefile,v 1.1 2010/08/31 19:01:01 bsiegert Exp $
 
 COMMENT=		fixed width sans designed especially for coders
 CATEGORIES=		print graphics textproc productivity x11
 VERSION=		1.001
+DASH_VER=		1
 DISTNAME=		AnonymousPro
 PKGNAME=		ttf-anonymous-pro-${VERSION}-${DASH_VER}
 HOMEPAGE=		http://www.ms-studio.com/FontSales/anonymouspro.html
