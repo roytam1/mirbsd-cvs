@@ -1,0 +1,13 @@
+@comment $MirOS$
+lib/X11/fonts/AnonymousPro/Anonymous Pro B.ttf
+lib/X11/fonts/AnonymousPro/Anonymous Pro BI.ttf
+lib/X11/fonts/AnonymousPro/Anonymous Pro I.ttf
+lib/X11/fonts/AnonymousPro/Anonymous Pro.ttf
+lib/X11/fonts/AnonymousPro/FONTLOG.txt
+lib/X11/fonts/AnonymousPro/OFL-FAQ.txt
+lib/X11/fonts/AnonymousPro/OFL.txt
+lib/X11/fonts/AnonymousPro/README.txt
+lib/X11/fonts/AnonymousPro/fonts.dir
+lib/X11/fonts/AnonymousPro/fonts.scale
+@dirrm lib/X11/fonts/AnonymousPro
+@dirrm lib/X11/fonts
