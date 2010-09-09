@@ -29,7 +29,7 @@
 #include <unistd.h>
 
 static const char rcsid[] =
-    "$MirOS: contrib/hosted/tg/sortfile.c,v 1.4 2010/09/09 19:41:06 tg Exp $";
+    "$MirOS: contrib/hosted/tg/sortfile.c,v 1.5 2010/09/09 19:42:39 tg Exp $";
 
 struct ptrsize {
 	const char *ptr;
@@ -132,6 +132,7 @@ main(int argc, char *argv[])
 	free(thearray);
 	if (munmap(thefile, fsz))
 		warn("munmap");
+	close(fd);
 
 	return (0);
 }
