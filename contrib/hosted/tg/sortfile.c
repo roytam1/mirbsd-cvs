@@ -29,7 +29,7 @@
 #include <unistd.h>
 
 static const char rcsid[] =
-    "$MirOS: contrib/hosted/tg/sortfile.c,v 1.5 2010/09/09 19:42:39 tg Exp $";
+    "$MirOS: contrib/hosted/tg/sortfile.c,v 1.6 2010/09/09 19:44:44 tg Exp $";
 
 struct ptrsize {
 	const char *ptr;
@@ -105,7 +105,7 @@ main(int argc, char *argv[])
 	/* last valid byte in the file, must be newline anyway */
 	endfile = thefile + fsz - 1;
 
-	thearray = xrecalloc(NULL, (asz = 8), sizeof(char *));
+	thearray = xrecalloc(NULL, (asz = 8), sizeof(thearray[0]));
 	thearray[(anents = 0)].ptr = cp = thefile;
 
 	while ((cp = memchr(cp, '\n', endfile - cp)) != NULL) {
@@ -113,16 +113,16 @@ main(int argc, char *argv[])
 		if (++cp > endfile)
 			/* end of file */
 			break;
-		if (anents == asz)
+		thearray[anents].size = cp - thearray[anents].ptr;
+		if (++anents == asz)
 			/* resize array */
 			thearray = xrecalloc(thearray, (asz <<= 1),
-			    sizeof(char *));
-		thearray[anents].size = cp - thearray[anents].ptr;
-		thearray[++anents].ptr = cp;
+			    sizeof(thearray[0]));
+		thearray[anents].ptr = cp;
 	}
 	thearray[anents].size = endfile - thearray[anents].ptr + 1;
 
-	qsort(thearray, ++anents, sizeof(struct ptrsize), cmpfn);
+	qsort(thearray, ++anents, sizeof(thearray[0]), cmpfn);
 
 	for (asz = 0; asz < anents; ++asz)
 		if ((size_t)write(STDOUT_FILENO, thearray[asz].ptr,
