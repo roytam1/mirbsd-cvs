@@ -29,7 +29,7 @@
 #include <unistd.h>
 
 static const char rcsid[] =
-    "$MirOS: contrib/hosted/tg/sortfile.c,v 1.3 2010/09/09 19:11:36 tg Exp $";
+    "$MirOS: contrib/hosted/tg/sortfile.c,v 1.4 2010/09/09 19:41:06 tg Exp $";
 
 struct ptrsize {
 	const char *ptr;
@@ -99,8 +99,8 @@ main(int argc, char *argv[])
 		fsz = (size_t)sb.st_size;
 	}
 
-	thefile = mmap(NULL, fsz, PROT_READ, MAP_FILE, fd, (off_t)0);
-	if (thefile == MAP_FAILED)
+	if ((thefile = mmap(NULL, fsz, PROT_READ, MAP_FILE | MAP_PRIVATE,
+	    fd, (off_t)0)) == MAP_FAILED)
 		err(1, "mmap %zu bytes from %s", fsz, argv[1]);
 	/* last valid byte in the file, must be newline anyway */
 	endfile = thefile + fsz - 1;
