@@ -29,7 +29,7 @@
 #include <unistd.h>
 
 static const char rcsid[] =
-    "$MirOS: contrib/hosted/tg/sortfile.c,v 1.1 2010/09/09 18:41:54 tg Exp $";
+    "$MirOS: contrib/hosted/tg/sortfile.c,v 1.2 2010/09/09 19:09:12 tg Exp $";
 
 struct ptrsize {
 	const char *ptr;
@@ -126,8 +126,8 @@ cmpfn(const void *p1, const void *p2)
 	const struct ptrsize *a1 = (const struct ptrsize *)p1;
 	const struct ptrsize *a2 = (const struct ptrsize *)p2;
 
-	if ((rv = memcmp(a1->ptr, a2->ptr, (a1->size < a2->size ?
-	    a1->size : a2->size) - /* '\n' */ 1)) != 0)
+	if ((rv = memcmp(a1->ptr, a2->ptr, (a1->size > a2->size ?
+	    a2->size : a1->size) - /* '\n' */ 1)) != 0)
 		/* unequal in the common part */
 		return (rv);
 
