@@ -29,7 +29,7 @@
 #include <unistd.h>
 
 static const char rcsid[] =
-    "$MirOS: contrib/hosted/tg/sortfile.c,v 1.2 2010/09/09 19:09:12 tg Exp $";
+    "$MirOS: contrib/hosted/tg/sortfile.c,v 1.3 2010/09/09 19:11:36 tg Exp $";
 
 struct ptrsize {
 	const char *ptr;
@@ -39,7 +39,24 @@ struct ptrsize {
 static void *xrecalloc(void *, size_t, size_t);
 static int cmpfn(const void *, const void *);
 
-#define MUL_NO_OVERFLOW (1UL << (sizeof (size_t) * 8 / 2))
+#define MUL_NO_OVERFLOW	(1UL << (sizeof (size_t) * 8 / 2))
+
+#ifndef SIZE_MAX
+#ifdef SIZE_T_MAX
+#define SIZE_MAX	SIZE_T_MAX
+#else
+#define SIZE_MAX	((size_t)-1)
+#endif
+#endif
+
+#if !defined(MAP_FAILED)
+/* XXX imake style */
+#  if defined(__linux)
+#define MAP_FAILED	((void *)-1)
+#  elif defined(__bsdi__) || defined(__osf__) || defined(__ultrix)
+#define MAP_FAILED	((caddr_t)-1)
+#  endif
+#endif
 
 static void *
 xrecalloc(void *ptr, size_t nmemb, size_t size)
@@ -83,7 +100,7 @@ main(int argc, char *argv[])
 	}
 
 	thefile = mmap(NULL, fsz, PROT_READ, MAP_FILE, fd, (off_t)0);
-	if (thefile == NULL)
+	if (thefile == MAP_FAILED)
 		err(1, "mmap %zu bytes from %s", fsz, argv[1]);
 	/* last valid byte in the file, must be newline anyway */
 	endfile = thefile + fsz - 1;
