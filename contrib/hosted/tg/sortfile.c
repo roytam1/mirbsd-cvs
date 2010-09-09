@@ -1,5 +1,5 @@
 /*-
- * Copyright (c) 2008, 2010
+ * Copyright (c) 2010
  *      Thorsten Glaser <tg@mirbsd.org>
  *
  * Provided that these terms and disclaimer and all copyright notices
@@ -29,19 +29,19 @@
 #include <unistd.h>
 
 static const char rcsid[] =
-    "$MirOS$";
+    "$MirOS: contrib/hosted/tg/sortfile.c,v 1.1 2010/09/09 18:41:54 tg Exp $";
 
 struct ptrsize {
 	const char *ptr;
 	size_t size;
 };
 
-void *xrecalloc(void *, size_t, size_t);
-int cmpfn(const void *, const void *);
+static void *xrecalloc(void *, size_t, size_t);
+static int cmpfn(const void *, const void *);
 
 #define MUL_NO_OVERFLOW (1UL << (sizeof (size_t) * 8 / 2))
 
-void *
+static void *
 xrecalloc(void *ptr, size_t nmemb, size_t size)
 {
 	void *rv;
@@ -119,19 +119,18 @@ main(int argc, char *argv[])
 	return (0);
 }
 
-/* derived from MirBSD libkern strcmp */
-int
+static int
 cmpfn(const void *p1, const void *p2)
 {
-	const unsigned char *s1, *s2;
+	int rv;
 	const struct ptrsize *a1 = (const struct ptrsize *)p1;
 	const struct ptrsize *a2 = (const struct ptrsize *)p2;
 
-	s1 = (const unsigned char *)a1->ptr;
-	s2 = (const unsigned char *)a2->ptr;
-	while (*s1 == *s2++)
-		if (*s1++ == '\n')
-			/* equal, newline reached */
-			return (0);
-	return (*s1 - *--s2);
+	if ((rv = memcmp(a1->ptr, a2->ptr, (a1->size < a2->size ?
+	    a1->size : a2->size) - /* '\n' */ 1)) != 0)
+		/* unequal in the common part */
+		return (rv);
+
+	/* shorter string is smaller */
+	return (a1->size > a2->size ? 1 : a1->size == a2->size ? 0 : -1);
 }
