@@ -1,4 +1,4 @@
-# $MirOS: ports/print/ttf-anonymous-pro/Makefile,v 1.2 2010/08/31 19:24:43 bsiegert Exp $
+# $MirOS: ports/print/ttf-anonymous-pro/Makefile,v 1.3 2010/09/02 09:44:25 tg Exp $
 
 COMMENT=		fixed width sans designed especially for coders
 CATEGORIES=		print graphics textproc productivity x11
@@ -15,6 +15,7 @@ PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes
 
 MASTER_SITES=		http://www.ms-studio.com/FontSales/
+DIST_SUBDIR=		ttf-anonymous-pro-${VERSION}
 EXTRACT_SUFX=		.zip
 
 FONTDIR=		${PREFIX}/lib/X11/fonts/${DISTNAME}
