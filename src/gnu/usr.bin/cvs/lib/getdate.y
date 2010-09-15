@@ -37,6 +37,10 @@
 
 #include "getdate.h"
 
+#ifdef USE_LIBBSD
+#include <bsd/string.h>
+#endif
+
 /* There's no need to extend the stack, so there's no need to involve
    alloca.  */
 #define YYSTACK_USE_ALLOCA 0
@@ -117,7 +121,8 @@ xmemdup(void const *p, size_t s)
 # define ATTRIBUTE_UNUSED __attribute__ ((__unused__))
 #endif
 
-__RCSID("$MirOS: src/gnu/usr.bin/cvs/lib/getdate.y,v 1.6.2.2 2006/10/02 05:25:56 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/lib/getdate.y,v 1.6.2.3 2007/03/10 23:18:15 tg Exp $");
+/* placeholder line for $miros$ so that cpp #line directives work */
 
 /* Shift A right by B bits portably, by dividing A by 2**B and
    truncating towards minus infinity.  A and B should be free of side
