@@ -1,7 +1,8 @@
 %{
 /* Parse a string into an internal time stamp.
-   Copyright (C) 1999, 2000, 2002, 2003, 2004, 2005, 2006
-   Free Software Foundation, Inc.
+
+   Copyright (C) 1999, 2000, 2002, 2003, 2004, 2005 Free Software
+   Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -72,15 +73,16 @@
 #include "setenv.h"
 #include "xalloc.h"
 #else /* IN_RCS */
+#include <unistd.h>
 
 void *
 xmalloc(size_t s)
 {
+	static const char xmalloc_enomem[] = "memory exhausted\n";
 	void *x;
 
 	if ((x = malloc(s)) == NULL) {
-		fprintf(stderr, "memory exhausted");
-		fflush(stderr);
+		write(2, xmalloc_enomem, sizeof(xmalloc_enomem) - 1);
 		exit(1);
 	}
 
@@ -121,7 +123,7 @@ xmemdup(void const *p, size_t s)
 # define ATTRIBUTE_UNUSED __attribute__ ((__unused__))
 #endif
 
-__RCSID("$MirOS: src/gnu/usr.bin/cvs/lib/getdate.y,v 1.6.2.3 2007/03/10 23:18:15 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/lib/getdate.y,v 1.6.2.4 2010/09/15 21:29:21 tg Exp $");
 /* placeholder line for $miros$ so that cpp #line directives work */
 
 /* Shift A right by B bits portably, by dividing A by 2**B and
@@ -1383,7 +1385,7 @@ get_date (struct timespec *result, char const *p, struct timespec const *now)
 			  + sizeof pc.time_zone * CHAR_BIT / 3];
 	      if (!tz_was_altered)
 		tz0 = get_tz (tz0buf);
-	      snprintf (tz1buf, sizeof(tz1buf),
+	      snprintf(tz1buf, sizeof(tz1buf),
 		       "XXX%s%ld:%02d", "-" + (time_zone < 0),
 		       abs_time_zone_hour, abs_time_zone_min);
 	      if (setenv ("TZ", tz1buf, 1) != 0)
@@ -1482,7 +1484,7 @@ get_date (struct timespec *result, char const *p, struct timespec const *now)
   ok = false;
  done:
   if (tz_was_altered)
-    ok &= (tz0 ? setenv ("TZ", tz0, 1) : (unsetenv ("TZ"), 0)) == 0;
+    ok &= (tz0 ? setenv("TZ", tz0, 1) : (unsetenv("TZ"), 0)) == 0;
   if (tz0 != tz0buf)
     free (tz0);
   return ok;
@@ -1491,7 +1493,7 @@ get_date (struct timespec *result, char const *p, struct timespec const *now)
 #if TEST
 
 int
-main (int argc, char **argv)
+main(int argc, char **argv)
 {
   char buff[BUFSIZ];
   int cmd = 0;
@@ -1508,16 +1510,16 @@ main (int argc, char **argv)
     goto once;
   }
 
-  printf ("Enter date, or blank line to exit.\n> ");
+  printf("Enter date, or blank line to exit.\n> ");
   fflush (stdout);
 
   buff[BUFSIZ - 1] = '\0';
-  while (fgets (buff, BUFSIZ - 1, stdin) && buff[0]
-         && buff[0] != '\r' && buff[0] != '\n')
+  while (fgets(buff, BUFSIZ - 1, stdin) && buff[0] &&
+         buff[0] != '\r' && buff[0] != '\n')
     {
       struct timespec d;
       struct tm const *tm;
-once:
+ once:
       if (! get_date (&d, buff, NULL))
 	printf ("Bad format - couldn't convert.\n");
       else if (! (tm = localtime (&d.tv_sec)))
