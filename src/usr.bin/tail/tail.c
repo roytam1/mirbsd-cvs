@@ -32,19 +32,6 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-static char copyright[] =
-"@(#) Copyright (c) 1991, 1993\n\
-	The Regents of the University of California.  All rights reserved.\n";
-#endif /* not lint */
-
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)tail.c	8.1 (Berkeley) 6/6/93";
-#endif
-static char rcsid[] = "$OpenBSD: tail.c,v 1.12 2004/02/16 19:48:21 otto Exp $";
-#endif /* not lint */
-
 #include <sys/types.h>
 #include <sys/stat.h>
 
@@ -56,6 +43,11 @@ static char rcsid[] = "$OpenBSD: tail.c,v 1.12 2004/02/16 19:48:21 otto Exp $";
 #include <unistd.h>
 
 #include "extern.h"
+
+__COPYRIGHT("@(#) Copyright (c) 1991, 1993\n\
+	The Regents of the University of California.  All rights reserved.\n");
+__SCCSID("@(#)tail.c	8.1 (Berkeley) 6/6/93");
+__RCSID("$MirOS$");
 
 int fflag, rflag, rval;
 char *fname;
@@ -109,7 +101,7 @@ main(int argc, char *argv[])
 
 	obsolete(argv);
 	style = NOTSET;
-	while ((ch = getopt(argc, argv, "b:c:fn:r")) != -1)
+	while ((ch = getopt(argc, argv, "b:c:Ffn:r")) != -1)
 		switch(ch) {
 		case 'b':
 			ARG(512, FBYTES, RBYTES);
@@ -117,6 +109,7 @@ main(int argc, char *argv[])
 		case 'c':
 			ARG(1, FBYTES, RBYTES);
 			break;
+		case 'F':
 		case 'f':
 			fflag = 1;
 			break;
