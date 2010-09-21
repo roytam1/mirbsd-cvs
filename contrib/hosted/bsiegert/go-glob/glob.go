@@ -1,3 +1,5 @@
+//	$MirOS$
+
 package glob
 
 import (
@@ -31,14 +33,11 @@ func GlobAll(patterns []string, flags int, errfunc func(string, os.Error) bool) 
 	}
 	return matches, true
 }
-		
-
-
 
 
 func Glob(pattern string, flags int, errfunc func(string, os.Error) bool) ([]string, bool) {
 	if !ContainsMagic(pattern) {
-		if flags & GLOB_NOCHECK == 0 {
+		if flags&GLOB_NOCHECK == 0 {
 			if _, err := os.Stat(pattern); err != nil {
 				return []string{}, true
 			}
@@ -46,10 +45,14 @@ func Glob(pattern string, flags int, errfunc func(string, os.Error) bool) ([]str
 		return []string{pattern}, true
 	}
 	dir, file := path.Split(pattern)
-	if dir == "" { dir = "." }
+	if dir == "" {
+		dir = "."
+	}
 	if ContainsMagic(dir) {
 		dirs, ok := Glob(dir[0:len(dir)-1], flags, errfunc)
-		if !ok { return []string{}, false }
+		if !ok {
+			return []string{}, false
+		}
 		newpatterns := make([]string, len(dirs))
 		for i, d := range dirs {
 			newpatterns[i] = path.Join(d, file)
@@ -71,20 +74,30 @@ func globInDir(dir, pattern string, flags int, errfunc func(string, os.Error) bo
 	var didmatch bool
 
 	d, err := os.Open(dir, os.O_RDONLY, 0666)
-	if err != nil { goto error }
+	if err != nil {
+		goto error
+	}
 	defer d.Close()
-	
+
 	names, err := d.Readdirnames(-1)
-	if err != nil { goto error }
+	if err != nil {
+		goto error
+	}
 
 	for _, n := range names {
 		didmatch, err = path.Match(pattern, n)
-		if err != nil { goto error }
-		if !didmatch { continue }
+		if err != nil {
+			goto error
+		}
+		if !didmatch {
+			continue
+		}
 		fullname := path.Join(dir, n)
-		if flags & GLOB_MARK > 0 {
+		if flags&GLOB_MARK > 0 {
 			fi, err := os.Stat(fullname)
-			if err != nil { goto error }
+			if err != nil {
+				goto error
+			}
 			if fi.IsDirectory() {
 				fullname = fullname + "/"
 			}
