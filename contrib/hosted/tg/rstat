@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $
+# $MirOS: contrib/hosted/tg/rstat,v 1.1 2010/09/24 18:47:12 tg Exp $
 #-
 # Copyright © 2010
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -70,8 +70,8 @@ while :; do
 	#print D: $count ${stats[*]}
 
 	set -A lines
-	lines[0]="entropy $count bits!total ${stats[0]} bits ${stats[11]} sleeps"
-	lines[1]="used/read ${stats[1]} bits!reads ${stats[2]} times"
+	lines[0]="entropy $count bits!total ${stats[0]} bits ${stats[11]} sleeping waits"
+	lines[1]="used/read ${stats[1]} bits!srandom read ${stats[2]} times"
 	lines[2]="arc4 read ${stats[3]} bytes!stirred ${stats[4]} times, using ${stats[5]} bytes"
 	lines[3]="${stats[12]} enqueue calls!${stats[13]} dequeue calls"
 	lines[4]="${stats[14]} queue-full drops!${stats[15]} low watermark low entropy"
