@@ -386,6 +386,7 @@ sys_execve(p, v, retval)
 		}
 	}
 
+	rnd_lopool_addh(argp, dp - argp);
 	dp = (char *)ALIGN(dp);
 
 	sgap = STACKGAPLEN;
