@@ -1,4 +1,4 @@
-//	$MirOS$
+//	$MirOS: contrib/hosted/bsiegert/go-glob/glob.go,v 1.2 2010/09/21 19:33:43 bsiegert Exp $
 
 package glob
 
@@ -6,6 +6,7 @@ import (
 	"container/vector"
 	"path"
 	"os"
+	"sort"
 	"strings"
 )
 
@@ -20,16 +21,26 @@ const (
 )
 
 func GlobAll(patterns []string, flags int, errfunc func(string, os.Error) bool) ([]string, bool) {
-	var m, matches vector.StringVector
-	var ok bool
+	var (
+		m, matches vector.StringVector
+		ok, sorting bool
+	)
 	matches = make([]string, 0)
+	// For GlobAll, only sort the results at the end
+	sorting = (flags & GLOB_NOSORT == 0)
 
 	for _, p := range patterns {
-		m, ok = Glob(p, flags, errfunc)
+		m, ok = Glob(p, flags | GLOB_NOSORT, errfunc)
 		if !ok {
+			if sorting {
+				sort.Sort(&matches)
+			}
 			return matches, false
 		}
 		matches.AppendVector(&m)
+	}
+	if sorting {
+		sort.Sort(&matches)
 	}
 	return matches, true
 }
@@ -39,7 +50,8 @@ func Glob(pattern string, flags int, errfunc func(string, os.Error) bool) ([]str
 	if !ContainsMagic(pattern) {
 		if flags&GLOB_NOCHECK == 0 {
 			if _, err := os.Stat(pattern); err != nil {
-				return []string{}, true
+				ok := !errfunc(pattern, err)
+				return []string{}, ok
 			}
 		}
 		return []string{pattern}, true
@@ -60,7 +72,7 @@ func Glob(pattern string, flags int, errfunc func(string, os.Error) bool) ([]str
 		return GlobAll(newpatterns, flags, errfunc)
 	}
 
-	return globInDir(dir, file, flags, errfunc)
+	return globInDir(dir[0:len(dir)-1], file, flags, errfunc)
 }
 
 // ContainsMagic returns true if path contains any of the magic characters
@@ -73,12 +85,20 @@ func globInDir(dir, pattern string, flags int, errfunc func(string, os.Error) bo
 	var matches vector.StringVector
 	var didmatch bool
 
+	print("globInDir ", dir, " ", pattern, "\n") //DEBUG
+
+	_, err := os.Stat(dir)
+	if err != nil {
+		goto error
+	}
+	print("globInDir going to open ", dir, "\n") //DEBUG
 	d, err := os.Open(dir, os.O_RDONLY, 0666)
 	if err != nil {
 		goto error
 	}
 	defer d.Close()
 
+	print("globInDir going to readdirnames ", dir, "\n") //DEBUG
 	names, err := d.Readdirnames(-1)
 	if err != nil {
 		goto error
@@ -105,6 +125,9 @@ func globInDir(dir, pattern string, flags int, errfunc func(string, os.Error) bo
 		matches.Push(fullname)
 	}
 
+	if flags&GLOB_NOSORT == 0 {
+		sort.Sort(&matches)
+	}
 	return matches, true
 
 error:
