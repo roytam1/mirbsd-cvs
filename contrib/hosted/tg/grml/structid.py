@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
-# $MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $
+# $MirOS: contrib/hosted/tg/grml/structid.py,v 1.2 2010/10/09 23:20:31 tg Exp $
 #-
 # Copyright © 2010
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -21,10 +21,9 @@
 # of said person’s immediate fault when using the work as intended.
 
 __version__ = """
-    $MirOS$
+    $MirOS: contrib/hosted/tg/grml/structid.py,v 1.2 2010/10/09 23:20:31 tg Exp $
 """
 
-import UserDict
 import struct
 
 __all__ = [
