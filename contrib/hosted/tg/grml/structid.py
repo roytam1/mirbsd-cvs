@@ -46,19 +46,19 @@ class StructId_Type(object):
 
     def get_fmt(self):
         u"""Return struct.unpack format specification."""
-        raise NotImplementedError('get_fmt is abstract')
+        raise NotImplementedError('StructId_Type.get_fmt is abstract')
 
     def num_items(self):
         u"""Return how many items in the tuple this type uses."""
-        raise NotImplementedError('num_items is abstract')
+        raise NotImplementedError('StructId_Type.num_items is abstract')
 
     def do_import(self, t):
         u"""Convert from unpack tuple to internal representation."""
-        raise NotImplementedError('do_import is abstract')
+        raise NotImplementedError('StructId_Type.do_import is abstract')
 
     def do_export(self, v):
         u"""Convert from internal representation to pack tuple."""
-        raise NotImplementedError('do_export is abstract')
+        raise NotImplementedError('StructId_Type.do_export is abstract')
 
 
 class StructId_Integral(StructId_Type):
@@ -91,7 +91,7 @@ class StructId_String(StructId_Integral):
     def __init__(self, arg, vararg=None):
         u"""Initialise a C string with length argument."""
         if vararg is None:
-            raise ValueError('Need varargs to go with a string')
+            raise ValueError('Need varargs to go with a StructId_String')
         self._size = vararg
         self._fmt = '%ds' % vararg
 
@@ -221,6 +221,8 @@ class StructId(StructId_Container):
 
     Subclasses may fill out the following members:
 
+    • _dump: set this attribute to True to dump structure information
+
     • _get_types: call the inherited method to get a dictionary whose
       keys are names of types structure members can have, and whose
       values are classes handling them (see below) to extend it, if
@@ -271,6 +273,7 @@ class StructId(StructId_Container):
                 return (32,)
             return (0,)
     class SomeStructure(StructId):
+        _dump = True
         def _get_endianness(self):
             return 'LE'
         def _get_format(self):
@@ -283,6 +286,10 @@ class StructId(StructId_Container):
                     denttype type;      <1 byte>
                 } dent[3];
                 ''';
+            # comments are only valid outside the sequence of
+            # type+vararg+identifier+array+semicolon but valid
+            # inside type if it’s a struct (for its components,
+            # the same rules are valid again, though)
         def _get_nbytes(self):
             return 56
         def _get_types(self):
@@ -308,6 +315,8 @@ class StructId(StructId_Container):
 
     """
 
+    _dump = False
+
     def __init__(self, iv=None):
         u"""Initialise a StructId instance.
 
@@ -325,14 +334,15 @@ class StructId(StructId_Container):
         elif endian == 'HE':
             endian = '='
         else:
-            raise ValueError('endianness not specified as LE/BE/HE while subclassing')
+            raise ValueError('%s does not specify endianness as LE/BE/HE' % \
+              self.__class__.__name__)
         self._structure = self._parse(self._get_format())
         self._fmt = endian + self._structure.get_fmt()
         cs = struct.calcsize(self._fmt)
         self._nbytes = self._get_nbytes()
         if cs != self._nbytes:
-            raise ValueError('subclass want %d bytes but struct calculates %d bytes' % \
-              (self._nbytes, cs))
+            raise ValueError('%s wants %d bytes, struct calculates %d bytes' % \
+              (self.__class__.__name__, self._nbytes, cs))
         if iv is not None:
             self._import(iv)
 
@@ -342,15 +352,15 @@ class StructId(StructId_Container):
         Possible return values are 'LE', 'BE' and 'HE'.
 
         """
-        raise NotImplementedError('_get_endianness is abstract')
+        raise NotImplementedError('StructId._get_endianness is abstract')
 
     def _get_format(self):
         u"""Return definition of this structure."""
-        raise NotImplementedError('_get_format is abstract')
+        raise NotImplementedError('StructId._get_format is abstract')
 
     def _get_nbytes(self):
         u"""Return size of this structure."""
-        raise NotImplementedError('_get_nbytes is abstract')
+        raise NotImplementedError('StructId._get_nbytes is abstract')
 
     def _get_types(self):
         u"""Return dictionary of supported types.
@@ -374,7 +384,7 @@ class StructId(StructId_Container):
     def _import(self, s):
         u"""Import (unpack) from string into self."""
         if type(s) is not str:
-            raise TypeError('want string')
+            raise TypeError('want string to import from')
         if len(s) != self._nbytes:
             raise ValueError('want to import %d bytes but got %d bytes' % \
               (self._nbytes, len(s)))
@@ -391,22 +401,23 @@ class StructId(StructId_Container):
 
     def _parse(self, fs):
         u"""Parse StructId format string into StructId_Struct instance."""
-        (i, o) = parse_struct(fs + '}', 0, self._types)
+        if self._dump:
+            print '@dumping structure for class %s()' % self.__class__.__name__
+        (i, o) = parse_struct(fs + '}', 0, self._types, 0, self._dump)
         if i != (len(fs) + 1):
-            raise ValueError('leftover "%s" from format string "%s" while parsing' % \
-              (fs[i:], fs))
+            parse_error(fs, i, 'Leftovers')
         return o
 
     def __str__(self):
         u"""Stringify self by exporting."""
         return self._export()
 
-def parse_expected(s, i, what):
-    raise ValueError('Expected %s at %d in "%s→%s"' % (what, i, s[0:i], s[i:]))
+def parse_error(s, i, what):
+    raise ValueError('%s at %d in "%s→%s"' % (what, i, s[0:i], s[i:]))
 
 def parse_identifier(s, i, what):
     if not s[i:(i+1)].isalpha():
-        parse_expected(s, i, 'identifier (%s)' % what)
+        parse_error(s, i, 'Expected identifier (%s)' % what)
     j = i + 1
     while (s[j:(j+1)].isalnum()) or (s[j:(j+1)] == '_'):
         j += 1
@@ -414,7 +425,7 @@ def parse_identifier(s, i, what):
 
 def parse_number(s, i, what):
     if not s[i:(i+1)].isdigit():
-        parse_expected(s, i, 'number (%s)' % what)
+        parse_error(s, i, 'Expected number (%s)' % what)
     j = i + 1
     while s[j:(j+1)].isdigit():
         j += 1
@@ -428,30 +439,32 @@ def skip_whitespace(s, i):
 def skip_comment(s, i, l):
     while s[i:(i+1)] != '>':
         if i == l:
-            parse_expected(s, i, 'closing angle brace')
+            parse_error(s, i, 'Expected closing angle brace')
         i += 1
     return i + 1
 
-def parse_struct(s, i, types):
+def parse_struct(s, i, types, depth, dump):
     l = len(s)
     ss = []
+    if dump:
+        dofs = 0
     while True:
         i = skip_whitespace(s, i)
         if i == l:
-            parse_expected(s, i, 'closing curly brace')
+            parse_error(s, i, 'Expected closing curly brace')
         if s[i] == '}':
             break
         if s[i] == '<':
             i = skip_comment(s, i + 1, l)
             continue
         if s[i] == '{':
-            (i, o) = parse_struct(s, i + 1, types)
+            (i, o) = parse_struct(s, i + 1, types, depth + 1, dump)
         else:
             (j, idname) = parse_identifier(s, i, 'type name')
             if (s[j:(j+1)] != '(') and (not s[j:(j+1)].isspace()):
-                parse_expected(s, j, 'whitespace')
+                parse_error(s, j, 'Expected whitespace or opening parenthesis')
             if not types.has_key(idname):
-                raise ValueError('Type %s unknown at %d in "%s"' % (idname, i, s))
+                parse_error(s, i, 'Type %s unknown' % idname)
             t = types[idname]
             i = skip_whitespace(s, j)
             if s[i:(i+1)] == '(':
@@ -459,28 +472,41 @@ def parse_struct(s, i, types):
                 (i, arrsz) = parse_number(s, i, 'type vararg')
                 i = skip_whitespace(s, i)
                 if s[i:(i+1)] != ')':
-                    parse_expected(s, i, 'closing parenthesis')
+                    parse_error(s, i, 'Expected closing parenthesis')
                 i = skip_whitespace(s, i + 1)
                 o = t[0](t[1], arrsz)
             else:
                 o = t[0](t[1])
         i = skip_whitespace(s, i)
         if i == l:
-            parse_expected(s, i, 'attribute name')
+            parse_error(s, i, 'Expected attribute name')
         (i, idname) = parse_identifier(s, i, 'attribute name')
         i = skip_whitespace(s, i)
         arrsz = None
+        if dump:
+            dsz = struct.calcsize(o.get_fmt())
         if s[i:(i+1)] == '[':
             i = skip_whitespace(s, i + 1)
             (i, arrsz) = parse_number(s, i, 'array size')
             i = skip_whitespace(s, i)
             if s[i:(i+1)] != ']':
-                parse_expected(s, i, 'closing square bracket')
+                parse_error(s, i, 'Expected closing square bracket')
             i = skip_whitespace(s, i + 1)
+            if dump:
+                print '%*s@%08X %08Xh * %-12d  ISODCL(%d,%d)' % (depth * 2,
+                  '', dofs, dsz, arrsz, dofs + 1, dofs + dsz * arrsz)
+                dofs += dsz * arrsz
             o = StructId_Array(o, arrsz)
+        else:
+            if dump:
+                print '%*s@%08X %08Xh                 ISODCL(%d,%d)' % \
+                  (depth * 2, '', dofs, dsz, dofs + 1, dofs + dsz)
+                dofs += dsz
         if s[i:(i+1)] != ';':
-            parse_expected(s, i, 'semicolon')
+            parse_error(s, i, 'Expected semicolon')
         i += 1
         ss.append((idname, o.num_items(), o))
     o = StructId_Struct(ss)
+    if dump and (i == l - 1):
+        print '@total %Xh bytes' % dofs
     return (i + 1, o)
