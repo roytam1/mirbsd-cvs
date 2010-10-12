@@ -1,4 +1,4 @@
-//	$MirOS: contrib/hosted/bsiegert/go-glob/simpleglob.go,v 1.1 2010/10/11 18:29:15 bsiegert Exp $
+//	$MirOS: contrib/hosted/bsiegert/go-glob/simpleglob.go,v 1.2 2010/10/12 19:13:28 bsiegert Exp $
 
 package simpleglob
 
@@ -21,7 +21,7 @@ func Glob(pattern string) []string {
 		}
 		return nil
 	}
-		
+
 	dir, file := path.Split(pattern)
 	switch dir {
 	case "":
@@ -29,7 +29,7 @@ func Glob(pattern string) []string {
 	case "/":
 		// nothing
 	default:
-		dir = dir[0:len(dir)-1] // chop off tailing '/'
+		dir = dir[0 : len(dir)-1] // chop off tailing '/'
 	}
 
 	if ContainsMagic(dir) {
