@@ -1,4 +1,4 @@
-//	$MirOS: contrib/hosted/bsiegert/go-glob/glob.go,v 1.4 2010/10/05 17:54:13 bsiegert Exp $
+//	$MirOS: contrib/hosted/bsiegert/go-glob/simpleglob.go,v 1.1 2010/10/11 18:29:15 bsiegert Exp $
 
 package simpleglob
 
@@ -23,9 +23,12 @@ func Glob(pattern string) []string {
 	}
 		
 	dir, file := path.Split(pattern)
-	if dir == "" {
+	switch dir {
+	case "":
 		dir = "."
-	} else {
+	case "/":
+		// nothing
+	default:
 		dir = dir[0:len(dir)-1] // chop off tailing '/'
 	}
 
