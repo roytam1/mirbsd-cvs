@@ -29,10 +29,10 @@ import struct
 __all__ = [
     "StructId_Type",        # Abstract base class for StructId types
     "StructId_Integral",    # Type class for standard integral types
-    "StructId_String",      # Type class for a byte/octet C string
-    "StructId_Unicode",     # Type class for a multibyte C string
+    "StructId_String",      # Type class for a byte/octet string
+    "StructId_Unicode",     # Type class for a multibyte string
     "StructId_Container",   # Dictionary accessing self.__dict__ for everything
-    "StructId"              # Ordered dictionary of typed attributes with
+    "StructId",             # Ordered dictionary of typed attributes with
                             # structure mapping (main class, abstract base)
 ]
 
@@ -67,7 +67,11 @@ class StructId_Integral(StructId_Type):
     u"""Type class for standard integral types."""
 
     def __init__(self, toplev, arg, vararg=None):
-        u"""Initialise a standard integral type instance."""
+        u"""Initialise a standard integral type instance.
+
+        • arg: tuple(format, default value)
+
+        """
         StructId_Type.__init__(self, toplev, arg, vararg)
         (self._fmt, self._defval) = arg
 
@@ -92,10 +96,15 @@ class StructId_Integral(StructId_Type):
 
 
 class StructId_String(StructId_Integral):
-    u"""Type class for a byte/octet C string."""
+    u"""Type class for a byte/octet string."""
 
     def __init__(self, toplev, arg, vararg=None):
-        u"""Initialise a C string with length argument."""
+        u"""Initialise an octet string.
+
+        • arg: ignored
+        • vararg: length of string in octets
+
+        """
         StructId_Type.__init__(self, toplev, arg, vararg)
         if vararg is None:
             raise ValueError('Need varargs to go with a StructId_String')
@@ -117,7 +126,12 @@ class StructId_Unicode(StructId_String):
     """
 
     def __init__(self, toplev, arg, vararg=None):
-        u"""Initialise a multibyte string with buffer size argument."""
+        u"""Initialise a multibyte string.
+
+        • arg: encoding to use, default 'UTF-8'
+        • vararg: length of string in octets
+
+        """
         StructId_String.__init__(self, toplev, arg, vararg)
         if arg is None:
             arg = 'UTF-8'
@@ -136,9 +150,19 @@ class StructId_Unicode(StructId_String):
 
 
 class StructId_Struct(StructId_Type):
-    u"""Internal class for sub-structures in StructId."""
+    u"""Internal class for sub-structures in StructId.
+
+    Do not use.
+
+    """
 
     def __init__(self, toplev, arg, vararg=None):
+        u"""Internal initialiser, do not call.
+
+        • arg: tuple of tuple(slotname, numents, instance)
+        • vararg: ignored
+
+        """
         self._toplev = toplev
         self._info = tuple(arg)
         self._fmt = ''.join([slottypi.get_fmt() \
@@ -175,9 +199,19 @@ class StructId_Struct(StructId_Type):
 
 
 class StructId_Array(StructId_Type):
-    u"""Internal class for arrays in StructId."""
+    u"""Internal class for arrays in StructId.
+
+    Do not use.
+
+    """
 
     def __init__(self, toplev, type, size):
+        u"""Internal initialiser, do not call.
+
+        • (arg) type: instance
+        • (vararg) size: integer
+
+        """
         self._toplev = toplev
         self._size = size
         fmt = type.get_fmt()
@@ -210,6 +244,11 @@ class StructId_Container(dict, object):
     u"""Dictionary accessing self.__dict__ for everything."""
 
     def __init__(self, *args, **kwargs):
+        u"""Initialise attribute dictionary.
+
+        same as dict.__init__(self, *args, **kwargs)
+
+        """
         dict.__init__(self, *args, **kwargs)
         self.__dict__ = self
 
@@ -304,12 +343,12 @@ class StructId(StructId_Container):
             return 'LE'
         def _get_format(self):
             return '''
-                u32 cluster;            <this is a comment>
+                u32 cluster;            |this is a comment|
                 utf8(16) comment;
                 {
                     string(8) name;
                     cp437(3) ext;
-                    denttype type;      <1 byte>
+                    denttype type;      |1 byte|
                 } dent[3];
                 ''';
             # comments are only valid outside the sequence of
@@ -360,8 +399,8 @@ class StructId(StructId_Container):
     def __init__(self, iv=None):
         u"""Initialise a StructId instance.
 
-        Read the type specification from the derived class
-        and import the iv argument into ourselves.
+        Read the type specification from the derived class and
+        import the iv (initial value) argument into ourselves.
 
         """
         StructId_Container.__init__(self)
@@ -404,7 +443,7 @@ class StructId(StructId_Container):
     def _get_types(self):
         u"""Return dictionary of supported types.
 
-        Each member is a tuple (class, argument).
+        Each member (key = type name) is a tuple (class, arg).
 
         """
         types = {}
@@ -421,7 +460,7 @@ class StructId(StructId_Container):
         return types
 
     def _import(self, s):
-        u"""Import (unpack) from string into self."""
+        u"""Import (unpack) from octet string into self."""
         if s is None:
             # set to default/uninitialised value
             self._structure.importTo(None, self.__dict__)
@@ -434,7 +473,7 @@ class StructId(StructId_Container):
         self._structure.importTo(struct.unpack(self._fmt, s), self.__dict__)
 
     def _export(self):
-        u"""Export (pack) from self into string."""
+        u"""Export (pack) from self into octet string."""
         t = self._structure.do_export(self.__dict__)
         s = struct.pack(self._fmt, *t)
         if len(s) != self._nbytes:
@@ -452,15 +491,23 @@ class StructId(StructId_Container):
         return o
 
     def __str__(self):
-        u"""Stringify self by exporting."""
+        u"""Stringify self by exporting, return octet string."""
         return self._export()
 
     def __repr__(self):
-        u"""Stringify self by exporting."""
+        u"""Stringify self by exporting, return Python representation."""
         return '%s(%s)' % (self.__class__.__name__, repr(str(self)))
 
 
 def parse_error(s, i, what, max=None):
+    u"""Raise a ValueError, e.g. during parsing.
+
+    • s: the string we were parsing
+    • i: offset of faulty input character
+    • what: human-readable name of error to throw
+    • max: last faulty input character (default: i+1)
+
+    """
     if max is None:
         max = i + 1
     raise ValueError('%s at %d in "%s→%s←%s"' % (what, i, \
@@ -468,6 +515,16 @@ def parse_error(s, i, what, max=None):
 
 
 def parse_identifier(s, i, what):
+    u"""Skip from s[i:] to end of identifier.
+
+    • what: human-readable name of what we’re expecting/parsing
+
+    Identifiers begin with a letter and are alphanumerical
+    or underscore.
+
+    Returns tuple (end offset, identifier name).
+
+    """
     if not s[i:(i+1)].isalpha():
         parse_error(s, i, 'Expected identifier (%s)' % what)
     j = i + 1
@@ -477,6 +534,11 @@ def parse_identifier(s, i, what):
 
 
 def parse_number(s, i, what):
+    u"""Skip from s[i:] to end of decimal number.
+
+    Returns tuple (end offset, integral value).
+
+    """
     if not s[i:(i+1)].isdigit():
         parse_error(s, i, 'Expected number (%s)' % what)
     j = i + 1
@@ -486,20 +548,39 @@ def parse_number(s, i, what):
 
 
 def skip_whitespace(s, i):
+    u"""Skip from s[i:] to end of whitespace.
+
+    Returns end offset.
+
+    """
     while s[i:(i+1)].isspace():
         i += 1
     return i
 
 
 def skip_comment(s, i, l):
-    while s[i:(i+1)] != '>':
+    u"""Skip from s[i:] to end of comment.
+
+    Comments are arbitrary, delimited by a pipe character.
+
+    """
+    while s[i:(i+1)] != '|':
         if i == l:
-            parse_error(s, i, 'Expected closing angle brace')
+            parse_error(s, i, 'Expected closing pipe character')
         i += 1
     return i + 1
 
 
 def parse_struct(toplev, s, i, depth):
+    u"""Parse a structure format specification.
+
+    • toplev: StructId instance we’re working for
+    • i: start offset
+    • depth: nesting of structures (toplev == 0)
+
+    Returns tuple (end offset, instance).
+
+    """
     l = len(s)
     ss = []
     if toplev._dump:
@@ -510,7 +591,7 @@ def parse_struct(toplev, s, i, depth):
             parse_error(s, i, 'Expected closing curly brace')
         if s[i] == '}':
             break
-        if s[i] == '<':
+        if s[i] == '|':
             i = skip_comment(s, i + 1, l)
             continue
         if s[i] == '{':
