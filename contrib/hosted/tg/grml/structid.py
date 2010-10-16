@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
-# $MirOS: contrib/hosted/tg/grml/structid.py,v 1.4 2010/10/16 20:46:44 tg Exp $
+# $MirOS: contrib/hosted/tg/grml/structid.py,v 1.5 2010/10/16 21:01:15 tg Exp $
 #-
 # Copyright © 2010
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -21,7 +21,7 @@
 # of said person’s immediate fault when using the work as intended.
 
 __version__ = """
-    $MirOS: contrib/hosted/tg/grml/structid.py,v 1.4 2010/10/16 20:46:44 tg Exp $
+    $MirOS: contrib/hosted/tg/grml/structid.py,v 1.5 2010/10/16 21:01:15 tg Exp $
 """
 
 import struct
@@ -35,6 +35,7 @@ __all__ = [
     "StructId"              # Ordered dictionary of typed attributes with
                             # structure mapping (main class, abstract base)
 ]
+
 
 class StructId_Type(object):
     u"""Abstract base class for StructId types."""
@@ -454,11 +455,17 @@ class StructId(StructId_Container):
         u"""Stringify self by exporting."""
         return self._export()
 
+    def __repr__(self):
+        u"""Stringify self by exporting."""
+        return '%s(%s)' % (self.__class__.__name__, repr(str(self)))
+
+
 def parse_error(s, i, what, max=None):
     if max is None:
         max = i + 1
     raise ValueError('%s at %d in "%s→%s←%s"' % (what, i, \
       s[0:i], s[i:max], s[max:]))
+
 
 def parse_identifier(s, i, what):
     if not s[i:(i+1)].isalpha():
@@ -468,6 +475,7 @@ def parse_identifier(s, i, what):
         j += 1
     return (j, s[i:j])
 
+
 def parse_number(s, i, what):
     if not s[i:(i+1)].isdigit():
         parse_error(s, i, 'Expected number (%s)' % what)
@@ -476,10 +484,12 @@ def parse_number(s, i, what):
         j += 1
     return (j, int(s[i:j]))
 
+
 def skip_whitespace(s, i):
     while s[i:(i+1)].isspace():
         i += 1
     return i
+
 
 def skip_comment(s, i, l):
     while s[i:(i+1)] != '>':
@@ -487,6 +497,7 @@ def skip_comment(s, i, l):
             parse_error(s, i, 'Expected closing angle brace')
         i += 1
     return i + 1
+
 
 def parse_struct(toplev, s, i, depth):
     l = len(s)
