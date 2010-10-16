@@ -40,8 +40,8 @@ class StructId_Type(object):
     u"""Abstract base class for StructId types."""
 
     def __init__(self, arg, vararg=None):
-        u"""Initialise a type instance with one/two arguments."""
-        pass
+        u"""Initialise a type instance."""
+        self._arg = arg
 
     def get_fmt(self):
         u"""Return struct.unpack format specification."""
@@ -65,7 +65,7 @@ class StructId_Integral(StructId_Type):
 
     def __init__(self, arg, vararg=None):
         u"""Initialise a standard integral type instance."""
-        self._fmt = arg
+        (self._fmt, self._defval) = arg
 
     def get_fmt(self):
         u"""Return struct.unpack format specification."""
@@ -77,6 +77,9 @@ class StructId_Integral(StructId_Type):
 
     def do_import(self, t):
         u"""Convert from unpack tuple to internal representation."""
+        if t is None:
+            # set to default/uninitialised value
+            return self._defval
         return t[0]
 
     def do_export(self, v):
@@ -93,6 +96,7 @@ class StructId_String(StructId_Integral):
             raise ValueError('Need varargs to go with a StructId_String')
         self._size = vararg
         self._fmt = '%ds' % vararg
+        self._defval = '%*s' % (vararg, '')
 
 
 class StructId_Unicode(StructId_String):
@@ -116,6 +120,9 @@ class StructId_Unicode(StructId_String):
 
     def do_import(self, t):
         u"""Convert from unpack tuple to internal representation."""
+        if t is None:
+            # set to default/uninitialised value
+            return self._defval
         return unicode(str(t[0]).decode(self._encoding))
 
     def do_export(self, v):
@@ -153,7 +160,11 @@ class StructId_Struct(object):
     def importTo(self, t, d):
         e = 0
         for (slotname, numents, slottypi) in self._info:
-            d[slotname] = slottypi.do_import(t[e:(e + numents)])
+            if t is None:
+                # set to default/uninitialised value
+                d[slotname] = slottypi.do_import(None)
+            else:
+                d[slotname] = slottypi.do_import(t[e:(e + numents)])
             e += numents
 
 
@@ -175,6 +186,9 @@ class StructId_Array(object):
         return self._nents
 
     def do_import(self, t):
+        if t is None:
+            # set to default/uninitialised value
+            return [self._type.do_import(None) for i in range(self._size)]
         return [self._type.do_import(t[(i*self._subnents):((i+1)*self._subnents)]) \
           for i in range(self._size)]
 
@@ -245,6 +259,7 @@ class StructId(StructId_Container):
       return when encountering self.get_fmt() in its format
 
     • do_import(tuple): convert from tuple to internal representation
+      or set to default/uninitialised value if tuple is None
 
     • do_export(v): convert from internal representation to tuple
 
@@ -264,13 +279,18 @@ class StructId(StructId_Container):
             return 1
         # note we could return a dictionary here too
         def do_import(self, t):
+            if t is None:
+                # set to default/uninitialised value
+                return 'u'
             if t[0] & 32:
                 return 'dir'
             return 'file'
         def do_export(self, v):
+            if v == 'u':
+                return (63,)
             if v == 'dir':
-                return (32,)
-            return (0,)
+                return (33,)
+            return (64,)
     class SomeStructure(StructId):
         _dump = True
         def _get_endianness(self):
@@ -311,6 +331,20 @@ class StructId(StructId_Container):
           s.dent[0].type)
         s.cluster = 0x21212121
         print 'this is binary:', str(s)
+        t = SomeStructure()
+        print 'def', str(t).decode('cp437')     # decode to vis DEADCAFE
+        t.cluster = 0x45464143
+        t.comment = u'0123456789ABCDEF'
+        t.dent[0].name = 'file1nam'
+        t.dent[0].ext = 'ext'
+        t.dent[0].type = 'dir'
+        t.dent[1].name = 'file2nam'
+        t.dent[1].ext = 'ext'
+        t.dent[1].type = 'u'
+        t.dent[2].name = 'file3nam'
+        t.dent[2].ext = 'ext'
+        t.dent[2].type = 'file'
+        print 'new', str(t)
 
     """
 
@@ -342,8 +376,7 @@ class StructId(StructId_Container):
         if cs != self._nbytes:
             raise ValueError('%s wants %d bytes, struct calculates %d bytes' % \
               (self.__class__.__name__, self._nbytes, cs))
-        if iv is not None:
-            self._import(iv)
+        self._import(iv)
 
     def _get_endianness(self):
         u"""Return endianness of this structure.
@@ -368,22 +401,26 @@ class StructId(StructId_Container):
 
         """
         types = {}
-        types['s8'] = tuple((StructId_Integral, 'b'))
-        types['u8'] = tuple((StructId_Integral, 'B'))
-        types['s16'] = tuple((StructId_Integral, 'h'))
-        types['u16'] = tuple((StructId_Integral, 'H'))
-        types['s32'] = tuple((StructId_Integral, 'i'))
-        types['u32'] = tuple((StructId_Integral, 'I'))
-        types['s64'] = tuple((StructId_Integral, 'q'))
-        types['u64'] = tuple((StructId_Integral, 'Q'))
+        types['s8'] = tuple((StructId_Integral, ('b', 0x3F)))
+        types['u8'] = tuple((StructId_Integral, ('B', 0x90)))
+        types['s16'] = tuple((StructId_Integral, ('h', 0x213F)))
+        types['u16'] = tuple((StructId_Integral, ('H', 0xF00D)))
+        types['s32'] = tuple((StructId_Integral, ('i', 0x3E213F3C)))
+        types['u32'] = tuple((StructId_Integral, ('I', 0xFECAADDE)))
+        types['s64'] = tuple((StructId_Integral, ('q', 0x3E7C213F213F7C3C)))
+        types['u64'] = tuple((StructId_Integral, ('Q', 0xBEBAEFBEDEC0ADDE)))
         types['string'] = tuple((StructId_String, None))
         types['utf8'] = tuple((StructId_Unicode, 'UTF-8'))
         return types
 
     def _import(self, s):
         u"""Import (unpack) from string into self."""
+        if s is None:
+            # set to default/uninitialised value
+            self._structure.importTo(None, self.__dict__)
+            return
         if type(s) is not str:
-            raise TypeError('want string to import from')
+            raise TypeError('want octet string to import from')
         if len(s) != self._nbytes:
             raise ValueError('want to import %d bytes but got %d bytes' % \
               (self._nbytes, len(s)))
@@ -404,15 +441,18 @@ class StructId(StructId_Container):
             print '@dumping structure for class %s()' % self.__class__.__name__
         (i, o) = parse_struct(fs + '}', 0, self._types, 0, self._dump)
         if i != (len(fs) + 1):
-            parse_error(fs, i, 'Leftovers')
+            parse_error(fs, i, 'Leftovers', len(fs))
         return o
 
     def __str__(self):
         u"""Stringify self by exporting."""
         return self._export()
 
-def parse_error(s, i, what):
-    raise ValueError('%s at %d in "%s→%s"' % (what, i, s[0:i], s[i:]))
+def parse_error(s, i, what, max=None):
+    if max is None:
+        max = i + 1
+    raise ValueError('%s at %d in "%s→%s←%s"' % (what, i, \
+      s[0:i], s[i:max], s[max:]))
 
 def parse_identifier(s, i, what):
     if not s[i:(i+1)].isalpha():
@@ -459,6 +499,7 @@ def parse_struct(s, i, types, depth, dump):
         if s[i] == '{':
             (i, o) = parse_struct(s, i + 1, types, depth + 1, dump)
         else:
+            begline = i
             (j, idname) = parse_identifier(s, i, 'type name')
             if (s[j:(j+1)] != '(') and (not s[j:(j+1)].isspace()):
                 parse_error(s, j, 'Expected whitespace or opening parenthesis')
@@ -473,9 +514,15 @@ def parse_struct(s, i, types, depth, dump):
                 if s[i:(i+1)] != ')':
                     parse_error(s, i, 'Expected closing parenthesis')
                 i = skip_whitespace(s, i + 1)
-                o = t[0](t[1], arrsz)
+                try:
+                    o = t[0](t[1], arrsz)
+                except ValueError, e:
+                    parse_error(s, begline, e.message, i)
             else:
-                o = t[0](t[1])
+                try:
+                    o = t[0](t[1])
+                except ValueError, e:
+                    parse_error(s, begline, e.message, i)
         i = skip_whitespace(s, i)
         if i == l:
             parse_error(s, i, 'Expected attribute name')
