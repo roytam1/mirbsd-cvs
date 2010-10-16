@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
-# $MirOS: contrib/hosted/tg/grml/ecma119.py,v 1.2 2010/10/16 22:30:50 tg Exp $
+# $MirOS: contrib/hosted/tg/grml/ecma119.py,v 1.3 2010/10/16 22:35:14 tg Exp $
 #-
 # Copyright © 2010
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -21,20 +21,20 @@
 # of said person’s immediate fault when using the work as intended.
 
 __version__ = """
-    $MirOS: contrib/hosted/tg/grml/ecma119.py,v 1.2 2010/10/16 22:30:50 tg Exp $
+    $MirOS: contrib/hosted/tg/grml/ecma119.py,v 1.3 2010/10/16 22:35:14 tg Exp $
 """
 
 from structid import *
 
 __all__ = [
-    "Ecma119_Date",         # §8.4.26.1 Date types
-    "Ecma119_Integral",     # Integral single-endian types
-    "Ecma119_BB_Integral",  # Integral both-endian types
-    "Ecma119_StructId",     # Abstract base class as StructId
+    "ECMA119_Date",         # §8.4.26.1 Date types
+    "ECMA119_Integral",     # Integral single-endian types
+    "ECMA119_BB_Integral",  # Integral both-endian types
+    "ECMA119_StructId",     # Abstract base class as StructId
 ]
 
 
-class Ecma119_Date(StructId_Type):
+class ECMA119_Date(StructId_Type):
     u"""Type class for ECMA 119 §8.4.25.1 Date types.
 
     Maps into an attribute dictionary with the following slots:
@@ -116,7 +116,7 @@ class Ecma119_Date(StructId_Type):
           '%02u' % v.centi, v.offset))
 
 
-class Ecma119_Integral(StructId_Integral):
+class ECMA119_Integral(StructId_Integral):
     u"""Type class for ECMA 119 integral types."""
 
     def __init__(self, toplev, arg, vararg=None):
@@ -146,7 +146,7 @@ class Ecma119_Integral(StructId_Integral):
         return StructId_Integral.do_export(self, v)
 
 
-class Ecma119_BB_Integral(StructId_Integral):
+class ECMA119_BB_Integral(StructId_Integral):
     u"""Type class for ECMA 119 both-byte order integral types."""
 
     def __init__(self, toplev, arg, vararg=None):
@@ -182,7 +182,7 @@ class Ecma119_BB_Integral(StructId_Integral):
         return tuple(rv)
 
 
-class Ecma119_StructId(StructId):
+class ECMA119_StructId(StructId):
     u"""Ordered dictionary of typed attributes with structure mapping.
 
     See StructId.__doc__ for more details. Additional types provided:
@@ -200,11 +200,11 @@ class Ecma119_StructId(StructId):
         types = StructId._get_types(self)
         types['ecma711'] = tuple((StructId_Integral, ('B', 0x90)))
         types['ecma712'] = tuple((StructId_Integral, ('b', 0x3F)))
-        types['ecma721'] = tuple((Ecma119_Integral, ('H', 0xFF0D, False)))
-        types['ecma722'] = tuple((Ecma119_Integral, ('H', 0xD0FE, True)))
-        types['ecma723'] = tuple((Ecma119_BB_Integral, ('H', 0xF00D)))
-        types['ecma731'] = tuple((Ecma119_Integral, ('I', 0xFECAADDE, False)))
-        types['ecma732'] = tuple((Ecma119_Integral, ('I', 0xDEADBEEF, True)))
-        types['ecma733'] = tuple((Ecma119_BB_Integral, ('I', 0xBEBAADDE)))
-        types['ecma84261'] = tuple((Ecma119_Date, None))
+        types['ecma721'] = tuple((ECMA119_Integral, ('H', 0xFF0D, False)))
+        types['ecma722'] = tuple((ECMA119_Integral, ('H', 0xD0FE, True)))
+        types['ecma723'] = tuple((ECMA119_BB_Integral, ('H', 0xF00D)))
+        types['ecma731'] = tuple((ECMA119_Integral, ('I', 0xFECAADDE, False)))
+        types['ecma732'] = tuple((ECMA119_Integral, ('I', 0xDEADBEEF, True)))
+        types['ecma733'] = tuple((ECMA119_BB_Integral, ('I', 0xBEBAADDE)))
+        types['ecma84261'] = tuple((ECMA119_Date, None))
         return types
