@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
-# $MirOS: contrib/hosted/tg/grml/structid.py,v 1.5 2010/10/16 21:01:15 tg Exp $
+# $MirOS: contrib/hosted/tg/grml/ecma119.py,v 1.1 2010/10/16 22:28:22 tg Exp $
 #-
 # Copyright © 2010
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -21,10 +21,9 @@
 # of said person’s immediate fault when using the work as intended.
 
 __version__ = """
-    $MirOS: contrib/hosted/tg/grml/structid.py,v 1.5 2010/10/16 21:01:15 tg Exp $
+    $MirOS: contrib/hosted/tg/grml/ecma119.py,v 1.1 2010/10/16 22:28:22 tg Exp $
 """
 
-import struct
 import sys
 from structid import *
 
@@ -139,13 +138,13 @@ class Ecma119_Integral(StructId_Integral):
         u"""Convert from unpack tuple to internal representation."""
         v = StructId_Integral.do_import(self, t)
         if self._swab:
-            return bswap(self._fmt, v)
+            return StructId_bswap(self._fmt, v)
         return v
 
     def do_export(self, v):
         u"""Convert from internal representation to pack tuple."""
         if self._swab:
-            v = bswap(self._fmt, v)
+            v = StructId_bswap(self._fmt, v)
         return StructId_Integral.do_export(self, v)
 
 
@@ -181,7 +180,7 @@ class Ecma119_BB_Integral(StructId_Integral):
         u"""Convert from internal representation to pack tuple."""
         rv = [0, 0]
         rv[self._idx] = v
-        rv[1 - self._idx] = bswap(self._ofmt, v)
+        rv[1 - self._idx] = StructId_bswap(self._ofmt, v)
         return tuple(rv)
 
 
@@ -211,11 +210,6 @@ class Ecma119_StructId(StructId):
         types['ecma733'] = tuple((Ecma119_BB_Integral, ('I', 0xBEBAADDE)))
         types['ecma84261'] = tuple((Ecma119_Date, None))
         return types
-
-
-def bswap(fmt, value):
-    u"""Reverse bytes in value according to struct.pack fmt."""
-    return struct.unpack('<%s' % fmt, struct.pack('>%s' % fmt, value))[0]
 
 
 def isbigendian(ev, cn):

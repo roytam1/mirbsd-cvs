@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
-# $MirOS: contrib/hosted/tg/grml/structid.py,v 1.5 2010/10/16 21:01:15 tg Exp $
+# $MirOS: contrib/hosted/tg/grml/structid.py,v 1.7 2010/10/16 22:27:40 tg Exp $
 #-
 # Copyright © 2010
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -21,7 +21,7 @@
 # of said person’s immediate fault when using the work as intended.
 
 __version__ = """
-    $MirOS: contrib/hosted/tg/grml/structid.py,v 1.5 2010/10/16 21:01:15 tg Exp $
+    $MirOS: contrib/hosted/tg/grml/structid.py,v 1.7 2010/10/16 22:27:40 tg Exp $
 """
 
 import struct
@@ -34,6 +34,7 @@ __all__ = [
     "StructId_Container",   # Dictionary accessing self.__dict__ for everything
     "StructId",             # Ordered dictionary of typed attributes with
                             # structure mapping (main class, abstract base)
+    "StructId_bswap",       # Reverse bytes in integer
 ]
 
 
@@ -654,3 +655,13 @@ def parse_struct(toplev, s, i, depth):
     if toplev._dump and (i == l - 1):
         print '@total %Xh bytes' % dofs
     return (i + 1, o)
+
+
+def StructId_bswap(fmt, value):
+    u"""Reverse bytes in value according to struct.pack fmt.
+
+    Expects a struct.pack style format (e.g. 'I') and a value to bswap.
+    Example: StructId_bswap('H', 0x1234) == 0x3412.
+
+    """
+    return struct.unpack('<%s' % fmt, struct.pack('>%s' % fmt, value))[0]
