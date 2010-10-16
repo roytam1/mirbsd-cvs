@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
-# $MirOS: contrib/hosted/tg/grml/structid.py,v 1.7 2010/10/16 22:27:40 tg Exp $
+# $MirOS: contrib/hosted/tg/grml/structid.py,v 1.8 2010/10/16 22:30:50 tg Exp $
 #-
 # Copyright © 2010
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -21,10 +21,11 @@
 # of said person’s immediate fault when using the work as intended.
 
 __version__ = """
-    $MirOS: contrib/hosted/tg/grml/structid.py,v 1.7 2010/10/16 22:27:40 tg Exp $
+    $MirOS: contrib/hosted/tg/grml/structid.py,v 1.8 2010/10/16 22:30:50 tg Exp $
 """
 
 import struct
+import sys
 
 __all__ = [
     "StructId_Type",        # Abstract base class for StructId types
@@ -297,6 +298,9 @@ class StructId(StructId_Container):
 
     • _export: convert self into byte/octet array returned as string
 
+    • _is_bigendian: True or False (little endian) after resolution
+      of native (host) endianness if required
+
 
     Type handling classes are expected to provide these methods:
 
@@ -490,6 +494,25 @@ class StructId(StructId_Container):
         if i != (len(fs) + 1):
             parse_error(fs, i, 'Leftovers', len(fs))
         return o
+
+    def _is_bigendian(self):
+        u"""Resolve endianness into truth value.
+
+        Returns True for big endian, False for little endian.
+
+        """
+        if self._endian == '<':
+            return False
+        elif self._endian == '>':
+            return True
+        elif self._endian != '=':
+            raise ValueError('%s does not specify endianness as LE/BE/HE' % self.__class__.__name__)
+        elif sys.byteorder == 'big':
+            return True
+        elif sys.byteorder == 'little':
+            return False
+        raise ValueError('what byteorder is "%s"?' % sys.byteorder)
+
 
     def __str__(self):
         u"""Stringify self by exporting, return octet string."""

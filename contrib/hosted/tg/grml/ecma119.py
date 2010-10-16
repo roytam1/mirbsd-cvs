@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
-# $MirOS: contrib/hosted/tg/grml/ecma119.py,v 1.1 2010/10/16 22:28:22 tg Exp $
+# $MirOS: contrib/hosted/tg/grml/ecma119.py,v 1.2 2010/10/16 22:30:50 tg Exp $
 #-
 # Copyright © 2010
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -21,10 +21,9 @@
 # of said person’s immediate fault when using the work as intended.
 
 __version__ = """
-    $MirOS: contrib/hosted/tg/grml/ecma119.py,v 1.1 2010/10/16 22:28:22 tg Exp $
+    $MirOS: contrib/hosted/tg/grml/ecma119.py,v 1.2 2010/10/16 22:30:50 tg Exp $
 """
 
-import sys
 from structid import *
 
 __all__ = [
@@ -128,8 +127,7 @@ class Ecma119_Integral(StructId_Integral):
         """
         StructId_Type.__init__(self, toplev, arg, vararg)
         (self._fmt, self._defval, self._isbig) = arg
-        fmtbig = isbigendian(toplev._endian, toplev.__class__.__name__)
-        if self._isbig == fmtbig:
+        if self._isbig == toplev._is_bigendian():
             self._swab = False
         else:
             self._swab = True
@@ -158,7 +156,7 @@ class Ecma119_BB_Integral(StructId_Integral):
 
         """
         StructId_Integral.__init__(self, toplev, arg, vararg)
-        if isbigendian(toplev._endian, toplev.__class__.__name__):
+        if toplev._is_bigendian():
             self._idx = 1
         else:
             self._idx = 0
@@ -210,17 +208,3 @@ class Ecma119_StructId(StructId):
         types['ecma733'] = tuple((Ecma119_BB_Integral, ('I', 0xBEBAADDE)))
         types['ecma84261'] = tuple((Ecma119_Date, None))
         return types
-
-
-def isbigendian(ev, cn):
-    if ev == '<':
-        return False
-    if ev == '>':
-        return True
-    if ev != '=':
-        raise ValueError('%s does not specify endianness as LE/BE/HE' % cn)
-    if sys.byteorder == 'big':
-        return True
-    if sys.byteorder == 'little':
-        return False
-    raise ValueError('what byteorder is "%s"?' % sys.byteorder)
