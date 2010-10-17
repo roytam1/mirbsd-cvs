@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
-# $MirOS: contrib/hosted/tg/grml/ecma119.py,v 1.3 2010/10/16 22:35:14 tg Exp $
+# $MirOS: contrib/hosted/tg/grml/ecma119.py,v 1.4 2010/10/16 22:39:39 tg Exp $
 #-
 # Copyright © 2010
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -21,7 +21,7 @@
 # of said person’s immediate fault when using the work as intended.
 
 __version__ = """
-    $MirOS: contrib/hosted/tg/grml/ecma119.py,v 1.3 2010/10/16 22:35:14 tg Exp $
+    $MirOS: contrib/hosted/tg/grml/ecma119.py,v 1.4 2010/10/16 22:39:39 tg Exp $
 """
 
 from structid import *
@@ -32,6 +32,19 @@ __all__ = [
     "ECMA119_BB_Integral",  # Integral both-endian types
     "ECMA119_StructId",     # Abstract base class as StructId
 ]
+
+
+class ECMA119_Date_Container(StructId_Container):
+    def __str__(self):
+        u"""Stringify an ECMA119_Date.
+
+        Return value formatted as ISO 8601 combined date/time/zone string.
+
+        """
+        return '%04u-%02u-%02uT%02u:%02u:%02u.%02u%s%02u:%02u' % ( \
+          self.year, self.month, self.day, self.hour, self.minute, \
+          self.second, self.centi, self.offset < 0 and '-' or '+', \
+          abs(self.offset) // 4, (abs(self.offset) % 4) * 15)
 
 
 class ECMA119_Date(StructId_Type):
@@ -61,7 +74,7 @@ class ECMA119_Date(StructId_Type):
 
     def do_import(self, t):
         u"""Convert from unpack tuple to internal representation."""
-        rv = StructId_Container()
+        rv = ECMA119_Date_Container()
         rv.year = 0
         rv.month = 0
         rv.day = 0

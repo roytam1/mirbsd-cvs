@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
-# $MirOS: contrib/hosted/tg/grml/structid.py,v 1.8 2010/10/16 22:30:50 tg Exp $
+# $MirOS: contrib/hosted/tg/grml/structid.py,v 1.9 2010/10/16 22:35:15 tg Exp $
 #-
 # Copyright © 2010
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -21,7 +21,7 @@
 # of said person’s immediate fault when using the work as intended.
 
 __version__ = """
-    $MirOS: contrib/hosted/tg/grml/structid.py,v 1.8 2010/10/16 22:30:50 tg Exp $
+    $MirOS: contrib/hosted/tg/grml/structid.py,v 1.9 2010/10/16 22:35:15 tg Exp $
 """
 
 import struct
@@ -42,39 +42,40 @@ __all__ = [
 class StructId_Type(object):
     u"""Abstract base class for StructId types."""
 
-    def __init__(self, toplev, arg, vararg=None):
+    def __init__(self, toplev, pathname, arg, vararg):
         u"""Initialise a type instance."""
         self._toplev = toplev
+        self._pathname = pathname
         self._arg = arg
         self._vararg = vararg
 
     def get_fmt(self):
         u"""Return struct.unpack format specification."""
-        raise NotImplementedError('StructId_Type.get_fmt is abstract')
+        abstract_error('StructId_Type', self, 'get_fmt')
 
     def num_items(self):
         u"""Return how many items in the tuple this type uses."""
-        raise NotImplementedError('StructId_Type.num_items is abstract')
+        abstract_error('StructId_Type', self, 'num_items')
 
     def do_import(self, t):
         u"""Convert from unpack tuple to internal representation."""
-        raise NotImplementedError('StructId_Type.do_import is abstract')
+        abstract_error('StructId_Type', self, 'do_import')
 
     def do_export(self, v):
         u"""Convert from internal representation to pack tuple."""
-        raise NotImplementedError('StructId_Type.do_export is abstract')
+        abstract_error('StructId_Type', self, 'do_export')
 
 
 class StructId_Integral(StructId_Type):
     u"""Type class for standard integral types."""
 
-    def __init__(self, toplev, arg, vararg=None):
+    def __init__(self, toplev, pathname, arg, vararg):
         u"""Initialise a standard integral type instance.
 
         • arg: tuple(format, default value)
 
         """
-        StructId_Type.__init__(self, toplev, arg, vararg)
+        StructId_Type.__init__(self, toplev, pathname, arg, vararg)
         (self._fmt, self._defval) = arg
 
     def get_fmt(self):
@@ -100,16 +101,17 @@ class StructId_Integral(StructId_Type):
 class StructId_String(StructId_Integral):
     u"""Type class for a byte/octet string."""
 
-    def __init__(self, toplev, arg, vararg=None):
+    def __init__(self, toplev, pathname, arg, vararg):
         u"""Initialise an octet string.
 
         • arg: ignored
         • vararg: length of string in octets
 
         """
-        StructId_Type.__init__(self, toplev, arg, vararg)
+        StructId_Type.__init__(self, toplev, pathname, arg, vararg)
         if vararg is None:
-            raise ValueError('Need varargs to go with a StructId_String')
+            raise ValueError('Need varargs to go with %s in slot %s' % ( \
+              self.__class__.__name__, pathname))
         self._size = vararg
         self._fmt = '%ds' % vararg
         self._defval = '%*s' % (vararg, '')
@@ -127,14 +129,14 @@ class StructId_Unicode(StructId_String):
 
     """
 
-    def __init__(self, toplev, arg, vararg=None):
+    def __init__(self, toplev, pathname, arg, vararg):
         u"""Initialise a multibyte string.
 
         • arg: encoding to use, default 'UTF-8'
         • vararg: length of string in octets
 
         """
-        StructId_String.__init__(self, toplev, arg, vararg)
+        StructId_String.__init__(self, toplev, pathname, arg, vararg)
         if arg is None:
             arg = 'UTF-8'
         self._encoding = arg
@@ -158,19 +160,41 @@ class StructId_Struct(StructId_Type):
 
     """
 
-    def __init__(self, toplev, arg, vararg=None):
+    def __init__(self, toplev, pathname, arg, vararg):
         u"""Internal initialiser, do not call.
 
-        • arg: tuple of tuple(slotname, numents, instance)
-        • vararg: ignored
+        All arguments are ignored, construction works via _addslot.
 
         """
         self._toplev = toplev
-        self._info = tuple(arg)
-        self._fmt = ''.join([slottypi.get_fmt() \
-          for (slotname, numents, slottypi) in self._info])
-        self._nents = sum([numents \
-          for (slotname, numents, slottypi) in self._info])
+        self._pathname = pathname
+        self._slotnames = []
+        self._instances = StructId_Container()
+        self._slotents = {}
+        self._nents = 0
+        self._fmt = ''
+
+    def _addslot(self, slotname, classname, args):
+        u"""Add a slot during parsing.
+
+        • slotname: string (name of slot to add)
+        • classname: class type
+        • args: tuple (arg, vararg) to instantiate class with
+
+        Internal method, do not call.
+
+        """
+        if slotname in self._slotnames:
+            raise ValueError('%s already has slot "%s"' % ( \
+              self._pathname, slotname))
+        instance = classname(self._toplev, '%s.%s' % (self._pathname, \
+          slotname), *args)
+        nents = instance.num_items()
+        self._slotnames.append(slotname)
+        self._instances[slotname] = instance
+        self._slotents[slotname] = nents
+        self._nents += nents
+        self._fmt += instance.get_fmt()
 
     def get_fmt(self):
         return self._fmt
@@ -184,20 +208,21 @@ class StructId_Struct(StructId_Type):
         return rv
 
     def do_export(self, v):
-        rv = []
-        for (slotname, numents, slottypi) in self._info:
-            rv.extend(slottypi.do_export(v[slotname]))
-        return tuple(rv)
+        return reduce(tuple.__add__, \
+          [self._instances[slotname].do_export(v[slotname]) \
+          for slotname in self._slotnames], ())
 
     def importTo(self, t, d):
-        e = 0
-        for (slotname, numents, slottypi) in self._info:
-            if t is None:
-                # set to default/uninitialised value
-                d[slotname] = slottypi.do_import(None)
-            else:
-                d[slotname] = slottypi.do_import(t[e:(e + numents)])
-            e += numents
+        if t is None:
+            # set to default/uninitialised value
+            for slotname in self._slotnames:
+                d[slotname] = self._instances[slotname].do_import(None)
+            return
+        x = 0
+        for slotname in self._slotnames:
+            y = x + self._slotents[slotname]
+            d[slotname] = self._instances[slotname].do_import(t[x:y])
+            x = y
 
 
 class StructId_Array(StructId_Type):
@@ -207,20 +232,43 @@ class StructId_Array(StructId_Type):
 
     """
 
-    def __init__(self, toplev, type, size):
+    def __init__(self, toplev, pathname, arg, vararg):
         u"""Internal initialiser, do not call.
 
-        • (arg) type: instance
-        • (vararg) size: integer
+        • arg: tuple (class type, tuple (arg, vararg) to
+          instantiate class with)
+        • vararg: (integer) size of the array
 
         """
         self._toplev = toplev
-        self._size = size
-        fmt = type.get_fmt()
-        self._subnents = type.num_items()
-        self._type = type
-        self._fmt = ''.join([fmt for i in range(size)])
-        self._nents = self._subnents * size
+        self._pathname = pathname
+        if vararg < 1:
+            raise ValueError('Array size %u < 1 in %s[]' % (vararg, pathname))
+        self._size = vararg
+        self._instances = []
+        self._slotents = []
+        self._nents = 0
+        self._fmt = ''
+        (classname, args) = arg
+        for i in range(self._size):
+            instance = classname(self._toplev, '%s[%u]' % (self._pathname, \
+              i), *args)
+            nents = instance.num_items()
+            self._instances.append(instance)
+            self._slotents.append(nents)
+            self._nents += nents
+            self._fmt += instance.get_fmt()
+
+    def resize(self):
+        u"""Called after an array of struct is reinitialised."""
+        self._slotents = []
+        self._nents = 0
+        self._fmt = ''
+        for instance in self._instances:
+            nents = instance.num_items()
+            self._slotents.append(nents)
+            self._nents += nents
+            self._fmt += instance.get_fmt()
 
     def get_fmt(self):
         return self._fmt
@@ -231,15 +279,19 @@ class StructId_Array(StructId_Type):
     def do_import(self, t):
         if t is None:
             # set to default/uninitialised value
-            return [self._type.do_import(None) for i in range(self._size)]
-        return [self._type.do_import(t[(i*self._subnents):((i+1)*self._subnents)]) \
-          for i in range(self._size)]
+            return [self._instances[i].do_import(None) \
+              for i in range(self._size)]
+        d = []
+        x = 0
+        for i in range(self._size):
+            y = x + self._slotents[i]
+            d[i] = self._instances[i].do_import(t[x:y])
+            x = y
+        return d
 
     def do_export(self, v):
-        rv = []
-        for i in range(self._size):
-            rv.extend(self._type.do_export(v[i]))
-        return tuple(rv)
+        return reduce(tuple.__add__, [self._instances[i].do_export(v[i]) \
+          for i in range(self._size)], ())
 
 
 class StructId_Container(dict, object):
@@ -250,9 +302,21 @@ class StructId_Container(dict, object):
 
         same as dict.__init__(self, *args, **kwargs)
 
+        Note: you cannot add instance methods to instances of
+        this class or its subclasses – use subclassing instead
+        to override functionality, e.g. __str__()
+
         """
         dict.__init__(self, *args, **kwargs)
         self.__dict__ = self
+
+    def __str__(self):
+        u"""Stringify as regular dictionary."""
+        return str(dict(self))
+
+    def __repr__(self):
+        u"""Stringify for re-creation."""
+        return '%s(%s)' % (self.__class__.__name__, dict.__repr__(self))
 
 
 class StructId(StructId_Container):
@@ -272,19 +336,19 @@ class StructId(StructId_Container):
 
     Subclasses must fill out the following members:
 
-    • _get_endianness: return 'LE', 'BE' or 'HE' for little, big or
+    ‣ _get_endianness: return 'LE', 'BE' or 'HE' for little, big or
       host endianness, respectively
 
-    • _get_format: return a string with the structure definition
+    ‣ _get_format: return a string with the structure definition
 
-    • _get_nbytes: return how many bytes we’re supposed to read
+    ‣ _get_nbytes: return how many bytes we’re supposed to read
 
 
     Subclasses may fill out the following members:
 
     • _dump: set this attribute to True to dump structure information
 
-    • _get_types: call the inherited method to get a dictionary whose
+    ‣ _get_types: call the inherited method to get a dictionary whose
       keys are names of types structure members can have, and whose
       values are classes handling them (see below) to extend it, if
       necessary – standard types are {s,u}{8,16,32,64}, string, utf8.
@@ -292,11 +356,11 @@ class StructId(StructId_Container):
 
     The following methods provide the public API:
 
-    • __init__ (constructor): it is not advisable to overwrite this
+    ‣ __init__ (constructor): it is not advisable to overwrite this
 
-    • _import: convert byte/octet array from string into self
+    ‣ _import: convert byte/octet array from string into self
 
-    • _export: convert self into byte/octet array returned as string
+    ‣ _export: convert self into byte/octet array returned as string
 
     • _is_bigendian: True or False (little endian) after resolution
       of native (host) endianness if required
@@ -401,27 +465,43 @@ class StructId(StructId_Container):
 
     _dump = False
 
-    def __init__(self, iv=None):
+    def __init__(self, iv=None, dump=None):
         u"""Initialise a StructId instance.
 
         Read the type specification from the derived class and
         import the iv (initial value) argument into ourselves.
+
+        If dump is not None (True or False), set _dump accordingly.
 
         """
         StructId_Container.__init__(self)
         self._types = self._get_types()
         endian = self._get_endianness()
         if endian == 'LE':
+            self._is_bigendian = False
             self._endian = '<'
         elif endian == 'BE':
+            self._is_bigendian = True
             self._endian = '>'
         elif endian == 'HE':
-            self._endian = '='
+            if sys.byteorder == 'big':
+                self._is_bigendian = True
+            elif sys.byteorder == 'little':
+                self._is_bigendian = False
+            else:
+                # we don’t support PDP Endian
+                raise ValueError('what byteorder is "%s"?' % sys.byteorder)
         else:
             raise ValueError('%s does not specify endianness as LE/BE/HE' % \
               self.__class__.__name__)
+        if dump is not None:
+            self._dump = dump
         self._structure = self._parse(self._get_format())
-        self._fmt = self._endian + self._structure.get_fmt()
+        if self._is_bigendian:
+            self._fmt = '>'
+        else:
+            self._fmt = '<'
+        self._fmt += self._structure.get_fmt()
         cs = struct.calcsize(self._fmt)
         self._nbytes = self._get_nbytes()
         if cs != self._nbytes:
@@ -435,23 +515,25 @@ class StructId(StructId_Container):
         Possible return values are 'LE', 'BE' and 'HE'.
 
         """
-        raise NotImplementedError('StructId._get_endianness is abstract')
+        abstract_error('StructId', self, '_get_endianness')
 
     def _get_format(self):
         u"""Return definition of this structure."""
-        raise NotImplementedError('StructId._get_format is abstract')
+        abstract_error('StructId', self, '_get_format')
 
     def _get_nbytes(self):
         u"""Return size of this structure."""
-        raise NotImplementedError('StructId._get_nbytes is abstract')
+        abstract_error('StructId', self, '_get_nbytes')
 
     def _get_types(self):
-        u"""Return dictionary of supported types.
+        u"""Return attribute dictionary of supported types.
 
         Each member (key = type name) is a tuple (class, arg).
 
+        Standard types are {s,u}{8,16,32,64}, string, utf8.
+
         """
-        types = {}
+        types = StructId_Container()
         types['s8'] = tuple((StructId_Integral, ('b', 0x3F)))
         types['u8'] = tuple((StructId_Integral, ('B', 0x90)))
         types['s16'] = tuple((StructId_Integral, ('h', 0x213F)))
@@ -490,29 +572,13 @@ class StructId(StructId_Container):
         u"""Parse StructId format string into StructId_Struct instance."""
         if self._dump:
             print '@dumping structure for class %s()' % self.__class__.__name__
-        (i, o) = parse_struct(self, fs + '}', 0, 0)
-        if i != (len(fs) + 1):
-            parse_error(fs, i, 'Leftovers', len(fs))
+        o = StructId_Struct(self, self.__class__.__name__, None, None)
+        l = len(fs) + 1
+        print 'deb1 entering parse_struct initially'
+        i = parse_struct(fs + '}', l, 0, 0, o)
+        if i != l:
+            parse_error(fs, i, 'Leftovers', l - 1)
         return o
-
-    def _is_bigendian(self):
-        u"""Resolve endianness into truth value.
-
-        Returns True for big endian, False for little endian.
-
-        """
-        if self._endian == '<':
-            return False
-        elif self._endian == '>':
-            return True
-        elif self._endian != '=':
-            raise ValueError('%s does not specify endianness as LE/BE/HE' % self.__class__.__name__)
-        elif sys.byteorder == 'big':
-            return True
-        elif sys.byteorder == 'little':
-            return False
-        raise ValueError('what byteorder is "%s"?' % sys.byteorder)
-
 
     def __str__(self):
         u"""Stringify self by exporting, return octet string."""
@@ -521,6 +587,18 @@ class StructId(StructId_Container):
     def __repr__(self):
         u"""Stringify self by exporting, return Python representation."""
         return '%s(%s)' % (self.__class__.__name__, repr(str(self)))
+
+
+def abstract_error(oclass, self, mname):
+    u"""Raise a NotImplementedError for abstract base class methods.
+
+    • oclass: name of class the method was originally implemented for
+    • self: instance pointer, for __class__.__name__ and _pathname
+    • mname: name of abstract method
+
+    """
+    raise NotImplementedError('%s.%s is abstract from %s in slot %s' % ( \
+      self.__class__.__name__, mname, oclass, self._pathname))
 
 
 def parse_error(s, i, what, max=None):
@@ -595,19 +673,76 @@ def skip_comment(s, i, l):
     return i + 1
 
 
-def parse_struct(toplev, s, i, depth):
-    u"""Parse a structure format specification.
+def parse_struct_syntaxonly(s, l, i):
+    u"""Skip over a structure format specification.
 
-    • toplev: StructId instance we’re working for
+    • s: string to parse
+    • l: len(s)
     • i: start offset
-    • depth: nesting of structures (toplev == 0)
 
-    Returns tuple (end offset, instance).
+    Returns end offset.
 
     """
-    l = len(s)
-    ss = []
-    if toplev._dump:
+    print 'deb entering syntaxonly'
+    while True:
+        i = skip_whitespace(s, i)
+        if i == l:
+            parse_error(s, i, 'Expected closing curly brace')
+        if s[i] == '}':
+            break
+        if s[i] == '|':
+            i = skip_comment(s, i + 1, l)
+            continue
+        structofs = None
+        if s[i] == '{':
+            structofs = i + 1
+            i = parse_struct_syntaxonly(s, l, structofs)
+        else:
+            begline = i
+            (j, idname) = parse_identifier(s, i, 'type name')
+            if (s[j:(j+1)] != '(') and (not s[j:(j+1)].isspace()):
+                parse_error(s, j, 'Expected whitespace or opening parenthesis')
+            i = skip_whitespace(s, j)
+            if s[i:(i+1)] == '(':
+                i = skip_whitespace(s, i + 1)
+                (i, varg) = parse_number(s, i, 'type vararg')
+                i = skip_whitespace(s, i)
+                if s[i:(i+1)] != ')':
+                    parse_error(s, i, 'Expected closing parenthesis')
+                i = skip_whitespace(s, i + 1)
+        i = skip_whitespace(s, i)
+        if i == l:
+            parse_error(s, i, 'Expected attribute name')
+        (i, idname) = parse_identifier(s, i, 'attribute name')
+        i = skip_whitespace(s, i)
+        if s[i:(i+1)] == '[':
+            i = skip_whitespace(s, i + 1)
+            (i, arrsz) = parse_number(s, i, 'array size')
+            i = skip_whitespace(s, i)
+            if s[i:(i+1)] != ']':
+                parse_error(s, i, 'Expected closing square bracket')
+            i = skip_whitespace(s, i + 1)
+        if s[i:(i+1)] != ';':
+            parse_error(s, i, 'Expected semicolon')
+        i += 1
+    print 'exiting syntaxonly at "%s→%s"' % (s[0:(i+1)], s[(i+1):])
+    return i + 1
+
+
+def parse_struct(s, l, i, depth, ss):
+    u"""Parse a structure format specification.
+
+    • s: string to parse
+    • l: len(s)
+    • i: start offset
+    • depth: nesting level of structures
+    • ss: StructId_Struct instance
+
+    Returns end offset.
+
+    """
+    print 'deb, entering parse_struct with', i, depth, type(ss)
+    if ss._toplev._dump:
         dofs = 0
     while True:
         i = skip_whitespace(s, i)
@@ -618,41 +753,40 @@ def parse_struct(toplev, s, i, depth):
         if s[i] == '|':
             i = skip_comment(s, i + 1, l)
             continue
+        structofs = None
         if s[i] == '{':
-            (i, o) = parse_struct(toplev, s, i + 1, depth + 1)
+            structofs = i + 1
+            print 'deb, before syntaxonly, at "%s→%s"' % (s[0:(i+1)], s[(i+1):])
+            print 'deb, before syntaxonly, structofs=', structofs
+            i = parse_struct_syntaxonly(s, l, structofs)
+            print 'deb, after syntaxonly, i=', i
         else:
             begline = i
             (j, idname) = parse_identifier(s, i, 'type name')
             if (s[j:(j+1)] != '(') and (not s[j:(j+1)].isspace()):
                 parse_error(s, j, 'Expected whitespace or opening parenthesis')
-            if not toplev._types.has_key(idname):
+            if not ss._toplev._types.has_key(idname):
                 parse_error(s, i, 'Type %s unknown' % idname)
-            t = toplev._types[idname]
+            t = ss._toplev._types[idname]
             i = skip_whitespace(s, j)
             if s[i:(i+1)] == '(':
                 i = skip_whitespace(s, i + 1)
-                (i, arrsz) = parse_number(s, i, 'type vararg')
+                (i, varg) = parse_number(s, i, 'type vararg')
                 i = skip_whitespace(s, i)
                 if s[i:(i+1)] != ')':
                     parse_error(s, i, 'Expected closing parenthesis')
                 i = skip_whitespace(s, i + 1)
-                try:
-                    o = t[0](toplev, t[1], arrsz)
-                except ValueError, e:
-                    parse_error(s, begline, e.message, i)
             else:
-                try:
-                    o = t[0](toplev, t[1])
-                except ValueError, e:
-                    parse_error(s, begline, e.message, i)
+                varg = None
+            oi = (t[0], (t[1], varg), begline, i)
         i = skip_whitespace(s, i)
         if i == l:
             parse_error(s, i, 'Expected attribute name')
         (i, idname) = parse_identifier(s, i, 'attribute name')
+        if structofs is not None:
+            oi = (StructId_Struct, (None, None), structofs - 1, i)
         i = skip_whitespace(s, i)
         arrsz = None
-        if toplev._dump:
-            dsz = struct.calcsize(o.get_fmt())
         if s[i:(i+1)] == '[':
             i = skip_whitespace(s, i + 1)
             (i, arrsz) = parse_number(s, i, 'array size')
@@ -660,24 +794,44 @@ def parse_struct(toplev, s, i, depth):
             if s[i:(i+1)] != ']':
                 parse_error(s, i, 'Expected closing square bracket')
             i = skip_whitespace(s, i + 1)
-            if toplev._dump:
-                print '%*s@%08X %08Xh * %-12d  ISODCL(%d,%d)' % (depth * 2,
-                  '', dofs, dsz, arrsz, dofs + 1, dofs + dsz * arrsz)
-                dofs += dsz * arrsz
-            o = StructId_Array(toplev, o, arrsz)
-        else:
-            if toplev._dump:
-                print '%*s@%08X %08Xh                 ISODCL(%d,%d)' % \
-                  (depth * 2, '', dofs, dsz, dofs + 1, dofs + dsz)
-                dofs += dsz
+            oi = (StructId_Array, ((oi[0], oi[1]), arrsz), oi[2], oi[3])
         if s[i:(i+1)] != ';':
             parse_error(s, i, 'Expected semicolon')
         i += 1
-        ss.append((idname, o.num_items(), o))
-    o = StructId_Struct(toplev, ss)
-    if toplev._dump and (i == l - 1):
+        try:
+            ss._addslot(idname, oi[0], oi[1])
+        except ValueError, e:
+            parse_error(s, oi[2], e.message, oi[3])
+        if arrsz is None:
+            oe = ss._instances[idname]
+            oa = oe
+        else:
+            oa = ss._instances[idname]
+            oe = oa._instances[0]
+        if structofs is not None:
+            print 'ss is', type(ss)
+            print 'oa is', type(oa)
+            print 'oe is', type(oe)
+            parse_struct(s, l, structofs, depth + 1, oe)
+            if arrsz is not None:
+                oa.resize()
+        if ss._toplev._dump:
+            dsz = struct.calcsize(oa.get_fmt())
+            if arrsz is None:
+                print '%*s@%08X %08Xh                 ISODCL(%d,%d)' % \
+                  (depth * 2, '', dofs, dsz, dofs + 1, dofs + dsz)
+            else:
+                esz = struct.calcsize(oe.get_fmt())
+                if dsz != esz * arrsz:
+                    parse_error(s, oi[2], \
+                      'Array size is not uniform (%u * %u ≠ %u)' % \
+                      (esz, arrsz, dsz), oi[3])
+                print '%*s@%08X %08Xh * %-12d  ISODCL(%d,%d)' % \
+                  (depth * 2, '', dofs, esz, arrsz, dofs + 1, dofs + dsz)
+            dofs += dsz
+    if ss._toplev._dump and (i == l - 1):
         print '@total %Xh bytes' % dofs
-    return (i + 1, o)
+    return i + 1
 
 
 def StructId_bswap(fmt, value):
