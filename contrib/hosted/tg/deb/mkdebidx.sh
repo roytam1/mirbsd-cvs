@@ -1,5 +1,5 @@
 #!/bin/mksh
-rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.34 2010/04/17 13:56:19 tg Exp $'
+rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.35 2010/04/17 18:04:11 tg Exp $'
 #-
 # Copyright (c) 2008, 2009, 2010
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -70,7 +70,7 @@ done
 allsuites=
 for suite in dists/*; do
 	allsuites="$allsuites${allsuites:+ }${suite##*/}"
-	[[ $suites = : || $suites = *:$suite:* ]] || continue
+	[[ $suites = : || $suites = *:"$suite":* ]] || continue
 	archs=
 	. $suite/distinfo.sh
 	suitearchs=${archs:-${normarchs[*]}}
@@ -88,10 +88,10 @@ for suite in dists/*; do
 		set -A distarchs -- $(sortlist -u all ${archs:-$suitearchs})
 		IFS=:; distarchl=:"${distarchs[*]}":; IFS=$saveIFS
 		for arch in $(sortlist -u ${distarchs[*]} ${dpkgarchs[*]}); do
-			if [[ $dpkgarchl != *:$arch:* ]]; then
+			if [[ $dpkgarchl != *:"$arch":* ]]; then
 				print -u2 "Invalid arch '$arch' in $dist"
 				exit 1
-			elif [[ $distarchl != *:$arch:* ]]; then
+			elif [[ $distarchl != *:"$arch":* ]]; then
 				print "\n===> Linking all =>" \
 				    "${dist#dists/}/$arch/Packages"
 				ln -s binary-all $dist/binary-$arch
@@ -148,7 +148,7 @@ br='<br />'
 # example:	sid/wtf/openntpd/i386 lenny
 if [[ -s mkdebidx.lnk ]]; then
 	while read pn pd; do
-		[[ $pn = @(#)* ]] && continue
+		[[ $pn = '#'* ]] && continue
 		if [[ $pn != +([a-z0-9_])/+([a-z0-9_-])/+([!/])/@(%|=|+([a-z0-9])) || \
 		    $pd != +([a-z0-9_]) ]]; then
 			print -u2 "Invalid lnk line '$pn' '$pd'"
@@ -178,16 +178,16 @@ for suite in dists/*; do
 		gzip -dc $dist/source/Sources.gz |&
 		while IFS= read -pr line; do
 			case $line {
-			(@(Package: )*)
+			("Package: "*)
 				pn=${line##Package:*([	 ])}
 				;;
-			(@(Version: )*)
+			("Version: "*)
 				pv=${line##Version:*([	 ])}
 				;;
-			(@(Binary: )*)
+			("Binary: "*)
 				pd=${line##Binary:*([	 ])}
 				;;
-			(@(Directory: )*)
+			("Directory: "*)
 				pp=${line##Directory:*([	 ])}
 				;;
 			(?*)	# anything else
@@ -196,8 +196,8 @@ for suite in dists/*; do
 				if [[ -n $pn && -n $pv && -n $pd && -n $pp ]]; then
 					i=0
 					while (( i < nsrc )); do
-						[[ ${sp_name[i]} = $pn && \
-						    ${sp_dist[i]} = $distname ]] && break
+						[[ ${sp_name[i]} = "$pn" && \
+						    ${sp_dist[i]} = "$distname" ]] && break
 						let i++
 					done
 					if (( i == nsrc )); then
@@ -215,7 +215,7 @@ for suite in dists/*; do
 						x=${suitename}/${distname}/${pn}/source
 						j=0
 						while (( j < nrpl )); do
-							[[ ${preplsrc[j]} = $x ]] && break
+							[[ ${preplsrc[j]} = "$x" ]] && break
 							let j++
 						done
 						(( j < nrpl )) && pv="${pv}from ${prepldst[j]}"
@@ -232,23 +232,23 @@ for suite in dists/*; do
 		gzip -dc $dist/binary-*/Packages.gz |&
 		while IFS= read -pr line; do
 			case $line {
-			(@(Package: )*)
+			("Package: "*)
 				pN=${line##Package:*([	 ])}
 				;;
-			(@(Source: )*)
+			("Source: "*)
 				pn=${line##Source:*([	 ])}
 				pn=${pn%% *}
 				;;
-			(@(Version: )*)
+			("Version: "*)
 				pv=${line##Version:*([	 ])}
 				;;
-			(@(Description: )*)
+			("Description: "*)
 				pd=${line##Description:*([	 ])}
 				;;
-			(@(Architecture: )*)
+			("Architecture: "*)
 				pp=${line##Architecture:*([	 ])}
 				;;
-			(@(Filename: )*)
+			("Filename: "*)
 				pf=${line##Filename:*([	 ])}
 				;;
 			(?*)	# anything else
@@ -258,8 +258,8 @@ for suite in dists/*; do
 				if [[ -n $pn && -n $pv && -n $pd && -n $pp ]]; then
 					i=0
 					while (( i < nbin )); do
-						[[ ${bp_disp[i]} = $pN && ${bp_desc[i]} = $pd && \
-						    ${bp_dist[i]} = $distname ]] && break
+						[[ ${bp_disp[i]} = "$pN" && ${bp_desc[i]} = "$pd" && \
+						    ${bp_dist[i]} = "$distname" ]] && break
 						let i++
 					done
 					(( i == nbin )) && let nbin++
@@ -271,7 +271,7 @@ for suite in dists/*; do
 						x=${suitename}/${distname}/${pN}/${pp}
 						j=0
 						while (( j < nrpl )); do
-							[[ ${preplsrc[j]} = $x ]] && break
+							[[ ${preplsrc[j]} = "$x" ]] && break
 							let j++
 						done
 						(( j < nrpl )) && pv="from ${prepldst[j]}"
@@ -279,7 +279,7 @@ for suite in dists/*; do
 					[[ -n $pf ]] && pv="<a href=\"$pf\">$pv</a>"
 					pv="$pp: $pv"
 					eval x=\${bp_ver_${suitename}[i]}
-					[[ $br$x$br = *@($br$pv$br)* ]] || x=$x${x:+$br}$pv
+					[[ $br$x$br = *"$br$pv$br"* ]] || x=$x${x:+$br}$pv
 					eval bp_ver_${suitename}[i]=\$x
 					bp_desc[i]=$pd
 				fi
@@ -300,7 +300,7 @@ done
 EOF
 print -r -- " <title>${repo_title} Index</title>"
 cat <<'EOF'
- <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.34 2010/04/17 13:56:19 tg Exp $" />
+ <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.35 2010/04/17 18:04:11 tg Exp $" />
  <style type="text/css">
   table {
    border: 1px solid black;
@@ -414,9 +414,9 @@ while read -p num rest; do
 		while (( i < ${#pva[*]} )); do
 			pv=${pva[i]}
 			pp=${ppa[i]}
-			if [[ $pv = *@()* ]]; then
-				pvdsc=${pv%%@()*}
-				pv=${pv##*@()}
+			if [[ $pv = *""* ]]; then
+				pvdsc=${pv%%""*}
+				pv=${pv##*""}
 			else
 				pvdsc=$pv
 			fi
@@ -426,7 +426,7 @@ while read -p num rest; do
 					x=${suitename}/${sp_dist[num]}/${sp_name[num]}/%
 					j=0
 					while (( j < nrpl )); do
-						[[ ${preplsrc[j]} = $x ]] && break
+						[[ ${preplsrc[j]} = "$x" ]] && break
 						let j++
 					done
 					(( j < nrpl )) && pv=${prepldst[j]}
@@ -446,8 +446,8 @@ while read -p num rest; do
 	k=0
 	while (( k < nbin )); do
 		(( (i = bp_sort[k++]) < 0 )) && continue
-		[[ ${bp_name[i]} = ${sp_name[num]} && \
-		    ${bp_dist[i]} = ${sp_dist[num]} ]] || continue
+		[[ ${bp_name[i]} = "${sp_name[num]}" && \
+		    ${bp_dist[i]} = "${sp_dist[num]}" ]] || continue
 		bp_sort[k - 1]=-1
 		#print "<!-- bp #$i for${bp_suites[i]} -->"
 		print "<!-- bp #$i -->"
@@ -462,7 +462,7 @@ while read -p num rest; do
 					x=${suitename}/${sp_dist[num]}/${sp_name[num]}/%
 					j=0
 					while (( j < nrpl )); do
-						[[ ${preplsrc[j]} = $x ]] && break
+						[[ ${preplsrc[j]} = "$x" ]] && break
 						let j++
 					done
 					(( j < nrpl )) && pv=${prepldst[j]}
@@ -502,7 +502,7 @@ for i in ${bp_sort[*]}; do
 				x=${suitename}/${bp_dist[num]}/${bp_disp[num]}/=
 				j=0
 				while (( j < nrpl )); do
-					[[ ${preplsrc[j]} = $x ]] && break
+					[[ ${preplsrc[j]} = "$x" ]] && break
 					let j++
 				done
 				(( j < nrpl )) && pv=${prepldst[j]}
