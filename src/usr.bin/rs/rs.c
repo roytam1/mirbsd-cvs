@@ -43,10 +43,17 @@
 #include <stdlib.h>
 #include <string.h>
 
+#ifdef USE_LIBBSD
+#include <bsd/bsd.h>
+#ifndef __dead
+#define __dead		__attribute__((__noreturn__))
+#endif
+#endif
+
 __COPYRIGHT("@(#) Copyright (c) 1993\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)rs.c	8.1 (Berkeley) 6/6/93");
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/rs/rs.c,v 1.2 2007/07/14 21:08:11 tg Exp $");
 
 long	flags;
 #define	TRANSPOSE	000001
@@ -88,7 +95,7 @@ int	owidth = 80, gutter = 2;
 void	  usage(void) __dead;
 void	  getargs(int, char *[]);
 void	  getfile(void);
-int	  getline(void);
+int	  get_line(void);
 char	 *getlist(short **, char *);
 const char **getptrs(const char **);
 void	  prepfile(void);
@@ -125,11 +132,11 @@ getfile(void)
 	const char **padto;
 
 	while (skip--) {
-		getline();
+		get_line();
 		if (flags & SKIPPRINT)
 			puts(curline);
 	}
-	getline();
+	get_line();
 	if (flags & NOARGS && curlen < owidth)
 		flags |= ONEPERLINE;
 	if (flags & ONEPERLINE)
@@ -175,7 +182,7 @@ getfile(void)
 				INCR(ep);
 			}
 		}
-	} while (getline() != EOF);
+	} while (get_line() != EOF);
 	*ep = NULL;				/* mark end of pointers */
 	nelem = ep - elem;
 }
@@ -314,7 +321,7 @@ prepfile(void)
 char	ibuf[BSIZE];		/* two screenfuls should do */
 
 int
-getline(void)	/* get line; maintain curline, curlen; manage storage */
+get_line(void)	/* get line; maintain curline, curlen; manage storage */
 {
 	static	int putlength;
 	static	char *endblock = ibuf + BSIZE;
