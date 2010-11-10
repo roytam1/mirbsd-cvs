@@ -8,6 +8,8 @@
  <title>Website Visitor Counter script by Thorsten Glaser</title>
 </head><body><?php
 /*-
+ * $MirOS$
+ *-
  * Copyright (c) 2006
  *	Thorsten Glaser <tg@mirbsd.de>
  *
@@ -29,6 +31,12 @@
  * of dealing in the work, even if advised of the possibility of such
  * damage or existence of a defect, except proven that it results out
  * of said person's immediate fault when using the work as intended.
+ *-
+ * Use this as follows (probably better with CDATA, but what the hey):
+ *	<script type="text/javascript" language="JavaScript"><!--
+ *		var debug = 0;	// auf 1 setzen zum Debuggen
+ *		document.write('<iframe height="70" width="120" align="center" scrolling="no" marginheight="0" marginwidth="0" src="http://{server}/ctr.php?debug=' + debug + '&amp;id=' + escape(document.location) + ' frameborder="0" />');
+ *	//--></script>
  */
 
 /* the following function taken from the MirBSD homepage */
