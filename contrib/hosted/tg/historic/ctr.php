@@ -8,9 +8,9 @@
  <title>Website Visitor Counter script by Thorsten Glaser</title>
 </head><body><?php
 /*-
- * $MirOS$
+ * $MirOS: contrib/hosted/tg/historic/ctr.php,v 1.2 2010/11/10 16:07:42 tg Exp $
  *-
- * Copyright (c) 2006
+ * Copyright (c) 2006, 2010
  *	Thorsten Glaser <tg@mirbsd.de>
  *
  * Provided that these terms and disclaimer and all copyright notices
@@ -78,6 +78,10 @@ flush(); /* so that the above is sent */
 $docroot = $_SERVER["DOCUMENT_ROOT"];
 $arg_id = $_REQUEST["id"];
 $arg_debug = $_REQUEST["debug"];
+/* trim HTML anchor if present */
+$hofs = strpos($arg_id, "#");
+if ($hofs !== false)
+	$arg_id = substr($arg_id, 0, $hofs);
 if (strlen($arg_id) < 1)
 	s_die("Argument 'id' not passed!");
 
