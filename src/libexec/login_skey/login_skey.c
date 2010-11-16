@@ -39,11 +39,13 @@
 #include <bsd_auth.h>
 #include <skey.h>
 
+__RCSID("$MirOS$");
+
 #define	MODE_LOGIN	0
 #define	MODE_CHALLENGE	1
 #define	MODE_RESPONSE	2
 
-void quit(int);
+void quit(int) __dead;
 void send_fd(int);
 void suspend(int);
 
@@ -154,9 +156,11 @@ main(int argc, char *argv[])
 		fprintf(back, BI_VALUE " challenge %s\n",
 		    auth_mkvalue(challenge));
 		fprintf(back, BI_CHALLENGE "\n");
-		fprintf(back, BI_FDPASS "\n");
+		if (skey.keyfile)
+			fprintf(back, BI_FDPASS "\n");
 		fflush(back);
-		send_fd(fileno(back));
+		if (skey.keyfile)
+			send_fd(fileno(back));
 		exit(0);
 
 	case MODE_RESPONSE:
@@ -225,7 +229,7 @@ main(int argc, char *argv[])
 
 /* ARGSUSED */
 void
-quit(int signo)
+quit(int signo __unused)
 {
 
 	_exit(1);
