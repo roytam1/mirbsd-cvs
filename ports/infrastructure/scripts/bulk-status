@@ -16,6 +16,8 @@ my %totals = ( 	ok => 0,
 		skipped => 0,
 		broken => 0,
 		failed => 0 );
+my %index = ();
+my %idir = ();
 
 sub start_output {
 	# XXX
@@ -82,9 +84,11 @@ sub new_category {
 }
 
 sub print_entry {
-	my ($name, $dir, $status) = @_;
-
-	$status = $status || "skipped";
+	my @brokendeps	= ();
+	my $dir		= shift;
+	my $name	= $idir{$dir}->{"pkgname"};
+	my $deps	= $idir{$dir}->{"deps"};
+	my $status	= $idir{$dir}->{"status"};
 	$totals{$status}++;
 
 	print "<tr>";
@@ -94,14 +98,30 @@ sub print_entry {
 	} else {
 		print "<td>$dir</td>";
 	}
-	print "<td>$name</td>";
+	print "<td><p>$name</p>";
+
+	if ($status ne "ok") {
+		foreach my $dep (keys %$deps) {
+			push @brokendeps, $idir{$dep}
+				if defined($idir{$dep}) and $idir{$dep}->{"status"} ne "ok";
+		}
+	}
+	
+	if (@brokendeps) {
+		print "<p class=\"brokendeps\">Blocked by: ";
+		#while (my (undef, $b) = each %brokendeps) {
+		foreach my $b (@brokendeps) {
+			print "- ".$b->{"pkgname"}." (".$b->{"status"}.") ";
+		}
+		print "</p>";
+	}
+
+	print "</td>";
 	print "</tr>\n";
 }
 
 
 ######################################################################
-
-my %index = ();
 
 open INDEX, "<", catfile($PORTSDIR, "INDEX") or die "Cannot open INDEX: $!";
 while (<INDEX>) {
@@ -112,6 +132,8 @@ while (<INDEX>) {
 	my ($pkgname, $dir, undef, $comment, undef, undef, undef, undef, $libdeps,
 		$builddeps, $rundeps) = split(/\|/);
 	my %deps = ();
+	
+	chop $dir if $dir =~ m/,$/;
 
 	# dependencies
 	foreach my $i (split(' ', $libdeps." ".$builddeps." ".$rundeps)) {
@@ -120,9 +142,12 @@ while (<INDEX>) {
 	}
 
 	$index{$pkgname} = {dir	=> $dir,
+			pkgname	=> $pkgname,
+			status	=> qw(skipped),
 			deps	=> \%deps };
 
 	$index{$pkgname}->{"status"} = "broken" if ($comment =~ m/\(broken\)/);
+	$idir{$dir} = $index{$pkgname};
 }
 close INDEX;
 
@@ -139,24 +164,26 @@ if (open(FAILED, catfile($PORTSDIR, "Failed"))) {
 	while (<FAILED>) {
 		chomp;
 		my $dir = $_;
-		map { $index{$_}->{"status"} = "failed"
-			if $index{$_}->{"dir"} eq $dir } keys %index;
+		$idir{$dir}->{"status"} = "failed";
 	}
 	close FAILED;
 }
+
+#print Data::Dumper->Dump([%idir]);
+#exit 0;
 		
 # Begin the output
 start_output();
 
-foreach my $j (sort { $index{$a}->{"dir"} cmp $index{$b}->{"dir"} } keys %index) {
-	$index{$j}->{"dir"} =~ m/(.+?)\//;
+foreach my $j (sort(keys %idir)) {
+	$j =~ m/(.+?)\//;
 	my $c = $1 || "No category";
 	unless ($c eq $category) {
 		new_category($c);
 		$category = $c;
 	}
 
-	print_entry($j, $index{$j}->{"dir"}, $index{$j}->{"status"});
+	print_entry($j)
 	# print $index{$j}->{"dir"} . " ($j): ";
 	# map { print "$_ " } keys %{$index{$j}->{"deps"}};
 	# print ($index{$j}->{"status"} || "unknown");
