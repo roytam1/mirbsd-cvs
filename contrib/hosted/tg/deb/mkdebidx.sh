@@ -1,5 +1,5 @@
 #!/bin/mksh
-rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.37 2010/11/06 15:15:00 tg Exp $'
+rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.38 2010/11/17 19:08:38 tg Exp $'
 #-
 # Copyright (c) 2008, 2009, 2010
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -31,8 +31,9 @@ function repo_description {
 }
 
 
-set -A dpkgarchs -- alpha amd64 arm armeb armel avr32 hppa i386 ia64 lpia \
-    m32r m68k mips mipsel powerpc ppc64 s390 s390x sh3 sh3eb sh4 sh4eb sparc
+set -A dpkgarchs -- alpha amd64 arm armeb armel armhf avr32 hppa \
+    i386 ia64 kfreebsd-amd64 kfreebsd-i386 lpia m32r m68k mips mipsel \
+    powerpc powerpcspe ppc64 s390 s390x sh3 sh3eb sh4 sh4eb sparc
 
 function putfile {
 	tee $1 | gzip -n9 >$1.gz
@@ -300,7 +301,7 @@ done
 EOF
 print -r -- " <title>${repo_title} Index</title>"
 cat <<'EOF'
- <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.37 2010/11/06 15:15:00 tg Exp $" />
+ <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.38 2010/11/17 19:08:38 tg Exp $" />
  <style type="text/css">
   table {
    border: 1px solid black;
