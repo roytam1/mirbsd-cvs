@@ -1,5 +1,5 @@
 #!/bin/mksh
-rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.36 2010/10/24 00:02:09 tg Exp $'
+rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.37 2010/11/06 15:15:00 tg Exp $'
 #-
 # Copyright (c) 2008, 2009, 2010
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -128,7 +128,7 @@ for suite in dists/*; do
 		MD5Sum:
 	EOF
 	cd $suite
-	for n in */{binary-*,source}/{Packag,Sourc}es*; do
+	for n in Contents-* */{binary-*,source}/{Packag,Sourc}es*; do
 		[[ -f $n ]] || continue
 		set -A x -- $(md5sum $n)
 		print \ ${x[0]} $(stat -c '%s %n' $n)
@@ -300,7 +300,7 @@ done
 EOF
 print -r -- " <title>${repo_title} Index</title>"
 cat <<'EOF'
- <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.36 2010/10/24 00:02:09 tg Exp $" />
+ <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.37 2010/11/06 15:15:00 tg Exp $" />
  <style type="text/css">
   table {
    border: 1px solid black;
