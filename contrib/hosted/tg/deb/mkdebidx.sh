@@ -1,5 +1,5 @@
 #!/bin/mksh
-rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.38 2010/11/17 19:08:38 tg Exp $'
+rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.39 2010/11/17 19:11:41 tg Exp $'
 #-
 # Copyright (c) 2008, 2009, 2010
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -301,7 +301,7 @@ done
 EOF
 print -r -- " <title>${repo_title} Index</title>"
 cat <<'EOF'
- <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.38 2010/11/17 19:08:38 tg Exp $" />
+ <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.39 2010/11/17 19:11:41 tg Exp $" />
  <style type="text/css">
   table {
    border: 1px solid black;
@@ -350,8 +350,10 @@ cat <<'EOF'
  href="sources.txt">/etc/apt/sources.list</a> in order to use it.
 EOF
 [[ -s 0-NOTE.txt ]] && print ' Also read my <a href="0-NOTE.txt">notes</a>.'
-print " This repository uses ${repo_keyid} as signing key."
-cat <<'EOF'
+cat <<EOF
+ This repository uses <a
+  href="http://pgpkeys.pca.dfn.de/pks/lookup?search=${repo_keyid}&amp;op=vindex">${repo_keyid}</a>
+ as signing key.
 </p>
 <h2>Suites</h2>
 <ul>
