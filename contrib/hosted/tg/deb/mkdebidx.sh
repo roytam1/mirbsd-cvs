@@ -1,5 +1,5 @@
 #!/bin/mksh
-rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.41 2010/12/04 19:30:21 tg Exp $'
+rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.42 2010/12/04 19:31:12 tg Exp $'
 #-
 # Copyright (c) 2008, 2009, 2010
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -53,6 +53,18 @@ function sortlist {
 	done | sort $u
 }
 
+# DJB cdb hash (not via stdio, for speed)
+typeset -Z11 -Uui16 Lcdbhash_result
+function Lcdbhash_add {
+	typeset s="$*"
+	typeset -i i=0 n=${#s}
+
+	while (( i < n )); do
+		((# Lcdbhash_result = (Lcdbhash_result * 33) ^ 1#${s:(i++):1} ))
+	done
+}
+
+set +U
 export LC_ALL=C
 unset LANGUAGE
 saveIFS=$IFS
@@ -129,10 +141,33 @@ for suite in dists/*; do
 		MD5Sum:
 	EOF
 	cd $suite
+	set -A cache_fn
+	set -A cache_md5
+	set -A cache_size
 	for n in Contents-* */{binary-*,source}/{Packag,Sourc}es*; do
 		[[ -f $n ]] || continue
-		set -A x -- $(md5sum $n)
-		print \ ${x[0]} $(stat -c '%s %n' $n)
+		# realpath-ise $n and cache the checksum
+		nn=$(realpath "$n")
+		#XXX once mksh can, use associative arrays instead
+		Lcdbhash_result=5381
+		Lcdbhash_add "$nn"
+		# simple hash collision solver by increment
+		nc=${cache_fn[Lcdbhash_result]}
+		while [[ -n $nc && $nc != "$nn" ]]; do
+			nc=${cache_fn[++Lcdbhash_result]}
+		done
+		if [[ $nc = "$nn" ]]; then
+			nm=${cache_md5[Lcdbhash_result]}
+			ns=${cache_size[Lcdbhash_result]}
+		else
+			set -A x -- $(md5sum "$nn")
+			nm=${x[0]}
+			ns=$(stat -c '%s' "$nn")
+			cache_md5[Lcdbhash_result]=$nm
+			cache_size[Lcdbhash_result]=$ns
+			cache_fn[Lcdbhash_result]=$nn
+		fi
+		print " $nm $ns $n"
 	done) >$suite/Release
 	gpg -u $repo_keyid -sb $suite/Release
 	mv -f $suite/Release.sig $suite/Release.gpg
@@ -309,7 +344,7 @@ done
 EOF
 print -r -- " <title>${repo_title} Index</title>"
 cat <<'EOF'
- <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.41 2010/12/04 19:30:21 tg Exp $" />
+ <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.42 2010/12/04 19:31:12 tg Exp $" />
  <style type="text/css">
   table {
    border: 1px solid black;
