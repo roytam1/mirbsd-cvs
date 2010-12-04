@@ -1,5 +1,5 @@
 #!/bin/mksh
-rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.40 2010/11/22 23:35:47 tg Exp $'
+rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.41 2010/12/04 19:30:21 tg Exp $'
 #-
 # Copyright (c) 2008, 2009, 2010
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -230,7 +230,10 @@ for suite in dists/*; do
 			}
 		done
 
-		gzip -dc $dist/binary-*/Packages.gz |&
+		gzip -dc $(for f in $dist/binary-*/Packages.gz; do
+			[[ -e $f ]] || continue
+			realpath "$f"
+		done | sort -u) |&
 		while IFS= read -pr line; do
 			case $line {
 			("Package: "*)
@@ -306,7 +309,7 @@ done
 EOF
 print -r -- " <title>${repo_title} Index</title>"
 cat <<'EOF'
- <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.40 2010/11/22 23:35:47 tg Exp $" />
+ <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.41 2010/12/04 19:30:21 tg Exp $" />
  <style type="text/css">
   table {
    border: 1px solid black;
