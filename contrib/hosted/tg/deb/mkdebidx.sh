@@ -1,5 +1,5 @@
 #!/bin/mksh
-rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.39 2010/11/17 19:11:41 tg Exp $'
+rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.40 2010/11/22 23:35:47 tg Exp $'
 #-
 # Copyright (c) 2008, 2009, 2010
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -255,6 +255,11 @@ for suite in dists/*; do
 			(?*)	# anything else
 				;;
 			(*)	# empty line
+				if [[ $pf = *:* || $pf = *'%'* ]]; then
+					print -u2 Illegal character in $dist \
+					    packages $pp "'Filename: $pf'"
+					exit 1
+				fi
 				[[ -n $pn ]] || pn=$pN
 				if [[ -n $pn && -n $pv && -n $pd && -n $pp ]]; then
 					i=0
@@ -301,7 +306,7 @@ done
 EOF
 print -r -- " <title>${repo_title} Index</title>"
 cat <<'EOF'
- <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.39 2010/11/17 19:11:41 tg Exp $" />
+ <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.40 2010/11/22 23:35:47 tg Exp $" />
  <style type="text/css">
   table {
    border: 1px solid black;
