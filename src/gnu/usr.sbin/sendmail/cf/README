@@ -3142,7 +3142,7 @@ starts with '+' and the items are separated by '++'.  Allowed
 extensions are:
 
 CN:name		name must match ${cn_subject}
-CN		${server_name} must match ${cn_subject}
+CN		${client_name}/${server_name} must match ${cn_subject}
 CS:name		name must match ${cert_subject}
 CI:name		name must match ${cert_issuer}
 

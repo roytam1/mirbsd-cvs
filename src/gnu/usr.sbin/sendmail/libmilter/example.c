@@ -252,7 +252,7 @@ struct smfiDesc smfilter =
 	mlfi_close,	/* connection cleanup */
 	mlfi_unknown,	/* unknown/unimplemented SMTP commands */
 	mlfi_data,	/* DATA command filter */
-	mlfi_negotiate	/* option negotation at connection startup */
+	mlfi_negotiate	/* option negotiation at connection startup */
 };
 
 int

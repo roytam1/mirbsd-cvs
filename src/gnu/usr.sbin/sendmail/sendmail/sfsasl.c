@@ -296,7 +296,7 @@ sasl_write(fp, buf, size)
 	/*
 	**  Fetch the maximum input buffer size for sasl_encode().
 	**  This can be less than the size set in attemptauth()
-	**  due to a negotation with the other side, e.g.,
+	**  due to a negotiation with the other side, e.g.,
 	**  Cyrus IMAP lmtp program sets maxbuf=4096,
 	**  digestmd5 substracts 25 and hence we'll get 4071
 	**  instead of 8192 (MAXOUTLEN).

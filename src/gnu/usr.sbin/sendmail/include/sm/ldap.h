@@ -92,7 +92,7 @@ struct sm_ldap_struct
 	char		ldap_attrsep;
 
 # if _FFR_LDAP_NETWORK_TIMEOUT
-	struct timeval	ldap_networktmo;
+	int		ldap_networktmo;
 # endif /* _FFR_LDAP_NETWORK_TIMEOUT */
 
 	/* Linked list of maps sharing the same LDAP binding */

@@ -32,6 +32,7 @@ For detailed instructions, please read the document ../doc/op/op.me:
 	cd ../doc/op ; make op.ps op.txt
 
 Sendmail is a trademark of Sendmail, Inc.
+US Patent Numbers 6865671, 6986037.
 
 
 +-------------------+

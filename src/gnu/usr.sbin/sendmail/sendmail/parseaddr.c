@@ -319,7 +319,7 @@ delim:
 **			is invalid and should be "repaired".
 **
 **	Returns:
-**		true -- if the address has any "wierd" characters or
+**		true -- if the address has any "weird" characters or
 **			non-printable characters or if a quote is unbalanced.
 **		false -- otherwise.
 */

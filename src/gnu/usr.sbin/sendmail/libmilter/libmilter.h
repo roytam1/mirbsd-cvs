@@ -282,6 +282,7 @@ extern int	mi_handle_session __P((SMFICTX_PTR));
 extern int	mi_engine __P((SMFICTX_PTR));
 extern int	mi_listener __P((char *, int, smfiDesc_ptr, time_t, int));
 extern void	mi_clr_macros __P((SMFICTX_PTR, int));
+extern void	mi_clr_ctx __P((SMFICTX_PTR));
 extern int	mi_stop __P((void));
 extern int	mi_control_startup __P((char *));
 extern void	mi_stop_milters __P((int));

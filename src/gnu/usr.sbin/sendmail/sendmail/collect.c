@@ -847,6 +847,9 @@ readerr:
 	}
 
 	/* Log collection information. */
+	if (tTd(92, 2))
+		sm_dprintf("collect: e_id=%s, EF_LOGSENDER=%d, LogLevel=%d\n",
+			e->e_id, bitset(EF_LOGSENDER, e->e_flags), LogLevel);
 	if (bitset(EF_LOGSENDER, e->e_flags) && LogLevel > 4)
 	{
 		logsender(e, e->e_msgid);
