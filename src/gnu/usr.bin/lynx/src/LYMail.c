@@ -1,5 +1,5 @@
 /*
- * $LynxId: LYMail.c,v 1.71 2009/01/03 00:39:50 tom Exp $
+ * $LynxId: LYMail.c,v 1.80 2010/12/11 14:52:59 tom Exp $
  */
 #include <HTUtils.h>
 #include <HTParse.h>
@@ -134,7 +134,7 @@ static void extract_subject(char *dst,
 	    *cp1 = '\0';
 	}
 	if (*cp) {
-	    strncpy(dst, cp, MAX_SUBJECT);
+	    StrNCpy(dst, cp, MAX_SUBJECT);
 	    dst[MAX_SUBJECT] = '\0';
 	    SafeHTUnEscape(dst);
 	}
@@ -258,7 +258,7 @@ static int header_prompt(const char *label,
 
     if (*result != 0) {
 	LYaddstr(CTRL_U_TO_ERASE);
-	LYstrncpy(buffer, *result, sizeof(buffer) - 1);
+	LYStrNCpy(buffer, *result, sizeof(buffer) - 1);
     } else
 	*buffer = 0;
 
@@ -267,7 +267,7 @@ static int header_prompt(const char *label,
 
     LYaddstr(gettext(label));
     LYaddstr(": ");
-    ok = (LYgetstr(buffer, VISIBLE, limit, NORECALL) >= 0
+    ok = (LYGetStr(buffer, VISIBLE, limit, NORECALL) >= 0
 	  && !term_letter);
     LYaddstr("\n");
 
@@ -364,10 +364,10 @@ static char *blat_cmd(char *mail_cmd,
     fprintf(fp, "-t\n%s\n", address);
     if (subject)
 	fprintf(fp, "-s\n%s\n", subject);
-    if (!isEmpty(mail_addr)) {
+    if (non_empty(mail_addr)) {
 	fprintf(fp, "-f\n%s\n", mail_addr);
     }
-    if (!isEmpty(ccaddr)) {
+    if (non_empty(ccaddr)) {
 	fprintf(fp, "-c\n%s\n", ccaddr);
     }
     LYCloseOutput(fp);
@@ -551,7 +551,7 @@ void mailform(const char *mailto_address,
     char subject[MAX_SUBJECT + 10];
     char *searchpart = NULL;
     char buf[512];
-    int ch, len, i;
+    int len, i;
 
 #if USE_VMS_MAILER
     static char *cmd;
@@ -647,14 +647,14 @@ void mailform(const char *mailto_address,
      * Allow user to edit the default Subject - FM
      */
     if (subject[0] == '\0') {
-	if (!isEmpty(mailto_subject)) {
-	    LYstrncpy(subject, mailto_subject, MAX_SUBJECT);
+	if (non_empty(mailto_subject)) {
+	    LYStrNCpy(subject, mailto_subject, MAX_SUBJECT);
 	} else {
 	    sprintf(subject, "mailto:%.63s", address);
 	}
     }
     _statusline(SUBJECT_PROMPT);
-    if ((ch = LYgetstr(subject, VISIBLE, MAX_SUBJECT, NORECALL)) < 0) {
+    if (LYGetStr(subject, VISIBLE, MAX_SUBJECT, NORECALL) < 0) {
 	/*
 	 * User cancelled via ^G. - FM
 	 */
@@ -669,7 +669,7 @@ void mailform(const char *mailto_address,
 	sprintf(self, "%.*s", MAX_SUBJECT,
 		isEmpty(personal_mail_address) ? "" : personal_mail_address);
 	_statusline("Cc: ");
-	if ((ch = LYgetstr(self, VISIBLE, MAX_SUBJECT, NORECALL)) < 0) {
+	if (LYGetStr(self, VISIBLE, MAX_SUBJECT, NORECALL) < 0) {
 	    /*
 	     * User cancelled via ^G. - FM
 	     */
@@ -690,17 +690,17 @@ void mailform(const char *mailto_address,
 	goto cleanup;
     }
 
-    if (!isEmpty(mailto_type)) {
+    if (non_empty(mailto_type)) {
 	fprintf(fd, "Mime-Version: 1.0\n");
 	fprintf(fd, "Content-Type: %s\n", mailto_type);
     }
     fprintf(fd, "To: %s\n", address);
-    if (!isEmpty(personal_mail_address))
+    if (non_empty(personal_mail_address))
 	fprintf(fd, "From: %s\n", personal_mail_address);
-    if (!isEmpty(ccaddr))
+    if (non_empty(ccaddr))
 	fprintf(fd, "Cc: %s\n", ccaddr);
     fprintf(fd, "Subject: %s\n\n", subject);
-    if (!isEmpty(keywords))
+    if (non_empty(keywords))
 	fprintf(fd, "Keywords: %s\n", keywords);
     _statusline(SENDING_FORM_CONTENT);
 #else /* e.g., VMS, DOS */
@@ -717,17 +717,17 @@ void mailform(const char *mailto_address,
 	    LYCloseTempFP(fd);
 	    goto cleanup;
 	}
-	if (!isEmpty(mailto_type)) {
+	if (non_empty(mailto_type)) {
 	    fprintf(hfd, "Mime-Version: 1.0\n");
 	    fprintf(hfd, "Content-Type: %s\n", mailto_type);
-	    if (!isEmpty(personal_mail_address))
+	    if (non_empty(personal_mail_address))
 		fprintf(hfd, "From: %s\n", personal_mail_address);
 	}
 	/*
 	 * For PMDF, put any keywords and the subject in the header file and
 	 * close it.  - FM
 	 */
-	if (!isEmpty(keywords)) {
+	if (non_empty(keywords)) {
 	    fprintf(hfd, "Keywords: %s\n", keywords);
 	}
 	fprintf(hfd, "Subject: %s\n\n", subject);
@@ -749,12 +749,12 @@ void mailform(const char *mailto_address,
     } else
 #endif
     {
-	if (!isEmpty(mailto_type)) {
+	if (non_empty(mailto_type)) {
 	    fprintf(fd, "Mime-Version: 1.0\n");
 	    fprintf(fd, "Content-Type: %s\n", mailto_type);
 	}
 	fprintf(fd, "To: %s\n", address);
-	if (!isEmpty(personal_mail_address))
+	if (non_empty(personal_mail_address))
 	    fprintf(fd, "From: %s\n", personal_mail_address);
 	fprintf(fd, "Subject: %.70s\n\n", subject);
     }
@@ -772,7 +772,7 @@ void mailform(const char *mailto_address,
 	i = 0;
 	len = (int) strlen(mailto_content);
 	while (len > 78) {
-	    strncpy(buf, &mailto_content[i], 78);
+	    StrNCpy(buf, &mailto_content[i], 78);
 	    buf[78] = '\0';
 	    fprintf(fd, "%s\n", buf);
 	    i += 78;
@@ -784,7 +784,7 @@ void mailform(const char *mailto_address,
     i = 0;
     len = (int) strlen(mailto_content);
     while (len > 78) {
-	strncpy(buf, &mailto_content[i], 78);
+	StrNCpy(buf, &mailto_content[i], 78);
 	buf[78] = '\0';
 	fprintf(fd, "%s\n", buf);
 	i += 78;
@@ -829,7 +829,7 @@ void mailform(const char *mailto_address,
     StrAllocCopy(command, cmd);
 
     vms_append_addrs(&command, address, "");
-    if (!isEmpty(ccaddr)) {
+    if (non_empty(ccaddr)) {
 	vms_append_addrs(&command, ccaddr, "/CC");
     }
 
@@ -969,7 +969,7 @@ void mailmsg(int cur,
 
     fprintf(fd, "To: %s\n", address);
     fprintf(fd, "Subject: Lynx Error in %s\n", filename);
-    if (!isEmpty(personal_mail_address)) {
+    if (non_empty(personal_mail_address)) {
 	fprintf(fd, "Cc: %s\n", personal_mail_address);
     }
     fprintf(fd, "X-URL: %s\n", filename);
@@ -992,7 +992,7 @@ void mailmsg(int cur,
 	    return;
 	}
 
-	if (!isEmpty(personal_mail_address)) {
+	if (non_empty(personal_mail_address)) {
 	    fprintf(fd, "Cc: %s\n", personal_mail_address);
 	}
 	fprintf(fd, "X-URL: %s\n", filename);
@@ -1095,9 +1095,6 @@ void reply_by_mail(char *mail_address,
 		   const char *title,
 		   const char *refid)
 {
-#ifndef NO_ANONYMOUS_EMAIL
-    static char *personal_name = NULL;
-#endif
     char user_input[LINESIZE];
     FILE *fd, *fp;
     const char *label = NULL;
@@ -1127,7 +1124,7 @@ void reply_by_mail(char *mail_address,
 #endif
     char buf[4096];		/* 512 */
     char *header = NULL;
-    int n;
+    size_t nbytes;
 #endif /* USE_VMS_MAILER */
 
     CTRACE((tfp, "reply_by_mail(\"%s\", \"%s\", \"%s\", \"%s\")\n",
@@ -1230,8 +1227,8 @@ void reply_by_mail(char *mail_address,
     /*
      * Set the default subject.  - FM
      */
-    if ((default_subject[0] == '\0') && !isEmpty(title)) {
-	strncpy(default_subject, title, MAX_SUBJECT);
+    if ((default_subject[0] == '\0') && non_empty(title)) {
+	StrNCpy(default_subject, title, MAX_SUBJECT);
 	default_subject[MAX_SUBJECT] = '\0';
     }
 
@@ -1289,14 +1286,14 @@ void reply_by_mail(char *mail_address,
     /*
      * Put the X-URL and X-Mailer lines in the header.
      */
-    if (!isEmpty(filename)) {
+    if (non_empty(filename)) {
 	HTSprintf(&header, "X-URL: %s\n", filename);
     } else {
 	HTSprintf(&header, "X-URL: mailto:%s\n", to_address);
     }
     HTSprintf(&header, "X-Mailer: %s, Version %s\n", LYNX_NAME, LYNX_VERSION);
 
-    if (!isEmpty(refid)) {
+    if (non_empty(refid)) {
 	HTSprintf(&header, "In-Reply-To: <%s>\n", refid);
     }
 #endif /* VMS */
@@ -1336,21 +1333,21 @@ void reply_by_mail(char *mail_address,
 	LYaddstr(ENTER_NAME_OR_BLANK);
 #if USE_VMS_MAILER
 	if (isPMDF) {
-	    label = "Personal_name: ";
+	    label = "Personal_name";
 	} else {
-	    label = "X-Personal_name: ";
+	    label = "X-Personal_name";
 	}
 #else
-	label = "X-Personal_Name: ";
+	label = "X-Personal_Name";
 #endif /* USE_VMS_MAILER */
-	if (!header_prompt(label, &personal_name, LINESIZE)) {
+	if (!header_prompt(label, &personal_mail_name, LINESIZE)) {
 	    goto cancelled;
 	}
-	if (*personal_name) {
+	if (*personal_mail_name) {
 #if USE_VMS_MAILER
-	    fprintf((isPMDF ? hfd : fd), "%s: %s\n", label, personal_name);
+	    fprintf((isPMDF ? hfd : fd), "%s: %s\n", label, personal_mail_name);
 #else
-	    HTSprintf(&header, "%s: %s\n", label, personal_name);
+	    HTSprintf(&header, "%s: %s\n", label, personal_mail_name);
 #endif /* VMS */
 	}
 
@@ -1396,7 +1393,7 @@ void reply_by_mail(char *mail_address,
     label = "Subject";
     if (*default_subject) {
 	StrAllocCopy(the_subject, default_subject);
-    } else if (!isEmpty(filename)) {
+    } else if (non_empty(filename)) {
 	HTSprintf(&the_subject, "%s", filename);
     } else {
 	HTSprintf(&the_subject, "mailto:%s", to_address);
@@ -1429,14 +1426,14 @@ void reply_by_mail(char *mail_address,
     /*
      * Add the Cc:  header.  - FM
      */
-    if (!isEmpty(ccaddr)) {
+    if (non_empty(ccaddr)) {
 	HTSprintf(&header, "Cc: %s\n", ccaddr);
     }
 
     /*
      * Add the Keywords:  header.  - FM
      */
-    if (!isEmpty(keywords)) {
+    if (non_empty(keywords)) {
 	HTSprintf(&header, "Keywords: %s\n", keywords);
     }
 
@@ -1447,7 +1444,7 @@ void reply_by_mail(char *mail_address,
     CTRACE((tfp, "**header==\n%s", header));
 #endif /* !VMS */
 
-    if (!no_editor && !isEmpty(editor)) {
+    if (!no_editor && non_empty(editor)) {
 
 	if (body) {
 	    cp1 = body;
@@ -1523,10 +1520,11 @@ void reply_by_mail(char *mail_address,
 	LYaddstr(ENTER_MESSAGE_BELOW);
 	LYaddstr(ENTER_PERIOD_WHEN_DONE_A);
 	LYaddstr(ENTER_PERIOD_WHEN_DONE_B);
+	LYaddstr(CTRL_G_TO_CANCEL_SEND);
 	LYaddstr("\n\n");
 	LYrefresh();
 	*user_input = '\0';
-	if (LYgetstr(user_input, VISIBLE, sizeof(user_input), NORECALL) < 0 ||
+	if (LYGetStr(user_input, VISIBLE, sizeof(user_input), NORECALL) < 0 ||
 	    term_letter || STREQ(user_input, ".")) {
 	    goto cancelled;
 	}
@@ -1536,7 +1534,7 @@ void reply_by_mail(char *mail_address,
 	    remove_tildes(user_input);
 	    fprintf(fd, "%s\n", user_input);
 	    *user_input = '\0';
-	    if (LYgetstr(user_input, VISIBLE,
+	    if (LYGetStr(user_input, VISIBLE,
 			 sizeof(user_input), NORECALL) < 0) {
 		goto cancelled;
 	    }
@@ -1602,7 +1600,7 @@ void reply_by_mail(char *mail_address,
 	 * For PMDF, put any keywords and the subject in the header file and
 	 * close it.  - FM
 	 */
-	if (!isEmpty(keywords)) {
+	if (non_empty(keywords)) {
 	    fprintf(hfd, "Keywords: %s\n", keywords);
 	}
 	fprintf(hfd, "Subject: %s\n\n", the_subject);
@@ -1630,7 +1628,7 @@ void reply_by_mail(char *mail_address,
     }
 
     vms_append_addrs(&command, to_address, "");
-    if (!isEmpty(ccaddr)) {
+    if (non_empty(ccaddr)) {
 	vms_append_addrs(&command, ccaddr, "/CC");
     }
 
@@ -1671,8 +1669,9 @@ void reply_by_mail(char *mail_address,
 #else
 	    fputs(header, fp);
 #endif
-	    while ((n = (int) fread(buf, 1, sizeof(buf), fd)) != 0) {
-		fwrite(buf, 1, (size_t) n, fp);
+	    while ((nbytes = fread(buf, (size_t) 1, sizeof(buf), fd)) != 0) {
+		if (fwrite(buf, (size_t) 1, (size_t) nbytes, fp) < nbytes)
+		    break;
 	    }
 #if CAN_PIPE_TO_MAILER
 	    pclose(fp);

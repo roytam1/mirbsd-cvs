@@ -1,5 +1,5 @@
 /*
- * $LynxId: LYCharSets.h,v 1.31 2009/05/25 13:48:24 tom Exp $
+ * $LynxId: LYCharSets.h,v 1.33 2010/09/25 01:01:58 tom Exp $
  */
 #ifndef LYCHARSETS_H
 #define LYCHARSETS_H
@@ -52,7 +52,7 @@ extern "C" {
     extern LYUCcharset LYCharSet_UC[];
     extern int UCGetLYhndl_byAnyName(char *value);
     extern void HTMLSetCharacterHandling(int i);
-    extern void HTMLSetUseDefaultRawMode(int i, BOOLEAN modeflag);
+    extern void HTMLSetUseDefaultRawMode(int i, int modeflag);
     extern void HTMLUseCharacterSet(int i);
     extern UCode_t HTMLGetEntityUCValue(const char *name);
     extern void Set_HTCJK(const char *inMIMEname, const char *outMIMEname);
@@ -70,11 +70,11 @@ extern "C" {
     extern BOOL force_old_UCLYhndl_on_reload;
     extern int forced_UCLYhdnl;
 
-#ifndef  EXP_CHARSET_CHOICE
+#ifndef  USE_CHARSET_CHOICE
 # define ALL_CHARSETS_IN_O_MENU_SCREEN 1
 #endif
 
-#ifdef EXP_CHARSET_CHOICE
+#ifdef USE_CHARSET_CHOICE
     typedef struct {
 	BOOL hide_display;	/* if FALSE, show in "display-charset" menu */
 	BOOL hide_assumed;	/* if FALSE, show in "assumed-charset" menu */
@@ -117,7 +117,7 @@ extern "C" {
 #endif
 /* this will be called after lynx.cfg and .lynxrc are read */
     extern void init_charset_subsets(void);
-#endif				/* EXP_CHARSET_CHOICE */
+#endif				/* USE_CHARSET_CHOICE */
 
 #if !defined(NO_AUTODETECT_DISPLAY_CHARSET)
 #  ifdef __EMX__

@@ -1,4 +1,7 @@
-/*			Atoms: Names to numbers			HTAtom.c
+/*
+ * $LynxId: HTAtom.c,v 1.18 2010/09/25 11:43:12 tom Exp $
+ *
+ *			Atoms: Names to numbers			HTAtom.c
  *			=======================
  *
  *	Atoms are names which are given representative pointer values
@@ -40,7 +43,7 @@ static void free_atoms(void);
 
 HTAtom *HTAtom_for(const char *string)
 {
-    int hash;
+    size_t hash;
     HTAtom *a;
 
     /* First time around, clear hash table
@@ -78,9 +81,15 @@ HTAtom *HTAtom_for(const char *string)
     a = (HTAtom *) malloc(sizeof(*a));
     if (a == NULL)
 	outofmem(__FILE__, "HTAtom_for");
+
+    assert(a != NULL);
+
     a->name = (char *) malloc(strlen(string) + 1);
     if (a->name == NULL)
 	outofmem(__FILE__, "HTAtom_for");
+
+    assert(a->name != NULL);
+
     strcpy(a->name, string);
     a->next = hash_table[hash];	/* Put onto the head of list */
     hash_table[hash] = a;

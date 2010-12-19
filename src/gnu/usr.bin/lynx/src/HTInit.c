@@ -1,5 +1,5 @@
 /*
- * $LynxId: HTInit.c,v 1.70 2009/01/01 22:58:06 tom Exp $
+ * $LynxId: HTInit.c,v 1.77 2010/09/25 18:08:10 tom Exp $
  *
  *		Configuration-specific Initialization		HTInit.c
  *		----------------------------------------
@@ -43,13 +43,13 @@ static int HTLoadExtensionsConfigFile(char *fn);
        HTSetSuffix5(suffix, mimetype, type, description, 1.0)
 
 #define SET_PRESENT(mimetype, command, quality, delay) \
-  HTSetPresentation(mimetype, command, 0, quality, delay, 0.0, 0, media)
+  HTSetPresentation(mimetype, command, 0, quality, delay, 0.0, 0L, media)
 
 #define SET_EXTERNL(rep_in, rep_out, command, quality) \
-    HTSetConversion(rep_in, rep_out, command, quality, 3.0, 0.0, 0, mediaEXT)
+    HTSetConversion(rep_in, rep_out, command, quality, 3.0, 0.0, 0L, mediaEXT)
 
 #define SET_INTERNL(rep_in, rep_out, command, quality) \
-    HTSetConversion(rep_in, rep_out, command, quality, 0.0, 0.0, 0, mediaINT)
+    HTSetConversion(rep_in, rep_out, command, quality, 0.0, 0.0, 0L, mediaINT)
 
 void HTFormatInit(void)
 {
@@ -98,7 +98,6 @@ void HTFormatInit(void)
     /*
      * Add our header handlers.
      */
-    media = mediaINT;
     SET_INTERNL("message/x-http-redirection", "*", HTMIMERedirect, 2.0);
     SET_INTERNL("message/x-http-redirection", "www/present", HTMIMERedirect, 2.0);
     SET_INTERNL("message/x-http-redirection", "www/debug", HTMIMERedirect, 1.0);
@@ -248,6 +247,8 @@ static char *GetCommand(char *s, char **t)
     if (!s2)
 	ExitWithError(MEMORY_EXHAUSTED_ABORT);
 
+    assert(s2 != NULL);
+
     *t = s2;
     while (non_empty(s)) {
 	if (quoted) {
@@ -344,6 +345,9 @@ static int ProcessMailcapEntry(FILE *fp, struct MailcapEntry *mc, AcceptMedia me
     rawentry = (char *) malloc(rawentryalloc);
     if (!rawentry)
 	ExitWithError(MEMORY_EXHAUSTED_ABORT);
+
+    assert(rawentry != NULL);
+
     *rawentry = '\0';
     while (LYSafeGets(&LineBuf, fp) != 0) {
 	LYTrimNewline(LineBuf);
@@ -357,6 +361,8 @@ static int ProcessMailcapEntry(FILE *fp, struct MailcapEntry *mc, AcceptMedia me
 
 	    if (!rawentry)
 		ExitWithError(MEMORY_EXHAUSTED_ABORT);
+
+	    assert(rawentry != NULL);
 	}
 	if (len > 0 && LineBuf[len - 1] == '\\') {
 	    LineBuf[len - 1] = '\0';
@@ -575,7 +581,7 @@ static char *LYGetContentType(const char *name,
 		test = LYSkipCBlanks(test);
 		next = LYSkipToken(test);
 		if ((next - test) == (int) length
-		    && !strncmp(test, name, length)) {
+		    && !StrNCmp(test, name, length)) {
 		    found = TRUE;
 		}
 		test = LYSkipCBlanks(next);
@@ -670,14 +676,14 @@ static int BuildCommand(HTChunk *cmd,
     for (from = controlstring; *from != '\0'; from++) {
 	if (escaped) {
 	    escaped = 0;
-	    HTChunkPutc(cmd, *from);
+	    HTChunkPutc(cmd, UCH(*from));
 	} else if (*from == '\\') {
 	    escaped = 1;
 	} else if (prefixed) {
 	    prefixed = 0;
 	    switch (*from) {
 	    case '%':		/* not defined */
-		HTChunkPutc(cmd, *from);
+		HTChunkPutc(cmd, UCH(*from));
 		break;
 	    case 'n':
 		/* FALLTHRU */
@@ -730,7 +736,7 @@ static int BuildCommand(HTChunk *cmd,
 	} else if (*from == '%') {
 	    prefixed = 1;
 	} else {
-	    HTChunkPutc(cmd, *from);
+	    HTChunkPutc(cmd, UCH(*from));
 	}
     }
     HTChunkTerminate(cmd);
@@ -759,7 +765,7 @@ int LYTestMailcapCommand(const char *testcommand,
 	TmpFileName[0] = '\0';
     }
     expanded = HTChunkCreate(1024);
-    if ((result = BuildCommand(expanded, testcommand, TmpFileName, params)) != 0) {
+    if (BuildCommand(expanded, testcommand, TmpFileName, params) != 0) {
 	result = 1;
 	CTrace((tfp, "PassesTest: Deferring test command: %s\n", expanded->data));
     } else {
@@ -825,6 +831,9 @@ static int RememberTestResult(int mode, char *cmd, int result)
 
 	if (cur == NULL)
 	    outofmem(__FILE__, "RememberTestResult");
+
+	assert(cur != NULL);
+
 	cur->next = cmdlist;
 	StrAllocCopy(cur->cmd, cmd);
 	cur->result = result;
@@ -1388,11 +1397,13 @@ static int HTGetLine(char *s, int n, FILE *f)
     }
 }
 
-static void HTGetWord(char *word, char *line, char stop, char stop2)
+static void HTGetWord(char *word, char *line, int stop, int stop2)
 {
     int x = 0, y;
 
-    for (x = 0; line[x] && line[x] != stop && line[x] != stop2; x++) {
+    for (x = 0; (line[x]
+		 && UCH(line[x]) != UCH(stop)
+		 && UCH(line[x]) != UCH(stop2)); x++) {
 	word[x] = line[x];
     }
 
@@ -1401,7 +1412,9 @@ static void HTGetWord(char *word, char *line, char stop, char stop2)
 	++x;
     y = 0;
 
-    while ((line[y++] = line[x++])) ;
+    while ((line[y++] = line[x++])) {
+	;
+    }
 
     return;
 }
@@ -1421,7 +1434,7 @@ static int HTLoadExtensionsConfigFile(char *fn)
 	return count;
     }
 
-    while (!(HTGetLine(line, sizeof(line), f))) {
+    while (!(HTGetLine(line, (int) sizeof(line), f))) {
 	HTGetWord(word, line, ' ', '\t');
 	if (line[0] == '\0' || word[0] == '#')
 	    continue;

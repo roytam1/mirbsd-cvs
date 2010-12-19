@@ -1,5 +1,5 @@
 /*
- * $LynxId: LYSearch.c,v 1.23 2009/01/01 23:28:39 tom Exp $
+ * $LynxId: LYSearch.c,v 1.26 2010/09/25 11:20:40 tom Exp $
  */
 #include <HTUtils.h>
 #include <HTAlert.h>
@@ -21,7 +21,7 @@ static BOOL link_has_target(int cur,
     int count;
 
     /*
-     * Search the hightext strings, if present, taking the case_sensitive
+     * Search the hightext strings, if present, taking the LYcase_sensitive
      * setting into account.
      */
     for (count = 0;; ++count) {
@@ -34,7 +34,7 @@ static BOOL link_has_target(int cur,
     }
 
     /*
-     * Search the relevant form fields, taking the case_sensitive setting into
+     * Search the relevant form fields, taking the LYcase_sensitive setting into
      * account.  - FM
      */
     if ((a->l_form != NULL && a->l_form->value != NULL) &&
@@ -150,7 +150,7 @@ static int check_prev_target_in_links(int *cur,
  * string is on
  *
  * This is the primary USER search engine and is case sensitive or case
- * insensitive depending on the 'case_sensitive' global variable
+ * insensitive depending on the 'LYcase_sensitive' global variable
  */
 BOOL textsearch(DocInfo *cur_doc, char *prev_target,
 		int target_size,
@@ -184,7 +184,7 @@ BOOL textsearch(DocInfo *cur_doc, char *prev_target,
 	 * LYK_NEXT or LYK_PREV was pressed, so copy the buffer into
 	 * prev_target.
 	 */
-	LYstrncpy(prev_target, prev_target_buffer, target_size);
+	LYStrNCpy(prev_target, prev_target_buffer, target_size);
 
     if (strlen(prev_target) == 0) {
 	/*
@@ -194,13 +194,13 @@ BOOL textsearch(DocInfo *cur_doc, char *prev_target,
 	 */
 	_statusline(ENTER_WHEREIS_QUERY);
 
-	ch = LYgetstr(prev_target, VISIBLE, (unsigned) target_size, recall);
+	ch = LYGetStr(prev_target, VISIBLE, (unsigned) target_size, recall);
 	if (ch < 0) {
 	    /*
 	     * User cancelled the search via ^G.  Restore prev_target and
 	     * return.  - FM
 	     */
-	    LYstrncpy(prev_target, prev_target_buffer, target_size);
+	    LYStrNCpy(prev_target, prev_target_buffer, target_size);
 	    HTInfoMsg(CANCELLED);
 	    return (FALSE);
 	}
@@ -249,7 +249,7 @@ BOOL textsearch(DocInfo *cur_doc, char *prev_target,
 	    QueryNum = 0;
 	if ((cp = (char *) HTList_objectAt(search_queries,
 					   QueryNum)) != NULL) {
-	    LYstrncpy(prev_target, cp, target_size);
+	    LYStrNCpy(prev_target, cp, target_size);
 	    if (*prev_target_buffer &&
 		!strcmp(prev_target_buffer, prev_target)) {
 		_statusline(EDIT_CURRENT_QUERY);
@@ -259,13 +259,13 @@ BOOL textsearch(DocInfo *cur_doc, char *prev_target,
 	    } else {
 		_statusline(EDIT_A_PREV_QUERY);
 	    }
-	    ch = LYgetstr(prev_target, VISIBLE, (unsigned) target_size, recall);
+	    ch = LYGetStr(prev_target, VISIBLE, (unsigned) target_size, recall);
 	    if (ch < 0) {
 		/*
 		 * User canceled the search via ^G.  Restore prev_target and
 		 * return.  - FM
 		 */
-		LYstrncpy(prev_target, prev_target_buffer, target_size);
+		LYStrNCpy(prev_target, prev_target_buffer, target_size);
 		HTInfoMsg(CANCELLED);
 		return (FALSE);
 	    }
@@ -301,7 +301,7 @@ BOOL textsearch(DocInfo *cur_doc, char *prev_target,
 	    QueryNum = QueryTotal - 1;
 	if ((cp = (char *) HTList_objectAt(search_queries,
 					   QueryNum)) != NULL) {
-	    LYstrncpy(prev_target, cp, target_size);
+	    LYStrNCpy(prev_target, cp, target_size);
 	    if (*prev_target_buffer &&
 		!strcmp(prev_target_buffer, prev_target)) {
 		_statusline(EDIT_CURRENT_QUERY);
@@ -311,13 +311,13 @@ BOOL textsearch(DocInfo *cur_doc, char *prev_target,
 	    } else {
 		_statusline(EDIT_A_PREV_QUERY);
 	    }
-	    ch = LYgetstr(prev_target, VISIBLE, (unsigned) target_size, recall);
+	    ch = LYGetStr(prev_target, VISIBLE, (unsigned) target_size, recall);
 	    if (ch < 0) {
 		/*
 		 * User cancelled the search via ^G.  Restore prev_target and
 		 * return.  - FM
 		 */
-		LYstrncpy(prev_target, prev_target_buffer, target_size);
+		LYStrNCpy(prev_target, prev_target_buffer, target_size);
 		HTInfoMsg(CANCELLED);
 		return (FALSE);
 	    }
@@ -327,7 +327,7 @@ BOOL textsearch(DocInfo *cur_doc, char *prev_target,
     /*
      * Replace the search string buffer with the new target.  - FM
      */
-    LYstrncpy(prev_target_buffer, prev_target, sizeof(prev_target_buffer) - 1);
+    LYStrNCpy(prev_target_buffer, prev_target, sizeof(prev_target_buffer) - 1);
     HTAddSearchQuery(prev_target_buffer);
 
     if (direction < 0) {

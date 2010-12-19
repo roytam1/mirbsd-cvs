@@ -1,4 +1,4 @@
-/* $LynxId: LYForms.c,v 1.81 2009/05/28 23:10:06 tom Exp $ */
+/* $LynxId: LYForms.c,v 1.87 2010/10/31 17:56:18 tom Exp $ */
 #include <HTUtils.h>
 #include <HTCJK.h>
 #include <HTTP.h>
@@ -27,8 +27,8 @@
 #endif /* VMS && !USE_SLANG */
 
 static int form_getstr(int cur,
-		       BOOLEAN use_last_tfpos,
-		       BOOLEAN redraw_only);
+		       int use_last_tfpos,
+		       int redraw_only);
 
 /*
  * Returns an array of pointers to the given list
@@ -60,16 +60,15 @@ static char **options_list(OptionType * opt_ptr)
 int change_form_link_ex(int cur,
 			DocInfo *newdoc,
 			BOOLEAN *refresh_screen,
-			BOOLEAN use_last_tfpos,
-			BOOLEAN immediate_submit,
-			BOOLEAN redraw_only)
+			int use_last_tfpos,
+			int immediate_submit,
+			int redraw_only)
 {
     FormInfo *form = links[cur].l_form;
     char *link_name = form->name;
     char *link_value = form->value;
     int newdoc_changed = 0;
     int c = DO_NOTHING;
-    int OrigNumValue;
     int title_adjust = (no_title ? -TITLE_LINES : 0);
     char **my_data = 0;
 
@@ -102,16 +101,14 @@ int change_form_link_ex(int cur,
 	}
 
 	if (form->disabled == YES) {
-	    int dummy;
-
-	    dummy = LYhandlePopupList(form->num_value,
-				      links[cur].ly,
-				      links[cur].lx,
-				      (const char **) my_data,
-				      form->size,
-				      form->size_l,
-				      form->disabled,
-				      FALSE);
+	    (void) LYhandlePopupList(form->num_value,
+				     links[cur].ly,
+				     links[cur].lx,
+				     (const char **) my_data,
+				     form->size,
+				     form->size_l,
+				     form->disabled,
+				     FALSE);
 #if CTRL_W_HACK != DO_NOTHING
 	    if (!enable_scrollback)
 		c = CTRL_W_HACK;	/* CTRL-W refresh without clearok */
@@ -120,7 +117,6 @@ int change_form_link_ex(int cur,
 		c = 12;		/* CTRL-L for repaint */
 	    break;
 	}
-	OrigNumValue = form->num_value;
 	form->num_value = LYhandlePopupList(form->num_value,
 					    links[cur].ly,
 					    links[cur].lx,
@@ -266,7 +262,7 @@ int change_form_link_ex(int cur,
 		break;
 	    }
 #endif
-	    if (!form->submit_action || *form->submit_action == '\0') {
+	    if (isEmpty(form->submit_action)) {
 		HTUserMsg(NO_FORM_ACTION);
 		c = DO_NOTHING;
 		break;
@@ -345,8 +341,8 @@ int change_form_link_ex(int cur,
 int change_form_link(int cur,
 		     DocInfo *newdoc,
 		     BOOLEAN *refresh_screen,
-		     BOOLEAN use_last_tfpos,
-		     BOOLEAN immediate_submit)
+		     int use_last_tfpos,
+		     int immediate_submit)
 {
     /*pass all our args and FALSE as last arg */
     return change_form_link_ex(cur,
@@ -365,8 +361,8 @@ static void LYSetLastTFPos(int pos)
 }
 
 static int form_getstr(int cur,
-		       BOOLEAN use_last_tfpos,
-		       BOOLEAN redraw_only)
+		       int use_last_tfpos,
+		       int redraw_only)
 {
     FormInfo *form = links[cur].l_form;
     char *value = form->value;
@@ -400,7 +396,7 @@ static int form_getstr(int cur,
     max_length = ((form->maxlength > 0 &&
 		   form->maxlength < sizeof(MyEdit.buffer))
 		  ? form->maxlength
-		  : (sizeof(MyEdit.buffer) - 1));
+		  : (unsigned) (sizeof(MyEdit.buffer) - 1));
     if (strlen(form->value) > max_length) {
 	/*
 	 * We can't fit the entire value into the editing buffer, so enter as
@@ -531,9 +527,8 @@ static int form_getstr(int cur,
 		 */
 		MyEdit.dirty = TRUE;
 	    }
-	    last_xlkc = -1;
 	} else
-#  endif			/* NCURSES || PDCURSES */
+#  endif /* NCURSES || PDCURSES */
 #endif /* USE_MOUSE */
 
 	{
@@ -543,7 +538,6 @@ static int form_getstr(int cur,
 	    if (last_xlkc != -1) {
 		if (ch == last_xlkc)
 		    ch |= LKC_MOD3;
-		last_xlkc = -1;	/* consumed */
 	    }
 	}
 	if (peek_mouse_link() != -1)
@@ -612,10 +606,10 @@ static int form_getstr(int cur,
 		while (e1 < e) {
 		    if (*e1 < ' ') {	/* Stop here? */
 			if (e1 > s)
-			    LYEditInsert(&MyEdit, s, e1 - s, -1, TRUE);
+			    LYEditInsert(&MyEdit, s, (int) (e1 - s), -1, TRUE);
 			s = e1;
 			if (*e1 == '\t') {	/* Replace by space */
-			    LYEditInsert(&MyEdit, (unsigned char *) " ", 1,
+			    LYEditInsert(&MyEdit, (unsigned const char *) " ", 1,
 					 -1, TRUE);
 			    s = ++e1;
 			} else
@@ -624,7 +618,7 @@ static int form_getstr(int cur,
 			++e1;
 		}
 		if (e1 > s)
-		    LYEditInsert(&MyEdit, s, e1 - s, -1, TRUE);
+		    LYEditInsert(&MyEdit, s, (int) (e1 - s), -1, TRUE);
 		while (e1 < e && *e1 == '\r')
 		    e1++;
 		if (e1 + 1 < e && *e1 == '\n')
@@ -1012,7 +1006,7 @@ void show_formlink_statusline(const FormInfo * form,
 	    char *submit_str = NULL;
 	    char *xkey_info = NULL;
 
-	    if (!no_editor && editor && editor) {
+	    if (!no_editor && non_empty(editor)) {
 		xkey_info = key_for_func_ext(LYK_EDIT_TEXTAREA, for_what);
 #ifdef TEXTAREA_AUTOEXTEDIT
 		if (!xkey_info)

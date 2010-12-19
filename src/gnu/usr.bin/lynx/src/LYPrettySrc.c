@@ -1,5 +1,5 @@
 /*
- * $LynxId: LYPrettySrc.c,v 1.20 2009/03/11 00:30:39 tom Exp $
+ * $LynxId: LYPrettySrc.c,v 1.25 2010/10/27 00:15:12 tom Exp $
  *
  * HTML source syntax highlighting
  * by Vlad Harchev <hvv@hippo.ru>
@@ -80,7 +80,7 @@ static int html_src_tag_index(char *tagname)
 {
     HTTag *tag = SGMLFindTag(&HTML_dtd, tagname);
 
-    return (tag && tag != &HTTag_unrecognized) ? tag - HTML_dtd.tags : -1;
+    return (tag && tag != &HTTag_unrecognized) ? (int) (tag - HTML_dtd.tags) : -1;
 }
 
 typedef enum {
@@ -135,7 +135,6 @@ static void append_open_tag(char *tagname,
 			    HT_tagspec ** tail)
 {
     HT_tagspec *subj;
-    HTTag *tag;
 
 #ifdef USE_COLOR_STYLE
     int hcode;
@@ -144,8 +143,6 @@ static void append_open_tag(char *tagname,
     append_close_tag(tagname, head, tail);	/* initialize common members */
     subj = *tail;
     subj->start = TRUE;
-
-    tag = HTML_dtd.tags + subj->element;
 
 #ifdef USE_COLOR_STYLE
     hcode = hash_code_lowercase_on_fly(tagname);
@@ -157,11 +154,13 @@ static void append_open_tag(char *tagname,
 	 * plain formatting tags they are not used directly for anything except
 	 * style - and we provide style value directly.
 	 */
+	HTTag *tag = HTML_dtd.tags + subj->element;
 	int class_attr_idx = 0;
 	int n = tag->number_of_attributes;
 	attr *attrs = tag->attributes;
 
-/*.... *//* this is not implemented though it's easy */
+/*.... */
+/* this is not implemented though it's easy */
 #  endif
 
 	hcode = hash_code_aggregate_char('.', hcode);
@@ -183,8 +182,8 @@ static void append_open_tag(char *tagname,
 /* returns FALSE if incorrect */
 int html_src_parse_tagspec(char *ts,
 			   HTlexeme lexeme,
-			   BOOL checkonly,
-			   BOOL isstart)
+			   int checkonly,
+			   int isstart)
 {
     BOOL stop = FALSE;
     BOOL code = FALSE;
@@ -395,7 +394,7 @@ static void failed_init(const char *tag, int lexeme)
     exit_immediately(EXIT_FAILURE);
 }
 
-void HTMLSRC_init_caches(BOOL dont_exit)
+void HTMLSRC_init_caches(int dont_exit)
 {
     int i;
     char *p;
@@ -404,7 +403,7 @@ void HTMLSRC_init_caches(BOOL dont_exit)
     CTRACE2(TRACE_CFG, (tfp, "HTMLSRC_init_caches(%d tagspecs)\n", HTL_num_lexemes));
     for (i = 0; i < HTL_num_lexemes; ++i) {
 	/*we assume that HT_tagspecs was NULLs at when program started */
-	LYstrncpy(buf,
+	LYStrNCpy(buf,
 		  HTL_tagspecs[i]
 		  ? HTL_tagspecs[i]
 		  : HTL_tagspecs_defaults[i],

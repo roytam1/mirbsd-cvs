@@ -1,4 +1,4 @@
-/* $LynxId: LYmktime.c,v 1.9 2008/12/27 00:46:30 tom Exp $ */
+/* $LynxId: LYmktime.c,v 1.12 2010/11/07 21:21:08 tom Exp $ */
 
 #include <LYStrings.h>
 #include <LYUtils.h>
@@ -20,7 +20,7 @@ char *LYstrncpy(char *dst,
     if (n < 0)
 	n = 0;
 
-    val = strncpy(dst, src, n);
+    val = StrNCpy(dst, src, n);
     if (len < n)
 	*(dst + len) = '\0';
     else
@@ -54,7 +54,7 @@ FILE *TraceFP(void)
  * - FM
  */
 time_t LYmktime(char *string,
-		BOOL absolute)
+		int absolute)
 {
 #if USE_PARSDATE
     time_t result = 0;
@@ -69,7 +69,7 @@ time_t LYmktime(char *string,
 	}
 	if (result != 0) {
 	    CTRACE((tfp, "LYmktime: clock=%" PRI_time_t ", ctime=%s",
-		    CAST_time_t(result),
+		    CAST_time_t (result),
 		    ctime(&result)));
 	}
     }
@@ -304,7 +304,7 @@ time_t LYmktime(char *string,
 	clock2 = (time_t) 0;
     if (clock2 > 0)
 	CTRACE((tfp, "LYmktime: clock=%" PRI_time_t ", ctime=%s",
-		CAST_time_t(clock2),
+		CAST_time_t (clock2),
 		ctime(&clock2)));
 
     return (clock2);
@@ -318,8 +318,9 @@ static void test_mktime(char *source)
     time_t after = parsedate(source, 0);
 
     printf("TEST %s\n", source);
-    printf("\t%" PRI_time_t "  %s", CAST_time_t(before), ctime(&before));
-    printf("\t%" PRI_time_t "  %s", CAST_time_t(after), ctime(&after));
+    printf("\t%" PRI_time_t "  %s", CAST_time_t (before), ctime(&before));
+    printf("\t%" PRI_time_t "  %s", CAST_time_t (after), ctime(&after));
+
     if (before != after)
 	printf("\t****\n");
 }

@@ -1,5 +1,5 @@
 /*
- * $LynxId: SGML.h,v 1.43 2009/04/16 00:50:16 tom Exp $
+ * $LynxId: SGML.h,v 1.45 2010/09/24 00:12:09 tom Exp $
  *			       SGML parse and stream definition for libwww
  *                             SGML AND STRUCTURED STREAMS
  *
@@ -148,7 +148,7 @@ extern "C" {
 #ifdef USE_COLOR_STYLE
 	unsigned name_len;	/* The length of the name */
 #endif
-#ifdef EXP_JUSTIFY_ELTS
+#ifdef USE_JUSTIFY_ELTS
 	BOOL can_justify;	/* justification allowed? */
 #endif
 	AttrList attributes;	/* The list of acceptable attributes */
@@ -216,7 +216,7 @@ Structured Object definition
 
 	void (*_abort) (HTStructured * me, HTError e);
 
-	void (*put_character) (HTStructured * me, char ch);
+	void (*put_character) (HTStructured * me, int ch);
 
 	void (*put_string) (HTStructured * me, const char *str);
 
