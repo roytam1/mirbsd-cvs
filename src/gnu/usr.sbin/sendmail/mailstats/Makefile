@@ -1,11 +1,17 @@
-#	$OpenBSD: Makefile,v 1.4 2001/09/11 19:02:49 millert Exp $
+#       $Id$
 
-PROG=	mailstats
-MAN=	mailstats.8
-ENVDEF=	-DNOT_SENDMAIL
+SHELL= /bin/sh
+BUILD=   ./Build
+OPTIONS= $(CONFIG) $(FLAGS)
 
-WANT_LIBSM=1
-WANT_LIBSMUTIL=1
+all: FRC
+	$(SHELL) $(BUILD) $(OPTIONS) $@
+clean: FRC
+	$(SHELL) $(BUILD) $(OPTIONS) $@
+install: FRC
+	$(SHELL) $(BUILD) $(OPTIONS) $@
 
-.include "../../Makefile.inc"
-.include <bsd.prog.mk>
+fresh: FRC
+	$(SHELL) $(BUILD) $(OPTIONS) -c
+
+FRC:

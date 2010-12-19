@@ -8,6 +8,8 @@
  *
  */
 
+#include <sm/gen.h>
+SM_RCSID("@(#)$Id$")
 #include "libmilter.h"
 
 #if _FFR_THREAD_MONITOR

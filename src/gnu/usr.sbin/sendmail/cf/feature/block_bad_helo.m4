@@ -10,7 +10,7 @@ divert(-1)
 #
 
 divert(0)dnl
-VERSIONID(`$Sendmail: block_bad_helo.m4,v 1.1 2006/06/15 22:49:30 ca Exp $')
+VERSIONID(`$Id$')
 divert(-1)
 
 define(`_BLOCK_BAD_HELO_', `')dnl

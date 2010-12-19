@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1998-2004 Sendmail, Inc. and its suppliers.
+ * Copyright (c) 1998-2007 Sendmail, Inc. and its suppliers.
  *	All rights reserved.
  * Copyright (c) 1983, 1995-1997 Eric P. Allman.  All rights reserved.
  * Copyright (c) 1988, 1993
@@ -10,14 +10,16 @@
  * the sendmail distribution.
  *
  *
- *	$Sendmail: conf.h,v 1.118 2004/08/20 20:30:32 ca Exp $
+ *	$Id$
  */
 
 /*
 **  CONF.H -- All user-configurable parameters for sendmail
 **
-**	Send updates to sendmail@Sendmail.ORG so they will be
-**	included in the next release.
+**	Send updates to Sendmail.ORG so they will be
+**	included in the next release; see
+**	http://www.sendmail.org/email-addresses.html
+**	for current e-mail address.
 */
 
 #ifndef SM_CONF_H
@@ -160,7 +162,11 @@ extern void	hard_syslog();
 */
 
 # ifdef _AIX5
+#  include <sys/signal.h>
+#  include <sys/wait.h>
 #  define _AIX4		40300
+#  define SOCKADDR_LEN_T socklen_t /* e.g., arg#3 to accept, getsockname */
+#  define SOCKOPT_LEN_T	socklen_t /* arg#5 to getsockopt */
 #  if _AIX5 >= 50200
 #   define HASUNSETENV	1	/* has unsetenv(3) call */
 #  endif /* _AIX5 >= 50200 */
@@ -175,10 +181,14 @@ extern void	hard_syslog();
 #  define BSD4_4_SOCKADDR	/* has sa_len */
 #  define USESETEUID	1	/* seteuid(2) works */
 #  define TZ_TYPE	TZ_NAME	/* use tzname[] vector */
-#  define SOCKOPT_LEN_T	size_t	/* arg#5 to getsockopt */
+#  ifndef SOCKOPT_LEN_T
+#   define SOCKOPT_LEN_T	size_t	/* arg#5 to getsockopt */
+#  endif /* SOCKOPT_LEN_T */
 #  if _AIX4 >= 40200
 #   define HASSETREUID	1	/* setreuid(2) works as of AIX 4.2 */
-#   define SOCKADDR_LEN_T	size_t	/* e.g., arg#3 to accept, getsockname */
+#   ifndef SOCKADDR_LEN_T
+#    define SOCKADDR_LEN_T	size_t	/* e.g., arg#3 to accept, getsockname */
+#   endif /* SOCKADDR_LEN_T */
 #  endif /* _AIX4 >= 40200 */
 #  if defined(_ILS_MACROS)	/* IBM versions aren't side-effect clean */
 #   undef isascii
@@ -208,7 +218,9 @@ extern void	hard_syslog();
 #  define GIDSET_T	gid_t
 #  define SFS_TYPE	SFS_STATFS	/* use <sys/statfs.h> statfs() impl */
 #  define SPT_PADCHAR	'\0'	/* pad process title with nulls */
-#  define LA_TYPE	LA_INT
+#  ifndef LA_TYPE
+#   define LA_TYPE	LA_INT
+#  endif /* LA_TYPE */
 #  define FSHIFT	16
 #  define LA_AVENRUN	"avenrun"
 #  if !defined(_AIX4) || _AIX4 < 40300
@@ -398,6 +410,9 @@ typedef int		pid_t;
 #   if SOLARIS >= 20500 || (SOLARIS < 10000 && SOLARIS >= 205)
 #    define HASSETREUID	1		/* setreuid works as of 2.5 */
 #    define HASSETREGID	1	/* use setregid(2) to set saved gid */
+#   if SOLARIS >= 20600 || (SOLARIS < 10000 && SOLARIS >= 206)
+#    define HASSNPRINTF 1	/* has snprintf(3c) starting in 2.6 */
+#   endif /* SOLARIS >= 20600 || (SOLARIS < 10000 && SOLARIS >= 206) */
 #    if SOLARIS < 207 || (SOLARIS > 10000 && SOLARIS < 20700)
 #     ifndef LA_TYPE
 #      define LA_TYPE	LA_KSTAT	/* use kstat(3k) -- may work in < 2.5 */
@@ -433,6 +448,7 @@ typedef int		pid_t;
 #     define SMRSH_CMDDIR	"/var/adm/sm.bin"
 #    endif /* ! SMRSH_CMDDIR */
 #    define SL_FUDGE	34	/* fudge offset for SyslogPrefixLen */
+#    define HASLDAPGETALIASBYNAME	1	/* added in S8 */
 #   endif /* SOLARIS >= 20800 || (SOLARIS < 10000 && SOLARIS >= 208) */
 #   if SOLARIS >= 20900 || (SOLARIS < 10000 && SOLARIS >= 209)
 #    define HASURANDOMDEV	1	/* /dev/[u]random added in S9 */
@@ -442,6 +458,9 @@ typedef int		pid_t;
 #   if SOLARIS >= 21000 || (SOLARIS < 10000 && SOLARIS >= 210)
 #    define HASUNSETENV 1       /* unsetenv() added in S10 */
 #   endif /* SOLARIS >= 21000 || (SOLARIS < 10000 && SOLARIS >= 210) */
+#   if SOLARIS >= 21100 || (SOLARIS < 10000 && SOLARIS >= 211)
+#    define GETLDAPALIASBYNAME_VERSION 2	/* changed in S11 */
+#   endif /* SOLARIS >= 21100 || (SOLARIS < 10000 && SOLARIS >= 211) */
 #   ifndef HASGETUSERSHELL
 #    define HASGETUSERSHELL 0	/* getusershell(3) causes core dumps pre-2.7 */
 #   endif /* ! HASGETUSERSHELL */
@@ -726,8 +745,8 @@ typedef int		pid_t;
 #  define HASFLOCK		1	/* has flock(2) */
 #  define HASUNAME		1	/* has uname(2) */
 #  define HASUNSETENV		1	/* has unsetenv(3) */
-#  define HASSETSID	1	/* has POSIX setsid(2) call */
-#  define HASINITGROUPS	1	/* has initgroups(3) */
+#  define HASSETSID		1	/* has POSIX setsid(2) call */
+#  define HASINITGROUPS		1	/* has initgroups(3) */
 #  define HASSETVBUF		1	/* has setvbuf (3) */
 #  define HASSETREUID		0	/* setreuid(2) unusable */
 #  define HASSETEUID		1	/* has seteuid(2) */
@@ -740,13 +759,22 @@ typedef int		pid_t;
 #  define HASWAITPID		1	/* has waitpid(2) */
 #  define HASGETDTABLESIZE	1	/* has getdtablesize(2) */
 #  define HAS_ST_GEN		1	/* has st_gen field in struct stat */
-#  define HASURANDOMDEV	1	/* has urandom(4) */
+#  define HASURANDOMDEV		1	/* has urandom(4) */
 #  define HASSTRERROR		1	/* has strerror(3) */
 #  define HASGETUSERSHELL	1	/* had getusershell(3) */
 #  define GIDSET_T		gid_t	/* getgroups(2) takes gid_t */
 #  define LA_TYPE		LA_SUBR	/* use getloadavg(3) */
 #  define SFS_TYPE		SFS_MOUNT	/* use <sys/mount.h> statfs() impl */
-#  define SPT_TYPE		SPT_PSSTRINGS	/* use magic PS_STRINGS pointer for setproctitle */
+#  if DARWIN >= 70000
+#   define SOCKADDR_LEN_T	socklen_t
+#  endif
+#  if DARWIN >= 80000
+#   define SPT_TYPE		SPT_REUSEARGV
+#   define SPT_PADCHAR		'\0'
+#   define SOCKOPT_LEN_T	socklen_t
+#  else
+#   define SPT_TYPE		SPT_PSSTRINGS	/* use magic PS_STRINGS pointer for setproctitle */
+#  endif
 #  define ERRLIST_PREDEFINED		/* don't declare sys_errlist */
 #  define BSD4_4_SOCKADDR		/* struct sockaddr has sa_len */
 #  define SAFENFSPATHCONF	0	/* unverified: pathconf(2) doesn't work on NFS */
@@ -765,7 +793,7 @@ extern unsigned int sleepX __P((unsigned int seconds));
 **	See also BSD defines.
 */
 
-# if defined(BSD4_4) && !defined(__bsdi__) && !defined(__GNU__)
+# if defined(BSD4_4) && !defined(__bsdi__) && !defined(__GNU__) && !defined(DARWIN)
 #  include <paths.h>
 #  define HASUNSETENV	1	/* has unsetenv(3) call */
 #  define USESETEUID	1	/* has usable seteuid(2) call */
@@ -783,7 +811,7 @@ extern unsigned int sleepX __P((unsigned int seconds));
 #  endif /* ! LA_TYPE */
 #  define SFS_TYPE	SFS_MOUNT	/* use <sys/mount.h> statfs() impl */
 #  define SPT_TYPE	SPT_PSSTRINGS	/* use PS_STRINGS pointer */
-# endif /* defined(BSD4_4) && !defined(__bsdi__) && !defined(__GNU__) */
+# endif /* defined(BSD4_4) && !defined(__bsdi__) && !defined(__GNU__) && !defined(DARWIN)*/
 
 
 /*
@@ -832,36 +860,64 @@ extern unsigned int sleepX __P((unsigned int seconds));
 # endif /* __bsdi__ */
 
 
+# if defined(__QNX__)
+#  if defined(__QNXNTO__)
+/* QNX 6 */
+#   include <unix.h>
+#   define HASUNSETENV	1	/* has unsetenv(3) call */
+#   define HASINITGROUPS	1	/* has initgroups(3) call */
+#   define HASSETSID	1	/* has POSIX setsid(2) call */
+#   define USESETEUID	1	/* has usable seteuid(2) call */
+#   define HASFCHMOD	1	/* has fchmod(2) syscall */
+#   define HASFCHOWN	1	/* has fchown(2) syscall */
+#   define HASUNAME	1	/* has uname(2) syscall */
+#   define HASSTRERROR	1	/* has strerror(3) */
+#   define BSD4_4_SOCKADDR	/* has sa_len */
+#   define ERRLIST_PREDEFINED	/* don't declare sys_errlist */
+#   define NETLINK	1	/* supports AF_LINK */
+#   define GIDSET_T	gid_t
+#   define QUAD_T	uint64_t
+#   define HASSNPRINTF	1	/* has snprintf(3) (all versions?) */
+#   define HASGETUSERSHELL 0
+
+/*
+**  We have a strrev() that doesn't allocate anything.
+**  Make sure the one here is used.
+*/
+
+#   define strrev strrev_sendmail
+
+#  else /* defined(__QNXNTO__) */
+
 /*
 **  QNX 4.2x
 **	Contributed by Glen McCready <glen@qnx.com>.
 **
-**	Should work with all versions of QNX.
+**	Should work with all versions of QNX 4.
 */
 
-# if defined(__QNX__)
-#  include <unix.h>
-#  include <sys/select.h>
-#  undef NGROUPS_MAX
-#  define HASSETSID	1	/* has POSIX setsid(2) call */
-#  define USESETEUID	1	/* has usable seteuid(2) call */
-#  define HASFCHMOD	1	/* has fchmod(2) syscall */
-#  define HASGETDTABLESIZE 1	/* has getdtablesize(2) call */
-#  define HASSETREUID	1	/* has setreuid(2) call */
-#  define HASSTRERROR	1	/* has strerror(3) */
-#  define HASFLOCK	0
-#  undef HASINITGROUPS		/* has initgroups(3) call */
-#  define SM_CONF_GETOPT	0	/* need a replacement for getopt(3) */
-#  define IP_SRCROUTE	1	/* can check IP source routing */
-#  define TZ_TYPE	TZ_TMNAME	/* use tmname variable */
-#  define GIDSET_T	gid_t
-#  define LA_TYPE	LA_ZERO
-#  define SFS_TYPE	SFS_NONE
-#  define SPT_TYPE	SPT_REUSEARGV
-#  define SPT_PADCHAR	'\0'	/* pad process title with nulls */
-#  define HASGETUSERSHELL 0
-#  define E_PSEUDOBASE	512
-#  define _FILE_H_INCLUDED
+#   include <unix.h>
+#   include <sys/select.h>
+#   undef NGROUPS_MAX
+#   define HASSETSID	1	/* has POSIX setsid(2) call */
+#   define USESETEUID	1	/* has usable seteuid(2) call */
+#   define HASFCHMOD	1	/* has fchmod(2) syscall */
+#   define HASGETDTABLESIZE 1	/* has getdtablesize(2) call */
+#   define HASSETREUID	1	/* has setreuid(2) call */
+#   define HASSTRERROR	1	/* has strerror(3) */
+#   define HASFLOCK	0
+#   undef HASINITGROUPS		/* has initgroups(3) call */
+#   define SM_CONF_GETOPT	0	/* need a replacement for getopt(3) */
+#   define IP_SRCROUTE	1	/* can check IP source routing */
+#   define TZ_TYPE	TZ_TMNAME	/* use tmname variable */
+#   define GIDSET_T	gid_t
+#   define LA_TYPE	LA_ZERO
+#   define SFS_TYPE	SFS_NONE
+#   define SPT_TYPE	SPT_REUSEARGV
+#   define SPT_PADCHAR	'\0'	/* pad process title with nulls */
+#   define HASGETUSERSHELL 0
+#   define _FILE_H_INCLUDED
+#  endif /* defined(__QNXNTO__) */
 # endif /* defined(__QNX__) */
 
 
@@ -891,11 +947,14 @@ extern unsigned int sleepX __P((unsigned int seconds));
 #  define NETLINK	1	/* supports AF_LINK */
 #  define SAFENFSPATHCONF 1	/* pathconf(2) pessimizes on NFS filesystems */
 #  define GIDSET_T	gid_t
-#  define QUAD_T		unsigned long long
+#  define QUAD_T	unsigned long long
+#  define HASSNPRINTF	1	/* has snprintf(3) (all versions?) */
 #  ifndef LA_TYPE
 #   define LA_TYPE	LA_SUBR
 #  endif /* ! LA_TYPE */
-#  if defined(__NetBSD__) && defined(__NetBSD_Version__) && __NetBSD_Version__ >= 200040000
+#  if defined(__NetBSD__) && defined(__NetBSD_Version__) && \
+    ((__NetBSD_Version__ >= 200040000 && __NetBSD_Version__ < 200090000) || \
+    (__NetBSD_Version__ >= 299000900))
 #   undef SFS_TYPE
 #   define SFS_TYPE	SFS_STATVFS
 #  else
@@ -911,7 +970,9 @@ extern unsigned int sleepX __P((unsigned int seconds));
 #  if defined(__NetBSD__) && defined(__NetBSD_Version__) && __NetBSD_Version__ >= 104170000
 #   define HASSETUSERCONTEXT	1	/* BSDI-style login classes */
 #  endif
-#  if defined(__NetBSD__) && defined(__NetBSD_Version__) && __NetBSD_Version__ >= 200060000
+#  if defined(__NetBSD__) && defined(__NetBSD_Version__) && \
+    ((__NetBSD_Version__ >= 200060000 && __NetBSD_Version__ < 200090000) || \
+    (__NetBSD_Version__ >= 299000900))
 #   define HASCLOSEFROM	1	/* closefrom(3) added in 2.0F */
 #  endif
 #  if defined(__NetBSD__)
@@ -986,6 +1047,9 @@ extern unsigned int sleepX __P((unsigned int seconds));
 #   if OpenBSD >= 200405
 #    define HASCLOSEFROM	1	/* closefrom(3) added in 3.5 */
 #   endif /* OpenBSD >= 200405 */
+#   if OpenBSD >= 200505
+#    undef NETISO	/* iso.h removed in 3.7 */
+#   endif /* OpenBSD >= 200505 */
 #  endif /* defined(__OpenBSD__) */
 # endif /* defined(__DragonFly__) || defined(__FreeBSD__) || defined(__NetBSD__) || defined(__OpenBSD__) */
 
@@ -1125,7 +1189,7 @@ typedef short		pid_t;
 #   define _SCO_unix_4_2
 #  else /* ! _SCO_unix_4_2 */
 #   define SOCKADDR_LEN_T	size_t	/* e.g., arg#3 to accept, getsockname */
-#   define SOCKOPT_LEN_T		size_t	/* arg#5 to getsockopt */
+#   define SOCKOPT_LEN_T	size_t	/* arg#5 to getsockopt */
 #  endif /* ! _SCO_unix_4_2 */
 # endif /* _SCO_DS >= 1 */
 
@@ -1819,7 +1883,7 @@ extern struct passwd *	sendmail_mpe_getpwuid __P((uid_t));
 #  define HASWAITPID		1
 #  define HASGETDTABLESIZE	1
 #  define GIDSET_T		gid_t
-#  define SOCKADDR_LEN_T		size_t
+#  define SOCKADDR_LEN_T	size_t
 #  define SOCKOPT_LEN_T		size_t
 #  ifndef _PATH_UNIX
 #   define _PATH_UNIX		"/stand/unix"

@@ -6,109 +6,101 @@
 .\" the sendmail distribution.
 .\"
 .\"
-.\"     $Sendmail: editmap.8,v 1.9 2003/02/01 17:07:42 ca Exp $
+.\"     $Id$
 .\"
-.Dd March 15, 2003
-.Dt EDITMAP 8
-.Os
-.Sh NAME
-.Nm editmap
-.Nd query and edit records in database maps for sendmail
-.Sh SYNOPSIS
-.Nm editmap
-.Bk -words
-.Op Fl C Ar file
-.Op Fl N
-.Op Fl f
-.Op Fl q | Fl u | Fl x
-maptype mapname key
-.Op Dq value ...
-.Ek
-.Sh DESCRIPTION
-.Nm editmap
+.TH EDITMAP 8 "$Date$"
+.SH NAME
+.B editmap
+\- query and edit single records in database maps for sendmail
+.SH SYNOPSIS
+.B editmap
+.RB [ \-C
+.IR file ]
+.RB [ \-N ]
+.RB [ \-f ]
+.RB [ \-q|\-u|\-x ]
+maptype mapname
+key [ "value ..." ]
+.SH DESCRIPTION
+.B Editmap
 queries or edits one record in database maps used by the keyed map lookups in
-.Xr sendmail 8 .
+sendmail(8).
 Arguments are passed on the command line and output (for queries) is
 directed to standard output.
-.Pp
+.PP
 Depending on how it is compiled,
-.Nm
+.B editmap
 handles up to three different database formats,
 selected using the
-.Ar maptype
+.I maptype
 parameter.
 They may be
-.Bl -tag -width Fl
-.It Li dbm
+.TP
+dbm
 DBM format maps.
 This requires the
-.Xr ndbm 3
+ndbm(3)
 library.
-.It Li btree
+.TP
+btree
 B-Tree format maps.
 This requires the new Berkeley DB
 library.
-.It Li hash
+.TP
+hash
 Hash format maps.
 This also requires the Berkeley DB
 library.
-.El
-.Pp
+.PP
 If the
-.Li TrustedUser
+.I TrustedUser
 option is set in the sendmail configuration file and
-.Nm
+.B editmap
 is invoked as root, the generated files will be owned by
 the specified
-.Li TrustedUser .
-.Ss Flags
-.Bl -tag -width Fl
-.It Fl C Ar file
+.IR TrustedUser.
+.SS Flags
+.TP
+.B \-C
 Use the specified
-.Xr sendmail 8
-configuration
-.Ar file
-for looking up the
-.Li TrustedUser
-option.
-.It Fl N
+.B sendmail
+configuration file for looking up the TrustedUser option.
+.TP
+.B \-N
 Include the null byte that terminates strings
 in the map (for alias maps).
-.It Fl f
+.TP
+.B \-f
 Normally all upper case letters in the key
 are folded to lower case.
 This flag disables that behaviour.
 This is intended to mesh with the
-.Fl f
-flag in the
-.Dq K
+\-f flag in the
+.B K
 line in sendmail.cf.
 The value is never case folded.
-.It Fl q
-Query the map for the specified key.
-If found, print value to standard output and exit with 0.
-If not found then print an error message to stdout and exit with
-.Dv EX_UNAVAILABLE .
-.It Fl u
-Updates the record for
-.Ar key
+.TP
+.B \-q
+Query the map for the specified key.  If found, print value to standard
+output and exit with 0.  If not found then print an error
+message to stdout and exit with EX_UNAVAILABLE.
+.TP
+.B \-u
+Update the record for
+.I key
 with
-.Ar value
-or inserts a new record if one doesn't exist.
-Exits with 0 on success or
-.Dv EX_IOERR
-on failure.
-.It Fl x
-Deletes the specific key from the map.
-Exits with 0 on success or
-.Dv EX_IOERR
-on failure.
-.El
-.Sh SEE ALSO
-.Xr makemap 8 ,
-.Xr sendmail 8
-.Sh HISTORY
+.I value
+or inserts a new record if one doesn't exist.  Exits with 0 on success
+or EX_IOERR on failure.
+.TP
+.B \-x
+Deletes the specific key from the map.  Exits with 0 on success or
+EX_IOERR on failure.
+.TP
+.SH SEE ALSO
+sendmail(8),
+makemap(8)
+.SH HISTORY
 The
-.Nm
-command appeared in
-.Ox 3.0 .
+.B editmap
+command has no history.

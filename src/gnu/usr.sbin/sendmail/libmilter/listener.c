@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 1999-2004 Sendmail, Inc. and its suppliers.
+ *  Copyright (c) 1999-2007 Sendmail, Inc. and its suppliers.
  *	All rights reserved.
  *
  * By using this file, you agree to the terms and conditions set
@@ -9,7 +9,7 @@
  */
 
 #include <sm/gen.h>
-SM_RCSID("@(#)$Sendmail: listener.c,v 8.111 2004/09/20 21:11:15 msk Exp $")
+SM_RCSID("@(#)$Id$")
 
 /*
 **  listener.c -- threaded network listener
@@ -25,6 +25,10 @@ SM_RCSID("@(#)$Sendmail: listener.c,v 8.111 2004/09/20 21:11:15 msk Exp $")
 # if NETINET || NETINET6
 #  include <arpa/inet.h>
 # endif /* NETINET || NETINET6 */
+# if SM_CONF_POLL
+#  undef SM_FD_OK_SELECT
+#  define SM_FD_OK_SELECT(fd)		true
+# endif /* SM_CONF_POLL */
 
 static smutex_t L_Mutex;
 static int L_family;
@@ -32,7 +36,9 @@ static SOCKADDR_LEN_T L_socksize;
 static socket_t listenfd = INVALID_SOCKET;
 
 static socket_t mi_milteropen __P((char *, int, bool, char *));
+#if !_FFR_WORKERS_POOL
 static void *mi_thread_handle_wrapper __P((void *));
+#endif /* !_FFR_WORKERS_POOL */
 
 /*
 **  MI_OPENSOCKET -- create the socket where this filter and the MTA will meet
@@ -80,7 +86,6 @@ mi_opensocket(conn, backlog, dbg, rmsocket, smfi)
 		(void) smutex_unlock(&L_Mutex);
 		return MI_FAILURE;
 	}
-#if !SM_CONF_POLL
 	if (!SM_FD_OK_SELECT(listenfd))
 	{
 		smi_log(SMI_LOG_ERR, "%s: fd %d is larger than FD_SETSIZE %d",
@@ -88,7 +93,6 @@ mi_opensocket(conn, backlog, dbg, rmsocket, smfi)
 		(void) smutex_unlock(&L_Mutex);
 		return MI_FAILURE;
 	}
-#endif /* !SM_CONF_POLL */
 	(void) smutex_unlock(&L_Mutex);
 	return MI_SUCCESS;
 }
@@ -458,11 +462,15 @@ mi_milteropen(conn, backlog, rmsocket, name)
 		return INVALID_SOCKET;
 	}
 
-	if (setsockopt(sock, SOL_SOCKET, SO_REUSEADDR, (void *) &sockopt,
+	if (
+#if NETUNIX
+	    addr.sa.sa_family != AF_UNIX &&
+#endif /* NETUNIX */
+	    setsockopt(sock, SOL_SOCKET, SO_REUSEADDR, (void *) &sockopt,
 		       sizeof(sockopt)) == -1)
 	{
 		smi_log(SMI_LOG_ERR,
-			"%s: Unable to setsockopt: %s", name,
+			"%s: set reuseaddr failed (%s)", name,
 			sm_errstring(errno));
 		(void) closesocket(sock);
 		return INVALID_SOCKET;
@@ -545,6 +553,8 @@ mi_milteropen(conn, backlog, rmsocket, name)
 	L_family = addr.sa.sa_family;
 	return sock;
 }
+
+#if !_FFR_WORKERS_POOL
 /*
 **  MI_THREAD_HANDLE_WRAPPER -- small wrapper to handle session
 **
@@ -559,14 +569,19 @@ static void *
 mi_thread_handle_wrapper(arg)
 	void *arg;
 {
+	/*
+	**  Note: on some systems this generates a compiler warning:
+	**  cast to pointer from integer of different size
+	**  You can safely ignore this warning as the result of this function
+	**  is not used anywhere.
+	*/
+
 	return (void *) mi_handle_session(arg);
 }
+#endif /* _FFR_WORKERS_POOL */
 
 /*
 **  MI_CLOSENER -- close listen socket
-**
-**	NOTE: It is assumed that this function is called from a
-**	      function that has a mutex lock (currently mi_stop_milters()).
 **
 **	Parameters:
 **		none.
@@ -713,7 +728,9 @@ mi_listener(conn, dbg, smfi, timeout, backlog)
 	int acnt = 0;	/* error count for accept() failures */
 	int scnt = 0;	/* error count for select() failures */
 	int save_errno = 0;
+#if !_FFR_WORKERS_POOL
 	sthread_t thread_id;
+#endif /* !_FFR_WORKERS_POOL */
 	_SOCK_ADDR cliaddr;
 	SOCKADDR_LEN_T clilen;
 	SMFICTX_PTR ctx;
@@ -722,6 +739,11 @@ mi_listener(conn, dbg, smfi, timeout, backlog)
 
 	if (mi_opensocket(conn, backlog, dbg, false, smfi) == MI_FAILURE)
 		return MI_FAILURE;
+
+#if _FFR_WORKERS_POOL
+	if (mi_pool_controller_init() == MI_FAILURE)
+		return MI_FAILURE;
+#endif /* _FFR_WORKERS_POOL */
 
 	clilen = L_socksize;
 	while ((mistop = mi_stop()) == MILTER_CONT)
@@ -785,9 +807,8 @@ mi_listener(conn, dbg, smfi, timeout, backlog)
 		(void) smutex_unlock(&L_Mutex);
 
 		/*
-		**  If remote side closes before
-		**  accept() finishes, sockaddr
-		**  might not be fully filled in.
+		**  If remote side closes before accept() finishes,
+		**  sockaddr might not be fully filled in.
 		*/
 
 		if (ValidSocket(connfd) &&
@@ -802,7 +823,6 @@ mi_listener(conn, dbg, smfi, timeout, backlog)
 			save_errno = EINVAL;
 		}
 
-#if !SM_CONF_POLL
 		/* check if acceptable for select() */
 		if (ValidSocket(connfd) && !SM_FD_OK_SELECT(connfd))
 		{
@@ -810,7 +830,6 @@ mi_listener(conn, dbg, smfi, timeout, backlog)
 			connfd = INVALID_SOCKET;
 			save_errno = ERANGE;
 		}
-#endif /* !SM_CONF_POLL */
 
 		if (!ValidSocket(connfd))
 		{
@@ -857,11 +876,7 @@ mi_listener(conn, dbg, smfi, timeout, backlog)
 		acnt = 0;	/* reset error counter for accept() */
 #if _FFR_DUP_FD
 		dupfd = fcntl(connfd, F_DUPFD, 256);
-		if (ValidSocket(dupfd)
-# if !SM_CONF_POLL
-		    && SM_FD_OK_SELECT(dupfd)
-# endif /* !SM_CONF_POLL */
-		   )
+		if (ValidSocket(dupfd) && SM_FD_OK_SELECT(dupfd))
 		{
 			close(connfd);
 			connfd = dupfd;
@@ -872,7 +887,8 @@ mi_listener(conn, dbg, smfi, timeout, backlog)
 		if (setsockopt(connfd, SOL_SOCKET, SO_KEEPALIVE,
 				(void *) &sockopt, sizeof sockopt) < 0)
 		{
-			smi_log(SMI_LOG_WARN, "%s: setsockopt() failed (%s)",
+			smi_log(SMI_LOG_WARN,
+				"%s: set keepalive failed (%s)",
 				smfi->xxfi_name, sm_errstring(errno));
 			/* XXX: continue? */
 		}
@@ -897,12 +913,6 @@ mi_listener(conn, dbg, smfi, timeout, backlog)
 		ctx->ctx_dbg = dbg;
 		ctx->ctx_timeout = timeout;
 		ctx->ctx_smfi = smfi;
-#if 0
-		if (smfi->xxfi_eoh == NULL)
-		if (smfi->xxfi_eom == NULL)
-		if (smfi->xxfi_abort == NULL)
-		if (smfi->xxfi_close == NULL)
-#endif /* 0 */
 		if (smfi->xxfi_connect == NULL)
 			ctx->ctx_pflags |= SMFIP_NOCONNECT;
 		if (smfi->xxfi_helo == NULL)
@@ -917,14 +927,24 @@ mi_listener(conn, dbg, smfi, timeout, backlog)
 			ctx->ctx_pflags |= SMFIP_NOEOH;
 		if (smfi->xxfi_body == NULL)
 			ctx->ctx_pflags |= SMFIP_NOBODY;
+		if (smfi->xxfi_version <= 3 || smfi->xxfi_data == NULL)
+			ctx->ctx_pflags |= SMFIP_NODATA;
+		if (smfi->xxfi_version <= 2 || smfi->xxfi_unknown == NULL)
+			ctx->ctx_pflags |= SMFIP_NOUNKNOWN;
 
+#if _FFR_WORKERS_POOL
+# define LOG_CRT_FAIL	"%s: mi_start_session() failed: %d, %s"
+		if ((r = mi_start_session(ctx)) != MI_SUCCESS)
+#else /* _FFR_WORKERS_POOL */
+# define LOG_CRT_FAIL	"%s: thread_create() failed: %d, %s"
 		if ((r = thread_create(&thread_id,
 					mi_thread_handle_wrapper,
 					(void *) ctx)) != 0)
+#endif /* _FFR_WORKERS_POOL */
 		{
 			tcnt++;
 			smi_log(SMI_LOG_ERR,
-				"%s: thread_create() failed: %d, %s",
+				LOG_CRT_FAIL,
 				smfi->xxfi_name,  r,
 				tcnt >= MAX_FAILS_T ? "abort" : "try again");
 			MI_SLEEP(tcnt);

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000-2001, 2003 Sendmail, Inc. and its suppliers.
+ * Copyright (c) 2000-2001, 2003, 2005 Sendmail, Inc. and its suppliers.
  *      All rights reserved.
  *
  * By using this file, you agree to the terms and conditions set
@@ -8,12 +8,13 @@
  */
 
 #include <sm/gen.h>
-SM_RCSID("@(#)$Sendmail: shm.c,v 1.16 2003/06/13 21:18:08 ca Exp $")
+SM_RCSID("@(#)$Id$")
 
 #if SM_CONF_SHM
 # include <stdlib.h>
 # include <unistd.h>
 # include <errno.h>
+# include <sm/string.h>
 # include <sm/shm.h>
 
 
@@ -104,4 +105,38 @@ sm_shmstop(shm, shmid, owner)
 }
 
 
+/*
+**  SM_SHMSETOWNER -- set owner/group/mode of shared memory segment.
+**
+**	Parameters:
+**		shmid -- id.
+**		uid -- uid to use
+**		gid -- gid to use
+**		mode -- mode to use
+**
+**	Returns:
+**		0 on success.
+**		< 0 on failure.
+*/
+
+int
+sm_shmsetowner(shmid, uid, gid, mode)
+	int shmid;
+	uid_t uid;
+	gid_t gid;
+	mode_t mode;
+{
+	int r;
+	struct shmid_ds shmid_ds;
+
+	memset(&shmid_ds, 0, sizeof(shmid_ds));
+	if ((r = shmctl(shmid, IPC_STAT, &shmid_ds)) < 0)
+		return r;
+	shmid_ds.shm_perm.uid = uid;
+	shmid_ds.shm_perm.gid = gid;
+	shmid_ds.shm_perm.mode = mode;
+	if ((r = shmctl(shmid, IPC_SET, &shmid_ds)) < 0)
+		return r;
+	return 0;
+}
 #endif /* SM_CONF_SHM */

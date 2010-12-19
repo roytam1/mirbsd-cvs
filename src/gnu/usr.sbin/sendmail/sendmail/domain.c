@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1998-2004 Sendmail, Inc. and its suppliers.
+ * Copyright (c) 1998-2004, 2006 Sendmail, Inc. and its suppliers.
  *	All rights reserved.
  * Copyright (c) 1986, 1995-1997 Eric P. Allman.  All rights reserved.
  * Copyright (c) 1988, 1993
@@ -12,11 +12,12 @@
  */
 
 #include <sendmail.h>
+#include "map.h"
 
 #if NAMED_BIND
-SM_RCSID("@(#)$Sendmail: domain.c,v 8.195 2004/08/04 21:11:31 ca Exp $ (with name server)")
+SM_RCSID("@(#)$Id$ (with name server)")
 #else /* NAMED_BIND */
-SM_RCSID("@(#)$Sendmail: domain.c,v 8.195 2004/08/04 21:11:31 ca Exp $ (without name server)")
+SM_RCSID("@(#)$Id$ (without name server)")
 #endif /* NAMED_BIND */
 
 #if NAMED_BIND
@@ -232,6 +233,9 @@ getmxrr(host, mxhosts, mxprefs, droplocalhost, rcode, tryfallback, pttl)
 	if (tTd(8, 2))
 		sm_dprintf("getmxrr(%s, droplocalhost=%d)\n",
 			   host, droplocalhost);
+	*rcode = EX_OK;
+	if (pttl != NULL)
+		*pttl = SM_DEFAULT_TTL;
 	if (*host == '\0')
 		return 0;
 
@@ -241,8 +245,6 @@ getmxrr(host, mxhosts, mxprefs, droplocalhost, rcode, tryfallback, pttl)
 		/* don't use fallback for this pass */
 		fallbackMX = NULL;
 	}
-
-	*rcode = EX_OK;
 
 	if (mxprefs != NULL)
 		prefs = mxprefs;
@@ -275,7 +277,7 @@ getmxrr(host, mxhosts, mxprefs, droplocalhost, rcode, tryfallback, pttl)
 	{
 		if (tTd(8, 1))
 			sm_dprintf("getmxrr: res_search(%s) failed (errno=%d, h_errno=%d)\n",
-				host == NULL ? "<NULL>" : host, errno, h_errno);
+				host, errno, h_errno);
 		switch (h_errno)
 		{
 		  case NO_DATA:
@@ -520,17 +522,17 @@ punt:
 			}
 # if NETINET6
 			freehostent(h);
-			hp = NULL;
+			h = NULL;
 # endif /* NETINET6 */
 		}
-		if (strlen(host) >= sizeof MXHostBuf)
+		if (strlen(host) >= sizeof(MXHostBuf))
 		{
 			*rcode = EX_CONFIG;
 			syserr("Host name %s too long",
 			       shortenstring(host, MAXSHORTSTR));
 			return -1;
 		}
-		(void) sm_strlcpy(MXHostBuf, host, sizeof MXHostBuf);
+		(void) sm_strlcpy(MXHostBuf, host, sizeof(MXHostBuf));
 		mxhosts[0] = MXHostBuf;
 		prefs[0] = 0;
 		if (host[0] == '[')
@@ -567,7 +569,7 @@ punt:
 			}
 		}
 		if (trycanon &&
-		    getcanonname(mxhosts[0], sizeof MXHostBuf - 2, false, pttl))
+		    getcanonname(mxhosts[0], sizeof(MXHostBuf) - 2, false, pttl))
 		{
 			/* XXX MXHostBuf == "" ?  is that possible? */
 			bp = &MXHostBuf[strlen(MXHostBuf)];
@@ -729,14 +731,14 @@ bestmx_map_lookup(map, name, av, statp)
 			return NULL;
 		}
 		slen = strlen(mxhosts[i]);
-		if (len + slen + 2 > sizeof buf)
+		if (len + slen + 2 > sizeof(buf))
 			break;
 		if (i > 0)
 		{
 			*p++ = map->map_coldelim;
 			len++;
 		}
-		(void) sm_strlcpy(p, mxhosts[i], sizeof buf - len);
+		(void) sm_strlcpy(p, mxhosts[i], sizeof(buf) - len);
 		p += slen;
 		len += slen;
 	}
@@ -971,11 +973,7 @@ nexttype:
 		/* avoid problems after truncation in tcp packets */
 		if (ret > sizeof(answer))
 			ret = sizeof(answer);
-		if (ret < 0)
-		{
-			*statp = EX_SOFTWARE;
-			return false;
-		}
+		SM_ASSERT(ret >= 0);
 
 		/*
 		**  Appear to have a match.  Confirm it by searching for A or
@@ -1008,7 +1006,7 @@ nexttype:
 		     ap += n)
 		{
 			n = dn_expand((unsigned char *) &answer, eom, ap,
-				      (RES_UNC_T) nbuf, sizeof nbuf);
+				      (RES_UNC_T) nbuf, sizeof(nbuf));
 			if (n < 0)
 				break;
 			ap += n;
@@ -1073,7 +1071,7 @@ nexttype:
 						char ebuf[MAXLINE];
 
 						(void) sm_snprintf(ebuf,
-							sizeof ebuf,
+							sizeof(ebuf),
 							"Deferred: DNS failure: CNAME loop for %.100s",
 							host);
 						CurEnv->e_message =
@@ -1152,7 +1150,7 @@ nexttype:
 	**  Otherwise append the saved domain name.
 	*/
 
-	(void) sm_snprintf(nbuf, sizeof nbuf, "%.*s%s%.*s", MAXDNAME, host,
+	(void) sm_snprintf(nbuf, sizeof(nbuf), "%.*s%s%.*s", MAXDNAME, host,
 			   *mxmatch == '\0' ? "" : ".",
 			   MAXDNAME, mxmatch);
 	(void) sm_strlcpy(host, nbuf, hbsize);

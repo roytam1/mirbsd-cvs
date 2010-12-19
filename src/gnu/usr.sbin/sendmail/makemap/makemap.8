@@ -1,5 +1,5 @@
 .\" Copyright (c) 1998-2002 Sendmail, Inc. and its suppliers.
-.\"	All rights reserved.
+.\"	 All rights reserved.
 .\" Copyright (c) 1988, 1991, 1993
 .\"	The Regents of the University of California.  All rights reserved.
 .\"
@@ -8,161 +8,166 @@
 .\" the sendmail distribution.
 .\"
 .\"
-.\"     $Sendmail: makemap.8,v 8.30 2002/06/27 23:41:04 gshapiro Exp $
+.\"     $Id$
 .\"
-.Dd October 10, 2001
-.Dt MAKEMAP 8
-.Os
-.Sh NAME
-.Nm makemap
-.Nd create database maps for sendmail
-.Sh SYNOPSIS
-.Nm makemap
-.Op Fl C Ar file
-.Op Fl N
-.Op Fl c Ar cachesize
-.Op Fl D Ar commentchar
-.Op Fl d
-.Op Fl e
-.Op Fl f
-.Op Fl l
-.Op Fl o
-.Op Fl r
-.Op Fl s
-.Op Fl t Ar delim
-.Op Fl u
-.Op Fl v
-.Ar maptype
-.Ar mapname
-.Sh DESCRIPTION
-.Nm
+.TH MAKEMAP 8 "$Date$"
+.SH NAME
+makemap
+\- create database maps for sendmail
+.SH SYNOPSIS
+.B makemap
+.RB [ \-C
+.IR file ]
+.RB [ \-N ]
+.RB [ \-c
+.IR cachesize ]
+.RB [ \-d ]
+.RB [ \-D
+.IR commentchar ]
+.RB [ \-e ]
+.RB [ \-f ]
+.RB [ \-l ]
+.RB [ \-o ]
+.RB [ \-r ]
+.RB [ \-s ]
+.RB [ \-t
+.IR delim ]
+.RB [ \-u ]
+.RB [ \-v ]
+.I 
+maptype mapnam
+.SH DESCRIPTION
+.B Makemap
 creates the database maps used by the keyed map lookups in
-.Xr sendmail 8 .
+sendmail(8).  
 It reads input from the standard input
 and outputs them to the indicated
-.Ar mapname .
-.Pp
+.I mapname.
+.PP
 Depending on how it is compiled,
-.Nm
-handles up to three different database formats,
+.B makemap
+handles up to three different database formats, 
 selected using the
-.Ar maptype
-parameter.
+.I maptype
+parameter.  
 They may be
-.Bl -tag -width Fl
-.It Li dbm
-DBM format maps.
-This requires the
-.Xr ndbm 3
+.TP
+dbm
+DBM format maps.  
+This requires the 
+ndbm(3) 
 library.
-.It Li btree
-B-Tree format maps.
-This requires the new Berkeley DB
+.TP
+btree
+B-Tree format maps.  
+This requires the new Berkeley DB 
 library.
-.It Li hash
-Hash format maps.
-This also requires the Berkeley DB
+.TP
+hash
+Hash format maps.  
+This also requires the Berkeley DB 
 library.
-.El
-.Pp
+.PP
 In all cases,
-.Nm
-reads lines from the standard input consisting of two
-words separated by whitespace.
-The first is the database key,
-the second is the value.
-The value may contain
-``%\fIn\fP''
-strings to indicated parameter substitution.
-Literal percents should be doubled
+.B makemap
+reads lines from the standard input consisting of two 
+words separated by white space.  
+The first is the database key, 
+the second is the value.  
+The value may contain 
+``%\fIn\fP'' 
+strings to indicate parameter substitution.  
+Literal percents should be doubled 
 (``%%'').
 Blank lines and lines beginning with ``#'' are ignored.
-.Pp
+.PP
 Notice: do
-.Em not
+.B not
 use
-.Nm
+.B makemap
 to create the aliases data base, but
-.Xr newaliases 8
+.B newaliases
 which puts a special token into the data base that is required by
-.Xr sendmail 8 .
-.Pp
+.B sendmail.
+.PP
 If the
-.Li TrustedUser
+.I TrustedUser
 option is set in the sendmail configuration file and
-.Nm
-is invoked as root, the generated files will be owned by
+.B makemap
+is invoked as root, the generated files will be owned by 
 the specified
-.Li TrustedUser .
-.Ss Flags
-.Bl -tag -width Fl
-.It Fl C Ar file
+.IR TrustedUser.
+.SS Flags
+.TP  
+.B \-C
 Use the specified
-.Xr sendmail 8
-configuration
-.Ar file
-for looking up the
-.Li TrustedUser
-option.
-.It Fl N
-Include the null byte that terminates strings
-in the map.
-This must match the
-.Fl N
-flag in the sendmail.cf
-.Dq K
-line.
-.It Fl c
+.B sendmail
+configuration file for looking up the TrustedUser option.
+.TP 
+.B \-N
+Include the null byte that terminates strings 
+in the map.  
+This must match the \-N flag in the sendmail.cf 
+``K'' line.
+.TP
+.B \-c
 Use the specified hash and B-Tree cache size.
-.It Fl D
+.TP
+.B \-D
 Use to specify the character to use to indicate a comment (which is ignored)
-instead of the default of
-.Sq # .
-.It Fl d
-Allow duplicate keys in the map.
-This is only allowed on B-Tree format maps.
-If two identical keys are read,
+instead of the default of '#'.
+.TP
+.B \-d
+Allow duplicate keys in the map.  
+This is only allowed on B-Tree format maps.  
+If two identical keys are read, 
 they will both be inserted into the map.
-.It Fl e
+.TP
+.B \-e
 Allow empty value (right hand side).
-.It Fl f
-Normally all upper case letters in the key
-are folded to lower case.
-This flag disables that behaviour.
-This is intended to mesh with the
-.Fl f
-flag in the
-.Dq K
-line in sendmail.cf.
+.TP
+.B \-f
+Normally all upper case letters in the key 
+are folded to lower case.  
+This flag disables that behaviour.  
+This is intended to mesh with the 
+\-f flag in the 
+.B K 
+line in sendmail.cf.  
 The value is never case folded.
-.It Fl l
+.TP
+.B \-l
 List supported map types.
-.It Fl o
-Append to an old file.
+.TP
+.B \-o
+Append to an old file.  
 This allows you to augment an existing file.
-.It Fl r
-Allow replacement of existing keys.
+.TP
+.B \-r
+Allow replacement of existing keys.  
 Normally
-.Nm
-complains if you repeat a key,
+.B makemap
+complains if you repeat a key, 
 and does not do the insert.
-.It Fl s
-Ignore safety checks on maps being created.
-This includes checking for hard or symbolic
+.TP
+.B \-s
+Ignore safety checks on maps being created.  
+This includes checking for hard or symbolic 
 links in world writable directories.
-.It Fl t
-Use the specified delimiter instead of white space.
-.It Fl u
+.TP
+.B \-t
+Use the specified delimiter instead of white space
+(also for dumping a map).
+.TP
+.B \-u
 dump (unmap) the content of the database to standard output.
-.It Fl v
+.TP
+.B \-v
 Verbosely print what it is doing.
-.El
-.Sh SEE ALSO
-.Xr editmap 8 ,
-.Xr newaliases 8 ,
-.Xr sendmail 8
-.Sh HISTORY
+.SH SEE ALSO
+sendmail(8), newaliases(1)
+.SH HISTORY
 The
-.Nm
-command appeared in
-.Bx 4.4 .
+.B makemap
+command appeared in 
+4.4BSD.

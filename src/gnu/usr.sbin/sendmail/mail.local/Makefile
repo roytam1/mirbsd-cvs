@@ -1,10 +1,19 @@
-#	$OpenBSD: Makefile,v 1.6 2002/04/18 00:49:27 millert Exp $
+#       $Id$
 
-PROG=	mail.local
-MAN=	mail.local.8
-ENVDEF=	-DNOT_SENDMAIL
+SHELL= /bin/sh
+BUILD=   ./Build
+OPTIONS= $(CONFIG) $(FLAGS)
 
-WANT_LIBSM=1
+all: FRC
+	$(SHELL) $(BUILD) $(OPTIONS) $@
+clean: FRC
+	$(SHELL) $(BUILD) $(OPTIONS) $@
+install: FRC
+	$(SHELL) $(BUILD) $(OPTIONS) $@
+force-install: FRC
+	$(SHELL) $(BUILD) $(OPTIONS) $@
 
-.include "../../../libexec/Makefile.inc"
-.include <bsd.prog.mk>
+fresh: FRC
+	$(SHELL) $(BUILD) $(OPTIONS) -c
+
+FRC:

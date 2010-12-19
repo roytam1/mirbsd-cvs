@@ -10,7 +10,7 @@ divert(-1)
 #
 
 divert(0)
-VERSIONID(`$Sendmail: badmx.m4,v 1.1 2006/12/16 00:56:32 ca Exp $')
+VERSIONID(`$Id$')
 divert(-1)
 
 define(`_BADMX_CHK_', 1)

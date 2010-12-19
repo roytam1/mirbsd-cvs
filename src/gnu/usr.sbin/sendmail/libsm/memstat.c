@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2005 Sendmail, Inc. and its suppliers.
+ * Copyright (c) 2005-2007 Sendmail, Inc. and its suppliers.
  *      All rights reserved.
  *
  * By using this file, you agree to the terms and conditions set
@@ -8,9 +8,10 @@
  */
 
 #include <sm/gen.h>
-SM_RCSID("@(#)$Sendmail: memstat.c,v 1.4 2005/12/10 00:38:48 ca Exp $")
+SM_RCSID("@(#)$Id$")
 
 #include <errno.h>
+#include <sm/misc.h>
 
 #if USESWAPCTL
 #include <sys/stat.h>
@@ -265,6 +266,8 @@ sm_memstat_get(resource, pvalue)
 		return -1;	/* try to reopen? */
 	rewind(fp);
 	l = strlen(resource);
+	if (l >= sizeof(buf))
+		return EINVAL;
 	while (fgets(buf, sizeof(buf), fp) != NULL)
 	{
 		if (strncmp(buf, resource, l) == 0 && buf[l] == ':')

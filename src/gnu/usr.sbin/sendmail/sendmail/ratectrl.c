@@ -45,7 +45,7 @@
  */
 
 #include <sendmail.h>
-SM_RCSID("@(#)$Sendmail: ratectrl.c,v 8.9 2004/07/07 21:23:57 ca Exp $")
+SM_RCSID("@(#)$Id$")
 
 /*
 **  stuff included - given some warnings (inet_ntoa)
@@ -56,7 +56,7 @@ SM_RCSID("@(#)$Sendmail: ratectrl.c,v 8.9 2004/07/07 21:23:57 ca Exp $")
 # include <arpa/inet.h>
 #endif	/* NETINET || NETINET6 */
 
-#include <sys/time.h>
+#include <sm/time.h>
 
 #ifndef HASH_ALG
 # define HASH_ALG	2
@@ -114,7 +114,7 @@ connection_rate_check(hostaddr, e)
 	/* update server connection rate */
 	totalrate = total_rate(now, e == NULL);
 #if RATECTL_DEBUG
-	sm_syslog(LOG_INFO, NOQID, "global connection rate: %d", globalRate);
+	sm_syslog(LOG_INFO, NOQID, "global connection rate: %d", totalrate);
 #endif /* RATECTL_DEBUG */
 
 	/* update client connection rate */
@@ -245,7 +245,7 @@ client_rate(now, saddr, update)
 
 	if (!CHashAryOK)
 	{
-		memset(CHashAry, 0, sizeof (CHashAry));
+		memset(CHashAry, 0, sizeof(CHashAry));
 		CHashAryOK = true;
 	}
 
@@ -386,7 +386,7 @@ client_rate(now, saddr, update)
 #endif /* NETINET6 */
 #if 1
 			memset(chBest->ch_Times, '\0',
-			       sizeof (chBest->ch_Times));
+			       sizeof(chBest->ch_Times));
 #endif /* 1 */
 		}
 

@@ -10,7 +10,7 @@ divert(-1)
 #
 
 divert(0)
-VERSIONID(`$Sendmail: no_default_msa.m4,v 8.2 2001/02/14 05:03:22 gshapiro Exp $')
+VERSIONID(`$Id$')
 divert(-1)
 
 define(`_NO_MSA_', `1')

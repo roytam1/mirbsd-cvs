@@ -10,7 +10,7 @@ divert(-1)
 #
 
 divert(0)
-VERSIONID(`$Sendmail: promiscuous_relay.m4,v 8.12 2001/02/06 17:14:35 ca Exp $')
+VERSIONID(`$Id$')
 divert(-1)
 
 define(`_PROMISCUOUS_RELAY_', 1)

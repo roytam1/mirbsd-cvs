@@ -23,7 +23,7 @@ divert(-1)
 #
 
 divert(0)dnl
-VERSIONID(`$Sendmail: clientproto.mc,v 8.16 2000/03/21 21:05:26 ca Exp $')
+VERSIONID(`$Id$')
 
-OSTYPE(openbsd)
+OSTYPE(unknown)
 FEATURE(nullclient, mailhost.$m)

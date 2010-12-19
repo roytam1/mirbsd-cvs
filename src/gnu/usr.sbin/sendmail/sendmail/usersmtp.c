@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1998-2005 Sendmail, Inc. and its suppliers.
+ * Copyright (c) 1998-2006, 2008 Sendmail, Inc. and its suppliers.
  *	All rights reserved.
  * Copyright (c) 1983, 1995-1997 Eric P. Allman.  All rights reserved.
  * Copyright (c) 1988, 1993
@@ -13,12 +13,11 @@
 
 #include <sendmail.h>
 
-SM_RCSID("@(#)$Sendmail: usersmtp.c,v 8.460 2005/01/11 00:24:19 ca Exp $")
+SM_RCSID("@(#)$Id$")
 
 #include <sysexits.h>
 
 
-static void	datatimeout __P((int));
 static void	esmtp_check __P((char *, bool, MAILER *, MCI *, ENVELOPE *));
 static void	helo_options __P((char *, bool, MAILER *, MCI *, ENVELOPE *));
 static int	smtprcptstat __P((ADDRESS *, MAILER *, MCI *, ENVELOPE *));
@@ -34,7 +33,6 @@ extern void	sm_sasl_free __P((void *));
 **	This protocol is described in RFC821.
 */
 
-#define REPLYTYPE(r)	((r) / 100)		/* first digit of reply code */
 #define REPLYCLASS(r)	(((r) / 10) % 10)	/* second digit of reply code */
 #define SMTPCLOSING	421			/* "Service Shutting Down" */
 
@@ -89,6 +87,7 @@ smtpinit(m, mci, e, onlyhelo)
 	*/
 
 	SmtpError[0] = '\0';
+	SmtpMsgBuffer[0] = '\0';
 	CurHostName = mci->mci_host;		/* XXX UGLY XXX */
 	if (CurHostName == NULL)
 		CurHostName = MyHostName;
@@ -542,6 +541,10 @@ static sasl_callback_t callbacks[] =
 **
 **	Side Effects:
 **		checks/sets sasl_clt_init.
+**
+**	Note:
+**	Callbacks are ignored if sasl_client_init() has
+**	been called before (by a library such as libnss_ldap)
 */
 
 static bool sasl_clt_init = false;
@@ -790,7 +793,7 @@ readauth(filename, safe, sai, rpool)
 
 	lc = 0;
 	while (lc <= SASL_MECHLIST &&
-		sm_io_fgets(f, SM_TIME_DEFAULT, buf, sizeof buf) != NULL)
+		sm_io_fgets(f, SM_TIME_DEFAULT, buf, sizeof(buf)) != NULL)
 	{
 		if (buf[0] != '#')
 		{
@@ -1579,9 +1582,15 @@ attemptauth(m, mci, e, sai)
 
 	/* make a new client sasl connection */
 # if SASL >= 20000
+	/*
+	**  We provide the callbacks again because global callbacks in
+	**  sasl_client_init() are ignored if SASL has been initialized
+	**  before, for example, by a library such as libnss-ldap.
+	*/
+
 	saslresult = sasl_client_new(bitnset(M_LMTP, m->m_flags) ? "lmtp"
 								 : "smtp",
-				     CurHostName, NULL, NULL, NULL, 0,
+				     CurHostName, NULL, NULL, callbacks, 0,
 				     &mci->mci_conn);
 # else /* SASL >= 20000 */
 	saslresult = sasl_client_new(bitnset(M_LMTP, m->m_flags) ? "lmtp"
@@ -1592,11 +1601,9 @@ attemptauth(m, mci, e, sai)
 		return EX_TEMPFAIL;
 
 	/* set properties */
-	(void) memset(&ssp, '\0', sizeof ssp);
+	(void) memset(&ssp, '\0', sizeof(ssp));
 
 	/* XXX should these be options settable via .cf ? */
-#  if STARTTLS
-#endif /* STARTTLS */
 	{
 		ssp.max_ssf = MaxSLBits;
 		ssp.maxbufsize = MAXOUTLEN;
@@ -1653,7 +1660,7 @@ attemptauth(m, mci, e, sai)
 			break;
 		}
 		if (iptostring(&CurHostAddr, addrsize,
-			       remoteip, sizeof remoteip))
+			       remoteip, sizeof(remoteip)))
 		{
 			if (sasl_setprop(mci->mci_conn, SASL_IPREMOTEPORT,
 					 remoteip) != SASL_OK)
@@ -1665,7 +1672,7 @@ attemptauth(m, mci, e, sai)
 				(struct sockaddr *) &saddr_l, &addrsize) == 0)
 		{
 			if (iptostring(&saddr_l, addrsize,
-				       localip, sizeof localip))
+				       localip, sizeof(localip)))
 			{
 				if (sasl_setprop(mci->mci_conn,
 						 SASL_IPLOCALPORT,
@@ -2014,7 +2021,7 @@ smtpmailfrom(m, mci, e)
 	/* set up appropriate options to include */
 	if (bitset(MCIF_SIZE, mci->mci_flags) && e->e_msgsize > 0)
 	{
-		(void) sm_snprintf(optbuf, sizeof optbuf, " SIZE=%ld",
+		(void) sm_snprintf(optbuf, sizeof(optbuf), " SIZE=%ld",
 			e->e_msgsize);
 		bufp = &optbuf[strlen(optbuf)];
 	}
@@ -2141,7 +2148,7 @@ smtpmailfrom(m, mci, e)
 	    !bitnset(M_NO_NULL_FROM, m->m_flags))
 		buf[0] = '\0';
 	else
-		expand("\201g", buf, sizeof buf, e);
+		expand("\201g", buf, sizeof(buf), e);
 	if (buf[0] == '<')
 	{
 		/* strip off <angle brackets> (put back on below) */
@@ -2299,7 +2306,7 @@ smtprcpt(to, m, mci, e, ctladdr, xstart)
 
 	/*
 	**  Warning: in the following it is assumed that the free space
-	**  in bufp is sizeof optbuf
+	**  in bufp is sizeof(optbuf)
 	*/
 
 	if (bitset(MCIF_DSN, mci->mci_flags))
@@ -2323,30 +2330,30 @@ smtprcpt(to, m, mci, e, ctladdr, xstart)
 		{
 			bool firstone = true;
 
-			(void) sm_strlcat(bufp, " NOTIFY=", sizeof optbuf);
+			(void) sm_strlcat(bufp, " NOTIFY=", sizeof(optbuf));
 			if (bitset(QPINGONSUCCESS, to->q_flags))
 			{
-				(void) sm_strlcat(bufp, "SUCCESS", sizeof optbuf);
+				(void) sm_strlcat(bufp, "SUCCESS", sizeof(optbuf));
 				firstone = false;
 			}
 			if (bitset(QPINGONFAILURE, to->q_flags))
 			{
 				if (!firstone)
 					(void) sm_strlcat(bufp, ",",
-						       sizeof optbuf);
-				(void) sm_strlcat(bufp, "FAILURE", sizeof optbuf);
+						       sizeof(optbuf));
+				(void) sm_strlcat(bufp, "FAILURE", sizeof(optbuf));
 				firstone = false;
 			}
 			if (bitset(QPINGONDELAY, to->q_flags))
 			{
 				if (!firstone)
 					(void) sm_strlcat(bufp, ",",
-						       sizeof optbuf);
-				(void) sm_strlcat(bufp, "DELAY", sizeof optbuf);
+						       sizeof(optbuf));
+				(void) sm_strlcat(bufp, "DELAY", sizeof(optbuf));
 				firstone = false;
 			}
 			if (firstone)
-				(void) sm_strlcat(bufp, "NEVER", sizeof optbuf);
+				(void) sm_strlcat(bufp, "NEVER", sizeof(optbuf));
 			bufp += strlen(bufp);
 		}
 
@@ -2492,9 +2499,6 @@ smtprcptstat(to, m, mci, e)
 **		exit status corresponding to DATA command.
 */
 
-static jmp_buf	CtxDataTimeout;
-static SM_EVENT	*volatile DataTimeout = NULL;
-
 int
 smtpdata(m, mci, e, ctladdr, xstart)
 	MAILER *m;
@@ -2506,7 +2510,7 @@ smtpdata(m, mci, e, ctladdr, xstart)
 	register int r;
 	int rstat;
 	int xstat;
-	time_t timeout;
+	int timeout;
 	char *enhsc;
 
 	/*
@@ -2630,43 +2634,22 @@ smtpdata(m, mci, e, ctladdr, xstart)
 	**  factor.  The main thing is that it should not be infinite.
 	*/
 
-	if (setjmp(CtxDataTimeout) != 0)
-	{
-		mci->mci_errno = errno;
-		mci->mci_state = MCIS_ERROR;
-		mci_setstat(mci, EX_TEMPFAIL, "4.4.2", NULL);
-
-		/*
-		**  If putbody() couldn't finish due to a timeout,
-		**  rewind it here in the timeout handler.  See
-		**  comments at the end of putbody() for reasoning.
-		*/
-
-		if (e->e_dfp != NULL)
-			(void) bfrewind(e->e_dfp);
-
-		errno = mci->mci_errno;
-		syserr("451 4.4.1 timeout writing message to %s", CurHostName);
-		smtpquit(m, mci, e);
-		return EX_TEMPFAIL;
-	}
-
 	if (tTd(18, 101))
 	{
 		/* simulate a DATA timeout */
-		timeout = 1;
+		timeout = 10;
 	}
 	else
-		timeout = DATA_PROGRESS_TIMEOUT;
-
-	DataTimeout = sm_setevent(timeout, datatimeout, 0);
+		timeout = DATA_PROGRESS_TIMEOUT * 1000;
+	sm_io_setinfo(mci->mci_out, SM_IO_WHAT_TIMEOUT, &timeout);
 
 
 	/*
 	**  Output the actual message.
 	*/
 
-	(*e->e_puthdr)(mci, e->e_header, e, M87F_OUTER);
+	if (!(*e->e_puthdr)(mci, e->e_header, e, M87F_OUTER))
+		goto writeerr;
 
 	if (tTd(18, 101))
 	{
@@ -2674,14 +2657,13 @@ smtpdata(m, mci, e, ctladdr, xstart)
 		(void) sleep(2);
 	}
 
-	(*e->e_putbody)(mci, e, NULL);
+	if (!(*e->e_putbody)(mci, e, NULL))
+		goto writeerr;
 
 	/*
 	**  Cleanup after sending message.
 	*/
 
-	if (DataTimeout != NULL)
-		sm_clrevent(DataTimeout);
 
 #if PIPELINING
 	}
@@ -2721,7 +2703,10 @@ smtpdata(m, mci, e, ctladdr, xstart)
 	}
 
 	/* terminate the message */
-	(void) sm_io_fprintf(mci->mci_out, SM_TIME_DEFAULT, ".%s", m->m_eol);
+	if (sm_io_fprintf(mci->mci_out, SM_TIME_DEFAULT, "%s.%s",
+			bitset(MCIF_INLONGLINE, mci->mci_flags) ? m->m_eol : "",
+			m->m_eol) == SM_IO_EOF)
+		goto writeerr;
 	if (TrafficLogFile != NULL)
 		(void) sm_io_fprintf(TrafficLogFile, SM_TIME_DEFAULT,
 				     "%05d >>> .\n", (int) CurrentPid);
@@ -2772,51 +2757,27 @@ smtpdata(m, mci, e, ctladdr, xstart)
 			  shortenstring(SmtpReplyBuffer, 403));
 	}
 	return rstat;
-}
 
-static void
-datatimeout(ignore)
-	int ignore;
-{
-	int save_errno = errno;
+  writeerr:
+	mci->mci_errno = errno;
+	mci->mci_state = MCIS_ERROR;
+	mci_setstat(mci, EX_TEMPFAIL, "4.4.2", NULL);
 
 	/*
-	**  NOTE: THIS CAN BE CALLED FROM A SIGNAL HANDLER.  DO NOT ADD
-	**	ANYTHING TO THIS ROUTINE UNLESS YOU KNOW WHAT YOU ARE
-	**	DOING.
+	**  If putbody() couldn't finish due to a timeout,
+	**  rewind it here in the timeout handler.  See
+	**  comments at the end of putbody() for reasoning.
 	*/
 
-	if (DataProgress)
-	{
-		time_t timeout;
+	if (e->e_dfp != NULL)
+		(void) bfrewind(e->e_dfp);
 
-		/* check back again later */
-		if (tTd(18, 101))
-		{
-			/* simulate a DATA timeout */
-			timeout = 1;
-		}
-		else
-			timeout = DATA_PROGRESS_TIMEOUT;
-
-		/* reset the timeout */
-		DataTimeout = sm_sigsafe_setevent(timeout, datatimeout, 0);
-		DataProgress = false;
-	}
-	else
-	{
-		/* event is done */
-		DataTimeout = NULL;
-	}
-
-	/* if no progress was made or problem resetting event, die now */
-	if (DataTimeout == NULL)
-	{
-		errno = ETIMEDOUT;
-		longjmp(CtxDataTimeout, 1);
-	}
-	errno = save_errno;
+	errno = mci->mci_errno;
+	syserr("451 4.4.1 timeout writing message to %s", CurHostName);
+	smtpquit(m, mci, e);
+	return EX_TEMPFAIL;
 }
+
 /*
 **  SMTPGETSTAT -- get status code from DATA in LMTP
 **
@@ -2899,7 +2860,10 @@ smtpquit(m, mci, e)
 	char *oldcurhost;
 
 	if (mci->mci_state == MCIS_CLOSED)
+	{
+		mci_close(mci, "smtpquit:1");
 		return;
+	}
 
 	oldcurhost = CurHostName;
 	CurHostName = mci->mci_host;		/* XXX UGLY XXX */
@@ -3019,6 +2983,8 @@ smtprset(m, mci, e)
 
 	if (mci->mci_state != MCIS_SSD && mci->mci_state != MCIS_CLOSED)
 		mci->mci_state = MCIS_OPEN;
+	else if (mci->mci_exitstat == EX_OK)
+		mci_setstat(mci, EX_TEMPFAIL, "4.5.0", NULL);
 }
 /*
 **  SMTPPROBE -- check the connection state
@@ -3111,6 +3077,7 @@ reply(m, mci, e, timeout, pfunc, enhstat, rtype)
 	*/
 
 	bufp = SmtpReplyBuffer;
+	set_tls_rd_tmo(timeout);
 	for (;;)
 	{
 		register char *p;
@@ -3133,7 +3100,7 @@ reply(m, mci, e, timeout, pfunc, enhstat, rtype)
 			if (strncmp(SmtpMsgBuffer, "QUIT", 4) == 0)
 			{
 				errno = mci->mci_errno;
-				mci->mci_state = MCIS_CLOSED;
+				mci_close(mci, "reply:1");
 				return -1;
 			}
 			mci->mci_state = MCIS_ERROR;
@@ -3158,7 +3125,7 @@ reply(m, mci, e, timeout, pfunc, enhstat, rtype)
 			/* errors on QUIT should be ignored */
 			if (strncmp(SmtpMsgBuffer, "QUIT", 4) == 0)
 			{
-				mci->mci_state = MCIS_CLOSED;
+				mci_close(mci, "reply:2");
 				return -1;
 			}
 
@@ -3167,7 +3134,7 @@ reply(m, mci, e, timeout, pfunc, enhstat, rtype)
 			if (errno == 0)
 			{
 				(void) sm_snprintf(SmtpReplyBuffer,
-						   sizeof SmtpReplyBuffer,
+						   sizeof(SmtpReplyBuffer),
 						   "421 4.4.1 Connection reset by %s",
 						   CURHOSTNAME);
 #ifdef ECONNRESET
@@ -3287,7 +3254,7 @@ reply(m, mci, e, timeout, pfunc, enhstat, rtype)
 
 	/* save temporary failure messages for posterity */
 	if (SmtpReplyBuffer[0] == '4')
-		(void) sm_strlcpy(SmtpError, SmtpReplyBuffer, sizeof SmtpError);
+		(void) sm_strlcpy(SmtpError, SmtpReplyBuffer, sizeof(SmtpError));
 
 	/* reply code 421 is "Service Shutting Down" */
 	if (r == SMTPCLOSING && mci->mci_state != MCIS_SSD &&
@@ -3330,7 +3297,7 @@ smtpmessage(f, m, mci, va_alist)
 	SM_VA_LOCAL_DECL
 
 	SM_VA_START(ap, mci);
-	(void) sm_vsnprintf(SmtpMsgBuffer, sizeof SmtpMsgBuffer, f, ap);
+	(void) sm_vsnprintf(SmtpMsgBuffer, sizeof(SmtpMsgBuffer), f, ap);
 	SM_VA_END(ap);
 
 	if (tTd(18, 1) || Verbose)

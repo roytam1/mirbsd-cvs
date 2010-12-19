@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000-2001 Sendmail, Inc. and its suppliers.
+ * Copyright (c) 2000-2001, 2005-2007 Sendmail, Inc. and its suppliers.
  *      All rights reserved.
  *
  * By using this file, you agree to the terms and conditions set
@@ -8,7 +8,7 @@
  */
 
 #include <sm/gen.h>
-SM_RCSID("@(#)$Sendmail: t-sem.c,v 1.14 2005/03/25 21:27:41 ca Exp $")
+SM_RCSID("@(#)$Id$")
 
 #include <stdio.h>
 
@@ -21,6 +21,8 @@ SM_RCSID("@(#)$Sendmail: t-sem.c,v 1.14 2005/03/25 21:27:41 ca Exp $")
 # include <sm/signal.h>
 # include <sm/test.h>
 # include <sm/sem.h>
+
+# define T_SM_SEM_KEY (4321L)
 
 static void
 delay(t, s)
@@ -58,7 +60,7 @@ seminter(owner)
 	int semid;
 	int t;
 
-	semid = sm_sem_start(SM_SEM_KEY, SM_NSEM, 0, owner);
+	semid = sm_sem_start(T_SM_SEM_KEY, SM_NSEM, 0, owner);
 	if (semid < 0)
 	{
 		perror("sm_sem_start failed");
@@ -145,7 +147,7 @@ semtest(owner)
 	int semid, r;
 	int cnt = 0;
 
-	semid = sm_sem_start(SM_SEM_KEY, 1, 0, owner);
+	semid = sm_sem_start(T_SM_SEM_KEY, 1, 0, owner);
 	if (semid < 0)
 	{
 		perror("sm_sem_start failed");
@@ -307,7 +309,7 @@ main(argc, argv)
 		pid_t pid;
 
 		printf("This test takes about 8 seconds.\n");
-		printf("If it takes longer than 30 second, please interrupt it\n");
+		printf("If it takes longer than 30 seconds, please interrupt it\n");
 		printf("and compile again without semaphore support, i.e.,");
 		printf("-DSM_CONF_SEM=0\n");
 		if ((pid = fork()) < 0)

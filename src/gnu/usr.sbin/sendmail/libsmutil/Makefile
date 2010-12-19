@@ -1,15 +1,17 @@
-#	$OpenBSD: Makefile,v 1.5 2004/11/02 21:12:15 pefo Exp $
+#       $Id$
 
-LIB=	smutil
-SRCS=	debug.c err.c lockfile.c safefile.c snprintf.c cf.c
-ENVDEF=	-DNOT_SENDMAIL
+SHELL= /bin/sh
+BUILD=   ./Build
+OPTIONS= $(CONFIG) $(FLAGS)
 
-.if ${MACHINE_ARCH} == mips64
-CFLAGS+= -fno-stack-protector
-.endif
+all: FRC
+	$(SHELL) $(BUILD) $(OPTIONS) $@
+clean: FRC
+	$(SHELL) $(BUILD) $(OPTIONS) $@
+install: FRC
+	$(SHELL) $(BUILD) $(OPTIONS) $@
 
-# This is not a library that gets installed so only build the .a version
-NOPROFILE=1
-NOPIC=1
+fresh: FRC
+	$(SHELL) $(BUILD) $(OPTIONS) -c
 
-.include <bsd.lib.mk>
+FRC:

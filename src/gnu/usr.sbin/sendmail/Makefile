@@ -1,21 +1,49 @@
-#	$OpenBSD: Makefile,v 1.9 2004/06/29 04:07:49 millert Exp $
+#       $Id$
 
-# We only use these libs internally
-.if !make(install)
-SUBDIR= libsmutil libsmdb libsm
-.else
-SUBDIR=
-.endif
+SHELL= /bin/sh
+SUBDIRS= libsm libsmutil libsmdb sendmail editmap mail.local \
+	 mailstats makemap praliases rmail smrsh vacation
+# libmilter: requires pthread
+BUILD=   ./Build
+OPTIONS= $(CONFIG) $(FLAGS)
 
-# The bits we install
-SUBDIR+= libmilter sendmail mailstats makemap praliases smrsh editmap cf/cf
+all: FRC
+	@for x in $(SUBDIRS); \
+	do \
+		(cd $$x; echo Making $@ in:; pwd; \
+		$(SHELL) $(BUILD) $(OPTIONS)); \
+	done
 
-# Extra bits we don't build/install right now
-#SUBDIR+= mail.local rmail vacation
+clean: FRC
+	@for x in $(SUBDIRS); \
+	do \
+		(cd $$x; echo Making $@ in:; pwd; \
+		$(SHELL) $(BUILD) $(OPTIONS) $@); \
+	done
 
-# These just get installed verbatim
-.if make(install)
-SUBDIR+= doc/op cf
-.endif
+install: FRC
+	@for x in $(SUBDIRS); \
+	do \
+		(cd $$x; echo Making $@ in:; pwd; \
+		$(SHELL) $(BUILD) $(OPTIONS) $@); \
+	done
 
-.include <bsd.subdir.mk>
+install-docs: FRC
+	@for x in $(SUBDIRS); \
+	do \
+		(cd $$x; echo Making $@ in:; pwd; \
+		$(SHELL) $(BUILD) $(OPTIONS) $@); \
+	done
+
+fresh: FRC
+	@for x in $(SUBDIRS); \
+	do \
+		(cd $$x; echo Making $@ in:; pwd; \
+		$(SHELL) $(BUILD) $(OPTIONS) -c); \
+	done
+
+$(SUBDIRS): FRC
+	@cd $@; pwd; \
+	$(SHELL) $(BUILD) $(OPTIONS)
+
+FRC:

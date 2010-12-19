@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1998-2003 Sendmail, Inc. and its suppliers.
+ * Copyright (c) 1998-2003, 2006 Sendmail, Inc. and its suppliers.
  *	All rights reserved.
  * Copyright (c) 1983, 1995-1997 Eric P. Allman.  All rights reserved.
  * Copyright (c) 1988, 1993
@@ -13,7 +13,7 @@
 
 #include <sendmail.h>
 
-SM_RCSID("@(#)$Sendmail: envelope.c,v 8.293 2004/02/18 00:46:18 gshapiro Exp $")
+SM_RCSID("@(#)$Id$")
 
 /*
 **  CLRSESSENVELOPE -- clear session oriented data in an envelope
@@ -75,6 +75,8 @@ newenvelope(e, parent, rpool)
 	register ENVELOPE *parent;
 	SM_RPOOL_T *rpool;
 {
+	int sendmode;
+
 	/*
 	**  This code used to read:
 	**	if (e == parent && e->e_parent != NULL)
@@ -84,23 +86,37 @@ newenvelope(e, parent, rpool)
 	**  This meant macvalue() could go into an infinite loop.
 	*/
 
+	if (parent != NULL)
+		sendmode = parent->e_sendmode;
+	else
+		sendmode = DM_NOTSET;
+
 	if (e == parent)
 		parent = e->e_parent;
 	clearenvelope(e, true, rpool);
 	if (e == CurEnv)
 		memmove((char *) &e->e_from,
 			(char *) &NullAddress,
-			sizeof e->e_from);
+			sizeof(e->e_from));
 	else
 		memmove((char *) &e->e_from,
 			(char *) &CurEnv->e_from,
-			sizeof e->e_from);
+			sizeof(e->e_from));
 	e->e_parent = parent;
 	assign_queueid(e);
 	e->e_ctime = curtime();
+#if _FFR_SESSID
+	e->e_sessid = e->e_id;
+#endif /* _FFR_SESSID */
 	if (parent != NULL)
 	{
 		e->e_msgpriority = parent->e_msgsize;
+#if _FFR_SESSID
+		if (parent->e_sessid != NULL)
+			e->e_sessid = sm_rpool_strdup_x(rpool,
+							parent->e_sessid);
+#endif /* _FFR_SESSID */
+
 		if (parent->e_quarmsg == NULL)
 		{
 			e->e_quarmsg = NULL;
@@ -119,6 +135,8 @@ newenvelope(e, parent, rpool)
 	e->e_putbody = putbody;
 	if (CurEnv->e_xfp != NULL)
 		(void) sm_io_flush(CurEnv->e_xfp, SM_TIME_DEFAULT);
+	if (sendmode != DM_NOTSET)
+		set_delivery_mode(sendmode, e);
 
 	return e;
 }
@@ -274,13 +292,13 @@ dropenvelope(e, fulldrop, split)
 		{
 			if (msg_timeout == MSG_NOT_BY)
 			{
-				(void) sm_snprintf(buf, sizeof buf,
+				(void) sm_snprintf(buf, sizeof(buf),
 					"delivery time expired %lds",
 					e->e_deliver_by);
 			}
 			else
 			{
-				(void) sm_snprintf(buf, sizeof buf,
+				(void) sm_snprintf(buf, sizeof(buf),
 					"Cannot send message for %s",
 					pintvl(TimeOuts.to_q_return[e->e_timeoutclass],
 						false));
@@ -372,12 +390,12 @@ dropenvelope(e, fulldrop, split)
 			{
 				if (msg_timeout == MSG_WARN_BY)
 				{
-					(void) sm_snprintf(buf, sizeof buf,
+					(void) sm_snprintf(buf, sizeof(buf),
 						"Warning: Delivery time (%lds) exceeded",
 						e->e_deliver_by);
 				}
 				else
-					(void) sm_snprintf(buf, sizeof buf,
+					(void) sm_snprintf(buf, sizeof(buf),
 						"Warning: could not send message for past %s",
 						pintvl(TimeOuts.to_q_warning[e->e_timeoutclass],
 							false));
@@ -473,7 +491,7 @@ dropenvelope(e, fulldrop, split)
 
 		if (failure_return)
 		{
-			expand(PostMasterCopy, pcopy, sizeof pcopy, e);
+			expand(PostMasterCopy, pcopy, sizeof(pcopy), e);
 
 			if (tTd(50, 8))
 				sm_dprintf("dropenvelope(%s): sending postmaster copy to %s\n",
@@ -504,7 +522,14 @@ simpledrop:
 			printenvflags(e);
 		}
 		if (!panic)
+		{
+			if (e->e_dfp != NULL)
+			{
+				(void) sm_io_close(e->e_dfp, SM_TIME_DEFAULT);
+				e->e_dfp = NULL;
+			}
 			(void) xunlink(queuename(e, DATAFL_LETTER));
+		}
 		if (panic && QueueMode == QM_LOST)
 		{
 			/*
@@ -518,7 +543,7 @@ simpledrop:
 		if (xunlink(queuename(e, ANYQFL_LETTER)) == 0)
 		{
 			/* add to available space in filesystem */
-			updfs(e, true, !panic);
+			updfs(e, -1, panic ? 0 : -1, "dropenvelope");
 		}
 
 		if (e->e_ntries > 0 && LogLevel > 9)
@@ -684,8 +709,8 @@ clearenvelope(e, fullclear, rpool)
 	nhp = &e->e_header;
 	while (bh != NULL)
 	{
-		*nhp = (HDR *) sm_rpool_malloc_x(rpool, sizeof *bh);
-		memmove((char *) *nhp, (char *) bh, sizeof *bh);
+		*nhp = (HDR *) sm_rpool_malloc_x(rpool, sizeof(*bh));
+		memmove((char *) *nhp, (char *) bh, sizeof(*bh));
 		bh = bh->h_link;
 		nhp = &(*nhp)->h_link;
 	}
@@ -744,11 +769,11 @@ initsys(e)
 	*/
 
 	/* process id */
-	(void) sm_snprintf(buf, sizeof buf, "%d", (int) CurrentPid);
+	(void) sm_snprintf(buf, sizeof(buf), "%d", (int) CurrentPid);
 	macdefine(&e->e_macro, A_TEMP, 'p', buf);
 
 	/* hop count */
-	(void) sm_snprintf(buf, sizeof buf, "%d", e->e_hopcount);
+	(void) sm_snprintf(buf, sizeof(buf), "%d", e->e_hopcount);
 	macdefine(&e->e_macro, A_TEMP, 'c', buf);
 
 	/* time as integer, unix time, arpa time */
@@ -766,7 +791,7 @@ initsys(e)
 		{
 			if (strrchr(p, '/') != NULL)
 				p = strrchr(p, '/') + 1;
-			(void) sm_strlcpy(ybuf, sizeof ybuf, p);
+			(void) sm_strlcpy(ybuf, sizeof(ybuf), p);
 			macdefine(&e->e_macro, A_PERM, 'y', ybuf);
 		}
 	}
@@ -795,14 +820,14 @@ settime(e)
 	register struct tm *tm;
 
 	now = curtime();
-	(void) sm_snprintf(buf, sizeof buf, "%ld", (long) now);
+	(void) sm_snprintf(buf, sizeof(buf), "%ld", (long) now);
 	macdefine(&e->e_macro, A_TEMP, macid("{time}"), buf);
 	tm = gmtime(&now);
-	(void) sm_snprintf(buf, sizeof buf, "%04d%02d%02d%02d%02d",
+	(void) sm_snprintf(buf, sizeof(buf), "%04d%02d%02d%02d%02d",
 			   tm->tm_year + 1900, tm->tm_mon + 1, tm->tm_mday,
 			   tm->tm_hour, tm->tm_min);
 	macdefine(&e->e_macro, A_TEMP, 't', buf);
-	(void) sm_strlcpy(buf, ctime(&now), sizeof buf);
+	(void) sm_strlcpy(buf, ctime(&now), sizeof(buf));
 	p = strchr(buf, '\n');
 	if (p != NULL)
 		*p = '\0';
@@ -991,7 +1016,7 @@ setsender(from, e, delimptr, delimchar, internal)
 
 				if (host == NULL)
 					host = MyHostName;
-				(void) sm_snprintf(ebuf, sizeof ebuf,
+				(void) sm_snprintf(ebuf, sizeof(ebuf),
 						   "%.*s@%.*s", MAXNAME,
 						   realname, MAXNAME, host);
 				p = ebuf;
@@ -1019,7 +1044,7 @@ setsender(from, e, delimptr, delimchar, internal)
 			char nbuf[100];
 
 			SuprErrs = true;
-			expand("\201n", nbuf, sizeof nbuf, e);
+			expand("\201n", nbuf, sizeof(nbuf), e);
 			from = sm_rpool_strdup_x(e->e_rpool, nbuf);
 			if (parseaddr(from, &e->e_from, RF_COPYALL, ' ',
 				      NULL, e, false) == NULL &&
@@ -1130,7 +1155,8 @@ setsender(from, e, delimptr, delimchar, internal)
 	**	links in the net.
 	*/
 
-	pvp = prescan(from, delimchar, pvpbuf, sizeof pvpbuf, NULL, NULL, false);
+	pvp = prescan(from, delimchar, pvpbuf, sizeof(pvpbuf), NULL,
+			IntTokenTab, false);
 	if (pvp == NULL)
 	{
 		/* don't need to give error -- prescan did that already */
@@ -1145,11 +1171,11 @@ setsender(from, e, delimptr, delimchar, internal)
 	(void) REWRITE(pvp, 4, e);
 	macdefine(&e->e_macro, A_PERM, macid("{addr_type}"), NULL);
 	bp = buf + 1;
-	cataddr(pvp, NULL, bp, sizeof buf - 2, '\0');
+	cataddr(pvp, NULL, bp, sizeof(buf) - 2, '\0', false);
 	if (*bp == '@' && !bitnset(M_NOBRACKET, e->e_from.q_mailer->m_flags))
 	{
 		/* heuristic: route-addr: add angle brackets */
-		(void) sm_strlcat(bp, ">", sizeof buf - 1);
+		(void) sm_strlcat(bp, ">", sizeof(buf) - 1);
 		*--bp = '<';
 	}
 	e->e_sender = sm_rpool_strdup_x(e->e_rpool, bp);

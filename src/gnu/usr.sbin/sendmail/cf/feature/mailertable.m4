@@ -13,7 +13,7 @@ divert(-1)
 #
 
 divert(0)
-VERSIONID(`$Sendmail: mailertable.m4,v 8.25 2002/06/27 23:23:57 gshapiro Exp $')
+VERSIONID(`$Id$')
 divert(-1)
 
 define(`_MAILER_TABLE_', `')

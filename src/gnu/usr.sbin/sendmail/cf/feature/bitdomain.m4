@@ -13,7 +13,7 @@ divert(-1)
 #
 
 divert(0)
-VERSIONID(`$Sendmail: bitdomain.m4,v 8.30 2002/06/27 23:23:57 gshapiro Exp $')
+VERSIONID(`$Id$')
 divert(-1)
 
 define(`_BITDOMAIN_TABLE_', `')

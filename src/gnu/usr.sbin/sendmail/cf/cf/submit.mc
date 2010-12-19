@@ -15,12 +15,12 @@ divert(-1)
 #
 
 divert(0)dnl
-VERSIONID(`$Sendmail: submit.mc,v 8.13 2003/09/10 22:12:48 ca Exp $')
+VERSIONID(`$Id$')
 define(`confCF_VERSION', `Submit')dnl
 define(`__OSTYPE__',`')dnl dirty hack to keep proto.m4 from complaining
 define(`_USE_DECNET_SYNTAX_', `1')dnl support DECnet
 define(`confTIME_ZONE', `USE_TZ')dnl
-define(`confBIND_OPTS', `WorkAroundBrokenAAAA')dnl
 define(`confDONT_INIT_GROUPS', `True')dnl
-FEATURE(`accept_unresolvable_domains')dnl
+dnl
+dnl If you use IPv6 only, change [127.0.0.1] to [IPv6:::1]
 FEATURE(`msp', `[127.0.0.1]')dnl

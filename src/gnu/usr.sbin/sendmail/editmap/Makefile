@@ -1,12 +1,17 @@
-#	$OpenBSD: Makefile,v 1.3 2000/05/15 03:37:32 millert Exp $
+#       $Id$
 
-PROG=	editmap
-MAN=	editmap.8
-ENVDEF=	-DNOT_SENDMAIL
+SHELL= /bin/sh
+BUILD=   ./Build
+OPTIONS= $(CONFIG) $(FLAGS)
 
-WANT_LIBSM=1
-WANT_LIBSMDB=1
-WANT_LIBSMUTIL=1
+all: FRC
+	$(SHELL) $(BUILD) $(OPTIONS) $@
+clean: FRC
+	$(SHELL) $(BUILD) $(OPTIONS) $@
+install: FRC
+	$(SHELL) $(BUILD) $(OPTIONS) $@
 
-.include "../../Makefile.inc"
-.include <bsd.prog.mk>
+fresh: FRC
+	$(SHELL) $(BUILD) $(OPTIONS) -c
+
+FRC:

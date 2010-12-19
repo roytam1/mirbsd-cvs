@@ -10,7 +10,7 @@
 
 #include <sendmail.h>
 
-SM_RCSID("@(#)$Sendmail: err.c,v 8.5 2001/09/11 04:04:55 gshapiro Exp $")
+SM_RCSID("@(#)$Id$")
 
 #include <ctype.h>
 

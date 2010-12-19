@@ -306,4 +306,4 @@ define(`confMILTER_MACROS_EOM', `{msg_id}')
 
 
 divert(0)dnl
-VERSIONID(`$Sendmail: cfhead.m4,v 8.116 2004/01/28 22:02:22 ca Exp $')
+VERSIONID(`$Id$')

@@ -6,7 +6,7 @@
  * forth in the LICENSE file which can be found at the top level of
  * the sendmail distribution.
  *
- *	$Sendmail: rpool.h,v 1.16 2003/09/05 23:07:49 ca Exp $
+ *	$Id$
  */
 
 /*

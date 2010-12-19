@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000-2004 Sendmail, Inc. and its suppliers.
+ * Copyright (c) 2000-2006 Sendmail, Inc. and its suppliers.
  *	All rights reserved.
  *
  * By using this file, you agree to the terms and conditions set
@@ -10,7 +10,7 @@
 
 #include <sendmail.h>
 
-SM_RCSID("@(#)$Sendmail: tls.c,v 8.96 2004/08/04 21:17:58 ca Exp $")
+SM_RCSID("@(#)$Id$")
 
 #if STARTTLS
 #  include <openssl/err.h>
@@ -213,7 +213,7 @@ tls_rand_init(randfile, logl)
 					  DontBlameSendmail))
 			{
 				/* add this even if fstat() failed */
-				RAND_seed((void *) &st, sizeof st);
+				RAND_seed((void *) &st, sizeof(st));
 			}
 			(void) close(fd);
 		}
@@ -251,7 +251,7 @@ tls_rand_init(randfile, logl)
 			r = get_random();
 			(void) memcpy(buf + i, (void *) &r, sizeof(long));
 		}
-		RAND_seed(buf, sizeof buf);
+		RAND_seed(buf, sizeof(buf));
 		if (LogLevel > logl)
 			sm_syslog(LOG_WARNING, NOQID,
 				  "STARTTLS: Warning: random number generator not properly seeded");
@@ -497,6 +497,22 @@ tls_safe_f(var, sff, srv)
 **		succeeded?
 */
 
+/*
+**  The session_id_context identifies the service that created a session.
+**  This information is used to distinguish between multiple TLS-based
+**  servers running on the same server. We use the name of the mail system.
+**  Note: the session cache is not persistent.
+*/
+
+static char server_session_id_context[] = "sendmail8";
+
+/* 0.9.8a and b have a problem with SSL_OP_TLS_BLOCK_PADDING_BUG */
+#if (OPENSSL_VERSION_NUMBER >= 0x0090800fL)
+# define SM_SSL_OP_TLS_BLOCK_PADDING_BUG	1
+#else
+# define SM_SSL_OP_TLS_BLOCK_PADDING_BUG	0
+#endif
+
 bool
 inittls(ctx, req, srv, certfile, keyfile, cacertpath, cacertfile, dhparam)
 	SSL_CTX **ctx;
@@ -509,7 +525,7 @@ inittls(ctx, req, srv, certfile, keyfile, cacertpath, cacertfile, dhparam)
 # endif /* !NO_DH */
 	int r;
 	bool ok;
-	long sff, status;
+	long sff, status, options;
 	char *who;
 # if _FFR_TLS_1
 	char *cf2, *kf2;
@@ -522,11 +538,19 @@ inittls(ctx, req, srv, certfile, keyfile, cacertpath, cacertfile, dhparam)
 	X509_CRL *crl;
 	X509_STORE *store;
 # endif /* OPENSSL_VERSION_NUMBER > 0x00907000L */
+#if SM_SSL_OP_TLS_BLOCK_PADDING_BUG
+	long rt_version;
+	STACK_OF(SSL_COMP) *comp_methods;
+#endif
 
 	status = TLS_S_NONE;
 	who = srv ? "server" : "client";
 	if (ctx == NULL)
+	{
 		syserr("STARTTLS=%s, inittls: ctx == NULL", who);
+		/* NOTREACHED */
+		SM_ASSERT(ctx != NULL);
+	}
 
 	/* already initialized? (we could re-init...) */
 	if (*ctx != NULL)
@@ -723,8 +747,10 @@ inittls(ctx, req, srv, certfile, keyfile, cacertpath, cacertfile, dhparam)
 			sm_syslog(LOG_WARNING, NOQID,
 				  "STARTTLS=%s, error: BIO_new=failed", who);
 	}
+	else
+		store = NULL;
 #  if _FFR_CRLPATH
-	if (CRLPath != NULL)
+	if (CRLPath != NULL && store != NULL)
 	{
 		X509_LOOKUP *lookup;
 
@@ -886,7 +912,29 @@ inittls(ctx, req, srv, certfile, keyfile, cacertpath, cacertfile, dhparam)
 # endif /* _FFR_TLS_1 */
 
 	/* SSL_CTX_set_quiet_shutdown(*ctx, 1); violation of standard? */
-	SSL_CTX_set_options(*ctx, SSL_OP_ALL);	/* XXX bug compatibility? */
+
+	options = SSL_OP_ALL;	/* bug compatibility? */
+#if SM_SSL_OP_TLS_BLOCK_PADDING_BUG
+
+	/*
+	**  In OpenSSL 0.9.8[ab], enabling zlib compression breaks the
+	**  padding bug work-around, leading to false positives and
+	**  failed connections. We may not interoperate with systems
+	**  with the bug, but this is better than breaking on all 0.9.8[ab]
+	**  systems that have zlib support enabled.
+	**  Note: this checks the runtime version of the library, not
+	**  just the compile time version.
+	*/
+
+	rt_version = SSLeay();
+	if (rt_version >= 0x00908000L && rt_version <= 0x0090802fL)
+	{
+		comp_methods = SSL_COMP_get_compression_methods();
+		if (comp_methods != NULL && sk_SSL_COMP_num(comp_methods) > 0)
+			options &= ~SSL_OP_TLS_BLOCK_PADDING_BUG;
+	}
+#endif
+	SSL_CTX_set_options(*ctx, options);
 
 # if !NO_DH
 	/* Diffie-Hellman initialization */
@@ -972,8 +1020,20 @@ inittls(ctx, req, srv, certfile, keyfile, cacertpath, cacertfile, dhparam)
 
 	/* XXX do we need this cache here? */
 	if (bitset(TLS_I_CACHE, req))
-		SSL_CTX_sess_set_cache_size(*ctx, 128);
-	/* timeout? SSL_CTX_set_timeout(*ctx, TimeOut...); */
+	{
+		SSL_CTX_sess_set_cache_size(*ctx, 1);
+		SSL_CTX_set_timeout(*ctx, 1);
+		SSL_CTX_set_session_id_context(*ctx,
+			(void *) &server_session_id_context,
+			sizeof(server_session_id_context));
+		(void) SSL_CTX_set_session_cache_mode(*ctx,
+				SSL_SESS_CACHE_SERVER);
+	}
+	else
+	{
+		(void) SSL_CTX_set_session_cache_mode(*ctx,
+				SSL_SESS_CACHE_OFF);
+	}
 
 	/* load certificate locations and default CA paths */
 	if (bitset(TLS_S_CERTP_EX, status) && bitset(TLS_S_CERTF_EX, status))
@@ -1117,9 +1177,9 @@ tls_get_info(ssl, srv, host, mac, certreq)
 	macdefine(mac, A_TEMP, macid("{cipher}"),
 		  (char *) SSL_CIPHER_get_name(c));
 	b = SSL_CIPHER_get_bits(c, &r);
-	(void) sm_snprintf(bitstr, sizeof bitstr, "%d", b);
+	(void) sm_snprintf(bitstr, sizeof(bitstr), "%d", b);
 	macdefine(mac, A_TEMP, macid("{cipher_bits}"), bitstr);
-	(void) sm_snprintf(bitstr, sizeof bitstr, "%d", r);
+	(void) sm_snprintf(bitstr, sizeof(bitstr), "%d", r);
 	macdefine(mac, A_TEMP, macid("{alg_bits}"), bitstr);
 	s = SSL_CIPHER_get_version(c);
 	if (s == NULL)
@@ -1140,22 +1200,23 @@ tls_get_info(ssl, srv, host, mac, certreq)
 		char buf[MAXNAME];
 
 		X509_NAME_oneline(X509_get_subject_name(cert),
-				  buf, sizeof buf);
+				  buf, sizeof(buf));
 		macdefine(mac, A_TEMP, macid("{cert_subject}"),
 			 xtextify(buf, "<>\")"));
 		X509_NAME_oneline(X509_get_issuer_name(cert),
-				  buf, sizeof buf);
+				  buf, sizeof(buf));
 		macdefine(mac, A_TEMP, macid("{cert_issuer}"),
 			 xtextify(buf, "<>\")"));
 		X509_NAME_get_text_by_NID(X509_get_subject_name(cert),
-					  NID_commonName, buf, sizeof buf);
+					  NID_commonName, buf, sizeof(buf));
 		macdefine(mac, A_TEMP, macid("{cn_subject}"),
 			 xtextify(buf, "<>\")"));
 		X509_NAME_get_text_by_NID(X509_get_issuer_name(cert),
-					  NID_commonName, buf, sizeof buf);
+					  NID_commonName, buf, sizeof(buf));
 		macdefine(mac, A_TEMP, macid("{cn_issuer}"),
 			 xtextify(buf, "<>\")"));
-		if (X509_digest(cert, EVP_md5(), md, &n))
+		n = 0;
+		if (X509_digest(cert, EVP_md5(), md, &n) != 0 && n > 0)
 		{
 			char md5h[EVP_MAX_MD_SIZE * 3];
 			static const char hexcodes[] = "0123456789ABCDEF";
@@ -1296,7 +1357,7 @@ endtls(ssl, side)
 		**  For your server the problem is different, because it
 		**  receives the shutdown first (setting SSL_RECEIVED_SHUTDOWN),
 		**  then sends its response (SSL_SENT_SHUTDOWN), so for the
-		**  server the shutdown was successful.
+		**  server the shutdown was successfull.
 		**
 		**  As is by know, you would have to call SSL_shutdown() once
 		**  and ignore an SSL_ERROR_SYSCALL returned. Then call
@@ -1505,7 +1566,7 @@ tls_verify_log(ok, ctx, name)
 		return 0;
 	}
 
-	X509_NAME_oneline(X509_get_subject_name(cert), buf, sizeof buf);
+	X509_NAME_oneline(X509_get_subject_name(cert), buf, sizeof(buf));
 	sm_syslog(LOG_INFO, NOQID,
 		  "STARTTLS: %s cert verify: depth=%d %s, state=%d, reason=%s",
 		  name, depth, buf, ok, X509_verify_cert_error_string(reason));
@@ -1556,7 +1617,7 @@ tls_verify_cb(ctx, unused)
 
 void
 tlslogerr(who)
-	char *who;
+	const char *who;
 {
 	unsigned long l;
 	int line, flags;

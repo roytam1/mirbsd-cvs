@@ -9,7 +9,7 @@
  */
 
 #include <sendmail.h>
-SM_RCSID("@(#)$Sendmail: cf.c,v 8.19 2002/09/24 20:40:59 ca Exp $")
+SM_RCSID("@(#)$Id$")
 #include <sendmail/pathnames.h>
 
 /*

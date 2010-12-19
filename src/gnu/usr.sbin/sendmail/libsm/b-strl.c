@@ -19,12 +19,12 @@
 */
 
 #include <sm/gen.h>
-SM_RCSID("@(#)$Sendmail: b-strl.c,v 1.24 2001/09/11 04:04:47 gshapiro Exp $")
+SM_RCSID("@(#)$Id$")
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <sys/types.h>
-#include <sys/time.h>
+#include <sm/time.h>
 #include <sm/string.h>
 
 #define SRC_SIZE	512

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1998-2003 Sendmail, Inc. and its suppliers.
+ * Copyright (c) 1998-2005 Sendmail, Inc. and its suppliers.
  *	All rights reserved.
  * Copyright (c) 1995-1997 Eric P. Allman.  All rights reserved.
  * Copyright (c) 1988, 1993
@@ -13,7 +13,7 @@
 
 #include <sendmail.h>
 
-SM_RCSID("@(#)$Sendmail: mci.c,v 8.212 2004/08/04 21:11:31 ca Exp $")
+SM_RCSID("@(#)$Id$")
 
 #if NETINET || NETINET6
 # include <arpa/inet.h>
@@ -47,11 +47,9 @@ static int	mci_read_persistent __P((SM_FILE_T *, MCI *));
 **	MciCacheTimeout is the time (in seconds) that a connection
 **	is permitted to survive without activity.
 **
-**	We actually try any cached connections by sending a NOOP
-**	before we use them; if the NOOP fails we close down the
-**	connection and reopen it.  Note that this means that a
-**	server SMTP that doesn't support NOOP will hose the
-**	algorithm -- but that doesn't seem too likely.
+**	We actually try any cached connections by sending a RSET
+**	before we use them; if the RSET fails we close down the
+**	connection and reopen it (see smtpprobe()).
 **
 **	The persistent MCI code is donated by Mark Lovell and Paul
 **	Vixie.  It is based on the long term host status code in KJS
@@ -142,8 +140,8 @@ mci_scan(savemci)
 	if (MciCache == NULL)
 	{
 		/* first call */
-		MciCache = (MCI **) sm_pmalloc_x(MaxMciCache * sizeof *MciCache);
-		memset((char *) MciCache, '\0', MaxMciCache * sizeof *MciCache);
+		MciCache = (MCI **) sm_pmalloc_x(MaxMciCache * sizeof(*MciCache));
+		memset((char *) MciCache, '\0', MaxMciCache * sizeof(*MciCache));
 		return &MciCache[0];
 	}
 
@@ -311,7 +309,7 @@ mci_get(host, m)
 	extern SOCKADDR CurHostAddr;
 
 	/* clear CurHostAddr so we don't get a bogus address with this name */
-	memset(&CurHostAddr, '\0', sizeof CurHostAddr);
+	memset(&CurHostAddr, '\0', sizeof(CurHostAddr));
 
 	/* clear out any expired connections */
 	(void) mci_scan(NULL);
@@ -376,7 +374,7 @@ mci_get(host, m)
 		{
 			/* get peer host address */
 			/* (this should really be in the mci struct) */
-			SOCKADDR_LEN_T socklen = sizeof CurHostAddr;
+			SOCKADDR_LEN_T socklen = sizeof(CurHostAddr);
 
 			(void) getpeername(sm_io_getinfo(mci->mci_in,
 							 SM_IO_WHAT_FD, NULL),
@@ -398,6 +396,57 @@ mci_get(host, m)
 
 	return mci;
 }
+
+/*
+**  MCI_CLOSE -- (forcefully) close files used for a connection.
+**	Note: this is a last resort, usually smtpquit() or endmailer()
+**		should be used to close a connection.
+**
+**	Parameters:
+**		mci -- the connection to close.
+**		where -- where has this been called?
+**
+**	Returns:
+**		none.
+*/
+
+void
+mci_close(mci, where)
+	MCI *mci;
+	char *where;
+{
+	bool dumped;
+
+	if (mci == NULL)
+		return;
+	dumped = false;
+	if (mci->mci_out != NULL)
+	{
+		if (tTd(56, 1))
+		{
+			sm_dprintf("mci_close: mci_out!=NULL, where=%s\n",
+				where);
+			mci_dump(sm_debug_file(), mci, false);
+			dumped = true;
+		}
+		(void) sm_io_close(mci->mci_out, SM_TIME_DEFAULT);
+		mci->mci_out = NULL;
+	}
+	if (mci->mci_in != NULL)
+	{
+		if (tTd(56, 1))
+		{
+			sm_dprintf("mci_close: mci_in!=NULL, where=%s\n",
+				where);
+			if (!dumped)
+				mci_dump(sm_debug_file(), mci, false);
+		}
+		(void) sm_io_close(mci->mci_in, SM_TIME_DEFAULT);
+		mci->mci_in = NULL;
+	}
+	mci->mci_state = MCIS_CLOSED;
+}
+
 /*
 **  MCI_NEW -- allocate new MCI structure
 **
@@ -415,10 +464,10 @@ mci_new(rpool)
 	register MCI *mci;
 
 	if (rpool == NULL)
-		mci = (MCI *) sm_malloc_x(sizeof *mci);
+		mci = (MCI *) sm_malloc_x(sizeof(*mci));
 	else
-		mci = (MCI *) sm_rpool_malloc_x(rpool, sizeof *mci);
-	memset((char *) mci, '\0', sizeof *mci);
+		mci = (MCI *) sm_rpool_malloc_x(rpool, sizeof(*mci));
+	memset((char *) mci, '\0', sizeof(*mci));
 	mci->mci_rpool = sm_rpool_new_x(NULL);
 	mci->mci_macro.mac_rpool = mci->mci_rpool;
 	return mci;
@@ -677,7 +726,7 @@ mci_lock_host_statfile(mci)
 		sm_dprintf("mci_lock_host: attempting to lock %s\n",
 			   mci->mci_host);
 
-	if (mci_generate_persistent_path(mci->mci_host, fname, sizeof fname,
+	if (mci_generate_persistent_path(mci->mci_host, fname, sizeof(fname),
 					 true) < 0)
 	{
 		/* of course this should never happen */
@@ -807,7 +856,7 @@ mci_load_persistent(mci)
 		sm_dprintf("mci_load_persistent: Attempting to load persistent information for %s\n",
 			   mci->mci_host);
 
-	if (mci_generate_persistent_path(mci->mci_host, fname, sizeof fname,
+	if (mci_generate_persistent_path(mci->mci_host, fname, sizeof(fname),
 					 false) < 0)
 	{
 		/* Not much we can do if the file isn't there... */
@@ -873,9 +922,17 @@ mci_read_persistent(fp, mci)
 	char buf[MAXLINE];
 
 	if (fp == NULL)
+	{
 		syserr("mci_read_persistent: NULL fp");
+		/* NOTREACHED */
+		return -1;
+	}
 	if (mci == NULL)
+	{
 		syserr("mci_read_persistent: NULL mci");
+		/* NOTREACHED */
+		return -1;
+	}
 	if (tTd(56, 93))
 	{
 		sm_dprintf("mci_read_persistent: fp=%lx, mci=",
@@ -888,7 +945,7 @@ mci_read_persistent(fp, mci)
 	sm_io_rewind(fp, SM_TIME_DEFAULT);
 	ver = -1;
 	LineNumber = 0;
-	while (sm_io_fgets(fp, SM_TIME_DEFAULT, buf, sizeof buf) != NULL)
+	while (sm_io_fgets(fp, SM_TIME_DEFAULT, buf, sizeof(buf)) != NULL)
 	{
 		LineNumber++;
 		p = strchr(buf, '\n');
@@ -1075,6 +1132,9 @@ mci_traverse_persistent(action, pathname)
 		char *newptr;
 		struct dirent *e;
 		char newpath[MAXPATHLEN];
+#if MAXPATHLEN <= MAXNAMLEN - 3
+ ERROR "MAXPATHLEN <= MAXNAMLEN - 3"
+#endif /* MAXPATHLEN  <= MAXNAMLEN - 3 */
 
 		if ((d = opendir(pathname)) == NULL)
 		{
@@ -1083,16 +1143,27 @@ mci_traverse_persistent(action, pathname)
 					pathname, sm_errstring(errno));
 			return -1;
 		}
-		len = sizeof(newpath) - MAXNAMLEN - 3;
+
+		/*
+		**  Reserve space for trailing '/', at least one
+		**  character, and '\0'
+		*/
+
+		len = sizeof(newpath) - 3;
 		if (sm_strlcpy(newpath, pathname, len) >= len)
 		{
+			int save_errno = errno;
+
 			if (tTd(56, 2))
 				sm_dprintf("mci_traverse: path \"%s\" too long",
 					pathname);
+			(void) closedir(d);
+			errno = save_errno;
 			return -1;
 		}
 		newptr = newpath + strlen(newpath);
 		*newptr++ = '/';
+		len = sizeof(newpath) - (newptr - newpath);
 
 		/*
 		**  repeat until no file has been removed
@@ -1109,9 +1180,17 @@ mci_traverse_persistent(action, pathname)
 				if (e->d_name[0] == '.')
 					continue;
 
-				(void) sm_strlcpy(newptr, e->d_name,
-					       sizeof newpath -
-					       (newptr - newpath));
+				if (sm_strlcpy(newptr, e->d_name, len) >= len)
+				{
+					/* Skip truncated copies */
+					if (tTd(56, 4))
+					{
+						*newptr = '\0';
+						sm_dprintf("mci_traverse: path \"%s%s\" too long",
+							   newpath, e->d_name);
+					}
+					continue;
+				}
 
 				if (StopRequest)
 					stop_sendmail();
@@ -1240,7 +1319,7 @@ mci_print_persistent(pathname, hostname)
 	}
 
 	FileName = pathname;
-	memset(&mcib, '\0', sizeof mcib);
+	memset(&mcib, '\0', sizeof(mcib));
 	if (mci_read_persistent(fp, &mcib) < 0)
 	{
 		syserr("%s: could not read status file", pathname);
@@ -1272,7 +1351,7 @@ mci_print_persistent(pathname, hostname)
 		{
 			char buf[80];
 
-			(void) sm_snprintf(buf, sizeof buf,
+			(void) sm_snprintf(buf, sizeof(buf),
 				"Unknown mailer error %d",
 				mcib.mci_exitstat);
 			(void) sm_io_fprintf(smioout, SM_TIME_DEFAULT, "%.*s\n",
@@ -1419,12 +1498,12 @@ mci_generate_persistent_path(host, path, pathlen, createflag)
 		return -1;
 
 	/* make certain this is not a bracketed host number */
-	if (strlen(host) > sizeof t_host - 1)
+	if (strlen(host) > sizeof(t_host) - 1)
 		return -1;
 	if (host[0] == '[')
-		(void) sm_strlcpy(t_host, host + 1, sizeof t_host);
+		(void) sm_strlcpy(t_host, host + 1, sizeof(t_host));
 	else
-		(void) sm_strlcpy(t_host, host, sizeof t_host);
+		(void) sm_strlcpy(t_host, host, sizeof(t_host));
 
 	/*
 	**  Delete any trailing dots from the hostname.

@@ -11,7 +11,7 @@ divert(-1)
 #
 
 divert(0)
-VERSIONID(`$Sendmail: unicos.m4,v 1.1 2003/04/21 17:03:51 ca Exp $')
+VERSIONID(`$Id$')
 define(`ALIAS_FILE', `/usr/lib/aliases')
 define(`HELP_FILE', `/usr/lib/sendmail.hf')
 define(`QUEUE_DIR', `/usr/spool/mqueue')

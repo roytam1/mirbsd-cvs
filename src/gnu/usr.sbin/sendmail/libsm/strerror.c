@@ -12,7 +12,7 @@
  */
 
 #include <sm/gen.h>
-SM_RCSID("@(#)$Sendmail: strerror.c,v 1.23 2001/09/11 04:04:49 gshapiro Exp $")
+SM_RCSID("@(#)$Id$")
 
 /*
 **  define strerror for platforms that lack it.

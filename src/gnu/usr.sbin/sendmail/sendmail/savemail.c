@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1998-2003 Sendmail, Inc. and its suppliers.
+ * Copyright (c) 1998-2003, 2006 Sendmail, Inc. and its suppliers.
  *	All rights reserved.
  * Copyright (c) 1983, 1995-1997 Eric P. Allman.  All rights reserved.
  * Copyright (c) 1988, 1993
@@ -13,9 +13,9 @@
 
 #include <sendmail.h>
 
-SM_RCSID("@(#)$Sendmail: savemail.c,v 8.304 2004/10/06 21:36:06 ca Exp $")
+SM_RCSID("@(#)$Id$")
 
-static void	errbody __P((MCI *, ENVELOPE *, char *));
+static bool	errbody __P((MCI *, ENVELOPE *, char *));
 static bool	pruneroute __P((char *));
 
 /*
@@ -193,7 +193,7 @@ savemail(e, sendbody)
 				break;
 			}
 
-			expand("\201n", buf, sizeof buf, e);
+			expand("\201n", buf, sizeof(buf), e);
 			(void) sm_io_fprintf(smioout, SM_TIME_DEFAULT,
 					     "\r\nMessage from %s...\r\n", buf);
 			(void) sm_io_fprintf(smioout, SM_TIME_DEFAULT,
@@ -204,7 +204,7 @@ savemail(e, sendbody)
 				(void) sm_io_fprintf(smioout, SM_TIME_DEFAULT,
 						     "Transcript follows:\r\n");
 				while (sm_io_fgets(e->e_xfp, SM_TIME_DEFAULT,
-						   buf, sizeof buf) != NULL &&
+						   buf, sizeof(buf)) != NULL &&
 				       !sm_io_error(smioout))
 					(void) sm_io_fputs(smioout,
 							   SM_TIME_DEFAULT,
@@ -251,7 +251,7 @@ savemail(e, sendbody)
 				char from[TOBUFSIZE];
 
 				if (sm_strlcpy(from, e->e_from.q_paddr,
-						sizeof from) >= sizeof from)
+						sizeof(from)) >= sizeof(from))
 				{
 					state = ESM_POSTMASTER;
 					break;
@@ -305,7 +305,7 @@ savemail(e, sendbody)
 			*/
 
 			q = NULL;
-			expand(DoubleBounceAddr, buf, sizeof buf, e);
+			expand(DoubleBounceAddr, buf, sizeof(buf), e);
 
 			/*
 			**  Just drop it on the floor if DoubleBounceAddr
@@ -371,7 +371,7 @@ savemail(e, sendbody)
 			p = macvalue('g', e);
 			macdefine(&e->e_macro, A_PERM, 'g', e->e_sender);
 
-			expand("\201z/dead.letter", dlbuf, sizeof dlbuf, e);
+			expand("\201z/dead.letter", dlbuf, sizeof(dlbuf), e);
 			sff = SFF_CREAT|SFF_REGONLY|SFF_RUNASREALUID;
 			if (RealUid == 0)
 				sff |= SFF_ROOTOK;
@@ -422,7 +422,7 @@ savemail(e, sendbody)
 				break;
 			}
 
-			memset(&mcibuf, '\0', sizeof mcibuf);
+			memset(&mcibuf, '\0', sizeof(mcibuf));
 			mcibuf.mci_out = fp;
 			mcibuf.mci_mailer = FileMailer;
 			if (bitnset(M_7BITS, FileMailer->m_flags))
@@ -432,12 +432,13 @@ savemail(e, sendbody)
 			p = macvalue('g', e);
 			macdefine(&e->e_macro, A_PERM, 'g', e->e_sender);
 
-			putfromline(&mcibuf, e);
-			(*e->e_puthdr)(&mcibuf, e->e_header, e, M87F_OUTER);
-			(*e->e_putbody)(&mcibuf, e, NULL);
-			putline("\n", &mcibuf); /* XXX EOL from FileMailer? */
-			(void) sm_io_flush(fp, SM_TIME_DEFAULT);
-			if (sm_io_error(fp) ||
+			if (!putfromline(&mcibuf, e) ||
+			    !(*e->e_puthdr)(&mcibuf, e->e_header, e,
+					M87F_OUTER) ||
+			    !(*e->e_putbody)(&mcibuf, e, NULL) ||
+			    !putline("\n", &mcibuf) ||
+			    sm_io_flush(fp, SM_TIME_DEFAULT) == SM_IO_EOF ||
+			    sm_io_error(fp) ||
 			    sm_io_close(fp, SM_TIME_DEFAULT) < 0)
 				state = ESM_PANIC;
 			else
@@ -605,7 +606,7 @@ returntosender(msg, returnq, flags, e)
 			ee->e_nrcpts++;
 
 		if (q->q_alias == NULL)
-			addheader("To", q->q_paddr, 0, ee);
+			addheader("To", q->q_paddr, 0, ee, true);
 	}
 
 	if (LogLevel > 5)
@@ -624,18 +625,18 @@ returntosender(msg, returnq, flags, e)
 
 	if (SendMIMEErrors)
 	{
-		addheader("MIME-Version", "1.0", 0, ee);
-		(void) sm_snprintf(buf, sizeof buf, "%s.%ld/%.100s",
+		addheader("MIME-Version", "1.0", 0, ee, true);
+		(void) sm_snprintf(buf, sizeof(buf), "%s.%ld/%.100s",
 				ee->e_id, (long)curtime(), MyHostName);
 		ee->e_msgboundary = sm_rpool_strdup_x(ee->e_rpool, buf);
-		(void) sm_snprintf(buf, sizeof buf,
+		(void) sm_snprintf(buf, sizeof(buf),
 #if DSN
 				"multipart/report; report-type=delivery-status;\n\tboundary=\"%s\"",
 #else /* DSN */
 				"multipart/mixed; boundary=\"%s\"",
 #endif /* DSN */
 				ee->e_msgboundary);
-		addheader("Content-Type", buf, 0, ee);
+		addheader("Content-Type", buf, 0, ee, true);
 
 		p = hvalue("Content-Transfer-Encoding", e->e_header);
 		if (p != NULL && sm_strcasecmp(p, "binary") != 0)
@@ -643,42 +644,42 @@ returntosender(msg, returnq, flags, e)
 		if (p == NULL && bitset(EF_HAS8BIT, e->e_flags))
 			p = "8bit";
 		if (p != NULL)
-			addheader("Content-Transfer-Encoding", p, 0, ee);
+			addheader("Content-Transfer-Encoding", p, 0, ee, true);
 	}
 	if (strncmp(msg, "Warning:", 8) == 0)
 	{
-		addheader("Subject", msg, 0, ee);
+		addheader("Subject", msg, 0, ee, true);
 		p = "warning-timeout";
 	}
 	else if (strncmp(msg, "Postmaster warning:", 19) == 0)
 	{
-		addheader("Subject", msg, 0, ee);
+		addheader("Subject", msg, 0, ee, true);
 		p = "postmaster-warning";
 	}
 	else if (strcmp(msg, "Return receipt") == 0)
 	{
-		addheader("Subject", msg, 0, ee);
+		addheader("Subject", msg, 0, ee, true);
 		p = "return-receipt";
 	}
 	else if (bitset(RTSF_PM_BOUNCE, flags))
 	{
-		(void) sm_snprintf(buf, sizeof buf,
+		(void) sm_snprintf(buf, sizeof(buf),
 			 "Postmaster notify: see transcript for details");
-		addheader("Subject", buf, 0, ee);
+		addheader("Subject", buf, 0, ee, true);
 		p = "postmaster-notification";
 	}
 	else
 	{
-		(void) sm_snprintf(buf, sizeof buf,
+		(void) sm_snprintf(buf, sizeof(buf),
 			 "Returned mail: see transcript for details");
-		addheader("Subject", buf, 0, ee);
+		addheader("Subject", buf, 0, ee, true);
 		p = "failure";
 	}
-	(void) sm_snprintf(buf, sizeof buf, "auto-generated (%s)", p);
-	addheader("Auto-Submitted", buf, 0, ee);
+	(void) sm_snprintf(buf, sizeof(buf), "auto-generated (%s)", p);
+	addheader("Auto-Submitted", buf, 0, ee, true);
 
 	/* fake up an address header for the from person */
-	expand("\201n", buf, sizeof buf, e);
+	expand("\201n", buf, sizeof(buf), e);
 	if (parseaddr(buf, &ee->e_from,
 		      RF_COPYALL|RF_SENDERADDR, '\0', NULL, e, false) == NULL)
 	{
@@ -732,14 +733,14 @@ returntosender(msg, returnq, flags, e)
 **		separator -- any possible MIME separator (unused).
 **
 **	Returns:
-**		none
+**		true iff body was written successfully
 **
 **	Side Effects:
 **		Outputs the body of an error message.
 */
 
 /* ARGSUSED2 */
-static void
+static bool
 errbody(mci, e, separator)
 	register MCI *mci;
 	register ENVELOPE *e;
@@ -757,14 +758,16 @@ errbody(mci, e, separator)
 
 	if (bitset(MCIF_INHEADER, mci->mci_flags))
 	{
-		putline("", mci);
+		if (!putline("", mci))
+			goto writeerr;
 		mci->mci_flags &= ~MCIF_INHEADER;
 	}
 	if (e->e_parent == NULL)
 	{
 		syserr("errbody: null parent");
-		putline("   ----- Original message lost -----\n", mci);
-		return;
+		if (!putline("   ----- Original message lost -----\n", mci))
+			goto writeerr;
+		return true;
 	}
 
 	/*
@@ -773,11 +776,12 @@ errbody(mci, e, separator)
 
 	if (e->e_msgboundary != NULL)
 	{
-		putline("This is a MIME-encapsulated message", mci);
-		putline("", mci);
-		(void) sm_strlcpyn(buf, sizeof buf, 2, "--", e->e_msgboundary);
-		putline(buf, mci);
-		putline("", mci);
+		(void) sm_strlcpyn(buf, sizeof(buf), 2, "--", e->e_msgboundary);
+		if (!putline("This is a MIME-encapsulated message", mci) ||
+		    !putline("", mci) ||
+		    !putline(buf, mci) ||
+		    !putline("", mci))
+			goto writeerr;
 	}
 
 	/*
@@ -799,31 +803,36 @@ errbody(mci, e, separator)
 	if (!pm_notify && q == NULL &&
 	    !bitset(EF_FATALERRS|EF_SENDRECEIPT, e->e_parent->e_flags))
 	{
-		putline("    **********************************************",
-			mci);
-		putline("    **      THIS IS A WARNING MESSAGE ONLY      **",
-			mci);
-		putline("    **  YOU DO NOT NEED TO RESEND YOUR MESSAGE  **",
-			mci);
-		putline("    **********************************************",
-			mci);
-		putline("", mci);
+		if (!putline("    **********************************************",
+			mci) ||
+		    !putline("    **      THIS IS A WARNING MESSAGE ONLY      **",
+			mci) ||
+		    !putline("    **  YOU DO NOT NEED TO RESEND YOUR MESSAGE  **",
+			mci) ||
+		    !putline("    **********************************************",
+			mci) ||
+		    !putline("", mci))
+			goto writeerr;
 	}
-	(void) sm_snprintf(buf, sizeof buf,
+	(void) sm_snprintf(buf, sizeof(buf),
 		"The original message was received at %s",
 		arpadate(ctime(&e->e_parent->e_ctime)));
-	putline(buf, mci);
-	expand("from \201_", buf, sizeof buf, e->e_parent);
-	putline(buf, mci);
+	if (!putline(buf, mci))
+		goto writeerr;
+	expand("from \201_", buf, sizeof(buf), e->e_parent);
+	if (!putline(buf, mci))
+		goto writeerr;
 
 	/* include id in postmaster copies */
 	if (pm_notify && e->e_parent->e_id != NULL)
 	{
-		(void) sm_strlcpyn(buf, sizeof buf, 2, "with id ",
+		(void) sm_strlcpyn(buf, sizeof(buf), 2, "with id ",
 			e->e_parent->e_id);
-		putline(buf, mci);
+		if (!putline(buf, mci))
+			goto writeerr;
 	}
-	putline("", mci);
+	if (!putline("", mci))
+		goto writeerr;
 
 	/*
 	**  Output error message header (if specified and available).
@@ -845,21 +854,31 @@ errbody(mci, e, separator)
 			if (xfile != NULL)
 			{
 				while (sm_io_fgets(xfile, SM_TIME_DEFAULT, buf,
-						   sizeof buf) != NULL)
+						   sizeof(buf)) != NULL)
 				{
-					translate_dollars(buf);
-					expand(buf, buf, sizeof buf, e);
-					putline(buf, mci);
+					int lbs;
+					bool putok;
+					char *lbp;
+
+					lbs = sizeof(buf);
+					lbp = translate_dollars(buf, buf, &lbs);
+					expand(lbp, lbp, lbs, e);
+					putok = putline(lbp, mci);
+					if (lbp != buf)
+						sm_free(lbp);
+					if (!putok)
+						goto writeerr;
 				}
 				(void) sm_io_close(xfile, SM_TIME_DEFAULT);
-				putline("\n", mci);
+				if (!putline("\n", mci))
+					goto writeerr;
 			}
 		}
 		else
 		{
-			expand(ErrMsgFile, buf, sizeof buf, e);
-			putline(buf, mci);
-			putline("", mci);
+			expand(ErrMsgFile, buf, sizeof(buf), e);
+			if (!putline(buf, mci) || !putline("", mci))
+				goto writeerr;
 		}
 	}
 
@@ -877,33 +896,37 @@ errbody(mci, e, separator)
 
 		if (printheader)
 		{
-			putline("   ----- The following addresses had permanent fatal errors -----",
-				mci);
+			if (!putline("   ----- The following addresses had permanent fatal errors -----",
+					mci))
+				goto writeerr;
 			printheader = false;
 		}
 
 		(void) sm_strlcpy(buf, shortenstring(q->q_paddr, MAXSHORTSTR),
-				  sizeof buf);
-		putline(buf, mci);
+				  sizeof(buf));
+		if (!putline(buf, mci))
+			goto writeerr;
 		if (q->q_rstatus != NULL)
 		{
-			(void) sm_snprintf(buf, sizeof buf,
+			(void) sm_snprintf(buf, sizeof(buf),
 				"    (reason: %s)",
 				shortenstring(exitstat(q->q_rstatus),
 					      MAXSHORTSTR));
-			putline(buf, mci);
+			if (!putline(buf, mci))
+				goto writeerr;
 		}
 		if (q->q_alias != NULL)
 		{
-			(void) sm_snprintf(buf, sizeof buf,
+			(void) sm_snprintf(buf, sizeof(buf),
 				"    (expanded from: %s)",
 				shortenstring(q->q_alias->q_paddr,
 					      MAXSHORTSTR));
-			putline(buf, mci);
+			if (!putline(buf, mci))
+				goto writeerr;
 		}
 	}
-	if (!printheader)
-		putline("", mci);
+	if (!printheader && !putline("", mci))
+		goto writeerr;
 
 	/* transient non-fatal errors */
 	printheader = true;
@@ -917,25 +940,28 @@ errbody(mci, e, separator)
 
 		if (printheader)
 		{
-			putline("   ----- The following addresses had transient non-fatal errors -----",
-				mci);
+			if (!putline("   ----- The following addresses had transient non-fatal errors -----",
+					mci))
+				goto writeerr;
 			printheader = false;
 		}
 
 		(void) sm_strlcpy(buf, shortenstring(q->q_paddr, MAXSHORTSTR),
-				  sizeof buf);
-		putline(buf, mci);
+				  sizeof(buf));
+		if (!putline(buf, mci))
+			goto writeerr;
 		if (q->q_alias != NULL)
 		{
-			(void) sm_snprintf(buf, sizeof buf,
+			(void) sm_snprintf(buf, sizeof(buf),
 				"    (expanded from: %s)",
 				shortenstring(q->q_alias->q_paddr,
 					      MAXSHORTSTR));
-			putline(buf, mci);
+			if (!putline(buf, mci))
+				goto writeerr;
 		}
 	}
-	if (!printheader)
-		putline("", mci);
+	if (!printheader && !putline("", mci))
+		goto writeerr;
 
 	/* successful delivery notifications */
 	printheader = true;
@@ -968,25 +994,28 @@ errbody(mci, e, separator)
 
 		if (printheader)
 		{
-			putline("   ----- The following addresses had successful delivery notifications -----",
-				mci);
+			if (!putline("   ----- The following addresses had successful delivery notifications -----",
+					mci))
+				goto writeerr;
 			printheader = false;
 		}
 
-		(void) sm_snprintf(buf, sizeof buf, "%s  (%s)",
+		(void) sm_snprintf(buf, sizeof(buf), "%s  (%s)",
 			 shortenstring(q->q_paddr, MAXSHORTSTR), p);
-		putline(buf, mci);
+		if (!putline(buf, mci))
+			goto writeerr;
 		if (q->q_alias != NULL)
 		{
-			(void) sm_snprintf(buf, sizeof buf,
+			(void) sm_snprintf(buf, sizeof(buf),
 				"    (expanded from: %s)",
 				shortenstring(q->q_alias->q_paddr,
 					      MAXSHORTSTR));
-			putline(buf, mci);
+			if (!putline(buf, mci))
+				goto writeerr;
 		}
 	}
-	if (!printheader)
-		putline("", mci);
+	if (!printheader && !putline("", mci))
+		goto writeerr;
 
 	/*
 	**  Output transcript of errors
@@ -995,8 +1024,9 @@ errbody(mci, e, separator)
 	(void) sm_io_flush(smioout, SM_TIME_DEFAULT);
 	if (e->e_parent->e_xfp == NULL)
 	{
-		putline("   ----- Transcript of session is unavailable -----\n",
-			mci);
+		if (!putline("   ----- Transcript of session is unavailable -----\n",
+				mci))
+			goto writeerr;
 	}
 	else
 	{
@@ -1005,13 +1035,14 @@ errbody(mci, e, separator)
 		if (e->e_xfp != NULL)
 			(void) sm_io_flush(e->e_xfp, SM_TIME_DEFAULT);
 		while (sm_io_fgets(e->e_parent->e_xfp, SM_TIME_DEFAULT, buf,
-				   sizeof buf) != NULL)
+				   sizeof(buf)) != NULL)
 		{
-			if (printheader)
-				putline("   ----- Transcript of session follows -----\n",
-					mci);
+			if (printheader && !putline("   ----- Transcript of session follows -----\n",
+						mci))
+				goto writeerr;
 			printheader = false;
-			putline(buf, mci);
+			if (!putline(buf, mci))
+				goto writeerr;
 		}
 	}
 	errno = 0;
@@ -1023,11 +1054,12 @@ errbody(mci, e, separator)
 
 	if (e->e_msgboundary != NULL)
 	{
-		putline("", mci);
-		(void) sm_strlcpyn(buf, sizeof buf, 2, "--", e->e_msgboundary);
-		putline(buf, mci);
-		putline("Content-Type: message/delivery-status", mci);
-		putline("", mci);
+		(void) sm_strlcpyn(buf, sizeof(buf), 2, "--", e->e_msgboundary);
+		if (!putline("", mci) ||
+		    !putline(buf, mci) ||
+		    !putline("Content-Type: message/delivery-status", mci) ||
+		    !putline("", mci))
+			goto writeerr;
 
 		/*
 		**  Output per-message information.
@@ -1036,16 +1068,18 @@ errbody(mci, e, separator)
 		/* original envelope id from MAIL FROM: line */
 		if (e->e_parent->e_envid != NULL)
 		{
-			(void) sm_snprintf(buf, sizeof buf,
+			(void) sm_snprintf(buf, sizeof(buf),
 					"Original-Envelope-Id: %.800s",
 					xuntextify(e->e_parent->e_envid));
-			putline(buf, mci);
+			if (!putline(buf, mci))
+				goto writeerr;
 		}
 
 		/* Reporting-MTA: is us (required) */
-		(void) sm_snprintf(buf, sizeof buf,
+		(void) sm_snprintf(buf, sizeof(buf),
 				   "Reporting-MTA: dns; %.800s", MyHostName);
-		putline(buf, mci);
+		if (!putline(buf, mci))
+			goto writeerr;
 
 		/* DSN-Gateway: not relevant since we are not translating */
 
@@ -1056,16 +1090,18 @@ errbody(mci, e, separator)
 			if (e->e_parent->e_from.q_mailer == NULL ||
 			    (p = e->e_parent->e_from.q_mailer->m_mtatype) == NULL)
 				p = "dns";
-			(void) sm_snprintf(buf, sizeof buf,
+			(void) sm_snprintf(buf, sizeof(buf),
 					"Received-From-MTA: %s; %.800s",
 					p, RealHostName);
-			putline(buf, mci);
+			if (!putline(buf, mci))
+				goto writeerr;
 		}
 
 		/* Arrival-Date: -- when it arrived here */
-		(void) sm_strlcpyn(buf, sizeof buf, 2, "Arrival-Date: ",
+		(void) sm_strlcpyn(buf, sizeof(buf), 2, "Arrival-Date: ",
 				arpadate(ctime(&e->e_parent->e_ctime)));
-		putline(buf, mci);
+		if (!putline(buf, mci))
+			goto writeerr;
 
 		/* Deliver-By-Date: -- when it should have been delivered */
 		if (IS_DLVR_BY(e->e_parent))
@@ -1073,10 +1109,11 @@ errbody(mci, e, separator)
 			time_t dbyd;
 
 			dbyd = e->e_parent->e_ctime + e->e_parent->e_deliver_by;
-			(void) sm_strlcpyn(buf, sizeof buf, 2,
+			(void) sm_strlcpyn(buf, sizeof(buf), 2,
 					"Deliver-By-Date: ",
 					arpadate(ctime(&dbyd)));
-			putline(buf, mci);
+			if (!putline(buf, mci))
+				goto writeerr;
 		}
 
 		/*
@@ -1119,15 +1156,17 @@ errbody(mci, e, separator)
 			else
 				continue;
 
-			putline("", mci);
+			if (!putline("", mci))
+				goto writeerr;
 
 			/* Original-Recipient: -- passed from on high */
 			if (q->q_orcpt != NULL)
 			{
-				(void) sm_snprintf(buf, sizeof buf,
+				(void) sm_snprintf(buf, sizeof(buf),
 						"Original-Recipient: %.800s",
 						q->q_orcpt);
-				putline(buf, mci);
+				if (!putline(buf, mci))
+					goto writeerr;
 			}
 
 			/* Figure out actual recipient */
@@ -1144,7 +1183,7 @@ errbody(mci, e, separator)
 				    strchr(q->q_user, '@') == NULL)
 				{
 					(void) sm_snprintf(actual,
-							   sizeof actual,
+							   sizeof(actual),
 							   "%s; %.700s@%.100s",
 							   p, q->q_user,
 							   MyHostName);
@@ -1152,7 +1191,7 @@ errbody(mci, e, separator)
 				else
 				{
 					(void) sm_snprintf(actual,
-							   sizeof actual,
+							   sizeof(actual),
 							   "%s; %.800s",
 							   p, q->q_user);
 				}
@@ -1173,30 +1212,31 @@ errbody(mci, e, separator)
 
 			if (q->q_finalrcpt != NULL)
 			{
-				(void) sm_snprintf(buf, sizeof buf,
+				(void) sm_snprintf(buf, sizeof(buf),
 						   "Final-Recipient: %s",
 						   q->q_finalrcpt);
-				putline(buf, mci);
+				if (!putline(buf, mci))
+					goto writeerr;
 			}
 
 			/* X-Actual-Recipient: -- the real problem address */
 			if (actual[0] != '\0' &&
 			    q->q_finalrcpt != NULL &&
-#if _FFR_PRIV_NOACTUALRECIPIENT
 			    !bitset(PRIV_NOACTUALRECIPIENT, PrivacyFlags) &&
-#endif /* _FFR_PRIV_NOACTUALRECIPIENT */
 			    strcmp(actual, q->q_finalrcpt) != 0)
 			{
-				(void) sm_snprintf(buf, sizeof buf,
+				(void) sm_snprintf(buf, sizeof(buf),
 						   "X-Actual-Recipient: %s",
 						   actual);
-				putline(buf, mci);
+				if (!putline(buf, mci))
+					goto writeerr;
 			}
 
 			/* Action: -- what happened? */
-			(void) sm_strlcpyn(buf, sizeof buf, 2, "Action: ",
+			(void) sm_strlcpyn(buf, sizeof(buf), 2, "Action: ",
 				action);
-			putline(buf, mci);
+			if (!putline(buf, mci))
+				goto writeerr;
 
 			/* Status: -- what _really_ happened? */
 			if (q->q_status != NULL)
@@ -1207,8 +1247,9 @@ errbody(mci, e, separator)
 				p = "4.0.0";
 			else
 				p = "2.0.0";
-			(void) sm_strlcpyn(buf, sizeof buf, 2, "Status: ", p);
-			putline(buf, mci);
+			(void) sm_strlcpyn(buf, sizeof(buf), 2, "Status: ", p);
+			if (!putline(buf, mci))
+				goto writeerr;
 
 			/* Remote-MTA: -- who was I talking to? */
 			if (q->q_statmta != NULL)
@@ -1216,34 +1257,37 @@ errbody(mci, e, separator)
 				if (q->q_mailer == NULL ||
 				    (p = q->q_mailer->m_mtatype) == NULL)
 					p = "dns";
-				(void) sm_snprintf(buf, sizeof buf,
+				(void) sm_snprintf(buf, sizeof(buf),
 						"Remote-MTA: %s; %.800s",
 						p, q->q_statmta);
 				p = &buf[strlen(buf) - 1];
 				if (*p == '.')
 					*p = '\0';
-				putline(buf, mci);
+				if (!putline(buf, mci))
+					goto writeerr;
 			}
 
 			/* Diagnostic-Code: -- actual result from other end */
 			if (q->q_rstatus != NULL)
 			{
-				p = q->q_mailer->m_diagtype;
-				if (p == NULL)
+				if (q->q_mailer == NULL ||
+				    (p = q->q_mailer->m_diagtype) == NULL)
 					p = "smtp";
-				(void) sm_snprintf(buf, sizeof buf,
+				(void) sm_snprintf(buf, sizeof(buf),
 						"Diagnostic-Code: %s; %.800s",
 						p, q->q_rstatus);
-				putline(buf, mci);
+				if (!putline(buf, mci))
+					goto writeerr;
 			}
 
 			/* Last-Attempt-Date: -- fine granularity */
 			if (q->q_statdate == (time_t) 0L)
 				q->q_statdate = curtime();
-			(void) sm_strlcpyn(buf, sizeof buf, 2,
+			(void) sm_strlcpyn(buf, sizeof(buf), 2,
 					"Last-Attempt-Date: ",
 					arpadate(ctime(&q->q_statdate)));
-			putline(buf, mci);
+			if (!putline(buf, mci))
+				goto writeerr;
 
 			/* Will-Retry-Until: -- for delayed messages only */
 			if (QS_IS_QUEUEUP(q->q_state))
@@ -1252,10 +1296,11 @@ errbody(mci, e, separator)
 
 				xdate = e->e_parent->e_ctime +
 					TimeOuts.to_q_return[e->e_parent->e_timeoutclass];
-				(void) sm_strlcpyn(buf, sizeof buf, 2,
+				(void) sm_strlcpyn(buf, sizeof(buf), 2,
 					 "Will-Retry-Until: ",
 					 arpadate(ctime(&xdate)));
-				putline(buf, mci);
+				if (!putline(buf, mci))
+					goto writeerr;
 			}
 		}
 	}
@@ -1265,7 +1310,8 @@ errbody(mci, e, separator)
 	**  Output text of original message
 	*/
 
-	putline("", mci);
+	if (!putline("", mci))
+		goto writeerr;
 	if (bitset(EF_HAS_DF, e->e_parent->e_flags))
 	{
 		sendbody = !bitset(EF_NO_BODY_RETN, e->e_parent->e_flags) &&
@@ -1273,21 +1319,27 @@ errbody(mci, e, separator)
 
 		if (e->e_msgboundary == NULL)
 		{
-			if (sendbody)
-				putline("   ----- Original message follows -----\n", mci);
-			else
-				putline("   ----- Message header follows -----\n", mci);
+			if (!putline(
+				sendbody
+				? "   ----- Original message follows -----\n"
+				: "   ----- Message header follows -----\n",
+				mci))
+			{
+				goto writeerr;
+			}
 		}
 		else
 		{
-			(void) sm_strlcpyn(buf, sizeof buf, 2, "--",
+			(void) sm_strlcpyn(buf, sizeof(buf), 2, "--",
 					e->e_msgboundary);
 
-			putline(buf, mci);
-			(void) sm_strlcpyn(buf, sizeof buf, 2, "Content-Type: ",
+			if (!putline(buf, mci))
+				goto writeerr;
+			(void) sm_strlcpyn(buf, sizeof(buf), 2, "Content-Type: ",
 					sendbody ? "message/rfc822"
 						 : "text/rfc822-headers");
-			putline(buf, mci);
+			if (!putline(buf, mci))
+				goto writeerr;
 
 			p = hvalue("Content-Transfer-Encoding",
 				   e->e_parent->e_header);
@@ -1298,46 +1350,65 @@ errbody(mci, e, separator)
 				p = "8bit";
 			if (p != NULL)
 			{
-				(void) sm_snprintf(buf, sizeof buf,
+				(void) sm_snprintf(buf, sizeof(buf),
 						"Content-Transfer-Encoding: %s",
 						p);
-				putline(buf, mci);
+				if (!putline(buf, mci))
+					goto writeerr;
 			}
 		}
-		putline("", mci);
+		if (!putline("", mci))
+			goto writeerr;
 		save_errno = errno;
-		putheader(mci, e->e_parent->e_header, e->e_parent, M87F_OUTER);
+		if (!putheader(mci, e->e_parent->e_header, e->e_parent,
+				M87F_OUTER))
+			goto writeerr;
 		errno = save_errno;
 		if (sendbody)
-			putbody(mci, e->e_parent, e->e_msgboundary);
+		{
+			if (!putbody(mci, e->e_parent, e->e_msgboundary))
+				goto writeerr;
+		}
 		else if (e->e_msgboundary == NULL)
 		{
-			putline("", mci);
-			putline("   ----- Message body suppressed -----", mci);
+			if (!putline("", mci) ||
+			    !putline("   ----- Message body suppressed -----",
+					mci))
+			{
+				goto writeerr;
+			}
 		}
 	}
 	else if (e->e_msgboundary == NULL)
 	{
-		putline("  ----- No message was collected -----\n", mci);
+		if (!putline("  ----- No message was collected -----\n", mci))
+			goto writeerr;
 	}
 
 	if (e->e_msgboundary != NULL)
 	{
-		putline("", mci);
-		(void) sm_strlcpyn(buf, sizeof buf, 3, "--", e->e_msgboundary,
+		(void) sm_strlcpyn(buf, sizeof(buf), 3, "--", e->e_msgboundary,
 				   "--");
-		putline(buf, mci);
+		if (!putline("", mci) || !putline(buf, mci))
+			goto writeerr;
 	}
-	putline("", mci);
-	(void) sm_io_flush(mci->mci_out, SM_TIME_DEFAULT);
+	if (!putline("", mci) ||
+	    sm_io_flush(mci->mci_out, SM_TIME_DEFAULT) == SM_IO_EOF)
+			goto writeerr;
 
 	/*
 	**  Cleanup and exit
 	*/
 
 	if (errno != 0)
+	{
+  writeerr:
 		syserr("errbody: I/O error");
+		return false;
+	}
+	return true;
 }
+
 /*
 **  SMTPTODSN -- convert SMTP to DSN status code
 **
@@ -1402,9 +1473,9 @@ smtptodsn(smtpstat)
 		return "5.0.0";
 	}
 
-	if ((smtpstat / 100) == 2)
+	if (REPLYTYPE(smtpstat) == 2)
 		return "2.0.0";
-	if ((smtpstat / 100) == 4)
+	if (REPLYTYPE(smtpstat) == 4)
 		return "4.0.0";
 	return "5.0.0";
 }
@@ -1660,9 +1731,9 @@ pruneroute(addr)
 
 	/* slice off the angle brackets */
 	i = strlen(at + 1);
-	if (i >= sizeof hostbuf)
+	if (i >= sizeof(hostbuf))
 		return false;
-	(void) sm_strlcpy(hostbuf, at + 1, sizeof hostbuf);
+	(void) sm_strlcpy(hostbuf, at + 1, sizeof(hostbuf));
 	hostbuf[i - 1] = '\0';
 
 	while (start != NULL)
@@ -1678,8 +1749,8 @@ pruneroute(addr)
 		*start = '\0';
 		comma = strrchr(addr, ',');
 		if (comma != NULL && comma[1] == '@' &&
-		    strlen(comma + 2) < sizeof hostbuf)
-			(void) sm_strlcpy(hostbuf, comma + 2, sizeof hostbuf);
+		    strlen(comma + 2) < sizeof(hostbuf))
+			(void) sm_strlcpy(hostbuf, comma + 2, sizeof(hostbuf));
 		else
 			comma = NULL;
 		*start = c;

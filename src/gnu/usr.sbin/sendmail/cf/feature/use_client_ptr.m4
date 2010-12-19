@@ -10,7 +10,7 @@ divert(-1)
 #
 
 divert(0)
-VERSIONID(`$Sendmail: use_client_ptr.m4,v 1.1 2004/04/20 22:27:14 ca Exp $')
+VERSIONID(`$Id$')
 divert(-1)
 
 # if defined, check_relay will use {client_ptr} instead of whatever

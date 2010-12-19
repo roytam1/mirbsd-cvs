@@ -1,10 +1,612 @@
 			SENDMAIL RELEASE NOTES
-      $Sendmail: RELEASE_NOTES,v 8.1709 2005/01/12 04:32:31 ca Exp $
+      $Id$
 
 
 This listing shows the version of the sendmail binary, the version
 of the sendmail configuration files, the date of release, and a
 summary of the changes in that release.
+
+8.14.3/8.14.3	2008/05/03
+	During ruleset processing the generation of a key for a map
+		lookup and the parsing of the default value was broken
+		for some macros, e.g., $|, which caused the BlankSub
+		character to be inserted into the workspace and thus
+		failures, e.g., rules that should have matched did not.
+	8.14.2 caused a regression: it accessed (macro) storage which was
+		freed before. First instance of the problem reported by
+		Matthew Dillon of DragonFlyBSD; variations of the same
+		bug reported by Todd C. Miller of OpenBSD, Moritz
+		Jodeit, and Dave Hayes.
+	Improve pathname length checks for persistent host status.  Patch
+		from Joerg Sonnenberger of DragonFlyBSD.
+	Reword misleading SMTP reply text for FEATURE(`badmx').  Problem
+		noted by Beth Halsema.
+	The read timeout was fixed to be Timeout.datablock if STARTTLS
+		was activated. This may cause problems if that value
+		is lowered from its default. Problem noted by Jens Elkner.
+	CONFIG: Using LOCAL_TLS_CLIENT caused the tls_client ruleset
+		to operate incorrectly.  Problem found by Werner Wiethege.
+	LIBMILTER: Omitting some protocol steps via the xxfi_negotiate()
+		callback did not work properly. The patchlevel of
+		libmilter has been set to 1 so a milter can determine
+		whether libmilter contains this fix.
+	MAKEMAP: If a delimiter is specified (-t) use that also when
+		dumping a map.  Patch from Todd C. Miller of OpenBSD.
+	Portability:
+		Add support for Darwin 9.x (Mac OS X 10.5).
+		Support shared libraries in Darwin 8 and 9.  Patch from
+		Chris Behrens of Concentric.
+		Add support for SCO OpenServer 6, patch from Boyd Gerber.
+	DEVTOOLS: Clarify that confSHAREDLIBDIR requires a trailing path.
+	Added Files:
+		devtools/OS/Darwin.9.x
+		devtools/OS/OSR.i386
+
+8.14.2/8.14.2	2007/11/01
+	If a message was queued and it contained 8 bit characters in
+		a From: or To: header, then those characters could be
+		"mistaken" for internal control characters during a queue
+		run and trigger various consistency checks.  Problem
+		noted by Neil Rickert of Northern Illinois University.
+	If MaxMimeHeaderLength is set to a value greater than 0 (which
+		it is by default) then even if the Linelimit parameter
+		is 0, sendmail corrupted in the non-transfer-encoding
+		case every MAXLINE-1 characters.  Patch from John Gardiner
+		Myers of Proofpoint.
+	Setting the suboption DeliveryMode for DaemonPortOptions did not
+		work in earlier 8.14 versions.
+	Note: DeliveryMode=interactive is silently converted to
+		background if a milter can reject or delete a recipient.
+		Prior to 8.14 this happened only if milter could delete
+		recipients.
+	ClientRate should trigger when the limit was exceeded (as
+		documented), not when it was reached.  Patch from
+		John Beck of Sun Microsystems.
+	Force a queue run for -qGqueuegroup even if no runners are
+		specified (R=0) and forking (F=f) is requested.
+	When multiple results are requested for a DNS map lookup
+		(-z and -Z), return only those that are relevant for
+		the query (not also those in the "additional section".)
+	If the message transfer time to sendmail (when acting as server)
+		exceeds Timeout.queuewarn or Timeout.queuereturn and
+		the message is refused (by a milter), sendmail previously
+		created a delivery status notification (DSN).  Patch
+		from Doug Heath of The Hertz Corporation.
+	A code change in Cyrus-SASL 2.1.22 for sasl_decode64() requires
+		the MTA to deal with some input (i.e., "=") itself.
+		Problem noted by Eliot Lear.
+	sendmail counted a delivery as successful if PIPELINING is
+		compiled in but not offered by the server and the
+		delivery failed temporarily.  Patch from Werner Wiethege.
+	If getting the result of an LDAP query times out then close the
+		map so it will be reopened on the next lookup.  This
+		should help "failover" configurations that specify more
+		than one LDAP server.
+	If check_compat returns $#discard then a "savemail panic" could
+		be triggered under some circumstances (e.g., requiring
+		a system which does not have the compile time flag
+		HASFLOCK set). Based on patch by Motonori Nakamura
+		of National Institute of Informatics, Japan.
+	If a milter rejected a recipient, the count for nrcpts= in the
+		logfile entry might have been wrong.  Problem found by
+		Petra Humann of TU Dresden.
+	If a milter invoked smfi_chgfrom() where ESMTP arguments are not
+		NULL, the message body was lost.  Patch from Motonori
+		Nakamura of National Institute of Informatics, Japan.
+	sendmail(8) had a bogus space in -qGname.  Patch from Peng Haitao.
+	CONTRIB: buildvirtuser: Preserve ownership and permissions when
+		replacing files.
+	CONTRIB: buildvirtuser: Skip dot-files (e.g., .cvsignore) when
+		reading the /etc/mail/virtusers/ directory.
+	CONTRIB: buildvirtuser: Emit warnings instead of exiting where
+		appropriate.
+	LIBMILTER: Fix ABI backwards compatibility so milters compiled
+		against an older libmilter.so shared library can use an
+		8.14 libmilter.so shared library.
+	LIBMILTER: smfi_version() did not properly extract the patchlevel
+		from the version number, however, the returned value was
+		correct for the current libmilter version.
+
+8.14.1/8.14.1	2007/04/03
+	Even though a milter rejects a recipient the MTA will still keep
+		it in its list of recipients and deliver to it if the
+		transaction is accepted. This is a regression introduced
+		in 8.14.0 due to the change for SMFIP_RCPT_REJ.  Bug
+		found by Andy Fiddaman.
+	The new DaemonPortOptions which begin with a lower case character
+		could not be set in 8.14.0.
+	If a server shut down the connection in response to a STARTTLS
+		command, sendmail would log a misleading error message
+		due to an internal inconsistency.  Problem found by
+		Werner Wiethege.
+	Document how some sendmail.cf options change the behavior of mailq.
+		Noted by Paul Menchini of the North Carolina School of
+		Science and Mathematics.
+	CONFIG: Add confSOFT_BOUNCE m4 option for setting SoftBounce.
+	CONFIG: 8.14.0's RELEASE_NOTES failed to mention the addition
+		of the confMAX_NOOP_COMMANDS and confSHARED_MEMORY_KEY_FILE
+		m4 options for setting MaxNOOPCommands and
+		SharedMemoryKeyFile.
+	CONFIG: Add confMILTER_MACROS_EOH and confMILTER_MACROS_DATA m4
+		options for setting Milter.macros.eoh and Milter.macros.data.
+	CONTRIB: Use flock() and fcntl() in qtool.pl if necessary.
+		Patch from Daniel Carroll of Mesa State College.
+	LIBMILTER: Make sure an unknown command does not affect the
+		currently available macros.  Problem found by Andy Fiddaman.
+	LIBMILTER: The MTA did not offer SMFIF_SETSYMLIST during option
+		negotiation.  Problem reported by Bryan Costales.
+	LIBMILTER: Fix several minor errors in the documentation.
+		Patches from Bryan Costales.
+	PORTABILITY FIXES:
+		AIX 5.{1,2}: libsm/util.c failed to compile due to
+			redefinition of several macros, e.g., SIG_ERR.
+			Patch from Jim Pirzyk with assistance by Bob
+			Booth, University of Illinois at Urbana-Champaign.
+		Add support for QNX.6.  Patch from Sean Boudreau of QNX
+			Software Systems.
+	New Files:
+		devtools/M4/depend/QNX6.m4
+		devtools/OS/QNX.6.x
+		include/sm/os/sm_os_qnx.h
+
+	New Files added in 8.14.0, but not shown in the release notes entry:
+		libmilter/docs/smfi_chgfrom.html
+		libmilter/docs/smfi_version.html
+
+8.14.0/8.14.0	2007/01/31
+	Header field values are now 8 bit clean.  Notes:
+		- header field names are still restricted to 7 bit.
+		- RFC 2822 allows only 7 bit (US-ASCII) characters in
+		  headers.
+	Preserve spaces after the colon in a header.  Previously, any
+		number of spaces after the colon would be changed to
+		exactly one space.
+	In some cases of deeply nested aliases/forwarding, mail can
+		be silently lost.  Moreover, the MaxAliasRecursion
+		limit may be reached too early, e.g., the counter
+		may be off by a factor of 4 in case of a sequence of
+		.forward files that refer to others.  Patch from
+		Motonori Nakamura of Kyoto University.
+	Fix a regression in 8.13.8: if InputMailFilters is set then
+		"sendmail -bs" can trigger an assertion because the
+		hostname of the client is undefined.  It is now set
+		to "localhost" for the xxfi_connect() callback.
+	Avoid referencing a freed variable during cleanup when terminating.
+		Problem reported and diagnosed by Joe Maimon.
+	New option HeloName to set the name for the HELO/EHLO command.
+		Patch from Nik Clayton.
+	New option SoftBounce to issue temporary errors (4xy) instead of
+		permanent errors (5xy).  This can be useful for testing.
+	New suboptions for DaemonPortOptions to set them individually
+		per daemon socket:
+			DeliveryMode	DeliveryMode
+			refuseLA	RefuseLA
+			delayLA		DelayLA
+			queueLA		QueueLA
+			children	MaxDaemonChildren
+	New option -K for LDAP maps to replace %1 through %9 in the
+		lookup key with the LDAP escaped contents of the
+		arguments specified in the map lookup.  Loosely based
+		on patch from Wolfgang Hottgenroth.
+	Log the time after which a greet_pause delay triggered.  Patch
+		from Nik Clayton.
+	If a client is rejected via TCP wrapper or some other check
+		performed by validate_connection() (in conf.c) then do
+		not also invoke greet_pause.  Problem noted by Jim Pirzyk
+		of the University of Illinois at Urbana-Champaign.
+	If a client terminates the SMTP connection during a pause
+		introduced by greet_pause, then a misleading message
+		was logged previously.  Problem noted by Vernon Schryver
+		et.al., patch from Matej Vela.
+	New command "mstat" for control socket to provide "machine
+		readable" status.
+	New named config file rule check_eom which is called at the end
+		of a message, its parameter is the size of the message.
+	If the macro {addr_type} indicates that the current address
+		is a header address it also distinguishes between
+		recipient and sender addresses (as it is done for
+		envelope addresses).
+	When a macro is set in check_relay, then its value is accessible
+		by all transactions in the same SMTP session.
+	Increase size of key for ldap lookups to 1024 (MAXKEY).
+	New option MaxNOOPCommands to override default of 20 for the
+		number of "useless" commands before the SMTP server will
+		slow down responding.
+	New option SharedMemoryKeyFile: if shared memory support is
+		enabled, the MTA can be asked to select a shared memory
+		key itself by setting SharedMemoryKey to -1 and specifying
+		a file where to store the selected key.
+	Try to deal with open HTTP proxies that are used to send spam
+		by recognizing some commands from them. If the first command
+		from the client is GET, POST, CONNECT, or USER, then the
+		connection is terminated immediately.
+	New PrivacyOptions noactualrecipient to avoid putting
+		X-Actual-Recipient lines in DSNs revealing the actual
+		account that addresses map to.  Patch from Dan Harkless.
+	New options B, z, and Z for DNS maps:
+		-B: specify a domain that is always appended to queries.
+		-z: specify the delimiter at which to cut off the result of
+			a query if it is too long.
+		-Z: specify the maximum number of entries to be concatenated
+			to form the result of a lookup.
+	New target "check" in the Makefile of libsm: instead of running tests
+		implicitly while building libsm, they must be explicitly
+		started by using "make check".
+	Fixed some inconsistent checks for NULL pointers that have been
+		reported by the SATURN tool which has been developed by
+		Isil Dillig and Thomas Dillig of Stanford University.
+	Fix a potential race condition caused by a signal handler for
+		terminated child processes.  Problem noted by David F. Skoll.
+	When a milter deleted a recipient, that recipient could cause a
+		queue group selection. This has been disabled as it was not
+		intended.
+	New operator 'r' for the arith map to return a random number.
+		Patch from Motonori Nakamura of Kyoto University.
+	New compile time option MILTER_NO_NAGLE to turn off the Nagle
+		algorithm for communication with libmilter ("cork" on Linux),
+		which may improve the communication performance on some
+		operating systems.  Patch from John Gardiner Myers of
+		Proofpoint.
+	If sendmail received input that contained a CR without subsequent LF
+		(thus violating RFC 2821 (2.3.7)), it could previously
+		generate an additional blank line in the output as the last
+		line.
+	Restarting persistent queue runners by sending a HUP signal to
+		the "queue control process" (QCP) works now.
+	Increase the length of an input line to 12288 to deal with
+		really long lines during SMTP AUTH negotiations.
+		Problem noted by Werner Wiethege.
+	If ARPANET mode (-ba) was selected STARTTLS would fail (due to
+		a missing initialization call for that case).  Problem
+		noted by Neil Rickert of Northern Illinois University.
+	If sendmail is linked against a library that initializes Cyrus-SASL
+		before sendmail did it (such as libnss-ldap), then SMTP AUTH
+		could fail for the sendmail client.  A patch by Moritz Both
+		works around the API design flaw of Cyrus-SASLv2.
+	CONFIG: Make it possible to unset the StatusFile option by
+		undefining STATUS_FILE.  By not setting StatusFile,
+		the MTA will not attempt to open a statistics file on
+		each delivery.
+	CONFIG: New FEATURE(`require_rdns') to reject messages from SMTP
+		clients whose IP address does not have proper reverse DNS.
+		Contributed by Neil Rickert of Northern Illinois University
+		and John Beck of Sun Microsystems.
+	CONFIG: New FEATURE(`block_bad_helo') to reject messages from SMTP
+		clients which provide a HELO/EHLO argument which is either
+		unqualified, or is one of our own names (i.e., the server
+		name instead of the client name).  Contributed by Neil
+		Rickert of Northern Illinois University and John Beck of
+		Sun Microsystems.
+	CONFIG: New FEATURE(`badmx') to reject envelope sender addresses
+		(MAIL) whose domain part resolves to a "bad" MX record.
+		Based on contribution from William Dell Wisner.
+	CONFIG: New macros SMTP_MAILER_LL and RELAY_MAILER_LL to override
+		the maximum line length of the smtp mailers.
+	CONFIG: New option `relaytofulladdress' for FEATURE(`access_db')
+		to allow entries in the access map to be of the form
+			To:user@example.com	RELAY
+	CONFIG: New subsuboptions eoh and data to specify the list of
+		macros a milter should receive at those stages in the
+		SMTP dialogue.
+	CONFIG: New option confHELO_NAME for HeloName to set the name
+		for the HELO/EHLO command.
+	CONFIG: dnsbl and enhdnsbl can now also discard or quarantine
+		messages by using those values as second argument.
+		Patches from Nelson Fung.
+	CONTRIB: cidrexpand uses a hash symbol as comment character and
+		ignores everything after it unless it is in quotes or
+		preceeded by a backslash.
+	DEVTOOLS: New macro confMKDIR: if set to a program that creates
+		directories, then it used for "make install" to create
+		the required installation directories.
+	DEVTOOLS: New macro confCCLINK to specify the linker to use for
+		executables (defaults to confCC).
+	LIBMILTER: A new version of the milter API has been created that
+		has several changes which are listed below and documented
+		in the webpages reachable via libmilter/docs/index.html.
+	LIBMILTER: The meaning of the version macro SMFI_VERSION has been
+		changed.  It now refers only to the version of libmilter,
+		not to the protocol version (which is used only internally,
+		it is not user/milter-programmer visible).  Additionally,
+		a version function smfi_version() has been introduced such
+		that a milter program can check the libmilter version also
+		at runtime which is useful if a shared library is used.
+	LIBMILTER: A new callback xxfi_negotiate() can be used to
+		dynamically (i.e., at runtime) determine the available
+		protocol actions and features of the MTA and also to
+		specify which of these a milter wants to use.  This allows
+		for more flexibility than hardcoding these flags in the
+		xxfi_flags field of the smfiDesc structure.
+	LIBMILTER: A new callback xxfi_data() is available so milters
+		can act on the DATA command.
+	LIBMILTER: A new callback xxfi_unknown() is available so milters
+		can receive also unknown SMTP commands.
+	LIBMILTER: A new return code SMFIS_NOREPLY has been added which
+		can be used by the xxfi_header() callback provided the
+		milter requested the SMFIP_NOHREPL protocol action.
+	LIBMILTER: The new return code SMFIS_SKIP can be used in the
+		xxfi_body() callback to skip over further body chunks
+		and directly advance to the xxfi_eom() callback.  This
+		is useful if a milter can make a decision based on the
+		body chunks it already received without reading the entire
+		rest of the body and the milter wants to invoke functions
+		that are only available from the xxfi_eom() callback.
+	LIBMILTER: A new function smfi_addrcpt_par() can be used to add
+		new recipients including ESMTP parameters.
+	LIBMILTER: A new function smfi_chgfrom() can be used to change the
+		envelope sender including ESMTP parameters.
+	LIBMILTER: A milter can now request to be informed about rejected
+		recipients (RCPT) too.  This requires to set the protocol
+		flag SMFIP_RCPT_REJ during option negotiation.  Whether
+		a RCPT has been rejected can be checked by comparing the
+		value of the macro {rcpt_mailer} with "error".
+	LIBMILTER: A milter can now override the list of macros that it
+		wants to receive from the MTA for each protocol step
+		by invoking the function smfi_setsymlist() during option
+		negotiation.
+	LIBMILTER: A milter can receive header field values with all
+		leading spaces by requesting the SMFIP_HDR_LEADSPC
+		protocol action.  Also, if the flag is set then the MTA
+		does not add a leading space to headers that are added,
+		inserted, or replaced.
+	LIBMILTER: If a milter sets the reply code to "421" for the HELO
+		callback, the SMTP server will terminate the SMTP session
+		with that error to match the behavior of all other callbacks.
+	New Files:
+		cf/feature/badmx.m4
+		cf/feature/block_bad_helo.m4
+		cf/feature/require_rdns.m4
+		devtools/M4/UNIX/check.m4
+		include/sm/misc.h
+		include/sm/sendmail.h
+		include/sm/tailq.h
+		libmilter/docs/smfi_addrcpt_par.html
+		libmilter/docs/smfi_setsymlist.html
+		libmilter/docs/xxfi_data.html
+		libmilter/docs/xxfi_negotiate.html
+		libmilter/docs/xxfi_unknown.html
+		libmilter/example.c
+		libmilter/monitor.c
+		libmilter/worker.c
+		libsm/memstat.c
+		libsm/t-memstat.c
+		libsm/t-qic.c
+		libsm/util.c
+		sendmail/daemon.h
+		sendmail/map.h
+
+8.13.8/8.13.8	2006/08/09
+	Fix a regression in 8.13.7: if shared memory is activated, then
+		the server can erroneously report that there is
+		insufficient disk space.  Additionally make sure that
+		an internal variable is set properly to avoid those
+		misleading errors.  Based on patch from Steve Hubert
+		of University of Washington.
+	Fix a regression in 8.13.7: the PidFile could be removed after
+		the process that forks the daemon exited, i.e., if
+		sendmail -bd is invoked.  Problem reported by Kan Sasaki
+		of Fusion Communications Corp. and Werner Wiethege.
+	Avoid opening qf files if QueueSortOrder is "none".  Patch from
+		David F. Skoll.
+	Avoid a crash when finishing due to referencing a freed variable.
+		Problem reported and diagnosed by Moritz Jodeit.
+	CONTRIB: cidrexpand now deals with /0 by issuing the entire IPv4
+		range (0..255).
+	LIBMILTER: The "hostname" argument of the xxfi_connect() callback
+		previously was the equivalent of {client_ptr}.  However,
+		this did not match the documentation of the function, hence
+		it has been changed to {client_name}.  See doc/op/op.*
+		about these macros.
+
+8.13.7/8.13.7	2006/06/14
+	A malformed MIME structure with many parts can cause sendmail to
+		crash while trying to send a mail due to a stack overflow,
+		e.g., if the stack size is limited (ulimit -s).  This
+		happens because the recursion of the function mime8to7()
+		was not restricted.  The function is called for MIME 8 to
+		7 bit conversion and also to enforce MaxMimeHeaderLength.
+		To work around this problem, recursive calls are limited to
+		a depth of MAXMIMENESTING (20); message content after this
+		limit is treated as opaque and is not checked further.
+		Problem noted by Frank Sheiness.
+	The changes to the I/O layer in 8.13.6 caused a regression for
+		SASL mechanisms that use the security layer, e.g.,
+		DIGEST-MD5.  Problem noted by Robert Stampfli.
+	If a timeout occurs while reading a message (during the DATA phase)
+		a df file might have been left behind in the queue.
+		This was another side effect of the changes to the I/O
+		layer made in 8.13.6.
+	Several minor problems have been fixed that were found by a
+		Coverity scan of sendmail 8 as part of the NetBSD
+		distribution. See http://scan.coverity.com/
+		Note: the scan generated also a lot of "false positives",
+		e.g., "error" reports about situations that cannot happen.
+		Most of those code places are marked with lint(1) comments
+		like NOTREACHED, but Coverity does not understand those.
+		Hence an explicit assertion has been added in some cases
+		to avoid those false positives.
+	If the start of the sendmail daemon fails due to a configuration
+		error then in some cases shared memory segments or pid
+		files were not removed.
+	If DSN support is disabled via access_db, then related ESMTP
+		parameters for MAIL and RCPT should be rejected.  Problem
+		reported by Akihiro Sagawa.
+	Enabling zlib compression in OpenSSL 0.9.8[ab] breaks the padding
+		bug work-around.  Hence if sendmail is linked against
+		either of these versions and compression is available,
+		the padding bug work-around is turned off.  Based on
+		patch from Victor Duchovni of Morgan Stanley.
+	CONFIG: FEATURE(`dnsbl') and FEATURE(`enhdnsbl') used
+		blackholes.mail-abuse.org as default domain for lookups,
+		however, that list is no longer available.  To avoid
+		further problems, no default value is available anymore,
+		but an argument must be specified.
+	Portability:
+		Fix compilation on OSF/1 for sfsasl.c.  Patch from
+		Pieter Bowman of the University of Utah.
+
+8.13.6/8.13.6	2006/03/22
+	SECURITY: Replace unsafe use of setjmp(3)/longjmp(3) in the server
+		and client side of sendmail with timeouts in the libsm I/O
+		layer and fix problems in that code.  Also fix handling of
+		a buffer in sm_syslog() which could have been used as an
+		attack vector to exploit the unsafe handling of
+		setjmp(3)/longjmp(3) in combination with signals.
+		Problem detected by Mark Dowd of ISS X-Force.
+	Handle theoretical integer overflows that could triggered if
+		the server accepted headers larger than the maximum
+		(signed) integer value.  This is prevented in the default
+		configuration by restricting the size of a header, and on
+		most machines memory allocations would fail before reaching
+		those values.  Problems found by Phil Brass of ISS.
+	If a server returns 421 for an RSET command when trying to start
+		another transaction in a session while sending mail, do
+		not trigger an internal consistency check.  Problem found
+		by Allan E Johannesen of Worcester Polytechnic Institute.
+	If a server returns a 5xy error code (other than 501) in response
+		to a STARTTLS command despite the fact that it advertised
+		STARTTLS and that the code is not valid according to RFC
+		2487 treat it nevertheless as a permanent failure instead
+		of a protocol error (which has been changed to a
+		temporary error in 8.13.5).  Problem reported by Jeff
+		A. Earickson of Colby College.
+	Clear SMTP state after a HELO/EHLO command.  Patch from John
+		Myers of Proofpoint.
+	Observe MinQueueAge option when gathering entries from the queue
+		for sorting etc instead of waiting until the entries are
+		processed.  Patch from Brian Fundakowski Feldman.
+	Set up TLS session cache to properly handle clients that try to
+		resume a stored TLS session.
+	Properly count the number of (direct) child processes such that
+		a configured value (MaxDaemonChildren) is not exceeded.
+		Based on patch from Attila Bruncsak.
+	LIBMILTER: Remove superfluous backslash in macro definition
+		(libmilter.h).  Based on patch from Mike Kupfer of
+		Sun Microsystems.
+	LIBMILTER: Don't try to set SO_REUSEADDR on UNIX domain sockets.
+		This generates an error message from libmilter on
+		Solaris, though other systems appear to just discard the
+		request silently.
+	LIBMILTER: Deal with sigwait(2) implementations that return
+		-1 and set errno instead of returning an error code
+		directly.  Patch from Chris Adams of HiWAAY Informations
+		Services.
+	Portability:
+		Fix compilation checks for closefrom(3) and statvfs(2)
+		in NetBSD.  Problem noted by S. Moonesamy, patch from
+		Andrew Brown.
+
+8.13.5/8.13.5	2005/09/16
+	Store the filesystem identifier of the df/ subdirectory (if it
+		exists) in an internal structure instead of the base
+		directory.  This structure is used decide whether there
+		is enough free disk space when selecting a queue, hence
+		without this change queue selection could fail if a df/
+		subdirectory exists and is on a different filesystem
+		than the base directory.
+	Use the queue index of the df file (instead of the qf file) for
+		checking whether a link(2) operation can be used to split
+		an envelope across queue groups.  Problem found by
+		Werner Wiethege.
+	If the list of items in the queue is larger than the maximum
+		number of items to process, sort the queue first and
+		then cut the list off instead of the other way around.
+		Patch from Matej Vela of Rudjer Boskovic Institute.
+	Fix helpfile to show full entry for ETRN.  Problem noted by
+		Penelope Fudd, patch from Neil Rickert of Northern Illinois
+		University.
+	FallbackSmartHost should also be tried on temporary errors.
+		From John Beck of Sun Microsystems.
+	When a server responds with 421 to the STARTTLS command then treat
+		it as a temporary error, not as protocol error.  Problem
+		noted by Andrey J. Melnikoff.
+	Properly define two functions in libsm as static because their
+		prototype used static too.  Patch from Peter Klein.
+	Fix syntax errors in helpfile for MAIL and RCPT commands.
+	LIBMILTER: When smfi_replacebody() is called with bodylen equals
+		zero then do not silently ignore that call.  Patch from
+		Gurusamy Sarathy of Active State.
+	LIBMILTER: Recognize "421" also in a multi-line reply to terminate
+		the SMTP session with that error.  Fix from Brian Kantor.
+	Portability: New option HASSNPRINTF which can be set if the OS
+			has a properly working snprintf(3) to get rid
+			of the last two (safe) sprintf(3) calls in the
+			source code.
+		Add support for AIX 5.3.
+		Add support for SunOS 5.11 (aka Solaris 11).
+		Add support for Darwin 8.x.  Patch from Lyndon Nerenberg.
+		OpenBSD 3.7 has removed support for NETISO.
+	CONFIG: Add OSTYPE(freebsd6) for FreeBSD 6.X.
+		Set DontBlameSendmail to AssumeSafeChown and
+			GroupWritableDirPathSafe for OSTYPE(darwin).
+			Patch from Lyndon Nerenberg.
+		Some features still used 4.7.1 as enhanced status code which
+			was supposed to be eliminated in 8.13.0 because some
+			broken systems misinterpret it as a permanent error.
+			Patch from Matej Vela of Rudjer Boskovic Institute.
+		Some default values in a generated cf file did not match
+			the defaults in the sendmail binary.  Problem noted
+			by Mike Pechkin.
+	New Files:
+		cf/ostype/freebsd6.m4
+		devtools/OS/AIX.5.3
+		devtools/OS/Darwin.8.x
+		devtools/OS/SunOS.5.11
+		include/sm/time.h
+
+8.13.4/8.13.4	2005/03/27
+	The bug fixes in 8.13.3 for connection handling uncovered a
+		different error which could result in connections that
+		stay in CLOSE_WAIT state due to a variable that was not
+		properly initialized.  Problem noted by Michael Sims.
+	Deal with empty hostnames in hostsignature().  This bug could lead
+		to an endless loop when doing LMTP deliveries to another
+		host.  Problem first reported by Martin Lathoud and
+		tracked down by Gael Roualland.
+	Make sure return parameters are initialized in getmxrr().  Problem
+		found by Gael Roualland using valgrind.
+	If shared memory is used and the RunAsUser option is set, then the
+		owner and group of the shared memory segment is set to
+		the ids specified RunAsUser and the access mode is set
+		to 0660 to allow for updates by sendmail processes.
+	The number of queue entries that is (optionally) kept in shared
+		memory was wrong in some cases, e.g., envelope splitting
+		and bounce generation.
+	Undo a change made in 8.13.0 to silently truncate long strings
+		in address rewriting because the message can be triggered
+		for header checks where long strings are legitimate.
+		Problem reported by Mary Verge DeSisto, and tracked
+		down with the help of John Beck of Sun Microsystems.
+	The internal stab map did not obey the -m flag.  Patch from
+		Rob McMahon of Warwick University, England.
+	The socket map did not obey the -f flag.  Problem noted by
+		Dan Ringdahl, forwarded by Andrzej Filip.
+	The addition of LDAP recursion in 8.13.0 broke enforcement of
+		the LDAP map -1 argument which tells the MTA to only
+		return success if and only if a single LDAP match is found.
+	Add additional error checks in the MTA for milter communication
+		to avoid a possible segmentation fault.  Based on patch
+		by Joe Maimon.
+	Do not trigger an assertion if X509_digest() returns success but
+		does not assign a value to its output parameter.  Based
+		on patch by Brian Kantor.
+	Add more checks when resetting internal AUTH data (applies only
+		to Cyrus SASL version 2).  Otherwise an SMTP session might
+		be dropped after an AUTH failure.
+	Portability:
+		Add LA_LONGLONG as valid LA_TYPE type for systems that use
+			"long long" to read load average data, e.g.,
+			AIX 5.1 in 32 bit mode.  Note: this has to be set
+			"by hand", it is not (yet) automatically detected.
+			Problem noted by Burak Bilen.
+		Use socklen_t for accept(), etc. on AIX 5.x.  This should
+			fix problems when compiling in 64 bit mode.
+			Problem first reported by Harry Meiert of
+			University of Bremen.
+	New Files:
+		include/sm/sem.h
+		libsm/sem.c
+		libsm/t-sem.c
 
 8.13.3/8.13.3	2005/01/11
 	Enhance handling of I/O errors, especially EOF, when STARTTLS
@@ -1084,7 +1686,7 @@ summary of the changes in that release.
 	Properly count message size for mailstats during mail collection.
 		Problem noted by Werner Wiethege.
 	Log complete response from LMTP delivery agent on failure.  Based on
-		patch from by Motonori Nakamura of Kyoto University.
+		patch from Motonori Nakamura of Kyoto University.
 	Provide workaround for getopt() implementations that do not catch
 		missing arguments.
 	Fix the message size calculation if the message body is replaced by

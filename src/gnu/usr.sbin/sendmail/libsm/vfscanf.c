@@ -13,13 +13,13 @@
  */
 
 #include <sm/gen.h>
-SM_IDSTR(id, "@(#)$Sendmail: vfscanf.c,v 1.52 2004/08/03 20:56:32 ca Exp $")
+SM_IDSTR(id, "@(#)$Id$")
 
 #include <ctype.h>
 #include <stdlib.h>
 #include <errno.h>
 #include <setjmp.h>
-#include <sys/time.h>
+#include <sm/time.h>
 #include <sm/varargs.h>
 #include <sm/config.h>
 #include <sm/io.h>
@@ -122,7 +122,9 @@ sm_vfscanf(fp, timeout, fmt0, ap)
 	int nassigned;		/* number of fields assigned */
 	int nread;		/* number of characters consumed from fp */
 	int base;		/* base argument to strtoll/strtoull */
-	ULONGLONG_T (*ccfn)();	/* conversion function (strtoll/strtoull) */
+
+	/* conversion function (strtoll/strtoull) */
+	ULONGLONG_T (*ccfn) __P((const char *, char **, int));
 	char ccltab[256];	/* character class table for %[...] */
 	char buf[BUF];		/* buffer for numeric conversions */
 	SM_EVENT *evt = NULL;

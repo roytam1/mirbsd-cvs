@@ -9,7 +9,7 @@
 # the sendmail distribution.
 #
 #
-#	$Sendmail: README,v 8.385 2004/11/25 06:52:06 msk Exp $
+#	$Id$
 #
 
 This directory contains the source files for sendmail(TM).
@@ -41,7 +41,7 @@ Sendmail is a trademark of Sendmail, Inc.
 By far, the easiest way to compile sendmail is to use the "Build"
 script:
 
-	sh Build
+	sh ./Build
 
 This uses the "uname" command to figure out what architecture you are
 on and creates a proper Makefile accordingly.  It also creates a
@@ -52,7 +52,7 @@ read the note below in the OPERATING SYSTEM AND COMPILE QUIRKS section.
 If you need to look at other include or library directories, use the
 -I or -L flags on the command line, e.g.,
 
-	sh Build -I/usr/sww/include -L/usr/sww/lib
+	sh ./Build -I/usr/sww/include -L/usr/sww/lib
 
 It's also possible to create local site configuration in the file
 site.config.m4 (or another file settable with the -f flag).  This
@@ -375,6 +375,9 @@ LA_TYPE		The type of load average your kernel supports.  These
 		 LA_DEVSHORT (13) reads a short from a system file (default:
 			/dev/table/avenrun) and scales it in the same manner
 			as LA_SHORT.
+		 LA_LONGLONG (17) to read /dev/kmem for the symbol avenrun and
+			interpret as a long long integer (e.g., for 64 bit
+			systems).
 		LA_INT, LA_SHORT, LA_FLOAT, and LA_READKSYM have several
 		other parameters that they try to divine: the name of your
 		kernel, the name of the variable in the kernel to examine,
@@ -499,6 +502,15 @@ NEEDINTERRNO	Set this if <errno.h> does not declare errno, i.e., if an
 		extern int errno;
 USE_TTYPATH	Set this to 1 to enable ErrorMode=write.
 USESYSCTL	Use sysctl(3) to determine the number of CPUs in a system.
+HASSNPRINTF	Set this to 1 if your OS has a working snprintf(3), i.e.,
+		it properly obeys the size of the buffer and returns the
+		number of characters that would have been printed if the
+		size were unlimited.
+LDAP_REFERRALS	Set this if you want to use the -R flag (do not auto chase
+		referrals) for LDAP maps (requires -DLDAPMAP).
+MILTER_NO_NAGLE	Turn off Nagle algorithm for communication with libmilter
+		("cork" on Linux).  On some operating systems this may
+		improve the interprocess communication performance.
 
 
 +-----------------------+
@@ -1707,6 +1719,18 @@ Regular Expressions (MAP_REGEX)
 	Make sure, your compiler reads regex.h from the distribution,
 	not from /usr/include, otherwise sendmail will dump a core.
 
+Fedora Core 5, 64 bit version
+	If the ld stage fails with undefined functions like
+	__res_querydomain, __dn_expand
+	then add these lines to devtools/Site/site.config.m4
+
+	APPENDDEF(`confLIBDIRS', `-L/usr/lib64')
+	APPENDDEF(`confINCDIRS', `-I/usr/include/bind9')
+
+	and rebuild (sh ./Build -c).
+
+	Problem noted by Daniel Krones, solution suggested by
+	Anthony Howe.
 
 +--------------+
 | MANUAL PAGES |

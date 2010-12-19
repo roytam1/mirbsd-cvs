@@ -13,7 +13,7 @@
  */
 
 #include <sm/gen.h>
-SM_RCSID("@(#)$Sendmail: fpurge.c,v 1.20 2001/09/11 04:04:48 gshapiro Exp $")
+SM_RCSID("@(#)$Id$")
 #include <stdlib.h>
 #include <errno.h>
 #include <sm/io.h>

@@ -18,7 +18,7 @@ SM_IDSTR(copyright,
      Copyright (c) 1990, 1993, 1994\n\
 	The Regents of the University of California.  All rights reserved.\n")
 
-SM_IDSTR(id, "@(#)$Sendmail: mail.local.c,v 8.253 2004/11/01 20:42:42 ca Exp $")
+SM_IDSTR(id, "@(#)$Id$")
 
 #include <stdlib.h>
 #include <sm/errstring.h>
@@ -78,6 +78,15 @@ SM_IDSTR(id, "@(#)$Sendmail: mail.local.c,v 8.253 2004/11/01 20:42:42 ca Exp $")
 #  include <openssl/md5.h>
 # endif /* HASHSPOOLMD5 */
 #endif /* HASHSPOOL */
+
+#if _FFR_SPOOL_PATH
+	/*
+	**  Override path to mail store at run time (using -p).
+	**  From: Eugene Grosbein of Svyaz Service JSC
+	**  See: http://www.freebsd.org/cgi/query-pr.cgi?pr=bin/114195
+	**  NOTE: Update man page before adding this to a release.
+	*/
+#endif /* _FFR_SPOOL_PATH */
 
 
 #ifndef LOCKTO_RM
@@ -173,6 +182,8 @@ const char	*hashname __P((char *));
 #endif /* HASHSPOOL */
 
 
+static void sm_exit __P((int));
+
 static void
 sm_exit(status)
 	int status;
@@ -225,7 +236,11 @@ main(argc, argv)
 #if HASHSPOOL
 	while ((ch = getopt(argc, argv, "7bdD:f:h:r:lH:p:n")) != -1)
 #else /* HASHSPOOL */
+#  if _FFR_SPOOL_PATH
+	while ((ch = getopt(argc, argv, "7bdD:f:h:r:lp:")) != -1)
+#  else /* _FFR_SPOOL_PATH */
 	while ((ch = getopt(argc, argv, "7bdD:f:h:r:l")) != -1)
+#  endif /* _FFR_SPOOL_PATH */
 #endif /* HASHSPOOL */
 	{
 		switch(ch)
@@ -306,6 +321,12 @@ main(argc, argv)
 			}
 			break;
 
+		  case 'n':
+			StripRcptDomain = false;
+			break;
+#endif /* HASHSPOOL */
+
+#if HASHSPOOL || _FFR_SPOOL_PATH
 		  case 'p':
 			if (optarg == NULL || *optarg == '\0')
 			{
@@ -319,11 +340,7 @@ main(argc, argv)
 				usage();
 			}
 			break;
-
-		  case 'n':
-			StripRcptDomain = false;
-			break;
-#endif /* HASHSPOOL */
+#endif /* HASHSPOOL || _FFR_SPOOL_PATH */
 
 		  case '?':
 		  default:
@@ -1564,7 +1581,11 @@ void
 usage()
 {
 	ExitVal = EX_USAGE;
+# if _FFR_SPOOL_PATH
+	mailerr(NULL, "usage: mail.local [-7] [-b] [-d] [-l] [-f from|-r from] [-h filename] [-p path] user ...");
+# else /* _FFR_SPOOL_PATH */
 	mailerr(NULL, "usage: mail.local [-7] [-b] [-d] [-l] [-f from|-r from] [-h filename] user ...");
+# endif /* _FFR_SPOOL_PATH */
 	sm_exit(ExitVal);
 }
 
@@ -1804,7 +1825,11 @@ e_to_sys(num)
  * 2. Redistributions in binary form must reproduce the above copyright
  *    notice, this list of conditions and the following disclaimer in the
  *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the University nor the names of its contributors
+ * 3. All advertising materials mentioning features or use of this software
+ *    must display the following acknowledgement:
+ *	This product includes software developed by the University of
+ *	California, Berkeley and its contributors.
+ * 4. Neither the name of the University nor the names of its contributors
  *    may be used to endorse or promote products derived from this software
  *    without specific prior written permission.
  *
