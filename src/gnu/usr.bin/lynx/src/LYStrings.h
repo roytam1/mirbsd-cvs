@@ -1,5 +1,5 @@
 /*
- * $LynxId: LYStrings.h,v 1.72 2009/01/25 19:49:28 tom Exp $
+ * $LynxId: LYStrings.h,v 1.78 2010/09/25 11:18:47 tom Exp $
  */
 #ifndef LYSTRINGS_H
 #define LYSTRINGS_H
@@ -33,7 +33,8 @@ extern "C" {
     extern char *LYstrncpy(char *dst,
 			   const char *src,
 			   int n);
-    extern void ena_csi(BOOLEAN flag);
+#define LYStrNCpy(dst,src,n) LYstrncpy(dst,src,(int)(n))
+    extern void ena_csi(int flag);
     extern int get_popup_number(const char *msg,
 				int *c,
 				int *rel);
@@ -47,6 +48,8 @@ extern "C" {
 			int hidden,
 			size_t bufsize,
 			RecallType recall);
+#define LYGetStr(input,hidden,bufsize,recall) \
+	LYgetstr(input,hidden,(size_t)(bufsize),recall)
     extern int LYscanFloat(const char *source, float *result);
     extern int LYscanFloat2(const char **source, float *result);
     extern char *LYstrsep(char **stringp,
@@ -57,34 +60,32 @@ extern "C" {
 			       const char *src,
 			       int n_bytes,
 			       int n_glyphs,
-			       BOOL utf_flag);
+			       int utf_flag);
     extern const char *LYmbcs_skip_cells(const char *data,
 					 int n_cells,
-					 BOOL utf_flag);
+					 int utf_flag);
     extern const char *LYmbcs_skip_glyphs(const char *data,
 					  int n_glyphs,
-					  BOOL utf_flag);
+					  int utf_flag);
     extern int LYmbcsstrlen(const char *str,
-			    BOOL utf_flag,
-			    BOOL count_gcells);
+			    int utf_flag,
+			    int count_gcells);
 
     extern const char *LYno_attr_mbcs_strstr(const char *chptr,
 					     const char *tarptr,
-					     BOOL utf_flag,
-					     BOOL count_gcells,
+					     int utf_flag,
+					     int count_gcells,
 					     int *nstartp,
 					     int *nendp);
     extern const char *LYno_attr_mbcs_case_strstr(const char *chptr,
 						  const char *tarptr,
-						  BOOL utf_flag,
-						  BOOL count_gcells,
+						  int utf_flag,
+						  int count_gcells,
 						  int *nstartp,
 						  int *nendp);
 
-#define non_empty(s) !isEmpty(s)
-
 #define LYno_attr_mb_strstr(chptr, tarptr, utf_flag, count_gcells, nstartp, nendp) \
-	(case_sensitive \
+	(LYcase_sensitive \
 	    ? LYno_attr_mbcs_strstr(chptr, tarptr, utf_flag, count_gcells, nstartp, nendp) \
 	    : LYno_attr_mbcs_case_strstr(chptr, tarptr, utf_flag, count_gcells, nstartp, nendp))
 
@@ -94,7 +95,7 @@ extern "C" {
 						  const char *tarptr);
 
 #define LYno_attr_strstr(chptr, tarptr) \
-	(case_sensitive \
+	(LYcase_sensitive \
 	? LYno_attr_char_strstr(chptr, tarptr) \
 	: LYno_attr_char_case_strstr(chptr, tarptr))
 
@@ -110,7 +111,7 @@ extern "C" {
 
     extern char *LYSafeGets(char **src, FILE *fp);
 
-#ifdef EXP_CMD_LOGGING
+#ifdef USE_CMD_LOGGING
     extern BOOL LYHaveCmdScript(void);
     extern int LYReadCmdKey(int mode);
     extern void LYCloseCmdLogfile(void);
@@ -329,7 +330,7 @@ extern "C" {
     extern int LYEditKeyForAction(int lac, int *pmodkey);	/* LYEditmap.c */
     extern int LYEdit1(EditFieldData *edit, int ch,
 		       int action,
-		       BOOL maxMessage);
+		       int maxMessage);
     extern void LYCloseCloset(RecallType recall);
     extern int LYhandlePopupList(int cur_choice,
 				 int ly,
@@ -338,7 +339,7 @@ extern "C" {
 				 int width,
 				 int i_length,
 				 int disabled,
-				 BOOLEAN for_mouse);
+				 int for_mouse);
 
     typedef unsigned char LYEditCode;
 
@@ -361,7 +362,7 @@ extern "C" {
     extern int LYEditInsert(EditFieldData *edit,
 			    unsigned const char *s,
 			    int len, int map_active,
-			    BOOL maxMessage);
+			    int maxMessage);
 
 #ifdef __cplusplus
 }

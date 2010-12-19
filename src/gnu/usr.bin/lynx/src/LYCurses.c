@@ -1,4 +1,4 @@
-/* $LynxId: LYCurses.c,v 1.141 2009/04/07 00:00:40 tom Exp $ */
+/* $LynxId: LYCurses.c,v 1.158 2010/10/31 17:56:18 tom Exp $ */
 #include <HTUtils.h>
 #include <HTAlert.h>
 
@@ -136,13 +136,13 @@ void VTHome(void)
 void LYaddAttr(int a)
 {
     Current_Attr |= a;
-    SLsmg_set_color(Current_Attr & ~Masked_Attr);
+    SLsmg_set_color((SLsmg_Color_Type) (Current_Attr & ~Masked_Attr));
 }
 
 void LYsubAttr(int a)
 {
     Current_Attr &= ~a;
-    SLsmg_set_color(Current_Attr & ~Masked_Attr);
+    SLsmg_set_color((SLsmg_Color_Type) (Current_Attr & ~Masked_Attr));
 }
 
 static void lynx_setup_attrs(void)
@@ -161,7 +161,7 @@ static void lynx_setup_attrs(void)
     int n;
 
     for (n = 1; n <= 7; n++)
-	SLtt_set_mono(n, NULL, (monoattr[n] & ~Masked_Attr));
+	SLtt_set_mono(n, NULL, (SLtt_Char_Type) (monoattr[n] & ~Masked_Attr));
 }
 
 void lynx_setup_colors(void)
@@ -242,7 +242,7 @@ static struct {
 };
 /* *INDENT-ON* */
 
-int string_to_attr(char *name)
+int string_to_attr(const char *name)
 {
     unsigned i;
 
@@ -260,8 +260,8 @@ static char *attr_to_string(int code)
 {
     static char result[sizeof(Mono_Attrs) + 80];
     unsigned i;
-    int pair = PAIR_NUMBER(code);
-    int bold = (pair != 0 && (code & A_BOLD) != 0);
+    int pair = PAIR_NUMBER((unsigned) code);
+    int bold = (pair != 0 && ((unsigned) code & A_BOLD) != 0);
 
     if (bold)
 	code &= (int) ~A_BOLD;
@@ -295,10 +295,13 @@ static char *attr_to_string(int code)
 /*
  *  This function boxes windows for (n)curses.
  */
-void LYbox(WINDOW * win, BOOLEAN formfield GCC_UNUSED)
+void LYbox(WINDOW * win, int formfield GCC_UNUSED)
 {
 #ifdef USE_SLANG
-    SLsmg_draw_box(win->top_y, win->left_x, win->height, win->width + 4);
+    SLsmg_draw_box(win->top_y,
+		   win->left_x,
+		   (unsigned) win->height,
+		   (unsigned) win->width + 4);
 #else
 #ifdef VMS
     /*
@@ -397,7 +400,7 @@ void setHashStyle(int style,
 		  int color,
 		  int cattr,
 		  int mono,
-		  char *element)
+		  const char *element)
 {
     bucket *ds = &hashStyles[style];
 
@@ -424,14 +427,14 @@ static void LYAttrset(WINDOW * win, int color,
 	&& color >= 0) {
 	CTRACE2(TRACE_STYLE, (tfp, "CSS:LYAttrset color %#x -> (%s)\n",
 			      color, attr_to_string(color)));
-	wattrset(win, color);
+	(void) wattrset(win, (unsigned) color);
     } else if (mono >= 0) {
 	CTRACE2(TRACE_STYLE, (tfp, "CSS:LYAttrset mono %#x -> (%s)\n",
 			      mono, attr_to_string(mono)));
-	wattrset(win, mono);
+	(void) wattrset(win, (unsigned) mono);
     } else {
 	CTRACE2(TRACE_STYLE, (tfp, "CSS:LYAttrset (A_NORMAL)\n"));
-	wattrset(win, A_NORMAL);
+	(void) wattrset(win, A_NORMAL);
     }
 }
 
@@ -470,7 +473,7 @@ void curses_w_style(WINDOW * win, int style,
     if (style == s_normal && dir) {
 	LYAttrset(win, ds->color, ds->mono);
 	if (win == LYwin)
-	    SetCachedStyle(YP, XP, s_normal);
+	    SetCachedStyle(YP, XP, (unsigned) s_normal);
 	return;
     }
 
@@ -493,7 +496,7 @@ void curses_w_style(WINDOW * win, int style,
 				  "in LynxChangeStyle(curses_w_style)"));
 	    last_colorattr_ptr = MAX_LAST_STYLES - 1;
 	}
-	last_styles[last_colorattr_ptr++] = LYgetattrs(win);
+	last_styles[last_colorattr_ptr++] = (int) LYgetattrs(win);
 	/* don't cache style changes for active links */
 #if OMIT_SCN_KEEPING
 	/* since we don't compute the hcode to stack off in HTML.c, we
@@ -516,7 +519,7 @@ void curses_w_style(WINDOW * win, int style,
 	    CTRACE2(TRACE_STYLE, (tfp, "CACHED: <%s> @(%d,%d)\n",
 				  ds->name, YP, XP));
 	    if (win == LYwin)
-		SetCachedStyle(YP, XP, style);
+		SetCachedStyle(YP, XP, (unsigned) style);
 	}
 	LYAttrset(win, ds->color, ds->mono);
 	break;
@@ -653,11 +656,11 @@ static int encode_color_attr(int color_attr)
     int code = 0;
     int offs = 1;
 
-    if (color_attr & A_BOLD)
+    if ((unsigned) color_attr & A_BOLD)
 	code |= 1;
-    if (color_attr & (A_REVERSE | A_DIM))
+    if ((unsigned) color_attr & (A_REVERSE | A_DIM))
 	code |= 2;
-    if (color_attr & A_UNDERLINE)
+    if ((unsigned) color_attr & A_UNDERLINE)
 	code |= 4;
     result = lynx_color_cfg_attr(code);
 
@@ -706,8 +709,8 @@ char *LYgetTableString(int code)
 {
     int mask = decode_mono_code(code);
     int second = encode_color_attr(mask);
-    int pair = PAIR_NUMBER(second);
-    int mono = (int) (mask & A_ATTRIBUTES);
+    int pair = PAIR_NUMBER((unsigned) second);
+    int mono = (int) ((unsigned) mask & A_ATTRIBUTES);
     int fg = lynx_color_pairs[pair].fg;
     int bg = lynx_color_pairs[pair].bg;
     unsigned n;
@@ -810,10 +813,10 @@ int lynx_chg_color(int color,
 void lynx_set_color(int a)
 {
     if (lynx_has_color && LYShowColor >= SHOW_COLOR_ON) {
-	wattrset(LYwin, lynx_color_cfg_attr(a)
-		 | (((a + 1) < COLOR_PAIRS)
-		    ? (chtype) get_color_pair(a + 1)
-		    : A_NORMAL));
+	(void) wattrset(LYwin, (unsigned) lynx_color_cfg_attr(a)
+			| (((a + 1) < COLOR_PAIRS)
+			   ? (chtype) get_color_pair(a + 1)
+			   : A_NORMAL));
     }
 }
 
@@ -869,11 +872,11 @@ void LYnoVideo(int a)
     CTRACE((tfp, "LYnoVideo(%d)\n", a));
 #ifdef USE_SLANG
     if (a & 1)
-	Masked_Attr |= SLTT_BOLD_MASK;
+	Masked_Attr |= (int) SLTT_BOLD_MASK;
     if (a & 2)
-	Masked_Attr |= SLTT_REV_MASK;
+	Masked_Attr |= (int) SLTT_REV_MASK;
     if (a & 4)
-	Masked_Attr |= SLTT_ULINE_MASK;
+	Masked_Attr |= (int) SLTT_ULINE_MASK;
     lynx_setup_attrs();
 #else
 #ifdef USE_COLOR_TABLE
@@ -991,7 +994,7 @@ void start_curses(void)
 	size_change(0);
 
 #if (defined(VMS) || defined(REAL_UNIX_SYSTEM)) && !defined(__CYGWIN__)
-	if ((Masked_Attr & SLTT_ULINE_MASK) == 0) {
+	if ((Masked_Attr & (int) SLTT_ULINE_MASK) == 0) {
 	    SLtt_add_color_attribute(4, SLTT_ULINE_MASK);
 	    SLtt_add_color_attribute(5, SLTT_ULINE_MASK);
 	}
@@ -1135,7 +1138,7 @@ void start_curses(void)
 	   when the keypad is switched on, some keybindings may be overriden. */
 	keypad(LYwin, TRUE);
 	keypad_on = 1;
-#  endif			/* HAVE_KEYPAD */
+#  endif /* HAVE_KEYPAD */
 
 	if (-1 == lynx_initialize_keymaps()) {
 	    endwin();
@@ -1228,7 +1231,7 @@ void start_curses(void)
 
 #ifdef USE_COLOR_STYLE
 	/* Curses forgets color settings when we call delscreen() */
-	if (!isEmpty(lynx_lss_file) && LYCanReadFile(lynx_lss_file)) {
+	if (non_empty(lynx_lss_file) && LYCanReadFile(lynx_lss_file)) {
 	    style_readFromFile(lynx_lss_file);
 	}
 	parse_userstyles();
@@ -1241,8 +1244,6 @@ void start_curses(void)
     _eth_init();
 #endif /* __DJGPP__ */
 #endif /* not VMS */
-
-/* nonl();   *//* seems to slow things down */
 
 #ifdef VMS
     crmode();
@@ -1485,7 +1486,7 @@ void stop_curses(void)
 
 #ifdef __DJGPP__
     ScreenClear();
-#else /* some flavor of win32?  */
+#elif !defined(PDCURSES) /* some flavor of win32?  */
     clrscr();
 #endif /* win32 */
 
@@ -1573,7 +1574,7 @@ BOOLEAN setup(char *terminal)
 
     printf("%s%s\n", gettext("Terminal ="), term);
     if ((strlen(term) < 5) ||
-	strncmp(term, "vt", 2) || !isdigit(term[2])) {
+	StrNCmp(term, "vt", 2) || !isdigit(term[2])) {
 	printf("%s\n",
 	       gettext("You must use a vt100, 200, etc. terminal with this program."));
 	printf(CONFIRM_PROCEED, "n/y");
@@ -1655,7 +1656,7 @@ BOOLEAN setup(char *terminal)
      * from all other links.  The workaround here is to disable the 'rev'
      * capability.
      */
-    if ((strncmp((const char *) ttytype, "sun", 3) == 0)) {
+    if ((StrNCmp((const char *) ttytype, "sun", 3) == 0)) {
 	LYnoVideo(2);
     }
 #endif /* HAVE_TTYTYPE */
@@ -1690,7 +1691,7 @@ static int dumbterm(char *terminal)
 #ifdef USE_COLOR_TABLE
 static void LYsetWAttr(WINDOW * win)
 {
-    wattrset(win, LYgetTableAttr());
+    (void) wattrset(win, LYgetTableAttr());
 }
 
 void LYaddWAttr(WINDOW * win, int a)
@@ -1730,21 +1731,24 @@ void LYsubAttr(int a)
 void LYpaddstr(WINDOW * the_window, int width, const char *the_string)
 {
     int y, x1, x2;
-    int actual = (int) LYstrCells(the_string);
     int length = (int) strlen(the_string);
+
+#ifdef WIDEC_CURSES
+    int actual = (int) LYstrCells(the_string);
+#endif
 
     getyx(the_window, y, x1);
     if (width + x1 > LYcolLimit)
 	width = LYcolLimit - x1;
+#ifdef WIDEC_CURSES
     if (actual > width) {
 	actual = width;
-#ifdef WIDEC_CURSES
 	/* FIXME: a binary search might be faster */
 	while (LYstrExtent(the_string, length, length) > actual) {
 	    --length;
 	}
-#endif
     }
+#endif
     LYwaddnstr(the_window, the_string, (size_t) length);
     getyx(the_window, y, x2);
     width -= (x2 - x1);
@@ -1775,7 +1779,7 @@ void LYsubwindow(WINDOW * param)
 	    wbkgd(my_subwindow, (chtype) (b | ' '));
 	}
 	LynxWChangeStyle(my_subwindow, s_menu_bg, STACK_OFF);
-#elif defined(HAVE_GETBKGD)	/* not defined in ncurses 1.8.7 */
+#elif defined(HAVE_GETBKGD) /* not defined in ncurses 1.8.7 */
 	wbkgd(my_subwindow, getbkgd(LYwin));
 #endif
 #endif
@@ -1808,7 +1812,11 @@ WINDOW *LYstartPopup(int *top_y,
 	*width = LYcolLimit - 5;
     }
 
-    SLsmg_fill_region(*top_y, *left_x - 1, *height, *width + 4, ' ');
+    SLsmg_fill_region(*top_y,
+		      *left_x - 1,
+		      (unsigned) *height,
+		      (unsigned) *width + 4,
+		      ' ');
     form_window = &fake_window;
     form_window->top_y = *top_y;
     form_window->left_x = *left_x;
@@ -1973,28 +1981,25 @@ void LYwaddnstr(WINDOW * w GCC_UNUSED,
 
 /*
  * Determine the number of cells the given string would take up on the screen,
- * limited by the maxCells parameter.  This is used for constructing aligned
- * text in the options and similar forms.
+ * limited (in the case of wide characters) by the maxCells parameter.
  *
- * FIXME: make this account for wrapping, too.
- * FIXME: make this useful for "lynx -dump", which hasn't initialized curses.
+ * If the returnCellNum parameter is TRUE, return the number of cells;
+ * otherwise, return the length (limited by the len parameter) of the prefix of
+ * the string that fits in maxCells cells.
  */
-int LYstrExtent(const char *string, int len, int maxCells)
+static
+int LYstrExtent0(const char *string,
+		 int len,
+		 int maxCells GCC_UNUSED,
+		 int retCellNum GCC_UNUSED)
 {
-    int result = 0;
-    int used;
+    int used = (len < 0 ? (int) strlen(string) : len);
+    int result = used;
 
-    if (len < 0)
-	used = (int) strlen(string);
-    else
-	used = len;
-
-    result = used;
 #ifdef WIDEC_CURSES
     if (used > 0 && lynx_called_initscr) {
 	static WINDOW *fake_win;
 	static int fake_max;
-	int n;
 
 	if (fake_max < maxCells) {
 	    fake_max = (maxCells + 1) * 2;
@@ -2009,8 +2014,9 @@ int LYstrExtent(const char *string, int len, int maxCells)
 	if (fake_win != 0) {
 	    int new_x = 0;
 	    int new_y = 0;
+	    int x = 0;
+	    int n;
 
-	    result = 0;
 	    wmove(fake_win, 0, 0);
 	    for (n = 0; n < used; ++n) {
 		if (IsNormalChar(string[n])) {
@@ -2018,15 +2024,29 @@ int LYstrExtent(const char *string, int len, int maxCells)
 		    getyx(fake_win, new_y, new_x);
 		    if (new_y > 0 || new_x > maxCells)
 			break;
-		    result = new_x;
+		    x = new_x;
 		}
 	    }
+	    result = (retCellNum ? x : n);
 	}
     }
 #endif
-    if (result > maxCells)
-	result = maxCells;
     return result;
+}
+
+/*
+ * Determine the number of cells the given string would take up on the screen,
+ * limited by the maxCells parameter.  This is used for constructing aligned
+ * text in the options and similar forms.
+ *
+ * FIXME: make this account for wrapping, too.
+ * FIXME: make this useful for "lynx -dump", which hasn't initialized curses.
+ */
+int LYstrExtent(const char *string, int len, int maxCells)
+{
+    int result = LYstrExtent0(string, len, maxCells, TRUE);
+
+    return (result > maxCells ? maxCells : result);
 }
 
 /*
@@ -2039,6 +2059,15 @@ int LYstrExtent(const char *string, int len, int maxCells)
 int LYstrExtent2(const char *string, int len)
 {
     return LYstrExtent(string, len, 8 * len);
+}
+
+/*
+ * Determine the longest prefix of a string that fits in a given number of
+ * cells and return its length.
+ */
+int LYstrFittable(const char *string, int maxCells)
+{
+    return LYstrExtent0(string, -1, maxCells, FALSE);
 }
 
 /*
@@ -2908,7 +2937,7 @@ long LYgetattrs(WINDOW * win)
      * FIXME: this ignores the color-pair, which for most implementations is
      * not stored in the attribute value.
      */
-    wattr_get(win, &attrs, &pair, NULL);
+    (void) wattr_get(win, &attrs, &pair, NULL);
     result = (long) attrs;
 #endif
     return result;

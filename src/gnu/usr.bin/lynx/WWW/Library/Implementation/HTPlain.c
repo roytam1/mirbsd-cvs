@@ -1,5 +1,5 @@
 /*
- * $LynxId: HTPlain.c,v 1.44 2009/01/03 01:23:21 tom Exp $
+ * $LynxId: HTPlain.c,v 1.48 2010/09/25 12:38:08 tom Exp $
  *
  *		Plain text object		HTWrite.c
  *		=================
@@ -106,7 +106,7 @@ static void HTPlain_write(HTStream *me, const char *s,
 /*	Character handling
  *	------------------
  */
-static void HTPlain_put_character(HTStream *me, char c)
+static void HTPlain_put_character(HTStream *me, int c)
 {
 #ifdef REMOVE_CR_ONLY
     /*
@@ -127,17 +127,23 @@ static void HTPlain_put_character(HTStream *me, char c)
 	return;
     }
     if (c == '\b' || c == '_' || HTPlain_bs_pending) {
-	HTPlain_write(me, &c, 1);
+	char temp[1];
+
+	temp[0] = (char) c;
+	HTPlain_write(me, temp, 1);
 	return;
     }
     HTPlain_lastraw = UCH(c);
     if (c == '\r') {
 	HText_appendCharacter(me->text, '\n');
     } else if (TOASCII(UCH(c)) >= 127) {	/* S/390 -- gil -- 0305 */
+	char temp[1];
+
+	temp[0] = (char) c;
 	/*
 	 * For now, don't repeat everything here that has been done below - KW
 	 */
-	HTPlain_write(me, &c, 1);
+	HTPlain_write(me, temp, 1);
     } else if (IS_CJK_TTY) {
 	HText_appendCharacter(me->text, c);
     } else if (TOASCII(UCH(c)) >= 127 && TOASCII(UCH(c)) < 161 &&
@@ -447,7 +453,6 @@ static void HTPlain_write(HTStream *me, const char *s, int l)
 			continue;
 		    } else if (uck < 0) {
 			me->utf_buf[0] = '\0';
-			code = UCH(c);
 		    } else {
 			c = replace_buf[0];
 			if (c && replace_buf[1]) {
@@ -537,8 +542,9 @@ static void HTPlain_write(HTStream *me, const char *s, int l)
 		   (uck = UCTransUniChar(code,
 					 me->outUCLYhndl)) >= ' ' &&	/* S/390 -- gil -- 0464 */
 		   uck < 256) {
-	    CTRACE((tfp, "UCTransUniChar returned 0x%.2lX:'%c'.\n",
-		    uck, FROMASCII((char) uck)));
+	    CTRACE((tfp, "UCTransUniChar returned 0x%.2" PRI_UCode_t
+		    ":'%c'.\n",
+		    uck, FROMASCII(UCH(uck))));
 	    HText_appendCharacter(me->text, ((char) (uck & 0xff)));
 	} else if (chk &&
 		   (uck == -4 ||
@@ -687,6 +693,9 @@ HTStream *HTPlainPresent(HTPresentation *pres GCC_UNUSED, HTParentAnchor *anchor
 
     if (me == NULL)
 	outofmem(__FILE__, "HTPlain_new");
+
+    assert(me != NULL);
+
     me->isa = &HTPlain;
 
     HTPlain_lastraw = -1;

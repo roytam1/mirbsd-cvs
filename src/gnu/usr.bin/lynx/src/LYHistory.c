@@ -1,5 +1,5 @@
 /*
- * $LynxId: LYHistory.c,v 1.75 2009/06/07 16:57:43 tom Exp $
+ * $LynxId: LYHistory.c,v 1.80 2010/09/25 11:22:51 tom Exp $
  */
 #include <HTUtils.h>
 #include <HTTP.h>
@@ -111,15 +111,15 @@ void LYAddVisitedLink(DocInfo *doc)
      */
     if (doc->post_data || doc->isHEAD || doc->bookmark ||
 	(			/* special url or a temp file */
-	    (!strncmp(doc->address, "LYNX", 4) ||
-	     !strncmp(doc->address, "file://localhost/", 17)))) {
+	    (!StrNCmp(doc->address, "LYNX", 4) ||
+	     !StrNCmp(doc->address, "file://localhost/", 17)))) {
 	int related = 1;	/* First approximation only */
 
 	if (LYIsUIPage(doc->address, UIP_HISTORY) ||
 	    LYIsUIPage(doc->address, UIP_VLINKS) ||
 	    LYIsUIPage(doc->address, UIP_SHOWINFO) ||
 	    isLYNXMESSAGES(doc->address) ||
-	    (related = 0) ||
+	    ((related = 0) != 0) ||
 #ifdef DIRED_SUPPORT
 	    LYIsUIPage(doc->address, UIP_DIRED_MENU) ||
 	    LYIsUIPage(doc->address, UIP_UPLOAD_OPTIONS) ||
@@ -179,6 +179,9 @@ void LYAddVisitedLink(DocInfo *doc)
 
     if ((tmp = typecalloc(VisitedLink)) == NULL)
 	outofmem(__FILE__, "LYAddVisitedLink");
+
+    assert(tmp != NULL);
+
     StrAllocCopy(tmp->address, doc->address);
     LYformTitle(&(tmp->title), title);
 
@@ -240,7 +243,7 @@ BOOLEAN LYwouldPush(const char *title,
     if (docurl) {
 	size_t ulen;
 
-	if (strncmp(docurl, "file://localhost/", 17) != 0 ||
+	if (StrNCmp(docurl, "file://localhost/", 17) != 0 ||
 	    (ulen = strlen(docurl)) <= strlen(HTML_SUFFIX) ||
 	    strcmp(docurl + ulen - strlen(HTML_SUFFIX), HTML_SUFFIX) != 0) {
 	    /*
@@ -344,15 +347,18 @@ void LYAllocHistory(int entries)
 	int save = size_history;
 
 	size_history = (entries + 2) * 2;
-	want = (unsigned) size_history *sizeof(*history);
+	want = (unsigned) size_history *(unsigned) sizeof(*history);
 
 	if (history == 0) {
-	    history = (HistInfo *) malloc(want);
+	    history = typeMallocn(HistInfo, want);
 	} else {
-	    history = (HistInfo *) realloc(history, want);
+	    history = typeRealloc(HistInfo, history, want);
 	}
 	if (history == 0)
 	    outofmem(__FILE__, "LYAllocHistory");
+
+	assert(history != NULL);
+
 	while (save < size_history) {
 	    memset(&history[save++], 0, sizeof(history[0]));
 	}
@@ -363,7 +369,7 @@ void LYAllocHistory(int entries)
 /*
  * Push the current filename, link and line number onto the history list.
  */
-int LYpush(DocInfo *doc, BOOLEAN force_push)
+int LYpush(DocInfo *doc, int force_push)
 {
     /*
      * Don't push NULL file names.
@@ -989,7 +995,7 @@ static void to_stack(char *str)
      * Register string.
      */
     if (buffstack == 0)
-	buffstack = typecallocn(char *, status_buf_size);
+	buffstack = typecallocn(char *, (size_t) status_buf_size);
 
     FREE(buffstack[topOfStack]);
     buffstack[topOfStack] = str;

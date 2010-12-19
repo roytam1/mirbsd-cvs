@@ -1,5 +1,5 @@
 /*
- * $LynxId: LYCookie.c,v 1.95 2009/01/01 22:28:57 tom Exp $
+ * $LynxId: LYCookie.c,v 1.107 2010/12/08 09:42:15 tom Exp $
  *
  *			       Lynx Cookie Support		   LYCookie.c
  *			       ===================
@@ -134,7 +134,7 @@ static void MemAllocCopy(char **dest,
     temp = typecallocn(char, (unsigned)(end - start) + 1);
     if (temp == NULL)
 	outofmem(__FILE__, "MemAllocCopy");
-    LYstrncpy(temp, start, (end - start));
+    LYStrNCpy(temp, start, (end - start));
     HTSACopy(dest, temp);
     FREE(temp);
 }
@@ -145,6 +145,9 @@ static cookie *newCookie(void)
 
     if (p == NULL)
 	outofmem(__FILE__, "newCookie");
+
+    assert(p != NULL);
+
     HTSprintf0(&(p->lynxID), "%p", (void *) p);
     p->port = 80;
     return p;
@@ -282,7 +285,7 @@ static BOOL is_prefix(const char *a, const char *b)
     if (len_a > len_b) {
 	return FALSE;
     } else {
-	if (strncmp(a, b, (unsigned) len_a) != 0) {
+	if (StrNCmp(a, b, (unsigned) len_a) != 0) {
 	    return FALSE;
 	}
 	if (len_a < len_b && (len_a > 1 || a[0] != '/')) {
@@ -524,6 +527,9 @@ static void store_cookie(cookie * co, const char *hostname,
 	de = typecalloc(domain_entry);
 	if (de == NULL)
 	    outofmem(__FILE__, "store_cookie");
+
+	assert(de != NULL);
+
 	de->bv = QUERY_USER;
 	de->invcheck_bv = DEFAULT_INVCHECK_BV;	/* should this go here? */
 	cookie_list = de->cookie_list = HTList_new();
@@ -664,21 +670,24 @@ static char *scan_cookie_sublist(char *hostname,
 				 int port,
 				 HTList *sublist,
 				 char *header,
-				 BOOL secure)
+				 int secure)
 {
-    HTList *hl = sublist, *next = NULL;
+    HTList *hl;
     cookie *co;
     time_t now = time(NULL);
     int len = 0;
     char crlftab[8];
 
     sprintf(crlftab, "%c%c%c", CR, LF, '\t');
-    while (hl) {
+    for (hl = sublist; hl != NULL; hl = hl->next) {
 	co = (cookie *) hl->object;
-	next = hl->next;
 
-	if ((co) &&		/* speed-up host_matches() and limit trace output */
-	    (LYstrstr(hostname, co->domain) != NULL)) {
+	if (co == NULL) {
+	    continue;
+	}
+
+	/* speed-up host_matches() and limit trace output */
+	if (LYstrstr(hostname, co->domain) != NULL) {
 	    CTrace((tfp, "Checking cookie %p %s=%s\n",
 		    (void *) hl,
 		    (co->name ? co->name : "(no name)"),
@@ -698,19 +707,20 @@ static char *scan_cookie_sublist(char *hostname,
 	/*
 	 * Check if this cookie has expired, and if so, delete it.
 	 */
-	if (((co) && (co->flags & COOKIE_FLAG_EXPIRES_SET)) &&
+	if ((co->flags & COOKIE_FLAG_EXPIRES_SET) &&
 	    co->expires <= now) {
 	    HTList_removeObject(sublist, co);
 	    freeCookie(co);
-	    co = NULL;
 	    total_cookies--;
+	    continue;
 	}
 
 	/*
 	 * Check if we have a unexpired match, and handle if we do.
 	 */
-	if (((co != NULL) &&
-	     host_matches(hostname, co->domain)) &&
+	if (co->domain != 0 &&
+	    co->name != 0 &&
+	    host_matches(hostname, co->domain) &&
 	    (co->pathlen == 0 || is_prefix(co->path, path))) {
 	    /*
 	     * Skip if the secure flag is set and we don't have a secure
@@ -718,7 +728,6 @@ static char *scan_cookie_sublist(char *hostname,
 	     * secure.  - FM
 	     */
 	    if ((co->flags & COOKIE_FLAG_SECURE) && secure == FALSE) {
-		hl = next;
 		continue;
 	    }
 
@@ -727,7 +736,6 @@ static char *scan_cookie_sublist(char *hostname,
 	     * - FM
 	     */
 	    if (co->PortList && !port_matches(port, co->PortList)) {
-		hl = next;
 		continue;
 	    }
 
@@ -787,7 +795,9 @@ static char *scan_cookie_sublist(char *hostname,
 		StrAllocCat(header, "\"");
 		len++;
 	    }
-	    len += (int) (strlen(co->name) + strlen(co->value) + 1);
+	    len += (int) (strlen(co->name)
+			  + (co->value ? strlen(co->value) : 0)
+			  + 1);
 	    /*
 	     * For Version 1 (or greater) cookies, add $PATH, $PORT and/or
 	     * $DOMAIN attributes for the cookie if they were specified via a
@@ -823,7 +833,6 @@ static char *scan_cookie_sublist(char *hostname,
 		}
 	    }
 	}
-	hl = next;
     }
 
     return (header);
@@ -839,7 +848,7 @@ static char *alloc_attr_value(const char *value_start,
     char *value = NULL;
 
     if (value_start && value_end >= value_start) {
-	int value_len = (value_end - value_start);
+	int value_len = (int) (value_end - value_start);
 
 	if (value_len > max_cookies_buffer) {
 	    value_len = max_cookies_buffer;
@@ -848,7 +857,7 @@ static char *alloc_attr_value(const char *value_start,
 
 	if (value == NULL)
 	    outofmem(__FILE__, "LYProcessSetCookies");
-	LYstrncpy(value, value_start, value_len);
+	LYStrNCpy(value, value_start, value_len);
     }
     return value;
 }
@@ -872,7 +881,7 @@ static unsigned parse_attribute(unsigned flags,
     BOOLEAN known_attr = NO;
     int url_type;
 
-    flags &= ~FLAGS_KNOWN_ATTR;
+    flags &= (unsigned) (~FLAGS_KNOWN_ATTR);
     if (is_attr("secure", 6)) {
 	if (value == NULL) {
 	    known_attr = YES;
@@ -1031,7 +1040,7 @@ static unsigned parse_attribute(unsigned flags,
 	 * Don't process a repeat version.  - FM
 	 */
 	    cur_cookie->version < 1) {
-	    int temp = strtol(value, NULL, 10);
+	    int temp = (int) strtol(value, NULL, 10);
 
 	    if (errno != -ERANGE) {
 		cur_cookie->version = temp;
@@ -1044,7 +1053,7 @@ static unsigned parse_attribute(unsigned flags,
 	 * Don't process a repeat max-age.  - FM
 	 */
 	    !(flags & FLAGS_MAXAGE_ATTR)) {
-	    int temp = strtol(value, NULL, 10);
+	    int temp = (int) strtol(value, NULL, 10);
 
 	    cur_cookie->flags |= COOKIE_FLAG_EXPIRES_SET;
 	    if (errno == -ERANGE) {
@@ -1052,7 +1061,7 @@ static unsigned parse_attribute(unsigned flags,
 	    } else {
 		cur_cookie->expires = (time(NULL) + temp);
 		CTrace((tfp, "LYSetCookie: expires %" PRI_time_t ", %s",
-			CAST_time_t(cur_cookie->expires),
+			CAST_time_t (cur_cookie->expires),
 			ctime(&cur_cookie->expires)));
 	    }
 	    flags |= FLAGS_MAXAGE_ATTR;
@@ -1073,7 +1082,7 @@ static unsigned parse_attribute(unsigned flags,
 		cur_cookie->expires = LYmktime(value, FALSE);
 		if (cur_cookie->expires > 0) {
 		    CTrace((tfp, "LYSetCookie: expires %" PRI_time_t ", %s",
-			    CAST_time_t(cur_cookie->expires),
+			    CAST_time_t (cur_cookie->expires),
 			    ctime(&cur_cookie->expires)));
 		}
 	    }
@@ -1131,7 +1140,7 @@ static void LYProcessSetCookies(const char *SetCookie,
 	CTrace((tfp, "LYProcessSetCookies: Using Set-Cookie2 header.\n"));
     }
     while (NumCookies <= max_cookies_domain && *p) {
-	attr_start = attr_end = value_start = value_end = NULL;
+	value_start = value_end = NULL;
 	p = LYSkipCBlanks(p);
 	/*
 	 * Get the attribute name.
@@ -1317,7 +1326,7 @@ static void LYProcessSetCookies(const char *SetCookie,
 					  cur_cookie,
 					  &cookie_len,
 					  attr_start,
-					  (attr_end - attr_start),
+					  (int) (attr_end - attr_start),
 					  value,
 					  address,
 					  hostname,
@@ -1429,7 +1438,7 @@ static void LYProcessSetCookies(const char *SetCookie,
 	CTrace((tfp, "LYProcessSetCookies: Using Set-Cookie header.\n"));
     }
     while (NumCookies <= max_cookies_domain && *p) {
-	attr_start = attr_end = value_start = value_end = NULL;
+	value_start = value_end = NULL;
 	p = LYSkipCBlanks(p);
 	/*
 	 * Get the attribute name.
@@ -1611,7 +1620,7 @@ static void LYProcessSetCookies(const char *SetCookie,
 					  cur_cookie,
 					  &cookie_len,
 					  attr_start,
-					  (attr_end - attr_start),
+					  (int) (attr_end - attr_start),
 					  value,
 					  address,
 					  hostname,
@@ -1714,7 +1723,7 @@ static void LYProcessSetCookies(const char *SetCookie,
 		(co->value ? co->value : "[no value]")));
 	if (co->expires > 0) {
 	    CTrace((tfp, "                    expires: %" PRI_time_t ", %s\n",
-		    CAST_time_t(co->expires),
+		    CAST_time_t (co->expires),
 		    ctime(&co->expires)));
 	}
 	if (isHTTPS_URL(address) &&
@@ -1760,15 +1769,28 @@ void LYSetCookie(const char *SetCookie,
     } else if (isHTTPS_URL(address)) {
 	port = 443;
     }
-    if (((path = HTParse(address, "",
-			 PARSE_PATH | PARSE_PUNCTUATION)) != NULL) &&
-	(ptr = strrchr(path, '/')) != NULL) {
-	if (ptr == path) {
-	    *(ptr + 1) = '\0';	/* Leave a single '/' alone */
-	} else {
+
+    /*
+     * Get the path from the request URI.
+     */
+    if ((path = HTParse(address, "", PARSE_PATH | PARSE_PUNCTUATION)) != NULL) {
+	/*
+	 * Trim off any parameters to provide something that we can compare
+	 * against the cookie's path for verifying if it has the proper prefix.
+	 */
+	if ((ptr = strchr(path, '?')) != NULL) {
+	    CTrace((tfp, "discarding params \"%s\" in request URI\n", ptr));
+	    *ptr = '\0';
+	}
+	/* trim a trailing slash, unless we have only a "/" */
+	if ((ptr = strrchr(path, '/')) != NULL &&
+	    (ptr != path) &&
+	    ptr[1] == '\0') {
+	    CTrace((tfp, "discarding trailing \"/\" in request URI\n"));
 	    *ptr = '\0';
 	}
     }
+
     if (isEmpty(SetCookie) &&
 	isEmpty(SetCookie2)) {
 	/*
@@ -1815,7 +1837,7 @@ void LYSetCookie(const char *SetCookie,
 char *LYAddCookieHeader(char *hostname,
 			char *path,
 			int port,
-			BOOL secure)
+			int secure)
 {
     char *header = NULL;
     HTList *hl = domain_list, *next = NULL;
@@ -1933,7 +1955,7 @@ void LYLoadCookies(char *cookie_file)
 	for (tok_loop = 0; tok_out && tok_values[tok_loop].s; tok_loop++) {
 	    CTrace((tfp, "\t%d:[%03d]:[%s]\n",
 		    tok_loop, (int) (tok_out - buf), tok_out));
-	    LYstrncpy(tok_values[tok_loop].s,
+	    LYStrNCpy(tok_values[tok_loop].s,
 		      tok_out,
 		      (int) tok_values[tok_loop].n);
 	    /*
@@ -2076,7 +2098,7 @@ void LYStoreCookies(char *cookie_file)
 		continue;
 
 	    CTrace((tfp, "LYStoreCookies: %" PRI_time_t " cf %" PRI_time_t " ",
-		    CAST_time_t(now), CAST_time_t(co->expires)));
+		    CAST_time_t (now), CAST_time_t (co->expires)));
 
 	    if ((co->flags & COOKIE_FLAG_DISCARD)) {
 		CTrace((tfp, "not stored - DISCARD\n"));
@@ -2102,7 +2124,7 @@ void LYStoreCookies(char *cookie_file)
 		    (de->domain[0] == '.') ? "TRUE" : "FALSE",
 		    co->path,
 		    co->flags & COOKIE_FLAG_SECURE ? "TRUE" : "FALSE",
-		    CAST_time_t(co->expires), co->name,
+		    CAST_time_t (co->expires), co->name,
 		    (co->quoted ? "\"" : ""),
 		    NonNull(co->value),
 		    (co->quoted ? "\"" : ""));
@@ -2611,6 +2633,8 @@ static void cookie_domain_flag_set(char *domainstr,
 	    de = typecalloc(domain_entry);
 	    if (de == NULL)
 		outofmem(__FILE__, "cookie_domain_flag_set");
+
+	    assert(de != NULL);
 
 	    de->bv = ACCEPT_ALWAYS;
 	    de->invcheck_bv = INVCHECK_QUERY;

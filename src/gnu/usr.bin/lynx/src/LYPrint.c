@@ -1,5 +1,5 @@
 /*
- * $LynxId: LYPrint.c,v 1.85 2009/05/24 22:28:27 tom Exp $
+ * $LynxId: LYPrint.c,v 1.90 2010/09/25 11:20:29 tom Exp $
  */
 #include <HTUtils.h>
 #include <HTAccess.h>
@@ -139,7 +139,7 @@ static void SetupFilename(char *filename,
     HTAtom *encoding;
     char *cp;
 
-    LYstrncpy(filename, sug_filename, LY_MAXPATH - 1);	/* add suggestion info */
+    LYStrNCpy(filename, sug_filename, LY_MAXPATH - 1);	/* add suggestion info */
     /* make the sug_filename conform to system specs */
     change_sug_filename(filename);
     if (!(HTisDocumentSource())
@@ -182,7 +182,7 @@ static int RecallFilename(char *filename,
     }
     recall = ((*total >= 1) ? RECALL_URL : NORECALL);
 
-    if ((ch = LYgetstr(filename, VISIBLE, LY_MAXPATH, recall)) < 0 ||
+    if ((ch = LYGetStr(filename, VISIBLE, LY_MAXPATH, recall)) < 0 ||
 	*filename == '\0' || ch == UPARROW || ch == DNARROW) {
 	if (recall && ch == UPARROW) {
 	    if (*first) {
@@ -208,7 +208,7 @@ static int RecallFilename(char *filename,
 		return FN_INIT;
 	    } else if ((cp = (char *) HTList_objectAt(sug_filenames,
 						      *now)) != NULL) {
-		LYstrncpy(filename, cp, LY_MAXPATH - 1);
+		LYStrNCpy(filename, cp, LY_MAXPATH - 1);
 		if (*total == 1) {
 		    _statusline(EDIT_THE_PREV_FILENAME);
 		} else {
@@ -239,7 +239,7 @@ static int RecallFilename(char *filename,
 		return FN_INIT;
 	    } else if ((cp = (char *) HTList_objectAt(sug_filenames,
 						      *now)) != NULL) {
-		LYstrncpy(filename, cp, LY_MAXPATH - 1);
+		LYStrNCpy(filename, cp, LY_MAXPATH - 1);
 		if (*total == 1) {
 		    _statusline(EDIT_THE_PREV_FILENAME);
 		} else {
@@ -445,7 +445,7 @@ static void send_file_to_file(DocInfo *newdoc,
 
 #ifdef VMS
     if (0 == strncasecomp(buffer, "sys$disk:", 9)) {
-	if (0 == strncmp((buffer + 9), "[]", 2)) {
+	if (0 == StrNCmp((buffer + 9), "[]", 2)) {
 	    HTAddSugFilename(buffer + 11);
 	} else {
 	    HTAddSugFilename(buffer + 9);
@@ -500,8 +500,8 @@ static void send_file_to_mail(DocInfo *newdoc,
     }
 
     _statusline(MAIL_ADDRESS_PROMPT);
-    LYstrncpy(user_response, personal_mail_address, sizeof(user_response) - 1);
-    if (LYgetstr(user_response,
+    LYStrNCpy(user_response, personal_mail_address, sizeof(user_response) - 1);
+    if (LYGetStr(user_response,
 		 VISIBLE,
 		 sizeof(user_response),
 		 RECALL_MAIL) < 0 ||
@@ -523,9 +523,13 @@ static void send_file_to_mail(DocInfo *newdoc,
     use_cte = HTLoadedDocumentEightbit();
     if (!(use_cte && strncasecomp(disp_charset, "x-", 2))) {
 	disp_charset = NULL;
+#if USE_VMS_MAILER
 	use_cte = FALSE;
+#endif
     }
+#if USE_VMS_MAILER
     use_type = (BOOL) (disp_charset || HTisDocumentSource());
+#endif
 
     /*
      * Use newdoc->title as a subject instead of sug_filename:  MORE readable
@@ -549,7 +553,7 @@ static void send_file_to_mail(DocInfo *newdoc,
 	char *temp = 0;
 
 	HTSprintf0(&temp, mail_adrs, user_response);
-	LYstrncpy(user_response, temp, sizeof(user_response) - 1);
+	LYStrNCpy(user_response, temp, sizeof(user_response) - 1);
 	FREE(temp);
     }
 
@@ -952,7 +956,7 @@ static void send_file_to_printer(DocInfo *newdoc,
 
 static void send_file_to_screen(DocInfo *newdoc,
 				char *content_base,
-				BOOLEAN Lpansi)
+				int Lpansi)
 {
     FILE *outfile_fp;
     char prompt[80];
@@ -964,7 +968,7 @@ static void send_file_to_screen(DocInfo *newdoc,
     }
 
     *prompt = '\0';
-    if (LYgetstr(prompt, VISIBLE, sizeof(prompt), NORECALL) < 0) {
+    if (LYGetStr(prompt, VISIBLE, sizeof(prompt), NORECALL) < 0) {
 	CancelPrint(PRINT_REQUEST_CANCELLED);
     }
 
@@ -1005,7 +1009,6 @@ static void send_file_to_screen(DocInfo *newdoc,
 	printf("\n\014");	/* Form feed */
 	printf("\033[4i");
 	fflush(stdout);		/* refresh to screen */
-	Lpansi = FALSE;
     } else {
 	fprintf(stdout, "\n\n%s", PRESS_RETURN_TO_FINISH);
 	fflush(stdout);		/* refresh to screen */
@@ -1389,7 +1392,7 @@ char *GetFileName(void)
      */
 #ifdef VMS
     if (0 == strncasecomp(fbuf, "sys$disk:", 9)) {
-	if (0 == strncmp((fbuf + 9), "[]", 2)) {
+	if (0 == StrNCmp((fbuf + 9), "[]", 2)) {
 	    HTAddSugFilename(fbuf + 11);
 	} else {
 	    HTAddSugFilename(fbuf + 9);
@@ -1442,6 +1445,8 @@ char *GetFileName(void)
      */
     if ((fn = typecallocn(char, strlen(tbuf) + 1)) == NULL)
 	  outofmem(__FILE__, "GetFileName");
+
+    assert(fn != NULL);
 
     return (strcpy(fn, tbuf));
 

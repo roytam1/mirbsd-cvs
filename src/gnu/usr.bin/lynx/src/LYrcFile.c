@@ -1,4 +1,4 @@
-/* $LynxId: LYrcFile.c,v 1.81 2009/06/07 17:11:00 tom Exp $ */
+/* $LynxId: LYrcFile.c,v 1.88 2010/12/11 14:20:53 tom Exp $ */
 #include <HTUtils.h>
 #include <HTFTP.h>
 #include <LYUtils.h>
@@ -178,11 +178,11 @@ const char *LYputEnum(Config_Enum * table, int value)
     return "?";
 }
 
-BOOL LYgetEnum(Config_Enum * table, char *name,
+BOOL LYgetEnum(Config_Enum * table, const char *name,
 	       int *result)
 {
     Config_Enum *found = 0;
-    unsigned len = strlen(name);
+    unsigned len = (unsigned) strlen(name);
     int match = 0;
 
     if (len != 0) {
@@ -344,7 +344,7 @@ bookmark_file specifies the name and location of the default bookmark\n\
 file into which the user can paste links for easy access at a later\n\
 date.\n\
 ")),
-    PARSE_SET(RC_CASE_SENSITIVE_SEARCHING, case_sensitive, N_("\
+    PARSE_SET(RC_CASE_SENSITIVE_SEARCHING, LYcase_sensitive, N_("\
 If case_sensitive_searching is \"on\" then when the user invokes a search\n\
 using the 's' or '/' keys, the search performed will be case sensitive\n\
 instead of case INsensitive.  The default is usually \"off\".\n\
@@ -427,6 +427,7 @@ file lists such as FTP directories.  The options are:\n\
 #ifndef DISABLE_FTP
     MAYBE_SET(RC_FTP_PASSIVE,           ftp_passive,        MSG_ENABLE_LYNXRC),
 #endif
+    MAYBE_SET(RC_HTML5_CHARSETS,        html5_charsets,     MSG_ENABLE_LYNXRC),
 #ifdef EXP_KEYBOARD_LAYOUT
     PARSE_ARY(RC_KBLAYOUT,              current_layout,     LYKbLayoutNames, NULL),
 #endif
@@ -463,6 +464,16 @@ If you do not want this information given out, set the NO_FROM_HEADER\n\
 to TRUE in lynx.cfg, or use the -nofrom command line switch.  You also\n\
 could leave this field blank, but then you won't have it included in\n\
 your mailed comments.\n\
+")),
+    PARSE_STR(RC_PERSONAL_MAIL_NAME,    personal_mail_name, N_("\
+personal_mail_name specifies your personal name, for mail.  The\n\
+name is sent for mailed comments.  Lynx will prompt for this,\n\
+showing the configured value as a default when sending mail.\n\
+This is not necessarily the same as a name provided as part of the\n\
+personal_mail_address.\n\
+Lynx does not save your changes to that default value as a side-effect\n\
+of sending email.  To update the default value, you must use the options\n\
+menu, or modify this file directly.\n\
 ")),
     PARSE_STR(RC_PREFERRED_CHARSET,     pref_charset, N_("\
 preferred_charset specifies the character set in MIME notation (e.g.,\n\
@@ -698,7 +709,10 @@ void read_rc(FILE *fp)
 	    if (!strncasecomp(name, special, (int) strlen(special))) {
 		tbl = lookup_config(special);
 	    }
-	    /* lynx ignores unknown keywords */
+	    /*
+	     * lynx ignores unknown keywords.
+	     * This includes known keywords where there is no ENABLE_LYNXRC.
+	     */
 	    if (tbl->name == 0) {
 		CTRACE((tfp, "LYrcFile: ignored %s=%s\n", name, value));
 		continue;

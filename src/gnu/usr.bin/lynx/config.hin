@@ -1,5 +1,5 @@
 /*
- * $LynxId: config.hin,v 1.112 2009/03/09 22:43:29 Doug.Kaufman Exp $
+ * $LynxId: config.hin,v 1.121 2010/09/26 14:25:50 tom Exp $
  * vile:cmode
  *
  * The configure script translates "config.hin" into "lynx_cfg.h"
@@ -40,11 +40,8 @@
 #undef EXEC_SCRIPTS		/* CF_ARG_ENABLE(exec-scripts) */
 #undef EXP_ADDRLIST_PAGE	/* CF_ARG_ENABLE(addrlist-page) */
 #undef EXP_ALT_BINDINGS		/* CF_ARG_ENABLE(alt-bindings) */
-#undef EXP_ASCII_CTYPES		/* CF_ARG_ENABLE(ascii-ctypes) */
-#undef EXP_CHARSET_CHOICE	/* CF_ARG_ENABLE(charset-choice) */
 #undef EXP_CHARTRANS_AUTOSWITCH	/* CF_ARG_ENABLE(font-switch) */
 #undef EXP_JAPANESEUTF8_SUPPORT	/* CF_ARG_ENABLE(japanese-utf8) */
-#undef EXP_JUSTIFY_ELTS		/* CF_ARG_ENABLE(justify-elts) */
 #undef EXP_KEYBOARD_LAYOUT	/* CF_ARG_ENABLE(kbd-layout) */
 #undef EXP_LIBJS		/* CF_ARG_ENABLE(libjs) */
 #undef EXP_NESTED_TABLES	/* CF_ARG_ENABLE(nested-tables) */
@@ -98,6 +95,7 @@
 #undef HAVE_LIBUTF8_H		/* may be needed for libncursesw */
 #undef HAVE_LIMITS_H
 #undef HAVE_LOCALE_H
+#undef HAVE_LONG_LONG		/* CF_TYPE_LONG_LONG */
 #undef HAVE_LSTAT		/* CF_FUNC_LSTAT */
 #undef HAVE_MALLOC_H		/* AM_GNU_GETTEXT */
 #undef HAVE_MBSTATE_T		/* CF_WIDEC_CURSES */
@@ -141,8 +139,8 @@
 #undef HAVE_SYS_IOCTL_H		/* have <sys/ioctl.h> */
 #undef HAVE_SYS_NDIR_H		/* AC_HEADER_DIRENT */
 #undef HAVE_SYS_PARAM_H		/* AM_GNU_GETTEXT */
-#undef HAVE_SYS_TIME_H		/* have <sys/time.h> */
 #undef HAVE_SYS_TIMEB_H		/* have <sys/timeb.h> */
+#undef HAVE_SYS_TIME_H		/* have <sys/time.h> */
 #undef HAVE_SYS_WAIT_H		/* have <sys/wait.h> */
 #undef HAVE_TERMIOS_H		/* have <termios.h> */
 #undef HAVE_TERMIO_H		/* have <termio.h> */
@@ -168,6 +166,7 @@
 #undef HAVE_VARARGS_H		/* CF_VARARGS */
 #undef HAVE_VASPRINTF
 #undef HAVE_VFORK_H		/* have <vfork.h> */
+#undef HAVE_WAIS_H
 #undef HAVE_WAITPID
 #undef HAVE_WATTR_GET
 #undef HAVE_WBORDER
@@ -206,6 +205,7 @@
 #undef NEED_REMOVE		/* CF_REMOVE_BROKEN */
 #undef NEED_WCHAR_H		/* CF_WIDEC_CURSES */
 #undef NGROUPS			/* CF_NGROUPS */
+#undef NLS_TEXTDOMAIN		/* NLS_TEXTDOMAIN */
 #undef NO_CHANGE_EXECUTE_PERMS	/* CF_ARG_DISABLE(dired-xpermit) */
 #undef NO_CONFIG_INFO		/* CF_ARG_DISABLE(config-info) */
 #undef NO_EXTENDED_HTMLDTD	/* CF_ARG_DISABLE(extended-dtd) */
@@ -225,6 +225,8 @@
 #undef SIZEOF_LONG		/* AC_CHECK_SIZEOF(long) */
 #undef SIZEOF_OFF_T		/* AC_CHECK_SIZEOF(off_t) */
 #undef SIZEOF_TIME_T		/* AC_CHECK_SIZEOF(time_t) */
+#undef SLsmg_Color_Type		/* CF_SLANG_UNIX_DEFS */
+#undef SLtt_Char_Type		/* CF_SLANG_UNIX_DEFS */
 #undef SOCKS			/* CF_SOCKS, CF_SOCKS5 */
 #undef STDC_HEADERS
 #undef SYSTEM_MAIL		/* CF_DEFINE_PROG */
@@ -246,8 +248,10 @@
 #undef UNDERLINE_LINKS		/* CF_ARG_ENABLE(underlines) */
 #undef UNIX
 #undef UNZIP_PATH		/* CF_PATH_PROG(unzip) */
+#undef USE_ASCII_CTYPES		/* CF_ARG_ENABLE(ascii-ctypes) */
 #undef USE_BZLIB		/* AC_ARG_WITH(bzlib) */
 #undef USE_CACHEJAR		/* CF_ARG_ENABLE(session-cache) */
+#undef USE_CHARSET_CHOICE	/* CF_ARG_ENABLE(charset-choice) */
 #undef USE_COLOR_STYLE		/* CF_ARG_ENABLE(color-style) */
 #undef USE_DEFAULT_COLORS	/* CF_ARG_ENABLE(default-colors) */
 #undef USE_EXECVP		/* CF_ARG_DISABLE(full-paths) */
@@ -256,6 +260,8 @@
 #undef USE_FILE_UPLOAD		/* CF_ARG_ENABLE(file-upload) */
 #undef USE_GNUTLS_FUNCS		/* CF_GNUTLS */
 #undef USE_GNUTLS_INCL		/* CF_GNUTLS */
+#undef USE_IDNA			/* CF_ARG_DISABLE(idna) */
+#undef USE_JUSTIFY_ELTS		/* CF_ARG_ENABLE(justify-elts) */
 #undef USE_LOCALE_CHARSET	/* CF_ARG_ENABLE(locale-charset) */
 #undef USE_OPENSSL_INCL		/* CF_SSL */
 #undef USE_PERSISTENT_COOKIES	/* CF_ARG_ENABLE(persistent-cookies) */
@@ -289,6 +295,7 @@
 #undef off_t			/* AC_TYPE_OFF_T */
 #undef pid_t			/* AC_TYPE_PID_T */
 #undef socklen_t		/* CF_CHECK_TYPE(socklen_t,...) */
+#undef ssize_t			/* CF_CHECK_TYPE(ssize_t,...) */
 #undef uid_t			/* AC_TYPE_UID_T */
 #undef ut_name			/* CF_UTMP */
 #undef ut_xstatus		/* CF_UTMP_UT_XSTATUS */

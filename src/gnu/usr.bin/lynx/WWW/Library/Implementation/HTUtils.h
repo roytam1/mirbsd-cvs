@@ -1,5 +1,5 @@
 /*
- * $LynxId: HTUtils.h,v 1.94 2009/05/10 23:06:31 tom Exp $
+ * $LynxId: HTUtils.h,v 1.103 2010/10/27 00:08:52 tom Exp $
  *
  * Utility macros for the W3 code library
  * MACROS FOR GENERAL USE
@@ -128,6 +128,8 @@ char *alloca();
 
 #endif /* HAVE_CONFIG_H */
 
+#include <assert.h>
+
 /* suppress inadvertant use of gettext in makeuctb when cross-compiling */
 #ifdef DONT_USE_GETTEXT
 #undef HAVE_GETTEXT
@@ -155,13 +157,22 @@ char *alloca();
 #define LY_MAXPATH 256
 #endif
 
-#ifndef	GCC_NORETURN
-#define	GCC_NORETURN		/* nothing */
+#ifndef GCC_NORETURN
+#define GCC_NORETURN		/* nothing */
 #endif
 
-#ifndef	GCC_UNUSED
-#define	GCC_UNUSED		/* nothing */
+#ifndef GCC_UNUSED
+#define GCC_UNUSED		/* nothing */
 #endif
+
+#if defined(__GNUC__) && defined(_FORTIFY_SOURCE)
+#define USE_IGNORE_RC
+extern int ignore_unused;
+
+#define IGNORE_RC(func) ignore_unused = (int) func
+#else
+#define IGNORE_RC(func) (void) func
+#endif /* gcc workarounds */
 
 #if defined(__CYGWIN32__) && ! defined(__CYGWIN__)
 #define __CYGWIN__ 1
@@ -310,6 +321,7 @@ Standard C library for malloc() etc
 #endif
 
 #define isEmpty(s)   ((s) == 0 || *(s) == 0)
+#define non_empty(s) !isEmpty(s)
 
 #define NonNull(s) (((s) != 0) ? s : "")
 #define NONNULL(s) (((s) != 0) ? s : "(null)")
@@ -317,13 +329,13 @@ Standard C library for malloc() etc
 /* array/table size */
 #define	TABLESIZE(v)	(sizeof(v)/sizeof(v[0]))
 
-#define	typecalloc(cast)		(cast *)calloc(1,sizeof(cast))
-#define	typecallocn(cast,ntypes)	(cast *)calloc(ntypes,sizeof(cast))
+#define	typecalloc(cast)		(cast *)calloc((size_t)1, sizeof(cast))
+#define	typecallocn(cast,ntypes)	(cast *)calloc((size_t)(ntypes),sizeof(cast))
 
-#define typeRealloc(cast,ptr,ntypes)    (cast *)realloc(ptr, (ntypes)*sizeof(cast))
+#define typeRealloc(cast,ptr,ntypes)    (cast *)realloc(ptr, (size_t)(ntypes)*sizeof(cast))
 
 #define typeMalloc(cast)                (cast *)malloc(sizeof(cast))
-#define typeMallocn(cast,ntypes)        (cast *)malloc((ntypes)*sizeof(cast))
+#define typeMallocn(cast,ntypes)        (cast *)malloc((size_t)(ntypes)*sizeof(cast))
 
 /*
 
@@ -466,7 +478,7 @@ Out Of Memory checking for malloc() return:
 
 #ifndef TOLOWER
 
-#ifdef EXP_ASCII_CTYPES
+#ifdef USE_ASCII_CTYPES
 
 #define TOLOWER(c) ascii_tolower(UCH(c))
 #define TOUPPER(c) ascii_toupper(UCH(c))
@@ -530,7 +542,7 @@ extern int WWW_TraceMask;
 /*
  * Printing/scanning-formats for "off_t", as well as cast needed to fit.
  */
-#if defined(HAVE_INTTYPES_H) && defined(SIZEOF_OFF_T)
+#if defined(HAVE_LONG_LONG) && defined(HAVE_INTTYPES_H) && defined(SIZEOF_OFF_T)
 #if (SIZEOF_OFF_T == 8) && defined(PRId64)
 
 #define PRI_off_t	PRId64
@@ -554,7 +566,7 @@ extern int WWW_TraceMask;
 #endif
 
 #ifndef PRI_off_t
-#if (SIZEOF_OFF_T > SIZEOF_LONG)
+#if defined(HAVE_LONG_LONG) && (SIZEOF_OFF_T > SIZEOF_LONG)
 #define PRI_off_t	"lld"
 #define SCN_off_t	"lld"
 #define CAST_off_t(n)	(long long)(n)
@@ -568,7 +580,7 @@ extern int WWW_TraceMask;
 /*
  * Printing-format for "time_t", as well as cast needed to fit.
  */
-#if defined(HAVE_INTTYPES_H) && defined(SIZEOF_TIME_T)
+#if defined(HAVE_LONG_LONG) && defined(HAVE_INTTYPES_H) && defined(SIZEOF_TIME_T)
 #if (SIZEOF_TIME_T == 8) && defined(PRId64)
 
 #define PRI_time_t	PRId64
@@ -592,7 +604,7 @@ extern int WWW_TraceMask;
 #endif
 
 #ifndef PRI_time_t
-#if (SIZEOF_TIME_T > SIZEOF_LONG)
+#if defined(HAVE_LONG_LONG) && (SIZEOF_TIME_T > SIZEOF_LONG)
 #define PRI_time_t	"lld"
 #define SCN_time_t	"lld"
 #define CAST_time_t(n)	(long long)(n)
@@ -606,7 +618,7 @@ extern int WWW_TraceMask;
 /*
  * Printing-format for "UCode_t".
  */
-#define PRI_UCode_t	"ld"
+#define PRI_UCode_t	"lX"
 
 /*
  * Verbose-tracing.
@@ -738,7 +750,7 @@ extern int WWW_TraceMask;
 extern "C" {
 #endif
 #ifndef TOLOWER
-#ifdef EXP_ASCII_CTYPES
+#ifdef USE_ASCII_CTYPES
     extern int ascii_toupper(int);
     extern int ascii_tolower(int);
     extern int ascii_isupper(int);

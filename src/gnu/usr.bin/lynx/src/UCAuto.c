@@ -1,5 +1,5 @@
 /*
- * $LynxId: UCAuto.c,v 1.39 2009/01/01 22:07:18 tom Exp $
+ * $LynxId: UCAuto.c,v 1.46 2010/10/31 17:56:21 tom Exp $
  *
  *  This file contains code for changing the Linux console mode.
  *  Currently some names for font files are hardwired in here.
@@ -198,7 +198,7 @@ static void write_esc(const char *p)
     int fd = open("/dev/tty", O_WRONLY);
 
     if (fd >= 0) {
-	write(fd, p, strlen(p));
+	IGNORE_RC(write(fd, p, strlen(p)));
 	close(fd);
     }
 }
@@ -310,6 +310,11 @@ void UCChangeTerminalCodepage(int newcs,
 	if ((old_font = typecallocn(char, LY_MAXPATH)) != 0)
 	      old_umap = typecallocn(char, LY_MAXPATH);
 
+	if (old_font == NULL)
+	    outofmem(__FILE__, "UCChangeTerminalCodepage");
+
+	assert(old_font != NULL);
+
 	if ((fp1 = LYOpenTemp(old_font, ".fnt", BIN_W)) != 0)
 	    fp2 = LYOpenTemp(old_umap, ".uni", BIN_W);
 
@@ -366,7 +371,7 @@ void UCChangeTerminalCodepage(int newcs,
      * Also some cpNNN fonts used below are not in the kbd-data.  - kw
      */
 
-    if (!strncmp(name, "iso-8859-1", 10) &&
+    if (!StrNCmp(name, "iso-8859-1", 10) &&
 	(!name[10] || !isdigit(UCH(name[10])))) {
 	if ((lastHasUmap == Is_Set) && !strcmp(lastname, "cp850")) {
 	    /*
@@ -402,7 +407,7 @@ void UCChangeTerminalCodepage(int newcs,
 	TransT = GN_Blat1;	/* bogus! */
 	HasUmap = Dunno;	/* distributed lat0 files have bogus map data! */
 	Utf = Is_Unset;
-    } else if (!strncmp(name, "iso-8859-", 9)) {
+    } else if (!StrNCmp(name, "iso-8859-", 9)) {
 	if (strlen(name) <= 10 || !isdigit(UCH(name[10])))
 	    HTSprintf0(&tmpbuf1, "iso0%s", &name[9]);
 	else
@@ -490,7 +495,7 @@ void UCChangeTerminalCodepage(int newcs,
 	Utf = Dont_Care;
     } else if (!strcmp(name, "us-ascii")) {
 	Utf = Dont_Care;
-    } else if (!strncmp(name, "mnem", 4)) {
+    } else if (!StrNCmp(name, "mnem", 4)) {
 	Utf = Dont_Care;
     }
 
@@ -523,8 +528,6 @@ void UCChangeTerminalCodepage(int newcs,
 	}
 	if (TransT != GN_dunno && TransT != GN_dontCare) {
 	    lastTransT = TransT;
-	} else {
-	    TransT = lastTransT;
 	}
     }
 
@@ -638,7 +641,7 @@ int Find_Best_Display_Charset(int ord)
 	HTInfoMsg(gettext("Charset name in CHARSET_SWITCH_RULES too long"));
 	return ord;
     }
-    strncpy(buf, r, s - r);
+    StrNCpy(buf, r, s - r);
     buf[s - r] = '\0';
     n = UCGetLYhndl_byMIME(buf);
     if (n < 0) {
@@ -785,7 +788,7 @@ static int _Switch_Display_Charset(int ord, enum switch_display_charset_t really
     CTRACE((tfp, "Display font set to '%s'.\n", name));
     return ord;
 }
-#  endif			/* __EMX__ */
+#  endif /* __EMX__ */
 
 int Switch_Display_Charset(const int ord, const enum switch_display_charset_t really)
 {

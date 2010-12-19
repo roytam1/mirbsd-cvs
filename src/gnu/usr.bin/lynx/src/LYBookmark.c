@@ -1,5 +1,5 @@
 /*
- * $LynxId: LYBookmark.c,v 1.62 2009/01/02 00:01:00 tom Exp $
+ * $LynxId: LYBookmark.c,v 1.69 2010/09/25 11:19:25 tom Exp $
  */
 #include <HTUtils.h>
 #include <HTAlert.h>
@@ -44,7 +44,7 @@ int LYMBM2index(int ch)
 
 	if (result != 0
 	    && (result - letters) <= MBM_V_MAXFILES)
-	    return (result - letters);
+	    return (int) (result - letters);
     }
     return -1;
 }
@@ -120,7 +120,7 @@ const char *get_bookmark_filename(char **URL)
 	 */
 	if (LYSafeGets(&string_buffer, fp) != 0
 	    && *LYTrimNewline(string_buffer) != '\0'
-	    && !strncmp(string_buffer, "ncsa-xmosaic-hotlist-format-1", 29)) {
+	    && !StrNCmp(string_buffer, "ncsa-xmosaic-hotlist-format-1", 29)) {
 	    const char *newname;
 
 	    /*
@@ -243,7 +243,7 @@ void save_bookmark_link(const char *address,
 	    FREE(bookmark_URL);
 	    return;
 	}
-	LYstrncpy(filename_buffer, filename, sizeof(filename_buffer) - 1);
+	LYStrNCpy(filename_buffer, filename, sizeof(filename_buffer) - 1);
     }
 
     /*
@@ -290,13 +290,13 @@ void save_bookmark_link(const char *address,
 	    default:
 		break;
 	    }
-	    LYstrncpy(string_buffer, tmp_buffer, sizeof(string_buffer) - 1);
+	    LYStrNCpy(string_buffer, tmp_buffer, sizeof(string_buffer) - 1);
 	} else {
-	    LYstrncpy(string_buffer, title, sizeof(string_buffer) - 1);
+	    LYStrNCpy(string_buffer, title, sizeof(string_buffer) - 1);
 	}
 	LYReduceBlanks(string_buffer);
 	LYMBM_statusline(TITLE_PROMPT);
-	LYgetstr(string_buffer, VISIBLE, sizeof(string_buffer), NORECALL);
+	LYGetStr(string_buffer, VISIBLE, sizeof(string_buffer), NORECALL);
 	if (*string_buffer == '\0') {
 	    LYMBM_statusline(CANCELLED);
 	    LYSleepMsg();
@@ -496,7 +496,7 @@ void remove_bookmark_link(int cur,
      */
     if (stat(filename_buffer, &stat_buf) == 0) {
 	regular = (BOOLEAN) (S_ISREG(stat_buf.st_mode) && stat_buf.st_nlink == 1);
-	mode = ((stat_buf.st_mode & 0777) | 0600);	/* make it writable */
+	mode = ((stat_buf.st_mode & HIDE_CHMOD) | 0600);	/* make it writable */
 	(void) chmod(newfile, mode);
 	if ((nfp = LYReopenTemp(newfile)) == NULL) {
 	    (void) LYCloseInput(fp);
@@ -519,7 +519,7 @@ void remove_bookmark_link(int cur,
 	}
 
     } else {
-	char *cp, *cp2;
+	char *cp;
 	BOOLEAN retain;
 	int seen;
 
@@ -530,7 +530,7 @@ void remove_bookmark_link(int cur,
 	    retain = TRUE;
 	    seen = 0;
 	    cp = buf;
-	    if ((cur == 0) && (cp2 = LYstrstr(cp, "<ol><LI>")))
+	    if ((cur == 0) && LYstrstr(cp, "<ol><LI>"))
 		keep_ol = TRUE;	/* Do not erase, this corrects a bug in an
 				   older version */
 	    while (n < cur && (cp = LYstrstr(cp, "<a href="))) {
@@ -1057,7 +1057,7 @@ static char *title_convert8bit(const char *Title)
     for (; *p; p++) {
 	char temp[2];
 
-	LYstrncpy(temp, p, sizeof(temp) - 1);
+	LYStrNCpy(temp, p, sizeof(temp) - 1);
 	if (UCH(*temp) <= 127) {
 	    StrAllocCat(comment, temp);
 	    StrAllocCat(ncr, temp);
@@ -1065,7 +1065,7 @@ static char *title_convert8bit(const char *Title)
 	    long unicode;
 	    char replace_buf[32];
 
-	    if (UCTransCharStr(replace_buf, sizeof(replace_buf), *temp,
+	    if (UCTransCharStr(replace_buf, (int) sizeof(replace_buf), *temp,
 			       charset_in, charset_out, YES) > 0)
 		StrAllocCat(comment, replace_buf);
 
@@ -1078,27 +1078,29 @@ static char *title_convert8bit(const char *Title)
 	}
     }
 
-    /*
-     * Cleanup comment, collapse multiple dashes into one dash, skip '>'.
-     */
-    for (q = p0 = comment; *p0; p0++) {
-	if (UCH(TOASCII(*p0)) >= 32 &&
-	    *p0 != '>' &&
-	    (q == comment || *p0 != '-' || *(q - 1) != '-')) {
-	    *q++ = *p0;
+    if (comment != NULL) {
+	/*
+	 * Cleanup comment, collapse multiple dashes into one dash, skip '>'.
+	 */
+	for (q = p0 = comment; *p0; p0++) {
+	    if (UCH(TOASCII(*p0)) >= 32 &&
+		*p0 != '>' &&
+		(q == comment || *p0 != '-' || *(q - 1) != '-')) {
+		*q++ = *p0;
+	    }
 	}
+	*q = '\0';
+
+	/*
+	 * valid bookmark should be a single line (no linebreaks!).
+	 */
+	StrAllocCat(buf, "<!-- ");
+	StrAllocCat(buf, comment);
+	StrAllocCat(buf, " -->");
+	StrAllocCat(buf, ncr);
+
+	FREE(comment);
     }
-    *q = '\0';
-
-    /*
-     * valid bookmark should be a single line (no linebreaks!).
-     */
-    StrAllocCat(buf, "<!-- ");
-    StrAllocCat(buf, comment);
-    StrAllocCat(buf, " -->");
-    StrAllocCat(buf, ncr);
-
-    FREE(comment);
     FREE(ncr);
     return (buf);
 }

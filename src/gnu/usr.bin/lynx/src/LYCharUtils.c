@@ -1,5 +1,5 @@
 /*
- * $LynxId: LYCharUtils.c,v 1.102 2009/06/23 19:44:06 tom Exp $
+ * $LynxId: LYCharUtils.c,v 1.109 2010/11/07 21:21:01 tom Exp $
  *
  *  Functions associated with LYCharSets.c and the Lynx version of HTML.c - FM
  *  ==========================================================================
@@ -52,7 +52,7 @@ int OL_VOID = -29998;		/* flag for whether a count is set */
  *  converts any angle-brackets to "&lt;" or "&gt;". - FM
  */
 void LYEntify(char **str,
-	      BOOLEAN isTITLE)
+	      int isTITLE)
 {
     char *p = *str;
     char *q = NULL, *cp = NULL;
@@ -119,6 +119,10 @@ void LYEntify(char **str,
 		     + (unsigned)(3 * gts) + 1));
     if ((cp = q) == NULL)
 	outofmem(__FILE__, "LYEntify");
+
+    assert(cp != NULL);
+    assert(q != NULL);
+
     for (p = *str; *p; p++) {
 #ifdef CJK_EX
 	if (IS_CJK_TTY) {
@@ -352,7 +356,7 @@ char *LYFindEndOfComment(char *str)
 	 */
 	return NULL;
 
-    if (strncmp(str, "<!--", 4))
+    if (StrNCmp(str, "<!--", 4))
 	/*
 	 * We don't have the start of a comment, so return the beginning of the
 	 * string.  - FM
@@ -461,7 +465,7 @@ void LYFillLocalFileURL(char **href,
     if (isEmpty(*href))
 	return;
 
-    if (!strcmp(*href, "//") || !strncmp(*href, "///", 3)) {
+    if (!strcmp(*href, "//") || !StrNCmp(*href, "///", 3)) {
 	if (base != NULL && isFILE_URL(base)) {
 	    StrAllocCopy(temp, STR_FILE_URL);
 	    StrAllocCat(temp, *href);
@@ -473,10 +477,10 @@ void LYFillLocalFileURL(char **href,
 	    StrAllocCat(*href, "//localhost");
 	} else if (!strcmp(*href, "file://")) {
 	    StrAllocCat(*href, "localhost");
-	} else if (!strncmp(*href, "file:///", 8)) {
+	} else if (!StrNCmp(*href, "file:///", 8)) {
 	    StrAllocCopy(temp, (*href + 7));
 	    LYLocalFileToURL(href, temp);
-	} else if (!strncmp(*href, "file:/", 6) && !LYIsHtmlSep(*(*href + 6))) {
+	} else if (!StrNCmp(*href, "file:/", 6) && !LYIsHtmlSep(*(*href + 6))) {
 	    StrAllocCopy(temp, (*href + 5));
 	    LYLocalFileToURL(href, temp);
 	}
@@ -492,7 +496,7 @@ void LYFillLocalFileURL(char **href,
     }
 
     /* use below: strlen("file://localhost/") = 17 */
-    if (!strncmp(*href, "file://localhost/", 17)
+    if (!StrNCmp(*href, "file://localhost/", 17)
 	&& (strlen(*href) == 19)
 	&& LYIsDosDrive(*href + 17)) {
 	/*
@@ -983,59 +987,6 @@ void LYGetChartransInfo(HTStructured * me)
 				      UCT_STAGE_STRUCTURED);
 }
 
-/*
- * Given an UCS character code, will fill buffer passed in as q with the code's
- * UTF-8 encoding.
- * If terminate = YES, terminates string on success and returns pointer
- *		       to beginning.
- * If terminate = NO,	does not terminate string, and returns pointer
- *		       next char after the UTF-8 put into buffer.
- * On failure, including invalid code or 7-bit code, returns NULL.
- */
-static char *UCPutUtf8ToBuffer(char *q, UCode_t code, BOOL terminate)
-{
-    char *q_in = q;
-
-    if (!q)
-	return NULL;
-    if (code > 127 && code < 0x7fffffffL) {
-	if (code < 0x800L) {
-	    *q++ = (char) (0xc0 | (code >> 6));
-	    *q++ = (char) (0x80 | (0x3f & (code)));
-	} else if (code < 0x10000L) {
-	    *q++ = (char) (0xe0 | (code >> 12));
-	    *q++ = (char) (0x80 | (0x3f & (code >> 6)));
-	    *q++ = (char) (0x80 | (0x3f & (code)));
-	} else if (code < 0x200000L) {
-	    *q++ = (char) (0xf0 | (code >> 18));
-	    *q++ = (char) (0x80 | (0x3f & (code >> 12)));
-	    *q++ = (char) (0x80 | (0x3f & (code >> 6)));
-	    *q++ = (char) (0x80 | (0x3f & (code)));
-	} else if (code < 0x4000000L) {
-	    *q++ = (char) (0xf8 | (code >> 24));
-	    *q++ = (char) (0x80 | (0x3f & (code >> 18)));
-	    *q++ = (char) (0x80 | (0x3f & (code >> 12)));
-	    *q++ = (char) (0x80 | (0x3f & (code >> 6)));
-	    *q++ = (char) (0x80 | (0x3f & (code)));
-	} else {
-	    *q++ = (char) (0xfc | (code >> 30));
-	    *q++ = (char) (0x80 | (0x3f & (code >> 24)));
-	    *q++ = (char) (0x80 | (0x3f & (code >> 18)));
-	    *q++ = (char) (0x80 | (0x3f & (code >> 12)));
-	    *q++ = (char) (0x80 | (0x3f & (code >> 6)));
-	    *q++ = (char) (0x80 | (0x3f & (code)));
-	}
-    } else {
-	return NULL;
-    }
-    if (terminate) {
-	*q = '\0';
-	return q_in;
-    } else {
-	return q;
-    }
-}
-
 	/* as in HTParse.c, saves some calls - kw */
 static const char *hex = "0123456789ABCDEF";
 
@@ -1123,11 +1074,11 @@ static const char *hex = "0123456789ABCDEF";
 char **LYUCFullyTranslateString(char **str,
 				int cs_from,
 				int cs_to,
-				BOOLEAN do_ent,
-				BOOL use_lynx_specials,
-				BOOLEAN plain_space,
-				BOOLEAN hidden,
-				BOOL Back,
+				int do_ent,
+				int use_lynx_specials,
+				int plain_space,
+				int hidden,
+				int Back,
 				CharUtil_st stype)
 {
     char *p;
@@ -1189,7 +1140,7 @@ char **LYUCFullyTranslateString(char **str,
     /*
      * Make sure we have a non-empty string.  - FM
      */
-    if (!str || isEmpty(*str))
+    if (isEmpty(*str))
 	return str;
 
     /*
@@ -1267,12 +1218,12 @@ char **LYUCFullyTranslateString(char **str,
 #define CHUNK (chunk ? chunk : (chunk = HTChunkCreate2(128, len+1)))
 
 #define REPLACE_STRING(s) \
-		if (q != qs) HTChunkPutb(CHUNK, qs, q-qs); \
+		if (q != qs) HTChunkPutb(CHUNK, qs, (int) (q - qs)); \
 		HTChunkPuts(CHUNK, s); \
 		qs = q = *str
 
 #define REPLACE_CHAR(c) if (q > p) { \
-		HTChunkPutb(CHUNK, qs, q-qs); \
+		HTChunkPutb(CHUNK, qs, (int) (q - qs)); \
 		qs = q = *str; \
 		*q++ = c; \
 	    } else \
@@ -1591,7 +1542,7 @@ char **LYUCFullyTranslateString(char **str,
 		state = S_recover;
 		break;
 	    } else {
-		code = LYcp1252ToUnicode(lcode);
+		code = LYcp1252ToUnicode((UCode_t) lcode);
 		state = S_check_uni;
 	    }
 	    break;
@@ -1692,10 +1643,10 @@ char **LYUCFullyTranslateString(char **str,
 		/*
 		 * Not found; look for replacement string.
 		 */
-		       (uck = UCTransUniCharStr(replace_buf,
-						60, code,
-						cs_to,
-						0) >= 0)) {
+		       UCTransUniCharStr(replace_buf,
+					 60, code,
+					 cs_to,
+					 0) >= 0) {
 		state = S_got_outstring;
 		break;
 	    }
@@ -1728,7 +1679,8 @@ char **LYUCFullyTranslateString(char **str,
 		 */
 	    } else if (code == 8204 || code == 8205 ||
 		       code == 8206 || code == 8207) {
-		CTRACE((tfp, "LYUCFullyTranslateString: Ignoring '%ld'.\n", code));
+		CTRACE((tfp, "LYUCFullyTranslateString: Ignoring '%"
+			PRI_UCode_t "'.\n", code));
 		replace_buf[0] = '\0';
 		state = S_got_outstring;
 		break;
@@ -1801,7 +1753,8 @@ char **LYUCFullyTranslateString(char **str,
 	    } else if (!T.output_utf8 && stype == st_HTML && !hidden &&
 		       !(HTPassEightBitRaw &&
 			 UCH(*p) >= lowest_8)) {
-		sprintf(replace_buf, "U%.2lX", code);
+		sprintf(replace_buf, "U%.2" PRI_UCode_t "", code);
+
 		state = S_got_outstring;
 	    } else {
 		puni = p;
@@ -1847,7 +1800,7 @@ char **LYUCFullyTranslateString(char **str,
 	case S_got_oututf8:
 	    if (code > 255 ||
 		(code >= 128 && LYCharSet_UC[cs_to].enc == UCT_ENC_UTF8)) {
-		UCPutUtf8ToBuffer(replace_buf, code, YES);
+		UCConvertUniToUtf8(code, replace_buf);
 		state = S_got_outstring;
 	    } else {
 		state = S_got_outchar;
@@ -1931,7 +1884,7 @@ char **LYUCFullyTranslateString(char **str,
 
     *q = '\0';
     if (chunk) {
-	HTChunkPutb(CHUNK, qs, q - qs + 1);	/* also terminates */
+	HTChunkPutb(CHUNK, qs, (int) (q - qs + 1));	/* also terminates */
 	if (stype == st_URL || stype == st_other) {
 	    LYTrimHead(chunk->data);
 	    LYTrimTail(chunk->data);
@@ -1953,9 +1906,9 @@ char **LYUCFullyTranslateString(char **str,
 BOOL LYUCTranslateHTMLString(char **str,
 			     int cs_from,
 			     int cs_to,
-			     BOOL use_lynx_specials,
-			     BOOLEAN plain_space,
-			     BOOLEAN hidden,
+			     int use_lynx_specials,
+			     int plain_space,
+			     int hidden,
 			     CharUtil_st stype)
 {
     BOOL ret = YES;
@@ -1972,7 +1925,7 @@ BOOL LYUCTranslateHTMLString(char **str,
 BOOL LYUCTranslateBackFormData(char **str,
 			       int cs_from,
 			       int cs_to,
-			       BOOLEAN plain_space)
+			       int plain_space)
 {
     char **ret;
 
@@ -2044,7 +1997,7 @@ void LYParseRefreshURL(char *content,
 	cp1 = cp;
 	while (*cp1 && isdigit(UCH(*cp1)))
 	    cp1++;
-	StrnAllocCopy(Seconds, cp, cp1 - cp);
+	StrnAllocCopy(Seconds, cp, (int) (cp1 - cp));
     }
     *p_seconds = Seconds;
     *p_address = LYParseTagParam(content, "URL");
@@ -2372,12 +2325,12 @@ void LYHandleMETA(HTStructured * me, const BOOL *present,
 		 * be like ISO-8859 in structure, pretend we have some kind of
 		 * match.
 		 */
-		BOOL given_is_8859 = (BOOL) (!strncmp(cp4, "iso-8859-", 9) &&
+		BOOL given_is_8859 = (BOOL) (!StrNCmp(cp4, "iso-8859-", 9) &&
 					     isdigit(UCH(cp4[9])));
 		BOOL given_is_8859like = (BOOL) (given_is_8859
-						 || !strncmp(cp4, "windows-", 8)
-						 || !strncmp(cp4, "cp12", 4)
-						 || !strncmp(cp4, "cp-12", 5));
+						 || !StrNCmp(cp4, "windows-", 8)
+						 || !StrNCmp(cp4, "cp12", 4)
+						 || !StrNCmp(cp4, "cp-12", 5));
 		BOOL given_and_display_8859like = (BOOL) (given_is_8859like &&
 							  (strstr(LYchar_set_names[current_char_set],
 								  "ISO-8859") ||
@@ -2426,7 +2379,7 @@ void LYHandleMETA(HTStructured * me, const BOOL *present,
 		/*
 		 * We found a URL field, so check it out.  - FM
 		 */
-		if (!(url_type = LYLegitimizeHREF(me, &href, TRUE, FALSE))) {
+		if (!LYLegitimizeHREF(me, &href, TRUE, FALSE)) {
 		    /*
 		     * The specs require a complete URL, but this is a
 		     * Netscapism, so don't expect the author to know that.  -
@@ -2477,7 +2430,7 @@ void LYHandleMETA(HTStructured * me, const BOOL *present,
 #ifndef DONT_TRACK_INTERNAL_LINKS
 	    /* id_string seems to be used wrong below if given.
 	       not that it matters much.  avoid setting it here. - kw */
-	    if ((strncmp(href, "http", 4) == 0) &&
+	    if ((StrNCmp(href, "http", 4) == 0) &&
 		(cp = strchr(href, '#')) != NULL) {
 		StrAllocCopy(id_string, cp);
 		*cp = '\0';
@@ -2613,7 +2566,7 @@ void LYHandlePlike(HTStructured * me, const BOOL *present,
 		   const char **value,
 		   char **include GCC_UNUSED,
 		   int align_idx,
-		   BOOL start)
+		   int start)
 {
     if (TRUE) {
 	/*
@@ -2719,7 +2672,7 @@ void LYHandlePlike(HTStructured * me, const BOOL *present,
 void LYHandleSELECT(HTStructured * me, const BOOL *present,
 		    const char **value,
 		    char **include GCC_UNUSED,
-		    BOOL start)
+		    int start)
 {
     int i;
 
@@ -2910,8 +2863,8 @@ void LYHandleSELECT(HTStructured * me, const BOOL *present,
  *  URLs. - FM
  */
 int LYLegitimizeHREF(HTStructured * me, char **href,
-		     BOOL force_slash,
-		     BOOL strip_dots)
+		     int force_slash,
+		     int strip_dots)
 {
     int url_type = 0;
     char *p = NULL;
@@ -3005,7 +2958,7 @@ int LYLegitimizeHREF(HTStructured * me, char **href,
 
 	temp = HTParse(*href, Base, PARSE_ALL);
 	path = HTParse(temp, "", PARSE_PATH + PARSE_PUNCTUATION);
-	if (!strncmp(path, "/..", 3)) {
+	if (!StrNCmp(path, "/..", 3)) {
 	    cp = (path + 3);
 	    if (LYIsHtmlSep(*cp) || *cp == '\0') {
 		if (Base[4] == 's') {
@@ -3023,7 +2976,7 @@ int LYLegitimizeHREF(HTStructured * me, char **href,
 	    if (*cp == '\0') {
 		StrAllocCopy(*href, "/");
 	    } else if (LYIsHtmlSep(*cp)) {
-		while (!strncmp(cp, "/..", 3)) {
+		while (!StrNCmp(cp, "/..", 3)) {
 		    if (*(cp + 3) == '/') {
 			cp += 3;
 			continue;
@@ -3321,7 +3274,7 @@ BOOLEAN LYCheckForCSI(HTParentAnchor *anchor,
 BOOLEAN LYCommentHacks(HTParentAnchor *anchor,
 		       const char *comment)
 {
-    const char *cp = comment;
+    const char *cp;
     size_t len;
 
     if (comment == NULL)
@@ -3330,7 +3283,7 @@ BOOLEAN LYCommentHacks(HTParentAnchor *anchor,
     if (!(anchor && anchor->address))
 	return FALSE;
 
-    if (strncmp(comment, "!--X-Message-Id: ", 17) == 0) {
+    if (StrNCmp(comment, "!--X-Message-Id: ", 17) == 0) {
 	char *messageid = NULL;
 	char *p;
 
@@ -3375,7 +3328,7 @@ BOOLEAN LYCommentHacks(HTParentAnchor *anchor,
 	    return FALSE;
 	}
     }
-    if (strncmp(comment, "!--X-Subject: ", 14) == 0) {
+    if (StrNCmp(comment, "!--X-Subject: ", 14) == 0) {
 	char *subject = NULL;
 	char *p;
 
@@ -3441,6 +3394,9 @@ void LYformTitle(char **dst,
 
 	if ((tmp_buffer = (char *) malloc(strlen(src) + 1)) == 0)
 	    outofmem(__FILE__, "LYformTitle");
+
+	assert(tmp_buffer != NULL);
+
 	switch (kanji_code) {	/* 1997/11/22 (Sat) 09:28:00 */
 	case EUC:
 	    TO_EUC((const unsigned char *) src, (unsigned char *) tmp_buffer);

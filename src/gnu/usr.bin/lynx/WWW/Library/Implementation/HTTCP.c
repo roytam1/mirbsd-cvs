@@ -1,5 +1,5 @@
 /*
- * $LynxId: HTTCP.c,v 1.98 2008/12/07 21:10:36 tom Exp $
+ * $LynxId: HTTCP.c,v 1.106 2010/11/07 21:20:58 tom Exp $
  *
  *			Generic Communication Code		HTTCP.c
  *			==========================
@@ -76,9 +76,6 @@ static char *hostname = NULL;	/* The name of this host */
 #ifdef SOCKS
 unsigned long socks_bind_remoteAddr;	/* for long Rbind */
 #endif /* SOCKS */
-
-/* PUBLIC SockA HTHostAddress; *//* The internet address of the host */
-					/* Valid after call to HTHostName() */
 
 /*	Encode INET status (as in sys/errno.h)			  inet_status()
  *	------------------
@@ -260,7 +257,7 @@ unsigned int HTCardinal(int *pstatus,
 
     n = 0;
     while ((**pp >= '0') && (**pp <= '9'))
-	n = n * 10 + *((*pp)++) - '0';
+	n = n * 10 + (unsigned) (*((*pp)++) - '0');
 
     if (n > max_value) {
 	*pstatus = -4;		/* Cardinal outside range */
@@ -285,7 +282,9 @@ const char *HTInetString(SockA * soc_in)
 
     getnameinfo((struct sockaddr *) soc_in,
 		SOCKADDR_LEN(soc_in),
-		hostbuf, sizeof(hostbuf), NULL, 0, NI_NUMERICHOST);
+		hostbuf, (socklen_t) sizeof(hostbuf),
+		NULL, 0,
+		NI_NUMERICHOST);
     return hostbuf;
 #else
     static char string[20];
@@ -466,7 +465,7 @@ static size_t fill_rehostent(char *rehostent,
 
     if (!phost)
 	return 0;
-    required_per_addr = phost->h_length + sizeof(char *);
+    required_per_addr = (size_t) phost->h_length + sizeof(char *);
 
     if (phost->h_addr_list)
 	available -= sizeof(phost->h_addr_list[0]);
@@ -517,20 +516,20 @@ static size_t fill_rehostent(char *rehostent,
     p_next_charptr = (char **) (rehostent + curlen);
     p_next_char = rehostent + curlen;
     if (phost->h_addr_list)
-	p_next_char += (num_addrs + 1) * sizeof(phost->h_addr_list[0]);
+	p_next_char += (size_t) (num_addrs + 1) * sizeof(phost->h_addr_list[0]);
     if (phost->h_aliases)
-	p_next_char += (num_aliases + 1) * sizeof(phost->h_aliases[0]);
+	p_next_char += (size_t) (num_aliases + 1) * sizeof(phost->h_aliases[0]);
 
     if (phost->h_addr_list) {
 	data->h.h_addr_list = p_next_charptr;
 	for (pcnt = phost->h_addr_list, i_addr = 0;
 	     i_addr < num_addrs;
 	     pcnt++, i_addr++) {
-	    memcpy(p_next_char, *pcnt, sizeof(phost->h_addr_list[0]));
+	    MemCpy(p_next_char, *pcnt, sizeof(phost->h_addr_list[0]));
 	    *p_next_charptr++ = p_next_char;
 	    p_next_char += sizeof(phost->h_addr_list[0]);
 	}
-	*p_next_charptr++ = NULL;
+	*p_next_charptr = NULL;
     } else {
 	data->h.h_addr_list = NULL;
     }
@@ -564,11 +563,11 @@ static size_t fill_rehostent(char *rehostent,
 	    }
 	    p_next_char += sizeof(phost->h_aliases[0]);
 	}
-	*p_next_charptr++ = NULL;
+	*p_next_charptr = NULL;
     } else {
 	data->h.h_aliases = NULL;
     }
-    curlen = p_next_char - (char *) rehostent;
+    curlen = (size_t) (p_next_char - (char *) rehostent);
     return curlen;
 }
 
@@ -601,7 +600,9 @@ static unsigned long __stdcall _fork_func(void *arg)
 #endif
 
     if (gbl_phost) {
-	rehostentlen = fill_rehostent(rehostent, REHOSTENT_SIZE, gbl_phost);
+	rehostentlen = fill_rehostent(rehostent,
+				      (size_t) REHOSTENT_SIZE,
+				      gbl_phost);
 	if (rehostentlen == 0) {
 	    gbl_phost = (LYNX_HOSTENT *) NULL;
 	} else {
@@ -632,14 +633,14 @@ extern int h_errno;
  * struct via a pipe in one read -TD
  */
 #ifdef NSL_FORK
-static unsigned readit(int fd, char *buffer, unsigned length)
+static unsigned readit(int fd, char *buffer, size_t length)
 {
     unsigned result = 0;
 
     while (length != 0) {
-	unsigned got = read(fd, buffer, length);
+	unsigned got = (unsigned) read(fd, buffer, length);
 
-	if (got != 0) {
+	if ((int) got > 0) {
 	    result += got;
 	    buffer += got;
 	    length -= got;
@@ -776,7 +777,8 @@ LYNX_HOSTENT *LYGetHostByName(char *str)
 	 * variables.
 	 */
 	int fpid, waitret;
-	int pfd[2], selret, readret;
+	int pfd[2], selret;
+	unsigned readret;
 
 #ifdef HAVE_TYPE_UNIONWAIT
 	union wait waitstat;
@@ -803,7 +805,7 @@ LYNX_HOSTENT *LYGetHostByName(char *str)
 	} while (waitret > 0 || (waitret == -1 && errno == EINTR));
 	waitret = 0;
 
-	pipe(pfd);
+	IGNORE_RC(pipe(pfd));
 
 #if HAVE_SIGACTION
 	/*
@@ -895,7 +897,9 @@ LYNX_HOSTENT *LYGetHostByName(char *str)
 	    dump_hostent("CHILD gethostbyname", phost);
 #endif
 	    if (OK_HOST(phost)) {
-		rehostentlen = fill_rehostent(rehostent, REHOSTENT_SIZE, phost);
+		rehostentlen = fill_rehostent(rehostent,
+					      (size_t) REHOSTENT_SIZE,
+					      phost);
 #ifdef DEBUG_HOSTENT_CHILD
 		dump_hostent("CHILD fill_rehostent", (LYNX_HOSTENT *) rehostent);
 #endif
@@ -919,13 +923,13 @@ LYNX_HOSTENT *LYGetHostByName(char *str)
 	    if (!statuses.child_errno)
 		statuses.child_errno = errno;
 	    statuses.rehostentlen = rehostentlen;
-	    write(pfd[1], &statuses, sizeof(statuses));
+	    IGNORE_RC(write(pfd[1], &statuses, sizeof(statuses)));
 
 	    if (rehostentlen) {
 		/*
 		 * Return our resulting rehostent through pipe...
 		 */
-		write(pfd[1], rehostent, rehostentlen);
+		IGNORE_RC(write(pfd[1], rehostent, rehostentlen));
 		close(pfd[1]);
 		_exit(0);
 	    } else {
@@ -1045,7 +1049,7 @@ LYNX_HOSTENT *LYGetHostByName(char *str)
 #ifdef DEBUG_HOSTENT
 			dump_hostent("Read from pipe", (LYNX_HOSTENT *) rehostent);
 #endif
-			if (readret == (int) statuses.rehostentlen) {
+			if (readret == statuses.rehostentlen) {
 			    got_rehostent = 1;
 			    result_phost = (LYNX_HOSTENT *) rehostent;
 			    lynx_nsl_status = HT_OK;
@@ -1289,7 +1293,7 @@ static int HTParseInet(SockA * soc_in, const char *str)
      * probably worth waiting until the Phase transition from IV to V.
      */
     soc_in->sdn_nam.n_len = min(DN_MAXNAML, strlen(host));	/* <=6 in phase 4 */
-    strncpy(soc_in->sdn_nam.n_name, host, soc_in->sdn_nam.n_len + 1);
+    StrNCpy(soc_in->sdn_nam.n_name, host, soc_in->sdn_nam.n_len + 1);
     CTRACE((tfp,
 	    "DECnet: Parsed address as object number %d on host %.6s...\n",
 	    soc_in->sdn_objnum, host));
@@ -1343,7 +1347,7 @@ static int HTParseInet(SockA * soc_in, const char *str)
 	gbl_phost = LYGetHostByName(host);	/* See above */
 	if (!gbl_phost)
 	    goto failed;
-	memcpy((void *) &soc_in->sin_addr, gbl_phost->h_addr_list[0], gbl_phost->h_length);
+	MemCpy((void *) &soc_in->sin_addr, gbl_phost->h_addr_list[0], gbl_phost->h_length);
 #else /* !_WINDOWS_NSL */
 	{
 	    LYNX_HOSTENT *phost;
@@ -1357,7 +1361,7 @@ static int HTParseInet(SockA * soc_in, const char *str)
 	    if (phost->h_length != sizeof soc_in->sin_addr) {
 		HTAlwaysAlert(host, gettext("Address length looks invalid"));
 	    }
-	    memcpy((void *) &soc_in->sin_addr, phost->h_addr_list[0], phost->h_length);
+	    MemCpy((void *) &soc_in->sin_addr, phost->h_addr_list[0], phost->h_length);
 	}
 #endif /* _WINDOWS_NSL */
 
@@ -1463,7 +1467,7 @@ static void get_host_details(void)
     LYNX_HOSTENT *phost;	/* Pointer to host -- See netdb.h */
 #endif /* INET6 */
 #endif /* NEED_HOST_ADDRESS */
-    int namelength = sizeof(name);
+    size_t namelength = sizeof(name);
 
     if (hostname)
 	return;			/* Already done */
@@ -1504,7 +1508,7 @@ static void get_host_details(void)
 	return;			/* Fail! */
     }
     StrAllocCopy(hostname, res->ai_canonname);
-    memcpy(&HTHostAddress, res->ai_addr, res->ai_addrlen);
+    MemCpy(&HTHostAddress, res->ai_addr, res->ai_addrlen);
     freeaddrinfo(res);
 #else
     phost = gethostbyname(name);	/* See netdb.h */
@@ -1515,7 +1519,7 @@ static void get_host_details(void)
 	return;			/* Fail! */
     }
     StrAllocCopy(hostname, phost->h_name);
-    memcpy(&HTHostAddress, &phost->h_addr_list[0], phost->h_length);
+    MemCpy(&HTHostAddress, &phost->h_addr_list[0], phost->h_length);
 #endif /* INET6 */
     CTRACE((tfp, "     Name server says that I am `%s' = %s\n",
 	    hostname, HTInetString(&HTHostAddress)));
@@ -1665,7 +1669,8 @@ int HTDoConnect(const char *url,
 	    char hostbuf[1024], portbuf[1024];
 
 	    getnameinfo(res->ai_addr, res->ai_addrlen,
-			hostbuf, sizeof(hostbuf), portbuf, sizeof(portbuf),
+			hostbuf, (socklen_t) sizeof(hostbuf),
+			portbuf, (socklen_t) sizeof(portbuf),
 			NI_NUMERICHOST | NI_NUMERICSERV);
 	    HTSprintf0(&line,
 		       gettext("socket failed: family %d addr %s port %s."),
@@ -1773,11 +1778,11 @@ int HTDoConnect(const char *url,
 		FD_SET((unsigned) *s, &writefds);
 #ifdef SOCKS
 		if (socks_flag)
-		    ret = Rselect((unsigned) *s + 1, NULL,
+		    ret = Rselect(*s + 1, NULL,
 				  &writefds, NULL, &select_timeout);
 		else
 #endif /* SOCKS */
-		    ret = select((unsigned) *s + 1,
+		    ret = select(*s + 1,
 				 NULL,
 				 &writefds,
 				 NULL,
@@ -2025,7 +2030,7 @@ int HTDoRead(int fildes,
 	    otries = tries;
 	    if (t - otime >= 5) {
 		otime = t;
-		HTReadProgress(-1, 0);	/* Put "stalled" message */
+		HTReadProgress((off_t) (-1), (off_t) 0);	/* Put "stalled" message */
 	    }
 	}
 #endif
@@ -2040,11 +2045,11 @@ int HTDoRead(int fildes,
 	    FD_SET((unsigned) fildes, &readfds);
 #ifdef SOCKS
 	    if (socks_flag)
-		ret = Rselect((unsigned) fildes + 1,
+		ret = Rselect(fildes + 1,
 			      &readfds, NULL, NULL, &select_timeout);
 	    else
 #endif /* SOCKS */
-		ret = select((unsigned) fildes + 1,
+		ret = select(fildes + 1,
 			     &readfds, NULL, NULL, &select_timeout);
 	} while ((ret == -1) && (errno == EINTR));
 
@@ -2079,7 +2084,7 @@ int HTDoRead(int fildes,
 	}
 #else
 #ifdef UNIX
-	while ((result = SOCKET_READ(fildes, buf, nbyte)) == -1) {
+	while ((result = (int) SOCKET_READ(fildes, buf, nbyte)) == -1) {
 	    if (errno == EINTR)
 		continue;
 #ifdef ERESTARTSYS
@@ -2097,7 +2102,7 @@ int HTDoRead(int fildes,
 #ifdef USE_READPROGRESS
     CTRACE2(TRACE_TIMING, (tfp, "...HTDoRead returns %d (%" PRI_time_t
 			   " seconds)\n",
-			   result, CAST_time_t(time((time_t *) 0) - start)));
+			   result, CAST_time_t (time((time_t *)0) - start)));
 #endif
     return result;
 }

@@ -1,5 +1,5 @@
 /*
- * $LynxId: LYGlobalDefs.h,v 1.121 2009/06/30 08:35:47 tom Exp $
+ * $LynxId: LYGlobalDefs.h,v 1.128 2010/12/11 14:19:17 tom Exp $
  *
  * global variable definitions
  */
@@ -228,7 +228,7 @@ extern "C" {
     extern BOOLEAN bold_H1;
     extern BOOLEAN bold_headers;
     extern BOOLEAN bold_name_anchors;
-    extern BOOLEAN case_sensitive;	/* TRUE to turn on case sensitive search */
+    extern BOOLEAN LYcase_sensitive;	/* TRUE to turn on case sensitive search */
     extern BOOLEAN check_mail;	/* TRUE to report unread/new mail messages */
     extern BOOLEAN child_lynx;	/* TRUE to exit with an arrow */
     extern BOOLEAN dump_links_only;
@@ -305,6 +305,7 @@ extern "C" {
     extern int max_cookies_buffer;
     extern int max_cookies_domain;
     extern int max_cookies_global;
+    extern int max_uri_size;
 #ifdef USE_SESSIONS
     extern short session_limit;	/* maximal entries saved/restored
 				   in session file */
@@ -376,6 +377,7 @@ extern "C" {
     extern char *indexfile;
     extern char *anonftp_password;
     extern char *personal_mail_address;
+    extern char *personal_mail_name;
     extern char *homepage;	/* startfile or command line argument */
     extern char *editor;	/* if non empty it enables edit mode with
 
@@ -389,12 +391,14 @@ extern "C" {
     extern char *personal_extension_map;
     extern char *LYHostName;
     extern char *LYLocalDomain;
+    extern BOOLEAN unique_urls;
     extern BOOLEAN use_underscore;
     extern BOOLEAN no_list;
     extern BOOLEAN no_margins;
     extern BOOLEAN no_pause;
     extern BOOLEAN no_title;
     extern BOOLEAN historical_comments;
+    extern BOOLEAN html5_charsets;
     extern BOOLEAN minimal_comments;
     extern BOOLEAN soft_dquotes;
 
@@ -453,7 +457,7 @@ extern "C" {
     extern int AlertSecs;
     extern int InfoSecs;
     extern int MessageSecs;
-    extern int DebugSecs;
+    extern int DelaySecs;
     extern int ReplaySecs;
 
     extern char *LYUserAgent;	/* Lynx User-Agent header */
@@ -572,7 +576,7 @@ extern "C" {
     extern int LYNoZapKey;	/* 0: off (do 'z' checking), 1: full, 2: initially */
 #endif
 
-#ifdef EXP_JUSTIFY_ELTS
+#ifdef USE_JUSTIFY_ELTS
     extern BOOLEAN ok_justify;
     extern int justify_max_void_percent;
 #endif
