@@ -1,6 +1,8 @@
+Note: this is broken as designed and needs to be redesigned ☹
+
 #!/usr/bin/env python
 # coding: utf-8
-# $MirOS: contrib/hosted/tg/grml/structid.py,v 1.9 2010/10/16 22:35:15 tg Exp $
+# $MirOS: contrib/hosted/tg/grml/structid.py,v 1.10 2010/10/17 20:48:09 tg Exp $
 #-
 # Copyright © 2010
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -21,7 +23,7 @@
 # of said person’s immediate fault when using the work as intended.
 
 __version__ = """
-    $MirOS: contrib/hosted/tg/grml/structid.py,v 1.9 2010/10/16 22:35:15 tg Exp $
+    $MirOS: contrib/hosted/tg/grml/structid.py,v 1.10 2010/10/17 20:48:09 tg Exp $
 """
 
 import struct
