@@ -1,5 +1,5 @@
 #if 0
-# $MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $
+# $MirOS: contrib/hosted/tg/rnd_cgi.c,v 1.1 2010/12/23 23:56:36 tg Exp $
 #-
 # Copyright © 2010
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -31,7 +31,7 @@ LINKS=		${BINDIR}/rn.cgi ${BINDIR}/rb.cgi \
 		${BINDIR}/rn.cgi ${BINDIR}/rh.cgi
 
 LDSTATIC=	-static
-LDFLAGS+=	-nostartfiles -nostdlib
+LDFLAGS+=	-nostartfiles -nostdlib ${DESTDIR}/usr/lib/crt0.o
 LDADD+=		-lc
 
 .include <bsd.prog.mk>
@@ -46,17 +46,16 @@ LDADD+=		-lc
 #include <string.h>
 #include <unistd.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: contrib/hosted/tg/rnd_cgi.c,v 1.1 2010/12/23 23:56:36 tg Exp $");
 
+extern const char *__progname;
 extern const uint8_t mbsd_digits_base64[65];
 extern const uint8_t mbsd_digits_HEX[17];
 
 extern void _thread_sys__exit(int) __dead;
 
-const char *__progname = NULL;
 static uint8_t buf[4096];
 
-void __start(int argc, char *argv[], char *envp[]) __dead;
 static void w(int, const void *, size_t);
 
 static inline void
@@ -115,26 +114,19 @@ w(int fd, const void *p, size_t n)
 	}
 }
 
-void
-__start(int argc __unused, char *argv[], char *envp[]) {
+int
+main(int argc __unused, char *argv[], char *envp[]) {
 	size_t n;
 	bool has_post = false, has_http11 = false;
 	enum { NUM, HEX, BIN } mode = NUM;
 
-	if (argv[0]) {
-		__progname = argv[0] + strlen(argv[0]);
-		while (__progname > argv[0])
-			if (__progname[-1] == '/')
-				break;
-			else
-				--__progname;
-		if (__progname[0])
-			switch (__progname[1]) {
-			case 'b': mode = BIN; break;
-			case 'h': mode = HEX; break;
-			}
-	} else
+	if (__progname == NULL)
 		__progname = "<unknown>";
+	else if (__progname[0])
+		switch (__progname[1]) {
+		case 'b': mode = BIN; break;
+		case 'h': mode = HEX; break;
+		}
 
 	while (*argv) {
 		arc4random_pushb_fast(*argv, strlen(*argv) + 1);
@@ -196,10 +188,8 @@ __start(int argc __unused, char *argv[], char *envp[]) {
 		break;
 	}
 
-	_thread_sys__exit(0);
+	return (0);
 }
-
-__weak_alias(_start, __start);
 
 #ifdef lint
 #define	CONSTRUCTOR
@@ -245,6 +235,22 @@ __stack_chk_fail(void)
 	__stack_smash_handler("unknown (pcc)", 0);
 }
 #endif
+
+__dead void
+exit(int rv)
+{
+	_thread_sys__exit(rv);
+}
+
+int
+atexit(void (*function)(void) __unused)
+{
+	errno = ENOSYS;
+	return (-1);
+}
+
+void _init(void); void _init(void) { }
+void _fini(void); void _fini(void) { }
 
 __asm__(".section .note.miros.ident,\"a\",@progbits"
 "\n	.p2align 2"
