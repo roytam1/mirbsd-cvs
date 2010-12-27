@@ -1,5 +1,5 @@
 #if 0
-# $MirOS: contrib/hosted/tg/rnd_cgi.c,v 1.1 2010/12/23 23:56:36 tg Exp $
+# $MirOS: contrib/hosted/tg/rnd_cgi.c,v 1.2 2010/12/24 11:39:20 tg Exp $
 #-
 # Copyright © 2010
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -28,7 +28,10 @@ NOMAN=		Yes
 BINDIR=		/var/www/htdocs
 BINMODE=	0111
 LINKS=		${BINDIR}/rn.cgi ${BINDIR}/rb.cgi \
-		${BINDIR}/rn.cgi ${BINDIR}/rh.cgi
+		${BINDIR}/rn.cgi ${BINDIR}/rh.cgi \
+		${BINDIR}/rn.cgi ${BINDIR}/ln.cgi \
+		${BINDIR}/rn.cgi ${BINDIR}/lb.cgi \
+		${BINDIR}/rn.cgi ${BINDIR}/lh.cgi
 
 LDSTATIC=	-static
 LDFLAGS+=	-nostartfiles -nostdlib ${DESTDIR}/usr/lib/crt0.o
@@ -46,7 +49,7 @@ LDADD+=		-lc
 #include <string.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: contrib/hosted/tg/rnd_cgi.c,v 1.1 2010/12/23 23:56:36 tg Exp $");
+__RCSID("$MirOS: contrib/hosted/tg/rnd_cgi.c,v 1.2 2010/12/24 11:39:20 tg Exp $");
 
 extern const char *__progname;
 extern const uint8_t mbsd_digits_base64[65];
@@ -117,16 +120,21 @@ w(int fd, const void *p, size_t n)
 int
 main(int argc __unused, char *argv[], char *envp[]) {
 	size_t n;
-	bool has_post = false, has_http11 = false;
+	bool has_post = false, has_http11 = false, is_long = false;
 	enum { NUM, HEX, BIN } mode = NUM;
 
 	if (__progname == NULL)
 		__progname = "<unknown>";
-	else if (__progname[0])
+	else switch (__progname[0]) {
+	case 'l':
+		is_long = true;
+		/* FALLTHROUGH */
+	case 'r':
 		switch (__progname[1]) {
 		case 'b': mode = BIN; break;
 		case 'h': mode = HEX; break;
 		}
+	}
 
 	while (*argv) {
 		arc4random_pushb_fast(*argv, strlen(*argv) + 1);
@@ -149,7 +157,8 @@ main(int argc __unused, char *argv[], char *envp[]) {
 	ws(1, "\r\nContent-Type: ");
 	ws(1, mode == BIN ? "application/octet-stream" : "text/plain");
 	ws(1, "\r\nContent-Length: ");
-	pn(1, mode == BIN ? 32 : mode == HEX ? 66 : 78);
+	pn(1, is_long ? (mode == BIN ? 4096 : mode == HEX ? 8194 : 5462) :
+	    (mode == BIN ? 32 : mode == HEX ? 66 : 78));
 	ws(1, "\r\nEntropy: ");
 	pn(1, arc4random() & 0x7FFF);
 	ws(1, "\r\nExpires: -1\r\n\r\n");
@@ -157,32 +166,30 @@ main(int argc __unused, char *argv[], char *envp[]) {
 	if (has_post && (n = read(0, buf, 4096)) <= 4096)
 		arc4random_pushb_fast(buf, n);
 
-	arc4random_buf(buf, mode == NUM ? 57 : 32);
+	arc4random_buf(buf, is_long ? 4096 : mode == NUM ? 57 : 32);
 
 	switch (mode) {
 	case BIN:
-		w(1, buf, 32);
+		w(1, buf, is_long ? 4096 : 32);
 		break;
 	case HEX:
-		n = 0;
-		while (n < 32) {
-			uint8_t v = buf[n++];
-
-			wc(1, mbsd_digits_HEX[v >> 4]);
-			wc(1, mbsd_digits_HEX[v & 0x0F]);
+		n = is_long ? 4096 : 32;
+		while (n--) {
+			wc(1, mbsd_digits_HEX[buf[n] >> 4]);
+			wc(1, mbsd_digits_HEX[buf[n] & 0x0F]);
 		}
 		w(1, "\r\n", 2);
 		break;
 	case NUM:
-		n = 0;
-		while (n < 57) {
+		n = is_long ? 4095 : 57;
+		while (n) {
+			n -= 3;
 #define pb(x) wc(1, mbsd_digits_base64[x])
 			pb(buf[n + 0] >> 2);
 			pb(((buf[n + 0] & 0x03) << 4) + (buf[n + 1] >> 4));
 			pb(((buf[n + 1] & 0x0F) << 2) + (buf[n + 2] >> 6));
 			pb(buf[n + 2] & 0x3F);
 #undef pb
-			n += 3;
 		}
 		w(1, "\r\n", 2);
 		break;
