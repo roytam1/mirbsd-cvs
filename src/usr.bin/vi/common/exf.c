@@ -1,4 +1,4 @@
-/*	$OpenBSD: exf.c,v 1.20 2003/12/31 18:18:22 millert Exp $	*/
+/*	$OpenBSD: exf.c,v 1.25 2009/10/27 23:59:47 deraadt Exp $	*/
 
 /*-
  * Copyright (c) 1992, 1993, 1994
@@ -10,10 +10,6 @@
  */
 
 #include "config.h"
-
-#ifndef lint
-static const char sccsid[] = "@(#)exf.c	10.49 (Berkeley) 10/10/96";
-#endif /* not lint */
 
 #include <sys/param.h>
 #include <sys/types.h>		/* XXX: param.h may not have included types.h */
@@ -79,10 +75,9 @@ file_add(sp, name)
 	 */
 	gp = sp->gp;
 	if (name != NULL)
-		for (frp = gp->frefq.cqh_first;
-		    frp != (FREF *)&gp->frefq; frp = frp->q.cqe_next) {
+		CIRCLEQ_FOREACH(frp, &gp->frefq, q) {
 			if (frp->name == NULL) {
-				tfrp = frp->q.cqe_next;
+				tfrp = CIRCLEQ_NEXT(frp, q);
 				CIRCLEQ_REMOVE(&gp->frefq, frp, q);
 				if (frp->name != NULL)
 					free(frp->name);
@@ -175,8 +170,10 @@ file_init(sp, frp, rcv_name, flags)
 	 * Scan the user's path to find the file that we're going to
 	 * try and open.
 	 */
-	if (file_spath(sp, frp, &sb, &exists))
+	if (file_spath(sp, frp, &sb, &exists)) {
+		free(ep);
 		return (1);
+	}
 
 	/*
 	 * If no name or backing file, for whatever reason, create a backing
@@ -210,7 +207,7 @@ file_init(sp, frp, rcv_name, flags)
 		if (frp->name == NULL)
 			F_SET(frp, FR_TMPFILE);
 		if ((frp->tname = strdup(tname)) == NULL ||
-		    frp->name == NULL && (frp->name = strdup(tname)) == NULL) {
+		    (frp->name == NULL && (frp->name = strdup(tname)) == NULL)) {
 			if (frp->tname != NULL)
 				free(frp->tname);
 			msgq(sp, M_SYSERR, NULL);
@@ -368,9 +365,9 @@ file_init(sp, frp, rcv_name, flags)
          * vi, unless the -R command-line option was specified or the program
          * was executed as "view".  (Well, to be truthful, if the letter 'w'
          * occurred anywhere in the program name, but let's not get into that.)
-	 * So, the persistant readonly state has to be stored in the screen
+	 * So, the persistent readonly state has to be stored in the screen
 	 * structure, and the edit option value toggles with the contents of
-	 * the edit buffer.  If the persistant readonly flag is set, set the
+	 * the edit buffer.  If the persistent readonly flag is set, set the
 	 * readonly edit option.
 	 *
 	 * Otherwise, try and figure out if a file is readonly.  This is a
@@ -407,9 +404,9 @@ file_init(sp, frp, rcv_name, flags)
 	 * probably isn't a problem for vi when it's running standalone.
 	 */
 	if (readonly || F_ISSET(sp, SC_READONLY) ||
-	    !F_ISSET(frp, FR_NEWFILE) &&
+	    (!F_ISSET(frp, FR_NEWFILE) &&
 	    (!(sb.st_mode & (S_IWUSR | S_IWGRP | S_IWOTH)) ||
-	    access(frp->name, W_OK)))
+	    access(frp->name, W_OK))))
 		O_SET(sp, O_READONLY);
 	else
 		O_CLR(sp, O_READONLY);
@@ -477,8 +474,8 @@ file_spath(sp, frp, sbp, existsp)
 		*existsp = 0;
 		return (0);
 	}
-	if (name[0] == '/' || name[0] == '.' &&
-	    (name[1] == '/' || name[1] == '.' && name[2] == '/')) {
+	if (name[0] == '/' || (name[0] == '.' &&
+	    (name[1] == '/' || (name[1] == '.' && name[2] == '/')))) {
 		*existsp = !stat(name, sbp);
 		return (0);
 	}
@@ -825,8 +822,8 @@ file_write(sp, fm, tm, name, flags)
 		mtype = NEWFILE;
 	else {
 		if (noname && !LF_ISSET(FS_FORCE | FS_APPEND) &&
-		    (F_ISSET(ep, F_DEVSET) &&
-		    (sb.st_dev != ep->mdev || sb.st_ino != ep->minode) ||
+		    ((F_ISSET(ep, F_DEVSET) &&
+		    (sb.st_dev != ep->mdev || sb.st_ino != ep->minode)) ||
 		    sb.st_mtime != ep->mtime)) {
 			msgq_str(sp, M_ERR, name, LF_ISSET(FS_POSSIBLE) ?
 "250|%s: file modified more recently than this copy; use ! to override" :
@@ -907,7 +904,7 @@ file_write(sp, fm, tm, name, flags)
 	 * we re-init the time.  That way the user can clean up the disk
 	 * and rewrite without having to force it.
 	 */
-	if (noname)
+	if (noname) {
 		if (stat(name, &sb))
 			time(&ep->mtime);
 		else {
@@ -917,6 +914,7 @@ file_write(sp, fm, tm, name, flags)
 
 			ep->mtime = sb.st_mtime;
 		}
+	}
 
 	/*
 	 * If the write failed, complain loudly.  ex_writefp() has already
@@ -945,11 +943,12 @@ file_write(sp, fm, tm, name, flags)
 	 */
 	if (LF_ISSET(FS_ALL) && !LF_ISSET(FS_APPEND)) {
 		F_CLR(ep, F_MODIFIED);
-		if (F_ISSET(frp, FR_TMPFILE))
+		if (F_ISSET(frp, FR_TMPFILE)) {
 			if (noname)
 				F_SET(frp, FR_TMPEXIT);
 			else
 				F_CLR(frp, FR_TMPEXIT);
+		}
 	}
 
 	p = msg_print(sp, name, &nf);
@@ -1261,7 +1260,7 @@ file_m1(sp, force, flags)
 	 * unless force is also set.  Otherwise, we fail unless forced or
 	 * there's another open screen on this file.
 	 */
-	if (F_ISSET(ep, F_MODIFIED))
+	if (F_ISSET(ep, F_MODIFIED)) {
 		if (O_ISSET(sp, O_AUTOWRITE)) {
 			if (!force && file_aw(sp, flags))
 				return (1);
@@ -1271,6 +1270,7 @@ file_m1(sp, force, flags)
 "263|File modified since last complete write; write or use :edit! to override");
 			return (1);
 		}
+	}
 
 	return (file_m3(sp, force));
 }

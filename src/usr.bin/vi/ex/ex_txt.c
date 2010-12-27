@@ -1,4 +1,4 @@
-/*	$OpenBSD: ex_txt.c,v 1.7 2002/02/16 21:27:57 millert Exp $	*/
+/*	$OpenBSD: ex_txt.c,v 1.10 2009/10/27 23:59:47 deraadt Exp $	*/
 
 /*-
  * Copyright (c) 1992, 1993, 1994
@@ -10,10 +10,6 @@
  */
 
 #include "config.h"
-
-#ifndef lint
-static const char sccsid[] = "@(#)ex_txt.c	10.17 (Berkeley) 10/10/96";
-#endif /* not lint */
 
 #include <sys/types.h>
 #include <sys/queue.h>
@@ -74,9 +70,9 @@ ex_txt(sp, tiqh, prompt, flags)
 	 * last one if it's big enough.  (All TEXT bookkeeping fields default
 	 * to 0 -- text_init() handles this.)
 	 */
-	if (tiqh->cqh_first != (void *)tiqh) {
-		tp = tiqh->cqh_first;
-		if (tp->q.cqe_next != (void *)tiqh || tp->lb_len < 32) {
+	if (CIRCLEQ_FIRST(tiqh) != CIRCLEQ_END(tiqh)) {
+		tp = CIRCLEQ_FIRST(tiqh);
+		if (CIRCLEQ_NEXT(tp, q) != CIRCLEQ_END(tiqh) || tp->lb_len < 32) {
 			text_lfree(tiqh);
 			goto newtp;
 		}
@@ -400,8 +396,8 @@ txt_dent(sp, tp)
 			++scno;
 
 	/* Get the previous shiftwidth column. */
-	cno = scno;
-	scno -= --scno % sw;
+	cno = scno--;
+	scno -= scno % sw;
 
 	/*
 	 * Since we don't know what comes before the character(s) being

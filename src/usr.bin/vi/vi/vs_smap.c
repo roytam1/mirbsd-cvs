@@ -1,4 +1,4 @@
-/*	$OpenBSD: vs_smap.c,v 1.5 2003/03/10 03:53:32 david Exp $	*/
+/*	$OpenBSD: vs_smap.c,v 1.7 2009/10/27 23:59:49 deraadt Exp $	*/
 
 /*-
  * Copyright (c) 1993, 1994
@@ -10,10 +10,6 @@
  */
 
 #include "config.h"
-
-#ifndef lint
-static const char sccsid[] = "@(#)vs_smap.c	10.25 (Berkeley) 7/12/96";
-#endif /* not lint */
 
 #include <sys/types.h>
 #include <sys/queue.h>
@@ -66,7 +62,7 @@ vs_change(sp, lno, op)
 	 *
 	 * Check for line #2 before going to the end of the file.
 	 */
-	if ((op == LINE_APPEND && lno == 0 || op == LINE_INSERT && lno == 1) &&
+	if (((op == LINE_APPEND && lno == 0) || (op == LINE_INSERT && lno == 1)) &&
 	    !db_exist(sp, 2)) {
 		lno = 1;
 		op = LINE_RESET;
@@ -290,7 +286,7 @@ err:	HMAP->lno = 1;
  * is amazingly slow, but it's not clear that anyone will care.
  */
 #define	HANDLE_WEIRDNESS(cnt) {						\
-	if (cnt >= sp->t_rows) {					\
+	if ((cnt) >= sp->t_rows) {					\
 		F_SET(sp, SC_SCR_REFORMAT);				\
 		return (0);						\
 	}								\

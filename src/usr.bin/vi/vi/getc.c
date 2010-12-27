@@ -1,4 +1,4 @@
-/*	$OpenBSD: getc.c,v 1.6 2002/02/16 21:27:58 millert Exp $	*/
+/*	$OpenBSD: getc.c,v 1.8 2009/10/27 23:59:47 deraadt Exp $	*/
 
 /*-
  * Copyright (c) 1992, 1993, 1994
@@ -10,10 +10,6 @@
  */
 
 #include "config.h"
-
-#ifndef lint
-static const char sccsid[] = "@(#)getc.c	10.10 (Berkeley) 3/6/96";
-#endif /* not lint */
 
 #include <sys/types.h>
 #include <sys/queue.h>
@@ -156,7 +152,7 @@ cs_fblank(sp, csp)
 		if (cs_next(sp, csp))
 			return (1);
 		if (csp->cs_flags == CS_EOL || csp->cs_flags == CS_EMP ||
-		    csp->cs_flags == 0 && isblank(csp->cs_ch))
+		    (csp->cs_flags == 0 && isblank(csp->cs_ch)))
 			continue;
 		break;
 	}
@@ -230,7 +226,7 @@ cs_bblank(sp, csp)
 		if (cs_prev(sp, csp))
 			return (1);
 		if (csp->cs_flags == CS_EOL || csp->cs_flags == CS_EMP ||
-		    csp->cs_flags == 0 && isblank(csp->cs_ch))
+		    (csp->cs_flags == 0 && isblank(csp->cs_ch)))
 			continue;
 		break;
 	}

@@ -1,4 +1,4 @@
-/*	$OpenBSD: vs_line.c,v 1.7 2003/07/21 07:20:18 dhartmei Exp $	*/
+/*	$OpenBSD: vs_line.c,v 1.13 2009/10/27 23:59:48 deraadt Exp $	*/
 
 /*-
  * Copyright (c) 1993, 1994
@@ -10,10 +10,6 @@
  */
 
 #include "config.h"
-
-#ifndef lint
-static const char sccsid[] = "@(#)vs_line.c	10.19 (Berkeley) 9/26/96";
-#endif /* not lint */
 
 #include <sys/types.h>
 #include <sys/queue.h>
@@ -48,10 +44,10 @@ vs_line(sp, smp, yp, xp)
 	CHAR_T *kp;
 	GS *gp;
 	SMAP *tsmp;
-	size_t chlen, cno_cnt, cols_per_screen, len, nlen;
+	size_t chlen = 0, cno_cnt, cols_per_screen, len, nlen;
 	size_t offset_in_char, offset_in_line, oldx, oldy;
 	size_t scno, skip_cols, skip_screens;
-	int ch, dne, is_cached, is_partial, is_tab, no_draw;
+	int ch = 0, dne, is_cached, is_partial, is_tab, no_draw;
 	int list_tab, list_dollar;
 	char *p, *cbp, *ecbp, cbuf[128];
 
@@ -141,8 +137,8 @@ vs_line(sp, smp, yp, xp)
 		if (O_ISSET(sp, O_NUMBER)) {
 			cols_per_screen -= O_NUMBER_LENGTH;
 			if ((!dne || smp->lno == 1) && skip_cols == 0) {
-				nlen = snprintf(cbuf,
-				    sizeof(cbuf), O_NUMBER_FMT, smp->lno);
+				nlen = snprintf(cbuf, sizeof(cbuf),
+				    O_NUMBER_FMT, (ulong)smp->lno);
 				if (nlen >= sizeof(cbuf))
 					nlen = sizeof(cbuf) - 1;
 				(void)gp->scr_addstr(sp, cbuf, nlen);
@@ -174,7 +170,7 @@ vs_line(sp, smp, yp, xp)
 		 * Lots of special cases for empty lines, but they only apply
 		 * if we're displaying the first screen of the line.
 		 */
-		if (skip_cols == 0)
+		if (skip_cols == 0) {
 			if (dne) {
 				if (smp->lno == 1) {
 					if (list_dollar) {
@@ -191,6 +187,7 @@ vs_line(sp, smp, yp, xp)
 empty:					(void)gp->scr_addstr(sp,
 					    KEY_NAME(sp, ch), KEY_LEN(sp, ch));
 				}
+		}
 
 		(void)gp->scr_clrtoeol(sp);
 		(void)gp->scr_move(sp, oldy, oldx);
@@ -403,11 +400,11 @@ display:
 		if (is_cached)
 			continue;
 
-#define	FLUSH {								\
-	*cbp = '\0';							\
-	(void)gp->scr_addstr(sp, cbuf, cbp - cbuf);			\
-	cbp = cbuf;							\
-}
+#define	FLUSH(gp, sp, cbp, cbuf) do {					\
+	*(cbp) = '\0';							\
+	(void)(gp)->scr_addstr((sp), (cbuf), (cbp) - (cbuf));		\
+	(cbp) = (cbuf);							\
+} while (0)
 		/*
 		 * Display the character.  We do tab expansion here because
 		 * the screen interface doesn't have any way to set the tab
@@ -418,12 +415,12 @@ display:
 		if (is_tab)
 			while (chlen--) {
 				if (cbp >= ecbp)
-					FLUSH;
+					FLUSH(gp, sp, cbp, cbuf);
 				*cbp++ = TABCH;
 			}
 		else {
 			if (cbp + chlen >= ecbp)
-				FLUSH;
+				FLUSH(gp, sp, cbp, cbuf);
 			for (kp = KEY_NAME(sp, ch) + offset_in_char; chlen--;)
 				*cbp++ = *kp++;
 		}
@@ -444,7 +441,7 @@ display:
 
 			chlen = KEY_LEN(sp, '$');
 			if (cbp + chlen >= ecbp)
-				FLUSH;
+				FLUSH(gp, sp, cbp, cbuf);
 			for (kp = KEY_NAME(sp, '$'); chlen--;)
 				*cbp++ = *kp++;
 		}
@@ -456,7 +453,7 @@ display:
 
 	/* Flush any buffered characters. */
 	if (cbp > cbuf)
-		FLUSH;
+		FLUSH(gp, sp, cbp, cbuf);
 
 ret1:	(void)gp->scr_move(sp, oldy, oldx);
 	return (0);
@@ -474,13 +471,11 @@ vs_number(sp)
 {
 	GS *gp;
 	SMAP *smp;
-	VI_PRIVATE *vip;
 	size_t len, oldy, oldx;
 	int exist;
 	char nbuf[10];
 
 	gp = sp->gp;
-	vip = VIP(sp);
 
 	/* No reason to do anything if we're in input mode on the info line. */
 	if (F_ISSET(sp, SC_TINPUT_INFO))
@@ -515,7 +510,7 @@ vs_number(sp)
 			break;
 
 		(void)gp->scr_move(sp, smp - HMAP, 0);
-		len = snprintf(nbuf, sizeof(nbuf), O_NUMBER_FMT, smp->lno);
+		len = snprintf(nbuf, sizeof(nbuf), O_NUMBER_FMT, (ulong)smp->lno);
 		if (len >= sizeof(nbuf))
 			len = sizeof(nbuf) - 1;
 		(void)gp->scr_addstr(sp, nbuf, len);

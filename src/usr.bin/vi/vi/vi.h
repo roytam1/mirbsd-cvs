@@ -1,4 +1,4 @@
-/*	$OpenBSD: vi.h,v 1.4 2002/02/16 21:27:58 millert Exp $	*/
+/*	$OpenBSD: vi.h,v 1.6 2006/01/08 21:05:40 miod Exp $	*/
 
 /*-
  * Copyright (c) 1992, 1993, 1994
@@ -25,9 +25,9 @@ typedef struct _vicmd {
 	u_long	count2;			/* Second count (only used by z). */
 	EVENT	ev;			/* Associated event. */
 
-#define	ISCMD(p, key)	((p) == &vikeys[key])
+#define	ISCMD(p, key)	((p) == &vikeys[(key)])
 	VIKEYS const *kp;		/* Command/Motion VIKEYS entry. */
-#define	ISMOTION(vp)	(vp->rkp != NULL && F_ISSET(vp->rkp, V_MOTION))
+#define	ISMOTION(vp)	((vp)->rkp != NULL && F_ISSET((vp)->rkp, V_MOTION))
 	VIKEYS const *rkp;		/* Related C/M VIKEYS entry. */
 
 	/*
@@ -293,7 +293,7 @@ typedef struct _vi_private {
 
 	recno_t	ss_lno;	/* 1-N: vi_opt_screens cached line number. */
 	size_t	ss_screens;	/* vi_opt_screens cached return value. */
-#define	VI_SCR_CFLUSH(vip)	vip->ss_lno = OOBLNO
+#define	VI_SCR_CFLUSH(vip)	((vip)->ss_lno = OOBLNO)
 
 	size_t	srows;		/* 1-N: rows in the terminal/window. */
 	recno_t	olno;		/* 1-N: old cursor file line. */
@@ -319,7 +319,7 @@ typedef struct _vi_private {
 #define	O_NUMBER_FMT	"%7lu "			/* O_NUMBER format, length. */
 #define	O_NUMBER_LENGTH	8
 #define	SCREEN_COLS(sp)				/* Screen columns. */	\
-	((O_ISSET(sp, O_NUMBER) ? (sp)->cols - O_NUMBER_LENGTH : (sp)->cols))
+	((O_ISSET((sp), O_NUMBER) ? (sp)->cols - O_NUMBER_LENGTH : (sp)->cols))
 
 /*
  * LASTLINE is the zero-based, last line in the screen.  Note that it is correct
@@ -355,8 +355,8 @@ typedef struct _vi_private {
 
 /* If more than one screen being shown. */
 #define	IS_SPLIT(sp)							\
-	((sp)->q.cqe_next != (void *)&(sp)->gp->dq ||			\
-	(sp)->q.cqe_prev != (void *)&(sp)->gp->dq)
+	(CIRCLEQ_NEXT((sp), q) != (void *)&(sp)->gp->dq ||		\
+	CIRCLEQ_PREV((sp), q) != (void *)&(sp)->gp->dq)
 
 /* Screen adjustment operations. */
 typedef enum { A_DECREASE, A_INCREASE, A_SET } adj_t;

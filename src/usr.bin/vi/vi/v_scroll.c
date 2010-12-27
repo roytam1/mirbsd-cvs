@@ -1,4 +1,4 @@
-/*	$OpenBSD: v_scroll.c,v 1.5 2002/02/16 21:27:58 millert Exp $	*/
+/*	$OpenBSD: v_scroll.c,v 1.8 2009/10/27 23:59:48 deraadt Exp $	*/
 
 /*-
  * Copyright (c) 1992, 1993, 1994
@@ -10,10 +10,6 @@
  */
 
 #include "config.h"
-
-#ifndef lint
-static const char sccsid[] = "@(#)v_scroll.c	10.9 (Berkeley) 4/27/96";
-#endif /* not lint */
 
 #include <sys/param.h>
 #include <sys/queue.h>
@@ -201,8 +197,8 @@ goto_adjust(vp)
 	 * stay at the start of the range.  Ignore others.
 	 */
 	if (vp->m_stop.lno < vp->m_start.lno ||
-	    vp->m_stop.lno == vp->m_start.lno &&
-	    vp->m_stop.cno < vp->m_start.cno) {
+	    (vp->m_stop.lno == vp->m_start.lno &&
+	    vp->m_stop.cno < vp->m_start.cno)) {
 		if (ISCMD(vp->rkp, 'y') && vp->m_stop.lno == vp->m_start.lno)
 			vp->m_final = vp->m_start;
 	} else
@@ -337,7 +333,7 @@ v_hpagedown(sp, vp)
  * !!!
  * Historic vi did not move to the EOF if the screen couldn't move, i.e.
  * if EOF was already displayed on the screen.  This implementation does
- * move to EOF in that case, making ^F more like the the historic ^D.
+ * move to EOF in that case, making ^F more like the historic ^D.
  *
  * PUBLIC: int v_pagedown(SCR *, VICMD *);
  */
@@ -385,7 +381,7 @@ v_pagedown(sp, vp)
  * !!!
  * Historic vi did not move to the SOF if the screen couldn't move, i.e.
  * if SOF was already displayed on the screen.  This implementation does
- * move to SOF in that case, making ^B more like the the historic ^U.
+ * move to SOF in that case, making ^B more like the historic ^U.
  *
  * PUBLIC: int v_pageup(SCR *, VICMD *);
  */

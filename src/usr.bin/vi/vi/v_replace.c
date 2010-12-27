@@ -1,4 +1,4 @@
-/*	$OpenBSD: v_replace.c,v 1.5 2002/02/16 21:27:58 millert Exp $	*/
+/*	$OpenBSD: v_replace.c,v 1.7 2009/10/27 23:59:48 deraadt Exp $	*/
 
 /*-
  * Copyright (c) 1992, 1993, 1994
@@ -10,10 +10,6 @@
  */
 
 #include "config.h"
-
-#ifndef lint
-static const char sccsid[] = "@(#)v_replace.c	10.17 (Berkeley) 6/30/96";
-#endif /* not lint */
 
 #include <sys/types.h>
 #include <sys/queue.h>
@@ -156,7 +152,7 @@ next:		if (v_event_get(sp, &ev, 0, 0))
 	 * is different from the historic vi, which replaced N characters with
 	 * a single new line.  Users complained, so we match historic practice.
 	 */
-	if (!quote && vip->rvalue == K_CR || vip->rvalue == K_NL) {
+	if ((!quote && vip->rvalue == K_CR) || vip->rvalue == K_NL) {
 		/* Set return line. */
 		vp->m_stop.lno = vp->m_start.lno + 1;
 		vp->m_stop.cno = 0;

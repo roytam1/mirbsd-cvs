@@ -1,4 +1,4 @@
-/*	$OpenBSD: ex_write.c,v 1.7 2002/02/17 19:42:34 millert Exp $	*/
+/*	$OpenBSD: ex_write.c,v 1.11 2009/10/27 23:59:47 deraadt Exp $	*/
 
 /*-
  * Copyright (c) 1992, 1993, 1994
@@ -10,10 +10,6 @@
  */
 
 #include "config.h"
-
-#ifndef lint
-static const char sccsid[] = "@(#)ex_write.c	10.30 (Berkeley) 7/12/96";
-#endif /* not lint */
 
 #include <sys/types.h>
 #include <sys/queue.h>
@@ -140,7 +136,7 @@ exwr(sp, cmdp, cmd)
 {
 	MARK rm;
 	int flags;
-	char *name, *p;
+	char *name, *p = NULL;
 
 	NEEDFILE(sp, cmdp);
 
@@ -151,7 +147,8 @@ exwr(sp, cmdp, cmd)
 
 	/* Skip any leading whitespace. */
 	if (cmdp->argc != 0)
-		for (p = cmdp->argv[0]->bp; *p != '\0' && isblank(*p); ++p);
+		for (p = cmdp->argv[0]->bp; isblank(*p); ++p)
+			;
 
 	/* If "write !" it's a pipe to a utility. */
 	if (cmdp->argc != 0 && cmd == WRITE && *p == '!') {
@@ -162,7 +159,7 @@ exwr(sp, cmdp, cmd)
 		}
 
 		/* Expand the argument. */
-		for (++p; *p && isblank(*p); ++p);
+		for (++p; isblank(*p); ++p);
 		if (*p == '\0') {
 			ex_emsg(sp, cmdp->cmd->usage, EXM_USAGE);
 			return (1);
@@ -203,7 +200,7 @@ exwr(sp, cmdp, cmd)
 		LF_SET(FS_APPEND);
 
 		/* Skip ">>" and whitespace. */
-		for (p += 2; *p && isblank(*p); ++p);
+		for (p += 2; isblank(*p); ++p);
 	}
 
 	/* If no other arguments, just write the file back. */
@@ -354,14 +351,17 @@ ex_writefp(sp, name, fp, fm, tm, nlno, nch, silent)
 	    S_ISREG(sb.st_mode) && fsync(fileno(fp)))
 		goto err;
 
-	if (fclose(fp))
+	if (fclose(fp)) {
+		fp = NULL;
 		goto err;
+	}
 
 	rval = 0;
 	if (0) {
 err:		if (!F_ISSET(sp->ep, F_MULTILOCK))
 			msgq_str(sp, M_SYSERR, name, "%s");
-		(void)fclose(fp);
+		if (fp != NULL)
+			(void)fclose(fp);
 		rval = 1;
 	}
 

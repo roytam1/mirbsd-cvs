@@ -1,4 +1,4 @@
-/*	$OpenBSD: put.c,v 1.6 2002/02/16 21:27:57 millert Exp $	*/
+/*	$OpenBSD: put.c,v 1.10 2009/10/27 23:59:47 deraadt Exp $	*/
 
 /*-
  * Copyright (c) 1992, 1993, 1994
@@ -10,10 +10,6 @@
  */
 
 #include "config.h"
-
-#ifndef lint
-static const char sccsid[] = "@(#)put.c	10.11 (Berkeley) 9/23/96";
-#endif /* not lint */
 
 #include <sys/types.h>
 #include <sys/queue.h>
@@ -48,7 +44,7 @@ put(sp, cbp, namep, cp, rp, append)
 	int rval;
 	char *bp, *p, *t;
 
-	if (cbp == NULL)
+	if (cbp == NULL) {
 		if (namep == NULL) {
 			cbp = sp->gp->dcbp;
 			if (cbp == NULL) {
@@ -65,7 +61,8 @@ put(sp, cbp, namep, cp, rp, append)
 				return (1);
 			}
 		}
-	tp = cbp->textq.cqh_first;
+	}
+	tp = CIRCLEQ_FIRST(&cbp->textq);
 
 	/*
 	 * It's possible to do a put into an empty file, meaning that the cut
@@ -87,7 +84,8 @@ put(sp, cbp, namep, cp, rp, append)
 			return (1);
 		if (lno == 0) {
 			for (; tp != (void *)&cbp->textq;
-			    ++lno, ++sp->rptlines[L_ADDED], tp = tp->q.cqe_next)
+			    ++lno, ++sp->rptlines[L_ADDED],
+			    tp = CIRCLEQ_NEXT(tp, q))
 				if (db_append(sp, 1, lno, tp->lb, tp->len))
 					return (1);
 			rp->lno = 1;
@@ -100,8 +98,8 @@ put(sp, cbp, namep, cp, rp, append)
 	if (F_ISSET(cbp, CB_LMODE)) {
 		lno = append ? cp->lno : cp->lno - 1;
 		rp->lno = lno + 1;
-		for (; tp != (void *)&cbp->textq;
-		    ++lno, ++sp->rptlines[L_ADDED], tp = tp->q.cqe_next)
+		for (; tp != CIRCLEQ_END(&cbp->textq);
+		    ++lno, ++sp->rptlines[L_ADDED], tp = CIRCLEQ_NEXT(tp, q))
 			if (db_append(sp, 1, lno, tp->lb, tp->len))
 				return (1);
 		rp->cno = 0;
@@ -163,7 +161,7 @@ put(sp, cbp, namep, cp, rp, append)
 	 * the intermediate lines, because the line changes will lose
 	 * the cached line.
 	 */
-	if (tp->q.cqe_next == (void *)&cbp->textq) {
+	if (CIRCLEQ_NEXT(tp, q) == CIRCLEQ_END(&cbp->textq)) {
 		if (clen > 0) {
 			memcpy(t, p, clen);
 			t += clen;
@@ -185,7 +183,7 @@ put(sp, cbp, namep, cp, rp, append)
 		 * Last part of original line; check for space, reset
 		 * the pointer into the buffer.
 		 */
-		ltp = cbp->textq.cqh_last;
+		ltp = CIRCLEQ_LAST(&cbp->textq);
 		len = t - bp;
 		ADD_SPACE_RET(sp, bp, blen, ltp->len + clen);
 		t = bp + len;
@@ -213,9 +211,9 @@ put(sp, cbp, namep, cp, rp, append)
 		}
 
 		/* Output any intermediate lines in the CB. */
-		for (tp = tp->q.cqe_next;
-		    tp->q.cqe_next != (void *)&cbp->textq;
-		    ++lno, ++sp->rptlines[L_ADDED], tp = tp->q.cqe_next)
+		for (tp = CIRCLEQ_NEXT(tp, q);
+		    CIRCLEQ_NEXT(tp, q) != CIRCLEQ_END(&cbp->textq);
+		    ++lno, ++sp->rptlines[L_ADDED], tp = CIRCLEQ_NEXT(tp, q))
 			if (db_append(sp, 1, lno, tp->lb, tp->len))
 				goto err;
 

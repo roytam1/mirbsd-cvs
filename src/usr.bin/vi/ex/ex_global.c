@@ -1,4 +1,4 @@
-/*	$OpenBSD: ex_global.c,v 1.6 2002/02/16 21:27:57 millert Exp $	*/
+/*	$OpenBSD: ex_global.c,v 1.11 2009/10/27 23:59:47 deraadt Exp $	*/
 
 /*-
  * Copyright (c) 1992, 1993, 1994
@@ -10,10 +10,6 @@
  */
 
 #include "config.h"
-
-#ifndef lint
-static const char sccsid[] = "@(#)ex_global.c	10.22 (Berkeley) 10/10/96";
-#endif /* not lint */
 
 #include <sys/types.h>
 #include <sys/queue.h>
@@ -74,7 +70,7 @@ ex_g_setup(sp, cmdp, cmd)
 {
 	CHAR_T *ptrn, *p, *t;
 	EXCMD *ecp;
-	MARK abs;
+	MARK abs_mark;
 	RANGE *rp;
 	busy_t btype;
 	recno_t start, end;
@@ -125,11 +121,12 @@ usage:		ex_emsg(sp, cmdp->cmd->usage, EXM_USAGE);
 			*t = '\0';
 			break;
 		}
-		if (p[0] == '\\')
+		if (p[0] == '\\') {
 			if (p[1] == delim)
 				++p;
 			else if (p[1] == '\\')
 				*t++ = *p++;
+		}
 		*t++ = *p++;
 	}
 
@@ -159,9 +156,9 @@ usage:		ex_emsg(sp, cmdp->cmd->usage, EXM_USAGE);
 	re = &sp->re_c;
 
 	/* The global commands always set the previous context mark. */
-	abs.lno = sp->lno;
-	abs.cno = sp->cno;
-	if (mark_set(sp, ABSMARK1, &abs, 1))
+	abs_mark.lno = sp->lno;
+	abs_mark.cno = sp->cno;
+	if (mark_set(sp, ABSMARK1, &abs_mark, 1))
 		return (1);
 
 	/* Get an EXCMD structure. */
@@ -235,7 +232,7 @@ usage:		ex_emsg(sp, cmdp->cmd->usage, EXM_USAGE);
 		}
 
 		/* If follows the last entry, extend the last entry's range. */
-		if ((rp = ecp->rq.cqh_last) != (void *)&ecp->rq &&
+		if ((rp = CIRCLEQ_LAST(&ecp->rq)) != CIRCLEQ_END(&ecp->rq) &&
 		    rp->stop == start - 1) {
 			++rp->stop;
 			continue;
@@ -274,11 +271,12 @@ ex_g_insdel(sp, op, lno)
 	if (op == LINE_RESET)
 		return (0);
 
-	for (ecp = sp->gp->ecq.lh_first; ecp != NULL; ecp = ecp->q.le_next) {
+	LIST_FOREACH(ecp, &sp->gp->ecq, q) {
 		if (!FL_ISSET(ecp->agv_flags, AGV_AT | AGV_GLOBAL | AGV_V))
 			continue;
-		for (rp = ecp->rq.cqh_first; rp != (void *)&ecp->rq; rp = nrp) {
-			nrp = rp->q.cqe_next;
+		for (rp = CIRCLEQ_FIRST(&ecp->rq); rp != CIRCLEQ_END(&ecp->rq);
+		    rp = nrp) {
+			nrp = CIRCLEQ_NEXT(rp, q);
 
 			/* If range less than the line, ignore it. */
 			if (rp->stop < lno)

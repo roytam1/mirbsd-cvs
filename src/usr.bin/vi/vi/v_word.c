@@ -1,4 +1,4 @@
-/*	$OpenBSD: v_word.c,v 1.4 2002/02/16 21:27:58 millert Exp $	*/
+/*	$OpenBSD: v_word.c,v 1.6 2009/10/27 23:59:48 deraadt Exp $	*/
 
 /*-
  * Copyright (c) 1992, 1993, 1994
@@ -10,10 +10,6 @@
  */
 
 #include "config.h"
-
-#ifndef lint
-static const char sccsid[] = "@(#)v_word.c	10.5 (Berkeley) 3/6/96";
-#endif /* not lint */
 
 #include <sys/types.h>
 #include <sys/queue.h>
@@ -127,7 +123,7 @@ fword(sp, vp, type)
 	 *	counts as a single word move.  If it's a motion command,
 	 *	don't move off the end of the line.
 	 */
-	if (cs.cs_flags == CS_EMP || cs.cs_flags == 0 && isblank(cs.cs_ch)) {
+	if (cs.cs_flags == CS_EMP || (cs.cs_flags == 0 && isblank(cs.cs_ch))) {
 		if (ISMOTION(vp) && cs.cs_flags != CS_EMP && cnt == 1) {
 			if (ISCMD(vp->rkp, 'c'))
 				return (0);

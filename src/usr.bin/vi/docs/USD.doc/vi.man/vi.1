@@ -1,4 +1,4 @@
-.\"	$OpenBSD: vi.1,v 1.35 2005/03/10 18:03:45 jmc Exp $
+.\"	$OpenBSD: vi.1,v 1.48 2010/10/18 14:42:16 jmc Exp $
 .\"
 .\" Copyright (c) 1994
 .\"     The Regents of the University of California.  All rights reserved.
@@ -14,31 +14,31 @@
 .\"
 .\"     @(#)vi.1	8.51 (Berkeley) 10/10/96
 .\"
-.Dd October 10, 1996
+.Dd $Mdocdate: October 18 2010 $
 .Dt VI 1
 .Os
 .Sh NAME
 .Nm ex , vi , view
-.Nd text editor
+.Nd text editors
 .Sh SYNOPSIS
 .Nm ex
 .Op Fl FRrSsv
 .Op Fl c Ar cmd
 .Op Fl t Ar tag
 .Op Fl w Ar size
-.Op Ar file ...
+.Op Ar
 .Nm vi\ \&
 .Op Fl eFRrS
 .Op Fl c Ar cmd
 .Op Fl t Ar tag
 .Op Fl w Ar size
-.Op Ar file ...
+.Op Ar
 .Nm view
 .Op Fl eFrS
 .Op Fl c Ar cmd
 .Op Fl t Ar tag
 .Op Fl w Ar size
-.Op Ar file ...
+.Op Ar
 .Sh DESCRIPTION
 .Nm ex
 is a line-oriented text editor;
@@ -168,9 +168,6 @@ will read commands from it regardless; however, the session will be a
 batch mode session, exactly as if the
 .Fl s
 option had been specified.
-.Pp
-.Nm ex Ns / Ns Nm vi
-exits 0 on success, or greater than 0 if an error occurs.
 .Sh FAST STARTUP
 This section will tell you the minimum amount that you need to
 do simple editing tasks using
@@ -446,7 +443,7 @@ Scroll backwards
 lines.
 If
 .Ar count
-is not given, scroll forward half the number of lines in the current screen.
+is not given, scroll backwards half the number of lines in the current screen.
 .Pp
 .It Aq Cm control-W
 Switch to the next lower screen in the window,
@@ -1631,8 +1628,7 @@ character is usually
 Edit the file containing the specified tag.
 .Pp
 .It Xo
-.Op Cm Tt Ns
-.Cm agn Ns Op Cm ext Ns
+.Cm tagn Ns Op Cm ext Ns
 .Op Cm !\&
 .Xc
 Edit the file containing the next context for the current tag.
@@ -1645,8 +1641,7 @@ Edit the file containing the next context for the current tag.
 Pop to the specified tag in the tags stack.
 .Pp
 .It Xo
-.Op Cm Tt Ns
-.Cm agp Ns Op Cm rev Ns
+.Cm tagpr Ns Op Cm ev Ns
 .Op Cm !\&
 .Xc
 Edit the file containing the previous context for the current tag.
@@ -1843,7 +1838,7 @@ See
 for more information on regular expressions.
 .It Cm filec Bq no default
 Set the character to perform file path completion on the colon command line.
-.It Cm flash Bq on
+.It Cm flash Bq off
 Flash the screen instead of beeping the keyboard on error.
 .It Cm hardtabs , ht Bq 0
 Set the spacing between hardware tab settings.
@@ -1886,7 +1881,7 @@ pauses on the matching character when the
 option is set.
 .It Cm mesg Bq on
 Permit messages from other users.
-.It Cm mesgcat Bq /usr/share/vi/catalog/
+.It Cm msgcat Bq /usr/share/vi/catalog/
 Selects a message catalog to be used to display error and informational
 messages in a specified language.
 .It Cm modelines , modeline Bq off
@@ -1978,7 +1973,7 @@ only.
 Note matching
 .Sq {
 and
-.Sq (
+.Sq \&(
 for
 .Sq }
 and
@@ -2211,62 +2206,20 @@ First choice for local directory startup file.
 .It Pa .exrc
 Second choice for local directory startup file.
 .El
+.Sh EXIT STATUS
+The
+.Nm ex
+and
+.Nm vi
+utilities exit 0 on success,
+and \*(Gt0 if an error occurs.
 .Sh SEE ALSO
 .Xr ctags 1 ,
 .Xr re_format 7
-.Pp
-The
-.Qq Vi Quick Reference
-card,
-.Pa /usr/share/doc/usd/12.vi/vi.summary .
-.Pp
-.Qq \&An Introduction to Display Editing with Vi ,
-.Pa /usr/share/doc/usd/12.vi/ .
-This document is the closest thing available to an introduction to the
-.Nm vi
-screen editor.
-.Pp
-.Qq \&Ex Reference Manual ,
-.Pa /usr/share/doc/usd/13.ex/ .
-This document is the final reference for the
-.Nm ex
-editor.
-.Pp
-.Qq Ex: A Tutorial ,
-.Pa /usr/share/doc/usd/11.edit/ .
-This document is the closest thing available to an introduction to the
-.Nm ex
-editor.
-.Pp
-.Qq Vi/Ex Reference Manual ,
-.Pa /usr/share/doc/usd/13.viref/ .
-This document is the final reference for the
-.Nm nex Ns / Ns Nm nvi
-text editors.
-.Pp
-Roff source for all of these documents is distributed with
-.Nm nex Ns / Ns Nm nvi
-in the
-.Pa vi/docs/USD.doc
-directory of the
-.Nm nex Ns / Ns Nm nvi
-source code.
-.Pp
-The files
-.Pa autowrite ,
-.Pa input ,
-.Pa quoting ,
-and
-.Pa structures
-found in the
-.Pa vi/docs/internals
-directory of the
-.Nm nex Ns / Ns Nm nvi
-source code.
 .Sh STANDARDS
 .Nm nex Ns / Ns Nm nvi
 is close to
-.St -p1003.2 .
+.St -p1003.1-2008 .
 That document differs from historical
 .Nm ex Ns / Ns Nm vi
 practice in several places; there are changes to be made on both sides.

@@ -1,4 +1,4 @@
-/*	$OpenBSD: search.c,v 1.7 2002/02/17 19:42:34 millert Exp $	*/
+/*	$OpenBSD: search.c,v 1.9 2009/10/27 23:59:47 deraadt Exp $	*/
 
 /*-
  * Copyright (c) 1992, 1993, 1994
@@ -10,10 +10,6 @@
  */
 
 #include "config.h"
-
-#ifndef lint
-static const char sccsid[] = "@(#)search.c	10.25 (Berkeley) 6/30/96";
-#endif /* not lint */
 
 #include <sys/types.h>
 #include <sys/queue.h>
@@ -211,7 +207,7 @@ f_search(sp, fm, rm, ptrn, plen, eptrn, flags)
 			}
 			cnt = INTERRUPT_CHECK;
 		}
-		if (wrapped && lno > fm->lno || db_get(sp, lno, 0, &l, &len)) {
+		if ((wrapped && lno > fm->lno) || db_get(sp, lno, 0, &l, &len)) {
 			if (wrapped) {
 				if (LF_ISSET(SEARCH_MSG))
 					search_msg(sp, S_NOTFOUND);
@@ -342,7 +338,7 @@ b_search(sp, fm, rm, ptrn, plen, eptrn, flags)
 			}
 			cnt = INTERRUPT_CHECK;
 		}
-		if (wrapped && lno < fm->lno || lno == 0) {
+		if ((wrapped && lno < fm->lno) || lno == 0) {
 			if (wrapped) {
 				if (LF_ISSET(SEARCH_MSG))
 					search_msg(sp, S_NOTFOUND);

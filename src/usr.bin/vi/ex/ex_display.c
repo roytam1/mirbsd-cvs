@@ -1,4 +1,4 @@
-/*	$OpenBSD: ex_display.c,v 1.4 2002/02/16 21:27:57 millert Exp $	*/
+/*	$OpenBSD: ex_display.c,v 1.7 2009/10/27 23:59:47 deraadt Exp $	*/
 
 /*-
  * Copyright (c) 1992, 1993, 1994
@@ -10,10 +10,6 @@
  */
 
 #include "config.h"
-
-#ifndef lint
-static const char sccsid[] = "@(#)ex_display.c	10.12 (Berkeley) 4/10/96";
-#endif /* not lint */
 
 #include <sys/types.h>
 #include <sys/queue.h>
@@ -87,25 +83,25 @@ bdisplay(sp)
 {
 	CB *cbp;
 
-	if (sp->gp->cutq.lh_first == NULL && sp->gp->dcbp == NULL) {
+	if (LIST_FIRST(&sp->gp->cutq) == NULL && sp->gp->dcbp == NULL) {
 		msgq(sp, M_INFO, "123|No cut buffers to display");
 		return (0);
 	}
 
 	/* Display regular cut buffers. */
-	for (cbp = sp->gp->cutq.lh_first; cbp != NULL; cbp = cbp->q.le_next) {
+	LIST_FOREACH(cbp, &sp->gp->cutq, q) {
 		if (isdigit(cbp->name))
 			continue;
-		if (cbp->textq.cqh_first != (void *)&cbp->textq)
+		if (CIRCLEQ_FIRST(&cbp->textq) != CIRCLEQ_END(&cbp->textq))
 			db(sp, cbp, NULL);
 		if (INTERRUPTED(sp))
 			return (0);
 	}
 	/* Display numbered buffers. */
-	for (cbp = sp->gp->cutq.lh_first; cbp != NULL; cbp = cbp->q.le_next) {
+	LIST_FOREACH(cbp, &sp->gp->cutq, q) {
 		if (!isdigit(cbp->name))
 			continue;
-		if (cbp->textq.cqh_first != (void *)&cbp->textq)
+		if (CIRCLEQ_FIRST(&cbp->textq) != CIRCLEQ_END(&cbp->textq))
 			db(sp, cbp, NULL);
 		if (INTERRUPTED(sp))
 			return (0);
@@ -127,16 +123,13 @@ db(sp, cbp, name)
 	CHAR_T *name;
 {
 	CHAR_T *p;
-	GS *gp;
 	TEXT *tp;
 	size_t len;
 
-	gp = sp->gp;
 	(void)ex_printf(sp, "********** %s%s\n",
 	    name == NULL ? KEY_NAME(sp, cbp->name) : name,
 	    F_ISSET(cbp, CB_LMODE) ? " (line mode)" : " (character mode)");
-	for (tp = cbp->textq.cqh_first;
-	    tp != (void *)&cbp->textq; tp = tp->q.cqe_next) {
+	CIRCLEQ_FOREACH(tp, &cbp->textq, q) {
 		for (len = tp->len, p = tp->lb; len--; ++p) {
 			(void)ex_puts(sp, KEY_NAME(sp, *p));
 			if (INTERRUPTED(sp))

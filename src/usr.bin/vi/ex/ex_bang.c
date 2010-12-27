@@ -1,4 +1,4 @@
-/*	$OpenBSD: ex_bang.c,v 1.5 2002/02/16 21:27:57 millert Exp $	*/
+/*	$OpenBSD: ex_bang.c,v 1.7 2009/10/27 23:59:47 deraadt Exp $	*/
 
 /*-
  * Copyright (c) 1992, 1993, 1994
@@ -10,10 +10,6 @@
  */
 
 #include "config.h"
-
-#ifndef lint
-static const char sccsid[] = "@(#)ex_bang.c	10.33 (Berkeley) 9/23/96";
-#endif /* not lint */
 
 #include <sys/types.h>
 #include <sys/queue.h>
@@ -103,7 +99,7 @@ ex_bang(sp, cmdp)
 	 */
 	if (cmdp->addrcnt == 0) {
 		msg = NULL;
-		if (sp->ep != NULL && F_ISSET(sp->ep, F_MODIFIED))
+		if (sp->ep != NULL && F_ISSET(sp->ep, F_MODIFIED)) {
 			if (O_ISSET(sp, O_AUTOWRITE)) {
 				if (file_aw(sp, FS_ALL))
 					return (0);
@@ -112,6 +108,7 @@ ex_bang(sp, cmdp)
 				msg = msg_cat(sp,
 				    "303|File modified since last write.",
 				    NULL);
+		}
 
 		/* If we're still in a vi screen, move out explicitly. */
 		(void)ex_exec_proc(sp,

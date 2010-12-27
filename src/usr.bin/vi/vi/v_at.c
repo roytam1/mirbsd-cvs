@@ -1,4 +1,4 @@
-/*	$OpenBSD: v_at.c,v 1.4 2002/02/16 21:27:58 millert Exp $	*/
+/*	$OpenBSD: v_at.c,v 1.7 2009/10/27 23:59:47 deraadt Exp $	*/
 
 /*-
  * Copyright (c) 1992, 1993, 1994
@@ -10,10 +10,6 @@
  */
 
 #include "config.h"
-
-#ifndef lint
-static const char sccsid[] = "@(#)v_at.c	10.8 (Berkeley) 4/27/96";
-#endif /* not lint */
 
 #include <sys/types.h>
 #include <sys/queue.h>
@@ -89,11 +85,10 @@ v_at(sp, vp)
 	 * together.  We don't get this right; I'm waiting for the new DB
 	 * logging code to be available.
 	 */
-	for (tp = cbp->textq.cqh_last;
-	    tp != (void *)&cbp->textq; tp = tp->q.cqe_prev)
-		if ((F_ISSET(cbp, CB_LMODE) ||
-		    tp->q.cqe_next != (void *)&cbp->textq) &&
-		    v_event_push(sp, NULL, "\n", 1, 0) ||
+	CIRCLEQ_FOREACH_REVERSE(tp, &cbp->textq, q)
+		if (((F_ISSET(cbp, CB_LMODE) ||
+		    CIRCLEQ_NEXT(tp, q) != CIRCLEQ_END(&cbp->textq)) &&
+		    v_event_push(sp, NULL, "\n", 1, 0)) ||
 		    v_event_push(sp, NULL, tp->lb, tp->len, 0))
 			return (1);
 

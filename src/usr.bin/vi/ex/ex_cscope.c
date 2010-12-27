@@ -1,4 +1,4 @@
-/*	$OpenBSD: ex_cscope.c,v 1.10 2003/07/09 20:01:31 millert Exp $	*/
+/*	$OpenBSD: ex_cscope.c,v 1.16 2009/10/27 23:59:47 deraadt Exp $	*/
 
 /*-
  * Copyright (c) 1994, 1996
@@ -10,10 +10,6 @@
  */
 
 #include "config.h"
-
-#ifndef lint
-static const char sccsid[] = "@(#)ex_cscope.c	10.13 (Berkeley) 9/15/96";
-#endif /* not lint */
 
 #include <sys/param.h>
 #include <sys/types.h>		/* XXX: param.h may not have included types.h */
@@ -137,7 +133,7 @@ ex_cscope(sp, cmdp)
 			break;
 	if (*p != '\0') {
 		*p++ = '\0';
-		for (; *p && isspace(*p); ++p);
+		for (; isspace(*p); ++p);
 	}
 
 	if ((ccp = lookup_ccmd(cmd)) == NULL) {
@@ -246,6 +242,10 @@ cscope_add(sp, cmdp, dname)
 		dbname = CSCOPE_DBFILE;
 	} else if ((dbname = strrchr(dname, '/')) != NULL)
 		*dbname++ = '\0';
+	else {
+		dbname = dname;
+		dname = ".";
+	}
 
 	/* Allocate a cscope connection structure and initialize its fields. */
 	len = strlen(dname);
@@ -447,7 +447,7 @@ cscope_find(sp, cmdp, pattern)
 	exp = EXP(sp);
 
 	/* Check for connections. */
-	if (exp->cscq.lh_first == NULL) {
+	if (LIST_FIRST(&exp->cscq) == NULL) {
 		msgq(sp, M_ERR, "310|No cscope connections running");
 		return (1);
 	}
@@ -459,7 +459,7 @@ cscope_find(sp, cmdp, pattern)
 	 */
 	rtp = NULL;
 	rtqp = NULL;
-	if (exp->tq.cqh_first == (void *)&exp->tq) {
+	if (CIRCLEQ_FIRST(&exp->tq) == CIRCLEQ_END(&exp->tq)) {
 		/* Initialize the `local context' tag queue structure. */
 		CALLOC_GOTO(sp, rtqp, TAGQ *, 1, sizeof(TAGQ));
 		CIRCLEQ_INIT(&rtqp->tagq);
@@ -485,9 +485,9 @@ cscope_find(sp, cmdp, pattern)
 
 	/* Search all open connections for a match. */
 	matches = 0;
-	for (csc = exp->cscq.lh_first; csc != NULL; csc = csc_next) {
+	for (csc = LIST_FIRST(&exp->cscq); csc != NULL; csc = csc_next) {
 		/* Copy csc->q.lh_next here in case csc is killed. */
-		csc_next = csc->q.le_next;
+		csc_next = LIST_NEXT(csc, q);
 
 		/*
 		 * Send the command to the cscope program.  (We skip the
@@ -512,7 +512,7 @@ cscope_find(sp, cmdp, pattern)
 		return (0);
 	}
 
-	tqp->current = tqp->tagq.cqh_first;
+	tqp->current = CIRCLEQ_FIRST(&tqp->tagq);
 
 	/* Try to switch to the first tag. */
 	force = FL_ISSET(cmdp->iflags, E_C_FORCE);
@@ -532,10 +532,10 @@ cscope_find(sp, cmdp, pattern)
 	 * in place, so we can pop all the way back to the current mark.
 	 * Note, it doesn't point to much of anything, it's a placeholder.
 	 */
-	if (exp->tq.cqh_first == (void *)&exp->tq) {
+	if (CIRCLEQ_FIRST(&exp->tq) == CIRCLEQ_END(&exp->tq)) {
 		CIRCLEQ_INSERT_HEAD(&exp->tq, rtqp, q);
 	} else
-		rtqp = exp->tq.cqh_first;
+		rtqp = CIRCLEQ_FIRST(&exp->tq);
 
 	/* Link the current TAGQ structure into place. */
 	CIRCLEQ_INSERT_HEAD(&exp->tq, tqp, q);
@@ -613,7 +613,7 @@ create_cs_cmd(sp, pattern, searchp)
 	}
 
 	/* Skip <blank> characters to the pattern. */
-	for (p = pattern + 1; *p != '\0' && isblank(*p); ++p);
+	for (p = pattern + 1; isblank(*p); ++p);
 	if (*p == '\0') {
 usage:		(void)csc_help(sp, "find");
 		return (NULL);
@@ -624,8 +624,8 @@ usage:		(void)csc_help(sp, "find");
 	if (p[0] == '"' && p[1] != '\0' && p[2] == '\0')
 		CBNAME(sp, cbp, p[1]);
 	if (cbp != NULL) {
-		p = cbp->textq.cqh_first->lb;
-		tlen = cbp->textq.cqh_first->len;
+		p = CIRCLEQ_FIRST(&cbp->textq)->lb;
+		tlen = CIRCLEQ_FIRST(&cbp->textq)->len;
 	} else
 		tlen = strlen(p);
 
@@ -675,8 +675,7 @@ parse(sp, csc, tqp, matchesp)
 #define	CSCOPE_NLINES_FMT	"cscope: %d lines%1[\n]"
 		if (sscanf(buf, CSCOPE_NLINES_FMT, &nlines, dummy) == 2)
 			break;
-		if ((p = strchr(buf, '\n')) != NULL)
-			*p = '\0';
+		buf[strcspn(buf, "\n")] = '\0';
 		msgq(sp, M_ERR, "%s: \"%s\"", csc->dname, buf);
 	}
 
@@ -824,7 +823,7 @@ csc_help(sp, cmd)
 {
 	CC const *ccp;
 
-	if (cmd != NULL && *cmd != '\0')
+	if (cmd != NULL && *cmd != '\0') {
 		if ((ccp = lookup_ccmd(cmd)) == NULL) {
 			ex_printf(sp,
 			    "%s doesn't match any cscope command\n", cmd);
@@ -835,6 +834,7 @@ csc_help(sp, cmd)
 			ex_printf(sp, "  Usage: %s\n", ccp->usage_msg);
 			return (0);
 		}
+	}
 
 	ex_printf(sp, "cscope commands:\n");
 	for (ccp = cscope_cmds; ccp->name != NULL; ++ccp)
@@ -877,8 +877,8 @@ terminate(sp, csc, n)
 	if (csc == NULL) {
 		if (n < 1)
 			goto badno;
-		for (i = 1, csc = exp->cscq.lh_first;
-		    csc != NULL; csc = csc->q.le_next, i++)
+		for (i = 1, csc = LIST_FIRST(&exp->cscq);
+		    csc != NULL; csc = LIST_NEXT(csc, q), i++)
 			if (i == n)
 				break;
 		if (csc == NULL) {
@@ -923,7 +923,7 @@ cscope_reset(sp, cmdp, notusedp)
 {
 	EX_PRIVATE *exp;
 
-	for (exp = EXP(sp); exp->cscq.lh_first != NULL;)
+	for (exp = EXP(sp); LIST_FIRST(&exp->cscq) != NULL;)
 		if (cscope_kill(sp, cmdp, "1"))
 			return (1);
 	return (0);
@@ -944,12 +944,12 @@ cscope_display(sp)
 	int i;
 
 	exp = EXP(sp);
-	if (exp->cscq.lh_first == NULL) {
+	if (LIST_FIRST(&exp->cscq) == NULL) {
 		ex_printf(sp, "No cscope connections.\n");
 		return (0);
 	}
 	for (i = 1,
-	    csc = exp->cscq.lh_first; csc != NULL; ++i, csc = csc->q.le_next)
+	    csc = LIST_FIRST(&exp->cscq); csc != NULL; ++i, csc = LIST_NEXT(csc, q))
 		ex_printf(sp,
 		    "%2d %s (process %ld)\n", i, csc->dname, (long)csc->pid);
 	return (0);

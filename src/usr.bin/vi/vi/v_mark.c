@@ -1,4 +1,4 @@
-/*	$OpenBSD: v_mark.c,v 1.5 2002/02/16 21:27:58 millert Exp $	*/
+/*	$OpenBSD: v_mark.c,v 1.8 2009/10/27 23:59:48 deraadt Exp $	*/
 
 /*-
  * Copyright (c) 1992, 1993, 1994
@@ -10,10 +10,6 @@
  */
 
 #include "config.h"
-
-#ifndef lint
-static const char sccsid[] = "@(#)v_mark.c	10.8 (Berkeley) 9/20/96";
-#endif /* not lint */
 
 #include <sys/types.h>
 #include <sys/queue.h>
@@ -94,7 +90,6 @@ mark(sp, vp, cmd)
 	VICMD *vp;
 	enum which cmd;
 {
-	dir_t dir;
 	MARK m;
 	size_t len;
 
@@ -113,7 +108,7 @@ mark(sp, vp, cmd)
 		if (db_get(sp, vp->m_stop.lno, DBG_FATAL, NULL, &len))
 			return (1);
 		if (vp->m_stop.cno < len ||
-		    vp->m_stop.cno == len && len == 0)
+		    (vp->m_stop.cno == len && len == 0))
 			break;
 
 		if (ISMOTION(vp))
@@ -154,14 +149,12 @@ mark(sp, vp, cmd)
 	 * and backward motions can happen for any kind of search command.
 	 */
 	if (vp->m_start.lno > vp->m_stop.lno ||
-	    vp->m_start.lno == vp->m_stop.lno &&
-	    vp->m_start.cno > vp->m_stop.cno) {
+	    (vp->m_start.lno == vp->m_stop.lno &&
+	    vp->m_start.cno > vp->m_stop.cno)) {
 		m = vp->m_start;
 		vp->m_start = vp->m_stop;
 		vp->m_stop = m;
-		dir = BACKWARD;
-	} else
-		dir = FORWARD;
+	}
 
 	/*
 	 * Yank cursor motion, when associated with marks as motion commands,
