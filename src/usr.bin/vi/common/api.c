@@ -1,4 +1,4 @@
-/*	$OpenBSD: api.c,v 1.12 2003/04/15 08:08:02 deraadt Exp $	*/
+/*	$OpenBSD: api.c,v 1.14 2009/10/27 23:59:47 deraadt Exp $	*/
 
 /*-
  * Copyright (c) 1992, 1993, 1994
@@ -12,10 +12,6 @@
  */
 
 #include "config.h"
-
-#ifndef lint
-static const char sccsid[] = "@(#)api.c	8.26 (Berkeley) 10/14/96";
-#endif /* not lint */
 
 #include <sys/types.h>
 #include <sys/queue.h>
@@ -51,8 +47,7 @@ api_fscreen(id, name)
 	gp = __global_list;
 
 	/* Search the displayed list. */
-	for (tsp = gp->dq.cqh_first;
-	    tsp != (void *)&gp->dq; tsp = tsp->q.cqe_next)
+	CIRCLEQ_FOREACH(tsp, &gp->dq, q)
 		if (name == NULL) {
 			if (id == tsp->id)
 				return (tsp);
@@ -60,8 +55,7 @@ api_fscreen(id, name)
 			return (tsp);
 
 	/* Search the hidden list. */
-	for (tsp = gp->hq.cqh_first;
-	    tsp != (void *)&gp->hq; tsp = tsp->q.cqe_next)
+	CIRCLEQ_FOREACH(tsp, &gp->hq, q)
 		if (name == NULL) {
 			if (id == tsp->id)
 				return (tsp);
@@ -214,11 +208,11 @@ api_nextmark(sp, next, namep)
 {
 	LMARK *mp;
 
-	mp = sp->ep->marks.lh_first;
+	mp = LIST_FIRST(&sp->ep->marks);
 	if (next)
-		for (; mp != NULL; mp = mp->q.le_next)
+		LIST_FOREACH(mp, &sp->ep->marks, q)
 			if (mp->name == *namep) {
-				mp = mp->q.le_next;
+				mp = LIST_NEXT(mp, q);
 				break;
 			}
 	if (mp == NULL)

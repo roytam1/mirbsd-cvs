@@ -1,4 +1,4 @@
-/*	$OpenBSD: recover.c,v 1.9 2003/07/02 00:21:16 avsm Exp $	*/
+/*	$OpenBSD: recover.c,v 1.15 2009/10/27 23:59:47 deraadt Exp $	*/
 
 /*-
  * Copyright (c) 1993, 1994
@@ -10,10 +10,6 @@
  */
 
 #include "config.h"
-
-#ifndef lint
-static const char sccsid[] = "@(#)recover.c	10.21 (Berkeley) 9/15/96";
-#endif /* not lint */
 
 #include <sys/param.h>
 #include <sys/types.h>		/* XXX: param.h may not have included types.h */
@@ -403,14 +399,15 @@ rcv_mailfile(sp, issync, cp_path)
 	(void)time(&now);
 	(void)gethostname(host, sizeof(host));
 	len = snprintf(buf, sizeof(buf),
-	    "%s%s\n%s%s\n%s\n%s\n%s%s\n%s%s\n%s\n\n",
+	    "%s%s\n%s%s\n%s\n%s\n%s%s\n%s%s\n%s\n%s\n\n",
 	    VI_FHEADER, t,			/* Non-standard. */
 	    VI_PHEADER, cp_path,		/* Non-standard. */
 	    "Reply-To: root",
 	    "From: root (Nvi recovery program)",
 	    "To: ", pw->pw_name,
 	    "Subject: Nvi saved the file ", p,
-	    "Precedence: bulk");		/* For vacation(1). */
+	    "Precedence: bulk",			/* For vacation(1). */
+	    "Auto-Submitted: auto-generated");
 	if (len > sizeof(buf) - 1)
 		goto lerr;
 	if (write(fd, buf, len) != len)
@@ -581,7 +578,7 @@ rcv_list(sp)
 next:		(void)fclose(fp);
 	}
 	if (found == 0)
-		(void)printf("vi: no files to recover.\n");
+		(void)printf("%s: No files to recover\n", sp->gp->progname);
 	(void)closedir(dirp);
 	return (0);
 }
@@ -815,6 +812,7 @@ rcv_gets(buf, len, fd)
 
 	if ((nr = read(fd, buf, len - 1)) == -1)
 		return (NULL);
+	buf[nr] = '\0';
 	if ((p = strchr(buf, '\n')) == NULL)
 		return (NULL);
 	(void)lseek(fd, (off_t)((p - buf) + 1), SEEK_SET);

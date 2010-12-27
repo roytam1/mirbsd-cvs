@@ -1,4 +1,4 @@
-/*	$OpenBSD: v_txt.c,v 1.15 2005/01/08 05:20:34 pvalchev Exp $	*/
+/*	$OpenBSD: v_txt.c,v 1.22 2009/10/27 23:59:48 deraadt Exp $	*/
 
 /*-
  * Copyright (c) 1993, 1994
@@ -10,10 +10,6 @@
  */
 
 #include "config.h"
-
-#ifndef lint
-static const char sccsid[] = "@(#)v_txt.c	10.87 (Berkeley) 10/13/96";
-#endif /* not lint */
 
 #include <sys/param.h>
 #include <sys/queue.h>
@@ -258,7 +254,7 @@ v_txt(sp, vp, tm, lp, len, prompt, ai_line, rcount, flags)
 	u_long rcount;		/* Replay count. */
 	u_int32_t flags;	/* TXT_* flags. */
 {
-	EVENT ev, *evp;		/* Current event. */
+	EVENT ev, *evp = NULL;	/* Current event. */
 	EVENT fc;		/* File name completion event. */
 	GS *gp;
 	TEXT *ntp, *tp;		/* Input text structures. */
@@ -301,9 +297,9 @@ v_txt(sp, vp, tm, lp, len, prompt, ai_line, rcount, flags)
 	 * copy it into the TEXT buffer.
 	 */
 	tiqh = &sp->tiq;
-	if (tiqh->cqh_first != (void *)tiqh) {
-		tp = tiqh->cqh_first;
-		if (tp->q.cqe_next != (void *)tiqh || tp->lb_len < len + 32) {
+	if (CIRCLEQ_FIRST(tiqh) != CIRCLEQ_END(tiqh)) {
+		tp = CIRCLEQ_FIRST(tiqh);
+		if (CIRCLEQ_NEXT(tp, q) != CIRCLEQ_END(tiqh) || tp->lb_len < len + 32) {
 			text_lfree(tiqh);
 			goto newtp;
 		}
@@ -512,15 +508,6 @@ next:	if (v_event_get(sp, evp, 0, ec_flags))
 	case E_EOF:
 		F_SET(sp, SC_EXIT_FORCE);
 		return (1);
-	case E_INTERRUPT:
-		/*
-		 * !!!
-		 * Historically, <interrupt> exited the user from text input
-		 * mode or cancelled a colon command, and returned to command
-		 * mode.  It also beeped the terminal, but that seems a bit
-		 * excessive.
-		 */
-		goto k_escape;
 	case E_REPAINT:
 		if (vs_repaint(sp, &ev))
 			return (1);
@@ -528,10 +515,37 @@ next:	if (v_event_get(sp, evp, 0, ec_flags))
 	case E_WRESIZE:
 		/* <resize> interrupts the input mode. */
 		v_emsg(sp, NULL, VIM_WRESIZE);
-		goto k_escape;
+	/* FALLTHROUGH */
 	default:
-		v_event_err(sp, evp);
-		goto k_escape;
+		if (evp->e_event != E_INTERRUPT && evp->e_event != E_WRESIZE)
+			v_event_err(sp, evp);
+		/*
+		 * !!!
+		 * Historically, <interrupt> exited the user from text input
+		 * mode or cancelled a colon command, and returned to command
+		 * mode.  It also beeped the terminal, but that seems a bit
+		 * excessive.
+		 */
+		/*
+		 * If we are recording, morph into <escape> key so that
+		 * we can repeat the command safely: there is no way to
+		 * invalidate the repetition of an instance of a command,
+		 * which would be the alternative possibility.
+		 * If we are not recording (most likely on the command line),
+		 * simply discard the input and return to command mode
+		 * so that an INTERRUPT doesn't become for example a file
+		 * completion request. -aymeric
+		 */
+		if (LF_ISSET(TXT_RECORD)) {
+		    evp->e_event = E_CHARACTER;
+		    evp->e_c = 033;
+		    evp->e_flags = 0;
+		    evp->e_value = K_ESCAPE;
+		    break;
+		} else {
+		    tp->term = TERM_ESC;
+		    goto k_escape;
+		}
 	}
 
 	/*
@@ -1474,7 +1488,6 @@ txt_abbrev(sp, tp, pushcp, isinfoline, didsubp, turnoffp)
 	CHAR_T *pushcp;
 	int isinfoline, *didsubp, *turnoffp;
 {
-	VI_PRIVATE *vip;
 	CHAR_T ch, *p;
 	SEQ *qp;
 	size_t len, off;
@@ -1483,8 +1496,6 @@ txt_abbrev(sp, tp, pushcp, isinfoline, didsubp, turnoffp)
 	*didsubp = 0;
 	if (tp->cno == tp->offset)
 		return (0);
-
-	vip = VIP(sp);
 
 	/*
 	 * Find the start of the "word".
@@ -1563,7 +1574,7 @@ txt_abbrev(sp, tp, pushcp, isinfoline, didsubp, turnoffp)
 	 *
 	 * This makes the layering look like a Nachos Supreme.
 	 */
-search:	if (isinfoline)
+search:	if (isinfoline) {
 		if (off == tp->ai || off == tp->offset)
 			if (ex_is_abbrev(p, len)) {
 				*turnoffp = 1;
@@ -1573,6 +1584,7 @@ search:	if (isinfoline)
 		else
 			if (*turnoffp)
 				return (0);
+	}
 
 	/* Check for any abbreviations. */
 	if ((qp = seq_find(sp, NULL, NULL, p, len, SEQ_ABBREV, NULL)) == NULL)
@@ -1732,7 +1744,7 @@ txt_ai_resolve(sp, tp, changedp)
 	 * If there are no spaces, or no tabs after spaces and less than
 	 * ts spaces, it's already minimal.
 	 */
-	if (!spaces || !tab_after_sp && spaces < ts)
+	if (!spaces || (!tab_after_sp && spaces < ts))
 		return;
 
 	/* Count up spaces/tabs needed to get to the target. */
@@ -1831,11 +1843,10 @@ txt_backup(sp, tiqh, tp, flagsp)
 	TEXT *tp;
 	u_int32_t *flagsp;
 {
-	VI_PRIVATE *vip;
 	TEXT *ntp;
 
 	/* Get a handle on the previous TEXT structure. */
-	if ((ntp = tp->q.cqe_prev) == (void *)tiqh) {
+	if ((ntp = CIRCLEQ_PREV(tp, q)) == CIRCLEQ_END(tiqh)) {
 		if (!FL_ISSET(*flagsp, TXT_REPLAY))
 			msgq(sp, M_BERR,
 			    "193|Already at the beginning of the insert");
@@ -1846,7 +1857,6 @@ txt_backup(sp, tiqh, tp, flagsp)
 	ntp->len = ntp->sv_len;
 
 	/* Handle appending to the line. */
-	vip = VIP(sp);
 	if (ntp->owrite == 0 && ntp->insert == 0) {
 		ntp->lb[ntp->len] = CH_CURSOR;
 		++ntp->insert;
@@ -1911,7 +1921,7 @@ txt_dent(sp, tp, isindent)
 {
 	CHAR_T ch;
 	u_long sw, ts;
-	size_t cno, current, spaces, target, tabs, off;
+	size_t cno, current, spaces, target, tabs;
 	int ai_reset;
 
 	ts = O_VAL(sp, O_TABSTOP);
@@ -1940,8 +1950,10 @@ txt_dent(sp, tp, isindent)
 	target = current;
 	if (isindent)
 		target += COL_OFF(target, sw);
-	else
-		target -= --target % sw;
+	else {
+		--target;
+		target -= target % sw;
+	}
 
 	/*
 	 * The AI characters will be turned into overwrite characters if the
@@ -2342,7 +2354,7 @@ txt_err(sp, tiqh)
 	 * We depend on at least one line number being set in the text
 	 * chain.
 	 */
-	for (lno = tiqh->cqh_first->lno;
+	for (lno = CIRCLEQ_FIRST(tiqh)->lno;
 	    !db_exist(sp, lno) && lno > 0; --lno);
 
 	sp->lno = lno == 0 ? 1 : lno;
@@ -2687,7 +2699,6 @@ txt_resolve(sp, tiqh, flags)
 	TEXTH *tiqh;
 	u_int32_t flags;
 {
-	VI_PRIVATE *vip;
 	TEXT *tp;
 	recno_t lno;
 	int changed;
@@ -2699,24 +2710,23 @@ txt_resolve(sp, tiqh, flags)
 	 * change, we have to redisplay it, otherwise the information cached
 	 * about the line will be wrong.
 	 */
-	vip = VIP(sp);
-	tp = tiqh->cqh_first;
+	tp = CIRCLEQ_FIRST(tiqh);
 
 	if (LF_ISSET(TXT_AUTOINDENT))
 		txt_ai_resolve(sp, tp, &changed);
 	else
 		changed = 0;
 	if (db_set(sp, tp->lno, tp->lb, tp->len) ||
-	    changed && vs_change(sp, tp->lno, LINE_RESET))
+	    (changed && vs_change(sp, tp->lno, LINE_RESET)))
 		return (1);
 
-	for (lno = tp->lno; (tp = tp->q.cqe_next) != (void *)&sp->tiq; ++lno) {
+	for (lno = tp->lno; (tp = CIRCLEQ_NEXT(tp, q)) != (void *)&sp->tiq; ++lno) {
 		if (LF_ISSET(TXT_AUTOINDENT))
 			txt_ai_resolve(sp, tp, &changed);
 		else
 			changed = 0;
 		if (db_append(sp, 0, lno, tp->lb, tp->len) ||
-		    changed && vs_change(sp, tp->lno, LINE_RESET))
+		    (changed && vs_change(sp, tp->lno, LINE_RESET)))
 			return (1);
 	}
 
@@ -2743,12 +2753,9 @@ txt_showmatch(sp, tp)
 	SCR *sp;
 	TEXT *tp;
 {
-	GS *gp;
 	VCS cs;
 	MARK m;
 	int cnt, endc, startc;
-
-	gp = sp->gp;
 
 	/*
 	 * Do a refresh first, in case we haven't done one in awhile,
@@ -2791,7 +2798,7 @@ txt_showmatch(sp, tp)
 	}
 
 	/* If the match is on the screen, move to it. */
-	if (cs.cs_lno < m.lno || cs.cs_lno == m.lno && cs.cs_cno < m.cno)
+	if (cs.cs_lno < m.lno || (cs.cs_lno == m.lno && cs.cs_cno < m.cno))
 		return (0);
 	sp->lno = cs.cs_lno;
 	sp->cno = cs.cs_cno;
@@ -2814,16 +2821,13 @@ txt_margin(sp, tp, wmtp, didbreak, flags)
 	int *didbreak;
 	u_int32_t flags;
 {
-	VI_PRIVATE *vip;
 	size_t len, off;
-	char *p, *wp;
+	char *p;
 
 	/* Find the nearest previous blank. */
 	for (off = tp->cno - 1, p = tp->lb + off, len = 0;; --off, --p, ++len) {
-		if (isblank(*p)) {
-			wp = p + 1;
+		if (isblank(*p))
 			break;
-		}
 
 		/*
 		 * If reach the start of the line, there's nowhere to break.
@@ -2850,7 +2854,6 @@ txt_margin(sp, tp, wmtp, didbreak, flags)
 	 * line -- it's going to be used to set the cursor value when we
 	 * move to the new line.
 	 */
-	vip = VIP(sp);
 	wmtp->lb = p + 1;
 	wmtp->offset = len;
 	wmtp->insert = LF_ISSET(TXT_APPENDEOL) ?  tp->insert - 1 : tp->insert;
@@ -2909,9 +2912,9 @@ txt_Rresolve(sp, tiqh, tp, orig_len)
 	 * Calculate how many characters the user has entered,
 	 * plus the blanks erased by <carriage-return>/<newline>s.
 	 */
-	for (ttp = tiqh->cqh_first, input_len = 0;;) {
+	for (ttp = CIRCLEQ_FIRST(tiqh), input_len = 0;;) {
 		input_len += ttp == tp ? tp->cno : ttp->len + ttp->R_erase;
-		if ((ttp = ttp->q.cqe_next) == (void *)&sp->tiq)
+		if ((ttp = CIRCLEQ_NEXT(ttp, q)) == CIRCLEQ_END(&sp->tiq))
 			break;
 	}
 
@@ -2932,7 +2935,7 @@ txt_Rresolve(sp, tiqh, tp, orig_len)
 	if (input_len < orig_len) {
 		retain = MIN(tp->owrite, orig_len - input_len);
 		if (db_get(sp,
-		    tiqh->cqh_first->lno, DBG_FATAL | DBG_NOCACHE, &p, NULL))
+		    CIRCLEQ_FIRST(tiqh)->lno, DBG_FATAL | DBG_NOCACHE, &p, NULL))
 			return;
 		memcpy(tp->lb + tp->cno, p + input_len, retain);
 		tp->len -= tp->owrite - retain;

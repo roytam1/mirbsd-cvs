@@ -1,4 +1,4 @@
-/*	$OpenBSD: cl_term.c,v 1.12 2002/02/16 21:27:56 millert Exp $	*/
+/*	$OpenBSD: cl_term.c,v 1.16 2009/10/27 23:59:47 deraadt Exp $	*/
 
 /*-
  * Copyright (c) 1993, 1994
@@ -10,10 +10,6 @@
  */
 
 #include "config.h"
-
-#ifndef lint
-static const char sccsid[] = "@(#)cl_term.c	10.22 (Berkeley) 9/15/96";
-#endif /* not lint */
 
 #include <sys/types.h>
 #include <sys/ioctl.h>
@@ -144,7 +140,7 @@ cl_term_init(sp)
 	 * Rework any function key mappings that were set before the
 	 * screen was initialized.
 	 */
-	for (qp = sp->gp->seqq.lh_first; qp != NULL; qp = qp->q.le_next)
+	LIST_FOREACH(qp, & sp->gp->seqq, q)
 		if (F_ISSET(qp, SEQ_FUNCMAP))
 			(void)cl_pfmap(sp, qp->stype,
 			    qp->input, qp->ilen, qp->output, qp->olen);
@@ -164,8 +160,8 @@ cl_term_end(gp)
 	SEQ *qp, *nqp;
 
 	/* Delete screen specific mappings. */
-	for (qp = gp->seqq.lh_first; qp != NULL; qp = nqp) {
-		nqp = qp->q.le_next;
+	for (qp = LIST_FIRST(&gp->seqq); qp != NULL; qp = nqp) {
+		nqp = LIST_NEXT(qp, q);
 		if (F_ISSET(qp, SEQ_SCREEN))
 			(void)seq_mdel(qp);
 	}
@@ -206,10 +202,10 @@ cl_pfmap(sp, stype, from, flen, to, tlen)
 	size_t flen, tlen;
 {
 	size_t nlen;
-	char *p, keyname[64];
+	char *p, key_name[64];
 
-	(void)snprintf(keyname, sizeof(keyname), "kf%d", atoi(from + 1));
-	if ((p = tigetstr(keyname)) == NULL ||
+	(void)snprintf(key_name, sizeof(key_name), "kf%d", atoi(from + 1));
+	if ((p = tigetstr(key_name)) == NULL ||
 	    p == (char *)-1 || strlen(p) == 0)
 		p = NULL;
 	if (p == NULL) {
@@ -217,11 +213,11 @@ cl_pfmap(sp, stype, from, flen, to, tlen)
 		return (1);
 	}
 
-	nlen = snprintf(keyname,
-	    sizeof(keyname), "function key %d", atoi(from + 1));
-	if (nlen >= sizeof(keyname))
-		nlen = sizeof(keyname) - 1;
-	return (seq_set(sp, keyname, nlen,
+	nlen = snprintf(key_name,
+	    sizeof(key_name), "function key %d", atoi(from + 1));
+	if (nlen >= sizeof(key_name))
+		nlen = sizeof(key_name) - 1;
+	return (seq_set(sp, key_name, nlen,
 	    p, strlen(p), to, tlen, stype, SEQ_NOOVERWRITE | SEQ_SCREEN));
 }
 
@@ -412,16 +408,18 @@ cl_ssize(sp, sigwinch, rowp, colp, changedp)
 	if (row == 0 || col == 0) {
 		if ((p = getenv("TERM")) == NULL)
 			goto noterm;
-		if (row == 0)
+		if (row == 0) {
 			if ((rval = tigetnum("lines")) < 0)
 				msgq(sp, M_SYSERR, "tigetnum: lines");
 			else
 				row = rval;
-		if (col == 0)
+		}
+		if (col == 0) {
 			if ((rval = tigetnum("cols")) < 0)
 				msgq(sp, M_SYSERR, "tigetnum: cols");
 			else
 				col = rval;
+		}
 	}
 
 	/* If nothing else, well, it's probably a VT100. */

@@ -1,4 +1,4 @@
-/*	$OpenBSD: v_match.c,v 1.4 2002/02/16 21:27:58 millert Exp $	*/
+/*	$OpenBSD: v_match.c,v 1.6 2009/10/27 23:59:48 deraadt Exp $	*/
 
 /*-
  * Copyright (c) 1992, 1993, 1994
@@ -10,10 +10,6 @@
  */
 
 #include "config.h"
-
-#ifndef lint
-static const char sccsid[] = "@(#)v_match.c	10.8 (Berkeley) 3/6/96";
-#endif /* not lint */
 
 #include <sys/types.h>
 #include <sys/queue.h>
@@ -137,8 +133,8 @@ nomatch:		msgq(sp, M_BERR, "184|No match character on this line");
 	 * starting cursor position when deleting to a match.
 	 */
 	if (vp->m_start.lno < vp->m_stop.lno ||
-	    vp->m_start.lno == vp->m_stop.lno &&
-	    vp->m_start.cno < vp->m_stop.cno)
+	    (vp->m_start.lno == vp->m_stop.lno &&
+	    vp->m_start.cno < vp->m_stop.cno))
 		vp->m_final = ISMOTION(vp) ? vp->m_start : vp->m_stop;
 	else
 		vp->m_final = vp->m_stop;

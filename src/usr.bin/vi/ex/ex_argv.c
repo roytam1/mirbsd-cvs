@@ -1,4 +1,4 @@
-/*	$OpenBSD: ex_argv.c,v 1.11 2002/06/12 06:07:16 mpech Exp $	*/
+/*	$OpenBSD: ex_argv.c,v 1.13 2009/10/27 23:59:47 deraadt Exp $	*/
 
 /*-
  * Copyright (c) 1993, 1994
@@ -10,10 +10,6 @@
  */
 
 #include "config.h"
-
-#ifndef lint
-static const char sccsid[] = "@(#)ex_argv.c	10.26 (Berkeley) 9/20/96";
-#endif /* not lint */
 
 #include <sys/types.h>
 #include <sys/queue.h>
@@ -100,14 +96,12 @@ argv_exp1(sp, excp, cmd, cmdlen, is_bang)
 	size_t cmdlen;
 	int is_bang;
 {
-	EX_PRIVATE *exp;
 	size_t blen, len;
 	char *bp, *p, *t;
 
 	GET_SPACE_RET(sp, bp, blen, 512);
 
 	len = 0;
-	exp = EXP(sp);
 	if (argv_fexp(sp, excp, cmd, cmdlen, bp, &len, &bp, &blen, is_bang)) {
 		FREE_SPACE(sp, bp, blen);
 		return (1);

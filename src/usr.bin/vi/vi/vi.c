@@ -1,4 +1,4 @@
-/*	$OpenBSD: vi.c,v 1.10 2005/01/08 05:22:25 pvalchev Exp $	*/
+/*	$OpenBSD: vi.c,v 1.13 2009/10/27 23:59:48 deraadt Exp $	*/
 
 /*-
  * Copyright (c) 1992, 1993, 1994
@@ -10,10 +10,6 @@
  */
 
 #include "config.h"
-
-#ifndef lint
-static const char sccsid[] = "@(#)vi.c	10.57 (Berkeley) 10/13/96";
-#endif /* not lint */
 
 #include <sys/types.h>
 #include <sys/queue.h>
@@ -349,9 +345,9 @@ gc_event:
 		 * command, since the tag may be moving to the same file.
 		 */
 		if ((F_ISSET(vp, V_ABS) ||
-		    F_ISSET(vp, V_ABS_L) && sp->lno != abs.lno ||
-		    F_ISSET(vp, V_ABS_C) &&
-		    (sp->lno != abs.lno || sp->cno != abs.cno)) &&
+		    (F_ISSET(vp, V_ABS_L) && sp->lno != abs.lno) ||
+		    (F_ISSET(vp, V_ABS_C) &&
+		    (sp->lno != abs.lno || sp->cno != abs.cno))) &&
 		    mark_set(sp, ABSMARK1, &abs, 1))
 			goto err;
 
@@ -416,13 +412,13 @@ ret:		rval = 1;
 }
 
 #define	KEY(key, ec_flags) {						\
-	if ((gcret = v_key(sp, 0, &ev, ec_flags)) != GC_OK)		\
+	if ((gcret = v_key(sp, 0, &ev, (ec_flags))) != GC_OK)		\
 		return (gcret);						\
 	if (ev.e_value == K_ESCAPE)					\
 		goto esc;						\
 	if (F_ISSET(&ev.e_ch, CH_MAPPED))				\
 		*mappedp = 1;						\
-	key = ev.e_c;							\
+	(key) = ev.e_c;							\
 }
 
 /*
@@ -787,7 +783,7 @@ v_motion(sp, dm, vp, mappedp)
 		vp->m_stop.lno = sp->lno + motion.count - 1;
 		if (db_get(sp, vp->m_stop.lno, 0, NULL, &len)) {
 			if (vp->m_stop.lno != 1 ||
-			   vp->key != 'c' && vp->key != '!') {
+			    (vp->key != 'c' && vp->key != '!')) {
 				v_emsg(sp, NULL, VIM_EMPTY);
 				return (1);
 			}
@@ -859,7 +855,7 @@ v_motion(sp, dm, vp, mappedp)
 		 */
 		if (!db_exist(sp, vp->m_stop.lno)) {
 			if (vp->m_stop.lno != 1 ||
-			   vp->key != 'c' && vp->key != '!') {
+			    (vp->key != 'c' && vp->key != '!')) {
 				v_emsg(sp, NULL, VIM_EMPTY);
 				return (1);
 			}
@@ -903,8 +899,8 @@ v_motion(sp, dm, vp, mappedp)
 		 * Motions are from the from MARK to the to MARK (inclusive).
 		 */
 		if (motion.m_start.lno > motion.m_stop.lno ||
-		    motion.m_start.lno == motion.m_stop.lno &&
-		    motion.m_start.cno > motion.m_stop.cno) {
+		    (motion.m_start.lno == motion.m_stop.lno &&
+		    motion.m_start.cno > motion.m_stop.cno)) {
 			vp->m_start = motion.m_stop;
 			vp->m_stop = motion.m_start;
 		} else {
@@ -1012,7 +1008,7 @@ v_dtoh(sp)
 
 	/* Move all screens to the hidden queue, tossing screen maps. */
 	for (hidden = 0, gp = sp->gp;
-	    (tsp = gp->dq.cqh_first) != (void *)&gp->dq; ++hidden) {
+	    (tsp = CIRCLEQ_FIRST(&gp->dq)) != CIRCLEQ_END(&gp->dq); ++hidden) {
 		if (_HMAP(tsp) != NULL) {
 			free(_HMAP(tsp));
 			_HMAP(tsp) = NULL;

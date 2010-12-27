@@ -1,4 +1,4 @@
-/*	$OpenBSD: ex_cd.c,v 1.7 2005/04/21 15:39:31 jmc Exp $	*/
+/*	$OpenBSD: ex_cd.c,v 1.9 2009/10/27 23:59:47 deraadt Exp $	*/
 
 /*-
  * Copyright (c) 1992, 1993, 1994
@@ -10,10 +10,6 @@
  */
 
 #include "config.h"
-
-#ifndef lint
-static const char sccsid[] = "@(#)ex_cd.c	10.10 (Berkeley) 8/12/96";
-#endif /* not lint */
 
 #include <sys/param.h>
 #include <sys/queue.h>
@@ -93,9 +89,9 @@ ex_cd(sp, cmdp)
 	 */
 	if (cmdp->argc == 0 ||
 	    (ap = cmdp->argv[0])->bp[0] == '/' ||
-	    ap->len == 1 && ap->bp[0] == '.' ||
-	    ap->len >= 2 && ap->bp[0] == '.' && ap->bp[1] == '.' &&
-	    (ap->bp[2] == '/' || ap->bp[2] == '\0'))
+	    (ap->len == 1 && ap->bp[0] == '.') ||
+	    (ap->len >= 2 && ap->bp[0] == '.' && ap->bp[1] == '.' &&
+	    (ap->bp[2] == '/' || ap->bp[2] == '\0')))
 		goto err;
 
 	/* Try the O_CDPATH option values. */

@@ -1,4 +1,4 @@
-/*	$OpenBSD: mark.c,v 1.5 2002/02/16 21:27:57 millert Exp $	*/
+/*	$OpenBSD: mark.c,v 1.8 2009/10/27 23:59:47 deraadt Exp $	*/
 
 /*-
  * Copyright (c) 1992, 1993, 1994
@@ -10,10 +10,6 @@
  */
 
 #include "config.h"
-
-#ifndef lint
-static const char sccsid[] = "@(#)mark.c	10.13 (Berkeley) 7/19/96";
-#endif /* not lint */
 
 #include <sys/types.h>
 #include <sys/queue.h>
@@ -98,7 +94,7 @@ mark_end(sp, ep)
 	 * !!!
 	 * ep MAY NOT BE THE SAME AS sp->ep, DON'T USE THE LATTER.
 	 */
-	while ((lmp = ep->marks.lh_first) != NULL) {
+	while ((lmp = LIST_FIRST(&ep->marks)) != NULL) {
 		LIST_REMOVE(lmp, q);
 		free(lmp);
 	}
@@ -209,8 +205,8 @@ mark_find(sp, key)
 	 * Return the requested mark or the slot immediately before
 	 * where it should go.
 	 */
-	for (lastlmp = NULL, lmp = sp->ep->marks.lh_first;
-	    lmp != NULL; lastlmp = lmp, lmp = lmp->q.le_next)
+	for (lastlmp = NULL, lmp = LIST_FIRST(&sp->ep->marks);
+	    lmp != NULL; lastlmp = lmp, lmp = LIST_NEXT(lmp, q))
 		if (lmp->name >= key)
 			return (lmp->name == key ? lmp : lastlmp);
 	return (lastlmp);
@@ -236,14 +232,14 @@ mark_insdel(sp, op, lno)
 		/* All insert/append operations are done as inserts. */
 		abort();
 	case LINE_DELETE:
-		for (lmp = sp->ep->marks.lh_first;
-		    lmp != NULL; lmp = lmp->q.le_next)
-			if (lmp->lno >= lno)
+		LIST_FOREACH(lmp, &sp->ep->marks, q)
+			if (lmp->lno >= lno) {
 				if (lmp->lno == lno) {
 					F_SET(lmp, MARK_DELETED);
 					(void)log_mark(sp, lmp);
 				} else
 					--lmp->lno;
+			}
 		break;
 	case LINE_INSERT:
 		/*
@@ -267,8 +263,7 @@ mark_insdel(sp, op, lno)
 				return (0);
 		}
 
-		for (lmp = sp->ep->marks.lh_first;
-		    lmp != NULL; lmp = lmp->q.le_next)
+		LIST_FOREACH(lmp, &sp->ep->marks, q)
 			if (lmp->lno >= lno)
 				++lmp->lno;
 		break;

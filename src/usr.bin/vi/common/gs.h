@@ -1,4 +1,4 @@
-/*	$OpenBSD: gs.h,v 1.7 2002/02/16 21:27:57 millert Exp $	*/
+/*	$OpenBSD: gs.h,v 1.9 2006/01/08 21:05:39 miod Exp $	*/
 
 /*-
  * Copyright (c) 1993, 1994
@@ -91,7 +91,7 @@ struct _gs {
 	 * Ex command structures (EXCMD).  Defined here because ex commands
 	 * exist outside of any particular screen or file.
 	 */
-#define	EXCMD_RUNNING(gp)	((gp)->ecq.lh_first->clen != 0)
+#define	EXCMD_RUNNING(gp)	(LIST_FIRST(&(gp)->ecq)->clen != 0)
 	LIST_HEAD(_excmdh, _excmd) ecq;	/* Ex command linked list. */
 	EXCMD	 excmd;			/* Default ex command structure. */
 	char	 *if_name;		/* Current associated file. */
@@ -119,10 +119,12 @@ struct _gs {
 #define	MAX_FAST_KEY	254		/* Max fast check character.*/
 #define	KEY_LEN(sp, ch)							\
 	((unsigned char)(ch) <= MAX_FAST_KEY ?				\
-	    sp->gp->cname[(unsigned char)ch].len : v_key_len(sp, ch))
+	    (sp)->gp->cname[(unsigned char)(ch)].len :			\
+	    v_key_len((sp), (ch)))
 #define	KEY_NAME(sp, ch)						\
 	((unsigned char)(ch) <= MAX_FAST_KEY ?				\
-	    sp->gp->cname[(unsigned char)ch].name : v_key_name(sp, ch))
+	    (sp)->gp->cname[(unsigned char)(ch)].name :			\
+	    v_key_name((sp), (ch)))
 	struct {
 		CHAR_T	 name[MAX_CHARACTER_COLUMNS + 1];
 		u_int8_t len;
@@ -130,8 +132,9 @@ struct _gs {
 
 #define	KEY_VAL(sp, ch)							\
 	((unsigned char)(ch) <= MAX_FAST_KEY ? 				\
-	    sp->gp->special_key[(unsigned char)ch] :			\
-	    (unsigned char)(ch) > sp->gp->max_special ? 0 : v_key_val(sp,ch))
+	    (sp)->gp->special_key[(unsigned char)(ch)] :		\
+	    (unsigned char)(ch) > (sp)->gp->max_special ? 0 :		\
+	    v_key_val((sp),(ch)))
 	CHAR_T	 max_special;		/* Max special character. */
 	u_char				/* Fast lookup table. */
 	    special_key[MAX_FAST_KEY + 1];

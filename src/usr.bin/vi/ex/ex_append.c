@@ -1,4 +1,4 @@
-/*	$OpenBSD: ex_append.c,v 1.6 2002/02/16 21:27:57 millert Exp $	*/
+/*	$OpenBSD: ex_append.c,v 1.8 2009/10/27 23:59:47 deraadt Exp $	*/
 
 /*-
  * Copyright (c) 1992, 1993, 1994
@@ -10,10 +10,6 @@
  */
 
 #include "config.h"
-
-#ifndef lint
-static const char sccsid[] = "@(#)ex_append.c	10.30 (Berkeley) 10/23/96";
-#endif /* not lint */
 
 #include <sys/types.h>
 #include <sys/queue.h>
@@ -262,8 +258,8 @@ ex_aci(sp, cmdp, cmd)
 	if (ex_txt(sp, &tiq, 0, flags))
 		return (1);
 
-	for (cnt = 0, tp = tiq.cqh_first;
-	    tp != (TEXT *)&tiq; ++cnt, tp = tp->q.cqe_next)
+	for (cnt = 0, tp = CIRCLEQ_FIRST(&tiq);
+	    tp != (TEXT *)&tiq; ++cnt, tp = CIRCLEQ_NEXT(tp, q))
 		if (db_append(sp, 1, lno++, tp->lb, tp->len))
 			return (1);
 

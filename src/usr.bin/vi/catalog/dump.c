@@ -1,4 +1,4 @@
-/*	$OpenBSD: dump.c,v 1.3 2003/06/03 02:56:21 millert Exp $	*/
+/*	$OpenBSD: dump.c,v 1.6 2009/10/27 23:59:47 deraadt Exp $	*/
 
 /*-
  * Copyright (c) 1992, 1993, 1994
@@ -29,16 +29,6 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-static char copyright[] =
-"@(#) Copyright (c) 1992, 1993, 1994\n\
-	The Regents of the University of California.  All rights reserved.\n";
-#endif /* not lint */
-
-#ifndef lint
-static char sccsid[] = "@(#)dump.c	8.1 (Berkeley) 8/31/94";
-#endif /* not lint */
-
 #include <ctype.h>
 #include <stdio.h>
 
@@ -49,7 +39,7 @@ parse(fp)
 	int ch, s1, s2, s3;
 
 #define	TESTD(s) {							\
-	if ((s = getc(fp)) == EOF)					\
+	if (((s) = getc(fp)) == EOF)					\
 		return;							\
 	if (!isdigit(s))						\
 		continue;						\
@@ -94,9 +84,7 @@ parse(fp)
 }
 
 int
-main(argc, argv)
-	int argc;
-	char *argv[];
+main(int argc, char *argv[])
 {
 	FILE *fp;
 

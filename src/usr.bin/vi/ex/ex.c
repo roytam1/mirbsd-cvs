@@ -1,4 +1,4 @@
-/*	$OpenBSD: ex.c,v 1.11 2002/02/16 21:27:57 millert Exp $	*/
+/*	$OpenBSD: ex.c,v 1.16 2009/10/27 23:59:47 deraadt Exp $	*/
 
 /*-
  * Copyright (c) 1992, 1993, 1994
@@ -10,10 +10,6 @@
  */
 
 #include "config.h"
-
-#ifndef lint
-static const char sccsid[] = "@(#)ex.c	10.57 (Berkeley) 10/10/96";
-#endif /* not lint */
 
 #include <sys/types.h>
 #include <sys/queue.h>
@@ -53,7 +49,6 @@ int
 ex(spp)
 	SCR **spp;
 {
-	EX_PRIVATE *exp;
 	GS *gp;
 	MSGS *mp;
 	SCR *sp;
@@ -62,14 +57,13 @@ ex(spp)
 
 	sp = *spp;
 	gp = sp->gp;
-	exp = EXP(sp);
 
 	/* Start the ex screen. */
 	if (ex_init(sp))
 		return (1);
 
 	/* Flush any saved messages. */
-	while ((mp = gp->msgq.lh_first) != NULL) {
+	while ((mp = LIST_FIRST(&gp->msgq)) != NULL) {
 		gp->scr_msg(sp, mp->mtype, mp->buf, mp->len);
 		LIST_REMOVE(mp, q);
 		free(mp->buf);
@@ -122,7 +116,7 @@ ex(spp)
 		 * If the user entered a single carriage return, send
 		 * ex_cmd() a separator -- it discards single newlines.
 		 */
-		tp = sp->tiq.cqh_first;
+		tp = CIRCLEQ_FIRST(&sp->tiq);
 		if (tp->len == 0) {
 			gp->excmd.cp = " ";	/* __TK__ why not |? */
 			gp->excmd.clen = 1;
@@ -219,7 +213,7 @@ ex_cmd(sp)
 	 * This means that *everything* must be resolved when we leave
 	 * this function for any reason.
 	 */
-loop:	ecp = gp->ecq.lh_first;
+loop:	ecp = LIST_FIRST(&gp->ecq);
 
 	/* If we're reading a command from a file, set up error information. */
 	if (ecp->if_name != NULL) {
@@ -323,7 +317,7 @@ loop:	ecp = gp->ecq.lh_first;
 	    (!notempty || F_ISSET(sp, SC_VI) || F_ISSET(ecp, E_BLIGNORE))) {
 		if (ex_load(sp))
 			goto rfail;
-		ecp = gp->ecq.lh_first;
+		ecp = LIST_FIRST(&gp->ecq);
 		if (ecp->clen == 0)
 			goto rsuccess;
 		goto loop;
@@ -1250,7 +1244,7 @@ addr_verify:
 				ex_badaddr(sp, ecp->cmd, A_ZERO, NUM_OK);
 				goto err;
 			}
-		} else if (!db_exist(sp, ecp->addr2.lno))
+		} else if (!db_exist(sp, ecp->addr2.lno)) {
 			if (FL_ISSET(ecp->iflags, E_C_COUNT)) {
 				if (db_last(sp, &lno))
 					goto err;
@@ -1259,6 +1253,7 @@ addr_verify:
 				ex_badaddr(sp, NULL, A_EOF, NUM_OK);
 				goto err;
 			}
+		}
 		/* FALLTHROUGH */
 	case 1:
 		if (ecp->addr1.lno == 0) {
@@ -1529,8 +1524,7 @@ addr_verify:
 	 */
 	if (F_ISSET(sp, SC_EXIT | SC_EXIT_FORCE | SC_FSWITCH | SC_SSWITCH)) {
 		at_found = gv_found = 0;
-		for (ecp = sp->gp->ecq.lh_first;
-		    ecp != NULL; ecp = ecp->q.le_next)
+		LIST_FOREACH(ecp, &sp->gp->ecq, q)
 			switch (ecp->agv_flags) {
 			case 0:
 			case AGV_AT_NORANGE:
@@ -1582,7 +1576,7 @@ err:	/*
 				break;
 			}
 		}
-	if (ecp->save_cmdlen != 0 || gp->ecq.lh_first != &gp->excmd) {
+	if (ecp->save_cmdlen != 0 || LIST_FIRST(&gp->ecq) != &gp->excmd) {
 discard:	msgq(sp, M_BERR,
 		    "092|Ex command failed: pending commands discarded");
 		ex_discard(sp);
@@ -1617,8 +1611,6 @@ ex_range(sp, ecp, errp)
 	int *errp;
 {
 	enum { ADDR_FOUND, ADDR_NEED, ADDR_NONE } addr;
-	GS *gp;
-	EX_PRIVATE *exp;
 	MARK m;
 	int isaddr;
 
@@ -1645,8 +1637,6 @@ ex_range(sp, ecp, errp)
 	 * addresses.  For consistency, we make it true for leading semicolon
 	 * addresses as well.
 	 */
-	gp = sp->gp;
-	exp = EXP(sp);
 	for (addr = ADDR_NONE, ecp->addrcnt = 0; ecp->clen > 0;)
 		switch (*ecp->cp) {
 		case '%':		/* Entire file. */
@@ -1820,15 +1810,10 @@ ex_line(sp, ecp, mp, isaddrp, errp)
 	int *isaddrp, *errp;
 {
 	enum nresult nret;
-	EX_PRIVATE *exp;
-	GS *gp;
 	long total, val;
 	int isneg;
 	int (*sf)(SCR *, MARK *, MARK *, char *, size_t, char **, u_int);
 	char *endp;
-
-	gp = sp->gp;
-	exp = EXP(sp);
 
 	*isaddrp = *errp = 0;
 	F_CLR(ecp, E_DELTA);
@@ -1895,7 +1880,7 @@ ex_line(sp, ecp, mp, isaddrp, errp)
 		 * difference.  C'est la vie.
 		 */
 		if (ecp->clen < 2 ||
-		    ecp->cp[1] != '/' && ecp->cp[1] != '?') {
+		    (ecp->cp[1] != '/' && ecp->cp[1] != '?')) {
 			msgq(sp, M_ERR, "096|\\ not followed by / or ?");
 			*errp = 1;
 			return (0);
@@ -2001,9 +1986,9 @@ search:		mp->lno = sp->lno;
 		for (;;) {
 			for (; ecp->clen > 0 && isblank(ecp->cp[0]);
 			    ++ecp->cp, --ecp->clen);
-			if (ecp->clen == 0 || !isdigit(ecp->cp[0]) &&
+			if (ecp->clen == 0 || (!isdigit(ecp->cp[0]) &&
 			    ecp->cp[0] != '+' && ecp->cp[0] != '-' &&
-			    ecp->cp[0] != '^')
+			    ecp->cp[0] != '^'))
 				break;
 			if (!isdigit(ecp->cp[0]) &&
 			    !isdigit(ecp->cp[1])) {
@@ -2022,8 +2007,7 @@ search:		mp->lno = sp->lno;
 				/* Get a signed long, add it to the total. */
 				if ((nret = nget_slong(&val,
 				    ecp->cp, &endp, 10)) != NUM_OK ||
-				    (nret = NADD_SLONG(sp,
-				    total, val)) != NUM_OK) {
+				    (nret = NADD_SLONG(total, val)) != NUM_OK) {
 					ex_badaddr(sp, NULL, A_NOTSET, nret);
 					*errp = 1;
 					return (0);
@@ -2083,7 +2067,7 @@ ex_load(sp)
 		 * but discard any allocated source name, we've returned to
 		 * the beginning of the command stack.
 		 */
-		if ((ecp = gp->ecq.lh_first) == &gp->excmd) {
+		if ((ecp = LIST_FIRST(&gp->ecq)) == &gp->excmd) {
 			if (F_ISSET(ecp, E_NAMEDISCARD)) {
 				free(ecp->if_name);
 				ecp->if_name = NULL;
@@ -2107,7 +2091,7 @@ ex_load(sp)
 		 */
 		if (FL_ISSET(ecp->agv_flags, AGV_ALL)) {
 			/* Discard any exhausted ranges. */
-			while ((rp = ecp->rq.cqh_first) != (void *)&ecp->rq)
+			while ((rp = CIRCLEQ_FIRST(&ecp->rq)) != (void *)&ecp->rq)
 				if (rp->start > rp->stop) {
 					CIRCLEQ_REMOVE(&ecp->rq, rp, q);
 					free(rp);
@@ -2120,7 +2104,7 @@ ex_load(sp)
 
 			/* If it's a global/v command, fix up the last line. */
 			if (FL_ISSET(ecp->agv_flags,
-			    AGV_GLOBAL | AGV_V) && ecp->range_lno != OOBLNO)
+			    AGV_GLOBAL | AGV_V) && ecp->range_lno != OOBLNO) {
 				if (db_exist(sp, ecp->range_lno))
 					sp->lno = ecp->range_lno;
 				else {
@@ -2129,6 +2113,7 @@ ex_load(sp)
 					if (sp->lno == 0)
 						sp->lno = 1;
 				}
+			}
 			free(ecp->o_cp);
 		}
 
@@ -2169,9 +2154,9 @@ ex_discard(sp)
 	 * We know the first command can't be an AGV command, so we don't
 	 * process it specially.  We do, however, nail the command itself.
 	 */
-	for (gp = sp->gp; (ecp = gp->ecq.lh_first) != &gp->excmd;) {
+	for (gp = sp->gp; (ecp = LIST_FIRST(&gp->ecq)) != &gp->excmd;) {
 		if (FL_ISSET(ecp->agv_flags, AGV_ALL)) {
-			while ((rp = ecp->rq.cqh_first) != (void *)&ecp->rq) {
+			while ((rp = CIRCLEQ_FIRST(&ecp->rq)) != CIRCLEQ_END(&ecp->rq)) {
 				CIRCLEQ_REMOVE(&ecp->rq, rp, q);
 				free(rp);
 			}
@@ -2180,7 +2165,7 @@ ex_discard(sp)
 		LIST_REMOVE(ecp, q);
 		free(ecp);
 	}
-	gp->ecq.lh_first->clen = 0;
+	LIST_FIRST(&gp->ecq)->clen = 0;
 	return (0);
 }
 

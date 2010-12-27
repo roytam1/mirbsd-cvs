@@ -1,4 +1,4 @@
-/*	$OpenBSD: ex_read.c,v 1.7 2002/02/16 21:27:57 millert Exp $	*/
+/*	$OpenBSD: ex_read.c,v 1.9 2009/10/27 23:59:47 deraadt Exp $	*/
 
 /*-
  * Copyright (c) 1992, 1993, 1994
@@ -10,10 +10,6 @@
  */
 
 #include "config.h"
-
-#ifndef lint
-static const char sccsid[] = "@(#)ex_read.c	10.38 (Berkeley) 8/12/96";
-#endif /* not lint */
 
 #include <sys/types.h>
 #include <sys/queue.h>
@@ -68,6 +64,8 @@ ex_read(sp, cmdp)
 	switch (cmdp->argc) {
 	case 0:
 		which = R_ARG;
+		arg = NULL;	/* unused */
+		arglen = 0;	/* unused */
 		break;
 	case 1:
 		arg = cmdp->argv[0]->bp;
@@ -241,6 +239,9 @@ ex_read(sp, cmdp)
 		
 		}
 		break;
+	default:
+		abort();
+		/* NOTREACHED */
 	}
 
 	/*

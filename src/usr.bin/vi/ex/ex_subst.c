@@ -1,4 +1,4 @@
-/*	$OpenBSD: ex_subst.c,v 1.12 2002/02/17 19:42:34 millert Exp $	*/
+/*	$OpenBSD: ex_subst.c,v 1.17 2009/10/27 23:59:47 deraadt Exp $	*/
 
 /*-
  * Copyright (c) 1992, 1993, 1994
@@ -10,10 +10,6 @@
  */
 
 #include "config.h"
-
-#ifndef lint
-static const char sccsid[] = "@(#)ex_subst.c	10.37 (Berkeley) 9/15/96";
-#endif /* not lint */
 
 #include <sys/param.h>
 #include <sys/queue.h>
@@ -122,11 +118,12 @@ subagain:	return (ex_subagain(sp, cmdp));
 			*t = '\0';
 			break;
 		}
-		if (p[0] == '\\')
+		if (p[0] == '\\') {
 			if (p[1] == delim)
 				++p;
 			else if (p[1] == '\\')
 				*t++ = *p++;
+		}
 		*t++ = *p++;
 	}
 
@@ -308,12 +305,12 @@ ex_subtilde(sp, cmdp)
  * confident.
  */
 #define	NEEDNEWLINE(sp) {						\
-	if (sp->newl_len == sp->newl_cnt) {				\
-		sp->newl_len += 25;					\
-		REALLOC(sp, sp->newl, size_t *,				\
-		    sp->newl_len * sizeof(size_t));			\
-		if (sp->newl == NULL) {					\
-			sp->newl_len = 0;				\
+	if ((sp)->newl_len == (sp)->newl_cnt) {				\
+		(sp)->newl_len += 25;					\
+		REALLOC((sp), (sp)->newl, size_t *,			\
+		    (sp)->newl_len * sizeof(size_t));			\
+		if ((sp)->newl == NULL) {				\
+			(sp)->newl_len = 0;				\
 			return (1);					\
 		}							\
 	}								\
@@ -322,25 +319,25 @@ ex_subtilde(sp, cmdp)
 #define	BUILD(sp, l, len) {						\
 	if (lbclen + (len) > lblen) {					\
 		lblen += MAX(lbclen + (len), 256);			\
-		REALLOC(sp, lb, char *, lblen);				\
+		REALLOC((sp), lb, char *, lblen);			\
 		if (lb == NULL) {					\
 			lbclen = 0;					\
 			return (1);					\
 		}							\
 	}								\
-	memcpy(lb + lbclen, l, len);					\
-	lbclen += len;							\
+	memcpy(lb + lbclen, (l), (len));				\
+	lbclen += (len);						\
 }
 
 #define	NEEDSP(sp, len, pnt) {						\
 	if (lbclen + (len) > lblen) {					\
 		lblen += MAX(lbclen + (len), 256);			\
-		REALLOC(sp, lb, char *, lblen);				\
+		REALLOC((sp), lb, char *, lblen);			\
 		if (lb == NULL) {					\
 			lbclen = 0;					\
 			return (1);					\
 		}							\
-		pnt = lb + lbclen;					\
+		(pnt) = lb + lbclen;					\
 	}								\
 }
 
@@ -359,7 +356,7 @@ s(sp, cmdp, s, re, flags)
 	regmatch_t match[10];
 	size_t blen, cnt, last, lbclen, lblen, len, llen;
 	size_t offset, saved_offset, scno;
-	int cflag, lflag, nflag, pflag, rflag;
+	int lflag, nflag, pflag, rflag;
 	int didsub, do_eol_match, eflags, empty_ok, eval;
 	int linechanged, matched, quit, rval;
 	unsigned long ul;
@@ -397,7 +394,7 @@ s(sp, cmdp, s, re, flags)
 	 * just take it them in whatever order the user gives them.  (The ex
 	 * usage statement doesn't reflect this.)
 	 */
-	cflag = lflag = nflag = pflag = rflag = 0;
+	lflag = nflag = pflag = rflag = 0;
 	if (s == NULL)
 		goto noargs;
 	for (lno = OOBLNO; *s != '\0'; ++s)
@@ -476,7 +473,7 @@ s(sp, cmdp, s, re, flags)
 			goto usage;
 		}
 
-	if (*s != '\0' || !rflag && LF_ISSET(SUB_MUSTSETR)) {
+	if (*s != '\0' || (!rflag && LF_ISSET(SUB_MUSTSETR))) {
 usage:		ex_emsg(sp, cmdp->cmd->usage, EXM_USAGE);
 		return (1);
 	}
@@ -662,7 +659,7 @@ nextmatch:	match[0].rm_so = 0;
 					goto lquit;
 				if (ex_txt(sp, &tiq, 0, TXT_CR))
 					goto err;
-				ev.e_c = tiq.cqh_first->lb[0];
+				ev.e_c = CIRCLEQ_FIRST(&tiq)->lb[0];
 			}
 
 			switch (ev.e_c) {
@@ -1227,6 +1224,8 @@ re_tag_conv(sp, ptrnp, plenp, replacedp)
 		} else if (strchr("^.[]$*", p[0]))
 			*t++ = '\\';
 		*t++ = *p++;
+		if (len == 0)
+			break;
 	}
 	if (lastdollar)
 		*t++ = '$';
@@ -1367,7 +1366,7 @@ re_sub(sp, ip, lbp, lbclenp, lblenp, match)
 #define	OUTCH(ch, nltrans) {						\
 	CHAR_T __ch = (ch);						\
 	u_int __value = KEY_VAL(sp, __ch);				\
-	if (nltrans && (__value == K_CR || __value == K_NL)) {		\
+	if ((nltrans) && (__value == K_CR || __value == K_NL)) {	\
 		NEEDNEWLINE(sp);					\
 		sp->newl[sp->newl_cnt++] = lbclen;			\
 	} else if (conv != C_NOTSET) {					\
