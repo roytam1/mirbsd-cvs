@@ -1,7 +1,7 @@
 #!/bin/mksh
-# $MirOS: contrib/code/Snippets/findupsO,v 1.1 2010/12/12 21:06:42 tg Exp $
+# $MirOS: contrib/code/Snippets/findups,v 1.1 2010/12/12 23:18:07 tg Exp $
 #-
-# Copyright (c) 2010
+# Copyright (c) 2010, 2011
 #	Thorsten Glaser <tg@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
@@ -25,6 +25,34 @@
 
 nl='
 '
+if stat --help >/dev/null 2>&1; then
+	set -A statcmd stat -c '%s %D %i %n'	# GNU stat
+else
+	set -A statcmd stat -f '%z %d %i %N'	# BSD stat (or so we assume)
+fi
+hashalg='cksum -a md4,sfv,oaat1s'; T=$(print | $hashalg 2>/dev/null)
+if [[ ${T//$nl} = 8c5b220bf6f482881a90287a64aea15032D7069366DFECC2 ]]; then
+	function hashprint {
+		print -r -- "${1//$nl} $2"
+	}
+else
+	function hashprint {
+		print -r -- "${1%% *} $2"
+	}
+	for hashalg in md5 md5sum false; do
+		T=$(print | $hashalg 2>/dev/null)
+		[[ ${T%% *} = 68b329da9893e34099c7d8ad5cb9c940 ]] && break
+	done
+	if [[ $hashalg = false ]]; then
+		print -u2 Cannot find a suitable cksum, md5 or md5sum.
+		exit 1
+	fi
+fi
+
+if (( !$# )); then
+	print -u2 Please pass a directory or several to scan.
+	exit 1
+fi
 
 if ! T=$(mktemp -d /tmp/findups.XXXXXXXXXX); then
 	print -u2 Error: cannot create temporary directory.
@@ -35,7 +63,7 @@ print -nu2 Phase 1/4: prepare: finding...
 find "$@" -type f >"$T/1"
 print -nu2 " found, stating..."
 # if this yields stderr, you have newlines in pathnames, which get skipped
-tr '\n' '\0' <"$T/1" | xargs -0 stat -f '%z %d %i %N' >"$T/2"
+tr '\n' '\0' <"$T/1" | xargs -0 "${statcmd[@]}" >"$T/2"
 print -u2 " done"
 if [[ ! -s $T/2 ]]; then
 	rm -rf "$T"
@@ -90,22 +118,21 @@ while IFS= read -pr line; do
 
 	# whether one was queued, process it now, lazily
 	if (( lastfirst )); then
-		lastmd=$(cksum -a md4,sfv,oaat1s <"$lastnm")
-		print -r -- "${lastmd//$nl} $lastoid $lastdev $lastino $lastnm"
+		lastmd=$($hashalg <"$lastnm")
+		hashprint "$lastmd" "$lastoid $lastdev $lastino $lastnm"
 		let ++j
 		lastfirst=0
 	fi
 
 	# skip hashing if already hardlinked
-	[[ $lastdev:$lastino = "$dev:$ino" ]] || \
-	    lastmd=$(cksum -a md4,sfv,oaat1s <"$nm")
+	[[ $lastdev:$lastino = "$dev:$ino" ]] || lastmd=$($hashalg <"$nm")
 
 	# process follow-up file
 	lastoid=$oid
 	lastdev=$dev
 	lastino=$ino
 	lastnm=$nm
-	print -r -- "${lastmd//$nl} $lastoid $lastdev $lastino $lastnm"
+	hashprint "$lastmd" "$lastoid $lastdev $lastino $lastnm"
 	let ++j
 done >"$T/4"
 (( total = j ))
