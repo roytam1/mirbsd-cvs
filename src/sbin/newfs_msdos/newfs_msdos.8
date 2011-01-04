@@ -1,3 +1,4 @@
+.\"	$MirOS$
 .\"	$OpenBSD: newfs_msdos.8,v 1.20 2003/06/03 13:16:08 jmc Exp $
 .\"
 .\" Copyright (c) 1998 Robert Nordier
@@ -27,7 +28,7 @@
 .\"
 .\" $FreeBSD: src/sbin/newfs_msdos/newfs_msdos.8,v 1.6 1999/08/28 00:13:52 peter Exp $
 .\"
-.Dd July 6, 1998
+.Dd $Mdocdate$
 .Dt NEWFS_MSDOS 8
 .Os
 .Sh NAME
@@ -92,20 +93,23 @@ The default is
 .It Fl S Ar sector-size
 Number of bytes per sector.
 Acceptable values are powers of 2 in the range 128 through 32768.
+Conformant values are 512, 1024, 2048 and 4096; only 512 is portable.
 .It Fl a Ar FAT-size
 Number of sectors per FAT.
 .It Fl b Ar block-size
 File system block size (bytes per cluster).
 This should resolve to an acceptable number of sectors per cluster (see below).
+Conformant values are powers of 2 no larger than 32768.
 .It Fl c Ar cluster-size
 Sectors per cluster.
 Acceptable values are powers of 2 in the range 1 through 128.
+Conformant values are 1, 2, 4, 8, 16, 32, 64 for 512-byte sectors.
 .It Fl e Ar dirents
 Number of root directory entries (FAT12 and FAT16 only).
 .It Fl f Ar format
 Specify a standard (floppy disk) format.
 The eight standard formats
-are (capacities in kilobytes): 160, 180, 320, 360, 720, 1200, 1440,
+are (capacities in Kibibytes): 160, 180, 320, 360, 720, 1200, 1440,
 2880.
 .It Fl h Ar heads
 Number of drive heads.
@@ -182,3 +186,8 @@ command first appeared in
 .Ox 2.1 .
 .Sh AUTHORS
 .An Robert Nordier Aq rnordier@FreeBSD.org .
+.Sh BUGS
+.Nm
+will happily create a non-conformant filesystem, for example
+a 2 GiB FAT16 filesystem with 65536 bytes per cluster, which
+cannot be read on most systems.
