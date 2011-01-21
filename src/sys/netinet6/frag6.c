@@ -1,4 +1,4 @@
-/*	$OpenBSD: frag6.c,v 1.21 2003/10/01 21:41:05 itojun Exp $	*/
+/*	$OpenBSD: frag6.c,v 1.21+1.31 2003/10/01 21:41:05 itojun Exp $	*/
 /*	$KAME: frag6.c,v 1.40 2002/05/27 21:40:31 itojun Exp $	*/
 
 /*
@@ -556,10 +556,9 @@ insert:
 	*q6->ip6q_nxtp = (u_char)(nxt & 0xff);
 #endif
 
-	/*
-	 * Delete frag6 header with as a few cost as possible.
-	 */
-	if (offset < m->m_len) {
+	/* Delete frag6 header */
+	if (m->m_len >= offset + sizeof(struct ip6_frag)) {
+		/* This is the only possible case with !PULLDOWN_TEST */
 		ovbcopy((caddr_t)ip6, (caddr_t)ip6 + sizeof(struct ip6_frag),
 			offset);
 		m->m_data += sizeof(struct ip6_frag);
