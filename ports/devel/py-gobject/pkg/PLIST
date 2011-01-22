@@ -1,4 +1,4 @@
-@comment $MirOS: ports/devel/py-gobject/pkg/PLIST,v 1.1 2007/07/19 16:48:44 bsiegert Exp $
+@comment $MirOS: ports/devel/py-gobject/pkg/PLIST,v 1.2 2007/07/19 20:34:49 bsiegert Exp $
 include/pygtk-2.0/pygobject.h
 lib/pkgconfig/pygobject-2.0.pc
 lib/python${MODPY_VERSION}/site-packages/gtk-2.0/dsextras.py
@@ -8,9 +8,15 @@ lib/python${MODPY_VERSION}/site-packages/gtk-2.0/gobject/__init__.py
 lib/python${MODPY_VERSION}/site-packages/gtk-2.0/gobject/__init__.pyc
 lib/python${MODPY_VERSION}/site-packages/gtk-2.0/gobject/__init__.pyo
 lib/python${MODPY_VERSION}/site-packages/gtk-2.0/gobject/_gobject.la
+lib/python${MODPY_VERSION}/site-packages/gtk-2.0/gobject/constants.py
+lib/python${MODPY_VERSION}/site-packages/gtk-2.0/gobject/constants.pyc
+lib/python${MODPY_VERSION}/site-packages/gtk-2.0/gobject/constants.pyo
 lib/python${MODPY_VERSION}/site-packages/gtk-2.0/gobject/option.py
 lib/python${MODPY_VERSION}/site-packages/gtk-2.0/gobject/option.pyc
 lib/python${MODPY_VERSION}/site-packages/gtk-2.0/gobject/option.pyo
+lib/python${MODPY_VERSION}/site-packages/gtk-2.0/gobject/propertyhelper.py
+lib/python${MODPY_VERSION}/site-packages/gtk-2.0/gobject/propertyhelper.pyc
+lib/python${MODPY_VERSION}/site-packages/gtk-2.0/gobject/propertyhelper.pyo
 lib/python${MODPY_VERSION}/site-packages/pygtk.pth
 lib/python${MODPY_VERSION}/site-packages/pygtk.py
 lib/python${MODPY_VERSION}/site-packages/pygtk.pyc
