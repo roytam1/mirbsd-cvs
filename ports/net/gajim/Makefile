@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/net/gajim/Makefile,v 1.1 2011/01/23 01:25:24 tg Exp $
 
 # for gajim-0.14.1
 #IGNORE+=		'dependency py-gtk2 too old (need 2.16.0)'
@@ -7,6 +7,7 @@
 COMMENT=		jabber client written in pygtk
 CATEGORIES=		net x11/gnome
 DISTNAME=		gajim-0.13.4
+DASH_VER=		1
 HOMEPAGE=		http://gajim.org/
 
 # GNU GPLv3-only
