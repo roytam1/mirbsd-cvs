@@ -57,6 +57,9 @@
  *		for 0 <= k <= 22).
  */
 
+#include <sys/cdefs.h>
+__RCSID("$MirOS$");
+
 /*
  * #define IEEE_LITTLE_ENDIAN for IEEE-arithmetic machines where the least
  *	significant byte has the lowest address.
@@ -1132,7 +1135,7 @@ strtod(CONST char *s00, char **se)
 	int bb2, bb5, bbe, bd2, bd5, bbbits, bs2, c, dsign,
 		 e, e1, esign, i, j, k, nd, nd0, nf, nz, nz0, sign;
 	CONST char *s, *s0, *s1;
-	double aadj, aadj1, adj;
+	volatile double aadj, aadj1, adj;
 	_double rv, rv0;
 	Long L;
 	ULong y, z;
