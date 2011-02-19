@@ -33,21 +33,12 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-static char copyright[] =
-"@(#) Copyright (c) 1991, 1993\n\
-	The Regents of the University of California.  All rights reserved.\n";
-#endif /* not lint */
-
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)init.c	8.2 (Berkeley) 4/28/95";
-#else
-static char rcsid[] = "$OpenBSD: init.c,v 1.36 2005/03/13 13:53:23 markus Exp $";
-#endif
-#endif /* not lint */
-
 #include <sys/param.h>
+__COPYRIGHT("@(#) Copyright (c) 1991, 1993\n\
+	The Regents of the University of California.  All rights reserved.\n");
+__SCCSID("@(#)init.c	8.2 (Berkeley) 4/28/95");
+__RCSID("$MirOS$");
+
 #include <sys/sysctl.h>
 #include <sys/wait.h>
 #include <sys/reboot.h>
@@ -99,10 +90,13 @@ static char rcsid[] = "$OpenBSD: init.c,v 1.36 2005/03/13 13:53:23 markus Exp $"
 void handle(sig_t, ...);
 void delset(sigset_t *, ...);
 
-void stall(char *, ...);
-void warning(char *, ...);
-void emergency(char *, ...);
-void disaster(int);
+void stall(const char *, ...)
+    __attribute__((format (syslog, 1, 2)));
+void warning(const char *, ...)
+    __attribute__((format (syslog, 1, 2)));
+void emergency(const char *, ...)
+    __attribute__((format (syslog, 1, 2)));
+void disaster(int) __dead;
 void badsys(int);
 
 /*
@@ -124,10 +118,10 @@ state_func_t nice_death(void);
 
 enum { AUTOBOOT, FASTBOOT } runcom_mode = AUTOBOOT;
 
-void transition(state_t);
+void transition(state_t) __dead;
 state_t requested_transition = DEFAULT_STATE;
 
-void setctty(char *);
+void setctty(const char *);
 
 typedef struct init_session {
 	int	se_index;		/* index of entry in ttys file */
@@ -162,7 +156,7 @@ int setupargv(session_t *, struct ttyent *);
 int clang;
 
 #ifdef LOGIN_CAP
-void setprocresources(char *);
+void setprocresources(const char *);
 #else
 #define setprocresources(p)
 #endif
@@ -321,7 +315,7 @@ delset(sigset_t *maskp, ...)
  * NB: should send a message to the session logger to avoid blocking.
  */
 void
-stall(char *message, ...)
+stall(const char *message, ...)
 {
 	va_list ap;
 
@@ -338,7 +332,7 @@ stall(char *message, ...)
  * NB: should send a message to the session logger to avoid blocking.
  */
 void
-warning(char *message, ...)
+warning(const char *message, ...)
 {
 	va_list ap;
 
@@ -353,7 +347,7 @@ warning(char *message, ...)
  * NB: should send a message to the session logger to avoid blocking.
  */
 void
-emergency(char *message, ...)
+emergency(const char *message, ...)
 {
 	struct syslog_data sdata = SYSLOG_DATA_INIT;
 	va_list ap;
@@ -471,7 +465,7 @@ clear_session_logs(session_t *sp)
  * Only called by children of init after forking.
  */
 void
-setctty(char *name)
+setctty(const char *name)
 {
 	int fd;
 
@@ -518,6 +512,8 @@ single_user(void)
 		setsecuritylevel(0);
 
 	if ((pid = fork()) == 0) {
+		char dashsh[] = "-sh";
+
 		/*
 		 * Start the single user session.
 		 */
@@ -600,7 +596,7 @@ single_user(void)
 		execv(shell, argv);
 		emergency("can't exec %s for single user: %m", shell);
 
-		argv[0] = "-sh";
+		argv[0] = dashsh;
 		argv[1] = NULL;
 		execv(_PATH_BSHELL, argv);
 		emergency("can't exec %s for single user: %m", _PATH_BSHELL);
@@ -668,6 +664,8 @@ runcom(void)
 	struct sigaction sa;
 
 	if ((pid = fork()) == 0) {
+		char esha[] = "sh", autoboot[] = "autoboot";;
+
 		memset(&sa, 0, sizeof sa);
 		sigemptyset(&sa.sa_mask);
 		sa.sa_flags = 0;
@@ -677,10 +675,10 @@ runcom(void)
 
 		setctty(_PATH_CONSOLE);
 
-		argv[0] = "sh";
-		argv[1] = _PATH_RUNCOM;
-		argv[2] = runcom_mode == AUTOBOOT ? "autoboot" : 0;
-		argv[3] = 0;
+		argv[0] = esha;
+		argv[1] = strdup(_PATH_RUNCOM);
+		argv[2] = runcom_mode == AUTOBOOT ? autoboot : NULL;
+		argv[3] = NULL;
 
 		sigprocmask(SIG_SETMASK, &sa.sa_mask, NULL);
 
@@ -1276,7 +1274,7 @@ catatonia(void)
  * Note SIGALRM.
  */
 void
-alrm_handler(int sig)
+alrm_handler(int sig __unused)
 {
 	clang = 1;
 }
@@ -1288,11 +1286,19 @@ state_func_t
 nice_death(void)
 {
 	session_t *sp;
-	int i;
+	int i, rnd_fd = -1, arnd_fd;
 	pid_t pid;
 	static const int death_sigs[3] = { SIGHUP, SIGTERM, SIGKILL };
 	int howto = RB_HALT;
 	int status;
+	char rnd_buf[128];
+
+	arnd_fd = open("/dev/arandom", O_RDWR);
+	rnd_fd = open("/var/db/host.random", O_WRONLY | O_APPEND | O_SYNC);
+	arc4random_buf(rnd_buf, 1);
+	/* trigger a reset of arandom(4), arc4random(9) */
+	if (arnd_fd != -1)
+		write(arnd_fd, rnd_buf, 1);
 
 	for (sp = sessions; sp; sp = sp->se_next) {
 		sp->se_flags &= ~SE_PRESENT;
@@ -1307,10 +1313,10 @@ nice_death(void)
 	logwtmp("~", "shutdown", "");
 
 	if (access(_PATH_RUNCOM, R_OK) != -1) {
-		pid_t pid;
+		pid_t pid_;
 		struct sigaction sa;
 
-		switch ((pid = fork())) {
+		switch ((pid_ = fork())) {
 		case -1:
 			break;
 		case 0:
@@ -1332,15 +1338,19 @@ nice_death(void)
 			    _PATH_RUNCOM, "shutdown");
 			_exit(1);
 		default:
-			waitpid(pid, &status, 0);
+			waitpid(pid_, &status, 0);
 			if (WIFEXITED(status) && WEXITSTATUS(status) == 2)
 				howto |= RB_POWERDOWN;
 		}
 	}
 
+	arc4random_stir();
 	for (i = 0; i < 3; ++i) {
 		if (kill(-1, death_sigs[i]) == -1 && errno == ESRCH)
 			goto die;
+		/* lopool_reinit runs every 1-3 seconds, so sleep */
+		if (rnd_fd != -1)
+			sleep(3);
 
 		clang = 0;
 		alarm(DEATH_WATCH);
@@ -1348,14 +1358,38 @@ nice_death(void)
 			if ((pid = waitpid(-1, NULL, 0)) != -1)
 				collect_child(pid);
 		} while (clang == 0 && errno != ECHILD);
+		status = errno;
 
-		if (errno == ECHILD)
+		if (arnd_fd != -1) {
+			arc4random_buf(rnd_buf, 1);
+			write(arnd_fd, rnd_buf, 1);
+		}
+		if (rnd_fd != -1) {
+			if (arnd_fd != -1)
+				read(arnd_fd, rnd_buf, sizeof(rnd_buf));
+			else
+				arc4random_buf(rnd_buf, sizeof(rnd_buf));
+			write(rnd_fd, rnd_buf, sizeof(rnd_buf));
+		}
+
+		if (status == ECHILD)
 			goto die;
 	}
 
 	warning("some processes would not die; ps axl advised");
 
-die:
+ die:
+	if (arnd_fd != -1) {
+		arc4random_buf(rnd_buf, 1);
+		write(arnd_fd, rnd_buf, 1);
+		close(arnd_fd);
+	}
+	if (rnd_fd != -1) {
+		arc4random_stir();
+		arc4random_buf(rnd_buf, sizeof(rnd_buf));
+		write(rnd_fd, rnd_buf, sizeof(rnd_buf));
+		close(rnd_fd);
+	}
 	reboot(howto);
 
 	/* ... and if that fails.. oh well */
@@ -1404,14 +1438,17 @@ death(void)
 
 #ifdef LOGIN_CAP
 void
-setprocresources(char *class)
+setprocresources(const char *class)
 {
 	login_cap_t *lc;
+	char *cp;
 
-	if ((lc = login_getclass(class)) != NULL) {
+	cp = strdup(class);
+	if ((lc = login_getclass(cp)) != NULL) {
 		setusercontext(lc, NULL, 0,
 		    LOGIN_SETPRIORITY|LOGIN_SETRESOURCES|LOGIN_SETUMASK);
 		login_close(lc);
 	}
+	free(cp);
 }
 #endif
