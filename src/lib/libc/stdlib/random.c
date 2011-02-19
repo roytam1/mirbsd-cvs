@@ -29,12 +29,13 @@
  */
 
 #include <sys/param.h>
-#include <sys/sysctl.h>
 #include <sys/time.h>
 #include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+
+__RCSID("$MirOS$");
 
 /*
  * random.c:
@@ -221,7 +222,7 @@ srandom(unsigned int x)
  *
  * Many programs choose the seed value in a totally predictable manner.
  * This often causes problems.  We seed the generator using the much more
- * secure arandom(4) interface.  Note that this particular seeding
+ * secure arc4random(3) interface.  Note that this particular seeding
  * procedure can generate states which are impossible to reproduce by
  * calling srandom() with any value, since the succeeding terms in the
  * state buffer are no longer derived from the LC algorithm applied to
@@ -230,7 +231,6 @@ srandom(unsigned int x)
 void
 srandomdev(void)
 {
-	int fd, i, mib[2], n;
 	size_t len;
 
 	if (rand_type == TYPE_0)
@@ -238,36 +238,7 @@ srandomdev(void)
 	else
 		len = rand_deg * sizeof(state[0]);
 
-	/*
-	 * To get seed data, first try reading from /dev/arandom.
-	 * If that fails, try the KERN_ARND sysctl() (one int at a time).
-	 * As a last resort, call srandom().
-	 */
-	if ((fd = open("/dev/arandom", O_RDONLY, 0)) != -1 &&
-	    read(fd, (void *) state, len) == (ssize_t) len) {
-		close(fd);
-	} else {
-		if (fd != -1)
-			close(fd);
-		mib[0] = CTL_KERN;
-		mib[1] = KERN_ARND;
-		n = len / sizeof(int);
-		len = sizeof(int);
-		for (i = 0; i < n; i++) {
-			if (sysctl(mib, 2, (char *)((int *)state + i), &len,
-			    NULL, 0) == -1)
-				break;
-		}
-		if (i != n) {
-			struct timeval tv;
-			u_int junk;
-
-			/* XXX - this could be better */
-			gettimeofday(&tv, NULL);
-			srandom(getpid() ^ tv.tv_sec ^ tv.tv_usec ^ junk);
-			return;
-		}
-	}
+	arc4random_buf((void *)state, len);
 
 	if (rand_type != TYPE_0) {
 		fptr = &state[rand_sep];
