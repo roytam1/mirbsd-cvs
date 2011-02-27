@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/tg/deb/makefs/debian/control,v 1.8 2010/03/07 00:39:16 tg Exp $
+# $MirOS: contrib/hosted/tg/deb/host/debian/control,v 1.1 2010/06/08 10:02:32 tg Exp $
 #
 Source: mirhost
 Section: net
@@ -13,6 +13,7 @@ Vcs-Browser: http://cvs.mirbsd.de/contrib/hosted/tg/deb/host/
 
 Package: mirhost
 Architecture: any
+Multi-Arch: foreign
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: traditional utility for querying DNS servers
  'host' is a utility, similar to 'nslookup' (deprecated) or 'dig',
