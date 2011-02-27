@@ -79,7 +79,7 @@
 int	alc_match(struct device *, void *, void *);
 void	alc_attach(struct device *, struct device *, void *);
 int	alc_detach(struct device *, int);
-int	alc_activate(struct device *, int);
+int	alc_activate(struct device *, enum devact);
 
 int	alc_init(struct ifnet *);
 void	alc_start(struct ifnet *);
@@ -131,9 +131,10 @@ const struct pci_matchid alc_devices[] = {
 	{ PCI_VENDOR_ATTANSIC, PCI_PRODUCT_ATTANSIC_L2C_1 },
 	{ PCI_VENDOR_ATTANSIC, PCI_PRODUCT_ATTANSIC_L2C_2 }
 };
+#define NUM_ALC_DEVICES 6
 
 struct cfattach alc_ca = {
-	sizeof (struct alc_softc), alc_match, alc_attach, NULL,
+	sizeof (struct alc_softc), alc_match, alc_attach, alc_detach,
 	alc_activate
 };
 
@@ -277,7 +278,7 @@ int
 alc_match(struct device *dev, void *match, void *aux)
 {
 	return pci_matchbyid((struct pci_attach_args *)aux, alc_devices,
-	    nitems(alc_devices));
+	    NUM_ALC_DEVICES);
 }
 
 void
@@ -897,28 +898,12 @@ alc_detach(struct device *self, int flags)
 }
 
 int
-alc_activate(struct device *self, int act)
+alc_activate(struct device *self, enum devact act)
 {
-	struct alc_softc *sc = (struct alc_softc *)self;
-	struct ifnet *ifp = &sc->sc_arpcom.ac_if;
-	int rv = 0;
-
-	switch (act) {
-	case DVACT_QUIESCE:
-		rv = config_activate_children(self, act);
-		break;
-	case DVACT_SUSPEND:
-		if (ifp->if_flags & IFF_RUNNING)
-			alc_stop(sc);
-		rv = config_activate_children(self, act);
-		break;
-	case DVACT_RESUME:
-		rv = config_activate_children(self, act);
-		if (ifp->if_flags & IFF_UP)
-			alc_init(ifp);
-		break;
-	}
-	return (rv);
+	/* not sure if this is right. -BS */
+	if (act == DVACT_ACTIVATE)
+		return (config_activate_children(self, act));
+	return (0);
 }
 
 int
@@ -939,7 +924,7 @@ alc_dma_alloc(struct alc_softc *sc)
 	/* Allocate DMA'able memory for TX ring */
 	error = bus_dmamem_alloc(sc->sc_dmat, ALC_TX_RING_SZ,
 	    ETHER_ALIGN, 0, &sc->alc_rdata.alc_tx_ring_seg, 1,
-	    &nsegs, BUS_DMA_NOWAIT | BUS_DMA_ZERO);
+	    &nsegs, BUS_DMA_NOWAIT /*| BUS_DMA_ZERO*/);
 	if (error) {
 		printf("%s: could not allocate DMA'able memory for Tx ring.\n",
 		    sc->sc_dev.dv_xname);
@@ -977,7 +962,7 @@ alc_dma_alloc(struct alc_softc *sc)
 	/* Allocate DMA'able memory for RX ring */
 	error = bus_dmamem_alloc(sc->sc_dmat, ALC_RX_RING_SZ,
 	    ETHER_ALIGN, 0, &sc->alc_rdata.alc_rx_ring_seg, 1,
-	    &nsegs, BUS_DMA_NOWAIT | BUS_DMA_ZERO);
+	    &nsegs, BUS_DMA_NOWAIT /*| BUS_DMA_ZERO*/);
 	if (error) {
 		printf("%s: could not allocate DMA'able memory for Rx ring.\n",
 		    sc->sc_dev.dv_xname);
@@ -1015,7 +1000,7 @@ alc_dma_alloc(struct alc_softc *sc)
 	/* Allocate DMA'able memory for RX return ring */
 	error = bus_dmamem_alloc(sc->sc_dmat, ALC_RR_RING_SZ, 
 	    ETHER_ALIGN, 0, &sc->alc_rdata.alc_rr_ring_seg, 1, 
-	    &nsegs, BUS_DMA_NOWAIT | BUS_DMA_ZERO);
+	    &nsegs, BUS_DMA_NOWAIT /*| BUS_DMA_ZERO*/);
 	if (error) {
 		printf("%s: could not allocate DMA'able memory for Rx "
 		    "return ring.\n", sc->sc_dev.dv_xname);
@@ -1054,7 +1039,7 @@ alc_dma_alloc(struct alc_softc *sc)
 	/* Allocate DMA'able memory for CMB block */
 	error = bus_dmamem_alloc(sc->sc_dmat, ALC_CMB_SZ, 
 	    ETHER_ALIGN, 0, &sc->alc_rdata.alc_cmb_seg, 1, 
-	    &nsegs, BUS_DMA_NOWAIT | BUS_DMA_ZERO);
+	    &nsegs, BUS_DMA_NOWAIT /*| BUS_DMA_ZERO*/);
 	if (error) {
 		printf("%s: could not allocate DMA'able memory for "
 		    "CMB block\n", sc->sc_dev.dv_xname);
@@ -1094,7 +1079,7 @@ alc_dma_alloc(struct alc_softc *sc)
 	/* Allocate DMA'able memory for SMB block */
 	error = bus_dmamem_alloc(sc->sc_dmat, ALC_SMB_SZ, 
 	    ETHER_ALIGN, 0, &sc->alc_rdata.alc_smb_seg, 1, 
-	    &nsegs, BUS_DMA_NOWAIT | BUS_DMA_ZERO);
+	    &nsegs, BUS_DMA_NOWAIT /*| BUS_DMA_ZERO*/);
 	if (error) {
 		printf("%s: could not allocate DMA'able memory for "
 		    "SMB block\n", sc->sc_dev.dv_xname);
@@ -1264,7 +1249,7 @@ alc_encap(struct alc_softc *sc, struct mbuf **m_head)
 
 	error = bus_dmamap_load_mbuf(sc->sc_dmat, map, *m_head, BUS_DMA_NOWAIT);
 
-	if (error != 0) {
+	/*if (error != 0) {
 		bus_dmamap_unload(sc->sc_dmat, map);
 		error = EFBIG;
 	}
@@ -1285,7 +1270,7 @@ alc_encap(struct alc_softc *sc, struct mbuf **m_head)
 			*m_head = NULL;
 			return (error);
 		}
-	} else if (error) {
+	} else*/ if (error) {
 		printf("%s: could not load TX mbuf\n", sc->sc_dev.dv_xname);
 		return (error);
 	}
@@ -1309,14 +1294,7 @@ alc_encap(struct alc_softc *sc, struct mbuf **m_head)
 	m = *m_head;
 	desc = NULL;
 	idx = 0;
-#if NVLAN > 0
-	/* Configure VLAN hardware tag insertion. */
-	if (m->m_flags & M_VLANTAG) {
-		vtag = htons(m->m_pkthdr.ether_vtag);
-		vtag = (vtag << TD_VLAN_SHIFT) & TD_VLAN_MASK;
-		cflags |= TD_INS_VLAN_TAG;
-	}
-#endif
+#if 0
 	/* Configure Tx checksum offload. */
 	if ((m->m_pkthdr.csum_flags & ALC_CSUM_FEATURES) != 0) {
 		cflags |= TD_CUSTOM_CSUM;
@@ -1324,6 +1302,7 @@ alc_encap(struct alc_softc *sc, struct mbuf **m_head)
 		cflags |= ((poff >> 1) << TD_PLOAD_OFFSET_SHIFT) &
 		    TD_PLOAD_OFFSET_MASK;
 	} 
+#endif
 	for (; idx < nsegs; idx++) {
 		desc = &sc->alc_rdata.alc_tx_ring[prod];
 		desc->len =
@@ -1389,7 +1368,7 @@ alc_start(struct ifnet *ifp)
 		 * to him.
 		 */
 		if (ifp->if_bpf != NULL)
-			bpf_mtap_ether(ifp->if_bpf, m_head, BPF_DIRECTION_OUT);
+			bpf_mtap(ifp->if_bpf, m_head);
 #endif
 	}
 
@@ -1509,10 +1488,6 @@ alc_mac_config(struct alc_softc *sc)
 	}
 	if ((IFM_OPTIONS(mii->mii_media_active) & IFM_FDX) != 0) {
 		reg |= MAC_CFG_FULL_DUPLEX;
-		if ((IFM_OPTIONS(mii->mii_media_active) & IFM_ETH_TXPAUSE) != 0)
-			reg |= MAC_CFG_TX_FC;
-		if ((IFM_OPTIONS(mii->mii_media_active) & IFM_ETH_RXPAUSE) != 0)
-			reg |= MAC_CFG_RX_FC;
 	}
 	CSR_WRITE_4(sc, ALC_MAC_CFG, reg);
 }
@@ -1976,22 +1951,10 @@ alc_rxeof(struct alc_softc *sc, struct rx_rdesc *rrd)
 			} else
 				m->m_len = m->m_pkthdr.len;
 			m->m_pkthdr.rcvif = ifp;
-#if NVLAN > 0
-			/*
-			 * Due to hardware bugs, Rx checksum offloading
-			 * was intentionally disabled.
-			 */
-			if (status & RRD_VLAN_TAG) {
-				u_int32_t vtag = RRD_VLAN(letoh32(rrd->vtag));
-				m->m_pkthdr.ether_vtag = ntohs(vtag);
-				m->m_flags |= M_VLANTAG;
-			}
-#endif
 
 #if NBPFILTER > 0
 			if (ifp->if_bpf)
-				bpf_mtap_ether(ifp->if_bpf, m,
-				    BPF_DIRECTION_IN);
+				bpf_mtap(ifp->if_bpf, m);
 #endif
 
 			{
@@ -2015,7 +1978,7 @@ alc_tick(void *xsc)
 	mii_tick(mii);
 	alc_stats_update(sc);
 
-	timeout_add_sec(&sc->alc_tick_ch, 1);
+	timeout_add(&sc->alc_tick_ch, hz);
 	splx(s);
 }
 
@@ -2348,7 +2311,7 @@ alc_init(struct ifnet *ifp)
 	mii = &sc->sc_miibus;
 	mii_mediachg(mii);
 
-	timeout_add_sec(&sc->alc_tick_ch, 1);
+	timeout_add(&sc->alc_tick_ch, hz);
 
 	ifp->if_flags |= IFF_RUNNING;
 	ifp->if_flags &= ~IFF_OACTIVE;
@@ -2617,7 +2580,7 @@ alc_iff(struct alc_softc *sc)
 	 */
 	rxcfg |= MAC_CFG_BCAST;
 
-	if (ifp->if_flags & IFF_PROMISC || ac->ac_multirangecnt > 0) {
+	if (ifp->if_flags & IFF_PROMISC) {
 		ifp->if_flags |= IFF_ALLMULTI;
 		if (ifp->if_flags & IFF_PROMISC)
 			rxcfg |= MAC_CFG_PROMISC;
