@@ -1,7 +1,7 @@
 #!/bin/mksh
-rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.42 2010/12/04 19:31:12 tg Exp $'
+rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.43 2010/12/04 19:35:03 tg Exp $'
 #-
-# Copyright (c) 2008, 2009, 2010
+# Copyright (c) 2008, 2009, 2010, 2011
 #	Thorsten Glaser <tg@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
@@ -21,6 +21,7 @@ rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.42 2010/12/04 19:31:12 tg E
 
 set -A normarchs -- i386
 repo_keyid=0x405422DD
+gpg_remote=
 repo_origin='The MirOS Project'
 repo_label=wtf
 repo_title='MirDebian “WTF” Repository'
@@ -169,8 +170,7 @@ for suite in dists/*; do
 		fi
 		print " $nm $ns $n"
 	done) >$suite/Release
-	gpg -u $repo_keyid -sb $suite/Release
-	mv -f $suite/Release.sig $suite/Release.gpg
+	$gpg_remote gpg -u $repo_keyid -sb <$suite/Release >$suite/Release.gpg
 done
 
 print "\n===> Creating debidx.htm\n"
@@ -344,7 +344,7 @@ done
 EOF
 print -r -- " <title>${repo_title} Index</title>"
 cat <<'EOF'
- <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.42 2010/12/04 19:31:12 tg Exp $" />
+ <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.43 2010/12/04 19:35:03 tg Exp $" />
  <style type="text/css">
   table {
    border: 1px solid black;
