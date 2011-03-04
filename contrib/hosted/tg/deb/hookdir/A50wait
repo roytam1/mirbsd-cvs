@@ -1,0 +1,24 @@
+#!/bin/bash
+# $MirOS$
+
+:>/waiting
+i=0
+j=0
+ls -l /waiting
+echo -n Waiting
+while [ -e /waiting ]; do
+	i=$((i+1))
+	j=$((j+1))
+	if [ $i = 5 ]; then
+		echo -n .
+		i=0
+	fi
+	if [ $j = 300 ]; then
+		echo
+		j=0
+	fi
+	sleep 2
+done
+echo
+echo Continuing.
+exit 0
