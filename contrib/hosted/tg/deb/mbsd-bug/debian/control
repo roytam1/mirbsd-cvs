@@ -1,4 +1,6 @@
 Source: mbsd-bug
+Origin: WTF
+Bugs: mailto:wtf@mirbsd.org
 Section: devel
 Priority: extra
 Maintainer: Thorsten Glaser <tg@mirbsd.de>

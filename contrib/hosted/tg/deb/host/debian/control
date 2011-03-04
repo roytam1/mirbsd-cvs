@@ -1,6 +1,8 @@
-# $MirOS: contrib/hosted/tg/deb/host/debian/control,v 1.1 2010/06/08 10:02:32 tg Exp $
+# $MirOS: contrib/hosted/tg/deb/host/debian/control,v 1.2 2011/02/27 21:50:13 tg Exp $
 #
 Source: mirhost
+Origin: WTF
+Bugs: mailto:wtf@mirbsd.org
 Section: net
 Priority: optional
 Maintainer: Thorsten Glaser <tg@mirbsd.de>

@@ -1,8 +1,9 @@
 mirhost (20100608-2) xunstable; urgency=low
 
   * host can do Multi-Arch: foreign as requested by vorlon
+  * Add Origin and Bugs headers
 
- -- Thorsten Glaser <tg@mirbsd.de>  Tue, 08 Jun 2010 10:00:11 +0001
+ -- Thorsten Glaser <tg@mirbsd.de>  Tue, 08 Jun 2010 10:00:11 +0002
 
 mirhost (20100608) unstable; urgency=low
 
