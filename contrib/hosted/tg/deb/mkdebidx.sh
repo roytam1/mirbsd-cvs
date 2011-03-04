@@ -1,5 +1,5 @@
 #!/bin/mksh
-rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.43 2010/12/04 19:35:03 tg Exp $'
+rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.44 2011/03/01 19:34:39 tg Exp $'
 #-
 # Copyright (c) 2008, 2009, 2010, 2011
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -20,7 +20,7 @@ rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.43 2010/12/04 19:35:03 tg E
 # of said person's immediate fault when using the work as intended.
 
 set -A normarchs -- i386
-repo_keyid=0x405422DD
+repo_keyid=0x405422DD		# gpg_remote='' (locally) or remsign
 gpg_remote=
 repo_origin='The MirOS Project'
 repo_label=wtf
@@ -35,6 +35,19 @@ function repo_description {
 set -A dpkgarchs -- alpha amd64 arm armeb armel armhf avr32 hppa \
     i386 ia64 kfreebsd-amd64 kfreebsd-i386 lpia m32r m68k mips mipsel \
     powerpc powerpcspe ppc64 s390 s390x sh3 sh3eb sh4 sh4eb sparc
+
+function remsign {
+	target=$1; shift
+	master=remsign.ctl$$
+	tmpfnm=remsign.tmp$$
+	ssh -fNM -o ControlPath=$tmpfnm "$target"
+	ssh -o ControlPath=$tmpfnm "$target" cat \>$tmpfnm
+	ssh -o ControlPath=$tmpfnm -t "$target" "$* $tmpfnm" 0<&2 1>&2
+	rv=$?
+	ssh -o ControlPath=$tmpfnm "$target" "cat $tmpfnm.sig; rm -f $tmpfnm $tmpfnm.sig"
+	ssh -o ControlPath=$tmpfnm "$target" -O exit
+	return $rv
+}
 
 function putfile {
 	tee $1 | gzip -n9 >$1.gz
@@ -344,7 +357,7 @@ done
 EOF
 print -r -- " <title>${repo_title} Index</title>"
 cat <<'EOF'
- <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.43 2010/12/04 19:35:03 tg Exp $" />
+ <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.44 2011/03/01 19:34:39 tg Exp $" />
  <style type="text/css">
   table {
    border: 1px solid black;
