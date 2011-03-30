@@ -1,0 +1,244 @@
+# $MirOS$
+#-
+# Sample ~/.pbuilderrc for multiple distribution and suite support.
+# May work, but may just as well break. Experimental.
+
+# desirable, unless you *want* to run most time-consuming
+# testsuites, which usually fail anyway… (yay for optimism)
+#export DEB_BUILD_OPTIONS='nobench nocheck'
+
+# known distributions and distribution-specific things (suites, mirrors, …)
+DISTROS='debian dpo ubuntu'
+DISTS_debian='sarge etch lenny squeeze sid'
+DISTS_dpo='unstable unreleased'
+DISTS_ubuntu='dapper hardy jaunty karmic lucid maverick natty'
+DISTBACKPORTS_debian=sarge:etch:lenny:squeeze
+DISTBACKPORTSLOPPY_debian=lenny
+DISTBACKPORTUPDATE_ubuntu=dapper:hardy:jaunty:karmic:lucid:maverick:natty
+MIRROR_sarge=http://ftp.hosteurope.de/mirror/archive.debian.org/debian/
+MIRROR_etch=http://ftp.hosteurope.de/mirror/archive.debian.org/debian/
+MIRROR_lenny=http://ftp.hosteurope.de/mirror/ftp.debian.org/debian/
+MIRROR_squeeze=http://ftp.hosteurope.de/mirror/ftp.debian.org/debian/
+MIRROR_sid=http://ftp.hosteurope.de/mirror/ftp.debian.org/debian/
+MIRROR_unstable=http://ftp.debian-ports.org/debian
+MIRROR_unreleased=http://ftp.debian-ports.org/debian
+MIRROR_dapper=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
+MIRROR_hardy=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
+MIRROR_jaunty=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
+MIRROR_karmic=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
+MIRROR_lucid=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
+MIRROR_maverick=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
+MIRROR_natty=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
+MIRRORSECURITY_sarge=http://ftp.hosteurope.de/mirror/archive.debian.org/debian-security/
+MIRRORSECURITY_etch=http://ftp.hosteurope.de/mirror/archive.debian.org/debian-security/
+MIRRORSECURITY_lenny=http://ftp.hosteurope.de/mirror/ftp.debian.org/debian-security/
+MIRRORSECURITY_squeeze=http://ftp.hosteurope.de/mirror/ftp.debian.org/debian-security/
+MIRRORSECURITY_sid=NO
+MIRRORSECURITY_dapper=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
+MIRRORSECURITY_hardy=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
+MIRRORSECURITY_jaunty=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
+MIRRORSECURITY_karmic=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
+MIRRORSECURITY_lucid=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
+MIRRORSECURITY_maverick=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
+MIRRORSECURITY_natty=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
+MIRRORBACKPORTS_sarge=http://ftp.hosteurope.de/mirror/archive.debian.org/debian-backports/
+MIRRORBACKPORTS_etch=http://ftp.hosteurope.de/mirror/archive.debian.org/debian-backports/
+MIRRORBACKPORTS_lenny=http://ftp.hosteurope.de/mirror/backports.debian.org/
+MIRRORBACKPORTS_squeeze=http://ftp.hosteurope.de/mirror/backports.debian.org/
+MIRRORBACKPORTSLOPPY_lenny=http://ftp.hosteurope.de/mirror/backports.debian.org/
+
+COMPONENTS_debian=main
+COMPONENTS_dpo=main
+COMPONENTS_ubuntu='main universe'
+
+# to have a different shell prompt inside the chroot
+export debian_chroot="pbuild$$"
+
+# check $DIST for validity and load settings
+export DISTRIBUTION=${DIST%%-*}
+distfound=0
+for distro in $DISTROS; do
+	eval dists=\$DISTS_$distro
+	for dist in $dists; do
+		test x"$DISTRIBUTION" = x"$dist" || continue
+		distfound=1
+		DISTRO=$distro
+		case $DIST in
+		$dist)
+			isbackports=no
+			;;
+		$dist-backports)
+			case $distro in
+			debian)
+				case :$DISTBACKPORTS_debian: in
+				*:$DISTRIBUTION:*)
+					isbackports=yes
+					;;
+				*)
+					distfound=0
+					unset DISTRO
+					;;
+				esac
+				;;
+			ubuntu)
+				case :$DISTBACKPORTUPDATE_ubuntu: in
+				*:$DISTRIBUTION:*)
+					isbackports=ubuntu
+					;;
+				*)
+					distfound=0
+					unset DISTRO
+					;;
+				esac
+				;;
+			*)
+				distfound=0
+				unset DISTRO
+				;;
+			esac
+			;;
+		$dist-backports-sloppy)
+			eval x=\$DISTBACKPORTSLOPPY_$distro
+			case :$x: in
+			*:$DISTRIBUTION:*)
+				isbackports=sloppy
+				;;
+			*)
+				distfound=0
+				unset DISTRO
+				;;
+			esac
+			;;
+		*)
+			distfound=0
+			unset DISTRO
+			;;
+		esac
+		break
+	done
+	test $distfound = 0 || break
+done
+if test $distfound = 0; then
+	echo >&2 "Unknown distribution/suite \$DIST: '$DIST'"
+	exit 1
+fi
+
+if test $DISTRIBUTION = sid; then
+	export APTCACHE=/var/cache/pbuilder/aptcache/
+else
+	export APTCACHE=/var/cache/pbuilder/aptcache-$DISTRIBUTION/
+fi
+export APTCACHEHARDLINK=yes
+export ARCHITECTURE=$(dpkg --print-architecture)
+export AUTO_DEBSIGN=no
+export BUILDPLACE=/var/cache/pbuilder/build/
+export BUILDRESULT=/var/cache/pbuilder/result/
+export CCACHEDIR=
+export BUILDRESULTUID=1006
+export BUILDRESULTGID=200
+export BUILDSOURCEROOTCMD=fakeroot
+export BUILDUSERID=1234
+export BUILDUSERNAME=pbuilder
+eval COMPONENTS=\$COMPONENTS_$DISTRO; export COMPONENTS
+export DEBOOTSTRAP=debootstrap
+case $DISTRO in
+debian)
+	DEBOOTSTRAPOPTS=(
+		--variant=buildd
+		--keyring /usr/share/keyrings/debian-archive-keyring.gpg
+	)
+	;;
+dpo)
+	DEBOOTSTRAPOPTS=(
+		--variant=buildd
+		--keyring /usr/share/keyrings/debian-ports-archive-keyring.gpg
+	)
+	;;
+ubuntu)
+	DEBOOTSTRAPOPTS=(
+		--variant=buildd
+		--keyring /usr/share/keyrings/ubuntu-archive-keyring.gpg
+	)
+	;;
+*)
+	echo >&2 "Internal error, unknown distro \$DISTRO: '$DISTRO'"
+	exit 255
+	;;
+esac
+export DEBEMAIL='Thorsten Glaser <tg@mirbsd.de>'
+export DEBIAN_FRONTEND=noninteractive
+EXTRAPACKAGES
+eval MIRRORSITE=\$MIRROR_$DISTRIBUTION; export MIRRORSITE
+eval x=\$MIRRORSECURITY_$DISTRIBUTION
+case x$x:$DISTRO in
+*:dpo)
+	: debian-ports has no security support
+	;;
+xNO:*)
+	: Debian unstable, for example, has no security support
+	;;
+x:*)
+	: No mirror set, possibly dangerous oversight
+	echo >&2 "Internal error, distro '$DISTRO' has no security mirror"
+	exit 255
+	;;
+*:debian)
+	OTHERMIRROR="deb $x $DISTRIBUTION/updates $COMPONENTS"
+	;;
+*:ubuntu)
+	OTHERMIRROR="deb $x $DISTRIBUTION-security $COMPONENTS"
+	;;
+esac
+case $isbackports in
+no)
+	;;
+yes)
+	eval x=\$MIRRORBACKPORTS_$DISTRIBUTION
+	if test x"$x" = x""; then
+		echo >&2 "Internal error, $DISTRIBUTION-backports mirror not set"
+		exit 255
+	fi
+	OTHERMIRROR="$OTHERMIRROR|deb $x $DISTRIBUTION-backports $COMPONENTS"
+	;;
+sloppy)
+	eval x=\$MIRRORBACKPORTS_$DISTRIBUTION
+	if test x"$x" = x""; then
+		echo >&2 "Internal error, $DISTRIBUTION-backports mirror not set"
+		exit 255
+	fi
+	OTHERMIRROR="$OTHERMIRROR|deb $x $DISTRIBUTION-backports $COMPONENTS"
+	eval x=\$MIRRORBACKPORTSLOPPY_$DISTRIBUTION
+	if test x"$x" = x""; then
+		echo >&2 "Internal error, $DISTRIBUTION-backports-sloppy mirror not set"
+		exit 255
+	fi
+	OTHERMIRROR="$OTHERMIRROR|deb $x $DISTRIBUTION-backports-sloppy $COMPONENTS"
+	;;
+ubuntu)
+	OTHERMIRROR="$OTHERMIRROR|deb $MIRRORSITE $DISTRIBUTION-updates $COMPONENTS"
+	OTHERMIRROR="$OTHERMIRROR|deb $MIRRORSITE $DISTRIBUTION-security $COMPONENTS"
+	;;
+*)
+	echo >&2 "Internal error, \$isbackports '$isbackports' unknown"
+	exit 255
+	;;
+esac
+export OTHERMIRROR
+export PDEBUILD_PBUILDER=cowbuilder
+export PKGNAME_LOGFILE_EXTENTION=_${ARCHITECTURE}.build
+export PKGNAME_LOGFILE=yes
+export PBUILDERSATISFYDEPENDSCMD=/usr/lib/pbuilder/pbuilder-satisfydepends
+#export PBUILDERSATISFYDEPENDSCMD=/usr/lib/pbuilder/pbuilder-satisfydepends-experimental
+#export PBUILDERSATISFYDEPENDSCMD=/usr/lib/pbuilder/pbuilder-satisfydepends-aptitude
+#export PBUILDERSATISFYDEPENDSCMD=/usr/lib/pbuilder/pbuilder-satisfydepends-classic
+PBUILDERSATISFYDEPENDSOPT=(--check-key)
+APTGETOPT=(--purge)
+REMOVEPACKAGES='grub grub2 grub-pc grub-legacy lilo udev'
+export USEDEVFS=no
+export USEDEVPTS=yes
+export USEPROC=yes
+
+unset LANGUAGE LC_ADDRESS LC_ALL LC_COLLATE LC_IDENTIFICATION LC_MONETARY \
+    LC_NAME LC_NUMERIC LC_TELEPHONE LC_TIME
+unset LANG LC_CTYPE LC_MEASUREMENT LC_MESSAGES LC_PAPER
+export LC_ALL=C
