@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: contrib/hosted/tg/deb/pbuilderrc,v 1.1 2011/03/30 19:50:06 tg Exp $
 #-
 # Sample ~/.pbuilderrc for multiple distribution and suite support.
 # May work, but may just as well break. Experimental.
@@ -167,7 +167,20 @@ ubuntu)
 esac
 export DEBEMAIL='Thorsten Glaser <tg@mirbsd.de>'
 export DEBIAN_FRONTEND=noninteractive
-EXTRAPACKAGES
+case $DIST:$DISTRIBUTION:$DISTRO in
+*:*:dpo)
+	EXTRAPACKAGES='apt debian-ports-archive-keyring eatmydata fakeroot'
+	;;
+*:squeeze:*|*:wheezy:*|*:sid:*)
+	EXTRAPACKAGES='apt eatmydata fakeroot'
+	;;
+maverick-backports:*|*:natty:*)
+	EXTRAPACKAGES='apt eatmydata fakeroot'
+	;;
+*)
+	EXTRAPACKAGES='apt fakeroot'
+	;;
+esac
 eval MIRRORSITE=\$MIRROR_$DISTRIBUTION; export MIRRORSITE
 eval x=\$MIRRORSECURITY_$DISTRIBUTION
 case x$x:$DISTRO in
