@@ -1,11 +1,15 @@
-# $MirOS: contrib/hosted/tg/deb/pbuilderrc,v 1.2 2011/03/30 20:05:21 tg Exp $
+# $MirOS: contrib/hosted/tg/deb/pbuilderrc,v 1.3 2011/03/30 20:17:55 tg Exp $
 #-
 # Sample ~/.pbuilderrc for multiple distribution and suite support.
 # May work, but may just as well break. Experimental.
 #-
-# unstable and unreleased are debian-ports.org
-# sid is debian.org unstable
-# experimental is neither, just not available
+# debian.org: sarge etch lenny squeeze sid
+# debian-ports.org: unstable unreleased
+# not supported: experimental
+# ubuntu: dapper hardy jaunty karmic lucid maverick natty
+# *-backports: sarge etch lenny squeeze; all ubuntus
+# *-backports-sloppy: lenny
+# univention: not supported… yet…
 
 # desirable, unless you *want* to run most time-consuming
 # testsuites, which usually fail anyway… (yay for optimism)
@@ -127,17 +131,17 @@ if test $distfound = 0; then
 	exit 1
 fi
 
-if test $DISTRIBUTION = sid; then
-	export APTCACHE=/var/cache/pbuilder/aptcache/
-else
-	export APTCACHE=/var/cache/pbuilder/aptcache-$DISTRIBUTION/
-fi
+case $DISTRO in
+debian|dpo) export APTCACHE=/var/cache/pbuilder/aptcache-debian/ ;;
+*) export APTCACHE=/var/cache/pbuilder/aptcache-$DISTRO/ ;;
+esac
 export APTCACHEHARDLINK=yes
 export ARCHITECTURE=$(dpkg --print-architecture)
 export AUTO_DEBSIGN=no
 export BUILDPLACE=/var/cache/pbuilder/build/
-export BUILDRESULT=/var/cache/pbuilder/result/
+export BUILDRESULT=/var/cache/pbuilder/result-$DIST/
 export CCACHEDIR=
+export BASEPATH=/var/cache/pbuilder/base.cow-$DIST/
 export BUILDRESULTUID=1006
 export BUILDRESULTGID=200
 export BUILDSOURCEROOTCMD=fakeroot
@@ -153,18 +157,21 @@ export DEBOOTSTRAP=debootstrap
 case $DISTRO in
 debian)
 	DEBOOTSTRAPOPTS=(
+		--arch=$ARCHITECTURE
 		--variant=buildd
 		--keyring /usr/share/keyrings/debian-archive-keyring.gpg
 	)
 	;;
 dpo)
 	DEBOOTSTRAPOPTS=(
+		--arch=$ARCHITECTURE
 		--variant=buildd
 		--keyring /usr/share/keyrings/debian-ports-archive-keyring.gpg
 	)
 	;;
 ubuntu)
 	DEBOOTSTRAPOPTS=(
+		--arch=$ARCHITECTURE
 		--variant=buildd
 		--keyring /usr/share/keyrings/ubuntu-archive-keyring.gpg
 	)
@@ -190,6 +197,12 @@ maverick-backports:*|*:natty:*)
 	EXTRAPACKAGES='apt fakeroot'
 	;;
 esac
+case $DIST in
+sarge-backports|etch-backports|lenny-backports|lenny-backports-sloppy)
+	EXTRAPACKAGES='$EXTRAPACKAGES debian-backports-keyring'
+	;;
+esac
+export EXTRAPACKAGES
 eval MIRRORSITE=\$MIRROR_$DISTRIBUTION; export MIRRORSITE
 eval x=\$MIRRORSECURITY_$DISTRIBUTION
 case x$x:$DISTRO in
