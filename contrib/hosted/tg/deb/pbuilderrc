@@ -1,7 +1,11 @@
-# $MirOS: contrib/hosted/tg/deb/pbuilderrc,v 1.1 2011/03/30 19:50:06 tg Exp $
+# $MirOS: contrib/hosted/tg/deb/pbuilderrc,v 1.2 2011/03/30 20:05:21 tg Exp $
 #-
 # Sample ~/.pbuilderrc for multiple distribution and suite support.
 # May work, but may just as well break. Experimental.
+#-
+# unstable and unreleased are debian-ports.org
+# sid is debian.org unstable
+# experimental is neither, just not available
 
 # desirable, unless you *want* to run most time-consuming
 # testsuites, which usually fail anyway… (yay for optimism)
@@ -140,6 +144,11 @@ export BUILDSOURCEROOTCMD=fakeroot
 export BUILDUSERID=1234
 export BUILDUSERNAME=pbuilder
 eval COMPONENTS=\$COMPONENTS_$DISTRO; export COMPONENTS
+case $DISTRIBUTION in
+sarge|etch)
+	export DEBIAN_ETCH_WORKAROUND=1
+	;;
+esac
 export DEBOOTSTRAP=debootstrap
 case $DISTRO in
 debian)
