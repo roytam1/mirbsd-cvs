@@ -4,6 +4,9 @@ My notes on JSON
 Compiled from both ECMA 262 (normative) and RFC 4627 (Informational)
 for tarent Gesellschaft fuer Softwareentwicklung und IT-Beratung mbH.
 
+An implementation (no guarantees for completeness / correctness) is at:
+https://evolvis.org/scm/viewvc.php/evolvis/trunk/gforge_base/evolvisforge/gforge/common/include/minijson.php?view=log
+
 
 Any JSON (JavaScript Object Notation) text shall be encoded in Unicode.
 
@@ -32,7 +35,7 @@ Rules for associative arrays:
 - order of keys is unsorted but usually preserving
 
 
-/* lexical grammar */
+/* lexical grammar (case-sensitive) */
 
 whitespace ::= <0x09> | <0x0A> | <0x0D> | <0x20>
 
@@ -76,6 +79,9 @@ Number ::= literalnull /* not a finite number */ | number
 literalnull, literalbool, number are always separated by the grammar
 so neither next element lookup nor mandatory whitespace are required.
 
+Both lexems/tokens and the content (keys and values) are case-sensitive,
+although some decoders read e.g. literalnull or \n case-insensitively.
+
 
 /* when emitting a Number */
 - ECMA: NaN and both positive and negative infinity emit a literalnull
@@ -89,10 +95,9 @@ so neither next element lookup nor mandatory whitespace are required.
 - escape <0x00..0x1F> with \uNNNN
 - pass <0x7F> and <0080..009F> literally!
 - pass everything else literally
-- for codepoints outside the BMP, emit the UTF-16 surrogate pair or
-  escape the surrogates as separate stringcharacters with \uNNNN\uNNNN
-  (escaping only one may be disallowed by Unicode)
-- any character MAY be escaped
+- for codepoints outside the BMP, emit the UTF-16 surrogate pair as
+  escapes \uNNNN\uNNNN (do not pass them literally)
+- any character MAY be escaped (as unicode)
 
 /* when emitting an Object or Array */
 - if the object/array is cyclical, throw an error
@@ -104,4 +109,4 @@ so neither next element lookup nor mandatory whitespace are required.
 - Arrays emit undefined values as literalnull
 
 _____________________________________________________________________
-$MirOS: contrib/hosted/tg/json.txt,v 1.1 2010/03/17 20:47:02 tg Exp $
+$MirOS: contrib/hosted/tg/json.txt,v 1.2 2010/03/27 17:45:44 tg Exp $
