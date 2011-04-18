@@ -1,7 +1,0 @@
-0a
-.\" $MirOS$
-.
-1,$g/^\.Nm make/s//.Nm @@bmake@@/
-1,$g/@@MKSH@@/s//@@mksh@@/
-1,$g/.usr.share.mk/s!!@@shmk@@!
-wq
