@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/tg/deb/pbuilderrc,v 1.6 2011/04/01 19:02:14 tg Exp $
+# $MirOS: contrib/hosted/tg/deb/pbuilderrc,v 1.7 2011/04/10 05:19:12 tg Exp $
 #-
 # Sample ~/.pbuilderrc for multiple distribution and suite support.
 # May work, but may just as well break. Experimental.
@@ -280,6 +280,8 @@ export PBUILDERSATISFYDEPENDSCMD=/usr/lib/pbuilder/pbuilder-satisfydepends
 #export PBUILDERSATISFYDEPENDSCMD=/usr/lib/pbuilder/pbuilder-satisfydepends-experimental
 #export PBUILDERSATISFYDEPENDSCMD=/usr/lib/pbuilder/pbuilder-satisfydepends-aptitude
 #export PBUILDERSATISFYDEPENDSCMD=/usr/lib/pbuilder/pbuilder-satisfydepends-classic
+test $DISTRIBUTION = etch && \
+    PBUILDERSATISFYDEPENDSCMD=/usr/lib/pbuilder/pbuilder-satisfydepends-classic
 PBUILDERSATISFYDEPENDSOPT=(--check-key)
 #APTGETOPT=(--force-yes --purge)
 APTGETOPT=(--purge)
