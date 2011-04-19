@@ -1,15 +1,11 @@
-# $MirOS: contrib/hosted/tg/deb/host/debian/control,v 1.2 2011/02/27 21:50:13 tg Exp $
-#
 Source: mirhost
 Origin: WTF
 Bugs: mailto:wtf@mirbsd.org
 Section: net
 Priority: optional
 Maintainer: Thorsten Glaser <tg@mirbsd.de>
-Homepage: http://cvs.mirbsd.de/src/usr.bin/host/
 Build-Depends: debhelper (>= 5), libbsd-dev, pmake
-Standards-Version: 3.8.4
-# First word is the $CVSROOT (-d arg) string, second word the module.
+Standards-Version: 3.9.2
 Vcs-CVS: :ext:_anoncvs@anoncvs.mirbsd.org:/cvs contrib/hosted/tg/deb/host
 Vcs-Browser: http://cvs.mirbsd.de/contrib/hosted/tg/deb/host/
 
@@ -18,8 +14,8 @@ Architecture: any
 Multi-Arch: foreign
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: traditional utility for querying DNS servers
- 'host' is a utility, similar to 'nslookup' (deprecated) or 'dig',
- used to query DNS servers for domain names and zones.
+ 'host' is a utility, similar to 'nslookup' (deprecated) or
+ 'dig', used to query DNS servers for domain names and zones.
  .
  This package provides the traditional version of 'host', as
  delivered with the BSD operating systems. BIND9 provides a
@@ -29,3 +25,5 @@ Description: traditional utility for querying DNS servers
  by many shell scripts but lacks some more modern functions,
  such as "host 2001:db8::1" (although the form "host -t ptr
  1.0.0...8.b.d.1.0.0.2.ip6.arpa." is supported).
+ .
+ $MirOS$

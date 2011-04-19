@@ -1,5 +1,5 @@
 #!/usr/bin/make -f
-# $MirOS: contrib/hosted/tg/deb/makefs/debian/rules,v 1.6 2010/03/16 22:11:50 tg Exp $
+# $MirOS: contrib/hosted/tg/deb/host/debian/rules,v 1.1 2010/06/08 10:02:32 tg Exp $
 #-
 # -*- makefile -*-
 # Sample debian/rules that uses debhelper.
@@ -16,8 +16,6 @@ ifneq (,$(filter noopt,$(DEB_BUILD_OPTIONS)))
 else
 	CFLAGS += -O2
 endif
-
-CPPFLAGS+=	-include /usr/include/bsd/bsd.h
 
 PMAKE_ENV:=	LC_ALL=C
 PMAKE_ENV+=	CC='${CC}'
