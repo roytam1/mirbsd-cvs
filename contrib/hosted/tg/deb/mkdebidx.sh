@@ -1,5 +1,5 @@
 #!/bin/mksh
-rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.45 2011/03/04 12:35:23 tg Exp $'
+rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.46 2011/03/04 14:24:32 tg Exp $'
 #-
 # Copyright (c) 2008, 2009, 2010, 2011
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -223,24 +223,35 @@ for suite in dists/*; do
 			continue
 		fi
 
-		pn=; pv=; pd=; pp=; pN=; pf=
-
 		gzip -dc $dist/source/Sources.gz |&
+		pn=; pv=; pd=; pp=; Lf=
 		while IFS= read -pr line; do
 			case $line {
+			(" "*)
+				if [[ -n $Lf ]]; then
+					eval x=\$$Lf
+					x=$x$line
+					eval $Lf=\$x
+				fi
+				;;
 			("Package: "*)
 				pn=${line##Package:*([	 ])}
+				Lf=pn
 				;;
 			("Version: "*)
 				pv=${line##Version:*([	 ])}
+				Lf=pv
 				;;
 			("Binary: "*)
 				pd=${line##Binary:*([	 ])}
+				Lf=pd
 				;;
 			("Directory: "*)
 				pp=${line##Directory:*([	 ])}
+				Lf=pp
 				;;
 			(?*)	# anything else
+				Lf=
 				;;
 			(*)	# empty line
 				if [[ -n $pn && -n $pv && -n $pd && -n $pp ]]; then
@@ -274,7 +285,7 @@ for suite in dists/*; do
 					eval sp_dir_${suitename}[i]='${ppo:+$ppo,}$pp/'
 					sp_desc[i]=${sp_desc[i]},$pd
 				fi
-				pn=; pv=; pd=; pp=
+				pn=; pv=; pd=; pp=; Lf=
 				;;
 			}
 		done
@@ -283,28 +294,42 @@ for suite in dists/*; do
 			[[ -e $f ]] || continue
 			realpath "$f"
 		done | sort -u) |&
+		pn=; pv=; pd=; pp=; pN=; pf=; Lf=
 		while IFS= read -pr line; do
 			case $line {
+			(" "*)
+				if [[ -n $Lf ]]; then
+					eval x=\$$Lf
+					x=$x$line
+					eval $Lf=\$x
+				fi
+				;;
 			("Package: "*)
 				pN=${line##Package:*([	 ])}
+				Lf=pN
 				;;
 			("Source: "*)
 				pn=${line##Source:*([	 ])}
 				pn=${pn%% *}
+				Lf=pn
 				;;
 			("Version: "*)
 				pv=${line##Version:*([	 ])}
+				Lf=pv
 				;;
 			("Description: "*)
 				pd=${line##Description:*([	 ])}
 				;;
 			("Architecture: "*)
 				pp=${line##Architecture:*([	 ])}
+				Lf=pp
 				;;
 			("Filename: "*)
 				pf=${line##Filename:*([	 ])}
+				Lf=pf
 				;;
 			(?*)	# anything else
+				Lf=
 				;;
 			(*)	# empty line
 				if [[ $pf = *:* || $pf = *'%'* ]]; then
@@ -341,7 +366,7 @@ for suite in dists/*; do
 					eval bp_ver_${suitename}[i]=\$x
 					bp_desc[i]=$pd
 				fi
-				pn=; pv=; pd=; pp=; pN=
+				pn=; pv=; pd=; pp=; pN=; pf=; Lf=
 				;;
 			}
 		done
@@ -358,7 +383,7 @@ done
 EOF
 print -r -- " <title>${repo_title} Index</title>"
 cat <<'EOF'
- <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.45 2011/03/04 12:35:23 tg Exp $" />
+ <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.46 2011/03/04 14:24:32 tg Exp $" />
  <style type="text/css">
   table {
    border: 1px solid black;
