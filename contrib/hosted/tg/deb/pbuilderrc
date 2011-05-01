@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/tg/deb/pbuilderrc,v 1.8 2011/04/19 11:31:40 tg Exp $
+# $MirOS: contrib/hosted/tg/deb/pbuilderrc,v 1.9 2011/05/01 12:38:28 tg Exp $
 #-
 # Sample ~/.pbuilderrc for multiple distribution and suite support.
 # May work, but may just as well break. Experimental.
@@ -287,10 +287,20 @@ test $DISTRIBUTION = etch && \
 PBUILDERSATISFYDEPENDSOPT=(--check-key)
 #APTGETOPT=(--force-yes --purge)
 APTGETOPT=(--purge)
-REMOVEPACKAGES='grub grub2 grub-pc grub-legacy lilo tasksel udev'
+export REMOVEPACKAGES='grub grub2 grub-pc grub-legacy lilo tasksel udev'
 export USEDEVFS=no
 export USEDEVPTS=yes
 export USEPROC=yes
+
+case $DISTRIBUTION in
+(sarge|etch|lenny|squeeze|dapper|hardy|jaunty|karmic|lucid|maverick|natty|oneiric)
+	# might need to drop oneiric from the above list later
+	EXTRAPACKAGES="$EXTRAPACKAGES debconf-english"
+	;;
+(*)
+	REMOVEPACKAGES="$REMOVEPACKAGES debconf-i18n"
+	;;
+esac
 
 unset LANGUAGE LC_ADDRESS LC_ALL LC_COLLATE LC_IDENTIFICATION LC_MONETARY \
     LC_NAME LC_NUMERIC LC_TELEPHONE LC_TIME
