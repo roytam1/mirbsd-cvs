@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/tg/deb/pbuilderrc,v 1.7 2011/04/10 05:19:12 tg Exp $
+# $MirOS: contrib/hosted/tg/deb/pbuilderrc,v 1.8 2011/04/19 11:31:40 tg Exp $
 #-
 # Sample ~/.pbuilderrc for multiple distribution and suite support.
 # May work, but may just as well break. Experimental.
@@ -6,7 +6,7 @@
 # debian.org: sarge etch lenny squeeze sid
 # debian-ports.org: unstable unreleased
 # not supported: experimental
-# ubuntu: dapper hardy jaunty karmic lucid maverick natty
+# ubuntu: dapper hardy jaunty karmic lucid maverick natty oneiric
 # *-backports: sarge etch lenny squeeze; all ubuntus
 # *-backports-sloppy: lenny
 # univention: not supported… yet…
@@ -19,10 +19,10 @@
 DISTROS='debian dpo ubuntu'
 DISTS_debian='sarge etch lenny squeeze sid'
 DISTS_dpo='unstable unreleased'
-DISTS_ubuntu='dapper hardy jaunty karmic lucid maverick natty'
+DISTS_ubuntu='dapper hardy jaunty karmic lucid maverick natty oneiric'
 DISTBACKPORTS_debian=sarge:etch:lenny:squeeze
 DISTBACKPORTSLOPPY_debian=lenny
-DISTBACKPORTUPDATE_ubuntu=dapper:hardy:jaunty:karmic:lucid:maverick:natty
+DISTBACKPORTUPDATE_ubuntu=dapper:hardy:jaunty:karmic:lucid:maverick:natty:oneiric
 MIRROR_sarge=http://ftp.hosteurope.de/mirror/archive.debian.org/debian/
 MIRROR_etch=http://ftp.hosteurope.de/mirror/archive.debian.org/debian/
 MIRROR_lenny=http://ftp.hosteurope.de/mirror/ftp.debian.org/debian/
@@ -37,6 +37,7 @@ MIRROR_karmic=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
 MIRROR_lucid=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
 MIRROR_maverick=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
 MIRROR_natty=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
+MIRROR_oneiric=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
 MIRRORSECURITY_sarge=http://ftp.hosteurope.de/mirror/archive.debian.org/debian-security/
 MIRRORSECURITY_etch=http://ftp.hosteurope.de/mirror/archive.debian.org/debian-security/
 MIRRORSECURITY_lenny=http://ftp.hosteurope.de/mirror/ftp.debian.org/debian-security/
@@ -49,6 +50,7 @@ MIRRORSECURITY_karmic=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
 MIRRORSECURITY_lucid=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
 MIRRORSECURITY_maverick=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
 MIRRORSECURITY_natty=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
+MIRRORSECURITY_oneiric=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
 MIRRORBACKPORTS_sarge=http://ftp.hosteurope.de/mirror/archive.debian.org/debian-backports/
 MIRRORBACKPORTS_etch=http://ftp.hosteurope.de/mirror/archive.debian.org/debian-backports/
 MIRRORBACKPORTS_lenny=http://ftp.hosteurope.de/mirror/backports.debian.org/
@@ -193,7 +195,7 @@ case $DISTRO in
 	;;
 (ubuntu)
 	case $DIST:$DISTRIBUTION in
-	(maverick-backports:*|*:natty)
+	(maverick-backports:*|*:natty|*:oneiric)
 		EXTRAPACKAGES='apt ubuntu-keyring eatmydata fakeroot'
 		;;
 	(*)
