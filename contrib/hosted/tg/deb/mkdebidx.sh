@@ -1,5 +1,5 @@
 #!/bin/mksh
-rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.48 2011/05/13 13:30:31 tg Exp $'
+rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.49 2011/05/13 20:41:36 tg Exp $'
 #-
 # Copyright (c) 2008, 2009, 2010, 2011
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -163,7 +163,11 @@ for suite in dists/*; do
 	cd $suite
 	set -A cache_fn
 	set -A cache_md5
+	set -A cache_sha1
+	set -A cache_sha2
 	set -A cache_size
+	print SHA1: >$suite/Release-sha1
+	print SHA256: >$suite/Release-sha2
 	for n in Contents-* */{binary-*,source}/{Packag,Sourc}es*; do
 		[[ -f $n ]] || continue
 		# realpath-ise $n and cache the checksum
@@ -179,16 +183,29 @@ for suite in dists/*; do
 		if [[ $nc = "$nn" ]]; then
 			nm=${cache_md5[Lcdbhash_result]}
 			ns=${cache_size[Lcdbhash_result]}
+			nsha1=${cache_sha1[Lcdbhash_result]}
+			nsha2=${cache_sha2[Lcdbhash_result]}
 		else
+			# GNU *sum tools are horridly inefficient
 			set -A x -- $(md5sum "$nn")
 			nm=${x[0]}
+			set -A x -- $(sha1sum "$nn")
+			nsha1=${x[0]}
+			set -A x -- $(sha256sum "$nn")
+			nsha2=${x[0]}
 			ns=$(stat -c '%s' "$nn")
 			cache_md5[Lcdbhash_result]=$nm
 			cache_size[Lcdbhash_result]=$ns
 			cache_fn[Lcdbhash_result]=$nn
+			cache_sha1[Lcdbhash_result]=$nsha1
+			cache_sha2[Lcdbhash_result]=$nsha2
 		fi
 		print " $nm $ns $n"
-	done) >$suite/Release
+		print " $nsha1 $ns $n" >>$suite/Release-sha1
+		print " $nsha2 $ns $n" >>$suite/Release-sha2
+	done
+	cat $suite/Release-sha1 $suite/Release-sha2
+	rm $suite/Release-sha1 $suite/Release-sha2) >$suite/Release
 	$gpg_remote gpg -u $repo_keyid -sb <$suite/Release >$suite/Release.gpg
 done
 
@@ -388,7 +405,7 @@ done
 EOF
 print -r -- " <title>${repo_title} Index</title>"
 cat <<'EOF'
- <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.48 2011/05/13 13:30:31 tg Exp $" />
+ <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.49 2011/05/13 20:41:36 tg Exp $" />
  <style type="text/css">
   table {
    border: 1px solid black;
