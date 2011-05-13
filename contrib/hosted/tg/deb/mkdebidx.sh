@@ -1,5 +1,5 @@
 #!/bin/mksh
-rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.47 2011/04/27 12:59:06 tg Exp $'
+rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.48 2011/05/13 13:30:31 tg Exp $'
 #-
 # Copyright (c) 2008, 2009, 2010, 2011
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -100,6 +100,7 @@ for suite in dists/*; do
 	allsuites="$allsuites${allsuites:+ }${suite##*/}"
 	[[ $suites = : || $suites = *:"$suite":* ]] || continue
 	archs=
+	distribution=
 	. $suite/distinfo.sh
 	suitearchs=${archs:-${normarchs[*]}}
 	components=Components:
@@ -151,7 +152,7 @@ for suite in dists/*; do
 	(cat <<-EOF
 		Origin: ${repo_origin}
 		Label: ${repo_label}
-		Suite: ${suite##*/}
+		Suite: ${distribution:-${suite##*/}}
 		Codename: ${suite##*/}
 		Date: $(date -u)
 		Architectures: all ${dpkgarchs[*]} source
@@ -387,7 +388,7 @@ done
 EOF
 print -r -- " <title>${repo_title} Index</title>"
 cat <<'EOF'
- <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.47 2011/04/27 12:59:06 tg Exp $" />
+ <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.48 2011/05/13 13:30:31 tg Exp $" />
  <style type="text/css">
   table {
    border: 1px solid black;
