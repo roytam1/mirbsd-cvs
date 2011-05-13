@@ -1,5 +1,5 @@
 #!/bin/mksh
-rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.46 2011/03/04 14:24:32 tg Exp $'
+rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.47 2011/04/27 12:59:06 tg Exp $'
 #-
 # Copyright (c) 2008, 2009, 2010, 2011
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -115,7 +115,11 @@ for suite in dists/*; do
 		[[ -s $dist/distinfo.sh ]] && . $dist/distinfo.sh
 		set -A distarchs -- $(sortlist -u all ${archs:-$suitearchs})
 		IFS=:; distarchl=:"${distarchs[*]}":; IFS=$saveIFS
-		for arch in $(sortlist -u ${distarchs[*]} ${dpkgarchs[*]}); do
+		for arch in $(sortlist -u ${distarchs[*]} ${dpkgarchs[*]}) /; do
+			# put "all" last
+			[[ $arch = all ]] && continue
+			[[ $arch = / ]] && arch=all
+			# create index
 			if [[ $dpkgarchl != *:"$arch":* ]]; then
 				print -u2 "Invalid arch '$arch' in $dist"
 				exit 1
@@ -383,7 +387,7 @@ done
 EOF
 print -r -- " <title>${repo_title} Index</title>"
 cat <<'EOF'
- <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.46 2011/03/04 14:24:32 tg Exp $" />
+ <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.47 2011/04/27 12:59:06 tg Exp $" />
  <style type="text/css">
   table {
    border: 1px solid black;
@@ -434,7 +438,7 @@ EOF
 [[ -s 0-NOTE.txt ]] && print ' Also read my <a href="0-NOTE.txt">notes</a>.'
 cat <<EOF
  This repository uses <a
-  href="http://pgpkeys.pca.dfn.de/pks/lookup?search=${repo_keyid}&amp;op=vindex">${repo_keyid}</a>
+  href="http://pgp.uni-mainz.de:11371/pks/lookup?search=${repo_keyid}&amp;op=vindex">${repo_keyid}</a>
  as signing key.
 </p>
 <h2>Suites</h2>
