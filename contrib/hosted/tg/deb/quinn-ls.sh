@@ -1,5 +1,5 @@
 #!/bin/mksh
-rcsid='$MirOS: contrib/hosted/tg/deb/quinn-ls.sh,v 1.1 2011/02/18 18:52:01 tg Exp $'
+rcsid='$MirOS: contrib/hosted/tg/deb/quinn-ls.sh,v 1.2 2011/04/27 17:42:35 tg Exp $'
 #-
 # Copyright © 2011
 #	Thorsten Glaser <tg@debian.org>
@@ -20,6 +20,7 @@ rcsid='$MirOS: contrib/hosted/tg/deb/quinn-ls.sh,v 1.1 2011/02/18 18:52:01 tg Ex
 # of said person’s immediate fault when using the work as intended.
 
 gather=cwd
+mydir=$(realpath "$(dirname "$0")")
 
 while getopts "l" ch; do
 	case $ch {
@@ -160,11 +161,38 @@ while read -pr pkg pipe vsn pipe sid pipe arches; do
 	fi
 done
 
+print -u2 '\nreading override files [bad bld ign]…'
+# bad: mark RIGHT versions lower or equal as "bad"
+# bld: mark RIGHT version equal as "building"
+# ign: mark LEFT version equal as "ignored" and ignore not-in-upstream
+for type in bad bld ign; do
+	[[ -s $mydir/quinn-ls.$type ]] || continue
+	while read pkg vsn; do
+		if ! isdebpkg "$pkg"; then
+			print -ru2 "skipping invalid package '$pkg'," \
+			    override $type
+			continue
+		fi
+		if ! isdebver "$vsn"; then
+			print -ru2 "skipping invalid version '$vsn'," \
+			     override $type
+			continue
+		fi
+		print -ru2 "o:$type $pkg $vsn"
+		epkg=${pkg//'+'/_p}
+		epkg=${epkg//'.'/_d}
+		epkg=${epkg//'-'/_u}
+		eval over_${type}_${epkg}=\$vsn
+	done <$mydir/quinn-ls.$type
+done
+
 c0=$'\033[0m'
 c1=$'\033[1;31m'
 c2=$'\033[1;32m'
 c3=$'\033[1;33m'
 c4=$'\033[1;34m'
+c5=$'\033[1;35m'
+c6=$'\033[1;36m'
 print -ru2 "$c0"
 print -ru2
 
@@ -189,6 +217,21 @@ while (( ++j < i )); do
 		lc=$c3
 		uc=$c4
 	fi
+
+	epkg=${pkg//'+'/_p}
+	epkg=${epkg//'.'/_d}
+	epkg=${epkg//'-'/_u}
+	for type in bad bld ign; do
+		eval over_$type=\$over_${type}_${epkg}
+	done
+	if [[ -n $over_ign && $lv = "$over_ign" ]]; then
+		lc=$c6
+		[[ $uv = '0~RM' ]] && uc=$c6
+	fi
+	[[ -n $over_bad ]] && dpkg --compare-versions "$uv" le "$over_bad" && \
+	    uc=$c5
+	[[ -n $over_bld && $uv = "$over_bld" ]] && uc=$c6
+
 	print -r -- "$c0$pkg $lc$lv$c0 $uc$uv$c0"
 	[[ $lvs = $lv ]] && continue
 	for lv in ${lvs#* }; do
