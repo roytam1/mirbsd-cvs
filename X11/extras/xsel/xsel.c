@@ -33,7 +33,7 @@
 #include <X11/Xatom.h>
 
 static const char __rcsid[] =
-    "$MirOS: X11/extras/xsel/xsel.c,v 1.8 2011/06/07 21:09:16 tg Exp $";
+    "$MirOS: X11/extras/xsel/xsel.c,v 1.9 2011/06/07 21:12:35 tg Exp $";
 
 /* Default debug level (ship at 0) */
 #define DEBUG_LEVEL 0
@@ -404,7 +404,7 @@ become_daemon (void)
   umask (0);
 
   if (chdir (homedir) == -1) {
-    print_debug (D_WARN, "Could not chdir to %s\n", homedir);
+    print_debug (D_WARN, "Could not chdir to %s", homedir);
     if (chdir ("/") == -1) {
       err(1, "Error chdir to /");
     }
@@ -541,9 +541,9 @@ get_append_property (XSelectionEvent * xsl, unsigned char ** buffer,
     ptr = *buffer + *offset;
     xs_strncpy (ptr, value, length);
     *offset += length;
-    print_debug (D_TRACE, "Appended %d bytes to buffer\n", length);
+    print_debug (D_TRACE, "Appended %d bytes to buffer", length);
   } else {
-    print_debug (D_WARN, "Retrieved non-8-bit data\n");
+    print_debug (D_WARN, "Retrieved non-8-bit data");
   }
 
   return True;
@@ -564,7 +564,7 @@ wait_incr_selection (Atom selection, XSelectionEvent * xsl, int init_alloc)
   int incr_alloc = 0, incr_xfer = 0;
   Boolean wait_prop = True;
 
-  print_debug (D_TRACE, "Initialising incremental retrieval of at least %d bytes\n", init_alloc);
+  print_debug (D_TRACE, "Initialising incremental retrieval of at least %d bytes", init_alloc);
 
   /* Take an interest in the requestor */
   XSelectInput (xsl->display, xsl->requestor, PropertyChangeMask);
@@ -2018,10 +2018,10 @@ main(int argc, char *argv[])
   }
 
   if (S_ISDIR(in_statbuf.st_mode)) {
-    err(1, "-: Is a directory\n");
+    err(1, "-: Is a directory");
   }
   if (S_ISDIR(out_statbuf.st_mode)) {
-    err(1, "stdout: Is a directory\n");
+    err(1, "stdout: Is a directory");
   }
 
   timeout = timeout_ms * 1000;
@@ -2053,10 +2053,10 @@ main(int argc, char *argv[])
   /* Consistency check */
   test_atom = XInternAtom (display, "PRIMARY", False);
   if (test_atom != XA_PRIMARY)
-    print_debug (D_WARN, "XA_PRIMARY not named \"PRIMARY\"\n");
+    print_debug (D_WARN, "XA_PRIMARY not named \"PRIMARY\"");
   test_atom = XInternAtom (display, "SECONDARY", False);
   if (test_atom != XA_SECONDARY)
-    print_debug (D_WARN, "XA_SECONDARY not named \"SECONDARY\"\n");
+    print_debug (D_WARN, "XA_SECONDARY not named \"SECONDARY\"");
 
   NUM_TARGETS=0;
 
