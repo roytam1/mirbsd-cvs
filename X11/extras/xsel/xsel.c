@@ -34,7 +34,7 @@
 #include <X11/Xatom.h>
 
 static const char __rcsid[] =
-    "$MirOS: X11/extras/xsel/xsel.c,v 1.11 2011/06/07 21:58:01 tg Exp $";
+    "$MirOS: X11/extras/xsel/xsel.c,v 1.12 2011/06/07 22:05:11 tg Exp $";
 
 /* Default debug level (ship at 0) */
 #define DEBUG_LEVEL 0
@@ -183,50 +183,13 @@ static char ** saved_argv;
  * print usage information.
  */
 static void
-usage (void)
+usage(void)
 {
-  printf ("Usage: xsel [options]\n");
-  printf ("Manipulate the X selection.\n\n");
-  printf ("By default the current selection is output and not modified if both\n");
-  printf ("standard input and standard output are terminals (ttys).  Otherwise,\n");
-  printf ("the current selection is output if standard output is not a terminal\n");
-  printf ("(tty), and the selection is set from standard input if standard input\n");
-  printf ("is not a terminal (tty). If any input or output options are given then\n");
-  printf ("the program behaves only in the requested mode.\n\n");
-  printf ("If both input and output is required then the previous selection is\n");
-  printf ("output before being replaced by the contents of standard input.\n\n");
-  printf ("Input options\n");
-  printf ("  -a, --append          Append standard input to the selection\n");
-  printf ("  -f, --follow          Append to selection as standard input grows\n");
-  printf ("  -i, --input           Read standard input into the selection\n\n");
-  printf ("Output options\n");
-  printf ("  -o, --output          Write the selection to standard output\n\n");
-  printf ("Action options\n");
-  printf ("  -c, --clear           Clear the selection\n");
-  printf ("  -d, --delete          Request that the selection be cleared and that\n");
-  printf ("                        the application owning it delete its contents\n\n");
-  printf ("Selection options\n");
-  printf ("  -p, --primary         Operate on the PRIMARY selection (default)\n");
-  printf ("  -s, --secondary       Operate on the SECONDARY selection\n");
-  printf ("  -b, --clipboard       Operate on the CLIPBOARD selection\n\n");
-  printf ("  -k, --keep            Do not modify the selections, but make the PRIMARY\n");
-  printf ("                        and SECONDARY selections persist even after the\n");
-  printf ("                        programs they were selected in exit.\n");
-  printf ("  -x, --exchange        Exchange the PRIMARY and SECONDARY selections\n\n");
-  printf ("X options\n");
-  printf ("  -t ms, --selectionTimeout ms\n");
-  printf ("                        Specify the timeout in milliseconds within which the\n");
-  printf ("                        selection must be retrieved. A value of 0 (zero)\n");
-  printf ("                        specifies no timeout (default)\n\n");
-  printf ("Miscellaneous options\n");
-  printf ("  -l, --logfile         Specify file to log errors to when detached.\n");
-  printf ("  -n, --nodetach        Do not detach from the controlling terminal. Without\n");
-  printf ("                        this option, xsel will fork to become a background\n");
-  printf ("                        process in input, exchange and keep modes.\n\n");
-  printf ("  -h, --help            Display this help and exit\n");
-  printf ("  -v, --verbose         Print informative messages\n");
-  printf ("  --version, -V         Output version information and exit\n\n");
-  printf ("Please report bugs to <conrad@vergenet.net>.\n");
+	fprintf(stderr,
+	    "Usage: xsel [-abcdfhiknopsVvx] [-l logfile] [-t timeout]\n"
+	    "	(i)nput (a)ppend (o)utput (f)ollow (c)lear (d)elete\n"
+	    "	(k)eep e(x)change (p)rimary (s)econdary clip(b)oard\n"
+	    );
 }
 
 /*
