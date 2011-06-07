@@ -2,6 +2,7 @@
  * xsel -- manipulate the X selection
  * Copyright (C) 2001 Conrad Parker <conrad@vergenet.net>
  * UTF-8 support by Sergey Kogan <kogan@sklad.bacon.ru>
+ * MirBSD changes (c) 2011 by Thorsten Glaser <tg@mirbsd.org>
  *
  * Permission to use, copy, modify, distribute, and sell this software and
  * its documentation for any purpose is hereby granted without fee, provided
@@ -33,7 +34,7 @@
 #include <X11/Xatom.h>
 
 static const char __rcsid[] =
-    "$MirOS: X11/extras/xsel/xsel.c,v 1.9 2011/06/07 21:12:35 tg Exp $";
+    "$MirOS: X11/extras/xsel/xsel.c,v 1.10 2011/06/07 21:14:41 tg Exp $";
 
 /* Default debug level (ship at 0) */
 #define DEBUG_LEVEL 0
@@ -375,7 +376,7 @@ become_daemon (void)
   /* If the user has specified a --logfile, use that ... */
   if (logfile[0] == '\0') {
     /* ... otherwise use the default logfile */
-    snprintf (logfile, MAXFNAME, "%s/.xsel.log", homedir);
+    snprintf (logfile, MAXFNAME, "%s/.etc/xsel.log", homedir);
   }
 
   /* Make sure to create the logfile with sane permissions */
