@@ -33,7 +33,7 @@
 #include <X11/Xatom.h>
 
 static const char __rcsid[] =
-    "$MirOS: X11/extras/xsel/xsel.c,v 1.6 2011/06/07 20:55:17 tg Exp $";
+    "$MirOS: X11/extras/xsel/xsel.c,v 1.8 2011/06/07 21:09:16 tg Exp $";
 
 /* Default debug level (ship at 0) */
 #define DEBUG_LEVEL 0
@@ -213,8 +213,6 @@ usage (void)
   printf ("                        programs they were selected in exit.\n");
   printf ("  -x, --exchange        Exchange the PRIMARY and SECONDARY selections\n\n");
   printf ("X options\n");
-  printf ("  --display displayname\n");
-  printf ("                        Specify the connection to the X server\n");
   printf ("  -t ms, --selectionTimeout ms\n");
   printf ("                        Specify the timeout in milliseconds within which the\n");
   printf ("                        selection must be retrieved. A value of 0 (zero)\n");
@@ -226,7 +224,7 @@ usage (void)
   printf ("                        process in input, exchange and keep modes.\n\n");
   printf ("  -h, --help            Display this help and exit\n");
   printf ("  -v, --verbose         Print informative messages\n");
-  printf ("  --version             Output version information and exit\n\n");
+  printf ("  --version, -V         Output version information and exit\n\n");
   printf ("Please report bugs to <conrad@vergenet.net>.\n");
 }
 
@@ -1926,7 +1924,6 @@ main(int argc, char *argv[])
   int black;
   int i, s=0;
   unsigned char * old_sel = NULL, * new_sel = NULL;
-  char * display_name = NULL;
   long timeout_ms = 0L;
 
   progname = argv[0];
@@ -1955,7 +1952,7 @@ main(int argc, char *argv[])
   for (i=1; i < argc; i++) {
     if (OPT("--help") || OPT("-h")) {
       show_help = True;
-    } else if (OPT("--version")) {
+    } else if (OPT("--version") || OPT("-V")) {
       show_version = True;
     } else if (OPT("--verbose") || OPT("-v")) {
       debug_level++;
@@ -1984,9 +1981,6 @@ main(int argc, char *argv[])
       do_keep = True;
     } else if (OPT("--exchange") || OPT("-x")) {
       do_exchange = True;
-    } else if (OPT("--display")) {
-      i++; if (i >= argc) goto usage_err;
-      display_name = argv[i];
     } else if (OPT("--selectionTimeout") || OPT("-t")) {
       i++; if (i >= argc) goto usage_err;
       timeout_ms = strtol(argv[i], (char **)NULL, 10);
@@ -2032,9 +2026,9 @@ main(int argc, char *argv[])
 
   timeout = timeout_ms * 1000;
 
-  display = XOpenDisplay (display_name);
+  display = XOpenDisplay(NULL);
   if (display==NULL) {
-    err(1, "Can't open display: %s\n", display_name);
+    err(1, "Can't open display");
   }
   root = XDefaultRootWindow (display);
   
