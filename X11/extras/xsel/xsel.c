@@ -12,9 +12,6 @@
  * implied warranty.
  */
 
-/* Version number of package */
-#define VERSION "1.2.0"
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>
@@ -34,7 +31,8 @@
 #include <X11/Intrinsic.h>
 #include <X11/Xatom.h>
 
-#define AUTHOR "Conrad Parker <conrad@vergenet.net>"
+static const char __rcsid[] =
+    "$MirOS$";
 
 /* Default debug level (ship at 0) */
 #define DEBUG_LEVEL 0
@@ -2074,7 +2072,7 @@ main(int argc, char *argv[])
   }
 
   if (show_version) {
-    printf ("xsel version " VERSION " by " AUTHOR "\n");
+    printf("%s\n", __rcsid);
   }
 
   if (show_help) {
