@@ -32,7 +32,7 @@
 #include <X11/Xatom.h>
 
 static const char __rcsid[] =
-    "$MirOS$";
+    "$MirOS: X11/extras/xsel/xsel.c,v 1.6 2011/06/07 20:55:17 tg Exp $";
 
 /* Default debug level (ship at 0) */
 #define DEBUG_LEVEL 0
@@ -952,8 +952,7 @@ initialise_read (unsigned char * read_buffer)
 }
 
 /* Forward declaration of refuse_all_incr () */
-static void
-refuse_all_incr (void);
+static void refuse_all_incr(void);
 
 /*
  * handle_x_errors ()
@@ -1101,14 +1100,12 @@ find_incrtrack (Atom atom)
 }
 
 /* Forward declaration of handle_multiple() */
-static HandleResult
-handle_multiple (Display * display, Window requestor, Atom property,
-                 unsigned char * sel, Atom selection, Time time,
-                 MultTrack * mparent);
+static HandleResult handle_multiple(Display * display,
+    Window requestor, Atom property, unsigned char * sel,
+    Atom selection, Time time, MultTrack * mparent);
 
 /* Forward declaration of process_multiple() */
-static HandleResult
-process_multiple (MultTrack * mt, Boolean do_parent);
+static HandleResult process_multiple(MultTrack * mt, Boolean do_parent);
 
 /*
  * confirm_incr (it)
