@@ -12,6 +12,7 @@
  * implied warranty.
  */
 
+#include <err.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>
@@ -230,76 +231,11 @@ usage (void)
 }
 
 /*
- * exit_err (fmt)
- *
- * Print a formatted error message and errno information to stderr,
- * then exit with return code 1.
- */
-static void
-exit_err (const char * fmt, ...)
-{
-  va_list ap;
-  int errno_save;
-  char buf[MAXLINE];
-  int n;
-
-  errno_save = errno;
-
-  va_start (ap, fmt);
-
-  snprintf (buf, MAXLINE, "%s: ", progname);
-  n = strlen (buf);
-
-  vsnprintf (buf+n, MAXLINE-n, fmt, ap);
-  n = strlen (buf);
-
-  snprintf (buf+n, MAXLINE-n, ": %s\n", strerror (errno_save));
-
-  fflush (stdout); /* in case stdout and stderr are the same */
-  fputs (buf, stderr);
-  fflush (NULL);
-
-  va_end (ap);
-  exit (1);
-}
-
-/*
- * print_err (fmt)
- *
- * Print a formatted error message to stderr.
- */
-static void
-print_err (const char * fmt, ...)
-{
-  va_list ap;
-  int errno_save;
-  char buf[MAXLINE];
-  int n;
-
-  errno_save = errno;
-
-  va_start (ap, fmt);
-
-  snprintf (buf, MAXLINE, "%s: ", progname);
-  n = strlen (buf);
-
-  vsnprintf (buf+n, MAXLINE-n, fmt, ap);
-  n = strlen (buf);
-
-  fflush (stdout); /* in case stdout and stderr are the same */
-  fputs (buf, stderr);
-  fputc ('\n', stderr);
-  fflush (NULL);
-
-  va_end (ap);
-}
-
-/*
  * print_debug (level, fmt)
  *
  * Print a formatted debugging message of level 'level' to stderr
  */
-#define print_debug(x,y...) {if (x <= debug_level) print_err (y);}
+#define print_debug(x,y...) {if (x <= debug_level) warn(y);}
 
 /*
  * get_atom_name (atom)
@@ -350,7 +286,7 @@ xs_malloc (size_t size)
   void * ret;
 
   if ((ret = malloc (size)) == NULL) {
-    exit_err ("malloc error");
+    err(1, "malloc error");
   }
 
   return ret;
@@ -409,7 +345,7 @@ get_homedir (void)
 gotpw:
 
   if (!pw) {
-    exit_err ("error retrieving passwd entry");
+    err(1, "error retrieving passwd entry");
   }
 
   homedir = strdup (pw->pw_dir);
@@ -447,22 +383,22 @@ become_daemon (void)
   /* Make sure to create the logfile with sane permissions */
   log_fd = open (logfile, O_WRONLY|O_APPEND|O_CREAT, 0600);
   if (log_fd == -1) {
-    exit_err ("error opening logfile %s for writing", logfile);
+    err(1, "error opening logfile %s for writing", logfile);
   }
   print_debug (D_INFO, "opened logfile %s", logfile);
 
   if ((pid = fork()) == -1) {
-    exit_err ("error forking");
+    err(1, "error forking");
   } else if (pid > 0) {
     _exit (0);
   }
 
   if (setsid () == -1) {
-    exit_err ("setsid error");
+    err(1, "setsid error");
   }
 
   if ((pid = fork()) == -1) {
-    exit_err ("error forking");
+    err(1, "error forking");
   } else if (pid > 0) {
     _exit (0);
   }
@@ -472,7 +408,7 @@ become_daemon (void)
   if (chdir (homedir) == -1) {
     print_debug (D_WARN, "Could not chdir to %s\n", homedir);
     if (chdir ("/") == -1) {
-      exit_err ("Error chdir to /");
+      err(1, "Error chdir to /");
     }
   }
 
@@ -480,25 +416,25 @@ become_daemon (void)
   if (!do_follow) {
     null_r_fd = open ("/dev/null", O_RDONLY);
     if (null_r_fd == -1) {
-      exit_err ("error opening /dev/null for reading");
+      err(1, "error opening /dev/null for reading");
     }
     if (dup2 (null_r_fd, 0) == -1) {
-      exit_err ("error duplicating /dev/null on stdin");
+      err(1, "error duplicating /dev/null on stdin");
     }
   }
 
   /* dup2 /dev/null on stdout */
   null_w_fd = open ("/dev/null", O_WRONLY|O_APPEND);
   if (null_w_fd == -1) {
-    exit_err ("error opening /dev/null for writing");
+    err(1, "error opening /dev/null for writing");
   }
   if (dup2 (null_w_fd, 1) == -1) {
-    exit_err ("error duplicating /dev/null on stdout");
+    err(1, "error duplicating /dev/null on stdout");
   }
 
   /* dup2 logfile on stderr */
   if (dup2 (log_fd, 2) == -1) {
-    exit_err ("error duplicating logfile %s on stderr", logfile);
+    err(1, "error duplicating logfile %s on stderr", logfile);
   }
 }
 
@@ -601,7 +537,7 @@ get_append_property (XSelectionEvent * xsl, unsigned char ** buffer,
     if ((unsigned long)*offset + length > (unsigned long)*alloc) {
       *alloc = *offset + length;
       if ((*buffer = realloc (*buffer, *alloc)) == NULL) {
-        exit_err ("realloc error");
+        err(1, "realloc error");
       }
     }
     ptr = *buffer + *offset;
@@ -771,7 +707,7 @@ get_selection (Atom selection, Atom request_target)
 
   if (timeout > 0) {
     if (signal (SIGVTALRM, alarm_handler) == SIG_ERR) {
-      exit_err ("error setting timeout handler");
+      err(1, "error setting timeout handler");
     }
 
     timer.it_interval.tv_sec = 0;
@@ -879,7 +815,7 @@ try_read:
     nfd = select (1, &fds, NULL, NULL, &select_timeout);
     if (nfd == -1) {
       if (errno == EINTR) goto try_read;
-      else exit_err ("select error");
+      else err(1, "select error");
     } else if (nfd == 0) {
       print_debug (D_TRACE, "No data available for reading");
       return read_buffer;
@@ -893,7 +829,7 @@ try_read:
       current_alloc *= 2;
       new_buffer = realloc (read_buffer, current_alloc);
       if (new_buffer == NULL) {
-        exit_err ("realloc error");
+        err(1, "realloc error");
       }
       read_buffer = new_buffer;
     }
@@ -943,7 +879,7 @@ initialise_read (unsigned char * read_buffer)
   }
 
   if ((new_buffer = realloc (read_buffer, current_alloc)) == NULL) {
-    exit_err ("realloc error");
+    err(1, "realloc error");
   }
 
   read_buffer = new_buffer;
@@ -969,7 +905,7 @@ handle_x_errors (Display * display, XErrorEvent * eev)
   if (eev->error_code == BadAlloc) refuse_all_incr ();
 
   XGetErrorText (display, eev->error_code, err_buf, MAXLINE);
-  exit_err (err_buf);
+  err(1, err_buf);
 
   return 0;
 }
@@ -2077,28 +2013,28 @@ main(int argc, char *argv[])
   }
 
   if (show_version || show_help) {
-    exit (0);
+    return (0);
   }
 
   if (fstat (0, &in_statbuf) == -1) {
-    exit_err ("fstat error on stdin");
+    err(1, "fstat error on stdin");
   }
   if (fstat (1, &out_statbuf) == -1) {
-    exit_err ("fstat error on stdout");
+    err(1, "fstat error on stdout");
   }
 
   if (S_ISDIR(in_statbuf.st_mode)) {
-    exit_err ("-: Is a directory\n");
+    err(1, "-: Is a directory\n");
   }
   if (S_ISDIR(out_statbuf.st_mode)) {
-    exit_err ("stdout: Is a directory\n");
+    err(1, "stdout: Is a directory\n");
   }
 
   timeout = timeout_ms * 1000;
 
   display = XOpenDisplay (display_name);
   if (display==NULL) {
-    exit_err ("Can't open display: %s\n", display_name);
+    err(1, "Can't open display: %s\n", display_name);
   }
   root = XDefaultRootWindow (display);
   
@@ -2222,7 +2158,7 @@ main(int argc, char *argv[])
     set_selection__daemon (selection, new_sel);
   }
   
-  exit (0);
+  return (0);
 
 usage_err:
   usage ();
