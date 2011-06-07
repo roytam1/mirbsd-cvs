@@ -2229,5 +2229,5 @@ main(int argc, char *argv[])
 
 usage_err:
   usage ();
-  exit (0);
+  return (1);
 }
