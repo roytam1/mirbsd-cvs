@@ -34,7 +34,7 @@
 #include <X11/Xatom.h>
 
 static const char __rcsid[] =
-    "$MirOS: X11/extras/xsel/xsel.c,v 1.10 2011/06/07 21:14:41 tg Exp $";
+    "$MirOS: X11/extras/xsel/xsel.c,v 1.11 2011/06/07 21:58:01 tg Exp $";
 
 /* Default debug level (ship at 0) */
 #define DEBUG_LEVEL 0
@@ -270,7 +270,10 @@ static void
 debug_property (int level, Window requestor, Atom property, Atom target,
                 int length)
 {
-  print_debug (level, "Got window property: requestor 0x%x, property 0x%x, target 0x%x %s, length %d bytes", requestor, property, target, get_atom_name (target), length);
+  print_debug (level,
+    "Got window property: requestor 0x%lx, property 0x%lx, target 0x%lx %s, length %d bytes",
+    (u_long)requestor, (u_long)property, (u_long)target,
+    get_atom_name (target), length);
 }
 
 /*
@@ -542,7 +545,7 @@ get_append_property (XSelectionEvent * xsl, unsigned char ** buffer,
     ptr = *buffer + *offset;
     xs_strncpy (ptr, value, length);
     *offset += length;
-    print_debug (D_TRACE, "Appended %d bytes to buffer", length);
+    print_debug (D_TRACE, "Appended %lu bytes to buffer", length);
   } else {
     print_debug (D_WARN, "Retrieved non-8-bit data");
   }
@@ -1248,7 +1251,10 @@ static HandleResult
 incr_stage_1 (IncrTrack * it)
 {
   /* First pass: PropModeReplace, from data, size chunk */
-  print_debug (D_TRACE, "Writing first chunk (%d bytes) (target 0x%x %s) to property 0x%x of requestor 0x%x", it->chunk, it->target, get_atom_name(it->target), it->property, it->requestor);
+  print_debug (D_TRACE,
+    "Writing first chunk (%d bytes) (target 0x%lx %s) to property 0x%lx of requestor 0x%lx",
+    it->chunk, (u_long)it->target, get_atom_name(it->target),
+    (u_long)it->property, (u_long)it->requestor);
   XChangeProperty (it->display, it->requestor, it->property, it->target,
                    it->format, PropModeReplace, it->data, it->chunk);
 
@@ -1528,9 +1534,9 @@ handle_selection_request (XEvent event, unsigned char * sel)
   HandleResult hr = HANDLE_OK;
   Boolean retval = True;
 
-  print_debug (D_TRACE, "handle_selection_request, property=0x%x (%s), target=0x%x (%s)",
-               xsr->property, get_atom_name (xsr->property),
-               xsr->target, get_atom_name (xsr->target));
+  print_debug (D_TRACE, "handle_selection_request, property=0x%lx (%s), target=0x%lx (%s)",
+               (u_long)xsr->property, get_atom_name (xsr->property),
+               (u_long)xsr->target, get_atom_name (xsr->target));
 
   /* Prepare a SelectionNotify event to send, either as confirmation of
    * placing the selection in the requested property, or as notification
@@ -1632,12 +1638,12 @@ set_selection (Atom selection, unsigned char * sel)
 {
   XEvent event;
   IncrTrack * it;
-  
+
   if (own_selection (selection) == False) return;
 
   for (;;) {
     XNextEvent (display, &event);
-    
+
     switch (event.type) {
     case SelectionClear:
       if (event.xselectionclear.selection == selection) return;
@@ -1647,9 +1653,9 @@ set_selection (Atom selection, unsigned char * sel)
 
       if (do_follow)
         sel = read_input (sel, True);
-      
+
       if (!handle_selection_request (event, sel)) return;
-      
+
       break;
     case PropertyNotify:
       if (event.xproperty.state != PropertyDelete) break;
@@ -1702,7 +1708,7 @@ set_selection_pair (unsigned char * sel_p, unsigned char * sel_s)
 {
   XEvent event;
   IncrTrack * it;
-  
+
   if (sel_p) {
     if (own_selection (XA_PRIMARY) == False)
       free_string (sel_p);
@@ -1719,7 +1725,7 @@ set_selection_pair (unsigned char * sel_p, unsigned char * sel_s)
 
   for (;;) {
     XNextEvent (display, &event);
-    
+
     switch (event.type) {
     case SelectionClear:
       if (event.xselectionclear.selection == XA_PRIMARY) {
@@ -1841,13 +1847,13 @@ free_saved_argv (void)
  * Explodes single letter options so that the argument parser can see
  * all of them. Relocates argv and all arguments to the heap.
  */
-static void 
+static void
 expand_argv(int * argc, char **argv[])
 {
   int i, new_i, arglen, new_argc = *argc;
   char ** new_argv;
   char * arg;
- 
+
   /* Calculate new argc */
   for (i = 0; i < *argc; i++) {
     arglen = strlen((*argv)[i]);
@@ -1862,14 +1868,14 @@ expand_argv(int * argc, char **argv[])
   /* Copy args into new argv */
   for (i = 0, new_i = 0; i < *argc; i++) {
     arglen = strlen((*argv)[i]);
-   
+
     /* An option we need to expand? */
     if ((arglen > 2)
 	&& (*argv)[i][0] == '-' && (*argv)[i][1] != '-') {
       /* Make each letter a new argument. */
 
       char * c = ((*argv)[i] + 1);
-     
+
       while (*c != '\0') {
 	arg = xs_malloc(sizeof(char) * 3);
 	arg[0] = '-';
@@ -2032,12 +2038,12 @@ main(int argc, char *argv[])
     err(1, "Can't open display");
   }
   root = XDefaultRootWindow (display);
-  
+
   /* Create an unmapped window for receiving events */
   black = BlackPixel (display, DefaultScreen (display));
   window = XCreateSimpleWindow (display, root, 0, 0, 1, 1, 0, black, black);
 
-  print_debug (D_INFO, "Window id: 0x%x (unmapped)", window);
+  print_debug (D_INFO, "Window id: 0x%lx (unmapped)", (u_long)window);
 
   /* Get a timestamp */
   XSelectInput (display, window, PropertyChangeMask);
@@ -2152,7 +2158,7 @@ main(int argc, char *argv[])
     new_sel = read_input (new_sel, False);
     set_selection__daemon (selection, new_sel);
   }
-  
+
   return (0);
 
 usage_err:
