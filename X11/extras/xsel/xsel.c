@@ -14,6 +14,7 @@
  */
 
 #include <err.h>
+#include <limits.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>
@@ -1805,65 +1806,6 @@ free_saved_argv (void)
 }
 
 /*
- * expand_argv (&argc, &argv)
- *
- * Explodes single letter options so that the argument parser can see
- * all of them. Relocates argv and all arguments to the heap.
- */
-static void
-expand_argv(int * argc, char **argv[])
-{
-  int i, new_i, arglen, new_argc = *argc;
-  char ** new_argv;
-  char * arg;
-
-  /* Calculate new argc */
-  for (i = 0; i < *argc; i++) {
-    arglen = strlen((*argv)[i]);
-    /* An option we need to expand? */
-    if ((arglen > 2) && (*argv)[i][0] == '-' && (*argv)[i][1] != '-')
-      new_argc += arglen-2;
-  }
-
-  /* Allocate new_argv */
-  new_argv = xs_malloc (new_argc * sizeof(char *));
-
-  /* Copy args into new argv */
-  for (i = 0, new_i = 0; i < *argc; i++) {
-    arglen = strlen((*argv)[i]);
-
-    /* An option we need to expand? */
-    if ((arglen > 2)
-	&& (*argv)[i][0] == '-' && (*argv)[i][1] != '-') {
-      /* Make each letter a new argument. */
-
-      char * c = ((*argv)[i] + 1);
-
-      while (*c != '\0') {
-	arg = xs_malloc(sizeof(char) * 3);
-	arg[0] = '-';
-	arg[1] = *c;
-	arg[2] = '\0';
-        new_argv[new_i++] = arg;
-        c++;
-      }
-    } else {
-      /* Simply copy the argument pointer to new_argv */
-      new_argv[new_i++] = strdup ((*argv)[i]);
-    }
-  }
-
-  /* Set the expected return values */
-  *argc = new_argc;
-  *argv = new_argv;
-
-  /* Save the new argc, argv values and free them on exit */
-  saved_argc = new_argc;
-  saved_argv = new_argv;
-  atexit (free_saved_argv);
-}
-
-/*
  * main (argc, argv)
  * =================
  *
@@ -1895,6 +1837,7 @@ main(int argc, char *argv[])
   int i, s=0;
   unsigned char * old_sel = NULL, * new_sel = NULL;
   long timeout_ms = 0L;
+  const char *ccp;
 
   progname = argv[0];
 
@@ -1913,60 +1856,72 @@ main(int argc, char *argv[])
     do_output = !isatty(1); dont_output = !do_output;
   }
 
-#define OPT(s) (strcmp (argv[i], (s)) == 0)
-
-  /* Expand argv array before parsing to uncombine arguments. */
-  expand_argv(&argc, &argv);
-
-  /* Parse options; modify behaviour according to user-specified options */
-  for (i=1; i < argc; i++) {
-    if (OPT("--help") || OPT("-h")) {
-      show_help = True;
-    } else if (OPT("--version") || OPT("-V")) {
-      show_version = True;
-    } else if (OPT("--verbose") || OPT("-v")) {
-      debug_level++;
-    } else if (OPT("--append") || OPT("-a")) {
-      do_append = True;
-      dont_output = True;
-    } else if (OPT("--input") || OPT("-i")) {
-      do_input = True;
-      dont_output = True;
-    } else if (OPT("--clear") || OPT("-c")) {
-      do_clear = True;
-      dont_output = True;
-    } else if (OPT("--output") || OPT("-o")) {
-      do_output = True;
-      dont_input = True;
-    } else if (OPT("--follow") || OPT("-f")) {
-      do_follow = True;
-      dont_output = True;
-    } else if (OPT("--primary") || OPT("-p")) {
-      selection = XA_PRIMARY;
-    } else if (OPT("--secondary") || OPT("-s")) {
-      selection = XA_SECONDARY;
-    } else if (OPT("--clipboard") || OPT("-b")) {
-      want_clipboard = True;
-    } else if (OPT("--keep") || OPT("-k")) {
-      do_keep = True;
-    } else if (OPT("--exchange") || OPT("-x")) {
-      do_exchange = True;
-    } else if (OPT("--selectionTimeout") || OPT("-t")) {
-      i++; if (i >= argc) goto usage_err;
-      timeout_ms = strtol(argv[i], (char **)NULL, 10);
-      if (timeout_ms < 0) timeout_ms = 0;
-    } else if (OPT("--nodetach") || OPT("-n")) {
-      no_daemon = True;
-    } else if (OPT("--delete") || OPT("-d")) {
-      do_delete = True;
-      dont_output = True;
-    } else if (OPT("--logfile") || OPT("-l")) {
-      i++; if (i >= argc) goto usage_err;
-      strncpy (logfile, argv[i], MAXFNAME);
-    } else {
-      goto usage_err;
-    }
-  }
+	while ((i = getopt(argc, argv, "abcdfhikl:nopst:Vvx")) != -1)
+		switch (i) {
+		case 'a':
+			do_append = True;
+			dont_output = True;
+			break;
+		case 'b':
+			want_clipboard = True;
+			break;
+		case 'c':
+			do_clear = True;
+			dont_output = True;
+			break;
+		case 'd':
+			do_delete = True;
+			dont_output = True;
+			break;
+		case 'f':
+			do_follow = True;
+			dont_output = True;
+			break;
+		case 'h':
+			show_help = True;
+			break;
+		case 'i':
+			do_input = True;
+			dont_output = True;
+			break;
+		case 'k':
+			do_keep = True;
+			break;
+		case 'l':
+			strlcpy(logfile, optarg, sizeof(logfile));
+			break;
+		case 'n':
+			no_daemon = True;
+			break;
+		case 'o':
+			do_output = True;
+			dont_input = True;
+			break;
+		case 'p':
+			selection = XA_PRIMARY;
+			break;
+		case 's':
+			selection = XA_SECONDARY;
+			break;
+		case 't':
+			timeout_ms = strtonum(optarg, 0, LONG_MAX, &ccp);
+			if (ccp)
+				err(1, "timeout is %s: %s", ccp, optarg);
+			break;
+		case 'V':
+			show_version = True;
+			break;
+		case 'v':
+			debug_level++;
+			break;
+		case 'x':
+			do_exchange = True;
+			break;
+		default:
+			usage();
+			return (1);
+		}
+	argv += optind;
 
   if (show_version) {
     printf("%s\n", __rcsid);
@@ -2123,8 +2078,4 @@ main(int argc, char *argv[])
   }
 
   return (0);
-
-usage_err:
-  usage ();
-  return (1);
 }
