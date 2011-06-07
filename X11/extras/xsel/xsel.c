@@ -11,9 +11,8 @@
  * implied warranty.
  */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
+/* Version number of package */
+#define VERSION "1.2.0"
 
 #include <stdio.h>
 #include <stdlib.h>
