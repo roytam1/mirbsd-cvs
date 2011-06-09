@@ -1,6 +1,8 @@
 #!/bin/mksh
-# $MirOS$
+# $MirOS: contrib/hosted/tg/deb/aguspeed.sh,v 1.1 2011/05/25 17:46:54 tg Exp $
 # $Id$
+#-
+# From Planet Debian. Not complicated enough for copyright.
 
 unset LANGUAGE
 export LC_ALL=C
