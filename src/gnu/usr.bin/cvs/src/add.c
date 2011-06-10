@@ -1,6 +1,11 @@
 /*
- * Copyright (c) 1992, Brian Berliner and Jeff Polk
- * Copyright (c) 1989-1992, Brian Berliner
+ * Copyright (C) 1986-2005 The Free Software Foundation, Inc.
+ *
+ * Portions Copyright (C) 1998-2005 Derek Price, Ximbiot <http://ximbiot.com>,
+ *                                  and others.
+ *
+ * Portions Copyright (c) 1992, Brian Berliner and Jeff Polk
+ * Portions Copyright (c) 1989-1992, Brian Berliner
  * 
  * You may distribute under the terms of the GNU General Public License as
  * specified in the README file that comes with the CVS source distribution.
@@ -13,9 +18,9 @@
  * For a directory, it is added at the appropriate place in the source
  * repository and a CVS directory is generated within the directory.
  * 
- * The -m option is currently the only supported option.  Some may wish to
- * supply standard "rcs" options here, but I've found that this causes more
- * trouble than anything else.
+ * `cvs add' supports `-k <mode>' and `-m <description>' options.
+ * Some may wish to supply other standard "rcs" options here, but I've
+ * found that this causes more trouble than anything else.
  * 
  * The user files or directories must already exist.  For a directory, it must
  * not already have a CVS file in it.
@@ -37,8 +42,9 @@ static int build_entry (const char *repository, const char *user,
 static const char *const add_usage[] =
 {
     "Usage: %s %s [-k rcs-kflag] [-m message] files...\n",
-    "\t-k\tUse \"rcs-kflag\" to add the file with the specified kflag.\n",
-    "\t-m\tUse \"message\" for the creation log.\n",
+    "\t-k rcs-kflag\tUse \"rcs-kflag\" to add the file with the specified\n",
+    "\t\t\tkflag.\n",
+    "\t-m message\tUse \"message\" for the creation log.\n",
     "(Specify the --help global option for a list of other help options)\n",
     NULL
 };
@@ -73,12 +79,12 @@ add (int argc, char **argv)
 	switch (c)
 	{
 	    case 'k':
-		if (options)
-		    free (options);
+		if (options) free (options);
 		options = RCS_check_kflag (optarg);
 		break;
 
 	    case 'm':
+		if (message) free (message);
 		message = xstrdup (optarg);
 		break;
 	    case '?':
@@ -236,8 +242,7 @@ add (int argc, char **argv)
 		   per-directory tags */
 		ParseTag (&tag, &date, &nonbranch);
 
-		rcsdir = xmalloc (strlen (repository) + strlen (p) + 5);
-		sprintf (rcsdir, "%s/%s", repository, p);
+		rcsdir = Xasprintf ("%s/%s", repository, p);
 
 		Create_Admin (p, argv[j], rcsdir, tag, date,
 			      nonbranch, 0, 1);
@@ -258,10 +263,10 @@ add (int argc, char **argv)
 		free (rcsdir);
 
 		if (p == filedir)
-		    Subdir_Register ((List *) NULL, (char *) NULL, argv[j]);
+		    Subdir_Register (NULL, NULL, argv[j]);
 		else
 		{
-		    Subdir_Register ((List *) NULL, update_dir, p);
+		    Subdir_Register (NULL, update_dir, p);
 		}
 		free (repository);
 		free (filedir);
@@ -361,10 +366,7 @@ add (int argc, char **argv)
 		     * See if a directory exists in the repository with
 		     * the same name.  If so, blow this request off.
 		     */
-		    char *dname = xmalloc (strlen (repository)
-					   + strlen (finfo.file)
-					   + 10);
-		    (void) sprintf (dname, "%s/%s", repository, finfo.file);
+		    char *dname = Xasprintf ("%s/%s", repository, finfo.file);
 		    if (isdir (dname))
 		    {
 			error (0, 0,
@@ -518,8 +520,8 @@ add (int argc, char **argv)
 			    char *bbuf;
 			    if (vers->tag)
 			    {
-				bbuf = xmalloc (strlen (vers->tag) + 14);
-				sprintf (bbuf, " on branch `%s'", vers->tag);
+				bbuf = Xasprintf (" on branch `%s'",
+						  vers->tag);
 			    }
 			    else
 				bbuf = "";
@@ -603,10 +605,9 @@ add (int argc, char **argv)
 		     * There is an RCS file, so remove the "-" from the
 		     * version number and restore the file
 		     */
-		    char *tmp = xmalloc (strlen (vers->vn_user));
-		    (void) strcpy (tmp, vers->vn_user + 1);
+		    char *tmp = xstrdup (vers->vn_user + 1);
 		    (void) strcpy (vers->vn_user, tmp);
-		    free( tmp );
+		    free (tmp);
 		    status = RCS_checkout (vers->srcfile, finfo.file,
 					   vers->vn_user, vers->tag,
 					   vers->options, RUN_TTY,
@@ -768,18 +769,13 @@ add_directory (struct file_info *finfo)
 	error (0, errno, "cannot chdir to %s", finfo->fullname);
 	return 1;
     }
-#ifdef SERVER_SUPPORT
     if (!server_active && isfile (CVSADM))
-#else
-    if (isfile (CVSADM))
-#endif
     {
 	error (0, 0, "%s/%s already exists", finfo->fullname, CVSADM);
 	goto out;
     }
 
-    rcsdir = xmalloc (strlen (repository) + strlen (dir) + 5);
-    sprintf (rcsdir, "%s/%s", repository, dir);
+    rcsdir = Xasprintf ("%s/%s", repository, dir);
     if (isfile (rcsdir) && !isdir (rcsdir))
     {
 	error (0, 0, "%s is not a directory; %s not added", rcsdir,
@@ -788,24 +784,12 @@ add_directory (struct file_info *finfo)
     }
 
     /* setup the log message */
-    message = xmalloc (strlen (rcsdir)
-		       + 36
-		       + (tag == NULL ? 0 : strlen (tag) + 38)
-		       + (date == NULL ? 0 : strlen (date) + 39));
-    (void) sprintf (message, "Directory %s added to the repository\n",
-		    rcsdir);
-    if (tag)
-    {
-	(void) strcat (message, "--> Using per-directory sticky tag `");
-	(void) strcat (message, tag);
-	(void) strcat (message, "'\n");
-    }
-    if (date)
-    {
-	(void) strcat (message, "--> Using per-directory sticky date `");
-	(void) strcat (message, date);
-	(void) strcat (message, "'\n");
-    }
+    message = Xasprintf ("Directory %s put under version control\n%s%s%s%s%s%s",
+			 rcsdir,
+			 tag ? "--> Using per-directory sticky tag `" : "",
+			 tag ? tag : "", tag ? "'\n" : "",
+			 date ? "--> Using per-directory sticky date `" : "",
+			 date ? date : "", date ? "'\n" : "");
 
     if (!isdir (rcsdir))
     {
@@ -851,21 +835,19 @@ add_directory (struct file_info *finfo)
 	p->type = UPDATE;
 	p->delproc = update_delproc;
 	p->key = xstrdup ("- New directory");
-	li = (struct logfile_info *) xmalloc (sizeof (struct logfile_info));
+	li = xmalloc (sizeof (struct logfile_info));
 	li->type = T_TITLE;
 	li->tag = xstrdup (tag);
 	li->rev_old = li->rev_new = NULL;
 	p->data = li;
 	(void) addnode (ulist, p);
-	Update_Logfile (rcsdir, message, (FILE *) NULL, ulist);
+	Update_Logfile (rcsdir, message, NULL, ulist);
 	dellist (&ulist);
     }
 
-#ifdef SERVER_SUPPORT
     if (server_active)
 	WriteTemplate (finfo->fullname, 1, rcsdir);
     else
-#endif
 	Create_Admin (".", finfo->fullname, rcsdir, tag, date, nonbranch, 0, 1);
 
     if (tag)
@@ -878,7 +860,7 @@ add_directory (struct file_info *finfo)
 	       cwd.name);
     free_cwd (&cwd);
 
-    Subdir_Register (entries, (char *) NULL, dir);
+    Subdir_Register (entries, NULL, dir);
 
     if (!really_quiet)
 	cvs_output (message, 0);
@@ -893,6 +875,7 @@ out:
 	error (1, errno, "Failed to restore current directory, `%s'.",
 	       cwd.name);
     free_cwd (&cwd);
+    if (message) free (message);
     if (rcsdir != NULL)
 	free (rcsdir);
     return 0;
@@ -920,13 +903,12 @@ build_entry (const char *repository, const char *user, const char *options,
      * file user,t.  If the "message" argument is set, use it as the
      * initial creation log (which typically describes the file).
      */
-    fname = xmalloc (strlen (user) + 80);
-    (void) sprintf (fname, "%s/%s%s", CVSADM, user, CVSEXT_LOG);
-    fp = open_file (fname, "w+");
+    fname = Xasprintf ("%s/%s%s", CVSADM, user, CVSEXT_LOG);
+    fp = xfopen (fname, "w+");
     if (message && fputs (message, fp) == EOF)
 	    error (1, errno, "cannot write to %s", fname);
-    if (fclose(fp) == EOF)
-        error(1, errno, "cannot close %s", fname);
+    if (fclose (fp) == EOF)
+        error (1, errno, "cannot close %s", fname);
     free (fname);
 
     /*
@@ -934,14 +916,8 @@ build_entry (const char *repository, const char *user, const char *options,
      * without needing to clean anything up (well, we could clean up the
      * ,t file, but who cares).
      */
-    line = xmalloc (strlen (user) + 20);
-    (void) sprintf (line, "Initial %s", user);
-    Register (entries, user, "0", line, options, tag, (char *) 0, (char *) 0);
+    line = Xasprintf ("Initial %s", user);
+    Register (entries, user, "0", line, options, tag, NULL, NULL);
     free (line);
     return 0;
 }
-
-
-
-/* vim:tabstop=8:shiftwidth=4
- */
