@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/tg/deb/pbuilderrc,v 1.9 2011/05/01 12:38:28 tg Exp $
+# $MirOS: contrib/hosted/tg/deb/pbuilderrc,v 1.10 2011/05/01 12:42:03 tg Exp $
 #-
 # Sample ~/.pbuilderrc for multiple distribution and suite support.
 # May work, but may just as well break. Experimental.
@@ -287,7 +287,7 @@ test $DISTRIBUTION = etch && \
 PBUILDERSATISFYDEPENDSOPT=(--check-key)
 #APTGETOPT=(--force-yes --purge)
 APTGETOPT=(--purge)
-export REMOVEPACKAGES='grub grub2 grub-pc grub-legacy lilo tasksel udev'
+export REMOVEPACKAGES='grub grub2 grub-pc grub-legacy lilo tasksel'
 export USEDEVFS=no
 export USEDEVPTS=yes
 export USEPROC=yes
