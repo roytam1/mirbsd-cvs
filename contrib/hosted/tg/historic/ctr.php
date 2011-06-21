@@ -8,7 +8,7 @@
  <title>Website Visitor Counter script by Thorsten Glaser</title>
 </head><body><?php
 /*-
- * $MirOS: contrib/hosted/tg/historic/ctr.php,v 1.2 2010/11/10 16:07:42 tg Exp $
+ * $MirOS: contrib/hosted/tg/historic/ctr.php,v 1.3 2010/11/10 16:14:56 tg Exp $
  *-
  * Copyright (c) 2006, 2010
  *	Thorsten Glaser <tg@mirbsd.de>
@@ -183,7 +183,7 @@ $count_everything = $count_rest + $count_yday + $count_today;
 /* +++ begin +++ format the output +++ */
 $odata = "<table style=\"font-size:x-small;\">
  <tr>
-  <th colspan=\"2\">Besucher auf dieser Seite</th>
+  <th colspan=\"2\">Seitenbesucher</th>
  </tr><tr>
   <td>Gestern</td>
   <td align=\"right\">${count_yday}
