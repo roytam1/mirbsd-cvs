@@ -1,5 +1,5 @@
 #!/bin/mksh
-rcsid='$MirOS: contrib/hosted/tg/deb/quinn-ls.sh,v 1.3 2011/05/25 17:40:51 tg Exp $'
+rcsid='$MirOS: contrib/hosted/tg/deb/quinn-ls.sh,v 1.4 2011/06/23 20:23:32 tg Exp $'
 #-
 # Copyright © 2011
 #	Thorsten Glaser <tg@debian.org>
@@ -161,6 +161,7 @@ print -u2 '\nreading override files [bad bld ign]…'
 for type in bad bld ign; do
 	[[ -s $mydir/quinn-ls.$type ]] || continue
 	while read pkg vsn; do
+		[[ $pkg = '#'* ]] && continue
 		if ! isdebpkg "$pkg"; then
 			print -ru2 "skipping invalid package '$pkg'," \
 			    override $type
