@@ -46,10 +46,6 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef lint
-static const char rcsid[] = "$OpenBSD: rusers.c,v 1.26 2003/08/04 17:06:46 deraadt Exp $";
-#endif /* not lint */
-
 #include <sys/param.h>
 #include <sys/ioctl.h>
 #include <sys/socket.h>
@@ -69,6 +65,8 @@ static const char rcsid[] = "$OpenBSD: rusers.c,v 1.26 2003/08/04 17:06:46 deraa
 #include <string.h>
 #include <termios.h>
 #include <unistd.h>
+
+__RCSID("$MirOS$");
 
 /* Preferred formatting */
 #define HOST_WIDTH 17
@@ -795,17 +793,12 @@ alarmclock(int signo)
 char *
 estrndup(const char *src, size_t len)
 {
-	char *dst, *end;
+	char *dst;
 
-	if ((end = memchr(src, '\0', len)) != NULL)
-		len = end - src;
-
-	if ((dst = malloc(len + 1)) == NULL)
+	if ((dst = strndup(src, len)) == NULL)
 		err(1, NULL);
-	memcpy(dst, src, len);
-	dst[len] = '\0';
 
-	return(dst);
+	return (dst);
 }
 
 void
