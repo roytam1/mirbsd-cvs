@@ -46,7 +46,7 @@
 # if NAMED_BIND
 #  include "sm_resolve.h"
 
-SM_RCSID("$Sendmail: sm_resolve.c,v 8.36 2008/02/11 23:04:16 ca Exp $")
+SM_RCSID("$Id$")
 
 static struct stot
 {

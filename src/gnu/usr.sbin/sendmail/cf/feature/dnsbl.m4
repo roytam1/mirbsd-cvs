@@ -12,7 +12,7 @@ divert(-1)
 ifdef(`DNSBL_MAP', `', `define(`DNSBL_MAP', `dns -R A')')
 divert(0)
 ifdef(`_DNSBL_R_',`dnl',`dnl
-VERSIONID(`$Sendmail: dnsbl.m4,v 8.33 2007/01/05 18:49:29 ca Exp $')
+VERSIONID(`$Id$')
 define(`_DNSBL_R_',`')
 ifelse(defn(`_ARG_'), `', 
 	`errprint(`*** ERROR: missing argument for FEATURE(`dnsbl')')')

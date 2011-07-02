@@ -15,9 +15,9 @@
 #include "map.h"
 
 #if USERDB
-SM_RCSID("@(#)$Sendmail: udb.c,v 8.164 2006/12/19 19:49:51 ca Exp $ (with USERDB)")
+SM_RCSID("@(#)$Id$ (with USERDB)")
 #else /* USERDB */
-SM_RCSID("@(#)$Sendmail: udb.c,v 8.164 2006/12/19 19:49:51 ca Exp $ (without USERDB)")
+SM_RCSID("@(#)$Id$ (without USERDB)")
 #endif /* USERDB */
 
 #if USERDB

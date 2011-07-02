@@ -17,7 +17,7 @@
 # include <libmilter/mfdef.h>
 #endif /* MILTER */
 
-SM_RCSID("@(#)$Sendmail: srvrsmtp.c,v 8.975 2008/03/31 16:32:13 ca Exp $")
+SM_RCSID("@(#)$Id$")
 
 #include <sm/time.h>
 #include <sm/fdset.h>

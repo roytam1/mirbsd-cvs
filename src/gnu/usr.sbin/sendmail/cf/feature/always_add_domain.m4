@@ -13,7 +13,7 @@ divert(-1)
 #
 
 divert(0)
-VERSIONID(`$Sendmail: always_add_domain.m4,v 8.11 2000/09/12 22:00:53 ca Exp $')
+VERSIONID(`$Id$')
 divert(-1)
 
 ifdef(`_MAILER_local_',

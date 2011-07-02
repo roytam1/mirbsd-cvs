@@ -45,7 +45,7 @@
  */
 
 #include <sendmail.h>
-SM_RCSID("@(#)$Sendmail: ratectrl.c,v 8.12 2008/02/11 22:56:05 ca Exp $")
+SM_RCSID("@(#)$Id$")
 
 /*
 **  stuff included - given some warnings (inet_ntoa)

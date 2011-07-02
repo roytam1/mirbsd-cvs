@@ -10,7 +10,7 @@
 
 #include <sendmail.h>
 
-SM_RCSID("@(#)$Sendmail: control.c,v 8.128 2006/08/15 23:24:56 ca Exp $")
+SM_RCSID("@(#)$Id$")
 
 #include <sm/fdset.h>
 

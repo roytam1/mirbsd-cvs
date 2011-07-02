@@ -52,7 +52,7 @@
 
 #ifdef _DEFINE
 # ifndef lint
-SM_UNUSED(static char SmailId[]) = "@(#)$Sendmail: sendmail.h,v 8.1059 2008/02/15 23:19:58 ca Exp $";
+SM_UNUSED(static char SmailId[]) = "@(#)$Id$";
 # endif /* ! lint */
 #endif /* _DEFINE */
 

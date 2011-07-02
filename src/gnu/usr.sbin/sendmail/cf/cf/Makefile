@@ -2,7 +2,7 @@
 #
 #  Makefile for configuration files.
 #
-#	$Sendmail: Makefile,v 8.60 2005/06/14 02:16:34 gshapiro Exp $
+#	$Id$
 #
 
 #

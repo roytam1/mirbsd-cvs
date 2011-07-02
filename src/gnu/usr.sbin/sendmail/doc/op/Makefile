@@ -1,4 +1,4 @@
-#	$Sendmail: Makefile,v 8.16 2006/01/05 22:03:31 ca Exp $
+#	$Id$
 
 DIR=	smm/08.sendmailop
 SRCS=	op.me

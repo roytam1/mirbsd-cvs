@@ -11,7 +11,7 @@ divert(-1)
 # the sendmail distribution.
 #
 #
-VERSIONID(`$Sendmail: version.m4,v 8.195 2008/04/17 17:04:30 ca Exp $')
+VERSIONID(`$Id$')
 #
 divert(0)
 # Configuration version number

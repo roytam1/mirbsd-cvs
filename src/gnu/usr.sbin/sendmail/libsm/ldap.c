@@ -11,7 +11,7 @@
 #define LDAP_DEPRECATED	1
 
 #include <sm/gen.h>
-SM_RCSID("@(#)$Sendmail: ldap.c,v 1.80 2007/10/12 00:19:44 ca Exp $")
+SM_RCSID("@(#)$Id$")
 
 #if LDAPMAP
 # include <sys/types.h>

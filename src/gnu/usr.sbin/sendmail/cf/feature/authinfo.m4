@@ -10,7 +10,7 @@ divert(-1)
 #
 
 divert(0)
-VERSIONID(`$Sendmail: authinfo.m4,v 1.9 2002/06/27 23:23:57 gshapiro Exp $')
+VERSIONID(`$Id$')
 divert(-1)
 
 define(`_AUTHINFO_TABLE_', `')

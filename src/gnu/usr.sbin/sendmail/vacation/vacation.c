@@ -20,7 +20,7 @@ SM_IDSTR(copyright,
 	The Regents of the University of California.  All rights reserved.\n\
      Copyright (c) 1983 Eric P. Allman.  All rights reserved.\n")
 
-SM_IDSTR(id, "@(#)$Sendmail: vacation.c,v 8.144 2007/05/11 18:50:36 ca Exp $")
+SM_IDSTR(id, "@(#)$Id$")
 
 
 #include <ctype.h>

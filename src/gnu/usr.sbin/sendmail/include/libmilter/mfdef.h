@@ -7,7 +7,7 @@
  * the sendmail distribution.
  *
  *
- *	$Sendmail: mfdef.h,v 8.38 2007/03/27 18:53:48 ca Exp $
+ *	$Id$
  */
 
 /*

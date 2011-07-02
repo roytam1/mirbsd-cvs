@@ -26,7 +26,7 @@ SM_UNUSED(static char copyright[]) =
 	The Regents of the University of California.  All rights reserved.\n";
 #endif /* ! lint */
 
-SM_RCSID("@(#)$Sendmail: main.c,v 8.967 2008/03/31 16:32:13 ca Exp $")
+SM_RCSID("@(#)$Id$")
 
 
 #if NETINET || NETINET6

@@ -11,7 +11,7 @@
  */
 
 #include <sm/gen.h>
-SM_RCSID("@(#)$Sendmail: worker.c,v 8.10 2007/12/03 22:06:05 ca Exp $")
+SM_RCSID("@(#)$Id$")
 
 #include "libmilter.h"
 

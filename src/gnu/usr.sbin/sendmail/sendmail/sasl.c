@@ -9,7 +9,7 @@
  */
 
 #include <sm/gen.h>
-SM_RCSID("@(#)$Sendmail: sasl.c,v 8.22 2006/08/15 23:24:57 ca Exp $")
+SM_RCSID("@(#)$Id$")
 
 #if SASL
 # include <stdlib.h>

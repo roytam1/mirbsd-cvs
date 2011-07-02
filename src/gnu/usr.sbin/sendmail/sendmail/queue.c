@@ -14,7 +14,7 @@
 #include <sendmail.h>
 #include <sm/sem.h>
 
-SM_RCSID("@(#)$Sendmail: queue.c,v 8.977 2008/02/15 23:19:58 ca Exp $")
+SM_RCSID("@(#)$Id$")
 
 #include <dirent.h>
 

@@ -13,7 +13,7 @@ divert(-1)
 #
 
 divert(0)
-VERSIONID(`$Sendmail: bestmx_is_local.m4,v 8.26 2000/09/17 17:30:00 gshapiro Exp $')
+VERSIONID(`$Id$')
 divert(-1)
 
 define(`_BESTMX_IS_LOCAL_', _ARG_)

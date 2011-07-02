@@ -10,7 +10,7 @@ divert(-1)
 #
 
 divert(0)
-VERSIONID(`$Sendmail: preserve_luser_host.m4,v 1.3 2002/04/14 13:22:58 ca Exp $')
+VERSIONID(`$Id$')
 divert(-1)
 
 ifdef(`LUSER_RELAY', `',

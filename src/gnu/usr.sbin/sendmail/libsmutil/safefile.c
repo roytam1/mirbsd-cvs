@@ -15,7 +15,7 @@
 #include <sm/io.h>
 #include <sm/errstring.h>
 
-SM_RCSID("@(#)$Sendmail: safefile.c,v 8.128 2004/09/30 18:15:49 ca Exp $")
+SM_RCSID("@(#)$Id$")
 
 
 /*

@@ -9,7 +9,7 @@
  */
 
 #include <sm/gen.h>
-SM_RCSID("@(#)$Sendmail: exc.c,v 1.49 2006/12/19 19:28:09 ca Exp $")
+SM_RCSID("@(#)$Id$")
 
 /*
 **  exception handling

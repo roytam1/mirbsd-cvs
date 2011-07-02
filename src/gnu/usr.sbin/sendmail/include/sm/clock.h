@@ -9,7 +9,7 @@
  * forth in the LICENSE file which can be found at the top level of
  * the sendmail distribution.
  *
- *	$Sendmail: clock.h,v 1.12 2004/08/03 19:57:21 ca Exp $
+ *	$Id$
  */
 
 /*

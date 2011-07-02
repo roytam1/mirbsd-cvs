@@ -7,7 +7,7 @@
  * the sendmail distribution.
  *
  *
- *	$Sendmail: mfapi.h,v 8.78 2008/02/27 22:30:34 ca Exp $
+ *	$Id$
  */
 
 /*

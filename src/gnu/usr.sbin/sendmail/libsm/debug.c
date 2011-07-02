@@ -8,7 +8,7 @@
  */
 
 #include <sm/gen.h>
-SM_RCSID("@(#)$Sendmail: debug.c,v 1.30 2004/08/03 20:10:26 ca Exp $")
+SM_RCSID("@(#)$Id$")
 
 /*
 **  libsm debugging and tracing

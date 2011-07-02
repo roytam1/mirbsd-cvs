@@ -1,4 +1,4 @@
-#       $Sendmail: Makefile,v 1.2 2006/08/16 21:06:30 ca Exp $
+#       $Id$
 
 LIB=	sm
 SRCS=	assert.c debug.c errstring.c exc.c heap.c match.c rpool.c strdup.c \

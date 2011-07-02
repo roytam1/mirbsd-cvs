@@ -10,7 +10,7 @@
 
 #include <sendmail.h>
 
-SM_RCSID("@(#)$Sendmail: tls.c,v 8.107 2006/10/12 21:35:11 ca Exp $")
+SM_RCSID("@(#)$Id$")
 
 #if STARTTLS
 #  include <openssl/err.h>

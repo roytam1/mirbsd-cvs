@@ -11,7 +11,7 @@
  */
 
 #include <sm/gen.h>
-SM_RCSID("@(#)$Sendmail: shmticklib.c,v 8.14 2001/09/11 04:05:16 gshapiro Exp $")
+SM_RCSID("@(#)$Id$")
 
 #if _FFR_SHM_STATUS
 # include <sys/types.h>

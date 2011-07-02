@@ -36,7 +36,7 @@
 #define	SM_TAILQ_H_
 
 /*
- * $Sendmail: tailq.h,v 1.2 2007/06/29 23:09:57 ca Exp $
+ * $Id$
  *
  * This file is a modified copy of queue.h from a BSD system:
  * we only need tail queues here.

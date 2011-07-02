@@ -9,7 +9,7 @@
  */
 
 #include <sm/gen.h>
-SM_RCSID("@(#)$Sendmail: sm_gethost.c,v 8.27 2004/08/20 21:12:37 ca Exp $")
+SM_RCSID("@(#)$Id$")
 
 #include <sendmail.h>
 #if NETINET || NETINET6

@@ -15,9 +15,9 @@
 #include "map.h"
 
 #if NAMED_BIND
-SM_RCSID("@(#)$Sendmail: domain.c,v 8.202 2006/12/19 01:15:07 ca Exp $ (with name server)")
+SM_RCSID("@(#)$Id$ (with name server)")
 #else /* NAMED_BIND */
-SM_RCSID("@(#)$Sendmail: domain.c,v 8.202 2006/12/19 01:15:07 ca Exp $ (without name server)")
+SM_RCSID("@(#)$Id$ (without name server)")
 #endif /* NAMED_BIND */
 
 #if NAMED_BIND
