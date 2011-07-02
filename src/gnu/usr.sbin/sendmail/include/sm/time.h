@@ -6,7 +6,7 @@
  * forth in the LICENSE file which can be found at the top level of
  * the sendmail distribution.
  *
- *	$Sendmail: time.h,v 1.1 2005/06/14 23:07:19 ca Exp $
+ *	$Id$
  */
 
 #ifndef SM_TIME_H

@@ -59,7 +59,7 @@ dnl ##	address returned does not begin 127, then the mail is
 dnl ##	processed as if the HACK line were not present.
 
 divert(0)
-VERSIONID(`$Sendmail: dnsblaccess.m4,v 1.6 2005/07/25 23:32:05 ca Exp $')
+VERSIONID(`$Id$')
 ifdef(`_ACCESS_TABLE_', `dnl',
 	`errprint(`*** ERROR: dnsblaccess requires FEATURE(`access_db')
 ')')

@@ -41,7 +41,7 @@
  * SUCH DAMAGE.
  */
 
-/* $Sendmail: sm_resolve.h,v 8.8 2001/09/01 00:06:02 gshapiro Exp $ */
+/* $Id$ */
 
 #if DNSMAP
 # ifndef __ROKEN_RESOLVE_H__

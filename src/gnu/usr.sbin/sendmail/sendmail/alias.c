@@ -13,7 +13,7 @@
 
 #include <sendmail.h>
 
-SM_RCSID("@(#)$Sendmail: alias.c,v 8.219 2006/10/24 18:04:09 ca Exp $")
+SM_RCSID("@(#)$Id$")
 
 #define SEPARATOR ':'
 # define ALIAS_SPEC_SEPARATORS	" ,/:"

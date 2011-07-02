@@ -19,7 +19,7 @@
 */
 
 #include <sm/gen.h>
-SM_RCSID("@(#)$Sendmail: b-strl.c,v 1.25 2005/06/14 23:07:20 ca Exp $")
+SM_RCSID("@(#)$Id$")
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>

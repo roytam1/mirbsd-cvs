@@ -10,7 +10,7 @@ divert(-1)
 #
 
 divert(0)
-VERSIONID(`$Sendmail: delay_checks.m4,v 8.8 2000/12/05 18:50:45 ca Exp $')
+VERSIONID(`$Id$')
 divert(-1)
 
 define(`_DELAY_CHECKS_', 1)

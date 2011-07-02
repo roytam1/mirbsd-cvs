@@ -13,7 +13,7 @@ divert(-1)
 #
 
 divert(0)
-VERSIONID(`$Sendmail: use_ct_file.m4,v 8.11 2001/08/26 20:58:57 gshapiro Exp $')
+VERSIONID(`$Id$')
 divert(-1)
 
 # if defined, the sendmail.cf will read the /etc/mail/trusted-users file to

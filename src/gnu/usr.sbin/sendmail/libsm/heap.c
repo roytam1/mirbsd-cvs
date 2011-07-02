@@ -8,7 +8,7 @@
  */
 
 #include <sm/gen.h>
-SM_RCSID("@(#)$Sendmail: heap.c,v 1.51 2004/08/03 20:32:00 ca Exp $")
+SM_RCSID("@(#)$Id$")
 
 /*
 **  debugging memory allocation package

@@ -6,7 +6,7 @@
  * forth in the LICENSE file which can be found at the top level of
  * the sendmail distribution.
  *
- *	$Sendmail: sm_os_aix.h,v 1.11 2003/04/28 23:42:23 ca Exp $
+ *	$Id$
  */
 
 /*

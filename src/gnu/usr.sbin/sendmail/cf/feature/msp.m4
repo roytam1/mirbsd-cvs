@@ -10,7 +10,7 @@ divert(-1)
 #
 
 divert(0)dnl
-VERSIONID(`$Sendmail: msp.m4,v 1.33 2004/02/09 22:32:38 ca Exp $')
+VERSIONID(`$Id$')
 divert(-1)
 undefine(`ALIAS_FILE')
 define(`confDELIVERY_MODE', `i')
