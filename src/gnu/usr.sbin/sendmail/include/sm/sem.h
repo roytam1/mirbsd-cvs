@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000-2001, 2005 Sendmail, Inc. and its suppliers.
+ * Copyright (c) 2000-2001, 2005, 2008 Sendmail, Inc. and its suppliers.
  *      All rights reserved.
  *
  * By using this file, you agree to the terms and conditions set
@@ -47,6 +47,7 @@ extern int sm_sem_stop __P((int));
 extern int sm_sem_acq __P((int, int, int));
 extern int sm_sem_rel __P((int, int, int));
 extern int sm_sem_get __P((int, int));
+extern int sm_semsetowner __P((int, uid_t, gid_t, mode_t));
 
 # else /* SM_CONF_SEM > 0 */
 #  define sm_sem_start(key, nsem, semflg, owner) 0

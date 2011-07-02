@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1998-2001 Sendmail, Inc. and its suppliers.
+ * Copyright (c) 1998-2001, 2008 Sendmail, Inc. and its suppliers.
  *	All rights reserved.
  * Copyright (c) 1983 Eric P. Allman.  All rights reserved.
  * Copyright (c) 1988, 1993
@@ -99,7 +99,8 @@ main(argc, argv)
 		case '?':
 		default:
 			(void) sm_io_fprintf(smioerr, SM_TIME_DEFAULT,
-			    "usage: praliases [-C cffile] [-f aliasfile]\n");
+			    "usage: praliases [-C cffile] [-f aliasfile]"
+			    " [key ...]\n");
 			exit(EX_USAGE);
 		}
 	}

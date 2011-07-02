@@ -1219,7 +1219,7 @@ _udbx_close()
 #  endif /* DB_VERSION_MAJOR < 2 */
 		}
 		if (tTd(28, 1))
-			sm_dprintf("_udbx_init: db->close(%s)\n",
+			sm_dprintf("_udbx_close: db->close(%s)\n",
 				up->udb_dbname);
 # endif /* NEWDB */
 	}

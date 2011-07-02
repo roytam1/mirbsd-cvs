@@ -705,7 +705,7 @@ returntosender(msg, returnq, flags, e)
 	sendall(ee, SM_DELIVER);
 
 	/* restore state */
-	dropenvelope(ee, true, false);
+	(void) dropenvelope(ee, true, false);
 	sm_rpool_free(ee->e_rpool);
 	CurEnv = oldcur;
 	returndepth--;

@@ -715,7 +715,16 @@ hvalue(field, header)
 	{
 		if (!bitset(H_DEFAULT, h->h_flags) &&
 		    sm_strcasecmp(h->h_field, field) == 0)
-			return h->h_value;
+		{
+			char *s;
+
+			s = h->h_value;
+			if (s == NULL)
+				return NULL;
+			while (isascii(*s) && isspace(*s))
+				s++;
+			return s;
+		}
 	}
 	return NULL;
 }
@@ -1065,6 +1074,10 @@ eatheader(e, full, log)
 	**  Log collection information.
 	*/
 
+	if (tTd(92, 2))
+		sm_dprintf("eatheader: e_id=%s, EF_LOGSENDER=%d, LogLevel=%d, log=%d\n",
+			e->e_id, bitset(EF_LOGSENDER, e->e_flags), LogLevel,
+			log);
 	if (log && bitset(EF_LOGSENDER, e->e_flags) && LogLevel > 4)
 	{
 		logsender(e, e->e_msgid);

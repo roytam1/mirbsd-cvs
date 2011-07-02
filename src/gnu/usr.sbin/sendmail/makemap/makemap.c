@@ -238,7 +238,7 @@ main(argc, argv)
 	if ((cfp = sm_io_open(SmFtStdio, SM_TIME_DEFAULT, cfile, SM_IO_RDONLY,
 			      NULL)) == NULL)
 	{
-		sm_io_fprintf(smioerr, SM_TIME_DEFAULT, "makemap: %s: %s",
+		sm_io_fprintf(smioerr, SM_TIME_DEFAULT, "makemap: %s: %s\n",
 			      cfile, sm_errstring(errno));
 		exit(EX_NOINPUT);
 	}

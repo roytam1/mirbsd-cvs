@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 1999-2001, 2004 Sendmail, Inc. and its suppliers.
+ *  Copyright (c) 1999-2001, 2004, 2010 Sendmail, Inc. and its suppliers.
  *	All rights reserved.
  *
  * By using this file, you agree to the terms and conditions set
@@ -30,7 +30,7 @@ SM_RCSID("@(#)$Id$")
 
 #if NETINET6 && NEEDSGETIPNODE
 
-static struct hostent *getipnodebyname __P((char *, int, int, int *));
+static struct hostent *sm_getipnodebyname __P((const char *, int, int, int *));
 
 # ifndef AI_ADDRCONFIG
 #  define AI_ADDRCONFIG	0	/* dummy */
@@ -43,8 +43,8 @@ static struct hostent *getipnodebyname __P((char *, int, int, int *));
 # endif /* ! AI_DEFAULT */
 
 static struct hostent *
-getipnodebyname(name, family, flags, err)
-	char *name;
+sm_getipnodebyname(name, family, flags, err)
+	const char *name;
 	int family;
 	int flags;
 	int *err;
@@ -77,6 +77,8 @@ freehostent(h)
 
 	return;
 }
+#else /* NEEDSGETIPNODE && NETINET6 */
+#define sm_getipnodebyname getipnodebyname 
 #endif /* NEEDSGETIPNODE && NETINET6 */
 
 struct hostent *
@@ -107,7 +109,7 @@ mi_gethostbyname(name, family)
 #  if ADDRCONFIG_IS_BROKEN
 	flags &= ~AI_ADDRCONFIG;
 #  endif /* ADDRCONFIG_IS_BROKEN */
-	h = getipnodebyname(name, family, flags, &err);
+	h = sm_getipnodebyname(name, family, flags, &err);
 	SM_SET_H_ERRNO(err);
 # else /* NETINET6 */
 	h = gethostbyname(name);

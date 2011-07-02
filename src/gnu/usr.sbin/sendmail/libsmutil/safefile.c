@@ -699,7 +699,6 @@ safeopen(fn, omode, cmode, sff)
 	if (bitset(O_CREAT, omode))
 		sff |= SFF_CREAT;
 	omode &= ~O_CREAT;
-	smode = 0;
 	switch (omode & O_ACCMODE)
 	{
 	  case O_RDONLY:

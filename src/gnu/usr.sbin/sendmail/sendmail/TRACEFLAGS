@@ -86,6 +86,7 @@
 70	queue.c		quarantining
 71,>99	milter.c	quarantine on errors
 73	queue.c		shared memory updates
+74,>99	map.c		LDAP map defer
 80			content length
 81			sun remote mode
 83	collect.c	timeout
