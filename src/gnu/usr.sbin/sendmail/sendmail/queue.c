@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1998-2009 Sendmail, Inc. and its suppliers.
+ * Copyright (c) 1998-2009, 2011 Sendmail, Inc. and its suppliers.
  *	All rights reserved.
  * Copyright (c) 1983, 1995-1997 Eric P. Allman.  All rights reserved.
  * Copyright (c) 1988, 1993
@@ -633,7 +633,6 @@ queueup(e, announce, msync)
 	}
 
 	/* output inode number of data file */
-	/* XXX should probably include device major/minor too */
 	if (e->e_dfino != -1)
 	{
 		(void) sm_io_fprintf(tfp, SM_TIME_DEFAULT, "I%ld/%ld/%llu\n",
@@ -5195,7 +5194,11 @@ queuename(e, type)
 
 	/* Assign an ID if needed */
 	if (e->e_id == NULL)
+	{
+		if (IntSig)
+			return NULL;
 		assign_queueid(e);
+	}
 	type = queue_letter(e, type);
 
 	/* begin of filename */
@@ -5239,7 +5242,11 @@ queuename(e, type)
 	else
 	{
 		if (e->e_qgrp == NOQGRP || e->e_qdir == NOQDIR)
+		{
+			if (IntSig)
+				return NULL;
 			(void) setnewqueue(e);
+		}
 		if (type ==  DATAFL_LETTER)
 		{
 			qd = e->e_dfqdir;
@@ -5279,6 +5286,8 @@ queuename(e, type)
 			break;
 
 		  default:
+			if (IntSig)
+				return NULL;
 			sm_abort("queuename: bad queue file type %d", type);
 		}
 

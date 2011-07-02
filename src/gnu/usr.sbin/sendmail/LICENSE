@@ -23,7 +23,8 @@ each of the following conditions is met:
        must allow further use, modification, and redistribution of the Source
        Code under substantially the same terms as this license.  For the
        purposes of redistribution "Source Code" means the complete compilable
-       and linkable source code of sendmail including all modifications.
+       and linkable source code of sendmail and associated libraries and
+       utilities in the sendmail distribution including all modifications.
 
 2. Redistributions of Source Code must retain the copyright notices as they
    appear in each Source Code file, these license terms, and the

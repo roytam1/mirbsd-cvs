@@ -1267,7 +1267,8 @@ setupdaemon(daemonaddr)
 	  case AF_INET6:
 		if (IN6_IS_ADDR_UNSPECIFIED(&daemonaddr->sin6.sin6_addr))
 			daemonaddr->sin6.sin6_addr =
-			    LocalDaemon ? in6addr_loopback : in6addr_any;
+			    (LocalDaemon && V6LoopbackAddrFound) ?
+			    in6addr_loopback : in6addr_any;
 		port = daemonaddr->sin6.sin6_port;
 		break;
 #endif /* NETINET6 */
@@ -2219,7 +2220,8 @@ makeconnection(host, port, mci, e, enough)
 #if NETINET6
 		  case AF_INET6:
 			if (IN6_IS_ADDR_UNSPECIFIED(&clt_addr.sin6.sin6_addr))
-				clt_addr.sin6.sin6_addr = LocalDaemon ?
+				clt_addr.sin6.sin6_addr =
+					(LocalDaemon && V6LoopbackAddrFound) ?
 					in6addr_loopback : in6addr_any;
 			else
 				clt_bind = true;

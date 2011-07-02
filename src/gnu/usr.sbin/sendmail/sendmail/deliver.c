@@ -6112,12 +6112,13 @@ starttls(m, mci, e)
 		return EX_TEMPFAIL;
 
 # if USE_OPENSSL_ENGINE
-	if (!SSL_set_engine(NULL))
+	if (!SSLEngineInitialized && !SSL_set_engine(NULL))
 	{
 		sm_syslog(LOG_ERR, NOQID,
 			  "STARTTLS=client, SSL_set_engine=failed");
 		return EX_TEMPFAIL;
 	}
+	SSLEngineInitialized = true;
 # endif /* USE_OPENSSL_ENGINE */
 
 	smtpmessage("STARTTLS", m, mci);
