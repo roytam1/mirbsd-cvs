@@ -1,4 +1,4 @@
-# $MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $
+# $MirOS: contrib/hosted/tg/assockit.ksh,v 1.1 2011/06/23 20:22:53 tg Exp $
 #-
 # Copyright © 2011
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -270,7 +270,7 @@ function asso_setidx {
 		return 2
 	fi
 
-	typeset _f _v
+	local _f _v
 
 	asso__lookup 1 "$@"
 	if (( !((_f = asso_f) & ASSO_MASK_ARR) )); then
@@ -296,7 +296,7 @@ function asso_setasso {
 		return 2
 	fi
 
-	typeset _f
+	local _f
 
 	asso__lookup 1 "$@"
 	if (( !((_f = asso_f) & ASSO_MASK_ARR) )); then
@@ -336,7 +336,7 @@ function asso__intck {
 
 # map a boolean value (0=false 1=true 2=error)
 function asso__boolmap {
-	typeset _v=$1
+	local _v=$1
 
 	if asso__intck "$_v"; then
 		(( _v == 0 ))
@@ -357,7 +357,7 @@ function asso__typeck {
 		print -u2 'assockit.ksh: syntax: asso__typeck type value'
 		return 2
 	fi
-	typeset _t=$1 _v=$2
+	local _t=$1 _v=$2
 	(( _t == ASSO_VAL || _t == ASSO_STR || _t == ASSO_NULL )) && return 0
 	if (( _t == ASSO_INT )); then
 		asso__intck "$_v"
@@ -375,7 +375,7 @@ function asso__typeck {
 
 # look up an item ($1=1: create paths as necessary)
 function asso__lookup {
-	typeset _c=$1 _k _n _r
+	local _c=$1 _k _n _r
 	shift
 
 	_n=Asso_
@@ -431,7 +431,7 @@ function asso__r_setk {
 # in asso_b of type asso_f look up element $1
 # set its asso_f and asso_k or return 1 when not found
 function asso__lookup_once {
-	typeset _e=$1 _seth=0
+	local _e=$1 _seth=0
 	nameref _Af=${asso_b}_f
 	nameref _Ak=${asso_b}_k
 
@@ -470,14 +470,14 @@ function asso__lookup_once {
 
 # free the currently selected asso_b[asso_k] recursively
 function asso__r_free {
-	typeset _keepkey=$1
+	local _keepkey=$1
 	nameref _Af=${asso_b}_f
 
 	asso_f=${_Af[asso_k]}
 	(( asso_f & ASSO_ALLOC )) || return
 	if (( asso_f & ASSO_ISSET )); then
 		if (( asso_f & ASSO_MASK_ARR )); then
-			typeset _ob=$asso_b _ok=$asso_k
+			local _ob=$asso_b _ok=$asso_k
 			asso_b=$asso_b${asso_k#16#}
 			nameref _s=${asso_b}_f
 			for asso_k in ${!_s[*]}; do
