@@ -1,4 +1,5 @@
 /*	$OpenBSD: sys_process.c,v 1.27 2004/02/08 00:04:21 deraadt Exp $	*/
+/* + 1.43.6.1 */
 /*	$NetBSD: sys_process.c,v 1.55 1996/05/15 06:17:47 tls Exp $	*/
 
 /*-
@@ -156,6 +157,14 @@ sys_ptrace(p, v, retval)
 		 */
 		if ((t->p_pid == 1) && (securelevel > -1))
 			return (EPERM);
+
+		/*
+		 *	(6) it's an ancestor of the current process and
+		 *	    not init (because that would create a loop in
+		 *	    the process graph).
+		 */
+		if (t->p_pid != 1 && inferior(p, t))
+			return (EINVAL);
 		break;
 
 	case  PT_READ_I:

@@ -1,4 +1,5 @@
 /*	$OpenBSD: kern_proc.c,v 1.18 2004/01/29 17:19:42 millert Exp $	*/
+/* + 1.40.4.1 */
 /*	$NetBSD: kern_proc.c,v 1.14 1996/02/09 18:59:41 christos Exp $	*/
 
 /*
@@ -153,15 +154,13 @@ chgproccnt(uid_t uid, int diff)
 }
 
 /*
- * Is p an inferior of the current process?
+ * Is p an inferior of parent?
  */
 int
-inferior(p)
-	register struct proc *p;
+inferior(struct proc *p, struct proc *parent)
 {
-
-	for (; p != curproc; p = p->p_pptr)
-		if (p->p_pid == 0)
+	for (; p != parent; p = p->p_pptr)
+		if (p->p_pid == 0 || p->p_pid == 1)
 			return (0);
 	return (1);
 }
