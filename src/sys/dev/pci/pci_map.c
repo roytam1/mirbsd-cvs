@@ -293,9 +293,9 @@ pci_mapreg_info(pc, tag, reg, type, basep, sizep, flagsp)
 }
 
 int
-pci_mapreg_map(pa, reg, type, busflags, tagp, handlep, basep, sizep, maxsize)
+pci_mapreg_map(pa, reg, type, flags, tagp, handlep, basep, sizep, maxsize)
 	struct pci_attach_args *pa;
-	int reg, busflags;
+	int reg, flags;
 	pcireg_t type;
 	bus_space_tag_t *tagp;
 	bus_space_handle_t *handlep;
@@ -307,21 +307,20 @@ pci_mapreg_map(pa, reg, type, busflags, tagp, handlep, basep, sizep, maxsize)
 	bus_space_handle_t handle;
 	bus_addr_t base;
 	bus_size_t size;
-	int flags;
 	int rv;
 
 	if (PCI_MAPREG_TYPE(type) == PCI_MAPREG_TYPE_IO) {
 		if ((pa->pa_flags & PCI_FLAGS_IO_ENABLED) == 0)
 			return (EINVAL);
 		if ((rv = nbsd_pci_io_find(pa->pa_pc, pa->pa_tag, reg, type,
-		    &base, &size, &flags)) != 0)
+		    &base, &size, NULL)) != 0)
 			return (rv);
 		tag = pa->pa_iot;
 	} else {
 		if ((pa->pa_flags & PCI_FLAGS_MEM_ENABLED) == 0)
 			return (EINVAL);
 		if ((rv = nbsd_pci_mem_find(pa->pa_pc, pa->pa_tag, reg, type,
-		    &base, &size, &flags)) != 0)
+		    &base, &size, NULL)) != 0)
 			return (rv);
 		tag = pa->pa_memt;
 	}
@@ -335,7 +334,7 @@ pci_mapreg_map(pa, reg, type, busflags, tagp, handlep, basep, sizep, maxsize)
 		size = maxsize;
 	}
 
-	if (bus_space_map(tag, base, size, busflags | flags, &handle))
+	if (bus_space_map(tag, base, size, flags, &handle))
 		return (1);
 
 	if (tagp != NULL)
