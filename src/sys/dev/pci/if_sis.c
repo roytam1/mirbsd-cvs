@@ -1271,8 +1271,13 @@ int sis_newbuf(sc, c, m)
 	m_adj(m_new, sizeof(u_int64_t));
 
 	c->sis_mbuf = m_new;
-	c->sis_ptr = c->map->dm_segs[0].ds_addr + sizeof(u_int64_t);
-	c->sis_ctl = ETHER_MAX_DIX_LEN;
+	c->sis_ptr = htole32(c->map->dm_segs[0].ds_addr + sizeof(u_int64_t));
+
+	bus_dmamap_sync(sc->sc_dmat, sc->sc_listmap,
+	    ((caddr_t)c - sc->sc_listkva), sizeof(struct sis_desc),
+	    BUS_DMASYNC_PREWRITE);
+
+	c->sis_ctl = htole32(ETHER_MAX_DIX_LEN);
 
 	bus_dmamap_sync(sc->sc_dmat, sc->sc_listmap,
 	    ((caddr_t)c - sc->sc_listkva), sizeof(struct sis_desc),
