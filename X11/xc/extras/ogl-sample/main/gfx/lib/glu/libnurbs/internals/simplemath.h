@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /*
 ** License Applicability. Except to the extent portions of this file are
 ** made subject to an alternative license as permitted in the SGI Free
@@ -49,6 +51,8 @@ max( int x, int y ) { return ( x < y ) ? y : x; }
 
 inline REAL 
 min( REAL x, REAL y ) { return ( x > y ) ? y : x; }
+
+#undef abs
 
 #if defined(_SCO_DS) || defined(__SCO__)
 #define abs __gluabs

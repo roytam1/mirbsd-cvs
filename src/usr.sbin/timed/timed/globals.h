@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: globals.h,v 1.8 2003/08/19 19:41:21 deraadt Exp $	*/
 
 /*-
@@ -167,4 +168,6 @@ extern int nnets;			/* nets I am connected to */
 
 #define	max(a, b)	((a) < (b) ? (b) : (a))
 #define	min(a, b)	((a) > (b) ? (b) : (a))
+#ifndef abs
 #define	abs(x)		((x) >= 0 ? (x) : -(x))
+#endif
