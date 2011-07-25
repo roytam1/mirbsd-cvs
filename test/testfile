@@ -1,6 +1,6 @@
 #!/usr/bin/env mksh
 integer i
-i=1547
+i=22268
 ed -s "$0" <<-EOF
 	/^i=/s/^.*\$/i=${RANDOM}/
 	wq
