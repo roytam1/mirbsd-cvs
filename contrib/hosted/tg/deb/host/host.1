@@ -2,7 +2,7 @@
 .\"	$OpenBSD: host.1,v 1.6 2000/08/02 15:58:09 provos Exp $
 .\"	@(#)host.1              e07@nikhef.nl (Eric Wassenaar) 961010
 .\"
-.TH host 1 "961010"
+.TH mirhost 1 "961010"
 .\"
 .\" Whatever .fw is, it's unknown, so let's invent it.
 .\"
@@ -12,36 +12,30 @@
 ..
 .\"
 .SH NAME
-host \- query nameserver about domain names and zones
+mirhost \- query nameserver about domain names and zones
 .SH SYNOPSIS
 .na
 .nf
-\fBhost\fP [\fB\-v\fP] [\fB\-a\fP] [\fB\-t\fP \fIquerytype\fP] [\fIoptions\fP]  \fIname\fP  [\fIserver\fP]
+\fBmirhost\fP [\fB\-v\fP] [\fB\-a\fP] [\fB\-t\fP \fIquerytype\fP] [\fIoptions\fP]  \fIname\fP  [\fIserver\fP]
 .br
-\fBhost\fP [\fB\-v\fP] [\fB\-a\fP] [\fB\-t\fP \fIquerytype\fP] [\fIoptions\fP]  \fB\-l\fP \fIzone\fP  [\fIserver\fP]
+\fBmirhost\fP [\fB\-v\fP] [\fB\-a\fP] [\fB\-t\fP \fIquerytype\fP] [\fIoptions\fP]  \fB\-l\fP \fIzone\fP  [\fIserver\fP]
 .br
-\fBhost\fP [\fB\-v\fP] [\fIoptions\fP] \fB\-H\fP [\fB\-D\fP] [\fB\-E\fP] [\fB\-G\fP] \fIzone\fP
+\fBmirhost\fP [\fB\-v\fP] [\fIoptions\fP] \fB\-H\fP [\fB\-D\fP] [\fB\-E\fP] [\fB\-G\fP] \fIzone\fP
 .br
-\fBhost\fP [\fB\-v\fP] [\fIoptions\fP] \fB\-C\fP \fIzone\fP
+\fBmirhost\fP [\fB\-v\fP] [\fIoptions\fP] \fB\-C\fP \fIzone\fP
 .br
-\fBhost\fP [\fB\-v\fP] [\fIoptions\fP] \fB\-A\fP \fIhost\fP
+\fBmirhost\fP [\fB\-v\fP] [\fIoptions\fP] \fB\-A\fP \fIhost\fP
 .sp
-\fBhost\fP [\fIoptions\fP] \fB\-x\fP [\fIname\fP ...]
+\fBmirhost\fP [\fIoptions\fP] \fB\-x\fP [\fIname\fP ...]
 .br
-\fBhost\fP [\fIoptions\fP] \fB\-X\fP \fIserver\fP [\fIname\fP ...]
-.br
-\fBnslookup\fP
+\fBmirhost\fP [\fIoptions\fP] \fB\-X\fP \fIserver\fP [\fIname\fP ...]
 .SH DESCRIPTION
-.I host
+.I mirhost
 looks for information about Internet hosts and domain names.
 It gets this information from a set of interconnected servers
 that are spread across the world. The information is stored
 in the form of "resource records" belonging to hierarchically
 organized "zones".
-.PP
-.I nslookup
-is only included for compatibility reasons.
-Do not use it, it may be removed in the future.
 .PP
 By default, the program simply converts between host names and Internet
 addresses. However, with the \fB\-t\fP, \fB\-a\fP and \fB\-v\fP
@@ -66,7 +60,7 @@ The default action is to look up all of its Internet addresses.
 .PP
 For single names without a trailing dot, the local domain is
 automatically tacked on the end.
-Thus a user in domain "nikhef.nl" can say "host nikhapo",
+Thus a user in domain "nikhef.nl" can say "mirhost nikhapo",
 and it will actually look up "nikhapo.nikhef.nl".
 In all other cases, the name is tried unchanged.
 Single names with trailing dot are considered top-level domain
@@ -144,7 +138,7 @@ generates the listing of an entire zone.
 .sp
 E.g. the command
 .br
-	\fBhost \-l nikhef.nl\fP
+	\fBmirhost \-l nikhef.nl\fP
 .br
 will give a listing of all hosts in the "nikhef.nl" zone.
 The \fB\-t\fP option is used to filter what information is
@@ -154,7 +148,7 @@ and NS records.
 .sp
 The command
 .br
-	\fBhost \-Z \-a \-l nikhef.nl\fP
+	\fBmirhost \-Z \-a \-l nikhef.nl\fP
 .br
 will give a complete download of the zone data for "nikhef.nl",
 in the official master file format.
@@ -385,7 +379,7 @@ times out. Normally it will time out after some 10 seconds per
 nameserver address tried.
 .TP
 .B \-V
-prints just the version number of the \fBhost\fP program, and exits.
+prints just the version number of the \fBmirhost\fP program, and exits.
 .SS "DEFAULT OPTIONS"
 Default options and parameters can be preset in an environment
 variable \fBHOST_DEFAULTS\fP using the same syntax as on the command
@@ -548,7 +542,7 @@ Naming authority URN
 A very good summary and validation of an entire zone can be obtained
 with the following command:
 .sp
-	\fBhost \-G \-S \-C \-A \-L 1\fP \fIzone\fP
+	\fBmirhost \-G \-S \-C \-A \-L 1\fP \fIzone\fP
 .sp
 .SH DIAGNOSTICS
 .SS "FAILURE MESSAGES"
