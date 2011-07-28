@@ -1,9 +1,0 @@
-$MirOS: ports/mailnews/pine/patches/patch-doc_pico_1,v 1.1.7.1 2005/03/18 15:49:48 tg Exp $
---- doc/pico.1.orig	Thu Apr 28 18:28:20 2005
-+++ doc/pico.1	Wed May  4 23:28:07 2005
-@@ -1,4 +1,4 @@
--.TH pico 1 "Version 4.10"
-+.TH pico 1 "Version 4.10L"
- .SH Name
- pico \- simple text editor in the style of the Pine Composer
- .SH Syntax

@@ -1,4 +1,0 @@
-@comment $MirOS$
-@comment $OpenBSD: PFRAG.shared,v 1.1.1.1 2003/11/13 18:50:39 espie Exp $
-@lib lib/libCHART-1.1.so.41.0
-@lib lib/libFOX-1.1.so.41.0
