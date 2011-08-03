@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/tg/deb/pbuilderrc,v 1.11 2011/06/11 15:39:19 tg Exp $
+# $MirOS: contrib/hosted/tg/deb/pbuilderrc,v 1.12 2011/08/03 11:21:06 tg Exp $
 #-
 # Sample ~/.pbuilderrc for multiple distribution and suite support.
 # May work, but may just as well break. Experimental.
@@ -10,6 +10,12 @@
 # *-backports: sarge etch lenny squeeze; all ubuntus
 # *-backports-sloppy: lenny
 # univention: not supported… yet…
+#
+# NOTE for sarge: bootstrapping includes sarge-backports for
+# the use of cowdancer; you MUST change sources.list in its
+# base.cow after creating and before updating!
+#
+# NOTE for all: run cowbuilder --update after --create once.
 
 # desirable, unless you *want* to run most time-consuming
 # testsuites, which usually fail anyway… (yay for optimism)
@@ -162,22 +168,31 @@ case $DISTRO in
 	(squeeze-backports*:*|*:wheezy|*:sid)
 		EXTRAPACKAGES='apt debian-archive-keyring eatmydata fakeroot file-rc'
 		;;
+	(*:sarge)
+		EXTRAPACKAGES='apt fakeroot file-rc'
+		;;
 	(*)
 		EXTRAPACKAGES='apt debian-archive-keyring fakeroot file-rc'
 		;;
 	esac
 	x=cowdancer,apt,debian-archive-keyring
 	case $DIST in
-	(sarge-backports|etch-backports|lenny-backports|lenny-backports-sloppy)
+	(sarge)
+		x=apt
+		;;
+	(sarge-backports)
+		x=apt,debian-backports-keyring
+		;;
+	(etch-backports|lenny-backports|lenny-backports-sloppy)
 		EXTRAPACKAGES="$EXTRAPACKAGES debian-backports-keyring"
 		x=$x,debian-backports-keyring
 		;;
 	esac
 	case $DISTRIBUTION in
-	sarge|etch)
+	(sarge|etch)
 		keyringfile=debian-archive-removed-keys
 		;;
-	*)
+	(*)
 		keyringfile=debian-archive-keyring
 		;;
 	esac
@@ -248,10 +263,8 @@ case x$x:$DISTRO in
 	OTHERMIRROR="deb $x $DISTRIBUTION-security $COMPONENTS"
 	;;
 esac
-case $isbackports in
-(no)
-	;;
-(yes)
+case $isbackports:$DIST in
+(yes:*|no:sarge)
 	eval x=\$MIRRORBACKPORTS_$DISTRIBUTION
 	if test x"$x" = x""; then
 		echo >&2 "Internal error, $DISTRIBUTION-backports mirror not set"
@@ -259,7 +272,9 @@ case $isbackports in
 	fi
 	OTHERMIRROR="$OTHERMIRROR|deb $x $DISTRIBUTION-backports $COMPONENTS"
 	;;
-(sloppy)
+(no:*)
+	;;
+(sloppy:*)
 	eval x=\$MIRRORBACKPORTS_$DISTRIBUTION
 	if test x"$x" = x""; then
 		echo >&2 "Internal error, $DISTRIBUTION-backports mirror not set"
@@ -273,7 +288,7 @@ case $isbackports in
 	fi
 	OTHERMIRROR="$OTHERMIRROR|deb $x $DISTRIBUTION-backports-sloppy $COMPONENTS"
 	;;
-(ubuntu)
+(ubuntu:*)
 	OTHERMIRROR="$OTHERMIRROR|deb $MIRRORSITE $DISTRIBUTION-updates $COMPONENTS"
 	OTHERMIRROR="$OTHERMIRROR|deb $MIRRORSITE $DISTRIBUTION-backports $COMPONENTS"
 	;;
