@@ -1,0 +1,7 @@
+You might want to do this to prevent rngd from being started
+by its initscript:
+
+	sudo /usr/sbin/update-rc.d -f rng-tools remove
+
+___________________________________________________________________________________________
+$MirOS$
