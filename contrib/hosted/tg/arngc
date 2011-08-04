@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $
+# $MirOS: contrib/hosted/tg/arngc,v 1.1 2011/08/04 18:28:51 tg Exp $
 #-
 # Copyright © 2011
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -23,7 +23,8 @@ me=$(realpath "$0")
 export PATH=/bin:/sbin:/usr/bin:/usr/sbin
 
 [[ $1 = setup ]] || if [[ ! -x /usr/sbin/rngd ]]; then
-	print -u2 Error: rngd not installed
+	print -u2 Error: rngd not installed, run
+	print -ru2 -- "$me setup"
 	exit 1
 fi
 
@@ -49,11 +50,11 @@ case $1 {
 	;;
 (status)
 	if [[ ! -s /var/run/rngd.pid ]]; then
-		print -u2 pidfile nonexistent; pids: $(pgrep rngd)
+		print -ru2 pidfile nonexistent; pids: $(pgrep rngd)
 		c='pkill -USR1 rngd'
 	else
 		c=$(</var/run/rngd.pid)
-		print -u2 pidfile says we have: $c
+		print -ru2 pidfile says we have: $c
 		c="kill -USR1 $c"
 	fi
 	if ! $c; then
@@ -72,7 +73,7 @@ case $1 {
 			print -u2 none found
 		fi
 	else
-		print -u2 killing rngd pid $(</var/run/rngd.pid)
+		print -ru2 killing rngd pid $(</var/run/rngd.pid)
 		kill $(</var/run/rngd.pid)
 	fi
 	exit 0
@@ -80,13 +81,13 @@ case $1 {
 (start)
 	;;
 (*)
-	print -u2 "syntax: $me (setup|start|stop|status)"
+	print -ru2 "syntax: $me (setup|start|stop|status)"
 	exit 1
 	;;
 }
 
 if opid=$(pgrep rngd); then
-	print -u2 Error: rngd already running on pid $opid
+	print -ru2 Error: rngd already running on pid $opid
 	exit 1
 fi
 
@@ -99,7 +100,7 @@ echo 3072 >/proc/sys/kernel/random/write_wakeup_threshold
 rngd -b -r /var/run/rngd.fifo -H 0.99 -B 2 -s 32 -W 3072 -t 300 -T 60 \
     -p /var/run/rngd.pid
 sleep 0.25
-print -u2 rngd started as pid $(</var/run/rngd.pid)
+print -ru2 rngd started as pid $(</var/run/rngd.pid)
 print -u2 It may take up to one minute to decide whether it works.
 print -u2 Get statistics into syslog with: sudo pkill -USR1 rngd
 exit 0
