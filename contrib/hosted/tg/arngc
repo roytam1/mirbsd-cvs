@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/hosted/tg/arngc,v 1.2 2011/08/04 18:34:31 tg Exp $
+# $MirOS: contrib/hosted/tg/arngc,v 1.3 2011/08/04 19:18:58 tg Exp $
 #-
 # Copyright © 2011
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -75,6 +75,11 @@ case $1 {
 
 if opid=$(pgrep rngd); then
 	print -ru2 Error: rngd already running on pid $opid
+	exit 1
+fi
+
+if [[ ! -e /proc/self/fd/0 ]]; then
+	print -u2 no stdin: /proc/self/fd/0
 	exit 1
 fi
 
