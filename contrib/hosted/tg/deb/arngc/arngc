@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/hosted/tg/arngc,v 1.3 2011/08/04 19:18:58 tg Exp $
+# $MirOS: contrib/hosted/tg/arngc,v 1.4 2011/08/04 19:26:52 tg Exp $
 #-
 # Copyright © 2011
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -22,18 +22,12 @@
 me=$(realpath "$0")
 export PATH=/bin:/sbin:/usr/bin:/usr/sbin
 
-[[ $1 = setup ]] || if [[ ! -x /usr/sbin/rngd ]]; then
-	print -u2 Error: rngd not installed, run
-	print -ru2 "mksh $me setup"
-	exit 1
-fi
-
 if (( USER_ID )); then
 	if [[ -n $arngc_FOO && $arngc_FOO = $arngc_BAR ]]; then
-		print -u2 Error: need root
-		exit 1
+		print -u2 Error: need superuser
+		exit 2
 	fi
-	arngc_FOO=$RANDOM$me$RANDOM
+	arngc_FOO=$RANDOM$me$RANDOM$USER_ID$(date +$s)
 	arngc_BAR=$arngc_FOO
 	export arngc_FOO arngc_BAR
 	exec sudo mksh "$me" "$@"
@@ -42,34 +36,28 @@ if (( USER_ID )); then
 fi
 
 case $1 {
-(setup)
-	rv1=0 rv2=0
-	apt-get --purge install rng-tools stunnel || rv1=$?
-	update-rc.d -f rng-tools remove || rv2=$?
-	exit $((rv1 ? rv1 : rv2))
-	;;
 (status)
 	if ! pkill -USR1 rngd; then
 		print -u2 no process running?
-	else
-		print -u2 watch syslog for status
+		exit 1
 	fi
+	print -u2 watch syslog for status
 	exit 0
 	;;
 (stop)
 	print -nu2 killing all rngd processes...
-	if pkill rngd; then
-		print -u2 done
-	else
+	if ! pkill rngd; then
 		print -u2 none found
+		exit 1
 	fi
+	print -u2 done
 	exit 0
 	;;
 (start)
 	;;
 (*)
-	print -ru2 "syntax: $me (setup|start|stop|status)"
-	exit 1
+	print -ru2 "syntax: $me (start [server:port [threshold]]|stop|status)"
+	exit 2
 	;;
 }
 
@@ -80,20 +68,42 @@ fi
 
 if [[ ! -e /proc/self/fd/0 ]]; then
 	print -u2 no stdin: /proc/self/fd/0
-	exit 1
+	exit 2
 fi
 
-echo 3072 >/proc/sys/kernel/random/write_wakeup_threshold
-mksh -T- -c 'stunnel -c -r 81.169.181.30:42658 </dev/null 2>/dev/null | \
-    rngd -f -r /proc/self/fd/0 -H 0.99 -B 2 -s 32 -W 3072 -t 300 -T 60 2>&1 | \
+threshold=3072
+server=
+
+if [[ -s /etc/arngc.cfg ]]; then
+	while read key value; do
+		case $key {
+		(threshold)
+			[[ $value = +([0-9]) ]] && \
+			    (( value > 0 && value <= 4096 )) && \
+			    threshold=$((value))
+			;;
+		(server)
+			[[ $value = +([0-9]).+([0-9]).+([0-9]).+([0-9]):+([0-9]) ]] && \
+			    server=$value
+			;;
+		}
+	done </etc/arngc.cfg
+fi
+
+[[ $2 = +([0-9]).+([0-9]).+([0-9]).+([0-9]):+([0-9]) ]] && server=$2
+value=$3; [[ $value = +([0-9]) ]] && (( value > 0 && value <= 4096 )) && threshold=$((value))
+
+if [[ $server != +([0-9]).+([0-9]).+([0-9]).+([0-9]):+([0-9]) ]]; then
+	print -u2 You must configure a server like 6.7.8.9:12345
+	print -u2 either on the command line or in /etc/arngc.cfg
+	exit 2
+fi
+
+echo $threshold >/proc/sys/kernel/random/write_wakeup_threshold
+mksh -T- -c 'stunnel -c -r '$server' </dev/null 2>/dev/null | \
+    rngd -f -r /proc/self/fd/0 -H 0.99 -B 2 -s 32 -W '$threshold' -t 300 -T 60 2>&1 | \
     logger -t arngc'
 sleep 0.25
 print -u2 It may take up to one minute to decide whether rngd works.
 print -u2 Get statistics into syslog with: sudo pkill -USR1 rngd
 exit 0
-
-# server setup: get stunnel-3.26-3 from MirPorts
-# concatenate .key .cer + chain into 0440 root:_stunnel /etc/ssl/stunnel.pem
-# 42658		stream	tcp	nowait	_stunnel	/usr/mpkg/sbin/stunnel stunnel -N arngd -O l:TCP_NODELAY=1 -p /etc/ssl/stunnel.pem -F /dev/arandom
-# configure packet filter to drop all to the chosen port except allowed IPs
-# to prevent DoSing

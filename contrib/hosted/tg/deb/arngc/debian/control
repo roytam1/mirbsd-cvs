@@ -1,0 +1,21 @@
+# $MirOS$
+#-
+Source: arngc
+Origin: WTF
+Bugs: mailto:wtf@mirbsd.org
+Section: admin
+Priority: extra
+Maintainer: Thorsten Glaser <tg@mirbsd.de>
+Build-Depends: debhelper (>= 5)
+Standards-Version: 3.9.2
+
+Package: arngc
+Architecture: all
+Depends: ${misc:Depends}, mksh (>= 35~), procps, rng-tools, stunnel
+Suggests: sudo
+Conflicts: stunnel4 (<= 3:4.29-1~~)
+Enhances: rng-tools
+Description: arc4random-pool transfer over the network
+ This package contains a client for transferring entropy over
+ the network and an example of how to configure the server side
+ on a machine running MirBSD.
