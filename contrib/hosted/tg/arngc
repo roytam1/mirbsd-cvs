@@ -1,0 +1,111 @@
+#!/bin/mksh
+# $MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $
+#-
+# Copyright © 2011
+#	Thorsten Glaser <tg@mirbsd.org>
+#
+# Provided that these terms and disclaimer and all copyright notices
+# are retained or reproduced in an accompanying document, permission
+# is granted to deal in this work without restriction, including un‐
+# limited rights to use, publicly perform, distribute, sell, modify,
+# merge, give away, or sublicence.
+#
+# This work is provided “AS IS” and WITHOUT WARRANTY of any kind, to
+# the utmost extent permitted by applicable law, neither express nor
+# implied; without malicious intent or gross negligence. In no event
+# may a licensor, author or contributor be held liable for indirect,
+# direct, other damage, loss, or other issues arising in any way out
+# of dealing in the work, even if advised of the possibility of such
+# damage or existence of a defect, except proven that it results out
+# of said person’s immediate fault when using the work as intended.
+
+me=$(realpath "$0")
+export PATH=/bin:/sbin:/usr/bin:/usr/sbin
+
+[[ $1 = setup ]] || if [[ ! -x /usr/sbin/rngd ]]; then
+	print -u2 Error: rngd not installed
+	exit 1
+fi
+
+if (( USER_ID )); then
+	if [[ -n $arngc_FOO && $arngc_FOO = $arngc_BAR ]]; then
+		print -u2 Error: need root
+		exit 1
+	fi
+	arngc_FOO=$RANDOM$me$RANDOM
+	arngc_BAR=$arngc_FOO
+	export arngc_FOO arngc_BAR
+	exec sudo mksh "$me" "$@"
+	print -u2 NOTREACHED
+	exit 255
+fi
+
+case $1 {
+(setup)
+	rv1=0 rv2=0
+	apt-get --purge install openssl rng-tools || rv1=$?
+	update-rc.d -f rng-tools remove || rv2=$?
+	exit $((rv1 ? rv1 : rv2))
+	;;
+(status)
+	if [[ ! -s /var/run/rngd.pid ]]; then
+		print -u2 pidfile nonexistent; pids: $(pgrep rngd)
+		c='pkill -USR1 rngd'
+	else
+		c=$(</var/run/rngd.pid)
+		print -u2 pidfile says we have: $c
+		c="kill -USR1 $c"
+	fi
+	if ! $c; then
+		print -u2 no process running?
+	else
+		print -u2 watch syslog for status
+	fi
+	exit 0
+	;;
+(stop)
+	if [[ ! -s /var/run/rngd.pid ]]; then
+		print -u2 killing all rngd processes...
+		if pkill rngd; then
+			print -u2 done
+		else
+			print -u2 none found
+		fi
+	else
+		print -u2 killing rngd pid $(</var/run/rngd.pid)
+		kill $(</var/run/rngd.pid)
+	fi
+	exit 0
+	;;
+(start)
+	;;
+(*)
+	print -u2 "syntax: $me (setup|start|stop|status)"
+	exit 1
+	;;
+}
+
+if opid=$(pgrep rngd); then
+	print -u2 Error: rngd already running on pid $opid
+	exit 1
+fi
+
+mkdir -p /var/run
+rm -f /var/run/rngd.pid /var/run/rngd.fifo
+/bin/mknod /var/run/rngd.fifo p
+(openssl s_client -CApath /etc/ssl/certs -quiet -connect 81.169.181.30:42658 \
+    >/var/run/rngd.fifo </dev/null 2>/dev/null &)
+echo 3072 >/proc/sys/kernel/random/write_wakeup_threshold
+rngd -b -r /var/run/rngd.fifo -H 0.99 -B 2 -s 32 -W 3072 -t 300 -T 60 \
+    -p /var/run/rngd.pid
+sleep 0.25
+print -u2 rngd started as pid $(</var/run/rngd.pid)
+print -u2 It may take up to one minute to decide whether it works.
+print -u2 Get statistics into syslog with: sudo pkill -USR1 rngd
+exit 0
+
+# server setup: get stunnel-3.26-3 from MirPorts
+# concatenate .key .cer + chain into 0440 root:_stunnel /etc/ssl/stunnel.pem
+# 42658		stream	tcp	nowait	_stunnel	/usr/mpkg/sbin/stunnel stunnel -N arngd -O l:TCP_NODELAY=1 -p /etc/ssl/stunnel.pem -F /dev/arandom
+# configure packet filter to drop all to the chosen port except allowed IPs
+# to prevent DoSing
