@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/hosted/tg/arngc,v 1.1 2011/08/04 18:28:51 tg Exp $
+# $MirOS: contrib/hosted/tg/arngc,v 1.2 2011/08/04 18:34:31 tg Exp $
 #-
 # Copyright © 2011
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -24,7 +24,7 @@ export PATH=/bin:/sbin:/usr/bin:/usr/sbin
 
 [[ $1 = setup ]] || if [[ ! -x /usr/sbin/rngd ]]; then
 	print -u2 Error: rngd not installed, run
-	print -ru2 -- "$me setup"
+	print -ru2 "mksh $me setup"
 	exit 1
 fi
 
@@ -44,20 +44,12 @@ fi
 case $1 {
 (setup)
 	rv1=0 rv2=0
-	apt-get --purge install openssl rng-tools || rv1=$?
+	apt-get --purge install rng-tools stunnel || rv1=$?
 	update-rc.d -f rng-tools remove || rv2=$?
 	exit $((rv1 ? rv1 : rv2))
 	;;
 (status)
-	if [[ ! -s /var/run/rngd.pid ]]; then
-		print -ru2 pidfile nonexistent; pids: $(pgrep rngd)
-		c='pkill -USR1 rngd'
-	else
-		c=$(</var/run/rngd.pid)
-		print -ru2 pidfile says we have: $c
-		c="kill -USR1 $c"
-	fi
-	if ! $c; then
+	if ! pkill -USR1 rngd; then
 		print -u2 no process running?
 	else
 		print -u2 watch syslog for status
@@ -65,16 +57,11 @@ case $1 {
 	exit 0
 	;;
 (stop)
-	if [[ ! -s /var/run/rngd.pid ]]; then
-		print -u2 killing all rngd processes...
-		if pkill rngd; then
-			print -u2 done
-		else
-			print -u2 none found
-		fi
+	print -nu2 killing all rngd processes...
+	if pkill rngd; then
+		print -u2 done
 	else
-		print -ru2 killing rngd pid $(</var/run/rngd.pid)
-		kill $(</var/run/rngd.pid)
+		print -u2 none found
 	fi
 	exit 0
 	;;
@@ -91,17 +78,12 @@ if opid=$(pgrep rngd); then
 	exit 1
 fi
 
-mkdir -p /var/run
-rm -f /var/run/rngd.pid /var/run/rngd.fifo
-/bin/mknod /var/run/rngd.fifo p
-(openssl s_client -CApath /etc/ssl/certs -quiet -connect 81.169.181.30:42658 \
-    >/var/run/rngd.fifo </dev/null 2>/dev/null &)
 echo 3072 >/proc/sys/kernel/random/write_wakeup_threshold
-rngd -b -r /var/run/rngd.fifo -H 0.99 -B 2 -s 32 -W 3072 -t 300 -T 60 \
-    -p /var/run/rngd.pid
+mksh -T- -c 'stunnel -c -r 81.169.181.30:42658 </dev/null 2>/dev/null | \
+    rngd -f -r /proc/self/fd/0 -H 0.99 -B 2 -s 32 -W 3072 -t 300 -T 60 2>&1 | \
+    logger -t arngc'
 sleep 0.25
-print -ru2 rngd started as pid $(</var/run/rngd.pid)
-print -u2 It may take up to one minute to decide whether it works.
+print -u2 It may take up to one minute to decide whether rngd works.
 print -u2 Get statistics into syslog with: sudo pkill -USR1 rngd
 exit 0
 
