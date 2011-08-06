@@ -18,10 +18,15 @@ of abseps was to get its primary job done as KISS and reliably as
 possible while being scalable to several hundred clients, it hasn’t
 been implemented here yet.
 
-A consumer designed for use with rngd of Linux rng-tools has been
-provided with absepu.
+absepu provides a consumer in several flavours:
+• absepuc – client to a locally running EGD or prngd server
+• absepud – offers a “device” (FIFO), e.g. for rngd of Linux rng-tools
+• absepul – talks ioctl to the Linux kernel and adds to its pool
+• absepuo – talks ioctl to the OpenBSD kernel and adds to its pool
+• absepus – server offering the EGD protocol locally
+• absepuw – talks to the NT kernel and adds to its pool and the registry
 
 This is draft quality software, so don’t expect much.
 
  ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲ ̲
-$MirOS: contrib/hosted/tg/code/abseps/README,v 1.4 2011/03/02 22:50:35 tg Exp $
+$MirOS: contrib/hosted/tg/code/abseps/README,v 1.1 2011/08/06 12:39:26 tg Exp $
