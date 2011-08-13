@@ -1,9 +1,9 @@
-# $MirOS: contrib/hosted/tg/deb/pbuilderrc,v 1.12 2011/08/03 11:21:06 tg Exp $
+# $MirOS: contrib/hosted/tg/deb/pbuilderrc,v 1.14 2011/08/03 11:55:04 tg Exp $
 #-
 # Sample ~/.pbuilderrc for multiple distribution and suite support.
 # May work, but may just as well break. Experimental.
 #-
-# debian.org: sarge etch lenny squeeze sid
+# debian.org: sarge etch lenny squeeze wheezy sid
 # debian-ports.org: unstable unreleased
 # not supported: experimental
 # ubuntu: dapper hardy jaunty karmic lucid maverick natty oneiric
@@ -23,7 +23,7 @@
 
 # known distributions and distribution-specific things (suites, mirrors, …)
 DISTROS='debian dpo ubuntu'
-DISTS_debian='sarge etch lenny squeeze sid'
+DISTS_debian='sarge etch lenny squeeze wheezy sid'
 DISTS_dpo='unstable unreleased'
 DISTS_ubuntu='dapper hardy jaunty karmic lucid maverick natty oneiric'
 DISTBACKPORTS_debian=sarge:etch:lenny:squeeze
@@ -33,6 +33,7 @@ MIRROR_sarge=http://ftp.hosteurope.de/mirror/archive.debian.org/debian/
 MIRROR_etch=http://ftp.hosteurope.de/mirror/archive.debian.org/debian/
 MIRROR_lenny=http://ftp.hosteurope.de/mirror/ftp.debian.org/debian/
 MIRROR_squeeze=http://ftp.hosteurope.de/mirror/ftp.debian.org/debian/
+MIRROR_wheezy=http://ftp.hosteurope.de/mirror/ftp.debian.org/debian/
 MIRROR_sid=http://ftp.hosteurope.de/mirror/ftp.debian.org/debian/
 MIRROR_unstable=http://ftp.debian-ports.org/debian
 MIRROR_unreleased=http://ftp.debian-ports.org/debian
@@ -48,6 +49,7 @@ MIRRORSECURITY_sarge=http://ftp.hosteurope.de/mirror/archive.debian.org/debian-s
 MIRRORSECURITY_etch=http://ftp.hosteurope.de/mirror/archive.debian.org/debian-security/
 MIRRORSECURITY_lenny=http://ftp.hosteurope.de/mirror/ftp.debian.org/debian-security/
 MIRRORSECURITY_squeeze=http://ftp.hosteurope.de/mirror/ftp.debian.org/debian-security/
+MIRRORSECURITY_wheezy=http://ftp.hosteurope.de/mirror/ftp.debian.org/debian-security/
 MIRRORSECURITY_sid=NO
 MIRRORSECURITY_dapper=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
 MIRRORSECURITY_hardy=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
