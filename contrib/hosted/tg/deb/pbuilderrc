@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/tg/deb/pbuilderrc,v 1.14 2011/08/03 11:55:04 tg Exp $
+# $MirOS: contrib/hosted/tg/deb/pbuilderrc,v 1.15 2011/08/13 08:59:28 tg Exp $
 #-
 # Sample ~/.pbuilderrc for multiple distribution and suite support.
 # May work, but may just as well break. Experimental.
@@ -318,8 +318,7 @@ export USEDEVPTS=yes
 export USEPROC=yes
 
 case $DISTRIBUTION in
-(sarge|etch|lenny|squeeze|dapper|hardy|jaunty|karmic|lucid|maverick|natty|oneiric)
-	# might need to drop oneiric from the above list later
+(sarge|etch|lenny|squeeze|dapper|hardy|jaunty|karmic|lucid|maverick|natty)
 	EXTRAPACKAGES="$EXTRAPACKAGES debconf-english"
 	;;
 (*)
