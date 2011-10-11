@@ -1,7 +1,9 @@
-# $MirOS: contrib/hosted/tg/deb/pbuilderrc,v 1.15 2011/08/13 08:59:28 tg Exp $
+# $MirOS: contrib/hosted/tg/deb/pbuilderrc,v 1.16 2011/09/16 17:22:29 tg Exp $
 #-
-# Sample ~/.pbuilderrc for multiple distribution and suite support.
-# May work, but may just as well break. Experimental.
+# Sample ~/.pbuilderrc for multiple architecture, distribution and
+# suite support. May work, but may just as well break. Experimental.
+#
+# Set DIST=lenny-backports-sloppy/i386 for example.
 #-
 # debian.org: sarge etch lenny squeeze wheezy sid
 # debian-ports.org: unstable unreleased
@@ -20,6 +22,20 @@
 # desirable, unless you *want* to run most time-consuming
 # testsuites, which usually fail anyway… (yay for optimism)
 #export DEB_BUILD_OPTIONS='nobench nocheck'
+
+setuptofail() {
+	# this makes cowbuilder succeed and pbuilder fail
+	for i in "${BASH_SOURCE[@]}"; do
+		case $i in
+		*/pbuilder-loadconfig)
+			echo >&2 "E: MirDebian pbuilderrc: aborting"
+			echo >&2
+			exit 1
+			;;
+		esac
+	done
+	export BASEPATH=/var/cache/pbuilder/result
+}
 
 # known distributions and distribution-specific things (suites, mirrors, …)
 DISTROS='debian dpo ubuntu'
@@ -71,6 +87,43 @@ COMPONENTS_ubuntu='main universe'
 
 # to have a different shell prompt inside the chroot
 export debian_chroot="pbuild$$"
+
+# check $DIST for architecture
+case $DIST in
+*/*)
+	build_ARCHITECTURE=$(dpkg --print-architecture)
+	host_ARCHITECTURE=$(dpkg-architecture -qDEB_HOST_ARCH \
+	    -t$(uname -m)-linux-gnu 2>/dev/null)
+	host_ARCHSUFFIX=${DIST##*/}
+	DIST=${DIST%/*}
+	if test x"$host_ARCHSUFFIX" = x"$(dpkg-architecture -qDEB_HOST_ARCH \
+	    -a"$host_ARCHSUFFIX" 2>/dev/null)"; then
+		: $host_ARCHSUFFIX is a valid Debian architecture
+	else
+		echo >&2 "E: Unknown Debian architecture: '$host_ARCHSUFFIX'"
+		setuptofail
+		return
+	fi
+	if test x"$host_ARCHSUFFIX" = x"$host_ARCHITECTURE"; then
+		: uname values match
+	else
+		echo >&2 "E: Want $host_ARCHSUFFIX but got $host_ARCHITECTURE"
+		echo >&2 "W: Did you forget to prepend linux32 to cowbuilder?"
+		setuptofail
+		return
+	fi
+	if test x"$host_ARCHSUFFIX" = x"$build_ARCHITECTURE"; then
+		ARCHSUFFIX=
+	else
+		ARCHSUFFIX=-$host_ARCHSUFFIX
+	fi
+	;;
+*)
+	host_ARCHSUFFIX=
+	ARCHITECTURE=$(dpkg --print-architecture)
+	ARCHSUFFIX=
+	;;
+esac
 
 # check $DIST for validity and load settings
 export DISTRIBUTION=${DIST%%-*}
@@ -137,8 +190,9 @@ for distro in $DISTROS; do
 	test $distfound = 0 || break
 done
 if test $distfound = 0; then
-	echo >&2 "Unknown distribution/suite \$DIST: '$DIST'"
-	exit 1
+	echo >&2 "E: Unknown distribution/suite \$DIST: '$DIST'"
+	setuptofail
+	return
 fi
 
 case $DISTRO in
@@ -146,12 +200,12 @@ case $DISTRO in
 (*) export APTCACHE=/var/cache/pbuilder/aptcache-$DISTRO/ ;;
 esac
 export APTCACHEHARDLINK=yes
-export ARCHITECTURE=$(dpkg --print-architecture)
+export ARCHITECTURE ARCH=$ARCHITECTURE
 export AUTO_DEBSIGN=no
 export BUILDPLACE=/var/cache/pbuilder/build/
 export BUILDRESULT=/var/cache/pbuilder/result-$DIST/
 export CCACHEDIR=
-export BASEPATH=/var/cache/pbuilder/base.cow-$DIST/
+export BASEPATH=/var/cache/pbuilder/base.cow-$DIST$ARCHSUFFIX/
 export BUILDRESULTUID=1006
 export BUILDRESULTGID=200
 export BUILDSOURCEROOTCMD=fakeroot
@@ -237,8 +291,9 @@ case $DISTRO in
 	)
 	;;
 (*)
-	echo >&2 "Internal error, unknown distro \$DISTRO: '$DISTRO'"
-	exit 255
+	echo >&2 "E: Internal error, unknown distro \$DISTRO: '$DISTRO'"
+	setuptofail
+	return
 	;;
 esac
 export DEBOOTSTRAPOPTS EXTRAPACKAGES
@@ -255,8 +310,9 @@ case x$x:$DISTRO in
 	;;
 (x:*)
 	: No mirror set, possibly dangerous oversight
-	echo >&2 "Internal error, distro '$DISTRO' has no security mirror"
-	exit 255
+	echo >&2 "E: Internal error, distro '$DISTRO' has no security mirror"
+	setuptofail
+	return
 	;;
 (*:debian)
 	OTHERMIRROR="deb $x $DISTRIBUTION/updates $COMPONENTS"
@@ -269,8 +325,9 @@ case $isbackports:$DIST in
 (yes:*|no:sarge)
 	eval x=\$MIRRORBACKPORTS_$DISTRIBUTION
 	if test x"$x" = x""; then
-		echo >&2 "Internal error, $DISTRIBUTION-backports mirror not set"
-		exit 255
+		echo >&2 "E: Internal error, $DISTRIBUTION-backports mirror not set"
+		setuptofail
+		return
 	fi
 	OTHERMIRROR="$OTHERMIRROR|deb $x $DISTRIBUTION-backports $COMPONENTS"
 	;;
@@ -279,14 +336,16 @@ case $isbackports:$DIST in
 (sloppy:*)
 	eval x=\$MIRRORBACKPORTS_$DISTRIBUTION
 	if test x"$x" = x""; then
-		echo >&2 "Internal error, $DISTRIBUTION-backports mirror not set"
-		exit 255
+		echo >&2 "E: Internal error, $DISTRIBUTION-backports mirror not set"
+		setuptofail
+		return
 	fi
 	OTHERMIRROR="$OTHERMIRROR|deb $x $DISTRIBUTION-backports $COMPONENTS"
 	eval x=\$MIRRORBACKPORTSLOPPY_$DISTRIBUTION
 	if test x"$x" = x""; then
-		echo >&2 "Internal error, $DISTRIBUTION-backports-sloppy mirror not set"
-		exit 255
+		echo >&2 "E: Internal error, $DISTRIBUTION-backports-sloppy mirror not set"
+		setuptofail
+		return
 	fi
 	OTHERMIRROR="$OTHERMIRROR|deb $x $DISTRIBUTION-backports-sloppy $COMPONENTS"
 	;;
@@ -295,8 +354,9 @@ case $isbackports:$DIST in
 	OTHERMIRROR="$OTHERMIRROR|deb $MIRRORSITE $DISTRIBUTION-backports $COMPONENTS"
 	;;
 (*)
-	echo >&2 "Internal error, \$isbackports '$isbackports' unknown"
-	exit 255
+	echo >&2 "E: Internal error, \$isbackports '$isbackports' unknown"
+	setuptofail
+	return
 	;;
 esac
 export OTHERMIRROR
