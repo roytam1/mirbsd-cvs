@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/tg/deb/pbuilderrc,v 1.16 2011/09/16 17:22:29 tg Exp $
+# $MirOS: contrib/hosted/tg/deb/pbuilderrc,v 1.17 2011/10/11 14:36:54 tg Exp $
 #-
 # Sample ~/.pbuilderrc for multiple architecture, distribution and
 # suite support. May work, but may just as well break. Experimental.
@@ -8,7 +8,7 @@
 # debian.org: sarge etch lenny squeeze wheezy sid
 # debian-ports.org: unstable unreleased
 # not supported: experimental
-# ubuntu: dapper hardy jaunty karmic lucid maverick natty oneiric
+# ubuntu: dapper hardy karmic lucid maverick natty oneiric precise
 # *-backports: sarge etch lenny squeeze; all ubuntus
 # *-backports-sloppy: lenny
 # univention: not supported… yet…
@@ -41,10 +41,10 @@ setuptofail() {
 DISTROS='debian dpo ubuntu'
 DISTS_debian='sarge etch lenny squeeze wheezy sid'
 DISTS_dpo='unstable unreleased'
-DISTS_ubuntu='dapper hardy jaunty karmic lucid maverick natty oneiric'
+DISTS_ubuntu='dapper hardy karmic lucid maverick natty oneiric precise'
 DISTBACKPORTS_debian=sarge:etch:lenny:squeeze
 DISTBACKPORTSLOPPY_debian=lenny
-DISTBACKPORTUPDATE_ubuntu=dapper:hardy:jaunty:karmic:lucid:maverick:natty:oneiric
+DISTBACKPORTUPDATE_ubuntu=dapper:hardy:karmic:lucid:maverick:natty:oneiric:precise
 MIRROR_sarge=http://ftp.hosteurope.de/mirror/archive.debian.org/debian/
 MIRROR_etch=http://ftp.hosteurope.de/mirror/archive.debian.org/debian/
 MIRROR_lenny=http://ftp.hosteurope.de/mirror/ftp.debian.org/debian/
@@ -53,28 +53,28 @@ MIRROR_wheezy=http://ftp.hosteurope.de/mirror/ftp.debian.org/debian/
 MIRROR_sid=http://ftp.hosteurope.de/mirror/ftp.debian.org/debian/
 MIRROR_unstable=http://ftp.debian-ports.org/debian
 MIRROR_unreleased=http://ftp.debian-ports.org/debian
-MIRROR_dapper=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
+MIRROR_dapper=http://old-releases.ubuntu.com/ubuntu/
 MIRROR_hardy=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
-MIRROR_jaunty=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
 MIRROR_karmic=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
 MIRROR_lucid=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
 MIRROR_maverick=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
 MIRROR_natty=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
 MIRROR_oneiric=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
+MIRROR_precise=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
 MIRRORSECURITY_sarge=http://ftp.hosteurope.de/mirror/archive.debian.org/debian-security/
 MIRRORSECURITY_etch=http://ftp.hosteurope.de/mirror/archive.debian.org/debian-security/
 MIRRORSECURITY_lenny=http://ftp.hosteurope.de/mirror/ftp.debian.org/debian-security/
 MIRRORSECURITY_squeeze=http://ftp.hosteurope.de/mirror/ftp.debian.org/debian-security/
 MIRRORSECURITY_wheezy=http://ftp.hosteurope.de/mirror/ftp.debian.org/debian-security/
 MIRRORSECURITY_sid=NO
-MIRRORSECURITY_dapper=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
+MIRRORSECURITY_dapper=http://old-releases.ubuntu.com/ubuntu/
 MIRRORSECURITY_hardy=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
-MIRRORSECURITY_jaunty=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
 MIRRORSECURITY_karmic=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
 MIRRORSECURITY_lucid=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
 MIRRORSECURITY_maverick=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
 MIRRORSECURITY_natty=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
 MIRRORSECURITY_oneiric=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
+MIRRORSECURITY_precise=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
 MIRRORBACKPORTS_sarge=http://ftp.hosteurope.de/mirror/archive.debian.org/debian-backports/
 MIRRORBACKPORTS_etch=http://ftp.hosteurope.de/mirror/archive.debian.org/debian-backports/
 MIRRORBACKPORTS_lenny=http://ftp.hosteurope.de/mirror/backports.debian.org/
@@ -274,7 +274,7 @@ case $DISTRO in
 	;;
 (ubuntu)
 	case $DIST:$DISTRIBUTION in
-	(maverick-backports:*|*:natty|*:oneiric)
+	(maverick-backports:*|*:natty|*:oneiric|*:precise)
 		EXTRAPACKAGES='apt ubuntu-keyring eatmydata fakeroot'
 		;;
 	(*)
@@ -378,7 +378,7 @@ export USEDEVPTS=yes
 export USEPROC=yes
 
 case $DISTRIBUTION in
-(sarge|etch|lenny|squeeze|dapper|hardy|jaunty|karmic|lucid|maverick|natty)
+(sarge|etch|lenny|squeeze|dapper|hardy|karmic|lucid|maverick|natty)
 	EXTRAPACKAGES="$EXTRAPACKAGES debconf-english"
 	;;
 (*)
