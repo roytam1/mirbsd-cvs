@@ -1,9 +1,9 @@
-# $MirOS: contrib/hosted/tg/deb/pbuilderrc,v 1.18 2011/10/15 16:13:04 tg Exp $
+# $MirOS: contrib/hosted/tg/deb/pbuilderrc,v 1.19 2011/10/15 16:20:34 tg Exp $
 #-
 # Sample ~/.pbuilderrc for multiple architecture, distribution and
 # suite support. May work, but may just as well break. Experimental.
 #
-# Set DIST=lenny-backports-sloppy/i386 for example.
+# Set DIST=lenny-backports-sloppy/i386 CUSTOM=foo for example.
 #-
 # debian.org: sarge etch lenny squeeze wheezy sid
 # debian-ports.org: unstable unreleased
@@ -204,7 +204,7 @@ export AUTO_DEBSIGN=no
 export BUILDPLACE=/var/cache/pbuilder/build/
 export BUILDRESULT=/var/cache/pbuilder/result-$DIST/
 export CCACHEDIR=
-export BASEPATH=/var/cache/pbuilder/base.cow-$DIST$ARCHSUFFIX/
+export BASEPATH=/var/cache/pbuilder/base.cow-$DIST$ARCHSUFFIX${CUSTOM:+-$CUSTOM}/
 export BUILDRESULTUID=1006
 export BUILDRESULTGID=200
 export BUILDSOURCEROOTCMD=fakeroot
