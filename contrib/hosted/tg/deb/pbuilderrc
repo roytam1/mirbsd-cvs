@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/tg/deb/pbuilderrc,v 1.17 2011/10/11 14:36:54 tg Exp $
+# $MirOS: contrib/hosted/tg/deb/pbuilderrc,v 1.18 2011/10/15 16:13:04 tg Exp $
 #-
 # Sample ~/.pbuilderrc for multiple architecture, distribution and
 # suite support. May work, but may just as well break. Experimental.
@@ -94,32 +94,31 @@ case $DIST in
 	build_ARCHITECTURE=$(dpkg --print-architecture)
 	host_ARCHITECTURE=$(dpkg-architecture -qDEB_HOST_ARCH \
 	    -t$(uname -m)-linux-gnu 2>/dev/null)
-	host_ARCHSUFFIX=${DIST##*/}
+	ARCHITECTURE=${DIST##*/}
 	DIST=${DIST%/*}
-	if test x"$host_ARCHSUFFIX" = x"$(dpkg-architecture -qDEB_HOST_ARCH \
-	    -a"$host_ARCHSUFFIX" 2>/dev/null)"; then
-		: $host_ARCHSUFFIX is a valid Debian architecture
+	if test x"$ARCHITECTURE" = x"$(dpkg-architecture -qDEB_HOST_ARCH \
+	    -a"$ARCHITECTURE" 2>/dev/null)"; then
+		: $ARCHITECTURE is a valid Debian architecture
 	else
-		echo >&2 "E: Unknown Debian architecture: '$host_ARCHSUFFIX'"
+		echo >&2 "E: Unknown Debian architecture: '$ARCHITECTURE'"
 		setuptofail
 		return
 	fi
-	if test x"$host_ARCHSUFFIX" = x"$host_ARCHITECTURE"; then
+	if test x"$ARCHITECTURE" = x"$host_ARCHITECTURE"; then
 		: uname values match
 	else
-		echo >&2 "E: Want $host_ARCHSUFFIX but got $host_ARCHITECTURE"
+		echo >&2 "E: Want $ARCHITECTURE but got $host_ARCHITECTURE"
 		echo >&2 "W: Did you forget to prepend linux32 to cowbuilder?"
 		setuptofail
 		return
 	fi
-	if test x"$host_ARCHSUFFIX" = x"$build_ARCHITECTURE"; then
+	if test x"$ARCHITECTURE" = x"$build_ARCHITECTURE"; then
 		ARCHSUFFIX=
 	else
-		ARCHSUFFIX=-$host_ARCHSUFFIX
+		ARCHSUFFIX=-$ARCHITECTURE
 	fi
 	;;
 *)
-	host_ARCHSUFFIX=
 	ARCHITECTURE=$(dpkg --print-architecture)
 	ARCHSUFFIX=
 	;;
