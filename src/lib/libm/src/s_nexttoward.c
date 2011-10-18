@@ -26,6 +26,7 @@ __RCSID("$NetBSD: s_nexttoward.c,v 1.1 2010/09/15 16:12:05 christos Exp $");
 #include "math.h"
 #include "math_private.h"
 
+#ifdef __HAVE_LONG_DOUBLE
 #if LDBL_MAX_EXP != 0x4000
 #error "Unsupported long double format"
 #endif
@@ -87,3 +88,8 @@ nexttoward(double x, long double y)
 
 	return x;
 }
+#else /* !__HAVE_LONG_DOUBLE */
+#ifdef __strong_alias
+__strong_alias(nexttoward,nextafter);
+#endif
+#endif /* !__HAVE_LONG_DOUBLE */
