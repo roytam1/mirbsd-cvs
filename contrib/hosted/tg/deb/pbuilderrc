@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/tg/deb/pbuilderrc,v 1.19 2011/10/15 16:20:34 tg Exp $
+# $MirOS: contrib/hosted/tg/deb/pbuilderrc,v 1.20 2011/10/15 19:55:21 tg Exp $
 #-
 # Sample ~/.pbuilderrc for multiple architecture, distribution and
 # suite support. May work, but may just as well break. Experimental.
@@ -219,28 +219,22 @@ esac
 export DEBOOTSTRAP=debootstrap
 case $DISTRO in
 (debian)
+	x=cowdancer,apt,debian-archive-keyring
 	case $DIST:$DISTRIBUTION in
 	(squeeze-backports*:*|*:wheezy|*:sid)
 		EXTRAPACKAGES='apt debian-archive-keyring eatmydata fakeroot file-rc'
 		;;
 	(*:sarge)
+		x=apt
 		EXTRAPACKAGES='apt fakeroot file-rc'
 		;;
 	(*)
 		EXTRAPACKAGES='apt debian-archive-keyring fakeroot file-rc'
 		;;
 	esac
-	x=cowdancer,apt,debian-archive-keyring
 	case $DIST in
-	(sarge)
-		x=apt
-		;;
-	(sarge-backports)
-		x=apt,debian-backports-keyring
-		;;
 	(etch-backports|lenny-backports|lenny-backports-sloppy)
 		EXTRAPACKAGES="$EXTRAPACKAGES debian-backports-keyring"
-		x=$x,debian-backports-keyring
 		;;
 	esac
 	case $DISTRIBUTION in
