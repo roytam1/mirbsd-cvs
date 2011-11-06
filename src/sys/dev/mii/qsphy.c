@@ -108,8 +108,8 @@ const struct mii_phy_funcs qsphy_funcs = {
 };
 
 static const struct mii_phydesc qsphys[] = {
-	{ MII_OUI_QUALSEMI,		MII_MODEL_QUALSEMI_QS6612,
-	  MII_STR_QUALSEMI_QS6612 },
+	{ MII_OUI_QUALITYSEMI,		MII_MODEL_QUALITYSEMI_QS6612,
+	  MII_STR_QUALITYSEMI_QS6612 },
 
 	{ 0,			0,
 	  NULL },

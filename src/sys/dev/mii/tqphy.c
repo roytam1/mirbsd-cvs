@@ -109,8 +109,8 @@ const struct mii_phy_funcs tqphy_funcs = {
 };
 
 static const struct mii_phydesc tqphys[] = {
-	{ MII_OUI_TSC,		MII_MODEL_TSC_78Q2120,
-	  MII_STR_TSC_78Q2120 },
+	{ MII_OUI_TDK,		MII_MODEL_TDK_78Q2120,
+	  MII_STR_TDK_78Q2120 },
 
 	{ 0,			0,
 	  NULL },
