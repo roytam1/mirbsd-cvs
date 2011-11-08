@@ -63,7 +63,8 @@
 #include <dev/mii/brgphyreg.h>
 
 #include <dev/pci/if_bgereg.h>
-#include <dev/pci/if_bnxreg.h>
+/* MirOS does not have bnx(4) yet 
+#include <dev/pci/if_bnxreg.h> */
 
 int brgphy_probe(struct device *, void *, void *);
 void brgphy_attach(struct device *, struct device *, void *);
@@ -199,7 +200,9 @@ brgphy_attach(struct device *parent, struct device *self, void *aux)
 {
 	struct mii_softc *sc = (struct mii_softc *)self;
 	struct bge_softc *bge_sc = NULL;
+#if 0
 	struct bnx_softc *bnx_sc = NULL;
+#endif
 	struct mii_attach_args *ma = aux;
 	struct mii_data *mii = ma->mii_data;
 	const struct mii_phydesc *mpd;
@@ -213,8 +216,12 @@ brgphy_attach(struct device *parent, struct device *self, void *aux)
 
 		if (bge_sc->bge_flags & BGE_10_100_ONLY)
 			fast_ether = 1;
+#if 0
 	} else if (strcmp(devname, "bnx") == 0)
 		bnx_sc = mii->mii_ifp->if_softc;
+#else
+	};
+#endif
 
 	mpd = mii_phy_match(ma, brgphys);
 	printf(": %s, rev. %d\n", mpd->mpd_name, MII_REV(ma->mii_id2));
@@ -227,6 +234,7 @@ brgphy_attach(struct device *parent, struct device *self, void *aux)
 	sc->mii_flags = ma->mii_flags;
 
 	if (sc->mii_flags & MIIF_HAVEFIBER) {
+#if 0
 		if (strcmp(devname, "bnx") == 0) {
 			if (BNX_CHIP_NUM(bnx_sc) == BNX_CHIP_NUM_5708)
 				sc->mii_funcs = &brgphy_5708s_funcs;
@@ -235,6 +243,7 @@ brgphy_attach(struct device *parent, struct device *self, void *aux)
 			else
 				sc->mii_funcs = &brgphy_fiber_funcs;
 		} else
+#endif
 			sc->mii_funcs = &brgphy_fiber_funcs;
 	} else
 		sc->mii_funcs = &brgphy_copper_funcs;
@@ -262,6 +271,7 @@ brgphy_attach(struct device *parent, struct device *self, void *aux)
 		ADD(IFM_MAKEWORD(IFM_ETHER, IFM_1000_SX, IFM_FDX, sc->mii_inst),
 		    BRGPHY_S1000 | BRGPHY_BMCR_FDX);
 
+#if 0
 		/*
 		 * 2.5Gb support is a software enabled feature on the
 		 * BCM5708S and BCM5709S controllers.
@@ -271,6 +281,7 @@ brgphy_attach(struct device *parent, struct device *self, void *aux)
 				ADD(IFM_MAKEWORD(IFM_ETHER, IFM_2500_SX,
 				    IFM_FDX, sc->mii_inst), 0);
 		}
+#endif
 	} else {
 		ADD(IFM_MAKEWORD(IFM_ETHER, IFM_10_T, 0, sc->mii_inst),
 		    BRGPHY_S10);
@@ -335,9 +346,11 @@ brgphy_service(struct mii_softc *sc, struct mii_data *mii, int cmd)
 		case IFM_AUTO:
 			(void) brgphy_mii_phy_auto(sc);
 			break;
+#if 0
 		case IFM_2500_SX:
 			speed = BRGPHY_5708S_BMCR_2500;
 			goto setit;
+#endif
 		case IFM_1000_T:
 			speed = BRGPHY_S1000;
 			goto setit;
@@ -361,7 +374,11 @@ setit:
 
 			if ((IFM_SUBTYPE(ife->ifm_media) != IFM_1000_T) &&
 			    (IFM_SUBTYPE(ife->ifm_media) != IFM_1000_SX) &&
+#if 0
 			    (IFM_SUBTYPE(ife->ifm_media) != IFM_2500_SX))
+#else
+			    1)
+#endif
 				break;
 
 			PHY_WRITE(sc, BRGPHY_MII_1000CTL, gig);
@@ -609,9 +626,11 @@ brgphy_5708s_status(struct mii_softc *sc)
 		case BRGPHY_5708S_PG0_1000X_STAT1_SPEED_1G:
 			mii->mii_media_active |= IFM_1000_SX;
 			break;
+#if 0
 		case BRGPHY_5708S_PG0_1000X_STAT1_SPEED_25G:
 			mii->mii_media_active |= IFM_2500_SX;
 			break;
+#endif
 		}
 
 		if (xstat & BRGPHY_5708S_PG0_1000X_STAT1_FDX)
@@ -667,9 +686,11 @@ brgphy_5709s_status(struct mii_softc *sc)
                 case BRGPHY_GP_STATUS_TOP_ANEG_SPEED_1G:
                         mii->mii_media_active |= IFM_1000_SX;
                         break;
+#if 0
                 case BRGPHY_GP_STATUS_TOP_ANEG_SPEED_25G:
                         mii->mii_media_active |= IFM_2500_SX;
                         break;
+#endif
                 }
 
                 if (xstat & BRGPHY_GP_STATUS_TOP_ANEG_FDX)
@@ -734,7 +755,9 @@ void
 brgphy_reset(struct mii_softc *sc)
 {
 	struct bge_softc *bge_sc = NULL;
+#if 0
 	struct bnx_softc *bnx_sc = NULL;
+#endif
 	char *devname;
 
 	devname = sc->mii_dev.dv_parent->dv_cfdata->cf_driver->cd_name;
@@ -810,6 +833,7 @@ brgphy_reset(struct mii_softc *sc)
 					& ~BRGPHY_PHY_EXTCTL_3_LED);
 			}
 		}
+#if 0
 	/* Handle any bnx (NetXtreme II) workarounds. */
 	} else if (strcmp(devname, "bnx") == 0) {
 		bnx_sc = sc->mii_pdata->mii_ifp->if_softc;
@@ -934,6 +958,7 @@ brgphy_reset(struct mii_softc *sc)
 				brgphy_eth_wirespeed(sc);
 			}
 		}
+#endif
 	}
 }
 
