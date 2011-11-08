@@ -1185,8 +1185,8 @@ epic_ifmedia_upd(ifp)
 			oui = MII_OUI(id1, id2);
 			model = MII_MODEL(id2);
 			switch (oui) {
-			case MII_OUI_QUALSEMI:
-				if (model == MII_MODEL_QUALSEMI_QS6612)
+			case MII_OUI_QUALITYSEMI:
+				if (model == MII_MODEL_QUALITYSEMI_QS6612)
 					sc->phyid = EPIC_QS6612_PHY;
 				break;
 			case MII_OUI_xxALTIMA:
