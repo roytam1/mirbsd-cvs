@@ -1,4 +1,4 @@
-/*	$OpenBSD: mii.h,v 1.7 2004/10/07 22:18:48 brad Exp $	*/
+/*	$OpenBSD: mii.h,v 1.12 2010/07/23 07:47:13 jsg Exp $	*/
 /*	$NetBSD: mii.h,v 1.8 2001/05/31 03:06:46 thorpej Exp $	*/
 
 /*
@@ -15,11 +15,6 @@
  * 2. Redistributions in binary form must reproduce the above copyright
  *    notice, this list of conditions and the following disclaimer in the
  *    documentation and/or other materials provided with the distribution.
- * 3. All advertising materials mentioning features or use of this software
- *    must display the following acknowledgement:
- *	This product includes software developed by Manuel Bouyer.
- * 4. The name of the author may not be used to endorse or promote products
- *    derived from this software without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
  * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
@@ -108,10 +103,6 @@
 #define	IDR2_MODEL	0x03f0	/* vendor model */
 #define	IDR2_REV	0x000f	/* vendor revision */
 
-#define	MII_OUI(id1, id2)	(((id1) << 6) | ((id2) >> 10))
-#define	MII_MODEL(id2)		(((id2) & IDR2_MODEL) >> 4)
-#define	MII_REV(id2)		((id2) & IDR2_REV)
-
 #define	MII_ANAR	0x04	/* Autonegotiation advertisement (rw) */
 		/* section 28.2.4.1 and 37.2.6.1 */
 #define ANAR_NP		0x8000	/* Next page (ro) */
@@ -124,13 +115,17 @@
 #define ANAR_10_FD	0x0040	/* local device supports 10bT FD */
 #define ANAR_10		0x0020	/* local device supports 10bT */
 #define	ANAR_CSMA	0x0001	/* protocol selector CSMA/CD */
+#define	ANAR_PAUSE_NONE		(0 << 10)
+#define	ANAR_PAUSE_SYM		(1 << 10)
+#define	ANAR_PAUSE_ASYM		(2 << 10)
+#define	ANAR_PAUSE_TOWARDS	(3 << 10)
 
 #define	ANAR_X_FD	0x0020	/* local device supports 1000BASE-X FD */
 #define	ANAR_X_HD	0x0040	/* local device supports 1000BASE-X HD */
-#define	ANAR_X_PAUSE_NONE	(0 << 10)
-#define	ANAR_X_PAUSE_SYM	(1 << 10)
-#define	ANAR_X_PAUSE_ASYM	(2 << 10)
-#define	ANAR_X_PAUSE_TOWARDS	(3 << 10)
+#define	ANAR_X_PAUSE_NONE	(0 << 7)
+#define	ANAR_X_PAUSE_SYM	(1 << 7)
+#define	ANAR_X_PAUSE_ASYM	(2 << 7)
+#define	ANAR_X_PAUSE_TOWARDS	(3 << 7)
 
 #define	MII_ANLPAR	0x05	/* Autonegotiation lnk partner abilities (rw) */
 		/* section 28.2.4.1 and 37.2.6.1 */
@@ -144,14 +139,19 @@
 #define ANLPAR_10_FD	0x0040	/* link partner supports 10bT FD */
 #define ANLPAR_10	0x0020	/* link partner supports 10bT */
 #define	ANLPAR_CSMA	0x0001	/* protocol selector CSMA/CD */
+#define	ANLPAR_PAUSE_MASK	(3 << 10)
+#define	ANLPAR_PAUSE_NONE	(0 << 10)
+#define	ANLPAR_PAUSE_SYM	(1 << 10)
+#define	ANLPAR_PAUSE_ASYM	(2 << 10)
+#define	ANLPAR_PAUSE_TOWARDS	(3 << 10)
 
 #define	ANLPAR_X_FD	0x0020	/* local device supports 1000BASE-X FD */
 #define	ANLPAR_X_HD	0x0040	/* local device supports 1000BASE-X HD */
-#define	ANLPAR_X_PAUSE_MASK	(3 << 10)
-#define	ANLPAR_X_PAUSE_NONE	(0 << 10)
-#define	ANLPAR_X_PAUSE_SYM	(1 << 10)
-#define	ANLPAR_X_PAUSE_ASYM	(2 << 10)
-#define	ANLPAR_X_PAUSE_TOWARDS	(3 << 10)
+#define	ANLPAR_X_PAUSE_MASK	(3 << 7)
+#define	ANLPAR_X_PAUSE_NONE	(0 << 7)
+#define	ANLPAR_X_PAUSE_SYM	(1 << 7)
+#define	ANLPAR_X_PAUSE_ASYM	(2 << 7)
+#define	ANLPAR_X_PAUSE_TOWARDS	(3 << 7)
 
 #define	MII_ANER	0x06	/* Autonegotiation expansion (ro) */
 		/* section 28.2.4.1 and 37.2.6.1 */
