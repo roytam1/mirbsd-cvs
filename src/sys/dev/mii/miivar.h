@@ -234,6 +234,10 @@ struct mii_media {
 #define mii_phy_probe(x, y, z) \
 	mii_attach((x), (y), (z), MII_PHY_ANY, MII_OFFSET_ANY, 0)
 
+#define MII_OUI(id1, id2)       (((id1) << 6) | ((id2) >> 10))
+#define MII_MODEL(id2)          (((id2) & IDR2_MODEL) >> 4)
+#define MII_REV(id2)            ((id2) & IDR2_REV)
+
 void	mii_attach(struct device *, struct mii_data *, int, int,
 	    int, int);
 void	mii_activate(struct mii_data *, enum devact, int, int);
@@ -260,6 +264,7 @@ void	mii_phy_reset(struct mii_softc *);
 void	mii_phy_down(struct mii_softc *);
 int	mii_phy_tick(struct mii_softc *);
 
+int	mii_phy_flowstatus(struct mii_softc *);
 void	mii_phy_status(struct mii_softc *);
 void	mii_phy_update(struct mii_softc *, int);
 int	mii_phy_statusmsg(struct mii_softc *);

@@ -360,10 +360,7 @@ mii_phy_statusmsg(struct mii_softc *sc)
 
 	if (mii->mii_media_status & IFM_AVALID) {
 		if (mii->mii_media_status & IFM_ACTIVE) {
-			if (mii->mii_media_active & IFM_FDX)
-				link_state = LINK_STATE_FULL_DUPLEX;
-			else
-				link_state = LINK_STATE_HALF_DUPLEX;
+			link_state = LINK_STATE_UP;
 		} else
 			link_state = LINK_STATE_DOWN;
 	} else
