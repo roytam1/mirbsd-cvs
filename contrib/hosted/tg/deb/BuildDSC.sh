@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/hosted/tg/deb/BuildDSC.sh,v 1.12 2011/10/20 16:38:08 tg Exp $
+# $MirOS: contrib/hosted/tg/deb/BuildDSC.sh,v 1.13 2011/11/17 15:27:17 tg Exp $
 #-
 # Copyright (c) 2010, 2011
 #	Thorsten Glaser <t.glaser@tarent.de>
@@ -108,7 +108,7 @@ if (( snap )); then
 		version=$version'+'$ssuf
 	fi
 	print "$pkgstem ($version) UNRELEASED; urgency=low\n\n  *" \
-	    "Automatically built snapshot package.\n\n --" \
+	    "Automatically built snapshot (not backport) package.\n\n --" \
 	    "$DEBEMAIL  $stime_rfc\n" >debian/changelog
 	cat "$T" >>debian/changelog
 	touch -r "$T" debian/changelog
