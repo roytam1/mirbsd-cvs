@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/hosted/tg/deb/BuildDSC.sh,v 1.11 2011/07/26 23:13:09 tg Exp $
+# $MirOS: contrib/hosted/tg/deb/BuildDSC.sh,v 1.12 2011/10/20 16:38:08 tg Exp $
 #-
 # Copyright (c) 2010, 2011
 #	Thorsten Glaser <t.glaser@tarent.de>
@@ -100,7 +100,7 @@ if (( snap )); then
 	cat debian/changelog >"$T"
 	touch -r debian/changelog "$T"
 	dist=$(dpkg-parsechangelog -n1 | sed -n '/^Distribution: /s///p')
-	if [[ $dist = @(xunstable|UNRELEASED) ]]; then
+	if [[ $dist = UNRELEASED || $dist = x* ]]; then
 		# we’re at “current” already, reduce
 		version=$version'~'$ssuf
 	else
