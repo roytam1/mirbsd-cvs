@@ -86,6 +86,9 @@ although some decoders read e.g. literalnull or \n case-insensitively.
 /* when emitting a Number */
 - ECMA: NaN and both positive and negative infinity emit a literalnull
 - RFC: NaN and infinities are disallowed (yield undefined value?)
+  (most common implementations seem to use the RFC and interpret it as
+  literally raising an error if they are encountered; support for them
+  as literal values is a common extension, but *we* stick to ECMA!)
 - negative 0 emits a "0" even though "-0" is valid by the grammar
 - values other than -0 have the identity mapping
 
@@ -109,4 +112,4 @@ although some decoders read e.g. literalnull or \n case-insensitively.
 - Arrays emit undefined values as literalnull
 
 _____________________________________________________________________
-$MirOS: contrib/hosted/tg/json.txt,v 1.2 2010/03/27 17:45:44 tg Exp $
+$MirOS: contrib/hosted/tg/json.txt,v 1.3 2011/04/13 15:47:07 tg Exp $
