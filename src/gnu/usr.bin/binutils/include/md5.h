@@ -1,4 +1,4 @@
-/* $MirOS: src/gnu/usr.bin/binutils/include/md5.h,v 1.3 2005/11/22 17:17:12 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/binutils/include/md5.h,v 1.4 2009/02/24 19:35:55 tg Exp $ */
 
 #ifndef _MD5_H
 
@@ -11,7 +11,7 @@
 #include_next "md5.h"
 #endif
 
-#ifdef _MD5_H_
+#if defined(_MD5_H_) || defined(SYSKERN_MD5_H)
 #define _MD5_H
 
 #define	md5_ctx				MD5Context

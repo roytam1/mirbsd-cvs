@@ -1,10 +1,10 @@
-/* $MirOS: src/usr.sbin/httpd/src/include/ap_md5.h,v 1.3 2005/04/17 04:38:32 tg Exp $ */
+/* $MirOS: src/usr.sbin/httpd/src/include/ap_md5.h,v 1.4 2005/04/19 14:37:51 tg Exp $ */
 
 #ifndef	APACHE_MD5_H
 
 /* include md5 functions from libc */
 #include "/usr/include/md5.h"
-#ifdef	_MD5_H_
+#ifdef SYSKERN_MD5_H
 #define	APACHE_MD5_H
 
 #define	MD5_DIGESTSIZE			MD5_DIGEST_LENGTH
