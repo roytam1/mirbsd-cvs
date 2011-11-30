@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/tg/deb/pbuilderrc,v 1.21 2011/11/02 13:42:48 tg Exp $
+# $MirOS: contrib/hosted/tg/deb/pbuilderrc,v 1.22 2011/11/02 13:53:30 tg Exp $
 #-
 # Sample ~/.pbuilderrc for multiple architecture, distribution and
 # suite support. May work, but may just as well break. Experimental.
@@ -6,7 +6,7 @@
 # Set DIST=lenny-backports-sloppy/i386 CUSTOM=foo for example.
 #-
 # debian.org: sarge etch lenny squeeze wheezy sid
-# debian-ports.org: unstable unreleased
+# debian-ports.org: dpo (unstable+unreleased)
 # not supported: experimental
 # ubuntu: dapper hardy karmic lucid maverick natty oneiric precise
 # *-backports: sarge etch lenny squeeze; all ubuntus
@@ -40,7 +40,7 @@ setuptofail() {
 # known distributions and distribution-specific things (suites, mirrors, …)
 DISTROS='debian dpo ubuntu'
 DISTS_debian='sarge etch lenny squeeze wheezy sid'
-DISTS_dpo='unstable unreleased'
+DISTS_dpo='dpo'
 DISTS_ubuntu='dapper hardy karmic lucid maverick natty oneiric precise'
 DISTBACKPORTS_debian=sarge:etch:lenny:squeeze
 DISTBACKPORTSLOPPY_debian=lenny
@@ -257,6 +257,10 @@ case $DISTRO in
 	REMOVEPACKAGES="$REMOVEPACKAGES sysv-rc insserv"
 	;;
 (dpo)
+	DISTRIBUTION=unstable
+	# Note: debootstrap cannot include packages from unreleased, so this
+	# fails if the architecture is not bootstrappable without unreleased
+	# (use multistrap or a custom repository then; adjust dist above)
 	EXTRAPACKAGES='apt debian-ports-archive-keyring eatmydata fakeroot file-rc'
 	DEBOOTSTRAPOPTS=(
 		--arch=$ARCHITECTURE
@@ -299,6 +303,8 @@ eval MIRRORSITE=\$MIRROR_$DISTRIBUTION; export MIRRORSITE
 eval x=\$MIRRORSECURITY_$DISTRIBUTION
 case x$x:$DISTRO in
 (*:dpo)
+	: always add unreleased
+	OTHERMIRROR="deb $MIRROR_unreleased unreleased $COMPONENTS"
 	: debian-ports has no security support
 	;;
 (xNO:*)
