@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: zopen.c,v 1.14 2003/08/03 01:26:46 deraadt Exp $	*/
+/**	$MirOS: src/usr.bin/compress/zopen.c,v 1.3 2005/04/14 11:46:45 tg Exp $ */
+/*	$OpenBSD: zopen.c,v 1.15 2005/04/17 16:17:39 deraadt Exp $	*/
 /*	$NetBSD: zopen.c,v 1.5 1995/03/26 09:44:53 glass Exp $	*/
 
 /*-
@@ -73,7 +73,7 @@
 #include "compress.h"
 
 __SCCSID("@(#)zopen.c	8.1 (Berkeley) 6/27/93");
-__RCSID("$MirOS: src/usr.bin/compress/zopen.c,v 1.2 2005/03/13 18:32:49 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/compress/zopen.c,v 1.3 2005/04/14 11:46:45 tg Exp $");
 
 #define	BITS		16		/* Default bits. */
 #define	HSIZE		69001		/* 95% occupancy */
@@ -430,7 +430,7 @@ output(struct s_zstate *zs, code_int ocode)
 					zs->zs_maxcode = zs->zs_maxmaxcode;
 				else
 					zs->zs_maxcode =
-						MAXCODE(zs->zs_n_bits);
+					    MAXCODE(zs->zs_n_bits);
 			}
 		}
 
@@ -621,7 +621,7 @@ getcode(struct s_zstate *zs)
 			for (bp = zs->zs_buf; zs->zs_bp < zs->zs_ebp;
 				*bp++ = *zs->zs_bp++);
 			if ((bits = read(zs->zs_fd, bp, ZBUFSIZ -
-					 (bp - zs->zs_buf))) < 0)
+			    (bp - zs->zs_buf))) < 0)
 				return -1;
 			zs->zs_in_count += bits;
 			zs->zs_bp = zs->zs_buf;

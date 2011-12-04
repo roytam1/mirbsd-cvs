@@ -1,4 +1,5 @@
-/*	$OpenBSD: if_spppsubr.c,v 1.26 2004/12/10 14:35:30 naddy Exp $	*/
+/**	$MirOS$ */
+/*	$OpenBSD: if_spppsubr.c,v 1.32 2005/04/24 20:56:48 canacar Exp $	*/
 /*
  * Synchronous PPP/Cisco link level subroutines.
  * Keepalive protocol implemented in both Cisco and PPP modes.
@@ -17,8 +18,8 @@
  *    this list of conditions and the following disclaimer in the documentation
  *    and/or other materials provided with the distribution.
  *
- * THIS SOFTWARE IS PROVIDED BY THE FREEBSD PROJECT ``AS IS'' AND ANY 
- * EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE 
+ * THIS SOFTWARE IS PROVIDED BY THE FREEBSD PROJECT ``AS IS'' AND ANY
+ * EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
  * ARE DISCLAIMED. IN NO EVENT SHALL THE FREEBSD PROJECT OR CONTRIBUTORS BE
  * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
@@ -26,7 +27,7 @@
  * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
  * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
  * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE   
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * From: Version 2.6, Tue May 12 17:10:39 MSD 1998
@@ -104,13 +105,6 @@
 #include <netns/ns_if.h>
 #endif
 
-#ifdef ISO
-#include <netiso/argo_debug.h>
-#include <netiso/iso.h>
-#include <netiso/iso_var.h>
-#include <netiso/iso_snpac.h>
-#endif
-
 #include <net/if_sppp.h>
 
 #if defined (__FreeBSD__)
@@ -123,7 +117,19 @@
 # define UNTIMEOUT(fun, arg, handle)	\
 	untimeout(fun, arg)
 #endif
-#define MAXALIVECNT     3               /* max. alive packets */
+
+#define LOOPALIVECNT     		3	/* loopback detection tries */
+#define MAXALIVECNT    			3	/* max. missed alive packets */
+#define	NORECV_TIME			15	/* before we get worried */
+
+/*XXX*/
+void
+getmicrouptime(struct timeval *tv)
+{
+	tv->tv_sec = time.tv_sec - boottime.tv_sec;
+	tv->tv_usec = 0;
+}
+/*XXX*/
 
 /*
  * Interface flags that can be set in an ifconfig command.
@@ -465,13 +471,18 @@ sppp_input(struct ifnet *ifp, struct mbuf *m)
 {
 	struct ppp_header *h, ht;
 	struct ifqueue *inq = 0;
-	int s;
 	struct sppp *sp = (struct sppp *)ifp;
+	struct timeval tv;
 	int debug = ifp->if_flags & IFF_DEBUG;
+	int s;
 
-	if (ifp->if_flags & IFF_UP)
+	if (ifp->if_flags & IFF_UP) {
 		/* Count received bytes, add hardware framing */
 		ifp->if_ibytes += m->m_pkthdr.len + sp->pp_framebytes;
+		/* Note time of last receive */
+		getmicrouptime(&tv);
+		sp->pp_last_receive = tv.tv_sec;
+	}
 
 	if (m->m_pkthdr.len <= PPP_HEADER_LEN) {
 		/* Too small packet, drop it. */
@@ -549,6 +560,7 @@ sppp_input(struct ifnet *ifp, struct mbuf *m)
 			if (sp->state[IDX_IPCP] == STATE_OPENED) {
 				schednetisr (NETISR_IP);
 				inq = &ipintrq;
+				sp->pp_last_activity = tv.tv_sec;
 			}
 			break;
 #endif
@@ -567,15 +579,6 @@ sppp_input(struct ifnet *ifp, struct mbuf *m)
 			if (sp->pp_phase == PHASE_NETWORK) {
 				schednetisr (NETISR_NS);
 				inq = &nsintrq;
-			}
-			break;
-#endif
-#ifdef ISO
-		case PPP_ISO:
-			/* OSI NLCP not implemented yet */
-			if (sp->pp_phase == PHASE_NETWORK) {
-				schednetisr (NETISR_ISO);
-				inq = &clnlintrq;
 			}
 			break;
 #endif
@@ -662,10 +665,14 @@ sppp_output(struct ifnet *ifp, struct mbuf *m,
 	struct sppp *sp = (struct sppp*) ifp;
 	struct ppp_header *h;
 	struct ifqueue *ifq = NULL;
+	struct timeval tv;
 	int s, len, rv = 0;
 	u_int16_t protocol;
 
 	s = splimp();
+
+	getmicrouptime(&tv);
+	sp->pp_last_activity = tv.tv_sec;
 
 	if ((ifp->if_flags & IFF_UP) == 0 ||
 	    (ifp->if_flags & (IFF_RUNNING | IFF_AUTO)) == 0) {
@@ -784,7 +791,7 @@ sppp_output(struct ifnet *ifp, struct mbuf *m,
 #endif
 #ifdef NS
 	case AF_NS:     /* Xerox NS Protocol */
-		h->protocol = htons ((sp->pp_flags & PP_CISCO) ?
+		protocol = htons ((sp->pp_flags & PP_CISCO) ?
 			ETHERTYPE_NS : PPP_XNS);
 		break;
 #endif
@@ -793,14 +800,6 @@ sppp_output(struct ifnet *ifp, struct mbuf *m,
 		protocol = htons ((sp->pp_flags & PP_CISCO) ?
 			ETHERTYPE_IPX : PPP_IPX);
 		break;
-#endif
-#ifdef ISO
-	case AF_ISO:    /* ISO OSI Protocol */
-		if (sp->pp_flags & PP_CISCO)
-			goto nosupport;
-		h->protocol = htons (PPP_ISO);
-		break;
-nosupport:
 #endif
 	default:
 		m_freem(m);
@@ -889,6 +888,8 @@ sppp_attach(struct ifnet *ifp)
 	sp->pp_cpq.ifq_maxlen = 50;
 	sp->pp_loopcnt = 0;
 	sp->pp_alivecnt = 0;
+	sp->pp_last_activity = 0;
+	sp->pp_last_receive = 0;
 	sp->pp_seq = 0;
 	sp->pp_rseq = 0;
 	sp->pp_phase = PHASE_DEAD;
@@ -1010,7 +1011,7 @@ sppp_ioctl(struct ifnet *ifp, u_long cmd, void *data)
 {
 	struct ifreq *ifr = (struct ifreq*) data;
 	struct sppp *sp = (struct sppp*) ifp;
-	int s, rv, going_up, going_down;
+	int s, rv, going_up, going_down, newmode;
 
 	s = splimp();
 	rv = 0;
@@ -1024,28 +1025,29 @@ sppp_ioctl(struct ifnet *ifp, u_long cmd, void *data)
 		/* fall through... */
 
 	case SIOCSIFFLAGS:
-			/* sanity */
-		if (ifp->if_flags & IFF_PASSIVE)
-			ifp->if_flags &= ~IFF_AUTO;
-
-		going_up = (ifp->if_flags & IFF_UP) && ! (ifp->if_flags &
-			(IFF_RUNNING | IFF_AUTO | IFF_PASSIVE));
-		going_down = ! (ifp->if_flags & IFF_UP) &&
+		going_up = (ifp->if_flags & IFF_UP) &&
+			(ifp->if_flags & IFF_RUNNING) == 0;
+		going_down = (ifp->if_flags & IFF_UP) == 0 &&
 			(ifp->if_flags & IFF_RUNNING);
-
-		if (going_up || going_down) {
-			if (! (sp->pp_flags & PP_CISCO))
-			lcp.Close(sp);
-			else {
-				sppp_flush(ifp);
-				ifp->if_flags &= ~IFF_RUNNING;
-			}
+		newmode = ifp->if_flags & (IFF_AUTO | IFF_PASSIVE);
+		if (newmode == (IFF_AUTO | IFF_PASSIVE)) {
+			/* sanity */
+			newmode = IFF_PASSIVE;
+			ifp->if_flags &= ~IFF_AUTO;
 		}
-		if (going_up) {
+
+		if (going_up || going_down)
+			if (!(sp->pp_flags & PP_CISCO))
+				lcp.Close(sp);
+
+		if (going_up && newmode == 0) {
 			/* neither auto-dial nor passive */
 			ifp->if_flags |= IFF_RUNNING;
 			if (!(sp->pp_flags & PP_CISCO))
 				lcp.Open(sp);
+		} else if (going_down) {
+			sppp_flush(ifp);
+			ifp->if_flags &= ~IFF_RUNNING;
 		}
 		break;
 
@@ -1138,7 +1140,7 @@ sppp_cisco_input(struct sppp *sp, struct mbuf *m)
 		if (sp->pp_seq == sp->pp_rseq) {
 			/* Local and remote sequence numbers are equal.
 			 * Probably, the line is in loopback mode. */
-			if (sp->pp_loopcnt >= MAXALIVECNT) {
+			if (sp->pp_loopcnt >= LOOPALIVECNT) {
 				printf (SPP_FMT "loopback\n",
 					SPP_ARGS(ifp));
 				sp->pp_loopcnt = 0;
@@ -1151,7 +1153,7 @@ sppp_cisco_input(struct sppp *sp, struct mbuf *m)
 
 			/* Generate new local sequence number */
 #if defined (__FreeBSD__) || defined (__NetBSD__) || defined(__OpenBSD__)
-			sp->pp_seq = random();
+			sp->pp_seq = arc4random();
 #else
 			sp->pp_seq ^= time.tv_sec ^ time.tv_usec;
 #endif
@@ -1182,15 +1184,9 @@ sppp_cisco_send(struct sppp *sp, int type, long par1, long par2)
 	struct ppp_header *h;
 	struct cisco_packet *ch;
 	struct mbuf *m;
-#if defined (__FreeBSD__)
 	struct timeval tv;
-#else
-	u_long t = (time.tv_sec - boottime.tv_sec) * 1000;
-#endif
 
-#if defined (__FreeBSD__)
 	getmicrouptime(&tv);
-#endif
 
 	MGETHDR (m, M_DONTWAIT, MT_DATA);
 	if (! m)
@@ -1209,13 +1205,8 @@ sppp_cisco_send(struct sppp *sp, int type, long par1, long par2)
 	ch->par2 = htonl (par2);
 	ch->rel = -1;
 
-#if defined (__FreeBSD__)
 	ch->time0 = htons ((u_short) (tv.tv_sec >> 16));
 	ch->time1 = htons ((u_short) tv.tv_sec);
-#else
-	ch->time0 = htons ((u_short) (t >> 16));
-	ch->time1 = htons ((u_short) t);
-#endif
 
 	if (debug)
 		log(LOG_DEBUG,
@@ -1266,7 +1257,7 @@ sppp_cp_send(struct sppp *sp, u_short proto, u_char type,
 	if (sp->pp_flags & PP_NOFRAMING) {
 		*mtod(m, u_int16_t *) = htons(proto);
 		lh = (struct lcp_header *)(mtod(m, u_int8_t *) + 2);
-	} else {	
+	} else {
 		h = mtod (m, struct ppp_header*);
 		h->address = PPP_ALLSTATIONS;	/* broadcast address */
 		h->control = PPP_UI;		/* Unnumbered Info */
@@ -1800,7 +1791,7 @@ sppp_increasing_timeout (const struct cp *cp, struct sppp *sp)
 	if (timo < 1)
 		timo = 1;
 #if defined(__FreeBSD__) && __FreeBSD__ >= 3
-	sp->ch[cp->protoidx] = 
+	sp->ch[cp->protoidx] =
 	    timeout(cp->TO, (void *)sp, timo * sp->lcp.timeout);
 #elif defined(__OpenBSD__)
 	timeout_set(&sp->ch[cp->protoidx], cp->TO, (void *)sp);
@@ -1879,20 +1870,21 @@ sppp_cp_change_state(const struct cp *cp, struct sppp *sp, int newstate)
 		    sppp_state_name(newstate));
 	sp->state[cp->protoidx] = newstate;
 
-	UNTIMEOUT(cp->TO, (void *)sp, sp->ch[cp->protoidx]);
 	switch (newstate) {
 	case STATE_INITIAL:
 	case STATE_STARTING:
 	case STATE_CLOSED:
 	case STATE_STOPPED:
 	case STATE_OPENED:
+		UNTIMEOUT(cp->TO, (void *)sp, sp->ch[cp->protoidx]);
 		break;
 	case STATE_CLOSING:
 	case STATE_STOPPING:
 	case STATE_REQ_SENT:
 	case STATE_ACK_RCVD:
 	case STATE_ACK_SENT:
- 		sppp_increasing_timeout (cp, sp);
+		if (!timeout_pending(&sp->ch[cp->protoidx]))
+			sppp_increasing_timeout (cp, sp);
 		break;
 	}
 }
@@ -1933,22 +1925,30 @@ HIDE void
 sppp_lcp_up(struct sppp *sp)
 {
 	STDDCL;
+	struct timeval tv;
+
+	if (sp->pp_flags & PP_CISCO)
+		return;
 
  	sp->pp_alivecnt = 0;
  	sp->lcp.opts = (1 << LCP_OPT_MAGIC);
  	sp->lcp.magic = 0;
  	sp->lcp.protos = 0;
  	sp->lcp.mru = sp->lcp.their_mru = PP_MTU;
+
+	getmicrouptime(&tv);
+	sp->pp_last_receive = sp->pp_last_activity = tv.tv_sec;
+
 	/*
 	 * If this interface is passive or dial-on-demand, and we are
 	 * still in Initial state, it means we've got an incoming
 	 * call.  Activate the interface.
 	 */
-	ifp->if_flags |= IFF_RUNNING;
 	if ((ifp->if_flags & (IFF_AUTO | IFF_PASSIVE)) != 0) {
 		if (debug)
 			log(LOG_DEBUG,
 			    SPP_FMT "Up event", SPP_ARGS(ifp));
+		ifp->if_flags |= IFF_RUNNING;
 		if (sp->state[IDX_LCP] == STATE_INITIAL) {
 			if (debug)
 				addlog("(incoming call)\n");
@@ -1956,6 +1956,10 @@ sppp_lcp_up(struct sppp *sp)
 			lcp.Open(sp);
 		} else if (debug)
 			addlog("\n");
+	} else if ((ifp->if_flags & (IFF_AUTO | IFF_PASSIVE)) == 0 &&
+		   (sp->state[IDX_LCP] == STATE_INITIAL)) {
+			ifp->if_flags |= IFF_RUNNING;
+			lcp.Open(sp);
 	}
 
 	sppp_up_event(&lcp, sp);
@@ -1966,12 +1970,30 @@ sppp_lcp_down(struct sppp *sp)
 {
 	STDDCL;
 
-		if (debug)
-		log(LOG_DEBUG, SPP_FMT "Down event (carrier loss)\n",
-			    SPP_ARGS(ifp));
-  	sppp_down_event(&lcp, sp);
+	if (sp->pp_flags & PP_CISCO)
+		return;
 
- 	if ((ifp->if_flags & (IFF_AUTO | IFF_PASSIVE)) != 0)
+	sppp_down_event(&lcp, sp);
+
+	/*
+	 * If this is neither a dial-on-demand nor a passive
+	 * interface, simulate an ``ifconfig down'' action, so the
+	 * administrator can force a redial by another ``ifconfig
+	 * up''.  XXX For leased line operation, should we immediately
+	 * try to reopen the connection here?
+	 */
+	if ((ifp->if_flags & (IFF_AUTO | IFF_PASSIVE)) == 0) {
+		if (debug)
+			log(LOG_DEBUG, SPP_FMT "Down event (carrier loss), "
+			    "taking interface down.", SPP_ARGS(ifp));
+		if_down(ifp);
+	} else {
+		if (debug)
+			log(LOG_DEBUG, SPP_FMT "Down event (carrier loss)\n",
+			    SPP_ARGS(ifp));
+	}
+
+	if (sp->state[IDX_LCP] != STATE_INITIAL)
 		lcp.Close(sp);
  	sp->pp_flags &= ~PP_CALLIN;
 	ifp->if_flags &= ~IFF_RUNNING;
@@ -2037,11 +2059,7 @@ sppp_lcp_RCR(struct sppp *sp, struct lcp_header *h, int len)
 		switch (*p) {
 		case LCP_OPT_MAGIC:
 			/* Magic number. */
-			if (len >= 6 && p[1] == 6)
-				continue;
-			if (debug)
-				addlog("[invalid] ");
-			break;
+			/* fall through, both are same length */
 		case LCP_OPT_ASYNC_MAP:
 			/* Async control character map. */
 			if (len >= 6 && p[1] == 6)
@@ -2095,8 +2113,8 @@ sppp_lcp_RCR(struct sppp *sp, struct lcp_header *h, int len)
 	if (rlen) {
 		if (debug)
 			addlog(" send conf-rej\n");
-		sppp_cp_send (sp, PPP_LCP, CONF_REJ, h->ident, rlen, buf);
-		return 0;
+		sppp_cp_send(sp, PPP_LCP, CONF_REJ, h->ident, rlen, buf);
+		goto end;
 	} else if (debug)
 		addlog("\n");
 
@@ -2188,21 +2206,18 @@ sppp_lcp_RCR(struct sppp *sp, struct lcp_header *h, int len)
 		rlen += p[1];
 	}
 	if (rlen) {
-		if (++sp->fail_counter[IDX_LCP] < sp->lcp.max_failure) {
+		if (++sp->fail_counter[IDX_LCP] >= sp->lcp.max_failure) {
 			if (debug)
-				addlog("send conf-nak\n");
-			sppp_cp_send (sp, PPP_LCP, CONF_NAK, h->ident, rlen, buf);
-			return 0;
+				addlog(" max_failure (%d) exceeded, "
+				       "send conf-rej\n",
+				       sp->lcp.max_failure);
+			sppp_cp_send(sp, PPP_LCP, CONF_REJ, h->ident, rlen, buf);
+		} else {
+			if (debug)
+				addlog(" send conf-nak\n");
+			sppp_cp_send(sp, PPP_LCP, CONF_NAK, h->ident, rlen, buf);
 		}
-		if (debug)
-			addlog("max_failure (%d) exceeded, closing\n",
-			       sp->lcp.max_failure);
-		if (sp->pp_loopcnt >= MAXALIVECNT)
-			printf (SPP_FMT "loopback\n", SPP_ARGS(ifp));
-		lcp.Close(sp);
-		sp->fail_counter[IDX_LCP] = 0;
-		sp->pp_loopcnt = 0;
-		return 0;
+		goto end;
 	} else {
 		if (debug)
 			addlog("send conf-ack\n");
@@ -2212,7 +2227,8 @@ sppp_lcp_RCR(struct sppp *sp, struct lcp_header *h, int len)
 			      h->ident, origlen, h+1);
 	}
 
-	free (buf, M_TEMP);
+ end:
+	free(buf, M_TEMP);
 	return (rlen == 0);
 }
 
@@ -2410,6 +2426,10 @@ sppp_lcp_tlu(struct sppp *sp)
 		if (sp->lcp.protos & mask && ((cps[i])->flags & CP_LCP) == 0)
 			(cps[i])->Up(sp);
 
+	/* notify low-level driver of state change */
+	if (sp->pp_chg)
+		sp->pp_chg(sp, (int)sp->pp_phase);
+
 	if (sp->pp_phase == PHASE_NETWORK)
 		/* if no NCP is starting, close down */
 		sppp_lcp_check_and_close(sp);
@@ -2479,7 +2499,7 @@ sppp_lcp_scr(struct sppp *sp)
 	if (sp->lcp.opts & (1 << LCP_OPT_MAGIC)) {
 		if (! sp->lcp.magic)
 #if defined (__FreeBSD__) || defined(__NetBSD__) || defined(__OpenBSD__)
-			sp->lcp.magic = random();
+			sp->lcp.magic = arc4random();
 #else
 			sp->lcp.magic = time.tv_sec + time.tv_usec;
 #endif
@@ -2689,8 +2709,8 @@ sppp_ipcp_RCR(struct sppp *sp, struct lcp_header *h, int len)
 	if (rlen) {
 		if (debug)
 			addlog(" send conf-rej\n");
-		sppp_cp_send (sp, PPP_IPCP, CONF_REJ, h->ident, rlen, buf);
-		return 0;
+		sppp_cp_send(sp, PPP_IPCP, CONF_REJ, h->ident, rlen, buf);
+		goto end;
 	} else if (debug)
 		addlog("\n");
 
@@ -2741,12 +2761,12 @@ sppp_ipcp_RCR(struct sppp *sp, struct lcp_header *h, int len)
 				else
 					addlog("%s [not agreed] ",
 					       sppp_dotted_quad(desiredaddr));
-
-				p[2] = hisaddr >> 24;
-				p[3] = hisaddr >> 16;
-				p[4] = hisaddr >> 8;
-				p[5] = hisaddr;
 			}
+
+			p[2] = hisaddr >> 24;
+			p[3] = hisaddr >> 16;
+			p[4] = hisaddr >> 8;
+			p[5] = hisaddr;
 			break;
 		}
 		/* Add the option to nak'ed list. */
@@ -2788,7 +2808,8 @@ sppp_ipcp_RCR(struct sppp *sp, struct lcp_header *h, int len)
 			      h->ident, origlen, h+1);
 	}
 
-	free (buf, M_TEMP);
+ end:
+	free(buf, M_TEMP);
 	return (rlen == 0);
 }
 
@@ -3364,7 +3385,7 @@ sppp_chap_tlu(struct sppp *sp)
 		 * Compute the re-challenge timeout.  This will yield
 		 * a number between 300 and 810 seconds.
 		 */
-		i = 300 + ((unsigned)(random() & 0xff00) >> 7);
+		i = 300 + (arc4random() & 0x01fe);
 
 #if defined (__FreeBSD__)
 		sp->ch[IDX_CHAP] = timeout(chap.TO, (void *)sp, i * hz);
@@ -3424,24 +3445,15 @@ sppp_chap_tld(struct sppp *sp)
 HIDE void
 sppp_chap_scr(struct sppp *sp)
 {
-	u_long *ch, seed;
+	u_int32_t *ch;
 	u_char clen;
-#if defined (__NetBSD__) || defined (__OpenBSD__)
-	struct timeval tv;
-#endif
 
 	/* Compute random challenge. */
-	ch = (u_long *)sp->myauth.challenge;
-#if defined (__FreeBSD__)
-	read_random(&seed, sizeof seed);
-#else
-	microtime(&tv);
-	seed = tv.tv_sec ^ tv.tv_usec;
-#endif
-	ch[0] = seed ^ random();
-	ch[1] = seed ^ random();
-	ch[2] = seed ^ random();
-	ch[3] = seed ^ random();
+	ch = (u_int32_t *)sp->myauth.challenge;
+	ch[0] = arc4random();
+	ch[1] = arc4random();
+	ch[2] = arc4random();
+	ch[3] = arc4random();
 	clen = AUTHKEYLEN;
 
 	sp->confid[IDX_CHAP] = ++sp->pp_seq;
@@ -3885,8 +3897,10 @@ sppp_keepalive(void *dummy)
 {
 	struct sppp *sp;
 	int s;
+	struct timeval tv;
 
 	s = splimp();
+	getmicrouptime(&tv);
 	for (sp=spppq; sp; sp=sp->pp_next) {
 		struct ifnet *ifp = &sp->pp_if;
 
@@ -3900,24 +3914,41 @@ sppp_keepalive(void *dummy)
 		    sp->pp_phase < PHASE_AUTHENTICATE)
 			continue;
 
-		if (sp->pp_alivecnt == MAXALIVECNT) {
+		/* No echo reply, but maybe user data passed through? */
+		if (!(sp->pp_flags & PP_CISCO) &&
+		    (tv.tv_sec - sp->pp_last_receive) < NORECV_TIME) {
+			sp->pp_alivecnt = 0;
+			continue;
+		}
+
+		if (sp->pp_alivecnt >= MAXALIVECNT) {
 			/* No keepalive packets got.  Stop the interface. */
-			printf (SPP_FMT "down\n", SPP_ARGS(ifp));
- 			if (sp->pp_flags & PP_CISCO) {
 			if_down (ifp);
 			sppp_qflush (&sp->pp_cpq);
- 			} else {
-				/* Shut down the PPP link. */
- 				lcp.Close(sp);
+			if (! (sp->pp_flags & PP_CISCO)) {
+				printf (SPP_FMT "LCP keepalive timeout",
+				    SPP_ARGS(ifp));
+				sp->pp_alivecnt = 0;
+
+				/* we are down, close all open protocols */
+				lcp.Close(sp);
+
+				/* And now prepare LCP to reestablish the link, if configured to do so. */
+				sppp_cp_change_state(&lcp, sp, STATE_STOPPED);
+
+				/* Close connection imediatly, completition of this
+				 * will summon the magic needed to reestablish it. */
+				sp->pp_tlf(sp);
+				continue;
 			}
 		}
-		if (sp->pp_alivecnt <= MAXALIVECNT)
+		if (sp->pp_alivecnt < MAXALIVECNT)
 			++sp->pp_alivecnt;
 		if (sp->pp_flags & PP_CISCO)
 			sppp_cisco_send (sp, CISCO_KEEPALIVE_REQ, ++sp->pp_seq,
 				sp->pp_rseq);
 		else if (sp->pp_phase >= PHASE_AUTHENTICATE) {
-			long nmagic = htonl (sp->lcp.magic);
+			unsigned long nmagic = htonl (sp->lcp.magic);
 			sp->lcp.echoid = ++sp->pp_seq;
 			sppp_cp_send (sp, PPP_LCP, ECHO_REQ,
 				sp->lcp.echoid, 4, &nmagic);

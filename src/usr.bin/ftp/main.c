@@ -1,5 +1,5 @@
-/**	$MirOS: src/usr.bin/ftp/main.c,v 1.2 2005/03/13 18:32:59 tg Exp $ */
-/*	$OpenBSD: main.c,v 1.57 2003/12/16 21:46:22 deraadt Exp $	*/
+/**	$MirOS: src/usr.bin/ftp/main.c,v 1.3 2005/03/15 18:44:52 tg Exp $ */
+/*	$OpenBSD: main.c,v 1.58 2004/07/20 03:50:26 deraadt Exp $	*/
 /*	$NetBSD: main.c,v 1.24 1997/08/18 10:20:26 lukem Exp $	*/
 
 /*
@@ -60,6 +60,12 @@
  * SUCH DAMAGE.
  */
 
+#ifndef lint
+static char copyright[] =
+"@(#) Copyright (c) 1985, 1989, 1993, 1994\n\
+	The Regents of the University of California.  All rights reserved.\n";
+#endif /* not lint */
+
 /*
  * FTP User Program -- Command Interface.
  */
@@ -78,7 +84,7 @@
 
 #include "ftp_var.h"
 
-__RCSID("$MirOS: src/usr.bin/ftp/main.c,v 1.2 2005/03/13 18:32:59 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ftp/main.c,v 1.3 2005/03/15 18:44:52 tg Exp $");
 
 int family = PF_UNSPEC;
 
@@ -321,7 +327,7 @@ main(volatile int argc, char *argv[])
 }
 
 void
-intr()
+intr(void)
 {
 
 	alarmtimer(0);
@@ -329,7 +335,7 @@ intr()
 }
 
 void
-lostpeer()
+lostpeer(void)
 {
 	int save_errno = errno;
 
@@ -365,7 +371,7 @@ lostpeer()
  * Generate a prompt
  */
 char *
-prompt()
+prompt(void)
 {
 	return ("ftp> ");
 }
@@ -374,8 +380,7 @@ prompt()
  * Command parser.
  */
 void
-cmdscanner(top)
-	int top;
+cmdscanner(int top)
 {
 	struct cmd *c;
 	int num;
@@ -470,8 +475,7 @@ cmdscanner(top)
 }
 
 struct cmd *
-getcmd(name)
-	const char *name;
+getcmd(const char *name)
 {
 	const char *p, *q;
 	struct cmd *c, *found;
@@ -508,7 +512,7 @@ getcmd(name)
 int slrflag;
 
 void
-makeargv()
+makeargv(void)
 {
 	char *argp;
 
@@ -551,7 +555,7 @@ makeargv()
  * handle quoting and strings
  */
 char *
-slurpstring()
+slurpstring(void)
 {
 	int got_one = 0;
 	char *sb = stringbase;
@@ -683,9 +687,7 @@ OUT:
  * Call each command handler with argc == 0 and argv[0] == name.
  */
 void
-help(argc, argv)
-	int argc;
-	char *argv[];
+help(int argc, char *argv[])
 {
 	struct cmd *c;
 
@@ -721,7 +723,7 @@ help(argc, argv)
 }
 
 void
-usage()
+usage(void)
 {
 	(void)fprintf(stderr,
 	    "usage: %s [-46AadegimnptVv] [-P port] [-r seconds] [host [port]]\n"

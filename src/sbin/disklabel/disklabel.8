@@ -1,5 +1,5 @@
-.\"	$MirOS$
-.\"	$OpenBSD: disklabel.8,v 1.58 2004/10/25 08:14:46 otto Exp $
+.\"	$MirOS: src/sbin/disklabel/disklabel.8,v 1.2 2005/03/06 19:49:51 tg Exp $
+.\"	$OpenBSD: disklabel.8,v 1.59 2005/03/07 23:41:53 jmc Exp $
 .\"	$NetBSD: disklabel.8,v 1.9 1995/03/18 14:54:38 cgd Exp $
 .\"
 .\" Copyright (c) 1987, 1988, 1991, 1993
@@ -51,7 +51,7 @@
 .Op Fl c | d | r
 .Op Fl nv
 .Ar disk Ar disktype
-.Oo Ar packid Oc
+.Op Ar packid
 .Nm disklabel
 .Fl e
 .Op Fl c | d | r
@@ -78,7 +78,7 @@
 .Op Fl b Ar boot1
 .Op Fl s Ar boot2
 .Ar disk
-.Oo Ar disktype Oc
+.Op Ar disktype
 .Nm disklabel
 .Fl Bw
 .Op Fl nv

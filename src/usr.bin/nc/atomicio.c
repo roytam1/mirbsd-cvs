@@ -29,7 +29,7 @@
 #include <errno.h>
 #include <unistd.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/nc/atomicio.c,v 1.2 2005/03/13 18:33:18 tg Exp $");
 
 ssize_t atomicio(ssize_t (*f)(int, void *, size_t), int fd, void *_s, size_t n);
 
@@ -42,7 +42,7 @@ atomicio(ssize_t (*f) (int, void *, size_t), int fd, void *_s, size_t n)
 	char *s = _s;
 	ssize_t res, pos = 0;
 
-	while ((ssize_t)n > pos) {
+	while (n > (size_t)pos) {
 		res = (f) (fd, s + pos, n - pos);
 		switch (res) {
 		case -1:

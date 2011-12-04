@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: socks.c,v 1.9 2004/10/17 03:13:55 djm Exp $	*/
+/**	$MirOS: src/usr.bin/nc/socks.c,v 1.2 2005/03/13 18:33:18 tg Exp $ */
+/*	$OpenBSD: socks.c,v 1.10 2005/02/08 15:26:23 otto Exp $	*/
 
 /*
  * Copyright (c) 1999 Niklas Hallqvist.  All rights reserved.
@@ -38,7 +38,7 @@
 #include <string.h>
 #include <unistd.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/nc/socks.c,v 1.2 2005/03/13 18:33:18 tg Exp $");
 
 #define SOCKS_PORT	"1080"
 #define HTTP_PROXY_PORT	"3128"
@@ -51,9 +51,9 @@ __RCSID("$MirOS$");
 #define SOCKS_IPV4	1
 
 
-int	remote_connect(char *, char *, struct addrinfo);
-int	socks_connect(char *host, char *port, struct addrinfo hints,
-	    char *proxyhost, char *proxyport, struct addrinfo proxyhints,
+int	remote_connect(const char *, const char *, struct addrinfo);
+int	socks_connect(const char *host, const char *port, struct addrinfo hints,
+	    const char *proxyhost, const char *proxyport, struct addrinfo proxyhints,
 	    int socksv);
 
 static in_addr_t
@@ -113,9 +113,9 @@ proxy_read_line(int fd, char *buf, int bufsz)
 }
 
 int
-socks_connect(char *host, char *port,
-    struct addrinfo hints __attribute__((unused)),
-    char *proxyhost, char *proxyport, struct addrinfo proxyhints,
+socks_connect(const char *host, const char *port,
+    struct addrinfo hints __attribute__ ((__unused__)),
+    const char *proxyhost, const char *proxyport, struct addrinfo proxyhints,
     int socksv)
 {
 	int proxyfd, r;
@@ -212,7 +212,7 @@ socks_connect(char *host, char *port,
 			    "CONNECT %s:%d HTTP/1.0\r\n\r\n",
 			    host, ntohs(serverport));
 		}
-		if (r == -1 || r >= (ssize_t)sizeof(buf))
+		if (r == -1 || (size_t)r >= sizeof(buf))
 			errx (1, "hostname too long");
 		r = strlen((char *)buf);
 

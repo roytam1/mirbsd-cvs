@@ -31,12 +31,12 @@
  */
 
 #if 0
-static char *rcsid = "$OpenBSD: bcopy.c,v 1.3 2003/06/02 20:18:38 millert Exp $";
+static char *rcsid = "$OpenBSD: bcopy.c,v 1.4 2005/03/30 20:13:52 otto Exp $";
 #endif /* LIBC_SCCS and not lint */
 
 #include <string.h>
 
-__RCSID("$MirOS: src/lib/libc/string/bcopy.c,v 1.3 2005/04/16 19:52:23 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/string/bcopy.c,v 1.4 2005/04/16 20:30:49 tg Exp $");
 
 /*
  * sizeof(word) MUST BE A POWER OF TWO

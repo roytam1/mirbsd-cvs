@@ -1,5 +1,5 @@
-/**	$MirOS: src/sys/dev/vnd.c,v 1.2 2005/03/06 21:27:35 tg Exp $	*/
-/*	$OpenBSD: vnd.c,v 1.45 2004/03/04 01:22:50 tedu Exp $	*/
+/**	$MirOS: src/sys/dev/vnd.c,v 1.3 2005/04/14 21:54:44 tg Exp $	*/
+/*	$OpenBSD: vnd.c,v 1.55 2005/04/19 15:32:12 mickey Exp $	*/
 /*	$NetBSD: vnd.c,v 1.26 1996/03/30 23:06:11 christos Exp $	*/
 
 /*
@@ -128,13 +128,14 @@ struct vnd_softc {
 	struct device	 sc_dev;
 	struct disk	 sc_dk;
 
-	int		 sc_flags;	/* flags */
-	size_t		 sc_size;	/* size of vnd in blocks */
-	struct vnode	*sc_vp;		/* vnode */
-	struct ucred	*sc_cred;	/* credentials */
-	int		 sc_maxactive;	/* max # of active requests */
-	struct buf	 sc_tab;	/* transfer queue */
-	void		*sc_keyctx;	/* key context */
+	char		 sc_file[VNDNLEN];	/* file we're covering */
+	int		 sc_flags;		/* flags */
+	size_t		 sc_size;		/* size of vnd in blocks */
+	struct vnode	*sc_vp;			/* vnode */
+	struct ucred	*sc_cred;		/* credentials */
+	int		 sc_maxactive;		/* max # of active requests */
+	struct buf	 sc_tab;		/* transfer queue */
+	void		*sc_keyctx;		/* key context */
 };
 
 /* sc_flags */
@@ -294,8 +295,7 @@ vndopen(dev, flags, mode, p)
 	sc->sc_dk.dk_openmask =
 	    sc->sc_dk.dk_copenmask | sc->sc_dk.dk_bopenmask;
 
-	vndunlock(sc);
-	return (0);
+	error = 0;
 bad:
 	vndunlock(sc);
 	return (error);
@@ -491,7 +491,7 @@ vndstrategy(bp)
 			auio.uio_iovcnt = 1;
 			auio.uio_offset = dbtob((off_t)(bp->b_blkno + off));
 			auio.uio_segflg = UIO_SYSSPACE;
-			auio.uio_procp = NULL;
+			auio.uio_procp = p;
 
 			vn_lock(vnd->sc_vp, LK_EXCLUSIVE | LK_RETRY, p);
 			vnd->sc_flags |= VNF_BUSY;
@@ -787,6 +787,7 @@ vndioctl(dev, cmd, addr, flag, p)
 	int unit = vndunit(dev);
 	struct vnd_softc *vnd;
 	struct vnd_ioctl *vio;
+	struct vnd_user *vnu;
 	struct vattr vattr;
 	struct nameidata nd;
 	int error, part, pmask, s, f_rdonly, f_rdopen;
@@ -814,6 +815,12 @@ vndioctl(dev, cmd, addr, flag, p)
 
 		if ((error = vndlock(vnd)) != 0)
 			return (error);
+
+		if ((error = copyinstr(vio->vnd_file, vnd->sc_file,
+		    sizeof(vnd->sc_file), NULL))) {
+			vndunlock(vnd);
+			return (error);
+		}
 
 		bzero(vnd->sc_dev.dv_xname, sizeof(vnd->sc_dev.dv_xname));
 		if (snprintf(vnd->sc_dev.dv_xname, sizeof(vnd->sc_dev.dv_xname),
@@ -881,8 +888,8 @@ vndioctl(dev, cmd, addr, flag, p)
 		vnd->sc_flags |= f_rdonly;
 #ifdef DEBUG
 		if (vnddebug & VDB_INIT)
-			printf("vndioctl: SET vp %p size %x\n",
-			    vnd->sc_vp, vnd->sc_size);
+			printf("vndioctl: SET vp %p size %llx\n",
+			    vnd->sc_vp, (unsigned long long)vnd->sc_size);
 #endif
 
 		/* Attach the disk. */
@@ -935,6 +942,34 @@ vndioctl(dev, cmd, addr, flag, p)
 		vndunlock(vnd);
 		bzero(vnd, sizeof(struct vnd_softc));
 		splx(s);
+		break;
+
+	case VNDIOCGET:
+		vnu = (struct vnd_user *)addr;
+
+		if (vnu->vnu_unit == -1)
+			vnu->vnu_unit = unit;
+		if (vnu->vnu_unit >= numvnd)
+			return (ENXIO);
+		if (vnu->vnu_unit < 0)
+			return (EINVAL);
+
+		vnd = &vnd_softc[vnu->vnu_unit];
+
+		if (vnd->sc_flags & VNF_INITED) {
+			error = VOP_GETATTR(vnd->sc_vp, &vattr, p->p_ucred, p);
+			if (error)
+				return (error);
+
+			strlcpy(vnu->vnu_file, vnd->sc_file,
+			    sizeof(vnu->vnu_file));
+			vnu->vnu_dev = vattr.va_fsid;
+			vnu->vnu_ino = vattr.va_fileid;
+		} else {
+			vnu->vnu_dev = 0;
+			vnu->vnu_ino = 0;
+		}
+
 		break;
 
 	case DIOCGDINFO:
@@ -1019,7 +1054,7 @@ vndsetcred(vnd, cred)
 
 	/* XXX: Horrible kludge to establish credentials for NFS */
 	aiov.iov_base = tmpbuf;
-	aiov.iov_len = min(DEV_BSIZE, dbtob(vnd->sc_size));
+	aiov.iov_len = MIN(DEV_BSIZE, dbtob((off_t)vnd->sc_size));
 	auio.uio_iov = &aiov;
 	auio.uio_iovcnt = 1;
 	auio.uio_offset = 0;

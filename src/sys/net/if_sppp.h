@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: if_sppp.h,v 1.7 2004/11/28 23:39:45 canacar Exp $	*/
+/**	$MirOS: src/sys/net/if_sppp.h,v 1.2 2005/03/06 21:28:15 tg Exp $ */
+/*	$OpenBSD: if_sppp.h,v 1.9 2005/03/23 00:26:06 canacar Exp $	*/
 /*	$NetBSD: if_sppp.h,v 1.2.2.1 1999/04/04 06:57:39 explorer Exp $	*/
 
 /*
@@ -24,10 +24,10 @@
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
  * ARE DISCLAIMED. IN NO EVENT SHALL THE FREEBSD PROJECT OR CONTRIBUTORS BE
  * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF 
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
  * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
  * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
@@ -69,7 +69,7 @@ struct sipcp {
 #define IPCP_MYADDR_SEEN  4	/* have seen his address already */
 };
 
-#define AUTHNAMELEN	48
+#define AUTHNAMELEN	64
 #define AUTHKEYLEN	16
 
 struct sauth {
@@ -111,6 +111,7 @@ struct sppp {
 	u_long  pp_seq;         /* local sequence number */
 	u_long  pp_rseq;        /* remote sequence number */
 	u_quad_t	pp_saved_mtu;	/* saved MTU value */
+	time_t	pp_last_receive;	/* peer's last "sign of life" */
 	time_t	pp_last_activity;	/* second of last payload data s/r */
 	time_t	pp_idle_timeout;	/* idle seconds before auto-disconnect,
 					 * 0 = disabled */

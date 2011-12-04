@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: time.c,v 1.15 2004/03/09 19:12:13 tom Exp $	*/
+/**	$MirOS: src/sys/arch/i386/stand/libsa/time.c,v 1.2 2005/03/06 21:27:07 tg Exp $ */
+/*	$OpenBSD: time.c,v 1.16 2004/08/17 15:11:31 tom Exp $	*/
 
 /*
  * Copyright (c) 1997 Michael Shalayeff
@@ -63,7 +63,7 @@ compute(int year, u_int8_t month, u_int8_t day, u_int8_t hour,
 	register time_t tt;
 
 	/* Compute days */
-	tt = (year - 1970) * 365 + monthcount[month] + day;
+	tt = (year - 1970) * 365 + monthcount[month] + day - 1;
 
 	/* Compute for leap year */
 	for (month <= 2 ? year-- : 0; year >= 1970; year--)

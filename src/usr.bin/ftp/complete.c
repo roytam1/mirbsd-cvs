@@ -1,4 +1,4 @@
-/*	$OpenBSD: complete.c,v 1.14 2003/04/05 17:19:47 deraadt Exp $	*/
+/*	$OpenBSD: complete.c,v 1.17 2004/09/16 04:39:16 deraadt Exp $	*/
 /*	$NetBSD: complete.c,v 1.10 1997/08/18 10:20:18 lukem Exp $	*/
 
 /*-
@@ -52,7 +52,7 @@
 
 #include "ftp_var.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/ftp/complete.c,v 1.2 2005/03/15 18:44:52 tg Exp $");
 
 static int	     comparstr(const void *, const void *);
 static unsigned char complete_ambiguous(char *, int, StringList *);
@@ -61,8 +61,7 @@ static unsigned char complete_local(char *, int);
 static unsigned char complete_remote(char *, int);
 
 static int
-comparstr(a, b)
-	const void *a, *b;
+comparstr(const void *a, const void *b)
 {
 	return (strcmp(*(char **)a, *(char **)b));
 }
@@ -78,10 +77,7 @@ comparstr(a, b)
  *	words	stringlist containing possible matches
  */
 static unsigned char
-complete_ambiguous(word, list, words)
-	char *word;
-	int list;
-	StringList *words;
+complete_ambiguous(char *word, int list, StringList *words)
 {
 	char insertstr[MAXPATHLEN];
 	char *lastmatch;
@@ -133,9 +129,7 @@ complete_ambiguous(word, list, words)
  * Complete a command
  */
 static unsigned char
-complete_command(word, list)
-	char *word;
-	int list;
+complete_command(char *word, int list)
 {
 	struct cmd *c;
 	StringList *words;
@@ -161,9 +155,7 @@ complete_command(word, list)
  * Complete a local file
  */
 static unsigned char
-complete_local(word, list)
-	char *word;
-	int list;
+complete_local(char *word, int list)
 {
 	StringList *words;
 	char dir[MAXPATHLEN];
@@ -216,9 +208,7 @@ complete_local(word, list)
  * Complete a remote file
  */
 static unsigned char
-complete_remote(word, list)
-	char *word;
-	int list;
+complete_remote(char *word, int list)
 {
 	static StringList *dirlist;
 	static char	 lastdir[MAXPATHLEN];
@@ -297,23 +287,22 @@ complete_remote(word, list)
  * Generic complete routine
  */
 unsigned char
-complete(el, ch)
-	EditLine *el;
-	int ch;
+complete(EditLine *el, int ch)
 {
 	static char word[FTPBUFLEN];
 	static int lastc_argc, lastc_argo;
-
 	struct cmd *c;
 	const LineInfo *lf;
 	int celems, dolist;
 	size_t len;
 
+	ch = ch;		/* not used */
 	lf = el_line(el);
 	len = lf->lastchar - lf->buffer;
 	if (len >= sizeof(line))
 		return (CC_ERROR);
-	(void)strlcpy(line, lf->buffer, len+1);
+	(void)memcpy(line, lf->buffer, len);
+	line[len] = '\0';
 	cursor_pos = line + (lf->cursor - lf->buffer);
 	lastc_argc = cursor_argc;	/* remember last cursor pos */
 	lastc_argo = cursor_argo;
@@ -348,22 +337,21 @@ complete(el, ch)
 		return (CC_ERROR);
 
 	switch (c->c_complete[cursor_argc - 1]) {
-		case 'l':			/* local complete */
-		case 'L':
-			return (complete_local(word, dolist));
-		case 'r':			/* remote complete */
-		case 'R':
-			if (connected != -1) {
-				fputs("\nMust be logged in to complete.\n", ttyout);
-				return (CC_REDISPLAY);
-			}
-			return (complete_remote(word, dolist));
-		case 'c':			/* command complete */
-		case 'C':
-			return (complete_command(word, dolist));
-		case 'n':			/* no complete */
-		default:
-			return (CC_ERROR);
+	case 'l':			/* local complete */
+	case 'L':
+		return (complete_local(word, dolist));
+	case 'r':			/* remote complete */
+	case 'R':
+		if (connected != -1) {
+			fputs("\nMust be logged in to complete.\n", ttyout);
+			return (CC_REDISPLAY);
+		}
+		return (complete_remote(word, dolist));
+	case 'c':			/* command complete */
+	case 'C':
+		return (complete_command(word, dolist));
+	case 'n':			/* no complete */
+		return (CC_ERROR);
 	}
 
 	return (CC_ERROR);

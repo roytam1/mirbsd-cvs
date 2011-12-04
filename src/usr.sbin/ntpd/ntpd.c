@@ -1,5 +1,5 @@
-/**	$MirOS: src/usr.sbin/ntpd/ntpd.c,v 1.3 2005/03/28 21:32:23 tg Exp $ */
-/*	$OpenBSD: ntpd.c,v 1.34 2005/03/31 17:02:43 henning Exp $ */
+/**	$MirOS: src/usr.sbin/ntpd/ntpd.c,v 1.4 2005/04/14 21:18:48 tg Exp $ */
+/*	$OpenBSD: ntpd.c,v 1.35 2005/04/18 20:46:02 henning Exp $ */
 
 /*-
  * Copyright (c) 2004, 2005
@@ -35,7 +35,7 @@
 
 #include "ntpd.h"
 
-__RCSID("$MirOS: src/usr.sbin/ntpd/ntpd.c,v 1.3 2005/03/28 21:32:23 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/ntpd/ntpd.c,v 1.4 2005/04/14 21:18:48 tg Exp $");
 
 void		sighdlr(int);
 __dead void	usage(void);
@@ -287,7 +287,11 @@ dispatch_imsg(struct ntpd_conf *conf)
 			break;
 		case IMSG_HOST_DNS:
 			name = imsg.data;
-			if (imsg.hdr.len != strlen(name) + 1 + IMSG_HEADER_SIZE)
+			if (imsg.hdr.len < 1 + IMSG_HEADER_SIZE)
+				fatalx("invalid IMSG_HOST_DNS received");
+			imsg.hdr.len -= 1 + IMSG_HEADER_SIZE;
+			if (name[imsg.hdr.len] != '\0' ||
+			    strlen(name) != imsg.hdr.len)
 				fatalx("invalid IMSG_HOST_DNS received");
 			if ((cnt = host_dns(name, &hn)) > 0) {
 				buf = imsg_create(ibuf, IMSG_HOST_DNS,

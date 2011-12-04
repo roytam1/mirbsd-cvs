@@ -1,5 +1,5 @@
-/**	$MirOS$	*/
-/*	$OpenBSD: fs.h,v 1.16 2004/01/20 03:44:06 tedu Exp $	*/
+/**	$MirOS: src/sys/ufs/ffs/fs.h,v 1.2 2005/03/06 21:28:37 tg Exp $	*/
+/*	$OpenBSD: fs.h,v 1.17 2005/03/01 13:30:50 aaron Exp $	*/
 /*	$NetBSD: fs.h,v 1.6 1995/04/12 21:21:02 mycroft Exp $	*/
 
 /*
@@ -481,8 +481,8 @@ struct ocg {
 	((loc) & (fs)->fs_qbmask)
 #define fragoff(fs, loc)	/* calculates (loc % fs->fs_fsize) */ \
 	((loc) & (fs)->fs_qfmask)
-#define lblktosize(fs, blk)	/* calculates (blk * fs->fs_bsize) */ \
-	((blk) << (fs)->fs_bshift)
+#define lblktosize(fs, blk)	/* calculates ((off_t)blk * fs->fs_bsize) */ \
+	((off_t)(blk) << (fs)->fs_bshift)
 #define lblkno(fs, loc)		/* calculates (loc / fs->fs_bsize) */ \
 	((loc) >> (fs)->fs_bshift)
 #define numfrags(fs, loc)	/* calculates (loc / fs->fs_fsize) */ \

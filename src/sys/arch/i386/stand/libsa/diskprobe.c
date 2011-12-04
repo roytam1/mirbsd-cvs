@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: diskprobe.c,v 1.26 2004/03/19 13:48:18 tom Exp $	*/
+/**	$MirOS: src/sys/arch/i386/stand/libsa/diskprobe.c,v 1.2 2005/03/06 21:27:06 tg Exp $ */
+/*	$OpenBSD: diskprobe.c,v 1.27 2004/06/23 00:21:49 tom Exp $	*/
 
 /*
  * Copyright (c) 1997 Tobias Weingartner

@@ -1,12 +1,12 @@
-# $MirOS: src/lib/libc/string/Makefile.inc,v 1.2 2005/03/06 20:28:48 tg Exp $
-# $OpenBSD: Makefile.inc,v 1.13 2004/05/03 19:56:08 millert Exp $
+# $MirOS: src/lib/libc/string/Makefile.inc,v 1.3 2005/04/16 20:30:49 tg Exp $
+# $OpenBSD: Makefile.inc,v 1.14 2005/03/30 03:04:19 deraadt Exp $
 
 # string sources
 .PATH: ${LIBCSRCDIR}/arch/${MACHINE_ARCH}/string ${LIBCSRCDIR}/string
 
-SRCS+=	bm.c memccpy.c strcasecmp.c strcoll.c strdup.c strerror.c \
-	strerror_r.c strlfun.c strmode.c strsignal.c strtok.c strxfrm.c \
-	__strsignal.c
+SRCS+=	bm.c memccpy.c strcasecmp.c strcasestr.c strcoll.c strdup.c \
+	strerror.c strerror_r.c strlfun.c strmode.c strsignal.c strtok.c \
+	strxfrm.c __strsignal.c
 
 # machine-dependent net sources
 # m-d Makefile.inc must include sources for:
@@ -110,5 +110,6 @@ MLINKS+=strcat.3 strncat.3
 MLINKS+=strcmp.3 strncmp.3
 MLINKS+=strcpy.3 strncpy.3
 MLINKS+=strlcpy.3 strlcat.3
+MLINKS+=strstr.3 strcasestr.3
 MLINKS+=strtok.3 strtok_r.3
 MLINKS+=strerror.3 strerror_r.3

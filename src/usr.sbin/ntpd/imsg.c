@@ -1,5 +1,5 @@
-/**	$MirOS: src/usr.sbin/ntpd/imsg.c,v 1.2 2005/03/13 19:17:09 tg Exp $ */
-/*	$OpenBSD: imsg.c,v 1.10 2005/03/23 10:42:04 henning Exp $ */
+/**	$MirOS: src/usr.sbin/ntpd/imsg.c,v 1.3 2005/04/14 21:18:48 tg Exp $ */
+/*	$OpenBSD: imsg.c,v 1.11 2005/04/26 15:18:22 henning Exp $ */
 
 /*
  * Copyright (c) 2003, 2004 Henning Brauer <henning@openbsd.org>
@@ -26,7 +26,7 @@
 
 #include "ntpd.h"
 
-__RCSID("$MirOS: src/usr.sbin/ntpd/imsg.c,v 1.2 2005/03/13 19:17:09 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/ntpd/imsg.c,v 1.3 2005/04/14 21:18:48 tg Exp $");
 
 void
 imsg_init(struct imsgbuf *ibuf, int fd)
@@ -70,7 +70,8 @@ imsg_get(struct imsgbuf *ibuf, struct imsg *imsg)
 	memcpy(&imsg->hdr, ibuf->r.buf, sizeof(imsg->hdr));
 	if (imsg->hdr.len < IMSG_HEADER_SIZE ||
 	    imsg->hdr.len > MAX_IMSGSIZE) {
-		log_warnx("imsg_get: imsg hdr len out of bounds");
+		log_warnx("imsg_get: imsg hdr len %u out of bounds, type=%u",
+		    imsg->hdr.len, imsg->hdr.type);
 		return (-1);
 	}
 	if (imsg->hdr.len > av)

@@ -1,3 +1,5 @@
+/*	$OpenBSD: strcpy.c,v 1.7 2004/11/28 07:16:54 mickey Exp $	*/
+
 /*
  * Copyright (c) 1988 Regents of the University of California.
  * All rights reserved.
@@ -28,16 +30,16 @@
  */
 
 #if 0
-static char *rcsid = "$OpenBSD: strcpy.c,v 1.5 2003/06/02 20:18:38 millert Exp $";
+static char *rcsid = "$OpenBSD: strcpy.c,v 1.7 2004/11/28 07:16:54 mickey Exp $";
 #endif /* LIBC_SCCS and not lint */
 
-#ifndef _KERNEL
+#if !defined(_KERNEL) && !defined(_STANDALONE)
 #include <string.h>
 #else
 #include <lib/libkern/libkern.h>
 #endif
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libc/string/strcpy.c,v 1.3 2005/04/16 19:52:23 tg Exp $");
 
 __warn_references(strcpy, "warning: strcpy() is almost always misused, consider using strlcpy()");
 

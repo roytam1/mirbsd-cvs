@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: dir.c,v 1.16 2003/08/25 23:28:15 tedu Exp $	*/
+/**	$MirOS: src/sbin/fsck_ffs/dir.c,v 1.2 2005/03/06 19:49:56 tg Exp $ */
+/*	$OpenBSD: dir.c,v 1.17 2004/07/05 02:31:54 pvalchev Exp $	*/
 /*	$NetBSD: dir.c,v 1.20 1996/09/27 22:45:11 christos Exp $	*/
 
 /*
@@ -46,7 +46,7 @@
 #include "extern.h"
 
 __SCCSID("@(#)dir.c	8.5 (Berkeley) 12/8/94");
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/sbin/fsck_ffs/dir.c,v 1.2 2005/03/06 19:49:56 tg Exp $");
 
 char	*lfname = "lost+found";
 int	lfmode = 01700;
@@ -249,9 +249,6 @@ dircheck(struct inodesc *idesc, struct direct *dp)
 #	endif
 	if (dp->d_reclen < size ||
 	    idesc->id_filesize < size ||
-#if MAXNAMLEN < 255
-	    namlen > MAXNAMLEN ||
-#endif
 	    type > 15)
 		return (0);
 	for (cp = dp->d_name, size = 0; size < namlen; size++)

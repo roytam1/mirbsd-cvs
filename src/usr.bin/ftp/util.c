@@ -1,4 +1,4 @@
-/*	$OpenBSD: util.c,v 1.37 2003/12/16 21:46:22 deraadt Exp $	*/
+/*	$OpenBSD: util.c,v 1.40 2005/04/11 15:16:50 deraadt Exp $	*/
 /*	$NetBSD: util.c,v 1.12 1997/08/18 10:20:27 lukem Exp $	*/
 
 /*-
@@ -95,7 +95,7 @@
 #include "ftp_var.h"
 #include "pathnames.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/ftp/util.c,v 1.2 2005/03/15 18:44:52 tg Exp $");
 
 static void updateprogressmeter(int);
 
@@ -104,12 +104,9 @@ static void updateprogressmeter(int);
  * auto-login, if possible.
  */
 void
-setpeer(argc, argv)
-	int argc;
-	char *argv[];
+setpeer(int argc, char *argv[])
 {
-	char *host;
-	char *port;
+	char *host, *port;
 
 	if (connected) {
 		fprintf(ttyout, "Already connected to %s, use close first.\n",
@@ -246,18 +243,13 @@ setpeer(argc, argv)
  * login to remote host, using given username & password if supplied
  */
 int
-ftp_login(host, user, pass)
-	const char *host;
-	char *user, *pass;
+ftp_login(const char *host, char *user, char *pass)
 {
-	char tmp[80];
-	char *acct;
+	char tmp[80], *acct = NULL, hostname[MAXHOSTNAMELEN];
 	char anonpass[MAXLOGNAME + 1 + MAXHOSTNAMELEN];	/* "user@hostname" */
-	char hostname[MAXHOSTNAMELEN];
-	struct passwd *pw;
 	int n, aflag = 0, retry = 0;
+	struct passwd *pw;
 
-	acct = NULL;
 	if (user == NULL) {
 		if (ruserpass(host, &user, &pass, &acct) < 0) {
 			code = -1;
@@ -363,10 +355,7 @@ tryagain:
  * Returns false if no new arguments have been added.
  */
 int
-another(pargc, pargv, prompt)
-	int *pargc;
-	char ***pargv;
-	const char *prompt;
+another(int *pargc, char ***pargv, const char *prompt)
 {
 	int len = strlen(line), ret;
 
@@ -394,37 +383,32 @@ another(pargc, pargv, prompt)
  * of writing to the screen.
  */
 char *
-remglob(argv, doswitch, errbuf)
-        char *argv[];
-        int doswitch;
-	char **errbuf;
+remglob(char *argv[], int doswitch, char **errbuf)
 {
-        char temp[MAXPATHLEN];
-        static char buf[MAXPATHLEN];
-        static FILE *ftemp = NULL;
-        static char **args;
-        int oldverbose, oldhash, fd;
-        char *cp, *mode;
+	char temp[MAXPATHLEN], *cp, *mode;
+	static char buf[MAXPATHLEN], **args;
+	static FILE *ftemp = NULL;
+	int oldverbose, oldhash, fd;
 
-        if (!mflag) {
-                if (!doglob)
-                        args = NULL;
-                else {
-                        if (ftemp) {
-                                (void)fclose(ftemp);
-                                ftemp = NULL;
-                        }
-                }
-                return (NULL);
-        }
-        if (!doglob) {
-                if (args == NULL)
-                        args = argv;
-                if ((cp = *++args) == NULL)
-                        args = NULL;
-                return (cp);
-        }
-        if (ftemp == NULL) {
+	if (!mflag) {
+		if (!doglob)
+			args = NULL;
+		else {
+			if (ftemp) {
+				(void)fclose(ftemp);
+				ftemp = NULL;
+			}
+		}
+		return (NULL);
+	}
+	if (!doglob) {
+		if (args == NULL)
+			args = argv;
+		if ((cp = *++args) == NULL)
+			args = NULL;
+		return (cp);
+	}
+	if (ftemp == NULL) {
 		int len;
 
 		if ((cp = getenv("TMPDIR")) == NULL || *cp == '\0')
@@ -440,52 +424,51 @@ remglob(argv, doswitch, errbuf)
 		if (temp[len-1] != '/')
 			temp[len++] = '/';
 		(void)strlcpy(&temp[len], TMPFILE, sizeof temp - len);
-                if ((fd = mkstemp(temp)) < 0) {
-                        warn("unable to create temporary file %s", temp);
-                        return (NULL);
-                }
-                close(fd);
+		if ((fd = mkstemp(temp)) < 0) {
+			warn("unable to create temporary file %s", temp);
+			return (NULL);
+		}
+		close(fd);
 		oldverbose = verbose;
 		verbose = (errbuf != NULL) ? -1 : 0;
 		oldhash = hash;
 		hash = 0;
-                if (doswitch)
-                        pswitch(!proxy);
-                for (mode = "w"; *++argv != NULL; mode = "a")
-                        recvrequest("NLST", temp, *argv, mode, 0, 0);
+		if (doswitch)
+			pswitch(!proxy);
+		for (mode = "w"; *++argv != NULL; mode = "a")
+			recvrequest("NLST", temp, *argv, mode, 0, 0);
 		if ((code / 100) != COMPLETE) {
 			if (errbuf != NULL)
 				*errbuf = reply_string;
 		}
 		if (doswitch)
 			pswitch(!proxy);
-                verbose = oldverbose;
+		verbose = oldverbose;
 		hash = oldhash;
-                ftemp = fopen(temp, "r");
-                (void)unlink(temp);
-                if (ftemp == NULL) {
+		ftemp = fopen(temp, "r");
+		(void)unlink(temp);
+		if (ftemp == NULL) {
 			if (errbuf == NULL)
 				fputs("can't find list of remote files, oops.\n",
 				    ttyout);
 			else
 				*errbuf =
 				    "can't find list of remote files, oops.";
-                        return (NULL);
-                }
-        }
-        if (fgets(buf, sizeof(buf), ftemp) == NULL) {
-                (void)fclose(ftemp);
+			return (NULL);
+		}
+	}
+	if (fgets(buf, sizeof(buf), ftemp) == NULL) {
+		(void)fclose(ftemp);
 		ftemp = NULL;
-                return (NULL);
-        }
-        if ((cp = strchr(buf, '\n')) != NULL)
-                *cp = '\0';
-        return (buf);
+		return (NULL);
+	}
+	if ((cp = strchr(buf, '\n')) != NULL)
+		*cp = '\0';
+	return (buf);
 }
 
 int
-confirm(cmd, file)
-	const char *cmd, *file;
+confirm(const char *cmd, const char *file)
 {
 	char line[BUFSIZ];
 
@@ -525,8 +508,7 @@ top:
  * from the expression, we return only the first.
  */
 int
-globulize(cpp)
-	char **cpp;
+globulize(char **cpp)
 {
 	glob_t gl;
 	int flags;
@@ -556,9 +538,7 @@ globulize(cpp)
  * determine size of remote file
  */
 off_t
-remotesize(file, noisy)
-	const char *file;
-	int noisy;
+remotesize(const char *file, int noisy)
 {
 	int overbose;
 	off_t size;
@@ -589,9 +569,7 @@ remotesize(file, noisy)
  * determine last modification time (in GMT) of remote file
  */
 time_t
-remotemodtime(file, noisy)
-	const char *file;
-	int noisy;
+remotemodtime(const char *file, int noisy)
 {
 	int overbose;
 	time_t rtime;
@@ -654,7 +632,7 @@ remotemodtime(file, noisy)
  * Returns true if this is the controlling/foreground process, else false.
  */
 int
-foregroundproc()
+foregroundproc(void)
 {
 	static pid_t pgrp = -1;
 	int ctty_pgrp;
@@ -666,9 +644,9 @@ foregroundproc()
 	    ctty_pgrp == pgrp));
 }
 
+/* ARGSUSED */
 static void
-updateprogressmeter(dummy)
-	int dummy;
+updateprogressmeter(int signo)
 {
 	int save_errno = errno;
 
@@ -691,8 +669,7 @@ updateprogressmeter(dummy)
 static struct timeval start;
 
 void
-progressmeter(flag)
-	int flag;
+progressmeter(int flag)
 {
 	/*
 	 * List of order of magnitude prefixes.
@@ -817,8 +794,7 @@ progressmeter(flag)
  * instead of TTYOUT.
  */
 void
-ptransfer(siginfo)
-	int siginfo;
+ptransfer(int siginfo)
 {
 	struct timeval now, td;
 	double elapsed;
@@ -858,14 +834,13 @@ ptransfer(siginfo)
  * List words in stringlist, vertically arranged
  */
 void
-list_vertical(sl)
-	StringList *sl;
+list_vertical(StringList *sl)
 {
 	int i, j, w;
-	int columns, width, lines, items;
+	int columns, width, lines;
 	char *p;
 
-	width = items = 0;
+	width = 0;
 
 	for (i = 0 ; i < sl->sl_cur ; i++) {
 		w = strlen(sl->sl_str[i]);
@@ -899,9 +874,9 @@ list_vertical(sl)
 /*
  * Update the global ttywidth value, using TIOCGWINSZ.
  */
+/* ARGSUSED */
 void
-setttywidth(a)
-	int a;
+setttywidth(int signo)
 {
 	int save_errno = errno;
 	struct winsize winsize;
@@ -917,8 +892,7 @@ setttywidth(a)
  * Set the SIGALRM interval timer for wait seconds, 0 to disable.
  */
 void
-alarmtimer(wait)
-	int wait;
+alarmtimer(int wait)
 {
 	struct itimerval itv;
 
@@ -933,7 +907,7 @@ alarmtimer(wait)
  */
 #ifndef SMALL
 void
-controlediting()
+controlediting(void)
 {
 	HistEvent hev;
 

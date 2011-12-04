@@ -1,5 +1,5 @@
-/**	$MirOS$	*/
-/*	$OpenBSD: dev_i386.c,v 1.28 2004/03/09 19:12:12 tom Exp $	*/
+/**	$MirOS: src/sys/arch/i386/stand/libsa/dev_i386.c,v 1.2 2005/03/06 21:27:06 tg Exp $	*/
+/*	$OpenBSD: dev_i386.c,v 1.29 2004/06/23 00:21:49 tom Exp $	*/
 
 /*
  * Copyright (c) 1996-1999 Michael Shalayeff

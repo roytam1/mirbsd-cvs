@@ -1,5 +1,5 @@
-/**	$MirOS$	*/
-/*	$OpenBSD: libsa.h,v 1.39 2004/03/19 13:48:18 tom Exp $	*/
+/**	$MirOS: src/sys/arch/i386/stand/libsa/libsa.h,v 1.2 2005/03/06 21:27:07 tg Exp $	*/
+/*	$OpenBSD: libsa.h,v 1.42 2004/08/21 19:09:42 tom Exp $	*/
 
 /*
  * Copyright (c) 1996-1999 Michael Shalayeff
@@ -49,11 +49,13 @@ extern void (*sa_cleanup)(void);
 void gateA20(int);
 void gateA20on(void);
 
+void cpuprobe(void);
 void smpprobe(void);
 void ps2probe(void);
 void pciprobe(void);
 void memprobe(void);
 void diskprobe(void);
+void cdprobe(void);
 void apmprobe(void);
 void apmfixmem(void);
 void dump_biosmem(bios_memmap_t *);
@@ -83,6 +85,6 @@ extern void (*devboot_p)(dev_t, char *);
 extern bios_diskinfo_t bios_diskinfo[];
 extern u_int32_t bios_cksumlen;
 
-#define MACHINE_CMD	cmd_machine /* we have i386 specific sommands */
+#define MACHINE_CMD	cmd_machine /* we have i386-specific commands */
 
 #endif

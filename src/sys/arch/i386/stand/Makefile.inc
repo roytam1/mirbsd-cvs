@@ -1,5 +1,5 @@
-# $MirOS: src/sys/arch/i386/stand/Makefile.inc,v 1.2 2005/03/06 21:27:02 tg Exp $
-# $OpenBSD: Makefile.inc,v 1.35 2004/07/13 21:03:38 marc Exp $
+# $MirOS: src/sys/arch/i386/stand/Makefile.inc,v 1.3 2005/03/14 22:12:38 tg Exp $
+# $OpenBSD: Makefile.inc,v 1.36 2004/07/24 17:39:27 millert Exp $
 
 .ifndef MODSRC_SYS_ARCH_I386_STAND_MAKEFILE_INC
 MODSRC_SYS_ARCH_I386_STAND_MAKEFILE_INC=1
@@ -45,7 +45,7 @@ SACFLAGS+=	-Dmemcmp=__builtin_memcmp -Dmemset=__builtin_memset
 
 .if !make(libdep) && !make(sadep) && !make(salibdir) && !make(kernlibdir) && !make(obj)
 .BEGIN:
-	@([ X$(S) == X -o -h machine ] || ln -s $(S)/arch/i386/include machine)
+	@([ X$(S) = X -o -h machine ] || ln -s $(S)/arch/i386/include machine)
 .endif
 
 

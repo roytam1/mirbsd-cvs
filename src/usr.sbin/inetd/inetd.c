@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: inetd.c,v 1.117 2004/04/24 21:40:35 millert Exp $	*/
+/**	$MirOS: src/usr.sbin/inetd/inetd.c,v 1.2 2005/03/13 19:17:01 tg Exp $ */
+/*	$OpenBSD: inetd.c,v 1.123 2005/04/02 18:10:52 otto Exp $	*/
 
 /*
  * Copyright (c) 1983,1991 The Regents of the University of California.
@@ -38,7 +38,7 @@ char copyright[] =
 
 #ifndef lint
 /*static const char sccsid[] = "from: @(#)inetd.c	5.30 (Berkeley) 6/3/91";*/
-static const char rcsid[] = "$OpenBSD: inetd.c,v 1.117 2004/04/24 21:40:35 millert Exp $";
+static const char rcsid[] = "$OpenBSD: inetd.c,v 1.123 2005/04/02 18:10:52 otto Exp $";
 #endif /* not lint */
 
 /*
@@ -177,7 +177,6 @@ int	 toomany = TOOMANY;
 int	 options;
 int	 timingout;
 struct	 servent *sp;
-char	*curdom;
 uid_t	 uid;
 sigset_t blockmask;
 sigset_t emptymask;
@@ -188,7 +187,7 @@ sigset_t emptymask;
 
 /* Reserve some descriptors, 3 stdio + at least: 1 log, 1 conf. file */
 #define FD_MARGIN	(8)
-__typeof(((struct rlimit *)0)->rlim_cur)	rlim_nofile_cur = OPEN_MAX;
+rlim_t	rlim_nofile_cur = OPEN_MAX;
 
 struct rlimit	rlim_nofile;
 
@@ -378,6 +377,7 @@ main(int argc, char *argv[])
 		exit(1);
 	}
 
+	umask(022);
 	if (debug == 0) {
 		daemon(0, 0);
 		if (uid == 0)
@@ -443,16 +443,16 @@ main(int argc, char *argv[])
 
 		while (wantretry || wantconfig || wantreap || wantdie) {
 			if (wantretry) {
-				doretry();
 				wantretry = 0;
+				doretry();
 			}
 			if (wantconfig) {
-				doconfig();
 				wantconfig = 0;
+				doconfig();
 			}
 			if (wantreap) {
-				doreap();
 				wantreap = 0;
+				doreap();
 			}
 			if (wantdie)
 				dodie();
@@ -494,7 +494,7 @@ main(int argc, char *argv[])
 				} else
 					ctrl = sep->se_fd;
 				(void) sigprocmask(SIG_BLOCK, &blockmask, NULL);
-				spawn(sep, ctrl);
+				spawn(sep, ctrl);	/* spawn will unblock */
 			}
 		}
 	}
@@ -613,6 +613,7 @@ dg_broadcast(struct in_addr *in)
 	return (0);
 }
 
+/* ARGSUSED */
 void
 reap(int sig)
 {
@@ -630,9 +631,11 @@ doreap(void)
 		fprintf(stderr, "reaping asked for\n");
 
 	for (;;) {
-		pid = wait3(&status, WNOHANG, NULL);
-		if (pid <= 0)
+		if ((pid = wait3(&status, WNOHANG, NULL)) <= 0) {
+			if (pid == -1 && errno == EINTR)
+				continue;
 			break;
+		}
 		if (debug)
 			fprintf(stderr, "%ld reaped, status %x\n",
 			    (long)pid, status);
@@ -657,6 +660,7 @@ doreap(void)
 	}
 }
 
+/* ARGSUSED */
 void
 config(int sig)
 {
@@ -667,7 +671,7 @@ void
 doconfig(void)
 {
 	struct servtab *sep, *cp, **sepp;
-	int n, add;
+	int add;
 	char protoname[10];
 	sigset_t omask;
 
@@ -721,16 +725,21 @@ doconfig(void)
 		case AF_UNIX:
 			if (sep->se_fd != -1)
 				break;
-			(void)unlink(sep->se_service);
-			n = strlen(sep->se_service);
-			if (n > sizeof sep->se_ctrladdr_un.sun_path - 1)
-				n = sizeof sep->se_ctrladdr_un.sun_path - 1;
-			strncpy(sep->se_ctrladdr_un.sun_path,
-			    sep->se_service, n);
-			sep->se_ctrladdr_un.sun_path[n] = '\0';
+			sep->se_ctrladdr_size =
+			    strlcpy(sep->se_ctrladdr_un.sun_path,
+			    sep->se_service,
+			    sizeof sep->se_ctrladdr_un.sun_path);
+			if (sep->se_ctrladdr_size >=
+			    sizeof sep->se_ctrladdr_un.sun_path) {
+				syslog(LOG_WARNING, "%s/%s: UNIX domain socket "
+				    "path too long", sep->se_service,
+				    sep->se_proto);
+				goto serv_unknown;
+			}
 			sep->se_ctrladdr_un.sun_family = AF_UNIX;
-			sep->se_ctrladdr_size = n +
-			    sizeof sep->se_ctrladdr_un.sun_family;
+			sep->se_ctrladdr_size +=
+			    1 + sizeof sep->se_ctrladdr_un.sun_family;
+			(void)unlink(sep->se_service);
 			setup(sep);
 			break;
 		case AF_INET:
@@ -886,6 +895,7 @@ doconfig(void)
 	sigprocmask(SIG_SETMASK, &omask, NULL);
 }
 
+/* ARGSUSED */
 void
 retry(int sig)
 {
@@ -913,6 +923,7 @@ doretry(void)
 	}
 }
 
+/* ARGSUSED */
 void
 die(int sig)
 {
@@ -949,6 +960,7 @@ setup(struct servtab *sep)
 {
 	int on = 1;
 	int r;
+	mode_t mask = 0;
 
 	if ((sep->se_fd = socket(sep->se_family, sep->se_socktype, 0)) < 0) {
 		syslog(LOG_ERR, "%s/%s: socket: %m",
@@ -991,8 +1003,13 @@ setsockopt(fd, SOL_SOCKET, opt, &on, sizeof (on))
 					errno = saveerrno;
 			}
 		}
-	} else
+	} else {
+		if (sep->se_family == AF_UNIX)
+			mask = umask(0111);
 		r = bind(sep->se_fd, &sep->se_ctrladdr, sep->se_ctrladdr_size);
+		if (sep->se_family == AF_UNIX)
+			umask(mask);
+	}
 	if (r < 0) {
 		syslog(LOG_ERR, "%s/%s: bind: %m",
 		    sep->se_service, sep->se_proto);
@@ -1242,12 +1259,6 @@ more:
 
 	if (strcmp(sep->se_proto, "unix") == 0) {
 		sep->se_family = AF_UNIX;
-		if (sep->se_hostaddr != NULL) {
-			syslog(LOG_WARNING, "%s/%s: %s: host address "
-			    "specifiers are not supported in the UNIX domain",
-			    sep->se_service, sep->se_proto, sep->se_hostaddr);
-			goto more;
-		}
 	} else {
 		int s;
 
@@ -1364,7 +1375,7 @@ more:
 	 * Resolve each hostname in the se_hostaddr list (if any)
 	 * and create a new entry for each resolved address.
 	 */
-	if (sep->se_hostaddr != NULL) {
+	if (sep->se_hostaddr != NULL && strcmp(sep->se_proto, "unix") != 0) {
 		struct addrinfo hints, *res0, *res;
 		char *host, *hostlist0, *hostlist, *port;
 		int error;
@@ -1888,6 +1899,8 @@ spawn(struct servtab *sep, int ctrl)
 					 * Simply ignore the connection.
 					 */
 					--sep->se_count;
+					sigprocmask(SIG_SETMASK, &emptymask,
+					    NULL);
 					return;
 				}
 				syslog(LOG_ERR,

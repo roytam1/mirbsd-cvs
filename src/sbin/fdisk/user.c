@@ -1,5 +1,5 @@
-/**	$MirOS$	*/
-/*	$OpenBSD: user.c,v 1.21 2003/06/11 06:22:12 deraadt Exp $	*/
+/**	$MirOS: src/sbin/fdisk/user.c,v 1.2 2005/03/06 19:49:54 tg Exp $	*/
+/*	$OpenBSD: user.c,v 1.22 2005/01/19 15:48:20 deraadt Exp $	*/
 
 /*
  * Copyright (c) 1997 Tobias Weingartner
@@ -42,7 +42,7 @@
 #include "mbr.h"
 #include "cmd.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/sbin/fdisk/user.c,v 1.2 2005/03/06 19:49:54 tg Exp $");
 
 /* Our command table */
 static cmd_table_t cmd_table[] = {
@@ -57,6 +57,7 @@ static cmd_table_t cmd_table[] = {
 	{"update", Xupdate,	"Update machine boot code in loaded MBR"},
 	{"umin",   Xumin,	"Update small portion of boot code only"},
 	{"select", Xselect,	"Select extended partition table entry MBR"},
+	{"swap",   Xswap,	"Swap two partition entries"},
 	{"print",  Xprint,	"Print loaded MBR partition table"},
 	{"write",  Xwrite,	"Write loaded MBR to disk"},
 	{"exit",   Xexit,	"Exit edit of current MBR, without saving changes"},

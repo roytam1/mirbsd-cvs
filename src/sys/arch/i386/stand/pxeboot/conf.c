@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: conf.c,v 1.1 2004/03/19 13:48:19 tom Exp $	*/
+/**	$MirOS: src/sys/arch/i386/stand/pxeboot/conf.c,v 1.2 2005/03/06 21:27:09 tg Exp $ */
+/*	$OpenBSD: conf.c,v 1.4 2005/04/25 23:09:04 tom Exp $	*/
 
 /*
  * Copyright (c) 2004 Tom Cosgrove

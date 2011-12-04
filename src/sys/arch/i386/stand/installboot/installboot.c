@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: installboot.c,v 1.46 2004/05/05 04:33:56 mickey Exp $	*/
+/**	$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.2 2005/03/06 21:27:05 tg Exp $ */
+/*	$OpenBSD: installboot.c,v 1.47 2004/07/15 21:44:16 tom Exp $	*/
 /*	$NetBSD: installboot.c,v 1.5 1995/11/17 23:23:50 gwr Exp $ */
 
 /*-
@@ -83,7 +83,7 @@
 #include <unistd.h>
 #include <util.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.2 2005/03/06 21:27:05 tg Exp $");
 
 extern	char *__progname;
 int	verbose, nowrite, nheads, nsectors, userspec = 0;
@@ -116,7 +116,7 @@ static void	devread(int, void *, daddr_t, size_t, char *);
 static void	usage(void);
 static int	record_block(u_int8_t *, daddr_t, u_int, struct disklabel *);
 
-static const char RCSId[]="$MirOS$";
+static const char RCSId[]="$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.2 2005/03/06 21:27:05 tg Exp $";
 
 static int record_block(u_int8_t *bt, daddr_t blk, u_int bs,
 	struct disklabel *dl);
@@ -497,7 +497,7 @@ loadblocknums(char *boot, int devfd, struct disklabel *dl)
 	struct ufs1_dinode	*ip;
 	int		ndb;
 	u_int8_t	*bt;
-	int mib[4];
+	int		mib[4];
 	size_t		size;
 	dev_t dev;
 

@@ -1,5 +1,5 @@
-# $MirOS: src/sys/arch/i386/stand/libsa/Makefile,v 1.2 2005/03/06 21:27:05 tg Exp $
-# $OpenBSD: Makefile,v 1.43 2004/03/19 13:48:18 tom Exp $
+# $MirOS: src/sys/arch/i386/stand/libsa/Makefile,v 1.3 2005/03/14 22:39:45 tg Exp $
+# $OpenBSD: Makefile,v 1.44 2004/06/26 05:19:37 tom Exp $
 
 .include "${.CURDIR}/../Makefile.inc"
 
@@ -17,13 +17,13 @@ SRCS+=	machdep.c dev_i386.c exec_i386.c cmd_i386.c loadfile.c
 SRCS+=	unixdev.c unixsys.S nullfs.c memprobe.c
 CLEANFILES+=	gidt.o debug_i386.o alloca.o toridev.o \
 	biosdev.o bioscons.o gateA20.o apmprobe.o \
-	memprobe.o diskprobe.o smpprobe.o \
+	cpuprobe.o memprobe.o diskprobe.o smpprobe.o \
 	time.o biosprobe.o
 .else
 SRCS+=	gidt.S debug_i386.S alloca.S toridev.c \
 	biosdev.c bioscons.c gateA20.c apmprobe.c \
 	memprobe.c diskprobe.c pciprobe.c smpprobe.c \
-	time.c biosprobe.c memcpy.c \
+	cpuprobe.c time.c biosprobe.c memcpy.c \
 	ps2probe.c pxe.c pxe_net.c pxe_call.S
 CLEANFILES+=	unixdev.o unixsys.o nullfs.o
 .endif

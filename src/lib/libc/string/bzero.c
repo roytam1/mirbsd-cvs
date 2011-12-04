@@ -1,4 +1,5 @@
-/* $MirOS: src/lib/libc/string/bzero.c,v 1.2 2005/03/06 20:28:48 tg Exp $ */
+/**	$MirOS: src/lib/libc/string/bzero.c,v 1.3 2005/03/13 20:27:15 tg Exp $ */
+/*	$OpenBSD: bzero.c,v 1.6 2004/11/28 07:16:54 mickey Exp $	*/
 
 /*
  * Copyright (c) 1987 Regents of the University of California.
@@ -30,12 +31,12 @@
  */
 
 #if 0
-static char *rcsid = "$OpenBSD: bzero.c,v 1.5 2003/06/11 21:08:16 deraadt Exp $";
+static char *rcsid = "$OpenBSD: bzero.c,v 1.6 2004/11/28 07:16:54 mickey Exp $";
 #endif /* LIBC_SCCS and not lint */
 
-#ifndef _KERNEL
+#if !defined(_KERNEL) && !defined(_STANDALONE)
 #include <string.h>
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libc/string/bzero.c,v 1.3 2005/03/13 20:27:15 tg Exp $");
 #else
 #include <lib/libkern/libkern.h>
 #endif

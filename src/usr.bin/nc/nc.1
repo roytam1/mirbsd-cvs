@@ -1,5 +1,5 @@
-.\"	$MirOS$
-.\"     $OpenBSD: nc.1,v 1.33 2004/10/17 03:13:55 djm Exp $
+.\"	$MirOS: src/usr.bin/nc/nc.1,v 1.2 2005/03/13 18:33:18 tg Exp $
+.\"     $OpenBSD: nc.1,v 1.37 2005/02/21 10:56:22 jmc Exp $
 .\"
 .\" Copyright (c) 1996 David Sacerdote
 .\" All rights reserved.
@@ -65,9 +65,6 @@ scripts nicely, and separates error messages onto standard error instead
 of sending them to standard output, as
 .Xr telnet 1
 does with some.
-.Pp
-Destination ports can be single integers or ranges.
-Ranges are in the form nn-mm.
 .Pp
 Common uses include:
 .Pp
@@ -140,6 +137,9 @@ It is an error to use this option in conjunction with the
 or
 .Fl z
 options.
+Additionally, any timeouts specified with the
+.Fl w
+option are ignored.
 .It Fl n
 Do not do any DNS or service lookups on any specified addresses,
 hostnames or ports.
@@ -227,6 +227,27 @@ It is an error to use this option in conjunction with the
 .Fl l
 option.
 .El
+.Pp
+.Ar hostname
+can be a numerical IP address or a symbolic hostname
+(unless the
+.Fl n
+option is given).
+In general, a hostname must be specified,
+unless the
+.Fl l
+option is given
+(in which case the local host is used).
+.Pp
+.Ar port Ns Op Ar s
+can be single integers or ranges.
+Ranges are in the form nn-mm.
+In general,
+a destination port must be specified,
+unless the
+.Fl U
+option is given
+(in which case a socket must be specified).
 .Sh CLIENT/SERVER MODEL
 It is quite simple to build a very basic client/server model using
 .Nm .
@@ -346,32 +367,33 @@ Protocol mismatch.
 220 host.example.com IMS SMTP Receiver Version 0.84 Ready
 .Ed
 .Sh EXAMPLES
-Open a TCP connection to port 42 of hostname, using port 31337 as
+Open a TCP connection to port 42 of host.example.com, using port 31337 as
 the source port, with a timeout of 5 seconds:
 .Pp
-.Dl $ nc -p 31337 -w 5 hostname 42
+.Dl $ nc -p 31337 -w 5 host.example.com 42
 .Pp
-Open a UDP connection to port 53 of hostname:
+Open a UDP connection to port 53 of host.example.com:
 .Pp
-.Dl $ nc -u hostname 53
+.Dl $ nc -u host.example.com 53
 .Pp
-Open a TCP connection to port 42 of example.host using 10.1.2.3 as the
+Open a TCP connection to port 42 of host.example.com using 10.1.2.3 as the
 IP for the local end of the connection:
 .Pp
-.Dl $ nc -s 10.1.2.3 example.host 42
+.Dl $ nc -s 10.1.2.3 host.example.com 42
 .Pp
-Send UDP packets to ports 20-30 of example.host, and report which ones
+Send UDP packets to ports 20-30 of host.example.com, and report which ones
 responded with an ICMP packet after three seconds:
 .Pp
-.Dl $ nc -uvz -w 3 hostname 20-30
+.Dl $ nc -uvz -w 3 host.example.com 20-30
 .Pp
 Create and listen on a Unix Domain Socket:
 .Pp
 .Dl $ nc -lU /var/tmp/dsocket
 .Pp
-Connect to port 42 of hostname via an HTTP proxy at 10.2.3.4:
+Connect to port 42 of host.example.com via an HTTP proxy at 10.2.3.4,
+port 8080:
 .Pp
-.Dl $ nc -x10.2.3.4:8080 -Xconnect hostname 42
+.Dl $ nc -x10.2.3.4:8080 -Xconnect host.example.com 42
 .Sh SEE ALSO
 .Xr cat 1
 .Sh AUTHORS

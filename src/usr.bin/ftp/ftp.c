@@ -1,4 +1,4 @@
-/*	$OpenBSD: ftp.c,v 1.55 2003/12/16 21:46:22 deraadt Exp $	*/
+/*	$OpenBSD: ftp.c,v 1.57 2004/09/16 04:39:16 deraadt Exp $	*/
 /*	$NetBSD: ftp.c,v 1.27 1997/08/18 10:20:23 lukem Exp $	*/
 
 /*
@@ -84,7 +84,7 @@
 
 #include "ftp_var.h"
 
-__RCSID("$MirOS: src/usr.bin/ftp/ftp.c,v 1.2 2005/03/13 18:32:59 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ftp/ftp.c,v 1.3 2005/03/15 18:44:52 tg Exp $");
 
 union sockunion {
 	struct sockinet {
@@ -115,15 +115,14 @@ off_t	restart_point = 0;
 FILE	*cin, *cout;
 
 char *
-hookup(host, port)
-	char *host;
-	char *port;
+hookup(char *host, char *port)
 {
-	int s, len, tos, error;
+	int s, tos, error;
 	static char hostnamebuf[MAXHOSTNAMELEN];
 	struct addrinfo hints, *res, *res0;
 	char hbuf[NI_MAXHOST];
 	char *cause = "unknown";
+	socklen_t namelen;
 
 	epsv4bad = 0;
 
@@ -214,10 +213,10 @@ hookup(host, port)
 		return 0;
 	}
 	memcpy(&hisctladdr, res->ai_addr, res->ai_addrlen);
-	len = res->ai_addrlen;
+	namelen = res->ai_addrlen;
 	freeaddrinfo(res0);
 	res0 = res = NULL;
-	if (getsockname(s, (struct sockaddr *)&myctladdr, &len) < 0) {
+	if (getsockname(s, (struct sockaddr *)&myctladdr, &namelen) < 0) {
 		warn("getsockname");
 		code = -1;
 		goto bad;
@@ -267,9 +266,9 @@ bad:
 	return ((char *)0);
 }
 
+/* ARGSUSED */
 void
-cmdabort(notused)
-	int notused;
+cmdabort(int signo)
 {
 
 	alarmtimer(0);
@@ -324,8 +323,7 @@ command(const char *fmt, ...)
 char reply_string[BUFSIZ];		/* first line of previous reply */
 
 int
-getreply(expecteof)
-	int expecteof;
+getreply(int expecteof)
 {
 	char current_line[BUFSIZ];	/* last line of previous reply */
 	int c, n, line;
@@ -448,9 +446,9 @@ getreply(expecteof)
 
 jmp_buf	sendabort;
 
+/* ARGSUSED */
 void
-abortsend(notused)
-	int notused;
+abortsend(int signo)
 {
 
 	alarmtimer(0);
@@ -462,9 +460,8 @@ abortsend(notused)
 }
 
 void
-sendrequest(cmd, local, remote, printnames)
-	const char *cmd, *local, *remote;
-	int printnames;
+sendrequest(const char *cmd, const char *local, const char *remote,
+    int printnames)
 {
 	struct stat st;
 	int c, d;
@@ -743,9 +740,9 @@ abort:
 
 jmp_buf	recvabort;
 
+/* ARGSUSED */
 void
-abortrecv(notused)
-	int notused;
+abortrecv(int signo)
 {
 
 	alarmtimer(0);
@@ -757,9 +754,8 @@ abortrecv(notused)
 }
 
 void
-recvrequest(cmd, local, remote, lmode, printnames, ignorespecial)
-	const char *cmd, * volatile local, *remote, *lmode;
-	int printnames, ignorespecial;
+recvrequest(const char *cmd, const char * volatile local, const char *remote,
+    const char *lmode, int printnames, int ignorespecial)
 {
 	FILE * volatile fout, * volatile din;
 	int (* volatile closefunc)(FILE *);
@@ -955,7 +951,7 @@ recvrequest(cmd, local, remote, lmode, printnames, ignorespecial)
 		}
 		errno = d = 0;
 		while ((c = read(fileno(din), buf, bufsize)) > 0) {
-			size_t	wr;
+			ssize_t	wr;
 			size_t	rd = c;
 
 			d = 0;
@@ -1135,15 +1131,16 @@ abort:
  * otherwise the server's connect may fail.
  */
 int
-initconn()
+initconn(void)
 {
 	char *p, *a;
-	int result = ERROR, len, tmpno = 0;
+	int result = ERROR, tmpno = 0;
 	int on = 1;
 	int error;
 	u_int addr[16], port[2];
 	u_int af, hal, pal;
 	char *pasvcmd = NULL;
+	socklen_t namelen;
 
 	if (myctladdr.su_family == AF_INET6
 	 && (IN6_IS_ADDR_LINKLOCAL(&myctladdr.su_sin6.sin6_addr)
@@ -1421,8 +1418,8 @@ noport:
 	    setsockopt(data, SOL_SOCKET, SO_DEBUG, (char *)&on,
 			sizeof(on)) < 0)
 		warn("setsockopt (ignored)");
-	len = sizeof(data_addr);
-	if (getsockname(data, (struct sockaddr *)&data_addr, &len) < 0) {
+	namelen = sizeof(data_addr);
+	if (getsockname(data, (struct sockaddr *)&data_addr, &namelen) < 0) {
 		warn("getsockname");
 		goto bad;
 	}
@@ -1523,11 +1520,11 @@ bad:
 }
 
 FILE *
-dataconn(lmode)
-	const char *lmode;
+dataconn(const char *lmode)
 {
 	union sockunion from;
-	int s, fromlen = myctladdr.su_len;
+	socklen_t fromlen = myctladdr.su_len;
+	int s;
 
 	if (passivemode)
 		return (fdopen(data, lmode));
@@ -1552,9 +1549,9 @@ dataconn(lmode)
 	return (fdopen(data, lmode));
 }
 
+/* ARGSUSED */
 void
-psummary(notused)
-	int notused;
+psummary(int signo)
 {
 	int save_errno = errno;
 
@@ -1563,9 +1560,9 @@ psummary(notused)
 	errno = save_errno;
 }
 
+/* ARGSUSED */
 void
-psabort(notused)
-	int notused;
+psabort(int signo)
 {
 
 	alarmtimer(0);
@@ -1573,8 +1570,7 @@ psabort(notused)
 }
 
 void
-pswitch(flag)
-	int flag;
+pswitch(int flag)
 {
 	sig_t oldintr;
 	static struct comvars {
@@ -1660,9 +1656,9 @@ pswitch(flag)
 	}
 }
 
+/* ARGSUSED */
 void
-abortpt(notused)
-	int notused;
+abortpt(int signo)
 {
 
 	alarmtimer(0);
@@ -1675,8 +1671,7 @@ abortpt(notused)
 }
 
 void
-proxtrans(cmd, local, remote)
-	const char *cmd, *local, *remote;
+proxtrans(const char *cmd, const char *local, const char *remote)
 {
 	volatile sig_t oldintr;
 	int prox_type, nfnd;
@@ -1796,10 +1791,9 @@ abort:
 	(void)signal(SIGINT, oldintr);
 }
 
+/* ARGSUSED */
 void
-reset(argc, argv)
-	int argc;
-	char *argv[];
+reset(int argc, char *argv[])
 {
 	struct pollfd pfd[1];
 	int nfnd = 1;
@@ -1818,8 +1812,7 @@ reset(argc, argv)
 }
 
 char *
-gunique(local)
-	const char *local;
+gunique(const char *local)
 {
 	static char new[MAXPATHLEN];
 	char *cp = strrchr(local, '/');
@@ -1864,8 +1857,7 @@ gunique(local)
 }
 
 void
-abort_remote(din)
-	FILE *din;
+abort_remote(FILE *din)
 {
 	char buf[BUFSIZ];
 	int nfnd;
