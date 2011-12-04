@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/stand/mbrldr/Makefile.inc,v 1.2 2005/03/14 22:26:03 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/mbrldr/Makefile.inc,v 1.3 2005/03/15 17:25:54 tg Exp $
 
 .ifndef MODSRC_SYS_ARCH_I386_STAND_MBRLDR_MAKEFILE_INC
 MODSRC_SYS_ARCH_I386_STAND_MBRLDR_MAKEFILE_INC=1
@@ -10,6 +10,7 @@ NOMAN?=		Yes
 INSTALL_STRIP=	# set to empty value
 LDFLAGS=	-nostdlib -Ttext 0 -N -x -Bstatic
 INSTALL_BIN?=	Yes
+DEBUGPROGS=	No
 
 CLEANFILES+=	mbrcode.h
 

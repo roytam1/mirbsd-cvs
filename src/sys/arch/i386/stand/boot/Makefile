@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/sys/arch/i386/stand/boot/Makefile,v 1.2 2005/03/06 21:27:03 tg Exp $
 
 .include "${.CURDIR}/../Makefile.inc"
 
@@ -24,6 +24,7 @@ PROG=		boot
 LD?=		ld
 SIZE?=		size
 LDFLAGS+=	-nostdlib -Bstatic
+DEBUGPROGS=	No
 INSTALL_STRIP=
 .PATH:		${S}/stand/boot
 
