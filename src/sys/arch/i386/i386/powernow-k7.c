@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/i386/powernow-k7.c,v 1.1.7.1 2005/03/06 16:33:43 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/i386/powernow-k7.c,v 1.2 2005/05/04 18:12:39 tg Exp $ */
 /* $OpenBSD: powernow-k7.c,v 1.3 2004/08/05 04:56:05 tedu Exp $ */
 
 #ifndef SMALL_KERNEL
@@ -48,14 +48,12 @@
 
 #include "powernowhack.h"
 
-#define BIOS_START		0xe0000
+#define BIOS_START		0xE0000
 #define	BIOS_LEN		0x20000
 
 #define MSR_K7_CTL		0xC0010041
 #define CTL_SET_FID		0x0000000000010000ULL
 #define CTL_SET_VID		0x0000000000020000ULL
-
-#define cpufreq(x)		k7pnow_fsb * k7pnow_fid_codes[x] / 10
 
 struct psb_s {
 	char signature[10];	/* AMDK7PNOW! */
@@ -93,22 +91,19 @@ int k7pnow_fid_codes[32] = {
 	150, 225, 160, 165, 170, 180, -1, -1
 };
 
-/* Prototypes */
-int powernowhack_match(struct device *, void *, void *);
-void powernowhack_attach(struct device *, struct device *, void *);
-struct state_s *k7pnow_iter(int (*)(int, struct pst_s *));
-
-/* Static variables */
-unsigned int k7pnow_fsb;
-unsigned int k7pnow_cur_freq;
-unsigned int k7pnow_ttime;
-unsigned int k7pnow_nstates;
-struct k7pnow_freq_table_s *k7pnow_freq_table;
+static unsigned int k7pnow_fsb;
+static unsigned int k7pnow_cur_freq;
+static unsigned int k7pnow_ttime;
+static unsigned int k7pnow_nstates;
+static struct k7pnow_freq_table_s *k7pnow_freq_table;
 
 static int k7pnow_state = -1;
 static char *k7pnow_biosmem;
 static struct psb_s *psb;
 static int mypst;
+
+static int powernowhack_match(struct device *, void *, void *);
+static void powernowhack_attach(struct device *, struct device *, void *);
 
 struct cfattach powernowhack_ca = {
 	sizeof(struct device), powernowhack_match, powernowhack_attach
@@ -118,7 +113,6 @@ struct cfdriver powernowhack_cd = {
 	NULL, "powernowhack", DV_DULL
 };
 
-/* Functions */
 
 void
 k7_powernow_init(void)
@@ -129,7 +123,7 @@ k7_powernow_init(void)
 	k7pnow_state = -2;
 }
 
-int
+static int
 powernowhack_match(struct device *parent, void *match, void *aux)
 {
 	bus_space_handle_t bh;
@@ -197,7 +191,7 @@ k7pnow_mypst(int i, struct pst_s *pst)
 	return (i == mypst);
 }
 
-struct state_s *
+static struct state_s *
 k7pnow_iter(int (*fn)(int, struct pst_s *))
 {
 	char *ptr = (char *)psb;
@@ -220,7 +214,7 @@ k7pnow_iter(int (*fn)(int, struct pst_s *))
 	return NULL;
 }
 
-void
+static void
 powernowhack_attach(struct device *parent, struct device *self, void *aux)
 {
 	extern int cpu_id;
@@ -274,56 +268,57 @@ powernowhack_attach(struct device *parent, struct device *self, void *aux)
 	goto out;
 
 found:
-	k7pnow_freq_table = malloc(sizeof(struct k7pnow_freq_table_s) *
-	    k7pnow_nstates, M_TEMP, M_WAITOK);
+	/* poor C has no push/pop */
+	{
+		struct state_s *s2 = s;
+		for (i = 0, j = 0; i < k7pnow_nstates; ++i, ++s2)
+			if ((s2->fid != 0) && (s2->vid != 0))
+				++j;
+	}
 
-	for (i = 0; i < k7pnow_nstates; i++, s++) {
-		k7pnow_freq_table[i].frequency = cpufreq(s->fid);
-		k7pnow_freq_table[i].state = *s;
+	if (j == 0) {
+		printf("powernowhack0: %d states, none available\n", i);
+		goto out;
+	}
+	printf("cpu0: AMD K7 POWERNOW: %d states, %d available\n", i, j);
+	k7pnow_nstates = j;
+
+	k7pnow_freq_table = malloc(sizeof(struct k7pnow_freq_table_s) * j,
+	    M_DEVBUF, M_WAITOK);
+
+	for (i = 0; i < j; ++i) {
+		while ((s->fid == 0) || (s->vid == 0))
+			++s;
+		k7pnow_freq_table[i].frequency = k7pnow_fsb
+		    * k7pnow_fid_codes[s->fid] / 10;
+		k7pnow_freq_table[i].state.fid = s->fid;
+		k7pnow_freq_table[i].state.vid = s->vid;
+		++s;
 	}
 
 	/* On bootup the frequency should be at its maximum */
-	k7pnow_state = i - 1;
+	k7pnow_state = j - 1;
 	k7pnow_cur_freq = k7pnow_freq_table[k7pnow_state].frequency;
 
-	printf("cpu0: AMD K7 POWERNOW: %d available states\n",
-	    k7pnow_nstates);
-
-	j = 0;
 #ifdef K7PN_DEBUG
-	for (i = 0; i < k7pnow_nstates; i++) {
+	for (i = 0; i < j; i++) {
 		printf("\tstate %d\tFrequency %d\tFID %d, VID %d\n", i,
 		    k7pnow_freq_table[i].frequency,
 		    k7pnow_freq_table[i].state.fid,
 		    k7pnow_freq_table[i].state.vid);
-		if ((k7pnow_freq_table[i].state.fid != 0)
-		    && (k7pnow_freq_table[i].state.vid != 0))
-			j = 1;
-	}
-	if (!j) {
-		printf("powernowhack0: No frequency available\n");
-		goto out;
 	}
 #else
+	j = 0;
 	for (i = 0; i < k7pnow_nstates; i++) {
-		if ((k7pnow_freq_table[i].state.fid != 0)
-		    && (k7pnow_freq_table[i].state.vid != 0)) {
-			if (j) {
-				printf(", ");
-			} else {
-				printf("powernowhack0: Available"
-				    " Frequencies: ");
-				j++;
-			}
-			printf("%d", k7pnow_freq_table[i].frequency);
+		if (j) {
+			printf(", ");
+		} else {
+			printf("powernowhack0: Available Frequencies: ");
+			++j;
 		}
+		printf("%d", k7pnow_freq_table[i].frequency);
 	}
-	if (j) {
-		printf(".\n");
-	} else {
-		printf("none (can't happen)\n");
-		goto out;
-	}
+	printf(".\n");
 #endif
 	cpu_setperf = k7_powernow_setperf;
 
@@ -348,22 +343,17 @@ k7_powernow_setperf(int level)
 	printf("powernowhack0: setperf: level=%d, freq=%d\n", level, freq);
 #endif
 
-	for (i = 0; i < k7pnow_nstates; i++) {
+	for (i = 0; i < k7pnow_nstates; i++)
 		/* Do we know how to set that frequency? */
-		if (k7pnow_freq_table[i].frequency >= freq) {
-			fid = k7pnow_freq_table[i].state.fid;
-			vid = k7pnow_freq_table[i].state.vid;
+		if (k7pnow_freq_table[i].frequency >= freq)
 			break;
-		}
-	}
+	fid = k7pnow_freq_table[i].state.fid;
+	vid = k7pnow_freq_table[i].state.vid;
 
 #ifdef K7PN_DEBUG
 	printf("powernowhack0: found @%d freq %d: fid %d, vid %d\n",
 	    i, k7pnow_freq_table[i].frequency, fid, vid);
 #endif
-
-	if (fid == 0 || vid == 0)
-		return EINVAL;
 
 	/* Already set? */
 	if (k7pnow_state == i) {
