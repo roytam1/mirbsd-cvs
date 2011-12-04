@@ -10,7 +10,7 @@
 #include "thread_private.h"
 
 __SCCSID("@(#)asctime.c	7.22");
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libc/time/asctime.c,v 1.2 2005/03/06 20:28:50 tg Exp $");
 
 #if STRICTLY_STANDARD_ASCTIME
 #define ASCTIME_FMT	"%.3s %.3s%3d %.2d:%.2d:%.2d %ld\n"
@@ -61,10 +61,10 @@ register const struct tm *	timeptr;
 char *				buf;
 int				bufsize;
 {
-	static const char	wday_name[][3] = {
+	static const char	wday_name[][4] = {
 		"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"
 	};
-	static const char	mon_name[][3] = {
+	static const char	mon_name[][4] = {
 		"Jan", "Feb", "Mar", "Apr", "May", "Jun",
 		"Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
 	};
@@ -85,8 +85,8 @@ int				bufsize;
 		wn, mn,
 		timeptr->tm_mday, timeptr->tm_hour,
 		timeptr->tm_min, timeptr->tm_sec,
-		(long)(TM_YEAR_BASE + timeptr->tm_year));
-	if (len < bufsize) {
+		year);
+	if (len != -1 && len < bufsize) {
 		return buf;
 	} else {
 #ifdef EOVERFLOW
