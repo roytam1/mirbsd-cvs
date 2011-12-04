@@ -1,9 +1,0 @@
-Further help: http://www.lifewithdjbdns.org/ as well as the
-tinydns-data(8) manual page and ${HOMEPAGE}
-
-About namespaces (you have chosen ${FLAVORS}):
-icann	=> http://www.icann.org/
-opennic	=> http://www.opennic.unrated.net/
-eorsn	=> https://european.orsn.net/	(IPv6 default)
-
-=> Users and Groups: please use _dnscache _dnslog _tinydns

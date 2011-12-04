@@ -1,5 +1,0 @@
-#!/bin/sh
-# $MirOS: contrib/hosted/tg/deb/hookdir/D01mksh,v 1.1 2009/12/07 20:48:19 tg Exp $
-
-dpkg -i /tmp/debhelper*deb
-apt-get -y --force-yes -o Dpkg::Options::=--force-confnew,confmiss -f install

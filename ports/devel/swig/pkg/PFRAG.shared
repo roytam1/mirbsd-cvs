@@ -1,7 +1,0 @@
-@comment $MirOS$
-@comment $OpenBSD: PFRAG.shared,v 1.4 2004/06/17 04:47:50 kevlo Exp $
-@lib lib/libswigguile.so.0.0
-@lib lib/libswigpl.so.0.0
-@lib lib/libswigpy.so.0.0
-@lib lib/libswigrb.so.0.0
-@lib lib/libswigtcl8.so.0.0

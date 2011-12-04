@@ -1,8 +1,0 @@
-@comment $OpenBSD: PLIST,v 1.2 2000/06/15 05:31:53 form Exp $
-bin/a2kfcnv
-bin/fromdos
-bin/todos
-bin/fromwin
-bin/towin
-share/doc/d1489/README
-@dirrm share/doc/d1489

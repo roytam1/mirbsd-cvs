@@ -1,4 +1,0 @@
-@comment $MirOS$
-@comment $OpenBSD: PFRAG.shared,v 1.1 2000/07/03 05:53:57 brad Exp $
-@lib lib/libEterm.so.0.8
-@lib lib/libmej.so.0.8
