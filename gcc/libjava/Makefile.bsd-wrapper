@@ -1,4 +1,4 @@
-# $MirOS: gcc/libjava/Makefile.bsd-wrapper,v 1.16 2005/07/07 20:31:02 tg Exp $
+# $MirOS: gcc/libjava/Makefile.bsd-wrapper,v 1.17 2005/08/28 20:04:26 tg Exp $
 
 .include <bsd.own.mk>
 .include "${GNUSYSTEM_AUX_DIR}/locations.mk"
@@ -31,19 +31,20 @@ CLEANFILES+=	deps.mk gnu/classpath/Configuration.java \
 		sysdep/locks.h
 
 INSTLIBS=	gcj -gnu-awt-xlib -org-w3c-dom -org-xml-sax
+INSTPROGS=	gij jv-convert rmic rmiregistry
 
 post-install:
 .for _i in ${INSTLIBS}
 	chmod 600 ${DESTDIR}/usr/lib/lib${_i}.{a,so.${LIBGCJ_REV}}
 .  if ${DEBUGLIBS:L} == "yes"
 	strip --strip-debug ${DESTDIR}/usr/lib/lib${_i}.a
-	objcopy --only-keep-debug \
-	    ${DESTDIR}/usr/lib/lib${_i}.so.${LIBGCJ_REV} \
-	    ${DESTDIR}/usr/lib/lib${_i}.so.${LIBGCJ_REV}.dbg
-	objcopy --strip-debug ${DESTDIR}/usr/lib/lib${_i}.so.${LIBGCJ_REV}
-	objcopy --strip-all \
+	-rm -f ${DESTDIR}/usr/lib/lib${_i}.so.${LIBGCJ_REV}.dbg
+	cd ${DESTDIR}/usr/lib && \
+	    objcopy --only-keep-debug lib${_i}.so.${LIBGCJ_REV} \
+	    lib${_i}.so.${LIBGCJ_REV}.dbg && \
+	    objcopy --strip-all \
 	    --add-gnu-debuglink=lib${_i}.so.${LIBGCJ_REV}.dbg \
-	    ${DESTDIR}/usr/lib/lib${_i}.so.${LIBGCJ_REV}
+	    lib${_i}.so.${LIBGCJ_REV}
 .  else
 	strip --strip-all ${DESTDIR}/usr/lib/lib${_i}.so.${LIBGCJ_REV}
 .  endif
@@ -52,6 +53,18 @@ post-install:
 	chmod ${LIBMODE} \
 	    ${DESTDIR}/usr/lib/lib${_i}.{so.${LIBGCJ_REV}*,a,la}
 .endfor
+.if ${DEBUGPROGS:L} == "yes"
+.  for _i in ${INSTPROGS}
+	-rm -f ${DESTDIR}/usr/bin/${_i}.dbg
+	cd ${DESTDIR}/usr/bin && \
+	    chmod 0600 ${_i} && \
+	    objcopy --only-keep-debug ${_i} ${_i}.dbg && \
+	    objcopy --strip-debug --add-gnu-debuglink=${_i}.dbg ${_i} && \
+	    chmod ${BINMODE} ${_i} && \
+	    chmod ${SHAREMODE} ${_i}.dbg && \
+	    chown ${BINOWN}:${BINGRP} ${_i} ${_i}.dbg
+.  endfor
+.endif
 
 .include <bsd.cfwrap.mk>
 
