@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/sys/arch/i386/stand/libz/Makefile,v 1.3 2005/07/07 12:27:28 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -8,7 +8,8 @@ CFLAGS+=	${SACFLAGS} ${DEBUGFLAGS}
 CPPFLAGS+=	-I${S}/lib/libsa
 
 # This is used to build a small libz
-CPPFLAGS+=	-DSLOW -DSMALL -DNOBYFOUR -DNO_GZIP -DDYNAMIC_CRC_TABLE
+CPPFLAGS+=	-DSLOW -DSMALL -DNOBYFOUR -DNO_GZIP
+CPPFLAGS+=	-DDYNAMIC_CRC_TABLE -DBUILDFIXED
 
 LIB=		z
 SRCS=		adler32.c crc32.c infback.c inffast.c inflate.c inftrees.c

@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libz/Makefile,v 1.4 2005/03/14 21:59:47 tg Exp $
+# $MirOS: src/lib/libz/Makefile,v 1.5 2005/07/07 12:27:24 tg Exp $
 # $OpenBSD: Makefile,v 1.12 2003/12/17 14:06:45 jmc Exp $
 
 SHLIB_VERSION?=	5.1
@@ -7,9 +7,10 @@ HDRS=		zconf.h zlib.h
 SRCS=		adler32.c compress.c crc32.c deflate.c gzio.c infback.c \
 		inffast.c inflate.c inftrees.c trees.c uncompr.c zutil.c
 MAN=		compress.3
-CPPFLAGS+=	-DHAVE_STRERROR -DHAVE_MEMCPY -DHAS_vsnprintf -DHAS_snprintf
+CPPFLAGS+=	-I. -DHAVE_STRERROR -DHAS_vsnprintf -DHAS_snprintf
+GENHDRS=	crc32.h inffixed.h trees.h
 CLEANFILES+=	mk_crc32 mk_crc32.c mk_inffixed mk_inffixed.c \
-		mk_trees mk_trees.c
+		mk_trees mk_trees.c ${GENHDRS}
 
 MLINKS=	compress.3 zlibVersion.3 compress.3 deflateInit.3 \
 	compress.3 deflate.3 compress.3 deflateEnd.3 \
@@ -48,16 +49,16 @@ HOSTCFLAGS?=	${CFLAGS}
 HOSTLDFLAGS?=	${LDFLAGS}
 HOSTCFLAGS+=	${CPPFLAGS} -I${.CURDIR}
 
-generated: mk_crc32 mk_inffixed mk_trees
+beforedepend: ${GENHDRS}
+
+crc32.h: mk_crc32
 	./mk_crc32
-	print '1i\n/* $$Mir''OS$$ */\n.\nwq' \
-	    | ed -s crc32.h
-	./mk_inffixed >inffixed.h
-	print '1i\n/* $$Mir''OS$$ */\n.\nwq' \
-	    | ed -s inffixed.h
+
+inffixed.h: mk_inffixed
+	./mk_inffixed >$@
+
+trees.h: mk_trees
 	./mk_trees
-	print '1i\n/* $$Mir''OS$$ */\n.\nwq' \
-	    | ed -s trees.h
 
 mk_crc32.c:
 	print 'void get_crc_table(void);' >$@
@@ -97,7 +98,5 @@ mk_trees.c:
 mk_trees: mk_trees.c trees.c
 	${HOSTCC} ${LDSTATIC} ${HOSTCFLAGS} ${HOSTLDFLAGS} \
 	    -o $@ -DGEN_TREES_H mk_trees.c ${.CURDIR}/trees.c
-
-.PHONY: generated
 
 .include <bsd.lib.mk>
