@@ -39,7 +39,9 @@ fi
 AC_SUBST(INCLTDL)
 AC_SUBST(LIBLTDL)
 AC_SUBST(DIRLTDL)
+AM_PROG_GCJ
 AM_PROG_LIBTOOL
+AC_LIBTOOL_GCJ
 AC_CONFIG_SUBDIRS($DIRLTDL)
 
 if test -z "$with_target_subdir" || test "$with_target_subdir" = "."; then
@@ -686,7 +688,7 @@ else
    fi
 
    AM_ICONV
-   AM_LANGINFO_CODESET
+#  AM_LANGINFO_CODESET
    AM_LC_MESSAGES
    AC_STRUCT_TIMEZONE
 
