@@ -176,7 +176,6 @@
 ./usr/bin/at
 ./usr/bin/atq
 ./usr/bin/atrm
-./usr/bin/aucat
 ./usr/bin/audioctl
 ./usr/bin/awk
 ./usr/bin/b64decode
@@ -227,7 +226,6 @@
 ./usr/bin/expand
 ./usr/bin/false
 ./usr/bin/fdialog
-./usr/bin/fgen
 ./usr/bin/fgrep
 ./usr/bin/file
 ./usr/bin/file2c
@@ -1880,7 +1878,6 @@
 ./usr/libexec/cpp
 ./usr/libexec/diff3prog
 ./usr/libexec/fingerd
-./usr/libexec/ftp-proxy
 ./usr/libexec/ftpd
 ./usr/libexec/getNAME
 ./usr/libexec/getty
@@ -2855,7 +2852,6 @@
 ./usr/share/man/cat1/at.0
 ./usr/share/man/cat1/atq.0
 ./usr/share/man/cat1/atrm.0
-./usr/share/man/cat1/aucat.0
 ./usr/share/man/cat1/audioctl.0
 ./usr/share/man/cat1/awk.0
 ./usr/share/man/cat1/b64decode.0
@@ -2923,7 +2919,6 @@
 ./usr/share/man/cat1/false.0
 ./usr/share/man/cat1/fdformat.0
 ./usr/share/man/cat1/fdialog.0
-./usr/share/man/cat1/fgen.0
 ./usr/share/man/cat1/fgrep.0
 ./usr/share/man/cat1/file.0
 ./usr/share/man/cat1/file2c.0
@@ -6950,6 +6945,7 @@
 ./usr/share/man/cat4/pms.0
 ./usr/share/man/cat4/pmsi.0
 ./usr/share/man/cat4/pnp.0
+./usr/share/man/cat4/powernowhack.0
 ./usr/share/man/cat4/ppb.0
 ./usr/share/man/cat4/ppp.0
 ./usr/share/man/cat4/pppoe.0
@@ -7266,7 +7262,6 @@
 ./usr/share/man/cat8/fsck_ffs.0
 ./usr/share/man/cat8/fsck_msdos.0
 ./usr/share/man/cat8/fsdb.0
-./usr/share/man/cat8/ftp-proxy.0
 ./usr/share/man/cat8/ftpd.0
 ./usr/share/man/cat8/genassym.sh.0
 ./usr/share/man/cat8/getNAME.0

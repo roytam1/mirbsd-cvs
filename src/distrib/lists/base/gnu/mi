@@ -3883,7 +3883,6 @@
 ./usr/share/sendmail/cf/Makefile
 ./usr/share/sendmail/cf/chez.cs.mc
 ./usr/share/sendmail/cf/clientproto.mc
-./usr/share/sendmail/cf/corpse.mc
 ./usr/share/sendmail/cf/courtesan-nonet.mc
 ./usr/share/sendmail/cf/courtesan.mc
 ./usr/share/sendmail/cf/cs-hpux10.mc
@@ -3905,7 +3904,6 @@
 ./usr/share/sendmail/cf/generic-ultrix4.mc
 ./usr/share/sendmail/cf/huginn.cs.mc
 ./usr/share/sendmail/cf/knecht.mc
-./usr/share/sendmail/cf/lucifier.mc
 ./usr/share/sendmail/cf/mail.cs.mc
 ./usr/share/sendmail/cf/mail.eecs.mc
 ./usr/share/sendmail/cf/mailspool.cs.mc

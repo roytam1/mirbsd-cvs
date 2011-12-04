@@ -17,7 +17,6 @@
 ./man1/at.htm
 ./man1/atq.htm
 ./man1/atrm.htm
-./man1/aucat.htm
 ./man1/audioctl.htm
 ./man1/awk.htm
 ./man1/b64decode.htm
@@ -110,7 +109,6 @@
 ./man1/fc-list.htm
 ./man1/fdformat.htm
 ./man1/fdialog.htm
-./man1/fgen.htm
 ./man1/fgrep.htm
 ./man1/file.htm
 ./man1/file2c.htm
@@ -860,6 +858,7 @@
 ./man4/pms.htm
 ./man4/pmsi.htm
 ./man4/pnp.htm
+./man4/powernowhack.htm
 ./man4/ppb.htm
 ./man4/ppp.htm
 ./man4/pppoe.htm
@@ -1200,7 +1199,6 @@
 ./man8/fsck_ffs.htm
 ./man8/fsck_msdos.htm
 ./man8/fsdb.htm
-./man8/ftp-proxy.htm
 ./man8/ftpd.htm
 ./man8/genassym.sh.htm
 ./man8/getNAME.htm
