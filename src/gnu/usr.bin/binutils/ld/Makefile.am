@@ -1,10 +1,8 @@
-# $MirOS: src/gnu/usr.bin/binutils/ld/Makefile.am,v 1.3 2005/03/28 22:21:11 tg Exp $
+# $MirOS: src/gnu/usr.bin/binutils/ld/Makefile.am,v 1.4 2005/06/05 21:24:38 tg Exp $
 
 ## Process this file with automake to generate Makefile.in
 
 AUTOMAKE_OPTIONS = cygnus dejagnu
-
-AM_MAKEINFOFLAGS = --no-split
 
 SUBDIRS =
 
@@ -104,7 +102,7 @@ info_TEXINFOS = ld.texinfo ldint.texinfo
 noinst_TEXINFOS = #ldint.texinfo
 man_MANS = ld.1
 
-AM_MAKEINFOFLAGS = -I $(srcdir) -I $(BFDDIR)/doc
+AM_MAKEINFOFLAGS = --no-split -I $(srcdir) -I $(BFDDIR)/doc
 TEXI2DVI = texi2dvi -I $(srcdir) -I $(BFDDIR)/doc
 
 INCLUDES = -D_GNU_SOURCE -I. -I$(srcdir) -I../bfd -I$(BFDDIR) -I$(INCDIR) $(HDEFINES) $(CFLAGS)
