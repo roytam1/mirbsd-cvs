@@ -1,4 +1,4 @@
-/**	$MirOS: src/lib/libedit/readline/readline.h,v 1.3 2005/04/19 15:16:21 tg Exp $ */
+/**	$MirOS: src/lib/libedit/readline/readline.h,v 1.4 2005/04/19 18:37:19 tg Exp $ */
 /*	$OpenBSD: readline.h,v 1.2 2003/11/25 20:12:39 otto Exp $	*/
 /*	$NetBSD: readline.h,v 1.13 2005/04/12 22:01:40 christos Exp $	*/
 
@@ -48,7 +48,7 @@
 /* typedefs */
 typedef int	  Function(const char *, int);
 typedef void	  VFunction(void);
-typedef void	  VFunctionC(const char *);
+typedef void	  VFunctionC(char *);
 typedef char	 *CPFunction(const char *, int);
 typedef char	**CPPFunction(const char *, int, int);
 
