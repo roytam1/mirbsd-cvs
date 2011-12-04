@@ -1,4 +1,4 @@
-# $MirOS: gcc/libjava/Makefile.bsd-wrapper,v 1.15 2005/07/06 22:47:26 tg Exp $
+# $MirOS: gcc/libjava/Makefile.bsd-wrapper,v 1.16 2005/07/07 20:31:02 tg Exp $
 
 .include <bsd.own.mk>
 .include "${GNUSYSTEM_AUX_DIR}/locations.mk"
@@ -36,23 +36,21 @@ post-install:
 .for _i in ${INSTLIBS}
 	chmod 600 ${DESTDIR}/usr/lib/lib${_i}.{a,so.${LIBGCJ_REV}}
 .  if ${DEBUGLIBS:L} == "yes"
-	cp ${DESTDIR}/usr/lib/lib${_i}.a ${DESTDIR}/usr/lib/debug/
-.  endif
 	strip --strip-debug ${DESTDIR}/usr/lib/lib${_i}.a
-	strip ${DESTDIR}/usr/lib/lib${_i}.so.${LIBGCJ_REV}
-.  if ${DEBUGLIBS:L} == "yes"
-	chown -h ${LIBOWN}:${LIBGRP} \
-	    ${DESTDIR}/usr/lib/debug/lib${_i}.a \
-	    ${DESTDIR}/usr/lib/lib${_i}.{so.${LIBGCJ_REV},a,la}
-	chmod ${LIBMODE} \
-	    ${DESTDIR}/usr/lib/debug/lib${_i}.a \
-	    ${DESTDIR}/usr/lib/lib${_i}.{so.${LIBGCJ_REV},a,la}
+	objcopy --only-keep-debug \
+	    ${DESTDIR}/usr/lib/lib${_i}.so.${LIBGCJ_REV} \
+	    ${DESTDIR}/usr/lib/lib${_i}.so.${LIBGCJ_REV}.dbg
+	objcopy --strip-debug ${DESTDIR}/usr/lib/lib${_i}.so.${LIBGCJ_REV}
+	objcopy --strip-all \
+	    --add-gnu-debuglink=lib${_i}.so.${LIBGCJ_REV}.dbg \
+	    ${DESTDIR}/usr/lib/lib${_i}.so.${LIBGCJ_REV}
 .  else
-	chown -h ${LIBOWN}:${LIBGRP} \
-	    ${DESTDIR}/usr/lib/lib${_i}.{so.${LIBGCJ_REV},a,la}
-	chmod ${LIBMODE} \
-	    ${DESTDIR}/usr/lib/lib${_i}.{so.${LIBGCJ_REV},a,la}
+	strip --strip-all ${DESTDIR}/usr/lib/lib${_i}.so.${LIBGCJ_REV}
 .  endif
+	chown -h ${LIBOWN}:${LIBGRP} \
+	    ${DESTDIR}/usr/lib/lib${_i}.{so.${LIBGCJ_REV}*,a,la}
+	chmod ${LIBMODE} \
+	    ${DESTDIR}/usr/lib/lib${_i}.{so.${LIBGCJ_REV}*,a,la}
 .endfor
 
 .include <bsd.cfwrap.mk>
