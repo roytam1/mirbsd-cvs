@@ -1,7 +1,7 @@
-# $MirOS: src/lib/libz/Makefile,v 1.2 2005/03/06 20:29:39 tg Exp $
+# $MirOS: src/lib/libz/Makefile,v 1.3 2005/03/14 21:58:15 tg Exp $
 # $OpenBSD: Makefile,v 1.12 2003/12/17 14:06:45 jmc Exp $
 
-SHLIB_VERSION?=	5.0
+SHLIB_VERSION?=	5.1
 LIB=	z
 HDRS=	zconf.h zlib.h
 SRCS=	adler32.c compress.c crc32.c deflate.c gzio.c infback.c \
