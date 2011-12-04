@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/conf/GENERIC,v 1.9 2005/04/30 22:54:19 tg Exp $
+# $MirOS: src/sys/arch/i386/conf/GENERIC,v 1.10 2005/05/04 18:12:39 tg Exp $
 # $OpenBSD: GENERIC,v 1.360 2004/05/11 04:01:00 deraadt Exp $
 # $NetBSD: GENERIC,v 1.48 1996/05/20 18:17:23 mrg Exp $
 #
@@ -17,7 +17,7 @@
 
 machine		i386			# arch, used by config; REQUIRED
 
-# $MirOS: src/sys/arch/i386/conf/GENERIC,v 1.9 2005/04/30 22:54:19 tg Exp $
+# $MirOS: src/sys/arch/i386/conf/GENERIC,v 1.10 2005/05/04 18:12:39 tg Exp $
 # $OpenBSD: GENERIC,v 1.112 2004/11/28 23:39:45 canacar Exp $
 #
 # Machine-independent option; used by all architectures.
@@ -163,8 +163,8 @@ config		bsd	swap generic
 
 mainbus0 at root
 
-powernowhack0 at mainbus0 flags 0x0000	# flags = override ID, 0xFFFF to disable
-bios0	at mainbus0 flags 0x0000
+powernowhack0 at mainbus0 flags 0x0000	# flags = override ID, 0xFFF to disable
+bios0	at mainbus0 flags 0x0000	# 0x1=don't probe BIOS32, 0x2=PCIBIOS
 apm0	at bios0 flags 0x0000		# flags 0x0101 to force protocol version 1.1
 pcibios0 at bios0 flags 0x0040		# use 0x30 for a total verbose
 

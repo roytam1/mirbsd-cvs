@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/i386/powernow-k7.c,v 1.2 2005/05/04 18:12:39 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/i386/powernow-k7.c,v 1.3 2005/05/04 21:41:35 tg Exp $ */
 /* $OpenBSD: powernow-k7.c,v 1.3 2004/08/05 04:56:05 tedu Exp $ */
 
 #ifndef SMALL_KERNEL
@@ -46,8 +46,6 @@
 #include <machine/cpu.h>
 #include <machine/bus.h>
 
-#include "powernowhack.h"
-
 #define BIOS_START		0xE0000
 #define	BIOS_LEN		0x20000
 
@@ -77,14 +75,8 @@ struct state_s {
 	uint8_t vid;		/* Voltage code */
 };
 
-/* For ourselves */
-struct k7pnow_freq_table_s {
-	unsigned int frequency;
-	struct state_s state;
-};
-
 /* Taken from powernow-k7.c/Linux by Dave Jones */
-int k7pnow_fid_codes[32] = {
+static int k7pnow_fid_codes[32] = {
 	110, 115, 120, 125, 50, 55, 60, 65,
 	70, 75, 80, 85, 90, 95, 100, 105,
 	30, 190, 40, 200, 130, 135, 140, 210,
@@ -95,12 +87,14 @@ static unsigned int k7pnow_fsb;
 static unsigned int k7pnow_cur_freq;
 static unsigned int k7pnow_ttime;
 static unsigned int k7pnow_nstates;
-static struct k7pnow_freq_table_s *k7pnow_freq_table;
+static struct k7pnow_freq_table_s {
+	unsigned int frequency;
+	struct state_s state;
+} *k7pnow_freq_table;
 
 static int k7pnow_state = -1;
 static char *k7pnow_biosmem;
 static struct psb_s *psb;
-static int mypst;
 
 static int powernowhack_match(struct device *, void *, void *);
 static void powernowhack_attach(struct device *, struct device *, void *);
@@ -127,8 +121,13 @@ static int
 powernowhack_match(struct device *parent, void *match, void *aux)
 {
 	bus_space_handle_t bh;
-	char *ptr;
+	const char *ptr;
 	unsigned i;
+
+	if (__predict_false(aux == NULL))
+		return 0;
+	if (__predict_true(strcmp((ptr = *(char **)aux), "powernowhack")))
+		return 0;
 
 	if (k7pnow_state == -1) {
 #ifdef K7PN_DEBUG
@@ -153,7 +152,7 @@ powernowhack_match(struct device *parent, void *match, void *aux)
 
 	ptr = k7pnow_biosmem;
 	for (i = 0; i < BIOS_LEN; i += 16, ptr += 16)
-		if (!memcmp(ptr, "AMDK7PNOW!", 10)) {
+		if (__predict_false(!memcmp(ptr, "AMDK7PNOW!", 10))) {
 			psb = (struct psb_s *)ptr;
 			k7pnow_ttime = psb->ttime;
 
@@ -186,9 +185,9 @@ k7pnow_cpuid(int i, struct pst_s *pst)
 }
 
 static int
-k7pnow_mypst(int i, struct pst_s *pst)
+k7pnow_bynumber(int i, struct pst_s *pst)
 {
-	return (i == mypst);
+	return (i == k7pnow_state);
 }
 
 static struct state_s *
@@ -226,10 +225,9 @@ powernowhack_attach(struct device *parent, struct device *self, void *aux)
 		printf("powernowhack_attach: not matched %d\n", k7pnow_state);
 		goto out;
 	}
-	k7pnow_state = -4;
 
 	if ((self->dv_cfdata->cf_flags & 0x4000) == 0x4000) {
-		printf("powernowhack0: the following PSTs are available\n");
+		printf("powernowhack0: these PSTs are known\n");
 		k7pnow_iter(k7pnow_dump);
 		if ((self->dv_cfdata->cf_flags & 0x0FFF) == 0x0FFF)
 			printf("powernowhack0: need PST matching your"
@@ -251,28 +249,28 @@ powernowhack_attach(struct device *parent, struct device *self, void *aux)
 	}
 
 	if ((self->dv_cfdata->cf_flags & 0x4FFF) == 0) {
-		printf("powernowhack0: tried the following PSTs\n");
+		printf("powernowhack0: tried these PSTs\n");
 		k7pnow_iter(k7pnow_dump);
 	}
 
-	mypst = self->dv_cfdata->cf_flags & 0x0FFF;
-	if (mypst == 0) {
+	k7pnow_state = self->dv_cfdata->cf_flags & 0x0FFF;
+	if (k7pnow_state == 0) {
 		printf("powernowhack0: use flags 0x0nnn to select the"
-		    " correct PST\npowernowhack0: trying to use PST #001\n");
-		mypst = 1;
+		    " correct PST, trying to use #001\n");
+		k7pnow_state = 1;
 	}
 
-	if ((s = k7pnow_iter(k7pnow_mypst)) != NULL)
+	if ((s = k7pnow_iter(k7pnow_bynumber)) != NULL)
 		goto found;
-	printf("powernowhack0: PST #%03X unavailable\n", mypst);
+	printf("powernowhack0: PST #%03X unavailable\n", k7pnow_state);
 	goto out;
 
 found:
 	/* poor C has no push/pop */
 	{
-		struct state_s *s2 = s;
+		register struct state_s *s2 = s;
 		for (i = 0, j = 0; i < k7pnow_nstates; ++i, ++s2)
-			if ((s2->fid != 0) && (s2->vid != 0))
+			if (__predict_true((s2->fid != 0) && (s2->vid != 0)))
 				++j;
 	}
 
@@ -287,7 +285,7 @@ found:
 	    M_DEVBUF, M_WAITOK);
 
 	for (i = 0; i < j; ++i) {
-		while ((s->fid == 0) || (s->vid == 0))
+		while (__predict_false((s->fid == 0) || (s->vid == 0)))
 			++s;
 		k7pnow_freq_table[i].frequency = k7pnow_fsb
 		    * k7pnow_fid_codes[s->fid] / 10;
@@ -323,6 +321,7 @@ found:
 	cpu_setperf = k7_powernow_setperf;
 
 out:
+	k7pnow_state = -4;
 	free(k7pnow_biosmem, M_DEVBUF);
 	k7pnow_biosmem = NULL;
 	return;
@@ -345,7 +344,7 @@ k7_powernow_setperf(int level)
 
 	for (i = 0; i < k7pnow_nstates; i++)
 		/* Do we know how to set that frequency? */
-		if (k7pnow_freq_table[i].frequency >= freq)
+		if (__predict_false(k7pnow_freq_table[i].frequency >= freq))
 			break;
 	fid = k7pnow_freq_table[i].state.fid;
 	vid = k7pnow_freq_table[i].state.vid;

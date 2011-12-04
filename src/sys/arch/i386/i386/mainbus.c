@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/sys/arch/i386/i386/mainbus.c,v 1.2 2005/03/06 21:26:58 tg Exp $ */
 /*	$OpenBSD: mainbus.c,v 1.15 2002/03/14 01:26:32 millert Exp $	*/
 /*	$NetBSD: mainbus.c,v 1.21 1997/06/06 23:14:20 thorpej Exp $	*/
 
@@ -48,6 +48,7 @@
 #include "isa.h"
 #include "apm.h"
 #include "bios.h"
+#include "powernowhack.h"
 
 #if NBIOS > 0
 #include <machine/biosvar.h>
@@ -104,6 +105,13 @@ mainbus_attach(parent, self, aux)
 	union mainbus_attach_args mba;
 
 	printf("\n");
+
+#if NPOWERNOWHACK > 0
+	{
+		mba.mba_busname = "powernowhack";
+		config_found(self, &mba.mba_busname, NULL);
+	}
+#endif
 
 #if NBIOS > 0
 	{
