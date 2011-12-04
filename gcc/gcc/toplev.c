@@ -1,4 +1,4 @@
-/* $MirOS: gcc/gcc/toplev.c,v 1.3 2005/03/25 19:29:11 tg Exp $ */
+/* $MirOS: gcc/gcc/toplev.c,v 1.4 2005/03/25 22:58:45 tg Exp $ */
 
 /* Top level of GCC compilers (cc1, cc1plus, etc.)
    Copyright (C) 1987, 1988, 1989, 1992, 1993, 1994, 1995, 1996, 1997, 1998,
@@ -2716,9 +2716,6 @@ rest_of_handle_inlining (tree decl)
 
   insns = get_insns ();
 
-  if (flag_propolice_protection)
-    prepare_stack_protection (inlinable);
-
   /* Dump the rtl code if we are dumping rtl.  */
 
   if (open_dump_file (DFI_rtl, decl))
@@ -3192,6 +3189,11 @@ rest_of_compilation (tree decl)
      collector to reclaim the memory used by the notes.  */
   remove_unnecessary_notes ();
   reorder_blocks ();
+
+  /* In propolice-protection mode, we will change the variables in the
+     stack to be able to detect buffer overflows.  */
+  if (flag_propolice_protection)
+    prepare_stack_protection (DECL_INLINE (decl));
 
   ggc_collect ();
 

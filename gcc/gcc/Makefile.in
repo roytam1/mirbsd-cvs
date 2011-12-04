@@ -1,4 +1,4 @@
-# $MirOS: gcc/gcc/Makefile.in,v 1.3 2005/03/25 19:28:57 tg Exp $
+# $MirOS: gcc/gcc/Makefile.in,v 1.4 2005/03/28 02:39:44 tg Exp $
 #
 # Makefile for GNU Compiler Collection
 # Run 'configure' to generate Makefile from Makefile.in
@@ -494,7 +494,7 @@ INSTALL_LIBGCC = install-libgcc
 # Options to use when compiling libgcc2.a.
 #
 LIBGCC2_DEBUG_CFLAGS = -g
-LIBGCC2_CFLAGS = -O2 $(LIBGCC2_INCLUDES) $(GCC_CFLAGS) $(TARGET_LIBGCC2_CFLAGS) $(LIBGCC2_DEBUG_CFLAGS) $(GTHREAD_FLAGS) -DIN_LIBGCC2 -D__GCC_FLOAT_NOT_NEEDED @inhibit_libc@
+LIBGCC2_CFLAGS = -O2 $(LIBGCC2_INCLUDES) $(GCC_CFLAGS) $(TARGET_LIBGCC2_CFLAGS) $(LIBGCC2_DEBUG_CFLAGS) $(GTHREAD_FLAGS) -DIN_LIBGCC2 -D__GCC_FLOAT_NOT_NEEDED @inhibit_libc@ -fno-stack-protector-all
 
 # Additional options to use when compiling libgcc2.a.
 # Some targets override this to -isystem include
@@ -506,7 +506,7 @@ TARGET_LIBGCC2_CFLAGS =
 # Options to use when compiling crtbegin/end.
 CRTSTUFF_CFLAGS = -O2 $(GCC_CFLAGS) $(INCLUDES) $(MULTILIB_CFLAGS) -g0 \
   -finhibit-size-directive -fno-inline-functions -fno-exceptions \
-  -fno-zero-initialized-in-bss -fno-unit-at-a-time -fno-stack-protector
+  -fno-zero-initialized-in-bss -fno-unit-at-a-time -fno-stack-protector-all
 
 # Additional sources to handle exceptions; overridden by targets as needed.
 LIB2ADDEH = $(srcdir)/unwind-dw2.c $(srcdir)/unwind-dw2-fde.c \

@@ -1,4 +1,4 @@
-/* $MirOS: gcc/gcc/fold-const.c,v 1.3 2005/03/28 00:42:36 tg Exp $ */
+/* $MirOS: gcc/gcc/fold-const.c,v 1.4 2005/06/15 21:32:19 tg Exp $ */
 
 /* Fold a constant sub-tree into a single node for C-compiler
    Copyright (C) 1987, 1988, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
@@ -7539,6 +7539,8 @@ fold (tree expr)
       else if (TREE_CODE (TREE_TYPE (arg0)) == INTEGER_TYPE
 	       && TREE_CODE (arg0) == NOP_EXPR
 	       && (tem = get_unwidened (arg0, NULL_TREE)) != arg0
+	       && (TYPE_PRECISION (TREE_TYPE (tem))
+		   > TYPE_PRECISION (TREE_TYPE (arg0)))
 	       && (code == EQ_EXPR || code == NE_EXPR
 		   || TREE_UNSIGNED (TREE_TYPE (arg0))
 		      == TREE_UNSIGNED (TREE_TYPE (tem)))

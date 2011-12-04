@@ -1,4 +1,4 @@
-/* $MirOS: gcc/gcc/cp/call.c,v 1.4 2005/04/30 22:16:03 tg Exp $ */
+/* $MirOS: gcc/gcc/cp/call.c,v 1.5 2005/05/14 16:22:01 tg Exp $ */
 
 /* Functions related to invoking methods and overloaded functions.
    Copyright (C) 1987, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 
@@ -4082,13 +4082,12 @@ convert_like_real (tree convs, tree expr, tree fn, int argnum, int inner,
 	if (NEED_TEMPORARY_P (convs) || !lvalue_p (expr))
 	  {
 	    tree type = TREE_TYPE (TREE_OPERAND (convs, 0));
+	    cp_lvalue_kind lvalue = real_lvalue_p (expr);
 
 	    if (!CP_TYPE_CONST_NON_VOLATILE_P (TREE_TYPE (ref_type)))
 	      {
 		/* If the reference is volatile or non-const, we
 		   cannot create a temporary.  */
-		cp_lvalue_kind lvalue = real_lvalue_p (expr);
-		
 		if (lvalue & clk_bitfield)
 		  error ("cannot bind bitfield `%E' to `%T'",
 			 expr, ref_type);
@@ -4097,6 +4096,20 @@ convert_like_real (tree convs, tree expr, tree fn, int argnum, int inner,
 			 expr, ref_type);
 		else
 		  error ("cannot bind rvalue `%E' to `%T'", expr, ref_type);
+		return error_mark_node;
+	      }
+	    /* If the source is a packed field, and we must use a copy
+	       constructor, then building the target expr will require
+	       binding the field to the reference parameter to the
+	       copy constructor, and we'll end up with an infinite
+	       loop.  If we can use a bitwise copy, then we'll be
+	       OK.  */
+	    if ((lvalue & clk_packed) 
+		&& CLASS_TYPE_P (type) 
+		&& !TYPE_HAS_TRIVIAL_INIT_REF (type))
+	      {
+		error ("cannot bind packed field `%E' to `%T'",
+		       expr, ref_type);
 		return error_mark_node;
 	      }
 	    expr = build_target_expr_with_type (expr, type);

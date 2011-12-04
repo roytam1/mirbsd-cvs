@@ -1,4 +1,4 @@
-@c $MirOS: gcc/gcc/doc/invoke.texi,v 1.5 2005/04/17 03:17:51 tg Exp $
+@c $MirOS: gcc/gcc/doc/invoke.texi,v 1.6 2005/04/29 14:03:36 tg Exp $
 @c
 @c Copyright (C) 1988, 1989, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
 @c 2000, 2001, 2002, 2003, 2004, 2005 Free Software Foundation, Inc.
@@ -3672,7 +3672,8 @@ invoking @option{-O2} on programs that use computed gotos.
 @opindex O3
 Optimize yet more.  @option{-O3} turns on all optimizations specified by
 @option{-O2} and also turns on the @option{-finline-functions},
-@option{-fweb} and @option{-frename-registers} options.
+@option{-fweb}, @option{-frename-registers} and @option{-funswitch-loops}
+options.
 
 @item -O0
 @opindex O0
@@ -8712,7 +8713,8 @@ have any affect on which ld is called, it only changes what parameters
 are passed to that ld.  The ld that is called is determined by the
 @option{--with-ld} configure option, GCC's program search path, and
 finally by the user's @env{PATH}.  The linker used by GCC can be printed
-using @samp{which `gcc -print-prog-name=ld`}.
+using @samp{which `gcc -print-prog-name=ld`}.  This option is only available
+on the 64 bit HP-UX GCC, i.e. configured with @samp{hppa*64*-*-hpux*}.
 
 @item -mhp-ld
 @opindex hp-ld
@@ -8724,7 +8726,8 @@ which ld is called, it only changes what parameters are passed to that
 ld.  The ld that is called is determined by the @option{--with-ld}
 configure option, GCC's program search path, and finally by the user's
 @env{PATH}.  The linker used by GCC can be printed using @samp{which
-`gcc -print-prog-name=ld`}.
+`gcc -print-prog-name=ld`}.  This option is only available on the 64 bit
+HP-UX GCC, i.e. configured with @samp{hppa*64*-*-hpux*}.
 
 @item -mlong-calls
 @opindex mno-long-calls

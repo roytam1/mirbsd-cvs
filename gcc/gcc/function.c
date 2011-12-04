@@ -771,6 +771,16 @@ assign_stack_temp_for_type (enum machine_mode mode, HOST_WIDE_INT size, int keep
 	 way the frame grows.  We include the extra space if and only if it
 	 is above this slot.  */
 #ifdef FRAME_GROWS_DOWNWARD
+      /* The stack protector can share a character buffer with another buffer
+	 in the different block only when the size of the first is bigger
+	 than the second. p->size is used for this comparison.
+	 But, in some situation, p->size is bigger than the actual size.
+	 So, we should change p->size with its aligned size.  */
+      if (flag_propolice_protection
+	  && char_array
+	  && (frame_offset_old - frame_offset >
+	      CEIL_ROUND (size, align / BITS_PER_UNIT)))
+	frame_offset_old = frame_offset + CEIL_ROUND (size, align / BITS_PER_UNIT);
       p->size = frame_offset_old - frame_offset;
 #else
       p->size = size;
@@ -3963,9 +3973,7 @@ instantiate_virtual_regs_1 (rtx *loc, rtx object, int extra_insns)
 		}
 
 	      /* Otherwise copy the new constant into a register and replace
-		 constant with that register.
-		 At the use of stack protection, stop to replace the frame
-		 offset with a register.  */
+		 constant with that register.  */
 	      temp = gen_reg_rtx (Pmode);
 	      XEXP (x, 0) = new;
 	      if (validate_change (object, &XEXP (x, 1), temp, 0)
@@ -6192,7 +6200,12 @@ reorder_blocks (void)
 
   /* Recreate the block tree from the note nesting.  */
   reorder_blocks_1 (get_insns (), block, &block_stack);
-  BLOCK_SUBBLOCKS (block) = blocks_nreverse (BLOCK_SUBBLOCKS (block));
+
+  /* In propolice-protection mode, disable to change the order of SUBBLOCKS
+     by the reason that the order is reversed from its 
+     declaration sequence.  */
+  if (! flag_propolice_protection)
+    BLOCK_SUBBLOCKS (block) = blocks_nreverse (BLOCK_SUBBLOCKS (block));
 
   /* Remove deleted blocks from the block fragment chains.  */
   reorder_fix_fragments (block);
