@@ -1,9 +1,9 @@
-/**	$MirOS: mksh/syn.c,v 1.8 2005/05/23 02:20:36 tg Exp $ */
+/**	$MirOS: src/bin/mksh/syn.c,v 1.1 2005/05/23 03:06:10 tg Exp $ */
 /*	$OpenBSD: syn.c,v 1.22 2005/03/30 17:16:37 deraadt Exp $	*/
 
 #include "sh.h"
 
-__RCSID("$MirOS: mksh/syn.c,v 1.8 2005/05/23 02:20:36 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/syn.c,v 1.1 2005/05/23 03:06:10 tg Exp $");
 
 struct nesting_state {
 	int	start_token;	/* token than began nesting (eg, FOR) */
@@ -778,7 +778,7 @@ assign_command(char *s)
 {
 	char c = *s;
 
-	if (Flag(FPOSIX) || !*s)
+	if (!*s)
 		return 0;
 	return (c == 'a' && strcmp(s, "alias") == 0) ||
 	    (c == 'e' && strcmp(s, "export") == 0) ||
