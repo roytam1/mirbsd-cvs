@@ -4,10 +4,10 @@
  * THIS FILE AUTOMATICALLY GENERATED.  DO NOT EDIT.
  *
  * generated from:
- *	MirOS: src/sys/dev/pci/pcidevs,v 1.5 2005/07/04 00:42:25 tg Exp 
+ *	MirOS: src/sys/dev/pci/pcidevs,v 1.6 2005/07/07 14:02:01 tg Exp 
  */
 /*	$NetBSD: pcidevs,v 1.580 2003/09/26 07:45:15 matt Exp $		*/
-/*	$OpenBSD: pcidevs,v 1.886 2005/07/03 02:08:24 brad Exp $	*/
+/*	$OpenBSD: pcidevs,v 1.888 2005/07/06 10:40:44 jsg Exp $		*/
 /*	$NetBSD: pcidevs,v 1.30 1997/06/24 06:20:24 thorpej Exp $ 	*/
 
 /*
@@ -1988,6 +1988,7 @@
 
 /* Intergraph products */
 #define	PCI_PRODUCT_INTERGRAPH_4D50T	0x00e4		/* Powerstorm 4D50T */
+#define	PCI_PRODUCT_INTERGRAPH_INTENSE3D	0x00eb		/* Intense 3D */
 #define	PCI_PRODUCT_INTERGRAPH_EXPERT3D	0x07a0		/* Expert3D */
 
 /* Interphase products */
@@ -2382,6 +2383,7 @@
 #define	PCI_PRODUCT_NVIDIA_MCP04_LAN1	0x0037		/* MCP04 LAN */
 #define	PCI_PRODUCT_NVIDIA_MCP04_LAN2	0x0038		/* MCP04 LAN */
 #define	PCI_PRODUCT_NVIDIA_NFORCE4_ISA	0x0050		/* nForce4 ISA */
+#define	PCI_PRODUCT_NVIDIA_NFORCE4_ISA2	0x0051		/* nForce4 ISA */
 #define	PCI_PRODUCT_NVIDIA_NFORCE4_SMBUS	0x0052		/* nForce4 SMBus */
 #define	PCI_PRODUCT_NVIDIA_NFORCE4_ATA133	0x0053		/* nForce4 IDE */
 #define	PCI_PRODUCT_NVIDIA_NFORCE4_SATA1	0x0054		/* nForce4 SATA 1 */
@@ -2448,6 +2450,7 @@
 #define	PCI_PRODUCT_NVIDIA_GEFORCE2GO	0x0112		/* GeForce2 Go */
 #define	PCI_PRODUCT_NVIDIA_QUADRO2_MXR	0x0113		/* Quadro2 MXR */
 #define	PCI_PRODUCT_NVIDIA_GEFORCE6600GT	0x0140		/* GeForce 6600 GT */
+#define	PCI_PRODUCT_NVIDIA_GEFORCE6600	0x0141		/* GeForce 6600 */
 #define	PCI_PRODUCT_NVIDIA_GEFORCE2GTS	0x0150		/* GeForce2 GTS */
 #define	PCI_PRODUCT_NVIDIA_GEFORCE2TI	0x0151		/* GeForce2 Ti */
 #define	PCI_PRODUCT_NVIDIA_GEFORCE2ULTRA	0x0152		/* GeForce2 Ultra */

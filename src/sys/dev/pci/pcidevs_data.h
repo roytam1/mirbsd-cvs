@@ -4,10 +4,10 @@
  * THIS FILE AUTOMATICALLY GENERATED.  DO NOT EDIT.
  *
  * generated from:
- *	MirOS: src/sys/dev/pci/pcidevs,v 1.5 2005/07/04 00:42:25 tg Exp 
+ *	MirOS: src/sys/dev/pci/pcidevs,v 1.6 2005/07/07 14:02:01 tg Exp 
  */
 /*	$NetBSD: pcidevs,v 1.580 2003/09/26 07:45:15 matt Exp $		*/
-/*	$OpenBSD: pcidevs,v 1.886 2005/07/03 02:08:24 brad Exp $	*/
+/*	$OpenBSD: pcidevs,v 1.888 2005/07/06 10:40:44 jsg Exp $		*/
 /*	$NetBSD: pcidevs,v 1.30 1997/06/24 06:20:24 thorpej Exp $ 	*/
 
 /*
@@ -4643,6 +4643,10 @@ static const struct pci_known_product pci_known_products[] = {
 	    "Powerstorm 4D50T",
 	},
 	{
+	    PCI_VENDOR_INTERGRAPH, PCI_PRODUCT_INTERGRAPH_INTENSE3D,
+	    "Intense 3D",
+	},
+	{
 	    PCI_VENDOR_INTERGRAPH, PCI_PRODUCT_INTERGRAPH_EXPERT3D,
 	    "Expert3D",
 	},
@@ -5811,6 +5815,10 @@ static const struct pci_known_product pci_known_products[] = {
 	    "nForce4 ISA",
 	},
 	{
+	    PCI_VENDOR_NVIDIA, PCI_PRODUCT_NVIDIA_NFORCE4_ISA2,
+	    "nForce4 ISA",
+	},
+	{
 	    PCI_VENDOR_NVIDIA, PCI_PRODUCT_NVIDIA_NFORCE4_SMBUS,
 	    "nForce4 SMBus",
 	},
@@ -6073,6 +6081,10 @@ static const struct pci_known_product pci_known_products[] = {
 	{
 	    PCI_VENDOR_NVIDIA, PCI_PRODUCT_NVIDIA_GEFORCE6600GT,
 	    "GeForce 6600 GT",
+	},
+	{
+	    PCI_VENDOR_NVIDIA, PCI_PRODUCT_NVIDIA_GEFORCE6600,
+	    "GeForce 6600",
 	},
 	{
 	    PCI_VENDOR_NVIDIA, PCI_PRODUCT_NVIDIA_GEFORCE2GTS,
