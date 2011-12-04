@@ -5,11 +5,15 @@
 
 #include <machine/asm.h>
 
+RCSID("$MirOS$")
+WARN_REFERENCES(bcmp, "warning: bcmp() is deprecated, consider using memcmp()")
+
 	.text
-#if defined(LIBC_SCCS)
+#if 0
 	.asciz "$OpenBSD: memcmp.S,v 1.3 1997/07/23 20:55:21 kstailey Exp $"
 #endif
 
+NENTRY(bcmp)
 ENTRY(memcmp)
 	pushl	%edi
 	pushl	%esi
