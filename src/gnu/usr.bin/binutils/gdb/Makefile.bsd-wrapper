@@ -1,4 +1,6 @@
-# $MirOS: src/gnu/usr.bin/binutils/ld/Makefile.bsd-wrapper,v 1.1.7.1 2005/03/06 16:58:49 tg Exp $
+# $MirOS: src/gnu/usr.bin/binutils/gdb/Makefile.bsd-wrapper,v 1.1 2005/04/19 20:13:07 tg Exp $
+
+.include "../Makefile.inc"
 
 FSFSRC=		${GNU_BINUTILS_GDB}
 MAN=		gdb.1
