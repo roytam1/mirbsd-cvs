@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: parse.y,v 1.25 2005/06/19 16:42:57 henning Exp $ */
 
 /*
@@ -35,14 +36,17 @@
 
 #include "ntpd.h"
 
+__RCSID("$MirOS$");
+
 static struct ntpd_conf		*conf;
 static FILE			*fin = NULL;
 static int			 lineno = 1;
 static int			 errors = 0;
 const char			*infile;
 
-int	 yyerror(const char *, ...);
-int	 yyparse(void);
+int	 yyerror(const char *, ...)
+    __attribute__((format (printf, 1, 2)))
+    __attribute__((nonnull (1)));
 int	 kw_cmp(const void *, const void *);
 int	 lookup(char *);
 int	 lgetc(FILE *);

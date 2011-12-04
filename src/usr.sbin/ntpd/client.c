@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: client.c,v 1.64 2005/07/11 08:04:28 dtucker Exp $ */
 
 /*
@@ -25,6 +26,8 @@
 #include <unistd.h>
 
 #include "ntpd.h"
+
+__RCSID("$MirOS$");
 
 int	client_update(struct ntp_peer *);
 void	set_deadline(struct ntp_peer *, time_t);
@@ -208,8 +211,9 @@ client_dispatch(struct ntp_peer *p, u_int8_t settime)
 	    msg.stratum > NTP_MAXSTRATUM) {
 		interval = error_interval();
 		set_next(p, interval);
-		log_info("reply from %s: not synced, next query %ds",
-		    log_sockaddr((struct sockaddr *)&p->addr->ss), interval);
+		log_info("reply from %s: not synced, next query %llds",
+		    log_sockaddr((struct sockaddr *)&p->addr->ss),
+		    (int64_t)interval);
 		return (0);
 	}
 
@@ -276,8 +280,9 @@ client_dispatch(struct ntp_peer *p, u_int8_t settime)
 	}
 
 	log_debug("reply from %s: offset %f delay %f, "
-	    "next query %ds", log_sockaddr((struct sockaddr *)&p->addr->ss),
-	    p->reply[p->shift].offset, p->reply[p->shift].delay, interval);
+	    "next query %llds", log_sockaddr((struct sockaddr *)&p->addr->ss),
+	    p->reply[p->shift].offset, p->reply[p->shift].delay,
+	    (int64_t)interval);
 
 	client_update(p);
 	if (settime)
