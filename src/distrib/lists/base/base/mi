@@ -1833,7 +1833,7 @@
 ./usr/lib/libpcap.a
 ./usr/lib/libpcap.so.4.0
 ./usr/lib/libpng.a
-./usr/lib/libpng.so.6.0
+./usr/lib/libpng.so.7.0
 ./usr/lib/libpthread.a
 ./usr/lib/libpthread.so.7.0
 ./usr/lib/libresolv.a
