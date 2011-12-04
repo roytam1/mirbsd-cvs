@@ -1,5 +1,5 @@
-/**	$MirOS: src/sbin/disklabel/disklabel.c,v 1.2 2005/03/06 19:49:51 tg Exp $ */
-/*	$OpenBSD: disklabel.c,v 1.94 2005/01/07 21:58:14 otto Exp $	*/
+/**	$MirOS: src/sbin/disklabel/disklabel.c,v 1.3 2005/04/29 18:34:53 tg Exp $ */
+/*	$OpenBSD: disklabel.c,v 1.95 2005/04/30 07:09:37 deraadt Exp $	*/
 
 /*
  * Copyright (c) 1987, 1993
@@ -64,7 +64,7 @@ static const char copyright[] =
 #include "pathnames.h"
 #include "extern.h"
 
-__RCSID("$MirOS: src/sbin/disklabel/disklabel.c,v 1.2 2005/03/06 19:49:51 tg Exp $");
+__RCSID("$MirOS: src/sbin/disklabel/disklabel.c,v 1.3 2005/04/29 18:34:53 tg Exp $");
 
 /*
  * Disklabel: read and write disklabels.
@@ -587,8 +587,8 @@ scan_pt(struct dos_partition *dp, u_int8_t what)
 	for (part = 0; part < NDOSPART; ++part) {
 		if ((!get_le(&dp[part].dp_size)) || (dp[part].dp_typ != what))
 			continue;
-		fprintf(stderr, "# found partition %d: "
-		    "type %02X ofs %d (0x%Xh) size %d (0x%X)%s\n",
+		fprintf(stderr, "# Inside MBR partition %d: "
+		    "type %02X start %u (0x%X) size %u (0x%X)%s\n",
 		    part, dp[part].dp_typ,
 		    get_le(&dp[part].dp_start), get_le(&dp[part].dp_start),
 		    get_le(&dp[part].dp_size), get_le(&dp[part].dp_size),
