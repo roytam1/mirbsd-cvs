@@ -1,4 +1,4 @@
-dnl $MirOS$
+dnl $MirOS: gcc/libjava/configure.in,v 1.6 2005/05/01 00:03:44 tg Exp $
 dnl Process this with autoconf to create configure
 AC_PREREQ(2.13)
 AC_INIT(java/lang/System.java)
@@ -894,7 +894,13 @@ else
    # On Solaris, and maybe other architectures, the Boehm collector
    # requires -ldl.
    if test "$GC" = boehm; then
-      AC_CHECK_LIB(dl, main, SYSTEMSPEC="$SYSTEMSPEC -ldl")
+     case $target_os in
+     mirbsd* | openbsd*)
+       ;;
+     *)
+       AC_CHECK_LIB(dl, main, SYSTEMSPEC="$SYSTEMSPEC -ldl")
+       ;;
+     esac
    fi
 fi
 
