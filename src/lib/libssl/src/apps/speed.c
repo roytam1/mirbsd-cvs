@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/lib/libssl/src/apps/speed.c,v 1.2 2005/03/06 20:29:28 tg Exp $ */
 
 /* apps/speed.c -*- mode:C; c-file-style: "eay" -*- */
 /* Copyright (C) 1995-1998 Eric Young (eay@cryptsoft.com)
@@ -1397,6 +1397,7 @@ int MAIN(int argc, char **argv)
 					EVP_DecryptInit_ex(&ctx,evp_cipher,NULL,key16,iv);
 				else
 					EVP_EncryptInit_ex(&ctx,evp_cipher,NULL,key16,iv);
+				EVP_CIPHER_CTX_set_padding(&ctx, 0);
 
 				Time_F(START);
 				if(decrypt)

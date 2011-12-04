@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/lib/libssl/src/crypto/bio/bio.h,v 1.2 2005/03/06 20:29:31 tg Exp $ */
 
 /* crypto/bio/bio.h */
 /* Copyright (C) 1995-1998 Eric Young (eay@cryptsoft.com)
@@ -349,6 +349,7 @@ typedef struct bio_f_buffer_ctx_struct
 #define BIO_C_NWRITE0				145
 #define BIO_C_NWRITE				146
 #define BIO_C_RESET_READ_REQUEST		147
+#define BIO_C_SET_MD_CTX			148
 
 
 #define BIO_set_app_data(s,arg)		BIO_set_ex_data(s,0,arg)

@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/lib/libssl/src/apps/s_socket.c,v 1.2 2005/03/06 20:29:28 tg Exp $ */
 
 /* apps/s_socket.c -  socket-related functions used by s_client and s_server */
 /* Copyright (C) 1995-1998 Eric Young (eay@cryptsoft.com)
@@ -153,7 +153,6 @@ static int ssl_sock_init(void)
 #ifdef WATT32
 	extern int _watt_do_exit;
 	_watt_do_exit = 0;
-	dbug_init();
 	if (sock_init())
 		return (0);
 #elif defined(OPENSSL_SYS_WINDOWS)

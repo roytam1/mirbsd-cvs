@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/lib/libssl/src/crypto/asn1/a_gentm.c,v 1.2 2005/03/06 20:29:30 tg Exp $ */
 
 /* crypto/asn1/a_gentm.c */
 /* Copyright (C) 1995-1998 Eric Young (eay@cryptsoft.com)
@@ -194,8 +194,9 @@ int ASN1_GENERALIZEDTIME_set_string(ASN1_GENERALIZEDTIME *s, char *str)
 		{
 		if (s != NULL)
 			{
-			ASN1_STRING_set((ASN1_STRING *)s,
-				(unsigned char *)str,t.length);
+			if (!ASN1_STRING_set((ASN1_STRING *)s,
+				(unsigned char *)str,t.length))
+				return 0;
 			s->type=V_ASN1_GENERALIZEDTIME;
 			}
 		return(1);
@@ -225,7 +226,12 @@ ASN1_GENERALIZEDTIME *ASN1_GENERALIZEDTIME_set(ASN1_GENERALIZEDTIME *s,
 	if ((p == NULL) || ((size_t)s->length < len))
 		{
 		p=OPENSSL_malloc(len);
-		if (p == NULL) return(NULL);
+		if (p == NULL)
+			{
+			ASN1err(ASN1_F_ASN1_GENERALIZEDTIME_SET,
+				ERR_R_MALLOC_FAILURE);
+			return(NULL);
+			}
 		if (s->data != NULL)
 			OPENSSL_free(s->data);
 		s->data=(unsigned char *)p;

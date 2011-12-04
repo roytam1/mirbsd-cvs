@@ -1,7 +1,7 @@
-# $MirOS: src/lib/libssl/ssl/Makefile,v 1.3 2005/03/15 18:51:39 tg Exp $
+# $MirOS: src/lib/libssl/ssl/Makefile,v 1.4 2005/04/26 15:36:19 tg Exp $
 # $OpenBSD: Makefile,v 1.20 2005/03/30 13:08:02 markus Exp $
 
-SHLIB_VERSION?=	10.0
+SHLIB_VERSION?=	11.0
 LIB=		ssl
 
 SSLEAYDIST= src
