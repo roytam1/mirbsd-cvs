@@ -1,5 +1,5 @@
-# $MirOS: src/share/mk/bsd.prog.mk,v 1.8 2005/04/19 15:47:58 tg Exp $
-# $OpenBSD: bsd.prog.mk,v 1.39 2004/06/03 20:51:07 miod Exp $
+# $MirOS: src/share/mk/bsd.prog.mk,v 1.9 2005/04/29 15:42:53 tg Exp $
+# $OpenBSD: bsd.prog.mk,v 1.44 2005/04/15 17:18:57 espie Exp $
 # $NetBSD: bsd.prog.mk,v 1.55 1996/04/08 21:19:26 jtc Exp $
 # @(#)bsd.prog.mk	5.26 (Berkeley) 6/25/91
 

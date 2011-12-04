@@ -1,5 +1,5 @@
-# $MirOS: src/share/mk/bsd.README,v 1.4 2005/03/15 18:26:11 tg Exp $
-# $OpenBSD: bsd.README,v 1.36 2003/08/29 00:04:41 jolan Exp $
+# $MirOS: src/share/mk/bsd.README,v 1.5 2005/04/29 15:42:53 tg Exp $
+# $OpenBSD: bsd.README,v 1.37 2005/04/15 17:18:57 espie Exp $
 # $NetBSD: bsd.README,v 1.17 1996/04/13 02:08:08 thorpej Exp $
 # @(#)bsd.README	5.1 (Berkeley) 5/11/90
 

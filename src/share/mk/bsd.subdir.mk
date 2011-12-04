@@ -1,5 +1,5 @@
-# $MirOS: src/share/mk/bsd.subdir.mk,v 1.2 2005/02/14 18:57:46 tg Exp $
-# $OpenBSD: bsd.subdir.mk,v 1.12 2004/01/18 23:44:51 marc Exp $
+# $MirOS: src/share/mk/bsd.subdir.mk,v 1.3 2005/02/14 19:21:20 tg Exp $
+# $OpenBSD: bsd.subdir.mk,v 1.14 2005/02/05 10:39:50 espie Exp $
 # $NetBSD: bsd.subdir.mk,v 1.11 1996/04/04 02:05:06 jtc Exp $
 # @(#)bsd.subdir.mk	5.9 (Berkeley) 2/1/91
 
@@ -44,8 +44,8 @@ _SUBDIRUSE: .USE
 		if [[ -z $$skipdir || -n $$subentry ]]; then \
 			echo "===> $$_nextdir_"; \
 			cd ${.CURDIR}/$$_newdir_; \
-			${MAKE} ${.MAKEFLAGS} SKIPDIR="$$subskipdir" \
-			    $$_makefile_spec_ _THISDIR_="$$_nextdir_" \
+			${MAKE} SKIPDIR="$$subskipdir" $$_makefile_spec_ \
+			    _THISDIR_="$$_nextdir_" ${MAKE_FLAGS} \
 			    ${.TARGET:S/realinstall/install/:S/.depend/depend/}; \
 		fi; \
 	) done
@@ -62,7 +62,7 @@ ${SUBDIR}::
 	    || _makefile_spec_="-f Makefile.bsd-wrapper"; \
 	echo "===> $$_newdir_"; \
 	cd ${.CURDIR}/$$_newdir_; \
-	${MAKE} ${.MAKEFLAGS} $$_makefile_spec_ _THISDIR_="$$_newdir_" all
+	${MAKE} ${MAKE_FLAGS} $$_makefile_spec_ _THISDIR_="$$_newdir_" all
 .endif
 
 .if !target(install)
@@ -78,41 +78,12 @@ afterinstall: realinstall
 realinstall: beforeinstall _SUBDIRUSE
 .endif
 
-.if !target(all)
-all: _SUBDIRUSE
-.endif
 
-.if !target(clean)
-clean: _SUBDIRUSE
-.endif
-
-.if !target(cleandir)
-cleandir: _SUBDIRUSE
-.endif
-
-.if !target(includes)
-includes: _SUBDIRUSE
-.endif
-
-.if !target(depend)
-depend: _SUBDIRUSE
-.endif
-
-.if !target(lint)
-lint: _SUBDIRUSE
-.endif
-
-.if !target(obj)
-obj: _SUBDIRUSE
-.endif
-
-.if !target(tags)
-tags: _SUBDIRUSE
-.endif
-
-.if !target(regress)
-regress: _SUBDIRUSE
-.endif
+.for t in all clean cleandir includes depend lint obj tags regress
+.  if !target($t)
+$t: _SUBDIRUSE
+.  endif
+.endfor
 
 .if !defined(BSD_OWN_MK)
 .  include <bsd.own.mk>
