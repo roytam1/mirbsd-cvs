@@ -1,4 +1,0 @@
-@comment $MirOS$
-include/ffi.h
-include/ffitarget.h
-lib/libffi.la

@@ -1,4 +1,0 @@
-${FDIALOG} gauge "this is my gauge" \
-	40 \
-ptitle "gauge1.test" \
-sleep 2

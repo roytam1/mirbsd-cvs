@@ -1,9 +1,0 @@
-@comment $MirOS$
-@comment $NetBSD: PLIST,v 1.2 2006/07/04 06:23:00 wiz Exp $
-share/JMdict/JMdict
-share/JMdict/JMdict.dtd
-share/doc/JMdict/JMdict.inf
-share/doc/JMdict/jmdict_proj_desc.html
-share/doc/JMdict/licence.html
-@dirrm share/doc/JMdict
-@dirrm share/JMdict

@@ -1,7 +1,0 @@
-@comment $OpenBSD: PFRAG.no-no_curses,v 1.2 2002/11/25 22:39:52 naddy Exp $
-bin/mute
-bin/xaumix
-man/man1/xaumix.1
-share/aumix/ansi
-share/aumix/vt100
-share/aumix/xterm
