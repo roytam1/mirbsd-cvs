@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.prog.mk,v 1.7 2005/04/16 21:22:33 tg Exp $
+# $MirOS: src/share/mk/bsd.prog.mk,v 1.8 2005/04/19 15:47:58 tg Exp $
 # $OpenBSD: bsd.prog.mk,v 1.39 2004/06/03 20:51:07 miod Exp $
 # $NetBSD: bsd.prog.mk,v 1.55 1996/04/08 21:19:26 jtc Exp $
 # @(#)bsd.prog.mk	5.26 (Berkeley) 6/25/91
@@ -22,33 +22,6 @@ CXXFLAGS+=	${CXXDIAGFLAGS}
 .endif
 CFLAGS+=	${COPTS}
 CXXFLAGS+=	${CXXOPTS}
-
-.if defined(SHAREDSTRINGS)
-CLEANFILES+=	strings
-.c.o:
-	${CC} -E ${CFLAGS} ${.IMPSRC} | xstr -c -
-	@${CC} ${CFLAGS} -c x.c -o $@
-	@rm -f x.c
-
-.cc.o:
-	${CXX} -E ${CXXFLAGS} ${.IMPSRC} | xstr -c -
-	@mv -f x.c x.cc
-	@${CXX} ${CXXFLAGS} -c x.cc -o $@
-	@rm -f x.cc
-
-.C.o:
-	${CXX} -E ${CXXFLAGS} ${.IMPSRC} | xstr -c -
-	@mv -f x.c x.C
-	@${CXX} ${CXXFLAGS} -c x.C -o $@
-	@rm -f x.C
-
-.cxx.o:
-	${CXX} -E ${CXXFLAGS} ${.IMPSRC} | xstr -c -
-	@mv -f x.c x.cxx
-	@${CXX} ${CXXFLAGS} -c x.cxx -o $@
-	@rm -f x.cxx
-.endif
-
 
 .if defined(PROG) && !empty(PROG)
 SRCS?=	${PROG}.c
