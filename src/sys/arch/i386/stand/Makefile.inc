@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/stand/Makefile.inc,v 1.3 2005/03/14 22:12:38 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/Makefile.inc,v 1.4 2005/04/29 18:34:57 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.36 2004/07/24 17:39:27 millert Exp $
 
 .ifndef MODSRC_SYS_ARCH_I386_STAND_MAKEFILE_INC
@@ -10,6 +10,8 @@ REAL_V!=	print '\#include <sys/param.h>\nMirBSD' | ${CC} -E - \
 		    | tail -1 | sed s,0x,,
 V?=		${REAL_V}
 _V=		\"${V}\"
+DEBUGLIBS=	No
+DEBUGPROGS=	No
 
 CFLAGS+=	-fno-stack-protector -ffreestanding \
 		-Os -Wall -Werror -Wno-packed ${DEBUG}
