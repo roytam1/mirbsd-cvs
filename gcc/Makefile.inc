@@ -1,4 +1,4 @@
-# $MirOS: gcc/Makefile.inc,v 1.10 2005/07/06 18:48:06 tg Exp $
+# $MirOS: gcc/Makefile.inc,v 1.11 2005/07/06 22:47:25 tg Exp $
 
 .ifndef _MODGCC_MAKEFILE_INC
 _MODGCC_MAKEFILE_INC=1
@@ -36,10 +36,10 @@ GMAKE?=		/usr/local/bin/gmake
 GCCVERSION=	3.4.5
 LIBGCC_REV=	1.1
 # XXX how about automatically deriving these below?
-LIBGCJ_REV=	5.0.0
-LIBOBJC_REV=	3.1.0
+LIBGCJ_REV=	5.0
+LIBOBJC_REV=	3.1
 LIBOBJC_VER=	4:0:1
-LIBCXX_REV=	36.0.0
+LIBCXX_REV=	36.0
 LIBCXX_VER=	36:0:0
 
 .endif

@@ -1,4 +1,4 @@
-# $MirOS: gcc/libjava/Makefile.bsd-wrapper,v 1.14 2005/07/06 18:48:08 tg Exp $
+# $MirOS: gcc/libjava/Makefile.bsd-wrapper,v 1.15 2005/07/06 22:47:26 tg Exp $
 
 .include <bsd.own.mk>
 .include "${GNUSYSTEM_AUX_DIR}/locations.mk"
@@ -43,14 +43,12 @@ post-install:
 .  if ${DEBUGLIBS:L} == "yes"
 	chown -h ${LIBOWN}:${LIBGRP} \
 	    ${DESTDIR}/usr/lib/debug/lib${_i}.a \
-	    ${DESTDIR}/usr/lib/lib${_i}.so.${LIBGCJ_REV:R} \
 	    ${DESTDIR}/usr/lib/lib${_i}.{so.${LIBGCJ_REV},a,la}
 	chmod ${LIBMODE} \
 	    ${DESTDIR}/usr/lib/debug/lib${_i}.a \
 	    ${DESTDIR}/usr/lib/lib${_i}.{so.${LIBGCJ_REV},a,la}
 .  else
 	chown -h ${LIBOWN}:${LIBGRP} \
-	    ${DESTDIR}/usr/lib/lib${_i}.so.${LIBGCJ_REV:R} \
 	    ${DESTDIR}/usr/lib/lib${_i}.{so.${LIBGCJ_REV},a,la}
 	chmod ${LIBMODE} \
 	    ${DESTDIR}/usr/lib/lib${_i}.{so.${LIBGCJ_REV},a,la}
