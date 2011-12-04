@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/sys/param.h,v 1.10 2005/05/01 21:54:17 tg Exp $ */
+/**	$MirOS: src/sys/sys/param.h,v 1.11 2005/05/04 18:32:45 tg Exp $ */
 /*	$OpenBSD: param.h,v 1.54 2004/02/27 18:06:55 deraadt Exp $	*/
 /*	$NetBSD: param.h,v 1.23 1996/03/17 01:02:29 thorpej Exp $	*/
 
@@ -46,7 +46,7 @@
 #define	_SYS_PARAM_H
 
 #define	BSD	199306		/* System version (year & month). */
-#define	MirBSD	0x082C		/* minor 10-7F=prerelease; 80=release
+#define	MirBSD	0x082D		/* minor 10-7F=prerelease; 80=release
 				 * minor 81-9F=stable; A0-FF=unlocked
 				 */
 #ifndef _LOCORE
@@ -55,12 +55,12 @@
 #endif
 
 #ifndef NULL
-#ifdef 	__GNUG__
-#define	NULL	__null
+#ifdef __GNUG__
+#define	NULL		__null
 #elif defined(lint)
-#define	NULL	0
+#define	NULL		0
 #else
-#define	NULL	((void *)((_BSD_PTRDIFF_T_)0UL))
+#define	NULL		((void *)((_BSD_PTRDIFF_T_)0UL))
 #endif
 #endif
 
