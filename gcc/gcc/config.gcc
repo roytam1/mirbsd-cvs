@@ -1,4 +1,4 @@
-# $MirOS: gcc/gcc/config.gcc,v 1.7 2005/05/14 16:21:57 tg Exp $
+# $MirOS: gcc/gcc/config.gcc,v 1.8 2005/05/14 17:43:41 tg Exp $
 #
 # GCC target-specific configuration file.
 # Copyright 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004
@@ -408,6 +408,12 @@ case ${target} in
       tm_defines="${tm_defines} FBSD_MAJOR=5" ;;
     *-*-freebsd6 | *-*-freebsd[6].*)
       tm_defines="${tm_defines} FBSD_MAJOR=6" ;;
+    *-*-freebsd7 | *-*-freebsd[7].*)
+      tm_defines="${tm_defines} FBSD_MAJOR=7" ;;
+    *-*-freebsd8 | *-*-freebsd[8].*)
+      tm_defines="${tm_defines} FBSD_MAJOR=8" ;;
+    *-*-freebsd9 | *-*-freebsd[9].*)
+      tm_defines="${tm_defines} FBSD_MAJOR=9" ;;
     *)
       echo 'Please update *-*-freebsd* in gcc/config.gcc'
       exit 1
@@ -481,16 +487,12 @@ case ${target} in
   esac
   ;;
 *-*-mirbsd*)
-  # this one is for targets where libgcc is built multilib'd, one
-  # position-independent and one not
-  tmake_file_mlpic="t-slibgcc-elf-ver t-mirbsd"
-  # this one (default) is to build libgcc2 with -fPIC
-  tmake_file="${tmake_file_mlpic} t-libgcc-pic"
+  # don't build libgcc2 as PIC, multilib takes care of that on all targets
+  tmake_file="t-slibgcc-elf-ver t-mirbsd"
   case ${enable_threads} in
     yes|posix)
       thread_file='posix'
       tmake_file="${tmake_file} t-mirbsd-thread"
-      tmake_file_mlpic="${tmake_file_mlpic} t-mirbsd-thread"
       ;;
   esac
 
@@ -980,7 +982,7 @@ x86_64-*-freebsd*)
 	tm_file="${tm_file} i386/unix.h i386/att.h dbxelf.h elfos.h ${fbsd_tm_file} i386/x86-64.h i386/freebsd.h i386/freebsd64.h"
 	;;
 i386-*-mirbsd*)
-	tmake_file="${tmake_file_mlpic} i386/t-openbsd i386/t-crtstuff"
+	tmake_file="${tmake_file} i386/t-openbsd i386/t-crtstuff"
 	tm_file="${tm_file} i386/unix.h i386/att.h dbxelf.h elfos.h"
 	tm_file="${tm_file} mirbsd.h i386/mirbsd.h"
 	;;
@@ -1752,11 +1754,6 @@ powerpc*-*-freebsd*)
 	tm_file="${tm_file} dbxelf.h elfos.h ${fbsd_tm_file} rs6000/sysv4.h rs6000/freebsd.h"
 	tmake_file="rs6000/t-fprules rs6000/t-ppcos ${tmake_file} rs6000/t-ppccomm"
 	;;
-powerpc-*-mirbsd*)
-	tmake_file="${tmake_file} rs6000/t-mirbsd"
-	tm_file="${tm_file} dbxelf.h elfos.h"
-	tm_file="${tm_file} mirbsd.h freebsd-spec.h rs6000/sysv4.h rs6000/mirbsd.h"
-	;;
 powerpc-*-netbsd*)
 	tm_file="${tm_file} dbxelf.h elfos.h netbsd.h netbsd-elf.h freebsd-spec.h rs6000/sysv4.h rs6000/netbsd.h"
 	tmake_file="${tmake_file} rs6000/t-netbsd"
@@ -2047,7 +2044,7 @@ sparc-tti-*)
 	use_fixproto=yes
 	;;
 sparc-*-mirbsd*)
-	tmake_file="${tmake_file_mlpic} sparc/t-openbsd"
+	tmake_file="${tmake_file} sparc/t-openbsd"
 	tm_file="${tm_file} elfos.h svr4.h sparc/sysv4.h"
 	tm_file="${tm_file} mirbsd.h sparc/mirbsd.h"
 	;;
