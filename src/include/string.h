@@ -1,4 +1,4 @@
-/**	$MirOS: src/include/string.h,v 1.2 2005/03/06 19:13:40 tg Exp $ */
+/**	$MirOS: src/include/string.h,v 1.3 2005/04/29 18:34:48 tg Exp $ */
 /*	$OpenBSD: string.h,v 1.15 2005/03/30 03:04:16 deraadt Exp $	*/
 /*	$NetBSD: string.h,v 1.6 1994/10/26 00:56:30 cgd Exp $	*/
 
@@ -110,7 +110,7 @@ size_t	 strlcat(char *, const char *, size_t)
 		__attribute__ ((__bounded__(__string__,1,3)));
 size_t	 strlcpy(char *, const char *, size_t)
 		__attribute__ ((__bounded__(__string__,1,3)));
-void	 strmode(int, char *);
+void	 strmode(mode_t, char *);
 int	 strncasecmp(const char *, const char *, size_t);
 char	*strsep(char **, const char *);
 char	*strsignal(int);
