@@ -1,5 +1,5 @@
-/**	$MirOS: src/sys/net/if_spppsubr.c,v 1.3 2005/04/29 18:35:03 tg Exp $ */
-/*	$OpenBSD: if_spppsubr.c,v 1.32 2005/04/24 20:56:48 canacar Exp $	*/
+/**	$MirOS: src/sys/net/if_spppsubr.c,v 1.4 2005/04/30 22:54:23 tg Exp $ */
+/*	$OpenBSD: if_spppsubr.c,v 1.34 2005/06/08 06:55:33 henning Exp $	*/
 /*
  * Synchronous PPP/Cisco link level subroutines.
  * Keepalive protocol implemented in both Cisco and PPP modes.
@@ -18,8 +18,8 @@
  *    this list of conditions and the following disclaimer in the documentation
  *    and/or other materials provided with the distribution.
  *
- * THIS SOFTWARE IS PROVIDED BY THE FREEBSD PROJECT ``AS IS'' AND ANY
- * EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * THIS SOFTWARE IS PROVIDED BY THE FREEBSD PROJECT ``AS IS'' AND ANY 
+ * EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE 
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
  * ARE DISCLAIMED. IN NO EVENT SHALL THE FREEBSD PROJECT OR CONTRIBUTORS BE
  * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
@@ -27,7 +27,7 @@
  * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
  * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
  * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE   
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * From: Version 2.6, Tue May 12 17:10:39 MSD 1998
@@ -98,11 +98,6 @@
 #ifdef IPX
 #include <netipx/ipx.h>
 #include <netipx/ipx_if.h>
-#endif
-
-#ifdef NS
-#include <netns/ns.h>
-#include <netns/ns_if.h>
 #endif
 
 #include <net/if_sppp.h>
@@ -328,7 +323,7 @@ HIDE void sppp_cp_timeout(void *arg);
 HIDE void sppp_cp_change_state(const struct cp *cp, struct sppp *sp,
 				 int newstate);
 HIDE void sppp_auth_send(const struct cp *cp,
-			   struct sppp *sp, u_char type, u_char id,
+			   struct sppp *sp, unsigned int type, u_char id,
 			   ...);
 
 HIDE void sppp_up_event(const struct cp *cp, struct sppp *sp);
@@ -573,15 +568,6 @@ sppp_input(struct ifnet *ifp, struct mbuf *m)
 			}
 			break;
 #endif
-#ifdef NS
-		case PPP_XNS:
-			/* XNS IDPCP not implemented yet */
-			if (sp->pp_phase == PHASE_NETWORK) {
-				schednetisr (NETISR_NS);
-				inq = &nsintrq;
-			}
-			break;
-#endif
 		}
 		break;
 	case CISCO_MULTICAST:
@@ -614,12 +600,6 @@ sppp_input(struct ifnet *ifp, struct mbuf *m)
 		case ETHERTYPE_IPX:
 			schednetisr (NETISR_IPX);
 			inq = &ipxintrq;
-			break;
-#endif
-#ifdef NS
-		case ETHERTYPE_NS:
-			schednetisr (NETISR_NS);
-			inq = &nsintrq;
 			break;
 #endif
 		}
@@ -787,12 +767,6 @@ sppp_output(struct ifnet *ifp, struct mbuf *m,
 			if (sp->state[IDX_IPCP] != STATE_OPENED)
 				rv = ENETDOWN;
 		}
-		break;
-#endif
-#ifdef NS
-	case AF_NS:     /* Xerox NS Protocol */
-		protocol = htons ((sp->pp_flags & PP_CISCO) ?
-			ETHERTYPE_NS : PPP_XNS);
 		break;
 #endif
 #ifdef IPX
@@ -1184,7 +1158,7 @@ sppp_cisco_send(struct sppp *sp, int type, long par1, long par2)
 	struct ppp_header *h;
 	struct cisco_packet *ch;
 	struct mbuf *m;
-	struct timeval tv;
+	struct timeval tv;	
 
 	getmicrouptime(&tv);
 
@@ -1257,7 +1231,7 @@ sppp_cp_send(struct sppp *sp, u_short proto, u_char type,
 	if (sp->pp_flags & PP_NOFRAMING) {
 		*mtod(m, u_int16_t *) = htons(proto);
 		lh = (struct lcp_header *)(mtod(m, u_int8_t *) + 2);
-	} else {
+	} else {	
 		h = mtod (m, struct ppp_header*);
 		h->address = PPP_ALLSTATIONS;	/* broadcast address */
 		h->control = PPP_UI;		/* Unnumbered Info */
@@ -1791,7 +1765,7 @@ sppp_increasing_timeout (const struct cp *cp, struct sppp *sp)
 	if (timo < 1)
 		timo = 1;
 #if defined(__FreeBSD__) && __FreeBSD__ >= 3
-	sp->ch[cp->protoidx] =
+	sp->ch[cp->protoidx] = 
 	    timeout(cp->TO, (void *)sp, timo * sp->lcp.timeout);
 #elif defined(__OpenBSD__)
 	timeout_set(&sp->ch[cp->protoidx], cp->TO, (void *)sp);
@@ -3793,8 +3767,8 @@ sppp_pap_scr(struct sppp *sp)
  */
 
 HIDE void
-sppp_auth_send(const struct cp *cp, struct sppp *sp, u_char type, u_char id,
-	       ...)
+sppp_auth_send(const struct cp *cp, struct sppp *sp,
+		unsigned int type, u_char id, ...)
 {
 	STDDCL;
 	struct ppp_header *h;
@@ -3802,7 +3776,8 @@ sppp_auth_send(const struct cp *cp, struct sppp *sp, u_char type, u_char id,
 	struct mbuf *m;
 	u_char *p;
 	int len;
-	size_t mlen, pkthdrlen;
+	size_t pkthdrlen;
+	unsigned int mlen;
 	const char *msg;
 	va_list ap;
 
@@ -3831,7 +3806,7 @@ sppp_auth_send(const struct cp *cp, struct sppp *sp, u_char type, u_char id,
 	va_start(ap, id);
 	len = 0;
 
-	while ((mlen = va_arg(ap, size_t)) != 0) {
+	while ((mlen = (unsigned int)va_arg(ap, size_t)) != 0) {
 		msg = va_arg(ap, const char *);
 		len += mlen;
 		if (len > MHLEN - pkthdrlen - LCP_HEADER_LEN) {

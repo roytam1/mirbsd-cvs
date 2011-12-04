@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: if_tun.h,v 1.12 2002/12/10 21:04:14 mickey Exp $	*/
+/**	$MirOS: src/sys/net/if_tun.h,v 1.2 2005/03/06 21:28:16 tg Exp $ */
+/*	$OpenBSD: if_tun.h,v 1.13 2004/06/25 04:09:03 claudio Exp $	*/
 
 /*
  * Copyright (c) 1988, Julian Onions <Julian.Onions@nexor.co.uk>
@@ -48,8 +48,8 @@
 #define	TUN_RWAIT	0x0040
 #define	TUN_ASYNC	0x0080
 #define	TUN_NBIO	0x0100
-#define	TUN_BRDADDR	0x0200
-#define	TUN_STAYUP	0x0400
+#define TUN_BRDADDR	0x0200
+#define TUN_STAYUP	0x0400
 #define TUN_LAYER2	0x0800
 
 #define	TUN_READY	(TUN_OPEN | TUN_INITED)

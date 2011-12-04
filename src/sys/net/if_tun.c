@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: if_tun.c,v 1.64 2004/11/11 10:42:04 mpf Exp $	*/
+/**	$MirOS: src/sys/net/if_tun.c,v 1.2 2005/03/06 21:28:16 tg Exp $ */
+/*	$OpenBSD: if_tun.c,v 1.68 2005/06/08 06:53:32 henning Exp $	*/
 /*	$NetBSD: if_tun.c,v 1.24 1996/05/07 02:40:48 thorpej Exp $	*/
 
 /*
@@ -326,7 +326,7 @@ tunopen(dev_t dev, int flag, int mode, struct proc *p)
 	ifp = &tp->tun_if;
 	tp->tun_flags |= TUN_OPEN;
 
-	/* automaticaly UP the interface on open */
+	/* automatically UP the interface on open */
 	s = splimp();
 	if_up(ifp);
 	ifp->if_flags |= IFF_RUNNING;
