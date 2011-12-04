@@ -1,4 +1,4 @@
-/**	$MirOS: src/lib/libedit/readline/readline.h,v 1.5 2005/04/19 18:40:27 tg Exp $ */
+/**	$MirOS: src/lib/libedit/readline/readline.h,v 1.6 2005/04/19 18:45:25 tg Exp $ */
 /*	$OpenBSD: readline.h,v 1.2 2003/11/25 20:12:39 otto Exp $	*/
 /*	$NetBSD: readline.h,v 1.13 2005/04/12 22:01:40 christos Exp $	*/
 
@@ -182,6 +182,9 @@ int		 rl_parse_and_bind(const char *);
 int		 rl_variable_bind(const char *, const char *);
 void		 rl_stuff_char(int);
 int		 rl_add_defun(const char *, Function *, int);
+
+void		 rl_get_screen_size(int *, int *);
+void		 rl_set_screen_size(int, int);
 
 /*
  * The following are not implemented
