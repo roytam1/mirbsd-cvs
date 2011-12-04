@@ -1,5 +1,5 @@
-.\"	$MirOS$
-.\"	$OpenBSD: ftpd.8,v 1.61 2003/11/20 12:32:34 jmc Exp $
+.\"	$MirOS: src/libexec/ftpd/ftpd.8,v 1.2 2005/03/06 19:24:00 tg Exp $
+.\"	$OpenBSD: ftpd.8,v 1.63 2004/11/28 19:16:04 henning Exp $
 .\"	$NetBSD: ftpd.8,v 1.8 1996/01/14 20:55:23 thorpej Exp $
 .\"
 .\" Copyright (c) 1985, 1988, 1991, 1993
@@ -69,7 +69,11 @@ is specified, forces
 .Nm
 to use IPv6 addresses only.
 .It Fl A
-Permit only anonymous ftp connections, accounts listed in
+Permit only anonymous ftp connections
+(unless the
+.Fl n
+option is specified),
+accounts listed in
 .Pa /etc/ftpchroot
 or users in a login class with the
 .Dq ftp-chroot
@@ -547,14 +551,6 @@ As of
 .Mx 8 ,
 there is an option to prevent anonymous users from deleting.
 .Sh BUGS
-The server must run as the superuser to create sockets with
-privileged port numbers.
-It maintains
-an effective user ID of the logged in user, reverting to
-the superuser only when binding addresses to sockets.
-The possible security holes have been extensively scrutinized,
-but are possibly incomplete.
-.Pp
 You ought to not be using the file transfer protocol at all;
 this daemon is only provided for compatibility reasons.
 A suitable alternative is

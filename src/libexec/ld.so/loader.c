@@ -1,5 +1,5 @@
-/**	$MirOS$	*/
-/*	$OpenBSD: loader.c,v 1.83 2004/08/11 17:13:10 pefo Exp $ */
+/**	$MirOS: src/libexec/ld.so/loader.c,v 1.2 2005/03/06 19:24:02 tg Exp $	*/
+/*	$OpenBSD: loader.c,v 1.85 2005/04/06 00:16:53 deraadt Exp $ */
 
 /*
  * Copyright (c) 1998 Per Fogelstrom, Opsycon AB
@@ -24,7 +24,6 @@
  * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
- *
  */
 
 #define	_DYN_LOADER
@@ -44,7 +43,7 @@
 #include "sod.h"
 #include "stdlib.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/libexec/ld.so/loader.c,v 1.2 2005/03/06 19:24:02 tg Exp $");
 
 /*
  * Local decls.

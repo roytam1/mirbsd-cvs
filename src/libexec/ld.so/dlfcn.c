@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: dlfcn.c,v 1.42 2004/12/01 22:27:35 kurt Exp $ */
+/**	$MirOS: src/libexec/ld.so/dlfcn.c,v 1.2 2005/04/08 19:49:56 tg Exp $ */
+/*	$OpenBSD: dlfcn.c,v 1.46 2005/04/06 00:16:53 deraadt Exp $ */
 
 /*
  * Copyright (c) 1998 Per Fogelstrom, Opsycon AB
@@ -84,15 +84,17 @@ dlopen(const char *libname, int flags)
 		elf_object_t *tmpobj = dynobj;
 
 		for (dynp = dynobj->load_dyn; dynp->d_tag; dynp++) {
-			const char *libname;
+			const char *deplibname;
 			elf_object_t *depobj;
 
 			if (dynp->d_tag != DT_NEEDED)
 				continue;
 
-			libname = dynobj->dyn.strtab + dynp->d_un.d_val;
+			deplibname = dynobj->dyn.strtab + dynp->d_un.d_val;
+			DL_DEB(("dlopen: loading: %s required by %s\n",
+			    deplibname, libname));
 			_dl_thread_kern_stop();
-			depobj = _dl_load_shlib(libname, dynobj, OBJTYPE_LIB,
+			depobj = _dl_load_shlib(deplibname, dynobj, OBJTYPE_LIB,
 				flags|RTLD_GLOBAL);
 			if (!depobj) {
 				_dl_fdprintf(STDERR_FILENO,
@@ -405,14 +407,18 @@ dl_iterate_phdr(int (*callback)(struct dl_phdr_info *, size_t, void *data),
 
 	for (object = _dl_objects; object != NULL; object = object->next) {
 		ehdr = (Elf_Ehdr *)object->load_addr;
-		if (ehdr == NULL)
+		if (object->phdrp == NULL && ehdr == NULL)
 			continue;
 
 		info.dlpi_addr = object->load_addr;
 		info.dlpi_name = object->load_name;
-		info.dlpi_phdr =
-		    (Elf_Phdr *)((char *)object->load_addr + ehdr->e_phoff);
-		info.dlpi_phnum = ehdr->e_phnum;
+		info.dlpi_phdr = object->phdrp;
+		info.dlpi_phnum = object->phdrc;
+		if (info.dlpi_phdr == NULL) {
+		    info.dlpi_phdr = (Elf_Phdr *)
+			((char *)object->load_addr + ehdr->e_phoff);
+		    info.dlpi_phnum = ehdr->e_phnum;
+		}
 		retval = callback(&info, sizeof (struct dl_phdr_info), data);
 		if (retval)
 			break;

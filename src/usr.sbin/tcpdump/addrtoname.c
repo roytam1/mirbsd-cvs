@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: addrtoname.c,v 1.24 2004/02/13 17:56:29 canacar Exp $	*/
+/**	$MirOS: src/usr.sbin/tcpdump/addrtoname.c,v 1.2 2005/03/13 19:17:29 tg Exp $ */
+/*	$OpenBSD: addrtoname.c,v 1.25 2004/12/13 05:37:25 itojun Exp $	*/
 
 /*
  * Copyright (c) 1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997
@@ -63,7 +63,7 @@ struct rtentry;
 #include "savestr.h"
 #include "setsignal.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.sbin/tcpdump/addrtoname.c,v 1.2 2005/03/13 19:17:29 tg Exp $");
 
 /*
  * hash tables for whatever-to-name translations
@@ -664,7 +664,7 @@ init_servarray(void)
 	int i, port;
 	char buf[sizeof("0000000000")];
 	char service[BUFSIZ];
-	char protocol[sizeof("divert")];
+	char protocol[BUFSIZ];
 
 	priv_getserventries();
 	while (priv_getserventry(service, sizeof(service), &port, protocol,

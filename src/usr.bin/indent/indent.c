@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: indent.c,v 1.17 2003/06/26 21:43:07 deraadt Exp $	*/
+/**	$MirOS: src/usr.bin/indent/indent.c,v 1.2 2005/03/13 18:33:02 tg Exp $ */
+/*	$OpenBSD: indent.c,v 1.18 2004/11/29 06:20:03 jsg Exp $	*/
 
 /*
  * Copyright (c) 1980, 1993
@@ -55,7 +55,7 @@ static const char copyright[] =
 #include "indent_codes.h"
 
 __SCCSID("@(#)indent.c	5.17 (Berkeley) 6/7/93");
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/indent/indent.c,v 1.2 2005/03/13 18:33:02 tg Exp $");
 
 char       *in_name = "Standard Input";	/* will always point to name of input
 					 * file */
@@ -768,7 +768,7 @@ check_type:
 	    if (ps.in_parameter_declaration)
 		prefix_blankline_requested = 0;
 
-	    if (ps.p_l_follow > 0) {	/* check for preceeding unbalanced
+	    if (ps.p_l_follow > 0) {	/* check for preceding unbalanced
 					 * parens */
 		diag(1, "Unbalanced parens");
 		ps.p_l_follow = 0;

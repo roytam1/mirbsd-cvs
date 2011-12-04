@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: pr_comment.c,v 1.5 2003/06/12 01:07:27 deraadt Exp $	*/
+/**	$MirOS: src/usr.bin/indent/pr_comment.c,v 1.2 2005/03/13 18:33:02 tg Exp $ */
+/*	$OpenBSD: pr_comment.c,v 1.6 2004/07/20 03:50:26 deraadt Exp $	*/
 
 /*
  * Copyright (c) 1980, 1993
@@ -33,14 +33,13 @@
  * SUCH DAMAGE.
  */
 
-#include <sys/cdefs.h>
 #include <err.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include "indent_globs.h"
 
 __SCCSID("@(#)pr_comment.c	8.1 (Berkeley) 6/6/93");
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/indent/pr_comment.c,v 1.2 2005/03/13 18:33:02 tg Exp $");
 
 /*
  * NAME:
@@ -74,7 +73,7 @@ __RCSID("$MirOS$");
  */
 
 void
-pr_comment()
+pr_comment(void)
 {
     int         now_col;	/* column we are in now */
     int         adj_max_col;	/* Adjusted max_col for when we decide to

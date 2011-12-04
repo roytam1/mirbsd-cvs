@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: args.c,v 1.13 2003/06/12 01:07:27 deraadt Exp $	*/
+/**	$MirOS: src/usr.bin/indent/args.c,v 1.2 2005/03/13 18:33:02 tg Exp $ */
+/*	$OpenBSD: args.c,v 1.14 2004/07/20 03:50:26 deraadt Exp $	*/
 
 /*
  * Copyright (c) 1980, 1993
@@ -48,7 +48,7 @@
 #include "indent_globs.h"
 
 __SCCSID("@(#)args.c	8.1 (Berkeley) 6/6/93");
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/indent/args.c,v 1.2 2005/03/13 18:33:02 tg Exp $");
 
 /* profile types */
 #define	PRO_SPECIAL	1	/* special case */
@@ -165,7 +165,7 @@ void set_option(char *);
  * given in these files.
  */
 void
-set_profile()
+set_profile(void)
 {
     FILE *f;
     char        fname[BUFSIZ];
@@ -191,8 +191,7 @@ set_profile()
 }
 
 void
-scan_profile(f)
-    FILE *f;
+scan_profile(FILE *f)
 {
     int i;
     char *p;
@@ -217,9 +216,7 @@ scan_profile(f)
 char       *param_start;
 
 int
-eqin(s1, s2)
-    char *s1;
-    char *s2;
+eqin(char *s1, char *s2)
 {
     while (*s1) {
 	if (*s1++ != *s2++)
@@ -233,7 +230,7 @@ eqin(s1, s2)
  * Set the defaults.
  */
 void
-set_defaults()
+set_defaults(void)
 {
     struct pro *p;
 
@@ -248,8 +245,7 @@ set_defaults()
 }
 
 void
-set_option(arg)
-    char *arg;
+set_option(char *arg)
 {
     struct pro *p;
 

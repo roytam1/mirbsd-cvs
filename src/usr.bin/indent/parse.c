@@ -1,4 +1,4 @@
-/*	$OpenBSD: parse.c,v 1.7 2003/06/26 21:43:07 deraadt Exp $	*/
+/*	$OpenBSD: parse.c,v 1.8 2004/07/20 03:50:26 deraadt Exp $	*/
 
 /*
  * Copyright (c) 1980, 1993
@@ -32,19 +32,17 @@
  * SUCH DAMAGE.
  */
 
-#include <sys/cdefs.h>
 #include <stdio.h>
 #include "indent_globs.h"
 #include "indent_codes.h"
 
 __SCCSID("@(#)parse.c	8.1 (Berkeley) 6/6/93");
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/indent/parse.c,v 1.2 2005/03/13 18:33:02 tg Exp $");
 
 void reduce(void);
 
 void
-parse(tk)
-    int         tk;		/* the code for the construct scanned */
+parse(int tk)			/* the code for the construct scanned */
 {
     int         i;
 

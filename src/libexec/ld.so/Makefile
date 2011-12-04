@@ -1,5 +1,5 @@
-# $MirOS$
-# $OpenBSD: Makefile,v 1.24 2004/05/26 19:16:30 mickey Exp $
+# $MirOS: src/libexec/ld.so/Makefile,v 1.2 2005/03/06 19:24:01 tg Exp $
+# $OpenBSD: Makefile,v 1.25 2005/03/23 19:48:05 drahn Exp $
 
 .include "Makefile.inc"
 
@@ -9,7 +9,7 @@ VPATH=	${.CURDIR}/../../lib/libc/string
 PROG=	ld.so
 MAN=	ld.so.1
 SRCS=	ldasm.S loader.c resolve.c dlfcn.c dl_printf.c rtld_machine.c
-SRCS+=	util.c sod.c strsep.c strtol.c dir.c
+SRCS+=	util.c sod.c strsep.c strtol.c dir.c library_subr.c
 .if ${MACHINE_ARCH} == "i386"
 SRCS+=	library_mquery.c
 .else

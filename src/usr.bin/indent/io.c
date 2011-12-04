@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: io.c,v 1.8 2003/09/26 22:23:28 tedu Exp $	*/
+/**	$MirOS: src/usr.bin/indent/io.c,v 1.2 2005/03/13 18:33:02 tg Exp $ */
+/*	$OpenBSD: io.c,v 1.9 2004/07/20 03:50:26 deraadt Exp $	*/
 
 /*
  * Copyright (c) 1985 Sun Microsystems, Inc.
@@ -32,7 +32,6 @@
  * SUCH DAMAGE.
  */
 
-#include <sys/cdefs.h>
 #include <stdio.h>
 #include <ctype.h>
 #include <stdlib.h>
@@ -42,14 +41,14 @@
 #include "indent_globs.h"
 
 __SCCSID("@(#)io.c	8.1 (Berkeley) 6/6/93");
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/indent/io.c,v 1.2 2005/03/13 18:33:02 tg Exp $");
 
 
 int         comment_open;
 static int  paren_target;
 
 void
-dump_line()
+dump_line(void)
 {				/* dump_line is the routine that actually
 				 * effects the printing of the new source. It
 				 * prints the label section, followed by the
@@ -283,7 +282,7 @@ inhibit_newline:
 }
 
 int
-compute_code_target()
+compute_code_target(void)
 {
     int target_col;
 
@@ -311,7 +310,7 @@ compute_code_target()
 }
 
 int
-compute_label_target()
+compute_label_target(void)
 {
     return
 	ps.pcase ? (int) (case_ind * ps.ind_size) + 1
@@ -336,7 +335,7 @@ compute_label_target()
  *
  */
 void
-fill_buffer()
+fill_buffer(void)
 {				/* this routine reads stuff from the input */
     char *p, *buf2;
     int i;
@@ -438,8 +437,8 @@ fill_buffer()
  * ALGORITHM: Put tabs and/or blanks into pobuf, then write pobuf.
  *
  * PARAMETERS: current		integer		The current column target
- * nteger		The desired column
- *
+ *             target 		integer		The desired column
+ * 
  * RETURNS: Integer value of the new column.  (If current >= target, no action is
  * taken, and current is returned.
  *
@@ -453,11 +452,7 @@ fill_buffer()
  *
  */
 int
-pad_output(current, target)	/* writes tabs and blanks (if necessary) to
-				 * get the current output position up to the
-				 * target column */
-    int         current;	/* the current column value */
-    int         target;		/* position we want it at */
+pad_output(int current, int target)
 {
     int curr;		/* internal column pointer */
     int tcur;
@@ -499,13 +494,7 @@ pad_output(current, target)	/* writes tabs and blanks (if necessary) to
  *
  */
 int
-count_spaces(current, buffer)
-/*
- * this routine figures out where the character position will be after
- * printing the text in buffer starting at column "current"
- */
-    int         current;
-    char       *buffer;
+count_spaces(int current, char *buffer)
 {
     char *buf;		/* used to look thru buffer */
     int cur;		/* current character counter */
@@ -561,18 +550,14 @@ diag(int level, char *msg, ...)
 }
 
 void
-writefdef(f, nm)
-    struct fstate *f;
-    int           nm;
+writefdef(struct fstate *f, int nm)
 {
     fprintf(output, ".ds f%c %s\n.nr s%c %d\n",
 	    nm, f->font, nm, f->size);
 }
 
 char       *
-chfont(of, nf, s)
-    struct fstate *of, *nf;
-    char       *s;
+chfont(struct fstate *of, struct fstate *nf, char *s)
 {
     if (of->font[0] != nf->font[0]
 	    || of->font[1] != nf->font[1]) {
@@ -602,9 +587,7 @@ chfont(of, nf, s)
 }
 
 void
-parsefont(f, s0)
-    struct fstate *f;
-    char       *s0;
+parsefont(struct fstate *f, char *s0)
 {
     char *s = s0;
     int         sizedelta = 0;

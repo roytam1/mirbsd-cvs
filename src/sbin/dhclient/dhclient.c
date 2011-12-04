@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: dhclient.c,v 1.61 2004/11/25 11:05:10 claudio Exp $	*/
+/**	$MirOS: src/sbin/dhclient/dhclient.c,v 1.2 2005/03/06 19:49:50 tg Exp $ */
+/*	$OpenBSD: dhclient.c,v 1.67 2005/04/08 14:21:36 henning Exp $	*/
 
 /*
  * Copyright 2004 Henning Brauer <henning@openbsd.org>
@@ -54,25 +54,14 @@
  * purpose.
  */
 
+#include <ctype.h>
+
 #include "dhcpd.h"
 #include "privsep.h"
 
-#define	PERIOD 0x2e
-#define	hyphenchar(c) ((c) == 0x2d)
-#define	bslashchar(c) ((c) == 0x5c)
-#define	periodchar(c) ((c) == PERIOD)
-#define	asterchar(c) ((c) == 0x2a)
-#define	alphachar(c) (((c) >= 0x41 && (c) <= 0x5a) || \
-	    ((c) >= 0x61 && (c) <= 0x7a))
-#define	digitchar(c) ((c) >= 0x30 && (c) <= 0x39)
-
-#define	borderchar(c) (alphachar(c) || digitchar(c))
-#define	middlechar(c) (borderchar(c) || hyphenchar(c))
-#define	domainchar(c) ((c) > 0x20 && (c) < 0x7f)
-
 #define	CLIENT_PATH "PATH=/usr/bin:/usr/sbin:/bin:/sbin"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/sbin/dhclient/dhclient.c,v 1.2 2005/03/06 19:49:50 tg Exp $");
 
 time_t cur_time;
 time_t default_lease_time = 43200; /* 12 hours... */
@@ -184,7 +173,10 @@ routehandler(struct protocol *p)
 	struct iaddr a;
 	ssize_t n;
 
-	n = read(routefd, &msg, sizeof(msg));
+	do {
+		n = read(routefd, &msg, sizeof(msg));
+	} while (n == -1 && errno == EINTR);
+
 	rtm = (struct rt_msghdr *)msg;
 	if (n < sizeof(rtm->rtm_msglen) || n < rtm->rtm_msglen ||
 	    rtm->rtm_version != RTM_VERSION)
@@ -223,7 +215,7 @@ routehandler(struct protocol *p)
 			break;
 		if (findproto((char *)(ifam + 1), ifam->ifam_addrs) != AF_INET)
 			break;
-		if (scripttime == 0 || t < scripttime + 3)
+		if (scripttime == 0 || t < scripttime + 10)
 			break;
 		goto die;
 	case RTM_IFINFO:
@@ -315,7 +307,7 @@ main(int argc, char *argv[])
 	read_client_conf();
 
 	if (!interface_link_status(ifi->name)) {
-		fprintf(stderr, "%s: no link ", ifi->name);
+		fprintf(stderr, "%s: no link ...", ifi->name);
 		fflush(stderr);
 		sleep(1);
 		while (!interface_link_status(ifi->name)) {
@@ -327,7 +319,7 @@ main(int argc, char *argv[])
 			}
 			sleep(1);
 		}
-		fprintf(stderr, "got link\n");
+		fprintf(stderr, " got link\n");
 	}
 
 	if ((nullfd = open(_PATH_DEVNULL, O_RDWR, 0)) == -1)
@@ -2254,24 +2246,26 @@ check_option(struct client_lease *l, int option)
 }
 
 int
-res_hnok(const char *dn)
+res_hnok(const char *name)
 {
-	int pch = PERIOD, ch = *dn++;
+	const char *dn = name;
+	int pch = '.', ch = *dn++;
+	int warn = 0;
 
 	while (ch != '\0') {
 		int nch = *dn++;
 
-		if (periodchar(ch)) {
+		if (ch == '.') {
 			;
-		} else if (periodchar(pch)) {
-			if (!borderchar(ch))
+		} else if (pch == '.' || nch == '.' || nch == '\0') {
+			if (!isalnum(ch))
 				return (0);
-		} else if (periodchar(nch) || nch == '\0') {
-			if (!borderchar(ch))
+		} else if (!isalnum(ch) && ch != '-' && ch != '_')
 				return (0);
-		} else {
-			if (!middlechar(ch))
-				return (0);
+		else if (ch == '_' && warn == 0) {
+			warning("warning: hostname %s contains an "
+			    "underscore which violates RFC 952", name);
+			warn++;
 		}
 		pch = ch, ch = nch;
 	}
@@ -2290,7 +2284,7 @@ ipv4addrs(char * buf)
 
 	while (inet_aton(buf, &jnk) == 1){
 		count++;
-		while (periodchar(*buf) || digitchar(*buf))
+		while (*buf == '.' || isdigit(*buf))
 			buf++;
 		if (*buf == '\0')
 			return (count);
