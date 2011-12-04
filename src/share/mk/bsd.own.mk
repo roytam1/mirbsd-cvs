@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.own.mk,v 1.10 2005/05/23 11:00:36 tg Exp $
+# $MirOS: src/share/mk/bsd.own.mk,v 1.11 2005/05/23 11:59:07 tg Exp $
 # $OpenBSD: bsd.own.mk,v 1.84 2004/06/22 19:50:01 pvalchev Exp $
 # $NetBSD: bsd.own.mk,v 1.24 1996/04/13 02:08:09 thorpej Exp $
 
@@ -165,7 +165,7 @@ EQN?=		neqn
 GREMLIN?=	grn
 GRIND?=		vgrind -f
 INDXBIB?=	indxbib
-MKSH?=		/bin/ksh
+MKSH?=		/bin/mksh
 NROFF?=		nrcon ${MACROS} ${PAGES}
 PIC?=		pic
 REFER?=		refer
