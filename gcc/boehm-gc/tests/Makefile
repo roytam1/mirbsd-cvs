@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: gcc/boehm-gc/tests/Makefile,v 1.1 2005/05/14 17:43:46 tg Exp $
 
 .ifdef TEST
 
@@ -10,6 +10,7 @@ PROG=		threads
 NOMAN=		yes
 REALOBJDIR!=	readlink -f ${.OBJDIR}
 LDADD=		${REALOBJDIR}/../.libs/libgcjgc.a
+DPADD=		${REALOBJDIR}/../.libs/libgcjgc.la
 CPPFLAGS+=	-I${.CURDIR}/../include
 
 CPPFLAGS+=	-pthread
