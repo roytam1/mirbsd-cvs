@@ -1987,6 +1987,7 @@ attributes are currently defined for functions on all targets:
 @code{format}, @code{format_arg}, @code{no_instrument_function},
 @code{section}, @code{constructor}, @code{destructor}, @code{used},
 @code{unused}, @code{deprecated}, @code{weak}, @code{malloc},
+@code{bounded}, @code{sentinel},
 @code{alias}, @code{warn_unused_result} and @code{nonnull}.  Several other
 attributes are defined for functions on particular target systems.  Other
 attributes, including @code{section} are supported for variables declarations
@@ -2126,9 +2127,10 @@ implemented in GCC versions earlier than 3.2.
 @cindex @code{format} function attribute
 @opindex Wformat
 The @code{format} attribute specifies that a function takes @code{printf},
-@code{scanf}, @code{strftime} or @code{strfmon} style arguments which
-should be type-checked against a format string.  For example, the
-declaration:
+@code{kprintf}, @code{scanf}, @code{syslog}, @code{strftime} or
+@code{strfmon} style arguments which should be type-checked against a
+format string.  The @code{kprintf} and @code{syslog} formats are
+MirOS extensions.  For example, the declaration:
 
 @smallexample
 extern int
@@ -2142,7 +2144,8 @@ for consistency with the @code{printf} style format string argument
 @code{my_format}.
 
 The parameter @var{archetype} determines how the format string is
-interpreted, and should be @code{printf}, @code{scanf}, @code{strftime}
+interpreted, and should be @code{printf}, @code{kprintf}, @code{scanf},
+@code{syslog}, @code{strftime}
 or @code{strfmon}.  (You can also use @code{__printf__},
 @code{__scanf__}, @code{__strftime__} or @code{__strfmon__}.)  The
 parameter @var{string-index} specifies which argument is the format
@@ -2160,6 +2163,14 @@ In the example above, the format string (@code{my_format}) is the second
 argument of the function @code{my_print}, and the arguments to check
 start with the third argument, so the correct parameters for the format
 attribute are 2 and 3.
+
+The @code{syslog} format attribute is based upon the @code{printf}
+format attribute and designed to better match the definition of syslog(3)
+and silence erroneous warnings when used with @option{-pedantic}.
+
+The @code{kprintf} format attribute is also based upon the @code{printf}
+format attribute but supports the extra format arguments @samp{%b},
+@samp{%r} and @samp{%z} used in the BSD kernel.
 
 @opindex ffreestanding
 The @code{format} attribute allows you to identify your own functions
@@ -2248,6 +2259,99 @@ following declaration is equivalent to the previous example:
 extern void *
 my_memcpy (void *dest, const void *src, size_t len)
 	__attribute__((nonnull));
+@end smallexample
+
+The @code{printf} format attribute does not imply @code{nonnull} for the
+format to allow for correct format checking on the err(3) function family.
+
+@item sentinel (@var{arg-index}, @dots{})
+@cindex @code{sentinel} function attribute
+The @code{sentinel} attribute can be used to mark varargs functions
+that need a NULL pointer to mark argument termination, such as execl(3).
+This exposes latent bugs for 64-bit architectures, where a terminating 0
+will expand to a 32-bit int, not to a full-fledged 64-bit pointer.
+
+@smallexample
+int      execl(const char *, const char *, ...)
+            __attribute__((sentinel));
+@end smallexample
+
+@item bounded (@var{arg-index}, @dots{})
+@cindex @code{bounded} function attribute
+The @code{bounded} attribute is used together with the @option{-Wbounded}
+to activate the Bounds Checker. It is used to type-check functions whose
+parameters pass fixed-length buffers and their sizes.
+The syntax for normal buffers is:
+
+@smallexample
+__attribute__((bounded (__buffer__, buffer, length)))
+@end smallexample
+
+@noindent
+where @var{buffer} contains the parameter number (starting from 1) of the
+pointer to the buffer, and @var{length} contains the parameter number of
+the buffer length argument.
+
+A warning will be emitted if the length argument is a constant larger
+than the actual size of the buffer.
+If the buffer is not a statically declared array of fixed length, no
+warnings will be generated.
+
+@smallexample
+void    *memcpy(void *, const void *, size_t)
+                __attribute__((bounded (__buffer__, 1, 3)))
+                __attribute__((bounded (__buffer__, 2, 3)));
+@end smallexample
+
+For checking strings, just use __string__ instead of __buffer__:
+
+@smallexample
+__attribute__((bounded (__string__, buffer, length)))
+@end smallexample
+
+In addition to the checks described above, this also tests if the length
+argument was wrongly derived from a sizeof(void *) operation.
+strlcpy(3) is a good example of a string function with this check:
+
+@smallexample
+size_t   strlcpy(char *, const char *, size_t)
+                __attribute__((bounded (__string__, 1, 3)));
+@end smallexample
+
+Some functions specify the length as two arguments: the number of
+elements and the size of each element.
+In this case, use the __size__ attribute:
+
+@smallexample
+__attribute__((bounded (__size__, buffer, nmemb, size)))
+@end smallexample
+
+@noindent
+where @var{buffer} contains the parameter number of the pointer to the
+buffer, @var{nmemb} contains the parameter number of the number of members,
+and @var{size} has the parameter number of the size of each element.
+The type checks performed by __size__ are the same as the __buffer__ attribute.
+
+@smallexample
+size_t   fread(void *, size_t, size_t, FILE *)
+                __attribute__((__bounded__ (__size__,1,3,2)));
+@end smallexample
+
+If a function accepts a buffer parameter and specifies that it has to
+be of a minimum length, the __minbytes__ attribute can be used:
+
+@smallexample
+__attribute__((bounded (__minbytes__, buffer, minsize)))
+@end smallexample
+
+@noindent
+where @var{buffer} contains the parameter number of the pointer to the
+buffer, and @var{minsize} specifies the minimum number of bytes that
+the buffer should be.
+
+@smallexample
+char *ctime_r(const time_t *, char *)
+                __attribute__((bounded (__minbytes__, 2, 26)));
 @end smallexample
 
 @item no_instrument_function

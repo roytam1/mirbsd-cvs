@@ -1,4 +1,4 @@
-@c $MirOS: gcc/gcc/doc/invoke.texi,v 1.6 2005/04/29 14:03:36 tg Exp $
+@c $MirOS: gcc/gcc/doc/invoke.texi,v 1.7 2005/08/26 20:57:46 tg Exp $
 @c
 @c Copyright (C) 1988, 1989, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
 @c 2000, 2001, 2002, 2003, 2004, 2005 Free Software Foundation, Inc.
@@ -673,7 +673,7 @@ in the following sections.
 -fnon-call-exceptions  -funwind-tables @gol
 -fasynchronous-unwind-tables @gol
 -finhibit-size-directive  -finstrument-functions @gol
--fno-common  -fno-ident @gol
+-fno-common  -fident  -fno-ident @gol
 -fpcc-struct-return  -fpic  -fPIC -fpie -fPIE @gol
 -freg-struct-return  -fshared-data  -fshort-enums @gol
 -fshort-double  -fshort-wchar @gol
@@ -2766,7 +2766,18 @@ Warn whenever a function call is cast to a non-matching type.
 For example, warn if @code{int malloc()} is cast to @code{anything *}.
 
 @item -Wbounded
-Activate Anil Madhavapeddys bounds checker.
+Activate Anil Madhavapeddys bounds checker. This performs basic checks
+on functions which accept buffers and sizes.  An extra attribute,
+__bounded__, has been added to mark functions that can be checked.
+
+It only works with statically allocated fixed-size buffers.
+Since it is applied at compile-time, dynamically allocated
+memory buffers and non-constant arguments are ignored.
+
+If @option{-Wbounded} is specified together with @option{-Wformat},
+additional checks are performed on sscanf(3) format strings.
+The @samp{%s} fields are checked for incorrect bound lengths by
+checking the size of the buffer associated with the format argument.
 
 @item -Wcast-qual
 @opindex Wcast-qual
@@ -3900,7 +3911,7 @@ The default is @option{-fzero-initialized-in-bss}.
 Perform the optimizations of loop strength reduction and
 elimination of iteration variables.
 
-Enabled at levels @option{-O2}, @option{-O3}, @option{-Os}.
+Enabled at levels @option{-O3}.
 
 @item -fthread-jumps
 @opindex fthread-jumps
@@ -4271,7 +4282,7 @@ node, an alias set for the node.  Nodes in different alias sets are not
 allowed to alias.  For an example, see the C front-end function
 @code{c_get_alias_set}.
 
-Enabled at levels @option{-O2}, @option{-O3}, @option{-Os}.
+Enabled at levels @option{-O3}.
 
 @item -falign-functions
 @itemx -falign-functions=@var{n}
@@ -7611,6 +7622,9 @@ when the linker is known to generate glue.
 @opindex pthread
 Adds support for multithreading with the @dfn{pthreads} library.
 This option sets flags for both the preprocessor and linker.
+
+Use this on MirOS to compile and link threaded code,
+isolating the program from operating system details.
 
 @end table
 
@@ -11080,6 +11094,11 @@ two different compilations, you will get an error when you link them.
 The only reason this might be useful is if you wish to verify that the
 program will work on other systems which always work this way.
 
+@item -fident
+@opindex fident
+The compiler does not store its version string in objects by default.
+Use this option to turn back on the GNU behaviour.
+
 @item -fno-ident
 @opindex fno-ident
 Ignore the @samp{#ident} directive.
@@ -11274,6 +11293,21 @@ functions to decrease the performance overhead.  If the integrity
 would be broken, the program is aborted.  If stack-protector-all is
 specified, instrumentation codes are generated at every functions.
 
+Stack consistency checks at run time are added by this extension as
+well, in order to detect stack overflows, and it will attempt to report
+the problem in the system logs by calling syslog(3) with a LOG_CRIT
+priority message: "stack overflow in function XXX", and abort the
+faulting process.
+
+Note that the stack protector relies on some support code in libc.
+Stand-alone programs not linked against libc must either provide
+their own support bits, or disable SSP.
+
+On MirOS, stack-protector-all is the default.
+
+The ProPolice home page is at
+@w{@uref{http://www.research.ibm.com/trl/projects/security/ssp/}}.
+
 @item -ftrampolines
 @opindex ftrampolines
 @opindex fno-trampolines
@@ -11282,6 +11316,10 @@ Since trampolines require the stack to be executable,
 this is commonly considered very bad code.
 In C, trampolines are only needed for nested functions,
 which is a GCC extension to be deprecated soon.
+
+On most MirOS architectures, trampoline code marks the smallest
+possible area around the trampoline stub executable using
+mprotect(2), since the stack area is by default non-executable.
 
 @cindex aliasing of parameters
 @cindex parameters, aliased
