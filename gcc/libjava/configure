@@ -2,7 +2,7 @@
 
 # Guess values for system-dependent variables and create Makefiles.
 # Generated automatically using autoconf version 2.13.20040919 
-# $MirOS: ports/devel/autoconf/2.13/patches/patch-acgeneral_m4,v 1.2 2005/04/26 18:03:25 tg Exp $
+# $MirOS: ports/devel/autoconf/2.13/patches/patch-acgeneral_m4,v 1.4 2005/04/27 05:51:46 tg Exp $
 # Copyright (C) 1992, 1993, 1994, 1995, 1996, 2004
 #	Free Software Foundation, Inc.
 #
@@ -916,7 +916,7 @@ echo "configure:916: checking host system type" >&5
 if test "x$ac_cv_host" = "x" || (test "x$host" != "xNONE" && test "x$host" != "x$ac_cv_host_alias"); then
 
 # Make sure we can run config.sub.
-  if $SHELL $ac_config_sub sun4 >/dev/null 2>&1; then :
+  if $ac_config_sub sun4 >/dev/null 2>&1; then :
     else { echo "configure: error: can not run $ac_config_sub" 1>&2; exit 1; }
   fi
 
@@ -925,14 +925,14 @@ if test "x$ac_cv_host" = "x" || (test "x$host" != "xNONE" && test "x$host" != "x
   NONE)
     case $nonopt in
     NONE)
-      if ac_cv_host_alias=$($SHELL $ac_config_guess); then :
+      if ac_cv_host_alias=$($ac_config_guess); then :
       else { echo "configure: error: can not guess host type; you must specify one" 1>&2; exit 1; }
       fi ;;
     *) ac_cv_host_alias=$nonopt ;;
     esac ;;
   esac
 
-  ac_cv_host=$($SHELL $ac_config_sub $ac_cv_host_alias)
+  ac_cv_host=$($ac_config_sub $ac_cv_host_alias)
   ac_cv_host_cpu=$(echo $ac_cv_host | sed 's/^\([^-]*\)-\([^-]*\)-\(.*\)$/\1/')
   ac_cv_host_vendor=$(echo $ac_cv_host | sed 's/^\([^-]*\)-\([^-]*\)-\(.*\)$/\2/')
   ac_cv_host_os=$(echo $ac_cv_host | sed 's/^\([^-]*\)-\([^-]*\)-\(.*\)$/\3/')
@@ -957,7 +957,7 @@ echo "configure:957: checking target system type" >&5
 if test "x$ac_cv_target" = "x" || (test "x$target" != "xNONE" && test "x$target" != "x$ac_cv_target_alias"); then
 
 # Make sure we can run config.sub.
-  if $SHELL $ac_config_sub sun4 >/dev/null 2>&1; then :
+  if $ac_config_sub sun4 >/dev/null 2>&1; then :
     else { echo "configure: error: can not run $ac_config_sub" 1>&2; exit 1; }
   fi
 
@@ -972,7 +972,7 @@ if test "x$ac_cv_target" = "x" || (test "x$target" != "xNONE" && test "x$target"
     esac ;;
   esac
 
-  ac_cv_target=$($SHELL $ac_config_sub $ac_cv_target_alias)
+  ac_cv_target=$($ac_config_sub $ac_cv_target_alias)
   ac_cv_target_cpu=$(echo $ac_cv_target | sed 's/^\([^-]*\)-\([^-]*\)-\(.*\)$/\1/')
   ac_cv_target_vendor=$(echo $ac_cv_target | sed 's/^\([^-]*\)-\([^-]*\)-\(.*\)$/\2/')
   ac_cv_target_os=$(echo $ac_cv_target | sed 's/^\([^-]*\)-\([^-]*\)-\(.*\)$/\3/')
@@ -997,7 +997,7 @@ echo "configure:997: checking build system type" >&5
 if test "x$ac_cv_build" = "x" || (test "x$build" != "xNONE" && test "x$build" != "x$ac_cv_build_alias"); then
 
 # Make sure we can run config.sub.
-  if $SHELL $ac_config_sub sun4 >/dev/null 2>&1; then :
+  if $ac_config_sub sun4 >/dev/null 2>&1; then :
     else { echo "configure: error: can not run $ac_config_sub" 1>&2; exit 1; }
   fi
 
@@ -1012,7 +1012,7 @@ if test "x$ac_cv_build" = "x" || (test "x$build" != "xNONE" && test "x$build" !=
     esac ;;
   esac
 
-  ac_cv_build=$($SHELL $ac_config_sub $ac_cv_build_alias)
+  ac_cv_build=$($ac_config_sub $ac_cv_build_alias)
   ac_cv_build_cpu=$(echo $ac_cv_build | sed 's/^\([^-]*\)-\([^-]*\)-\(.*\)$/\1/')
   ac_cv_build_vendor=$(echo $ac_cv_build | sed 's/^\([^-]*\)-\([^-]*\)-\(.*\)$/\2/')
   ac_cv_build_os=$(echo $ac_cv_build | sed 's/^\([^-]*\)-\([^-]*\)-\(.*\)$/\3/')
