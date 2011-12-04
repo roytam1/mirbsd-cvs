@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.prog.mk,v 1.6 2005/04/12 19:24:58 tg Exp $
+# $MirOS: src/share/mk/bsd.prog.mk,v 1.7 2005/04/16 21:22:33 tg Exp $
 # $OpenBSD: bsd.prog.mk,v 1.39 2004/06/03 20:51:07 miod Exp $
 # $NetBSD: bsd.prog.mk,v 1.55 1996/04/08 21:19:26 jtc Exp $
 # @(#)bsd.prog.mk	5.26 (Berkeley) 6/25/91
@@ -70,7 +70,7 @@ LINK.prog?=	${LINKER} ${LDFLAGS} ${LDSTATIC} \
 ${PROG}: ${LIBCRT0} ${OBJS} ${LIBC} ${CRTBEGIN} ${CRTEND} ${CRTI} ${CRTN} ${DPADD}
 	${LINK.prog} -o $@
 .  else
-LINK.prog?=	\#
+LINK.prog?=	NO
 .  endif
 
 MAN?=	${PROG}.1
@@ -101,7 +101,7 @@ afterinstall:
 .  if !target(realinstall)
 realinstall:
 .    if defined(PROG) && !empty(PROG)
-.      if ${OBJECT_FMT} == "Mach-O"
+.      if (${OBJECT_FMT} == "Mach-O") && (${LINK.prog} != "NO")
 	@echo Relinking ${PROG}
 	${LINK.prog} -o ${PROG}
 .      endif
