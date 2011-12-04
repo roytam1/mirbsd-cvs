@@ -1,4 +1,4 @@
-/**	$MirOS: src/lib/libz/gzio.c,v 1.3 2005/07/07 12:27:25 tg Exp $ */
+/**	$MirOS: src/lib/libz/gzio.c,v 1.4 2005/07/24 22:50:04 tg Exp $ */
 /*	$OpenBSD: gzio.c,v 1.14 2005/07/20 15:56:41 millert Exp $	*/
 /* gzio.c -- IO on .gz files
  * Copyright (C) 1995-2005 Jean-loup Gailly.
@@ -10,7 +10,7 @@
 #include <stdio.h>
 #include "zutil.h"
 
-zRCSID("$MirOS: src/lib/libz/gzio.c,v 1.3 2005/07/07 12:27:25 tg Exp $")
+zRCSID("$MirOS: src/lib/libz/gzio.c,v 1.4 2005/07/24 22:50:04 tg Exp $")
 
 #ifdef NO_DEFLATE       /* for compatibility with old definition */
 #  define NO_GZCOMPRESS
@@ -596,7 +596,6 @@ int ZEXPORT gzwrite (file, buf, len)
    control of the format string, as in fprintf. gzprintf returns the number of
    uncompressed bytes actually written (0 in case of error).
 */
-#ifdef STDC
 #include <stdarg.h>
 
 int ZEXPORTVA gzprintf (gzFile file, const char *format, /* args */ ...)
@@ -606,42 +605,12 @@ int ZEXPORTVA gzprintf (gzFile file, const char *format, /* args */ ...)
     size_t len;
 
     va_start(va, format);
-#ifdef HAS_vsnprintf
     len = vsnprintf(buf, sizeof(buf), format, va);
-#else
-    (void)vsprintf(buf, format, va);
-    len = strlen(buf); /* some *sprintf don't return the nb of bytes written */
-#endif
     va_end(va);
     if (len <= 0 || len >= sizeof(buf)) return 0;
 
     return gzwrite(file, buf, (unsigned)len);
 }
-#else /* not ANSI C */
-
-int ZEXPORTVA gzprintf (file, format, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10,
-	               a11, a12, a13, a14, a15, a16, a17, a18, a19, a20)
-    gzFile file;
-    const char *format;
-    int a1, a2, a3, a4, a5, a6, a7, a8, a9, a10,
-	a11, a12, a13, a14, a15, a16, a17, a18, a19, a20;
-{
-    char buf[Z_PRINTF_BUFSIZE];
-    int len;
-
-#ifdef HAS_snprintf
-    len = snprintf(buf, sizeof(buf), format, a1, a2, a3, a4, a5, a6, a7, a8,
-	     a9, a10, a11, a12, a13, a14, a15, a16, a17, a18, a19, a20);
-#else
-    sprintf(buf, format, a1, a2, a3, a4, a5, a6, a7, a8,
-	    a9, a10, a11, a12, a13, a14, a15, a16, a17, a18, a19, a20);
-    len = strlen(buf); /* old sprintf doesn't return the nb of bytes written */
-#endif
-    if (len <= 0 || len >= sizeof(buf)) return 0;
-
-    return gzwrite(file, buf, len);
-}
-#endif
 
 /* ===========================================================================
       Writes c, converted to an unsigned char, into the compressed file.
