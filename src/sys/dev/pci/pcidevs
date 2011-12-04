@@ -1,4 +1,4 @@
-$MirOS: src/sys/dev/pci/pcidevs,v 1.3 2005/03/14 21:04:47 tg Exp $
+$MirOS: src/sys/dev/pci/pcidevs,v 1.4 2005/07/04 00:34:30 tg Exp $
 /*	$NetBSD: pcidevs,v 1.580 2003/09/26 07:45:15 matt Exp $		*/
 /*	$OpenBSD: pcidevs,v 1.886 2005/07/03 02:08:24 brad Exp $	*/
 /*	$NetBSD: pcidevs,v 1.30 1997/06/24 06:20:24 thorpej Exp $ 	*/
@@ -513,7 +513,7 @@ vendor	ENSONIQ		0x1274	Ensoniq
 vendor	NETAPP		0x1275	Network Appliance
 vendor	TRANSMETA	0x1279	Transmeta
 vendor	ROCKWELL	0x127a	Rockwell
-vendor	DAVICOM		0x1282	Davicom
+vendor	DAVICOM		0x1282	Davicom Technologies
 vendor	ITEXPRESS	0x1283	ITExpress
 vendor	PLATFORM	0x1285	Platform
 vendor	LUXSONOR	0x1287	LuxSonor
@@ -562,12 +562,12 @@ vendor	MYSON		0x1516	Myson Century Inc
 vendor	TOPIC		0x151f	Topic/SmartLink
 vendor	ENE		0x1524	ENE Technology Inc
 vendor	ARALION		0x1538	Aralion
-vendor	TERRATEC	0x153b	TerraTec
+vendor	TERRATEC	0x153b	TerraTec Electronic Gmbh
 vendor	SYMBOL		0x1562	Symbol
 vendor	SYBA		0x1592	Syba
 vendor	BLUESTEEL	0x15ab	Bluesteel Networks
 vendor	VMWARE		0x15ad	VMware
-vendor	NDC		0x15e8	National Datacomm
+vendor	NDC		0x15e8	National Datacomm Corp
 vendor	ZOLTRIX		0x15b0	Zoltrix
 vendor	EUMITCOM	0x1638	Eumitcom
 vendor	NETSEC		0x1660	NetSec
@@ -612,7 +612,7 @@ vendor	NETMOS		0x9710	NetMos
 vendor	3COM2		0xa727	3Com
 vendor	CHRYSALIS	0xcafe	Chrysalis-ITS
 vendor	TIGERJET	0xe159	TigerJet Network
-vendor	ENDACE		0xeace	Endace
+vendor	ENDACE		0xeace	Endace Measurement Systems
 vendor	BELKIN		0xec80	Belkin Components
 vendor	ARC		0xedd8	ARC Logic
 vendor	INVALID		0xffff	INVALID VENDOR ID
@@ -637,7 +637,7 @@ product 3COM 3C985		0x0001	3c985
 product 3COM 3C996		0x0003	3c996
 product 3COM 3CRDAG675		0x0013	3CRDAG675 (Atheros AR5212)
 product 3COM2 3CRPAG175		0x0013	3CRPAG175 (Atheros AR5212)
-product 3COM 3C_MPCI_MODEM	0x1007	V.90 Modem
+product 3COM 3C_MPCI_MODEM	0x1007	Mini-PCI V.90 Modem
 product 3COM 3C940		0x1700	3c940
 product 3COM 3C339		0x3390	3c339
 product 3COM 3C359		0x3590	3c359
@@ -771,7 +771,7 @@ product ALI M1543		0x1543	M1543 ISA
 product ALI M1541		0x1541	M1541 PCI
 product ALI M1621		0x1621	M1621 PCI
 product ALI M1647		0x1647	M1647 PCI
-product ALI M3309		0x3309	M3309 MPEG
+product ALI M3309		0x3309	M3309 MPEG Accelerator
 product ALI M4803		0x5215	M4803
 product ALI M5219		0x5219	M5219 UDMA IDE
 product ALI M5229		0x5229	M5229 UDMA IDE
@@ -780,7 +780,7 @@ product ALI M5247		0x5247	M5247 AGP/PCI-PCI
 product ALI M5243		0x5243	M5243 AGP/PCI-PCI
 product ALI M5451		0x5451	M5451 Audio
 product ALI M5457		0x5457	M5457 Modem
-product ALI M7101		0x7101	M7101 Power
+product ALI M7101		0x7101	M7101 Power Mgmt
 
 /* ADMtek products */
 product ADMTEK AL981		0x0981	AL981
@@ -899,17 +899,17 @@ product AMD 761_PCHB		0x700e	761 PCI
 product AMD 761_PPB		0x700f	761 PCI-PCI
 product AMD 755_ISA		0x7400	755 ISA
 product AMD 755_IDE		0x7401	755 IDE
-product AMD 755_PMC		0x7403	755 Power
+product AMD 755_PMC		0x7403	755 Power Mgmt
 product AMD 755_USB		0x7404	755 USB
 /* http://www.amd.com/products/cpg/athlon/techdocs/pdf/22548.pdf */
 product AMD PBC756_ISA		0x7408	756 ISA
 product AMD PBC756_IDE		0x7409	756 IDE
-product AMD PBC756_PMC		0x740b	756 Power
+product AMD PBC756_PMC		0x740b	756 Power Mgmt
 product AMD PBC756_USB		0x740c	756 USB Host
 product AMD 766_ISA		0x7410	766 ISA
 product AMD 766_IDE		0x7411	766 IDE
 product AMD 766_USB		0x7412	766 USB
-product AMD 766_PMC		0x7413	766 Power
+product AMD 766_PMC		0x7413	766 Power Mgmt
 product AMD 766_USB_HCI		0x7414	766 USB OpenHCI
 product AMD PBC768_ISA		0x7440	768 ISA
 product AMD PBC768_IDE		0x7441	768 IDE
