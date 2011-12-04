@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/i386/powernow-k7.c,v 1.4 2005/05/05 23:06:25 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/i386/powernow-k7.c,v 1.5 2005/05/06 12:32:05 tg Exp $ */
 /* $OpenBSD: powernow-k7.c,v 1.3 2004/08/05 04:56:05 tedu Exp $ */
 
 #ifndef SMALL_KERNEL
@@ -392,7 +392,9 @@ k7_powernow_setperf(int level)
 #ifdef K7PN_DEBUG
 	printf("powernowhack0: calibrating...");
 #endif
+	i = splhigh();
 	calibrate_cyclecounter();
+	splx(i);
 #ifdef K7PN_DEBUG
 	printf("done\n");
 #endif
