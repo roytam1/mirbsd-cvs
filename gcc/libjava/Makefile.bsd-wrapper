@@ -1,17 +1,18 @@
-# $MirOS: gcc/libjava/Makefile.bsd-wrapper,v 1.3 2005/04/27 07:14:48 tg Exp $
+# $MirOS: gcc/libjava/Makefile.bsd-wrapper,v 1.4 2005/04/30 21:32:16 tg Exp $
 
 .include <bsd.own.mk>
 .include "${GNUSYSTEM_AUX_DIR}/locations.mk"
 
 EXPERIMENTAL=	#defined
-LDFLAGS+=	--no-keep-memory
 NOMAN=		yes
+LDFLAGS+=	-Wl,--no-keep-memory
+CFVARS+=	ac_config_sub="${SHELL} ${GNUSYSTEM_AUX_DIR}/config.sub" \
+		ac_config_guess="${SHELL} ${GNUSYSTEM_AUX_DIR}/config.guess" \
+		GCJFLAGS="${GCJFLAGS}"
 CFARGS+=	--enable-static ${CF_PIC} --prefix=/usr --disable-nls \
 		--enable-interpreter --disable-sjlj-exceptions \
 		--with-system-zlib --with-x --enable-java-awt=xlib \
 		--disable-gtk-cairo --enable-java-gc=boehm
-CFVARS+=	ac_config_sub="${SHELL} ${GNUSYSTEM_AUX_DIR}/config.sub" \
-		ac_config_guess="${SHELL} ${GNUSYSTEM_AUX_DIR}/config.guess"
 FSFMAKE=	${XVARS} ${GMAKE} ${FSFMARGS} ${XARGS}
 CLEANFILES+=	deps.mk gnu/classpath/Configuration.java \
 		gnu/java/net/natPlainDatagramSocketImpl.cc \
@@ -28,7 +29,18 @@ CLEANFILES+=	deps.mk gnu/classpath/Configuration.java \
 		java/net/natNetworkInterface.cc \
 		sysdep/locks.h
 
+INSTLIBS=	gcj.5
+
+post-install:
+.for _i in ${INSTLIBS}
+	strip ${DESTDIR}/usr/lib/lib${_i:R}.so.${_i:E}.*
+	chown ${LIBOWN}:${LIBGRP} \
+	    ${DESTDIR}/usr/lib/lib${_i:R}.{so.${_i:E}.*,a,la}
+	chmod ${LIBMODE} ${DESTDIR}/usr/lib/lib${_i:R}.{so.${_i:E}.*,a,la}
+.endfor
+
 .include <bsd.cfwrap.mk>
 
 FSFCFLAGS=	-O2
 FSFCXXFLAGS=	-O2
+GCJFLAGS=	-O2

@@ -1,9 +1,9 @@
-# $MirOS: gcc/libffi/Makefile.bsd-wrapper,v 1.1 2005/03/26 10:18:59 tg Exp $
+# $MirOS: gcc/libffi/Makefile.bsd-wrapper,v 1.2 2005/05/01 01:09:37 tg Exp $
 
 NOMAN=		yes
 CFARGS+=	--enable-static ${CF_PIC} --disable-libtool-lock
-XARGS+=		'libffi_la_OBJECTS=$$(libffi_la_SOURCES:T:.c=.lo)' \
-		'libffi_convenience_la_OBJECTS=$$(libffi_la_SOURCES:T:.c=.lo)'
+XARGS+=		'libffi_la_OBJECTS=$$(libffi_la_SOURCES:T:R:=.lo)' \
+		'libffi_convenience_la_OBJECTS=$$(libffi_la_SOURCES:T:R:=.lo)'
 CLEANFILES+=	config.status include/Makefile include/ffi.h \
 		include/ffitarget.h
 

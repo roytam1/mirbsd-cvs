@@ -1,3 +1,6 @@
+# $MirOS$
+# XXX hacked
+#
 # Makefile.in generated automatically by automake 1.4-p6 from Makefile.am
 
 # Copyright (C) 1994, 1995-8, 1999, 2001 Free Software Foundation, Inc.
@@ -201,9 +204,9 @@ distclean-hdr:
 
 maintainer-clean-hdr:
 
-install-includeHEADERS: $(include_HEADERS)
+install-includeHEADERS: #$(include_HEADERS)
 	@$(NORMAL_INSTALL)
-	$(mkinstalldirs) $(DESTDIR)$(includedir)
+	$(SHELL) $(mkinstalldirs) $(DESTDIR)$(includedir)
 	@list='$(include_HEADERS)'; for p in $$list; do \
 	  if test -f "$$p"; then d= ; else d="$(srcdir)/"; fi; \
 	  echo " $(INSTALL_DATA) $$d$$p $(DESTDIR)$(includedir)/$$p"; \
@@ -292,7 +295,7 @@ all-redirect: all-am
 install-strip:
 	$(MAKE) $(AM_MAKEFLAGS) AM_INSTALL_PROGRAM_FLAGS=-s install
 installdirs:
-	$(mkinstalldirs)  $(DESTDIR)$(includedir)
+	$(SHELL) $(mkinstalldirs)  $(DESTDIR)$(includedir)
 
 
 mostlyclean-generic:

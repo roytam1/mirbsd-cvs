@@ -1,6 +1,6 @@
-# $MirOS: gcc/Makefile.sub,v 1.9 2005/04/26 22:36:52 tg Exp $
+# $MirOS: gcc/Makefile.sub,v 1.10 2005/04/27 07:12:16 tg Exp $
 
-.ifdef COMPILER_ONLY
+.if defined(COMPILER_ONLY) && ${COMPILER_ONLY:L} != "no"
 
   SUBDIR+= gcc
 .  if !make(install)
@@ -9,7 +9,7 @@
 
 .  include "${.CURDIR}/Makefile.inc"
 
-.  ifdef NO_ADA
+.  if defined(NO_ADA) && ${NO_ADA:L} != "no"
   SKIPDIR+= libada
 .  endif
 
@@ -20,11 +20,11 @@
   SUBDIR+= boehm-gc
   SUBDIR+= fastjar
   SUBDIR+= gcc
-  SUBDIR+= libada
+  SUBDIR+= libada		# after gcc
   SUBDIR+= libffi
-# SUBDIR+= libjava
-  SUBDIR+= libobjc
+  SUBDIR+= libobjc		# after boehm-gc
   SUBDIR+= libstdc++-v3
+  SUBDIR+= libjava		# after boehm-gc, libffi, libstdc++-v3
 
 prereq: _SUBDIRUSE
 
@@ -34,24 +34,24 @@ prereq: _SUBDIRUSE
   SKIPDIR+= libffi
 .  endif
 
-.  ifdef NO_ADA
+.  if defined(NO_ADA) && ${NO_ADA:L} != "no"
   SKIPDIR+= libada
 .  endif
 
-.  ifdef NO_CXX
+.  if defined(NO_CXX) && ${NO_CXX:L} != "no"
   SKIPDIR+= libstdc++-v3
 .  endif
 
-.  if defined(NO_OBJC) && defined(NO_JAVA)
+.  if defined(NO_OBJC) && defined(NO_JAVA) \
+    && ${NO_OBJC:L} != "no" && ${NO_JAVA:L} != "no"
   SKIPDIR+= boehm-gc
 .  endif
 
-.  ifdef NO_OBJC
+.  if defined(NO_OBJC) && ${NO_OBJC:L} != "no"
   SKIPDIR+= libobjc
 .  endif
 
-NO_JAVA=XXX
-.  ifdef NO_JAVA
+.  if defined(NO_JAVA) && ${NO_JAVA:L} != "no"
   SKIPDIR+= fastjar
   SKIPDIR+= libffi
   SKIPDIR+= libjava

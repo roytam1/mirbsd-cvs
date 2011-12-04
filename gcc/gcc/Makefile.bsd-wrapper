@@ -1,4 +1,4 @@
-# $MirOS: gcc/gcc/Makefile.bsd-wrapper,v 1.9 2005/03/29 22:31:19 tg Exp $
+# $MirOS: gcc/gcc/Makefile.bsd-wrapper,v 1.10 2005/04/17 02:28:25 tg Exp $
 
 .include <bsd.own.mk>
 .include "${GNUSYSTEM_AUX_DIR}/locations.mk"
@@ -11,15 +11,15 @@ CPPFLAGS+=	-I${GNU_LIBIBERTY_INC} -DMIRBSD_NATIVE
 MAN=		doc/cpp.1 doc/mgcc.1 doc/gcov.1
 INFO=		doc/cpp.info doc/cppinternals.info doc/gcc.info doc/gccint.info
 
-.ifndef NO_ADA
+.if !defined(NO_ADA) || ${NO_ADA:L} == "no"
 INFO+=		doc/gnat-style.info doc/gnat_rm.info doc/gnat_ugn_unw.info
 .endif
 
-.ifndef NO_CXX
+.if !defined(NO_CXX) || ${NO_CXX:L} == "no"
 MLINKS=		mgcc.1 g++.1
 .endif
 
-.ifndef NO_JAVA
+.if !defined(NO_JAVA) || ${NO_JAVA:L} == "no"
 MAN+=		doc/gcj.1 doc/gcjh.1 doc/gij.1 doc/jcf-dump.1 \
 		doc/jv-convert.1 doc/jv-scan.1 doc/rmic.1 doc/rmiregistry.1
 INFO+=		doc/gcj.info
@@ -33,19 +33,19 @@ FSFMAKE=	ulimit -dS 245760; PATH=${FSFOBJDIR}/lbin:$$PATH \
 FSFMARGS+=	MAKE=${GMAKE}
 
 __LANGS=	--enable-languages=c
-.ifndef NO_ADA
+.if !defined(NO_ADA) || ${NO_ADA:L} == "no"
 __LANGS:=	${__LANGS},ada
 .endif
-.ifndef NO_CXX
+.if !defined(NO_CXX) || ${NO_CXX:L} == "no"
 __LANGS:=	${__LANGS},c++
 .endif
-.ifndef NO_OBJC
+.if !defined(NO_OBJC) || ${NO_OBJC:L} == "no"
 __LANGS:=	${__LANGS},objc
 .endif
-.ifndef NO_JAVA
+.if !defined(NO_JAVA) || ${NO_JAVA:L} == "no"
 __LANGS:=	${__LANGS},java
 .endif
-.ifndef NO_PASCAL
+.if !defined(NO_PASCAL) || ${NO_PASCAL:L} == "no"
 __LANGS:=	${__LANGS},pascal
 .endif
 

@@ -1,3 +1,6 @@
+# $MirOS$
+# XXX hacked
+#
 # Makefile.in generated automatically by automake 1.4 from Makefile.am
 
 # Copyright (C) 1994, 1995-8, 1999 Free Software Foundation, Inc.
@@ -4669,9 +4672,9 @@ distclean-toolexeclibLTLIBRARIES:
 
 maintainer-clean-toolexeclibLTLIBRARIES:
 
-install-toolexeclibLTLIBRARIES: $(toolexeclib_LTLIBRARIES)
+install-toolexeclibLTLIBRARIES: #$(toolexeclib_LTLIBRARIES)
 	@$(NORMAL_INSTALL)
-	$(mkinstalldirs) $(DESTDIR)$(toolexeclibdir)
+	$(SHELL) $(mkinstalldirs) $(DESTDIR)$(toolexeclibdir)
 	@list='$(toolexeclib_LTLIBRARIES)'; for p in $$list; do \
 	  if test -f $$p; then \
 	    echo "$(LIBTOOL)  --mode=install $(INSTALL) $$p $(DESTDIR)$(toolexeclibdir)/$$p"; \
@@ -4741,9 +4744,9 @@ distclean-binPROGRAMS:
 
 maintainer-clean-binPROGRAMS:
 
-install-binPROGRAMS: $(bin_PROGRAMS)
+install-binPROGRAMS: #$(bin_PROGRAMS)
 	@$(NORMAL_INSTALL)
-	$(mkinstalldirs) $(DESTDIR)$(bindir)
+	$(SHELL) $(mkinstalldirs) $(DESTDIR)$(bindir)
 	@list='$(bin_PROGRAMS)'; for p in $$list; do \
 	  if test -f $$p; then \
 	    echo " $(LIBTOOL)  --mode=install $(INSTALL_PROGRAM) $$p $(DESTDIR)$(bindir)/`echo $$p|sed 's/$(EXEEXT)$$//'|sed '$(transform)'|sed 's/$$/$(EXEEXT)/'`"; \
@@ -4786,9 +4789,9 @@ gen-from-JIS$(EXEEXT): $(gen_from_JIS_OBJECTS) $(gen_from_JIS_DEPENDENCIES)
 	@rm -f gen-from-JIS$(EXEEXT)
 	$(LINK) $(gen_from_JIS_LDFLAGS) $(gen_from_JIS_OBJECTS) $(gen_from_JIS_LDADD) $(LIBS)
 
-install-binSCRIPTS: $(bin_SCRIPTS)
+install-binSCRIPTS: #$(bin_SCRIPTS)
 	@$(NORMAL_INSTALL)
-	$(mkinstalldirs) $(DESTDIR)$(bindir)
+	$(SHELL) $(mkinstalldirs) $(DESTDIR)$(bindir)
 	@list='$(bin_SCRIPTS)'; for p in $$list; do \
 	  if test -f $$p; then \
 	    echo " $(INSTALL_SCRIPT) $$p $(DESTDIR)$(bindir)/`echo $$p|sed '$(transform)'`"; \
@@ -4811,9 +4814,9 @@ uninstall-binSCRIPTS:
 .cc.lo:
 	$(LTCXXCOMPILE) -c $<
 
-install-jarDATA: $(jar_DATA)
+install-jarDATA: #$(jar_DATA)
 	@$(NORMAL_INSTALL)
-	$(mkinstalldirs) $(DESTDIR)$(jardir)
+	$(SHELL) $(mkinstalldirs) $(DESTDIR)$(jardir)
 	@list='$(jar_DATA)'; for p in $$list; do \
 	  if test -f $(srcdir)/$$p; then \
 	    echo " $(INSTALL_DATA) $(srcdir)/$$p $(DESTDIR)$(jardir)/$$p"; \
@@ -4830,9 +4833,9 @@ uninstall-jarDATA:
 	  rm -f $(DESTDIR)$(jardir)/$$p; \
 	done
 
-install-pkgconfigDATA: $(pkgconfig_DATA)
+install-pkgconfigDATA: #$(pkgconfig_DATA)
 	@$(NORMAL_INSTALL)
-	$(mkinstalldirs) $(DESTDIR)$(pkgconfigdir)
+	$(SHELL) $(mkinstalldirs) $(DESTDIR)$(pkgconfigdir)
 	@list='$(pkgconfig_DATA)'; for p in $$list; do \
 	  if test -f $(srcdir)/$$p; then \
 	    echo " $(INSTALL_DATA) $(srcdir)/$$p $(DESTDIR)$(pkgconfigdir)/$$p"; \
@@ -4849,9 +4852,9 @@ uninstall-pkgconfigDATA:
 	  rm -f $(DESTDIR)$(pkgconfigdir)/$$p; \
 	done
 
-install-toolexecmainlibDATA: $(toolexecmainlib_DATA)
+install-toolexecmainlibDATA: #$(toolexecmainlib_DATA)
 	@$(NORMAL_INSTALL)
-	$(mkinstalldirs) $(DESTDIR)$(toolexecmainlibdir)
+	$(SHELL) $(mkinstalldirs) $(DESTDIR)$(toolexecmainlibdir)
 	@list='$(toolexecmainlib_DATA)'; for p in $$list; do \
 	  if test -f $(srcdir)/$$p; then \
 	    echo " $(INSTALL_DATA) $(srcdir)/$$p $(DESTDIR)$(toolexecmainlibdir)/$$p"; \
@@ -5087,7 +5090,7 @@ install-data-am: install-jarDATA install-pkgconfigDATA \
 		install-data-local
 install-data: install-data-recursive
 
-install-am: all-am
+install-am: #all-am
 	@$(MAKE) $(AM_MAKEFLAGS) install-exec-am install-data-am
 install: install-recursive
 uninstall-am: uninstall-toolexeclibLTLIBRARIES uninstall-binPROGRAMS \
@@ -5100,7 +5103,7 @@ install-strip:
 	$(MAKE) $(AM_MAKEFLAGS) AM_INSTALL_PROGRAM_FLAGS=-s install
 installdirs: installdirs-recursive
 installdirs-am:
-	$(mkinstalldirs)  $(DESTDIR)$(toolexeclibdir) $(DESTDIR)$(bindir) \
+	$(SHELL) $(mkinstalldirs)  $(DESTDIR)$(toolexeclibdir) $(DESTDIR)$(bindir) \
 		$(DESTDIR)$(bindir) $(DESTDIR)$(jardir) \
 		$(DESTDIR)$(pkgconfigdir) \
 		$(DESTDIR)$(toolexecmainlibdir)
@@ -5378,13 +5381,13 @@ install-data-local:
 	@: $(call write_entries_to_file,$(nat_headers_install) $(extra_headers),tmp-ilist)
 	@cat tmp-ilist | while read f; do \
 	  d="`echo $$f | sed -e 's,/[^/]*$$,,'`"; \
-	  $(mkinstalldirs) $(DESTDIR)$(includedir)/$$d; \
+	  $(SHELL) $(mkinstalldirs) $(DESTDIR)$(includedir)/$$d; \
 	  if test -f $(srcdir)/$$f; then p=$(srcdir)/$$f; else p=$$f; fi; \
 	  echo " $(INSTALL_DATA) $$p $(DESTDIR)$(includedir)/$$f"; \
 	  $(INSTALL_DATA) $$p $(DESTDIR)$(includedir)/$$f; \
 	done
 	-@rm -f tmp-ilist
-	$(mkinstalldirs) $(DESTDIR)$(secdir)
+	$(SHELL) $(mkinstalldirs) $(DESTDIR)$(secdir)
 	@for f in classpath.security libgcj.security; do \
 	  echo " $(INSTALL_DATA) $(srcdir)/java/security/$$f $(DESTDIR)$(secdir)/$$f"; \
 	  $(INSTALL_DATA) $(srcdir)/java/security/$$f $(DESTDIR)$(secdir)/$$f; \

@@ -1,3 +1,6 @@
+# $MirOS$
+# XXX hacked
+#
 # Makefile.in generated automatically by automake 1.4-p6 from Makefile.am
 
 # Copyright (C) 1994, 1995-8, 1999, 2001 Free Software Foundation, Inc.
@@ -205,9 +208,9 @@ distclean-hdr:
 
 maintainer-clean-hdr:
 
-install-gcjHEADERS: $(gcj_HEADERS)
+install-gcjHEADERS: #$(gcj_HEADERS)
 	@$(NORMAL_INSTALL)
-	$(mkinstalldirs) $(DESTDIR)$(gcjdir)
+	$(SHELL) $(mkinstalldirs) $(DESTDIR)$(gcjdir)
 	@list='$(gcj_HEADERS)'; for p in $$list; do \
 	  if test -f "$$p"; then d= ; else d="$(srcdir)/"; fi; \
 	  echo " $(INSTALL_DATA) $$d$$p $(DESTDIR)$(gcjdir)/$$p"; \
@@ -220,9 +223,9 @@ uninstall-gcjHEADERS:
 	  rm -f $(DESTDIR)$(gcjdir)/$$p; \
 	done
 
-install-toolgcjHEADERS: $(toolgcj_HEADERS)
+install-toolgcjHEADERS: #$(toolgcj_HEADERS)
 	@$(NORMAL_INSTALL)
-	$(mkinstalldirs) $(DESTDIR)$(toolgcjdir)
+	$(SHELL) $(mkinstalldirs) $(DESTDIR)$(toolgcjdir)
 	@list='$(toolgcj_HEADERS)'; for p in $$list; do \
 	  if test -f "$$p"; then d= ; else d="$(srcdir)/"; fi; \
 	  echo " $(INSTALL_DATA) $$d$$p $(DESTDIR)$(toolgcjdir)/$$p"; \
@@ -311,7 +314,7 @@ all-redirect: all-am
 install-strip:
 	$(MAKE) $(AM_MAKEFLAGS) AM_INSTALL_PROGRAM_FLAGS=-s install
 installdirs:
-	$(mkinstalldirs)  $(DESTDIR)$(gcjdir) $(DESTDIR)$(toolgcjdir)
+	$(SHELL) $(mkinstalldirs)  $(DESTDIR)$(gcjdir) $(DESTDIR)$(toolgcjdir)
 
 
 mostlyclean-generic:

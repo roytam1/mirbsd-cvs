@@ -1,16 +1,30 @@
-# $MirOS: gcc/Makefile.inc,v 1.4 2005/03/28 15:10:14 tg Exp $
+# $MirOS: gcc/Makefile.inc,v 1.5 2005/04/26 05:53:04 tg Exp $
 
 .ifndef _MODGCC_MAKEFILE_INC
 _MODGCC_MAKEFILE_INC=1
 
-#NO_ADA=	defined
-#NO_CXX=	defined
-#NO_OBJC=	defined
-#NO_JAVA=	defined
-#NO_PASCAL=	defined
+.if ${MACHINE} == "i386"
+NO_ADA=		No
+NO_CXX=		No
+NO_OBJC=	No
+NO_JAVA=	No
+NO_PASCAL=	No
+.elif ${MACHINE} == "macppc"
+NO_ADA=		Yes
+NO_CXX=		Yes
+NO_OBJC=	Yes
+NO_JAVA=	Yes
+NO_PASCAL=	Yes
+.else
+NO_ADA=		Yes
+NO_CXX=		Yes
+NO_OBJC=	Yes
+NO_JAVA=	Yes
+NO_PASCAL=	Yes
+.endif
 
-.ifdef NO_CXX
-NO_JAVA=	implied
+.if defined(NO_CXX) && ${NO_CXX:L} != "no"
+NO_JAVA=	Yes #implied
 .endif
 
 GMAKE?=		/usr/local/bin/gmake
