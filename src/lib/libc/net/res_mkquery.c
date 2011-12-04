@@ -1,9 +1,7 @@
-/**	$MirOS$	*/
-/*	$OpenBSD: res_mkquery.c,v 1.14 2003/06/02 20:18:36 millert Exp $	*/
+/**	$MirOS: src/lib/libc/net/res_mkquery.c,v 1.2 2005/03/06 20:28:43 tg Exp $	*/
+/*	$OpenBSD: res_mkquery.c,v 1.16 2005/03/30 02:58:28 tedu Exp $	*/
 
 /*
- * ++Copyright++ 1985, 1993
- * -
  * Copyright (c) 1985, 1993
  *    The Regents of the University of California.  All rights reserved.
  * 
@@ -52,16 +50,12 @@
  * --Copyright--
  */
 
-#if defined(LIBC_SCCS) && !defined(lint)
 #if 0
 static char sccsid[] = "@(#)res_mkquery.c	8.1 (Berkeley) 6/4/93";
 static char rcsid[] = "$From: res_mkquery.c,v 8.5 1996/08/27 08:33:28 vixie Exp $";
-#else
-static char rcsid[] = "$OpenBSD: res_mkquery.c,v 1.14 2003/06/02 20:18:36 millert Exp $";
-#endif
+static char rcsid[] = "$OpenBSD: res_mkquery.c,v 1.16 2005/03/30 02:58:28 tedu Exp $";
 #endif /* LIBC_SCCS and not lint */
 
-#include <sys/types.h>
 #include <sys/param.h>
 #include <netinet/in.h>
 #include <arpa/nameser.h>
@@ -73,29 +67,31 @@ static char rcsid[] = "$OpenBSD: res_mkquery.c,v 1.14 2003/06/02 20:18:36 miller
 
 #include "thread_private.h"
 
+__RCSID("$MirOS$");
+
 /*
  * Form all types of queries.
  * Returns the size of the result or -1.
  */
 /* ARGSUSED */
 int
-res_mkquery(op, dname, class, type, data, datalen, newrr_in, buf, buflen)
-	int op;			/* opcode of query */
-	const char *dname;	/* domain name */
-	int class, type;	/* class and type of query */
-	const u_char *data;	/* resource record data */
-	int datalen;		/* length of data */
-	const u_char *newrr_in;	/* new rr for modify or append */
-	u_char *buf;		/* buffer to put query */
-	int buflen;		/* size of buffer */
+res_mkquery(int op,
+    const char *dname,		/* opcode of query */
+    int class,			/* domain name */
+    int type,			/* class and type of query */
+    const u_char *data,		/* resource record data */
+    int datalen,		/* length of data */
+    const u_char *newrr_in,	/* new rr for modify or append */
+    u_char *buf,		/* buffer to put query */
+    int buflen)			/* size of buffer */
 {
 	struct __res_state *_resp = _THREAD_PRIVATE(_res, _res, &_res);
-	register HEADER *hp;
-	register u_char *cp, *ep;
-	register int n;
+	HEADER *hp;
+	u_char *cp, *ep;
+	int n;
 	u_char *dnptrs[20], **dpp, **lastdnptr;
 
-	if ((_resp->options & RES_INIT) == 0 && res_init() == -1) {
+	if (_res_init(0) == -1) {
 		h_errno = NETDB_INTERNAL;
 		return (-1);
 	}
@@ -197,15 +193,14 @@ res_mkquery(op, dname, class, type, data, datalen, newrr_in, buf, buflen)
 
 /* attach OPT pseudo-RR, as documented in RFC2671 (EDNS0). */
 int
-res_opt(n0, buf, buflen, anslen)
-	int n0;
-	u_char *buf;		/* buffer to put query */
-	int buflen;		/* size of buffer */
-	int anslen;		/* answer buffer length */
+res_opt(int n0,
+	u_char *buf,		/* buffer to put query */
+	int buflen,		/* size of buffer */
+	int anslen)		/* answer buffer length */
 {
 	struct __res_state *_resp = _THREAD_PRIVATE(_res, _res, &_res);
-	register HEADER *hp;
-	register u_char *cp, *ep;
+	HEADER *hp;
+	u_char *cp, *ep;
 
 	hp = (HEADER *) buf;
 	cp = buf + n0;

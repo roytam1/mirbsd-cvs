@@ -1,5 +1,5 @@
-/**	$MirOS$	*/
-/*	$OpenBSD: getaddrinfo.c,v 1.50 2004/06/07 21:11:23 marc Exp $	*/
+/**	$MirOS: src/lib/libc/net/getaddrinfo.c,v 1.2 2005/03/06 20:28:42 tg Exp $	*/
+/*	$OpenBSD: getaddrinfo.c,v 1.52 2005/03/30 02:58:28 tedu Exp $	*/
 /*	$KAME: getaddrinfo.c,v 1.31 2000/08/31 17:36:43 itojun Exp $	*/
 
 /*
@@ -267,8 +267,7 @@ do { \
 	((x) == (y) || (/*CONSTCOND*/(w) && ((x) == ANY || (y) == ANY)))
 
 static int
-str2number(p)
-	const char *p;
+str2number(const char *p)
 {
 	char *ep;
 	unsigned long v;
@@ -285,10 +284,8 @@ str2number(p)
 }
 
 int
-getaddrinfo(hostname, servname, hints, res)
-	const char *hostname, *servname;
-	const struct addrinfo *hints;
-	struct addrinfo **res;
+getaddrinfo(const char *hostname, const char *servname,
+    const struct addrinfo *hints, struct addrinfo **res)
 {
 	struct addrinfo sentinel;
 	struct addrinfo *cur;
@@ -487,11 +484,8 @@ getaddrinfo(hostname, servname, hints, res)
  */
 
 static int
-explore_fqdn(pai, hostname, servname, res)
-	const struct addrinfo *pai;
-	const char *hostname;
-	const char *servname;
-	struct addrinfo **res;
+explore_fqdn(const struct addrinfo *pai, const char *hostname,
+    const char *servname, struct addrinfo **res)
 {
 	struct __res_state *_resp = _THREAD_PRIVATE(_res, _res, &_res);
 	struct addrinfo *result;
@@ -510,7 +504,7 @@ explore_fqdn(pai, hostname, servname, res)
 		return 0;
 	}
 
-	if ((_resp->options & RES_INIT) == 0 && res_init() == -1)
+	if (_res_init(0) == -1)
 		strlcpy(lookups, "f", sizeof lookups);
 	else {
 		memmove(lookups, _resp->lookups, sizeof lookups);
@@ -580,10 +574,8 @@ free:
  * non-passive socket -> localhost (127.0.0.1 or ::1)
  */
 static int
-explore_null(pai, servname, res)
-	const struct addrinfo *pai;
-	const char *servname;
-	struct addrinfo **res;
+explore_null(const struct addrinfo *pai, const char *servname,
+    struct addrinfo **res)
 {
 	int s;
 	const struct afd *afd;
@@ -644,12 +636,8 @@ free:
  * numeric hostname
  */
 static int
-explore_numeric(pai, hostname, servname, res, canonname)
-	const struct addrinfo *pai;
-	const char *hostname;
-	const char *servname;
-	struct addrinfo **res;
-	const char *canonname;
+explore_numeric(const struct addrinfo *pai, const char *hostname,
+    const char *servname, struct addrinfo **res, const char *canonname)
 {
 	const struct afd *afd;
 	struct addrinfo *cur;
@@ -730,11 +718,8 @@ bad:
  * numeric hostname with scope
  */
 static int
-explore_numeric_scope(pai, hostname, servname, res)
-	const struct addrinfo *pai;
-	const char *hostname;
-	const char *servname;
-	struct addrinfo **res;
+explore_numeric_scope(const struct addrinfo *pai, const char *hostname,
+    const char *servname, struct addrinfo **res)
 {
 #if !defined(SCOPE_DELIMITER) || !defined(INET6)
 	return explore_numeric(pai, hostname, servname, res, hostname);
@@ -796,10 +781,7 @@ explore_numeric_scope(pai, hostname, servname, res)
 }
 
 static int
-get_canonname(pai, ai, str)
-	const struct addrinfo *pai;
-	struct addrinfo *ai;
-	const char *str;
+get_canonname(const struct addrinfo *pai, struct addrinfo *ai, const char *str)
 {
 	if ((pai->ai_flags & AI_CANONNAME) != 0) {
 		ai->ai_canonname = strdup(str);
@@ -810,10 +792,7 @@ get_canonname(pai, ai, str)
 }
 
 static struct addrinfo *
-get_ai(pai, afd, addr)
-	const struct addrinfo *pai;
-	const struct afd *afd;
-	const char *addr;
+get_ai(const struct addrinfo *pai, const struct afd *afd, const char *addr)
 {
 	char *p;
 	struct addrinfo *ai;
@@ -835,9 +814,7 @@ get_ai(pai, afd, addr)
 }
 
 static int
-get_portmatch(ai, servname)
-	const struct addrinfo *ai;
-	const char *servname;
+get_portmatch(const struct addrinfo *ai, const char *servname)
 {
 
 	/* get_port does not touch first argument. when matchonly == 1. */
@@ -846,10 +823,7 @@ get_portmatch(ai, servname)
 }
 
 static int
-get_port(ai, servname, matchonly)
-	struct addrinfo *ai;
-	const char *servname;
-	int matchonly;
+get_port(struct addrinfo *ai, const char *servname, int matchonly)
 {
 	const char *proto;
 	struct servent *sp;
@@ -934,8 +908,7 @@ get_port(ai, servname, matchonly)
 }
 
 static const struct afd *
-find_afd(af)
-	int af;
+find_afd(int af)
 {
 	const struct afd *afd;
 
@@ -951,10 +924,7 @@ find_afd(af)
 #ifdef INET6
 /* convert a string to a scope identifier. XXX: IPv6 specific */
 static int
-ip6_str2scopeid(scope, sin6, scopeid)
-	char *scope;
-	struct sockaddr_in6 *sin6;
-	u_int32_t *scopeid;
+ip6_str2scopeid(char *scope, struct sockaddr_in6 *sin6, u_int32_t *scopeid)
 {
 	u_long lscopeid;
 	struct in6_addr *a6 = &sin6->sin6_addr;
@@ -1003,12 +973,8 @@ static const char AskedForGot[] =
 static FILE *hostf = NULL;
 
 static struct addrinfo *
-getanswer(answer, anslen, qname, qtype, pai)
-	const querybuf *answer;
-	int anslen;
-	const char *qname;
-	int qtype;
-	const struct addrinfo *pai;
+getanswer(const querybuf *answer, int anslen, const char *qname, int qtype,
+    const struct addrinfo *pai)
 {
 	struct addrinfo sentinel, *cur;
 	struct addrinfo ai;
@@ -1195,9 +1161,7 @@ getanswer(answer, anslen, qname, qtype, pai)
 
 /*ARGSUSED*/
 static struct addrinfo *
-_dns_getaddrinfo(name, pai)
-	const char *name;
-	const struct addrinfo *pai;
+_dns_getaddrinfo(const char *name, const struct addrinfo *pai)
 {
 	struct addrinfo *ai;
 	querybuf *buf, *buf2;
@@ -1275,7 +1239,7 @@ _dns_getaddrinfo(name, pai)
 static FILE *hostf;
 
 static void
-_sethtent()
+_sethtent(void)
 {
 	if (!hostf)
 		hostf = fopen(_PATH_HOSTS, "r" );
@@ -1284,7 +1248,7 @@ _sethtent()
 }
 
 static void
-_endhtent()
+_endhtent(void)
 {
 	if (hostf) {
 		(void) fclose(hostf);
@@ -1293,9 +1257,7 @@ _endhtent()
 }
 
 static struct addrinfo *
-_gethtent(name, pai)
-	const char *name;
-	const struct addrinfo *pai;
+_gethtent(const char *name, const struct addrinfo *pai)
 {
 	char *p;
 	char *cp, *tname, *cname;
@@ -1357,9 +1319,7 @@ found:
 
 /*ARGSUSED*/
 static struct addrinfo *
-_files_getaddrinfo(name, pai)
-	const char *name;
-	const struct addrinfo *pai;
+_files_getaddrinfo(const char *name, const struct addrinfo *pai)
 {
 	struct addrinfo sentinel, *cur;
 	struct addrinfo *p;
@@ -1378,7 +1338,6 @@ _files_getaddrinfo(name, pai)
 	return sentinel.ai_next;
 }
 
-
 /* resolver logic */
 
 extern const char *__hostalias(const char *);
@@ -1396,9 +1355,7 @@ extern int res_opt(int, u_char *, int, int);
  * Caller must parse answer and determine whether it answers the question.
  */
 static int
-res_queryN(name, target)
-	const char *name;	/* domain name */
-	struct res_target *target;
+res_queryN(const char *name, struct res_target *target)
 {
 	struct __res_state *_resp = _THREAD_PRIVATE(_res, _res, &_res);
 	u_char *buf;
@@ -1417,7 +1374,7 @@ res_queryN(name, target)
 	rcode = NOERROR;
 	ancount = 0;
 
-	if ((_resp->options & RES_INIT) == 0 && res_init() == -1) {
+	if (_res_init(0) == -1) {
 		h_errno = NETDB_INTERNAL;
 		free(buf);
 		return (-1);
@@ -1514,9 +1471,7 @@ res_queryN(name, target)
  * is detected.  Error code, if any, is left in h_errno.
  */
 static int
-res_searchN(name, target)
-	const char *name;	/* domain name */
-	struct res_target *target;
+res_searchN(const char *name, struct res_target *target)
 {
 	struct __res_state *_resp = _THREAD_PRIVATE(_res, _res, &_res);
 	const char *cp, * const *domain;
@@ -1525,7 +1480,7 @@ res_searchN(name, target)
 	int trailing_dot, ret, saved_herrno;
 	int got_nodata = 0, got_servfail = 0, tried_as_is = 0;
 
-	if ((_resp->options & RES_INIT) == 0 && res_init() == -1) {
+	if (_res_init(0) == -1) {
 		h_errno = NETDB_INTERNAL;
 		return (-1);
 	}
@@ -1654,16 +1609,15 @@ res_searchN(name, target)
  * removing a trailing dot from name if domain is NULL.
  */
 static int
-res_querydomainN(name, domain, target)
-	const char *name, *domain;
-	struct res_target *target;
+res_querydomainN(const char *name, const char *domain,
+    struct res_target *target)
 {
 	struct __res_state *_resp = _THREAD_PRIVATE(_res, _res, &_res);
 	char nbuf[MAXDNAME];
 	const char *longname = nbuf;
 	size_t n, d;
 
-	if ((_resp->options & RES_INIT) == 0 && res_init() == -1) {
+	if (_res_init(0) == -1) {
 		h_errno = NETDB_INTERNAL;
 		return (-1);
 	}

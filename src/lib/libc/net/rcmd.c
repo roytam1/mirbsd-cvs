@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/lib/libc/net/rcmd.c,v 1.2 2005/03/06 20:28:42 tg Exp $ */
 /*
  * Copyright (c) 1995, 1996, 1998 Theo de Raadt.  All rights reserved.
  * Copyright (c) 1983, 1993, 1994
@@ -29,8 +29,8 @@
  * SUCH DAMAGE.
  */
 
-#if defined(LIBC_SCCS) && !defined(lint)
-static char *rcsid = "$OpenBSD: rcmd.c,v 1.49 2004/11/17 01:42:26 itojun Exp $";
+#if 0
+static char *rcsid = "$OpenBSD: rcmd.c,v 1.52 2005/03/25 13:24:12 otto Exp $";
 #endif /* LIBC_SCCS and not lint */
 
 #include <sys/param.h>
@@ -53,6 +53,8 @@ static char *rcsid = "$OpenBSD: rcmd.c,v 1.49 2004/11/17 01:42:26 itojun Exp $";
 #include <stdlib.h>
 #include <netgroup.h>
 
+__RCSID("$MirOS$");
+
 int	__ivaliduser(FILE *, in_addr_t, const char *, const char *);
 int	__ivaliduser_sa(FILE *, struct sockaddr *, socklen_t,
 	    const char *, const char *);
@@ -60,22 +62,15 @@ static int __icheckhost(struct sockaddr *, socklen_t, const char *);
 static char *__gethostloop(struct sockaddr *, socklen_t);
 
 int
-rcmd(ahost, rport, locuser, remuser, cmd, fd2p)
-	char **ahost;
-	in_port_t rport;
-	const char *locuser, *remuser, *cmd;
-	int *fd2p;
+rcmd(char **ahost, int rport, const char *locuser, const char *remuser,
+    const char *cmd, int *fd2p)
 {
 	return rcmd_af(ahost, rport, locuser, remuser, cmd, fd2p, AF_INET);
 }
 
 int
-rcmd_af(ahost, rport, locuser, remuser, cmd, fd2p, af)
-	char **ahost;
-	in_port_t rport;
-	const char *locuser, *remuser, *cmd;
-	int *fd2p;
-	int af;
+rcmd_af(char **ahost, int porta, const char *locuser, const char *remuser,
+    const char *cmd, int *fd2p, int af)
 {
 	static char hbuf[MAXHOSTNAMELEN];
 	char pbuf[NI_MAXSERV];
@@ -88,6 +83,7 @@ rcmd_af(ahost, rport, locuser, remuser, cmd, fd2p, af)
 	int s, lport, timo;
 	char c, *p;
 	int refused;
+	in_port_t rport = porta;
 
 	/* call rcmdsh() with specified remote shell if appropriate. */
 	if (!issetugid() && (p = getenv("RSH")) && *p) {
@@ -214,8 +210,10 @@ rcmd_af(ahost, rport, locuser, remuser, cmd, fd2p, af)
 		if (s2 < 0)
 			goto bad;
 		readsp = (fd_set *)malloc(fdssize);
-		if (readsp == NULL)
+		if (readsp == NULL) {
+			close(s2);
 			goto bad;
+		}
 		listen(s2, 1);
 		(void)snprintf(num, sizeof(num), "%d", lport);
 		if (write(s, num, strlen(num)+1) != strlen(num)+1) {
@@ -243,6 +241,14 @@ again:
 			goto bad;
 		}
 		s3 = accept(s2, (struct sockaddr *)&from, &len);
+		if (s3 < 0) {
+			(void)fprintf(stderr,
+			    "rcmd: accept: %s\n", strerror(errno));
+			lport = 0;
+			close(s2);
+			goto bad;
+		}
+
 		/*
 		 * XXX careful for ftp bounce attacks. If discovered, shut them
 		 * down and check for the real auxiliary channel to connect.
@@ -261,12 +267,7 @@ again:
 			break;
 		}
 		(void)close(s2);
-		if (s3 < 0) {
-			(void)fprintf(stderr,
-			    "rcmd: accept: %s\n", strerror(errno));
-			lport = 0;
-			goto bad;
-		}
+
 		*fd2p = s3;
 		switch (from.ss_family) {
 		case AF_INET:
@@ -318,9 +319,7 @@ int	__check_rhosts_file = 1;
 char	*__rcmd_errstr;
 
 int
-ruserok(rhost, superuser, ruser, luser)
-	const char *rhost, *ruser, *luser;
-	int superuser;
+ruserok(const char *rhost, int superuser, const char *ruser, const char *luser)
 {
 	struct addrinfo hints, *res, *r;
 	int error;
@@ -353,10 +352,7 @@ ruserok(rhost, superuser, ruser, luser)
  * Returns 0 if ok, -1 if not ok.
  */
 int
-iruserok(raddr, superuser, ruser, luser)
-	u_int32_t raddr;
-	int superuser;
-	const char *ruser, *luser;
+iruserok(u_int32_t raddr, int superuser, const char *ruser, const char *luser)
 {
 	struct sockaddr_in sin;
 
@@ -369,14 +365,11 @@ iruserok(raddr, superuser, ruser, luser)
 }
 
 int
-iruserok_sa(raddr, rlen, superuser, ruser, luser)
-	const void *raddr;
-	int rlen;
-	int superuser;
-	const char *ruser, *luser;
+iruserok_sa(const void *raddr, int rlen, int superuser, const char *ruser,
+    const char *luser)
 {
 	struct sockaddr *sa;
-	register char *cp;
+	char *cp;
 	struct stat sbuf;
 	struct passwd *pwd;
 	FILE *hostf;
@@ -446,10 +439,8 @@ again:
  * Returns 0 if ok, -1 if not ok.
  */
 int
-__ivaliduser(hostf, raddrl, luser, ruser)
-	FILE *hostf;
-	in_addr_t raddrl;
-	const char *luser, *ruser;
+__ivaliduser(FILE *hostf, in_addr_t raddrl, const char *luser,
+    const char *ruser)
 {
 	struct sockaddr_in sin;
 
@@ -462,13 +453,10 @@ __ivaliduser(hostf, raddrl, luser, ruser)
 }
 
 int
-__ivaliduser_sa(hostf, raddr, salen, luser, ruser)
-	FILE *hostf;
-	struct sockaddr *raddr;
-	socklen_t salen;
-	const char *luser, *ruser;
+__ivaliduser_sa(FILE *hostf, struct sockaddr *raddr, socklen_t salen,
+    const char *luser, const char *ruser)
 {
-	register char *user, *p;
+	char *user, *p;
 	char *buf;
 	const char *auser, *ahost;
 	int hostok, userok;
@@ -609,10 +597,7 @@ bail:
  * semblance of an A->PTR->A loop, allow a simple #.#.#.# match to work.
  */
 static int
-__icheckhost(raddr, salen, lhost)
-	struct sockaddr *raddr;
-	socklen_t salen;
-	const char *lhost;
+__icheckhost(struct sockaddr *raddr, socklen_t salen, const char *lhost)
 {
 	struct addrinfo hints, *res, *r;
 	char h1[NI_MAXHOST], h2[NI_MAXHOST];
@@ -658,9 +643,7 @@ __icheckhost(raddr, salen, lhost)
  * be found, pack the result of inet_ntoa() into the string.
  */
 static char *
-__gethostloop(raddr, salen)
-	struct sockaddr *raddr;
-	socklen_t salen;
+__gethostloop(struct sockaddr *raddr, socklen_t salen)
 {
 	static char remotehost[NI_MAXHOST];
 	char h1[NI_MAXHOST], h2[NI_MAXHOST];

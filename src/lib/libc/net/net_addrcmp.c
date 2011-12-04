@@ -1,4 +1,4 @@
-/*	$OpenBSD: net_addrcmp.c,v 1.8 2004/10/01 04:08:45 jsg Exp $	*/
+/*	$OpenBSD: net_addrcmp.c,v 1.10 2005/06/17 20:36:16 henning Exp $	*/
 
 /*
  * Copyright (c) 1999 Theo de Raadt
@@ -32,9 +32,7 @@
 #include <string.h>
 
 int
-net_addrcmp(sa1, sa2)
-	struct sockaddr *sa1;
-	struct sockaddr *sa2;
+net_addrcmp(struct sockaddr *sa1, struct sockaddr *sa2)
 {
 
 	if (sa1->sa_len != sa2->sa_len)

@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/lib/libc/net/rresvport.c,v 1.2 2005/03/06 20:28:43 tg Exp $ */
 /*
  * Copyright (c) 1995, 1996, 1998 Theo de Raadt.  All rights reserved.
  * Copyright (c) 1983, 1993, 1994
@@ -29,8 +29,8 @@
  * SUCH DAMAGE.
  */
 
-#if defined(LIBC_SCCS) && !defined(lint)
-static char *rcsid = "$OpenBSD: rresvport.c,v 1.6 2003/06/03 02:11:35 deraadt Exp $";
+#if 0
+static char *rcsid = "$OpenBSD: rresvport.c,v 1.7 2005/03/25 13:24:12 otto Exp $";
 #endif /* LIBC_SCCS and not lint */
 
 #include <sys/param.h>
@@ -53,18 +53,17 @@ static char *rcsid = "$OpenBSD: rresvport.c,v 1.6 2003/06/03 02:11:35 deraadt Ex
 #include <stdlib.h>
 #include <netgroup.h>
 
+__RCSID("$MirOS$");
+
 int
-rresvport(alport)
-	int *alport;
+rresvport(int *alport)
 {
 	return rresvport_af(alport, AF_INET);
 }
 
 
 int
-rresvport_af(alport, af)
-	int *alport;
-	int af;
+rresvport_af(int *alport, int af)
 {
 	struct sockaddr_storage ss;
 	struct sockaddr *sa;

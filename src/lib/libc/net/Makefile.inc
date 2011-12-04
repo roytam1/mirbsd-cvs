@@ -1,5 +1,5 @@
-# $MirOS$
-# $OpenBSD: Makefile.inc,v 1.39 2005/01/06 04:24:14 itojun Exp $
+# $MirOS: src/lib/libc/net/Makefile.inc,v 1.2 2005/03/06 20:28:42 tg Exp $
+# $OpenBSD: Makefile.inc,v 1.40 2005/06/17 20:36:16 henning Exp $
 
 # net sources
 .PATH: ${LIBCSRCDIR}/arch/${MACHINE_ARCH}/net ${LIBCSRCDIR}/net

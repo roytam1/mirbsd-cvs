@@ -1,5 +1,5 @@
-/**	$MirOS$	*/
-/*	$OpenBSD: getnetnamadr.c,v 1.23 2003/06/03 21:09:00 deraadt Exp $	*/
+/**	$MirOS: src/lib/libc/net/getnetnamadr.c,v 1.2 2005/03/06 20:28:42 tg Exp $	*/
+/*	$OpenBSD: getnetnamadr.c,v 1.25 2005/03/30 02:58:28 tedu Exp $	*/
 
 /*
  * Copyright (c) 1997, Jason Downs.  All rights reserved.
@@ -61,18 +61,13 @@
  * SUCH DAMAGE.
  */
 
-#if defined(LIBC_SCCS) && !defined(lint)
 #if 0
 static char sccsid[] = "@(#)getnetbyaddr.c	8.1 (Berkeley) 6/4/93";
 static char sccsid_[] = "from getnetnamadr.c	1.4 (Coimbra) 93/06/03";
 static char rcsid[] = "$From: getnetnamadr.c,v 8.7 1996/08/05 08:31:35 vixie Exp $";
-static char rcsid[] = "$OpenBSD: getnetnamadr.c,v 1.23 2003/06/03 21:09:00 deraadt Exp $";
-#else
-static char rcsid[] = "$MirOS$";
-#endif
+static char rcsid[] = "$OpenBSD: getnetnamadr.c,v 1.25 2005/03/30 02:58:28 tedu Exp $";
 #endif /* LIBC_SCCS and not lint */
 
-#include <sys/types.h>
 #include <sys/param.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -88,6 +83,8 @@ static char rcsid[] = "$MirOS$";
 #include <stdlib.h>
 
 #include "thread_private.h"
+
+__RCSID("$MirOS$");
 
 extern int h_errno;
 
@@ -113,15 +110,12 @@ typedef union {
 } align;
 
 static struct netent *
-getnetanswer(answer, anslen, net_i)
-	querybuf *answer;
-	int anslen;
-	int net_i;
+getnetanswer(querybuf *answer, int anslen, int net_i)
 {
 
-	register HEADER *hp;
-	register u_char *cp;
-	register int n;
+	HEADER *hp;
+	u_char *cp;
+	int n;
 	u_char *eom;
 	int type, class, ancount, qdcount, haveanswer, i, nchar;
 	char aux1[MAXHOSTNAMELEN], aux2[MAXHOSTNAMELEN], ans[MAXHOSTNAMELEN];
@@ -252,9 +246,7 @@ getnetanswer(answer, anslen, net_i)
 }
 
 struct netent *
-getnetbyaddr(net, net_type)
-	register in_addr_t net;
-	register int net_type;
+getnetbyaddr(in_addr_t net, int net_type)
 {
 	struct __res_state *_resp = _THREAD_PRIVATE(_res, _res, &_res);
 	unsigned int netbr[4];
@@ -266,7 +258,7 @@ getnetbyaddr(net, net_type)
 	char lookups[MAXDNSLUS];
 	int i;
 
-	if ((_resp->options & RES_INIT) == 0 && res_init() == -1)
+	if (_res_init(0) == -1)
 		return(_getnetbyaddr(net, net_type));
 
 	memmove(lookups, _resp->lookups, sizeof lookups);
@@ -339,8 +331,7 @@ getnetbyaddr(net, net_type)
 }
 
 struct netent *
-getnetbyname(net)
-	register const char *net;
+getnetbyname(const char *net)
 {
 	struct __res_state *_resp = _THREAD_PRIVATE(_res, _res, &_res);
 	int anslen;
@@ -350,7 +341,7 @@ getnetbyname(net)
 	char lookups[MAXDNSLUS];
 	int i;
 
-	if ((_resp->options & RES_INIT) == 0 && res_init() == -1)
+	if (_res_init(0) == -1)
 		return (_getnetbyname(net));
 
 	memmove(lookups, _resp->lookups, sizeof lookups);

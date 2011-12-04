@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: res_debug.c,v 1.17 2003/06/02 20:18:36 millert Exp $	*/
+/**	$MirOS: src/lib/libc/net/res_debug.c,v 1.2 2005/03/06 20:28:42 tg Exp $ */
+/*	$OpenBSD: res_debug.c,v 1.20 2005/03/30 02:58:28 tedu Exp $	*/
 
 /*
  * Copyright (c) 1985, 1990, 1993
@@ -72,17 +72,13 @@
  * --Copyright--
  */
 
-#if defined(LIBC_SCCS) && !defined(lint)
 #if 0
 static char sccsid[] = "@(#)res_debug.c	8.1 (Berkeley) 6/4/93";
 static char rcsid[] = "$From: res_debug.c,v 8.19 1996/11/26 10:11:23 vixie Exp $";
-#else
-static char rcsid[] = "$OpenBSD: res_debug.c,v 1.17 2003/06/02 20:18:36 millert Exp $";
-#endif
+static char rcsid[] = "$OpenBSD: res_debug.c,v 1.20 2005/03/30 02:58:28 tedu Exp $";
 #endif /* LIBC_SCCS and not lint */
 
 #include <sys/param.h>
-#include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
@@ -99,6 +95,8 @@ static char rcsid[] = "$OpenBSD: res_debug.c,v 1.17 2003/06/02 20:18:36 millert 
 
 #include "thread_private.h"
 
+__RCSID("$MirOS$");
+
 extern const char *_res_opcodes[];
 extern const char *_res_resultcodes[];
 
@@ -106,8 +104,7 @@ static const char *loc_ntoal(const u_char *binary, char *ascii, int ascii_len);
 
 /* XXX: we should use getservbyport() instead. */
 static const char *
-dewks(wks)
-	int wks;
+dewks(int wks)
 {
 	static char nbuf[20];
 
@@ -166,8 +163,7 @@ dewks(wks)
 
 /* XXX: we should use getprotobynumber() instead. */
 static const char *
-deproto(protonum)
-	int protonum;
+deproto(int protonum)
 {
 	static char nbuf[20];
 
@@ -191,11 +187,8 @@ deproto(protonum)
 }
 
 static const u_char *
-do_rrset(msg, len, cp, cnt, pflag, file, hs)
-	int cnt, pflag, len;
-	const u_char *cp, *msg;
-	const char *hs;
-	FILE *file;
+do_rrset(const u_char *msg, int len, const u_char *cp, int cnt, int pflag,
+    FILE *file, const char *hs)
 {
 	struct __res_state *_resp = _THREAD_PRIVATE(_res, _res, &_res);
 	int n;
@@ -233,8 +226,7 @@ do_rrset(msg, len, cp, cnt, pflag, file, hs)
 }
 
 void
-__p_query(msg)
-	const u_char *msg;
+__p_query(const u_char *msg)
 {
 	__fp_query(msg, stdout);
 }
@@ -244,11 +236,9 @@ __p_query(msg)
  * This is intended to be primarily a debugging routine.
  */
 void
-__fp_resstat(statp, file)
-	struct __res_state *statp;
-	FILE *file;
+__fp_resstat(struct __res_state *statp, FILE *file)
 {
-	register u_long mask;
+	u_long mask;
 
 	fprintf(file, ";; res options:");
 	if (!statp)
@@ -264,17 +254,14 @@ __fp_resstat(statp, file)
  * This is intended to be primarily a debugging routine.
  */
 void
-__fp_nquery(msg, len, file)
-	const u_char *msg;
-	int len;
-	FILE *file;
+__fp_nquery(const u_char *msg, int len, FILE *file)
 {
 	struct __res_state *_resp = _THREAD_PRIVATE(_res, _res, &_res);
-	register const u_char *cp, *endMark;
-	register const HEADER *hp;
-	register int n;
+	const u_char *cp, *endMark;
+	const HEADER *hp;
+	int n;
 
-	if ((_resp->options & RES_INIT) == 0 && res_init() == -1)
+	if (_res_init(0) == -1)
 		return;
 
 #define TruncTest(x) if (x > endMark) goto trunc
@@ -393,18 +380,13 @@ __fp_nquery(msg, len, file)
 }
 
 void
-__fp_query(msg, file)
-	const u_char *msg;
-	FILE *file;
+__fp_query(const u_char *msg, FILE *file)
 {
 	fp_nquery(msg, PACKETSZ, file);
 }
 
 const u_char *
-__p_cdnname(cp, msg, len, file)
-	const u_char *cp, *msg;
-	int len;
-	FILE *file;
+__p_cdnname(const u_char *cp, const u_char *msg, int len, FILE *file)
 {
 	char name[MAXDNAME];
 	int n;
@@ -419,9 +401,7 @@ __p_cdnname(cp, msg, len, file)
 }
 
 const u_char *
-__p_cdname(cp, msg, file)
-	const u_char *cp, *msg;
-	FILE *file;
+__p_cdname(const u_char *cp, const u_char *msg, FILE *file)
 {
 	return (p_cdnname(cp, msg, PACKETSZ, file));
 }
@@ -431,11 +411,7 @@ __p_cdname(cp, msg, file)
    length supplied).  */
 
 const u_char *
-__p_fqnname(cp, msg, msglen, name, namelen)
-	const u_char *cp, *msg;
-	int msglen;
-	char *name;
-	int namelen;
+__p_fqnname(const u_char *cp, const u_char *msg, int msglen, char *name, int namelen)
 {
 	int n, newlen;
 
@@ -455,9 +431,7 @@ __p_fqnname(cp, msg, msglen, name, namelen)
  */
 
 const u_char *
-__p_fqname(cp, msg, file)
-	const u_char *cp, *msg;
-	FILE *file;
+__p_fqname(const u_char *cp, const u_char *msg, FILE *file)
 {
 	char name[MAXDNAME];
 	const u_char *n;
@@ -473,9 +447,7 @@ __p_fqname(cp, msg, file)
  * Print resource record fields in human readable form.
  */
 const u_char *
-__p_rr(cp, msg, file)
-	const u_char *cp, *msg;
-	FILE *file;
+__p_rr(const u_char *cp, const u_char *msg, FILE *file)
 {
 	struct __res_state *_resp = _THREAD_PRIVATE(_res, _res, &_res);
 	int type, class, dlen, n, c;
@@ -487,7 +459,7 @@ __p_rr(cp, msg, file)
 	char rrname[MAXDNAME];		/* The fqdn of this RR */
 	char base64_key[MAX_KEY_BASE64];
 
-	if ((_resp->options & RES_INIT) == 0 && res_init() == -1) {
+	if (_res_init(0) == -1) {
 		h_errno = NETDB_INTERNAL;
 		return (NULL);
 	}
@@ -926,10 +898,7 @@ const struct res_sym __p_type_syms[] = {
 };
 
 int
-__sym_ston(syms, name, success)
-	const struct res_sym *syms;
-	char *name;
-	int *success;
+__sym_ston(const struct res_sym *syms, char *name, int *success)
 {
 	for (; syms->name != 0; syms++) {
 		if (strcasecmp (name, syms->name) == 0) {
@@ -944,10 +913,7 @@ __sym_ston(syms, name, success)
 }
 
 const char *
-__sym_ntos(syms, number, success)
-	const struct res_sym *syms;
-	int number;
-	int *success;
+__sym_ntos(const struct res_sym *syms, int number, int *success)
 {
 	static char unname[20];
 
@@ -967,10 +933,7 @@ __sym_ntos(syms, number, success)
 
 
 const char *
-__sym_ntop(syms, number, success)
-	const struct res_sym *syms;
-	int number;
-	int *success;
+__sym_ntop(const struct res_sym *syms, int number, int *success)
 {
 	static char unname[20];
 
@@ -991,8 +954,7 @@ __sym_ntop(syms, number, success)
  * Return a string for the type
  */
 const char *
-__p_type(type)
-	int type;
+__p_type(int type)
 {
 	return (__sym_ntos (__p_type_syms, type, (int *)0));
 }
@@ -1001,8 +963,7 @@ __p_type(type)
  * Return a mnemonic for class
  */
 const char *
-__p_class(class)
-	int class;
+__p_class(int class)
 {
 	return (__sym_ntos (__p_class_syms, class, (int *)0));
 }
@@ -1011,8 +972,7 @@ __p_class(class)
  * Return a mnemonic for an option
  */
 const char *
-__p_option(option)
-	u_long option;
+__p_option(u_long option)
 {
 	static char nbuf[40];
 
@@ -1041,13 +1001,12 @@ __p_option(option)
  * Return a mnemonic for a time to live
  */
 const char *
-p_time(value)
-	u_int32_t value;
+p_time(u_int32_t value)
 {
 	static char nbuf[40];
 	char *ebuf;
 	int secs, mins, hours, days;
-	register char *p;
+	char *p;
 	int tmp;
 
 	if (value == 0) {
@@ -1069,7 +1028,7 @@ p_time(value)
 	ebuf = nbuf + sizeof(nbuf);
 	if (days) {
 		if ((tmp = snprintf(p, ebuf - p, "%d day%s",
-		    PLURALIZE(days))) >= ebuf - nbuf || tmp < 0)
+		    PLURALIZE(days))) >= ebuf - p || tmp < 0)
 			goto full;
 		p += tmp;
 	}
@@ -1079,7 +1038,7 @@ p_time(value)
 		if (p >= ebuf)
 			goto full;
 		if ((tmp = snprintf(p, ebuf - p, "%d hour%s",
-		    PLURALIZE(hours))) >= ebuf - nbuf || tmp < 0)
+		    PLURALIZE(hours))) >= ebuf - p || tmp < 0)
 			goto full;
 		p += tmp;
 	}
@@ -1089,7 +1048,7 @@ p_time(value)
 		if (p >= ebuf)
 			goto full;
 		if ((tmp = snprintf(p, ebuf - p, "%d min%s",
-		    PLURALIZE(mins))) >= ebuf - nbuf || tmp < 0)
+		    PLURALIZE(mins))) >= ebuf - p || tmp < 0)
 			goto full;
 		p += tmp;
 	}
@@ -1099,7 +1058,7 @@ p_time(value)
 		if (p >= ebuf)
 			goto full;
 		if ((tmp = snprintf(p, ebuf - p, "%d sec%s",
-		    PLURALIZE(secs))) >= ebuf - nbuf || tmp < 0)
+		    PLURALIZE(secs))) >= ebuf - p || tmp < 0)
 			goto full;
 	}
 	return (nbuf);
@@ -1123,8 +1082,7 @@ static unsigned int poweroften[10] = {1, 10, 100, 1000, 10000, 100000,
 
 /* takes an XeY precision/size value, returns a string representation. */
 static const char *
-precsize_ntoa(prec)
-	u_int8_t prec;
+precsize_ntoa(u_int8_t prec)
 {
 	static char retbuf[sizeof "90000000.00"];
 	unsigned long val;
@@ -1141,14 +1099,13 @@ precsize_ntoa(prec)
 
 /* converts ascii size/precision X * 10**Y(cm) to 0xXY.  moves pointer. */
 static u_int8_t
-precsize_aton(strptr)
-	char **strptr;
+precsize_aton(char **strptr)
 {
 	unsigned int mval = 0, cmval = 0;
 	u_int8_t retval = 0;
-	register char *cp;
-	register int exponent;
-	register int mantissa;
+	char *cp;
+	int exponent;
+	int mantissa;
 
 	cp = *strptr;
 
@@ -1183,11 +1140,9 @@ precsize_aton(strptr)
 
 /* converts ascii lat/lon to unsigned encoded 32-bit number.  moves pointer. */
 static u_int32_t
-latlon2ul(latlonstrptr,which)
-	char **latlonstrptr;
-	int *which;
+latlon2ul(char **latlonstrptr, int *which)
 {
-	register char *cp;
+	char *cp;
 	u_int32_t retval;
 	int deg = 0, min = 0, secs = 0, secsfrac = 0;
 
@@ -1282,9 +1237,7 @@ latlon2ul(latlonstrptr,which)
 /* converts a zone file representation in a string to an RDATA on-the-wire
  * representation. */
 int
-loc_aton(ascii, binary)
-	const char *ascii;
-	u_char *binary;
+loc_aton(const char *ascii, u_char *binary)
 {
 	const char *maxcp;
 	u_char *bcp;
@@ -1393,22 +1346,17 @@ loc_aton(ascii, binary)
 }
 
 const char *
-loc_ntoa(binary, ascii)
-	const u_char *binary;
-	char *ascii;
+loc_ntoa(const u_char *binary, char *ascii)
 {
 	return loc_ntoal(binary, ascii, 255);
 }
 
 /* takes an on-the-wire LOC RR and formats it in a human readable format. */
 static const char *
-loc_ntoal(binary, ascii, ascii_len)
-	const u_char *binary;
-	char *ascii;
-	int ascii_len;
+loc_ntoal(const u_char *binary, char *ascii, int ascii_len)
 {
 	static char *error = "?";
-	register const u_char *cp = binary;
+	const u_char *cp = binary;
 
 	int latdeg, latmin, latsec, latsecfrac;
 	int longdeg, longmin, longsec, longsecfrac;
@@ -1507,8 +1455,7 @@ loc_ntoal(binary, ascii, ascii_len)
 
 /* Return the number of DNS hierarchy levels in the name. */
 int
-__dn_count_labels(name)
-	char *name;
+__dn_count_labels(char *name)
 {
 	int i, len, count;
 
@@ -1538,8 +1485,7 @@ __dn_count_labels(name)
  * SIG records are required to be printed like this, by the Secure DNS RFC.
  */
 char *
-__p_secstodate (secs)
-	unsigned long secs;
+__p_secstodate (long unsigned int secs)
 {
 	static char output[15];		/* YYYYMMDDHHMMSS and null */
 	time_t clock = secs;
