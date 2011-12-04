@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/kern/kern_fork.c,v 1.3 2005/07/04 03:36:34 tg Exp $	*/
+/**	$MirOS: src/sys/kern/kern_fork.c,v 1.4 2005/07/04 05:11:59 tg Exp $	*/
 /*	$OpenBSD: kern_fork.c,v 1.73 2004/11/23 19:08:55 miod Exp $	*/
 /*	$NetBSD: kern_fork.c,v 1.29 1996/02/09 18:59:34 christos Exp $	*/
 
@@ -86,14 +86,8 @@ sys_fork(struct proc *p, void *v, register_t *retval)
 int
 sys_vfork(struct proc *p, void *v, register_t *retval)
 {
-#ifdef	VFORK_SHM
-#define	VFORK_ARGS	FORK_SHAREVM | FORK_VFORK | FORK_PPWAIT
-#else
-#define	VFORK_ARGS	FORK_VFORK | FORK_PPWAIT
-#endif
-	return (fork1(p, SIGCHLD, VFORK_ARGS, NULL, 0, NULL,
-	    NULL, retval, NULL));
-#undef	VFORK_ARGS
+	return (fork1(p, SIGCHLD, (FORK_SHAREVM | FORK_VFORK | FORK_PPWAIT),
+	    NULL, 0, NULL, NULL, retval, NULL));
 }
 
 int
