@@ -1,9 +1,8 @@
-/* $MirOS: gcc/gcc/cp/typeck.c,v 1.2 2005/03/25 19:29:20 tg Exp $ */
+/* $MirOS: gcc/gcc/cp/typeck.c,v 1.3 2005/04/19 12:58:31 tg Exp $ */
 
 /* Build expressions with type checking for C++ compiler.
    Copyright (C) 1987, 1988, 1989, 1992, 1993, 1994, 1995, 1996, 1997, 1998,
-   1999, 2000, 2001, 2002, 2003, 2004, 2005
-   Free Software Foundation, Inc.
+   1999, 2000, 2001, 2002, 2003, 2004, 2005 Free Software Foundation, Inc.
    Hacked by Michael Tiemann (tiemann@cygnus.com)
 
 This file is part of GCC.
@@ -3464,7 +3463,7 @@ build_binary_op (enum tree_code code, tree orig_op0, tree orig_op1,
     tree result = build (resultcode, build_type, op0, op1);
     tree folded;
 
-    folded = fold (result);
+    folded = fold_if_not_in_template (result);
     if (folded == result)
       TREE_CONSTANT (folded) = TREE_CONSTANT (op0) & TREE_CONSTANT (op1);
     if (final_type != 0)

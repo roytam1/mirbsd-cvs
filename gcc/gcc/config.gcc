@@ -1,4 +1,4 @@
-# $MirOS: gcc/gcc/config.gcc,v 1.4 2005/04/17 03:17:46 tg Exp $
+# $MirOS: gcc/gcc/config.gcc,v 1.5 2005/04/25 23:14:07 tg Exp $
 #
 # GCC target-specific configuration file.
 # Copyright 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004
@@ -1719,9 +1719,6 @@ pdp11-*-bsd)
 	use_fixproto=yes
         ;;
 pdp11-*-*)
-	use_fixproto=yes
-	;;
-avr-*-*)
 	use_fixproto=yes
 	;;
 # port not yet contributed
