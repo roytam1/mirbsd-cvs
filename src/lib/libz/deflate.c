@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/lib/libz/deflate.c,v 1.2 2005/03/14 21:58:16 tg Exp $ */
 /*	$OpenBSD: deflate.c,v 1.9 2004/12/03 03:06:36 djm Exp $	*/
 /* deflate.c -- compress data using the deflation algorithm
  * Copyright (C) 1995-2004 Jean-loup Gailly.
@@ -49,19 +49,9 @@
  *
  */
 
-
 #include "deflate.h"
 
-zRCSID("$MirOS$")
-
-const char deflate_copyright[] =
-   " deflate 1.2.2 Copyright 1995-2004 Jean-loup Gailly ";
-/*
-  If you use the zlib library in a product, an acknowledgment is welcome
-  in the documentation of your product. If for some reason you cannot
-  include such an acknowledgment, I would appreciate that you keep this
-  copyright string in the executable of your product.
- */
+zRCSID("$MirOS: src/lib/libz/deflate.c,v 1.2 2005/03/14 21:58:16 tg Exp $")
 
 /* ===========================================================================
  *  Function prototypes.

@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/lib/libz/infback.c,v 1.2 2005/03/14 21:58:16 tg Exp $ */
 /* infback.c -- inflate using a call-back interface
  * Copyright (C) 1995-2003 Mark Adler
  * For conditions of distribution and use, see copyright notice in zlib.h
@@ -15,6 +15,8 @@
 #include "inftrees.h"
 #include "inflate.h"
 #include "inffast.h"
+
+zRCSID("$MirOS$")
 
 /* function prototypes */
 local void fixedtables OF((struct inflate_state FAR *state));

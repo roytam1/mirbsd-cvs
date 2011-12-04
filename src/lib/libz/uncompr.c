@@ -1,13 +1,13 @@
-/**	$MirOS$ */
+/**	$MirOS: src/lib/libz/uncompr.c,v 1.2 2005/03/14 21:58:17 tg Exp $ */
 /*	$OpenBSD: uncompr.c,v 1.5 2003/12/16 22:33:02 henning Exp $	*/
 /* uncompr.c -- decompress a memory buffer
  * Copyright (C) 1995-2003 Jean-loup Gailly.
  * For conditions of distribution and use, see copyright notice in zlib.h
  */
 
+#include "zutil.h"
 
-#define ZLIB_INTERNAL
-#include "zlib.h"
+zRCSID("$MirOS$")
 
 /* ===========================================================================
      Decompresses the source buffer into the destination buffer.  sourceLen is

@@ -1,14 +1,17 @@
-# $MirOS: src/sys/arch/i386/stand/libsa/Makefile,v 1.3 2005/03/14 22:39:45 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/libsa/Makefile,v 1.4 2005/04/29 18:34:59 tg Exp $
 # $OpenBSD: Makefile,v 1.44 2004/06/26 05:19:37 tom Exp $
 
 .include "${.CURDIR}/../Makefile.inc"
 
-LIB=	sa
-
-S=${.CURDIR}/../../../..
-SADIR=${.CURDIR}/..
-DIR_SA=	$S/lib/libsa
-DIR_KERN=$S/lib/libkern
+LIB=		sa
+S=		${.CURDIR}/../../../..
+SADIR=		${.CURDIR}/..
+DIR_SA=		$S/lib/libsa
+DIR_KERN=	$S/lib/libkern
+CPPFLAGS+=	-DLINKADDR=${LINKADDR} -DHEAP_LIMIT=${HEAP_LIMIT}
+CPPFLAGS+=	-I${S}/stand/boot -I${S}/lib -I${BSDSRCDIR}/lib/libz
+CPPFLAGS+=	-D__INTERNAL_LIBSA_CREAD #-DCOMPAT_UFS
+CFLAGS+=	${SACFLAGS} ${DEBUGFLAGS}
 
 # i386 stuff (so, it will possibly load in the same 64k)
 SRCS+=	machdep.c dev_i386.c exec_i386.c cmd_i386.c loadfile.c
@@ -62,9 +65,6 @@ install:
 
 .include <bsd.lib.mk>
 
-CPPFLAGS+=-DLINKADDR=${LINKADDR} -DHEAP_LIMIT=${HEAP_LIMIT} ${DEBUGFLAGS}
-CPPFLAGS+=-I${S}/stand/boot -I${S}/lib #-DCOMPAT_UFS
-CPPFLAGS+=${SACFLAGS} -D__INTERNAL_LIBSA_CREAD
 #AS=cat ; 
 #AS+=	-R
 #AS+=	-a

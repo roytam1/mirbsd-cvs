@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/lib/libz/gzio.c,v 1.2 2005/03/14 21:58:16 tg Exp $ */
 /*	$OpenBSD: gzio.c,v 1.13 2004/12/03 03:06:36 djm Exp $	*/
 /* gzio.c -- IO on .gz files
  * Copyright (C) 1995-2003 Jean-loup Gailly.
@@ -7,12 +7,10 @@
  * Compile this file with -DNO_GZCOMPRESS to avoid the compression code.
  */
 
-
 #include <stdio.h>
-
 #include "zutil.h"
 
-zRCSID("$MirOS$")
+zRCSID("$MirOS: src/lib/libz/gzio.c,v 1.2 2005/03/14 21:58:16 tg Exp $")
 
 #ifdef NO_DEFLATE       /* for compatiblity with old definition */
 #  define NO_GZCOMPRESS

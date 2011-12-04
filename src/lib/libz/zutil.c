@@ -1,14 +1,13 @@
-/**	$MirOS$ */
+/**	$MirOS: src/lib/libz/zutil.c,v 1.2 2005/03/14 21:58:17 tg Exp $ */
 /*	$OpenBSD: zutil.c,v 1.7 2003/12/16 22:33:02 henning Exp $	*/
 /* zutil.c -- target dependent utility functions for the compression library
  * Copyright (C) 1995-2003 Jean-loup Gailly.
  * For conditions of distribution and use, see copyright notice in zlib.h
  */
 
-
 #include "zutil.h"
 
-zRCSID("$MirOS$")
+zRCSID("$MirOS: src/lib/libz/zutil.c,v 1.2 2005/03/14 21:58:17 tg Exp $")
 
 #ifndef NO_DUMMY_DECL
 struct internal_state      {int dummy;}; /* for buggy compilers */
@@ -149,7 +148,6 @@ const char * ZEXPORT zError(err)
 #endif
 
 #ifndef HAVE_MEMCPY
-
 void zmemcpy(dest, source, len)
     Bytef* dest;
     const Bytef* source;
@@ -294,7 +292,6 @@ void  zcfree (voidpf opaque, voidpf ptr)
 
 
 #ifndef MY_ZCALLOC /* Any system without a special alloc function */
-
 #ifndef STDC
 extern voidp  malloc OF((uInt size));
 extern voidp  calloc OF((uInt items, uInt size));
@@ -320,5 +317,4 @@ void  zcfree (opaque, ptr)
     free(ptr);
     if (opaque) return; /* make compiler happy */
 }
-
 #endif /* MY_ZCALLOC */

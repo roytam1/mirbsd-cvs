@@ -1,4 +1,4 @@
-/**	$MirOS$	*/
+/**	$MirOS: src/sys/lib/libsa/cread.c,v 1.2 2005/03/06 21:28:07 tg Exp $	*/
 /*	$OpenBSD: cread.c,v 1.12 2004/04/02 04:39:51 deraadt Exp $	*/
 /*	$NetBSD: cread.c,v 1.2 1997/02/04 18:38:20 thorpej Exp $	*/
 
@@ -42,8 +42,7 @@
  */
 
 #include "stand.h"
-#define	_BSD_STANDXX
-#include "../libz/zlib.h"
+#include <zlib.h>
 
 #define EOF (-1) /* needed by compression code */
 

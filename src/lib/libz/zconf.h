@@ -1,10 +1,9 @@
-/**	$MirOS$ */
+/**	$MirOS: src/lib/libz/zconf.h,v 1.3 2005/03/14 21:58:17 tg Exp $ */
 /*	$OpenBSD: zconf.h,v 1.6 2004/12/03 03:06:36 djm Exp $	*/
 /* zconf.h -- configuration of the zlib compression library
  * Copyright (C) 1995-2004 Jean-loup Gailly.
  * For conditions of distribution and use, see copyright notice in zlib.h
  */
-
 
 #ifndef ZCONF_H
 #define ZCONF_H
@@ -280,10 +279,10 @@ typedef uLong FAR uLongf;
 #endif
 
 #include <sys/types.h>	/* for off_t */
-#if defined(_BSD_STANDXX) || defined(_KERNEL)
+#if defined(_STANDALONE) || defined(_KERNEL)
 #include <sys/unistd.h>
 #else
-#include <unistd.h>    /* for SEEK_* and off_t */
+#include <unistd.h>	/* for SEEK_* and off_t */
 #endif
 #define z_off_t  off_t
 #ifndef SEEK_SET
@@ -317,7 +316,6 @@ typedef uLong FAR uLongf;
 #   pragma map(compressBound,"CMBND")
 #   pragma map(inflate_table,"INTABL")
 #   pragma map(inflate_fast,"INFA")
-#   pragma map(inflate_copyright,"INCOPY")
 #endif
 
 #endif /* ZCONF_H */

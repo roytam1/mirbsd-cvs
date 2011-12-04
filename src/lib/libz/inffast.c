@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/lib/libz/inffast.c,v 1.2 2005/03/14 21:58:16 tg Exp $ */
 /*	$OpenBSD: inffast.c,v 1.6 2004/12/03 03:06:36 djm Exp $	*/
 /* inffast.c -- fast decoding
  * Copyright (C) 1995-2004 Mark Adler
@@ -11,6 +11,8 @@
 #include "inffast.h"
 
 #ifndef ASMINF
+
+zRCSID("$MirOS$")
 
 /* Allow machine dependent optimization for post-increment or pre-increment.
    Based on testing to date,
@@ -315,5 +317,4 @@ unsigned start;         /* inflate()'s starting value for strm->avail_out */
    - Larger unrolled copy loops (three is about right)
    - Moving len -= 3 statement into middle of loop
  */
-
 #endif /* !ASMINF */

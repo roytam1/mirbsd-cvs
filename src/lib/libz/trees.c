@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/lib/libz/trees.c,v 1.2 2005/03/14 21:58:17 tg Exp $ */
 /*	$OpenBSD: trees.c,v 1.7 2004/12/03 03:06:36 djm Exp $	*/
 /* trees.c -- output deflated data using Huffman coding
  * Copyright (C) 1995-2003 Jean-loup Gailly
@@ -31,7 +31,6 @@
  *          Addison-Wesley, 1983. ISBN 0-201-06672-6.
  */
 
-
 /* #define GEN_TREES_H */
 
 #include "deflate.h"
@@ -39,6 +38,8 @@
 #ifdef DEBUG
 #  include <ctype.h>
 #endif
+
+zRCSID("$MirOS$")
 
 /* ===========================================================================
  * Constants

@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/diskprobe.c,v 1.2 2005/03/06 21:27:06 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/libsa/diskprobe.c,v 1.3 2005/04/29 18:34:59 tg Exp $ */
 /*	$OpenBSD: diskprobe.c,v 1.27 2004/06/23 00:21:49 tom Exp $	*/
 
 /*
@@ -39,8 +39,7 @@
 #include <sys/disklabel.h>
 #include <stand/boot/bootarg.h>
 #include <machine/biosvar.h>
-#define	_BSD_STANDXX
-#include <lib/libz/zlib.h>
+#include <zlib.h>
 #include "disk.h"
 #include "biosdev.h"
 #include "libsa.h"

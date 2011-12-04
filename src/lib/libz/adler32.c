@@ -1,12 +1,13 @@
-/**	$MirOS$ */
+/**	$MirOS: src/lib/libz/adler32.c,v 1.2 2005/03/14 21:58:16 tg Exp $ */
 /*	$OpenBSD: adler32.c,v 1.5 2003/12/16 22:33:02 henning Exp $	*/
 /* adler32.c -- compute the Adler-32 checksum of a data stream
  * Copyright (C) 1995-2003 Mark Adler
  * For conditions of distribution and use, see copyright notice in zlib.h
  */
 
-#define ZLIB_INTERNAL
-#include "zlib.h"
+#include "zutil.h"
+
+zRCSID("$MirOS$")
 
 #define BASE 65521UL    /* largest prime smaller than 65536 */
 #define NMAX 5552

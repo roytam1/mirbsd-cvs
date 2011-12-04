@@ -1,12 +1,16 @@
-# $MirOS: src/lib/libz/Makefile,v 1.3 2005/03/14 21:58:15 tg Exp $
+# $MirOS: src/lib/libz/Makefile,v 1.4 2005/03/14 21:59:47 tg Exp $
 # $OpenBSD: Makefile,v 1.12 2003/12/17 14:06:45 jmc Exp $
 
 SHLIB_VERSION?=	5.1
-LIB=	z
-HDRS=	zconf.h zlib.h
-SRCS=	adler32.c compress.c crc32.c deflate.c gzio.c infback.c \
-	inffast.c inflate.c inftrees.c trees.c uncompr.c zutil.c
-MAN=	compress.3
+LIB=		z
+HDRS=		zconf.h zlib.h
+SRCS=		adler32.c compress.c crc32.c deflate.c gzio.c infback.c \
+		inffast.c inflate.c inftrees.c trees.c uncompr.c zutil.c
+MAN=		compress.3
+CPPFLAGS+=	-DHAVE_STRERROR -DHAVE_MEMCPY -DHAS_vsnprintf -DHAS_snprintf
+CLEANFILES+=	mk_crc32 mk_crc32.c mk_inffixed mk_inffixed.c \
+		mk_trees mk_trees.c
+
 MLINKS=	compress.3 zlibVersion.3 compress.3 deflateInit.3 \
 	compress.3 deflate.3 compress.3 deflateEnd.3 \
 	compress.3 inflateInit.3 compress.3 inflate.3 \
@@ -32,18 +36,13 @@ MLINKS=	compress.3 zlibVersion.3 compress.3 deflateInit.3 \
 	compress.3 gzclose.3 compress.3 gzerror.3 \
 	compress.3 gzclearerr.3 \
 	compress.3 adler32.3 compress.3 crc32.3
-CPPFLAGS+=	-DHAVE_STRERROR -DHAVE_MEMCPY -DHAS_vsnprintf -DHAS_snprintf
-CLEANFILES+=	mk_crc32 mk_crc32.c mk_inffixed mk_inffixed.c \
-		mk_trees mk_trees.c
 
 includes:
-	@cd ${.CURDIR}; for i in $(HDRS); do \
-		j="cmp -s $$i ${DESTDIR}/usr/include/$$i || \
-		    ${INSTALL} ${INSTALL_COPY} -o ${BINOWN} -g ${BINGRP} -m 444 \
-		    $$i ${DESTDIR}/usr/include"; \
-		echo $$j; \
-		eval "$$j"; \
-	done
+.for _i in ${HDRS}
+	cmp -s ${_i} ${DESTDIR}/usr/include/${_i} || \
+	    ${INSTALL} ${INSTALL_COPY} -o ${BINOWN} -g ${BINGRP} \
+	    -m ${NONBINMODE} ${_i} ${DESTDIR}/usr/include/
+.endfor
 
 HOSTCFLAGS?=	${CFLAGS}
 HOSTLDFLAGS?=	${LDFLAGS}
