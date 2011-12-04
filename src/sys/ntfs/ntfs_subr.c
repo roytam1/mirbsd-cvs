@@ -1,4 +1,3 @@
-/**	$MirOS: src/sys/ntfs/ntfs_subr.c,v 1.3 2005/04/29 18:35:05 tg Exp $ */
 /*	$OpenBSD: ntfs_subr.c,v 1.7 2005/05/24 05:43:31 brad Exp $	*/
 /*	$NetBSD: ntfs_subr.c,v 1.4 2003/04/10 21:37:32 jdolecek Exp $	*/
 
@@ -2025,8 +2024,6 @@ ntfs_procfixups(
 	cfxp = (u_int16_t *) (buf + ntmp->ntm_bps - 2);
 	fixup = *fxp++;
 	for (i = 1; i < fhp->fh_fnum; i++, fxp++) {
-		caddr_t tmp;
-
 		if (*cfxp != fixup) {
 			printf("ntfs_procfixups: fixup %d doesn't match\n", i);
 			return (EINVAL);
