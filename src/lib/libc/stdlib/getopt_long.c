@@ -62,7 +62,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libc/stdlib/getopt_long.c,v 1.2 2009/03/15 14:59:25 tg Exp $");
 
 #define	REPLACE_GETOPT		/* use this getopt as the system getopt(3) */
 
@@ -102,11 +102,11 @@ static int nonopt_end = -1;   /* first option after non options (for permute) */
 
 /* Error messages */
 static const char recargchar[] = "option requires an argument -- %c";
-static const char recargstring[] = "option requires an argument -- %s";
-static const char ambig[] = "ambiguous option -- %.*s";
-static const char noarg[] = "option doesn't take an argument -- %.*s";
-static const char illoptchar[] = "unknown option -- %c";
-static const char illoptstring[] = "unknown option -- %s";
+static const char recargstring[] = "option requires an argument -- '%s'";
+static const char ambig[] = "ambiguous option -- '%.*s'";
+static const char noarg[] = "option does not take an argument -- '%.*s'";
+static const char illoptchar[] = "illegal option -- %c";
+static const char illoptstring[] = "illegal option -- '%s'";
 
 /*
  * Compute the greatest common divisor of a and b.
