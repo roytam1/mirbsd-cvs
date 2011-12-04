@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/kern/kern_fork.c,v 1.2 2005/03/06 21:28:00 tg Exp $	*/
+/**	$MirOS: src/sys/kern/kern_fork.c,v 1.3 2005/07/04 03:36:34 tg Exp $	*/
 /*	$OpenBSD: kern_fork.c,v 1.73 2004/11/23 19:08:55 miod Exp $	*/
 /*	$NetBSD: kern_fork.c,v 1.29 1996/02/09 18:59:34 christos Exp $	*/
 
@@ -391,8 +391,10 @@ fork1(struct proc *p1, int exitsig, int flags, void *stack, size_t stacksize,
 	 * Return child pid to parent process,
 	 * marking us as parent via retval[1].
 	 */
-	retval[0] = p2->p_pid;
-	retval[1] = 0;
+	if (retval != NULL) {
+		retval[0] = p2->p_pid;
+		retval[1] = 0;
+	}
 	return (0);
 }
 
