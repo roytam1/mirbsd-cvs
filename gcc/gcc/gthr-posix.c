@@ -1,4 +1,4 @@
-/* $MirOS: gcc/gcc/gthr-posix.c,v 1.2 2005/05/14 17:43:42 tg Exp $ */
+/* $MirOS: gcc/gcc/gthr-posix.c,v 1.3 2005/05/19 22:11:55 tg Exp $ */
 
 /* POSIX threads dummy routines for systems without weak definitions.  */
 /* Compile this one with gcc.  */
@@ -36,7 +36,7 @@ Software Foundation, 59 Temple Place - Suite 330, Boston, MA
 #define _LIBOBJC_WEAK
 #include "gthr.h"
 
-__RCSID("$MirOS: gcc/gcc/gthr-posix.c,v 1.2 2005/05/14 17:43:42 tg Exp $");
+__RCSID("$MirOS: gcc/gcc/gthr-posix.c,v 1.3 2005/05/19 22:11:55 tg Exp $");
 
 int
 pthread_once (pthread_once_t *once ATTRIBUTE_UNUSED,
@@ -45,7 +45,6 @@ pthread_once (pthread_once_t *once ATTRIBUTE_UNUSED,
   return -1;
 }
 
-#ifndef __MirBSD__
 int
 pthread_key_create (pthread_key_t *key ATTRIBUTE_UNUSED,
 		    void (*dtor) (void *) ATTRIBUTE_UNUSED)
@@ -80,7 +79,6 @@ pthread_create (pthread_t *thread ATTRIBUTE_UNUSED,
 {
   return 0;
 }
-#endif
 
 int
 pthread_mutex_lock (pthread_mutex_t *mutex ATTRIBUTE_UNUSED)
@@ -88,13 +86,11 @@ pthread_mutex_lock (pthread_mutex_t *mutex ATTRIBUTE_UNUSED)
   return 0;
 }
 
-#ifndef __MirBSD__
 int
 pthread_mutex_trylock (pthread_mutex_t *mutex ATTRIBUTE_UNUSED)
 {
   return 0;
 }
-#endif
 
 int
 pthread_mutex_unlock (pthread_mutex_t *mutex ATTRIBUTE_UNUSED)
@@ -102,7 +98,6 @@ pthread_mutex_unlock (pthread_mutex_t *mutex ATTRIBUTE_UNUSED)
   return 0;
 }
 
-#ifndef __MirBSD__
 int
 pthread_cond_broadcast (pthread_cond_t *cond ATTRIBUTE_UNUSED)
 {
@@ -216,4 +211,3 @@ pthread_setschedparam (pthread_t thread ATTRIBUTE_UNUSED,
   return 0;
 }
 #endif /* _POSIX_THREAD_PRIORITY_SCHEDULING */
-#endif
