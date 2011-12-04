@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/pci/pci_intr_fixup.c,v 1.4 2005/07/21 22:23:31 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/pci/pci_intr_fixup.c,v 1.5 2005/08/02 11:19:39 tg Exp $ */
 /*	$OpenBSD: pci_intr_fixup.c,v 1.37 2005/07/09 22:15:44 mickey Exp $	*/
 /*	$NetBSD: pci_intr_fixup.c,v 1.10 2000/08/10 21:18:27 soda Exp $	*/
 
@@ -676,16 +676,18 @@ pci_intr_header_fixup(pc, tag, ihp)
 		/* believe PCI IRQ Routing table */
 		p = " WARNING: overriding";
 		ihp->line = l->irq;
-	} else
+	} else {
 		/* routed by BIOS, but inconsistent */
 		/* believe PCI Interrupt Configuration Register */
 		p = " WARNING: preserving";
+		ihp->line = l->irq = irq;
+	}
 
 	if (pcibios_flags & PCIBIOS_INTRDEBUG) {
 		register pcireg_t id = pci_conf_read(pc, tag, PCI_ID_REG);
 
-		printf("%d:%d:%d %04x:%04x pin %c clink 0x%02x irq %d stage %d"
-		    "%s irq %d\n", bus, device, function,
+		printf("\n%d:%d:%d %04x:%04x pin %c clink 0x%02x irq %d "
+		    "stage %d %s irq %d\n", bus, device, function,
 		    PCI_VENDOR(id), PCI_PRODUCT(id), '@' + ihp->pin, l->clink,
 		    ((l->irq == I386_PCI_INTERRUPT_LINE_NO_CONNECTION)?
 		    -1 : l->irq), l->fixup_stage, p, irq);
