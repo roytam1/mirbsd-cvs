@@ -226,7 +226,7 @@ EXTRA_DIST = ffi.h.in ffi_common.h
 hackdir = $(includedir)
 hack_DATA = ffi.h
 toollibffidir = @tool_include_dir@/libffi
-toollibffi_HEADERS = $(top_srcdir)/src/@TARGETDIR@/ffitarget.h
+toollibffi_HEADERS = ffitarget.h
 all: all-am
 
 .SUFFIXES:
@@ -355,7 +355,6 @@ distclean-tags:
 	-rm -f TAGS ID GTAGS GRTAGS GSYMS GPATH tags
 
 distdir: $(DISTFILES)
-	$(mkdir_p) $(distdir)/../src/@TARGETDIR@
 	@srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`; \
 	topsrcdirstrip=`echo "$(top_srcdir)" | sed 's|.|.|g'`; \
 	list='$(DISTFILES)'; for file in $$list; do \
@@ -474,6 +473,9 @@ uninstall-am: uninstall-hackDATA uninstall-info-am \
 	ps ps-am tags uninstall uninstall-am uninstall-hackDATA \
 	uninstall-info-am uninstall-toollibffiHEADERS
 
+
+ffitarget.h: $(top_srcdir)/src/@TARGETDIR@/ffitarget.h
+	cp $> $@
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:
