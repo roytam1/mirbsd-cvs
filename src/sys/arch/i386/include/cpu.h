@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/include/cpu.h,v 1.2 2005/03/06 21:26:59 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/include/cpu.h,v 1.3 2005/05/04 18:12:39 tg Exp $ */
 /*	$OpenBSD: cpu.h,v 1.59 2004/04/02 22:28:41 tedu Exp $	*/
 /*	$NetBSD: cpu.h,v 1.35 1996/05/05 19:29:26 christos Exp $	*/
 
@@ -218,11 +218,6 @@ int	k7_powernow_setperf(int);
 /* npx.c */
 void	npxdrop(void);
 void	npxsave(void);
-
-#if defined(GPL_MATH_EMULATE)
-/* math_emulate.c */
-int	math_emulate(struct trapframe *);
-#endif
 
 #ifdef USER_LDT
 /* sys_machdep.h */

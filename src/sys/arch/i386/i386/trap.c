@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/sys/arch/i386/i386/trap.c,v 1.2 2005/03/06 21:26:58 tg Exp $ */
 /*	$OpenBSD: trap.c,v 1.62 2004/04/15 00:22:42 tedu Exp $	*/
 /*	$NetBSD: trap.c,v 1.95 1996/05/05 06:50:02 mycroft Exp $	*/
 
@@ -357,25 +357,12 @@ trap(frame)
 		}
 		goto out;
 
-	case T_DNA|T_USER: {
-#if defined(GPL_MATH_EMULATE)
-		int rv;
-		if ((rv = math_emulate(&frame)) == 0) {
-			if (frame.tf_eflags & PSL_T)
-				goto trace;
-			return;
-		}
-		sv.sival_int = frame.tf_eip;
-		trapsignal(p, rv, type &~ T_USER, FPE_FLTINV, sv);
-		goto out;
-#else
+	case T_DNA|T_USER:
 		printf("pid %d killed due to lack of floating point\n",
 		    p->p_pid);
 		sv.sival_int = frame.tf_eip;
 		trapsignal(p, SIGKILL, type &~ T_USER, FPE_FLTINV, sv);
 		goto out;
-#endif
-	}
 
 	case T_BOUND|T_USER:
 		sv.sival_int = frame.tf_eip;
@@ -493,9 +480,6 @@ trap(frame)
 		trapsignal(p, SIGTRAP, type &~ T_USER, TRAP_BRKPT, sv);
 		break;
 	case T_TRCTRAP|T_USER:		/* trace trap */
-#if defined(GPL_MATH_EMULATE)
-	trace:
-#endif
 		sv.sival_int = rcr2();
 		trapsignal(p, SIGTRAP, type &~ T_USER, TRAP_TRACE, sv);
 		break;

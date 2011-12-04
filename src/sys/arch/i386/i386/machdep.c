@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/i386/machdep.c,v 1.3 2005/04/14 19:35:47 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/i386/machdep.c,v 1.4 2005/05/04 18:12:39 tg Exp $ */
 /*	$OpenBSD: machdep.c,v 1.317 2005/04/02 02:44:58 tedu Exp $	*/
 /*	$NetBSD: machdep.c,v 1.214 1996/11/10 03:16:17 thorpej Exp $	*/
 
@@ -2436,10 +2436,10 @@ setregs(p, pack, stack, retval)
 
 	p->p_md.md_flags &= ~MDP_USEDFPU;
 	if (i386_use_fxsave) {
-		pcb->pcb_savefpu.sv_xmm.sv_env.en_cw = __OpenBSD_NPXCW__;
+		pcb->pcb_savefpu.sv_xmm.sv_env.en_cw = __NPXCW__;
 		pcb->pcb_savefpu.sv_xmm.sv_env.en_mxcsr = __INITIAL_MXCSR__;
 	} else
-		pcb->pcb_savefpu.sv_87.sv_env.en_cw = __OpenBSD_NPXCW__;
+		pcb->pcb_savefpu.sv_87.sv_env.en_cw = __NPXCW__;
 
 	__asm("movw %w0,%%gs" : : "r" (LSEL(LUDATA_SEL, SEL_UPL)));
 	__asm("movw %w0,%%fs" : : "r" (LSEL(LUDATA_SEL, SEL_UPL)));

@@ -612,7 +612,7 @@ npxdna_xmm(struct proc *p)
 int
 npxdna_s87(struct proc *p)
 {
-	static u_short control = __INITIAL_NPXCW__;
+	static u_short control = __NPXCW__;
 
 	if (npx_type == NPX_NONE) {
 		iprintf(("Emul"));
