@@ -1,4 +1,4 @@
-/**	$MirOS: src/include/string.h,v 1.3 2005/04/29 18:34:48 tg Exp $ */
+/**	$MirOS: src/include/string.h,v 1.4 2005/07/26 18:40:56 tg Exp $ */
 /*	$OpenBSD: string.h,v 1.15 2005/03/30 03:04:16 deraadt Exp $	*/
 /*	$NetBSD: string.h,v 1.6 1994/10/26 00:56:30 cgd Exp $	*/
 
@@ -36,7 +36,12 @@
 #ifndef _STRING_H_
 #define	_STRING_H_
 
+#if !defined(_ANSI_SOURCE) && !defined(_POSIX_SOURCE)
+#include <sys/types.h>		/* for mode_t */
+#else
+#include <sys/cdefs.h>
 #include <machine/ansi.h>
+#endif
 
 #ifdef	_BSD_SIZE_T_
 typedef	_BSD_SIZE_T_	size_t;
@@ -52,8 +57,6 @@ typedef	_BSD_SIZE_T_	size_t;
 #define	NULL	((void *)((_BSD_PTRDIFF_T_)0UL))
 #endif
 #endif
-
-#include <sys/cdefs.h>
 
 __BEGIN_DECLS
 void	*memchr(const void *, int, size_t);
