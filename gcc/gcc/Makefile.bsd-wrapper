@@ -1,4 +1,4 @@
-# $MirOS: gcc/gcc/Makefile.bsd-wrapper,v 1.17 2005/07/06 18:48:07 tg Exp $
+# $MirOS: gcc/gcc/Makefile.bsd-wrapper,v 1.18 2005/08/28 18:43:54 tg Exp $
 
 .include <bsd.own.mk>
 .include "${GNUSYSTEM_AUX_DIR}/locations.mk"
@@ -56,6 +56,8 @@ XARGS+=		BISON=yacc LIBIBERTY_HDRS="${GNU_LIBIBERTY_INC}" \
 		VALGRIND_DRIVER_DEFINES="-DNO_SHARED_LIBGCC_MULTILIB" \
 		LIBGCC2_DEBUG_CFLAGS="${FSFCFLAGS}" MAKEINFOFLAGS=--no-split
 
+# This is to prevent the compiler from "overloading" us with pseudo-local
+# symbols e.g. in shared libraries - for now...
 CFVARS+=	gcc_cv_as_ix86_gotoff_in_data=no
 
 CFARGS+=	--prefix=/usr --libexecdir=/usr/lib --infodir=/usr/share/info \
@@ -80,7 +82,8 @@ gcclink:
 .if ${CC} != "gcc"
 	test -d lbin || mkdir lbin
 	-rm -f lbin/gcc
-	ln -s $$(whence -p ${CC}) lbin/gcc
+	print '#!/bin/sh\nexec ${CC:S/'/'\''/g} "$$@"' >lbin/gcc
+	chmod a+x lbin/gcc
 .endif
 	touch $@
 
@@ -116,7 +119,7 @@ post-install:
 	    -o ${BINOWN} -g ${BINGRP} cpp ${DESTDIR}/usr/bin/mcpp
 	${INSTALL} ${INSTALL_COPY} ${INSTALL_STRIP} -m ${BINMODE} \
 	    -o ${BINOWN} -g ${BINGRP} xgcc ${DESTDIR}/usr/bin/mgcc
-	chown -R ${BINOWN}:${BINGRP} \
+	chown -Rh ${BINOWN}:${BINGRP} \
 	    ${DESTDIR}/usr/lib/gcc/${GCCTARGET}/${GCCVERSION}
 
 pre-clean:
