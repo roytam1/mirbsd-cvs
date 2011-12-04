@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.bin/binutils/ld/emultempl/elf32.em,v 1.2 2005/03/13 16:07:06 tg Exp $
+# $MirOS: src/gnu/usr.bin/binutils/ld/emultempl/elf32.em,v 1.3 2005/03/28 22:21:15 tg Exp $
 
 # This shell script emits a C file. -*- C -*-
 # It does some substitutions.
@@ -33,10 +33,11 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
+Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA 02110-1301, USA.  */
 
 #define TARGET_IS_${EMULATION_NAME}
 
+#include "config.h"
 #include "bfd.h"
 #include "sysdep.h"
 #include "libiberty.h"
@@ -55,7 +56,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
 #include <ldgram.h>
 #include "elf/common.h"
 
-__RCSID("$MirOS: src/gnu/usr.bin/binutils/ld/emultempl/elf32.em,v 1.2 2005/03/13 16:07:06 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/binutils/ld/emultempl/elf32.em,v 1.3 2005/03/28 22:21:15 tg Exp $");
 
 /* Declare functions used by various EXTRA_EM_FILEs.  */
 static void gld${EMULATION_NAME}_before_parse (void);
@@ -63,7 +64,10 @@ static void gld${EMULATION_NAME}_after_open (void);
 static void gld${EMULATION_NAME}_before_allocation (void);
 static bfd_boolean gld${EMULATION_NAME}_place_orphan
   (lang_input_statement_type *file, asection *s);
-static void gld${EMULATION_NAME}_finish (void);
+static void gld${EMULATION_NAME}_layout_sections_again (void);
+static void gld${EMULATION_NAME}_strip_empty_sections (void);
+static void gld${EMULATION_NAME}_provide_init_fini_syms (void);
+static void gld${EMULATION_NAME}_finish (void) ATTRIBUTE_UNUSED;
 
 EOF
 case ${target} in
@@ -460,6 +464,9 @@ gld${EMULATION_NAME}_stat_needed (lang_input_statement_type *s)
   if (global_found)
     return;
   if (s->the_bfd == NULL)
+    return;
+  if (s->as_needed
+      && (bfd_elf_get_dyn_lib_class (s->the_bfd) & DYN_AS_NEEDED) != 0)
     return;
 
   if (bfd_stat (s->the_bfd, &st) != 0)
@@ -988,6 +995,13 @@ gld${EMULATION_NAME}_check_needed (lang_input_statement_type *s)
   if (global_found)
     return;
 
+  /* If this input file was an as-needed entry, and wasn't found to be
+     needed at the stage it was linked, then don't say we have loaded it.  */
+  if (s->as_needed
+      && (s->the_bfd == NULL
+	  || (bfd_elf_get_dyn_lib_class (s->the_bfd) & DYN_AS_NEEDED) != 0))
+    return;
+
   if (s->filename != NULL)
     {
       const char *f;
@@ -1311,6 +1325,7 @@ gld${EMULATION_NAME}_before_allocation (void)
 	  (const char * const *) command_line.auxiliary_filters,
 	  &link_info, &sinterp, lang_elf_version_info)))
     einfo ("%P%F: failed to set dynamic section sizes: %E\n");
+
 ${ELF_INTERPRETER_SET_DEFAULT}
   /* Let the user override the dynamic linker we are using.  */
   if (command_line.interpreter != NULL
@@ -1362,6 +1377,12 @@ ${ELF_INTERPRETER_SET_DEFAULT}
 	s->flags |= SEC_EXCLUDE;
       }
   }
+
+  if (!link_info.relocatable)
+    strip_excluded_output_sections ();
+
+  if (!bfd_elf_size_dynsym_hash_dynstr (output_bfd, &link_info))
+    einfo ("%P%F: failed to set dynamic section sizes: %E\n");
 }
 
 EOF
@@ -1699,43 +1720,64 @@ gld${EMULATION_NAME}_provide_bound_symbols (const char *sec,
 					    const char *start,
 					    const char *end)
 {
-  asection *s;
-  bfd_vma start_val, end_val;
+  asection *s = bfd_get_section_by_name (output_bfd, sec);
+  if (s && bfd_section_removed_from_list (output_bfd, s))
+    s = NULL;
+  _bfd_elf_provide_section_bound_symbols (&link_info, s, start, end);
+}
 
-  s = bfd_get_section_by_name (output_bfd, sec);
-  if (s != NULL)
+/* If not building a shared library, provide
+
+   __preinit_array_start
+   __preinit_array_end
+   __init_array_start
+   __init_array_end
+   __fini_array_start
+   __fini_array_end
+
+   They are set here rather than via PROVIDE in the linker
+   script, because using PROVIDE inside an output section
+   statement results in unnecessary output sections.  Using
+   PROVIDE outside an output section statement runs the risk of
+   section alignment affecting where the section starts.  */
+
+static void
+gld${EMULATION_NAME}_provide_init_fini_syms (void)
+{
+  if (!link_info.relocatable && link_info.executable)
     {
-      start_val = s->vma;
-      end_val = start_val + s->size;
+      gld${EMULATION_NAME}_provide_bound_symbols (".preinit_array",
+						  "__preinit_array_start",
+						  "__preinit_array_end");
+      gld${EMULATION_NAME}_provide_bound_symbols (".init_array",
+						  "__init_array_start",
+						  "__init_array_end");
+      gld${EMULATION_NAME}_provide_bound_symbols (".fini_array",
+						  "__fini_array_start",
+						  "__fini_array_end");
     }
-  else
-    {
-      start_val = 0;
-      end_val = 0;
-    }
-  _bfd_elf_provide_symbol (&link_info, start, start_val);
-  _bfd_elf_provide_symbol (&link_info, end, end_val);
 }
 
 static void
-gld${EMULATION_NAME}_finish (void)
+gld${EMULATION_NAME}_layout_sections_again (void)
 {
-  if (bfd_elf_discard_info (output_bfd, &link_info))
-    {
-      lang_reset_memory_regions ();
+  lang_reset_memory_regions ();
 
-      /* Resize the sections.  */
-      lang_size_sections (stat_ptr->head, abs_output_section,
-			  &stat_ptr->head, 0, (bfd_vma) 0, NULL, TRUE);
+  /* Resize the sections.  */
+  lang_size_sections (stat_ptr->head, abs_output_section,
+		      &stat_ptr->head, 0, (bfd_vma) 0, NULL, TRUE);
 
-      /* Redo special stuff.  */
-      ldemul_after_allocation ();
+  /* Redo special stuff.  */
+  ldemul_after_allocation ();
 
-      /* Do the assignments again.  */
-      lang_do_assignments (stat_ptr->head, abs_output_section,
-			   (fill_type *) 0, (bfd_vma) 0);
-    }
+  /* Do the assignments again.  */
+  lang_do_assignments (stat_ptr->head, abs_output_section,
+		       (fill_type *) 0, (bfd_vma) 0);
+}
 
+static void
+gld${EMULATION_NAME}_strip_empty_sections (void)
+{
   if (!link_info.relocatable)
     {
       lang_output_section_statement_type *os;
@@ -1749,48 +1791,26 @@ gld${EMULATION_NAME}_finish (void)
 	  if (os == abs_output_section || os->constraint == -1)
 	    continue;
 	  s = os->bfd_section;
-	  if (s != NULL && s->size == 0 && (s->flags & SEC_KEEP) == 0)
+	  if (s != NULL
+	      && s->size == 0
+	      && (s->flags & SEC_KEEP) == 0
+	      && !bfd_section_removed_from_list (output_bfd, s))
 	    {
-	      asection **p;
-
-	      for (p = &output_bfd->sections; *p; p = &(*p)->next)
-		if (*p == s)
-		  {
-		    bfd_section_list_remove (output_bfd, p);
-		    output_bfd->section_count--;
-		    break;
-		  }
+	      bfd_section_list_remove (output_bfd, s);
+	      output_bfd->section_count--;
 	    }
 	}
-
-      /* If not building shared library, provide
-
-	 __preinit_array_start
-	 __preinit_array_end
-	 __init_array_start
-	 __init_array_end
-	 __fini_array_start
-	 __fini_array_end
-
-	 They are set here rather than via PROVIDE in the linker
-	 script, because using PROVIDE inside an output section
-	 statement results in unnecessary output sections.  Using
-	 PROVIDE outside an output section statement runs the risk of
-	 section alignment affecting where the section starts.  */
-
-      if (!link_info.shared)
-	{
-	  gld${EMULATION_NAME}_provide_bound_symbols
-	    (".preinit_array", "__preinit_array_start",
-	     "__preinit_array_end");
-	  gld${EMULATION_NAME}_provide_bound_symbols
-	    (".init_array", "__init_array_start",
-	     "__init_array_end");
-	  gld${EMULATION_NAME}_provide_bound_symbols
-	    (".fini_array", "__fini_array_start",
-	     "__fini_array_end");
-	}
     }
+}
+
+static void
+gld${EMULATION_NAME}_finish (void)
+{
+  if (bfd_elf_discard_info (output_bfd, &link_info))
+    gld${EMULATION_NAME}_layout_sections_again ();
+
+  gld${EMULATION_NAME}_strip_empty_sections ();
+  gld${EMULATION_NAME}_provide_init_fini_syms ();
 }
 EOF
 fi

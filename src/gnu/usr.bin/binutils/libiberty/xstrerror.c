@@ -1,4 +1,4 @@
-/* $MirOS: src/gnu/usr.bin/binutils/libiberty/xstrerror.c,v 1.2 2005/03/13 16:07:11 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/binutils/libiberty/xstrerror.c,v 1.3 2005/03/28 21:25:13 tg Exp $ */
 
 /* xstrerror.c -- jacket routine for more robust strerror() usage.
    Fri Jun 16 18:30:00 1995  Pat Rankin  <rankin@eql.caltech.edu>
@@ -20,18 +20,31 @@ will never return a @code{NULL} pointer.
 #include "config.h"
 #include "libiberty.h"
 
-__RCSID("$MirOS: src/gnu/usr.bin/binutils/libiberty/xstrerror.c,v 1.2 2005/03/13 16:07:11 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/binutils/libiberty/xstrerror.c,v 1.3 2005/03/28 21:25:13 tg Exp $");
 
 #ifdef VMS
-#include <errno.h>
-#if !defined (__STRICT_ANSI__) && !defined (__HIDE_FORBIDDEN_NAMES)
+#  include <errno.h>
+#  if !defined (__STRICT_ANSI__) && !defined (__HIDE_FORBIDDEN_NAMES)
+#    ifdef __cplusplus
+extern "C" {
+#    endif /* __cplusplus */
 extern char *strerror (int,...);
-#define DONT_DECLARE_STRERROR
-#endif
-#endif	/* VMS */
+#    define DONT_DECLARE_STRERROR
+#    ifdef __cplusplus
+}
+#    endif /* __cplusplus */
+#  endif
+#endif  /* VMS */
+
 
 #ifndef DONT_DECLARE_STRERROR
+#  ifdef __cplusplus
+extern "C" {
+#  endif /* __cplusplus */
 extern char *strerror (int);
+#  ifdef __cplusplus
+}
+#  endif /* __cplusplus */
 #endif
 
 /* If strerror returns NULL, we'll format the number into a static buffer.  */

@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/gnu/usr.bin/binutils/opcodes/tic30-dis.c,v 1.2 2005/03/13 16:07:14 tg Exp $ */
 
 /* Disassembly routines for TMS320C30 architecture
    Copyright 1998, 1999, 2000, 2002 Free Software Foundation, Inc.
@@ -16,8 +16,8 @@
 
    You should have received a copy of the GNU General Public License
    along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
-   02111-1307, USA.  */
+   Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA
+   02110-1301, USA.  */
 
 #include <errno.h>
 #include <math.h>
@@ -25,7 +25,7 @@
 #include "dis-asm.h"
 #include "opcode/tic30.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/gnu/usr.bin/binutils/opcodes/tic30-dis.c,v 1.2 2005/03/13 16:07:14 tg Exp $");
 
 #define NORMAL_INSN   1
 #define PARALLEL_INSN 2

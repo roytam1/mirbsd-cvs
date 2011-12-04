@@ -17,7 +17,7 @@
 
    You should have received a copy of the GNU General Public License
    along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
+   Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA 02110-1301, USA.  */
 
 /* The SystemV/386 SVR3.2 assembler, and probably all AT&T derived
    ix86 Unix assemblers, generate floating point instructions with
@@ -98,11 +98,13 @@ static const template i386_optab[] =
    are set to an implementation defined value (on the Pentium Pro,
    the implementation defined value is zero).  */
 { "mov",   2,	0x8c, X, 0,	 wl_Suf|Modrm,			{ SReg2, WordReg|InvMem, 0 } },
-{ "mov",   2,	0x8c, X, 0,	 wl_Suf|Modrm|IgnoreSize,	{ SReg2, WordMem, 0 } },
+{ "mov",   2,	0x8c, X, 0,	 w_Suf|Modrm|IgnoreSize,	{ SReg2, WordMem, 0 } },
 { "mov",   2,	0x8c, X, Cpu386, wl_Suf|Modrm,			{ SReg3, WordReg|InvMem, 0 } },
-{ "mov",   2,	0x8c, X, Cpu386, wl_Suf|Modrm|IgnoreSize,	{ SReg3, WordMem, 0 } },
-{ "mov",   2,	0x8e, X, 0,	 wl_Suf|Modrm|IgnoreSize,	{ WordReg|WordMem, SReg2, 0 } },
-{ "mov",   2,	0x8e, X, Cpu386, wl_Suf|Modrm|IgnoreSize,	{ WordReg|WordMem, SReg3, 0 } },
+{ "mov",   2,	0x8c, X, Cpu386, w_Suf|Modrm|IgnoreSize,	{ SReg3, WordMem, 0 } },
+{ "mov",   2,	0x8e, X, 0,	 wl_Suf|Modrm|IgnoreSize,	{ WordReg, SReg2, 0 } },
+{ "mov",   2,	0x8e, X, 0,	 w_Suf|Modrm|IgnoreSize,	{ WordMem, SReg2, 0 } },
+{ "mov",   2,	0x8e, X, Cpu386, wl_Suf|Modrm|IgnoreSize,	{ WordReg, SReg3, 0 } },
+{ "mov",   2,	0x8e, X, Cpu386, w_Suf|Modrm|IgnoreSize,	{ WordMem, SReg3, 0 } },
 /* Move to/from control debug registers.  In the 16 or 32bit modes they are 32bit.  In the 64bit
    mode they are 64bit.*/
 { "mov",   2, 0x0f20, X, Cpu386|CpuNo64, l_Suf|D|Modrm|IgnoreSize,{ Control, Reg32|InvMem, 0} },
@@ -880,6 +882,8 @@ static const template i386_optab[] =
 {"repz",   0,	0xf3, X, 0,	 NoSuf|IsPrefix,	{ 0, 0, 0} },
 {"repne",  0,	0xf2, X, 0,	 NoSuf|IsPrefix,	{ 0, 0, 0} },
 {"repnz",  0,	0xf2, X, 0,	 NoSuf|IsPrefix,	{ 0, 0, 0} },
+{"ht",	   0,	0x3e, X, 0,	 NoSuf|IsPrefix,	{ 0, 0, 0} },
+{"hnt",	   0,	0x2e, X, 0,	 NoSuf|IsPrefix,	{ 0, 0, 0} },
 {"rex",    0,	0x40, X, Cpu64,	 NoSuf|IsPrefix,	{ 0, 0, 0} },
 {"rexz",   0,	0x41, X, Cpu64,	 NoSuf|IsPrefix,	{ 0, 0, 0} },
 {"rexy",   0,	0x42, X, Cpu64,	 NoSuf|IsPrefix,	{ 0, 0, 0} },
@@ -916,8 +920,8 @@ static const template i386_optab[] =
 {"cmpxchg8b",1,0x0fc7, 1, Cpu586, q_Suf|Modrm,		{ LLongMem, 0, 0} },
 
 /* Pentium II/Pentium Pro extensions.  */
-{"sysenter",0, 0x0f34, X, Cpu686|CpuNo64, NoSuf,	{ 0, 0, 0} },
-{"sysexit", 0, 0x0f35, X, Cpu686|CpuNo64, NoSuf,	{ 0, 0, 0} },
+{"sysenter",0, 0x0f34, X, Cpu686, NoSuf,		{ 0, 0, 0} },
+{"sysexit", 0, 0x0f35, X, Cpu686, NoSuf,		{ 0, 0, 0} },
 {"fxsave",  1, 0x0fae, 0, Cpu686, q_Suf|Modrm,		{ LLongMem, 0, 0} },
 {"fxrstor", 1, 0x0fae, 1, Cpu686, q_Suf|Modrm,		{ LLongMem, 0, 0} },
 {"rdpmc",   0, 0x0f33, X, Cpu686, NoSuf,		{ 0, 0, 0} },
@@ -927,13 +931,6 @@ static const template i386_optab[] =
 {"ud2a",    0, 0x0f0b, X, Cpu686, NoSuf,		{ 0, 0, 0} },
 /* 2nd. official undefined instr. */
 {"ud2b",    0, 0x0fb9, X, Cpu686, NoSuf,		{ 0, 0, 0} },
-
-/* VIA C3 extensions (by OpenBSD) */
-{"xstore-rng", 0, 0x0fa7, 0xc0, Cpu686, ImmExt|NoSuf|IsString,	{ 0, 0, 0} },
-{"xcrypt-ecb", 0, 0x0fa7, 0xc8, Cpu686, ImmExt|NoSuf|IsString,	{ 0, 0, 0} },
-{"xcrypt-cbc", 0, 0x0fa7, 0xd0, Cpu686, ImmExt|NoSuf|IsString,	{ 0, 0, 0} },
-{"xcrypt-cfb", 0, 0x0fa7, 0xe0, Cpu686, ImmExt|NoSuf|IsString,	{ 0, 0, 0} },
-{"xcrypt-ofb", 0, 0x0fa7, 0xe8, Cpu686, ImmExt|NoSuf|IsString,	{ 0, 0, 0} },
 
 {"cmovo",   2, 0x0f40, X, Cpu686, wlq_Suf|Modrm,	{ WordReg|WordMem, WordReg, 0} },
 {"cmovno",  2, 0x0f41, X, Cpu686, wlq_Suf|Modrm,	{ WordReg|WordMem, WordReg, 0} },
@@ -1016,6 +1013,10 @@ static const template i386_optab[] =
 {"movq",   2,	0x88, X, Cpu64,	 NoSuf|D|W|Modrm|Size64,{ Reg64, Reg64|AnyMem, 0 } },
 {"movq",   2,	0xc6, 0, Cpu64,	 NoSuf|W|Modrm|Size64,	{ Imm32S, Reg64|WordMem, 0 } },
 {"movq",   2,	0xb0, X, Cpu64,	 NoSuf|W|ShortForm|Size64,{ Imm64, Reg64, 0 } },
+/* The segment register moves accept Reg64 so that a segment register
+   can be copied to a 64 bit register, and vice versa.  */
+{"movq",   2,	0x8c, X, Cpu64,  NoSuf|Modrm|Size64,	{ SReg2|SReg3, Reg64|InvMem, 0 } },
+{"movq",   2,	0x8e, X, Cpu64,	 NoSuf|Modrm|Size64,	{ Reg64, SReg2|SReg3, 0 } },
 /* Move to/from control debug registers.  In the 16 or 32bit modes they are 32bit.  In the 64bit
    mode they are 64bit.*/
 {"movq",   2, 0x0f20, X, Cpu64,	 NoSuf|D|Modrm|IgnoreSize|NoRex64|Size64,{ Control, Reg64|InvMem, 0} },
@@ -1382,18 +1383,27 @@ static const template i386_optab[] =
 {"syscall",  0, 0x0f05,    X, CpuK6,	NoSuf,			{ 0, 0, 0} },
 {"sysret",   0, 0x0f07,    X, CpuK6,	lq_Suf|DefaultSize,	{ 0, 0, 0} },
 {"swapgs",   0, 0x0f01, 0xf8, Cpu64,	NoSuf|ImmExt,		{ 0, 0, 0} },
+{"rdtscp",   0, 0x0f01, 0xf9, CpuSledgehammer,NoSuf|ImmExt,	{ 0, 0, 0} },
 
 /* VIA PadLock extensions.  */
-{"xstorerng", 0, 0x000fa7c0, X, Cpu686|CpuPadLock, NoSuf|IsString, { 0, 0, 0} },
-{"xcryptecb", 0, 0xf30fa7c8, X, Cpu686|CpuPadLock, NoSuf|IsString, { 0, 0, 0} },
-{"xcryptcbc", 0, 0xf30fa7d0, X, Cpu686|CpuPadLock, NoSuf|IsString, { 0, 0, 0} },
-{"xcryptcfb", 0, 0xf30fa7e0, X, Cpu686|CpuPadLock, NoSuf|IsString, { 0, 0, 0} },
-{"xcryptofb", 0, 0xf30fa7e8, X, Cpu686|CpuPadLock, NoSuf|IsString, { 0, 0, 0} },
-{"montmul",   0, 0xf30fa6c0, X, Cpu686|CpuPadLock, NoSuf|IsString, { 0, 0, 0} },
-{"xsha1",     0, 0xf30fa6c8, X, Cpu686|CpuPadLock, NoSuf|IsString, { 0, 0, 0} },
-{"xsha256",   0, 0xf30fa6d0, X, Cpu686|CpuPadLock, NoSuf|IsString, { 0, 0, 0} },
-/* Alias for xstorerng.  */
-{"xstore",    0, 0x000fa7c0, X, Cpu686|CpuPadLock, NoSuf|IsString, { 0, 0, 0} },
+{"xstore-rng",0, 0x000fa7, 0xc0, Cpu686|CpuPadLock, NoSuf|IsString|ImmExt, { 0, 0, 0} },
+{"xcrypt-ecb",0, 0xf30fa7, 0xc8, Cpu686|CpuPadLock, NoSuf|IsString|ImmExt, { 0, 0, 0} },
+{"xcrypt-cbc",0, 0xf30fa7, 0xd0, Cpu686|CpuPadLock, NoSuf|IsString|ImmExt, { 0, 0, 0} },
+{"xcrypt-ctr",0, 0xf30fa7, 0xd8, Cpu686|CpuPadLock, NoSuf|IsString|ImmExt, { 0, 0, 0} },
+{"xcrypt-cfb",0, 0xf30fa7, 0xe0, Cpu686|CpuPadLock, NoSuf|IsString|ImmExt, { 0, 0, 0} },
+{"xcrypt-ofb",0, 0xf30fa7, 0xe8, Cpu686|CpuPadLock, NoSuf|IsString|ImmExt, { 0, 0, 0} },
+{"montmul",   0, 0xf30fa6, 0xc0, Cpu686|CpuPadLock, NoSuf|IsString|ImmExt, { 0, 0, 0} },
+{"xsha1",     0, 0xf30fa6, 0xc8, Cpu686|CpuPadLock, NoSuf|IsString|ImmExt, { 0, 0, 0} },
+{"xsha256",   0, 0xf30fa6, 0xd0, Cpu686|CpuPadLock, NoSuf|IsString|ImmExt, { 0, 0, 0} },
+/* Aliases without hyphens.  */
+{"xstorerng", 0, 0x000fa7, 0xc0, Cpu686|CpuPadLock, NoSuf|IsString|ImmExt, { 0, 0, 0} },
+{"xcryptecb", 0, 0xf30fa7, 0xc8, Cpu686|CpuPadLock, NoSuf|IsString|ImmExt, { 0, 0, 0} },
+{"xcryptcbc", 0, 0xf30fa7, 0xd0, Cpu686|CpuPadLock, NoSuf|IsString|ImmExt, { 0, 0, 0} },
+{"xcryptctr", 0, 0xf30fa7, 0xd8, Cpu686|CpuPadLock, NoSuf|IsString|ImmExt, { 0, 0, 0} },
+{"xcryptcfb", 0, 0xf30fa7, 0xe0, Cpu686|CpuPadLock, NoSuf|IsString|ImmExt, { 0, 0, 0} },
+{"xcryptofb", 0, 0xf30fa7, 0xe8, Cpu686|CpuPadLock, NoSuf|IsString|ImmExt, { 0, 0, 0} },
+/* Alias for xstore-rng.  */
+{"xstore",    0, 0x000fa7, 0xc0, Cpu686|CpuPadLock, NoSuf|IsString|ImmExt, { 0, 0, 0} },
 
 /* sentinel */
 {NULL, 0, 0, 0, 0, 0, { 0, 0, 0} }

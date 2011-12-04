@@ -15,8 +15,8 @@
 
    You should have received a copy of the GNU General Public License
    along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
-   02111-1307, USA.  */
+   Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA
+   02110-1301, USA.  */
 
 #include "bfd.h"
 #include "sysdep.h"
@@ -1105,23 +1105,21 @@ elf_xtensa_create_dynamic_sections (bfd *dynobj, struct bfd_link_info *info)
     return FALSE;
 
   /* Create ".rela.got".  */
-  s = bfd_make_section (dynobj, ".rela.got");
+  s = bfd_make_section_with_flags (dynobj, ".rela.got", flags);
   if (s == NULL
-      || ! bfd_set_section_flags (dynobj, s, flags)
       || ! bfd_set_section_alignment (dynobj, s, 2))
     return FALSE;
 
   /* Create ".got.loc" (literal tables for use by dynamic linker).  */
-  s = bfd_make_section (dynobj, ".got.loc");
+  s = bfd_make_section_with_flags (dynobj, ".got.loc", flags);
   if (s == NULL
-      || ! bfd_set_section_flags (dynobj, s, flags)
       || ! bfd_set_section_alignment (dynobj, s, 2))
     return FALSE;
 
   /* Create ".xt.lit.plt" (literal table for ".got.plt*").  */
-  s = bfd_make_section (dynobj, ".xt.lit.plt");
+  s = bfd_make_section_with_flags (dynobj, ".xt.lit.plt",
+				   noalloc_flags);
   if (s == NULL
-      || ! bfd_set_section_flags (dynobj, s, noalloc_flags)
       || ! bfd_set_section_alignment (dynobj, s, 2))
     return FALSE;
 
@@ -1151,17 +1149,16 @@ add_extra_plt_sections (bfd *dynobj, int count)
 
       sname = (char *) bfd_malloc (10);
       sprintf (sname, ".plt.%u", chunk);
-      s = bfd_make_section (dynobj, sname);
+      s = bfd_make_section_with_flags (dynobj, sname,
+				       flags | SEC_CODE);
       if (s == NULL
-	  || ! bfd_set_section_flags (dynobj, s, flags | SEC_CODE)
 	  || ! bfd_set_section_alignment (dynobj, s, 2))
 	return FALSE;
 
       sname = (char *) bfd_malloc (14);
       sprintf (sname, ".got.plt.%u", chunk);
-      s = bfd_make_section (dynobj, sname);
+      s = bfd_make_section_with_flags (dynobj, sname, flags);
       if (s == NULL
-	  || ! bfd_set_section_flags (dynobj, s, flags)
 	  || ! bfd_set_section_alignment (dynobj, s, 2))
 	return FALSE;
     }
@@ -1462,7 +1459,7 @@ elf_xtensa_size_dynamic_sections (bfd *output_bfd ATTRIBUTE_UNUSED,
 	}
 
       if (strip)
-	_bfd_strip_section_from_output (info, s);
+	s->flags |= SEC_EXCLUDE;
       else
 	{
 	  /* Allocate memory for the section contents.  */
@@ -1857,6 +1854,9 @@ bfd_elf_xtensa_reloc (bfd *abfd,
   reloc_howto_type *howto = reloc_entry->howto;
   asection *reloc_target_output_section;
   bfd_boolean is_weak_undef;
+
+  if (!xtensa_default_isa)
+    xtensa_default_isa = xtensa_isa_init (0, 0);
 
   /* ELF relocs are against symbols.  If we are producing relocatable
      output, and the reloc is against an external symbol, the resulting
@@ -9341,9 +9341,9 @@ xtensa_get_property_section_name (asection *sec, const char *base_name)
       char *linkonce_kind = 0;
 
       if (strcmp (base_name, XTENSA_INSN_SEC_NAME) == 0) 
-	linkonce_kind = "x";
+	linkonce_kind = "x.";
       else if (strcmp (base_name, XTENSA_LIT_SEC_NAME) == 0) 
-	linkonce_kind = "p";
+	linkonce_kind = "p.";
       else if (strcmp (base_name, XTENSA_PROP_SEC_NAME) == 0)
 	linkonce_kind = "prop.";
       else
@@ -9482,12 +9482,56 @@ xtensa_callback_required_dependence (bfd *abfd,
 /* The default literal sections should always be marked as "code" (i.e.,
    SHF_EXECINSTR).  This is particularly important for the Linux kernel
    module loader so that the literals are not placed after the text.  */
-static struct bfd_elf_special_section const elf_xtensa_special_sections[]=
+static struct bfd_elf_special_section const
+  xtensa_special_sections_f[]=
 {
-  { ".literal",       8, 0, SHT_PROGBITS, SHF_ALLOC + SHF_EXECINSTR },
-  { ".init.literal", 13, 0, SHT_PROGBITS, SHF_ALLOC + SHF_EXECINSTR },
   { ".fini.literal", 13, 0, SHT_PROGBITS, SHF_ALLOC + SHF_EXECINSTR },
   { NULL,             0, 0, 0,            0 }
+};
+
+static struct bfd_elf_special_section const
+  xtensa_special_sections_i[]=
+{
+  { ".init.literal", 13, 0, SHT_PROGBITS, SHF_ALLOC + SHF_EXECINSTR },
+  { NULL,             0, 0, 0,            0 }
+};
+static struct bfd_elf_special_section const
+  xtensa_special_sections_l[]=
+{
+  { ".literal",       8, 0, SHT_PROGBITS, SHF_ALLOC + SHF_EXECINSTR },
+  { NULL,             0, 0, 0,            0 }
+};
+
+static struct bfd_elf_special_section const *
+  elf_xtensa_special_sections[27] =
+{
+  NULL,				/* 'a' */
+  NULL,				/* 'b' */
+  NULL,				/* 'c' */
+  NULL,				/* 'd' */
+  NULL,				/* 'e' */
+  xtensa_special_sections_f,	/* 'f' */
+  NULL,				/* 'g' */
+  NULL,				/* 'h' */
+  xtensa_special_sections_i,	/* 'i' */
+  NULL,				/* 'j' */
+  NULL,				/* 'k' */
+  xtensa_special_sections_l,	/* 'l' */
+  NULL,				/* 'm' */
+  NULL,				/* 'n' */
+  NULL,				/* 'o' */
+  NULL,				/* 'p' */
+  NULL,				/* 'q' */
+  NULL,				/* 'r' */
+  NULL,				/* 's' */
+  NULL,				/* 't' */
+  NULL,				/* 'u' */
+  NULL,				/* 'v' */
+  NULL,				/* 'w' */
+  NULL,				/* 'x' */
+  NULL,				/* 'y' */
+  NULL,				/* 'z' */
+  NULL				/* other */
 };
 
 

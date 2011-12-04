@@ -1,3 +1,5 @@
+dnl $MirOS$
+dnl
 dnl Autoconf configure script for GDB, the GNU debugger.
 dnl Copyright 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004
 dnl Free Software Foundation, Inc.
@@ -31,7 +33,6 @@ AC_AIX
 AC_ISC_POSIX
 AM_PROG_CC_STDC
 
-AC_CONFIG_AUX_DIR(`cd $srcdir;pwd`/..)
 AC_CANONICAL_SYSTEM
 
 dnl List of object files and targets accumulated by configure.
@@ -45,55 +46,6 @@ CONFIG_ALL=
 CONFIG_CLEAN=
 CONFIG_INSTALL=
 CONFIG_UNINSTALL=
-
-dnl Set up for gettext.  PACKAGE is used when we call bindtextdomain.
-
-CY_GNU_GETTEXT
-
-localedir='${datadir}/locale'
-AC_SUBST(localedir)
-
-if test "x$POSUB" != x; then
-
-  dnl Lifted from GCC's config/gettext.m4.
-  AC_MSG_CHECKING(for catalogs to be installed)
-  # Look for .po and .gmo files in the source directory.
-  CATALOGS=  AC_SUBST(CATALOGS)
-  XLINGUAS=
-  for cat in $srcdir/po/*.gmo $srcdir/po/*.po; do
-    # If there aren't any .gmo files the shell will give us the
-    # literal string "../path/to/srcdir/po/*.gmo" which has to be
-    # weeded out.
-    case "$cat" in *\**)
-      continue;;
-    esac
-    # The quadruple backslash is collapsed to a double backslash
-    # by the backticks, then collapsed again by the double quotes,
-    # leaving us with one backslash in the sed expression (right
-    # before the dot that mustn't act as a wildcard).
-    cat=`echo $cat | sed -e "s!$srcdir/!!" -e "s!\\\\.po!.gmo!"`
-    lang=`echo $cat | sed -e 's!po/!!' -e "s!\\\\.gmo!!"`
-    # The user is allowed to set LINGUAS to a list of languages to
-    # install catalogs for.  If it's empty that means "all of them."
-    if test "x$LINGUAS" = x; then
-      CATALOGS="$CATALOGS $cat"
-      XLINGUAS="$XLINGUAS $lang"
-    else
-      case "$LINGUAS" in *$lang*)
-        CATALOGS="$CATALOGS $cat"
-        XLINGUAS="$XLINGUAS $lang"
-        ;;
-      esac
-    fi
-  done
-  LINGUAS="$XLINGUAS"
-  AC_MSG_RESULT($LINGUAS)
-
-   CONFIG_ALL="$CONFIG_ALL all-po"
-   CONFIG_CLEAN="$CONFIG_CLEAN clean-po"		   
-   CONFIG_INSTALL="$CONFIG_INSTALL install-po"
-   CONFIG_UNINSTALL="$CONFIG_UNINSTALL uninstall-po"
-fi
 
 PACKAGE=gdb
 AC_DEFINE_UNQUOTED(PACKAGE, "$PACKAGE", [Name of this package. ])
@@ -396,8 +348,8 @@ case $host_os in
   solaris2.[[789]])
     if test "$GCC" = yes; then
       AC_DEFINE(_MSE_INT_H, 1,
-        [[Define to 1 to avoid a clash between <widec.h> and <wchar.h> on
-   Solaris 2.[789] when using GCC. ]])
+        [Define to 1 to avoid a clash between <widec.h> and <wchar.h> on
+   Solaris 2.[789] when using GCC. ])
     fi ;;
 esac
 AC_CHECK_HEADERS(curses.h cursesX.h ncurses.h ncurses/ncurses.h)
@@ -418,7 +370,7 @@ AC_CHECK_HEADERS(ctype.h time.h)
 
 AC_CHECK_DECLS([free, malloc, realloc])
 AC_CHECK_DECLS([strerror, strstr])
-AC_CHECK_DECLS(getopt)
+AC_CHECK_DECLS([getopt, snprintf, vsnprintf])
 
 # ----------------------- #
 # Checks for structures.  #

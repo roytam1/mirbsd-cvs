@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.bin/binutils/ld/Makefile.am,v 1.2 2005/03/13 16:07:02 tg Exp $
+# $MirOS: src/gnu/usr.bin/binutils/ld/Makefile.am,v 1.3 2005/03/28 22:21:11 tg Exp $
 
 ## Process this file with automake to generate Makefile.in
 
@@ -15,6 +15,7 @@ YFLAGS = -d
 LEX = `if [ -f ../flex/flex ]; then echo ../flex/flex; else echo @LEX@; fi`
 
 WARN_CFLAGS = @WARN_CFLAGS@
+NO_WERROR = @NO_WERROR@
 AM_CFLAGS = $(WARN_CFLAGS)
 
 # We put the scripts in the directory $(scriptdir)/ldscripts.
@@ -102,6 +103,9 @@ noinst_PROGRAMS = ld-new
 info_TEXINFOS = ld.texinfo ldint.texinfo
 noinst_TEXINFOS = #ldint.texinfo
 man_MANS = ld.1
+
+AM_MAKEINFOFLAGS = -I $(srcdir) -I $(BFDDIR)/doc
+TEXI2DVI = texi2dvi -I $(srcdir) -I $(BFDDIR)/doc
 
 INCLUDES = -D_GNU_SOURCE -I. -I$(srcdir) -I../bfd -I$(BFDDIR) -I$(INCDIR) $(HDEFINES) $(CFLAGS)
 
@@ -193,6 +197,7 @@ ALL_EMULATIONS = \
 	eelf_i386_fbsd.o \
 	eelf_i386_mbsd.o \
 	eelf_i386_ldso.o \
+	eelf_i386_vxworks.o \
 	eelf_s390.o \
 	egld960.o \
 	egld960coff.o \
@@ -419,6 +424,15 @@ OFILES = ldgram.o ldlex.o lexsup.o ldlang.o mri.o ldctor.o ldmain.o \
 	ldfile.o ldcref.o ${EMULATION_OFILES} ${EMUL_EXTRA_OFILES}
 
 STAGESTUFF = *.o ldscripts/* e*.c
+
+# Disable -Werror, if it has been enabled, since old versions of bison/
+# yacc will produce working code which contain compile time warnings. 
+ldgram.o:
+	$(COMPILE) -c $< $(NO_WERROR)
+ldlex.o:
+	$(COMPILE) -c $< $(NO_WERROR)
+deffilep.o:
+	$(COMPILE) -c $< $(NO_WERROR)
 
 # At the moment this is just a list of those emulation template files
 # that contain internationalised strings.
@@ -872,6 +886,10 @@ eelf_i386_mbsd.c: $(srcdir)/emulparams/elf_i386_mbsd.sh \
 eelf_i386_ldso.c: $(srcdir)/emulparams/elf_i386_ldso.sh \
   $(srcdir)/emultempl/elf32.em $(srcdir)/scripttempl/elf.sc ${GEN_DEPENDS}
 	${GENSCRIPTS} elf_i386_ldso "$(tdir_elf_i386_ldso)"
+eelf_i386_vxworks.c: $(srcdir)/emulparams/elf_i386_vxworks.sh \
+  $(srcdir)/emulparams/vxworks.sh \
+  $(srcdir)/emultempl/elf32.em $(srcdir)/scripttempl/elf.sc ${GEN_DEPENDS}
+	${GENSCRIPTS} elf_i386_vxworks "$(tdir_elf_i386_vxworks)"
 eelf_s390.c: $(srcdir)/emulparams/elf_s390.sh \
   $(srcdir)/emultempl/elf32.em $(srcdir)/scripttempl/elf.sc ${GEN_DEPENDS}
 	${GENSCRIPTS} elf_s390 "$(tdir_elf_s390)"
@@ -1547,13 +1565,13 @@ configdoc.texi:	${DOCVER}-doc.texi
 	  || ln ${srcdir}/${DOCVER}-doc.texi ./configdoc.texi >/dev/null 2>&1 \
 	  || cp ${srcdir}/${DOCVER}-doc.texi ./configdoc.texi
 
-ldver.texi: Makefile
+ldver.texi: $(srcdir)/../bfd/configure
 	rm -f $@
-	echo '@set VERSION $(VERSION)' > $@
+	eval `grep '^ *VERSION=' $(srcdir)/../bfd/configure`; \
+	  echo "@set VERSION $$VERSION" > $@
 
 ld.info: $(srcdir)/ld.texinfo configdoc.texi ldver.texi
-	@rm -f $@ $@-[0-9] $@-[0-9][0-9]
-	$(MAKEINFO) --no-split -I $(srcdir) -I $(BFDDIR)/doc $(srcdir)/ld.texinfo
+ld.dvi: $(srcdir)/ld.texinfo configdoc.texi ldver.texi
 
 # Build the man page from the texinfo file
 # The sed command removes the no-adjust Nroff command so that
@@ -1567,10 +1585,12 @@ ld.1: $(srcdir)/ld.texinfo configdoc.texi ldver.texi
 	        (rm -f $@.T$$$$ && exit 1)
 	rm -f ld.pod
 
-MAINTAINERCLEANFILES = ldver.texi
+MAINTAINERCLEANFILES = ldver.texi configdoc.texi
 
-# We want to reconfigure if configure.host or configure.tgt changes.
-CONFIG_STATUS_DEPENDENCIES = $(srcdir)/configure.host $(srcdir)/configure.tgt
+# We want to reconfigure if configure.host or configure.tgt changes.  We
+# extract version from bfd/configure.in, so we must depend on that also.
+CONFIG_STATUS_DEPENDENCIES = $(srcdir)/configure.host $(srcdir)/configure.tgt \
+	$(srcdir)/../bfd/configure.in
 
 MOSTLYCLEANFILES = $(STAGESTUFF) ld1$(EXEEXT) ld2$(EXEEXT) ld3$(EXEEXT) \
 	ldemul-list.h crtbegin.o crtend.o ld.log ld.sum
@@ -1603,21 +1623,22 @@ install-data-local:
 
 # We want install to imply install-info as per GNU standards, despite the
 # cygnus option.
-install: install-info
+install-data-local: install-info
 
 # Stuff that should be included in a distribution.  The diststuff
 # target is run by the taz target in ../Makefile.in.
 EXTRA_DIST = ldgram.c ldgram.h ldlex.c $(man_MANS)
 diststuff: info $(EXTRA_DIST)
+all: info ld.1
+
+# Both info (ld.info) and ld.1 depend on configdoc.texi and ldver.texi.
+# But info isn't a direct target. Make info-recursive to depend on
+# ld.1 to support parallel build.
+info-recursive: ld.1
 
 DISTCLEANFILES = tdirs site.exp site.bak stringify.sed
 distclean-local:
 	rm -rf ldscripts
-
-Makefile: $(BFDDIR)/configure.in
-
-.y.c:
-	$(SHELL) $(YLWRAP) $< y.tab.c $*.c y.tab.h $*.h -- "$(YACC)" $(AM_YFLAGS) $(YFLAGS)
 
 # Targets to rebuild dependencies in this Makefile.
 # Have to get rid of DEP1 here so that "$?" later includes all of $(CFILES).
@@ -1670,8 +1691,8 @@ ldctor.o: ldctor.c ../bfd/bfd.h $(INCDIR)/ansidecl.h \
   $(INCDIR)/symcat.h sysdep.h config.h $(INCDIR)/fopen-same.h \
   $(INCDIR)/bfdlink.h $(INCDIR)/safe-ctype.h ld.h $(INCDIR)/bin-bugs.h \
   ldexp.h ldlang.h ldmisc.h ldgram.h ldmain.h ldctor.h
-ldemul.o: ldemul.c ../bfd/bfd.h $(INCDIR)/ansidecl.h \
-  $(INCDIR)/symcat.h sysdep.h config.h $(INCDIR)/fopen-same.h \
+ldemul.o: ldemul.c config.h ../bfd/bfd.h $(INCDIR)/ansidecl.h \
+  $(INCDIR)/symcat.h sysdep.h $(INCDIR)/fopen-same.h \
   ld.h $(INCDIR)/bin-bugs.h ldmisc.h ldexp.h ldlang.h \
   ldfile.h ldemul.h ldmain.h ldemul-list.h
 ldexp.o: ldexp.c ../bfd/bfd.h $(INCDIR)/ansidecl.h \
@@ -1712,8 +1733,8 @@ ldwrite.o: ldwrite.c ../bfd/bfd.h $(INCDIR)/ansidecl.h \
   $(INCDIR)/bfdlink.h $(INCDIR)/libiberty.h $(INCDIR)/safe-ctype.h \
   ld.h $(INCDIR)/bin-bugs.h ldexp.h ldlang.h ldwrite.h \
   ldmisc.h ldgram.h ldmain.h
-lexsup.o: lexsup.c ../bfd/bfd.h $(INCDIR)/ansidecl.h \
-  $(INCDIR)/symcat.h sysdep.h config.h $(INCDIR)/fopen-same.h \
+lexsup.o: lexsup.c config.h ../bfd/bfd.h $(INCDIR)/ansidecl.h \
+  $(INCDIR)/symcat.h sysdep.h $(INCDIR)/fopen-same.h \
   $(INCDIR)/libiberty.h $(INCDIR)/safe-ctype.h $(INCDIR)/bfdlink.h \
   ld.h $(INCDIR)/bin-bugs.h ldmain.h ldmisc.h ldexp.h \
   ldlang.h ldgram.h ldlex.h ldfile.h ldver.h ldemul.h \

@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/gnu/usr.bin/binutils/bfd/bfdwin.c,v 1.2 2005/03/13 16:06:45 tg Exp $ */
 
 /* Support for memory-mapped windows into a BFD.
    Copyright 1995, 1996, 2001, 2002, 2003 Free Software Foundation, Inc.
@@ -18,14 +18,14 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
+Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA 02110-1301, USA.  */
 
 #include "sysdep.h"
 
 #include "bfd.h"
 #include "libbfd.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/gnu/usr.bin/binutils/bfd/bfdwin.c,v 1.2 2005/03/13 16:06:45 tg Exp $");
 
 /* Currently, if USE_MMAP is undefined, none if the window stuff is
    used.  Okay, so it's mis-named.  At least the command-line option

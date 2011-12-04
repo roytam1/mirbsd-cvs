@@ -1,4 +1,4 @@
-/* $MirOS: src/gnu/usr.bin/binutils/gas/config/tc-i386.h,v 1.2 2005/03/13 16:06:57 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/binutils/gas/config/tc-i386.h,v 1.3 2005/04/14 19:04:42 tg Exp $ */
 
 /* tc-i386.h -- Header file for tc-i386.c
    Copyright 1989, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000,
@@ -19,8 +19,8 @@
 
    You should have received a copy of the GNU General Public License
    along with GAS; see the file COPYING.  If not, write to the Free
-   Software Foundation, 59 Temple Place - Suite 330, Boston, MA
-   02111-1307, USA.  */
+   Software Foundation, 51 Franklin Street - Fifth Floor, Boston, MA
+   02110-1301, USA.  */
 
 #ifndef TC_I386
 #define TC_I386 1
@@ -63,7 +63,10 @@ extern unsigned long i386_mach (void);
 
 #ifdef TE_FreeBSD
 #define ELF_TARGET_FORMAT	"elf32-i386-freebsd"
+#elif defined (TE_VXWORKS)
+#define ELF_TARGET_FORMAT	"elf32-i386-vxworks"
 #endif
+
 #ifndef ELF_TARGET_FORMAT
 #define ELF_TARGET_FORMAT	"elf32-i386"
 #endif

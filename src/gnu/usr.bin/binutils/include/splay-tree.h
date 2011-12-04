@@ -1,4 +1,4 @@
-/* $MirOS: src/gnu/usr.bin/binutils/include/splay-tree.h,v 1.2 2005/03/13 16:07:00 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/binutils/include/splay-tree.h,v 1.3 2005/03/28 21:25:10 tg Exp $ */
 
 /* A splay-tree datatype.  
    Copyright 1998, 1999, 2000, 2002, 2005
@@ -19,8 +19,8 @@ General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with GCC; see the file COPYING.  If not, write to
-the Free Software Foundation, 59 Temple Place - Suite 330,
-Boston, MA 02111-1307, USA.  */
+the Free Software Foundation, 51 Franklin Street - Fifth Floor,
+Boston, MA 02110-1301, USA.  */
 
 /* For an easily readable description of splay-trees, see:
 
@@ -72,7 +72,7 @@ typedef int (*splay_tree_foreach_fn) (splay_tree_node, void*);
    node structures.  The first argument is the number of bytes needed;
    the second is a data pointer the splay tree functions pass through
    to the allocator.  This function must never return zero.  */
-typedef PTR (*splay_tree_allocate_fn) (int, void *);
+typedef void *(*splay_tree_allocate_fn) (int, void *);
 
 /* The type of a function used to free memory allocated using the
    corresponding splay_tree_allocate_fn.  The first argument is the
@@ -112,7 +112,7 @@ struct splay_tree_s GTY(())
   /* Allocate/free functions, and a data pointer to pass to them.  */
   splay_tree_allocate_fn allocate;
   splay_tree_deallocate_fn deallocate;
-  PTR GTY((skip (""))) allocate_data;
+  void * GTY((skip (""))) allocate_data;
 
 };
 typedef struct splay_tree_s *splay_tree;

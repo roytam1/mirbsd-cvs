@@ -1,4 +1,4 @@
-/* $MirOS: src/gnu/usr.bin/binutils/bfd/coff-rs6000.c,v 1.2 2005/03/13 16:06:45 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/binutils/bfd/coff-rs6000.c,v 1.3 2005/03/28 21:51:01 tg Exp $ */
 
 /* BFD back-end for IBM RS/6000 "XCOFF" files.
    Copyright 1990-1999, 2000, 2001, 2002, 2003, 2004, 2005
@@ -26,7 +26,7 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
+Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA 02110-1301, USA.  */
 
 #include "bfd.h"
 #include "sysdep.h"
@@ -38,7 +38,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
 #include "libcoff.h"
 #include "libxcoff.h"
 
-__RCSID("$MirOS: src/gnu/usr.bin/binutils/bfd/coff-rs6000.c,v 1.2 2005/03/13 16:06:45 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/binutils/bfd/coff-rs6000.c,v 1.3 2005/03/28 21:51:01 tg Exp $");
 
 extern bfd_boolean _bfd_xcoff_mkobject
   PARAMS ((bfd *));
@@ -4170,6 +4170,7 @@ const bfd_target rs6000coff_vec =
     coff_bfd_is_target_special_symbol,
     coff_get_lineno,
     coff_find_nearest_line,
+    coff_find_inliner_info,
     coff_bfd_make_debug_symbol,
     _bfd_generic_read_minisymbols,
     _bfd_generic_minisymbol_to_symbol,
@@ -4417,6 +4418,7 @@ const bfd_target pmac_xcoff_vec =
     coff_bfd_is_target_special_symbol,
     coff_get_lineno,
     coff_find_nearest_line,
+    coff_find_inliner_info,
     coff_bfd_make_debug_symbol,
     _bfd_generic_read_minisymbols,
     _bfd_generic_minisymbol_to_symbol,

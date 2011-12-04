@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.bin/binutils/opcodes/Makefile.am,v 1.2 2005/03/13 16:07:12 tg Exp $
+# $MirOS: src/gnu/usr.bin/binutils/opcodes/Makefile.am,v 1.3 2005/03/28 21:56:59 tg Exp $
 
 ## Process this file with automake to generate Makefile.in
 
@@ -11,6 +11,7 @@ BFDDIR = $(srcdir)/../bfd
 MKDEP = gcc -MM
 
 WARN_CFLAGS = @WARN_CFLAGS@
+NO_WERROR = @NO_WERROR@
 AM_CFLAGS = $(WARN_CFLAGS)
 
 bfdlibdir = @bfdlibdir@

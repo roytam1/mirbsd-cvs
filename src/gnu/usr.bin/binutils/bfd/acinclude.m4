@@ -1,8 +1,8 @@
-dnl $MirOS$
+dnl $MirOS: src/gnu/usr.bin/binutils/bfd/acinclude.m4,v 1.2 2005/03/13 16:06:43 tg Exp $
 
-sinclude(../config/accross.m4)
 sinclude(../config/acx.m4)
 sinclude(../bfd/bfd.m4)
+sinclude(../bfd/warning.m4)
 
 dnl See whether we need to use fopen-bin.h rather than fopen-same.h.
 AC_DEFUN([BFD_BINARY_FOPEN],

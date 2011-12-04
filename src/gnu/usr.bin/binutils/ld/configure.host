@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.bin/binutils/ld/configure.host,v 1.2 2005/03/13 16:07:04 tg Exp $
+# $MirOS: src/gnu/usr.bin/binutils/ld/configure.host,v 1.3 2005/03/28 22:21:12 tg Exp $
 
 # This is the linker host specific file.  This is invoked by the
 # autoconf generated configure script.  Putting it in a separate shell
@@ -12,7 +12,7 @@
 
 HDEFINES=
 HOSTING_CRT0=/lib/crt0.o
-HOSTING_LIBS='`if [ -f ../gcc/libgcc.a ]; then libgcc=../gcc/libgcc.a; else libgcc=\`${CC} -print-libgcc-file-name\`; fi; if [ -f ../gcc/libgcc_eh.a ]; then libgcc="$libgcc ../gcc/libgcc_eh.a"; else libgcc_eh=\`${CC} -print-file-name=libgcc_eh.a\`; if [ x"$libgcc_eh" != xlibgcc_eh.a ]; then libgcc="$libgcc $libgcc_eh"; fi; fi; echo --start-group $libgcc -lc --end-group`'
+HOSTING_LIBS='`if [ -f ../gcc/libgcc.a ]; then libgcc=../gcc/libgcc.a; else libgcc=\`${CC} -print-libgcc-file-name\`; fi; if [ -f ../gcc/libgcc_eh.a ]; then libgcc="$libgcc ../gcc/libgcc_eh.a"; else libgcc_eh=\`${CC} -print-file-name=libgcc_eh.a\`; if [ x"$libgcc_eh" != xlibgcc_eh.a ]; then libgcc="$libgcc $libgcc_eh"; fi; fi; if [ -f ../gcc/libunwind.a ]; then libgcc="$libgcc ../gcc/libunwind.a"; else libunwind=\`${CC} -print-file-name=libunwind.a\`; if [ x"$libunwind" != xlibunwind.a ]; then libgcc="$libgcc $libunwind"; fi; fi; echo --start-group $libgcc -lc --end-group`'
 
 #
 #	Generic configurations:
@@ -39,7 +39,7 @@ case "${host}" in
   HOSTING_LIBS='-L`dirname \`${CC} --print-file-name=libc.so\`` '"$HOSTING_LIBS"' `if [ -f ../gcc/crtend.o ]; then echo ../gcc/crtend.o; else ${CC} --print-file-name=crtend.o; fi` `${CC} --print-file-name=crtn.o`'
   ;;
 
-*-*-netbsd* | *-*-mirbsd*)
+*-*-mirbsd* | *-*-netbsd*)
   # Different versions of NetBSD with the ELF object format use different
   # sets of start/end files.
   HOSTING_CRT0='-dynamic-linker /usr/libexec/ld.elf_so /usr/lib/crt0.o'
@@ -67,6 +67,12 @@ case "${host}" in
     # Support for GCC's crtstuff not present.
     HOSTING_LIBS="$HOSTING_LIBS `${CC} --print-file-name=crtend.o`"
   fi
+  ;;
+
+*-*-openbsd*)
+  HOSTING_CRT0="-dynamic-linker /usr/libexec/ld.so /usr/lib/crt0.o"
+  HOSTING_CRT0="$HOSTING_CRT0 /usr/lib/crtbegin.o"
+  HOSTING_LIBS="$HOSTING_LIBS /usr/lib/crtend.o"
   ;;
 
 esac
@@ -229,11 +235,14 @@ x86_64-*-linux-*)
 *-*-linux*)
   ;;
 
+*-*-mirbsd*)
+  HOSTING_CRT0="${HOSTING_CRT0#@(-dynamic-linker /usr/libexec/ld.elf_so )}"
+  ;;
+
 *-*-netbsd*)
   ;;
 
-*-*-mirbsd*)
-  HOSTING_CRT0="${HOSTING_CRT0#@(-dynamic-linker /usr/libexec/ld.elf_so )}"
+*-*-openbsd*)
   ;;
 
 alpha*-*-*)

@@ -14,12 +14,12 @@
 
    You should have received a copy of the GNU General Public License
    along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
+   Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA 02110-1301, USA.  */
 
 #include "sysdep.h"
 #include "dis-asm.h"
 
-__RCSID("$MirOS: src/gnu/usr.bin/binutils/opcodes/disassemble.c,v 1.2 2005/03/13 16:07:13 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/binutils/opcodes/disassemble.c,v 1.3 2005/03/28 21:57:00 tg Exp $");
 
 #ifdef ARCH_all
 #define ARCH_a29k

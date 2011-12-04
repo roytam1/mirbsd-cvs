@@ -1,4 +1,4 @@
-/* $MirOS: src/gnu/usr.bin/binutils/include/demangle.h,v 1.2 2005/03/13 16:06:59 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/binutils/include/demangle.h,v 1.3 2005/03/28 21:25:09 tg Exp $ */
 
 /* Defs for interface to demanglers.
    Copyright 1992, 1993, 1994, 1995, 1996, 1997, 1998, 2000, 2001, 2002,
@@ -17,8 +17,8 @@
 
    You should have received a copy of the GNU General Public License
    along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place - Suite 330,
-   Boston, MA 02111-1307, USA.  */
+   Foundation, Inc., 51 Franklin Street - Fifth Floor,
+   Boston, MA 02110-1301, USA.  */
 
 
 #if !defined (DEMANGLE_H)
@@ -243,6 +243,9 @@ enum demangle_component_type
   /* A reference temporary.  This has one subtree, the name for which
      this is a temporary.  */
   DEMANGLE_COMPONENT_REFTEMP,
+  /* A hidden alias.  This has one subtree, the encoding for which it
+     is providing alternative linkage.  */
+  DEMANGLE_COMPONENT_HIDDEN_ALIAS,
   /* A standard substitution.  This holds the name of the
      substitution.  */
   DEMANGLE_COMPONENT_SUB_STD,

@@ -1,4 +1,4 @@
-/* $MirOS: src/gnu/usr.bin/binutils/binutils/ar.c,v 1.2 2005/03/13 16:06:51 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/binutils/binutils/ar.c,v 1.3 2005/03/28 22:06:01 tg Exp $ */
 
 /* ar.c - Archive modify and extract.
    Copyright 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000,
@@ -19,7 +19,7 @@
 
    You should have received a copy of the GNU General Public License
    along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
+   Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA 02110-1301, USA.  */
 
 /*
    Bugs: should use getopt the way tar does (complete w/optional -) and
@@ -39,7 +39,7 @@
 #include "binemul.h"
 #include <sys/stat.h>
 
-__RCSID("$MirOS: src/gnu/usr.bin/binutils/binutils/ar.c,v 1.2 2005/03/13 16:06:51 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/binutils/binutils/ar.c,v 1.3 2005/03/28 22:06:01 tg Exp $");
 
 #ifdef __GO32___
 #define EXT_NAME_LEN 3		/* bufflen of addition to name if it's MS-DOS */
@@ -80,7 +80,7 @@ static void usage (int);
 
 /** Globals and flags */
 
-int mri_mode;
+static int mri_mode;
 
 /* This flag distinguishes between ar and ranlib:
    1 means this is 'ranlib'; 0 means this is 'ar'.

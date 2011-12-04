@@ -1,6 +1,6 @@
 /* Builtin frame register, for GDB, the GNU debugger.
 
-   Copyright 2002 Free Software Foundation, Inc.
+   Copyright 2002, 2005 Free Software Foundation, Inc.
 
    Contributed by Red Hat.
 
@@ -56,11 +56,11 @@ static struct value *
 value_of_builtin_frame_reg (struct frame_info *frame)
 {
   struct value *val;
-  char *buf;
+  gdb_byte *buf;
   build_builtin_type_frame_reg ();
   val = allocate_value (builtin_type_frame_reg);
   VALUE_LVAL (val) = not_lval;
-  buf = VALUE_CONTENTS_RAW (val);
+  buf = value_contents_raw (val);
   memset (buf, 0, TYPE_LENGTH (value_type (val)));
   /* frame.base.  */
   if (frame != NULL)
@@ -85,7 +85,7 @@ value_of_builtin_frame_fp_reg (struct frame_info *frame)
   else
     {
       struct value *val = allocate_value (builtin_type_void_data_ptr);
-      char *buf = VALUE_CONTENTS_RAW (val);
+      gdb_byte *buf = value_contents_raw (val);
       if (frame == NULL)
 	memset (buf, 0, TYPE_LENGTH (value_type (val)));
       else
@@ -103,7 +103,7 @@ value_of_builtin_frame_pc_reg (struct frame_info *frame)
   else
     {
       struct value *val = allocate_value (builtin_type_void_data_ptr);
-      char *buf = VALUE_CONTENTS_RAW (val);
+      gdb_byte *buf = value_contents_raw (val);
       if (frame == NULL)
 	memset (buf, 0, TYPE_LENGTH (value_type (val)));
       else
@@ -120,7 +120,7 @@ value_of_builtin_frame_sp_reg (struct frame_info *frame)
   if (SP_REGNUM >= 0)
     return value_of_register (SP_REGNUM, frame);
 #endif
-  error ("Standard register ``$sp'' is not available for this target");
+  error (_("Standard register ``$sp'' is not available for this target"));
 }
 
 static struct value *
@@ -130,7 +130,7 @@ value_of_builtin_frame_ps_reg (struct frame_info *frame)
   if (PS_REGNUM >= 0)
     return value_of_register (PS_REGNUM, frame);
 #endif
-  error ("Standard register ``$ps'' is not available for this target");
+  error (_("Standard register ``$ps'' is not available for this target"));
 }
 
 extern initialize_file_ftype _initialize_frame_reg; /* -Wmissing-prototypes */

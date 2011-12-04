@@ -1,7 +1,8 @@
 /* Low-level child interface to ptrace.
 
    Copyright 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995, 1996,
-   1998, 1999, 2000, 2001, 2002, 2004 Free Software Foundation, Inc.
+   1998, 1999, 2000, 2001, 2002, 2004, 2005
+   Free Software Foundation, Inc.
 
    This file is part of GDB.
 
@@ -26,7 +27,9 @@
 #include "inflow.h"
 #include "gdbcore.h"
 #include "observer.h"
+#include "regcache.h"
 
+#include "gdb_assert.h"
 #include "gdb_string.h"
 #include "gdb_ptrace.h"
 #include "gdb_wait.h"
@@ -92,7 +95,7 @@ inf_ptrace_resume (ptid_t ptid, int step, enum target_signal signal)
   errno = 0;
   ptrace (request, pid, (PTRACE_TYPE_ARG3) 1, target_signal_to_host (signal));
   if (errno != 0)
-    perror_with_name ("ptrace");
+    perror_with_name (("ptrace"));
 }
 
 /* Wait for child to do something.  Return pid of child, or -1 in case
@@ -179,26 +182,26 @@ inf_ptrace_attach (char *args, int from_tty)
   char *dummy;
 
   if (!args)
-    error_no_arg ("process-id to attach");
+    error_no_arg (_("process-id to attach"));
 
   dummy = args;
   pid = strtol (args, &dummy, 0);
   /* Some targets don't set errno on errors, grrr!  */
   if (pid == 0 && args == dummy)
-    error ("Illegal process-id: %s\n", args);
+    error (_("Illegal process-id: %s."), args);
 
   if (pid == getpid ())		/* Trying to masturbate?  */
-    error ("I refuse to debug myself!");
+    error (_("I refuse to debug myself!"));
 
   if (from_tty)
     {
       exec_file = (char *) get_exec_file (0);
 
       if (exec_file)
-	printf_unfiltered ("Attaching to program: %s, %s\n", exec_file,
+	printf_unfiltered (_("Attaching to program: %s, %s\n"), exec_file,
 			   target_pid_to_str (pid_to_ptid (pid)));
       else
-	printf_unfiltered ("Attaching to %s\n",
+	printf_unfiltered (_("Attaching to %s\n"),
 			   target_pid_to_str (pid_to_ptid (pid)));
 
       gdb_flush (gdb_stdout);
@@ -208,10 +211,10 @@ inf_ptrace_attach (char *args, int from_tty)
   errno = 0;
   ptrace (PT_ATTACH, pid, (PTRACE_TYPE_ARG3) 0, 0);
   if (errno != 0)
-    perror_with_name ("ptrace");
+    perror_with_name (("ptrace"));
   attach_flag = 1;
 #else
-  error ("This system does not support attaching to a process");
+  error (_("This system does not support attaching to a process"));
 #endif
 
   inferior_ptid = pid_to_ptid (pid);
@@ -247,7 +250,7 @@ inf_ptrace_detach (char *args, int from_tty)
       char *exec_file = get_exec_file (0);
       if (exec_file == 0)
 	exec_file = "";
-      printf_unfiltered ("Detaching from program: %s, %s\n", exec_file,
+      printf_unfiltered (_("Detaching from program: %s, %s\n"), exec_file,
 			 target_pid_to_str (pid_to_ptid (pid)));
       gdb_flush (gdb_stdout);
     }
@@ -258,25 +261,14 @@ inf_ptrace_detach (char *args, int from_tty)
   errno = 0;
   ptrace (PT_DETACH, pid, (PTRACE_TYPE_ARG3) 1, sig);
   if (errno != 0)
-    perror_with_name ("ptrace");
+    perror_with_name (("ptrace"));
   attach_flag = 0;
 #else
-  error ("This system does not support detaching from a process");
+  error (_("This system does not support detaching from a process"));
 #endif
 
   inferior_ptid = null_ptid;
   unpush_target (ptrace_ops_hack);
-}
-
-/* Get ready to modify the registers array.  On machines which store
-   individual registers, this doesn't need to do anything.  On
-   machines which store all the registers in one fell swoop, this
-   makes sure that registers contains all the registers from the
-   program being debugged.  */
-
-static void
-inf_ptrace_prepare_to_store (void)
-{
 }
 
 /* Print status information about what we're accessing.  */
@@ -284,7 +276,7 @@ inf_ptrace_prepare_to_store (void)
 static void
 inf_ptrace_files_info (struct target_ops *ignore)
 {
-  printf_unfiltered ("\tUsing the running image of %s %s.\n",
+  printf_unfiltered (_("\tUsing the running image of %s %s.\n"),
 		     attach_flag ? "attached" : "child",
 		     target_pid_to_str (inferior_ptid));
 }
@@ -292,7 +284,7 @@ inf_ptrace_files_info (struct target_ops *ignore)
 static void
 inf_ptrace_open (char *arg, int from_tty)
 {
-  error ("Use the \"run\" command to start a Unix child process.");
+  error (_("Use the \"run\" command to start a Unix child process."));
 }
 
 /* Stub function which causes the inferior that runs it, to be ptrace-able
@@ -347,73 +339,10 @@ inf_ptrace_create_inferior (char *exec_file, char *allargs, char **env,
   proceed ((CORE_ADDR) -1, TARGET_SIGNAL_0, 0);
 }
 
-static void
-inf_ptrace_post_startup_inferior (ptid_t ptid)
-{
-  /* This version of Unix doesn't require a meaningful "post startup
-     inferior" operation by a debugger.  */
-}
-
-static void
-inf_ptrace_acknowledge_created_inferior (int pid)
-{
-  /* This version of Unix doesn't require a meaningful "acknowledge
-     created inferior" operation by a debugger.  */
-}
-
-static int
-inf_ptrace_insert_fork_catchpoint (int pid)
-{
-  /* This version of Unix doesn't support notification of fork events.  */
-  return 0;
-}
-
-static int
-inf_ptrace_remove_fork_catchpoint (int pid)
-{
-  /* This version of Unix doesn't support notification of fork events.  */
-  return 0;
-}
-
-static int
-inf_ptrace_insert_vfork_catchpoint (int pid)
-{
-  /* This version of Unix doesn't support notification of vfork events.  */
-  return 0;
-}
-
-static int
-inf_ptrace_remove_vfork_catchpoint (int pid)
-{
-  /* This version of Unix doesn't support notification of vfork events.  */
-  return 0;
-}
-
-static int
-inf_ptrace_follow_fork (int follow_child)
-{
-  /* This version of Unix doesn't support following fork or vfork events.  */
-  return 0;
-}
-
-static int
-inf_ptrace_insert_exec_catchpoint (int pid)
-{
-  /* This version of Unix doesn't support notification of exec events.  */
-  return 0;
-}
-
-static int
-inf_ptrace_remove_exec_catchpoint (int pid)
-{
-  /* This version of Unix doesn't support notification of exec events.  */
-  return 0;
-}
-
 static int
 inf_ptrace_reported_exec_events_per_exec_call (void)
 {
-  /* This version of Unix doesn't support notification of exec events.  */
+  /* Typically, we get a single SIGTRAP per exec.  */
   return 1;
 }
 
@@ -467,8 +396,9 @@ inf_ptrace_stop (void)
 
 static LONGEST
 inf_ptrace_xfer_partial (struct target_ops *ops, enum target_object object,
-			 const char *annex, void *readbuf,
-			 const void *writebuf, ULONGEST offset, LONGEST len)
+			 const char *annex, gdb_byte *readbuf,
+			 const gdb_byte *writebuf,
+			 ULONGEST offset, LONGEST len)
 {
   switch (object)
     {
@@ -588,31 +518,24 @@ inf_ptrace_pid_to_str (ptid_t ptid)
   return normal_pid_to_str (ptid);
 }
 
+/* Create a prototype ptrace target.  The client can override it with
+   local methods.  */
+
 struct target_ops *
 inf_ptrace_target (void)
 {
   struct target_ops *t = inf_child_target ();
+
   t->to_open = inf_ptrace_open;
   t->to_attach = inf_ptrace_attach;
   t->to_post_attach = inf_ptrace_post_attach;
   t->to_detach = inf_ptrace_detach;
   t->to_resume = inf_ptrace_resume;
   t->to_wait = inf_ptrace_wait;
-  t->to_prepare_to_store = inf_ptrace_prepare_to_store;
   t->to_xfer_partial = inf_ptrace_xfer_partial;
   t->to_files_info = inf_ptrace_files_info;
   t->to_kill = inf_ptrace_kill_inferior;
   t->to_create_inferior = inf_ptrace_create_inferior;
-  t->to_post_startup_inferior = inf_ptrace_post_startup_inferior;
-  t->to_acknowledge_created_inferior =
-    inf_ptrace_acknowledge_created_inferior;
-  t->to_insert_fork_catchpoint = inf_ptrace_insert_fork_catchpoint;
-  t->to_remove_fork_catchpoint = inf_ptrace_remove_fork_catchpoint;
-  t->to_insert_vfork_catchpoint = inf_ptrace_insert_vfork_catchpoint;
-  t->to_remove_vfork_catchpoint = inf_ptrace_remove_vfork_catchpoint;
-  t->to_follow_fork = inf_ptrace_follow_fork;
-  t->to_insert_exec_catchpoint = inf_ptrace_insert_exec_catchpoint;
-  t->to_remove_exec_catchpoint = inf_ptrace_remove_exec_catchpoint;
   t->to_reported_exec_events_per_exec_call =
     inf_ptrace_reported_exec_events_per_exec_call;
   t->to_has_exited = inf_ptrace_has_exited;
@@ -629,5 +552,128 @@ inf_ptrace_target (void)
   t->to_has_execution = 1;
   t->to_magic = OPS_MAGIC;
   ptrace_ops_hack = t;
+
+  return t;
+}
+
+
+/* Pointer to a function that returns the oggset within the user area
+   where a particular register is stored.  */
+static CORE_ADDR (*inf_ptrace_register_u_offset)(int);
+
+/* Fetch register REGNUM from the inferior.  */
+
+static void
+inf_ptrace_fetch_register (int regnum)
+{
+  CORE_ADDR addr;
+  size_t size;
+  PTRACE_TYPE_RET *buf;
+  int pid, i;
+
+  /* Cater for systems like GNU/Linux, that implement threads as
+     seperate processes.  */
+  pid = ptid_get_lwp (inferior_ptid);
+  if (pid == 0)
+    pid = ptid_get_pid (inferior_ptid);
+
+  /* This isn't really an address, but ptrace thinks of it as one.  */
+  addr = inf_ptrace_register_u_offset (regnum);
+  size = register_size (current_gdbarch, regnum);
+
+  gdb_assert ((size % sizeof (PTRACE_TYPE_RET)) == 0);
+  buf = alloca (size);
+
+  /* Read the register contents from the inferior a chuck at the time.  */
+  for (i = 0; i < size / sizeof (PTRACE_TYPE_RET); i++)
+    {
+      errno = 0;
+      buf[i] = ptrace (PT_READ_U, pid, (PTRACE_TYPE_ARG3) addr, 0);
+      if (errno != 0)
+	error (_("Couldn't read register %s (#%d): %s."), REGISTER_NAME (regnum),
+	       regnum, safe_strerror (errno));
+
+      addr += sizeof (PTRACE_TYPE_RET);
+    }
+  regcache_raw_supply (current_regcache, regnum, buf);
+}
+
+/* Fetch register REGNUM from the inferior.  If REGNUM is -1, do this
+   for all registers.  */
+
+static void
+inf_ptrace_fetch_registers (int regnum)
+{
+  if (regnum == -1)
+    for (regnum = 0; regnum < NUM_REGS; regnum++)
+      inf_ptrace_fetch_register (regnum);
+  else
+    inf_ptrace_fetch_register (regnum);
+}
+
+/* Store register REGNUM into the inferior.  */
+
+static void
+inf_ptrace_store_register (int regnum)
+{
+  CORE_ADDR addr;
+  size_t size;
+  PTRACE_TYPE_RET *buf;
+  int pid, i;
+
+  /* Cater for systems like GNU/Linux, that implement threads as
+     seperate processes.  */
+  pid = ptid_get_lwp (inferior_ptid);
+  if (pid == 0)
+    pid = ptid_get_pid (inferior_ptid);
+
+  /* This isn't really an address, but ptrace thinks of it as one.  */
+  addr = inf_ptrace_register_u_offset (regnum);
+  size = register_size (current_gdbarch, regnum);
+
+  gdb_assert ((size % sizeof (PTRACE_TYPE_RET)) == 0);
+  buf = alloca (size);
+
+  /* Write the register contents into the inferior a chunk at the time.  */
+  regcache_raw_collect (current_regcache, regnum, buf);
+  for (i = 0; i < size / sizeof (PTRACE_TYPE_RET); i++)
+    {
+      errno = 0;
+      ptrace (PT_WRITE_U, pid, (PTRACE_TYPE_ARG3) addr, buf[i]);
+      if (errno != 0)
+	error (_("Couldn't write register %s (#%d): %s."), REGISTER_NAME (regnum),
+	       regnum, safe_strerror (errno));
+
+      addr += sizeof (PTRACE_TYPE_RET);
+    }
+}
+
+/* Store register REGNUM back into the inferior.  If REGNUM is -1, do
+   this for all registers.  */
+
+void
+inf_ptrace_store_registers (int regnum)
+{
+  if (regnum == -1)
+    for (regnum = 0; regnum < NUM_REGS; regnum++)
+      inf_ptrace_store_register (regnum);
+  else
+    inf_ptrace_store_register (regnum);
+}
+
+/* Create a "traditional" ptrace target.  REGISTER_U_OFFSET should be
+   a function returning the offset within the user area where a
+   particular register is stored.  */
+
+struct target_ops *
+inf_ptrace_trad_target (CORE_ADDR (*register_u_offset)(int))
+{
+  struct target_ops *t = inf_ptrace_target();
+
+  gdb_assert (register_u_offset);
+  inf_ptrace_register_u_offset = register_u_offset;
+  t->to_fetch_registers = inf_ptrace_fetch_registers;
+  t->to_store_registers = inf_ptrace_store_registers;
+
   return t;
 }

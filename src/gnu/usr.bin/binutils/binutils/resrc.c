@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/gnu/usr.bin/binutils/binutils/resrc.c,v 1.2 2005/03/13 16:06:54 tg Exp $ */
 
 /* resrc.c -- read and write Windows rc files.
    Copyright 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2005
@@ -19,8 +19,8 @@
 
    You should have received a copy of the GNU General Public License
    along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
-   02111-1307, USA.  */
+   Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA
+   02110-1301, USA.  */
 
 /* This file contains functions that read and write Windows rc files.
    These are text files that represent resources.  */
@@ -38,7 +38,7 @@
 #include <unistd.h>
 #endif
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/gnu/usr.bin/binutils/binutils/resrc.c,v 1.2 2005/03/13 16:06:54 tg Exp $");
 
 #ifdef HAVE_SYS_WAIT_H
 #include <sys/wait.h>

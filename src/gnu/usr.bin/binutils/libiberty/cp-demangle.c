@@ -1,8 +1,7 @@
-/* $MirOS: src/gnu/usr.bin/binutils/libiberty/cp-demangle.c,v 1.3 2005/03/26 10:31:51 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/binutils/libiberty/cp-demangle.c,v 1.4 2005/03/28 21:25:11 tg Exp $ */
 
 /* Demangler for g++ V3 ABI.
-   Copyright (C) 2003, 2004, 2005
-   Free Software Foundation, Inc.
+   Copyright (C) 2003, 2004, 2005 Free Software Foundation, Inc.
    Written by Ian Lance Taylor <ian@wasabisystems.com>.
 
    This file is part of the libiberty library, which is part of GCC.
@@ -28,7 +27,7 @@
 
    You should have received a copy of the GNU General Public License
    along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+   Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA 02110-1301, USA. 
 */
 
 /* This code implements a demangler for the g++ V3 ABI.  The ABI is
@@ -103,7 +102,7 @@
 #include "demangle.h"
 #include "cp-demangle.h"
 
-__RCSID("$MirOS: src/gnu/usr.bin/binutils/libiberty/cp-demangle.c,v 1.3 2005/03/26 10:31:51 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/binutils/libiberty/cp-demangle.c,v 1.4 2005/03/28 21:25:11 tg Exp $");
 
 /* If IN_GLIBCPP_V3 is defined, some functions are made static.  We
    also rename them via #define to avoid compiler errors when the
@@ -215,7 +214,7 @@ struct d_print_template
   /* Next template on the list.  */
   struct d_print_template *next;
   /* This template.  */
-  const struct demangle_component *template;
+  const struct demangle_component *template_decl;
 };
 
 /* A list of type modifiers.  This is used while printing.  */
@@ -525,6 +524,9 @@ d_dump (struct demangle_component *dc, int indent)
     case DEMANGLE_COMPONENT_REFTEMP:
       printf ("reference temporary\n");
       break;
+    case DEMANGLE_COMPONENT_HIDDEN_ALIAS:
+      printf ("hidden alias\n");
+      break;
     case DEMANGLE_COMPONENT_RESTRICT:
       printf ("restrict\n");
       break;
@@ -738,6 +740,7 @@ d_make_comp (struct d_info *di, enum demangle_component_type type,
     case DEMANGLE_COMPONENT_JAVA_CLASS:
     case DEMANGLE_COMPONENT_GUARD:
     case DEMANGLE_COMPONENT_REFTEMP:
+    case DEMANGLE_COMPONENT_HIDDEN_ALIAS:
     case DEMANGLE_COMPONENT_POINTER:
     case DEMANGLE_COMPONENT_REFERENCE:
     case DEMANGLE_COMPONENT_COMPLEX:
@@ -1444,6 +1447,7 @@ d_operator_name (struct d_info *di)
                   ::= TF <type>
                   ::= TJ <type>
                   ::= GR <name>
+		  ::= GA <encoding>
 */
 
 static struct demangle_component *
@@ -1533,6 +1537,10 @@ d_special_name (struct d_info *di)
 	case 'R':
 	  return d_make_comp (di, DEMANGLE_COMPONENT_REFTEMP, d_name (di),
 			      NULL);
+
+	case 'A':
+	  return d_make_comp (di, DEMANGLE_COMPONENT_HIDDEN_ALIAS,
+			      d_encoding (di, 0), NULL);
 
 	default:
 	  return NULL;
@@ -2556,7 +2564,7 @@ d_print_resize (struct d_print_info *dpi, size_t add)
       char *newbuf;
 
       newalc = dpi->alc * 2;
-      newbuf = realloc (dpi->buf, newalc);
+      newbuf = (char *) realloc (dpi->buf, newalc);
       if (newbuf == NULL)
 	{
 	  free (dpi->buf);
@@ -2634,7 +2642,7 @@ cplus_demangle_print (int options, const struct demangle_component *dc,
   dpi.options = options;
 
   dpi.alc = estimate + 1;
-  dpi.buf = malloc (dpi.alc);
+  dpi.buf = (char *) malloc (dpi.alc);
   if (dpi.buf == NULL)
     {
       *palc = 1;
@@ -2735,7 +2743,7 @@ d_print_comp (struct d_print_info *dpi,
 	  {
 	    dpt.next = dpi->templates;
 	    dpi->templates = &dpt;
-	    dpt.template = typed_name;
+	    dpt.template_decl = typed_name;
 	  }
 
 	/* If typed_name is a DEMANGLE_COMPONENT_LOCAL_NAME, then
@@ -2831,7 +2839,7 @@ d_print_comp (struct d_print_info *dpi,
 	    return;
 	  }
 	i = dc->u.s_number.number;
-	for (a = d_right (dpi->templates->template);
+	for (a = d_right (dpi->templates->template_decl);
 	     a != NULL;
 	     a = d_right (a))
 	  {
@@ -2933,6 +2941,11 @@ d_print_comp (struct d_print_info *dpi,
 
     case DEMANGLE_COMPONENT_REFTEMP:
       d_append_string_constant (dpi, "reference temporary for ");
+      d_print_comp (dpi, d_left (dc));
+      return;
+
+    case DEMANGLE_COMPONENT_HIDDEN_ALIAS:
+      d_append_string_constant (dpi, "hidden alias for ");
       d_print_comp (dpi, d_left (dc));
       return;
 
@@ -3688,7 +3701,7 @@ d_print_cast (struct d_print_info *dpi,
 
       dpt.next = dpi->templates;
       dpi->templates = &dpt;
-      dpt.template = d_left (dc);
+      dpt.template_decl = d_left (dc);
 
       d_print_comp (dpi, d_left (d_left (dc)));
 
@@ -3769,7 +3782,7 @@ d_demangle (const char* mangled, int options, size_t *palc)
     {
       char *r;
 
-      r = malloc (40 + len - 11);
+      r = (char *) malloc (40 + len - 11);
       if (r == NULL)
 	*palc = 1;
       else
@@ -4149,7 +4162,7 @@ is_gnu_v3_mangled_dtor (const char *name)
 #include "getopt.h"
 #include "dyn-string.h"
 
-static void print_usage PARAMS ((FILE* fp, int exit_value));
+static void print_usage (FILE* fp, int exit_value);
 
 #define IS_ALPHA(CHAR)                                                  \
   (((CHAR) >= 'a' && (CHAR) <= 'z')                                     \

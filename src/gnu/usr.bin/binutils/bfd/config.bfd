@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.bin/binutils/bfd/config.bfd,v 1.2 2005/03/13 16:06:46 tg Exp $
+# $MirOS: src/gnu/usr.bin/binutils/bfd/config.bfd,v 1.3 2005/03/28 21:51:02 tg Exp $
 #
 # config.bfd
 # Convert a canonical host type into a BFD host type.
@@ -371,7 +371,12 @@ case "${targ}" in
     targ_selvecs=bfd_elf32_frv_vec
     ;;
 
-  h8300*-*-elf)
+  h8300*-*-rtemscoff*)
+    targ_defvec=h8300coff_vec
+    targ_underscore=yes
+    ;;
+
+  h8300*-*-elf | h8300*-*-rtems*)
     targ_defvec=bfd_elf32_h8300_vec
     targ_underscore=yes
     ;;
@@ -607,7 +612,7 @@ case "${targ}" in
     targ_defvec=i386aout_vec
     ;;
   i[3-7]86-*-vxworks)
-    targ_defvec=bfd_elf32_i386_vec
+    targ_defvec=bfd_elf32_i386_vxworks_vec
     targ_underscore=yes
     ;;
   i[3-7]86-*-chaos)

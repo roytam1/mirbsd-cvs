@@ -1,4 +1,4 @@
-/* $MirOS: src/gnu/usr.bin/binutils/binutils/dlltool.c,v 1.2 2005/03/13 16:06:51 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/binutils/binutils/dlltool.c,v 1.3 2005/03/28 22:06:01 tg Exp $ */
 
 /* dlltool.c -- tool to generate stuff for PE style DLLs
    Copyright 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004,
@@ -18,8 +18,8 @@
 
    You should have received a copy of the GNU General Public License
    along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
-   02111-1307, USA.  */
+   Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA
+   02110-1301, USA.  */
 
 
 /* This program allows you to build the files necessary to create
@@ -270,7 +270,7 @@
 #include "coff/internal.h"
 #endif
 
-__RCSID("$MirOS: src/gnu/usr.bin/binutils/binutils/dlltool.c,v 1.2 2005/03/13 16:06:51 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/binutils/binutils/dlltool.c,v 1.3 2005/03/28 22:06:01 tg Exp $");
 
 /* Forward references.  */
 static char *look_for_prog (const char *, const char *, int);
@@ -707,7 +707,6 @@ static void gen_lib_file (void);
 static int pfunc (const void *, const void *);
 static int nfunc (const void *, const void *);
 static void remove_null_names (export_type **);
-static void dtab (export_type **);
 static void process_duplicates (export_type **);
 static void fill_ordinals (export_type **);
 static int alphafunc (const void *, const void *);
@@ -2865,27 +2864,6 @@ remove_null_names (export_type **ptr)
 }
 
 static void
-dtab (export_type **ptr ATTRIBUTE_UNUSED)
-{
-#ifdef SACDEBUG
-  int i;
-  for (i = 0; i < d_nfuncs; i++)
-    {
-      if (ptr[i])
-	{
-	  printf ("%d %s @ %d %s%s%s\n",
-		  i, ptr[i]->name, ptr[i]->ordinal,
-		  ptr[i]->noname ? "NONAME " : "",
-		  ptr[i]->constant ? "CONSTANT" : "",
-		  ptr[i]->data ? "DATA" : "");
-	}
-      else
-	printf ("empty\n");
-    }
-#endif
-}
-
-static void
 process_duplicates (export_type **d_export_vec)
 {
   int more = 1;
@@ -2897,7 +2875,6 @@ process_duplicates (export_type **d_export_vec)
       /* Remove duplicates.  */
       qsort (d_export_vec, d_nfuncs, sizeof (export_type *), nfunc);
 
-      dtab (d_export_vec);
       for (i = 0; i < d_nfuncs - 1; i++)
 	{
 	  if (strcmp (d_export_vec[i]->name,
@@ -2926,9 +2903,7 @@ process_duplicates (export_type **d_export_vec)
 	      d_export_vec[i] = 0;
 	    }
 
-	  dtab (d_export_vec);
 	  remove_null_names (d_export_vec);
-	  dtab (d_export_vec);
 	}
     }
 

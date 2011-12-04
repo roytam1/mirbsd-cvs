@@ -1,4 +1,4 @@
-/* $MirOS: src/gnu/usr.bin/binutils/bfd/bfd-in.h,v 1.2 2005/03/13 16:06:44 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/binutils/bfd/bfd-in.h,v 1.3 2005/03/28 21:50:59 tg Exp $ */
 
 /* Main header file for the bfd library -- portable access to object files.
 
@@ -21,7 +21,7 @@
 
    You should have received a copy of the GNU General Public License
    along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
+   Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA 02110-1301, USA.  */
 
 #ifndef __BFD_H_SEEN__
 #define __BFD_H_SEEN__
@@ -641,7 +641,10 @@ extern bfd_boolean bfd_elf_get_bfd_needed_list
   (bfd *, struct bfd_link_needed_list **);
 extern bfd_boolean bfd_elf_size_dynamic_sections
   (bfd *, const char *, const char *, const char *, const char * const *,
-   struct bfd_link_info *, struct bfd_section **, struct bfd_elf_version_tree *);
+   struct bfd_link_info *, struct bfd_section **,
+   struct bfd_elf_version_tree *);
+extern bfd_boolean bfd_elf_size_dynsym_hash_dynstr
+  (bfd *, struct bfd_link_info *);
 extern void bfd_elf_set_dt_needed_name
   (bfd *, const char *);
 extern const char *bfd_elf_get_dt_soname
@@ -700,6 +703,9 @@ extern struct bfd_section *_bfd_elf_tls_setup
 
 extern void _bfd_elf_provide_symbol
   (struct bfd_link_info *, const char *, bfd_vma);
+
+extern void _bfd_elf_provide_section_bound_symbols
+  (struct bfd_link_info *, struct bfd_section *sec, const char *, const char *);
 
 extern bfd_boolean bfd_m68k_elf32_create_embedded_relocs
   (bfd *, struct bfd_link_info *, struct bfd_section *, struct bfd_section *, char **);
@@ -820,13 +826,17 @@ extern bfd_boolean bfd_elf32_arm_process_before_allocation
   (bfd *, struct bfd_link_info *, int);
 
 void bfd_elf32_arm_set_target_relocs
-  (struct bfd_link_info *, int, char *, int);
+  (struct bfd_link_info *, int, char *, int, int);
 
 extern bfd_boolean bfd_elf32_arm_get_bfd_for_interworking
   (bfd *, struct bfd_link_info *);
 
 extern bfd_boolean bfd_elf32_arm_add_glue_sections_to_bfd
   (bfd *, struct bfd_link_info *);
+
+/* ELF ARM mapping symbol support */
+extern bfd_boolean bfd_is_arm_mapping_symbol_name
+  (const char * name);
 
 /* ARM Note section processing.  */
 extern bfd_boolean bfd_arm_merge_machines

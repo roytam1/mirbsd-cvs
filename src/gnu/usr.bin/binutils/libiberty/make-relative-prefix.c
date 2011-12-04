@@ -1,4 +1,4 @@
-/* $MirOS: src/gnu/usr.bin/binutils/libiberty/make-relative-prefix.c,v 1.2 2005/03/13 16:07:10 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/binutils/libiberty/make-relative-prefix.c,v 1.3 2005/03/28 21:25:13 tg Exp $ */
 
 /* Relative (relocatable) prefix support.
    Copyright (C) 1987, 1989, 1992, 1993, 1994, 1995, 1996, 1997, 1998,
@@ -18,8 +18,8 @@ for more details.
 
 You should have received a copy of the GNU General Public License
 along with GCC; see the file COPYING.  If not, write to the Free
-Software Foundation, 59 Temple Place - Suite 330, Boston, MA
-02111-1307, USA.  */
+Software Foundation, 51 Franklin Street - Fifth Floor, Boston, MA
+02110-1301, USA.  */
 
 /*
 
@@ -53,7 +53,7 @@ relative prefix can be found, return @code{NULL}.
 #include "config.h"
 #endif
 
-__RCSID("$MirOS: src/gnu/usr.bin/binutils/libiberty/make-relative-prefix.c,v 1.2 2005/03/13 16:07:10 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/binutils/libiberty/make-relative-prefix.c,v 1.3 2005/03/28 21:25:13 tg Exp $");
 
 #ifdef HAVE_STDLIB_H
 #include <stdlib.h>
@@ -106,7 +106,7 @@ static void free_split_directories (char **);
 static char *
 save_string (const char *s, int len)
 {
-  char *result = malloc (len + 1);
+  char *result = (char *) malloc (len + 1);
 
   memcpy (result, s, len);
   result[len] = 0;

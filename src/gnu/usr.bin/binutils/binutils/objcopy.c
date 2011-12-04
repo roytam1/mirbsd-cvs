@@ -1,4 +1,4 @@
-/* $MirOS: src/gnu/usr.bin/binutils/binutils/objcopy.c,v 1.2 2005/03/13 16:06:53 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/binutils/binutils/objcopy.c,v 1.3 2005/03/28 22:06:03 tg Exp $ */
 
 /* objcopy.c -- copy object file from input to output, optionally massaging it.
    Copyright 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000,
@@ -19,8 +19,8 @@
 
    You should have received a copy of the GNU General Public License
    along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
-   02111-1307, USA.  */
+   Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA
+   02110-1301, USA.  */
 
 #include "bfd.h"
 #include "progress.h"
@@ -33,7 +33,7 @@
 #include "elf-bfd.h"
 #include <sys/stat.h>
 
-__RCSID("$MirOS: src/gnu/usr.bin/binutils/binutils/objcopy.c,v 1.2 2005/03/13 16:06:53 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/binutils/binutils/objcopy.c,v 1.3 2005/03/28 22:06:03 tg Exp $");
 
 /* A list of symbols to explicitly strip out, or to keep.  A linked
    list is good enough for a small number from the command line, but
@@ -423,7 +423,7 @@ copy_usage (FILE *stream, int exit_status)
                                    Do not copy symbol <name> unless needed by\n\
                                      relocations\n\
      --only-keep-debug             Strip everything but the debug information\n\
-  -K --keep-symbol <name>          Only copy symbol <name>\n\
+  -K --keep-symbol <name>          Do not strip symbol <name>\n\
   -L --localize-symbol <name>      Force symbol <name> to be marked as a local\n\
      --globalize-symbol <name>     Force symbol <name> to be marked as a global\n\
   -G --keep-global-symbol <name>   Localize all symbols except <name>\n\
@@ -507,7 +507,7 @@ strip_usage (FILE *stream, int exit_status)
      --strip-unneeded              Remove all symbols not needed by relocations\n\
      --only-keep-debug             Strip everything but the debug information\n\
   -N --strip-symbol=<name>         Do not copy symbol <name>\n\
-  -K --keep-symbol=<name>          Only copy symbol <name>\n\
+  -K --keep-symbol=<name>          Do not strip symbol <name>\n\
   -w --wildcard                    Permit wildcard in symbol comparison\n\
   -x --discard-all                 Remove all non-global symbols\n\
   -X --discard-locals              Remove any compiler-generated symbols\n\
@@ -1624,6 +1624,7 @@ copy_archive (bfd *ibfd, bfd *obfd, const char *output_target)
       l = xmalloc (sizeof (struct name_list));
       l->name = output_name;
       l->next = list;
+      l->obfd = NULL;
       list = l;
 
       if (output_bfd == NULL)
@@ -1698,6 +1699,7 @@ copy_file (const char *input_filename, const char *output_filename,
 
   if (get_file_size (input_filename) < 1)
     {
+      non_fatal (_("error: the input file '%s' is empty"), input_filename);
       status = 1;
       return;
     }
@@ -1726,7 +1728,6 @@ copy_file (const char *input_filename, const char *output_filename,
   else if (bfd_check_format_matches (ibfd, bfd_object, &obj_matching))
     {
       bfd *obfd;
-      bfd_boolean delete;
     do_copy:
 
       /* bfd_get_target does not return the correct value until
@@ -1738,7 +1739,8 @@ copy_file (const char *input_filename, const char *output_filename,
       if (obfd == NULL)
 	RETURN_NONFATAL (output_filename);
 
-      delete = ! copy_object (ibfd, obfd);
+      if (! copy_object (ibfd, obfd))
+	status = 1;
 
       if (!bfd_close (obfd))
 	RETURN_NONFATAL (output_filename);
@@ -1746,11 +1748,6 @@ copy_file (const char *input_filename, const char *output_filename,
       if (!bfd_close (ibfd))
 	RETURN_NONFATAL (input_filename);
 
-      if (delete)
-	{
-	  unlink_if_ordinary (output_filename);
-	  status = 1;
-	}
     }
   else
     {
@@ -3049,6 +3046,8 @@ copy_main (int argc, char *argv[])
 
       if (status == 0 && preserve_dates)
 	set_times (output_filename, &statbuf);
+      else if (status != 0)
+	unlink_if_ordinary (output_filename);
     }
 
   if (change_warn)

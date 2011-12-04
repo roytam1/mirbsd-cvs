@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/gnu/usr.bin/binutils/ld/emulparams/elf32ppc.sh,v 1.2 2005/03/13 16:07:05 tg Exp $
 
 # If you change this file, please also look at files which source this one:
 # elf32lppc.sh elf32ppclinux.sh elf32ppcsim.sh elf32ppc_mbsd.sh
@@ -14,7 +14,16 @@ MAXPAGESIZE=0x10000
 COMMONPAGESIZE=0x1000
 ARCH=powerpc:common
 MACHINE=
+# Yes, we want duplicate .got and .plt sections.  The linker chooses the
+# appropriate one magically in ppc_after_open
+DATA_GOT=
+SDATA_GOT=
+SEPARATE_GOTPLT=0
 BSS_PLT=
+GOT=".got          ${RELOCATING-0} : SPECIAL { *(.got) }"
+PLT=".plt          ${RELOCATING-0} : SPECIAL { *(.plt) }"
+GOTPLT="${PLT}"
+OTHER_TEXT_SECTIONS="*(.glink)"
 EXECUTABLE_SYMBOLS='PROVIDE (__stack = 0); PROVIDE (___stack = 0);'
 OTHER_BSS_END_SYMBOLS='__end = .;'
 OTHER_RELRO_SECTIONS="

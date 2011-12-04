@@ -1,7 +1,7 @@
 /* Abstraction of GNU v3 abi.
    Contributed by Jim Blandy <jimb@redhat.com>
 
-   Copyright 2001, 2002, 2003 Free Software Foundation, Inc.
+   Copyright 2001, 2002, 2003, 2005 Free Software Foundation, Inc.
 
    This file is part of GDB.
 
@@ -232,7 +232,7 @@ gnuv3_rtti_type (struct value *value,
   vtable_symbol
     = lookup_minimal_symbol_by_pc (VALUE_ADDRESS (vtable)
                                    + value_offset (vtable)
-                                   + VALUE_EMBEDDED_OFFSET (vtable));
+                                   + value_embedded_offset (vtable));
   if (! vtable_symbol)
     return NULL;
   
@@ -245,10 +245,10 @@ gnuv3_rtti_type (struct value *value,
   if (vtable_symbol_name == NULL
       || strncmp (vtable_symbol_name, "vtable for ", 11))
     {
-      warning ("can't find linker symbol for virtual table for `%s' value",
+      warning (_("can't find linker symbol for virtual table for `%s' value"),
 	       TYPE_NAME (values_type));
       if (vtable_symbol_name)
-	warning ("  found `%s' instead", vtable_symbol_name);
+	warning (_("  found `%s' instead"), vtable_symbol_name);
       return NULL;
     }
   class_name = vtable_symbol_name + 11;
@@ -265,8 +265,8 @@ gnuv3_rtti_type (struct value *value,
     = value_as_long (value_field (vtable, vtable_field_offset_to_top));
 
   if (full_p)
-    *full_p = (- offset_to_top == VALUE_EMBEDDED_OFFSET (value)
-               && (TYPE_LENGTH (VALUE_ENCLOSING_TYPE (value))
+    *full_p = (- offset_to_top == value_embedded_offset (value)
+               && (TYPE_LENGTH (value_enclosing_type (value))
                    >= TYPE_LENGTH (run_time_type)));
   if (top_p)
     *top_p = - offset_to_top;
@@ -291,7 +291,7 @@ gnuv3_virtual_fn_field (struct value **value_p,
 
   /* Some simple sanity checks.  */
   if (TYPE_CODE (values_type) != TYPE_CODE_CLASS)
-    error ("Only classes can have virtual functions.");
+    error (_("Only classes can have virtual functions."));
 
   /* Find the base class that defines this virtual function.  */
   vfn_base = TYPE_FN_FIELD_FCONTEXT (f, j);
@@ -308,7 +308,7 @@ gnuv3_virtual_fn_field (struct value **value_p,
   if (TYPE_VPTR_FIELDNO (vfn_base) < 0)
     fill_in_vptr_fieldno (vfn_base);
   if (TYPE_VPTR_FIELDNO (vfn_base) < 0)
-    error ("Could not find virtual table pointer for class \"%s\".",
+    error (_("Could not find virtual table pointer for class \"%s\"."),
 	   TYPE_TAG_NAME (vfn_base) ? TYPE_TAG_NAME (vfn_base) : "<unknown>");
 
   /* Now that we know which base class is defining our virtual
@@ -355,7 +355,7 @@ gnuv3_virtual_fn_field (struct value **value_p,
 
    -1 is returned on error. */
 static int
-gnuv3_baseclass_offset (struct type *type, int index, char *valaddr,
+gnuv3_baseclass_offset (struct type *type, int index, const bfd_byte *valaddr,
 			CORE_ADDR address)
 {
   struct type *vtable_type = gdbarch_data (current_gdbarch,
@@ -378,11 +378,11 @@ gnuv3_baseclass_offset (struct type *type, int index, char *valaddr,
      worthwhile.  */
   cur_base_offset = TYPE_BASECLASS_BITPOS (type, index) / 8;
   if (cur_base_offset >= - vtable_address_point_offset ())
-    error ("Expected a negative vbase offset (old compiler?)");
+    error (_("Expected a negative vbase offset (old compiler?)"));
 
   cur_base_offset = cur_base_offset + vtable_address_point_offset ();
   if ((- cur_base_offset) % TYPE_LENGTH (builtin_type_void_data_ptr) != 0)
-    error ("Misaligned vbase offset.");
+    error (_("Misaligned vbase offset."));
   cur_base_offset = cur_base_offset
     / ((int) TYPE_LENGTH (builtin_type_void_data_ptr));
 
@@ -403,7 +403,7 @@ gnuv3_baseclass_offset (struct type *type, int index, char *valaddr,
 
   if (TYPE_VPTR_FIELDNO (vbasetype) >= 0
       && TYPE_FIELD_BITPOS (vbasetype, TYPE_VPTR_FIELDNO (vbasetype)) != 0)
-    error ("Illegal vptr offset in class %s",
+    error (_("Illegal vptr offset in class %s"),
 	   TYPE_NAME (vbasetype) ? TYPE_NAME (vbasetype) : "<unknown>");
 
   vtable_address = value_as_address (value_at_lazy (builtin_type_void_data_ptr,
@@ -424,8 +424,10 @@ init_gnuv3_ops (void)
   gnu_v3_abi_ops.shortname = "gnu-v3";
   gnu_v3_abi_ops.longname = "GNU G++ Version 3 ABI";
   gnu_v3_abi_ops.doc = "G++ Version 3 ABI";
-  gnu_v3_abi_ops.is_destructor_name = (void *)is_gnu_v3_mangled_dtor;
-  gnu_v3_abi_ops.is_constructor_name = (void *)is_gnu_v3_mangled_ctor;
+  gnu_v3_abi_ops.is_destructor_name =
+    (enum dtor_kinds (*) (const char *))is_gnu_v3_mangled_dtor;
+  gnu_v3_abi_ops.is_constructor_name =
+    (enum ctor_kinds (*) (const char *))is_gnu_v3_mangled_ctor;
   gnu_v3_abi_ops.is_vtable_name = gnuv3_is_vtable_name;
   gnu_v3_abi_ops.is_operator_name = gnuv3_is_operator_name;
   gnu_v3_abi_ops.rtti_type = gnuv3_rtti_type;

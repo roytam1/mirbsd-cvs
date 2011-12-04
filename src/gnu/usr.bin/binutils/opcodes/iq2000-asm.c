@@ -20,7 +20,7 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software Foundation, Inc.,
-59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
+51 Franklin Street - Fifth Floor, Boston, MA 02110-1301, USA.  */
 
 /* ??? Eventually more and more of this stuff can go to cpu-independent files.
    Keep that in mind.  */
@@ -358,7 +358,7 @@ iq2000_cgen_parse_operand (cd, opindex, strp, fields)
       break;
     case IQ2000_OPERAND_BASEOFF :
       {
-        bfd_vma value;
+        bfd_vma value = 0;
         errmsg = cgen_parse_address (cd, strp, IQ2000_OPERAND_BASEOFF, 0, NULL,  & value);
         fields->f_imm = value;
       }
@@ -401,7 +401,7 @@ iq2000_cgen_parse_operand (cd, opindex, strp, fields)
       break;
     case IQ2000_OPERAND_JMPTARG :
       {
-        bfd_vma value;
+        bfd_vma value = 0;
         errmsg = cgen_parse_address (cd, strp, IQ2000_OPERAND_JMPTARG, 0, NULL,  & value);
         fields->f_jtarg = value;
       }
@@ -409,7 +409,6 @@ iq2000_cgen_parse_operand (cd, opindex, strp, fields)
     case IQ2000_OPERAND_JMPTARGQ10 :
       {
         bfd_vma value = 0;
-
         errmsg = parse_jtargq10 (cd, strp, IQ2000_OPERAND_JMPTARGQ10, 0, NULL,  & value);
         fields->f_jtargq10 = value;
       }
@@ -434,7 +433,7 @@ iq2000_cgen_parse_operand (cd, opindex, strp, fields)
       break;
     case IQ2000_OPERAND_OFFSET :
       {
-        bfd_vma value;
+        bfd_vma value = 0;
         errmsg = cgen_parse_address (cd, strp, IQ2000_OPERAND_OFFSET, 0, NULL,  & value);
         fields->f_offset = value;
       }

@@ -1,4 +1,4 @@
-/* $MirOS: src/gnu/usr.bin/binutils/ld/lexsup.c,v 1.2 2005/03/13 16:07:05 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/binutils/ld/lexsup.c,v 1.3 2005/03/28 22:21:13 tg Exp $ */
 
 /* Parse options for the GNU linker.
    Copyright 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000,
@@ -19,9 +19,10 @@
 
    You should have received a copy of the GNU General Public License
    along with GLD; see the file COPYING.  If not, write to the Free
-   Software Foundation, 59 Temple Place - Suite 330, Boston, MA
-   02111-1307, USA.  */
+   Software Foundation, 51 Franklin Street - Fifth Floor, Boston, MA
+   02110-1301, USA.  */
 
+#include "config.h"
 #include "bfd.h"
 #include "sysdep.h"
 #include "libiberty.h"
@@ -42,7 +43,7 @@
 #include "ldemul.h"
 #include "demangle.h"
 
-__RCSID("$MirOS: src/gnu/usr.bin/binutils/ld/lexsup.c,v 1.2 2005/03/13 16:07:05 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/binutils/ld/lexsup.c,v 1.3 2005/03/28 22:21:13 tg Exp $");
 
 #ifndef PATH_SEPARATOR
 #if defined (__MSDOS__) || (defined (_WIN32) && ! defined (__CYGWIN32__))

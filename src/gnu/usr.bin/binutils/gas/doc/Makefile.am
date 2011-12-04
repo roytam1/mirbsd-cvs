@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.bin/binutils/gas/doc/Makefile.am,v 1.2 2005/03/13 16:06:58 tg Exp $
+# $MirOS: src/gnu/usr.bin/binutils/gas/doc/Makefile.am,v 1.3 2005/03/28 21:40:36 tg Exp $
 #
 ## Process this file with automake to generate Makefile.in
 
@@ -62,9 +62,10 @@ CPU_DOCS = \
 	c-xtensa.texi \
 	c-z8k.texi
 
-gasver.texi: Makefile
+gasver.texi: $(srcdir)/../../bfd/configure
 	rm -f $@
-	echo '@set VERSION $(VERSION)' > $@
+	eval `grep '^ *VERSION=' $(srcdir)/../../bfd/configure`; \
+	  echo "@set VERSION $$VERSION" > $@
 
 # We want install to imply install-info as per GNU standards, despite the
 # cygnus option.
@@ -76,7 +77,7 @@ noinst_TEXINFOS = internals.texi
 
 DISTCLEANFILES = asconfig.texi as.info as.info-*
 
-MAINTAINERCLEANFILES = gasver.texi
+MAINTAINERCLEANFILES = asconfig.texi gasver.texi
 
 BASEDIR = $(srcdir)/../..
 BFDDIR = $(BASEDIR)/bfd

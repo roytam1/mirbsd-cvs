@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/gnu/usr.bin/binutils/gdb/configure.host,v 1.2 2005/04/19 20:13:12 tg Exp $
 # Mapping of configurations into GDB host definitions.  This is
 # invoked from the autoconf generated configure script.
 
@@ -50,6 +50,7 @@ arm*-*-linux*)		gdb_host=linux ;;
 arm*-*-netbsdelf* | arm*-*-knetbsd*-gnu)
 			gdb_host=nbsdelf ;;
 arm*-*-netbsd*)		gdb_host=nbsdaout ;;
+arm*-*-openbsd*)	gdb_host=nbsdelf ;;
 
 hppa*-*-hpux* | hppa*-*-hiux*)
 			gdb_host=hpux ;;

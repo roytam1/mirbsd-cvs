@@ -1,8 +1,8 @@
-/* $MirOS: src/gnu/usr.bin/binutils/ld/ld.h,v 1.2 2005/03/13 16:07:04 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/binutils/ld/ld.h,v 1.3 2005/03/28 22:21:13 tg Exp $ */
 
 /* ld.h -- general linker header file
    Copyright 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000,
-   2001, 2002, 2003, 2004
+   2001, 2002, 2003, 2004, 2005
    Free Software Foundation, Inc.
 
    This file is part of GLD, the Gnu Linker.
@@ -19,8 +19,8 @@
 
    You should have received a copy of the GNU General Public License
    along with GLD; see the file COPYING.  If not, write to the Free
-   Software Foundation, 59 Temple Place - Suite 330, Boston, MA
-   02111-1307, USA.  */
+   Software Foundation, 51 Franklin Street - Fifth Floor, Boston, MA
+   02110-1301, USA.  */
 
 #ifndef LD_H
 #define LD_H
@@ -96,27 +96,14 @@ struct map_symbol_def {
   struct map_symbol_def *next;
 };
 
-/* Extra information we hold on sections */
-typedef struct lean_user_section_struct {
-  /* For output sections: pointer to the section where this data will go.  */
-  struct lang_input_statement_struct *file;
-} lean_section_userdata_type;
-
 /* The initial part of fat_user_section_struct has to be idential with
    lean_user_section_struct.  */
 typedef struct fat_user_section_struct {
-  /* For output sections: pointer to the section where this data will go.  */
-  struct lang_input_statement_struct *file;
   /* For input sections, when writing a map file: head / tail of a linked
      list of hash table entries for symbols defined in this section.  */
   struct map_symbol_def *map_symbol_def_head;
   struct map_symbol_def **map_symbol_def_tail;
 } fat_section_userdata_type;
-
-#define SECTION_USERDATA_SIZE \
- (command_line.reduce_memory_overheads \
-  ? sizeof (lean_section_userdata_type) \
-  : sizeof (fat_section_userdata_type))
 
 #define get_userdata(x) ((x)->userdata)
 

@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/gnu/usr.bin/binutils/binutils/dllwrap.c,v 1.2 2005/03/13 16:06:51 tg Exp $ */
 
 /* dllwrap.c -- wrapper for DLLTOOL and GCC to generate PE style DLLs
    Copyright 1998, 1999, 2000, 2001, 2002, 2003, 2004 Free Software Foundation, Inc.
@@ -18,8 +18,8 @@
 
    You should have received a copy of the GNU General Public License
    along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
-   02111-1307, USA.  */
+   Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA
+   02110-1301, USA.  */
 
 /* AIX requires this to be the first thing in the file.  */
 #ifndef __GNUC__
@@ -47,7 +47,7 @@
 #include <varargs.h>
 #endif
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/gnu/usr.bin/binutils/binutils/dllwrap.c,v 1.2 2005/03/13 16:06:51 tg Exp $");
 
 #ifdef HAVE_SYS_WAIT_H
 #include <sys/wait.h>

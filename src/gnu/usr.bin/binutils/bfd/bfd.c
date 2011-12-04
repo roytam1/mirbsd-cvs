@@ -18,7 +18,7 @@
 
    You should have received a copy of the GNU General Public License
    along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
+   Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA 02110-1301, USA.  */
 
 /*
 SECTION
@@ -111,8 +111,8 @@ CODE_FRAGMENT
 .  {* Pointer to linked list of sections.  *}
 .  struct bfd_section *sections;
 .
-.  {* The place where we add to the section list.  *}
-.  struct bfd_section **section_tail;
+.  {* The last section on the section list.  *}
+.  struct bfd_section *section_last;
 .
 .  {* The number of sections.  *}
 .  unsigned int section_count;
@@ -217,7 +217,7 @@ CODE_FRAGMENT
 #undef obj_symbols
 #include "elf-bfd.h"
 
-__RCSID("$MirOS: src/gnu/usr.bin/binutils/bfd/bfd.c,v 1.2 2005/03/13 16:06:45 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/binutils/bfd/bfd.c,v 1.3 2005/03/28 21:51:01 tg Exp $");
 
 /* provide storage for subsystem, stack and heap data which may have been
    passed in on the command line.  Ld puts this data into a bfd_link_info
@@ -1163,6 +1163,10 @@ DESCRIPTION
 .       BFD_SEND (abfd, _bfd_find_nearest_line, \
 .                 (abfd, sec, syms, off, file, func, line))
 .
+.#define bfd_find_inliner_info(abfd, file, func, line) \
+.       BFD_SEND (abfd, _bfd_find_inliner_info, \
+.                 (abfd, file, func, line))
+.
 .#define bfd_debug_info_start(abfd) \
 .       BFD_SEND (abfd, _bfd_debug_info_start, (abfd))
 .
@@ -1392,7 +1396,7 @@ CODE_FRAGMENT
 .  flagword flags;
 .  const struct bfd_arch_info *arch_info;
 .  struct bfd_section *sections;
-.  struct bfd_section **section_tail;
+.  struct bfd_section *section_last;
 .  unsigned int section_count;
 .  struct bfd_hash_table section_htab;
 .};
@@ -1426,7 +1430,7 @@ bfd_preserve_save (bfd *abfd, struct bfd_preserve *preserve)
   preserve->arch_info = abfd->arch_info;
   preserve->flags = abfd->flags;
   preserve->sections = abfd->sections;
-  preserve->section_tail = abfd->section_tail;
+  preserve->section_last = abfd->section_last;
   preserve->section_count = abfd->section_count;
   preserve->section_htab = abfd->section_htab;
 
@@ -1437,7 +1441,7 @@ bfd_preserve_save (bfd *abfd, struct bfd_preserve *preserve)
   abfd->arch_info = &bfd_default_arch_struct;
   abfd->flags &= BFD_IN_MEMORY;
   abfd->sections = NULL;
-  abfd->section_tail = &abfd->sections;
+  abfd->section_last = NULL;
   abfd->section_count = 0;
 
   return TRUE;
@@ -1467,7 +1471,7 @@ bfd_preserve_restore (bfd *abfd, struct bfd_preserve *preserve)
   abfd->flags = preserve->flags;
   abfd->section_htab = preserve->section_htab;
   abfd->sections = preserve->sections;
-  abfd->section_tail = preserve->section_tail;
+  abfd->section_last = preserve->section_last;
   abfd->section_count = preserve->section_count;
 
   /* bfd_release frees all memory more recently bfd_alloc'd than

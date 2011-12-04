@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.bin/binutils/ld/configure.tgt,v 1.2 2005/03/13 16:07:04 tg Exp $
+# $MirOS: src/gnu/usr.bin/binutils/ld/configure.tgt,v 1.3 2005/03/28 22:21:12 tg Exp $
 
 # This is the linker target specific file.  This is invoked by the
 # autoconf generated configure script.  Putting it in a separate shell
@@ -243,7 +243,7 @@ i[3-7]86-*-interix*)	targ_emul=i386pe_posix;
  			targ_extra_ofiles="deffilep.o pe-dll.o" ;;
 i[3-7]86-*-beospe*)	targ_emul=i386beos ;;
 i[3-7]86-*-beos*)	targ_emul=elf_i386_be ;;
-i[3-7]86-*-vxworks*)	targ_emul=elf_i386 ;;
+i[3-7]86-*-vxworks*)	targ_emul=elf_i386_vxworks ;;
 i[3-7]86-*-chaos)	targ_emul=elf_i386_chaos ;;
 m8*-*-*)		targ_emul=m88kbcs ;;
 a29k-*-udi)		targ_emul=sa29200 ;;
@@ -290,10 +290,10 @@ thumb-*-pe)		targ_emul=armpe ;
 			targ_extra_ofiles="deffilep.o pe-dll.o" ;;
 xscale-*-coff)		targ_emul=armcoff ;;
 xscale-*-elf)		targ_emul=armelf ;;
-h8300-*-hms* | h8300-*-coff* | h8300-*-rtems*)
+h8300-*-hms* | h8300-*-coff* | h8300-*-rtemscoff*)
 			targ_emul=h8300; targ_extra_emuls="h8300h h8300s h8300hn h8300sn h8300sx h8300sxn"
 			;;
-h8300-*-elf*)
+h8300-*-elf* | h8300-*-rtems*)
 			targ_emul=h8300elf;
 			targ_extra_emuls="h8300helf h8300self h8300hnelf h8300snelf h8300sxelf h8300sxnelf"
 			;;

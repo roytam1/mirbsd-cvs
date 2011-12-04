@@ -1,5 +1,3 @@
-/* $MirOS: src/gnu/usr.bin/binutils/binutils/sysinfo.y,v 1.2 2005/03/13 16:06:54 tg Exp $ */
-
 /* Copyright 2001, 2003, 2005 Free Software Foundation, Inc.
    Written by Steve Chamberlain of Cygnus Support (steve@cygnus.com).
 
@@ -17,30 +15,21 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
+Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA 02110-1301, USA.  */
 
 %{
 #include <stdio.h>
 #include <stdlib.h>
 
-int yylex(void);
-
-extern char *word;
-extern char writecode;
-extern int number;
-extern int unit;
-char nice_name[1000];
-char *it;
-int sofar;
-int width;
-int code;
-char * repeat;
-char *oldrepeat;
-char *name;
-int rdepth;
-char *loop [] = {"","n","m","/*BAD*/"};
-char *names[] = {" ","[n]","[n][m]"};
-char *pnames[]= {"","*","**"};
+static char writecode;
+static char *it;
+static int code;
+static char * repeat;
+static char *oldrepeat;
+static char *name;
+static int rdepth;
+static char *names[] = {" ","[n]","[n][m]"};
+static char *pnames[]= {"","*","**"};
 
 static int yyerror (char *s);
 extern int yylex (void);
@@ -419,7 +408,6 @@ enum_list:
    -c write code to print info in human form */
 
 int yydebug;
-char writecode;
 
 int 
 main (int ac, char **av)

@@ -1,9 +1,8 @@
-/* $MirOS$ */
+/* $MirOS: src/gnu/usr.bin/binutils/gdb/ppcobsd-tdep.c,v 1.2 2005/04/19 20:13:22 tg Exp $ */
 
 /* Target-dependent code for OpenBSD/powerpc and MirOS BSD/powerpc.
 
-   Copyright 2004, 2005
-   Free Software Foundation, Inc.
+   Copyright 2004, 2005 Free Software Foundation, Inc.
 
    This file is part of GDB.
 
@@ -24,11 +23,14 @@
 
 #include "defs.h"
 #include "arch-utils.h"
+#include "floatformat.h"
 #include "osabi.h"
 #include "regcache.h"
 #include "regset.h"
-#include "gdb_assert.h"
+#include "trad-frame.h"
+#include "tramp-frame.h"
 
+#include "gdb_assert.h"
 #include "gdb_string.h"
 
 #include "ppc-tdep.h"
@@ -92,7 +94,7 @@ ppcobsd_collect_gregset (const struct regset *regset,
   ppc_collect_fpregset (regset, regcache, regnum, gregs, len);
 }
 
-/* OpenBS/powerpc register set.  */
+/* OpenBSD/powerpc register set.  */
 
 struct regset ppcobsd_gregset =
 {
@@ -114,15 +116,77 @@ ppcobsd_regset_from_core_section (struct gdbarch *gdbarch,
 }
 
 
+/* Signal trampolines.  */
+
+static void
+ppcobsd_sigtramp_cache_init (const struct tramp_frame *self,
+			     struct frame_info *next_frame,
+			     struct trad_frame_cache *this_cache,
+			     CORE_ADDR func)
+{
+  struct gdbarch *gdbarch = get_frame_arch (next_frame);
+  struct gdbarch_tdep *tdep = gdbarch_tdep (gdbarch);
+  CORE_ADDR addr, base;
+  int i;
+
+  base = frame_unwind_register_unsigned (next_frame, SP_REGNUM);
+  addr = base + 0x18 + 2 * tdep->wordsize;
+  for (i = 0; i < ppc_num_gprs; i++, addr += tdep->wordsize)
+    {
+      int regnum = i + tdep->ppc_gp0_regnum;
+      trad_frame_set_reg_addr (this_cache, regnum, addr);
+    }
+  trad_frame_set_reg_addr (this_cache, tdep->ppc_lr_regnum, addr);
+  addr += tdep->wordsize;
+  trad_frame_set_reg_addr (this_cache, tdep->ppc_cr_regnum, addr);
+  addr += tdep->wordsize;
+  trad_frame_set_reg_addr (this_cache, tdep->ppc_xer_regnum, addr);
+  addr += tdep->wordsize;
+  trad_frame_set_reg_addr (this_cache, tdep->ppc_ctr_regnum, addr);
+  addr += tdep->wordsize;
+  trad_frame_set_reg_addr (this_cache, PC_REGNUM, addr); /* SRR0? */
+  addr += tdep->wordsize;
+
+  /* Construct the frame ID using the function start.  */
+  trad_frame_set_id (this_cache, frame_id_build (base, func));
+}
+
+static const struct tramp_frame ppcobsd_sigtramp =
+{
+  SIGTRAMP_FRAME,
+  4,
+  {
+    { 0x3821fff0, -1 },		/* add r1,r1,-16 */
+    { 0x4e800021, -1 },		/* blrl */
+    { 0x38610018, -1 },		/* addi r3,r1,24 */
+    { 0x38000067, -1 },		/* li r0,103 */
+    { 0x44000002, -1 },		/* sc */
+    { 0x38000001, -1 },		/* li r0,1 */
+    { 0x44000002, -1 },		/* sc */
+    { TRAMP_SENTINEL_INSN, -1 }
+  },
+  ppcobsd_sigtramp_cache_init
+};
+
+
 static void
 ppcobsd_init_abi (struct gdbarch_info info, struct gdbarch *gdbarch)
 {
+  /* OpenBSD doesn't support the 128-bit `long double' from the psABI.  */
+  set_gdbarch_long_double_bit (gdbarch, 64);
+  set_gdbarch_long_double_format (gdbarch, &floatformat_ieee_double_big);
+
+  /* OpenBSD currently uses a broken GCC.  */
+  set_gdbarch_return_value (gdbarch, ppc_sysv_abi_broken_return_value);
+
   /* OpenBSD uses SVR4-style shared libraries.  */
   set_solib_svr4_fetch_link_map_offsets
     (gdbarch, svr4_ilp32_fetch_link_map_offsets);
 
   set_gdbarch_regset_from_core_section
     (gdbarch, ppcobsd_regset_from_core_section);
+
+  tramp_frame_prepend_unwinder (gdbarch, &ppcobsd_sigtramp);
 }
 
 
@@ -162,6 +226,8 @@ _initialize_ppcobsd_tdep (void)
   gdbarch_register_osabi_sniffer (bfd_arch_powerpc, bfd_target_unknown_flavour,
                                   ppcobsd_core_osabi_sniffer);
 
+  gdbarch_register_osabi (bfd_arch_rs6000, 0, GDB_OSABI_OPENBSD_ELF,
+			  ppcobsd_init_abi);
   gdbarch_register_osabi (bfd_arch_powerpc, 0, GDB_OSABI_OPENBSD_ELF,
 			  ppcobsd_init_abi);
 

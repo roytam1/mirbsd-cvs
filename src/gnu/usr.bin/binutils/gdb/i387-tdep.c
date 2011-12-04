@@ -36,9 +36,6 @@
 #include "i386-tdep.h"
 #include "i387-tdep.h"
 
-/* Implement the `info float' layout based on the register definitions
-   in `tm-i386.h'.  */
-
 /* Print the floating point number specified by RAW.  */
 
 static void
@@ -294,7 +291,7 @@ i387_print_float_info (struct gdbarch *gdbarch, struct ui_file *file,
 
 void
 i387_register_to_value (struct frame_info *frame, int regnum,
-			struct type *type, void *to)
+			struct type *type, gdb_byte *to)
 {
   char from[I386_MAX_REGISTER_SIZE];
 
@@ -303,8 +300,8 @@ i387_register_to_value (struct frame_info *frame, int regnum,
   /* We only support floating-point values.  */
   if (TYPE_CODE (type) != TYPE_CODE_FLT)
     {
-      warning ("Cannot convert floating-point register value "
-	       "to non-floating-point type.");
+      warning (_("Cannot convert floating-point register value "
+	       "to non-floating-point type."));
       return;
     }
 
@@ -319,7 +316,7 @@ i387_register_to_value (struct frame_info *frame, int regnum,
 
 void
 i387_value_to_register (struct frame_info *frame, int regnum,
-			struct type *type, const void *from)
+			struct type *type, const gdb_byte *from)
 {
   char to[I386_MAX_REGISTER_SIZE];
 
@@ -328,8 +325,8 @@ i387_value_to_register (struct frame_info *frame, int regnum,
   /* We only support floating-point values.  */
   if (TYPE_CODE (type) != TYPE_CODE_FLT)
     {
-      warning ("Cannot convert non-floating-point type "
-	       "to floating-point register value.");
+      warning (_("Cannot convert non-floating-point type "
+	       "to floating-point register value."));
       return;
     }
 
@@ -341,12 +338,6 @@ i387_value_to_register (struct frame_info *frame, int regnum,
 
 
 /* Handle FSAVE and FXSAVE formats.  */
-
-/* FIXME: kettenis/20030927: The functions below should accept a
-   `regcache' argument, but I don't want to change the function
-   signature just yet.  There's some band-aid in the functions below
-   in the form of the `regcache' local variables.  This will ease the
-   transition later on.  */
 
 /* At fsave_offset[REGNUM] you'll find the offset to the location in
    the data structure used by the "fsave" instruction where GDB

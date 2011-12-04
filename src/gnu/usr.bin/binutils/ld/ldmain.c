@@ -1,4 +1,4 @@
-/* $MirOS: src/gnu/usr.bin/binutils/ld/ldmain.c,v 1.2 2005/03/13 16:07:05 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/binutils/ld/ldmain.c,v 1.3 2005/03/28 22:21:13 tg Exp $ */
 
 /* Main program of GNU linker.
    Copyright 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001,
@@ -20,8 +20,8 @@
 
    You should have received a copy of the GNU General Public License
    along with GLD; see the file COPYING.  If not, write to the Free
-   Software Foundation, 59 Temple Place - Suite 330, Boston, MA
-   02111-1307, USA.  */
+   Software Foundation, 51 Franklin Street - Fifth Floor, Boston, MA
+   02110-1301, USA.  */
 
 #include "bfd.h"
 #include "sysdep.h"
@@ -61,7 +61,7 @@ extern void *sbrk ();
 #define TARGET_SYSTEM_ROOT ""
 #endif
 
-__RCSID("$MirOS: src/gnu/usr.bin/binutils/ld/ldmain.c,v 1.2 2005/03/13 16:07:05 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/binutils/ld/ldmain.c,v 1.3 2005/03/28 22:21:13 tg Exp $");
 
 /* EXPORTS */
 
@@ -164,7 +164,8 @@ static struct bfd_link_callbacks link_callbacks =
   reloc_overflow,
   reloc_dangerous,
   unattached_reloc,
-  notice
+  notice,
+  einfo
 };
 
 struct bfd_link_info link_info;
@@ -878,7 +879,7 @@ add_keepsyms_file (const char *filename)
    a link.  */
 
 static bfd_boolean
-add_archive_element (struct bfd_link_info *info ATTRIBUTE_UNUSED,
+add_archive_element (struct bfd_link_info *info,
 		     bfd *abfd,
 		     const char *name)
 {
@@ -909,7 +910,7 @@ add_archive_element (struct bfd_link_info *info ATTRIBUTE_UNUSED,
       bfd *from;
       int len;
 
-      h = bfd_link_hash_lookup (link_info.hash, name, FALSE, FALSE, TRUE);
+      h = bfd_link_hash_lookup (info->hash, name, FALSE, FALSE, TRUE);
 
       if (h == NULL)
 	from = NULL;
@@ -1150,7 +1151,7 @@ constructor_callback (struct bfd_link_info *info,
   /* Ensure that BFD_RELOC_CTOR exists now, so that we can give a
      useful error message.  */
   if (bfd_reloc_type_lookup (output_bfd, BFD_RELOC_CTOR) == NULL
-      && (link_info.relocatable
+      && (info->relocatable
 	  || bfd_reloc_type_lookup (abfd, BFD_RELOC_CTOR) == NULL))
     einfo (_("%P%F: BFD backend error: BFD_RELOC_CTOR unsupported\n"));
 
@@ -1427,10 +1428,7 @@ reloc_overflow (struct bfd_link_info *info ATTRIBUTE_UNUSED,
   if (overflow_cutoff_limit == -1)
     return TRUE;
 
-  if (abfd == NULL)
-    einfo (_("%P%X: generated"));
-  else
-    einfo ("%X%C:", abfd, section, address);
+  einfo ("%X%C:", abfd, section, address);
 
   if (overflow_cutoff_limit >= 0
       && overflow_cutoff_limit-- == 0)
@@ -1455,7 +1453,9 @@ reloc_overflow (struct bfd_link_info *info ATTRIBUTE_UNUSED,
 	case bfd_link_hash_defweak:
 	  einfo (_(" relocation truncated to fit: %s against symbol `%T' defined in %A section in %B"),
 		 reloc_name, entry->root.string,
-		 entry->u.def.section, entry->u.def.section->owner);
+		 entry->u.def.section,
+		 entry->u.def.section == bfd_abs_section_ptr
+		 ? output_bfd : entry->u.def.section->owner);
 	  break;
 	default:
 	  abort ();
@@ -1480,11 +1480,8 @@ reloc_dangerous (struct bfd_link_info *info ATTRIBUTE_UNUSED,
 		 asection *section,
 		 bfd_vma address)
 {
-  if (abfd == NULL)
-    einfo (_("%P%X: generated"));
-  else
-    einfo ("%X%C:", abfd, section, address);
-  einfo (_("dangerous relocation: %s\n"), message);
+  einfo (_("%X%C: dangerous relocation: %s\n"),
+	 abfd, section, address, message);
   return TRUE;
 }
 
@@ -1498,11 +1495,8 @@ unattached_reloc (struct bfd_link_info *info ATTRIBUTE_UNUSED,
 		  asection *section,
 		  bfd_vma address)
 {
-  if (abfd == NULL)
-    einfo (_("%P%X: generated"));
-  else
-    einfo ("%X%C:", abfd, section, address);
-  einfo (_(" reloc refers to symbol `%T' which is not being output\n"), name);
+  einfo (_("%X%C: reloc refers to symbol `%T' which is not being output\n"),
+	 abfd, section, address, name);
   return TRUE;
 }
 

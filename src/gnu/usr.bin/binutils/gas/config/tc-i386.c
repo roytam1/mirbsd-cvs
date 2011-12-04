@@ -1,5 +1,3 @@
-/* $MirOS: src/gnu/usr.bin/binutils/gas/config/tc-i386.c,v 1.3 2005/03/28 21:40:33 tg Exp $ */
-
 /* i386.c -- Assemble code for the Intel 80386
    Copyright 1989, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
    2000, 2001, 2002, 2003, 2004, 2005
@@ -19,8 +17,8 @@
 
    You should have received a copy of the GNU General Public License
    along with GAS; see the file COPYING.  If not, write to the Free
-   Software Foundation, 59 Temple Place - Suite 330, Boston, MA
-   02111-1307, USA.  */
+   Software Foundation, 51 Franklin Street - Fifth Floor, Boston, MA
+   02110-1301, USA.  */
 
 /* Intel 80386 machine specific gas.
    Written by Eliot Dresselhaus (eliot@mgm.mit.edu).
@@ -29,7 +27,6 @@
    Bugs & suggestions are completely welcome.  This is free software.
    Please help us make it better.  */
 
-#include <sys/cdefs.h>
 #include "as.h"
 #include "safe-ctype.h"
 #include "subsegs.h"
@@ -37,8 +34,6 @@
 #include "dw2gencfi.h"
 #include "opcode/i386.h"
 #include "elf/x86-64.h"
-
-__RCSID("$MirOS: src/gnu/usr.bin/binutils/gas/config/tc-i386.c,v 1.3 2005/03/28 21:40:33 tg Exp $");
 
 #ifndef REGISTER_WARNINGS
 #define REGISTER_WARNINGS 1
@@ -329,7 +324,7 @@ static unsigned int cpu_arch_flags = CpuUnknownFlags | CpuNo64;
 static unsigned int no_cond_jump_promotion = 0;
 
 /* Pre-defined "_GLOBAL_OFFSET_TABLE_".  */
-symbolS *GOT_symbol;
+static symbolS *GOT_symbol;
 
 /* The dwarf2 return column, adjusted for 32 or 64 bit.  */
 unsigned int x86_dwarf2_return_column;
@@ -1611,8 +1606,9 @@ parse_insn (line, mnemonic)
 	}
       if (!is_space_char (*l)
 	  && *l != END_OF_INSN
-	  && *l != PREFIX_SEPARATOR
-	  && *l != ',')
+	  && (intel_syntax
+	      || (*l != PREFIX_SEPARATOR
+		  && *l != ',')))
 	{
 	  as_bad (_("invalid character %s in mnemonic"),
 		  output_invalid (*l));
@@ -1620,7 +1616,7 @@ parse_insn (line, mnemonic)
 	}
       if (token_start == l)
 	{
-	  if (*l == PREFIX_SEPARATOR)
+	  if (!intel_syntax && *l == PREFIX_SEPARATOR)
 	    as_bad (_("expecting prefix; got nothing"));
 	  else
 	    as_bad (_("expecting mnemonic; got nothing"));
@@ -1770,12 +1766,24 @@ parse_insn (line, mnemonic)
     }
 
   /* Check for rep/repne without a string instruction.  */
-  if (expecting_string_instruction
-      && !(current_templates->start->opcode_modifier & IsString))
+  if (expecting_string_instruction)
     {
-      as_bad (_("expecting string instruction after `%s'"),
-	      expecting_string_instruction);
-      return NULL;
+      static templates override;
+
+      for (t = current_templates->start; t < current_templates->end; ++t)
+	if (t->opcode_modifier & IsString)
+	  break;
+      if (t >= current_templates->end)
+	{
+	  as_bad (_("expecting string instruction after `%s'"),
+	        expecting_string_instruction);
+	  return NULL;
+	}
+      for (override.start = t; t < current_templates->end; ++t)
+	if (!(t->opcode_modifier & IsString))
+	  break;
+      override.end = t;
+      current_templates = &override;
     }
 
   return l;
@@ -2074,7 +2082,13 @@ optimize_disp ()
 	    disp &= (((offsetT) 2 << 31) - 1);
 	    disp = (disp ^ ((offsetT) 1 << 31)) - ((addressT) 1 << 31);
 	  }
-	if (flag_code == CODE_64BIT)
+	if (!disp && (i.types[op] & BaseIndex))
+	  {
+	    i.types[op] &= ~Disp;
+	    i.op[op].disps = 0;
+	    i.disp_operands--;
+	  }
+	else if (flag_code == CODE_64BIT)
 	  {
 	    if (fits_in_signed_long (disp))
 	      i.types[op] |= Disp32S;
@@ -3326,23 +3340,23 @@ output_insn ()
       char *p;
       unsigned char *q;
 
-      /* All opcodes on i386 have either 1 or 2 bytes, PadLock instructions
-	 have 3 bytes.  We may use one more higher byte to specify a prefix
-	 the instruction requires.  */
-      if ((i.tm.cpu_flags & CpuPadLock) != 0
-	  && (i.tm.base_opcode & 0xff000000) != 0)
-        {
-	  unsigned int prefix;
-	  prefix = (i.tm.base_opcode >> 24) & 0xff;
+      /* All opcodes on i386 have either 1 or 2 bytes.  We may use one
+	 more higher byte to specify a prefix the instruction
+	 requires.  */
+      if ((i.tm.base_opcode & 0xff0000) != 0)
+	{
+	  if ((i.tm.cpu_flags & CpuPadLock) != 0)
+	    {
+	      unsigned int prefix;
+	      prefix = (i.tm.base_opcode >> 16) & 0xff;
 
-	  if (prefix != REPE_PREFIX_OPCODE
-	      || i.prefix[LOCKREP_PREFIX] != REPE_PREFIX_OPCODE)
-	    add_prefix (prefix);
+	      if (prefix != REPE_PREFIX_OPCODE
+		  || i.prefix[LOCKREP_PREFIX] != REPE_PREFIX_OPCODE)
+		add_prefix (prefix);
+	    }
+	  else
+	    add_prefix ((i.tm.base_opcode >> 16) & 0xff);
 	}
-      else
-	if ((i.tm.cpu_flags & CpuPadLock) == 0
-	    && (i.tm.base_opcode & 0xff0000) != 0)
-	  add_prefix ((i.tm.base_opcode >> 16) & 0xff);
 
       /* The prefix bytes.  */
       for (q = i.prefix;
@@ -3363,13 +3377,7 @@ output_insn ()
 	}
       else
 	{
-	  if ((i.tm.cpu_flags & CpuPadLock) != 0)
-	    {
-	      p = frag_more (3);
-	      *p++ = (i.tm.base_opcode >> 16) & 0xff;
-	    }
-	  else
-	    p = frag_more (2);
+	  p = frag_more (2);
 
 	  /* Put out high byte first: can't use md_number_to_chars!  */
 	  *p++ = (i.tm.base_opcode >> 8) & 0xff;
@@ -3573,7 +3581,8 @@ output_imm (insn_start_frag, insn_start_off)
 	      int sign = 0;
 
 	      if ((i.types[n] & (Imm32S))
-		  && i.suffix == QWORD_MNEM_SUFFIX)
+		  && (i.suffix == QWORD_MNEM_SUFFIX
+		      || (!i.suffix && (i.tm.opcode_modifier & No_lSuf))))
 		sign = 1;
 	      if (i.types[n] & (Imm8 | Imm8S | Imm16 | Imm64))
 		{
@@ -4804,6 +4813,7 @@ md_apply_fix3 (fixP, valP, seg)
 	  break;
 
 	case BFD_RELOC_32:
+	case BFD_RELOC_X86_64_32S:
 	  fixP->fx_r_type = BFD_RELOC_32_PCREL;
 	  break;
 	case BFD_RELOC_16:
@@ -4980,7 +4990,7 @@ md_atof (type, litP, sizeP)
   return 0;
 }
 
-char output_invalid_buf[8];
+static char output_invalid_buf[8];
 
 static char *
 output_invalid (c)
@@ -5312,6 +5322,10 @@ s_bss (ignore)
 {
   int temp;
 
+#if defined (OBJ_ELF) || defined (OBJ_MAYBE_ELF)
+  if (IS_ELF)
+    obj_elf_section_change_hook ();
+#endif
   temp = get_absolute_expression ();
   subseg_set (bss_section, (subsegT) temp);
   demand_empty_rest_of_line ();
@@ -5367,7 +5381,6 @@ tc_gen_reloc (section, fixp)
     case BFD_RELOC_386_TLS_GOTIE:
     case BFD_RELOC_386_TLS_LE_32:
     case BFD_RELOC_386_TLS_LE:
-    case BFD_RELOC_X86_64_32S:
     case BFD_RELOC_X86_64_TLSGD:
     case BFD_RELOC_X86_64_TLSLD:
     case BFD_RELOC_X86_64_DTPOFF32:
@@ -5381,6 +5394,13 @@ tc_gen_reloc (section, fixp)
 #endif
       code = fixp->fx_r_type;
       break;
+    case BFD_RELOC_X86_64_32S:
+      if (!fixp->fx_pcrel)
+	{
+	  /* Don't turn BFD_RELOC_X86_64_32S into BFD_RELOC_32.  */
+	  code = fixp->fx_r_type;
+	  break;
+	}
     default:
       if (fixp->fx_pcrel)
 	{
@@ -6776,21 +6796,36 @@ tc_x86_regname_to_dw2regnum (const char *regname)
 {
   unsigned int regnum;
   unsigned int regnames_count;
-  char *regnames_32[] =
+  static const char *const regnames_32[] =
     {
       "eax", "ecx", "edx", "ebx",
       "esp", "ebp", "esi", "edi",
-      "eip"
+      "eip", "eflags", NULL,
+      "st0", "st1", "st2", "st3",
+      "st4", "st5", "st6", "st7",
+      NULL, NULL,
+      "xmm0", "xmm1", "xmm2", "xmm3",
+      "xmm4", "xmm5", "xmm6", "xmm7",
+      "mm0", "mm1", "mm2", "mm3",
+      "mm4", "mm5", "mm6", "mm7"
     };
-  char *regnames_64[] =
+  static const char *const regnames_64[] =
     {
-      "rax", "rbx", "rcx", "rdx",
-      "rdi", "rsi", "rbp", "rsp",
-      "r8", "r9", "r10", "r11",
+      "rax", "rdx", "rcx", "rbx",
+      "rsi", "rdi", "rbp", "rsp",
+      "r8",  "r9",  "r10", "r11",
       "r12", "r13", "r14", "r15",
-      "rip"
+      "rip",
+      "xmm0",  "xmm1",  "xmm2",  "xmm3",
+      "xmm4",  "xmm5",  "xmm6",  "xmm7",
+      "xmm8",  "xmm9",  "xmm10", "xmm11",
+      "xmm12", "xmm13", "xmm14", "xmm15",
+      "st0", "st1", "st2", "st3",
+      "st4", "st5", "st6", "st7",
+      "mm0", "mm1", "mm2", "mm3",
+      "mm4", "mm5", "mm6", "mm7"
     };
-  char **regnames;
+  const char *const *regnames;
 
   if (flag_code == CODE_64BIT)
     {
@@ -6804,7 +6839,8 @@ tc_x86_regname_to_dw2regnum (const char *regname)
     }
 
   for (regnum = 0; regnum < regnames_count; regnum++)
-    if (strcmp (regname, regnames[regnum]) == 0)
+    if (regnames[regnum] != NULL
+	&& strcmp (regname, regnames[regnum]) == 0)
       return regnum;
 
   return -1;

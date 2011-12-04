@@ -1,4 +1,4 @@
-/* $MirOS: src/gnu/usr.bin/binutils/binutils/bucomm.h,v 1.2 2005/03/13 16:06:51 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/binutils/binutils/bucomm.h,v 1.3 2005/03/28 22:06:01 tg Exp $ */
 
 /* bucomm.h -- binutils common include file.
    Copyright 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000,
@@ -18,7 +18,7 @@
 
    You should have received a copy of the GNU General Public License
    along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
+   Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA 02110-1301, USA.  */
 
 #ifndef _BUCOMM_H
 #define _BUCOMM_H

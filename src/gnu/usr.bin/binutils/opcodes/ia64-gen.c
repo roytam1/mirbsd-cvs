@@ -1,4 +1,4 @@
-/* $MirOS: src/gnu/usr.bin/binutils/opcodes/ia64-gen.c,v 1.2 2005/03/13 16:07:13 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/binutils/opcodes/ia64-gen.c,v 1.3 2005/03/28 21:57:01 tg Exp $ */
 
 /* ia64-gen.c -- Generate a shrunk set of opcode tables
    Copyright 1999, 2000, 2001, 2002, 2004, 2005
@@ -19,8 +19,8 @@
 
    You should have received a copy of the GNU General Public License
    along with this file; see the file COPYING.  If not, write to the
-   Free Software Foundation, 59 Temple Place - Suite 330, Boston, MA
-   02111-1307, USA.  */
+   Free Software Foundation, 51 Franklin Street - Fifth Floor, Boston, MA
+   02110-1301, USA.  */
 
 /* While the ia64-opc-* set of opcode tables are easy to maintain,
    they waste a tremendous amount of space.  ia64-gen rearranges the
@@ -53,7 +53,7 @@
 #include "ia64-opc-x.c"
 #include "ia64-opc-d.c"
 
-__RCSID("$MirOS: src/gnu/usr.bin/binutils/opcodes/ia64-gen.c,v 1.2 2005/03/13 16:07:13 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/binutils/opcodes/ia64-gen.c,v 1.3 2005/03/28 21:57:01 tg Exp $");
 
 #define _(String) (String)
 

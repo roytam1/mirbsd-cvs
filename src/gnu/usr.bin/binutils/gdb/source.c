@@ -91,6 +91,14 @@ static int current_source_line;
    things are wrapping, but that would be a fair amount of work.  */
 
 int lines_to_list = 10;
+static void
+show_lines_to_list (struct ui_file *file, int from_tty,
+		    struct cmd_list_element *c, const char *value)
+{
+  fprintf_filtered (file, _("\
+Number of source lines gdb will list by default is %s.\n"),
+		    value);
+}
 
 /* Line number of last line printed.  Default for various commands.
    current_source_line is usually, but not always, the same as this.  */
@@ -134,7 +142,7 @@ get_lines_to_list (void)
 struct symtab_and_line
 get_current_source_symtab_and_line (void)
 {
-  struct symtab_and_line cursal;
+  struct symtab_and_line cursal = { };
 
   cursal.symtab = current_source_symtab;
   cursal.line = current_source_line;
@@ -158,7 +166,7 @@ set_default_source_symtab_and_line (void)
   struct symtab_and_line cursal;
 
   if (!have_full_symbols () && !have_partial_symbols ())
-    error ("No symbol table is loaded.  Use the \"file\" command.");
+    error (_("No symbol table is loaded.  Use the \"file\" command."));
 
   /* Pull in a current source symtab if necessary */
   if (current_source_symtab == 0)
@@ -173,7 +181,7 @@ set_default_source_symtab_and_line (void)
 struct symtab_and_line
 set_current_source_symtab_and_line (const struct symtab_and_line *sal)
 {
-  struct symtab_and_line cursal;
+  struct symtab_and_line cursal = { };
   
   cursal.symtab = current_source_symtab;
   cursal.line = current_source_line;
@@ -273,8 +281,8 @@ select_source_symtab (struct symtab *s)
       if (cs_pst->readin)
 	{
 	  internal_error (__FILE__, __LINE__,
-			  "select_source_symtab: "
-			  "readin pst found and no symtabs.");
+			  _("select_source_symtab: "
+			  "readin pst found and no symtabs."));
 	}
       else
 	{
@@ -284,7 +292,7 @@ select_source_symtab (struct symtab *s)
   if (current_source_symtab)
     return;
 
-  error ("Can't find a default source file");
+  error (_("Can't find a default source file"));
 }
 
 static void
@@ -358,7 +366,7 @@ directory_command (char *dirname, int from_tty)
   /* FIXME, this goes to "delete dir"... */
   if (dirname == 0)
     {
-      if (from_tty && query ("Reinitialize source path to empty? "))
+      if (from_tty && query (_("Reinitialize source path to empty? ")))
 	{
 	  xfree (source_path);
 	  init_source_path ();
@@ -506,7 +514,7 @@ add_path (char *dirname, char **which_path, int parse_separators)
 	      print_sys_errmsg (name, save_errno);
 	    }
 	  else if ((st.st_mode & S_IFMT) != S_IFDIR)
-	    warning ("%s is not a directory.", name);
+	    warning (_("%s is not a directory."), name);
 	}
 
     append:
@@ -583,21 +591,21 @@ source_info (char *ignore, int from_tty)
 
   if (!s)
     {
-      printf_filtered ("No current source file.\n");
+      printf_filtered (_("No current source file.\n"));
       return;
     }
-  printf_filtered ("Current source file is %s\n", s->filename);
+  printf_filtered (_("Current source file is %s\n"), s->filename);
   if (s->dirname)
-    printf_filtered ("Compilation directory is %s\n", s->dirname);
+    printf_filtered (_("Compilation directory is %s\n"), s->dirname);
   if (s->fullname)
-    printf_filtered ("Located in %s\n", s->fullname);
+    printf_filtered (_("Located in %s\n"), s->fullname);
   if (s->nlines)
-    printf_filtered ("Contains %d line%s.\n", s->nlines,
+    printf_filtered (_("Contains %d line%s.\n"), s->nlines,
 		     s->nlines == 1 ? "" : "s");
 
-  printf_filtered ("Source language is %s.\n", language_str (s->language));
-  printf_filtered ("Compiled with %s debugging format.\n", s->debugformat);
-  printf_filtered ("%s preprocessor macro info.\n",
+  printf_filtered (_("Source language is %s.\n"), language_str (s->language));
+  printf_filtered (_("Compiled with %s debugging format.\n"), s->debugformat);
+  printf_filtered (_("%s preprocessor macro info.\n"),
                    s->macro_table ? "Includes" : "Does not include");
 }
 
@@ -979,9 +987,7 @@ find_source_lines (struct symtab *s, int desc)
     mtime = bfd_get_mtime (exec_bfd);
 
   if (mtime && mtime < st.st_mtime)
-    {
-      warning ("Source file is more recent than executable.\n");
-    }
+    warning (_("Source file is more recent than executable."));
 
 #ifdef LSEEK_NOT_LINEAR
   {
@@ -1218,7 +1224,7 @@ print_source_lines_base (struct symtab *s, int line, int stopline, int noerror)
   if (line < 1 || line > s->nlines)
     {
       close (desc);
-      error ("Line number %d out of range; %s has %d lines.",
+      error (_("Line number %d out of range; %s has %d lines."),
 	     line, s->filename, s->nlines);
     }
 
@@ -1319,7 +1325,7 @@ line_info (char *arg, int from_tty)
 
       if (sal.symtab == 0)
 	{
-	  printf_filtered ("No line number information available");
+	  printf_filtered (_("No line number information available"));
 	  if (sal.pc != 0)
 	    {
 	      /* This is useful for "info line *0x7f34".  If we can't tell the
@@ -1374,7 +1380,7 @@ line_info (char *arg, int from_tty)
 	/* Is there any case in which we get here, and have an address
 	   which the user would want to see?  If we have debugging symbols
 	   and no line numbers?  */
-	printf_filtered ("Line number %d is out of range for \"%s\".\n",
+	printf_filtered (_("Line number %d is out of range for \"%s\".\n"),
 			 sal.line, sal.symtab->filename);
     }
   xfree (sals.sals);
@@ -1395,7 +1401,7 @@ forward_search_command (char *regex, int from_tty)
 
   msg = (char *) re_comp (regex);
   if (msg)
-    error ("%s", msg);
+    error (("%s"), msg);
 
   if (current_source_symtab == 0)
     select_source_symtab (0);
@@ -1410,7 +1416,7 @@ forward_search_command (char *regex, int from_tty)
   if (line < 1 || line > current_source_symtab->nlines)
     {
       close (desc);
-      error ("Expression not found");
+      error (_("Expression not found"));
     }
 
   if (lseek (desc, current_source_symtab->line_charpos[line - 1], 0) < 0)
@@ -1471,7 +1477,7 @@ forward_search_command (char *regex, int from_tty)
       line++;
     }
 
-  printf_filtered ("Expression not found\n");
+  printf_filtered (_("Expression not found\n"));
   fclose (stream);
 }
 
@@ -1488,7 +1494,7 @@ reverse_search_command (char *regex, int from_tty)
 
   msg = (char *) re_comp (regex);
   if (msg)
-    error ("%s", msg);
+    error (("%s"), msg);
 
   if (current_source_symtab == 0)
     select_source_symtab (0);
@@ -1503,7 +1509,7 @@ reverse_search_command (char *regex, int from_tty)
   if (line < 1 || line > current_source_symtab->nlines)
     {
       close (desc);
-      error ("Expression not found");
+      error (_("Expression not found"));
     }
 
   if (lseek (desc, current_source_symtab->line_charpos[line - 1], 0) < 0)
@@ -1558,7 +1564,7 @@ reverse_search_command (char *regex, int from_tty)
 	}
     }
 
-  printf_filtered ("Expression not found\n");
+  printf_filtered (_("Expression not found\n"));
   fclose (stream);
   return;
 }
@@ -1578,12 +1584,12 @@ _initialize_source (void)
   re_set_syntax (RE_SYNTAX_GREP);
 #endif
 
-  c = add_cmd ("directory", class_files, directory_command,
-	       "Add directory DIR to beginning of search path for source files.\n\
+  c = add_cmd ("directory", class_files, directory_command, _("\
+Add directory DIR to beginning of search path for source files.\n\
 Forget cached info on source file locations and line positions.\n\
 DIR can also be $cwd for the current working directory, or $cdir for the\n\
 directory in which the source file was compiled into object code.\n\
-With no argument, reset the search path to $cdir:$cwd, the default.",
+With no argument, reset the search path to $cdir:$cwd, the default."),
 	       &cmdlist);
 
   if (dbx_commands)
@@ -1591,46 +1597,45 @@ With no argument, reset the search path to $cdir:$cwd, the default.",
 
   set_cmd_completer (c, filename_completer);
 
-  add_cmd ("directories", no_class, show_directories,
-	   "Current search path for finding source files.\n\
+  add_cmd ("directories", no_class, show_directories, _("\
+Current search path for finding source files.\n\
 $cwd in the path means the current working directory.\n\
-$cdir in the path means the compilation directory of the source file.",
+$cdir in the path means the compilation directory of the source file."),
 	   &showlist);
 
   if (xdb_commands)
     {
       add_com_alias ("D", "directory", class_files, 0);
-      add_cmd ("ld", no_class, show_directories,
-	       "Current search path for finding source files.\n\
+      add_cmd ("ld", no_class, show_directories, _("\
+Current search path for finding source files.\n\
 $cwd in the path means the current working directory.\n\
-$cdir in the path means the compilation directory of the source file.",
+$cdir in the path means the compilation directory of the source file."),
 	       &cmdlist);
     }
 
   add_info ("source", source_info,
-	    "Information about the current source file.");
+	    _("Information about the current source file."));
 
-  add_info ("line", line_info,
-	    concat ("Core addresses of the code for a source line.\n\
+  add_info ("line", line_info, _("\
+Core addresses of the code for a source line.\n\
 Line can be specified as\n\
   LINENUM, to list around that line in current file,\n\
   FILE:LINENUM, to list around that line in that file,\n\
   FUNCTION, to list around beginning of that function,\n\
   FILE:FUNCTION, to distinguish among like-named static functions.\n\
-", "\
 Default is to describe the last source line that was listed.\n\n\
 This sets the default address for \"x\" to the line's first instruction\n\
 so that \"x/i\" suffices to start examining the machine code.\n\
-The address is also stored as the value of \"$_\".", NULL));
+The address is also stored as the value of \"$_\"."));
 
-  add_com ("forward-search", class_files, forward_search_command,
-	   "Search for regular expression (see regex(3)) from last line listed.\n\
-The matching line number is also stored as the value of \"$_\".");
+  add_com ("forward-search", class_files, forward_search_command, _("\
+Search for regular expression (see regex(3)) from last line listed.\n\
+The matching line number is also stored as the value of \"$_\"."));
   add_com_alias ("search", "forward-search", class_files, 0);
 
-  add_com ("reverse-search", class_files, reverse_search_command,
-	   "Search backward for regular expression (see regex(3)) from last line listed.\n\
-The matching line number is also stored as the value of \"$_\".");
+  add_com ("reverse-search", class_files, reverse_search_command, _("\
+Search backward for regular expression (see regex(3)) from last line listed.\n\
+The matching line number is also stored as the value of \"$_\"."));
 
   if (xdb_commands)
     {
@@ -1638,10 +1643,10 @@ The matching line number is also stored as the value of \"$_\".");
       add_com_alias ("?", "reverse-search", class_files, 0);
     }
 
-  deprecated_add_show_from_set
-    (add_set_cmd ("listsize", class_support, var_uinteger,
-		  (char *) &lines_to_list,
-		  "Set number of source lines gdb will list by default.",
-		  &setlist),
-     &showlist);
+  add_setshow_uinteger_cmd ("listsize", class_support, &lines_to_list, _("\
+Set number of source lines gdb will list by default."), _("\
+Show number of source lines gdb will list by default."), NULL,
+			    NULL,
+			    show_lines_to_list,
+			    &setlist, &showlist);
 }

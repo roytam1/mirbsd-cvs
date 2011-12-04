@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.bin/binutils/ld/scripttempl/elf.sc,v 1.2 2005/03/13 16:07:07 tg Exp $
+# $MirOS: src/gnu/usr.bin/binutils/ld/scripttempl/elf.sc,v 1.3 2005/03/28 22:21:16 tg Exp $
 #
 # Unusual variables checked by this code:
 #	NOP - four byte opcode for no-op (defaults to 0)
@@ -26,6 +26,8 @@
 #		.text section.
 #	DATA_START_SYMBOLS - symbols that appear at the start of the
 #		.data section.
+#	DATA_END_SYMBOLS - symbols that appear at the end of the
+#		writeable data sections.
 #	OTHER_GOT_SYMBOLS - symbols defined just before .got.
 #	OTHER_GOT_SECTIONS - sections just after .got.
 #	OTHER_SDATA_SECTIONS - sections just after .sdata.
@@ -46,6 +48,8 @@
 # 	combination of .fini sections.
 #	STACK_ADDR - start of a .stack section.
 #	OTHER_END_SYMBOLS - symbols to place right at the end of the script.
+#	ETEXT_NAME - name of a symbol for the end of the text section,
+#		normally etext.
 #	SEPARATE_GOTPLT - if set, .got.plt should be separate output section,
 #		so that .got can be in the RELRO area.  It should be set to
 #		the number of bytes in the beginning of .got.plt which can be
@@ -85,6 +89,7 @@ if [ -z "$MACHINE" ]; then OUTPUT_ARCH=${ARCH}; else OUTPUT_ARCH=${ARCH}:${MACHI
 test -z "${ELFSIZE}" && ELFSIZE=32
 test -z "${ALIGNMENT}" && ALIGNMENT="${ELFSIZE} / 8"
 test "$LD_FLAG" = "N" && DATA_ADDR=.
+test -z "${ETEXT_NAME}" && ETEXT_NAME=etext
 test -n "$CREATE_SHLIB$CREATE_PIE" && test -n "$SHLIB_DATA_ADDR" && COMMONPAGESIZE=""
 test -z "$CREATE_SHLIB$CREATE_PIE" && test -n "$DATA_ADDR" && COMMONPAGESIZE=""
 if [ -n "$PLT_BEFORE_GOT" ]; then DATA_NONEXEC_PLT=; unset DATA_PLT; unset BSS_PLT; fi
@@ -94,26 +99,23 @@ test -n "$NO_SMALL_DATA" && test -z "${PAD_GOT+x}" && NO_SMALL_DATA_GOT=
 test -z "${NO_SMALL_DATA_GOT+x}" && unset SEPARATE_GOTPLT
 DATA_SEGMENT_ALIGN="ALIGN(${SEGMENT_SIZE}) + (. & (${MAXPAGESIZE} - 1))"
 DATA_SEGMENT_RELRO_END=""
-DATA_SEGMENT_RELRO_GOTPLT_END=""
 DATA_SEGMENT_END=""
 if test -n "${COMMONPAGESIZE}"; then
   DATA_SEGMENT_ALIGN="ALIGN (${SEGMENT_SIZE}) - ((${MAXPAGESIZE} - .) & (${MAXPAGESIZE} - 1)); . = DATA_SEGMENT_ALIGN (${MAXPAGESIZE}, ${COMMONPAGESIZE})"
   DATA_SEGMENT_END=". = DATA_SEGMENT_END (.);"
-  if test -n "${SEPARATE_GOTPLT}"; then
-    DATA_SEGMENT_RELRO_GOTPLT_END=". = DATA_SEGMENT_RELRO_END (${SEPARATE_GOTPLT}, .);"
-  else
-    DATA_SEGMENT_RELRO_END=". = DATA_SEGMENT_RELRO_END (0, .);"
-  fi
+  DATA_SEGMENT_RELRO_END=". = DATA_SEGMENT_RELRO_END (${SEPARATE_GOTPLT-0}, .);"
 fi
 INTERP=".interp       ${RELOCATING-0} : { *(.interp) }"
-PLT=".plt          ${RELOCATING-0} : { *(.plt) }"
+if test -z "$PLT"; then
+  PLT=".plt          ${RELOCATING-0} : { *(.plt) }"
+fi
+test -n "${DATA_PLT-${DATA_NONEXEC_PLT-${BSS_PLT-text}}}" && TEXT_PLT=yes
 if test -z "$GOT"; then
   if test -z "$SEPARATE_GOTPLT"; then
     GOT=".got          ${RELOCATING-0} : { *(.got.plt) *(.got) }"
   else
     GOT=".got          ${RELOCATING-0} : { *(.got) }"
-    GOTPLT="${RELOCATING+${DATA_SEGMENT_RELRO_GOTPLT_END}}
-  .got.plt      ${RELOCATING-0} : { *(.got.plt) }"
+    GOTPLT=".got.plt      ${RELOCATING-0} : { *(.got.plt) }"
   fi
 fi
 DYNAMIC=".dynamic      ${RELOCATING-0} : { *(.dynamic) }"
@@ -159,6 +161,16 @@ if test "$NO_PAD" = "y" ; then
   PAD_GOT0="${RELOCATING+. = ALIGN(${MAXPAGESIZE}) + (. & (${MAXPAGESIZE} - 1));} .gotpad0 ${RELOCATING-0} : { ${RELOCATING+__got_start = .;} }"
   PAD_GOT1=".gotpad1 ${RELOCATING-0} : { ${RELOCATING+__got_end = .;}} ${RELOCATING+. = ALIGN(${MAXPAGESIZE}) + (. & (${MAXPAGESIZE} - 1));}"
   test "$NO_PAD_CDTOR" = "y" || PAD_CDTOR=
+fi
+if test -z "${DATA_GOT}"; then
+  if test -n "${NO_SMALL_DATA_GOT}"; then
+    DATA_GOT=" "
+  fi
+fi
+if test -z "${SDATA_GOT}"; then
+  if test -z "${NO_SMALL_DATA_GOT}"; then
+    SDATA_GOT=" "
+  fi
 fi
 test -n "$SEPARATE_GOTPLT" && SEPARATE_GOTPLT=" "
 test -z "$S_EH_FRAME" && S_EH_FRAME=".eh_frame     ${RELOCATING-0} : ONLY_IF_RW { KEEP (*(.eh_frame)) }"
@@ -314,7 +326,7 @@ cat <<EOF
     ${RELOCATING+${INIT_END}}
   } =${NOP-0}
 
-  ${DATA_PLT-${DATA_NONEXEC_PLT-${BSS_PLT-${PLT}}}}
+  ${TEXT_PLT+${PLT}}
   .text         ${RELOCATING-0} :
   {
     ${RELOCATING+${TEXT_START_SYMBOLS}}
@@ -330,9 +342,9 @@ cat <<EOF
     KEEP (*(.fini))
     ${RELOCATING+${FINI_END}}
   } =${NOP-0}
-  ${RELOCATING+PROVIDE (__etext = .);}
-  ${RELOCATING+PROVIDE (_etext = .);}
-  ${RELOCATING+PROVIDE (etext = .);}
+  ${RELOCATING+PROVIDE (__${ETEXT_NAME} = .);}
+  ${RELOCATING+PROVIDE (_${ETEXT_NAME} = .);}
+  ${RELOCATING+PROVIDE (${ETEXT_NAME} = .);}
 
   /* Start of R/O data sections.  */
 
@@ -370,13 +382,14 @@ cat <<EOF
   ${OTHER_RELRO_SECTIONS}
   ${NO_SMALL_DATA_GOT+${TEXT_DYNAMIC-${DYNAMIC}}}
   ${NO_SMALL_DATA_GOT+${RELRO_NOW+${DATA_NONEXEC_PLT+${PLT}}}}
-  ${NO_SMALL_DATA_GOT+${RELRO_NOW+${GOT}}}
+  ${DATA_GOT+${RELRO_NOW+${GOT}}}
   ${NO_SMALL_DATA_GOT+${RELRO_NOW-${SEPARATE_GOTPLT+${DATA_NONEXEC_PLT+${PLT}}}}}
-  ${NO_SMALL_DATA_GOT+${RELRO_NOW-${SEPARATE_GOTPLT+${GOT}}}}
-  ${NO_SMALL_DATA_GOT+${RELRO_NOW-${SEPARATE_GOTPLT+${GOTPLT}}}}
+  ${DATA_GOT+${RELRO_NOW+${GOTPLT}}}
+  ${DATA_GOT+${RELRO_NOW-${SEPARATE_GOTPLT+${GOT}}}}
   ${RELOCATING+${DATA_SEGMENT_RELRO_END}}
+  ${DATA_GOT+${RELRO_NOW-${SEPARATE_GOTPLT-${GOT}}}}
+  ${DATA_GOT+${RELRO_NOW-${GOTPLT}}}
   ${NO_SMALL_DATA_GOT+${RELRO_NOW-${SEPARATE_GOTPLT-${DATA_NONEXEC_PLT+${PLT}}}}}
-  ${NO_SMALL_DATA_GOT+${RELRO_NOW-${SEPARATE_GOTPLT-${GOT}}}}
 
   ${NO_SMALL_DATA_GOT+${DATA_PLT+${PLT}}}
 
@@ -410,24 +423,25 @@ cat <<EOF
      to page aligned if PAD_GOT.  */
   ${PAD_GOT+${PAD_GOT0}}
   ${NO_SMALL_DATA_GOT-${DATA_NONEXEC_PLT+${PLT}}}
-  ${RELOCATING+${OTHER_GOT_SYMBOLS}}
-  ${NO_SMALL_DATA_GOT-${GOT}}
+  ${SDATA_GOT+${RELOCATING+${OTHER_GOT_SYMBOLS}}}
+  ${SDATA_GOT+${GOT}}
   /* If PAD_CDTOR, CTOR and DTOR relocated here to receive mprotect
      protection after relocations are finished - same as GOT.  */
   ${NO_SMALL_DATA_GOT-${PAD_CDTOR+${RELOCATING+${CTOR}}}}
   ${NO_SMALL_DATA_GOT-${PAD_CDTOR+${RELOCATING+${DTOR}}}}
-  ${OTHER_GOT_SECTIONS}
+  ${SDATA_GOT+${OTHER_GOT_SECTIONS}}
   ${PAD_GOT+${PAD_GOT1}}
 
   /* Start of shared data sections.  */
 
   ${SDATA}
   ${OTHER_SDATA_SECTIONS}
-  ${RELOCATING+_edata = .;}
-  ${RELOCATING+PROVIDE (edata = .);}
+  ${RELOCATING+${DATA_END_SYMBOLS-_edata = .; PROVIDE (edata = .);}}
 
   /* Start of BSS sections.  */
 
+  /* __bss_start is used by _bfd_elf_provide_section_bound_symbols in
+     elflink.c.  */
   ${RELOCATING+__bss_start = .;}
   ${RELOCATING+${OTHER_BSS_SYMBOLS}}
   ${SBSS}
