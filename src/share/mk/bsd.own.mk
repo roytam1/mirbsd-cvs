@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.own.mk,v 1.8 2005/04/29 00:21:57 tg Exp $
+# $MirOS: src/share/mk/bsd.own.mk,v 1.9 2005/05/21 14:45:16 tg Exp $
 # $OpenBSD: bsd.own.mk,v 1.84 2004/06/22 19:50:01 pvalchev Exp $
 # $NetBSD: bsd.own.mk,v 1.24 1996/04/13 02:08:09 thorpej Exp $
 
@@ -27,6 +27,14 @@ DEFFLAGS?=	Yes
 .if ${DEFFLAGS:L} != "no"
 CC?=		mgcc
 COPTS?=		${DEFCOPTS} ${GCEXTRA}
+.  ifdef __CRAZY
+DEFCOPTS+=	-Wall -Wextra -Wunused -Wdeclaration-after-statement -Wundef \
+		-Wendif-labels -Wshadow -Wpointer-arith -Wbad-function-cast \
+		-Wcast-qual -Wcast-align -Wwrite-strings -Wstrict-prototypes \
+		-Wold-style-definition -Wmissing-prototypes -Winline \
+		-Wmissing-declarations -Wmissing-noreturn -pedantic \
+		-Wmissing-format-attribute -Wredundant-decls -std=c99
+.  endif
 .endif
 
 .if ${MACHINE} == "macppc"
