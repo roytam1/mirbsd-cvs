@@ -34,7 +34,7 @@
 .\" (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 .\" THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .\"
-.\" $MirOS: src/usr.bin/ssh/ssh.1,v 1.5 2005/04/14 20:07:45 tg Exp $
+.\" $MirOS: src/usr.bin/ssh/ssh.1,v 1.6 2005/04/26 15:21:50 tg Exp $
 .\" $OpenBSD: ssh.1,v 1.207 2005/04/21 06:17:50 djm Exp $
 .Dd September 25, 1999
 .Dt SSH 1
@@ -984,8 +984,8 @@ identity file in human-readable form).
 The contents of the
 .Pa ~/.etc/ssh/identity.pub
 file should be added to the file
-.Pa ~/.etc/ssh/authorised_keys (
-.Ns Pa ~/.ssh/authorized_keys )
+.Pa ~/.etc/ssh/authorised_keys
+.Ns No ( Pa ~/.ssh/authorized_keys )
 on all machines
 where the user wishes to log in using protocol version 1 RSA authentication.
 The contents of the
@@ -993,8 +993,8 @@ The contents of the
 and
 .Pa ~/.etc/ssh/id_rsa.pub
 file should be added to
-.Pa ~/.etc/ssh/authorised_keys (
-.Ns Pa ~/.ssh/authorized_keys )
+.Pa ~/.etc/ssh/authorised_keys
+.Ns No ( Pa ~/.ssh/authorized_keys )
 on all machines
 where the user wishes to log in using protocol version 2 DSA/RSA authentication.
 These files are not
