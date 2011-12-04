@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/sys.mk,v 1.17 2005/05/06 00:17:43 tg Exp $
+# $MirOS: src/share/mk/sys.mk,v 1.18 2005/05/14 18:02:12 tg Exp $
 # $OpenBSD: sys.mk,v 1.37 2004/04/05 19:17:25 miod Exp $
 # $NetBSD: sys.mk,v 1.27 1996/04/10 05:47:19 mycroft Exp $
 # @(#)sys.mk	5.11 (Berkeley) 3/13/91
@@ -44,10 +44,10 @@ LORDER?=	lorder
 
 AS?=		as
 AFLAGS?=	${DEBUG}
-COMPILE.s?=	${CC} ${AFLAGS} -c
-LINK.s?=	${CC} ${AFLAGS} ${LDFLAGS}
-COMPILE.S?=	${CC} ${AFLAGS} ${CPPFLAGS} -c
-LINK.S?=	${CC} ${AFLAGS} ${CPPFLAGS} ${LDFLAGS}
+COMPILE.s?=	${CC} -D_ASM_SOURCE ${AFLAGS} -c
+LINK.s?=	${CC} -D_ASM_SOURCE ${AFLAGS} ${LDFLAGS}
+COMPILE.S?=	${CC} -D_ASM_SOURCE ${AFLAGS} ${CPPFLAGS} -c
+LINK.S?=	${CC} -D_ASM_SOURCE ${AFLAGS} ${CPPFLAGS} ${LDFLAGS}
 
 CC?=		mgcc
 
