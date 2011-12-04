@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/ntpd/ntpd.c,v 1.6 2005/07/26 12:40:45 tg Exp $ */
+/**	$MirOS: src/usr.sbin/ntpd/ntpd.c,v 1.7 2005/10/27 09:35:29 tg Exp $ */
 /*	$OpenBSD: ntpd.c,v 1.40 2005/09/06 21:27:10 wvdputte Exp $ */
 
 /*-
@@ -35,7 +35,7 @@
 
 #include "ntpd.h"
 
-__RCSID("$MirOS: src/usr.sbin/ntpd/ntpd.c,v 1.6 2005/07/26 12:40:45 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/ntpd/ntpd.c,v 1.7 2005/10/27 09:35:29 tg Exp $");
 
 void		sighdlr(int);
 __dead void	usage(void);
@@ -49,6 +49,7 @@ volatile sig_atomic_t	 quit = 0;
 volatile sig_atomic_t	 reconfig = 0;
 volatile sig_atomic_t	 sigchld = 0;
 struct imsgbuf		*ibuf;
+int			 LOG_NEGLIGEE = LOG_NEGLIGEE1;
 
 void
 sighdlr(int sig)
@@ -96,13 +97,17 @@ main(int argc, char *argv[])
 	log_init(1);		/* log to stderr until daemonized */
 	res_init();		/* XXX */
 
-	while ((ch = getopt(argc, argv, "df:sS")) != -1) {
+	while ((ch = getopt(argc, argv, "df:qsS")) != -1) {
 		switch (ch) {
 		case 'd':
 			conf.debug = 1;
+			LOG_NEGLIGEE = LOG_NEGLIGEE1;
 			break;
 		case 'f':
 			conffile = optarg;
+			break;
+		case 'q':
+			LOG_NEGLIGEE = LOG_NEGLIGEE2;
 			break;
 		case 's':
 			conf.settime = 1;

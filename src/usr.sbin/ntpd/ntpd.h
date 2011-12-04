@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/ntpd/ntpd.h,v 1.5 2005/07/26 12:40:45 tg Exp $ */
+/**	$MirOS: src/usr.sbin/ntpd/ntpd.h,v 1.6 2005/10/27 09:35:29 tg Exp $ */
 /*	$OpenBSD: ntpd.h,v 1.61 2005/09/24 00:32:03 dtucker Exp $ */
 
 /*
@@ -57,7 +57,8 @@
 #define	OFFSET_ARRAY_SIZE	8
 #define	SETTIME_MIN_OFFSET	180	/* min offset for settime at start */
 #define	SETTIME_TIMEOUT		15	/* max seconds to wait with -s */
-#define	LOG_NEGLIGEE		125	/* negligible drift to not log (ms) */
+#define	LOG_NEGLIGEE1		125	/* negligible drift to not log (ms) */
+#define	LOG_NEGLIGEE2		2000	/* same for quiet mode */
 
 enum client_state {
 	STATE_NONE,
