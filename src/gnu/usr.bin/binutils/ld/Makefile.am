@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.bin/binutils/ld/Makefile.am,v 1.4 2005/06/05 21:24:38 tg Exp $
+# $MirOS: src/gnu/usr.bin/binutils/ld/Makefile.am,v 1.5 2005/06/13 18:58:58 tg Exp $
 
 ## Process this file with automake to generate Makefile.in
 
@@ -1634,7 +1634,7 @@ all: info ld.1
 # ld.1 to support parallel build.
 info-recursive: ld.1
 
-DISTCLEANFILES = tdirs site.exp site.bak stringify.sed
+DISTCLEANFILES = tdirs site.exp site.bak stringify.sed *.info*
 distclean-local:
 	rm -rf ldscripts
 
