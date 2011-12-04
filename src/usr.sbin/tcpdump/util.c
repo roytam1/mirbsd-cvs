@@ -1,5 +1,5 @@
-/**	$MirOS: src/usr.sbin/tcpdump/util.c,v 1.2 2005/03/13 19:17:30 tg Exp $ */
-/*	$OpenBSD: util.c,v 1.19 2005/03/07 16:13:38 reyk Exp $	*/
+/**	$MirOS: src/usr.sbin/tcpdump/util.c,v 1.3 2005/04/17 04:24:19 tg Exp $ */
+/*	$OpenBSD: util.c,v 1.18 2004/07/28 09:37:26 markus Exp $	*/
 
 /*
  * Copyright (c) 1990, 1991, 1993, 1994, 1995, 1996, 1997
@@ -47,7 +47,7 @@
 #include "interface.h"
 #include "privsep.h"
 
-__RCSID("$MirOS: src/usr.sbin/tcpdump/util.c,v 1.2 2005/03/13 19:17:30 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/tcpdump/util.c,v 1.3 2005/04/17 04:24:19 tg Exp $");
 
 /*
  * Print out a filename (or other ascii string).
@@ -325,36 +325,4 @@ safeputchar(int c)
 		printf("%c", c & 0xff);
 	else
 		printf("\\%03o", c & 0xff);
-}
-
-/*
- * Print a value a la the %b format of the kernel's printf
- * (from sbin/ifconfig/ifconfig.c)
- */
-void
-printb(char *s, unsigned short v, char *bits)
-{
-	int i, any = 0;
-	char c;
-
-	if (bits && *bits == 8)
-		printf("%s=%o", s, v);
-	else
-		printf("%s=%x", s, v);
-	bits++;
-	if (bits) {
-		putchar('<');
-		while ((i = *bits++)) {
-			if (v & (1 << (i-1))) {
-				if (any)
-					putchar(',');
-				any = 1;
-				for (; (c = *bits) > 32; bits++)
-					putchar(c);
-			} else
-				for (; *bits > 32; bits++)
-					;
-		}
-		putchar('>');
-	}
 }

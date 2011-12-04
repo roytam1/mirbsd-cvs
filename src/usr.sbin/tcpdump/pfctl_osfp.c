@@ -1,4 +1,4 @@
-/*	$OpenBSD: pfctl_osfp.c,v 1.3 2005/02/17 13:18:00 aaron Exp $ */
+/*	$OpenBSD: pfctl_osfp.c,v 1.1 2004/01/28 19:44:55 canacar Exp $ */
 
 /*
  * Copyright (c) 2003 Mike Frantzen <frantzen@openbsd.org>
@@ -341,7 +341,7 @@ pfctl_get_fingerprint(const char *name)
 
 		if ((wr_name = strdup(name)) == NULL)
 			err(1, "malloc");
-		if ((ptr = strchr(wr_name, ' ')) == NULL) {
+		if ((ptr = index(wr_name, ' ')) == NULL) {
 			free(wr_name);
 			return (PF_OSFP_NOMATCH);
 		}
@@ -501,9 +501,9 @@ found:
 		strlcat(buf, " ", len);
 		strlcat(buf, version_name, len);
 		if (subtype_name) {
-			if (strchr(version_name, ' '))
+			if (index(version_name, ' '))
 				strlcat(buf, " ", len);
-			else if (strchr(version_name, '.') &&
+			else if (index(version_name, '.') &&
 			    isdigit(*subtype_name))
 				strlcat(buf, ".", len);
 			else
@@ -695,8 +695,9 @@ fingerprint_name_entry(struct name_list *list, char *name)
 		nm_entry = calloc(1, sizeof(*nm_entry));
 		if (nm_entry == NULL)
 			err(1, "calloc");
-		LIST_INIT(&nm_entry->nm_sublist);
-		strlcpy(nm_entry->nm_name, name, sizeof(nm_entry->nm_name));
+			LIST_INIT(&nm_entry->nm_sublist);
+			strlcpy(nm_entry->nm_name, name,
+			    sizeof(nm_entry->nm_name));
 	}
 	LIST_INSERT_HEAD(list, nm_entry, nm_entry);
 	return (nm_entry);

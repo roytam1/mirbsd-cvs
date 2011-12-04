@@ -39,7 +39,6 @@ static const char rcsid[] =
 
 #include <sys/types.h>
 #include <sys/time.h>
-#include <sys/ioctl.h>
 
 #include <netinet/in.h>
 
@@ -50,7 +49,6 @@ static const char rcsid[] =
 #include <string.h>
 #include <unistd.h>
 #include <ctype.h>
-#include <err.h>
 
 #include "interface.h"
 #include "addrtoname.h"
@@ -97,7 +95,7 @@ RETSIGTYPE cleanup(int);
 extern __dead void usage(void);
 
 /* Length of saved portion of packet. */
-int snaplen = 0;
+int snaplen = DEFAULT_SNAPLEN;
 
 struct printer {
 	pcap_handler f;
@@ -110,26 +108,22 @@ struct printer {
 #endif
 
 static struct printer printers[] = {
-	{ ether_if_print,		DLT_EN10MB },
-	{ ether_if_print,		DLT_IEEE802 },
-	{ sl_if_print,			DLT_SLIP },
-	{ sl_bsdos_if_print,		DLT_SLIP_BSDOS },
-	{ ppp_if_print,			DLT_PPP },
-	{ fddi_if_print,		DLT_FDDI },
-	{ null_if_print,		DLT_NULL },
-	{ raw_if_print,			DLT_RAW },
-	{ atm_if_print,			DLT_ATM_RFC1483 },
-	{ loop_if_print,		DLT_LOOP },
-	{ enc_if_print,			DLT_ENC },
-	{ pflog_if_print,		DLT_PFLOG },
-	{ pflog_old_if_print,		DLT_OLD_PFLOG },
-	{ pfsync_if_print,		DLT_PFSYNC },
-	{ ppp_ether_if_print,		DLT_PPP_ETHER },
-	{ ieee802_11_if_print,		DLT_IEEE802_11 },
-#ifdef DLT_IEEE802_11_RADIO
-	{ ieee802_11_radio_if_print,	DLT_IEEE802_11_RADIO },
-#endif
-	{ NULL,				0 },
+	{ ether_if_print,	DLT_EN10MB },
+	{ ether_if_print,	DLT_IEEE802 },
+	{ sl_if_print,		DLT_SLIP },
+	{ sl_bsdos_if_print,	DLT_SLIP_BSDOS },
+	{ ppp_if_print,		DLT_PPP },
+	{ fddi_if_print,	DLT_FDDI },
+	{ null_if_print,	DLT_NULL },
+	{ raw_if_print,		DLT_RAW },
+	{ atm_if_print,		DLT_ATM_RFC1483 },
+	{ loop_if_print, 	DLT_LOOP },
+	{ enc_if_print, 	DLT_ENC },
+	{ pflog_if_print, 	DLT_PFLOG },
+	{ pflog_old_if_print, 	DLT_OLD_PFLOG },
+	{ pfsync_if_print, 	DLT_PFSYNC },
+	{ ppp_ether_if_print,	DLT_PPP_ETHER },
+	{ NULL,			0 },
 };
 
 static pcap_handler
@@ -137,10 +131,9 @@ lookup_printer(int type)
 {
 	struct printer *p;
 
-	for (p = printers; p->f; ++p) {
+	for (p = printers; p->f; ++p)
 		if (type == p->type)
 			return p->f;
-	}
 
 	error("unknown data link type 0x%x", type);
 	/* NOTREACHED */
@@ -158,80 +151,6 @@ init_pfosfp(void)
 
 static pcap_t *pd;
 
-/* Multiple DLT support */
-void		 pcap_print_linktype(u_int);
-int		 pcap_datalink_name_to_val(const char *);
-const char	*pcap_datalink_val_to_name(u_int);
-
-const struct pcap_linktype {
-	u_int dlt_id;
-	const char *dlt_name;
-} pcap_linktypes[] = {
-	{ DLT_NULL,		"NULL" },
-	{ DLT_EN10MB,		"EN10MB" },
-	{ DLT_EN3MB,		"EN3MB" },
-	{ DLT_AX25,		"AX25" },
-	{ DLT_PRONET,		"PRONET" },
-	{ DLT_CHAOS,		"CHAOS" },
-	{ DLT_IEEE802,		"IEEE802" },
-	{ DLT_ARCNET,		"ARCNET" },
-	{ DLT_SLIP,		"SLIP" },
-	{ DLT_PPP,		"PPP" },
-	{ DLT_FDDI,		"FDDI" },
-	{ DLT_ATM_RFC1483,	"ATM_RFC1483" },
-	{ DLT_LOOP,		"LOOP" },
-	{ DLT_ENC,		"ENC" },
-	{ DLT_RAW,		"RAW" },
-	{ DLT_SLIP_BSDOS,	"SLIP_BSDOS" },
-	{ DLT_PPP_BSDOS,	"PPP_BSDOS" },
-	{ DLT_OLD_PFLOG,	"OLD_PFLOG" },
-	{ DLT_PFSYNC,		"PFSYNC" },
-	{ DLT_PPP_ETHER,	"PPP_ETHER" },
-	{ DLT_IEEE802_11,	"IEEE802_11" },
-	{ DLT_PFLOG,		"PFLOG" },
-#ifdef DLT_IEEE802_11_RADIO
-	{ DLT_IEEE802_11_RADIO,	"IEEE802_11_RADIO" },
-#endif
-	{ 0,			NULL }
-};
-
-int
-pcap_datalink_name_to_val(const char *name)
-{
-	int i;
-
-	for (i = 0; pcap_linktypes[i].dlt_name != NULL; i++) {
-		if (strcasecmp(pcap_linktypes[i].dlt_name, name) == 0)
-			return (pcap_linktypes[i].dlt_id);
-	}
-
-	return (-1);
-}
-
-const char *
-pcap_datalink_val_to_name(u_int dlt)
-{
-	int i;
-
-	for (i = 0; pcap_linktypes[i].dlt_name != NULL; i++) {
-		if (pcap_linktypes[i].dlt_id == dlt)
-			return (pcap_linktypes[i].dlt_name);
-	}
-
-	return (NULL);
-}
-
-void
-pcap_print_linktype(u_int dlt)
-{
-	const char *name;
-
-	if ((name = pcap_datalink_val_to_name(dlt)) != NULL)
-		fprintf(stderr, "%s\n", name);
-	else
-		fprintf(stderr, "<unknown: %u>\n", dlt);
-}
-
 extern int optind;
 extern int opterr;
 extern char *optarg;
@@ -247,7 +166,6 @@ main(int argc, char **argv)
 	RETSIGTYPE (*oldhandler)(int);
 	u_char *pcap_userdata;
 	char ebuf[PCAP_ERRBUF_SIZE];
-	u_int dlt = (u_int) -1;
 
 	cnt = -1;
 	device = NULL;
@@ -268,8 +186,7 @@ main(int argc, char **argv)
 		error("%s", ebuf);
 
 	opterr = 0;
-	while ((op = getopt(argc, argv,
-	    "ac:deE:fF:i:lnNOopqr:s:StT:vw:xXy:Y")) != -1)
+	while ((op = getopt(argc, argv, "ac:deE:fF:i:lnNOopqr:s:StT:vw:xXY")) != -1)
 		switch (op) {
 
 		case 'a':
@@ -285,6 +202,7 @@ main(int argc, char **argv)
 		case 'd':
 			++dflag;
 			break;
+
 		case 'e':
 			++eflag;
 			break;
@@ -390,13 +308,6 @@ main(int argc, char **argv)
 			}
 			break;
 #endif
-		case 'y':
-			i = pcap_datalink_name_to_val(optarg);
-			if (i < 0)
-				error("invalid data link type: %s", optarg);
-			dlt = (u_int)i;
-			break;
-
 		case 'x':
 			++xflag;
 			break;
@@ -416,19 +327,6 @@ main(int argc, char **argv)
 			/* NOTREACHED */
 		}
 
-	if (snaplen == 0) {
-		switch (dlt) {
-#ifdef DLT_IEEE802_11_RADIO
-		case DLT_IEEE802_11_RADIO:
-			snaplen = RADIOTAP_SNAPLEN;
-			break;
-#endif
-		default:
-			snaplen = DEFAULT_SNAPLEN;
-			break;
-		}
-	}
-
 	if (aflag && nflag)
 		error("-a and -n options are incompatible");
 
@@ -436,6 +334,7 @@ main(int argc, char **argv)
 		pd = priv_pcap_offline(RFileName, ebuf);
 		if (pd == NULL)
 			error("%s", ebuf);
+
 		/* state: STATE_BPF */
 		localnet = 0;
 		netmask = 0;
@@ -447,7 +346,7 @@ main(int argc, char **argv)
 			if (device == NULL)
 				error("%s", ebuf);
 		}
-		pd = priv_pcap_live(device, snaplen, !pflag, 1000, ebuf, dlt);
+		pd = priv_pcap_live(device, snaplen, !pflag, 1000, ebuf);
 		if (pd == NULL)
 			error("%s", ebuf);
 
@@ -502,9 +401,8 @@ main(int argc, char **argv)
 		/* state: STATE_RUN */
 	}
 	if (RFileName == NULL) {
-		(void)fprintf(stderr, "%s: listening on %s, link-type ",
+		(void)fprintf(stderr, "%s: listening on %s\n",
 		    program_name, device);
-		pcap_print_linktype(pd->linktype);
 		(void)fflush(stderr);
 	}
 
@@ -539,14 +437,14 @@ cleanup(int signo)
 		if (pcap_stats(pd, &stat) < 0) {
 			(void)snprintf(buf, sizeof buf,
 			    "pcap_stats: %s\n", pcap_geterr(pd));
-			write(STDERR_FILENO, buf, strlen(buf));
+			write(STDOUT_FILENO, buf, strlen(buf));
 		} else {
 			(void)snprintf(buf, sizeof buf,
 			    "%d packets received by filter\n", stat.ps_recv);
-			write(STDERR_FILENO, buf, strlen(buf));
+			write(STDOUT_FILENO, buf, strlen(buf));
 			(void)snprintf(buf, sizeof buf,
 			    "%d packets dropped by kernel\n", stat.ps_drop);
-			write(STDERR_FILENO, buf, strlen(buf));
+			write(STDOUT_FILENO, buf, strlen(buf));
 		}
 	}
 	_exit(0);
@@ -665,11 +563,11 @@ usage(void)
 	(void)fprintf(stderr, "%s version %s\n", program_name, version);
 	(void)fprintf(stderr, "libpcap version %s\n", pcap_version);
 	(void)fprintf(stderr,
-"Usage: %s [-adeflNnOopqStvXx] [-c count] [-E [espalg:]espkey] [-F file]\n",
+"Usage: %s [-adeflnNoOpqStvxX] [-c count] [-E [espalg:]espkey] [-F file]\n",
 	    program_name);
 	(void)fprintf(stderr,
 "\t\t[-i interface] [-r file] [-s snaplen] [-T type] [-w file]\n");
 	(void)fprintf(stderr,
-"\t\t[-y datalinktype] [expression]\n");
+"\t\t[expression]\n");
 	exit(1);
 }

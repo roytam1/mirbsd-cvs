@@ -1,4 +1,4 @@
-.\"	$OpenBSD: tcpdump.8,v 1.55 2005/03/06 21:23:11 jmc Exp $
+.\"	$OpenBSD: tcpdump.8,v 1.49 2004/09/16 11:29:51 markus Exp $
 .\"
 .\" Copyright (c) 1987, 1988, 1989, 1990, 1991, 1992, 1994, 1995, 1996
 .\"	The Regents of the University of California.  All rights reserved.
@@ -28,17 +28,15 @@
 .Sh SYNOPSIS
 .Nm tcpdump
 .Bk -words
-.Op Fl adefLlNnOopqStvXx
+.Op Fl adeflnNoOpqStvxX
 .Op Fl c Ar count
-.Oo Fl E Oo Ar espalg : Oc Ns
-.Ar espkey Oc
+.Op Fl E Oo Ar espalg: Oc Ar espkey
 .Op Fl F Ar file
 .Op Fl i Ar interface
 .Op Fl r Ar file
 .Op Fl s Ar snaplen
 .Op Fl T Ar type
 .Op Fl w Ar file
-.Op Fl y Ar datalinktype
 .Op Ar expression
 .Ek
 .Sh DESCRIPTION
@@ -64,8 +62,10 @@ Dump packet-matching code as a C program fragment.
 .It Fl ddd
 Dump packet-matching code as decimal numbers
 preceded with a count.
+.It Fl e
+Print the link-level header on each dump line.
 .It Xo
-.Fl E Oo Ar espalg : Oc Ar espkey
+.Fl E Oo Ar espalg: Oc Ar espkey
 .Xc
 Try to decrypt RFC 2406 ESP
 .Pq Encapsulating Security Payload
@@ -90,13 +90,6 @@ The algorithm defaults to
 This option should be used for debugging only, since the key will show up in
 .Xr ps 1
 output.
-.It Fl e
-Print the link-level header on each dump line.
-.It Fl F Ar file
-Use
-.Ar file
-as input for the filter expression.
-Any additional expressions given on the command line are ignored.
 .It Fl f
 Print
 .Dq foreign
@@ -104,6 +97,11 @@ internet addresses numerically rather than symbolically.
 This option is intended to get around serious brain damage in
 Sun's yp server \(em usually it hangs forever translating non-local
 internet numbers.
+.It Fl F Ar file
+Use
+.Ar file
+as input for the filter expression.
+Any additional expressions given on the command line are ignored.
 .It Fl i Ar interface
 Listen on
 .Ar interface .
@@ -114,16 +112,18 @@ searches the system interface list for the lowest numbered, configured
 interface
 .Pq excluding loopback .
 Ties are broken by choosing the earliest match.
-.It Fl L
-List the supported data link types for the interface and exit.
 .It Fl l
 Make stdout line buffered.
 Useful if you want to see the data while capturing it.
-For example:
+E.g.,
 .Pp
 .Dl # tcpdump -l | tee dat
 or
 .Dl # tcpdump -l > dat & tail -f dat
+.It Fl n
+Do not convert addresses
+.Pq host addresses, port numbers, etc.
+to names.
 .It Fl N
 Do not print domain name qualification of host names.
 For example, if you specify this flag then
@@ -132,19 +132,15 @@ will print
 .Dq nic
 instead of
 .Dq nic.ddn.mil .
-.It Fl n
-Do not convert addresses
-.Pq host addresses, port numbers, etc.
-to names.
-.It Fl O
-Do not run the packet-matching code optimizer.
-This is useful only if you suspect a bug in the optimizer.
 .It Fl o
 Print a guess of the possible operating system(s) of hosts that sent
 TCP SYN packets.
 See
 .Xr pf.os 5
 for a description of the passive operating system fingerprints.
+.It Fl O
+Do not run the packet-matching code optimizer.
+This is useful only if you suspect a bug in the optimizer.
 .It Fl p
 Do not put the interface into promiscuous mode.
 The interface might be in promiscuous mode for some other reason; hence,
@@ -168,8 +164,6 @@ Standard input is used if
 .Ar file
 is
 .Ql - .
-.It Fl S
-Print absolute, rather than relative, TCP sequence numbers.
 .It Fl s Ar snaplen
 Analyze at most the first
 .Ar snaplen
@@ -191,6 +185,18 @@ You should limit
 .Ar snaplen
 to the smallest number that will capture the protocol information
 you're interested in.
+.It Fl S
+Print absolute, rather than relative, TCP sequence numbers.
+.It Fl t
+Do not print a timestamp on each dump line.
+.It Fl tt
+Print an unformatted timestamp on each dump line.
+.It Fl ttt
+Print day and month in timestamp.
+.It Fl tttt
+Print timestamp difference between packets.
+.It Fl ttttt
+Print timestamp difference since the first packet.
 .It Fl T Ar type
 Force packets selected by
 .Ar expression
@@ -216,16 +222,6 @@ Currently known types are
 and
 .Cm wb
 .Pq distributed White Board .
-.It Fl t
-Do not print a timestamp on each dump line.
-.It Fl tt
-Print an unformatted timestamp on each dump line.
-.It Fl ttt
-Print day and month in timestamp.
-.It Fl tttt
-Print timestamp difference between packets.
-.It Fl ttttt
-Print timestamp difference since the first packet.
 .It Fl v
 .Pq Slightly more
 verbose output.
@@ -248,10 +244,6 @@ Standard output is used if
 .Ar file
 is
 .Ql - .
-.It Fl X
-Like
-.Fl x
-but dumps the packet in emacs-hexl like format.
 .It Fl x
 Print each packet
 .Pq minus its link-level header
@@ -259,9 +251,10 @@ in hex.
 The smaller of the entire packet or
 .Ar snaplen
 bytes will be printed.
-.It Fl y Ar datalinktype
-Set the data link type to use while capturing to
-.Ar datalinktype .
+.It Fl X
+Like
+.Fl x
+but dumps the packet in emacs-hexl like format.
 .El
 .Pp
 .Ar expression
@@ -328,25 +321,15 @@ qualifiers can be used to specify a desired direction.
 .It Ar proto
 Restrict the match to a particular protocol.
 Possible protocols are:
-.Cm ah ,
 .Cm arp ,
-.Cm atalk ,
 .Cm decnet ,
-.Cm esp ,
 .Cm ether ,
 .Cm fddi ,
-.Cm icmp ,
-.Cm icmp6 ,
-.Cm igmp ,
-.Cm igrp ,
 .Cm ip ,
-.Cm ipv6 ,
 .Cm lat ,
 .Cm mopdl ,
 .Cm moprc ,
-.Cm pim ,
 .Cm rarp ,
-.Cm sca ,
 .Cm tcp ,
 and
 .Cm udp .
@@ -515,8 +498,8 @@ True if the packet is IP/TCP or IP/UDP and has a destination port value of
 .Ar port .
 The
 .Ar port
-can be a number or name from
-.Xr services 5
+can be a number or a name used in
+.Pa /etc/services
 (see
 .Xr tcp 4
 and
@@ -565,16 +548,18 @@ True if the packet is an IP packet (see
 of protocol type
 .Ar proto .
 .Ar proto
-can be a number or name from
-.Xr protocols 5 ,
-such as
+can be a number or one of the names
 .Cm icmp ,
 .Cm udp ,
+.Cm nd ,
 or
 .Cm tcp .
-These identifiers are also keywords and must be escaped
-using a backslash character
-.Pq Sq \e .
+The identifiers
+.Cm tcp ,
+.Cm udp ,
+and
+.Cm icmp
+are also shell keywords and must be escaped.
 .It Cm ether broadcast
 True if the packet is an Ethernet broadcast packet.
 The
@@ -599,16 +584,12 @@ True if the packet is an IP multicast packet.
 True if the packet is of ether type
 .Ar proto .
 .Ar proto
-can be a number or name from
-.Xr protocols 5 ,
-such as
+can be a number or a name like
 .Cm ip ,
 .Cm arp ,
 or
 .Cm rarp .
-These identifiers are also keywords and must be escaped
-using a backslash character
-.Pq Sq \e .
+These identifiers are also shell keywords and must be escaped.
 In the case of FDDI (e.g.,
 .Dq Cm fddi protocol arp ) ,
 the protocol identification comes from the 802.2 Logical Link Control
@@ -693,20 +674,18 @@ and
 .Ar block
 (applies only to packets logged by
 .Xr pf 4 ) .
-.It Xo
-.Cm atalk ,
-.Cm ip ,
-.Cm ipv6 ,
+.It Xo Cm ip ,
 .Cm arp ,
+.Cm rarp ,
 .Cm decnet ,
 .Cm lat ,
 .Cm moprc ,
-.Cm mopdl ,
-.Cm rarp ,
-.Cm sca
+.Cm mopdl
 .Xc
 Abbreviations for:
-.Cm ether proto Ar p
+.Pp
+.D1 Cm ether proto Ar p
+.Pp
 where
 .Ar p
 is one of the above protocols.
@@ -716,17 +695,7 @@ does not currently know how to parse
 .Cm moprc ,
 or
 .Cm mopdl .
-.It Xo
-.Cm ah ,
-.Cm esp ,
-.Cm icmp ,
-.Cm icmp6 ,
-.Cm igmp ,
-.Cm igrp ,
-.Cm pim ,
-.Cm tcp ,
-.Cm udp
-.Xc
+.It Cm tcp , udp , icmp
 Abbreviations for:
 .Cm ip proto Ar p
 where
@@ -936,7 +905,7 @@ and packet length are printed.
 On the packet filter logging interface
 .Xr pflog 4 ,
 logging reason
-.Pq rule match, bad-offset, fragment, bad-timestamp, short, normalize, memory ,
+.Pq rule match, bad-offset, fragment, short, normalize, memory ,
 action taken
 .Pq pass/block ,
 direction
@@ -1231,7 +1200,7 @@ Name server requests are formatted as
 .Pq Ar len
 .Ed
 .Pp
-For example:
+e.g.,
 .Pp
 .D1 h2opolo.1538 > helios.domain: 3+ A? ucbvax.berkeley.edu. (37)
 .Pp
@@ -1304,7 +1273,7 @@ Name server responses are formatted as
 .Pq Ar len
 .Ed
 .Pp
-For example:
+e.g.,
 .Bd -unfilled -offset indent
 helios.domain > h2opolo.1538: 3 3/3/7 A 128.32.137.3 (273)
 helios.domain > h2opolo.1537: 2 NXDomain* 0/1/0 (97)
@@ -1374,15 +1343,15 @@ Sun NFS
 .Pq Network File System
 requests and replies are printed as:
 .Bd -ragged -offset indent
-.Ar src . Ns Ar xid
+.Ar src Ns . Ns Ar xid
 >
-.Ar dst . Ns Ar nfs :
+.Ar dst Ns . Ns Ar nfs :
 .Ns Ar len
 .Ns Ar op args
 
-.Ar src . Ns Ar nfs
+.Ar src Ns . Ns Ar nfs
 >
-.Ar dst . Ns Ar xid :
+.Ar dst Ns . Ns Ar xid :
 .Ns Ar reply stat len op results
 .Ed
 .Bd -unfilled -offset indent
@@ -1510,11 +1479,11 @@ file may contain blank lines or comment lines
 .Pp
 AppleTalk addresses are printed in the form
 .Bd -ragged -offset indent
-.Ar net . Ns Ar host .
+.Ar net Ns . Ns Ar host Ns .
 .Ns Ar port
 .Ed
 .Pp
-For example:
+e.g.,
 .Bd -unfilled -offset indent
 144.1.209.2 > icsd-net.112.220
 office.2 > icsd-net.112.220
@@ -1700,9 +1669,7 @@ interrupt.
 .Xr tcp 4 ,
 .Xr udp 4 ,
 .Xr networks 5 ,
-.Xr pf.os 5 ,
-.Xr protocols 5 ,
-.Xr services 5
+.Xr pf.os 5
 .Rs
 .%R RFC 793
 .%T Transmission Control Protocol
