@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libcurses/Makefile,v 1.2 2005/03/06 20:28:59 tg Exp $
+# $MirOS: src/lib/libcurses/Makefile,v 1.3 2005/03/15 22:13:28 tg Exp $
 # $OpenBSD: Makefile,v 1.54 2003/10/19 22:20:37 brad Exp $
 
 # Uncomment this to enable tracing in libcurses
@@ -276,6 +276,7 @@ afterinstall:
 
 lib_options.o lib_options.so lib_options.po lib_options.ln: init_keytry.h
 
-.if make(install)
-MANALL+= ${.CURDIR}/terminfo.cat5
-.endif
+maninstall: catmaninstall
+
+catmaninstall:
+	${MINSTALL} ${.CURDIR}/terminfo.cat5 ${DESTDIR}${MANDIR}5/terminfo.0
