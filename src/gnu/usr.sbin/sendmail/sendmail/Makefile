@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/gnu/usr.sbin/sendmail/sendmail/Makefile,v 1.2 2005/03/13 15:11:51 tg Exp $
 # $OpenBSD: Makefile,v 1.26 2005/01/12 18:15:46 millert Exp $
 
 PROG=	sendmail
@@ -6,7 +6,6 @@ PROG=	sendmail
 .include <bsd.own.mk>
 SENDMAIL_WANT_SASL?=	No
 
-WANT_LIBWRAP=1
 WANT_LIBSM=1
 WANT_LIBSMUTIL=1
 

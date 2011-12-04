@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/usr.bin/ssh/sshd/Makefile,v 1.2 2005/03/13 18:33:36 tg Exp $
 # $OpenBSD: Makefile,v 1.64 2004/08/23 14:26:39 dtucker Exp $
 
 .PATH:		${.CURDIR}/..
@@ -19,19 +19,7 @@ SRCS=	sshd.c auth-rhosts.c auth-passwd.c auth-rsa.c auth-rh-rsa.c \
 	monitor_mm.c monitor.c monitor_wrap.c \
 	kexdhs.c kexgexs.c
 
-.include <bsd.prog.mk>
-
 DPADD+=	${LIBCRYPTO} ${LIBUTIL} ${LIBZ} ${LIBDES}
 LDADD+=	-lcrypto -lutil -lz -ldes
 
-.if ${TCP_WRAPPERS:L} == "yes"
-CPPFLAGS+=	-DLIBWRAP
-DPADD+=		${LIBWRAP}
-LDADD+=		-lwrap
-.endif
-
-#.if ${SKEY:L} == "yes"
-#CPPFLAGS+=	-DSKEY
-#DPADD+=	${SKEY}
-#LDADD+=	-lskey
-#.endif
+.include <bsd.prog.mk>

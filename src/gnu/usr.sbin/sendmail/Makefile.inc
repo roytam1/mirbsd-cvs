@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/gnu/usr.sbin/sendmail/Makefile.inc,v 1.2 2005/03/13 15:11:40 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.16 2004/06/24 03:59:23 millert Exp $
 
 .ifndef _MODSRC_GNU_USR_SBIN_SENDMAIL_MAKEFILE_INC
@@ -46,14 +46,6 @@ LDFLAGS+=	-L${.CURDIR}/../libsm/${__objdir}
 .  else
 DPADD+=		${.CURDIR}/../libsm/libsm.a
 LDFLAGS+=	-L${.CURDIR}/../libsm
-.  endif
-.endif
-
-.if defined(WANT_LIBWRAP)
-.  if ${TCP_WRAPPERS:L} == "yes"
-ENVDEF+=	-DTCPWRAPPERS
-DPADD+=		${LIBWRAP}
-LDADD+=		-lwrap
 .  endif
 .endif
 

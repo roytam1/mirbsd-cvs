@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/lib/Makefile,v 1.2 2005/03/06 20:28:20 tg Exp $
 # $OpenBSD: Makefile,v 1.49 2003/05/14 01:46:51 hin Exp $
 # $NetBSD: Makefile,v 1.20.4.1 1996/06/14 17:22:38 cgd Exp $
 
@@ -33,7 +33,6 @@
   SUBDIR+= libssl
   SUBDIR+= libusbhid
   SUBDIR+= libutil
-  SUBDIR+= libwrap
   SUBDIR+= liby
   SUBDIR+= libz
 

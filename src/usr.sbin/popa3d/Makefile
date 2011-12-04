@@ -1,3 +1,4 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.4 2003/05/12 19:28:22 camield Exp $
 
 PROG=	popa3d
@@ -9,9 +10,3 @@ CFLAGS+=-Wall
 CPPFLAGS+= -DHAVE_PROGNAME
 
 .include <bsd.prog.mk>
-
-.if (${TCP_WRAPPERS:L} == "yes")
-CPPFLAGS+= -DLIBWRAP
-LDADD+= -lwrap
-DPADD+= ${LIBWRAP}
-.endif

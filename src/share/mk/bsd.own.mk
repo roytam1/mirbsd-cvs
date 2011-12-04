@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/share/mk/bsd.own.mk,v 1.2 2005/02/14 18:57:46 tg Exp $
 # $OpenBSD: bsd.own.mk,v 1.84 2004/06/22 19:50:01 pvalchev Exp $
 # $NetBSD: bsd.own.mk,v 1.24 1996/04/13 02:08:09 thorpej Exp $
 
@@ -39,9 +39,6 @@ GCC3_EXT_TOOLCHAIN?=	Yes
 WARNINGS?=		No
 # Set 'SKEY' to 'yes' to build with support for S/key authentication.
 SKEY?=			Yes
-# Set 'TCP_WRAPPERS' to 'yes' to build certain networking daemons with
-# integrated support for libwrap.
-TCP_WRAPPERS?=		No
 # Set 'DEBUGLIBS' to 'yes' to build libraries with debugging symbols
 # currently broken
 DEBUGLIBS?=		No
