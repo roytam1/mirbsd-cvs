@@ -1,4 +1,4 @@
-#	$MirOS$
+#	$MirOS: src/sys/dev/pci/files.pci,v 1.2 2005/03/06 21:27:47 tg Exp $
 #	$OpenBSD: files.pci,v 1.151 2004/03/06 03:16:20 krw Exp $
 #	$NetBSD: files.pci,v 1.20 1996/09/24 17:47:15 christos Exp $
 #
@@ -76,12 +76,12 @@ attach	iop at pci with iop_pci
 file	dev/pci/iop_pci.c		iop_pci
 
 # Ensoniq AudioPCI S5016, 1371
-device	eap: audio, auconv, mulaw, ac97
+device	eap: audio, auconv, mulaw, ac97, midibus
 attach	eap at pci
 file	dev/pci/eap.c			eap
 
 # ESS Solo-1 PCI AudioDrive
-device	eso { }: audio, auconv, mulaw, midibus
+device	eso {}: audio, auconv, mulaw, midibus
 attach	eso at pci
 file	dev/pci/eso.c			eso
 
@@ -240,6 +240,10 @@ file	dev/pci/if_mtd_pci.c		mtd_pci
 # RealTek 8129/8139
 attach	rl at pci with rl_pci
 file	dev/pci/if_rl_pci.c		rl_pci
+
+# Realtek 8169/8169S/8110S
+attach	re at pci with re_pci
+file	dev/pci/if_re_pci.c		re_pci
 
 # Macronix
 device	mx: ether, ifnet, ifmedia
@@ -404,6 +408,10 @@ file	dev/pci/uhci_pci.c		uhci
 attach	ohci at pci with ohci_pci
 file	dev/pci/ohci_pci.c		ohci
 
+# EHCI USB controller
+attach	ehci at pci with ehci_pci
+file	dev/pci/ehci_pci.c		ehci
+
 # YENTA PCI-CardBus bridge
 #device	cbb: cbbus, pcmciabus
 device	cbb: pcmciaslot
@@ -419,7 +427,7 @@ file	dev/pci/if_sk.c			skc | sk
 
 # PCI "universal" communication device driver, for PCI com, lpt, etc. ports
 # (see documentation in the driver for what, exactly, should be supported)
-device	puc { port = -1 }
+device	puc {[port = -1]}
 attach	puc at pci
 file	dev/pci/puc.c			puc
 file	dev/pci/pucdata.c		puc
@@ -477,6 +485,11 @@ device	bge: ether, ifnet, mii, ifmedia, mii_phy
 attach	bge at pci
 file	dev/pci/if_bge.c		bge
 
+# VIA VT6122
+device	vge: ether, ifnet, mii, ifmedia, mii_phy
+attach	vge at pci
+file	dev/pci/if_vge.c		vge
+
 # Sundance Tech./Tamarack TC9021 Gigabit Ethernet
 device	stge: ether, ifnet, mii, ifmedia, mii_phy, mii_bitbang
 attach	stge at pci
@@ -491,14 +504,6 @@ file	dev/pci/amdpm.c			amdpm
 device	viaenv
 attach	viaenv at pci
 file	dev/pci/viaenv.c		viaenv
-
-# OHCI IEEE 1394 controller
-attach	fwohci at pci with fwohci_pci
-file	dev/pci/fwohci_pci.c		fwohci_pci
-
-# IEEE 1394 TI "Lynx" controller
-attach	fwlynx at pci with fwlynx_pci
-file	dev/pci/fwlynx_pci.c		fwlynx_pci
 
 # Broadcom BCM4401 gigabit ethernet
 device	bce: ether, ifnet, mii, ifmedia, mii_phy

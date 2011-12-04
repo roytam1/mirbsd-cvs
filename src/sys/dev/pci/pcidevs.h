@@ -4,7 +4,7 @@
  * THIS FILE AUTOMATICALLY GENERATED.  DO NOT EDIT.
  *
  * generated from:
- *	MirOS: src/sys/dev/pci/pcidevs,v 1.4 2005/07/04 00:34:30 tg Exp 
+ *	MirOS: src/sys/dev/pci/pcidevs,v 1.5 2005/07/04 00:42:25 tg Exp 
  */
 /*	$NetBSD: pcidevs,v 1.580 2003/09/26 07:45:15 matt Exp $		*/
 /*	$OpenBSD: pcidevs,v 1.886 2005/07/03 02:08:24 brad Exp $	*/
@@ -520,7 +520,7 @@
 #define	PCI_VENDOR_NETAPP	0x1275		/* Network Appliance */
 #define	PCI_VENDOR_TRANSMETA	0x1279		/* Transmeta */
 #define	PCI_VENDOR_ROCKWELL	0x127a		/* Rockwell */
-#define	PCI_VENDOR_DAVICOM	0x1282		/* Davicom */
+#define	PCI_VENDOR_DAVICOM	0x1282		/* Davicom Technologies */
 #define	PCI_VENDOR_ITEXPRESS	0x1283		/* ITExpress */
 #define	PCI_VENDOR_PLATFORM	0x1285		/* Platform */
 #define	PCI_VENDOR_LUXSONOR	0x1287		/* LuxSonor */
@@ -569,12 +569,12 @@
 #define	PCI_VENDOR_TOPIC	0x151f		/* Topic/SmartLink */
 #define	PCI_VENDOR_ENE	0x1524		/* ENE Technology Inc */
 #define	PCI_VENDOR_ARALION	0x1538		/* Aralion */
-#define	PCI_VENDOR_TERRATEC	0x153b		/* TerraTec */
+#define	PCI_VENDOR_TERRATEC	0x153b		/* TerraTec Electronic Gmbh */
 #define	PCI_VENDOR_SYMBOL	0x1562		/* Symbol */
 #define	PCI_VENDOR_SYBA	0x1592		/* Syba */
 #define	PCI_VENDOR_BLUESTEEL	0x15ab		/* Bluesteel Networks */
 #define	PCI_VENDOR_VMWARE	0x15ad		/* VMware */
-#define	PCI_VENDOR_NDC	0x15e8		/* National Datacomm */
+#define	PCI_VENDOR_NDC	0x15e8		/* National Datacomm Corp */
 #define	PCI_VENDOR_ZOLTRIX	0x15b0		/* Zoltrix */
 #define	PCI_VENDOR_EUMITCOM	0x1638		/* Eumitcom */
 #define	PCI_VENDOR_NETSEC	0x1660		/* NetSec */
@@ -619,7 +619,7 @@
 #define	PCI_VENDOR_3COM2	0xa727		/* 3Com */
 #define	PCI_VENDOR_CHRYSALIS	0xcafe		/* Chrysalis-ITS */
 #define	PCI_VENDOR_TIGERJET	0xe159		/* TigerJet Network */
-#define	PCI_VENDOR_ENDACE	0xeace		/* Endace */
+#define	PCI_VENDOR_ENDACE	0xeace		/* Endace Measurement Systems */
 #define	PCI_VENDOR_BELKIN	0xec80		/* Belkin Components */
 #define	PCI_VENDOR_ARC	0xedd8		/* ARC Logic */
 #define	PCI_VENDOR_INVALID	0xffff		/* INVALID VENDOR ID */
@@ -644,7 +644,7 @@
 #define	PCI_PRODUCT_3COM_3C996	0x0003		/* 3c996 */
 #define	PCI_PRODUCT_3COM_3CRDAG675	0x0013		/* 3CRDAG675 (Atheros AR5212) */
 #define	PCI_PRODUCT_3COM2_3CRPAG175	0x0013		/* 3CRPAG175 (Atheros AR5212) */
-#define	PCI_PRODUCT_3COM_3C_MPCI_MODEM	0x1007		/* V.90 Modem */
+#define	PCI_PRODUCT_3COM_3C_MPCI_MODEM	0x1007		/* Mini-PCI V.90 Modem */
 #define	PCI_PRODUCT_3COM_3C940	0x1700		/* 3c940 */
 #define	PCI_PRODUCT_3COM_3C339	0x3390		/* 3c339 */
 #define	PCI_PRODUCT_3COM_3C359	0x3590		/* 3c359 */
@@ -778,7 +778,7 @@
 #define	PCI_PRODUCT_ALI_M1541	0x1541		/* M1541 PCI */
 #define	PCI_PRODUCT_ALI_M1621	0x1621		/* M1621 PCI */
 #define	PCI_PRODUCT_ALI_M1647	0x1647		/* M1647 PCI */
-#define	PCI_PRODUCT_ALI_M3309	0x3309		/* M3309 MPEG */
+#define	PCI_PRODUCT_ALI_M3309	0x3309		/* M3309 MPEG Accelerator */
 #define	PCI_PRODUCT_ALI_M4803	0x5215		/* M4803 */
 #define	PCI_PRODUCT_ALI_M5219	0x5219		/* M5219 UDMA IDE */
 #define	PCI_PRODUCT_ALI_M5229	0x5229		/* M5229 UDMA IDE */
@@ -787,7 +787,7 @@
 #define	PCI_PRODUCT_ALI_M5243	0x5243		/* M5243 AGP/PCI-PCI */
 #define	PCI_PRODUCT_ALI_M5451	0x5451		/* M5451 Audio */
 #define	PCI_PRODUCT_ALI_M5457	0x5457		/* M5457 Modem */
-#define	PCI_PRODUCT_ALI_M7101	0x7101		/* M7101 Power */
+#define	PCI_PRODUCT_ALI_M7101	0x7101		/* M7101 Power Mgmt */
 
 /* ADMtek products */
 #define	PCI_PRODUCT_ADMTEK_AL981	0x0981		/* AL981 */
@@ -906,17 +906,17 @@
 #define	PCI_PRODUCT_AMD_761_PPB	0x700f		/* 761 PCI-PCI */
 #define	PCI_PRODUCT_AMD_755_ISA	0x7400		/* 755 ISA */
 #define	PCI_PRODUCT_AMD_755_IDE	0x7401		/* 755 IDE */
-#define	PCI_PRODUCT_AMD_755_PMC	0x7403		/* 755 Power */
+#define	PCI_PRODUCT_AMD_755_PMC	0x7403		/* 755 Power Mgmt */
 #define	PCI_PRODUCT_AMD_755_USB	0x7404		/* 755 USB */
 /* http://www.amd.com/products/cpg/athlon/techdocs/pdf/22548.pdf */
 #define	PCI_PRODUCT_AMD_PBC756_ISA	0x7408		/* 756 ISA */
 #define	PCI_PRODUCT_AMD_PBC756_IDE	0x7409		/* 756 IDE */
-#define	PCI_PRODUCT_AMD_PBC756_PMC	0x740b		/* 756 Power */
+#define	PCI_PRODUCT_AMD_PBC756_PMC	0x740b		/* 756 Power Mgmt */
 #define	PCI_PRODUCT_AMD_PBC756_USB	0x740c		/* 756 USB Host */
 #define	PCI_PRODUCT_AMD_766_ISA	0x7410		/* 766 ISA */
 #define	PCI_PRODUCT_AMD_766_IDE	0x7411		/* 766 IDE */
 #define	PCI_PRODUCT_AMD_766_USB	0x7412		/* 766 USB */
-#define	PCI_PRODUCT_AMD_766_PMC	0x7413		/* 766 Power */
+#define	PCI_PRODUCT_AMD_766_PMC	0x7413		/* 766 Power Mgmt */
 #define	PCI_PRODUCT_AMD_766_USB_HCI	0x7414		/* 766 USB OpenHCI */
 #define	PCI_PRODUCT_AMD_PBC768_ISA	0x7440		/* 768 ISA */
 #define	PCI_PRODUCT_AMD_PBC768_IDE	0x7441		/* 768 IDE */

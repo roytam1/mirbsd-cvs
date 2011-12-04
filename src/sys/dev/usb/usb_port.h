@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: usb_port.h,v 1.48 2004/04/02 01:10:09 deraadt Exp $ */
+/**	$MirOS: src/sys/dev/usb/usb_port.h,v 1.2 2005/03/06 21:27:58 tg Exp $ */
+/*	$OpenBSD: usb_port.h,v 1.58 2005/06/17 23:50:33 deraadt Exp $ */
 /*	$NetBSD: usb_port.h,v 1.62 2003/02/15 18:33:30 augustss Exp $	*/
 /*	$FreeBSD: src/sys/dev/usb/usb_port.h,v 1.21 1999/11/17 22:33:47 n_hibma Exp $	*/
 
@@ -83,6 +83,7 @@ MALLOC_DECLARE(M_USBHC);
 #define AXE_DEBUG 1
 #define CUE_DEBUG 1
 #define KUE_DEBUG 1
+#define UDAV_DEBUG 1
 #define URL_DEBUG 1
 #define UMASS_DEBUG 1
 #define UVISOR_DEBUG 1
@@ -98,6 +99,7 @@ MALLOC_DECLARE(M_USBHC);
 #define UDSBR_DEBUG 1
 #define UBT_DEBUG 1
 #define UAX_DEBUG 1
+#define UIPAQ_DEBUG 1
 #define Static
 #else
 #define Static static
@@ -223,6 +225,7 @@ int __CONCAT(dname,_detach)(struct device *self, int flags)
 #define AUE_DEBUG 1
 #define CUE_DEBUG 1
 #define KUE_DEBUG 1
+#define UDAV_DEBUG 1
 #define UMASS_DEBUG 1
 #define UVISOR_DEBUG 1
 #define UPL_DEBUG 1
@@ -233,6 +236,7 @@ int __CONCAT(dname,_detach)(struct device *self, int flags)
 #define USSCANNER_DEBUG 1
 #define UISDATA_DEBUG 1
 #define UDSBR_DEBUG 1
+#define UIPAQ_DEBUG 1
 #endif
 
 #define Static
@@ -240,32 +244,34 @@ int __CONCAT(dname,_detach)(struct device *self, int flags)
 #define UMASS_ATAPISTR		"atapiscsi"
 
 /* periph_quirks */
-#define	PQUIRK_NOMODESENSE	SDEV_NOMODESENSE/* device doesn't do MODE SENSE
-						   properly */
-#define	PQUIRK_NOTUR		ADEV_NOTUR	/* no TEST UNIT READY */
-#define	PQUIRK_NODOORLOCK	ADEV_NODOORLOCK	/* can't lock door */
 #define	PQUIRK_NOSENSE		ADEV_NOSENSE	/* can't REQUEST SENSE */
 #define PQUIRK_ONLYBIG		SDEV_ONLYBIG
-#define PQUIRK_NOBIGMODESENSE	0
 
 #define sel_klist si_note
 
 typedef struct proc *usb_proc_ptr;
 
-#define UCOMBUSCF_PORTNO		-1
+#define UCOMBUSCF_PORTNO		0
 #define UCOMBUSCF_PORTNO_DEFAULT	-1
-#define UHIDBUSCF_REPORTID		-1
+#define UHIDBUSCF_REPORTID		0
 #define UHIDBUSCF_REPORTID_DEFAULT	-1
 
 #define mstohz(ms) ((ms) * hz / 1000)
+
+/*
+ * The UHCI/OHCI controllers are little endian, so on big endian machines
+ * the data stored in memory needs to be swapped.
+ */
+
+#if defined(letoh32)
+#define le32toh(x) letoh32(x)
+#define le16toh(x) letoh16(x)
+#endif
 
 #define sel_klist si_note
 
 #define usb_kthread_create1	kthread_create
 #define usb_kthread_create	kthread_create_deferred
-
-#define	config_pending_incr()
-#define	config_pending_decr()
 
 typedef int usb_malloc_type;
 
@@ -283,9 +289,6 @@ typedef int usb_malloc_type;
 #define ulinear8_to_slinear16_be ulinear8_to_linear16_be
 #define slinear16_to_ulinear8_le linear16_to_ulinear8_le
 #define slinear16_to_ulinear8_be linear16_to_ulinear8_be
-
-#define realloc usb_realloc
-void *usb_realloc(void *, u_int, int, int);
 
 typedef struct device *device_ptr_t;
 #define USBBASEDEVICE struct device

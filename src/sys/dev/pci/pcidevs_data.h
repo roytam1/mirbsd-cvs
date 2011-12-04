@@ -4,7 +4,7 @@
  * THIS FILE AUTOMATICALLY GENERATED.  DO NOT EDIT.
  *
  * generated from:
- *	MirOS: src/sys/dev/pci/pcidevs,v 1.4 2005/07/04 00:34:30 tg Exp 
+ *	MirOS: src/sys/dev/pci/pcidevs,v 1.5 2005/07/04 00:42:25 tg Exp 
  */
 /*	$NetBSD: pcidevs,v 1.580 2003/09/26 07:45:15 matt Exp $		*/
 /*	$OpenBSD: pcidevs,v 1.886 2005/07/03 02:08:24 brad Exp $	*/
@@ -96,7 +96,7 @@ static const struct pci_known_product pci_known_products[] = {
 	},
 	{
 	    PCI_VENDOR_3COM, PCI_PRODUCT_3COM_3C_MPCI_MODEM,
-	    "V.90 Modem",
+	    "Mini-PCI V.90 Modem",
 	},
 	{
 	    PCI_VENDOR_3COM, PCI_PRODUCT_3COM_3C940,
@@ -544,7 +544,7 @@ static const struct pci_known_product pci_known_products[] = {
 	},
 	{
 	    PCI_VENDOR_ALI, PCI_PRODUCT_ALI_M3309,
-	    "M3309 MPEG",
+	    "M3309 MPEG Accelerator",
 	},
 	{
 	    PCI_VENDOR_ALI, PCI_PRODUCT_ALI_M4803,
@@ -580,7 +580,7 @@ static const struct pci_known_product pci_known_products[] = {
 	},
 	{
 	    PCI_VENDOR_ALI, PCI_PRODUCT_ALI_M7101,
-	    "M7101 Power",
+	    "M7101 Power Mgmt",
 	},
 	{
 	    PCI_VENDOR_ADMTEK, PCI_PRODUCT_ADMTEK_AL981,
@@ -976,7 +976,7 @@ static const struct pci_known_product pci_known_products[] = {
 	},
 	{
 	    PCI_VENDOR_AMD, PCI_PRODUCT_AMD_755_PMC,
-	    "755 Power",
+	    "755 Power Mgmt",
 	},
 	{
 	    PCI_VENDOR_AMD, PCI_PRODUCT_AMD_755_USB,
@@ -992,7 +992,7 @@ static const struct pci_known_product pci_known_products[] = {
 	},
 	{
 	    PCI_VENDOR_AMD, PCI_PRODUCT_AMD_PBC756_PMC,
-	    "756 Power",
+	    "756 Power Mgmt",
 	},
 	{
 	    PCI_VENDOR_AMD, PCI_PRODUCT_AMD_PBC756_USB,
@@ -1012,7 +1012,7 @@ static const struct pci_known_product pci_known_products[] = {
 	},
 	{
 	    PCI_VENDOR_AMD, PCI_PRODUCT_AMD_766_PMC,
-	    "766 Power",
+	    "766 Power Mgmt",
 	},
 	{
 	    PCI_VENDOR_AMD, PCI_PRODUCT_AMD_766_USB_HCI,
@@ -10868,7 +10868,7 @@ static const struct pci_known_vendor pci_known_vendors[] = {
 	},
 	{
 	    PCI_VENDOR_DAVICOM,
-	    "Davicom",
+	    "Davicom Technologies",
 	},
 	{
 	    PCI_VENDOR_ITEXPRESS,
@@ -11064,7 +11064,7 @@ static const struct pci_known_vendor pci_known_vendors[] = {
 	},
 	{
 	    PCI_VENDOR_TERRATEC,
-	    "TerraTec",
+	    "TerraTec Electronic Gmbh",
 	},
 	{
 	    PCI_VENDOR_SYMBOL,
@@ -11084,7 +11084,7 @@ static const struct pci_known_vendor pci_known_vendors[] = {
 	},
 	{
 	    PCI_VENDOR_NDC,
-	    "National Datacomm",
+	    "National Datacomm Corp",
 	},
 	{
 	    PCI_VENDOR_ZOLTRIX,
@@ -11264,7 +11264,7 @@ static const struct pci_known_vendor pci_known_vendors[] = {
 	},
 	{
 	    PCI_VENDOR_ENDACE,
-	    "Endace",
+	    "Endace Measurement Systems",
 	},
 	{
 	    PCI_VENDOR_BELKIN,
