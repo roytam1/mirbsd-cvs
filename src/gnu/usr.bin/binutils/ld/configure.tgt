@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.bin/binutils/ld/configure.tgt,v 1.3 2005/03/28 22:21:12 tg Exp $
+# $MirOS: src/gnu/usr.bin/binutils/ld/configure.tgt,v 1.4 2005/06/05 21:24:38 tg Exp $
 
 # This is the linker target specific file.  This is invoked by the
 # autoconf generated configure script.  Putting it in a separate shell
@@ -43,6 +43,7 @@ d30v-*-*ext*)		targ_emul=d30v_e; targ_extra_emuls="d30velf d30v_o" ;;
 d30v-*-*onchip*)	targ_emul=d30v_o; targ_extra_emuls="d30velf d30v_e" ;;
 d30v-*-*)		targ_emul=d30velf; targ_extra_emuls="d30v_e d30v_o" ;;
 dlx-*-elf*)		targ_emul=elf32_dlx ;;
+ms1-*elf)               targ_emul=elf32ms1 ;;
 sparc64-*-aout*)	targ_emul=sparcaout ;;
 sparc64-*-elf*)		targ_emul=elf64_sparc ;;
 sparc-sun-sunos4*) 	targ_emul=sun4 ;;
@@ -501,8 +502,6 @@ powerpc-*-freebsd* | powerpc-*-kfreebsd*-gnu)
 			targ_extra_libpath=elf32ppc;
 			tdir_elf32ppcsim=`echo ${targ_alias} | sed -e 's/ppc/ppcsim/'`
 			;;
-powerpc-*-mirbsd*)	targ_emul=elf32ppc_mbsd
-			;;
 powerpc*-*-linux*)
 	case "${targ}" in
 	*64*)	targ_emul=elf64ppc
@@ -531,7 +530,7 @@ powerpc*le-*-elf* | powerpc*le-*-eabi* | powerpc*le-*-solaris* \
 		targ_extra_emuls="elf32ppcsim" ;;
 	esac ;;
 powerpc*-*-elf* | powerpc*-*-eabi* | powerpc*-*-sysv* \
-  | powerpc*-*-netbsd* | powerpc-*-openbsd* | powerpc*-*-vxworks* | powerpc*-*-kaos*)
+  | powerpc*-*-netbsd* | powerpc-*-openbsd* | powerpc*-*-kaos*)
 	case "${targ}" in
 	*64*)	targ_emul=elf64ppc
 		targ_extra_emuls="elf32ppc elf32ppclinux elf32ppcsim"
@@ -541,6 +540,10 @@ powerpc*-*-elf* | powerpc*-*-eabi* | powerpc*-*-sysv* \
 	*)	targ_emul=elf32ppc
 		targ_extra_emuls="elf32ppclinux elf32ppcsim" ;;
 	esac ;;
+powerpc-*-vxworks*)
+	targ_emul=elf32ppcvxworks
+	targ_extra_emuls="elf32ppc elf32ppclinux elf32ppcsim"
+	;;
 powerpc-*-nto*)         targ_emul=elf32ppcnto ;;
 powerpcle-*-nto*)       targ_emul=elf32lppcnto ;;
 powerpcle-*-rtems*)	targ_emul=elf32leppc ;;

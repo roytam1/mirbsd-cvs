@@ -1,7 +1,5 @@
-# $MirOS: src/gnu/usr.bin/binutils/ld/emulparams/elf32ppc.sh,v 1.2 2005/03/13 16:07:05 tg Exp $
-
 # If you change this file, please also look at files which source this one:
-# elf32lppc.sh elf32ppclinux.sh elf32ppcsim.sh elf32ppc_mbsd.sh
+# elf32lppc.sh elf32ppclinux.sh elf32ppcsim.sh elf32ppcvxworks.sh
 
 TEMPLATE_NAME=elf32
 EXTRA_EM_FILE=ppc32elf

@@ -300,7 +300,7 @@ core_open (char *filename, int from_tty)
   filename = tilde_expand (filename);
   if (filename[0] != '/')
     {
-      temp = concat (current_directory, "/", filename, NULL);
+      temp = concat (current_directory, "/", filename, (char *)NULL);
       xfree (filename);
       filename = temp;
     }
@@ -316,7 +316,9 @@ core_open (char *filename, int from_tty)
   if (scratch_chan < 0)
     perror_with_name (filename);
 
-  temp_bfd = bfd_fdopenr (filename, gnutarget, scratch_chan);
+  temp_bfd = bfd_fopen (filename, gnutarget, 
+			write_files ? FOPEN_RUB : FOPEN_RB,
+			scratch_chan);
   if (temp_bfd == NULL)
     perror_with_name (filename);
 

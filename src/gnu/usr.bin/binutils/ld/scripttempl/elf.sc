@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.bin/binutils/ld/scripttempl/elf.sc,v 1.3 2005/03/28 22:21:16 tg Exp $
+# $MirOS: src/gnu/usr.bin/binutils/ld/scripttempl/elf.sc,v 1.4 2005/06/05 21:24:43 tg Exp $
 #
 # Unusual variables checked by this code:
 #	NOP - four byte opcode for no-op (defaults to 0)
@@ -174,7 +174,7 @@ if test -z "${SDATA_GOT}"; then
 fi
 test -n "$SEPARATE_GOTPLT" && SEPARATE_GOTPLT=" "
 test -z "$S_EH_FRAME" && S_EH_FRAME=".eh_frame     ${RELOCATING-0} : ONLY_IF_RW { KEEP (*(.eh_frame)) }"
-test -z "$S_GCC_EXC" && S_GCC_EXC=".gcc_except_table ${RELOCATING-0} : ONLY_IF_RW { KEEP (*(.gcc_except_table)) *(.gcc_except_table.*) }"
+test -z "$S_GCC_EXC" && S_GCC_EXC=".gcc_except_table ${RELOCATING-0} : ONLY_IF_RW { *(.gcc_except_table .gcc_except_table.*) }"
 test -z "$S_TDATA" && S_TDATA=".tdata	${RELOCATING-0} : { *(.tdata${RELOCATING+ .tdata.* .gnu.linkonce.td.*}) }"
 test -z "$S_TBSS" && S_TBSS=".tbss		${RELOCATING-0} : { *(.tbss${RELOCATING+ .tbss.* .gnu.linkonce.tb.*})${RELOCATING+ *(.tcommon)} }"
 test -z "$S_JCR" && S_JCR=".jcr          ${RELOCATING-0} : { KEEP (*(.jcr)) }"
@@ -356,7 +356,7 @@ cat <<EOF
   ${OTHER_READONLY_SECTIONS}
   .eh_frame_hdr : { *(.eh_frame_hdr) }
   .eh_frame     ${RELOCATING-0} : ONLY_IF_RO { KEEP (*(.eh_frame)) }
-  .gcc_except_table ${RELOCATING-0} : ONLY_IF_RO { KEEP (*(.gcc_except_table)) *(.gcc_except_table.*) }
+  .gcc_except_table ${RELOCATING-0} : ONLY_IF_RO { *(.gcc_except_table .gcc_except_table.*) }
 
   /* Start of R/W data sections.  */
   /* Adjust the address for the data segment.  We want to adjust up to
@@ -456,7 +456,7 @@ cat <<EOF
    /* Align here to ensure that the .bss section occupies space up to
       _end.  Align after .bss to ensure correct alignment even if the
       .bss section disappears because there are no input sections.  */
-   ${RELOCATING+. = ALIGN(${ALIGNMENT});}
+   ${RELOCATING+. = ALIGN(. != 0 ? ${ALIGNMENT} : 1);}
   }
   ${OTHER_BSS_SECTIONS}
   ${RELOCATING+. = ALIGN(${ALIGNMENT});}

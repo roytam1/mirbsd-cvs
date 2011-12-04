@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.bin/binutils/gdb/Makefile.in,v 1.4 2005/06/13 22:24:00 tg Exp $
+# $MirOS: src/gnu/usr.bin/binutils/gdb/Makefile.in,v 1.5 2005/06/13 22:52:38 tg Exp $
 # XXX hacked
 #
 # Copyright 1989, 1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997,
@@ -312,10 +312,7 @@ LINTFLAGS= $(GDB_CFLAGS) $(OPCODES_CFLAGS) $(READLINE_CFLAGS) \
 	$(BFD_CFLAGS) $(INCLUDE_CFLAGS) \
 	$(INTL_CFLAGS)
 
-RUNTEST = `if [ -f $${rootsrc}/../dejagnu/runtest ] ; then \
-		echo $${rootsrc}/../dejagnu/runtest ; else echo runtest; \
-	   fi`
-
+RUNTEST = runtest
 RUNTESTFLAGS=
 
 # This is ser-unix.o for any system which supports a v7/BSD/SYSV/POSIX
@@ -1693,8 +1690,9 @@ hpacc-abi.o: hpacc-abi.c $(defs_h) $(value_h) $(gdb_regex_h) $(gdb_string_h) \
 	$(gdbtypes_h) $(gdbcore_h) $(cp_abi_h) $(gnu_v2_abi_h)
 hppabsd-nat.o: hppabsd-nat.c $(defs_h) $(inferior_h) $(regcache_h) \
 	$(target_h) $(hppa_tdep_h) $(inf_ptrace_h)
-hppabsd-tdep.o: hppabsd-tdep.c $(defs_h) $(arch_utils_h) $(osabi_h) \
-	$(regcache_h) $(regset_h) $(gdb_assert_h) $(gdb_string_h) \
+hppabsd-tdep.o: hppabsd-tdep.c $(defs_h) $(arch_utils_h) $(symtab_h) \
+	$(objfiles_h) $(osabi_h) $(regcache_h) $(regset_h) $(target_h) \
+	$(value_h) $(gdb_assert_h) $(gdb_string_h) $(elf_common_h) \
 	$(hppa_tdep_h) $(solib_svr4_h)
 hppa-hpux-nat.o: hppa-hpux-nat.c $(defs_h) $(inferior_h) $(regcache_h) \
 	$(target_h) $(gdb_assert_h) $(hppa_tdep_h) $(inf_ptrace_h) \
@@ -2066,8 +2064,9 @@ ppcnbsd-tdep.o: ppcnbsd-tdep.c $(defs_h) $(gdbcore_h) $(regcache_h) \
 	$(target_h) $(breakpoint_h) $(value_h) $(osabi_h) $(ppc_tdep_h) \
 	$(ppcnbsd_tdep_h) $(nbsd_tdep_h) $(tramp_frame_h) $(trad_frame_h) \
 	$(gdb_assert_h) $(solib_svr4_h)
-ppcobsd-nat.o: ppcobsd-nat.c $(defs_h) $(inferior_h) $(regcache_h) \
-	$(ppc_tdep_h) $(ppcobsd_tdep_h) $(inf_ptrace_h)
+ppcobsd-nat.o: ppcobsd-nat.c $(defs_h) $(gdbcore_h) $(inferior_h) \
+	$(regcache_h) $(ppc_tdep_h) $(ppcobsd_tdep_h) $(inf_ptrace_h) \
+	$(bsd_kvm_h)
 ppcobsd-tdep.o: ppcobsd-tdep.c $(defs_h) $(arch_utils_h) $(floatformat_h) \
 	$(osabi_h) $(regcache_h) $(regset_h) $(trad_frame_h) \
 	$(tramp_frame_h) $(gdb_assert_h) $(gdb_string_h) $(ppc_tdep_h) \
@@ -2243,7 +2242,7 @@ solib-sunos.o: solib-sunos.c $(defs_h) $(gdb_string_h) $(symtab_h) $(bfd_h) \
 solib-svr4.o: solib-svr4.c $(defs_h) $(elf_external_h) $(elf_common_h) \
 	$(elf_mips_h) $(symtab_h) $(bfd_h) $(symfile_h) $(objfiles_h) \
 	$(gdbcore_h) $(target_h) $(inferior_h) $(gdb_assert_h) \
-	$(solist_h) $(solib_svr4_h) $(bfd_target_h) $(exec_h)
+	$(solist_h) $(solib_h) $(solib_svr4_h) $(bfd_target_h) $(exec_h)
 sol-thread.o: sol-thread.c $(defs_h) $(gdbthread_h) $(target_h) \
 	$(inferior_h) $(gdb_stat_h) $(gdbcmd_h) $(gdbcore_h) $(regcache_h) \
 	$(solib_h) $(symfile_h) $(gdb_string_h) $(gregset_h)
@@ -2334,7 +2333,7 @@ symfile.o: symfile.c $(defs_h) $(bfdlink_h) $(symtab_h) $(gdbtypes_h) \
 	$(complaints_h) $(demangle_h) $(inferior_h) $(filenames_h) \
 	$(gdb_stabs_h) $(gdb_obstack_h) $(completer_h) $(bcache_h) \
 	$(hashtab_h) $(readline_h) $(gdb_assert_h) $(block_h) \
-	$(gdb_string_h) $(gdb_stat_h) $(observer_h)
+	$(gdb_string_h) $(gdb_stat_h) $(observer_h) $(exec_h)
 symfile-mem.o: symfile-mem.c $(defs_h) $(symtab_h) $(gdbcore_h) \
 	$(objfiles_h) $(exceptions_h) $(gdbcmd_h) $(target_h) $(value_h) \
 	$(symfile_h) $(observer_h) $(auxv_h) $(elf_common_h)

@@ -1,4 +1,4 @@
-/* $MirOS: src/gnu/usr.bin/binutils/include/elf/common.h,v 1.2 2005/03/13 16:07:00 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/binutils/include/elf/common.h,v 1.3 2005/06/05 21:24:36 tg Exp $ */
 
 /* ELF support for BFD.
    Copyright (c) 2004 Thorsten "mirabile" Glaser.
@@ -259,6 +259,8 @@
 
 /* Ubicom IP2xxx; no ABI */
 #define EM_IP2K_OLD		0x8217
+
+#define EM_MS1                  0x2530  /* Morpho MS1; no ABI */
 
 /* MSP430 magic number
       Written in the absense everything.  */

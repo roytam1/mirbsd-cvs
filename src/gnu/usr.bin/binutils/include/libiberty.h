@@ -1,4 +1,4 @@
-/* $MirOS: src/gnu/usr.bin/binutils/include/libiberty.h,v 1.3 2005/03/28 21:25:10 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/binutils/include/libiberty.h,v 1.4 2005/06/05 21:24:35 tg Exp $ */
 
 /* Function declarations for libiberty.
 
@@ -329,7 +329,7 @@ extern double physmem_available (void);
 /* Type-safe obstack allocator.  */
 
 #define XOBNEW(O, T)		((T *) obstack_alloc ((O), sizeof (T)))
-
+#define XOBFINISH(O, T)         ((T) obstack_finish ((O)))
 
 /* hex character manipulation routines */
 
@@ -518,6 +518,21 @@ extern int pexecute (const char *, char * const *, const char *,
 /* Wait for pexecute to finish.  */
 
 extern int pwait (int, int *, int);
+
+#if defined(HAVE_DECL_SNPRINTF) && !HAVE_DECL_SNPRINTF
+/* Like sprintf but prints at most N characters.  */
+extern int snprintf (char *, size_t, const char *, ...) ATTRIBUTE_PRINTF_3;
+#endif
+
+#if defined(HAVE_DECL_VSNPRINTF) && !HAVE_DECL_VSNPRINTF
+/* Like vsprintf but prints at most N characters.  */
+extern int vsnprintf (char *, size_t, const char *, va_list) ATTRIBUTE_PRINTF(3,0);
+#endif
+
+#if defined(HAVE_DECL_STRVERSCMP) && !HAVE_DECL_STRVERSCMP
+/* Compare version strings.  */
+extern int strverscmp (const char *, const char *);
+#endif
 
 #define ARRAY_SIZE(a) (sizeof (a) / sizeof ((a)[0]))
 

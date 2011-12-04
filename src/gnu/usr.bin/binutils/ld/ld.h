@@ -1,4 +1,4 @@
-/* $MirOS: src/gnu/usr.bin/binutils/ld/ld.h,v 1.3 2005/03/28 22:21:13 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/binutils/ld/ld.h,v 1.4 2005/06/05 21:24:39 tg Exp $ */
 
 /* ld.h -- general linker header file
    Copyright 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000,
@@ -248,12 +248,6 @@ typedef struct {
 } ld_config_type;
 
 extern ld_config_type config;
-
-typedef enum {
-  lang_first_phase_enum,
-  lang_allocating_phase_enum,
-  lang_final_phase_enum
-} lang_phase_type;
 
 extern FILE * saved_script_handle;
 extern bfd_boolean force_make_executable;

@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.bin/binutils/ld/emultempl/elf32.em,v 1.3 2005/03/28 22:21:15 tg Exp $
+# $MirOS: src/gnu/usr.bin/binutils/ld/emultempl/elf32.em,v 1.4 2005/06/05 21:24:42 tg Exp $
 
 # This shell script emits a C file. -*- C -*-
 # It does some substitutions.
@@ -56,7 +56,7 @@ Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA 02110-1301, USA. 
 #include <ldgram.h>
 #include "elf/common.h"
 
-__RCSID("$MirOS: src/gnu/usr.bin/binutils/ld/emultempl/elf32.em,v 1.3 2005/03/28 22:21:15 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/binutils/ld/emultempl/elf32.em,v 1.4 2005/06/05 21:24:42 tg Exp $");
 
 /* Declare functions used by various EXTRA_EM_FILEs.  */
 static void gld${EMULATION_NAME}_before_parse (void);
@@ -304,7 +304,7 @@ EOF
 
 if [ "x${USE_LIBPATH}" = xyes ] ; then
   case ${target} in
-    *-*-linux-*)
+    *-*-linux-* | *-*-k*bsd*-*)
   cat >>e${EMULATION_NAME}.c <<EOF
 #ifdef HAVE_GLOB
 #include <glob.h>
@@ -589,7 +589,7 @@ gld${EMULATION_NAME}_try_needed (struct dt_needed *needed,
 
 EOF
 case ${target} in
-  *-*-linux-*)
+  *-*-linux-* | *-*-k*bsd*-*)
     cat >>e${EMULATION_NAME}.c <<EOF
 	  {
 	    struct bfd_link_needed_list *l;
@@ -781,7 +781,7 @@ gld${EMULATION_NAME}_add_sysroot (const char *path)
 
 EOF
   case ${target} in
-    *-*-linux-*)
+    *-*-linux-* | *-*-k*bsd*-*)
       cat >>e${EMULATION_NAME}.c <<EOF
 /* For a native linker, check the file /etc/ld.so.conf for directories
    in which we may find shared libraries.  /etc/ld.so.conf is really
@@ -1192,7 +1192,7 @@ cat >>e${EMULATION_NAME}.c <<EOF
 EOF
 if [ "x${USE_LIBPATH}" = xyes ] ; then
   case ${target} in
-    *-*-linux-*)
+    *-*-linux-* | *-*-k*bsd*-*)
       cat >>e${EMULATION_NAME}.c <<EOF
 	  if (gld${EMULATION_NAME}_check_ld_so_conf (l->name, force))
 	    break;
@@ -1764,15 +1764,13 @@ gld${EMULATION_NAME}_layout_sections_again (void)
   lang_reset_memory_regions ();
 
   /* Resize the sections.  */
-  lang_size_sections (stat_ptr->head, abs_output_section,
-		      &stat_ptr->head, 0, (bfd_vma) 0, NULL, TRUE);
+  lang_size_sections (NULL, TRUE);
 
   /* Redo special stuff.  */
   ldemul_after_allocation ();
 
   /* Do the assignments again.  */
-  lang_do_assignments (stat_ptr->head, abs_output_section,
-		       (fill_type *) 0, (bfd_vma) 0);
+  lang_do_assignments ();
 }
 
 static void

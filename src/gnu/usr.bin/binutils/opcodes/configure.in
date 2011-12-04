@@ -1,4 +1,4 @@
-dnl $MirOS: src/gnu/usr.bin/binutils/opcodes/configure.in,v 1.3 2005/03/28 21:57:00 tg Exp $
+dnl $MirOS: src/gnu/usr.bin/binutils/opcodes/configure.in,v 1.4 2005/06/05 21:24:48 tg Exp $
 
 dnl Process this file with autoconf to produce a configure script.
 dnl
@@ -186,6 +186,7 @@ if test x${all_targets} = xfalse ; then
 	bfd_mmix_arch)		ta="$ta mmix-dis.lo mmix-opc.lo" ;;
 	bfd_mn10200_arch)	ta="$ta m10200-dis.lo m10200-opc.lo" ;;
 	bfd_mn10300_arch)	ta="$ta m10300-dis.lo m10300-opc.lo" ;;
+	bfd_ms1_arch)		ta="$ta ms1-asm.lo ms1-desc.lo ms1-dis.lo ms1-ibld.lo ms1-opc.lo" using_cgen=yes ;;
 	bfd_msp430_arch)	ta="$ta msp430-dis.lo" ;;
 	bfd_ns32k_arch)		ta="$ta ns32k-dis.lo" ;;
 	bfd_openrisc_arch)	ta="$ta openrisc-asm.lo openrisc-desc.lo openrisc-dis.lo openrisc-ibld.lo openrisc-opc.lo" using_cgen=yes ;;

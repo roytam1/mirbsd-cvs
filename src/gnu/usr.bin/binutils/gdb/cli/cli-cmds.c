@@ -1,4 +1,4 @@
-/* $MirOS: src/gnu/usr.bin/binutils/gdb/cli/cli-cmds.c,v 1.2 2005/04/19 20:13:29 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/binutils/gdb/cli/cli-cmds.c,v 1.3 2005/06/05 21:24:29 tg Exp $ */
 
 /* GDB CLI commands.
 
@@ -370,9 +370,10 @@ cd_command (char *dir, int from_tty)
   else
     {
       if (IS_DIR_SEPARATOR (current_directory[strlen (current_directory) - 1]))
-	current_directory = concat (current_directory, dir, NULL);
+	current_directory = concat (current_directory, dir, (char *)NULL);
       else
-	current_directory = concat (current_directory, SLASH_STRING, dir, NULL);
+	current_directory = concat (current_directory, SLASH_STRING,
+				    dir, (char *)NULL);
       xfree (dir);
     }
 

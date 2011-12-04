@@ -1,4 +1,4 @@
-/* $MirOS: src/gnu/usr.bin/binutils/ld/ldmain.c,v 1.3 2005/03/28 22:21:13 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/binutils/ld/ldmain.c,v 1.4 2005/06/05 21:24:40 tg Exp $ */
 
 /* Main program of GNU linker.
    Copyright 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001,
@@ -52,7 +52,7 @@
 #include <string.h>
 
 #ifdef HAVE_SBRK
-#ifdef NEED_DECLARATION_SBRK
+#if !HAVE_DECL_SBRK
 extern void *sbrk ();
 #endif
 #endif
@@ -61,7 +61,7 @@ extern void *sbrk ();
 #define TARGET_SYSTEM_ROOT ""
 #endif
 
-__RCSID("$MirOS: src/gnu/usr.bin/binutils/ld/ldmain.c,v 1.3 2005/03/28 22:21:13 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/binutils/ld/ldmain.c,v 1.4 2005/06/05 21:24:40 tg Exp $");
 
 /* EXPORTS */
 

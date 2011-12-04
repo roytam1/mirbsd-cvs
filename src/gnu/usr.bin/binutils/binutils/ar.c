@@ -1,4 +1,4 @@
-/* $MirOS: src/gnu/usr.bin/binutils/binutils/ar.c,v 1.3 2005/03/28 22:06:01 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/binutils/binutils/ar.c,v 1.4 2005/06/05 21:24:03 tg Exp $ */
 
 /* ar.c - Archive modify and extract.
    Copyright 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000,
@@ -39,7 +39,7 @@
 #include "binemul.h"
 #include <sys/stat.h>
 
-__RCSID("$MirOS: src/gnu/usr.bin/binutils/binutils/ar.c,v 1.3 2005/03/28 22:06:01 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/binutils/binutils/ar.c,v 1.4 2005/06/05 21:24:03 tg Exp $");
 
 #ifdef __GO32___
 #define EXT_NAME_LEN 3		/* bufflen of addition to name if it's MS-DOS */
@@ -52,8 +52,6 @@ __RCSID("$MirOS: src/gnu/usr.bin/binutils/binutils/ar.c,v 1.3 2005/03/28 22:06:0
 #ifndef O_BINARY
 #define O_BINARY 0
 #endif
-
-#define BUFSIZE 8192
 
 /* Kludge declaration from BFD!  This is ugly!  FIXME!  XXX */
 

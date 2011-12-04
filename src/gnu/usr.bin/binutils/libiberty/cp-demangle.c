@@ -1,4 +1,4 @@
-/* $MirOS: src/gnu/usr.bin/binutils/libiberty/cp-demangle.c,v 1.4 2005/03/28 21:25:11 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/binutils/libiberty/cp-demangle.c,v 1.5 2005/06/05 21:24:44 tg Exp $ */
 
 /* Demangler for g++ V3 ABI.
    Copyright (C) 2003, 2004, 2005 Free Software Foundation, Inc.
@@ -102,7 +102,7 @@
 #include "demangle.h"
 #include "cp-demangle.h"
 
-__RCSID("$MirOS: src/gnu/usr.bin/binutils/libiberty/cp-demangle.c,v 1.4 2005/03/28 21:25:11 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/binutils/libiberty/cp-demangle.c,v 1.5 2005/06/05 21:24:44 tg Exp $");
 
 /* If IN_GLIBCPP_V3 is defined, some functions are made static.  We
    also rename them via #define to avoid compiler errors when the
@@ -2341,7 +2341,11 @@ d_expr_primary (struct d_info *di)
 	}
       s = d_str (di);
       while (d_peek_char (di) != 'E')
-	d_advance (di, 1);
+	{
+	  if (d_peek_char (di) == '\0')
+	    return NULL;
+	  d_advance (di, 1);
+	}
       ret = d_make_comp (di, t, type, d_make_name (di, s, d_str (di) - s));
     }
   if (d_next_char (di) != 'E')

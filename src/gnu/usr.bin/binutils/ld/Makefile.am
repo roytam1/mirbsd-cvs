@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.bin/binutils/ld/Makefile.am,v 1.8 2005/06/13 23:54:31 tg Exp $
+# $MirOS: src/gnu/usr.bin/binutils/ld/Makefile.am,v 1.9 2005/06/14 12:51:12 tg Exp $
 
 ## Process this file with automake to generate Makefile.in
 
@@ -56,14 +56,8 @@ HOSTING_LIBS = @HOSTING_LIBS@
 HOSTING_EMU = -m $(EMUL)
 
 # Setup the testing framework, if you have one
-EXPECT = `if [ -f $$r/../expect/expect ] ; \
-	then echo $$r/../expect/expect ; \
-	else echo expect ; fi`
-
-RUNTEST = `if [ -f $${srcroot}/../dejagnu/runtest ] ; \
-	then echo $${srcroot}/../dejagnu/runtest ; \
-	else echo runtest ; fi`
-
+EXPECT = expect
+RUNTEST = runtest
 RUNTESTFLAGS =
 
 CC_FOR_TARGET = ` \
@@ -178,14 +172,15 @@ ALL_EMULATIONS = \
 	eelf32lppcsim.o \
 	eelf32mcore.o \
 	eelf32mipswindiss.o \
+	eelf32ms1.o \
 	eelf32openrisc.o \
 	eelf32ppc.o \
 	eelf32ppc_fbsd.o \
-	eelf32ppc_mbsd.o \
 	eelf32ppclinux.o \
 	eelf32ppcnto.o \
 	eelf32ppcsim.o \
 	eelf32ppcwindiss.o \
+	eelf32ppcvxworks.o \
 	eelf32vax.o \
 	eelf32xstormy16.o \
 	eelf32xtensa.o \
@@ -749,6 +744,9 @@ eelf32ppcnto.c: $(srcdir)/emulparams/elf32ppcnto.sh \
 eelf32ppcwindiss.c: $(srcdir)/emulparams/elf32ppcwindiss.sh \
   $(srcdir)/emultempl/elf32.em $(srcdir)/scripttempl/elf.sc ${GEN_DEPENDS}
 	${GENSCRIPTS} elf32ppcwindiss "$(tdir_elf32ppcwindiss)"
+eelf32ppcvxworks.c: $(srcdir)/emulparams/elf32ppcvxworks.sh \
+  $(srcdir)/emultempl/elf32.em $(srcdir)/scripttempl/elf.sc ${GEN_DEPENDS}
+	${GENSCRIPTS} elf32ppcvxworks "$(tdir_elf32ppcvxworks)"
 eelf32lsmip.c: $(srcdir)/emulparams/elf32lsmip.sh \
   $(srcdir)/emulparams/elf32lmip.sh $(srcdir)/emulparams/elf32bmip.sh \
   $(srcdir)/emultempl/elf32.em $(srcdir)/scripttempl/elf.sc ${GEN_DEPENDS}
@@ -763,11 +761,6 @@ eelf32ppc_fbsd.c: $(srcdir)/emulparams/elf32ppc_fbsd.sh \
   $(srcdir)/emulparams/elf32ppc.sh $(srcdir)/emultempl/ppc32elf.em \
   $(srcdir)/emultempl/elf32.em $(srcdir)/scripttempl/elf.sc ${GEN_DEPENDS}
 	${GENSCRIPTS} elf32ppc_fbsd "$(tdir_elf32ppc_fbsd)"
-eelf32ppc_mbsd.c: $(srcdir)/emulparams/elf32ppc_mbsd.sh \
-  $(srcdir)/emulparams/elf32ppc.sh \
-  $(srcdir)/emultempl/ppc32elf.em \
-  $(srcdir)/emultempl/elf32.em $(srcdir)/scripttempl/elf.sc ${GEN_DEPENDS}
-	${GENSCRIPTS} elf32ppc_mbsd "$(tdir_elf32ppc_mbsd)"
 eelf32ppcsim.c: $(srcdir)/emulparams/elf32ppcsim.sh \
   $(srcdir)/emulparams/elf32ppc.sh $(srcdir)/emultempl/ppc32elf.em \
   $(srcdir)/emultempl/elf32.em $(srcdir)/scripttempl/elf.sc ${GEN_DEPENDS}
@@ -1540,6 +1533,9 @@ eelf32frvfd.c: $(srcdir)/emulparams/elf32frvfd.sh \
   $(srcdir)/emulparams/elf32frv.sh \
   $(srcdir)/emultempl/elf32.em $(srcdir)/scripttempl/elf.sc ${GEN_DEPENDS}
 	${GENSCRIPTS} elf32frvfd "$(tdir_frv)"
+eelf32ms1.c: $(srcdir)/emulparams/elf32ms1.sh \
+  $(srcdir)/emultempl/elf32.em $(srcdir)/scripttempl/elf.sc ${GEN_DEPENDS}
+	${GENSCRIPTS} elf32ms1 "$(tdir_ms1)"
 
 # We need this for automake to use YLWRAP.
 EXTRA_ld_new_SOURCES = deffilep.y
@@ -1553,6 +1549,29 @@ ld_new_LDADD = $(EMULATION_OFILES) $(EMUL_EXTRA_OFILES) $(BFDLIB) -liberty
 $(EMULATION_OFILES): ../bfd/bfd.h sysdep.h config.h $(INCDIR)/bfdlink.h \
   ld.h ldmain.h ldemul.h ldfile.h ldmisc.h ldexp.h ldlang.h \
   ldctor.h ldexp.h ldlang.h ldgram.h
+
+# Rules for testing by relinking ld itself.
+# A similar test is in the testsuite.  This target is for ease of use
+# when porting ld.
+
+ld-partial.o: ld-new$(EXEEXT)
+	./ld-new$(EXEEXT) $(HOSTING_EMU) -o ld-partial.o -r $(OFILES)
+ld1$(EXEEXT): ld-partial.o
+	./ld-new$(EXEEXT) $(HOSTING_EMU) -o ld1$(EXEEXT) $(HOSTING_CRT0) ld-partial.o $(TESTBFDLIB) $(LIBIBERTY) $(HOSTING_LIBS) $(LIBS)
+
+ld1-full$(EXEEXT): ld-new
+	./ld-new$(EXEEXT) $(HOSTING_EMU) -o ld1-full$(EXEEXT) $(HOSTING_CRT0) $(OFILES) $(TESTBFDLIB) $(LIBIBERTY) $(HOSTING_LIBS) $(LIBS)
+
+ld2$(EXEEXT): ld1$(EXEEXT)
+	./ld1$(EXEEXT) $(HOSTING_EMU) -o ld2$(EXEEXT) $(HOSTING_CRT0) $(OFILES) $(TESTBFDLIB) $(LIBIBERTY) $(HOSTING_LIBS) $(LIBS)
+
+ld3$(EXEEXT): ld2$(EXEEXT)
+	./ld2$(EXEEXT) $(HOSTING_EMU) -o ld3$(EXEEXT) $(HOSTING_CRT0) $(OFILES) $(TESTBFDLIB) $(LIBIBERTY) $(HOSTING_LIBS) $(LIBS)
+
+bootstrap: ld3$(EXEEXT)
+	cmp ld2$(EXEEXT) ld3$(EXEEXT)
+
+.PHONY: bootstrap
 
 # DOCUMENTATION TARGETS
 # Manual configuration file; not usually attached to normal configuration,

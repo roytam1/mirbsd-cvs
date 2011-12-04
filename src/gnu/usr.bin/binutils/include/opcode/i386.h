@@ -83,12 +83,13 @@ static const template i386_optab[] =
 
 /* Move instructions.  */
 #define MOV_AX_DISP32 0xa0
-/* In the 64bit mode the short form mov immediate is redefined to have
-   64bit displacement value.  */
+/* We put the 64bit displacement first and we only mark constants
+   larger than 32bit as Disp64.  */
+{ "mov",   2,	0xa0, X, Cpu64,  bwlq_Suf|D|W,			{ Disp64, Acc, 0 } },
 { "mov",   2,	0xa0, X, CpuNo64,bwl_Suf|D|W,			{ Disp16|Disp32, Acc, 0 } },
 { "mov",   2,	0x88, X, 0,	 bwlq_Suf|D|W|Modrm,		{ Reg, Reg|AnyMem, 0} },
 /* In the 64bit mode the short form mov immediate is redefined to have
-   64bit displacement value.  */
+   64bit value.  */
 { "mov",   2,	0xb0, X, 0,	 bwl_Suf|W|ShortForm,		{ EncImm, Reg8|Reg16|Reg32, 0 } },
 { "mov",   2,	0xc6, 0, 0,	 bwlq_Suf|W|Modrm,		{ EncImm, Reg|AnyMem, 0 } },
 { "mov",   2,	0xb0, X, Cpu64,	 q_Suf|W|ShortForm,		{ Imm64, Reg64, 0 } },
@@ -1010,6 +1011,9 @@ static const template i386_optab[] =
 {"movq",     2, 0x0f7f, X, CpuMMX, NoSuf|IgnoreSize|Modrm, { RegMMX, RegMMX|LongMem, 0 } },
 {"movq",     2, 0xf30f7e,X,CpuSSE2,NoSuf|IgnoreSize|Modrm, { RegXMM|LLongMem, RegXMM, 0 } },
 {"movq",     2, 0x660fd6,X,CpuSSE2,NoSuf|IgnoreSize|Modrm, { RegXMM, RegXMM|LLongMem, 0 } },
+/* We put the 64bit displacement first and we only mark constants
+   larger than 32bit as Disp64.  */
+{"movq",   2,   0xa0, X, Cpu64,  NoSuf|D|W|Size64, { Disp64, Acc, 0 } },
 {"movq",   2,	0x88, X, Cpu64,	 NoSuf|D|W|Modrm|Size64,{ Reg64, Reg64|AnyMem, 0 } },
 {"movq",   2,	0xc6, 0, Cpu64,	 NoSuf|W|Modrm|Size64,	{ Imm32S, Reg64|WordMem, 0 } },
 {"movq",   2,	0xb0, X, Cpu64,	 NoSuf|W|ShortForm|Size64,{ Imm64, Reg64, 0 } },
@@ -1384,6 +1388,22 @@ static const template i386_optab[] =
 {"sysret",   0, 0x0f07,    X, CpuK6,	lq_Suf|DefaultSize,	{ 0, 0, 0} },
 {"swapgs",   0, 0x0f01, 0xf8, Cpu64,	NoSuf|ImmExt,		{ 0, 0, 0} },
 {"rdtscp",   0, 0x0f01, 0xf9, CpuSledgehammer,NoSuf|ImmExt,	{ 0, 0, 0} },
+
+/* AMD Pacifica additions.  */
+{"clgi",     0, 0x0f01, 0xdd, CpuSVME,	NoSuf|ImmExt,		{ 0, 0, 0 } },
+{"invlpga",  0, 0x0f01, 0xdf, CpuSVME,	NoSuf|ImmExt,		{ 0, 0, 0 } },
+/* Need to ensure only "invlpga ...,%ecx" is accepted.  */
+{"invlpga",  2, 0x0f01, 0xdf, CpuSVME,	NoSuf|ImmExt,		{ AnyMem, Reg32, 0 } },
+{"skinit",   0, 0x0f01, 0xde, CpuSVME,	NoSuf|ImmExt,		{ 0, 0, 0 } },
+{"skinit",   1, 0x0f01, 0xde, CpuSVME,	NoSuf|ImmExt,		{ AnyMem, 0, 0 } },
+{"stgi",     0, 0x0f01, 0xdc, CpuSVME,	NoSuf|ImmExt,		{ 0, 0, 0 } },
+{"vmload",   0, 0x0f01, 0xda, CpuSVME,	NoSuf|ImmExt,		{ 0, 0, 0 } },
+{"vmload",   1, 0x0f01, 0xda, CpuSVME,	NoSuf|ImmExt,		{ AnyMem, 0, 0 } },
+{"vmmcall",  0, 0x0f01, 0xd9, CpuSVME,	NoSuf|ImmExt,		{ 0, 0, 0 } },
+{"vmrun",    0, 0x0f01, 0xd8, CpuSVME,	NoSuf|ImmExt,		{ 0, 0, 0 } },
+{"vmrun",    1, 0x0f01, 0xd8, CpuSVME,	NoSuf|ImmExt,		{ AnyMem, 0, 0 } },
+{"vmsave",   0, 0x0f01, 0xdb, CpuSVME,	NoSuf|ImmExt,		{ 0, 0, 0 } },
+{"vmsave",   1, 0x0f01, 0xdb, CpuSVME,	NoSuf|ImmExt,		{ AnyMem, 0, 0 } },
 
 /* VIA PadLock extensions.  */
 {"xstore-rng",0, 0x000fa7, 0xc0, Cpu686|CpuPadLock, NoSuf|IsString|ImmExt, { 0, 0, 0} },

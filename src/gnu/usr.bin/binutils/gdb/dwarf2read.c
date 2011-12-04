@@ -1,4 +1,4 @@
-/* $MirOS: src/gnu/usr.bin/binutils/gdb/dwarf2read.c,v 1.3 2005/04/26 06:52:13 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/binutils/gdb/dwarf2read.c,v 1.4 2005/06/05 21:24:18 tg Exp $ */
 
 /* DWARF 2 debugging format support for GDB.
 
@@ -56,7 +56,7 @@
 #include "gdb_assert.h"
 #include <sys/types.h>
 
-__RCSID("$MirOS: src/gnu/usr.bin/binutils/gdb/dwarf2read.c,v 1.3 2005/04/26 06:52:13 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/binutils/gdb/dwarf2read.c,v 1.4 2005/06/05 21:24:18 tg Exp $");
 
 /* A note on memory usage for this file.
    
@@ -6658,15 +6658,15 @@ dwarf_decode_lines (struct line_header *lh, char *comp_dir, bfd *abfd,
 
             if (!IS_ABSOLUTE_PATH (include_name) && dir_name != NULL)
               {
-                include_name =
-                  concat (dir_name, SLASH_STRING, include_name, NULL);
+                include_name = concat (dir_name, SLASH_STRING,
+				       include_name, (char *)NULL);
                 make_cleanup (xfree, include_name);
               }
 
             if (!IS_ABSOLUTE_PATH (pst_filename) && pst->dirname != NULL)
               {
-                pst_filename =
-                  concat (pst->dirname, SLASH_STRING, pst_filename, NULL);
+                pst_filename = concat (pst->dirname, SLASH_STRING,
+				       pst_filename, (char *)NULL);
                 make_cleanup (xfree, pst_filename);
               }
 
@@ -6705,7 +6705,7 @@ dwarf2_start_subfile (char *filename, char *dirname)
   if (!IS_ABSOLUTE_PATH (filename) && dirname != NULL)
     {
       struct subfile *subfile;
-      char *fullname = concat (dirname, "/", filename, NULL);
+      char *fullname = concat (dirname, "/", filename, (char *)NULL);
 
       for (subfile = subfiles; subfile; subfile = subfile->next)
 	{

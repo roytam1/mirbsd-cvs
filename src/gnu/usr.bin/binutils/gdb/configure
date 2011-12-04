@@ -2294,6 +2294,7 @@ ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
 ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
 ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
+
 cat >>confdefs.h <<\_ACEOF
 #define _GNU_SOURCE 1
 _ACEOF
@@ -3967,7 +3968,8 @@ fi
 
 done
 
-  cat >>confdefs.h <<\_ACEOF
+
+cat >>confdefs.h <<\_ACEOF
 #define HAVE_LIBUNWIND 1
 _ACEOF
 
@@ -11063,6 +11065,140 @@ cat >>confdefs.h <<_ACEOF
 _ACEOF
 
 
+echo "$as_me:$LINENO: checking for socklen_t" >&5
+echo $ECHO_N "checking for socklen_t... $ECHO_C" >&6
+if test "${ac_cv_type_socklen_t+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  cat >conftest.$ac_ext <<_ACEOF
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+#include <sys/types.h>
+#include <sys/socket.h>
+
+
+int
+main ()
+{
+if ((socklen_t *) 0)
+  return 0;
+if (sizeof (socklen_t))
+  return 0;
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext
+if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
+  (eval $ac_compile) 2>conftest.er1
+  ac_status=$?
+  grep -v '^ *+' conftest.er1 >conftest.err
+  rm -f conftest.er1
+  cat conftest.err >&5
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } &&
+	 { ac_try='test -z "$ac_c_werror_flag"
+			 || test ! -s conftest.err'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; } &&
+	 { ac_try='test -s conftest.$ac_objext'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+  ac_cv_type_socklen_t=yes
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+ac_cv_type_socklen_t=no
+fi
+rm -f conftest.err conftest.$ac_objext conftest.$ac_ext
+fi
+echo "$as_me:$LINENO: result: $ac_cv_type_socklen_t" >&5
+echo "${ECHO_T}$ac_cv_type_socklen_t" >&6
+if test $ac_cv_type_socklen_t = yes; then
+
+cat >>confdefs.h <<_ACEOF
+#define HAVE_SOCKLEN_T 1
+_ACEOF
+
+
+fi
+
+echo "$as_me:$LINENO: checking for uintptr_t" >&5
+echo $ECHO_N "checking for uintptr_t... $ECHO_C" >&6
+if test "${ac_cv_type_uintptr_t+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  cat >conftest.$ac_ext <<_ACEOF
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+#include <stdint.h>
+
+int
+main ()
+{
+if ((uintptr_t *) 0)
+  return 0;
+if (sizeof (uintptr_t))
+  return 0;
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext
+if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
+  (eval $ac_compile) 2>conftest.er1
+  ac_status=$?
+  grep -v '^ *+' conftest.er1 >conftest.err
+  rm -f conftest.er1
+  cat conftest.err >&5
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } &&
+	 { ac_try='test -z "$ac_c_werror_flag"
+			 || test ! -s conftest.err'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; } &&
+	 { ac_try='test -s conftest.$ac_objext'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+  ac_cv_type_uintptr_t=yes
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+ac_cv_type_uintptr_t=no
+fi
+rm -f conftest.err conftest.$ac_objext conftest.$ac_ext
+fi
+echo "$as_me:$LINENO: result: $ac_cv_type_uintptr_t" >&5
+echo "${ECHO_T}$ac_cv_type_uintptr_t" >&6
+if test $ac_cv_type_uintptr_t = yes; then
+
+cat >>confdefs.h <<_ACEOF
+#define HAVE_UINTPTR_T 1
+_ACEOF
+
+
+fi
+
 
 # ------------------------------------- #
 # Checks for compiler characteristics.  #
@@ -14809,7 +14945,8 @@ fi
 echo "$as_me:$LINENO: result: $gdb_cv_have_ptrace_getregs" >&5
 echo "${ECHO_T}$gdb_cv_have_ptrace_getregs" >&6
 if test $gdb_cv_have_ptrace_getregs = yes; then
-  cat >>confdefs.h <<\_ACEOF
+
+cat >>confdefs.h <<\_ACEOF
 #define HAVE_PTRACE_GETREGS 1
 _ACEOF
 
@@ -14871,7 +15008,8 @@ fi
 echo "$as_me:$LINENO: result: $gdb_cv_have_ptrace_getfpxregs" >&5
 echo "${ECHO_T}$gdb_cv_have_ptrace_getfpxregs" >&6
 if test $gdb_cv_have_ptrace_getfpxregs = yes; then
-  cat >>confdefs.h <<\_ACEOF
+
+cat >>confdefs.h <<\_ACEOF
 #define HAVE_PTRACE_GETFPXREGS 1
 _ACEOF
 
@@ -14934,7 +15072,8 @@ fi
 echo "$as_me:$LINENO: result: $gdb_cv_have_pt_getdbregs" >&5
 echo "${ECHO_T}$gdb_cv_have_pt_getdbregs" >&6
 if test $gdb_cv_have_pt_getdbregs = yes; then
-  cat >>confdefs.h <<\_ACEOF
+
+cat >>confdefs.h <<\_ACEOF
 #define HAVE_PT_GETDBREGS 1
 _ACEOF
 
@@ -14997,71 +15136,9 @@ fi
 echo "$as_me:$LINENO: result: $gdb_cv_have_pt_getxmmregs" >&5
 echo "${ECHO_T}$gdb_cv_have_pt_getxmmregs" >&6
 if test $gdb_cv_have_pt_getxmmregs = yes; then
-  cat >>confdefs.h <<\_ACEOF
-#define HAVE_PT_GETXMMREGS 1
-_ACEOF
-
-fi
-
-# See if stdint.h provides the uintptr_t type.
-# Autoconf 2.5X has an improved AC_CHECK_TYPE which will simplify this.
-echo "$as_me:$LINENO: checking for uintptr_t in stdint.h" >&5
-echo $ECHO_N "checking for uintptr_t in stdint.h... $ECHO_C" >&6
-if test "${gdb_cv_have_uintptr_t+set}" = set; then
-  echo $ECHO_N "(cached) $ECHO_C" >&6
-else
-  cat >conftest.$ac_ext <<_ACEOF
-/* confdefs.h.  */
-_ACEOF
-cat confdefs.h >>conftest.$ac_ext
-cat >>conftest.$ac_ext <<_ACEOF
-/* end confdefs.h.  */
-#include <stdint.h>
-int
-main ()
-{
-uintptr_t foo = 0;
-  ;
-  return 0;
-}
-_ACEOF
-rm -f conftest.$ac_objext
-if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
-  (eval $ac_compile) 2>conftest.er1
-  ac_status=$?
-  grep -v '^ *+' conftest.er1 >conftest.err
-  rm -f conftest.er1
-  cat conftest.err >&5
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); } &&
-	 { ac_try='test -z "$ac_c_werror_flag"
-			 || test ! -s conftest.err'
-  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
-  (eval $ac_try) 2>&5
-  ac_status=$?
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); }; } &&
-	 { ac_try='test -s conftest.$ac_objext'
-  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
-  (eval $ac_try) 2>&5
-  ac_status=$?
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); }; }; then
-  gdb_cv_have_uintptr_t=yes
-else
-  echo "$as_me: failed program was:" >&5
-sed 's/^/| /' conftest.$ac_ext >&5
-
-gdb_cv_have_uintptr_t=no
-fi
-rm -f conftest.err conftest.$ac_objext conftest.$ac_ext
-fi
-echo "$as_me:$LINENO: result: $gdb_cv_have_uintptr_t" >&5
-echo "${ECHO_T}$gdb_cv_have_uintptr_t" >&6
-if test $gdb_cv_have_uintptr_t = yes; then
 
 cat >>confdefs.h <<\_ACEOF
-#define HAVE_UINTPTR_T 1
+#define HAVE_PT_GETXMMREGS 1
 _ACEOF
 
 fi
@@ -15073,30 +15150,35 @@ fi
 if test "${target}" = "${host}"; then
   case "${host}" in
   i[3456]86-*-linux*)
-	cat >>confdefs.h <<\_ACEOF
+
+cat >>confdefs.h <<\_ACEOF
 #define START_INFERIOR_TRAPS_EXPECTED 2
 _ACEOF
 
-	cat >>confdefs.h <<\_ACEOF
+
+cat >>confdefs.h <<\_ACEOF
 #define sys_quotactl 1
 _ACEOF
 
 	;;
   *-*-unixware* | *-*-sysv4.2* | *-*-sysv5* | *-*-interix* )
-      cat >>confdefs.h <<\_ACEOF
+
+cat >>confdefs.h <<\_ACEOF
 #define NEW_PROC_API 1
 _ACEOF
 
       ;;
   *-*-solaris2.[6789] | *-*-solaris2.1[0-9])
-      cat >>confdefs.h <<\_ACEOF
+
+cat >>confdefs.h <<\_ACEOF
 #define NEW_PROC_API 1
 _ACEOF
 
       ;;
   mips-sgi-irix5*)
       # Work around <sys/proc.h> needing _KMEMUSER problem on IRIX 5.
-      cat >>confdefs.h <<\_ACEOF
+
+cat >>confdefs.h <<\_ACEOF
 #define _KMEMUSER 1
 _ACEOF
 
@@ -16069,7 +16151,8 @@ fi
     echo "$as_me:$LINENO: result: $gdb_cv_prfpregset_t_broken" >&5
 echo "${ECHO_T}$gdb_cv_prfpregset_t_broken" >&6
     if test $gdb_cv_prfpregset_t_broken = yes; then
-      cat >>confdefs.h <<\_ACEOF
+
+cat >>confdefs.h <<\_ACEOF
 #define PRFPREGSET_T_BROKEN 1
 _ACEOF
 
@@ -16138,7 +16221,8 @@ fi
   echo "$as_me:$LINENO: result: $gdb_cv_have_procfs_piocset" >&5
 echo "${ECHO_T}$gdb_cv_have_procfs_piocset" >&6
   if test $gdb_cv_have_procfs_piocset = yes; then
-    cat >>confdefs.h <<\_ACEOF
+
+cat >>confdefs.h <<\_ACEOF
 #define HAVE_PROCFS_PIOCSET 1
 _ACEOF
 
@@ -16202,7 +16286,8 @@ fi
   echo "$as_me:$LINENO: result: $gdb_cv_have_struct_link_map_with_l_members" >&5
 echo "${ECHO_T}$gdb_cv_have_struct_link_map_with_l_members" >&6
   if test $gdb_cv_have_struct_link_map_with_l_members = yes; then
-    cat >>confdefs.h <<\_ACEOF
+
+cat >>confdefs.h <<\_ACEOF
 #define HAVE_STRUCT_LINK_MAP_WITH_L_MEMBERS 1
 _ACEOF
 
@@ -16265,7 +16350,8 @@ fi
   echo "$as_me:$LINENO: result: $gdb_cv_have_struct_link_map_with_lm_members" >&5
 echo "${ECHO_T}$gdb_cv_have_struct_link_map_with_lm_members" >&6
   if test $gdb_cv_have_struct_link_map_with_lm_members = yes; then
-    cat >>confdefs.h <<\_ACEOF
+
+cat >>confdefs.h <<\_ACEOF
 #define HAVE_STRUCT_LINK_MAP_WITH_LM_MEMBERS 1
 _ACEOF
 
@@ -16331,7 +16417,8 @@ fi
   echo "$as_me:$LINENO: result: $gdb_cv_have_struct_so_map_with_som_members" >&5
 echo "${ECHO_T}$gdb_cv_have_struct_so_map_with_som_members" >&6
   if test $gdb_cv_have_struct_so_map_with_som_members = yes; then
-    cat >>confdefs.h <<\_ACEOF
+
+cat >>confdefs.h <<\_ACEOF
 #define HAVE_STRUCT_SO_MAP_WITH_SOM_MEMBERS 1
 _ACEOF
 
@@ -16394,11 +16481,13 @@ fi
   echo "$as_me:$LINENO: result: $gdb_cv_have_struct_link_map32" >&5
 echo "${ECHO_T}$gdb_cv_have_struct_link_map32" >&6
   if test $gdb_cv_have_struct_link_map32 = yes; then
-    cat >>confdefs.h <<\_ACEOF
+
+cat >>confdefs.h <<\_ACEOF
 #define HAVE_STRUCT_LINK_MAP32 1
 _ACEOF
 
-    cat >>confdefs.h <<\_ACEOF
+
+cat >>confdefs.h <<\_ACEOF
 #define _SYSCALL32 1
 _ACEOF
 
@@ -16796,7 +16885,8 @@ echo $ECHO_N "checking for HPUX/OSF thread support... $ECHO_C" >&6
          if test "$GCC" = "yes" ; then
             echo "$as_me:$LINENO: result: yes" >&5
 echo "${ECHO_T}yes" >&6
-            cat >>confdefs.h <<\_ACEOF
+
+cat >>confdefs.h <<\_ACEOF
 #define HAVE_HPUX_THREAD_SUPPORT 1
 _ACEOF
 
@@ -16821,7 +16911,8 @@ echo $ECHO_N "checking for Solaris thread debugging library... $ECHO_C" >&6
       if test -f /usr/lib/libthread_db.so.1 ; then
          echo "$as_me:$LINENO: result: yes" >&5
 echo "${ECHO_T}yes" >&6
-         cat >>confdefs.h <<\_ACEOF
+
+cat >>confdefs.h <<\_ACEOF
 #define HAVE_THREAD_DB_LIB 1
 _ACEOF
 
@@ -17024,7 +17115,8 @@ fi
 	 echo "$as_me:$LINENO: result: $gdb_cv_proc_service_is_old" >&5
 echo "${ECHO_T}$gdb_cv_proc_service_is_old" >&6
 	 if test $gdb_cv_proc_service_is_old = yes; then
-	    cat >>confdefs.h <<\_ACEOF
+
+cat >>confdefs.h <<\_ACEOF
 #define PROC_SERVICE_IS_OLD 1
 _ACEOF
 
@@ -18811,7 +18903,8 @@ if test "${ignore_sim}" = "true"; then
 else
     IGNORE_SIM=""
     IGNORE_SIM_OBS=""
-    cat >>confdefs.h <<\_ACEOF
+
+cat >>confdefs.h <<\_ACEOF
 #define WITH_SIM 1
 _ACEOF
 
@@ -18974,7 +19067,8 @@ if test "${hostfile}" != ""; then
     esac
     files="${files} ${GDB_XM_FILE}"
     links="${links} xm.h"
-    cat >>confdefs.h <<_ACEOF
+
+cat >>confdefs.h <<_ACEOF
 #define GDB_XM_FILE "${GDB_XM_FILE}"
 _ACEOF
 
@@ -18991,7 +19085,8 @@ if test "${targetfile}" != ""; then
     esac
     files="${files} ${GDB_TM_FILE}"
     links="${links} tm.h"
-    cat >>confdefs.h <<_ACEOF
+
+cat >>confdefs.h <<_ACEOF
 #define GDB_TM_FILE "${GDB_TM_FILE}"
 _ACEOF
 
@@ -19008,7 +19103,8 @@ if test "${nativefile}" != ""; then
     esac
     files="${files} ${GDB_NM_FILE}"
     links="${links} nm.h"
-    cat >>confdefs.h <<_ACEOF
+
+cat >>confdefs.h <<_ACEOF
 #define GDB_NM_FILE "${GDB_NM_FILE}"
 _ACEOF
 

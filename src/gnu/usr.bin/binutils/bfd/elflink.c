@@ -1,4 +1,4 @@
-/* $MirOS: src/gnu/usr.bin/binutils/bfd/elflink.c,v 1.3 2005/03/28 21:51:05 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/binutils/bfd/elflink.c,v 1.4 2005/06/05 21:23:58 tg Exp $ */
 
 /* ELF linking support for BFD.
    Copyright 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005
@@ -29,7 +29,7 @@
 #include "safe-ctype.h"
 #include "libiberty.h"
 
-__RCSID("$MirOS: src/gnu/usr.bin/binutils/bfd/elflink.c,v 1.3 2005/03/28 21:51:05 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/binutils/bfd/elflink.c,v 1.4 2005/06/05 21:23:58 tg Exp $");
 
 bfd_boolean
 _bfd_elf_create_got_section (bfd *abfd, struct bfd_link_info *info)
@@ -1192,8 +1192,8 @@ _bfd_elf_merge_symbol (bfd *abfd,
   /* Handle the special case of an old common symbol merging with a
      new symbol which looks like a common symbol in a shared object.
      We change *PSEC and *PVALUE to make the new symbol look like a
-     common symbol, and let _bfd_generic_link_add_one_symbol will do
-     the right thing.  */
+     common symbol, and let _bfd_generic_link_add_one_symbol do the
+     right thing.  */
 
   if (newdyncommon
       && h->root.type == bfd_link_hash_common)
@@ -8748,6 +8748,7 @@ _bfd_elf_gc_mark (struct bfd_link_info *info,
 		  gc_mark_hook_fn gc_mark_hook)
 {
   bfd_boolean ret;
+  bfd_boolean is_eh;
   asection *group_sec;
 
   sec->gc_mark = 1;
@@ -8760,6 +8761,7 @@ _bfd_elf_gc_mark (struct bfd_link_info *info,
 
   /* Look through the section relocs.  */
   ret = TRUE;
+  is_eh = strcmp (sec->name, ".eh_frame") == 0;
   if ((sec->flags & SEC_RELOC) != 0 && sec->reloc_count > 0)
     {
       Elf_Internal_Rela *relstart, *rel, *relend;
@@ -8836,6 +8838,8 @@ _bfd_elf_gc_mark (struct bfd_link_info *info,
 	    {
 	      if (bfd_get_flavour (rsec->owner) != bfd_target_elf_flavour)
 		rsec->gc_mark = 1;
+	      else if (is_eh)
+		rsec->gc_mark_from_eh = 1;
 	      else if (!_bfd_elf_gc_mark (info, rsec, gc_mark_hook))
 		{
 		  ret = FALSE;
@@ -8906,6 +8910,41 @@ elf_gc_sweep (struct bfd_link_info *info, gc_sweep_hook_fn gc_sweep_hook)
 	  if (o->gc_mark)
 	    continue;
 
+	  /* Keep .gcc_except_table.* if the associated .text.* is
+	     marked.  This isn't very nice, but the proper solution,
+	     splitting .eh_frame up and using comdat doesn't pan out 
+	     easily due to needing special relocs to handle the
+	     difference of two symbols in separate sections.
+	     Don't keep code sections referenced by .eh_frame.  */
+	  if (o->gc_mark_from_eh && (o->flags & SEC_CODE) == 0)
+	    {
+	      if (strncmp (o->name, ".gcc_except_table.", 18) == 0)
+		{
+		  unsigned long len;
+		  char *fn_name;
+		  asection *fn_text;
+
+		  len = strlen (o->name + 18) + 1;
+		  fn_name = bfd_malloc (len + 6);
+		  if (fn_name == NULL)
+		    return FALSE;
+		  memcpy (fn_name, ".text.", 6);
+		  memcpy (fn_name + 6, o->name + 18, len);
+		  fn_text = bfd_get_section_by_name (sub, fn_name);
+		  free (fn_name);
+		  if (fn_text != NULL && fn_text->gc_mark)
+		    o->gc_mark = 1;
+		}
+
+	      /* If not using specially named exception table section,
+		 then keep whatever we are using.  */
+	      else
+		o->gc_mark = 1;
+
+	      if (o->gc_mark)
+		continue;
+	    }
+
 	  /* Skip sweeping sections already excluded.  */
 	  if (o->flags & SEC_EXCLUDE)
 	    continue;
@@ -8917,7 +8956,9 @@ elf_gc_sweep (struct bfd_link_info *info, gc_sweep_hook_fn gc_sweep_hook)
 	  /* But we also have to update some of the relocation
 	     info we collected before.  */
 	  if (gc_sweep_hook
-	      && (o->flags & SEC_RELOC) && o->reloc_count > 0)
+	      && (o->flags & SEC_RELOC) != 0
+	      && o->reloc_count > 0
+	      && !bfd_is_abs_section (o->output_section))
 	    {
 	      Elf_Internal_Rela *internal_relocs;
 	      bfd_boolean r;
@@ -9082,27 +9123,6 @@ elf_gc_mark_dynamic_ref_symbol (struct elf_link_hash_entry *h,
   return TRUE;
 }
 
-/* Mark sections containing global symbols.  This is called through
-   elf_link_hash_traverse.  */
-
-static bfd_boolean
-elf_mark_used_section (struct elf_link_hash_entry *h,
-		       void *data ATTRIBUTE_UNUSED)
-{
-  if (h->root.type == bfd_link_hash_warning)
-    h = (struct elf_link_hash_entry *) h->root.u.i.link;
-
-  if (h->root.type == bfd_link_hash_defined
-      || h->root.type == bfd_link_hash_defweak)
-    {
-      asection *s = h->root.u.def.section;
-      if (s != NULL && s->output_section != NULL)
-	s->output_section->flags |= SEC_KEEP;
-    }
-
-  return TRUE;
-}
-
 /* Do mark and sweep of unused sections.  */
 
 bfd_boolean
@@ -9115,15 +9135,7 @@ bfd_elf_gc_sections (bfd *abfd, struct bfd_link_info *info)
      struct elf_link_hash_entry *h, Elf_Internal_Sym *);
 
   if (!info->gc_sections)
-    {
-      /* If we are called when info->gc_sections is 0, we will mark
-	 all sections containing global symbols for non-relocatable
-	 link.  */
-      if (!info->relocatable)
-	elf_link_hash_traverse (elf_hash_table (info),
-				elf_mark_used_section, NULL);
-      return TRUE;
-    }
+    return bfd_generic_gc_sections (abfd, info);
 
   if (!get_elf_backend_data (abfd)->can_gc_sections
       || info->relocatable
@@ -9167,18 +9179,9 @@ bfd_elf_gc_sections (bfd *abfd, struct bfd_link_info *info)
 	continue;
 
       for (o = sub->sections; o != NULL; o = o->next)
-	{
-	  if (o->flags & SEC_KEEP)
-	    {
-	      /* _bfd_elf_discard_section_eh_frame knows how to discard
-		 orphaned FDEs so don't mark sections referenced by the
-		 EH frame section.  */
-	      if (strcmp (o->name, ".eh_frame") == 0)
-		o->gc_mark = 1;
-	      else if (!_bfd_elf_gc_mark (info, o, gc_mark_hook))
-		return FALSE;
-	    }
-	}
+	if ((o->flags & SEC_KEEP) != 0 && !o->gc_mark)
+	  if (!_bfd_elf_gc_mark (info, o, gc_mark_hook))
+	    return FALSE;
     }
 
   /* ... and mark SEC_EXCLUDE for those that go.  */
@@ -9836,10 +9839,11 @@ _bfd_elf_section_already_linked (bfd *abfd, struct bfd_section * sec)
 }
 
 static void
-bfd_elf_set_symbol (struct elf_link_hash_entry *h, bfd_vma val)
+bfd_elf_set_symbol (struct elf_link_hash_entry *h, bfd_vma val,
+		    struct bfd_section *s)
 {
   h->root.type = bfd_link_hash_defined;
-  h->root.u.def.section = bfd_abs_section_ptr;
+  h->root.u.def.section = s ? s : bfd_abs_section_ptr;
   h->root.u.def.value = val;
   h->def_regular = 1;
   h->type = STT_OBJECT;
@@ -9847,23 +9851,24 @@ bfd_elf_set_symbol (struct elf_link_hash_entry *h, bfd_vma val)
   h->forced_local = 1;
 }
 
-/* Set NAME to VAL if the symbol exists and is undefined.  */
+/* Set NAME to VAL if the symbol exists and is not defined in a regular
+   object file.  If S is NULL it is an absolute symbol, otherwise it is
+   relative to that section.  */
 
 void
 _bfd_elf_provide_symbol (struct bfd_link_info *info, const char *name,
-			 bfd_vma val)
+			 bfd_vma val, struct bfd_section *s)
 {
   struct elf_link_hash_entry *h;
 
   h = elf_link_hash_lookup (elf_hash_table (info), name, FALSE, FALSE,
 			    FALSE);
-  if (h != NULL && (h->root.type == bfd_link_hash_undefined
-		    || h->root.type == bfd_link_hash_undefweak))
-    bfd_elf_set_symbol (h, val);
+  if (h != NULL && !h->def_regular)
+    bfd_elf_set_symbol (h, val, s);
 }
 
-/* Set START and END to boundaries of SEC if they exist and are
-   undefined.  */
+/* Set START and END to boundaries of SEC if they exist and are not
+   defined in regular object files.  */
 
 void
 _bfd_elf_provide_section_bound_symbols (struct bfd_link_info *info,
@@ -9878,15 +9883,11 @@ _bfd_elf_provide_section_bound_symbols (struct bfd_link_info *info,
   /* Check if we need them or not first.  */
   hs = elf_link_hash_lookup (elf_hash_table (info), start, FALSE,
 			     FALSE, FALSE);
-  do_start = (hs != NULL
-	      && (hs->root.type == bfd_link_hash_undefined
-		  || hs->root.type == bfd_link_hash_undefweak));
+  do_start = hs != NULL && !hs->def_regular;
 
   he = elf_link_hash_lookup (elf_hash_table (info), end, FALSE,
 			     FALSE, FALSE);
-  do_end = (he != NULL
-	    && (he->root.type == bfd_link_hash_undefined
-		|| he->root.type == bfd_link_hash_undefweak));
+  do_end = he != NULL && !he->def_regular;
 
   if (!do_start && !do_end)
     return;
@@ -9912,8 +9913,8 @@ _bfd_elf_provide_section_bound_symbols (struct bfd_link_info *info,
     }
 
   if (do_start)
-    bfd_elf_set_symbol (hs, start_val);
+    bfd_elf_set_symbol (hs, start_val, NULL);
 
   if (do_end)
-    bfd_elf_set_symbol (he, end_val);
+    bfd_elf_set_symbol (he, end_val, NULL);
 }

@@ -217,7 +217,7 @@ CODE_FRAGMENT
 #undef obj_symbols
 #include "elf-bfd.h"
 
-__RCSID("$MirOS: src/gnu/usr.bin/binutils/bfd/bfd.c,v 1.3 2005/03/28 21:51:01 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/binutils/bfd/bfd.c,v 1.4 2005/06/05 21:23:53 tg Exp $");
 
 /* provide storage for subsystem, stack and heap data which may have been
    passed in on the command line.  Ld puts this data into a bfd_link_info
@@ -1162,6 +1162,10 @@ DESCRIPTION
 .#define bfd_find_nearest_line(abfd, sec, syms, off, file, func, line) \
 .       BFD_SEND (abfd, _bfd_find_nearest_line, \
 .                 (abfd, sec, syms, off, file, func, line))
+.
+.#define bfd_find_line(abfd, syms, sym, file, line) \
+.       BFD_SEND (abfd, _bfd_find_line, \
+.                 (abfd, syms, sym, file, line))
 .
 .#define bfd_find_inliner_info(abfd, file, func, line) \
 .       BFD_SEND (abfd, _bfd_find_inliner_info, \

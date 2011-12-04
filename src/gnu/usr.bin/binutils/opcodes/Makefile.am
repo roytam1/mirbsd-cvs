@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.bin/binutils/opcodes/Makefile.am,v 1.3 2005/03/28 21:56:59 tg Exp $
+# $MirOS: src/gnu/usr.bin/binutils/opcodes/Makefile.am,v 1.4 2005/06/05 21:24:48 tg Exp $
 
 ## Process this file with automake to generate Makefile.in
 
@@ -24,7 +24,6 @@ BFD_H = ../bfd/bfd.h
 
 # Header files.
 HFILES = \
-	arm-opc.h \
 	fr30-desc.h fr30-opc.h \
 	frv-desc.h frv-opc.h \
 	h8500-opc.h \
@@ -34,6 +33,7 @@ HFILES = \
 	iq2000-desc.h iq2000-opc.h \
 	m32r-desc.h m32r-opc.h \
 	mcore-opc.h \
+	ms1-desc.h ms1-opc.h \
 	openrisc-desc.h openrisc-opc.h \
 	sh-opc.h \
 	sh64-opc.h \
@@ -127,6 +127,11 @@ CFILES = \
 	m10300-opc.c \
 	mmix-dis.c \
 	mmix-opc.c \
+	ms1-asm.c \
+	ms1-desc.c \
+	ms1-dis.c \
+	ms1-ibld.c \
+	ms1-opc.c \
 	ns32k-dis.c \
 	openrisc-asm.c \
 	openrisc-desc.c \
@@ -241,6 +246,11 @@ ALL_MACHINES = \
 	mips16-opc.lo \
 	mmix-dis.lo \
 	mmix-opc.lo \
+	ms1-asm.lo \
+	ms1-desc.lo \
+	ms1-dis.lo \
+	ms1-ibld.lo \
+	ms1-opc.lo \
 	msp430-dis.lo \
 	ns32k-dis.lo \
 	openrisc-asm.lo \
@@ -339,7 +349,7 @@ uninstall_libopcodes:
 
 CLEANFILES = \
 	stamp-ip2k stamp-m32r stamp-fr30 stamp-frv stamp-openrisc \
-	stamp-iq2000 stamp-xstormy16 \
+	stamp-iq2000 stamp-ms1 stamp-xstormy16 \
 	libopcodes.a stamp-lib dep.sed DEP DEPA DEP1 DEP2
 
 
@@ -355,13 +365,14 @@ CGENDEPS = \
 	$(CGENDIR)/opc-opinst.scm \
 	cgen-asm.in cgen-dis.in cgen-ibld.in
 
-CGEN_CPUS = fr30 frv ip2k m32r openrisc xstormy16
+CGEN_CPUS = fr30 frv ip2k m32r ms1 openrisc xstormy16
 
 if CGEN_MAINT
 IP2K_DEPS = stamp-ip2k
 M32R_DEPS = stamp-m32r
 FR30_DEPS = stamp-fr30
 FRV_DEPS = stamp-frv
+MS1_DEPS = stamp-ms1
 OPENRISC_DEPS = stamp-openrisc
 IQ2000_DEPS = stamp-iq2000
 XSTORMY16_DEPS = stamp-xstormy16
@@ -370,6 +381,7 @@ IP2K_DEPS =
 M32R_DEPS =
 FR30_DEPS =
 FRV_DEPS =
+MS1_DEPS =
 OPENRISC_DEPS = 
 IQ2000_DEPS = 
 XSTORMY16_DEPS = 
@@ -399,9 +411,10 @@ stamp-ip2k: $(CGENDEPS) $(CPUDIR)/ip2k.cpu $(CPUDIR)/ip2k.opc
 
 $(srcdir)/m32r-desc.h $(srcdir)/m32r-desc.c $(srcdir)/m32r-opc.h $(srcdir)/m32r-opc.c $(srcdir)/m32r-ibld.c $(srcdir)/m32r-opinst.c $(srcdir)/m32r-asm.c $(srcdir)/m32r-dis.c: $(M32R_DEPS)
 	@true
-stamp-m32r: $(CGENDEPS) $(CPUDIR)/m32r.cpu $(CPUDIR)/m32r.opc
+stamp-m32r: $(CGENDEPS) $(srcdir)/../cpu/m32r.cpu $(srcdir)/../cpu/m32r.opc
 	$(MAKE) run-cgen arch=m32r prefix=m32r options=opinst \
-		archfile=$(CPUDIR)/m32r.cpu opcfile=$(CPUDIR)/m32r.opc extrafiles=opinst
+		archfile=$(srcdir)/../cpu/m32r.cpu \
+		opcfile=$(srcdir)/../cpu/m32r.opc extrafiles=opinst
 
 $(srcdir)/fr30-desc.h $(srcdir)/fr30-desc.c $(srcdir)/fr30-opc.h $(srcdir)/fr30-opc.c $(srcdir)/fr30-ibld.c $(srcdir)/fr30-asm.c $(srcdir)/fr30-dis.c: $(FR30_DEPS)
 	@true
@@ -411,11 +424,16 @@ stamp-fr30: $(CGENDEPS) $(CPUDIR)/fr30.cpu $(CPUDIR)/fr30.opc
 
 $(srcdir)/frv-desc.h $(srcdir)/frv-desc.c $(srcdir)/frv-opc.h $(srcdir)/frv-opc.c $(srcdir)/frv-ibld.c $(srcdir)/frv-asm.c $(srcdir)/frv-dis.c: $(FRV_DEPS)
 	@true
-# .cpu and .opc files for frv are kept in a different directory, but cgen has no switch to specify that location, so
-# copy those file to the regular place.
 stamp-frv: $(CGENDEPS) $(srcdir)/../cpu/frv.cpu $(srcdir)/../cpu/frv.opc
 	$(MAKE) run-cgen arch=frv prefix=frv options= \
 		archfile=$(srcdir)/../cpu/frv.cpu opcfile=$(srcdir)/../cpu/frv.opc extrafiles=
+
+$(srcdir)/ms1-desc.h $(srcdir)/ms1-desc.c $(srcdir)/ms1-opc.h $(srcdir)/ms1-opc.c $(srcdir)/ms1-ibld.c $(srcdir)/ms1-asm.c $(srcdir)/ms1-dis.c: $(MS1_DEPS)
+	@true
+stamp-ms1: $(CGENDEPS) $(srcdir)/../cpu/ms1.cpu $(srcdir)/../cpu/ms1.opc
+	$(MAKE) run-cgen arch=ms1 prefix=ms1 options= \
+		archfile=$(srcdir)/../cpu/ms1.cpu \
+		opcfile=$(srcdir)/../cpu/ms1.opc extrafiles=
 
 $(srcdir)/openrisc-desc.h $(srcdir)/openrisc-desc.c $(srcdir)/openrisc-opc.h $(srcdir)/openrisc-opc.c $(srcdir)/openrisc-ibld.c $(srcdir)/openrisc-asm.c $(srcdir)/openrisc-dis.c: $(OPENRISC_DEPS)
 	@true
@@ -425,10 +443,12 @@ stamp-openrisc: $(CGENDEPS) $(CPUDIR)/openrisc.cpu $(CPUDIR)/openrisc.opc
 
 $(srcdir)/iq2000-desc.h $(srcdir)/iq2000-desc.c $(srcdir)/iq2000-opc.h $(srcdir)/iq2000-opc.c $(srcdir)/iq2000-ibld.c $(srcdir)/iq2000-asm.c $(srcdir)/iq2000-dis.c: $(IQ2000_DEPS)
 	@true
-stamp-iq2000: $(CGENDEPS) $(CPUDIR)/iq2000.cpu $(CPUDIR)/iq2000.opc \
-	$(CPUDIR)/iq2000m.cpu $(CPUDIR)/iq10.cpu
+stamp-iq2000: $(CGENDEPS) $(srcdir)/../cpu/iq2000.cpu \
+		$(srcdir)/../cpu/iq2000.opc $(srcdir)/../cpu/iq2000m.cpu \
+		$(srcdir)/../cpu/iq10.cpu
 	$(MAKE) run-cgen arch=iq2000 prefix=iq2000 options= \
-		archfile=$(CPUDIR)/iq2000.cpu opcfile=$(CPUDIR)/iq2000.opc extrafiles=
+		archfile=$(srcdir)/../cpu/iq2000.cpu \
+		opcfile=$(srcdir)/../cpu/iq2000.opc extrafiles=
 
 $(srcdir)/xstormy16-desc.h $(srcdir)/xstormy16-desc.c $(srcdir)/xstormy16-opc.h $(srcdir)/xstormy16-opc.c $(srcdir)/xstormy16-ibld.c $(srcdir)/xstormy16-asm.c $(srcdir)/xstormy16-dis.c: $(XSTORMY16_DEPS)
 	@true
@@ -520,10 +540,10 @@ arc-ext.lo: arc-ext.c sysdep.h config.h $(INCDIR)/ansidecl.h \
   $(BFD_H) $(INCDIR)/symcat.h arc-ext.h $(INCDIR)/libiberty.h
 arm-dis.lo: arm-dis.c sysdep.h config.h $(INCDIR)/ansidecl.h \
   $(INCDIR)/dis-asm.h $(BFD_H) $(INCDIR)/symcat.h $(INCDIR)/opcode/arm.h \
-  arm-opc.h $(INCDIR)/coff/internal.h $(BFDDIR)/libcoff.h \
-  $(INCDIR)/bfdlink.h opintl.h $(INCDIR)/safe-ctype.h \
-  $(BFDDIR)/elf-bfd.h $(INCDIR)/elf/common.h $(INCDIR)/elf/internal.h \
-  $(INCDIR)/elf/external.h $(INCDIR)/elf/arm.h $(INCDIR)/elf/reloc-macros.h
+  opintl.h $(INCDIR)/safe-ctype.h $(INCDIR)/coff/internal.h \
+  $(BFDDIR)/libcoff.h $(INCDIR)/bfdlink.h $(BFDDIR)/elf-bfd.h \
+  $(INCDIR)/elf/common.h $(INCDIR)/elf/internal.h $(INCDIR)/elf/external.h \
+  $(INCDIR)/elf/arm.h $(INCDIR)/elf/reloc-macros.h
 avr-dis.lo: avr-dis.c sysdep.h config.h $(INCDIR)/ansidecl.h \
   $(INCDIR)/dis-asm.h $(BFD_H) $(INCDIR)/symcat.h opintl.h \
   $(INCDIR)/libiberty.h $(INCDIR)/opcode/avr.h
@@ -630,8 +650,8 @@ ia64-opc-i.lo: ia64-opc-i.c ia64-opc.h $(INCDIR)/opcode/ia64.h \
 ia64-opc-m.lo: ia64-opc-m.c ia64-opc.h $(INCDIR)/opcode/ia64.h \
   $(BFD_H) $(INCDIR)/ansidecl.h $(INCDIR)/symcat.h
 ia64-opc-d.lo: ia64-opc-d.c
-ia64-opc.lo: ia64-opc.c $(INCDIR)/ansidecl.h $(INCDIR)/libiberty.h \
-  sysdep.h config.h ia64-asmtab.h $(INCDIR)/opcode/ia64.h \
+ia64-opc.lo: ia64-opc.c $(INCDIR)/ansidecl.h sysdep.h \
+  config.h $(INCDIR)/libiberty.h ia64-asmtab.h $(INCDIR)/opcode/ia64.h \
   $(BFD_H) $(INCDIR)/symcat.h ia64-asmtab.c
 ia64-gen.lo: ia64-gen.c $(INCDIR)/ansidecl.h $(INCDIR)/libiberty.h \
   $(INCDIR)/safe-ctype.h sysdep.h config.h $(INCDIR)/getopt.h \
@@ -734,6 +754,25 @@ mmix-dis.lo: mmix-dis.c $(INCDIR)/opcode/mmix.h $(INCDIR)/dis-asm.h \
   $(BFD_H) $(INCDIR)/ansidecl.h $(INCDIR)/symcat.h $(INCDIR)/libiberty.h \
   opintl.h
 mmix-opc.lo: mmix-opc.c $(INCDIR)/opcode/mmix.h $(INCDIR)/symcat.h
+ms1-asm.lo: ms1-asm.c sysdep.h config.h \
+  $(INCDIR)/ansidecl.h $(BFD_H) $(INCDIR)/symcat.h ms1-desc.h \
+  $(INCDIR)/opcode/cgen.h ms1-opc.h opintl.h $(INCDIR)/xregex.h \
+  $(INCDIR)/xregex2.h $(INCDIR)/libiberty.h $(INCDIR)/safe-ctype.h
+ms1-desc.lo: ms1-desc.c sysdep.h config.h \
+  $(INCDIR)/ansidecl.h $(BFD_H) $(INCDIR)/symcat.h ms1-desc.h \
+  $(INCDIR)/opcode/cgen.h ms1-opc.h opintl.h $(INCDIR)/libiberty.h \
+  $(INCDIR)/xregex.h $(INCDIR)/xregex2.h
+ms1-dis.lo: ms1-dis.c sysdep.h config.h \
+  $(INCDIR)/ansidecl.h $(INCDIR)/dis-asm.h $(BFD_H) $(INCDIR)/symcat.h \
+  $(INCDIR)/libiberty.h ms1-desc.h $(INCDIR)/opcode/cgen.h \
+  ms1-opc.h opintl.h
+ms1-ibld.lo: ms1-ibld.c sysdep.h config.h \
+  $(INCDIR)/ansidecl.h $(INCDIR)/dis-asm.h $(BFD_H) $(INCDIR)/symcat.h \
+  ms1-desc.h $(INCDIR)/opcode/cgen.h ms1-opc.h \
+  opintl.h $(INCDIR)/safe-ctype.h
+ms1-opc.lo: ms1-opc.c sysdep.h config.h \
+  $(INCDIR)/ansidecl.h $(BFD_H) $(INCDIR)/symcat.h ms1-desc.h \
+  $(INCDIR)/opcode/cgen.h ms1-opc.h $(INCDIR)/libiberty.h
 ns32k-dis.lo: ns32k-dis.c $(BFD_H) $(INCDIR)/ansidecl.h \
   $(INCDIR)/symcat.h sysdep.h config.h $(INCDIR)/dis-asm.h \
   $(INCDIR)/opcode/ns32k.h opintl.h

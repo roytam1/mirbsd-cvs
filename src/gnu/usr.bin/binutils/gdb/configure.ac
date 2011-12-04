@@ -1,4 +1,4 @@
-dnl $MirOS: src/gnu/usr.bin/binutils/gdb/configure.ac,v 1.2 2005/06/05 21:24:16 tg Exp $
+dnl $MirOS: src/gnu/usr.bin/binutils/gdb/configure.ac,v 1.3 2005/06/13 22:02:26 tg Exp $
 dnl
 dnl Autoconf configure script for GDB, the GNU debugger.
 dnl Copyright 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004
@@ -176,7 +176,7 @@ esac],[
 if test x"$enable_libunwind" = xyes; then
   AC_CHECK_HEADERS(libunwind.h)
   AC_CHECK_HEADERS(libunwind-ia64.h)
-  AC_DEFINE(HAVE_LIBUNWIND, 1)
+  AC_DEFINE(HAVE_LIBUNWIND, 1, [Define if libunwind library is being used.])
   CONFIG_OBS="$CONFIG_OBS libunwind-frame.o"
   CONFIG_DEPS="$CONFIG_DEPS libunwind-frame.o"
   CONFIG_SRCS="$CONFIG_SRCS libunwind-frame.c"
@@ -384,6 +384,11 @@ AC_CHECK_MEMBERS([struct stat.st_blksize])
 # ------------------ #
 
 AC_TYPE_SIGNAL
+AC_CHECK_TYPES(socklen_t, [], [],
+[#include <sys/types.h>
+#include <sys/socket.h>
+])
+AC_CHECK_TYPES(uintptr_t, [], [], [#include <stdint.h>])
 
 # ------------------------------------- #
 # Checks for compiler characteristics.  #
@@ -575,7 +580,8 @@ AC_CACHE_VAL(gdb_cv_have_ptrace_getregs,
 		[gdb_cv_have_ptrace_getregs=no])])
 AC_MSG_RESULT($gdb_cv_have_ptrace_getregs)
 if test $gdb_cv_have_ptrace_getregs = yes; then
-  AC_DEFINE(HAVE_PTRACE_GETREGS)
+  AC_DEFINE(HAVE_PTRACE_GETREGS, 1, 
+  [Define if sys/ptrace.h defines the PTRACE_GETREGS request.])
 fi
 
 # See if <sys/ptrace.h> provides the PTRACE_GETFPXREGS request.
@@ -587,7 +593,8 @@ AC_CACHE_VAL(gdb_cv_have_ptrace_getfpxregs,
 		[gdb_cv_have_ptrace_getfpxregs=no])])
 AC_MSG_RESULT($gdb_cv_have_ptrace_getfpxregs)
 if test $gdb_cv_have_ptrace_getfpxregs = yes; then
-  AC_DEFINE(HAVE_PTRACE_GETFPXREGS)
+  AC_DEFINE(HAVE_PTRACE_GETFPXREGS, 1,
+  [Define if sys/ptrace.h defines the PTRACE_GETFPXREGS request.])
 fi
 
 # See if <sys/ptrace.h> provides the PT_GETDBREGS request.
@@ -600,7 +607,8 @@ AC_CACHE_VAL(gdb_cv_have_pt_getdbregs,
 		[gdb_cv_have_pt_getdbregs=no])])
 AC_MSG_RESULT($gdb_cv_have_pt_getdbregs)
 if test $gdb_cv_have_pt_getdbregs = yes; then
-  AC_DEFINE(HAVE_PT_GETDBREGS)
+  AC_DEFINE(HAVE_PT_GETDBREGS, 1,
+  [Define if sys/ptrace.h defines the PT_GETDBREGS request.])
 fi
 
 # See if <sys/ptrace.h> provides the PT_GETXMMREGS request.
@@ -613,19 +621,8 @@ AC_CACHE_VAL(gdb_cv_have_pt_getxmmregs,
 		[gdb_cv_have_pt_getxmmregs=no])])
 AC_MSG_RESULT($gdb_cv_have_pt_getxmmregs)
 if test $gdb_cv_have_pt_getxmmregs = yes; then
-  AC_DEFINE(HAVE_PT_GETXMMREGS)
-fi
-
-# See if stdint.h provides the uintptr_t type.
-# Autoconf 2.5X has an improved AC_CHECK_TYPE which will simplify this.
-AC_CACHE_CHECK([for uintptr_t in stdint.h], gdb_cv_have_uintptr_t,
-  [AC_TRY_COMPILE(
-    [#include <stdint.h>],
-    [uintptr_t foo = 0;],
-    gdb_cv_have_uintptr_t=yes,
-    gdb_cv_have_uintptr_t=no)])
-if test $gdb_cv_have_uintptr_t = yes; then
-  AC_DEFINE(HAVE_UINTPTR_T, 1, [Define if <stdint.h> provides the uintptr_t type.])
+  AC_DEFINE(HAVE_PT_GETXMMREGS, 1,
+  [Define if sys/ptrace.h defines the PT_GETXMMREGS request.])
 fi
 
 # If we are configured native on GNU/Linux, work around problems with
@@ -635,18 +632,26 @@ fi
 if test "${target}" = "${host}"; then
   case "${host}" in
   i[[3456]]86-*-linux*)
-	AC_DEFINE(START_INFERIOR_TRAPS_EXPECTED,2)
-	AC_DEFINE(sys_quotactl)
+	AC_DEFINE(START_INFERIOR_TRAPS_EXPECTED, 2,
+        [Define on a GNU/Linux system to work around problems in sys/procfs.h.])
+	AC_DEFINE(sys_quotactl, 1,
+        [Define on a GNU/Linux system to work around problems in sys/procfs.h.])
 	;;
   *-*-unixware* | *-*-sysv4.2* | *-*-sysv5* | *-*-interix* )
-      AC_DEFINE(NEW_PROC_API)
+      AC_DEFINE(NEW_PROC_API, 1,
+      [Define if you want to use new multi-fd /proc interface
+       (replaces HAVE_MULTIPLE_PROC_FDS as well as other macros).])
       ;;
   *-*-solaris2.[[6789]] | *-*-solaris2.1[[0-9]])
-      AC_DEFINE(NEW_PROC_API)
+      AC_DEFINE(NEW_PROC_API, 1,
+      [Define if you want to use new multi-fd /proc interface
+       (replaces HAVE_MULTIPLE_PROC_FDS as well as other macros).])
       ;;
   mips-sgi-irix5*)
       # Work around <sys/proc.h> needing _KMEMUSER problem on IRIX 5.
-      AC_DEFINE([_KMEMUSER], 1)
+      AC_DEFINE([_KMEMUSER], 1,
+      [Define to 1 so <sys/proc.h> gets a definition of anon_hdl.  Works
+       around a <sys/proc.h> problem on IRIX 5.])
       ;;
   esac
 fi
@@ -690,7 +695,8 @@ if test "$ac_cv_header_sys_procfs_h" = yes; then
        gdb_cv_prfpregset_t_broken=yes)])
     AC_MSG_RESULT($gdb_cv_prfpregset_t_broken)
     if test $gdb_cv_prfpregset_t_broken = yes; then
-      AC_DEFINE(PRFPREGSET_T_BROKEN)
+      AC_DEFINE(PRFPREGSET_T_BROKEN, 1,
+      [Define if the prfpregset_t type is broken.])
     fi
   fi
 
@@ -708,7 +714,8 @@ if test "$ac_cv_header_sys_procfs_h" = yes; then
   gdb_cv_have_procfs_piocset=yes, gdb_cv_have_procfs_piocset=no)])
   AC_MSG_RESULT($gdb_cv_have_procfs_piocset)
   if test $gdb_cv_have_procfs_piocset = yes; then
-    AC_DEFINE(HAVE_PROCFS_PIOCSET)
+    AC_DEFINE(HAVE_PROCFS_PIOCSET, 1,
+    [Define if ioctl argument PIOCSET is available.])
   fi
 fi
 
@@ -726,7 +733,10 @@ if test ${host} = ${target} ; then
                     gdb_cv_have_struct_link_map_with_l_members=no)])
   AC_MSG_RESULT($gdb_cv_have_struct_link_map_with_l_members)
   if test $gdb_cv_have_struct_link_map_with_l_members = yes; then
-    AC_DEFINE(HAVE_STRUCT_LINK_MAP_WITH_L_MEMBERS)
+    AC_DEFINE(HAVE_STRUCT_LINK_MAP_WITH_L_MEMBERS,1,
+    [Define if <link.h> exists and defines struct link_map which has
+     members with an ``l_'' prefix.  (For Solaris, SVR4, and
+     SVR4-like systems.)])
   fi
 
   dnl Check for struct link_map with lm_ members which are indicative
@@ -741,7 +751,9 @@ if test ${host} = ${target} ; then
                     gdb_cv_have_struct_link_map_with_lm_members=no)])
   AC_MSG_RESULT($gdb_cv_have_struct_link_map_with_lm_members)
   if test $gdb_cv_have_struct_link_map_with_lm_members = yes; then
-    AC_DEFINE(HAVE_STRUCT_LINK_MAP_WITH_LM_MEMBERS)
+    AC_DEFINE(HAVE_STRUCT_LINK_MAP_WITH_LM_MEMBERS, 1,
+    [Define if <link.h> exists and defines struct link_map which has
+     members with an ``lm_'' prefix.  (For SunOS.)])
   fi
 
   dnl Check for struct so_map with som_ members which are found on 
@@ -759,7 +771,9 @@ if test ${host} = ${target} ; then
                     gdb_cv_have_struct_so_map_with_som_members=no)])
   AC_MSG_RESULT($gdb_cv_have_struct_so_map_with_som_members)
   if test $gdb_cv_have_struct_so_map_with_som_members = yes; then
-    AC_DEFINE(HAVE_STRUCT_SO_MAP_WITH_SOM_MEMBERS)
+    AC_DEFINE(HAVE_STRUCT_SO_MAP_WITH_SOM_MEMBERS, 1,
+    [Define if <link.h> exists and defines a struct so_map which has
+     members with an ``som_'' prefix.  (Found on older *BSD systems.)])
   fi
 
   dnl Check for struct link_map32 type, which allows a 64-bit Solaris
@@ -773,8 +787,10 @@ if test ${host} = ${target} ; then
      gdb_cv_have_struct_link_map32=no)])
   AC_MSG_RESULT($gdb_cv_have_struct_link_map32)
   if test $gdb_cv_have_struct_link_map32 = yes; then
-    AC_DEFINE(HAVE_STRUCT_LINK_MAP32)
-    AC_DEFINE(_SYSCALL32)
+    AC_DEFINE(HAVE_STRUCT_LINK_MAP32, 1,
+    [Define if <sys/link.h> has struct link_map32])
+    AC_DEFINE(_SYSCALL32, 1,
+    [Define if <sys/link.h> has link_map32 (solaris sparc-64 target)])
   fi
 fi
 
@@ -893,7 +909,8 @@ if test ${build} = ${host} -a ${host} = ${target} ; then
       if test -f /usr/include/dce/cma_config.h ; then
          if test "$GCC" = "yes" ; then
             AC_MSG_RESULT(yes)
-            AC_DEFINE(HAVE_HPUX_THREAD_SUPPORT)
+            AC_DEFINE(HAVE_HPUX_THREAD_SUPPORT, 1,
+	    [Define if you have HPUX threads])
             CONFIG_OBS="${CONFIG_OBS} hpux-thread.o"
             CONFIG_SRCS="${CONFIG_SRCS} hpux-thread.c"
          else
@@ -911,7 +928,8 @@ if test ${build} = ${host} -a ${host} = ${target} ; then
       AC_MSG_CHECKING(for Solaris thread debugging library)
       if test -f /usr/lib/libthread_db.so.1 ; then
          AC_MSG_RESULT(yes)
-         AC_DEFINE(HAVE_THREAD_DB_LIB)
+         AC_DEFINE(HAVE_THREAD_DB_LIB, 1,
+         [Define if using Solaris thread debugging.])
          CONFIG_OBS="${CONFIG_OBS} sol-thread.o"
          CONFIG_SRCS="${CONFIG_SRCS} sol-thread.c"
          AC_CHECK_LIB(dl, dlopen)
@@ -941,7 +959,9 @@ if test ${build} = ${host} -a ${host} = ${target} ; then
 	 ])
 	 AC_MSG_RESULT($gdb_cv_proc_service_is_old)
 	 if test $gdb_cv_proc_service_is_old = yes; then
-	    AC_DEFINE(PROC_SERVICE_IS_OLD)
+	    AC_DEFINE(PROC_SERVICE_IS_OLD, 1,
+            [Define if <proc_service.h> on solaris uses int instead of
+             size_t, and assorted other type changes.])
 	 fi
       else
          AC_MSG_RESULT(no)
@@ -998,8 +1018,7 @@ if test "x$ac_cv_header_sys_syscall_h" = "xyes"; then
 fi
 dnl See if we can issue tkill syscall.
 if test "x$gdb_cv_sys_syscall_h_has_tkill" = "xyes" && test "x$ac_cv_func_syscall" = "xyes"; then
-  AC_DEFINE(HAVE_TKILL_SYSCALL, 1,
-            [Define if we can use the tkill syscall.])
+  AC_DEFINE(HAVE_TKILL_SYSCALL, 1, [Define if you support the tkill syscall.])
 fi
 
 dnl Handle optional features that can be enabled.
@@ -1321,7 +1340,7 @@ if test "${ignore_sim}" = "true"; then
 else
     IGNORE_SIM=""
     IGNORE_SIM_OBS=""
-    AC_DEFINE(WITH_SIM)
+    AC_DEFINE(WITH_SIM, 1, [Define if the simulator is being linked in.])
 fi
 AC_SUBST(IGNORE_SIM)
 AC_SUBST(IGNORE_SIM_OBS)
@@ -1444,7 +1463,7 @@ if test "${hostfile}" != ""; then
     esac
     files="${files} ${GDB_XM_FILE}"
     links="${links} xm.h"
-    AC_DEFINE_UNQUOTED(GDB_XM_FILE, "${GDB_XM_FILE}")
+    AC_DEFINE_UNQUOTED(GDB_XM_FILE, "${GDB_XM_FILE}", [hostfile])
 fi
 AC_SUBST(xm_h)
 
@@ -1458,7 +1477,7 @@ if test "${targetfile}" != ""; then
     esac
     files="${files} ${GDB_TM_FILE}"
     links="${links} tm.h"
-    AC_DEFINE_UNQUOTED(GDB_TM_FILE, "${GDB_TM_FILE}")
+    AC_DEFINE_UNQUOTED(GDB_TM_FILE, "${GDB_TM_FILE}", [targetfile])
 fi
 AC_SUBST(tm_h)
 
@@ -1472,7 +1491,7 @@ if test "${nativefile}" != ""; then
     esac
     files="${files} ${GDB_NM_FILE}"
     links="${links} nm.h"
-    AC_DEFINE_UNQUOTED(GDB_NM_FILE, "${GDB_NM_FILE}")
+    AC_DEFINE_UNQUOTED(GDB_NM_FILE, "${GDB_NM_FILE}", [nativefile])
 fi
 AC_SUBST(nm_h)
 

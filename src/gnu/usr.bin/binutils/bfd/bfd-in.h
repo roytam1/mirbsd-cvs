@@ -1,4 +1,4 @@
-/* $MirOS: src/gnu/usr.bin/binutils/bfd/bfd-in.h,v 1.3 2005/03/28 21:50:59 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/binutils/bfd/bfd-in.h,v 1.4 2005/06/05 21:23:51 tg Exp $ */
 
 /* Main header file for the bfd library -- portable access to object files.
 
@@ -139,6 +139,9 @@ typedef unsigned long bfd_size_type;
 #define sprintf_vma(s,x) sprintf (s, "%08lx", x)
 
 #endif /* not BFD64  */
+
+#define HALF_BFD_SIZE_TYPE \
+  (((bfd_size_type) 1) << (8 * sizeof (bfd_size_type) / 2))
 
 #ifndef BFD_HOST_64_BIT
 /* Fall back on a 32 bit type.  The idea is to make these types always
@@ -702,7 +705,7 @@ extern struct bfd_section *_bfd_elf_tls_setup
   (bfd *, struct bfd_link_info *);
 
 extern void _bfd_elf_provide_symbol
-  (struct bfd_link_info *, const char *, bfd_vma);
+  (struct bfd_link_info *, const char *, bfd_vma, struct bfd_section *);
 
 extern void _bfd_elf_provide_section_bound_symbols
   (struct bfd_link_info *, struct bfd_section *sec, const char *, const char *);

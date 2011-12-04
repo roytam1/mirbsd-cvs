@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.bin/binutils/gas/Makefile.am,v 1.4 2005/04/14 19:04:39 tg Exp $
+# $MirOS: src/gnu/usr.bin/binutils/gas/Makefile.am,v 1.5 2005/06/05 21:24:11 tg Exp $
 
 ## Process this file with automake to generate Makefile.in
 
@@ -2393,7 +2393,7 @@ BMKDEP = #DO NOT PUT ANYTHING BETWEEN THIS LINE AND THE MATCHING WARNING ABOVE.
 #MKDEP    DO NOT PUT ANYTHING BETWEEN THIS LINE AND THE MATCHING WARNING BELOW.
 app.o: app.c $(INCDIR)/symcat.h
 as.o: as.c $(INCDIR)/symcat.h subsegs.h $(INCDIR)/obstack.h \
-  output-file.h sb.h macro.h dwarf2dbg.h dw2gencfi.h hash.h \
+  output-file.h sb.h macro.h dwarf2dbg.h dw2gencfi.h \
   $(INCDIR)/elf/dwarf2.h $(BFDVER_H)
 atof-generic.o: atof-generic.c $(INCDIR)/symcat.h $(INCDIR)/safe-ctype.h
 cond.o: cond.c $(INCDIR)/symcat.h macro.h sb.h $(INCDIR)/obstack.h
@@ -2428,7 +2428,7 @@ output-file.o: output-file.c $(INCDIR)/symcat.h output-file.h
 read.o: read.c $(INCDIR)/symcat.h $(INCDIR)/safe-ctype.h \
   subsegs.h $(INCDIR)/obstack.h sb.h macro.h ecoff.h \
   dw2gencfi.h $(INCDIR)/elf/dwarf2.h
-sb.o: sb.c sb.h
+sb.o: sb.c sb.h $(INCDIR)/symcat.h
 stabs.o: stabs.c $(INCDIR)/symcat.h $(INCDIR)/obstack.h \
   subsegs.h ecoff.h $(INCDIR)/aout/stab_gnu.h $(INCDIR)/aout/stab.def
 subsegs.o: subsegs.c $(INCDIR)/symcat.h subsegs.h $(INCDIR)/obstack.h

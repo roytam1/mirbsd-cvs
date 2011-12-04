@@ -1,27 +1,27 @@
 /* Disassembler interface for targets using CGEN. -*- C -*-
    CGEN: Cpu tools GENerator
 
-THIS FILE IS MACHINE GENERATED WITH CGEN.
-- the resultant file is machine generated, cgen-dis.in isn't
+   THIS FILE IS MACHINE GENERATED WITH CGEN.
+   - the resultant file is machine generated, cgen-dis.in isn't
 
-Copyright 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2005
-Free Software Foundation, Inc.
+   Copyright 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2005
+   Free Software Foundation, Inc.
 
-This file is part of the GNU Binutils and GDB, the GNU debugger.
+   This file is part of the GNU Binutils and GDB, the GNU debugger.
 
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2, or (at your option)
-any later version.
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2, or (at your option)
+   any later version.
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software Foundation, Inc.,
-51 Franklin Street - Fifth Floor, Boston, MA 02110-1301, USA.  */
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software Foundation, Inc.,
+   51 Franklin Street - Fifth Floor, Boston, MA 02110-1301, USA.  */
 
 /* ??? Eventually more and more of this stuff can go to cpu-independent files.
    Keep that in mind.  */
@@ -52,30 +52,17 @@ static int read_insn
   (CGEN_CPU_DESC, bfd_vma, disassemble_info *, bfd_byte *, int, CGEN_EXTRACT_INFO *,
    unsigned long *);
 
-/* -- disassembler routines inserted here */
+/* -- disassembler routines inserted here.  */
 
 /* -- dis.c */
 
-#define PRINT_FUNC_DECL(name) \
-static void name PARAMS ((CGEN_CPU_DESC, PTR, long, unsigned int, bfd_vma, int))
-
-PRINT_FUNC_DECL (print_fr);
-PRINT_FUNC_DECL (print_dollarhex);
-PRINT_FUNC_DECL (print_dollarhex8);
-PRINT_FUNC_DECL (print_dollarhex_addr16h);
-PRINT_FUNC_DECL (print_dollarhex_addr16l);
-PRINT_FUNC_DECL (print_dollarhex_p);
-PRINT_FUNC_DECL (print_dollarhex_cj);
-PRINT_FUNC_DECL (print_decimal);
-
 static void
-print_fr (cd, dis_info, value, attrs, pc, length)
-     CGEN_CPU_DESC cd ATTRIBUTE_UNUSED;
-     PTR dis_info;
-     long value;
-     unsigned int attrs ATTRIBUTE_UNUSED;
-     bfd_vma pc ATTRIBUTE_UNUSED;
-     int length ATTRIBUTE_UNUSED;
+print_fr (CGEN_CPU_DESC cd ATTRIBUTE_UNUSED,
+	  void * dis_info,
+	  long value,
+	  unsigned int attrs ATTRIBUTE_UNUSED,
+	  bfd_vma pc ATTRIBUTE_UNUSED,
+	  int length ATTRIBUTE_UNUSED)
 {
   disassemble_info *info = (disassemble_info *) dis_info;
   const CGEN_KEYWORD_ENTRY *ke;
@@ -83,7 +70,7 @@ print_fr (cd, dis_info, value, attrs, pc, length)
   long offsettest;
   long offsetvalue;
 
-  if ( value == 0 ) /* This is (IP) */
+  if (value == 0) /* This is (IP).  */
     {
       (*info->fprintf_func) (info->stream, "%s", "(IP)");
       return;
@@ -92,46 +79,43 @@ print_fr (cd, dis_info, value, attrs, pc, length)
   offsettest = value >> 7;
   offsetvalue = value & 0x7F;
 
-  /* Check to see if first two bits are 10 -> (DP) */
-  if ( offsettest == 2 )
+  /* Check to see if first two bits are 10 -> (DP).  */
+  if (offsettest == 2)
     {
-      if ( offsetvalue == 0 )
+      if (offsetvalue == 0)
 	(*info->fprintf_func) (info->stream, "%s","(DP)");
       else
 	(*info->fprintf_func) (info->stream, "$%x%s",offsetvalue, "(DP)");
       return;
     }
 
-  /* Check to see if first two bits are 11 -> (SP) */
-  if ( offsettest == 3 )
+  /* Check to see if first two bits are 11 -> (SP).  */
+  if (offsettest == 3)
     {
-      if ( offsetvalue == 0 )
+      if (offsetvalue == 0)
 	(*info->fprintf_func) (info->stream, "%s", "(SP)");
       else
 	(*info->fprintf_func) (info->stream, "$%x%s", offsetvalue,"(SP)");
       return;
     }
 
-  /* Attempt to print as a register keyword. */
+  /* Attempt to print as a register keyword.  */
   ke = cgen_keyword_lookup_value (& ip2k_cgen_opval_register_names, value);
-  if (ke != NULL)
-    {
-      (*info->fprintf_func) (info->stream, "%s", ke->name);
-      return;
-    }
 
-  /* Print as an address literal. */
-  (*info->fprintf_func) (info->stream, "$%02x", value);
+  if (ke != NULL)
+    (*info->fprintf_func) (info->stream, "%s", ke->name);
+  else
+    /* Print as an address literal.  */
+    (*info->fprintf_func) (info->stream, "$%02x", value);
 }
 
 static void
-print_dollarhex (cd, dis_info, value, attrs, pc, length)
-     CGEN_CPU_DESC cd ATTRIBUTE_UNUSED;
-     PTR dis_info;
-     long value;
-     unsigned int attrs ATTRIBUTE_UNUSED;
-     bfd_vma pc ATTRIBUTE_UNUSED;
-     int length ATTRIBUTE_UNUSED;
+print_dollarhex (CGEN_CPU_DESC cd ATTRIBUTE_UNUSED,
+		 void * dis_info,
+		 long value,
+		 unsigned int attrs ATTRIBUTE_UNUSED,
+		 bfd_vma pc ATTRIBUTE_UNUSED,
+		 int length ATTRIBUTE_UNUSED)
 {
   disassemble_info *info = (disassemble_info *) dis_info;
 
@@ -139,13 +123,12 @@ print_dollarhex (cd, dis_info, value, attrs, pc, length)
 }
 
 static void
-print_dollarhex8 (cd, dis_info, value, attrs, pc, length)
-     CGEN_CPU_DESC cd ATTRIBUTE_UNUSED;
-     PTR dis_info;
-     long value;
-     unsigned int attrs ATTRIBUTE_UNUSED;
-     bfd_vma pc ATTRIBUTE_UNUSED;
-     int length ATTRIBUTE_UNUSED;
+print_dollarhex8 (CGEN_CPU_DESC cd ATTRIBUTE_UNUSED,
+		  void * dis_info,
+		  long value,
+		  unsigned int attrs ATTRIBUTE_UNUSED,
+		  bfd_vma pc ATTRIBUTE_UNUSED,
+		  int length ATTRIBUTE_UNUSED)
 {
   disassemble_info *info = (disassemble_info *) dis_info;
 
@@ -153,31 +136,29 @@ print_dollarhex8 (cd, dis_info, value, attrs, pc, length)
 }
 
 static void
-print_dollarhex_addr16h (cd, dis_info, value, attrs, pc, length)
-     CGEN_CPU_DESC cd ATTRIBUTE_UNUSED;
-     PTR dis_info;
-     long value;
-     unsigned int attrs ATTRIBUTE_UNUSED;
-     bfd_vma pc ATTRIBUTE_UNUSED;
-     int length ATTRIBUTE_UNUSED;
+print_dollarhex_addr16h (CGEN_CPU_DESC cd ATTRIBUTE_UNUSED,
+			 void * dis_info,
+			 long value,
+			 unsigned int attrs ATTRIBUTE_UNUSED,
+			 bfd_vma pc ATTRIBUTE_UNUSED,
+			 int length ATTRIBUTE_UNUSED)
 {
   disassemble_info *info = (disassemble_info *) dis_info;
 
-  /* This is a loadh instruction. Shift the value to the left      */
-  /* by 8 bits so that disassembled code will reassemble properly. */
+  /* This is a loadh instruction. Shift the value to the left
+     by 8 bits so that disassembled code will reassemble properly.  */
   value = ((value << 8) & 0xFF00);
 
   (*info->fprintf_func) (info->stream, "$%04x", value);
 }
 
 static void
-print_dollarhex_addr16l (cd, dis_info, value, attrs, pc, length)
-     CGEN_CPU_DESC cd ATTRIBUTE_UNUSED;
-     PTR dis_info;
-     long value;
-     unsigned int attrs ATTRIBUTE_UNUSED;
-     bfd_vma pc ATTRIBUTE_UNUSED;
-     int length ATTRIBUTE_UNUSED;
+print_dollarhex_addr16l (CGEN_CPU_DESC cd ATTRIBUTE_UNUSED,
+			 void * dis_info,
+			 long value,
+			 unsigned int attrs ATTRIBUTE_UNUSED,
+			 bfd_vma pc ATTRIBUTE_UNUSED,
+			 int length ATTRIBUTE_UNUSED)
 {
   disassemble_info *info = (disassemble_info *) dis_info;
 
@@ -185,13 +166,12 @@ print_dollarhex_addr16l (cd, dis_info, value, attrs, pc, length)
 }
 
 static void
-print_dollarhex_p (cd, dis_info, value, attrs, pc, length)
-     CGEN_CPU_DESC cd ATTRIBUTE_UNUSED;
-     PTR dis_info;
-     long value;
-     unsigned int attrs ATTRIBUTE_UNUSED;
-     bfd_vma pc ATTRIBUTE_UNUSED;
-     int length ATTRIBUTE_UNUSED;
+print_dollarhex_p (CGEN_CPU_DESC cd ATTRIBUTE_UNUSED,
+		   void * dis_info,
+		   long value,
+		   unsigned int attrs ATTRIBUTE_UNUSED,
+		   bfd_vma pc ATTRIBUTE_UNUSED,
+		   int length ATTRIBUTE_UNUSED)
 {
   disassemble_info *info = (disassemble_info *) dis_info;
 
@@ -201,13 +181,12 @@ print_dollarhex_p (cd, dis_info, value, attrs, pc, length)
 }
 
 static void
-print_dollarhex_cj (cd, dis_info, value, attrs, pc, length)
-     CGEN_CPU_DESC cd ATTRIBUTE_UNUSED;
-     PTR dis_info;
-     long value;
-     unsigned int attrs ATTRIBUTE_UNUSED;
-     bfd_vma pc ATTRIBUTE_UNUSED;
-     int length ATTRIBUTE_UNUSED;
+print_dollarhex_cj (CGEN_CPU_DESC cd ATTRIBUTE_UNUSED,
+		    void * dis_info,
+		    long value,
+		    unsigned int attrs ATTRIBUTE_UNUSED,
+		    bfd_vma pc ATTRIBUTE_UNUSED,
+		    int length ATTRIBUTE_UNUSED)
 {
   disassemble_info *info = (disassemble_info *) dis_info;
 
@@ -215,15 +194,13 @@ print_dollarhex_cj (cd, dis_info, value, attrs, pc, length)
   (*info->fprintf_func) (info->stream, "$%05x", value);
 }
 
-
 static void
-print_decimal (cd, dis_info, value, attrs, pc, length)
-     CGEN_CPU_DESC cd ATTRIBUTE_UNUSED;
-     PTR dis_info;
-     long value;
-     unsigned int attrs ATTRIBUTE_UNUSED;
-     bfd_vma pc ATTRIBUTE_UNUSED;
-     int length ATTRIBUTE_UNUSED;
+print_decimal (CGEN_CPU_DESC cd ATTRIBUTE_UNUSED,
+	       void * dis_info,
+	       long value,
+	       unsigned int attrs ATTRIBUTE_UNUSED,
+	       bfd_vma pc ATTRIBUTE_UNUSED,
+	       int length ATTRIBUTE_UNUSED)
 {
   disassemble_info *info = (disassemble_info *) dis_info;
 
@@ -235,8 +212,7 @@ print_decimal (cd, dis_info, value, attrs, pc, length)
 /* -- */
 
 void ip2k_cgen_print_operand
-  PARAMS ((CGEN_CPU_DESC, int, PTR, CGEN_FIELDS *,
-           void const *, bfd_vma, int));
+  (CGEN_CPU_DESC, int, PTR, CGEN_FIELDS *, void const *, bfd_vma, int);
 
 /* Main entry point for printing operands.
    XINFO is a `void *' and not a `disassemble_info *' to not put a requirement
@@ -254,16 +230,15 @@ void ip2k_cgen_print_operand
    the handlers.  */
 
 void
-ip2k_cgen_print_operand (cd, opindex, xinfo, fields, attrs, pc, length)
-     CGEN_CPU_DESC cd;
-     int opindex;
-     PTR xinfo;
-     CGEN_FIELDS *fields;
-     void const *attrs ATTRIBUTE_UNUSED;
-     bfd_vma pc;
-     int length;
+ip2k_cgen_print_operand (CGEN_CPU_DESC cd,
+			   int opindex,
+			   void * xinfo,
+			   CGEN_FIELDS *fields,
+			   void const *attrs ATTRIBUTE_UNUSED,
+			   bfd_vma pc,
+			   int length)
 {
- disassemble_info *info = (disassemble_info *) xinfo;
+  disassemble_info *info = (disassemble_info *) xinfo;
 
   switch (opindex)
     {
@@ -319,8 +294,7 @@ cgen_print_fn * const ip2k_cgen_print_handlers[] =
 
 
 void
-ip2k_cgen_init_dis (cd)
-     CGEN_CPU_DESC cd;
+ip2k_cgen_init_dis (CGEN_CPU_DESC cd)
 {
   ip2k_cgen_init_opcode_table (cd);
   ip2k_cgen_init_ibld_table (cd);
@@ -352,6 +326,54 @@ print_normal (CGEN_CPU_DESC cd ATTRIBUTE_UNUSED,
     (*info->fprintf_func) (info->stream, "%ld", value);
   else
     (*info->fprintf_func) (info->stream, "0x%lx", value);
+}
+
+/* Default address handler.  */
+
+static void
+print_address (CGEN_CPU_DESC cd ATTRIBUTE_UNUSED,
+	       void *dis_info,
+	       bfd_vma value,
+	       unsigned int attrs,
+	       bfd_vma pc ATTRIBUTE_UNUSED,
+	       int length ATTRIBUTE_UNUSED)
+{
+  disassemble_info *info = (disassemble_info *) dis_info;
+
+#ifdef CGEN_PRINT_ADDRESS
+  CGEN_PRINT_ADDRESS (cd, info, value, attrs, pc, length);
+#endif
+
+  /* Print the operand as directed by the attributes.  */
+  if (CGEN_BOOL_ATTR (attrs, CGEN_OPERAND_SEM_ONLY))
+    ; /* Nothing to do.  */
+  else if (CGEN_BOOL_ATTR (attrs, CGEN_OPERAND_PCREL_ADDR))
+    (*info->print_address_func) (value, info);
+  else if (CGEN_BOOL_ATTR (attrs, CGEN_OPERAND_ABS_ADDR))
+    (*info->print_address_func) (value, info);
+  else if (CGEN_BOOL_ATTR (attrs, CGEN_OPERAND_SIGNED))
+    (*info->fprintf_func) (info->stream, "%ld", (long) value);
+  else
+    (*info->fprintf_func) (info->stream, "0x%lx", (long) value);
+}
+
+/* Keyword print handler.  */
+
+static void
+print_keyword (CGEN_CPU_DESC cd ATTRIBUTE_UNUSED,
+	       void *dis_info,
+	       CGEN_KEYWORD *keyword_table,
+	       long value,
+	       unsigned int attrs ATTRIBUTE_UNUSED)
+{
+  disassemble_info *info = (disassemble_info *) dis_info;
+  const CGEN_KEYWORD_ENTRY *ke;
+
+  ke = cgen_keyword_lookup_value (keyword_table, value);
+  if (ke != NULL)
+    (*info->fprintf_func) (info->stream, "%s", ke->name);
+  else
+    (*info->fprintf_func) (info->stream, "???");
 }
 
 /* Default insn printer.
@@ -406,6 +428,7 @@ read_insn (CGEN_CPU_DESC cd ATTRIBUTE_UNUSED,
 	   unsigned long *insn_value)
 {
   int status = (*info->read_memory_func) (pc, buf, buflen, info);
+
   if (status != 0)
     {
       (*info->memory_error_func) (status, pc, info);
@@ -510,13 +533,13 @@ print_insn (CGEN_CPU_DESC cd,
 	    length = CGEN_EXTRACT_FN (cd, insn)
 	      (cd, insn, &ex_info, insn_value_cropped, &fields, pc);
 
-	  /* length < 0 -> error */
+	  /* Length < 0 -> error.  */
 	  if (length < 0)
 	    return length;
 	  if (length > 0)
 	    {
 	      CGEN_PRINT_FN (cd, insn) (cd, info, insn, &fields, pc, length);
-	      /* length is in bits, result is in bytes */
+	      /* Length is in bits, result is in bytes.  */
 	      return length / 8;
 	    }
 	}
@@ -566,7 +589,8 @@ default_print_insn (CGEN_CPU_DESC cd, bfd_vma pc, disassemble_info *info)
    Print one instruction from PC on INFO->STREAM.
    Return the size of the instruction (in bytes).  */
 
-typedef struct cpu_desc_list {
+typedef struct cpu_desc_list
+{
   struct cpu_desc_list *next;
   int isa;
   int mach;
@@ -651,7 +675,7 @@ print_insn_ip2k (bfd_vma pc, disassemble_info *info)
       if (!cd)
 	abort ();
 
-      /* save this away for future reference */
+      /* Save this away for future reference.  */
       cl = xmalloc (sizeof (struct cpu_desc_list));
       cl->cd = cd;
       cl->isa = isa;

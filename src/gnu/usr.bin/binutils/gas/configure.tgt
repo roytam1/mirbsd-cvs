@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.bin/binutils/gas/configure.tgt,v 1.4 2005/04/14 19:04:40 tg Exp $
+# $MirOS: src/gnu/usr.bin/binutils/gas/configure.tgt,v 1.5 2005/06/05 21:24:12 tg Exp $
 #
 # gas target specific configuration file.  This is a -*- sh -*- file.
 
@@ -52,6 +52,7 @@ case ${cpu} in
   m683??)		cpu_type=m68k ;;
   m5200)		cpu_type=m68k ;;
   m8*)			cpu_type=m88k ;;
+  ms1)                  cpu_type=ms1 endian=big ;;
   maxq)			cpu_type=maxq ;;
   mips*el)		cpu_type=mips endian=little ;;
   mips*)		cpu_type=mips endian=big ;;
@@ -333,7 +334,6 @@ case ${generic_target} in
   ppc-*-aix5.*)				fmt=coff em=aix5 ;;
   ppc-*-aix*)				fmt=coff ;;
   ppc-*-beos*)				fmt=coff ;;
-  ppc-*-mirbsd*)			fmt=elf ;;
   ppc-*-*n*bsd* | ppc-*-elf*)		fmt=elf ;;
   ppc-*-eabi* | ppc-*-sysv4*)		fmt=elf ;;
   ppc-*-linux-*)			fmt=elf em=linux ;;

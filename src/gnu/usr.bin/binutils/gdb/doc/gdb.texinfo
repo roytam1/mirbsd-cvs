@@ -477,6 +477,13 @@ Cygnus Solutions, implemented the original @sc{gdb/mi} interface.
 Jim Blandy added support for preprocessor macros, while working for Red
 Hat.
 
+Andrew Cagney designed @value{GDBN}'s architecture vector.  Many
+people including Andrew Cagney, Stephane Carrez, Randolph Chung, Nick
+Duffek, Richard Henderson, Mark Kettenis, Grace Sainsbury, Kei
+Sakamoto, Yoshinori Sato, Michael Snyder, Andreas Schwab, Jason
+Thorpe, Corinna Vinschen, Ulrich Weigand, and Elena Zannoni, helped
+with the migration of old architectures to this new framework.
+
 @node Sample Session
 @chapter A Sample @value{GDBN} Session
 
@@ -1181,7 +1188,7 @@ Files}, for more details about @value{GDBN} command files.
 
 @item
 Reads the command history recorded in the @dfn{history file}.
-@xref{History}, for more details about the command history and the
+@xref{Command History}, for more details about the command history and the
 files where @value{GDBN} records it.
 @end enumerate
 
@@ -2088,7 +2095,24 @@ terminal.
 
 When you use the @code{tty} command or redirect input in the @code{run}
 command, only the input @emph{for your program} is affected.  The input
-for @value{GDBN} still comes from your terminal.
+for @value{GDBN} still comes from your terminal.  @code{tty} is an alias
+for @code{set inferior-tty}.
+
+@cindex inferior tty
+@cindex set inferior controlling terminal
+You can use the @code{show inferior-tty} command to tell @value{GDBN} to
+display the name of the terminal that will be used for future runs of your
+program.
+
+@table @code
+@item set inferior-tty /dev/ttyb
+@kindex set inferior-tty
+Set the tty for the program being debugged to /dev/ttyb.
+
+@item show inferior-tty
+@kindex show inferior-tty
+Show the current tty for the program being debugged.
+@end table
 
 @node Attach
 @section Debugging an already-running process
@@ -2379,6 +2403,7 @@ As with the @samp{[New @dots{}]} message, the form of the text after
 threads.
 
 @kindex thread apply
+@cindex apply command to several threads
 @item thread apply [@var{threadno}] [@var{all}]  @var{args}
 The @code{thread apply} command allows you to apply a command to one or
 more threads.  Specify the numbers of the threads that you want affected
@@ -4292,7 +4317,11 @@ you are interested in, or recompile without optimizations.
 @cindex startup code, and backtrace
 Most programs have a standard user entry point---a place where system
 libraries and startup code transition into user code.  For C this is
-@code{main}.  When @value{GDBN} finds the entry function in a backtrace
+@code{main}@footnote{
+Note that embedded programs (the so-called ``free-standing''
+environment) are not required to have a @code{main} function as the
+entry point.  They could even have multiple entry points.}.
+When @value{GDBN} finds the entry function in a backtrace
 it will terminate the backtrace, to avoid tracing into highly
 system-specific (and generally uninteresting) code.
 
@@ -4914,6 +4943,12 @@ End of assembler dump.
 Some architectures have more than one commonly-used set of instruction
 mnemonics or other syntax.
 
+For programs that were dynamically linked and use shared libraries,
+instructions that call functions or branch to locations in the shared
+libraries might show a seemingly bogus location---it's actually a
+location of the relocation table.  On some architectures, @value{GDBN}
+might be able to resolve these to actual function names.
+
 @table @code
 @kindex set disassembly-flavor
 @cindex Intel disassembly flavor
@@ -5302,7 +5337,10 @@ The command @code{info symbol 0x54320} yields similar results.
 @xref{Symbols, info symbol}.
 
 @item c
-Regard as an integer and print it as a character constant.
+Regard as an integer and print it as a character constant.  This
+prints both the numerical value and its character representation.  The
+character representation is replaced with the octal escape @samp{\nnn}
+for characters outside the 7-bit @sc{ascii} range.
 
 @item f
 Regard the bits of the value as a floating point number and print
@@ -5352,10 +5390,12 @@ how much memory (counting by units @var{u}) to display.
 @c 4.1.2.
 
 @item @var{f}, the display format
-The display format is one of the formats used by @code{print},
-@samp{s} (null-terminated string), or @samp{i} (machine instruction).
-The default is @samp{x} (hexadecimal) initially.
-The default changes each time you use either @code{x} or @code{print}.
+The display format is one of the formats used by @code{print}
+(@samp{x}, @samp{d}, @samp{u}, @samp{o}, @samp{t}, @samp{a}, @samp{c},
+@samp{f}), and in addition @samp{s} (for null-terminated strings) and
+@samp{i} (for machine instructions).  The default is @samp{x}
+(hexadecimal) initially.  The default changes each time you use either
+@code{x} or @code{print}.
 
 @item @var{u}, the unit size
 The unit size is any of
@@ -10611,9 +10651,10 @@ way to do this is at start-up time, using the arguments to
 Out of @value{GDBN}}).
 
 Occasionally it is necessary to change to a different file during a
-@value{GDBN} session.  Or you may run @value{GDBN} and forget to specify
-a file you want to use.  In these situations the @value{GDBN} commands
-to specify new files are useful.
+@value{GDBN} session.  Or you may run @value{GDBN} and forget to
+specify a file you want to use.  Or you are debugging a remote target
+via @code{gdbserver} (@pxref{Server, file}).  In these situations the
+@value{GDBN} commands to specify new files are useful.
 
 @table @code
 @cindex executable file
@@ -10636,6 +10677,17 @@ descriptions of the file options @samp{-mapped} and @samp{-readnow}
 (available on the command line, see @ref{File Options, , -readnow},
 and with the commands @code{file}, @code{symbol-file}, or
 @code{add-symbol-file}, described below), for more information.
+
+@cindex unlinked object files
+@cindex patching object files
+You can load unlinked object @file{.o} files into @value{GDBN} using
+the @code{file} command.  You will not be able to ``run'' an object
+file, but you can disassemble functions and inspect variables.  Also,
+if the underlying BFD functionality supports it, you could use
+@kbd{gdb -write} to patch object files using this technique.  Note
+that @value{GDBN} can neither interpret nor modify relocations in this
+case, so branches and some initialized variables will appear to go to
+the wrong place.  But this feature is still handy from time to time.
 
 @item file
 @code{file} with no argument makes @value{GDBN} discard any information it
@@ -11037,12 +11089,14 @@ host system; they need to be the same as the target libraries, although the
 copies on the target can be stripped as long as the copies on the host are
 not.
 
-You need to tell @value{GDBN} where the target libraries are, so that it can
-load the correct copies---otherwise, it may try to load the host's libraries.
-@value{GDBN} has two variables to specify the search directories for target
-libraries.
+@cindex where to look for shared libraries
+For remote debugging, you need to tell @value{GDBN} where the target
+libraries are, so that it can load the correct copies---otherwise, it
+may try to load the host's libraries.  @value{GDBN} has two variables
+to specify the search directories for target libraries.
 
 @table @code
+@cindex prefix for shared library file names
 @kindex set solib-absolute-prefix
 @item set solib-absolute-prefix @var{path}
 If this variable is set, @var{path} will be used as a prefix for any
@@ -11052,6 +11106,8 @@ paths to the shared library in the target program's memory.  If you use
 out in the same way that they are on the target, with e.g.@: a
 @file{/usr/lib} hierarchy under @var{path}.
 
+@cindex default value of @samp{solib-absolute-prefix}
+@cindex @samp{--with-sysroot}
 You can set the default value of @samp{solib-absolute-prefix} by using the
 configure-time @samp{--with-sysroot} option.
 
@@ -11934,8 +11990,12 @@ For TCP connections, you must start up @code{gdbserver} prior to using
 the @code{target remote} command.  Otherwise you may get an error whose
 text depends on the host system, but which usually looks something like
 @samp{Connection refused}.  You don't need to use the @code{load}
-command in @value{GDBN} when using gdbserver, since the program is
-already on the target.
+command in @value{GDBN} when using @code{gdbserver}, since the program is
+already on the target.  However, if you want to load the symbols (as
+you normally would), do that with the @code{file} command, and issue
+it @emph{before} connecting to the server; otherwise, you will get an
+error message saying @code{"Program is already running"}, since the
+program is considered running after the connection.
 
 @end table
 
@@ -14980,7 +15040,7 @@ described here.
 @menu
 * Prompt::                      Prompt
 * Editing::                     Command editing
-* History::                     Command history
+* Command History::             Command history
 * Screen Size::                 Screen size
 * Numbers::                     Numbers
 * ABI::                         Configuring the current ABI
@@ -15048,7 +15108,7 @@ Show whether command line editing is enabled.
 interface.  Users unfamiliar with @sc{gnu} Emacs or @code{vi} are
 encouraged to read that chapter.
 
-@node History
+@node Command History
 @section Command history
 @cindex command history
 
@@ -15060,6 +15120,17 @@ history facility.
 @value{GDBN} uses the @sc{gnu} History library, a part of the Readline
 package, to provide the history facility.  @xref{Using History
 Interactively}, for the detailed description of the History library.
+
+To issue a command to @value{GDBN} without affecting certain aspects of
+the state which is seen by users, prefix it with @samp{server }.  This
+means that this command will not affect the command history, nor will it
+affect @value{GDBN}'s notion of which command to repeat if @key{RET} is
+pressed on a line by itself.
+
+@cindex @code{server}, command prefix
+The server prefix does not affect the recording of values into the value
+history; to print a value without recording it into the value history,
+use the @code{output} command instead of the @code{print} command.
 
 Here is the description of @value{GDBN} commands related to command
 history.
@@ -19127,6 +19198,57 @@ The corresponding @value{GDBN} command is @samp{interpreter-exec}.
 (@value{GDBP})
 @end smallexample
 
+@subheading The @code{-inferior-tty-set} Command
+@findex -inferior-tty-set
+
+@subheading Synopsis
+
+@smallexample
+-inferior-tty-set /dev/pts/1
+@end smallexample
+
+Set terminal for future runs of the program being debugged.
+
+@subheading @value{GDBN} Command
+
+The corresponding @value{GDBN} command is @samp{set inferior-tty /dev/pts/1}.
+
+@subheading Example
+
+@smallexample
+(@value{GDBP})
+-inferior-tty-set /dev/pts/1
+^done
+(@value{GDBP})
+@end smallexample
+
+@subheading The @code{-inferior-tty-show} Command
+@findex -inferior-tty-show
+
+@subheading Synopsis
+
+@smallexample
+-inferior-tty-show
+@end smallexample
+
+Show terminal for future runs of program being debugged.
+
+@subheading @value{GDBN} Command
+
+The corresponding @value{GDBN} command is @samp{show inferior-tty /dev/pts/1}.
+
+@subheading Example
+
+@smallexample
+(@value{GDBP})
+-inferior-tty-set /dev/pts/1
+^done
+(@value{GDBP})
+-inferior-tty-show
+^done,inferior_tty_terminal="/dev/pts/1"
+(@value{GDBP})
+@end smallexample
+
 @ignore
 @c %%%%%%%%%%%%%%%%%%%%%%%%%%%% SECTION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 @node GDB/MI Kod Commands
@@ -19190,7 +19312,7 @@ Signal handling commands are not implemented.
  -stack-info-frame
 @end smallexample
 
-Get info on the current frame.
+Get info on the selected frame.
 
 @subsubheading @value{GDBN} Command
 
@@ -19198,7 +19320,15 @@ The corresponding @value{GDBN} command is @samp{info frame} or @samp{frame}
 (without arguments).
 
 @subsubheading Example
-N.A.
+
+@smallexample
+(@value{GDBP})
+-stack-info-frame
+^done,frame=@{level="1",addr="0x0001076c",func="callee3",
+file="../../../devo/gdb/testsuite/gdb.mi/basics.c",
+fullname="/home/foo/bar/devo/gdb/testsuite/gdb.mi/basics.c",line="17"@}
+(@value{GDBP})
+@end smallexample
 
 @subheading The @code{-stack-info-depth} Command
 @findex -stack-info-depth
@@ -20553,7 +20683,6 @@ This is Edition @value{EDITION}, @value{DATE}.
 
 @menu
 * Annotations Overview::  What annotations are; the general syntax.
-* Server Prefix::       Issuing a command without affecting user state.
 * Prompting::           Annotations marking @value{GDBN}'s need for input.
 * Errors::              Annotations for error messages.
 * Invalidation::        Some annotations describe things now invalid.
@@ -20631,20 +20760,6 @@ Here @samp{quit} is input to @value{GDBN}; the rest is output from
 @value{GDBN}.  The three lines beginning @samp{^Z^Z} (where @samp{^Z}
 denotes a @samp{control-z} character) are annotations; the rest is
 output from @value{GDBN}.
-
-@node Server Prefix
-@section The Server Prefix
-@cindex server prefix for annotations
-
-To issue a command to @value{GDBN} without affecting certain aspects of
-the state which is seen by users, prefix it with @samp{server }.  This
-means that this command will not affect the command history, nor will it
-affect @value{GDBN}'s notion of which command to repeat if @key{RET} is
-pressed on a line by itself.
-
-The server prefix does not affect the recording of values into the value
-history; to print a value without recording it into the value history,
-use the @code{output} command instead of the @code{print} command.
 
 @node Prompting
 @section Annotation for @value{GDBN} Input
@@ -22011,8 +22126,10 @@ before @value{GDBN} disconnects via the @code{detach} command.
 
 Reply:
 @table @samp
-@item @emph{no response}
-@value{GDBN} does not check for any response after sending this packet.
+@item OK
+for success
+@item E@var{NN}
+for an error
 @end table
 
 @item @code{e} --- reserved

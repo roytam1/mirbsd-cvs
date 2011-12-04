@@ -19,7 +19,7 @@
 #include "sysdep.h"
 #include "dis-asm.h"
 
-__RCSID("$MirOS: src/gnu/usr.bin/binutils/opcodes/disassemble.c,v 1.3 2005/03/28 21:57:00 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/binutils/opcodes/disassemble.c,v 1.4 2005/06/05 21:24:48 tg Exp $");
 
 #ifdef ARCH_all
 #define ARCH_a29k
@@ -53,6 +53,7 @@ __RCSID("$MirOS: src/gnu/usr.bin/binutils/opcodes/disassemble.c,v 1.3 2005/03/28
 #define ARCH_mmix
 #define ARCH_mn10200
 #define ARCH_mn10300
+#define ARCH_ms1
 #define ARCH_msp430
 #define ARCH_ns32k
 #define ARCH_openrisc
@@ -233,6 +234,11 @@ disassembler (abfd)
 #ifdef ARCH_maxq
     case bfd_arch_maxq:
       disassemble = print_insn_maxq_little;
+      break;
+#endif
+#ifdef ARCH_ms1
+    case bfd_arch_ms1:
+      disassemble = print_insn_ms1;
       break;
 #endif
 #ifdef ARCH_msp430

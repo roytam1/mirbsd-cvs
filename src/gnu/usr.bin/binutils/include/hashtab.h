@@ -1,4 +1,4 @@
-/* $MirOS: src/gnu/usr.bin/binutils/include/hashtab.h,v 1.3 2005/03/28 21:25:10 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/binutils/include/hashtab.h,v 1.4 2005/06/05 21:24:35 tg Exp $ */
 
 /* An expandable hash tables datatype.
    Copyright (C) 1999, 2000, 2002, 2003, 2004, 2005
@@ -83,6 +83,15 @@ typedef void (*htab_free) (void *);
    argument.  */
 typedef void *(*htab_alloc_with_arg) (void *, size_t, size_t);
 typedef void (*htab_free_with_arg) (void *, void *);
+
+/* This macro defines reserved value for empty table entry.  */
+
+#define HTAB_EMPTY_ENTRY    ((PTR) 0)
+
+/* This macro defines reserved value for table entry which contained
+   a deleted element. */
+
+#define HTAB_DELETED_ENTRY  ((PTR) 1)
 
 /* Hash tables are of the following type.  The structure
    (implementation) of this type is not needed for using the hash
