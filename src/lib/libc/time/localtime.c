@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/time/localtime.c,v 1.5 2005/03/29 16:53:46 tg Exp $ */
+/* $MirOS: src/lib/libc/time/localtime.c,v 1.6 2005/09/22 20:33:01 tg Exp $ */
 
 /*-
  * Copyright (c) 2004, 2005
@@ -23,13 +23,13 @@
  * rect or other, however caused, arising in any way out of the usage
  * of this work, even if advised of the possibility of such damage.
  *-
- * based upon public domain implementation by
- * 1996-06-05 by Arthur David Olson (arthur_david_olson@nih.gov).
+ * based upon public domain implementation from
+ * 1996-06-05 by Arthur David Olson (arthur_david_olson@nih.gov)
  */
 
 #include <sys/param.h>
 __SCCSID("@(#)localtime.c	7.80");
-__RCSID("$MirOS: src/lib/libc/time/localtime.c,v 1.5 2005/03/29 16:53:46 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/time/localtime.c,v 1.6 2005/09/22 20:33:01 tg Exp $");
 
 /*
 ** Leap second handling from Bradley White (bww@k.gp.cs.cmu.edu).
@@ -1227,7 +1227,7 @@ timesub(timep, offset, sp, tmp)
 	const struct lsinfo *lp;
 	time_t days;
 	long rem, corr;
-	int hit, i;
+	int i, hit;	/* hit: leap second bit */
 	mjd_t tmjd;
 
 	corr = 0;
@@ -1277,9 +1277,8 @@ timesub(timep, offset, sp, tmp)
 	tmjd.mjd = days + 40587;
 	tmjd.sec = (int32_t)rem;
 	*tmp = mjd2tm(tmjd);
-#ifdef TM_GMTOFF
-	tmp->TM_GMTOFF = offset;
-#endif /* defined TM_GMTOFF */
+	tmp->tm_gmtoff = offset;
+	tmp->tm_sec += hit;
 	return (tmp);
 }
 
@@ -1400,27 +1399,31 @@ tmcomp(atmp, btmp)
 }
 
 static time_t
-time2sub(struct tm *const tmp, struct tm *(*const funcp) (const time_t *, long,
-    struct tm *), const long offset, int *const okayp, const int do_norm_secs)
+time2sub(tmp, funcp, offset, okayp, do_norm_secs)
+struct tm * const	tmp;
+struct tm * (* const	funcp) P((const time_t*, long, struct tm*));
+const long		offset;
+int * const		okayp;
+const int		do_norm_secs;
 {
-	const struct state *sp;
-	int dir;
-	int bits;
-	int i, j;
-	time_t li;
-	time_t y;
-	time_t newt;
-	time_t t;
-	struct tm yourtm, mytm;
+	register const struct state *	sp;
+	register int			dir;
+	register int			i, j;
+	register int			saved_seconds;
+	register long			li;
+	register time_t			lo;
+	register time_t			hi;
+	time_t				y;
+	time_t				newt;
+	time_t				t;
+	struct tm			yourtm, mytm;
 
 	*okayp = FALSE;
 	yourtm = *tmp;
-	yourtm.tm_zone = NULL;
-	yourtm.tm_gmtoff = 0;
 	if (do_norm_secs) {
 		if (normalize_overflow(&yourtm.tm_min, &yourtm.tm_sec,
-		    SECSPERMIN))
-			return WRONG;
+			SECSPERMIN))
+				return WRONG;
 	}
 	if (normalize_overflow(&yourtm.tm_hour, &yourtm.tm_min, MINSPERHOUR))
 		return WRONG;
@@ -1435,20 +1438,20 @@ time2sub(struct tm *const tmp, struct tm *(*const funcp) (const time_t *, long,
 	*/
 	if (long_increment_overflow(&y, (time_t)TM_YEAR_BASE))
 		return WRONG;
-	if (y < 0)
-		++y;
 	while (yourtm.tm_mday <= 0) {
 		if (long_increment_overflow(&y, (time_t)-1))
 			return WRONG;
-		yourtm.tm_mday += year_lengths[isleap(y + (1 < yourtm.tm_mon))];
+		li = y + (1 < yourtm.tm_mon);
+		yourtm.tm_mday += year_lengths[isleap(li)];
 	}
 	while (yourtm.tm_mday > DAYSPERLYEAR) {
-		yourtm.tm_mday -= year_lengths[isleap(y + (1 < yourtm.tm_mon))];
 		if (long_increment_overflow(&y, (time_t)1))
+		li = y + (1 < yourtm.tm_mon);
+		yourtm.tm_mday -= year_lengths[isleap(li)];
 			return WRONG;
 	}
-	for (;;) {
-		i = mon_lengths[isleap(y)][yourtm.tm_mon];
+	for ( ; ; ) {
+		i = mon_lengths[isleap((y < 0) ? y+1 : y)][yourtm.tm_mon];
 		if (yourtm.tm_mday <= i)
 			break;
 		yourtm.tm_mday -= i;
@@ -1460,26 +1463,118 @@ time2sub(struct tm *const tmp, struct tm *(*const funcp) (const time_t *, long,
 	}
 	if (long_increment_overflow(&y, (time_t)-TM_YEAR_BASE))
 		return WRONG;
-	if (y < 1)
-		--y;
 	yourtm.tm_year = y;
-
-	t = tai2timet(mjd2tai(tm2mjd(yourtm)));
-	(*funcp) (&t, offset, &mytm);
-	mytm.tm_zone = NULL;
-	mytm.tm_gmtoff = 0;
-	t += (t - tai2timet(mjd2tai(tm2mjd(mytm))));
-	(*funcp) (&t, offset, &mytm);
-
-	if (tmcomp(&mytm, &yourtm)) {
-		t -= 3600;
-		(*funcp) (&t, offset, &mytm);
-	}
-	if (tmcomp(&mytm, &yourtm))
+	if (yourtm.tm_year != y)
 		return WRONG;
-
-	*tmp = mytm;
-	*okayp = TRUE;
+	if (yourtm.tm_sec >= 0 && yourtm.tm_sec < SECSPERMIN)
+		saved_seconds = 0;
+	else if (y + TM_YEAR_BASE < EPOCH_YEAR) {
+		/*
+		** We can't set tm_sec to 0, because that might push the
+		** time below the minimum representable time.
+		** Set tm_sec to 59 instead.
+		** This assumes that the minimum representable time is
+		** not in the same minute that a leap second was deleted from,
+		** which is a safer assumption than using 58 would be.
+		*/
+		if (increment_overflow(&yourtm.tm_sec, 1 - SECSPERMIN))
+			return WRONG;
+		saved_seconds = yourtm.tm_sec;
+		yourtm.tm_sec = SECSPERMIN - 1;
+	} else {
+		saved_seconds = yourtm.tm_sec;
+		yourtm.tm_sec = 0;
+	}
+	/*
+	** Do a binary search (this works whatever time_t's type is).
+	*/
+	if (!TYPE_SIGNED(time_t)) {
+		lo = 0;
+		hi = lo - 1;
+	} else if (!TYPE_INTEGRAL(time_t)) {
+		if (sizeof(time_t) > sizeof(float))
+			hi = (time_t) DBL_MAX;
+		else	hi = (time_t) FLT_MAX;
+		lo = -hi;
+	} else {
+		lo = 1;
+		for (i = 0; i < (int) TYPE_BIT(time_t) - 1; ++i)
+			lo *= 2;
+		hi = -(lo + 1);
+	}
+	for ( ; ; ) {
+		t = lo / 2 + hi / 2;
+		if (t < lo)
+			t = lo;
+		else if (t > hi)
+			t = hi;
+		if ((*funcp)(&t, offset, &mytm) == NULL) {
+			/*
+			** Assume that t is too extreme to be represented in
+			** a struct tm; arrange things so that it is less
+			** extreme on the next pass.
+			*/
+			dir = (t > 0) ? 1 : -1;
+		} else	dir = tmcomp(&mytm, &yourtm);
+		if (dir != 0) {
+			if (t == lo) {
+				++t;
+				++lo;
+			} else if (t == hi) {
+				--t;
+				--hi;
+			}
+			if (lo > hi)
+				return WRONG;
+			if (dir > 0)
+				hi = t;
+			else	lo = t;
+			continue;
+		}
+		if (yourtm.tm_isdst < 0 || mytm.tm_isdst == yourtm.tm_isdst)
+			break;
+		/*
+		** Right time, wrong type.
+		** Hunt for right time, right type.
+		** It's okay to guess wrong since the guess
+		** gets checked.
+		*/
+		/*
+		** The (void *) casts are the benefit of SunOS 3.3 on Sun 2's.
+		*/
+		sp = (const struct state *)
+			(((void *) funcp == (void *) localsub) ?
+			lclptr : gmtptr);
+		for (i = sp->typecnt - 1; i >= 0; --i) {
+			if (sp->ttis[i].tt_isdst != yourtm.tm_isdst)
+				continue;
+			for (j = sp->typecnt - 1; j >= 0; --j) {
+				if (sp->ttis[j].tt_isdst == yourtm.tm_isdst)
+					continue;
+				newt = t + sp->ttis[j].tt_gmtoff -
+					sp->ttis[i].tt_gmtoff;
+				if ((*funcp)(&newt, offset, &mytm) == NULL)
+					continue;
+				if (tmcomp(&mytm, &yourtm) != 0)
+					continue;
+				if (mytm.tm_isdst != yourtm.tm_isdst)
+					continue;
+				/*
+				** We have a match.
+				*/
+				t = newt;
+				goto label;
+			}
+		}
+		return WRONG;
+	}
+label:
+	newt = t + saved_seconds;
+	if ((newt < t) != (saved_seconds < 0))
+		return WRONG;
+	t = newt;
+	if ((*funcp)(&t, offset, tmp))
+		*okayp = TRUE;
 	return t;
 }
 
