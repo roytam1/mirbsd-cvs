@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/usb/usb_port.h,v 1.2 2005/03/06 21:27:58 tg Exp $ */
+/**	$MirOS: src/sys/dev/usb/usb_port.h,v 1.3 2005/07/04 01:06:34 tg Exp $ */
 /*	$OpenBSD: usb_port.h,v 1.58 2005/06/17 23:50:33 deraadt Exp $ */
 /*	$NetBSD: usb_port.h,v 1.62 2003/02/15 18:33:30 augustss Exp $	*/
 /*	$FreeBSD: src/sys/dev/usb/usb_port.h,v 1.21 1999/11/17 22:33:47 n_hibma Exp $	*/
@@ -262,11 +262,6 @@ typedef struct proc *usb_proc_ptr;
  * The UHCI/OHCI controllers are little endian, so on big endian machines
  * the data stored in memory needs to be swapped.
  */
-
-#if defined(letoh32)
-#define le32toh(x) letoh32(x)
-#define le16toh(x) letoh16(x)
-#endif
 
 #define sel_klist si_note
 
