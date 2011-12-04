@@ -1,4 +1,4 @@
-/**	$MirOS: src/lib/libz/gzio.c,v 1.4 2005/07/24 22:50:04 tg Exp $ */
+/**	$MirOS: src/lib/libz/gzio.c,v 1.5 2005/07/24 22:57:04 tg Exp $ */
 /*	$OpenBSD: gzio.c,v 1.14 2005/07/20 15:56:41 millert Exp $	*/
 /* gzio.c -- IO on .gz files
  * Copyright (C) 1995-2005 Jean-loup Gailly.
@@ -10,18 +10,14 @@
 #include <stdio.h>
 #include "zutil.h"
 
-zRCSID("$MirOS: src/lib/libz/gzio.c,v 1.4 2005/07/24 22:50:04 tg Exp $")
+zRCSID("$MirOS: src/lib/libz/gzio.c,v 1.5 2005/07/24 22:57:04 tg Exp $")
 
 #ifdef NO_DEFLATE       /* for compatibility with old definition */
 #  define NO_GZCOMPRESS
 #endif
 
 #ifndef Z_BUFSIZE
-#  ifdef MAXSEG_64K
-#    define Z_BUFSIZE 4096 /* minimize memory usage for 16-bit DOS */
-#  else
 #    define Z_BUFSIZE 16384
-#  endif
 #endif
 #ifndef Z_PRINTF_BUFSIZE
 #  define Z_PRINTF_BUFSIZE 4096
@@ -397,7 +393,7 @@ int ZEXPORT gzread (file, buf, len)
 {
     gz_stream *s = (gz_stream*)file;
     Bytef *start = (Bytef*)buf; /* starting point for crc computation */
-    Byte  *next_out; /* == stream.next_out but not forced far (for MSDOS) */
+    Byte  *next_out; /* == stream.next_out */
 
     if (s == NULL || s->mode != 'r') return Z_STREAM_ERROR;
 

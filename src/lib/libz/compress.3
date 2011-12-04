@@ -2585,20 +2585,7 @@ On 16-bit systems, the functions
 .Fa zalloc
 and
 .Fa zfree
-must be able to allocate exactly 65536 bytes,
-but will not be required to allocate more than this if the symbol MAXSEG_64K
-is defined (see
-.Aq Pa zconf.h ) .
-.Pp
-WARNING: On MSDOS, pointers returned by
-.Fa zalloc
-for objects of exactly 65536 bytes *must* have their offset normalized to zero.
-The default allocation function provided by this library ensures this (see
-.Pa zutil.c ) .
-To reduce memory requirements and avoid any allocation of 64K objects,
-at the expense of compression ratio,
-compile the library with -DMAX_WBITS=14 (see
-.Aq Pa zconf.h ) .
+must be able to allocate exactly 65536 bytes.
 .Pp
 The fields
 .Fa total_in

@@ -1,4 +1,4 @@
-/**	$MirOS: src/lib/libz/deflate.c,v 1.3 2005/07/07 12:27:24 tg Exp $ */
+/**	$MirOS: src/lib/libz/deflate.c,v 1.4 2005/07/24 22:50:03 tg Exp $ */
 /*	$OpenBSD: deflate.c,v 1.10 2005/07/20 15:56:41 millert Exp $	*/
 /* deflate.c -- compress data using the deflation algorithm
  * Copyright (C) 1995-2005 Jean-loup Gailly.
@@ -51,7 +51,7 @@
 
 #include "deflate.h"
 
-zRCSID("$MirOS: src/lib/libz/deflate.c,v 1.3 2005/07/07 12:27:24 tg Exp $")
+zRCSID("$MirOS: src/lib/libz/deflate.c,v 1.4 2005/07/24 22:50:03 tg Exp $")
 
 /* ===========================================================================
  *  Function prototypes.
@@ -877,16 +877,11 @@ int ZEXPORT deflateEnd (strm)
 
 /* =========================================================================
  * Copy the source state to the destination state.
- * To simplify the source, this is not supported for 16-bit MSDOS (which
- * doesn't have enough memory anyway to duplicate compression states).
  */
 int ZEXPORT deflateCopy (dest, source)
     z_streamp dest;
     z_streamp source;
 {
-#ifdef MAXSEG_64K
-    return Z_STREAM_ERROR;
-#else
     deflate_state *ds;
     deflate_state *ss;
     ushf *overlay;
@@ -917,7 +912,6 @@ int ZEXPORT deflateCopy (dest, source)
         deflateEnd (dest);
         return Z_MEM_ERROR;
     }
-    /* following zmemcpy do not work for 16-bit MSDOS */
     zmemcpy(ds->window, ss->window, ds->w_size * 2 * sizeof(Byte));
     zmemcpy(ds->prev, ss->prev, ds->w_size * sizeof(Pos));
     zmemcpy(ds->head, ss->head, ds->hash_size * sizeof(Pos));
@@ -932,7 +926,6 @@ int ZEXPORT deflateCopy (dest, source)
     ds->bl_desc.dyn_tree = ds->bl_tree;
 
     return Z_OK;
-#endif /* MAXSEG_64K */
 }
 
 /* ===========================================================================

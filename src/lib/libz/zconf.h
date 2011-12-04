@@ -1,4 +1,4 @@
-/**	$MirOS: src/lib/libz/zconf.h,v 1.4 2005/07/07 12:27:26 tg Exp $ */
+/**	$MirOS: src/lib/libz/zconf.h,v 1.5 2005/07/24 22:50:05 tg Exp $ */
 /*	$OpenBSD: zconf.h,v 1.7 2005/07/20 15:56:41 millert Exp $	*/
 /* zconf.h -- configuration of the zlib compression library
  * Copyright (C) 1995-2005 Jean-loup Gailly.
@@ -22,12 +22,6 @@
 #  define STDC
 #endif
 #if !defined(STDC) && (defined(__GNUC__) || defined(__BORLANDC__))
-#  define STDC
-#endif
-#if !defined(STDC) && (defined(MSDOS) || defined(WINDOWS) || defined(WIN32))
-#  define STDC
-#endif
-#if !defined(STDC) && (defined(OS2) || defined(__HOS_AIX__))
 #  define STDC
 #endif
 
