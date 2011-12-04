@@ -1,4 +1,4 @@
-# $MirOS: gcc/Makefile.sub,v 1.7 2005/04/26 17:40:34 tg Exp $
+# $MirOS: gcc/Makefile.sub,v 1.8 2005/04/26 20:07:00 tg Exp $
 
 .ifdef COMPILER_ONLY
 
@@ -50,6 +50,7 @@ prereq: _SUBDIRUSE
   SKIPDIR+= libobjc
 .  endif
 
+NO_JAVA=XXX
 .  ifdef NO_JAVA
   SKIPDIR+= fastjar
   SKIPDIR+= libffi
