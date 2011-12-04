@@ -1,4 +1,4 @@
-# $MirOS: gcc/libjava/Makefile.bsd-wrapper,v 1.13 2005/06/16 13:51:33 tg Exp $
+# $MirOS: gcc/libjava/Makefile.bsd-wrapper,v 1.14 2005/07/06 18:48:08 tg Exp $
 
 .include <bsd.own.mk>
 .include "${GNUSYSTEM_AUX_DIR}/locations.mk"
@@ -32,7 +32,7 @@ CLEANFILES+=	deps.mk gnu/classpath/Configuration.java \
 
 INSTLIBS=	gcj -gnu-awt-xlib -org-w3c-dom -org-xml-sax
 
-xxx-post-install:
+post-install:
 .for _i in ${INSTLIBS}
 	chmod 600 ${DESTDIR}/usr/lib/lib${_i}.{a,so.${LIBGCJ_REV}}
 .  if ${DEBUGLIBS:L} == "yes"
@@ -41,14 +41,16 @@ xxx-post-install:
 	strip --strip-debug ${DESTDIR}/usr/lib/lib${_i}.a
 	strip ${DESTDIR}/usr/lib/lib${_i}.so.${LIBGCJ_REV}
 .  if ${DEBUGLIBS:L} == "yes"
-	chown ${LIBOWN}:${LIBGRP} \
+	chown -h ${LIBOWN}:${LIBGRP} \
 	    ${DESTDIR}/usr/lib/debug/lib${_i}.a \
+	    ${DESTDIR}/usr/lib/lib${_i}.so.${LIBGCJ_REV:R} \
 	    ${DESTDIR}/usr/lib/lib${_i}.{so.${LIBGCJ_REV},a,la}
 	chmod ${LIBMODE} \
 	    ${DESTDIR}/usr/lib/debug/lib${_i}.a \
 	    ${DESTDIR}/usr/lib/lib${_i}.{so.${LIBGCJ_REV},a,la}
 .  else
-	chown ${LIBOWN}:${LIBGRP} \
+	chown -h ${LIBOWN}:${LIBGRP} \
+	    ${DESTDIR}/usr/lib/lib${_i}.so.${LIBGCJ_REV:R} \
 	    ${DESTDIR}/usr/lib/lib${_i}.{so.${LIBGCJ_REV},a,la}
 	chmod ${LIBMODE} \
 	    ${DESTDIR}/usr/lib/lib${_i}.{so.${LIBGCJ_REV},a,la}

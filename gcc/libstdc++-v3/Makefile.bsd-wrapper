@@ -1,4 +1,4 @@
-# $MirOS: gcc/libstdc++-v3/Makefile.bsd-wrapper,v 1.9 2005/04/29 14:34:55 tg Exp $
+# $MirOS: gcc/libstdc++-v3/Makefile.bsd-wrapper,v 1.10 2005/07/06 18:48:09 tg Exp $
 
 .include <bsd.own.mk>
 .include "${GNUSYSTEM_AUX_DIR}/locations.mk"
@@ -26,12 +26,12 @@ CLEANFILES+=	include libsupc++/cp-demangle.c src/atomicity.cc \
 
 LIBFILES=	libstdc++.a libstdc++.la libsupc++.a libsupc++.la
 .if ${NOPIC:L} == "no"
-LIBFILES+=	libstdc++.so.${SHLIB_VERSION}
+LIBFILES+=	libstdc++.so.${LIBCXX_REV} libstdc++.so.${LIBCXX_REV:R}
 .endif
 
-xxx-post-install:
+post-install:
 	cd ${DESTDIR}/usr/lib \
-	    && chown ${LIBOWN}:${LIBGRP} ${LIBFILES} \
+	    && chown -h ${LIBOWN}:${LIBGRP} ${LIBFILES} \
 	    && chmod ${LIBMODE} ${LIBFILES}
 
 .include <bsd.cfwrap.mk>

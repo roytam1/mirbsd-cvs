@@ -14,6 +14,9 @@
 
 @SET_MAKE@
 
+# $MirOS: gcc/libstdc++-v3/libsupc++/Makefile.am,v 1.4 2005/07/06 22:33:53 tg Exp $
+#
+
 
 SOURCES = $(libsupc___la_SOURCES) $(libsupc__convenience_la_SOURCES)
 
@@ -346,7 +349,7 @@ AM_MAKEFLAGS = \
 # Use special rules for pulling things out of libiberty.  These
 # objects should be compiled with the "C" compiler, not the C++
 # compiler, and also should not use the C++ includes.
-C_INCLUDES = -I.. -I$(toplevel_srcdir)/libiberty -I$(toplevel_srcdir)/include
+C_INCLUDES = -I.. -I$(LIBIBERTY_SRC) -I$(LIBIBERTY_HDRS)
 C_COMPILE = \
 	$(CC) $(DEFS) $(C_INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)

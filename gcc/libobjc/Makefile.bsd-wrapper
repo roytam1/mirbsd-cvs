@@ -1,4 +1,4 @@
-# $MirOS: gcc/libobjc/Makefile.bsd-wrapper,v 1.3 2005/05/14 16:22:18 tg Exp $
+# $MirOS: gcc/libobjc/Makefile.bsd-wrapper,v 1.4 2005/07/06 18:48:08 tg Exp $
 
 .include <bsd.own.mk>
 .include "${GNUSYSTEM_AUX_DIR}/locations.mk"
@@ -36,3 +36,6 @@ post-install:
 	    ${DESTDIR}/usr/include/objc
 	cd ${.CURDIR}/objc; ${INSTALL_DATA} ${INCS} \
 	    ${DESTDIR}/usr/include/objc/
+	chown -h ${LIBOWN}:${LIBGRP} \
+	    ${DESTDIR}/usr/lib/libobjc*.so.${LIBOBJC_REV:R}
+	chmod ${LIBMODE} ${DESTDIR}/usr/lib/libobjc*.a
