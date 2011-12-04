@@ -1,5 +1,5 @@
-/* $MirOS: src/sys/dev/wscons/wskbd.c,v 1.3 2005/07/04 01:15:48 tg Exp $ */
-/* $OpenBSD: wskbd.c,v 1.44 2005/06/02 07:31:17 miod Exp $ */
+/* $MirOS: src/sys/dev/wscons/wskbd.c,v 1.4 2005/07/04 03:36:33 tg Exp $ */
+/* $OpenBSD: wskbd.c,v 1.45 2005/07/08 02:26:07 marc Exp $ */
 /* $NetBSD: wskbd.c,v 1.80 2005/05/04 01:52:16 augustss Exp $ */
 
 /*
@@ -121,9 +121,7 @@ int	wskbddebug = 0;
 #define DPRINTF(x)
 #endif
 
-#if NWSMUX > 0 || NWSDISPLAY > 0
 #include <dev/wscons/wsmuxvar.h>
-#endif
 
 struct wskbd_internal {
 	const struct wskbd_mapdata *t_keymap;
@@ -1476,8 +1474,8 @@ internal_command(struct wskbd_softc *sc, u_int *type, keysym_t ksym,
 		    ksym == KS_Cmd_ContrastDown ? -1 : 1,
 		    ksym == KS_Cmd_ContrastRotate ? 1 : 0);
 		return (1);
-#endif
 	}
+#endif
 	return (0);
 }
 

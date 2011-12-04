@@ -1,6 +1,6 @@
-# $MirOS$
-# $OpenBSD: Makefile,v 1.17 2004/05/07 14:42:27 millert Exp $
+# $MirOS: src/sys/lib/libkern/Makefile,v 1.2 2005/03/06 21:28:05 tg Exp $
 # $NetBSD: Makefile,v 1.31 1996/08/10 04:01:31 mycroft Exp $
+# $OpenBSD: Makefile,v 1.18 2004/11/28 07:20:25 mickey Exp $
 
 LIB=	kern
 NOPIC=	yes
@@ -18,7 +18,8 @@ CPPFLAGS=	-I$M ${KERNCPPFLAGS}
 .endif
 
 .if (${MACHINE_ARCH} != "alpha" && ${MACHINE} != "sgi" && \
-    ${MACHINE_ARCH} != "sparc64") && ${MACHINE} != "amd64"
+    ${MACHINE_ARCH} != "sparc64") && ${MACHINE} != "amd64" && \
+    ${MACHINE} != "hppa64"
 # Quad support
 SRCS+=	adddi3.c anddi3.c ashldi3.c ashrdi3.c cmpdi2.c divdi3.c iordi3.c \
 	lshldi3.c lshrdi3.c moddi3.c muldi3.c negdi2.c notdi2.c qdivrem.c \

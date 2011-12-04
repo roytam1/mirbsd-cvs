@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: subr_extent.c,v 1.25 2002/12/08 08:18:37 deraadt Exp $	*/
+/**	$MirOS: src/sys/kern/subr_extent.c,v 1.2 2005/03/06 21:28:02 tg Exp $ */
+/*	$OpenBSD: subr_extent.c,v 1.29 2005/07/08 14:05:28 krw Exp $	*/
 /*	$NetBSD: subr_extent.c,v 1.7 1996/11/21 18:46:34 cgd Exp $	*/
 
 /*-
@@ -57,6 +57,7 @@
  * user-land definitions, so it can fit into a testing harness.
  */
 #include <sys/param.h>
+#include <sys/pool.h>
 #include <sys/extent.h>
 #include <sys/queue.h>
 #include <errno.h>
@@ -67,11 +68,16 @@
 #define	free(p, t)			free(p)
 #define	tsleep(chan, pri, str, timo)	(EWOULDBLOCK)
 #define	wakeup(chan)			((void)0)
-#define db_printf printf
+#define	pool_get(pool, flags)		malloc((pool)->pr_size, 0, 0)
+#define	pool_init(a, b, c, d, e, f, g)	(a)->pr_size = (b)
+#define	pool_put(pool, rp)		free((rp), 0)
+#define	panic				printf
+#define	splvm()				(1)
+#define	splx(s)				((void)(s))
 #endif
 
 static	void extent_insert_and_optimize(struct extent *, u_long, u_long,
-	    int, struct extent_region *, struct extent_region *);
+	    struct extent_region *, struct extent_region *);
 static	struct extent_region *extent_alloc_region_descriptor(struct extent *, int);
 static	void extent_free_region_descriptor(struct extent *,
 	    struct extent_region *);
@@ -267,9 +273,10 @@ extent_destroy(ex)
 #endif
 
 	/* Free all region descriptors in extent. */
-	for (rp = ex->ex_regions.lh_first; rp != NULL; ) {
+	for (rp = LIST_FIRST(&ex->ex_regions);
+	    rp != LIST_END(&ex->ex_regions); ) {
 		orp = rp;
-		rp = rp->er_link.le_next;
+		rp = LIST_NEXT(rp, er_link);
 		LIST_REMOVE(orp, er_link);
 		extent_free_region_descriptor(ex, orp);
 	}
@@ -290,10 +297,9 @@ extent_destroy(ex)
  * If we don't need the region descriptor, it will be freed here.
  */
 static void
-extent_insert_and_optimize(ex, start, size, flags, after, rp)
+extent_insert_and_optimize(ex, start, size, after, rp)
 	struct extent *ex;
 	u_long start, size;
-	int flags;
 	struct extent_region *after, *rp;
 {
 	struct extent_region *nextr;
@@ -306,12 +312,12 @@ extent_insert_and_optimize(ex, start, size, flags, after, rp)
 		 * descriptor overhead.
 		 */
 		if (((ex->ex_flags & EXF_NOCOALESCE) == 0) &&
-		    (ex->ex_regions.lh_first != NULL) &&
-		    ((start + size) == ex->ex_regions.lh_first->er_start)) {
+		    !LIST_EMPTY(&ex->ex_regions) &&
+		    ((start + size) == LIST_FIRST(&ex->ex_regions)->er_start)) {
 			/*
 			 * We can coalesce.  Prepend us to the first region.
 			 */
-			ex->ex_regions.lh_first->er_start = start;
+			LIST_FIRST(&ex->ex_regions)->er_start = start;
 			extent_free_region_descriptor(ex, rp);
 			return;
 		}
@@ -347,8 +353,8 @@ extent_insert_and_optimize(ex, start, size, flags, after, rp)
 	/*
 	 * Attempt to coalesce with the region after us.
 	 */
-	if ((after->er_link.le_next != NULL) &&
-	    ((start + size) == after->er_link.le_next->er_start)) {
+	if (LIST_NEXT(after, er_link) != NULL &&
+	    ((start + size) == LIST_NEXT(after, er_link)->er_start)) {
 		/*
 		 * We can coalesce.  Note that if we appended ourselves
 		 * to the previous region, we exactly fit the gap, and
@@ -358,15 +364,15 @@ extent_insert_and_optimize(ex, start, size, flags, after, rp)
 			/*
 			 * Yup, we can free it up.
 			 */
-			after->er_end = after->er_link.le_next->er_end;
-			nextr = after->er_link.le_next;
+			after->er_end = LIST_NEXT(after, er_link)->er_end;
+			nextr = LIST_NEXT(after, er_link);
 			LIST_REMOVE(nextr, er_link);
 			extent_free_region_descriptor(ex, nextr);
 		} else {
 			/*
 			 * Nope, just prepend us to the next region.
 			 */
-			after->er_link.le_next->er_start = start;
+			LIST_NEXT(after, er_link)->er_start = start;
 		}
 
 		extent_free_region_descriptor(ex, rp);
@@ -470,8 +476,7 @@ extent_alloc_region(ex, start, size, flags)
 	 */
 	last = NULL;
 
-	for (rp = ex->ex_regions.lh_first; rp != NULL;
-	    rp = rp->er_link.le_next) {
+	LIST_FOREACH(rp, &ex->ex_regions, er_link) {
 		if (rp->er_start > end) {
 			/*
 			 * We lie before this region and don't
@@ -514,7 +519,7 @@ extent_alloc_region(ex, start, size, flags)
 	 * to the region we fall after, or is NULL if we belong
 	 * at the beginning of the region list.  Insert ourselves.
 	 */
-	extent_insert_and_optimize(ex, start, size, flags, last, myrp);
+	extent_insert_and_optimize(ex, start, size, last, myrp);
 	return (0);
 }
 
@@ -644,8 +649,7 @@ extent_alloc_subregion(ex, substart, subend, size, alignment, skew, boundary,
 	 * the subregion start, advancing the "last" pointer along
 	 * the way.
 	 */
-	for (rp = ex->ex_regions.lh_first; rp != NULL;
-	     rp = rp->er_link.le_next) {
+	LIST_FOREACH(rp, &ex->ex_regions, er_link) {
 		if (rp->er_start >= newstart)
 			break;
 		last = rp;
@@ -659,12 +663,12 @@ extent_alloc_subregion(ex, substart, subend, size, alignment, skew, boundary,
 	if (last != NULL && last->er_end >= newstart)
 		newstart = EXTENT_ALIGN((last->er_end + 1), alignment, skew);
 
-	for (; rp != NULL; rp = rp->er_link.le_next) {
+	for (; rp != LIST_END(&ex->ex_regions); rp = LIST_NEXT(rp, er_link)) {
 		/*
 		 * If the region pasts the subend, bail out and see
 		 * if we fit against the subend.
 		 */
-		if (rp->er_start >= subend) {
+		if (rp->er_start > subend) {
 			exend = rp->er_start;
 			break;
 		}
@@ -882,7 +886,7 @@ skip:
 	/*
 	 * Insert ourselves into the region list.
 	 */
-	extent_insert_and_optimize(ex, newstart, size, flags, last, myrp);
+	extent_insert_and_optimize(ex, newstart, size, last, myrp);
 	*result = newstart;
 	return (0);
 }
@@ -901,7 +905,7 @@ extent_free(ex, start, size, flags)
 	/* Check arguments. */
 	if (ex == NULL)
 		panic("extent_free: NULL extent");
-	if ((start < ex->ex_start) || (start > ex->ex_end)) {
+	if ((start < ex->ex_start) || (end > ex->ex_end)) {
 		extent_print(ex);
 		printf("extent_free: extent `%s', start 0x%lx, size 0x%lx\n",
 		    ex->ex_name, start, size);
@@ -951,8 +955,7 @@ extent_free(ex, start, size, flags)
 	 * Cases 2, 3, and 4 require that the EXF_NOCOALESCE flag
 	 * is not set.
 	 */
-	for (rp = ex->ex_regions.lh_first; rp != NULL;
-	    rp = rp->er_link.le_next) {
+	LIST_FOREACH(rp, &ex->ex_regions, er_link) {
 		/*
 		 * Save ourselves some comparisons; does the current
 		 * region end before chunk to be freed begins?  If so,
@@ -1042,7 +1045,7 @@ extent_alloc_region_descriptor(ex, flags)
 	if (ex->ex_flags & EXF_FIXED) {
 		struct extent_fixed *fex = (struct extent_fixed *)ex;
 
-		while (fex->fex_freelist.lh_first == NULL) {
+		while (LIST_EMPTY(&fex->fex_freelist)) {
 			if (flags & EX_MALLOCOK)
 				goto alloc;
 
@@ -1054,7 +1057,7 @@ extent_alloc_region_descriptor(ex, flags)
 			    "extnt", 0))
 				return (NULL);
 		}
-		rp = fex->fex_freelist.lh_first;
+		rp = LIST_FIRST(&fex->fex_freelist);
 		LIST_REMOVE(rp, er_link);
 
 		/*
@@ -1130,7 +1133,7 @@ extent_free_region_descriptor(ex, rp)
 #define db_printf printf
 #endif
 
-#if defined(DIAGNOSTIC) || defined(DDB)
+#if defined(DIAGNOSTIC) || defined(DDB) || !defined(_KERNEL)
 void
 extent_print(ex)
 	struct extent *ex;
@@ -1140,11 +1143,15 @@ extent_print(ex)
 	if (ex == NULL)
 		panic("extent_print: NULL extent");
 
+#ifdef _KERNEL
 	db_printf("extent '%s' (0x%lx - 0x%lx), flags=%b\n", ex->ex_name,
 	    ex->ex_start, ex->ex_end, ex->ex_flags, EXF_BITS);
+#else
+	db_printf("extent '%s' (0x%lx - 0x%lx), flags = 0x%x\n", ex->ex_name,
+	    ex->ex_start, ex->ex_end, ex->ex_flags);
+#endif
 
-	for (rp = ex->ex_regions.lh_first; rp != NULL;
-	    rp = rp->er_link.le_next)
+	LIST_FOREACH(rp, &ex->ex_regions, er_link)
 		db_printf("     0x%lx - 0x%lx\n", rp->er_start, rp->er_end);
 }
 #endif

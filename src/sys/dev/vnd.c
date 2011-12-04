@@ -1,5 +1,5 @@
-/**	$MirOS: src/sys/dev/vnd.c,v 1.3 2005/04/14 21:54:44 tg Exp $	*/
-/*	$OpenBSD: vnd.c,v 1.55 2005/04/19 15:32:12 mickey Exp $	*/
+/**	$MirOS: src/sys/dev/vnd.c,v 1.4 2005/04/29 18:35:01 tg Exp $	*/
+/*	$OpenBSD: vnd.c,v 1.56 2005/07/20 02:36:13 tedu Exp $	*/
 /*	$NetBSD: vnd.c,v 1.26 1996/03/30 23:06:11 christos Exp $	*/
 
 /*
@@ -135,7 +135,7 @@ struct vnd_softc {
 	struct ucred	*sc_cred;		/* credentials */
 	int		 sc_maxactive;		/* max # of active requests */
 	struct buf	 sc_tab;		/* transfer queue */
-	void		*sc_keyctx;		/* key context */
+	blf_ctx		*sc_keyctx;		/* key context */
 };
 
 /* sc_flags */
@@ -875,7 +875,7 @@ vndioctl(dev, cmd, addr, flag, p)
 				return (error);
 			}
 
-			vnd->sc_keyctx = malloc(sizeof(blf_ctx), M_DEVBUF,
+			vnd->sc_keyctx = malloc(sizeof(*vnd->sc_keyctx), M_DEVBUF,
 			    M_WAITOK);
 			blf_key(vnd->sc_keyctx, key, vio->vnd_keylen);
 			bzero(key, vio->vnd_keylen);

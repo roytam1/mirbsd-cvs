@@ -1,5 +1,5 @@
-/**	$MirOS$	*/
-/*	$OpenBSD: cd9660.c,v 1.10 2003/08/11 06:23:09 deraadt Exp $	*/
+/**	$MirOS: src/sys/lib/libsa/cd9660.c,v 1.2 2005/03/06 21:28:07 tg Exp $	*/
+/*	$OpenBSD: cd9660.c,v 1.12 2004/07/09 19:20:17 drahn Exp $	*/
 /*	$NetBSD: cd9660.c,v 1.1 1996/09/30 16:01:19 ws Exp $	*/
 
 /*
@@ -134,7 +134,7 @@ cd9660_open(char *path, struct open_file *f)
 	struct file *fp = 0;
 	void *buf;
 	struct iso_primary_descriptor *vd;
-	size_t buf_size, read, psize, dsize;
+	size_t buf_size, nread, psize, dsize;
 	daddr_t bno;
 	int parent, ent;
 	struct ptable_ent *pp;
@@ -148,10 +148,10 @@ cd9660_open(char *path, struct open_file *f)
 	for (bno = 16;; bno++) {
 		twiddle();
 		rc = f->f_dev->dv_strategy(f->f_devdata, F_READ, cdb2devb(bno),
-					   ISO_DEFAULT_BLOCK_SIZE, buf, &read);
+					   ISO_DEFAULT_BLOCK_SIZE, buf, &nread);
 		if (rc)
 			goto out;
-		if (read != ISO_DEFAULT_BLOCK_SIZE) {
+		if (nread != ISO_DEFAULT_BLOCK_SIZE) {
 			rc = EIO;
 			goto out;
 		}
@@ -177,10 +177,10 @@ cd9660_open(char *path, struct open_file *f)
 
 	twiddle();
 	rc = f->f_dev->dv_strategy(f->f_devdata, F_READ, cdb2devb(bno),
-				   buf_size, buf, &read);
+				   buf_size, buf, &nread);
 	if (rc)
 		goto out;
-	if (read != buf_size) {
+	if (nread != buf_size) {
 		rc = EIO;
 		goto out;
 	}
@@ -228,10 +228,10 @@ cd9660_open(char *path, struct open_file *f)
 			rc = f->f_dev->dv_strategy(f->f_devdata, F_READ,
 						   cdb2devb(bno),
 						   ISO_DEFAULT_BLOCK_SIZE,
-						   buf, &read);
+						   buf, &nread);
 			if (rc)
 				goto out;
-			if (read != ISO_DEFAULT_BLOCK_SIZE) {
+			if (nread != ISO_DEFAULT_BLOCK_SIZE) {
 				rc = EIO;
 				goto out;
 			}
@@ -297,7 +297,7 @@ cd9660_read(struct open_file *f, void *start, size_t size, size_t *resid)
 	daddr_t bno;
 	char buf[ISO_DEFAULT_BLOCK_SIZE];
 	char *dp;
-	size_t read, off;
+	size_t nread, off;
 
 	while (size) {
 		if (fp->off < 0 || fp->off >= fp->size)
@@ -310,25 +310,30 @@ cd9660_read(struct open_file *f, void *start, size_t size, size_t *resid)
 			dp = start;
 		twiddle();
 		rc = f->f_dev->dv_strategy(f->f_devdata, F_READ, cdb2devb(bno),
-					   ISO_DEFAULT_BLOCK_SIZE, dp, &read);
+					   ISO_DEFAULT_BLOCK_SIZE, dp, &nread);
 		if (rc)
 			return rc;
-		if (read != ISO_DEFAULT_BLOCK_SIZE)
+		if (nread != ISO_DEFAULT_BLOCK_SIZE)
 			return EIO;
-		if (dp == buf) {
-			off = fp->off & (ISO_DEFAULT_BLOCK_SIZE - 1);
-			if (read > off + size)
-				read = off + size;
-			read -= off;
-			memmove(start, buf + off, read);
-			start += read;
-			fp->off += read;
-			size -= read;
-		} else {
-			start += ISO_DEFAULT_BLOCK_SIZE;
-			fp->off += ISO_DEFAULT_BLOCK_SIZE;
-			size -= ISO_DEFAULT_BLOCK_SIZE;
-		}
+
+		/*
+		 * off is either 0 in the dp == start case or
+		 * the offset to the interesting data into the buffer of 'buf'
+		 */
+		off = fp->off & (ISO_DEFAULT_BLOCK_SIZE - 1);
+		nread -= off;
+		if (nread > size)
+			nread = size;
+
+		if (nread > (fp->size - fp->off))
+			nread = (fp->size - fp->off);
+
+		if (dp == buf)
+			memmove(start, buf + off, nread);
+
+		start += nread;
+		fp->off += nread;
+		size -= nread;
 	}
 	if (resid)
 		*resid = size;

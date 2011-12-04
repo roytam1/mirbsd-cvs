@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: pcibiosvar.h,v 1.12 2003/11/16 20:30:06 avsm Exp $	*/
+/**	$MirOS: src/sys/arch/i386/pci/pcibiosvar.h,v 1.2 2005/03/06 21:27:02 tg Exp $ */
+/*	$OpenBSD: pcibiosvar.h,v 1.14 2004/09/26 20:17:42 mickey Exp $	*/
 /*	$NetBSD: pcibios.h,v 1.2 2000/04/28 17:15:16 uch Exp $	*/
 
 /*

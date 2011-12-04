@@ -1,5 +1,5 @@
-# $MirOS$
-# $OpenBSD: Makefile,v 1.21 2003/06/01 17:00:32 deraadt Exp $
+# $MirOS: src/sys/lib/libsa/Makefile,v 1.2 2005/03/06 21:28:07 tg Exp $
+# $OpenBSD: Makefile,v 1.22 2005/05/24 22:25:46 millert Exp $
 # $NetBSD: Makefile,v 1.13 1996/10/02 16:19:51 ws Exp $
 
 LIB=	sa
@@ -9,7 +9,7 @@ DIR=${SAREL}${SADIR}
 .PATH: ${DIR}
 
 #DEBUGFLAGS= -DBOOTP_DEBUG -DNETIF_DEBUG -DETHER_DEBUG -DNFS_DEBUG -DRPC_DEBUG -DRARP_DEBUG -DDEBUG -DPARANOID -Wall
-#DEBUGFLAGS= -ansi -pedantic -Wall
+#DEBUGFLAGS= -Wall
 AFLAGS+=${XAFLAGS}
 CFLAGS+=${XCFLAGS} -D_STANDALONE -DCOMPAT_UFS $(DEBUGFLAGS) -I${DIR} -I${DIR}/../..
 #

@@ -1,5 +1,5 @@
-/**	$MirOS$	*/
-/*	$OpenBSD: printf.c,v 1.22 2004/01/03 14:08:53 espie Exp $	*/
+/**	$MirOS: src/sys/lib/libsa/printf.c,v 1.2 2005/03/06 21:28:08 tg Exp $	*/
+/*	$OpenBSD: printf.c,v 1.23 2004/09/22 22:05:11 miod Exp $	*/
 /*	$NetBSD: printf.c,v 1.10 1996/11/30 04:19:21 gwr Exp $	*/
 
 /*-
@@ -63,6 +63,9 @@
 #include "stand.h"
 
 void kprintn(void (*)(int), u_long, int);
+#ifdef LIBSA_LONGLONG_PRINTF
+void kprintn64(void (*)(int), u_int64_t, int);
+#endif
 void kdoprnt(void (*)(int), const char *, va_list);
 
 void
@@ -84,6 +87,9 @@ vprintf(const char *fmt, va_list ap)
 void
 kdoprnt(void (*put)(int), const char *fmt, va_list ap)
 {
+#ifdef LIBSA_LONGLONG_PRINTF
+	u_int64_t ull;
+#endif
 	unsigned long ul;
 	int ch, lflag;
 	char *p;
@@ -97,7 +103,7 @@ kdoprnt(void (*put)(int), const char *fmt, va_list ap)
 		lflag = 0;
 reswitch:	switch (ch = *fmt++) {
 		case 'l':
-			lflag = 1;
+			lflag++;
 			goto reswitch;
 #ifndef	STRIPPED
 		case 'b':
@@ -136,6 +142,17 @@ reswitch:	switch (ch = *fmt++) {
 				put(ch);
 			break;
 		case 'd':
+#ifdef LIBSA_LONGLONG_PRINTF
+			if (lflag > 1) {
+				ull = va_arg(ap, int64_t);
+				if ((int64_t)ull < 0) {
+					put('-');
+					ull = -(int64_t)ull;
+				}
+				kprintn64(put, ull, 10);
+				break;
+			} 
+#endif
 			ul = lflag ?
 			    va_arg(ap, long) : va_arg(ap, int);
 			if ((long)ul < 0) {
@@ -145,11 +162,25 @@ reswitch:	switch (ch = *fmt++) {
 			kprintn(put, ul, 10);
 			break;
 		case 'o':
+#ifdef LIBSA_LONGLONG_PRINTF
+			if (lflag > 1) {
+				ull = va_arg(ap, u_int64_t);
+				kprintn64(put, ull, 8);
+				break;
+			} 
+#endif
 			ul = lflag ?
 			    va_arg(ap, u_long) : va_arg(ap, u_int);
 			kprintn(put, ul, 8);
 			break;
 		case 'u':
+#ifdef LIBSA_LONGLONG_PRINTF
+			if (lflag > 1) {
+				ull = va_arg(ap, u_int64_t);
+				kprintn64(put, ull, 10);
+				break;
+			} 
+#endif
 			ul = lflag ?
 			    va_arg(ap, u_long) : va_arg(ap, u_int);
 			kprintn(put, ul, 10);
@@ -160,13 +191,24 @@ reswitch:	switch (ch = *fmt++) {
 			lflag += sizeof(void *)==sizeof(u_long)? 1 : 0;
 		case 'X':
 		case 'x':
+#ifdef LIBSA_LONGLONG_PRINTF
+			if (lflag > 1) {
+				ull = va_arg(ap, u_int64_t);
+				kprintn64(put, ull, 16);
+				break;
+			} 
+#endif
 			ul = lflag ?
 			    va_arg(ap, u_long) : va_arg(ap, u_int);
 			kprintn(put, ul, 16);
 			break;
 		default:
 			put('%');
+#ifdef LIBSA_LONGLONG_PRINTF
+			while (--lflag)
+#else
 			if (lflag)
+#endif
 				put('l');
 			put(ch);
 		}
@@ -188,6 +230,23 @@ kprintn(void (*put)(int), unsigned long ul, int base)
 		put(*--p);
 	} while (p > buf);
 }
+
+#ifdef LIBSA_LONGLONG_PRINTF
+void
+kprintn64(void (*put)(int), u_int64_t ull, int base)
+{
+	/* hold an int64_t in base 8 */
+	char *p, buf[(sizeof(u_int64_t) * NBBY / 3) + 1];
+
+	p = buf;
+	do {
+		*p++ = "0123456789abcdef"[ull % base];
+	} while (ull /= base);
+	do {
+		put(*--p);
+	} while (p > buf);
+}
+#endif
 
 int donottwiddle = 0;
 
