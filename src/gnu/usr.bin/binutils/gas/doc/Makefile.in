@@ -14,7 +14,7 @@
 
 @SET_MAKE@
 
-# $MirOS: src/gnu/usr.bin/binutils/gas/doc/Makefile.am,v 1.3 2005/03/28 21:40:36 tg Exp $
+# $MirOS: src/gnu/usr.bin/binutils/gas/doc/Makefile.am,v 1.4 2005/06/05 21:24:14 tg Exp $
 #
 srcdir = @srcdir@
 top_srcdir = @top_srcdir@
@@ -43,8 +43,9 @@ subdir = doc
 DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/acinclude.m4 \
-	$(top_srcdir)/../libtool.m4 $(top_srcdir)/../libtool.m4 \
-	$(top_srcdir)/configure.in
+	$(top_srcdir)/../bfd/warning.m4 \
+	$(top_srcdir)/../bfd/warning.m4 $(top_srcdir)/../libtool.m4 \
+	$(top_srcdir)/../libtool.m4 $(top_srcdir)/configure.in
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(SHELL) $(GNUSYSTEM_AUX_DIR)/mkinstalldirs
@@ -126,6 +127,7 @@ MAINT = @MAINT@
 MAINTAINER_MODE_FALSE = @MAINTAINER_MODE_FALSE@
 MAINTAINER_MODE_TRUE = @MAINTAINER_MODE_TRUE@
 MAKEINFO = @MAKEINFO@
+NO_WERROR = @NO_WERROR@
 OBJEXT = @OBJEXT@
 OPCODES_LIB = @OPCODES_LIB@
 PACKAGE = @PACKAGE@
@@ -249,7 +251,7 @@ CPU_DOCS = \
 # This one isn't ready for prime time yet.  Not even a little bit.
 noinst_TEXINFOS = internals.texi
 DISTCLEANFILES = asconfig.texi as.info as.info-*
-MAINTAINERCLEANFILES = gasver.texi
+MAINTAINERCLEANFILES = asconfig.texi gasver.texi
 BASEDIR = $(srcdir)/../..
 BFDDIR = $(BASEDIR)/bfd
 CONFIG_STATUS_DEPENDENCIES = $(BFDDIR)/configure.in
@@ -571,9 +573,10 @@ asconfig.texi: $(CONFIG).texi
 	  || ln $(srcdir)/$(CONFIG).texi ./asconfig.texi >/dev/null 2>&1 \
 	  || cp $(srcdir)/$(CONFIG).texi ./asconfig.texi
 
-gasver.texi: Makefile
+gasver.texi: $(srcdir)/../../bfd/configure
 	rm -f $@
-	echo '@set VERSION $(VERSION)' > $@
+	eval `grep '^ *VERSION=' $(srcdir)/../../bfd/configure`; \
+	  echo "@set VERSION $$VERSION" > $@
 
 # We want install to imply install-info as per GNU standards, despite the
 # cygnus option.

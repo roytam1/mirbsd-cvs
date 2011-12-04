@@ -39,6 +39,9 @@
    */
 #undef HAVE_ALLOCA_H
 
+/* Is the prototype for getopt in <unistd.h> in the expected format? */
+#undef HAVE_DECL_GETOPT
+
 /* Define to 1 if you have the <dlfcn.h> header file. */
 #undef HAVE_DLFCN_H
 
@@ -113,6 +116,9 @@
 
 /* Define if errno is not declared in system header files. */
 #undef NEED_DECLARATION_ERRNO
+
+/* Define if ffs is not declared in system header files. */
+#undef NEED_DECLARATION_FFS
 
 /* Define if free is not declared in system header files. */
 #undef NEED_DECLARATION_FREE
