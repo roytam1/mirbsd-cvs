@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.bin/binutils/binutils/doc/Makefile.am,v 1.2 2005/03/13 16:06:55 tg Exp $
+# $MirOS: src/gnu/usr.bin/binutils/binutils/doc/Makefile.am,v 1.3 2005/06/05 21:24:10 tg Exp $
 #
 ## Process this file with automake to generate Makefile.in
 
@@ -37,6 +37,8 @@ man_MANS = \
 info_TEXINFOS = binutils.texi
 binutils_TEXINFOS = config.texi
 binutils_TEXI = $(srcdir)/binutils.texi
+
+DISTCLEANFILES = *.info*
 
 config.texi: $(srcdir)/../../bfd/configure $(binutils_TEXI)
 	rm -f config.texi
