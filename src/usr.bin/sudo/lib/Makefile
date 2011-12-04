@@ -1,5 +1,5 @@
-# $MirOS: src/usr.bin/sudo/lib/Makefile,v 1.2 2005/03/13 18:33:38 tg Exp $
-# $OpenBSD: Makefile,v 1.2 2004/09/28 15:10:51 millert Exp $
+# $MirOS: src/usr.bin/sudo/lib/Makefile,v 1.3 2005/03/15 22:13:31 tg Exp $
+# $OpenBSD: Makefile,v 1.3 2005/06/21 02:11:43 brad Exp $
 
 .PATH:		${.CURDIR}/..
 
