@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: trees.c,v 1.7 2004/12/03 03:06:36 djm Exp $	*/
 /* trees.c -- output deflated data using Huffman coding
  * Copyright (C) 1995-2003 Jean-loup Gailly

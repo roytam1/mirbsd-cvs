@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: inffast.c,v 1.6 2004/12/03 03:06:36 djm Exp $	*/
 /* inffast.c -- fast decoding
  * Copyright (C) 1995-2004 Mark Adler
@@ -175,7 +176,7 @@ unsigned start;         /* inflate()'s starting value for strm->avail_out */
                 if (dist > op) {                /* see if copy from window */
                     op = dist - op;             /* distance back in window */
                     if (op > whave) {
-#ifdef SMALL  
+#ifdef SMALL
 			strm->msg = "error";
 #else
                         strm->msg = (char *)"invalid distance too far back";
@@ -255,7 +256,7 @@ unsigned start;         /* inflate()'s starting value for strm->avail_out */
                 goto dodist;
             }
             else {
-#ifdef SMALL  
+#ifdef SMALL
 		strm->msg = "error";
 #else
                 strm->msg = (char *)"invalid distance code";
@@ -274,7 +275,7 @@ unsigned start;         /* inflate()'s starting value for strm->avail_out */
             break;
         }
         else {
-#ifdef SMALL  
+#ifdef SMALL
 	    strm->msg = "error";
 #else
             strm->msg = (char *)"invalid literal/length code";

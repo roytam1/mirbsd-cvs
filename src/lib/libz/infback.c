@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /* infback.c -- inflate using a call-back interface
  * Copyright (C) 1995-2003 Mark Adler
  * For conditions of distribution and use, see copyright notice in zlib.h
@@ -307,7 +308,7 @@ void FAR *out_desc;
                 state->mode = TABLE;
                 break;
             case 3:
-#ifdef SMALL  
+#ifdef SMALL
 		strm->msg = "error";
 #else
                 strm->msg = (char *)"invalid block type";
@@ -322,7 +323,7 @@ void FAR *out_desc;
             BYTEBITS();                         /* go to byte boundary */
             NEEDBITS(32);
             if ((hold & 0xffff) != ((hold >> 16) ^ 0xffff)) {
-#ifdef SMALL  
+#ifdef SMALL
 		strm->msg = "error";
 #else
                 strm->msg = (char *)"invalid stored block lengths";
@@ -364,7 +365,7 @@ void FAR *out_desc;
             DROPBITS(4);
 #ifndef PKZIP_BUG_WORKAROUND
             if (state->nlen > 286 || state->ndist > 30) {
-#ifdef SMALL  
+#ifdef SMALL
 		strm->msg = "error";
 #else
                 strm->msg = (char *)"too many length or distance symbols";

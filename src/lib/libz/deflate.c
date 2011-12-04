@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: deflate.c,v 1.9 2004/12/03 03:06:36 djm Exp $	*/
 /* deflate.c -- compress data using the deflation algorithm
  * Copyright (C) 1995-2004 Jean-loup Gailly.
@@ -50,6 +51,8 @@
 
 
 #include "deflate.h"
+
+zRCSID("$MirOS$")
 
 const char deflate_copyright[] =
    " deflate 1.2.2 Copyright 1995-2004 Jean-loup Gailly ";

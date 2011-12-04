@@ -17,12 +17,14 @@
 #define ZLIB_INTERNAL
 #include "zlib.h"
 
+#undef zRCSID
 #ifdef _STANDALONE
-# if defined(_BSD_STANDXX) || defined(_KERNEL)
+#if defined(_BSD_STANDXX) || defined(_KERNEL)
 #include <lib/libsa/stand.h>
-# else
+#else
 #include <stand.h>
-# endif
+#endif
+#define zRCSID(x) /* nothing */
 #else
 #ifdef STDC
 #  include <stddef.h>
@@ -34,6 +36,7 @@
 #else
 #   include <errno.h>
 #endif
+#define zRCSID(x) __RCSID(x);
 #endif
 
 #ifndef local

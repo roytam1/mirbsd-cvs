@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: uncompr.c,v 1.5 2003/12/16 22:33:02 henning Exp $	*/
 /* uncompr.c -- decompress a memory buffer
  * Copyright (C) 1995-2003 Jean-loup Gailly.

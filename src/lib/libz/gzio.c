@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: gzio.c,v 1.13 2004/12/03 03:06:36 djm Exp $	*/
 /* gzio.c -- IO on .gz files
  * Copyright (C) 1995-2003 Jean-loup Gailly.
@@ -10,6 +11,8 @@
 #include <stdio.h>
 
 #include "zutil.h"
+
+zRCSID("$MirOS$")
 
 #ifdef NO_DEFLATE       /* for compatiblity with old definition */
 #  define NO_GZCOMPRESS
@@ -750,7 +753,7 @@ z_off_t ZEXPORT gzseek (file, offset, whence)
 	s->z_err == Z_ERRNO || s->z_err == Z_DATA_ERROR) {
 	return -1L;
     }
-    
+
     if (s->mode == 'w') {
 #ifdef NO_GZCOMPRESS
 	return -1L;
@@ -827,7 +830,7 @@ z_off_t ZEXPORT gzseek (file, offset, whence)
 }
 
 /* ===========================================================================
-     Rewinds input file. 
+     Rewinds input file.
 */
 int ZEXPORT gzrewind (file)
     gzFile file;

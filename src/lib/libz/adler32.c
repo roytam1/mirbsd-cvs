@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: adler32.c,v 1.5 2003/12/16 22:33:02 henning Exp $	*/
 /* adler32.c -- compute the Adler-32 checksum of a data stream
  * Copyright (C) 1995-2003 Mark Adler

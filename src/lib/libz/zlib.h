@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: zlib.h,v 1.8 2004/12/03 03:06:37 djm Exp $	*/
 /* zlib.h -- interface of the 'zlib' general purpose compression library
   version 1.2.2, October 3rd, 2004

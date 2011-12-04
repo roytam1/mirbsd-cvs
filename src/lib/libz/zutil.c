@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: zutil.c,v 1.7 2003/12/16 22:33:02 henning Exp $	*/
 /* zutil.c -- target dependent utility functions for the compression library
  * Copyright (C) 1995-2003 Jean-loup Gailly.
@@ -6,6 +7,8 @@
 
 
 #include "zutil.h"
+
+zRCSID("$MirOS$")
 
 #ifndef NO_DUMMY_DECL
 struct internal_state      {int dummy;}; /* for buggy compilers */

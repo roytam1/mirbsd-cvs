@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: crc32.c,v 1.7 2004/12/03 03:06:36 djm Exp $	*/
 /* crc32.c -- compute the CRC-32 of a data stream
  * Copyright (C) 1995-2003 Mark Adler
@@ -24,7 +25,7 @@
 #    define DYNAMIC_CRC_TABLE
 #  endif /* !DYNAMIC_CRC_TABLE */
 #endif /* MAKECRCH */
-  
+
 #include "zutil.h"      /* for STDC and FAR definitions */
 
 #define local static

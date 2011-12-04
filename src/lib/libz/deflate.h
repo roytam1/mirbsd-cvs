@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: deflate.h,v 1.6 2004/12/03 03:06:36 djm Exp $	*/
 /* deflate.h -- internal compression state
  * Copyright (C) 1995-2002 Jean-loup Gailly

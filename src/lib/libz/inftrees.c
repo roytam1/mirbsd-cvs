@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: inftrees.c,v 1.6 2004/12/03 03:06:36 djm Exp $	*/
 /* inftrees.c -- generate Huffman trees for efficient decoding
  * Copyright (C) 1995-2004 Mark Adler
