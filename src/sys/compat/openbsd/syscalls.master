@@ -1,4 +1,4 @@
-;	$MirOS: src/sys/compat/openbsd/syscalls.master,v 1.1.7.1 2005/03/06 16:33:43 tg Exp $
+;	$MirOS: src/sys/compat/openbsd/syscalls.master,v 1.2 2005/07/01 13:54:39 tg Exp $
 ;	$OpenBSD: syscalls.master,v 1.76 2004/07/15 14:35:34 deraadt Exp $
 ;	$NetBSD: syscalls.master,v 1.32 1996/04/23 10:24:21 mycroft Exp $
 
@@ -399,7 +399,7 @@
 			    size_t newlen); }
 203	STD		{ int sys_mlock(const void *addr, size_t len); }
 204	STD		{ int sys_munlock(const void *addr, size_t len); }
-205	STD		{ int sys_undelete(const char *path); }
+205	UNIMPL		sys_undelete
 206	STD		{ int compat_35_sys_futimes(int fd, \
 			    const struct timeval_compat *tptr); }
 207	STD		{ pid_t sys_getpgid(pid_t pid); }
