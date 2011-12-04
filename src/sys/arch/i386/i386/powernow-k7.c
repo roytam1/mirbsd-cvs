@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/i386/powernow-k7.c,v 1.5 2005/05/06 12:32:05 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/i386/powernow-k7.c,v 1.6 2005/05/27 03:11:02 tg Exp $ */
 /* $OpenBSD: powernow-k7.c,v 1.3 2004/08/05 04:56:05 tedu Exp $ */
 
 #ifndef SMALL_KERNEL
@@ -7,7 +7,7 @@
 
 /*-
  * Copyright (c) 2005 Thorsten "mirabile" Glaser <tg@MirBSD.org>
- * Copyright (c) 2004 Martin "deadbug" Végiard <deadbug@gmail.com>
+ * Copyright (c) 2004 Martin "deadbug" VÃ©giard <deadbug@gmail.com>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,7 +33,7 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/* AMD POWERNOW K7 driver */
+/* AMD POWERNOW(tm) K7 driver */
 
 #include <sys/param.h>
 #include <sys/systm.h>
@@ -46,8 +46,8 @@
 #include <machine/cpu.h>
 #include <machine/bus.h>
 
-#define BIOS_START		0xE0000
-#define	BIOS_LEN		0x20000
+#define BIOS_START		0xC0000
+#define	BIOS_LEN		0x40000
 
 #define MSR_K7_CTL		0xC0010041
 #define CTL_SET_FID		0x0000000000010000ULL
