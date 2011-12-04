@@ -210,35 +210,6 @@ print_normal (CGEN_CPU_DESC cd ATTRIBUTE_UNUSED,
     (*info->fprintf_func) (info->stream, "0x%lx", value);
 }
 
-/* Default address handler.  */
-
-static void
-print_address (CGEN_CPU_DESC cd ATTRIBUTE_UNUSED,
-	       void *dis_info,
-	       bfd_vma value,
-	       unsigned int attrs,
-	       bfd_vma pc ATTRIBUTE_UNUSED,
-	       int length ATTRIBUTE_UNUSED)
-{
-  disassemble_info *info = (disassemble_info *) dis_info;
-
-#ifdef CGEN_PRINT_ADDRESS
-  CGEN_PRINT_ADDRESS (cd, info, value, attrs, pc, length);
-#endif
-
-  /* Print the operand as directed by the attributes.  */
-  if (CGEN_BOOL_ATTR (attrs, CGEN_OPERAND_SEM_ONLY))
-    ; /* Nothing to do.  */
-  else if (CGEN_BOOL_ATTR (attrs, CGEN_OPERAND_PCREL_ADDR))
-    (*info->print_address_func) (value, info);
-  else if (CGEN_BOOL_ATTR (attrs, CGEN_OPERAND_ABS_ADDR))
-    (*info->print_address_func) (value, info);
-  else if (CGEN_BOOL_ATTR (attrs, CGEN_OPERAND_SIGNED))
-    (*info->fprintf_func) (info->stream, "%ld", (long) value);
-  else
-    (*info->fprintf_func) (info->stream, "0x%lx", (long) value);
-}
-
 /* Keyword print handler.  */
 
 static void
