@@ -4,10 +4,10 @@
  * THIS FILE AUTOMATICALLY GENERATED.  DO NOT EDIT.
  *
  * generated from:
- *	MirOS: src/sys/dev/pci/pcidevs,v 1.6 2005/07/07 14:02:01 tg Exp 
+ *	MirOS: src/sys/dev/pci/pcidevs,v 1.7 2005/07/21 21:52:18 tg Exp 
  */
 /*	$NetBSD: pcidevs,v 1.580 2003/09/26 07:45:15 matt Exp $		*/
-/*	$OpenBSD: pcidevs,v 1.888 2005/07/06 10:40:44 jsg Exp $		*/
+/*	$OpenBSD: pcidevs,v 1.893 2005/07/21 09:39:17 jsg Exp $		*/
 /*	$NetBSD: pcidevs,v 1.30 1997/06/24 06:20:24 thorpej Exp $ 	*/
 
 /*
@@ -1955,6 +1955,14 @@ static const struct pci_known_product pci_known_products[] = {
 	    "5601",
 	},
 	{
+	    PCI_VENDOR_BROADCOM, PCI_PRODUCT_BROADCOM_BCM5752,
+	    "BCM5752",
+	},
+	{
+	    PCI_VENDOR_BROADCOM, PCI_PRODUCT_BROADCOM_BCM5752M,
+	    "BCM5752M",
+	},
+	{
 	    PCI_VENDOR_BROADCOM, PCI_PRODUCT_BROADCOM_BCM5700,
 	    "BCM5700",
 	},
@@ -2065,6 +2073,22 @@ static const struct pci_known_product pci_known_products[] = {
 	{
 	    PCI_VENDOR_BROADCOM, PCI_PRODUCT_BROADCOM_BCM5703_ALT,
 	    "BCM5703_ALT",
+	},
+	{
+	    PCI_VENDOR_BROADCOM, PCI_PRODUCT_BROADCOM_BCM5781,
+	    "BCM5781",
+	},
+	{
+	    PCI_VENDOR_BROADCOM, PCI_PRODUCT_BROADCOM_BCM5753,
+	    "BCM5753",
+	},
+	{
+	    PCI_VENDOR_BROADCOM, PCI_PRODUCT_BROADCOM_BCM5753M,
+	    "BCM5753M",
+	},
+	{
+	    PCI_VENDOR_BROADCOM, PCI_PRODUCT_BROADCOM_BCM5753F,
+	    "BCM5753F",
 	},
 	{
 	    PCI_VENDOR_BROADCOM, PCI_PRODUCT_BROADCOM_BCM4401B0,
@@ -2893,6 +2917,10 @@ static const struct pci_known_product pci_known_products[] = {
 	{
 	    PCI_VENDOR_DLINK, PCI_PRODUCT_DLINK_DGE560T,
 	    "DGE-560T",
+	},
+	{
+	    PCI_VENDOR_DLINK, PCI_PRODUCT_DLINK_DGE560T_2,
+	    "DGE-560T_2",
 	},
 	{
 	    PCI_VENDOR_DLINK, PCI_PRODUCT_DLINK_DGE530T,
@@ -4175,6 +4203,14 @@ static const struct pci_known_product pci_known_products[] = {
 	    "82845G/GL Video",
 	},
 	{
+	    PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_915GM_HB,
+	    "915GM/PM/GMS Host",
+	},
+	{
+	    PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_915GM_IGD,
+	    "915GM/GMS Video",
+	},
+	{
 	    PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_82865_IO_1,
 	    "82865G/PE/P CPU-I/0-1",
 	},
@@ -4255,6 +4291,14 @@ static const struct pci_known_product pci_known_products[] = {
 	    "6300ESB SMBus",
 	},
 	{
+	    PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_6300ESB_ACA,
+	    "6300ESB AC97",
+	},
+	{
+	    PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_6300ESB_ACM,
+	    "6300ESB Modem",
+	},
+	{
 	    PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_6300ESB_USB,
 	    "6300ESB USB",
 	},
@@ -4285,6 +4329,10 @@ static const struct pci_known_product pci_known_products[] = {
 	{
 	    PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_82801FB_LPC,
 	    "82801FB LPC",
+	},
+	{
+	    PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_82801FBM_LPC,
+	    "82801FBM LPC",
 	},
 	{
 	    PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_82801FB_SATA,
@@ -4335,8 +4383,16 @@ static const struct pci_known_product pci_known_products[] = {
 	    "82801FB PCIE",
 	},
 	{
+	    PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_82801FB_HDA,
+	    "82801FB HD Audio",
+	},
+	{
 	    PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_82801FB_SMBUS,
 	    "82801FB SMBus",
+	},
+	{
+	    PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_82801FB_ACM,
+	    "82801FB Modem",
 	},
 	{
 	    PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_82801FB_ACA,
@@ -4345,6 +4401,82 @@ static const struct pci_known_product pci_known_products[] = {
 	{
 	    PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_82801FB_IDE,
 	    "82801FB IDE",
+	},
+	{
+	    PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_915GM_IGD_S,
+	    "915GM/GMS Video",
+	},
+	{
+	    PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_82801GB_LPC,
+	    "82801GB LPC",
+	},
+	{
+	    PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_82801GB_SATA_1,
+	    "82801GB SATA",
+	},
+	{
+	    PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_82801GB_SATA_2,
+	    "82801GB AHCI SATA",
+	},
+	{
+	    PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_82801GB_SATA_3,
+	    "82801GB SATA",
+	},
+	{
+	    PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_82801GB_USB_1,
+	    "82801GB USB",
+	},
+	{
+	    PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_82801GB_USB_2,
+	    "82801GB USB",
+	},
+	{
+	    PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_82801GB_USB_3,
+	    "82801GB USB",
+	},
+	{
+	    PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_82801GB_USB_4,
+	    "82801GB USB",
+	},
+	{
+	    PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_82801GB_USB_5,
+	    "82801GB USB",
+	},
+	{
+	    PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_82801GB_PCIE_1,
+	    "82801GB PCIE",
+	},
+	{
+	    PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_82801GB_PCIE_2,
+	    "82801GB PCIE",
+	},
+	{
+	    PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_82801GB_PCIE_3,
+	    "82801GB PCIE",
+	},
+	{
+	    PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_82801GB_PCIE_4,
+	    "82801GB PCIE",
+	},
+	{
+	    PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_82801GB_HDA,
+	    "82801GB HD Audio",
+	},
+	{
+	    PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_82801GB_SMBUS,
+	    "82801GB SMBus",
+	},
+	{
+	    PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_82801GB_ACM,
+	    "82801GB Modem",
+	},
+	{
+	    PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_82801GB_ACA,
+	    "82801GB AC97",
+	},
+	{
+	    PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_82801GB_IDE,
+	    "82801GB IDE",
 	},
 	{
 	    PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_RCU32,
@@ -7711,6 +7843,10 @@ static const struct pci_known_product pci_known_products[] = {
 	    "PCI7(4-6)10 FireWire",
 	},
 	{
+	    PCI_VENDOR_TI, PCI_PRODUCT_TI_PCI7420_FW,
+	    "PCI7x20 FireWire",
+	},
+	{
 	    PCI_VENDOR_TI, PCI_PRODUCT_TI_ACX100A,
 	    "ACX100A",
 	},
@@ -7869,6 +8005,10 @@ static const struct pci_known_product pci_known_products[] = {
 	{
 	    PCI_VENDOR_TI, PCI_PRODUCT_TI_PCI2040,
 	    "PCI2040 DSP",
+	},
+	{
+	    PCI_VENDOR_TI, PCI_PRODUCT_TI_PCI7420,
+	    "PCI7420 CardBus",
 	},
 	{
 	    PCI_VENDOR_TIGERJET, PCI_PRODUCT_TIGERJET_TIGER320,

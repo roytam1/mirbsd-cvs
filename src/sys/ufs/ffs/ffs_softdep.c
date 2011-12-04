@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/ufs/ffs/ffs_softdep.c,v 1.3 2005/07/04 00:10:45 tg Exp $ */
+/**	$MirOS: src/sys/ufs/ffs/ffs_softdep.c,v 1.4 2005/07/21 21:52:25 tg Exp $ */
 /*	$OpenBSD: ffs_softdep.c,v 1.60 2005/07/20 16:30:34 pedro Exp $	*/
 /*
  * Copyright 1998, 2000 Marshall Kirk McKusick. All Rights Reserved.
@@ -1560,8 +1560,8 @@ allocdirect_merge(adphead, newadp, oldadp)
 	    newadp->ad_lbn >= NDADDR) {
 		FREE_LOCK(&lk);
 		panic("allocdirect_merge: old %d != new %d || lbn %ld >= %d",
-		    newadp->ad_oldblkno, oldadp->ad_newblkno, newadp->ad_lbn,
-		    NDADDR);
+		    newadp->ad_oldblkno, oldadp->ad_newblkno,
+		    (long)newadp->ad_lbn, NDADDR);
 	}
 	newadp->ad_oldblkno = oldadp->ad_oldblkno;
 	newadp->ad_oldsize = oldadp->ad_oldsize;
