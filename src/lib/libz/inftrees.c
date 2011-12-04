@@ -1,14 +1,14 @@
-/**	$MirOS: src/lib/libz/inftrees.c,v 1.2 2005/03/14 21:58:17 tg Exp $ */
-/*	$OpenBSD: inftrees.c,v 1.6 2004/12/03 03:06:36 djm Exp $	*/
+/**	$MirOS: src/lib/libz/inftrees.c,v 1.3 2005/07/07 12:27:25 tg Exp $ */
+/*	$OpenBSD: inftrees.c,v 1.8 2005/07/20 15:56:41 millert Exp $	*/
 /* inftrees.c -- generate Huffman trees for efficient decoding
- * Copyright (C) 1995-2004 Mark Adler
+ * Copyright (C) 1995-2005 Mark Adler
  * For conditions of distribution and use, see copyright notice in zlib.h
  */
 
 #include "zutil.h"
 #include "inftrees.h"
 
-zRCSID("$MirOS$")
+zRCSID("$MirOS: src/lib/libz/inftrees.c,v 1.3 2005/07/07 12:27:25 tg Exp $")
 
 #define MAXBITS 15
 
@@ -57,7 +57,7 @@ unsigned short FAR *work;
         35, 43, 51, 59, 67, 83, 99, 115, 131, 163, 195, 227, 258, 0, 0};
     static const unsigned short lext[31] = { /* Length codes 257..285 extra */
         16, 16, 16, 16, 16, 16, 16, 16, 17, 17, 17, 17, 18, 18, 18, 18,
-        19, 19, 19, 19, 20, 20, 20, 20, 21, 21, 21, 21, 16, 199, 198};
+        19, 19, 19, 19, 20, 20, 20, 20, 21, 21, 21, 21, 16, 201, 196};
     static const unsigned short dbase[32] = { /* Distance codes 0..29 base */
         1, 2, 3, 4, 5, 7, 9, 13, 17, 25, 33, 49, 65, 97, 129, 193,
         257, 385, 513, 769, 1025, 1537, 2049, 3073, 4097, 6145,
@@ -129,7 +129,7 @@ unsigned short FAR *work;
         left -= count[len];
         if (left < 0) return -1;        /* over-subscribed */
     }
-    if (left > 0 && (type == CODES || (codes - count[0] != 1)))
+    if (left > 0 && (type == CODES || max != 1))
         return -1;                      /* incomplete set */
 
     /* generate offsets into symbol table for each length for sorting */
@@ -227,6 +227,7 @@ unsigned short FAR *work;
         /* replicate for those indices with low len bits equal to huff */
         incr = 1U << (len - drop);
         fill = 1U << curr;
+        min = fill;                 /* save offset to next table */
         do {
             fill -= incr;
             next[(huff >> drop) + fill] = this;
@@ -257,7 +258,7 @@ unsigned short FAR *work;
                 drop = root;
 
             /* increment past last table */
-            next += 1U << curr;
+            next += min;            /* here min is 1 << curr */
 
             /* determine length of next table */
             curr = len - drop;

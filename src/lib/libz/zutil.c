@@ -1,21 +1,13 @@
-/**	$MirOS: src/lib/libz/zutil.c,v 1.3 2005/07/07 12:27:26 tg Exp $ */
-/*	$OpenBSD: zutil.c,v 1.7 2003/12/16 22:33:02 henning Exp $	*/
+/**	$MirOS: src/lib/libz/zutil.c,v 1.4 2005/07/07 12:40:17 tg Exp $ */
+/*	$OpenBSD: zutil.c,v 1.8 2005/07/20 15:56:41 millert Exp $	*/
 /* zutil.c -- target dependent utility functions for the compression library
- * Copyright (C) 1995-2003 Jean-loup Gailly.
+ * Copyright (C) 1995-2005 Jean-loup Gailly.
  * For conditions of distribution and use, see copyright notice in zlib.h
  */
 
 #include "zutil.h"
 
-zRCSID("$MirOS: src/lib/libz/zutil.c,v 1.3 2005/07/07 12:27:26 tg Exp $")
-
-#ifndef NO_DUMMY_DECL
-struct internal_state      {int dummy;}; /* for buggy compilers */
-#endif
-
-#ifndef STDC
-extern void exit OF((int));
-#endif
+zRCSID("$MirOS: src/lib/libz/zutil.c,v 1.4 2005/07/07 12:40:17 tg Exp $")
 
 const char * const z_errmsg[10] = {
 "need dictionary",     /* Z_NEED_DICT       2  */
@@ -28,7 +20,6 @@ const char * const z_errmsg[10] = {
 "buffer error",        /* Z_BUF_ERROR     (-5) */
 "incompatible version",/* Z_VERSION_ERROR (-6) */
 ""};
-
 
 const char * ZEXPORT zlibVersion()
 {
@@ -80,38 +71,38 @@ uLong ZEXPORT zlibCompileFlags()
     flags += 1 << 13;
 #endif
 #ifdef NO_GZCOMPRESS
-    flags += 1 << 16;
+    flags += 1L << 16;
 #endif
 #ifdef NO_GZIP
-    flags += 1 << 17;
+    flags += 1L << 17;
 #endif
 #ifdef PKZIP_BUG_WORKAROUND
-    flags += 1 << 20;
+    flags += 1L << 20;
 #endif
 #ifdef FASTEST
-    flags += 1 << 21;
+    flags += 1L << 21;
 #endif
 #ifdef STDC
 #  ifdef NO_vsnprintf
-        flags += 1 << 25;
+        flags += 1L << 25;
 #    ifdef HAS_vsprintf_void
-        flags += 1 << 26;
+        flags += 1L << 26;
 #    endif
 #  else
 #    ifdef HAS_vsnprintf_void
-        flags += 1 << 26;
+        flags += 1L << 26;
 #    endif
 #  endif
 #else
-        flags += 1 << 24;
+        flags += 1L << 24;
 #  ifdef NO_snprintf
-        flags += 1 << 25;
+        flags += 1L << 25;
 #    ifdef HAS_sprintf_void
-        flags += 1 << 26;
+        flags += 1L << 26;
 #    endif
 #  else
 #    ifdef HAS_snprintf_void
-        flags += 1 << 26;
+        flags += 1L << 26;
 #    endif
 #  endif
 #endif
@@ -143,7 +134,10 @@ const char * ZEXPORT zError(err)
 }
 
 #if defined(_WIN32_WCE)
-    /* does not exist on WCE */
+    /* The Microsoft C Run-Time Library for Windows CE doesn't have
+     * errno.  We define it as a global variable to simplify porting.
+     * Its value is always 0 and should not be used.
+     */
     int errno = 0;
 #endif
 

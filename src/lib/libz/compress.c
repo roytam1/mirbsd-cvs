@@ -1,13 +1,13 @@
-/**	$MirOS: src/lib/libz/compress.c,v 1.2 2005/03/14 21:58:16 tg Exp $ */
-/*	$OpenBSD: compress.c,v 1.5 2003/12/16 22:33:02 henning Exp $	*/
+/**	$MirOS: src/lib/libz/compress.c,v 1.3 2005/07/07 12:27:24 tg Exp $ */
+/*	$OpenBSD: compress.c,v 1.6 2005/07/20 15:56:41 millert Exp $	*/
 /* compress.c -- compress a memory buffer
- * Copyright (C) 1995-2002 Jean-loup Gailly.
+ * Copyright (C) 1995-2003 Jean-loup Gailly.
  * For conditions of distribution and use, see copyright notice in zlib.h
  */
 
 #include "zutil.h"
 
-zRCSID("$MirOS$")
+zRCSID("$MirOS: src/lib/libz/compress.c,v 1.3 2005/07/07 12:27:24 tg Exp $")
 
 /* ===========================================================================
      Compresses the source buffer into the destination buffer. The level

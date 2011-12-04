@@ -1,6 +1,6 @@
-/* $MirOS: src/lib/libz/infback.c,v 1.2 2005/03/14 21:58:16 tg Exp $ */
+/* $MirOS: src/lib/libz/infback.c,v 1.3 2005/07/07 12:27:25 tg Exp $ */
 /* infback.c -- inflate using a call-back interface
- * Copyright (C) 1995-2003 Mark Adler
+ * Copyright (C) 1995-2005 Mark Adler
  * For conditions of distribution and use, see copyright notice in zlib.h
  */
 
@@ -14,9 +14,8 @@
 #include "zutil.h"
 #include "inftrees.h"
 #include "inflate.h"
-#include "inffast.h"
 
-zRCSID("$MirOS$")
+zRCSID("$MirOS: src/lib/libz/infback.c,v 1.3 2005/07/07 12:27:25 tg Exp $")
 
 /* function prototypes */
 local void fixedtables OF((struct inflate_state FAR *state));
@@ -29,7 +28,7 @@ local void fixedtables OF((struct inflate_state FAR *state));
    window and output buffer that is 2**windowBits bytes.
  */
 int ZEXPORT inflateBackInit_(strm, windowBits, window, version, stream_size)
-z_stream FAR *strm;
+z_streamp strm;
 int windowBits;
 unsigned char FAR *window;
 const char *version;
@@ -53,7 +52,8 @@ int stream_size;
                                                sizeof(struct inflate_state));
     if (state == Z_NULL) return Z_MEM_ERROR;
     Tracev((stderr, "inflate: allocated\n"));
-    strm->state = (voidpf)state;
+    strm->state = (struct internal_state FAR *)state;
+    state->dmax = 32768U;
     state->wbits = windowBits;
     state->wsize = 1U << windowBits;
     state->window = window;
@@ -241,7 +241,7 @@ struct inflate_state FAR *state;
    are not correct, i.e. strm is Z_NULL or the state was not initialized.
  */
 int ZEXPORT inflateBack(strm, in, in_desc, out, out_desc)
-z_stream FAR *strm;
+z_streamp strm;
 in_func in;
 void FAR *in_desc;
 out_func out;
@@ -628,7 +628,7 @@ void FAR *out_desc;
 }
 
 int ZEXPORT inflateBackEnd(strm)
-z_stream FAR *strm;
+z_streamp strm;
 {
     if (strm == Z_NULL || strm->state == Z_NULL || strm->zfree == (free_func)0)
         return Z_STREAM_ERROR;
