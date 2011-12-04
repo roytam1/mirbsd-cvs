@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/i386/machdep.c,v 1.4 2005/05/04 18:12:39 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/i386/machdep.c,v 1.5 2005/05/05 23:11:27 tg Exp $ */
 /*	$OpenBSD: machdep.c,v 1.317 2005/04/02 02:44:58 tedu Exp $	*/
 /*	$NetBSD: machdep.c,v 1.214 1996/11/10 03:16:17 thorpej Exp $	*/
 
@@ -1330,12 +1330,12 @@ amd_family6_setup(cpu_device, model, step)
 	extern void sse2_pagezero(void *, size_t);
 	extern void i686_pagezero(void *, size_t);
 	static struct amd_pn_flag amd_pn_flags[] = {
-	    {0, "TS"},
-	    {1, "FID"},
-	    {2, "VID"},
-	    {4, "TTP"},
-	    {8, "TM"},
-	    {16, "STC"}
+	    {0x01, "TS"},
+	    {0x02, "FID"},
+	    {0x04, "VID"},
+	    {0x08, "TTP"},
+	    {0x10, "TM"},
+	    {0x20, "STC"}
 	};
 	u_int regs[4];
 	int i;
