@@ -1,4 +1,4 @@
-# $MirOS: src/usr.sbin/Makefile,v 1.5 2005/04/27 08:54:39 tg Exp $
+# $MirOS: src/usr.sbin/Makefile,v 1.6 2005/07/01 12:40:56 tg Exp $
 # $OpenBSD: Makefile,v 1.110 2004/05/04 23:27:21 deraadt Exp $
 
 .include <bsd.own.mk>
@@ -73,7 +73,6 @@
   SUBDIR+= rwhod
   SUBDIR+= sa
   SUBDIR+= sensorsd
-  SUBDIR+= sesd
   SUBDIR+= sliplogin
   SUBDIR+= slstats
   SUBDIR+= spamdb
