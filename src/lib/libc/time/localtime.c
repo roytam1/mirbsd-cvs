@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/time/localtime.c,v 1.3 2005/03/28 21:21:50 tg Exp $ */
+/* $MirOS: src/lib/libc/time/localtime.c,v 1.4 2005/03/29 16:50:32 tg Exp $ */
 
 /*-
  * Copyright (c) 2004, 2005
@@ -29,7 +29,7 @@
 
 #include <sys/param.h>
 __SCCSID("@(#)localtime.c	7.80");
-__RCSID("$MirOS: src/lib/libc/time/localtime.c,v 1.3 2005/03/28 21:21:50 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/time/localtime.c,v 1.4 2005/03/29 16:50:32 tg Exp $");
 
 /*
 ** Leap second handling from Bradley White (bww@k.gp.cs.cmu.edu).
@@ -945,6 +945,10 @@ tzset_basic(void)
 	settzname();
 }
 
+/*
+** This function also cleans the leap second table first.
+** The externs are a private interface; sync with taitime.c
+*/
 void
 tzset(void)
 {
