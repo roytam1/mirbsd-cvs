@@ -1,4 +1,4 @@
-/**	$MirOS: src/libexec/ld.so/library_mquery.c,v 1.2 2005/03/06 19:24:01 tg Exp $ */
+/**	$MirOS: src/libexec/ld.so/library_mquery.c,v 1.3 2005/04/17 04:24:10 tg Exp $ */
 /*	$OpenBSD: library_mquery.c,v 1.18 2005/04/06 00:16:53 deraadt Exp $ */
 
 /*
@@ -38,7 +38,7 @@
 #include "archdep.h"
 #include "resolve.h"
 
-__RCSID("$MirOS: src/libexec/ld.so/library_mquery.c,v 1.2 2005/03/06 19:24:01 tg Exp $");
+__RCSID("$MirOS: src/libexec/ld.so/library_mquery.c,v 1.3 2005/04/17 04:24:10 tg Exp $");
 
 #define PFLAGS(X) ((((X) & PF_R) ? PROT_READ : 0) | \
 		   (((X) & PF_W) ? PROT_WRITE : 0) | \
@@ -71,7 +71,7 @@ _dl_unload_shlib(elf_object_t *object)
 }
 
 
-static elf_object_t *
+elf_object_t *
 _dl_tryload_shlib(const char *libname, int type)
 {
 	int	libfile, i, align = _dl_pagesz - 1;

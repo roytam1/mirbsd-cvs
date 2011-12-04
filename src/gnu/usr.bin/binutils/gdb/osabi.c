@@ -1,6 +1,9 @@
+/* $MirOS$ */
+
 /* OS ABI variant handling for GDB.
 
-   Copyright 2001, 2002, 2003, 2004 Free Software Foundation, Inc.
+   Copyright 2001, 2002, 2003, 2004, 2005
+   Free Software Foundation, Inc.
 
    This file is part of GDB.
 
@@ -47,7 +50,7 @@ static const char *gdb_osabi_available_names[GDB_OSABI_INVALID + 3] = {
 static const char *set_osabi_string;
 
 /* This table matches the indices assigned to enum gdb_osabi.  Keep
-   them in sync.  */
+   them in sync with defs.h.  */
 static const char * const gdb_osabi_names[] =
 {
   "none",
@@ -77,6 +80,8 @@ static const char * const gdb_osabi_names[] =
   "QNX Neutrino",
 
   "Cygwin",
+
+  "MirOS BSD",
 
   "<invalid>"
 };
@@ -465,6 +470,18 @@ generic_elf_osabi_sniff_abi_tag_sections: unknown OS number %d",
       return;
     }
       
+  /* .note.miros.ident notes, used by MirOS.  */
+  if (strcmp (name, ".note.miros.ident") == 0)
+    {
+      if (check_note (abfd, sect, note, "MirOS BSD", 4, 1))
+	{
+	  *osabi = GDB_OSABI_MIRBSD;
+	  return;
+	}
+      printf_filtered ("Unknown MirOS subtype \"%s\".\n",
+	note + 12 + strlen("MirOS "));
+    }
+
   /* .note.netbsd.ident notes, used by NetBSD.  */
   if (strcmp (name, ".note.netbsd.ident") == 0
       && check_note (abfd, sect, note, "NetBSD", 4, NT_NETBSD_IDENT))

@@ -1064,7 +1064,7 @@ gdb_rl_operate_and_get_next_completion (void)
    appear on the command line when the prompt returns.
    We ignore the arguments.  */
 static int
-gdb_rl_operate_and_get_next (int count, int key)
+gdb_rl_operate_and_get_next (const char *count, int key)
 {
   int where;
 
@@ -1671,7 +1671,7 @@ init_main (void)
   write_history_p = 0;
 
   /* Setup important stuff for command line editing.  */
-  rl_completion_entry_function = readline_line_completion_function;
+  rl_completion_entry_function = (Function *)readline_line_completion_function;
   rl_completer_word_break_characters = default_word_break_characters ();
   rl_completer_quote_characters = get_gdb_completer_quote_characters ();
   rl_readline_name = "gdb";

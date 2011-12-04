@@ -18,7 +18,11 @@
    Boston, MA 02111-1307, USA.  */
 
 #include "defs.h"
+#ifdef __MirBSD__
+#include "readline/readline.h"
+#else
 #include "readline/tilde.h"
+#endif
 #include "value.h"
 #include <ctype.h>
 #include "gdb_string.h"

@@ -1574,7 +1574,9 @@ _initialize_source (void)
      Always use the GNU regex routine for consistency across all hosts.
      Our current GNU regex.c does not have all the POSIX features, so this is
      just an approximation.  */
+#ifndef _REGEX_H_
   re_set_syntax (RE_SYNTAX_GREP);
+#endif
 
   c = add_cmd ("directory", class_files, directory_command,
 	       "Add directory DIR to beginning of search path for source files.\n\

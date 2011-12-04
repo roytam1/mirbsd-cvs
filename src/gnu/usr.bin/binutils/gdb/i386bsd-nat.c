@@ -1,6 +1,9 @@
+/* $MirOS$ */
+
 /* Native-dependent code for modern i386 BSD's.
 
-   Copyright 2000, 2001, 2002, 2003, 2004 Free Software Foundation, Inc.
+   Copyright 2000, 2001, 2002, 2003, 2004, 2005
+   Free Software Foundation, Inc.
 
    This file is part of GDB.
 
@@ -371,7 +374,7 @@ _initialize_i386bsd_nat (void)
 #define SC_REG_OFFSET i386fbsd_sc_reg_offset
 #elif defined (NetBSD) || defined (__NetBSD_Version__)
 #define SC_REG_OFFSET i386nbsd_sc_reg_offset
-#elif defined (OpenBSD)
+#elif defined (OpenBSD) || defined(__MirBSD__)
 #define SC_REG_OFFSET i386obsd_sc_reg_offset
 #endif
 

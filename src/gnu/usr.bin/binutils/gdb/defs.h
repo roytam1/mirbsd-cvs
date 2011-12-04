@@ -1,7 +1,10 @@
 /* *INDENT-OFF* */ /* ATTR_FORMAT confuses indent, avoid running it for now */
+
+/* $MirOS$ */
+
 /* Basic, host-specific, and target-specific definitions for GDB.
    Copyright 1986, 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995, 1996,
-   1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004
+   1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005
    Free Software Foundation, Inc.
 
    This file is part of GDB.
@@ -1047,6 +1050,8 @@ enum gdb_osabi
   GDB_OSABI_QNXNTO,
 
   GDB_OSABI_CYGWIN,
+
+  GDB_OSABI_MIRBSD,
 
   GDB_OSABI_INVALID		/* keep this last */
 };

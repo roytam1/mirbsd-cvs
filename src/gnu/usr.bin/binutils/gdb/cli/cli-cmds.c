@@ -1,6 +1,9 @@
+/* $MirOS$ */
+
 /* GDB CLI commands.
 
-   Copyright 2000, 2001, 2002, 2003, 2004 Free Software Foundation, Inc.
+   Copyright 2000, 2001, 2002, 2003, 2004, 2005
+   Free Software Foundation, Inc.
 
    This file is part of GDB.
 
@@ -21,7 +24,9 @@
 
 #include "defs.h"
 #include "readline/readline.h"
+#ifndef __MirBSD__
 #include "readline/tilde.h"
+#endif
 #include "completer.h"
 #include "target.h"	 /* For baud_rate, remote_debug and remote_timeout */
 #include "gdb_wait.h"		/* For shell escape implementation */
@@ -963,24 +968,30 @@ apropos_command (char *searchstr, int from_tty)
 {
   extern struct cmd_list_element *cmdlist; /*This is the main command list*/
   regex_t pattern;
-  char *pattern_fastmap;
   char errorbuffer[512];
+#ifndef _REGEX_H_
+  char *pattern_fastmap;
   pattern_fastmap = xcalloc (256, sizeof (char));
+#endif
   if (searchstr == NULL)
       error("REGEXP string is empty");
 
   if (regcomp(&pattern,searchstr,REG_ICASE) == 0)
     {
+#ifndef _REGEX_H_
       pattern.fastmap=pattern_fastmap;
       re_compile_fastmap(&pattern);
-      apropos_cmd (gdb_stdout,cmdlist,&pattern,"");
+#endif
+      apropos_cmd (gdb_stdout,cmdlist,(void *)&pattern,"");
     }
   else
     {
       regerror(regcomp(&pattern,searchstr,REG_ICASE),NULL,errorbuffer,512);
       error("Error in regular expression:%s",errorbuffer);
     }
+#ifndef _REGEX_H_
   xfree (pattern_fastmap);
+#endif
 }
 
 /* Print a list of files and line numbers which a user may choose from

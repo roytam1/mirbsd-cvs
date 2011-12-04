@@ -2535,10 +2535,10 @@ read_member_functions (struct field_info *fip, char **pp, struct type *type,
 	      char dem_opname[256];
 	      int ret;
 	      ret = cplus_demangle_opname (new_fnlist->fn_fieldlist.name,
-					      dem_opname, DMGL_ANSI);
+					      dem_opname, DMGL_ANSI, sizeof(dem_opname));
 	      if (!ret)
 		ret = cplus_demangle_opname (new_fnlist->fn_fieldlist.name,
-					     dem_opname, 0);
+					     dem_opname, 0, sizeof(dem_opname));
 	      if (ret)
 		new_fnlist->fn_fieldlist.name
 		  = obsavestring (dem_opname, strlen (dem_opname),

@@ -2675,7 +2675,9 @@ add_psymbol_with_dem_name_to_list (char *name, int namelength, char *dem_name,
       SYMBOL_CPLUS_DEMANGLED_NAME (&psymbol) =
 	deprecated_bcache (buf, dem_namelength + 1, objfile->psymbol_cache);
       break;
+    default:
       /* FIXME What should be done for the default case? Ignoring for now. */
+      break;
     }
 
   /* val and coreaddr are mutually exclusive, one of them *will* be zero */

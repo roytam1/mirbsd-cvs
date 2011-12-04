@@ -19482,8 +19482,8 @@ things without first using the debugger to find the facts.
 @c     inc-hist.texinfo
 @c Use -I with makeinfo to point to the appropriate directory,
 @c environment var TEXINPUTS with TeX.
-@include rluser.texinfo
-@include inc-hist.texinfo
+@include rluser.texi
+@include hsuser.texi
 
 
 @node Formatting Documentation

@@ -27,6 +27,7 @@
 #include "event-loop.h"
 #include "event-top.h"
 #include "interps.h"
+#include "gdb_string.h"
 #include <signal.h>
 
 /* For dont_repeat() */

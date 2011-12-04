@@ -536,6 +536,8 @@ ptype	:	typebase
 		      case tp_function:
 			follow_type = lookup_function_type (follow_type);
 			break;
+		      default:
+			break;
 		      }
 		  $$ = follow_type;
 		}

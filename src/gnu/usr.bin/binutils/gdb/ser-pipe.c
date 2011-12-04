@@ -132,8 +132,6 @@ pipe_close (struct serial *scb)
     }
 }
 
-static struct serial_ops pipe_ops;
-
 void
 _initialize_ser_pipe (void)
 {

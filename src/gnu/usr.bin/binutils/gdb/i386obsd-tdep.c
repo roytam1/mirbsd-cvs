@@ -1,7 +1,9 @@
-/* Target-dependent code for OpenBSD/i386.
+/* $MirOS$ */
+
+/* Target-dependent code for OpenBSD/i386 and MirOS BSD/i386.
 
    Copyright 1988, 1989, 1991, 1992, 1994, 1996, 2000, 2001, 2002,
-   2003, 2004
+   2003, 2004, 2005
    Free Software Foundation, Inc.
 
    This file is part of GDB.
@@ -230,8 +232,6 @@ i386obsd_aout_init_abi (struct gdbarch_info info, struct gdbarch *gdbarch)
 static void
 i386obsd_elf_init_abi (struct gdbarch_info info, struct gdbarch *gdbarch)
 {
-  struct gdbarch_tdep *tdep = gdbarch_tdep (gdbarch);
-
   /* It's still OpenBSD.  */
   i386obsd_init_abi (info, gdbarch);
 
@@ -260,4 +260,31 @@ _initialize_i386obsd_tdep (void)
 			  i386obsd_aout_init_abi);
   gdbarch_register_osabi (bfd_arch_i386, 0, GDB_OSABI_OPENBSD_ELF,
 			  i386obsd_elf_init_abi);
+}
+
+
+/* MirOS BSD/i386 is very similar to OpenBSD/i386 ELF.  */
+
+static void
+i386mbsd_elf_init_abi (struct gdbarch_info info, struct gdbarch *gdbarch)
+{
+  struct gdbarch_tdep *tdep = gdbarch_tdep (gdbarch);
+
+  /* It looks like OpenBSD.  */
+  i386obsd_elf_init_abi (info, gdbarch);
+
+  /* But there are some differences.  */
+
+  /* MirOS BSD uses -fpcc-struct-return by default.  */
+  tdep->struct_return = pcc_struct_return;
+}
+
+/* Provide a prototype to silence -Wmissing-prototypes.  */
+void _initialize_i386mbsd_tdep (void);
+
+void
+_initialize_i386mbsd_tdep (void)
+{
+  gdbarch_register_osabi (bfd_arch_i386, 0, GDB_OSABI_MIRBSD,
+			  i386mbsd_elf_init_abi);
 }

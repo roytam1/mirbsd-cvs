@@ -1,3 +1,4 @@
+# $MirOS$
 ##Copyright 1991, 1992, 1993, 1994, 1995, 1996, 1999, 2000, 2002, 2003
 ##Free Software Foundation, Inc.
 
@@ -41,7 +42,7 @@ gdbdir = $(srcdir)/..
 TEXIDIR=${gdbdir}/../texinfo
 
 # where to find makeinfo, preferably one designed for texinfo-2
-MAKEINFO=makeinfo
+MAKEINFO=makeinfo --no-split
 
 # Note that texinfo 4.0's makeinfo --html can only generate a
 # single file, which would be too large, so continue to use
@@ -100,9 +101,7 @@ DVIPS = dvips
 GDB_DOC_SOURCE_INCLUDES = \
 	$(srcdir)/fdl.texi \
 	$(srcdir)/gpl.texi \
-	$(srcdir)/agentexpr.texi \
-	$(READLINE_DIR)/rluser.texinfo \
-	$(READLINE_DIR)/inc-hist.texinfo
+	$(srcdir)/agentexpr.texi
 GDB_DOC_BUILD_INCLUDES = \
 	gdb-cfg.texi \
 	GDBvn.texi
@@ -155,8 +154,8 @@ pdf: gdb.pdf gdbint.pdf stabs.pdf annotate.pdf
 all-doc: info dvi ps # pdf
 diststuff: info
 
-install-info: $(INFO_DEPS)
-	$(SHELL) $(srcdir)/../../mkinstalldirs $(DESTDIR)$(infodir)
+install-info: #$(INFO_DEPS)
+#	$(SHELL) $(GNUSYSTEM_AUX_DIR)/mkinstalldirs $(DESTDIR)$(infodir)
 	@list='$(INFO_DEPS)'; \
 	for file in $$list; do \
 	  if test -f $$file; then d=.; else d=$(srcdir); fi; \
@@ -167,7 +166,7 @@ install-info: $(INFO_DEPS)
 	    else : ; fi; \
 	  done; \
 	done
-	$(POST_INSTALL)
+#	$(POST_INSTALL)
 	@if $(SHELL) -c 'install-info --version | sed 1q | fgrep -s -v -i debian' >/dev/null 2>&1; then \
 	  list='$(INFO_DEPS)'; \
 	  for file in $$list; do \

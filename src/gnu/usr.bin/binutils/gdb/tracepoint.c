@@ -54,6 +54,8 @@
 #include <unistd.h>
 #endif
 
+#include <ctype.h>
+
 /* maximum length of an agent aexpression.
    this accounts for the fact that packets are limited to 400 bytes
    (which includes everything -- including the checksum), and assumes

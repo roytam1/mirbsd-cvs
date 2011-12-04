@@ -312,6 +312,8 @@ gdb_events_deliver (struct gdb_events *vector)
 	case architecture_changed:
 	  vector->architecture_changed ();
 	  break;
+	default:
+	  break;
 	}
       delivering_events = event->next;
       xfree (event);

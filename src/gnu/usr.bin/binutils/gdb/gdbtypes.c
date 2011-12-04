@@ -1678,10 +1678,10 @@ check_stub_method_group (struct type *type, int method_id)
       char dem_opname[256];
 
       ret = cplus_demangle_opname (TYPE_FN_FIELDLIST_NAME (type, method_id),
-				   dem_opname, DMGL_ANSI);
+				   dem_opname, DMGL_ANSI, sizeof(dem_opname));
       if (!ret)
 	ret = cplus_demangle_opname (TYPE_FN_FIELDLIST_NAME (type, method_id),
-				     dem_opname, 0);
+				     dem_opname, 0, sizeof(dem_opname));
       if (ret)
 	TYPE_FN_FIELDLIST_NAME (type, method_id) = xstrdup (dem_opname);
     }

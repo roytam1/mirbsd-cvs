@@ -506,8 +506,6 @@ get_core_register_section (char *name,
 static void
 get_core_registers (int regno)
 {
-  int status;
-
   if (!(core_gdbarch && gdbarch_regset_from_core_section_p (core_gdbarch))
       && (core_vec == NULL || core_vec->core_read_registers == NULL))
     {
@@ -553,7 +551,6 @@ core_xfer_partial (struct target_ops *ops, enum target_object object,
 
 	  struct bfd_section *section;
 	  bfd_size_type size;
-	  char *contents;
 
 	  section = bfd_get_section_by_name (core_bfd, ".auxv");
 	  if (section == NULL)
@@ -585,7 +582,6 @@ core_xfer_partial (struct target_ops *ops, enum target_object object,
 
 	  struct bfd_section *section;
 	  bfd_size_type size;
-	  char *contents;
 
 	  section = bfd_get_section_by_name (core_bfd, ".wcookie");
 	  if (section == NULL)

@@ -1,6 +1,8 @@
+/* $MirOS$ */
+
 /* Perform non-arithmetic operations on values, for GDB.
    Copyright 1986, 1987, 1988, 1989, 1990, 1991, 1992, 1993, 1994,
-   1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004
+   1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005
    Free Software Foundation, Inc.
 
    This file is part of GDB.
@@ -1448,9 +1450,9 @@ search_struct_method (char *name, struct value **arg1p,
 	  strncmp (t_field_name, "op", 2) == 0 ||
 	  strncmp (t_field_name, "type", 4) == 0)
 	{
-	  if (cplus_demangle_opname (t_field_name, dem_opname, DMGL_ANSI))
+	  if (cplus_demangle_opname (t_field_name, dem_opname, DMGL_ANSI, sizeof(dem_opname)))
 	    t_field_name = dem_opname;
-	  else if (cplus_demangle_opname (t_field_name, dem_opname, 0))
+	  else if (cplus_demangle_opname (t_field_name, dem_opname, 0, sizeof(dem_opname)))
 	    t_field_name = dem_opname;
 	}
       if (t_field_name && (strcmp_iw (t_field_name, name) == 0))
@@ -2427,9 +2429,9 @@ value_struct_elt_for_reference (struct type *domain, int offset,
 	  strncmp (t_field_name, "op", 2) == 0 ||
 	  strncmp (t_field_name, "type", 4) == 0)
 	{
-	  if (cplus_demangle_opname (t_field_name, dem_opname, DMGL_ANSI))
+	  if (cplus_demangle_opname (t_field_name, dem_opname, DMGL_ANSI, sizeof(dem_opname)))
 	    t_field_name = dem_opname;
-	  else if (cplus_demangle_opname (t_field_name, dem_opname, 0))
+	  else if (cplus_demangle_opname (t_field_name, dem_opname, 0, sizeof(dem_opname)))
 	    t_field_name = dem_opname;
 	}
       if (t_field_name && strcmp (t_field_name, name) == 0)

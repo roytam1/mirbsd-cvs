@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/usr.bin/mail/vars.c,v 1.2 2005/03/13 18:33:14 tg Exp $ */
 /*	$OpenBSD: vars.c,v 1.10 2003/06/03 02:56:11 millert Exp $	*/
 /*	$NetBSD: vars.c,v 1.4 1996/06/08 19:48:45 christos Exp $	*/
 
@@ -33,7 +33,7 @@
 
 #include <sys/cdefs.h>
 __SCCSID("@(#)vars.c	8.1 (Berkeley) 6/6/93");
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/mail/vars.c,v 1.2 2005/03/13 18:33:14 tg Exp $");
 
 #include "rcv.h"
 #include "extern.h"
@@ -115,7 +115,7 @@ value(char *name)
 			return(env);
 	/* not set, see if we can provide a default */
 	} else if (strcmp(name, "SHELL") == 0)
-		return(_PATH_CSHELL);
+		return(_PATH_BSHELL);
 	else if (strcmp(name, "LISTER") == 0)
 		return(_PATH_LS);
 	else if (strcmp(name, "PAGER") == 0)

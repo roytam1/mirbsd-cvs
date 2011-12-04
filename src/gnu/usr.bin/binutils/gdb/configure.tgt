@@ -80,6 +80,7 @@ hppa*-*-openbsd*)	gdb_target=obsd ;;
 hppa*-*-*)		gdb_target=hppa ;;
 
 i[34567]86-ncr-*)	gdb_target=ncr3000 ;;
+i386-*-mirbsd*)		gdb_target=mbsd ;;
 i[34567]86-*-netbsd* | i[34567]86-*-knetbsd*-gnu)
 			gdb_target=nbsd ;;
 i[34567]86-*-openbsd*)	gdb_target=obsd ;;
@@ -135,6 +136,7 @@ mips*-*-*)		gdb_target=embed ;;
 
 mn10300-*-*)		gdb_target=mn10300 ;;
 
+powerpc-*-mirbsd*)	gdb_target=mbsd ;;
 powerpc-*-netbsd* | powerpc-*-knetbsd*-gnu)
 			gdb_target=nbsd ;;
 powerpc-*-openbsd*)	gdb_target=obsd ;;
@@ -171,6 +173,7 @@ sh*)			gdb_target=embed ;;
 
 sparc-*-linux*)		gdb_target=linux ;;
 sparc64-*-linux*)	gdb_target=linux64 ;;
+sparc-*-mirbsd*)	gdb_target=mbsd ;;
 sparc-*-netbsd* | sparc-*-knetbsd*-gnu)
 			gdb_target=nbsd ;;
 sparc64-*-netbsd* | sparc64-*-knetbsd*-gnu)
@@ -206,6 +209,7 @@ esac
 
 case "${target}" in
 *-*-linux*)	gdb_osabi=GDB_OSABI_LINUX ;;
+*-*-mirbsd*)	gdb_osabi=GDB_OSABI_MIRBSD ;;
 *-*-nto*)	gdb_osabi=GDB_OSABI_QNXNTO ;;
 m68*-*-openbsd* | m88*-*-openbsd* | vax-*-openbsd*) ;;
 *-*-openbsd*)	gdb_osabi=GDB_OSABI_OPENBSD_ELF ;;

@@ -558,6 +558,8 @@ execute_stack_op (struct dwarf_expr_context *ctx, unsigned char *op_ptr,
 	      op_ptr = read_uleb128 (op_ptr, op_end, &reg);
 	      result += reg;
 	      break;
+	    default:
+	      break;
 	    }
 	  break;
 

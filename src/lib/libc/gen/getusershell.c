@@ -27,7 +27,7 @@
  * SUCH DAMAGE.
  */
 
-#if defined(LIBC_SCCS) && !defined(lint)
+#if 0
 static char rcsid[] = "$OpenBSD: getusershell.c,v 1.5 2004/05/18 02:05:52 jfb Exp $";
 #endif /* LIBC_SCCS and not lint */
 
@@ -40,12 +40,14 @@ static char rcsid[] = "$OpenBSD: getusershell.c,v 1.5 2004/05/18 02:05:52 jfb Ex
 #include <unistd.h>
 #include <paths.h>
 
+__RCSID("$MirOS$");
+
 /*
  * Local shells should NOT be added here.  They should be added in
  * /etc/shells.
  */
 
-static char *okshells[] = { _PATH_BSHELL, _PATH_CSHELL, NULL };
+static char *okshells[] = { _PATH_BSHELL, "/bin/ksh", NULL };
 static char **curshell, **shells, *strings;
 static char **initshells(void);
 
@@ -68,7 +70,7 @@ getusershell(void)
 void
 endusershell(void)
 {
-	
+
 	if (shells != NULL)
 		free(shells);
 	shells = NULL;

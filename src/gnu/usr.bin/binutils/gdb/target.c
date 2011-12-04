@@ -1129,6 +1129,9 @@ target_xfer_memory (CORE_ADDR memaddr, char *myaddr, int len, int write)
 	  if (!write)
 	    return EIO;
 	  break;
+
+	default:
+	  break;
 	}
 
       while (reg_len > 0)
@@ -1205,6 +1208,9 @@ target_xfer_memory_partial (CORE_ADDR memaddr, char *myaddr, int len,
 	  *err = EIO;
 	  return -1;
 	}
+      break;
+
+    default:
       break;
     }
 

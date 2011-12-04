@@ -9145,6 +9145,9 @@ dwarf_decode_macros (struct line_header *lh, unsigned int offset,
             /* We don't recognize any vendor extensions.  */
           }
           break;
+
+	default:
+	  break;
         }
     }
 }

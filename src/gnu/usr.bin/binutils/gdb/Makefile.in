@@ -1,3 +1,6 @@
+# $MirOS: src/gnu/usr.bin/binutils/ld/Makefile.in,v 1.4 2005/03/28 22:24:24 tg Exp $
+# XXX hacked
+#
 # Copyright 1989, 1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997,
 # 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005 Free Software Foundation,
 # Inc.
@@ -91,10 +94,10 @@ YACC=@YACC@
 # possibly with a warning.
 FLEX = flex
 
-YLWRAP = $(srcdir)/../ylwrap
+YLWRAP = $(GNUSYSTEM_AUX_DIR)/ylwrap
 
 # where to find makeinfo, preferably one designed for texinfo-2
-MAKEINFO=makeinfo
+MAKEINFO=makeinfo --no-split
 
 MAKEHTML = texi2html
 
@@ -108,11 +111,12 @@ CC_LD=$(CC)
 # Where is our "include" directory?  Typically $(srcdir)/../include.
 # This is essentially the header file directory for the library
 # routines in libiberty.
-INCLUDE_DIR =  $(srcdir)/../include
+INCLUDE_DIR =  $(LIBIBERTY_HDRS)
 INCLUDE_CFLAGS = -I$(INCLUDE_DIR)
 
 # Where is the "-liberty" library?  Typically in ../libiberty.
-LIBIBERTY = ../libiberty/libiberty.a
+LIBIBERTY = -liberty
+DEPLIBIBERTY =
 
 # Where is the BFD library?  Typically in ../bfd.
 BFD_DIR = ../bfd
@@ -121,22 +125,18 @@ BFD_SRC = $(srcdir)/$(BFD_DIR)
 BFD_CFLAGS = -I$(BFD_DIR) -I$(BFD_SRC)
 
 # Where is the READLINE library?  Typically in ../readline.
-READLINE_DIR = ../readline
-READLINE = $(READLINE_DIR)/libreadline.a
-READLINE_SRC = $(srcdir)/$(READLINE_DIR)
-READLINE_CFLAGS = -I$(READLINE_SRC)/..
+#READLINE_DIR = ../readline
+#READLINE = $(READLINE_DIR)/libreadline.a
+#READLINE_SRC = $(srcdir)/$(READLINE_DIR)
+#READLINE_CFLAGS = -I$(READLINE_SRC)/..
+READLINE = -ledit
+DEPREADLINE =
+READLINE_CFLAGS = #-I/usr/include/readline
 
 WARN_CFLAGS = @WARN_CFLAGS@
 WERROR_CFLAGS = @WERROR_CFLAGS@
-GDB_WARN_CFLAGS = $(WARN_CFLAGS)
+GDB_WARN_CFLAGS = $(WARN_CFLAGS) -Wno-unused # XXX for now
 GDB_WERROR_CFLAGS = $(WERROR_CFLAGS)
-
-# Where is the INTL library?  Typically in ../intl.
-INTL_DIR = ../intl
-INTL = @INTLLIBS@
-INTL_DEPS = @INTLDEPS@
-INTL_SRC = $(srcdir)/$(INTL_DIR)
-INTL_CFLAGS = -I$(INTL_DIR) -I$(INTL_SRC)
 
 # Where is the ICONV library?  This can be empty if libc has iconv.
 LIBICONV = @LIBICONV@
@@ -369,15 +369,15 @@ INTERNAL_LDFLAGS = $(CFLAGS) $(GLOBAL_CFLAGS) $(MH_LDFLAGS) $(LDFLAGS) $(CONFIG_
 # LIBIBERTY appears twice on purpose.
 # If you have the Cygnus libraries installed,
 # you can use 'CLIBS=$(INSTALLED_LIBS)' 'CDEPS='
-INSTALLED_LIBS=-lbfd -lreadline -lopcodes -liberty \
+INSTALLED_LIBS=-lbfd $(READLINE) -lopcodes -liberty \
 	$(XM_CLIBS) $(TM_CLIBS) $(NAT_CLIBS) $(GDBTKLIBS) @LIBS@ \
 	-lintl -liberty
 CLIBS = $(SIM) $(BFD) $(READLINE) $(OPCODES) $(INTL) $(LIBIBERTY) \
 	$(XM_CLIBS) $(TM_CLIBS) $(NAT_CLIBS) $(GDBTKLIBS) @LIBS@ \
 	$(LIBICONV) \
-	$(LIBIBERTY) $(WIN32LIBS)
-CDEPS = $(XM_CDEPS) $(TM_CDEPS) $(NAT_CDEPS) $(SIM) $(BFD) $(READLINE) \
-	$(OPCODES) $(INTL_DEPS) $(LIBIBERTY) $(CONFIG_DEPS)
+	$(LIBIBERTY) $(WIN32LIBS) -lcompat
+CDEPS = $(XM_CDEPS) $(TM_CDEPS) $(NAT_CDEPS) $(SIM) $(BFD) $(DEPREADLINE) \
+	$(OPCODES) $(INTL_DEPS) $(DEPLIBIBERTY) $(CONFIG_DEPS)
 
 ADD_FILES = $(XM_ADD_FILES) $(TM_ADD_FILES) $(NAT_ADD_FILES)
 ADD_DEPS = $(XM_ADD_FILES) $(TM_ADD_FILES) $(NAT_ADD_FILES)
@@ -584,9 +584,9 @@ remote_sim_h =	$(INCLUDE_DIR)/gdb/remote-sim.h
 demangle_h =    $(INCLUDE_DIR)/demangle.h
 obstack_h =     $(INCLUDE_DIR)/obstack.h
 opcode_m68hc11_h = $(INCLUDE_DIR)/opcode/m68hc11.h
-readline_h = 	$(READLINE_SRC)/readline.h
-readline_tilde_h =	$(READLINE_SRC)/tilde.h
-readline_history_h =	$(READLINE_SRC)/history.h
+#readline_h = 	$(READLINE_SRC)/readline.h
+#readline_tilde_h =	$(READLINE_SRC)/tilde.h
+#readline_history_h =	$(READLINE_SRC)/history.h
 frv_desc_h =	$(OPCODES_SRC)/frv-desc.h
 sh_opc_h = 	$(OPCODES_SRC)/sh-opc.h
 gdb_callback_h = $(INCLUDE_DIR)/gdb/callback.h
@@ -990,7 +990,7 @@ check//%: force
 	  if [ ! -f $$testdir/Makefile ]; then \
 	    (cd testsuite && find . -name config.status) | \
 	    sed s,/config.status$$,, | sort | while read subdir; do \
-	      $(SHELL) $(srcdir)/../mkinstalldirs $$testdir/$$subdir && \
+	      $(SHELL) $(GNUSYSTEM_AUX_DIR)/mkinstalldirs $$testdir/$$subdir && \
 	      (cd $$testdir/$$subdir && \
 	       $(SHELL) $$rootme/testsuite/$$subdir/config.status \
 		 --recheck && \
@@ -1023,13 +1023,13 @@ install-only: $(CONFIG_INSTALL)
 		else \
 		  true ; \
 		fi ; \
-		$(SHELL) $(srcdir)/../mkinstalldirs $(DESTDIR)$(bindir) ; \
+		$(SHELL) $(GNUSYSTEM_AUX_DIR)/mkinstalldirs $(DESTDIR)$(bindir) ; \
 		$(INSTALL_PROGRAM) gdb$(EXEEXT) \
-			$(DESTDIR)$(bindir)/$$transformed_name$(EXEEXT) ; \
-		$(SHELL) $(srcdir)/../mkinstalldirs \
-			$(DESTDIR)$(man1dir) ; \
-		$(INSTALL_DATA) $(srcdir)/gdb.1 \
-			$(DESTDIR)$(man1dir)/$$transformed_name.1
+			$(DESTDIR)$(bindir)/$$transformed_name$(EXEEXT) #; \
+#		$(SHELL) $(GNUSYSTEM_AUX_DIR)/mkinstalldirs \
+#			$(DESTDIR)$(man1dir) ; \
+#		$(INSTALL_DATA) $(srcdir)/gdb.1 \
+#			$(DESTDIR)$(man1dir)/$$transformed_name.1
 	@$(MAKE) DO=install "DODIRS=$(SUBDIRS)" $(FLAGS_TO_PASS) subdir_do
 .PHONY: install-tui
 install-tui:
@@ -1040,13 +1040,13 @@ install-tui:
 		else \
 		  true ; \
 		fi ; \
-		$(SHELL) $(srcdir)/../mkinstalldirs $(DESTDIR)$(bindir) ; \
+		$(SHELL) $(GNUSYSTEM_AUX_DIR)/mkinstalldirs $(DESTDIR)$(bindir) ; \
 		$(INSTALL_PROGRAM) $(TUI)$(EXEEXT) \
-			$(DESTDIR)$(bindir)/$$transformed_name$(EXEEXT) ; \
-		$(SHELL) $(srcdir)/../mkinstalldirs \
-			$(DESTDIR)$(man1dir) ; \
-		$(INSTALL_DATA) $(srcdir)/gdb.1 \
-			$(DESTDIR)$(man1dir)/$$transformed_name.1
+			$(DESTDIR)$(bindir)/$$transformed_name$(EXEEXT) #; \
+#		$(SHELL) $(GNUSYSTEM_AUX_DIR)/mkinstalldirs \
+#			$(DESTDIR)$(man1dir) ; \
+#		$(INSTALL_DATA) $(srcdir)/gdb.1 \
+#			$(DESTDIR)$(man1dir)/$$transformed_name.1
 
 
 uninstall: force $(CONFIG_UNINSTALL)
@@ -1323,10 +1323,10 @@ version.c: Makefile version.in
 version.o: version.c $(version_h)
 
 observer.h: observer.sh doc/observer.texi
-	${srcdir}/observer.sh h ${srcdir}/doc/observer.texi observer.h
+	$(SHELL) ${srcdir}/observer.sh h ${srcdir}/doc/observer.texi observer.h
 
 observer.inc: observer.sh doc/observer.texi
-	${srcdir}/observer.sh inc ${srcdir}/doc/observer.texi observer.inc
+	$(SHELL) ${srcdir}/observer.sh inc ${srcdir}/doc/observer.texi observer.inc
 
 lint: $(LINTFILES)
 	$(LINT) $(INCLUDE_CFLAGS) $(LINTFLAGS) $(LINTFILES) \
@@ -1466,7 +1466,7 @@ monitor.o: $(srcdir)/monitor.c
 # pass user input strings as the format parameter to host printf
 # function calls.
 printcmd.o: $(srcdir)/printcmd.c
-	$(CC) -c $(INTERNAL_WARN_CFLAGS) $(NO_WERROR_CFLAGS) $(srcdir)/printcmd.c
+	$(CC) -c $(INTERNAL_WARN_CFLAGS) $(NO_WERROR_CFLAGS) -Wno-format $(srcdir)/printcmd.c
 
 # FIXME: Procfs.o gets -Wformat errors because things like pid_t don't
 # match output format strings.
@@ -1519,7 +1519,7 @@ update-po: $(CATALOGS:.gmo=.pox)
 # and has to check that we actually have a catalog for each language,
 # in case they weren't built or included with the distribution.
 install-po:
-	$(SHELL) $(srcdir)/../mkinstalldirs $(DESTDIR)$(datadir)
+	$(SHELL) $(GNUSYSTEM_AUX_DIR)/mkinstalldirs $(DESTDIR)$(datadir)
 	cats="$(CATALOGS)"; for cat in $$cats; do \
 	  lang=`basename $$cat | sed 's/\.gmo$$//'`; \
 	  if [ -f $$cat ]; then :; \
@@ -1527,8 +1527,8 @@ install-po:
 	  else continue; \
 	  fi; \
 	  dir=$(localedir)/$$lang/LC_MESSAGES; \
-	  echo $(SHELL) $(srcdir)/../mkinstalldirs $(DESTDIR)$$dir; \
-	  $(SHELL) $(srcdir)/../mkinstalldirs $(DESTDIR)$$dir || exit 1; \
+	  echo $(SHELL) $(GNUSYSTEM_AUX_DIR)/mkinstalldirs $(DESTDIR)$$dir; \
+	  $(SHELL) $(GNUSYSTEM_AUX_DIR)/mkinstalldirs $(DESTDIR)$$dir || exit 1; \
 	  echo $(INSTALL_DATA) $$cat $(DESTDIR)$$dir/$(PACKAGE).mo; \
 	  $(INSTALL_DATA) $$cat $(DESTDIR)$$dir/$(PACKAGE).mo; \
 	done
@@ -1572,7 +1572,7 @@ po/$(PACKAGE).pot: force
 
 .SUFFIXES: .y .l
 .y.c: 
-	$(SHELL) $(YLWRAP) "$(YACC)" $< y.tab.c $@.tmp -- $(YFLAGS)
+	$(SHELL) $(YLWRAP) $< y.tab.c $@.tmp -- "$(YACC)" $(YFLAGS)
 	-sed -e '/extern.*malloc/d' \
 	     -e '/extern.*realloc/d' \
 	     -e '/extern.*free/d' \
@@ -2672,6 +2672,7 @@ value.o: value.c $(defs_h) $(gdb_string_h) $(symtab_h) $(gdbtypes_h) \
 	$(gdb_assert_h) $(regcache_h) $(block_h)
 varobj.o: varobj.c $(defs_h) $(value_h) $(expression_h) $(frame_h) \
 	$(language_h) $(wrapper_h) $(gdbcmd_h) $(gdb_string_h) $(varobj_h)
+	$(CC) -c $(INTERNAL_CFLAGS) -Wno-error $<
 vaxbsd-nat.o: vaxbsd-nat.c $(defs_h) $(inferior_h) $(regcache_h) $(target_h) \
 	$(vax_tdep_h) $(inf_ptrace_h) $(bsd_kvm_h)
 vax-nat.o: vax-nat.c $(defs_h) $(inferior_h) $(gdb_assert_h) $(vax_tdep_h)
@@ -2759,19 +2760,19 @@ install-gdbtk:
 	else \
 	  true ; \
 	fi ; \
-	$(SHELL) $(srcdir)/../mkinstalldirs $(DESTDIR)$(bindir); \
+	$(SHELL) $(GNUSYSTEM_AUX_DIR)/mkinstalldirs $(DESTDIR)$(bindir); \
 	$(INSTALL_PROGRAM) insight$(EXEEXT) \
 		$(DESTDIR)$(bindir)/$$transformed_name$(EXEEXT) ; \
-	$(SHELL) $(srcdir)/../mkinstalldirs \
+	$(SHELL) $(GNUSYSTEM_AUX_DIR)/mkinstalldirs \
 		$(DESTDIR)$(GDBTK_LIBRARY) ; \
-	$(SHELL) $(srcdir)/../mkinstalldirs \
+	$(SHELL) $(GNUSYSTEM_AUX_DIR)/mkinstalldirs \
 		$(DESTDIR)$(libdir)/insight$(GDBTK_VERSION) ; \
 	$(INSTALL_DATA) $(srcdir)/gdbtk/plugins/plugins.tcl \
 		$(DESTDIR)$(libdir)/insight$(GDBTK_VERSION)/plugins.tcl ; \
-	$(SHELL) $(srcdir)/../mkinstalldirs \
+	$(SHELL) $(GNUSYSTEM_AUX_DIR)/mkinstalldirs \
 		$(DESTDIR)$(GDBTK_LIBRARY)/images \
 		$(DESTDIR)$(GDBTK_LIBRARY)/images2 ; \
-	$(SHELL) $(srcdir)/../mkinstalldirs \
+	$(SHELL) $(GNUSYSTEM_AUX_DIR)/mkinstalldirs \
 		$(DESTDIR)$(GDBTK_LIBRARY)/help \
 		$(DESTDIR)$(GDBTK_LIBRARY)/help/images \
 		$(DESTDIR)$(GDBTK_LIBRARY)/help/trace ; \

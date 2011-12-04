@@ -228,9 +228,9 @@ find_methods (struct type *t, char *name, struct symbol **sym_arr)
 	      strncmp (method_name, "op", 2) == 0 ||
 	      strncmp (method_name, "type", 4) == 0)
 	    {
-	      if (cplus_demangle_opname (method_name, dem_opname, DMGL_ANSI))
+	      if (cplus_demangle_opname (method_name, dem_opname, DMGL_ANSI, sizeof(dem_opname)))
 		method_name = dem_opname;
-	      else if (cplus_demangle_opname (method_name, dem_opname, 0))
+	      else if (cplus_demangle_opname (method_name, dem_opname, 0, sizeof(dem_opname)))
 		method_name = dem_opname;
 	    }
 

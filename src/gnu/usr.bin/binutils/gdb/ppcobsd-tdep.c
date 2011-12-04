@@ -1,6 +1,9 @@
-/* Target-dependent code for OpenBSD/powerpc.
+/* $MirOS$ */
 
-   Copyright 2004 Free Software Foundation, Inc.
+/* Target-dependent code for OpenBSD/powerpc and MirOS BSD/powerpc.
+
+   Copyright 2004, 2005
+   Free Software Foundation, Inc.
 
    This file is part of GDB.
 
@@ -135,6 +138,18 @@ ppcobsd_core_osabi_sniffer (bfd *abfd)
 
   return GDB_OSABI_UNKNOWN;
 }
+
+/* Same for MirOS BSD.  */
+#define GDB_OSABI_MIRBSD_CORE GDB_OSABI_MIRBSD
+
+static enum gdb_osabi
+ppcmbsd_core_osabi_sniffer (bfd *abfd)
+{
+  if (strcmp (bfd_get_target (abfd), "netbsd-core") == 0)
+    return GDB_OSABI_MIRBSD_CORE;
+
+  return GDB_OSABI_UNKNOWN;
+}
 
 
 /* Provide a prototype to silence -Wmissing-prototypes.  */
@@ -148,6 +163,47 @@ _initialize_ppcobsd_tdep (void)
                                   ppcobsd_core_osabi_sniffer);
 
   gdbarch_register_osabi (bfd_arch_powerpc, 0, GDB_OSABI_OPENBSD_ELF,
+			  ppcobsd_init_abi);
+
+  /* Avoid initializing the register offsets again if they were
+     already initailized by ppcobsd-nat.c.  */
+  if (ppcobsd_reg_offsets.pc_offset == 0)
+    {
+      /* General-purpose registers.  */
+      ppcobsd_reg_offsets.r0_offset = 0;
+      ppcobsd_reg_offsets.pc_offset = 384;
+      ppcobsd_reg_offsets.ps_offset = 388;
+      ppcobsd_reg_offsets.cr_offset = 392;
+      ppcobsd_reg_offsets.lr_offset = 396;
+      ppcobsd_reg_offsets.ctr_offset = 400;
+      ppcobsd_reg_offsets.xer_offset = 404;
+      ppcobsd_reg_offsets.mq_offset = 408;
+
+      /* Floating-point registers.  */
+      ppcobsd_reg_offsets.f0_offset = 128;
+      ppcobsd_reg_offsets.fpscr_offset = -1;
+
+      /* AltiVec registers.  */
+      ppcobsd_reg_offsets.vr0_offset = 0;
+      ppcobsd_reg_offsets.vscr_offset = 512;
+      ppcobsd_reg_offsets.vrsave_offset = 520;
+    }
+}
+
+
+/* MirOS BSD/powerpc is virtually identical to OpenBSD/powerpc.  */
+
+/* Provide a prototype to silence -Wmissing-prototypes.  */
+void _initialize_ppcmbsd_tdep (void);
+
+void
+_initialize_ppcmbsd_tdep (void)
+{
+  /* BFD doesn't set a flavour for NetBSD style a.out core files.  */
+  gdbarch_register_osabi_sniffer (bfd_arch_powerpc, bfd_target_unknown_flavour,
+                                  ppcmbsd_core_osabi_sniffer);
+
+  gdbarch_register_osabi (bfd_arch_powerpc, 0, GDB_OSABI_MIRBSD,
 			  ppcobsd_init_abi);
 
   /* Avoid initializing the register offsets again if they were

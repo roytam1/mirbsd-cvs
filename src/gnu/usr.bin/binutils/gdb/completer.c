@@ -24,6 +24,8 @@
 #include "expression.h"
 #include "filenames.h"		/* for DOSish file names */
 #include "language.h"
+#include "gdb_string.h"
+#include <ctype.h>
 
 #include "cli/cli-decode.h"
 

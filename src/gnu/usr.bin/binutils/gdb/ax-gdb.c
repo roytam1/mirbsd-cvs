@@ -743,6 +743,9 @@ gen_usual_unary (struct agent_expr *ax, struct axs_value *value)
     case TYPE_CODE_ENUM:
       value->type = builtin_type_int;
       break;
+
+    default:
+      break;
     }
 
   /* If the value is an lvalue, dereference it.  */

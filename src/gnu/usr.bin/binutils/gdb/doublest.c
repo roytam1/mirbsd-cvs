@@ -106,6 +106,8 @@ get_field (unsigned char *data, enum floatformat_byteorders order,
 	case floatformat_big:
 	  --cur_byte;
 	  break;
+	default:
+	  break;
 	}
     }
   if (len < sizeof(result) * FLOATFORMAT_CHAR_BIT)

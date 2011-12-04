@@ -1,7 +1,9 @@
+/* $MirOS$ */
+
 /* Handle lists of commands, their decoding and documentation, for GDB.
 
-   Copyright 1986, 1989, 1990, 1991, 1998, 2000, 2001, 2002, 2004 Free
-   Software Foundation, Inc.
+   Copyright 1986, 1989, 1990, 1991, 1998, 2000, 2001, 2002, 2004, 2005
+   Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -679,8 +681,13 @@ apropos_cmd (struct ui_file *stream, struct cmd_list_element *commandlist,
       if (c->name != NULL)
 	{
 	  /* Try to match against the name*/
+#ifdef _REGEX_H_
+	  returnvalue = regexec((regex_t *)regex, c->name, 0, NULL, 0);
+	  if (returnvalue == 0)
+#else
 	  returnvalue=re_search(regex,c->name,strlen(c->name),0,strlen(c->name),NULL);
 	  if (returnvalue >= 0)
+#endif
 	    {
 	      /* Stolen from help_cmd_list. We don't directly use
 	       * help_cmd_list because it doesn't let us print out
@@ -695,7 +702,11 @@ apropos_cmd (struct ui_file *stream, struct cmd_list_element *commandlist,
       if (c->doc != NULL && returnvalue != 0)
 	{
 	  /* Try to match against documentation */
+#ifdef _REGEX_H_
+	  if (!regexec((regex_t *)regex, c->doc, 0, NULL, 0))
+#else
 	  if (re_search(regex,c->doc,strlen(c->doc),0,strlen(c->doc),NULL) >=0)
+#endif
 	    {
 	      /* Stolen from help_cmd_list. We don't directly use
 	       * help_cmd_list because it doesn't let us print out

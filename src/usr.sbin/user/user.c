@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/usr.sbin/user/user.c,v 1.2 2005/03/13 19:17:35 tg Exp $ */
 /* $OpenBSD: user.c,v 1.59 2004/05/10 18:41:11 otto Exp $ */
 /* $NetBSD: user.c,v 1.69 2003/04/14 17:40:07 agc Exp $ */
 
@@ -121,7 +121,7 @@ enum {
 #endif
 
 #ifndef DEF_SHELL
-#define DEF_SHELL	_PATH_CSHELL
+#define DEF_SHELL	_PATH_BSHELL
 #endif
 
 #ifndef DEF_COMMENT

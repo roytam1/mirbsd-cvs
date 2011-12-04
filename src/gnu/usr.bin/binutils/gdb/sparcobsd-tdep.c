@@ -1,6 +1,9 @@
-/* Target-dependent code for OpenBSD/sparc.
+/* $MirOS$ */
 
-   Copyright 2004 Free Software Foundation, Inc.
+/* Target-dependent code for OpenBSD/sparc and MirOS BSD/sparc.
+
+   Copyright 2004, 2005
+   Free Software Foundation, Inc.
 
    This file is part of GDB.
 
@@ -161,5 +164,18 @@ void
 _initialize_sparc32obsd_tdep (void)
 {
   gdbarch_register_osabi (bfd_arch_sparc, 0, GDB_OSABI_OPENBSD_ELF,
+			  sparc32obsd_init_abi);
+}
+
+
+/* MirOS BSD/sparc is virtually identical to OpenBSD/sparc.  */
+
+/* Provide a prototype to silence -Wmissing-prototypes.  */
+void _initialize_sparc32mbsd_tdep (void);
+
+void
+_initialize_sparc32mbsd_tdep (void)
+{
+  gdbarch_register_osabi (bfd_arch_sparc, 0, GDB_OSABI_MIRBSD,
 			  sparc32obsd_init_abi);
 }
