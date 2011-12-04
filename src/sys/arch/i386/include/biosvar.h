@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/sys/arch/i386/include/biosvar.h,v 1.2 2005/03/06 21:26:59 tg Exp $ */
 /*	$OpenBSD: biosvar.h,v 1.42 2003/11/27 00:31:55 espie Exp $	*/
 
 /*
@@ -40,7 +40,6 @@
 #define	BIOSF_BIOS32	0x0001
 #define	BIOSF_PCIBIOS	0x0002
 #define	BIOSF_PROMSCAN	0x0004
-#define	BIOSF_SAFEK7PN	0x0008
 
 /* BIOS media ID */
 #define BIOSM_F320K	0xff	/* floppy ds/sd  8 spt */

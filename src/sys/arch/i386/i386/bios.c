@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/sys/arch/i386/i386/bios.c,v 1.2 2005/03/06 21:26:57 tg Exp $ */
 /*	$OpenBSD: bios.c,v 1.54 2004/01/29 01:36:13 tom Exp $	*/
 
 /*
@@ -260,12 +260,6 @@ biosattach(parent, self, aux)
 
 	if (str)
 		printf("\n");
-
-#ifndef SMALL_KERNEL
-	/* override earlier BIOS malfunction */
-	if (!(flags & BIOSF_SAFEK7PN))
-		k7_powernow_init(2);
-#endif
 }
 
 void

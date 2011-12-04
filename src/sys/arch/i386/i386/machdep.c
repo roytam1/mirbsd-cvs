@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/i386/machdep.c,v 1.2 2005/03/06 21:26:57 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/i386/machdep.c,v 1.3 2005/04/14 19:35:47 tg Exp $ */
 /*	$OpenBSD: machdep.c,v 1.317 2005/04/02 02:44:58 tedu Exp $	*/
 /*	$NetBSD: machdep.c,v 1.214 1996/11/10 03:16:17 thorpej Exp $	*/
 
@@ -168,6 +168,10 @@ extern struct proc *npxproc;
 #include <arch/i386/isa/pccomvar.h>
 #endif
 #endif /* NCOM > 0 || NPCCOM > 0 */
+
+#ifndef SMALL_KERNEL
+#include "powernowhack.h"
+#endif
 
 /*
  * The following defines are for the code in setup_buffers that tries to
@@ -1349,8 +1353,10 @@ amd_family6_setup(cpu_device, model, step)
 				printf(" %s", amd_pn_flags[i].name);
 		}
 		printf("\n");
+#if NPOWERNOWHACK > 0
 		if (regs[3] & 6)
-			k7_powernow_init(1);
+			k7_powernow_init();
+#endif
 	}
 #endif
 }

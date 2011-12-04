@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/sys/arch/i386/include/cpu.h,v 1.2 2005/03/06 21:26:59 tg Exp $ */
 /*	$OpenBSD: cpu.h,v 1.59 2004/04/02 22:28:41 tedu Exp $	*/
 /*	$NetBSD: cpu.h,v 1.35 1996/05/05 19:29:26 christos Exp $	*/
 
@@ -211,7 +211,7 @@ int     p4tcc_setperf(int);
 
 void	k6_powernow_init(void);
 int	k6_powernow_setperf(int);
-void	k7_powernow_init(int);
+void	k7_powernow_init(void);
 int	k7_powernow_setperf(int);
 
 
