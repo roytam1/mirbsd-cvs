@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.cfwrap.mk,v 1.1 2005/02/14 18:57:46 tg Exp $
+# $MirOS: src/share/mk/bsd.cfwrap.mk,v 1.2 2005/03/06 21:48:06 tg Exp $
 
 .if !defined(BSD_CFWRAP_MK)
 BSD_CFWRAP_MK=1
@@ -56,8 +56,10 @@ FSFCXXFLAGS+=	-Werror-maybe-reset
 .endif
 
 .if !defined(CFWRAP_NO_CCOM)
-XVARS+=	CC="${CC:C/ *$//}" CFLAGS="${FSFCFLAGS:C/ *$//}" CPP="${CPP}" \
-	CXX="${CXX:C/ *$//}" CXXFLAGS="${FSFCXXFLAGS:C/ *$//}"
+XVARS+=	CC="${CC:C/ *$//}" CFLAGS="${FSFCFLAGS:C/ *$//}" CPP="${CPP}"
+.  if !defined(CFWRAP_NO_CXXCOM)
+XVARS+=	CXX="${CXX:C/ *$//}" CXXFLAGS="${FSFCXXFLAGS:C/ *$//}"
+.  endif
 .endif
 
 XARGS+=	INSTALL_PROGRAM="${INSTALL_PROGRAM}" INSTALL_DATA="${INSTALL_DATA}" \
