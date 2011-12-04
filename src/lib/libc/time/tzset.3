@@ -1,4 +1,4 @@
-.\" $MirOS$
+.\" $MirOS: src/lib/libc/time/tzset.3,v 1.2 2005/03/06 20:28:50 tg Exp $
 .\" $OpenBSD: tzset.3,v 1.14 2004/04/16 10:48:39 jmc Exp $
 .Dd May 24, 1999
 .Dt TZSET 3
@@ -30,8 +30,16 @@ in the system time conversion information directory, is used by
 If
 .Ev TZ
 appears in the environment but its value is a null string,
-Coordinated Universal Time (UTC) is used (without leap second
-correction).
+Coordinated Universal Time (UTC) is used.
+.Pp
+As a side effect, calling
+.Fn tzset
+also initialises the leap second table for
+.Fn tai2utc ,
+.Fn utc2tai ,
+.Fn tai_leaps ,
+and
+.Fn tai_isleap .
 .Pp
 If
 .Ev TZ

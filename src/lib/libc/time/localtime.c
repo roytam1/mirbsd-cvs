@@ -1,7 +1,7 @@
-/* $MirOS$ */
+/* $MirOS: src/lib/libc/time/localtime.c,v 1.2 2005/03/06 20:28:50 tg Exp $ */
 
 /*-
- * Copyright (c) 2004
+ * Copyright (c) 2004, 2005
  *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
  *
  * Licensee is hereby permitted to deal in this work without restric-
@@ -29,7 +29,7 @@
 
 #include <sys/param.h>
 __SCCSID("@(#)localtime.c	7.80");
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libc/time/localtime.c,v 1.2 2005/03/06 20:28:50 tg Exp $");
 
 /*
 ** Leap second handling from Bradley White (bww@k.gp.cs.cmu.edu).
@@ -163,6 +163,7 @@ static time_t transtime(time_t janfirst, int year, const struct rule *rulep, lon
 static int tzload(const char *name, struct state *sp);
 static int tzparse(const char *name, struct state *sp, int lastditch);
 time_t *tm_getleaps(void);
+void _initialise_leaps(void);
 
 static struct state lclmem;
 static struct state gmtmem;
@@ -947,9 +948,16 @@ tzset_basic(void)
 void
 tzset(void)
 {
+	extern int _leaps_initialised;
+	extern tai64_t *_leaps;
+
 	_THREAD_PRIVATE_MUTEX_LOCK(lcl);
 	tzset_basic();
 	_THREAD_PRIVATE_MUTEX_UNLOCK(lcl);
+
+	*_leaps = (tai64_t)0;
+	_leaps_initialised = 1;
+	_initialise_leaps();
 }
 
 /*
@@ -1154,7 +1162,7 @@ timesub(timep, offset, sp, tmp)
 	}
 
 	tmjd.mjd = days + 40587;
-	tmjd.sec = rem;
+	tmjd.sec = (int32_t)rem;
 	*tmp = mjd2tm(tmjd);
 #ifdef TM_GMTOFF
 	tmp->TM_GMTOFF = offset;

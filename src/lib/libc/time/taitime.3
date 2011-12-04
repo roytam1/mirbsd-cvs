@@ -1,6 +1,6 @@
 .\" $MirOS: src/share/misc/licence.template,v 1.2 2005/03/03 19:43:30 tg Rel $
 .\"-
-.\" Copyright (c) 2004
+.\" Copyright (c) 2004, 2005
 .\"	Thorsten "mirabile" Glaser <tg@66h.42h.de>
 .\"
 .\" Licensee is hereby permitted to deal in this work without restric-
@@ -9,6 +9,10 @@
 .\" pyright notices above, these terms and the disclaimer are retained
 .\" in all redistributions or reproduced in accompanying documentation
 .\" or other materials provided with binary redistributions.
+.\"
+.\" All advertising materials mentioning features or use of this soft-
+.\" ware must display the following acknowledgement:
+.\"	This product includes material provided by Thorsten Glaser.
 .\"
 .\" Licensor hereby provides this work "AS IS" and WITHOUT WARRANTY of
 .\" any kind, expressed or implied, to the maximum extent permitted by
@@ -94,6 +98,11 @@ function returns a pointer to a zero-terminated array of
 values, each denoting a positive leap second.
 DJB says, negative leap seconds are not likely to happen;
 if they should, a new interface will be published.
+This function uses a table which should be initialised with
+.Fn tzset
+beforehand if mechanisms such as
+.Xr chroot 2
+are employed.
 .Pp
 The
 .Fn tai_isleap
@@ -203,7 +212,8 @@ is absent.
 .Xr chroot 2 ,
 .Xr gettimeofday 2 ,
 .Xr mktime 3 ,
-.Xr ntpd 8
+.Xr ntpd 8 ,
+.Xr tzset 3
 .Sh STANDARDS
 This set of functions expects your operating system to not conform to
 .St -p1003.1
@@ -252,11 +262,6 @@ operating system.
 You will have to be extra carefully when adding values of type
 .Ft tai64_t
 or storing time values versus time distances in variables.
-.Pp
-When writing chrooting daemons, be sure to initialise the leap second
-table first by issuing the following command early:
-.br
-.Li 	(void) tai_leaps();		/* initialise leap second table */
 .Sh BUGS
 The leap second table is read from the timezone information file.
 This has implications on the location of the file and its actuality.
