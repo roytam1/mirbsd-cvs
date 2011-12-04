@@ -1,7 +1,0 @@
-TagLib is a library for reading and editing the meta-data of several
-popular audio formats. Currently it supports both ID3v1 and ID3v2 for
-MP3 files, Ogg Vorbis comments and ID3 tags and Vorbis comments in FLAC
-files as well as MPC. 
-
-TagLib is written in clean, object oriented C++ using a programming
-style common in KDE and Qt library programming.
