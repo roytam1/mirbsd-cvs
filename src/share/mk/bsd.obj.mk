@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.obj.mk,v 1.3 2005/02/14 19:21:20 tg Exp $
+# $MirOS: src/share/mk/bsd.obj.mk,v 1.4 2005/05/06 16:56:30 tg Exp $
 # $OpenBSD: bsd.obj.mk,v 1.12 2003/10/28 17:09:33 espie Exp $
 # $NetBSD: bsd.obj.mk,v 1.9 1996/04/10 21:08:05 thorpej Exp $
 
@@ -30,7 +30,7 @@ __objdir=	${__baseobjdir}
 __usrobjdir!=	readlink -nf ${BSDOBJDIR}.${MACHINE}
 __usrobjdirpf=
 .    else
-__usrobjdir=	readlink -nf ${BSDOBJDIR}
+__usrobjdir!=	readlink -nf ${BSDOBJDIR}
 .      if defined(OBJMACHINE)
 __usrobjdirpf=	.${MACHINE}
 .      else
