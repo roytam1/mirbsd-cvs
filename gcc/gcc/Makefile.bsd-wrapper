@@ -1,11 +1,8 @@
-# $MirOS: gcc/gcc/Makefile.bsd-wrapper,v 1.15 2005/05/19 22:37:07 tg Exp $
+# $MirOS: gcc/gcc/Makefile.bsd-wrapper,v 1.16 2005/05/26 21:35:27 tg Exp $
 
 .include <bsd.own.mk>
 .include "${GNUSYSTEM_AUX_DIR}/locations.mk"
 .include "../Makefile.inc"
-
-LIBGCC_VERSION=	1.1
-CPPFLAGS+=	-I${GNU_LIBIBERTY_INC} -DMIRBSD_NATIVE
 
 MAN=		doc/cpp.1 doc/mgcc.1 doc/gcov.1
 INFO=		doc/cpp.info doc/cppinternals.info doc/gcc.info doc/gccint.info
@@ -27,8 +24,8 @@ INFO+=		doc/gcj.info
 ALL_TARGET?=
 INST_TARGET=	INSTALL_TARGET='install-common $$(INSTALL_HEADERS) \
 		$$(INSTALL_LIBGCC) lang.install-normal' install
-FSFMAKE=	ulimit -dS 245760; PATH=${FSFOBJDIR}/lbin:$$PATH \
-		${XVARS} ${GMAKE} ${FSFMARGS} ${XARGS}
+FSFMAKE=	PATH=${FSFOBJDIR}/lbin:$$PATH ${XVARS} \
+		    ${GMAKE} ${FSFMARGS} ${XARGS}
 FSFMARGS+=	MAKE=${GMAKE}
 
 __LANGS=	--enable-languages=c
@@ -49,6 +46,7 @@ __LANGS:=	${__LANGS},pascal
 .endif
 
 BOOT_CFLAGS?=	${FSFCFLAGS}
+CPPFLAGS+=	-I${GNU_LIBIBERTY_INC} -DMIRBSD_NATIVE
 XARGS+=		BISON=yacc LIBIBERTY_HDRS="${GNU_LIBIBERTY_INC}" \
 		BUILD_LIBIBERTY="-liberty" LIBIBERTY="-liberty" \
 		SUB_LIBERTY="-liberty" STMP_FIXINC=stmp-fixinc-fake \
@@ -107,8 +105,8 @@ doc/mgcc.1: .MADE doc/gcc.1
 
 post-install:
 	${INSTALL} ${INSTALL_COPY} -o ${LIBOWN} -g ${LIBGRP} -m ${LIBMODE} \
-	    libgcc_s_fpic.so.${LIBGCC_VERSION} \
-	    ${DESTDIR}/usr/lib/libgcc_s.so.${LIBGCC_VERSION}
+	    libgcc_s_fpic.so.${LIBGCC_REV} \
+	    ${DESTDIR}/usr/lib/libgcc_s.so.${LIBGCC_REV}
 .for _i in ${INFO}
 	${INSTALL} ${INSTALL_COPY} -o ${MANOWN} -g ${MANGRP} -m ${MANMODE} \
 	    ${_i} ${DESTDIR}/usr/share/info/

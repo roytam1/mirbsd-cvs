@@ -1,11 +1,9 @@
-# $MirOS: gcc/libstdc++-v3/Makefile.bsd-wrapper,v 1.8 2005/03/26 22:32:33 tg Exp $
+# $MirOS: gcc/libstdc++-v3/Makefile.bsd-wrapper,v 1.9 2005/04/29 14:34:55 tg Exp $
 
 .include <bsd.own.mk>
 .include "${GNUSYSTEM_AUX_DIR}/locations.mk"
 
 CFWRAP_NO_CXXCOM=defined
-
-SHLIB_VERSION?=	36.0
 
 CXXOPTS?=	${COPTS}
 CXXOPTS+=	-Wno-unused
@@ -19,7 +17,7 @@ CFARGS+=	--enable-static ${CF_PIC} --prefix=/usr \
 XARGS+=		LIBIBERTY_HDRS="${GNU_LIBIBERTY_INC}" \
 		LIBIBERTY_SRC="${GNU_LIBIBERTY_SRC}" \
 		SECTION_FLAGS= CXX="${CC}" \
-		libtool_VERSION=${SHLIB_VERSION:S/./:/}:0
+		libtool_VERSION=${LIBCXX_VER}
 CLEANFILES+=	include libsupc++/cp-demangle.c src/atomicity.cc \
 		src/basic_file.cc src/c++locale.cc src/codecvt_members.cc \
 		src/collate_members.cc src/ctype_members.cc \
@@ -31,7 +29,7 @@ LIBFILES=	libstdc++.a libstdc++.la libsupc++.a libsupc++.la
 LIBFILES+=	libstdc++.so.${SHLIB_VERSION}
 .endif
 
-post-install:
+xxx-post-install:
 	cd ${DESTDIR}/usr/lib \
 	    && chown ${LIBOWN}:${LIBGRP} ${LIBFILES} \
 	    && chmod ${LIBMODE} ${LIBFILES}

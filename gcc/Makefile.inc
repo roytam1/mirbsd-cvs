@@ -1,4 +1,4 @@
-# $MirOS: gcc/Makefile.inc,v 1.8 2005/05/26 21:35:26 tg Exp $
+# $MirOS: gcc/Makefile.inc,v 1.9 2005/06/13 19:51:12 tg Exp $
 
 .ifndef _MODGCC_MAKEFILE_INC
 _MODGCC_MAKEFILE_INC=1
@@ -34,5 +34,9 @@ GMAKE?=		/usr/local/bin/gmake
 
 # System defines
 GCCVERSION=	3.4.5
+LIBGCC_REV=	1.1
+LIBGCJ_REV=	5.0
+LIBOBJC_VER=	4:0:1
+LIBCXX_VER=	36:0:0
 
 .endif
