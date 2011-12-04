@@ -1,3 +1,4 @@
+/*	$OpenBSD: cerror.S,v 1.7 2005/08/07 11:30:38 espie Exp $ */
 /*-
  * Copyright (c) 1990 The Regents of the University of California.
  * All rights reserved.
@@ -33,7 +34,7 @@
 #include "SYS.h"
 
 	.section .comment
-rcsid:	.asciz	"$MirOS$"
+	.asciz	"$MirOS: src/lib/libc/arch/i386/sys/cerror.S,v 1.2 2005/03/06 20:28:31 tg Exp $"
 
 	.text
 	.globl	_C_LABEL(errno)

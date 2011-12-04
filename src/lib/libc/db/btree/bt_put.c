@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: bt_put.c,v 1.11 2005/01/03 22:30:28 millert Exp $	*/
+/**	$MirOS: src/lib/libc/db/btree/bt_put.c,v 1.2 2005/03/06 20:28:35 tg Exp $ */
+/*	$OpenBSD: bt_put.c,v 1.13 2005/08/05 13:02:59 espie Exp $	*/
 
 /*-
  * Copyright (c) 1990, 1993, 1994
@@ -44,7 +44,7 @@
 #include "btree.h"
 
 __SCCSID("@(#)bt_put.c   8.8 (Berkeley) 7/26/94");
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libc/db/btree/bt_put.c,v 1.2 2005/03/06 20:28:35 tg Exp $");
 
 static EPG *bt_fast(BTREE *, const DBT *, const DBT *, int *);
 
@@ -62,11 +62,7 @@ static EPG *bt_fast(BTREE *, const DBT *, const DBT *, int *);
  *	tree and R_NOOVERWRITE specified.
  */
 int
-__bt_put(dbp, key, data, flags)
-	const DB *dbp;
-	DBT *key;
-	const DBT *data;
-	u_int flags;
+__bt_put(const DB *dbp, DBT *key, const DBT *data, u_int flags)
 {
 	BTREE *t;
 	DBT tkey, tdata;
@@ -264,10 +260,7 @@ u_long bt_cache_hit, bt_cache_miss;
  * 	EPG for new record or NULL if not found.
  */
 static EPG *
-bt_fast(t, key, data, exactp)
-	BTREE *t;
-	const DBT *key, *data;
-	int *exactp;
+bt_fast(BTREE *t, const DBT *key, const DBT *data, int *exactp)
 {
 	PAGE *h;
 	u_int32_t nbytes;

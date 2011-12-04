@@ -1,5 +1,5 @@
-/**	$MirOS: src/lib/libc/sys/stack_protector.c,v 1.2 2005/03/06 20:28:49 tg Exp $ */
-/*	$OpenBSD: stack_protector.c,v 1.7 2004/09/14 22:19:30 deraadt Exp $	*/
+/**	$MirOS: src/lib/libc/sys/stack_protector.c,v 1.3 2005/04/17 01:42:22 tg Exp $ */
+/*	$OpenBSD: stack_protector.c,v 1.8 2005/08/08 08:05:37 espie Exp $	*/
 
 /*
  * Copyright (c) 2002 Hiroaki Etoh, Federico G. Schwindt, and Miodrag Vallat.
@@ -35,7 +35,7 @@
 #include <syslog.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: src/lib/libc/sys/stack_protector.c,v 1.2 2005/03/06 20:28:49 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/sys/stack_protector.c,v 1.3 2005/04/17 01:42:22 tg Exp $");
 
 #ifdef __SSP_ALL__
  #error "You must compile this file with -fno-stack-protector-all"

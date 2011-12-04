@@ -1,3 +1,4 @@
+/*	$OpenBSD: rindex.S,v 1.3 2005/08/07 11:30:38 espie Exp $ */
 /*
  * Written by J.T. Conklin <jtc@netbsd.org>.
  * Public domain.
@@ -6,12 +7,9 @@
 #include <machine/asm.h>
 
 	.section .comment
-	.asciz	"$MirOS$"
+	.asciz	"$MirOS: src/lib/libc/arch/i386/string/rindex.S,v 1.3 2005/04/16 20:36:13 tg Exp $"
 
 	.text
-#if 0
-	.asciz "$OpenBSD: rindex.S,v 1.2 1996/08/19 08:13:10 tholo Exp $"
-#endif
 
 NENTRY(strrchr)
 ENTRY(rindex)

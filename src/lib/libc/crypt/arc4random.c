@@ -1,16 +1,25 @@
-/**	$MirOS$ */
-/*	$OpenBSD: arc4random.c,v 1.10 2003/11/26 21:40:08 djm Exp $	*/
+/**	$MirOS: src/lib/libc/crypt/arc4random.c,v 1.2 2005/03/06 20:28:34 tg Exp $ */
+/*	$OpenBSD: arc4random.c,v 1.14 2005/06/06 14:57:59 kjell Exp $	*/
 
 /*
- * Arc4 random number generator for OpenBSD.
- * Copyright 1996 David Mazieres <dm@lcs.mit.edu>.
+ * Copyright (c) 1996, David Mazieres <dm@uun.org>
  *
- * Modification and redistribution in source and binary forms is
- * permitted provided that due credit is given to the author and the
- * OpenBSD project by leaving this copyright notice intact.
+ * Permission to use, copy, modify, and distribute this software for any
+ * purpose with or without fee is hereby granted, provided that the above
+ * copyright notice and this permission notice appear in all copies.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+ * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+ * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+ * ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+ * WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+ * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+ * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
 /*
+ * Arc4 random number generator for OpenBSD.
+ *
  * This code is derived from section 17.1 of Applied Cryptography,
  * second edition, which describes a stream cipher allegedly
  * compatible with RSA Labs "RC4" cipher (the actual description of
@@ -32,7 +41,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libc/crypt/arc4random.c,v 1.2 2005/03/06 20:28:34 tg Exp $");
 
 #ifdef __GNUC__
 #define inline __inline
@@ -49,6 +58,7 @@ struct arc4_stream {
 static int rs_initialized;
 static struct arc4_stream rs;
 static pid_t arc4_stir_pid;
+static int arc4_count;
 
 static inline u_int8_t arc4_getbyte(struct arc4_stream *);
 
@@ -85,30 +95,31 @@ arc4_stir(struct arc4_stream *as)
 {
 	int     i, mib[2];
 	size_t	len;
-	struct {
-		struct timeval tv;
-		u_int rnd[(128 - sizeof(struct timeval)) / sizeof(u_int)];
-	}       rdat;
+	u_char rnd[128];
 
-	gettimeofday(&rdat.tv, NULL);
 	mib[0] = CTL_KERN;
 	mib[1] = KERN_ARND;
 
-	for (i = 0; i < sizeof(rdat.rnd) / sizeof(u_int); i ++) {
-		len = sizeof(u_int);
-		if (sysctl(mib, 2, &rdat.rnd[i], &len, NULL, 0) == -1)
-			break;
+	len = sizeof(rnd);
+	if (sysctl(mib, 2, rnd, &len, NULL, 0) == -1) {
+		for (i = 0; i < sizeof(rnd) / sizeof(u_int); i ++) {
+			len = sizeof(u_int);
+			if (sysctl(mib, 2, &rnd[i * sizeof(u_int)], &len,
+			    NULL, 0) == -1)
+				break;
+		}
 	}
 
 	arc4_stir_pid = getpid();
-	arc4_addrandom(as, (void *) &rdat, sizeof(rdat));
+	arc4_addrandom(as, rnd, sizeof(rnd));
 
 	/*
 	 * Discard early keystream, as per recommendations in:
 	 * http://www.wisdom.weizmann.ac.il/~itsik/RC4/Papers/Rc4_ksa.ps
 	 */
 	for (i = 0; i < 256; i++)
-		(void) arc4_getbyte(as);
+		(void)arc4_getbyte(as);
+	arc4_count = 400000;
 }
 
 static inline u_int8_t
@@ -157,7 +168,7 @@ arc4random_addrandom(u_char *dat, int datlen)
 u_int32_t
 arc4random(void)
 {
-	if (!rs_initialized || arc4_stir_pid != getpid())
+	if (--arc4_count == 0 || !rs_initialized || arc4_stir_pid != getpid())
 		arc4random_stir();
 	return arc4_getword(&rs);
 }

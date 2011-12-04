@@ -1,3 +1,4 @@
+/*	$OpenBSD: sprintf.c,v 1.12 2005/08/08 08:05:36 espie Exp $ */
 /*-
  * Copyright (c) 1990, 1993
  *	The Regents of the University of California.  All rights reserved.
@@ -30,26 +31,24 @@
  * SUCH DAMAGE.
  */
 
-#if 0
-static char rcsid[] = "$OpenBSD: sprintf.c,v 1.9 2003/07/24 01:15:42 deraadt Exp $";
-#endif /* LIBC_SCCS and not lint */
-
 #include <stdio.h>
 #include <stdarg.h>
 #include <limits.h>
 #include "local.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libc/stdio/sprintf.c,v 1.3 2005/04/16 19:52:22 tg Exp $");
 
 __warn_references(sprintf, "warning: sprintf() is often misused, consider using snprintf()");
 
 int
-sprintf(char *str, char const *fmt, ...)
+sprintf(char *str, const char *fmt, ...)
 {
 	int ret;
 	va_list ap;
 	FILE f;
+	struct __sfileext fext;
 
+	_FILEEXT_SETUP(&f, &fext);
 	f._file = -1;
 	f._flags = __SWR | __SSTR;
 	f._bf._base = f._p = (unsigned char *)str;

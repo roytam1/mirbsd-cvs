@@ -1,3 +1,4 @@
+/*	$OpenBSD: syscall.S,v 1.8 2005/08/07 11:30:38 espie Exp $ */
 /*-
  * Copyright (c) 1990 The Regents of the University of California.
  * All rights reserved.
@@ -33,16 +34,13 @@
 #include "SYS.h"
 
 	.text
-#if defined(SYSLIBC_SCCS)
-	.asciz "$OpenBSD: syscall.S,v 1.6 2003/06/02 20:18:30 millert Exp $"
-#endif /* SYSLIBC_SCCS */
 
 SYSENTRY(syscall)
 	pop	%ecx	/* rta */
 	pop	%eax	/* syscall number */
 	push	%ecx
 	int	$0x80
-	push	%ecx	/* Keep stack frame consistant */
+	push	%ecx	/* Keep stack frame consistent */
 	jc	err
 	ret
 err:

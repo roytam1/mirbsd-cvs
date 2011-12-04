@@ -30,11 +30,7 @@
 #include <sys/types.h>
 #include <rmd160.h>
 
-__RCSID("$MirOS$");
-
-#if 0
-static char rcsid[] = "$OpenBSD: rmd160.c,v 1.17 2004/05/28 15:10:27 millert Exp $";
-#endif /* LIBC_SCCS and not lint */
+__RCSID("$MirOS: src/lib/libc/hash/rmd160.c,v 1.2 2005/02/27 12:46:08 tg Exp $");
 
 #define PUT_64BIT_LE(cp, value) do {                                    \
 	(cp)[7] = (value) >> 56;                                        \

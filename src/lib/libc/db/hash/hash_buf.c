@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: hash_buf.c,v 1.14 2005/01/03 22:46:43 millert Exp $	*/
+/**	$MirOS: src/lib/libc/db/hash/hash_buf.c,v 1.2 2005/03/06 20:28:35 tg Exp $ */
+/*	$OpenBSD: hash_buf.c,v 1.16 2005/08/05 13:03:00 espie Exp $	*/
 
 /*-
  * Copyright (c) 1990, 1993, 1994
@@ -67,7 +67,7 @@
 #include "extern.h"
 
 __SCCSID("@(#)hash_buf.c	8.5 (Berkeley) 7/15/94");
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libc/db/hash/hash_buf.c,v 1.2 2005/03/06 20:28:35 tg Exp $");
 
 static BUFHEAD *newbuf(HTAB *, u_int32_t, BUFHEAD *);
 
@@ -100,12 +100,10 @@ static BUFHEAD *newbuf(HTAB *, u_int32_t, BUFHEAD *);
  * be valid.  Therefore, you must always verify that its address matches the
  * address you are seeking.
  */
-extern BUFHEAD *
-__get_buf(hashp, addr, prev_bp, newpage)
-	HTAB *hashp;
-	u_int32_t addr;
-	BUFHEAD *prev_bp;
-	int newpage;	/* If prev_bp set, indicates a new overflow page. */
+BUFHEAD *
+__get_buf(HTAB *hashp, u_int32_t addr,
+    BUFHEAD *prev_bp,	/* If prev_bp set, indicates a new overflow page. */
+    int newpage)
 {
 	BUFHEAD *bp;
 	u_int32_t is_disk_mask = 0;
@@ -155,10 +153,7 @@ __get_buf(hashp, addr, prev_bp, newpage)
  * If newbuf finds an error (returning NULL), it also sets errno.
  */
 static BUFHEAD *
-newbuf(hashp, addr, prev_bp)
-	HTAB *hashp;
-	u_int32_t addr;
-	BUFHEAD *prev_bp;
+newbuf(HTAB *hashp, u_int32_t addr, BUFHEAD *prev_bp)
 {
 	BUFHEAD *bp;		/* The buffer we're going to use */
 	BUFHEAD *xbp;		/* Temp pointer */
@@ -288,10 +283,8 @@ newbuf(hashp, addr, prev_bp)
 	return (bp);
 }
 
-extern void
-__buf_init(hashp, nbytes)
-	HTAB *hashp;
-	int nbytes;
+void
+__buf_init(HTAB *hashp, int nbytes)
 {
 	BUFHEAD *bfp;
 	int npages;
@@ -313,10 +306,8 @@ __buf_init(hashp, nbytes)
 	 */
 }
 
-extern int
-__buf_free(hashp, do_free, to_disk)
-	HTAB *hashp;
-	int do_free, to_disk;
+int
+__buf_free(HTAB *hashp, int do_free, int to_disk)
 {
 	BUFHEAD *bp;
 
@@ -346,10 +337,8 @@ __buf_free(hashp, do_free, to_disk)
 	return (0);
 }
 
-extern void
-__reclaim_buf(hashp, bp)
-	HTAB *hashp;
-	BUFHEAD *bp;
+void
+__reclaim_buf(HTAB *hashp, BUFHEAD *bp)
 {
 	bp->ovfl = 0;
 	bp->addr = 0;

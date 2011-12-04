@@ -1,3 +1,4 @@
+/* $OpenBSD: modf.S,v 1.5 2005/08/07 11:30:38 espie Exp $ */
 /*-
  * Copyright (c) 1990 The Regents of the University of California.
  * All rights reserved.
@@ -33,9 +34,6 @@
 #include <machine/asm.h>
 
 	.text
-#if defined(LIBC_SCCS)
-	.asciz "$OpenBSD: modf.S,v 1.4 2003/06/02 20:18:30 millert Exp $"
-#endif
 
 /*
  * modf(value, iptr): return fractional part of value, and stores the

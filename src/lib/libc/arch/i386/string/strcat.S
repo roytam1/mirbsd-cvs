@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/arch/i386/string/strcat.S,v 1.2 2005/03/06 20:28:30 tg Exp $ */
+/* $MirOS: src/lib/libc/arch/i386/string/strcat.S,v 1.3 2005/04/16 19:52:21 tg Exp $ */
 /*
  * Written by J.T. Conklin <jtc@netbsd.org>.
  * Public domain.
@@ -12,10 +12,8 @@
 	.text
 #NO_APP
 
-#ifdef LIBC_SCCS
 	.section .comment
-	.asciz	"$MirOS$"
-#endif
+	.asciz	"$MirOS: src/lib/libc/arch/i386/string/strcat.S,v 1.3 2005/04/16 19:52:21 tg Exp $"
 
 	.text
 

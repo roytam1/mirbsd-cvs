@@ -1,3 +1,4 @@
+/*	$OpenBSD: tempnam.c,v 1.14 2005/08/08 08:05:36 espie Exp $ */
 /*
  * Copyright (c) 1988, 1993
  *	The Regents of the University of California.  All rights reserved.
@@ -27,10 +28,6 @@
  * SUCH DAMAGE.
  */
 
-#if 0
-static char rcsid[] = "$OpenBSD: tempnam.c,v 1.13 2004/09/28 18:12:44 otto Exp $";
-#endif /* LIBC_SCCS and not lint */
-
 #include <sys/param.h>
 #include <errno.h>
 #include <stdio.h>
@@ -39,7 +36,7 @@ static char rcsid[] = "$OpenBSD: tempnam.c,v 1.13 2004/09/28 18:12:44 otto Exp $
 #include <unistd.h>
 #include <paths.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libc/stdio/tempnam.c,v 1.2 2005/07/26 19:31:54 tg Exp $");
 
 __warn_references(tempnam,
     "warning: tempnam() possibly used unsafely; consider using mkstemp()");

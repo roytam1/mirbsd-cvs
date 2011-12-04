@@ -1,3 +1,5 @@
+/**	$MirOS$ */
+/*	$OpenBSD: mktemp.c,v 1.19 2005/08/08 08:05:36 espie Exp $ */
 /*
  * Copyright (c) 1987, 1993
  *	The Regents of the University of California.  All rights reserved.
@@ -36,7 +38,7 @@
 #include <ctype.h>
 #include <unistd.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libc/stdio/mktemp.c,v 1.2 2005/09/18 19:58:03 tg Exp $");
 
 static int _gettemp(char *, int *, int, int);
 

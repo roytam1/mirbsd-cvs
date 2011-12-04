@@ -1,3 +1,4 @@
+/*	$OpenBSD: vsprintf.c,v 1.11 2005/08/08 08:05:36 espie Exp $ */
 /*-
  * Copyright (c) 1990, 1993
  *	The Regents of the University of California.  All rights reserved.
@@ -30,14 +31,11 @@
  * SUCH DAMAGE.
  */
 
-#if 0
-static char rcsid[] = "$OpenBSD: vsprintf.c,v 1.9 2004/09/28 18:12:44 otto Exp $";
-#endif /* LIBC_SCCS and not lint */
-
 #include <stdio.h>
 #include <limits.h>
+#include "local.h"
 
-__RCSID("$MirOS: src/lib/libc/stdio/vsprintf.c,v 1.2 2005/03/06 20:28:45 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/stdio/vsprintf.c,v 1.3 2005/04/16 19:52:22 tg Exp $");
 
 __warn_references(vsprintf,
     "warning: vsprintf() is often misused, consider using vsnprintf()");
@@ -47,7 +45,9 @@ vsprintf(char *str, const char *fmt, _BSD_VA_LIST_ ap)
 {
 	int ret;
 	FILE f;
+	struct __sfileext fext;
 
+	_FILEEXT_SETUP(&f, &fext);
 	f._file = -1;
 	f._flags = __SWR | __SSTR;
 	f._bf._base = f._p = (unsigned char *)str;

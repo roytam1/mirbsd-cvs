@@ -1,3 +1,4 @@
+/*	$OpenBSD: memcmp.c,v 1.5 2005/08/08 08:05:37 espie Exp $ */
 /*-
  * Copyright (c) 1990 The Regents of the University of California.
  * All rights reserved.
@@ -30,17 +31,12 @@
  * SUCH DAMAGE.
  */
 
-#if 0
-static char *rcsid = "$OpenBSD: memcmp.c,v 1.4 2003/06/11 21:08:16 deraadt Exp $";
-#endif /* LIBC_SCCS and not lint */
-
-#ifndef _KERNEL
 #include <string.h>
 #else
 #include <lib/libkern/libkern.h>
 #endif
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libc/string/memcmp.c,v 1.2 2005/04/16 20:30:49 tg Exp $");
 
 #ifdef BCMP
 __warn_references(bcmp, "warning: bcmp() is deprecated, consider using memcmp()");

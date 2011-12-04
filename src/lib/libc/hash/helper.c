@@ -1,5 +1,5 @@
-/**	$MirOS: src/lib/libc/hash/helper.c,v 1.2 2005/02/26 13:55:09 tg Exp $ */
-/*	$OpenBSD: helper.c,v 1.7 2004/09/16 15:12:09 millert Exp $	*/
+/**	$MirOS: src/lib/libc/hash/helper.c,v 1.3 2005/08/20 13:02:32 tg Exp $ */
+/*	$OpenBSD: helper.c,v 1.8 2005/08/08 08:05:35 espie Exp $	*/
 
 /*
  * ----------------------------------------------------------------------------
@@ -22,7 +22,7 @@
 
 #include <hashinc>
 
-__RCSID("$MirOS: src/lib/libc/hash/helper.c,v 1.2 2005/02/26 13:55:09 tg Exp $ helper for HASH hash");
+__RCSID("$MirOS: src/lib/libc/hash/helper.c,v 1.3 2005/08/20 13:02:32 tg Exp $ helper for HASH hash");
 
 /* ARGSUSED */
 char *

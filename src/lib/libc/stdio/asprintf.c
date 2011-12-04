@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: asprintf.c,v 1.13 2005/05/28 00:54:50 millert Exp $	*/
+/**	$MirOS: src/lib/libc/stdio/asprintf.c,v 1.2 2005/09/18 19:53:33 tg Exp $ */
+/*	$OpenBSD: asprintf.c,v 1.14 2005/08/08 08:05:36 espie Exp $	*/
 
 /*
  * Copyright (c) 1997 Todd C. Miller <Todd.Miller@courtesan.com>

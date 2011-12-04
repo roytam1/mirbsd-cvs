@@ -27,10 +27,6 @@
  * SUCH DAMAGE.
  */
 
-#if 0
-static const char rcsid[] = "$OpenBSD: strtoll.c,v 1.2 2003/06/02 20:18:38 millert Exp $";
-#endif /* LIBC_SCCS and not lint */
-
 #include <sys/types.h>
 
 #include <ctype.h>
@@ -38,7 +34,7 @@ static const char rcsid[] = "$OpenBSD: strtoll.c,v 1.2 2003/06/02 20:18:38 mille
 #include <limits.h>
 #include <stdlib.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libc/stdlib/strtoll.c,v 1.2 2005/05/20 23:38:17 tg Exp $");
 
 /*
  * Convert a string to a long long.

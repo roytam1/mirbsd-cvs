@@ -1,5 +1,5 @@
-# $MirOS: src/lib/libc/sys/Makefile.inc,v 1.3 2005/07/01 13:51:25 tg Exp $
-# $OpenBSD: Makefile.inc,v 1.71 2004/09/18 19:21:46 deraadt Exp $
+# $MirOS: src/lib/libc/sys/Makefile.inc,v 1.4 2005/07/09 12:24:33 tg Exp $
+# $OpenBSD: Makefile.inc,v 1.73 2005/06/17 20:37:31 drahn Exp $
 # $NetBSD: Makefile.inc,v 1.35 1995/10/16 23:49:07 jtc Exp $
 # @(#)Makefile.inc	8.1 (Berkeley) 6/17/93
 

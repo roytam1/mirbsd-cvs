@@ -1,3 +1,4 @@
+/*	$OpenBSD: memcmp.S,v 1.4 2005/08/07 11:30:38 espie Exp $ */
 /*
  * Written by J.T. Conklin <jtc@netbsd.org>.
  * Public domain.
@@ -5,13 +6,10 @@
 
 #include <machine/asm.h>
 
-RCSID("$MirOS$")
+RCSID("$MirOS: src/lib/libc/arch/i386/string/memcmp.S,v 1.3 2005/04/17 01:05:54 tg Exp $")
 WARN_REFERENCES(bcmp, "warning: bcmp() is deprecated, consider using memcmp()")
 
 	.text
-#if 0
-	.asciz "$OpenBSD: memcmp.S,v 1.3 1997/07/23 20:55:21 kstailey Exp $"
-#endif
 
 NENTRY(bcmp)
 ENTRY(memcmp)

@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: rec_open.c,v 1.9 2003/06/02 20:18:34 millert Exp $	*/
+/**	$MirOS: src/lib/libc/db/recno/rec_open.c,v 1.2 2005/03/06 20:28:37 tg Exp $ */
+/*	$OpenBSD: rec_open.c,v 1.11 2005/08/05 13:03:00 espie Exp $	*/
 
 /*-
  * Copyright (c) 1990, 1993, 1994
@@ -33,14 +33,6 @@
  * SUCH DAMAGE.
  */
 
-#if defined(LIBC_SCCS) && !defined(lint)
-#if 0
-static char sccsid[] = "@(#)rec_open.c	8.10 (Berkeley) 9/1/94";
-#else
-static const char rcsid[] = "$OpenBSD: rec_open.c,v 1.9 2003/06/02 20:18:34 millert Exp $";
-#endif
-#endif /* LIBC_SCCS and not lint */
-
 #include <sys/types.h>
 #include <sys/mman.h>
 #include <sys/stat.h>
@@ -56,10 +48,8 @@ static const char rcsid[] = "$OpenBSD: rec_open.c,v 1.9 2003/06/02 20:18:34 mill
 #include "recno.h"
 
 DB *
-__rec_open(fname, flags, mode, openinfo, dflags)
-	const char *fname;
-	int flags, mode, dflags;
-	const RECNOINFO *openinfo;
+__rec_open(const char *fname, int flags, int mode, const RECNOINFO *openinfo,
+    int dflags)
 {
 	BTREE *t;
 	BTREEINFO btopeninfo;
@@ -222,8 +212,7 @@ err:	sverrno = errno;
 }
 
 int
-__rec_fd(dbp)
-	const DB *dbp;
+__rec_fd(const DB *dbp)
 {
 	BTREE *t;
 

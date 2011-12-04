@@ -1,3 +1,4 @@
+/*	$OpenBSD: svc_udp.c,v 1.16 2005/08/08 08:05:35 espie Exp $ */
 /*
  * Sun RPC is a product of Sun Microsystems, Inc. and is provided for
  * unrestricted use provided that this legend is included on all tape
@@ -27,10 +28,6 @@
  * Mountain View, California  94043
  */
 
-#if 0
-static char *rcsid = "$OpenBSD: svc_udp.c,v 1.13 2003/09/20 00:40:36 deraadt Exp $";
-#endif /* LIBC_SCCS and not lint */
-
 /*
  * svc_udp.c,
  * Server side for UDP/IP based RPC.  (Does some caching in the hopes of
@@ -48,7 +45,7 @@ static char *rcsid = "$OpenBSD: svc_udp.c,v 1.13 2003/09/20 00:40:36 deraadt Exp
 #include <errno.h>
 #include <unistd.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libc/rpc/svc_udp.c,v 1.2 2005/03/06 20:28:44 tg Exp $");
 
 #define rpc_buffer(xprt) ((xprt)->xp_p1)
 
@@ -59,7 +56,8 @@ static bool_t		svcudp_reply(SVCXPRT *, struct rpc_msg *);
 static bool_t		svcudp_freeargs(SVCXPRT *, xdrproc_t, caddr_t);
 static void		svcudp_destroy(SVCXPRT *);
 static void		cache_set(SVCXPRT *, u_long);
-static int		cache_get(SVCXPRT *, struct rpc_msg *, char **, u_long *);
+static int		cache_get(SVCXPRT *, struct rpc_msg *, char **,
+			    u_long *);
 
 static struct xp_ops svcudp_op = {
 	svcudp_recv,
@@ -114,7 +112,7 @@ svcudp_bufcreate_withport(int sock, unsigned int sendsz, unsigned int recvsz,
 	if (sock == RPC_ANYSOCK) {
 		if ((sock = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)) < 0) {
 			perror("svcudp_create: socket creation problem");
-			return ((SVCXPRT *)NULL);
+			return (NULL);
 		}
 		madesock = TRUE;
 	}
@@ -135,7 +133,7 @@ svcudp_bufcreate_withport(int sock, unsigned int sendsz, unsigned int recvsz,
 		perror("svcudp_create - cannot getsockname");
 		if (madesock)
 			(void)close(sock);
-		return ((SVCXPRT *)NULL);
+		return (NULL);
 	}
 	xprt = (SVCXPRT *)mem_alloc(sizeof(SVCXPRT));
 	if (xprt == NULL) {
@@ -181,8 +179,7 @@ svcudp_bufcreate_withport(int sock, unsigned int sendsz, unsigned int recvsz,
 }
 
 SVCXPRT *
-svcudp_create(sock)
-	int sock;
+svcudp_create(int sock)
 {
 
 	return(svcudp_bufcreate(sock, UDPMSGSIZE, UDPMSGSIZE));
@@ -190,17 +187,14 @@ svcudp_create(sock)
 
 /* ARGSUSED */
 static enum xprt_stat
-svcudp_stat(xprt)
-	SVCXPRT *xprt;
+svcudp_stat(SVCXPRT *xprt)
 {
 
 	return (XPRT_IDLE);
 }
 
 static bool_t
-svcudp_recv(xprt, msg)
-	SVCXPRT *xprt;
-	struct rpc_msg *msg;
+svcudp_recv(SVCXPRT *xprt, struct rpc_msg *msg)
 {
 	struct svcudp_data *su = su_data(xprt);
 	XDR *xdrs = &(su->su_xdrs);
@@ -233,9 +227,7 @@ svcudp_recv(xprt, msg)
 }
 
 static bool_t
-svcudp_reply(xprt, msg)
-	SVCXPRT *xprt;
-	struct rpc_msg *msg;
+svcudp_reply(SVCXPRT *xprt, struct rpc_msg *msg)
 {
 	struct svcudp_data *su = su_data(xprt);
 	XDR *xdrs = &(su->su_xdrs);
@@ -260,20 +252,14 @@ svcudp_reply(xprt, msg)
 }
 
 static bool_t
-svcudp_getargs(xprt, xdr_args, args_ptr)
-	SVCXPRT *xprt;
-	xdrproc_t xdr_args;
-	caddr_t args_ptr;
+svcudp_getargs(SVCXPRT *xprt, xdrproc_t xdr_args, caddr_t args_ptr)
 {
 
 	return ((*xdr_args)(&(su_data(xprt)->su_xdrs), args_ptr));
 }
 
 static bool_t
-svcudp_freeargs(xprt, xdr_args, args_ptr)
-	SVCXPRT *xprt;
-	xdrproc_t xdr_args;
-	caddr_t args_ptr;
+svcudp_freeargs(SVCXPRT *xprt, xdrproc_t xdr_args, caddr_t args_ptr)
 {
 	XDR *xdrs = &(su_data(xprt)->su_xdrs);
 
@@ -282,8 +268,7 @@ svcudp_freeargs(xprt, xdr_args, args_ptr)
 }
 
 static void
-svcudp_destroy(xprt)
-	SVCXPRT *xprt;
+svcudp_destroy(SVCXPRT *xprt)
 {
 	struct svcudp_data *su = su_data(xprt);
 
@@ -365,9 +350,7 @@ struct udp_cache {
  * Note: there is no disable.
  */
 int
-svcudp_enablecache(transp, size)
-	SVCXPRT *transp;
-	u_long size;
+svcudp_enablecache(SVCXPRT *transp, u_long size)
 {
 	struct svcudp_data *su = su_data(transp);
 	struct udp_cache *uc;
@@ -407,9 +390,7 @@ svcudp_enablecache(transp, size)
  * Set an entry in the cache
  */
 static void
-cache_set(xprt, replylen)
-	SVCXPRT *xprt;
-	u_long replylen;
+cache_set(SVCXPRT *xprt, u_long replylen)
 {
 	cache_ptr victim;
 	cache_ptr *vicp;
@@ -473,11 +454,7 @@ cache_set(xprt, replylen)
  * return 1 if found, 0 if not found
  */
 static int
-cache_get(xprt, msg, replyp, replylenp)
-	SVCXPRT *xprt;
-	struct rpc_msg *msg;
-	char **replyp;
-	u_long *replylenp;
+cache_get(SVCXPRT *xprt, struct rpc_msg *msg, char **replyp, u_long *replylenp)
 {
 	u_int loc;
 	cache_ptr ent;

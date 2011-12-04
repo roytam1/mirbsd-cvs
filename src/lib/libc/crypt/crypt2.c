@@ -1,5 +1,5 @@
-/**	$MirOS$	*/
-/*	$OpenBSD: crypt2.c,v 1.1 2003/08/12 01:22:17 deraadt Exp $	*/
+/**	$MirOS: src/lib/libc/crypt/crypt2.c,v 1.2 2005/03/06 20:28:34 tg Exp $	*/
+/*	$OpenBSD: crypt2.c,v 1.3 2005/08/08 08:05:33 espie Exp $	*/
 
 /*
  * FreeSec: libcrypt
@@ -47,10 +47,6 @@
  * posted to the sci.crypt newsgroup by the author and is available for FTP.
  */
 
-#if defined(LIBC_SCCS) && !defined(lint)
-static char rcsid[] = "$OpenBSD: crypt2.c,v 1.1 2003/08/12 01:22:17 deraadt Exp $";
-#endif /* LIBC_SCCS and not lint */
-
 #include <sys/types.h>
 #include <sys/param.h>
 #include <pwd.h>
@@ -84,7 +80,7 @@ setkey(const char *key)
 			if (*key++ & 1)
 				p[i] |= _des_bits8[j];
 	}
-	return(des_setkey(p));
+	return(des_setkey((char *)p));
 }
 
 int

@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/lib/libc/stdlib/Makefile.inc,v 1.2 2005/03/06 20:28:47 tg Exp $
 
 # stdlib sources
 .PATH: ${LIBCSRCDIR}/arch/${MACHINE_ARCH}/stdlib ${LIBCSRCDIR}/stdlib
@@ -6,7 +6,7 @@
 SRCS+=	a64l.c abort.c atexit.c atoi.c atof.c atol.c atoll.c bsearch.c \
 	calloc.c cfree.c exit.c ecvt.c gcvt.c getenv.c getopt_long.c \
 	getsubopt.c hcreate.c heapsort.c l64a.c llabs.c lsearch.c malloc.c \
-	merge.c multibyte.c putenv.c qsort.c radixsort.c rand.c random.c \
+	merge.c putenv.c qsort.c radixsort.c rand.c random.c \
 	realpath.c setenv.c strtod.c strtol.c strtoll.c strtonum.c strtoul.c \
 	strtoull.c system.c getprogname.c \
 	tfind.c tsearch.c _rand48.c drand48.c erand48.c jrand48.c lcong48.c \

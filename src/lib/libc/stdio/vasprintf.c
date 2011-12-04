@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: vasprintf.c,v 1.10 2005/04/30 09:25:17 espie Exp $	*/
+/**	$MirOS: src/lib/libc/stdio/vasprintf.c,v 1.2 2005/09/18 19:50:32 tg Exp $ */
+/*	$OpenBSD: vasprintf.c,v 1.11 2005/08/08 08:05:36 espie Exp $	*/
 
 /*
  * Copyright (c) 1997 Todd C. Miller <Todd.Miller@courtesan.com>
@@ -25,7 +25,7 @@
 #include "local.h"
 #endif
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libc/stdio/vasprintf.c,v 1.2 2005/09/18 19:50:32 tg Exp $");
 
 int
 vasprintf(char **str, const char *fmt, va_list ap)
