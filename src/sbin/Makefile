@@ -1,4 +1,4 @@
-# $MirOS: src/sbin/Makefile,v 1.4 2005/03/15 18:32:34 tg Exp $
+# $MirOS: src/sbin/Makefile,v 1.5 2005/03/15 18:39:16 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -49,11 +49,8 @@
 .if (${MACHINE} == "amd64") || (${MACHINE} == "i386")
   SUBDIR+= mount_ntfs
 .endif
-  SUBDIR+= mount_null
   SUBDIR+= mount_portal
   SUBDIR+= mount_procfs
-  SUBDIR+= mount_umap
-  SUBDIR+= mount_union
   SUBDIR+= mountd
   SUBDIR+= ncheck_ffs
   SUBDIR+= newfs
