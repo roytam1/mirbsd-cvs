@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.2 2005/03/03 19:43:30 tg Rel $ */
+/* $MirOS: src/sys/lib/libsa/fat.c,v 1.1 2005/08/07 15:37:42 tg Exp $ */
 
 /*-
  * Copyright (c) 2005
@@ -24,6 +24,7 @@
 #include <sys/time.h>
 #include <sys/stat.h>
 #include <lib/libkern/libkern.h>
+#include <lib/libsa/stand.h>
 #include <lib/libsa/fat.h>
 
 #if BYTE_ORDER != LITTLE_ENDIAN
@@ -39,7 +40,7 @@ enum fat_type {
 };
 
 struct fat_file {
-	struct open_file open_file;	/* our "parent" structure */
+	struct open_file *open_file;	/* our "parent" structure */
 	uint32_t rootofs;		/* root offset (FAT12/FAT16) */
 	uint32_t invalc;		/* first invalid cluster no. */
 	uint32_t firstds;		/* first data sector */
@@ -60,8 +61,9 @@ static int rd(struct open_file *, void *, daddr_t, size_t);
 static uint32_t getfat(struct fat_file *, uint32_t);
 static int search_dir(struct open_file *, char *);
 static __inline int fillbuf(struct fat_file *);
+static __inline unsigned char locase(unsigned char);
 
-static char fat_dirbuf[32];
+static unsigned char fat_dirbuf[32];
 
 static int
 rd(struct open_file *f, void *buf, daddr_t blk, size_t size)
@@ -70,17 +72,18 @@ rd(struct open_file *f, void *buf, daddr_t blk, size_t size)
 	int rv;
 
 	twiddle();
-	if (rv = (f->f_dev->dv_strategy)(f->f_devdata, F_READ,
-	    blk, size, buf, &buflen))
+	if ((rv = (f->f_dev->dv_strategy)(f->f_devdata, F_READ,
+	    blk, size, buf, &buflen)))
 		return (rv);
 	if (buflen != size)
 		return (EINVAL);
+	return (0);
 }
 
 static uint32_t
 getfat(struct fat_file *ff, uint32_t entry)
 {
-	uint32_t fofs, fsec, secofs, rv, b;
+	uint32_t fofs, fsec, secofs, rv = 0, b;
 	char *buf;
 
 	b = (ff->type == FAT12) ? 1024 : 512;
@@ -97,7 +100,7 @@ getfat(struct fat_file *ff, uint32_t entry)
 	secofs = fofs % 512;
 
 	if (fsec != ff->fatsec) {
-		if (rv = rd(ff->open_file, buf, fsec, b)) {
+		if ((rv = rd(ff->open_file, buf, fsec, b))) {
 			free(buf, b);
 			ff->fatbuf = NULL;
 			return (rv | 0x80000000);
@@ -127,7 +130,7 @@ int
 fat_open(char *path, struct open_file *f)
 {
 	struct fat_file *ff;
-	char *buf;
+	unsigned char *buf;
 	int rv;
 	uint32_t spc, nfats, rootcnt, spd, spf, dblk;
 
@@ -139,7 +142,7 @@ fat_open(char *path, struct open_file *f)
 
 	/* allocate space and read BPB */
 	buf = alloc(512);
-	if (rv = rd(f, buf, 0, 512))
+	if ((rv = rd(f, buf, 0, 512)))
 		goto out;
 
 	/* parse BPB */
@@ -167,7 +170,7 @@ fat_open(char *path, struct open_file *f)
 		spf = getled(36);
 	ff->rootofs = ff->ress + (nfats * spf);
 	ff->firstds = ff->rootofs + rootcnt;
-	dblk = (spd - firstds) / spc;
+	dblk = (spd - ff->firstds) / spc;
 	ff->type = (dblk < 4085) ? FAT12 : ((dblk < 65525) ? FAT16 : FAT28);
 	switch (ff->type) {
 	case FAT12:
@@ -212,8 +215,8 @@ fat_open(char *path, struct open_file *f)
 		len = 0;
 		cp = path;
 		while (((c = *cp) != '\0') && (c != '/')) {
-			if (++len > MAXNAMLEN) {
-				rc = ENOENT;
+			if (++len > 14) {
+				rv = ENOENT;
 				goto out;
 			}
 			cp++;
@@ -267,7 +270,7 @@ int
 fat_read(struct open_file *f, void *buf, size_t size, size_t *resid)
 {
 	struct fat_file *ff = f->f_fsdata;
-	int rv, otmp, isroot = 0, blksiz = ff->bpc;
+	int rv = 0, otmp, isroot = 0, blksiz = ff->bpc;
 	size_t stmp;
 
 	if (!ff->databuf) {
@@ -282,7 +285,7 @@ fat_read(struct open_file *f, void *buf, size_t size, size_t *resid)
 			isroot = 1;
 			blksiz = 512;
 			ff->datasec = ff->nodeseekp / 512 + ff->rootofs;
-			if (rv = rd(f, ff->databuf, ff->datasec, 512)) {
+			if ((rv = rd(f, ff->databuf, ff->datasec, 512))) {
 				ff->datasec = 0;
 				goto out;
 			}
@@ -298,7 +301,7 @@ invclust:
 			if ((ff->datasec == 0) || (ff->datasec >= ff->invalc))
 				goto invclust;
 		}
-		if (rv = fillbuf(ff)) {
+		if ((rv = fillbuf(ff))) {
 rderr:
 			ff->datasec = 0;
 			goto out;
@@ -324,17 +327,17 @@ filled:
 		if ((blksiz - otmp) >= size) {
 			if (isroot) {
 				ff->datasec++;
-				if (rv = rd(f, ff->databuf, ff->datasec, 512))
+				if ((rv = rd(f, ff->databuf, ff->datasec, 512)))
 					goto rderr;
 				goto refilled;
 			}
 			ff->datasec = getfat(ff, ff->datasec);
-			if (rv = fillbuf(ff)) {
+			if ((rv = fillbuf(ff))) {
 				ff->datasec = 0;
 				if (size)
 					goto out;
 			}
-refilled:
+refilled:		;
 		}
 	}
 out:
@@ -391,7 +394,7 @@ fat_readdir(struct open_file *f, char *name)
 	struct fat_file *ff = f->f_fsdata;
 	int rv;
 	char *cp;
-	size_t *sr;
+	size_t sr;
 
 	/* reset? */
 	if (name == NULL) {
@@ -400,7 +403,7 @@ fat_readdir(struct open_file *f, char *name)
 	}
 
 getrec:
-	if (rv = fat_read(f, fat_dirbuf, sizeof (fat_dirbuf)), &sr)
+	if ((rv = fat_read(f, fat_dirbuf, sizeof (fat_dirbuf), &sr)))
 		return (rv);
 	if (sr)
 		return (-1);
@@ -422,7 +425,7 @@ getrec:
 	cp = fat_dirbuf;
 	rv = 0;
 	while (*cp != 0x20) {
-		*name++ = *cp++;
+		*name++ = locase(*cp++);
 		if (++rv == 8)
 			break;
 	}
@@ -431,7 +434,7 @@ getrec:
 		*name++ = '.';
 	rv = 0;
 	while (*cp != 0x20) {
-		*name++ = *cp++;
+		*name++ = locase(*cp++);
 		if (++rv == 3)
 			break;
 	}
@@ -448,10 +451,10 @@ search_dir(struct open_file *f, char *name)
 	char fn[14];
 	char *buf = fat_dirbuf;
 
-	if (rv = fat_readdir(f, NULL))
+	if ((rv = fat_readdir(f, NULL)))
 		return (rv);
 	while ((rv = fat_readdir(f, fn)) == 0)
-		if (!stricmp(fn, name)) {
+		if (!strcmp(fn, name)) {
 			/* found a match, follow it */
 			ff->nodecluster = getlew(20) << 16 | getlew(26);
 			if (ff->nodecluster < 2)
@@ -471,4 +474,12 @@ fillbuf(struct fat_file *ff)
 {
 	return (rd(ff->open_file, ff->databuf,
 	    (ff->datasec - 2) * (ff->bpc / 512) + ff->firstds, ff->bpc));
+}
+
+static __inline unsigned char
+locase(unsigned char c)
+{
+	if ((c < 'A') || (c > 'Z'))
+		return (c);
+	return (c - 'A' + 'a');
 }
