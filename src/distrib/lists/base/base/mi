@@ -370,6 +370,7 @@
 ./usr/bin/sortbib
 ./usr/bin/spell
 ./usr/bin/split
+./usr/bin/splitb
 ./usr/bin/ssh
 ./usr/bin/ssh-add
 ./usr/bin/ssh-agent
@@ -1854,7 +1855,7 @@
 ./usr/lib/libwrap.so.5.0
 ./usr/lib/liby.a
 ./usr/lib/libz.a
-./usr/lib/libz.so.5.0
+./usr/lib/libz.so.5.1
 ./usr/libdata
 ./usr/libdata/lint
 ./usr/libdata/lint/llib-lposix.ln
@@ -3082,6 +3083,7 @@
 ./usr/share/man/cat1/sortbib.0
 ./usr/share/man/cat1/spell.0
 ./usr/share/man/cat1/split.0
+./usr/share/man/cat1/splitb.0
 ./usr/share/man/cat1/ssh-add.0
 ./usr/share/man/cat1/ssh-agent.0
 ./usr/share/man/cat1/ssh-keygen.0
@@ -7255,7 +7257,6 @@
 ./usr/share/man/cat8/dump.0
 ./usr/share/man/cat8/dumpfs.0
 ./usr/share/man/cat8/edquota.0
-./usr/share/man/cat8/eeprom.0
 ./usr/share/man/cat8/extattrctl.0
 ./usr/share/man/cat8/faithd.0
 ./usr/share/man/cat8/faq.0
@@ -7357,7 +7358,6 @@
 ./usr/share/man/cat8/ntalkd.0
 ./usr/share/man/cat8/ntpd.0
 ./usr/share/man/cat8/pac.0
-./usr/share/man/cat8/pdisk.0
 ./usr/share/man/cat8/pfctl.0
 ./usr/share/man/cat8/pflogd.0
 ./usr/share/man/cat8/ping.0
@@ -8000,6 +8000,7 @@
 ./usr/share/misc/getopt
 ./usr/share/misc/inter.phone
 ./usr/share/misc/licence.template
+./usr/share/misc/license.template
 ./usr/share/misc/mail.help
 ./usr/share/misc/mail.tildehelp
 ./usr/share/misc/man.template

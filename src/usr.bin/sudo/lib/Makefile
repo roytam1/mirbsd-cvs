@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/usr.bin/sudo/lib/Makefile,v 1.2 2005/03/13 18:33:38 tg Exp $
 # $OpenBSD: Makefile,v 1.2 2004/09/28 15:10:51 millert Exp $
 
 .PATH:		${.CURDIR}/..
@@ -7,6 +7,7 @@ LIB=	sudo
 SRCS=	alloc.c defaults.c fileops.c find_path.c gettime.c goodpath.c \
 	lex.yy.c sudo.tab.c
 CPPFLAGS+=	-I.
+CLEANFILES+=	lex.yy.c sudo.tab.c sudo.tab.h
 
 DEBUGLIBS= no
 

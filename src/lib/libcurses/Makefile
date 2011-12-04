@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/lib/libcurses/Makefile,v 1.2 2005/03/06 20:28:59 tg Exp $
 # $OpenBSD: Makefile,v 1.54 2003/10/19 22:20:37 brad Exp $
 
 # Uncomment this to enable tracing in libcurses
@@ -61,7 +61,7 @@ HOSTCFLAGS+=	${CPPFLAGS} -I${.CURDIR}
 
 MAN=	curs_addch.3tbl curs_addchstr.3 curs_addstr.3 curs_attr.3tbl curs_beep.3 \
 	curs_bkgd.3 curs_border.3 curs_clear.3 curs_color.3 curs_delch.3 \
-	curs_deleteln.3 curs_extend.3 curs_getch.3 curs_getstr.3 curs_getyx.3 \
+	curs_deleteln.3 curs_extend.3 curs_getch.3tbl curs_getstr.3 curs_getyx.3 \
 	curs_inch.3tbl curs_inchstr.3 curs_initscr.3 curs_inopts.3 curs_insch.3 \
 	curs_insstr.3 curs_instr.3 curs_kernel.3 curs_mouse.3tbl curs_move.3 \
 	curs_outopts.3 curs_overlay.3 curs_pad.3 curs_print.3 curs_printw.3 \
