@@ -1,4 +1,4 @@
-# $MirOS: src/include/Makefile,v 1.6 2005/10/21 10:47:23 tg Exp $
+# $MirOS: src/include/Makefile,v 1.7 2005/10/21 11:33:25 tg Exp $
 # $OpenBSD: Makefile,v 1.135 2005/07/10 06:53:44 grange Exp $
 # $NetBSD: Makefile,v 1.59 1996/05/15 21:36:43 jtc Exp $
 # @(#)Makefile	5.45.1.1 (Berkeley) 5/6/91
@@ -32,7 +32,7 @@ LDIRS=	altq crypto ddb dev isofs miscfs net netatalk netinet netinet6 \
 
 # Directories with an includes target
 RDIRS=	../lib/libcdk ../lib/libcompat ../lib/libcurses ../lib/libedit \
-	../lib/libevent ../lib/libform ../lib/libkeynote \
+	../lib/libevent ../lib/libexpat ../lib/libform ../lib/libkeynote \
 	../lib/libmenu ../lib/libocurses ../lib/libossaudio ../lib/libpanel \
 	../lib/libpcap ../lib/libpng ../lib/libpthread ../lib/librpcsvc \
 	../lib/libsectok ../lib/libskey ../lib/libssl ../lib/libusbhid \
