@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libc/string/Makefile.inc,v 1.4 2005/04/29 18:34:49 tg Exp $
+# $MirOS: src/lib/libc/string/Makefile.inc,v 1.5 2005/09/22 20:16:47 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.17 2005/05/26 12:56:01 otto Exp $
 
 # string sources
@@ -9,7 +9,7 @@ SRCS+=	bm.c memccpy.c strcasecmp.c strcasestr.c strcoll.c strdup.c \
 	strxfrm.c \
 	wcscat.c wcschr.c wcscmp.c wcscpy.c wcscspn.c wcslfun.c \
 	wcslen.c wcsncat.c wcsncmp.c wcsncpy.c wcspbrk.c wcsrchr.c wcsspn.c \
-	wcsstr.c wcstok.c wcswcs.c wmemchr.c wmemcmp.c wmemcpy.c \
+	wcsstr.c wcswcs.c wmemchr.c wmemcmp.c wmemcpy.c \
 	wmemmove.c wmemset.c
 
 # machine-dependent net sources
