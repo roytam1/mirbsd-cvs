@@ -1,4 +1,4 @@
-# $MirOS: gcc/Makefile,v 1.4 2005/04/19 12:53:47 tg Exp $
+# $MirOS: gcc/Makefile,v 1.5 2005/04/26 21:15:29 tg Exp $
 
 .include <bsd.own.mk>
 .include "${BSDSRCDIR}/Makefile.inc"
@@ -62,10 +62,10 @@ b-r: .PHONY
 	cd ${.CURDIR} && exec ${MAKE} release BSDRELDIR=${BSDRELDIR}
 
 release: .PHONY
-	mkdir -p ${BSDRELDIR}/gcc ${BSDRELDIR}/rel \
-	    || ${SUDO} mkdir -p ${BSDRELDIR}/gcc ${BSDRELDIR}/rel
+	mkdir -p ${BSDRELDIR}/base ${BSDRELDIR}/rel \
+	    || ${SUDO} mkdir -p ${BSDRELDIR}/base ${BSDRELDIR}/rel
 	cd ${BSDSRCDIR} && ${EXTRA_ENV} exec \
-	    ${MAKE} distrib-dirs mksystrace-dest DESTDIR=${BSDRELDIR}/gcc
-	cd ${.CURDIR} && exec ${SUDO} ${MAKE} install DESTDIR=${BSDRELDIR}/gcc
+	    ${MAKE} distrib-dirs mksystrace-dest DESTDIR=${BSDRELDIR}/base
+	cd ${.CURDIR} && exec ${SUDO} ${MAKE} install DESTDIR=${BSDRELDIR}/base
 
 .include <bsd.obj.mk>
