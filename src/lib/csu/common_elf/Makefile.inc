@@ -1,4 +1,4 @@
-# $MirOS: src/lib/csu/common_elf/Makefile.inc,v 1.4 2005/04/25 23:11:37 tg Exp $
+# $MirOS: src/lib/csu/common_elf/Makefile.inc,v 1.5 2005/04/29 00:38:55 tg Exp $
 # $NetBSD: Makefile.inc,v 1.23 2003/03/19 16:54:25 ross Exp $
 
 .include <bsd.own.mk>
@@ -23,20 +23,13 @@ SRCS+=		crtn.c
 OBJS+=		crtn.o
 .endif
 
-# If using an external toolchain, we expect crtbegin/crtend to be
-# supplied by that toolchain's run-time support.
-GCC3_EXT_TOOLCHAIN?=no
-.if ${GCC3_EXT_TOOLCHAIN:L} != "yes"
-SRCS+=		crtbegin.c crtend.c
-OBJS+=		crtbegin.o crtend.o
-.  if !defined(NOPIC) || ${NOPIC:L} == "no"
-OBJS+=		crtbeginS.o crtendS.o
-.  endif
-
-CPPFLAGS+=	-DDWARF2_EH
-#CPPFLAGS+=	-DDSO_HANDLE
-#CPPFLAGS+=	-DJCR
-.endif
+# These are now provided by GCC 3
+#SRCS+=		crtbegin.c crtend.c
+#OBJS+=		crtbegin.o crtend.o
+#.  if !defined(NOPIC) || ${NOPIC:L} == "no"
+#OBJS+=		crtbeginS.o crtendS.o
+#.  endif
+#CPPFLAGS+=	-DDWARF2_EH # -DDSO_HANDLE -DJCR
 
 all: ${OBJS}
 
