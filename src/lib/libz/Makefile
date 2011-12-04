@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libz/Makefile,v 1.5 2005/07/07 12:27:24 tg Exp $
+# $MirOS: src/lib/libz/Makefile,v 1.6 2005/07/07 12:46:11 tg Exp $
 # $OpenBSD: Makefile,v 1.12 2003/12/17 14:06:45 jmc Exp $
 
 SHLIB_VERSION?=	5.1
@@ -40,7 +40,7 @@ MLINKS=	compress.3 zlibVersion.3 compress.3 deflateInit.3 \
 
 includes:
 .for _i in ${HDRS}
-	cmp -s ${_i} ${DESTDIR}/usr/include/${_i} || \
+	cd ${.CURDIR} && cmp -s ${_i} ${DESTDIR}/usr/include/${_i} || \
 	    ${INSTALL} ${INSTALL_COPY} -o ${BINOWN} -g ${BINGRP} \
 	    -m ${NONBINMODE} ${_i} ${DESTDIR}/usr/include/
 .endfor
