@@ -1,4 +1,4 @@
-/* $MirOS: gcc/gcc/gcc.c,v 1.3 2005/03/28 00:42:38 tg Exp $ */
+/* $MirOS: gcc/gcc/gcc.c,v 1.4 2005/04/17 03:17:47 tg Exp $ */
 
 /* Compiler driver program that can handle many languages.
    Copyright (C) 1987, 1989, 1992, 1993, 1994, 1995, 1996, 1997, 1998,
@@ -749,7 +749,7 @@ static const char *cpp_unique_options =
  %{MMD:-MMD %{!o:%b.d}%{o*:%.d%*}}\
  %{M} %{MM} %{MF*} %{MG} %{MP} %{MQ*} %{MT*}\
  %{!E:%{!M:%{!MM:%{MD|MMD:%{o*:-MQ %*}}}}}\
- %{trigraphs} %{remap} %{g3:-dD} %{H} %C %{D*&U*&A*} %{i*} %Z %i\
+ %{remap} %{g3:-dD} %{H} %C %{D*&U*&A*} %{i*} %Z %i\
  %{E|M|MM:%W{o*}}";
 
 /* This contains cpp options which are common with cc1_options and are passed
@@ -758,8 +758,9 @@ static const char *cpp_unique_options =
    options used to set target flags.  Those special target flags settings may
    in turn cause preprocessor symbols to be defined specially.  */
 static const char *cpp_options =
-"%(cpp_unique_options) %1 %{m*} %{std*} %{ansi} %{W*&pedantic*} %{w} %{f*}\
- %{g*:%{!g0:%{!fno-working-directory:-fworking-directory}}} %{O*} %{undef}";
+"%(cpp_unique_options) %1 %{m*} %{std*&ansi&trigraphs} %{W*&pedantic*} %{w}\
+ %{f*} %{g*:%{!g0:%{!fno-working-directory:-fworking-directory}}} %{O*}\
+ %{undef}";
 
 /* This contains cpp options which are not passed when the preprocessor
    output will be used by another program.  */
@@ -770,8 +771,8 @@ static const char *cc1_options =
 "%{pg:%{fomit-frame-pointer:%e-pg and -fomit-frame-pointer are incompatible}}\
  %1 %{!Q:-quiet} -dumpbase %B %{d*} %{m*} %{a*}\
  %{c|S:%{o*:-auxbase-strip %*}%{!o*:-auxbase %b}}%{!c:%{!S:-auxbase %b}}\
- %{g*} %{O*} %{f*&W*&pedantic*&w} %{std*} %{ansi}\
- %{v:-version} %{pg:-p} %{p} %{undef}\
+ %{g*} %{O*} %{W*&pedantic*} %{w} %{std*&ansi&trigraphs}\
+ %{v:-version} %{pg:-p} %{p} %{f*} %{undef}\
  %{Qn:-fno-ident} %{--help:--help}\
  %{--target-help:--target-help}\
  %{!fsyntax-only:%{S:%W{o*}%{!o*:-o %b.s}}}\

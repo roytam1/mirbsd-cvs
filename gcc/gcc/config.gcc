@@ -1,4 +1,4 @@
-# $MirOS: gcc/gcc/config.gcc,v 1.5 2005/04/25 23:14:07 tg Exp $
+# $MirOS: gcc/gcc/config.gcc,v 1.6 2005/04/30 22:16:01 tg Exp $
 #
 # GCC target-specific configuration file.
 # Copyright 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004
@@ -487,7 +487,7 @@ case ${target} in
   # this one (default) is to build libgcc2 with -fPIC
   tmake_file="${tmake_file_mlpic} t-libgcc-pic"
   case ${enable_threads} in
-    yes)
+    yes|posix)
       thread_file='posix'
       tmake_file="${tmake_file} t-openbsd-thread"
       tmake_file_mlpic="${tmake_file_mlpic} t-openbsd-thread"

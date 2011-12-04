@@ -1,4 +1,4 @@
-# $MirOS: gcc/libobjc/Makefile.bsd-wrapper,v 1.1 2005/03/25 21:44:40 tg Exp $
+# $MirOS: gcc/libobjc/Makefile.bsd-wrapper,v 1.2 2005/05/01 21:54:15 tg Exp $
 
 .include <bsd.own.mk>
 .include "${GNUSYSTEM_AUX_DIR}/locations.mk"
@@ -7,7 +7,7 @@ SHLIB_VERSION?=	3.1
 
 NOMAN=		yes
 CFARGS+=	--enable-static ${CF_PIC} --disable-libtool-lock \
-		--prefix=/usr --disable-objc-gc
+		--prefix=/usr --enable-objc-gc
 XARGS+=		LIBIBERTY_HDRS="${GNU_LIBIBERTY_INC}" \
 		LIBOBJC_VERSION=${SHLIB_VERSION:S/./:/}:0 \
 		LIBOBJC_GC_VERSION=${SHLIB_VERSION:S/./:/}:0

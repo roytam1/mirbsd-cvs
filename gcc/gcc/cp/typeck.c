@@ -1,4 +1,4 @@
-/* $MirOS: gcc/gcc/cp/typeck.c,v 1.3 2005/04/19 12:58:31 tg Exp $ */
+/* $MirOS: gcc/gcc/cp/typeck.c,v 1.4 2005/04/30 22:16:03 tg Exp $ */
 
 /* Build expressions with type checking for C++ compiler.
    Copyright (C) 1987, 1988, 1989, 1992, 1993, 1994, 1995, 1996, 1997, 1998,
@@ -4171,7 +4171,8 @@ build_unary_op (enum tree_code code, tree xarg, int noconvert)
    for certain kinds of expressions which are not really lvalues
    but which we can accept as lvalues.
 
-   If ARG is not a kind of expression we can handle, return zero.  */
+   If ARG is not a kind of expression we can handle, return
+   NULL_TREE.  */
    
 tree
 unary_complex_lvalue (enum tree_code code, tree arg)
