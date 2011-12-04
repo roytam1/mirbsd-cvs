@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.own.mk,v 1.5 2005/04/10 20:35:15 tg Exp $
+# $MirOS: src/share/mk/bsd.own.mk,v 1.6 2005/04/11 18:17:21 tg Exp $
 # $OpenBSD: bsd.own.mk,v 1.84 2004/06/22 19:50:01 pvalchev Exp $
 # $NetBSD: bsd.own.mk,v 1.24 1996/04/13 02:08:09 thorpej Exp $
 
@@ -19,7 +19,7 @@ CROSS_MODE:=	No
 .if ${CROSS_MODE:L} == "yes"
 DEFFLAGS=	No
 EXPERIMENTAL=	Yes
-.endif	# CROSS_MODE
+.endif
 
 # Automatic CC/COPTS assignment system
 DEFFLAGS?=	Yes
@@ -27,7 +27,7 @@ DEFFLAGS?=	Yes
 .if ${DEFFLAGS:L} != "no"
 CC?=		mgcc
 COPTS?=		${DEFCOPTS} ${GCEXTRA}
-.endif	# DEFFLAGS
+.endif
 
 .if ${MACHINE} == "macppc"
 CRTN?=		${DESTDIR}/usr/lib/ncrtn.o
@@ -63,13 +63,13 @@ NONBINMODE?=	444
 DIRMODE?=	755
 
 SHAREDIR?=	/usr/share
-SHAREGRP?=	bin
-SHAREOWN?=	root
+SHAREGRP?=	${BINGRP}
+SHAREOWN?=	${BINOWN}
 SHAREMODE?=	${NONBINMODE}
 
 MANDIR?=	/usr/share/man/cat
-MANGRP?=	bin
-MANOWN?=	root
+MANGRP?=	${SHAREGRP}
+MANOWN?=	${SHAREOWN}
 MANMODE?=	${NONBINMODE}
 
 LIBDIR?=	/usr/lib
@@ -79,8 +79,8 @@ LIBOWN?=	${BINOWN}
 LIBMODE?=	${NONBINMODE}
 
 DOCDIR?=	/usr/share/doc
-DOCGRP?=	bin
-DOCOWN?=	root
+DOCGRP?=	${SHAREGRP}
+DOCOWN?=	${SHAREOWN}
 DOCMODE?=	${NONBINMODE}
 
 LKMDIR?=	/usr/lkm
