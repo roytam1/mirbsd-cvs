@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/sys.mk,v 1.7 2005/04/07 19:12:10 tg Exp $
+# $MirOS: src/share/mk/sys.mk,v 1.8 2005/04/14 19:33:05 tg Exp $
 # $OpenBSD: sys.mk,v 1.37 2004/04/05 19:17:25 miod Exp $
 # $NetBSD: sys.mk,v 1.27 1996/04/10 05:47:19 mycroft Exp $
 # @(#)sys.mk	5.11 (Berkeley) 3/13/91
@@ -64,7 +64,10 @@ LINK.cc?=	${CXX} ${CXXFLAGS} ${CPPFLAGS} ${LDFLAGS}
 
 CPP?=		cpp
 CPPFLAGS?=
-CPPFLAGS+=	-isystem ${.CURDIR}
+
+# CPPOPTS are for the user to override/add, e.g. in mk.conf
+CPPOPTS=	-isystem ${.CURDIR}
+CPPFLAGS+=	${CPPOPTS}
 
 LEX?=		lex
 LFLAGS?=

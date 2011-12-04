@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /* $Xorg: Xtransint.h,v 1.4 2001/02/09 02:04:06 xorgcvs Exp $ */
 /*
 
@@ -444,7 +445,7 @@ static int trans_mkdir (
                         gettimeofday(&tp,0); \
 			ErrorF(__xtransname); \
 			ErrorF(x+hack,a,b,c); \
-                        ErrorF("timestamp (ms): %d\n",tp.tv_sec*1000+tp.tv_usec/1000); \
+                        ErrorF("timestamp (ms): %lld\n",(long long)tp.tv_sec*1000+tp.tv_usec/1000); \
 			errno=saveerrno; \
 			} else ((void)0)
 #else
@@ -454,7 +455,7 @@ static int trans_mkdir (
                         gettimeofday(&tp,0); \
 			fprintf(stderr, __xtransname); fflush(stderr); \
 			fprintf(stderr, x+hack,a,b,c); fflush(stderr); \
-                        fprintf(stderr, "timestamp (ms): %d\n",tp.tv_sec*1000+tp.tv_usec/1000); \
+                        fprintf(stderr, "timestamp (ms): %lld\n",(long long)tp.tv_sec*1000+tp.tv_usec/1000); \
                         fflush(stderr); \
 			errno=saveerrno; \
 			} else ((void)0)

@@ -1791,6 +1791,7 @@
 ./usr/lib/crt0.o
 ./usr/lib/crti.o
 ./usr/lib/crtn.o
+./usr/lib/debug
 ./usr/lib/libc.a
 ./usr/lib/libc.so.35.2
 ./usr/lib/libcdk.a
@@ -7159,6 +7160,7 @@
 ./usr/share/man/cat5/syslog.conf.0
 ./usr/share/man/cat5/term.0
 ./usr/share/man/cat5/termcap.0
+./usr/share/man/cat5/terminfo.0
 ./usr/share/man/cat5/ttys.0
 ./usr/share/man/cat5/types.0
 ./usr/share/man/cat5/tzfile.0
