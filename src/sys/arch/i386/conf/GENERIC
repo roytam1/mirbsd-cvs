@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/conf/GENERIC,v 1.17 2005/07/04 01:41:32 tg Exp $
+# $MirOS: src/sys/arch/i386/conf/GENERIC,v 1.18 2005/07/04 03:35:48 tg Exp $
 # $OpenBSD: GENERIC,v 1.360 2004/05/11 04:01:00 deraadt Exp $
 # $NetBSD: GENERIC,v 1.48 1996/05/20 18:17:23 mrg Exp $
 #-
@@ -13,7 +13,7 @@
 
 machine		i386			# arch, used by config; REQUIRED
 
-# $MirOS: src/sys/arch/i386/conf/GENERIC,v 1.17 2005/07/04 01:41:32 tg Exp $
+# $MirOS: src/sys/arch/i386/conf/GENERIC,v 1.18 2005/07/04 03:35:48 tg Exp $
 # $OpenBSD: GENERIC,v 1.112 2004/11/28 23:39:45 canacar Exp $
 #
 # Machine-independent option; used by all architectures.
@@ -251,7 +251,7 @@ uhidev*	at uhub? port ? configuration ? interface ?	# Human Interface Devices
 ums*	at uhidev? reportid ?		# USB mouse
 wsmouse* at ums? mux 0
 ukbd*	at uhidev? reportid ?		# USB keyboard
-wskbd*	at ukbd? console ? mux 1
+wskbd*	at ukbd? mux 1
 uhid*	at uhidev? reportid ?		# USB generic HID support
 aue*	at uhub? port ?			# ADMtek AN986 Pegasus Ethernet
 axe*	at uhub? port ?			# ASIX Electronics AX88172 USB Ethernet
@@ -290,7 +290,7 @@ vga*		at pci? dev ? function ?
 pcdisplay0	at isa?			# CGA, MDA, EGA, HGA
 wsdisplay*	at vga? console ?
 wsdisplay*	at pcdisplay? console ?
-wskbd*		at pckbd? console ? mux 1
+wskbd*		at pckbd? mux 1
 wsmouse*	at pms? mux 0
 wsmouse*	at pmsi? mux 0
 
