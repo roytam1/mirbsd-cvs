@@ -1,29 +1,24 @@
-#	$OpenBSD: Makefile,v 1.22 2004/01/28 17:58:12 deraadt Exp $
+# $MirOS$
+# $OpenBSD: Makefile,v 1.22 2004/01/28 17:58:12 deraadt Exp $
 #
 # All library objects contain sccsid strings by default; they may be
 # excluded as a space-saving measure.  To produce a library that does
 # not contain these strings, delete -DLIBC_SCCS and -DSYSLIBC_SCCS
 # from CFLAGS below.  To remove these strings from just the system call
-# stubs, remove just -DSYSLIBC_SCCS from CFLAGS.
-#
-# The NLS (message catalog) functions are always in libc.  To choose that
-# strerror(), perror(), strsignal(), psignal(), etc. actually call the NLS
-# functions, put -DNLS on the CFLAGS line below.
-#
-# The YP functions are always in libc. To choose that getpwent() and friends
-# actually call the YP functions, put -DYP on the CFLAGS line below.
+# stubs, remove just -DSYSLIBC_SCCS from CFLAGS in Makefile.inc.
 
 .include <bsd.own.mk>
 
+SHLIB_VERSION?=		35.1	# note: If changes were made to the file
+#				# src/lib/libc/include/thread_private.h or
+#				# system calls have been added/changed,
+#				# libpthread must also be updated.
 LIB=c
-LINTFLAGS=-z
+LINTFLAGS+=-z
 CLEANFILES+=tags
-#CFLAGS+=-Werror
 
 LIBCSRCDIR=${.CURDIR}
 .include "${LIBCSRCDIR}/Makefile.inc"
-
-NLS=	C.msg Pig.msg de.msg es.msg fi.msg fr.msg nl.msg no.msg ru.msg sv.msg
 
 copy-to-libkern:	copy-to-libkern-machind copy-to-libkern-machdep
 

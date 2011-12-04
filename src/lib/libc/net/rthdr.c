@@ -1,9 +1,10 @@
+/* $MirOS$ */
 /*	$OpenBSD: rthdr.c,v 1.6 2003/06/11 02:54:02 itojun Exp $	*/
 
 /*
  * Copyright (C) 1995, 1996, 1997, and 1998 WIDE Project.
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met:
@@ -70,7 +71,7 @@ inet6_rthdr_init(bp, type)
 	switch (type) {
 	case IPV6_RTHDR_TYPE_0:
 		ch->cmsg_len = CMSG_LEN(sizeof(struct ip6_rthdr0));
-		bzero(rthdr, sizeof(struct ip6_rthdr0));
+		memset(rthdr, 0, sizeof(struct ip6_rthdr0));
 		rthdr->ip6r_type = IPV6_RTHDR_TYPE_0;
 		return (ch);
 	default:
@@ -97,7 +98,7 @@ inet6_rthdr_add(cmsg, addr, flags)
 		if (rt0->ip6r0_segleft == 23)
 			return (-1);
 		rt0->ip6r0_segleft++;
-		bcopy(addr, (caddr_t)rt0 + ((rt0->ip6r0_len + 1) << 3),
+		memmove((caddr_t)rt0 + ((rt0->ip6r0_len + 1) << 3), addr,
 		    sizeof(struct in6_addr));
 		rt0->ip6r0_len += sizeof(struct in6_addr) >> 3;
 		cmsg->cmsg_len = CMSG_LEN((rt0->ip6r0_len + 1) << 3);

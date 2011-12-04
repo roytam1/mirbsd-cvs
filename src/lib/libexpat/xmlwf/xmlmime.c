@@ -93,7 +93,7 @@ getXMLCharset(const char *buf, char *charset)
   next = buf;
   p = getTok(&next);
   if (matchkey(p, next, "text"))
-    strcpy(charset, "us-ascii");
+    strlcpy(charset, "us-ascii", CHARSET_MAX);
   else if (!matchkey(p, next, "application"))
     return;
   p = getTok(&next);

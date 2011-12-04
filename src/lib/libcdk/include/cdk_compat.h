@@ -56,7 +56,7 @@ extern "C" {
 /*
  * Include the Cdk header file, which includes everything except for this file.
  */
-#include <cdk.h>
+#include <cdk/cdk.h>
 
 /*
  * This is defined via the new header file:

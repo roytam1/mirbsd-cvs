@@ -27,7 +27,7 @@
  * SUCH DAMAGE.
  */
 
-#if defined(LIBC_SCCS) && !defined(lint)
+#if 0
 static char rcsid[] = "$OpenBSD: syslog.c,v 1.26 2004/05/18 02:05:52 jfb Exp $";
 #endif /* LIBC_SCCS and not lint */
 
@@ -46,6 +46,8 @@ static char rcsid[] = "$OpenBSD: syslog.c,v 1.26 2004/05/18 02:05:52 jfb Exp $";
 #include <time.h>
 #include <unistd.h>
 #include <stdarg.h>
+
+__RCSID("$MirOS$");
 
 static struct syslog_data sdata = SYSLOG_DATA_INIT;
 
@@ -114,7 +116,7 @@ vsyslog_r(int pri, struct syslog_data *data, const char *fmt, va_list ap)
 	int fd, saved_errno, error;
 #define	TBUF_LEN	2048
 #define	FMT_LEN		1024
-	char *stdp, tbuf[TBUF_LEN], fmt_cpy[FMT_LEN];
+	char *stdp = NULL, tbuf[TBUF_LEN], fmt_cpy[FMT_LEN];
 	int tbuf_left, fmt_left, prlen;
 
 #define	INTERNALLOG	LOG_ERR|LOG_CONS|LOG_PERROR|LOG_PID
@@ -160,7 +162,7 @@ vsyslog_r(int pri, struct syslog_data *data, const char *fmt, va_list ap)
 	prlen = snprintf(p, tbuf_left, "<%d>", pri);
 	DEC();
 
-	/* 
+	/*
 	 * syslogd will expand time automagically for reentrant case, and
 	 * for normal case, just do like before
 	 */
@@ -199,10 +201,10 @@ vsyslog_r(int pri, struct syslog_data *data, const char *fmt, va_list ap)
 			++fmt;
 			if (data == &sdata) {
 				prlen = snprintf(t, fmt_left, "%s",
-				    strerror(saved_errno)); 
+				    strerror(saved_errno));
 			} else {
 				prlen = snprintf(t, fmt_left, "Error %d",
-				    saved_errno); 
+				    saved_errno);
 			}
 			if (prlen >= fmt_left)
 				prlen = fmt_left - 1;
@@ -270,7 +272,7 @@ vsyslog_r(int pri, struct syslog_data *data, const char *fmt, va_list ap)
 	if (error == -1 && (data->log_stat & LOG_CONS) &&
 	    (fd = open(_PATH_CONSOLE, O_WRONLY|O_NONBLOCK, 0)) >= 0) {
 		struct iovec iov[2];
-		
+
 		p = strchr(tbuf, '>') + 1;
 		iov[0].iov_base = p;
 		iov[0].iov_len = cnt - (p - tbuf);

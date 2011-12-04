@@ -1,3 +1,4 @@
+/**	$MirOS$	*/
 /*	$OpenBSD: getnetnamadr.c,v 1.23 2003/06/03 21:09:00 deraadt Exp $	*/
 
 /*
@@ -65,8 +66,9 @@
 static char sccsid[] = "@(#)getnetbyaddr.c	8.1 (Berkeley) 6/4/93";
 static char sccsid_[] = "from getnetnamadr.c	1.4 (Coimbra) 93/06/03";
 static char rcsid[] = "$From: getnetnamadr.c,v 8.7 1996/08/05 08:31:35 vixie Exp $";
-#else
 static char rcsid[] = "$OpenBSD: getnetnamadr.c,v 1.23 2003/06/03 21:09:00 deraadt Exp $";
+#else
+static char rcsid[] = "$MirOS$";
 #endif
 #endif /* LIBC_SCCS and not lint */
 
@@ -194,7 +196,7 @@ getnetanswer(answer, anslen, net_i)
 				cp += n;
 				return (NULL);
 			}
-			cp += n; 
+			cp += n;
 			if ((ap + 2) < &net_aliases[MAXALIASES]) {
 				*ap++ = bp;
 				bp += strlen(bp) + 1;
@@ -236,7 +238,7 @@ getnetanswer(answer, anslen, net_i)
 				paux2 = paux1;
 				paux1 = pauxt;
 				in = ++st;
-			}		  
+			}
 			if (strcasecmp(in, "IN-ADDR.ARPA") != 0)
 				goto next_alias;
 			net_entry.n_net = inet_network(paux2);
@@ -267,17 +269,12 @@ getnetbyaddr(net, net_type)
 	if ((_resp->options & RES_INIT) == 0 && res_init() == -1)
 		return(_getnetbyaddr(net, net_type));
 
-	bcopy(_resp->lookups, lookups, sizeof lookups);
+	memmove(lookups, _resp->lookups, sizeof lookups);
 	if (lookups[0] == '\0')
 		strlcpy(lookups, "bf", sizeof lookups);
 
 	for (i = 0; i < MAXDNSLUS && lookups[i]; i++) {
 		switch (lookups[i]) {
-#ifdef YP
-		case 'y':
-			/* There is no YP support. */
-			break;
-#endif	/* YP */
 		case 'b':
 			if (net_type != AF_INET)
 				break;	/* DNS only supports AF_INET? */
@@ -356,17 +353,12 @@ getnetbyname(net)
 	if ((_resp->options & RES_INIT) == 0 && res_init() == -1)
 		return (_getnetbyname(net));
 
-	bcopy(_resp->lookups, lookups, sizeof lookups);
+	memmove(lookups, _resp->lookups, sizeof lookups);
 	if (lookups[0] == '\0')
 		strlcpy(lookups, "bf", sizeof lookups);
 
 	for (i = 0; i < MAXDNSLUS && lookups[i]; i++) {
 		switch (lookups[i]) {
-#ifdef YP
-		case 'y':
-			/* There is no YP support. */
-			break;
-#endif	/* YP */
 		case 'b':
 			strlcpy(qbuf, net, sizeof qbuf);
 			buf = malloc(sizeof(*buf));

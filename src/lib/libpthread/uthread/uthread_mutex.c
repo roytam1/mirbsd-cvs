@@ -111,9 +111,9 @@ pthread_mutex_init(pthread_mutex_t * mutex,
 		   const pthread_mutexattr_t * mutex_attr)
 {
 	pthread_mutex_t	pmutex;
-	enum pthread_mutextype	type = 0;
-	int		protocol = 0;
-	int		ceiling = 0;
+	enum pthread_mutextype	type = PTHREAD_MUTEX_ERRORCHECK;
+	int		protocol = PTHREAD_PRIO_NONE;
+	int		ceiling = PTHREAD_MAX_PRIORITY;
 	int		flags = 0;
 	int		ret = 0;
 
@@ -123,10 +123,10 @@ pthread_mutex_init(pthread_mutex_t * mutex,
 	/* Check if default mutex attributes: */
 	else if (mutex_attr == NULL || *mutex_attr == NULL) {
 		/* Default to a (error checking) POSIX mutex: */
-		type = PTHREAD_MUTEX_ERRORCHECK;
+		/***type = PTHREAD_MUTEX_ERRORCHECK;
 		protocol = PTHREAD_PRIO_NONE;
 		ceiling = PTHREAD_MAX_PRIORITY;
-		flags = 0;
+		flags = 0;***/
 	}
 
 	/* Check mutex type: */

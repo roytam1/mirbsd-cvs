@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /*
  * Copyright (c) 1983, 1987, 1993
  *	The Regents of the University of California.  All rights reserved.
@@ -28,7 +29,7 @@
  */
 
 #if defined(LIBC_SCCS) && !defined(lint)
-static char rcsid[] = "$OpenBSD: disklabel.c,v 1.9 2003/06/11 21:03:10 deraadt Exp $";
+static const char rcsid[] = "$OpenBSD: disklabel.c,v 1.9 2003/06/11 21:03:10 deraadt Exp $";
 #endif /* LIBC_SCCS and not lint */
 
 #include <sys/param.h>
@@ -62,7 +63,7 @@ getdiskbyname(const char *name)
 	if (cgetent(&buf, db_array, (char *) name) < 0)
 		return NULL;
 
-	bzero((char *)&disk, sizeof(disk));
+	memset((char *)&disk, 0, sizeof(disk));
 	/*
 	 * typename
 	 */

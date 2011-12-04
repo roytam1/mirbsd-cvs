@@ -10,11 +10,11 @@
 
 #ifndef CDK_H
 #define CDKINCLUDES
-#include <cdk.h>
+#include <cdk/cdk.h>
 #undef CDKINCLUDES
-#include <binding.h>
-#include <cdkscreen.h>
-#include <cdk_objs.h>
+#include <cdk/binding.h>
+#include <cdk/cdkscreen.h>
+#include <cdk/cdk_objs.h>
 #endif
 
 /*

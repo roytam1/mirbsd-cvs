@@ -1,6 +1,7 @@
-#	$OpenBSD: Makefile.inc,v 1.71 2004/09/18 19:21:46 deraadt Exp $
-#	$NetBSD: Makefile.inc,v 1.35 1995/10/16 23:49:07 jtc Exp $
-#	@(#)Makefile.inc	8.1 (Berkeley) 6/17/93
+# $MirOS$
+# $OpenBSD: Makefile.inc,v 1.71 2004/09/18 19:21:46 deraadt Exp $
+# $NetBSD: Makefile.inc,v 1.35 1995/10/16 23:49:07 jtc Exp $
+# @(#)Makefile.inc	8.1 (Berkeley) 6/17/93
 
 # sys sources
 .PATH: ${LIBCSRCDIR}/arch/${MACHINE_ARCH}/sys ${LIBCSRCDIR}/sys
@@ -14,7 +15,7 @@ LSRCS+=	Lint_Ovfork.c Lint_brk.c Lint_exect.c Lint_fork.c \
 	Lint_rfork.c Lint_sbrk.c \
 	Lint_sigpending.c Lint_sigprocmask.c Lint_sigreturn.c \
 	Lint_sigsuspend.c Lint_syscall.c
-DPSRCS+= Lint_Ovfork.c Lint_brk.c Lint_exect.c Lint_fork.c \
+DPSRCS+=Lint_Ovfork.c Lint_brk.c Lint_exect.c Lint_fork.c \
 	Lint_sbrk.c \
 	Lint_sigpending.c Lint_sigprocmask.c Lint_sigreturn.c \
 	Lint_sigsuspend.c Lint_syscall.c
@@ -27,13 +28,14 @@ SRCS+=	ftruncate.c lseek.c mquery.c mmap.c ptrace.c semctl.c truncate.c \
 
 # stack protector helper functions
 SRCS+=	stack_protector.c
+CFLAGS_stack_protector.o+= -fno-stack-protector
 
 # modules with default implementations on all architectures:
 ASM=	accept.o access.o acct.o adjtime.o bind.o chdir.o chflags.o chmod.o \
 	chown.o chroot.o clock_gettime.o clock_settime.o clock_getres.o \
 	close.o closefrom.o connect.o dup.o dup2.o execve.o fchdir.o \
-	fchflags.o fchmod.o fchown.o fcntl.o fhopen.o fhstat.o fhstatfs.o \
-	flock.o fpathconf.o fstat.o \
+	fchflags.o fchmod.o fchown.o fchroot.o fcntl.o fhopen.o fhstat.o \
+	fhstatfs.o flock.o fpathconf.o fstat.o \
 	fstatfs.o fsync.o futimes.o getdirentries.o getegid.o geteuid.o \
 	getfh.o getfsstat.o getgid.o getgroups.o getitimer.o getpeereid.o \
 	getpeername.o \
@@ -56,7 +58,7 @@ ASM=	accept.o access.o acct.o adjtime.o bind.o chdir.o chflags.o chmod.o \
 	setuid.o shmat.o shmctl.o shmdt.o shmget.o shutdown.o sigaction.o \
 	sigaltstack.o socket.o socketpair.o stat.o statfs.o swapctl.o \
 	symlink.o sync.o sysarch.o umask.o undelete.o unlink.o unmount.o \
-	utimes.o vadvise.o wait4.o write.o writev.o xfspioctl.o __semctl.o \
+	utimes.o vadvise.o wait4.o write.o writev.o __semctl.o \
 	__syscall.o __sysctl.o
 
 ASM+=	extattrctl.o extattr_set_file.o extattr_get_file.o \
@@ -93,18 +95,11 @@ ${PASM}: ${LIBCSRCDIR}/arch/${MACHINE_ARCH}/SYS.h /usr/include/sys/syscall.h
 	@${LD} -X -r ${.TARGET}.o -o ${.TARGET}
 	@rm -f ${.TARGET}.o
 
-.if (${MACHINE_ARCH} != "mips")
 ${SASM}: ${LIBCSRCDIR}/arch/${MACHINE_ARCH}/SYS.h /usr/include/sys/syscall.h
 	@echo creating ${.TARGET}
 	@printf '#include "SYS.h"\nRSYSCALL(${.PREFIX})\n' | \
 	    ${CPP} -DPIC ${CFLAGS:M-[ID]*} ${AINC} | \
 	    ${AS} ${ASPICFLAG} -o ${.TARGET}
-.else
-${SASM}: ${LIBCSRCDIR}/arch/${MACHINE_ARCH}/SYS.h /usr/include/sys/syscall.h
-	@echo creating ${.TARGET}
-	@printf '#include "SYS.h"\nRSYSCALL(${.PREFIX})\n' | \
-	    ${CPP} -DPIC ${CFLAGS:M-[ID]*} ${AINC} | ${AS} -o ${.TARGET}
-.endif
 
 ${ASM}: ${LIBCSRCDIR}/arch/${MACHINE_ARCH}/SYS.h /usr/include/sys/syscall.h
 	@echo creating ${.TARGET}
@@ -127,18 +122,11 @@ ${PPSEUDO}: ${LIBCSRCDIR}/arch/${MACHINE_ARCH}/SYS.h /usr/include/sys/syscall.h
 	@${LD} -X -r ${.TARGET}.o -o ${.TARGET}
 	@rm -f ${.TARGET}.o
 
-.if (${MACHINE_ARCH} != "mips")
 ${SPSEUDO}: ${LIBCSRCDIR}/arch/${MACHINE_ARCH}/SYS.h /usr/include/sys/syscall.h
 	@echo creating ${.TARGET}
 	@printf '#include "SYS.h"\nPSEUDO(${.PREFIX},${.PREFIX:S/_//})\n' | \
 	    ${CPP} -DPIC ${CFLAGS:M-[ID]*} ${AINC} | \
 	    ${AS} ${ASPICFLAG} -o ${.TARGET}
-.else
-${SPSEUDO}: ${LIBCSRCDIR}/arch/${MACHINE_ARCH}/SYS.h /usr/include/sys/syscall.h
-	@echo creating ${.TARGET}
-	@printf '#include "SYS.h"\nPSEUDO(${.PREFIX},${.PREFIX:S/_//})\n' | \
-	    ${CPP} -DPIC ${CFLAGS:M-[ID]*} ${AINC} | ${AS} -o ${.TARGET}
-.endif
 
 ${PSEUDO}: ${LIBCSRCDIR}/arch/${MACHINE_ARCH}/SYS.h /usr/include/sys/syscall.h
 	@echo creating ${.TARGET}
@@ -161,18 +149,11 @@ ${PPSEUDO_NOERR}: ${LIBCSRCDIR}/arch/${MACHINE_ARCH}/SYS.h /usr/include/sys/sysc
 	@${LD} -X -r ${.TARGET}.o -o ${.TARGET}
 	@rm -f ${.TARGET}.o
 
-.if (${MACHINE_ARCH} != "mips")
 ${SPSEUDO_NOERR}: ${LIBCSRCDIR}/arch/${MACHINE_ARCH}/SYS.h /usr/include/sys/syscall.h
 	@echo creating ${.TARGET}
 	@printf '#include "SYS.h"\nPSEUDO_NOERROR(${.PREFIX},${.PREFIX:S/_//})\n' | \
 	    ${CPP} -DPIC ${CFLAGS:M-[ID]*} ${AINC} | \
 	    ${AS} ${ASPICFLAG} -o ${.TARGET}
-.else
-${SPSEUDO_NOERR}: ${LIBCSRCDIR}/arch/${MACHINE_ARCH}/SYS.h /usr/include/sys/syscall.h
-	@echo creating ${.TARGET}
-	@printf '#include "SYS.h"\nPSEUDO_NOERROR(${.PREFIX},${.PREFIX:S/_//})\n' | \
-	    ${CPP} -DPIC ${CFLAGS:M-[ID]*} ${AINC} | ${AS} -o ${.TARGET}
-.endif
 
 ${PSEUDO_NOERR}: ${LIBCSRCDIR}/arch/${MACHINE_ARCH}/SYS.h /usr/include/sys/syscall.h
 	@echo creating ${.TARGET}
@@ -187,7 +168,7 @@ ${PSEUDO_NOERR}: ${LIBCSRCDIR}/arch/${MACHINE_ARCH}/SYS.h /usr/include/sys/sysca
 LSRCS+=	LintSysNormal.c LintSysPseudoNoerr.c
 DPSRCS+= LintSysNormal.c LintSysPseudoNoerr.c
 
-CLEANFILES+= LintSysNormal.c LintSysNoerr.c LintSysPseudo.c
+CLEANFILES+= LintSysNormal.c LintSysNoerr.c LintSysPseudoNoerr.c
 
 LintSysNormal.c: ${LIBCSRCDIR}/sys/makelintstub.sh \
     ${DESTDIR}/usr/include/sys/syscall.h
@@ -288,6 +269,7 @@ MLINKS+=wait.2 wait3.2 wait.2 wait4.2 wait.2 waitpid.2
 MLINKS+=write.2 writev.2 write.2 pwrite.2 write.2 pwritev.2
 MLINKS+=select.2 FD_SET.3 select.2 FD_CLR.3
 MLINKS+=select.2 FD_ISSET.3 select.2 FD_ZERO.3
+MLINKS+=chroot.2 fchroot.2
 MLINKS+=wait.2 WIFCONTINUED.2 wait.2 WIFEXITED.2
 MLINKS+=wait.2 WIFSIGNALED.2 wait.2 WIFSTOPPED.2 wait.2 WTERMSIG.2
 MLINKS+=wait.2 WCOREDUMP.2 wait.2 WSTOPSIG.2

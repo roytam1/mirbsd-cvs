@@ -12,11 +12,11 @@ extern "C" {
 
 #ifndef CDK_H
 #define CDKINCLUDES
-#include <cdk.h>
+#include <cdk/cdk.h>
 #undef CDKINCLUDES
-#include <binding.h>
-#include <cdkscreen.h>
-#include <cdk_objs.h>
+#include <cdk/binding.h>
+#include <cdk/cdkscreen.h>
+#include <cdk/cdk_objs.h>
 #endif
 
 /*
@@ -54,8 +54,8 @@ extern "C" {
  * SUCH DAMAGE.
  */
 
-#include <entry.h>
-#include <scroll.h>
+#include <cdk/entry.h>
+#include <cdk/scroll.h>
 
 /*
  * Define the CDK alphalist widget structure.

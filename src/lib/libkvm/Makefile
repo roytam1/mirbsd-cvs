@@ -1,16 +1,18 @@
-#	$OpenBSD: Makefile,v 1.7 2004/01/08 04:59:10 millert Exp $
-#	$NetBSD: Makefile,v 1.11 1996/03/18 22:33:07 thorpej Exp $
-#	from: @(#)Makefile	8.1 (Berkeley) 6/4/93
+# $MirOS$
+# $OpenBSD: Makefile,v 1.7 2004/01/08 04:59:10 millert Exp $
+# $NetBSD: Makefile,v 1.11 1996/03/18 22:33:07 thorpej Exp $
+# from: @(#)Makefile	8.1 (Berkeley) 6/4/93
 
-LIB=	kvm
-CFLAGS+=-DLIBC_SCCS
+SHLIB_VERSION?=	9.0
+LIB=		kvm
+CPPFLAGS+=	-DLIBC_SCCS
 
 # Try most specific name first.
 .if	exists(kvm_${MACHINE}.c)
 SRCS=	kvm_${MACHINE}.c
 .else
 # Less specific name (i.e. m68k)
-CFLAGS+=-D${MACHINE}
+CPPFLAGS+=-D${MACHINE}
 SRCS=	kvm_${MACHINE_ARCH}.c
 .endif
 

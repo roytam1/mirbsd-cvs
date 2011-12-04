@@ -1,19 +1,20 @@
-#	$OpenBSD: Makefile,v 1.7 2003/06/23 18:50:53 mickey Exp $
-
+# $MirOS$
+# $OpenBSD: Makefile,v 1.7 2003/06/23 18:50:53 mickey Exp $
 
 RPCSRCS=	bootparam_prot.x klm_prot.x mount.x nfs_prot.x \
 		nlm_prot.x rex.x rnusers.x rusers.x rquota.x rstat.x rwall.x \
-		sm_inter.x spray.x yp.x yppasswd.x
+		sm_inter.x spray.x
 SRCS=		${RPCSRCS:R:S/$/.c/g}
 HDRS=           ${RPCSRCS:R:S/$/.h/g}
 CLEANFILES+=	${SRCS} ${HDRS}
 
 LIB=		rpcsvc
-NOMAN=
-NOPIC=
+NOMAN=		yes
+NOPIC=		yes
 
 all:		${HDRS}
 beforedepend:	${HDRS}
+prereq:		${HDRS}
 
 includes:	${HDRS}
 	${INSTALL} -d -o ${BINOWN} -g ${BINGRP} -m 755 \

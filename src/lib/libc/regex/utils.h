@@ -1,3 +1,4 @@
+/**	$MirOS$	*/
 /*	$OpenBSD: utils.h,v 1.4 2003/06/02 20:18:36 millert Exp $	*/
 
 /*-
@@ -50,6 +51,6 @@ typedef unsigned char uch;
 #include <assert.h>
 
 /* for old systems with bcopy() but no memmove() */
-#ifdef USEBCOPY
+#if defined(USEBCOPY) && !defined(__MirBSD__)
 #define	memmove(d, s, c)	bcopy(s, d, c)
 #endif

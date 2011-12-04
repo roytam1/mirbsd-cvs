@@ -12,10 +12,10 @@ extern "C" {
 
 #ifndef CDK_H
 #define CDKINCLUDES
-#include <cdk.h>
+#include <cdk/cdk.h>
 #undef CDKINCLUDES
-#include <binding.h>
-#include <cdkscreen.h>
+#include <cdk/binding.h>
+#include <cdk/cdkscreen.h>
 #endif
 
 /*

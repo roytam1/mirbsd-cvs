@@ -33,8 +33,8 @@
 #include "SYS.h"
 #include <machine/psl.h>
 
-#if defined(SYSLIBC_SCCS)
 	.text
+#if defined(SYSLIBC_SCCS)
 	.asciz "$OpenBSD: exect.S,v 1.5 2003/06/02 20:18:30 millert Exp $"
 #endif /* SYSLIB_SCCS */
 

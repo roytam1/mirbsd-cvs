@@ -1,3 +1,4 @@
+.\"	$MirOS$
 .\"	$OpenBSD: fgets.3,v 1.19 2003/06/02 20:18:37 millert Exp $
 .\"
 .\" Copyright (c) 1990, 1991, 1993
@@ -85,9 +86,10 @@ they return
 .Dv NULL .
 The
 .Fn fgets
-and functions
+and
 .Fn gets
-do not distinguish between end-of-file and error, and callers must use
+function do not distinguish between end-of-file and error,
+and callers must use
 .Xr feof 3
 and
 .Xr ferror 3

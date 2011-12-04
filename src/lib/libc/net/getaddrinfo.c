@@ -1,3 +1,4 @@
+/**	$MirOS$	*/
 /*	$OpenBSD: getaddrinfo.c,v 1.50 2004/06/07 21:11:23 marc Exp $	*/
 /*	$KAME: getaddrinfo.c,v 1.31 2000/08/31 17:36:43 itojun Exp $	*/
 
@@ -101,13 +102,6 @@
 #include <syslog.h>
 #include <stdarg.h>
 
-#ifdef YP
-#include <rpc/rpc.h>
-#include <rpcsvc/yp.h>
-#include <rpcsvc/ypclnt.h>
-#include "ypinternal.h"
-#endif
-
 #include "thread_private.h"
 
 #define SUCCESS 0
@@ -130,7 +124,7 @@ static const struct afd {
 	int a_socklen;
 	int a_off;
 	const char *a_addrany;
-	const char *a_loopback;	
+	const char *a_loopback;
 	int a_scoped;
 } afdl [] = {
 #ifdef INET6
@@ -222,12 +216,6 @@ static void _endhtent(void);
 static struct addrinfo * _gethtent(const char *, const struct addrinfo *);
 static struct addrinfo *_files_getaddrinfo(const char *,
 	const struct addrinfo *);
-
-#ifdef YP
-static struct addrinfo *_yphostent(char *, const struct addrinfo *);
-static struct addrinfo *_yp_getaddrinfo(const char *,
-	const struct addrinfo *);
-#endif
 
 static struct addrinfo *getanswer(const querybuf *, int, const char *, int,
 	const struct addrinfo *);
@@ -321,7 +309,7 @@ getaddrinfo(hostname, servname, hints, res)
 	pai->ai_canonname = NULL;
 	pai->ai_addr = NULL;
 	pai->ai_next = NULL;
-	
+
 	if (hostname == NULL && servname == NULL)
 		return EAI_NONAME;
 	if (hints) {
@@ -525,7 +513,7 @@ explore_fqdn(pai, hostname, servname, res)
 	if ((_resp->options & RES_INIT) == 0 && res_init() == -1)
 		strlcpy(lookups, "f", sizeof lookups);
 	else {
-		bcopy(_resp->lookups, lookups, sizeof lookups);
+		memmove(lookups, _resp->lookups, sizeof lookups);
 		if (lookups[0] == '\0')
 			strlcpy(lookups, "bf", sizeof lookups);
 	}
@@ -537,11 +525,6 @@ explore_fqdn(pai, hostname, servname, res)
 	_THREAD_PRIVATE_MUTEX_LOCK(_explore_mutex);
 	for (i = 0; i < MAXDNSLUS && result == NULL && lookups[i]; i++) {
 		switch (lookups[i]) {
-#ifdef YP
-		case 'y':
-			result = _yp_getaddrinfo(hostname, pai);
-			break;
-#endif
 		case 'b':
 			result = _dns_getaddrinfo(hostname, pai);
 			break;
@@ -1394,143 +1377,6 @@ _files_getaddrinfo(name, pai)
 
 	return sentinel.ai_next;
 }
-
-#ifdef YP
-static char *__ypdomain;
-
-/*ARGSUSED*/
-static struct addrinfo *
-_yphostent(line, pai)
-	char *line;
-	const struct addrinfo *pai;
-{
-	struct addrinfo sentinel, *cur;
-	struct addrinfo hints, *res, *res0;
-	int error;
-	char *p = line;
-	const char *addr, *canonname;
-	char *nextline;
-	char *cp;
-
-	addr = canonname = NULL;
-
-	memset(&sentinel, 0, sizeof(sentinel));
-	cur = &sentinel;
-
-nextline:
-	/* terminate line */
-	cp = strchr(p, '\n');
-	if (cp) {
-		*cp++ = '\0';
-		nextline = cp;
-	} else
-		nextline = NULL;
-
-	cp = strpbrk(p, " \t");
-	if (cp == NULL) {
-		if (canonname == NULL)
-			return (NULL);
-		else
-			goto done;
-	}
-	*cp++ = '\0';
-
-	addr = p;
-
-	while (cp && *cp) {
-		if (*cp == ' ' || *cp == '\t') {
-			cp++;
-			continue;
-		}
-		if (!canonname)
-			canonname = cp;
-		if ((cp = strpbrk(cp, " \t")) != NULL)
-			*cp++ = '\0';
-	}
-
-	hints = *pai;
-	hints.ai_flags = AI_NUMERICHOST;
-	error = getaddrinfo(addr, NULL, &hints, &res0);
-	if (error == 0) {
-		for (res = res0; res; res = res->ai_next) {
-			/* cover it up */
-			res->ai_flags = pai->ai_flags;
-
-			if (pai->ai_flags & AI_CANONNAME)
-				(void)get_canonname(pai, res, canonname);
-		}
-	} else
-		res0 = NULL;
-	if (res0) {
-		cur->ai_next = res0;
-		while (cur && cur->ai_next)
-			cur = cur->ai_next;
-	}
-
-	if (nextline) {
-		p = nextline;
-		goto nextline;
-	}
-
-done:
-	return sentinel.ai_next;
-}
-
-/*ARGSUSED*/
-static struct addrinfo *
-_yp_getaddrinfo(name, pai)
-	const char *name;
-	const struct addrinfo *pai;
-{
-	struct addrinfo sentinel, *cur;
-	struct addrinfo *ai = NULL;
-	static char *__ypcurrent;
-	int __ypcurrentlen, r;
-
-	memset(&sentinel, 0, sizeof(sentinel));
-	cur = &sentinel;
-
-	if (!__ypdomain) {
-		if (_yp_check(&__ypdomain) == 0)
-			return NULL;
-	}
-	if (__ypcurrent)
-		free(__ypcurrent);
-	__ypcurrent = NULL;
-
-	/* hosts.byname is only for IPv4 (Solaris8) */
-	if (pai->ai_family == PF_UNSPEC || pai->ai_family == PF_INET) {
-		r = yp_match(__ypdomain, "hosts.byname", name,
-			(int)strlen(name), &__ypcurrent, &__ypcurrentlen);
-		if (r == 0) {
-			struct addrinfo ai4;
-
-			ai4 = *pai;
-			ai4.ai_family = AF_INET;
-			ai = _yphostent(__ypcurrent, &ai4);
-			if (ai) {
-				cur->ai_next = ai;
-				while (cur && cur->ai_next)
-					cur = cur->ai_next;
-			}
-		}
-	}
-
-	/* ipnodes.byname can hold both IPv4/v6 */
-	r = yp_match(__ypdomain, "ipnodes.byname", name,
-		(int)strlen(name), &__ypcurrent, &__ypcurrentlen);
-	if (r == 0) {
-		ai = _yphostent(__ypcurrent, pai);
-		if (ai) {
-			cur->ai_next = ai;
-			while (cur && cur->ai_next)
-				cur = cur->ai_next;
-		}
-	}
-
-	return sentinel.ai_next;
-}
-#endif
 
 
 /* resolver logic */

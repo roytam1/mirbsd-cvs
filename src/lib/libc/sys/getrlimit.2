@@ -1,3 +1,4 @@
+.\"	$MirOS$
 .\"	$OpenBSD: getrlimit.2,v 1.16 2004/01/25 14:48:32 jmc Exp $
 .\"	$NetBSD: getrlimit.2,v 1.8 1995/10/12 15:40:58 jtc Exp $
 .\"
@@ -63,6 +64,9 @@ The largest size (in bytes)
 file that may be created.
 .It Li RLIMIT_CPU
 The maximum amount of CPU time (in seconds) to be used by
+each process.
+.It Li RLIMIT_TIME
+The maximum amount of human time (in seconds) to be used by
 each process.
 .It Li RLIMIT_DATA
 The maximum size (in bytes) of the data segment for a process;

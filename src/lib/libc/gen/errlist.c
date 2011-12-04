@@ -27,9 +27,12 @@
  * SUCH DAMAGE.
  */
 
-#if defined(LIBC_SCCS) && !defined(lint)
+#if 0
 static char *rcsid = "$OpenBSD: errlist.c,v 1.7 2003/06/02 20:18:34 millert Exp $";
 #endif /* LIBC_SCCS and not lint */
+
+#include <sys/cdefs.h>
+__RCSID("$MirOS$");
 
 #ifdef lint
 char *
@@ -133,7 +136,8 @@ const char *const
 	"Bad procedure for program",		/* 76 - EPROCUNAVAIL */
 
 	"No locks available",			/* 77 - ENOLCK */
-	"Function not implemented",		/* 78 - ENOSYS */
+/*	"Function not implemented", */		/* 78 - ENOSYS */
+	"Need more coffee",			/* 78 - ENOCOFFEE */
 	"Inappropriate file type or format",	/* 79 - EFTYPE */
 	"Authentication error",			/* 80 - EAUTH */
 	"Need authenticator",			/* 81 - ENEEDAUTH */

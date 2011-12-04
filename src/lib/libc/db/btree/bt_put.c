@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: bt_put.c,v 1.11 2005/01/03 22:30:28 millert Exp $	*/
 
 /*-
@@ -32,14 +33,6 @@
  * SUCH DAMAGE.
  */
 
-#if defined(LIBC_SCCS) && !defined(lint)
-#if 0
-static char sccsid[] = "@(#)bt_put.c   8.8 (Berkeley) 7/26/94";
-#else
-static const char rcsid[] = "$OpenBSD: bt_put.c,v 1.11 2005/01/03 22:30:28 millert Exp $";
-#endif
-#endif /* LIBC_SCCS and not lint */
-
 #include <sys/types.h>
 
 #include <errno.h>
@@ -49,6 +42,9 @@ static const char rcsid[] = "$OpenBSD: bt_put.c,v 1.11 2005/01/03 22:30:28 mille
 
 #include <db.h>
 #include "btree.h"
+
+__SCCSID("@(#)bt_put.c   8.8 (Berkeley) 7/26/94");
+__RCSID("$MirOS$");
 
 static EPG *bt_fast(BTREE *, const DBT *, const DBT *, int *);
 
@@ -74,7 +70,7 @@ __bt_put(dbp, key, data, flags)
 {
 	BTREE *t;
 	DBT tkey, tdata;
-	EPG *e;
+	EPG *e = NULL;
 	PAGE *h;
 	indx_t idx, nxtindex;
 	pgno_t pg;

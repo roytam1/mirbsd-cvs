@@ -32,21 +32,22 @@
 
 #include "SYS.h"
 
-#if defined(SYSLIBC_SCCS)
-	.text
-	.asciz "$OpenBSD: cerror.S,v 1.6 2004/06/21 21:22:05 drahn Exp $"
-#endif /* SYSLIB_SCCS */
+	.section .comment
+rcsid:	.asciz	"$MirOS$"
 
+	.text
 	.globl	_C_LABEL(errno)
 _ENTRY(CERROR)
-#ifdef PIC
+#ifdef	PIC
 	PIC_PROLOGUE
 	movl	PIC_GOT(_C_LABEL(errno)),%ecx
 	PIC_EPILOGUE
-	movl	%eax,(%ecx)
+	.intel_syntax noprefix
+	mov	[ecx],eax
 #else
-	movl	%eax,_C_LABEL(errno)
+	.intel_syntax noprefix
+	mov	[_C_LABEL(errno)],eax
 #endif
-	movl	$-1,%eax
-	movl	$-1,%edx
+	mov	eax,-1
+	mov	edx,-1
 	ret

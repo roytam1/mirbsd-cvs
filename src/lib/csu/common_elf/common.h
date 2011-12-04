@@ -1,6 +1,11 @@
-/* $NetBSD: common.h,v 1.10 2004/08/26 20:57:47 thorpej Exp $ */
+/* $MirOS$
+ * derived from the following files:
+ * $NetBSD: common.h,v 1.10 2004/08/26 20:57:47 thorpej Exp $
+ */
 
 /*
+ * Copyright (c) 2003, 2004
+ *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
  * Copyright (c) 1995 Christopher G. Demetriou
  * All rights reserved.
  * 
@@ -30,50 +35,50 @@
  * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- * 
+ *
  * <<Id: LICENSE,v 1.2 2000/06/14 15:57:33 cgd Exp>>
  */
 
-#include <sys/types.h>
+#ifndef	_COMMON_H
+#define	_COMMON_H
+
+#include <sys/param.h>
 #include <sys/exec.h>
 #include <sys/syscall.h>
-
 #include <stdlib.h>
-#ifdef DYNAMIC
-#ifdef __weak_alias
-#define dlopen	_dlopen
-#define dlclose	_dlclose
-#define dlsym	_dlsym
-#define dlerror	_dlerror
-#define dladdr	_dladdr
+
+#ifndef	DYNAMIC
+typedef	void	Obj_Entry;
+#else
+#ifdef	__weak_alias
+#define	dlopen	_dlopen
+#define	dlclose	_dlclose
+#define	dlsym	_dlsym
+#define	dlerror	_dlerror
+#define	dladdr	_dladdr
 #endif
 #include <dlfcn.h>
-#include "rtld.h"
-#else
-typedef void Obj_Entry;
+extern int __syscall(quad_t, ...);
+#define	_dl_write(fd, s, n) __syscall(SYS_write, (fd), (s), (n))
+#define	printf	_dl_printf
+#define	_STDIO_H_
+#include "util.h"
+#include "resolve.h"
+typedef	elf_object_t	Obj_Entry;
 #endif
 
-extern int	__syscall(quad_t, ...);
-#define	_exit(v)	__syscall(SYS_exit, (v))
-#define	write(fd, s, n)	__syscall(SYS_write, (fd), (s), (n))
+char *__progname;
+char **environ;
+struct ps_strings *__ps_strings = NULL;
 
-#define	_FATAL(str)				\
-do {						\
-	write(2, str, sizeof(str)-1);		\
-	_exit(1);				\
-} while (0)
+char __progname_storage[NAME_MAX+1];
 
-static char	*_strrchr(char *, int);
+extern void _init(void);
+extern void _fini(void);
+static char *_strrchr(char *, int);
 
-char	**environ;
-char	*__progname = "";
-struct ps_strings *__ps_strings = 0;
-
-extern void	_init(void);
-extern void	_fini(void);
-
-#ifdef DYNAMIC
-void	_rtld_setup(void (*)(void), const Obj_Entry *obj);
+#ifdef	DYNAMIC
+void _rtld_setup(void (*cleanup)(void), const Obj_Entry *obj);
 
 /*
  * Arrange for _DYNAMIC to be weak and undefined (and therefore to show up
@@ -83,12 +88,17 @@ void	_rtld_setup(void (*)(void), const Obj_Entry *obj);
  */
 extern int _DYNAMIC;
 __weak_extern(_DYNAMIC);
-#endif /* DYNAMIC */
+#endif
 
-#ifdef MCRT0
-extern void	monstartup(u_long, u_long);
-extern void	_mcleanup(void);
+#ifdef	MCRT0
+extern void monstartup(u_long, u_long);
+extern void _mcleanup(void);
 extern unsigned char _etext, _eprol;
-#endif /* MCRT0 */
+#endif
 
-int main(int, char **, char **);
+__dead void ___start(int argc, char **argv, char **envp,
+    void (*cleanup)(void), const Obj_Entry *obj,
+    struct ps_strings *ps_strings);
+int main(int argc, char **argv, char **envp);
+
+#endif	/* ndef _COMMON_H */

@@ -1,4 +1,5 @@
 %{
+/* $MirOS$ */
 /* $OpenBSD: keynote-ver.l,v 1.12 2002/05/27 06:29:14 deraadt Exp $ */
 /*
  * The author of this code is Angelos D. Keromytis (angelos@dsl.cis.upenn.edu)
@@ -269,7 +270,7 @@ read_environment(char *filename)
     if (0)
     {
 	yyunput(0, NULL);
-	yy_flex_realloc(0, NULL);
+	yy_flex_realloc(0, 0);
     }
 }
 

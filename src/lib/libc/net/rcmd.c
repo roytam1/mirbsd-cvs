@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /*
  * Copyright (c) 1995, 1996, 1998 Theo de Raadt.  All rights reserved.
  * Copyright (c) 1983, 1993, 1994
@@ -225,7 +226,7 @@ rcmd_af(ahost, rport, locuser, remuser, cmd, fd2p, af)
 			goto bad;
 		}
 again:
-		bzero(readsp, fdssize);
+		memset(readsp, 0, fdssize);
 		FD_SET(s, readsp);
 		FD_SET(s2, readsp);
 		errno = 0;

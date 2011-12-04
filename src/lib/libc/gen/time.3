@@ -1,4 +1,5 @@
-.\"	$OpenBSD: time.3,v 1.10 2003/06/02 20:18:35 millert Exp $
+.\" $MirOS$
+.\" $OpenBSD: time.3,v 1.10 2003/06/02 20:18:35 millert Exp $
 .\"
 .\" Copyright (c) 1989, 1991, 1993
 .\"	The Regents of the University of California.  All rights reserved.
@@ -45,7 +46,8 @@
 The
 .Fn time
 function returns the value of time in seconds since 0 hours, 0 minutes,
-0 seconds, January 1, 1970, Coordinated Universal Time (UTC).
+0 seconds, January 1, 1970 ("the Epoch"), Temps Atomique International
+(TAI), counting leap seconds.
 .Pp
 A copy of the time value may be saved to the area indicated by the
 pointer
@@ -84,3 +86,19 @@ Since the
 .Fn time
 scale was changed to seconds extending the pre-crisis stagnation
 period up to a total of 68 years.
+.Pp
+On
+.Mx ,
+the value equals the kernel time, or the result of
+.Xr gettimeofday 2
+with no timezone information provided.
+Counting leap seconds, instead of jumping over them, while
+calculating the result, violates POSIX, but is the only way
+to get legal and lawful time.
+.Pp
+Since
+.Mx 8 ,
+the
+.Ft time_t
+type has been extended to 64 bit in order to prevent
+the year 2036 and 2038 crisises.

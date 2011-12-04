@@ -1,7 +1,7 @@
+/**	$MirOS$ */
 /*	$OpenBSD: tzfile.h,v 1.5 1998/01/18 23:25:00 millert Exp $	*/
 
 #ifndef TZFILE_H
-
 #define TZFILE_H
 
 /*
@@ -121,7 +121,7 @@ struct tzhead {
 #endif /* !defined TZ_MAX_CHARS */
 
 #ifndef TZ_MAX_LEAPS
-#define TZ_MAX_LEAPS	50	/* Maximum number of leap second corrections */
+#define TZ_MAX_LEAPS	128	/* Maximum number of leap second corrections */
 #endif /* !defined TZ_MAX_LEAPS */
 
 #define SECSPERMIN	60

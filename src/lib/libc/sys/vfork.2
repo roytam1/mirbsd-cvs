@@ -1,3 +1,4 @@
+.\"	$MirOS$
 .\"	$OpenBSD: vfork.2,v 1.14 2003/06/02 20:18:39 millert Exp $
 .\"	$NetBSD: vfork.2,v 1.8 1997/07/10 07:54:13 mikel Exp $
 .\"
@@ -90,3 +91,12 @@ or
 signals; rather, output or
 .Xr ioctl 2
 calls are allowed and input attempts result in an end-of-file indication.
+.Pp
+If
+.Cd option VFORK_SHM
+is not defined in the currently running kernel,
+any memory changes the child does until exiting
+or execing is not reflected in the parent.
+On the other hand, doing anything besides exec
+or exit in the child is undefined, so it should
+not be a big loss, except for the Wine developers.

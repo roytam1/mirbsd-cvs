@@ -1,16 +1,18 @@
+/* $MirOS$ */
+
 /* v3_alt.c */
 /* Written by Dr Stephen N Henson (shenson@bigfoot.com) for the OpenSSL
- * project 1999.
+ * project.
  */
 /* ====================================================================
- * Copyright (c) 1999 The OpenSSL Project.  All rights reserved.
+ * Copyright (c) 1999-2003 The OpenSSL Project.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met:
  *
  * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer. 
+ *    notice, this list of conditions and the following disclaimer.
  *
  * 2. Redistributions in binary form must reproduce the above copyright
  *    notice, this list of conditions and the following disclaimer in
@@ -61,6 +63,8 @@
 #include <openssl/conf.h>
 #include <openssl/x509v3.h>
 
+__RCSID("$MirOS$");
+
 static GENERAL_NAMES *v2i_subject_alt(X509V3_EXT_METHOD *method, X509V3_CTX *ctx, STACK_OF(CONF_VALUE) *nval);
 static GENERAL_NAMES *v2i_issuer_alt(X509V3_EXT_METHOD *method, X509V3_CTX *ctx, STACK_OF(CONF_VALUE) *nval);
 static int copy_email(X509V3_CTX *ctx, GENERAL_NAMES *gens, int move_p);
@@ -98,7 +102,8 @@ STACK_OF(CONF_VALUE) *i2v_GENERAL_NAME(X509V3_EXT_METHOD *method,
 				GENERAL_NAME *gen, STACK_OF(CONF_VALUE) *ret)
 {
 	unsigned char *p;
-	char oline[256];
+	char oline[256], htmp[5];
+	int i;
 	switch (gen->type)
 	{
 		case GEN_OTHERNAME:
@@ -132,13 +137,27 @@ STACK_OF(CONF_VALUE) *i2v_GENERAL_NAME(X509V3_EXT_METHOD *method,
 
 		case GEN_IPADD:
 		p = gen->d.ip->data;
-		/* BUG: doesn't support IPV6 */
-		if(gen->d.ip->length != 4) {
+		if(gen->d.ip->length == 4)
+			BIO_snprintf(oline, sizeof oline,
+				     "%d.%d.%d.%d", p[0], p[1], p[2], p[3]);
+		else if(gen->d.ip->length == 16)
+			{
+			oline[0] = 0;
+			for (i = 0; i < 8; i++)
+				{
+				BIO_snprintf(htmp, sizeof htmp,
+					     "%X", p[0] << 8 | p[1]);
+				p += 2;
+				strlcat(oline, htmp, sizeof oline);
+				if (i != 7)
+					strlcat(oline, ":", sizeof oline);
+				}
+			}
+		else
+			{
 			X509V3_add_value("IP Address","<invalid>", &ret);
 			break;
-		}
-		BIO_snprintf(oline, sizeof oline,
-			     "%d.%d.%d.%d", p[0], p[1], p[2], p[3]);
+			}
 		X509V3_add_value("IP Address",oline, &ret);
 		break;
 
@@ -153,6 +172,7 @@ STACK_OF(CONF_VALUE) *i2v_GENERAL_NAME(X509V3_EXT_METHOD *method,
 int GENERAL_NAME_print(BIO *out, GENERAL_NAME *gen)
 {
 	unsigned char *p;
+	int i;
 	switch (gen->type)
 	{
 		case GEN_OTHERNAME:
@@ -187,12 +207,24 @@ int GENERAL_NAME_print(BIO *out, GENERAL_NAME *gen)
 
 		case GEN_IPADD:
 		p = gen->d.ip->data;
-		/* BUG: doesn't support IPV6 */
-		if(gen->d.ip->length != 4) {
+		if(gen->d.ip->length == 4)
+			BIO_printf(out, "IP Address:%d.%d.%d.%d",
+						p[0], p[1], p[2], p[3]);
+		else if(gen->d.ip->length == 16)
+			{
+			BIO_printf(out, "IP Address");
+			for (i = 0; i < 8; i++)
+				{
+				BIO_printf(out, ":%X", p[0] << 8 | p[1]);
+				p += 2;
+				}
+			BIO_puts(out, "\n");
+			}
+		else
+			{
 			BIO_printf(out,"IP Address:<invalid>");
 			break;
-		}
-		BIO_printf(out, "IP Address:%d.%d.%d.%d", p[0], p[1], p[2], p[3]);
+			}
 		break;
 
 		case GEN_RID:
@@ -221,7 +253,7 @@ static GENERAL_NAMES *v2i_issuer_alt(X509V3_EXT_METHOD *method,
 		} else {
 			GENERAL_NAME *gen;
 			if(!(gen = v2i_GENERAL_NAME(method, ctx, cnf)))
-								 goto err; 
+								 goto err;
 			sk_GENERAL_NAME_push(gens, gen);
 		}
 	}
@@ -262,10 +294,10 @@ static int copy_issuer(X509V3_CTX *ctx, GENERAL_NAMES *gens)
 	sk_GENERAL_NAME_free(ialt);
 
 	return 1;
-		
+
 	err:
 	return 0;
-	
+
 }
 
 static GENERAL_NAMES *v2i_subject_alt(X509V3_EXT_METHOD *method,
@@ -289,7 +321,7 @@ static GENERAL_NAMES *v2i_subject_alt(X509V3_EXT_METHOD *method,
 		} else {
 			GENERAL_NAME *gen;
 			if(!(gen = v2i_GENERAL_NAME(method, ctx, cnf)))
-								 goto err; 
+								 goto err;
 			sk_GENERAL_NAME_push(gens, gen);
 		}
 	}
@@ -299,7 +331,7 @@ static GENERAL_NAMES *v2i_subject_alt(X509V3_EXT_METHOD *method,
 	return NULL;
 }
 
-/* Copy any email addresses in a certificate or request to 
+/* Copy any email addresses in a certificate or request to
  * GENERAL_NAMES
  */
 
@@ -344,14 +376,14 @@ static int copy_email(X509V3_CTX *ctx, GENERAL_NAMES *gens, int move_p)
 		gen = NULL;
 	}
 
-	
+
 	return 1;
-		
+
 	err:
 	GENERAL_NAME_free(gen);
 	M_ASN1_IA5STRING_free(email);
 	return 0;
-	
+
 }
 
 GENERAL_NAMES *v2i_GENERAL_NAMES(X509V3_EXT_METHOD *method,
@@ -367,7 +399,7 @@ GENERAL_NAMES *v2i_GENERAL_NAMES(X509V3_EXT_METHOD *method,
 	}
 	for(i = 0; i < sk_CONF_VALUE_num(nval); i++) {
 		cnf = sk_CONF_VALUE_value(nval, i);
-		if(!(gen = v2i_GENERAL_NAME(method, ctx, cnf))) goto err; 
+		if(!(gen = v2i_GENERAL_NAME(method, ctx, cnf))) goto err;
 		sk_GENERAL_NAME_push(gens, gen);
 	}
 	return gens;
@@ -417,21 +449,12 @@ if(!name_cmp(name, "email")) {
 	gen->d.rid = obj;
 	type = GEN_RID;
 } else if(!name_cmp(name, "IP")) {
-	int i1,i2,i3,i4;
-	unsigned char ip[4];
-	if((sscanf(value, "%d.%d.%d.%d",&i1,&i2,&i3,&i4) != 4) ||
-	    (i1 < 0) || (i1 > 255) || (i2 < 0) || (i2 > 255) ||
-	    (i3 < 0) || (i3 > 255) || (i4 < 0) || (i4 > 255) ) {
+	if(!(gen->d.ip = a2i_IPADDRESS(value)))
+		{
 		X509V3err(X509V3_F_V2I_GENERAL_NAME,X509V3_R_BAD_IP_ADDRESS);
 		ERR_add_error_data(2, "value=", value);
 		goto err;
-	}
-	ip[0] = i1; ip[1] = i2 ; ip[2] = i3 ; ip[3] = i4;
-	if(!(gen->d.ip = M_ASN1_OCTET_STRING_new()) ||
-		!ASN1_STRING_set(gen->d.ip, ip, 4)) {
-			X509V3err(X509V3_F_V2I_GENERAL_NAME,ERR_R_MALLOC_FAILURE);
-			goto err;
-	}
+		}
 	type = GEN_IPADD;
 } else {
 	X509V3err(X509V3_F_V2I_GENERAL_NAME,X509V3_R_UNSUPPORTED_OPTION);

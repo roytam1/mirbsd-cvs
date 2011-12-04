@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: zutil.h,v 1.8 2004/12/03 03:06:37 djm Exp $	*/
 /* zutil.h -- internal interface and configuration of the compression library
  * Copyright (C) 1995-2003 Jean-loup Gailly.
@@ -17,7 +18,11 @@
 #include "zlib.h"
 
 #ifdef _STANDALONE
+# if defined(_BSD_STANDXX) || defined(_KERNEL)
+#include <lib/libsa/stand.h>
+# else
 #include <stand.h>
+# endif
 #else
 #ifdef STDC
 #  include <stddef.h>
@@ -206,6 +211,10 @@ extern const char * const z_errmsg[10]; /* indexed by 2-zlib_error */
 #  define zstrerror(errnum) ""
 #endif
 
+#ifdef	zmemcpy
+# define zmemcmp memcmp
+# define zmemzero(dest, len) memset(dest, 0, len)
+#else
 #if defined(pyr)
 #  define NO_MEMCPY
 #endif
@@ -233,6 +242,7 @@ extern const char * const z_errmsg[10]; /* indexed by 2-zlib_error */
    extern void zmemcpy  OF((Bytef* dest, const Bytef* source, uInt len));
    extern int  zmemcmp  OF((const Bytef* s1, const Bytef* s2, uInt len));
    extern void zmemzero OF((Bytef* dest, uInt len));
+#endif
 #endif
 
 /* Diagnostic functions */

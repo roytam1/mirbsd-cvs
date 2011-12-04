@@ -1,3 +1,4 @@
+/**	$MirOS$	*/
 /*	$OpenBSD: res_mkquery.c,v 1.14 2003/06/02 20:18:36 millert Exp $	*/
 
 /*
@@ -113,7 +114,7 @@ res_mkquery(op, dname, class, type, data, datalen, newrr_in, buf, buflen)
 
 	if ((buf == NULL) || (buflen < HFIXEDSZ))
 		return (-1);
-	bzero(buf, HFIXEDSZ);
+	memset(buf, 0, HFIXEDSZ);
 	hp = (HEADER *) buf;
 	_resp->id = res_randomid();
 	hp->id = htons(_resp->id);
@@ -182,7 +183,7 @@ res_mkquery(op, dname, class, type, data, datalen, newrr_in, buf, buflen)
 		__putshort(datalen, cp);
 		cp += INT16SZ;
 		if (datalen) {
-			bcopy(data, cp, datalen);
+			memmove(cp, data, datalen);
 			cp += datalen;
 		}
 		hp->ancount = htons(1);

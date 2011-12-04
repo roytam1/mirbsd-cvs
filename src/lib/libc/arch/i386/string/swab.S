@@ -5,9 +5,9 @@
 
 #include <machine/asm.h>
 
-#if defined(LIBC_SCCS)
 	.text
-	.asciz "$OpenBSD: swab.S,v 1.2 1996/08/19 08:13:24 tholo Exp $"
+#if defined(LIBC_SCCS)
+	.asciz "$MirOS$"
 #endif
 
 /*
@@ -30,7 +30,7 @@ ENTRY(swab)
 	jz	L2			# while swaping alternate bytes.
 	.align	2,0x90
 L1:	lodsw
-	rorw	$8,%ax
+	xchgb	%ah,%al
 	stosw
 	decl	%ecx
 	testl	$7,%ecx
@@ -40,28 +40,28 @@ L2:	shrl	$3,%ecx			# copy remainder 8 words at a time
 	jz	L4			# while swapping alternate bytes.
 	.align	2,0x90
 L3:	lodsw
-	rorw	$8,%ax
+	xchgb	%ah,%al
 	stosw
 	lodsw
-	rorw	$8,%ax
+	xchgb	%ah,%al
 	stosw
 	lodsw
-	rorw	$8,%ax
+	xchgb	%ah,%al
 	stosw
 	lodsw
-	rorw	$8,%ax
+	xchgb	%ah,%al
 	stosw
 	lodsw
-	rorw	$8,%ax
+	xchgb	%ah,%al
 	stosw
 	lodsw
-	rorw	$8,%ax
+	xchgb	%ah,%al
 	stosw
 	lodsw
-	rorw	$8,%ax
+	xchgb	%ah,%al
 	stosw
 	lodsw
-	rorw	$8,%ax
+	xchgb	%ah,%al
 	stosw
 	decl	%ecx
 	jnz	L3

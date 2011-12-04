@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: hash_page.c,v 1.15 2005/01/03 22:46:43 millert Exp $	*/
 
 /*-
@@ -32,14 +33,6 @@
  * SUCH DAMAGE.
  */
 
-#if defined(LIBC_SCCS) && !defined(lint)
-#if 0
-static char sccsid[] = "@(#)hash_page.c	8.7 (Berkeley) 8/16/94";
-#else
-static const char rcsid[] = "$OpenBSD: hash_page.c,v 1.15 2005/01/03 22:46:43 millert Exp $";
-#endif
-#endif /* LIBC_SCCS and not lint */
-
 /*
  * PACKAGE:  hashing
  *
@@ -73,6 +66,9 @@ static const char rcsid[] = "$OpenBSD: hash_page.c,v 1.15 2005/01/03 22:46:43 mi
 #include "hash.h"
 #include "page.h"
 #include "extern.h"
+
+__SCCSID("@(#)hash_page.c	8.7 (Berkeley) 8/16/94");
+__RCSID("$MirOS$");
 
 static u_int32_t *fetch_bitmap(HTAB *, int);
 static u_int32_t  first_free(u_int32_t);
@@ -665,7 +661,7 @@ static u_int16_t
 overflow_page(hashp)
 	HTAB *hashp;
 {
-	u_int32_t *freep;
+	u_int32_t *freep = NULL;
 	int max_free, offset, splitnum;
 	u_int16_t addr;
 	int bit, first_page, free_bit, free_page, i, in_use_bits, j;
@@ -688,7 +684,7 @@ overflow_page(hashp)
 			in_use_bits = free_bit;
 		else
 			in_use_bits = (hashp->BSIZE << BYTE_SHIFT) - 1;
-		
+
 		if (i == first_page) {
 			bit = hashp->LAST_FREED &
 			    ((hashp->BSIZE << BYTE_SHIFT) - 1);
@@ -868,7 +864,7 @@ open_temp(hashp)
 	sigset_t set, oset;
 	char *envtmp = NULL;
 	char path[MAXPATHLEN];
-	
+
 	if (issetugid() == 0)
 		envtmp = getenv("TMPDIR");
 	(void)snprintf(path,

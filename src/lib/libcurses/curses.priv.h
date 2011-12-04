@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: curses.priv.h,v 1.32 2003/04/13 11:20:47 jmc Exp $	*/
 
 /****************************************************************************
@@ -67,7 +68,7 @@ extern "C" {
 #include <ncurses_cfg.h>
 
 #if USE_RCS_IDS
-#define MODULE_ID(id) static const char Ident[] = id;
+#define MODULE_ID(id) __RCSID(id)
 #else
 #define MODULE_ID(id) /*nothing*/
 #endif

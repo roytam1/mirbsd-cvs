@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: histedit.h,v 1.9 2003/11/25 20:12:38 otto Exp $	*/
 /*	$NetBSD: histedit.h,v 1.24 2003/10/16 22:26:32 christos Exp $	*/
 
@@ -77,13 +78,13 @@ typedef struct lineinfo {
 #define	CC_REDISPLAY	8
 #define	CC_REFRESH_BEEP	9
 
+__BEGIN_DECLS
 /*
  * Initialization, cleanup, and resetting
  */
 EditLine	*el_init(const char *, FILE *, FILE *, FILE *);
 void		 el_reset(EditLine *);
 void		 el_end(EditLine *);
-
 
 /*
  * Get a line, a character or push a string back in the input queue
@@ -108,6 +109,7 @@ int		 el_parse(EditLine *, int, const char **);
  */
 int		 el_set(EditLine *, int, ...);
 int		 el_get(EditLine *, int, void *);
+__END_DECLS
 
 /*
  * el_set/el_get parameters
@@ -133,8 +135,9 @@ int		 el_get(EditLine *, int, void *);
 
 #define EL_BUILTIN_GETCFN	(NULL)
 
+__BEGIN_DECLS
 /*
- * Source named file or $PWD/.editrc or $HOME/.editrc
+ * Source named file or $PWD/.editrc or $HOME/.etc/editrc
  */
 int		el_source(EditLine *, const char *);
 
@@ -152,6 +155,7 @@ void		 el_resize(EditLine *);
 const LineInfo	*el_line(EditLine *);
 int		 el_insertstr(EditLine *, const char *);
 void		 el_deletestr(EditLine *, int);
+__END_DECLS
 
 /*
  * ==== History ====
@@ -164,6 +168,7 @@ typedef struct HistEvent {
 	const char	*str;
 } HistEvent;
 
+__BEGIN_DECLS
 /*
  * History access functions.
  */
@@ -171,6 +176,7 @@ History *	history_init(void);
 void		history_end(History *);
 
 int		history(History *, HistEvent *, int, ...);
+__END_DECLS
 
 #define	H_FUNC		 0	/* , UTSL		*/
 #define	H_SETSIZE	 1	/* , const int);	*/

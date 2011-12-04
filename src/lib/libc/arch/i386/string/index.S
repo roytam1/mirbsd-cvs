@@ -5,8 +5,8 @@
 
 #include <machine/asm.h>
 
-#if defined(LIBC_SCCS)
 	.text
+#if defined(LIBC_SCCS)
 	.asciz "$OpenBSD: index.S,v 1.3 2000/12/29 17:34:55 mickey Exp $"
 #endif
 

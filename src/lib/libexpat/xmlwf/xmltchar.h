@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 #ifdef XML_UNICODE
 #ifndef XML_UNICODE_WCHAR_T
 #error xmlwf requires a 16-bit Unicode-compatible wchar_t 
@@ -8,8 +10,8 @@
 #define fputts fputws
 #define puttc putwc
 #define tcscmp wcscmp
-#define tcscpy wcscpy
-#define tcscat wcscat
+#define tcscpy(a,b,c) wcscpy((a),(b))
+#define tcscat(a,b,c) wcscat((a),(b))
 #define tcschr wcschr
 #define tcsrchr wcsrchr
 #define tcslen wcslen
@@ -24,8 +26,8 @@
 #define fputts fputs
 #define puttc putc
 #define tcscmp strcmp
-#define tcscpy strcpy
-#define tcscat strcat
+#define tcscpy(a,b,c) strlcpy((a),(b),(c))
+#define tcscat(a,b,c) strlcat((a),(b),(c))
 #define tcschr strchr
 #define tcsrchr strrchr
 #define tcslen strlen

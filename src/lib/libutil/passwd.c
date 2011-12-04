@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: passwd.c,v 1.45 2004/11/04 18:44:59 millert Exp $	*/
 
 /*
@@ -29,10 +30,6 @@
  * SUCH DAMAGE.
  */
 
-#if defined(LIBC_SCCS) && !defined(lint)
-static const char rcsid[] = "$OpenBSD: passwd.c,v 1.45 2004/11/04 18:44:59 millert Exp $";
-#endif /* LIBC_SCCS and not lint */
-
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/time.h>
@@ -53,6 +50,8 @@ static const char rcsid[] = "$OpenBSD: passwd.c,v 1.45 2004/11/04 18:44:59 mille
 #include <limits.h>
 
 #include "util.h"
+
+__RCSID("$MirOS$");
 
 static char pw_defdir[] = "/etc";
 static char *pw_dir = pw_defdir;
@@ -194,6 +193,7 @@ pw_init(void)
 	/* Unlimited resource limits. */
 	rlim.rlim_cur = rlim.rlim_max = RLIM_INFINITY;
 	(void)setrlimit(RLIMIT_CPU, &rlim);
+	(void)setrlimit(RLIMIT_TIME, &rlim);
 	(void)setrlimit(RLIMIT_FSIZE, &rlim);
 	(void)setrlimit(RLIMIT_STACK, &rlim);
 	(void)setrlimit(RLIMIT_DATA, &rlim);
@@ -349,19 +349,20 @@ pw_copy(int ffd, int tfd, const struct passwd *pw, const struct passwd *opw)
 				pw_error(NULL, 0, 1);
 			}
 		}
-		(void)fprintf(to, "%s:%s:%u:%u:%s:%d:%d:%s:%s:%s\n",
+		(void)fprintf(to, "%s:%s:%u:%u:%s:%lld:%lld:%s:%s:%s\n",
 		    pw->pw_name, pw->pw_passwd, (u_int)pw->pw_uid,
-		    (u_int)pw->pw_gid, pw->pw_class, pw->pw_change,
-		    pw->pw_expire, pw->pw_gecos, pw->pw_dir,
+		    (u_int)pw->pw_gid, pw->pw_class, (int64_t)pw->pw_change,
+		    (int64_t)pw->pw_expire, pw->pw_gecos, pw->pw_dir,
 		    pw->pw_shell);
 		done = 1;
 		if (ferror(to))
 			goto err;
 	}
 	if (!done)
-		(void)fprintf(to, "%s:%s:%d:%d:%s:%d:%d:%s:%s:%s\n",
+		(void)fprintf(to, "%s:%s:%d:%d:%s:%lld:%lld:%s:%s:%s\n",
 		    pw->pw_name, pw->pw_passwd, pw->pw_uid, pw->pw_gid,
-		    pw->pw_class, pw->pw_change, pw->pw_expire, pw->pw_gecos,
+		    pw->pw_class, (int64_t)pw->pw_change,
+		    (int64_t)pw->pw_expire, pw->pw_gecos,
 		    pw->pw_dir, pw->pw_shell);
 
 	if (ferror(to))

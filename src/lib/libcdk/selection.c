@@ -1,5 +1,7 @@
 #include <cdk_int.h>
 
+__RCSID("$MirOS$");
+
 /*
  * $Author$
  * $Date$
@@ -397,13 +399,13 @@ static int _injectCDKSelection (CDKOBJS *object, chtype input)
 		    }
 		    break;
 
-	       case 'g' : case '1' :
+	       case 'g' : case '1' : case '<' :
 		    selection->currentTop	= 0;
 		    selection->currentItem	= 0;
 		    selection->currentHigh	= 0;
 		    break;
 
-	       case 'G' :
+	       case 'G' : case '>' :
 		    selection->currentTop	= selection->maxTopItem;
 		    selection->currentItem	= selection->lastItem;
 		    selection->currentHigh	= selection->viewSize - 1;

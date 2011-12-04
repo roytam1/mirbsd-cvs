@@ -1,3 +1,4 @@
+/**	$MirOS$	*/
 /*	$OpenBSD: ethers.c,v 1.17 2004/02/16 19:41:12 otto Exp $	*/
 
 /*
@@ -22,10 +23,6 @@
  * Substantially modified by Todd C. Miller <Todd.Miller@courtesan.com>
  */
 
-#if defined(LIBC_SCCS) && !defined(lint)
-static char rcsid[] = "$OpenBSD: ethers.c,v 1.17 2004/02/16 19:41:12 otto Exp $";
-#endif /* LIBC_SCCS and not lint */
-
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <net/if.h>
@@ -38,9 +35,7 @@ static char rcsid[] = "$OpenBSD: ethers.c,v 1.17 2004/02/16 19:41:12 otto Exp $"
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-#ifdef YP
-#include <rpcsvc/ypclnt.h>
-#endif
+__RCSID("$MirOS$");
 
 #ifndef _PATH_ETHERS
 #define _PATH_ETHERS	"/etc/ethers"
@@ -107,18 +102,6 @@ ether_ntohost(hostname, e)
 	char buf[BUFSIZ+1], *p;
 	size_t len;
 	struct ether_addr try;
-#ifdef YP
-	char trybuf[sizeof("xx:xx:xx:xx:xx:xx")];
-	int trylen;
-#endif
-
-#ifdef YP
-	snprintf(trybuf, sizeof trybuf, "%x:%x:%x:%x:%x:%x", 
-	    e->ether_addr_octet[0], e->ether_addr_octet[1],
-	    e->ether_addr_octet[2], e->ether_addr_octet[3],
-	    e->ether_addr_octet[4], e->ether_addr_octet[5]);
-	trylen = strlen(trybuf);
-#endif
 
 	f = fopen(_PATH_ETHERS, "r");
 	if (f == NULL)
@@ -131,26 +114,6 @@ ether_ntohost(hostname, e)
 		(void)memcpy(buf, p, len);
 		buf[len] = '\n';	/* code assumes newlines later on */
 		buf[len+1] = '\0';
-#ifdef YP
-		/* A + in the file means try YP now.  */
-		if (!strncmp(buf, "+\n", sizeof(buf))) {
-			char *ypbuf, *ypdom;
-			int ypbuflen;
-
-			if (yp_get_default_domain(&ypdom))
-				continue;
-			if (yp_match(ypdom, "ethers.byaddr", trybuf,
-			    trylen, &ypbuf, &ypbuflen))
-				continue;
-			if (ether_line(ypbuf, &try, hostname) == 0) {
-				free(ypbuf);
-				(void)fclose(f);
-				return (0);
-			}
-			free(ypbuf);
-			continue;
-		}
-#endif
 		if (ether_line(buf, &try, hostname) == 0 &&
 		    memcmp((void *)&try, (void *)e, sizeof(try)) == 0) {
 			(void)fclose(f);
@@ -171,9 +134,6 @@ ether_hostton(hostname, e)
 	char buf[BUFSIZ+1], *p;
 	char try[MAXHOSTNAMELEN];
 	size_t len;
-#ifdef YP
-	int hostlen = strlen(hostname);
-#endif
 
 	f = fopen(_PATH_ETHERS, "r");
 	if (f==NULL)
@@ -187,26 +147,6 @@ ether_hostton(hostname, e)
 		memcpy(buf, p, len);
 		buf[len] = '\n';	/* code assumes newlines later on */
 		buf[len+1] = '\0';
-#ifdef YP
-		/* A + in the file means try YP now.  */
-		if (!strncmp(buf, "+\n", sizeof(buf))) {
-			char *ypbuf, *ypdom;
-			int ypbuflen;
-
-			if (yp_get_default_domain(&ypdom))
-				continue;
-			if (yp_match(ypdom, "ethers.byname", hostname, hostlen,
-			    &ypbuf, &ypbuflen))
-				continue;
-			if (ether_line(ypbuf, e, try) == 0) {
-				free(ypbuf);
-				(void)fclose(f);
-				return (0);
-			}
-			free(ypbuf);
-			continue;
-		}
-#endif
 		if (ether_line(buf, e, try) == 0 && strcmp(hostname, try) == 0) {
 			(void)fclose(f);
 			return (0);

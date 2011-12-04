@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: uthread_info_openbsd.c,v 1.9 2003/03/20 00:09:21 marc Exp $	*/
 
 /*
@@ -43,6 +44,8 @@
 #ifdef _THREAD_SAFE
 #include <pthread.h>
 #include "pthread_private.h"
+
+__RCSID("$MirOS$");
 
 int _thread_dump_verbose = 0;
 
@@ -157,7 +160,7 @@ _thread_dump_entry(pthread_t pthread, int fd, int verbose)
 		gettimeofday(&now, NULL);
 		TIMEVAL_TO_TIMESPEC(&now, &nows);
 		timespecsub(&pthread->wakeup_time, &nows, &delta);
-		snprintf(s, sizeof s, "%d.%09ld slice ",
+		snprintf(s, sizeof s, "%lld.%09ld slice ",
 			delta.tv_sec, delta.tv_nsec);
 		_thread_sys_write(fd, s, strlen(s));
 	}
@@ -414,6 +417,7 @@ _thread_dump_data(const void *addr, int len)
 {
 	int fd = -1;
 	unsigned char data[DUMP_BUFLEN];
+	const char *taddr = addr;
 
 	if (getenv("PTHREAD_DEBUG") != NULL)
 		fd = _thread_sys_open(_PATH_TTY, O_WRONLY | O_APPEND);
@@ -425,7 +429,7 @@ _thread_dump_data(const void *addr, int len)
 			unsigned char *a;
 			int count;
 
-			d = addr;
+			d = taddr;
 			h = &data[DUMP_HEX_OFF];
 			a = &data[DUMP_ASCII_OFF];
 
@@ -437,7 +441,7 @@ _thread_dump_data(const void *addr, int len)
 				len = 0;
 				memset(data, ' ', DUMP_BUFLEN);
 			}
-			(char *) addr += 8;
+			taddr += 8;
 
 			snprintf(data, DUMP_BUFLEN, "%18p:   ", d);
 			while (count--) {

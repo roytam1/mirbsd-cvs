@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: readline.h,v 1.2 2003/11/25 20:12:39 otto Exp $	*/
 /*	$NetBSD: readline.h,v 1.10 2003/10/27 22:26:35 christos Exp $	*/
 
@@ -36,6 +37,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+
 #ifndef _READLINE_H_
 #define _READLINE_H_
 
@@ -78,24 +80,22 @@ typedef KEYMAP_ENTRY *Keymap;
 #endif
 #endif
 #ifndef UNCTRL
-#define UNCTRL(c)	(((c) - 'a' + 'A')|control_character_bit)
+#define UNCTRL(c)	(((c) - 'a' + 'A') | control_character_bit)
 #endif
 
 #define RUBOUT		0x7f
 #define ABORT_CHAR	CTRL('G')
 
 /* global variables used by readline enabled applications */
-#ifdef __cplusplus
-extern "C" {
-#endif
+__BEGIN_DECLS
 extern const char	*rl_library_version;
 extern char		*rl_readline_name;
 extern FILE		*rl_instream;
 extern FILE		*rl_outstream;
 extern char		*rl_line_buffer;
-extern int		 rl_point, rl_end;
-extern int		 history_base, history_length;
-extern int		 max_input_history;
+extern int		rl_point, rl_end;
+extern int		history_base, history_length;
+extern int		max_input_history;
 extern char		*rl_basic_word_break_characters;
 extern char		*rl_completer_word_break_characters;
 extern char		*rl_completer_quote_characters;
@@ -184,8 +184,6 @@ Keymap		 rl_get_keymap(void);
 Keymap		 rl_make_bare_keymap(void);
 int		 rl_generic_bind(int, const char *, const char *, Keymap);
 int		 rl_bind_key_in_map(int, Function *, Keymap);
-#ifdef __cplusplus
-}
-#endif
+__END_DECLS
 
 #endif /* _READLINE_H_ */

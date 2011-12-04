@@ -29,7 +29,6 @@
 #include <sys/socket.h>
 #include <sys/un.h>
 #include <netinet/in.h>
-#include <netns/ns.h>
 #include <string.h>
 
 int
@@ -57,10 +56,6 @@ net_addrcmp(sa1, sa2)
 		return memcmp(&((struct sockaddr_in6 *)sa1)->sin6_addr,
 		    &((struct sockaddr_in6 *)sa2)->sin6_addr,
 		    sizeof(struct in6_addr));
-	case AF_NS:
-		return (memcmp(&((struct sockaddr_ns *)sa1)->sns_addr,
-		    &((struct sockaddr_ns *)sa2)->sns_addr,
-		    sizeof(struct ns_addr)));
 	case AF_LOCAL:
 		return (strcmp(((struct sockaddr_un *)sa1)->sun_path,
 		    ((struct sockaddr_un *)sa1)->sun_path));

@@ -1,3 +1,4 @@
+/**	$MirOS$	*/
 /*	$OpenBSD: res_query.c,v 1.21 2003/06/02 20:18:36 millert Exp $	*/
 
 /*
@@ -347,7 +348,7 @@ res_querydomain(name, domain, class, type, answer, anslen)
 		 */
 		n = strlen(name) - 1;
 		if (n != (0 - 1) && name[n] == '.' && n < sizeof(nbuf) - 1) {
-			bcopy(name, nbuf, n);
+			memmove(nbuf, name, n);
 			nbuf[n] = '\0';
 		} else
 			longname = name;
@@ -383,7 +384,7 @@ hostalias(name)
 			continue;
 		(void)memcpy(buf, cp1, len);
 		buf[len] = '\0';
-		
+
 		for (cp1 = buf; *cp1 && !isspace(*cp1); ++cp1)
 			;
 		if (!*cp1)

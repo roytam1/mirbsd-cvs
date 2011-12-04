@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /*-
  * Copyright (c) 1990, 1993
  *	The Regents of the University of California.  All rights reserved.
@@ -54,9 +55,9 @@ link_addr(addr, sdl)
 {
 	register char *cp = sdl->sdl_data;
 	char *cplim = sdl->sdl_len + (char *)sdl;
-	register int byte = 0, state = NAMING, new;
+	register int byte = 0, state = NAMING, new = 0;
 
-	bzero((char *)&sdl->sdl_family, sdl->sdl_len - 1);
+	memset((char *)&sdl->sdl_family, 0, sdl->sdl_len - 1);
 	sdl->sdl_family = AF_LINK;
 	do {
 		state &= ~LETTER;
@@ -108,7 +109,7 @@ link_addr(addr, sdl)
 			break;
 		}
 		break;
-	} while (cp < cplim); 
+	} while (cp < cplim);
 	sdl->sdl_alen = cp - LLADDR(sdl);
 	new = cp - (char *)sdl;
 	if (new > sizeof(*sdl))
@@ -123,14 +124,14 @@ link_ntoa(sdl)
 	register const struct sockaddr_dl *sdl;
 {
 	static char obuf[64];
-	register char *out = obuf; 
+	register char *out = obuf;
 	register int i;
 	register u_char *in = (u_char *)LLADDR(sdl);
 	u_char *inlim = in + sdl->sdl_alen;
 	int firsttime = 1;
 
 	if (sdl->sdl_nlen) {
-		bcopy(sdl->sdl_data, obuf, sdl->sdl_nlen);
+		memmove(obuf, sdl->sdl_data, sdl->sdl_nlen);
 		out += sdl->sdl_nlen;
 		if (sdl->sdl_alen)
 			*out++ = ':';

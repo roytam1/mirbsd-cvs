@@ -1,6 +1,64 @@
+/**	$MirOS$ */
 /*	$NetBSD: crti.c,v 1.2 2002/11/23 17:21:22 thorpej Exp $	*/
 
-/*- 
+/*-
+ * Copyright (c) 2003, 2004
+ *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+ *
+ * Licensee is hereby permitted to deal in this work without restric-
+ * tion, including unlimited rights to use, publicly perform, modify,
+ * merge, distribute, sell, give away or sublicence, provided all co-
+ * pyright notices above, these terms and the disclaimer are retained
+ * in all redistributions or reproduced in accompanying documentation
+ * or other materials provided with binary redistributions.
+ *
+ * Licensor hereby provides this work "AS IS" and WITHOUT WARRANTY of
+ * any kind, expressed or implied, to the maximum extent permitted by
+ * applicable law, but with the warranty of being written without ma-
+ * licious intent or gross negligence; in no event shall licensor, an
+ * author or contributor be held liable for any damage, direct, indi-
+ * rect or other, however caused, arising in any way out of the usage
+ * of this work, even if advised of the possibility of such damage.
+ *-
+ * Mark all objects having a PT_NOTE section identifying
+ * ourselfes as MirOS BSD executables / (shared) objects
+ *
+ * The MirOS Project uses the "MirOS "+string marker for
+ * checking the validity of the executables - currently,
+ * the strings "MirOS Linux" and "MirOS BSD" are checked
+ * for by the kernel. Traditionally, the "MirBSD" can be
+ * used as an alias for "MirOS BSD", but this may change
+ * in the future.
+ * The "desc" for type 1 (OS version note) currently has
+ * to be set to zero. Its least significant byte is used
+ * as a version indicator; if it should ever be != zero,
+ * the most significant byte in the first doubleword (32
+ * bit) must be set to -1 (0xFF) for endianness reasons.
+ * The two middle bytes, and all following bytes, can be
+ * used as the version specifies.
+ *
+ * see also: http://www.netbsd.org/Documentation/kernel/elf-notes.html
+ */
+
+__asm__(".section .note.miros.ident,\"a\",@progbits"
+"\n	.p2align 2"
+"\n	.long	2f-1f"			/* name size */
+"\n	.long	4f-3f"			/* desc size */
+"\n	.long	1"			/* type (OS version note) */
+"\n1:	.asciz	\"MirOS BSD\""		/* name */
+"\n2:	.p2align 2"
+"\n3:	.long	0"			/* desc */
+"\n4:	.p2align 2");
+
+
+/* the obvious __RCSID */
+
+__asm__(".section .comment"
+"\n	.asciz	\"$MirOS$\"");
+
+#ifndef __NO_INIT_SECTION
+
+/*-
  * Copyright (c) 1998, 2001, 2002 The NetBSD Foundation, Inc.
  * All rights reserved.
  *
@@ -36,11 +94,10 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <sys/param.h>		/* sysident.h requires `NetBSD' constant */
-#include <sys/exec.h> 
+#include <sys/param.h>
+#include <sys/exec.h>
 #include <sys/exec_elf.h>
 
-#include "sysident.h"
 #include "dot_init.h"
 
 INIT_FALLTHRU_DECL;
@@ -59,9 +116,10 @@ _init(void)
 void
 _fini(void)
 {
-
 	FINI_FALLTHRU();
 }
 
 MD_INIT_SECTION_PROLOGUE;
 MD_FINI_SECTION_PROLOGUE;
+
+#endif /* ndef __NO_INIT_SECTION */

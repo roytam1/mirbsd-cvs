@@ -1,13 +1,37 @@
+/**	$MirOS$ */
+
+/*-
+ * Copyright (c) 2005
+ *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+ *
+ * Licensee is hereby permitted to deal in this work without restric-
+ * tion, including unlimited rights to use, publicly perform, modify,
+ * merge, distribute, sell, give away or sublicence, provided all co-
+ * pyright notices above, these terms and the disclaimer are retained
+ * in all redistributions or reproduced in accompanying documentation
+ * or other materials provided with binary redistributions.
+ *
+ * Licensor hereby provides this work "AS IS" and WITHOUT WARRANTY of
+ * any kind, expressed or implied, to the maximum extent permitted by
+ * applicable law, but with the warranty of being written without ma-
+ * licious intent or gross negligence; in no event shall licensor, an
+ * author or contributor be held liable for any damage, direct, indi-
+ * rect or other, however caused, arising in any way out of the usage
+ * of this work, even if advised of the possibility of such damage.
+ */
+
 /*
 ** This file is in the public domain, so clarified as of
 ** Feb 14, 2003 by Arthur David Olson (arthur_david_olson@nih.gov).
 */
 
+#if 0
 #if defined(LIBC_SCCS) && !defined(lint) && !defined(NOID)
 static char elsieid[] = "@(#)zdump.c	7.31";
 static char rcsid[] = "$OpenBSD: zdump.c,v 1.15 2004/10/19 05:01:01 deraadt Exp $";
 static char	elsieid[] = "@(#)zdump.c	7.40";
 #endif /* LIBC_SCCS and not lint */
+#endif /* 0 */
 
 /*
 ** This code has been made independent of the rest of the time
@@ -20,6 +44,8 @@ static char	elsieid[] = "@(#)zdump.c	7.40";
 #include "sys/types.h"	/* for time_t */
 #include "time.h"	/* for struct tm */
 #include "stdlib.h"	/* for exit, malloc, atoi */
+
+__RCSID("$MirOS$");
 
 #ifndef MAX_STRING_LENGTH
 #define MAX_STRING_LENGTH	1024
@@ -121,6 +147,8 @@ static char	elsieid[] = "@(#)zdump.c	7.40";
 #define P(x)	()
 #endif /* !defined __STDC__ */
 #endif /* !defined P */
+
+#define ZDUMP
 
 extern char **	environ;
 extern int	getopt P((int argc, char * const argv[],
@@ -388,6 +416,9 @@ register const struct tm *	timeptr;
 	};
 	register const char *	wn;
 	register const char *	mn;
+#ifndef TM_YEAR_BASE
+#define TM_YEAR_BASE	1900
+#endif
 
 	/*
 	** The packaged versions of localtime and gmtime never put out-of-range
@@ -402,9 +433,21 @@ register const struct tm *	timeptr;
 		(int) (sizeof mon_name / sizeof mon_name[0]))
 			mn = "???";
 	else		mn = mon_name[timeptr->tm_mon];
-	(void) printf("%.3s %.3s%3d %.2d:%.2d:%.2d %ld",
-		wn, mn,
-		timeptr->tm_mday, timeptr->tm_hour,
-		timeptr->tm_min, timeptr->tm_sec,
-		timeptr->tm_year + (long) TM_YEAR_BASE);
+	(void) printf(
+#ifdef ZDUMP
+	    "%.3s %.3s%3d %.2d:%.2d:%.2d %lld",
+	    wn, mn, timeptr->tm_mday,
+#else
+	    "%.3s %.3s%3d (%d) %lld %.2d:%.2d:%.2d %s (%d%s)",
+	    wn, mn, timeptr->tm_mday, timeptr->tm_yday,
+	    (int64_t)timeptr->tm_year + (long long) TM_YEAR_BASE,
+#endif
+	    timeptr->tm_hour, timeptr->tm_min, timeptr->tm_sec,
+#ifdef ZDUMP
+		(int64_t)timeptr->tm_year + (long long) TM_YEAR_BASE);
+#else
+	    timeptr->tm_zone ? timeptr->tm_zone : "(null)",
+	    timeptr->tm_gmtoff,
+	    timeptr->tm_isdst ? " DST" : "");
+#endif
 }

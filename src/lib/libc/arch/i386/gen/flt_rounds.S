@@ -5,8 +5,8 @@
 
 #include <machine/asm.h>
 
-#if defined(LIBC_SCCS)
 	.text
+#if defined(LIBC_SCCS)
 	.asciz "$OpenBSD: flt_rounds.S,v 1.2 1996/08/19 08:12:20 tholo Exp $"
 #endif
 

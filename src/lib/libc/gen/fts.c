@@ -33,7 +33,7 @@
 #if 0
 static char sccsid[] = "@(#)fts.c	8.6 (Berkeley) 8/14/94";
 #else
-static char rcsid[] = "$OpenBSD: fts.c,v 1.34 2003/06/11 21:03:10 deraadt Exp $";
+static const char rcsid[] = "$OpenBSD: fts.c,v 1.34 2003/06/11 21:03:10 deraadt Exp $";
 #endif
 #endif /* LIBC_SCCS and not lint */
 
@@ -79,7 +79,7 @@ fts_open(char * const *argv, int options,
 	FTS *sp;
 	FTSENT *p, *root;
 	int nitems;
-	FTSENT *parent, *tmp;
+	FTSENT *parent, *tmp = NULL;
 	size_t len;
 
 	/* Options check. */
@@ -553,9 +553,9 @@ fts_build(FTS *sp, int type)
 	DIR *dirp;
 	void *oldaddr;
 	size_t len, maxlen;
-	int nitems, cderrno, descend, level, nlinks, oflag, nostat, doadjust;
-	int saved_errno;
-	char *cp;
+	int nitems, cderrno, descend, level, nlinks, oflag, doadjust;
+	int saved_errno, nostat = 0;
+	char *cp = NULL;
 
 	/* Set current node pointer. */
 	cur = sp->fts_cur;

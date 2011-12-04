@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /*-
  * Copyright (c) 1990, 1993
  *	The Regents of the University of California.  All rights reserved.
@@ -28,7 +29,7 @@
  */
 
 #if defined(LIBC_SCCS) && !defined(lint)
-static char rcsid[] = "$OpenBSD: ctermid.c,v 1.5 2003/06/11 21:03:10 deraadt Exp $";
+static const char rcsid[] = "$OpenBSD: ctermid.c,v 1.5 2003/06/11 21:03:10 deraadt Exp $";
 #endif /* LIBC_SCCS and not lint */
 
 #include <stdio.h>
@@ -41,7 +42,7 @@ ctermid(char *s)
 	static char def[] = _PATH_TTY;
 
 	if (s) {
-		bcopy(def, s, sizeof(_PATH_TTY));
+		memmove(s, def, sizeof(_PATH_TTY));
 		return(s);
 	}
 	return(def);

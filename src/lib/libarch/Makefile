@@ -1,6 +1,9 @@
-#	$OpenBSD: Makefile,v 1.6 2004/02/27 17:36:14 deraadt Exp $
-#	$NetBSD: Makefile,v 1.8 1996/02/21 02:43:52 jtk Exp $
+# $MirOS$
 
-SUBDIR=	alpha i386 amd64
+.if exists(${MACHINE})
+  SUBDIR+= ${MACHINE}
+.elif exists(${MACHINE_ARCH})
+  SUBDIR+= ${MACHINE_ARCH}
+.endif
 
 .include <bsd.subdir.mk>

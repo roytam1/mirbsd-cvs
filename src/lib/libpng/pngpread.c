@@ -982,25 +982,25 @@ png_read_push_finish_row(png_structp png_ptr)
    /* arrays to facilitate easy interlacing - use pass (0 - 6) as index */
 
    /* start of interlace block */
-   const int FARDATA png_pass_start[] = {0, 4, 0, 2, 0, 1, 0};
+   const int png_pass_start[] = {0, 4, 0, 2, 0, 1, 0};
 
    /* offset to next interlace block */
-   const int FARDATA png_pass_inc[] = {8, 8, 4, 4, 2, 2, 1};
+   const int png_pass_inc[] = {8, 8, 4, 4, 2, 2, 1};
 
    /* start of interlace block in the y direction */
-   const int FARDATA png_pass_ystart[] = {0, 0, 4, 0, 2, 0, 1};
+   const int png_pass_ystart[] = {0, 0, 4, 0, 2, 0, 1};
 
    /* offset to next interlace block in the y direction */
-   const int FARDATA png_pass_yinc[] = {8, 8, 8, 4, 4, 2, 2};
+   const int png_pass_yinc[] = {8, 8, 8, 4, 4, 2, 2};
 
    /* Width of interlace block.  This is not currently used - if you need
     * it, uncomment it here and in png.h
-   const int FARDATA png_pass_width[] = {8, 4, 4, 2, 2, 1, 1};
+   const int png_pass_width[] = {8, 4, 4, 2, 2, 1, 1};
    */
 
    /* Height of interlace block.  This is not currently used - if you need
     * it, uncomment it here and in png.h
-   const int FARDATA png_pass_height[] = {8, 8, 4, 4, 2, 2, 1};
+   const int png_pass_height[] = {8, 8, 4, 4, 2, 2, 1};
    */
 #endif
 
@@ -1546,7 +1546,7 @@ png_progressive_combine_row (png_structp png_ptr,
    png_bytep old_row, png_bytep new_row)
 {
 #ifdef PNG_USE_LOCAL_ARRAYS
-   const int FARDATA png_pass_dsp_mask[7] =
+   const int png_pass_dsp_mask[7] =
       {0xff, 0x0f, 0xff, 0x33, 0xff, 0x55, 0xff};
 #endif
    if (new_row != NULL)    /* new_row must == png_ptr->row_buf here. */

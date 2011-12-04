@@ -32,8 +32,8 @@
 
 #include <machine/asm.h>
 
-#if defined(LIBC_SCCS)
 	.text
+#if defined(LIBC_SCCS)
 	.asciz "$OpenBSD: alloca.S,v 1.5 2003/06/02 20:18:30 millert Exp $"
 #endif
 

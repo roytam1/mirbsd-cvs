@@ -1,5 +1,7 @@
-#	$OpenBSD: Makefile,v 1.12 2003/12/17 14:06:45 jmc Exp $
+# $MirOS$
+# $OpenBSD: Makefile,v 1.12 2003/12/17 14:06:45 jmc Exp $
 
+SHLIB_VERSION?=	5.0
 LIB=	z
 HDRS=	zconf.h zlib.h
 SRCS=	adler32.c compress.c crc32.c deflate.c gzio.c infback.c \
@@ -30,7 +32,7 @@ MLINKS=	compress.3 zlibVersion.3 compress.3 deflateInit.3 \
 	compress.3 gzclose.3 compress.3 gzerror.3 \
 	compress.3 gzclearerr.3 \
 	compress.3 adler32.3 compress.3 crc32.3
-CFLAGS+=-DHAVE_STRERROR -DHAVE_MEMCPY -DHAS_vsnprintf -DHAS_snprintf
+CPPFLAGS+=-DHAVE_STRERROR -DHAVE_MEMCPY -DHAS_vsnprintf -DHAS_snprintf
 
 includes:
 	@cd ${.CURDIR}; for i in $(HDRS); do \

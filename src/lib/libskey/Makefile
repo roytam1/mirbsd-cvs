@@ -1,5 +1,7 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.7 2002/05/16 17:53:29 millert Exp $
 
+SHLIB_VERSION?=	6.0
 LIB=	skey
 SRCS=	skeylogin.c skeysubr.c put.c
 HDRS=	skey.h

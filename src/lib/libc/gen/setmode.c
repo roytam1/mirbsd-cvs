@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: setmode.c,v 1.15 2004/07/02 13:58:06 otto Exp $	*/
 /*	$NetBSD: setmode.c,v 1.15 1997/02/07 22:21:06 christos Exp $	*/
 
@@ -33,14 +34,6 @@
  * SUCH DAMAGE.
  */
 
-#if defined(LIBC_SCCS) && !defined(lint)
-#if 0
-static char sccsid[] = "@(#)setmode.c	8.2 (Berkeley) 3/25/94";
-#else
-static char rcsid[] = "$OpenBSD: setmode.c,v 1.15 2004/07/02 13:58:06 otto Exp $";
-#endif
-#endif /* LIBC_SCCS and not lint */
-
 #include <sys/types.h>
 #include <sys/stat.h>
 
@@ -53,6 +46,9 @@ static char rcsid[] = "$OpenBSD: setmode.c,v 1.15 2004/07/02 13:58:06 otto Exp $
 #ifdef SETMODE_DEBUG
 #include <stdio.h>
 #endif
+
+__SCCSID("@(#)setmode.c	8.2 (Berkeley) 3/25/94");
+__RCSID("$MirOS$");
 
 #define	SET_LEN	6		/* initial # of bitcmd struct to malloc */
 #define	SET_LEN_INCR 4		/* # of bitcmd structs to add as needed */
@@ -174,7 +170,7 @@ setmode(const char *p)
 	BITCMD *set, *saveset, *endset;
 	sigset_t sigset, sigoset;
 	mode_t mask;
-	int equalopdone, permXbits, setlen;
+	int equalopdone = 0, permXbits, setlen;
 	u_long perml;
 
 	if (!*p)
@@ -193,7 +189,7 @@ setmode(const char *p)
 	(void)sigprocmask(SIG_SETMASK, &sigoset, NULL);
 
 	setlen = SET_LEN + 2;
-	
+
 	if ((set = malloc((u_int)(sizeof(BITCMD) * setlen))) == NULL)
 		return (NULL);
 	saveset = set;
@@ -372,7 +368,7 @@ addcmd(BITCMD *set, int op, int who, int oparg, u_int mask)
 			set->cmd2 = CMD2_UBITS | CMD2_GBITS | CMD2_OBITS;
 			set->bits = mask;
 		}
-	
+
 		if (oparg == '+')
 			set->cmd2 |= CMD2_SET;
 		else if (oparg == '-')

@@ -1,192 +1,21 @@
-/* png.h - header file for PNG reference library
+/* $MirOS$ */
+
+/* png.h - header file for MirOS in-tree PNG library
  *
- * libpng version 1.2.8 - December 3, 2004
- * Copyright (c) 1998-2004 Glenn Randers-Pehrson
- * (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
- * (Version 0.88 Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.)
- *
- * Authors and maintainers:
- *  libpng versions 0.71, May 1995, through 0.88, January 1996: Guy Schalnat
- *  libpng versions 0.89c, June 1996, through 0.96, May 1997: Andreas Dilger
- *  libpng versions 0.97, January 1998, through 1.2.8 - December 3, 2004: Glenn
- *  See also "Contributing Authors", below.
- *
- * Note about libpng version numbers:
- *
- *    Due to various miscommunications, unforeseen code incompatibilities
- *    and occasional factors outside the authors' control, version numbering
- *    on the library has not always been consistent and straightforward.
- *    The following table summarizes matters since version 0.89c, which was
- *    the first widely used release:
- *
- *    source                 png.h  png.h  shared-lib
- *    version                string   int  version
- *    -------                ------ -----  ----------
- *    0.89c "1.0 beta 3"     0.89      89  1.0.89
- *    0.90  "1.0 beta 4"     0.90      90  0.90  [should have been 2.0.90]
- *    0.95  "1.0 beta 5"     0.95      95  0.95  [should have been 2.0.95]
- *    0.96  "1.0 beta 6"     0.96      96  0.96  [should have been 2.0.96]
- *    0.97b "1.00.97 beta 7" 1.00.97   97  1.0.1 [should have been 2.0.97]
- *    0.97c                  0.97      97  2.0.97
- *    0.98                   0.98      98  2.0.98
- *    0.99                   0.99      98  2.0.99
- *    0.99a-m                0.99      99  2.0.99
- *    1.00                   1.00     100  2.1.0 [100 should be 10000]
- *    1.0.0      (from here on, the   100  2.1.0 [100 should be 10000]
- *    1.0.1       png.h string is   10001  2.1.0
- *    1.0.1a-e    identical to the  10002  from here on, the shared library
- *    1.0.2       source version)   10002  is 2.V where V is the source code
- *    1.0.2a-b                      10003  version, except as noted.
- *    1.0.3                         10003
- *    1.0.3a-d                      10004
- *    1.0.4                         10004
- *    1.0.4a-f                      10005
- *    1.0.5 (+ 2 patches)           10005
- *    1.0.5a-d                      10006
- *    1.0.5e-r                      10100 (not source compatible)
- *    1.0.5s-v                      10006 (not binary compatible)
- *    1.0.6 (+ 3 patches)           10006 (still binary incompatible)
- *    1.0.6d-f                      10007 (still binary incompatible)
- *    1.0.6g                        10007
- *    1.0.6h                        10007  10.6h (testing xy.z so-numbering)
- *    1.0.6i                        10007  10.6i
- *    1.0.6j                        10007  2.1.0.6j (incompatible with 1.0.0)
- *    1.0.7beta11-14        DLLNUM  10007  2.1.0.7beta11-14 (binary compatible)
- *    1.0.7beta15-18           1    10007  2.1.0.7beta15-18 (binary compatible)
- *    1.0.7rc1-2               1    10007  2.1.0.7rc1-2 (binary compatible)
- *    1.0.7                    1    10007  (still compatible)
- *    1.0.8beta1-4             1    10008  2.1.0.8beta1-4
- *    1.0.8rc1                 1    10008  2.1.0.8rc1
- *    1.0.8                    1    10008  2.1.0.8
- *    1.0.9beta1-6             1    10009  2.1.0.9beta1-6
- *    1.0.9rc1                 1    10009  2.1.0.9rc1
- *    1.0.9beta7-10            1    10009  2.1.0.9beta7-10
- *    1.0.9rc2                 1    10009  2.1.0.9rc2
- *    1.0.9                    1    10009  2.1.0.9
- *    1.0.10beta1              1    10010  2.1.0.10beta1
- *    1.0.10rc1                1    10010  2.1.0.10rc1
- *    1.0.10                   1    10010  2.1.0.10
- *    1.0.11beta1-3            1    10011  2.1.0.11beta1-3
- *    1.0.11rc1                1    10011  2.1.0.11rc1
- *    1.0.11                   1    10011  2.1.0.11
- *    1.0.12beta1-2            2    10012  2.1.0.12beta1-2
- *    1.0.12rc1                2    10012  2.1.0.12rc1
- *    1.0.12                   2    10012  2.1.0.12
- *    1.1.0a-f                 -    10100  2.1.1.0a-f (branch abandoned)
- *    1.2.0beta1-2             2    10200  2.1.2.0beta1-2
- *    1.2.0beta3-5             3    10200  3.1.2.0beta3-5
- *    1.2.0rc1                 3    10200  3.1.2.0rc1
- *    1.2.0                    3    10200  3.1.2.0
- *    1.2.1beta1-4             3    10201  3.1.2.1beta1-4
- *    1.2.1rc1-2               3    10201  3.1.2.1rc1-2
- *    1.2.1                    3    10201  3.1.2.1
- *    1.2.2beta1-6            12    10202  12.so.0.1.2.2beta1-6
- *    1.0.13beta1             10    10013  10.so.0.1.0.13beta1
- *    1.0.13rc1               10    10013  10.so.0.1.0.13rc1
- *    1.2.2rc1                12    10202  12.so.0.1.2.2rc1
- *    1.0.13                  10    10013  10.so.0.1.0.13
- *    1.2.2                   12    10202  12.so.0.1.2.2
- *    1.2.3rc1-6              12    10203  12.so.0.1.2.3rc1-6
- *    1.2.3                   12    10203  12.so.0.1.2.3
- *    1.2.4beta1-3            13    10204  12.so.0.1.2.4beta1-3
- *    1.0.14rc1               13    10014  10.so.0.1.0.14rc1
- *    1.2.4rc1                13    10204  12.so.0.1.2.4rc1
- *    1.0.14                  10    10014  10.so.0.1.0.14
- *    1.2.4                   13    10204  12.so.0.1.2.4
- *    1.2.5beta1-2            13    10205  12.so.0.1.2.5beta1-2
- *    1.0.15rc1-3             10    10015  10.so.0.1.0.15rc1-3
- *    1.2.5rc1-3              13    10205  12.so.0.1.2.5rc1-3
- *    1.0.15                  10    10015  10.so.0.1.0.15
- *    1.2.5                   13    10205  12.so.0.1.2.5
- *    1.2.6beta1-4            13    10206  12.so.0.1.2.6beta1-4
- *    1.0.16                  10    10016  10.so.0.1.0.16
- *    1.2.6                   13    10206  12.so.0.1.2.6
- *    1.2.7beta1-2            13    10207  12.so.0.1.2.7beta1-2
- *    1.0.17rc1               10    10017  12.so.0.1.0.17rc1
- *    1.2.7rc1                13    10207  12.so.0.1.2.7rc1
- *    1.0.17                  10    10017  12.so.0.1.0.17
- *    1.2.7                   13    10207  12.so.0.1.2.7
- *    1.2.8beta1-5            13    10208  12.so.0.1.2.8beta1-5
- *    1.0.18rc1-5             10    10018  12.so.0.1.0.18rc1-5
- *    1.2.8rc1-5              13    10208  12.so.0.1.2.8rc1-5
- *    1.0.18                  10    10018  12.so.0.1.0.18
- *    1.2.8                   13    10208  12.so.0.1.2.8
- *
- *    Henceforth the source version will match the shared-library major
- *    and minor numbers; the shared-library major version number will be
- *    used for changes in backward compatibility, as it is intended.  The
- *    PNG_LIBPNG_VER macro, which is not used within libpng but is available
- *    for applications, is an unsigned integer of the form xyyzz corresponding
- *    to the source version x.y.z (leading zeros in y and z).  Beta versions
- *    were given the previous public release number plus a letter, until
- *    version 1.0.6j; from then on they were given the upcoming public
- *    release number plus "betaNN" or "rcN".
- *
- *    Binary incompatibility exists only when applications make direct access
- *    to the info_ptr or png_ptr members through png.h, and the compiled
- *    application is loaded with a different version of the library.
- *
- *    DLLNUM will change each time there are forward or backward changes
- *    in binary compatibility (e.g., when a new feature is added).
- *
- * See libpng.txt or libpng.3 for more information.  The PNG specification
- * is available as a W3C Recommendation and as an ISO Specification,
- * <http://www.w3.org/TR/2003/REC-PNG-20031110/
+ * See png.5 or libpng.3 for more information.
  */
 
 /*
  * COPYRIGHT NOTICE, DISCLAIMER, and LICENSE:
  *
- * If you modify libpng you may insert additional notices immediately following
- * this sentence.
+ * libpng-MirOS is distributed according to the terms set forth below,
+ * with the following copyright holders:
  *
- * libpng versions 1.2.6, August 15, 2004, through 1.2.8, December 3, 2004, are
- * Copyright (c) 2004 Glenn Randers-Pehrson, and are
- * distributed according to the same disclaimer and license as libpng-1.2.5
- * with the following individual added to the list of Contributing Authors:
- *
- *    Cosmin Truta
- *
- * libpng versions 1.0.7, July 1, 2000, through 1.2.5, October 3, 2002, are
- * Copyright (c) 2000-2002 Glenn Randers-Pehrson, and are
- * distributed according to the same disclaimer and license as libpng-1.0.6
- * with the following individuals added to the list of Contributing Authors:
- *
- *    Simon-Pierre Cadieux
- *    Eric S. Raymond
- *    Gilles Vollant
- *
- * and with the following additions to the disclaimer:
- *
- *    There is no warranty against interference with your enjoyment of the
- *    library or against infringement.  There is no warranty that our
- *    efforts or the library will fulfill any of your particular purposes
- *    or needs.  This library is provided with all faults, and the entire
- *    risk of satisfactory quality, performance, accuracy, and effort is with
- *    the user.
- *
- * libpng versions 0.97, January 1998, through 1.0.6, March 20, 2000, are
- * Copyright (c) 1998, 1999, 2000 Glenn Randers-Pehrson, and are
- * distributed according to the same disclaimer and license as libpng-0.96,
- * with the following individuals added to the list of Contributing Authors:
- *
- *    Tom Lane
- *    Glenn Randers-Pehrson
- *    Willem van Schaik
- *
- * libpng versions 0.89, June 1996, through 0.96, May 1997, are
+ * Copyright (c) 2004 Thorsten Glaser, The MirOS Project
+ * Copyright (c) 2004 Glenn Randers-Pehrson
+ * Copyright (c) 2000-2002 Glenn Randers-Pehrson
+ * Copyright (c) 1998, 1999, 2000 Glenn Randers-Pehrson
  * Copyright (c) 1996, 1997 Andreas Dilger
- * Distributed according to the same disclaimer and license as libpng-0.88,
- * with the following individuals added to the list of Contributing Authors:
- *
- *    John Bowler
- *    Kevin Bracey
- *    Sam Bushell
- *    Magnus Holmgren
- *    Greg Roelofs
- *    Tom Tanner
- *
- * libpng versions 0.5, May 1995, through 0.88, January 1996, are
  * Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.
  *
  * For the purposes of this copyright and license, "Contributing Authors"
@@ -197,6 +26,19 @@
  *    Guy Eric Schalnat
  *    Paul Schmidt
  *    Tim Wegner
+ *    Cosmin Truta
+ *    Simon-Pierre Cadieux
+ *    Eric S. Raymond
+ *    Gilles Vollant
+ *    Tom Lane
+ *    Glenn Randers-Pehrson
+ *    Willem van Schaik
+ *    John Bowler
+ *    Kevin Bracey
+ *    Sam Bushell
+ *    Magnus Holmgren
+ *    Greg Roelofs
+ *    Tom Tanner
  *
  * The PNG Reference Library is supplied "AS IS".  The Contributing Authors
  * and Group 42, Inc. disclaim all warranties, expressed or implied,
@@ -205,6 +47,23 @@
  * assume no liability for direct, indirect, incidental, special, exemplary,
  * or consequential damages, which may result from the use of the PNG
  * Reference Library, even if advised of the possibility of such damage.
+ *
+ * There is no warranty against interference with your enjoyment of the
+ * library or against infringement.  There is no warranty that our
+ * efforts or the library will fulfill any of your particular purposes
+ * or needs.  This library is provided with all faults, and the entire
+ * risk of satisfactory quality, performance, accuracy, and effort is with
+ * the user.
+ *
+ * In the following paragraph, Licensor is The MirOS Project:
+ * Licensor hereby provides this work "AS IS" and WITHOUT WARRANTY of
+ * any kind, expressed or implied, to the maximum extent permitted by
+ * applicable law, but with the warranty of being written without ma-
+ * licious intent or gross negligence; in no event shall licensor, an
+ * author or contributor be held liable for any damage, direct, indi-
+ * rect or other, however caused, arising in any way out of the usage
+ * of covered work, even if advised of the possibility of such damage.
+ *
  *
  * Permission is hereby granted to use, copy, modify, and distribute this
  * source code, or portions hereof, for any purpose, without fee, subject
@@ -226,16 +85,6 @@
  */
 
 /*
- * A "png_get_copyright" function is available, for convenient use in "about"
- * boxes and the like:
- *
- * printf("%s",png_get_copyright(NULL));
- *
- * Also, the PNG logo (in PNG format, of course) is supplied in the
- * files "pngbar.png" and "pngbar.jpg (88x31) and "pngnow.png" (98x31).
- */
-
-/*
  * Libpng is OSI Certified Open Source Software.  OSI Certified is a
  * certification mark of the Open Source Initiative.
  */
@@ -249,74 +98,27 @@
  */
 
 /*
- * Y2K compliance in libpng:
- * =========================
- *
- *    December 3, 2004
- *
- *    Since the PNG Development group is an ad-hoc body, we can't make
- *    an official declaration.
- *
- *    This is your unofficial assurance that libpng from version 0.71 and
- *    upward through 1.2.8 are Y2K compliant.  It is my belief that earlier
- *    versions were also Y2K compliant.
- *
- *    Libpng only has three year fields.  One is a 2-byte unsigned integer
- *    that will hold years up to 65535.  The other two hold the date in text
- *    format, and will hold years up to 9999.
- *
- *    The integer is
- *        "png_uint_16 year" in png_time_struct.
- *
- *    The strings are
- *        "png_charp time_buffer" in png_struct and
- *        "near_time_buffer", which is a local character string in png.c.
- *
- *    There are seven time-related functions:
- *        png.c: png_convert_to_rfc_1123() in png.c
- *          (formerly png_convert_to_rfc_1152() in error)
- *        png_convert_from_struct_tm() in pngwrite.c, called in pngwrite.c
- *        png_convert_from_time_t() in pngwrite.c
- *        png_get_tIME() in pngget.c
- *        png_handle_tIME() in pngrutil.c, called in pngread.c
- *        png_set_tIME() in pngset.c
- *        png_write_tIME() in pngwutil.c, called in pngwrite.c
- *
- *    All handle dates properly in a Y2K environment.  The
- *    png_convert_from_time_t() function calls gmtime() to convert from system
- *    clock time, which returns (year - 1900), which we properly convert to
- *    the full 4-digit year.  There is a possibility that applications using
- *    libpng are not passing 4-digit years into the png_convert_to_rfc_1123()
- *    function, or that they are incorrectly passing only a 2-digit year
- *    instead of "year - 1900" into the png_convert_from_struct_tm() function,
- *    but this is not under our control.  The libpng documentation has always
- *    stated that it works with 4-digit years, and the APIs have been
- *    documented as such.
- *
- *    The tIME chunk itself is also Y2K compliant.  It uses a 2-byte unsigned
- *    integer to hold the year, and can hold years as large as 65535.
- *
- *    zlib, upon which libpng depends, is also Y2K compliant.  It contains
- *    no date-related code.
- *
- *       Glenn Randers-Pehrson
- *       libpng maintainer
- *       PNG Development Group
+ * The PNG Specification (Second Edition) is
+ * Copyright (c) 2003 W3C. (MIT, ERCIM, Keio), All Rights Reserved.
+ * Portable Network Graphics (PNG) Specification (Second Edition)
+ * Information technology - Computer graphics and image processing -
+ * Portable Network Graphics (PNG): Functional specification.
+ * ISO/IEC 15948:2003 (E) (November 10, 2003): David Duce and others.
  */
 
 #ifndef PNG_H
 #define PNG_H
 
-/* This is not the place to learn how to use libpng.  The file libpng.txt
+/* This is not the place to learn how to use libpng.  The manual libpng.3
  * describes how to use libpng, and the file example.c summarizes it
  * with some code on which to build.  This file is useful for looking
  * at the actual function definitions and structure components.
  */
 
 /* Version information for png.h - this should match the version in png.c */
-#define PNG_LIBPNG_VER_STRING "1.2.8"
+#define PNG_LIBPNG_VER_STRING "1.2.8-MirOS"
 #define PNG_HEADER_VERSION_STRING \
-   " libpng version 1.2.8 - December 3, 2004 (header)\n"
+   " libpng version 1.2.8-MirOS - December 3, 2004 (header)\n"
 
 #define PNG_LIBPNG_VER_SONUM   0
 #define PNG_LIBPNG_VER_DLLNUM  13
@@ -449,17 +251,17 @@ PNG_EXPORT_VAR (const char) png_libpng_ver[18];
 #ifdef PNG_USE_GLOBAL_ARRAYS
 /* This was removed in version 1.0.5c */
 /* Structures to facilitate easy interlacing.  See png.c for more details */
-PNG_EXPORT_VAR (const int FARDATA) png_pass_start[7];
-PNG_EXPORT_VAR (const int FARDATA) png_pass_inc[7];
-PNG_EXPORT_VAR (const int FARDATA) png_pass_ystart[7];
-PNG_EXPORT_VAR (const int FARDATA) png_pass_yinc[7];
-PNG_EXPORT_VAR (const int FARDATA) png_pass_mask[7];
-PNG_EXPORT_VAR (const int FARDATA) png_pass_dsp_mask[7];
+PNG_EXPORT_VAR (const int) png_pass_start[7];
+PNG_EXPORT_VAR (const int) png_pass_inc[7];
+PNG_EXPORT_VAR (const int) png_pass_ystart[7];
+PNG_EXPORT_VAR (const int) png_pass_yinc[7];
+PNG_EXPORT_VAR (const int) png_pass_mask[7];
+PNG_EXPORT_VAR (const int) png_pass_dsp_mask[7];
 #ifdef PNG_HAVE_ASSEMBLER_COMBINE_ROW
-PNG_EXPORT_VAR (const int FARDATA) png_pass_width[7];
+PNG_EXPORT_VAR (const int) png_pass_width[7];
 #endif
 /* This isn't currently used.  If you need it, see png.c for more details.
-PNG_EXPORT_VAR (const int FARDATA) png_pass_height[7];
+PNG_EXPORT_VAR (const int) png_pass_height[7];
 */
 #endif
 
@@ -2706,7 +2508,7 @@ extern PNG_EXPORT(png_uint_32,png_get_user_height_max) PNGARG((png_structp
 #if !defined(PNG_NO_EXTERN) || defined(PNG_ALWAYS_EXTERN)
 /* place to hold the signature string for a PNG file. */
 #ifdef PNG_USE_GLOBAL_ARRAYS
-   PNG_EXPORT_VAR (const png_byte FARDATA) png_sig[8];
+   PNG_EXPORT_VAR (const png_byte) png_sig[8];
 #else
 #define png_sig png_sig_bytes(NULL)
 #endif
@@ -2739,27 +2541,27 @@ extern PNG_EXPORT(png_uint_32,png_get_user_height_max) PNGARG((png_structp
 #define PNG_zTXt const png_byte png_zTXt[5] = {122,  84,  88, 116, '\0'}
 
 #ifdef PNG_USE_GLOBAL_ARRAYS
-PNG_EXPORT_VAR (const png_byte FARDATA) png_IHDR[5];
-PNG_EXPORT_VAR (const png_byte FARDATA) png_IDAT[5];
-PNG_EXPORT_VAR (const png_byte FARDATA) png_IEND[5];
-PNG_EXPORT_VAR (const png_byte FARDATA) png_PLTE[5];
-PNG_EXPORT_VAR (const png_byte FARDATA) png_bKGD[5];
-PNG_EXPORT_VAR (const png_byte FARDATA) png_cHRM[5];
-PNG_EXPORT_VAR (const png_byte FARDATA) png_gAMA[5];
-PNG_EXPORT_VAR (const png_byte FARDATA) png_hIST[5];
-PNG_EXPORT_VAR (const png_byte FARDATA) png_iCCP[5];
-PNG_EXPORT_VAR (const png_byte FARDATA) png_iTXt[5];
-PNG_EXPORT_VAR (const png_byte FARDATA) png_oFFs[5];
-PNG_EXPORT_VAR (const png_byte FARDATA) png_pCAL[5];
-PNG_EXPORT_VAR (const png_byte FARDATA) png_sCAL[5];
-PNG_EXPORT_VAR (const png_byte FARDATA) png_pHYs[5];
-PNG_EXPORT_VAR (const png_byte FARDATA) png_sBIT[5];
-PNG_EXPORT_VAR (const png_byte FARDATA) png_sPLT[5];
-PNG_EXPORT_VAR (const png_byte FARDATA) png_sRGB[5];
-PNG_EXPORT_VAR (const png_byte FARDATA) png_tEXt[5];
-PNG_EXPORT_VAR (const png_byte FARDATA) png_tIME[5];
-PNG_EXPORT_VAR (const png_byte FARDATA) png_tRNS[5];
-PNG_EXPORT_VAR (const png_byte FARDATA) png_zTXt[5];
+PNG_EXPORT_VAR (const png_byte) png_IHDR[5];
+PNG_EXPORT_VAR (const png_byte) png_IDAT[5];
+PNG_EXPORT_VAR (const png_byte) png_IEND[5];
+PNG_EXPORT_VAR (const png_byte) png_PLTE[5];
+PNG_EXPORT_VAR (const png_byte) png_bKGD[5];
+PNG_EXPORT_VAR (const png_byte) png_cHRM[5];
+PNG_EXPORT_VAR (const png_byte) png_gAMA[5];
+PNG_EXPORT_VAR (const png_byte) png_hIST[5];
+PNG_EXPORT_VAR (const png_byte) png_iCCP[5];
+PNG_EXPORT_VAR (const png_byte) png_iTXt[5];
+PNG_EXPORT_VAR (const png_byte) png_oFFs[5];
+PNG_EXPORT_VAR (const png_byte) png_pCAL[5];
+PNG_EXPORT_VAR (const png_byte) png_sCAL[5];
+PNG_EXPORT_VAR (const png_byte) png_pHYs[5];
+PNG_EXPORT_VAR (const png_byte) png_sBIT[5];
+PNG_EXPORT_VAR (const png_byte) png_sPLT[5];
+PNG_EXPORT_VAR (const png_byte) png_sRGB[5];
+PNG_EXPORT_VAR (const png_byte) png_tEXt[5];
+PNG_EXPORT_VAR (const png_byte) png_tIME[5];
+PNG_EXPORT_VAR (const png_byte) png_tRNS[5];
+PNG_EXPORT_VAR (const png_byte) png_zTXt[5];
 #endif /* PNG_USE_GLOBAL_ARRAYS */
 
 

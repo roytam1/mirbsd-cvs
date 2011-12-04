@@ -5,8 +5,8 @@
 
 #include <machine/asm.h>
 
-#if defined(LIBC_SCCS)
 	.text
+#if defined(LIBC_SCCS)
 	.asciz "$OpenBSD: memcmp.S,v 1.3 1997/07/23 20:55:21 kstailey Exp $"
 #endif
 

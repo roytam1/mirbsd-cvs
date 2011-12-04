@@ -1,4 +1,4 @@
-#	$OpenBDS: Makefile.inc,v 1.6 1996/08/21 03:47:21 tholo Exp $
+# $MirOS$
 
 # stdlib sources
 .PATH: ${LIBCSRCDIR}/arch/${MACHINE_ARCH}/stdlib ${LIBCSRCDIR}/stdlib
@@ -8,7 +8,7 @@ SRCS+=	a64l.c abort.c atexit.c atoi.c atof.c atol.c atoll.c bsearch.c \
 	getsubopt.c hcreate.c heapsort.c l64a.c llabs.c lsearch.c malloc.c \
 	merge.c multibyte.c putenv.c qsort.c radixsort.c rand.c random.c \
 	realpath.c setenv.c strtod.c strtol.c strtoll.c strtonum.c strtoul.c \
-	strtoull.c system.c \
+	strtoull.c system.c getprogname.c \
 	tfind.c tsearch.c _rand48.c drand48.c erand48.c jrand48.c lcong48.c \
 	lrand48.c mrand48.c nrand48.c seed48.c srand48.c qabs.c qdiv.c _Exit.c
 
@@ -16,7 +16,7 @@ SRCS+=	a64l.c abort.c atexit.c atoi.c atof.c atol.c atoll.c bsearch.c \
 SRCS+=	abs.S div.c labs.c ldiv.c
 LSRCS+=	abs.c
 .elif (${MACHINE_ARCH} == "i386")
-SRCS+=	abs.S div.S labs.S ldiv.S
+SRCS+=	abs.S div.S
 LSRCS+=	abs.c div.c labs.c ldiv.c
 .elif (${MACHINE_ARCH} == "ns32k")
 SRCS+=	abs.S div.c labs.c ldiv.c

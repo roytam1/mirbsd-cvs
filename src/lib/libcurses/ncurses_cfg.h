@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /* include/ncurses_cfg.h.  Generated automatically by configure.  */
 /****************************************************************************
  * Copyright (c) 1998 Free Software Foundation, Inc.                        *
@@ -124,7 +125,9 @@
 #define NDEBUG 1
 #define RETSIGTYPE void
 #define STDC_HEADERS 1
-#define SYSTEM_NAME "openbsd2.8"
+#ifndef	SYSTEM_NAME
+#define	SYSTEM_NAME	"mirbsd0"	/* sort of fishy */
+#endif
 #define TERMINFO "/usr/share/terminfo"
 #define TERMINFO_DIRS "/usr/share/terminfo"
 #define TYPEOF_CHTYPE long

@@ -27,13 +27,15 @@
  * SUCH DAMAGE.
  */
 
-#if defined(LIBC_SCCS) && !defined(lint)
+#if 0
 static char rcsid[] = "$OpenBSD: uname.c,v 1.7 2004/05/18 02:05:52 jfb Exp $";
 #endif /* LIBC_SCCS and not lint */
 
 #include <sys/param.h>
 #include <sys/sysctl.h>
 #include <sys/utsname.h>
+
+__RCSID("$MirOS$");
 
 int
 uname(struct utsname *name)
@@ -60,6 +62,12 @@ uname(struct utsname *name)
 	len = sizeof(name->release);
 	if (sysctl(mib, 2, &name->release, &len, NULL, 0) == -1)
 		rval = -1;
+
+	mib[0] = CTL_KERN;
+	mib[1] = KERN_OSPATCHLEVEL;
+	len = sizeof(name->patchlevel);
+	if (sysctl(mib, 2, &name->patchlevel, &len, NULL, 0) == -1)
+		name->patchlevel[0] = '\0';
 
 	mib[0] = CTL_KERN;
 	mib[1] = KERN_OSVERSION;

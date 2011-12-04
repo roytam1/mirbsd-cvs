@@ -1,11 +1,10 @@
+/**	$MirOS$ */
 /*	$OpenBSD: res_debug.c,v 1.17 2003/06/02 20:18:36 millert Exp $	*/
 
 /*
- * ++Copyright++ 1985, 1990, 1993
- * -
  * Copyright (c) 1985, 1990, 1993
  *    The Regents of the University of California.  All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met:
@@ -321,7 +320,7 @@ __fp_nquery(msg, len, file)
 		fprintf(file, ", Auth: %u", ntohs(hp->nscount));
 		fprintf(file, ", Addit: %u", ntohs(hp->arcount));
 	}
-	if ((!_resp->pfcode) || (_resp->pfcode & 
+	if ((!_resp->pfcode) || (_resp->pfcode &
 		(RES_PRF_HEADX | RES_PRF_HEAD2 | RES_PRF_HEAD1))) {
 		putc('\n',file);
 	}
@@ -496,7 +495,7 @@ __p_rr(cp, msg, file)
 	if (!cp)
 		return (NULL);			/* compression error */
 	fputs(rrname, file);
-	
+
 	type = _getshort((u_char*)cp);
 	cp += INT16SZ;
 	class = _getshort((u_char*)cp);
@@ -519,7 +518,7 @@ __p_rr(cp, msg, file)
 		switch (class) {
 		case C_IN:
 		case C_HS:
-			bcopy(cp, (char *)&inaddr, INADDRSZ);
+			memmove((char *)&inaddr, cp, INADDRSZ);
 			if (dlen == 4) {
 				fprintf(file, "\t%s", inet_ntoa(inaddr));
 				cp += dlen;
@@ -653,11 +652,6 @@ __p_rr(cp, msg, file)
 		}
 		break;
 
-	case T_NSAP:
-		(void) fprintf(file, "\t%s", inet_nsap_ntoa(dlen, cp, NULL));
-		cp += dlen;
-		break;
-
 	case T_AAAA: {
 		char t[sizeof "ffff:ffff:ffff:ffff:ffff:ffff:255.255.255.255"];
 
@@ -736,7 +730,7 @@ __p_rr(cp, msg, file)
 	case T_WKS:
 		if (dlen < INT32SZ + 1)
 			break;
-		bcopy(cp, (char *)&inaddr, INADDRSZ);
+		memmove((char *)&inaddr, cp, INADDRSZ);
 		cp += INT32SZ;
 		fprintf(file, "\t%s %s ( ",
 			inet_ntoa(inaddr),
@@ -1332,7 +1326,7 @@ loc_aton(ascii, binary)
 		altsign = -1;
 		cp++;
 	}
-    
+
 	if (*cp == '+')
 		cp++;
 
@@ -1361,7 +1355,7 @@ loc_aton(ascii, binary)
 		goto defaults;
 
 	siz = precsize_aton(&cp);
-	
+
 	while (!isspace(*cp) && (cp < maxcp))	/* if trailing garbage or m */
 		cp++;
 
@@ -1394,7 +1388,7 @@ loc_aton(ascii, binary)
 	PUTLONG(latit,bcp);
 	PUTLONG(longit,bcp);
 	PUTLONG(alt,bcp);
-    
+
 	return (16);		/* size of RR in octets */
 }
 
@@ -1426,7 +1420,7 @@ loc_ntoal(binary, ascii, ascii_len)
 	int32_t latval, longval, altval;
 	u_int32_t templ;
 	u_int8_t sizeval, hpval, vpval, versionval;
-    
+
 	char *sizestr, *hpstr, *vpstr;
 
 	versionval = *cp++;
@@ -1539,8 +1533,8 @@ __dn_count_labels(name)
 }
 
 
-/* 
- * Make dates expressed in seconds-since-Jan-1-1970 easy to read.  
+/*
+ * Make dates expressed in seconds-since-Jan-1-1970 easy to read.
  * SIG records are required to be printed like this, by the Secure DNS RFC.
  */
 char *
@@ -1550,12 +1544,11 @@ __p_secstodate (secs)
 	static char output[15];		/* YYYYMMDDHHMMSS and null */
 	time_t clock = secs;
 	struct tm *time;
-	
+
 	time = gmtime(&clock);
-	time->tm_year += 1900;
-	time->tm_mon += 1;
-	snprintf(output, sizeof output, "%04d%02d%02d%02d%02d%02d",
-		time->tm_year, time->tm_mon, time->tm_mday,
+	snprintf(output, sizeof output, "%04lld%02d%02d%02d%02d%02d",
+		(int64_t)time->tm_year + 1900, time->tm_mon + 1,
+		time->tm_mday,
 		time->tm_hour, time->tm_min, time->tm_sec);
 	return (output);
 }

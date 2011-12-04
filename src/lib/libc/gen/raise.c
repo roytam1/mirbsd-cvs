@@ -28,11 +28,14 @@
  */
 
 #if defined(LIBC_SCCS) && !defined(lint)
-static char rcsid[] = "$OpenBSD: raise.c,v 1.4 2004/05/18 02:05:52 jfb Exp $";
+/* $OpenBSD: raise.c,v 1.4 2004/05/18 02:05:52 jfb Exp $ */
 #endif /* LIBC_SCCS and not lint */
 
+#include <sys/cdefs.h>
 #include <signal.h>
 #include <unistd.h>
+
+__RCSID("$MirOS$");
 
 int
 raise(int s)

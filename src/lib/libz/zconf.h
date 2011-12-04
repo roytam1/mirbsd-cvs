@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: zconf.h,v 1.6 2004/12/03 03:06:36 djm Exp $	*/
 /* zconf.h -- configuration of the zlib compression library
  * Copyright (C) 1995-2004 Jean-loup Gailly.
@@ -278,8 +279,12 @@ typedef uLong FAR uLongf;
    typedef Byte       *voidp;
 #endif
 
-#include <sys/types.h> /* for off_t */
+#include <sys/types.h>	/* for off_t */
+#if defined(_BSD_STANDXX) || defined(_KERNEL)
+#include <sys/unistd.h>
+#else
 #include <unistd.h>    /* for SEEK_* and off_t */
+#endif
 #define z_off_t  off_t
 #ifndef SEEK_SET
 #  define SEEK_SET        0       /* Seek from beginning of file.  */

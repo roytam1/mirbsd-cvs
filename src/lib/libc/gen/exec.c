@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /*-
  * Copyright (c) 1991, 1993
  *	The Regents of the University of California.  All rights reserved.
@@ -28,7 +29,7 @@
  */
 
 #if defined(LIBC_SCCS) && !defined(lint)
-static char rcsid[] = "$OpenBSD: exec.c,v 1.16 2003/06/11 21:03:10 deraadt Exp $";
+static const char rcsid[] = "$OpenBSD: exec.c,v 1.16 2003/06/11 21:03:10 deraadt Exp $";
 #endif /* LIBC_SCCS and not lint */
 
 #include <sys/param.h>
@@ -195,9 +196,9 @@ execvp(const char *name, char * const *argv)
 			(void)writev(STDERR_FILENO, iov, 3);
 			continue;
 		}
-		bcopy(p, buf, lp);
+		memmove(buf, p, lp);
 		buf[lp] = '/';
-		bcopy(name, buf + lp + 1, ln);
+		memmove(buf + lp + 1, name, ln);
 		buf[lp + ln + 1] = '\0';
 
 retry:		(void)execve(bp, argv, environ);
@@ -217,7 +218,7 @@ retry:		(void)execve(bp, argv, environ);
 				goto done;
 			memp[0] = "sh";
 			memp[1] = bp;
-			bcopy(argv + 1, memp + 2, cnt * sizeof(char *));
+			memmove(memp + 2, argv + 1, cnt * sizeof(char *));
 			(void)execve(_PATH_BSHELL, memp, environ);
 			goto done;
 		case ENOMEM:

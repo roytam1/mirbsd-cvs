@@ -27,21 +27,19 @@
  * SUCH DAMAGE.
  */
 
-#if defined(LIBC_SCCS) && !defined(lint)
-static char rcsid[] = "$OpenBSD: time.c,v 1.4 2003/07/08 00:11:50 jfb Exp $";
-#endif /* LIBC_SCCS and not lint */
-
 #include <sys/types.h>
 #include <sys/time.h>
+
+__RCSID("$MirOS$");
 
 time_t
 time(time_t *t)
 {
 	struct timeval tt;
 
-	if (gettimeofday(&tt, (struct timezone *)0) < 0)
+	if (gettimeofday(&tt, NULL) < 0)
 		return (-1);
-	if (t)
+	if (t != NULL)
 		*t = (time_t)tt.tv_sec;
 	return (tt.tv_sec);
 }

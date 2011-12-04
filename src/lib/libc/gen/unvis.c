@@ -27,13 +27,15 @@
  * SUCH DAMAGE.
  */
 
-#if defined(LIBC_SCCS) && !defined(lint)
+#if 0
 static char rcsid[] = "$OpenBSD: unvis.c,v 1.10 2004/10/17 20:25:31 otto Exp $";
 #endif /* LIBC_SCCS and not lint */
 
 #include <sys/types.h>
 #include <ctype.h>
 #include <vis.h>
+
+__RCSID("$MirOS$");
 
 /*
  * decode driven by state machine
@@ -59,7 +61,7 @@ unvis(char *cp, char c, int *astate, int flag)
 		if (*astate == S_OCTAL2 || *astate == S_OCTAL3) {
 			*astate = S_GROUND;
 			return (UNVIS_VALID);
-		} 
+		}
 		return (*astate == S_GROUND ? UNVIS_NOCHAR : UNVIS_SYNBAD);
 	}
 
@@ -70,7 +72,7 @@ unvis(char *cp, char c, int *astate, int flag)
 		if (c == '\\') {
 			*astate = S_START;
 			return (0);
-		} 
+		}
 		*cp = c;
 		return (UNVIS_VALID);
 
@@ -143,7 +145,7 @@ unvis(char *cp, char c, int *astate, int flag)
 		}
 		*astate = S_GROUND;
 		return (UNVIS_SYNBAD);
-		 
+
 	case S_META:
 		if (c == '-')
 			*astate = S_META1;
@@ -154,12 +156,12 @@ unvis(char *cp, char c, int *astate, int flag)
 			return (UNVIS_SYNBAD);
 		}
 		return (0);
-		 
+
 	case S_META1:
 		*astate = S_GROUND;
 		*cp |= c;
 		return (UNVIS_VALID);
-		 
+
 	case S_CTRL:
 		if (c == '?')
 			*cp |= 0177;
@@ -170,15 +172,15 @@ unvis(char *cp, char c, int *astate, int flag)
 
 	case S_OCTAL2:	/* second possible octal digit */
 		if (isoctal(c)) {
-			/* 
-			 * yes - and maybe a third 
+			/*
+			 * yes - and maybe a third
 			 */
 			*cp = (*cp << 3) + (c - '0');
-			*astate = S_OCTAL3;	
+			*astate = S_OCTAL3;
 			return (0);
-		} 
-		/* 
-		 * no - done with current sequence, push back passed char 
+		}
+		/*
+		 * no - done with current sequence, push back passed char
 		 */
 		*astate = S_GROUND;
 		return (UNVIS_VALIDPUSH);
@@ -193,10 +195,10 @@ unvis(char *cp, char c, int *astate, int flag)
 		 * we were done, push back passed char
 		 */
 		return (UNVIS_VALIDPUSH);
-			
-	default:	
-		/* 
-		 * decoder in unknown state - (probably uninitialized) 
+
+	default:
+		/*
+		 * decoder in unknown state - (probably uninitialized)
 		 */
 		*astate = S_GROUND;
 		return (UNVIS_SYNBAD);
@@ -204,7 +206,7 @@ unvis(char *cp, char c, int *astate, int flag)
 }
 
 /*
- * strunvis - decode src into dst 
+ * strunvis - decode src into dst
  *
  *	Number of chars decoded into dst is returned, -1 on error.
  *	Dst is null terminated.
@@ -280,4 +282,3 @@ strnunvis(char *dst, const char *src, size_t sz)
 		*dst = '\0';
 	return (dst - start);
 }
-

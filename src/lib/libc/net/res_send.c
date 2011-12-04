@@ -1,11 +1,10 @@
+/**	$MirOS$ */
 /*	$OpenBSD: res_send.c,v 1.16 2004/11/17 01:42:26 itojun Exp $	*/
 
 /*
- * ++Copyright++ 1985, 1989, 1993
- * -
  * Copyright (c) 1985, 1989, 1993
  *    The Regents of the University of California.  All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met:
@@ -106,7 +105,7 @@ static int af = 0;		/* address family of socket */
 #define	FD_SET(n, p)	((p)->fds_bits[(n)/NFDBITS] |= (1 << ((n) % NFDBITS)))
 #define	FD_CLR(n, p)	((p)->fds_bits[(n)/NFDBITS] &= ~(1 << ((n) % NFDBITS)))
 #define	FD_ISSET(n, p)	((p)->fds_bits[(n)/NFDBITS] & (1 << ((n) % NFDBITS)))
-#define FD_ZERO(p)	bzero((char *)(p), sizeof(*(p)))
+#define FD_ZERO(p)	memset((char *)(p), 0, sizeof(*(p)))
 #endif
 
 #define CAN_RECONNECT 1

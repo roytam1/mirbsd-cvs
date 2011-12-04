@@ -28,7 +28,7 @@
  */
 
 #if defined(LIBC_SCCS) && !defined(lint)
-static char *rcsid = "$OpenBSD: strcat.c,v 1.6 2003/07/24 01:15:42 deraadt Exp $";
+static char *rcsid = "$OpenBSD: strcat.c,v 1.5 2003/06/02 20:18:38 millert Exp $";
 #endif /* LIBC_SCCS and not lint */
 
 #ifndef _KERNEL
@@ -37,13 +37,12 @@ static char *rcsid = "$OpenBSD: strcat.c,v 1.6 2003/07/24 01:15:42 deraadt Exp $
 #include <lib/libkern/libkern.h>
 #endif
 
-#if defined(APIWARN)
-__warn_references(strcat,
-    "warning: strcat() is almost always misused, please use strlcat()");
-#endif
+__warn_references(strcat, "warning: strcat() is almost always misused, please use strlcat()");
 
 char *
-strcat(char *s, const char *append)
+strcat(s, append)
+	register char *s;
+	register const char *append;
 {
 	char *save = s;
 

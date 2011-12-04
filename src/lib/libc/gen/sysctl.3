@@ -1,3 +1,4 @@
+.\"	$MirOS$
 .\"	$OpenBSD: sysctl.3,v 1.141 2005/01/04 19:42:39 markus Exp $
 .\"
 .\" Copyright (c) 1993
@@ -329,8 +330,10 @@ virtual memory statistics, load average history, and clock rate
 information.
 .Bl -column "KERNXCRYPTODEVALLOWSOFTXXX" "struct clockrateXXX" -offset indent
 .It Sy Second level name	Type	Changeable
+.It Dv KERN_ALLOWPSA No "	integer	yes"
+.It Dv KERN_ALLOWPSE No "	integer	yes"
 .It Dv KERN_ARGMAX No "	integer	no"
-.It Dv KERN_ARND No "	integer	no"
+.It Dv KERN_ARND No "	integer	yes"
 .It Dv KERN_BOOTTIME No "	struct timeval	no"
 .It Dv KERN_CCPU No "	integer	no"
 .It Dv KERN_CLOCKRATE No "	struct clockinfo	no"
@@ -338,6 +341,7 @@ information.
 .It Dv KERN_CRYPTODEVALLOWSOFT No "	integer	yes"
 .It Dv KERN_DOMAINNAME No "	string	yes"
 .It Dv KERN_EMUL No "	node	not applicable"
+.It Dv KERN_EMULUNAME No "	string	yes"
 .It Dv KERN_FILE No "	struct file	no"
 .It Dv KERN_FORKSTAT No "	struct forkstat	no"
 .It Dv KERN_FSCALE No "	integer	no"
@@ -371,6 +375,7 @@ information.
 .It Dv KERN_PROC2 No "	struct kinfo_proc2	no"
 .It Dv KERN_PROC_ARGS No "	node	not applicable"
 .It Dv KERN_PROF No "	node	not applicable"
+.It Dv KERN_PUSHRAND No "	integer	yes"
 .It Dv KERN_RAWPARTITION No "	integer	no"
 .It Dv KERN_RND No "	struct rndstats	no"
 .It Dv KERN_SAVED_IDS No "	integer	no"
@@ -396,6 +401,18 @@ information.
 .It Dv KERN_WATCHDOG No "	node	not applicable"
 .El
 .Bl -tag -width "123456"
+.It Dv KERN_ALLOWPSA
+If 0, users are not allowed to view processes of
+other users, for example with the
+.Fl a
+option to
+.Xr ps 1 .
+.It Dv KERN_ALLOWPSE
+If 0, users are not allowed to view the environment of processes of
+other users, for example with the
+.Fl e
+option to
+.Xr ps 1 .
 .It Dv KERN_ARGMAX
 The maximum bytes of argument to
 .Xr exec 3 .
@@ -407,6 +424,8 @@ This can be useful if
 .Pa /dev/arandom
 is not available (see
 .Xr random 4 ) .
+This sysctl is writable since
+.Mx 8 .
 .It Dv KERN_BOOTTIME
 A
 .Li struct timeval
@@ -432,7 +451,7 @@ Permits userland to use
 .Pa /dev/crypto
 even if there is no hardware crypto accelerator in the system.
 .It Dv KERN_DOMAINNAME
-Get or set the YP domain name.
+Get or set the domain name.
 .It Dv KERN_EMUL
 Enable binary emulation.
 .Bl -column "KERN_EMUL_FREEBSD" "string" -offset indent
@@ -457,6 +476,12 @@ which is an adjustable integer.
 .Pp
 Note that using this interface exposes duplicate entries which are
 consolidated by the userland frontend.
+.It Dv KERN_EMULUNAME
+Sets the
+.Dv ostype
+value the
+.Xr uname 3
+call returns for applications executed in the linuxulator.
 .It Dv KERN_FILE
 Return the entire file table.
 The returned data consists of a single
@@ -664,6 +689,11 @@ Array of
 .Li struct tostruct
 describing destination of calls and their counts.
 .El
+.It Dv KERN_PUSHRAND
+If set to 0, disallow userland randomness push into kernel,
+as well as using the randomness from FFS filesystems and
+the IP/TCP/UDP checksums.
+If set to 1 (default), all these are enabled.
 .It Dv KERN_RAWPARTITION
 The raw partition of a disk (a == 0).
 .It Dv KERN_RND
@@ -2070,6 +2100,8 @@ level is made.
 .Xr ddb 4 ,
 .Xr sysctl.conf 5 ,
 .Xr securelevel 7 ,
+.Xr compat_linux 8 ,
+.Xr compat_openbsd 8 ,
 .Xr sysctl 8
 .Sh HISTORY
 The

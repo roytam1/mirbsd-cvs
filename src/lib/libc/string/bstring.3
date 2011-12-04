@@ -1,3 +1,5 @@
+.\" $MirOS$
+.\"
 .\" Copyright (c) 1990, 1991 The Regents of the University of California.
 .\" All rights reserved.
 .\"
@@ -39,10 +41,22 @@
 .Fd #include <string.h>
 .Ft int
 .Fn bcmp "const void *b1" "const void *b2" "size_t len"
+This function is deprecated, please use
+.nr nS 0
+.Fn memcmp .
+.nr nS 1
 .Ft void
 .Fn bcopy "const void *src" "void *dst" "size_t len"
+This function is deprecated, please use
+.nr nS 0
+.Fn memmove .
+.nr nS 1
 .Ft void
 .Fn bzero "void *b" "size_t len"
+This function is deprecated, please use
+.nr nS 0
+.Fn memset .
+.nr nS 1
 .Ft void *
 .Fn memchr "const void *b" "int c" "size_t len"
 .Ft int
@@ -96,3 +110,12 @@ and
 .Fn bcopy
 functions appeared in
 .Bx 4.2 .
+The
+.Fn bcmp ,
+.Fn bcopy
+and
+.Fn bzero
+functions have been deprecated in
+.Nx
+and since
+.Mx 8 .

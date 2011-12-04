@@ -1,3 +1,4 @@
+.\"	$MirOS$
 .\"	$OpenBSD: editrc.5,v 1.19 2003/11/25 20:12:38 otto Exp $
 .\"	$NetBSD: editrc.5,v 1.19 2003/11/01 23:35:33 christos Exp $
 .\"
@@ -495,6 +496,11 @@ Move down one line.
 Editline extended command.
 .El
 .\" End of section automatically generated with makelist
+.Sh FILES
+.Bl -tag -width $HOME/.etc/editrc -compact
+.It Pa $PWD/.editrc
+.It Pa $HOME/.etc/editrc
+.El
 .Sh SEE ALSO
 .Xr editline 3 ,
 .Xr regex 3 ,

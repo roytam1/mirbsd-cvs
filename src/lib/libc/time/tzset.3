@@ -1,4 +1,5 @@
-.\"	$OpenBSD: tzset.3,v 1.14 2004/04/16 10:48:39 jmc Exp $
+.\" $MirOS$
+.\" $OpenBSD: tzset.3,v 1.14 2004/04/16 10:48:39 jmc Exp $
 .Dd May 24, 1999
 .Dt TZSET 3
 .Os
@@ -271,12 +272,12 @@ local time zone file
 .It Pa /usr/share/zoneinfo/posixrules
 used with POSIX-style
 .Ev TZ Ns s
-.It Pa /usr/share/zoneinfo/GMT
+.It Pa /usr/share/zoneinfo/UTC
 for UTC leap seconds
 .El
 .Pp
 If
-.Pa /usr/share/zoneinfo/GMT
+.Pa /usr/share/zoneinfo/UTC
 is absent,
 UTC leap seconds are loaded from
 .Pa /usr/share/zoneinfo/posixrules .

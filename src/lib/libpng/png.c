@@ -1,3 +1,27 @@
+/* $MirOS$ */
+
+/*-
+ * Copyright (c) 2004, 2005
+ *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+ *
+ * Licensee is hereby permitted to deal in this work without restric-
+ * tion, including unlimited rights to use, publicly perform, modify,
+ * merge, distribute, sell, give away or sublicence, provided all co-
+ * pyright notices above, these terms and the disclaimer are retained
+ * in all redistributions or reproduced in accompanying documentation
+ * or other materials provided with binary redistributions.
+ *
+ * Licensor hereby provides this work "AS IS" and WITHOUT WARRANTY of
+ * any kind, expressed or implied, to the maximum extent permitted by
+ * applicable law, but with the warranty of being written without ma-
+ * licious intent or gross negligence; in no event shall licensor, an
+ * author or contributor be held liable for any damage, direct, indi-
+ * rect or other, however caused, arising in any way out of the usage
+ * of this work, even if advised of the possibility of such damage.
+ */
+
+#include <sys/cdefs.h>
+__RCSID("$MirOS$");
 
 /* png.c - location for general purpose libpng functions
  *
@@ -24,7 +48,7 @@ const char png_libpng_ver[18] = PNG_LIBPNG_VER_STRING;
 
 /* png_sig was changed to a function in version 1.0.5c */
 /* Place to hold the signature string for a PNG file. */
-const png_byte FARDATA png_sig[8] = {137, 80, 78, 71, 13, 10, 26, 10};
+const png_byte png_sig[8] = {137, 80, 78, 71, 13, 10, 26, 10};
 
 /* Invoke global declarations for constant strings for known chunk types */
 PNG_IHDR;
@@ -52,32 +76,32 @@ PNG_zTXt;
 /* arrays to facilitate easy interlacing - use pass (0 - 6) as index */
 
 /* start of interlace block */
-const int FARDATA png_pass_start[] = {0, 4, 0, 2, 0, 1, 0};
+const int png_pass_start[] = {0, 4, 0, 2, 0, 1, 0};
 
 /* offset to next interlace block */
-const int FARDATA png_pass_inc[] = {8, 8, 4, 4, 2, 2, 1};
+const int png_pass_inc[] = {8, 8, 4, 4, 2, 2, 1};
 
 /* start of interlace block in the y direction */
-const int FARDATA png_pass_ystart[] = {0, 0, 4, 0, 2, 0, 1};
+const int png_pass_ystart[] = {0, 0, 4, 0, 2, 0, 1};
 
 /* offset to next interlace block in the y direction */
-const int FARDATA png_pass_yinc[] = {8, 8, 8, 4, 4, 2, 2};
+const int png_pass_yinc[] = {8, 8, 8, 4, 4, 2, 2};
 
 /* width of interlace block (used in assembler routines only) */
 #ifdef PNG_HAVE_ASSEMBLER_COMBINE_ROW
-const int FARDATA png_pass_width[] = {8, 4, 4, 2, 2, 1, 1};
+const int png_pass_width[] = {8, 4, 4, 2, 2, 1, 1};
 #endif
 
 /* Height of interlace block.  This is not currently used - if you need
  * it, uncomment it here and in png.h
-const int FARDATA png_pass_height[] = {8, 8, 4, 4, 2, 2, 1};
+const int png_pass_height[] = {8, 8, 4, 4, 2, 2, 1};
 */
 
 /* Mask to determine which pixels are valid in a pass */
-const int FARDATA png_pass_mask[] = {0x80, 0x08, 0x88, 0x22, 0xaa, 0x55, 0xff};
+const int png_pass_mask[] = {0x80, 0x08, 0x88, 0x22, 0xaa, 0x55, 0xff};
 
 /* Mask to determine which pixels to overwrite while displaying */
-const int FARDATA png_pass_dsp_mask[]
+const int png_pass_dsp_mask[]
    = {0xff, 0x0f, 0xff, 0x33, 0xff, 0x55, 0xff};
 
 #endif /* PNG_USE_GLOBAL_ARRAYS */
@@ -680,7 +704,8 @@ png_charp PNGAPI
 png_get_copyright(png_structp png_ptr)
 {
    if (&png_ptr != NULL)  /* silence compiler warning about unused png_ptr */
-   return ((png_charp) "\n libpng version 1.2.8 - December 3, 2004\n\
+   return ((png_charp) "\n libpng version 1.2.8-MirOS - December 3, 2004\n\
+   Copyright (c) 2004-2005 The MirOS Project - http://mirbsd.de/\n\
    Copyright (c) 1998-2004 Glenn Randers-Pehrson\n\
    Copyright (c) 1996-1997 Andreas Dilger\n\
    Copyright (c) 1995-1996 Guy Eric Schalnat, Group 42, Inc.\n");
@@ -756,63 +781,12 @@ png_access_version_number(void)
 
 
 #if !defined(PNG_1_0_X)
-#if defined(PNG_ASSEMBLER_CODE_SUPPORTED)
-    /* GRR:  could add this:   && defined(PNG_MMX_CODE_SUPPORTED) */
-/* this INTERNAL function was added to libpng 1.2.0 */
-void /* PRIVATE */
-png_init_mmx_flags (png_structp png_ptr)
-{
-    png_ptr->mmx_rowbytes_threshold = 0;
-    png_ptr->mmx_bitdepth_threshold = 0;
-
-#  if (defined(PNG_USE_PNGVCRD) || defined(PNG_USE_PNGGCCRD))
-
-    png_ptr->asm_flags |= PNG_ASM_FLAG_MMX_SUPPORT_COMPILED;
-
-    if (png_mmx_support() > 0) {
-        png_ptr->asm_flags |= PNG_ASM_FLAG_MMX_SUPPORT_IN_CPU
-#    ifdef PNG_HAVE_ASSEMBLER_COMBINE_ROW
-                              | PNG_ASM_FLAG_MMX_READ_COMBINE_ROW
-#    endif
-#    ifdef PNG_HAVE_ASSEMBLER_READ_INTERLACE
-                              | PNG_ASM_FLAG_MMX_READ_INTERLACE
-#    endif
-#    ifndef PNG_HAVE_ASSEMBLER_READ_FILTER_ROW
-                              ;
-#    else
-                              | PNG_ASM_FLAG_MMX_READ_FILTER_SUB
-                              | PNG_ASM_FLAG_MMX_READ_FILTER_UP
-                              | PNG_ASM_FLAG_MMX_READ_FILTER_AVG
-                              | PNG_ASM_FLAG_MMX_READ_FILTER_PAETH ;
-
-        png_ptr->mmx_rowbytes_threshold = PNG_MMX_ROWBYTES_THRESHOLD_DEFAULT;
-        png_ptr->mmx_bitdepth_threshold = PNG_MMX_BITDEPTH_THRESHOLD_DEFAULT;
-#    endif
-    } else {
-        png_ptr->asm_flags &= ~( PNG_ASM_FLAG_MMX_SUPPORT_IN_CPU
-                               | PNG_MMX_READ_FLAGS
-                               | PNG_MMX_WRITE_FLAGS );
-    }
-
-#  else /* !((PNGVCRD || PNGGCCRD) && PNG_ASSEMBLER_CODE_SUPPORTED)) */
-
-    /* clear all MMX flags; no support is compiled in */
-    png_ptr->asm_flags &= ~( PNG_MMX_FLAGS );
-
-#  endif /* ?(PNGVCRD || PNGGCCRD) */
-}
-
-#endif /* !(PNG_ASSEMBLER_CODE_SUPPORTED) */
-
 /* this function was added to libpng 1.2.0 */
-#if !defined(PNG_USE_PNGGCCRD) && \
-    !(defined(PNG_ASSEMBLER_CODE_SUPPORTED) && defined(PNG_USE_PNGVCRD))
 int PNGAPI
 png_mmx_support(void)
 {
     return -1;
 }
-#endif
 #endif /* PNG_1_0_X */
 
 #ifdef PNG_SIZE_T

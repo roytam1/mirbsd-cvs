@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: test.c,v 1.6 2003/10/31 08:42:24 otto Exp $	*/
 /*	$NetBSD: test.c,v 1.13 2003/08/07 16:44:35 agc Exp $	*/
 
@@ -34,21 +35,23 @@
  */
 
 #include "config.h"
-#ifndef lint
-//__COPYRIGHT("@(#) Copyright (c) 1992, 1993\n\
-//	The Regents of the University of California.  All rights reserved.\n");
-#endif /* not lint */
-
-#if !defined(lint) && !defined(SCCSID)
-#if 0
-static char sccsid[] = "@(#)test.c	8.1 (Berkeley) 6/4/93";
+#ifndef __COPYRIGHT
+#if 0 /* XXX userland copyrights have newlines in them */
+#define __COPYRIGHT(x)	__IDSTRING(copyright, x)
 #else
-static const char *rcsid = "$OpenBSD: test.c,v 1.6 2003/10/31 08:42:24 otto Exp $";
+#define __COPYRIGHT(x)
 #endif
-#endif /* not lint && not SCCSID */
+#endif
+
+#ifndef lint
+__COPYRIGHT("@(#) Copyright (c) 1992, 1993\n"
+"	The Regents of the University of California.  All rights reserved.\n");
+#endif /* not lint */
+__SCCSID("@(#)test.c	8.1 (Berkeley) 6/4/93");
+__RCSID("$MirOS$");
 
 /*
- * test.c: A little test program
+ * test.c: A little test programme
  */
 #include <stdio.h>
 #include <string.h>

@@ -32,8 +32,8 @@
 
 #include "SYS.h"
 
-#if defined(SYSLIBC_SCCS)
 	.text
+#if defined(SYSLIBC_SCCS)
 	.asciz "$OpenBSD: sigsuspend.S,v 1.6 2003/06/02 20:18:30 millert Exp $"
 #endif /* SYSLIBC_SCCS */
 

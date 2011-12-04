@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: bt_seq.c,v 1.9 2005/01/03 22:30:28 millert Exp $	*/
 
 /*-
@@ -32,14 +33,6 @@
  * SUCH DAMAGE.
  */
 
-#if defined(LIBC_SCCS) && !defined(lint)
-#if 0
-static char sccsid[] = "@(#)bt_seq.c	8.7 (Berkeley) 7/20/94";
-#else
-static const char rcsid[] = "$OpenBSD: bt_seq.c,v 1.9 2005/01/03 22:30:28 millert Exp $";
-#endif
-#endif /* LIBC_SCCS and not lint */
-
 #include <sys/types.h>
 
 #include <errno.h>
@@ -49,6 +42,9 @@ static const char rcsid[] = "$OpenBSD: bt_seq.c,v 1.9 2005/01/03 22:30:28 miller
 
 #include <db.h>
 #include "btree.h"
+
+__SCCSID("@(#)bt_seq.c	8.7 (Berkeley) 7/20/94");
+__RCSID("$MirOS$");
 
 static int __bt_first(BTREE *, const DBT *, EPG *, int *);
 static int __bt_seqadv(BTREE *, EPG *, int);
@@ -246,7 +242,7 @@ __bt_seqadv(t, ep, flags)
 {
 	CURSOR *c;
 	PAGE *h;
-	indx_t idx;
+	indx_t idx = 0;
 	pgno_t pg;
 	int exact;
 
@@ -366,7 +362,7 @@ __bt_first(t, key, erval, exactp)
 			*erval = *ep;
 			return (RET_SUCCESS);
 		}
-			
+
 		/*
 		 * Walk backwards, as long as the entry matches and there are
 		 * keys left in the tree.  Save a copy of each match in case

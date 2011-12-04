@@ -1,16 +1,17 @@
-#	$OpenBSD: Makefile.inc,v 1.13 2004/05/03 19:56:08 millert Exp $
+# $MirOS$
+# $OpenBSD: Makefile.inc,v 1.13 2004/05/03 19:56:08 millert Exp $
 
 # string sources
 .PATH: ${LIBCSRCDIR}/arch/${MACHINE_ARCH}/string ${LIBCSRCDIR}/string
 
 SRCS+=	bm.c memccpy.c strcasecmp.c strcoll.c strdup.c strerror.c \
-	strerror_r.c strlcat.c strmode.c strsignal.c strtok.c strxfrm.c \
+	strerror_r.c strlfun.c strmode.c strsignal.c strtok.c strxfrm.c \
 	__strsignal.c
 
 # machine-dependent net sources
 # m-d Makefile.inc must include sources for:
 #	bcmp() bcopy() bzero() ffs() index() memchr() memcmp() memset()
-#	rindex() strcat() strcmp() strcpy() strcspn() strlen() strlcpy()
+#	rindex() strcat() strcmp() strcpy() strcspn() strlen()
 #	strncat() strncmp() strncpy() strpbrk() strsep()
 #	strspn() strstr() swav()
 # m-d Makefile.inc may include sources for:

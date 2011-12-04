@@ -12,7 +12,7 @@ extern "C" {
 
 #ifndef CDK_H
 #define CDKINCLUDES
-#include <cdk.h>
+#include <cdk/cdk.h>
 #undef CDKINCLUDES
 #endif
 

@@ -3,20 +3,21 @@
 ** 1996-06-05 by Arthur David Olson (arthur_david_olson@nih.gov).
 */
 
-#if defined(LIBC_SCCS) && !defined(lint) && !defined(NOID)
-static char elsieid[] = "@(#)asctime.c	7.22";
-static char rcsid[] = "$OpenBSD: asctime.c,v 1.8 2004/10/18 22:33:43 millert Exp $";
-#endif /* LIBC_SCCS and not lint */
-
 /*LINTLIBRARY*/
 
 #include "private.h"
 #include "tzfile.h"
 #include "thread_private.h"
 
+__SCCSID("@(#)asctime.c	7.22");
+__RCSID("$MirOS$");
+
 #if STRICTLY_STANDARD_ASCTIME
 #define ASCTIME_FMT	"%.3s %.3s%3d %.2d:%.2d:%.2d %ld\n"
 #define ASCTIME_FMT_B	ASCTIME_FMT
+#elif defined(__MirBSD__)
+#define ASCTIME_FMT	"%.3s %.3s%3d %2.2d:%2.2d:%2.2d %-4ld\n"
+#define ASCTIME_FMT_B	"%.3s %.3s%3d %2.2d:%2.2d:%2.2d     %ld\n"
 #else /* !STRICTLY_STANDARD_ASCTIME */
 /*
 ** Some systems only handle "%.2d"; others only handle "%02d";
@@ -84,7 +85,7 @@ int				bufsize;
 		wn, mn,
 		timeptr->tm_mday, timeptr->tm_hour,
 		timeptr->tm_min, timeptr->tm_sec,
-		TM_YEAR_BASE + timeptr->tm_year);
+		(long)(TM_YEAR_BASE + timeptr->tm_year));
 	if (len < bufsize) {
 		return buf;
 	} else {

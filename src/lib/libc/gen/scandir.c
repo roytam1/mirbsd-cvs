@@ -27,9 +27,7 @@
  * SUCH DAMAGE.
  */
 
-#if defined(LIBC_SCCS) && !defined(lint)
-static char rcsid[] = "$OpenBSD: scandir.c,v 1.9 2004/05/18 02:05:52 jfb Exp $";
-#endif /* LIBC_SCCS and not lint */
+/* $OpenBSD: scandir.c,v 1.9 2004/05/18 02:05:52 jfb Exp $ */
 
 /*
  * Scan the directory dirname calling select to make a list of selected
@@ -45,6 +43,8 @@ static char rcsid[] = "$OpenBSD: scandir.c,v 1.9 2004/05/18 02:05:52 jfb Exp $";
 #include <limits.h>
 #include <stdlib.h>
 #include <string.h>
+
+__RCSID("$MirOS$");
 
 /*
  * The DIRSIZ macro is the minimum record length which will hold the directory
@@ -74,7 +74,7 @@ scandir(const char *dirname, struct dirent ***namelist,
 
 	/*
 	 * estimate the array size by taking the size of the directory file
-	 * and dividing it by a multiple of the minimum size entry. 
+	 * and dividing it by a multiple of the minimum size entry.
 	 */
 	arraysz = (stb.st_size / 24);
 	if (arraysz > SIZE_T_MAX / sizeof(struct dirent *)) {
@@ -95,7 +95,7 @@ scandir(const char *dirname, struct dirent ***namelist,
 		 */
 		if (nitems >= arraysz) {
 			struct dirent **nnames;
-			
+
 			if (fstat(dirp->dd_fd, &stb) < 0)
 				goto fail;
 
@@ -119,7 +119,7 @@ scandir(const char *dirname, struct dirent ***namelist,
 		p->d_type = d->d_type;
 		p->d_reclen = d->d_reclen;
 		p->d_namlen = d->d_namlen;
-		bcopy(d->d_name, p->d_name, p->d_namlen + 1);
+		memmove(p->d_name, d->d_name, p->d_namlen + 1);
 		names[nitems++] = p;
 	}
 	closedir(dirp);

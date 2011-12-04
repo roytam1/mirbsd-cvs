@@ -1,6 +1,12 @@
-/*	$NetBSD: crtbegin.c,v 1.26 2004/08/28 00:19:22 thorpej Exp $	*/
+/* $MirOS$
+ * derived from the following files:
+ * $NetBSD: crtbegin.c,v 1.26 2004/08/28 00:19:22 thorpej Exp $
+ * $OpenBSD: crtbegin.c,v 1.10 2004/10/10 18:29:15 kettenis Exp $
+ */
 
 /*-
+ * Copyright (c) 2003, 2004, 2004
+ *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
  * Copyright (c) 1998, 2001, 2002 The NetBSD Foundation, Inc.
  * All rights reserved.
  *
@@ -36,9 +42,17 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include <sys/param.h>
+#include <sys/exec.h>
+#include <sys/exec_elf.h>
+#include <stdlib.h>
+
+#include "dot_init.h"
+
+__RCSID("$MirOS$");
+
 /*
- * Run-time module which handles constructors and destructors,
- * and NetBSD identification.
+ * Run-time module which handles constructors and destructors.
  *
  * The linker constructs the following arrays of pointers to global
  * constructors and destructors. The first element contains the
@@ -46,11 +60,6 @@
  * code should figure out how many there are.  The tables are also
  * null-terminated.
  */
-
-#include <sys/param.h>
-#include <sys/exec.h>
-#include <sys/exec_elf.h>
-#include <stdlib.h>
 
 /*
  * WE SHOULD BE USING GCC-SUPPLIED crtbegin.o FOR GCC 3.3 AND
@@ -66,18 +75,22 @@
 #define	USED_NOINLINE __attribute__((__unused__))
 #endif
 
-#ifdef DWARF2_EH
-#include "dwarf2_eh.h"
-#endif
-#include "dot_init.h"
 
 static void (*__CTOR_LIST__[1])(void)
     __attribute__((section(".ctors"))) = { (void *)-1 };	/* XXX */
 static void (*__DTOR_LIST__[1])(void)
     __attribute__((section(".dtors"))) = { (void *)-1 };	/* XXX */
 
-#ifdef DWARF2_EH
-static __EH_FRAME_CONST char __EH_FRAME_BEGIN__[]
+#ifdef	DWARF2_EH
+struct dwarf2_eh_object {
+	void *space[8];
+};
+
+extern void __register_frame_info(const void *,
+    struct dwarf2_eh_object *) __attribute__((weak));
+extern void __deregister_frame_info(const void *) __attribute__((weak));
+
+static const char __EH_FRAME_BEGIN__[]
     __attribute__((section(".eh_frame"), aligned(4))) = { };
 #endif
 
@@ -175,7 +188,7 @@ __do_global_ctors_aux(void)
 		/*
 		 * Call global constructors.
 		 */
-		__ctors();
+		(__ctors)();
 	}
 }
 MD_CALL_STATIC_FUNCTION(.init, __do_global_ctors_aux)
@@ -183,7 +196,7 @@ MD_CALL_STATIC_FUNCTION(.init, __do_global_ctors_aux)
 static void USED_NOINLINE
 __do_global_dtors_aux(void)
 {
-	static int finished;
+	static int finished = 0;
 
 	if (finished)
 		return;
@@ -199,7 +212,7 @@ __do_global_dtors_aux(void)
 	/*
 	 * Call global destructors.
 	 */
-	__dtors();
+	(__dtors)();
 
 #ifdef DWARF2_EH
 #if defined(__GNUC__)

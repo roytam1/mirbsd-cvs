@@ -1,95 +1,89 @@
-#	$NetBSD: Makefile.inc,v 1.25 2004/08/28 00:18:38 thorpej Exp $
+# $MirOS$
+# $NetBSD: Makefile.inc,v 1.23 2003/03/19 16:54:25 ross Exp $
 
 .include <bsd.own.mk>
 
-.if !defined(ELFSIZE)
-ELFSIZE=32
+.if !defined(ELFSIZE) || empty(ELFSIZE)
+ELFSIZE=	32
 .endif
 
-.include "../../Makefile.inc"
-
-CPPFLAGS+=	-DLIBC_SCCS -DPIC -DDYNAMIC -DELFSIZE=${ELFSIZE}
-CPPFLAGS+=	-I${NETBSDSRCDIR}/libexec/ld.elf_so
+CFLAGS+=	-fno-omit-frame-pointer -fno-stack-protector
 CPPFLAGS+=	-I${.CURDIR}/../common_elf
-CPPFLAGS+=	-I${NETBSDSRCDIR}/lib/libc/dlfcn
+CPPFLAGS+=	-DELFSIZE=${ELFSIZE}
+#CPPFLAGS+=	-DDYNAMIC -I${BSDSRCDIR}/libexec/ld.so
+#CPPFLAGS+=	-I${BSDSRCDIR}/lib/libc/dlfcn
 CPPFLAGS+=	-DDWARF2_EH
-CPPFLAGS+=	-DJCR
-CPPFLAGS+=	-DDSO_HANDLE
+#CPPFLAGS+=	-DJCR
+#CPPFLAGS+=	-DDSO_HANDLE
+SHARED_FLAGS+=	-DSHARED -DPIC ${PICFLAG}
 
 .PATH:		${.CURDIR}/../common_elf
 
-SRCS+=		crt0.c crti.c crtn.c
-OBJS+=		crt0.o gcrt0.o crti.o crtn.o
-.if ${MKPIC} != "no"
-COPTS+=		-fPIC
+SRCS+=		crt0.c crti.c
+OBJS+=		crt0.o crti.o
+# if profiling
+#OBJS+=		gcrt0.o
+.ifndef __NO_CRTN
+SRCS+=		crtn.c
+OBJS+=		crtn.o
 .endif
 
-# We supply crtbegin / crtend *ONLY* if using the old in-tree GCC 2.95.3!
-# In all other cases (including use of an external toolchain), these will
-# be provided by that toolchain's run-time support.
-.if ${USE_TOOLS_TOOLCHAIN} == "yes" && !defined(EXTERNAL_TOOLCHAIN)
+# If using an external toolchain, we expect crtbegin/crtend to be
+# supplied by that toolchain's run-time support.
+GCC3_EXT_TOOLCHAIN?=no
+.if ${GCC3_EXT_TOOLCHAIN:L} != "yes"
 SRCS+=		crtbegin.c crtend.c
 OBJS+=		crtbegin.o crtend.o
-.if ${MKPIC} != "no"
-SRCS+=		crtbeginS.c crtendS.c
+.  if !defined(NOPIC) || ${NOPIC:L} == "no"
 OBJS+=		crtbeginS.o crtendS.o
-.endif
+.  endif
 .endif
 
-realall: ${OBJS}
+all: ${OBJS}
 
 crt0.o: crt0.c
-	@echo "${COMPILE.c} -DCRT0 ${.IMPSRC} -o ${.TARGET}"
-	@${COMPILE.c} -DCRT0 ${.IMPSRC} -o ${.TARGET}.o
-	@${LD} -x -r -o ${.TARGET} ${.TARGET}.o
+	${COMPILE.c} -DCRT0 ${.IMPSRC} -o ${.TARGET}.o
+	${LD} -x -r -o ${.TARGET} ${.TARGET}.o
 	@rm -f ${.TARGET}.o
 
-# dependant on crt0.o to pick up header dependencies
-gcrt0.o: ${.CURDIR}/crt0.c crt0.o
-	@echo "${COMPILE.c} -DMCRT0 ${.CURDIR}/crt0.c -o ${.TARGET}"
-	@${COMPILE.c} -DMCRT0 ${.CURDIR}/crt0.c -o ${.TARGET}.o
-	@${LD} -x -r -o ${.TARGET} ${.TARGET}.o
+gcrt0.o: crt0.c
+	${COMPILE.c} -DMCRT0 ${.ALLSRC} -o ${.TARGET}.o
+	${LD} -x -r -o ${.TARGET} ${.TARGET}.o
 	@rm -f ${.TARGET}.o
 
 crti.o: crti.c
-	@echo "${COMPILE.c} ${.IMPSRC} -o ${.TARGET}"
-	@${COMPILE.c} ${.IMPSRC} -o ${.TARGET}.o
-	@${LD} -X -r -o ${.TARGET} ${.TARGET}.o
+	# Don't reorder top-level statements and blocks
+	${COMPILE.c} ${.IMPSRC} -o ${.TARGET}.o -fno-unit-at-a-time
+	${LD} -X -r -o ${.TARGET} ${.TARGET}.o
 	@rm -f ${.TARGET}.o
 
 crtn.o: crtn.c
-	@echo "${COMPILE.c} ${.IMPSRC} -o ${.TARGET}"
-	@${COMPILE.c} ${.IMPSRC} -o ${.TARGET}.o
-	@${LD} -X -r -o ${.TARGET} ${.TARGET}.o
+	${COMPILE.c} ${.IMPSRC} -o ${.TARGET}.o
+	${LD} -X -r -o ${.TARGET} ${.TARGET}.o
 	@rm -f ${.TARGET}.o
 
-.if ${USE_TOOLS_TOOLCHAIN} == "yes" && !defined(EXTERNAL_TOOLCHAIN)
 crtbegin.o: crtbegin.c
-	@echo "${COMPILE.c} ${.IMPSRC} -o ${.TARGET}"
-	@${COMPILE.c} ${.IMPSRC} -o ${.TARGET}.o
-	@${LD} -X -r -o ${.TARGET} ${.TARGET}.o
+	${COMPILE.c} ${.IMPSRC} -o ${.TARGET}.o
+	${LD} -X -r -o ${.TARGET} ${.TARGET}.o
 	@rm -f ${.TARGET}.o
 
-crtbeginS.o: crtbeginS.c
-	@echo "${COMPILE.c} -DSHARED ${.IMPSRC} -o ${.TARGET}"
-	@${COMPILE.c} -DSHARED ${.IMPSRC} -o ${.TARGET}.o
-	@${LD} -X -r -o ${.TARGET} ${.TARGET}.o
+crtbeginS.o: crtbegin.c
+	${COMPILE.c} ${SHARED_FLAGS} ${.ALLSRC} -o ${.TARGET}.o
+	${LD} -X -r -o ${.TARGET} ${.TARGET}.o
 	@rm -f ${.TARGET}.o
 
 crtend.o: crtend.c
-	@echo "${COMPILE.c} ${.IMPSRC} -o ${.TARGET}"
-	@${COMPILE.c} ${.IMPSRC} -o ${.TARGET}.o
-	@${LD} -X -r -o ${.TARGET} ${.TARGET}.o
+	${COMPILE.c} ${.IMPSRC} -o ${.TARGET}.o
+	${LD} -X -r -o ${.TARGET} ${.TARGET}.o
 	@rm -f ${.TARGET}.o
 
-crtendS.o: crtendS.c
-	@echo "${COMPILE.c} -DSHARED ${.IMPSRC} -o ${.TARGET}"
-	@${COMPILE.c} -DSHARED ${.IMPSRC} -o ${.TARGET}.o
-	@${LD} -X -r -o ${.TARGET} ${.TARGET}.o
+crtendS.o: crtend.c
+	${COMPILE.c} ${SHARED_FLAGS} ${.ALLSRC} -o ${.TARGET}.o
+	${LD} -X -r -o ${.TARGET} ${.TARGET}.o
 	@rm -f ${.TARGET}.o
-.endif	# USE_TOOLS_TOOLCHAIN == "yes" && ! EXTERNAL_TOOLCHAIN
 
-FILES=${OBJS}
-FILESDIR=${LIBDIR}
+realinstall:
+	${INSTALL} ${INSTALL_COPY} -o ${BINOWN} -g ${BINGRP} \
+	    -m ${NONBINMODE} ${OBJS} ${DESTDIR}/usr/lib/
 
 .include <bsd.prog.mk>

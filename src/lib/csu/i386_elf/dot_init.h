@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /* $NetBSD: dot_init.h,v 1.3 2002/11/22 06:45:00 thorpej Exp $ */
 
 /*-
@@ -46,21 +47,19 @@
 #define	INIT_FALLTHRU()	init_fallthru()
 #define	FINI_FALLTHRU()	fini_fallthru()
 
-#define	MD_SECTION_PROLOGUE(sect, entry_pt)		\
-		__asm (					\
-		".section "#sect",\"ax\",@progbits	\n"\
-		#entry_pt":				\n"\
-		"	.align	16			\n"\
-		"	/* fall thru */			\n"\
-		".previous")
+#define	MD_SECTION_PROLOGUE(sect, entry_pt)			\
+	__asm__(".section " __STRING(sect) ",\"ax\",@progbits"	\
+	"\n" __STRING(entry_pt) ":"				\
+	"\n	.balign 16"					\
+	"\n	/* fall thru */"				\
+	"\n	.previous")
 
-		/* placement of the .align _after_ the label is intentional */
+	/* placement of the .align _after_ the label is intentional */
 
-#define	MD_SECTION_EPILOGUE(sect)			\
-		__asm (					\
-		".section "#sect",\"ax\",@progbits	\n"\
-		"	ret				\n"\
-		".previous")
+#define	MD_SECTION_EPILOGUE(sect)				\
+	__asm__(".section " __STRING(sect) ",\"ax\",@progbits"	\
+	"\n	ret"						\
+	"\n	.previous")
 
 #define	MD_INIT_SECTION_PROLOGUE MD_SECTION_PROLOGUE(.init, init_fallthru)
 #define	MD_FINI_SECTION_PROLOGUE MD_SECTION_PROLOGUE(.fini, fini_fallthru)
@@ -68,5 +67,9 @@
 #define	MD_INIT_SECTION_EPILOGUE MD_SECTION_EPILOGUE(.init)
 #define	MD_FINI_SECTION_EPILOGUE MD_SECTION_EPILOGUE(.fini)
 
-#define MD_CALL_STATIC_FUNCTION(section, func) \
-asm(".section " #section "; call " #func "; .previous");
+#define MD_CALL_STATIC_FUNCTION(section, func)	\
+	__asm__(".section " __STRING(section)	\
+	"\n	call " __STRING(func)		\
+	"\n	.previous");
+
+__RCSID("$MirOS$");

@@ -1,5 +1,7 @@
 #include <cdk_int.h>
 
+__RCSID("$MirOS$");
+
 /*
  * $Author$
  * $Date$
@@ -39,6 +41,8 @@ CDKSCROLL *newCDKScroll (CDKSCREEN *cdkscreen, int xplace, int yplace, int splac
 		{ 'g',		KEY_HOME },
 		{ '1',		KEY_HOME },
 		{ 'G',		KEY_END },
+		{ '<',		KEY_HOME },
+		{ '>',		KEY_END },
    };
 
    if (listSize <= 0

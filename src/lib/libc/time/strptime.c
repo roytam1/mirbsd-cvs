@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$NetBSD: strptime.c,v 1.12 1998/01/20 21:39:40 mycroft Exp $	*/
 
 /*-
@@ -35,10 +36,11 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#if defined(LIBC_SCCS) && !defined(lint)
+#if 0
 static char rcsid[] = "$OpenBSD: strptime.c,v 1.10 2004/09/15 19:01:58 deraadt Exp $";
 #endif /* LIBC_SCCS and not lint */
 
+#include <sys/cdefs.h>
 #include <sys/localedef.h>
 #include <ctype.h>
 #include <locale.h>
@@ -46,7 +48,9 @@ static char rcsid[] = "$OpenBSD: strptime.c,v 1.10 2004/09/15 19:01:58 deraadt E
 #include <time.h>
 #include <tzfile.h>
 
-#define	_ctloc(x)		(_CurrentTimeLocale->x)
+__RCSID("$MirOS$");
+
+#define	_ctloc(x)		(_DefaultTimeLocale.x)
 
 /*
  * We do not implement alternate representations. However, we always
@@ -94,7 +98,7 @@ _strptime(const char *buf, const char *fmt, struct tm *tm, int initialize)
 			fmt++;
 			continue;
 		}
-				
+
 		if ((c = *fmt++) != '%')
 			goto literal;
 
@@ -120,7 +124,7 @@ literal:
 			_LEGAL_ALT(0);
 			alt_format |= _ALT_O;
 			goto again;
-			
+
 		/*
 		 * "Complex" conversion rules, implemented through recursion.
 		 */
@@ -135,7 +139,7 @@ literal:
 			if (!(bp = _strptime(bp, "%m/%d/%y", tm, 0)))
 				return (NULL);
 			break;
-	
+
 		case 'R':	/* The time as "%H:%M". */
 			_LEGAL_ALT(0);
 			if (!(bp = _strptime(bp, "%H:%M", tm, 0)))

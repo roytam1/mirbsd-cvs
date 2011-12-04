@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /* Copyright (c) 1998, 1999 Thai Open Source Software Center Ltd
    See the file COPYING for copying permission.
 */
@@ -766,6 +768,7 @@ tmain(int argc, XML_Char **argv)
       XML_SetProcessingInstructionHandler(parser, nopProcessingInstruction);
     }
     else if (outputDir) {
+      size_t nlen;
       const XML_Char *file = useStdin ? T("STDIN") : argv[i];
       if (tcsrchr(file, T('/')))
         file = tcsrchr(file, T('/')) + 1;
@@ -773,11 +776,11 @@ tmain(int argc, XML_Char **argv)
       if (tcsrchr(file, T('\\')))
         file = tcsrchr(file, T('\\')) + 1;
 #endif
-      outName = malloc((tcslen(outputDir) + tcslen(file) + 2)
-                       * sizeof(XML_Char));
-      tcscpy(outName, outputDir);
-      tcscat(outName, T("/"));
-      tcscat(outName, file);
+      nlen = (tcslen(outputDir) + tcslen(file) + 2) * sizeof(XML_Char);
+      outName = malloc(nlen);
+      tcscpy(outName, outputDir, nlen);
+      tcscat(outName, T("/"), nlen);
+      tcscat(outName, file, nlen);
       fp = tfopen(outName, T("wb"));
       if (!fp) {
         tperror(outName);

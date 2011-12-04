@@ -1179,8 +1179,8 @@ png_do_read_transformations(png_structp png_ptr)
 #if !defined(PNG_NO_STDIO) && !defined(_WIN32_WCE)
       char msg[50];
 
-      sprintf(msg, "NULL row buffer for row %ld, pass %d", png_ptr->row_number,
-         png_ptr->pass);
+      snprintf(msg, 50, "NULL row buffer for row %ld, pass %d",
+	 (long)png_ptr->row_number, (int)png_ptr->pass);
       png_error(png_ptr, msg);
 #else
       png_error(png_ptr, "NULL row buffer");

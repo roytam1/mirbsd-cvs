@@ -197,8 +197,8 @@ getent(char **cap, u_int *len, char **db_array, int fd,
 	const char *name, int depth, char *nfield)
 {
 	DB *capdbp;
-	char *r_end, *rp, **db_p;
-	int myfd, eof, foundit, opened, retval, clen;
+	char *r_end, *rp = NULL, **db_p;
+	int myfd = 0, eof, foundit, opened, retval, clen;
 	char *record, *cbuf;
 	int tc_not_resolved;
 	char pbuf[PATH_MAX];

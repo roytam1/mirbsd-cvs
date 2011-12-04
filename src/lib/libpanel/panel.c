@@ -1,3 +1,4 @@
+/**	$MirOS$	*/
 /*	$OpenBSD: panel.c,v 1.9 2001/02/28 22:58:53 millert Exp $	*/
 
 /****************************************************************************
@@ -47,7 +48,7 @@ _nc_my_visbuf (const void *ptr)
 	if (ptr != 0)
 		snprintf(temp, sizeof(temp), "ptr:%p", ptr);
 	else
-		strcpy(temp, "<null>");
+		strlcpy(temp, "<null>", 32);
 	return _nc_visbuf(temp);
 }
 #endif
@@ -59,7 +60,7 @@ _nc_my_visbuf (const void *ptr)
 --------------------------------------------------------------------------*/
 #ifdef TRACE
 NCURSES_EXPORT(void)
-_nc_dPanel 
+_nc_dPanel
 (const char *text, const PANEL *pan)
 {
 	_tracef("%s id=%s b=%s a=%s y=%d x=%d",
@@ -75,7 +76,7 @@ _nc_dPanel
 --------------------------------------------------------------------------*/
 #ifdef TRACE
 NCURSES_EXPORT(void)
-_nc_dStack 
+_nc_dStack
 (const char *fmt, int num, const PANEL *pan)
 {
   char s80[80];
@@ -124,7 +125,7 @@ _nc_Touchpan (const PANEL *pan)
 --------------------------------------------------------------------------*/
 #ifdef TRACE
 NCURSES_EXPORT(void)
-_nc_Touchline 
+_nc_Touchline
 (const PANEL *pan, int start, int count)
 {
   char s80[80];

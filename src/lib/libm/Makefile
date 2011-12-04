@@ -1,3 +1,4 @@
+#  $MirOS$
 #  $NetBSD: Makefile,v 1.28 1995/11/20 22:06:19 jtc Exp $
 #  $OpenBSD: Makefile,v 1.34 2004/04/06 00:21:18 brad Exp $
 #
@@ -42,19 +43,12 @@
 #					    default standard
 # 
 
-# For NOPROFILE and NOPIC
+# For NOPIC
 .include <bsd.own.mk>
 
-CFLAGS+= -D__LIBM_PRIVATE -D_USE_WRITE
+CPPFLAGS+= -D__LIBM_PRIVATE -D_USE_WRITE
 
-.if (${MACHINE_ARCH} == "sparc")
-CFLAGS+= -O0
-.endif
-
-.if (${MACHINE_ARCH} == "alpha")
-.PATH:	${.CURDIR}/arch/alpha
-ARCH_SRCS = s_copysign.S s_copysignf.S
-.elif (${MACHINE_ARCH} == "i386")
+.if (${MACHINE_ARCH} == "i386")
 .PATH:	${.CURDIR}/arch/i387
 ARCH_SRCS = e_acos.S e_asin.S e_atan2.S e_exp.S e_fmod.S e_log.S e_log10.S \
 	    e_remainder.S e_remainderf.S e_scalb.S e_sqrt.S e_sqrtf.S \
@@ -63,42 +57,18 @@ ARCH_SRCS = e_acos.S e_asin.S e_atan2.S e_exp.S e_fmod.S e_log.S e_log10.S \
 	    s_ilogb.S s_ilogbf.S s_log1p.S s_log1pf.S s_logb.S s_logbf.S \
 	    s_rint.S s_rintf.S s_scalbn.S s_scalbnf.S s_significand.S \
 	    s_significandf.S s_sin.S s_sinf.S s_tan.S s_tanf.S
-.elif (${MACHINE_ARCH} == "amd64")
-.PATH:	${.CURDIR}/arch/amd64
-CPPFLAGS+=-I${.CURDIR}/arch/amd64
-ARCH_SRCS = e_acos.S e_asin.S e_atan2.S e_exp.S e_fmod.S e_log.S e_log10.S \
-	    e_remainder.S e_remainderf.S e_scalb.S e_sqrt.S e_sqrtf.S \
-	    s_atan.S s_atanf.S s_ceil.S s_ceilf.S s_copysign.S s_copysignf.S \
-	    s_cos.S s_cosf.S s_finite.S s_finitef.S s_floor.S s_floorf.S \
-	    s_ilogb.S s_ilogbf.S s_log1p.S s_log1pf.S s_logb.S s_logbf.S \
-	    s_rint.S s_rintf.S s_scalbn.S s_scalbnf.S s_significand.S \
-	    s_significandf.S s_sin.S s_sinf.S s_tan.S s_tanf.S
-.elif (${MACHINE_ARCH} == "m68k")
-.PATH:	${.CURDIR}/arch/mc68881
-ARCH_SRCS = e_acos.S e_asin.S e_atanh.S e_cosh.S e_exp.S e_log.S e_log10.S \
-	    e_remainder.S e_scalb.S e_sinh.S e_sqrt.S s_atan.S s_ceil.S \
-	    s_copysign.S s_cos.S s_expm1.S s_finite.S s_floor.S s_log1p.S \
-	    s_logb.S s_rint.S s_scalbn.S s_sin.S s_tan.S s_tanh.S
-.elif (${MACHINE_ARCH} == "hppa")
-.PATH:	${.CURDIR}/arch/hppa
-ARCH_SRCS = e_sqrt.c e_sqrtf.c e_remainder.c e_remainderf.c \
-	    s_ceil.c s_ceilf.c s_floor.c s_floorf.c s_rint.c s_rintf.c
-.elif (${MACHINE_ARCH} == "vax")
-.PATH:	${.CURDIR}/arch/vax
-NOIEEE_ARCH=n_infnan.S n_argred.S n_sqrt.S
-ARCH_SRCS = n_atan2.S n_cabs.S n_cbrt.S n_sincos.S n_tan.S n_support.S 
 .endif
 
 .PATH:	${.CURDIR}/man
 .PATH:	${.CURDIR}/src
-.PATH:	${.CURDIR}/noieee_src
 
-.if (${MACHINE_ARCH} != "vax")
-CFLAGS+= -D_MULTI_LIBM -D_POSIX_MODE
-.endif
+CPPFLAGS+= -D_MULTI_LIBM -D_POSIX_MODE
 
+CFLAGS+= -std=c89
+
+SHLIB_VERSION?=	3.0
 LIB=	m
-COMMON_SRCS = e_acos.c e_acosf.c e_acosh.c e_acoshf.c e_asin.c e_asinf.c \
+SRCS+=	e_acos.c e_acosf.c e_acosh.c e_acoshf.c e_asin.c e_asinf.c \
 	e_atan2.c e_atan2f.c e_atanh.c e_atanhf.c e_cosh.c e_coshf.c e_exp.c \
 	e_expf.c e_fmod.c e_fmodf.c e_hypot.c e_hypotf.c e_j0.c e_j0f.c \
 	e_j1.c e_j1f.c e_jn.c e_jnf.c e_lgamma_r.c e_lgammaf_r.c e_log.c \
@@ -125,35 +95,11 @@ COMMON_SRCS = e_acos.c e_acosf.c e_acosh.c e_acoshf.c e_asin.c e_asinf.c \
 	w_pow.c w_powf.c w_remainder.c w_remainderf.c w_scalb.c w_scalbf.c \
 	w_sinh.c w_sinhf.c w_sqrt.c w_sqrtf.c
 
-# math routines for non-IEEE architectures.
-NOIEEE_SRCS = n_asincos.c n_acosh.c n_asinh.c n_atan.c n_atanh.c n_cosh.c \
-	n_erf.c n_exp.c n_exp__E.c n_expm1.c n_floor.c n_fmod.c n_gamma.c \
-	n_lgamma.c n_j0.c n_j1.c n_jn.c n_log.c n_log10.c n_log1p.c \
-	n_log__L.c n_pow.c n_sinh.c n_tanh.c n_atan2.c n_cabs.c n_cbrt.c \
-	n_sqrt.c n_sincos.c n_tan.c n_argred.c n_support.c n_infnan.c
-        
-
-# NetBSD's C library supplies these functions:
-#COMMON_SRCS+=	s_fabs.c s_frexp.c s_isinf.c s_isnan.c s_ldexp.c s_modf.c
-
-.if (${MACHINE_ARCH} == "vax")
-SRCS=	${NOIEEE_SRCS} ${NOIEEE_ARCH}
-.else
-SRCS=	${COMMON_SRCS}
-.endif
-
 # Substitute common sources with any arch specific sources 
 .for i in ${ARCH_SRCS}
     SRCS:=${SRCS:S/${i:S/.S/.c/}/$i/}
     LSRCS+=${i:S/.S/.c/}
 .endfor
-
-.if (${MACHINE_ARCH} == "vax")
-.for i in ${NOIEEE_ARCH}
-    SRCS:=${SRCS:S/${i:S/.S/.c/}/$i/}
-    LSRCS+=${i:S/.S/.c/}
-.endfor
-.endif
 
 MAN+=	acos.3 acosh.3 asin.3 asinh.3 atan.3 atan2.3 atanh.3 ceil.3 \
 	cos.3 cosh.3 erf.3 exp.3 fabs.3 floor.3 fmod.3 hypot.3 ieee.3 \
@@ -222,22 +168,5 @@ MLINKS+=sqrt.3 cbrtf.3
 MLINKS+=sqrt.3 sqrtf.3
 MLINKS+=tan.3 tanf.3
 MLINKS+=tanh.3 tanhf.3
-
-#.if (${MACHINE_ARCH} == "i386")
-#LINKS=	${LIBDIR}/libm.a ${LIBDIR}/libm_i387.a
-#.if !defined(NOPROFILE)
-#LINKS+=	${LIBDIR}/libm_p.a ${LIBDIR}/libm_i387_p.a
-#.endif
-#.if !defined(NOPIC)
-#LINKS+= ${LIBDIR}/libm.so.${SHLIB_MAJOR}.${SHLIB_MINOR} \
-#	${LIBDIR}/libm_i387.so.${SHLIB_MAJOR}.${SHLIB_MINOR}
-#LINKS+= ${LIBDIR}/libm_pic.a ${LIBDIR}/libm_i387_pic.a
-#.endif
-#.endif
-
-#e_acos.o: 
-#	cpp  -D__LIBM_PRIVATE -D_USE_WRITE -D_MULTI_LIBM -D_POSIX_MODE \
-#	/usr/src/lib/libm/arch/mc68881/e_acos.S |  as -o e_acos.o
-
 
 .include <bsd.lib.mk>

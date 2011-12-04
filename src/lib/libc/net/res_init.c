@@ -1,11 +1,10 @@
+/**	$MirOS$	*/
 /*	$OpenBSD: res_init.c,v 1.30 2004/06/07 21:11:23 marc Exp $	*/
 
 /*
- * ++Copyright++ 1985, 1989, 1993
- * -
  * Copyright (c) 1985, 1989, 1993
  *    The Regents of the University of California.  All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met:
@@ -47,14 +46,13 @@
  * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS
  * ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
  * SOFTWARE.
- * -
- * --Copyright--
  */
 
 #ifndef INET6
 #define INET6
 #endif
 
+#if 0
 #if defined(LIBC_SCCS) && !defined(lint)
 #if 0
 static char sccsid[] = "@(#)res_init.c	8.1 (Berkeley) 6/7/93";
@@ -63,8 +61,8 @@ static char rcsid[] = "$From: res_init.c,v 8.7 1996/09/28 06:51:07 vixie Exp $";
 static char rcsid[] = "$OpenBSD: res_init.c,v 1.30 2004/06/07 21:11:23 marc Exp $";
 #endif
 #endif /* LIBC_SCCS and not lint */
+#endif
 
-#include <sys/types.h>
 #include <sys/param.h>
 #include <sys/socket.h>
 #include <sys/time.h>
@@ -83,6 +81,8 @@ static char rcsid[] = "$OpenBSD: res_init.c,v 1.30 2004/06/07 21:11:23 marc Exp 
 #endif /* INET6 */
 
 #include "thread_private.h"
+
+__RCSID("$MirOS$");
 
 /*-------------------------------------- info about "sortlist" --------------
  * Marc Majka		1994/04/16
@@ -141,7 +141,7 @@ struct __res_state_ext _res_ext;
  * since it was noted that INADDR_ANY actually meant ``the first interface
  * you "ifconfig"'d at boot time'' and if this was a SLIP or PPP interface,
  * it had to be "up" in order for you to reach your own name server.  It
- * was later decided that since the recommended practice is to always 
+ * was later decided that since the recommended practice is to always
  * install local static routes through 127.0.0.1 for all your network
  * interfaces, that we could solve this problem without a code change.
  *
@@ -211,8 +211,8 @@ res_init()
 	_resp->nsaddr.sin_port = htons(NAMESERVER_PORT);
 	_resp->nsaddr.sin_len = sizeof(struct sockaddr_in);
 #ifdef INET6
-	if (sizeof(_res_extp->nsaddr) >= _resp->nsaddr.sin_len)
-		memcpy(&_res_extp->nsaddr, &_resp->nsaddr, _resp->nsaddr.sin_len);
+	if (sizeof(_res_extp->nsaddr) >= sizeof(struct sockaddr_in))
+		memcpy(&_res_extp->nsaddr, &_resp->nsaddr, sizeof(struct sockaddr_in));
 #endif
 	_resp->nscount = 1;
 	_resp->ndots = 1;
@@ -293,7 +293,7 @@ res_init()
 		if (MATCH(buf, "lookup")) {
 		    char *sp = NULL;
 
-		    bzero(_resp->lookups, sizeof _resp->lookups);
+		    memset(_resp->lookups, 0, sizeof _resp->lookups);
 		    cp = buf + sizeof("lookup") - 1;
 		    for (n = 0;; cp++) {
 		    	    if (n == MAXDNSLUS)
@@ -446,11 +446,11 @@ res_init()
 				if (inet_aton(net, &a)) {
 				    _resp->sort_list[nsort].mask = a.s_addr;
 				} else {
-				    _resp->sort_list[nsort].mask = 
+				    _resp->sort_list[nsort].mask =
 					net_mask(_resp->sort_list[nsort].addr);
 				}
 			    } else {
-				_resp->sort_list[nsort].mask = 
+				_resp->sort_list[nsort].mask =
 				    net_mask(_resp->sort_list[nsort].addr);
 			    }
 #ifdef INET6
@@ -515,7 +515,7 @@ res_init()
 		    continue;
 		}
 	    }
-	    if (nserv > 1) 
+	    if (nserv > 1)
 		_resp->nscount = nserv;
 #ifdef RESOLVSORT
 	    _resp->nsort = nsort;

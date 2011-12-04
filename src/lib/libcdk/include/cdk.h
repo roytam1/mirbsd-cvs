@@ -10,6 +10,9 @@ extern "C" {
 #endif
 
 /*
+ * Copyright (c) 2004, 2005
+ *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+ *
  * Changes 2000-2003,2004 copyright Thomas E. Dickey
  *
  * Copyright 1999, Mike Glover
@@ -44,8 +47,8 @@ extern "C" {
  * SUCH DAMAGE.
  */
 
-#include <cdk_config.h>
-#include <cdk_version.h>
+#include <cdk/cdk_config.h>
+#include <cdk/cdk_version.h>
 
 #ifdef	CDK_PERL_EXT
 #undef	instr
@@ -272,55 +275,55 @@ void stopCDKDebug (FILE *fd);
 /*
  * These header files define miscellaneous values and prototypes.
  */
-#include <cdkscreen.h>
-#include <curdefs.h>
-#include <binding.h>
-#include <cdk_util.h>
-#include <cdk_objs.h>
-#include <cdk_params.h>
+#include <cdk/cdkscreen.h>
+#include <cdk/curdefs.h>
+#include <cdk/binding.h>
+#include <cdk/cdk_util.h>
+#include <cdk/cdk_objs.h>
+#include <cdk/cdk_params.h>
 
 /*
  * Include the CDK widget header files.
  */
-#include <alphalist.h>
-#include <buttonbox.h>
-#include <calendar.h>
-#include <dialog.h>
-#include <entry.h>
-#include <fselect.h>
-#include <graph.h>
-#include <histogram.h>
-#include <itemlist.h>
-#include <label.h>
-#include <marquee.h>
-#include <matrix.h>
-#include <mentry.h>
-#include <menu.h>
-#include <radio.h>
-#include <scroll.h>
-#include <selection.h>
-#include <swindow.h>
-#include <template.h>
-#include <viewer.h>
-#include <traverse.h>
-#include <button.h>
+#include <cdk/alphalist.h>
+#include <cdk/buttonbox.h>
+#include <cdk/calendar.h>
+#include <cdk/dialog.h>
+#include <cdk/entry.h>
+#include <cdk/fselect.h>
+#include <cdk/graph.h>
+#include <cdk/histogram.h>
+#include <cdk/itemlist.h>
+#include <cdk/label.h>
+#include <cdk/marquee.h>
+#include <cdk/matrix.h>
+#include <cdk/mentry.h>
+#include <cdk/menu.h>
+#include <cdk/radio.h>
+#include <cdk/scroll.h>
+#include <cdk/selection.h>
+#include <cdk/swindow.h>
+#include <cdk/template.h>
+#include <cdk/viewer.h>
+#include <cdk/traverse.h>
+#include <cdk/button.h>
 
 /*
  * Generated headers:
  */
-#include <dscale.h>
-#include <fscale.h>
-#include <scale.h>
-#include <uscale.h>
+#include <cdk/dscale.h>
+#include <cdk/fscale.h>
+#include <cdk/scale.h>
+#include <cdk/uscale.h>
 
-#include <fslider.h>
-#include <slider.h>
-#include <uslider.h>
+#include <cdk/fslider.h>
+#include <cdk/slider.h>
+#include <cdk/uslider.h>
 
 /*
  * Low-level object drawing
  */
-#include <draw.h>
+#include <cdk/draw.h>
 
 #ifdef __cplusplus
 }

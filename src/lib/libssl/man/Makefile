@@ -1,11 +1,11 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.7 2004/02/09 18:31:19 espie Exp $
 
 .include <bsd.own.mk>		# for NOMAN
 
+POD2MAN=pod2man --official --release --center=OpenSSL
 
-POD2MAN=pod2man --official --release="OpenBSD ${OSREV}" --center=OpenSSL
-
-.ifndef NOMAN
+.if !defined(NOMAN) || ${NOMAN:L} == "no"
 MANALL=	\
 	BN_CTX_new.cat3 \
 	BN_CTX_start.cat3 \
@@ -177,6 +177,7 @@ MANALL=	\
 	dsa.cat3 \
 	lh_stats.cat3 \
 	lhash.cat3 \
+	openssltool.cat1 \
 	rsa.cat3 \
 	ssl.cat3
 
@@ -242,11 +243,11 @@ PSALL=	${MANALL:S/.cat1/.ps1/g:S/.cat2/.ps2/g:S/.cat3/.ps3/g:S/.cat4/.ps4/g:S/.c
 
 ${page}.cat3: ${src}.pod
 	${POD2MAN} --section=3 --name=${page:U} ${.ALLSRC} | \
-	    nroff -Tascii -mandoc > ${.TARGET}
+	    nroff -Tcol -mandoc | col >${.TARGET}
 .  if MANPS
 ${page}.ps3: ${src}.pod
 	${POD2MAN} --section=3 --name=${page:U} ${.ALLSRC} | \
-	    nroff -Tps -mandoc > ${.TARGET}
+	    nroff -Tps -mandoc >${.TARGET}
 .  endif
 .endfor
 
@@ -779,21 +780,43 @@ maninstall:
 .endif
 
 # XXX .PATH order is critical because of non-unique filenames
-.PATH: ${.CURDIR}/../src/doc/crypto ${.CURDIR}/../src/doc/ssl ${.CURDIR}/../src/doc/apps
+.PATH: ${.CURDIR}/../src/doc/apps ${.CURDIR}/../src/doc/crypto ${.CURDIR}/../src/doc/ssl
 .SUFFIXES: .pod
+
+openssltool.pm: openssl.pod asn1parse.pod ca.pod ciphers.pod config.pod crl.pod crl2pkcs7.pod dgst.pod dhparam.pod dsa.pod dsaparam.pod enc.pod gendsa.pod genrsa.pod nseq.pod ocsp.pod passwd.pod pkcs12.pod pkcs7.pod pkcs8.pod rand.pod req.pod rsa.pod rsautl.pod s_client.pod s_server.pod sess_id.pod smime.pod speed.pod spkac.pod verify.pod version.pod x509.pod
+	cat ${.ALLSRC} >${.TARGET}
+
+openssltool.cat1: openssltool.pm
+	${POD2MAN} --section=1 --name=OpenSSLtool ${.ALLSRC} | \
+	    nroff -Tcol -mandoc | col >${.TARGET}
+
+# XXX .PATH order is critical because of non-unique filenames
+.PATH: ${.CURDIR}/../src/doc/crypto ${.CURDIR}/../src/doc/ssl ${.CURDIR}/../src/doc/apps
+
 .for sect in 1 3 7
 
 .pod.cat${sect}:
 	${POD2MAN} --section=${sect} --name=${*:U} ${.ALLSRC} | \
-	    nroff -Tascii -mandoc > ${.TARGET}
+	    nroff -Tcol -mandoc | col >${.TARGET}
 
 .pod.ps${sect}:
 	${POD2MAN} --section=${sect} --name=${*:U} ${.ALLSRC} | \
-	    nroff -Tps -mandoc > ${.TARGET}
+	    nroff -Tps -mandoc >${.TARGET}
 .endfor
 
 .include <bsd.obj.mk>
 .include <bsd.subdir.mk>
+
+CLEANFILES+=\
+	BUF_MEM_new.pm \
+	CRYPTO_set_locking_callback.pm \
+	HMAC.pm \
+	RC4.pm \
+	RIPEMD160.pm \
+	openssltool.pm \
+	SHA1.pm \
+	des_random_key.pm \
+	MD5.pm
 
 clean cleandir:
 	rm -f ${CLEANFILES}

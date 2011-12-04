@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: stack_protector.c,v 1.7 2004/09/14 22:19:30 deraadt Exp $	*/
 
 /*
@@ -27,16 +28,18 @@
  *
  */
 
-#if defined(LIBC_SCCS) && !defined(list)
-static char rcsid[] = "$OpenBSD: stack_protector.c,v 1.7 2004/09/14 22:19:30 deraadt Exp $";
-#endif
-
 #include <sys/param.h>
 #include <sys/sysctl.h>
 #include <signal.h>
 #include <string.h>
 #include <syslog.h>
 #include <unistd.h>
+
+__RCSID("$MirOS$");
+
+#ifdef __SSP_ALL__
+#error "You must compile this file with -fno-stack-protector-all"
+#endif
 
 extern int __sysctl(int *, u_int, void *, size_t *, void *, size_t);
 
@@ -88,7 +91,7 @@ __stack_smash_handler(char func[], int damaged)
 	/* This may fail on a chroot jail... */
 	syslog_r(LOG_CRIT, &sdata, message, func);
 
-	bzero(&sa, sizeof(struct sigaction));
+	memset(&sa, 0, sizeof(struct sigaction));
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = 0;
 	sa.sa_handler = SIG_DFL;

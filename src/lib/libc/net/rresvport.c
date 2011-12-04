@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /*
  * Copyright (c) 1995, 1996, 1998 Theo de Raadt.  All rights reserved.
  * Copyright (c) 1983, 1993, 1994
@@ -70,7 +71,7 @@ rresvport_af(alport, af)
 	u_int16_t *portp;
 	int s;
 
-	bzero(&ss, sizeof ss);
+	memset(&ss, 0, sizeof ss);
 	sa = (struct sockaddr *)&ss;
 
 	switch (af) {
@@ -87,7 +88,7 @@ rresvport_af(alport, af)
 		return (-1);
 	}
 	sa->sa_family = af;
-	
+
 	s = socket(af, SOCK_STREAM, 0);
 	if (s < 0)
 		return (-1);

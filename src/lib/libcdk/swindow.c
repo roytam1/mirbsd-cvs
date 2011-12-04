@@ -1,5 +1,7 @@
 #include <cdk_int.h>
 
+__RCSID("$MirOS$");
+
 /*
  * $Author$
  * $Date$
@@ -593,11 +595,11 @@ static int _injectCDKSwindow (CDKOBJS *object, chtype input)
 		 swindow->leftChar = swindow->maxLeftChar + 1;
 		 break;
 
-	    case 'g' : case '1' :
+	    case 'g' : case '1' : case '<' :
 		 swindow->currentTop = 0;
 		 break;
 
-	    case 'G' :
+	    case 'G' : case '>' :
 		 swindow->currentTop = swindow->maxTopLine;
 		 break;
 

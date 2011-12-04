@@ -1,5 +1,7 @@
 #include <cdk_int.h>
 
+__RCSID("$MirOS$");
+
 /*
  * $Author$
  * $Date$
@@ -662,12 +664,12 @@ int activateCDKViewer (CDKVIEWER *viewer, chtype *actions GCC_UNUSED)
 		 REFRESH = TRUE;
 		 break;
 
-	    case 'g' : case '1' :
+	    case 'g' : case '1' : case '<' :
 		 viewer->currentTop = 0;
 		 REFRESH = TRUE;
 		 break;
 
-	    case 'G' :
+	    case 'G' : case '>' :
 		 viewer->currentTop = viewer->maxTopLine;
 		 REFRESH = TRUE;
 		 break;

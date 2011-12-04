@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: arc4random.c,v 1.10 2003/11/26 21:40:08 djm Exp $	*/
 
 /*
@@ -24,13 +25,14 @@
  * RC4 is a registered trademark of RSA Laboratories.
  */
 
-#include <fcntl.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <sys/types.h>
 #include <sys/param.h>
 #include <sys/time.h>
 #include <sys/sysctl.h>
+#include <fcntl.h>
+#include <stdlib.h>
+#include <unistd.h>
+
+__RCSID("$MirOS$");
 
 #ifdef __GNUC__
 #define inline __inline
@@ -160,23 +162,20 @@ arc4random(void)
 	return arc4_getword(&rs);
 }
 
-#if 0
-/*-------- Test code for i386 --------*/
-#include <stdio.h>
-#include <machine/pctr.h>
-int
-main(int argc, char **argv)
+void
+arc4random_push(int n)
 {
-	const int iter = 1000000;
-	int     i;
-	pctrval v;
+	int     i, mib[2];
+	size_t	len = sizeof(int);
 
-	v = rdtsc();
-	for (i = 0; i < iter; i++)
-		arc4random();
-	v = rdtsc() - v;
-	v /= iter;
+	mib[0] = CTL_KERN;
+	mib[1] = KERN_ARND;
 
-	printf("%qd cycles\n", v);
+	/* supply n to kernel and get back another random int */
+	if (!sysctl(mib, 2, &i, &len, &n, sizeof(int)))
+		/*
+		 * do not add the n, but rather the kernel-supplied
+		 * new random value to our local arc4 generator
+		 */
+		arc4_addrandom(&rs, (char *)&i, len);
 }
-#endif

@@ -1,4 +1,5 @@
-#!/bin/sh -
+#!/bin/ksh
+#	$MirOS$
 #	$OpenBSD: makelintstub.sh,v 1.4 2004/07/17 07:02:29 deraadt Exp $
 #	$NetBSD: makelintstub,v 1.2 1997/11/05 05:46:18 thorpej Exp $
 #
@@ -51,7 +52,6 @@ header()
 	#include <sys/stat.h>
 	#include <ufs/ufs/quota.h>
 	#include <ufs/ufs/inode.h>
-	#include <ufs/lfs/lfs.h>
 	#include <sys/resource.h>
 	#include <sys/poll.h>
 	#include <sys/uio.h>
@@ -64,7 +64,6 @@ header()
 	#include <sys/ktrace.h>
 	#include <sys/mman.h>
 	#include <sys/event.h>
-	#include <xfs/xfs_pioctl.h>
 	#include <sys/wait.h>
 	#include <stdio.h>
 	#undef DIRBLKSIZ
@@ -79,6 +78,9 @@ header()
 	#endif
 	#include <err.h>
 
+	/* LFS */
+	struct block_info;
+
 	__EOF__
 }
 
@@ -89,9 +91,9 @@ syscall_stub()
 	syscallname="$2"
 	funcname="$3"
 
-	arglist="`printf '#include "'"$syscallhdr"'"' | cpp -C | \
-    	grep '^/\* syscall: "'"$syscallname"'" ' | \
-    	sed -e 's,^/\* syscall: ,,;s, \*/$,,'`"
+	arglist="$(printf '#include "'"$syscallhdr"'"' | cpp -C | \
+	    grep '^/\* syscall: "'"$syscallname"'" ' | \
+	    sed -e 's,^/\* syscall: ,,;s, \*/$,,')"
 
 	eval set -f -- "$arglist"
 
@@ -110,7 +112,7 @@ syscall_stub()
 	$returntype
 	__EOF__
 
-	if [ "`eval echo -n \\$$#`" = "..." ]; then
+	if [[ `eval echo -n \\$$#` = ... ]]; then
 		varargs=YES
 		nargs=$(($# - 1))
 	else
@@ -150,7 +152,7 @@ trailer()
 	__EOF__
 }
 
-set -- `getopt no:ps: $*`
+set -- $(getopt no:ps: $*)
 
 pflag=NO
 nflag=NO
@@ -182,9 +184,9 @@ fi
 
 header
 for syscall; do
-	fnname=`echo $syscall | sed -e 's,\.o$,,'`
+	fnname=$(echo $syscall | sed -e 's,\.o$,,')
 	if [ $pflag = YES ]; then
-		scname=`echo $fnname | sed -e 's,^_,,'`
+		scname=$(echo $fnname | sed -e 's,^_,,')
 	else
 		scname=$fnname
 	fi

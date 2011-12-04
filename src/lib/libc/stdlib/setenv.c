@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /*
  * Copyright (c) 1987 Regents of the University of California.
  * All rights reserved.
@@ -81,7 +82,7 @@ setenv(name, value, rewrite)
 			    (cnt + 2)));
 			if (!P)
 				return (-1);
-			bcopy(environ, P, cnt * sizeof(char *));
+			memmove(P, environ, cnt * sizeof(char *));
 			environ = P;
 		}
 		environ[cnt + 1] = NULL;

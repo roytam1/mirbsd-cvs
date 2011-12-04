@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /* apps/s_client.c */
 /* Copyright (C) 1995-1998 Eric Young (eay@cryptsoft.com)
  * All rights reserved.
@@ -5,21 +7,21 @@
  * This package is an SSL implementation written
  * by Eric Young (eay@cryptsoft.com).
  * The implementation was written so as to conform with Netscapes SSL.
- * 
+ *
  * This library is free for commercial and non-commercial use as long as
  * the following conditions are aheared to.  The following conditions
  * apply to all code found in this distribution, be it the RC4, RSA,
  * lhash, DES, etc., code; not just the SSL code.  The SSL documentation
  * included with this distribution is covered by the same copyright terms
  * except that the holder is Tim Hudson (tjh@cryptsoft.com).
- * 
+ *
  * Copyright remains Eric Young's, and as such any Copyright notices in
  * the code are not to be removed.
  * If this package is used in a product, Eric Young should be given attribution
  * as the author of the parts of the library used.
  * This can be in the form of a textual message at program startup or
  * in documentation (online or textual) provided with the package.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met:
@@ -34,10 +36,10 @@
  *     Eric Young (eay@cryptsoft.com)"
  *    The word 'cryptographic' can be left out if the rouines from the library
  *    being used are not cryptographic related :-).
- * 4. If you include any Windows specific code (or a derivative thereof) from 
+ * 4. If you include any Windows specific code (or a derivative thereof) from
  *    the apps directory (application code) you must include an acknowledgement:
  *    "This product includes software written by Tim Hudson (tjh@cryptsoft.com)"
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY ERIC YOUNG ``AS IS'' AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -49,7 +51,7 @@
  * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
- * 
+ *
  * The licence and distribution terms for any publically available version or
  * derivative of this code cannot be changed.  i.e. this code cannot simply be
  * copied and put under another distribution licence
@@ -63,7 +65,7 @@
  * are met:
  *
  * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer. 
+ *    notice, this list of conditions and the following disclaimer.
  *
  * 2. Redistributions in binary form must reproduce the above copyright
  *    notice, this list of conditions and the following disclaimer in
@@ -119,6 +121,8 @@
 #ifdef OPENSSL_NO_STDIO
 #define APPS_WIN16
 #endif
+
+__RCSID("$MirOS$");
 
 /* With IPv6, it looks like Digital has mixed up the proper order of
    recursive header file inclusion, resulting in the compiler complaining
@@ -221,7 +225,7 @@ static void sc_usage(void)
 	BIO_printf(bio_err," -starttls prot - use the STARTTLS command before starting TLS\n");
 	BIO_printf(bio_err,"                 for those protocols that support it, where\n");
 	BIO_printf(bio_err,"                 'prot' defines which one to assume.  Currently,\n");
-	BIO_printf(bio_err,"                 only \"smtp\" and \"pop3\" are supported.\n");
+	BIO_printf(bio_err,"                 only \"smtp\", \"esmtp\" and \"pop3\" are supported.\n");
 #ifndef OPENSSL_NO_ENGINE
 	BIO_printf(bio_err," -engine id    - Initialise and use the specified engine\n");
 #endif
@@ -418,6 +422,8 @@ int MAIN(int argc, char **argv)
 				starttls_proto = 1;
 			else if (strcmp(*argv,"pop3") == 0)
 				starttls_proto = 2;
+			else if (strcmp(*argv,"esmtp") == 0)
+				starttls_proto = 0x1001;
 			else
 				goto bad;
 			}
@@ -549,7 +555,7 @@ re_start:
 			goto end;
 			}
 		}
-#endif                                              
+#endif
 	if (c_Pause & 0x01) con->debug=1;
 	sbio=BIO_new_socket(s,BIO_NOCLOSE);
 
@@ -584,7 +590,7 @@ re_start:
 	tty_on=0;
 	read_ssl=1;
 	write_ssl=1;
-	
+
 	cbuf_len=0;
 	cbuf_off=0;
 	sbuf_len=0;
@@ -601,6 +607,14 @@ re_start:
 		{
 		BIO_read(sbio,mbuf,BUFSIZZ);
 		BIO_printf(sbio,"STLS\r\n");
+		BIO_read(sbio,sbuf,BUFSIZZ);
+		}
+	if (starttls_proto == 0x1001)
+		{
+		BIO_read(sbio,mbuf,BUFSIZZ);
+		BIO_printf(sbio,"EHLO openssl\r\n");
+		BIO_read(sbio,sbuf,BUFSIZZ);
+		BIO_printf(sbio,"STARTTLS\r\n");
 		BIO_read(sbio,sbuf,BUFSIZZ);
 		}
 
@@ -757,7 +771,7 @@ re_start:
 					write_ssl=0;
 					break;
 					}
-				
+
 			case SSL_ERROR_SYSCALL:
 				if ((k != 0) || (cbuf_len != 0))
 					{
@@ -813,7 +827,7 @@ re_start:
 #else
 /* Demo for pending and peek :-) */
 			k=SSL_read(con,sbuf,16);
-{ char zbuf[10240]; 
+{ char zbuf[10240];
 printf("read=%d pending=%d peek=%d\n",k,SSL_pending(con),SSL_peek(con,zbuf,10240));
 }
 #endif
@@ -1059,4 +1073,3 @@ static void print_stuff(BIO *bio, SSL *s, int full)
 	/* flush, or debugging output gets mixed with http response */
 	BIO_flush(bio);
 	}
-

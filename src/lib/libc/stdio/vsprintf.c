@@ -30,17 +30,17 @@
  * SUCH DAMAGE.
  */
 
-#if defined(LIBC_SCCS) && !defined(lint)
+#if 0
 static char rcsid[] = "$OpenBSD: vsprintf.c,v 1.9 2004/09/28 18:12:44 otto Exp $";
 #endif /* LIBC_SCCS and not lint */
 
 #include <stdio.h>
 #include <limits.h>
 
-#if defined(APIWARN)
+__RCSID("$MirOS$");
+
 __warn_references(vsprintf,
     "warning: vsprintf() is often misused, please use vsnprintf()");
-#endif
 
 int
 vsprintf(char *str, const char *fmt, _BSD_VA_LIST_ ap)

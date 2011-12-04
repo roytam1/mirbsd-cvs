@@ -1,3 +1,4 @@
+/**	$MirOS$	*/
 /*	$OpenBSD: logout.c,v 1.6 2003/06/02 20:18:42 millert Exp $	*/
 /*
  * Copyright (c) 1988, 1993
@@ -59,8 +60,8 @@ logout(line)
 	while (read(fd, &ut, sizeof(UTMP)) == sizeof(UTMP)) {
 		if (!ut.ut_name[0] || strncmp(ut.ut_line, line, UT_LINESIZE))
 			continue;
-		bzero(ut.ut_name, UT_NAMESIZE);
-		bzero(ut.ut_host, UT_HOSTSIZE);
+		memset(ut.ut_name, 0, UT_NAMESIZE);
+		memset(ut.ut_host, 0, UT_HOSTSIZE);
 		(void)time(&ut.ut_time);
 		(void)lseek(fd, -(off_t)sizeof(UTMP), SEEK_CUR);
 		(void)write(fd, &ut, sizeof(UTMP));

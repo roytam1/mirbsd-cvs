@@ -1,8 +1,10 @@
-#	$OpenBSD: Makefile,v 1.27 2003/07/23 23:10:25 deraadt Exp $
-#	$NetBSD: Makefile,v 1.8 1996/05/16 07:03:28 thorpej Exp $
+# $MirOS$
+# $OpenBSD: Makefile,v 1.27 2003/07/23 23:10:25 deraadt Exp $
+# $NetBSD: Makefile,v 1.8 1996/05/16 07:03:28 thorpej Exp $
 
-LIB=	util
-CFLAGS+=-DLIBC_SCCS
+SHLIB_VERSION?=	12.0
+LIB=		util
+CPPFLAGS+=	-DLIBC_SCCS
 
 HDRS=	util.h
 SRCS=	check_expire.c getmaxpartitions.c getrawpartition.c login.c \

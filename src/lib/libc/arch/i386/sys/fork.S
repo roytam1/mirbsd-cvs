@@ -32,8 +32,8 @@
 
 #include "SYS.h"
 
-#if defined(SYSLIBC_SCCS)
 	.text
+#if defined(SYSLIBC_SCCS)
 	.asciz "$OpenBSD: fork.S,v 1.3 2003/06/02 20:18:30 millert Exp $"
 #endif /* SYSLIB_SCCS */
 

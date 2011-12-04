@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /* Copyright (c) 1998, 1999 Thai Open Source Software Center Ltd
    See the file COPYING for copying permission.
 */
@@ -7,6 +9,7 @@
 #include <stddef.h>
 #include <string.h>
 #include <fcntl.h>
+#include <unistd.h>
 #ifdef COMPILED_FROM_DSP
 #include "winconfig.h"
 #else
@@ -90,6 +93,7 @@ static const XML_Char *
 resolveSystemId(const XML_Char *base, const XML_Char *systemId,
                 XML_Char **toFree)
 {
+  size_t nlen;
   XML_Char *s;
   *toFree = 0;
   if (!base
@@ -100,11 +104,11 @@ resolveSystemId(const XML_Char *base, const XML_Char *systemId,
 #endif
      )
     return systemId;
-  *toFree = (XML_Char *)malloc((tcslen(base) + tcslen(systemId) + 2)
-                               * sizeof(XML_Char));
+  nlen = (tcslen(base) + tcslen(systemId) + 2) * sizeof(XML_Char);
+  *toFree = (XML_Char *)malloc(nlen);
   if (!*toFree)
     return systemId;
-  tcscpy(*toFree, base);
+  tcscpy(*toFree, base, nlen);
   s = *toFree;
   if (tcsrchr(s, T('/')))
     s = tcsrchr(s, T('/')) + 1;
@@ -112,7 +116,7 @@ resolveSystemId(const XML_Char *base, const XML_Char *systemId,
   if (tcsrchr(s, T('\\')))
     s = tcsrchr(s, T('\\')) + 1;
 #endif
-  tcscpy(s, systemId);
+  tcscpy(s, systemId, nlen - (s - *toFree));
   return *toFree;
 }
 

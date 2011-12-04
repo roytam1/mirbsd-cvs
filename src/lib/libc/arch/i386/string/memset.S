@@ -5,8 +5,8 @@
 
 #include <machine/asm.h>
 
-#if defined(LIBC_SCCS)
 	.text
+#if defined(LIBC_SCCS)
 	.asciz "$OpenBSD: memset.S,v 1.2 1996/08/19 08:13:09 tholo Exp $"
 #endif
 

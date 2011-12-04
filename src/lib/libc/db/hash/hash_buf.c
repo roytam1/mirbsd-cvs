@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: hash_buf.c,v 1.14 2005/01/03 22:46:43 millert Exp $	*/
 
 /*-
@@ -32,14 +33,6 @@
  * SUCH DAMAGE.
  */
 
-#if defined(LIBC_SCCS) && !defined(lint)
-#if 0
-static char sccsid[] = "@(#)hash_buf.c	8.5 (Berkeley) 7/15/94";
-#else
-static const char rcsid[] = "$OpenBSD: hash_buf.c,v 1.14 2005/01/03 22:46:43 millert Exp $";
-#endif
-#endif /* LIBC_SCCS and not lint */
-
 /*
  * PACKAGE: hash
  *
@@ -72,6 +65,9 @@ static const char rcsid[] = "$OpenBSD: hash_buf.c,v 1.14 2005/01/03 22:46:43 mil
 #include "hash.h"
 #include "page.h"
 #include "extern.h"
+
+__SCCSID("@(#)hash_buf.c	8.5 (Berkeley) 7/15/94");
+__RCSID("$MirOS$");
 
 static BUFHEAD *newbuf(HTAB *, u_int32_t, BUFHEAD *);
 
@@ -112,12 +108,11 @@ __get_buf(hashp, addr, prev_bp, newpage)
 	int newpage;	/* If prev_bp set, indicates a new overflow page. */
 {
 	BUFHEAD *bp;
-	u_int32_t is_disk_mask;
-	int is_disk, segment_ndx;
-	SEGMENT segp;
+	u_int32_t is_disk_mask = 0;
+	int is_disk, segment_ndx = 0;
+	SEGMENT segp = 0;
 
 	is_disk = 0;
-	is_disk_mask = 0;
 	if (prev_bp) {
 		bp = prev_bp->ovfl;
 		if (!bp || (bp->addr != addr))

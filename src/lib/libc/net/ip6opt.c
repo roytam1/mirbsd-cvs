@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: ip6opt.c,v 1.1 1999/12/11 08:09:11 itojun Exp $	*/
 
 /*
@@ -30,7 +31,6 @@
  */
 
 #include <sys/param.h>
-#include <sys/types.h>
 #include <sys/socket.h>
 
 #include <netinet/in.h>
@@ -110,8 +110,10 @@ inet6_option_append(cmsg, typep, multx, plusy)
 		return(-1);
 	if (plusy < 0 || plusy > 7)
 		return(-1);
+#if 0
 	if (typep[0] > 255)
 		return(-1);
+#endif
 
 	/*
 	 * If this is the first option, allocate space for the

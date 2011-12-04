@@ -27,24 +27,14 @@
  * SUCH DAMAGE.
  */
 
-#if defined(LIBC_SCCS) && !defined(lint)
-static char rcsid[] = "$OpenBSD: getdomainname.c,v 1.6 2003/07/15 17:32:41 deraadt Exp $";
-#endif /* LIBC_SCCS and not lint */
-
-#include <sys/param.h>
-#include <sys/sysctl.h>
 #include <unistd.h>
+
+__RCSID("$MirOS$");
 
 int
 getdomainname(char *name, size_t namelen)
 {
-	int mib[2];
-	size_t size;
-
-	mib[0] = CTL_KERN;
-	mib[1] = KERN_DOMAINNAME;
-	size = namelen;
-	if (sysctl(mib, 2, name, &size, NULL, 0) == -1)
-		return (-1);
+	if (namelen > 0 && name != NULL)
+		*name = 0;
 	return (0);
 }

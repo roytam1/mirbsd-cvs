@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: sys.h,v 1.8 2003/10/31 08:42:24 otto Exp $	*/
 /*	$NetBSD: sys.h,v 1.8 2003/08/07 16:44:33 agc Exp $	*/
 
@@ -74,16 +75,6 @@ typedef void	*ioctl_t;
 
 #include <stdio.h>
 
-#ifndef HAVE_STRLCAT
-#define	strlcat libedit_strlcat
-size_t	strlcat(char *dst, const char *src, size_t size);
-#endif
-
-#ifndef HAVE_STRLCPY
-#define	strlcpy libedit_strlcpy
-size_t	strlcpy(char *dst, const char *src, size_t size);
-#endif
-
 #ifndef HAVE_FGETLN
 #define	fgetln libedit_fgetln
 char	*fgetln(FILE *fp, size_t *len);
@@ -91,41 +82,5 @@ char	*fgetln(FILE *fp, size_t *len);
 
 #define	REGEX		/* Use POSIX.2 regular expression functions */
 #undef	REGEXP		/* Use UNIX V8 regular expression functions */
-
-#ifdef notdef
-# undef REGEX
-# undef REGEXP
-# include <malloc.h>
-# ifdef __GNUC__
-/*
- * Broken hdrs.
- */
-extern int	tgetent(const char *bp, char *name);
-extern int	tgetflag(const char *id);
-extern int	tgetnum(const char *id);
-extern char    *tgetstr(const char *id, char **area);
-extern char    *tgoto(const char *cap, int col, int row);
-extern int	tputs(const char *str, int affcnt, int (*putc)(int));
-extern char    *getenv(const char *);
-extern int	fprintf(FILE *, const char *, ...);
-extern int	sigsetmask(int);
-extern int	sigblock(int);
-extern int	fputc(int, FILE *);
-extern int	fgetc(FILE *);
-extern int	fflush(FILE *);
-extern int	tolower(int);
-extern int	toupper(int);
-extern int	errno, sys_nerr;
-extern char	*sys_errlist[];
-extern void	perror(const char *);
-#  include <string.h>
-#  define strerror(e)	sys_errlist[e]
-# endif
-# ifdef SABER
-extern ptr_t    memcpy(ptr_t, const ptr_t, size_t);
-extern ptr_t    memset(ptr_t, int, size_t);
-# endif
-extern char    *fgetline(FILE *, int *);
-#endif
 
 #endif /* _h_sys */

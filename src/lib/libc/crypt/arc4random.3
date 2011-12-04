@@ -1,3 +1,4 @@
+.\" $MirOS$
 .\" $OpenBSD: arc4random.3,v 1.17 2000/12/21 14:07:41 aaron Exp $
 .\"
 .\" Copyright 1997 Niels Provos <provos@physnet.uni-hamburg.de>
@@ -36,7 +37,8 @@
 .Sh NAME
 .Nm arc4random ,
 .Nm arc4random_stir ,
-.Nm arc4random_addrandom
+.Nm arc4random_addrandom ,
+.Nm arc4random_push
 .Nd arc4 random number generator
 .Sh SYNOPSIS
 .Fd #include <stdlib.h>
@@ -46,6 +48,8 @@
 .Fn arc4random_stir "void"
 .Ft void
 .Fn arc4random_addrandom "u_char *dat" "int datlen"
+.Ft void
+.Fn arc4random_push "int"
 .Sh DESCRIPTION
 The
 .Fn arc4random
@@ -87,10 +91,20 @@ before using
 since
 .Fn arc4random
 automatically initializes itself.
+.Pp
+The
+.Fn arc4random_push
+function can be used by processes to push back random data
+into the kernel if
+.Pa /dev/arandom
+does not exist.
+This interface is not recommended, and the random data given
+is not guaranteed to be used by the kernel at all.
 .Sh SEE ALSO
 .Xr rand 3 ,
 .Xr rand48 3 ,
-.Xr random 3
+.Xr random 3 ,
+.Xr random 9
 .Sh HISTORY
 An algorithm called
 .Pa RC4
@@ -108,3 +122,6 @@ used to be a trade secret, the cipher is now referred to as
 .Pp
 These functions first appeared in
 .Ox 2.1 .
+.Fn arc4random_push
+first appeared in
+.Mx 8 .

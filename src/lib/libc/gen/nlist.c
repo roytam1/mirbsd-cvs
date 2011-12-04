@@ -27,11 +27,10 @@
  * SUCH DAMAGE.
  */
 
-#if defined(LIBC_SCCS) && !defined(lint)
+#if 0
 static char rcsid[] = "$OpenBSD: nlist.c,v 1.49 2004/09/15 19:00:43 deraadt Exp $";
 #endif /* LIBC_SCCS and not lint */
 
-#include <sys/types.h>
 #include <sys/param.h>
 #include <sys/mman.h>
 #include <sys/stat.h>
@@ -43,6 +42,8 @@ static char rcsid[] = "$OpenBSD: nlist.c,v 1.49 2004/09/15 19:00:43 deraadt Exp 
 #include <string.h>
 #include <unistd.h>
 #include <a.out.h>		/* pulls in nlist.h */
+
+__RCSID("$MirOS$");
 
 #ifdef _NLIST_DO_ELF
 #include <elf_abi.h>
@@ -77,7 +78,7 @@ __aout_fdnlist(int fd, struct nlist *list)
 	struct exec exec;
 
 	if (pread(fd, &exec, sizeof(exec), (off_t)0) != sizeof(exec) ||
-	    N_BADMAG(exec) || exec.a_syms == NULL)
+	    N_BADMAG(exec) || exec.a_syms == (u_int32_t)NULL)
 		return (-1);
 
 	stroff = N_STROFF(exec);

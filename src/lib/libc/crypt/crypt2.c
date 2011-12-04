@@ -1,3 +1,4 @@
+/**	$MirOS$	*/
 /*	$OpenBSD: crypt2.c,v 1.1 2003/08/12 01:22:17 deraadt Exp $	*/
 
 /*
@@ -63,6 +64,10 @@ static char rcsid[] = "$OpenBSD: crypt2.c,v 1.1 2003/08/12 01:22:17 deraadt Exp 
 extern const u_char _des_bits8[8];
 extern const u_int32_t _des_bits32[32];
 extern int	_des_initialised;
+
+void _des_init(void);
+void _des_setup_salt(int32_t);
+int _des_do_des(u_int32_t, u_int32_t, u_int32_t *, u_int32_t *, int);
 
 int
 setkey(const char *key)

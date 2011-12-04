@@ -1,3 +1,4 @@
+/**	$MirOS$	*/
 /*	$OpenBSD: kvm_proc.c,v 1.21 2004/01/07 03:47:46 millert Exp $	*/
 /*	$NetBSD: kvm_proc.c,v 1.30 1999/03/24 05:50:50 mrg Exp $	*/
 /*-
@@ -201,7 +202,7 @@ _kvm_ureadm(kd, p, va, cnt)
 		if (KREAD(kd, addr, &vme))
 			return (0);
 
-		if (va >= vme.start && va < vme.end && 
+		if (va >= vme.start && va < vme.end &&
 		    vme.aref.ar_amap != NULL)
 			break;
 
@@ -296,7 +297,7 @@ kvm_proclist(kd, what, arg, p, bp, maxcnt)
 			      &eproc.e_ucred);
 
 		switch(what) {
-			
+
 		case KERN_PROC_PID:
 			if (proc.p_pid != (pid_t)arg)
 				continue;
@@ -339,7 +340,7 @@ kvm_proclist(kd, what, arg, p, bp, maxcnt)
 		eproc.e_pgid = pgrp.pg_id;
 		eproc.e_jobc = pgrp.pg_jobc;
 		if (KREAD(kd, (u_long)pgrp.pg_session, &sess)) {
-			_kvm_err(kd, kd->program, "can't read session at %x", 
+			_kvm_err(kd, kd->program, "can't read session at %x",
 				pgrp.pg_session);
 			return (-1);
 		}
@@ -354,7 +355,7 @@ kvm_proclist(kd, what, arg, p, bp, maxcnt)
 			if (tty.t_pgrp != NULL) {
 				if (KREAD(kd, (u_long)tty.t_pgrp, &pgrp)) {
 					_kvm_err(kd, kd->program,
-						 "can't read tpgrp at &x", 
+						 "can't read tpgrp at &x",
 						tty.t_pgrp);
 					return (-1);
 				}
@@ -367,7 +368,7 @@ kvm_proclist(kd, what, arg, p, bp, maxcnt)
 		if (sess.s_leader == p)
 			eproc.e_flag |= EPROC_SLEADER;
 		if (proc.p_wmesg)
-			(void)kvm_read(kd, (u_long)proc.p_wmesg, 
+			(void)kvm_read(kd, (u_long)proc.p_wmesg,
 			    eproc.e_wmesg, WMESGLEN);
 
 		(void)kvm_read(kd, (u_long)proc.p_vmspace,
@@ -384,13 +385,13 @@ kvm_proclist(kd, what, arg, p, bp, maxcnt)
 			break;
 
 		case KERN_PROC_TTY:
-			if ((proc.p_flag & P_CONTROLT) == 0 || 
+			if ((proc.p_flag & P_CONTROLT) == 0 ||
 			     eproc.e_tdev != (dev_t)arg)
 				continue;
 			break;
 		}
-		bcopy(&proc, &bp->kp_proc, sizeof(proc));
-		bcopy(&eproc, &bp->kp_eproc, sizeof(eproc));
+		memmove(&bp->kp_proc, &proc, sizeof(proc));
+		memmove(&bp->kp_eproc, &eproc, sizeof(eproc));
 		++bp;
 		++cnt;
 	}
@@ -640,7 +641,7 @@ kvm_getprocs(kd, op, arg, cnt)
 
 	if (kd->procbase != 0) {
 		free((void *)kd->procbase);
-		/* 
+		/*
 		 * Clear this pointer in case this call fails.  Otherwise,
 		 * kvm_close() will free it again.
 		 */
@@ -733,7 +734,7 @@ _kvm_realloc(kd, p, n)
 
 /*
  * Read in an argument vector from the user address space of process p.
- * addr if the user-space base address of narg null-terminated contiguous 
+ * addr if the user-space base address of narg null-terminated contiguous
  * strings.  This is used to read in both the command arguments and
  * environment strings.  Read at most maxcnt characters of strings.
  */
@@ -762,13 +763,13 @@ kvm_argv(kd, p, addr, narg, maxcnt)
 		 * Try to avoid reallocs.
 		 */
 		kd->argc = MAX(narg + 1, 32);
-		kd->argv = (char **)_kvm_malloc(kd, kd->argc * 
+		kd->argv = (char **)_kvm_malloc(kd, kd->argc *
 						sizeof(*kd->argv));
 		if (kd->argv == 0)
 			return (0);
 	} else if (narg + 1 > kd->argc) {
 		kd->argc = MAX(2 * kd->argc, narg + 1);
-		kd->argv = (char **)_kvm_realloc(kd, kd->argv, kd->argc * 
+		kd->argv = (char **)_kvm_realloc(kd, kd->argv, kd->argc *
 						sizeof(*kd->argv));
 		if (kd->argv == 0)
 			return (0);
@@ -890,7 +891,7 @@ proc_verify(kd, p)
 	 * Just read in the whole proc.  It's not that big relative
 	 * to the cost of the read system call.
 	 */
-	if (kvm_read(kd, (u_long)p->p_paddr, &kernproc, sizeof(kernproc)) != 
+	if (kvm_read(kd, (u_long)p->p_paddr, &kernproc, sizeof(kernproc)) !=
 	    sizeof(kernproc))
 		return (0);
 	return (p->p_pid == kernproc.p_pid &&
@@ -925,7 +926,7 @@ kvm_doargv(kd, p, nchr, info)
 	/*
 	 * Pointers are stored at the top of the user stack.
 	 */
-	if (p->p_stat == SZOMB || 
+	if (p->p_stat == SZOMB ||
 	    kvm_ureadm(kd, p, (u_long)ps, (char *)&arginfo,
 		      sizeof(arginfo)) != sizeof(arginfo))
 		return (0);
@@ -1071,7 +1072,8 @@ kvm_ureadm(kd, p, uva, buf, len)
 			return (0);
 		}
 		cc = (size_t)MIN(cnt, len);
-		bcopy(dp, cp, cc);
+		memmove(cp, dp, cc);
+
 		cp += cc;
 		uva += cc;
 		len -= cc;

@@ -1,3 +1,4 @@
+.\"	$MirOS$
 .\"	$OpenBSD: ethers.3,v 1.14 2001/08/06 10:42:26 mpech Exp $
 .\"
 .\" Written by roland@frob.com.  Public domain.
@@ -74,17 +75,7 @@ zero if they find the requested host name or address, and \-1 if not.
 .Pp
 Each call reads
 .Pa /etc/ethers
-from the beginning; if a
-.Ql +
-appears alone on a line in the file, then
-.Fn ether_hostton
-will consult the
-.Pa ethers.byname
-YP map, and
-.Fn ether_ntohost
-will consult the
-.Pa ethers.byaddr
-YP map.
+from the beginning.
 .Pp
 The
 .Fn ether_line

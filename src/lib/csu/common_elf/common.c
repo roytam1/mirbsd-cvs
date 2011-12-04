@@ -1,6 +1,12 @@
-/* $NetBSD: common.c,v 1.16 2004/08/26 21:01:12 thorpej Exp $ */
+/* $MirOS$
+ * derived from the following files:
+ * $NetBSD: common.c,v 1.16 2004/08/26 21:01:12 thorpej Exp $
+ * $OpenBSD: crt0.c,v 1.11 2003/06/27 22:30:38 deraadt Exp $
+ */
 
 /*
+ * Copyright (c) 2003, 2004, 2005
+ *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
  * Copyright (c) 1995 Christopher G. Demetriou
  * All rights reserved.
  * 
@@ -30,42 +36,37 @@
  * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- * 
+ *
  * <<Id: LICENSE,v 1.2 2000/06/14 15:57:33 cgd Exp>>
  */
 
-/*
- * NOT A STANDALONE FILE!
- */
+#ifndef	_COMMON_H
+#error	not a stand-alone file
+#endif
 
 static char *
 _strrchr(char *p, int ch)
 {
 	char *save;
 
-	for (save = NULL;; ++p) {
+	for (save = NULL; ; ++p) {
 		if (*p == ch)
 			save = (char *)p;
 		if (!*p)
 			return(save);
 	}
-	/* NOTREACHED */
+/* NOTREACHED */
 }
 
-#ifdef MCRT0
-asm ("  .text");
-#ifdef EPROL_EXPORT
-EPROL_EXPORT;
-#endif
-asm ("_eprol:");
+#ifdef	MCRT0
+__asm__(".text"
+"\n_eprol:");
 #endif
 
-#ifdef DYNAMIC
-
+#ifdef	DYNAMIC
 void
-_rtld_setup(void (*cleanup)(void), const Obj_Entry *obj)
+_rtld_setup(void (*cleanup) __P((void)), const Obj_Entry *obj)
 {
-
 	if ((obj == NULL) || (obj->magic != RTLD_MAGIC))
 		_FATAL("Corrupt Obj_Entry pointer in GOT\n");
 	if (obj->version != RTLD_VERSION)
@@ -74,4 +75,49 @@ _rtld_setup(void (*cleanup)(void), const Obj_Entry *obj)
 	atexit(cleanup);
 }
 
-#endif /* DYNAMIC */
+#include <dlfcn_stubs.c>
+#endif	/* DYNAMIC */
+
+void ___start(int argc, char **argv, char **envp, void (*cleanup)(void),
+    const Obj_Entry *obj, struct ps_strings *ps_strings)
+{
+	char *namep, *s;
+
+	environ = envp;
+
+	if ((namep = argv[0]) != NULL) {	/* NULL ptr if argc == 0 */
+		if ((__progname = _strrchr(namep, '/')) == NULL)
+			__progname = namep;
+		else	++__progname;
+		for (s = __progname_storage; (*__progname) &&
+		    (s < &__progname_storage[NAME_MAX]); /* nothing */)
+			*s++ = *__progname++;
+		*s = '\0';
+		__progname = __progname_storage;
+	}
+
+	if (ps_strings != (struct ps_strings *)0)
+		__ps_strings = ps_strings;
+
+#ifdef	DYNAMIC
+	if (&_DYNAMIC != NULL)
+		_rtld_setup(cleanup, obj);
+#endif
+
+#ifdef	MCRT0
+	atexit(_mcleanup);
+	monstartup((u_long)&_eprol, (u_long)&_etext);
+#endif
+
+	atexit(_fini);
+	_init();
+
+	exit(main(argc, argv, environ));
+}
+
+char *__progname = "";
+
+/*
+ * NOTE: Leave the RCS ID _after_ ___start(), in case it gets placed in .text.
+ */
+__RCSID("$MirOS$");

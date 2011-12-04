@@ -1,5 +1,7 @@
 #include <cdk_int.h>
 
+__RCSID("$MirOS$");
+
 /*
  * $Author$
  * $Date$
@@ -392,13 +394,13 @@ static int _injectCDKRadio (CDKOBJS *object, chtype input)
 		 }
 		 break;
 
-	    case 'g' : case '1' :
+	    case 'g' : case '1' : case '<' :
 		 radio->currentTop	= 0;
 		 radio->currentItem	= 0;
 		 radio->currentHigh	= 0;
 		 break;
 
-	    case 'G' :
+	    case 'G' : case '>' :
 		 radio->currentTop	= radio->maxTopItem;
 		 radio->currentItem	= radio->lastItem;
 		 radio->currentHigh	= radio->viewSize-1;

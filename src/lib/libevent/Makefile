@@ -1,4 +1,5 @@
-#	$OpenBSD: Makefile,v 1.9 2004/05/02 18:12:36 miod Exp $
+# $MirOS$
+# $OpenBSD: Makefile,v 1.9 2004/05/02 18:12:36 miod Exp $
 
 LIB=	event
 SRCS=	buffer.c evbuffer.c event.c kqueue.c poll.c select.c signal.c
@@ -19,7 +20,7 @@ MLINKS=	event.3 event_init.3 event.3 event_dispatch.3 event.3 event_loop.3 \
 	evbuffer_add_printf.3 event.3 evbuffer_drain.3 event.3 evbuffer_write.3 \
 	event.3 evbuffer_read.3 event.3 evbuffer_find.3 
 
-CFLAGS+= -I${.CURDIR} \
+CPPFLAGS+= -I${.CURDIR} \
 	-DHAVE_WORKING_KQUEUE \
 	-DHAVE_SELECT \
 	-DHAVE_POLL \
@@ -27,7 +28,7 @@ CFLAGS+= -I${.CURDIR} \
 	-DHAVE_STDARG_H \
 	-DHAVE_UNISTD_H
 
-NOPIC=
+NOPIC=	yes
 
 includes:
 	@cd ${.CURDIR}; for i in ${HDRS}; do \

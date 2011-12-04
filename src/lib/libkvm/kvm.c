@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: kvm.c,v 1.37 2004/02/23 23:19:09 deraadt Exp $ */
 /*	$NetBSD: kvm.c,v 1.43 1996/05/05 04:31:59 gwr Exp $	*/
 
@@ -34,14 +35,6 @@
  * SUCH DAMAGE.
  */
 
-#if defined(LIBC_SCCS) && !defined(lint)
-#if 0
-static char sccsid[] = "@(#)kvm.c	8.2 (Berkeley) 2/13/94";
-#else
-static char *rcsid = "$OpenBSD: kvm.c,v 1.37 2004/02/23 23:19:09 deraadt Exp $";
-#endif
-#endif /* LIBC_SCCS and not lint */
-
 #include <sys/param.h>
 #include <sys/user.h>
 #include <sys/proc.h>
@@ -68,6 +61,9 @@ static char *rcsid = "$OpenBSD: kvm.c,v 1.37 2004/02/23 23:19:09 deraadt Exp $";
 #include <stdarg.h>
 
 #include "kvm_private.h"
+
+__SCCSID("@(#)kvm.c	8.2 (Berkeley) 2/13/94");
+__RCSID("$MirOS$");
 
 static int	kvm_dbopen(kvm_t *, const char *);
 static int	_kvm_get_header(kvm_t *);
@@ -206,7 +202,7 @@ _kvm_open(kd, uf, mf, sf, flag, errout)
 	if (flag & KVM_NO_FILES) {
 		kd->alive = 1;
 		return (kd);
-	}	
+	}
 
 	if (uf && strlen(uf) >= MAXPATHLEN) {
 		_kvm_err(kd, kd->program, "exec file name too long");
@@ -283,7 +279,7 @@ _kvm_open(kd, uf, mf, sf, flag, errout)
 
 		/*
 		 * If there is no valid core header, fail silently here.
-		 * The address translations however will fail without 
+		 * The address translations however will fail without
 		 * header. Things can be made to run by calling
 		 * kvm_dump_mkheader() before doing any translation.
 		 */
@@ -313,7 +309,7 @@ failed:
  *    (opaque)    cpu_data; (size is cpu_hdr.c_size)
  *    kcore_seg_t mem_hdr;
  *    (memory)    mem_data; (size is mem_hdr.c_size)
- *    
+ *
  * Note: khdr is padded to khdr.c_hdrsize;
  * cpu_hdr and mem_hdr are padded to khdr.c_seghdrsize
  */
@@ -367,7 +363,7 @@ _kvm_get_header(kd)
 	if (sz != sizeof(cpu_hdr)) {
 		goto fail;
 	}
-	
+
 	if ((CORE_GETMAGIC(cpu_hdr) != KCORESEG_MAGIC) ||
 	    (CORE_GETFLAG(cpu_hdr) != CORE_CPU))
 		goto fail;
@@ -609,7 +605,7 @@ kvm_openfiles(uf, mf, sf, flag, errout)
 	const char *uf;
 	const char *mf;
 	const char *sf;
-	int flag;
+	unsigned int flag;
 	char *errout;
 {
 	register kvm_t *kd;
@@ -681,7 +677,7 @@ kvm_close(kd)
 
 /*
  * Set up state necessary to do queries on the kernel namelist
- * data base.  If the data base is out-of-data/incompatible with 
+ * data base.  If the data base is out-of-data/incompatible with
  * given executable, set up things so we revert to standard nlist call.
  * Only called for live kernels.  Return 0 on success, -1 on failure.
  */
@@ -731,7 +727,7 @@ kvm_dbopen(kd, uf)
 	if (rec.data == 0 || rec.size > sizeof(dbversion))
 		goto close;
 
-	bcopy(rec.data, dbversion, rec.size);
+	memmove(dbversion, rec.data, rec.size);
 	dbversionlen = rec.size;
 	/*
 	 * Read version string from kernel memory.
@@ -744,15 +740,15 @@ kvm_dbopen(kd, uf)
 		goto close;
 	if (rec.data == 0 || rec.size != sizeof(struct nlist))
 		goto close;
-	bcopy((char *)rec.data, (char *)&nitem, sizeof(nitem));
-	if (kvm_read(kd, (u_long)nitem.n_value, kversion, dbversionlen) != 
+	memmove((char *)&nitem, (char *)rec.data, sizeof(nitem));
+	if (kvm_read(kd, (u_long)nitem.n_value, kversion, dbversionlen) !=
 	    dbversionlen)
 		goto close;
 	/*
 	 * If they match, we win - otherwise clear out kd->db so
 	 * we revert to slow nlist().
 	 */
-	if (bcmp(dbversion, kversion, dbversionlen) == 0)
+	if (memcmp(dbversion, kversion, dbversionlen) == 0)
 		return (0);
 close:
 	(void)(kd->db->close)(kd->db);
@@ -770,7 +766,7 @@ kvm_nlist(kd, nl)
 	register int nvalid, rv;
 
 	/*
-	 * If we can't use the data base, revert to the 
+	 * If we can't use the data base, revert to the
 	 * slow library call.
 	 */
 	if (kd->db == 0) {
@@ -810,12 +806,12 @@ kvm_nlist(kd, nl)
 		/*
 		 * Avoid alignment issues.
 		 */
-		bcopy((char *)&((struct nlist *)rec.data)->n_type,
-		      (char *)&p->n_type, 
-		      sizeof(p->n_type));
-		bcopy((char *)&((struct nlist *)rec.data)->n_value,
-		      (char *)&p->n_value, 
-		      sizeof(p->n_value));
+		memmove((char *)&p->n_type,
+		    (char *)&((struct nlist *)rec.data)->n_type,
+		    sizeof(p->n_type));
+		memmove((char *)&p->n_value,
+		    (char *)&((struct nlist *)rec.data)->n_value,
+		    sizeof(p->n_value));
 	}
 	/*
 	 * Return the number of entries that weren't found.
@@ -882,7 +878,7 @@ kvm_read(kd, kva, buf, len)
 		cp = buf;
 		while (len > 0) {
 			u_long	pa;
-		
+
 			/* In case of error, _kvm_kvatop sets the err string */
 			cc = _kvm_kvatop(kd, kva, &pa);
 			if (cc == 0)

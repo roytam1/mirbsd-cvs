@@ -79,7 +79,7 @@
  */
 
 #ifndef PNG_ZBUF_SIZE
-#  define PNG_ZBUF_SIZE 8192
+#  define PNG_ZBUF_SIZE 32768L
 #endif
 
 /* Enable if you want a write-only libpng */
@@ -108,96 +108,6 @@
 #  endif
 #endif
 
-/* If you are running on a machine where you cannot allocate more
- * than 64K of memory at once, uncomment this.  While libpng will not
- * normally need that much memory in a chunk (unless you load up a very
- * large file), zlib needs to know how big of a chunk it can use, and
- * libpng thus makes sure to check any memory allocation to verify it
- * will fit into memory.
-#define PNG_MAX_MALLOC_64K
- */
-#if defined(MAXSEG_64K) && !defined(PNG_MAX_MALLOC_64K)
-#  define PNG_MAX_MALLOC_64K
-#endif
-
-/* Special munging to support doing things the 'cygwin' way:
- * 'Normal' png-on-win32 defines/defaults:
- *   PNG_BUILD_DLL -- building dll
- *   PNG_USE_DLL   -- building an application, linking to dll
- *   (no define)   -- building static library, or building an
- *                    application and linking to the static lib
- * 'Cygwin' defines/defaults:
- *   PNG_BUILD_DLL -- (ignored) building the dll
- *   (no define)   -- (ignored) building an application, linking to the dll
- *   PNG_STATIC    -- (ignored) building the static lib, or building an 
- *                    application that links to the static lib.
- *   ALL_STATIC    -- (ignored) building various static libs, or building an 
- *                    application that links to the static libs.
- * Thus,
- * a cygwin user should define either PNG_BUILD_DLL or PNG_STATIC, and
- * this bit of #ifdefs will define the 'correct' config variables based on
- * that. If a cygwin user *wants* to define 'PNG_USE_DLL' that's okay, but
- * unnecessary.
- *
- * Also, the precedence order is:
- *   ALL_STATIC (since we can't #undef something outside our namespace)
- *   PNG_BUILD_DLL
- *   PNG_STATIC
- *   (nothing) == PNG_USE_DLL
- * 
- * CYGWIN (2002-01-20): The preceding is now obsolete. With the advent
- *   of auto-import in binutils, we no longer need to worry about 
- *   __declspec(dllexport) / __declspec(dllimport) and friends.  Therefore,
- *   we don't need to worry about PNG_STATIC or ALL_STATIC when it comes
- *   to __declspec() stuff.  However, we DO need to worry about 
- *   PNG_BUILD_DLL and PNG_STATIC because those change some defaults
- *   such as CONSOLE_IO and whether GLOBAL_ARRAYS are allowed.
- */
-#if defined(__CYGWIN__)
-#  if defined(ALL_STATIC)
-#    if defined(PNG_BUILD_DLL)
-#      undef PNG_BUILD_DLL
-#    endif
-#    if defined(PNG_USE_DLL)
-#      undef PNG_USE_DLL
-#    endif
-#    if defined(PNG_DLL)
-#      undef PNG_DLL
-#    endif
-#    if !defined(PNG_STATIC)
-#      define PNG_STATIC
-#    endif
-#  else
-#    if defined (PNG_BUILD_DLL)
-#      if defined(PNG_STATIC)
-#        undef PNG_STATIC
-#      endif
-#      if defined(PNG_USE_DLL)
-#        undef PNG_USE_DLL
-#      endif
-#      if !defined(PNG_DLL)
-#        define PNG_DLL
-#      endif
-#    else
-#      if defined(PNG_STATIC)
-#        if defined(PNG_USE_DLL)
-#          undef PNG_USE_DLL
-#        endif
-#        if defined(PNG_DLL)
-#          undef PNG_DLL
-#        endif
-#      else
-#        if !defined(PNG_USE_DLL)
-#          define PNG_USE_DLL
-#        endif
-#        if !defined(PNG_DLL)
-#          define PNG_DLL
-#        endif
-#      endif  
-#    endif  
-#  endif
-#endif
-
 /* This protects us against compilers that run on a windowing system
  * and thus don't have or would rather us not use the stdio types:
  * stdin, stdout, and stderr.  The only one currently used is stderr
@@ -211,23 +121,6 @@
  * #define PNG_NO_STDIO
  */
 
-#if defined(_WIN32_WCE)
-#  include <windows.h>
-   /* Console I/O functions are not supported on WindowsCE */
-#  define PNG_NO_CONSOLE_IO
-#  ifdef PNG_DEBUG
-#    undef PNG_DEBUG
-#  endif
-#endif
-
-#ifdef PNG_BUILD_DLL
-#  ifndef PNG_CONSOLE_IO_SUPPORTED
-#    ifndef PNG_NO_CONSOLE_IO
-#      define PNG_NO_CONSOLE_IO
-#    endif
-#  endif
-#endif
-
 #  ifdef PNG_NO_STDIO
 #    ifndef PNG_NO_CONSOLE_IO
 #      define PNG_NO_CONSOLE_IO
@@ -238,53 +131,13 @@
 #      endif
 #    endif
 #  else
-#    if !defined(_WIN32_WCE)
-/* "stdio.h" functions are not supported on WindowsCE */
 #      include <stdio.h>
 #    endif
-#  endif
 
-/* This macro protects us against machines that don't have function
- * prototypes (ie K&R style headers).  If your compiler does not handle
- * function prototypes, define this macro and use the included ansi2knr.
- * I've always been able to use _NO_PROTO as the indicator, but you may
- * need to drag the empty declaration out in front of here, or change the
- * ifdef to suit your own needs.
- */
-#ifndef PNGARG
-
-#ifdef OF /* zlib prototype munger */
-#  define PNGARG(arglist) OF(arglist)
-#else
-
-#ifdef _NO_PROTO
-#  define PNGARG(arglist) ()
-#  ifndef PNG_TYPECAST_NULL
-#     define PNG_TYPECAST_NULL
-#  endif
-#else
 #  define PNGARG(arglist) arglist
-#endif /* _NO_PROTO */
-
-#endif /* OF */
-
-#endif /* PNGARG */
-
-/* Try to determine if we are compiling on a Mac.  Note that testing for
- * just __MWERKS__ is not good enough, because the Codewarrior is now used
- * on non-Mac platforms.
- */
-#ifndef MACOS
-#  if (defined(__MWERKS__) && defined(macintosh)) || defined(applec) || \
-      defined(THINK_C) || defined(__SC__) || defined(TARGET_OS_MAC)
-#    define MACOS
-#  endif
-#endif
 
 /* enough people need this for various reasons to include it here */
-#if !defined(MACOS) && !defined(RISCOS) && !defined(_WIN32_WCE)
 #  include <sys/types.h>
-#endif
 
 #if !defined(PNG_SETJMP_NOT_SUPPORTED) && !defined(PNG_NO_SETJMP_SUPPORTED)
 #  define PNG_SETJMP_SUPPORTED
@@ -345,40 +198,12 @@
  */
 
 #if defined(PNG_FLOATING_POINT_SUPPORTED)
-#  if defined(MACOS)
-     /* We need to check that <math.h> hasn't already been included earlier
-      * as it seems it doesn't agree with <fp.h>, yet we should really use
-      * <fp.h> if possible.
-      */
-#    if !defined(__MATH_H__) && !defined(__MATH_H) && !defined(__cmath__)
-#      include <fp.h>
-#    endif
-#  else
 #    include <math.h>
 #  endif
-#  if defined(_AMIGA) && defined(__SASC) && defined(_M68881)
-     /* Amiga SAS/C: We must include builtin FPU functions when compiling using
-      * MATH=68881
-      */
-#    include <m68881.h>
-#  endif
-#endif
 
 /* Codewarrior on NT has linking problems without this. */
 #if (defined(__MWERKS__) && defined(WIN32)) || defined(__STDC__)
 #  define PNG_ALWAYS_EXTERN
-#endif
-
-/* This provides the non-ANSI (far) memory allocation routines. */
-#if defined(__TURBOC__) && defined(__MSDOS__)
-#  include <mem.h>
-#  include <alloc.h>
-#endif
-
-/* I have no idea why is this necessary... */
-#if defined(_MSC_VER) && (defined(WIN32) || defined(_Windows) || \
-    defined(_WINDOWS) || defined(_WIN32) || defined(__WIN32__))
-#  include <malloc.h>
 #endif
 
 /* This controls how fine the dithering gets.  As this allocates
@@ -1047,80 +872,14 @@
  * want to have unsigned int for png_uint_32 instead of unsigned long.
  */
 
-typedef unsigned long png_uint_32;
-typedef long png_int_32;
-typedef unsigned short png_uint_16;
-typedef short png_int_16;
-typedef unsigned char png_byte;
-
-/* This is usually size_t.  It is typedef'ed just in case you need it to
-   change (I'm not sure if you will or not, so I thought I'd be safe) */
-#ifdef PNG_SIZE_T
-   typedef PNG_SIZE_T png_size_t;
-#  define png_sizeof(x) png_convert_size(sizeof (x))
-#else
+#include <stdint.h>
+typedef uint_fast32_t png_uint_32;
+typedef int_fast32_t  png_int_32;
+typedef uint_fast16_t png_uint_16;
+typedef int_fast16_t  png_int_16;
+typedef uint8_t       png_byte;
    typedef size_t png_size_t;
 #  define png_sizeof(x) sizeof (x)
-#endif
-
-/* The following is needed for medium model support.  It cannot be in the
- * PNG_INTERNAL section.  Needs modification for other compilers besides
- * MSC.  Model independent support declares all arrays and pointers to be
- * large using the far keyword.  The zlib version used must also support
- * model independent data.  As of version zlib 1.0.4, the necessary changes
- * have been made in zlib.  The USE_FAR_KEYWORD define triggers other
- * changes that are needed. (Tim Wegner)
- */
-
-/* Separate compiler dependencies (problem here is that zlib.h always
-   defines FAR. (SJT) */
-#ifdef __BORLANDC__
-#  if defined(__LARGE__) || defined(__HUGE__) || defined(__COMPACT__)
-#    define LDATA 1
-#  else
-#    define LDATA 0
-#  endif
-   /* GRR:  why is Cygwin in here?  Cygwin is not Borland C... */
-#  if !defined(__WIN32__) && !defined(__FLAT__) && !defined(__CYGWIN__)
-#    define PNG_MAX_MALLOC_64K
-#    if (LDATA != 1)
-#      ifndef FAR
-#        define FAR __far
-#      endif
-#      define USE_FAR_KEYWORD
-#    endif   /* LDATA != 1 */
-     /* Possibly useful for moving data out of default segment.
-      * Uncomment it if you want. Could also define FARDATA as
-      * const if your compiler supports it. (SJT)
-#    define FARDATA FAR
-      */
-#  endif  /* __WIN32__, __FLAT__, __CYGWIN__ */
-#endif   /* __BORLANDC__ */
-
-
-/* Suggest testing for specific compiler first before testing for
- * FAR.  The Watcom compiler defines both __MEDIUM__ and M_I86MM,
- * making reliance oncertain keywords suspect. (SJT)
- */
-
-/* MSC Medium model */
-#if defined(FAR)
-#  if defined(M_I86MM)
-#    define USE_FAR_KEYWORD
-#    define FARDATA FAR
-#    include <dos.h>
-#  endif
-#endif
-
-/* SJT: default case */
-#ifndef FAR
-#  define FAR
-#endif
-
-/* At this point FAR is always defined */
-#ifndef FARDATA
-#  define FARDATA
-#endif
 
 /* Typedef for floating-point numbers that are converted
    to fixed-point with a multiple of 100,000, e.g., int_gamma */
@@ -1138,11 +897,7 @@ typedef char            FAR * png_charp;
 typedef png_fixed_point FAR * png_fixed_point_p;
 
 #ifndef PNG_NO_STDIO
-#if defined(_WIN32_WCE)
-typedef HANDLE                png_FILE_p;
-#else
 typedef FILE                * png_FILE_p;
-#endif
 #endif
 
 #ifdef PNG_FLOATING_POINT_SUPPORTED
@@ -1177,150 +932,8 @@ typedef charf * FAR *   png_zcharpp;
 typedef z_stream FAR *  png_zstreamp;
 #endif /* (PNG_1_0_X) || defined(PNG_1_2_X) */
 
-/*
- * Define PNG_BUILD_DLL if the module being built is a Windows
- * LIBPNG DLL.
- *
- * Define PNG_USE_DLL if you want to *link* to the Windows LIBPNG DLL.
- * It is equivalent to Microsoft predefined macro _DLL that is
- * automatically defined when you compile using the share
- * version of the CRT (C Run-Time library)
- *
- * The cygwin mods make this behavior a little different:
- * Define PNG_BUILD_DLL if you are building a dll for use with cygwin
- * Define PNG_STATIC if you are building a static library for use with cygwin,
- *   -or- if you are building an application that you want to link to the
- *   static library.
- * PNG_USE_DLL is defined by default (no user action needed) unless one of
- *   the other flags is defined.
- */
-
-#if !defined(PNG_DLL) && (defined(PNG_BUILD_DLL) || defined(PNG_USE_DLL))
-#  define PNG_DLL
-#endif
-/* If CYGWIN, then disallow GLOBAL ARRAYS unless building a static lib.
- * When building a static lib, default to no GLOBAL ARRAYS, but allow
- * command-line override
- */
-#if defined(__CYGWIN__)
-#  if !defined(PNG_STATIC)
-#    if defined(PNG_USE_GLOBAL_ARRAYS)
-#      undef PNG_USE_GLOBAL_ARRAYS
-#    endif
-#    if !defined(PNG_USE_LOCAL_ARRAYS)
-#      define PNG_USE_LOCAL_ARRAYS
-#    endif
-#  else
-#    if defined(PNG_USE_LOCAL_ARRAYS) || defined(PNG_NO_GLOBAL_ARRAYS)
-#      if defined(PNG_USE_GLOBAL_ARRAYS)
-#        undef PNG_USE_GLOBAL_ARRAYS
-#      endif
-#    endif
-#  endif
-#  if !defined(PNG_USE_LOCAL_ARRAYS) && !defined(PNG_USE_GLOBAL_ARRAYS)
-#    define PNG_USE_LOCAL_ARRAYS
-#  endif
-#endif
-
-/* Do not use global arrays (helps with building DLL's)
- * They are no longer used in libpng itself, since version 1.0.5c,
- * but might be required for some pre-1.0.5c applications.
- */
-#if !defined(PNG_USE_LOCAL_ARRAYS) && !defined(PNG_USE_GLOBAL_ARRAYS)
-#  if defined(PNG_NO_GLOBAL_ARRAYS) || (defined(__GNUC__) && defined(PNG_DLL))
-#    define PNG_USE_LOCAL_ARRAYS
-#  else
 #    define PNG_USE_GLOBAL_ARRAYS
-#  endif
-#endif
-
-#if defined(__CYGWIN__)
-#  undef PNGAPI
-#  define PNGAPI __cdecl
-#  undef PNG_IMPEXP
-#  define PNG_IMPEXP
-#endif  
-
-/* If you define PNGAPI, e.g., with compiler option "-DPNGAPI=__stdcall",
- * you may get warnings regarding the linkage of png_zalloc and png_zfree.
- * Don't ignore those warnings; you must also reset the default calling
- * convention in your compiler to match your PNGAPI, and you must build
- * zlib and your applications the same way you build libpng.
- */
-
-#if defined(__MINGW32__) && !defined(PNG_MODULEDEF)
-#  ifndef PNG_NO_MODULEDEF
-#    define PNG_NO_MODULEDEF
-#  endif
-#endif
-
-#if !defined(PNG_IMPEXP) && defined(PNG_BUILD_DLL) && !defined(PNG_NO_MODULEDEF)
-#  define PNG_IMPEXP
-#endif
-
-#if defined(PNG_DLL) || defined(_DLL) || defined(__DLL__ ) || \
-    (( defined(_Windows) || defined(_WINDOWS) || \
-       defined(WIN32) || defined(_WIN32) || defined(__WIN32__) ))
-
-#  ifndef PNGAPI
-#     if defined(__GNUC__) || (defined (_MSC_VER) && (_MSC_VER >= 800))
-#        define PNGAPI __cdecl
-#     else
-#        define PNGAPI _cdecl
-#     endif
-#  endif
-
-#  if !defined(PNG_IMPEXP) && (!defined(PNG_DLL) || \
-       0 /* WINCOMPILER_WITH_NO_SUPPORT_FOR_DECLIMPEXP */)
-#     define PNG_IMPEXP
-#  endif
-
-#  if !defined(PNG_IMPEXP)
-
-#     define PNG_EXPORT_TYPE1(type,symbol)  PNG_IMPEXP type PNGAPI symbol
-#     define PNG_EXPORT_TYPE2(type,symbol)  type PNG_IMPEXP PNGAPI symbol
-
-      /* Borland/Microsoft */
-#     if defined(_MSC_VER) || defined(__BORLANDC__)
-#        if (_MSC_VER >= 800) || (__BORLANDC__ >= 0x500)
-#           define PNG_EXPORT PNG_EXPORT_TYPE1
-#        else
-#           define PNG_EXPORT PNG_EXPORT_TYPE2
-#           if defined(PNG_BUILD_DLL)
-#              define PNG_IMPEXP __export
-#           else
-#              define PNG_IMPEXP /*__import */ /* doesn't exist AFAIK in
-                                                 VC++ */
-#           endif                             /* Exists in Borland C++ for
-                                                 C++ classes (== huge) */
-#        endif
-#     endif
-
-#     if !defined(PNG_IMPEXP)
-#        if defined(PNG_BUILD_DLL)
-#           define PNG_IMPEXP __declspec(dllexport)
-#        else
-#           define PNG_IMPEXP __declspec(dllimport)
-#        endif
-#     endif
-#  endif  /* PNG_IMPEXP */
-#else /* !(DLL || non-cygwin WINDOWS) */
-#   if (defined(__IBMC__) || defined(__IBMCPP__)) && defined(__OS2__)
-#      ifndef PNGAPI
-#         define PNGAPI _System
-#      endif
-#   else
-#      if 0 /* ... other platforms, with other meanings */
-#      endif
-#   endif
-#endif
-
-#ifndef PNGAPI
 #  define PNGAPI
-#endif
-#ifndef PNG_IMPEXP
-#  define PNG_IMPEXP
-#endif
 
 #ifdef PNG_BUILDSYMS
 #  ifndef PNG_EXPORT
@@ -1334,14 +947,12 @@ typedef z_stream FAR *  png_zstreamp;
 #endif
 
 #ifndef PNG_EXPORT
-#  define PNG_EXPORT(type,symbol) PNG_IMPEXP type PNGAPI symbol
+#  define PNG_EXPORT(type,symbol) type symbol
 #endif
 
-#ifdef PNG_USE_GLOBAL_ARRAYS
 #  ifndef PNG_EXPORT_VAR
-#    define PNG_EXPORT_VAR(type) extern PNG_IMPEXP type
+#    define PNG_EXPORT_VAR(type) extern type
 #  endif
-#endif
 
 /* User may want to use these so they are not in PNG_INTERNAL. Any library
  * functions that are passed far data must be model independent.
@@ -1406,27 +1017,6 @@ typedef z_stream FAR *  png_zstreamp;
 #ifndef PNG_MMX_BITDEPTH_THRESHOLD_DEFAULT
 #  define PNG_MMX_BITDEPTH_THRESHOLD_DEFAULT  9    /*  >=  */   
 #endif
-
-/* Set this in the makefile for VC++ on Pentium, not here. */
-/* Platform must be Pentium.  Makefile must assemble and load pngvcrd.c .
- * MMX will be detected at run time and used if present.
- */
-#ifdef PNG_USE_PNGVCRD
-#  define PNG_HAVE_ASSEMBLER_COMBINE_ROW
-#  define PNG_HAVE_ASSEMBLER_READ_INTERLACE
-#  define PNG_HAVE_ASSEMBLER_READ_FILTER_ROW
-#endif
-
-/* Set this in the makefile for gcc/as on Pentium, not here. */
-/* Platform must be Pentium.  Makefile must assemble and load pnggccrd.c .
- * MMX will be detected at run time and used if present.
- */
-#ifdef PNG_USE_PNGGCCRD
-#  define PNG_HAVE_ASSEMBLER_COMBINE_ROW
-#  define PNG_HAVE_ASSEMBLER_READ_INTERLACE
-#  define PNG_HAVE_ASSEMBLER_READ_FILTER_ROW
-#endif
-/* - see pnggccrd.c for info about what is currently enabled */
 
 #endif /* PNG_INTERNAL */
 #endif /* PNG_READ_SUPPORTED */

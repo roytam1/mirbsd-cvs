@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /*
  * Written by J.T. Conklin <jtc@netbsd.org>.
  * Public domain.
@@ -5,16 +6,15 @@
 
 #include <machine/asm.h>
 
-#if defined(APIWARN)
 #APP
-	.stabs "warning: strcpy() is almost always misused, consider using strlcpy()",30,0,0,0
-	.stabs "_strcpy",1,0,0,0
-#NO_APP
-#endif
-
-#if defined(LIBC_SCCS)
+	.section .gnu.warning.strcpy
+	.ascii "warning: strcpy() is almost always misused, consider using strlcpy()"
 	.text
-	.asciz "$OpenBSD: strcpy.S,v 1.5 2003/07/24 01:15:42 deraadt Exp $"
+#NO_APP
+
+	.text
+#if defined(LIBC_SCCS)
+	.asciz "$OpenBSD: strcpy.S,v 1.4 2003/06/11 21:07:03 deraadt Exp $"
 #endif
 
 /*
