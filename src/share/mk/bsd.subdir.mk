@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.subdir.mk,v 1.3 2005/02/14 19:21:20 tg Exp $
+# $MirOS: src/share/mk/bsd.subdir.mk,v 1.4 2005/07/04 02:37:18 tg Exp $
 # $OpenBSD: bsd.subdir.mk,v 1.14 2005/02/05 10:39:50 espie Exp $
 # $NetBSD: bsd.subdir.mk,v 1.11 1996/04/04 02:05:06 jtc Exp $
 # @(#)bsd.subdir.mk	5.9 (Berkeley) 2/1/91
@@ -78,12 +78,35 @@ afterinstall: realinstall
 realinstall: beforeinstall _SUBDIRUSE
 .endif
 
-
 .for t in all clean cleandir includes depend lint obj tags regress
 .  if !target($t)
 $t: _SUBDIRUSE
 .  endif
 .endfor
+
+_subdircheck:
+	@missing=; \
+	new=; \
+	sp=; \
+	all=' '; \
+	_skiplist="$${_skiplist-CVS .svn}"; \
+	_skiplist=" $$_skiplist "; \
+	for s in ${SUBDIR}; do \
+		all="$$all$$s "; \
+		[[ ! -d $$s ]] || continue; \
+		missing="$$missing$$sp$$s"; \
+		sp=' '; \
+	done; \
+	sp=; \
+	for s in * .*; do \
+		[[ $$_skiplist != *@( $$s )* ]] || continue; \
+		[[ -d $$s ]] || continue; \
+		[[ $$all != *@( $$s )* ]] || continue; \
+		new="$$new$$sp$$s"; \
+		sp=' '; \
+	done; \
+	print "Missing in current directory:\n\t$$missing"; \
+	print "New in current directory:\n\t$$new"
 
 .if !defined(BSD_OWN_MK)
 .  include <bsd.own.mk>
