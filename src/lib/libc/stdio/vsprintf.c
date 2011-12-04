@@ -37,10 +37,10 @@ static char rcsid[] = "$OpenBSD: vsprintf.c,v 1.9 2004/09/28 18:12:44 otto Exp $
 #include <stdio.h>
 #include <limits.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libc/stdio/vsprintf.c,v 1.2 2005/03/06 20:28:45 tg Exp $");
 
 __warn_references(vsprintf,
-    "warning: vsprintf() is often misused, please use vsnprintf()");
+    "warning: vsprintf() is often misused, consider using vsnprintf()");
 
 int
 vsprintf(char *str, const char *fmt, _BSD_VA_LIST_ ap)

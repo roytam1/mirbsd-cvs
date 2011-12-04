@@ -27,7 +27,7 @@
  * SUCH DAMAGE.
  */
 
-#if defined(LIBC_SCCS) && !defined(lint)
+#if 0
 static char *rcsid = "$OpenBSD: strcat.c,v 1.5 2003/06/02 20:18:38 millert Exp $";
 #endif /* LIBC_SCCS and not lint */
 
@@ -37,7 +37,9 @@ static char *rcsid = "$OpenBSD: strcat.c,v 1.5 2003/06/02 20:18:38 millert Exp $
 #include <lib/libkern/libkern.h>
 #endif
 
-__warn_references(strcat, "warning: strcat() is almost always misused, please use strlcat()");
+__RCSID("$MirOS$");
+
+__warn_references(strcat, "warning: strcat() is almost always misused, consider using strlcat()");
 
 char *
 strcat(s, append)

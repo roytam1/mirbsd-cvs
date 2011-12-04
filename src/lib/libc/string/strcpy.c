@@ -27,7 +27,7 @@
  * SUCH DAMAGE.
  */
 
-#if defined(LIBC_SCCS) && !defined(lint)
+#if 0
 static char *rcsid = "$OpenBSD: strcpy.c,v 1.5 2003/06/02 20:18:38 millert Exp $";
 #endif /* LIBC_SCCS and not lint */
 
@@ -37,7 +37,9 @@ static char *rcsid = "$OpenBSD: strcpy.c,v 1.5 2003/06/02 20:18:38 millert Exp $
 #include <lib/libkern/libkern.h>
 #endif
 
-__warn_references(strcpy, "warning: strcpy() is almost always misused, please use strlcpy()");
+__RCSID("$MirOS$");
+
+__warn_references(strcpy, "warning: strcpy() is almost always misused, consider using strlcpy()");
 
 char *
 strcpy(to, from)

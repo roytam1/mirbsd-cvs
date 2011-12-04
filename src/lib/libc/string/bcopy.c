@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/lib/libc/string/bcopy.c,v 1.2 2005/03/06 20:28:48 tg Exp $ */
 
 /*-
  * Copyright (c) 1990 The Regents of the University of California.
@@ -32,11 +32,13 @@
  * SUCH DAMAGE.
  */
 
-#if defined(LIBC_SCCS) && !defined(lint)
+#if 0
 static char *rcsid = "$OpenBSD: bcopy.c,v 1.3 2003/06/02 20:18:38 millert Exp $";
 #endif /* LIBC_SCCS and not lint */
 
 #include <string.h>
+
+__RCSID("$MirOS$");
 
 /*
  * sizeof(word) MUST BE A POWER OF TWO
@@ -60,7 +62,7 @@ memcpy(dst0, src0, length)
 void *
 memmove(dst0, src0, length)
 #else
-__warn_references(bcopy, "warning: bcopy(s,d,l) is deprecated, please use memmove(d,s,l) instead");
+__warn_references(bcopy, "warning: bcopy(s,d,l) is deprecated, consider using memmove(d,s,l)");
 void
 bcopy(src0, dst0, length)
 #endif

@@ -30,7 +30,7 @@
  * SUCH DAMAGE.
  */
 
-#if defined(LIBC_SCCS) && !defined(lint)
+#if 0
 static char rcsid[] = "$OpenBSD: sprintf.c,v 1.9 2003/07/24 01:15:42 deraadt Exp $";
 #endif /* LIBC_SCCS and not lint */
 
@@ -39,7 +39,9 @@ static char rcsid[] = "$OpenBSD: sprintf.c,v 1.9 2003/07/24 01:15:42 deraadt Exp
 #include <limits.h>
 #include "local.h"
 
-__warn_references(sprintf, "warning: sprintf() is often misused, please use snprintf()");
+__RCSID("$MirOS$");
+
+__warn_references(sprintf, "warning: sprintf() is often misused, consider using snprintf()");
 
 int
 sprintf(char *str, char const *fmt, ...)

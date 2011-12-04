@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/lib/libc/arch/i386/string/strcat.S,v 1.2 2005/03/06 20:28:30 tg Exp $ */
 /*
  * Written by J.T. Conklin <jtc@netbsd.org>.
  * Public domain.
@@ -12,10 +12,12 @@
 	.text
 #NO_APP
 
-	.text
-#if defined(LIBC_SCCS)
-	.asciz "$OpenBSD: strcat.S,v 1.4 2003/06/11 21:07:03 deraadt Exp $"
+#ifdef LIBC_SCCS
+	.section .comment
+	.asciz	"$MirOS$"
 #endif
+
+	.text
 
 /*
  * NOTE: I've unrolled the loop eight times: large enough to make a

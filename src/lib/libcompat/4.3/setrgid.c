@@ -27,14 +27,16 @@
  * SUCH DAMAGE.
  */
 
-#if defined(LIBC_SCCS) && !defined(lint)
+#if 0
 static char *rcsid = "$OpenBSD: setrgid.c,v 1.2 2003/06/02 20:18:40 millert Exp $";
 #endif /* LIBC_SCCS and not lint */
 
 #include <sys/types.h>
 #include <unistd.h>
 
-__warn_references(setrgid, "warning: this program uses setrgid(), which is deprecated.");
+__RCSID("$MirOS$");
+
+__warn_references(setrgid, "warning: setrgid() is deprecated, consider using setregid()");
 
 int
 setrgid(gid_t rgid)
