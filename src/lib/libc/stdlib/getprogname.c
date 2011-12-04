@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.2 2005/03/03 19:43:30 tg Rel $ */
+/* $MirOS: src/lib/libc/stdlib/getprogname.c,v 1.1.7.1 2005/03/06 16:33:39 tg Exp $ */
 
 /*-
  * Copyright (c) 2005
@@ -23,9 +23,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libc/stdlib/getprogname.c,v 1.1.7.1 2005/03/06 16:33:39 tg Exp $");
 
-extern const char *__progname;
+extern char *__progname;
 
 /*
  * Some other OSes actually use this, but for us,
@@ -42,9 +42,9 @@ setprogname(const char *s)
 		return;
 
 	if ((t = strrchr(s, '/')) == NULL)
-		__progname = s;
+		__progname = strdup(s);
 	else
-		__progname = ++t;
+		__progname = strdup(++t);
 }
 
 /*

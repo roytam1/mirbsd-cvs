@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/lib/libc/Makefile.inc,v 1.2 2005/03/06 20:28:26 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.9 2004/04/28 16:56:49 millert Exp $
 
 .ifndef LIBCSRCDIR
@@ -42,7 +42,7 @@ AINC+=  -nostdinc -idirafter ${DESTDIR}/usr/include
 
 LIBKERN=	${LIBCSRCDIR}/../../sys/lib/libkern
 
-KSRCS=	bcmp.c bzero.c ffs.c strcat.c strcmp.c strcpy.c strlen.c strncmp.c \
+KSRCS=	memcmp.c bzero.c ffs.c strcat.c strcmp.c strcpy.c strlen.c strncmp.c \
 	strncpy.c htonl.c htons.c ntohl.c ntohs.c
 KSRCS+=	adddi3.c anddi3.c ashldi3.c ashrdi3.c cmpdi2.c divdi3.c iordi3.c \
 	lshldi3.c lshrdi3.c moddi3.c muldi3.c negdi2.c notdi2.c qdivrem.c \
