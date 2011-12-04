@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.bin/binutils/ld/Makefile.am,v 1.7 2005/06/13 23:52:31 tg Exp $
+# $MirOS: src/gnu/usr.bin/binutils/ld/Makefile.am,v 1.8 2005/06/13 23:54:31 tg Exp $
 
 ## Process this file with automake to generate Makefile.in
 
@@ -99,7 +99,7 @@ CXX_FOR_TARGET = ` \
 
 noinst_PROGRAMS = ld-new
 info_TEXINFOS = ld.texinfo ldint.texinfo
-noinst_TEXINFOS = #ldint.texinfo
+ld_TEXINFOS = configdoc.texi ldver.texi
 man_MANS = ld.1
 
 AM_MAKEINFOFLAGS = --no-split -I $(srcdir) -I $(BFDDIR)/doc
@@ -1567,9 +1567,6 @@ ldver.texi: $(srcdir)/../bfd/configure
 	rm -f $@
 	eval `grep '^ *VERSION=' $(srcdir)/../bfd/configure`; \
 	  echo "@set VERSION $$VERSION" > $@
-
-ld.info: $(srcdir)/ld.texinfo configdoc.texi ldver.texi
-ld.dvi: $(srcdir)/ld.texinfo configdoc.texi ldver.texi
 
 # Build the man page from the texinfo file
 # The sed command removes the no-adjust Nroff command so that
