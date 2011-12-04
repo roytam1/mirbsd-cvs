@@ -130,6 +130,7 @@
 ./man1/gcc-local.htm
 ./man1/gccmakedep.htm
 ./man1/gcov.htm
+./man1/gdb.htm
 ./man1/getcap.htm
 ./man1/getconf.htm
 ./man1/getconfig.htm
@@ -402,6 +403,7 @@
 ./man1/radioctl.htm
 ./man1/ranlib.htm
 ./man1/rcs.htm
+./man1/rcs2log.htm
 ./man1/rcsclean.htm
 ./man1/rcsdiff.htm
 ./man1/rcsfreeze.htm
@@ -1092,6 +1094,7 @@
 ./man5/syslog.conf.htm
 ./man5/term.htm
 ./man5/termcap.htm
+./man5/terminfo.htm
 ./man5/texinfo.htm
 ./man5/ttys.htm
 ./man5/types.htm

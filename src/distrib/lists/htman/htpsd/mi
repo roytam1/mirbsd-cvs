@@ -3995,6 +3995,11 @@
 ./man3/tmpfile.htm
 ./man3/tmpnam.htm
 ./man3/toascii.htm
+./man3/tok_end.htm
+./man3/tok_init.htm
+./man3/tok_line.htm
+./man3/tok_reset.htm
+./man3/tok_str.htm
 ./man3/tolower.htm
 ./man3/top_panel.htm
 ./man3/top_row.htm

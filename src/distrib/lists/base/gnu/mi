@@ -12,6 +12,7 @@
 ./usr/bin/dprofpp
 ./usr/bin/enc2xs
 ./usr/bin/find2perl
+./usr/bin/gdb
 ./usr/bin/h2ph
 ./usr/bin/h2xs
 ./usr/bin/ident
@@ -3340,6 +3341,7 @@
 ./usr/share/doc/psd/13.rcs/rcs_func.ms
 ./usr/share/doc/smm/08.sendmailop/Makefile
 ./usr/share/doc/smm/08.sendmailop/op.me
+./usr/share/info/annotate.info
 ./usr/share/info/as.info
 ./usr/share/info/bfd.info
 ./usr/share/info/bfdint.info
@@ -3347,8 +3349,11 @@
 ./usr/share/info/cvs.info
 ./usr/share/info/cvsclient.info
 ./usr/share/info/dir
+./usr/share/info/gdb.info
+./usr/share/info/gdbint.info
 ./usr/share/info/ld.info
 ./usr/share/info/ldint.info
+./usr/share/info/stabs.info
 ./usr/share/man/cat1/a2p.0
 ./usr/share/man/cat1/addr2line.0
 ./usr/share/man/cat1/ar.0
@@ -3363,6 +3368,7 @@
 ./usr/share/man/cat1/dprofpp.0
 ./usr/share/man/cat1/enc2xs.0
 ./usr/share/man/cat1/find2perl.0
+./usr/share/man/cat1/gdb.0
 ./usr/share/man/cat1/h2ph.0
 ./usr/share/man/cat1/h2xs.0
 ./usr/share/man/cat1/hoststat.0
@@ -3500,6 +3506,7 @@
 ./usr/share/man/cat1/purgestat.0
 ./usr/share/man/cat1/ranlib.0
 ./usr/share/man/cat1/rcs.0
+./usr/share/man/cat1/rcs2log.0
 ./usr/share/man/cat1/rcsclean.0
 ./usr/share/man/cat1/rcsdiff.0
 ./usr/share/man/cat1/rcsfreeze.0
@@ -4051,3 +4058,8 @@
 ./usr/share/sendmail/siteconfig/uucp.old.arpa.m4
 ./usr/share/sendmail/siteconfig/uucp.ucbarpa.m4
 ./usr/share/sendmail/siteconfig/uucp.ucbvax.m4
+./var/anoncvs/anoncvs/bin/cat
+./var/anoncvs/anoncvs/bin/pwd
+./var/anoncvs/anoncvs/bin/rm
+./var/anoncvs/anoncvs/bin/sh
+./var/anoncvs/anoncvs/usr/bin/cvs

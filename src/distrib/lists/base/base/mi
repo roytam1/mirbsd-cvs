@@ -1805,7 +1805,7 @@
 ./usr/lib/libdes.so.10.0
 ./usr/lib/libdl.a
 ./usr/lib/libedit.a
-./usr/lib/libedit.so.4.0
+./usr/lib/libedit.so.5.0
 ./usr/lib/libevent.a
 ./usr/lib/libexpat.a
 ./usr/lib/libexpat.so.5.0
@@ -6538,6 +6538,11 @@
 ./usr/share/man/cat3/tmpfile.0
 ./usr/share/man/cat3/tmpnam.0
 ./usr/share/man/cat3/toascii.0
+./usr/share/man/cat3/tok_end.0
+./usr/share/man/cat3/tok_init.0
+./usr/share/man/cat3/tok_line.0
+./usr/share/man/cat3/tok_reset.0
+./usr/share/man/cat3/tok_str.0
 ./usr/share/man/cat3/tolower.0
 ./usr/share/man/cat3/top_panel.0
 ./usr/share/man/cat3/top_row.0
@@ -8724,6 +8729,16 @@
 ./usr/src
 ./var
 ./var/account
+./var/anoncvs
+./var/anoncvs/anoncvs
+./var/anoncvs/anoncvs/bin
+./var/anoncvs/anoncvs/dev
+./var/anoncvs/anoncvs/etc
+./var/anoncvs/anoncvs/tmp
+./var/anoncvs/anoncvs/usr
+./var/anoncvs/anoncvs/usr/bin
+./var/anoncvs/anoncvs/var
+./var/anoncvs/anoncvs/var/tmp
 ./var/audit
 ./var/authpf
 ./var/backups
