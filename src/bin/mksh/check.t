@@ -3701,5 +3701,5 @@ category: pdksh
 stdin:
 	echo $KSH_VERSION
 expected-stdout:
-	@(#)MIRBSD KSH R25 2005/08/26 pre
+	@(#)MIRBSD KSH R24 2005/08/21
 ---

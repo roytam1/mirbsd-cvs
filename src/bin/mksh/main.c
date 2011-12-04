@@ -15,7 +15,7 @@
 
 __RCSID("$MirOS: src/bin/mksh/main.c,v 1.24 2005/08/21 13:02:17 tg Exp $");
 
-#define	MKSH_VERSION	"@(#)MIRBSD KSH R25 2005/08/26 pre"
+#define	MKSH_VERSION	"@(#)MIRBSD KSH R24 2005/08/21"
 
 extern char **environ;
 
