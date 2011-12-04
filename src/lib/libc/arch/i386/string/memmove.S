@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/arch/i386/string/memmove.S,v 1.3 2005/04/17 03:05:44 tg Exp $ */
+/* $MirOS: src/lib/libc/arch/i386/string/memmove.S,v 1.4 2005/04/17 04:16:45 tg Exp $ */
 
 /*-
  * Copyright (c) 2005
@@ -22,9 +22,7 @@
 
 #include <machine/asm.h>
 
-RCSID("$MirOS: src/lib/libc/arch/i386/string/memmove.S,v 1.3 2005/04/17 03:05:44 tg Exp $")
-WARN_REFERENCES(bcopy, \
-    "warning: bcopy(s,d,l) is deprecated, consider using memmove(d,s,l)")
+RCSID("$MirOS: src/lib/libc/arch/i386/string/memmove.S,v 1.4 2005/04/17 04:16:45 tg Exp $")
 
 	.intel_syntax noprefix
 	.text

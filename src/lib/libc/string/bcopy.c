@@ -36,7 +36,7 @@ static char *rcsid = "$OpenBSD: bcopy.c,v 1.4 2005/03/30 20:13:52 otto Exp $";
 
 #include <string.h>
 
-__RCSID("$MirOS: src/lib/libc/string/bcopy.c,v 1.4 2005/04/16 20:30:49 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/string/bcopy.c,v 1.5 2005/04/29 18:34:50 tg Exp $");
 
 /*
  * sizeof(word) MUST BE A POWER OF TWO
@@ -59,8 +59,6 @@ memcpy(void *dst0, const void *src0, size_t length)
 void *
 memmove(void *dst0, const void *src0, size_t length)
 #else
-__warn_references(bcopy, "warning: bcopy(s,d,l) is deprecated, consider using memmove(d,s,l)");
-
 void
 bcopy(const void *src0, void *dst0, size_t length)
 #endif
