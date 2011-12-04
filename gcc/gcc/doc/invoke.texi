@@ -1,4 +1,4 @@
-@c $MirOS: gcc/gcc/doc/invoke.texi,v 1.7 2005/08/26 20:57:46 tg Exp $
+@c $MirOS: gcc/gcc/doc/invoke.texi,v 1.8 2005/09/23 10:09:25 tg Exp $
 @c
 @c Copyright (C) 1988, 1989, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
 @c 2000, 2001, 2002, 2003, 2004, 2005 Free Software Foundation, Inc.
@@ -11306,7 +11306,7 @@ their own support bits, or disable SSP.
 On MirOS, stack-protector-all is the default.
 
 The ProPolice home page is at
-@w{@uref{http://www.research.ibm.com/trl/projects/security/ssp/}}.
+@w{@uref{http://researchweb.watson.ibm.com/trl/projects/security/ssp/}}.
 
 @item -ftrampolines
 @opindex ftrampolines
