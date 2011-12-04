@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/lib/libedit/readline.c,v 1.2 2005/04/19 15:16:15 tg Exp $ */
 /*	$OpenBSD: readline.c,v 1.2 2003/11/25 20:12:38 otto Exp $ */
 /*	$NetBSD: readline.c,v 1.52 2005/04/19 03:29:18 christos Exp $	*/
 
@@ -65,7 +65,7 @@
 #include "histedit.h"
 #include "readline/readline.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libedit/readline.c,v 1.2 2005/04/19 15:16:15 tg Exp $");
 
 /* for rl_complete() */
 #define TAB		'\r'
@@ -86,7 +86,7 @@ FILE *rl_outstream = NULL;
 int rl_point = 0;
 int rl_end = 0;
 char *rl_line_buffer = NULL;
-VFunction *rl_linefunc = NULL;
+VFunctionC *rl_linefunc = NULL;
 int rl_done = 0;
 VFunction *rl_event_hook = NULL;
 
@@ -2057,7 +2057,7 @@ rl_callback_read_char()
 }
 
 void
-rl_callback_handler_install (const char *prompt, VFunction *linefunc)
+rl_callback_handler_install (const char *prompt, VFunctionC *linefunc)
 {
 	if (e == NULL) {
 		rl_initialize();

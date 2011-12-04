@@ -1,4 +1,4 @@
-/**	$MirOS: src/lib/libedit/readline/readline.h,v 1.2 2005/03/06 20:29:04 tg Exp $ */
+/**	$MirOS: src/lib/libedit/readline/readline.h,v 1.3 2005/04/19 15:16:21 tg Exp $ */
 /*	$OpenBSD: readline.h,v 1.2 2003/11/25 20:12:39 otto Exp $	*/
 /*	$NetBSD: readline.h,v 1.13 2005/04/12 22:01:40 christos Exp $	*/
 
@@ -48,6 +48,7 @@
 /* typedefs */
 typedef int	  Function(const char *, int);
 typedef void	  VFunction(void);
+typedef void	  VFunctionC(const char *);
 typedef char	 *CPFunction(const char *, int);
 typedef char	**CPPFunction(const char *, int, int);
 
@@ -170,7 +171,7 @@ void		 rl_reset_terminal(const char *);
 int		 rl_bind_key(int, int (*)(int, int));
 int		 rl_newline(int, int);
 void		 rl_callback_read_char(void);
-void		 rl_callback_handler_install(const char *, VFunction *);
+void		 rl_callback_handler_install(const char *, VFunctionC *);
 void		 rl_callback_handler_remove(void);
 void		 rl_redisplay(void);
 int		 rl_get_previous_history(int, int);
