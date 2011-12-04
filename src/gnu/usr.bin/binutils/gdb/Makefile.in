@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.bin/binutils/gdb/Makefile.in,v 1.2 2005/04/19 20:13:07 tg Exp $
+# $MirOS: src/gnu/usr.bin/binutils/gdb/Makefile.in,v 1.3 2005/06/05 21:24:15 tg Exp $
 # XXX hacked
 #
 # Copyright 1989, 1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997,
@@ -813,38 +813,6 @@ cli_dump_h = $(srcdir)/cli/cli-dump.h
 cli_script_h = $(srcdir)/cli/cli-script.h
 cli_setshow_h = $(srcdir)/cli/cli-setshow.h
 cli_utils_h = $(srcdir)/cli/cli-utils.h
-
-#
-# gdb/mi/ headers
-#
-
-mi_cmds_h = $(srcdir)/mi/mi-cmds.h
-mi_console_h = $(srcdir)/mi/mi-console.h
-mi_getopt_h = $(srcdir)/mi/mi-getopt.h
-mi_main_h = $(srcdir)/mi/mi-main.h
-mi_out_h = $(srcdir)/mi/mi-out.h
-mi_parse_h = $(srcdir)/mi/mi-parse.h
-mi_common_h = $(srcdir)/mi/mi-common.h
-
-#
-# gdb/tui/ headers
-#
-
-tui_command_h = $(srcdir)/tui/tui-command.h
-tui_data_h = $(srcdir)/tui/tui-data.h $(tui_h) $(gdb_curses_h)
-tui_disasm_h = $(srcdir)/tui/tui-disasm.h $(tui_h) $(tui_data_h)
-tui_file_h = $(srcdir)/tui/tui-file.h
-tui_h = $(srcdir)/tui/tui.h
-tui_hooks_h = $(srcdir)/tui/tui-hooks.h
-tui_io_h = $(srcdir)/tui/tui-io.h
-tui_layout_h = $(srcdir)/tui/tui-layout.h $(tui_h) $(tui_data_h)
-tui_regs_h = $(srcdir)/tui/tui-regs.h $(tui_data_h)
-tui_source_h = $(srcdir)/tui/tui-source.h $(tui_data_h)
-tui_stack_h = $(srcdir)/tui/tui-stack.h
-tui_windata_h = $(srcdir)/tui/tui-windata.h $(tui_data_h)
-tui_wingeneral_h = $(srcdir)/tui/tui-wingeneral.h
-tui_win_h = $(srcdir)/tui/tui-win.h $(tui_data_h)
-tui_winsource_h = $(srcdir)/tui/tui-winsource.h $(tui_data_h)
 
 # Header files that need to have srcdir added.  Note that in the cases
 # where we use a macro like $(gdbcmd_h), things are carefully arranged
@@ -2123,6 +2091,8 @@ inflow.o: inflow.c $(defs_h) $(frame_h) $(inferior_h) $(command_h) \
 inf-ptrace.o: inf-ptrace.c $(defs_h) $(command_h) $(inferior_h) $(inflow_h) \
 	$(gdbcore_h) $(observer_h) $(regcache_h) $(gdb_assert_h) \
 	$(gdb_string_h) $(gdb_ptrace_h) $(gdb_wait_h) $(inf_child_h)
+	$(CC) -c $(INTERNAL_CFLAGS) $< -Wno-error
+
 infptrace.o: infptrace.c $(defs_h) $(command_h) $(frame_h) $(gdbcore_h) \
 	$(inferior_h) $(regcache_h) $(target_h) $(gdb_assert_h) \
 	$(gdb_wait_h) $(gdb_string_h) $(gdb_dirent_h) $(gdb_ptrace_h)

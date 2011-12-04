@@ -595,7 +595,7 @@ inf_ptrace_fetch_register (int regnum)
 
       addr += sizeof (PTRACE_TYPE_RET);
     }
-  regcache_raw_supply (current_regcache, regnum, buf);
+  regcache_raw_supply (current_regcache, regnum, (void *) buf);
 }
 
 /* Fetch register REGNUM from the inferior.  If REGNUM is -1, do this
@@ -635,7 +635,7 @@ inf_ptrace_store_register (int regnum)
   buf = alloca (size);
 
   /* Write the register contents into the inferior a chunk at the time.  */
-  regcache_raw_collect (current_regcache, regnum, buf);
+  regcache_raw_collect (current_regcache, regnum, (void *) buf);
   for (i = 0; i < size / sizeof (PTRACE_TYPE_RET); i++)
     {
       errno = 0;
