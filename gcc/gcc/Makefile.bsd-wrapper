@@ -1,10 +1,9 @@
-# $MirOS: gcc/gcc/Makefile.bsd-wrapper,v 1.14 2005/05/14 17:43:41 tg Exp $
+# $MirOS: gcc/gcc/Makefile.bsd-wrapper,v 1.15 2005/05/19 22:37:07 tg Exp $
 
 .include <bsd.own.mk>
 .include "${GNUSYSTEM_AUX_DIR}/locations.mk"
 .include "../Makefile.inc"
 
-GCCVERSION=	3.4.4
 LIBGCC_VERSION=	1.1
 CPPFLAGS+=	-I${GNU_LIBIBERTY_INC} -DMIRBSD_NATIVE
 

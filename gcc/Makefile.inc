@@ -1,4 +1,4 @@
-# $MirOS: gcc/Makefile.inc,v 1.6 2005/05/01 02:51:33 tg Exp $
+# $MirOS: gcc/Makefile.inc,v 1.7 2005/05/14 16:21:47 tg Exp $
 
 .ifndef _MODGCC_MAKEFILE_INC
 _MODGCC_MAKEFILE_INC=1
@@ -33,5 +33,8 @@ NO_JAVA=	Yes #implied
 GMAKE?=		/usr/local/bin/gmake
 
 LIBGCJ_DEBUG?=	No
+
+# System defines
+GCCVERSION=	3.4.5
 
 .endif
