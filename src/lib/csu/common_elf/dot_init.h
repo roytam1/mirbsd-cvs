@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /* $NetBSD: dot_init.h,v 1.1 2001/05/11 22:44:15 ross Exp $ */
 
 /*-
@@ -33,7 +34,12 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <sys/cdefs.h>			/* RCS ID & Copyright macro defns */
+/* This file breaks C++ constructurs */
+#ifndef WANT_MI_CSU
+#warning "Using MI CSU, C++ will not work"
+#endif
+
+/* Stubs */
 
 #define	INIT_FALLTHRU_DECL
 #define	FINI_FALLTHRU_DECL
