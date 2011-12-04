@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.lib.mk,v 1.12 2005/04/16 21:03:01 tg Exp $
+# $MirOS: src/share/mk/bsd.lib.mk,v 1.13 2005/04/16 21:22:32 tg Exp $
 # $OpenBSD: bsd.lib.mk,v 1.38 2004/06/22 19:50:01 pvalchev Exp $
 # $NetBSD: bsd.lib.mk,v 1.67 1996/01/17 20:39:26 mycroft Exp $
 # @(#)bsd.lib.mk	5.26 (Berkeley) 5/2/91
@@ -57,7 +57,7 @@ LINK.shlib?=	${CC} ${CFLAGS} ${PICFLAG} -shared \
 # .so used for PIC object files.  .ln used for lint output files.
 # .m for objective c files.
 .SUFFIXES:
-.SUFFIXES:	.out .o .go .so .S .s .c .m .cc .cxx .y .l .i .ln .dylib .m4
+.SUFFIXES:	.out .o .go .so .S .s .c .m .cc .cxx .y .l .i .ln .m4
 
 .c.o .m.o:
 	@echo "${COMPILE.c} ${CFLAGS_${.TARGET:C/(g|s)o$/.o/}} " \
