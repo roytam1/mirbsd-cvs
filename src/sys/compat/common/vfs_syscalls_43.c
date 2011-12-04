@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: vfs_syscalls_43.c,v 1.24 2004/07/13 21:04:29 millert Exp $	*/
+/**	$MirOS: src/sys/compat/common/vfs_syscalls_43.c,v 1.2 2005/03/06 21:27:29 tg Exp $ */
+/*	$OpenBSD: vfs_syscalls_43.c,v 1.27 2005/05/26 01:15:12 pedro Exp $	*/
 /*	$NetBSD: vfs_syscalls_43.c,v 1.4 1996/03/14 19:31:52 christos Exp $	*/
 
 /*
@@ -89,17 +89,6 @@ struct stat43 {
 static void cvtstat(struct stat *, struct stat43 *);
 #endif
 
-/*
- * Redirection info so we don't have to include the union fs routines in
- * the kernel directly.  This way, we can build unionfs as an LKM.  The
- * pointer gets replaced later, when we modload the LKM, or when the
- * compiled-in unionfs code gets initialized.  Initial, stub routine
- * value is compiled in from kern/vfs_syscalls.c
- */
-
-extern int (*union_check_p)(struct proc *, struct vnode **,
-				   struct file *, struct uio, int *);
-
 #if defined(COMPAT_OPENBSD) || defined(COMPAT_LINUX)
 /*
  * Convert from a new to an old stat structure.
@@ -164,8 +153,11 @@ compat_43_openbsd_sys_stat(p, v, retval)
 	vput(nd.ni_vp);
 	if (error)
 		return (error);
+	/* Don't let non-root see generation numbers (for NFS security) */
+	if (suser(p, 0))
+		sb.st_gen = 0;
 	cvtstat(&sb, &osb);
-	error = copyout((caddr_t)&osb, (caddr_t)SCARG(uap, ub), sizeof (osb));
+	error = copyout(&osb, SCARG(uap, ub), sizeof(osb));
 	return (error);
 }
 #endif
@@ -198,8 +190,11 @@ compat_43_sys_lstat(p, v, retval)
 	vput(nd.ni_vp);
 	if (error)
 		return (error);
+	/* Don't let non-root see generation numbers (for NFS security) */
+	if (suser(p, 0))
+		sb.st_gen = 0;
 	cvtstat(&sb, &osb);
-	error = copyout(&osb, SCARG(uap, ub), sizeof (osb));
+	error = copyout(&osb, SCARG(uap, ub), sizeof(osb));
 	return (error);
 }
 #endif
@@ -231,10 +226,14 @@ compat_43_sys_fstat(p, v, retval)
 	FREF(fp);
 	error = (*fp->f_ops->fo_stat)(fp, &ub, p);
 	FRELE(fp);
-	cvtstat(&ub, &oub);
-	if (error == 0)
-		error = copyout((caddr_t)&oub, (caddr_t)SCARG(uap, sb),
-		    sizeof (oub));
+	if (error == 0) {
+		/* Don't let non-root see generation numbers
+		   (for NFS security) */
+		if (suser(p, 0))
+			ub.st_gen = 0;
+		cvtstat(&ub, &oub);
+		error = copyout(&oub, SCARG(uap, sb), sizeof(oub));
+	}
 	return (error);
 }
 #endif
@@ -382,7 +381,6 @@ compat_43_sys_getdirentries(p, v, retval)
 		goto bad;
 	}
 	vp = (struct vnode *)fp->f_data;
-unionread:
 	if (vp->v_type != VDIR) {
 		error = EINVAL;
 		goto bad;
@@ -457,24 +455,6 @@ unionread:
 	VOP_UNLOCK(vp, 0, p);
 	if (error)
 		goto bad;
-	if ((SCARG(uap, count) == auio.uio_resid) &&
-	    union_check_p &&
-	    (union_check_p(p, &vp, fp, auio, &error) != 0))
-		goto unionread;
-	if (error)
-		goto bad;
-
-	if ((SCARG(uap, count) == auio.uio_resid) &&
-	    (vp->v_flag & VROOT) &&
-	    (vp->v_mount->mnt_flag & MNT_UNION)) {
-		struct vnode *tvp = vp;
-		vp = vp->v_mount->mnt_vnodecovered;
-		VREF(vp);
-		fp->f_data = (caddr_t) vp;
-		fp->f_offset = 0;
-		vrele(tvp);
-		goto unionread;
-	}
 	error = copyout((caddr_t)&loff, (caddr_t)SCARG(uap, basep),
 	    sizeof(long));
 	*retval = SCARG(uap, count) - auio.uio_resid;

@@ -1,5 +1,5 @@
-# $MirOS$
-# $OpenBSD: Makefile,v 1.18 2004/07/13 21:04:29 millert Exp $
+# $MirOS: src/sys/compat/common/Makefile,v 1.2 2005/03/06 21:27:28 tg Exp $
+# $OpenBSD: Makefile,v 1.19 2004/09/16 13:57:47 miod Exp $
 # $NetBSD: Makefile,v 1.8 1996/05/18 15:52:19 christos Exp $
 
 LIB=	compat

@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: linux_misc.c,v 1.57 2004/06/24 19:35:23 tholo Exp $	*/
+/**	$MirOS: src/sys/compat/linux/linux_misc.c,v 1.2 2005/03/06 21:27:30 tg Exp $ */
+/*	$OpenBSD: linux_misc.c,v 1.58 2005/02/17 18:07:36 jfb Exp $	*/
 /*	$NetBSD: linux_misc.c,v 1.27 1996/05/20 01:59:21 fvdl Exp $	*/
 
 /*-
@@ -540,7 +540,7 @@ linux_sys_uname(p, v, retval)
 	strlcpy(luts.l_machine, machine, sizeof(luts.l_machine));
 	luts.l_domainname[0] = '\0';
 
-	/* This part taken from the the uname() in libc */
+	/* This part taken from the uname() in libc */
 	len = sizeof(luts.l_version);
 	for (cp = luts.l_version; len--; ++cp)
 		if (*cp == '\n' || *cp == '\t')
@@ -569,7 +569,7 @@ linux_sys_olduname(p, v, retval)
 	strlcpy(luts.l_version, version, sizeof(luts.l_version));
 	strlcpy(luts.l_machine, machine, sizeof(luts.l_machine));
 
-	/* This part taken from the the uname() in libc */
+	/* This part taken from the uname() in libc */
 	len = sizeof(luts.l_version);
 	for (cp = luts.l_version; len--; ++cp)
 		if (*cp == '\n' || *cp == '\t')
@@ -598,7 +598,7 @@ linux_sys_oldolduname(p, v, retval)
 	strlcpy(luts.l_version, version, sizeof(luts.l_version));
 	strlcpy(luts.l_machine, machine, sizeof(luts.l_machine));
 
-	/* This part taken from the the uname() in libc */
+	/* This part taken from the uname() in libc */
 	len = sizeof(luts.l_version);
 	for (cp = luts.l_version; len--; ++cp)
 		if (*cp == '\n' || *cp == '\t')
