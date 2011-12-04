@@ -1,5 +1,5 @@
-/**	$MirOS: src/sys/ufs/ffs/ffs_vfsops.c,v 1.3 2005/05/23 10:16:53 tg Exp $ */
-/*	$OpenBSD: ffs_vfsops.c,v 1.69 2005/05/22 21:12:42 pedro Exp $	*/
+/**	$MirOS: src/sys/ufs/ffs/ffs_vfsops.c,v 1.4 2005/07/04 00:10:45 tg Exp $ */
+/*	$OpenBSD: ffs_vfsops.c,v 1.70 2005/07/03 20:14:02 drahn Exp $	*/
 /*	$NetBSD: ffs_vfsops.c,v 1.19 1996/02/09 22:22:26 christos Exp $	*/
 
 /*
@@ -57,7 +57,6 @@
 
 #include <miscfs/specfs/specdev.h>
 
-#include <ufs/ufs/extattr.h>
 #include <ufs/ufs/quota.h>
 #include <ufs/ufs/ufsmount.h>
 #include <ufs/ufs/inode.h>
@@ -85,12 +84,7 @@ const struct vfsops ffs_vfsops = {
 	ffs_vptofh,
 	ffs_init,
 	ffs_sysctl,
-	ufs_check_export,
-#ifdef UFS_EXTATTR
-	ufs_extattrctl,
-#else
-	vfs_stdextattrctl,
-#endif
+	ufs_check_export
 };
 
 struct inode_vtbl ffs_vtbl = {
@@ -787,9 +781,6 @@ ffs_mountfs(devvp, mp, p)
 	ump->um_seqinc = fs->fs_frag;
 	for (i = 0; i < MAXQUOTAS; i++)
 		ump->um_quotas[i] = NULLVP;
-#ifdef UFS_EXTATTR
-	ufs_extattr_uepm_init(&ump->um_extattr);
-#endif
 
 	devvp->v_specmountpoint = mp;
 	ffs_oldfscompat(fs);
@@ -848,21 +839,6 @@ ffs_mountfs(devvp, mp, p)
 			fs->fs_flags &= ~FS_DOSOFTDEP;
 		(void) ffs_sbupdate(ump, MNT_WAIT);
 	}
-#ifdef UFS_EXTATTR
-#ifdef UFS_EXTATTR_AUTOSTART
-	/*
-	 *
-	 * Auto-starting does the following:
-	 *	- check for /.attribute in the fs, and extattr_start if so
-	 *	- for each file in .attribute, enable that file with
-	 *	  an attribute of the same name.
-	 * Not clear how to report errors -- probably eat them.
-	 * This would all happen while the file system was busy/not
-	 * available, so would effectively be "atomic".
-	 */
-	(void) ufs_extattr_autostart(mp, p);
-#endif /* !UFS_EXTATTR_AUTOSTART */
-#endif /* !UFS_EXTATTR */
 	return (0);
 out:
 	devvp->v_specmountpoint = NULL;
@@ -929,17 +905,10 @@ ffs_unmount(mp, mntflags, p)
 
 	ump = VFSTOUFS(mp);
 	fs = ump->um_fs;
-#ifdef UFS_EXTATTR
-	if ((error = ufs_extattr_stop(mp, p))) {
-		if (error != EOPNOTSUPP)
-			printf("ffs_unmount: ufs_extattr_stop returned %d\n",
-			    error);
-	} else {
-		ufs_extattr_uepm_destroy(&ump->um_extattr);
-	}
-#endif
+
 	/* MirOS specific: write randomness into superblock */
 	get_random_bytes(&(fs->fs_unused_1), 4);
+
 	if (mp->mnt_flag & MNT_SOFTDEP)
 		error = softdep_flushfiles(mp, flags, p);
 	else
