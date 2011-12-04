@@ -1,4 +1,4 @@
-# $MirOS: src/usr.bin/Makefile,v 1.5 2005/05/05 00:41:07 tg Exp $
+# $MirOS: src/usr.bin/Makefile,v 1.6 2005/07/07 23:21:32 tg Exp $
 # $OpenBSD: Makefile,v 1.90 2004/05/02 17:55:09 millert Exp $
 
 .include <bsd.own.mk>
@@ -191,7 +191,6 @@
   SUBDIR+= xargs
   SUBDIR+= xinstall
   SUBDIR+= xlint
-  SUBDIR+= xmlwf
   SUBDIR+= xstr
   SUBDIR+= yacc
   SUBDIR+= yes
