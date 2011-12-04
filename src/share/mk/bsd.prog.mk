@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.prog.mk,v 1.5 2005/04/12 19:13:34 tg Exp $
+# $MirOS: src/share/mk/bsd.prog.mk,v 1.6 2005/04/12 19:24:58 tg Exp $
 # $OpenBSD: bsd.prog.mk,v 1.39 2004/06/03 20:51:07 miod Exp $
 # $NetBSD: bsd.prog.mk,v 1.55 1996/04/08 21:19:26 jtc Exp $
 # @(#)bsd.prog.mk	5.26 (Berkeley) 6/25/91
@@ -14,7 +14,7 @@ BSD_PROG_MK=1
 .  include <bsd.own.mk>
 .endif
 
-.SUFFIXES: .out .o .c .cc .C .cxx .y .l .s .8 .7 .6 .5 .4 .3 .2 .1 .0
+.SUFFIXES:	.out .o .s .S .c .m .cc .cxx .y .l .8 .7 .6 .5 .4 .3 .2 .1 .0
 
 .if ${WARNINGS:L} == "yes"
 CFLAGS+=	${CDIAGFLAGS}
