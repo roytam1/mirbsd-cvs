@@ -14,7 +14,7 @@
 
 @SET_MAKE@
 
-# $MirOS: src/gnu/usr.bin/binutils/gas/Makefile.am,v 1.5 2005/06/05 21:24:11 tg Exp $
+# $MirOS: src/gnu/usr.bin/binutils/gas/Makefile.am,v 1.6 2005/07/07 16:22:47 tg Exp $
 
 
 SOURCES = $(as_new_SOURCES) $(EXTRA_as_new_SOURCES) $(itbl_test_SOURCES)
@@ -3339,7 +3339,7 @@ dep-am: DEP
 #MKDEP    DO NOT PUT ANYTHING BETWEEN THIS LINE AND THE MATCHING WARNING BELOW.
 app.o: app.c $(INCDIR)/symcat.h
 as.o: as.c $(INCDIR)/symcat.h subsegs.h $(INCDIR)/obstack.h \
-  output-file.h sb.h macro.h dwarf2dbg.h dw2gencfi.h hash.h \
+  output-file.h sb.h macro.h dwarf2dbg.h dw2gencfi.h \
   $(INCDIR)/elf/dwarf2.h $(BFDVER_H)
 atof-generic.o: atof-generic.c $(INCDIR)/symcat.h $(INCDIR)/safe-ctype.h
 cond.o: cond.c $(INCDIR)/symcat.h macro.h sb.h $(INCDIR)/obstack.h
@@ -3374,7 +3374,7 @@ output-file.o: output-file.c $(INCDIR)/symcat.h output-file.h
 read.o: read.c $(INCDIR)/symcat.h $(INCDIR)/safe-ctype.h \
   subsegs.h $(INCDIR)/obstack.h sb.h macro.h ecoff.h \
   dw2gencfi.h $(INCDIR)/elf/dwarf2.h
-sb.o: sb.c sb.h
+sb.o: sb.c sb.h $(INCDIR)/symcat.h
 stabs.o: stabs.c $(INCDIR)/symcat.h $(INCDIR)/obstack.h \
   subsegs.h ecoff.h $(INCDIR)/aout/stab_gnu.h $(INCDIR)/aout/stab.def
 subsegs.o: subsegs.c $(INCDIR)/symcat.h subsegs.h $(INCDIR)/obstack.h
