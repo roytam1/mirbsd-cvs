@@ -1559,6 +1559,8 @@
 ./usr/libdata/perl5/site_perl/i386-mirbsd/openssl/engine.ph
 ./usr/libdata/perl5/site_perl/i386-mirbsd/openssl/err.ph
 ./usr/libdata/perl5/site_perl/i386-mirbsd/openssl/evp.ph
+./usr/libdata/perl5/site_perl/i386-mirbsd/openssl/fips.ph
+./usr/libdata/perl5/site_perl/i386-mirbsd/openssl/fips_rand.ph
 ./usr/libdata/perl5/site_perl/i386-mirbsd/openssl/hmac.ph
 ./usr/libdata/perl5/site_perl/i386-mirbsd/openssl/idea.ph
 ./usr/libdata/perl5/site_perl/i386-mirbsd/openssl/kssl.ph
