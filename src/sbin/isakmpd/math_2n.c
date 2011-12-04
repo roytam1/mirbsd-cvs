@@ -1,4 +1,4 @@
-/* $OpenBSD: math_2n.c,v 1.22 2005/04/21 01:23:06 cloder Exp $	 */
+/* $OpenBSD: math_2n.c,v 1.23 2005/05/03 13:50:44 moritz Exp $	 */
 /* $EOM: math_2n.c,v 1.15 1999/04/20 09:23:30 niklas Exp $	 */
 
 /*

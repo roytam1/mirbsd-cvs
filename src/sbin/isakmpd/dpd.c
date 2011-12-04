@@ -1,5 +1,5 @@
-/**	$MirOS: src/sbin/isakmpd/dpd.c,v 1.2 2005/03/06 19:50:03 tg Exp $ */
-/*	$OpenBSD: dpd.c,v 1.12 2005/04/08 21:14:49 cloder Exp $	*/
+/**	$MirOS: src/sbin/isakmpd/dpd.c,v 1.3 2005/04/26 15:42:38 tg Exp $ */
+/*	$OpenBSD: dpd.c,v 1.13 2005/05/04 10:05:01 hshoexer Exp $	*/
 
 /*
  * Copyright (c) 2004 Håkan Olsson.  All rights reserved.
@@ -39,6 +39,7 @@
 #include "isakmp_fld.h"
 #include "log.h"
 #include "message.h"
+#include "pf_key_v2.h"
 #include "sa.h"
 #include "timer.h"
 #include "transport.h"
@@ -275,7 +276,7 @@ dpd_check_time(struct sa *sa, void *v_arg)
 	sa->transport->vtbl->get_src(sa->transport, &dst);
 
 	gettimeofday(&tv, 0);
-	ksa = sysdep_ipsec_get_kernel_sa(proto->spi[1], proto->spi_sz[1],
+	ksa = pf_key_v2_get_kernel_sa(proto->spi[1], proto->spi_sz[1],
 	    proto->proto, dst);
 
 	if (!ksa || !ksa->last_used)

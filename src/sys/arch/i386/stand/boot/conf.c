@@ -1,5 +1,5 @@
-/**	$MirOS: src/sys/arch/i386/stand/boot/conf.c,v 1.2 2005/03/06 21:27:03 tg Exp $ */
-/*	$OpenBSD: conf.c,v 1.29 2005/04/25 23:09:04 tom Exp $	*/
+/**	$MirOS: src/sys/arch/i386/stand/boot/conf.c,v 1.3 2005/04/29 18:34:57 tg Exp $ */
+/*	$OpenBSD: conf.c,v 1.32 2005/05/03 13:18:05 tom Exp $	*/
 
 /*
  * Copyright (c) 1996 Michael Shalayeff
