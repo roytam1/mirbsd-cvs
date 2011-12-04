@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/i386/apm.c,v 1.4 2005/05/26 20:56:04 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/i386/apm.c,v 1.5 2005/07/01 14:39:44 tg Exp $ */
 /*	$OpenBSD: apm.c,v 1.66 2005/06/16 16:49:04 beck Exp $	*/
 
 /*-
@@ -815,6 +815,7 @@ apmattach(parent, self, aux)
 	struct device *parent, *self;
 	void *aux;
 {
+	extern union descriptor *dynamic_gdt;
 	struct bios_attach_args *ba = aux;
 	bios_apminfo_t *ap = ba->bios_apmp;
 	struct apm_softc *sc = (void *)self;
@@ -880,12 +881,12 @@ apmattach(parent, self, aux)
 		else
 			ch16 += ap->apm_code16_base - cbase;
 
-		setgdt(GAPM32CODE_SEL, (void *)ch32, ap->apm_code_len,
-		    SDT_MEMERA, SEL_KPL, 1, 0);
-		setgdt(GAPM16CODE_SEL, (void *)ch16, ap->apm_code16_len,
-		    SDT_MEMERA, SEL_KPL, 0, 0);
-		setgdt(GAPMDATA_SEL, (void *)dh, ap->apm_data_len, SDT_MEMRWA,
-		    SEL_KPL, 1, 0);
+		setsegment(&dynamic_gdt[GAPM32CODE_SEL].sd, (void *)ch32,
+			   ap->apm_code_len, SDT_MEMERA, SEL_KPL, 1, 0);
+		setsegment(&dynamic_gdt[GAPM16CODE_SEL].sd, (void *)ch16,
+			   ap->apm_code16_len, SDT_MEMERA, SEL_KPL, 0, 0);
+		setsegment(&dynamic_gdt[GAPMDATA_SEL].sd, (void *)dh,
+			   ap->apm_data_len, SDT_MEMRWA, SEL_KPL, 1, 0);
 		DPRINTF((": flags %x code 32:%x/%x[%x] 16:%x/%x[%x] "
 		       "data %x/%x/%x ep %x (%x:%x)\n%s", apm_flags,
 		    ap->apm_code32_base, ch32, ap->apm_code_len,
@@ -927,9 +928,9 @@ apmattach(parent, self, aux)
 		} else
 			kthread_create_deferred(apm_thread_create, sc);
 	} else {
-		setgdt(GAPM32CODE_SEL, NULL, 0, 0, 0, 0, 0);
-		setgdt(GAPM16CODE_SEL, NULL, 0, 0, 0, 0, 0);
-		setgdt(GAPMDATA_SEL, NULL, 0, 0, 0, 0, 0);
+		dynamic_gdt[GAPM32CODE_SEL] = dynamic_gdt[GNULL_SEL];
+		dynamic_gdt[GAPM16CODE_SEL] = dynamic_gdt[GNULL_SEL];
+		dynamic_gdt[GAPMDATA_SEL] = dynamic_gdt[GNULL_SEL];
 	}
 	/* XXX - To go away */
 	printf("apm0: flags %x dobusy %d doidle %d\n",
@@ -941,15 +942,6 @@ apm_thread_create(v)
 	void *v;
 {
 	struct apm_softc *sc = v;
-
-#ifdef MULTIPROCESSOR
-	if (ncpus > 1) {
-		apm_disconnect(sc);
-		apm_dobusy = apm_doidle = 0;
-		return;
-	}
-#endif
-
 	if (kthread_create(apm_thread, sc, &sc->sc_thread,
 	    "%s", sc->sc_dev.dv_xname)) {
 		apm_disconnect(sc);
