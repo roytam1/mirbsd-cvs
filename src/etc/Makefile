@@ -1,4 +1,4 @@
-# $MirOS: src/etc/Makefile,v 1.6 2005/06/26 18:07:53 tg Exp $
+# $MirOS: src/etc/Makefile,v 1.7 2005/07/04 12:43:41 tg Exp $
 # $OpenBSD: Makefile,v 1.206 2004/05/04 23:37:04 deraadt Exp $
 
 TZDIR=		/usr/share/zoneinfo
@@ -117,8 +117,6 @@ distribution-etc-root-var: distrib-dirs
 		${INSTALL} -c -o root -g wheel -m 600 special \
 		    ${DESTDIR}/etc/mtree/; \
 		${INSTALL} -c -o root -g wheel -m 444 4.4BSD.dist \
-		    ${DESTDIR}/etc/mtree/; \
-		${INSTALL} -c -o root -g wheel -m 444 BSD.local.dist \
 		    ${DESTDIR}/etc/mtree/
 	cd ppp; \
 		${INSTALL} -c -o root -g wheel -m 600 \
@@ -308,7 +306,7 @@ install-generated:
 DHSIZE=	1024 1536 2048 3072 4096
 update-moduli:
 	( \
-		echo '#    $$MirOS: src/etc/Makefile,v 1.6 2005/06/26 18:07:53 tg Exp $$'; \
+		echo '#    $$MirOS: src/etc/Makefile,v 1.7 2005/07/04 12:43:41 tg Exp $$'; \
 		echo '#    $$OpenBSD: Makefile,v 1.206 2004/05/04 23:37:04 deraadt Exp $$'; \
 		echo '# Time Type Tests Tries Size Generator Modulus'; \
 		( for i in ${DHSIZE}; do \

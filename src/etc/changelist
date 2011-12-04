@@ -1,4 +1,4 @@
-#	$MirOS: src/etc/changelist,v 1.2 2005/03/06 19:05:53 tg Exp $
+#	$MirOS: src/etc/changelist,v 1.3 2005/07/04 12:43:41 tg Exp $
 #	$OpenBSD: changelist,v 1.37 2004/05/04 23:37:04 deraadt Exp $
 #
 # List of files which the security script backs up and checks
@@ -78,8 +78,6 @@
 /etc/motd
 /etc/mrouted.conf
 /etc/mtree/4.4BSD.dist
-/etc/mtree/BSD.local.dist
-/etc/mtree/BSD.x11.dist
 /etc/mtree/special
 /etc/myname
 /etc/netgroup
