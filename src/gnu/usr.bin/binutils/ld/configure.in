@@ -1,4 +1,4 @@
-dnl $MirOS: src/gnu/usr.bin/binutils/ld/configure.in,v 1.3 2005/03/28 22:21:12 tg Exp $
+dnl $MirOS: src/gnu/usr.bin/binutils/ld/configure.in,v 1.4 2005/06/05 21:24:38 tg Exp $
 
 dnl Process this file with autoconf to produce a configure script
 dnl
@@ -160,6 +160,13 @@ BFD_NEED_DECLARATION(free)
 BFD_NEED_DECLARATION(sbrk)
 BFD_NEED_DECLARATION(getenv)
 BFD_NEED_DECLARATION(environ)
+
+# These look needed for ../bfd/sysdep.h
+AC_CHECK_DECLS(free)
+AC_CHECK_DECLS(getenv)
+AC_CHECK_DECLS(malloc)
+AC_CHECK_DECLS(realloc)
+AC_CHECK_DECLS(strstr)
 
 # When converting linker scripts into strings for use in emulation
 # files, use astring.sed if the compiler supports ANSI string

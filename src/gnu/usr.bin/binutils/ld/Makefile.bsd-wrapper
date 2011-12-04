@@ -1,7 +1,8 @@
-# $MirOS: src/gnu/usr.bin/binutils/ld/Makefile.bsd-wrapper,v 1.1.7.1 2005/03/06 16:58:49 tg Exp $
+# $MirOS: src/gnu/usr.bin/binutils/ld/Makefile.bsd-wrapper,v 1.2 2005/06/05 21:24:38 tg Exp $
 
 FSFSRC=		${GNU_BINUTILS_LD}
 MAN=		ld.1
+CFARGS+=	--target=${GCCTARGET}
 XARGS+=		YLWRAP="${GNUSYSTEM_AUX_DIR}/ylwrap" scriptdir=/usr/libdata \
 		mkinstalldirs="${SHELL} ${GNUSYSTEM_AUX_DIR}/mkinstalldirs"
 INST_TARGET=	INSTALL_MAN= install
