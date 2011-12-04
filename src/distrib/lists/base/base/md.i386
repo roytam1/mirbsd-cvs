@@ -56,6 +56,8 @@
 ./usr/include/i386/vm86.h
 ./usr/include/i386/vmparam.h
 ./usr/lib/libi386.a
+./usr/libdata/perl5/site_perl/i386-mirbsd/openssl/fips.ph
+./usr/libdata/perl5/site_perl/i386-mirbsd/openssl/fips_rand.ph
 ./usr/share/man/cat2/i386_get_ioperm.0
 ./usr/share/man/cat2/i386_get_ldt.0
 ./usr/share/man/cat2/i386_iopl.0

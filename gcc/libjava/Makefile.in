@@ -1,4 +1,4 @@
-# $MirOS: gcc/libjava/Makefile.in,v 1.2 2005/05/01 02:51:35 tg Exp $
+# $MirOS: gcc/libjava/Makefile.in,v 1.3 2005/05/01 21:49:49 tg Exp $
 # XXX hacked
 #
 # Makefile.in generated automatically by automake 1.4 from Makefile.am
@@ -2455,7 +2455,6 @@ $(javax_source_files)
 java_source_files = $(special_java_source_files) $(ordinary_java_source_files)
 
 c_source_files = \
-  LIBGCJ_LICENSE.c							  \
   java/lang/dtoa.c        java/lang/k_rem_pio2.c  java/lang/s_tan.c       \
   java/lang/e_acos.c      java/lang/k_sin.c       java/lang/strtod.c      \
   java/lang/e_asin.c      java/lang/k_tan.c       java/lang/w_acos.c      \

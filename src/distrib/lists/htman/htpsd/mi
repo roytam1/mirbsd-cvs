@@ -1933,6 +1933,8 @@
 ./man3/evbuffer_write.htm
 ./man3/event.htm
 ./man3/event_add.htm
+./man3/event_base_loop.htm
+./man3/event_base_loopexit.htm
 ./man3/event_del.htm
 ./man3/event_dispatch.htm
 ./man3/event_init.htm
@@ -1941,6 +1943,7 @@
 ./man3/event_loopexit.htm
 ./man3/event_once.htm
 ./man3/event_pending.htm
+./man3/event_priority_init.htm
 ./man3/event_set.htm
 ./man3/evtimer_add.htm
 ./man3/evtimer_del.htm
@@ -2591,6 +2594,7 @@
 ./man3/idlok.htm
 ./man3/ieee.htm
 ./man3/ieeef.htm
+./man3/ievent_priority_set.htm
 ./man3/if_freenameindex.htm
 ./man3/if_indextoname.htm
 ./man3/if_nameindex.htm
@@ -3856,6 +3860,7 @@
 ./man3/stdio.htm
 ./man3/store.htm
 ./man3/strcasecmp.htm
+./man3/strcasestr.htm
 ./man3/strcat.htm
 ./man3/strchr.htm
 ./man3/strcmp.htm
