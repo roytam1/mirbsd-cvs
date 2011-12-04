@@ -1,4 +1,4 @@
-# $MirOS: gcc/Makefile.sub,v 1.10 2005/04/27 07:12:16 tg Exp $
+# $MirOS: gcc/Makefile.sub,v 1.11 2005/05/01 02:51:33 tg Exp $
 
 .if defined(COMPILER_ONLY) && ${COMPILER_ONLY:L} != "no"
 
@@ -17,7 +17,7 @@
 
 .  include "${.CURDIR}/Makefile.inc"
 
-  SUBDIR+= boehm-gc
+# SUBDIR+= boehm-gc
   SUBDIR+= fastjar
   SUBDIR+= gcc
   SUBDIR+= libada		# after gcc
