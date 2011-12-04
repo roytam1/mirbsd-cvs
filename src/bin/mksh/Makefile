@@ -1,4 +1,4 @@
-# $MirOS: src/bin/mksh/Makefile,v 1.4 2005/08/26 22:03:55 tg Exp $
+# $MirOS: src/bin/mksh/Makefile,v 1.5 2005/08/29 01:16:22 tg Exp $
 
 PROG=		mksh
 SRCS=		alloc.c edit.c eval.c exec.c expr.c funcs.c histrap.c \
@@ -15,6 +15,8 @@ SRCS+=		printf.c
 CFLAGS_printf.o=-DBUILTIN
 CPPFLAGS+=	-DUSE_PRINTF
 .endif
+
+DEBUGPROGS=	No	# objcopy can't mod /bin/mksh after install (ETXTBUSY)
 
 check:
 	@cd ${.CURDIR} && ${MAKE} regress V=-v
