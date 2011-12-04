@@ -1,4 +1,4 @@
-.\" $MirOS: src/share/misc/licence.template,v 1.2 2005/03/03 19:43:30 tg Rel $
+.\" $MirOS: src/lib/libc/time/taitime.3,v 1.2 2005/03/28 21:21:50 tg Exp $
 .\"-
 .\" Copyright (c) 2004, 2005
 .\"	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -94,7 +94,7 @@ The TAI64 and TAI64NA data types are specified further below.
 The
 .Fn tai_leaps
 function returns a pointer to a zero-terminated array of
-.Ft tai64_t
+.Vt tai64_t
 values, each denoting a positive leap second.
 DJB says, negative leap seconds are not likely to happen;
 if they should, a new interface will be published.
@@ -115,12 +115,12 @@ The
 and
 .Fn tai2timet
 routines convert their argument between the TAI64 format and the
-.Ft time_t
+.Vt time_t
 data type which is generally used in time keeping, for example by the
 .Xr gettimeofday 2
 system call.
 Generally speaking, a
-.Ft time_t
+.Vt time_t
 counts the number of real seconds that have happened after January 1st,
 1970, 00:00:00 UTC (coordinated universal time).
 .Pp
@@ -129,9 +129,9 @@ The
 and
 .Fn tai2utc
 functions convert between the TAI64 format and an UTC value expressed as
-.Ft int64_t .
+.Vt int64_t .
 The UTC value equals the
-.Ft time_t
+.Vt time_t
 value as shown above, with the difference that not real seconds are
 counted, but seconds that would have happened if every full day had
 exactly 86400 seconds.
@@ -143,7 +143,7 @@ useful for conversion between calendar dates and second-counting dates.
 compliant systems, unlike
 .Mx ,
 force their
-.Ft time_t
+.Vt time_t
 type and internal kernel time to be in this format, completely ignoring
 the existence of leap seconds.
 .Pp
@@ -159,12 +159,17 @@ The
 and
 .Fn tm2mjd
 functions convert between the MJD structure and the more common
-.Ft struct tm
+.Vt struct tm
 as used by
 .Xr mktime 3 .
 Time zone information is discarded \- when converting from
-.Ft struct tm ,
+.Vt struct tm ,
 you have to ensure the values are already in UTC format. 
+.Fn tm2mjd
+converts the following fields of
+.Vt struct tm :
+.Sy tm_gmtoff , No tm_year , tm_mon ,
+.No tm_mday , tm_hour , tm_min , tm_sec .
 .Pp
 The
 .Fn exporttai
@@ -251,16 +256,16 @@ The functions are exchangable, it is feasible to patch djb
 libtai to use this set of functions provided by libc internally.
 .Pp
 The
-.Ft tai64_t
+.Vt tai64_t
 is, in contrast to
-.Ft time_t ,
+.Vt time_t ,
 not zero-based, but has a bias of
 .Dv __TAI64_BIAS
 which is defined in the implementation as 0x4000000000000000ULL for the
 .Mx
 operating system.
 You will have to be extra carefully when adding values of type
-.Ft tai64_t
+.Vt tai64_t
 or storing time values versus time distances in variables.
 .Sh BUGS
 The leap second table is read from the timezone information file.
