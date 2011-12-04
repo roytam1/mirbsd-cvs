@@ -1,4 +1,4 @@
-/**	$MirOS: src/lib/libedit/readline.c,v 1.3 2005/04/19 18:37:18 tg Exp $ */
+/**	$MirOS: src/lib/libedit/readline.c,v 1.4 2005/04/19 18:37:55 tg Exp $ */
 /*	$OpenBSD: readline.c,v 1.2 2003/11/25 20:12:38 otto Exp $ */
 /*	$NetBSD: readline.c,v 1.52 2005/04/19 03:29:18 christos Exp $	*/
 
@@ -65,7 +65,7 @@
 #include "histedit.h"
 #include "readline/readline.h"
 
-__RCSID("$MirOS: src/lib/libedit/readline.c,v 1.3 2005/04/19 18:37:18 tg Exp $");
+__RCSID("$MirOS: src/lib/libedit/readline.c,v 1.4 2005/04/19 18:37:55 tg Exp $");
 
 /* for rl_complete() */
 #define TAB		'\r'
@@ -1440,7 +1440,7 @@ tilde_expand(char *txt)
  * it's caller's responsibility to free returned string
  */
 char *
-filename_completion_function(const char *text, int state)
+rl_filename_completion_function(const char *text, int state)
 {
 	static DIR *dir = NULL;
 	static char *filename = NULL, *dirname = NULL;
@@ -1568,7 +1568,7 @@ filename_completion_function(const char *text, int state)
  * it's callers responsibility to free returned value
  */
 char *
-username_completion_function(const char *text, int state)
+rl_username_completion_function(const char *text, int state)
 {
 	struct passwd *pwd;
 #ifdef __NetBSD__
@@ -1764,7 +1764,7 @@ _rl_complete_internal(int what_to_do)
 
 	complet_func = rl_completion_entry_function;
 	if (!complet_func)
-		complet_func = (Function *)(void *)filename_completion_function;
+		complet_func = (Function *)(void *)rl_filename_completion_function;
 
 	/* We now look backwards for the start of a filename/variable word */
 	li = el_line(e);
@@ -1821,7 +1821,7 @@ _rl_complete_internal(int what_to_do)
 			 */
 			size_t alen = strlen(matches[0]);
 			if ((complet_func !=
-			    (Function *)filename_completion_function
+			    (Function *)rl_filename_completion_function
 			      || (alen > 0 && (matches[0])[alen - 1] != '/'))
 			    && rl_completion_append_character) {
 				char buf[2];

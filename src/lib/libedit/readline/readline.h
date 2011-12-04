@@ -1,4 +1,4 @@
-/**	$MirOS: src/lib/libedit/readline/readline.h,v 1.4 2005/04/19 18:37:19 tg Exp $ */
+/**	$MirOS: src/lib/libedit/readline/readline.h,v 1.5 2005/04/19 18:40:27 tg Exp $ */
 /*	$OpenBSD: readline.h,v 1.2 2003/11/25 20:12:39 otto Exp $	*/
 /*	$NetBSD: readline.h,v 1.13 2005/04/12 22:01:40 christos Exp $	*/
 
@@ -159,8 +159,8 @@ const char	*get_history_event(const char *, int *, int);
 char		*history_arg_extract(int, int, const char *);
 
 char		*tilde_expand(char *);
-char		*filename_completion_function(const char *, int);
-char		*username_completion_function(const char *, int);
+char		*rl_filename_completion_function(const char *, int);
+char		*rl_username_completion_function(const char *, int);
 int		 rl_complete(int, int);
 int		 rl_read_key(void);
 char	       **completion_matches(const char *, CPFunction *);
