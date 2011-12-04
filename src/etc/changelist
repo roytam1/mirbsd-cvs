@@ -1,4 +1,4 @@
-#	$MirOS$
+#	$MirOS: src/etc/changelist,v 1.2 2005/03/06 19:05:53 tg Exp $
 #	$OpenBSD: changelist,v 1.37 2004/05/04 23:37:04 deraadt Exp $
 #
 # List of files which the security script backs up and checks
@@ -48,7 +48,6 @@
 /etc/hosts.lpd
 /etc/inetd.conf
 /etc/isdn/isdnd.rc
-/etc/ksh.kshrc
 /etc/locate.rc
 /etc/login.conf
 /etc/lynx.cfg

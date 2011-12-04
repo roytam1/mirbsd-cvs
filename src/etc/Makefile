@@ -1,4 +1,4 @@
-# $MirOS: src/etc/Makefile,v 1.5 2005/04/20 06:18:06 tg Exp $
+# $MirOS: src/etc/Makefile,v 1.6 2005/06/26 18:07:53 tg Exp $
 # $OpenBSD: Makefile,v 1.206 2004/05/04 23:37:04 deraadt Exp $
 
 TZDIR=		/usr/share/zoneinfo
@@ -17,7 +17,7 @@ BINGRP= wheel
 BIN1=	changelist ccd.conf \
 	daily dhcpd.conf dhcpd.interfaces exports ftpusers \
 	ftpchroot gettytab group hosts hosts.lpd inetd.conf \
-	ksh.kshrc locate.rc man.conf monthly motd mrouted.conf \
+	locate.rc man.conf monthly motd mrouted.conf \
 	myname netstart networks newsyslog.conf ntpd.conf \
 	phones printcap protocols rbootd.conf rc rc.conf rc.local \
 	rc.securelevel rc.shutdown remote rpc security services \
@@ -308,7 +308,7 @@ install-generated:
 DHSIZE=	1024 1536 2048 3072 4096
 update-moduli:
 	( \
-		echo '#    $$MirOS: src/etc/Makefile,v 1.5 2005/04/20 06:18:06 tg Exp $$'; \
+		echo '#    $$MirOS: src/etc/Makefile,v 1.6 2005/06/26 18:07:53 tg Exp $$'; \
 		echo '#    $$OpenBSD: Makefile,v 1.206 2004/05/04 23:37:04 deraadt Exp $$'; \
 		echo '# Time Type Tests Tries Size Generator Modulus'; \
 		( for i in ${DHSIZE}; do \

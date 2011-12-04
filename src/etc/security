@@ -1,6 +1,6 @@
 #!/bin/ksh
 # $Id$
-# $MirOS: src/etc/security,v 1.4 2005/04/29 18:34:48 tg Exp $
+# $MirOS: src/etc/security,v 1.5 2005/04/29 18:58:15 tg Exp $
 # $OpenBSD: security,v 1.71 2005/02/22 10:50:55 otto Exp $
 # from: @(#)security	8.1 (Berkeley) 6/9/93
 
@@ -182,53 +182,6 @@ if [ $umaskset = "no" -o -s $OUTPUT ] ; then
 	if [ $umaskset = "no" ] ; then
 		echo "\nRoot sh startup files do not set the umask."
 	fi
-fi
-
-# A good .kshrc will not have a umask or path, that being set in .profile
-# check anyway.
-> $OUTPUT
-rhome=/root
-list="/etc/ksh.kshrc $(cat $TMP2)"
-(cd $rhome
- for i in $list; do
-	if [ -s $i ] ; then
-		egrep umask $i |
-		awk '$2 % 100 < 20 \
-			{ print "Root umask is group writable" } \
-		     $2 % 10 < 2 \
-			{ print "Root umask is other writable" }' >> $OUTPUT
-		if egrep PATH= $i > /dev/null ; then
-			SAVE_PATH=$PATH
-			unset PATH
-			/bin/ksh << end-of-sh > /dev/null 2>&1
-				. $i
-				if [ X"\$PATH" != "X" ]; then
-					list=\`echo \$PATH | /usr/bin/sed -e 's/:/ /g'\`
-					/bin/ls -ldgT \$list > $TMP1
-				else
-					> $TMP1
-				fi
-end-of-sh
-			PATH=$SAVE_PATH
-			awk '{
-				if ($10 ~ /^\.$/) {
-					print "The root path includes .";
-					next;
-				}
-			    }
-			    $1 ~ /^d....w/ \
-		{ print "Root path directory " $10 " is group writable." } \
-			    $1 ~ /^d.......w/ \
-		{ print "Root path directory " $10 " is other writable." }' \
-			< $TMP1 >> $OUTPUT
-		fi
-
-	fi
- done
-)
-if [ -s $OUTPUT ] ; then
-	echo "\nChecking root ksh paths, umask values:\n${list}"
-	cat $OUTPUT
 fi
 
 # Root and uucp should both be in /etc/ftpusers.
