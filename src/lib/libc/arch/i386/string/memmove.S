@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.2 2005/03/03 19:43:30 tg Rel $ */
+/* $MirOS: src/lib/libc/arch/i386/string/memmove.S,v 1.2 2005/04/17 01:05:54 tg Exp $ */
 
 /*-
  * Copyright (c) 2005
@@ -22,7 +22,7 @@
 
 #include <machine/asm.h>
 
-RCSID("$MirOS$")
+RCSID("$MirOS: src/lib/libc/arch/i386/string/memmove.S,v 1.2 2005/04/17 01:05:54 tg Exp $")
 WARN_REFERENCES(bcopy, \
     "warning: bcopy(s,d,l) is deprecated, consider using memmove(d,s,l)")
 
@@ -70,7 +70,9 @@ bkwd:	/* copy backwards, source < dest */
 	dec	esi
 	dec	esi
 	dec	esi
+	dec	esi
 	add	edi,ecx
+	dec	edi
 	dec	edi
 	dec	edi
 	dec	edi
@@ -79,6 +81,12 @@ bkwd:	/* copy backwards, source < dest */
 	rep
 	movsd
 	/* then, 0-3 remaining bytes */
+	inc	esi
+	inc	esi
+	inc	esi
+	inc	edi
+	inc	edi
+	inc	edi
 	mov	cl,dl
 	and	cl,3
 	rep
