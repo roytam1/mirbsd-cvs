@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/dev/wscons/wskbd.c,v 1.2 2005/05/13 06:46:33 tg Exp $ */
+/* $MirOS: src/sys/dev/wscons/wskbd.c,v 1.3 2005/07/04 01:15:48 tg Exp $ */
 /* $OpenBSD: wskbd.c,v 1.44 2005/06/02 07:31:17 miod Exp $ */
 /* $NetBSD: wskbd.c,v 1.80 2005/05/04 01:52:16 augustss Exp $ */
 
@@ -651,6 +651,7 @@ wskbd_deliver_event(struct wskbd_softc *sc, u_int type, int value)
 {
 	struct wseventvar *evar;
 	struct wscons_event *ev;
+	struct timeval xxxtime;
 	int put;
 
 	evar = sc->sc_base.me_evp;
@@ -677,7 +678,8 @@ wskbd_deliver_event(struct wskbd_softc *sc, u_int type, int value)
 	}
 	ev->type = type;
 	ev->value = value;
-	nanotime(&ev->time);
+	microtime(&xxxtime);
+	TIMEVAL_TO_TIMESPEC(&xxxtime, &ev->time);
 	evar->put = put;
 	WSEVENT_WAKEUP(evar);
 }

@@ -1196,14 +1196,14 @@ re_rxeof(sc)
 		/* Check IP header checksum */
 		if ((rxstat & RL_RDESC_STAT_PROTOID) &&
 		    !(rxstat & RL_RDESC_STAT_IPSUMBAD))
-			m->m_pkthdr.csum_flags |= M_IPV4_CSUM_IN_OK;
+			m->m_pkthdr.csum |= M_IPV4_CSUM_IN_OK;
 
 		/* Check TCP/UDP checksum */
 		if ((RL_TCPPKT(rxstat) &&
 		    !(rxstat & RL_RDESC_STAT_TCPSUMBAD)) ||
 		    (RL_UDPPKT(rxstat) &&
 		    !(rxstat & RL_RDESC_STAT_UDPSUMBAD)))
-			m->m_pkthdr.csum_flags |= M_TCP_CSUM_IN_OK | M_UDP_CSUM_IN_OK;
+			m->m_pkthdr.csum |= M_TCP_CSUM_IN_OK | M_UDP_CSUM_IN_OK;
 
 #ifdef RE_VLAN
 		if (rxvlan & RL_RDESC_VLANCTL_TAG) {
@@ -1461,12 +1461,12 @@ re_encap(sc, m_head, idx)
 	 * RL_TDESC_CMD_UDPCSUM does not take affect.
 	 */
 
-	if ((m_head->m_pkthdr.csum_flags &
+	if ((m_head->m_pkthdr.csum &
 	    (M_IPV4_CSUM_OUT|M_TCPV4_CSUM_OUT|M_UDPV4_CSUM_OUT)) != 0) {
 		rl_flags |= RL_TDESC_CMD_IPCSUM;
-		if (m_head->m_pkthdr.csum_flags & M_TCPV4_CSUM_OUT)
+		if (m_head->m_pkthdr.csum & M_TCPV4_CSUM_OUT)
 			rl_flags |= RL_TDESC_CMD_TCPCSUM;
-		if (m_head->m_pkthdr.csum_flags & M_UDPV4_CSUM_OUT)
+		if (m_head->m_pkthdr.csum & M_UDPV4_CSUM_OUT)
 			rl_flags |= RL_TDESC_CMD_UDPCSUM;
 	}
 #endif

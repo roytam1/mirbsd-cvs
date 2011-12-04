@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/dev/pcmcia/if_wi_pcmcia.c,v 1.2 2005/03/06 21:27:54 tg Exp $ */
+/* $MirOS: src/sys/dev/pcmcia/if_wi_pcmcia.c,v 1.3 2005/07/04 01:15:48 tg Exp $ */
 /* $OpenBSD: if_wi_pcmcia.c,v 1.62 2005/03/13 04:34:43 dlg Exp $ */
 /* $NetBSD: if_wi_pcmcia.c,v 1.14 2001/11/26 04:34:56 ichiro Exp $ */
 
@@ -59,8 +59,7 @@
 #include <netinet/if_ether.h>
 #endif
 
-#include <net80211/ieee80211.h>
-#include <net80211/ieee80211_ioctl.h>
+#include <net/if_ieee80211.h>
 
 #include <machine/bus.h>
 

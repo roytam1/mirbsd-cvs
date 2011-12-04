@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: if.h,v 1.51 2004/04/26 05:24:00 mcbride Exp $	*/
+/**	$MirOS: src/sys/net/if.h,v 1.2 2005/03/06 21:28:14 tg Exp $ */
+/*	$OpenBSD: if.h,v 1.76 2005/06/14 04:00:39 henning Exp $	*/
 /*	$NetBSD: if.h,v 1.23 1996/05/07 02:40:27 thorpej Exp $	*/
 
 /*
@@ -142,7 +142,7 @@ struct	ifqueue {
 	int	ifq_len;
 	int	ifq_maxlen;
 	int	ifq_drops;
-	int	ifq_congestion;
+	struct	timeout *ifq_congestion;
 };
 
 /*
@@ -166,21 +166,35 @@ TAILQ_HEAD(ifnet_head, ifnet);		/* the actual queue head */
 #define	IFNAMSIZ	16
 #define	IF_NAMESIZE	IFNAMSIZ
 
+/*
+ * Length of interface description, including terminating '\0'.
+ */
+#define	IFDESCRSIZE	2
+
 struct ifnet {				/* and the entries */
 	void	*if_softc;		/* lower-level data for this if */
 	TAILQ_ENTRY(ifnet) if_list;	/* all struct ifnets are chained */
 	TAILQ_HEAD(, ifaddr) if_addrlist; /* linked list of addresses per if */
 	struct hook_desc_head *if_addrhooks; /* address change callbacks */
+	struct hook_desc_head *if_linkstatehooks; /* link change callbacks */
 	char	if_xname[IFNAMSIZ];	/* external name (name + unit) */
 	int	if_pcount;		/* number of promiscuous listeners */
 	caddr_t	if_bpf;			/* packet filter structure */
 	caddr_t	if_bridge;		/* bridge structure */
-	caddr_t	if_carp;		/* carp structure */
+	caddr_t	if_tp;			/* used by trunk ports */
+	caddr_t	if_pf_kif;		/* pf interface abstraction */
+	union {
+		caddr_t	carp_s;		/* carp structure (used by !carp ifs) */
+		struct ifnet *carp_d;	/* ptr to carpdev (used by carp ifs) */
+	} if_carp_ptr;
+#define if_carp		if_carp_ptr.carp_s
+#define if_carpdev	if_carp_ptr.carp_d
 	u_short	if_index;		/* numeric abbreviation for this if */
 	short	if_timer;		/* time 'til if_watchdog called */
 	short	if_flags;		/* up/down, broadcast, etc. */
 	struct	if_data if_data;	/* stats and other data about if */
 	int	if_capabilities;	/* interface capabilities */
+	char	if_description[IFDESCRSIZE]; /* interface description */
 
 	/* procedure handles */
 					/* output routine (enqueue) */
@@ -258,6 +272,11 @@ struct ifnet {				/* and the entries */
 #define	IFCAP_VLAN_MTU		0x00000010	/* VLAN-compatible MTU */
 #define	IFCAP_VLAN_HWTAGGING	0x00000020	/* hardware VLAN tag support */
 #define	IFCAP_IPCOMP		0x00000040	/* can do IPcomp */
+#define	IFCAP_JUMBO_MTU		0x00000080	/* 9000 byte MTU supported */
+#define	IFCAP_CSUM_TCPv6	0x00000100	/* can do IPv6/TCP checksums */
+#define	IFCAP_CSUM_UDPv6	0x00000200	/* can do IPv6/UDP checksums */
+#define	IFCAP_CSUM_TCPv4_Rx	0x00000400	/* can do IPv4/TCP (Rx only) */
+#define	IFCAP_CSUM_UDPv4_Rx	0x00000800	/* can do IPv4/UDP (Rx only) */
 
 /*
  * Output queues (ifp->if_snd) and internetwork datagram level (pup level 1)
@@ -293,27 +312,14 @@ struct ifnet {				/* and the entries */
 	} \
 }
 
-#define	IF_INPUT_ENQUEUE(ifq, m) {					\
-	if (IF_QFULL(ifq)) {						\
-		IF_DROP(ifq);						\
-		m_freem(m);						\
-		if (!ifq->ifq_congestion)				\
-			if_congestion(ifq);				\
-	} else {							\
-		if (m->m_next == NULL && (m->m_flags & M_PKTHDR)) {	\
-			if ((m->m_flags & M_CLUSTER) &&			\
-			    m->m_len <= (MHLEN &~ (sizeof(long) - 1))) {\
-				caddr_t data = m->m_data;		\
-				caddr_t ext_buf = m->m_ext.ext_buf;	\
-				m->m_data = m->m_pktdat;		\
-				MH_ALIGN(m, m->m_len);			\
-				memmove(m->m_data, data, m->m_len);	\
-				pool_put(&mclpool, ext_buf);		\
-				m->m_flags &= ~(M_EXT|M_CLUSTER);	\
-			}						\
-		}							\
-		IF_ENQUEUE(ifq, m);					\
-	}								\
+#define	IF_INPUT_ENQUEUE(ifq, m) {			\
+	if (IF_QFULL(ifq)) {				\
+		IF_DROP(ifq);				\
+		m_freem(m);				\
+		if (!(ifq)->ifq_congestion)		\
+			if_congestion(ifq);		\
+	} else						\
+		IF_ENQUEUE(ifq, m);			\
 }
 
 #define	IF_POLL(ifq, m)		((m) = (ifq)->ifq_head)
@@ -333,6 +339,22 @@ do {									\
 
 #define	IFQ_MAXLEN	50
 #define	IFNET_SLOWHZ	1		/* granularity is 1 second */
+
+/* symbolic names for terminal (per-protocol) CTL_IFQ_ nodes */
+#define IFQCTL_LEN 1
+#define IFQCTL_MAXLEN 2
+#define IFQCTL_DROPS 3
+#define IFQCTL_CONGESTION 4
+#define IFQCTL_MAXID 5
+
+/* sysctl for ifq (per-protocol packet input queue variant of ifqueue) */
+#define CTL_IFQ_NAMES  { \
+	{ 0, 0 }, \
+	{ "len", CTLTYPE_INT }, \
+	{ "maxlen", CTLTYPE_INT }, \
+	{ "drops", CTLTYPE_INT }, \
+	{ "congestion", CTLTYPE_INT }, \
+}
 
 /*
  * The ifaddr structure contains information about one address
@@ -474,13 +496,13 @@ struct if_laddrreq {
 
 struct if_nameindex {
 	unsigned int	if_index;
-	char 		*if_name;
+	char		*if_name;
 };
 
 #ifndef _KERNEL
 __BEGIN_DECLS
 unsigned int if_nametoindex(const char *);
-char 	*if_indextoname(unsigned int, char *);
+char	*if_indextoname(unsigned int, char *);
 struct	if_nameindex *if_nameindex(void);
 __END_DECLS
 #define if_freenameindex(x)	free(x)
@@ -604,7 +626,7 @@ int	ether_ioctl(struct ifnet *, struct arpcom *, u_long, caddr_t);
 void	ether_input_mbuf(struct ifnet *, struct mbuf *);
 void	ether_input(struct ifnet *, struct ether_header *, struct mbuf *);
 int	ether_output(struct ifnet *,
-	   struct mbuf *, struct sockaddr *, struct rtentry *);
+	    struct mbuf *, struct sockaddr *, struct rtentry *);
 char	*ether_sprintf(u_char *);
 
 void	if_alloc_sadl(struct ifnet *);
@@ -615,6 +637,7 @@ void	if_attachtail(struct ifnet *);
 void	if_attachhead(struct ifnet *);
 void	if_detach(struct ifnet *);
 void	if_down(struct ifnet *);
+void	if_link_state_change(struct ifnet *);
 void	if_qflush(struct ifqueue *);
 void	if_slowtimo(void *);
 void	if_up(struct ifnet *);
@@ -645,7 +668,7 @@ void	if_congestion(struct ifqueue *);
 int	loioctl(struct ifnet *, u_long, caddr_t);
 void	loopattach(int);
 int	looutput(struct ifnet *,
-	   struct mbuf *, struct sockaddr *, struct rtentry *);
+	    struct mbuf *, struct sockaddr *, struct rtentry *);
 void	lortrequest(int, struct rtentry *, struct rt_addrinfo *);
 #endif /* _KERNEL */
 #endif /* _NET_IF_H_ */

@@ -1,6 +1,6 @@
-/**	$MirOS$	*/
+/**	$MirOS: src/sys/sys/device.h,v 1.2 2005/03/06 21:28:33 tg Exp $	*/
 /*	$NetBSD: device.h,v 1.64 2002/11/24 17:33:43 thorpej Exp $ */
-/*	$OpenBSD: device.h,v 1.27 2003/06/02 23:28:21 millert Exp $	*/
+/*	$OpenBSD: device.h,v 1.29 2004/11/23 19:08:55 miod Exp $	*/
 /*	$NetBSD: device.h,v 1.15 1996/04/09 20:55:24 cgd Exp $	*/
 
 /*
@@ -229,6 +229,7 @@ extern struct devicelist alldevs;	/* list of all devices */
 extern struct evcntlist allevents;	/* list of all event counters */
 
 extern int autoconf_verbose;
+extern __volatile int config_pending;	/* semaphore for mountroot */
 
 void config_init(void);
 void *config_search(cfmatch_t, struct device *, void *);
@@ -247,6 +248,8 @@ struct device *config_make_softc(struct device *parent,
     struct cfdata *cf);
 void config_defer(struct device *, void (*)(struct device *));
 void evcnt_attach(struct device *, const char *, struct evcnt *);
+void config_pending_incr(void);
+void config_pending_decr(void);
 
 struct device *device_lookup(struct cfdriver *, int unit);
 void device_ref(struct device *);

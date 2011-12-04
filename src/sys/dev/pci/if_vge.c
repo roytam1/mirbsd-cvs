@@ -1106,12 +1106,12 @@ vge_rxeof(struct vge_softc *sc)
 		/* Check IP header checksum */
 		if ((rxctl & VGE_RDCTL_IPPKT) &&
 		    (rxctl & VGE_RDCTL_IPCSUMOK))
-			m->m_pkthdr.csum_flags |= M_IPV4_CSUM_IN_OK;
+			m->m_pkthdr.csum |= M_IPV4_CSUM_IN_OK;
 
 		/* Check TCP/UDP checksum */
 		if ((rxctl & (VGE_RDCTL_TCPPKT|VGE_RDCTL_UDPPKT)) &&
 		    (rxctl & VGE_RDCTL_PROTOCSUMOK))
-			m->m_pkthdr.csum_flags |= M_TCP_CSUM_IN_OK | M_UDP_CSUM_IN_OK;
+			m->m_pkthdr.csum |= M_TCP_CSUM_IN_OK | M_UDP_CSUM_IN_OK;
 
 #ifdef VGE_VLAN
 		if (rxstat & VGE_RDSTS_VTAG)
@@ -1308,11 +1308,11 @@ vge_encap(struct vge_softc *sc, struct mbuf *m_head, int idx)
 
 	vge_flags = 0;
 
-	if (m_head->m_pkthdr.csum_flags & M_IPV4_CSUM_OUT)
+	if (m_head->m_pkthdr.csum & M_IPV4_CSUM_OUT)
 		vge_flags |= VGE_TDCTL_IPCSUM;
-	if (m_head->m_pkthdr.csum_flags & M_TCPV4_CSUM_OUT)
+	if (m_head->m_pkthdr.csum & M_TCPV4_CSUM_OUT)
 		vge_flags |= VGE_TDCTL_TCPCSUM;
-	if (m_head->m_pkthdr.csum_flags & M_UDPV4_CSUM_OUT)
+	if (m_head->m_pkthdr.csum & M_UDPV4_CSUM_OUT)
 		vge_flags |= VGE_TDCTL_UDPCSUM;
 
 	txmap = sc->vge_ldata.vge_tx_dmamap[idx];
