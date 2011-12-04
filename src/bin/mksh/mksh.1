@@ -2314,8 +2314,7 @@ Additional
 regular commands
 .Pp
 .Ic \&[ , echo , let , print ,
-.Ic printf , pwd , test , ulimit ,
-.Ic whence
+.Ic pwd , test , ulimit , whence
 .Pp
 In the future, the additional
 .Nm
@@ -2967,15 +2966,6 @@ option is given.
 As above, the
 .Fl n
 option suppresses the trailing newline.
-.Pp
-.It Ic printf Ar format Op Ar arguments
-This builtin is not included with portable
-.Nm
-and only available under
-.Mx .
-It mimics the
-.Xr printf 1
-behaviour; see there for a complete reference.
 .Pp
 .It Ic pwd Op Fl LP
 Print the present working directory.
@@ -5083,7 +5073,6 @@ Shell database.
 .Xr ed 1 ,
 .Xr getconf 1 ,
 .Xr getopt 1 ,
-.Xr printf 1 ,
 .Xr sed 1 ,
 .Xr sh 1 ,
 .Xr stty 1 ,
