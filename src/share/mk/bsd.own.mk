@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.own.mk,v 1.4 2005/04/10 19:46:37 tg Exp $
+# $MirOS: src/share/mk/bsd.own.mk,v 1.5 2005/04/10 20:35:15 tg Exp $
 # $OpenBSD: bsd.own.mk,v 1.84 2004/06/22 19:50:01 pvalchev Exp $
 # $NetBSD: bsd.own.mk,v 1.24 1996/04/13 02:08:09 thorpej Exp $
 
@@ -132,7 +132,7 @@ OBJECT_FMT=	ELF
 
 .if ${OBJECT_FMT} == "Mach-O"
 PICFLAG=	-fno-common
-.elif ${MACHINE_ARCH} == "sparc64"
+.elif (${MACHINE_ARCH} == "sparc") || (${MACHINE_ARCH} == "sparc64")
 PICFLAG=	-fPIC
 .else
 PICFLAG=	-fpic
