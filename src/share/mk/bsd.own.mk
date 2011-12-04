@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.own.mk,v 1.3 2005/03/29 02:19:35 tg Exp $
+# $MirOS: src/share/mk/bsd.own.mk,v 1.4 2005/04/10 19:46:37 tg Exp $
 # $OpenBSD: bsd.own.mk,v 1.84 2004/06/22 19:50:01 pvalchev Exp $
 # $NetBSD: bsd.own.mk,v 1.24 1996/04/13 02:08:09 thorpej Exp $
 
@@ -140,7 +140,7 @@ PICFLAG=	-fpic
 
 .if ${MACHINE_ARCH} == "sparc"
 ASPICFLAG=	-KPIC
-.elif ${OBJECT_FMT:L} == "a.out"
+.elif ${OBJECT_FMT} == "a.out"
 ASPICFLAG=	-k
 .endif
 
@@ -164,7 +164,7 @@ TBL?=		tbl
 # this used to be in <bsd.prog.mk> but we need it
 # e.g. for depending DLLs on CSU objects
 
-.if ${OBJECT_FMT:U} == "ELF"
+.if ${OBJECT_FMT} == "ELF"
 CRTBEGIN?=	${DESTDIR}/usr/lib/crtbegin.o
 CRTEND?=	${DESTDIR}/usr/lib/crtend.o
 CRTI?=		${DESTDIR}/usr/lib/crti.o
