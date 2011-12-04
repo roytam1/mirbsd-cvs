@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/arch/i386/string/memmove.S,v 1.2 2005/04/17 01:05:54 tg Exp $ */
+/* $MirOS: src/lib/libc/arch/i386/string/memmove.S,v 1.3 2005/04/17 03:05:44 tg Exp $ */
 
 /*-
  * Copyright (c) 2005
@@ -22,7 +22,7 @@
 
 #include <machine/asm.h>
 
-RCSID("$MirOS: src/lib/libc/arch/i386/string/memmove.S,v 1.2 2005/04/17 01:05:54 tg Exp $")
+RCSID("$MirOS: src/lib/libc/arch/i386/string/memmove.S,v 1.3 2005/04/17 03:05:44 tg Exp $")
 WARN_REFERENCES(bcopy, \
     "warning: bcopy(s,d,l) is deprecated, consider using memmove(d,s,l)")
 
@@ -43,6 +43,7 @@ ENTRY(memmove)
 	mov	edi,12[esp]
 	mov	esi,16[esp]
 move:	mov	ecx,20[esp]
+	push	edi
 	mov	edx,ecx
 	/* check for overlap / null op */
 	jecxz	null
@@ -60,6 +61,7 @@ move:	mov	ecx,20[esp]
 	and	cl,3
 	rep
 	movsb
+	pop	eax
 	pop	edi
 	pop	esi
 	ret
@@ -92,7 +94,8 @@ bkwd:	/* copy backwards, source < dest */
 	rep
 	movsb
 	/* clean up */
-null:	pop	edi
+null:	pop	eax
+	pop	edi
 	pop	esi
 	cld
 	ret
