@@ -1,6 +1,7 @@
 /* Expands front end tree to back end RTL for GCC.
    Copyright (C) 1987, 1988, 1989, 1991, 1992, 1993, 1994, 1995, 1996, 1997,
-   1998, 1999, 2000, 2001, 2002, 2003, 2004 Free Software Foundation, Inc.
+   1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005
+   Free Software Foundation, Inc.
 
 This file is part of GCC.
 
@@ -778,7 +779,7 @@ assign_stack_temp_for_type (enum machine_mode mode, HOST_WIDE_INT size, int keep
 	 So, we should change p->size with its aligned size.  */
       if (flag_propolice_protection
 	  && char_array
-	  && (frame_offset_old - frame_offset >
+	  && ((unsigned)frame_offset_old - frame_offset >
 	      CEIL_ROUND (size, align / BITS_PER_UNIT)))
 	frame_offset_old = frame_offset + CEIL_ROUND (size, align / BITS_PER_UNIT);
       p->size = frame_offset_old - frame_offset;
