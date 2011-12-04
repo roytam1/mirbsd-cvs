@@ -1,5 +1,5 @@
-/**	$MirOS: src/sys/arch/i386/i386/apm.c,v 1.3 2005/05/26 13:59:04 tg Exp $ */
-/*	$OpenBSD: apm.c,v 1.65 2005/05/24 08:54:14 marco Exp $	*/
+/**	$MirOS: src/sys/arch/i386/i386/apm.c,v 1.4 2005/05/26 20:56:04 tg Exp $ */
+/*	$OpenBSD: apm.c,v 1.66 2005/06/16 16:49:04 beck Exp $	*/
 
 /*-
  * Copyright (c) 1998-2001 Michael Shalayeff. All rights reserved.
@@ -146,8 +146,8 @@ int apm_op_inprog;
 u_int apm_flags;
 u_char apm_majver;
 u_char apm_minver;
-int apm_dobusy = 1;
-int apm_doidle = 1;
+int apm_dobusy = 0;
+int apm_doidle = 0;
 int apm_bebatt = 0;
 int apm_idle_called = 0;
 
@@ -361,7 +361,7 @@ apm_resume(sc, regs)
 	/* lower bit in cx means pccard was powered down */
 	dopowerhooks(PWR_RESUME);
 	apm_record_event(sc, regs->bx);
-
+	
 	/* acknowledge any rtc interrupt we may have missed */
 	rtcdrain(NULL);
 
@@ -664,9 +664,9 @@ apm_cpu_idle(void)
 		__asm __volatile("sti;hlt");
 		return;
 	}
-
-	/*
-	 * We call the bios APM_IDLE routine here only when we
+		
+	/* 
+	 * We call the bios APM_IDLE routine here only when we 
 	 * have been idle for some time - otherwise we just hlt.
 	 */
 
@@ -733,8 +733,12 @@ apm_set_ver(self)
 	printf(": Power Management spec V%d.%d", apm_majver, apm_minver);
 	if (apm_flags & APM_IDLE_SLOWS) {
 		DPRINTF((" (slowidle)"));
-	} else
+		apm_dobusy = 1;
+		apm_doidle = 1;
+	} else {
 		apm_dobusy = 0;
+		apm_doidle = 1;
+	}
 #ifdef DIAGNOSTIC
 	if (apm_flags & APM_BIOS_PM_DISABLED)
 		printf(" (BIOS mgmt disabled)");
@@ -811,7 +815,6 @@ apmattach(parent, self, aux)
 	struct device *parent, *self;
 	void *aux;
 {
-	extern union descriptor *dynamic_gdt;
 	struct bios_attach_args *ba = aux;
 	bios_apminfo_t *ap = ba->bios_apmp;
 	struct apm_softc *sc = (void *)self;
@@ -877,12 +880,12 @@ apmattach(parent, self, aux)
 		else
 			ch16 += ap->apm_code16_base - cbase;
 
-		setsegment(&dynamic_gdt[GAPM32CODE_SEL].sd, (void *)ch32,
-			   ap->apm_code_len, SDT_MEMERA, SEL_KPL, 1, 0);
-		setsegment(&dynamic_gdt[GAPM16CODE_SEL].sd, (void *)ch16,
-			   ap->apm_code16_len, SDT_MEMERA, SEL_KPL, 0, 0);
-		setsegment(&dynamic_gdt[GAPMDATA_SEL].sd, (void *)dh,
-			   ap->apm_data_len, SDT_MEMRWA, SEL_KPL, 1, 0);
+		setgdt(GAPM32CODE_SEL, (void *)ch32, ap->apm_code_len,
+		    SDT_MEMERA, SEL_KPL, 1, 0);
+		setgdt(GAPM16CODE_SEL, (void *)ch16, ap->apm_code16_len,
+		    SDT_MEMERA, SEL_KPL, 0, 0);
+		setgdt(GAPMDATA_SEL, (void *)dh, ap->apm_data_len, SDT_MEMRWA,
+		    SEL_KPL, 1, 0);
 		DPRINTF((": flags %x code 32:%x/%x[%x] 16:%x/%x[%x] "
 		       "data %x/%x/%x ep %x (%x:%x)\n%s", apm_flags,
 		    ap->apm_code32_base, ch32, ap->apm_code_len,
@@ -924,10 +927,13 @@ apmattach(parent, self, aux)
 		} else
 			kthread_create_deferred(apm_thread_create, sc);
 	} else {
-		dynamic_gdt[GAPM32CODE_SEL] = dynamic_gdt[GNULL_SEL];
-		dynamic_gdt[GAPM16CODE_SEL] = dynamic_gdt[GNULL_SEL];
-		dynamic_gdt[GAPMDATA_SEL] = dynamic_gdt[GNULL_SEL];
+		setgdt(GAPM32CODE_SEL, NULL, 0, 0, 0, 0, 0);
+		setgdt(GAPM16CODE_SEL, NULL, 0, 0, 0, 0, 0);
+		setgdt(GAPMDATA_SEL, NULL, 0, 0, 0, 0, 0);
 	}
+	/* XXX - To go away */
+	printf("apm0: flags %x dobusy %d doidle %d\n",
+		apm_flags, apm_dobusy, apm_doidle);
 }
 
 void
@@ -935,11 +941,21 @@ apm_thread_create(v)
 	void *v;
 {
 	struct apm_softc *sc = v;
+
+#ifdef MULTIPROCESSOR
+	if (ncpus > 1) {
+		apm_disconnect(sc);
+		apm_dobusy = apm_doidle = 0;
+		return;
+	}
+#endif
+
 	if (kthread_create(apm_thread, sc, &sc->sc_thread,
 	    "%s", sc->sc_dev.dv_xname)) {
 		apm_disconnect(sc);
 		printf("%s: failed to create kernel thread, disabled",
 		    sc->sc_dev.dv_xname);
+		apm_dobusy = apm_doidle = 0;
 	}
 }
 

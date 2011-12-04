@@ -48,7 +48,7 @@
  */
 
 #if 0
-static const char rcsid[] = "$OpenBSD: gethostnamadr.c,v 1.60 2004/07/29 03:09:40 itojun Exp $";
+static const char rcsid[] = "$OpenBSD: gethostnamadr.c,v 1.63 2005/06/08 18:32:34 millert Exp $";
 #endif /* LIBC_SCCS and not lint */
 
 #include <sys/param.h>
@@ -66,7 +66,7 @@ static const char rcsid[] = "$OpenBSD: gethostnamadr.c,v 1.60 2004/07/29 03:09:4
 #include <stdlib.h>
 #include "thread_private.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libc/net/gethostnamadr.c,v 1.2 2005/03/06 20:28:42 tg Exp $");
 
 #define MULTI_PTRS_ARE_ALIASES 1	/* XXX - experimental */
 
@@ -471,7 +471,7 @@ gethostbyname(const char *name)
 	struct hostent *hp;
 	extern struct hostent *_gethtbyname2(const char *, int);
 
-	if ((_resp->options & RES_INIT) == 0 && res_init() == -1)
+	if (_res_init(0) == -1)
 		hp = _gethtbyname2(name, AF_INET);
 
 	else if (_resp->options & RES_USE_INET6) {
@@ -497,7 +497,7 @@ gethostbyname2(const char *name, int af)
 	extern struct hostent *_gethtbyname2(const char *, int);
 	extern struct hostent *_yp_gethtbyname(const char *);
 
-	if ((_resp->options & RES_INIT) == 0 && res_init() == -1)
+	if (_res_init(0) == -1)
 		return (_gethtbyname2(name, af));
 
 	switch (af) {
@@ -625,7 +625,7 @@ gethostbyname2(const char *name, int af)
 }
 
 struct hostent *
-gethostbyaddr(const char *addr, int len, int af)
+gethostbyaddr(const void *addr, socklen_t len, int af)
 {
 	struct __res_state *_resp = _THREAD_PRIVATE(_res, _res, &_res);
 	const u_char *uaddr = (const u_char *)addr;
@@ -635,10 +635,9 @@ gethostbyaddr(const char *addr, int len, int af)
 	char qbuf[MAXDNAME+1], *qp, *ep;
 	char lookups[MAXDNSLUS];
 	struct hostent *res;
-	extern struct hostent *_gethtbyaddr(const char *, int, int);
-	extern struct hostent *_yp_gethtbyaddr(const char *);
-
-	if ((_resp->options & RES_INIT) == 0 && res_init() == -1) {
+	extern struct hostent *_gethtbyaddr(const void *, socklen_t, int);
+	
+	if (_res_init(0) == -1) {
 		res = _gethtbyaddr(addr, len, af);
 		return (res);
 	}
@@ -653,7 +652,6 @@ gethostbyaddr(const char *addr, int len, int af)
 	    (IN6_IS_ADDR_V4MAPPED((struct in6_addr *)uaddr) ||
 	     IN6_IS_ADDR_V4COMPAT((struct in6_addr *)uaddr))) {
 		/* Unmap. */
-		addr += IN6ADDRSZ - INADDRSZ;
 		uaddr += IN6ADDRSZ - INADDRSZ;
 		af = AF_INET;
 		len = INADDRSZ;
@@ -687,7 +685,7 @@ gethostbyaddr(const char *addr, int len, int af)
 		for (n = IN6ADDRSZ - 1; n >= 0; n--) {
 			i = snprintf(qp, ep - qp, "%x.%x.",
 			    uaddr[n] & 0xf, (uaddr[n] >> 4) & 0xf);
-			if (i <= 0) {
+			if (i <= 0 || i >= ep - qp) {
 				errno = EINVAL;
 				h_errno = NETDB_INTERNAL;
 				return (NULL);
@@ -726,7 +724,7 @@ gethostbyaddr(const char *addr, int len, int af)
 			free(buf);
 			hp->h_addrtype = af;
 			hp->h_length = len;
-			memmove(host_addr, addr, len);
+			memmove(host_addr, uaddr, len);
 			h_addr_ptrs[0] = (char *)host_addr;
 			h_addr_ptrs[1] = NULL;
 			if (af == AF_INET && (_resp->options & RES_USE_INET6)) {
@@ -738,7 +736,7 @@ gethostbyaddr(const char *addr, int len, int af)
 			h_errno = NETDB_SUCCESS;
 			break;
 		case 'f':
-			hp = _gethtbyaddr(addr, len, af);
+			hp = _gethtbyaddr(uaddr, len, af);
 			break;
 		}
 	}
@@ -884,7 +882,7 @@ _gethtbyname2(const char *name, int af)
 }
 
 struct hostent *
-_gethtbyaddr(const char *addr, int len, int af)
+_gethtbyaddr(const void *addr, socklen_t len, int af)
 {
 	struct hostent *p;
 
