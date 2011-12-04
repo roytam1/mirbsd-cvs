@@ -1,4 +1,4 @@
-# $MirOS: gcc/gcc/config.gcc,v 1.6 2005/04/30 22:16:01 tg Exp $
+# $MirOS: gcc/gcc/config.gcc,v 1.7 2005/05/14 16:21:57 tg Exp $
 #
 # GCC target-specific configuration file.
 # Copyright 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004
@@ -489,8 +489,8 @@ case ${target} in
   case ${enable_threads} in
     yes|posix)
       thread_file='posix'
-      tmake_file="${tmake_file} t-openbsd-thread"
-      tmake_file_mlpic="${tmake_file_mlpic} t-openbsd-thread"
+      tmake_file="${tmake_file} t-mirbsd-thread"
+      tmake_file_mlpic="${tmake_file_mlpic} t-mirbsd-thread"
       ;;
   esac
 

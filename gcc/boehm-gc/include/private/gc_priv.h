@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /* 
  * Copyright 1988, 1989 Hans-J. Boehm, Alan J. Demers
  * Copyright (c) 1991-1994 by Xerox Corporation.  All rights reserved.
@@ -1934,6 +1936,8 @@ void GC_err_puts GC_PROTO((GC_CONST char *s));
        /* Linuxthreads itself uses SIGUSR1 and SIGUSR2.			*/
 #      define SIG_SUSPEND SIGPWR
 #    endif
+#   elif defined(__MirBSD__)
+#	define SIG_SUSPEND SIGPROF
 #   else  /* !GC_LINUX_THREADS */
 #     if defined(_SIGRTMIN)
 #       define SIG_SUSPEND _SIGRTMIN + 6

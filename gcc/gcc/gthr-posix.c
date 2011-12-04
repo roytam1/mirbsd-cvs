@@ -1,6 +1,8 @@
+/* $MirOS$ */
+
 /* POSIX threads dummy routines for systems without weak definitions.  */
 /* Compile this one with gcc.  */
-/* Copyright (C) 2003 Free Software Foundation, Inc.
+/* Copyright (C) 2003, 2005 Free Software Foundation, Inc.
 
 This file is part of GCC.
 
@@ -26,11 +28,15 @@ Software Foundation, 59 Temple Place - Suite 330, Boston, MA
    This exception does not however invalidate any other reasons why
    the executable file might be covered by the GNU General Public License.  */
 
+#include "system.h"
+#include "coretypes.h"
 #include "tconfig.h"
 #include "tm.h"
 /* Define so we provide weak definitions of functions used by libobjc only.  */
 #define _LIBOBJC_WEAK
 #include "gthr.h"
+
+__RCSID("$MirOS$");
 
 int
 pthread_once (pthread_once_t *once ATTRIBUTE_UNUSED,
@@ -127,6 +133,7 @@ pthread_cond_wait (pthread_cond_t *cond ATTRIBUTE_UNUSED,
 void
 pthread_exit (void *value_ptr ATTRIBUTE_UNUSED)
 {
+  _exit(0);
 }
 
 int

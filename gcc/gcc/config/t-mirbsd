@@ -1,11 +1,13 @@
-# $MirOS: gcc/gcc/config/t-mirbsd,v 1.5 2005/04/25 23:14:09 tg Exp $
+# $MirOS: gcc/gcc/config/t-mirbsd,v 1.6 2005/04/28 21:02:48 tg Exp $
 
 # We don't need GCC's own include files.
 USER_H =
 
 # Use unwind-dw2-fde-openbsd
-LIB2ADDEH = $(srcdir)/unwind-dw2.c $(srcdir)/unwind-dw2-fde-openbsd.c \
-  $(srcdir)/unwind-sjlj.c $(srcdir)/gthr-gnat.c $(srcdir)/unwind-c.c
+# Provide dummy POSIX threads functions
+LIB2ADDEH = $(srcdir)/gthr-gnat.c $(srcdir)/gthr-posix.c \
+  $(srcdir)/unwind-c.c $(srcdir)/unwind-dw2-fde-openbsd.c \
+  $(srcdir)/unwind-dw2.c $(srcdir)/unwind-sjlj.c
 LIB2ADDEHDEP = unwind.inc unwind-dw2-fde.h unwind-dw2-fde.c \
   unwind-dw2-fde-glibc.c
 
@@ -16,4 +18,5 @@ CRTSTUFF_T_CFLAGS_S = $(CRTSTUFF_T_CFLAGS) -fPIC
 SHLIB_INSTALL =
 
 # Make the shared libraries know themselves
-SHLIB_SONAME = libgcc_s.so.$(SHLIB_SOVERSION).0
+SHLIB_SOVERSION = 1.1
+SHLIB_SONAME = libgcc_s.so.$(SHLIB_SOVERSION)
