@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.obj.mk,v 1.2 2005/02/14 18:57:46 tg Exp $
+# $MirOS: src/share/mk/bsd.obj.mk,v 1.3 2005/02/14 19:21:20 tg Exp $
 # $OpenBSD: bsd.obj.mk,v 1.12 2003/10/28 17:09:33 espie Exp $
 # $NetBSD: bsd.obj.mk,v 1.9 1996/04/10 21:08:05 thorpej Exp $
 
@@ -27,10 +27,10 @@ __objdir=	${__baseobjdir}
 .    endif
 
 .    if defined(USR_OBJMACHINE)
-__usrobjdir=	${BSDOBJDIR}.${MACHINE}
+__usrobjdir!=	readlink -nf ${BSDOBJDIR}.${MACHINE}
 __usrobjdirpf=
 .    else
-__usrobjdir=	${BSDOBJDIR}
+__usrobjdir=	readlink -nf ${BSDOBJDIR}
 .      if defined(OBJMACHINE)
 __usrobjdirpf=	.${MACHINE}
 .      else
@@ -41,9 +41,8 @@ __usrobjdirpf=
 _SUBDIRUSE:
 
 obj! _SUBDIRUSE
-	@cd ${.CURDIR}; here=$$(/bin/pwd); \
-	bsdsrcdir=$$( (cd ${BSDSRCDIR} && /bin/pwd) 2>/dev/null \
-	    || print '${BSDSRCDIR}'); \
+	@cd ${.CURDIR}; here=$$(readlink -nf .); \
+	bsdsrcdir=$$(readlink -nf ${BSDSRCDIR}); \
 	subdir=$${here#$${bsdsrcdir}/}; \
 	if [[ $$here != $$subdir ]]; then \
 		dest=${__usrobjdir}/$$subdir${__usrobjdirpf}; \
@@ -53,17 +52,10 @@ obj! _SUBDIRUSE
 			[[ ! -e ${__objdir} ]] || rm -rf ${__objdir}; \
 			ln -sf $$dest ${__objdir}; \
 		fi; \
-		if [[ -d ${__usrobjdir} && ! -d $$dest ]]; then \
-			mkdir -p $$dest; \
-		else \
-			true; \
-		fi; \
-	else \
-		if [[ ! -d ${__objdir} ]]; then \
-			dest=$$here/${__objdir}; \
-			print -r "making $$dest"; \
-			mkdir $$dest; \
-		fi; \
+		[[ ! -d ${__usrobjdir} || -d $$dest ]] || mkdir -p $$dest; \
+	elif [[ ! -d ${__objdir} ]]; then \
+		print -r "making $$here/${__objdir}"; \
+		mkdir ${__objdir}; \
 	fi
 .  endif
 .endif	# ! not target obj
