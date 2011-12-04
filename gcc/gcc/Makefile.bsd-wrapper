@@ -1,4 +1,4 @@
-# $MirOS: gcc/gcc/Makefile.bsd-wrapper,v 1.13 2005/05/14 16:21:56 tg Exp $
+# $MirOS: gcc/gcc/Makefile.bsd-wrapper,v 1.14 2005/05/14 17:43:41 tg Exp $
 
 .include <bsd.own.mk>
 .include "${GNUSYSTEM_AUX_DIR}/locations.mk"
@@ -99,11 +99,11 @@ all-quick:
 pre-install:
 	mkdir -p ${DESTDIR}/usr/lib/gcc/${GCCTARGET}/${GCCVERSION}
 
-${MAN}: do-build
+${MAN}: .MADE do-build
 
-doc/gcc.1: do-build
+doc/gcc.1: .MADE do-build
 
-doc/mgcc.1: doc/gcc.1
+doc/mgcc.1: .MADE doc/gcc.1
 	cp doc/gcc.1 doc/mgcc.1
 
 post-install:
