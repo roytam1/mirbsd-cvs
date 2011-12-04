@@ -494,7 +494,7 @@ info: info-am
 
 info-am: $(INFO_DEPS) info-local
 
-install-data-am: install-data-local install-man
+install-data-am: $(INSTALL_MAN) install-data-local
 
 install-exec-am:
 
