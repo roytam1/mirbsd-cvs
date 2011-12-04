@@ -1,4 +1,4 @@
-# $MirOS: gcc/gcc/Makefile.bsd-wrapper,v 1.16 2005/05/26 21:35:27 tg Exp $
+# $MirOS: gcc/gcc/Makefile.bsd-wrapper,v 1.17 2005/07/06 18:48:07 tg Exp $
 
 .include <bsd.own.mk>
 .include "${GNUSYSTEM_AUX_DIR}/locations.mk"
@@ -101,7 +101,8 @@ ${MAN}: .MADE do-build
 doc/gcc.1: .MADE do-build
 
 doc/mgcc.1: .MADE doc/gcc.1
-	cp doc/gcc.1 doc/mgcc.1
+	sed -e 's#^\(     \)gcc\( - GNU project C and\)#\1mgcc, c++\2#' \
+	    <doc/gcc.1 >doc/mgcc.1
 
 post-install:
 	${INSTALL} ${INSTALL_COPY} -o ${LIBOWN} -g ${LIBGRP} -m ${LIBMODE} \
