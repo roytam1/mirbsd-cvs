@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.lib.mk,v 1.14 2005/04/16 21:24:06 tg Exp $
+# $MirOS: src/share/mk/bsd.lib.mk,v 1.15 2005/05/21 14:45:16 tg Exp $
 # $OpenBSD: bsd.lib.mk,v 1.38 2004/06/22 19:50:01 pvalchev Exp $
 # $NetBSD: bsd.lib.mk,v 1.67 1996/01/17 20:39:26 mycroft Exp $
 # @(#)bsd.lib.mk	5.26 (Berkeley) 5/2/91
@@ -38,6 +38,12 @@ SHLIB_LINKS?=	lib${LIB}.so.${SHLIB_VERSION:R} lib${LIB}.so
 .  else
 SHLIB_SONAME?=	lib${LIB}.so.${SHLIB_VERSION}
 .  endif
+.  if ${OBJECT_FMT} == "PE"
+SHLIB_FLAGS?=	-Wl,--image-base,$$((RANDOM % 0x1000 / 4 * 0x40000 + 0x40000000))
+.  else
+SHLIB_FLAGS?=	${PICFLAG}
+.  endif
+SHLIB_FLAGS+=	${LDFLAGS}
 .endif
 SHLIB_LINKS?=
 
@@ -45,16 +51,16 @@ SHLIB_LINKS?=
 .  undef SHLIB_SONAME
 .  undef SHLIB_LINKS
 .elif ${RTLD_TYPE} == "dyld"
-LINK.shlib?=	${CC} ${CFLAGS} ${PICFLAG} -dynamiclib \
+LINK.shlib?=	${CC} ${CFLAGS} ${SHLIB_FLAGS} -dynamiclib \
 		-compatibility_version ${SHLIB_VERSION} \
 		-current_version ${SHLIB_VERSION} \
 		$$(${LORDER} ${SOBJS}|tsort -q) ${LDADD}
 .elif ${RTLD_TYPE} == "GNU"
-LINK.shlib?=	${CC} ${CFLAGS} ${PICFLAG} -shared \
+LINK.shlib?=	${CC} ${CFLAGS} ${SHLIB_FLAGS} -shared \
 		$$(${LORDER} ${SOBJS}|tsort -q) ${LDADD} \
 		-Wl,-h,${SHLIB_SONAME:R}
 .else
-LINK.shlib?=	${CC} ${CFLAGS} ${PICFLAG} -shared \
+LINK.shlib?=	${CC} ${CFLAGS} ${SHLIB_FLAGS} -shared \
 		$$(${LORDER} ${SOBJS}|tsort -q) ${LDADD}
 .endif
 
