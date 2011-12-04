@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libc/sys/Makefile.inc,v 1.2 2005/03/06 20:28:49 tg Exp $
+# $MirOS: src/lib/libc/sys/Makefile.inc,v 1.3 2005/07/01 13:51:25 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.71 2004/09/18 19:21:46 deraadt Exp $
 # $NetBSD: Makefile.inc,v 1.35 1995/10/16 23:49:07 jtc Exp $
 # @(#)Makefile.inc	8.1 (Berkeley) 6/17/93
@@ -44,7 +44,7 @@ ASM=	accept.o access.o acct.o adjtime.o bind.o chdir.o chflags.o chmod.o \
 	getrlimit.o getrusage.o getsid.o \
 	getsockname.o getsockopt.o gettimeofday.o getuid.o issetugid.o \
 	ioctl.o kill.o kevent.o kqueue.o \
-	ktrace.o lchown.o lfs_bmapv.o lfs_markv.o lfs_segclean.o lfs_segwait.o \
+	ktrace.o lchown.o \
 	link.o listen.o lstat.o madvise.o mincore.o minherit.o mkdir.o \
 	mkfifo.o mknod.o mlock.o mlockall.o \
 	mount.o mprotect.o msgctl.o msgget.o msgrcv.o msgsnd.o msync.o \
@@ -57,7 +57,7 @@ ASM=	accept.o access.o acct.o adjtime.o bind.o chdir.o chflags.o chmod.o \
 	setrlimit.o setsid.o setsockopt.o settimeofday.o \
 	setuid.o shmat.o shmctl.o shmdt.o shmget.o shutdown.o sigaction.o \
 	sigaltstack.o socket.o socketpair.o stat.o statfs.o swapctl.o \
-	symlink.o sync.o sysarch.o umask.o undelete.o unlink.o unmount.o \
+	symlink.o sync.o sysarch.o umask.o unlink.o unmount.o \
 	utimes.o vadvise.o wait4.o write.o writev.o __semctl.o \
 	__syscall.o __sysctl.o
 
