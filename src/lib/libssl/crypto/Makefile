@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libssl/crypto/Makefile,v 1.2 2005/03/06 20:29:24 tg Exp $
+# $MirOS: src/lib/libssl/crypto/Makefile,v 1.3 2005/03/15 17:33:41 tg Exp $
 # $OpenBSD: Makefile,v 1.36 2004/02/27 17:36:13 deraadt Exp $
 
 .include <bsd.own.mk>
@@ -9,14 +9,6 @@ LIB=		crypto
 SSLEAYDIST=	src
 SSL_SRC=	${.CURDIR}/../${SSLEAYDIST}
 LCRYPTO_SRC=	${SSL_SRC}/crypto
-
-.if ${MACHINE_ARCH} == "i386" || ${MACHINE_ARCH} == "arm" || \
-    ${MACHINE_ARCH} == "vax" || ${MACHINE_ARCH} == "amd64" || \
-    ${MACHINE_ARCH} == "alpha"
-CPPFLAGS+= -DL_ENDIAN
-.else
-CPPFLAGS+= -DB_ENDIAN
-.endif 
 
 CPPFLAGS+= -DOPENSSL_NO_IDEA -DTERMIOS -DANSI_SOURCE -DNO_ERR -DOPENSSL_NO_ASM
 CPPFLAGS+= -DOPENSSL_NO_KRB5 -DSO_DLFCN -DHAVE_DLFCN_H -DNO_WINDOWS_BRAINDEATH

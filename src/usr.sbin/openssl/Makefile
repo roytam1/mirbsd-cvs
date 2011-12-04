@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/usr.sbin/openssl/Makefile,v 1.2 2005/03/13 19:17:10 tg Exp $
 # $OpenBSD: Makefile,v 1.16 2004/02/27 17:36:18 deraadt Exp $
 
 PROG=	openssl
@@ -10,14 +10,14 @@ SSLEAYDIST= lib/libssl/src
 SSLEAY_SRC= ${.CURDIR}/../../${SSLEAYDIST}/apps
 SSLEAY_SRC_TOP= ${.CURDIR}/../../${SSLEAYDIST}
 
-.if ${MACHINE_ARCH} == "i386" || ${MACHINE_ARCH} == "vax" || \
-    ${MACHINE_ARCH} == "amd64"
-
-CPPFLAGS+= -DL_ENDIAN
-.elif ${MACHINE_ARCH} == "alpha"
-# no ENDIAN stuff defined for alpha
+.if (${MACHINE} == "amd64") || (${MACHINE} == "i386")
+CPPFLAGS+=	-DL_ENDIAN
+.elif (${MACHINE_ARCH} == "powerpc") || (${MACHINE} == "sparc")
+CPPFLAGS+=	-DB_ENDIAN
 .else
-CPPFLAGS+= -DB_ENDIAN
+.BEGIN:
+	@echo No endianness defined.
+	@exit 1
 .endif
 
 CPPFLAGS+= -DMONOLITH -DOPENSSL_NO_IDEA -DTERMIOS -DANSI_SOURCE

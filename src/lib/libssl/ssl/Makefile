@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/lib/libssl/ssl/Makefile,v 1.2 2005/03/06 20:29:36 tg Exp $
 # $OpenBSD: Makefile,v 1.19 2004/08/06 22:41:41 pefo Exp $
 
 SHLIB_VERSION?=	10.0
@@ -9,7 +9,7 @@ SSLEAYDIST= src
 LSSL_SRC= ${.CURDIR}/../${SSLEAYDIST}/ssl
 
 .if ${MACHINE_ARCH} == "i386"
-CPPFLAGS+= -DL_ENDIAN -DBN_ASM
+CPPFLAGS+= -DBN_ASM
 .endif
 
 CPPFLAGS+= -DOPENSSL_NO_IDEA -DTERMIOS -DANSI_SOURCE -DNO_ERR
