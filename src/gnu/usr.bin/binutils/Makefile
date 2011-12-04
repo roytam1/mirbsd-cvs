@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.bin/binutils/Makefile,v 1.1.7.1 2005/03/06 16:58:49 tg Exp $
+# $MirOS: src/gnu/usr.bin/binutils/Makefile,v 1.2 2005/04/19 20:14:50 tg Exp $
 
   # libraries
   SUBDIR+= libiberty
@@ -13,4 +13,10 @@
 
 prereq: _SUBDIRUSE
 
+copies:
+	cd bfd && cp /usr/include/bfd.h /usr/include/bfdver.h \
+	    /usr/lib/libbfd.la .
+	cd opcodes && cp /usr/lib/libopcodes.la .
+
+.include <bsd.obj.mk>
 .include <bsd.subdir.mk>
