@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.own.mk,v 1.14 2005/06/09 20:55:14 tg Exp $
+# $MirOS: src/share/mk/bsd.own.mk,v 1.15 2005/06/14 13:47:39 tg Exp $
 # $OpenBSD: bsd.own.mk,v 1.84 2004/06/22 19:50:01 pvalchev Exp $
 # $NetBSD: bsd.own.mk,v 1.24 1996/04/13 02:08:09 thorpej Exp $
 
@@ -47,7 +47,7 @@ WARNINGS?=		No
 # Set to no to avoid building with support for S/key authentication
 SKEY?=			Yes
 # Set to yes to build debugging versions of shared libraries
-DEBUGLIBS?=		Yes
+DEBUGLIBS?=		No
 # Set to yes for a stricter patent policy (USA and OpenBSD only)
 MKC_USAP?=		No
 # Set to sudo to automatically switch to root and only if needed
