@@ -1,10 +1,13 @@
-# $MirOS$
+# $MirOS: src/share/mk/bsd.cfwrap.mk,v 1.1 2005/02/14 18:57:46 tg Exp $
 
 .if !defined(BSD_CFWRAP_MK)
 BSD_CFWRAP_MK=1
 
 .if !defined(BSD_OWN_MK)
 .  include <bsd.own.mk>
+.endif
+.if !defined(BSD_SYS_MK)
+.  include <bsd.sys.mk>
 .endif
 
 .if !target(.MAIN)

@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/* $MirOS: src/share/misc/licence.template,v 1.2 2005/03/03 19:43:30 tg Rel $ */
 
 /*-
  * Copyright (c) 2004
@@ -24,7 +24,7 @@
 
 	.intel_syntax noprefix
 	.section .comment
-	.asciz	"$MirOS$"
+	.asciz	"$MirOS: src/lib/libc/arch/i386/stdlib/div.S,v 1.2 2005/03/06 20:28:29 tg Exp $"
 	.text
 
 NENTRY(div)
