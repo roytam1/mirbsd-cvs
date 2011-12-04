@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.own.mk,v 1.7 2005/04/13 19:02:11 tg Exp $
+# $MirOS: src/share/mk/bsd.own.mk,v 1.8 2005/04/29 00:21:57 tg Exp $
 # $OpenBSD: bsd.own.mk,v 1.84 2004/06/22 19:50:01 pvalchev Exp $
 # $NetBSD: bsd.own.mk,v 1.24 1996/04/13 02:08:09 thorpej Exp $
 
@@ -124,10 +124,13 @@ LDFLAGS+=	${STATIC}
 # are: ELF a.out COFF Mach-O PE (consistent with nbsd)
 .if ${OStype} == "Darwin"
 OBJECT_FMT=	Mach-O
+RTLD_TYPE=	dyld
 .elif !empty(OStype:M*Interix)
 OBJECT_FMT=	PE
+RTLD_TYPE=	GNU
 .else
 OBJECT_FMT=	ELF
+RTLD_TYPE=	BSD
 .endif
 
 .if ${OBJECT_FMT} == "Mach-O"

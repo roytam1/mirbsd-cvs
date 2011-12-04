@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.lib.mk,v 1.13 2005/04/16 21:22:32 tg Exp $
+# $MirOS: src/share/mk/bsd.lib.mk,v 1.14 2005/04/16 21:24:06 tg Exp $
 # $OpenBSD: bsd.lib.mk,v 1.38 2004/06/22 19:50:01 pvalchev Exp $
 # $NetBSD: bsd.lib.mk,v 1.67 1996/01/17 20:39:26 mycroft Exp $
 # @(#)bsd.lib.mk	5.26 (Berkeley) 5/2/91
@@ -29,9 +29,12 @@ SHLIB_VERSION?=	${major}.${minor}
 .endif
 
 .if defined(SHLIB_VERSION) && ${NOPIC:L} == "no"
-.  if ${OBJECT_FMT} == "Mach-O"
+.  if ${RTLD_TYPE} == "dyld"
 SHLIB_SONAME?=	lib${LIB}.${SHLIB_VERSION}.dylib
 SHLIB_LINKS?=	lib${LIB}.${SHLIB_VERSION:R}.dylib lib${LIB}.dylib
+.  elif ${RTLD_TYPE} == "GNU"
+SHLIB_SONAME?=	lib${LIB}.so.${SHLIB_VERSION}
+SHLIB_LINKS?=	lib${LIB}.so.${SHLIB_VERSION:R} lib${LIB}.so
 .  else
 SHLIB_SONAME?=	lib${LIB}.so.${SHLIB_VERSION}
 .  endif
@@ -41,11 +44,15 @@ SHLIB_LINKS?=
 .if defined(SHLIB_SONAME) && empty(SHLIB_SONAME)
 .  undef SHLIB_SONAME
 .  undef SHLIB_LINKS
-.elif ${OBJECT_FMT} == "Mach-O"
+.elif ${RTLD_TYPE} == "dyld"
 LINK.shlib?=	${CC} ${CFLAGS} ${PICFLAG} -dynamiclib \
 		-compatibility_version ${SHLIB_VERSION} \
 		-current_version ${SHLIB_VERSION} \
 		$$(${LORDER} ${SOBJS}|tsort -q) ${LDADD}
+.elif ${RTLD_TYPE} == "GNU"
+LINK.shlib?=	${CC} ${CFLAGS} ${PICFLAG} -shared \
+		$$(${LORDER} ${SOBJS}|tsort -q) ${LDADD} \
+		-Wl,-h,${SHLIB_SONAME:R}
 .else
 LINK.shlib?=	${CC} ${CFLAGS} ${PICFLAG} -shared \
 		$$(${LORDER} ${SOBJS}|tsort -q) ${LDADD}
