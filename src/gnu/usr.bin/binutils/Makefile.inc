@@ -1,7 +1,11 @@
-# $MirOS: src/gnu/usr.bin/binutils/Makefile.inc,v 1.2 2005/06/05 17:34:21 tg Exp $
+# $MirOS: src/gnu/usr.bin/binutils/Makefile.inc,v 1.3 2005/06/13 23:17:00 tg Exp $
 
 .ifndef _MODSRC_GNU_USR_BIN_BINUTILS_MAKEFILE_INC
 _MODSRC_GNU_USR_BIN_BINUTILS_MAKEFILE_INC=1
+
+.if exists(../Makefile.inc)
+.  include "../Makefile.inc"
+.endif
 
 .include <bsd.own.mk>
 .include "${GNUSYSTEM_AUX_DIR}/locations.mk"
@@ -19,9 +23,5 @@ CFARGS+=	--disable-werror
 XARGS+=		BISON=yacc LIBIBERTY_HDRS="${GNU_LIBIBERTY_INC}"
 
 CFLAGS+=	-Wall
-
-.if exists(../Makefile.inc)
-.  include "../Makefile.inc"
-.endif
 
 .endif
