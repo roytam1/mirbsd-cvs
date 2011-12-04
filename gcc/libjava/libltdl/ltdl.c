@@ -54,7 +54,9 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
 #endif
 
 #if HAVE_MALLOC_H
+# ifndef __OpenBSD__
 #  include <malloc.h>
+# endif
 #endif
 
 #if HAVE_MEMORY_H

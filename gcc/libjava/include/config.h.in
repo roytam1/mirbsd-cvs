@@ -44,9 +44,6 @@
 /* Define if the X Window System is missing or not being used.  */
 #undef X_DISPLAY_MISSING
 
-/* Define to `int' if `ssize_t' is not defined.  */
-#undef ssize_t
-
 /* Define if you have the access function.  */
 #undef HAVE_ACCESS
 
@@ -389,6 +386,9 @@
 /* Define as const if the declaration of iconv() needs const. */
 #undef ICONV_CONST
 
+/* Define if you have <langinfo.h> and nl_langinfo(CODESET). */
+#undef HAVE_LANGINFO_CODESET
+
 /* Define if your <locale.h> file defines LC_MESSAGES. */
 #undef HAVE_LC_MESSAGES
 
@@ -439,6 +439,9 @@
 
 /* Define if <inttypes.h> is available */
 #undef JV_HAVE_INTTYPES_H
+
+/* Define to 'int' if <sys/types.h> does not define. */
+#undef ssize_t
 
 /* Define to 1 if 'in_addr_t' is defined in sys/types.h or netinet/in.h. */
 #undef HAVE_IN_ADDR_T

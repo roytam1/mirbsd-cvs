@@ -1,6 +1,6 @@
-# Makefile.in generated automatically by automake 1.4 from Makefile.am
+# Makefile.in generated automatically by automake 1.4-p6 from Makefile.am
 
-# Copyright (C) 1994, 1995-8, 1999 Free Software Foundation, Inc.
+# Copyright (C) 1994, 1995-8, 1999, 2001 Free Software Foundation, Inc.
 # This Makefile.in is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
 # with or without modifications, as long as this notice is preserved.
@@ -75,7 +75,6 @@ CXX = @CXX@
 CXXCPP = @CXXCPP@
 DIRLTDL = @DIRLTDL@
 DIVIDESPEC = @DIVIDESPEC@
-DLLTOOL = @DLLTOOL@
 EXCEPTIONSPEC = @EXCEPTIONSPEC@
 EXEEXT = @EXEEXT@
 EXTRA_CC_FILES = @EXTRA_CC_FILES@
@@ -97,12 +96,10 @@ GOBJECT_QUERY = @GOBJECT_QUERY@
 GTK_CFLAGS = @GTK_CFLAGS@
 GTK_LIBS = @GTK_LIBS@
 HASH_SYNC_SPEC = @HASH_SYNC_SPEC@
-HAVE_LIB = @HAVE_LIB@
 IEEESPEC = @IEEESPEC@
 INCLTDL = @INCLTDL@
 INTERPRETER = @INTERPRETER@
 JC1GCSPEC = @JC1GCSPEC@
-LIB = @LIB@
 LIBART_CFLAGS = @LIBART_CFLAGS@
 LIBART_CONFIG = @LIBART_CONFIG@
 LIBART_LIBS = @LIBART_LIBS@
@@ -117,11 +114,8 @@ LIBICONV = @LIBICONV@
 LIBLTDL = @LIBLTDL@
 LIBTOOL = @LIBTOOL@
 LN_S = @LN_S@
-LTLIB = @LTLIB@
 MAINT = @MAINT@
 MAKEINFO = @MAKEINFO@
-OBJDUMP = @OBJDUMP@
-OBJEXT = @OBJEXT@
 PACKAGE = @PACKAGE@
 PANGOFT2_CFLAGS = @PANGOFT2_CFLAGS@
 PANGOFT2_LIBS = @PANGOFT2_LIBS@
@@ -129,7 +123,6 @@ PERL = @PERL@
 PKG_CONFIG = @PKG_CONFIG@
 PLATFORMOBJS = @PLATFORMOBJS@
 RANLIB = @RANLIB@
-STRIP = @STRIP@
 SYSDEP_SOURCES = @SYSDEP_SOURCES@
 SYSTEMSPEC = @SYSTEMSPEC@
 SYS_ZLIBS = @SYS_ZLIBS@
@@ -168,7 +161,7 @@ DIST_COMMON =  ./stamp-h1.in Makefile.am Makefile.in config.h.in
 
 DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
-TAR = gtar
+TAR = tar
 GZIP_ENV = --best
 all: all-redirect
 .SUFFIXES:
@@ -289,7 +282,7 @@ install-exec: install-exec-am
 install-data-am: install-includeHEADERS
 install-data: install-data-am
 
-install-am: all-am
+install-am:
 	@$(MAKE) $(AM_MAKEFLAGS) install-exec-am install-data-am
 install: install-am
 uninstall-am: uninstall-includeHEADERS

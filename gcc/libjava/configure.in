@@ -1237,7 +1237,7 @@ changequote(<<,>>)
 	 d=`echo $f | sed -e 's,/[^/]*$,,'`
 changequote([,])
 	 if test ! -d $d; then
-	   $libgcj_basedir/../mkinstalldirs $d
+	   $SHELL $GNUSYSTEM_AUX_DIR/mkinstalldirs $d
 	 fi;
 	 echo > $f
       }

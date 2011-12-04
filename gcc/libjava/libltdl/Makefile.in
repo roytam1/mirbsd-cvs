@@ -237,7 +237,7 @@ $(srcdir)/config-h.in: @MAINTAINER_MODE_TRUE@ $(top_srcdir)/configure.ac $(ACLOC
 distclean-hdr:
 	-rm -f config.h stamp-h1
 libLTLIBRARIES_INSTALL = $(INSTALL)
-install-libLTLIBRARIES: $(lib_LTLIBRARIES)
+install-libLTLIBRARIES: #$(lib_LTLIBRARIES)
 	@$(NORMAL_INSTALL)
 	$(mkinstalldirs) $(DESTDIR)$(libdir)
 	@list='$(lib_LTLIBRARIES)'; for p in $$list; do \
@@ -303,7 +303,7 @@ distclean-libtool:
 	-rm -f libtool
 uninstall-info-am:
 includeHEADERS_INSTALL = $(INSTALL_HEADER)
-install-includeHEADERS: $(include_HEADERS)
+install-includeHEADERS: #$(include_HEADERS)
 	@$(NORMAL_INSTALL)
 	$(mkinstalldirs) $(DESTDIR)$(includedir)
 	@list='$(include_HEADERS)'; for p in $$list; do \
@@ -497,7 +497,7 @@ install-exec: install-exec-am
 install-data: install-data-am
 uninstall: uninstall-am
 
-install-am: all-am
+install-am: #all-am
 	@$(MAKE) $(AM_MAKEFLAGS) install-exec-am install-data-am
 
 installcheck: installcheck-am

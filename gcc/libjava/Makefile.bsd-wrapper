@@ -1,0 +1,23 @@
+# $MirOS: gcc/libstdc++-v3/Makefile.bsd-wrapper,v 1.8 2005/03/26 22:32:33 tg Exp $
+
+.include <bsd.own.mk>
+.include "${GNUSYSTEM_AUX_DIR}/locations.mk"
+
+CPPFLAGS+=	-I/usr/X11R6/include
+LDFLAGS+=	-L/usr/X11R6/lib
+CXXOPTS?=	${COPTS}
+
+NOMAN=		yes
+CFARGS+=	--enable-static ${CF_PIC} --prefix=/usr --disable-nls \
+		--enable-interpreter --disable-sjlj-exceptions \
+		--with-system-zlib --with-x --enable-java-awt=xlib \
+		--disable-gtk-cairo --enable-java-gc=boehm
+CFVARS+=	ac_config_sub=${GNUSYSTEM_AUX_DIR}/config.sub \
+		ac_config_guess=${GNUSYSTEM_AUX_DIR}/config.guess
+FSFMAKE=	${XVARS} ${GMAKE} ${FSFMARGS} ${XARGS}
+
+#XARGS+=		LIBIBERTY_HDRS="${GNU_LIBIBERTY_INC}" \
+#		LIBIBERTY_SRC="${GNU_LIBIBERTY_SRC}" \
+CLEANFILES+=
+
+.include <bsd.cfwrap.mk>
