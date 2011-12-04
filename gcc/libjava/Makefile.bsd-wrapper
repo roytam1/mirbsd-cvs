@@ -1,9 +1,10 @@
-# $MirOS: gcc/libjava/Makefile.bsd-wrapper,v 1.2 2005/04/26 20:41:15 tg Exp $
+# $MirOS: gcc/libjava/Makefile.bsd-wrapper,v 1.3 2005/04/27 07:14:48 tg Exp $
 
 .include <bsd.own.mk>
 .include "${GNUSYSTEM_AUX_DIR}/locations.mk"
 
 EXPERIMENTAL=	#defined
+LDFLAGS+=	--no-keep-memory
 NOMAN=		yes
 CFARGS+=	--enable-static ${CF_PIC} --prefix=/usr --disable-nls \
 		--enable-interpreter --disable-sjlj-exceptions \
