@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/i386/powernow-k7.c,v 1.3 2005/05/04 21:41:35 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/i386/powernow-k7.c,v 1.4 2005/05/05 23:06:25 tg Exp $ */
 /* $OpenBSD: powernow-k7.c,v 1.3 2004/08/05 04:56:05 tedu Exp $ */
 
 #ifndef SMALL_KERNEL
@@ -76,7 +76,7 @@ struct state_s {
 };
 
 /* Taken from powernow-k7.c/Linux by Dave Jones */
-static int k7pnow_fid_codes[32] = {
+static int fid_codes[32] = {
 	110, 115, 120, 125, 50, 55, 60, 65,
 	70, 75, 80, 85, 90, 95, 100, 105,
 	30, 190, 40, 200, 130, 135, 140, 210,
@@ -84,15 +84,14 @@ static int k7pnow_fid_codes[32] = {
 };
 
 static unsigned int k7pnow_fsb;
-static unsigned int k7pnow_cur_freq;
-static unsigned int k7pnow_ttime;
-static unsigned int k7pnow_nstates;
-static struct k7pnow_freq_table_s {
+unsigned int k7pnow_ttime;
+unsigned int k7pnow_nstates;
+int k7pnow_state = -1;
+struct k7pnow_freq_table_s {
 	unsigned int frequency;
 	struct state_s state;
 } *k7pnow_freq_table;
 
-static int k7pnow_state = -1;
 static char *k7pnow_biosmem;
 static struct psb_s *psb;
 
@@ -170,9 +169,8 @@ powernowhack_match(struct device *parent, void *match, void *aux)
 static int
 k7pnow_dump(int i, struct pst_s *pst)
 {
-	printf("PST #%03X: CPUID = 0x%08X, Max Freq = %d MHz,"
-	    " FSB Freq = %d MHz\n", i, pst->signature,
-	    pst->fsb * k7pnow_fid_codes[pst->fid] / 10, pst->fsb);
+	printf("PST #%03X: CPUID %08X, FSB %d MHz, Max Freq %d MHz\n", i,
+	    pst->signature, pst->fsb, pst->fsb * fid_codes[pst->fid] / 10);
 	return 0;
 }
 
@@ -230,7 +228,7 @@ powernowhack_attach(struct device *parent, struct device *self, void *aux)
 		printf("powernowhack0: these PSTs are known\n");
 		k7pnow_iter(k7pnow_dump);
 		if ((self->dv_cfdata->cf_flags & 0x0FFF) == 0x0FFF)
-			printf("powernowhack0: need PST matching your"
+			printf("powernowhack0: need PST matching"
 			    " CPUID %08X\n", cpu_id);
 	}
 
@@ -239,7 +237,7 @@ powernowhack_attach(struct device *parent, struct device *self, void *aux)
 			goto found;
 
 	if ((self->dv_cfdata->cf_flags & 0x0FFF) == 0)
-		printf("powernowhack0: cannot find PST matching your"
+		printf("powernowhack0: cannot find PST matching"
 		    " CPUID %08X\n", cpu_id);
 
 	if ((self->dv_cfdata->cf_flags & 0x0FFF) == 0x0FFF) {
@@ -255,7 +253,7 @@ powernowhack_attach(struct device *parent, struct device *self, void *aux)
 
 	k7pnow_state = self->dv_cfdata->cf_flags & 0x0FFF;
 	if (k7pnow_state == 0) {
-		printf("powernowhack0: use flags 0x0nnn to select the"
+		printf("powernowhack0: use flags 0x0nnn to select"
 		    " correct PST, trying to use #001\n");
 		k7pnow_state = 1;
 	}
@@ -288,7 +286,7 @@ found:
 		while (__predict_false((s->fid == 0) || (s->vid == 0)))
 			++s;
 		k7pnow_freq_table[i].frequency = k7pnow_fsb
-		    * k7pnow_fid_codes[s->fid] / 10;
+		    * fid_codes[s->fid] / 10;
 		k7pnow_freq_table[i].state.fid = s->fid;
 		k7pnow_freq_table[i].state.vid = s->vid;
 		++s;
@@ -296,7 +294,6 @@ found:
 
 	/* On bootup the frequency should be at its maximum */
 	k7pnow_state = j - 1;
-	k7pnow_cur_freq = k7pnow_freq_table[k7pnow_state].frequency;
 
 #ifdef K7PN_DEBUG
 	for (i = 0; i < j; i++) {
@@ -311,7 +308,7 @@ found:
 		if (j) {
 			printf(", ");
 		} else {
-			printf("powernowhack0: Available Frequencies: ");
+			printf("powernowhack0: frequencies available: ");
 			++j;
 		}
 		printf("%d", k7pnow_freq_table[i].frequency);
@@ -365,7 +362,6 @@ k7_powernow_setperf(int level)
 	printf("powernowhack0: setting new state %d (old state %d)\n",
 	    i, k7pnow_state);
 #endif
-	k7pnow_state = i;
 
 	/* Get CTL and only modify fid/vid/sgtc */
 	ctl = rdmsr(MSR_K7_CTL);
@@ -383,7 +379,7 @@ k7_powernow_setperf(int level)
 	ctl &= 0xFFF00000FFFFFFFFULL;
 	ctl |= (uint64_t)sgtc << 32;
 
-	if (k7pnow_cur_freq > freq) {
+	if (k7pnow_freq_table[k7pnow_state].frequency > freq) {
 		wrmsr(MSR_K7_CTL, ctl | CTL_SET_FID);
 		wrmsr(MSR_K7_CTL, ctl | CTL_SET_VID);
 	} else {
@@ -391,6 +387,7 @@ k7_powernow_setperf(int level)
 		wrmsr(MSR_K7_CTL, ctl | CTL_SET_FID);
 	}
 	ctl = rdmsr(MSR_K7_CTL);
+	k7pnow_state = i;
 
 #ifdef K7PN_DEBUG
 	printf("powernowhack0: calibrating...");
