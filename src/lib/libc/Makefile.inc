@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libc/Makefile.inc,v 1.2 2005/03/06 20:28:26 tg Exp $
+# $MirOS: src/lib/libc/Makefile.inc,v 1.3 2005/04/17 01:42:54 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.9 2004/04/28 16:56:49 millert Exp $
 
 .ifndef LIBCSRCDIR
@@ -38,7 +38,6 @@ AINC+=  -nostdinc -idirafter ${DESTDIR}/usr/include
 .include "${LIBCSRCDIR}/thread/Makefile.inc"
 .include "${LIBCSRCDIR}/time/Makefile.inc"
 .include "${LIBCSRCDIR}/sys/Makefile.inc"
-.include "${LIBCSRCDIR}/posix1e/Makefile.inc"
 
 LIBKERN=	${LIBCSRCDIR}/../../sys/lib/libkern
 
