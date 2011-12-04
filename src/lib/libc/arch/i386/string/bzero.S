@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/lib/libc/arch/i386/string/bzero.S,v 1.2 2005/03/06 20:28:29 tg Exp $ */
 /*
  * Written by J.T. Conklin <jtc@netbsd.org>.
  * Public domain.
@@ -6,14 +6,10 @@
 
 #include <machine/asm.h>
 
-#APP
-	.section .gnu.warning.bzero
-	.ascii "warning: bzero(a,l) is deprecated, please use memset(a,0,l) instead"
+	.section .comment
+	.asciz	"$MirOS$"
 	.text
-#NO_APP
-
-	.text
-#if defined(LIBC_SCCS)
+#if 0
 	.asciz "$OpenBSD: bzero.S,v 1.2 1996/08/19 08:12:56 tholo Exp $"
 #endif
 

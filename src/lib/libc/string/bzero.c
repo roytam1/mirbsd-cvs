@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/lib/libc/string/bzero.c,v 1.2 2005/03/06 20:28:48 tg Exp $ */
 
 /*
  * Copyright (c) 1987 Regents of the University of California.
@@ -29,17 +29,16 @@
  * SUCH DAMAGE.
  */
 
-#if defined(LIBC_SCCS) && !defined(lint)
+#if 0
 static char *rcsid = "$OpenBSD: bzero.c,v 1.5 2003/06/11 21:08:16 deraadt Exp $";
 #endif /* LIBC_SCCS and not lint */
 
 #ifndef _KERNEL
 #include <string.h>
+__RCSID("$MirOS$");
 #else
 #include <lib/libkern/libkern.h>
 #endif
-
-__warn_references(bzero, "warning: bzero(a,l) is deprecated, please use memset(a,0,l) instead");
 
 /*
  * bzero -- vax movc5 instruction

@@ -31,8 +31,8 @@
  * SUCH DAMAGE.
  */
 
-#if defined(LIBC_SCCS) 
 	.text
+#if defined(LIBC_SCCS) 
 	.asciz "$OpenBSD: bzero.S,v 1.3 2003/06/02 20:18:32 millert Exp $"
 #endif /* LIBC_SCCS */
 
