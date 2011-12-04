@@ -1,3 +1,4 @@
+dnl $MirOS$
 dnl Process this with autoconf to create configure
 AC_PREREQ(2.13)
 AC_INIT(java/lang/System.java)
@@ -39,6 +40,10 @@ fi
 AC_SUBST(INCLTDL)
 AC_SUBST(LIBLTDL)
 AC_SUBST(DIRLTDL)
+
+# Create it, so that compile/link tests don't fail
+test -f libgcj.spec || touch libgcj.spec
+
 AM_PROG_GCJ
 AM_PROG_LIBTOOL
 AC_LIBTOOL_GCJ
