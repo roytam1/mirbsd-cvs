@@ -1,4 +1,4 @@
-# $MirOS: gcc/libjava/Makefile.bsd-wrapper,v 1.9 2005/05/14 16:22:16 tg Exp $
+# $MirOS: gcc/libjava/Makefile.bsd-wrapper,v 1.10 2005/06/13 19:51:12 tg Exp $
 
 .include <bsd.own.mk>
 .include "${GNUSYSTEM_AUX_DIR}/locations.mk"
@@ -36,7 +36,9 @@ LIBGCJ_VER=	5.0
 post-install:
 .for _i in ${INSTLIBS}
 	chmod 600 ${DESTDIR}/usr/lib/lib${_i}.{a,so.${LIBGCJ_VER}}
+.  if ${DEBUGLIBS:L} == "yes"
 	cp ${DESTDIR}/usr/lib/lib${_i}.a ${DESTDIR}/usr/lib/debug/
+.  endif
 	strip --strip-debug ${DESTDIR}/usr/lib/lib${_i}.a
 	strip ${DESTDIR}/usr/lib/lib${_i}.so.${LIBGCJ_VER}
 	chown ${LIBOWN}:${LIBGRP} \
@@ -49,6 +51,12 @@ post-install:
 
 .include <bsd.cfwrap.mk>
 
-FSFCFLAGS=	-O2 -g ${EXTRA_GCC_FLAGS}
-FSFCXXFLAGS=	-O2 -g ${EXTRA_GCC_FLAGS}
-GCJFLAGS=	-O2 -g ${EXTRA_GCJ_FLAGS}
+.if ${DEBUGLIBS:L} == "yes"
+_BASEFLAGS=	-O2 -g
+.else
+_BASEFLAGS=	-O2
+.endif
+
+FSFCFLAGS=	${_BASEFLAGS} ${EXTRA_GCC_FLAGS}
+FSFCXXFLAGS=	${_BASEFLAGS} ${EXTRA_GCC_FLAGS}
+GCJFLAGS=	${_BASEFLAGS} ${EXTRA_GCJ_FLAGS}
