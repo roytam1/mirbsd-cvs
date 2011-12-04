@@ -1,6 +1,6 @@
-# $MirOS$
+# $MirOS: src/lib/libform/Makefile,v 1.2 2005/03/06 20:29:07 tg Exp $
 
-SHLIB_VERSION?=	4.0
+SHLIB_VERSION?=	5.0
 LIB=	form
 SRCS=	fld_arg.c fld_attr.c fld_current.c fld_def.c fld_dup.c fld_ftchoice.c \
 	fld_ftlink.c fld_info.c fld_just.c fld_link.c fld_max.c fld_move.c \

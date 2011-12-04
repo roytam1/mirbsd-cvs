@@ -1,6 +1,6 @@
-# $MirOS$
+# $MirOS: src/lib/libpanel/Makefile,v 1.2 2005/03/06 20:29:13 tg Exp $
 
-SHLIB_VERSION?=	4.0
+SHLIB_VERSION?=	5.0
 LIB=	panel
 SRCS=	p_above.c p_below.c p_bottom.c p_delete.c p_hidden.c p_hide.c p_move.c \
 	p_new.c p_replace.c p_show.c p_top.c p_update.c p_user.c p_win.c panel.c

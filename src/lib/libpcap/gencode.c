@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: gencode.c,v 1.24 2005/06/04 18:00:45 joel Exp $	*/
 
 /*
@@ -611,10 +612,12 @@ init_linktype(type)
 		off_nl = 32;
 		return;
 
+#ifdef DLT_IEEE802_11_RADIO
 	case DLT_IEEE802_11_RADIO:
 		off_linktype = 30 + 64; /* XXX variable */
 		off_nl = 32 + 64;
 		return;
+#endif
 
 	case DLT_ATM_RFC1483:
 		/*

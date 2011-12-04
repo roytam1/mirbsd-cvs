@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libssl/src/apps/s_socket.c,v 1.2 2005/03/06 20:29:28 tg Exp $ */
+/* $MirOS: src/lib/libssl/src/apps/s_socket.c,v 1.3 2005/04/29 13:52:28 tg Exp $ */
 
 /* apps/s_socket.c -  socket-related functions used by s_client and s_server */
 /* Copyright (C) 1995-1998 Eric Young (eay@cryptsoft.com)
@@ -483,7 +483,7 @@ static struct hostent *GetHostByName(char *name)
 		/* else add to cache */
 		if(strlen(name) < sizeof ghbn_cache[0].name)
 			{
-			strlcpy(ghbn_cache[lowi].name,name,128);
+			strlcpy(ghbn_cache[lowi].name,name, sizeof(ghbn_cache[0].name));
 			memcpy((char *)&(ghbn_cache[lowi].ent),ret,sizeof(struct hostent));
 			ghbn_cache[lowi].order=ghbn_miss+ghbn_hits;
 			}

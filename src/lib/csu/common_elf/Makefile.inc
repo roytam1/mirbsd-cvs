@@ -1,4 +1,4 @@
-# $MirOS: src/lib/csu/common_elf/Makefile.inc,v 1.6 2005/06/09 20:57:36 tg Exp $
+# $MirOS: src/lib/csu/common_elf/Makefile.inc,v 1.7 2005/06/26 18:07:53 tg Exp $
 # $NetBSD: Makefile.inc,v 1.23 2003/03/19 16:54:25 ross Exp $
 
 .include <bsd.own.mk>
@@ -7,7 +7,7 @@
 ELFSIZE=	32
 .endif
 
-CFLAGS+=	-fno-omit-frame-pointer -fno-stack-protector -Werror
+COPTS+=		-fno-omit-frame-pointer -fno-stack-protector -Werror
 CPPFLAGS+=	-idirafter ${.CURDIR}/../common_elf
 CPPFLAGS+=	-DELFSIZE=${ELFSIZE}
 SHARED_FLAGS+=	-DSHARED -DPIC ${PICFLAG}

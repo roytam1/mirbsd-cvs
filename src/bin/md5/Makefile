@@ -1,5 +1,5 @@
-# $MirOS: src/bin/md5/Makefile,v 1.3 2005/03/16 17:19:06 tg Exp $
-# $OpenBSD: Makefile,v 1.9 2004/05/04 14:50:45 millert Exp $
+# $MirOS: src/bin/md5/Makefile,v 1.4 2005/04/12 19:50:21 tg Exp $
+# $OpenBSD: Makefile,v 1.10 2005/05/24 21:57:47 millert Exp $
 
 PROG=	md5
 SRCS=	crc.c md5.c suma.c
@@ -16,6 +16,8 @@ LINKS=	${BINDIR}/md5 ${BINDIR}/sha1 \
 	${BINDIR}/md5 ${BINDIR}/sum
 MLINKS= cksum.1 sum.1
 
-COPTS+=	-ansi -Wall -Wconversion -Wmissing-prototypes
+.include <bsd.own.mk>
+
+COPTS+=	-Wall -Wconversion -Wmissing-prototypes
 
 .include <bsd.prog.mk>

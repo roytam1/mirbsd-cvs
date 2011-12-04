@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: kqueue.c,v 1.18 2005/07/02 07:15:13 grunk Exp $	*/
 
 /*
@@ -133,7 +134,7 @@ kq_init(void)
 	 */
 	if (kevent(kq,
 		kqueueop->changes, 1, kqueueop->events, NEVENT, NULL) != 1 ||
-	    kqueueop->events[0].ident != -1 ||
+	    kqueueop->events[0].ident != (u_int)-1 ||
 	    kqueueop->events[0].flags != EV_ERROR) {
 		event_warn("%s: detected broken kqueue; not using.", __func__);
 		free(kqueueop->changes);

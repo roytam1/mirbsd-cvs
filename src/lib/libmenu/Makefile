@@ -1,6 +1,6 @@
-# $MirOS$
+# $MirOS: src/lib/libmenu/Makefile,v 1.2 2005/03/06 20:29:10 tg Exp $
 
-SHLIB_VERSION?=	4.0
+SHLIB_VERSION?=	5.0
 LIB=	menu
 SRCS=	m_adabind.c m_attribs.c m_cursor.c m_driver.c m_format.c \
 	m_global.c m_hook.c m_item_cur.c m_item_nam.c m_item_new.c \

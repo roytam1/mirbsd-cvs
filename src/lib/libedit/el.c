@@ -1,5 +1,6 @@
-/**	$MirOS: src/lib/libedit/el.c,v 1.2 2005/03/06 20:29:01 tg Exp $ */
+/**	$MirOS: src/lib/libedit/el.c,v 1.3 2005/04/19 15:16:13 tg Exp $ */
 /*	$NetBSD: el.c,v 1.39 2004/07/08 00:51:36 christos Exp $	*/
+/*	$OpenBSD: el.c,v 1.14 2004/08/23 18:31:25 otto Exp $	*/
 
 /*-
  * Copyright (c) 1992, 1993
@@ -46,7 +47,7 @@
 #include "el.h"
 
 __SCCSID("@(#)el.c	8.2 (Berkeley) 1/3/94");
-__RCSID("$MirOS: src/lib/libedit/el.c,v 1.2 2005/03/06 20:29:01 tg Exp $");
+__RCSID("$MirOS: src/lib/libedit/el.c,v 1.3 2005/04/19 15:16:13 tg Exp $");
 
 /* el_init():
  *	Initialize editline and set default parameters.
@@ -428,7 +429,7 @@ el_source(EditLine *el, const char *fname)
 {
 	FILE *fp;
 	size_t len;
-	char *ptr;
+	char *ptr, *lptr = NULL;
 
 	fp = NULL;
 	if (fname == NULL) {
@@ -462,15 +463,24 @@ el_source(EditLine *el, const char *fname)
 		return (-1);
 
 	while ((ptr = fgetln(fp, &len)) != NULL) {
-		if (len > 0 && ptr[len - 1] == '\n')
-			--len;
-		ptr[len] = '\0';
+		if (ptr[len - 1] == '\n')
+			ptr[len - 1] = '\0';
+		else {
+			if ((lptr = (char *)malloc(len + 1)) == NULL) {
+				(void) fclose(fp);
+				return (-1);
+			}
+			memcpy(lptr, ptr, len);
+			lptr[len] = '\0';
+			ptr = lptr;
+		}
 		if (parse_line(el, ptr) == -1) {
+			free(lptr);
 			(void) fclose(fp);
 			return (-1);
 		}
 	}
-
+	free(lptr);
 	(void) fclose(fp);
 	return (0);
 }

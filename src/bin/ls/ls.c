@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: ls.c,v 1.20 2003/06/11 23:42:12 deraadt Exp $	*/
+/**	$MirOS: src/bin/ls/ls.c,v 1.2 2005/03/06 18:55:21 tg Exp $ */
+/*	$OpenBSD: ls.c,v 1.24 2005/06/15 17:47:17 millert Exp $	*/
 /*	$NetBSD: ls.c,v 1.18 1996/07/09 09:16:29 mycroft Exp $	*/
 
 /*
@@ -34,10 +34,6 @@
  * SUCH DAMAGE.
  */
 
-#include <sys/cdefs.h>
-__SCCSID("@(#)ls.c	8.7 (Berkeley) 8/5/94");
-__RCSID("$MirOS$");
-
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/ioctl.h>
@@ -55,6 +51,9 @@ __RCSID("$MirOS$");
 
 #include "ls.h"
 #include "extern.h"
+
+__SCCSID("@(#)ls.c	8.7 (Berkeley) 8/5/94");
+__RCSID("$MirOS: src/bin/ls/ls.c,v 1.2 2005/03/06 18:55:21 tg Exp $");
 
 static void	 display(FTSENT *, FTSENT *);
 static int	 mastercmp(const FTSENT **, const FTSENT **);
@@ -94,7 +93,6 @@ int f_stream;			/* stream format */
 int f_dirname;			/* if precede with directory name */
 int f_type;			/* add type character for non-regular files */
 int f_typedir;			/* add type character for directories */
-int f_whiteout;			/* show whiteout entries */
 
 int rval;
 
@@ -123,7 +121,7 @@ ls_main(int argc, char *argv[])
 		f_listdot = 1;
 
 	fts_options = FTS_PHYSICAL;
-	while ((ch = getopt(argc, argv, "1ACFLRSTWacdfgiklmnopqrstux")) != -1) {
+	while ((ch = getopt(argc, argv, "1ACFLRSTacdfgiklmnopqrstux")) != -1) {
 		switch (ch) {
 		/*
 		 * The -1, -C and -l, -m and -x options all override each
@@ -222,9 +220,6 @@ ls_main(int argc, char *argv[])
 		case 't':
 			sortkey = BY_TIME;
 			break;
-		case 'W':
-			f_whiteout = 1;
-			break;
 		default:
 			usage();
 		}
@@ -246,14 +241,6 @@ ls_main(int argc, char *argv[])
 	 */
 	if (!f_longform && !f_listdir && !f_type)
 		fts_options |= FTS_COMFOLLOW;
-
-	/*
-	 * If -W, show whiteout entries
-	 */
-#ifdef FTS_WHITEOUT
-	if (f_whiteout)
-		fts_options |= FTS_WHITEOUT;
-#endif
 
 	/* If -l or -s, figure out block size. */
 	if (f_longform || f_size) {
@@ -377,7 +364,8 @@ traverse(int argc, char *argv[], int options)
 			break;
 		case FTS_DNR:
 		case FTS_ERR:
-			warnx("%s: %s", p->fts_name, strerror(p->fts_errno));
+			warnx("%s: %s", p->fts_name[0] == '\0' ? p->fts_path :
+			    p->fts_name, strerror(p->fts_errno));
 			rval = 1;
 			break;
 		}

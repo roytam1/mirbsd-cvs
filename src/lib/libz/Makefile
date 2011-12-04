@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libz/Makefile,v 1.11 2005/07/24 23:19:02 tg Exp $
+# $MirOS: src/lib/libz/Makefile,v 1.12 2005/09/26 22:36:40 tg Exp $
 # $OpenBSD: Makefile,v 1.13 2005/07/20 21:29:00 jmc Exp $
 
 SHLIB_VERSION?=	5.2
@@ -7,8 +7,8 @@ HDRS=		zconf.h zlib.h
 SRCS=		adler32.c compress.c crc32.c deflate.c gzio.c infback.c \
 		inffast.c inflate.c inftrees.c trees.c uncompr.c zutil.c
 MAN=		compress.3
-CFLAGS+=	-Wall
-CDIAGFLAGS+=	-Wno-old-style-definitions
+.include <bsd.own.mk>
+COPTS+=		-Wall -Wno-old-style-definitions
 CPPFLAGS+=	-I.
 GENHDRS=	crc32.h inffixed.h trees.h
 CLEANFILES+=	mk_crc32 mk_crc32.c mk_inffixed mk_inffixed.c \

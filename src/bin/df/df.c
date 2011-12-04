@@ -1,4 +1,4 @@
-/*	$OpenBSD: df.c,v 1.37 2003/07/29 00:24:15 deraadt Exp $	*/
+/*	$OpenBSD: df.c,v 1.43 2005/02/20 01:34:56 pedro Exp $	*/
 /*	$NetBSD: df.c,v 1.21.2.1 1995/11/01 00:06:11 jtc Exp $	*/
 
 /*
@@ -45,7 +45,7 @@ static char copyright[] =
 #if 0
 static char sccsid[] = "@(#)df.c	8.7 (Berkeley) 4/2/94";
 #else
-static char rcsid[] = "$OpenBSD: df.c,v 1.37 2003/07/29 00:24:15 deraadt Exp $";
+static char rcsid[] = "$OpenBSD: df.c,v 1.43 2005/02/20 01:34:56 pedro Exp $";
 #endif
 #endif /* not lint */
 
@@ -74,8 +74,6 @@ void	 prtstat(struct statfs *, int, int, int);
 void	 posixprint(struct statfs *, long, int);
 int 	 bread(int, off_t, void *, int);
 void	 usage(void);
-void	 prthumanval(long long);
-void	 prthuman(struct statfs *sfsp, long);
 
 int		raw_df(char *, struct statfs *);
 extern int	ffs_df(int, char *, struct statfs *);
@@ -166,22 +164,24 @@ main(int argc, char *argv[])
 		}
 	}
 
-	maxwidth = 0;
-	for (i = 0; i < mntsize; i++) {
-		width = strlen(mntbuf[i].f_mntfromname);
-		if (width > maxwidth)
-			maxwidth = width;
+	if (mntsize) {
+		maxwidth = 0;
+		for (i = 0; i < mntsize; i++) {
+			width = strlen(mntbuf[i].f_mntfromname);
+			if (width > maxwidth)
+				maxwidth = width;
+		}
+
+		if (maxwidth < 11)
+			maxwidth = 11;
+
+		if (Pflag)
+			posixprint(mntbuf, mntsize, maxwidth);
+		else
+			bsdprint(mntbuf, mntsize, maxwidth);
 	}
 
-	if (maxwidth < 11)
-		maxwidth = 11;
-
-	if (Pflag)
-		posixprint(mntbuf, mntsize, maxwidth);
-	else
-		bsdprint(mntbuf, mntsize, maxwidth);
-
-	exit(0);
+	exit(mntsize ? 0 : 1);
 }
 
 char *
@@ -281,31 +281,6 @@ regetmntinfo(struct statfs **mntbufp, long mntsize)
 }
 
 /*
- * "human-readable" output: use 3 digits max.--put unit suffixes at
- * the end.  Makes output compact and easy-to-read esp. on huge disks.
- * Code moved into libutil; this is now just a wrapper.
- */
-void
-prthumanval(long long bytes)
-{
-	char ret[FMT_SCALED_STRSIZE];
-
-	if (fmt_scaled(bytes, ret) == -1) {
-		(void)printf(" %lld", bytes);
-		return;
-	}
-	(void)printf(" %6s", ret);
-}
-
-void
-prthuman(struct statfs *sfsp, long used)
-{
-	prthumanval((long long)sfsp->f_blocks * (long long)sfsp->f_bsize);
-	prthumanval((long long)used * (long long)sfsp->f_bsize);
-	prthumanval((long long)sfsp->f_bavail * (long long)sfsp->f_bsize);
-}
-
-/*
  * Convert statfs returned filesystem size into BLOCKSIZE units.
  * Attempts to avoid overflow for large filesystems.
  */
@@ -320,12 +295,12 @@ void
 prtstat(struct statfs *sfsp, int maxwidth, int headerlen, int blocksize)
 {
 	u_int32_t used, inodes;
-	int32_t availblks;
+	int64_t availblks;
 
 	(void)printf("%-*.*s", maxwidth, maxwidth, sfsp->f_mntfromname);
 	used = sfsp->f_blocks - sfsp->f_bfree;
 	availblks = sfsp->f_bavail + used;
-		(void)printf(" %*u %8u %8d", headerlen,
+		(void)printf(" %*u %9u %9d", headerlen,
 		    fsbtoblk(sfsp->f_blocks, sfsp->f_bsize, blocksize),
 		    fsbtoblk(used, sfsp->f_bsize, blocksize),
 		    fsbtoblk(sfsp->f_bavail, sfsp->f_bsize, blocksize));
@@ -359,7 +334,7 @@ bsdprint(struct statfs *mntbuf, long mntsize, int maxwidth)
 			headerlen = strlen(header);
 		} else
 			header = getbsize(&headerlen, &blocksize);
-		(void)printf("%-*.*s %s     Used    Avail Capacity",
+		(void)printf("%-*.*s %s      Used     Avail Capacity",
 			     maxwidth, maxwidth, "Filesystem", header);
 	if (iflag)
 		(void)printf(" iused   ifree  %%iused");
@@ -378,7 +353,6 @@ void
 posixprint(struct statfs *mntbuf, long mntsize, int maxwidth)
 {
 	int i;
-	int blocklen;
 	int blocksize;
 	char *blockstr;
 	struct statfs *sfsp;
@@ -392,11 +366,10 @@ posixprint(struct statfs *mntbuf, long mntsize, int maxwidth)
 		blocksize = 512;
 		blockstr = " 512-blocks";
 	}
-	blocklen = strlen(blockstr);
 
 	(void)printf(
-		"%-*.*s %s       Used   Available Capacity Mounted on\n",
-		maxwidth, maxwidth, "Filesystem", blockstr);
+	    "%-*.*s %s       Used   Available Capacity Mounted on\n",
+	    maxwidth, maxwidth, "Filesystem", blockstr);
 
 	for (i = 0; i < mntsize; i++) {
 		sfsp = &mntbuf[i];
@@ -420,7 +393,7 @@ posixprint(struct statfs *mntbuf, long mntsize, int maxwidth)
 int
 raw_df(char *file, struct statfs *sfsp)
 {
-	int rfd;
+	int rfd, ret = -1;
 
 	if ((rfd = open(file, O_RDONLY)) < 0) {
 		warn("%s", file);
@@ -428,15 +401,13 @@ raw_df(char *file, struct statfs *sfsp)
 	}
 
 	if (ffs_df(rfd, file, sfsp) == 0) {
-		return (0);
+		ret = 0;
 	} else if (e2fs_df(rfd, file, sfsp) == 0) {
-		return (0);
-	} else {
-		return (-1);
+		ret = 0;
 	}
 
 	close (rfd);
-
+	return (ret);
 }
 
 int
@@ -459,7 +430,7 @@ void
 usage(void)
 {
 	(void)fprintf(stderr,
-	    "usage: %s [-iklnP] [-t type] [file | file_system ...]\n",
+	    "usage: %s [-iklnP] [-t type] [[file | file_system] ...]\n",
 	    __progname);
 	exit(1);
 }

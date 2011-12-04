@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: select.c,v 1.11 2005/06/18 01:52:22 brad Exp $	*/
 
 /*
@@ -287,7 +288,7 @@ select_add(void *arg, struct event *ev)
 	 * of the fd_sets for select(2)
 	 */
 	if (sop->event_fds < ev->ev_fd) {
-		int fdsz = sop->event_fdsz;
+		size_t fdsz = sop->event_fdsz;
 
 		if (fdsz < sizeof(fd_mask))
 			fdsz = sizeof(fd_mask);
@@ -296,7 +297,7 @@ select_add(void *arg, struct event *ev)
 		    (howmany(ev->ev_fd + 1, NFDBITS) * sizeof(fd_mask)))
 			fdsz *= 2;
 
-		if (fdsz != sop->event_fdsz) {
+		if ((int)fdsz != sop->event_fdsz) {
 			if (select_resize(sop, fdsz)) {
 				check_selectop(sop);
 				return (-1);

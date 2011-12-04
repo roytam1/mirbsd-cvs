@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libcurses/Makefile,v 1.4 2005/04/15 16:45:47 tg Exp $
+# $MirOS: src/lib/libcurses/Makefile,v 1.5 2005/04/19 20:13:44 tg Exp $
 # $OpenBSD: Makefile,v 1.54 2003/10/19 22:20:37 brad Exp $
 
 # Uncomment this to enable tracing in libcurses
@@ -13,7 +13,7 @@ AWK?=	/usr/bin/awk
 # Search in subdirs
 .PATH:	${.CURDIR}/base ${.CURDIR}/tinfo ${.CURDIR}/trace ${.CURDIR}/tty
 
-SHLIB_VERSION?=	11.0
+SHLIB_VERSION?=	12.0
 LIB=    	curses
 SRCS=		codes.c comp_captab.c expanded.c fallback.c lib_gen.c \
 		lib_keyname.c names.c unctrl.c
@@ -263,12 +263,6 @@ afterinstall:
 	    ln -f $$i $$(echo $$i | sed 's/curses/termcap/'); \
 	    ln -f $$i $$(echo $$i | sed 's/curses/ncurses/'); \
 	done
-.if (${DEBUGLIBS:L} == "yes")
-	-cd ${DESTDIR}${LIBDIR}/debug; \
-	    ln -f lib${LIB}.a lib$$(echo ${LIB} | sed 's/curses/termlib/').a; \
-	    ln -f lib${LIB}.a lib$$(echo ${LIB} | sed 's/curses/termcap/').a; \
-	    ln -f lib${LIB}.a lib$$(echo ${LIB} | sed 's/curses/ncurses/').a
-.endif
 	${INSTALL} ${INSTALL_COPY} -o ${DOCOWN} -g ${DOCGRP} -m ${DOCMODE} \
 	    ${.CURDIR}/Caps ${DESTDIR}/usr/share/misc/
 

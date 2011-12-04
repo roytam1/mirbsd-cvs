@@ -1,5 +1,5 @@
-/*	$MirOS$	*/
-/*	$OpenBSD: print.c,v 1.22 2003/09/26 00:48:44 deraadt Exp $	*/
+/*	$MirOS: src/bin/ls/print.c,v 1.2 2005/03/06 18:55:22 tg Exp $	*/
+/*	$OpenBSD: print.c,v 1.24 2005/06/15 17:47:17 millert Exp $	*/
 /*	$NetBSD: print.c,v 1.15 1996/12/11 03:25:39 thorpej Exp $	*/
 
 /*
@@ -34,10 +34,6 @@
  * SUCH DAMAGE.
  */
 
-#include <sys/cdefs.h>
-__SCCSID("@(#)print.c	8.5 (Berkeley) 7/28/94");
-__RCSID("$MirOS$");
-
 #include <sys/param.h>
 #include <sys/stat.h>
 
@@ -55,6 +51,9 @@ __RCSID("$MirOS$");
 
 #include "ls.h"
 #include "extern.h"
+
+__SCCSID("@(#)print.c	8.5 (Berkeley) 7/28/94");
+__RCSID("$MirOS: src/bin/ls/print.c,v 1.2 2005/03/06 18:55:22 tg Exp $");
 
 static int	printaname(FTSENT *, u_long, u_long);
 static void	printlink(FTSENT *);
@@ -268,8 +267,7 @@ printacol(DISPLAY *dp)
 		return;
 
 	if (dp->list->fts_level != FTS_ROOTLEVEL && (f_longform || f_size))
-		(void)printf("total %llu\n",
-		    (long long)(howmany(dp->btotal, blocksize)));
+		(void)printf("total %lu\n", howmany(dp->btotal, blocksize));
 	col = 0;
 	for (p = dp->list; p; p = p->fts_link) {
 		if (IS_NOPRINT(p))
@@ -333,9 +331,6 @@ printtype(u_int mode)
 		return (1);
 	case S_IFSOCK:
 		(void)putchar('=');
-		return (1);
-	case S_IFWHT:
-		(void)putchar('%');
 		return (1);
 	}
 	if (mode & (S_IXUSR | S_IXGRP | S_IXOTH)) {

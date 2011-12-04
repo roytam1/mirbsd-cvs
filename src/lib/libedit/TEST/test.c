@@ -1,3 +1,5 @@
+/**	$MirOS$ */
+/*	$OpenBSD: test.c,v 1.7 2005/05/22 05:45:35 otto Exp $	*/
 /*	$NetBSD: test.c,v 1.15 2003/12/08 12:03:01 lukem Exp $	*/
 
 /*-
@@ -63,6 +65,8 @@ __RCSID("$NetBSD: test.c,v 1.15 2003/12/08 12:03:01 lukem Exp $");
 static int continuation = 0;
 static EditLine *el = NULL;
 
+volatile sig_atomic_t gotsig = 0;
+
 static	u_char	complete(EditLine *, int);
 	int	main(int, char **);
 static	char   *prompt(EditLine *);
@@ -80,9 +84,7 @@ prompt(EditLine *el)
 static void
 sig(int i)
 {
-
-	(void) fprintf(stderr, "Got signal %d.\n", i);
-	el_reset(el);
+	gotsig = i;
 }
 
 static unsigned char
@@ -185,6 +187,12 @@ main(int argc, char *argv[])
 		    (li->cursor >= li->lastchar) ? "" : li->cursor);
 
 #endif
+		if (gotsig) {
+			(void) fprintf(stderr, "Got signal %d.\n", gotsig);
+			gotsig = 0;
+			el_reset(el);
+		}
+
 		if (!continuation && num == 1)
 			continue;
 

@@ -1,9 +1,9 @@
-# $MirOS$
+# $MirOS: src/lib/libkvm/Makefile,v 1.2 2005/03/06 20:29:08 tg Exp $
 # $OpenBSD: Makefile,v 1.7 2004/01/08 04:59:10 millert Exp $
 # $NetBSD: Makefile,v 1.11 1996/03/18 22:33:07 thorpej Exp $
 # from: @(#)Makefile	8.1 (Berkeley) 6/4/93
 
-SHLIB_VERSION?=	9.0
+SHLIB_VERSION?=	10.0
 LIB=		kvm
 CPPFLAGS+=	-DLIBC_SCCS
 

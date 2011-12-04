@@ -1,7 +1,11 @@
-# $MirOS: src/lib/libssl/Makefile.inc,v 1.1.7.1 2005/03/06 16:33:39 tg Exp $
+# $MirOS: src/lib/libssl/Makefile.inc,v 1.2 2005/03/15 18:51:37 tg Exp $
 
 .if !defined(_MODSRC_LIB_LIBSSL_MAKEFILE_INC)
 _MODSRC_LIB_LIBSSL_MAKEFILE_INC=1
+
+.include <bsd.own.mk>
+
+COPTS+=		-fno-builtin-pow10
 
 .if (${MACHINE} == "amd64") || (${MACHINE} == "i386")
 CPPFLAGS+=	-DL_ENDIAN
@@ -16,7 +20,5 @@ CPPFLAGS+=	-DB_ENDIAN
 .if exists(${.CURDIR}/../../Makefile.inc)
 .  include "${.CURDIR}/../../Makefile.inc"
 .endif
-
-CFLAGS+= -fno-builtin-pow10
 
 .endif

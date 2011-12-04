@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: src/lib/libdes/Makefile,v 1.2 2005/03/06 20:29:00 tg Exp $
 # $OpenBSD: Makefile,v 1.4 2002/03/04 22:00:13 deraadt Exp $
 
-SHLIB_VERSION?=	10.0
+SHLIB_VERSION?=	11.0
 LIB=	des
 SRCS=	cbc_cksm.c cbc_enc.c cbc3_enc.c cfb_enc.c cfb64ede.c cfb64enc.c \
 	des_enc.c ecb_enc.c ecb3_enc.c ede_enc.c enc_read.c enc_writ.c \

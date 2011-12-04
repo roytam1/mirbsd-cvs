@@ -1,5 +1,5 @@
-# $MirOS: src/lib/libevent/Makefile,v 1.2 2005/03/06 20:29:04 tg Exp $
-# $OpenBSD: Makefile,v 1.12 2005/04/22 01:01:17 brad Exp $
+# $MirOS: src/lib/libevent/Makefile,v 1.3 2005/04/29 18:34:50 tg Exp $
+# $OpenBSD: Makefile,v 1.14 2005/07/02 07:15:13 grunk Exp $
 
 LIB=	event
 SRCS=	buffer.c evbuffer.c event.c kqueue.c log.c poll.c select.c signal.c
@@ -20,7 +20,7 @@ MLINKS=	event.3 event_init.3 event.3 event_dispatch.3 event.3 event_loop.3 \
 	bufferevent_settimeout.3 event.3 evbuffer_new.3 event.3 evbuffer_free.3 \
 	event.3 evbuffer_add.3 event.3 evbuffer_add_buffer.3 event.3 \
 	evbuffer_add_printf.3 event.3 evbuffer_drain.3 event.3 evbuffer_write.3 \
-	event.3 evbuffer_read.3 event.3 evbuffer_find.3 
+	event.3 evbuffer_read.3 event.3 evbuffer_find.3
 
 CPPFLAGS+= -I${.CURDIR} \
 	-DHAVE_FCNTL_H \
@@ -34,7 +34,19 @@ CPPFLAGS+= -I${.CURDIR} \
 	-DHAVE_VASPRINTF \
 	-DHAVE_WORKING_KQUEUE
 
-NOPIC=	yes
+.include <bsd.own.mk>
+COPTS+=		-Wall
+COPTS+=		-Wstrict-prototypes
+COPTS+=		-Wmissing-prototypes
+COPTS+=		-Wmissing-declarations
+COPTS+=		-Wshadow
+COPTS+=		-Wpointer-arith
+COPTS+=		-Wcast-qual
+COPTS+=		-Wsign-compare
+COPTS+=		-Wcast-align
+COPTS+=		-Wbad-function-cast
+
+NOPIC=		Yes
 
 includes:
 	@cd ${.CURDIR}; for i in ${HDRS}; do \

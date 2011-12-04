@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: kvm_private.h,v 1.9 2004/01/07 02:16:33 millert Exp $ */
 /*	$NetBSD: kvm_private.h,v 1.7 1996/05/05 04:32:15 gwr Exp $	*/
 
@@ -88,7 +89,8 @@ struct __kvm {
 /*
  * Functions used internally by kvm, but across kvm modules.
  */
-void	 _kvm_err(kvm_t *kd, const char *program, const char *fmt, ...);
+void	 _kvm_err(kvm_t *kd, const char *program, const char *fmt, ...)
+		__attribute__((__format__ (printf, 3, 4)));
 int	 _kvm_dump_mkheader(kvm_t *kd_live, kvm_t *kd_dump);
 void	 _kvm_freeprocs(kvm_t *kd);
 void	 _kvm_freevtop(kvm_t *);

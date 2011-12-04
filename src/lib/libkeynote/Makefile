@@ -1,5 +1,5 @@
-# $MirOS$
-# $OpenBSD: Makefile,v 1.14 2000/05/18 08:35:36 angelos Exp $
+# $MirOS: src/lib/libkeynote/Makefile,v 1.2 2005/03/06 20:29:07 tg Exp $
+# $OpenBSD: Makefile,v 1.15 2004/06/25 05:06:49 msf Exp $
 
 LIB=	keynote
 MAN=	keynote.3 keynote.4 keynote.5
@@ -16,11 +16,12 @@ MLINKS=	keynote.3 kn_init.3 keynote.3 kn_add_assertion.3 \
         kn_encode_key.3 keynote.3 kn_decode_key.3 keynote.3 \
         kn_sign_assertion.3 keynote.3 kn_verify_assertion.3 \
 	keynote.3 kn_free_key.3 keynote.3 kn_get_string.3
-NOPIC=	yes
-CFLAGS+= -Wall
-CPPFLAGS+= -DCRYPTO -DHAVE_CONFIG_H -I.
-LEXFLAGS = -Cr -Pkn -s -i
-YACCFLAGS = -d -p kn -b k
+NOPIC=		yes
+.include <bsd.own.mk>
+COPTS+=		-Wall
+CPPFLAGS+=	-I.
+LEXFLAGS=	-Cr -Pkn -s -i
+YACCFLAGS=	-d -p kn -b k
 
 HDRS=	keynote.h
 SRCS=	k.tab.c lex.kn.c environment.c parse_assertion.c signature.c auxil.c \

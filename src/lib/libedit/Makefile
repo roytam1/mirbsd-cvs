@@ -1,8 +1,8 @@
-# $MirOS: src/lib/libedit/Makefile,v 1.4 2005/04/19 15:39:34 tg Exp $
+# $MirOS: src/lib/libedit/Makefile,v 1.5 2005/04/19 19:30:35 tg Exp $
 # $NetBSD: Makefile,v 1.29 2003/12/05 13:37:48 lukem Exp $
 # @(#)Makefile	8.1 (Berkeley) 6/4/93
 
-SHLIB_VERSION?=	5.0
+SHLIB_VERSION?=	6.0
 
 LIB=	edit
 
@@ -31,10 +31,11 @@ LIBEDITDIR?=	${.CURDIR}
 INCS=		histedit.h readline/readline.h
 INCSDIR=	/usr/include
 
+.include <bsd.own.mk>
 CLEANFILES+=	editline.c
 CLEANFILES+=	common.h.tmp editline.c.tmp emacs.h.tmp fcns.c.tmp fcns.h.tmp
 CLEANFILES+=	help.c.tmp help.h.tmp vi.h.tmp test.o test
-CFLAGS+=	-Wall
+COPTS+=		-Wall
 CPPFLAGS+=	-I. -I${LIBEDITDIR}
 #CPPFLAGS+=	-DDEBUG_TTY -DDEBUG_KEY -DDEBUG_READ -DDEBUG -DDEBUG_REFRESH
 #CPPFLAGS+=	-DDEBUG_PASTE -DDEBUG_EDIT
