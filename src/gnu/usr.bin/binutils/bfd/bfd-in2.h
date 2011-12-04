@@ -5,7 +5,7 @@
    "linker.c" and "simple.c".
    Run "make headers" in your build bfd/ to regenerate.  */
 
-/* $MirOS: src/gnu/usr.bin/binutils/bfd/bfd-in2.h,v 1.3 2005/03/28 21:51:00 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/binutils/bfd/bfd-in.h,v 1.4 2005/06/05 21:23:51 tg Exp $ */
 
 /* Main header file for the bfd library -- portable access to object files.
 
