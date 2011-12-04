@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libz/Makefile,v 1.10 2005/07/24 22:57:04 tg Exp $
+# $MirOS: src/lib/libz/Makefile,v 1.11 2005/07/24 23:19:02 tg Exp $
 # $OpenBSD: Makefile,v 1.13 2005/07/20 21:29:00 jmc Exp $
 
 SHLIB_VERSION?=	5.2
@@ -95,12 +95,17 @@ mk_inffixed: mk_inffixed.c inflate.c \
 	    $> -o $@
 
 mk_trees.c:
-	print 'void _tr_init(void);' >$@
+	print '#include "deflate.h"' >$@
+	print '#include <string.h>' >>$@
+	print >>$@
 	print 'int' >>$@
 	print 'main(void)' >>$@
 	print '{' >>$@
-	print '\t_tr_init();' >>$@
-	print '\treturn 0;' >>$@
+	print '\tdeflate_state s;' >>$@
+	print >>$@
+	print '\tmemset(&s, 0, sizeof (s));' >>$@
+	print '\t_tr_init(&s);' >>$@
+	print '\treturn (0);' >>$@
 	print '}' >>$@
 
 mk_trees: mk_trees.c trees.c
