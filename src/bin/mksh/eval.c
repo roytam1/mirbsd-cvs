@@ -1,12 +1,9 @@
-/**	$MirOS: src/bin/mksh/eval.c,v 1.5 2005/07/04 12:27:25 tg Exp $ */
+/**	$MirOS: src/bin/mksh/eval.c,v 1.7 2005/07/12 13:30:38 tg Exp $ */
 /*	$OpenBSD: eval.c,v 1.27 2005/03/30 17:16:37 deraadt Exp $	*/
 
 #include "sh.h"
-#include <sys/stat.h>
-#include <dirent.h>
-#include <pwd.h>
 
-__RCSID("$MirOS: src/bin/mksh/eval.c,v 1.5 2005/07/04 12:27:25 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/eval.c,v 1.7 2005/07/12 13:30:38 tg Exp $");
 
 /*
  * string expansion
