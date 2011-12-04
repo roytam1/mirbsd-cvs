@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libssl/crypto/Makefile,v 1.5 2005/04/26 15:36:19 tg Exp $
+# $MirOS: src/lib/libssl/crypto/Makefile,v 1.6 2005/04/29 13:52:24 tg Exp $
 # $OpenBSD: Makefile,v 1.42 2005/04/29 07:54:15 djm Exp $
 
 .include <bsd.own.mk>
@@ -12,7 +12,7 @@ LCRYPTO_SRC=	${SSL_SRC}/crypto
 FIPS_SRC=	${SSL_SRC}/fips
 
 .if ${NOPIC:L} == "no"
-CPPFLAGS+= -DSO_DLFCN -DHAVE_DLFCN_H
+CPPFLAGS+= -DDSO_DLFCN -DHAVE_DLFCN_H
 .endif
 CPPFLAGS+= -DOPENSSL_NO_IDEA -DTERMIOS -DANSI_SOURCE -DNO_ERR -DOPENSSL_NO_ASM
 CPPFLAGS+= -DOPENSSL_NO_KRB5 -DNO_WINDOWS_BRAINDEATH
