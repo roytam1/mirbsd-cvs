@@ -1,4 +1,4 @@
-/**	$MirOS: src/lib/libedit/readline.c,v 1.2 2005/04/19 15:16:15 tg Exp $ */
+/**	$MirOS: src/lib/libedit/readline.c,v 1.3 2005/04/19 18:37:18 tg Exp $ */
 /*	$OpenBSD: readline.c,v 1.2 2003/11/25 20:12:38 otto Exp $ */
 /*	$NetBSD: readline.c,v 1.52 2005/04/19 03:29:18 christos Exp $	*/
 
@@ -65,7 +65,7 @@
 #include "histedit.h"
 #include "readline/readline.h"
 
-__RCSID("$MirOS: src/lib/libedit/readline.c,v 1.2 2005/04/19 15:16:15 tg Exp $");
+__RCSID("$MirOS: src/lib/libedit/readline.c,v 1.3 2005/04/19 18:37:18 tg Exp $");
 
 /* for rl_complete() */
 #define TAB		'\r'
@@ -2051,7 +2051,7 @@ rl_callback_read_char()
 			wbuf[count] = '\0';
 		} else
 			wbuf = NULL;
-		(*(void (*)(const char *))rl_linefunc)(wbuf);
+		(*rl_linefunc)(wbuf);
 		el_set(e, EL_UNBUFFERED, 1);
 	}
 }
