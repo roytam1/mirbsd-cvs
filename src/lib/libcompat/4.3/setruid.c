@@ -34,9 +34,9 @@ static char *rcsid = "$OpenBSD: setruid.c,v 1.2 2003/06/02 20:18:40 millert Exp 
 #include <sys/types.h>
 #include <unistd.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libcompat/4.3/setruid.c,v 1.2 2005/04/16 19:52:23 tg Exp $");
 
-__warn_references(setrgid, "warning: setruid() is deprecated, consider using setreuid()");
+__warn_references(setrgid, "setruid() is deprecated, consider using setreuid()");
 
 int
 setruid(uid_t ruid)
