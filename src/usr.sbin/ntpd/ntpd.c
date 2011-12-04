@@ -1,5 +1,5 @@
-/**	$MirOS: src/usr.sbin/ntpd/ntpd.c,v 1.5 2005/04/29 18:35:13 tg Exp $ */
-/*	$OpenBSD: ntpd.c,v 1.39 2005/07/11 08:08:06 dtucker Exp $ */
+/**	$MirOS: src/usr.sbin/ntpd/ntpd.c,v 1.6 2005/07/26 12:40:45 tg Exp $ */
+/*	$OpenBSD: ntpd.c,v 1.40 2005/09/06 21:27:10 wvdputte Exp $ */
 
 /*-
  * Copyright (c) 2004, 2005
@@ -35,7 +35,7 @@
 
 #include "ntpd.h"
 
-__RCSID("$MirOS: src/usr.sbin/ntpd/ntpd.c,v 1.5 2005/04/29 18:35:13 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/ntpd/ntpd.c,v 1.6 2005/07/26 12:40:45 tg Exp $");
 
 void		sighdlr(int);
 __dead void	usage(void);
@@ -280,10 +280,10 @@ dispatch_imsg(struct ntpd_conf *conf)
 				fatalx("invalid IMSG_SETTIME received");
 			if (!conf->settime)
 				break;
+			log_init(conf->debug);
 			memcpy(&d, imsg.data, sizeof(d));
 			ntpd_settime(d);
 			/* daemonize now */
-			log_init(conf->debug);
 			if (!conf->debug)
 				if (daemon(1, 0))
 					fatal("daemon");

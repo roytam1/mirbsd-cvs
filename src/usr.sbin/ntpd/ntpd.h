@@ -1,5 +1,5 @@
-/**	$MirOS: src/usr.sbin/ntpd/ntpd.h,v 1.4 2005/04/29 18:35:13 tg Exp $ */
-/*	$OpenBSD: ntpd.h,v 1.59 2005/07/15 03:37:15 henning Exp $ */
+/**	$MirOS: src/usr.sbin/ntpd/ntpd.h,v 1.5 2005/07/26 12:40:45 tg Exp $ */
+/*	$OpenBSD: ntpd.h,v 1.61 2005/09/24 00:32:03 dtucker Exp $ */
 
 /*
  * Copyright (c) 2003, 2004 Henning Brauer <henning@openbsd.org>
@@ -91,6 +91,7 @@ struct ntp_status {
 	double		reftime;
 	u_int32_t	refid;
 	u_int32_t	refid4;
+	u_int8_t	synced;
 	u_int8_t	leap;
 	int8_t		precision;
 	u_int8_t	poll;
@@ -241,7 +242,7 @@ int		 host_dns(const char *, struct ntp_addr **);
 struct ntp_peer	*new_peer(void);
 
 /* ntp_msg.c */
-int	ntp_getmsg(char *, ssize_t, struct ntp_msg *);
+int	ntp_getmsg(struct sockaddr *, char *, ssize_t, struct ntp_msg *);
 int	ntp_sendmsg(int, struct sockaddr *, struct ntp_msg *, ssize_t, int);
 
 /* server.c */

@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: client.c,v 1.64 2005/07/11 08:04:28 dtucker Exp $ */
+/**	$MirOS: src/usr.sbin/ntpd/client.c,v 1.2 2005/07/26 12:40:44 tg Exp $ */
+/*	$OpenBSD: client.c,v 1.66 2005/09/24 00:32:03 dtucker Exp $ */
 
 /*
  * Copyright (c) 2003, 2004 Henning Brauer <henning@openbsd.org>
@@ -27,7 +27,7 @@
 
 #include "ntpd.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.sbin/ntpd/client.c,v 1.2 2005/07/26 12:40:44 tg Exp $");
 
 int	client_update(struct ntp_peer *);
 void	set_deadline(struct ntp_peer *, time_t);
@@ -201,7 +201,7 @@ client_dispatch(struct ntp_peer *p, u_int8_t settime)
 
 	T4 = gettime();
 
-	ntp_getmsg(buf, size, &msg);
+	ntp_getmsg((struct sockaddr *)&p->addr->ss, buf, size, &msg);
 
 	if (msg.orgtime.int_partl != p->query->msg.xmttime.int_partl ||
 	    msg.orgtime.fractionl != p->query->msg.xmttime.fractionl)
@@ -250,7 +250,7 @@ client_dispatch(struct ntp_peer *p, u_int8_t settime)
 	p->reply[p->shift].rcvd = time(NULL);
 	p->reply[p->shift].good = 1;
 
-	p->reply[p->shift].status.leap = (msg.status & LIMASK) >> 6;
+	p->reply[p->shift].status.leap = (msg.status & LIMASK);
 	p->reply[p->shift].status.precision = msg.precision;
 	p->reply[p->shift].status.rootdelay = sfp_to_d(msg.rootdelay);
 	p->reply[p->shift].status.rootdispersion = sfp_to_d(msg.dispersion);
