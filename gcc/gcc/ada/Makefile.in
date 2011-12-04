@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: gcc/gcc/ada/Makefile.in,v 1.2 2005/03/25 19:29:15 tg Exp $
 #
 # Makefile for GNU Ada Compiler (GNAT).
 #   Copyright (C) 1994-2005 Free Software Foundation, Inc.
@@ -253,7 +253,7 @@ BUILD_LIBIBERTY = -liberty
 # and the system's installed libraries.
 LIBS = $(LIBINTL) $(LIBIBERTY) $(SYSLIBS)
 LIBDEPS = $(LIBINTL_DEP) $(LIBIBERTY)
-TOOLS_LIBS = $(LIBGNAT) $(EXTRA_GNATTOOLS_OBJS) $(BUILD_LIBIBERTY) $(SYSLIBS)
+TOOLS_LIBS = $(LIBGNAT) $(EXTRA_GNATTOOLS_OBJS) $(BUILD_LIBIBERTY) $(SYSLIBS) -shared-libgcc
 
 # Specify the directories to be searched for header files.
 # Both . and srcdir are used, in that order,

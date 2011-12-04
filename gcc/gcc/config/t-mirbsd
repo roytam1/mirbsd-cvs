@@ -1,15 +1,16 @@
-# $MirOS: gcc/gcc/config/t-mirbsd,v 1.8 2005/05/19 22:42:09 tg Exp $
+# $MirOS: gcc/gcc/config/t-mirbsd,v 1.9 2005/05/19 22:46:31 tg Exp $
 
 # We don't need GCC's own include files.
 USER_H =
 
 # Use unwind-dw2-fde-openbsd
 # Provide weak dummy POSIX threads functions for exception handling
-LIB2ADDEH = $(srcdir)/gthr-gnat.c $(srcdir)/unwind-dw2-fde-openbsd.c \
+LIB2ADDEHSTATIC = $(srcdir)/gthr-gnat.c $(srcdir)/unwind-dw2-fde-openbsd.c \
   $(srcdir)/unwind-c.c $(srcdir)/unwind-dw2.c $(srcdir)/unwind-sjlj.c
-LIB2ADDEHSHARED = $(LIB2ADDEH) $(srcdir)/gthr-posix.c
+LIB2ADDEHSHARED = $(LIB2ADDEHSTATIC) $(srcdir)/gthr-posix.c
 LIB2ADDEHDEP = unwind.inc unwind-dw2-fde.h unwind-dw2-fde.c \
   unwind-dw2-fde-glibc.c gthr-posix.c
+LIB2ADDEH = $(LIB2ADDEHSHARED)
 
 # Compile crtbeginS.o and crtendS.o with pic.
 CRTSTUFF_T_CFLAGS_S = $(CRTSTUFF_T_CFLAGS) -fPIC

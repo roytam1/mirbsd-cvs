@@ -1672,11 +1672,16 @@ begin
 
          Call_Linker : declare
             Success  : Boolean;
-            Args     : Argument_List (1 .. Num_Args + 1);
+            Args     : Argument_List (1 .. Num_Args + 2);
             Index    : Integer := Args'First;
 
          begin
             Args (Index) := Binder_Obj_File;
+
+            --  We may need the shared libgcc for EH and threading
+
+            Index := Index + 1;
+            Args (Index) := new String'("-shared-libgcc");
 
             --  Add the object files and any -largs libraries
 
