@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.bin/indent/io.c,v 1.2 2005/03/13 18:33:02 tg Exp $ */
+/**	$MirOS: src/usr.bin/indent/io.c,v 1.3 2005/04/17 04:24:14 tg Exp $ */
 /*	$OpenBSD: io.c,v 1.9 2004/07/20 03:50:26 deraadt Exp $	*/
 
 /*
@@ -41,7 +41,7 @@
 #include "indent_globs.h"
 
 __SCCSID("@(#)io.c	8.1 (Berkeley) 6/6/93");
-__RCSID("$MirOS: src/usr.bin/indent/io.c,v 1.2 2005/03/13 18:33:02 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/indent/io.c,v 1.3 2005/04/17 04:24:14 tg Exp $");
 
 
 int         comment_open;
@@ -372,7 +372,7 @@ fill_buffer(void)
     }
     buf_ptr = in_buffer;
     buf_end = p;
-    if (p[-2] == '/' && p[-3] == '*') {
+    if (p - 3 >= in_buffer && p[-2] == '/' && p[-3] == '*') {
 	if (in_buffer[3] == 'I' && strncmp(in_buffer, "/**INDENT**", 11) == 0)
 	    fill_buffer();	/* flush indent error message */
 	else {
