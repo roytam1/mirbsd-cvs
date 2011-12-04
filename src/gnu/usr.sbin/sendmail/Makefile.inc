@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.sbin/sendmail/Makefile.inc,v 1.2 2005/03/13 15:11:40 tg Exp $
+# $MirOS: src/gnu/usr.sbin/sendmail/Makefile.inc,v 1.3 2005/03/29 02:19:36 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.16 2004/06/24 03:59:23 millert Exp $
 
 .ifndef _MODSRC_GNU_USR_SBIN_SENDMAIL_MAKEFILE_INC
@@ -52,11 +52,11 @@ LDFLAGS+=	-L${.CURDIR}/../libsm
 .if ${SENDMAIL_WANT_LDAP:L} == "yes"
 ENVDEF+=	-DLDAPMAP
 LDADD+=		-lldap -llber
-CFLAGS+=	-I/usr/local/include
+CPPFLAGS+=	-I/usr/local/include
 LDFLAGS+=	-L/usr/local/lib
 .endif
 
 CPPFLAGS+=	${ENVDEF} -I${.CURDIR}/../sendmail -I${.CURDIR}/../include
-CFLAGS+=	-Wall
+COPTS+=		-Wall
 
 .endif

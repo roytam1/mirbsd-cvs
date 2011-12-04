@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.bin/perl/Makefile.bsd-wrapper,v 1.4 2005/07/09 17:34:39 tg Exp $
+# $MirOS: src/gnu/usr.bin/perl/Makefile.bsd-wrapper,v 1.5 2005/07/09 17:43:44 tg Exp $
 # $OpenBSD: Makefile.bsd-wrapper,v 1.69 2005/01/15 21:30:17 millert Exp $
 #
 # Build wrapper for Perl 5.8.6
@@ -6,6 +6,9 @@
 
 # For "NOMAN" and "NOPIC"
 .include <bsd.own.mk>
+# Doesn't work too well anyway
+DEBUGLIBS=	No
+DEBUGPROGS=	No
 
 # To build a threaded perl.  Not stable on all platforms...
 THREADED_PERL?=	Yes
@@ -704,32 +707,14 @@ PICFLAG=-fPIC
 perl.lib:	${GENERATED} ${_LIBS}
 
 install.lib:
-	${INSTALL} ${INSTALL_COPY} -o ${LIBOWN} -g ${LIBGRP} -m 600 lib${LIB}.a \
-	    ${DESTDIR}${LIBDIR}
-.if ${INSTALL_COPY} != "-p"
-	${RANLIB} -t ${DESTDIR}${LIBDIR}/lib${LIB}.a
-.endif
-	chmod ${LIBMODE} ${DESTDIR}${LIBDIR}/lib${LIB}.a
-.if ${DEBUGLIBS:L} == "yes"
-	${INSTALL} ${INSTALL_COPY} -o ${LIBOWN} -g ${LIBGRP} -m 600 \
-	    lib${LIB}_g.a ${DESTDIR}${LIBDIR}/debug/lib${LIB}.a
-.  if ${INSTALL_COPY} != "-p"
-	${RANLIB} -t ${DESTDIR}${LIBDIR}/debug/lib${LIB}.a
-.  endif
-	chmod ${LIBMODE} ${DESTDIR}${LIBDIR}/debug/lib${LIB}.a
-.endif
-.if !defined(NOPIC) || ${NOPIC:L} == "no"
-.  if !defined(SHLIB_VERSION)
-	${INSTALL} ${INSTALL_COPY} -o ${LIBOWN} -g ${LIBGRP} -m 600 \
-	    lib${LIB}_pic.a ${DESTDIR}${LIBDIR}
-.    if ${INSTALL_COPY} != "-p"
-	${RANLIB} -t ${DESTDIR}${LIBDIR}/lib${LIB}_pic.a
-.    endif
-	chmod ${LIBMODE} ${DESTDIR}${LIBDIR}/lib${LIB}_pic.a
-.  else   # ! ndef SHLIB_VERSION
 	${INSTALL} ${INSTALL_COPY} -o ${LIBOWN} -g ${LIBGRP} -m ${LIBMODE} \
-	    lib${LIB}.so.${SHLIB_VERSION} ${DESTDIR}${LIBDIR}
-.  endif  # ! ndef SHLIB_VERSION
-.endif  # ndef NOPIC
+	    lib${LIB}.a ${DESTDIR}${LIBDIR}/
+.  ifdef SHLIB_SONAME
+	${INSTALL} ${INSTALL_COPY} -o ${LIBOWN} -g ${LIBGRP} -m ${LIBMODE} \
+	    ${SHLIB_SONAME} ${DESTDIR}${LIBDIR}/
+.  elif ${NOPIC:L} == "no"
+	${INSTALL} ${INSTALL_COPY} -o ${LIBOWN} -g ${LIBGRP} -m ${LIBMODE} \
+	    lib${LIB}_pic.a ${DESTDIR}${LIBDIR}/
+.  endif
 
 .PHONY: perl.lib install.lib perl.build install.perl man.build mansrc.build

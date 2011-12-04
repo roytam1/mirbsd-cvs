@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.sbin/sendmail/sendmail/Makefile,v 1.2 2005/03/13 15:11:51 tg Exp $
+# $MirOS: src/gnu/usr.sbin/sendmail/sendmail/Makefile,v 1.3 2005/03/29 02:19:37 tg Exp $
 # $OpenBSD: Makefile,v 1.26 2005/01/12 18:15:46 millert Exp $
 
 PROG=	sendmail
@@ -17,7 +17,7 @@ DPADD=		${LIBSSL} ${LIBCRYPTO}
 .if ${SENDMAIL_WANT_SASL:L} == "yes"
 ENVDEF+=	-DSASL=2
 LDADD+=		-lsasl2
-CFLAGS+=	-I/usr/local/include
+CPPFLAGS+=	-I/usr/local/include
 LDFLAGS+=	-L/usr/local/lib
 .endif
 

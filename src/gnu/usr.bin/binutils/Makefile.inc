@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.bin/binutils/Makefile.inc,v 1.4 2005/07/09 16:47:45 tg Exp $
+# $MirOS: src/gnu/usr.bin/binutils/Makefile.inc,v 1.5 2005/07/09 17:43:46 tg Exp $
 
 .ifndef _MODSRC_GNU_USR_BIN_BINUTILS_MAKEFILE_INC
 _MODSRC_GNU_USR_BIN_BINUTILS_MAKEFILE_INC=1
@@ -18,7 +18,7 @@ CFARGS+=	--disable-werror
 
 XARGS+=		BISON=yacc LIBIBERTY_HDRS="${GNU_LIBIBERTY_INC}"
 
-CFLAGS+=	-Wall
+COPTS+=		-Wall
 
 .if exists(../Makefile.inc)
 .  include "../Makefile.inc"
