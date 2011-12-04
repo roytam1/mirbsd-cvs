@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libz/Makefile,v 1.6 2005/07/07 12:46:11 tg Exp $
+# $MirOS: src/lib/libz/Makefile,v 1.7 2005/07/07 21:31:30 tg Exp $
 # $OpenBSD: Makefile,v 1.12 2003/12/17 14:06:45 jmc Exp $
 
 SHLIB_VERSION?=	5.1
@@ -70,10 +70,10 @@ mk_crc32.c:
 	print '}' >>$@
 
 mk_crc32: mk_crc32.c crc32.c
-	${HOSTCC} ${LDSTATIC} ${HOSTCFLAGS} ${HOSTLDFLAGS} \
-	    -o $@ -DMAKECRCH mk_crc32.c ${.CURDIR}/crc32.c
+	${HOSTCC} ${LDSTATIC} ${HOSTCFLAGS} ${HOSTLDFLAGS} -DMAKECRCH \
+	    $> -o $@
 
-mk_inffixed.c:
+mk_inffixed.c: crc32.h
 	print 'void makefixed(void);' >$@
 	print 'int' >>$@
 	print 'main(void)' >>$@
@@ -82,9 +82,10 @@ mk_inffixed.c:
 	print '\treturn 0;' >>$@
 	print '}' >>$@
 
-mk_inffixed: mk_inffixed.c inflate.c ${LIBZ}
-	${HOSTCC} ${LDSTATIC} ${HOSTCFLAGS} ${HOSTLDFLAGS} -lz \
-	    -o $@ -DMAKEFIXED mk_inffixed.c ${.CURDIR}/inflate.c
+mk_inffixed: mk_inffixed.c inflate.c \
+    adler32.c crc32.c inffast.c inftrees.c zutil.c
+	${HOSTCC} ${LDSTATIC} ${HOSTCFLAGS} ${HOSTLDFLAGS} -DMAKEFIXED \
+	    $> -o $@
 
 mk_trees.c:
 	print 'void _tr_init(void);' >$@
@@ -96,7 +97,7 @@ mk_trees.c:
 	print '}' >>$@
 
 mk_trees: mk_trees.c trees.c
-	${HOSTCC} ${LDSTATIC} ${HOSTCFLAGS} ${HOSTLDFLAGS} \
-	    -o $@ -DGEN_TREES_H mk_trees.c ${.CURDIR}/trees.c
+	${HOSTCC} ${LDSTATIC} ${HOSTCFLAGS} ${HOSTLDFLAGS} -DGEN_TREES_H \
+	    $> -o $@
 
 .include <bsd.lib.mk>
