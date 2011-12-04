@@ -1,4 +1,4 @@
-/*	$OpenBSD: getopt_long.c,v 1.19 2005/08/08 08:05:36 espie Exp $	*/
+/*	$OpenBSD: getopt_long.c,v 1.25 2011/03/05 22:10:11 guenther Exp $	*/
 /*	$NetBSD: getopt_long.c,v 1.15 2002/01/31 22:43:40 tv Exp $	*/
 
 /*
@@ -35,13 +35,6 @@
  * 2. Redistributions in binary form must reproduce the above copyright
  *    notice, this list of conditions and the following disclaimer in the
  *    documentation and/or other materials provided with the distribution.
- * 3. All advertising materials mentioning features or use of this software
- *    must display the following acknowledgement:
- *        This product includes software developed by the NetBSD
- *        Foundation, Inc. and its contributors.
- * 4. Neither the name of The NetBSD Foundation nor the names of its
- *    contributors may be used to endorse or promote products derived
- *    from this software without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE NETBSD FOUNDATION, INC. AND CONTRIBUTORS
  * ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
@@ -62,15 +55,11 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define	REPLACE_GETOPT		/* use this getopt as the system getopt(3) */
-
-#ifdef REPLACE_GETOPT
 int	opterr = 1;		/* if error message should be printed */
 int	optind = 1;		/* index into parent argv vector */
 int	optopt = '?';		/* character checked for validity */
 int	optreset;		/* reset getopt */
 char    *optarg;		/* argument associated with option */
-#endif
 
 #define PRINT_ERROR	((opterr) && (*options != ':'))
 
@@ -296,24 +285,24 @@ getopt_internal(int nargc, char * const *nargv, const char *options,
 		return (-1);
 
 	/*
-	 * Disable GNU extensions if POSIXLY_CORRECT is set or options
-	 * string begins with a '+'.
-	 */
-	if (posixly_correct == -1)
-		posixly_correct = (getenv("POSIXLY_CORRECT") != NULL);
-	if (posixly_correct || *options == '+')
-		flags &= ~FLAG_PERMUTE;
-	else if (*options == '-')
-		flags |= FLAG_ALLARGS;
-	if (*options == '+' || *options == '-')
-		options++;
-
-	/*
 	 * XXX Some GNU programs (like cvs) set optind to 0 instead of
 	 * XXX using optreset.  Work around this braindamage.
 	 */
 	if (optind == 0)
 		optind = optreset = 1;
+
+	/*
+	 * Disable GNU extensions if POSIXLY_CORRECT is set or options
+	 * string begins with a '+'.
+	 */
+	if (posixly_correct == -1 || optreset)
+		posixly_correct = (getenv("POSIXLY_CORRECT") != NULL);
+	if (*options == '-')
+		flags |= FLAG_ALLARGS;
+	else if (posixly_correct || *options == '+')
+		flags &= ~FLAG_PERMUTE;
+	if (*options == '+' || *options == '-')
+		options++;
 
 	optarg = NULL;
 	if (optreset)
@@ -417,7 +406,7 @@ start:
 	}
 
 	if ((optchar = (int)*place++) == (int)':' ||
-	    optchar == (int)'-' && *place != '\0' ||
+	    (optchar == (int)'-' && *place != '\0') ||
 	    (oli = strchr(options, optchar)) == NULL) {
 		/*
 		 * If the user specified "-" and  '-' isn't listed in
@@ -457,7 +446,6 @@ start:
 		optarg = NULL;
 		if (*place)			/* no white space */
 			optarg = place;
-		/* XXX: disable test for :: if PC? (GNU doesn't) */
 		else if (oli[1] != ':') {	/* arg not optional */
 			if (++optind >= nargc) {	/* no arg */
 				place = EMSG;
@@ -467,14 +455,6 @@ start:
 				return (BADARG);
 			} else
 				optarg = nargv[optind];
-		} else if (!(flags & FLAG_PERMUTE)) {
-			/*
-			 * If permutation is disabled, we can accept an
-			 * optional arg separated by whitespace so long
-			 * as it does not start with a dash (-).
-			 */
-			if (optind + 1 < nargc && *nargv[optind + 1] != '-')
-				optarg = nargv[++optind];
 		}
 		place = EMSG;
 		++optind;
@@ -483,7 +463,6 @@ start:
 	return (optchar);
 }
 
-#ifdef REPLACE_GETOPT
 /*
  * getopt --
  *	Parse argc/argv argument vector.
@@ -495,7 +474,7 @@ getopt(int nargc, char * const *nargv, const char *options)
 {
 
 	/*
-	 * We dont' pass FLAG_PERMUTE to getopt_internal() since
+	 * We don't pass FLAG_PERMUTE to getopt_internal() since
 	 * the BSD getopt(3) (unlike GNU) has never done this.
 	 *
 	 * Furthermore, since many privileged programs call getopt()
@@ -504,7 +483,6 @@ getopt(int nargc, char * const *nargv, const char *options)
 	 */
 	return (getopt_internal(nargc, nargv, options, NULL, NULL, 0));
 }
-#endif /* REPLACE_GETOPT */
 
 /*
  * getopt_long --
