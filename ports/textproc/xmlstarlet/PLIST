@@ -1,6 +1,0 @@
-@comment $MirOS$
-bin/xmlstarlet
-man/man1/xmlstarlet.1
-share/doc/xmlstarlet/xmlstarlet.pdf
-share/doc/xmlstarlet/xmlstarlet.txt
-@dirrm share/doc/xmlstarlet

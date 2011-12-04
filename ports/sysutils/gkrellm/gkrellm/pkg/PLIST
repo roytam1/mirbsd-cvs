@@ -1,5 +1,0 @@
-@comment $OpenBSD: PLIST,v 1.2 2003/11/25 17:24:39 sturm Exp $
-man/man1/gkrellmd.1
-@group kmem
-@mode 2755
-sbin/gkrellmd
