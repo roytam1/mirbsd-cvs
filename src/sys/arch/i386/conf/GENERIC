@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/conf/GENERIC,v 1.19 2005/07/04 05:18:22 tg Exp $
+# $MirOS: src/sys/arch/i386/conf/GENERIC,v 1.20 2005/07/23 19:36:05 tg Exp $
 # $OpenBSD: GENERIC,v 1.360 2004/05/11 04:01:00 deraadt Exp $
 # $NetBSD: GENERIC,v 1.48 1996/05/20 18:17:23 mrg Exp $
 #-
@@ -13,7 +13,7 @@
 
 machine		i386			# arch, used by config; REQUIRED
 
-# $MirOS: src/sys/arch/i386/conf/GENERIC,v 1.19 2005/07/04 05:18:22 tg Exp $
+# $MirOS: src/sys/arch/i386/conf/GENERIC,v 1.20 2005/07/23 19:36:05 tg Exp $
 # $OpenBSD: GENERIC,v 1.112 2004/11/28 23:39:45 canacar Exp $
 #
 # Machine-independent option; used by all architectures.
@@ -55,7 +55,6 @@ option		SYSVSHM			# System V-like memory sharing
 
 option		COMPAT_OSSAUDIO		# source compatibility with OSS/Lite
 option		COMPAT_OPENBSD		# binary compatibility with OpenBSD
-option		COMPAT_78		# MirOS #8-beta (pre-#8)
 
 option		FFS			# UFS
 option		FFS_SOFTUPDATES		# Soft updates
@@ -69,7 +68,7 @@ option		MFS			# memory file system
 option		TCP_SACK		# Selective Acknowledgements for TCP
 option		TCP_ECN			# Explicit Congestion Notification for TCP
 option		TCP_FACK		# Forward Acknowledgements for TCP
-option		TCP_SIGNATURE		# TCP MD5 Signatures, for BGP routing sessions
+option		TCP_SIGNATURE		# TCP MD5 Signatures
 
 option		NFSCLIENT		# Nightmare File System client
 option		NFSSERVER		# Nightmare File System server
@@ -145,7 +144,7 @@ option		APERTURE		# in-kernel aperture driver for XFree86
 
 option		COMPAT_LINUX		# binary compatibility with Linux
 option		PLIP			# Ethernet over parallel port
-option		NTFS			# NT file system (experimental, only 4K clusters)
+option		NTFS			# NT file system (experimental)
 
 config		bsd	swap generic
 
@@ -276,7 +275,7 @@ isapnp0	at isa?
 
 option	WSDISPLAY_COMPAT_USL		# VT handling
 option	WSDISPLAY_COMPAT_RAWKBD		# can get raw scancodes
-option	WSDISPLAY_DEFAULTSCREENS=7	# number of virtual consoles
+option	WSDISPLAY_DEFAULTSCREENS=8	# number of virtual consoles
 option	WSDISPLAY_COMPAT_PCVT		# emulate some ioctls
 
 pckbc0		at isa?			# PC keyboard controller

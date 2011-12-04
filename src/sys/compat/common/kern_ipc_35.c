@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/sys/compat/common/kern_ipc_35.c,v 1.2 2005/03/06 21:27:29 tg Exp $ */
 /*	$OpenBSD: kern_ipc_35.c,v 1.3 2004/07/15 11:00:12 millert Exp $	*/
 
 /*
@@ -28,7 +28,7 @@
 #include <sys/mount.h>
 #include <sys/syscallargs.h>
 
-#if defined(COMPAT_OPENBSD) || defined(COMPAT_78)
+#ifdef COMPAT_OPENBSD
 
 #ifdef SYSVMSG
 /*
@@ -264,4 +264,4 @@ compat_35_sys_shmctl(struct proc *p, void *v, register_t *retval)
 }
 #endif /* SYSVSHM */
 
-#endif /* def COMPAT_OPENBSD or COMPAT_78 */
+#endif /* def COMPAT_OPENBSD */

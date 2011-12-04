@@ -1,4 +1,4 @@
-;	$MirOS: src/sys/compat/openbsd/syscalls.master,v 1.2 2005/07/01 13:54:39 tg Exp $
+;	$MirOS: src/sys/compat/openbsd/syscalls.master,v 1.3 2005/07/01 13:55:58 tg Exp $
 ;	$OpenBSD: syscalls.master,v 1.76 2004/07/15 14:35:34 deraadt Exp $
 ;	$NetBSD: syscalls.master,v 1.32 1996/04/23 10:24:21 mycroft Exp $
 
@@ -75,8 +75,7 @@
 16	STD		{ int openbsd_sys_chown(char *path, uid_t uid, \
 			    gid_t gid); }
 17	STD		{ int sys_obreak(char *nsize); } break
-18	STD		{ int compat_25_sys_getfsstat(struct statfs *buf, \
-			    long bufsize, int flags); } ogetfsstat
+18	UNIMPL		ogetfsstat
 19	STD		{ long compat_43_sys_lseek(int fd, long offset, \
 			    int whence); } olseek
 20	STD		{ pid_t sys_getpid(void); }
@@ -161,7 +160,7 @@
 63	STD		{ int compat_43_sys_getkerninfo(int op, char *where, \
 			    int *size, int arg); } ogetkerninfo
 64	STD		{ int compat_43_sys_getpagesize(void); } ogetpagesize
-65	STD		{ int compat_25_sys_omsync(caddr_t addr, size_t len); }
+65	UNIMPL		omsync
 66	STD		{ int sys_vfork(void); }
 67	OBSOL		vread
 68	OBSOL		vwrite
@@ -189,7 +188,7 @@
 			    const struct itimerval_compat *itv, \
 			    struct itimerval_compat *oitv); }
 84	STD		{ int compat_43_sys_wait(void); } owait
-85	STD		{ int compat_25_sys_swapon(char *name); }
+85	UNIMPL		swapon25
 86	STD		{ int compat_time_sys_getitimer(int which, \
 			    struct itimerval_compat *itv); }
 87	STD		{ int compat_43_sys_gethostname(char *hostname, \
@@ -314,10 +313,8 @@
 #endif
 156	STD		{ int compat_43_sys_getdirentries(int fd, char *buf, \
 			    int count, long *basep); } ogetdirentries
-157	STD		{ int compat_25_openbsd_sys_statfs(char *path, \
-			    struct ostatfs *buf); } statfs25
-158	STD		{ int compat_25_sys_fstatfs(int fd, \
-			    struct ostatfs *buf); } fstatfs25
+157	UNIMPL		statfs25
+158	UNIMPL		fstatfs25
 159	UNIMPL
 160	UNIMPL
 161	STD		{ int openbsd_sys_getfh(char *fname, \
