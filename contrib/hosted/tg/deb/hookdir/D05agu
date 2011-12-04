@@ -1,4 +1,0 @@
-#!/bin/sh
-# $MirOS$
-
-apt-get update

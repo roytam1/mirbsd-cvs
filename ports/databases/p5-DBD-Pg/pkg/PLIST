@@ -1,6 +1,0 @@
-@comment $OpenBSD: PLIST,v 1.9 2004/04/13 14:03:44 peter Exp $
-${P5ARCH}/DBD/Pg.pm
-${P5ARCH}/auto/DBD/Pg/Pg.bs
-${P5ARCH}/auto/DBD/Pg/Pg.so
-man/man3/DBD::Pg.3p
-@dirrm ${P5ARCH}/auto/DBD/Pg
