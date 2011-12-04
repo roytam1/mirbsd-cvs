@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.own.mk,v 1.11 2005/05/23 11:59:07 tg Exp $
+# $MirOS: src/share/mk/bsd.own.mk,v 1.12 2005/05/23 22:07:42 tg Exp $
 # $OpenBSD: bsd.own.mk,v 1.84 2004/06/22 19:50:01 pvalchev Exp $
 # $NetBSD: bsd.own.mk,v 1.24 1996/04/13 02:08:09 thorpej Exp $
 
@@ -144,6 +144,8 @@ RTLD_TYPE=	BSD
 
 .if ${OBJECT_FMT} == "Mach-O"
 PICFLAG=	-fno-common
+.elif ${OBJECT_FMT} == "PE"
+PICFLAG=	# not needed; -fpic/-fPIC generates broken code
 .elif (${MACHINE_ARCH} == "sparc") || (${MACHINE_ARCH} == "sparc64")
 PICFLAG=	-fPIC
 .else
