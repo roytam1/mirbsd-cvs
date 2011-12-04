@@ -272,11 +272,14 @@
 ./usr/lib/crtend.o
 ./usr/lib/crtendS.o
 ./usr/lib/gcc
-./usr/lib/libgcc_s.so.1.0
+./usr/lib/libgcc_s.so.1.1
 ./usr/lib/libgpc.so.2.1
 ./usr/lib/libobjc.a
 ./usr/lib/libobjc.la
 ./usr/lib/libobjc.so.3.1
+./usr/lib/libobjc_gc.a
+./usr/lib/libobjc_gc.la
+./usr/lib/libobjc_gc.so.3.1
 ./usr/lib/libstdc++.a
 ./usr/lib/libstdc++.la
 ./usr/lib/libstdc++.so.36.0

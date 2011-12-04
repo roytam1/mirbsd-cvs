@@ -1276,7 +1276,6 @@
 ./usr/libdata/perl5/site_perl/i386-mirbsd/i386/exec.ph
 ./usr/libdata/perl5/site_perl/i386-mirbsd/i386/float.ph
 ./usr/libdata/perl5/site_perl/i386-mirbsd/i386/frame.ph
-./usr/libdata/perl5/site_perl/i386-mirbsd/i386/freebsd_machdep.ph
 ./usr/libdata/perl5/site_perl/i386-mirbsd/i386/gdt.ph
 ./usr/libdata/perl5/site_perl/i386-mirbsd/i386/ieee.ph
 ./usr/libdata/perl5/site_perl/i386-mirbsd/i386/ieeefp.ph
@@ -1308,7 +1307,6 @@
 ./usr/libdata/perl5/site_perl/i386-mirbsd/i386/spinlock.ph
 ./usr/libdata/perl5/site_perl/i386-mirbsd/i386/spkr.ph
 ./usr/libdata/perl5/site_perl/i386-mirbsd/i386/stdarg.ph
-./usr/libdata/perl5/site_perl/i386-mirbsd/i386/svr4_machdep.ph
 ./usr/libdata/perl5/site_perl/i386-mirbsd/i386/sysarch.ph
 ./usr/libdata/perl5/site_perl/i386-mirbsd/i386/trap.ph
 ./usr/libdata/perl5/site_perl/i386-mirbsd/i386/tss.ph
