@@ -1013,7 +1013,6 @@
 ./man5/a.out.htm
 ./man5/acct.htm
 ./man5/aliases.htm
-./man5/bgpd.conf.htm
 ./man5/bootparams.htm
 ./man5/bridgename.if.htm
 ./man5/changelist.htm
@@ -1157,8 +1156,6 @@
 ./man8/authpf.htm
 ./man8/bad144.htm
 ./man8/badsect.htm
-./man8/bgpctl.htm
-./man8/bgpd.htm
 ./man8/boot.cfg.htm
 ./man8/boot.htm
 ./man8/boot_config.htm

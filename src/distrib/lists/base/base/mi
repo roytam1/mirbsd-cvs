@@ -2039,8 +2039,6 @@
 ./usr/sbin/arp
 ./usr/sbin/authpf
 ./usr/sbin/bad144
-./usr/sbin/bgpctl
-./usr/sbin/bgpd
 ./usr/sbin/certpatch
 ./usr/sbin/chat
 ./usr/sbin/chroot
@@ -4591,6 +4589,7 @@
 ./usr/share/man/cat3/dirfd.0
 ./usr/share/man/cat3/dirname.0
 ./usr/share/man/cat3/div.0
+./usr/share/man/cat3/dl_iterate_phdr.0
 ./usr/share/man/cat3/dladdr.0
 ./usr/share/man/cat3/dlclose.0
 ./usr/share/man/cat3/dlctl.0
@@ -7080,7 +7079,6 @@
 ./usr/share/man/cat5/.rhosts.0
 ./usr/share/man/cat5/a.out.0
 ./usr/share/man/cat5/acct.0
-./usr/share/man/cat5/bgpd.conf.0
 ./usr/share/man/cat5/bootparams.0
 ./usr/share/man/cat5/bridgename.if.0
 ./usr/share/man/cat5/changelist.0
@@ -7219,8 +7217,6 @@
 ./usr/share/man/cat8/authpf.0
 ./usr/share/man/cat8/bad144.0
 ./usr/share/man/cat8/badsect.0
-./usr/share/man/cat8/bgpctl.0
-./usr/share/man/cat8/bgpd.0
 ./usr/share/man/cat8/boot.0
 ./usr/share/man/cat8/boot.cfg.0
 ./usr/share/man/cat8/boot_config.0

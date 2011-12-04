@@ -1807,6 +1807,7 @@
 ./man3/dirfd.htm
 ./man3/dirname.htm
 ./man3/div.htm
+./man3/dl_iterate_phdr.htm
 ./man3/dladdr.htm
 ./man3/dlclose.htm
 ./man3/dlctl.htm
