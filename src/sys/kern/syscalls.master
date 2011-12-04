@@ -1,4 +1,4 @@
-;	$MirOS: src/sys/kern/syscalls.master,v 1.4 2005/07/01 13:55:59 tg Exp $
+;	$MirOS: src/sys/kern/syscalls.master,v 1.5 2005/08/02 11:16:31 tg Exp $
 ;	$OpenBSD: syscalls.master,v 1.76 2004/07/15 14:35:34 deraadt Exp $
 ;	$NetBSD: syscalls.master,v 1.32 1996/04/23 10:24:21 mycroft Exp $
 ;	@(#)syscalls.master	8.2 (Berkeley) 1/13/94
@@ -73,7 +73,8 @@
 16	STD		{ int sys_chown(const char *path, uid_t uid, \
 			    gid_t gid); }
 17	STD		{ int sys_obreak(char *nsize); } break
-18	UNIMPL		ogetfsstat
+18	EMUL		{ int compat_25_sys_getfsstat(struct statfs *buf, \
+			    long bufsize, int flags); } ogetfsstat
 19	EMUL		{ long compat_43_sys_lseek(int fd, long offset, \
 			    int whence); } olseek
 20	STD		{ pid_t sys_getpid(void); }
@@ -156,7 +157,7 @@
 63	EMUL		{ int compat_43_sys_getkerninfo(int op, char *where, \
 			    int *size, int arg); } ogetkerninfo
 64	EMUL		{ int compat_43_sys_getpagesize(void); } ogetpagesize
-65	UNIMPL		omsync
+65	EMUL		{ int compat_25_sys_omsync(caddr_t addr, size_t len); }
 66	STD		{ int sys_vfork(void); }
 67	OBSOL		vread
 68	OBSOL		vwrite
@@ -184,7 +185,7 @@
 			    const struct itimerval *itv, \
 			    struct itimerval *oitv); }
 84	EMUL		{ int compat_43_sys_wait(void); } owait
-85	UNIMPL		swapon25
+85	EMUL		{ int compat_25_sys_swapon(const char *name); }
 86	STD		{ int sys_getitimer(int which, \
 			    struct itimerval *itv); }
 87	EMUL		{ int compat_43_sys_gethostname(char *hostname, \
@@ -303,8 +304,10 @@
 #endif
 156	EMUL		{ int compat_43_sys_getdirentries(int fd, char *buf, \
 			    int count, long *basep); } ogetdirentries
-157	UNIMPL		ostatfs
-158	UNIMPL		ofstatfs
+157	EMUL		{ int compat_25_openbsd_sys_statfs(char *path, \
+			    struct ostatfs *buf); } ostatfs
+158	EMUL		{ int compat_25_sys_fstatfs(int fd, \
+			    struct ostatfs *buf); } ostatfs
 159	UNIMPL
 160	UNIMPL
 161	STD		{ int sys_getfh(const char *fname, fhandle_t *fhp); }
@@ -366,9 +369,12 @@
 186	UNIMPL		lfs_segclean
 187	UNIMPL		lfs_segwait
 #endif
-188	UNIMPL		stat78
-189	UNIMPL		fstat78
-190	UNIMPL		lstat78
+188	COMPAT_78	{ int sys_stat(const char *path, \
+			    struct stat78 *ub); } stat78
+189	COMPAT_78	{ int sys_fstat(int fd, \
+			    struct stat78 *sb); } fstat78
+190	COMPAT_78	{ int sys_lstat(const char *path, \
+			    struct stat78 *ub); } lstat78
 191	STD		{ long sys_pathconf(const char *path, int name); }
 192	STD		{ long sys_fpathconf(int fd, int name); }
 193	STD		{ int sys_swapctl(int cmd, const void *arg, \
@@ -526,7 +532,8 @@
 262	STD		{ int sys_fstatfs(int fd, struct statfs *buf); }
 263	STD		{ int sys_pipe(int *fdp); }
 264	STD		{ int sys_fhopen(const fhandle_t *fhp, int flags); }
-265	UNIMPL		fhstat78
+265	COMPAT_78	{ int sys_fhstat(const fhandle_t *fhp, \
+			    struct stat78 *sb); } fhstat78
 266	STD		{ int sys_fhstatfs(const fhandle_t *fhp, \
 			    struct statfs *buf); }
 267	STD		{ ssize_t sys_preadv(int fd, \
