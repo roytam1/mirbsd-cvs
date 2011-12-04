@@ -34,8 +34,8 @@
 .\" (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 .\" THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .\"
-.\" $MirOS: src/usr.bin/ssh/ssh_config.5,v 1.3 2005/04/14 19:49:35 tg Exp $
-.\" $OpenBSD: ssh_config.5,v 1.49 2005/03/16 11:10:38 jmc Exp $
+.\" $MirOS: src/usr.bin/ssh/ssh_config.5,v 1.4 2005/04/14 20:07:45 tg Exp $
+.\" $OpenBSD: ssh_config.5,v 1.51 2005/04/26 13:08:37 jakob Exp $
 .Dd September 25, 1999
 .Dt SSH_CONFIG 5
 .Os
@@ -44,7 +44,7 @@
 .Nd OpenSSH SSH client configuration files
 .Sh SYNOPSIS
 .Bl -tag -width Ds -compact
-.It Pa $HOME/.etc/ssh/config
+.It Pa ~/.etc/ssh/config
 .It Pa /etc/ssh/ssh_config
 .El
 .Sh DESCRIPTION
@@ -56,7 +56,7 @@ the following order:
 command-line options
 .It
 user's configuration file
-.Pq Pa $HOME/.etc/ssh/config
+.Pq Pa ~/.etc/ssh/config
 .It
 system-wide configuration file
 .Pq Pa /etc/ssh/ssh_config
@@ -268,6 +268,11 @@ to listen for control connections, but require confirmation using the
 program before they are accepted (see
 .Xr ssh-add 1
 for details).
+If the
+.Cm ControlPath
+can not be opened,
+.Nm ssh
+will continue without connecting to a master instance.
 .It Cm ControlPath
 Specify the path to the control socket used for connection sharing.
 See
@@ -399,7 +404,7 @@ host key database instead of
 Indicates that
 .Nm ssh
 should hash host names and addresses when they are added to
-.Pa $HOME/.ssh/known_hosts .
+.Pa ~/.ssh/known_hosts .
 These hashed names may be used normally by
 .Nm ssh
 and
@@ -445,11 +450,11 @@ specifications).
 Specifies a file from which the user's RSA or DSA authentication identity
 is read.
 The default is
-.Pa $HOME/.etc/ssh/identity
+.Pa ~/.etc/ssh/identity
 for protocol version 1, and
-.Pa $HOME/.etc/ssh/id_rsa
+.Pa ~/.etc/ssh/id_rsa
 and
-.Pa $HOME/.etc/ssh/id_dsa
+.Pa ~/.etc/ssh/id_dsa
 for protocol version 2.
 Additionally, any identities represented by the authentication agent
 will be used for authentication.
@@ -739,7 +744,7 @@ If this flag is set to
 .Dq yes ,
 .Nm ssh
 will never automatically add host keys to the
-.Pa $HOME/.etc/ssh/known_hosts
+.Pa ~/.etc/ssh/known_hosts
 file, and refuses to connect to hosts whose host key has changed.
 This provides maximum protection against trojan horse attacks,
 however, can be annoying when the
@@ -811,7 +816,7 @@ having to remember to give the user name on the command line.
 .It Cm UserKnownHostsFile
 Specifies a file to use for the user
 host key database instead of
-.Pa $HOME/.etc/ssh/known_hosts .
+.Pa ~/.etc/ssh/known_hosts .
 .It Cm VerifyHostKeyDNS
 Specifies whether to verify the remote key using DNS and SSHFP resource
 records.
@@ -844,7 +849,7 @@ The default is
 .El
 .Sh FILES
 .Bl -tag -width Ds
-.It Pa $HOME/.etc/ssh/config
+.It Pa ~/.etc/ssh/config
 This is the per-user configuration file.
 The format of this file is described above.
 This file is used by the

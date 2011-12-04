@@ -40,7 +40,7 @@
  */
 
 #include "includes.h"
-RCSID("$MirOS: src/usr.bin/ssh/ssh.c,v 1.2 2005/03/13 18:33:33 tg Exp $");
+RCSID("$MirOS: src/usr.bin/ssh/ssh.c,v 1.3 2005/04/14 19:49:35 tg Exp $");
 
 #include <openssl/evp.h>
 #include <openssl/err.h>
@@ -586,7 +586,7 @@ again:
 	if (no_tty_flag)
 		tty_flag = 0;
 	/* Do not allocate a tty if stdin is not a tty. */
-	if (!isatty(fileno(stdin)) && !force_tty_flag) {
+	if ((!isatty(fileno(stdin)) || stdin_null_flag) && !force_tty_flag) {
 		if (tty_flag)
 			logit("Pseudo-terminal will not be allocated because stdin is not a terminal.");
 		tty_flag = 0;
@@ -647,7 +647,7 @@ again:
 		   options.control_path, original_real_uid);
 	}
 	if (options.control_path != NULL && options.control_master == 0)
-		control_client(options.control_path); /* This doesn't return */
+		control_client(options.control_path);
 
 	/* Open a connection to the remote host. */
 	if (ssh_connect(host, &hostaddr, options.port,
@@ -1322,15 +1322,6 @@ control_client(const char *path)
 	extern char **environ;
 	u_int  flags;
 
-	if (stdin_null_flag) {
-		if ((fd = open(_PATH_DEVNULL, O_RDONLY)) == -1)
-			fatal("open(/dev/null): %s", strerror(errno));
-		if (dup2(fd, STDIN_FILENO) == -1)
-			fatal("dup2: %s", strerror(errno));
-		if (fd > STDERR_FILENO)
-			close(fd);
-	}
-
 	memset(&addr, '\0', sizeof(addr));
 	addr.sun_family = AF_UNIX;
 	addr.sun_len = offsetof(struct sockaddr_un, sun_path) +
@@ -1343,9 +1334,21 @@ control_client(const char *path)
 	if ((sock = socket(PF_UNIX, SOCK_STREAM, 0)) < 0)
 		fatal("%s socket(): %s", __func__, strerror(errno));
 
-	if (connect(sock, (struct sockaddr*)&addr, addr.sun_len) == -1)
-		fatal("Couldn't connect to %s: %s", path, strerror(errno));
-
+	if (connect(sock, (struct sockaddr*)&addr, addr.sun_len) == -1) {
+ 		debug("Couldn't connect to %s: %s", path, strerror(errno));
+ 		close(sock);
+ 		return;
+ 	}
+ 
+ 	if (stdin_null_flag) {
+ 		if ((fd = open(_PATH_DEVNULL, O_RDONLY)) == -1)
+ 			fatal("open(/dev/null): %s", strerror(errno));
+ 		if (dup2(fd, STDIN_FILENO) == -1)
+ 			fatal("dup2: %s", strerror(errno));
+ 		if (fd > STDERR_FILENO)
+ 			close(fd);
+ 	}
+  
 	if ((term = getenv("TERM")) == NULL)
 		term = "";
 
