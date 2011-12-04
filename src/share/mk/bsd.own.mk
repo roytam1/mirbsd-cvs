@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.own.mk,v 1.6 2005/04/11 18:17:21 tg Exp $
+# $MirOS: src/share/mk/bsd.own.mk,v 1.7 2005/04/13 19:02:11 tg Exp $
 # $OpenBSD: bsd.own.mk,v 1.84 2004/06/22 19:50:01 pvalchev Exp $
 # $NetBSD: bsd.own.mk,v 1.24 1996/04/13 02:08:09 thorpej Exp $
 
@@ -170,7 +170,7 @@ CRTEND?=	${DESTDIR}/usr/lib/crtend.o
 CRTI?=		${DESTDIR}/usr/lib/crti.o
 CRTN?=		${DESTDIR}/usr/lib/crtn.o
 .  if defined(DESTDIR)
-${CRTBEGIN} ${CRTEND} ${CRTI} ${CRTN}: .OPTIONAL
+${CRTBEGIN} ${CRTEND} ${CRTI} ${CRTN}: .OPTIONAL .NOTMAIN
 .  endif
 .endif
 
