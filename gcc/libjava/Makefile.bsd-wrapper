@@ -1,4 +1,4 @@
-# $MirOS: gcc/libjava/Makefile.bsd-wrapper,v 1.4 2005/04/30 21:32:16 tg Exp $
+# $MirOS: gcc/libjava/Makefile.bsd-wrapper,v 1.5 2005/05/01 02:51:35 tg Exp $
 
 .include <bsd.own.mk>
 .include "${GNUSYSTEM_AUX_DIR}/locations.mk"
@@ -12,7 +12,8 @@ CFVARS+=	ac_config_sub="${SHELL} ${GNUSYSTEM_AUX_DIR}/config.sub" \
 CFARGS+=	--enable-static ${CF_PIC} --prefix=/usr --disable-nls \
 		--enable-interpreter --disable-sjlj-exceptions \
 		--with-system-zlib --with-x --enable-java-awt=xlib \
-		--disable-gtk-cairo --enable-java-gc=boehm
+		--disable-gtk-cairo --enable-java-gc=boehm \
+		--enable-fast-install
 FSFMAKE=	${XVARS} ${GMAKE} ${FSFMARGS} ${XARGS}
 CLEANFILES+=	deps.mk gnu/classpath/Configuration.java \
 		gnu/java/net/natPlainDatagramSocketImpl.cc \
