@@ -66,7 +66,7 @@ static const char rcsid[] = "$OpenBSD: gethostnamadr.c,v 1.63 2005/06/08 18:32:3
 #include <stdlib.h>
 #include "thread_private.h"
 
-__RCSID("$MirOS: src/lib/libc/net/gethostnamadr.c,v 1.2 2005/03/06 20:28:42 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/net/gethostnamadr.c,v 1.3 2005/07/01 14:44:06 tg Exp $");
 
 #define MULTI_PTRS_ARE_ALIASES 1	/* XXX - experimental */
 
@@ -471,7 +471,7 @@ gethostbyname(const char *name)
 	struct hostent *hp;
 	extern struct hostent *_gethtbyname2(const char *, int);
 
-	if (_res_init(0) == -1)
+	if (res_init(0) == -1)
 		hp = _gethtbyname2(name, AF_INET);
 
 	else if (_resp->options & RES_USE_INET6) {
@@ -497,7 +497,7 @@ gethostbyname2(const char *name, int af)
 	extern struct hostent *_gethtbyname2(const char *, int);
 	extern struct hostent *_yp_gethtbyname(const char *);
 
-	if (_res_init(0) == -1)
+	if (res_init(0) == -1)
 		return (_gethtbyname2(name, af));
 
 	switch (af) {
@@ -637,7 +637,7 @@ gethostbyaddr(const void *addr, socklen_t len, int af)
 	struct hostent *res;
 	extern struct hostent *_gethtbyaddr(const void *, socklen_t, int);
 	
-	if (_res_init(0) == -1) {
+	if (res_init(0) == -1) {
 		res = _gethtbyaddr(addr, len, af);
 		return (res);
 	}
