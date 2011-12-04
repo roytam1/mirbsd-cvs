@@ -1,7 +1,9 @@
-/* $MirOS$ */
+/* $MirOS: src/lib/csu/i386_elf/dot_init.h,v 1.2 2005/03/06 20:28:22 tg Exp $ */
 /* $NetBSD: dot_init.h,v 1.3 2002/11/22 06:45:00 thorpej Exp $ */
 
 /*-
+ * Copyright (c) 2004, 2005
+ *	Thorsten "mirabile" Glaser <tg@MirBSD.org>
  * Copyright (c) 2001 Ross Harvey
  * All rights reserved.
  *
@@ -34,7 +36,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <sys/cdefs.h>			/* RCS ID & Copyright macro defns */
+#include <sys/cdefs.h>
 
 /*
  * These must be extern to avoid warnings ("declared static but never defined")
@@ -47,14 +49,14 @@
 #define	INIT_FALLTHRU()	init_fallthru()
 #define	FINI_FALLTHRU()	fini_fallthru()
 
+/* placement of the nop & .balign _after_ the label is intentional */
 #define	MD_SECTION_PROLOGUE(sect, entry_pt)			\
 	__asm__(".section " __STRING(sect) ",\"ax\",@progbits"	\
 	"\n" __STRING(entry_pt) ":"				\
-	"\n	.balign 16"					\
+	"\n	nop"						\
+	"\n	.balign 4"					\
 	"\n	/* fall thru */"				\
 	"\n	.previous")
-
-	/* placement of the .align _after_ the label is intentional */
 
 #define	MD_SECTION_EPILOGUE(sect)				\
 	__asm__(".section " __STRING(sect) ",\"ax\",@progbits"	\
@@ -72,4 +74,4 @@
 	"\n	call " __STRING(func)		\
 	"\n	.previous");
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/csu/i386_elf/dot_init.h,v 1.2 2005/03/06 20:28:22 tg Exp $");

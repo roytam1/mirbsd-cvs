@@ -1,4 +1,4 @@
-/* $MirOS$
+/* $MirOS: src/lib/csu/common_elf/common.c,v 1.2 2005/03/06 20:28:21 tg Exp $
  * derived from the following files:
  * $NetBSD: common.c,v 1.16 2004/08/26 21:01:12 thorpej Exp $
  * $OpenBSD: crt0.c,v 1.11 2003/06/27 22:30:38 deraadt Exp $
@@ -9,7 +9,7 @@
  *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
  * Copyright (c) 1995 Christopher G. Demetriou
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met:
@@ -25,7 +25,7 @@
  *          information about NetBSD.
  * 4. The name of the author may not be used to endorse or promote products
  *    derived from this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
  * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
  * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
@@ -49,36 +49,21 @@ _strrchr(char *p, int ch)
 {
 	char *save;
 
-	for (save = NULL; ; ++p) {
+	for (save = NULL;; ++p) {
 		if (*p == ch)
 			save = (char *)p;
 		if (!*p)
-			return(save);
+			return (save);
 	}
 /* NOTREACHED */
 }
 
 #ifdef	MCRT0
 __asm__(".text"
-"\n_eprol:");
+    "\n_eprol:");
 #endif
 
-#ifdef	DYNAMIC
-void
-_rtld_setup(void (*cleanup) __P((void)), const Obj_Entry *obj)
-{
-	if ((obj == NULL) || (obj->magic != RTLD_MAGIC))
-		_FATAL("Corrupt Obj_Entry pointer in GOT\n");
-	if (obj->version != RTLD_VERSION)
-		_FATAL("Dynamic linker version mismatch\n");
-
-	atexit(cleanup);
-}
-
-#include <dlfcn_stubs.c>
-#endif	/* DYNAMIC */
-
-void ___start(int argc, char **argv, char **envp, void (*cleanup)(void),
+void ___start(int argc, char **argv, char **envp, void (*cleanup) (void),
     const Obj_Entry *obj, struct ps_strings *ps_strings)
 {
 	char *namep, *s;
@@ -88,21 +73,16 @@ void ___start(int argc, char **argv, char **envp, void (*cleanup)(void),
 	if ((namep = argv[0]) != NULL) {	/* NULL ptr if argc == 0 */
 		if ((__progname = _strrchr(namep, '/')) == NULL)
 			__progname = namep;
-		else	++__progname;
+		else
+			++__progname;
 		for (s = __progname_storage; (*__progname) &&
-		    (s < &__progname_storage[NAME_MAX]); /* nothing */)
+		    (s < &__progname_storage[NAME_MAX]); /* nothing */ )
 			*s++ = *__progname++;
 		*s = '\0';
 		__progname = __progname_storage;
 	}
-
-	if (ps_strings != (struct ps_strings *)0)
+	if (ps_strings !=(struct ps_strings *)0)
 		__ps_strings = ps_strings;
-
-#ifdef	DYNAMIC
-	if (&_DYNAMIC != NULL)
-		_rtld_setup(cleanup, obj);
-#endif
 
 #ifdef	MCRT0
 	atexit(_mcleanup);
@@ -120,4 +100,4 @@ char *__progname = "";
 /*
  * NOTE: Leave the RCS ID _after_ ___start(), in case it gets placed in .text.
  */
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/csu/common_elf/common.c,v 1.2 2005/03/06 20:28:21 tg Exp $");

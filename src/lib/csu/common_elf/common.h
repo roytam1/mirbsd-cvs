@@ -1,14 +1,14 @@
-/* $MirOS$
+/* $MirOS: src/lib/csu/common_elf/common.h,v 1.2 2005/03/06 20:28:21 tg Exp $
  * derived from the following files:
  * $NetBSD: common.h,v 1.10 2004/08/26 20:57:47 thorpej Exp $
  */
 
 /*
- * Copyright (c) 2003, 2004
- *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+ * Copyright (c) 2003, 2004, 2005
+ *	Thorsten "mirabile" Glaser <tg@MirBSD.org>
  * Copyright (c) 1995 Christopher G. Demetriou
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met:
@@ -24,7 +24,7 @@
  *          information about NetBSD.
  * 4. The name of the author may not be used to endorse or promote products
  *    derived from this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
  * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
  * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
@@ -47,48 +47,17 @@
 #include <sys/syscall.h>
 #include <stdlib.h>
 
-#ifndef	DYNAMIC
-typedef	void	Obj_Entry;
-#else
-#ifdef	__weak_alias
-#define	dlopen	_dlopen
-#define	dlclose	_dlclose
-#define	dlsym	_dlsym
-#define	dlerror	_dlerror
-#define	dladdr	_dladdr
-#endif
-#include <dlfcn.h>
-extern int __syscall(quad_t, ...);
-#define	_dl_write(fd, s, n) __syscall(SYS_write, (fd), (s), (n))
-#define	printf	_dl_printf
-#define	_STDIO_H_
-#include "util.h"
-#include "resolve.h"
-typedef	elf_object_t	Obj_Entry;
-#endif
+typedef void Obj_Entry;
 
 char *__progname;
 char **environ;
 struct ps_strings *__ps_strings = NULL;
 
-char __progname_storage[NAME_MAX+1];
+char __progname_storage[NAME_MAX + 1];
 
 extern void _init(void);
 extern void _fini(void);
 static char *_strrchr(char *, int);
-
-#ifdef	DYNAMIC
-void _rtld_setup(void (*cleanup)(void), const Obj_Entry *obj);
-
-/*
- * Arrange for _DYNAMIC to be weak and undefined (and therefore to show up
- * as being at address zero, unless something else defines it).  That way,
- * if we happen to be compiling without -static but with without any
- * shared libs present, things will still work.
- */
-extern int _DYNAMIC;
-__weak_extern(_DYNAMIC);
-#endif
 
 #ifdef	MCRT0
 extern void monstartup(u_long, u_long);
@@ -97,8 +66,8 @@ extern unsigned char _etext, _eprol;
 #endif
 
 __dead void ___start(int argc, char **argv, char **envp,
-    void (*cleanup)(void), const Obj_Entry *obj,
+    void (*cleanup) (void), const Obj_Entry *obj,
     struct ps_strings *ps_strings);
 int main(int argc, char **argv, char **envp);
 
-#endif	/* ndef _COMMON_H */
+#endif

@@ -1,8 +1,8 @@
-/**	$MirOS$ */
-/*	$NetBSD: crti.c,v 1.2 2002/11/23 17:21:22 thorpej Exp $	*/
+/* $MirOS: src/share/misc/licence.template,v 1.2 2005/03/03 19:43:30 tg Rel $ */
+/* From: $NetBSD: crti.c,v 1.2 2002/11/23 17:21:22 thorpej Exp $ */
 
 /*-
- * Copyright (c) 2003, 2004
+ * Copyright (c) 2003, 2004, 2005
  *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
  *
  * Licensee is hereby permitted to deal in this work without restric-
@@ -21,7 +21,7 @@
  * of this work, even if advised of the possibility of such damage.
  *-
  * Mark all objects having a PT_NOTE section identifying
- * ourselfes as MirOS BSD executables / (shared) objects
+ * ourselves as MirOS BSD executables / (shared) objects
  *
  * The MirOS Project uses the "MirOS "+string marker for
  * checking the validity of the executables - currently,
@@ -54,10 +54,10 @@ __asm__(".section .note.miros.ident,\"a\",@progbits"
 /* the obvious __RCSID */
 
 __asm__(".section .comment"
-"\n	.asciz	\"$MirOS$\"");
+"\n	.asciz	\"$MirOS: src/lib/csu/common_elf/crti.c,v 1.2 2005/03/06 20:28:21 tg Exp $\"");
+
 
 #ifndef __NO_INIT_SECTION
-
 /*-
  * Copyright (c) 1998, 2001, 2002 The NetBSD Foundation, Inc.
  * All rights reserved.
@@ -67,7 +67,7 @@ __asm__(".section .comment"
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
- * are met:     
+ * are met:
  * 1. Redistributions of source code must retain the above copyright
  *    notice, this list of conditions and the following disclaimer.
  * 2. Redistributions in binary form must reproduce the above copyright
@@ -103,13 +103,12 @@ __asm__(".section .comment"
 INIT_FALLTHRU_DECL;
 FINI_FALLTHRU_DECL;
 
-void	_init(void) __attribute__((section(".init")));
-void	_fini(void) __attribute__((section(".fini")));
+void _init(void) __attribute__((section(".init")));
+void _fini(void) __attribute__((section(".fini")));
 
 void
 _init(void)
 {
-
 	INIT_FALLTHRU();
 }
 
@@ -122,4 +121,4 @@ _fini(void)
 MD_INIT_SECTION_PROLOGUE;
 MD_FINI_SECTION_PROLOGUE;
 
-#endif /* ndef __NO_INIT_SECTION */
+#endif

@@ -1,4 +1,4 @@
-# $MirOS: src/lib/csu/common_elf/Makefile.inc,v 1.2 2005/03/06 20:28:21 tg Exp $
+# $MirOS: src/lib/csu/common_elf/Makefile.inc,v 1.3 2005/04/25 22:40:01 tg Exp $
 # $NetBSD: Makefile.inc,v 1.23 2003/03/19 16:54:25 ross Exp $
 
 .include <bsd.own.mk>
@@ -10,11 +10,6 @@ ELFSIZE=	32
 CFLAGS+=	-fno-omit-frame-pointer -fno-stack-protector
 CPPFLAGS+=	-idirafter ${.CURDIR}/../common_elf
 CPPFLAGS+=	-DELFSIZE=${ELFSIZE}
-#CPPFLAGS+=	-DDYNAMIC -I${BSDSRCDIR}/libexec/ld.so
-#CPPFLAGS+=	-I${BSDSRCDIR}/lib/libc/dlfcn
-CPPFLAGS+=	-DDWARF2_EH
-#CPPFLAGS+=	-DJCR
-#CPPFLAGS+=	-DDSO_HANDLE
 SHARED_FLAGS+=	-DSHARED -DPIC ${PICFLAG}
 
 .PATH:		${.CURDIR}/../common_elf
@@ -37,6 +32,10 @@ OBJS+=		crtbegin.o crtend.o
 .  if !defined(NOPIC) || ${NOPIC:L} == "no"
 OBJS+=		crtbeginS.o crtendS.o
 .  endif
+
+CPPFLAGS+=	-DDWARF2_EH
+#CPPFLAGS+=	-DDSO_HANDLE
+#CPPFLAGS+=	-DJCR
 .endif
 
 all: ${OBJS}
