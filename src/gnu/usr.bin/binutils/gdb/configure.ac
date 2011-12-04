@@ -1,4 +1,4 @@
-dnl $MirOS$
+dnl $MirOS: src/gnu/usr.bin/binutils/gdb/configure.ac,v 1.2 2005/06/05 21:24:16 tg Exp $
 dnl
 dnl Autoconf configure script for GDB, the GNU debugger.
 dnl Copyright 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004
@@ -61,7 +61,7 @@ AC_DEFINE_DIR(DEBUGDIR, debugdir,
               [Global directory for separate debug files. ])
 #AC_DEFINE_UNQUOTED(DEBUGDIR, "$debugdir"),
 
-AC_CONFIG_SUBDIRS(doc testsuite)
+AC_CONFIG_SUBDIRS(doc)
 
 . $srcdir/configure.host
 
