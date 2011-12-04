@@ -1,6 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: el.c,v 1.13 2003/11/25 20:12:38 otto Exp $	*/
-/*	$NetBSD: el.c,v 1.36 2003/10/18 23:48:42 christos Exp $	*/
+/**	$MirOS: src/lib/libedit/el.c,v 1.2 2005/03/06 20:29:01 tg Exp $ */
+/*	$NetBSD: el.c,v 1.39 2004/07/08 00:51:36 christos Exp $	*/
 
 /*-
  * Copyright (c) 1992, 1993
@@ -47,7 +46,7 @@
 #include "el.h"
 
 __SCCSID("@(#)el.c	8.2 (Berkeley) 1/3/94");
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libedit/el.c,v 1.2 2005/03/06 20:29:01 tg Exp $");
 
 /* el_init():
  *	Initialize editline and set default parameters.
@@ -269,9 +268,9 @@ el_set(EditLine *el, int op, ...)
 	case EL_PREP_TERM:
 		rv = va_arg(va, int);
 		if (rv)
-			read_prepare(el);
+			(void) tty_rawmode(el);
 		else
-			read_finish(el);
+			(void) tty_cookedmode(el);
 		rv = 0;
 		break;
 
@@ -522,10 +521,13 @@ el_editmode(EditLine *el, int argc, const char **argv)
 		return (-1);
 
 	how = argv[1];
-	if (strcmp(how, "on") == 0)
+	if (strcmp(how, "on") == 0) {
 		el->el_flags &= ~EDIT_DISABLED;
-	else if (strcmp(how, "off") == 0)
+		tty_rawmode(el);
+	} else if (strcmp(how, "off") == 0) {
+		tty_cookedmode(el);
 		el->el_flags |= EDIT_DISABLED;
+	}
 	else {
 		(void) fprintf(el->el_errfile, "edit: Bad value `%s'.\n", how);
 		return (-1);

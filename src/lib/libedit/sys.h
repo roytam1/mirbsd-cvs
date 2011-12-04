@@ -1,6 +1,6 @@
-/**	$MirOS$ */
+/**	$MirOS: src/lib/libedit/sys.h,v 1.2 2005/03/06 20:29:01 tg Exp $ */
+/*	$NetBSD: sys.h,v 1.9 2004/01/17 17:57:40 christos Exp $	*/
 /*	$OpenBSD: sys.h,v 1.8 2003/10/31 08:42:24 otto Exp $	*/
-/*	$NetBSD: sys.h,v 1.8 2003/08/07 16:44:33 agc Exp $	*/
 
 /*-
  * Copyright (c) 1992, 1993
@@ -50,6 +50,16 @@
 # define __attribute__(A)
 #endif
 
+#ifndef __BEGIN_DECLS
+# ifdef  __cplusplus
+#  define __BEGIN_DECLS  extern "C" {
+#  define __END_DECLS    }
+# else
+#  define __BEGIN_DECLS
+#  define __END_DECLS
+# endif
+#endif
+ 
 #ifndef public
 # define public		/* Externally visible functions/variables */
 #endif

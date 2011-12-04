@@ -1,10 +1,10 @@
 # $MirOS$
-# $OpenBSD: Makefile,v 1.8 2003/10/31 08:42:23 otto Exp $
-# $NetBSD: Makefile,v 1.28 2003/08/01 17:03:58 lukem Exp $
+# $NetBSD: Makefile,v 1.29 2003/12/05 13:37:48 lukem Exp $
 # @(#)Makefile	8.1 (Berkeley) 6/4/93
 
-SHLIB_VERSION?=	4.0
-LIB=		edit
+SHLIB_VERSION?=	5.0
+
+LIB=	edit
 
 OSRCS=	chared.c common.c el.c emacs.c fcns.c help.c hist.c key.c map.c \
 	parse.c prompt.c read.c refresh.c search.c sig.c term.c tty.c vi.c
@@ -16,7 +16,10 @@ MLINKS=	editline.3 el_init.3 editline.3 el_end.3 editline.3 el_reset.3 \
 	editline.3 el_parse.3 editline.3 el_set.3 editline.3 el_get.3 \
 	editline.3 el_source.3 editline.3 el_resize.3 editline.3 el_line.3 \
 	editline.3 el_insertstr.3 editline.3 el_deletestr.3 \
-	editline.3 history_init.3 editline.3 history_end.3 editline.3 history.3
+	editline.3 history_init.3 editline.3 history_end.3 \
+	editline.3 history.3 \
+	editline.3 tok_init.3 editline.3 tok_end.3 editline.3 tok_reset.3 \
+	editline.3 tok_line.3 editline.3 tok_str.3
 
 # For speed and debugging
 #SRCS=		${OSRCS} tokenizer.c history.c readline.c
@@ -30,13 +33,13 @@ INCSDIR=	/usr/include
 
 CLEANFILES+=	editline.c
 CLEANFILES+=	common.h.tmp editline.c.tmp emacs.h.tmp fcns.c.tmp fcns.h.tmp
-CLEANFILES+=	help.c.tmp help.h.tmp vi.h.tmp
+CLEANFILES+=	help.c.tmp help.h.tmp vi.h.tmp test.o test
 CFLAGS+=	-Wall
-CPPFLAGS+=	-I. -I${LIBEDITDIR} 
+CPPFLAGS+=	-I. -I${LIBEDITDIR}
 #CPPFLAGS+=	-DDEBUG_TTY -DDEBUG_KEY -DDEBUG_READ -DDEBUG -DDEBUG_REFRESH
 #CPPFLAGS+=	-DDEBUG_PASTE -DDEBUG_EDIT
 
-AHDR=		vi.h emacs.h common.h 
+AHDR=		vi.h emacs.h common.h
 ASRC=		${LIBEDITDIR}/vi.c ${LIBEDITDIR}/emacs.c ${LIBEDITDIR}/common.c
 
 DPSRCS+=	${AHDR} fcns.h help.h fcns.c help.c
@@ -65,7 +68,7 @@ fcns.c: ${AHDR} fcns.h help.h makelist
 	${SHELL} ${LIBEDITDIR}/makelist -fc ${AHDR} > ${.TARGET}.tmp && \
 	    mv ${.TARGET}.tmp ${.TARGET}
 
-help.c: ${ASRC} makelist 
+help.c: ${ASRC} makelist
 	${SHELL} ${LIBEDITDIR}/makelist -bc ${ASRC} > ${.TARGET}.tmp && \
 	    mv ${.TARGET}.tmp ${.TARGET}
 
@@ -77,10 +80,10 @@ editline.c: ${OSRCS}
 	${SHELL} ${LIBEDITDIR}/makelist -e ${.ALLSRC:T} > ${.TARGET}.tmp && \
 	    mv ${.TARGET}.tmp ${.TARGET}
 
-test: libedit.a test.o
-	${CC} ${LDFLAGS} ${LDSTATIC} -o $@ test.o ${LDADD} -ltermcap -L. -ledit
+test.o:	${LIBEDITDIR}/TEST/test.c
 
-test.o: ${LIBEDITDIR}/TEST/test.c
+test:	test.o libedit.a
+	${CC} ${LDFLAGS} ${LDSTATIC} -o $@ ${.ALLSRC} ${LDADD} -ltermcap
 
 includes:
 	${INSTALL} -d -o ${BINOWN} -g ${BINGRP} -m ${DIRMODE} \
@@ -95,6 +98,6 @@ includes:
 
 .include <bsd.lib.mk>
 
-.ifndef CROSS_MODE
+.if ${CROSS_MODE:L} != "yes"
 all: test
 .endif
