@@ -1,4 +1,4 @@
-# $MirOS: gcc/Makefile.sub,v 1.8 2005/04/26 20:07:00 tg Exp $
+# $MirOS: gcc/Makefile.sub,v 1.9 2005/04/26 22:36:52 tg Exp $
 
 .ifdef COMPILER_ONLY
 
@@ -61,6 +61,7 @@ NO_JAVA=XXX
 
 .if defined(SUBONLY) && !empty(SUBONLY)
   SUBDIR:= ${SUBONLY}
+  SKIPDIR:= #empty
 .endif
 
 .include <bsd.obj.mk>
