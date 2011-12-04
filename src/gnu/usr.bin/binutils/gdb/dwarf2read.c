@@ -1,7 +1,9 @@
+/* $MirOS$ */
+
 /* DWARF 2 debugging format support for GDB.
 
    Copyright 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003,
-   2004
+   2004, 2005
    Free Software Foundation, Inc.
 
    Adapted by Gary Funck (gary@intrepid.com), Intrepid Technology,
@@ -53,6 +55,8 @@
 #include "gdb_string.h"
 #include "gdb_assert.h"
 #include <sys/types.h>
+
+__RCSID("$MirOS$");
 
 /* A note on memory usage for this file.
    
@@ -910,6 +914,8 @@ static const char *namespace_name (struct die_info *die,
 				   int *is_anonymous, struct dwarf2_cu *);
 
 static void read_enumeration_type (struct die_info *, struct dwarf2_cu *);
+
+static void read_set_type (struct die_info *, struct dwarf2_cu *);
 
 static void process_enumeration_scope (struct die_info *, struct dwarf2_cu *);
 
@@ -4007,6 +4013,24 @@ determine_class_name (struct die_info *die, struct dwarf2_cu *cu)
   return new_prefix;
 }
 
+
+static void 
+read_set_type (struct die_info * die, struct dwarf2_cu *cu)
+{
+  struct type *domain_type;
+
+  /* Return if we've already decoded this type. */
+  if (die->type)
+    {
+      return;
+    }
+
+  domain_type = die_type (die, cu);
+
+  die->type = create_set_type (NULL, domain_type);
+
+}
+
 /* Given a pointer to a die which begins an enumeration, process all
    the dies that define the members of the enumeration, and create the
    symbol for the enumeration type.
@@ -6090,13 +6114,15 @@ set_cu_language (unsigned int lang, struct dwarf2_cu *cu)
     case DW_LANG_Java:
       cu->language = language_java;
       break;
+    case DW_LANG_Pascal83:
+      cu->language = language_pascal;
+      break;
     case DW_LANG_Ada83:
     case DW_LANG_Ada95:
       cu->language = language_ada;
       break;
     case DW_LANG_Cobol74:
     case DW_LANG_Cobol85:
-    case DW_LANG_Pascal83:
     case DW_LANG_Modula2:
     default:
       cu->language = language_minimal;
@@ -6864,6 +6890,7 @@ new_symbol (struct die_info *die, struct type *type, struct dwarf2_cu *cu)
 	case DW_TAG_structure_type:
 	case DW_TAG_union_type:
 	case DW_TAG_enumeration_type:
+        case DW_TAG_set_type:
 	  SYMBOL_CLASS (sym) = LOC_TYPEDEF;
 	  SYMBOL_DOMAIN (sym) = STRUCT_DOMAIN;
 
@@ -7184,6 +7211,9 @@ read_type_die (struct die_info *die, struct dwarf2_cu *cu)
       break;
     case DW_TAG_enumeration_type:
       read_enumeration_type (die, cu);
+      break;
+    case DW_TAG_set_type:
+      read_set_type (die, cu);
       break;
     case DW_TAG_subprogram:
     case DW_TAG_subroutine_type:
