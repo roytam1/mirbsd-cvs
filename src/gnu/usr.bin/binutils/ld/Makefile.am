@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.bin/binutils/ld/Makefile.am,v 1.6 2005/06/13 20:30:40 tg Exp $
+# $MirOS: src/gnu/usr.bin/binutils/ld/Makefile.am,v 1.7 2005/06/13 23:52:31 tg Exp $
 
 ## Process this file with automake to generate Makefile.in
 
@@ -463,7 +463,7 @@ stringify.sed: ${srcdir}/emultempl/$(STRINGIFY)
 
 # These all start with e so 'make clean' can find them.
 
-GENSCRIPTS = LIB_PATH='${LIB_PATH}' $(SHELL) $(srcdir)/genscripts.sh ${srcdir} ${libdir} "${exec_prefix}" @host@ @target@ @target_alias@ "@EMULATION_LIBPATH@" "@NATIVE_LIB_DIRS@" @use_sysroot@
+GENSCRIPTS = LIB_PATH='${LIB_PATH}' $(SHELL) $(srcdir)/genscripts.sh ${srcdir} ${libdir} "${exec_prefix}" "@host@" "@target@" "@target_alias@" "@EMULATION_LIBPATH@" "@NATIVE_LIB_DIRS@" @use_sysroot@
 GEN_DEPENDS = $(srcdir)/genscripts.sh stringify.sed
 
 @TDIRS@
