@@ -1,4 +1,4 @@
-/**	$MirOS: src/lib/libedit/readline.c,v 1.5 2005/04/19 18:45:25 tg Exp $ */
+/**	$MirOS: src/lib/libedit/readline.c,v 1.6 2005/04/19 19:14:53 tg Exp $ */
 /*	$OpenBSD: readline.c,v 1.2 2003/11/25 20:12:38 otto Exp $ */
 /*	$NetBSD: readline.c,v 1.52 2005/04/19 03:29:18 christos Exp $	*/
 
@@ -63,11 +63,11 @@
 #endif
 #include "el.h"
 #include "fcns.h"		/* for EL_NUM_FCNS */
-#include "term.h"
 #include "histedit.h"
+#include "term.h"
 #include "readline/readline.h"
 
-__RCSID("$MirOS: src/lib/libedit/readline.c,v 1.5 2005/04/19 18:45:25 tg Exp $");
+__RCSID("$MirOS: src/lib/libedit/readline.c,v 1.6 2005/04/19 19:14:53 tg Exp $");
 
 /* for rl_complete() */
 #define TAB		'\r'
@@ -2204,11 +2204,15 @@ _rl_update_pos(void)
 void
 rl_get_screen_size (int *lins, int *cols)
 {
-	term_get_size(e, lins, cols);
+	extern void _rl__term_get_size(EditLine *, int *, int *);
+
+	_rl__term_get_size(e, lins, cols);
 }
 
 void
 rl_set_screen_size(int lins, int cols)
 {
-	term_change_size(e, lins, cols);
+	extern void _rl__term_change_size(EditLine *, int, int);
+
+	_rl__term_change_size(e, lins, cols);
 }

@@ -1,8 +1,8 @@
-# $MirOS: src/lib/libedit/Makefile,v 1.3 2005/04/19 15:16:12 tg Exp $
+# $MirOS: src/lib/libedit/Makefile,v 1.4 2005/04/19 15:39:34 tg Exp $
 # $NetBSD: Makefile,v 1.29 2003/12/05 13:37:48 lukem Exp $
 # @(#)Makefile	8.1 (Berkeley) 6/4/93
 
-SHLIB_VERSION?=	4.1
+SHLIB_VERSION?=	5.0
 
 LIB=	edit
 
