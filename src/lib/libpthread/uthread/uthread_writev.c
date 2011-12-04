@@ -1,5 +1,4 @@
-/**	$MirOS$ */
-/*	$OpenBSD: uthread_writev.c,v 1.9 2004/11/30 00:14:51 pat Exp $	*/
+/*	$OpenBSD: uthread_writev.c,v 1.10 2004/12/12 21:56:07 brad Exp $	*/
 /*
  * Copyright (c) 1995-1998 John Birrell <jb@cimlogic.com.au>
  * All rights reserved.
@@ -44,8 +43,6 @@
 #ifdef _THREAD_SAFE
 #include <pthread.h>
 #include "pthread_private.h"
-
-__RCSID("$MirOS$");
 
 ssize_t
 writev(int fd, const struct iovec * iov, int iovcnt)
@@ -143,10 +140,10 @@ writev(int fd, const struct iovec * iov, int iovcnt)
 						 * and base pointer ready
 						 * for the next write:
 						 */
-						char *tmp = p_iov[idx].iov_base;
 						p_iov[idx].iov_len -= cnt;
-						tmp += cnt;
-						p_iov[idx].iov_base = tmp;
+						p_iov[idx].iov_base =
+						    (char *)p_iov[idx].iov_base
+						    + cnt;
 						cnt = 0;
 					}
 				}
