@@ -1,12 +1,9 @@
-# $MirOS: gcc/libstdc++-v3/Makefile.bsd-wrapper,v 1.8 2005/03/26 22:32:33 tg Exp $
+# $MirOS: gcc/libjava/Makefile.bsd-wrapper,v 1.1 2005/04/26 20:07:01 tg Exp $
 
 .include <bsd.own.mk>
 .include "${GNUSYSTEM_AUX_DIR}/locations.mk"
 
-CPPFLAGS+=	-I/usr/X11R6/include
-LDFLAGS+=	-L/usr/X11R6/lib
-CXXOPTS?=	${COPTS}
-
+EXPERIMENTAL=	#defined
 NOMAN=		yes
 CFARGS+=	--enable-static ${CF_PIC} --prefix=/usr --disable-nls \
 		--enable-interpreter --disable-sjlj-exceptions \
@@ -15,9 +12,22 @@ CFARGS+=	--enable-static ${CF_PIC} --prefix=/usr --disable-nls \
 CFVARS+=	ac_config_sub=${GNUSYSTEM_AUX_DIR}/config.sub \
 		ac_config_guess=${GNUSYSTEM_AUX_DIR}/config.guess
 FSFMAKE=	${XVARS} ${GMAKE} ${FSFMARGS} ${XARGS}
-
-#XARGS+=		LIBIBERTY_HDRS="${GNU_LIBIBERTY_INC}" \
-#		LIBIBERTY_SRC="${GNU_LIBIBERTY_SRC}" \
-CLEANFILES+=
+CLEANFILES+=	deps.mk gnu/classpath/Configuration.java \
+		gnu/java/net/natPlainDatagramSocketImpl.cc \
+		gnu/java/net/natPlainSocketImpl.cc \
+		gnu/java/nio/natPipeImpl.cc \
+		gnu/java/nio/natSelectorImpl.cc \
+		include/java-gc.h include/java-signal-aux.h \
+		include/java-signal.h include/java-threads.h \
+		include/platform.h java/io/natFile.cc \
+		java/io/natFileDescriptor.cc \
+		java/lang/ConcreteProcess.java \
+		java/lang/natConcreteProcess.cc \
+		java/net/natInetAddress.cc \
+		java/net/natNetworkInterface.cc \
+		sysdep/locks.h
 
 .include <bsd.cfwrap.mk>
+
+FSFCFLAGS=	-O2
+FSFCXXFLAGS=	-O2
