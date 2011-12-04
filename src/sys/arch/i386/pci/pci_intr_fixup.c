@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/pci/pci_intr_fixup.c,v 1.3 2005/07/21 21:52:15 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/pci/pci_intr_fixup.c,v 1.4 2005/07/21 22:23:31 tg Exp $ */
 /*	$OpenBSD: pci_intr_fixup.c,v 1.37 2005/07/09 22:15:44 mickey Exp $	*/
 /*	$NetBSD: pci_intr_fixup.c,v 1.10 2000/08/10 21:18:27 soda Exp $	*/
 
@@ -678,7 +678,7 @@ pci_intr_header_fixup(pc, tag, ihp)
 		ihp->line = l->irq;
 	} else
 		/* routed by BIOS, but inconsistent */
-		/* believe PCI Interrupt Configuration Register (default) */
+		/* believe PCI Interrupt Configuration Register */
 		p = " WARNING: preserving";
 
 	if (pcibios_flags & PCIBIOS_INTRDEBUG) {
