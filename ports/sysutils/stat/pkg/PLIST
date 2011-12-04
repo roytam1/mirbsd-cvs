@@ -1,3 +1,0 @@
-@comment $OpenBSD: PLIST,v 1.4 2002/04/07 01:54:53 naddy Exp $
-bin/stat
-man/man1/stat.0
