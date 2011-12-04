@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/sys/conf/files,v 1.6 2005/07/01 12:05:18 tg Exp $
 # $OpenBSD: files,v 1.339 2005/05/26 00:33:45 pedro Exp $
 # $NetBSD: files,v 1.634 2003/09/25 15:58:14 pooka Exp $
 # @(#)files.newconf	7.5 (Berkeley) 5/10/93
@@ -762,7 +762,6 @@ file ufs/mfs/mfs_vfsops.c		mfs
 file ufs/mfs/mfs_vnops.c		mfs
 file ufs/ufs/ufs_bmap.c			ffs | mfs | ext2fs
 file ufs/ufs/ufs_dirhash.c		ufs_dirhash & (ffs | mfs)
-file ufs/ufs/ufs_extattr.c		ffs | mfs
 file ufs/ufs/ufs_ihash.c		ffs | mfs | ext2fs
 file ufs/ufs/ufs_inode.c		ffs | mfs | ext2fs
 file ufs/ufs/ufs_lookup.c		ffs | mfs | ext2fs
