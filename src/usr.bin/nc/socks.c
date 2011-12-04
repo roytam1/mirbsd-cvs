@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.bin/nc/socks.c,v 1.2 2005/03/13 18:33:18 tg Exp $ */
+/**	$MirOS: src/usr.bin/nc/socks.c,v 1.3 2005/04/29 18:35:10 tg Exp $ */
 /*	$OpenBSD: socks.c,v 1.10 2005/02/08 15:26:23 otto Exp $	*/
 
 /*
@@ -38,7 +38,7 @@
 #include <string.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: src/usr.bin/nc/socks.c,v 1.2 2005/03/13 18:33:18 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/nc/socks.c,v 1.3 2005/04/29 18:35:10 tg Exp $");
 
 #define SOCKS_PORT	"1080"
 #define HTTP_PROXY_PORT	"3128"
@@ -132,7 +132,9 @@ socks_connect(const char *host, const char *port,
 	if (proxyfd < 0)
 		return -1;
 
-	serveraddr = decode_addr (host);
+	/* HTTP proxies can use hostnames */
+	if (socksv != -1)
+		serveraddr = decode_addr(host);
 	serverport = decode_port (port);
 
 	if (socksv == 5) {
