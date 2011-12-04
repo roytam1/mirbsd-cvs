@@ -1,4 +1,4 @@
-/**	$MirOS: src/lib/libz/zutil.h,v 1.5 2005/07/07 12:40:17 tg Exp $ */
+/**	$MirOS: src/lib/libz/zutil.h,v 1.6 2005/07/24 22:50:06 tg Exp $ */
 /*	$OpenBSD: zutil.h,v 1.9 2005/07/20 15:56:42 millert Exp $	*/
 /* zutil.h -- internal interface and configuration of the compression library
  * Copyright (C) 1995-2005 Jean-loup Gailly.
@@ -47,7 +47,7 @@ extern const char * const z_errmsg[10]; /* indexed by 2-zlib_error */
 #define ERR_MSG(err) z_errmsg[Z_NEED_DICT-(err)]
 
 #define ERR_RETURN(strm,err) \
-  return (strm->msg = (char*)ERR_MSG(err), (err))
+  return (strm->msg = ERR_MSG(err), (err))
 /* To be used only when the state is known to be valid */
 
         /* common constants */

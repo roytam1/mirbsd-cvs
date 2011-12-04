@@ -1,4 +1,4 @@
-/**	$MirOS: src/lib/libz/inffast.c,v 1.3 2005/07/07 12:27:25 tg Exp $ */
+/**	$MirOS: src/lib/libz/inffast.c,v 1.4 2005/07/24 22:50:04 tg Exp $ */
 /*	$OpenBSD: inffast.c,v 1.7 2005/07/20 15:56:41 millert Exp $	*/
 /* inffast.c -- fast decoding
  * Copyright (C) 1995-2004 Mark Adler
@@ -11,7 +11,7 @@
 
 #ifndef ASMINF
 
-zRCSID("$MirOS: src/lib/libz/inffast.c,v 1.3 2005/07/07 12:27:25 tg Exp $")
+zRCSID("$MirOS: src/lib/libz/inffast.c,v 1.4 2005/07/24 22:50:04 tg Exp $")
 
 /* Allow machine dependent optimization for post-increment or pre-increment.
    Based on testing to date,
@@ -72,8 +72,8 @@ z_streamp strm;
 unsigned start;         /* inflate()'s starting value for strm->avail_out */
 {
     struct inflate_state FAR *state;
-    unsigned char FAR *in;      /* local strm->next_in */
-    unsigned char FAR *last;    /* while in < last, enough input available */
+    const unsigned char FAR *in;/* local strm->next_in */
+    const unsigned char FAR *last;/* while in < last, enough input available */
     unsigned char FAR *out;     /* local strm->next_out */
     unsigned char FAR *beg;     /* inflate()'s initial strm->next_out */
     unsigned char FAR *end;     /* while out < end, enough space available */
@@ -193,7 +193,7 @@ unsigned start;         /* inflate()'s starting value for strm->avail_out */
 #ifdef SMALL
 			strm->msg = "error";
 #else
-                        strm->msg = (char *)"invalid distance too far back";
+                        strm->msg = "invalid distance too far back";
 #endif
                         state->mode = BAD;
                         break;
@@ -273,7 +273,7 @@ unsigned start;         /* inflate()'s starting value for strm->avail_out */
 #ifdef SMALL
 		strm->msg = "error";
 #else
-                strm->msg = (char *)"invalid distance code";
+                strm->msg = "invalid distance code";
 #endif
                 state->mode = BAD;
                 break;
@@ -292,7 +292,7 @@ unsigned start;         /* inflate()'s starting value for strm->avail_out */
 #ifdef SMALL
 	    strm->msg = "error";
 #else
-            strm->msg = (char *)"invalid literal/length code";
+            strm->msg = "invalid literal/length code";
 #endif
             state->mode = BAD;
             break;

@@ -1,4 +1,4 @@
-/**	$MirOS: src/lib/libz/inflate.c,v 1.3 2005/07/07 12:27:25 tg Exp $ */
+/**	$MirOS: src/lib/libz/inflate.c,v 1.4 2005/07/24 22:50:04 tg Exp $ */
 /*	$OpenBSD: inflate.c,v 1.9 2005/07/20 15:56:41 millert Exp $	*/
 /* inflate.c -- zlib decompression
  * Copyright (C) 1995-2005 Mark Adler
@@ -9,7 +9,7 @@
 #include "inftrees.h"
 #include "inflate.h"
 
-zRCSID("$MirOS: src/lib/libz/inflate.c,v 1.3 2005/07/07 12:27:25 tg Exp $")
+zRCSID("$MirOS: src/lib/libz/inflate.c,v 1.4 2005/07/24 22:50:04 tg Exp $")
 
 #ifdef MAKEFIXED
 #  ifndef BUILDFIXED
@@ -23,7 +23,7 @@ local int updatewindow OF((z_streamp strm, unsigned out));
 #ifdef BUILDFIXED
    void makefixed OF((void));
 #endif
-local unsigned syncsearch OF((unsigned FAR *have, unsigned char FAR *buf,
+local unsigned syncsearch OF((unsigned FAR *have, const unsigned char FAR *buf,
                               unsigned len));
 
 int ZEXPORT inflateReset(strm)
@@ -482,7 +482,7 @@ z_streamp strm;
 int flush;
 {
     struct inflate_state FAR *state;
-    unsigned char FAR *next;    /* next input */
+    const unsigned char FAR *next; /* next input */
     unsigned char FAR *put;     /* next output */
     unsigned have, left;        /* available input and output */
     unsigned long hold;         /* bit buffer */
@@ -537,7 +537,7 @@ int flush;
 #ifdef SMALL
 		strm->msg = "error";
 #else
-                strm->msg = (char *)"incorrect header check";
+                strm->msg = "incorrect header check";
 #endif
                 state->mode = BAD;
                 break;
@@ -546,7 +546,7 @@ int flush;
 #ifdef SMALL
 		strm->msg = "error";
 #else
-                strm->msg = (char *)"unknown compression method";
+                strm->msg = "unknown compression method";
 #endif
                 state->mode = BAD;
                 break;
@@ -557,7 +557,7 @@ int flush;
 #ifdef SMALL  
 		strm->msg = "error";
 #else
-                strm->msg = (char *)"invalid window size";
+                strm->msg = "invalid window size";
 #endif
                 state->mode = BAD;
                 break;
@@ -576,7 +576,7 @@ int flush;
 #ifdef SMALL
 		strm->msg = "error";
 #else
-                strm->msg = (char *)"unknown compression method";
+                strm->msg = "unknown compression method";
 #endif
                 state->mode = BAD;
                 break;
@@ -585,7 +585,7 @@ int flush;
 #ifdef SMALL
 		strm->msg = "error";
 #else
-                strm->msg = (char *)"unknown header flags set";
+                strm->msg = "unknown header flags set";
 #endif
                 state->mode = BAD;
                 break;
@@ -693,7 +693,7 @@ int flush;
 #ifdef SMALL
 		    strm->msg = "error";
 #else
-                    strm->msg = (char *)"header crc mismatch";
+                    strm->msg = "header crc mismatch";
 #endif
                     state->mode = BAD;
                     break;
@@ -752,7 +752,7 @@ int flush;
 #ifdef SMALL
 		strm->msg = "error";
 #else
-                strm->msg = (char *)"invalid block type";
+                strm->msg = "invalid block type";
 #endif
                 state->mode = BAD;
             }
@@ -765,7 +765,7 @@ int flush;
 #ifdef SMALL
 		strm->msg = "error";
 #else
-                strm->msg = (char *)"invalid stored block lengths";
+                strm->msg = "invalid stored block lengths";
 #endif
                 state->mode = BAD;
                 break;
@@ -805,7 +805,7 @@ int flush;
 #ifdef SMALL
 		strm->msg = "error";
 #else
-                strm->msg = (char *)"too many length or distance symbols";
+                strm->msg = "too many length or distance symbols";
 #endif
                 state->mode = BAD;
                 break;
@@ -831,7 +831,7 @@ int flush;
 #ifdef SMALL
 		strm->msg = "error";
 #else
-                strm->msg = (char *)"invalid code lengths set";
+                strm->msg = "invalid code lengths set";
 #endif
                 state->mode = BAD;
                 break;
@@ -859,7 +859,7 @@ int flush;
 #ifdef SMALL
 			    strm->msg = "error";
 #else
-                            strm->msg = (char *)"invalid bit length repeat";
+                            strm->msg = "invalid bit length repeat";
 #endif
                             state->mode = BAD;
                             break;
@@ -886,7 +886,7 @@ int flush;
 #ifdef SMALL
 			strm->msg = "error";
 #else
-                        strm->msg = (char *)"invalid bit length repeat";
+                        strm->msg = "invalid bit length repeat";
 #endif
                         state->mode = BAD;
                         break;
@@ -909,7 +909,7 @@ int flush;
 #ifdef SMALL
 		strm->msg = "error";
 #else
-                strm->msg = (char *)"invalid literal/lengths set";
+                strm->msg = "invalid literal/lengths set";
 #endif
                 state->mode = BAD;
                 break;
@@ -922,7 +922,7 @@ int flush;
 #ifdef SMALL
 		strm->msg = "error";
 #else
-                strm->msg = (char *)"invalid distances set";
+                strm->msg = "invalid distances set";
 #endif
                 state->mode = BAD;
                 break;
@@ -971,7 +971,7 @@ int flush;
 #ifdef SMALL
 		strm->msg = "error";
 #else
-                strm->msg = (char *)"invalid literal/length code";
+                strm->msg = "invalid literal/length code";
 #endif
                 state->mode = BAD;
                 break;
@@ -1007,7 +1007,7 @@ int flush;
 #ifdef SMALL
 		strm->msg = "error";
 #else
-                strm->msg = (char *)"invalid distance code";
+                strm->msg = "invalid distance code";
 #endif
                 state->mode = BAD;
                 break;
@@ -1023,7 +1023,7 @@ int flush;
             }
 #ifdef INFLATE_STRICT
             if (state->offset > state->dmax) {
-                strm->msg = (char *)"invalid distance too far back";
+                strm->msg = "invalid distance too far back";
                 state->mode = BAD;
                 break;
             }
@@ -1032,7 +1032,7 @@ int flush;
 #ifdef SMALL
 		strm->msg = "error";
 #else
-                strm->msg = (char *)"invalid distance too far back";
+                strm->msg = "invalid distance too far back";
 #endif
                 state->mode = BAD;
                 break;
@@ -1088,7 +1088,7 @@ int flush;
 #ifdef SMALL
 		    strm->msg = "error";
 #else
-                    strm->msg = (char *)"incorrect data check";
+                    strm->msg = "incorrect data check";
 #endif
                     state->mode = BAD;
                     break;
@@ -1105,7 +1105,7 @@ int flush;
 #ifdef SMALL
 		    strm->msg = "error";
 #else
-                    strm->msg = (char *)"incorrect length check";
+                    strm->msg = "incorrect length check";
 #endif
                     state->mode = BAD;
                     break;
@@ -1242,7 +1242,7 @@ gz_headerp head;
  */
 local unsigned syncsearch(have, buf, len)
 unsigned FAR *have;
-unsigned char FAR *buf;
+const unsigned char FAR *buf;
 unsigned len;
 {
     unsigned got;

@@ -1,4 +1,4 @@
-/**	$MirOS: src/lib/libz/gzio.c,v 1.5 2005/07/24 22:57:04 tg Exp $ */
+/**	$MirOS: src/lib/libz/gzio.c,v 1.6 2005/07/24 23:02:51 tg Exp $ */
 /*	$OpenBSD: gzio.c,v 1.14 2005/07/20 15:56:41 millert Exp $	*/
 /* gzio.c -- IO on .gz files
  * Copyright (C) 1995-2005 Jean-loup Gailly.
@@ -10,7 +10,7 @@
 #include <stdio.h>
 #include "zutil.h"
 
-zRCSID("$MirOS: src/lib/libz/gzio.c,v 1.5 2005/07/24 22:57:04 tg Exp $")
+zRCSID("$MirOS: src/lib/libz/gzio.c,v 1.6 2005/07/24 23:02:51 tg Exp $")
 
 #ifdef NO_DEFLATE       /* for compatibility with old definition */
 #  define NO_GZCOMPRESS
@@ -91,7 +91,7 @@ local gzFile gz_open (path, mode, fd)
     int err;
     int level = Z_DEFAULT_COMPRESSION; /* compression level */
     int strategy = Z_DEFAULT_STRATEGY; /* compression strategy */
-    char *p = (char*)mode;
+    const char *p = mode;
     gz_stream *s;
     char fmode[80]; /* copy of mode, without the compression level */
     char *m = fmode;
@@ -560,7 +560,7 @@ int ZEXPORT gzwrite (file, buf, len)
 
     if (s == NULL || s->mode != 'w') return Z_STREAM_ERROR;
 
-    s->stream.next_in = (Bytef*)buf;
+    s->stream.next_in = buf;
     s->stream.avail_in = len;
 
     while (s->stream.avail_in != 0) {
@@ -631,7 +631,7 @@ int ZEXPORT gzputs(file, s)
     gzFile file;
     const char *s;
 {
-    return gzwrite(file, (char*)s, (unsigned)strlen(s));
+    return gzwrite(file, s, (unsigned)strlen(s));
 }
 
 
@@ -925,7 +925,7 @@ const char * ZEXPORT gzerror (file, errnum)
     gzFile file;
     int *errnum;
 {
-    char *m;
+    const char *m;
     gz_stream *s = (gz_stream*)file;
     size_t len;
 
@@ -936,9 +936,9 @@ const char * ZEXPORT gzerror (file, errnum)
     *errnum = s->z_err;
     if (*errnum == Z_OK) return (const char*)"";
 
-    m = (char*)(*errnum == Z_ERRNO ? zstrerror(errno) : s->stream.msg);
+    m = (*errnum == Z_ERRNO ? zstrerror(errno) : s->stream.msg);
 
-    if (m == NULL || *m == '\0') m = (char*)ERR_MSG(s->z_err);
+    if (m == NULL || *m == '\0') m = ERR_MSG(s->z_err);
 
     TRYFREE(s->msg);
     len = strlen(s->path) + strlen(m) + 3;

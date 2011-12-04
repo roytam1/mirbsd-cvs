@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libz/infback.c,v 1.3 2005/07/07 12:27:25 tg Exp $ */
+/* $MirOS: src/lib/libz/infback.c,v 1.4 2005/07/24 22:50:04 tg Exp $ */
 /* infback.c -- inflate using a call-back interface
  * Copyright (C) 1995-2005 Mark Adler
  * For conditions of distribution and use, see copyright notice in zlib.h
@@ -15,7 +15,7 @@
 #include "inftrees.h"
 #include "inflate.h"
 
-zRCSID("$MirOS: src/lib/libz/infback.c,v 1.3 2005/07/07 12:27:25 tg Exp $")
+zRCSID("$MirOS: src/lib/libz/infback.c,v 1.4 2005/07/24 22:50:04 tg Exp $")
 
 /* function prototypes */
 local void fixedtables OF((struct inflate_state FAR *state));
@@ -166,7 +166,7 @@ struct inflate_state FAR *state;
     do { \
         PULL(); \
         have--; \
-        hold += (unsigned long)(*next++) << bits; \
+        hold += (const unsigned long)(*next++) << bits; \
         bits += 8; \
     } while (0)
 
@@ -248,7 +248,7 @@ out_func out;
 void FAR *out_desc;
 {
     struct inflate_state FAR *state;
-    unsigned char FAR *next;    /* next input */
+    const unsigned char FAR *next; /* next input */
     unsigned char FAR *put;     /* next output */
     unsigned have, left;        /* available input and output */
     unsigned long hold;         /* bit buffer */
@@ -313,7 +313,7 @@ void FAR *out_desc;
 #ifdef SMALL
 		strm->msg = "error";
 #else
-                strm->msg = (char *)"invalid block type";
+                strm->msg = "invalid block type";
 #endif
                 state->mode = BAD;
             }
@@ -328,7 +328,7 @@ void FAR *out_desc;
 #ifdef SMALL
 		strm->msg = "error";
 #else
-                strm->msg = (char *)"invalid stored block lengths";
+                strm->msg = "invalid stored block lengths";
 #endif
                 state->mode = BAD;
                 break;
@@ -370,7 +370,7 @@ void FAR *out_desc;
 #ifdef SMALL
 		strm->msg = "error";
 #else
-                strm->msg = (char *)"too many length or distance symbols";
+                strm->msg = "too many length or distance symbols";
 #endif
                 state->mode = BAD;
                 break;
@@ -393,7 +393,7 @@ void FAR *out_desc;
             ret = inflate_table(CODES, state->lens, 19, &(state->next),
                                 &(state->lenbits), state->work);
             if (ret) {
-                strm->msg = (char *)"invalid code lengths set";
+                strm->msg = "invalid code lengths set";
                 state->mode = BAD;
                 break;
             }
@@ -417,7 +417,7 @@ void FAR *out_desc;
                         NEEDBITS(this.bits + 2);
                         DROPBITS(this.bits);
                         if (state->have == 0) {
-                            strm->msg = (char *)"invalid bit length repeat";
+                            strm->msg = "invalid bit length repeat";
                             state->mode = BAD;
                             break;
                         }
@@ -440,7 +440,7 @@ void FAR *out_desc;
                         DROPBITS(7);
                     }
                     if (state->have + copy > state->nlen + state->ndist) {
-                        strm->msg = (char *)"invalid bit length repeat";
+                        strm->msg = "invalid bit length repeat";
                         state->mode = BAD;
                         break;
                     }
@@ -459,7 +459,7 @@ void FAR *out_desc;
             ret = inflate_table(LENS, state->lens, state->nlen, &(state->next),
                                 &(state->lenbits), state->work);
             if (ret) {
-                strm->msg = (char *)"invalid literal/lengths set";
+                strm->msg = "invalid literal/lengths set";
                 state->mode = BAD;
                 break;
             }
@@ -468,7 +468,7 @@ void FAR *out_desc;
             ret = inflate_table(DISTS, state->lens + state->nlen, state->ndist,
                             &(state->next), &(state->distbits), state->work);
             if (ret) {
-                strm->msg = (char *)"invalid distances set";
+                strm->msg = "invalid distances set";
                 state->mode = BAD;
                 break;
             }
@@ -528,7 +528,7 @@ void FAR *out_desc;
 
             /* invalid code */
             if (this.op & 64) {
-                strm->msg = (char *)"invalid literal/length code";
+                strm->msg = "invalid literal/length code";
                 state->mode = BAD;
                 break;
             }
@@ -560,7 +560,7 @@ void FAR *out_desc;
             }
             DROPBITS(this.bits);
             if (this.op & 64) {
-                strm->msg = (char *)"invalid distance code";
+                strm->msg = "invalid distance code";
                 state->mode = BAD;
                 break;
             }
@@ -575,7 +575,7 @@ void FAR *out_desc;
             }
             if (state->offset > state->wsize - (state->whave < state->wsize ?
                                                 left : 0)) {
-                strm->msg = (char *)"invalid distance too far back";
+                strm->msg = "invalid distance too far back";
                 state->mode = BAD;
                 break;
             }
