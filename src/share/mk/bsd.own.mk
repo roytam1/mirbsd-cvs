@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.own.mk,v 1.12 2005/05/23 22:07:42 tg Exp $
+# $MirOS: src/share/mk/bsd.own.mk,v 1.13 2005/06/09 20:49:39 tg Exp $
 # $OpenBSD: bsd.own.mk,v 1.84 2004/06/22 19:50:01 pvalchev Exp $
 # $NetBSD: bsd.own.mk,v 1.24 1996/04/13 02:08:09 thorpej Exp $
 
@@ -42,18 +42,15 @@ CFLAGS+=	-Wall -Wextra -Wunused -Wdeclaration-after-statement -Wundef \
 CRTN?=		${DESTDIR}/usr/lib/ncrtn.o
 .endif
 
-# crtbegin.o/crtend.o from gcc3 (yes) or src/lib/csu (no)?
-GCC3_EXT_TOOLCHAIN?=	Yes
-# Set 'WARNINGS' to 'yes' to add appropriate warnings to each compilation
+# Set to yes to add CDIAGFLAGS to CFLAGS
 WARNINGS?=		No
-# Set 'SKEY' to 'yes' to build with support for S/key authentication.
+# Set to no to avoid building with support for S/key authentication
 SKEY?=			Yes
-# Set 'DEBUGLIBS' to 'yes' to build libraries with debugging symbols
-# currently broken
+# Set to yes to build debugging versions of shared libraries
 DEBUGLIBS?=		No
-# Ignore USA-only patents for build (by default, build it, MirOS is EU not US)
+# Set to yes for a stricter patent policy
 MKC_USAP?=		No
-# Set 'SUDO' to 'sudo' to build releases, packages etc. as user
+# Set to sudo to automatically switch to root and only if needed
 SUDO?=
 # where the system object and source trees are kept; can be configurable
 # by the user in case they want them in ~/foosrc and ~/fooobj, for example
@@ -61,7 +58,7 @@ BSDSRCDIR?=		/usr/src
 BSDOBJDIR?=		/usr/obj
 BSDRELDIR?=		/usr/releng
 PORTSDIR?=		/usr/ports
-# Shared files for system gnu configure
+# Shared files for system GNU configure and build process
 GNUSYSTEM_AUX_DIR?=	${BSDSRCDIR}/gnu/share
 
 
