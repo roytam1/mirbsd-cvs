@@ -1,4 +1,5 @@
-/**	$MirOS$ */
+/**	$MirOS: src/lib/libc/time/strptime.c,v 1.2 2005/03/06 20:28:50 tg Exp $ */
+/*	$OpenBSD: strptime.c,v 1.11 2005/08/08 08:05:38 espie Exp $ */
 /*	$NetBSD: strptime.c,v 1.12 1998/01/20 21:39:40 mycroft Exp $	*/
 
 /*-
@@ -36,10 +37,6 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#if 0
-static char rcsid[] = "$OpenBSD: strptime.c,v 1.10 2004/09/15 19:01:58 deraadt Exp $";
-#endif /* LIBC_SCCS and not lint */
-
 #include <sys/cdefs.h>
 #include <sys/localedef.h>
 #include <ctype.h>
@@ -48,7 +45,7 @@ static char rcsid[] = "$OpenBSD: strptime.c,v 1.10 2004/09/15 19:01:58 deraadt E
 #include <time.h>
 #include <tzfile.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libc/time/strptime.c,v 1.2 2005/03/06 20:28:50 tg Exp $");
 
 #define	_ctloc(x)		(_DefaultTimeLocale.x)
 
