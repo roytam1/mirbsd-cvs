@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.bin/ssh/scp.c,v 1.2 2005/03/13 18:33:30 tg Exp $ */
+/* $MirOS: src/usr.bin/ssh/scp.c,v 1.3 2005/04/14 19:49:34 tg Exp $ */
 
 /*
  * scp - secure remote copy.  This is basically patched BSD rcp which
@@ -73,7 +73,7 @@
  */
 
 #include "includes.h"
-RCSID("$MirOS: src/usr.bin/ssh/scp.c,v 1.2 2005/03/13 18:33:30 tg Exp $");
+RCSID("$MirOS: src/usr.bin/ssh/scp.c,v 1.3 2005/04/14 19:49:34 tg Exp $");
 
 #include "xmalloc.h"
 #include "atomicio.h"
@@ -111,11 +111,13 @@ static void
 killchild(int signo)
 {
 	if (do_cmd_pid > 1) {
-		kill(do_cmd_pid, signo);
+		kill(do_cmd_pid, signo ? signo : SIGTERM);
 		waitpid(do_cmd_pid, NULL, 0);
 	}
 
-	_exit(1);
+	if (signo)
+		_exit(1);
+	exit(1);
 }
 
 /*
@@ -186,7 +188,7 @@ do_cmd(char *host, char *remuser, char *cmd, int *fdin, int *fdout, int argc)
 }
 
 typedef struct {
-	int cnt;
+	size_t cnt;
 	char *buf;
 } BUF;
 
@@ -500,7 +502,8 @@ source(int argc, char **argv)
 	struct stat stb;
 	static BUF buffer;
 	BUF *bp;
-	off_t i, amt, result, statbytes;
+	off_t i, amt, statbytes;
+	size_t result;
 	int fd = -1, haderr, indx;
 	char *last, *name, buf[2048];
 	int len;
@@ -576,14 +579,14 @@ next:			(void) close(fd);
 			if (!haderr) {
 				result = atomicio(read, fd, bp->buf, amt);
 				if (result != amt)
-					haderr = result >= 0 ? EIO : errno;
+					haderr = errno;
 			}
 			if (haderr)
 				(void) atomicio(vwrite, remout, bp->buf, amt);
 			else {
 				result = atomicio(vwrite, remout, bp->buf, amt);
 				if (result != amt)
-					haderr = result >= 0 ? EIO : errno;
+					haderr = errno;
 				statbytes += result;
 			}
 			if (limit_rate)
@@ -718,8 +721,9 @@ sink(int argc, char **argv)
 		YES, NO, DISPLAYED
 	} wrerr;
 	BUF *bp;
-	off_t i, j;
-	int amt, count, exists, first, mask, mode, ofd, omode;
+	off_t i;
+	size_t j, count;
+	int amt, exists, first, mask, mode, ofd, omode;
 	off_t size, statbytes;
 	int setimes, targisdir, wrerrno = 0;
 	char ch, *cp, *np, *targ, *why, *vect[1], buf[2048];
@@ -746,7 +750,7 @@ sink(int argc, char **argv)
 		targisdir = 1;
 	for (first = 1;; first = 0) {
 		cp = buf;
-		if (atomicio(read, remin, cp, 1) <= 0)
+		if (atomicio(read, remin, cp, 1) != 1)
 			return;
 		if (*cp++ == '\n')
 			SCREWUP("unexpected <newline>");
@@ -827,7 +831,7 @@ sink(int argc, char **argv)
 		}
 		if (targisdir) {
 			static char *namebuf;
-			static int cursize;
+			static size_t cursize;
 			size_t need;
 
 			need = strlen(targ) + strlen(cp) + 250;
@@ -900,7 +904,7 @@ bad:			run_err("%s: %s", np, strerror(errno));
 			count += amt;
 			do {
 				j = atomicio(read, remin, cp, amt);
-				if (j <= 0) {
+				if (j == 0) {
 					run_err("%s", j ? strerror(errno) :
 					    "dropped connection");
 					exit(1);
@@ -916,10 +920,10 @@ bad:			run_err("%s: %s", np, strerror(errno));
 			if (count == bp->cnt) {
 				/* Keep reading so we stay sync'd up. */
 				if (wrerr == NO) {
-					j = atomicio(vwrite, ofd, bp->buf, count);
-					if (j != count) {
+					if (atomicio(vwrite, ofd, bp->buf,
+					    count) != count) {
 						wrerr = YES;
-						wrerrno = j >= 0 ? EIO : errno;
+						wrerrno = errno;
 					}
 				}
 				count = 0;
@@ -929,9 +933,9 @@ bad:			run_err("%s: %s", np, strerror(errno));
 		if (showprogress)
 			stop_progress_meter();
 		if (count != 0 && wrerr == NO &&
-		    (j = atomicio(vwrite, ofd, bp->buf, count)) != count) {
+		    atomicio(vwrite, ofd, bp->buf, count) != count) {
 			wrerr = YES;
-			wrerrno = j >= 0 ? EIO : errno;
+			wrerrno = errno;
 		}
 		if (wrerr == NO && ftruncate(ofd, size) != 0) {
 			run_err("%s: truncate: %s", np, strerror(errno));
@@ -1060,7 +1064,7 @@ verifydir(char *cp)
 		errno = ENOTDIR;
 	}
 	run_err("%s: %s", cp, strerror(errno));
-	exit(1);
+	killchild(0);
 }
 
 int

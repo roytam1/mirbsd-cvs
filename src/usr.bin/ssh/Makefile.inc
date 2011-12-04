@@ -1,5 +1,5 @@
-# $MirOS: src/usr.bin/ssh/Makefile.inc,v 1.2 2005/03/13 18:33:29 tg Exp $
-# $OpenBSD: Makefile.inc,v 1.29 2004/06/21 18:34:51 avsm Exp $
+# $MirOS: src/usr.bin/ssh/Makefile.inc,v 1.3 2005/04/15 16:28:27 tg Exp $
+#	$OpenBSD: Makefile.inc,v 1.30 2005/06/17 02:45:19 djm Exp $
 
 .ifndef _MODSRC_USR_BIN_SSH_MAKEFILE_INC
 _MODSRC_USR_BIN_SSH_MAKEFILE_INC=1
@@ -9,12 +9,12 @@ CPPFLAGS+=	-I${.CURDIR}/..
 CFLAGS+=	-Wall
 CFLAGS+=	-Wpointer-arith
 CFLAGS+=	-Wno-uninitialized
-#CFLAGS+=	-Wstrict-prototypes
+CFLAGS+=	-Wstrict-prototypes
 CFLAGS+=	-Wmissing-prototypes
 CFLAGS+=	-Wunused
-#CFLAGS+=	-Wsign-compare
+CFLAGS+=	-Wsign-compare
 CFLAGS+=	-Wbounded
-#CFLAGS+=	-Wshadow
+CFLAGS+=	-Wshadow
 
 #DEBUG=-g
 

@@ -34,8 +34,8 @@
 .\" (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 .\" THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .\"
-.\" $MirOS: src/usr.bin/ssh/ssh.1,v 1.6 2005/04/26 15:21:50 tg Exp $
-.\" $OpenBSD: ssh.1,v 1.207 2005/04/21 06:17:50 djm Exp $
+.\" $MirOS: src/usr.bin/ssh/ssh.1,v 1.7 2005/04/26 15:24:37 tg Exp $
+.\" $OpenBSD: ssh.1,v 1.208 2005/05/23 23:32:46 djm Exp $
 .Dd September 25, 1999
 .Dt SSH 1
 .Os
@@ -486,14 +486,16 @@ The supported ciphers are
 .Dq aes128-ctr ,
 .Dq aes192-ctr ,
 .Dq aes256-ctr ,
+.Dq arcfour128 ,
+.Dq arcfour256 ,
 .Dq arcfour ,
 .Dq blowfish-cbc ,
 and
 .Dq cast128-cbc .
 The default is
 .Bd -literal
-  ``arcfour,blowfish-cbc,aes256-cbc,aes128-cbc,
-    cast128-cbc,rijndael-cbc@lysator.liu.se,3des-cbc,
+  ``arcfour128,arcfour256,blowfish-cbc,aes256-cbc,arcfour,
+    aes128-cbc,cast128-cbc,rijndael-cbc@lysator.liu.se,3des-cbc,
     aes192-cbc,aes128-ctr,aes192-ctr,aes256-ctr''
 .Ed
 .It Fl D Ar port

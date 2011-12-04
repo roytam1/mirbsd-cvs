@@ -1,5 +1,5 @@
-/* $MirOS$ */
-/* $OpenBSD: moduli.c,v 1.10 2005/01/17 03:25:46 dtucker Exp $ */
+/* $MirOS: src/usr.bin/ssh/moduli.c,v 1.2 2005/03/13 18:33:30 tg Exp $ */
+/* $OpenBSD: moduli.c,v 1.11 2005/05/23 22:44:01 avsm Exp $ */
 /*
  * Copyright 1994 Phil Karn <karn@qualcomm.com>
  * Copyright 1996-1998, 2003 William Allen Simpson <wsimpson@greendragon.com>
@@ -44,7 +44,7 @@
 
 #include <openssl/bn.h>
 
-RCSID("$MirOS$");
+RCSID("$MirOS: src/usr.bin/ssh/moduli.c,v 1.2 2005/03/13 18:33:30 tg Exp $");
 
 /*
  * File output defines
@@ -147,7 +147,7 @@ static u_int32_t *LargeSieve, largewords, largetries, largenumbers;
 static u_int32_t largebits, largememory;	/* megabytes */
 static BIGNUM *largebase;
 
-int gen_candidates(FILE *, int, int, BIGNUM *);
+int gen_candidates(FILE *, u_int32_t, u_int32_t, BIGNUM *);
 int prime_test(FILE *, FILE *, u_int32_t, u_int32_t);
 
 /*
@@ -244,14 +244,15 @@ sieve_large(u_int32_t s)
  * The list is checked against small known primes (less than 2**30).
  */
 int
-gen_candidates(FILE *out, int memory, int power, BIGNUM *start)
+gen_candidates(FILE *out, u_int32_t memory, u_int32_t power, BIGNUM *start)
 {
 	BIGNUM *q;
 	u_int32_t j, r, s, t;
 	u_int32_t smallwords = TINY_NUMBER >> 6;
 	u_int32_t tinywords = TINY_NUMBER >> 6;
 	time_t time_start, time_stop;
-	int i, ret = 0;
+	u_int32_t i;
+	int ret = 0;
 
 	largememory = memory;
 
@@ -551,7 +552,7 @@ prime_test(FILE *in, FILE *out, u_int32_t trials, u_int32_t generator_wanted)
 		 * due to earlier inconsistencies in interpretation, check
 		 * the proposed bit size.
 		 */
-		if (BN_num_bits(p) != (in_size + 1)) {
+		if ((u_int32_t)BN_num_bits(p) != (in_size + 1)) {
 			debug2("%10u: bit size %u mismatch", count_in, in_size);
 			continue;
 		}

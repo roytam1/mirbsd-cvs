@@ -33,7 +33,7 @@
  */
 
 #include "includes.h"
-RCSID("$MirOS$");
+RCSID("$MirOS: src/usr.bin/ssh/session.c,v 1.2 2005/03/13 18:33:30 tg Exp $");
 
 #include "ssh.h"
 #include "ssh1.h"
@@ -1390,7 +1390,7 @@ session_subsystem_req(Session *s)
 	u_int len;
 	int success = 0;
 	char *cmd, *subsys = packet_get_string(&len);
-	int i;
+	u_int i;
 
 	packet_check_eom();
 	logit("subsystem request for %.100s", subsys);
@@ -1692,7 +1692,7 @@ session_exit_message(Session *s, int status)
 void
 session_close(Session *s)
 {
-	int i;
+	u_int i;
 
 	debug("session_close: session %d pid %ld", s->self, (long)s->pid);
 	if (s->ttyfd != -1)

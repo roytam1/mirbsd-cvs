@@ -34,8 +34,8 @@
 .\" (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 .\" THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .\"
-.\" $MirOS: src/usr.bin/ssh/ssh_config.5,v 1.4 2005/04/14 20:07:45 tg Exp $
-.\" $OpenBSD: ssh_config.5,v 1.51 2005/04/26 13:08:37 jakob Exp $
+.\" $MirOS: src/usr.bin/ssh/ssh_config.5,v 1.5 2005/04/26 15:21:51 tg Exp $
+.\" $OpenBSD: ssh_config.5,v 1.57 2005/06/18 04:30:36 djm Exp $
 .Dd September 25, 1999
 .Dt SSH_CONFIG 5
 .Os
@@ -194,12 +194,18 @@ The supported ciphers are
 .Dq aes128-ctr ,
 .Dq aes192-ctr ,
 .Dq aes256-ctr ,
+.Dq arcfour128 ,
+.Dq arcfour256 ,
 .Dq arcfour ,
 .Dq blowfish-cbc ,
 and
 .Dq cast128-cbc .
 The default is
-.Dq arcfour,blowfish-cbc,aes256-cbc,aes128-cbc,cast128-cbc,rijndael-cbc@lysator.liu.se,3des-cbc,aes192-cbc,aes128-ctr,aes192-ctr,aes256-ctr .
+.Bd -literal
+  ``arcfour128,arcfour256,blowfish-cbc,aes256-cbc,arcfour,
+    aes128-cbc,cast128-cbc,rijndael-cbc@lysator.liu.se,3des-cbc,
+    aes192-cbc,aes128-ctr,aes192-ctr,aes256-ctr''
+.Ed
 .It Cm ClearAllForwardings
 Specifies that all local, remote and dynamic port forwardings
 specified in the configuration files or on the command line be
@@ -273,11 +279,36 @@ If the
 can not be opened,
 .Nm ssh
 will continue without connecting to a master instance.
+.Pp
+Two additional options allow for opportunistic multiplexing: try to use a
+master connection but fall back to creating a new one if one does not already
+exist.
+These options are:
+.Dq auto
+and
+.Dq autoask .
+The latter requires confirmation like the
+.Dq ask
+option.
 .It Cm ControlPath
-Specify the path to the control socket used for connection sharing.
-See
+Specify the path to the control socket used for connection sharing as described
+in the
 .Cm ControlMaster
-above.
+section above or the string
+.Dq none
+to disable connection sharing.
+In the path,
+.Ql %h
+will be substituted by the target host name,
+.Ql %p
+the port and
+.Ql %r
+by the remote login username.
+It is recommended that any
+.Cm ControlPath
+used for opportunistic connection sharing include
+all three of these escape sequences.
+This ensures that shared connections are uniquely identified.
 .It Cm DynamicForward
 Specifies that a TCP/IP port on the local machine be forwarded
 over the secure channel, and the application
@@ -609,6 +640,14 @@ Note that
 .Cm CheckHostIP
 is not available for connects with a proxy command.
 .Pp
+This directive is useful in conjunction with
+.Xr nc 1
+and its proxy support.
+For example, the following directive would connect via an HTTP proxy at
+192.0.2.0:
+.Bd -literal -offset 3n
+ProxyCommand /usr/bin/nc -X connect -x 192.0.2.0:8080 %h %p
+.Ed
 .It Cm PubkeyAuthentication
 Specifies whether to try public key authentication.
 The argument to this keyword must be

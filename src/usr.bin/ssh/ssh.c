@@ -40,7 +40,7 @@
  */
 
 #include "includes.h"
-RCSID("$MirOS: src/usr.bin/ssh/ssh.c,v 1.3 2005/04/14 19:49:35 tg Exp $");
+RCSID("$MirOS: src/usr.bin/ssh/ssh.c,v 1.4 2005/04/26 15:21:50 tg Exp $");
 
 #include <openssl/evp.h>
 #include <openssl/err.h>
@@ -145,7 +145,7 @@ pid_t proxy_command_pid = 0;
 int control_fd = -1;
 
 /* Multiplexing control command */
-static u_int mux_command = SSHMUX_COMMAND_OPEN;
+static u_int mux_command = 0;
 
 /* Only used in control client mode */
 volatile sig_atomic_t control_client_terminate = 0;
@@ -224,6 +224,7 @@ main(int ac, char **av)
 	int dummy;
 	extern int optind, optreset;
 	extern char *optarg;
+	struct servent *sp;
 	Forward fwd;
 
 	/*
@@ -419,8 +420,10 @@ again:
 			}
 			break;
 		case 'M':
-			options.control_master =
-			    (options.control_master >= 1) ? 2 : 1;
+			if (options.control_master == SSHCTL_MASTER_YES)
+				options.control_master = SSHCTL_MASTER_ASK;
+			else
+				options.control_master = SSHCTL_MASTER_YES;
 			break;
 		case 'p':
 			options.port = a2port(optarg);
@@ -641,13 +644,28 @@ again:
 	if (options.proxy_command != NULL &&
 	    strcmp(options.proxy_command, "none") == 0)
 		options.proxy_command = NULL;
+	if (options.control_path != NULL &&
+	    strcmp(options.control_path, "none") == 0)
+		options.control_path = NULL;
 
 	if (options.control_path != NULL) {
-		options.control_path = tilde_expand_filename(
-		   options.control_path, original_real_uid);
+		snprintf(buf, sizeof(buf), "%d", options.port);
+		cp = tilde_expand_filename(options.control_path,
+		    original_real_uid);
+		options.control_path = percent_expand(cp, "p", buf, "h", host,
+		    "r", options.user, (char *)NULL);
+		xfree(cp);
 	}
-	if (options.control_path != NULL && options.control_master == 0)
+	if (mux_command != 0 && options.control_path == NULL)
+		fatal("No ControlPath specified for \"-O\" command");
+	if (options.control_path != NULL)
 		control_client(options.control_path);
+
+	/* Get default port if port has not been set. */
+	if (options.port == 0) {
+		sp = getservbyname(SSH_SERVICE_NAME, "tcp");
+		options.port = sp ? ntohs(sp->s_port) : SSH_DEFAULT_PORT;
+	}
 
 	/* Open a connection to the remote host. */
 	if (ssh_connect(host, &hostaddr, options.port,
@@ -773,110 +791,6 @@ again:
 	return exit_status;
 }
 
-#define SSH_X11_PROTO "MIT-MAGIC-COOKIE-1"
-
-static void
-x11_get_proto(char **_proto, char **_data)
-{
-	char cmd[1024];
-	char line[512];
-	char xdisplay[512];
-	static char proto[512], data[512];
-	FILE *f;
-	int got_data = 0, generated = 0, do_unlink = 0, i;
-	char *display, *xauthdir, *xauthfile;
-	struct stat st;
-
-	xauthdir = xauthfile = NULL;
-	*_proto = proto;
-	*_data = data;
-	proto[0] = data[0] = '\0';
-
-	if (!options.xauth_location ||
-	    (stat(options.xauth_location, &st) == -1)) {
-		debug("No xauth program.");
-	} else {
-		if ((display = getenv("DISPLAY")) == NULL) {
-			debug("x11_get_proto: DISPLAY not set");
-			return;
-		}
-		/*
-		 * Handle FamilyLocal case where $DISPLAY does
-		 * not match an authorization entry.  For this we
-		 * just try "xauth list unix:displaynum.screennum".
-		 * XXX: "localhost" match to determine FamilyLocal
-		 *      is not perfect.
-		 */
-		if (strncmp(display, "localhost:", 10) == 0) {
-			snprintf(xdisplay, sizeof(xdisplay), "unix:%s",
-			    display + 10);
-			display = xdisplay;
-		}
-		if (options.forward_x11_trusted == 0) {
-			xauthdir = xmalloc(MAXPATHLEN);
-			xauthfile = xmalloc(MAXPATHLEN);
-			strlcpy(xauthdir, "/tmp/ssh-XXXXXXXXXX", MAXPATHLEN);
-			if (mkdtemp(xauthdir) != NULL) {
-				do_unlink = 1;
-				snprintf(xauthfile, MAXPATHLEN, "%s/xauthfile",
-				    xauthdir);
-				snprintf(cmd, sizeof(cmd),
-				    "%s -f %s generate %s " SSH_X11_PROTO
-				    " untrusted timeout 1200 2>" _PATH_DEVNULL,
-				    options.xauth_location, xauthfile, display);
-				debug2("x11_get_proto: %s", cmd);
-				if (system(cmd) == 0)
-					generated = 1;
-			}
-		}
-		snprintf(cmd, sizeof(cmd),
-		    "%s %s%s list %s . 2>" _PATH_DEVNULL,
-		    options.xauth_location,
-		    generated ? "-f " : "" ,
-		    generated ? xauthfile : "",
-		    display);
-		debug2("x11_get_proto: %s", cmd);
-		f = popen(cmd, "r");
-		if (f && fgets(line, sizeof(line), f) &&
-		    sscanf(line, "%*s %511s %511s", proto, data) == 2)
-			got_data = 1;
-		if (f)
-			pclose(f);
-	}
-
-	if (do_unlink) {
-		unlink(xauthfile);
-		rmdir(xauthdir);
-	}
-	if (xauthdir)
-		xfree(xauthdir);
-	if (xauthfile)
-		xfree(xauthfile);
-
-	/*
-	 * If we didn't get authentication data, just make up some
-	 * data.  The forwarding code will check the validity of the
-	 * response anyway, and substitute this data.  The X11
-	 * server, however, will ignore this fake data and use
-	 * whatever authentication mechanisms it was using otherwise
-	 * for the local connection.
-	 */
-	if (!got_data) {
-		u_int32_t rnd = 0;
-
-		logit("Warning: No xauth data; "
-		    "using fake authentication data for X11 forwarding.");
-		strlcpy(proto, SSH_X11_PROTO, sizeof proto);
-		for (i = 0; i < 16; i++) {
-			if (i % 4 == 0)
-				rnd = arc4random();
-			snprintf(data + 2 * i, sizeof data - 2 * i, "%02x",
-			    rnd & 0xff);
-			rnd >>= 8;
-		}
-	}
-}
-
 static void
 ssh_init_forwarding(void)
 {
@@ -939,6 +853,7 @@ ssh_session(void)
 	int have_tty = 0;
 	struct winsize ws;
 	char *cp;
+	const char *display;
 
 	/* Enable compression if requested. */
 	if (options.compression) {
@@ -1000,13 +915,15 @@ ssh_session(void)
 			packet_disconnect("Protocol error waiting for pty request response.");
 	}
 	/* Request X11 forwarding if enabled and DISPLAY is set. */
-	if (options.forward_x11 && getenv("DISPLAY") != NULL) {
+	display = getenv("DISPLAY");
+	if (options.forward_x11 && display != NULL) {
 		char *proto, *data;
 		/* Get reasonable local authentication information. */
-		x11_get_proto(&proto, &data);
+		client_x11_get_proto(display, options.xauth_location,
+		    options.forward_x11_trusted, &proto, &data);
 		/* Request forwarding with authentication spoofing. */
 		debug("Requesting X11 forwarding with authentication spoofing.");
-		x11_request_forwarding_with_spoofing(0, proto, data);
+		x11_request_forwarding_with_spoofing(0, display, proto, data);
 
 		/* Read response from the server. */
 		type = packet_read();
@@ -1108,8 +1025,11 @@ ssh_control_listener(void)
 	struct sockaddr_un addr;
 	mode_t old_umask;
 
-	if (options.control_path == NULL || options.control_master <= 0)
+	if (options.control_path == NULL ||
+	    options.control_master == SSHCTL_MASTER_NO)
 		return;
+
+	debug("setting up multiplex master socket");
 
 	memset(&addr, '\0', sizeof(addr));
 	addr.sun_family = AF_UNIX;
@@ -1126,7 +1046,7 @@ ssh_control_listener(void)
 	old_umask = umask(0177);
 	if (bind(control_fd, (struct sockaddr*)&addr, addr.sun_len) == -1) {
 		control_fd = -1;
-		if (errno == EINVAL)
+		if (errno == EINVAL || errno == EADDRINUSE)
 			fatal("ControlSocket %s already exists",
 			    options.control_path);
 		else
@@ -1145,15 +1065,18 @@ static void
 ssh_session2_setup(int id, void *arg)
 {
 	extern char **environ;
-
+	const char *display;
 	int interactive = tty_flag;
-	if (options.forward_x11 && getenv("DISPLAY") != NULL) {
+
+	display = getenv("DISPLAY");	
+	if (options.forward_x11 && display != NULL) {
 		char *proto, *data;
 		/* Get reasonable local authentication information. */
-		x11_get_proto(&proto, &data);
+		client_x11_get_proto(display, options.xauth_location,
+		    options.forward_x11_trusted, &proto, &data);
 		/* Request forwarding with authentication spoofing. */
 		debug("Requesting X11 forwarding with authentication spoofing.");
-		x11_request_forwarding_with_spoofing(id, proto, data);
+		x11_request_forwarding_with_spoofing(id, display, proto, data);
 		interactive = 1;
 		/* XXX wait for reply */
 	}
@@ -1322,6 +1245,20 @@ control_client(const char *path)
 	extern char **environ;
 	u_int  flags;
 
+	if (mux_command == 0)
+		mux_command = SSHMUX_COMMAND_OPEN;
+
+	switch (options.control_master) {
+	case SSHCTL_MASTER_AUTO:
+	case SSHCTL_MASTER_AUTO_ASK:
+		debug("auto-mux: Trying existing master");
+		/* FALLTHROUGH */
+	case SSHCTL_MASTER_NO:
+		break;
+	default:
+		return;
+	}
+
 	memset(&addr, '\0', sizeof(addr));
 	addr.sun_family = AF_UNIX;
 	addr.sun_len = offsetof(struct sockaddr_un, sun_path) +
@@ -1335,7 +1272,16 @@ control_client(const char *path)
 		fatal("%s socket(): %s", __func__, strerror(errno));
 
 	if (connect(sock, (struct sockaddr*)&addr, addr.sun_len) == -1) {
- 		debug("Couldn't connect to %s: %s", path, strerror(errno));
+		if (mux_command != SSHMUX_COMMAND_OPEN) {
+			fatal("Control socket connect(%.100s): %s", path,
+			    strerror(errno));
+		}
+		if (errno == ENOENT)
+	 		debug("Control socket \"%.100s\" does not exist", path);
+		else {
+	 		error("Control socket connect(%.100s): %s", path,
+			    strerror(errno));
+		}
  		close(sock);
  		return;
  	}

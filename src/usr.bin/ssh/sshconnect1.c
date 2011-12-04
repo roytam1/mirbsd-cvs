@@ -13,7 +13,7 @@
  */
 
 #include "includes.h"
-RCSID("$MirOS$");
+RCSID("$MirOS: src/usr.bin/ssh/sshconnect1.c,v 1.2 2005/03/13 18:33:33 tg Exp $");
 
 #include <openssl/bn.h>
 #include <openssl/md5.h>
@@ -162,7 +162,7 @@ respond_to_rsa_challenge(BIGNUM * challenge, RSA * prv)
 	/* Compute the response. */
 	/* The response is MD5 of decrypted challenge plus session id. */
 	len = BN_num_bytes(challenge);
-	if (len <= 0 || len > sizeof(buf))
+	if (len <= 0 || (u_int)len > sizeof(buf))
 		packet_disconnect(
 		    "respond_to_rsa_challenge: bad challenge length %d", len);
 

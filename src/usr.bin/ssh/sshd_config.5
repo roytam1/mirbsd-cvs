@@ -34,8 +34,8 @@
 .\" (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 .\" THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .\"
-.\" $MirOS: src/usr.bin/ssh/sshd_config.5,v 1.4 2005/04/14 20:07:45 tg Exp $
-.\" $OpenBSD: sshd_config.5,v 1.41 2005/04/21 06:17:50 djm Exp $
+.\" $MirOS: src/usr.bin/ssh/sshd_config.5,v 1.5 2005/04/26 15:21:51 tg Exp $
+.\" $OpenBSD: sshd_config.5,v 1.43 2005/05/23 23:32:46 djm Exp $
 .Dd September 25, 1999
 .Dt SSHD_CONFIG 5
 .Os
@@ -169,21 +169,18 @@ The supported ciphers are
 .Dq aes128-ctr ,
 .Dq aes192-ctr ,
 .Dq aes256-ctr ,
+.Dq arcfour128 ,
+.Dq arcfour256 ,
 .Dq arcfour ,
 .Dq blowfish-cbc ,
 and
 .Dq cast128-cbc .
 The default is
-.Dq arcfour,blowfish-cbc,aes256-cbc,aes128-cbc,cast128-cbc,rijndael-cbc@lysator.liu.se,3des-cbc,aes192-cbc,aes128-ctr,aes192-ctr,aes256-ctr .
-.It Cm ClientAliveInterval
-Sets a timeout interval in seconds after which if no data has been received
-from the client,
-.Nm sshd
-will send a message through the encrypted
-channel to request a response from the client.
-The default
-is 0, indicating that these messages will not be sent to the client.
-This option applies to protocol version 2 only.
+.Bd -literal
+  ``arcfour128,arcfour256,blowfish-cbc,aes256-cbc,arcfour,
+    aes128-cbc,cast128-cbc,rijndael-cbc@lysator.liu.se,3des-cbc,
+    aes192-cbc,aes128-ctr,aes192-ctr,aes256-ctr''
+.Ed
 .It Cm ClientAliveCountMax
 Sets the number of client alive messages (see above) which may be
 sent without
@@ -211,6 +208,15 @@ If
 .Cm ClientAliveCountMax
 is left at the default, unresponsive ssh clients
 will be disconnected after approximately 45 seconds.
+.It Cm ClientAliveInterval
+Sets a timeout interval in seconds after which if no data has been received
+from the client,
+.Nm sshd
+will send a message through the encrypted
+channel to request a response from the client.
+The default
+is 0, indicating that these messages will not be sent to the client.
+This option applies to protocol version 2 only.
 .It Cm Compression
 Specifies whether compression is allowed.
 The argument must be

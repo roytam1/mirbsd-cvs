@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: includes.h,v 1.18 2004/06/13 15:03:02 djm Exp $	*/
+/**	$MirOS: src/usr.bin/ssh/includes.h,v 1.2 2005/03/13 18:33:30 tg Exp $ */
+/*	$OpenBSD: includes.h,v 1.19 2005/05/19 02:42:26 djm Exp $	*/
 
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
