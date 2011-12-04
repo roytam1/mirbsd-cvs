@@ -1,14 +1,13 @@
-/**	$MirOS: src/bin/mksh/histrap.c,v 1.8 2005/05/23 16:23:18 tg Exp $ */
+/**	$MirOS: src/bin/mksh/histrap.c,v 1.9 2005/06/24 15:36:57 tg Exp $ */
 /*	$OpenBSD: history.c,v 1.30 2005/03/30 17:16:37 deraadt Exp $	*/
 /*	$OpenBSD: trap.c,v 1.22 2005/03/30 17:16:37 deraadt Exp $	*/
 
 #include "sh.h"
-#include <sys/param.h>	/* for BSD */
 #include <sys/file.h>
 #include <sys/mman.h>
 #include <sys/stat.h>
 
-__RCSID("$MirOS: src/bin/mksh/histrap.c,v 1.8 2005/05/23 16:23:18 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/histrap.c,v 1.9 2005/06/24 15:36:57 tg Exp $");
 
 static int	histfd;
 static int	hsize;
