@@ -239,6 +239,7 @@
 ./usr/bin/fold
 ./usr/bin/fstat
 ./usr/bin/ftp
+./usr/bin/getcap
 ./usr/bin/getconf
 ./usr/bin/getopt
 ./usr/bin/grep
@@ -1791,7 +1792,7 @@
 ./usr/lib/crti.o
 ./usr/lib/crtn.o
 ./usr/lib/libc.a
-./usr/lib/libc.so.35.1
+./usr/lib/libc.so.35.2
 ./usr/lib/libcdk.a
 ./usr/lib/libcdk.so.2.0
 ./usr/lib/libcompat.a
@@ -2934,6 +2935,7 @@
 ./usr/share/man/cat1/fstat.0
 ./usr/share/man/cat1/ftp.0
 ./usr/share/man/cat1/gcc-local.0
+./usr/share/man/cat1/getcap.0
 ./usr/share/man/cat1/getconf.0
 ./usr/share/man/cat1/getopt.0
 ./usr/share/man/cat1/grep.0
@@ -5104,7 +5106,6 @@
 ./usr/share/man/cat3/history_end.0
 ./usr/share/man/cat3/history_init.0
 ./usr/share/man/cat3/hline.0
-./usr/share/man/cat3/hosts_ctl.0
 ./usr/share/man/cat3/hsearch.0
 ./usr/share/man/cat3/hstrerror.0
 ./usr/share/man/cat3/htobe16.0
@@ -5831,8 +5832,6 @@
 ./usr/share/man/cat3/removeCDKCalendarMarker.0
 ./usr/share/man/cat3/remque.0
 ./usr/share/man/cat3/replace_panel.0
-./usr/share/man/cat3/request_init.0
-./usr/share/man/cat3/request_set.0
 ./usr/share/man/cat3/res_init.0
 ./usr/share/man/cat3/res_mkquery.0
 ./usr/share/man/cat3/res_query.0
@@ -5849,7 +5848,6 @@
 ./usr/share/man/cat3/rewind.0
 ./usr/share/man/cat3/rewinddir.0
 ./usr/share/man/cat3/rexec.0
-./usr/share/man/cat3/rfc1413.0
 ./usr/share/man/cat3/rindex.0
 ./usr/share/man/cat3/rint.0
 ./usr/share/man/cat3/rintf.0
@@ -6993,6 +6991,7 @@
 ./usr/share/man/cat4/stge.0
 ./usr/share/man/cat4/sti.0
 ./usr/share/man/cat4/stp.0
+./usr/share/man/cat4/strip.0
 ./usr/share/man/cat4/sv.0
 ./usr/share/man/cat4/svnd.0
 ./usr/share/man/cat4/systrace.0
@@ -7107,7 +7106,6 @@
 ./usr/share/man/cat5/hostname.if.0
 ./usr/share/man/cat5/hosts.0
 ./usr/share/man/cat5/hosts.equiv.0
-./usr/share/man/cat5/hosts_options.0
 ./usr/share/man/cat5/inetd.conf.0
 ./usr/share/man/cat5/inode.0
 ./usr/share/man/cat5/intro.0
@@ -7379,7 +7377,6 @@
 ./usr/share/man/cat8/rdconfig.0
 ./usr/share/man/cat8/rdump.0
 ./usr/share/man/cat8/reboot.0
-./usr/share/man/cat8/release.0
 ./usr/share/man/cat8/renice.0
 ./usr/share/man/cat8/repquota.0
 ./usr/share/man/cat8/restore.0

@@ -1826,7 +1826,6 @@
 ./usr/libdata/perl5/site_perl/i386-mirbsd/sysexits.ph
 ./usr/libdata/perl5/site_perl/i386-mirbsd/syslog.ph
 ./usr/libdata/perl5/site_perl/i386-mirbsd/tar.ph
-./usr/libdata/perl5/site_perl/i386-mirbsd/tcpd.ph
 ./usr/libdata/perl5/site_perl/i386-mirbsd/term.ph
 ./usr/libdata/perl5/site_perl/i386-mirbsd/termcap.ph
 ./usr/libdata/perl5/site_perl/i386-mirbsd/termios.ph
