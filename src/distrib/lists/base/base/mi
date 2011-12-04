@@ -1719,7 +1719,6 @@
 ./usr/include/sysexits.h
 ./usr/include/syslog.h
 ./usr/include/tar.h
-./usr/include/tcpd.h
 ./usr/include/term.h
 ./usr/include/termcap.h
 ./usr/include/termios.h
@@ -1851,8 +1850,6 @@
 ./usr/lib/libusbhid.so.4.0
 ./usr/lib/libutil.a
 ./usr/lib/libutil.so.12.0
-./usr/lib/libwrap.a
-./usr/lib/libwrap.so.5.0
 ./usr/lib/liby.a
 ./usr/lib/libz.a
 ./usr/lib/libz.so.5.1
@@ -1982,7 +1979,6 @@
 ./usr/libexec/spellprog
 ./usr/libexec/ssh-keysign
 ./usr/libexec/sudo_noexec.so
-./usr/libexec/tcpd
 ./usr/libexec/telnetd
 ./usr/libexec/tftpd
 ./usr/libexec/vfontedpr
@@ -2137,8 +2133,6 @@
 ./usr/sbin/suexec
 ./usr/sbin/syslogc
 ./usr/sbin/syslogd
-./usr/sbin/tcpdchk
-./usr/sbin/tcpdmatch
 ./usr/sbin/tcpdrop
 ./usr/sbin/tcpdump
 ./usr/sbin/timed
@@ -5110,7 +5104,6 @@
 ./usr/share/man/cat3/history_end.0
 ./usr/share/man/cat3/history_init.0
 ./usr/share/man/cat3/hline.0
-./usr/share/man/cat3/hosts_access.0
 ./usr/share/man/cat3/hosts_ctl.0
 ./usr/share/man/cat3/hsearch.0
 ./usr/share/man/cat3/hstrerror.0
@@ -7113,10 +7106,7 @@
 ./usr/share/man/cat5/group.0
 ./usr/share/man/cat5/hostname.if.0
 ./usr/share/man/cat5/hosts.0
-./usr/share/man/cat5/hosts.allow.0
-./usr/share/man/cat5/hosts.deny.0
 ./usr/share/man/cat5/hosts.equiv.0
-./usr/share/man/cat5/hosts_access.0
 ./usr/share/man/cat5/hosts_options.0
 ./usr/share/man/cat5/inetd.conf.0
 ./usr/share/man/cat5/inode.0
@@ -7459,9 +7449,6 @@
 ./usr/share/man/cat8/syslogc.0
 ./usr/share/man/cat8/syslogd.0
 ./usr/share/man/cat8/talkd.0
-./usr/share/man/cat8/tcpd.0
-./usr/share/man/cat8/tcpdchk.0
-./usr/share/man/cat8/tcpdmatch.0
 ./usr/share/man/cat8/tcpdrop.0
 ./usr/share/man/cat8/tcpdump.0
 ./usr/share/man/cat8/telnetd.0

@@ -71,13 +71,13 @@
 ./usr/include/dis-asm.h
 ./usr/lib/libbfd.a
 ./usr/lib/libbfd.la
-./usr/lib/libbfd.so.2.0
+./usr/lib/libbfd.so.3.0
 ./usr/lib/libiberty.a
-./usr/lib/libiberty.so.9.0
+./usr/lib/libiberty.so.9.1
 ./usr/lib/libmilter.a
 ./usr/lib/libopcodes.a
 ./usr/lib/libopcodes.la
-./usr/lib/libopcodes.so.2.0
+./usr/lib/libopcodes.so.3.0
 ./usr/lib/libperl.a
 ./usr/lib/libperl.so.12.0
 ./usr/libdata/ldscripts
