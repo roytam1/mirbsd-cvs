@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: gcc/gcc/configure.ac,v 1.2 2005/03/25 19:29:03 tg Exp $
 #
 # configure.ac for GCC
 # Process this file with autoconf to generate a configuration script.
@@ -2353,6 +2353,14 @@ case "$target" in
 	lda	$29, 0($29)	!gpdisp!3],,
     [AC_DEFINE(HAVE_AS_EXPLICIT_RELOCS, 1,
   [Define if your assembler supports explicit relocations.])])
+    gcc_GAS_CHECK_FEATURE([jsrdirect relocation support],
+	gcc_cv_as_alpha_jsrdirect_relocs, [2,16,90],,
+[	.set nomacro
+	.text
+	ldq	$27, a($29)	!literal!1
+	jsr	$26, ($27), a	!lituse_jsrdirect!1],,
+    [AC_DEFINE(HAVE_AS_JSRDIRECT_RELOCS, 1,
+  [Define if your assembler supports the lituse_jsrdirect relocation.])])
     ;;
 
   cris-*-*)

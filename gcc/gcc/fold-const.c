@@ -1,4 +1,4 @@
-/* $MirOS: gcc/gcc/fold-const.c,v 1.2 2005/03/25 19:29:04 tg Exp $ */
+/* $MirOS: gcc/gcc/fold-const.c,v 1.3 2005/03/28 00:42:36 tg Exp $ */
 
 /* Fold a constant sub-tree into a single node for C-compiler
    Copyright (C) 1987, 1988, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
@@ -1500,33 +1500,36 @@ const_binop (enum tree_code code, tree arg1, tree arg2, int notrunc)
 
 	case RDIV_EXPR:
 	  {
+	    tree t1, t2, real, imag;
 	    tree magsquared
 	      = const_binop (PLUS_EXPR,
 			     const_binop (MULT_EXPR, r2, r2, notrunc),
 			     const_binop (MULT_EXPR, i2, i2, notrunc),
 			     notrunc);
 
-	    t = build_complex (type,
-			       const_binop
-			       (INTEGRAL_TYPE_P (TREE_TYPE (r1))
-				? TRUNC_DIV_EXPR : RDIV_EXPR,
-				const_binop (PLUS_EXPR,
-					     const_binop (MULT_EXPR, r1, r2,
-							  notrunc),
-					     const_binop (MULT_EXPR, i1, i2,
-							  notrunc),
-					     notrunc),
-				magsquared, notrunc),
-			       const_binop
-			       (INTEGRAL_TYPE_P (TREE_TYPE (r1))
-				? TRUNC_DIV_EXPR : RDIV_EXPR,
-				const_binop (MINUS_EXPR,
-					     const_binop (MULT_EXPR, i1, r2,
-							  notrunc),
-					     const_binop (MULT_EXPR, r1, i2,
-							  notrunc),
-					     notrunc),
-				magsquared, notrunc));
+	    t1 = const_binop (PLUS_EXPR,
+			      const_binop (MULT_EXPR, r1, r2, notrunc),
+			      const_binop (MULT_EXPR, i1, i2, notrunc),
+			      notrunc);
+	    t2 = const_binop (MINUS_EXPR,
+			      const_binop (MULT_EXPR, i1, r2, notrunc),
+			      const_binop (MULT_EXPR, r1, i2, notrunc),
+			      notrunc);
+
+	    if (INTEGRAL_TYPE_P (TREE_TYPE (r1)))
+	      {
+		real = const_binop (TRUNC_DIV_EXPR, t1, magsquared, notrunc);
+		imag = const_binop (TRUNC_DIV_EXPR, t2, magsquared, notrunc);
+	      }
+	    else
+	      {
+		real = const_binop (RDIV_EXPR, t1, magsquared, notrunc);
+		imag = const_binop (RDIV_EXPR, t2, magsquared, notrunc);
+		if (!real || !imag)
+		  return NULL_TREE;
+	      }
+
+	    t = build_complex (type, real, imag);
 	  }
 	  break;
 

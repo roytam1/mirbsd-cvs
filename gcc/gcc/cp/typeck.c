@@ -1,4 +1,4 @@
-/* $MirOS: gcc/gcc/cp/typeck.c,v 1.4 2005/04/30 22:16:03 tg Exp $ */
+/* $MirOS: gcc/gcc/cp/typeck.c,v 1.5 2005/05/14 16:22:03 tg Exp $ */
 
 /* Build expressions with type checking for C++ compiler.
    Copyright (C) 1987, 1988, 1989, 1992, 1993, 1994, 1995, 1996, 1997, 1998,
@@ -267,10 +267,12 @@ type_after_usual_arithmetic_conversions (tree t1, tree t2)
   /* FIXME: Attributes.  */
   my_friendly_assert (ARITHMETIC_TYPE_P (t1) 
 		      || TREE_CODE (t1) == COMPLEX_TYPE
+		      || TREE_CODE (t1) == VECTOR_TYPE
 		      || TREE_CODE (t1) == ENUMERAL_TYPE,
 		      19990725);
   my_friendly_assert (ARITHMETIC_TYPE_P (t2) 
 		      || TREE_CODE (t2) == COMPLEX_TYPE
+		      || TREE_CODE (t2) == VECTOR_TYPE
 		      || TREE_CODE (t2) == ENUMERAL_TYPE,
 		      19990725);
 
@@ -296,6 +298,16 @@ type_after_usual_arithmetic_conversions (tree t1, tree t2)
       else
 	return build_type_attribute_variant (build_complex_type (subtype),
 					     attributes);
+    }
+
+  if (code1 == VECTOR_TYPE)
+    {
+      /* When we get here we should have two vectors of the same size.
+	 Just prefer the unsigned one if present.  */
+      if (TREE_UNSIGNED (t1))
+	return build_type_attribute_variant (t1, attributes);
+      else
+	return build_type_attribute_variant (t2, attributes);
     }
 
   /* If only one is real, use it as the result.  */
@@ -747,9 +759,9 @@ common_type (tree t1, tree t2)
   code2 = TREE_CODE (t2);
 
   if ((ARITHMETIC_TYPE_P (t1) || code1 == ENUMERAL_TYPE
-       || code1 == COMPLEX_TYPE)
+       || code1 == COMPLEX_TYPE || code1 == VECTOR_TYPE)
       && (ARITHMETIC_TYPE_P (t2) || code2 == ENUMERAL_TYPE
-	  || code2 == COMPLEX_TYPE))
+	  || code2 == COMPLEX_TYPE || code2 == VECTOR_TYPE))
     return type_after_usual_arithmetic_conversions (t1, t2);
 
   else if ((TYPE_PTR_P (t1) && TYPE_PTR_P (t2))
@@ -2883,9 +2895,9 @@ build_binary_op (enum tree_code code, tree orig_op0, tree orig_op1,
     case ROUND_DIV_EXPR:
     case EXACT_DIV_EXPR:
       if ((code0 == INTEGER_TYPE || code0 == REAL_TYPE
-	   || code0 == COMPLEX_TYPE)
+	   || code0 == COMPLEX_TYPE || code0 == VECTOR_TYPE)
 	  && (code1 == INTEGER_TYPE || code1 == REAL_TYPE
-	      || code1 == COMPLEX_TYPE))
+	      || code1 == COMPLEX_TYPE || code1 == VECTOR_TYPE))
 	{
 	  if (TREE_CODE (op1) == INTEGER_CST && integer_zerop (op1))
 	    warning ("division by zero in `%E / 0'", op0);
@@ -2912,7 +2924,8 @@ build_binary_op (enum tree_code code, tree orig_op0, tree orig_op1,
     case BIT_AND_EXPR:
     case BIT_IOR_EXPR:
     case BIT_XOR_EXPR:
-      if (code0 == INTEGER_TYPE && code1 == INTEGER_TYPE)
+      if ((code0 == INTEGER_TYPE && code1 == INTEGER_TYPE)
+	  || (code0 == VECTOR_TYPE && code1 == VECTOR_TYPE))
 	shorten = -1;
       break;
 
@@ -3163,11 +3176,16 @@ build_binary_op (enum tree_code code, tree orig_op0, tree orig_op1,
       break;
     }
 
-  if ((code0 == INTEGER_TYPE || code0 == REAL_TYPE || code0 == COMPLEX_TYPE)
-      &&
-      (code1 == INTEGER_TYPE || code1 == REAL_TYPE || code1 == COMPLEX_TYPE))
+  if (((code0 == INTEGER_TYPE || code0 == REAL_TYPE || code0 == COMPLEX_TYPE)
+       &&
+       (code1 == INTEGER_TYPE || code1 == REAL_TYPE || code1 == COMPLEX_TYPE))
+      || (code0 == VECTOR_TYPE && code1 == VECTOR_TYPE))
     {
       int none_complex = (code0 != COMPLEX_TYPE && code1 != COMPLEX_TYPE);
+
+      if (code0 == VECTOR_TYPE && code1 == VECTOR_TYPE
+          && !tree_int_cst_equal (TYPE_SIZE (type0), TYPE_SIZE (type1)))
+	error ("can't convert between vector values of different size");
 
       if (shorten || common || short_compare)
 	result_type = common_type (type0, type1);
@@ -6319,11 +6337,6 @@ casts_away_constness_r (tree *t1, tree *t2)
      and pointers to members (conv.qual), the "member" aspect of a
      pointer to member level is ignored when determining if a const
      cv-qualifier has been cast away.  */
-  if (TYPE_PTRMEM_P (*t1))
-    *t1 = build_pointer_type (TYPE_PTRMEM_POINTED_TO_TYPE (*t1));
-  if (TYPE_PTRMEM_P (*t2))
-    *t2 = build_pointer_type (TYPE_PTRMEM_POINTED_TO_TYPE (*t2));
-
   /* [expr.const.cast]
 
      For  two  pointer types:
@@ -6341,9 +6354,8 @@ casts_away_constness_r (tree *t1, tree *t2)
      to
 
             Tcv2,(M-K+1) * cv2,(M-K+2) * ... cv2,M *.  */
-
-  if (TREE_CODE (*t1) != POINTER_TYPE
-      || TREE_CODE (*t2) != POINTER_TYPE)
+  if ((!TYPE_PTR_P (*t1) && !TYPE_PTRMEM_P (*t1))
+      || (!TYPE_PTR_P (*t2) && !TYPE_PTRMEM_P (*t2)))
     {
       *t1 = cp_build_qualified_type (void_type_node,
 				     cp_type_quals (*t1));
@@ -6354,8 +6366,16 @@ casts_away_constness_r (tree *t1, tree *t2)
   
   quals1 = cp_type_quals (*t1);
   quals2 = cp_type_quals (*t2);
-  *t1 = TREE_TYPE (*t1);
-  *t2 = TREE_TYPE (*t2);
+
+  if (TYPE_PTRMEM_P (*t1))
+    *t1 = TYPE_PTRMEM_POINTED_TO_TYPE (*t1);
+  else
+    *t1 = TREE_TYPE (*t1);
+  if (TYPE_PTRMEM_P (*t2))
+    *t2 = TYPE_PTRMEM_POINTED_TO_TYPE (*t2);
+  else
+    *t2 = TREE_TYPE (*t2);
+
   casts_away_constness_r (t1, t2);
   *t1 = build_pointer_type (*t1);
   *t2 = build_pointer_type (*t2);
