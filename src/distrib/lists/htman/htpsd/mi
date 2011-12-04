@@ -29,13 +29,6 @@
 ./man2/errno.htm
 ./man2/exect.htm
 ./man2/execve.htm
-./man2/extattr.htm
-./man2/extattr_delete_fd.htm
-./man2/extattr_delete_file.htm
-./man2/extattr_get_fd.htm
-./man2/extattr_get_file.htm
-./man2/extattr_set_fd.htm
-./man2/extattr_set_file.htm
 ./man2/fchdir.htm
 ./man2/fchflags.htm
 ./man2/fchmod.htm
@@ -1967,9 +1960,6 @@
 ./man3/expm1.htm
 ./man3/expm1f.htm
 ./man3/exporttai.htm
-./man3/extattr.htm
-./man3/extattr_namespace_to_string.htm
-./man3/extattr_string_to_namespace.htm
 ./man3/f.htm
 ./man3/fabs.htm
 ./man3/fabsf.htm
@@ -3140,7 +3130,6 @@
 ./man3/positionCDKSelection.htm
 ./man3/positionCDKSwindow.htm
 ./man3/positionCDKViewer.htm
-./man3/posix1e.htm
 ./man3/posix2time.htm
 ./man3/post_form.htm
 ./man3/post_menu.htm
@@ -4566,7 +4555,6 @@
 ./man9/UVM_MAPFLAG.htm
 ./man9/VOP_CREATE.htm
 ./man9/VOP_FSYNC.htm
-./man9/VOP_GETEXTATTR.htm
 ./man9/VOP_ISLOCKED.htm
 ./man9/VOP_LINK.htm
 ./man9/VOP_LOCK.htm
@@ -4579,11 +4567,9 @@
 ./man9/VOP_REMOVE.htm
 ./man9/VOP_REVOKE.htm
 ./man9/VOP_RMDIR.htm
-./man9/VOP_SETEXTATTR.htm
 ./man9/VOP_STRATEGY.htm
 ./man9/VOP_SYMLINK.htm
 ./man9/VOP_UNLOCK.htm
-./man9/VOP_WHITEOUT.htm
 ./man9/abs.htm
 ./man9/add_audio_randomness.htm
 ./man9/add_disk_randomness.htm
@@ -4719,7 +4705,6 @@
 ./man9/dopowerhooks.htm
 ./man9/doshutdownhooks.htm
 ./man9/dostartuphooks.htm
-./man9/extattr.htm
 ./man9/extent.htm
 ./man9/extent_alloc.htm
 ./man9/extent_alloc_region.htm

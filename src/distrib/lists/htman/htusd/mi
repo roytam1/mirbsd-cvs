@@ -145,6 +145,7 @@
 ./man1/gzcat.htm
 ./man1/gzexe.htm
 ./man1/gzip.htm
+./man1/gzsig.htm
 ./man1/h2ph.htm
 ./man1/h2xs.htm
 ./man1/hd.htm
@@ -239,6 +240,7 @@
 ./man1/mkfontdir.htm
 ./man1/mkfontscale.htm
 ./man1/mkhtmlindex.htm
+./man1/mksh.htm
 ./man1/mktemp.htm
 ./man1/more.htm
 ./man1/msgs.htm
@@ -572,6 +574,7 @@
 ./man1/xgamma.htm
 ./man1/xgc.htm
 ./man1/xhost.htm
+./man1/xidle.htm
 ./man1/xinit.htm
 ./man1/xkbcomp.htm
 ./man1/xkbevd.htm
@@ -1188,7 +1191,6 @@
 ./man8/dumpfs.htm
 ./man8/editmap.htm
 ./man8/edquota.htm
-./man8/extattrctl.htm
 ./man8/faithd.htm
 ./man8/faq.htm
 ./man8/fdisk.htm
@@ -1201,9 +1203,7 @@
 ./man8/fsdb.htm
 ./man8/ftpd.htm
 ./man8/genassym.sh.htm
-./man8/getNAME.htm
 ./man8/getencstat.htm
-./man8/getextattr.htm
 ./man8/getty.htm
 ./man8/group.htm
 ./man8/groupadd.htm
@@ -1269,11 +1269,8 @@
 ./man8/mount_msdos.htm
 ./man8/mount_nfs.htm
 ./man8/mount_ntfs.htm
-./man8/mount_null.htm
 ./man8/mount_portal.htm
 ./man8/mount_procfs.htm
-./man8/mount_umap.htm
-./man8/mount_union.htm
 ./man8/mountd.htm
 ./man8/mrinfo.htm
 ./man8/mrouted.htm
@@ -1360,7 +1357,6 @@
 ./man8/sensorsd.htm
 ./man8/sesd.htm
 ./man8/setencstat.htm
-./man8/setextattr.htm
 ./man8/setobjstat.htm
 ./man8/sftp-server.htm
 ./man8/showmount.htm
@@ -1397,7 +1393,6 @@
 ./man8/talkd.htm
 ./man8/tcpdrop.htm
 ./man8/tcpdump.htm
-./man8/telnetd.htm
 ./man8/tftpd.htm
 ./man8/timed.htm
 ./man8/timedc.htm

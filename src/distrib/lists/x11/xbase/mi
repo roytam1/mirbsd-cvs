@@ -541,6 +541,7 @@
 ./usr/X11R6/bin/xgamma
 ./usr/X11R6/bin/xgc
 ./usr/X11R6/bin/xhost
+./usr/X11R6/bin/xidle
 ./usr/X11R6/bin/xinit
 ./usr/X11R6/bin/xinput
 ./usr/X11R6/bin/xkbbell
@@ -6406,6 +6407,7 @@
 ./usr/X11R6/man/cat1/xgamma.0
 ./usr/X11R6/man/cat1/xgc.0
 ./usr/X11R6/man/cat1/xhost.0
+./usr/X11R6/man/cat1/xidle.0
 ./usr/X11R6/man/cat1/xinit.0
 ./usr/X11R6/man/cat1/xkbcomp.0
 ./usr/X11R6/man/cat1/xkbevd.0
