@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.bin/binutils/ld/Makefile.bsd-wrapper,v 1.3 2005/06/13 21:38:07 tg Exp $
+# $MirOS: src/gnu/usr.bin/binutils/ld/Makefile.bsd-wrapper,v 1.4 2005/06/13 23:17:03 tg Exp $
 
 .include "../Makefile.inc"
 
@@ -7,7 +7,7 @@ MAN=		ld.1
 CFARGS+=	--target=${GCCTARGET}
 XARGS+=		YLWRAP="${GNUSYSTEM_AUX_DIR}/ylwrap" scriptdir=/usr/libdata \
 		mkinstalldirs="${SHELL} ${GNUSYSTEM_AUX_DIR}/mkinstalldirs"
-INST_TARGET=	INSTALL_MAN= install
+INST_TARGET=	INSTALL_MAN= transform= install
 CLEANFILES+=	configdoc.texi deffilep.c deffilep.h ld.1 ld.info ldgram.c \
 		ldgram.h ldint.info ldlex.c ldver.texi
 

@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.bin/binutils/ld/Makefile.am,v 1.5 2005/06/13 18:58:58 tg Exp $
+# $MirOS: src/gnu/usr.bin/binutils/ld/Makefile.am,v 1.6 2005/06/13 20:30:40 tg Exp $
 
 ## Process this file with automake to generate Makefile.in
 
@@ -1598,7 +1598,7 @@ CLEANFILES = dep.sed DEP DEPA DEP1 DEP2
 
 .PHONY: install-exec-local install-data-local
 
-install-exec-local: ld-new$(EXEEXT)
+install-exec-local:
 	@list='$(noinst_PROGRAMS)'; for p in $$list; do \
 	  if test -f $$p; then \
 	    echo " $(LIBTOOL)  --mode=install $(INSTALL_PROGRAM) $$p $(DESTDIR)$(bindir)/`echo $$p|sed -e 's/$(EXEEXT)$$//' -e 's/-new//'|sed '$(transform)'|sed 's/$$/$(EXEEXT)/'`"; \
