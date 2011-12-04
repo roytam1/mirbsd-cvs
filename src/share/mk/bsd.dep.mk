@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.dep.mk,v 1.4 2005/03/14 22:23:55 tg Exp $
+# $MirOS: src/share/mk/bsd.dep.mk,v 1.5 2005/04/10 20:27:46 tg Exp $
 # $OpenBSD: bsd.dep.mk,v 1.5 2003/08/07 11:24:03 espie Exp $
 # $NetBSD: bsd.dep.mk,v 1.12 1995/09/27 01:15:09 christos Exp $
 
@@ -47,7 +47,7 @@ afterdepend:
 .if !target(tags)
 .  if defined(SRCS)
 tags: ${SRCS} _SUBDIRUSE
-	-cd ${.CURDIR}; ${CTAGS} -f /dev/stdout ${.ALLSRC:N*.h} | \
+	-cd ${.CURDIR} && ${CTAGS} -f /dev/stdout ${.ALLSRC:N*.h} | \
 	    sed "s;\${.CURDIR}/;;" >tags
 .  else
 tags:
