@@ -1,4 +1,4 @@
-# $MirOS: src/usr.sbin/Makefile,v 1.4 2005/04/26 22:35:05 tg Exp $
+# $MirOS: src/usr.sbin/Makefile,v 1.5 2005/04/27 08:54:39 tg Exp $
 # $OpenBSD: Makefile,v 1.110 2004/05/04 23:27:21 deraadt Exp $
 
 .include <bsd.own.mk>
@@ -24,13 +24,9 @@
 .if ${MACHINE} == "sparc"
   SUBDIR+= eeprom
 .endif
-  SUBDIR+= extattrctl
   SUBDIR+= faithd
 .if ${CROSS_MODE:L} != "yes"
   SUBDIR+= fdformat
-.endif
-  SUBDIR+= getextattr
-.if ${CROSS_MODE:L} != "yes"
   SUBDIR+= httpd
 .endif
   SUBDIR+= ifwatchd
@@ -78,7 +74,6 @@
   SUBDIR+= sa
   SUBDIR+= sensorsd
   SUBDIR+= sesd
-  SUBDIR+= setextattr
   SUBDIR+= sliplogin
   SUBDIR+= slstats
   SUBDIR+= spamdb
