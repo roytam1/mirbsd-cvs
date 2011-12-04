@@ -5,16 +5,16 @@
 
 #include <machine/asm.h>
 
+	.section .comment
+	.asciz	"$MirOS$"
+
 	.text
-#if defined(LIBC_SCCS)
+#if 0
 	.asciz "$OpenBSD: index.S,v 1.3 2000/12/29 17:34:55 mickey Exp $"
 #endif
 
-#ifdef STRCHR
-ENTRY(strchr)
-#else
+NENTRY(strchr)
 ENTRY(index)
-#endif
 	movl	4(%esp),%eax
 	movb	8(%esp),%cl
 	.align 2,0x90
