@@ -14,7 +14,7 @@
 
 @SET_MAKE@
 
-# $MirOS: gcc/libffi/include/Makefile.am,v 1.2 2005/04/26 17:29:40 tg Exp $
+# $MirOS: gcc/libffi/include/Makefile.am,v 1.3 2005/04/26 19:16:26 tg Exp $
 
 
 srcdir = @srcdir@
@@ -53,8 +53,6 @@ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 mkinstalldirs = $(SHELL) $(GNUSYSTEM_AUX_DIR)/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/fficonfig.h
 CONFIG_CLEAN_FILES = ffi.h
-depcomp =
-am__depfiles_maybe =
 SOURCES =
 DIST_SOURCES =
 am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
@@ -239,9 +237,9 @@ $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.am  $(am__confi
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign  --ignore-deps include/Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign  include/Makefile'; \
 	cd $(top_srcdir) && \
-	  $(AUTOMAKE) --foreign  --ignore-deps include/Makefile
+	  $(AUTOMAKE) --foreign  include/Makefile
 .PRECIOUS: Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \

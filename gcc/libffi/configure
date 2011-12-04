@@ -336,6 +336,14 @@ else
        test "X$echo_testing_string" = "X$echo_test_string"; then
       # This shell has a builtin print -r that does the trick.
       echo='print -r'
+    elif test -f /bin/mksh &&
+	 test "X$CONFIG_SHELL" != X/bin/mksh; then
+      # If we have ksh, try running configure again with it.
+      ORIGINAL_CONFIG_SHELL=${CONFIG_SHELL-/bin/sh}
+      export ORIGINAL_CONFIG_SHELL
+      CONFIG_SHELL=/bin/mksh
+      export CONFIG_SHELL
+      exec $CONFIG_SHELL "$0" --no-reexec ${1+"$@"}
     elif (test -f /bin/ksh || test -f /bin/ksh$ac_exeext) &&
 	 test "X$CONFIG_SHELL" != X/bin/ksh; then
       # If we have ksh, try running configure again with it.
@@ -3022,6 +3030,10 @@ hpux10.20* | hpux11*)
   esac
   ;;
 
+interix*)
+  lt_cv_deplibs_check_method='match_pattern /lib[^/]+(\.so|_pic\.a)$'
+  ;;
+
 irix5* | irix6* | nonstopux*)
   case $LD in
   *-32|*"-32 ") libmagic=32-bit;;
@@ -3156,7 +3168,7 @@ ia64-*-hpux*)
   ;;
 *-*-irix6*)
   # Find out which ABI we are using.
-  echo '#line 3159 "configure"' > conftest.$ac_ext
+  echo '#line 3171 "configure"' > conftest.$ac_ext
   if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
   (eval $ac_compile) 2>&5
   ac_status=$?
@@ -4624,7 +4636,7 @@ fi
 
 
 # Provide some information about the compiler.
-echo "$as_me:4627:" \
+echo "$as_me:4639:" \
      "checking for Fortran 77 compiler version" >&5
 ac_compiler=`set X $ac_compile; echo $2`
 { (eval echo "$as_me:$LINENO: \"$ac_compiler --version </dev/null >&5\"") >&5
@@ -5410,7 +5422,7 @@ old_postuninstall_cmds=
 
 if test -n "$RANLIB"; then
   case $host_os in
-  mirbsd* | openbsd*)
+  openbsd*)
     old_postinstall_cmds="\$RANLIB -t \$oldlib~$old_postinstall_cmds"
     ;;
   *)
@@ -5725,11 +5737,11 @@ else
    -e 's:.*FLAGS}? :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:')
-   (eval echo "\"\$as_me:5728: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:5740: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:5732: \$? = $ac_status" >&5
+   echo "$as_me:5744: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings other than the usual output.
@@ -5987,11 +5999,11 @@ else
    -e 's:.*FLAGS}? :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:')
-   (eval echo "\"\$as_me:5990: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:6002: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:5994: \$? = $ac_status" >&5
+   echo "$as_me:6006: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings other than the usual output.
@@ -6049,11 +6061,11 @@ else
    -e 's:.*FLAGS}? :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:')
-   (eval echo "\"\$as_me:6052: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:6064: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>out/conftest.err)
    ac_status=$?
    cat out/conftest.err >&5
-   echo "$as_me:6056: \$? = $ac_status" >&5
+   echo "$as_me:6068: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s out/conftest2.$ac_objext
    then
      # The compiler can only warn and ignore the option if not recognized
@@ -6160,7 +6172,13 @@ cc_basename=$($echo "X$cc_temp" | $Xsed -e 's%.*/%%' -e "s%^$host_alias-%%")
       with_gnu_ld=no
     fi
     ;;
-  mirbsd* | openbsd*)
+  interix*)
+    with_gnu_ld=yes
+    ;;
+  mirbsd*)
+    with_gnu_ld=yes
+    ;;
+  openbsd*)
     with_gnu_ld=no
     ;;
   esac
@@ -6259,16 +6277,26 @@ EOF
       fi
       ;;
 
+    interix*)
+      hardcode_direct=yes
+      hardcode_shlibpath_var=no
+      archive_cmds='$CC -shared $pic_flag $libobjs $deplibs $compiler_flags -o $lib'
+      archive_cmds_need_lc=yes
+      hardcode_libdir_flag_spec='${wl}-rpath,$libdir'
+      export_dynamic_flag_spec='${wl}-E'
+      ;;
+
     linux*)
       if $LD --help 2>&1 | grep ': supported targets:.* elf' > /dev/null; then
 	tmp_addflag=
 	case $cc_basename,$host_cpu in
 	pgcc*)				# Portland Group C compiler
-	  whole_archive_flag_spec=
+	  whole_archive_flag_spec='${wl}--whole-archive,`for conv in $convenience\"\"; do test  -n \"$conv\" && new_convenience=\"$new_convenience,$conv\"; done; $echo \"$new_convenience\"` ${wl}--no-whole-archive'
+	  tmp_addflag=' $pic_flag'
 	  ;;
 	pgf77* | pgf90* )			# Portland Group f77 and f90 compilers
-	  whole_archive_flag_spec=
-	  tmp_addflag=' -fpic -Mnomain' ;;
+	  whole_archive_flag_spec='${wl}--whole-archive,`for conv in $convenience\"\"; do test  -n \"$conv\" && new_convenience=\"$new_convenience,$conv\"; done; $echo \"$new_convenience\"` ${wl}--no-whole-archive'
+	  tmp_addflag=' $pic_flag -Mnomain' ;;
 	ecc*,ia64* | icc*,ia64*)		# Intel C compiler on ia64
 	  tmp_addflag=' -i_dynamic' ;;
 	efc*,ia64* | ifort*,ia64*)	# Intel Fortran compiler on ia64
@@ -6287,6 +6315,15 @@ EOF
       else
 	ld_shlibs=no
       fi
+      ;;
+
+    mirbsd*)
+      hardcode_direct=yes
+      hardcode_shlibpath_var=no
+      archive_cmds='$CC -shared $pic_flag $libobjs $deplibs $compiler_flags -o $lib'
+      archive_expsym_cmds='$CC -shared $pic_flag $libobjs $deplibs $compiler_flags ${wl}-retain-symbols-file,$export_symbols -o $lib'
+      hardcode_libdir_flag_spec='${wl}-rpath,$libdir'
+      export_dynamic_flag_spec='${wl}-E'
       ;;
 
     netbsd*)
@@ -6679,15 +6716,6 @@ EOF
       hardcode_libdir_flag_spec='${wl}-rpath ${wl}$libdir'
       hardcode_libdir_separator=:
       link_all_deplibs=yes
-      ;;
-
-    mirbsd*)
-      hardcode_direct=yes
-      hardcode_shlibpath_var=no
-      archive_cmds='$CC -shared $pic_flag -o $lib $libobjs $deplibs $compiler_flags'
-      archive_expsym_cmds='$CC -shared $pic_flag -o $lib $libobjs $deplibs $compiler_flags ${wl}-retain-symbols-file,$export_symbols'
-      hardcode_libdir_flag_spec='${wl}-rpath,$libdir'
-      export_dynamic_flag_spec='${wl}-E'
       ;;
 
     netbsd*)
@@ -7282,6 +7310,18 @@ hpux9* | hpux10* | hpux11*)
   postinstall_cmds='chmod 555 $lib'
   ;;
 
+interix*)
+  version_type=sunos
+  need_lib_prefix=no
+  need_version=no
+  library_names_spec='${libname}${release}${shared_ext}$versuffix ${libname}${release}${shared_ext}$major ${libname}${shared_ext}'
+  soname_spec='${libname}${release}${shared_ext}$major'
+  dynamic_linker='Interix GNU ld.so.1 (PE, like ELF)'
+  shlibpath_var=LD_LIBRARY_PATH
+  shlibpath_overrides_runpath=no
+  hardcode_into_libs=yes
+  ;;
+
 irix5* | irix6* | nonstopux*)
   case $host_os in
     nonstopux*) version_type=nonstopux ;;
@@ -7341,7 +7381,7 @@ linux*)
 
   # Append ld.so.conf contents to the search path
   if test -f /etc/ld.so.conf; then
-    lt_ld_extra=$(awk '/^include / { system(sprintf("cd /etc; cat %s", \$2)); skip = 1; } { if (!skip) print \$0; skip = 0; }' < /etc/ld.so.conf | $SED -e 's/#.*//;s/[:,\t]/ /g;s/=[^=]*$//;s/=[^= ]* / /g;/^$/d' | tr '\n' ' ')
+    lt_ld_extra=$(awk '/^include / { system(sprintf("cd /etc; cat %s", \$2)); skip = 1; } { if (!skip) print \$0; skip = 0; }' < /etc/ld.so.conf | $SED -e 's/#.*//;s/[:,	]/ /g;s/=[^=]*$//;s/=[^= ]* / /g;/^$/d' | tr '\n' ' ')
     sys_lib_dlsearch_path_spec="/lib /usr/lib $lt_ld_extra"
   fi
 
@@ -7414,7 +7454,11 @@ nto-qnx*)
 openbsd*)
   version_type=sunos
   need_lib_prefix=no
-  need_version=no
+  # Some older versions of OpenBSD (3.3 at least) *do* need versioned libs.
+  case $host_os in
+    openbsd3.3 | openbsd3.3.*) need_version=yes ;;
+    *)                         need_version=no  ;;
+  esac
   library_names_spec='${libname}${release}${shared_ext}$versuffix ${libname}${shared_ext}$versuffix'
   finish_cmds='PATH="\$PATH:/sbin" ldconfig -m $libdir'
   shlibpath_var=LD_LIBRARY_PATH
@@ -8203,7 +8247,7 @@ else
   lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<EOF
-#line 8206 "configure"
+#line 8250 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -8301,7 +8345,7 @@ else
   lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<EOF
-#line 8304 "configure"
+#line 8348 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -8531,7 +8575,7 @@ if test -f "$ltmain"; then
 cfgfile="${ofile}T"
   trap "$rm \"$cfgfile\"; exit 1" 1 2 15
   $rm -f "$cfgfile"
-  echo "$as_me:8534: creating $ofile" >&5
+  echo "$as_me:8578: creating $ofile" >&5
   echo "$as_me: creating $ofile" >&6
 
   cat <<__EOF__ >> "$cfgfile"
@@ -9622,6 +9666,10 @@ case $host_os in
 	;;
     esac
     ;;
+  interix*)
+    archive_cmds_CXX='$CC -shared $pic_flag $libobjs $deplibs $compiler_flags ${wl}-h,$soname -o $lib'
+    archive_expsym_cmds_CXX='$CC -shared $pic_flag $libobjs $deplibs $compiler_flags ${wl}-h,$soname ${wl}--retain-symbols-file $wl$export_symbols -o $lib'
+    ;;
   irix5* | irix6*)
     case $cc_basename in
       CC*)
@@ -9702,12 +9750,12 @@ case $host_os in
 	;;
       pgCC*)
         # Portland Group C++ compiler
-	archive_cmds_CXX='$CC -shared $predep_objects $libobjs $deplibs $postdep_objects $compiler_flags ${wl}-soname ${wl}$soname -o $lib'
-  	archive_expsym_cmds_CXX='$CC -shared $predep_objects $libobjs $deplibs $postdep_objects $compiler_flags ${wl}-soname ${wl}$soname ${wl}-retain-symbols-file ${wl}$export_symbols -o $lib'
+	archive_cmds_CXX='$CC -shared $pic_flag $predep_objects $libobjs $deplibs $postdep_objects $compiler_flags ${wl}-soname ${wl}$soname -o $lib'
+  	archive_expsym_cmds_CXX='$CC -shared $pic_flag $predep_objects $libobjs $deplibs $postdep_objects $compiler_flags ${wl}-soname ${wl}$soname ${wl}-retain-symbols-file ${wl}$export_symbols -o $lib'
 
 	hardcode_libdir_flag_spec_CXX='${wl}--rpath ${wl}$libdir'
 	export_dynamic_flag_spec_CXX='${wl}--export-dynamic'
-	whole_archive_flag_spec_CXX=''
+	whole_archive_flag_spec_CXX='${wl}--whole-archive,`for conv in $convenience\"\"; do test  -n \"$conv\" && new_convenience=\"$new_convenience,$conv\"; done; $echo \"$new_convenience\"` ${wl}--no-whole-archive'
         ;;
       cxx*)
 	# Compaq C++
@@ -10301,6 +10349,8 @@ echo $ECHO_N "checking for $compiler option to produce PIC... $ECHO_C" >&6
 	    ;;
 	esac
 	;;
+      interix*)
+	;;
       irix5* | irix6* | nonstopux*)
 	case $cc_basename in
 	  CC*)
@@ -10466,11 +10516,11 @@ else
    -e 's:.*FLAGS}? :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:')
-   (eval echo "\"\$as_me:10469: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:10519: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:10473: \$? = $ac_status" >&5
+   echo "$as_me:10523: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings other than the usual output.
@@ -10528,11 +10578,11 @@ else
    -e 's:.*FLAGS}? :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:')
-   (eval echo "\"\$as_me:10531: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:10581: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>out/conftest.err)
    ac_status=$?
    cat out/conftest.err >&5
-   echo "$as_me:10535: \$? = $ac_status" >&5
+   echo "$as_me:10585: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s out/conftest2.$ac_objext
    then
      # The compiler can only warn and ignore the option if not recognized
@@ -10982,6 +11032,18 @@ hpux9* | hpux10* | hpux11*)
   postinstall_cmds='chmod 555 $lib'
   ;;
 
+interix*)
+  version_type=sunos
+  need_lib_prefix=no
+  need_version=no
+  library_names_spec='${libname}${release}${shared_ext}$versuffix ${libname}${release}${shared_ext}$major ${libname}${shared_ext}'
+  soname_spec='${libname}${release}${shared_ext}$major'
+  dynamic_linker='Interix GNU ld.so.1 (PE, like ELF)'
+  shlibpath_var=LD_LIBRARY_PATH
+  shlibpath_overrides_runpath=no
+  hardcode_into_libs=yes
+  ;;
+
 irix5* | irix6* | nonstopux*)
   case $host_os in
     nonstopux*) version_type=nonstopux ;;
@@ -11041,7 +11103,7 @@ linux*)
 
   # Append ld.so.conf contents to the search path
   if test -f /etc/ld.so.conf; then
-    lt_ld_extra=$(awk '/^include / { system(sprintf("cd /etc; cat %s", \$2)); skip = 1; } { if (!skip) print \$0; skip = 0; }' < /etc/ld.so.conf | $SED -e 's/#.*//;s/[:,\t]/ /g;s/=[^=]*$//;s/=[^= ]* / /g;/^$/d' | tr '\n' ' ')
+    lt_ld_extra=$(awk '/^include / { system(sprintf("cd /etc; cat %s", \$2)); skip = 1; } { if (!skip) print \$0; skip = 0; }' < /etc/ld.so.conf | $SED -e 's/#.*//;s/[:,	]/ /g;s/=[^=]*$//;s/=[^= ]* / /g;/^$/d' | tr '\n' ' ')
     sys_lib_dlsearch_path_spec="/lib /usr/lib $lt_ld_extra"
   fi
 
@@ -11114,7 +11176,11 @@ nto-qnx*)
 openbsd*)
   version_type=sunos
   need_lib_prefix=no
-  need_version=no
+  # Some older versions of OpenBSD (3.3 at least) *do* need versioned libs.
+  case $host_os in
+    openbsd3.3 | openbsd3.3.*) need_version=yes ;;
+    *)                         need_version=no  ;;
+  esac
   library_names_spec='${libname}${release}${shared_ext}$versuffix ${libname}${shared_ext}$versuffix'
   finish_cmds='PATH="\$PATH:/sbin" ldconfig -m $libdir'
   shlibpath_var=LD_LIBRARY_PATH
@@ -11903,7 +11969,7 @@ else
   lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<EOF
-#line 11906 "configure"
+#line 11972 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -12001,7 +12067,7 @@ else
   lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<EOF
-#line 12004 "configure"
+#line 12070 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -12888,11 +12954,11 @@ else
    -e 's:.*FLAGS}? :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:')
-   (eval echo "\"\$as_me:12891: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:12957: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:12895: \$? = $ac_status" >&5
+   echo "$as_me:12961: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings other than the usual output.
@@ -12950,11 +13016,11 @@ else
    -e 's:.*FLAGS}? :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:')
-   (eval echo "\"\$as_me:12953: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:13019: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>out/conftest.err)
    ac_status=$?
    cat out/conftest.err >&5
-   echo "$as_me:12957: \$? = $ac_status" >&5
+   echo "$as_me:13023: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s out/conftest2.$ac_objext
    then
      # The compiler can only warn and ignore the option if not recognized
@@ -13061,7 +13127,13 @@ cc_basename=$($echo "X$cc_temp" | $Xsed -e 's%.*/%%' -e "s%^$host_alias-%%")
       with_gnu_ld=no
     fi
     ;;
-  mirbsd* | openbsd*)
+  interix*)
+    with_gnu_ld=yes
+    ;;
+  mirbsd*)
+    with_gnu_ld=yes
+    ;;
+  openbsd*)
     with_gnu_ld=no
     ;;
   esac
@@ -13160,16 +13232,26 @@ EOF
       fi
       ;;
 
+    interix*)
+      hardcode_direct_F77=yes
+      hardcode_shlibpath_var_F77=no
+      archive_cmds_F77='$CC -shared $pic_flag $libobjs $deplibs $compiler_flags -o $lib'
+      archive_cmds_need_lc_F77=yes
+      hardcode_libdir_flag_spec_F77='${wl}-rpath,$libdir'
+      export_dynamic_flag_spec_F77='${wl}-E'
+      ;;
+
     linux*)
       if $LD --help 2>&1 | grep ': supported targets:.* elf' > /dev/null; then
 	tmp_addflag=
 	case $cc_basename,$host_cpu in
 	pgcc*)				# Portland Group C compiler
-	  whole_archive_flag_spec_F77=
+	  whole_archive_flag_spec_F77='${wl}--whole-archive,`for conv in $convenience\"\"; do test  -n \"$conv\" && new_convenience=\"$new_convenience,$conv\"; done; $echo \"$new_convenience\"` ${wl}--no-whole-archive'
+	  tmp_addflag=' $pic_flag'
 	  ;;
 	pgf77* | pgf90* )			# Portland Group f77 and f90 compilers
-	  whole_archive_flag_spec_F77=
-	  tmp_addflag=' -fpic -Mnomain' ;;
+	  whole_archive_flag_spec_F77='${wl}--whole-archive,`for conv in $convenience\"\"; do test  -n \"$conv\" && new_convenience=\"$new_convenience,$conv\"; done; $echo \"$new_convenience\"` ${wl}--no-whole-archive'
+	  tmp_addflag=' $pic_flag -Mnomain' ;;
 	ecc*,ia64* | icc*,ia64*)		# Intel C compiler on ia64
 	  tmp_addflag=' -i_dynamic' ;;
 	efc*,ia64* | ifort*,ia64*)	# Intel Fortran compiler on ia64
@@ -13188,6 +13270,15 @@ EOF
       else
 	ld_shlibs_F77=no
       fi
+      ;;
+
+    mirbsd*)
+      hardcode_direct_F77=yes
+      hardcode_shlibpath_var_F77=no
+      archive_cmds_F77='$CC -shared $pic_flag $libobjs $deplibs $compiler_flags -o $lib'
+      archive_expsym_cmds_F77='$CC -shared $pic_flag $libobjs $deplibs $compiler_flags ${wl}-retain-symbols-file,$export_symbols -o $lib'
+      hardcode_libdir_flag_spec_F77='${wl}-rpath,$libdir'
+      export_dynamic_flag_spec_F77='${wl}-E'
       ;;
 
     netbsd*)
@@ -13580,15 +13671,6 @@ EOF
       hardcode_libdir_flag_spec_F77='${wl}-rpath ${wl}$libdir'
       hardcode_libdir_separator_F77=:
       link_all_deplibs_F77=yes
-      ;;
-
-    mirbsd*)
-      hardcode_direct_F77=yes
-      hardcode_shlibpath_var_F77=no
-      archive_cmds_F77='$CC -shared $pic_flag -o $lib $libobjs $deplibs $compiler_flags'
-      archive_expsym_cmds_F77='$CC -shared $pic_flag -o $lib $libobjs $deplibs $compiler_flags ${wl}-retain-symbols-file,$export_symbols'
-      hardcode_libdir_flag_spec_F77='${wl}-rpath,$libdir'
-      export_dynamic_flag_spec_F77='${wl}-E'
       ;;
 
     netbsd*)
@@ -14183,6 +14265,18 @@ hpux9* | hpux10* | hpux11*)
   postinstall_cmds='chmod 555 $lib'
   ;;
 
+interix*)
+  version_type=sunos
+  need_lib_prefix=no
+  need_version=no
+  library_names_spec='${libname}${release}${shared_ext}$versuffix ${libname}${release}${shared_ext}$major ${libname}${shared_ext}'
+  soname_spec='${libname}${release}${shared_ext}$major'
+  dynamic_linker='Interix GNU ld.so.1 (PE, like ELF)'
+  shlibpath_var=LD_LIBRARY_PATH
+  shlibpath_overrides_runpath=no
+  hardcode_into_libs=yes
+  ;;
+
 irix5* | irix6* | nonstopux*)
   case $host_os in
     nonstopux*) version_type=nonstopux ;;
@@ -14242,7 +14336,7 @@ linux*)
 
   # Append ld.so.conf contents to the search path
   if test -f /etc/ld.so.conf; then
-    lt_ld_extra=$(awk '/^include / { system(sprintf("cd /etc; cat %s", \$2)); skip = 1; } { if (!skip) print \$0; skip = 0; }' < /etc/ld.so.conf | $SED -e 's/#.*//;s/[:,\t]/ /g;s/=[^=]*$//;s/=[^= ]* / /g;/^$/d' | tr '\n' ' ')
+    lt_ld_extra=$(awk '/^include / { system(sprintf("cd /etc; cat %s", \$2)); skip = 1; } { if (!skip) print \$0; skip = 0; }' < /etc/ld.so.conf | $SED -e 's/#.*//;s/[:,	]/ /g;s/=[^=]*$//;s/=[^= ]* / /g;/^$/d' | tr '\n' ' ')
     sys_lib_dlsearch_path_spec="/lib /usr/lib $lt_ld_extra"
   fi
 
@@ -14315,7 +14409,11 @@ nto-qnx*)
 openbsd*)
   version_type=sunos
   need_lib_prefix=no
-  need_version=no
+  # Some older versions of OpenBSD (3.3 at least) *do* need versioned libs.
+  case $host_os in
+    openbsd3.3 | openbsd3.3.*) need_version=yes ;;
+    *)                         need_version=no  ;;
+  esac
   library_names_spec='${libname}${release}${shared_ext}$versuffix ${libname}${shared_ext}$versuffix'
   finish_cmds='PATH="\$PATH:/sbin" ldconfig -m $libdir'
   shlibpath_var=LD_LIBRARY_PATH
@@ -15010,11 +15108,11 @@ else
    -e 's:.*FLAGS}? :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:')
-   (eval echo "\"\$as_me:15013: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:15111: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:15017: \$? = $ac_status" >&5
+   echo "$as_me:15115: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings other than the usual output.
@@ -15272,11 +15370,11 @@ else
    -e 's:.*FLAGS}? :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:')
-   (eval echo "\"\$as_me:15275: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:15373: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:15279: \$? = $ac_status" >&5
+   echo "$as_me:15377: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings other than the usual output.
@@ -15334,11 +15432,11 @@ else
    -e 's:.*FLAGS}? :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:')
-   (eval echo "\"\$as_me:15337: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:15435: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>out/conftest.err)
    ac_status=$?
    cat out/conftest.err >&5
-   echo "$as_me:15341: \$? = $ac_status" >&5
+   echo "$as_me:15439: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s out/conftest2.$ac_objext
    then
      # The compiler can only warn and ignore the option if not recognized
@@ -15445,7 +15543,13 @@ cc_basename=$($echo "X$cc_temp" | $Xsed -e 's%.*/%%' -e "s%^$host_alias-%%")
       with_gnu_ld=no
     fi
     ;;
-  mirbsd* | openbsd*)
+  interix*)
+    with_gnu_ld=yes
+    ;;
+  mirbsd*)
+    with_gnu_ld=yes
+    ;;
+  openbsd*)
     with_gnu_ld=no
     ;;
   esac
@@ -15544,16 +15648,26 @@ EOF
       fi
       ;;
 
+    interix*)
+      hardcode_direct_GCJ=yes
+      hardcode_shlibpath_var_GCJ=no
+      archive_cmds_GCJ='$CC -shared $pic_flag $libobjs $deplibs $compiler_flags -o $lib'
+      archive_cmds_need_lc_GCJ=yes
+      hardcode_libdir_flag_spec_GCJ='${wl}-rpath,$libdir'
+      export_dynamic_flag_spec_GCJ='${wl}-E'
+      ;;
+
     linux*)
       if $LD --help 2>&1 | grep ': supported targets:.* elf' > /dev/null; then
 	tmp_addflag=
 	case $cc_basename,$host_cpu in
 	pgcc*)				# Portland Group C compiler
-	  whole_archive_flag_spec_GCJ=
+	  whole_archive_flag_spec_GCJ='${wl}--whole-archive,`for conv in $convenience\"\"; do test  -n \"$conv\" && new_convenience=\"$new_convenience,$conv\"; done; $echo \"$new_convenience\"` ${wl}--no-whole-archive'
+	  tmp_addflag=' $pic_flag'
 	  ;;
 	pgf77* | pgf90* )			# Portland Group f77 and f90 compilers
-	  whole_archive_flag_spec_GCJ=
-	  tmp_addflag=' -fpic -Mnomain' ;;
+	  whole_archive_flag_spec_GCJ='${wl}--whole-archive,`for conv in $convenience\"\"; do test  -n \"$conv\" && new_convenience=\"$new_convenience,$conv\"; done; $echo \"$new_convenience\"` ${wl}--no-whole-archive'
+	  tmp_addflag=' $pic_flag -Mnomain' ;;
 	ecc*,ia64* | icc*,ia64*)		# Intel C compiler on ia64
 	  tmp_addflag=' -i_dynamic' ;;
 	efc*,ia64* | ifort*,ia64*)	# Intel Fortran compiler on ia64
@@ -15572,6 +15686,15 @@ EOF
       else
 	ld_shlibs_GCJ=no
       fi
+      ;;
+
+    mirbsd*)
+      hardcode_direct_GCJ=yes
+      hardcode_shlibpath_var_GCJ=no
+      archive_cmds_GCJ='$CC -shared $pic_flag $libobjs $deplibs $compiler_flags -o $lib'
+      archive_expsym_cmds_GCJ='$CC -shared $pic_flag $libobjs $deplibs $compiler_flags ${wl}-retain-symbols-file,$export_symbols -o $lib'
+      hardcode_libdir_flag_spec_GCJ='${wl}-rpath,$libdir'
+      export_dynamic_flag_spec_GCJ='${wl}-E'
       ;;
 
     netbsd*)
@@ -15964,15 +16087,6 @@ EOF
       hardcode_libdir_flag_spec_GCJ='${wl}-rpath ${wl}$libdir'
       hardcode_libdir_separator_GCJ=:
       link_all_deplibs_GCJ=yes
-      ;;
-
-    mirbsd*)
-      hardcode_direct_GCJ=yes
-      hardcode_shlibpath_var_GCJ=no
-      archive_cmds_GCJ='$CC -shared $pic_flag -o $lib $libobjs $deplibs $compiler_flags'
-      archive_expsym_cmds_GCJ='$CC -shared $pic_flag -o $lib $libobjs $deplibs $compiler_flags ${wl}-retain-symbols-file,$export_symbols'
-      hardcode_libdir_flag_spec_GCJ='${wl}-rpath,$libdir'
-      export_dynamic_flag_spec_GCJ='${wl}-E'
       ;;
 
     netbsd*)
@@ -16567,6 +16681,18 @@ hpux9* | hpux10* | hpux11*)
   postinstall_cmds='chmod 555 $lib'
   ;;
 
+interix*)
+  version_type=sunos
+  need_lib_prefix=no
+  need_version=no
+  library_names_spec='${libname}${release}${shared_ext}$versuffix ${libname}${release}${shared_ext}$major ${libname}${shared_ext}'
+  soname_spec='${libname}${release}${shared_ext}$major'
+  dynamic_linker='Interix GNU ld.so.1 (PE, like ELF)'
+  shlibpath_var=LD_LIBRARY_PATH
+  shlibpath_overrides_runpath=no
+  hardcode_into_libs=yes
+  ;;
+
 irix5* | irix6* | nonstopux*)
   case $host_os in
     nonstopux*) version_type=nonstopux ;;
@@ -16626,7 +16752,7 @@ linux*)
 
   # Append ld.so.conf contents to the search path
   if test -f /etc/ld.so.conf; then
-    lt_ld_extra=$(awk '/^include / { system(sprintf("cd /etc; cat %s", \$2)); skip = 1; } { if (!skip) print \$0; skip = 0; }' < /etc/ld.so.conf | $SED -e 's/#.*//;s/[:,\t]/ /g;s/=[^=]*$//;s/=[^= ]* / /g;/^$/d' | tr '\n' ' ')
+    lt_ld_extra=$(awk '/^include / { system(sprintf("cd /etc; cat %s", \$2)); skip = 1; } { if (!skip) print \$0; skip = 0; }' < /etc/ld.so.conf | $SED -e 's/#.*//;s/[:,	]/ /g;s/=[^=]*$//;s/=[^= ]* / /g;/^$/d' | tr '\n' ' ')
     sys_lib_dlsearch_path_spec="/lib /usr/lib $lt_ld_extra"
   fi
 
@@ -16699,7 +16825,11 @@ nto-qnx*)
 openbsd*)
   version_type=sunos
   need_lib_prefix=no
-  need_version=no
+  # Some older versions of OpenBSD (3.3 at least) *do* need versioned libs.
+  case $host_os in
+    openbsd3.3 | openbsd3.3.*) need_version=yes ;;
+    *)                         need_version=no  ;;
+  esac
   library_names_spec='${libname}${release}${shared_ext}$versuffix ${libname}${shared_ext}$versuffix'
   finish_cmds='PATH="\$PATH:/sbin" ldconfig -m $libdir'
   shlibpath_var=LD_LIBRARY_PATH
@@ -17488,7 +17618,7 @@ else
   lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<EOF
-#line 17491 "configure"
+#line 17621 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -17586,7 +17716,7 @@ else
   lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<EOF
-#line 17589 "configure"
+#line 17719 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
