@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.bin/binutils/gas/doc/Makefile.am,v 1.3 2005/03/28 21:40:36 tg Exp $
+# $MirOS: src/gnu/usr.bin/binutils/gas/doc/Makefile.am,v 1.4 2005/06/05 21:24:14 tg Exp $
 #
 ## Process this file with automake to generate Makefile.in
 
@@ -88,9 +88,6 @@ CONFIG_STATUS_DEPENDENCIES = $(BFDDIR)/configure.in
 
 # We need it for the taz target in ../../Makefile.in.
 info-local: $(MANS)
-
-INSTALL_MAN=install-man1
-install-man: $(INSTALL_MAN)
 
 # Build the man page from the texinfo file
 # The sed command removes the no-adjust Nroff command so that
