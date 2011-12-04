@@ -1,5 +1,4 @@
-/**	$MirOS: src/libexec/ld.so/library_mquery.c,v 1.3 2005/04/17 04:24:10 tg Exp $ */
-/*	$OpenBSD: library_mquery.c,v 1.18 2005/04/06 00:16:53 deraadt Exp $ */
+/*	$OpenBSD: library_mquery.c,v 1.22 2005/05/31 14:31:36 drahn Exp $ */
 
 /*
  * Copyright (c) 2002 Dale Rahn
@@ -38,8 +37,6 @@
 #include "archdep.h"
 #include "resolve.h"
 
-__RCSID("$MirOS: src/libexec/ld.so/library_mquery.c,v 1.3 2005/04/17 04:24:10 tg Exp $");
-
 #define PFLAGS(X) ((((X) & PF_R) ? PROT_READ : 0) | \
 		   (((X) & PF_W) ? PROT_WRITE : 0) | \
 		   (((X) & PF_X) ? PROT_EXEC : 0))
@@ -60,11 +57,11 @@ _dl_load_list_free(struct load_list *load_list)
 	}
 }
 
+
 void
 _dl_unload_shlib(elf_object_t *object)
 {
-	if (--object->refcount == 0) {
-		_dl_run_dtors(object);
+	if (object->refcount == 0) {
 		_dl_load_list_free(object->load_list);
 		_dl_remove_object(object);
 	}
