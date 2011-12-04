@@ -1,4 +1,4 @@
-/**	$MirOS: src/libexec/ftpd/ftpd.c,v 1.3 2005/04/17 04:24:08 tg Exp $ */
+/**	$MirOS: src/libexec/ftpd/ftpd.c,v 1.4 2005/04/29 18:34:52 tg Exp $ */
 /*	$OpenBSD: ftpd.c,v 1.164 2005/04/21 00:12:20 deraadt Exp $	*/
 /*	$NetBSD: ftpd.c,v 1.15 1995/06/03 22:46:47 mycroft Exp $	*/
 
@@ -118,7 +118,7 @@ static const char copyright[] =
 #include "monitor.h"
 
 __SCCSID("@(#)ftpd.c	8.4 (Berkeley) 4/16/94");
-__RCSID("$MirOS: src/libexec/ftpd/ftpd.c,v 1.3 2005/04/17 04:24:08 tg Exp $");
+__RCSID("$MirOS: src/libexec/ftpd/ftpd.c,v 1.4 2005/04/29 18:34:52 tg Exp $");
 
 static char version[] = "Version 6.6/MirOS";
 
@@ -2811,8 +2811,8 @@ logxfer(char *name, off_t size, time_t start)
 		strvis(vpw, guest? guestpw : pw->pw_name, VIS_SAFE|VIS_NOSLASH);
 
 		len = snprintf(buf, sizeof(buf),
-		    "%.24s %d %s %qd %s %c %s %c %c %s ftp %d %s %s\n",
-		    ctime(&now), now - start + (now == start),
+		    "%.24s %lld %s %qd %s %c %s %c %c %s ftp %d %s %s\n",
+		    ctime(&now), (long long)now - (long long)start + (now == start),
 		    vremotehost, (long long)size, vpath,
 		    ((type == TYPE_A) ? 'a' : 'b'), "*" /* none yet */,
 		    'o', ((guest) ? 'a' : 'r'),

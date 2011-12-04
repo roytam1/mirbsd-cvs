@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libssl/crypto/Makefile,v 1.6 2005/04/29 13:52:24 tg Exp $
+# $MirOS: src/lib/libssl/crypto/Makefile,v 1.7 2005/04/29 14:39:25 tg Exp $
 # $OpenBSD: Makefile,v 1.42 2005/04/29 07:54:15 djm Exp $
 
 .include <bsd.own.mk>
@@ -123,7 +123,7 @@ SRCS+=	eng_dyn.c eng_table.c tb_cipher.c eng_err.c
 SRCS+=	hw_cryptodev.c eng_cnf.c
 SRCS+=	tb_dh.c eng_fat.c tb_digest.c eng_init.c
 SRCS+=	tb_dsa.c eng_lib.c tb_rand.c eng_list.c
-SRCs+=	tb_rsa.c
+SRCS+=	tb_rsa.c
 SRCS+=	dso_dl.c dso_dlfcn.c dso_err.c dso_lib.c dso_null.c
 SRCS+=	dso_openssl.c dso_win32.c dso_vms.c
 SRCS+=	ocsp_asn.c ocsp_err.c ocsp_ht.c ocsp_prn.c ocsp_vfy.c

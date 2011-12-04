@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.bin/ftp/main.c,v 1.3 2005/03/15 18:44:52 tg Exp $ */
+/**	$MirOS: src/usr.bin/ftp/main.c,v 1.4 2005/04/29 18:35:08 tg Exp $ */
 /*	$OpenBSD: main.c,v 1.58 2004/07/20 03:50:26 deraadt Exp $	*/
 /*	$NetBSD: main.c,v 1.24 1997/08/18 10:20:26 lukem Exp $	*/
 
@@ -61,7 +61,7 @@
  */
 
 #ifndef lint
-static char copyright[] =
+static const char copyright[] =
 "@(#) Copyright (c) 1985, 1989, 1993, 1994\n\
 	The Regents of the University of California.  All rights reserved.\n";
 #endif /* not lint */
@@ -84,7 +84,7 @@ static char copyright[] =
 
 #include "ftp_var.h"
 
-__RCSID("$MirOS: src/usr.bin/ftp/main.c,v 1.3 2005/03/15 18:44:52 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ftp/main.c,v 1.4 2005/04/29 18:35:08 tg Exp $");
 
 int family = PF_UNSPEC;
 

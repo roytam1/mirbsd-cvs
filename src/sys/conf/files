@@ -1,4 +1,4 @@
-# $MirOS: src/sys/conf/files,v 1.2 2005/03/06 21:27:32 tg Exp $
+# $MirOS: src/sys/conf/files,v 1.3 2005/04/29 18:35:00 tg Exp $
 # $NetBSD: files,v 1.634 2003/09/25 15:58:14 pooka Exp $
 # $OpenBSD: files,v 1.321 2004/11/28 23:39:45 canacar Exp $
 # $NetBSD: files,v 1.87 1996/05/19 17:17:50 jonathan Exp $
@@ -679,11 +679,9 @@ file net/rtsock.c
 file net/slcompress.c			sl | ppp | strip
 file net/if_enc.c			enc			needs-count
 file net/if_gre.c			gre			needs-count
-#file net/if_ieee1394subr.c		ieee1394
 file net/if_ieee80211subr.c		wlan
 file netinet/if_atm.c			atm
 file netinet/if_ether.c			ether | inet
-#file netinet/if_ieee1394arp.c		ieee1394 & inet
 file netinet/in4_cksum.c		inet
 file netinet/igmp.c			inet
 file netinet/in.c			inet
@@ -755,6 +753,7 @@ file nfs/krpc_subr.c			nfsclient
 file nfs/nfs_bio.c			nfsclient
 file nfs/nfs_boot.c			nfsclient
 file nfs/nfs_node.c			nfsclient
+file nfs/nfs_kq.c			nfsclient
 file nfs/nfs_serv.c			nfsserver
 file nfs/nfs_socket.c			nfsserver | nfsclient
 file nfs/nfs_srvcache.c			nfsserver

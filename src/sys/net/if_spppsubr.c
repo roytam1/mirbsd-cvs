@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/sys/net/if_spppsubr.c,v 1.3 2005/04/29 18:35:03 tg Exp $ */
 /*	$OpenBSD: if_spppsubr.c,v 1.32 2005/04/24 20:56:48 canacar Exp $	*/
 /*
  * Synchronous PPP/Cisco link level subroutines.
@@ -123,7 +123,7 @@
 #define	NORECV_TIME			15	/* before we get worried */
 
 /*XXX*/
-void
+static void
 getmicrouptime(struct timeval *tv)
 {
 	tv->tv_sec = time.tv_sec - boottime.tv_sec;

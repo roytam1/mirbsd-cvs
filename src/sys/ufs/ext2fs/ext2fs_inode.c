@@ -130,7 +130,7 @@ ext2fs_inactive(v)
 		if (ext2fs_size(ip) != 0) {
 			error = ext2fs_truncate(ip, (off_t)0, 0, NOCRED);
 		}
-		getnanotime(&ts);
+		TIMEVAL_TO_TIMESPEC(&time, &ts);
 		ip->i_e2fs_dtime = ts.tv_sec;
 		ip->i_flag |= IN_CHANGE | IN_UPDATE;
 		ext2fs_inode_free(ip, ip->i_number, ip->i_e2fs_mode);
@@ -171,7 +171,7 @@ ext2fs_update(struct inode *ip, struct timespec *atime, struct timespec *mtime,
 
 	if (ITOV(ip)->v_mount->mnt_flag & MNT_RDONLY)
 		return (0);
-	getnanotime(&ts);
+	TIMEVAL_TO_TIMESPEC(&time, &ts);
 	EXT2FS_ITIMES(ip,
 	    atime ? atime : &ts,
 	    mtime ? mtime : &ts);

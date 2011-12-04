@@ -1,4 +1,4 @@
-/**	$MirOS: src/sbin/fdisk/cmd.c,v 1.2 2005/03/06 19:49:54 tg Exp $	*/
+/**	$MirOS: src/sbin/fdisk/cmd.c,v 1.3 2005/04/29 18:34:55 tg Exp $	*/
 /*	$OpenBSD: cmd.c,v 1.39 2005/03/29 19:35:25 otto Exp $	*/
 
 /*
@@ -41,7 +41,7 @@
 #include "part.h"
 #include "cmd.h"
 
-__RCSID("$MirOS: src/sbin/fdisk/cmd.c,v 1.2 2005/03/06 19:49:54 tg Exp $");
+__RCSID("$MirOS: src/sbin/fdisk/cmd.c,v 1.3 2005/04/29 18:34:55 tg Exp $");
 
 int
 Xreinit(cmd_t *cmd, disk_t *disk, mbr_t *mbr, mbr_t *tt, int offset)
@@ -465,7 +465,6 @@ Xmanual(cmd_t *cmd, disk_t *disk, mbr_t *mbr, mbr_t *tt, int offset)
 	char *p;
 	sig_t opipe;
 	extern const char manpage[];
-	extern const int manpage_sz;
 	FILE *f;
 
 	opipe = signal(SIGPIPE, SIG_IGN);

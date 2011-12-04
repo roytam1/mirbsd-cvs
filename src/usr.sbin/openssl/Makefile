@@ -1,13 +1,15 @@
-# $MirOS: src/usr.sbin/openssl/Makefile,v 1.3 2005/03/15 18:51:37 tg Exp $
+# $MirOS: src/usr.sbin/openssl/Makefile,v 1.4 2005/04/29 13:44:07 tg Exp $
 # $OpenBSD: Makefile,v 1.17 2005/04/29 05:42:55 djm Exp $
 
 PROG=		openssl
 LDADD=		-lssl -lcrypto
 DPADD=		${LIBSSL} ${LIBCRYPTO}
 
+.include <bsd.own.mk>
+
 SSLEAYDIST=	lib/libssl/src
 SSLEAY_SRC_TOP=	${BSDSRCDIR}/${SSLEAYDIST}
-SSLEAY_SRC=	${SSLEAYDIST}/apps
+SSLEAY_SRC=	${SSLEAY_SRC_TOP}/apps
 
 .if (${MACHINE} == "amd64") || (${MACHINE} == "i386")
 CPPFLAGS+=	-DL_ENDIAN

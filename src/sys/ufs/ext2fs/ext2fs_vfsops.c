@@ -1,4 +1,4 @@
-/*	$OpenBSD: ext2fs_vfsops.c,v 1.34 2004/06/21 23:50:38 tholo Exp $	*/
+/*	$OpenBSD: ext2fs_vfsops.c,v 1.36 2005/04/30 13:58:55 niallo Exp $	*/
 /*	$NetBSD: ext2fs_vfsops.c,v 1.1 1997/06/11 09:34:07 bouyer Exp $	*/
 
 /*
@@ -747,7 +747,7 @@ ext2fs_sync_vnode(struct vnode *vp, void *args)
 	ip = VTOI(vp);
 	if (vp->v_type == VNON || 
 	    ((ip->i_flag & (IN_ACCESS | IN_CHANGE | IN_MODIFIED | IN_UPDATE)) == 0 &&
-		vp->v_dirtyblkhd.lh_first == NULL) ||
+		LIST_EMPTY(&vp->v_dirtyblkhd)) ||
 	    esa->waitfor == MNT_LAZY) {
 		simple_unlock(&vp->v_interlock);
 		return (0);
@@ -902,7 +902,8 @@ ext2fs_vget(mp, ino, vpp)
 
 	/* If the inode was deleted, reset all fields */
 	if (ip->i_e2fs_dtime != 0) {
-		ip->i_e2fs_mode = ip->i_e2fs_size = ip->i_e2fs_nblock = 0;
+		ip->i_e2fs_mode = ip->i_e2fs_nblock = 0;
+		(void)ext2fs_setsize(ip, 0);
 	}
 
 	/*
