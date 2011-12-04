@@ -1,5 +1,3 @@
-/* $MirOS: src/lib/libc/string/bcopy.c,v 1.2 2005/03/06 20:28:48 tg Exp $ */
-
 /*-
  * Copyright (c) 1990 The Regents of the University of California.
  * All rights reserved.
@@ -38,7 +36,7 @@ static char *rcsid = "$OpenBSD: bcopy.c,v 1.3 2003/06/02 20:18:38 millert Exp $"
 
 #include <string.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libc/string/bcopy.c,v 1.3 2005/04/16 19:52:23 tg Exp $");
 
 /*
  * sizeof(word) MUST BE A POWER OF TWO
@@ -54,26 +52,22 @@ typedef	long word;		/* "word" used for optimal copy speed */
  * This is the routine that actually implements
  * (the portable versions of) bcopy, memcpy, and memmove.
  */
-#ifdef MEMCOPY
+#if defined(MEMCOPY)
 void *
-memcpy(dst0, src0, length)
-#else
-#ifdef MEMMOVE
+memcpy(void *dst0, const void *src0, size_t length)
+#elif defined(MEMMOVE)
 void *
-memmove(dst0, src0, length)
+memmove(void *dst0, const void *src0, size_t length)
 #else
 __warn_references(bcopy, "warning: bcopy(s,d,l) is deprecated, consider using memmove(d,s,l)");
+
 void
-bcopy(src0, dst0, length)
+bcopy(const void *src0, void *dst0, size_t length)
 #endif
-#endif
-	void *dst0;
-	const void *src0;
-	register size_t length;
 {
-	register char *dst = dst0;
-	register const char *src = src0;
-	register size_t t;
+	char *dst = dst0;
+	const char *src = src0;
+	size_t t;
 
 	if (length == 0 || dst == src)		/* nothing to do */
 		goto done;

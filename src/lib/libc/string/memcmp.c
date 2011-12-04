@@ -30,19 +30,30 @@
  * SUCH DAMAGE.
  */
 
-#if defined(LIBC_SCCS) && !defined(lint)
+#if 0
 static char *rcsid = "$OpenBSD: memcmp.c,v 1.4 2003/06/11 21:08:16 deraadt Exp $";
 #endif /* LIBC_SCCS and not lint */
 
+#ifndef _KERNEL
 #include <string.h>
+#else
+#include <lib/libkern/libkern.h>
+#endif
+
+__RCSID("$MirOS$");
+
+#ifdef BCMP
+__warn_references(bcmp, "warning: bcmp() is deprecated, consider using memcmp()");
+#define	memcmp	bcmp
+#endif
 
 /*
- * Compare memory regions.
+ * Compare memory regions (vax cmpc3 instruction)
  */
 int
 memcmp(const void *s1, const void *s2, size_t n)
 {
-	if (n != 0) {
+	if (__predict_true(n != 0)) {
 		const unsigned char *p1 = s1, *p2 = s2;
 
 		do {
