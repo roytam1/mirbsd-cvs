@@ -334,7 +334,7 @@ x_print_expansions(int nwords, char * const *words, int is_command)
 {
 	int use_copy = 0;
 	int prefix_len;
-	XPtrV l = {};
+	XPtrV l = { NULL, NULL, NULL };
 
 	/* Check if all matches are in the same directory (in this
 	 * case, we want to omit the directory name)

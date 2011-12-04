@@ -149,7 +149,9 @@ expand(char *cp,	/* input word */
 	char *dp, *sp;		/* dest., source */
 	int fdo, word;		/* second pass flags; have word */
 	int doblank;		/* field splitting of parameter/command subst */
-	Expand x = {};		/* expansion variables */
+	Expand x = {		/* expansion variables */
+		NULL, { NULL }, NULL, 0
+	};
 	SubType st_head, *st;
 	int newlines = 0; /* For trailing newlines in COMSUB */
 	int saw_eq, tilde_ok;
