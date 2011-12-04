@@ -1,4 +1,4 @@
-# $MirOS: src/lib/csu/common_elf/Makefile.inc,v 1.5 2005/04/29 00:38:55 tg Exp $
+# $MirOS: src/lib/csu/common_elf/Makefile.inc,v 1.6 2005/06/09 20:57:36 tg Exp $
 # $NetBSD: Makefile.inc,v 1.23 2003/03/19 16:54:25 ross Exp $
 
 .include <bsd.own.mk>
@@ -14,14 +14,10 @@ SHARED_FLAGS+=	-DSHARED -DPIC ${PICFLAG}
 
 .PATH:		${.CURDIR}/../common_elf
 
-SRCS+=		crt0.c crti.c
-OBJS+=		crt0.o crti.o
+SRCS+=		crt0.c crti.c crtn.c
+OBJS+=		crt0.o crti.o crtn.o
 # if profiling
 #OBJS+=		gcrt0.o
-.ifndef __NO_CRTN
-SRCS+=		crtn.c
-OBJS+=		crtn.o
-.endif
 
 # These are now provided by GCC 3
 #SRCS+=		crtbegin.c crtend.c

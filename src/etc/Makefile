@@ -1,4 +1,4 @@
-# $MirOS: src/etc/Makefile,v 1.4 2005/04/19 12:53:46 tg Exp $
+# $MirOS: src/etc/Makefile,v 1.5 2005/04/20 06:18:06 tg Exp $
 # $OpenBSD: Makefile,v 1.206 2004/05/04 23:37:04 deraadt Exp $
 
 TZDIR=		/usr/share/zoneinfo
@@ -228,7 +228,6 @@ snap_md:
 
 MAKEDEVARCHS+= amd64
 MAKEDEVARCHS+= i386
-MAKEDEVARCHS+= macppc
 MAKEDEVARCHS+= sparc
 
 clean:
@@ -309,7 +308,7 @@ install-generated:
 DHSIZE=	1024 1536 2048 3072 4096
 update-moduli:
 	( \
-		echo '#    $$MirOS: src/etc/Makefile,v 1.4 2005/04/19 12:53:46 tg Exp $$'; \
+		echo '#    $$MirOS: src/etc/Makefile,v 1.5 2005/04/20 06:18:06 tg Exp $$'; \
 		echo '#    $$OpenBSD: Makefile,v 1.206 2004/05/04 23:37:04 deraadt Exp $$'; \
 		echo '# Time Type Tests Tries Size Generator Modulus'; \
 		( for i in ${DHSIZE}; do \

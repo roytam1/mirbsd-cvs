@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.2 2005/03/03 19:43:30 tg Rel $ */
+/* $MirOS: src/lib/csu/common_elf/crti.c,v 1.3 2005/04/25 23:11:38 tg Exp $ */
 /* From: $NetBSD: crti.c,v 1.2 2002/11/23 17:21:22 thorpej Exp $ */
 
 /*-
@@ -54,10 +54,9 @@ __asm__(".section .note.miros.ident,\"a\",@progbits"
 /* the obvious __RCSID */
 
 __asm__(".section .comment"
-"\n	.asciz	\"$MirOS: src/lib/csu/common_elf/crti.c,v 1.2 2005/03/06 20:28:21 tg Exp $\"");
+"\n	.asciz	\"$MirOS: src/lib/csu/common_elf/crti.c,v 1.3 2005/04/25 23:11:38 tg Exp $\"");
 
 
-#ifndef __NO_INIT_SECTION
 /*-
  * Copyright (c) 1998, 2001, 2002 The NetBSD Foundation, Inc.
  * All rights reserved.
@@ -120,5 +119,3 @@ _fini(void)
 
 MD_INIT_SECTION_PROLOGUE;
 MD_FINI_SECTION_PROLOGUE;
-
-#endif
