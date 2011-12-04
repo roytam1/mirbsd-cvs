@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.bin/cvs/Makefile.bsd-wrapper,v 1.4 2005/04/19 22:34:12 tg Exp $
+# $MirOS: src/gnu/usr.bin/cvs/Makefile.bsd-wrapper,v 1.5 2005/07/09 17:34:38 tg Exp $
 # $OpenBSD: Makefile.bsd-wrapper,v 1.44 2004/01/02 09:01:24 millert Exp $
 
 # ATTN: see below
@@ -16,9 +16,6 @@ CFARGS=	--prefix=/usr --mandir=/usr/share/man --datadir=/usr/libexec \
 	--with-cvs-admin-group=_cvsadmin
 XARGS=	ZLIB_LIBS=-lz
 
-.if exists(../Makefile.inc)
-.  include "../Makefile.inc"
-.endif
 .include <bsd.own.mk>
 COPTS+=	-Wall -Wno-unused
 
