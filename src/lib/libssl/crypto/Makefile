@@ -1,5 +1,5 @@
-# $MirOS: src/lib/libssl/crypto/Makefile,v 1.3 2005/03/15 17:33:41 tg Exp $
-# $OpenBSD: Makefile,v 1.36 2004/02/27 17:36:13 deraadt Exp $
+# $MirOS: src/lib/libssl/crypto/Makefile,v 1.4 2005/03/15 18:51:38 tg Exp $
+# $OpenBSD: Makefile,v 1.40 2005/04/01 08:15:52 markus Exp $
 
 .include <bsd.own.mk>
 
@@ -10,8 +10,11 @@ SSLEAYDIST=	src
 SSL_SRC=	${.CURDIR}/../${SSLEAYDIST}
 LCRYPTO_SRC=	${SSL_SRC}/crypto
 
+.if ${NOPIC:L} == "no"
+CPPFLAGS+= -DSO_DLFCN -DHAVE_DLFCN_H
+.endif
 CPPFLAGS+= -DOPENSSL_NO_IDEA -DTERMIOS -DANSI_SOURCE -DNO_ERR -DOPENSSL_NO_ASM
-CPPFLAGS+= -DOPENSSL_NO_KRB5 -DSO_DLFCN -DHAVE_DLFCN_H -DNO_WINDOWS_BRAINDEATH
+CPPFLAGS+= -DOPENSSL_NO_KRB5 -DNO_WINDOWS_BRAINDEATH
 CPPFLAGS+= -DOPENSSL_NO_HW_CSWIFT -DOPENSSL_NO_HW_NCIPHER -DOPENSSL_NO_HW_ATALLA
 CPPFLAGS+= -DOPENSSL_NO_HW_NURON -DOPENSSL_NO_HW_UBSEC -DOPENSSL_NO_HW_AEP
 CPPFLAGS+= -DOPENSSL_NO_HW_SUREWARE -DOPENSSL_NO_HW_4758_CCA
@@ -141,8 +144,8 @@ SRCS+=	ec_err.c ec_mult.c ecp_nist.c ecp_smpl.c
 	${LCRYPTO_SRC}/comp ${LCRYPTO_SRC}/txt_db ${LCRYPTO_SRC}/md4 \
 	${LCRYPTO_SRC}/engine ${LCRYPTO_SRC}/dso ${LCRYPTO_SRC}/ui \
 	${LCRYPTO_SRC}/ocsp ${LCRYPTO_SRC}/ec ${LCRYPTO_SRC}/aes \
-	${LCRYPTO_SRC} \
-	${LCRYPTO_SRC}/acss ${.CURDIR}/arch/${MACHINE_ARCH}
+	${LCRYPTO_SRC} ${LCRYPTO_SRC}/acss \
+	${.CURDIR}/arch/${MACHINE_ARCH} ${LCRYPTO_SRC}/bn/asm
 
 HDRS=\
 	crypto/acss/acss.h \
@@ -257,6 +260,10 @@ ${f}.S: ${LCRYPTO_SRC}/${dir}/asm/${f}.pl ${LCRYPTO_SRC}/perlasm/x86unix.pl
 		${LCRYPTO_SRC}/${dir}/asm/${f}.pl openbsd-elf 386 >$@
 .  endfor
 SRCS+= bf_cbc.c
+.elif (${MACHINE_ARCH} == "amd64")
+SRCS+= bf_enc.c
+SRCS+= x86_64-gcc.c
+SRCS+= rc4_enc.c
 .else
 SRCS+= bf_enc.c
 SRCS+= bn_asm.c

@@ -1,5 +1,5 @@
-# $MirOS: src/lib/libssl/ssl/Makefile,v 1.2 2005/03/06 20:29:36 tg Exp $
-# $OpenBSD: Makefile,v 1.19 2004/08/06 22:41:41 pefo Exp $
+# $MirOS: src/lib/libssl/ssl/Makefile,v 1.3 2005/03/15 18:51:39 tg Exp $
+# $OpenBSD: Makefile,v 1.20 2005/03/30 13:08:02 markus Exp $
 
 SHLIB_VERSION?=	10.0
 LIB=		ssl
@@ -13,8 +13,7 @@ CPPFLAGS+= -DBN_ASM
 .endif
 
 CPPFLAGS+= -DOPENSSL_NO_IDEA -DTERMIOS -DANSI_SOURCE -DNO_ERR
-CPPFLAGS+= -DOPENSSL_NO_KRB5 -DSO_DLFCN -DHAVE_DLFCN_H
-CPPFLAGS+= -I${.CURDIR}/../${SSLEAYDIST}
+CPPFLAGS+= -DOPENSSL_NO_KRB5 -DHAVE_DLFCN_H -I${.CURDIR}/../${SSLEAYDIST}
 
 SRCS=	bio_ssl.c s2_clnt.c s3_both.c s3_srvr.c ssl_err2.c ssl_txt.c	\
 	t1_srvr.c s23_clnt.c s2_enc.c s3_clnt.c ssl_algs.c ssl_lib.c	\
