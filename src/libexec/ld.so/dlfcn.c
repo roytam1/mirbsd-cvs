@@ -1,5 +1,4 @@
-/**	$MirOS: src/libexec/ld.so/dlfcn.c,v 1.3 2005/04/17 04:24:09 tg Exp $ */
-/*	$OpenBSD: dlfcn.c,v 1.48 2005/05/23 19:22:11 drahn Exp $ */
+/*	$OpenBSD: dlfcn.c,v 1.71 2005/11/09 16:32:12 kurt Exp $ */
 
 /*
  * Copyright (c) 1998 Per Fogelstrom, Opsycon AB
@@ -24,6 +23,7 @@
  * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
+ *
  */
 
 #define _DYN_LOADER
@@ -47,74 +47,62 @@ static elf_object_t *obj_from_addr(const void *addr);
 void *
 dlopen(const char *libname, int flags)
 {
-	elf_object_t *object, *dynobj;
-	Elf_Dyn	*dynp;
+	elf_object_t *object;
+	int failed = 0;
 
 	if (libname == NULL)
-		return _dl_objects;
+		return RTLD_DEFAULT;
 
 	DL_DEB(("dlopen: loading: %s\n", libname));
 
 	_dl_thread_kern_stop();
+
+	_dl_loading_object = NULL;
+
 	object = _dl_load_shlib(libname, _dl_objects, OBJTYPE_DLO, flags);
 	if (object == 0) {
-		_dl_thread_kern_go();
-		return((void *)0);
+		DL_DEB(("dlopen: failed to open %s\n", libname));
+		failed = 1;
+		goto loaded;
 	}
-	/* this add_object should not be here, XXX */
-	_dl_add_object(object);
-	_dl_link_sub(object, _dl_objects);
-	_dl_thread_kern_go();
-
-	if (object->refcount > 1)
-		return((void *)object);	/* Already loaded */
-
-	/*
-	 * Check for 'needed' objects. For each 'needed' object we
-	 * create a 'shadow' object and add it to a list attached to
-	 * the object so we know our dependencies. This list should
-	 * also be used to determine the library search order when
-	 * resolving undefined symbols. This is not yet done. XXX
-	 */
-	dynobj = object;
-	while (dynobj) {
-		elf_object_t *tmpobj = dynobj;
-
-		for (dynp = dynobj->load_dyn; dynp->d_tag; dynp++) {
-			const char *deplibname;
-			elf_object_t *depobj;
-
-			if (dynp->d_tag != DT_NEEDED)
-				continue;
-
-			deplibname = dynobj->dyn.strtab + dynp->d_un.d_val;
-			DL_DEB(("dlopen: loading: %s required by %s\n",
-			    deplibname, libname));
-			_dl_thread_kern_stop();
-			depobj = _dl_load_shlib(deplibname, dynobj, OBJTYPE_LIB,
-				flags|RTLD_GLOBAL);
-			if (!depobj) {
-				_dl_fdprintf(STDERR_FILENO,
-				    "can't dlopen %s\n", libname);
-				_dl_exit(4);
-			}
-			/* this add_object should not be here, XXX */
-			_dl_add_object(depobj);
-			_dl_link_sub(depobj, dynobj);
-			_dl_thread_kern_go();
-
-			tmpobj->dep_next = _dl_malloc(sizeof(elf_object_t));
-			tmpobj->dep_next->next = depobj;
-			tmpobj = tmpobj->dep_next;
-		}
-		dynobj = dynobj->next;
-	}
-
-	_dl_rtld(object);
-	_dl_call_init(object);
 
 	_dl_link_dlopen(object);
 
+	if (OBJECT_REF_CNT(object) > 1) {
+		/* if opened but grpsym_list has not been created */
+		if (OBJECT_DLREF_CNT(object) == 1) {
+			/* add first object manually */
+			_dl_link_grpsym(object);
+			_dl_cache_grpsym_list(object);
+		}
+		goto loaded;
+	}
+
+	/* this add_object should not be here, XXX */
+	_dl_add_object(object);
+
+	DL_DEB(("head [%s]\n", object->load_name ));
+
+	if ((failed = _dl_load_dep_libs(object, flags, 0)) == 1) {
+		_dl_real_close(object);
+		object = NULL;
+		_dl_errno = DL_CANT_LOAD_OBJ;
+	} else {
+		int err;
+		DL_DEB(("tail %s\n", object->load_name ));
+		err = _dl_rtld(object);
+		if (err != 0) {
+			_dl_real_close(object);
+			_dl_errno = DL_CANT_LOAD_OBJ;
+			object = 0;
+			failed = 1;
+		} else {
+			_dl_call_init(object);
+		}
+	}
+
+loaded:
+	_dl_loading_object = NULL;
 
 	if (_dl_debug_map->r_brk) {
 		_dl_debug_map->r_state = RT_ADD;
@@ -123,7 +111,10 @@ dlopen(const char *libname, int flags)
 		(*((void (*)(void))_dl_debug_map->r_brk))();
 	}
 
-	DL_DEB(("dlopen: %s: done.\n", libname));
+	_dl_thread_kern_go();
+
+	DL_DEB(("dlopen: %s: done (%s).\n", libname,
+	    failed ? "failed" : "success"));
 
 	return((void *)object);
 }
@@ -133,12 +124,13 @@ dlsym(void *handle, const char *name)
 {
 	elf_object_t	*object;
 	elf_object_t	*dynobj;
+	const elf_object_t	*pobj;
 	void		*retval;
 	const Elf_Sym	*sym = NULL;
-	int		flags;
+	int flags;
 
 	if (handle == NULL || handle == RTLD_NEXT ||
-	    handle == RTLD_SELF) {
+	    handle == RTLD_SELF || handle == RTLD_DEFAULT) {
 		void *retaddr;
 
 		retaddr = __builtin_return_address(0);	/* __GNUC__ only */
@@ -148,25 +140,18 @@ dlsym(void *handle, const char *name)
 			return(0);
 		}
 
-		if (handle == RTLD_NEXT) {
-			object = object->next;
-			if (object == NULL) {
-				_dl_errno = DL_NO_SYMBOL;
-				return(0);
-			}
-		}
-
-		if (handle == NULL)
+		if (handle == RTLD_NEXT)
+			flags = SYM_SEARCH_NEXT|SYM_PLT;
+		else if (handle == RTLD_SELF)
 			flags = SYM_SEARCH_SELF|SYM_PLT;
-		else
+		else if (handle == RTLD_DEFAULT)
 			flags = SYM_SEARCH_ALL|SYM_PLT;
+		else
+			flags = SYM_DLSYM|SYM_PLT;
 
-	} else if (handle == RTLD_DEFAULT) {
-		object = _dl_objects;
-		flags = SYM_SEARCH_ALL|SYM_PLT;
 	} else {
 		object = (elf_object_t *)handle;
-		flags = SYM_SEARCH_SELF|SYM_NOTPLT;
+		flags = SYM_DLSYM|SYM_PLT;
 
 		dynobj = _dl_objects;
 		while (dynobj && dynobj != object)
@@ -178,14 +163,15 @@ dlsym(void *handle, const char *name)
 		}
 	}
 
-	retval = (void *)_dl_find_symbol(name, object, &sym, NULL,
-	    flags|SYM_NOWARNNOTFOUND, 0, object);
+	retval = (void *)_dl_find_symbol(name, &sym,
+	    flags|SYM_NOWARNNOTFOUND, NULL, object, &pobj);
 
 	if (sym != NULL) {
 		retval += sym->st_value;
 #ifdef __hppa__
-		retval = (void *)_dl_md_plabel((Elf_Addr)retval,
-		    object->dyn.pltgot);
+		if (ELF_ST_TYPE(sym->st_info) == STT_FUNC)
+			retval = (void *)_dl_md_plabel((Elf_Addr)retval,
+			    pobj->dyn.pltgot);
 #endif
 		DL_DEB(("dlsym: %s in %s: %p\n",
 		    name, object->load_name, retval));
@@ -205,6 +191,32 @@ dlctl(void *handle, int command, void *data)
 		_dl_thread_fnc = data;
 		retval = 0;
 		break;
+	case 0x20:  
+		_dl_show_objects();
+		retval = 0;
+		break;
+	case 0x21:
+	{
+		struct dep_node *n, *m;
+		elf_object_t *obj;
+		_dl_printf("Load Groups:\n");
+
+		TAILQ_FOREACH(n, &_dlopened_child_list, next_sib) {
+			obj = n->data;
+			_dl_printf("%s\n", obj->load_name);
+
+			_dl_printf("  children\n");
+			TAILQ_FOREACH(m, &obj->child_list, next_sib)
+				_dl_printf("\t[%s]\n", m->data->load_name);
+
+			_dl_printf("  grpref\n");
+			TAILQ_FOREACH(m, &obj->grpref_list, next_sib)
+				_dl_printf("\t[%s]\n", m->data->load_name);
+			_dl_printf("\n");
+		}
+		retval = 0;
+		break;
+	}
 	default:
 		_dl_errno = DL_INVALID_CTL;
 		retval = -1;
@@ -218,10 +230,14 @@ dlclose(void *handle)
 {
 	int retval;
 
-	if (handle == _dl_objects)
+	if (handle == RTLD_DEFAULT)
 		return 0;
 
+	_dl_thread_kern_stop();
+
 	retval = _dl_real_close(handle);
+
+	_dl_thread_kern_go();
 
 	if (_dl_debug_map->r_brk) {
 		_dl_debug_map->r_state = RT_DELETE;
@@ -239,6 +255,7 @@ _dl_real_close(void *handle)
 	elf_object_t	*dynobj;
 
 	object = (elf_object_t *)handle;
+
 	dynobj = _dl_objects;
 	while (dynobj && dynobj != object)
 		dynobj = dynobj->next;
@@ -248,10 +265,16 @@ _dl_real_close(void *handle)
 		return (1);
 	}
 
-	_dl_unlink_dlopen(object);
+	if (object->opencount == 0) {
+		_dl_errno = DL_INVALID_HANDLE;
+		return (1);
+	}
+
+	object->opencount--;
 	_dl_notify_unload_shlib(object);
 	_dl_run_all_dtors();
 	_dl_unload_shlib(object);
+	_dl_cleanup_objects();
 	return (0);
 }
 
@@ -298,6 +321,9 @@ dlerror(void)
 	case DL_CANT_FIND_OBJ:
 		errmsg = "Cannot determine caller's shared object";
 		break;
+	case DL_CANT_LOAD_OBJ:
+		errmsg = "Cannot load specified object";
+		break;
 	default:
 		errmsg = "Unknown error";
 	}
@@ -309,8 +335,6 @@ dlerror(void)
 void
 _dl_show_objects(void)
 {
-	extern int _dl_symcachestat_hits;
-	extern int _dl_symcachestat_lookups;
 	elf_object_t *object;
 	char *objtypename;
 	int outputfd;
@@ -326,7 +350,7 @@ _dl_show_objects(void)
 		pad = "        ";
 	else
 		pad = "";
-	_dl_fdprintf(outputfd, "\tStart   %s End     %s Type Ref Name\n",
+	_dl_fdprintf(outputfd, "\tStart   %s End     %s Type Open Ref GrpRef Name\n",
 	    pad, pad);
 
 	while (object) {
@@ -347,10 +371,11 @@ _dl_show_objects(void)
 			objtypename = "????";
 			break;
 		}
-		_dl_fdprintf(outputfd, "\t%lX %lX %s  %d  %s\n",
+		_dl_fdprintf(outputfd, "\t%lX %lX %s %d    %d   %d      %s\n",
 		    (void *)object->load_addr,
 		    (void *)(object->load_addr + object->load_size),
-		    objtypename, object->refcount, object->load_name);
+		    objtypename, object->opencount, object->refcount,
+		    object->grprefcount, object->load_name);
 		object = object->next;
 	}
 

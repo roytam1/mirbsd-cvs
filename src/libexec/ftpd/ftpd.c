@@ -1,5 +1,5 @@
-/**	$MirOS: src/libexec/ftpd/ftpd.c,v 1.4 2005/04/29 18:34:52 tg Exp $ */
-/*	$OpenBSD: ftpd.c,v 1.164 2005/04/21 00:12:20 deraadt Exp $	*/
+/**	$MirOS: src/libexec/ftpd/ftpd.c,v 1.5 2005/04/30 22:54:16 tg Exp $ */
+/*	$OpenBSD: ftpd.c,v 1.168 2005/08/22 17:49:37 mickey Exp $	*/
 /*	$NetBSD: ftpd.c,v 1.15 1995/06/03 22:46:47 mycroft Exp $	*/
 
 /*
@@ -118,7 +118,7 @@ static const char copyright[] =
 #include "monitor.h"
 
 __SCCSID("@(#)ftpd.c	8.4 (Berkeley) 4/16/94");
-__RCSID("$MirOS: src/libexec/ftpd/ftpd.c,v 1.4 2005/04/29 18:34:52 tg Exp $");
+__RCSID("$MirOS: src/libexec/ftpd/ftpd.c,v 1.5 2005/04/30 22:54:16 tg Exp $");
 
 static char version[] = "Version 6.6/MirOS";
 
@@ -1191,9 +1191,12 @@ retrieve(char *cmd, char *name)
 			n = restart_point;
 			i = 0;
 			while (i++ < n) {
-				if ((c=getc(fin)) == EOF) {
-					perror_reply(550, name);
-					goto done;
+				if ((c = getc(fin)) == EOF) {
+					if (ferror(fin)) {
+						perror_reply(550, name);
+						goto done;
+					} else
+						break;
 				}
 				if (c == '\n')
 					i++;
@@ -1261,9 +1264,12 @@ store(char *name, char *mode, int unique)
 			n = restart_point;
 			i = 0;
 			while (i++ < n) {
-				if ((c=getc(fout)) == EOF) {
-					perror_reply(550, name);
-					goto done;
+				if ((c = getc(fout)) == EOF) {
+					if (ferror(fout)) {
+						perror_reply(550, name);
+						goto done;
+					} else
+						break;
 				}
 				if (c == '\n')
 					i++;
@@ -1308,7 +1314,7 @@ getdatasock(char *mode)
 	if (data >= 0)
 		return (fdopen(data, mode));
 	sigprocmask (SIG_BLOCK, &allsigs, NULL);
-	s = socket(ctrl_addr.su_family, SOCK_STREAM, 0);
+	s = monitor_socket(ctrl_addr.su_family);
 	if (s < 0)
 		goto bad;
 	if (setsockopt(s, SOL_SOCKET, SO_REUSEADDR,

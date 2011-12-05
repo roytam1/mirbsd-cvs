@@ -1,4 +1,4 @@
-/*	$OpenBSD: library_mquery.c,v 1.22 2005/05/31 14:31:36 drahn Exp $ */
+/*	$OpenBSD: library_mquery.c,v 1.32 2005/11/09 16:41:29 kurt Exp $ */
 
 /*
  * Copyright (c) 2002 Dale Rahn
@@ -61,7 +61,16 @@ _dl_load_list_free(struct load_list *load_list)
 void
 _dl_unload_shlib(elf_object_t *object)
 {
-	if (object->refcount == 0) {
+	struct dep_node *n;
+	DL_DEB(("unload_shlib called on %s\n", object->load_name));
+	if (OBJECT_REF_CNT(object) == 0 &&
+	    (object->status & STAT_UNLOADED) == 0) {
+		object->status |= STAT_UNLOADED;
+		TAILQ_FOREACH(n, &object->child_list, next_sib)
+			_dl_unload_shlib(n->data);
+		TAILQ_FOREACH(n, &object->grpref_list, next_sib)
+			_dl_unload_shlib(n->data);
+		DL_DEB(("unload_shlib unloading on %s\n", object->load_name));
 		_dl_load_list_free(object->load_list);
 		_dl_remove_object(object);
 	}
@@ -69,7 +78,7 @@ _dl_unload_shlib(elf_object_t *object)
 
 
 elf_object_t *
-_dl_tryload_shlib(const char *libname, int type)
+_dl_tryload_shlib(const char *libname, int type, int flags)
 {
 	int	libfile, i, align = _dl_pagesz - 1;
 	struct load_list *ld, *lowld = NULL;
@@ -88,7 +97,13 @@ _dl_tryload_shlib(const char *libname, int type)
 
 	object = _dl_lookup_object(libname);
 	if (object) {
-		object->refcount++;
+		object->obj_flags |= flags & RTLD_GLOBAL;
+		if (_dl_loading_object == NULL)
+			_dl_loading_object = object;
+		if (object->load_object != _dl_objects &&
+		    object->load_object != _dl_loading_object) {
+			_dl_link_grpref(object->load_object, _dl_loading_object);
+		}
 		return(object);		/* Already loaded */
 	}
 
@@ -106,7 +121,15 @@ _dl_tryload_shlib(const char *libname, int type)
 	for (object = _dl_objects; object != NULL; object = object->next) {
 		if (object->dev == sb.st_dev &&
 		    object->inode == sb.st_ino) {
+			object->obj_flags |= flags & RTLD_GLOBAL;
 			_dl_close(libfile);
+			if (_dl_loading_object == NULL)
+				_dl_loading_object = object;
+			if (object->load_object != _dl_objects &&
+			    object->load_object != _dl_loading_object) {
+				_dl_link_grpref(object->load_object,
+				    _dl_loading_object);
+			}
 			return(object);
 		}
 	}
@@ -260,6 +283,8 @@ retry:
 		/* set inode, dev from stat info */
 		object->dev = sb.st_dev;
 		object->inode = sb.st_ino;
+		object->obj_flags |= flags;
+
 	} else {
 		/* XXX no point. object is never returned NULL */
 		_dl_load_list_free(lowld);

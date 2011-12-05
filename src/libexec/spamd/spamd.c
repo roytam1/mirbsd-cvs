@@ -1,5 +1,5 @@
-/**	$MirOS: src/libexec/spamd/spamd.c,v 1.3 2005/03/23 18:19:41 tg Exp $ */
-/*	$OpenBSD: spamd.c,v 1.77 2005/04/16 14:23:35 deraadt Exp $	*/
+/**	$MirOS: src/libexec/spamd/spamd.c,v 1.4 2005/04/17 03:09:44 tg Exp $ */
+/*	$OpenBSD: spamd.c,v 1.80 2005/11/12 02:20:37 deraadt Exp $	*/
 
 /*
  * Copyright (c) 2002 Theo de Raadt.  All rights reserved.
@@ -49,7 +49,7 @@
 #include "sdl.h"
 #include "grey.h"
 
-__RCSID("$MirOS: src/libexec/spamd/spamd.c,v 1.3 2005/03/23 18:19:41 tg Exp $");
+__RCSID("$MirOS: src/libexec/spamd/spamd.c,v 1.4 2005/04/17 03:09:44 tg Exp $");
 
 struct con {
 	int fd;
@@ -234,13 +234,13 @@ parse_configline(char *line)
 	} while ((av[au++] = strsep(&cp, ";")) != NULL);
 
 	/* toss empty last entry to allow for trailing ; */
-	if (av[au - 1][0] == '\0');
+	while (au > 0 && (av[au - 1] == NULL || av[au - 1][0] == '\0'))
 		au--;
 
 	if (au < 1)
 		goto parse_error;
 	else
-		sdl_add(name, msg, av, au - 1);
+		sdl_add(name, msg, av, au);
 	return (0);
 
 parse_error:
@@ -580,7 +580,8 @@ initcon(struct con *cp, int fd, struct sockaddr *sa)
 	cp->af = sa->sa_family;
 	cp->ia = &((struct sockaddr_in *)sa)->sin_addr;
 	cp->blacklists = sdl_lookup(blacklists, cp->af, cp->ia);
-	cp->stutter = (greylist && !grey_stutter && cp->blacklists == NULL) ? 0 : stutter;
+	cp->stutter = (greylist && !grey_stutter && cp->blacklists == NULL) ?
+	    0 : stutter;
 	error = getnameinfo(sa, sa->sa_len, cp->addr, sizeof(cp->addr), NULL, 0,
 	    NI_NUMERICHOST);
 	if (error)
@@ -589,9 +590,8 @@ initcon(struct con *cp, int fd, struct sockaddr *sa)
 	if (tmp == NULL)
 		err(1, "malloc");
 	tmp[strlen(tmp) - 1] = '\0'; /* nuke newline */
-	snprintf(cp->obuf, cp->osize,
-		 "220 %s ESMTP %s; %s\r\n",
-		 hostname, spamd, tmp);
+	snprintf(cp->obuf, cp->osize, "220 %s ESMTP %s; %s\r\n",
+	    hostname, spamd, tmp);
 	free(tmp);
 	cp->op = cp->obuf;
 	cp->ol = strlen(cp->op);
@@ -1126,6 +1126,7 @@ main(int argc, char *argv[])
 			exit(1);
 		case 0:
 			/* child - continue */
+			signal(SIGPIPE, SIG_IGN);
 			grey = fdopen(greypipe[1], "w");
 			if (grey == NULL) {
 				syslog(LOG_ERR, "fdopen (%m)");

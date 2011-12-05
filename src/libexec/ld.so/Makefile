@@ -1,5 +1,5 @@
-# $MirOS: src/libexec/ld.so/Makefile,v 1.2 2005/03/06 19:24:01 tg Exp $
-# $OpenBSD: Makefile,v 1.25 2005/03/23 19:48:05 drahn Exp $
+# $MirOS: src/libexec/ld.so/Makefile,v 1.3 2005/04/17 04:24:09 tg Exp $
+# $OpenBSD: Makefile,v 1.30 2005/09/28 16:20:01 drahn Exp $
 
 .include "Makefile.inc"
 
