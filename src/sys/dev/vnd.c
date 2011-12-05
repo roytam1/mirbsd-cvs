@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/vnd.c,v 1.19 2008/06/13 18:21:32 tg Exp $ */
+/**	$MirOS: src/sys/dev/vnd.c,v 1.20 2008/06/13 18:22:33 tg Exp $ */
 /*	$OpenBSD: vnd.c,v 1.85 2008/03/24 01:16:58 krw Exp $	*/
 /*	$NetBSD: vnd.c,v 1.26 1996/03/30 23:06:11 christos Exp $	*/
 
@@ -907,7 +907,7 @@ vndioctl(dev_t dev, u_long cmd, caddr_t addr, int flag, struct proc *p)
 		}
 
 		vnd->sc_enc_alg = vio->vnd_options >> VNDIOC_ALGSHIFT;
-		if (vio->vnd_keylen <= 0)
+		if (vio->vnd_keylen <= 0 || !vio->vnd_key)
 			ksz = 0;
 		else
 			ksz = MIN(vio->vnd_keylen, VNDIOC_MAXKSZ);
