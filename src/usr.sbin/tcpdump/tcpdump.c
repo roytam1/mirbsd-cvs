@@ -1,4 +1,4 @@
-/*	$OpenBSD: tcpdump.c,v 1.39 2004/09/16 11:29:51 markus Exp $	*/
+/*	$OpenBSD: tcpdump.c,v 1.46 2005/05/28 09:01:52 reyk Exp $	*/
 
 /*
  * Copyright (c) 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997
@@ -39,6 +39,8 @@ static const char rcsid[] =
 
 #include <sys/types.h>
 #include <sys/time.h>
+#include <sys/ioctl.h>
+#include <sys/wait.h>
 
 #include <netinet/in.h>
 
@@ -49,6 +51,8 @@ static const char rcsid[] =
 #include <string.h>
 #include <unistd.h>
 #include <ctype.h>
+#include <err.h>
+#include <errno.h>
 
 #include "interface.h"
 #include "addrtoname.h"
@@ -68,6 +72,7 @@ int aflag;			/* translate network and broadcast addresses */
 int dflag;			/* print filter code */
 int eflag;			/* print ethernet header */
 int fflag;			/* don't translate "foreign" IP address */
+int Lflag;			/* List available link types */
 int nflag;			/* leave addresses as numbers */
 int Nflag;			/* remove domains from printed host names */
 int Oflag = 1;			/* run filter code optimizer */
@@ -86,12 +91,15 @@ char *program_name;
 
 int32_t thiszone;		/* seconds offset from gmt to local time */
 
+extern volatile pid_t child_pid;
+
 /* Externs */
 extern void bpf_dump(struct bpf_program *, int);
 extern int esp_init(char *);
 
 /* Forwards */
 RETSIGTYPE cleanup(int);
+RETSIGTYPE gotchld(int);
 extern __dead void usage(void);
 
 /* Length of saved portion of packet. */
@@ -108,22 +116,22 @@ struct printer {
 #endif
 
 static struct printer printers[] = {
-	{ ether_if_print,	DLT_EN10MB },
-	{ ether_if_print,	DLT_IEEE802 },
-	{ sl_if_print,		DLT_SLIP },
-	{ sl_bsdos_if_print,	DLT_SLIP_BSDOS },
-	{ ppp_if_print,		DLT_PPP },
-	{ fddi_if_print,	DLT_FDDI },
-	{ null_if_print,	DLT_NULL },
-	{ raw_if_print,		DLT_RAW },
-	{ atm_if_print,		DLT_ATM_RFC1483 },
-	{ loop_if_print, 	DLT_LOOP },
-	{ enc_if_print, 	DLT_ENC },
-	{ pflog_if_print, 	DLT_PFLOG },
-	{ pflog_old_if_print, 	DLT_OLD_PFLOG },
-	{ pfsync_if_print, 	DLT_PFSYNC },
-	{ ppp_ether_if_print,	DLT_PPP_ETHER },
-	{ NULL,			0 },
+	{ ether_if_print,		DLT_EN10MB },
+	{ ether_if_print,		DLT_IEEE802 },
+	{ sl_if_print,			DLT_SLIP },
+	{ sl_bsdos_if_print,		DLT_SLIP_BSDOS },
+	{ ppp_if_print,			DLT_PPP },
+	{ fddi_if_print,		DLT_FDDI },
+	{ null_if_print,		DLT_NULL },
+	{ raw_if_print,			DLT_RAW },
+	{ atm_if_print,			DLT_ATM_RFC1483 },
+	{ loop_if_print,		DLT_LOOP },
+	{ enc_if_print,			DLT_ENC },
+	{ pflog_if_print,		DLT_PFLOG },
+	{ pflog_old_if_print,		DLT_OLD_PFLOG },
+	{ pfsync_if_print,		DLT_PFSYNC },
+	{ ppp_ether_if_print,		DLT_PPP_ETHER },
+	{ NULL,				0 },
 };
 
 static pcap_handler
@@ -151,6 +159,78 @@ init_pfosfp(void)
 
 static pcap_t *pd;
 
+/* Multiple DLT support */
+void		 pcap_list_linktypes(pcap_t *);
+void		 pcap_print_linktype(u_int);
+int		 pcap_datalink_name_to_val(const char *);
+const char	*pcap_datalink_val_to_name(u_int);
+
+const struct pcap_linktype {
+	u_int dlt_id;
+	const char *dlt_name;
+} pcap_linktypes[] = {
+	{ DLT_NULL,		"NULL" },
+	{ DLT_EN10MB,		"EN10MB" },
+	{ DLT_EN3MB,		"EN3MB" },
+	{ DLT_AX25,		"AX25" },
+	{ DLT_PRONET,		"PRONET" },
+	{ DLT_CHAOS,		"CHAOS" },
+	{ DLT_IEEE802,		"IEEE802" },
+	{ DLT_ARCNET,		"ARCNET" },
+	{ DLT_SLIP,		"SLIP" },
+	{ DLT_PPP,		"PPP" },
+	{ DLT_FDDI,		"FDDI" },
+	{ DLT_ATM_RFC1483,	"ATM_RFC1483" },
+	{ DLT_LOOP,		"LOOP" },
+	{ DLT_ENC,		"ENC" },
+	{ DLT_RAW,		"RAW" },
+	{ DLT_SLIP_BSDOS,	"SLIP_BSDOS" },
+	{ DLT_PPP_BSDOS,	"PPP_BSDOS" },
+	{ DLT_OLD_PFLOG,	"OLD_PFLOG" },
+	{ DLT_PFSYNC,		"PFSYNC" },
+	{ DLT_PPP_ETHER,	"PPP_ETHER" },
+	{ DLT_IEEE802_11,	"IEEE802_11" },
+	{ DLT_PFLOG,		"PFLOG" },
+	{ 0,			NULL }
+};
+
+int
+pcap_datalink_name_to_val(const char *name)
+{
+	int i;
+
+	for (i = 0; pcap_linktypes[i].dlt_name != NULL; i++) {
+		if (strcasecmp(pcap_linktypes[i].dlt_name, name) == 0)
+			return (pcap_linktypes[i].dlt_id);
+	}
+
+	return (-1);
+}
+
+const char *
+pcap_datalink_val_to_name(u_int dlt)
+{
+	int i;
+
+	for (i = 0; pcap_linktypes[i].dlt_name != NULL; i++) {
+		if (pcap_linktypes[i].dlt_id == dlt)
+			return (pcap_linktypes[i].dlt_name);
+	}
+
+	return (NULL);
+}
+
+void
+pcap_print_linktype(u_int dlt)
+{
+	const char *name;
+
+	if ((name = pcap_datalink_val_to_name(dlt)) != NULL)
+		fprintf(stderr, "%s\n", name);
+	else
+		fprintf(stderr, "<unknown: %u>\n", dlt);
+}
+
 extern int optind;
 extern int opterr;
 extern char *optarg;
@@ -166,6 +246,8 @@ main(int argc, char **argv)
 	RETSIGTYPE (*oldhandler)(int);
 	u_char *pcap_userdata;
 	char ebuf[PCAP_ERRBUF_SIZE];
+
+	fprintf(stderr, "*** THIS IS AN EVIL HACK, DO NOT USE ***\n");
 
 	cnt = -1;
 	device = NULL;
@@ -186,7 +268,8 @@ main(int argc, char **argv)
 		error("%s", ebuf);
 
 	opterr = 0;
-	while ((op = getopt(argc, argv, "ac:deE:fF:i:lnNOopqr:s:StT:vw:xXY")) != -1)
+	while ((op = getopt(argc, argv,
+	    "ac:deE:fF:i:lLnNOopqr:s:StT:vw:xXy:Y")) != -1)
 		switch (op) {
 
 		case 'a':
@@ -226,7 +309,9 @@ main(int argc, char **argv)
 			setvbuf(stdout, NULL, _IOLBF, 0);
 #endif
 			break;
-
+		case 'L':
+			++Lflag;
+			break;
 		case 'n':
 			++nflag;
 			break;
@@ -327,6 +412,10 @@ main(int argc, char **argv)
 			/* NOTREACHED */
 		}
 
+	if (snaplen == 0) {
+			snaplen = DEFAULT_SNAPLEN;
+	}
+
 	if (aflag && nflag)
 		error("-a and -n options are incompatible");
 
@@ -346,7 +435,7 @@ main(int argc, char **argv)
 			if (device == NULL)
 				error("%s", ebuf);
 		}
-		pd = priv_pcap_live(device, snaplen, !pflag, 1000, ebuf);
+		pd = priv_pcap_live(device, snaplen, !pflag, 1000, ebuf, 0);
 		if (pd == NULL)
 			error("%s", ebuf);
 
@@ -376,6 +465,7 @@ main(int argc, char **argv)
 
 	setsignal(SIGTERM, cleanup);
 	setsignal(SIGINT, cleanup);
+	setsignal(SIGCHLD, gotchld);
 	/* Cooperate with nohup(1) XXX is this still necessary/working? */
 	if ((oldhandler = setsignal(SIGHUP, cleanup)) != SIG_DFL)
 		(void)setsignal(SIGHUP, oldhandler);
@@ -426,14 +516,15 @@ RETSIGTYPE
 cleanup(int signo)
 {
 	struct pcap_stat stat;
+	sigset_t allsigs;
 	char buf[1024];
 
+	sigfillset(&allsigs);
+	sigprocmask(SIG_BLOCK, &allsigs, NULL);
+
 	/* Can't print the summary if reading from a savefile */
+	(void)write(STDERR_FILENO, "\n", 1);
 	if (pd != NULL && pcap_file(pd) == NULL) {
-#if 0
-		(void)fflush(stdout);	/* XXX unsafe */
-#endif
-		(void)write(STDERR_FILENO, "\n", 1);
 		if (pcap_stats(pd, &stat) < 0) {
 			(void)snprintf(buf, sizeof buf,
 			    "pcap_stats: %s\n", pcap_geterr(pd));
@@ -448,6 +539,25 @@ cleanup(int signo)
 		}
 	}
 	_exit(0);
+}
+
+RETSIGTYPE
+gotchld(int signo)
+{
+	pid_t pid;
+	int status;
+	int save_err = errno;
+
+	do {
+		pid = waitpid(child_pid, &status, WNOHANG);
+		if (pid > 0 && (WIFEXITED(status) || WIFSIGNALED(status)))
+			cleanup(0);
+	} while (pid == -1 && errno == EINTR);
+
+	if (pid == -1)
+		_exit(1);
+
+	errno = save_err;
 }
 
 /* dump the buffer in `emacs-hexl' style */
@@ -563,7 +673,7 @@ usage(void)
 	(void)fprintf(stderr, "%s version %s\n", program_name, version);
 	(void)fprintf(stderr, "libpcap version %s\n", pcap_version);
 	(void)fprintf(stderr,
-"Usage: %s [-adeflnNoOpqStvxX] [-c count] [-E [espalg:]espkey] [-F file]\n",
+"Usage: %s [-adefLlNnOopqStvXx] [-c count] [-E [espalg:]espkey] [-F file]\n",
 	    program_name);
 	(void)fprintf(stderr,
 "\t\t[-i interface] [-r file] [-s snaplen] [-T type] [-w file]\n");

@@ -1,4 +1,4 @@
-/*	$OpenBSD: privsep_pcap.c,v 1.6 2004/04/29 04:19:37 deraadt Exp $ */
+/*	$OpenBSD: privsep_pcap.c,v 1.9 2005/05/22 19:53:33 moritz Exp $ */
 
 /*
  * Copyright (c) 2004 Can Erkin Acar
@@ -48,7 +48,7 @@
 
 /*
  * privileged part of priv_pcap_setfilter, compile the filter
- * expression, and return it to the child. Note that we fake an hpcap
+ * expression, and return it to the parent. Note that we fake an hpcap
  * and use it to capture the error messages, and pass the error back
  * to client.
  */
@@ -105,8 +105,8 @@ setfilter(int bpfd, int sock, char *filter)
 }
 
 /*
- * filter is compiled and set in the parent, get the compiled output,
- * and set it locally, for filtering dumps etc.
+ * filter is compiled and set in the privileged process.
+ * get the compiled output and set it locally for filtering dumps etc.
  */
 struct bpf_program *
 priv_pcap_setfilter(pcap_t *hpcap, int oflag, u_int32_t netmask)
@@ -171,7 +171,7 @@ priv_pcap_setfilter(pcap_t *hpcap, int oflag, u_int32_t netmask)
 
 /* privileged part of priv_pcap_live */
 int
-pcap_live(const char *device, int snaplen, int promisc)
+pcap_live(const char *device, int snaplen, int promisc, u_int dlt)
 {
 	char		bpf[sizeof "/dev/bpf0000000000"];
 	int		fd = -1, n = 0;
@@ -200,6 +200,11 @@ pcap_live(const char *device, int snaplen, int promisc)
 		/* this is allowed to fail */
 		ioctl(fd, BIOCPROMISC, NULL);
 
+#ifdef BIOCSDLT
+	if (dlt != (u_int) -1 && ioctl(fd, BIOCSDLT, &dlt))
+		goto error;
+#endif
+
 	/* lock the descriptor */
 	if (ioctl(fd, BIOCLOCK, NULL) < 0)
 		goto error;
@@ -217,7 +222,8 @@ pcap_live(const char *device, int snaplen, int promisc)
  * unprivileged part.
  */
 pcap_t *
-priv_pcap_live(const char *dev, int slen, int prom, int to_ms, char *ebuf)
+priv_pcap_live(const char *dev, int slen, int prom, int to_ms,
+    char *ebuf, u_int dlt)
 {
 	int fd, err;
 	struct bpf_version bv;
@@ -242,6 +248,7 @@ priv_pcap_live(const char *dev, int slen, int prom, int to_ms, char *ebuf)
 	write_command(priv_fd, PRIV_OPEN_BPF);
 	must_write(priv_fd, &slen, sizeof(int));
 	must_write(priv_fd, &prom, sizeof(int));
+	must_write(priv_fd, &dlt, sizeof(u_int));
 	write_string(priv_fd, dev);
 
 	fd = receive_fd(priv_fd);
@@ -481,7 +488,7 @@ priv_pcap_dump_open(pcap_t *p, char *fname)
 	FILE *f;
 
 	if (priv_fd < 0)
-		errx(1, "%s: called from privileged portion\n", __func__);
+		errx(1, "%s: called from privileged portion", __func__);
 
 	if (fname[0] == '-' && fname[1] == '\0') {
 		f = stdout;

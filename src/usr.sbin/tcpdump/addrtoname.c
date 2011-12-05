@@ -1,5 +1,5 @@
-/**	$MirOS: src/usr.sbin/tcpdump/addrtoname.c,v 1.3 2005/04/17 04:24:18 tg Exp $ */
-/*	$OpenBSD: addrtoname.c,v 1.25 2004/12/13 05:37:25 itojun Exp $	*/
+/**	$MirOS: src/usr.sbin/tcpdump/addrtoname.c,v 1.5 2005/04/22 23:08:11 tg Exp $ */
+/*	$OpenBSD: addrtoname.c,v 1.26 2005/05/22 18:41:33 moritz Exp $	*/
 
 /*
  * Copyright (c) 1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997
@@ -61,9 +61,8 @@ struct rtentry;
 #include "llc.h"
 #include "privsep.h"
 #include "savestr.h"
-#include "setsignal.h"
 
-__RCSID("$MirOS: src/usr.sbin/tcpdump/addrtoname.c,v 1.3 2005/04/17 04:24:18 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/tcpdump/addrtoname.c,v 1.5 2005/04/22 23:08:11 tg Exp $");
 
 /*
  * hash tables for whatever-to-name translations

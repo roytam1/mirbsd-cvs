@@ -1,4 +1,4 @@
-/*	$OpenBSD: print-pflog.c,v 1.14 2003/06/21 21:01:15 dhartmei Exp $	*/
+/*	$OpenBSD: print-pflog.c,v 1.16 2005/05/27 17:22:41 dhartmei Exp $	*/
 
 /*
  * Copyright (c) 1990, 1991, 1993, 1994, 1995, 1996
@@ -21,17 +21,17 @@
  * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
  */
 
-#ifndef lint
-static const char rcsid[] =
-    "@(#) $Header$ (LBL)";
-#endif
-
 #include <sys/param.h>
 #include <sys/time.h>
 #include <sys/socket.h>
 #include <sys/file.h>
 #include <sys/ioctl.h>
 #include <sys/mbuf.h>
+#include <sys/proc.h>
+
+#ifndef NO_PID
+#define NO_PID	(32766+1)
+#endif
 
 struct rtentry;
 #include <net/if.h>

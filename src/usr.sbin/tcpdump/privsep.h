@@ -37,7 +37,7 @@ enum cmd_types {
 	PRIV_GETPROTOENTRIES,	/* get the ip protocol entries table */
 	PRIV_LOCALTIME,		/* return localtime */
 	PRIV_GETLINES,		/* get lines from a file */
-       PRIV_INIT_DONE          /* signal that the initialization is done */
+	PRIV_INIT_DONE          /* signal that the initialization is done */
 };
 
 struct ether_addr;
@@ -47,10 +47,10 @@ int	priv_init(int, char **);
 void    priv_init_done(void);
 
 int	setfilter(int, int, char *);
-int	pcap_live(const char *, int, int);
+int	pcap_live(const char *, int, int, u_int);
 
 struct bpf_program *priv_pcap_setfilter(pcap_t *, int, u_int32_t);
-pcap_t *priv_pcap_live(const char *, int, int, int, char *);
+pcap_t *priv_pcap_live(const char *, int, int, int, char *, u_int);
 pcap_t *priv_pcap_offline(const char *, char *);
 
 size_t	priv_gethostbyaddr(char *, size_t, int, char *, size_t);

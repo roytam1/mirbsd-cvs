@@ -1,4 +1,4 @@
-/* $OpenBSD: ike.h,v 1.9 2004/07/29 10:29:44 ho Exp $ */
+/* $OpenBSD: ike.h,v 1.15 2005/07/12 08:29:19 hshoexer Exp $ */
 
 /*
  * Copyright (c) 2001 Håkan Olsson.  All rights reserved.
@@ -109,12 +109,20 @@
 #define PAYLOAD_DELETE		12
 #define PAYLOAD_VENDOR		13
 #define PAYLOAD_ATTRIBUTE	14
-#define PAYLOAD_RESERVED_MIN	15
+#define PAYLOAD_SAK		15
+#define PAYLOAD_SAT		16
+#define PAYLOAD_KD		17
+#define PAYLOAD_SEQ		18
+#define PAYLOAD_POP		19
+#define PAYLOAD_NAT_D		20
+#define PAYLOAD_NAT_OA		21
+#define PAYLOAD_RESERVED_MIN	22
 #define PAYLOAD_PRIVATE_MIN	128
-#define PAYLOAD_NAT_D		130
-#define PAYLOAD_NAT_OA		131
+#define PAYLOAD_NAT_D_DRAFT	130
+#define PAYLOAD_NAT_OA_DRAFT	131
 #define PAYLOAD_PRIVATE_MAX	132
 
+/* see http://www.iana.org/assignments/isakmp-registry */
 #define IKE_PAYLOAD_TYPES_INITIALIZER			\
 	{ "NONE",		/*  0 */		\
 	  "SA",			/*  1 */		\
@@ -131,23 +139,20 @@
 	  "DELETE",		/* 12 */		\
 	  "VENDOR",		/* 13 */		\
 	  "ATTRIBUTE",		/* 14 (ikecfg) */	\
+	  "SAK",		/* 15 */		\
+	  "SAT",		/* 16 */		\
+	  "KD",			/* 17 */		\
+	  "SEQ",		/* 18 */		\
+	  "POP",		/* 19 */		\
+	  "NAT-D",		/* 20 */		\
+	  "NAT-OA",		/* 21 */		\
 	}
-
-#if 0
-	  "SAK",		/* 15 (RFC 3547) */	\
-	  "SAT",		/* 16 (RFC 3547) */	\
-	  "KD",			/* 17 (RFC 3547) */	\
-	  "SEQ",		/* 18 (RFC 3547) */	\
-	  "POP",		/* 19 (RFC 3547) */	\
-	  "SAT",		/* 16 (RFC 3547) */	\
-
-#endif
 
 #define IKE_PRIVATE_PAYLOAD_TYPES_INITIALIZER		\
 	{ "NONE",		/*  128 */		\
 	  "<unknown 129>",	/*  129 */		\
-	  "NAT-D",		/*  130 (draft-ietf-ipsec-nat-t-ike-03) */  \
-	  "NAT-OA",		/*  131 (draft-ietf-ipsec-nat-t-ike-03) */  \
+	  "NAT-D-DRAFT",	/*  130 (draft-ietf-ipsec-nat-t-ike-03) */  \
+	  "NAT-OA-DRAFT",	/*  131 (draft-ietf-ipsec-nat-t-ike-03) */  \
 	}
 
 /* Exchange types */
@@ -322,7 +327,8 @@
 	{ "NONE", "SECONDS", "KILOBYTES",			\
 	}
 #define IPSEC_ATTR_ENCAP_INITIALIZER				\
-	{ "NONE", "TUNNEL", "TRANSPORT",			\
+	{ "NONE", "TUNNEL", "TRANSPORT", "UDP_ENCAP_TUNNEL",	\
+	  "UDP_ENCAP_TRANSPORT"					\
 	}
 #define IPSEC_ATTR_AUTH_INITIALIZER				\
 	{ "NONE", "HMAC_MD5", "HMAC_SHA", "DES_MAC", "KPDK",	\
@@ -424,6 +430,13 @@ static const struct vendor_id
 			0x08, 0x63, 0x81, 0xb5, 0xec, 0x42, 0x7b, 0x1f,
 		},
 		"v2 NAT-T, draft-ietf-ipsec-nat-t-ike-02",
+	},
+	{
+		{
+			0xcd, 0x60, 0x46, 0x43, 0x35, 0xdf, 0x21, 0xf8,
+			0x7c, 0xfd, 0xb2, 0xfc, 0x68, 0xb6, 0xa4, 0x48,
+		},
+		"v2 NAT-T, draft-ietf-ipsec-nat-t-ike-02\\n",
 	},
 	{
 		{

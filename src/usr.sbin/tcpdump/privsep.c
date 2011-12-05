@@ -1,4 +1,4 @@
-/*	$OpenBSD: privsep.c,v 1.11 2004/07/14 19:07:03 henning Exp $	*/
+/*	$OpenBSD: privsep.c,v 1.21 2005/05/23 06:56:42 otto Exp $	*/
 
 /*
  * Copyright (c) 2003 Can Erkin Acar
@@ -49,16 +49,48 @@
 #include "pfctl_parser.h"
 
 /*
- * tcpdump goes through three states: STATE_INIT is where the
- * descriptors and output files are opened. STATE_RUNNING is packet
- * processing part. It is not allowed to go back in states.
+ * tcpdump goes through five states: STATE_INIT is where the
+ * bpf device and the input file is opened. In STATE_BPF, the
+ * pcap filter gets set. STATE_FILTER is used for parsing
+ * /etc/services and /etc/protocols and opening the output
+ * file. STATE_RUN is the packet processing part.
  */
+
 enum priv_state {
 	STATE_INIT,		/* initial state */
 	STATE_BPF,		/* input file/device opened */
 	STATE_FILTER,		/* filter applied */
 	STATE_RUN,		/* running and accepting network traffic */
-	STATE_QUIT		/* shutting down */
+};
+
+#define ALLOW(action)	(1 << (action))
+
+/*
+ * Set of maximum allowed actions.
+ */
+static const int allowed_max[] = {
+	/* INIT */	ALLOW(PRIV_OPEN_BPF) | ALLOW(PRIV_OPEN_DUMP) |
+			ALLOW(PRIV_SETFILTER),
+	/* BPF */	ALLOW(PRIV_SETFILTER),
+	/* FILTER */	ALLOW(PRIV_OPEN_OUTPUT) | ALLOW(PRIV_GETSERVENTRIES) |
+			ALLOW(PRIV_GETPROTOENTRIES) |
+			ALLOW(PRIV_ETHER_NTOHOST) | ALLOW(PRIV_INIT_DONE),
+	/* RUN */	ALLOW(PRIV_GETHOSTBYADDR) | ALLOW(PRIV_ETHER_NTOHOST) |
+			ALLOW(PRIV_GETRPCBYNUMBER) | ALLOW(PRIV_GETLINES) |
+			ALLOW(PRIV_LOCALTIME),
+	/* QUIT */	0
+};
+
+/*
+ * Default set of allowed actions. More actions get added
+ * later depending on the supplied parameters.
+ */
+static int allowed_ext[] = {
+	/* INIT */	ALLOW(PRIV_SETFILTER),
+	/* BPF */	ALLOW(PRIV_SETFILTER),
+	/* FILTER */	ALLOW(PRIV_GETSERVENTRIES),
+	/* RUN */	ALLOW(PRIV_GETLINES) | ALLOW(PRIV_LOCALTIME),
+	/* QUIT */	0
 };
 
 struct ftab {
@@ -74,24 +106,22 @@ static struct ftab file_table[] = {{"/etc/appletalk.names", 1, 0},
 
 int		debug_level = LOG_INFO;
 int		priv_fd = -1;
-static volatile	pid_t child_pid = -1;
+volatile	pid_t child_pid = -1;
 static volatile	sig_atomic_t cur_state = STATE_INIT;
 
-static void	parent_open_bpf(int, int *);
-static void	parent_open_dump(int, const char *);
-static void	parent_open_output(int, const char *);
-static void	parent_setfilter(int, char *, int *);
-static void	parent_init_done(int, int *);
-static void	parent_gethostbyaddr(int);
-static void	parent_ether_ntohost(int);
-static void	parent_getrpcbynumber(int);
-static void	parent_getserventries(int);
-static void	parent_getprotoentries(int);
-static void	parent_localtime(int fd);
-static void	parent_getlines(int);
+static void	impl_open_bpf(int, int *);
+static void	impl_open_dump(int, const char *);
+static void	impl_open_output(int, const char *);
+static void	impl_setfilter(int, char *, int *);
+static void	impl_init_done(int, int *);
+static void	impl_gethostbyaddr(int);
+static void	impl_ether_ntohost(int);
+static void	impl_getrpcbynumber(int);
+static void	impl_getserventries(int);
+static void	impl_getprotoentries(int);
+static void	impl_localtime(int fd);
+static void	impl_getlines(int);
 
-static void	sig_pass_to_chld(int);
-static void	sig_got_chld(int);
 static void	test_state(int, int);
 static void	logmsg(int, const char *, ...);
 
@@ -99,7 +129,7 @@ int
 priv_init(int argc, char **argv)
 {
 	int bpfd = -1;
-	int i, socks[2], cmd;
+	int i, socks[2], cmd, nflag = 0;
 	struct passwd *pw;
 	uid_t uid;
 	gid_t gid;
@@ -119,8 +149,9 @@ priv_init(int argc, char **argv)
 	if (child_pid < 0)
 		err(1, "fork() failed");
 
-	if (!child_pid) {
+	if (child_pid) {
 		if (getuid() == 0) {
+			/* Parent, drop privileges to _tcpdump */
 			pw = getpwnam("_tcpdump");
 			if (pw == NULL)
 				errx(1, "unknown user _tcpdump");
@@ -134,52 +165,43 @@ priv_init(int argc, char **argv)
 			/* drop to _tcpdump */
 			if (setgroups(1, &pw->pw_gid) == -1)
 				err(1, "setgroups() failed");
-			if (setegid(pw->pw_gid) == -1)
-				err(1, "setegid() failed");
-			if (setgid(pw->pw_gid) == -1)
-				err(1, "setgid() failed");
-			if (seteuid(pw->pw_uid) == -1)
-				err(1, "seteuid() failed");
-			if (setuid(pw->pw_uid) == -1)
-				err(1, "setuid() failed");
-
+			if (setresgid(pw->pw_gid, pw->pw_gid, pw->pw_gid) == -1)
+				err(1, "setresgid() failed");
+			if (setresuid(pw->pw_uid, pw->pw_uid, pw->pw_uid) == -1)
+				err(1, "setresuid() failed");
+			endpwent();
 		} else {
-			/* Child - drop suid privileges */
+			/* Parent - drop suid privileges */
 			gid = getgid();
 			uid = getuid();
-			if (setegid(gid) == -1)
-				err(1, "setegid() failed");
-			if (setgid(gid) == -1)
-				err(1, "setgid() failed");
-			if (seteuid(uid) == -1)
-				err(1, "seteuid() failed");
-			if (setuid(uid) == -1)
-				err(1, "setuid() failed");
+			if (setresgid(gid, gid, gid) == -1)
+				err(1, "setresgid() failed");
+			if (setresuid(uid, uid, uid) == -1)
+				err(1, "setresuid() failed");
 		}
 		close(socks[0]);
 		priv_fd = socks[1];
 		return (0);
 	}
 
-	/* Father - drop suid privileges */
+	/* Child - drop suid privileges */
 	gid = getgid();
 	uid = getuid();
 
-	if (setegid(gid) == -1)
-		err(1, "setegid() failed");
-	if (setgid(gid) == -1)
-		err(1, "setgid() failed");
-	if (seteuid(uid) == -1)
-		err(1, "seteuid() failed");
-	if (setuid(uid) == -1)
-		err(1, "setuid() failed");
+	if (setresgid(gid, gid, gid) == -1)
+		err(1, "setresgid() failed");
+	if (setresuid(uid, uid, uid) == -1)
+		err(1, "setresuid() failed");
 
-	/* parse the arguments for required options so that the child
-	 * need not send them back */
+	/* parse the arguments for required options */
 	opterr = 0;
 	while ((i = getopt(argc, argv,
-	    "ac:deE:fF:i:lnNOopqr:s:StT:vw:xXY")) != -1) {
+	    "ac:deE:fF:i:lLnNOopqr:s:StT:vw:xXy:Y")) != -1) {
 		switch (i) {
+		case 'n':
+			nflag++;
+			break;
+
 		case 'r':
 			RFileName = optarg;
 			break;
@@ -198,71 +220,85 @@ priv_init(int argc, char **argv)
 		}
 	}
 
+	if (RFileName != NULL) {
+		if (strcmp(RFileName, "-") != 0)
+			allowed_ext[STATE_INIT] |= ALLOW(PRIV_OPEN_DUMP);
+	} else
+		allowed_ext[STATE_INIT] |= ALLOW(PRIV_OPEN_BPF);
+	if (WFileName != NULL) {
+		if (strcmp(WFileName, "-") != 0)
+			allowed_ext[STATE_FILTER] |= ALLOW(PRIV_OPEN_OUTPUT);
+		else
+			allowed_ext[STATE_FILTER] |= ALLOW(PRIV_INIT_DONE);
+	} else
+		allowed_ext[STATE_FILTER] |= ALLOW(PRIV_INIT_DONE);
+	if (!nflag) {
+		allowed_ext[STATE_RUN] |= ALLOW(PRIV_GETHOSTBYADDR);
+		allowed_ext[STATE_FILTER] |= ALLOW(PRIV_ETHER_NTOHOST);
+		allowed_ext[STATE_RUN] |= ALLOW(PRIV_ETHER_NTOHOST);
+		allowed_ext[STATE_RUN] |= ALLOW(PRIV_GETRPCBYNUMBER);
+		allowed_ext[STATE_FILTER] |= ALLOW(PRIV_GETPROTOENTRIES);
+	}
+
 	if (infile)
 		cmdbuf = read_infile(infile);
 	else
 		cmdbuf = copy_argv(&argv[optind]);
 
-	/* Pass ALRM/TERM/HUP through to child, and accept CHLD */
-	signal(SIGALRM, sig_pass_to_chld);
-	signal(SIGTERM, sig_pass_to_chld);
-	signal(SIGHUP,  sig_pass_to_chld);
-	signal(SIGCHLD, sig_got_chld);
-
 	setproctitle("[priv]");
 	close(socks[1]);
 
-	while (cur_state < STATE_QUIT) {
+	for (;;) {
 		if (may_read(socks[0], &cmd, sizeof(int)))
 			break;
 		switch (cmd) {
 		case PRIV_OPEN_BPF:
-			test_state(STATE_INIT, STATE_BPF);
-			parent_open_bpf(socks[0], &bpfd);
+			test_state(cmd, STATE_BPF);
+			impl_open_bpf(socks[0], &bpfd);
 			break;
 		case PRIV_OPEN_DUMP:
-			test_state(STATE_INIT, STATE_BPF);
-			parent_open_dump(socks[0], RFileName);
+			test_state(cmd, STATE_BPF);
+			impl_open_dump(socks[0], RFileName);
 			break;
 		case PRIV_OPEN_OUTPUT:
-			test_state(STATE_FILTER, STATE_RUN);
-			parent_open_output(socks[0], WFileName);
+			test_state(cmd, STATE_RUN);
+			impl_open_output(socks[0], WFileName);
 			break;
 		case PRIV_SETFILTER:
-			test_state(STATE_INIT, STATE_FILTER);
-			parent_setfilter(socks[0], cmdbuf, &bpfd);
+			test_state(cmd, STATE_FILTER);
+			impl_setfilter(socks[0], cmdbuf, &bpfd);
 			break;
 		case PRIV_INIT_DONE:
-			test_state(STATE_FILTER, STATE_RUN);
-			parent_init_done(socks[0], &bpfd);
+			test_state(cmd, STATE_RUN);
+			impl_init_done(socks[0], &bpfd);
 			break;
 		case PRIV_GETHOSTBYADDR:
-			test_state(STATE_RUN, STATE_RUN);
-			parent_gethostbyaddr(socks[0]);
+			test_state(cmd, STATE_RUN);
+			impl_gethostbyaddr(socks[0]);
 			break;
 		case PRIV_ETHER_NTOHOST:
-			test_state(STATE_BPF, cur_state);
-			parent_ether_ntohost(socks[0]);
+			test_state(cmd, cur_state);
+			impl_ether_ntohost(socks[0]);
 			break;
 		case PRIV_GETRPCBYNUMBER:
-			test_state(STATE_RUN, STATE_RUN);
-			parent_getrpcbynumber(socks[0]);
+			test_state(cmd, STATE_RUN);
+			impl_getrpcbynumber(socks[0]);
 			break;
 		case PRIV_GETSERVENTRIES:
-			test_state(STATE_FILTER, STATE_FILTER);
-			parent_getserventries(socks[0]);
+			test_state(cmd, STATE_FILTER);
+			impl_getserventries(socks[0]);
 			break;
 		case PRIV_GETPROTOENTRIES:
-			test_state(STATE_FILTER, STATE_FILTER);
-			parent_getprotoentries(socks[0]);
+			test_state(cmd, STATE_FILTER);
+			impl_getprotoentries(socks[0]);
 			break;
 		case PRIV_LOCALTIME:
-			test_state(STATE_RUN, STATE_RUN);
-			parent_localtime(socks[0]);
+			test_state(cmd, STATE_RUN);
+			impl_localtime(socks[0]);
 			break;
 		case PRIV_GETLINES:
-			test_state(STATE_RUN, STATE_RUN);
-			parent_getlines(socks[0]);
+			test_state(cmd, STATE_RUN);
+			impl_getlines(socks[0]);
 			break;
 		default:
 			logmsg(LOG_ERR, "[priv]: unknown command %d", cmd);
@@ -271,13 +307,15 @@ priv_init(int argc, char **argv)
 		}
 	}
 
+	/* NOTREACHED */
 	_exit(0);
 }
 
 static void
-parent_open_bpf(int fd, int *bpfd)
+impl_open_bpf(int fd, int *bpfd)
 {
 	int snaplen, promisc, err;
+	u_int dlt;
 	char device[IFNAMSIZ];
 	size_t iflen;
 
@@ -285,10 +323,11 @@ parent_open_bpf(int fd, int *bpfd)
 
 	must_read(fd, &snaplen, sizeof(int));
 	must_read(fd, &promisc, sizeof(int));
+	must_read(fd, &dlt, sizeof(u_int));
 	iflen = read_string(fd, device, sizeof(device), __func__);
 	if (iflen == 0)
 		errx(1, "Invalid interface size specified");
-	*bpfd = pcap_live(device, snaplen, promisc);
+	*bpfd = pcap_live(device, snaplen, promisc, dlt);
 	err = errno;
 	if (*bpfd < 0)
 		logmsg(LOG_DEBUG,
@@ -300,7 +339,7 @@ parent_open_bpf(int fd, int *bpfd)
 }
 
 static void
-parent_open_dump(int fd, const char *RFileName)
+impl_open_dump(int fd, const char *RFileName)
 {
 	int file, err = 0;
 
@@ -323,7 +362,7 @@ parent_open_dump(int fd, const char *RFileName)
 }
 
 static void
-parent_open_output(int fd, const char *WFileName)
+impl_open_output(int fd, const char *WFileName)
 {
 	int file, err;
 
@@ -341,7 +380,7 @@ parent_open_output(int fd, const char *WFileName)
 }
 
 static void
-parent_setfilter(int fd, char *cmdbuf, int *bpfd)
+impl_setfilter(int fd, char *cmdbuf, int *bpfd)
 {
 	logmsg(LOG_DEBUG, "[priv]: msg PRIV_SETFILTER received");
 
@@ -352,12 +391,12 @@ parent_setfilter(int fd, char *cmdbuf, int *bpfd)
 }
 
 static void
-parent_init_done(int fd, int *bpfd)
+impl_init_done(int fd, int *bpfd)
 {
 	int ret;
 
 	logmsg(LOG_DEBUG, "[priv]: msg PRIV_INIT_DONE received");
-	
+
 	close(*bpfd);	/* done with bpf descriptor */
 	*bpfd = -1;
 	ret = 0;
@@ -365,7 +404,7 @@ parent_init_done(int fd, int *bpfd)
 }
 
 static void
-parent_gethostbyaddr(int fd)
+impl_gethostbyaddr(int fd)
 {
 	char hostname[MAXHOSTNAMELEN];
 	size_t hostname_len;
@@ -387,7 +426,7 @@ parent_gethostbyaddr(int fd)
 }
 
 static void
-parent_ether_ntohost(int fd)
+impl_ether_ntohost(int fd)
 {
 	struct ether_addr ether;
 	char hostname[MAXHOSTNAMELEN];
@@ -403,7 +442,7 @@ parent_ether_ntohost(int fd)
 }
 
 static void
-parent_getrpcbynumber(int fd)
+impl_getrpcbynumber(int fd)
 {
 	int rpc;
 	struct rpcent *rpce;
@@ -419,7 +458,7 @@ parent_getrpcbynumber(int fd)
 }
 
 static void
-parent_getserventries(int fd)
+impl_getserventries(int fd)
 {
 	struct servent *sp;
 
@@ -440,7 +479,7 @@ parent_getserventries(int fd)
 }
 
 static void
-parent_getprotoentries(int fd)
+impl_getprotoentries(int fd)
 {
 	struct protoent *pe;
 
@@ -460,9 +499,9 @@ parent_getprotoentries(int fd)
 }
 
 /* read the time and send the corresponding localtime and gmtime
- * results back to the child */
+ * results back to the unprivileged process */
 static void
-parent_localtime(int fd)
+impl_localtime(int fd)
 {
 	struct tm *lt, *gt;
 	time_t t;
@@ -488,12 +527,12 @@ parent_localtime(int fd)
 }
 
 static void
-parent_getlines(int fd)
+impl_getlines(int fd)
 {
 	FILE *fp;
 	char *buf, *lbuf, *file;
 	size_t len, fid;
-	
+
 	logmsg(LOG_DEBUG, "[priv]: msg PRIV_GETLINES received");
 
 	must_read(fd, &fid, sizeof(size_t));
@@ -648,9 +687,9 @@ priv_getprotoentry(char *name, size_t name_len, int *num)
 	return (1);
 }
 
-/* localtime() replacement: ask parent for localtime and gmtime, cache
- * the localtime for about one minute i.e. until one of the fields other
- * than seconds changes. The check is done using gmtime
+/* localtime() replacement: ask the privileged process for localtime and
+ * gmtime, cache the localtime for about one minute i.e. until one of the
+ * fields other than seconds changes. The check is done using gmtime
  * values since they are the same in parent and child. */
 struct	tm *
 priv_localtime(const time_t *t)
@@ -675,7 +714,7 @@ priv_localtime(const time_t *t)
 	must_read(priv_fd, &lt, sizeof(lt));
 	must_read(priv_fd, &gt0, sizeof(gt0));
 
-	if (read_string(priv_fd, zone, sizeof(zone), __func__)) 
+	if (read_string(priv_fd, zone, sizeof(zone), __func__))
 		lt.tm_zone = zone;
 	else
 		lt.tm_zone = NULL;
@@ -707,36 +746,6 @@ priv_getline(char *line, size_t line_len)
 
 	/* read the line */
 	return (read_string(priv_fd, line, line_len, __func__));
-}
-
-/* If priv parent gets a TERM or HUP, pass it through to child instead */
-static void
-sig_pass_to_chld(int sig)
-{
-	int save_err = errno;
-
-	if (child_pid != -1)
-		kill(child_pid, sig);
-	errno = save_err;
-}
-
-/* When child dies, move into the shutdown state */
-static void
-sig_got_chld(int sig)
-{
-	pid_t pid;
-	int status;
-	int save_err = errno;
-	
-	do {
-		pid = waitpid(child_pid, &status, WNOHANG);
-	} while (pid == -1 && errno == EINTR);
-
-	if (pid == child_pid && (WIFEXITED(status) || WIFSIGNALED(status)) &&
-	    cur_state < STATE_QUIT)
-		cur_state = STATE_QUIT;
-
-	errno = save_err;
 }
 
 /* Read all data or return 1 for error. */
@@ -807,14 +816,18 @@ must_write(int fd, const void *buf, size_t n)
 
 /* test for a given state, and possibly increase state */
 static void
-test_state(int expect, int next)
+test_state(int action, int next)
 {
-	if (cur_state < expect) {
-		logmsg(LOG_ERR, "[priv] Invalid state: %d < %d",
-		    cur_state, expect);
+	if (cur_state < 0 || cur_state > STATE_RUN) {
+		logmsg(LOG_ERR, "[priv] Invalid state: %d", cur_state);
 		_exit(1);
 	}
-
+	if ((allowed_max[cur_state] & allowed_ext[cur_state]
+	    & ALLOW(action)) == 0) {
+		logmsg(LOG_ERR, "[priv] Invalid action %d in state %d",
+		    action, cur_state);
+		_exit(1);
+	}
 	if (next < cur_state) {
 		logmsg(LOG_ERR, "[priv] Invalid next state: %d < %d",
 		    next, cur_state);
