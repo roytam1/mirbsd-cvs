@@ -1,4 +1,4 @@
-/**	$MirOS: src/lib/libz/zutil.c,v 1.5 2005/07/24 22:50:06 tg Exp $ */
+/**	$MirOS: src/lib/libz/zutil.c,v 1.6 2005/07/24 22:57:04 tg Exp $ */
 /*	$OpenBSD: zutil.c,v 1.8 2005/07/20 15:56:41 millert Exp $	*/
 /* zutil.c -- target dependent utility functions for the compression library
  * Copyright (C) 1995-2005 Jean-loup Gailly.
@@ -7,7 +7,7 @@
 
 #include "zutil.h"
 
-zRCSID("$MirOS: src/lib/libz/zutil.c,v 1.5 2005/07/24 22:50:06 tg Exp $")
+zRCSID("$MirOS: src/lib/libz/zutil.c,v 1.6 2005/07/24 22:57:04 tg Exp $")
 
 const char * const z_errmsg[10] = {
 "need dictionary",     /* Z_NEED_DICT       2  */
@@ -109,6 +109,7 @@ const char * ZEXPORT zError(err)
     return ERR_MSG(err);
 }
 
+#ifndef _KERNEL
 /* Any system without a special alloc function */
 voidpf zcalloc (opaque, items, size)
     voidpf opaque;
@@ -129,3 +130,4 @@ void  zcfree (opaque, ptr)
     free(ptr);
     if (opaque) return; /* make compiler happy */
 }
+#endif
