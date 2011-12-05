@@ -1,4 +1,4 @@
-/*	$OpenBSD: if_fxp_cardbus.c,v 1.6 2004/05/07 23:33:39 brad Exp $ */
+/*	$OpenBSD: if_fxp_cardbus.c,v 1.13 2006/04/16 22:33:32 miod Exp $ */
 /*	$NetBSD: if_fxp_cardbus.c,v 1.12 2000/05/08 18:23:36 thorpej Exp $	*/
 
 /*
@@ -38,7 +38,7 @@
  */
 
 /*
- * CardBus front-end for the Intel i82557 family of Ethernet chips.
+ * CardBus front-end for the Intel i8255x family of Ethernet chips.
  */
 
 #include "bpfilter.h"
@@ -88,8 +88,8 @@
 
 int fxp_cardbus_match(struct device *, void *, void *);
 void fxp_cardbus_attach(struct device *, struct device *, void *);
-int fxp_cardbus_detach(struct device * self, int flags);
-void fxp_cardbus_setup(struct fxp_softc * sc);
+int fxp_cardbus_detach(struct device *, int);
+void fxp_cardbus_setup(struct fxp_softc *);
 
 struct fxp_cardbus_softc {
 	struct fxp_softc sc;
@@ -105,7 +105,7 @@ struct cfattach fxp_cardbus_ca = {
 };
 
 const struct cardbus_matchid fxp_cardbus_devices[] = {
-	{ PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_82557 },
+	{ PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_8255x },
 };
 
 #ifdef CBB_DEBUG
@@ -130,8 +130,6 @@ fxp_cardbus_attach(parent, self, aux)
 	struct device *parent, *self;
 	void *aux;
 {
-	static const char thisfunc[] = "fxp_cardbus_attach";
-
 	char intrstr[16];
 	struct fxp_softc *sc = (struct fxp_softc *) self;
 	struct fxp_cardbus_softc *csc = (struct fxp_cardbus_softc *) self;
@@ -142,7 +140,6 @@ fxp_cardbus_attach(parent, self, aux)
 	cardbus_function_tag_t cf = psc->sc_cf;
 	bus_space_tag_t iot, memt;
 	bus_space_handle_t ioh, memh;
-	u_int8_t enaddr[6];
 
 	bus_addr_t adr;
 	bus_size_t size;
@@ -166,7 +163,7 @@ fxp_cardbus_attach(parent, self, aux)
 		sc->sc_sh = memh;
 		csc->size = size;
 	} else
-		panic("%s: failed to allocate mem and io space", thisfunc);
+		panic("%s: failed to allocate mem and io space", __func__);
 
 	if (ca->ca_cis.cis1_info[0] && ca->ca_cis.cis1_info[1])
 		printf(": %s %s", ca->ca_cis.cis1_info[0],
@@ -181,8 +178,6 @@ fxp_cardbus_attach(parent, self, aux)
 	sc->sc_enabled = 0;
 #endif
 
-	sc->not_82557 = 1;
-
 	Cardbus_function_enable(csc->ct);
 
 	fxp_cardbus_setup(sc);
@@ -196,8 +191,10 @@ fxp_cardbus_attach(parent, self, aux)
 		return;
 	}
 	snprintf(intrstr, sizeof(intrstr), "irq %d", ca->ca_intrline);
+	
+	sc->sc_revision = PCI_REVISION(ca->ca_class);
 
-	fxp_attach_common(sc, enaddr, intrstr);
+	fxp_attach_common(sc, intrstr);
 }
 
 void

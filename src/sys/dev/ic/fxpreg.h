@@ -1,4 +1,4 @@
-/*	$OpenBSD: fxpreg.h,v 1.5 2003/10/21 18:58:49 jmc Exp $	*/
+/*	$OpenBSD: fxpreg.h,v 1.11 2006/03/04 03:48:37 brad Exp $	*/
 
 /*
  * Copyright (c) 1995, David Greenman
@@ -96,6 +96,8 @@
 #define FXP_SCB_COMMAND_RU_BASE		6
 #define FXP_SCB_COMMAND_RU_RBDRESUME	7
 
+#define	FXP_SCB_INTRCNTL_REQUEST_SWI	0x02
+
 /*
  * Command block definitions
  */
@@ -127,7 +129,7 @@ struct fxp_cb_config {
         volatile u_int8_t       byte_count;
         volatile u_int8_t       fifo_limit;
         volatile u_int8_t       adaptive_ifs;
-        volatile u_int8_t       void1;
+        volatile u_int8_t       ctrl0;
         volatile u_int8_t       rx_dma_bytecount;
         volatile u_int8_t       tx_dma_bytecount;
         volatile u_int8_t       ctrl1;
@@ -198,7 +200,7 @@ struct fxp_cb_tx {
 #define FXP_CB_COMMAND_CONFIG	0x2
 #define FXP_CB_COMMAND_MCAS	0x3
 #define FXP_CB_COMMAND_XMIT	0x4
-#define FXP_CB_COMMAND_RESRV	0x5
+#define FXP_CB_COMMAND_UCODE	0x5
 #define FXP_CB_COMMAND_DUMP	0x6
 #define FXP_CB_COMMAND_DIAG	0x7
 /* command flags */
@@ -225,7 +227,7 @@ struct fxp_rfa {
 #define FXP_RFA_STATUS_TL	0x0020	/* type/length */
 #define FXP_RFA_STATUS_FTS	0x0080	/* frame too short */
 #define FXP_RFA_STATUS_OVERRUN	0x0100	/* DMA overrun */
-#define FXP_RFA_STATUS_RNR	0x0200	/* no resources */
+#define FXP_RFA_STATUS_RNR	0x0200	/* RU not ready */
 #define FXP_RFA_STATUS_ALIGN	0x0400	/* alignment error */
 #define FXP_RFA_STATUS_CRC	0x0800	/* CRC error */
 #define FXP_RFA_STATUS_OK	0x2000	/* packet received okay */
@@ -288,6 +290,8 @@ struct fxp_stats {
 /*
  * PHY device types
  */
+#define FXP_PHY_DEVICE_MASK	0x3f00
+#define FXP_PHY_SERIAL_ONLY	0x8000
 #define FXP_PHY_NONE		0
 #define FXP_PHY_82553A		1
 #define FXP_PHY_82553C		2
@@ -315,3 +319,25 @@ struct fxp_stats {
 #define FXP_DP83840_PCR_F_CONNECT	0x0020	/* 1 = force link disconnect function bypass */
 #define FXP_DP83840_PCR_BIT8		0x0100
 #define FXP_DP83840_PCR_BIT10		0x0400
+
+#define	MAXUCODESIZE 192
+struct fxp_cb_ucode {
+	volatile u_int16_t cb_status;
+	volatile u_int16_t cb_command;
+	volatile u_int32_t link_addr;
+	volatile u_int32_t ucode[MAXUCODESIZE];
+};
+
+/* 
+ * Chip revision values.
+ */
+#define FXP_REV_82557		1	/* catchall 82557 */
+#define FXP_REV_82558_A4	4	/* 82558 A4 stepping */
+#define FXP_REV_82558_B0	5	/* 82558 B0 stepping */
+#define FXP_REV_82559_A0	8	/* 82559 A0 stepping */
+#define FXP_REV_82559S_A	9	/* 82559S A stepping */
+#define FXP_REV_82550		12
+#define FXP_REV_82550_C		13	/* 82550 C stepping */
+#define FXP_REV_82551_E		14	/* 82551 */
+#define FXP_REV_82551_F		15	/* 82551 */
+#define FXP_REV_82551_10	16	/* 82551 */
