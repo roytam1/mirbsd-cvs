@@ -1,4 +1,4 @@
-@c $MirOS: gcc/gcc/doc/invoke.texi,v 1.10 2005/11/20 16:44:10 tg Exp $
+@c $MirOS: gcc/gcc/doc/invoke.texi,v 1.11 2006/01/31 12:02:28 tg Exp $
 @c
 @c Copyright (C) 1988, 1989, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
 @c 2000, 2001, 2002, 2003, 2004, 2005 Free Software Foundation, Inc.
@@ -3030,6 +3030,7 @@ If @env{GCC_HONOUR_COPTS} is set to 2, abort if this option is not
 given exactly once.
 If @env{GCC_HONOUR_COPTS} is set to 0 or unset, warn if this option
 is not given exactly once.
+This flag and environment variable only affect the C language.
 @end table
 
 @node Debugging Options
