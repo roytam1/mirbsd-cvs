@@ -1,4 +1,4 @@
-/**	$MirOS: src/lib/libc/sys/stack_protector.c,v 1.5 2005/09/22 20:48:50 tg Exp $ */
+/**	$MirOS: src/lib/libc/sys/stack_protector.c,v 1.6 2006/09/30 20:37:12 tg Exp $ */
 /*	$OpenBSD: stack_protector.c,v 1.10 2006/03/31 05:34:44 deraadt Exp $	*/
 
 /*
@@ -35,10 +35,11 @@
 #include <syslog.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: src/lib/libc/sys/stack_protector.c,v 1.5 2006/09/22 20:48:50 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/sys/stack_protector.c,v 1.6 2006/09/30 20:37:12 tg Exp $");
 
-#if defined(__SSP_ALL__) && !defined(__IN_MKDEP) && !defined(lint)
- #error "You must compile this file with -fno-stack-protector-all"
+#if (defined(__SSP__) || defined(__SSP_ALL__)) && \
+    !defined(__IN_MKDEP) && !defined(lint)
+#error "You must compile this file with -fno-stack-protector"
 #endif
 
 #ifdef lint
