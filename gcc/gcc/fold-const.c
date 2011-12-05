@@ -1,4 +1,4 @@
-/* $MirOS: gcc/gcc/fold-const.c,v 1.4 2005/06/15 21:32:19 tg Exp $ */
+/* $MirOS: gcc/gcc/fold-const.c,v 1.5 2005/08/26 20:57:24 tg Exp $ */
 
 /* Fold a constant sub-tree into a single node for C-compiler
    Copyright (C) 1987, 1988, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
@@ -8181,7 +8181,12 @@ fold (tree expr)
 
 	  if (INTEGRAL_TYPE_P (type)
 	      && TREE_CODE (TREE_OPERAND (arg0, 1)) == INTEGER_CST
-	      && TREE_CODE (arg2) == INTEGER_CST)
+	      && TREE_CODE (arg2) == INTEGER_CST
+	      /* ???  We somehow can end up here with
+		  (unsigned int)1 == 1 ? 1U : 2U
+		 for which we won't make any progress but recurse
+		 indefinitely.  Just stop here in this case.  */
+	      && TREE_CODE (arg1) != INTEGER_CST)
 	    switch (comp_code)
 	      {
 	      case EQ_EXPR:
@@ -8238,8 +8243,9 @@ fold (tree expr)
 
       /* If the second operand is simpler than the third, swap them
 	 since that produces better jump optimization results.  */
-      if (tree_swap_operands_p (TREE_OPERAND (t, 1),
-				TREE_OPERAND (t, 2), false))
+      if (truth_value_p (TREE_CODE (arg0))
+	  && tree_swap_operands_p (TREE_OPERAND (t, 1),
+				   TREE_OPERAND (t, 2), false))
 	{
 	  /* See if this can be inverted.  If it can't, possibly because
 	     it was a floating-point inequality comparison, don't do

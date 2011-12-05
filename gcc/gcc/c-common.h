@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: gcc/gcc/c-common.h,v 1.2 2005/03/25 19:29:00 tg Exp $ */
 
 /* Definitions for c-common.c.
    Copyright (C) 1987, 1993, 1994, 1995, 1997, 1998,
@@ -1269,6 +1269,8 @@ extern tree finish_label_address_expr (tree);
 /* Same function prototype, but the C and C++ front ends have
    different implementations.  Used in c-common.c.  */
 extern tree lookup_label (tree);
+
+extern int vector_types_convertible_p (tree t1, tree t2);
 
 extern rtx c_expand_expr (tree, rtx, enum machine_mode, int, rtx *);
 

@@ -1,4 +1,4 @@
-/* $MirOS: gcc/gcc/cp/typeck.c,v 1.5 2005/05/14 16:22:03 tg Exp $ */
+/* $MirOS: gcc/gcc/cp/typeck.c,v 1.6 2005/06/15 21:32:21 tg Exp $ */
 
 /* Build expressions with type checking for C++ compiler.
    Copyright (C) 1987, 1988, 1989, 1992, 1993, 1994, 1995, 1996, 1997, 1998,
@@ -96,6 +96,9 @@ require_complete_type (tree value)
     type = unknown_type_node;
   else
     type = TREE_TYPE (value);
+
+  if (type == error_mark_node)
+    return error_mark_node;
 
   /* First, detect a valid value with a complete type.  */
   if (COMPLETE_TYPE_P (type))
@@ -4799,7 +4802,7 @@ build_const_cast (tree type, tree expr)
 {
   tree intype;
 
-  if (type == error_mark_node || expr == error_mark_node)
+  if (type == error_mark_node || error_operand_p (expr))
     return error_mark_node;
 
   if (processing_template_decl)
@@ -6089,6 +6092,15 @@ check_return_expr (tree retval)
     /* Remember that this function did return a value.  */
     current_function_returns_value = 1;
 
+  /* Check for erroneous operands -- but after giving ourselves a
+     chance to provide an error about returning a value from a void
+     function.  */
+  if (error_operand_p (retval))
+    {
+      current_function_return_value = error_mark_node;
+      return error_mark_node;
+    }
+
   /* Only operator new(...) throw(), can return NULL [expr.new/13].  */
   if ((DECL_OVERLOADED_OPERATOR_P (current_function_decl) == NEW_EXPR
        || DECL_OVERLOADED_OPERATOR_P (current_function_decl) == VEC_NEW_EXPR)
@@ -6145,8 +6157,8 @@ check_return_expr (tree retval)
 
   /* We don't need to do any conversions when there's nothing being
      returned.  */
-  if (!retval || retval == error_mark_node)
-    return retval;
+  if (!retval)
+    return NULL_TREE;
 
   /* Do any required conversions.  */
   if (retval == result || DECL_CONSTRUCTOR_P (current_function_decl))
