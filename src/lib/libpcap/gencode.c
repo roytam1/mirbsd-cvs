@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/lib/libpcap/gencode.c,v 1.2 2005/10/21 11:02:50 tg Exp $ */
 /*	$OpenBSD: gencode.c,v 1.24 2005/06/04 18:00:45 joel Exp $	*/
 
 /*
@@ -2999,7 +2999,7 @@ gen_pf_ruleset(char *ruleset)
 		/* NOTREACHED */
 	}
 	if (strlen(ruleset) >= sizeof(((struct pfloghdr *)0)->ruleset)) {
-		bpf_error("ruleset names can only be %d characters\n",
+		bpf_error("ruleset names can only be %ld characters\n",
 		    sizeof(((struct pfloghdr *)0)->ruleset) - 1);
 		/* NOTREACHED */
 	}

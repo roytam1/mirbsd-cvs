@@ -1,4 +1,4 @@
-/**	$MirOS: src/lib/libkvm/kvm_proc.c,v 1.2 2005/03/06 20:29:08 tg Exp $	*/
+/**	$MirOS: src/lib/libkvm/kvm_proc.c,v 1.3 2005/10/21 11:02:47 tg Exp $	*/
 /*	$OpenBSD: kvm_proc.c,v 1.26 2004/06/24 21:06:47 millert Exp $	*/
 /*	$NetBSD: kvm_proc.c,v 1.30 1999/03/24 05:50:50 mrg Exp $	*/
 /*-
@@ -647,7 +647,7 @@ kvm_getprocs(kvm_t *kd, int op, int arg, int *cnt)
 		}
 		if (size % sizeof(struct kinfo_proc) != 0) {
 			_kvm_err(kd, kd->program,
-			    "proc size mismatch (%d total, %d chunks)",
+			    "proc size mismatch (%ld total, %ld chunks)",
 			    size, sizeof(struct kinfo_proc));
 			return (0);
 		}
