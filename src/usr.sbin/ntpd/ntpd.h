@@ -1,7 +1,8 @@
-/**	$MirOS: src/usr.sbin/ntpd/ntpd.h,v 1.8 2005/12/04 14:14:47 tg Exp $ */
+/**	$MirOS: src/usr.sbin/ntpd/ntpd.h,v 1.9 2006/08/12 23:53:35 tg Exp $ */
 /*	$OpenBSD: ntpd.h,v 1.61 2005/09/24 00:32:03 dtucker Exp $ */
 
 /*
+ * Copyright (c) 2007 Thorsten Glaser <tg@mirbsd.org>
  * Copyright (c) 2003, 2004 Henning Brauer <henning@openbsd.org>
  *
  * Permission to use, copy, modify, and distribute this software for any
@@ -120,6 +121,7 @@ struct ntp_peer {
 	u_int32_t			 id;
 	u_int8_t			 shift;
 	u_int8_t			 trustlevel;
+	uint8_t				 stratum_offset;
 	int				 lasterror;
 };
 

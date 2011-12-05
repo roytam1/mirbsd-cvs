@@ -1,7 +1,8 @@
-/**	$MirOS: src/usr.sbin/ntpd/client.c,v 1.3 2005/10/27 09:35:29 tg Exp $ */
+/**	$MirOS: src/usr.sbin/ntpd/client.c,v 1.4 2005/12/18 00:59:36 tg Exp $ */
 /*	$OpenBSD: client.c,v 1.66 2005/09/24 00:32:03 dtucker Exp $ */
 
 /*
+ * Copyright (c) 2007 Thorsten Glaser <tg@mirbsd.de>
  * Copyright (c) 2003, 2004 Henning Brauer <henning@openbsd.org>
  * Copyright (c) 2004 Alexander Guy <alexander.guy@andern.org>
  *
@@ -27,7 +28,7 @@
 
 #include "ntpd.h"
 
-__RCSID("$MirOS: src/usr.sbin/ntpd/client.c,v 1.3 2005/10/27 09:35:29 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/ntpd/client.c,v 1.4 2005/12/18 00:59:36 tg Exp $");
 
 #ifdef DDEBUG
 #define log_reply	log_info
@@ -264,7 +265,7 @@ client_dispatch(struct ntp_peer *p, u_int8_t settime)
 	p->reply[p->shift].status.refid4 = msg.xmttime.fractionl;
 	p->reply[p->shift].status.reftime = lfp_to_d(msg.reftime);
 	p->reply[p->shift].status.poll = msg.ppoll;
-	p->reply[p->shift].status.stratum = msg.stratum;
+	p->reply[p->shift].status.stratum = msg.stratum - p->stratum_offset;
 
 	if (p->trustlevel < TRUSTLEVEL_PATHETIC)
 		interval = scale_interval(INTERVAL_QUERY_PATHETIC);

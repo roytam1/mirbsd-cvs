@@ -31,6 +31,8 @@
 
 #include "ntpd.h"
 
+__RCSID("$MirOS$");
+
 struct ntp_addr	*host_v4(const char *);
 struct ntp_addr	*host_v6(const char *);
 
