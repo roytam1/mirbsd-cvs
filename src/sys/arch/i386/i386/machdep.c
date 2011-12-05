@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/i386/machdep.c,v 1.5 2005/05/05 23:11:27 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/i386/machdep.c,v 1.6 2005/06/06 22:59:59 tg Exp $ */
 /*	$OpenBSD: machdep.c,v 1.317 2005/04/02 02:44:58 tedu Exp $	*/
 /*	$NetBSD: machdep.c,v 1.214 1996/11/10 03:16:17 thorpej Exp $	*/
 
@@ -171,6 +171,10 @@ extern struct proc *npxproc;
 
 #ifndef SMALL_KERNEL
 #include "powernowhack.h"
+#endif
+
+#if defined(_KERN_DO_ECOFF)
+#include <sys/exec_ecoff.h>
 #endif
 
 /*
@@ -3967,6 +3971,14 @@ _bus_dmamem_alloc_range(t, size, alignment, boundary, segs, nsegs, rsegs,
 
 	return (0);
 }
+
+#ifdef _KERN_DO_ECOFF
+int
+cpu_exec_ecoff_hook(struct proc *p, struct exec_package *epp)
+{
+	return (0);
+}
+#endif
 
 #ifdef DIAGNOSTIC
 void
