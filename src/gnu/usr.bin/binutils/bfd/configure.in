@@ -1,4 +1,4 @@
-dnl $MirOS: src/gnu/usr.bin/binutils/bfd/configure.in,v 1.4 2005/06/05 21:23:55 tg Exp $
+dnl $MirOS: src/gnu/usr.bin/binutils/bfd/configure.in,v 1.5 2005/07/07 16:22:38 tg Exp $
 dnl
 dnl Process this file with autoconf to produce a configure script.
 dnl
@@ -21,7 +21,8 @@ dnl Default to a non shared library.  This may be overridden by the
 dnl configure option --enable-shared.
 AM_DISABLE_SHARED
 
-AM_PROG_LIBTOOL
+AC_GNU_SOURCE
+AC_PROG_LIBTOOL
 
 AC_ARG_ENABLE(64-bit-bfd,
 [  --enable-64-bit-bfd     64-bit support (on hosts with narrower word sizes)],
@@ -84,7 +85,6 @@ bfd_default_target_size=32
 # host stuff:
 
 AC_PROG_CC
-AC_GNU_SOURCE
 
 # Permit host specific settings.
 . ${srcdir}/configure.host
