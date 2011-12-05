@@ -1,4 +1,4 @@
-# $MirOS: src/include/Makefile,v 1.7 2005/10/21 11:33:25 tg Exp $
+# $MirOS: src/include/Makefile,v 1.8 2005/11/03 22:28:39 tg Exp $
 # $OpenBSD: Makefile,v 1.135 2005/07/10 06:53:44 grange Exp $
 # $NetBSD: Makefile,v 1.59 1996/05/15 21:36:43 jtc Exp $
 # @(#)Makefile	5.45.1.1 (Berkeley) 5/6/91
@@ -41,7 +41,8 @@ RDIRS=	../lib/libcdk ../lib/libcompat ../lib/libcurses ../lib/libedit \
 	../sys/arch/${MACHINE}
 
 # Places using Makefile that needs a prerequisite target met before includes
-PRDIRS=	../lib/libcdk ../lib/librpcsvc ../lib/libssl/crypto
+PRDIRS=	../lib/libcdk ../lib/librpcsvc ../lib/libssl/crypto \
+	../sys/arch/${MACHINE}/stand
 
 NOOBJ=	yes
 
@@ -81,13 +82,13 @@ includes:
 		rm -f ${DESTDIR}/usr/include/$$i && \
 		ln -s machine/$$i ${DESTDIR}/usr/include/$$i; \
 	done
-	chown -R ${BINOWN}:${BINGRP} ${DESTDIR}/usr/include
-	find ${DESTDIR}/usr/include -type f | xargs chmod a=r
-	find ${DESTDIR}/usr/include -type d | xargs chmod u=rwx,go=rx
 	@for i in ${RDIRS}; do \
 		echo installing in ${.CURDIR}/$$i; \
 		cd ${.CURDIR}/$$i && ${MAKE} includes; \
 	done
+	chown -R ${BINOWN}:${BINGRP} ${DESTDIR}/usr/include
+	find ${DESTDIR}/usr/include -type f | xargs chmod a=r
+	find ${DESTDIR}/usr/include -type d | xargs chmod u=rwx,go=rx
 
 copies:
 	@echo copies: ${LDIRS}
@@ -114,7 +115,7 @@ copies:
 		    ../sys/arch/${MACHINE_ARCH}/include/*.h \
 		    ${DESTDIR}/usr/include/${MACHINE_ARCH}; \
 	fi
-	ln -sf ${MACHINE} ${DESTDIR}/usr/include/machine; \
+	ln -sf ${MACHINE} ${DESTDIR}/usr/include/machine
 
 symlinks:
 	@echo symlinks: ${LDIRS}

@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/stand/Makefile,v 1.3 2005/03/14 22:12:38 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/Makefile,v 1.4 2005/04/29 18:34:57 tg Exp $
 # $OpenBSD: Makefile,v 1.12 2004/06/23 00:29:56 tom Exp $
 
 .if ${MACHINE} == "i386"
@@ -24,5 +24,7 @@ prep-${_i}:
 	${SUDO} disklabel -rw ${_i} floppy
 	${SUDO} newfs -O -m 0 -o space -i 3000 -c 80 /dev/r${_i}a
 .endfor
+
+prereq: _SUBDIRUSE
 
 .include <bsd.subdir.mk>

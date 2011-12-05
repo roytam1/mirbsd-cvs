@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/stand/Makefile.inc,v 1.5 2005/10/17 19:18:03 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/Makefile.inc,v 1.6 2005/10/20 12:47:50 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.36 2004/07/24 17:39:27 millert Exp $
 
 .ifndef MODSRC_SYS_ARCH_I386_STAND_MAKEFILE_INC
@@ -66,5 +66,10 @@ LIBZ=		${SADIR}/libz/${__objdir}/libz.a
 
 # NO_NET=no_net
 BINDIR=		/usr/mdec
+
+prereq: .NOTMAIN
+# empty
+
+.PHONY: prereq
 
 .endif
