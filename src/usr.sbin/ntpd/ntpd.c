@@ -35,7 +35,7 @@
 
 #include "ntpd.h"
 
-__RCSID("$MirOS: src/usr.sbin/ntpd/ntpd.c,v 1.12 2007/02/08 01:27:38 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/ntpd/ntpd.c,v 1.13 2007/04/16 09:40:15 tg Exp $");
 
 void		sighdlr(int);
 __dead void	usage(void);
@@ -71,7 +71,7 @@ sighdlr(int sig)
 __dead void
 usage(void)
 {
-	extern char *__progname;
+	extern const char *__progname;
 
 	fprintf(stderr, "usage: %s [-dSs] [-f file]\n", __progname);
 	exit(1);
