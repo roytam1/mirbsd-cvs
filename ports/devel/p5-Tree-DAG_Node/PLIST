@@ -1,9 +1,0 @@
-@comment $MirOS$
-${P5SITE}/Tree/DAG_Node.pm
-@comment ${P5ARCH}/auto/Tree/DAG_Node/.packlist
-man/man3/Tree::DAG_Node${P5MAN3EXT}
-@comment @dirrm ${P5ARCH}/auto/Tree/DAG_Node
-@comment @dirrm ${P5ARCH}/auto/Tree
-@comment @dirrm ${P5ARCH}/auto
-@comment @dirrm ${P5ARCH}
-@dirrm ${P5SITE}/Tree

@@ -1,8 +1,0 @@
-@comment $MirOS: ports/essentials/cpio/pkg/PLIST,v 1.2 2005/11/16 16:03:43 tg Exp $
-@option base-package
-bin/cpio
-bin/pax
-bin/tar
-man/cat1/cpio.0
-man/cat1/pax.0
-man/cat1/tar.0

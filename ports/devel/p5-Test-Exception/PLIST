@@ -1,9 +1,0 @@
-@comment $MirOS$
-${P5SITE}/Test/Exception.pm
-@comment ${P5ARCH}/auto/Test/Exception/.packlist
-man/man3/Test::Exception${P5MAN3EXT}
-@comment @dirrm ${P5ARCH}/auto/Test/Exception
-@comment @dirrm ${P5ARCH}/auto/Test
-@comment @dirrm ${P5ARCH}/auto
-@comment @dirrm ${P5ARCH}
-@dirrm ${P5SITE}/Test
