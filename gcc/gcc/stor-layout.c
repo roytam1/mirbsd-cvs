@@ -20,7 +20,7 @@ Software Foundation, 59 Temple Place - Suite 330, Boston, MA
 02111-1307, USA.  */
 
 
-/* @@ PATCHED FOR GPC 20051114 @@ */
+/* @@ PATCHED FOR GPC 20060322 @@ */
 
 #include "config.h"
 #include "system.h"
