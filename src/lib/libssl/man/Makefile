@@ -1,5 +1,5 @@
-# $MirOS$
-# $OpenBSD: Makefile,v 1.7 2004/02/09 18:31:19 espie Exp $
+# $MirOS: src/lib/libssl/man/Makefile,v 1.2 2005/03/06 20:29:25 tg Exp $
+# $OpenBSD: Makefile,v 1.9 2005/10/22 10:33:53 jmc Exp $
 
 .include <bsd.own.mk>		# for NOMAN
 
@@ -7,6 +7,7 @@ POD2MAN=pod2man --official --release --center=OpenSSL
 
 .if !defined(NOMAN) || ${NOMAN:L} == "no"
 MANALL=	\
+	BF_set_key.cat3 \
 	BN_CTX_new.cat3 \
 	BN_CTX_start.cat3 \
 	BN_add.cat3 \
@@ -163,7 +164,6 @@ MANALL=	\
 	SSL_state_string.cat3 \
 	SSL_want.cat3 \
 	SSL_write.cat3 \
-	blowfish.cat3 \
 	acss.cat3 \
 	bn.cat3 \
 	bn_internal.cat3 \
@@ -239,7 +239,8 @@ PSALL=	${MANALL:S/.cat1/.ps1/g:S/.cat2/.ps2/g:S/.cat3/.ps3/g:S/.cat4/.ps4/g:S/.c
 	SHA1 sha \
 	MD5 md5 \
 	HMAC hmac \
-	des_random_key des
+	des_random_key des \
+	BF_set_key blowfish
 
 ${page}.cat3: ${src}.pod
 	${POD2MAN} --section=3 --name=${page:U} ${.ALLSRC} | \
@@ -656,16 +657,15 @@ MLINKS+=\
 	SSL_want.3 SSL_want_write.3 \
 	SSL_want.3 SSL_want_x509_lookup.3 \
 	acss.3 acss_setkey.3 \
-	blowfish.3 BF_cbc.3 \
-	blowfish.3 BF_cbc_encrypt.3 \
-	blowfish.3 BF_cfb64_encrypt.3 \
-	blowfish.3 BF_decrypt.3 \
-	blowfish.3 BF_ecb.3 \
-	blowfish.3 BF_ecb_encrypt.3 \
-	blowfish.3 BF_encrypt.3 \
-	blowfish.3 BF_ofb64_encrypt.3 \
-	blowfish.3 BF_options.3 \
-	blowfish.3 BF_set_key.3 \
+	BF_set_key.3 BF_cbc.3 \
+	BF_set_key.3 BF_cbc_encrypt.3 \
+	BF_set_key.3 BF_cfb64_encrypt.3 \
+	BF_set_key.3 BF_decrypt.3 \
+	BF_set_key.3 BF_ecb.3 \
+	BF_set_key.3 BF_ecb_encrypt.3 \
+	BF_set_key.3 BF_encrypt.3 \
+	BF_set_key.3 BF_ofb64_encrypt.3 \
+	BF_set_key.3 BF_options.3 \
 	bn_internal.3 bn_add_words.3 \
 	bn_internal.3 bn_check_top.3 \
 	bn_internal.3 bn_cmp_words.3 \
@@ -705,7 +705,7 @@ MLINKS+=\
 	d2i_RSAPublicKey.3 i2d_RSAPrivateKey.3 \
 	d2i_RSAPublicKey.3 i2d_RSAPublicKey.3 \
 	d2i_SSL_SESSION.3 i2d_SSL_SESSION.3 \
-	des_crypt.3 des_string_to_2keys.3 \
+	des_random_key.3 des_string_to_2keys.3 \
 	des_random_key.3 des_cbc_cksum.3 \
 	des_random_key.3 des_cfb64_encrypt.3 \
 	des_random_key.3 des_cfb_encrypt.3 \
