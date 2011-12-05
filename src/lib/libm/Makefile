@@ -1,4 +1,4 @@
-#  $MirOS: src/lib/libm/Makefile,v 1.2 2005/03/06 20:29:10 tg Exp $
+#  $MirOS: src/lib/libm/Makefile,v 1.3 2005/10/21 11:02:48 tg Exp $
 #  $NetBSD: Makefile,v 1.28 1995/11/20 22:06:19 jtc Exp $
 #  $OpenBSD: Makefile,v 1.34 2004/04/06 00:21:18 brad Exp $
 #
@@ -63,9 +63,7 @@ ARCH_SRCS = e_acos.S e_asin.S e_atan2.S e_exp.S e_fmod.S e_log.S e_log10.S \
 .PATH:	${.CURDIR}/src
 
 CPPFLAGS+=	-D_MULTI_LIBM -D_POSIX_MODE
-COPTS+=		-std=c89
-
-SHLIB_VERSION?=	4.0
+SHLIB_VERSION?=	5.0
 LIB=	m
 SRCS+=	e_acos.c e_acosf.c e_acosh.c e_acoshf.c e_asin.c e_asinf.c \
 	e_atan2.c e_atan2f.c e_atanh.c e_atanhf.c e_cosh.c e_coshf.c e_exp.c \
@@ -86,7 +84,7 @@ SRCS+=	e_acos.c e_acosf.c e_acosh.c e_acoshf.c e_asin.c e_asinf.c \
 	s_signgam.c s_significand.c s_significandf.c s_sin.c s_sinf.c s_tan.c \
 	s_tanf.c s_tanh.c s_tanhf.c \
 	w_acos.c w_acosf.c w_acosh.c w_acoshf.c w_asin.c w_asinf.c w_atan2.c \
-	w_atan2f.c w_atanh.c w_atanhf.c w_cabs.c w_cabsf.c w_cosh.c w_coshf.c \
+	w_atan2f.c w_atanh.c w_atanhf.c w_cosh.c w_coshf.c \
 	w_drem.c w_dremf.c w_exp.c w_expf.c w_fmod.c w_fmodf.c w_gamma.c \
 	w_gamma_r.c w_gammaf.c w_gammaf_r.c w_hypot.c w_hypotf.c w_j0.c \
 	w_j0f.c w_j1.c w_j1f.c w_jn.c w_jnf.c w_lgamma.c w_lgamma_r.c \
@@ -108,7 +106,6 @@ MAN+=	infnan.3
 
 MLINKS+=erf.3 erfc.3
 MLINKS+=exp.3 expm1.3 exp.3 log.3 exp.3 log10.3 exp.3 log1p.3 exp.3 pow.3
-MLINKS+=hypot.3 cabs.3
 MLINKS+=ieee.3 copysign.3 ieee.3 finite.3 ieee.3 ilogb.3 \
 	ieee.3 nextafter.3 ieee.3 remainder.3 ieee.3 scalbn.3
 MLINKS+=logb.3 scalb.3
@@ -139,7 +136,6 @@ MLINKS+=exp.3 powf.3
 MLINKS+=fabs.3 fabsf.3
 MLINKS+=floor.3 floorf.3
 MLINKS+=fmod.3 fmodf.3
-MLINKS+=hypot.3 cabsf.3
 MLINKS+=hypot.3 hypotf.3
 MLINKS+=ieee.3 copysignf.3
 MLINKS+=ieee.3 finitef.3

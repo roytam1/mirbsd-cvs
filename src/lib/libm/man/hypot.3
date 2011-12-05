@@ -1,3 +1,4 @@
+.\"	$MirOS$
 .\"	$OpenBSD: hypot.3,v 1.14 2003/10/21 20:11:56 jmc Exp $
 .\" Copyright (c) 1985, 1991 Regents of the University of California.
 .\" All rights reserved.
@@ -33,9 +34,7 @@
 .Os
 .Sh NAME
 .Nm hypot ,
-.Nm hypotf ,
-.Nm cabs ,
-.Nm cabsf
+.Nm hypotf
 .Nd Euclidean distance and complex absolute value functions
 .Sh SYNOPSIS
 .Fd #include <math.h>
@@ -43,29 +42,17 @@
 .Fn hypot "double x" "double y"
 .Ft float
 .Fn hypotf "float x" "float y"
-.Ft double
-.Fn cabs "struct complex { double x; double y; } z"
-.Ft float
-.Fn cabsf "struct complex { float x; float y; } z"
 .Sh DESCRIPTION
 The
 .Fn hypot
-and
-.Fn cabs
-functions
-compute the
+function computes the
 sqrt(x*x+y*y)
 in such a way that underflow will not happen, and overflow
 occurs only if the final result deserves it.
 The
 .Fn hypotf
-and
-.Fn cabsf
-functions are single precision versions of
-.Fn hypot
-and
-.Fn cabs ,
-respectively.
+function is a single precision versions of
+.Fn hypot .
 .Pp
 .Fn hypot "\*(If" "v"
 =
@@ -80,13 +67,8 @@ Consequently
 .Fn hypot "5.0" "12.0"
 = 13.0
 exactly;
-in general, hypot and cabs return an integer whenever an
+in general, hypot returns an integer whenever an
 integer might be expected.
-.Pp
-The same cannot be said for the shorter and faster version of hypot
-and cabs that is provided in the comments in cabs.c; its error can
-exceed 1.2
-.Em ulps .
 .Sh NOTES
 As might be expected,
 .Fn hypot "v" "\*(Na"
@@ -133,11 +115,10 @@ function and a
 function
 appeared in
 .At v7 .
-.Sh BUGS
-The
+.Pp
+For
+.St -isoC-99
+compatibility, the
 .Fn cabs
-and
-.Fn cabsf
-functions use structures that are not defined in any header and need to
-be defined by the user.
-As such they cannot be prototyped properly.
+function was removed in
+.Mx 8 .
