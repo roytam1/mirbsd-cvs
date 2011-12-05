@@ -1,4 +1,4 @@
-# $MirOS: gcc/gcc/Makefile.bsd-wrapper,v 1.26 2005/11/22 19:38:53 tg Exp $
+# $MirOS: gcc/gcc/Makefile.bsd-wrapper,v 1.27 2005/11/22 21:54:06 tg Exp $
 
 .include <bsd.own.mk>
 .include "${GNUSYSTEM_AUX_DIR}/locations.mk"
@@ -107,7 +107,15 @@ all-quick:
 	cd ${FSFOBJDIR} && ${FSFMAKE} ${ALL_TARGET}
 
 pre-install:
-	mkdir -p ${DESTDIR}${GCC_PREFIX}/lib/gcc/${GCCTARGET}/${GCCVERSION}
+	mkdir -p ${DESTDIR}${GCC_PREFIX}/lib/gcc/${GCCTARGET}/${GCCVERSION} \
+	    ${DESTDIR}${MANDIR}1
+.if !defined(NO_PASCAL) || ${NO_PASCAL:L} == "no"
+.  if (${GCC_NATIVE:L} != "yes") && exists(${.SYSMK}/libmirmake.a)
+	mkdir libmirmake && cd libmirmake && ar x ${.SYSMK}/libmirmake.a md5.o
+	ar r libgpc.a libmirmake/md5.o
+	-rm -rf libmirmake
+.  endif
+.endif
 
 ${MAN}: .MADE do-build
 

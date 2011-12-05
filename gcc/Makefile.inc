@@ -1,4 +1,4 @@
-# $MirOS: gcc/Makefile.inc,v 1.18 2005/11/22 21:54:05 tg Exp $
+# $MirOS: gcc/Makefile.inc,v 1.19 2005/11/23 15:39:49 tg Exp $
 
 .ifndef _MODGCC_MAKEFILE_INC
 _MODGCC_MAKEFILE_INC=1
@@ -77,5 +77,6 @@ GCC_PREFIX?=	${PREFIX}
 GCC_INFODIR?=	${GCC_PREFIX}/info
 GCC_MANDIR?=	${GCC_PREFIX}/man
 .endif
+MANDIR=		${GCC_MANDIR}/cat
 
 .endif
