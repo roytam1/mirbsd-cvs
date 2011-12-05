@@ -1,5 +1,6 @@
-/**	$MirOS: src/sys/dev/vnd.c,v 1.4 2005/04/29 18:35:01 tg Exp $	*/
-/*	$OpenBSD: vnd.c,v 1.56 2005/07/20 02:36:13 tedu Exp $	*/
+/**	$MirOS: src/sys/dev/vnd.c,v 1.5 2005/07/21 21:52:17 tg Exp $	*/
+/*	$OpenBSD: vnd.c,v 1.74 2007/05/12 12:19:23 krw Exp $	*/
+/*	$OpenBSD: vnd.c,v 1.57 2005/12/29 20:02:03 pedro Exp $	*/
 /*	$NetBSD: vnd.c,v 1.26 1996/03/30 23:06:11 christos Exp $	*/
 
 /*
@@ -133,7 +134,6 @@ struct vnd_softc {
 	size_t		 sc_size;		/* size of vnd in blocks */
 	struct vnode	*sc_vp;			/* vnode */
 	struct ucred	*sc_cred;		/* credentials */
-	int		 sc_maxactive;		/* max # of active requests */
 	struct buf	 sc_tab;		/* transfer queue */
 	blf_ctx		*sc_keyctx;		/* key context */
 };
@@ -146,7 +146,6 @@ struct vnd_softc {
 #define	VNF_LABELLING	0x0100
 #define	VNF_WLABEL	0x0200
 #define	VNF_HAVELABEL	0x0400
-#define	VNF_BUSY	0x0800
 #define	VNF_SIMPLE	0x1000
 #define	VNF_RDONLY	0x2000
 
@@ -161,7 +160,6 @@ void	vndattach(int);
 void	vndclear(struct vnd_softc *);
 void	vndstart(struct vnd_softc *);
 int	vndsetcred(struct vnd_softc *, struct ucred *);
-void	vndthrottle(struct vnd_softc *, struct vnode *);
 void	vndiodone(struct buf *);
 void	vndshutdown(void);
 void	vndgetdisklabel(dev_t, struct vnd_softc *);
@@ -260,11 +258,11 @@ vndopen(dev, flags, mode, p)
 
 	/*
 	 * If any partition is open, all succeeding openings must be of the
-	 * same type.
+	 * same type or read-only.
 	 */
 	if (sc->sc_dk.dk_openmask) {
 		if (((sc->sc_flags & VNF_SIMPLE) != 0) !=
-		    (vndsimple(dev) != 0)) {
+		    (vndsimple(dev) != 0) && (flags & FWRITE)) {
 			error = EBUSY;
 			goto bad;
 		}
@@ -406,9 +404,7 @@ vndclose(dev, flags, mode, p)
  *
  * Latter method:
  * Repack the buffer into an uio structure and use VOP_READ/VOP_WRITE to
- * access the underlying file.  Things are complicated by the fact that we
- * might get recursively called due to buffer flushes.  In those cases we
- * queue one write.
+ * access the underlying file.
  */
 void
 vndstrategy(bp)
@@ -440,8 +436,8 @@ vndstrategy(bp)
 	}
 
 	bn = bp->b_blkno;
-	sz = howmany(bp->b_bcount, DEV_BSIZE);
 	bp->b_resid = bp->b_bcount;
+
 	if (bn < 0) {
 		bp->b_error = EINVAL;
 		bp->b_flags |= B_ERROR;
@@ -450,36 +446,27 @@ vndstrategy(bp)
 		splx(s);
 		return;
 	}
-	if (DISKPART(bp->b_dev) != RAW_PART &&
-	    bounds_check_with_label(bp, vnd->sc_dk.dk_label,
-	    vnd->sc_dk.dk_cpulabel, 1) <= 0) {
-		s = splbio();
-		biodone(bp);
-		splx(s);
-		return;
-	}
 
-	/* No bypassing of buffer cache?  */
-	if (vndsimple(bp->b_dev)) {
-		/*
-		 * In order to avoid "locking against myself" panics, we
-		 * must be prepared to queue operations during another I/O
-		 * operation.  This situation comes up where a dirty cache
-		 * buffer needs to be flushed in order to provide the current
-		 * operation with a fresh buffer.
-		 *
-		 * XXX do we really need to protect stuff relating to this with
-		 * splbio?
-		 */
-		if (vnd->sc_flags & VNF_BUSY) {
+	/* If we have a label, do a boundary check. */
+	if (vnd->sc_flags & VNF_HAVELABEL) {
+		if (bounds_check_with_label(bp, vnd->sc_dk.dk_label,
+		    vnd->sc_dk.dk_cpulabel, 1) <= 0) {
 			s = splbio();
-			bp->b_actf = vnd->sc_tab.b_actf;
-			vnd->sc_tab.b_actf = bp;
-			vnd->sc_tab.b_active++;
+			biodone(bp);
 			splx(s);
 			return;
 		}
 
+		/*
+		 * bounds_check_with_label() changes bp->b_resid, reset it
+		 */
+		bp->b_resid = bp->b_bcount;
+	}
+
+	sz = howmany(bp->b_bcount, DEV_BSIZE);
+
+	/* No bypassing of buffer cache?  */
+	if (vndsimple(bp->b_dev)) {
 		/* Loop until all queued requests are handled.  */
 		for (;;) {
 			int part = DISKPART(bp->b_dev);
@@ -494,7 +481,6 @@ vndstrategy(bp)
 			auio.uio_procp = p;
 
 			vn_lock(vnd->sc_vp, LK_EXCLUSIVE | LK_RETRY, p);
-			vnd->sc_flags |= VNF_BUSY;
 			if (bp->b_flags & B_READ) {
 				auio.uio_rw = UIO_READ;
 				bp->b_error = VOP_READ(vnd->sc_vp, &auio, 0,
@@ -514,7 +500,6 @@ vndstrategy(bp)
 					vndencrypt(vnd, bp->b_data,
 					   bp->b_bcount, bp->b_blkno, 0);
 			}
-			vnd->sc_flags &= ~VNF_BUSY;
 			VOP_UNLOCK(vnd->sc_vp, 0, p);
 			if (bp->b_error)
 				bp->b_flags |= B_ERROR;
@@ -573,7 +558,9 @@ vndstrategy(bp)
 			    vnd->sc_vp, vp, bn, nbn, sz);
 #endif
 
+		s = splbio();
 		nbp = getvndbuf();
+		splx(s);
 		nbp->vb_buf.b_flags = flags;
 		nbp->vb_buf.b_bcount = sz;
 		nbp->vb_buf.b_bufsize = bp->b_bufsize;
@@ -604,12 +591,17 @@ vndstrategy(bp)
 		 *
 		 * XXX we could deal with holes here but it would be
 		 * a hassle (in the write case).
+		 * We must still however charge for the write even if there
+		 * was an error.
 		 */
 		if (error) {
 			nbp->vb_buf.b_error = error;
 			nbp->vb_buf.b_flags |= B_ERROR;
 			bp->b_resid -= (resid - sz);
 			s = splbio();
+			/* charge for the write */
+			if ((nbp->vb_buf.b_flags & B_READ) == 0)
+				nbp->vb_buf.b_vp->v_numoutput++;
 			biodone(&nbp->vb_buf);
 			splx(s);
 			return;
@@ -620,12 +612,9 @@ vndstrategy(bp)
 		nbp->vb_buf.b_cylin = nbp->vb_buf.b_blkno;
 		s = splbio();
 		disksort(&vnd->sc_tab, &nbp->vb_buf);
-		if (vnd->sc_tab.b_active < vnd->sc_maxactive) {
-			vnd->sc_tab.b_active++;
-			vndstart(vnd);
-		}
+		vnd->sc_tab.b_active++;
+		vndstart(vnd);
 		splx(s);
-
 		bn += sz;
 		addr += sz;
 	}
@@ -708,9 +697,7 @@ vndiodone(bp)
 	if (vnd->sc_tab.b_active) {
 		disk_unbusy(&vnd->sc_dk, (pbp->b_bcount - pbp->b_resid),
 		    (pbp->b_flags & B_READ));
-		if (vnd->sc_tab.b_actf)
-			vndstart(vnd);
-		else
+		if (!vnd->sc_tab.b_actf)
 			vnd->sc_tab.b_active--;
 	}
 	if (pbp->b_resid == 0) {
@@ -882,7 +869,6 @@ vndioctl(dev, cmd, addr, flag, p)
 		} else
 			vnd->sc_keyctx = NULL;
 
-		vndthrottle(vnd, vnd->sc_vp);
 		vio->vnd_size = dbtob((off_t)vnd->sc_size);
 		vnd->sc_flags |= VNF_INITED;
 		vnd->sc_flags |= f_rdonly;
@@ -1004,8 +990,7 @@ vndioctl(dev, cmd, addr, flag, p)
 		    vnd->sc_dk.dk_cpulabel);
 		if (error == 0) {
 			if (cmd == DIOCWDINFO)
-				error = writedisklabel(MAKEDISKDEV(major(dev),
-				    DISKUNIT(dev), RAW_PART),
+				error = writedisklabel(VNDLABELDEV(dev),
 				    vndstrategy, vnd->sc_dk.dk_label,
 				    vnd->sc_dk.dk_cpulabel);
 		}
@@ -1067,24 +1052,6 @@ vndsetcred(vnd, cred)
 
 	free(tmpbuf, M_TEMP);
 	return (error);
-}
-
-/*
- * Set maxactive based on FS type
- */
-void
-vndthrottle(vnd, vp)
-	struct vnd_softc *vnd;
-	struct vnode *vp;
-{
-#ifdef NFSCLIENT
-	extern int (**nfsv2_vnodeop_p)(void *);
-
-	if (vp->v_op == nfsv2_vnodeop_p)
-		vnd->sc_maxactive = 2;
-	else
-#endif
-		vnd->sc_maxactive = 8;
 }
 
 void
