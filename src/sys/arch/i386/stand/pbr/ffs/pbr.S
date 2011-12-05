@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/pbr/ffs/pbr.S,v 1.4 2005/12/04 12:52:51 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/pbr/ffs/pbr.S,v 1.5 2005/12/04 12:57:32 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005
@@ -171,7 +171,7 @@ Lmlp2:	lodsb			/* copy over as many bytes as needed */
 	push	fs			/* SA_LINKSEG; old 4000, new 4012 */
 	push	cx			/* offset (used to be 120, now 0) */
 	mov	eax,fs:[0x50]		/* some "random" ASCII string, ie */
-	cmp	eax,0x6A6D4F03		/* boot magic */
+	cmp	eax,0x6A6D4F00		/* boot magic */
 	mov	si,offset Lerr		/* "bad magic" */
 	jne	Lbarf			/* no it isn't, barf out */
 	/* new line, for the fine look */
@@ -179,6 +179,7 @@ Lmlp2:	lodsb			/* copy over as many bytes as needed */
 	call	Lotxt
 	/* set up and jump into /boot */
 	mov	dx,[Ldrv]
+	mov	fs:[0x50],dh
 	lret
 
 Lotxt0:	int	0x10

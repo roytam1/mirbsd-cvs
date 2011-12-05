@@ -1,10 +1,10 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/biosdev.c,v 1.2 2005/03/06 21:27:05 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/libsa/biosdev.c,v 1.3 2005/04/29 18:34:59 tg Exp $ */
 /*	$OpenBSD: biosdev.c,v 1.69 2004/06/23 00:21:49 tom Exp $	*/
 
 /*
  * Copyright (c) 1996 Michael Shalayeff
  * Copyright (c) 2003 Tobias Weingartner
- * Copyright (c) 2002, 2003, 2004
+ * Copyright (c) 2002, 2003, 2004, 2005
  *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
  * All rights reserved.
  *
@@ -53,6 +53,7 @@ static __inline int EDD_rw (int, int, u_int64_t, u_int32_t, void *);
 extern int debug;
 int bios_bootdev;
 int i386_flag_oldbios = 0;
+int userpt = 0;
 
 #if 0
 struct biosdisk {
@@ -383,11 +384,15 @@ loop:		error = biosd_io(F_READ, bd, mbrofs, 1, &mbr);
 			return "bad MBR signature\n";
 
 		/* Search for MirBSD partition */
-		for (off = 0, i = 0; off == 0 && i < NDOSPART; i++) {
+		off = 0;
+		if (userpt) for (i = 0; off == 0 && i < NDOSPART; i++) {
 			mbr.dmbr_parts[i].dp_start += mbrofs;
-			if (mbr.dmbr_parts[i].dp_typ == DOSPTYP_MIRBSD)
+			if (mbr.dmbr_parts[i].dp_typ == userpt)
 				off = i + 1;
 		}
+		if (!off) for (i = 0; off == 0 && i < NDOSPART; i++)
+			if (mbr.dmbr_parts[i].dp_typ == DOSPTYP_MIRBSD)
+				off = i + 1;
 
 		/* just in case */
 		if (!off) for (i = 0; off == 0 && i < NDOSPART; i++)

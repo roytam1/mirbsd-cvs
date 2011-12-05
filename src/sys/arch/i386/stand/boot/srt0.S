@@ -1,7 +1,7 @@
-/* $MirOS: src/share/misc/licence.template,v 1.2 2005/03/03 19:43:30 tg Rel $ */
+/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.2 2005/03/06 21:27:03 tg Exp $ */
 
 /*-
- * Copyright (c) 2003, 2004
+ * Copyright (c) 2003, 2004, 2005
  *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
  *
  * Licensee is hereby permitted to deal in this work without restric-
@@ -15,13 +15,14 @@
  * ware must display the following acknowledgement:
  *	This product includes material provided by Thorsten Glaser.
  *
- * Licensor hereby provides this work "AS IS" and WITHOUT WARRANTY of
- * any kind, expressed or implied, to the maximum extent permitted by
- * applicable law, but with the warranty of being written without ma-
- * licious intent or gross negligence; in no event shall licensor, an
- * author or contributor be held liable for any damage, direct, indi-
- * rect or other, however caused, arising in any way out of the usage
- * of this work, even if advised of the possibility of such damage.
+ * Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
+ * express, or implied, to the maximum extent permitted by applicable
+ * law, without malicious intent or gross negligence; in no event may
+ * licensor, an author or contributor be held liable for any indirect
+ * or other damage, or direct damage except proven a consequence of a
+ * direct error of said person and intended use of this work, loss or
+ * other issues arising in any way out of its use, even if advised of
+ * the possibility of such damage or existence of a nontrivial bug.
  *-
  * Initialisation code for second-stage or stand-alone boot loader.
  *
@@ -104,7 +105,7 @@ _star2:	mov	bx,SA_LOADSEG
 	sti
 	push	dx
 	call	Linit
-_rval:	.ascii	"\03Omi"	/* _start + 0x50 */
+_rval:	.long	0x6A6D4F00	/* _start + 0x50 */
 Linit:	pop	di
 	mov	ax,0xB800
 	mov	gs,ax		/* for UD() */
@@ -418,6 +419,7 @@ LpreFD:	/* prepare booting */
 	UD(14)			/** N: preparing 32-bit */
 	xor	edx,edx
 	mov	dl,[Lbdev]	/* carry this over to VPAM */
+	mov	dh,[_rval]
 	cli
 	addr32 data32 lgdt (Gdtr - SA_LOADADDR)
 	mov	ax,1
@@ -515,6 +517,10 @@ Lpmode:	mov	eax,0x10
 	and	ecx,0x00000003
 	rep	stosb
 	/* store saved BIOS boot device */
+	pop	edx
+	mov	[_C_LABEL(userpt)],dh
+	mov	dh,0
+	push	edx
 	mov	[_C_LABEL(bios_bootdev)],edx
 	UD32(17)		/** Q: jump into C code */
 	/* jump into boot loader C code */
