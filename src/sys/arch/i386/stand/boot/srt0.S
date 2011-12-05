@@ -1,8 +1,8 @@
-/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.2 2005/03/06 21:27:03 tg Exp $ */
+/* $MirOS: src/share/misc/licence.template,v 1.6 2006/01/24 22:24:02 tg Rel $ */
 
 /*-
- * Copyright (c) 2003, 2004, 2005
- *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+ * Copyright (c) 2003, 2004, 2005, 2006
+ *	Thorsten Glaser <tg@mirbsd.de>
  *
  * Licensee is hereby permitted to deal in this work without restric-
  * tion, including unlimited rights to use, publicly perform, modify,
@@ -416,10 +416,19 @@ LpreCD:	UD(13)			/** M: cd-rom boot */
 	/* FALL-THROUGH */
 
 LpreFD:	/* prepare booting */
+#ifdef BOOTSELECT_HOOK
+	UD(37)			/** e: calling the hook */
+	xor	eax,eax
+	call	Lhook
+	push	eax
+#endif
 	UD(14)			/** N: preparing 32-bit */
 	xor	edx,edx
 	mov	dl,[Lbdev]	/* carry this over to VPAM */
 	mov	dh,[_rval]
+#ifdef BOOTSELECT_HOOK
+	pop	esi
+#endif
 	cli
 	addr32 data32 lgdt (Gdtr - SA_LOADADDR)
 	mov	ax,1
@@ -500,6 +509,9 @@ Lpmode:	mov	eax,0x10
 	mov	ds,ax
 	mov	fs,ax
 	mov	gs,ax
+#ifdef BOOTSELECT_HOOK
+	push	esi
+#endif
 	push	edx
 	UD32(15)		/** O: 32-bit reached */
 	call	_ASM_LABEL(pmm_init)
@@ -522,6 +534,10 @@ Lpmode:	mov	eax,0x10
 	mov	dh,0
 	push	edx
 	mov	[_C_LABEL(bios_bootdev)],edx
+#ifdef BOOTSELECT_HOOK
+	pop	ecx
+	mov	[_C_LABEL(hook_value)],ecx
+#endif
 	UD32(17)		/** Q: jump into C code */
 	/* jump into boot loader C code */
 	call	_C_LABEL(boot)

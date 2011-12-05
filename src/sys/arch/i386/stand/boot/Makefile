@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/stand/boot/Makefile,v 1.2 2005/03/06 21:27:03 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/boot/Makefile,v 1.3 2005/10/20 12:47:51 tg Exp $
 
 .include "${.CURDIR}/../Makefile.inc"
 
@@ -35,6 +35,11 @@ SRCS=		crt0.c
 LDFLAGS+=	-Ttext $(LINKADDR) -N -x -noinhibit-exec
 CLEANFILES+=	crt0.o
 SRCS=		srt0.S
+.endif
+
+.ifdef BOOTSELECT_HOOK
+SRCS+=		hook.S
+CPPFLAGS+=	-DBOOTSELECT_HOOK
 .endif
 
 CLEANFILES+=	${.CURDIR}/disasm ${PROG}.nm ld.out

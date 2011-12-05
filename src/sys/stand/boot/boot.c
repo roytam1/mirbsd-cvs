@@ -1,4 +1,4 @@
-/**	$MirOS$	*/
+/**	$MirOS: src/sys/stand/boot/boot.c,v 1.2 2005/03/06 21:28:32 tg Exp $	*/
 /*	$OpenBSD: boot.c,v 1.30 2004/01/29 00:54:08 tom Exp $	*/
 
 /*
@@ -56,12 +56,13 @@ char *progname = "BOOT";
 extern const char version[];
 struct cmd_state cmd;
 int bootprompt = 1;
+uint32_t hook_value = 0;
 
 void
 boot(dev_t bootdev)
 {
 	const char *bootfile = kernels[0];
-	int i = 0, try = 0, st;
+	int i = 0, try = 0, st = -1;
 	u_long marks[MARK_MAX];
 #ifdef IN_PXEBOOT
 	uint32_t ip;
@@ -97,11 +98,20 @@ boot(dev_t bootdev)
 
 	if ((st = read_conf()))
 		printf("Attempt to read %s failed.\n", cmd.conf);
+#else
+	if (hook_value) {
+		cmd.boothowto = 0;
+		snprintf(myconf, sizeof(myconf), "/etc/boot.%d", hook_value);
+		cmd.conf = myconf;
+		cmd.addr = (void *)DEFAULT_KERNEL_ADDRESS;
+		cmd.timeout = 5;
+
+		if ((st = read_conf()))
+			printf("Attempt to read %s failed.\n", cmd.conf);
+	}
+#endif
 
 	if (st < 0) {
-#else
-	{
-#endif
 		cmd.boothowto = 0;
 		cmd.conf = "/etc/boot.cfg";
 		cmd.addr = (void *)DEFAULT_KERNEL_ADDRESS;
