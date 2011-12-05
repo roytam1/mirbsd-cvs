@@ -1,12 +1,12 @@
-# $MirOS$
+# $MirOS: src/sys/arch/sparc/conf/GENERIC,v 1.2 2005/03/06 21:27:16 tg Exp $
 # $OpenBSD: GENERIC,v 1.75 2004/03/09 15:24:27 miod Exp $
 # $NetBSD: GENERIC,v 1.48 1997/08/23 19:19:01 mjacob Exp $
 
 # Machine architecture; required by config(8)
 machine		sparc
 
-# _MirBSD: src/sys/arch/i386/conf/GENERIC,v 1.60 2004/06/13 19:03:52 tg Exp $
-# $OpenBSD: GENERIC,v 1.105 2004/05/03 17:41:22 millert Exp $
+# _MirOS: src/sys/arch/i386/conf/GENERIC,v 1.27 2006/05/25 12:20:30 tg Exp $
+# $OpenBSD: GENERIC,v 1.112 2004/11/28 23:39:45 canacar Exp $
 #
 # Machine-independent option; used by all architectures.
 
@@ -19,16 +19,15 @@ option		DDB			# in-kernel debugger
 #option		DDB_SAFE_CONSOLE	# allow break into ddb during boot
 option		INCLUDE_CONFIG_FILE	# store this file in the kernel
 #makeoptions	DEBUG="-g"		# compile full symbol table
-#makeoptions	PROF="-pg"		# build profiled kernel
-#option		GPROF			# kernel profiling, kgmon(8)
 option		DIAGNOSTIC		# internal consistency checks
 option		KTRACE			# system call tracing, a la ktrace(1)
+option		ACCOUNTING		# acct(2) process accounting
 option		KMEMSTATS		# collect malloc(9) statistics
 option		PTRACE			# ptrace(2) system call
-#option		SCSIDEBUG		# extra debugging information
+option		SCSIDEBUG		# extra debugging information
 #option		SCSITERSE		# be terse with SCSI diagnostic stuff
 #option		APM_NOPRINT		# don't print APM messages
-makeoptions	CSYS="-Os"		# build extra small kernel
+#makeoptions	CSYS="-Os"		# build extra small kernel
 #option		SMALL_KERNEL		# remove certain large stuff
 #option		NO_PROPOLICE		# remove stack protector
 
@@ -36,7 +35,7 @@ option		BOOT_CONFIG		# add support for boot -c
 option		TIMEZONE=0		# time zone to adjust RTC time by
 option		DST=0			# daylight saving time used by RTC
 #option		MINIROOTSIZE=3840	# size of ramdisk array
-#option		RAMDISK_HOOKS		# used for setting root device to rd0
+#option		RAMDISK_HOOKS		# allow using initrd
 
 option		CRYPTO			# Cryptographic framework
 option		UVM_SWAP_ENCRYPT	# support encryption of pages going to swap
@@ -45,13 +44,13 @@ option		UVM_SWAP_ENCRYPT	# support encryption of pages going to swap
 option		SYSVMSG			# System V-like message queues
 option		SYSVSEM			# System V-like semaphores
 option		SYSVSHM			# System V-like memory sharing
-#option		VFORK_SHM		# allow to do evil things with vfork(2)
+
+option		COMPAT_OSSAUDIO		# source compatibility with OSS/Lite
+option		COMPAT_OPENBSD		# binary compatibility with OpenBSD
 
 option		FFS			# UFS
 option		FFS_SOFTUPDATES		# Soft updates
 option		UFS_DIRHASH		# speed up large directories
-#option		UFS_EXTATTR		# support for extended attributes
-#option		UFS_EXTATTR_AUTOSTART	# automatically enable them (XXX)
 option		QUOTA			# UFS quotas
 #option		EXT2FS			# Second Extended Filesystem
 #option		EXT2FS_SYSTEM_FLAGS	# immutable is schg, not uchg
@@ -61,7 +60,7 @@ option		MFS			# memory file system
 option		TCP_SACK		# Selective Acknowledgements for TCP
 option		TCP_ECN			# Explicit Congestion Notification for TCP
 option		TCP_FACK		# Forward Acknowledgements for TCP
-option		TCP_SIGNATURE		# TCP MD5 Signatures, for BGP routing sessions
+option		TCP_SIGNATURE		# TCP MD5 Signatures
 
 option		NFSCLIENT		# Nightmare File System client
 option		NFSSERVER		# Nightmare File System server
@@ -73,12 +72,7 @@ option		FIFO			# FIFOs; RECOMMENDED
 option		KERNFS			# /kern
 option		PORTAL			# dynamically created filesystem objects
 option		PROCFS			# /proc
-# layer filesystems
-option		NULLFS			# loopback file system
-option		UMAPFS			# NULLFS + uid and gid remapping
-option		UNION			# union file system
 
-#option		GATEWAY			# packet forwarding
 option		INET			# IP + ICMP + TCP + UDP
 option		ALTQ			# ALTQ base
 option		INET6			# IPv6 (needs INET)
@@ -89,36 +83,36 @@ option		KEY			# PF_KEY (implied by IPSEC)
 #option		NETATALK		# AppleTalk
 #option		PPP_BSDCOMP		# PPP BSD compression for pppd(8)
 #option		PPP_DEFLATE		# PPP zlib compression for pppd(8)
-#option		PPP_FILTER		# pcap(3)-based filtering for pppd(8)
 #option		MROUTING		# Multicast router
 
-pseudo-device	pf		# packet filter
-pseudo-device	pflog		# pf log if
-pseudo-device	pfsync		# pf sync if
-pseudo-device	bpfilter 8	# packet filter
-#pseudo-device	sppp	2	# Sync PPP/HDLC
-pseudo-device	enc	1	# IPSEC needs this encapsulation interface
-#pseudo-device	faith	1	# IPv{4,6} tcp relay translation interface
-#pseudo-device	strip	1	# Starmode Radio IP interface
+pseudo-device	pf			# packet filter
+pseudo-device	pflog			# pf log if
+pseudo-device	pfsync			# pf sync if
+pseudo-device	sppp	2		# Sync PPP/HDLC
+pseudo-device	pppoe	1		# PPP over Ethernet (RFC 2516)
+pseudo-device	enc	1		# IPsec needs this encapsulation iface
+#pseudo-device	faith	1		# IPv{4,6} tcp relay translation iface
+#pseudo-device	strip	1		# Starmode Radio IP interface
 
-pseudo-device	pty	16	# pseudo-terminals (can grow during runtime)
-#pseudo-device	tb	1	# tablet line discipline
-pseudo-device	vnd	16	# paging to files
-pseudo-device	ccd	4	# concatenated disk devices
-#pseudo-device	rd	1	# ramdisk
-pseudo-device	ksyms	1	# kernel symbols device
-pseudo-device	systrace 1	# system call tracing device
+pseudo-device	pty	16		# pseudo-terminals (can grow runtime)
+#pseudo-device	tb	1		# tablet line discipline
+pseudo-device	vnd	16		# paging to files
+pseudo-device	ccd	4		# concatenated disk devices
+#pseudo-device	rd	2		# ramdisk (fixed/avail and umem)
+pseudo-device	ksyms	1		# kernel symbols device
+pseudo-device	systrace 1		# system call tracing device
 
 # clonable devices
-#pseudo-device	bridge		# network bridging support
-pseudo-device	carp		# CARP protocol support
-pseudo-device	gif		# IPv[46] over IPv[46] tunnel (RFC1933)
-#pseudo-device	gre		# GRE encapsulation interface
-pseudo-device	loop		# network loopback
-#pseudo-device	ppp		# PPP
-pseudo-device	sl		# CSLIP
-pseudo-device	tun		# network tunneling over tty
-#pseudo-device	vlan 		# IEEE 802.1Q VLAN
+pseudo-device	bpfilter 		# packet filter
+pseudo-device	bridge			# network bridging support
+pseudo-device	carp			# CARP protocol support
+pseudo-device	gif			# IPv[46] over IPv[46] tunnel (RFC1933)
+pseudo-device	gre			# GRE encapsulation interface
+pseudo-device	loop			# network loopback
+pseudo-device	ppp			# PPP
+pseudo-device	sl			# CSLIP
+pseudo-device	tun			# network tunneling over tty
+#pseudo-device	vlan 			# IEEE 802.1Q VLAN
 
 #--- end of machine independent config
 
@@ -223,7 +217,7 @@ spif*	at sbus?					# spif serial cards
 stty*	at spif?
 sbpp*	at spif?
 
-bpp*	at sbus?					# parallel port
+bpp*	at sbus?					# parallel port 
 
 # SUNW,xbox SBus Expansion Subsystem
 xbox*	at sbus?					# SBus Expansion box

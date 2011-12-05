@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/sys/kern/kern_time.c,v 1.2 2005/03/06 21:28:02 tg Exp $ */
 /*	$OpenBSD: kern_time.c,v 1.39 2004/02/15 02:34:14 tedu Exp $	*/
 /*	$NetBSD: kern_time.c,v 1.20 1996/02/18 11:57:06 fvdl Exp $	*/
 
@@ -77,7 +77,13 @@ settime(struct timeval *tv)
 	 * XXX: we check against LLONG_MAX since our time_t
 	 *	is 64 bits.
 	 */
+#if defined(_BSD_TIME_T_IS_64_BIT)
 	if (tv->tv_sec > LLONG_MAX - 365*24*60*60) {
+#elif defined(_BSD_TIME_T_IS_INT)
+	if (tv->tv_sec > LONG_MAX - 365*24*60*60) {
+#else
+# error How long _is_ time_t now, then?
+#endif
 		printf("denied attempt to set clock forward to %lld\n",
 		    (long long)tv->tv_sec);
 		return (EPERM);

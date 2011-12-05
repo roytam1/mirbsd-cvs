@@ -124,7 +124,7 @@ dvma_malloc_space(len, kaddr, flags, space)
 
 	len = round_page(len);
 	kva = (vaddr_t)malloc(len, M_DEVBUF, flags);
-	if (kva == NULL)
+	if (kva == 0)
 		return (NULL);
 
 #if defined(SUN4M)
@@ -134,7 +134,7 @@ dvma_malloc_space(len, kaddr, flags, space)
 
 	*(vaddr_t *)kaddr = kva;
 	dva = dvma_mapin_space(kernel_map, kva, len, (flags & M_NOWAIT) ? 0 : 1, space);
-	if (dva == NULL) {
+	if (dva == 0) {
 		free((void *)kva, M_DEVBUF);
 		return (NULL);
 	}
@@ -207,7 +207,7 @@ dvma_mapin_space(map, va, len, canwait, space)
 		    canwait ? EX_WAITSPACE : EX_NOWAIT, &tva);
 	splx(s);
 	if (error)
-		return NULL;
+		return (0);
 	kva = tva;
 
 	while (npf--) {

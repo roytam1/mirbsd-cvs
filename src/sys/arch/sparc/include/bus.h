@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: bus.h,v 1.5 2003/07/08 20:29:36 mickey Exp $	*/
 /*
  * Copyright (c) 2003, Miodrag Vallat.
@@ -88,7 +89,7 @@ bus_space_map(bus_space_tag_t tag, bus_addr_t addr, bus_size_t size, int flags,
     bus_space_handle_t *handle)
 {
 	if ((*handle = (bus_space_handle_t)mapiodev(tag,
-	    addr, size)) != NULL)
+	    addr, size)) != 0)
 		return (0);
 
 	return (ENOMEM);

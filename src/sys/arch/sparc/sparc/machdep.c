@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/sparc/sparc/machdep.c,v 1.4 2006/05/26 13:40:59 tg Exp $ */
+/**	$MirOS: src/sys/arch/sparc/sparc/machdep.c,v 1.5 2006/06/11 00:15:12 tg Exp $ */
 /*	$OpenBSD: machdep.c,v 1.98 2004/03/10 23:02:54 tom Exp $	*/
 /*	$NetBSD: machdep.c,v 1.85 1997/09/12 08:55:02 pk Exp $ */
 
@@ -939,7 +939,7 @@ mapdev(phys, virt, offset, size)
 	static vaddr_t iobase;
 	unsigned int pmtype;
 
-	if (iobase == NULL)
+	if (iobase == 0)
 		iobase = IODEV_BASE;
 
 	size = round_page(size);
