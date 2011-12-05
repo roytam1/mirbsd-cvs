@@ -1,4 +1,4 @@
-$MirOS: src/sys/dev/usb/usbdevs,v 1.4 2005/07/21 21:52:19 tg Exp $
+$MirOS: src/sys/dev/usb/usbdevs,v 1.5 2007/08/10 00:26:37 tg Exp $
 /* $OpenBSD: usbdevs,v 1.284 2007/07/30 14:11:27 todd Exp $ */
 /* $NetBSD: usbdevs,v 1.322 2003/05/10 17:47:14 hamajima Exp $ */
 
@@ -482,6 +482,8 @@ vendor ACTIONTEC	0x1668	Actiontec Electronics
 vendor ATHEROS		0x168c	Atheros Communications
 vendor GIGASET		0x1690	Gigaset
 vendor GLOBALSUN	0x16ab	Global Sun Technology
+/* Wouter van Ooijen - www.voti.nl - usually sub-licenced for once-off devs */
+vendor VOTI		0x16c0	VOTI
 vendor ANYDATA		0x16d5	AnyDATA Inc.
 vendor JABLOTRON	0x16d6	Jablotron
 vendor CMOTECH		0x16d8	CMOTECH CDMA Technologies
@@ -2338,6 +2340,9 @@ product VISIONEER 8600		0x0331	OneTouch 8600
 
 /* Vivitar products */
 product VIVITAR DSC350		0x0003	DSC350
+
+/* Van Ooijen Technische Informatica sub-licensees */
+product VOTI WHIRLYGIG		0x09e2	Whirlygig HW RNG
 
 /* VTech products */
 product VTECH RT2570		0x3012	RT2570
