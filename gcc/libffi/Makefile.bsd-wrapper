@@ -1,0 +1,23 @@
+# $MirOS: gcc/libffi/Makefile.bsd-wrapper,v 1.4 2005/05/01 21:49:49 tg Exp $
+
+NOMAN=		yes
+CFARGS+=	--enable-static ${CF_PIC} --disable-libtool-lock
+FSFMARGS+=	'libffi_la_OBJECTS=$$(libffi_la_SOURCES:T:R:=.lo)' \
+		'libffi_convenience_la_OBJECTS=$$(libffi_la_SOURCES:T:R:=.lo)'
+CLEANFILES+=	config.status include/Makefile include/ffi.h \
+		include/ffitarget.h
+
+.include <bsd.own.mk>
+.if ${DEBUGLIBS:L} == "yes"
+COPTS+=		-g
+.endif
+
+# this doesn't (need to) install.
+do-install:
+
+# the cleaning procedure is broken.
+do-clean:
+	-if test -e ${FSFMAKEFILE}; then \
+	    cd ${FSFOBJDIR} && ${FSFMAKE} distclean-am; fi
+
+.include <bsd.cfwrap.mk>

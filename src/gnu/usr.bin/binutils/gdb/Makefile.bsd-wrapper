@@ -1,0 +1,15 @@
+# $MirOS: src/gnu/usr.bin/binutils/gdb/Makefile.bsd-wrapper,v 1.1 2005/04/19 20:13:07 tg Exp $
+
+.include "../Makefile.inc"
+
+FSFSRC=		${GNU_BINUTILS_GDB}
+MAN=		gdb.1
+CFARGS+=	--disable-tui --disable-gdbtk --without-included-regex \
+		--enable-build-warnings --enable-gdb-build-warnings
+ALL_TARGET=	all info
+INST_TARGET=	install-only
+CLEANFILES+=	ada-exp.c ada-lex.c c-exp.c f-exp.c jv-exp.c m2-exp.c \
+		objc-exp.c observer.h observer.inc p-exp.c doc/GDBvn.texi \
+		doc/annotate.info doc/gdb.info doc/gdbint.info doc/stabs.info
+
+.include <bsd.cfwrap.mk>
