@@ -58,9 +58,12 @@
 #include <lib/libsa/stand.h>
 #include <lib/libsa/net.h>
 #include <lib/libsa/netif.h>
+#include <lib/libsa/nfs.h>
 #include <lib/libsa/bootparam.h>
 
 #include "promdev.h"
+
+int net_mountroot(void);
 
 char		rootpath[FNAME_SIZE];
 
@@ -97,7 +100,8 @@ net_close(struct promdata *pd)
 	/* On last close, do netif close, etc. */
 	if (open_count > 0)
 		if (--open_count == 0)
-			netif_close(netdev_sock);
+			return (netif_close(netdev_sock));
+	return (0);
 }
 
 int

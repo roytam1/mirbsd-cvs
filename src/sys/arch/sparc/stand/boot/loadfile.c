@@ -47,6 +47,8 @@
 
 #include <ddb/db_aout.h>
 
+void bzero(void *, size_t);
+
 #ifdef SPARC_BOOT_AOUT
 static int aout_exec(int, struct exec *, vaddr_t *);
 #endif
@@ -72,8 +74,7 @@ union {
 int
 loadfile(int fd, vaddr_t *entryp)
 {
-	struct devices *dp;
-	int rval;
+	int rval = 0;
 
 	/* Read the exec header. */
 	if (read(fd, &hdr, sizeof(hdr)) != sizeof(hdr)) {
@@ -107,7 +108,6 @@ aout_exec(int fd, struct exec *aout, vaddr_t *entryp)
 {
 	caddr_t addr = (caddr_t)LOADADDR;
 	int strtablen;
-	char *strtab;
 	vaddr_t entry = (vaddr_t)LOADADDR;
 	int i;
 
@@ -146,7 +146,7 @@ aout_exec(int fd, struct exec *aout, vaddr_t *entryp)
 			goto shread;
 
 		bcopy(&strtablen, addr, sizeof(int));
-		if (i = strtablen) {
+		if ((i = strtablen)) {
 			i -= sizeof(int);
 			addr += sizeof(int);
 			if (read(fd, addr, i) != i)
@@ -213,7 +213,6 @@ elf_exec(int fd, Elf_Ehdr *elf, vaddr_t *entryp)
 	Elf_Off off;
 	size_t sz;
 	vaddr_t addr = 0;
-	Elf_Ehdr *fake_elf;
 #define	NUM_HEADERS	12	/* should be more than enough */
 	Elf_Phdr headers[NUM_HEADERS], *phdr;
 	off_t pos, newpos;

@@ -53,12 +53,12 @@ char	*boot, *proto, *dev;
 
 struct nlist nl[] = {
 #define X_BLOCKTABLE	0
-	{"_block_table"},
+	{{"_block_table"}},
 #define X_BLOCKCOUNT	1
-	{"_block_count"},
+	{{"_block_count"}},
 #define X_BLOCKSIZE	2
-	{"_block_size"},
-	{NULL}
+	{{"_block_size"}},
+	{{NULL}}
 };
 daddr_t	*block_table;		/* block number array in prototype image */
 int32_t	*block_count_p;		/* size of this array */
@@ -261,21 +261,21 @@ loadprotoblocks(fname, size)
 	block_count_p = (int32_t *)(bp + nl[X_BLOCKCOUNT].n_value + off);
 	block_size_p = (int32_t *) (bp + nl[X_BLOCKSIZE].n_value + off);
 	if ((int)block_table & 3) {
-		warn("%s: invalid address: block_table = %x",
+		warn("%s: invalid address: block_table = %p",
 		     fname, block_table);
 		free(bp);
 		close(fd);
 		return NULL;
 	}
 	if ((int)block_count_p & 3) {
-		warn("%s: invalid address: block_count_p = %x",
+		warn("%s: invalid address: block_count_p = %p",
 		     fname, block_count_p);
 		free(bp);
 		close(fd);
 		return NULL;
 	}
 	if ((int)block_size_p & 3) {
-		warn("%s: invalid address: block_size_p = %x",
+		warn("%s: invalid address: block_size_p = %p",
 		     fname, block_size_p);
 		free(bp);
 		close(fd);

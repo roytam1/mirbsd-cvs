@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/sys/arch/sparc/stand/libkern/Makefile,v 1.2 2005/03/06 21:27:24 tg Exp $
 # $OpenBSD: Makefile,v 1.3 2003/06/01 17:00:39 deraadt Exp $
 
 LIB=	kern
@@ -8,7 +8,7 @@ LIB=	kern
 
 .include "${.CURDIR}/../../../../lib/libkern/arch/sparc/Makefile.inc"
 
-CFLAGS= -O2 -I${.CURDIR}/../include -I${.CURDIR}/../../../.. \
+CPPFLAGS+= -I${.CURDIR}/../include -I${.CURDIR}/../../../.. \
 	-I${.CURDIR}/../../../../lib/libkern \
 	-I${.CURDIR}/../../../../lib/libkern/arch/sparc
 

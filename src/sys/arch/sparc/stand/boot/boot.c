@@ -56,6 +56,7 @@ char		fbuf[80], dbuf[128];
 typedef void (*entry_t)(caddr_t, int, int, int, long, long);
 int loadfile(int, vaddr_t *);
 
+int
 main(int argc, char *argv[])
 {
 	int	io;

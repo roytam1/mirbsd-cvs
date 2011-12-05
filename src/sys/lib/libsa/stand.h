@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/lib/libsa/stand.h,v 1.2 2005/03/06 21:28:08 tg Exp $	*/
+/**	$MirOS: src/sys/lib/libsa/stand.h,v 1.3 2005/11/23 19:24:36 tg Exp $	*/
 /*	$OpenBSD: stand.h,v 1.43 2004/01/03 14:08:53 espie Exp $	*/
 /*	$NetBSD: stand.h,v 1.18 1996/11/30 04:35:51 gwr Exp $	*/
 
@@ -141,6 +141,11 @@ void	twiddle(void);
 void	gets(char *);
 __dead void	panic(const char *, ...) __attribute__((noreturn));
 __dead void	_rtt(void) __attribute__((noreturn));
+#if 0
+#define bzero(s,n)	((void)memset((s),0,(n)))
+#define bcmp(s1,s2,n)	(memcmp((s2),(s1),(n)))
+#endif
+#define bcopy(s1,s2,n)	((void)memmove((s2),(s1),(n)))
 void	*memmove(void *, const void *, size_t);
 int	memcmp(const void *, const void *, size_t);
 char	*strncpy(char *, const char *, size_t);

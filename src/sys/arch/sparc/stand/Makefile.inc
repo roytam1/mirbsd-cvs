@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/sys/arch/sparc/stand/Makefile.inc,v 1.2 2005/03/06 21:27:19 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.12 2004/07/13 21:03:38 marc Exp $
 # $NetBSD: Makefile.inc,v 1.5 1996/02/01 22:33:01 mycroft Exp $
 
@@ -6,11 +6,18 @@ BINDIR=		/usr/mdec
 
 .include "../Makefile.reloc"
 
-CFLAGS+=	-fno-stack-protector -ffreestanding -femit-memmove \
-		-Os -Wall -Werror
+CFLAGS+=	-fno-stack-protector -ffreestanding -Os -Wall -Werror
+SACFLAGS=	-D_STANDALONE
+CPPFLAGS+=	-I${S} -I${SADIR}/libsa -I. -Dmemmove=memcpy -D_STANDALONE \
+		-I${.CURDIR} -D__BOOT_VER="${_V}" -Derrno=errno \
+		-DSTANDALONE -DRELOC=${RELOC} -DSUN4 -DSUN4C -DSUN_BOOTPARAMS
 
-DEFS=		-DSTANDALONE -DRELOC=${RELOC} -DSUN4 -DSUN4C -DSUN_BOOTPARAMS
-DEFS+=		-Derrno=errno
+CLEANFILES+=	machine
+
+.if !make(libdep) && !make(sadep) && !make(salibdir) && !make(kernlibdir) && !make(obj)
+.BEGIN:
+	@([ X$(S) = X -o -h machine ] || ln -s $(S)/arch/sparc/include machine)
+.endif
 
 ### Figure out what to use for libkern
 LIBKERNDIR=		${.CURDIR}/../libkern
