@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/stand/boot/boot.c,v 1.2 2005/03/06 21:28:32 tg Exp $	*/
+/**	$MirOS: src/sys/stand/boot/boot.c,v 1.3 2006/04/05 22:12:16 tg Exp $	*/
 /*	$OpenBSD: boot.c,v 1.30 2004/01/29 00:54:08 tom Exp $	*/
 
 /*
@@ -66,8 +66,8 @@ boot(dev_t bootdev)
 	u_long marks[MARK_MAX];
 #ifdef IN_PXEBOOT
 	uint32_t ip;
-	char myconf[32];
 #endif
+	char myconf[32];
 
 	machdep();
 
