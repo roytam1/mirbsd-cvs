@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/vndioctl.h,v 1.2 2005/03/06 21:27:35 tg Exp $	*/
+/**	$MirOS: src/sys/dev/vndioctl.h,v 1.3 2005/04/30 22:54:21 tg Exp $	*/
 /*	$OpenBSD: vndioctl.h,v 1.6 2004/06/20 18:03:03 pedro Exp $	*/
 /*	$NetBSD: vndioctl.h,v 1.5 1995/01/25 04:46:30 cgd Exp $	*/
 
@@ -54,8 +54,19 @@ struct vnd_ioctl {
 	u_char	*vnd_key;
 	int	vnd_keylen;
 	u_int32_t vnd_options;	/* mount options (for configure) */
-#define	VNDIOC_OPT_RDONLY  1	/* don't write to the underlying file */
+#define VNDIOC_OPT_RDONLY  1	/* don't write to the underlying file */
+#define VNDIOC_ALGSHIFT	24	/* shift of algorithm in vnd_options */
+#define VNDIOC_ALG_BLF		0x00	/* old Blowfish */
+#define VNDIOC_ALG_BF_CBC	0x01	/* new Blowfish-CBC */
 };
+
+/*
+ * Key sizes for the encrypton algorithms
+ */
+#define VNDIOC_KSZ_BLF		72	/* 576 bit (448 bit used) */
+#define VNDIOC_KSZ_BF_CBC	88	/* 16 bytes salt, 72 bytes key */
+
+#define VNDIOC_MAXKSZ		88	/* largest of the above */
 
 /*
  * A simple structure used by userland to query about a specific vnd.

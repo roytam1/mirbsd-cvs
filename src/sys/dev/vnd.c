@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/vnd.c,v 1.11 2008/06/12 17:35:01 tg Exp $ */
+/**	$MirOS: src/sys/dev/vnd.c,v 1.12 2008/06/12 17:59:04 tg Exp $ */
 /*	$OpenBSD: vnd.c,v 1.85 2008/03/24 01:16:58 krw Exp $	*/
 /*	$NetBSD: vnd.c,v 1.26 1996/03/30 23:06:11 christos Exp $	*/
 
@@ -126,6 +126,15 @@ struct pool     vndbufpl;
 #define	getvndbuf()	pool_get(&vndbufpl, PR_WAITOK)
 #define	putvndbuf(vbp)	pool_put(&vndbufpl, vbp);
 
+struct vnd_ctx {
+	u_char iv[16];				/* encryption IV (!BLF) */
+	size_t len;				/* key context size */
+	union {
+		void *ctx_ptr;			/* pointer for malloc/free */
+		blf_ctx *blowfish;		/* key for BLF, BF_CBC */
+	} key;
+};
+
 struct vnd_softc {
 	struct device	 sc_dev;
 	struct disk	 sc_dk;
@@ -136,7 +145,11 @@ struct vnd_softc {
 	struct vnode	*sc_vp;			/* vnode */
 	struct ucred	*sc_cred;		/* credentials */
 	struct buf	 sc_tab;		/* transfer queue */
-	blf_ctx		*sc_keyctx;		/* key context */
+	struct vnd_ctx	 sc_enc;		/* encryption context */
+#define sc_enc_iv	sc_enc.iv
+#define sc_enc_len	sc_enc.len
+#define sc_enc_ptr	sc_enc.key.ctx_ptr
+#define sc_enc_blf	sc_enc.key.blowfish
 };
 
 /* sc_flags */
@@ -183,11 +196,11 @@ vndencrypt(struct vnd_softc *vnd, caddr_t addr, size_t size, daddr_t off,
 	for (i = 0; i < size/bsize; i++) {
 		bzero(iv, sizeof(iv));
 		bcopy((u_char *)&off, iv, sizeof(off));
-		blf_ecb_encrypt(vnd->sc_keyctx, iv, sizeof(iv));
+		blf_ecb_encrypt(vnd->sc_enc_blf, iv, sizeof(iv));
 		if (encrypt)
-			blf_cbc_encrypt(vnd->sc_keyctx, iv, addr, bsize);
+			blf_cbc_encrypt(vnd->sc_enc_blf, iv, addr, bsize);
 		else
-			blf_cbc_decrypt(vnd->sc_keyctx, iv, addr, bsize);
+			blf_cbc_decrypt(vnd->sc_enc_blf, iv, addr, bsize);
 
 		addr += bsize;
 		off++;
@@ -234,7 +247,7 @@ vndopen(dev_t dev, int flags, int mode, struct proc *p)
 		return (error);
 
 	if (!vndsimple(dev) && sc->sc_vp != NULL &&
-	    (sc->sc_vp->v_type != VREG || sc->sc_keyctx != NULL)) {
+	    (sc->sc_vp->v_type != VREG || sc->sc_enc_len != 0)) {
 		error = EINVAL;
 		goto bad;
 	}
@@ -476,11 +489,11 @@ vndstrategy(struct buf *bp)
 				auio.uio_rw = UIO_READ;
 				bp->b_error = VOP_READ(vnd->sc_vp, &auio, 0,
 				    vnd->sc_cred);
-				if (vnd->sc_keyctx)
+				if (vnd->sc_enc_len)
 					vndencrypt(vnd,	bp->b_data,
 					   bp->b_bcount, bp->b_blkno, 0);
 			} else {
-				if (vnd->sc_keyctx)
+				if (vnd->sc_enc_len)
 					vndencrypt(vnd, bp->b_data,
 					   bp->b_bcount, bp->b_blkno, 1);
 				auio.uio_rw = UIO_WRITE;
@@ -491,7 +504,7 @@ vndstrategy(struct buf *bp)
 				bp->b_error = VOP_WRITE(vnd->sc_vp, &auio,
 				    IO_NOLIMIT, vnd->sc_cred);
 				/* Data in buffer cache needs to be in clear */
-				if (vnd->sc_keyctx)
+				if (vnd->sc_enc_len)
 					vndencrypt(vnd, bp->b_data,
 					   bp->b_bcount, bp->b_blkno, 0);
 			}
@@ -519,7 +532,7 @@ vndstrategy(struct buf *bp)
 		}
 	}
 
-	if (vnd->sc_vp->v_type != VREG || vnd->sc_keyctx != NULL) {
+	if (vnd->sc_vp->v_type != VREG || vnd->sc_enc_len != 0) {
 		bp->b_error = EINVAL;
 		bp->b_flags |= B_ERROR;
 		s = splbio();
@@ -845,7 +858,7 @@ vndioctl(dev_t dev, u_long cmd, caddr_t addr, int flag, struct proc *p)
 		}
 
 		if (vio->vnd_keylen > 0) {
-			char key[72];
+			char key[VNDIOC_MAXKSZ];
 
 			if (vio->vnd_keylen > sizeof(key))
 				vio->vnd_keylen = sizeof(key);
@@ -858,12 +871,15 @@ vndioctl(dev_t dev, u_long cmd, caddr_t addr, int flag, struct proc *p)
 				return (error);
 			}
 
-			vnd->sc_keyctx = malloc(sizeof(*vnd->sc_keyctx), M_DEVBUF,
+			// XXX BLF
+			bzero(vnd->sc_enc_iv, 16);
+			vnd->sc_enc_len = sizeof (*vnd->sc_enc_blf);
+			vnd->sc_enc_ptr = malloc(vnd->sc_enc_len, M_DEVBUF,
 			    M_WAITOK);
-			blf_key(vnd->sc_keyctx, key, vio->vnd_keylen);
+			blf_key(vnd->sc_enc_blf, key, vio->vnd_keylen);
 			bzero(key, vio->vnd_keylen);
 		} else
-			vnd->sc_keyctx = NULL;
+			vnd->sc_enc_len = 0;
 
 		vio->vnd_size = dbtob((off_t)vnd->sc_size);
 		vnd->sc_flags |= VNF_INITED;
@@ -905,9 +921,9 @@ vndioctl(dev_t dev, u_long cmd, caddr_t addr, int flag, struct proc *p)
 		DNPRINTF(VDB_INIT, "vndioctl: CLRed\n");
 
 		/* Free crypto key */
-		if (vnd->sc_keyctx) {
-			bzero(vnd->sc_keyctx, sizeof(*vnd->sc_keyctx));
-			free(vnd->sc_keyctx, M_DEVBUF);
+		if (vnd->sc_enc_len) {
+			bzero(vnd->sc_enc_ptr, vnd->sc_enc_len);
+			free(vnd->sc_enc_ptr, M_DEVBUF);
 		}
 
 		/* Detach the disk. */
