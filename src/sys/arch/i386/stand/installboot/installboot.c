@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.3 2005/04/29 18:34:58 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.4 2005/12/04 13:05:40 tg Exp $ */
 /*	$OpenBSD: installboot.c,v 1.47 2004/07/15 21:44:16 tom Exp $	*/
 /*	$NetBSD: installboot.c,v 1.5 1995/11/17 23:23:50 gwr Exp $ */
 
@@ -84,7 +84,7 @@
 #include <unistd.h>
 #include <util.h>
 
-__RCSID("$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.3 2005/04/29 18:34:58 tg Exp $");
+__RCSID("$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.4 2005/12/04 13:05:40 tg Exp $");
 
 extern	char *__progname;
 int	verbose, nowrite, nheads, nsectors, userspec = 0;
@@ -211,8 +211,8 @@ main(int argc, char *argv[])
 			nowrite = 1;
 			break;
 		case 'P':
-			userpt = atoi(optarg);
-			if (userpt < 1 || userpt > 255) {
+			userpt = (int)strtonum(optarg, 1, 255, NULL);
+			if (!userpt) {
 				warnx("invalid value for -P");
 				userpt = 0;
 			}

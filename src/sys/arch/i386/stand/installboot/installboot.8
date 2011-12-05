@@ -1,4 +1,4 @@
-.\"	$MirOS$
+.\"	$MirOS: src/sys/arch/i386/stand/installboot/installboot.8,v 1.2 2005/03/06 21:27:05 tg Exp $
 .\"	$OpenBSD: installboot.8,v 1.26 2003/06/06 21:45:33 jmc Exp $
 .\"
 .\" Copyright (c) 1997 Michael Shalayeff
@@ -39,6 +39,7 @@
 .Op Fl v
 .Oo Fl s Ar sectors-per-track Oc
 .Oo Fl h Ar tracks-per-cyl Oc
+.Op Fl P Ar partition-type
 .Ar boot
 .Ar ffspbr
 .Ar disk
@@ -76,6 +77,15 @@ is unable to determine the translated geometry.
 If not specified, this defaults to the value retrieved from the BIOS
 at boot time, available via
 .Xr sysctl 8 .
+.It Fl P Ar partition-type
+Use the
+.Ar partition-type
+value in decimal (on
+.Mx
+also sedecimal or octal values are allowed, provided
+they are prefixed with 0x or 0, respectively) as user-specified
+partition type to search before the standard 0x27 and the fallback
+0xA6, 0xA9 and 0xA5 types.
 .It Fl M
 Installs the first-stage boot loader,
 .Nm ffspbr ,
