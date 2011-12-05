@@ -1,9 +1,9 @@
-/**	$MirOS: src/usr.sbin/ntpd/ntpd.c,v 1.10 2006/08/12 23:39:40 tg Exp $ */
+/**	$MirOS: src/usr.sbin/ntpd/ntpd.c,v 1.11 2006/08/12 23:41:27 tg Exp $ */
 /*	$OpenBSD: ntpd.c,v 1.40 2005/09/06 21:27:10 wvdputte Exp $ */
 
 /*-
- * Copyright (c) 2004, 2005
- *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+ * Copyright (c) 2004, 2005, 2007
+ *	Thorsten "mirabilos" Glaser <tg@66h.42h.de>
  * Copyright (c) 2003, 2004 Henning Brauer <henning@openbsd.org>
  *
  * Permission to use, copy, modify, and distribute this software for any
@@ -21,6 +21,7 @@
 
 #include <sys/types.h>
 #include <sys/socket.h>
+#include <sys/taitime.h>
 #include <sys/wait.h>
 #include <netinet/in.h>
 #include <errno.h>
@@ -35,7 +36,7 @@
 
 #include "ntpd.h"
 
-__RCSID("$MirOS: src/usr.sbin/ntpd/ntpd.c,v 1.10 2006/08/12 23:39:40 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/ntpd/ntpd.c,v 1.11 2006/08/12 23:41:27 tg Exp $");
 
 void		sighdlr(int);
 __dead void	usage(void);
