@@ -35,20 +35,6 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-static char copyright[] =
-"@(#) Copyright (c) 1980, 1990, 1993, 1994\n\
-	The Regents of the University of California.  All rights reserved.\n";
-#endif /* not lint */
-
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)df.c	8.7 (Berkeley) 4/2/94";
-#else
-static char rcsid[] = "$OpenBSD: df.c,v 1.43 2005/02/20 01:34:56 pedro Exp $";
-#endif
-#endif /* not lint */
-
 #include <sys/param.h>
 #include <sys/stat.h>
 #include <sys/mount.h>
@@ -62,6 +48,11 @@ static char rcsid[] = "$OpenBSD: df.c,v 1.43 2005/02/20 01:34:56 pedro Exp $";
 #include <string.h>
 #include <unistd.h>
 #include <util.h>
+
+__IDSTRING(copyright, "@(#) Copyright (c) 1980, 1990, 1993, 1994\n\
+	The Regents of the University of California.  All rights reserved.\n");
+__SCCSID("@(#)df.c	8.7 (Berkeley) 4/2/94");
+__RCSID("$MirOS$");
 
 extern	char *__progname;
 
@@ -382,7 +373,7 @@ posixprint(struct statfs *mntbuf, long mntsize, int maxwidth)
 
 		(void) printf ("%-*.*s %*d %10ld %11d %5.0f%%   %s\n",
 			maxwidth, maxwidth, sfsp->f_mntfromname,
-			strlen(blockstr),
+			(int)strlen(blockstr),
 			fsbtoblk(sfsp->f_blocks, sfsp->f_bsize, blocksize),
 			fsbtoblk(used, sfsp->f_bsize, blocksize),
 			fsbtoblk(sfsp->f_bavail, sfsp->f_bsize, blocksize),

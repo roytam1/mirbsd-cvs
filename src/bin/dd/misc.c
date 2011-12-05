@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: misc.c,v 1.14 2005/05/27 04:14:24 millert Exp $	*/
 /*	$NetBSD: misc.c,v 1.4 1995/03/21 09:04:10 cgd Exp $	*/
 
@@ -34,14 +35,6 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)misc.c	8.3 (Berkeley) 4/2/94";
-#else
-static char rcsid[] = "$OpenBSD: misc.c,v 1.14 2005/05/27 04:14:24 millert Exp $";
-#endif
-#endif /* not lint */
-
 #include <sys/types.h>
 #include <sys/time.h>
 #include <sys/uio.h>
@@ -56,6 +49,9 @@ static char rcsid[] = "$OpenBSD: misc.c,v 1.14 2005/05/27 04:14:24 millert Exp $
 
 #include "dd.h"
 #include "extern.h"
+
+__SCCSID("@(#)misc.c	8.3 (Berkeley) 4/2/94");
+__RCSID("$MirOS$");
 
 void
 summary(void)
@@ -74,21 +70,21 @@ summary(void)
 
 	/* Use snprintf(3) so that we don't reenter stdio(3). */
 	(void)snprintf(buf[0], sizeof(buf[0]),
-	    "%u+%u records in\n%u+%u records out\n",
+	    "%lu+%lu records in\n%lu+%lu records out\n",
 	    st.in_full, st.in_part, st.out_full, st.out_part);
 	iov[i].iov_base = buf[0];
 	iov[i++].iov_len = strlen(buf[0]);
 
 	if (st.swab) {
 		(void)snprintf(buf[1], sizeof(buf[1]),
-		    "%u odd length swab %s\n",
+		    "%lu odd length swab %s\n",
 		     st.swab, (st.swab == 1) ? "block" : "blocks");
 		iov[i].iov_base = buf[1];
 		iov[i++].iov_len = strlen(buf[1]);
 	}
 	if (st.trunc) {
 		(void)snprintf(buf[2], sizeof(buf[2]),
-		    "%u truncated %s\n",
+		    "%lu truncated %s\n",
 		     st.trunc, (st.trunc == 1) ? "block" : "blocks");
 		iov[i].iov_base = buf[2];
 		iov[i++].iov_len = strlen(buf[2]);
