@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/i386/machdep.c,v 1.8 2006/05/26 13:05:07 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/i386/machdep.c,v 1.9 2006/05/26 13:40:57 tg Exp $ */
 /*	$OpenBSD: machdep.c,v 1.317 2005/04/02 02:44:58 tedu Exp $	*/
 /*	$NetBSD: machdep.c,v 1.214 1996/11/10 03:16:17 thorpej Exp $	*/
 
@@ -2215,7 +2215,7 @@ haltsys:
 		}
 #endif
 		printf("\n");
-		printf("The operating system has halted.\n");
+		printf("The operating system has halted. %X\n", arc4random());
 		printf("Please press any key to reboot.\n\n");
 		cngetc();
 	}
