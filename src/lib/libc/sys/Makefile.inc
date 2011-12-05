@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libc/sys/Makefile.inc,v 1.5 2005/09/22 20:17:49 tg Exp $
+# $MirOS: src/lib/libc/sys/Makefile.inc,v 1.6 2007/05/19 21:47:41 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.73 2005/06/17 20:37:31 drahn Exp $
 # $NetBSD: Makefile.inc,v 1.35 1995/10/16 23:49:07 jtc Exp $
 # @(#)Makefile.inc	8.1 (Berkeley) 6/17/93
@@ -24,7 +24,7 @@ DPSRCS+=Lint_Ovfork.c Lint_brk.c Lint_exect.c Lint_fork.c \
 # with old syscall interfaces.
 SRCS+=	ftruncate.c lseek.c mquery.c mmap.c ptrace.c semctl.c truncate.c \
 	timer_create.c timer_delete.c timer_getoverrun.c timer_gettime.c \
-	timer_settime.c pread.c preadv.c pwrite.c pwritev.c
+	timer_settime.c pread.c preadv.c pwrite.c pwritev.c statvfs.c
 
 # stack protector helper functions
 SRCS+=	stack_protector.c
@@ -202,7 +202,8 @@ MAN+=	accept.2 access.2 acct.2 adjtime.2 bind.2 brk.2 chdir.2 chflags.2 \
 	setpgid.2 setregid.2 setreuid.2 setresuid.2 setsid.2 setuid.2 \
 	shutdown.2 sigaction.2 sigaltstack.2 sigpending.2 sigprocmask.2 \
 	sigreturn.2 sigstack.2 sigsuspend.2 socket.2 socketpair.2 stat.2 \
-	statfs.2 swapctl.2 symlink.2 sync.2 sysarch.2 syscall.2 truncate.2 \
+	statfs.2 statvfs.2 swapctl.2 symlink.2 sync.2 sysarch.2 syscall.2 \
+	truncate.2 \
 	umask.2 unlink.2 utimes.2 vfork.2 wait.2 write.2
 
 MAN+=	msgctl.2 shmctl.2 shmat.2 semop.2 semget.2 semctl.2 msgsnd.2 msgrcv.2 \
