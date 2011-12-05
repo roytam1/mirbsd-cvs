@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.bin/indent/lexi.c,v 1.2 2005/03/13 18:33:02 tg Exp $ */
+/**	$MirOS: src/usr.bin/indent/lexi.c,v 1.3 2005/04/17 04:24:14 tg Exp $ */
 /*	$OpenBSD: lexi.c,v 1.12 2005/03/06 14:34:25 millert Exp $	*/
 
 /*
@@ -49,7 +49,7 @@
 #include "indent_codes.h"
 
 __SCCSID("@(#)lexi.c	8.1 (Berkeley) 6/6/93");
-__RCSID("$MirOS: src/usr.bin/indent/lexi.c,v 1.2 2005/03/13 18:33:02 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/indent/lexi.c,v 1.3 2005/04/17 04:24:14 tg Exp $");
 
 #define alphanum 1
 #define opchar 3
@@ -142,6 +142,9 @@ lexi(void)
 	if (++buf_ptr >= buf_end)
 	    fill_buffer();
     }
+
+    if (buf_ptr[0] == 'L' && ((buf_ptr[1] == '"') || (buf_ptr[1] == '\'')))
+	goto scan_na;
 
     /* Scan an alphanumeric token */
     if (chartype[(int)*buf_ptr] == alphanum ||
@@ -324,8 +327,8 @@ lexi(void)
     }				/* end of procesing for alpanum character */
 
     /* Scan a non-alphanumeric token */
-
-    *e_token++ = *buf_ptr;		/* if it is only a one-character token, it is
+scan_na:
+    *e_token++ = *buf_ptr;	/* if it is only a one-character token, it is
 				 * moved here */
     *e_token = '\0';
     if (++buf_ptr >= buf_end)
