@@ -17,7 +17,7 @@
 #include "thread_private.h"
 
 __SCCSID("@(#)asctime.c	7.22");
-__RCSID("$MirOS: src/lib/libc/time/asctime.c,v 1.4 2005/09/22 20:33:01 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/time/asctime.c,v 1.5 2005/09/22 20:50:40 tg Exp $");
 
 /*
 ** Some systems only handle "%.2d"; others only handle "%02d";
@@ -56,7 +56,7 @@ __RCSID("$MirOS: src/lib/libc/time/asctime.c,v 1.4 2005/09/22 20:33:01 tg Exp $"
 ** as an example; the define below calculates the maximum for the system at
 ** hand.
 */
-#define MAX_ASCTIME_BUF_SIZE	(2*3+5*INT_STRLEN_MAXIMUM(int)+7+2+1+1)
+#define MAX_ASCTIME_BUF_SIZE	(2*3+5*INT_STRLEN_MAXIMUM(time_t)+7+2+1+1)
 
 static char *
 asctime3(timeptr, buf, bufsize)
@@ -73,7 +73,7 @@ int				bufsize;
 	};
 	register const char *	wn;
 	register const char *	mn;
-	char			year[INT_STRLEN_MAXIMUM(int) + 2];
+	char			year[INT_STRLEN_MAXIMUM(time_t) + 2];
 	int			len;
 
 	if (timeptr->tm_wday < 0 || timeptr->tm_wday >= DAYSPERWEEK)
