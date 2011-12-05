@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/csu/common_elf/common.c,v 1.2 2005/03/06 20:28:21 tg Exp $
+/* $MirOS: src/lib/csu/common_elf/common.c,v 1.3 2005/04/25 23:11:37 tg Exp $
  * derived from the following files:
  * $NetBSD: common.c,v 1.16 2004/08/26 21:01:12 thorpej Exp $
  * $OpenBSD: crt0.c,v 1.11 2003/06/27 22:30:38 deraadt Exp $
@@ -63,8 +63,10 @@ __asm__(".text"
     "\n_eprol:");
 #endif
 
-void ___start(int argc, char **argv, char **envp, void (*cleanup) (void),
-    const Obj_Entry *obj, struct ps_strings *ps_strings)
+void ___start(int argc, char **argv, char **envp,
+    void (*cleanup) (void) __attribute__((unused)),
+    const Obj_Entry *obj __attribute__((unused)),
+    struct ps_strings *ps_strings)
 {
 	char *namep, *s;
 
@@ -100,4 +102,4 @@ char *__progname = "";
 /*
  * NOTE: Leave the RCS ID _after_ ___start(), in case it gets placed in .text.
  */
-__RCSID("$MirOS: src/lib/csu/common_elf/common.c,v 1.2 2005/03/06 20:28:21 tg Exp $");
+__RCSID("$MirOS: src/lib/csu/common_elf/common.c,v 1.3 2005/04/25 23:11:37 tg Exp $");
