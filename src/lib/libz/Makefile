@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libz/Makefile,v 1.14 2005/12/06 00:46:17 tg Exp $
+# $MirOS: src/lib/libz/Makefile,v 1.15 2006/01/24 13:04:10 tg Exp $
 # $OpenBSD: Makefile,v 1.13 2005/07/20 21:29:00 jmc Exp $
 
 SHLIB_VERSION?=	5.3
@@ -17,6 +17,8 @@ CLEANFILES+=	mk_crc32 mk_crc32.c mk_inffixed mk_inffixed.c \
 # MirOS extension
 SRCS+=		gzfopen.c
 MAN+=		gzfopen.3
+DPADD+=		${LIBZ}
+LDADD+=		-lz
 
 MLINKS=	compress.3 zlibVersion.3 compress.3 deflateInit.3 \
 	compress.3 deflate.3 compress.3 deflateEnd.3 \
