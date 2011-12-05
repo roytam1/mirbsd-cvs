@@ -125,7 +125,6 @@
 ./man1/fstobdf.htm
 ./man1/ftp.htm
 ./man1/g++.htm
-./man1/gcc-local.htm
 ./man1/gccmakedep.htm
 ./man1/gcj.htm
 ./man1/gcjh.htm
@@ -182,7 +181,6 @@
 ./man1/kdump.htm
 ./man1/keynote.htm
 ./man1/kill.htm
-./man1/ksh.htm
 ./man1/ktrace.htm
 ./man1/last.htm
 ./man1/lastcomm.htm
@@ -422,7 +420,6 @@
 ./man1/resize.htm
 ./man1/rev.htm
 ./man1/revpath.htm
-./man1/rksh.htm
 ./man1/rlog.htm
 ./man1/rm.htm
 ./man1/rmd160.htm
@@ -508,7 +505,6 @@
 ./man1/twm.htm
 ./man1/ucs2any.htm
 ./man1/ul.htm
-./man1/ulimit.htm
 ./man1/uname.htm
 ./man1/uncompress.htm
 ./man1/unexpand.htm
@@ -1052,6 +1048,7 @@
 ./man5/info.htm
 ./man5/inode.htm
 ./man5/intro.htm
+./man5/ipsec.conf.htm
 ./man5/isakmpd.conf.htm
 ./man5/isakmpd.policy.htm
 ./man5/isdnd.acct.htm
@@ -1063,10 +1060,11 @@
 ./man5/login.conf.htm
 ./man5/magic.htm
 ./man5/mailer.conf.htm
+./man5/make.cfg.htm
 ./man5/malloc.conf.htm
 ./man5/man.conf.htm
 ./man5/master.passwd.htm
-./man5/mk.conf.htm
+./man5/mixerctl.conf.htm
 ./man5/moduli.htm
 ./man5/motd.htm
 ./man5/myname.htm
@@ -1087,6 +1085,7 @@
 ./man5/rcsfile.htm
 ./man5/remote.htm
 ./man5/resolv.conf.htm
+./man5/resolv.conf.tail.htm
 ./man5/resolver.htm
 ./man5/rpc.htm
 ./man5/rtadvd.conf.htm
@@ -1125,6 +1124,7 @@
 ./man7/gas-intel-howto.htm
 ./man7/hier.htm
 ./man7/hostname.htm
+./man7/install.i386.htm
 ./man7/intro.htm
 ./man7/kgdb.htm
 ./man7/library-specs.htm
@@ -1138,6 +1138,7 @@
 ./man7/ms.htm
 ./man7/operator.htm
 ./man7/re_format.htm
+./man7/script.htm
 ./man7/securelevel.htm
 ./man7/symlink.htm
 ./man7/term.htm
@@ -1155,7 +1156,6 @@
 ./man8/apxs.htm
 ./man8/arp.htm
 ./man8/atactl.htm
-./man8/authpf.htm
 ./man8/bad144.htm
 ./man8/badsect.htm
 ./man8/boot.cfg.htm
@@ -1165,7 +1165,6 @@
 ./man8/bootparamd.htm
 ./man8/brconfig.htm
 ./man8/ccdconfig.htm
-./man8/certpatch.htm
 ./man8/chat.htm
 ./man8/chown.htm
 ./man8/chroot.htm
@@ -1201,9 +1200,9 @@
 ./man8/fsck_ffs.htm
 ./man8/fsck_msdos.htm
 ./man8/fsdb.htm
+./man8/ftp-proxy.htm
 ./man8/ftpd.htm
 ./man8/genassym.sh.htm
-./man8/getencstat.htm
 ./man8/getty.htm
 ./man8/group.htm
 ./man8/groupadd.htm
@@ -1215,6 +1214,7 @@
 ./man8/httpd.htm
 ./man8/identd.htm
 ./man8/ifconfig.htm
+./man8/ifstated.htm
 ./man8/ifwatchd.htm
 ./man8/inetd.htm
 ./man8/init.htm
@@ -1223,6 +1223,7 @@
 ./man8/iopctl.htm
 ./man8/iostat.htm
 ./man8/ipsecadm.htm
+./man8/ipsecctl.htm
 ./man8/isakmpd.htm
 ./man8/isdnd.htm
 ./man8/kbd.htm
@@ -1249,7 +1250,6 @@
 ./man8/mailwrapper.htm
 ./man8/makekey.htm
 ./man8/makemap.htm
-./man8/makewhatis.htm
 ./man8/map-mbone.htm
 ./man8/memconfig.htm
 ./man8/mfs.htm
@@ -1355,9 +1355,6 @@
 ./man8/security.htm
 ./man8/sendmail.htm
 ./man8/sensorsd.htm
-./man8/sesd.htm
-./man8/setencstat.htm
-./man8/setobjstat.htm
 ./man8/sftp-server.htm
 ./man8/showmount.htm
 ./man8/shutdown.htm

@@ -314,6 +314,11 @@
 ./man3/CIRCLEQ_NEXT.htm
 ./man3/CIRCLEQ_PREV.htm
 ./man3/CIRCLEQ_REMOVE.htm
+./man3/CMSG_DATA.htm
+./man3/CMSG_FIRSTHDR.htm
+./man3/CMSG_LEN.htm
+./man3/CMSG_NXTHDR.htm
+./man3/CMSG_SPACE.htm
 ./man3/COLOR_PAIR.htm
 ./man3/CRYPTO_add.htm
 ./man3/CRYPTO_add_lock.htm
@@ -1341,6 +1346,7 @@
 ./man3/addr.htm
 ./man3/addstr.htm
 ./man3/adler32.htm
+./man3/adler32_combine.htm
 ./man3/alarm.htm
 ./man3/alloca.htm
 ./man3/alphasort.htm
@@ -1503,8 +1509,6 @@
 ./man3/bufferevent_write_buffer.htm
 ./man3/byteorder.htm
 ./man3/bzero.htm
-./man3/cabs.htm
-./man3/cabsf.htm
 ./man3/calloc.htm
 ./man3/callrpc.htm
 ./man3/can_change_color.htm
@@ -1625,6 +1629,7 @@
 ./man3/cosh.htm
 ./man3/coshf.htm
 ./man3/crc32.htm
+./man3/crc32_combine.htm
 ./man3/creat.htm
 ./man3/crypt.htm
 ./man3/crypto.htm
@@ -1701,6 +1706,7 @@
 ./man3/dbm_nextkey.htm
 ./man3/dbm_open.htm
 ./man3/dbm_pagfno.htm
+./man3/dbm_rdonly.htm
 ./man3/dbm_store.htm
 ./man3/dbmclose.htm
 ./man3/dbminit.htm
@@ -1719,6 +1725,8 @@
 ./man3/deflatePrime.htm
 ./man3/deflateReset.htm
 ./man3/deflateSetDictionary.htm
+./man3/deflateSetHeader.htm
+./man3/deflateTune.htm
 ./man3/del_curterm.htm
 ./man3/del_panel.htm
 ./man3/delay_output.htm
@@ -1976,6 +1984,8 @@
 ./man3/fgetln.htm
 ./man3/fgetpos.htm
 ./man3/fgets.htm
+./man3/fgetwc.htm
+./man3/fgetws.htm
 ./man3/field_arg.htm
 ./man3/field_back.htm
 ./man3/field_buffer.htm
@@ -2052,6 +2062,8 @@
 ./man3/fpurge.htm
 ./man3/fputc.htm
 ./man3/fputs.htm
+./man3/fputwc.htm
+./man3/fputws.htm
 ./man3/fread.htm
 ./man3/free.htm
 ./man3/freeChar.htm
@@ -2085,6 +2097,7 @@
 ./man3/ftw.htm
 ./man3/funlockfile.htm
 ./man3/funopen.htm
+./man3/fwide.htm
 ./man3/fwopen.htm
 ./man3/fwrite.htm
 ./man3/gai_strerror.htm
@@ -2260,6 +2273,8 @@
 ./man3/getttynam.htm
 ./man3/getusershell.htm
 ./man3/getw.htm
+./man3/getwc.htm
+./man3/getwchar.htm
 ./man3/getwd.htm
 ./man3/getwin.htm
 ./man3/getyx.htm
@@ -2511,6 +2526,7 @@
 ./man3/gtty.htm
 ./man3/gzclearerr.htm
 ./man3/gzclose.htm
+./man3/gzdirect.htm
 ./man3/gzdopen.htm
 ./man3/gzeof.htm
 ./man3/gzerror.htm
@@ -2549,6 +2565,7 @@
 ./man3/hid_parse_usage_page.htm
 ./man3/hid_report_size.htm
 ./man3/hid_set_data.htm
+./man3/hid_start.htm
 ./man3/hid_start_parse.htm
 ./man3/hid_usage_in_page.htm
 ./man3/hid_usage_page.htm
@@ -2630,8 +2647,10 @@
 ./man3/inflateBackInit.htm
 ./man3/inflateCopy.htm
 ./man3/inflateEnd.htm
+./man3/inflateGetHeader.htm
 ./man3/inflateInit.htm
 ./man3/inflateInit2.htm
+./man3/inflatePrime.htm
 ./man3/inflateReset.htm
 ./man3/inflateSetDictionary.htm
 ./man3/inflateSync.htm
@@ -3224,6 +3243,8 @@
 ./man3/putp.htm
 ./man3/puts.htm
 ./man3/putw.htm
+./man3/putwc.htm
+./man3/putwchar.htm
 ./man3/putwin.htm
 ./man3/pw_abort.htm
 ./man3/pw_copy.htm
@@ -3231,7 +3252,6 @@
 ./man3/pw_edit.htm
 ./man3/pw_error.htm
 ./man3/pw_file.htm
-./man3/pw_getconf.htm
 ./man3/pw_init.htm
 ./man3/pw_lock.htm
 ./man3/pw_mkdb.htm
@@ -3277,7 +3297,6 @@
 ./man3/regfree.htm
 ./man3/registerCDKObject.htm
 ./man3/registerrpc.htm
-./man3/regsub.htm
 ./man3/remainder.htm
 ./man3/remainderf.htm
 ./man3/remove.htm
@@ -3807,6 +3826,7 @@
 ./man3/skey_set_algorithm.htm
 ./man3/skey_unlock.htm
 ./man3/skeychallenge.htm
+./man3/skeychallenge2.htm
 ./man3/skeygetnext.htm
 ./man3/skeylookup.htm
 ./man3/skeyverify.htm
@@ -4023,6 +4043,7 @@
 ./man3/ungetc.htm
 ./man3/ungetch.htm
 ./man3/ungetmouse.htm
+./man3/ungetwc.htm
 ./man3/unmixCDKTemplate.htm
 ./man3/unpost_form.htm
 ./man3/unpost_menu.htm
@@ -4096,6 +4117,22 @@
 ./man3/wclrtobot.htm
 ./man3/wclrtoeol.htm
 ./man3/wcolor_set.htm
+./man3/wcscat.htm
+./man3/wcschr.htm
+./man3/wcscmp.htm
+./man3/wcscpy.htm
+./man3/wcscspn.htm
+./man3/wcslcat.htm
+./man3/wcslcpy.htm
+./man3/wcslen.htm
+./man3/wcsncat.htm
+./man3/wcsncmp.htm
+./man3/wcsncpy.htm
+./man3/wcspbrk.htm
+./man3/wcsrchr.htm
+./man3/wcsspn.htm
+./man3/wcsstr.htm
+./man3/wcstok.htm
 ./man3/wcursyncup.htm
 ./man3/wdelch.htm
 ./man3/wdeleteln.htm
@@ -4116,6 +4153,11 @@
 ./man3/winsnstr.htm
 ./man3/winsstr.htm
 ./man3/winstr.htm
+./man3/wmemchr.htm
+./man3/wmemcmp.htm
+./man3/wmemcpy.htm
+./man3/wmemmove.htm
+./man3/wmemset.htm
 ./man3/wmouse_trafo.htm
 ./man3/wmove.htm
 ./man3/wnoutrefresh.htm
