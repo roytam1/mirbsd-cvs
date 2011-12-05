@@ -48,13 +48,15 @@
 #include "cclass.h"
 #include "cname.h"
 
+__RCSID("$MirOS$");
+
 /*
  * parse structure, passed up and down to avoid global variables and
  * other clumsinesses
  */
 struct parse {
-	char *next;		/* next character in RE */
-	char *end;		/* end of string (-> NUL normally) */
+	const char *next;	/* next character in RE */
+	const char *end;	/* end of string (-> NUL normally) */
 	int error;		/* has an error been seen? */
 	sop *strip;		/* malloced strip */
 	sopno ssize;		/* malloced strip size (allocated) */
@@ -89,7 +91,7 @@ static void freeset(struct parse *, cset *);
 static int freezeset(struct parse *, cset *);
 static int firstch(struct parse *, cset *);
 static int nch(struct parse *, cset *);
-static void mcadd(struct parse *, cset *, char *);
+static void mcadd(struct parse *, cset *, const char *);
 static void mcinvert(struct parse *, cset *);
 static void mccase(struct parse *, cset *);
 static int isinsets(struct re_guts *, int);
@@ -168,7 +170,7 @@ regcomp(regex_t *preg, const char *pattern, int cflags)
 			return(REG_INVARG);
 		len = preg->re_endp - pattern;
 	} else
-		len = strlen((char *)pattern);
+		len = strlen(pattern);
 
 	/* do the mallocs early so failure handling is easy */
 	g = (struct re_guts *)malloc(sizeof(struct re_guts) +
@@ -185,7 +187,7 @@ regcomp(regex_t *preg, const char *pattern, int cflags)
 
 	/* set things up */
 	p->g = g;
-	p->next = (char *)pattern;	/* convenience; we do not modify it */
+	p->next = pattern;
 	p->end = p->next + len;
 	p->error = 0;
 	p->ncsalloc = 0;
@@ -763,10 +765,10 @@ p_b_term(struct parse *p, cset *cs)
 static void
 p_b_cclass(struct parse *p, cset *cs)
 {
-	char *sp = p->next;
+	const char *sp = p->next;
 	struct cclass *cp;
 	size_t len;
-	char *u;
+	const char *u;
 	char c;
 
 	while (MORE() && isalpha(PEEK()))
@@ -827,7 +829,7 @@ static char			/* value of collating element */
 p_b_coll_elem(struct parse *p,
     int endc)			/* name ended by endc,']' */
 {
-	char *sp = p->next;
+	const char *sp = p->next;
 	struct cname *cp;
 	int len;
 
@@ -871,8 +873,8 @@ othercase(int ch)
 static void
 bothcases(struct parse *p, int ch)
 {
-	char *oldnext = p->next;
-	char *oldend = p->end;
+	const char *oldnext = p->next;
+	const char *oldend = p->end;
 	char bracket[3];
 
 	ch = (uch)ch;
@@ -913,8 +915,8 @@ ordinary(struct parse *p, int ch)
 static void
 nonnewline(struct parse *p)
 {
-	char *oldnext = p->next;
-	char *oldend = p->end;
+	const char *oldnext = p->next;
+	const char *oldend = p->end;
 	char bracket[4];
 
 	p->next = bracket;
@@ -1073,11 +1075,16 @@ nomem:
 			    0, css);
 	}
 
-	assert(p->g->sets != NULL);	/* xxx */
-	if (p->g->sets != NULL && p->g->setbits != NULL) {
-		cs = &p->g->sets[no];
-		cs->ptr = p->g->setbits + css*((no)/CHAR_BIT);
-	}
+#if defined(NDEBUG) && defined(__OpenBSD__)
+#define re_assert(e)	((e) ? (void)0 : \
+			    __assert2(__FILE__, __LINE__, __func__, #e))
+#else
+#define re_assert(e)	assert(e)
+#endif
+	re_assert(p->g->sets != NULL);	/* xxx */
+#undef re_assert
+	cs = &p->g->sets[no];
+	cs->ptr = p->g->setbits + css*((no)/CHAR_BIT);
 	cs->mask = 1 << ((no) % CHAR_BIT);
 	cs->hash = 0;
 	cs->smultis = 0;
@@ -1092,7 +1099,7 @@ nomem:
 static void
 freeset(struct parse *p, cset *cs)
 {
-	int i;
+	size_t i;
 	cset *top = &p->g->sets[p->g->ncsets];
 	size_t css = (size_t)p->g->csetsize;
 
@@ -1115,7 +1122,7 @@ static int			/* set number */
 freezeset(struct parse *p, cset *cs)
 {
 	uch h = cs->hash;
-	int i;
+	size_t i;
 	cset *top = &p->g->sets[p->g->ncsets];
 	cset *cs2;
 	size_t css = (size_t)p->g->csetsize;
@@ -1145,8 +1152,7 @@ freezeset(struct parse *p, cset *cs)
 static int			/* character; there is no "none" value */
 firstch(struct parse *p, cset *cs)
 {
-	int i;
-	size_t css = (size_t)p->g->csetsize;
+	size_t i, css = (size_t)p->g->csetsize;
 
 	for (i = 0; i < css; i++)
 		if (CHIN(cs, i))
@@ -1161,8 +1167,7 @@ firstch(struct parse *p, cset *cs)
 static int
 nch(struct parse *p, cset *cs)
 {
-	int i;
-	size_t css = (size_t)p->g->csetsize;
+	size_t i, css = (size_t)p->g->csetsize;
 	int n = 0;
 
 	for (i = 0; i < css; i++)
@@ -1175,7 +1180,7 @@ nch(struct parse *p, cset *cs)
  - mcadd - add a collating element to a cset
  */
 static void
-mcadd( struct parse *p, cset *cs, char *cp)
+mcadd(struct parse *p, cset *cs, const char *cp)
 {
 	size_t oldend = cs->smultis;
 	void *np;
@@ -1205,7 +1210,8 @@ mcadd( struct parse *p, cset *cs, char *cp)
  */
 /* ARGSUSED */
 static void
-mcinvert(struct parse *p, cset *cs)
+mcinvert(struct parse *p __attribute__((unused)),
+    cset *cs __attribute__((unused)))
 {
 	assert(cs->multis == NULL);	/* xxx */
 }
@@ -1218,7 +1224,8 @@ mcinvert(struct parse *p, cset *cs)
  */
 /* ARGSUSED */
 static void
-mccase(struct parse *p, cset *cs)
+mccase(struct parse *p __attribute__((unused)),
+    cset *cs __attribute__((unused)))
 {
 	assert(cs->multis == NULL);	/* xxx */
 }

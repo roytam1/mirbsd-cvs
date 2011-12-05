@@ -35,6 +35,8 @@
  *	@(#)engine.c	8.5 (Berkeley) 3/20/94
  */
 
+__RCSID("$MirOS$");
+
 /*
  * The matching engine and friends.  This file is #included by regexec.c
  * after suitable #defines of a variety of macros used herein, so that
@@ -129,7 +131,7 @@ matcher(struct re_guts *g, char *string, size_t nmatch, regmatch_t pmatch[],
     int eflags)
 {
 	char *endp;
-	int i;
+	size_t i;
 	struct match mv;
 	struct match *m = &mv;
 	char *dp;
@@ -662,6 +664,9 @@ backref(struct match *m, char *start, char *stop, sopno startst, sopno stopst,
 	/* "can't happen" */
 	assert(nope);
 	/* NOTREACHED */
+#if defined(NDEBUG) && defined(__OpenBSD__)
+	return (NULL);
+#endif
 }
 
 /*

@@ -1,20 +1,22 @@
-/*- $MirOS$
+/*- $MirOS: src/lib/libc/regex/test/split.c,v 1.2 2007/02/12 04:46:14 tg Exp $
  * Part of Henry Spencer's regular expression library
  */
 
 #include <stdio.h>
 #include <string.h>
 
+int split(char *string, char *fields[], int nfields, const char *sep);
+
 /*
  - split - divide a string into fields, like awk split()
  = int split(char *string, char *fields[], int nfields, char *sep);
  */
 int				/* number of fields, including overflow */
-split(string, fields, nfields, sep)
-char *string;
-char *fields[];			/* list is not NULL-terminated */
-int nfields;			/* number of entries available in fields[] */
-char *sep;			/* "" white, "c" single char, "ab" [ab]+ */
+split(
+char *string,
+char *fields[],			/* list is not NULL-terminated */
+int nfields,			/* number of entries available in fields[] */
+const char *sep)		/* "" white, "c" single char, "ab" [ab]+ */
 {
 	register char *p = string;
 	register char c;			/* latest character */
@@ -22,7 +24,7 @@ char *sep;			/* "" white, "c" single char, "ab" [ab]+ */
 	register char sepc2;
 	register int fn;
 	register char **fp = fields;
-	register char *sepp;
+	register const char *sepp;
 	register int trimtrail;
 
 	/* white space */

@@ -52,6 +52,8 @@
 #include "utils.h"
 #include "regex2.h"
 
+__RCSID("$MirOS$");
+
 /* macros for manipulating states, small version */
 #define	states	long
 #define	states1	states		/* for later use in regexec() decision */
@@ -153,7 +155,8 @@ regexec(const regex_t *preg, const char *string, size_t nmatch,
 		return(REG_BADPAT);
 	eflags = GOODFLAGS(eflags);
 
-	if (g->nstates <= CHAR_BIT*sizeof(states1) && !(eflags&REG_LARGE))
+	if ((size_t)(g->nstates) <= CHAR_BIT*sizeof(states1) &&
+	    !(eflags&REG_LARGE))
 		return(smatcher(g, (char *)string, nmatch, pmatch, eflags));
 	else
 		return(lmatcher(g, (char *)string, nmatch, pmatch, eflags));

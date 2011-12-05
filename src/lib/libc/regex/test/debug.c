@@ -1,4 +1,4 @@
-/*- $MirOS$
+/*- $MirOS: src/lib/libc/regex/test/debug.c,v 1.2 2007/02/12 04:46:14 tg Exp $
  * Part of Henry Spencer's regular expression library
  */
 
@@ -33,9 +33,7 @@ static char *regchar(int ch);
  == void regprint(regex_t *r, FILE *d);
  */
 void
-regprint(r, d)
-regex_t *r;
-FILE *d;
+regprint(regex_t *r, FILE *d)
 {
 	register struct re_guts *g = r->re_g;
 	register int i;
@@ -106,9 +104,7 @@ FILE *d;
  == static void s_print(register struct re_guts *g, FILE *d);
  */
 static void
-s_print(g, d)
-register struct re_guts *g;
-FILE *d;
+s_print(register struct re_guts *g, FILE *d)
 {
 	register sop *s;
 	register cset *cs;
@@ -247,8 +243,7 @@ FILE *d;
  == static char *regchar(int ch);
  */
 static char *			/* -> representation */
-regchar(ch)
-int ch;
+regchar(int ch)
 {
 	static char buf[10];
 

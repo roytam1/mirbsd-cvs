@@ -1,8 +1,9 @@
-/*- $MirOS$
+/*- $MirOS: src/lib/libc/regex/test/main.c,v 1.2 2007/02/12 04:46:14 tg Exp $
  * Part of Henry Spencer's regular expression library
  */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <sys/types.h>
 #include <regex.h>
@@ -15,13 +16,14 @@ extern "C" {
 
 /* === main.c === */
 void regress(FILE *in);
-void try(char *f0, char *f1, char *f2, char *f3, char *f4, int opts);
-int options(int type, char *s);
-int opt(int c, char *s);
+void try(const char *f0, const char *f1, const char *f2, const char *f3,
+    char *f4, int opts);
+int options(int type, const char *s);
+int opt(int c, const char *s);
 void fixstr(register char *p);
-char *check(char *str, regmatch_t sub, char *should);
+const char *check(const char *str, regmatch_t sub, const char *should);
 static char *eprint(int err);
-static int efind(char *name);
+static int efind(const char *name);
 
 #ifdef __cplusplus
 }
@@ -39,15 +41,14 @@ regoff_t startoff = 0;
 regoff_t endoff = 0;
 
 
-extern int split();
-extern void regprint();
+extern int split(char *string, char *fields[], int nfields, const char *sep);
+extern void regprint(regex_t *r, FILE *d);
 
 /*
  - main - do the simple case, hand off to regress() for regression
  */
-main(argc, argv)
-int argc;
-char *argv[];
+int
+main(int argc, char *argv[])
 {
 	regex_t re;
 #	define	NS	10
@@ -58,8 +59,6 @@ char *argv[];
 	int c;
 	int errflg = 0;
 	register int i;
-	extern int optind;
-	extern char *optarg;
 
 	progname = argv[0];
 
@@ -145,8 +144,7 @@ char *argv[];
  == void regress(FILE *in);
  */
 void
-regress(in)
-FILE *in;
+regress(FILE *in)
 {
 	char inbuf[1000];
 #	define	MAXF	10
@@ -155,9 +153,9 @@ FILE *in;
 	int i;
 	char erbuf[100];
 	size_t ne;
-	char *badpat = "invalid regular expression";
+	const char *badpat = "invalid regular expression";
 #	define	SHORT	10
-	char *bpname = "REG_BADPAT";
+	const char *bpname = "REG_BADPAT";
 	regex_t re;
 
 	while (fgets(inbuf, sizeof(inbuf), in) != NULL) {
@@ -174,7 +172,7 @@ FILE *in;
 		}
 		for (i = 0; i < nf; i++)
 			if (strcmp(f[i], "\"\"") == 0)
-				f[i] = "";
+				f[i] = strdup("");
 		if (nf <= 3)
 			f[3] = NULL;
 		if (nf <= 4)
@@ -222,13 +220,9 @@ FILE *in;
  == void try(char *f0, char *f1, char *f2, char *f3, char *f4, int opts);
  */
 void
-try(f0, f1, f2, f3, f4, opts)
-char *f0;
-char *f1;
-char *f2;
-char *f3;
-char *f4;
-int opts;			/* may not match f1 */
+try(const char *f0, const char *f1, const char *f2, const char *f3,
+    char *f4, int opts)
+		    /* may not match f1 */
 {
 	regex_t re;
 #	define	NSUBS	10
@@ -239,9 +233,9 @@ int opts;			/* may not match f1 */
 	char erbuf[100];
 	int err;
 	int len;
-	char *type = (opts & REG_EXTENDED) ? "ERE" : "BRE";
+	const char *type = (opts & REG_EXTENDED) ? "ERE" : "BRE";
 	register int i;
-	char *grump;
+	const char *grump;
 	char f0copy[1000];
 	char f2copy[1000];
 
@@ -313,7 +307,7 @@ int opts;			/* may not match f1 */
 	nshould = split(f4, should+1, NSHOULD-1, ",");
 	if (nshould == 0) {
 		nshould = 1;
-		should[1] = "";
+		should[1] = strdup("");
 	}
 	for (i = 1; i < NSUBS; i++) {
 		grump = check(f2, subs[i], should[i]);
@@ -333,13 +327,12 @@ int opts;			/* may not match f1 */
  == int options(int type, char *s);
  */
 int
-options(type, s)
-int type;			/* 'c' compile, 'e' exec */
-char *s;
+options(int type, const char *s)
+	/* 'c' compile, 'e' exec */
 {
-	register char *p;
+	register const char *p;
 	register int o = (type == 'c') ? copts : eopts;
-	register char *legal = (type == 'c') ? "bisnmp" : "^$#tl";
+	register const char *legal = (type == 'c') ? "bisnmp" : "^$#tl";
 
 	for (p = s; *p != '\0'; p++)
 		if (strchr(legal, *p) != NULL)
@@ -390,9 +383,7 @@ char *s;
  == int opt(int c, char *s);
  */
 int				/* predicate */
-opt(c, s)
-int c;
-char *s;
+opt(int c, const char *s)
 {
 	return(strchr(s, c) != NULL);
 }
@@ -402,8 +393,7 @@ char *s;
  == void fixstr(register char *p);
  */
 void
-fixstr(p)
-register char *p;
+fixstr(register char *p)
 {
 	if (p == NULL)
 		return;
@@ -421,19 +411,16 @@ register char *p;
 
 /*
  - check - check a substring match
- == char *check(char *str, regmatch_t sub, char *should);
+ == const char *check(const char *str, regmatch_t sub, const char *should);
  */
-char *				/* NULL or complaint */
-check(str, sub, should)
-char *str;
-regmatch_t sub;
-char *should;
+const char *			/* NULL or complaint */
+check(const char *str, regmatch_t sub, const char *should)
 {
 	register int len;
 	register int shlen;
-	register char *p;
+	register const char *p;
 	static char grump[500];
-	register char *at = NULL;
+	register const char *at = NULL;
 
 	if (should != NULL && strcmp(should, "-") == 0)
 		should = NULL;
@@ -503,8 +490,7 @@ char *should;
  == static char *eprint(int err);
  */
 static char *
-eprint(err)
-int err;
+eprint(int err)
 {
 	static char epbuf[100];
 	size_t len;
@@ -519,11 +505,9 @@ int err;
  == static int efind(char *name);
  */
 static int
-efind(name)
-char *name;
+efind(const char *name)
 {
 	static char efbuf[100];
-	size_t n;
 	regex_t re;
 
 	snprintf(efbuf, sizeof (efbuf), "REG_%s", name);
