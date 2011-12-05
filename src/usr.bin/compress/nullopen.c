@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/usr.bin/compress/nullopen.c,v 1.3 2005/04/14 11:46:45 tg Exp $ */
 /*	$OpenBSD: nullopen.c,v 1.2 2004/01/22 18:49:35 millert Exp $	*/
 
 /*
@@ -35,7 +35,7 @@
 #include <unistd.h>
 #include "compress.h"
 
-__RCSID("$MirOS: src/usr.bin/compress/nullopen.c,v 1.2 2005/03/13 18:32:49 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/compress/nullopen.c,v 1.3 2005/04/14 11:46:45 tg Exp $");
 
 typedef struct {
 	off_t 	  total_in;
@@ -49,8 +49,9 @@ char null_magic[2];
 
 
 void *
-null_open(int fd, const char *mode, char *name, int bits,
-    u_int32_t mtime, int gotmagic)
+null_open(int fd, const char *mode, char *name __attribute__((unused)),
+    int bits __attribute__((unused)),
+    u_int32_t mtime __attribute__((unused)), int gotmagic)
 {
 	null_stream *s;
 
@@ -99,7 +100,7 @@ null_close(void *cookie, struct z_info *info)
 }
 
 int
-null_flush(void *cookie, int flush)
+null_flush(void *cookie, int flush __attribute__((unused)))
 {
 	null_stream *s = (null_stream*)cookie;
 

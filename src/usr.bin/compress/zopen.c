@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.bin/compress/zopen.c,v 1.3 2005/04/14 11:46:45 tg Exp $ */
+/**	$MirOS: src/usr.bin/compress/zopen.c,v 1.4 2005/04/29 18:35:07 tg Exp $ */
 /*	$OpenBSD: zopen.c,v 1.15 2005/04/17 16:17:39 deraadt Exp $	*/
 /*	$NetBSD: zopen.c,v 1.5 1995/03/26 09:44:53 glass Exp $	*/
 
@@ -73,7 +73,7 @@
 #include "compress.h"
 
 __SCCSID("@(#)zopen.c	8.1 (Berkeley) 6/27/93");
-__RCSID("$MirOS: src/usr.bin/compress/zopen.c,v 1.3 2005/04/14 11:46:45 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/compress/zopen.c,v 1.4 2005/04/29 18:35:07 tg Exp $");
 
 #define	BITS		16		/* Default bits. */
 #define	HSIZE		69001		/* 95% occupancy */
@@ -222,7 +222,7 @@ zwrite(void *cookie, const char *wbp, int num)
 
 	zs = cookie;
 	count = num;
-	bp = (u_char *)wbp;
+	bp = (const u_char *)wbp;
 	switch (zs->zs_state) {
 	case S_MAGIC:
 		return -1;
@@ -743,8 +743,8 @@ zopen(const char *name, const char *mode, int bits)
 }
 
 void *
-z_open(int fd, const char *mode, char *name, int bits,
-    u_int32_t mtime, int gotmagic)
+z_open(int fd, const char *mode, char *name __attribute__((unused)),
+    int bits, u_int32_t mtime __attribute__((unused)), int gotmagic)
 {
 	struct s_zstate *zs;
 

@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.bin/compress/main.c,v 1.3 2005/04/14 11:46:45 tg Exp $ */
+/**	$MirOS: src/usr.bin/compress/main.c,v 1.4 2005/04/29 18:35:07 tg Exp $ */
 /*	$OpenBSD: main.c,v 1.62 2005/04/17 16:17:39 deraadt Exp $	*/
 
 #ifndef SMALL
@@ -53,7 +53,7 @@ static const char license[] =
 #include <paths.h>
 #include "compress.h"
 
-__RCSID("$MirOS: src/usr.bin/compress/main.c,v 1.3 2005/04/14 11:46:45 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/compress/main.c,v 1.4 2005/04/29 18:35:07 tg Exp $");
 
 #define min(a,b) ((a) < (b)? (a) : (b))
 
@@ -63,9 +63,9 @@ int cat, decomp;
 extern char *__progname;
 
 const struct compressor {
-	char *name;
-	char *suffix;
-	u_char *magic;
+	const char *name;
+	const char *suffix;
+	const char *magic;
 	void *(*open)(int, const char *, char *, int, u_int32_t, int);
 	int (*read)(void *, char *, int);
 	int (*write)(void *, const char *, int);
@@ -85,7 +85,7 @@ const struct compressor {
 #define M_PACK (&c_table[4])
   { "pack", ".pak", "\037\036", pak_open, pak_read, pak_write, pak_close },
 #endif
-  { NULL }
+  { NULL, NULL, NULL, NULL, NULL, NULL, NULL }
 };
 
 #ifndef SMALL
@@ -129,7 +129,7 @@ const struct option longopts[] = {
 	{ "fast",	no_argument,		0, '1' },
 	{ "best",	no_argument,		0, '9' },
 #endif /* SMALL */
-	{ NULL }
+	{ NULL,		0,			0, 0 }
 };
 
 int
@@ -183,7 +183,7 @@ main(int argc, char *argv[])
 		nargv[0] = *argv++;
 		for (i = 1, (p = strtok_r(p, " ", &last)); p != NULL;
 		    (p = strtok_r(NULL, " ", &last)), i++)
-			if (i < sizeof(nargv)/sizeof(nargv[1]) - argc - 1)
+			if (i < (int)(sizeof(nargv)/sizeof(nargv[1]) - argc - 1))
 				nargv[i] = p;
 			else
 				errx(1, "GZIP is too long");
@@ -301,7 +301,7 @@ main(int argc, char *argv[])
 		if (nargv[0] == NULL)
 			argv = nargv;
 		/* XXX - make sure we don't oflow nargv in $GZIP case (millert) */
-		argv[0] = "/dev/stdin";
+		argv[0] = strdup("/dev/stdin");
 		argv[1] = NULL;
 		pipin++;
 		if (!oflag)
@@ -309,7 +309,7 @@ main(int argc, char *argv[])
 	} else {
 		for (i = 0; i < argc; i++) {
 			if (argv[i][0] == '-' && argv[i][1] == '\0') {
-				argv[i] = "/dev/stdin";
+				argv[i] = strdup("/dev/stdin");
 				pipin++;
 				cat = 1;
 			}
@@ -347,7 +347,7 @@ main(int argc, char *argv[])
 			    ((p = strrchr(entry->fts_accpath, '.')) == NULL ||
 			    strcmp(p, suffix) != 0) &&
 			    snprintf(_infile, sizeof(_infile), "%s%s", infile,
-			    suffix) < sizeof(_infile) &&
+			    suffix) < (ssize_t)sizeof(_infile) &&
 			    stat(_infile, entry->fts_statp) == 0 &&
 			    S_ISREG(entry->fts_statp->st_mode)) {
 				infile = _infile;
@@ -390,7 +390,7 @@ main(int argc, char *argv[])
 					continue;
 				}
 			} else {
-				if (snprintf(outfile, sizeof(outfile),
+				if ((size_t)snprintf(outfile, sizeof(outfile),
 				    "%s%s", infile, suffix) >= sizeof(outfile)) {
 					warnx("%s%s: name too long",
 					    infile, suffix);
@@ -498,7 +498,7 @@ docompress(const char *in, char *out, const struct compressor *method,
 	}
 
 	while ((nr = read(ifd, buf, sizeof(buf))) > 0)
-		if ((method->write)(cookie, buf, nr) != nr) {
+		if ((method->write)(cookie, (const char *)buf, nr) != nr) {
 			if (verbose >= 0)
 				warn("%s", out);
 			error = FAILURE;
@@ -617,7 +617,7 @@ dodecompress(const char *in, char *out, const struct compressor *method,
 		return (FAILURE);
 	}
 
-	while ((nr = (method->read)(cookie, buf, sizeof(buf))) > 0) {
+	while ((nr = (method->read)(cookie, (char *)buf, sizeof(buf))) > 0) {
 		if (ofd != -1 && write(ofd, buf, nr) != nr) {
 			if (verbose >= 0)
 				warn("%s", out);
@@ -741,8 +741,9 @@ const char *
 check_suffix(const char *infile)
 {
 	int i;
-	char *suf, *sep, *separators = ".-_";
-	static char *suffixes[] = { "Z", "gz", "z", "tgz", "taz", "cgz", "ngz", NULL };
+	const char *suf, *sep, *separators = ".-_";
+	static const char *suffixes[] =
+	    { "Z", "gz", "z", "tgz", "taz", "cgz", "ngz", NULL };
 
 	for (sep = separators; *sep != '\0'; sep++) {
 		if ((suf = strrchr(infile, *sep)) == NULL)

@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/usr.bin/compress/gzopen.c,v 1.3 2005/04/14 11:46:45 tg Exp $ */
 /*	$OpenBSD: gzopen.c,v 1.22 2004/09/06 21:24:11 mickey Exp $	*/
 
 /*
@@ -63,7 +63,7 @@
 #include <zlib.h>
 #include "compress.h"
 
-__RCSID("$MirOS: src/usr.bin/compress/gzopen.c,v 1.2 2005/03/13 18:32:49 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/compress/gzopen.c,v 1.3 2005/04/14 11:46:45 tg Exp $");
 
 /* gzip flag byte */
 #define ASCII_FLAG   0x01 /* bit 0 set: file probably ascii text */
@@ -235,7 +235,7 @@ gz_flush(void *cookie, int flush)
 		len = Z_BUFSIZE - s->z_stream.avail_out;
 
 		if (len != 0) {
-			if (write(s->z_fd, s->z_buf, len) != len)
+			if ((size_t)write(s->z_fd, s->z_buf, len) != len)
 				return Z_ERRNO;
 			s->z_stream.next_out = s->z_buf;
 			s->z_stream.avail_out = Z_BUFSIZE;
@@ -410,10 +410,10 @@ int
 gz_read(void *cookie, char *buf, int len)
 {
 	gz_stream *s = (gz_stream*)cookie;
-	u_char *start = buf; /* starting point for crc computation */
+	u_char *start = (u_char *)buf; /* starting point for crc computation */
 	int error = Z_OK;
 
-	s->z_stream.next_out = buf;
+	s->z_stream.next_out = (u_char *)buf;
 	s->z_stream.avail_out = len;
 
 	while (error == Z_OK && !s->z_eof && s->z_stream.avail_out != 0) {
@@ -466,7 +466,7 @@ gz_write(void *cookie, const char *buf, int len)
 #ifndef SMALL
 	gz_stream *s = (gz_stream*)cookie;
 
-	s->z_stream.next_in = (char *)buf;
+	s->z_stream.next_in = (const u_char *)buf;
 	s->z_stream.avail_in = len;
 
 	while (s->z_stream.avail_in != 0) {
@@ -479,7 +479,7 @@ gz_write(void *cookie, const char *buf, int len)
 		if (deflate(&(s->z_stream), Z_NO_FLUSH) != Z_OK)
 			break;
 	}
-	s->z_crc = crc32(s->z_crc, buf, len);
+	s->z_crc = crc32(s->z_crc, (const u_char *)buf, len);
 
 	return (int)(len - s->z_stream.avail_in);
 #endif
