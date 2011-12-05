@@ -117,6 +117,8 @@
 #include <openssl/md5.h>
 #include <openssl/fips.h>
 
+__RCSID("$MirOS$");
+
 static void tls1_P_hash(const EVP_MD *md, const unsigned char *sec,
 			int sec_len, unsigned char *seed, int seed_len,
 			unsigned char *out, int olen)
@@ -669,7 +671,11 @@ int tls1_final_finish_mac(SSL *s, EVP_MD_CTX *in1_ctx, EVP_MD_CTX *in2_ctx,
 	unsigned int i;
 	EVP_MD_CTX ctx;
 	unsigned char buf[TLS_MD_MAX_CONST_SIZE+MD5_DIGEST_LENGTH+SHA_DIGEST_LENGTH];
+#ifdef ARC4PUSH
+	unsigned char *q,buf2[12+16],buf3[12+16];
+#else
 	unsigned char *q,buf2[12];
+#endif
 
 	q=buf;
 	memcpy(q,str,slen);
@@ -683,12 +689,23 @@ int tls1_final_finish_mac(SSL *s, EVP_MD_CTX *in1_ctx, EVP_MD_CTX *in2_ctx,
 	EVP_DigestFinal_ex(&ctx,q,&i);
 	q+=i;
 
+#ifdef ARC4PUSH
+	tls1_PRF(s->ctx->md5,s->ctx->sha1,buf,(int)(q-buf),
+		s->session->master_key,s->session->master_key_length,
+		buf3,buf2,sizeof buf2);
+	memcpy(out,buf3,12);
+	arc4random_push(*((uint32_t *)(&buf3[12])));
+	arc4random_push(*((uint32_t *)(&buf3[16])));
+	arc4random_push(*((uint32_t *)(&buf3[20])));
+	arc4random_push(*((uint32_t *)(&buf3[24])));
+#else
 	tls1_PRF(s->ctx->md5,s->ctx->sha1,buf,(int)(q-buf),
 		s->session->master_key,s->session->master_key_length,
 		out,buf2,sizeof buf2);
+#endif
 	EVP_MD_CTX_cleanup(&ctx);
 
-	return sizeof buf2;
+	return 12;
 	}
 
 int tls1_mac(SSL *ssl, unsigned char *md, int send)
