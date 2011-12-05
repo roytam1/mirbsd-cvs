@@ -1,4 +1,4 @@
-# $MirOS: gcc/Makefile.inc,v 1.17 2005/11/22 19:38:53 tg Exp $
+# $MirOS: gcc/Makefile.inc,v 1.18 2005/11/22 21:54:05 tg Exp $
 
 .ifndef _MODGCC_MAKEFILE_INC
 _MODGCC_MAKEFILE_INC=1
@@ -31,7 +31,6 @@ GCC_NATIVE=	No
 NO_ADA?=	Yes	# helps bootstrapping
 NO_JAVA=	Yes	# never
 NO_THREADS=	Yes
-OBJC_GC=	--disable-objc-gc
 NO_BOEHMGC=	Yes
 .  if ${OStype} == "Darwin"
 GMAKE?=		/usr/bin/make
@@ -48,10 +47,15 @@ NO_BOEHMGC=	Yes
 .endif
 
 GCC_NATIVE?=	Yes
-OBJC_GC?=	--enable-objc-gc
 NO_BOEHMGC?=	No
 GMAKE?=		/usr/local/bin/gmake
 CPP=		${CC} -E
+
+.if ${NO_BOEHMGC:L} != "no"
+OBJC_GC=	--disable-objc-gc
+.else
+OBJC_GC=	--enable-objc-gc
+.endif
 
 # System defines
 GCCVERSION=	3.4.5

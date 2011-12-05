@@ -1,6 +1,7 @@
-# $MirOS: gcc/Makefile,v 1.8 2005/11/22 19:38:53 tg Exp $
+# $MirOS: gcc/Makefile,v 1.9 2005/11/22 19:40:08 tg Exp $
 
 .include <bsd.own.mk>
+.include "${GNUSYSTEM_AUX_DIR}/locations.mk"
 .include "${BSDSRCDIR}/Makefile.inc"
 
 .if ${OStype} != "MirBSD"
@@ -67,6 +68,7 @@ cleandir-recursive: ${_STFILE_SUB}
 cleandir: cleandir-recursive local-cleandir
 
 local-cleandir: .PHONY
+	-rm -rf ${SUBOBJDIR}/bs-{1,2}
 .if ${GCC_NATIVE:L} == "yes"
 	-sleep 1; rm -f ${_STFILE_SUB}
 .endif
@@ -91,5 +93,46 @@ release: .PHONY
 	cd ${BSDSRCDIR} && ${EXTRA_ENV} exec \
 	    ${BSDMAKE} distrib-dirs mksystrace-dest DESTDIR=${BSDRELDIR}/base
 	cd ${.CURDIR} && exec ${SUDO} ${MAKE} install DESTDIR=${BSDRELDIR}/base
+
+bootstrapbuild: ${_STFILE_SUB}
+	ulimit -dS 245760 && cd ${.CURDIR} && ${EXTRA_ENV} exec \
+	    ${_STCMD_SUB} ${BSDMAKE} -f Makefile.sub all \
+	    NO_CXX=Yes NO_OBJC=Yes NO_PASCAL=Yes NO_BOEHMGC=Yes
+
+bootstrap:
+	cd ${GNU_LIBIBERTY_SRC} && exec ${MAKE} obj
+	cd ${GNU_LIBIBERTY_SRC} && exec ${MAKE} depend
+	cd ${GNU_LIBIBERTY_SRC} && exec ${MAKE} all
+	cd ${.CURDIR} && exec ${MAKE} obj
+	mkdir -p ${SUBOBJDIR}/bs-{1,2}
+	cd ${.CURDIR} && exec ${MAKE} bootstrapbuild COMPILER_ONLY=Yes \
+	    _LIBERTY=${GNU_LIBIBERTY_SRC}/obj/libiberty.a \
+	    GCC_NATIVE=no GCC_PREFIX=${SUBOBJDIR}/bs-1
+	cd ${.CURDIR} && exec ${MAKE} install COMPILER_ONLY=Yes \
+	    GCC_NATIVE=no GCC_PREFIX=${SUBOBJDIR}/bs-1
+	cd ${GNU_LIBIBERTY_SRC} && exec ${MAKE} cleandir
+	cd ${GNU_LIBIBERTY_SRC} && exec ${MAKE} depend \
+	    CC=${SUBOBJDIR}/bs-1/bin/mgcc CPP="${SUBOBJDIR}/bs-1/bin/mgcc -E"
+	cd ${GNU_LIBIBERTY_SRC} && exec ${MAKE} all \
+	    _LIBERTY=${GNU_LIBIBERTY_SRC}/obj/libiberty.a \
+	    CC=${SUBOBJDIR}/bs-1/bin/mgcc CPP="${SUBOBJDIR}/bs-1/bin/mgcc -E"
+	cd ${.CURDIR} && exec ${MAKE} cleandir-recursive COMPILER_ONLY=Yes
+	cd ${.CURDIR} && exec ${MAKE} all COMPILER_ONLY=Yes \
+	    CC=${SUBOBJDIR}/bs-1/bin/mgcc \
+	    GCC_NATIVE=no GCC_PREFIX=${SUBOBJDIR}/bs-2
+	cd ${.CURDIR} && exec ${MAKE} install COMPILER_ONLY=Yes \
+	    CC=${SUBOBJDIR}/bs-1/bin/mgcc \
+	    GCC_NATIVE=no GCC_PREFIX=${SUBOBJDIR}/bs-2
+	cd ${GNU_LIBIBERTY_SRC} && exec ${MAKE} cleandir
+	cd ${GNU_LIBIBERTY_SRC} && exec ${MAKE} depend \
+	    CC=${SUBOBJDIR}/bs-2/bin/mgcc CPP="${SUBOBJDIR}/bs-2/bin/mgcc -E"
+	cd ${GNU_LIBIBERTY_SRC} && exec ${MAKE} all \
+	    CC=${SUBOBJDIR}/bs-2/bin/mgcc CPP="${SUBOBJDIR}/bs-2/bin/mgcc -E"
+	cd ${.CURDIR} && exec ${MAKE} cleandir-recursive COMPILER_ONLY=Yes
+	cd ${.CURDIR} && exec ${MAKE} all \
+	    _LIBERTY=${GNU_LIBIBERTY_SRC}/obj/libiberty.a \
+	    CC=${SUBOBJDIR}/bs-2/bin/mgcc \
+	    CXX=${SUBOBJDIR}/bs-2/bin/g++
+	cd ${.CURDIR} && exec ${SUDO} ${MAKE} install
 
 .include <bsd.obj.mk>
