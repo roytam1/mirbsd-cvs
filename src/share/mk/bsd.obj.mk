@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.obj.mk,v 1.6 2006/07/30 23:21:57 tg Exp $
+# $MirOS: src/share/mk/bsd.obj.mk,v 1.7 2008/02/24 11:58:08 tg Exp $
 # $OpenBSD: bsd.obj.mk,v 1.12 2003/10/28 17:09:33 espie Exp $
 # $NetBSD: bsd.obj.mk,v 1.9 1996/04/10 21:08:05 thorpej Exp $
 
@@ -43,7 +43,7 @@ _SUBDIRUSE:
 
 obj! _SUBDIRUSE
 	@cd ${.CURDIR}; \
-	tryobjdir=0; \
+	tryobjdir=0; here=.; \
 	if bsdsrcdir=$$(readlink -nf ${BSDSRCDIR} 2>&-); then \
 		here=$$(readlink -nf .); \
 		subdir=$${here#$${bsdsrcdir}/}; \
