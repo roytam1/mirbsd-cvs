@@ -1,4 +1,4 @@
-; $MirOS: gcc/gcc/common.opt,v 1.3 2005/03/25 19:29:03 tg Exp $
+; $MirOS: gcc/gcc/common.opt,v 1.4 2005/03/25 22:58:43 tg Exp $
 ;
 ; Options for the language- and target-independent parts of the compiler.
 ; Copyright (C) 2003, 2005
@@ -387,6 +387,9 @@ Perform redundant load after store elimination in global common subexpression el
 fguess-branch-probability
 Common
 Enable guessing of branch probabilities
+
+fhonour-copts
+Common RejectNegative
 
 fident
 Common

@@ -1,4 +1,4 @@
-# $MirOS: gcc/gcc/Makefile.in,v 1.6 2005/11/22 17:55:20 tg Exp $
+# $MirOS: gcc/gcc/Makefile.in,v 1.7 2005/11/23 14:54:56 tg Exp $
 #
 # Makefile for GNU Compiler Collection
 # Run 'configure' to generate Makefile from Makefile.in
@@ -2437,7 +2437,8 @@ SYSCALLS.c.X: $(srcdir)/sys-types.h $(srcdir)/sys-protos.h $(GCC_PASSES) \
 	-rm -f SYSCALLS.c tmp-SYSCALLS.s
 	sed -e s/TARGET_GETGROUPS_T/$(TARGET_GETGROUPS_T)/ \
 	  $(srcdir)/sys-types.h $(srcdir)/sys-protos.h > SYSCALLS.c
-	$(GCC_FOR_TARGET) $(GCC_CFLAGS) $(ALL_CPPFLAGS) $(INCLUDES) \
+	GCC_HONOUR_COPTS=s \
+	  $(GCC_FOR_TARGET) $(GCC_CFLAGS) $(ALL_CPPFLAGS) $(INCLUDES) \
 	  -aux-info $@ -S -o tmp-SYSCALLS.s SYSCALLS.c
 	-rm -f SYSCALLS.c tmp-SYSCALLS.s
 
