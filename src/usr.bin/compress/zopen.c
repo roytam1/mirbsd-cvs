@@ -1,10 +1,10 @@
-/**	$MirOS: src/usr.bin/compress/zopen.c,v 1.5 2005/11/16 22:10:56 tg Exp $ */
+/**	$MirOS: src/usr.bin/compress/zopen.c,v 1.6 2005/11/23 17:08:49 tg Exp $ */
 /*	$OpenBSD: zopen.c,v 1.16 2005/06/26 18:20:26 otto Exp $	*/
 /*	$NetBSD: zopen.c,v 1.5 1995/03/26 09:44:53 glass Exp $	*/
 
 /*-
- * Copyright (c) 2005
- *	Thorsten "mirabile" Glaser <tg@mirbsd.org>
+ * Copyright (c) 2005, 2006
+ *	Thorsten Glaser <tg@mirbsd.de>
  * Copyright (c) 1985, 1986, 1992, 1993
  *	The Regents of the University of California.  All rights reserved.
  *
@@ -35,6 +35,15 @@
  * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
+ *
+ * Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
+ * express, or implied, to the maximum extent permitted by applicable
+ * law, without malicious intent or gross negligence; in no event may
+ * licensor, an author or contributor be held liable for any indirect
+ * or other damage, or direct damage except proven a consequence of a
+ * direct error of said person and intended use of this work, loss or
+ * other issues arising in any way out of its use, even if advised of
+ * the possibility of such damage or existence of a nontrivial bug.
  *
  *	From: @(#)zopen.c	8.1 (Berkeley) 6/27/93
  */
@@ -76,7 +85,7 @@
 #include "compress.h"
 
 __SCCSID("@(#)zopen.c	8.1 (Berkeley) 6/27/93");
-__RCSID("$MirOS: src/usr.bin/compress/zopen.c,v 1.5 2005/11/16 22:10:56 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/compress/zopen.c,v 1.6 2005/11/23 17:08:49 tg Exp $");
 
 #define	BITS		16		/* Default bits. */
 #define	HSIZE		69001		/* 95% occupancy */
@@ -228,18 +237,18 @@ zwrite(void *cookie, const char *wbp, int num)
 	bp = (const u_char *)wbp;
 	switch (zs->zs_state) {
 	case S_MAGIC:
-		return -1;
+		return (-1);
 	case S_EOF:
-		return 0;
+		return (0);
 	case S_START:
 		zs->zs_state = S_MIDDLE;
 
 		zs->zs_maxmaxcode = 1L << zs->zs_maxbits;
-		if (write(zs->zs_fd, z_magic, sizeof(z_magic)) !=
-		    sizeof(z_magic))
+		if (write(zs->zs_fd, z_magic, sizeof (z_magic)) !=
+		    sizeof (z_magic))
 			return (-1);
 		tmp = (u_char)(zs->zs_maxbits | zs->zs_block_compress);
-		if (write(zs->zs_fd, &tmp, sizeof(tmp)) != sizeof(tmp))
+		if (write(zs->zs_fd, &tmp, sizeof (tmp)) != sizeof (tmp))
 			return (-1);
 
 		zs->zs_bp = zs->zs_buf;
@@ -354,7 +363,7 @@ z_close(void *cookie, struct z_info *info,
 static int
 zclose(void *cookie)
 {
-	return z_close(cookie, NULL, NULL, NULL);
+	return (z_close(cookie, NULL, NULL, NULL));
 }
 
 /*-
@@ -491,7 +500,7 @@ zread(void *cookie, char *rbp, int num)
 		zs->zs_state = S_MIDDLE;
 		zs->zs_bp = zs->zs_buf;
 		header[0] = header[1] = header[2] = '\0';
-		read(zs->zs_fd, header, sizeof(header));
+		read(zs->zs_fd, header, sizeof (header));
 		break;
 	case S_MAGIC:
 		zs->zs_state = S_MIDDLE;
@@ -513,7 +522,7 @@ zread(void *cookie, char *rbp, int num)
 		return (-1);
 	}
 	zs->zs_maxbits = header[2];	/* Set -b from file. */
-	zs->zs_in_count += sizeof(header);
+	zs->zs_in_count += sizeof (header);
 	zs->zs_block_compress = zs->zs_maxbits & BLOCK_MASK;
 	zs->zs_maxbits &= BIT_MASK;
 	zs->zs_maxmaxcode = 1L << zs->zs_maxbits;
@@ -630,7 +639,7 @@ getcode(struct s_zstate *zs)
 				*bp++ = *zs->zs_bp++);
 			if ((bits = read(zs->zs_fd, bp, ZBUFSIZ -
 			    (bp - zs->zs_buf))) < 0)
-				return -1;
+				return (-1);
 			zs->zs_in_count += bits;
 			zs->zs_bp = zs->zs_buf;
 			zs->zs_ebp = bp + bits;
@@ -638,7 +647,7 @@ getcode(struct s_zstate *zs)
 		zs->zs_offset = 0;
 		zs->zs_size = MIN(zs->zs_n_bits, zs->zs_ebp - zs->zs_bp);
 		if (zs->zs_size == 0)
-			return -1;
+			return (-1);
 		/* Round size down to integral number of codes. */
 		zs->zs_size = (zs->zs_size << 3) - (zs->zs_n_bits - 1);
 	}
@@ -741,13 +750,13 @@ zopen(const char *name, const char *mode, int bits)
 	void *cookie;
 	if ((fd = open(name, (*mode=='r'? O_RDONLY:O_WRONLY|O_CREAT),
 	    S_IRUSR|S_IWUSR|S_IRGRP|S_IROTH)) == -1)
-		return NULL;
+		return (NULL);
 	if ((cookie = z_open(fd, mode, NULL, bits, 0, 0)) == NULL) {
 		close(fd);
-		return NULL;
+		return (NULL);
 	}
-	return funopen(cookie, (*mode == 'r'?zread:NULL),
-	    (*mode == 'w'?zwrite:NULL), NULL, zclose);
+	return (funopen(cookie, (*mode == 'r'?zread:NULL),
+	    (*mode == 'w'?zwrite:NULL), NULL, zclose));
 }
 
 FILE *
@@ -755,13 +764,13 @@ zdopen(int fd, const char *mode, int bits)
 {
 	void *cookie;
 	if (fd == -1)
-		return NULL;
+		return (NULL);
 	if ((cookie = z_open(fd, mode, NULL, bits, 0, 0)) == NULL) {
 		close(fd);
-		return NULL;
+		return (NULL);
 	}
-	return funopen(cookie, (*mode == 'r'?zread:NULL),
-	    (*mode == 'w'?zwrite:NULL), NULL, zclose);
+	return (funopen(cookie, (*mode == 'r'?zread:NULL),
+	    (*mode == 'w'?zwrite:NULL), NULL, zclose));
 }
 
 void *
@@ -776,7 +785,7 @@ z_open(int fd, const char *mode, char *name __attribute__((unused)),
 		return (NULL);
 	}
 
-	if ((zs = calloc(1, sizeof(struct s_zstate))) == NULL)
+	if ((zs = calloc(1, sizeof (struct s_zstate))) == NULL)
 		return (NULL);
 
 	/* User settable max # bits/code. */
@@ -798,5 +807,5 @@ z_open(int fd, const char *mode, char *name __attribute__((unused)),
 	zs->zs_bp = zs->zs_ebp = zs->zs_buf;
 
 	zs->zs_fd = fd;
-	return zs;
+	return (zs);
 }
