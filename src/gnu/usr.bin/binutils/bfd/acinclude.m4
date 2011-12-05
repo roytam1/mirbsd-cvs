@@ -1,4 +1,4 @@
-dnl $MirOS: src/gnu/usr.bin/binutils/bfd/acinclude.m4,v 1.2 2005/03/13 16:06:43 tg Exp $
+dnl $MirOS: src/gnu/usr.bin/binutils/bfd/acinclude.m4,v 1.3 2005/06/05 21:23:49 tg Exp $
 
 sinclude(../config/acx.m4)
 sinclude(../bfd/bfd.m4)
@@ -21,7 +21,7 @@ if test -z "$CC_FOR_BUILD"; then
   if test "x$cross_compiling" = "xno"; then
     CC_FOR_BUILD='$(CC)'
   else
-    CC_FOR_BUILD=gcc
+    CC_FOR_BUILD='$(HOSTCC)'
   fi
 fi
 AC_SUBST(CC_FOR_BUILD)
