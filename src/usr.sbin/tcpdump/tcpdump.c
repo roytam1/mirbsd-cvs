@@ -68,7 +68,7 @@ static const char rcsid[] =
 #include "pfctl_parser.h"
 #include "privsep.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.sbin/tcpdump/tcpdump.c,v 1.4 2005/12/19 23:32:52 tg Exp $");
 
 int aflag;			/* translate network and broadcast addresses */
 int dflag;			/* print filter code */
@@ -164,8 +164,6 @@ static pcap_t *pd;
 /* Multiple DLT support */
 void		 pcap_list_linktypes(pcap_t *);
 void		 pcap_print_linktype(u_int);
-int		 pcap_datalink_name_to_val(const char *);
-const char	*pcap_datalink_val_to_name(u_int);
 
 const struct pcap_linktype {
 	u_int dlt_id;
@@ -195,32 +193,6 @@ const struct pcap_linktype {
 	{ DLT_PFLOG,		"PFLOG" },
 	{ 0,			NULL }
 };
-
-int
-pcap_datalink_name_to_val(const char *name)
-{
-	int i;
-
-	for (i = 0; pcap_linktypes[i].dlt_name != NULL; i++) {
-		if (strcasecmp(pcap_linktypes[i].dlt_name, name) == 0)
-			return (pcap_linktypes[i].dlt_id);
-	}
-
-	return (-1);
-}
-
-const char *
-pcap_datalink_val_to_name(u_int dlt)
-{
-	int i;
-
-	for (i = 0; pcap_linktypes[i].dlt_name != NULL; i++) {
-		if (pcap_linktypes[i].dlt_id == dlt)
-			return (pcap_linktypes[i].dlt_name);
-	}
-
-	return (NULL);
-}
 
 void
 pcap_print_linktype(u_int dlt)
