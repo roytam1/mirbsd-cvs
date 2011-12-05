@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.bin/compress/main.c,v 1.5 2005/11/16 22:10:56 tg Exp $ */
+/**	$MirOS: src/usr.bin/compress/main.c,v 1.6 2005/11/23 17:08:49 tg Exp $ */
 /*	$OpenBSD: main.c,v 1.64 2005/07/11 14:16:47 millert Exp $	*/
 
 #ifndef SMALL
@@ -53,7 +53,7 @@ static const char license[] =
 #include <paths.h>
 #include "compress.h"
 
-__RCSID("$MirOS: src/usr.bin/compress/main.c,v 1.5 2005/11/16 22:10:56 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/compress/main.c,v 1.6 2005/11/23 17:08:49 tg Exp $");
 
 #define min(a,b) ((a) < (b)? (a) : (b))
 
@@ -65,7 +65,7 @@ extern char *__progname;
 const struct compressor {
 	const char *name;
 	const char *suffix;
-	const char *magic;
+	const u_char *magic;
 	void *(*open)(int, const char *, char *, int, u_int32_t, int);
 	int (*read)(void *, char *, int);
 	int (*write)(void *, const char *, int);
