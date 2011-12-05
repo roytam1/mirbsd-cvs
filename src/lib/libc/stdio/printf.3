@@ -1,3 +1,4 @@
+.\"	$MirOS$
 .\"	$OpenBSD: printf.3,v 1.49 2005/07/26 03:30:25 jaredy Exp $
 .\"
 .\" Copyright (c) 1990, 1991, 1993
@@ -33,7 +34,7 @@
 .\"
 .\"     @(#)printf.3	8.1 (Berkeley) 6/4/93
 .\"
-.Dd June 4, 1993
+.Dd January 11, 2007
 .Dt PRINTF 3
 .Os
 .Sh NAME
@@ -610,7 +611,7 @@ were unlimited
 again, not including the final
 .Ql \e0
 .Pc .
-If an output or encoding error occurs, a value of \-1 is returned instead.
+If an output or encoding error occurs, a negative value is returned instead.
 .Pp
 .Fn asprintf
 and
