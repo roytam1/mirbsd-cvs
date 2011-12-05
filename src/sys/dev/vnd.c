@@ -622,7 +622,7 @@ vndstrategy(struct buf *bp)
 		if (resid < sz)
 			sz = resid;
 
-		DNPRINTF(VDB_IO, "vndstrategy: vp %p/%p bn %x/%x sz %x\n",
+		DNPRINTF(VDB_IO, "vndstrategy: vp %p/%p bn %llx/%x sz %x\n",
 		    vnd->sc_vp, vp, bn, nbn, sz);
 
 		s = splbio();
@@ -706,7 +706,7 @@ vndstart(struct vnd_softc *vnd)
 	vnd->sc_tab.b_actf = bp->b_actf;
 
 	DNPRINTF(VDB_IO,
-	    "vndstart(%d): bp %p vp %p blkno %x addr %p cnt %lx\n",
+	    "vndstart(%ld): bp %p vp %p blkno %x addr %p cnt %lx\n",
 	    vnd-vnd_softc, bp, bp->b_vp, bp->b_blkno, bp->b_data,
 	    bp->b_bcount);
 
@@ -728,7 +728,7 @@ vndiodone(struct buf *bp)
 	splassert(IPL_BIO);
 
 	DNPRINTF(VDB_IO,
-	    "vndiodone(%d): vbp %p vp %p blkno %x addr %p cnt %lx\n",
+	    "vndiodone(%ld): vbp %p vp %p blkno %x addr %p cnt %lx\n",
 	    vnd-vnd_softc, vbp, vbp->vb_buf.b_vp, vbp->vb_buf.b_blkno,
 	    vbp->vb_buf.b_data, vbp->vb_buf.b_bcount);
 
@@ -925,7 +925,7 @@ DNPRINTF(VDB_SPECIAL, "VNDIOCSET: setcred succeeded\n");
 		if (vio->vnd_keylen <= 0)
 			ksz = 0;
 		else
-			ksz = MAX(vio->vnd_keylen, VNDIOC_MAXKSZ);
+			ksz = MIN(vio->vnd_keylen, VNDIOC_MAXKSZ);
 		vnd->sc_enc_len = 0;
 
 		if (vnd->sc_enc_alg && !ksz) {
@@ -939,10 +939,10 @@ DNPRINTF(VDB_SPECIAL, "VNDIOCSET: setcred succeeded\n");
 
 		switch (vnd->sc_enc_alg) {
 		case VNDIOC_ALG_BLF:
-			ksz = MAX(ksz, VNDIOC_KSZ_BLF);
+			ksz = MIN(ksz, VNDIOC_KSZ_BLF);
 			break;
 		case VNDIOC_ALG_BF_CBC:
-			ksz = MAX(ksz, VNDIOC_KSZ_BF_CBC);
+			ksz = MIN(ksz, VNDIOC_KSZ_BF_CBC);
 			if (ksz <= VNDIOC_IVSZ)
 				goto VNDIOCSET_encinval;
 			break;
