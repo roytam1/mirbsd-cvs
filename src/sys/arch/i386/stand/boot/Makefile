@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/stand/boot/Makefile,v 1.3 2005/10/20 12:47:51 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/boot/Makefile,v 1.4 2006/04/05 22:12:16 tg Exp $
 
 .include "${.CURDIR}/../Makefile.inc"
 
@@ -42,7 +42,7 @@ SRCS+=		hook.S
 CPPFLAGS+=	-DBOOTSELECT_HOOK
 .endif
 
-CLEANFILES+=	${.CURDIR}/disasm ${PROG}.nm ld.out
+CLEANFILES+=	${.CURDIR}/disasm testmkr ${PROG}.nm ld.out
 SRCS+=		boot.c bootarg.c cmd.c conf.c vars.c
 LDADD=		${LIBSA} ${LIBZ}
 DPADD=		${LIBSA} ${LIBZ}
@@ -73,6 +73,11 @@ disasm:	${.CURDIR}/disasm
 
 ${.CURDIR}/disasm:	${PROG}
 	ndisasm -b16 -o${LINKADDR} ${PROG} >${.CURDIR}/disasm
+
+testmkr: ${PROG}
+	cat /usr/mdec/mbrldr ${PROG} | dd conv=osync of=$@
+	let size=$$(stat -f %z $@); /usr/mdec/installboot -v -i 1 \
+	    $$((size / 512)) /usr/mdec/ldsec $@
 
 .else
 NOPROG=		Yes
