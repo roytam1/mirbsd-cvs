@@ -1,4 +1,3 @@
-/**	$MirOS$ */
 /*	$OpenBSD: powernow.c,v 1.2 2004/04/08 09:50:29 kevlo Exp $	*/
 /*
  * Copyright (c) 2004 Ted Unangst
@@ -102,6 +101,5 @@ k6_powernow_setperf(int level)
 	/* off */
 	wrmsr(MSR_K6_EPMR, 0LL);
 
-	calibrate_cyclecounter();
 	return (0);
 }

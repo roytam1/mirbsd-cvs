@@ -1,8 +1,10 @@
-/**	$MirOS: src/sys/arch/i386/include/cpu.h,v 1.3 2005/05/04 18:12:39 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/include/cpu.h,v 1.4 2005/05/05 23:11:28 tg Exp $ */
 /*	$OpenBSD: cpu.h,v 1.59 2004/04/02 22:28:41 tedu Exp $	*/
 /*	$NetBSD: cpu.h,v 1.35 1996/05/05 19:29:26 christos Exp $	*/
 
 /*-
+ * Copyright (c) 2006
+ *	Thorsten Glaser <tg@mirbsd.de>
  * Copyright (c) 1990 The Regents of the University of California.
  * All rights reserved.
  *
@@ -109,6 +111,16 @@ extern u_quad_t pentium_base_tsc;
 		}							\
 	} while (0)
 #endif
+#define	__do_calibrate_cyclecounter(rvptr)				\
+	do {								\
+		if (pentium_mhz) {					\
+			int i = splhigh();				\
+			calibrate_cyclecounter();			\
+			splx(i);					\
+		}							\
+	} while (0)
+#else
+#define __do_calibrate_cyclecounter(rvptr)	/* nothing */
 #endif
 
 /*

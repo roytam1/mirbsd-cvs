@@ -1,9 +1,11 @@
-/**	$MirOS: src/sys/kern/kern_sysctl.c,v 1.5 2006/02/21 20:14:47 tg Exp $ */
+/**	$MirOS: src/sys/kern/kern_sysctl.c,v 1.6 2006/02/21 21:08:47 tg Exp $ */
 /*	$NetBSD: kern_sysctl.c,v 1.146 2003/09/28 13:24:48 dsl Exp $	*/
 /*	$OpenBSD: kern_sysctl.c,v 1.126 2005/06/04 05:10:40 tedu Exp $	*/
 /*	$NetBSD: kern_sysctl.c,v 1.17 1996/05/20 17:49:05 mrg Exp $	*/
 
 /*-
+ * Copyright (c) 2006
+ *	Thorsten Glaser <tg@mirbsd.de>
  * Copyright (c) 1982, 1986, 1989, 1993
  *	The Regents of the University of California.  All rights reserved.
  *
@@ -109,6 +111,7 @@ int sysctl_emul(int *, u_int, void *, size_t *, void *, size_t);
 
 int (*cpu_cpuspeed)(int *);
 int (*cpu_setperf)(int);
+static int do_cpu_setperf(int);
 int perflevel = 100;
 
 extern char root_devname[];
@@ -124,6 +127,18 @@ struct lock sysctl_kmemlock;
 #endif
 
 void sysctl_init_values(void);
+
+static int
+do_cpu_setperf(int newspeed)
+{
+	int rv = EOPNOTSUPP;
+	if (cpu_setperf) {
+		rv = cpu_setperf(newspeed);
+		if (!rv)
+			__do_calibrate_cyclecounter(&rv);
+	}
+	return (rv);
+}
 
 void
 sysctl_init()
@@ -670,7 +685,7 @@ hw_sysctl(name, namelen, oldp, oldlenp, newp, newlen, p)
 		if (perflevel < 0)
 			perflevel = 0;
 		if (newp)
-			return (cpu_setperf(perflevel));
+			return (do_cpu_setperf(perflevel));
 		else
 			return (0);
 	default:
