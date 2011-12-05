@@ -1,10 +1,11 @@
-# $MirOS: src/gnu/usr.sbin/sendmail/sendmail/Makefile,v 1.3 2005/03/29 02:19:37 tg Exp $
+# $MirOS: src/gnu/usr.sbin/sendmail/sendmail/Makefile,v 1.4 2005/10/21 10:46:30 tg Exp $
 # $OpenBSD: Makefile,v 1.26 2005/01/12 18:15:46 millert Exp $
 
 PROG=	sendmail
 
 .include <bsd.own.mk>
 SENDMAIL_WANT_SASL?=	No
+LOCALBASE?=		/usr/mpkg
 
 WANT_LIBSM=1
 WANT_LIBSMUTIL=1
@@ -17,8 +18,8 @@ DPADD=		${LIBSSL} ${LIBCRYPTO}
 .if ${SENDMAIL_WANT_SASL:L} == "yes"
 ENVDEF+=	-DSASL=2
 LDADD+=		-lsasl2
-CPPFLAGS+=	-I/usr/local/include
-LDFLAGS+=	-L/usr/local/lib
+CPPFLAGS+=	-I${LOCALBASE}/include
+LDFLAGS+=	-L${LOCALBASE}/lib
 .endif
 
 # Compile with milter support.
