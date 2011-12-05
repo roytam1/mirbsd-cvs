@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: vm_machdep.c,v 1.45 2002/12/10 23:45:02 miod Exp $	*/
 /*	$NetBSD: vm_machdep.c,v 1.30 1997/03/10 23:55:40 pk Exp $ */
 
@@ -114,10 +115,7 @@ extern int has_iocache;
 #endif
 
 caddr_t
-dvma_malloc_space(len, kaddr, flags, space)
-	size_t	len;
-	void	*kaddr;
-	int	flags;
+dvma_malloc_space(size_t len, void *kaddr, int flags, int space)
 {
 	vaddr_t	kva;
 	vaddr_t	dva;
