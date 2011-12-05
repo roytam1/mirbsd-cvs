@@ -1,4 +1,4 @@
-# $MirOS: src/libexec/ld.so/Makefile,v 1.3 2005/04/17 04:24:09 tg Exp $
+# $MirOS: src/libexec/ld.so/Makefile,v 1.4 2005/11/23 16:03:59 tg Exp $
 # $OpenBSD: Makefile,v 1.30 2005/09/28 16:20:01 drahn Exp $
 
 .include "Makefile.inc"
@@ -20,7 +20,6 @@ SRCS+=	library.c
 .PATH:	${.CURDIR}/${MACHINE_ARCH}
 
 CPPFLAGS+=	-I${.CURDIR}/${MACHINE_ARCH} -Dstrsep=_dl_strsep
-CFLAGS_loader.o=-fno-stack-protector-all	# gcc mis-compiles
 INSTALL_STRIP=
 
 ELF_LDFLAGS+=	--shared -Bsymbolic
