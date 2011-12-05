@@ -1,4 +1,4 @@
-# $MirOS: gcc/Makefile,v 1.12 2005/11/24 19:51:50 tg Exp $
+# $MirOS: gcc/Makefile,v 1.13 2005/11/24 22:01:21 tg Exp $
 
 .include <bsd.own.mk>
 .include "${GNUSYSTEM_AUX_DIR}/locations.mk"
@@ -102,9 +102,9 @@ bootstrapbuild: ${_STFILE_SUB}
 bootstrap:
 	@cd ${.CURDIR} && ${MAKE} obj && exec ${MAKE} do-bootstrap \
 	    _LIBERTY_GIVEN=$$(l="${_LIBERTY}"; \
-	    if [[ -e $${l:-/nonexistant} ]]; then print yes; \
-		else print no; fi)
+	    [[ -e $${l:-/nonexistant} ]] && print yes)
 
+_LIBERTY_GIVEN?=No
 do-bootstrap:
 .if ${_LIBERTY_GIVEN} == "no"
 	cd ${GNU_LIBIBERTY_SRC} && exec ${MAKE} obj
