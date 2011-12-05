@@ -1,4 +1,4 @@
-/**	$MirOS: src/lib/libc/sys/stack_protector.c,v 1.8 2009/01/20 21:49:34 tg Exp $ */
+/**	$MirOS: src/lib/libc/sys/stack_protector.c,v 1.9 2011/02/19 01:27:51 tg Exp $ */
 /*	$OpenBSD: stack_protector.c,v 1.10 2006/03/31 05:34:44 deraadt Exp $	*/
 
 /*
@@ -30,13 +30,13 @@
  */
 
 #include <sys/param.h>
-#include <sys/sysctl.h>
 #include <signal.h>
+#include <stdlib.h>
 #include <string.h>
 #include <syslog.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: src/lib/libc/sys/stack_protector.c,v 1.8 2009/01/20 21:49:34 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/sys/stack_protector.c,v 1.9 2011/02/19 01:27:51 tg Exp $");
 
 #if (defined(__SSP__) || defined(__SSP_ALL__)) && \
     !defined(__IN_MKDEP) && !defined(lint)
@@ -51,7 +51,6 @@ __RCSID("$MirOS: src/lib/libc/sys/stack_protector.c,v 1.8 2009/01/20 21:49:34 tg
 #define	CONSTRUCTOR	static __attribute__((constructor))
 #endif
 
-extern int __sysctl(int *, u_int, void *, size_t *, void *, size_t);
 extern void _thread_sys__exit__(int) __dead;
 
 long __guard[8] = {0, 0, 0, 0, 0, 0, 0, 0};	/* gcc */
@@ -65,26 +64,22 @@ const char message[] = "stack overflow in function %s (damaged: %d)";
 CONSTRUCTOR void
 __guard_setup(void)
 {
-	int mib[2];
-	size_t len;
-	unsigned char *guard = (void *)__guard;
+	uint8_t newguard[MAX(sizeof(__guard), sizeof(__stack_chk_guard))];
 
 	if (__guard[0] != 0)
 		return;
 
-	mib[0] = CTL_KERN;
-	mib[1] = KERN_ARND;
-
-	len = sizeof(__guard);
-	if (__sysctl(mib, 2, __guard, &len, NULL, 0) == -1 ||
-	    (len != sizeof(__guard)) || (__guard[0] == 0)) {
-		/* If sysctl was unsuccessful, use the "terminator canary". */
-		guard[0] = 0;
-		guard[1] = 0;
-		guard[2] = '\n';
-		guard[3] = 255;
+	while (__guard[0] == 0) {
+		arc4random_buf(newguard, sizeof(newguard));
+		newguard[17] = 0;
+		newguard[18] = '\n';
+		newguard[19] = 255;
+		memcpy(__guard, newguard, sizeof(__guard));
 	}
-	memcpy(&__stack_chk_guard, guard, sizeof (__stack_chk_guard));
+	while (__stack_chk_guard == 0) {
+		arc4random_buf(newguard, sizeof(__stack_chk_guard));
+		memcpy(&__stack_chk_guard, newguard, sizeof(__stack_chk_guard));
+	}
 }
 
 /* ARGSUSED1 */
