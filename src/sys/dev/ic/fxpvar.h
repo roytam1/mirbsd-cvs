@@ -1,4 +1,4 @@
-/*	$OpenBSD: fxpvar.h,v 1.24 2006/01/05 21:22:24 brad Exp $	*/
+/*	$OpenBSD: fxpvar.h,v 1.15 2004/04/26 02:35:12 mcbride Exp $	*/
 /*	$NetBSD: if_fxpvar.h,v 1.1 1997/06/05 02:01:58 thorpej Exp $	*/
 
 /*                  
@@ -52,39 +52,9 @@
 #define FXP_NRFABUFS_MAX	64	/* These are large so choose wisely. */
 
 /*
- * Default maximum time, in microseconds, that an interrupt may be delayed
- * in an attempt to coalesce interrupts.  This is only effective if the Intel
- * microcode is loaded.
- */
-#ifndef FXP_INT_DELAY
-#define FXP_INT_DELAY 64 
-#endif
-
-/*
- * Default number of packets that will be bundled, before an interrupt is
- * generated.  This is only effective if the Intel microcode is loaded.
- * This is not present in all microcode revisions.
- */
-#ifndef FXP_BUNDLE_MAX
-#define FXP_BUNDLE_MAX 16
-#endif
-
-/* 
- * Bit-mask describing minimum size frame that will be bundled.
- * This is only effetive if the Intel microcode is loaded.
- * This is not present in all microcode revisions. Disabled by default,
- * to reduce recieving immediately interrupts from all frames with size less
- * than 128 bytes.
- */
-#ifndef FXP_MIN_SIZE_MASK
-#define FXP_MIN_SIZE_MASK 0xFFFF
-#endif
-
-/*
  * NOTE: Elements are ordered for optimal cacheline behavior, and NOT
  *	 for functional grouping.
  */
-
 struct fxp_txsw {
 	struct fxp_txsw *tx_next;
 	struct mbuf *tx_mbuf;
@@ -100,7 +70,6 @@ struct fxp_ctrl {
 		struct fxp_cb_mcs mcs;
 		struct fxp_cb_ias ias;
 		struct fxp_cb_config cfg;
-		struct fxp_cb_ucode code;
 	} u;
 };
 
@@ -115,10 +84,9 @@ struct fxp_softc {
 	struct mbuf *rfa_headm;		/* first mbuf in receive frame area */
 	struct mbuf *rfa_tailm;		/* last mbuf in receive frame area */
 	int sc_flags;			/* misc. flags */
-#define	FXPF_MWI_ENABLE		0x10	/* enable use of PCI MWI command */
-#define	FXPF_DISABLE_STANDBY	0x20	/* currently need to work-around */
-#define	FXPF_UCODE		0x40	/* ucode load already attempted */
-#define	FXPF_RECV_WORKAROUND	0x80	/* receiver lock-up workaround */
+#define	FXPF_HAS_RESUME_BUG	0x08	/* has the resume bug */
+#define	FXPF_FIX_RESUME_BUG	0x10	/* currently need to work-around
+					   the resume bug */
 	struct timeout stats_update_to; /* Pointer to timeout structure */
 	int rx_idle_secs;		/* # of seconds RX has been idle */
 	struct fxp_cb_tx *cbl_base;	/* base of TxCB list */
@@ -126,6 +94,7 @@ struct fxp_softc {
 	int phy_primary_device;		/* device type of primary PHY */
 	int phy_10Mbps_only;		/* PHY is 10Mbps-only device */
 	int eeprom_size;		/* size of serial EEPROM */
+	int not_82557;			/* yes if we are 82558/82559 */
 	int rx_bufs;			/* how many rx buffers allocated? */
 	void *sc_sdhook;		/* shutdownhook */
 	void *sc_powerhook;		/* powerhook */
@@ -138,11 +107,6 @@ struct fxp_softc {
 	struct fxp_ctrl *sc_ctrl;
 	bus_dmamap_t sc_rxmaps[FXP_NRFABUFS_MAX];
 	int sc_rxfree;
-	u_int32_t sc_revision;		/* chip revision */ 
-	u_int16_t sc_int_delay;		/* interrupt delay value for ucode */
-	u_int16_t sc_bundle_max;	/* max # frames per interrupt (ucode) */
-	u_int16_t sc_min_size_mask;	/* bit-mask describing the minimum
-					 * size of frame that will be bundled */
 };
 
 /* Macros to ease CSR access. */
@@ -160,7 +124,7 @@ struct fxp_softc {
 	bus_space_write_4((sc)->sc_st, (sc)->sc_sh, (reg), (val))
 
 extern int fxp_intr(void *);
-extern int fxp_attach_common(struct fxp_softc *, const char *);
+extern int fxp_attach_common(struct fxp_softc *, u_int8_t *, const char *);
 extern int fxp_detach(struct fxp_softc *);
 
 #define	FXP_RXMAP_GET(sc)	((sc)->sc_rxmaps[(sc)->sc_rxfree++])
@@ -181,10 +145,6 @@ extern int fxp_detach(struct fxp_softc *);
 #define	FXP_CFG_SYNC(sc, p)						\
     bus_dmamap_sync((sc)->sc_dmat, (sc)->tx_cb_map,			\
 	offsetof(struct fxp_ctrl, u.cfg), sizeof(struct fxp_cb_config), (p))
-
-#define FXP_UCODE_SYNC(sc, p)						\
-    bus_dmamap_sync((sc)->sc_dmat, (sc)->tx_cb_map,			\
-	offsetof(struct fxp_ctrl, u.code), sizeof(struct fxp_cb_ucode), (p))
 
 #define	FXP_STATS_SYNC(sc, p)						\
     bus_dmamap_sync((sc)->sc_dmat, (sc)->tx_cb_map,			\
