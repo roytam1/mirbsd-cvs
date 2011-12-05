@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/ntpd/ntpd.c,v 1.7 2005/10/27 09:35:29 tg Exp $ */
+/**	$MirOS: src/usr.sbin/ntpd/ntpd.c,v 1.9 2005/12/04 14:14:47 tg Exp $ */
 /*	$OpenBSD: ntpd.c,v 1.40 2005/09/06 21:27:10 wvdputte Exp $ */
 
 /*-
@@ -35,7 +35,7 @@
 
 #include "ntpd.h"
 
-__RCSID("$MirOS: src/usr.sbin/ntpd/ntpd.c,v 1.7 2005/10/27 09:35:29 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/ntpd/ntpd.c,v 1.9 2005/12/04 14:14:47 tg Exp $");
 
 void		sighdlr(int);
 __dead void	usage(void);
@@ -141,6 +141,7 @@ main(int argc, char *argv[])
 	if (socketpair(AF_UNIX, SOCK_STREAM, PF_UNSPEC, pipe_chld) == -1)
 		fatal("socketpair");
 
+	signal(SIGCHLD, sighdlr);
 	/* fork child process */
 	chld_pid = ntp_main(pipe_chld, &conf);
 
@@ -148,7 +149,6 @@ main(int argc, char *argv[])
 
 	signal(SIGTERM, sighdlr);
 	signal(SIGINT, sighdlr);
-	signal(SIGCHLD, sighdlr);
 	signal(SIGHUP, sighdlr);
 
 	close(pipe_chld[1]);
