@@ -1021,7 +1021,7 @@ vi_histedit(EditLine *el, int c)
 		return CC_ERROR;
 	case 0:
 		close(fd);
-		execlp("vi", "vi", tempfile, 0);
+		execlp("vi", "vi", tempfile, NULL);
 		exit(0);
 		/*NOTREACHED*/
 	default:
