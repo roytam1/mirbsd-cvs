@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: gcc/gcc/c-opts.c,v 1.2 2005/03/25 19:29:01 tg Exp $ */
 
 /* C/ObjC/C++ command line option handling.
    Copyright (C) 2002, 2003, 2004 Free Software Foundation, Inc.
@@ -98,6 +98,9 @@ static size_t include_cursor;
 
 /* Permit Fotran front-end options.  */
 static bool permit_fortran_options;
+
+/* Check if a port honours COPTS.  */
+static int honour_copts = 0;
 
 static void set_Wimplicit (int);
 static void handle_OPT_d (const char *);
@@ -836,6 +839,12 @@ c_common_handle_option (size_t scode, const char *arg, int value)
       flag_exceptions = value;
       break;
 
+    case OPT_fhonour_copts:
+      if (c_language == clk_c) {
+	honour_copts++;
+      }
+      break;
+
     case OPT_fimplement_inlines:
       flag_implement_inlines = value;
       break;
@@ -1138,6 +1147,43 @@ c_common_post_options (const char **pfilename)
     warning ("-Wformat-security ignored without -Wformat");
   if (warn_missing_format_attribute && !warn_format)
     warning ("-Wmissing-format-attribute ignored without -Wformat");
+
+  if (c_language == clk_c) {
+    char *ev = getenv ("GCC_HONOUR_COPTS");
+    int evv;
+    if (ev == NULL)
+      evv = 0;
+    else if ((*ev == '0') || (*ev == '\0'))
+      evv = 0;
+    else if (*ev == '1')
+      evv = 1;
+    else if (*ev == '2')
+      evv = 2;
+    else {
+      warning ("unknown GCC_HONOUR_COPTS value, assuming 1");
+      evv = 1; /* maybe depend this on something like MIRBSD_NATIVE?  */
+    }
+    if (evv == 1) {
+      if (honour_copts == 0) {
+	error ("someone does not honour COPTS at all in lenient mode");
+	return false;
+      } else if (honour_copts != 1) {
+	warning ("someone does not honour COPTS correctly");
+      }
+    } else if (evv == 2) {
+      if (honour_copts == 0) {
+	error ("someone does not honour COPTS at all in strict mode");
+	return false;
+      } else if (honour_copts != 1) {
+	error ("someone does not honour COPTS correctly, seen %d times",
+	 honour_copts);
+	return false;
+      }
+    } else {
+      if (honour_copts != 1)
+	warning ("someone does not honour COPTS correctly, seen %d times",
+	 honour_copts);
+  }
 
   if (flag_preprocess_only)
     {

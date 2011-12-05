@@ -1,7 +1,8 @@
-; $MirOS: gcc/gcc/c.opt,v 1.2 2005/03/25 19:29:02 tg Exp $
+; $MirOS: gcc/gcc/c.opt,v 1.3 2005/03/26 01:02:31 tg Exp $
 ;
 ; Options for the C, ObjC, C++ and ObjC++ front ends.
-; Copyright (C) 2003 Free Software Foundation, Inc.
+; Copyright (C) 2003, 2005, 2006
+; Free Software Foundation, Inc.
 ;
 ; This file is part of GCC.
 ;
@@ -527,6 +528,9 @@ C++ ObjC++
 
 fhonor-std
 C++ ObjC++
+
+fhonour-copts
+C RejectNegative
 
 fhosted
 C ObjC
