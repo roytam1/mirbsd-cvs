@@ -1,9 +1,9 @@
-/**	$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.2 2005/03/06 21:27:05 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.3 2005/04/29 18:34:58 tg Exp $ */
 /*	$OpenBSD: installboot.c,v 1.47 2004/07/15 21:44:16 tom Exp $	*/
 /*	$NetBSD: installboot.c,v 1.5 1995/11/17 23:23:50 gwr Exp $ */
 
 /*-
- * Copyright (c) 2003, 2004
+ * Copyright (c) 2003, 2004, 2005
  *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
  *
  * Licensee is hereby permitted to deal in this work without restric-
@@ -13,13 +13,14 @@
  * in all redistributions or reproduced in accompanying documentation
  * or other materials provided with binary redistributions.
  *
- * Licensor hereby provides this work "AS IS" and WITHOUT WARRANTY of
- * any kind, expressed or implied, to the maximum extent permitted by
- * applicable law, but with the warranty of being written without ma-
- * licious intent or gross negligence; in no event shall licensor, an
- * author or contributor be held liable for any damage, direct, indi-
- * rect or other, however caused, arising in any way out of the usage
- * of this work, even if advised of the possibility of such damage.
+ * Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
+ * express, or implied, to the maximum extent permitted by applicable
+ * law, without malicious intent or gross negligence; in no event may
+ * licensor, an author or contributor be held liable for any indirect
+ * or other damage, or direct damage except proven a consequence of a
+ * direct error of said person and intended use of this work, loss or
+ * other issues arising in any way out of its use, even if advised of
+ * the possibility of such damage or existence of a nontrivial bug.
  */
 
 /*
@@ -83,7 +84,7 @@
 #include <unistd.h>
 #include <util.h>
 
-__RCSID("$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.2 2005/03/06 21:27:05 tg Exp $");
+__RCSID("$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.3 2005/04/29 18:34:58 tg Exp $");
 
 extern	char *__progname;
 int	verbose, nowrite, nheads, nsectors, userspec = 0;
@@ -97,6 +98,8 @@ struct nlist nl[] = {
 	{{"_bpbspt"}},
 #define	X_NUM_HEADS	3
 	{{"_bpbtpc"}},
+#define	X_PARTP		4
+	{{"_partp"}},
 	{{NULL}}
 };
 
@@ -104,9 +107,11 @@ u_int8_t *block_count_p;	/* block count var. in prototype image */
 u_int8_t *block_table_p;	/* block number array in prototype image */
 u_int8_t *num_heads_p;		/* number of tracks per cylinder */
 u_int8_t *num_secs_p;		/* number of sectors per track */
+uint8_t  *partp_p;		/* user defined partition type */
 int	maxblocklen;		/* size of this array */
 int	curblocklen = 0;	/* actually used up bytes */
 int	force_mbr = 0;		/* install into MBR */
+int	userpt = 0;		/* user defined partition type, self-local */
 
 int biosdev;
 
@@ -115,8 +120,6 @@ int		loadblocknums(char *, int, struct disklabel *);
 static void	devread(int, void *, daddr_t, size_t, char *);
 static void	usage(void);
 static int	record_block(u_int8_t *, daddr_t, u_int, struct disklabel *);
-
-static const char RCSId[]="$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.2 2005/03/06 21:27:05 tg Exp $";
 
 static int record_block(u_int8_t *bt, daddr_t blk, u_int bs,
 	struct disklabel *dl);
@@ -187,15 +190,8 @@ main(int argc, char *argv[])
 	fprintf(stderr, "MirOS BSD installboot " __BOOT_VER "\n");
 
 	nsectors = nheads = -1;
-	while ((c = getopt(argc, argv, "Mvnh:s:")) != -1) {
+	while ((c = getopt(argc, argv, "h:MnP:s:v")) != -1) {
 		switch (c) {
-		case 'M':
-#if 0
-			++force_mbr;
-#else
-			fprintf(stderr, "error: -M not supported yet!\n");
-#endif
-			break;
 		case 'h':
 			nheads = atoi(optarg);
 			if (nheads < 1 || nheads > 256) {
@@ -203,16 +199,30 @@ main(int argc, char *argv[])
 				nheads = -1;
 			} else	userspec = 1;
 			break;
+		case 'M':
+#if 0
+			++force_mbr;
+#else
+			fprintf(stderr, "error: -M not supported yet!\n");
+#endif
+			break;
+		case 'n':
+			/* Do not actually write the bootblock to disk */
+			nowrite = 1;
+			break;
+		case 'P':
+			userpt = atoi(optarg);
+			if (userpt < 1 || userpt > 255) {
+				warnx("invalid value for -P");
+				userpt = 0;
+			}
+			break;
 		case 's':
 			nsectors = atoi(optarg);
 			if (nsectors < 1 || nsectors > 63) {
 				warnx("invalid value for -s");
 				nsectors = -1;
 			} else	userspec = 1;
-			break;
-		case 'n':
-			/* Do not actually write the bootblock to disk */
-			nowrite = 1;
 			break;
 		case 'v':
 			/* Chat */
@@ -315,10 +325,16 @@ loop:		if (read_pt(devfd, mbrofs, &mbr, dl.d_secsize))
 			set_le(&dp[mbrpart].dp_start,
 			    get_le(&dp[mbrpart].dp_start) + mbrofs);
 
+		if (userpt) if ((mbrpart = scan_pt(dp, userpt)) < NDOSPART) {
+			warnx("using USER partition, type %02Xh", userpt);
+			goto found;
+		}
 		if ((mbrpart = scan_pt(dp, DOSPTYP_MIRBSD)) < NDOSPART)
 			goto found;
-		if ((mbrpart = scan_pt(dp, DOSPTYP_OPENBSD)) < NDOSPART)
+		if ((mbrpart = scan_pt(dp, DOSPTYP_OPENBSD)) < NDOSPART) {
+			warnx("using OpenBSD partition!");
 			goto found;
+		}
 		if ((mbrpart = scan_pt(dp, DOSPTYP_NETBSD)) < NDOSPART) {
 			warnx("using NetBSD partition!");
 			goto found;
@@ -347,6 +363,7 @@ found:		startoff = (off_t)get_le(&dp[mbrpart].dp_start);
 
 	*num_heads_p = nheads;
 	*num_secs_p = nsectors;
+	*partp_p = userpt;
 
 	if (!nowrite) {
 		if (lseek(devfd, startoff, SEEK_SET) < 0 ||
@@ -449,6 +466,7 @@ loadprotoblocks(char *fname, long *size)
 	block_table_p = (u_int8_t *) (bp + nl[X_BLOCK_TABLE].n_value);
 	num_heads_p = (u_int8_t *) (bp + nl[X_NUM_HEADS].n_value);
 	num_secs_p = (u_int8_t *) (bp + nl[X_NUM_SECS].n_value);
+	partp_p = (uint8_t *) (bp + nl[X_PARTP].n_value);
 	maxblocklen = *block_count_p;
 	if (force_mbr) maxblocklen -= 64;
 
