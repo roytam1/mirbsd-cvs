@@ -1,4 +1,4 @@
-#	$MirOS: src/sys/arch/sparc/conf/files.sparc,v 1.2 2005/03/06 21:27:16 tg Exp $
+#	$MirOS: src/sys/arch/sparc/conf/files.sparc,v 1.3 2006/06/11 00:15:09 tg Exp $
 #	$OpenBSD: files.sparc,v 1.59 2004/02/29 21:44:12 miod Exp $
 #	$NetBSD: files.sparc,v 1.44 1997/08/31 21:29:16 pk Exp $
 
@@ -159,40 +159,40 @@ include "dev/wsfont/files.wsfont"
 define	bt_dac
 file	arch/sparc/dev/bt_subr.c	bt_dac
 
-device	bwtwo: wsemuldisplaydev, rasops1, wsemul_sun
+device	bwtwo: wsemuldisplaydev, rasops1
 attach	bwtwo at sbus, obio, vmes, vmel
 file	arch/sparc/dev/bwtwo.c		bwtwo
 
-device	cgtwo: wsemuldisplaydev, rasops8, wsemul_sun
+device	cgtwo: wsemuldisplaydev, rasops8
 attach	cgtwo at sbus, obio, vmes
 file	arch/sparc/dev/cgtwo.c		cgtwo
 
-device	cgthree: wsemuldisplaydev, rasops8, wsemul_sun, bt_dac
+device	cgthree: wsemuldisplaydev, rasops8, bt_dac
 attach	cgthree at sbus
 file	arch/sparc/dev/cgthree.c	cgthree
 
-device	cgfour: wsemuldisplaydev, rasops8, wsemul_sun, bt_dac
+device	cgfour: wsemuldisplaydev, rasops8, bt_dac
 attach	cgfour at obio
 file	arch/sparc/dev/cgfour.c		cgfour
 
-device	cgsix: wsemuldisplaydev, rasops8, wsemul_sun, bt_dac
+device	cgsix: wsemuldisplaydev, rasops8, bt_dac
 attach	cgsix at sbus, obio
 file	arch/sparc/dev/cgsix.c		cgsix
 
-device	cgeight: wsemuldisplaydev, rasops24, wsemul_sun, bt_dac
+device	cgeight: wsemuldisplaydev, rasops24, bt_dac
 attach	cgeight at obio
 file	arch/sparc/dev/cgeight.c	cgeight
 
-device	cgfourteen: wsemuldisplaydev, rasops8, rasops32, wsemul_sun
+device	cgfourteen: wsemuldisplaydev, rasops8, rasops32
 attach	cgfourteen at obio
 file	arch/sparc/dev/cgfourteen.c	cgfourteen
 
-device	cgtwelve: wsemuldisplaydev, rasops1, rasops32, wsemul_sun
+device	cgtwelve: wsemuldisplaydev, rasops1, rasops32
 attach	cgtwelve at sbus
 file	arch/sparc/dev/cgtwelve.c	cgtwelve
 
 # Onboard Weitek P9000 found on Tadpole SPARCbook 3, and BT ``Chameleon'' RAMDAC
-device	pninek: wsemuldisplaydev, rasops8, wsemul_sun, bt_dac
+device	pninek: wsemuldisplaydev, rasops8, bt_dac
 attach	pninek at sbus
 file	arch/sparc/dev/p9000.c		pninek
 
@@ -201,35 +201,35 @@ attach	btcham at obio
 file	arch/sparc/dev/bt445.c		btcham
 
 # Onboard Weitek p9100 found on Tadpole SPARCbook 3GS/3GX/3TX/3XP
-device	pnozz: wsemuldisplaydev, rasops8, rasops16, rasops24, rasops32, wsemul_sun, bt_dac
+device	pnozz: wsemuldisplaydev, rasops8, rasops16, rasops24, rasops32, bt_dac
 attach	pnozz at sbus
 file	arch/sparc/dev/p9100.c		pnozz
 
-device	tcx: wsemuldisplaydev, rasops8, rasops32, wsemul_sun, bt_dac
+device	tcx: wsemuldisplaydev, rasops8, rasops32, bt_dac
 attach	tcx at sbus
 file	arch/sparc/dev/tcx.c		tcx
 
-device	vigra: wsemuldisplaydev, rasops8, wsemul_sun
+device	vigra: wsemuldisplaydev, rasops8
 attach	vigra at sbus
 file	arch/sparc/dev/vigra.c		vigra
 
-device	agten: wsemuldisplaydev, rasops8, wsemul_sun
+device	agten: wsemuldisplaydev, rasops8
 attach	agten at sbus
 file	arch/sparc/dev/agten.c		agten
 
-device	tvtwo: wsemuldisplaydev, rasops32, wsemul_sun
+device	tvtwo: wsemuldisplaydev, rasops32
 attach	tvtwo at sbus
 file	arch/sparc/dev/tvtwo.c		tvtwo
 
-device	zx: wsemuldisplaydev, rasops32, wsemul_sun
+device	zx: wsemuldisplaydev, rasops32
 attach	zx at sbus
 file	arch/sparc/dev/zx.c		zx
 
-device	mgx: wsemuldisplaydev, rasops8, wsemul_sun
+device	mgx: wsemuldisplaydev, rasops8
 attach	mgx at sbus
 file	arch/sparc/dev/mgx.c		mgx
 
-device	rfx: wsemuldisplaydev, rasops8, wsemul_sun
+device	rfx: wsemuldisplaydev, rasops8
 attach	rfx at sbus
 file	arch/sparc/dev/rfx.c		rfx
 
