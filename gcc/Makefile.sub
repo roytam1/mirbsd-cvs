@@ -1,4 +1,4 @@
-# $MirOS: gcc/Makefile.sub,v 1.12 2005/05/01 21:54:15 tg Exp $
+# $MirOS: gcc/Makefile.sub,v 1.13 2005/05/14 16:21:47 tg Exp $
 
 .if defined(COMPILER_ONLY) && ${COMPILER_ONLY:L} != "no"
 
@@ -20,6 +20,7 @@
   SUBDIR+= boehm-gc
   SUBDIR+= fastjar
   SUBDIR+= gcc
+  SUBDIR+= gpcdoc
   SUBDIR+= libada		# after gcc
   SUBDIR+= libffi
   SUBDIR+= libobjc		# after boehm-gc
@@ -49,6 +50,10 @@ prereq: _SUBDIRUSE
 
 .  if defined(NO_OBJC) && ${NO_OBJC:L} != "no"
   SKIPDIR+= libobjc
+.  endif
+
+.  if defined(NO_PASCAL) && ${NO_PASCAL:L} != "no"
+  SKIPDIR+= gpcdoc
 .  endif
 
 .  if defined(NO_JAVA) && ${NO_JAVA:L} != "no"
