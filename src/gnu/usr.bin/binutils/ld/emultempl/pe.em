@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/gnu/usr.bin/binutils/ld/emultempl/pe.em,v 1.2 2009/10/04 03:03:04 tg Exp $
 
 # This shell script emits a C file. -*- C -*-
 # It does some substitutions.
@@ -1709,12 +1709,12 @@ gld_${EMULATION_NAME}_open_dynamic_archive
 #endif
 			     + 1);
 
-  /* Try "libfoo.dll.a" first (preferred explicit import library for dll's.  */
+  /* Try "libfoo.dll.a" first (preferred explicit import library for DLLs.  */
   sprintf (string, "%s/lib%s.dll.a", search->name, filename);
 
   if (! ldfile_try_open_bfd (string, entry))
     {
-      /* Try "foo.dll.a" next (alternate explicit import library for dll's.  */
+      /* Try "foo.dll.a" next (alternate explicit import library for DLLs.  */
       sprintf (string, "%s/%s.dll.a", search->name, filename);
       if (! ldfile_try_open_bfd (string, entry))
 	{
@@ -1728,7 +1728,7 @@ gld_${EMULATION_NAME}_open_dynamic_archive
 	     giving up -- once here, and once when searching for a "static" lib.
 	     for a "static" lib.  */
 	  /* Try "libfoo.a" (import lib, or static lib, but must
-	     take precedence over dll's).  */
+	     take precedence over DLLs).  */
 	  sprintf (string, "%s/lib%s.a", search->name, filename);
 	  if (! ldfile_try_open_bfd (string, entry))
 	    {

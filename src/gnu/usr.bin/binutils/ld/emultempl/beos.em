@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/gnu/usr.bin/binutils/ld/emultempl/beos.em,v 1.2 2009/10/04 03:03:03 tg Exp $
 
 # This shell script emits a C file. -*- C -*-
 # It does some substitutions.
@@ -512,7 +512,7 @@ sort_sections_1 (lang_statement_union_type **startptr,
    FIXME: This may no longer be necessary with grouped sections.  Instead of
    sorting on dh.o, ds[nnnn].o, dt.o, one could, for example, have dh.o use
    .idata\$4h, have ds[nnnn].o use .idata\$4s[nnnn], and have dt.o use .idata\$4t.
-   This would have to be elaborated upon to handle multiple dll's
+   This would have to be elaborated upon to handle multiple DLLs
    [assuming such an eloboration is possible of course].
 
    We also sort sections in '\$' wild statements.  These are created by the
