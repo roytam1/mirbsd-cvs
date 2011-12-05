@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/sparc/stand/Makefile.inc,v 1.2 2005/03/06 21:27:19 tg Exp $
+# $MirOS: src/sys/arch/sparc/stand/Makefile.inc,v 1.3 2006/06/16 21:52:52 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.12 2004/07/13 21:03:38 marc Exp $
 # $NetBSD: Makefile.inc,v 1.5 1996/02/01 22:33:01 mycroft Exp $
 
@@ -9,7 +9,7 @@ BINDIR=		/usr/mdec
 CFLAGS+=	-fno-stack-protector -ffreestanding -Os -Wall -Werror
 SACFLAGS=	-D_STANDALONE
 CPPFLAGS+=	-I${S} -I${SADIR}/libsa -I. -Dmemmove=memcpy -D_STANDALONE \
-		-I${.CURDIR} -D__BOOT_VER="${_V}" -Derrno=errno \
+		-I${.CURDIR} -Derrno=errno \
 		-DSTANDALONE -DRELOC=${RELOC} -DSUN4 -DSUN4C -DSUN_BOOTPARAMS
 
 CLEANFILES+=	machine
