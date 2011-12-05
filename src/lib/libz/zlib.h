@@ -1,4 +1,4 @@
-/**	$MirOS: src/lib/libz/zlib.h,v 1.5 2005/07/24 23:19:03 tg Exp $ */
+/**	$MirOS: src/lib/libz/zlib.h,v 1.6 2006/01/24 13:04:10 tg Exp $ */
 /*	$OpenBSD: zlib.h,v 1.9 2005/07/20 15:56:41 millert Exp $	*/
 /* zlib.h -- interface of the 'zlib' general purpose compression library
   version 1.2.3, July 18th, 2005
@@ -1340,6 +1340,7 @@ __END_DECLS
 
 /* MirOS extension */
 #define ZLIB_HAS_GZFOPEN
+#include <stdio.h>
 __BEGIN_DECLS
 FILE *gzfopen(const char *, const char *);
 FILE *gzfdopen(int, const char *);

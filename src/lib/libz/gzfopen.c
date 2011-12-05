@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libz/gzfopen.c,v 1.1 2006/01/24 13:04:10 tg Exp $ */
+/* $MirOS: src/lib/libz/gzfopen.c,v 1.2 2006/01/24 13:19:44 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -29,13 +29,14 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include "zutil.h"
+#include "gzio.h"
 
-__RCSID("$MirOS: src/lib/libz/gzfopen.c,v 1.1 2006/01/24 13:04:10 tg Exp $");
+__RCSID("$MirOS: src/lib/libz/gzfopen.c,v 1.2 2006/01/24 13:19:44 tg Exp $");
 
 static FILE *zf_open(const char *, const char *, int);
 static int zf_read(void *, char *, int);
 static int zf_write(void *, const char *, int);
-static int zf_seek(void *, fpos_t, int);
+static fpos_t zf_seek(void *, fpos_t, int);
 static int zf_close(void *);
 
 FILE *
@@ -82,14 +83,14 @@ zf_open(const char *path, const char *mode, int fd)
 		return (NULL);
 	}
 
-	if (s->file == NULL) {
+	if (((gz_stream *)s)->file == NULL) {
 		gzclose(s);
 		errno = ENXIO;
 		return (NULL);
 	}
 
 	if ((f = funopen((void *)s, r ? zf_read : NULL,
-	    r ? NULL : zf_write, NULL, zf_close)) == NULL) {
+	    r ? NULL : zf_write, zf_seek, zf_close)) == NULL) {
 		int e = errno;
 		gzclose(s);
 		errno = e;
@@ -97,4 +98,83 @@ zf_open(const char *path, const char *mode, int fd)
 	}
 
 	return (f);
+}
+
+static int
+zf_read(void *s, char *buf, int len)
+{
+	int rv;
+
+	rv = gzread((gzFile)s, buf, len);
+
+	if (rv == Z_STREAM_ERROR) {
+		errno = EBADF;
+		return (-1);
+	}
+
+	if (rv == -1)
+		if (((gz_stream *)s)->z_err != Z_ERRNO)
+			errno = EIO;
+
+	return (rv);
+}
+
+static int
+zf_write(void *s, const char *buf, int len)
+{
+	int rv;
+
+	rv = gzwrite((gzFile)s, buf, len);
+
+	if (rv == Z_STREAM_ERROR) {
+		errno = EBADF;
+		return (-1);
+	}
+
+	if (rv == -1)
+		if (((gz_stream *)s)->z_err != Z_ERRNO)
+			errno = EIO;
+
+	return (rv);
+}
+
+static fpos_t
+zf_seek(void *s, fpos_t pos, int how)
+{
+	z_off_t rv;
+
+	if (s == NULL) {
+		errno = EBADF;
+		return (-1);
+	}
+
+	if (how == SEEK_END) {
+		errno = ESPIPE;
+		return (-1);
+	}
+
+	rv = gzseek((gzFile)s, pos, how);
+	if (rv == -1L)
+		errno = EINVAL;
+
+	return (rv);
+}
+
+static int
+zf_close(void *s)
+{
+	int rv;
+
+	rv = gzclose((gzFile)s);
+	if (rv == Z_STREAM_ERROR) {
+		errno = EBADF;
+		return (-1);
+	} else if (rv == Z_ERRNO) {
+		return (-1);
+	} else if (rv == Z_OK) {
+		return (0);
+	}
+
+	errno = ENOCOFFEE; /* unknown code */
+	return (-1);
 }
