@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: gcc/gcc/builtins.c,v 1.2 2005/03/25 19:28:58 tg Exp $ */
 
 /* Expand builtin functions.
    Copyright (C) 1988, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
@@ -4341,14 +4341,15 @@ static rtx
 expand_builtin_fputs (tree arglist, rtx target, bool unlocked)
 {
   tree len, fn;
-  tree fn_fputc = unlocked ? implicit_built_in_decls[BUILT_IN_FPUTC_UNLOCKED]
+  /* If we're using an unlocked function, assume the other unlocked
+     functions exist explicitly.  */
+  tree const fn_fputc = unlocked ? built_in_decls[BUILT_IN_FPUTC_UNLOCKED]
     : implicit_built_in_decls[BUILT_IN_FPUTC];
-  tree fn_fwrite = unlocked ? implicit_built_in_decls[BUILT_IN_FWRITE_UNLOCKED]
+  tree const fn_fwrite = unlocked ? built_in_decls[BUILT_IN_FWRITE_UNLOCKED]
     : implicit_built_in_decls[BUILT_IN_FWRITE];
 
-  /* If the return value is used, or the replacement _DECL isn't
-     initialized, don't do the transformation.  */
-  if (target != const0_rtx || !fn_fputc || !fn_fwrite)
+  /* If the return value is used, don't do the transformation.  */
+  if (target != const0_rtx)
     return 0;
 
   /* Verify the arguments in the original call.  */
@@ -4408,6 +4409,11 @@ expand_builtin_fputs (tree arglist, rtx target, bool unlocked)
     default:
       abort ();
     }
+
+  /* If the replacement _DECL isn't initialized, don't do the
+     transformation.  */
+  if (!fn)
+    return 0;
 
   return expand_expr (build_function_call_expr (fn, arglist),
 		      const0_rtx, VOIDmode, EXPAND_NORMAL);
@@ -4663,11 +4669,12 @@ static rtx
 expand_builtin_printf (tree arglist, rtx target, enum machine_mode mode,
 		       bool unlocked)
 {
-  tree fn_putchar = unlocked
-		    ? implicit_built_in_decls[BUILT_IN_PUTCHAR_UNLOCKED]
-		    : implicit_built_in_decls[BUILT_IN_PUTCHAR];
-  tree fn_puts = unlocked ? implicit_built_in_decls[BUILT_IN_PUTS_UNLOCKED]
-			  : implicit_built_in_decls[BUILT_IN_PUTS];
+  /* If we're using an unlocked function, assume the other unlocked
+     functions exist explicitly.  */
+  tree const fn_putchar = unlocked ? built_in_decls[BUILT_IN_PUTCHAR_UNLOCKED]
+    : implicit_built_in_decls[BUILT_IN_PUTCHAR];
+  tree const fn_puts = unlocked ? built_in_decls[BUILT_IN_PUTS_UNLOCKED]
+    : implicit_built_in_decls[BUILT_IN_PUTS];
   const char *fmt_str;
   tree fn, fmt, arg;
 
@@ -4766,10 +4773,12 @@ static rtx
 expand_builtin_fprintf (tree arglist, rtx target, enum machine_mode mode,
 		        bool unlocked)
 {
-  tree fn_fputc = unlocked ? implicit_built_in_decls[BUILT_IN_FPUTC_UNLOCKED]
-			   : implicit_built_in_decls[BUILT_IN_FPUTC];
-  tree fn_fputs = unlocked ? implicit_built_in_decls[BUILT_IN_FPUTS_UNLOCKED]
-			   : implicit_built_in_decls[BUILT_IN_FPUTS];
+  /* If we're using an unlocked function, assume the other unlocked
+     functions exist explicitly.  */
+  tree const fn_fputc = unlocked ? built_in_decls[BUILT_IN_FPUTC_UNLOCKED]
+    : implicit_built_in_decls[BUILT_IN_FPUTC];
+  tree const fn_fputs = unlocked ? built_in_decls[BUILT_IN_FPUTS_UNLOCKED]
+    : implicit_built_in_decls[BUILT_IN_FPUTS];
   const char *fmt_str;
   tree fn, fmt, fp, arg;
 
