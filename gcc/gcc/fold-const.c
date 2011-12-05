@@ -1,4 +1,4 @@
-/* $MirOS: gcc/gcc/fold-const.c,v 1.5 2005/08/26 20:57:24 tg Exp $ */
+/* $MirOS: gcc/gcc/fold-const.c,v 1.6 2005/11/20 16:43:53 tg Exp $ */
 
 /* Fold a constant sub-tree into a single node for C-compiler
    Copyright (C) 1987, 1988, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
@@ -8481,7 +8481,7 @@ fold_checksum_tree (tree expr, struct md5_ctx *ctx, htab_t ht)
 {
   void **slot;
   enum tree_code code;
-  char buf[sizeof (struct tree_decl)];
+  struct tree_decl buf;
   int i, len;
 
   if (sizeof (struct tree_exp) + 5 * sizeof (tree)
@@ -8498,23 +8498,23 @@ fold_checksum_tree (tree expr, struct md5_ctx *ctx, htab_t ht)
   if (code == SAVE_EXPR && SAVE_EXPR_NOPLACEHOLDER (expr))
     {
       /* Allow SAVE_EXPR_NOPLACEHOLDER flag to be modified.  */
-      memcpy (buf, expr, tree_size (expr));
-      expr = (tree) buf;
+      memcpy (&buf, expr, tree_size (expr));
+      expr = (tree) &buf;
       SAVE_EXPR_NOPLACEHOLDER (expr) = 0;
     }
   else if (TREE_CODE_CLASS (code) == 'd' && DECL_ASSEMBLER_NAME_SET_P (expr))
     {
       /* Allow DECL_ASSEMBLER_NAME to be modified.  */
-      memcpy (buf, expr, tree_size (expr));
-      expr = (tree) buf;
+      memcpy (&buf, expr, tree_size (expr));
+      expr = (tree) &buf;
       SET_DECL_ASSEMBLER_NAME (expr, NULL);
     }
   else if (TREE_CODE_CLASS (code) == 't'
 	   && (TYPE_POINTER_TO (expr) || TYPE_REFERENCE_TO (expr)))
     {
       /* Allow TYPE_POINTER_TO and TYPE_REFERENCE_TO to be modified.  */
-      memcpy (buf, expr, tree_size (expr));
-      expr = (tree) buf;
+      memcpy (&buf, expr, tree_size (expr));
+      expr = (tree) &buf;
       TYPE_POINTER_TO (expr) = NULL;
       TYPE_REFERENCE_TO (expr) = NULL;
     }
