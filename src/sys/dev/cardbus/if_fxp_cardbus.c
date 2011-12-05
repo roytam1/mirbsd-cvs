@@ -85,7 +85,6 @@
 #include <dev/pci/pcidevs.h>
 
 #include <dev/cardbus/cardbusvar.h>
-#include <dev/cardbus/cardbusdevs.h>
 
 int fxp_cardbus_match(struct device *, void *, void *);
 void fxp_cardbus_attach(struct device *, struct device *, void *);
@@ -105,6 +104,10 @@ struct cfattach fxp_cardbus_ca = {
 	    fxp_cardbus_detach
 };
 
+const struct cardbus_matchid fxp_cardbus_devices[] = {
+	{ PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_82557 },
+};
+
 #ifdef CBB_DEBUG
 #define DPRINTF(X) printf X
 #else
@@ -117,13 +120,9 @@ fxp_cardbus_match(parent, match, aux)
 	void *match;
 	void *aux;
 {
-	struct cardbus_attach_args *ca = aux;
-
-	if (CARDBUS_VENDOR(ca->ca_id) == CARDBUS_VENDOR_INTEL &&
-	    CARDBUS_PRODUCT(ca->ca_id) == CARDBUS_PRODUCT_INTEL_82557)
-		return (1);
-
-	return (0);
+	return (cardbus_matchbyid((struct cardbus_attach_args *)aux,
+	    fxp_cardbus_devices,
+	    sizeof(fxp_cardbus_devices)/sizeof(fxp_cardbus_devices[0])));
 }
 
 void
