@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/net/if_spppsubr.c,v 1.5 2005/07/04 00:29:44 tg Exp $ */
+/**	$MirOS: src/sys/net/if_spppsubr.c,v 1.6 2006/09/20 17:58:52 tg Exp $ */
 /*	$OpenBSD: if_spppsubr.c,v 1.34 2005/06/08 06:55:33 henning Exp $	*/
 /*
  * Synchronous PPP/Cisco link level subroutines.
@@ -1276,7 +1276,7 @@ sppp_cp_input(const struct cp *cp, struct sppp *sp, struct mbuf *m)
 {
 	STDDCL;
 	struct lcp_header *h;
-	int len = m->m_pkthdr.len;
+	int printlen, len = m->m_pkthdr.len;
 	int rv;
 	u_char *p;
 
@@ -1289,13 +1289,16 @@ sppp_cp_input(const struct cp *cp, struct sppp *sp, struct mbuf *m)
 	}
 	h = mtod (m, struct lcp_header*);
 	if (debug) {
+		printlen = ntohs(h->len);
 		log(LOG_DEBUG,
 		    SPP_FMT "%s input(%s): <%s id=0x%x len=%d",
 		    SPP_ARGS(ifp), cp->name,
 		    sppp_state_name(sp->state[cp->protoidx]),
-		    sppp_cp_type_name (h->type), h->ident, ntohs (h->len));
-		if (len > 4)
-			sppp_print_bytes ((u_char*) (h+1), len-4);
+		    sppp_cp_type_name(h->type), h->ident, printlen);
+		if (len < printlen)
+			printlen = len;
+		if (printlen > 4)
+			sppp_print_bytes((u_char *)(h + 1), printlen - 4);
 		addlog(">\n");
 	}
 	if (len > ntohs (h->len))
@@ -1323,7 +1326,7 @@ sppp_cp_input(const struct cp *cp, struct sppp *sp, struct mbuf *m)
 		}
 		rv = (cp->RCR)(sp, h, len);
 		/* silently drop illegal packets */
-		if (rv == -1)
+		if (rv < 0)
 			return;
 		switch (sp->state[cp->protoidx]) {
 		case STATE_OPENED:
@@ -2110,6 +2113,17 @@ sppp_lcp_RCR(struct sppp *sp, struct lcp_header *h, int len)
 	p = (void*) (h+1);
 	len = origlen;
 	for (rlen=0; len>1 && p[1]; len-=p[1], p+=p[1]) {
+		/* Sanity check option length */
+		if (p[1] > len) {
+			/*
+			 * Malicious option - drop imediately.
+			 * XXX Maybe we should just RXJ it?
+			 */
+			addlog("%s: received malicious LCP option 0x%02x, "
+			    "length 0x%02x, (len: 0x%02x) dropping.\n", ifp->if_xname,
+			    p[0], p[1], len);
+			goto drop;
+		}
 		if (debug)
 			addlog("%s ", sppp_lcp_opt_name(*p));
 		switch (*p) {
@@ -2211,6 +2225,10 @@ sppp_lcp_RCR(struct sppp *sp, struct lcp_header *h, int len)
  end:
 	free(buf, M_TEMP);
 	return (rlen == 0);
+
+ drop:
+	free(buf, M_TEMP);
+	return (-1);
 }
 
 /*
