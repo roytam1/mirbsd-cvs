@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libssl/man/Makefile,v 1.2 2005/03/06 20:29:25 tg Exp $
+# $MirOS: src/lib/libssl/man/Makefile,v 1.3 2005/12/06 01:46:44 tg Exp $
 # $OpenBSD: Makefile,v 1.9 2005/10/22 10:33:53 jmc Exp $
 
 .include <bsd.own.mk>		# for NOMAN
@@ -783,7 +783,7 @@ maninstall:
 .PATH: ${.CURDIR}/../src/doc/apps ${.CURDIR}/../src/doc/crypto ${.CURDIR}/../src/doc/ssl
 .SUFFIXES: .pod
 
-openssltool.pm: openssl.pod asn1parse.pod ca.pod ciphers.pod config.pod crl.pod crl2pkcs7.pod dgst.pod dhparam.pod dsa.pod dsaparam.pod enc.pod gendsa.pod genrsa.pod nseq.pod ocsp.pod passwd.pod pkcs12.pod pkcs7.pod pkcs8.pod rand.pod req.pod rsa.pod rsautl.pod s_client.pod s_server.pod sess_id.pod smime.pod speed.pod spkac.pod verify.pod version.pod x509.pod
+openssltool.pm: openssl.pod asn1octetstream.pod asn1parse.pod ca.pod ciphers.pod config.pod crl.pod crl2pkcs7.pod dgst.pod dhparam.pod dsa.pod dsaparam.pod enc.pod gendsa.pod genrsa.pod nseq.pod ocsp.pod passwd.pod pkcs12.pod pkcs7.pod pkcs8.pod rand.pod req.pod rsa.pod rsautl.pod s_client.pod s_server.pod sess_id.pod smime.pod speed.pod spkac.pod verify.pod version.pod x509.pod
 	cat ${.ALLSRC} >${.TARGET}
 
 openssltool.cat1: openssltool.pm

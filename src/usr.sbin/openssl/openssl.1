@@ -1,3 +1,4 @@
+.\" $MirOS$
 .\" $OpenBSD: openssl.1,v 1.51 2005/04/29 09:31:05 jmc Exp $
 .\" ====================================================================
 .\" Copyright (c) 1998-2002 The OpenSSL Project.  All rights reserved.
@@ -237,7 +238,10 @@ or
 .Cm no- Ns Ar XXX
 itself.
 .Sh STANDARD COMMANDS
-.Bl -tag -width "asn1parse"
+.Bl -tag -width "asn1octetstream"
+.It Cm asn1octetstream
+Provides encryption in PEM format, as used by
+.Xr vnconfig 8 .
 .It Cm asn1parse
 Parse an ASN.1 sequence.
 .It Cm ca
@@ -445,6 +449,74 @@ This can be used to send the data via a pipe for example.
 .It Ar stdin
 Read the password from standard input.
 .El
+.\"
+.\" ASN1OCTETSTREAM
+.\"
+.Sh ASN1OCTETSTREAM
+.Nm openssl asn1octetstream
+.Bk -words
+.Op Fl in Ar file
+.Op Fl passin Ar arg
+.Op Fl out Ar file
+.Op Fl passout Ar arg
+.Op Fl e
+.Op Fl d
+.Op Fl Ar algo
+.Ek
+.Pp
+The
+.Nm asn1octetstream
+command encapsulates arbitrary binary data in ASN.1 octet strings
+and stores them, optionally (usually) encrypted, in PEM format.
+It also handles conversion of the PEM encoding, such as changing
+the passphrase and crypto type.
+.Pp
+The options are as follows:
+.Bl -tag -width "Xpassout XXX"
+.It Fl Ar algo
+If writing PEM output, write it in a symmetrically encrypted
+manner, with
+.Ar algo
+as cryptographic algorithm.
+This option is highly recommended.
+See the
+.Nm list-cipher-commands
+command for a list of valid ciphers.
+.It Fl d
+Instead of writing a PEM encoded ASN.1 octet string to the
+output stream, write the binary data content of it.
+.It Fl e
+Instead of expecting a PEM encoded ASN.1 octet string on the
+input stream, read arbitrary binary data (up to 2 GiB - 1 Byte)
+and encapsulate it into an ASN.1 octet stream for further processing.
+.It Fl in Ar file
+This specifies the input file to read, or standard input if not used.
+.It Fl out Ar file
+This specifies the output file to write, or standard output if not used.
+.It Fl passin Ar arg
+The input file password source.
+For more information about the format of
+.Ar arg ,
+see the
+.Sx PASS PHRASE ARGUMENTS
+section above.
+.It Fl passout Ar arg
+The output file password source.
+For more information about the format of
+.Ar arg ,
+see the
+.Sx PASS PHRASE ARGUMENTS
+section above.
+.El
+.Sh ASN.1 OCTET STRING NOTES
+The PEM encapsulation format uses the header and footer lines:
+.Bd -unfilled -offset indent
+-----BEGIN ASN1 OCTET STRING-----
+-----END ASN1 OCTET STRING-----
+.Ed
+.Pp
+This format is a MirBSD extension.
+The MirOS Project hopes this will some day be integrated into stock OpenSSL.
 .\"
 .\" ASN1PARSE
 .\"
@@ -8341,9 +8413,11 @@ certificates.
 .Xr ssl 3 ,
 .Xr des_modes 7 ,
 .Xr httpd 8 ,
+.Xr openssltool 8 ,
 .Xr sendmail 8 ,
 .Xr ssl 8 ,
-.Xr starttls 8
+.Xr starttls 8 ,
+.Xr vnconfig 8
 .Pp
 .Rs
 .%T The SSL Protocol

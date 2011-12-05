@@ -59,6 +59,10 @@ B<list->I<...>B<-commands>, or B<no->I<XXX> itself.)
 
 =over 10
 
+=item L<B<asn1octetstream>|asn1octetstream(1)>
+
+Provides encryption in PEM format, as used by L<vnconfig(8)|vnconfig(8)>.
+
 =item L<B<asn1parse>|asn1parse(1)>
 
 Parse an ASN.1 sequence.
