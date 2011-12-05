@@ -1,4 +1,4 @@
-# $MirOS: gcc/libjava/Makefile.bsd-wrapper,v 1.17 2005/08/28 20:04:26 tg Exp $
+# $MirOS: gcc/libjava/Makefile.bsd-wrapper,v 1.18 2005/10/06 22:22:00 tg Exp $
 
 .include <bsd.own.mk>
 .include "${GNUSYSTEM_AUX_DIR}/locations.mk"
@@ -74,6 +74,6 @@ _BASEFLAGS=	-O2 -g
 _BASEFLAGS=	-O2
 .endif
 
-FSFCFLAGS=	${_BASEFLAGS} ${EXTRA_GCC_FLAGS}
-FSFCXXFLAGS=	${_BASEFLAGS} ${EXTRA_GCC_FLAGS}
+FSFCFLAGS=	${_BASEFLAGS} ${COPTS} ${EXTRA_GCC_FLAGS}
+FSFCXXFLAGS=	${_BASEFLAGS} ${CXXOPTS} ${EXTRA_GCC_FLAGS}
 GCJFLAGS=	${_BASEFLAGS} ${EXTRA_GCJ_FLAGS}
