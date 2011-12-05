@@ -30,14 +30,6 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)netdate.c	8.2 (Berkeley) 4/28/95";
-#else
-static char rcsid[] = "$OpenBSD: netdate.c,v 1.15 2003/06/02 23:32:07 millert Exp $";
-#endif
-#endif /* not lint */
-
 #include <sys/param.h>
 #include <sys/time.h>
 #include <sys/socket.h>
@@ -56,6 +48,9 @@ static char rcsid[] = "$OpenBSD: netdate.c,v 1.15 2003/06/02 23:32:07 millert Ex
 #include <rpc/rpc.h>		/* bindresvport() proto */
 
 #include "extern.h"
+
+__SCCSID("@(#)netdate.c	8.2 (Berkeley) 4/28/95");
+__RCSID("$MirOS$");
 
 #define	WAITACK		2	/* seconds */
 #define	WAITDATEACK	5	/* seconds */

@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/bin/date/date.c,v 1.2 2006/09/21 01:56:10 tg Exp $ */
 /*	$OpenBSD: date.c,v 1.26 2003/10/15 15:58:22 mpech Exp $	*/
 /*	$NetBSD: date.c,v 1.11 1995/09/07 06:21:05 jtc Exp $	*/
 
@@ -52,7 +52,7 @@
 __IDSTRING(copyright, "@(#) Copyright (c) 1985, 1987, 1988, 1993\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)date.c	8.2 (Berkeley) 4/28/95");
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/bin/date/date.c,v 1.2 2006/09/21 01:56:10 tg Exp $");
 
 extern	char *__progname;
 
@@ -61,15 +61,16 @@ int retval, nflag;
 int slidetime;
 
 static void setthetime(char *);
-static void badformat(void);
-static void usage(void);
+static __dead void badformat(void);
+static __dead void usage(void);
 
 int
 main(int argc, char *argv[])
 {
 	struct timezone tz;
 	int ch, rflag;
-	char *format, buf[1024];
+	const char *format;
+	char buf[1024];
 
 	setlocale(LC_ALL, "");
 
@@ -88,7 +89,7 @@ main(int argc, char *argv[])
 			break;
 		case 'r':		/* user specified seconds */
 			rflag = 1;
-			tval = atol(optarg);
+			tval = atoll(optarg);
 			break;
 		case 'u':		/* do everything in UTC */
 			if (setenv("TZ", "GMT0", 1) == -1)
@@ -146,6 +147,7 @@ setthetime(char *p)
 	struct tm *lt;
 	struct timeval tv;
 	char *dot, *t;
+	const char *pc;
 	int bigyear;
 	int yearset = 0;
 
@@ -241,9 +243,9 @@ setthetime(char *p)
 		}
 	}
 
-	if ((p = getlogin()) == NULL)
-		p = "???";
-	syslog(LOG_AUTH | LOG_NOTICE, "date set by %s", p);
+	if ((pc = getlogin()) == NULL)
+		pc = "???";
+	syslog(LOG_AUTH | LOG_NOTICE, "date set by %s", pc);
 }
 
 static void
@@ -256,10 +258,9 @@ badformat(void)
 static void
 usage(void)
 {
-	(void)fprintf(stderr,
-	    "usage: %s [-anu] [-d dst] [-r seconds] [-t west] [+format]\n",
+	fprintf(stderr,
+	    "usage:\t%s [-anu] [-d dst] [-r seconds] [-t west] [+format]\n",
 	     __progname);
-	fprintf(stderr, "%-*s[[[[[[cc]yy]mm]dd]HH]MM[.SS]]\n",
-	    (int)strlen(__progname) + 8, "");
+	fprintf(stderr, "\t    [[[[[[cc]yy]mm]dd]HH]MM[.SS]]\n");
 	exit(1);
 }
