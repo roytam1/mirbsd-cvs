@@ -1,4 +1,4 @@
-# $MirOS: gcc/gcc/Makefile.bsd-wrapper,v 1.22 2005/08/28 22:29:15 tg Exp $
+# $MirOS: gcc/gcc/Makefile.bsd-wrapper,v 1.23 2005/11/20 17:02:22 tg Exp $
 
 .include <bsd.own.mk>
 .include "${GNUSYSTEM_AUX_DIR}/locations.mk"
@@ -46,26 +46,35 @@ __LANGS:=	${__LANGS},pascal
 .endif
 
 BOOT_CFLAGS?=	${FSFCFLAGS}
-CPPFLAGS+=	-I${GNU_LIBIBERTY_INC} -DMIRBSD_NATIVE
+CPPFLAGS+=	-I${GNU_LIBIBERTY_INC}
 XARGS+=		BISON=yacc LIBIBERTY_HDRS="${GNU_LIBIBERTY_INC}" \
-		BUILD_LIBIBERTY="-liberty" LIBIBERTY="-liberty" \
-		SUB_LIBERTY="-liberty" STMP_FIXINC=stmp-fixinc-fake \
-		extrapartsdir='/usr/lib' BOOT_CFLAGS="${BOOT_CFLAGS}" \
+		extrapartsdir='${GCC_PREFIX}/lib' BOOT_CFLAGS="${BOOT_CFLAGS}" \
 		CFLAGS="${FSFCFLAGS}" GNATLIBCFLAGS="${BOOT_CFLAGS}" \
 		HOST_CC="${HOSTCC}" HOST_CFLAGS="${HOSTCFLAGS}" \
 		VALGRIND_DRIVER_DEFINES="-DNO_SHARED_LIBGCC_MULTILIB" \
 		LIBGCC2_DEBUG_CFLAGS="${FSFCFLAGS}" MAKEINFOFLAGS=--no-split
+.if ${GCC_NATIVE:L} == "yes"
+CPPFLAGS+=	-DMIRBSD_NATIVE
+XARGS+=		BUILD_LIBIBERTY="-liberty" LIBIBERTY="-liberty" \
+		SUB_LIBERTY="-liberty" STMP_FIXINC=stmp-fixinc-fake
+.else
+_LIBERTY?=	${GNU_LIBIBERTY_SRC}/obj/libiberty.a
+XARGS+=		BUILD_LIBIBERTY="${_LIBERTY}" LIBIBERTY="${_LIBERTY}" \
+		SUB_LIBERTY="${_LIBERTY}" STMP_FIXINC=stmp-fixinc
+CPP=		${CC} -E
+.endif
 
 # This is to prevent the compiler from "overloading" us with pseudo-local
 # symbols e.g. in shared libraries - for now...
 CFVARS+=	gcc_cv_as_ix86_gotoff_in_data=no
 
-CFARGS+=	--prefix=/usr --libexecdir=/usr/lib --infodir=/usr/share/info \
-		--mandir=/usr/share/man --disable-generated-files-in-srcdir \
+CFARGS+=	--prefix=${GCC_PREFIX} --libexecdir=${GCC_PREFIX}/lib \
+		--infodir=${GCC_INFODIR} --mandir=${GCC_MANDIR} \
+		--disable-generated-files-in-srcdir --with-system-zlib \
 		--disable-threads --enable-objc-gc --enable-shared \
 		--enable-stack-protector --disable-sjlj-exceptions \
-		--with-local-prefix=/usr --disable-nls --with-system-zlib \
-		--with-gxx-include-dir=/usr/include/gxx ${__LANGS}
+		--with-local-prefix=${GCC_PREFIX} --disable-nls \
+		--with-gxx-include-dir=${GCC_PREFIX}/include/gxx ${__LANGS}
 .if !defined(NO_THREADS) || ${NO_THREADS:L} == "no"
 CFARGS+=	--enable-threads=posix
 .endif
@@ -97,7 +106,7 @@ all-quick:
 	cd ${FSFOBJDIR} && ${FSFMAKE} ${ALL_TARGET}
 
 pre-install:
-	mkdir -p ${DESTDIR}/usr/lib/gcc/${GCCTARGET}/${GCCVERSION}
+	mkdir -p ${DESTDIR}${GCC_PREFIX}/lib/gcc/${GCCTARGET}/${GCCVERSION}
 
 ${MAN}: .MADE do-build
 
@@ -108,19 +117,21 @@ doc/mgcc.1: .MADE doc/gcc.1
 	    <doc/gcc.1 >doc/mgcc.1
 
 post-install:
+.if ${GCC_NATIVE:L} == "yes"
 	${INSTALL} ${INSTALL_COPY} -o ${LIBOWN} -g ${LIBGRP} -m ${LIBMODE} \
 	    libgcc_s_fpic.so.${LIBGCC_REV} \
-	    ${DESTDIR}/usr/lib/libgcc_s.so.${LIBGCC_REV}
+	    ${DESTDIR}${GCC_PREFIX}/lib/libgcc_s.so.${LIBGCC_REV}
+.endif
 .for _i in ${INFO}
 	${INSTALL} ${INSTALL_COPY} -o ${MANOWN} -g ${MANGRP} -m ${MANMODE} \
-	    ${_i} ${DESTDIR}/usr/share/info/
+	    ${_i} ${DESTDIR}${GCC_INFODIR}/
 .endfor
 	${INSTALL} ${INSTALL_COPY} ${INSTALL_STRIP} -m ${BINMODE} \
-	    -o ${BINOWN} -g ${BINGRP} cpp ${DESTDIR}/usr/bin/mcpp
+	    -o ${BINOWN} -g ${BINGRP} cpp ${DESTDIR}${GCC_PREFIX}/bin/mcpp
 	${INSTALL} ${INSTALL_COPY} ${INSTALL_STRIP} -m ${BINMODE} \
-	    -o ${BINOWN} -g ${BINGRP} xgcc ${DESTDIR}/usr/bin/mgcc
+	    -o ${BINOWN} -g ${BINGRP} xgcc ${DESTDIR}${GCC_PREFIX}/bin/mgcc
 	chown -R ${BINOWN}:${BINGRP} \
-	    ${DESTDIR}/usr/lib/gcc/${GCCTARGET}/${GCCVERSION}
+	    ${DESTDIR}${GCC_PREFIX}/lib/gcc/${GCCTARGET}/${GCCVERSION}
 
 pre-clean:
 	-rm -rf ada lbin

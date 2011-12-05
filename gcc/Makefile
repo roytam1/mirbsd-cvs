@@ -1,9 +1,15 @@
-# $MirOS: gcc/Makefile,v 1.5 2005/04/26 21:15:29 tg Exp $
+# $MirOS: gcc/Makefile,v 1.6 2005/06/13 19:51:12 tg Exp $
 
 .include <bsd.own.mk>
 .include "${BSDSRCDIR}/Makefile.inc"
 
-SUBOBJDIR!=	readlink ${.OBJDIR} || ( cd ${.OBJDIR} && pwd )
+.if ${OStype} != "MirBSD"
+GCC_NATIVE=	No
+.endif
+GCC_NATIVE?=	Yes
+
+SUBOBJDIR!=	readlink -nf ${.OBJDIR}
+BSDMAKE!=	whence -p ${MAKE}
 
 IGNORE_TGTS=	obj
 BUILD_TGTS=	all clean depend lint prereq tags
@@ -11,41 +17,58 @@ INSTALL_TGTS=	includes install
 
 EXTRA_ENV=	PATH=/bin:/usr/bin:/sbin:/usr/sbin
 
+.if ${GCC_NATIVE:L} != "yes"
+EXTRA_ENV:=	${EXTRA_ENV:S!PATH=!PATH=${BSDMAKE:H}:!}
+_STCMD=
+_STFILE_SUB=
+_STFILE_DEST=
+_STCMD_SUB=
+_STCMD_DEST=
+.endif
+
 .MAIN: all
 
 .for _i in ${IGNORE_TGTS}
 ${_i}:
-	cd ${.CURDIR} && ${EXTRA_ENV} exec ${MAKE} -f Makefile.sub $@
+	cd ${.CURDIR} && ${EXTRA_ENV} exec ${BSDMAKE} -f Makefile.sub $@
 .endfor
 
 .for _i in ${BUILD_TGTS}
 ${_i}: ${_STFILE_SUB}
 	ulimit -dS 245760 && cd ${.CURDIR} && ${EXTRA_ENV} exec \
-	    ${_STCMD_SUB} ${MAKE} -f Makefile.sub $@
+	    ${_STCMD_SUB} ${BSDMAKE} -f Makefile.sub $@
 .endfor
 
 .for _i in ${INSTALL_TGTS}
 ${_i}:
+.  if ${GCC_NATIVE:L} == "yes"
 	d="${DESTDIR}"; cd $${d:-/}; [[ -n $$d ]] || d="/:/*"; \
 	    env WRITEDIR="$$d" NOWRITEDIR="${SUBOBJDIR}" ${EXTRA_ENV} \
-	    ${SUDO} ${SHELL} ${BSDSRCDIR}/scripts/systrace.mk ${MAKE}
+	    ${SUDO} ${SHELL} ${BSDSRCDIR}/scripts/systrace.mk ${BSDMAKE}
+.  endif
 	cd ${.CURDIR} && ${EXTRA_ENV} exec \
-	    ${_STCMD_DEST} ${MAKE} -f Makefile.sub $@
+	    ${_STCMD_DEST} ${BSDMAKE} -f Makefile.sub $@
+.  if ${GCC_NATIVE:L} == "yes"
 	sleep 1; ${SUDO} rm -f ${_STFILE_DEST}
+.  endif
 .endfor
 
+.if ${GCC_NATIVE:L} == "yes"
 ${_STFILE_SUB}:
 	cd ${SUBOBJDIR} && env WRITEDIR="${SUBOBJDIR}" ${EXTRA_ENV} \
-	    ${SHELL} ${BSDSRCDIR}/scripts/systrace.mk ${MAKE}
+	    ${SHELL} ${BSDSRCDIR}/scripts/systrace.mk ${BSDMAKE}
+.endif
 
 cleandir-recursive: ${_STFILE_SUB}
 	cd ${.CURDIR} && ${EXTRA_ENV} exec \
-	    ${_STCMD_SUB} ${MAKE} -f Makefile.sub cleandir
+	    ${_STCMD_SUB} ${BSDMAKE} -f Makefile.sub cleandir
 
 cleandir: cleandir-recursive local-cleandir
 
 local-cleandir: .PHONY
+.if ${GCC_NATIVE:L} == "yes"
 	-sleep 1; rm -f ${_STFILE_SUB}
+.endif
 
 b-r: .PHONY
 	# Test if the targets are mounted suitable for root (BTSTF)
@@ -65,7 +88,7 @@ release: .PHONY
 	mkdir -p ${BSDRELDIR}/base ${BSDRELDIR}/rel \
 	    || ${SUDO} mkdir -p ${BSDRELDIR}/base ${BSDRELDIR}/rel
 	cd ${BSDSRCDIR} && ${EXTRA_ENV} exec \
-	    ${MAKE} distrib-dirs mksystrace-dest DESTDIR=${BSDRELDIR}/base
+	    ${BSDMAKE} distrib-dirs mksystrace-dest DESTDIR=${BSDRELDIR}/base
 	cd ${.CURDIR} && exec ${SUDO} ${MAKE} install DESTDIR=${BSDRELDIR}/base
 
 .include <bsd.obj.mk>

@@ -1,4 +1,4 @@
-# $MirOS: gcc/gcc/Makefile.in,v 1.4 2005/03/28 02:39:44 tg Exp $
+# $MirOS: gcc/gcc/Makefile.in,v 1.5 2005/08/26 20:57:20 tg Exp $
 #
 # Makefile for GNU Compiler Collection
 # Run 'configure' to generate Makefile from Makefile.in
@@ -191,8 +191,8 @@ gengtype-yacc.o-warn = -Wno-error
 c-parse.o-warn = -Wno-error
 # flex output may yield harmless "no previous prototype" warnings
 gengtype-lex.o-warn = -Wno-error
-# SYSCALLS.c misses prototypes
-SYSCALLS.c.X-warn = -Wno-strict-prototypes -Wno-error
+# SYSCALLS.c misses prototypes and doesn't need mirmake.h
+SYSCALLS.c.X-warn = -Wno-strict-prototypes -Wno-error -D_MIRMAKE_H
 
 # All warnings have to be shut off in stage1 if the compiler used then
 # isn't gcc; configure determines that.  WARN_CFLAGS will be either
@@ -725,7 +725,7 @@ BUILD_LIBIBERTY = @FORBUILD@/libiberty/libiberty.a
 SUB_LIBERTY = $(PWD_COMMAND)/"$(BUILD_LIBIBERTY)"
 
 # Dependencies on the intl and portability libraries.
-LIBDEPS= $(LIBIBERTY) $(LIBINTL_DEP) $(LIBICONV_DEP)
+LIBDEPS= $(LIBINTL_DEP) $(LIBICONV_DEP) #$(LIBIBERTY)
 
 # Likewise, for use in the tools that must run on this machine
 # even if we are cross-building GCC.

@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: gcc/gcc/fixinc/Makefile.in,v 1.2 2005/03/25 19:29:26 tg Exp $
 #
 # Makefile for GCC fixincludes.
 #
@@ -85,15 +85,15 @@ gen : $(srcdir)/fixincl.x
 oneprocess : full-stamp
 twoprocess : test-stamp $(AF)
 
-full-stamp : $(ALLOBJ) $(LIBERTY)
+full-stamp : $(ALLOBJ) #$(LIBERTY)
 	$(CC) $(FIXINC_DEFS) $(LDFLAGS) -o $(FI) $(ALLOBJ) $(LIBERTY)
 	$(STAMP) $@
 
-test-stamp : $(TESTOBJ) $(LIBERTY)
+test-stamp : $(TESTOBJ) #$(LIBERTY)
 	$(CC) $(FIXINC_DEFS) $(LDFLAGS) -o $(FI) $(TESTOBJ) $(LIBERTY)
 	$(STAMP) $@
 
-$(AF): $(FIXOBJ) $(LIBERTY)
+$(AF): $(FIXOBJ) #$(LIBERTY)
 	$(CC) $(FIXINC_DEFS) $(LDFLAGS) -o $@ $(FIXOBJ) $(LIBERTY)
 
 # String length warnings

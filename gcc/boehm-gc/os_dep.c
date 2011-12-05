@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: gcc/boehm-gc/os_dep.c,v 1.4 2005/05/14 15:53:19 tg Exp $ */
 
 /*
  * Copyright 1988, 1989 Hans-J. Boehm, Alan J. Demers
@@ -156,7 +156,7 @@
 # include "mm/PCR_MM.h"
 #endif
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: gcc/boehm-gc/os_dep.c,v 1.4 2005/05/14 15:53:19 tg Exp $");
 
 #if !defined(NO_EXECUTE_PERMISSION)
 # define OPT_PROT_EXEC PROT_EXEC
@@ -3375,7 +3375,9 @@ extern kern_return_t exception_raise_state_identity(
 
 #define MAX_EXCEPTION_PORTS 16
 
+#if 0 /* XXX */
 static mach_port_t GC_task_self;
+#endif
 
 static struct {
     mach_msg_type_number_t count;
