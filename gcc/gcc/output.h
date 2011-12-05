@@ -475,6 +475,9 @@ extern void no_asm_to_stream (FILE *);
 #define SECTION_NOTYPE	 0x80000	/* don't output @progbits */
 #define SECTION_MACH_DEP 0x100000	/* subsequent bits reserved for target */
 
+extern const char *elf_comdat_group (const char *, const char **,
+				     const char **);
+extern void readonly_data_section_in_function_group (tree);
 extern unsigned int get_named_section_flags (const char *);
 extern bool set_named_section_flags (const char *, unsigned int);
 extern void named_section_flags (const char *, unsigned int);

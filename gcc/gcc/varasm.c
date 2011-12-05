@@ -259,6 +259,35 @@ data_section (void)
     }
 }
 
+#if HAVE_GAS_COMDAT_GROUP
+
+/* Tell assembler to switch to read-only data section in the same
+   comdat group as DECL.  */
+
+void
+readonly_data_section_in_function_group (tree decl)
+{
+  if (decl == NULL_TREE || !DECL_P (decl))
+    abort ();
+
+  if (DECL_SECTION_NAME (decl) == NULL_TREE || ! DECL_ONE_ONLY (decl))
+    readonly_data_section ();
+  else
+    {
+      char *rodata;
+      const char *name = TREE_STRING_POINTER (DECL_SECTION_NAME (decl));
+
+      if (strncmp (name, ".gnu.linkonce.t.", 16) != 0)
+	abort ();
+
+      rodata = xstrdup (name);
+      rodata [14] = 'r';
+      named_section_flags (rodata, 0);
+      free (rodata);
+    }
+}
+#endif
+
 /* Tell assembler to switch to read-only data section.  This is normally
    the text section.  */
 
@@ -4715,16 +4744,97 @@ default_no_named_section (const char *name ATTRIBUTE_UNUSED,
   abort ();
 }
 
+/* Extract section name and group name from the linkonce section
+   name.  */
+
+const char *
+elf_comdat_group (const char *name, const char **section,
+		  const char **group)
+{
+  const char *p;
+  const char *sec = NULL;
+  static const char *one [] = 
+    {
+      ".bss",		/* 'b'  */
+      NULL,		/* 'c'  */
+      ".data",		/* 'd'  */
+      NULL,		/* 'e'  */
+      NULL,		/* 'f'  */
+      NULL,		/* 'q'  */
+      NULL,		/* 'h'  */
+      NULL,		/* 'i'  */
+      NULL,		/* 'j'  */
+      NULL,		/* 'k'  */
+      NULL,		/* 'l'  */
+      NULL,		/* 'm'  */
+      NULL,		/* 'n'  */
+      NULL,		/* 'o'  */
+      NULL,		/* 'p'  */
+      NULL,		/* 'q'  */
+      ".rodata",	/* 'r'  */
+      ".sdata",		/* 's'  */
+      ".text"		/* 't'  */
+    };
+  
+  if (strncmp (name, ".gnu.linkonce.", 14) != 0)
+    return sec;
+
+  p = name + 14;
+  if (p [1] == '.')
+    {
+      if (p [0] > 'a' && p [0] < 'u')
+	sec = one [p [0] - 'b'];
+
+      if (sec)
+	*group = p + 1;
+    }
+  else if (p [2] == '.')
+    {
+      if (p [0] == 's')
+	{
+	  if (p [1] == '2')
+	    sec = ".sdata2";
+	  else if (p [1] == 'b')
+	    sec = ".sbss";
+	}
+      else if (p [0] == 't')
+	{
+	  if (p [1] == 'b')
+	    sec = ".tbss";
+	  else if (p [1] == 'd')
+	    sec = ".tdata";
+	}
+      else if (p [0] == 'w' && p [1] == 'i')
+	sec = ".debug_info";
+
+      if (sec)
+	*group = p + 2;
+    }
+  else if (strncmp (p, "sb2.", 4) == 0)
+    {
+      sec = ".sbss2";
+      *group = p + 3;
+    }
+
+  if (sec)
+    *section = sec;
+
+  return sec;
+}
+
 void
 default_elf_asm_named_section (const char *name, unsigned int flags)
 {
   char flagchars[10], *f = flagchars;
+  const char *section_name = NULL, *group_name = NULL;
 
+#if !HAVE_GAS_COMDAT_GROUP
   if (! named_section_first_declaration (name))
     {
       fprintf (asm_out_file, "\t.section\t%s\n", name);
       return;
     }
+#endif
 
   if (!(flags & SECTION_DEBUG))
     *f++ = 'a';
@@ -4740,9 +4850,17 @@ default_elf_asm_named_section (const char *name, unsigned int flags)
     *f++ = 'S';
   if (flags & SECTION_TLS)
     *f++ = 'T';
+#if HAVE_GAS_COMDAT_GROUP
+  if (elf_comdat_group (name, &section_name, &group_name))
+    *f++ = 'G';
+#endif
   *f = '\0';
 
-  fprintf (asm_out_file, "\t.section\t%s,\"%s\"", name, flagchars);
+  if (section_name)
+    fprintf (asm_out_file, "\t.section\t%s,\"%s\"", section_name,
+	     flagchars);
+  else
+    fprintf (asm_out_file, "\t.section\t%s,\"%s\"", name, flagchars);
 
   if (!(flags & SECTION_NOTYPE))
     {
@@ -4758,6 +4876,9 @@ default_elf_asm_named_section (const char *name, unsigned int flags)
       if (flags & SECTION_ENTSIZE)
 	fprintf (asm_out_file, ",%d", flags & SECTION_ENTSIZE);
     }
+
+  if (group_name)
+    fprintf (asm_out_file, ",%s,comdat", group_name);
 
   putc ('\n', asm_out_file);
 }

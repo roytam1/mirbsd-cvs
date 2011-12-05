@@ -1881,7 +1881,12 @@ final_scan_insn (rtx insn, FILE *file, int optimize ATTRIBUTE_UNUSED,
 		{
 		  int log_align;
 
+#if HAVE_GAS_COMDAT_GROUP
+		  readonly_data_section_in_function_group
+		    (current_function_decl);
+#else
 		  readonly_data_section ();
+#endif
 
 #ifdef ADDR_VEC_ALIGN
 		  log_align = ADDR_VEC_ALIGN (NEXT_INSN (insn));
