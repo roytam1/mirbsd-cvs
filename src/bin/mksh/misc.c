@@ -3,8 +3,8 @@
 
 #include "sh.h"
 
-__RCSID("$MirOS: src/bin/mksh/misc.c,v 1.8 2005/10/25 19:53:28 tg Exp $"
-	"\n" MKSH_SH_H_ID);
+__RCSID("$MirOS: src/bin/mksh/misc.c,v 1.9 2005/11/22 18:40:43 tg Exp $"
+	"\t" MKSH_SH_H_ID);
 
 short chtypes[UCHAR_MAX+1];	/* type bits for unsigned char */
 
