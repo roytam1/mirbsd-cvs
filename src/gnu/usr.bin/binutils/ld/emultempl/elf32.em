@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.bin/binutils/ld/emultempl/elf32.em,v 1.4 2005/06/05 21:24:42 tg Exp $
+# $MirOS: src/gnu/usr.bin/binutils/ld/emultempl/elf32.em,v 1.5 2005/07/07 16:23:14 tg Exp $
 
 # This shell script emits a C file. -*- C -*-
 # It does some substitutions.
@@ -56,7 +56,7 @@ Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA 02110-1301, USA. 
 #include <ldgram.h>
 #include "elf/common.h"
 
-__RCSID("$MirOS: src/gnu/usr.bin/binutils/ld/emultempl/elf32.em,v 1.4 2005/06/05 21:24:42 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/binutils/ld/emultempl/elf32.em,v 1.5 2005/07/07 16:23:14 tg Exp $");
 
 /* Declare functions used by various EXTRA_EM_FILEs.  */
 static void gld${EMULATION_NAME}_before_parse (void);
@@ -691,7 +691,6 @@ case ${target} in
     if ((found = gld${EMULATION_NAME}_search_dir(path, name)) != NULL) {
       needed.name = found;
       if (gld${EMULATION_NAME}_try_needed (&needed, force)) {
-	free(found);
 	return TRUE;
       }
       free(found);
