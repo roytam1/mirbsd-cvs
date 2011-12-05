@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.bin/binutils/ld/scripttempl/elf.sc,v 1.5 2005/07/07 16:23:14 tg Exp $
+# $MirOS: src/gnu/usr.bin/binutils/ld/scripttempl/elf.sc,v 1.6 2011/04/22 12:45:56 tg Exp $
 #
 # Unusual variables checked by this code:
 #	NOP - four byte opcode for no-op (defaults to 0)
@@ -226,6 +226,10 @@ else
    test -z "${TEXT_BASE_ADDRESS}" && TEXT_BASE_ADDRESS="${TEXT_START_ADDR}"
 fi
 
+test -z "$INITIAL_NOTE_SECTIONS" || \
+    INITIAL_READONLY_SECTIONS="${INITIAL_NOTE_SECTIONS} ${RELOCATING-0} : { KEEP (*(${INITIAL_NOTE_SECTIONS})) }
+$INITIAL_READONLY_SECTIONS"
+
 cat <<EOF
 OUTPUT_FORMAT("${OUTPUT_FORMAT}", "${BIG_OUTPUT_FORMAT}",
 	      "${LITTLE_OUTPUT_FORMAT}")
@@ -249,7 +253,6 @@ SECTIONS
   ${CREATE_SHLIB+${RELOCATING+. = ${SHLIB_TEXT_START_ADDR:-0} + SIZEOF_HEADERS;}}
   ${CREATE_PIE+${RELOCATING+. = ${SHLIB_TEXT_START_ADDR:-0} + SIZEOF_HEADERS;}}
   ${CREATE_SHLIB-${INTERP}}
-  ${INITIAL_NOTE_SECTIONS+${INITIAL_NOTE_SECTIONS} ${RELOCATING-0} : { KEEP (*(${INITIAL_NOTE_SECTIONS})) }}
   ${INITIAL_READONLY_SECTIONS}
   ${TEXT_DYNAMIC+${DYNAMIC}}
   .hash         ${RELOCATING-0} : { *(.hash) }
