@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/ufs/ffs/ffs_vfsops.c,v 1.5 2005/07/07 15:16:27 tg Exp $ */
+/**	$MirOS: src/sys/ufs/ffs/ffs_vfsops.c,v 1.6 2006/05/28 23:27:54 tg Exp $ */
 /*	$OpenBSD: ffs_vfsops.c,v 1.70 2005/07/03 20:14:02 drahn Exp $	*/
 /*	$NetBSD: ffs_vfsops.c,v 1.19 1996/02/09 22:22:26 christos Exp $	*/
 
@@ -442,8 +442,9 @@ success:
 			else
 				fs->fs_flags &= ~FS_DOSOFTDEP;
 		}
-		/* Add randomness, in case it's remount r/o */
+		/* Add entropy, in case it's remount r/o */
 		fs->fs_firstfield = arc4random();
+		fs->fs_unused_1 = arc4random();
 		ffs_sbupdate(ump, MNT_WAIT);
 	}
 	return (0);
@@ -906,15 +907,14 @@ ffs_unmount(mp, mntflags, p)
 	ump = VFSTOUFS(mp);
 	fs = ump->um_fs;
 
-	/* MirOS specific: write randomness into superblock */
-	get_random_bytes(&(fs->fs_unused_1), 4);
+	/* MirOS specific: write random data into superblock (entropy seed) */
+	fs->fs_firstfield = arc4random();
+	fs->fs_unused_1 = arc4random();
 
 	if (mp->mnt_flag & MNT_SOFTDEP)
 		error = softdep_flushfiles(mp, flags, p);
 	else
 		error = ffs_flushfiles(mp, flags, p);
-	/* another piece of randomness */
-	fs->fs_firstfield = arc4random();
 	if (error != 0)
 		return (error);
 
