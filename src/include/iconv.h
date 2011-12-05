@@ -1,4 +1,4 @@
-/* $MirOS: src/include/iconv.h,v 1.2 2006/01/31 17:18:35 tg Exp $ */
+/* $MirOS: src/share/misc/licence.template,v 1.14 2006/08/09 19:35:23 tg Rel $ */
 
 /*-
  * Copyright (c) 2006
@@ -18,7 +18,7 @@
  * or other damage, or direct damage except proven a consequence of a
  * direct error of said person and intended use of this work, loss or
  * other issues arising in any way out of its use, even if advised of
- * the possibility of such damage or existence of a nontrivial bug.
+ * the possibility of such damage or existence of a defect.
  *-
  * Expose standardised iconv(3) interface, implementation-independent
  */
@@ -50,6 +50,8 @@ __END_DECLS
 __BEGIN_DECLS
 int __iconv_get_list(char ***, size_t *);
 void __iconv_free_list(char **, size_t);
+size_t __iconv(iconv_t, const char **, size_t *, char **, size_t *,
+    u_int32_t, size_t *);
 __END_DECLS
 #endif /* _ALL_SOURCE */
 
