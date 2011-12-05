@@ -1,11 +1,11 @@
-/**	$MirOS: src/sbin/disklabel/disklabel.c,v 1.3 2005/04/29 18:34:53 tg Exp $ */
+/**	$MirOS: src/sbin/disklabel/disklabel.c,v 1.4 2005/04/30 21:49:24 tg Exp $ */
 /*	$OpenBSD: disklabel.c,v 1.95 2005/04/30 07:09:37 deraadt Exp $	*/
 
 /*
  * Copyright (c) 1987, 1993
  *	The Regents of the University of California.  All rights reserved.
  * Copyright (c) 2004
- *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+ *	Thorsten "mirabilos" Glaser <tg@66h.42h.de>
  *
  * This code is derived from software contributed to Berkeley by
  * Symmetric Computer Systems.
@@ -35,12 +35,6 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-static const char copyright[] =
-"@(#) Copyright (c) 1987, 1993\n\
-	The Regents of the University of California.  All rights reserved.\n";
-#endif /* not lint */
-
 #include <sys/param.h>
 #include <sys/ioctl.h>
 #include <sys/stat.h>
@@ -64,7 +58,9 @@ static const char copyright[] =
 #include "pathnames.h"
 #include "extern.h"
 
-__RCSID("$MirOS: src/sbin/disklabel/disklabel.c,v 1.3 2005/04/29 18:34:53 tg Exp $");
+__COPYRIGHT("@(#) Copyright (c) 1987, 1993\n\
+	The Regents of the University of California.  All rights reserved.\n");
+__RCSID("$MirOS: src/sbin/disklabel/disklabel.c,v 1.4 2005/04/30 21:49:24 tg Exp $");
 
 /*
  * Disklabel: read and write disklabels.
