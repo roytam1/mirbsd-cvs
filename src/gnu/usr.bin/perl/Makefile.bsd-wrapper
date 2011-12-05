@@ -555,6 +555,9 @@ SRCS=	perl.c gv.c toke.c perly.c op.c pad.c regcomp.c dump.c util.c mg.c \
 
 CPPFLAGS+=	-DPERL_CORE -DPERL_RANDOM_DEVICE=\"/dev/arandom\" -I.
 
+# MirPorts Framework support
+CPPFLAGS+=	-DAPPLLIB_EXP=\"/usr/mpkg/libdata/perl5:/usr/mpkg/libdata/perl5/site_perl\"
+
 .if defined(INSTALL_STRIP) && ${INSTALL_STRIP} == "-s"
 STRIPFLAGS=	-s
 .endif
