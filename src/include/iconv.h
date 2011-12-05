@@ -1,4 +1,4 @@
-/* $MirOS: src/include/iconv.h,v 1.1 2006/01/31 14:19:17 tg Exp $ */
+/* $MirOS: src/include/iconv.h,v 1.2 2006/01/31 17:18:35 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -44,5 +44,13 @@ size_t iconv(iconv_t, char **__restrict__, size_t *__restrict__,
     char **__restrict__, size_t *__restrict__);
 int iconv_close(iconv_t);
 __END_DECLS
+
+#ifdef _ALL_SOURCE
+/* non-portable NetBSD(R) interface */
+__BEGIN_DECLS
+int __iconv_get_list(char ***, size_t *);
+void __iconv_free_list(char **, size_t);
+__END_DECLS
+#endif /* _ALL_SOURCE */
 
 #endif
