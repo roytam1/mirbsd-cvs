@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/sys/dev/vnd.c,v 1.11 2008/06/12 17:35:01 tg Exp $ */
 /*	$OpenBSD: vnd.c,v 1.85 2008/03/24 01:16:58 krw Exp $	*/
 /*	$NetBSD: vnd.c,v 1.26 1996/03/30 23:06:11 christos Exp $	*/
 
@@ -443,6 +443,17 @@ vndstrategy(struct buf *bp)
 		bp->b_resid = bp->b_bcount;
 	}
 
+	/* Configured as read-only?  */
+	if ((vnd->sc_flags & VNF_READONLY) &&
+	   ((bp->b_flags & B_READ) == 0)) {
+		bp->b_error = EROFS;
+		bp->b_flags |= B_ERROR;
+		s = splbio();
+		biodone(bp);
+		splx(s);
+		return;
+	}
+
 	sz = howmany(bp->b_bcount, DEV_BSIZE);
 
 	/* No bypassing of buffer cache?  */
@@ -712,6 +723,8 @@ vndwrite(dev_t dev, struct uio *uio, int flags)
 
 	if ((sc->sc_flags & VNF_INITED) == 0)
 		return (ENXIO);
+	if (sc->sc_flags & VNF_READONLY)
+		return (EROFS);
 
 	return (physio(vndstrategy, NULL, dev, B_WRITE, minphys, uio));
 }
@@ -790,9 +803,12 @@ vndioctl(dev_t dev, u_long cmd, caddr_t addr, int flag, struct proc *p)
 		 * them.
 		 */
 		NDINIT(&nd, LOOKUP, FOLLOW, UIO_USERSPACE, vio->vnd_file, p);
+		if (vio->vnd_options & VNDIOC_OPT_RDONLY)
+			goto VNDIOCSET_readonly;
 		vnd->sc_flags &= ~VNF_READONLY;
 		error = vn_open(&nd, FREAD|FWRITE, 0);
 		if (error == EROFS) {
+ VNDIOCSET_readonly:
 			vnd->sc_flags |= VNF_READONLY;
 			error = vn_open(&nd, FREAD, 0);
 		}
@@ -950,6 +966,8 @@ vndioctl(dev_t dev, u_long cmd, caddr_t addr, int flag, struct proc *p)
 	case DIOCSDINFO:
 		if ((vnd->sc_flags & VNF_HAVELABEL) == 0)
 			return (ENOTTY);
+		if (vnd->sc_flags & VNF_READONLY)
+			return (EROFS);
 		if ((flag & FWRITE) == 0)
 			return (EBADF);
 
@@ -974,6 +992,8 @@ vndioctl(dev_t dev, u_long cmd, caddr_t addr, int flag, struct proc *p)
 	case DIOCWLABEL:
 		if ((flag & FWRITE) == 0)
 			return (EBADF);
+		if (vnd->sc_flags & VNF_READONLY)
+			return (EROFS);
 		if (*(int *)addr)
 			vnd->sc_flags |= VNF_WLABEL;
 		else
