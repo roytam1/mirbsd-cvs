@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/ufs/ffs/ffs_vfsops.c,v 1.7 2006/08/18 21:39:42 tg Exp $ */
+/**	$MirOS: src/sys/ufs/ffs/ffs_vfsops.c,v 1.8 2006/08/22 21:01:09 tg Exp $ */
 /*	$OpenBSD: ffs_vfsops.c,v 1.70 2005/07/03 20:14:02 drahn Exp $	*/
 /*	$NetBSD: ffs_vfsops.c,v 1.19 1996/02/09 22:22:26 christos Exp $	*/
 
@@ -676,7 +676,7 @@ ffs_mountfs(devvp, mp, p)
 	 * MirOS ffs specific: add true (first two) and pseudo (last)
 	 * randomness from superblock
 	 */
-	if (fs->fs_firstfield && fs->fs_unused_1) {
+	if (fs->fs_firstfield && (fs->fs_firstfield == fs->fs_unused_1)) {
 		add_true_randomness(fs->fs_firstfield);
 		add_true_randomness(fs->fs_unused_1);
 	} else {
