@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/ntpd/log.c,v 1.3 2006/08/12 23:53:35 tg Exp $ */
+/**	$MirOS: src/usr.sbin/ntpd/log.c,v 1.4 2007/08/10 22:22:03 tg Exp $ */
 /*	$OpenBSD: log.c,v 1.7 2005/03/31 12:14:01 henning Exp $ */
 
 /*
@@ -28,7 +28,7 @@
 
 #include "ntpd.h"
 
-__RCSID("$MirOS: src/usr.sbin/ntpd/log.c,v 1.3 2006/08/12 23:53:35 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/ntpd/log.c,v 1.4 2007/08/10 22:22:03 tg Exp $");
 
 int	 debug;
 
@@ -165,13 +165,15 @@ log_sockaddr(struct sockaddr *sa)
 	struct sockinet {
 		u_char	si_len;
 		u_char	si_family;
-		u_short	si_port;
+		u_char	si_port[2];
 	} *si = (struct sockinet *)sa;
+	u_short s_port;
 
 	if (getnameinfo(sa, SA_LEN(sa), buf, MAXHOSTNAMELEN, NULL, 0,
 	    NI_NUMERICHOST))
 		return ("(unknown)");
-	if (si->si_port && ntohs(si->si_port) != 123)
-		snprintf(buf + strlen(buf), 8, "*%hu", ntohs(si->si_port));
+	memcpy(&s_port, &si->si_port, sizeof (u_short));
+	if (s_port && ntohs(s_port) != 123)
+		snprintf(buf + strlen(buf), 8, "*%hu", ntohs(s_port));
 	return (buf);
 }

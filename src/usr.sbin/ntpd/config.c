@@ -1,6 +1,7 @@
 /*	$OpenBSD: config.c,v 1.18 2005/05/11 15:12:35 henning Exp $ */
 
 /*
+ * Copyright (c) 2007 Thorsten Glaser <tg@mirbsd.de>
  * Copyright (c) 2003, 2004 Henning Brauer <henning@openbsd.org>
  *
  * Permission to use, copy, modify, and distribute this software for any
@@ -31,7 +32,7 @@
 
 #include "ntpd.h"
 
-__RCSID("$MirOS: src/usr.sbin/ntpd/config.c,v 1.2 2007/07/31 19:57:02 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/ntpd/config.c,v 1.3 2007/08/10 22:22:03 tg Exp $");
 
 struct ntp_addr	*host_v4(const char *);
 struct ntp_addr	*host_v6(const char *);
@@ -127,7 +128,7 @@ struct ntp_addr	*
 host_v6(const char *s)
 {
 	struct addrinfo		 hints, *res;
-	struct sockaddr_in6	*sa_in6;
+	struct sockaddr_in6	*sa_in6, sa_in6tmp;
 	struct ntp_addr		*h = NULL;
 
 	bzero(&hints, sizeof(hints));
@@ -140,11 +141,10 @@ host_v6(const char *s)
 		sa_in6 = (struct sockaddr_in6 *)&h->ss;
 		sa_in6->sin6_len = sizeof(struct sockaddr_in6);
 		sa_in6->sin6_family = AF_INET6;
-		memcpy(&sa_in6->sin6_addr,
-		    &((struct sockaddr_in6 *)res->ai_addr)->sin6_addr,
+		memcpy(&sa_in6tmp, res->ai_addr, sizeof (struct sockaddr_in6));
+		memcpy(&sa_in6->sin6_addr, &sa_in6tmp.sin6_addr,
 		    sizeof(sa_in6->sin6_addr));
-		sa_in6->sin6_scope_id =
-		    ((struct sockaddr_in6 *)res->ai_addr)->sin6_scope_id;
+		sa_in6->sin6_scope_id = sa_in6tmp.sin6_scope_id;
 
 		freeaddrinfo(res);
 	}
@@ -157,8 +157,8 @@ host_dns(const char *s, struct ntp_addr **hn)
 {
 	struct addrinfo		 hints, *res0, *res;
 	int			 error, cnt = 0;
-	struct sockaddr_in	*sa_in;
-	struct sockaddr_in6	*sa_in6;
+	struct sockaddr_in	*sa_in, sa_intmp;
+	struct sockaddr_in6	*sa_in6, sa_in6tmp;
 	struct ntp_addr		*h, *hh = NULL;
 
 	bzero(&hints, sizeof(hints));
@@ -183,13 +183,16 @@ host_dns(const char *s, struct ntp_addr **hn)
 		if (res->ai_family == AF_INET) {
 			sa_in = (struct sockaddr_in *)&h->ss;
 			sa_in->sin_len = sizeof(struct sockaddr_in);
-			sa_in->sin_addr.s_addr = ((struct sockaddr_in *)
-			    res->ai_addr)->sin_addr.s_addr;
+			memcpy(&sa_intmp, res->ai_addr,
+			    sizeof (struct sockaddr_in));
+			sa_in->sin_addr.s_addr = sa_intmp.sin_addr.s_addr;
 		} else {
 			sa_in6 = (struct sockaddr_in6 *)&h->ss;
 			sa_in6->sin6_len = sizeof(struct sockaddr_in6);
-			memcpy(&sa_in6->sin6_addr, &((struct sockaddr_in6 *)
-			    res->ai_addr)->sin6_addr, sizeof(struct in6_addr));
+			memcpy(&sa_in6tmp, res->ai_addr,
+			    sizeof (struct sockaddr_in6));
+			memcpy(&sa_in6->sin6_addr, &sa_in6tmp.sin6_addr,
+			    sizeof (struct in6_addr));
 		}
 
 		h->next = hh;
