@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/vndioctl.h,v 1.5 2008/06/12 20:19:46 tg Exp $	*/
+/**	$MirOS: src/sys/dev/vndioctl.h,v 1.6 2008/06/12 21:19:25 tg Exp $	*/
 /*	$OpenBSD: vndioctl.h,v 1.6 2004/06/20 18:03:03 pedro Exp $	*/
 /*	$NetBSD: vndioctl.h,v 1.5 1995/01/25 04:46:30 cgd Exp $	*/
 
@@ -58,6 +58,9 @@ struct vnd_ioctl {
 #define VNDIOC_ALGSHIFT	24	/* shift of algorithm in vnd_options */
 #define VNDIOC_ALG_BLF		0x00	/* old Blowfish */
 #define VNDIOC_ALG_BF_CBC	0x01	/* new Blowfish-CBC */
+#define VNDIOC_ALG_AES128_CBC	0x02	/* AES with 128-bit keys */
+#define VNDIOC_ALG_AES192_CBC	0x03	/* AES with 192-bit keys */
+#define VNDIOC_ALG_AES256_CBC	0x04	/* AES with 256-bit keys */
 };
 
 /*
@@ -65,11 +68,14 @@ struct vnd_ioctl {
  */
 #define VNDIOC_KSZ_BLF		72	/* 576 bit (448 bit used) */
 #define VNDIOC_KSZ_BF_CBC	88	/* 16 bytes salt, 72 bytes key */
+#define VNDIOC_KSZ_AES128_CBC	32	/* 16 bytes salt, 16 bytes key */
+#define VNDIOC_KSZ_AES192_CBC	40	/* 16 bytes salt, 24 bytes key */
+#define VNDIOC_KSZ_AES256_CBC	48	/* 16 bytes salt, 32 bytes key */
 #define VNDIOC_MAXKSZ		88	/* largest of the above */
 
 #define VNDIOC_BSZ_BLF		8	/* blowfish has 64 bit blocks */
-#define VNDIOC_BSZ_BF_CBC	8	/* dito (unused) */
-#define VNDIOC_MAXBSZ		8	/* largest of the above */
+#define VNDIOC_BSZ_AES		16	/* rijndael has 128 bit blocks */
+#define VNDIOC_MAXBSZ		16	/* largest of the above */
 
 #define VNDIOC_IVSZ		16	/* size of the salt/IV */
 
