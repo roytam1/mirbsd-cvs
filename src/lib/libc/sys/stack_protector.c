@@ -1,8 +1,8 @@
-/**	$MirOS: src/lib/libc/sys/stack_protector.c,v 1.7 2008/10/16 14:45:57 tg Exp $ */
+/**	$MirOS: src/lib/libc/sys/stack_protector.c,v 1.8 2009/01/20 21:49:34 tg Exp $ */
 /*	$OpenBSD: stack_protector.c,v 1.10 2006/03/31 05:34:44 deraadt Exp $	*/
 
 /*
- * Copyright (c) 2009 Thorsten Glaser
+ * Copyright (c) 2009, 2011 Thorsten Glaser
  * Copyright (c) 2002 Hiroaki Etoh, Federico G. Schwindt, and Miodrag Vallat.
  * All rights reserved.
  *
@@ -36,7 +36,7 @@
 #include <syslog.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: src/lib/libc/sys/stack_protector.c,v 1.7 2008/10/16 14:45:57 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/sys/stack_protector.c,v 1.8 2009/01/20 21:49:34 tg Exp $");
 
 #if (defined(__SSP__) || defined(__SSP_ALL__)) && \
     !defined(__IN_MKDEP) && !defined(lint)
@@ -52,12 +52,15 @@ __RCSID("$MirOS: src/lib/libc/sys/stack_protector.c,v 1.7 2008/10/16 14:45:57 tg
 #endif
 
 extern int __sysctl(int *, u_int, void *, size_t *, void *, size_t);
+extern void _thread_sys__exit__(int) __dead;
 
 long __guard[8] = {0, 0, 0, 0, 0, 0, 0, 0};	/* gcc */
 int __stack_chk_guard;				/* pcc */
 CONSTRUCTOR void __guard_setup(void);
 __dead void __stack_smash_handler(const char func[], int damaged);
 __dead void __stack_chk_fail(void);
+
+const char message[] = "stack overflow in function %s (damaged: %d)";
 
 CONSTRUCTOR void
 __guard_setup(void)
@@ -86,10 +89,9 @@ __guard_setup(void)
 
 /* ARGSUSED1 */
 void
-__stack_smash_handler(const char func[], __unused int damaged)
+__stack_smash_handler(const char func[], int damaged)
 {
 	struct syslog_data sdata = SYSLOG_DATA_INIT;
-	const char message[] = "stack overflow in function %s";
 	struct sigaction sa;
 	sigset_t mask;
 
@@ -99,7 +101,7 @@ __stack_smash_handler(const char func[], __unused int damaged)
 	sigprocmask(SIG_BLOCK, &mask, NULL);
 
 	/* This may fail on a chroot jail... */
-	syslog_r(LOG_CRIT, &sdata, message, func);
+	syslog_r(LOG_CRIT, &sdata, message, func, damaged);
 
 	memset(&sa, 0, sizeof(struct sigaction));
 	sigemptyset(&sa.sa_mask);
@@ -109,7 +111,7 @@ __stack_smash_handler(const char func[], __unused int damaged)
 
 	kill(getpid(), SIGABRT);
 
-	_exit(127);
+	_thread_sys__exit__(127);
 }
 
 void
