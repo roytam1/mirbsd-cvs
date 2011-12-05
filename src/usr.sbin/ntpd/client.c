@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/ntpd/client.c,v 1.2 2005/07/26 12:40:44 tg Exp $ */
+/**	$MirOS: src/usr.sbin/ntpd/client.c,v 1.3 2005/10/27 09:35:29 tg Exp $ */
 /*	$OpenBSD: client.c,v 1.66 2005/09/24 00:32:03 dtucker Exp $ */
 
 /*
@@ -27,7 +27,13 @@
 
 #include "ntpd.h"
 
-__RCSID("$MirOS: src/usr.sbin/ntpd/client.c,v 1.2 2005/07/26 12:40:44 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/ntpd/client.c,v 1.3 2005/10/27 09:35:29 tg Exp $");
+
+#ifdef DDEBUG
+#define log_reply	log_info
+#else
+#define log_reply	log_debug
+#endif
 
 int	client_update(struct ntp_peer *);
 void	set_deadline(struct ntp_peer *, time_t);
@@ -279,7 +285,7 @@ client_dispatch(struct ntp_peer *p, u_int8_t settime)
 		p->trustlevel++;
 	}
 
-	log_debug("reply from %s: offset %f delay %f, "
+	log_reply("reply from %s: offset %f delay %f, "
 	    "next query %llds", log_sockaddr((struct sockaddr *)&p->addr->ss),
 	    p->reply[p->shift].offset, p->reply[p->shift].delay,
 	    (int64_t)interval);
