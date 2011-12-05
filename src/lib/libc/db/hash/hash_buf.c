@@ -1,4 +1,4 @@
-/**	$MirOS: src/lib/libc/db/hash/hash_buf.c,v 1.2 2005/03/06 20:28:35 tg Exp $ */
+/**	$MirOS: src/lib/libc/db/hash/hash_buf.c,v 1.3 2005/09/22 20:07:47 tg Exp $ */
 /*	$OpenBSD: hash_buf.c,v 1.16 2005/08/05 13:03:00 espie Exp $	*/
 
 /*-
@@ -67,7 +67,7 @@
 #include "extern.h"
 
 __SCCSID("@(#)hash_buf.c	8.5 (Berkeley) 7/15/94");
-__RCSID("$MirOS: src/lib/libc/db/hash/hash_buf.c,v 1.2 2005/03/06 20:28:35 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/db/hash/hash_buf.c,v 1.3 2005/09/22 20:07:47 tg Exp $");
 
 static BUFHEAD *newbuf(HTAB *, u_int32_t, BUFHEAD *);
 
@@ -178,14 +178,12 @@ newbuf(HTAB *hashp, u_int32_t addr, BUFHEAD *prev_bp)
 	 */
 	if (hashp->nbufs || (bp->flags & BUF_PIN) || bp == hashp->cpage) {
 		/* Allocate a new one */
-		if ((bp = (BUFHEAD *)malloc(sizeof(BUFHEAD))) == NULL)
+		if ((bp = (BUFHEAD *)calloc(1, sizeof(BUFHEAD))) == NULL)
 			return (NULL);
-		memset(bp, 0xff, sizeof(BUFHEAD));
-		if ((bp->page = (char *)malloc(hashp->BSIZE)) == NULL) {
+		if ((bp->page = (char *)calloc(1, hashp->BSIZE)) == NULL) {
 			free(bp);
 			return (NULL);
 		}
-		memset(bp->page, 0xff, hashp->BSIZE);
 		if (hashp->nbufs)
 			hashp->nbufs--;
 	} else {
