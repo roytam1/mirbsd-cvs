@@ -1,8 +1,9 @@
-/* $MirOS: gcc/gcc/config/i386/mirbsd.h,v 1.2 2005/04/29 14:33:31 tg Exp $ */
+/* $MirOS: gcc/gcc/config/i386/mirbsd.h,v 1.3 2005/07/22 02:09:01 tg Exp $ */
 
 /* Definitions of target machine for GCC,
    for i386/ELF MirOS BSD systems.
-   Copyright (C) 2001, 2002, 2005 Free Software Foundation, Inc.
+   Copyright (C) 2001, 2002, 2005, 2006
+   Free Software Foundation, Inc.
    Contributed by matthew green <mrg@eterna.com.au>
    Hacked by Thorsten Glaser <tg@66h.42h.de>
 
@@ -78,7 +79,7 @@ Boston, MA 02111-1307, USA.  */
 /* We always use gas here, so we don't worry about ECOFF assembler
    problems.  */
 #undef TARGET_GAS
-#define TARGET_GAS	1
+#define TARGET_GAS 1
 
 /* Default to pcc-struct-return, because this is the ELF abi and
    we don't care about compatibility with older gcc versions.  */
@@ -89,4 +90,5 @@ Boston, MA 02111-1307, USA.  */
 #undef TARGET_SUBTARGET_DEFAULT
 #define TARGET_SUBTARGET_DEFAULT (MASK_80387 | MASK_IEEE_FP | MASK_FLOAT_RETURNS)
 
+#undef TARGET_VERSION
 #define TARGET_VERSION fprintf (stderr, " (MirOS BSD/i386)");

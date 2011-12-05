@@ -1,8 +1,9 @@
-/* $MirOS: gcc/gcc/config/i386/mirbsd.h,v 1.3 2005/07/22 02:09:01 tg Exp $ */
+/* $MirOS: gcc/gcc/config/sparc/mirbsd.h,v 1.1 2006/06/11 00:15:13 tg Exp $ */
 
 /* Definitions of target machine for GCC,
    for sparc/ELF MirOS BSD systems.
-   Copyright (C) 2001, 2002, 2005, 2006 Free Software Foundation, Inc.
+   Copyright (C) 2001, 2002, 2005, 2006
+   Free Software Foundation, Inc.
    Contributed by matthew green <mrg@eterna.com.au>
    Hacked by Thorsten Glaser <tg@66h.42h.de>
 
@@ -44,28 +45,12 @@ Boston, MA 02111-1307, USA.  */
 /* We always use gas here, so we don't worry about ECOFF assembler
    problems.  */
 #undef TARGET_GAS
-#define TARGET_GAS	1
-
-/* Specific options for DBX Output.  */
-
-/* This is BSD, so it wants DBX format.  */
-#define DBX_DEBUGGING_INFO 1
-
-/* This is the char to use for continuation */
-#define DBX_CONTIN_CHAR '?'
+#define TARGET_GAS 1
 
 /* Default to pcc-struct-return, because this is the ELF abi and
    we don't care about compatibility with older gcc versions.  */
 #undef DEFAULT_PCC_STRUCT_RETURN
 #define DEFAULT_PCC_STRUCT_RETURN 1
-
-/* Assembler format: exception region output.  */
-
-/* All configurations that don't use elf must be explicit about not using
-   dwarf unwind information. */
-#define DWARF2_UNWIND_INFO 0
-
-#undef ASM_PREFERRED_EH_DATA_FORMAT
 
 #undef TARGET_VERSION
 #define TARGET_VERSION fprintf (stderr, " (MirOS BSD/sparc)");
