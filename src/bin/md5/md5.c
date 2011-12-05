@@ -1,4 +1,4 @@
-/**	$MirOS: src/bin/md5/md5.c,v 1.8 2006/05/09 22:55:36 tg Exp $ */
+/**	$MirOS: src/bin/md5/md5.c,v 1.9 2006/05/25 12:33:09 tg Exp $ */
 /*	$OpenBSD: md5.c,v 1.32 2004/12/29 17:32:44 millert Exp $	*/
 
 /*
@@ -38,9 +38,10 @@
 #include <sha1.h>
 #include <sha2.h>
 #include <crc.h>
+#include "adler32.h"
 #include "suma.h"
 
-__RCSID("$MirOS: src/bin/md5/md5.c,v 1.8 2006/05/09 22:55:36 tg Exp $");
+__RCSID("$MirOS: src/bin/md5/md5.c,v 1.9 2006/05/25 12:33:09 tg Exp $");
 
 #define MAX_DIGEST_LEN	128
 
@@ -56,6 +57,7 @@ union ANY_CTX {
 	SUM_CTX sum;
 	SYSVSUM_CTX sysvsum;
 	SUMA_CTX suma;
+	ADLER32_CTX adler32;
 };
 
 void digest_print(const char *, const char *, const char *);
@@ -64,7 +66,7 @@ void digest_print_string(const char *, const char *, const char *);
 void digest_printbin_pad(const char *);
 void digest_printbin_string(const char *);
 
-#define NHASHES	11
+#define NHASHES	12
 struct hash_functions {
 	const char *name;
 	size_t digestlen;
@@ -106,6 +108,16 @@ struct hash_functions {
 		digest_printbin_pad,
 		digest_print_short,
 		digest_print_short
+	}, {
+		"ADLER32",
+		ADLER32_DIGEST_LENGTH * 2,
+		NULL,
+		(void (*)(void *))ADLER32_Init,
+		(void (*)(void *, const unsigned char *, unsigned int))ADLER32_Update,
+		(char *(*)(void *, char *))ADLER32_End,
+		digest_printbin_string,
+		digest_print,
+		digest_print_string
 	}, {
 		"SUMA",
 		SUMA_DIGEST_LENGTH * 2,
