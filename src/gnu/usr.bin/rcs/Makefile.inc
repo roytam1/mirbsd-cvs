@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.bin/rcs/Makefile.inc,v 1.3 2005/03/15 20:15:14 tg Exp $
+# $MirOS: src/gnu/usr.bin/rcs/Makefile.inc,v 1.4 2005/10/21 10:46:28 tg Exp $
 
 .ifndef _MODSRC_GNU_USR_BIN_RCS_MAKEFILE_INC
 
@@ -17,6 +17,8 @@ DPADD+=		${LIBDIR}/librcs.a
 .if exists(${.CURDIR}/../../Makefile.inc)
 .  include "${.CURDIR}/../../Makefile.inc"
 .endif
+
+CVSLIB=	${.CURDIR}/../../cvs/lib
 
 _MODSRC_GNU_USR_BIN_RCS_MAKEFILE_INC=1
 .endif
