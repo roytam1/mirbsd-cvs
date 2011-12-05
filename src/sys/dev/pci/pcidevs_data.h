@@ -4,7 +4,7 @@
  * THIS FILE AUTOMATICALLY GENERATED.  DO NOT EDIT.
  *
  * generated from:
- *	MirOS: src/sys/dev/pci/pcidevs,v 1.15 2010/04/03 21:34:12 tg Exp 
+ *	MirOS: src/sys/dev/pci/pcidevs,v 1.16 2010/04/16 22:44:06 tg Exp 
  */
 /*	$NetBSD: pcidevs,v 1.580 2003/09/26 07:45:15 matt Exp $		*/
 /*	$OpenBSD: pcidevs,v 1.901 2005/08/01 22:52:47 brad Exp $	*/
@@ -73,6 +73,26 @@ static const struct pci_known_product pci_known_products[] = {
 	{
 	    PCI_VENDOR_O2MICRO, PCI_PRODUCT_O2MICRO_OZ7114,
 	    "OZ711M1 CardBus",
+	},
+	{
+	    PCI_VENDOR_O2MICRO, PCI_PRODUCT_O2MICRO_OZ7120,
+	    "OZ711MP1 SDHC",
+	},
+	{
+	    PCI_VENDOR_O2MICRO, PCI_PRODUCT_O2MICRO_OZ7130,
+	    "OZ711MP1 XDHC",
+	},
+	{
+	    PCI_VENDOR_O2MICRO, PCI_PRODUCT_O2MICRO_OZ7134,
+	    "OZ711MP1 CardBus",
+	},
+	{
+	    PCI_VENDOR_O2MICRO, PCI_PRODUCT_O2MICRO_OZ7135,
+	    "OZ711EZ1 CardBus",
+	},
+	{
+	    PCI_VENDOR_O2MICRO, PCI_PRODUCT_O2MICRO_OZ7136,
+	    "OZ711SP1 CardBus",
 	},
 	{
 	    PCI_VENDOR_O2MICRO, PCI_PRODUCT_O2MICRO_OZ7223,
@@ -3023,6 +3043,22 @@ static const struct pci_known_product pci_known_products[] = {
 	    "Endace Dag4.23GE",
 	},
 	{
+	    PCI_VENDOR_ENE, PCI_PRODUCT_ENE_FLASH,
+	    "Flash memory",
+	},
+	{
+	    PCI_VENDOR_ENE, PCI_PRODUCT_ENE_MEMSTICK,
+	    "Memory Stick",
+	},
+	{
+	    PCI_VENDOR_ENE, PCI_PRODUCT_ENE_SDCARD,
+	    "SD Controller",
+	},
+	{
+	    PCI_VENDOR_ENE, PCI_PRODUCT_ENE_SDMMC,
+	    "SD/MMC",
+	},
+	{
 	    PCI_VENDOR_ENE, PCI_PRODUCT_ENE_CB1410,
 	    "CB-1410 CardBus",
 	},
@@ -4823,6 +4859,18 @@ static const struct pci_known_product pci_known_products[] = {
 	    "82740 AGP",
 	},
 	{
+	    PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_SCH_SDMMC_1,
+	    "SCH SD/MMC",
+	},
+	{
+	    PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_SCH_SDMMC_2,
+	    "SCH SD/MMC",
+	},
+	{
+	    PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_SCH_SDMMC_3,
+	    "SCH SD/MMC",
+	},
+	{
 	    PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_PCI450_PB,
 	    "82450KX/GX",
 	},
@@ -4933,6 +4981,62 @@ static const struct pci_known_product pci_known_products[] = {
 	{
 	    PCI_VENDOR_ITEXPRESS, PCI_PRODUCT_ITEXPRESS_IT8330G,
 	    "IT8330G",
+	},
+	{
+	    PCI_VENDOR_JMICRON, PCI_PRODUCT_JMICRON_JMC250,
+	    "JMC250",
+	},
+	{
+	    PCI_VENDOR_JMICRON, PCI_PRODUCT_JMICRON_JMC260,
+	    "JMC260",
+	},
+	{
+	    PCI_VENDOR_JMICRON, PCI_PRODUCT_JMICRON_JMB360,
+	    "JMB360 SATA",
+	},
+	{
+	    PCI_VENDOR_JMICRON, PCI_PRODUCT_JMICRON_JMB361,
+	    "JMB361 IDE/SATA",
+	},
+	{
+	    PCI_VENDOR_JMICRON, PCI_PRODUCT_JMICRON_JMB362,
+	    "JMB362 SATA",
+	},
+	{
+	    PCI_VENDOR_JMICRON, PCI_PRODUCT_JMICRON_JMB363,
+	    "JMB363 IDE/SATA",
+	},
+	{
+	    PCI_VENDOR_JMICRON, PCI_PRODUCT_JMICRON_JMB365,
+	    "JMB365 IDE/SATA",
+	},
+	{
+	    PCI_VENDOR_JMICRON, PCI_PRODUCT_JMICRON_JMB366,
+	    "JMB366 IDE/SATA",
+	},
+	{
+	    PCI_VENDOR_JMICRON, PCI_PRODUCT_JMICRON_JMB368,
+	    "JMB368 IDE",
+	},
+	{
+	    PCI_VENDOR_JMICRON, PCI_PRODUCT_JMICRON_FIREWIRE,
+	    "FireWire",
+	},
+	{
+	    PCI_VENDOR_JMICRON, PCI_PRODUCT_JMICRON_SD,
+	    "SD Host Controller",
+	},
+	{
+	    PCI_VENDOR_JMICRON, PCI_PRODUCT_JMICRON_SDMMC,
+	    "SD/MMC",
+	},
+	{
+	    PCI_VENDOR_JMICRON, PCI_PRODUCT_JMICRON_MS,
+	    "Memory Stick",
+	},
+	{
+	    PCI_VENDOR_JMICRON, PCI_PRODUCT_JMICRON_XD,
+	    "xD",
 	},
 	{
 	    PCI_VENDOR_KTI, PCI_PRODUCT_KTI_KTIE,
@@ -7139,6 +7243,18 @@ static const struct pci_known_product pci_known_products[] = {
 	    "5C552 Firewire",
 	},
 	{
+	    PCI_VENDOR_RICOH, PCI_PRODUCT_RICOH_R5C822,
+	    "5C822 SD/MMC",
+	},
+	{
+	    PCI_VENDOR_RICOH, PCI_PRODUCT_RICOH_R5U822,
+	    "5U822 SD/MMC",
+	},
+	{
+	    PCI_VENDOR_RICOH, PCI_PRODUCT_RICOH_R5U852,
+	    "5U852 SD/MMC",
+	},
+	{
 	    PCI_VENDOR_ROCKWELL, PCI_PRODUCT_ROCKWELL_RS56SP_PCI11P1,
 	    "RS56/SP-PCI11P1 Modem",
 	},
@@ -7971,6 +8087,26 @@ static const struct pci_known_product pci_known_products[] = {
 	    "PCI7x20 FireWire",
 	},
 	{
+	    PCI_VENDOR_TI, PCI_PRODUCT_TI_PCI7XX1,
+	    "PCI7XX1 CardBus",
+	},
+	{
+	    PCI_VENDOR_TI, PCI_PRODUCT_TI_PCI7XX1_FW,
+	    "PCI7XX1 FireWire",
+	},
+	{
+	    PCI_VENDOR_TI, PCI_PRODUCT_TI_PCI7XX1_FLASH,
+	    "PCI7XX1 Flash",
+	},
+	{
+	    PCI_VENDOR_TI, PCI_PRODUCT_TI_PCI7XX1_SD,
+	    "PCI7XX1 Secure Data",
+	},
+	{
+	    PCI_VENDOR_TI, PCI_PRODUCT_TI_PCI7XX1_SM,
+	    "PCI7XX1 Smart Card",
+	},
+	{
 	    PCI_VENDOR_TI, PCI_PRODUCT_TI_PCI6515,
 	    "PCI6515 CardBus",
 	},
@@ -8773,6 +8909,14 @@ static const struct pci_known_product pci_known_products[] = {
 	{
 	    PCI_VENDOR_VIATECH, PCI_PRODUCT_VIATECH_VT8605_AGP,
 	    "VT8605 AGP",
+	},
+	{
+	    PCI_VENDOR_VIATECH, PCI_PRODUCT_VIATECH_VX800_SDMMC,
+	    "VX800 SD/MMC",
+	},
+	{
+	    PCI_VENDOR_VIATECH, PCI_PRODUCT_VIATECH_VX800_SDIO,
+	    "VX800 SDIO",
 	},
 	{
 	    PCI_VENDOR_VIATECH, PCI_PRODUCT_VIATECH_VT8633_AGP,
@@ -11445,6 +11589,10 @@ static const struct pci_known_vendor pci_known_vendors[] = {
 	{
 	    PCI_VENDOR_RALINK,
 	    "Ralink",
+	},
+	{
+	    PCI_VENDOR_JMICRON,
+	    "JMicron",
 	},
 	{
 	    PCI_VENDOR_QUMRANET,
