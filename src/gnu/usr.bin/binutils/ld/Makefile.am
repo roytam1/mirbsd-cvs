@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.bin/binutils/ld/Makefile.am,v 1.9 2005/06/14 12:51:12 tg Exp $
+# $MirOS: src/gnu/usr.bin/binutils/ld/Makefile.am,v 1.10 2005/07/07 16:23:10 tg Exp $
 
 ## Process this file with automake to generate Makefile.in
 
@@ -99,7 +99,7 @@ man_MANS = ld.1
 AM_MAKEINFOFLAGS = --no-split -I $(srcdir) -I $(BFDDIR)/doc
 TEXI2DVI = texi2dvi -I $(srcdir) -I $(BFDDIR)/doc
 
-INCLUDES = -D_GNU_SOURCE -I. -I$(srcdir) -I../bfd -I$(BFDDIR) -I$(INCDIR) $(HDEFINES) $(CFLAGS)
+INCLUDES = -D_GNU_SOURCE -I. -I$(srcdir) -I../bfd -I$(BFDDIR) -I$(INCDIR) $(HDEFINES)
 
 BFDLIB = ../bfd/libbfd.la
 
