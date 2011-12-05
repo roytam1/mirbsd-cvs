@@ -1,5 +1,3 @@
-/* $MirOS: gcc/gcc/p/gpc-lex.c,v 1.2 2005/03/28 02:09:43 tg Exp $ */
-
 /*GNU Pascal compiler lexical analyzer
 
   Copyright (C) 1989-2005, Free Software Foundation, Inc.
@@ -48,6 +46,7 @@ int LEX_LINE_DIRECTIVE = MIN_EXTRA_SYMBOL - 4;
 #define yyalloc xmalloc
 #define yyrealloc xrealloc
 #define YY_TYPEDEF_YY_SIZE_T
+typedef size_t yy_size_t;
 #include "pascal-lex.c"
 
 filename_t lexer_filename = NULL, compiler_filename = NULL;

@@ -138,10 +138,14 @@ procedure SplitReal (x: LongReal; var Exponent: CInteger; var Mantissa: LongReal
 
 { Character routines }
 
+{@internal}
+
 { Convert a character to upper case, according to the current
   locale.
   Except in `--borland-pascal' mode, `UpCase' does the same. }
 function  UpCase (ch: Char): Char; attribute (const); external name '_p_UpCase';
+{@endinternal}
+
 
 { Convert a character to lower case, according to the current
   locale. }
@@ -287,7 +291,8 @@ const
   MODE_CREATE   = 1 shl 4;
   MODE_EXCL     = 1 shl 5;
   MODE_TRUNCATE = 1 shl 6;
-  MODE_BINARY   = 1 shl 7;
+  MODE_APPEND   = 1 shl 7;
+  MODE_BINARY   = 1 shl 8;
 
 { Check if a file name is accessible. }
 function  Access (FileName: CString; Request: CInteger): CInteger; external name '_p_Access';
@@ -304,6 +309,7 @@ function  WriteHandle (Handle: CInteger; Buffer: Pointer; Size: SizeType): Signe
 function  CloseHandle (Handle: CInteger): CInteger; external name '_p_CloseHandle';
 procedure FlushHandle (Handle: CInteger); external name '_p_FlushHandle';
 function  DupHandle (Src: CInteger; Dest: CInteger): CInteger; external name '_p_DupHandle';
+function  SetFileMode (Handle: CInteger; Mode: CInteger; On: Boolean): CInteger; attribute (ignorable); external name '_p_SetFileMode';
 function  CStringRename (OldName: CString; NewName: CString): CInteger; external name '_p_CStringRename';
 function  CStringUnlink (FileName: CString): CInteger; external name '_p_CStringUnlink';
 function  CStringChDir (FileName: CString): CInteger; external name '_p_CStringChDir';

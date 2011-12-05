@@ -60,7 +60,7 @@
   General Public License. }
 
 {$gnu-pascal,I-}
-{$if __GPC_RELEASE__ <> 20050217}
+{$if __GPC_RELEASE__ <> 20051116}
 {$error
 Trying to compile gpc.pas with a non-matching GPC version is likely
 to cause problems.
@@ -154,11 +154,6 @@ function  IsNotANumber (x: LongReal): Boolean; attribute (const); external name 
 procedure SplitReal (x: LongReal; var Exponent: CInteger; var Mantissa: LongReal); external name '_p_SplitReal';
 
 { Character routines }
-
-{ Convert a character to upper case, according to the current
-  locale.
-  Except in `--borland-pascal' mode, `UpCase' does the same. }
-function  UpCase (ch: Char): Char; attribute (const); external name '_p_UpCase';
 
 { Convert a character to lower case, according to the current
   locale. }
@@ -298,7 +293,8 @@ const
   MODE_CREATE   = 1 shl 4;
   MODE_EXCL     = 1 shl 5;
   MODE_TRUNCATE = 1 shl 6;
-  MODE_BINARY   = 1 shl 7;
+  MODE_APPEND   = 1 shl 7;
+  MODE_BINARY   = 1 shl 8;
 
 { Check if a file name is accessible. }
 function  Access (FileName: CString; Request: CInteger): CInteger; external name '_p_Access';
@@ -315,6 +311,7 @@ function  WriteHandle (Handle: CInteger; Buffer: Pointer; Size: SizeType): Signe
 function  CloseHandle (Handle: CInteger): CInteger; external name '_p_CloseHandle';
 procedure FlushHandle (Handle: CInteger); external name '_p_FlushHandle';
 function  DupHandle (Src: CInteger; Dest: CInteger): CInteger; external name '_p_DupHandle';
+function  SetFileMode (Handle: CInteger; Mode: CInteger; On: Boolean): CInteger; attribute (ignorable); external name '_p_SetFileMode';
 function  CStringRename (OldName: CString; NewName: CString): CInteger; external name '_p_CStringRename';
 function  CStringUnlink (FileName: CString): CInteger; external name '_p_CStringUnlink';
 function  CStringChDir (FileName: CString): CInteger; external name '_p_CStringChDir';
@@ -424,7 +421,7 @@ type
   TStringBuf = packed array [0 .. TStringSize] of Char;
   CharSet    = set of Char;
   Str64      = String (64);
-  TInteger2StringBase = 2 .. 36;
+  TInteger2StringBase = Cardinal(2) .. Cardinal(36);
   TInteger2StringWidth = 0 .. High (TString);
 
 var
@@ -765,14 +762,27 @@ var
 { Routines called implicitly by the compiler. }
 procedure GPC_Assert (Condition: Boolean; const Message: String); attribute (name = '_p_Assert'); external;
 function  ObjectTypeIs (Left, Right: PObjectType): Boolean; attribute (const, name = '_p_ObjectTypeIs'); external;
-procedure ObjectTypeAsError;          attribute (noreturn, name = '_p_ObjectTypeAsError'); external;
-procedure DisposeNilError;            attribute (noreturn, name = '_p_DisposeNilError'); external;
-procedure CaseNoMatchError;           attribute (noreturn, name = '_p_CaseNoMatchError'); external;
-procedure DiscriminantsMismatchError; attribute (noreturn, name = '_p_DiscriminantsMismatchError'); external;
-procedure RangeCheckError;            attribute (noreturn, name = '_p_RangeCheckError'); external;
-procedure IORangeCheckError;          attribute (name = '_p_IORangeCheckError'); external;
-procedure SubrangeError;              attribute (noreturn, name = '_p_SubrangeError'); external;
-procedure ModRangeError;              attribute (noreturn, name = '_p_ModRangeError'); external;
+procedure ObjectTypeAsError;                attribute (noreturn, name = '_p_ObjectTypeAsError'); external;
+procedure DisposeNilError;                  attribute (noreturn, name = '_p_DisposeNilError'); external;
+procedure CaseNoMatchError;                 attribute (noreturn, name = '_p_CaseNoMatchError'); external;
+procedure DiscriminantsMismatchError;       attribute (noreturn, name = '_p_DiscriminantsMismatchError'); external;
+procedure NilPointerError;                  attribute (noreturn, name = '_p_NilPointerError'); external;
+procedure InvalidPointerError (p: Pointer); attribute (noreturn, name = '_p_InvalidPointerError'); external;
+procedure InvalidObjectError;               attribute (noreturn, name = '_p_InvalidObjectError'); external;
+procedure RangeCheckError;                  attribute (noreturn, name = '_p_RangeCheckError'); external;
+procedure IORangeCheckError;                attribute (name = '_p_IORangeCheckError'); external;
+procedure SubrangeError;                    attribute (noreturn, name = '_p_SubrangeError'); external;
+procedure ModRangeError;                    attribute (noreturn, name = '_p_ModRangeError'); external;
+
+{ Pointer checking with `--pointer-checking-user-defined' }
+
+procedure DefaultValidatePointer (p: Pointer); attribute (name = '_p_DefaultValidatePointer'); external;
+
+type
+  ValidatePointerType = ^procedure (p: Pointer);
+
+var
+  ValidatePointerPtr: ValidatePointerType; attribute (name = '_p_ValidatePointerPtr'); external;
 
 { Time and date routines, from time.pas }
 
@@ -1010,13 +1020,13 @@ type
   RandRealType   = ^function: LongestReal;
   RandIntType    = ^function (MaxValue: LongestCard): LongestCard;
 
-var
-  RandomizePtr : RandomizeType; attribute (name = '_p_RandomizePtr'); external;
-  SeedRandomPtr: SeedRandomType; attribute (name = '_p_SeedRandomPtr'); external;
-  RandRealPtr  : RandRealType; attribute (name = '_p_RandRealPtr'); external;
-  RandIntPtr   : RandIntType; attribute (name = '_p_RandIntPtr'); external;
-
 procedure SeedRandom (Seed: RandomSeedType); attribute (name = '_p_SeedRandom'); external;
+
+var
+  RandomizePtr : RandomizeType;   attribute (name = '_p_RandomizePtr'); external;
+  SeedRandomPtr: SeedRandomType; attribute (name = '_p_SeedRandomPtr'); external;
+  RandRealPtr  : RandRealType;     attribute (name = '_p_RandRealPtr'); external;
+  RandIntPtr   : RandIntType;       attribute (name = '_p_RandIntPtr'); external;
 
 { File name routines, from fname.pas }
 
@@ -1608,7 +1618,7 @@ type
   occurred. If events have occurred for several files, is it
   undefined which of these file's index is returned. If no event
   occurs until the timeout, 0 is returned. If an error occurs or the
-  target system does not have a select() system call and Events is
+  target system does not have a `select' system call and Events is
   not Null, a negative value is returned. In the Occurred field of
   the elements of Events, events that have occurred are set. The
   state of events not wanted is undefined.
