@@ -4,7 +4,7 @@
  * THIS FILE AUTOMATICALLY GENERATED.  DO NOT EDIT.
  *
  * generated from:
- *	MirOS: src/sys/dev/pci/pcidevs,v 1.12 2006/06/07 20:46:13 tg Exp 
+ *	MirOS: src/sys/dev/pci/pcidevs,v 1.15 2010/04/03 21:34:12 tg Exp 
  */
 /*	$NetBSD: pcidevs,v 1.580 2003/09/26 07:45:15 matt Exp $		*/
 /*	$OpenBSD: pcidevs,v 1.901 2005/08/01 22:52:47 brad Exp $	*/
@@ -593,6 +593,7 @@
 #define	PCI_VENDOR_INPROCOMM	0x17fe		/* INPROCOMM */
 #define	PCI_VENDOR_LANERGY	0x1812		/* Lanergy */
 #define	PCI_VENDOR_RALINK	0x1814		/* Ralink */
+#define	PCI_VENDOR_QUMRANET	0x1af4		/* Qumranet */
 #define	PCI_VENDOR_SYMPHONY2	0x1c1c		/* Symphony Labs */
 #define	PCI_VENDOR_TEKRAM2	0x1de1		/* Tekram Technology */
 #define	PCI_VENDOR_HINT	0x3388		/* Hint */
@@ -605,6 +606,7 @@
 #define	PCI_VENDOR_GEMTEK	0x5046		/* Gemtek */
 #define	PCI_VENDOR_S3	0x5333		/* S3 */
 #define	PCI_VENDOR_NETPOWER2	0x5700		/* NetPower */
+#define	PCI_VENDOR_XENSOURCE	0x5853		/* XenSource */
 #define	PCI_VENDOR_C4T	0x6374		/* c't Magazin */
 #define	PCI_VENDOR_QUANCM	0x8008		/* Quancm Electronic GmbH */
 #define	PCI_VENDOR_INTEL	0x8086		/* Intel */
@@ -2729,6 +2731,12 @@
 #define	PCI_PRODUCT_QUANTUMDESIGNS_8500	0x0001		/* 8500 */
 #define	PCI_PRODUCT_QUANTUMDESIGNS_8580	0x0002		/* 8580 */
 
+/* Qumranet */
+#define	PCI_PRODUCT_QUMRANET_VIRTIO_1000	0x1000		/* VirtIO Network */
+#define	PCI_PRODUCT_QUMRANET_VIRTIO_1001	0x1001		/* VirtIO Block */
+#define	PCI_PRODUCT_QUMRANET_VIRTIO_1002	0x1002		/* VirtIO Balloon */
+#define	PCI_PRODUCT_QUMRANET_VIRTIO_1003	0x1003		/* VirtIO Console */
+
 /* Ralink Technology Corporation */
 #define	PCI_PRODUCT_RALINK_RT2460A	0x0101		/* RT2460A */
 #define	PCI_PRODUCT_RALINK_RT2560	0x0201		/* RT2560 */
@@ -3363,6 +3371,9 @@
 
 /* Winbond Electronics products (PCI products set 2) */
 #define	PCI_PRODUCT_WINBOND2_W89C940	0x1980		/* Linksys EtherPCI */
+
+/* XenSource */
+#define	PCI_PRODUCT_XENSOURCE_XENPLATFORM	0x0001		/* Xen Platform Device */
 
 /* Xircom products */
 #define	PCI_PRODUCT_XIRCOM_X3201_3	0x0002		/* X3201-3 */

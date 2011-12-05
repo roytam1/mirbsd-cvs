@@ -4,7 +4,7 @@
  * THIS FILE AUTOMATICALLY GENERATED.  DO NOT EDIT.
  *
  * generated from:
- *	MirOS: src/sys/dev/pci/pcidevs,v 1.12 2006/06/07 20:46:13 tg Exp 
+ *	MirOS: src/sys/dev/pci/pcidevs,v 1.15 2010/04/03 21:34:12 tg Exp 
  */
 /*	$NetBSD: pcidevs,v 1.580 2003/09/26 07:45:15 matt Exp $		*/
 /*	$OpenBSD: pcidevs,v 1.901 2005/08/01 22:52:47 brad Exp $	*/
@@ -7051,6 +7051,22 @@ static const struct pci_known_product pci_known_products[] = {
 	    "8580",
 	},
 	{
+	    PCI_VENDOR_QUMRANET, PCI_PRODUCT_QUMRANET_VIRTIO_1000,
+	    "VirtIO Network",
+	},
+	{
+	    PCI_VENDOR_QUMRANET, PCI_PRODUCT_QUMRANET_VIRTIO_1001,
+	    "VirtIO Block",
+	},
+	{
+	    PCI_VENDOR_QUMRANET, PCI_PRODUCT_QUMRANET_VIRTIO_1002,
+	    "VirtIO Balloon",
+	},
+	{
+	    PCI_VENDOR_QUMRANET, PCI_PRODUCT_QUMRANET_VIRTIO_1003,
+	    "VirtIO Console",
+	},
+	{
 	    PCI_VENDOR_RALINK, PCI_PRODUCT_RALINK_RT2460A,
 	    "RT2460A",
 	},
@@ -9189,6 +9205,10 @@ static const struct pci_known_product pci_known_products[] = {
 	{
 	    PCI_VENDOR_WINBOND2, PCI_PRODUCT_WINBOND2_W89C940,
 	    "Linksys EtherPCI",
+	},
+	{
+	    PCI_VENDOR_XENSOURCE, PCI_PRODUCT_XENSOURCE_XENPLATFORM,
+	    "Xen Platform Device",
 	},
 	{
 	    PCI_VENDOR_XIRCOM, PCI_PRODUCT_XIRCOM_X3201_3,
@@ -11427,6 +11447,10 @@ static const struct pci_known_vendor pci_known_vendors[] = {
 	    "Ralink",
 	},
 	{
+	    PCI_VENDOR_QUMRANET,
+	    "Qumranet",
+	},
+	{
 	    PCI_VENDOR_SYMPHONY2,
 	    "Symphony Labs",
 	},
@@ -11473,6 +11497,10 @@ static const struct pci_known_vendor pci_known_vendors[] = {
 	{
 	    PCI_VENDOR_NETPOWER2,
 	    "NetPower",
+	},
+	{
+	    PCI_VENDOR_XENSOURCE,
+	    "XenSource",
 	},
 	{
 	    PCI_VENDOR_C4T,
