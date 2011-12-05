@@ -63,6 +63,7 @@
 -Tlock_data_t
 -Tlock_t
 -Tmbuf_t
+-Tmjd_t
 -Tmode_t
 -Tnfsfh_t
 -Tnfsquad_t
