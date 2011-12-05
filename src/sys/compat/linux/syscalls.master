@@ -1,4 +1,4 @@
-	$MirOS: src/sys/compat/linux/syscalls.master,v 1.3 2005/08/02 11:16:30 tg Exp $
+	$MirOS: src/sys/compat/linux/syscalls.master,v 1.4 2005/10/18 21:03:07 tg Exp $
 ;	$OpenBSD: syscalls.master,v 1.49 2004/10/27 13:23:38 niklas Exp $
 ;	$NetBSD: syscalls.master,v 1.15 1995/12/18 14:35:10 fvdl Exp $
 
@@ -78,7 +78,8 @@
 24	STD		linux_getuid16 { uid_t linux_sys_getuid(void); }
 25	STD		{ int linux_sys_stime(linux_time_t *t); }
 #ifdef PTRACE
-26	STD		{ int linux_sys_ptrace(void); }
+26	STD		{ int linux_sys_ptrace(int request, int pid, \
+			  int addr, int data); }
 #else
 26	UNIMPL		ptrace
 #endif

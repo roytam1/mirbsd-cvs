@@ -1,12 +1,12 @@
 /**	$MirOS$ */
-/*	$OpenBSD: linux_emuldata.h,v 1.3 2004/04/25 03:21:19 jolan Exp $	*/
-/*	$NetBSD: linux_emuldata.h,v 1.10 2005/12/11 12:20:19 christos Exp $	*/
+/*	$NetBSD: linux_ptrace.h,v 1.9 2005/12/11 12:20:19 christos Exp $	*/
+
 /*-
- * Copyright (c) 1998,2002 The NetBSD Foundation, Inc.
+ * Copyright (c) 1999 The NetBSD Foundation, Inc.
  * All rights reserved.
  *
  * This code is derived from software contributed to The NetBSD Foundation
- * by Eric Haszlakiewicz.
+ * by Matthias Scheler.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -36,18 +36,35 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-#ifndef _LINUX_EMULDATA_H
-#define _LINUX_EMULDATA_H
 
-/*
- * This is auxiliary data the linux compat code
- * needs to do its work.  A pointer to it is
- * stored in the emuldata field of the proc
- * structure.
- */
-struct linux_emuldata {
-	caddr_t	p_break;	/* Cached per-process break value */	
-	int	debugreg[8];	/* GDB information for ptrace - for use, */
-				/* see ../arch/i386/linux_ptrace.c */
-};
-#endif /* !_LINUX_EMULDATA_H */
+#ifndef _LINUX_PTRACE_H
+#define _LINUX_PTRACE_H
+
+#define LINUX_PTRACE_TRACEME		 0
+#define LINUX_PTRACE_PEEKTEXT		 1
+#define LINUX_PTRACE_PEEKDATA		 2
+#define LINUX_PTRACE_PEEKUSR		 3
+#define LINUX_PTRACE_POKETEXT		 4
+#define LINUX_PTRACE_POKEDATA		 5
+#define LINUX_PTRACE_POKEUSR		 6
+#define LINUX_PTRACE_CONT		 7
+#define LINUX_PTRACE_KILL		 8
+#define LINUX_PTRACE_SINGLESTEP		 9
+#define LINUX_PTRACE_GETREGS		12
+#define LINUX_PTRACE_SETREGS		13
+#define LINUX_PTRACE_GETFPREGS		14
+#define LINUX_PTRACE_SETFPREGS		15
+#define LINUX_PTRACE_ATTACH		16
+#define LINUX_PTRACE_DETACH		17
+#define LINUX_PTRACE_SYSCALL		24
+
+#if defined(__i386__) || defined (__powerpc__) || defined (__mips__) || \
+    defined(__arm__)
+int linux_sys_ptrace_arch __P((struct proc *, void *, register_t *));
+
+#define LINUX_SYS_PTRACE_ARCH(l,v,r)	linux_sys_ptrace_arch((l),(v),(r))
+#else
+#define LINUX_SYS_PTRACE_ARCH(l,v,r)	EIO
+#endif
+
+#endif /* !_LINUX_PTRACE_H */

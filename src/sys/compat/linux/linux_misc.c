@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/compat/linux/linux_misc.c,v 1.2 2005/03/06 21:27:30 tg Exp $ */
+/**	$MirOS: src/sys/compat/linux/linux_misc.c,v 1.3 2005/07/03 21:18:58 tg Exp $ */
 /*	$OpenBSD: linux_misc.c,v 1.58 2005/02/17 18:07:36 jfb Exp $	*/
 /*	$NetBSD: linux_misc.c,v 1.27 1996/05/20 01:59:21 fvdl Exp $	*/
 
@@ -87,8 +87,25 @@
 #include <compat/linux/linux_util.h>
 #include <compat/linux/linux_dirent.h>
 #include <compat/linux/linux_emuldata.h>
+#include <compat/linux/linux_ptrace.h>
 
 #include <compat/common/compat_dir.h>
+
+const int linux_ptrace_request_map[] = {
+	LINUX_PTRACE_TRACEME,	PT_TRACE_ME,
+	LINUX_PTRACE_PEEKTEXT,	PT_READ_I,
+	LINUX_PTRACE_PEEKDATA,	PT_READ_D,
+	LINUX_PTRACE_POKETEXT,	PT_WRITE_I,
+	LINUX_PTRACE_POKEDATA,	PT_WRITE_D,
+	LINUX_PTRACE_CONT,	PT_CONTINUE,
+	LINUX_PTRACE_KILL,	PT_KILL,
+	LINUX_PTRACE_ATTACH,	PT_ATTACH,
+	LINUX_PTRACE_DETACH,	PT_DETACH,
+#ifdef PT_STEP
+	LINUX_PTRACE_SINGLESTEP,	PT_STEP,
+#endif
+	-1
+};
 
 struct compat_time_sys_wait4_args {
 	syscallarg(pid_t) pid;
@@ -1549,4 +1566,64 @@ linux_sys_sysinfo(p, v, retval)
 	si.mem_unit = 1;
 
 	return (copyout(&si, SCARG(uap, sysinfo), sizeof(si)));
+}
+
+int
+linux_sys_ptrace(l, v, retval)
+	struct proc *l;
+	void *v;
+	register_t *retval;
+{
+	struct linux_sys_ptrace_args /* {
+		i386, m68k, powerpc: T=int
+		alpha, amd64: T=long
+		syscallarg(T) request;
+		syscallarg(T) pid;
+		syscallarg(T) addr;
+		syscallarg(T) data;
+	} */ *uap = v;
+	const int *ptr;
+	int request;
+	int error;
+
+	ptr = linux_ptrace_request_map;
+	request = SCARG(uap, request);
+	while (*ptr != -1)
+		if (*ptr++ == request) {
+			struct sys_ptrace_args pta;
+
+			SCARG(&pta, req) = *ptr;
+			SCARG(&pta, pid) = SCARG(uap, pid);
+			SCARG(&pta, addr) = (caddr_t)SCARG(uap, addr);
+			SCARG(&pta, data) = SCARG(uap, data);
+
+			/*
+			 * Linux ptrace(PTRACE_CONT, pid, 0, 0) means actually
+			 * to continue where the process left off previously.
+			 * The same thing is achieved by addr == (caddr_t) 1
+			 * on NetBSD, so rewrite 'addr' appropriately.
+			 */
+			if (request == LINUX_PTRACE_CONT && SCARG(uap, addr)==0)
+				SCARG(&pta, addr) = (caddr_t) 1;
+
+			error = sys_ptrace(l, &pta, retval);
+			if (error)
+				return error;
+			switch (request) {
+			case LINUX_PTRACE_PEEKTEXT:
+			case LINUX_PTRACE_PEEKDATA:
+				error = copyout (retval,
+				    (caddr_t)SCARG(uap, data), 
+				    sizeof *retval);
+				*retval = SCARG(uap, data);
+				break;
+			default:
+				break;
+			}
+			return error;
+		}
+		else
+			ptr++;
+
+	return LINUX_SYS_PTRACE_ARCH(l, uap, retval);
 }
