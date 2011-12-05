@@ -17,7 +17,7 @@ ${CDROM}: ${DESTDIR}/usr/mdec/boot ${.OBJDIR}/../ramdisk/bsd.rd \
 .ifndef NOPRUNE
 	-rm -rf workdir
 .endif
-	mkdir -p workdir/{etc,boot}
+	mkdir -p workdir/{etc,v${OSrev}/i386}
 	@if [[ -e ${.CURDIR}/contrib ]]; then \
 		echo Integrating contrib dir; \
 		mkdir workdir/contrib; \
@@ -25,16 +25,16 @@ ${CDROM}: ${DESTDIR}/usr/mdec/boot ${.OBJDIR}/../ramdisk/bsd.rd \
 		lndir ${.CURDIR}/contrib; \
 	fi
 	dd if=${DESTDIR}/usr/mdec/boot obs=2048 conv=osync \
-	    of=workdir/boot/boot.bin
+	    of=workdir/etc/boot.386
 	gzip -n9 <${.OBJDIR}/../ramdisk/bsd.rd | dd obs=2048 \
-	    conv=osync of=workdir/boot/bsd.rd
+	    conv=osync of=workdir/v${OSrev}/i386/bsd.rd
 	if [[ -e ${DESTDIR}/usr/mdec/pxeboot ]]; then \
-		cp ${DESTDIR}/usr/mdec/pxeboot workdir/boot/; \
+		cp ${DESTDIR}/usr/mdec/pxeboot workdir/v${OSrev}/i386/; \
 	fi
 	cp ${.CURDIR}/boot.cfg workdir/etc/
 	cp ${.CURDIR}/00-README workdir/
 	mkisofs -r -f -T -L -d -D -N -v -v \
-	    -b boot/boot.bin -c boot/boot.cat \
+	    -b etc/boot.386 -c boot/boot.cat \
 	    -P "The http://MirBSD.org/ team and its contributors" \
 	    -p "Copyright © 2002-2005 by The MirOS Project" \
 	    -V "MirOS #${OSrev} BSD/${MACHINE} boot-only CD" \
