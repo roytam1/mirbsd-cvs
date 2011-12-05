@@ -1,4 +1,4 @@
-# $MirOS: src/lib/csu/common_elf/Makefile.inc,v 1.8 2005/10/21 11:02:39 tg Exp $
+# $MirOS: src/lib/csu/common_elf/Makefile.inc,v 1.9 2006/09/29 21:28:06 tg Exp $
 # $NetBSD: Makefile.inc,v 1.23 2003/03/19 16:54:25 ross Exp $
 
 .include <bsd.own.mk>
@@ -28,6 +28,13 @@ OBJS+=		crt0.o crti.o crtn.o
 #CPPFLAGS+=	-DDWARF2_EH # -DDSO_HANDLE -DJCR
 
 all: ${OBJS}
+
+sunstuff:
+	${LD} -r -o sun_crt1.o \
+	    ${DESTDIR}/usr/lib/crt0.o ${DESTDIR}/usr/lib/crtbegin.o
+	${LD} -r -o sun_crtn.o \
+	    ${DESTDIR}/usr/lib/crtend.o ${DESTDIR}/usr/lib/crtn.o
+	${LD} -r -o sun_crti.o ${DESTDIR}/usr/lib/crti.o
 
 crt0.o: crt0.c
 	${COMPILE.c} -DCRT0 ${.IMPSRC} -o ${.TARGET}.o
