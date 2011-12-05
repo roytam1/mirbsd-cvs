@@ -154,6 +154,7 @@ struct m_ext2fs {
 	int32_t	e2fs_ngdb;	/* number of group descriptor block */
 	int32_t	e2fs_ipb;	/* number of inodes per block */
 	int32_t	e2fs_itpg;	/* number of inode table per group */
+	u_int16_t e2fs_inosz;	/* size of one inode (dynamic) */
 	struct	ext2_gd *e2fs_gd; /* group descriptors */
 	u_char	e2fs_fsmnt[MAXMNTLEN];	/* name mounted on */
 	int8_t	e2fs_ronly;	/* mounted read-only flag */

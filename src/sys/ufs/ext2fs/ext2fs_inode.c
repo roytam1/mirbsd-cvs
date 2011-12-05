@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: ext2fs_inode.c,v 1.26 2005/04/30 13:58:55 niallo Exp $	*/
 /*	$NetBSD: ext2fs_inode.c,v 1.24 2001/06/19 12:59:18 wiz Exp $	*/
 
@@ -107,7 +108,7 @@ ext2fs_setsize(struct inode *ip, u_int64_t size)
 int
 ext2fs_inactive(v)
 	void *v;
-{   
+{
 	struct vop_inactive_args /* {
 		struct vnode *a_vp;
 		struct proc *a_p;
@@ -118,7 +119,7 @@ ext2fs_inactive(v)
 	struct timespec ts;
 	int error = 0;
 	extern int prtactive;
-	
+
 	if (prtactive && vp->v_usecount != 0)
 		vprint("ext2fs_inactive: pushing active", vp);
 	/* Get rid of inodes related to stale file handles. */
@@ -147,7 +148,7 @@ out:
 	if (ip->i_e2fs_dtime != 0)
 		vrecycle(vp, NULL, p);
 	return (error);
-}   
+}
 
 
 /*
@@ -188,7 +189,7 @@ ext2fs_update(struct inode *ip, struct timespec *atime, struct timespec *mtime,
 	}
 	ip->i_flag &= ~(IN_MODIFIED);
 	cp = (caddr_t)bp->b_data +
-	    (ino_to_fsbo(fs, ip->i_number) * EXT2_DINODE_SIZE);
+	    (ino_to_fsbo(fs, ip->i_number) * EXT2_DINODE_SIZE(fs));
 
 	/*
 	 * See note about 16-bit UID/GID limitation in ext2fs_vget(). Now
@@ -200,7 +201,8 @@ ext2fs_update(struct inode *ip, struct timespec *atime, struct timespec *mtime,
 	ip->i_e2fs_uid_high = ip->i_e2fs_uid >> 16;
 	ip->i_e2fs_gid_high = ip->i_e2fs_gid >> 16;
 
-	e2fs_isave(&ip->i_e2din, (struct ext2fs_dinode *)cp);
+	e2fs_isave(&ip->i_e2din, (struct ext2fs_dinode *)cp,
+	    EXT2_DINODE_SIZE(fs));
 	if (waitfor)
 		return (bwrite(bp));
 	else {
@@ -253,7 +255,7 @@ ext2fs_truncate(struct inode *oip, off_t length, int flags, struct ucred *cred)
 		oip->i_flag |= IN_CHANGE | IN_UPDATE;
 		return (ext2fs_update(oip, NULL, NULL, 1));
 	}
-	
+
 	if (ext2fs_size(oip) == length) {
 		oip->i_flag |= IN_CHANGE | IN_UPDATE;
 		return (ext2fs_update(oip, NULL, NULL, 0));
@@ -304,7 +306,7 @@ ext2fs_truncate(struct inode *oip, off_t length, int flags, struct ucred *cred)
 		aflags = B_CLRBUF;
 		if (flags & IO_SYNC)
 			aflags |= B_SYNC;
-		error = ext2fs_buf_alloc(oip, lbn, offset, cred, &bp, 
+		error = ext2fs_buf_alloc(oip, lbn, offset, cred, &bp,
 		    aflags);
 		if (error)
 			return (error);

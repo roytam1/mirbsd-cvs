@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: ext2fs_dinode.h,v 1.10 2005/10/06 17:51:27 pedro Exp $	*/
 /*	$NetBSD: ext2fs_dinode.h,v 1.6 2000/01/26 16:21:33 bouyer Exp $	*/
 
@@ -86,8 +87,9 @@ struct ext2fs_dinode {
 	u_int16_t	e2di_uid_high;	/* 120: 16 highest bits of uid */
 	u_int16_t	e2di_gid_high;	/* 122: 16 highest bits of gid */
 	u_int32_t	e2di_linux_reserved3; /* 124 */
+	u_int8_t	e2di_linux_ext4space[128]; /* 128: dynamic extension */
 };
-	
+
 #define	E2MAXSYMLINKLEN	((NDADDR + NIADDR) * sizeof(u_int32_t))
 
 /* File permissions. */
@@ -118,7 +120,7 @@ struct ext2fs_dinode {
 #define EXT2_NODUMP		0x00000040	/* do not dump file */
 
 /* Size of on-disk inode. */
-#define	EXT2_DINODE_SIZE	(sizeof(struct ext2fs_dinode))	/* 128 */
+#define	EXT2_DINODE_SIZE(fs)	((fs)->e2fs_inosz)
 
 /*
  * The e2di_blocks fields may be overlaid with other information for
@@ -133,10 +135,10 @@ struct ext2fs_dinode {
 
 /* e2fs needs byte swapping on big-endian systems */
 #if BYTE_ORDER == LITTLE_ENDIAN
-#	define e2fs_iload(old, new) memcpy((new),(old),sizeof(struct ext2fs_dinode))
-#	define e2fs_isave(old, new) memcpy((new),(old),sizeof(struct ext2fs_dinode))
+#define e2fs_iload(old, new, sz)	memcpy((new), (old), (sz))
+#define e2fs_isave(old, new, sz)	memcpy((new), (old), (sz))
 #else
 void e2fs_i_bswap(struct ext2fs_dinode *, struct ext2fs_dinode *);
-#	define e2fs_iload(old, new) e2fs_i_bswap((old), (new))
-#	define e2fs_isave(old, new) e2fs_i_bswap((old), (new))
+#define e2fs_iload(old, new, sz)	e2fs_i_bswap((old), (new))
+#define e2fs_isave(old, new, sz)	e2fs_i_bswap((old), (new))
 #endif
