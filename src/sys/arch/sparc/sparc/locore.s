@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/sparc/sparc/locore.s,v 1.2 2005/03/06 21:27:18 tg Exp $ */
+/**	$MirOS: src/sys/arch/sparc/sparc/locore.s,v 1.3 2006/06/11 00:15:10 tg Exp $ */
 /*	$OpenBSD: locore.s,v 1.57 2003/04/29 21:19:25 miod Exp $	*/
 /*	$NetBSD: locore.s,v 1.73 1997/09/13 20:36:48 pk Exp $	*/
 
@@ -3972,14 +3972,6 @@ _C_LABEL(suicide):
 	t	ST_SYSCALL
 #endif
 _C_LABEL(esigcode):
-
-/*
- * Primitives
- */
-#if 0
-#define	ENTRY(x)	.globl _C_LABEL(x); _C_LABEL(x):
-#endif
-#define	ALTENTRY(x)	.globl _C_LABEL(x); _C_LABEL(x):
 
 /*
  * General-purpose NULL routine.
