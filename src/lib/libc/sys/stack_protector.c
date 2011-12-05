@@ -1,5 +1,5 @@
-/**	$MirOS: src/lib/libc/sys/stack_protector.c,v 1.4 2005/09/22 20:17:49 tg Exp $ */
-/*	$OpenBSD: stack_protector.c,v 1.8 2005/08/08 08:05:37 espie Exp $	*/
+/**	$MirOS: src/lib/libc/sys/stack_protector.c,v 1.5 2005/09/22 20:48:50 tg Exp $ */
+/*	$OpenBSD: stack_protector.c,v 1.10 2006/03/31 05:34:44 deraadt Exp $	*/
 
 /*
  * Copyright (c) 2002 Hiroaki Etoh, Federico G. Schwindt, and Miodrag Vallat.
@@ -35,9 +35,9 @@
 #include <syslog.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: src/lib/libc/sys/stack_protector.c,v 1.4 2005/09/22 20:17:49 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/sys/stack_protector.c,v 1.5 2006/09/22 20:48:50 tg Exp $");
 
-#if defined(__SSP_ALL__) && !defined(__IN_MKDEP)
+#if defined(__SSP_ALL__) && !defined(__IN_MKDEP) && !defined(lint)
  #error "You must compile this file with -fno-stack-protector-all"
 #endif
 
@@ -50,13 +50,13 @@ __RCSID("$MirOS: src/lib/libc/sys/stack_protector.c,v 1.4 2005/09/22 20:17:49 tg
 extern int __sysctl(int *, u_int, void *, size_t *, void *, size_t);
 
 long __guard[8] = {0, 0, 0, 0, 0, 0, 0, 0};
-CONSTRUCTOR void __guard_setup(void) __attribute__ ((constructor));
-void __stack_smash_handler(char func[], int damaged __attribute__((unused)));
+CONSTRUCTOR void __guard_setup(void) __attribute__((constructor));
+__dead void __stack_smash_handler(char func[], int damaged);
 
 CONSTRUCTOR void
 __guard_setup(void)
 {
-	int i, mib[2];
+	int mib[2];
 	size_t len;
 	unsigned char *guard = (void *)__guard;
 
@@ -66,15 +66,9 @@ __guard_setup(void)
 	mib[0] = CTL_KERN;
 	mib[1] = KERN_ARND;
 
-	len = 4;
-	for (i = 0; i < sizeof(__guard) / 4; i++) {
-		if (__sysctl(mib, 2, guard,
-		    &len, NULL, 0) == -1)
-			break;
-		guard += 4;
-	}
-
-	if (i < sizeof(__guard) / 4) {
+	len = sizeof(__guard);
+	if (__sysctl(mib, 2, __guard, &len, NULL, 0) == -1 ||
+	    (len != sizeof(__guard)) || (__guard[0] == 0)) {
 		/* If sysctl was unsuccessful, use the "terminator canary". */
 		guard[0] = 0;
 		guard[1] = 0;
@@ -85,7 +79,7 @@ __guard_setup(void)
 
 /* ARGSUSED1 */
 void
-__stack_smash_handler(char func[], int damaged)
+__stack_smash_handler(char func[], __unused int damaged)
 {
 	struct syslog_data sdata = SYSLOG_DATA_INIT;
 	const char message[] = "stack overflow in function %s";
