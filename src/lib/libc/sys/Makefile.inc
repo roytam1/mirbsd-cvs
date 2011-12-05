@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libc/sys/Makefile.inc,v 1.4 2005/07/09 12:24:33 tg Exp $
+# $MirOS: src/lib/libc/sys/Makefile.inc,v 1.5 2005/09/22 20:17:49 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.73 2005/06/17 20:37:31 drahn Exp $
 # $NetBSD: Makefile.inc,v 1.35 1995/10/16 23:49:07 jtc Exp $
 # @(#)Makefile.inc	8.1 (Berkeley) 6/17/93
@@ -44,7 +44,7 @@ ASM=	accept.o access.o acct.o adjtime.o bind.o chdir.o chflags.o chmod.o \
 	getrlimit.o getrusage.o getsid.o \
 	getsockname.o getsockopt.o gettimeofday.o getuid.o issetugid.o \
 	ioctl.o kill.o kevent.o kqueue.o \
-	ktrace.o lchown.o \
+	ktrace.o lchflags.o lchmod.o lchown.o lutimes.o \
 	link.o listen.o lstat.o madvise.o mincore.o minherit.o mkdir.o \
 	mkfifo.o mknod.o mlock.o mlockall.o \
 	mount.o mprotect.o msgctl.o msgget.o msgrcv.o msgsnd.o msync.o \
@@ -212,7 +212,9 @@ MLINKS+=brk.2 sbrk.2
 MLINKS+=dup.2 dup2.2
 MLINKS+=chdir.2 fchdir.2
 MLINKS+=chflags.2 fchflags.2
+MLINKS+=chflags.2 lchflags.2
 MLINKS+=chmod.2 fchmod.2
+MLINKS+=chmod.2 lchmod.2
 MLINKS+=chown.2 fchown.2
 MLINKS+=chown.2 lchown.2
 MLINKS+=clock_gettime.2 clock_settime.2
@@ -253,6 +255,7 @@ MLINKS+=statfs.2 fstatfs.2
 MLINKS+=syscall.2 __syscall.2
 MLINKS+=truncate.2 ftruncate.2
 MLINKS+=utimes.2 futimes.2
+MLINKS+=utimes.2 lutimes.2
 MLINKS+=wait.2 wait3.2 wait.2 wait4.2 wait.2 waitpid.2
 MLINKS+=write.2 writev.2 write.2 pwrite.2 write.2 pwritev.2
 MLINKS+=select.2 FD_SET.3 select.2 FD_CLR.3

@@ -1,3 +1,4 @@
+.\"	$MirOS$
 .\"	$OpenBSD: chflags.2,v 1.20 2005/09/12 20:06:26 miod Exp $
 .\"	$NetBSD: chflags.2,v 1.6 1995/02/27 12:32:03 cgd Exp $
 .\"
@@ -30,18 +31,21 @@
 .\"
 .\"	@(#)chflags.2	8.1 (Berkeley) 6/9/93
 .\"
-.Dd June 9, 1993
+.Dd May 19, 2007
 .Dt CHFLAGS 2
 .Os
 .Sh NAME
 .Nm chflags ,
+.Nm lchflags ,
 .Nm fchflags
-.Nd set file flags
+.Nd set flags of a file or link
 .Sh SYNOPSIS
 .Fd #include <sys/stat.h>
 .Fd #include <unistd.h>
 .Ft int
 .Fn chflags "const char *path"  "unsigned int flags"
+.Ft int
+.Fn lchflags "const char *path"  "unsigned int flags"
 .Ft int
 .Fn fchflags "int fd" "unsigned int flags"
 .Sh DESCRIPTION
@@ -51,6 +55,11 @@ or referenced by the descriptor
 .Fa fd
 has its flags changed to
 .Fa flags .
+.Fn lchflags
+operates similarly to
+.Fn chflags
+but does not follow symbolic links.
+It allows the filesystem flags of a symbolic link to be set.
 .Pp
 The flags specified are formed by
 .Tn OR Ns 'ing
@@ -94,6 +103,8 @@ Otherwise, \-1 is returned and the global variable
 is set to indicate the error.
 .Sh ERRORS
 .Fn chflags
+or
+.Fn lchflags
 will fail if:
 .Bl -tag -width Er
 .It Bq Er ENOTDIR
@@ -176,3 +187,7 @@ and
 .Fn fchflags
 functions first appeared in
 .Bx 4.4 .
+The
+.Fn lchflags
+function call appeared in
+.Mx 10 .

@@ -1,3 +1,4 @@
+.\"	$MirOS$
 .\"	$OpenBSD: utimes.2,v 1.8 2003/06/02 20:18:39 millert Exp $
 .\"	$NetBSD: utimes.2,v 1.9 1996/04/23 10:34:16 mycroft Exp $
 .\"
@@ -30,16 +31,20 @@
 .\"
 .\"     @(#)utimes.2	8.1 (Berkeley) 6/4/93
 .\"
-.Dd June 4, 1993
+.Dd May 19, 2007
 .Dt UTIMES 2
 .Os
 .Sh NAME
-.Nm utimes
-.Nd set file access and modification times
+.Nm utimes ,
+.Nm lutimes ,
+.Nm futimes
+.Nd set access and modification times of a file or link
 .Sh SYNOPSIS
 .Fd #include <sys/time.h>
 .Ft int
 .Fn utimes "const char *file" "const struct timeval *times"
+.Ft int
+.Fn lutimes "const char *file" "const struct timeval *times"
 .Ft int
 .Fn futimes "int fd" "const struct timeval *times"
 .Sh DESCRIPTION
@@ -49,6 +54,11 @@ or referenced by
 .Fa fd
 are changed as specified by the argument
 .Fa times .
+.Fn lutimes
+operates similarly to
+.Fn utimes
+but does not follow symbolic links.
+It allows the permission bits of a symbolic link to be set.
 .Pp
 If
 .Fa times
@@ -75,6 +85,8 @@ Otherwise, a value of \-1 is returned and
 is set to indicate the error.
 .Sh ERRORS
 .Fn utimes
+or
+.Fn lutimes
 will fail if:
 .Bl -tag -width Er
 .It Bq Er EACCES
@@ -156,3 +168,7 @@ The
 .Fn futimes
 function call appeared in
 .Nx 1.2 .
+The
+.Fn lutimes
+function call appeared in
+.Mx 10 .
