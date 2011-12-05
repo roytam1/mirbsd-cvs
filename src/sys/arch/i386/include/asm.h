@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/include/asm.h,v 1.5 2007/02/18 12:53:18 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/include/asm.h,v 1.6 2007/02/18 16:45:22 tg Exp $ */
 /*	$OpenBSD: asm.h,v 1.7 2003/06/02 23:27:47 millert Exp $	*/
 /*	$NetBSD: asm.h,v 1.7 1994/10/27 04:15:56 cgd Exp $	*/
 
@@ -45,7 +45,7 @@
 	call	666f;	\
 666:			\
 	popl	%ebx;	\
-	addl	$_GLOBAL_OFFSET_TABLE_+[.-666b], %ebx
+	addl	$_C_LABEL(_GLOBAL_OFFSET_TABLE_)+[.-666b], %ebx
 #define PIC_EPILOGUE	\
 	popl	%ebx
 #define PIC_PLT(x)	x@PLT
@@ -99,9 +99,12 @@
 #define	_ENTRY(name) \
 	.text; _ALIGN_TEXT; .globl name; FTYPE(name); name:
 
-#define ENTRY(name)		_ENTRY(_C_LABEL(name))
+/* no profiling */
+#define _PROF_PROLOGUE
+
+#define ENTRY(name)		_ENTRY(_C_LABEL(name)); _PROF_PROLOGUE
 #define NENTRY(name)		_ENTRY(_C_LABEL(name))
-#define	ASENTRY(name)		_ENTRY(_ASM_LABEL(name))
+#define	ASENTRY(name)		_ENTRY(_ASM_LABEL(name)); _PROF_PROLOGUE
 
 #define ALTENTRY(name) \
 	.globl _C_LABEL(name); FTYPE(_C_LABEL(name)); _C_LABEL(name):

@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/sparc/include/asm.h,v 1.5 2007/02/18 12:53:19 tg Exp $ */
+/**	$MirOS: src/sys/arch/sparc/include/asm.h,v 1.6 2007/02/18 16:45:23 tg Exp $ */
 /*	$OpenBSD: asm.h,v 1.4 2003/06/04 22:08:17 deraadt Exp $	*/
 /*	$NetBSD: asm.h,v 1.5 1997/07/16 15:16:43 christos Exp $ */
 
@@ -109,9 +109,12 @@
 #define	_ENTRY(name) \
 	.text; _ALIGN_TEXT; .globl name; .proc 1; FTYPE(name); name:
 
-#define ENTRY(name)		_ENTRY(_C_LABEL(name))
+/* no profiling */
+#define _PROF_PROLOGUE
+
+#define ENTRY(name)		_ENTRY(_C_LABEL(name)); _PROF_PROLOGUE
 #define NENTRY(name)		_ENTRY(_C_LABEL(name))
-#define	ASENTRY(name)		_ENTRY(_ASM_LABEL(name))
+#define	ASENTRY(name)		_ENTRY(_ASM_LABEL(name)); _PROF_PROLOGUE
 #define	FUNC(name)		ASENTRY(name)
 
 #define ALTENTRY(name) \
