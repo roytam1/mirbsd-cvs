@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/ufs/ffs/ffs_softdep.c,v 1.5 2005/07/21 22:23:38 tg Exp $ */
+/**	$MirOS: src/sys/ufs/ffs/ffs_softdep.c,v 1.6 2010/12/24 10:30:32 tg Exp $ */
 /*	$OpenBSD: ffs_softdep.c,v 1.60+1.63+1.64+1.69+1.71+1.74+1.77+1.78+1.79+1.102 2005/07/20 16:30:34 pedro Exp $	*/
 /*
  * Copyright 1998, 2000 Marshall Kirk McKusick. All Rights Reserved.
@@ -4798,7 +4798,7 @@ flush_pagedep_deps(pvp, mp, diraddhdp)
 					if (wk->wk_type == D_MKDIR)
 						break;
 				if (wk) {
-					gotit = getdirtybuf(bp, MNT_WAIT);
+					gotit = getdirtybuf(&bp, MNT_WAIT);
 					FREE_LOCK(&lk);
 					if (gotit && (error = bwrite(bp)) != 0)
 						break;
