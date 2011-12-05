@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/iso/Makefile,v 1.7 2005/12/22 14:00:29 tg Exp $
+# $MirOS: src/distrib/i386/iso/Makefile,v 1.8 2006/01/11 00:17:30 tg Exp $
 # $OpenBSD: Makefile,v 1.3 2003/03/04 20:24:49 deraadt Exp $
 
 .include <bsd.own.mk>
@@ -43,7 +43,7 @@ generate-image:
 	    -V "MirOS #${OSrev} BSD/${MACHINE} boot-only CD" \
 	    -volset "$$(uname -slm) Setup" -sysid "MirOSBSD" \
 	    -no-emul-boot -boot-load-size 4 -boot-info-table \
-	    -o $@ workdir
+	    -o ${CDROM} workdir
 
 install:
 	cp ${CDROM} ${DESTDIR}/snapshot/
