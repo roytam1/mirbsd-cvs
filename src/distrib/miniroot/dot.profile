@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/miniroot/dot.profile,v 1.4 2006/01/13 03:01:30 tg Exp $
+# $MirOS: src/distrib/miniroot/dot.profile,v 1.5 2006/04/06 11:20:25 tg Exp $
 # $OpenBSD: dot.profile,v 1.4 2002/09/13 21:38:47 deraadt Exp $
 # $NetBSD: dot.profile,v 1.1 1995/12/18 22:54:43 pk Exp $
 #
@@ -70,6 +70,8 @@ if [ ! -f /.profile.done ]; then
 	# basic HD randomness reads (doesn't matter if they break)
 	dd if=/dev/rwd0c count=126 >/dev/prandom 2>&1
 	dd if=/dev/rsd0c count=126 >/dev/prandom 2>&1
+	cat /var/db/host.random >/dev/arandom 2>&1
+	rm -f /var/db/host.random
 
 	# say hello and legalese
 	echo '
