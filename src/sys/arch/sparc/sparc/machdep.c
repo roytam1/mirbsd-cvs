@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/sparc/sparc/machdep.c,v 1.7 2006/08/21 12:26:42 tg Exp $ */
+/**	$MirOS: src/sys/arch/sparc/sparc/machdep.c,v 1.8 2006/08/21 12:27:52 tg Exp $ */
 /*	$OpenBSD: machdep.c,v 1.98 2004/03/10 23:02:54 tom Exp $	*/
 /*	$NetBSD: machdep.c,v 1.85 1997/09/12 08:55:02 pk Exp $ */
 
@@ -441,7 +441,9 @@ cpu_sysctl(name, namelen, oldp, oldlenp, newp, newlen, p)
 #if (NAUXREG > 0) || (NLED > 0)
 	int oldval;
 #endif
+#if (NLED > 0) || (NAUXREG > 0) || (NSCF > 0)
 	int ret;
+#endif
 	extern int v8mul;
 	dev_t dev;
 
