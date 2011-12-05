@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/sys/kern/exec_script.c,v 1.4 2007/04/15 12:40:32 tg Exp $ */
 /*	$OpenBSD: exec_script.c,v 1.21 2004/07/07 07:31:40 marius Exp $	*/
 /*	$NetBSD: exec_script.c,v 1.13 1996/02/04 02:15:06 christos Exp $	*/
 
@@ -112,7 +112,7 @@ exec_script_makecmds(p, epp)
 		return ENOEXEC;
 
 	/*
-	 * check that the shell spec is terminated by a newline,
+	 * check that the shell spec is terminated by a newline (or CR),
 	 * and that it isn't too large.  Don't modify the
 	 * buffer unless we're ready to commit to handling it.
 	 * (The latter requirement means that we have to check
@@ -120,7 +120,7 @@ exec_script_makecmds(p, epp)
 	 */
 	for (cp = hdrstr + EXEC_SCRIPT_MAGICLEN; cp < hdrstr + hdrlinelen;
 	    cp++) {
-		if (*cp == '\n') {
+		if (*cp == '\n' || *cp == '\r') {
 			*cp = '\0';
 			break;
 		}
