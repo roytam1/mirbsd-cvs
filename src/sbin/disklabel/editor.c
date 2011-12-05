@@ -1,4 +1,4 @@
-/**	$MirOS: src/sbin/disklabel/editor.c,v 1.2 2005/03/06 19:49:51 tg Exp $ */
+/**	$MirOS: src/sbin/disklabel/editor.c,v 1.3 2005/04/29 18:34:54 tg Exp $ */
 /*	$OpenBSD: editor.c,v 1.99 2005/01/07 21:58:14 otto Exp $	*/
 
 /*
@@ -43,7 +43,7 @@
 #include "extern.h"
 #include "pathnames.h"
 
-__RCSID("$MirOS: src/sbin/disklabel/editor.c,v 1.2 2005/03/06 19:49:51 tg Exp $");
+__RCSID("$MirOS: src/sbin/disklabel/editor.c,v 1.3 2005/04/29 18:34:54 tg Exp $");
 
 /* flags for getuint() */
 #define	DO_CONVERSIONS	0x00000001
@@ -1826,6 +1826,13 @@ editor_help(char *arg)
 "slice.  The drive parameters are not changed.\n");
 		break;
 	default:
+		puts(
+"Numeric parameters may use suffixes to indicate units:\n\t"
+"'b' for bytes, 'c' for cylinders, 'k' for kibibytes, 'm' for mebibytes,\n\t"
+"'g' for gibibytes or no suffix for sectors (of usually 512 bytes).\n\t"
+"'%' for percent of total disk size, '&' for percent of free space.\n\t"
+"Non-sector units will be rounded to the nearest cylinder.\n"
+"Entering '?' at most prompts will give you (simple) context sensitive help.");
 		puts("Available commands:");
 		puts("\t? [cmnd]  - this message or command specific help.");
 		puts("\ta [part]  - add new slice.");
@@ -1835,7 +1842,7 @@ editor_help(char *arg)
 		puts("\td [part]  - delete slice.");
 		puts("\te         - edit drive parameters.");
 		puts("\tg [b|d|u] - use [b]ios, [d]isk or [u]ser geometry.");
-		puts("\tM         - show entire MirBSD man page for disklabel.");
+		puts("\tM         - show entire MirBSD manual page for disklabel.");
 		puts("\tm [part]  - modify existing slice.");
 		puts("\tn [part]  - set the mount point for a slice.");
 		puts("\tp [unit]  - print label.");
@@ -1847,13 +1854,6 @@ editor_help(char *arg)
 		puts("\tX         - toggle expert mode.");
 		puts("\tx         - exit without saving changes.");
 		puts("\tz         - zero out slice table.");
-		puts(
-"Numeric parameters may use suffixes to indicate units:\n\t"
-"'b' for bytes, 'c' for cylinders, 'k' for kilobytes, 'm' for megabytes,\n\t"
-"'g' for gigabytes or no suffix for sectors (usually 512 bytes).\n\t"
-"'%' for percent of total disk size, '&' for percent of free space.\n\t"
-"Non-sector units will be rounded to the nearest cylinder.\n"
-"Entering '?' at most prompts will give you (simple) context sensitive help.");
 		break;
 	}
 }
