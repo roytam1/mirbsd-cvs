@@ -635,6 +635,7 @@ yyalloc (yy_size_t size)
 #endif
 
 #ifndef yyxrealloc
+void *yyxrealloc (void *p, yy_size_t size);
 void *
 yyxrealloc (void *p, yy_size_t size)
 {

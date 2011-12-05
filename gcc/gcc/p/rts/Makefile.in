@@ -1,4 +1,4 @@
-# $MirOS: gcc/gcc/p/rts/Makefile.in,v 1.4 2005/03/28 02:09:45 tg Exp $
+# $MirOS: gcc/gcc/p/rts/Makefile.in,v 1.5 2005/11/20 12:28:14 tg Exp $
 # Makefile for the GNU Pascal Run Time System
 #
 # Copyright (C) 1995-2005 Free Software Foundation, Inc.
@@ -59,7 +59,7 @@ PFLAGS1=--unit-path=$(VPATH) --automake
 RTS_WARN=-W -Wall -Wmissing-prototypes -Wmissing-declarations
 RTS_CFLAGS=-I. $(RTS_WARN) $(CFLAGS) $(RTSFLAGS)# -DDEBUG
 RTS_PFLAGS=$(subst -Wformat,,$(RTS_CFLAGS)) $(PFLAGS) $(PFLAGS1) `cat needed-options` \
-  -DRTS_RELEASE_STRING="'$(rts_version)'" -DGCC_VERSION="'$(GCC_VERSION)'"
+  -DRTS_RELEASE_STRING="'$(rts_version)'" -DGCC_VERSION="'$(GCC_VERSION)'" -Wno-error
 
 PAS_SRC=rtsc.pas string1.pas error.pas heap.pas string2.pas time.pas random.pas \
  fname.pas files.pas getopt.pas sets.pas math.pas endian.pas move.pas init.pas

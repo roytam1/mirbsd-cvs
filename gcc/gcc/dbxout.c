@@ -1008,7 +1008,9 @@ dbxout_type_methods (tree type)
 {
   /* C++: put out the method names and their parameter lists */
   tree methods = TYPE_METHODS (type);
+#ifndef GPC
   tree type_encoding;
+#endif
   tree fndecl;
   tree last;
 #ifndef GPC

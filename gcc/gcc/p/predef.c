@@ -25,12 +25,19 @@
   02111-1307, USA. */
 
 #include "gpc.h"
-#include "rts/constants.h"
+
+#define RTS_CONSTANT(NAME, VALUE) NAME = VALUE,
+enum {
+#include "rts/constants.def"
+  RTS_CONSTANT_DUMMY
+};
+
+/* Implementation-defined length of the `Name' field of `BindingType'. */
+#define BINDING_NAME_LENGTH 2048
 
 #ifndef EGCS
-static tree xnon_lvalue PARAMS ((tree));
-static tree xnon_lvalue (x)
-     tree x;
+static tree
+xnon_lvalue (tree x)
 {
   return TREE_CODE (x) == INTEGER_CST ? x : non_lvalue (x);
 }
@@ -61,11 +68,11 @@ static tree xnon_lvalue (x)
 #define PREDEF_ID(NAME, DIALECT) \
   PREDEF_INTERNAL (STRINGX(NAME), NULL, NULL, CONCAT2(p_,NAME), bk_none, NULL, 0, DIALECT, NULL)
 #define PREDEF_KEYWORD(NAME, WEAK, DIALECT) \
-  PREDEF_INTERNAL (STRINGX(NAME), NULL, NULL, CONCAT2(p_,NAME), bk_keyword, NULL, WEAK * KW_WEAK, DIALECT, NULL)
-#define PREDEF_INTERFACE(NAME, CONTENT, DIALECT) PREDEF_INTERNAL (STRINGX(NAME), NULL, NULL, CONCAT2(p_,NAME), bk_interface, NULL, 0, DIALECT, &CONTENT)
+  PREDEF_INTERNAL (STRINGX(NAME), NULL, NULL, CONCAT2(p_,NAME), bk_keyword, NULL, WEAK > 0 ? KW_WEAK : WEAK < 0 ? KW_DIRECTIVE : 0, DIALECT, NULL)
+#define PREDEF_INTERFACE(NAME, DIALECT) PREDEF_INTERNAL (STRINGX(NAME), NULL, NULL, CONCAT2(p_,NAME), bk_interface, NULL, 0, DIALECT, NULL)
 #define PREDEF_CONST(NAME, VALUE, DIALECT) PREDEF_INTERNAL (STRINGX(NAME), NULL, NULL, 0, bk_const, NULL, 0, DIALECT, &VALUE)
 #define PREDEF_TYPE(NAME, TYPE, DIALECT) PREDEF_INTERNAL (STRINGX(NAME), NULL, NULL, 0, bk_type, NULL, 0, DIALECT, &TYPE)
-#define PREDEF_VAR(NAME, DIALECT) PREDEF_INTERNAL (STRINGX(NAME), NULL, NULL, CONCAT2(p_,NAME), bk_var, NULL, 0, DIALECT, NULL)
+#define PREDEF_VAR(NAME, VAR, DIALECT) PREDEF_INTERNAL (STRINGX(NAME), NULL, NULL, CONCAT2(p_,NAME), bk_var, NULL, 0, DIALECT, &VAR)
 #define PREDEF_SYNTAX(NAME, SIG, ATTRIBUTES, DIALECT) \
   PREDEF_INTERNAL (STRINGX(NAME), STRINGX(NAME), NULL, CONCAT2(p_,NAME), bk_special_syntax, SIG, ATTRIBUTES, DIALECT, NULL)
 #define PREDEF_ROUTINE(NAME, SIG, ATTRIBUTES, DIALECT) PREDEF_ALIAS (NAME, NAME, SIG, ATTRIBUTES, DIALECT)
@@ -78,28 +85,26 @@ static tree xnon_lvalue (x)
 
 static GTY(()) struct predef predef_table[] =
 {
-#include <predef.h>
+#include <predef.def>
 };
 
-static tree type_from_sig PARAMS ((int));
-static tree int_range_type PARAMS ((tree, int));
-static int direct_access_warning PARAMS ((tree));
-static tree get_read_flags PARAMS ((int));
-static tree actual_set_parameters PARAMS ((tree, int));
-static tree build_read PARAMS ((int, tree, const char *));
-static tree build_write PARAMS ((int, tree, const char *));
-static tree build_val PARAMS ((tree));
-static tree pascal_unpack_and_pack PARAMS ((int, tree, tree, tree, const char *));
-static tree check_argument PARAMS ((tree, const char *, int, const char **, tree *, enum tree_code *));
-static tree get_standard_input PARAMS ((int));
-static tree get_standard_output PARAMS ((int));
-static tree get_standard_error PARAMS ((void));
+static tree type_from_sig (int);
+static tree int_range_type (tree, int);
+static int direct_access_warning (tree);
+static tree get_read_flags (int);
+static tree actual_set_parameters (tree, int);
+static tree build_read (int, tree, const char *);
+static tree build_write (int, tree, const char *);
+static tree build_val (tree);
+static tree pascal_unpack_and_pack (int, tree, tree, tree, const char *);
+static tree check_argument (tree, const char *, int, const char **, tree *, enum tree_code *);
+static tree get_standard_input (void);
+static tree get_standard_output (void);
 
 /*@@*/
-static tree check_files PARAMS ((tree));
+static tree check_files (tree);
 static tree
-check_files (list)
-     tree list;
+check_files (tree list)
 {
   tree t;
   for (t = list; t; t = TREE_CHAIN (t))
@@ -109,8 +114,7 @@ check_files (list)
 }
 
 static tree
-type_from_sig (c)
-     int c;
+type_from_sig (int c)
 {
   switch (c)
   {
@@ -138,13 +142,11 @@ type_from_sig (c)
     case '~': return gpc_type_DateTimeString;
     case '%': return build_pointer_type (string_schema_proto_type);
   }
-  assert (0);
+  gcc_unreachable ();
 }
 
 static tree
-int_range_type (low, high)
-     tree low;
-     int high;
+int_range_type (tree low, int high)
 {
   tree h = build_int_2 (high, 0);
   return build_range_type (
@@ -154,7 +156,7 @@ int_range_type (low, high)
 }
 
 void
-init_predef ()
+init_predef (void)
 {
   tree temp;
   int i;
@@ -181,7 +183,7 @@ init_predef ()
   TYPE_LANG_CODE (text_type_node) = PASCAL_LANG_TEXT_FILE;
 
   untyped_file_type_node = build_file_type (void_type_node, NULL_TREE, 1);
-  /* This decl is needed in parse.y: variable_access_or_typename. */
+  /* This decl is needed in parse.y: variable_or_routine_access_no_builtin_function. */
   temp = build_decl (TYPE_DECL, get_identifier ("File"), untyped_file_type_node);
   DECL_ARTIFICIAL (temp) = 1;
   TREE_PUBLIC (temp) = 1;
@@ -211,9 +213,6 @@ init_predef ()
   defining_packed_type++;
   gpc_type_TimeStamp = pack_type (finish_struct (start_struct (RECORD_TYPE), temp, 1));
   defining_packed_type--;
-
-  /* Implementation dependent length of the `Name' field of `BindingType'. */
-#define BINDING_NAME_LENGTH 2048
 
   /* Required type `BindingType' */
   temp = chainon (build_field (get_identifier ("Bound"), boolean_type_node),
@@ -255,20 +254,20 @@ init_predef ()
   TYPE_READONLY (temp) = 1;  /* No need for a variant, this type is always readonly */
 
   /* Obtain the input and output files initialized in the RTS. */
-  global_input_file_node = declare_variable (get_identifier ("_p_Input"),
+  input_variable_node = declare_variable (get_identifier ("_p_Input"),
     text_type_node, NULL_TREE, VQ_EXTERNAL | VQ_IMPLICIT);
-  DECL_NAME (global_input_file_node) = get_identifier ("Input");
-  PASCAL_EXTERNAL_OBJECT (global_input_file_node) = 1;
+  DECL_NAME (input_variable_node) = get_identifier ("Input");
+  PASCAL_EXTERNAL_OBJECT (input_variable_node) = 1;
 
-  global_output_file_node = declare_variable (get_identifier ("_p_Output"),
+  output_variable_node = declare_variable (get_identifier ("_p_Output"),
     text_type_node, NULL_TREE, VQ_EXTERNAL | VQ_IMPLICIT);
-  DECL_NAME (global_output_file_node) = get_identifier ("Output");
-  PASCAL_EXTERNAL_OBJECT (global_output_file_node) = 1;
+  DECL_NAME (output_variable_node) = get_identifier ("Output");
+  PASCAL_EXTERNAL_OBJECT (output_variable_node) = 1;
 
-  global_error_file_node = declare_variable (get_identifier ("_p_StdErr"),
+  error_variable_node = declare_variable (get_identifier ("_p_StdErr"),
     text_type_node, NULL_TREE, VQ_EXTERNAL | VQ_IMPLICIT);
-  DECL_NAME (global_error_file_node) = get_identifier ("Stderr");
-  PASCAL_EXTERNAL_OBJECT (global_error_file_node) = 1;
+  DECL_NAME (error_variable_node) = get_identifier ("Stderr");
+  PASCAL_EXTERNAL_OBJECT (error_variable_node) = 1;
 
   inoutres_variable_node = declare_variable (get_identifier ("_p_InOutRes"),
     pascal_integer_type_node, NULL_TREE, VQ_EXTERNAL | VQ_IMPLICIT);
@@ -282,29 +281,36 @@ init_predef ()
      normal case). Declaring it noreturn here is thus correct in this
      circumstance and improves the generated code. */
   temp = build_implicit_routine_decl (get_identifier ("_p_CheckInOutRes"),
-    void_type_node, build_tree_list (NULL_TREE, void_type_node), ER_EXTERNAL | ER_NORETURN);
+    void_type_node, void_list_node, ER_EXTERNAL | ER_NORETURN);
   DECL_ARTIFICIAL (temp) = 1;
   /* Build a function pointer to simplify its usage later. */
   checkinoutres_routine_node = build1 (ADDR_EXPR, build_pointer_type (
     p_build_type_variant (TREE_TYPE (temp), TREE_READONLY (temp), TREE_THIS_VOLATILE (temp))), temp);
+
+  validate_pointer_ptr_node = declare_variable (get_identifier ("_p_ValidatePointerPtr"),
+    build_pointer_type (build_function_type (void_type_node, tree_cons (NULL_TREE, ptr_type_node, void_list_node))),
+    NULL_TREE, VQ_EXTERNAL | VQ_IMPLICIT);
 
   /* Built-in identifiers */
   for (i = 0; i < (int) ARRAY_SIZE (predef_table); i++)
     {
       enum built_in_kind kind = predef_table[i].kind;
       tree decl = NULL_TREE;
-      if (predef_table[i].idname)
+      const char *p = predef_table[i].idname;
+      if (p)
         {
           tree id;
-          const char *p = predef_table[i].idname;
           char *new_name = alloca (strlen (p) + 1), *q = new_name;
+          /* Would cause lexer problems WRT LEX_CARET_LETTER; bad style anyway. */
+          if (predef_table[i].symbol != p_c)  /* @@ */
+            gcc_assert (strlen (p) > 1);
           *q++ = TOUPPER (*p++);
           while (*p)
             *q++ = TOLOWER (*p++);
           *q = 0;
           id = get_identifier (new_name);
           IDENTIFIER_BUILT_IN_VALUE (id) = &predef_table[i];
-          if ((kind == bk_const || kind == bk_type) && !is_gpi_special_node (*predef_table[i].value))
+          if ((kind == bk_const || kind == bk_type || kind == bk_var) && !is_gpi_special_node (*predef_table[i].value))
             error ("internal error: node `%s' missing in SPECIAL_NODES in module.c", predef_table[i].idname);
           if (kind == bk_const)
             {
@@ -312,7 +318,7 @@ init_predef ()
               decl = build_decl (CONST_DECL, id, TREE_TYPE (v));
               DECL_INITIAL (decl) = v;
               if (TREE_CODE_CLASS (TREE_CODE (v)) == 'c')
-                PASCAL_TREE_FRESH_CST (v) = 1;
+                PASCAL_CST_FRESH (v) = 1;
             }
           if (kind == bk_type)
             {
@@ -324,12 +330,14 @@ init_predef ()
               /* necessary to get debug info (e.g. fjf910.pas, tested with gcc-2.8.1, stabs) */
               rest_of_decl_compilation (decl, NULL, 1, 1);
             }
+          if (kind == bk_var)
+            decl = *predef_table[i].value;
         }
       if (kind == bk_special_syntax || kind == bk_routine)
         {
           tree args = NULL_TREE, id;
           const char *signature = predef_table[i].signature, *p;
-          assert (predef_table[i].rts_idname && signature);
+          gcc_assert (predef_table[i].rts_idname && signature);
           p = strchr (signature, '|');
           if (p)
             {
@@ -350,13 +358,11 @@ init_predef ()
                       tree_cons (NULL_TREE, c == 'M' ? ptr_type_node : const_ptr_type_node, args));
                     t = pascal_integer_type_node;
                   }
-                else if (c == 'F' || c == 'f' || c == 'J' || c == 'j')
+                else if (c == 'F' || c == 'f' || c == 'J' || c == 'j' || c == '@')
                   {
                     t = ptr_type_node;
-#if 0
                     if (c == '@')
                       t = build_reference_type (t);
-#endif
                   }
                 else
                   {
@@ -364,18 +370,19 @@ init_predef ()
                     /* `TimeStamp' is always passed by reference, but possibly `protected'
                        (files were too, but they're pointers now anyway, so they're always
                        passed by value to the RTS internally; execption: InitFDR (`@')) */
-                    if ((ISUPPER (c) && c != 'F' && c != 'J') || c == '@')
+                    if (ISUPPER (c) && c != 'F' && c != 'J')
                       t = build_reference_type (t);
                     else if (/* c == 'f' || c == 'j' || */ c == 't')
                       t = build_reference_type (p_build_type_variant (t, 1, TYPE_VOLATILE (t)));
                   }
                 args = tree_cons (NULL_TREE, t, args);
               }
+          args = nreverse (args);
           if (p[-1] != ',')
-            args = tree_cons (NULL_TREE, void_type_node, args);
+            args = chainon (args, void_list_node);
           id = get_identifier (ACONCAT (("_p_", predef_table[i].rts_idname, NULL)));
           decl = build_implicit_routine_decl (id, type_from_sig (*signature),
-                   nreverse (args), ER_EXTERNAL | predef_table[i].attributes);
+                   args, ER_EXTERNAL | predef_table[i].attributes);
         }
       if (decl)
         {
@@ -387,20 +394,18 @@ init_predef ()
 #endif
         }
     }
-
   do_deferred_options ();
 }
 
 static tree
-actual_set_parameters (val, reference)
-     tree val;
-     int reference;
+actual_set_parameters (tree val, int reference)
 {
   tree domain = TYPE_DOMAIN (TREE_TYPE (val)), addr;
+  int addressable = mark_addressable (val);
+  gcc_assert (addressable);
 
   /* Callers now handle the constant empty set. */
-  assert (TREE_TYPE (val) != empty_set_type_node);
-  assert (mark_addressable (val));
+  gcc_assert (TREE_TYPE (val) != empty_set_type_node);
 
   /* Functions returning sets are no lvalues, so build_pascal_unary_op
      would complain. So call build1 directly for value parameters.
@@ -415,8 +420,7 @@ actual_set_parameters (val, reference)
 }
 
 static int
-direct_access_warning (type)
-     tree type;
+direct_access_warning (tree type)
 {
   if (!TYPE_LANG_FILE_DOMAIN (type))
     chk_dialect ("direct access to files without declared domain is", B_D_M_PASCAL);
@@ -424,8 +428,7 @@ direct_access_warning (type)
 }
 
 static tree
-get_read_flags (is_val)
-     int is_val;
+get_read_flags (int is_val)
 {
   int flags = 0;
   if (co->read_base_specifier)
@@ -445,8 +448,7 @@ get_read_flags (is_val)
    length and contents). Note that the string does not need to be an lvalue.
    (note `function: PString' vs. `function: String') */
 tree
-save_expr_string (string)
-     tree string;
+save_expr_string (tree string)
 {
   tree t, stmts = NULL_TREE, addr;
   /* Non-schema strings don't need to be saved, because the routines will
@@ -481,10 +483,7 @@ save_expr_string (string)
 
 /* Read from files and strings. */
 static tree
-build_read (r_num, params, r_name)
-     int r_num;
-     tree params;
-     const char *r_name;
+build_read (int r_num, tree params, const char *r_name)
 {
   tree file, parm;
   if (r_num == p_ReadStr)
@@ -519,7 +518,7 @@ build_read (r_num, params, r_name)
           params = TREE_CHAIN (params);
         }
       else
-        file = get_standard_input (1);
+        file = get_standard_input ();
       if (PASCAL_TYPE_ANYFILE (TREE_TYPE (file)))
         {
           error ("`%s' cannot be used with files of type `AnyFile'", r_name);
@@ -527,7 +526,7 @@ build_read (r_num, params, r_name)
         }
       if (r_num == p_Read && !params)
         {
-          warning ("`Read' without variables to read -- ignored");
+          error_or_warning (co->pascal_dialect & E_O_PASCAL, "`Read' without variables to read -- ignored");
           return NULL_TREE;
         }
       if (!PASCAL_TYPE_TEXT_FILE (TREE_TYPE (file)))
@@ -541,7 +540,7 @@ build_read (r_num, params, r_name)
           for (parm = params; parm; parm = TREE_CHAIN (parm))
             {
               /* Call build_buffer_ref *within* the loop so the lazy getting is done each time */
-              expand_expr_stmt (build_modify_expr (TREE_VALUE (parm), NOP_EXPR, build_buffer_ref (file, p_LazyGet)));
+              expand_pascal_assignment (undo_schema_dereference (TREE_VALUE (parm)), build_buffer_ref (file, p_LazyGet));
               build_predef_call (p_Get, build_tree_list (NULL_TREE, file));
             }
           return NULL_TREE;
@@ -550,14 +549,14 @@ build_read (r_num, params, r_name)
     }
   for (parm = params; parm; parm = TREE_CHAIN (parm))
     {
-      tree p = TREE_VALUE (parm), type = TREE_TYPE (p);
+      tree p = TREE_VALUE (parm), type = TREE_TYPE (p), t;
       int r_num2;
       if (!mark_lvalue (p, "reading in", 1))
         return error_mark_node;
       switch (TREE_CODE (type))
       {
         case INTEGER_TYPE:
-          r_num2 = TREE_UNSIGNED (type) ? p_Read_Cardinal : p_Read_Integer;
+          r_num2 = TYPE_UNSIGNED (type) ? p_Read_Cardinal : p_Read_Integer;
           break;
         case CHAR_TYPE:
           r_num2 = p_Read_Char;
@@ -599,9 +598,11 @@ build_read (r_num, params, r_name)
           return error_mark_node;
       }
 
+      t = build_predef_call (r_num2, build_tree_list (NULL_TREE, file));
       co->range_checking <<= 1;
-      expand_expr_stmt (build_modify_expr (p, NOP_EXPR, build_predef_call (r_num2, build_tree_list (NULL_TREE, file))));
+      t = build_modify_expr (p, NOP_EXPR, t);
       co->range_checking >>= 1;
+      expand_expr_stmt (t);
     }
   if (r_num == p_ReadLn)
     build_predef_call (p_Read_Line, build_tree_list (NULL_TREE, file));
@@ -614,10 +615,9 @@ build_read (r_num, params, r_name)
 
 /* `Val' */
 static tree
-build_val (params)
-     tree params;
+build_val (tree params)
 {
-  tree target, type, res_pos, file;
+  tree target, type, res_pos, file, t;
   int r_num;
   if (!is_string_compatible_type (TREE_VALUE (params), 1))
     {
@@ -633,7 +633,7 @@ build_val (params)
   target = TREE_VALUE (TREE_CHAIN (params));
   type = TREE_TYPE (target);
   if (TREE_CODE (type) == INTEGER_TYPE)
-    r_num = TREE_UNSIGNED (type) ? p_Read_Cardinal : p_Read_Integer;
+    r_num = TYPE_UNSIGNED (type) ? p_Read_Cardinal : p_Read_Integer;
   else if (TREE_CODE (type) == REAL_TYPE)
     {
       if (TYPE_PRECISION (type) > TYPE_PRECISION (double_type_node))
@@ -655,23 +655,21 @@ build_val (params)
   expand_expr_stmt (build_modify_expr (build_component_ref (file,
     get_identifier ("_p_File_")), NOP_EXPR, build_predef_call (p_ReadStr_Init, params)));
 
+  t = build_predef_call (r_num, build_tree_list (NULL_TREE, file));
   co->range_checking <<= 1;
-  expand_expr_stmt (build_modify_expr (target, NOP_EXPR, build_predef_call (r_num, build_tree_list (NULL_TREE, file))));
+  t = build_modify_expr (target, NOP_EXPR, t);
   co->range_checking >>= 1;
+  expand_expr_stmt (t);
   expand_expr_stmt (build_modify_expr (res_pos, NOP_EXPR, build_predef_call (p_Val_Done, build_tree_list (NULL_TREE, file))));
   return NULL_TREE;
 }
 
 /* Write to files and strings. */
 static tree
-build_write (r_num, params, r_name)
-     int r_num;
-     tree params;
-     const char *r_name;
+build_write (int r_num, tree params, const char *r_name)
 {
   tree file = NULL_TREE, parm, format_string = NULL_TREE, string_length = NULL_TREE;
   int flags;
-
   flags = (co->pascal_dialect & (CLASSIC_PASCAL_LEVEL_0 | CLASSIC_PASCAL_LEVEL_1)) ? NEG_ZERO_WIDTH_ERROR_MASK
           : (co->pascal_dialect & E_O_PASCAL) ? NEG_WIDTH_ERROR_MASK
           : (co->pascal_dialect & B_D_M_PASCAL) ? 0
@@ -774,7 +772,7 @@ build_write (r_num, params, r_name)
           params = TREE_CHAIN (params);
         }
       else
-        file = get_standard_output (1);
+        file = get_standard_output ();
       if (PASCAL_TYPE_ANYFILE (TREE_TYPE (file)))
         {
           error ("`%s' cannot be used with files of type `AnyFile'", r_name);
@@ -782,22 +780,21 @@ build_write (r_num, params, r_name)
         }
       if (r_num == p_Write && !params)
         {
-          warning ("`%s' without values to write -- ignored", r_name);
+          error_or_warning (co->pascal_dialect & E_O_PASCAL, "`Write' without values to write -- ignored");
           return NULL_TREE;
         }
       if (!PASCAL_TYPE_TEXT_FILE (TREE_TYPE (file)))
         {
-          tree buffer;
           /* Writing to a typed file */
           if (r_num != p_Write)
             {
               error ("`%s' is allowed only when writing to files of type `Text'", r_name);
               return error_mark_node;
             }
-          buffer = build_buffer_ref (file, p_LazyUnget);
           for (parm = params; parm; parm = TREE_CHAIN (parm))
             {
-              expand_expr_stmt (build_modify_expr (buffer, NOP_EXPR, string_may_be_char (TREE_VALUE (parm), 1)));
+              expand_pascal_assignment (build_buffer_ref (file, p_LazyUnget),
+                string_may_be_char (undo_schema_dereference (TREE_VALUE (parm)), 1));
               build_predef_call (p_Put, build_tree_list (NULL_TREE, file));
             }
           return NULL_TREE;
@@ -871,8 +868,8 @@ build_write (r_num, params, r_name)
                 p = convert (pascal_cardinal_type_node, p);
             }
           r_num2 = (TYPE_PRECISION (TREE_TYPE (p)) > TYPE_PRECISION (pascal_integer_type_node))
-            ? (TREE_UNSIGNED (TREE_TYPE (p)) ? p_Write_LongCard : p_Write_LongInt)
-            : (TREE_UNSIGNED (TREE_TYPE (p)) ? p_Write_Cardinal : p_Write_Integer);
+            ? (TYPE_UNSIGNED (TREE_TYPE (p)) ? p_Write_LongCard : p_Write_LongInt)
+            : (TYPE_UNSIGNED (TREE_TYPE (p)) ? p_Write_Cardinal : p_Write_Integer);
           use_write_width_index = (r_num2 == p_Write_LongInt || r_num2 == p_Write_LongCard) ? 3 : 0;
           break;
         case REAL_TYPE:
@@ -922,6 +919,17 @@ build_write (r_num, params, r_name)
       args = tree_cons (NULL_TREE, field1 ? field1 : TYPE_MIN_VALUE (pascal_integer_type_node), args);
       if (length)
         args = tree_cons (NULL_TREE, length, args);
+
+      if (parm != params
+          && (TREE_SIDE_EFFECTS (p)
+              || (field1 && TREE_SIDE_EFFECTS (field1))
+              || (field2 && TREE_SIDE_EFFECTS (field2)))
+          && (r_num == p_Write || r_num == p_WriteLn))
+        {
+          build_predef_call (p_Write_Flush, build_tree_list (NULL_TREE, file));
+          build_predef_call (p_Write_Init, tree_cons (NULL_TREE, file, build_tree_list (NULL_TREE, build_int_2 (flags, 0))));
+        }
+
       expand_expr_stmt (build_predef_call (r_num2, tree_cons (NULL_TREE, file, tree_cons (NULL_TREE, p, args))));
     }
   if (r_num == p_FormatString)
@@ -952,36 +960,44 @@ build_write (r_num, params, r_name)
 
 /* Pascal `Pack' and `Unpack' transfer procedures. */
 static tree
-pascal_unpack_and_pack (unpack_flag, unpacked, packed, ustart, name)
-     int unpack_flag;
-     tree unpacked, packed, ustart;
-     const char *name;
+pascal_unpack_and_pack (int unpack_flag, tree unpacked, tree packed, tree ustart, const char *name)
 {
-  tree utype = TREE_TYPE (unpacked), ptype = TREE_TYPE (packed), len, bits;
-
+  int is_string = 0;
+  tree schema_check, utype = TREE_TYPE (unpacked), ptype = TREE_TYPE (packed), len0, len, bits;
+  tree cutype = TREE_TYPE (utype), cptype = TREE_TYPE (ptype);
   CHK_EM (unpacked);
   CHK_EM (packed);
 
-  if (!strictly_comp_types (TREE_TYPE (TREE_TYPE (unpacked)), TREE_TYPE (TREE_TYPE (packed))))
+  schema_check = check_discriminants (
+    build_array_ref (unpacked, TYPE_MIN_VALUE (TYPE_DOMAIN (utype))),
+    build_array_ref (packed, TYPE_MIN_VALUE (TYPE_DOMAIN (ptype))));
+  if (!EM (schema_check))
+    expand_expr_stmt (convert (void_type_node, schema_check));
+  else if (!strictly_comp_types (cutype, cptype))
     {
-      error ("source and destination arrays in `%s' must be of the same type", name);
-      return error_mark_node;
+      if ((TREE_CODE (cutype) == CHAR_TYPE || is_of_string_type (cutype, 0)) &&
+          (TREE_CODE (cptype) == CHAR_TYPE || is_of_string_type (cptype, 0)))
+        is_string = 1;
+      else
+        {
+          error ("source and destination arrays in `%s' must be of the same type", name);
+          return error_mark_node;
+        }
     }
 
-  /* Length we copy is the length of the packed array */
-  len = fold (build (PLUS_EXPR, pascal_integer_type_node,
-          build (MINUS_EXPR, pascal_integer_type_node,
-            convert (pascal_integer_type_node, TYPE_MAX_VALUE (TYPE_DOMAIN (ptype))),
-            convert (pascal_integer_type_node, TYPE_MIN_VALUE (TYPE_DOMAIN (ptype)))),
-          integer_one_node));
+  /* Length to copy is the length of the packed array */
+  len0 = build_pascal_binary_op (MINUS_EXPR,
+          convert (pascal_integer_type_node, TYPE_MAX_VALUE (TYPE_DOMAIN (ptype))),
+          convert (pascal_integer_type_node, TYPE_MIN_VALUE (TYPE_DOMAIN (ptype))));
+  len = build_pascal_binary_op (PLUS_EXPR, len0, integer_one_node);
 
   ustart = range_check_2 (TYPE_MIN_VALUE (TYPE_DOMAIN (utype)),
-    convert (TYPE_DOMAIN (utype), fold (build (PLUS_EXPR, pascal_integer_type_node,
-      fold (build (MINUS_EXPR, pascal_integer_type_node, TYPE_MAX_VALUE (TYPE_DOMAIN (utype)), len)),
-      integer_one_node))), ustart);
+    convert_and_check (base_type (TYPE_DOMAIN (utype)), build_pascal_binary_op (MINUS_EXPR,
+    TYPE_MAX_VALUE (TYPE_DOMAIN (utype)), len0)), ustart);
+  CHK_EM (ustart);
 
-  bits = count_bits (TREE_TYPE (ptype));
-  if (bits && TREE_INT_CST_LOW (bits) != TREE_INT_CST_LOW (TYPE_SIZE (TREE_TYPE (ptype))))
+  bits = count_bits (cptype, NULL);
+  if (is_string || (bits && TREE_INT_CST_LOW (bits) != TREE_INT_CST_LOW (TYPE_SIZE (cptype))))
     {
       /* Construct a loop like ISO wants (abbreviated):
          j := Low (packed);
@@ -997,13 +1013,11 @@ pascal_unpack_and_pack (unpack_flag, unpacked, packed, ustart, name)
                Inc (k)
              end
          until j >= High (packed); */
-      tree j = make_new_variable ("pack", TYPE_MAIN_VARIANT (TREE_TYPE (TYPE_DOMAIN (ptype))));
-      tree k = make_new_variable ("pack", TYPE_MAIN_VARIANT (TREE_TYPE (TYPE_DOMAIN (utype))));
+      tree j = make_new_variable ("pack", TREE_TYPE (TYPE_DOMAIN (ptype)));
+      tree k = make_new_variable ("pack", TREE_TYPE (TYPE_DOMAIN (utype)));
       tree condition, packed_j, unpacked_k;
-      tree j_as_integer = convert (type_for_size (TYPE_PRECISION (TREE_TYPE (j)),
-             TREE_UNSIGNED (TREE_TYPE (j))), j);
-      tree k_as_integer = convert (type_for_size (TYPE_PRECISION (TREE_TYPE (k)),
-             TREE_UNSIGNED (TREE_TYPE (k))), k);
+      tree j_as_integer = convert (type_for_size (TYPE_PRECISION (TREE_TYPE (j)), TYPE_UNSIGNED (TREE_TYPE (j))), j);
+      tree k_as_integer = convert (type_for_size (TYPE_PRECISION (TREE_TYPE (k)), TYPE_UNSIGNED (TREE_TYPE (k))), k);
       expand_expr_stmt (build_modify_expr (j, NOP_EXPR, TYPE_MIN_VALUE (TYPE_DOMAIN (ptype))));
       expand_expr_stmt (build_modify_expr (k, NOP_EXPR, convert (TREE_TYPE (k), ustart)));
       expand_start_loop (1);
@@ -1018,13 +1032,13 @@ pascal_unpack_and_pack (unpack_flag, unpacked, packed, ustart, name)
       expand_expr_stmt (build_modify_expr (j_as_integer, PLUS_EXPR, integer_one_node));
       expand_expr_stmt (build_modify_expr (k_as_integer, PLUS_EXPR, integer_one_node));
       expand_end_loop ();
-      return error_mark_node;  /* @@ nothing to expand anymore */
+      return error_mark_node;  /* nothing to expand anymore */
     }
   else
     {
       /* Not really packed; elements have same size. Just copy the memory. */
       tree length = fold (build (MULT_EXPR, pascal_integer_type_node,
-             convert (pascal_integer_type_node, size_in_bytes (TREE_TYPE (utype))), len));
+             convert (pascal_integer_type_node, size_in_bytes (cutype)), len));
       tree adr_u = build_unary_op (ADDR_EXPR, build_array_ref (unpacked, ustart), 0);
       tree adr_p = build_unary_op (ADDR_EXPR, packed, 0);
       if (unpack_flag)
@@ -1035,13 +1049,7 @@ pascal_unpack_and_pack (unpack_flag, unpacked, packed, ustart, name)
 }
 
 static tree
-check_argument (arg, r_name, n, pargtypes, ptype, pcode)
-     tree arg;
-     const char *r_name;
-     int n;
-     const char **pargtypes;
-     tree *ptype;
-     enum tree_code *pcode;
+check_argument (tree arg, const char *r_name, int n, const char **pargtypes, tree *ptype, enum tree_code *pcode)
 {
   const char *errstr = NULL;
   enum tree_code code;
@@ -1068,6 +1076,13 @@ check_argument (arg, r_name, n, pargtypes, ptype, pcode)
       val = string_may_be_char (val, assignment_compatibility);
       break;
   }
+
+  if (TREE_CODE (val) == TYPE_DECL && argtype_lower != '#' && argtype_lower != '^')
+    {
+      error ("parameter expected -- type name given");
+      val = error_mark_node;
+    }
+
   type = TREE_TYPE (val);
   if (EM (val) || !type)
     return error_mark_node;
@@ -1093,7 +1108,7 @@ check_argument (arg, r_name, n, pargtypes, ptype, pcode)
     case 's': if (!is_string_compatible_type (val, 1))                  errstr = "argument %d to `%s' must be a string or char"; break;
     case 'q': if (!(code == POINTER_TYPE && integer_zerop (val)) && TYPE_MAIN_VARIANT (type) != cstring_type_node && !is_string_compatible_type (val, 1))
                                                                         errstr = "argument %d to `%s' must be a `CString' (`PChar')"; break;
-    case 'p': if (code != POINTER_TYPE)                                 errstr = "argument %d to `%s' must be a pointer"; break;
+    case 'p': case '^': if (code != POINTER_TYPE)                       errstr = "argument %d to `%s' must be a pointer"; break;
     case 'y': if (code != POINTER_TYPE && code != REFERENCE_TYPE)       errstr = "argument %d to `%s' must be of pointer or procedural type"; break;
     case 'f': case '@': if (!PASCAL_TYPE_FILE (type))                   errstr = "argument %d to `%s' must be a file"; break;
     case 'j': if (!PASCAL_TYPE_TEXT_FILE (type))                        errstr = "argument %d to `%s' must be a `Text' file"; break;
@@ -1108,7 +1123,7 @@ check_argument (arg, r_name, n, pargtypes, ptype, pcode)
     case 'a': if (TYPE_MAIN_VARIANT (type) != gpc_type_BindingType)     errstr = "argument %d to `%s' must be of type `BindingType'"; break;
     case 'x': break;  /* Untyped parameter */
     case '#': if (TREE_CONSTANT (val) && (TREE_CODE (val) != CONSTRUCTOR || type == empty_set_type_node)) { error ("`%s' applied to a constant", r_name); return error_mark_node; } break;  /* expression or type allowed */
-    default: assert (0);
+    default: gcc_unreachable ();
   }
   if (ISUPPER ((unsigned char) argtype))
     {
@@ -1130,61 +1145,67 @@ check_argument (arg, r_name, n, pargtypes, ptype, pcode)
   return val;
 }
 
-void
-build_exit_statement (id)
-     tree id;
-{
-  if (current_module->main_program && id == current_module->name)
-    build_predef_call (p_Halt, NULL_TREE);
-  else if (current_function_decl && id == DECL_NAME (current_function_decl))
-    build_predef_call (p_Exit, NULL_TREE);
-  else
-    {
-      struct function *p;
-#ifdef EGCS97
-      for (p = outer_function_chain; p; p = p->outer)
-#else
-      for (p = outer_function_chain; p; p = p->next)
-#endif
-        if (DECL_NAME (p->decl) == id)
-          {
-            error ("non-local `Exit' is currently not implemented");
-            return;
-          }
-      error ("invalid argument `%s' to `Exit'", IDENTIFIER_NAME (id));
-    }
-}
-
-/* This routine constructs Pascal RTS calls with correct arguments. `r_num' is
-   the id of the RTS routine to call. `apar' is a TREE_LIST chain of arguments;
-   args are in the TREE_VALUE field. If there is something in the TREE_PURPOSE
-   field, it is a TREE_LIST node of write output field length expressions, the
-   first expression is in TREE_VALUE and the second one is in TREE_PURPOSE
-   i.e. actual_parameter : expression : expression. */
+/* This routine resolves predefined routines and similar things. If necessary,
+   it constructs RTS calls with correct arguments. `r_num' is the id of the
+   predefined thing. `apar' is a TREE_LIST chain of arguments; args are in the
+   TREE_VALUE field. If there is something in the TREE_PURPOSE field, it is a
+   TREE_LIST node of write output field length expressions, the first expression
+   in TREE_VALUE and the second one in TREE_PURPOSE, for
+   `actual_parameter : expression : expression'. */
 tree
-build_predef_call (r_num, apar)
-     int r_num;
-     tree apar;
+build_predef_call (int r_num, tree apar)
 {
   tree val = NULL_TREE, val2 = NULL_TREE, val3 = NULL_TREE, val4 = NULL_TREE;
   tree type = NULL_TREE, type2 = NULL_TREE, type3 = NULL_TREE, type4 = NULL_TREE;
   tree retval = NULL_TREE, fun;
-  tree post_statement = NULL_TREE;  /* for statements to be executed after calling the RTS procedure */
+  tree convert_result = NULL_TREE;  /* type to convert the result to */
+  tree post_statement = NULL_TREE;  /* statement to be executed after calling the RTS procedure */
   tree actual_result = NULL_TREE;  /* value to return for a procedure call if any */
-  int argcount, swapargs = 0, invertresult = 0, minarg, maxarg, i, procflag, orig_p_id = r_num;
+  int argcount, swapargs = 0, invert_result = 0, minarg, maxarg, i, procflag, orig_p_id = r_num;
   enum tree_code code = ERROR_MARK, code2 = ERROR_MARK, code3 = ERROR_MARK, code4 = ERROR_MARK;
   const char *errstr = NULL, *r_name = NULL, *signature = NULL, *tmpsig;
 
   /* We must check the dialect before r_num may be changed. */
   for (i = 0; i < (int) ARRAY_SIZE (predef_table) && (predef_table[i].symbol != r_num || predef_table[i].kind == bk_keyword); i++) ;
-  assert (i < (int) ARRAY_SIZE (predef_table));
+  gcc_assert (i < (int) ARRAY_SIZE (predef_table));
   r_name = predef_table[i].idname;
   if (!r_name) r_name = predef_table[i].alias_name;
-  assert (r_name);
+  gcc_assert (r_name);
   chk_dialect_name (r_name, predef_table[i].dialect);
 
+  if (r_num == p_Exit && apar)
+    {
+      tree id = TREE_VALUE (apar);
+      apar = NULL_TREE;
+      chk_dialect ("`Exit' with an argument is", U_M_PASCAL);
+      if (id == void_type_node || (current_module->main_program && id == current_module->name))
+        r_num = p_Halt;
+      else if (!(current_function_decl && id == DECL_NAME (current_function_decl)))
+        {
+          struct function *p;
+#ifdef EGCS97
+          for (p = outer_function_chain; p && DECL_NAME (p->decl) != id; p = p->outer) ;
+#else
+          for (p = outer_function_chain; p && DECL_NAME (p->decl) != id; p = p->next) ;
+#endif
+          if (!p)
+            error ("invalid argument `%s' to `Exit'", IDENTIFIER_NAME (id));
+          else if (DECL_LANG_SPECIFIC (p->decl) && DECL_LANG_NONLOCAL_EXIT_LABEL (p->decl))
+            pascal_expand_goto (DECL_LANG_NONLOCAL_EXIT_LABEL (p->decl));
+          else
+            error ("`%s' does not allow non-local `Exit'", IDENTIFIER_NAME (id));
+          return error_mark_node;
+        }
+    }
+
   for (val = apar; val; val = TREE_CHAIN (val))
-    CHK_EM (val);
+    {
+      CHK_EM (val);
+      CHK_EM (TREE_VALUE (val));
+      if (TREE_CODE (TREE_VALUE (val)) != TYPE_DECL)
+        DEREFERENCE_SCHEMA (TREE_VALUE (val));
+    }
+
   argcount = list_length (apar);
   if (argcount >= 1)
     {
@@ -1229,7 +1250,7 @@ build_predef_call (r_num, apar)
           case p_ArcSin: r_num = p_Complex_ArcSin; break;
           case p_ArcCos: r_num = p_Complex_ArcCos; break;
           case p_ArcTan: r_num = p_Complex_ArcTan; break;
-          default:       assert (0);
+          default:       gcc_unreachable ();
         }
       else if (code == REAL_TYPE && TYPE_PRECISION (type) > TYPE_PRECISION (double_type_node))
         switch (r_num)
@@ -1242,7 +1263,7 @@ build_predef_call (r_num, apar)
           case p_ArcSin: r_num = p_LongReal_ArcSin; break;
           case p_ArcCos: r_num = p_LongReal_ArcCos; break;
           case p_ArcTan: r_num = p_LongReal_ArcTan; break;
-          default:       assert (0);
+          default:       gcc_unreachable ();
         }
       break;
 
@@ -1250,11 +1271,11 @@ build_predef_call (r_num, apar)
       if (code == COMPLEX_TYPE)
         r_num = p_Complex_Power;
       else if (argcount >= 2  /* otherwise error given below, don't crash here */
-               && TREE_CODE (type) == REAL_TYPE
-               && TREE_CODE (TREE_TYPE (TREE_VALUE (TREE_CHAIN (apar)))) == REAL_TYPE
-               && (TYPE_PRECISION (type) > TYPE_PRECISION (double_type_node)
-                   || TYPE_PRECISION (TREE_TYPE (TREE_VALUE (TREE_CHAIN (apar))))
-                        > TYPE_PRECISION (double_type_node)))
+               && ((TREE_CODE (type) == REAL_TYPE
+                    && TYPE_PRECISION (type) > TYPE_PRECISION (double_type_node))
+                   || (TREE_CODE (TREE_TYPE (TREE_VALUE (TREE_CHAIN (apar)))) == REAL_TYPE
+                       && TYPE_PRECISION (TREE_TYPE (TREE_VALUE (TREE_CHAIN (apar))))
+                          > TYPE_PRECISION (double_type_node))))
         r_num = p_LongReal_Power;
       break;
 
@@ -1315,18 +1336,18 @@ build_predef_call (r_num, apar)
       /* First, reduce the number of operators from 12 to 4 :-) */
       switch (r_num)
       {
-        case p_NE:    r_num = p_EQ;                  invertresult = 1; break;
-        case p_GT:    r_num = p_LT;    swapargs = 1;                   break;
-        case p_GE:    r_num = p_LT;                  invertresult = 1; break;
-        case p_LE:    r_num = p_LT;    swapargs = 1; invertresult = 1; break;
-        case p_NEPad: r_num = p_EQPad;               invertresult = 1; break;
-        case p_GTPad: r_num = p_LTPad; swapargs = 1;                   break;
-        case p_GEPad: r_num = p_LTPad;               invertresult = 1; break;
-        case p_LEPad: r_num = p_LTPad; swapargs = 1; invertresult = 1; break;
-        case LEX_NE:  r_num = '=';                   invertresult = 1; break;
-        case '>':     r_num = '<';     swapargs = 1;                   break;
-        case LEX_GE:  r_num = '<';                   invertresult = 1; break;
-        case LEX_LE:  r_num = '<';     swapargs = 1; invertresult = 1; break;
+        case p_NE:    r_num = p_EQ;                  invert_result = 1; break;
+        case p_GT:    r_num = p_LT;    swapargs = 1;                    break;
+        case p_GE:    r_num = p_LT;                  invert_result = 1; break;
+        case p_LE:    r_num = p_LT;    swapargs = 1; invert_result = 1; break;
+        case p_NEPad: r_num = p_EQPad;               invert_result = 1; break;
+        case p_GTPad: r_num = p_LTPad; swapargs = 1;                    break;
+        case p_GEPad: r_num = p_LTPad;               invert_result = 1; break;
+        case p_LEPad: r_num = p_LTPad; swapargs = 1; invert_result = 1; break;
+        case LEX_NE:  r_num = '=';                   invert_result = 1; break;
+        case '>':     r_num = '<';     swapargs = 1;                    break;
+        case LEX_GE:  r_num = '<';                   invert_result = 1; break;
+        case LEX_LE:  r_num = '<';     swapargs = 1; invert_result = 1; break;
         default: /* nothing */;
       }
       /* If co->exact_compare_strings is nonzero, `=' etc. comparisons are never padded with spaces */
@@ -1346,10 +1367,10 @@ build_predef_call (r_num, apar)
 
   if (r_num != orig_p_id)
     for (i = 0; i < (int) ARRAY_SIZE (predef_table) && (predef_table[i].symbol != r_num || predef_table[i].kind == bk_keyword); i++) ;
-  assert (i < (int) ARRAY_SIZE (predef_table));
+  gcc_assert (i < (int) ARRAY_SIZE (predef_table));
   fun = predef_table[i].decl;
   signature = predef_table[i].signature;
-  assert (signature);
+  gcc_assert (signature);
   tmpsig = signature + 1;
   while (*tmpsig && *tmpsig != '|' && *tmpsig != ',') tmpsig++;
   minarg = tmpsig - (signature + 1);
@@ -1419,31 +1440,13 @@ build_predef_call (r_num, apar)
     else
       {
         tree resvar = DECL_LANG_RESULT_VARIABLE (current_function_decl);
-        if (resvar)
-          PASCAL_VALUE_ASSIGNED (resvar) = 1;
-        if (resvar && TYPE_MAIN_VARIANT (TREE_TYPE (resvar)) == cstring_type_node)
-          val = char_may_be_string (val);
-        /* @@ Perhaps it would be easier to just assign to the result variable
-              in any case using expand_pascal_assignment. */
-        if (resvar
-            && (is_string_type (resvar, 0) || is_string_type (val, 0))
-            && TREE_CODE (TREE_TYPE (resvar)) != CHAR_TYPE)
-          {
-            expand_expr_stmt (assign_string (resvar, val));
-            expand_return_statement (resvar);
-          }
-        else if (resvar && TREE_CODE (TREE_TYPE (resvar)) == SET_TYPE)
-          {
-            expand_expr_stmt (assign_set (resvar, val));
-            expand_return_statement (resvar);
-          }
-        else if (resvar && PASCAL_TYPE_OBJECT (TREE_TYPE (resvar)))
-          {
-            expand_expr_stmt (build_modify_expr (resvar, NOP_EXPR, val));
-            expand_return_statement (resvar);
-          }
+        if (!resvar)
+          error ("`%s' with a value in a procedure", r_name);
         else
-          expand_return_statement (string_may_be_char (val, 1));
+          {
+            expand_pascal_assignment (resvar, val);
+            expand_return_statement (resvar);
+          }
       }
     return NULL_TREE;
 
@@ -1454,7 +1457,6 @@ build_predef_call (r_num, apar)
       error ("`Fail' called from outside a constructor");
     else
       {
-        assert (DECL_LANG_RESULT_VARIABLE (current_function_decl));
         PASCAL_VALUE_ASSIGNED (DECL_LANG_RESULT_VARIABLE (current_function_decl)) = 1;
         expand_return_statement (boolean_false_node);
       }
@@ -1468,13 +1470,13 @@ build_predef_call (r_num, apar)
         for (e = CONSTRUCTOR_ELTS (val); e; e = TREE_CHAIN (e))
           {
             tree l = TREE_PURPOSE (e), u = TREE_VALUE (e);
-            assert (TREE_CODE (l) == INTEGER_CST && TREE_CODE (u) == INTEGER_CST);
+            gcc_assert (TREE_CODE (l) == INTEGER_CST && TREE_CODE (u) == INTEGER_CST);
             retval = build_pascal_binary_op (PLUS_EXPR, retval,
-             build_pascal_binary_op (PLUS_EXPR,
-              convert (long_long_integer_type_node,
-               build_pascal_binary_op (MINUS_EXPR, u, l)), integer_one_node));
+              build_pascal_binary_op (PLUS_EXPR,
+                convert (long_long_integer_type_node,
+                  build_pascal_binary_op (MINUS_EXPR, u, l)), integer_one_node));
           }
-        assert (TREE_CODE (retval) == INTEGER_CST);
+        gcc_assert (TREE_CODE (retval) == INTEGER_CST);
         break;
       }
     if (TREE_CODE (val) == CONSTRUCTOR && TREE_CODE (TREE_TYPE (val)) == SET_TYPE)
@@ -1482,7 +1484,7 @@ build_predef_call (r_num, apar)
         val = construct_set (val, NULL_TREE, 1);
         CHK_EM (val);
       }
-    assert (TREE_TYPE (val) != empty_set_type_node);
+    gcc_assert (TREE_TYPE (val) != empty_set_type_node);
     apar = actual_set_parameters (val, 0);
     break;
 
@@ -1619,7 +1621,7 @@ build_predef_call (r_num, apar)
         retval = val;
       }
     else
-      retval = convert (type_for_size (TYPE_PRECISION (type), TREE_UNSIGNED (type)), val);
+      retval = convert (type_for_size (TYPE_PRECISION (type), TYPE_UNSIGNED (type)), val);
     break;
 
   case p_Chr:
@@ -1639,20 +1641,13 @@ build_predef_call (r_num, apar)
           else
             {
               init = TYPE_GET_INITIALIZER (type);
-#if 0
-              if (init && check_pascal_initializer (type, init) != 0)
-                {
-                  error ("initial value is of wrong type");
-                  init = NULL_TREE;
-                }
-#endif
               if (init)
                 init = build_pascal_initializer (type, init, "type in `Initialize'", 0);
             }
         }
       if (init)
         expand_expr_stmt (build_modify_expr (val, NOP_EXPR, init));
-      else if (pedantic && !contains_auto_initialized_part_p (type, r_num == p_Finalize))
+      else if (pedantic && !contains_auto_initialized_part (type, r_num == p_Finalize))
         {
           if (r_num == p_Finalize)
             warning ("variable does not need any finalization");
@@ -1720,7 +1715,7 @@ build_predef_call (r_num, apar)
       val = save_expr (val);
       condition = build_pascal_binary_op (GE_EXPR, val, paramcount_variable_node);
       /* Save one comparison when VAL is unsigned. */
-      if (!TREE_UNSIGNED (type))
+      if (!TYPE_UNSIGNED (type))
         condition = build_pascal_binary_op (TRUTH_ORIF_EXPR,
                       build_pascal_binary_op (LT_EXPR, val, integer_zero_node), condition);
       val = build (COND_EXPR, cstring_type_node, condition, null_pointer_node,
@@ -1868,9 +1863,8 @@ build_predef_call (r_num, apar)
          If called as a procedure, we do the assignment inline. */
 
       tree result, orig_type = NULL_TREE, ptype = TREE_TYPE (type), tags = TREE_CHAIN (apar), init, res_deref;
-      assert (code == POINTER_TYPE);
+      gcc_assert (code == POINTER_TYPE);
       CHK_EM (ptype);
-      current_structor_object_type = NULL_TREE;
 
       if (TREE_CODE (ptype) == VOID_TYPE && !(co->pascal_dialect & B_D_PASCAL))
         warning ("argument to `%s' should not be an untyped pointer", r_name);
@@ -1902,10 +1896,10 @@ build_predef_call (r_num, apar)
               tree schema_type = ptype, tmp;
               while (TYPE_LANG_BASE (schema_type) && TYPE_LANG_BASE (schema_type) != schema_type)
                 schema_type = TYPE_LANG_BASE (schema_type);
-              assert (TREE_CODE (schema_type) != TYPE_DECL);
+              gcc_assert (TREE_CODE (schema_type) != TYPE_DECL);
               for (tmp = tags; tmp; tmp = TREE_CHAIN (tmp))
                 TREE_VALUE (tmp) = save_expr (TREE_VALUE (tmp));
-              type = build_discriminated_schema_type (schema_type, tags, 0);
+              type = build_discriminated_schema_type (schema_type, tags, 1);
               CHK_EM (type);
               type = build_pointer_type (type);
             }
@@ -1948,16 +1942,18 @@ build_predef_call (r_num, apar)
       /* Initialize the new variable. */
       res_deref = build_indirect_ref (result, NULL);
       init = TYPE_GET_INITIALIZER (TREE_TYPE (type));
-
-#if 0
-      /* @@ Cannot do here because of lexical tie-ins. Must be separated. */
-      if (init && check_pascal_initializer (TREE_TYPE (type), init) != 0)
-        error ("initial value is of wrong type");
-      else
-#endif
       if (init)
         expand_expr_stmt (build_modify_expr (res_deref, NOP_EXPR,
           build_pascal_initializer (TREE_TYPE (type), init, "type in `New'", 0)));
+
+      if (argcount > 1 && !PASCAL_TYPE_OBJECT (ptype))
+        {
+          /* Tag fields of variant records. init_any needs them already. */
+          chk_dialect_1 ("tag fields in `%s' are", ~U_B_D_M_PASCAL, r_name);
+          tags = assign_tags (build_indirect_ref (result, NULL), tags);
+          if (tags)
+            expand_expr_stmt (tags);
+        }
 
       init_any (res_deref, 0, 1);
 
@@ -1967,41 +1963,40 @@ build_predef_call (r_num, apar)
       if (orig_type)
         TREE_TYPE (result) = TREE_TYPE (val) = orig_type;
 
-      if (argcount > 1)
+      if (argcount > 1 && PASCAL_TYPE_OBJECT (ptype))
         {
-          if (PASCAL_TYPE_OBJECT (ptype))
-            {
-              /* Object constructor calls. If the constructor returns `False',
-                 dispose the object and return `nil'. */
-              assert (TREE_CODE (TREE_VALUE (tags)) == COMPONENT_REF);
-              expand_start_cond (build_pascal_unary_op (TRUTH_NOT_EXPR,
-                build_routine_call (DECL_LANG_METHOD_DECL (TREE_OPERAND (TREE_VALUE (tags), 1)),
-                tree_cons (NULL_TREE, build_indirect_ref (result, NULL), TREE_CHAIN (tags)))), 0);
-              build_predef_call (p_Dispose, build_tree_list (NULL_TREE, result));
-              expand_expr_stmt (build_modify_expr (result, NOP_EXPR, null_pointer_node));
-              expand_end_cond ();
-            }
-          else
-            {
-              /* Tag fields of variant records. */
-              chk_dialect_1 ("tag fields in `%s' are", ~U_B_D_M_PASCAL, r_name);
-              tags = assign_tags (build_indirect_ref (result, NULL), tags);
-              if (tags)
-                expand_expr_stmt (tags);
-            }
+          /* Object constructor calls. If the constructor returns `False',
+             dispose the object and return `nil'. */
+          gcc_assert (TREE_CODE (TREE_VALUE (tags)) == COMPONENT_REF);
+          expand_start_cond (build_pascal_unary_op (TRUTH_NOT_EXPR,
+            build_routine_call (DECL_LANG_METHOD_DECL (TREE_OPERAND (TREE_VALUE (tags), 1)),
+            tree_cons (NULL_TREE, build_indirect_ref (result, NULL), TREE_CHAIN (tags)))), 0);
+          build_predef_call (p_Dispose, build_tree_list (NULL_TREE, result));
+          expand_expr_stmt (build_modify_expr (result, NOP_EXPR, null_pointer_node));
+          expand_end_cond ();
         }
       break;
     }
 
   case p_Dispose:
-    assert (code == POINTER_TYPE);
-    current_structor_object_type = NULL_TREE;
+    gcc_assert (code == POINTER_TYPE);
     TREE_VALUE (apar) = val = save_expr (val);
     if (argcount > 1 && PASCAL_TYPE_OBJECT (TREE_TYPE (type)))
       {
-        assert (argcount == 2);
-        assert (TREE_CODE (val2) == CALL_EXPR || TREE_CODE (val2) == CONVERT_EXPR);
+        gcc_assert (argcount == 2);
+        gcc_assert (TREE_CODE (val2) == CALL_EXPR || TREE_CODE (val2) == CONVERT_EXPR);
         expand_expr_stmt (val2);
+        argcount = 1;
+        TREE_CHAIN (apar) = NULL_TREE;
+      }
+    if (argcount > 1
+        && !PASCAL_TYPE_UNDISCRIMINATED_STRING (TREE_TYPE (type))
+        && !PASCAL_TYPE_PREDISCRIMINATED_STRING (TREE_TYPE (type))
+        && !PASCAL_TYPE_UNDISCRIMINATED_SCHEMA (TREE_TYPE (type))
+        && !PASCAL_TYPE_PREDISCRIMINATED_SCHEMA (TREE_TYPE (type))
+        && !PASCAL_TYPE_VARIANT_RECORD (TREE_TYPE (type)))
+      {
+        error ("too many arguments to `%s'", r_name);
         argcount = 1;
         TREE_CHAIN (apar) = NULL_TREE;
       }
@@ -2043,7 +2038,7 @@ build_predef_call (r_num, apar)
 
   case p_Page:
     if (argcount == 0)
-      apar = build_tree_list (NULL_TREE, get_standard_output (1));
+      apar = build_tree_list (NULL_TREE, get_standard_output ());
     break;
 
   case p_RunError:
@@ -2073,7 +2068,7 @@ build_predef_call (r_num, apar)
           errstr = "index type does not match direct access file range type";
         else
           {
-            val2 = build_pascal_binary_op (MINUS_EXPR, val2, TYPE_MIN_VALUE (TYPE_LANG_FILE_DOMAIN (type)));
+            val2 = convert (long_long_integer_type_node, build_pascal_binary_op (MINUS_EXPR, val2, TYPE_MIN_VALUE (TYPE_LANG_FILE_DOMAIN (type))));
             TREE_VALUE (TREE_CHAIN (apar)) = val2;
           }
       }
@@ -2084,8 +2079,16 @@ build_predef_call (r_num, apar)
   case p_SeekEOF:
   case p_SeekEOLn:
     if (argcount == 0)
-      apar = build_tree_list (NULL_TREE, get_standard_input (1));
+      apar = build_tree_list (NULL_TREE, get_standard_input ());
     break;
+
+  case p_Random:
+    {
+      tree t = TREE_CODE (val) == INTEGER_CST ? val : TYPE_MAX_VALUE (type);
+      if (TREE_CODE (t) == INTEGER_CST && !const_lt (TYPE_MAX_VALUE (long_long_integer_type_node), t))
+        convert_result = long_long_integer_type_node;
+      break;
+    }
 
   case p_Abs:
     retval = build_unary_op (ABS_EXPR, val, 0);
@@ -2145,7 +2148,8 @@ build_predef_call (r_num, apar)
 
       if (file_name)
         {
-          chk_dialect_1 ("file name parameters to `%s' are", GNU_PASCAL, r_name);
+          chk_dialect_1 ("file name parameters to `%s' are",
+                          U_M_PASCAL, r_name);
           file_name_given = boolean_true_node;
         }
       else
@@ -2158,12 +2162,12 @@ build_predef_call (r_num, apar)
         {
           if (buffer_size)
             {
-              chk_dialect_1 ("file buffer size arguments to `%s' are", U_B_D_M_PASCAL, r_name);
+              chk_dialect_1 ("file buffer size arguments to `%s' are", B_D_M_PASCAL, r_name);
               STRIP_TYPE_NOPS (buffer_size);
               if (TREE_CODE (buffer_size) == INTEGER_CST && !INT_CST_LT (integer_zero_node, buffer_size))
                 errstr = "file buffer size in `%s' must be > 0";
             }
-          else if (co->pascal_dialect & B_D_M_PASCAL)
+          else if (co->pascal_dialect & U_B_D_M_PASCAL)
             {
               warning ("unspecified buffer size for untyped file defaults to 128 in `%s'", r_name);
               buffer_size = build_int_2 (128, 0);
@@ -2314,7 +2318,7 @@ build_predef_call (r_num, apar)
       {
         unsigned int l, m, n;
         val = char_may_be_string (val);
-        assert (TREE_CODE (val) == STRING_CST);
+        gcc_assert (TREE_CODE (val) == STRING_CST);
         l = TREE_STRING_LENGTH (val) - 1;
         if (TREE_INT_CST_HIGH (val2) || TREE_INT_CST_LOW (val2) <= 0 || TREE_INT_CST_LOW (val2) > l + 1)
           {
@@ -2373,7 +2377,7 @@ build_predef_call (r_num, apar)
         unsigned int l;
         const char *p;
         val = char_may_be_string (val);
-        assert (TREE_CODE (val) == STRING_CST);
+        gcc_assert (TREE_CODE (val) == STRING_CST);
         p = TREE_STRING_POINTER (val);
         for (l = TREE_STRING_LENGTH (val) - 1; l > 0 && p[l - 1] == ' '; l--) ;
         retval = build_string_constant (p, l, 0);
@@ -2411,14 +2415,14 @@ build_predef_call (r_num, apar)
           }
         else if (integer_zerop (val2) || integer_onep (val))
           retval = integer_one_node;
-        else if (!TREE_UNSIGNED (val) && tree_int_cst_equal (val, integer_minus_one_node))
+        else if (!TYPE_UNSIGNED (TREE_TYPE (val)) && tree_int_cst_equal (val, integer_minus_one_node))
           retval = y & 1 ? integer_minus_one_node : integer_one_node;
         else if (const_lt (val2, integer_zero_node))
           retval = integer_zero_node;
         else
           {
             int overflow = TREE_INT_CST_HIGH (val2) != 0;  /* we have |val| >= 2 here */
-            tree t = TREE_UNSIGNED (val) ? long_long_unsigned_type_node : long_long_integer_type_node;
+            tree t = TYPE_UNSIGNED (TREE_TYPE (val)) ? long_long_unsigned_type_node : long_long_integer_type_node;
             val = convert (t, val);
             retval = convert (t, integer_one_node);
             while (y)
@@ -2426,14 +2430,14 @@ build_predef_call (r_num, apar)
                 if (y & 1)
                   {
                     retval = fold (build (MULT_EXPR, t, retval, val));
-                    assert (TREE_CODE (retval) == INTEGER_CST);
+                    gcc_assert (TREE_CODE (retval) == INTEGER_CST);
                     overflow |= TREE_OVERFLOW (retval);
                   }
                 y >>= 1;
                 if (y)
                   {
                     val = fold (build (MULT_EXPR, t, val, val));
-                    assert (TREE_CODE (val) == INTEGER_CST);
+                    gcc_assert (TREE_CODE (val) == INTEGER_CST);
                     overflow |= TREE_OVERFLOW (val);
                   }
               }
@@ -2505,20 +2509,20 @@ build_predef_call (r_num, apar)
           if (IS_CONSTANT_EMPTY_STRING (val))
             {
               if (r_num == p_LT)  /* '' < s is equivalent to '' <> s */
-                invertresult = !invertresult;
+                invert_result = !invert_result;
               comp_empty = val2;
             }
           else if (IS_CONSTANT_EMPTY_STRING (val2))
             {
               if (r_num == p_LT)  /* s < '' is impossible */
                 {
-                  if (invertresult)
+                  if (invert_result)
                     warning ("`>=' comparison against the empty string is always `True'.");
                   else
                     warning ("`<' comparison against the empty string is always `False'.");
                   if (TREE_SIDE_EFFECTS (val))
                     warning (" Operand with side-effects is not evaluated.");
-                  return invertresult ? boolean_true_node : boolean_false_node;
+                  return invert_result ? boolean_true_node : boolean_false_node;
                 }
               comp_empty = val;
             }
@@ -2564,7 +2568,7 @@ build_predef_call (r_num, apar)
     else
       {
         retval = copy_node (boolean_true_node);
-        PASCAL_TREE_FRESH_CST (retval) = 0;
+        PASCAL_CST_FRESH (retval) = 0;
         PASCAL_TREE_IGNORABLE (retval) = 1;
       }
     break;
@@ -2586,7 +2590,7 @@ build_predef_call (r_num, apar)
         else
           {
             if (TREE_CODE (val) != COMPONENT_REF)
-              retval = count_bits (TREE_TYPE (val));
+              retval = count_bits (TREE_TYPE (val), NULL);
             else
 #ifndef EGCS97
               retval = build_int_2 (DECL_FIELD_SIZE (TREE_OPERAND (val, 1)), 0);
@@ -2658,7 +2662,7 @@ build_predef_call (r_num, apar)
             if (TYPE_LANG_CODE (TREE_TYPE (val)) == PASCAL_LANG_ABSTRACT_OBJECT)
               error ("`%s' applied to an abstract object type", r_name);
             vmt = TYPE_LANG_VMT_VAR (TREE_TYPE (val));
-            assert (vmt);
+            gcc_assert (vmt);
           }
         else
           /* Read the size of the object at run time from the VMT. */
@@ -2670,19 +2674,20 @@ build_predef_call (r_num, apar)
       }
     else if (r_num == p_SizeOf)
       {
-#ifdef EGCS97
-        retval = non_lvalue (build_pascal_binary_op (CEIL_DIV_EXPR, convert (size_type_node, TYPE_SIZE_UNIT (type)),
-                   build_int_2 (TYPE_PRECISION (byte_integer_type_node) / BITS_PER_UNIT, 0)));
-#else
-        retval = non_lvalue (build_pascal_binary_op (CEIL_DIV_EXPR, convert (size_type_node, TYPE_SIZE (type)),
-                   build_int_2 (TYPE_PRECISION (byte_integer_type_node), 0)));
-#endif
 #ifdef PG__NEW_STRINGS
         /* @@@@@@ what if val is a TYPE_DECL ??? */
         if (PASCAL_TYPE_PREDISCRIMINATED_STRING (type))
           retval = fold (non_lvalue (
                      build (WITH_RECORD_EXPR, size_type_node,
                        convert (size_type_node, retval), val)));
+        else
+#endif
+#ifdef EGCS97
+        retval = non_lvalue (build_pascal_binary_op (CEIL_DIV_EXPR, convert (size_type_node, TYPE_SIZE_UNIT (type)),
+                   build_int_2 (TYPE_PRECISION (byte_integer_type_node) / BITS_PER_UNIT, 0)));
+#else
+        retval = non_lvalue (build_pascal_binary_op (CEIL_DIV_EXPR, convert (size_type_node, TYPE_SIZE (type)),
+                   build_int_2 (TYPE_PRECISION (byte_integer_type_node), 0)));
 #endif
       }
     else if (r_num == p_BitSizeOf)
@@ -2782,7 +2787,7 @@ build_predef_call (r_num, apar)
 
   /* Construct a call to the RTS unless retval was set already. */
   if (!retval)
-    retval = build_routine_call (fun, r_num == p_InitFDR ? apar : check_files (apar));
+    retval = build_routine_call (fun, check_files (apar));
 
   /* If this is a statement, expand it, otherwise return the tree to the caller. */
   if (procflag)
@@ -2801,7 +2806,10 @@ build_predef_call (r_num, apar)
         }
     }
 
-  if (invertresult)
+  if (convert_result)
+    retval = convert (convert_result, retval);
+
+  if (invert_result)
     retval = build_pascal_unary_op (TRUTH_NOT_EXPR, retval);
 
   if (post_statement)
@@ -2813,9 +2821,7 @@ build_predef_call (r_num, apar)
 /* Lazy file I/O
    func is the RTS function to call (must return a pointer to the buffer) */
 tree
-build_buffer_ref (file, func)
-     tree file;
-     int func;
+build_buffer_ref (tree file, int func)
 {
   tree ref, t = TREE_TYPE (TREE_TYPE (file));  /* type of file component */
   CHK_EM (t);
@@ -2827,76 +2833,37 @@ build_buffer_ref (file, func)
   return ref;
 }
 
-/* Return standard input/output/error node of current module.
-   If not found, return global node and complain about ISO violation. */
-
+/* Return implicitly accessible `Input' or `Output'. */
 static tree
-get_standard_input (implicit)
-     int implicit;
+get_standard_input (void)
 {
-  if (implicit && co->warn_implicit_io)
+  if (co->warn_implicit_io)
     warning ("implicit use of `Input'");
-  if (!current_module->input_file_node)
+  if (!current_module->input_available)
     {
-      current_module->input_file_node = global_input_file_node;
+      current_module->input_available = 1;
       chk_dialect ("use of `Input' without declaring it as a program parameter or importing `StandardInput' is", U_B_D_M_PASCAL);
     }
-  return current_module->input_file_node;
+  return input_variable_node;
 }
 
 static tree
-get_standard_output (implicit)
-     int implicit;
+get_standard_output (void)
 {
-  if (implicit && co->warn_implicit_io)
+  if (co->warn_implicit_io)
     warning ("implicit use of `Output'");
-  if (!current_module->output_file_node)
+  if (!current_module->output_available)
     {
-      current_module->output_file_node = global_output_file_node;
+      current_module->output_available = 1;
       chk_dialect ("use of `Output' without declaring it as a program parameter or importing `StandardOutput' is", U_B_D_M_PASCAL);
     }
-  return current_module->output_file_node;
-}
-
-static tree
-get_standard_error ()
-{
-  if (!current_module->error_file_node)
-    current_module->error_file_node = global_error_file_node;
-  return current_module->error_file_node;
-}
-
-tree
-get_builtin_variable (id)
-     tree id;
-{
-  switch (IDENTIFIER_BUILT_IN_VALUE (id)->symbol)
-  {
-    case p_Output:   return get_standard_output (0);
-    case p_Input:    return get_standard_input (0);
-    case p_StdErr:   return get_standard_error ();
-    case p_InOutRes: return inoutres_variable_node;
-    case p_Result:
-      {
-        tree resvar = current_function_decl ? DECL_LANG_RESULT_VARIABLE (current_function_decl) : NULL_TREE;
-        if (!resvar || !TREE_PRIVATE (resvar))
-          {
-            error ("invalid access to `Result'");
-            resvar = error_mark_node;
-          }
-        DEREFERENCE_SCHEMA (resvar);
-        return resvar;
-      }
-    default:
-      assert (0);
-  }
+  return output_variable_node;
 }
 
 /* Construct a tree expression that copies LENGTH units of
    storage from SOURCE to DEST. */
 tree
-build_memcpy (dest, source, length)
-     tree dest, source, length;
+build_memcpy (tree dest, tree source, tree length)
 {
   return build_routine_call (memcpy_routine_node, tree_cons (NULL_TREE, dest,
     tree_cons (NULL_TREE, source, build_tree_list (NULL_TREE, length))));
@@ -2905,11 +2872,89 @@ build_memcpy (dest, source, length)
 /* Construct a tree expression that pads LENGTH units of
    storage DEST with the byte PATTERN. */
 tree
-build_memset (dest, length, pattern)
-     tree dest, length, pattern;
+build_memset (tree dest, tree length, tree pattern)
 {
   return build_routine_call (memset_routine_node, tree_cons (NULL_TREE, dest,
     tree_cons (NULL_TREE, pattern, build_tree_list (NULL_TREE, length))));
+}
+
+/* Problem:
+     New (ObjectPointer, ConstructorName (Arguments))  (BP)
+   vs.
+     New (SchemaPointer, FunctionCall (Arguments))     (EP)
+   Same with `Dispose'.
+
+   `ConstructorName' does not contain the object name, so it must be
+   taken from `ObjectPointer', i.e., it depends on its semantic
+   value, so we can't distinguish it while parsing. Furthermore,
+   constructors are treated this way only in the first position of
+   the second argument, while its arguments can contain the same
+   identifier with another meaning (fjf915[abe].pas). This is
+   completely contrary to the usual Pascal scoping rules, but
+   actually BP's behaviour. So we can't just install constructor
+   names temporarily as identifier meanings.
+
+   We parse it ambiguously using `%dprec', at the cost of some more
+   parser conflicts, and having to expand the second argument here
+   (which might be a predefined or explicit function call or type
+   cast) if the first argument is no object, thereby duplicating
+   some work usually done from the parser directly.
+
+   Of the various kludges considered so far, this seems to be the
+   least harmful one. (GLR's `%merge' feature looked promising, but
+   it evaluates both alternatives before merging, so the wrong one
+   might produce spurious error messages etc.) */
+tree
+build_new_dispose (int r_num, tree arg1, tree arg2_id, tree args)
+{
+  tree t;
+  struct predef *pd;
+  int is_object = TREE_CODE (TREE_TYPE (arg1)) == POINTER_TYPE && PASCAL_TYPE_OBJECT (TREE_TYPE (TREE_TYPE (arg1)));
+  /* Harmless case */
+  if (!arg2_id && (!args || !is_object))
+    return build_predef_call (r_num, tree_cons (NULL_TREE, arg1, args));
+  /* Objects, the interesting case */
+  if (is_object)
+    {
+      tree t = NULL_TREE /* please gcc */;
+      if (r_num == p_New)
+        {
+          if (PASCAL_TYPE_CLASS (TREE_TYPE (arg1)))
+            t = TYPE_NAME (TREE_TYPE (t));
+          else
+            t = TYPE_NAME (TREE_TYPE (TREE_TYPE (arg1)));
+          gcc_assert (TREE_CODE (t) == TYPE_DECL);
+          t = arg2_id ? build_component_ref (t, arg2_id) : NULL_TREE;
+          if (t && !EM (t) && PASCAL_CONSTRUCTOR_METHOD (TREE_OPERAND (t, 1)))
+            return build_predef_call (r_num, tree_cons (NULL_TREE, arg1, tree_cons (NULL_TREE, t, args)));
+        }
+      else
+        {
+          arg1 = save_expr (arg1);
+          t = build_indirect_ref (arg1, NULL);
+          t = arg2_id ? build_component_ref (t, arg2_id) : NULL_TREE;
+          if (t && !EM (t) && PASCAL_DESTRUCTOR_METHOD (TREE_OPERAND (t, 1)))
+            return build_predef_call (r_num, tree_cons (NULL_TREE, arg1, build_tree_list (NULL_TREE, call_method (t, args))));
+        }
+      error (r_num == p_New ? "constructor expected in object `New'" : "destructor expected in object `Dispose'");
+      return error_mark_node;
+    }
+  /* Spurious parse */
+  t = NULL_TREE;
+  pd = IDENTIFIER_BUILT_IN_VALUE (arg2_id);
+  if (!IDENTIFIER_VALUE (arg2_id) && PD_ACTIVE (pd))
+    {
+      if (pd->kind == bk_routine && pd->signature[0] != '-' && pd->signature[0] != '>')
+        t = build_predef_call (pd->symbol, args);
+      else if (!lookup_name (arg2_id))
+        {
+          error ("invalid use of `%s'", IDENTIFIER_NAME (arg2_id));
+          return error_mark_node;
+        }
+    }
+  if (!t)
+    t = args ? build_call_or_cast (check_identifier (arg2_id), args) : check_identifier (arg2_id);
+  return build_predef_call (r_num, tree_cons (NULL_TREE, arg1, build_tree_list (NULL_TREE, t)));
 }
 
 #ifdef GCC_3_3

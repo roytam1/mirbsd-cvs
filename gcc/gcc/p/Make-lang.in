@@ -1,4 +1,4 @@
-# $MirOS: gcc/gcc/p/Make-lang.in,v 1.12 2005/07/09 16:15:34 tg Exp $
+# $MirOS: gcc/gcc/p/Make-lang.in,v 1.13 2005/11/20 12:28:11 tg Exp $
 # Top level Makefile fragment for GNU Pascal.
 #
 # Copyright (C) 1987-2005 Free Software Foundation, Inc.
@@ -319,10 +319,10 @@ p/parse.o: $(srcdir)/p/parse.c $(P_H)
 	$(CC) -o $@ -c $(ALL_GPC_FLAGS) $(BIG_SWITCHFLAG) $<
 
 p/predef.o: p/predef.c $(P_H) $(RTSSRCDIR)/constants.def
-	$(CC) -o $@ -c $(ALL_GPC_FLAGS) $<
+	$(CC) -o $@ -c $(ALL_GPC_FLAGS) -std=gnu99 $<
 
 p/statements.o: p/statements.c $(P_H) $(RTSSRCDIR)/constants.def $(RTS_VERSION_FILENAME)
-	$(CC) -o $@ -c $(ALL_GPC_FLAGS) -DRTS_VERSION_CHECK="\"_p_GPC_RTS_VERSION_`cat $(RTSSRCDIR)/rts-version`\"" $<
+	$(CC) -o $@ -c $(ALL_GPC_FLAGS) -std=gnu99 -DRTS_VERSION_CHECK="\"_p_GPC_RTS_VERSION_`cat $(RTSSRCDIR)/rts-version`\"" $<
 
 p/typecheck.o: p/typecheck.c $(P_H)
 	$(CC) -o $@ -c $(ALL_GPC_FLAGS) $<
