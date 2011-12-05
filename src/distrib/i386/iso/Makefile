@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/iso/Makefile,v 1.4 2005/05/02 17:15:07 tg Exp $
+# $MirOS: src/distrib/i386/iso/Makefile,v 1.6 2005/12/21 18:01:22 tg Exp $
 # $OpenBSD: Makefile,v 1.3 2003/03/04 20:24:49 deraadt Exp $
 
 .include <bsd.own.mk>
@@ -34,7 +34,7 @@ ${CDROM}: ${DESTDIR}/usr/mdec/boot ${.OBJDIR}/../ramdisk/bsd.rd \
 	cp ${.CURDIR}/boot.cfg workdir/etc/
 	cp ${.CURDIR}/00-README workdir/
 	mkisofs -r -f -T -L -d -D -N -v -v \
-	    -b etc/boot.386 -c boot/boot.cat \
+	    -b etc/boot.386 -c etc/boot.cat \
 	    -P "The http://MirBSD.org/ team and its contributors" \
 	    -p "Copyright © 2002-2005 by The MirOS Project" \
 	    -V "MirOS #${OSrev} BSD/${MACHINE} boot-only CD" \
