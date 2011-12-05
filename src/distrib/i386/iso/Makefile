@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/iso/Makefile,v 1.6 2005/12/21 18:01:22 tg Exp $
+# $MirOS: src/distrib/i386/iso/Makefile,v 1.7 2005/12/22 14:00:29 tg Exp $
 # $OpenBSD: Makefile,v 1.3 2003/03/04 20:24:49 deraadt Exp $
 
 .include <bsd.own.mk>
@@ -8,7 +8,9 @@ CDOPTS?=	-v -v -eject driveropts=burnproof
 
 all: ${CDROM}
 
-${CDROM}: ${DESTDIR}/usr/mdec/boot ${.OBJDIR}/../ramdisk/bsd.rd \
+${CDROM}: prepare-workdir generate-image
+
+prepare-workdir:${DESTDIR}/usr/mdec/boot ${.OBJDIR}/../ramdisk/bsd.rd \
     ${.CURDIR}/boot.cfg ${.CURDIR}/00-README
 	@if [[ -e Makefile ]]; then \
 		echo Error: do a make obj first; \
@@ -26,17 +28,18 @@ ${CDROM}: ${DESTDIR}/usr/mdec/boot ${.OBJDIR}/../ramdisk/bsd.rd \
 	fi
 	dd if=${DESTDIR}/usr/mdec/boot obs=2048 conv=osync \
 	    of=workdir/etc/boot.386
-	gzip -n9 <${.OBJDIR}/../ramdisk/bsd.rd | dd obs=2048 \
-	    conv=osync of=workdir/v${OSrev}/i386/bsd.rd
+	cp ${.OBJDIR}/../ramdisk/bsd.rd workdir/v${OSrev}/i386/
 	if [[ -e ${DESTDIR}/usr/mdec/pxeboot ]]; then \
 		cp ${DESTDIR}/usr/mdec/pxeboot workdir/v${OSrev}/i386/; \
 	fi
 	cp ${.CURDIR}/boot.cfg workdir/etc/
 	cp ${.CURDIR}/00-README workdir/
+
+generate-image:
 	mkisofs -r -f -T -L -d -D -N -v -v \
 	    -b etc/boot.386 -c etc/boot.cat \
 	    -P "The http://MirBSD.org/ team and its contributors" \
-	    -p "Copyright © 2002-2005 by The MirOS Project" \
+	    -p "Copyright © 2002-2006 by The MirOS Project" \
 	    -V "MirOS #${OSrev} BSD/${MACHINE} boot-only CD" \
 	    -volset "$$(uname -slm) Setup" -sysid "MirOSBSD" \
 	    -no-emul-boot -boot-load-size 4 -boot-info-table \
@@ -56,7 +59,7 @@ burn-cdrw-clean:
 burn-cdr: ${CDROM}
 	cdrecord dev=/dev/rcd0c:0,0,0 gracetime=2 ${CDOPTS} -pad ${CDROM}
 
-.PHONY: burn-cdr burn-cdrw-clean burn-cdrw
+.PHONY: prepare-workdir generate-image burn-cdr burn-cdrw-clean burn-cdrw
 
 .include <bsd.obj.mk>
 .include <bsd.subdir.mk>
