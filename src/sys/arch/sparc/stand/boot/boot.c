@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/sys/arch/sparc/stand/boot/boot.c,v 1.4 2008/10/05 01:51:00 tg Exp $ */
 /*	$OpenBSD: boot.c,v 1.6 2003/08/14 17:13:57 deraadt Exp $	*/
 /*	$NetBSD: boot.c,v 1.2 1997/09/14 19:27:21 pk Exp $	*/
 
@@ -61,7 +61,7 @@ int
 main(int argc, char *argv[])
 {
 	int	io;
-	char	*file;
+	const char *file;
 	entry_t entry;
 
 	prom_init();
