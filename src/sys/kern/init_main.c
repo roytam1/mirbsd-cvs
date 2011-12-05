@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/kern/init_main.c,v 1.4 2005/05/15 01:15:31 tg Exp $ */
+/**	$MirOS: src/sys/kern/init_main.c,v 1.5 2005/07/04 03:36:33 tg Exp $ */
 /*	$OpenBSD: init_main.c,v 1.120 2004/11/23 19:08:55 miod Exp $	*/
 /*	$NetBSD: init_main.c,v 1.84.4.1 1996/06/02 09:08:06 mrg Exp $	*/
 /*	$OpenBSD: kern_xxx.c,v 1.9 2003/08/15 20:32:18 tedu Exp $	*/
@@ -104,7 +104,7 @@ extern void nfs_init(void);
 
 /* used by kernfs */
 const char copyright[] =
-    "Copyright (c) 2002-2005 The MirOS Project and its contributors.\n"
+    "Copyright (c) 2002-2006 The MirOS Project and its contributors.\n"
     "For a full list of copyright statements see /usr/share/doc/legal/*";
 
 /* Components of the first process -- never freed. */
