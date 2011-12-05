@@ -2182,7 +2182,8 @@ haltsys:
 		if (howto & RB_POWERDOWN) {
 			int rv;
 
-			printf("\nAttempting to power down...\n");
+			printf("\nAttempting to power down... %d\n",
+			    arc4random());
 			/*
 			 * Turn off, if we can.  But try to turn disk off and
 		 	 * wait a bit first--some disk drives are slow to
@@ -2219,7 +2220,7 @@ haltsys:
 		cngetc();
 	}
 
-	printf("rebooting...\n");
+	printf("rebooting... %d\n", arc4random());
 	cpu_reset();
 	for(;;) ;
 	/*NOTREACHED*/

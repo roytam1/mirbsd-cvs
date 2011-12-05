@@ -723,7 +723,8 @@ haltsys:
 #if defined(SUN4M)
 		if (howto & RB_POWERDOWN) {
 #if NPOWER > 0 || NTCTRL >0
-			printf("attempting to power down...\n");
+			printf("attempting to power down... %d\n",
+			    arc4random());
 #if NPOWER > 0
 			powerdown();
 #endif
@@ -735,11 +736,11 @@ haltsys:
 			printf("WARNING: powerdown failed!\n");
 		}
 #endif /* SUN4M */
-		printf("halted\n\n");
+		printf("halted %d\n\n", arc4random());
 		romhalt();
 	}
 
-	printf("rebooting\n\n");
+	printf("rebooting %d\n\n", arc4random());
 	i = 1;
 	if (howto & RB_SINGLE)
 		str[i++] = 's';
