@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.bin/binutils/ld/scripttempl/elf.sc,v 1.4 2005/06/05 21:24:43 tg Exp $
+# $MirOS: src/gnu/usr.bin/binutils/ld/scripttempl/elf.sc,v 1.5 2005/07/07 16:23:14 tg Exp $
 #
 # Unusual variables checked by this code:
 #	NOP - four byte opcode for no-op (defaults to 0)
@@ -7,6 +7,7 @@
 #	SMALL_DATA_CTOR - .ctors contains small data.
 #	SMALL_DATA_DTOR - .dtors contains small data.
 #	DATA_ADDR - if end-of-text-plus-one-page isn't right for data start
+#	INITIAL_NOTE_SECTIONS - PT_NOTE to keep
 #	INITIAL_READONLY_SECTIONS - at start of text segment
 #	OTHER_READONLY_SECTIONS - other than .text .init .rodata ...
 #		(e.g., .PARISC.milli)
@@ -248,6 +249,7 @@ SECTIONS
   ${CREATE_SHLIB+${RELOCATING+. = ${SHLIB_TEXT_START_ADDR:-0} + SIZEOF_HEADERS;}}
   ${CREATE_PIE+${RELOCATING+. = ${SHLIB_TEXT_START_ADDR:-0} + SIZEOF_HEADERS;}}
   ${CREATE_SHLIB-${INTERP}}
+  ${INITIAL_NOTE_SECTIONS+${INITIAL_NOTE_SECTIONS} ${RELOCATING-0} : { KEEP (*(${INITIAL_NOTE_SECTIONS})) }}
   ${INITIAL_READONLY_SECTIONS}
   ${TEXT_DYNAMIC+${DYNAMIC}}
   .hash         ${RELOCATING-0} : { *(.hash) }
