@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/vnd.c,v 1.17 2008/06/12 23:14:48 tg Exp $ */
+/**	$MirOS: src/sys/dev/vnd.c,v 1.19 2008/06/13 18:21:32 tg Exp $ */
 /*	$OpenBSD: vnd.c,v 1.85 2008/03/24 01:16:58 krw Exp $	*/
 /*	$NetBSD: vnd.c,v 1.26 1996/03/30 23:06:11 christos Exp $	*/
 
@@ -91,15 +91,12 @@
 
 #include <dev/vndioctl.h>
 
-#define VNDDEBUG
-
 #ifdef VNDDEBUG
 int dovndcluster = 1;
-int vnddebug = 0x0f;
+int vnddebug = 0x00;
 #define	VDB_FOLLOW	0x01
 #define	VDB_INIT	0x02
 #define	VDB_IO		0x04
-#define	VDB_SPECIAL	0x08
 #define	DNPRINTF(f, p...)	do { if ((f) & vnddebug) printf(p); } while (0)
 #else
 #define	DNPRINTF(f, p...)	/* nothing */
@@ -840,13 +837,6 @@ vndioctl(dev_t dev, u_long cmd, caddr_t addr, int flag, struct proc *p)
 	switch (cmd) {
 
 	case VNDIOCSET:
-
-DNPRINTF(VDB_SPECIAL, "VNDIOCSET: entering, vio->vnd_file=%p, "
-    "vio->vnd_size=%llu, vio->vnd_key=%p, vio->vnd_keylen=%d, "
-    "vio->vnd_options=%08X, vnd->sc_flags=%08X\n", vio->vnd_file,
-    vio->vnd_size, vio->vnd_key, vio->vnd_keylen,
-    vio->vnd_options, vnd->sc_flags);
-
 		if (vnd->sc_flags & VNF_INITED)
 			return (EBUSY);
 		if (!(vnd->sc_flags & VNF_SIMPLE) && vio->vnd_keylen)
@@ -854,7 +844,6 @@ DNPRINTF(VDB_SPECIAL, "VNDIOCSET: entering, vio->vnd_file=%p, "
 
 		if ((error = vndlock(vnd)) != 0)
 			return (error);
-DNPRINTF(VDB_SPECIAL, "VNDIOCSET: vndlock succeeded\n");
 
 		if ((error = copyinstr(vio->vnd_file, vnd->sc_file,
 		    sizeof(vnd->sc_file), NULL))) {
@@ -869,7 +858,6 @@ DNPRINTF(VDB_SPECIAL, "VNDIOCSET: vndlock succeeded\n");
 			vndunlock(vnd);
 			return(ENXIO);
 		}
-DNPRINTF(VDB_SPECIAL, "VNDIOCSET: '%s' <- '%s'\n", vnd->sc_dev.dv_xname, vnd->sc_file);
 
 		/*
 		 * Open for read and write first. This lets vn_open() weed out
@@ -881,12 +869,10 @@ DNPRINTF(VDB_SPECIAL, "VNDIOCSET: '%s' <- '%s'\n", vnd->sc_dev.dv_xname, vnd->sc
 			goto VNDIOCSET_readonly;
 		vnd->sc_flags &= ~VNF_READONLY;
 		error = vn_open(&nd, FREAD|FWRITE, 0);
-DNPRINTF(VDB_SPECIAL, "VNDIOCSET: vn_open #1 -> %d\n", error);
 		if (error == EROFS) {
  VNDIOCSET_readonly:
 			vnd->sc_flags |= VNF_READONLY;
 			error = vn_open(&nd, FREAD, 0);
-DNPRINTF(VDB_SPECIAL, "VNDIOCSET: vn_open #2 -> %d\n", error);
 		}
 		if (error) {
 			vndunlock(vnd);
@@ -919,7 +905,6 @@ DNPRINTF(VDB_SPECIAL, "VNDIOCSET: vn_open #2 -> %d\n", error);
 			vndunlock(vnd);
 			return (error);
 		}
-DNPRINTF(VDB_SPECIAL, "VNDIOCSET: setcred succeeded\n");
 
 		vnd->sc_enc_alg = vio->vnd_options >> VNDIOC_ALGSHIFT;
 		if (vio->vnd_keylen <= 0)
@@ -962,7 +947,6 @@ DNPRINTF(VDB_SPECIAL, "VNDIOCSET: setcred succeeded\n");
 			goto VNDIOCSET_encinval;
 		}
 
-DNPRINTF(VDB_SPECIAL, "VNDIOCSET: alg %02X, ksz %d\n", vnd->sc_enc_alg, ksz);
 		if (ksz) {
 			char key[VNDIOC_MAXKSZ];
 
@@ -1019,7 +1003,6 @@ DNPRINTF(VDB_SPECIAL, "VNDIOCSET: alg %02X, ksz %d\n", vnd->sc_enc_alg, ksz);
 		disk_attach(&vnd->sc_dk);
 
 		vndunlock(vnd);
-DNPRINTF(VDB_SPECIAL, "VNDIOCSET: done\n");
 
 		break;
 
