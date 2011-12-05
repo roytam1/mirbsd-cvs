@@ -1,4 +1,3 @@
-/**	$MirOS: src/usr.sbin/ntpd/ntpd.c,v 1.11 2006/08/12 23:41:27 tg Exp $ */
 /*	$OpenBSD: ntpd.c,v 1.40 2005/09/06 21:27:10 wvdputte Exp $ */
 
 /*-
@@ -36,13 +35,14 @@
 
 #include "ntpd.h"
 
-__RCSID("$MirOS: src/usr.sbin/ntpd/ntpd.c,v 1.11 2006/08/12 23:41:27 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/ntpd/ntpd.c,v 1.12 2007/02/08 01:27:38 tg Exp $");
 
 void		sighdlr(int);
 __dead void	usage(void);
 int		main(int, char *[]);
 int		check_child(pid_t, const char *);
 int		dispatch_imsg(struct ntpd_conf *);
+void		reset_adjtime(void);
 int		ntpd_adjtime(double);
 void		ntpd_settime(double);
 
@@ -131,6 +131,7 @@ main(int argc, char *argv[])
 	}
 	endpwent();
 
+	reset_adjtime();
 	if (!conf.settime) {
 		log_init(conf.debug);
 		if (!conf.debug)
@@ -317,6 +318,17 @@ dispatch_imsg(struct ntpd_conf *conf)
 		imsg_free(&imsg);
 	}
 	return (0);
+}
+
+void
+reset_adjtime(void)
+{
+	struct timeval	tv;
+
+	tv.tv_sec = 0;
+	tv.tv_usec = 0;
+	if (adjtime(&tv, NULL) == -1)
+		log_warn("reset adjtime failed");
 }
 
 int
