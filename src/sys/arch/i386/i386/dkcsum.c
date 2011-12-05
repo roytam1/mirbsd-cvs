@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/i386/dkcsum.c,v 1.3 2005/07/07 15:39:03 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/i386/dkcsum.c,v 1.4 2005/08/02 11:57:31 tg Exp $ */
 /*	$OpenBSD: dkcsum.c,v 1.19 2005/08/01 16:46:55 krw Exp $	*/
 
 /*-
@@ -158,8 +158,7 @@ dkcsumattach(void)
 			if (!picked)
 				hit = bdi;
 			else
-				rnd_addpool_add((bdi->bios_number + csum)
-				    ^ arc4random());
+				rnd_addpool_add(bdi->bios_number + csum);
 			printf("dkcsum: %s matches BIOS drive %#x%s (%08X)\n",
 			    dv->dv_xname, bdi->bios_number,
 			    (picked ? " IGNORED" : ""), bdi->checksum);
@@ -170,7 +169,7 @@ dkcsumattach(void)
 		 * than the BIOS can, so this case is pretty normal.
 		 */
 		if (!hit) {
-			rnd_addpool_add((0x100 + csum) ^ arc4random());
+			rnd_addpool_add(csum);
 #ifdef DEBUG
 			printf("dkcsum: %s has no matching BIOS drive\n",
 			    dv->dv_xname);

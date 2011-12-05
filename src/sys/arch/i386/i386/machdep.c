@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/i386/machdep.c,v 1.6 2005/06/06 22:59:59 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/i386/machdep.c,v 1.8 2006/05/26 13:05:07 tg Exp $ */
 /*	$OpenBSD: machdep.c,v 1.317 2005/04/02 02:44:58 tedu Exp $	*/
 /*	$NetBSD: machdep.c,v 1.214 1996/11/10 03:16:17 thorpej Exp $	*/
 
@@ -2182,7 +2182,7 @@ haltsys:
 		if (howto & RB_POWERDOWN) {
 			int rv;
 
-			printf("\nAttempting to power down... %d\n",
+			printf("\nAttempting to power down... %X\n",
 			    arc4random());
 			/*
 			 * Turn off, if we can.  But try to turn disk off and
@@ -2220,7 +2220,7 @@ haltsys:
 		cngetc();
 	}
 
-	printf("rebooting... %d\n", arc4random());
+	printf("rebooting... %X\n", arc4random());
 	cpu_reset();
 	for(;;) ;
 	/*NOTREACHED*/

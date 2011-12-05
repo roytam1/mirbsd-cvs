@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/sys/arch/sparc/sparc/machdep.c,v 1.3 2006/05/26 13:06:23 tg Exp $ */
 /*	$OpenBSD: machdep.c,v 1.98 2004/03/10 23:02:54 tom Exp $	*/
 /*	$NetBSD: machdep.c,v 1.85 1997/09/12 08:55:02 pk Exp $ */
 
@@ -724,7 +724,7 @@ haltsys:
 #if defined(SUN4M)
 		if (howto & RB_POWERDOWN) {
 #if NPOWER > 0 || NTCTRL >0
-			printf("attempting to power down... %d\n",
+			printf("attempting to power down... %X\n",
 			    arc4random());
 #if NPOWER > 0
 			powerdown();
@@ -737,11 +737,11 @@ haltsys:
 			printf("WARNING: powerdown failed!\n");
 		}
 #endif /* SUN4M */
-		printf("halted %d\n\n", arc4random());
+		printf("halted %X\n\n", arc4random());
 		romhalt();
 	}
 
-	printf("rebooting %d\n\n", arc4random());
+	printf("rebooting %X\n\n", arc4random());
 	i = 1;
 	if (howto & RB_SINGLE)
 		str[i++] = 's';
