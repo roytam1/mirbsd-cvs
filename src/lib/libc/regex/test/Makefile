@@ -1,10 +1,9 @@
-# $MirOS: src/lib/libc/regex/test/Makefile,v 1.1 2007/02/12 04:36:32 tg Exp $
+# $MirOS: src/lib/libc/regex/test/Makefile,v 1.2 2007/02/12 05:37:51 tg Exp $
 
 all: ${PROG} regress
 
 LIBCSRCDIR=	${.CURDIR}/../..
 CPPFLAGS+=	-I${.CURDIR}/..
-CDIAGFLAGS+=	-Wno-cast-qual
 PROG=		re
 SRCS=		debug.c main.c split.c
 NOMAN=		Yes
