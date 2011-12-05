@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/rnd.c,v 1.3 2005/07/04 00:10:41 tg Exp $ */
+/**	$MirOS: src/sys/dev/rnd.c,v 1.4 2005/07/07 14:01:59 tg Exp $ */
 /*	$OpenBSD: rnd.c,v 1.78 2005/07/07 00:11:24 djm Exp $	*/
 
 /*
@@ -1259,5 +1259,5 @@ rnd_addpool_reinit(void *v)
 	}
 	rnd_addpool_num = i;
 
-	timeout_add(&rnd_addpool_timeout, hz << 4);
+	timeout_add(&rnd_addpool_timeout, hz << 7);
 }
