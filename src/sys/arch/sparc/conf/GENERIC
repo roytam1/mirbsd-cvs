@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/sparc/conf/GENERIC,v 1.4 2006/06/11 02:24:01 tg Exp $
+# $MirOS: src/sys/arch/sparc/conf/GENERIC,v 1.5 2006/06/16 15:50:01 tg Exp $
 # $MirBSD: GENERIC,v 1.2.2.5 2003/11/19 16:39:58 tg Exp $
 # $OpenBSD: GENERIC,v 1.75 2004/03/09 15:24:27 miod Exp $
 # $NetBSD: GENERIC,v 1.48 1997/08/23 19:19:01 mjacob Exp $
@@ -75,14 +75,14 @@ option		PORTAL			# dynamically created filesystem objects
 option		PROCFS			# /proc
 
 option		INET			# IP + ICMP + TCP + UDP
-option		ALTQ			# ALTQ base
-option		INET6			# IPv6 (needs INET)
-option		IPSEC			# IPsec
-option		KEY			# PF_KEY (implied by IPSEC)
-option		IPX			# IPX+SPX
-option		IPXIP			# IPX tunneling over IP
+#option		ALTQ			# ALTQ base
+#option		INET6			# IPv6 (needs INET)
+#option		IPSEC			# IPsec
+#option		KEY			# PF_KEY (implied by IPSEC)
+#option		IPX			# IPX+SPX
+#option		IPXIP			# IPX tunneling over IP
 #option		NETATALK		# AppleTalk
-option		PPP_BSDCOMP		# PPP BSD compression for pppd(8)
+#option		PPP_BSDCOMP		# PPP BSD compression for pppd(8)
 #option		PPP_DEFLATE		# PPP zlib compression for pppd(8)
 #option		MROUTING		# Multicast router
 
