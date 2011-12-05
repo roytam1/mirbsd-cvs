@@ -1,4 +1,4 @@
-/**	$MirOS: src/lib/libz/crc32.c,v 1.3 2005/07/07 12:27:24 tg Exp $ */
+/**	$MirOS: src/lib/libz/crc32.c,v 1.4 2005/07/24 22:50:03 tg Exp $ */
 /*	$OpenBSD: crc32.c,v 1.8 2005/07/20 15:56:41 millert Exp $	*/
 /* crc32.c -- compute the CRC-32 of a data stream
  * Copyright (C) 1995-2005 Mark Adler
@@ -28,14 +28,19 @@
 
 #include "zutil.h"      /* for STDC and FAR definitions */
 
-zRCSID("$MirOS: src/lib/libz/crc32.c,v 1.3 2005/07/07 12:27:24 tg Exp $")
+zRCSID("$MirOS: src/lib/libz/crc32.c,v 1.4 2005/07/24 22:50:03 tg Exp $")
 
 #define local static
 
 /* Find a four-byte integer type for crc32_little() and crc32_big(). */
 #ifndef NOBYFOUR
 #  ifdef STDC           /* need ANSI C limits.h to determine sizes */
+#   if defined(_KERNEL) || defined(_STANDALONE)
+#    include <sys/limits.h>
+     typedef   __PTRDIFF_TYPE__ ptrdiff_t;
+#   else
 #    include <limits.h>
+#   endif
 #    define BYFOUR
 #    if (UINT_MAX == 0xffffffffUL)
        typedef unsigned int u4;
