@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: gcc/gcc/mklibgcc.in,v 1.3 2005/03/25 19:29:09 tg Exp $
+# $MirOS: gcc/gcc/mklibgcc.in,v 1.4 2005/12/06 23:11:59 tg Exp $
 #
 # Construct makefile for libgcc.
 #   Copyright (C) 2000, 2002, 2003, 2005
@@ -474,12 +474,14 @@ EOF
   echo "${dir}/libgcc.a: stmp-dirs $libgcc_a_objs"
   echo "	-rm -rf ${dir}/libgcc.a"
   echo '	$(AR_CREATE_FOR_TARGET)' ${dir}/libgcc.a $libgcc_a_objs
+  echo '	chmod u+w' ${dir}/libgcc.a
   echo '	$(RANLIB_FOR_TARGET)' ${dir}/libgcc.a
 
   echo ""
   echo "${dir}/libgcov.a: stmp-dirs $libgcov_a_objs"
   echo "	-rm -rf ${dir}/libgcov.a"
   echo '	$(AR_CREATE_FOR_TARGET)' ${dir}/libgcov.a $libgcov_a_objs
+  echo '	chmod u+w' ${dir}/libgcov.a
   echo '	$(RANLIB_FOR_TARGET)' ${dir}/libgcov.a
 
   if [ "$LIBUNWIND" ]; then
@@ -487,6 +489,7 @@ EOF
     echo "${dir}/libunwind.a: stmp-dirs $libunwind_a_objs"
     echo "	-rm -rf ${dir}/libunwind.a"
     echo '	$(AR_CREATE_FOR_TARGET)' ${dir}/libunwind.a $libunwind_a_objs
+    echo '	chmod u+w' ${dir}/libunwind.a
     echo '	$(RANLIB_FOR_TARGET)' ${dir}/libunwind.a
     echo ""
     echo "${dir}/libgcc.a: ${dir}/libunwind.a"
@@ -498,6 +501,7 @@ EOF
     echo "${dir}/libgcc_eh.a: stmp-dirs $libgcc_eh_static_objs"
     echo "	-rm -rf ${dir}/libgcc_eh.a"
     echo '	$(AR_CREATE_FOR_TARGET)' ${dir}/libgcc_eh.a $libgcc_eh_static_objs
+    echo '	chmod u+w' ${dir}/libgcc_eh.a
     echo '	$(RANLIB_FOR_TARGET)' ${dir}/libgcc_eh.a
 
     if [ -z "$SHLIB_MULTILIB" ]; then
@@ -691,12 +695,15 @@ for ml in $MULTILIBS; do
     ldir='$(DESTDIR)$(libsubdir)'
   fi
   echo '	$(INSTALL_DATA)' ${dir}/libgcc.a ${ldir}/
+  echo '	chmod u+w' ${ldir}/libgcc.a
   echo '	$(RANLIB_FOR_TARGET)' ${ldir}/libgcc.a
   echo '	$(INSTALL_DATA)' ${dir}/libgcov.a ${ldir}/
+  echo '	chmod u+w' ${ldir}/libgcov.a
   echo '	$(RANLIB_FOR_TARGET)' ${ldir}/libgcov.a
 
   if [ "$SHLIB_LINK" ]; then
     echo '	$(INSTALL_DATA)' ${dir}/libgcc_eh.a ${ldir}/
+    echo '	chmod u+w' ${ldir}/libgcc_eh.a
     echo '	$(RANLIB_FOR_TARGET)' ${ldir}/libgcc_eh.a
 
     if [ -z "$SHLIB_MULTILIB" ]; then
@@ -744,6 +751,7 @@ for ml in $MULTILIBS; do
 		 -e "s%@shlib_slibdir_qual@%$shlib_slibdir_qual%g"
 	libunwinddir='$(DESTDIR)$(slibdir)$(shlib_slibdir_qual)/$(shlib_dir)'
 	echo '	$(INSTALL_DATA)' ${dir}/libunwind.a ${libunwinddir}/
+	echo '	chmod u+w' ${libunwinddir}/libunwind.a
 	echo '	$(RANLIB_FOR_TARGET)' ${libunwinddir}/libunwind.a
       fi
     elif [ "$SHLIB_MULTILIB" = "$dir" ]; then
@@ -761,6 +769,7 @@ for ml in $MULTILIBS; do
 		 -e "s%@shlib_slibdir_qual@%%g"
 	libunwinddir='$(DESTDIR)$(slibdir)'
 	echo '	$(INSTALL_DATA)' ${dir}/libunwind.a ${libunwinddir}/
+	echo '	chmod u+w' ${libunwinddir}/libunwind.a
 	echo '	$(RANLIB_FOR_TARGET)' ${libunwinddir}/libunwind.a
       fi
     fi
