@@ -35,7 +35,7 @@
 
 #include "ntpd.h"
 
-__RCSID("$MirOS: src/usr.sbin/ntpd/ntpd.c,v 1.13 2007/04/16 09:40:15 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/ntpd/ntpd.c,v 1.14 2007/04/16 19:03:10 tg Exp $");
 
 void		sighdlr(int);
 __dead void	usage(void);
@@ -97,7 +97,7 @@ main(int argc, char *argv[])
 	log_init(1);		/* log to stderr until daemonized */
 	res_init();		/* XXX */
 
-	while ((ch = getopt(argc, argv, "df:sS")) != -1) {
+	while ((ch = getopt(argc, argv, "df:sSt")) != -1) {
 		switch (ch) {
 		case 'd':
 			conf.debug = 1;
@@ -110,6 +110,9 @@ main(int argc, char *argv[])
 			break;
 		case 'S':
 			conf.settime = 0;
+			break;
+		case 't':
+			conf.trace++;
 			break;
 		default:
 			usage();

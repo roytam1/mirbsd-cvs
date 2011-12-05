@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/ntpd/ntpd.h,v 1.9 2006/08/12 23:53:35 tg Exp $ */
+/**	$MirOS: src/usr.sbin/ntpd/ntpd.h,v 1.10 2007/07/31 19:57:02 tg Exp $ */
 /*	$OpenBSD: ntpd.h,v 1.61 2005/09/24 00:32:03 dtucker Exp $ */
 
 /*
@@ -132,6 +132,7 @@ struct ntpd_conf {
 	u_int8_t				listen_all;
 	u_int8_t				settime;
 	u_int8_t				debug;
+	uint8_t					trace;
 	u_int32_t				scale;
 };
 
@@ -262,7 +263,7 @@ int	client_peer_init(struct ntp_peer *);
 int	client_addr_init(struct ntp_peer *);
 int	client_nextaddr(struct ntp_peer *);
 int	client_query(struct ntp_peer *);
-int	client_dispatch(struct ntp_peer *, u_int8_t);
+int	client_dispatch(struct ntp_peer *, u_int8_t, uint8_t);
 void	client_log_error(struct ntp_peer *, const char *, int);
 void	update_scale(double);
 time_t	scale_interval(time_t);

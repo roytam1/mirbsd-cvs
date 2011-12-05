@@ -38,7 +38,7 @@
 #include "ntpd.h"
 #include "ntp.h"
 
-__RCSID("$MirOS: src/usr.sbin/ntpd/ntp.c,v 1.5 2006/12/21 22:57:13 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/ntpd/ntp.c,v 1.6 2006/12/23 06:05:05 tg Exp $");
 
 #define	PFD_PIPE_MAIN	0
 #define	PFD_MAX		1
@@ -273,7 +273,7 @@ ntp_main(int pipe_prnt[2], struct ntpd_conf *nconf)
 			if (pfd[j].revents & (POLLIN|POLLERR)) {
 				nfds--;
 				if (client_dispatch(idx2peer[j - idx_peers],
-				    conf->settime) == -1)
+				    conf->settime, conf->trace) == -1)
 					ntp_quit = 1;
 			}
 	}
@@ -450,12 +450,23 @@ priv_adjtime(void)
 			conf->status.stratum = MAX(
 			    peers[offset_cnt / 2 - 1]->update.status.stratum,
 			    peers[offset_cnt / 2]->update.status.stratum);
+			if (conf->trace)
+				log_info("adj%c strat-c %d dst %f peer %s", '1',
+				    peers[offset_cnt / 2 - 1]->update.status.stratum,
+				    peers[offset_cnt / 2 - 1]->update.delay,
+				    log_sockaddr((struct sockaddr *)&peers[offset_cnt / 2 - 1]->addr->ss));
 		} else {
 			conf->status.rootdelay =
 			    peers[offset_cnt / 2]->update.delay;
 			conf->status.stratum =
 			    peers[offset_cnt / 2]->update.status.stratum;
 		}
+		if (conf->trace)
+			log_info("adj%c strat-c %d dst %f peer %s",
+			    (offset_cnt > 1 && offset_cnt % 2 == 0) ? '2' : 'x',
+			    peers[offset_cnt / 2]->update.status.stratum,
+			    peers[offset_cnt / 2]->update.delay,
+			    log_sockaddr((struct sockaddr *)&peers[offset_cnt / 2]->addr->ss));
 		conf->status.leap = peers[offset_cnt / 2]->update.status.leap;
 
 		imsg_compose(ibuf_main, IMSG_ADJTIME, 0, 0,

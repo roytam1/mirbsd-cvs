@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/ntpd/client.c,v 1.4 2005/12/18 00:59:36 tg Exp $ */
+/**	$MirOS: src/usr.sbin/ntpd/client.c,v 1.5 2007/07/31 19:57:02 tg Exp $ */
 /*	$OpenBSD: client.c,v 1.66 2005/09/24 00:32:03 dtucker Exp $ */
 
 /*
@@ -28,7 +28,7 @@
 
 #include "ntpd.h"
 
-__RCSID("$MirOS: src/usr.sbin/ntpd/client.c,v 1.4 2005/12/18 00:59:36 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/ntpd/client.c,v 1.5 2007/07/31 19:57:02 tg Exp $");
 
 #ifdef DDEBUG
 #define log_reply	log_info
@@ -186,7 +186,7 @@ client_query(struct ntp_peer *p)
 }
 
 int
-client_dispatch(struct ntp_peer *p, u_int8_t settime)
+client_dispatch(struct ntp_peer *p, u_int8_t settime, uint8_t trace)
 {
 	char			 buf[NTP_MSGSIZE];
 	ssize_t			 size;
@@ -276,6 +276,11 @@ client_dispatch(struct ntp_peer *p, u_int8_t settime)
 
 	set_next(p, interval);
 	p->state = STATE_REPLY_RECEIVED;
+
+	if (trace > 1)
+		log_info("rcvd stratum %d dst %f peer %s",
+		    msg.stratum, p->reply[p->shift].delay,
+		    log_sockaddr((struct sockaddr *)&p->addr->ss));
 
 	/* every received reply which we do not discard increases trust */
 	if (p->trustlevel < TRUSTLEVEL_MAX) {
