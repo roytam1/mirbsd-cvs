@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.bin/perl/Makefile.bsd-wrapper,v 1.5 2005/07/09 17:43:44 tg Exp $
+# $MirOS: src/gnu/usr.bin/perl/Makefile.bsd-wrapper,v 1.6 2005/10/21 10:46:27 tg Exp $
 # $OpenBSD: Makefile.bsd-wrapper,v 1.69 2005/01/15 21:30:17 millert Exp $
 #
 # Build wrapper for Perl 5.8.6
@@ -28,9 +28,9 @@ CFLAGS+=	-pthread
 .endif
 
 .if defined(NOPIC) && ${NOPIC:L} != "no"
-USE_DL?=n
+USE_DL?=	n
 .else
-USE_DL?=y
+USE_DL?=	y
 .endif
 
 # Our lndir is hacked; specify a full path to avoid potential conflicts
@@ -522,13 +522,10 @@ MANSRCALL=
     warnings 3p			lib/warnings.pm \
     warnings::register 3p	lib/warnings/register.pm
 .  if !defined(NOMAN) || ${NOMAN:L} == "no"
-MANALL+= ${page}.cat${sect}
-MANSRCALL+= ${page}.${sect}
-MANSRC_COOKIE=stamp-mansrc.build
-_quick${sect}+=${file} ${page}.${sect}
-.    ifdef MANPS
-PSALL+= ${page}.ps${sect}
-.    endif
+MANALL+=	${page}.cat${sect}
+MANSRCALL+=	${page}.${sect}
+MANSRC_COOKIE=	stamp-mansrc.build
+_quick${sect}+=	${file} ${page}.${sect}
 .  else
 MANSRC_COOKIE=
 .  endif
@@ -558,8 +555,8 @@ SRCS=	perl.c gv.c toke.c perly.c op.c pad.c regcomp.c dump.c util.c mg.c \
 
 CPPFLAGS+=	-DPERL_CORE -DPERL_RANDOM_DEVICE=\"/dev/arandom\" -I.
 
-.if defined (INSTALL_STRIP) && ${INSTALL_STRIP} == "-s"
-STRIPFLAGS='-s'
+.if defined(INSTALL_STRIP) && ${INSTALL_STRIP} == "-s"
+STRIPFLAGS=	-s
 .endif
 
 MLINKS=		c2ph.1 pstruct.1 s2p.1 psed.1 \
@@ -698,11 +695,6 @@ cleandir:
 .include <bsd.lib.mk>
 
 # These have to come after the inclusion of <bsd.lib.mk>
-
-# Need -fPIC, not -fpic on sparc
-.if ($(TARGET_MACHINE_ARCH) == sparc)
-PICFLAG=-fPIC
-.endif
 
 perl.lib:	${GENERATED} ${_LIBS}
 
