@@ -1,4 +1,3 @@
-/**	$MirOS$ */
 /*	$OpenBSD: ext2fs.h,v 1.11 2005/10/04 22:46:22 pedro Exp $	*/
 /*	$NetBSD: ext2fs.h,v 1.10 2000/01/28 16:00:23 bouyer Exp $	*/
 
@@ -145,6 +144,9 @@ struct ext2fs {
 /* in-memory data for ext2fs */
 struct m_ext2fs {
 	struct ext2fs e2fs;
+	u_char	e2fs_fsmnt[MAXMNTLEN];	/* name mounted on */
+	int8_t	e2fs_ronly;	/* mounted read-only flag */
+	int8_t	e2fs_fmod;	/* super block modified flag */
 	int32_t	e2fs_bsize;	/* block size */
 	int32_t e2fs_bshift;	/* ``lblkno'' calc of logical blkno */
 	int32_t e2fs_bmask;	/* ``blkoff'' calc of blk offsets */
@@ -154,11 +156,7 @@ struct m_ext2fs {
 	int32_t	e2fs_ngdb;	/* number of group descriptor block */
 	int32_t	e2fs_ipb;	/* number of inodes per block */
 	int32_t	e2fs_itpg;	/* number of inode table per group */
-	u_int16_t e2fs_inosz;	/* size of one inode (dynamic) */
 	struct	ext2_gd *e2fs_gd; /* group descriptors */
-	u_char	e2fs_fsmnt[MAXMNTLEN];	/* name mounted on */
-	int8_t	e2fs_ronly;	/* mounted read-only flag */
-	int8_t	e2fs_fmod;	/* super block modified flag */
 };
 
 
@@ -302,12 +300,12 @@ void e2fs_cg_bswap(struct ext2_gd *, struct ext2_gd *, int);
 	(((size) + (fs)->e2fs_qbmask) & (fs)->e2fs_bmask)
 #define fragroundup(fs, size)	/* calculates roundup(size, fs->e2fs_bsize) */ \
 	(((size) + (fs)->e2fs_qbmask) & (fs)->e2fs_bmask)
-/*
+/* 
  * Determine the number of available frags given a
  * percentage to hold in reserve.
- */
+ */   
 #define freespace(fs) \
-   ((fs)->e2fs.e2fs_fbcount - (fs)->e2fs.e2fs_rbcount)
+   ((fs)->e2fs.e2fs_fbcount - (fs)->e2fs.e2fs_rbcount) 
 
 /*
  * Number of indirects in a file system block.
