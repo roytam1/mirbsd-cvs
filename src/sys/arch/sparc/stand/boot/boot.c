@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: boot.c,v 1.6 2003/08/14 17:13:57 deraadt Exp $	*/
 /*	$NetBSD: boot.c,v 1.2 1997/09/14 19:27:21 pk Exp $	*/
 
@@ -47,7 +48,7 @@ int netif_debug;
 /*
  * Boot device is derived from ROM provided information.
  */
-#define	DEFAULT_KERNEL	"bsd"
+const char __defkernel[] = "bsd\0PADDING.....................................";
 
 extern char	*version;
 extern vaddr_t	esym;
@@ -69,7 +70,7 @@ main(int argc, char *argv[])
 
 	file = prom_bootfile;
 	if (file == 0 || *file == 0)
-		file = DEFAULT_KERNEL;
+		file = __defkernel;
 
 	for (;;) {
 		if (prom_boothow & RB_ASKNAME) {
