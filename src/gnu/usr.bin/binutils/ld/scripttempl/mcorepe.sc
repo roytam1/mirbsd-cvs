@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/gnu/usr.bin/binutils/ld/scripttempl/mcorepe.sc,v 1.2 2005/03/13 16:07:08 tg Exp $
 #
 # Linker script for MCore PE.
 
@@ -72,7 +72,7 @@ SECTIONS
   }
 
   /* The Cygwin32 library uses a section to avoid copying certain data
-     on fork.  This used to be named ".data$nocopy".  The linker used
+     on fork.  This used to be named ".data\$nocopy".  The linker used
      to include this between __data_start__ and __data_end__, but that
      breaks building the cygwin32 dll.  Instead, we name the section
      ".data_cygwin_nocopy" and explictly include it after __data_end__. */

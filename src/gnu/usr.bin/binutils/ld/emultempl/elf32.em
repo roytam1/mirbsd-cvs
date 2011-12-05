@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.bin/binutils/ld/emultempl/elf32.em,v 1.6 2005/12/30 15:46:51 tg Exp $
+rcsid='$MirOS: src/gnu/usr.bin/binutils/ld/emultempl/elf32.em,v 1.7 2005/12/30 15:56:10 tg Exp $'
 
 # This shell script emits a C file. -*- C -*-
 # It does some substitutions.
@@ -56,7 +56,7 @@ Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA 02110-1301, USA. 
 #include <ldgram.h>
 #include "elf/common.h"
 
-__RCSID("$MirOS: src/gnu/usr.bin/binutils/ld/emultempl/elf32.em,v 1.6 2005/12/30 15:46:51 tg Exp $");
+__RCSID("${rcsid}");
 
 /* Declare functions used by various EXTRA_EM_FILEs.  */
 static void gld${EMULATION_NAME}_before_parse (void);

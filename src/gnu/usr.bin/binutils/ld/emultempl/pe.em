@@ -1,3 +1,5 @@
+# $MirOS$
+
 # This shell script emits a C file. -*- C -*-
 # It does some substitutions.
 if [ -z "$MACHINE" ]; then
@@ -9,8 +11,8 @@ rm -f e${EMULATION_NAME}.c
 (echo;echo;echo;echo;echo)>e${EMULATION_NAME}.c # there, now line numbers match ;-)
 cat >>e${EMULATION_NAME}.c <<EOF
 /* This file is part of GLD, the Gnu Linker.
-   Copyright 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004
-   Free Software Foundation, Inc.
+   Copyright 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004,
+   2005 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -24,7 +26,7 @@ cat >>e${EMULATION_NAME}.c <<EOF
 
    You should have received a copy of the GNU General Public License
    along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
+   Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA 02110-1301, USA.  */
 
 /* For WINDOWS_NT */
 /* The original file generated returned different default scripts depending
@@ -139,9 +141,9 @@ gld_${EMULATION_NAME}_before_parse (void)
 
 #if (PE_DEF_SUBSYSTEM == 9) || (PE_DEF_SUBSYSTEM == 2)
 #if defined TARGET_IS_mipspe || defined TARGET_IS_armpe
-  lang_add_entry ("WinMainCRTStartup", FALSE);
+  lang_default_entry ("WinMainCRTStartup");
 #else
-  lang_add_entry ("_WinMainCRTStartup", FALSE);
+  lang_default_entry ("_WinMainCRTStartup");
 #endif
 #endif
 #endif
@@ -457,7 +459,7 @@ set_pe_subsystem (void)
     {
       char *alc_entry;
 
-      /* lang_add_entry expects its argument to be permanently
+      /* lang_default_entry expects its argument to be permanently
 	 allocated, so we don't free this string.  */
       alc_entry = xmalloc (strlen (initial_symbol_char)
 			   + strlen (entry)
@@ -467,7 +469,7 @@ set_pe_subsystem (void)
       entry = alc_entry;
     }
 
-  lang_add_entry (entry, FALSE);
+  lang_default_entry (entry);
 
   return;
 }
@@ -1287,6 +1289,9 @@ gld_${EMULATION_NAME}_before_allocation (void)
   /* We have seen it all. Allocate it, and carry on.  */
   bfd_arm_pe_allocate_interworking_sections (& link_info);
 #endif /* TARGET_IS_armpe */
+
+  if (!link_info.relocatable)
+    strip_excluded_output_sections ();
 }
 
 #ifdef DLL_SUPPORT
@@ -1362,14 +1367,6 @@ gld_${EMULATION_NAME}_unrecognized_file (lang_input_statement_type *entry ATTRIB
 		  exp_assop ('=', "__image_base__", exp_intop (pe.ImageBase));
 	    }
 
-#if 0
-	  /* Not sure if these *should* be set.  */
-	  if (pe_def_file->version_major != -1)
-	    {
-	      pe.MajorImageVersion = pe_def_file->version_major;
-	      pe.MinorImageVersion = pe_def_file->version_minor;
-	    }
-#endif
 	  if (pe_def_file->stack_reserve != -1
 	      && ! saw_option ("__size_of_stack_reserve__"))
 	    {
@@ -1510,7 +1507,7 @@ gld_${EMULATION_NAME}_finish (void)
    We use this to put sections in a reasonable place in the file, and
    to ensure that they are aligned as required.
 
-   We handle grouped sections here as well.  A section named .foo$nn
+   We handle grouped sections here as well.  A section named .foo\$nn
    goes into the output section .foo.  All grouped sections are sorted
    by name.
 
@@ -1532,7 +1529,7 @@ gld_${EMULATION_NAME}_place_orphan (lang_input_statement_type *file, asection *s
   /* Look through the script to see where to place this section.  */
   orig_secname = secname;
   if (!link_info.relocatable
-      && (dollar = strchr (secname, '$')) != NULL)
+      && (dollar = strchr (secname, '\$')) != NULL)
     {
       size_t len = dollar - orig_secname;
       char *newname = xmalloc (len + 1);
@@ -1653,7 +1650,7 @@ gld_${EMULATION_NAME}_place_orphan (lang_input_statement_type *file, asection *s
       {
 	bfd_boolean found_dollar;
 
-	/* The section name has a '$'.  Sort it with the other '$'
+	/* The section name has a '\$'.  Sort it with the other '\$'
 	   sections.  */
 	found_dollar = FALSE;
 	for ( ; *pl != NULL; pl = &(*pl)->header.next)
@@ -1667,7 +1664,7 @@ gld_${EMULATION_NAME}_place_orphan (lang_input_statement_type *file, asection *s
 	    ls = &(*pl)->input_section;
 
 	    lname = bfd_get_section_name (ls->ifile->the_bfd, ls->section);
-	    if (strchr (lname, '$') == NULL)
+	    if (strchr (lname, '\$') == NULL)
 	      {
 		if (found_dollar)
 		  break;
