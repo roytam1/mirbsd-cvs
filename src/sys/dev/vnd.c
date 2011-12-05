@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/vnd.c,v 1.21 2008/06/13 18:24:10 tg Exp $ */
+/**	$MirOS: src/sys/dev/vnd.c,v 1.22 2008/06/14 22:28:08 tg Exp $ */
 /*	$OpenBSD: vnd.c,v 1.85 2008/03/24 01:16:58 krw Exp $	*/
 /*	$NetBSD: vnd.c,v 1.26 1996/03/30 23:06:11 christos Exp $	*/
 
@@ -130,7 +130,9 @@ struct pool     vndbufpl;
 #define	putvndbuf(vbp)	pool_put(&vndbufpl, vbp);
 
 struct vnd_ctx {
+#ifdef notyet
 	u_char iv[VNDIOC_IVSZ];			/* encryption IV (!BLF) */
+#endif
 	size_t len;				/* key context size */
 	union {
 		void *ctx_ptr;			/* pointer for malloc/free */
@@ -189,9 +191,11 @@ void	vndiodone(struct buf *);
 void	vndshutdown(void);
 void	vndgetdisklabel(dev_t, struct vnd_softc *, struct disklabel *, int);
 void	vndencrypt(struct vnd_softc *, caddr_t, size_t, daddr_t, int);
+#ifdef notyet
 void	vndmkiv(u_char *, u_char *, size_t, daddr_t)
     __attribute__((bounded (string, 1, 3)))
     __attribute__((bounded (minbytes, 2, VNDIOC_IVSZ)));
+#endif
 size_t	vndbdevsize(struct vnode *, struct proc *);
 
 int	vndlock(struct vnd_softc *);
@@ -203,6 +207,7 @@ vndencrypt(struct vnd_softc *vnd, caddr_t addr, size_t size, daddr_t off,
 {
 	size_t i, n;
 	u_char iv[VNDIOC_MAXBSZ];
+#ifdef notyet
 #ifdef CRYPTO
 	rijndael_do_cbc_t aes_op;
 
@@ -211,6 +216,7 @@ vndencrypt(struct vnd_softc *vnd, caddr_t addr, size_t size, daddr_t off,
 	else
 		aes_op = rijndael_cbc_decrypt_fast;
 #endif
+#endif
 
 	n = dbtob(1);
 	for (i = 0; i < size/n; i++) {
@@ -218,16 +224,19 @@ vndencrypt(struct vnd_softc *vnd, caddr_t addr, size_t size, daddr_t off,
 		case VNDIOC_ALG_BLF:
 			bzero(iv, sizeof (iv));
 			bcopy((u_char *)&off, iv, sizeof (off));
+#ifdef notyet
 			goto vndencrypt_blowfish;
 		case VNDIOC_ALG_BF_CBC:
 			vndmkiv(iv, vnd->sc_enc_iv, VNDIOC_BSZ_BLF, off);
  vndencrypt_blowfish:
+#endif
 			blf_ecb_encrypt(vnd->sc_enc_blf, iv, VNDIOC_BSZ_BLF);
 			if (encrypt)
 				blf_cbc_encrypt(vnd->sc_enc_blf, iv, addr, n);
 			else
 				blf_cbc_decrypt(vnd->sc_enc_blf, iv, addr, n);
 			break;
+#ifdef notyet
 #ifdef CRYPTO
 		case VNDIOC_ALG_AES128_CBC:
 		case VNDIOC_ALG_AES192_CBC:
@@ -239,6 +248,7 @@ vndencrypt(struct vnd_softc *vnd, caddr_t addr, size_t size, daddr_t off,
 			    n / VNDIOC_BSZ_AES);
 			break;
 #endif
+#endif
 		}
 
 		addr += n;
@@ -246,6 +256,7 @@ vndencrypt(struct vnd_softc *vnd, caddr_t addr, size_t size, daddr_t off,
 	}
 }
 
+#ifdef notyet
 void
 vndmkiv(u_char *dst, u_char *src, size_t numbytes, daddr_t off)
 {
@@ -263,6 +274,7 @@ vndmkiv(u_char *dst, u_char *src, size_t numbytes, daddr_t off)
 	while (n--)
 		dst[n % numbytes] ^= src[n % VNDIOC_IVSZ];
 }
+#endif
 
 void
 vndattach(int num)
@@ -934,6 +946,7 @@ vndioctl(dev_t dev, u_long cmd, caddr_t addr, int flag, struct proc *p)
 		case VNDIOC_ALG_BLF:
 			ksz = MIN(ksz, VNDIOC_KSZ_BLF);
 			break;
+#ifdef notyet
 		case VNDIOC_ALG_BF_CBC:
 			ksz = MIN(ksz, VNDIOC_KSZ_BF_CBC);
 			if (ksz <= VNDIOC_IVSZ)
@@ -953,6 +966,7 @@ vndioctl(dev_t dev, u_long cmd, caddr_t addr, int flag, struct proc *p)
 				goto VNDIOCSET_encinval;
 			break;
 #endif
+#endif
 		default:
 			goto VNDIOCSET_encinval;
 		}
@@ -965,9 +979,12 @@ vndioctl(dev_t dev, u_long cmd, caddr_t addr, int flag, struct proc *p)
 
 			switch (vnd->sc_enc_alg) {
 			case VNDIOC_ALG_BLF:
+#ifdef notyet
 			case VNDIOC_ALG_BF_CBC:
+#endif
 				vnd->sc_enc_len = sizeof (*vnd->sc_enc_blf);
 				break;
+#ifdef notyet
 #ifdef CRYPTO
 			case VNDIOC_ALG_AES128_CBC:
 			case VNDIOC_ALG_AES192_CBC:
@@ -979,15 +996,19 @@ vndioctl(dev_t dev, u_long cmd, caddr_t addr, int flag, struct proc *p)
 				/* remove these two lines once implemented */
 				break;
 #endif
+#endif
 			}
 			vnd->sc_enc_ptr = malloc(vnd->sc_enc_len, M_DEVBUF,
 			    M_WAITOK);
 
 			switch (vnd->sc_enc_alg) {
 			case VNDIOC_ALG_BLF:
+#ifdef notyet
 				bzero(vnd->sc_enc_iv, VNDIOC_IVSZ);
+#endif
 				blf_key(vnd->sc_enc_blf, key, ksz);
 				break;
+#ifdef notyet
 			case VNDIOC_ALG_BF_CBC:
 				bcopy(key, vnd->sc_enc_iv, VNDIOC_IVSZ);
 				blf_key(vnd->sc_enc_blf, key + VNDIOC_IVSZ,
@@ -999,6 +1020,7 @@ vndioctl(dev_t dev, u_long cmd, caddr_t addr, int flag, struct proc *p)
 			case VNDIOC_ALG_AES256_CBC:
 				/* not implemented */
 				break;
+#endif
 #endif
 			}
 

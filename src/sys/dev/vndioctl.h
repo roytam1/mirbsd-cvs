@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/vndioctl.h,v 1.6 2008/06/12 21:19:25 tg Exp $	*/
+/**	$MirOS: src/sys/dev/vndioctl.h,v 1.7 2008/06/12 23:14:48 tg Exp $	*/
 /*	$OpenBSD: vndioctl.h,v 1.6 2004/06/20 18:03:03 pedro Exp $	*/
 /*	$NetBSD: vndioctl.h,v 1.5 1995/01/25 04:46:30 cgd Exp $	*/
 
@@ -57,27 +57,44 @@ struct vnd_ioctl {
 #define VNDIOC_OPT_RDONLY  1	/* don't write to the underlying file */
 #define VNDIOC_ALGSHIFT	24	/* shift of algorithm in vnd_options */
 #define VNDIOC_ALG_BLF		0x00	/* old Blowfish */
+#ifdef notyet
+/* do not use these yet:
+ * 1) kernel implementation has not yet been tested
+ * 2) user space is not ready yet
+ * 3) the API will change for XTR support:
+ *    http://marc.info/?m=121341266715025
+ *    we will do it like them, one key per 2³⁰ blocks (sectors), for all algos
+ */
 #define VNDIOC_ALG_BF_CBC	0x01	/* new Blowfish-CBC */
 #define VNDIOC_ALG_AES128_CBC	0x02	/* AES with 128-bit keys */
 #define VNDIOC_ALG_AES192_CBC	0x03	/* AES with 192-bit keys */
 #define VNDIOC_ALG_AES256_CBC	0x04	/* AES with 256-bit keys */
+#endif
 };
 
 /*
  * Key sizes for the encrypton algorithms
  */
 #define VNDIOC_KSZ_BLF		72	/* 576 bit (448 bit used) */
+#ifdef notyet
 #define VNDIOC_KSZ_BF_CBC	88	/* 16 bytes salt, 72 bytes key */
 #define VNDIOC_KSZ_AES128_CBC	32	/* 16 bytes salt, 16 bytes key */
 #define VNDIOC_KSZ_AES192_CBC	40	/* 16 bytes salt, 24 bytes key */
 #define VNDIOC_KSZ_AES256_CBC	48	/* 16 bytes salt, 32 bytes key */
 #define VNDIOC_MAXKSZ		88	/* largest of the above */
+#else
+#define VNDIOC_MAXKSZ		72
+#endif
 
 #define VNDIOC_BSZ_BLF		8	/* blowfish has 64 bit blocks */
+#ifdef notyet
 #define VNDIOC_BSZ_AES		16	/* rijndael has 128 bit blocks */
 #define VNDIOC_MAXBSZ		16	/* largest of the above */
 
 #define VNDIOC_IVSZ		16	/* size of the salt/IV */
+#else
+#define VNDIOC_MAXBSZ		8
+#endif
 
 /*
  * A simple structure used by userland to query about a specific vnd.
