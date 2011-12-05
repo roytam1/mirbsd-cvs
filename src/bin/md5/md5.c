@@ -1,4 +1,4 @@
-/**	$MirOS: src/bin/md5/md5.c,v 1.7 2006/05/09 22:17:34 tg Exp $ */
+/**	$MirOS: src/bin/md5/md5.c,v 1.8 2006/05/09 22:55:36 tg Exp $ */
 /*	$OpenBSD: md5.c,v 1.32 2004/12/29 17:32:44 millert Exp $	*/
 
 /*
@@ -40,7 +40,7 @@
 #include <crc.h>
 #include "suma.h"
 
-__RCSID("$MirOS: src/bin/md5/md5.c,v 1.7 2006/05/09 22:17:34 tg Exp $");
+__RCSID("$MirOS: src/bin/md5/md5.c,v 1.8 2006/05/09 22:55:36 tg Exp $");
 
 #define MAX_DIGEST_LEN	128
 
@@ -277,9 +277,8 @@ main(int argc, char **argv)
 	    bflag - (bflag & pflag);
 	if (fl > 1 || (fl && argc && cflag == 0 && bflag == 0))
 		usage();
-	if ((bflag + cflag) != 0 && hashes[1] != NULL)
-		errx(1, "only a single algorithm may be specified in -%c mode",
-		    cflag ? 'c' : 'b');
+	if (cflag != 0 && hashes[1] != NULL)
+		errx(1, "only a single algorithm may be specified in -c mode");
 
 	/* No algorithm specified, check the name we were called as. */
 	if (hashes[0] == NULL) {
