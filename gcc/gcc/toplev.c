@@ -1,4 +1,4 @@
-/* $MirOS: gcc/gcc/toplev.c,v 1.4 2005/03/25 22:58:45 tg Exp $ */
+/* $MirOS: gcc/gcc/toplev.c,v 1.5 2005/08/26 20:57:35 tg Exp $ */
 
 /* Top level of GCC compilers (cc1, cc1plus, etc.)
    Copyright (C) 1987, 1988, 1989, 1992, 1993, 1994, 1995, 1996, 1997, 1998,
@@ -3919,6 +3919,18 @@ print_version (FILE *file, const char *indent)
 #ifndef __VERSION__
 #define __VERSION__ "[?]"
 #endif
+#ifdef GPC
+  extern const char *lang_version_string;
+  fnotice (file,
+#ifdef __GNUC__
+	   "%s%s%s version %s%s (%s)\n%s\tcompiled by GNU C version %s.\n"
+#else
+	   "%s%s%s version %s%s (%s) compiled by CC.\n"
+#endif
+	   , indent, *indent != 0 ? " " : "",
+	   lang_hooks.name, lang_version_string, version_string, TARGET_NAME,
+	   indent, __VERSION__);
+#else
   fnotice (file,
 #ifdef __GNUC__
 	   "%s%s%s version %s (%s)\n%s\tcompiled by GNU C version %s.\n"
@@ -3928,6 +3940,7 @@ print_version (FILE *file, const char *indent)
 	   , indent, *indent != 0 ? " " : "",
 	   lang_hooks.name, version_string, TARGET_NAME,
 	   indent, __VERSION__);
+#endif
   fnotice (file, "%s%sGGC heuristics: --param ggc-min-expand=%d --param ggc-min-heapsize=%d\n",
 	   indent, *indent != 0 ? " " : "",
 	   PARAM_VALUE (GGC_MIN_EXPAND), PARAM_VALUE (GGC_MIN_HEAPSIZE));

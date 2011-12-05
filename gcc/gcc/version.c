@@ -1,4 +1,4 @@
-/* $MirOS: gcc/gcc/version.c,v 1.18 2005/07/27 17:27:58 tg Exp $ */
+/* $MirOS: gcc/gcc/version.c,v 1.19 2005/08/26 20:57:36 tg Exp $ */
 
 #include "version.h"
 
@@ -7,8 +7,7 @@
    please modify this string to indicate that, e.g. by putting your
    organization's name in parentheses at the end of the string.  */
 
-/* Must be one line.  */
-const char real_version_string[] = "3.4.5 20050823 (propolice; MirOS 0837)", *version_string = real_version_string;
+const char version_string[] = "3.4.5 20050823 (propolice; MirOS 0838)";
 
 /* This is the location of the online document giving instructions for
    reporting bugs.  If you distribute a modified version of GCC,
