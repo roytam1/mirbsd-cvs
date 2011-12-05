@@ -1,4 +1,4 @@
-# $MirOS: gcc/Makefile,v 1.9 2005/11/22 19:40:08 tg Exp $
+# $MirOS: gcc/Makefile,v 1.10 2005/11/23 15:39:49 tg Exp $
 
 .include <bsd.own.mk>
 .include "${GNUSYSTEM_AUX_DIR}/locations.mk"
@@ -100,10 +100,12 @@ bootstrapbuild: ${_STFILE_SUB}
 	    NO_CXX=Yes NO_OBJC=Yes NO_PASCAL=Yes NO_BOEHMGC=Yes
 
 bootstrap:
+	@cd ${.CURDIR} && ${MAKE} obj && exec ${MAKE} do-bootstrap
+
+do-bootstrap:
 	cd ${GNU_LIBIBERTY_SRC} && exec ${MAKE} obj
 	cd ${GNU_LIBIBERTY_SRC} && exec ${MAKE} depend
 	cd ${GNU_LIBIBERTY_SRC} && exec ${MAKE} all
-	cd ${.CURDIR} && exec ${MAKE} obj
 	mkdir -p ${SUBOBJDIR}/bs-{1,2}
 	cd ${.CURDIR} && exec ${MAKE} bootstrapbuild COMPILER_ONLY=Yes \
 	    _LIBERTY=${GNU_LIBIBERTY_SRC}/obj/libiberty.a \
@@ -134,5 +136,7 @@ bootstrap:
 	    CC=${SUBOBJDIR}/bs-2/bin/mgcc \
 	    CXX=${SUBOBJDIR}/bs-2/bin/g++
 	cd ${.CURDIR} && exec ${SUDO} ${MAKE} install
+
+.PHONY: bootstrapbuild bootstrap do-bootstrap
 
 .include <bsd.obj.mk>
