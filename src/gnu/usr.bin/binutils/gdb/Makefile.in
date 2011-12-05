@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.bin/binutils/gdb/Makefile.in,v 1.5 2005/06/13 22:52:38 tg Exp $
+# $MirOS: src/gnu/usr.bin/binutils/gdb/Makefile.in,v 1.6 2005/07/07 16:22:50 tg Exp $
 # XXX hacked
 #
 # Copyright 1989, 1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997,
@@ -132,6 +132,9 @@ WARN_CFLAGS = @WARN_CFLAGS@
 WERROR_CFLAGS = @WERROR_CFLAGS@
 GDB_WARN_CFLAGS = $(WARN_CFLAGS) -Wno-unused # XXX for now
 GDB_WERROR_CFLAGS = $(WERROR_CFLAGS)
+
+# Where is the ICONV library?  This can be empty if libc has iconv.
+LIBICONV = @LIBICONV@
 
 # Did the user give us a --with-sysroot option?
 TARGET_SYSTEM_ROOT = @TARGET_SYSTEM_ROOT@
