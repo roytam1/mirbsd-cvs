@@ -1,4 +1,4 @@
-# $MirOS: gcc/gcc/p/Make-lang.in,v 1.13 2005/11/20 12:28:11 tg Exp $
+# $MirOS: gcc/gcc/p/Make-lang.in,v 1.14 2005/11/20 18:02:43 tg Exp $
 # Top level Makefile fragment for GNU Pascal.
 #
 # Copyright (C) 1987-2005 Free Software Foundation, Inc.
@@ -68,12 +68,12 @@ GPC_GCC_VERSION=$(GPC_GCC_VERSION_$(GCC_VERSION_FOR_GPC))
 GPC_GCC_VERSION_OBJS_28=pexecute.o
 GPC_GCC_VERSION_OBJS_=intl.o
 GPC_GCC_VERSION_OBJS=$(GPC_GCC_VERSION_OBJS_$(GCC_VERSION_FOR_GPC))
-GPC_GCC_VERSION_LINK_=p/diagnostic.o attribs.o main.o libbackend.a -liberty
+GPC_GCC_VERSION_LINK_=p/diagnostic.o attribs.o main.o libbackend.a $(LIBERTY)
 GPC_GCC_VERSION_LINK_2=`cat p/stamp-gbe`
 GPC_GCC_VERSION_LINK_28=`cat p/stamp-gbe` choose-temp.o pexecute.o
 GPC_GCC_VERSION_LINK=$(GPC_GCC_VERSION_LINK_$(GCC_VERSION_FOR_GPC))
 GPC_GCC_VERSION_DEPS_=$(GPC_GCC_VERSION_LINK)
-GPC_GCC_VERSION_DEPS_2=p/stamp-gbe -liberty
+GPC_GCC_VERSION_DEPS_2=p/stamp-gbe $(LIBERTY)
 GPC_GCC_VERSION_DEPS_28=p/stamp-gbe choose-temp.o pexecute.o
 GPC_GCC_VERSION_DEPS=$(GPC_GCC_VERSION_DEPS_$(GCC_VERSION_FOR_GPC))
 GPC_GCC_VERSION_H_=target.h dbxout.h $(LIBIBERTY_HDRS)/libiberty.h
