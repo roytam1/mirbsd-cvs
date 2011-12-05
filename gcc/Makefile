@@ -1,4 +1,4 @@
-# $MirOS: gcc/Makefile,v 1.6 2005/06/13 19:51:12 tg Exp $
+# $MirOS: gcc/Makefile,v 1.7 2005/11/22 17:55:18 tg Exp $
 
 .include <bsd.own.mk>
 .include "${BSDSRCDIR}/Makefile.inc"
@@ -10,6 +10,7 @@ GCC_NATIVE?=	Yes
 
 SUBOBJDIR!=	readlink -nf ${.OBJDIR}
 BSDMAKE!=	whence -p ${MAKE}
+CC!=		whence -p ${CC}
 
 IGNORE_TGTS=	obj
 BUILD_TGTS=	all clean depend lint prereq tags
@@ -18,7 +19,7 @@ INSTALL_TGTS=	includes install
 EXTRA_ENV=	PATH=/bin:/usr/bin:/sbin:/usr/sbin
 
 .if ${GCC_NATIVE:L} != "yes"
-EXTRA_ENV:=	${EXTRA_ENV:S!PATH=!PATH=${BSDMAKE:H}:!}
+EXTRA_ENV:=	${EXTRA_ENV:S!PATH=!PATH=${BSDMAKE:H}:${CC:H}!}
 _STCMD=
 _STFILE_SUB=
 _STFILE_DEST=

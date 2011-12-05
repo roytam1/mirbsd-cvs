@@ -1,4 +1,4 @@
-# $MirOS: gcc/Makefile.inc,v 1.15 2005/11/22 18:17:17 tg Exp $
+# $MirOS: gcc/Makefile.inc,v 1.16 2005/11/22 18:54:56 tg Exp $
 
 .ifndef _MODGCC_MAKEFILE_INC
 _MODGCC_MAKEFILE_INC=1
@@ -52,6 +52,7 @@ GCC_NATIVE?=	Yes
 OBJC_GC?=	--enable-objc-gc
 NO_BOEHMGC?=	No
 GMAKE?=		/usr/local/bin/gmake
+CPP=		${CC} -E
 
 # System defines
 GCCVERSION=	3.4.5

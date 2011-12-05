@@ -1,4 +1,4 @@
-# $MirOS: gcc/gcc/Makefile.bsd-wrapper,v 1.24 2005/11/22 17:55:20 tg Exp $
+# $MirOS: gcc/gcc/Makefile.bsd-wrapper,v 1.25 2005/11/22 18:17:19 tg Exp $
 
 .include <bsd.own.mk>
 .include "${GNUSYSTEM_AUX_DIR}/locations.mk"
@@ -57,11 +57,12 @@ XARGS+=		BISON=yacc LIBIBERTY_HDRS="${GNU_LIBIBERTY_INC}" \
 CPPFLAGS+=	-DMIRBSD_NATIVE
 XARGS+=		BUILD_LIBIBERTY="-liberty" LIBIBERTY="-liberty" \
 		SUB_LIBERTY="-liberty" STMP_FIXINC=stmp-fixinc-fake
+M_CPP=		mcpp
 .else
 _LIBERTY?=	${GNU_LIBIBERTY_SRC}/obj/libiberty.a
 XARGS+=		BUILD_LIBIBERTY="${_LIBERTY}" LIBIBERTY="${_LIBERTY}" \
 		SUB_LIBERTY="${_LIBERTY}" STMP_FIXINC=stmp-fixinc
-CPP=		${CC} -E
+M_CPP=		cpp
 .endif
 
 # This is to prevent the compiler from "overloading" us with pseudo-local
@@ -127,7 +128,7 @@ post-install:
 	    ${_i} ${DESTDIR}${GCC_INFODIR}/
 .endfor
 	${INSTALL} ${INSTALL_COPY} ${INSTALL_STRIP} -m ${BINMODE} \
-	    -o ${BINOWN} -g ${BINGRP} cpp ${DESTDIR}${GCC_PREFIX}/bin/mcpp
+	    -o ${BINOWN} -g ${BINGRP} cpp ${DESTDIR}${GCC_PREFIX}/bin/${M_CPP}
 	${INSTALL} ${INSTALL_COPY} ${INSTALL_STRIP} -m ${BINMODE} \
 	    -o ${BINOWN} -g ${BINGRP} xgcc ${DESTDIR}${GCC_PREFIX}/bin/mgcc
 	chown -R ${BINOWN}:${BINGRP} \
