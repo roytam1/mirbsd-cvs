@@ -1,4 +1,4 @@
-/**	$MirOS: src/lib/libc/sys/stack_protector.c,v 1.9 2011/02/19 01:27:51 tg Exp $ */
+/**	$MirOS: src/lib/libc/sys/stack_protector.c,v 1.10 2011/02/19 01:38:32 tg Exp $ */
 /*	$OpenBSD: stack_protector.c,v 1.10 2006/03/31 05:34:44 deraadt Exp $	*/
 
 /*
@@ -36,7 +36,7 @@
 #include <syslog.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: src/lib/libc/sys/stack_protector.c,v 1.9 2011/02/19 01:27:51 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/sys/stack_protector.c,v 1.10 2011/02/19 01:38:32 tg Exp $");
 
 #if (defined(__SSP__) || defined(__SSP_ALL__)) && \
     !defined(__IN_MKDEP) && !defined(lint)
@@ -52,14 +52,15 @@ __RCSID("$MirOS: src/lib/libc/sys/stack_protector.c,v 1.9 2011/02/19 01:27:51 tg
 #endif
 
 extern void _thread_sys__exit__(int) __dead;
+extern void arc4random_atexit(void);
 
-long __guard[8] = {0, 0, 0, 0, 0, 0, 0, 0};	/* gcc */
-int __stack_chk_guard;				/* pcc */
+long __guard[8] = {0, 0, 0, 0, 0, 0, 0, 0};	/* gcc (3.4 ProPolice) */
+int __stack_chk_guard;				/* gcc4 libssp and pcc */
 CONSTRUCTOR void __guard_setup(void);
 __dead void __stack_smash_handler(const char func[], int damaged);
 __dead void __stack_chk_fail(void);
 
-const char message[] = "stack overflow in function %s (damaged: %d)";
+static const char message[] = "stack overflow in function %s (damaged: %d)";
 
 CONSTRUCTOR void
 __guard_setup(void)
@@ -104,6 +105,8 @@ __stack_smash_handler(const char func[], int damaged)
 	sa.sa_handler = SIG_DFL;
 	sigaction(SIGABRT, &sa, NULL);
 
+	arc4random_atexit();
+
 	kill(getpid(), SIGABRT);
 
 	_thread_sys__exit__(127);
@@ -112,5 +115,5 @@ __stack_smash_handler(const char func[], int damaged)
 void
 __stack_chk_fail(void)
 {
-	__stack_smash_handler("unknown (pcc)", 0);
+	__stack_smash_handler("unknown (libssp or pcc)", 0);
 }
