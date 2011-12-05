@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/sparc/sparc/machdep.c,v 1.6 2006/06/11 02:22:06 tg Exp $ */
+/**	$MirOS: src/sys/arch/sparc/sparc/machdep.c,v 1.7 2006/08/21 12:26:42 tg Exp $ */
 /*	$OpenBSD: machdep.c,v 1.98 2004/03/10 23:02:54 tom Exp $	*/
 /*	$NetBSD: machdep.c,v 1.85 1997/09/12 08:55:02 pk Exp $ */
 
@@ -743,8 +743,8 @@ haltsys:
 	/*NOTREACHED*/
 }
 
-/* XXX - dumpmag not eplicitly used, savecore may search for it to get here */
-u_long	dumpmag = 0x8fca0101;	/* magic number for savecore */
+/* magic number for savecore */
+u_long	dumpmag __attribute__((used)) = 0x8fca0101;
 int	dumpsize = 0;		/* also for savecore */
 long	dumplo = 0;
 
