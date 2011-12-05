@@ -1,7 +1,7 @@
-/* $MirOS: src/share/misc/licence.template,v 1.20 2006/12/11 21:04:56 tg Rel $ */
+/* $MirOS: src/lib/libc/stdio/vfprintf.c,v 1.6 2007/04/13 21:11:07 tg Exp $ */
 
 /*-
- * Copyright (c) 2007
+ * Copyright (c) 2007, 2008
  *	Thorsten Glaser <tg@mirbsd.de>
  *
  * Provided that these terms and disclaimer and all copyright notices
@@ -68,12 +68,13 @@
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
+#include <limits.h>
 #include <stdarg.h>
 
 #include "local.h"
 #include "fvwrite.h"
 
-__RCSID("$MirOS: src/lib/libc/stdio/vfprintf.c,v 1.5 2007/01/11 20:56:55 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/stdio/vfprintf.c,v 1.6 2007/04/13 21:11:07 tg Exp $");
 
 static void __find_arguments(const char *fmt0, va_list ap, va_list **argtable,
     size_t *argtablesiz);
@@ -693,14 +694,17 @@ vfprintf(FILE *fp, const char *fmt0, _BSD_VA_LIST_ ap)
 				 */
 				char *p = memchr(cp, 0, prec);
 
-				if (p != NULL) {
-					size = p - cp;
-					if (size > prec)
-						size = prec;
-				} else
-					size = prec;
-			} else
-				size = strlen(cp);
+				size = p ? (p - cp) : prec;
+			} else {
+				size_t len;
+
+				if ((len = strlen(cp)) > INT_MAX) {
+					errno = ENOMEM;
+					ret = EOF;
+					goto error;
+				}
+				size = (int)len;
+			}
 			if (flags & LONGINT) {
 				/*
 				 * no partial multibyte characters are to be
