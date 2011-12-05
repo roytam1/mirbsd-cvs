@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/sparc/conf/GENERIC,v 1.2 2005/03/06 21:27:16 tg Exp $
+# $MirOS: src/sys/arch/sparc/conf/GENERIC,v 1.3 2006/06/11 02:22:05 tg Exp $
 # $OpenBSD: GENERIC,v 1.75 2004/03/09 15:24:27 miod Exp $
 # $NetBSD: GENERIC,v 1.48 1997/08/23 19:19:01 mjacob Exp $
 
@@ -39,7 +39,7 @@ option		DST=0			# daylight saving time used by RTC
 
 option		CRYPTO			# Cryptographic framework
 option		UVM_SWAP_ENCRYPT	# support encryption of pages going to swap
-#option		LKM			# loadable kernel modules
+option		LKM			# loadable kernel modules
 
 option		SYSVMSG			# System V-like message queues
 option		SYSVSEM			# System V-like semaphores
@@ -52,7 +52,7 @@ option		FFS			# UFS
 option		FFS_SOFTUPDATES		# Soft updates
 option		UFS_DIRHASH		# speed up large directories
 option		QUOTA			# UFS quotas
-#option		EXT2FS			# Second Extended Filesystem
+option		EXT2FS			# Second Extended Filesystem
 #option		EXT2FS_SYSTEM_FLAGS	# immutable is schg, not uchg
 option		MFS			# memory file system
 #option		HARD_CHROOT		# disable mknod() in chroot() jails
@@ -78,10 +78,10 @@ option		ALTQ			# ALTQ base
 option		INET6			# IPv6 (needs INET)
 option		IPSEC			# IPsec
 option		KEY			# PF_KEY (implied by IPSEC)
-#option		IPX			# IPX+SPX
-#option		IPXIP			# IPX tunneling over IP
-#option		NETATALK		# AppleTalk
-#option		PPP_BSDCOMP		# PPP BSD compression for pppd(8)
+option		IPX			# IPX+SPX
+option		IPXIP			# IPX tunneling over IP
+option		NETATALK		# AppleTalk
+option		PPP_BSDCOMP		# PPP BSD compression for pppd(8)
 #option		PPP_DEFLATE		# PPP zlib compression for pppd(8)
 #option		MROUTING		# Multicast router
 
@@ -91,14 +91,14 @@ pseudo-device	pfsync			# pf sync if
 pseudo-device	sppp	2		# Sync PPP/HDLC
 pseudo-device	pppoe	1		# PPP over Ethernet (RFC 2516)
 pseudo-device	enc	1		# IPsec needs this encapsulation iface
-#pseudo-device	faith	1		# IPv{4,6} tcp relay translation iface
+pseudo-device	faith	1		# IPv{4,6} tcp relay translation iface
 #pseudo-device	strip	1		# Starmode Radio IP interface
 
 pseudo-device	pty	16		# pseudo-terminals (can grow runtime)
-#pseudo-device	tb	1		# tablet line discipline
+pseudo-device	tb	1		# tablet line discipline
 pseudo-device	vnd	16		# paging to files
 pseudo-device	ccd	4		# concatenated disk devices
-#pseudo-device	rd	2		# ramdisk (fixed/avail and umem)
+pseudo-device	rd	2		# ramdisk (fixed/avail and umem)
 pseudo-device	ksyms	1		# kernel symbols device
 pseudo-device	systrace 1		# system call tracing device
 
@@ -112,7 +112,7 @@ pseudo-device	loop			# network loopback
 pseudo-device	ppp			# PPP
 pseudo-device	sl			# CSLIP
 pseudo-device	tun			# network tunneling over tty
-#pseudo-device	vlan 			# IEEE 802.1Q VLAN
+pseudo-device	vlan 			# IEEE 802.1Q VLAN
 
 #--- end of machine independent config
 
