@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/uvm/uvm_mmap.c,v 1.2 2005/03/06 21:28:41 tg Exp $ */
+/**	$MirOS: src/sys/uvm/uvm_mmap.c,v 1.3 2005/05/14 15:59:44 tg Exp $ */
 /*	$OpenBSD: uvm_mmap.c,v 1.55 2005/01/15 06:54:51 otto Exp $	*/
 /*	$NetBSD: uvm_mmap.c,v 1.49 2001/02/18 21:19:08 chs Exp $	*/
 
@@ -78,26 +78,6 @@
 /*
  * unimplemented VM system calls:
  */
-
-/*
- * sys_sbrk: sbrk system call.
- */
-
-/* ARGSUSED */
-int
-sys_sbrk(p, v, retval)
-	struct proc *p;
-	void *v;
-	register_t *retval;
-{
-#if 0
-	struct sys_sbrk_args /* {
-		syscallarg(int) incr;
-	} */ *uap = v;
-#endif
-
-	return (ENOSYS);
-}
 
 /*
  * sys_mquery: provide mapping hints to applications that do fixed mappings
