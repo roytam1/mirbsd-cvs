@@ -354,7 +354,7 @@ tftp_read(struct open_file *f, void *addr, size_t size, size_t *resid)
 
 	}
 
-	if (!resid)
+	if (resid)
 		*resid = size;
 	return 0;
 }
