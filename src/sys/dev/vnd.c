@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/vnd.c,v 1.14 2008/06/12 20:19:45 tg Exp $ */
+/**	$MirOS: src/sys/dev/vnd.c,v 1.15 2008/06/12 21:19:25 tg Exp $ */
 /*	$OpenBSD: vnd.c,v 1.85 2008/03/24 01:16:58 krw Exp $	*/
 /*	$NetBSD: vnd.c,v 1.26 1996/03/30 23:06:11 christos Exp $	*/
 
@@ -897,8 +897,11 @@ vndioctl(dev_t dev, u_long cmd, caddr_t addr, int flag, struct proc *p)
 
 		if (vnd->sc_enc_alg && !ksz) {
  VNDIOCSET_encinval:
+			error = EINVAL;
+ VNDIOCSET_encerror:
+			vn_close(nd.ni_vp, VNDRW(vnd), p->p_ucred, p);
 			vndunlock(vnd);
-			return (EINVAL);
+			return (error);
 		}
 
 		switch (vnd->sc_enc_alg) {
