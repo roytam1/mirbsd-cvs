@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.6 2006/01/24 22:24:02 tg Rel $ */
+/* $MirOS: src/include/iconv.h,v 1.1 2006/01/31 14:19:17 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -28,6 +28,11 @@
 
 #include <sys/cdefs.h>
 #include <machine/ansi.h>
+
+#if !defined(_GCC_SIZE_T)
+#define	_GCC_SIZE_T
+typedef	__SIZE_TYPE__	size_t;
+#endif
 
 #ifndef _ICONV_HAVE_ICONV_T
 typedef void *iconv_t;
