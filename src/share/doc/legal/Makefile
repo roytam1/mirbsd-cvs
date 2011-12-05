@@ -1,4 +1,4 @@
-# $MirOS: src/share/doc/legal/Makefile,v 1.1.7.1 2005/03/06 16:17:43 tg Exp $
+# $MirOS: src/share/doc/legal/Makefile,v 1.2 2005/03/20 18:38:37 tg Exp $
 
 BINDIR=	${DOCDIR}/legal
 
@@ -7,8 +7,9 @@ FILES=	1stREAD COPYING-1 COPYING-2 COPYING.LIB-2 COPYING.LIB-2_1 \
 NOPROG=	Yes
 NOMAN=	Yes
 GENFS=	LICENCE-BSD.0 LICENCE-BSD
-ROFFS=	lbsd.mdoc lbsd-adv.mdoc lbsd-ansi.mdoc lbsd-caldera.mdoc \
-	lbsd-darpa.mdoc lbsd-ieee.mdoc lbsd-ucb.mdoc
+ROFFS=	lbsd-adc.mdoc lbsd-adp.mdoc lbsd-adv.mdoc lbsd-ansi.mdoc \
+	lbsd-caldera.mdoc lbsd-darpa.mdoc lbsd-ieee.mdoc \
+	lbsd-ucb.mdoc lbsd.mdoc
 MACROS=	-mdoc
 CLEANFILES+= ${GENFS}
 
