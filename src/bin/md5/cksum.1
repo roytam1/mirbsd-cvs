@@ -1,4 +1,4 @@
-.\"	$MirOS: src/bin/md5/cksum.1,v 1.4 2005/10/21 11:02:35 tg Exp $
+.\"	$MirOS: src/bin/md5/cksum.1,v 1.5 2006/05/09 22:17:33 tg Exp $
 .\"	$OpenBSD: cksum.1,v 1.5 2005/03/07 23:41:53 jmc Exp $
 .\"
 .\" Copyright (c) 2006
@@ -78,13 +78,6 @@ checksum, the number of kilobytes in the input,
 and name of the file or string.
 If no file name is specified, the standard input is used and no file name
 is written.
-.It suma
-The output is a 33-bit
-.Tn CRC
-over the file, expressed as eight sedecimal numbers,
-followed by the input file name.
-If no file name is specified, the standard input is used
-and no file name is written.
 .It sysvsum
 The output line consists of three whitespace separated fields: a
 .Tn CRC
@@ -98,6 +91,10 @@ the name of the algorithm used, the name of the file or string in
 parentheses, an equals sign, and the cryptographic hash of the input.
 If no file name is specified, the standard input is used and only
 the cryptographic hash is output.
+.It suma
+The output is a 33-bit
+.Tn CRC
+over the file, expressed as eight sedecimal numbers, in the above format.
 .El
 .Pp
 The
