@@ -1,4 +1,4 @@
-/**	$MirOS$	*/
+/**	$MirOS: src/sys/lib/libsa/stand.h,v 1.2 2005/03/06 21:28:08 tg Exp $	*/
 /*	$OpenBSD: stand.h,v 1.43 2004/01/03 14:08:53 espie Exp $	*/
 /*	$NetBSD: stand.h,v 1.18 1996/11/30 04:35:51 gwr Exp $	*/
 
@@ -42,10 +42,6 @@
 #include <sys/stdarg.h>
 #include "saioctl.h"
 #include "saerrno.h"
-
-#ifndef NULL
-#define	NULL	((void *)((_BSD_PTRDIFF_T_)0UL))
-#endif
 
 struct open_file;
 

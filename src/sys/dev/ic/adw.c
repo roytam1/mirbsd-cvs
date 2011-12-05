@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/sys/dev/ic/adw.c,v 1.2 2005/03/06 21:27:37 tg Exp $ */
 /* $OpenBSD: adw.c,v 1.28 2004/01/09 21:32:23 brad Exp $ */
 /* $NetBSD: adw.c,v 1.23 2000/05/27 18:24:50 dante Exp $	 */
 
@@ -39,7 +39,6 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <sys/types.h>
 #include <sys/param.h>
 #include <sys/systm.h>
 #include <sys/kernel.h>
@@ -65,6 +64,10 @@
 #ifndef DDB
 #define	Debugger()	panic("should call debugger here (adw.c)")
 #endif				/* ! DDB */
+
+#ifdef __PTRDIFF_TYPE__
+typedef __PTRDIFF_TYPE__ ptrdiff_t;
+#endif
 
 /******************************************************************************/
 
@@ -889,7 +892,7 @@ adw_build_sglist(ccb, scsiqp, sg_block)
 	ADW_SG_BLOCK   *sg_block;
 {
 	u_long          sg_block_next_addr;	/* block and its next */
-	_BSD_PTRDIFF_T_ sg_block_physical_addr;
+	ptrdiff_t	sg_block_physical_addr;
 	int             i;	/* how many SG entries */
 	bus_dma_segment_t *sg_list = &ccb->dmamap_xfer->dm_segs[0];
 	int             sg_elem_cnt = ccb->dmamap_xfer->dm_nsegs;
