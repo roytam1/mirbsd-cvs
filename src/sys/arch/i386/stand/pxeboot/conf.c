@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/pxeboot/conf.c,v 1.3 2005/04/29 18:35:00 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/pxeboot/conf.c,v 1.4 2005/05/05 00:34:29 tg Exp $ */
 /*	$OpenBSD: conf.c,v 1.7 2005/05/03 13:18:05 tom Exp $	*/
 
 /*
@@ -77,7 +77,7 @@ int nibprobes = NENTS(probe_list);
 
 /* This next list must match file_system[]. */
 char *fs_name[] = {
-	NULL, "tftp", "nfs"
+	(void *)0UL, "tftp", "nfs"
 };
 int nfsname = NENTS(fs_name);
 
@@ -125,7 +125,7 @@ struct consdev constab[] = {
 	{ pc_probe, pc_init, pc_getc, pc_putc },
 	{ com_probe, com_init, com_getc, com_putc },
 #endif
-	{ NULL }
+	{ 0 }
 };
 struct consdev *cn_tab = constab;
 

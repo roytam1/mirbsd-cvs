@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/boot/conf.c,v 1.3 2005/04/29 18:34:57 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/boot/conf.c,v 1.4 2005/05/05 00:34:28 tg Exp $ */
 /*	$OpenBSD: conf.c,v 1.32 2005/05/03 13:18:05 tom Exp $	*/
 
 /*
@@ -49,7 +49,7 @@ const char version[] = __BOOT_VER;
 int	debug = 1;
 
 
-void (*sa_cleanup)(void) = NULL;
+void (*sa_cleanup)(void) = (void *)0UL;
 
 
 void (*i386_probe1[])(void) = {
@@ -112,6 +112,6 @@ struct consdev constab[] = {
 	{ pc_probe, pc_init, pc_getc, pc_putc },
 	{ com_probe, com_init, com_getc, com_putc },
 #endif
-	{ NULL }
+	{ 0 }
 };
 struct consdev *cn_tab = constab;

@@ -1,4 +1,4 @@
-/**	$MirOS$	*/
+/**	$MirOS: src/sys/stand/boot/bootarg.c,v 1.2 2005/03/06 21:28:33 tg Exp $	*/
 /*	$OpenBSD: bootarg.c,v 1.10 2003/08/11 06:23:07 deraadt Exp $	*/
 
 /*
@@ -54,7 +54,7 @@ makebootargs(caddr_t v, size_t *lenp)
 
 	/* get total size */
 	l = sizeof(*p);
-	for (p = bootarg_list; p != NULL; p = p->ba_next)
+	for (p = bootarg_list; p; p = p->ba_next)
 		l += p->ba_size;
 	if (*lenp < l) {
 #ifdef DEBUG
@@ -65,7 +65,7 @@ makebootargs(caddr_t v, size_t *lenp)
 	*lenp = l;
 	/* copy them out */
 	for (p = bootarg_list, q = v;
-	     p != NULL && ((q + p->ba_size) - (u_char *)v) < l;
+	     p && ((q + p->ba_size) - (u_char *)v) < l;
 	     q += p->ba_size, p = p->ba_next) {
 #ifdef DEBUG
 		printf("%d,%d ", p->ba_type, p->ba_size);

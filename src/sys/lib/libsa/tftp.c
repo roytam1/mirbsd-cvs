@@ -1,4 +1,4 @@
-/**	$MirOS$	*/
+/**	$MirOS: src/sys/lib/libsa/tftp.c,v 1.2 2005/03/06 21:28:08 tg Exp $	*/
 /*	$OpenBSD: tftp.c,v 1.2 2004/04/02 04:39:51 deraadt Exp $	*/
 /*	$NetBSD: tftp.c,v 1.15 2003/08/18 15:45:29 dsl Exp $	 */
 
@@ -262,7 +262,7 @@ tftp_open(char *path, struct open_file *f)
 	int             res;
 
 	tftpfile = (struct tftp_handle *) alloc(sizeof(*tftpfile));
-	if (tftpfile == NULL)
+	if (!tftpfile)
 		return ENOMEM;
 
 	tftpfile->iodesc = io = socktodesc(*(int *) (f->f_devdata));
@@ -354,7 +354,7 @@ tftp_read(struct open_file *f, void *addr, size_t size, size_t *resid)
 
 	}
 
-	if (resid != NULL)
+	if (!resid)
 		*resid = size;
 	return 0;
 }
