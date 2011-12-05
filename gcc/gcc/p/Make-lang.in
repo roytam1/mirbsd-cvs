@@ -1,4 +1,4 @@
-# $MirOS: gcc/gcc/p/Make-lang.in,v 1.14 2005/11/20 18:02:43 tg Exp $
+# $MirOS: gcc/gcc/p/Make-lang.in,v 1.15 2005/11/22 18:54:56 tg Exp $
 # Top level Makefile fragment for GNU Pascal.
 #
 # Copyright (C) 1987-2005 Free Software Foundation, Inc.
@@ -398,7 +398,7 @@ p/rts/Makefile: $(GCC_PARTS) \
 	src=`cd $(srcdir) && pwd` && \
 	cd ./p/rts && \
 	$(RTS_COMPILERS) CONFIG_SITE=nonexisting-file GCC_NO_WERROR=1 \
-	$(SHELL) $$src/p/rts/configure --silent > /dev/null --srcdir=$$src/p/rts \
+	$(SHELL) $$src/p/rts/configure --srcdir=$$src/p/rts \
 	 `if [ x$(WITH_SHARED) = xyes ]; then echo '--with-shared'; fi`
 
 pascal.rts: p/rts/Makefile xgpc$(exeext) gpc1$(exeext)
