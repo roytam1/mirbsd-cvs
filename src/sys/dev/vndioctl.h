@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/vndioctl.h,v 1.4 2008/06/12 18:53:09 tg Exp $	*/
+/**	$MirOS: src/sys/dev/vndioctl.h,v 1.5 2008/06/12 20:19:46 tg Exp $	*/
 /*	$OpenBSD: vndioctl.h,v 1.6 2004/06/20 18:03:03 pedro Exp $	*/
 /*	$NetBSD: vndioctl.h,v 1.5 1995/01/25 04:46:30 cgd Exp $	*/
 
@@ -65,8 +65,12 @@ struct vnd_ioctl {
  */
 #define VNDIOC_KSZ_BLF		72	/* 576 bit (448 bit used) */
 #define VNDIOC_KSZ_BF_CBC	88	/* 16 bytes salt, 72 bytes key */
-
 #define VNDIOC_MAXKSZ		88	/* largest of the above */
+
+#define VNDIOC_BSZ_BLF		8	/* blowfish has 64 bit blocks */
+#define VNDIOC_BSZ_BF_CBC	8	/* dito (unused) */
+#define VNDIOC_MAXBSZ		8	/* largest of the above */
+
 #define VNDIOC_IVSZ		16	/* size of the salt/IV */
 
 /*

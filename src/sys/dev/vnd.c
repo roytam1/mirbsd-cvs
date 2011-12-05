@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/vnd.c,v 1.13 2008/06/12 18:53:09 tg Exp $ */
+/**	$MirOS: src/sys/dev/vnd.c,v 1.14 2008/06/12 20:19:45 tg Exp $ */
 /*	$OpenBSD: vnd.c,v 1.85 2008/03/24 01:16:58 krw Exp $	*/
 /*	$NetBSD: vnd.c,v 1.26 1996/03/30 23:06:11 christos Exp $	*/
 
@@ -133,6 +133,7 @@ struct vnd_ctx {
 		void *ctx_ptr;			/* pointer for malloc/free */
 		blf_ctx *blowfish;		/* key for BLF, BF_CBC */
 	} key;
+	uint8_t alg;				/* algorithm to use */
 };
 
 struct vnd_softc {
@@ -150,6 +151,7 @@ struct vnd_softc {
 #define sc_enc_len	sc_enc.len
 #define sc_enc_ptr	sc_enc.key.ctx_ptr
 #define sc_enc_blf	sc_enc.key.blowfish
+#define sc_enc_alg	sc_enc.alg
 };
 
 /* sc_flags */
@@ -180,6 +182,9 @@ void	vndiodone(struct buf *);
 void	vndshutdown(void);
 void	vndgetdisklabel(dev_t, struct vnd_softc *, struct disklabel *, int);
 void	vndencrypt(struct vnd_softc *, caddr_t, size_t, daddr_t, int);
+void	vndmkiv(u_char *, u_char *, size_t, daddr_t)
+    __attribute__((bounded (string, 1, 3)))
+    __attribute__((bounded (minbytes, 2, VNDIOC_IVSZ)));
 size_t	vndbdevsize(struct vnode *, struct proc *);
 
 int	vndlock(struct vnd_softc *);
@@ -189,22 +194,48 @@ void
 vndencrypt(struct vnd_softc *vnd, caddr_t addr, size_t size, daddr_t off,
     int encrypt)
 {
-	int i, bsize;
-	u_char iv[8];
+	size_t i, n;
+	u_char iv[VNDIOC_MAXBSZ];
 
-	bsize = dbtob(1);
-	for (i = 0; i < size/bsize; i++) {
-		bzero(iv, sizeof(iv));
-		bcopy((u_char *)&off, iv, sizeof(off));
-		blf_ecb_encrypt(vnd->sc_enc_blf, iv, sizeof(iv));
-		if (encrypt)
-			blf_cbc_encrypt(vnd->sc_enc_blf, iv, addr, bsize);
-		else
-			blf_cbc_decrypt(vnd->sc_enc_blf, iv, addr, bsize);
+	n = dbtob(1);
+	for (i = 0; i < size/n; i++) {
+		switch (vnd->sc_enc_alg) {
+		case VNDIOC_ALG_BLF:
+			bzero(iv, sizeof (iv));
+			bcopy((u_char *)&off, iv, sizeof (off));
+			goto vndencrypt_blowfish;
+		case VNDIOC_ALG_BF_CBC:
+			vndmkiv(iv, vnd->sc_enc_iv, VNDIOC_BSZ_BLF, off);
+ vndencrypt_blowfish:
+			blf_ecb_encrypt(vnd->sc_enc_blf, iv, VNDIOC_BSZ_BLF);
+			if (encrypt)
+				blf_cbc_encrypt(vnd->sc_enc_blf, iv, addr, n);
+			else
+				blf_cbc_decrypt(vnd->sc_enc_blf, iv, addr, n);
+			break;
+		}
 
-		addr += bsize;
+		addr += n;
 		off++;
 	}
+}
+
+void
+vndmkiv(u_char *dst, u_char *src, size_t numbytes, daddr_t off)
+{
+	size_t n;
+	uint64_t xoff[VNDIOC_IVSZ / sizeof (uint64_t)];
+
+	/* xoff has two elements, since VNDIOC_IVSZ == 16 */
+	xoff[0] = (uint64_t)off;
+	xoff[1] = ~((uint64_t)off);
+
+	n = MIN(numbytes, VNDIOC_IVSZ);
+	bcopy(xoff, dst, n);
+
+	n = MAX(numbytes, VNDIOC_IVSZ);
+	while (n--)
+		dst[n % numbytes] ^= src[n % VNDIOC_IVSZ];
 }
 
 void
@@ -772,7 +803,7 @@ vndioctl(dev_t dev, u_long cmd, caddr_t addr, int flag, struct proc *p)
 	struct vnd_user *vnu;
 	struct vattr vattr;
 	struct nameidata nd;
-	int error, part, pmask, s;
+	int error, part, pmask, s, ksz;
 
 	DNPRINTF(VDB_FOLLOW, "vndioctl(%x, %lx, %p, %x, %p): unit %d\n",
 	    dev, cmd, addr, flag, p, unit);
@@ -857,29 +888,65 @@ vndioctl(dev_t dev, u_long cmd, caddr_t addr, int flag, struct proc *p)
 			return (error);
 		}
 
-		if (vio->vnd_keylen > 0) {
+		vnd->sc_enc_alg = vio->vnd_options >> VNDIOC_ALGSHIFT;
+		if (vio->vnd_keylen <= 0)
+			ksz = 0;
+		else
+			ksz = MAX(vio->vnd_keylen, VNDIOC_MAXKSZ);
+		vnd->sc_enc_len = 0;
+
+		if (vnd->sc_enc_alg && !ksz) {
+ VNDIOCSET_encinval:
+			vndunlock(vnd);
+			return (EINVAL);
+		}
+
+		switch (vnd->sc_enc_alg) {
+		case VNDIOC_ALG_BLF:
+			ksz = MAX(ksz, VNDIOC_KSZ_BLF);
+			break;
+		case VNDIOC_ALG_BF_CBC:
+			ksz = MAX(ksz, VNDIOC_KSZ_BF_CBC);
+			if (ksz <= VNDIOC_IVSZ)
+				goto VNDIOCSET_encinval;
+			break;
+		default:
+			goto VNDIOCSET_encinval;
+		}
+
+		if (ksz) {
 			char key[VNDIOC_MAXKSZ];
 
-			if (vio->vnd_keylen > sizeof(key))
-				vio->vnd_keylen = sizeof(key);
-
-			if ((error = copyin(vio->vnd_key, key,
-			    vio->vnd_keylen)) != 0) {
+			if ((error = copyin(vio->vnd_key, key, ksz)) != 0) {
 				(void) vn_close(nd.ni_vp, VNDRW(vnd),
 				    p->p_ucred, p);
 				vndunlock(vnd);
 				return (error);
 			}
 
-			// XXX BLF
-			bzero(vnd->sc_enc_iv, VNDIOC_IVSZ);
-			vnd->sc_enc_len = sizeof (*vnd->sc_enc_blf);
+			switch (vnd->sc_enc_alg) {
+			case VNDIOC_ALG_BLF:
+			case VNDIOC_ALG_BF_CBC:
+				vnd->sc_enc_len = sizeof (*vnd->sc_enc_blf);
+				break;
+			}
 			vnd->sc_enc_ptr = malloc(vnd->sc_enc_len, M_DEVBUF,
 			    M_WAITOK);
-			blf_key(vnd->sc_enc_blf, key, vio->vnd_keylen);
-			bzero(key, vio->vnd_keylen);
-		} else
-			vnd->sc_enc_len = 0;
+
+			switch (vnd->sc_enc_alg) {
+			case VNDIOC_ALG_BLF:
+				bzero(vnd->sc_enc_iv, VNDIOC_IVSZ);
+				blf_key(vnd->sc_enc_blf, key, ksz);
+				break;
+			case VNDIOC_ALG_BF_CBC:
+				bcopy(key, vnd->sc_enc_iv, VNDIOC_IVSZ);
+				blf_key(vnd->sc_enc_blf, key + VNDIOC_IVSZ,
+				    ksz - VNDIOC_IVSZ);
+				break;
+			}
+
+			bzero(key, sizeof (key));
+		}
 
 		vio->vnd_size = dbtob((off_t)vnd->sc_size);
 		vnd->sc_flags |= VNF_INITED;
