@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/vnd.c,v 1.12 2008/06/12 17:59:04 tg Exp $ */
+/**	$MirOS: src/sys/dev/vnd.c,v 1.13 2008/06/12 18:53:09 tg Exp $ */
 /*	$OpenBSD: vnd.c,v 1.85 2008/03/24 01:16:58 krw Exp $	*/
 /*	$NetBSD: vnd.c,v 1.26 1996/03/30 23:06:11 christos Exp $	*/
 
@@ -127,7 +127,7 @@ struct pool     vndbufpl;
 #define	putvndbuf(vbp)	pool_put(&vndbufpl, vbp);
 
 struct vnd_ctx {
-	u_char iv[16];				/* encryption IV (!BLF) */
+	u_char iv[VNDIOC_IVSZ];			/* encryption IV (!BLF) */
 	size_t len;				/* key context size */
 	union {
 		void *ctx_ptr;			/* pointer for malloc/free */
@@ -872,7 +872,7 @@ vndioctl(dev_t dev, u_long cmd, caddr_t addr, int flag, struct proc *p)
 			}
 
 			// XXX BLF
-			bzero(vnd->sc_enc_iv, 16);
+			bzero(vnd->sc_enc_iv, VNDIOC_IVSZ);
 			vnd->sc_enc_len = sizeof (*vnd->sc_enc_blf);
 			vnd->sc_enc_ptr = malloc(vnd->sc_enc_len, M_DEVBUF,
 			    M_WAITOK);

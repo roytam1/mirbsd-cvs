@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/vndioctl.h,v 1.3 2005/04/30 22:54:21 tg Exp $	*/
+/**	$MirOS: src/sys/dev/vndioctl.h,v 1.4 2008/06/12 18:53:09 tg Exp $	*/
 /*	$OpenBSD: vndioctl.h,v 1.6 2004/06/20 18:03:03 pedro Exp $	*/
 /*	$NetBSD: vndioctl.h,v 1.5 1995/01/25 04:46:30 cgd Exp $	*/
 
@@ -67,6 +67,7 @@ struct vnd_ioctl {
 #define VNDIOC_KSZ_BF_CBC	88	/* 16 bytes salt, 72 bytes key */
 
 #define VNDIOC_MAXKSZ		88	/* largest of the above */
+#define VNDIOC_IVSZ		16	/* size of the salt/IV */
 
 /*
  * A simple structure used by userland to query about a specific vnd.
