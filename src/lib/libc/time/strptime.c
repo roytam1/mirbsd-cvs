@@ -1,4 +1,4 @@
-/**	$MirOS: src/lib/libc/time/strptime.c,v 1.3 2005/09/22 20:33:01 tg Exp $ */
+/**	$MirOS: src/lib/libc/time/strptime.c,v 1.4 2009/05/30 18:42:38 tg Exp $ */
 /*	$OpenBSD: strptime.c,v 1.12 2008/06/26 05:42:05 ray Exp $ */
 /*	$NetBSD: strptime.c,v 1.12 1998/01/20 21:39:40 mycroft Exp $	*/
 
@@ -43,7 +43,15 @@
 #include <time.h>
 #include <tzfile.h>
 
-__RCSID("$MirOS: src/lib/libc/time/strptime.c,v 1.3 2005/09/22 20:33:01 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/time/strptime.c,v 1.4 2009/05/30 18:42:38 tg Exp $");
+
+/*
+ * Evil hack for const correctness due to API brokenness
+ */
+union mksh_cchack {
+	char *rw;
+	const char *ro;
+};
 
 #define	_ctloc(x)		(_DefaultTimeLocale.x)
 
@@ -74,6 +82,7 @@ _strptime(const char *buf, const char *fmt, struct tm *tm, int initialize)
 	size_t len = 0;
 	int alt_format, i;
 	static int century, relyear;
+	union mksh_cchack rv;
 
 	if (initialize) {
 		century = TM_YEAR_BASE;
@@ -355,9 +364,9 @@ literal:
 
 #ifndef TIME_MAX
 #ifdef _BSD_TIME_T_IS_64_BIT
-#define TIME_MAX	INT32_MAX
-#else
 #define TIME_MAX	INT64_MAX
+#else
+#define TIME_MAX	INT32_MAX
 #endif
 #endif
 		case 's':	/* seconds since the epoch */
@@ -450,7 +459,8 @@ literal:
 		}
 	}
 
-	return ((char *)bp);
+	rv.ro = bp;
+	return (rv.rw);
 }
 
 
