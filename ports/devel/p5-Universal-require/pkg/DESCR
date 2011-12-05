@@ -1,3 +1,0 @@
-This module creates a universal require() class method that will work
-with every Perl module and is secure. It works exactly like Perl's
-require, except without the bareword restriction, and it doesn't die.

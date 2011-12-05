@@ -1,6 +1,0 @@
-@comment $OpenBSD: PLIST,v 1.2 2002/11/13 19:04:53 naddy Exp $
-@unexec install-info --delete --info-dir=%D/info %D/info/help2man.info
-bin/help2man
-info/help2man.info
-man/man1/help2man.1
-@exec install-info --info-dir=%D/info %D/info/help2man.info
