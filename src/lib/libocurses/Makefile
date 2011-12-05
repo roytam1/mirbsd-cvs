@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libocurses/Makefile,v 1.2 2005/03/06 20:29:11 tg Exp $
+# $MirOS: src/lib/libocurses/Makefile,v 1.3 2005/10/21 11:02:49 tg Exp $
 # $OpenBSD: Makefile,v 1.8 2002/06/24 18:03:30 tholo Exp $
 
 #CPPFLAGS+=	-DTFILE=\"/dev/ttyp0\"
@@ -29,10 +29,27 @@ includes:
 # Link libotermcap to libocurses for programs that need full compatibility
 # with the old termcap behavior
 afterinstall:
-	-cd ${DESTDIR}${LIBDIR}; \
-	for i in ${_LIBS}; do \
-		[[ ! -e $$i ]] || \
-		    ln -f $$i `echo $$i | sed 's/ocurses/otermcap/'`; \
+	cd ${DESTDIR}${LIBDIR}; l=; for i in ${_LIBS}; do \
+		[[ -e $$i ]] || continue; \
+		for j in otermcap; do \
+			k=$$(print $$i | sed "s/${LIB}/$$j/"); \
+			case $$i { \
+			(*.a|*.la) \
+				ln -f $$i $$k ;; \
+			(*.so.*) \
+				rm -f $$k; \
+				if [[ -z $$l ]]; then \
+					print 'GROUP(-l${LIB})' >$$k; \
+					chown ${BINOWN}:${BINGRP} $$k; \
+					chmod ${NONBINMODE} $$k; \
+					l=$$k; \
+				else \
+					ln -f $$l $$k; \
+				fi ;; \
+			(*) \
+				print "warning: cannot handle '$$i'" ;; \
+			} \
+		done; \
 	done
 
 .include <bsd.lib.mk>
