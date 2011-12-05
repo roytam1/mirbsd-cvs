@@ -30,7 +30,7 @@
 #include <sys/types.h>
 #include <rmd160.h>
 
-__RCSID("$MirOS: src/lib/libc/hash/rmd160.c,v 1.2 2005/02/27 12:46:08 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/hash/rmd160.c,v 1.3 2005/09/22 20:09:06 tg Exp $");
 
 #define PUT_64BIT_LE(cp, value) do {                                    \
 	(cp)[7] = (value) >> 56;                                        \
@@ -83,10 +83,12 @@ __RCSID("$MirOS: src/lib/libc/hash/rmd160.c,v 1.2 2005/02/27 12:46:08 tg Exp $")
 
 #define X(i)	x[i]
 
-static u_int8_t PADDING[RMD160_BLOCK_LENGTH] = {
-	0x80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+/* XXX this should be non-static and exported */
+static const uint8_t RFC1321_padding[64] = {
+	0x80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 };
 
 void
@@ -131,18 +133,14 @@ void
 RMD160Pad(RMD160_CTX *ctx)
 {
 	u_int8_t size[8];
-	size_t padlen;
 
 	PUT_64BIT_LE(size, ctx->count);
 
 	/*
 	 * pad to RMD160_BLOCK_LENGTH byte blocks, at least one byte from
-	 * PADDING plus 8 bytes for the size
+	 * RFC1321_padding plus 8 bytes for the size
 	 */
-	padlen = RMD160_BLOCK_LENGTH - ((ctx->count / 8) % RMD160_BLOCK_LENGTH);
-	if (padlen < 1 + 8)
-		padlen += RMD160_BLOCK_LENGTH;
-	RMD160Update(ctx, PADDING, padlen - 8);		/* padlen - 8 <= 64 */
+	RMD160Update(ctx, RFC1321_padding, 64 - (((ctx->count >> 3) + 8) & 63));
 	RMD160Update(ctx, size, 8);
 }
 

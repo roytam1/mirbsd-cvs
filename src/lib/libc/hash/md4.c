@@ -22,6 +22,8 @@
 #include <string.h>
 #include <md4.h>
 
+__RCSID("$MirOS$");
+
 #define PUT_64BIT_LE(cp, value) do {					\
 	(cp)[7] = (value) >> 56;					\
 	(cp)[6] = (value) >> 48;					\
@@ -38,10 +40,12 @@
 	(cp)[1] = (value) >> 8;						\
 	(cp)[0] = (value); } while (0)
 
-static u_int8_t PADDING[MD4_BLOCK_LENGTH] = {
-	0x80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+/* XXX this should be non-static and exported */
+static const uint8_t RFC1321_padding[64] = {
+	0x80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 };
 
 /*
@@ -104,17 +108,11 @@ void
 MD4Pad(MD4_CTX *ctx)
 {
 	u_int8_t count[8];
-	size_t padlen;
 
 	/* Convert count to 8 bytes in little endian order. */
 	PUT_64BIT_LE(count, ctx->count);
 
-	/* Pad out to 56 mod 64. */
-	padlen = MD4_BLOCK_LENGTH -
-	    ((ctx->count >> 3) & (MD4_BLOCK_LENGTH - 1));
-	if (padlen < 1 + 8)
-		padlen += MD4_BLOCK_LENGTH;
-	MD4Update(ctx, PADDING, padlen - 8);		/* padlen - 8 <= 64 */
+	MD4Update(ctx, RFC1321_padding, 64 - (((ctx->count >> 3) + 8) & 63));
 	MD4Update(ctx, count, 8);
 }
 
