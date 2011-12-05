@@ -1,5 +1,5 @@
-/**	$MirOS: src/sys/dev/vnd.c,v 1.22 2008/06/14 22:28:08 tg Exp $ */
-/*	$OpenBSD: vnd.c,v 1.85 2008/03/24 01:16:58 krw Exp $	*/
+/**	$MirOS: src/sys/dev/vnd.c,v 1.23 2008/07/09 23:20:49 tg Exp $ */
+/*	$OpenBSD: vnd.c,v 1.88 2008/07/23 16:24:43 beck Exp $	*/
 /*	$NetBSD: vnd.c,v 1.26 1996/03/30 23:06:11 christos Exp $	*/
 
 /*
@@ -754,6 +754,8 @@ vndiodone(struct buf *bp)
 		    vbp->vb_buf.b_error);
 
 		pbp->b_flags |= B_ERROR;
+		/* XXX does this matter here? */
+		(&vbp->vb_buf)->b_flags |= B_RAW;
 		pbp->b_error = biowait(&vbp->vb_buf);
 	}
 	pbp->b_resid -= vbp->vb_buf.b_bcount;
