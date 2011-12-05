@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/miniroot/dot.profile,v 1.3 2005/07/14 22:02:13 tg Exp $
+# $MirOS: src/distrib/miniroot/dot.profile,v 1.4 2006/01/13 03:01:30 tg Exp $
 # $OpenBSD: dot.profile,v 1.4 2002/09/13 21:38:47 deraadt Exp $
 # $NetBSD: dot.profile,v 1.1 1995/12/18 22:54:43 pk Exp $
 #
@@ -116,6 +116,7 @@ This work is provided "AS IS" and WITHOUT WARRANTY of any kind.\n'
 		}
 	done
 fi
+export TERM=vt220
 echo -n '\nAvailable editor: ed'
 [ -s /ed.hlp ] && echo -n ' - help with # less /ed.hlp'
 echo '\n'
