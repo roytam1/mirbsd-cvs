@@ -1,3 +1,0 @@
-@comment $MirOS$
-@comment $OpenBSD: PFRAG.shared,v 1.3 2003/08/01 03:03:17 jolan Exp $
-@lib lib/libgnet-2.0.so.0.4

@@ -1,5 +1,0 @@
-tinyirc is a small IRC client with basic support for
-the RANDEX protocol (slave only), SIGWINCH, NickServ
-via /NS, and a couple of bug fixes by MirBSD™.
-
-It is also included on the MirOS baselive CDs.
