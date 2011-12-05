@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libz/Makefile,v 1.16 2006/01/24 13:12:47 tg Exp $
+# $MirOS: src/lib/libz/Makefile,v 1.17 2006/01/24 13:13:01 tg Exp $
 # $OpenBSD: Makefile,v 1.13 2005/07/20 21:29:00 jmc Exp $
 
 SHLIB_VERSION?=	5.3
@@ -13,10 +13,6 @@ CPPFLAGS+=	-I.
 GENHDRS=	crc32.h inffixed.h trees.h
 CLEANFILES+=	mk_crc32 mk_crc32.c mk_inffixed mk_inffixed.c \
 		mk_trees mk_trees.c ${GENHDRS}
-
-# MirOS extension
-SRCS+=		gzfopen.c
-MAN+=		gzfopen.3
 
 MLINKS=	compress.3 zlibVersion.3 compress.3 deflateInit.3 \
 	compress.3 deflate.3 compress.3 deflateEnd.3 \
@@ -48,6 +44,11 @@ MLINKS=	compress.3 zlibVersion.3 compress.3 deflateInit.3 \
 	compress.3 gzclearerr.3 \
 	compress.3 adler32.3 compress.3 adler32_combine.3 \
 	compress.3 crc32.3 compress.3 crc32_combine.3
+
+# MirOS extension
+SRCS+=		gzfopen.c
+MAN+=		gzfopen.3
+MLINKS+=	gzfopen.3 gzfdopen.3
 
 includes:
 .for _i in ${HDRS}
