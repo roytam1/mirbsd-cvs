@@ -1,4 +1,4 @@
-# $MirOS: gcc/Makefile.inc,v 1.16 2005/11/22 18:54:56 tg Exp $
+# $MirOS: gcc/Makefile.inc,v 1.17 2005/11/22 19:38:53 tg Exp $
 
 .ifndef _MODGCC_MAKEFILE_INC
 _MODGCC_MAKEFILE_INC=1
@@ -29,7 +29,6 @@ NO_THREADS=	Yes
 .else
 GCC_NATIVE=	No
 NO_ADA?=	Yes	# helps bootstrapping
-NO_PASCAL?=	Yes	# not ready for prime time yet
 NO_JAVA=	Yes	# never
 NO_THREADS=	Yes
 OBJC_GC=	--disable-objc-gc

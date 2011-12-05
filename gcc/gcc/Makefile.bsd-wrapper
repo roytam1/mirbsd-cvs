@@ -1,4 +1,4 @@
-# $MirOS: gcc/gcc/Makefile.bsd-wrapper,v 1.25 2005/11/22 18:17:19 tg Exp $
+# $MirOS: gcc/gcc/Makefile.bsd-wrapper,v 1.26 2005/11/22 19:38:53 tg Exp $
 
 .include <bsd.own.mk>
 .include "${GNUSYSTEM_AUX_DIR}/locations.mk"
@@ -61,7 +61,7 @@ M_CPP=		mcpp
 .else
 _LIBERTY?=	${GNU_LIBIBERTY_SRC}/obj/libiberty.a
 XARGS+=		BUILD_LIBIBERTY="${_LIBERTY}" LIBIBERTY="${_LIBERTY}" \
-		SUB_LIBERTY="${_LIBERTY}" STMP_FIXINC=stmp-fixinc
+		SUB_LIBERTY="${_LIBERTY}" WITH_SHARED_LIBGPC=no
 M_CPP=		cpp
 .endif
 
