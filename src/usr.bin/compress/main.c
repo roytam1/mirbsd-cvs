@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.bin/compress/main.c,v 1.7 2005/11/24 11:53:21 tg Exp $ */
+/**	$MirOS: src/usr.bin/compress/main.c,v 1.8 2006/05/29 18:28:03 tg Exp $ */
 /*	$OpenBSD: main.c,v 1.64 2005/07/11 14:16:47 millert Exp $	*/
 
 #ifndef SMALL
@@ -53,7 +53,7 @@ static const char license[] =
 #include <paths.h>
 #include "compress.h"
 
-__RCSID("$MirOS: src/usr.bin/compress/main.c,v 1.7 2005/11/24 11:53:21 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/compress/main.c,v 1.8 2006/05/29 18:28:03 tg Exp $");
 
 #define min(a,b) ((a) < (b)? (a) : (b))
 
@@ -414,6 +414,10 @@ main(int argc, char *argv[])
 
 		if (verbose > 0 && !pipin && !list)
 			fprintf(stderr, "%s:\t", infile);
+
+		if (!strcmp(infile, outfile))
+			errx(1, "Would overwrite infile '%s' with outfile, aborting.",
+			    infile);
 
 		error = (decomp ? dodecompress : docompress)
 		    (infile, outfile, method, bits, entry->fts_statp);
