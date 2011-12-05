@@ -1,4 +1,4 @@
-# $MirOS: gcc/gcc/configure.ac,v 1.2 2005/03/25 19:29:03 tg Exp $
+# $MirOS: gcc/gcc/configure.ac,v 1.3 2005/06/15 21:32:18 tg Exp $
 #
 # configure.ac for GCC
 # Process this file with autoconf to generate a configuration script.
@@ -55,7 +55,7 @@ AC_ARG_PROGRAM
 # - two terminals occur directly after each other
 # - the path contains an element with a dot in it
 AC_MSG_CHECKING(LIBRARY_PATH variable)
-changequote(,)dnl
+changequote(,)
 case ${LIBRARY_PATH} in
   [:\;]* | *[:\;] | *[:\;][:\;]* |  *[:\;]. | .[:\;]*| . | *[:\;].[:\;]* )
     library_path_setting="contains current directory"
@@ -64,7 +64,7 @@ case ${LIBRARY_PATH} in
     library_path_setting="ok"
     ;;
 esac
-changequote([,])dnl
+changequote([,])
 AC_MSG_RESULT($library_path_setting)
 if test "$library_path_setting" != "ok"; then
 AC_MSG_ERROR([
