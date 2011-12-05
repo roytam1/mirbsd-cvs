@@ -1,7 +1,8 @@
-/**	$MirOS: src/lib/libc/sys/stack_protector.c,v 1.6 2006/09/30 20:37:12 tg Exp $ */
+/**	$MirOS: src/lib/libc/sys/stack_protector.c,v 1.7 2008/10/16 14:45:57 tg Exp $ */
 /*	$OpenBSD: stack_protector.c,v 1.10 2006/03/31 05:34:44 deraadt Exp $	*/
 
 /*
+ * Copyright (c) 2009 Thorsten Glaser
  * Copyright (c) 2002 Hiroaki Etoh, Federico G. Schwindt, and Miodrag Vallat.
  * All rights reserved.
  *
@@ -35,7 +36,7 @@
 #include <syslog.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: src/lib/libc/sys/stack_protector.c,v 1.6 2006/09/30 20:37:12 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/sys/stack_protector.c,v 1.7 2008/10/16 14:45:57 tg Exp $");
 
 #if (defined(__SSP__) || defined(__SSP_ALL__)) && \
     !defined(__IN_MKDEP) && !defined(lint)
@@ -44,15 +45,19 @@ __RCSID("$MirOS: src/lib/libc/sys/stack_protector.c,v 1.6 2006/09/30 20:37:12 tg
 
 #ifdef lint
 #define	CONSTRUCTOR
+#elif defined(__PCC__)
+#define	CONSTRUCTOR	_Pragma("init")
 #else
-#define	CONSTRUCTOR	static
+#define	CONSTRUCTOR	static __attribute__((constructor))
 #endif
 
 extern int __sysctl(int *, u_int, void *, size_t *, void *, size_t);
 
-long __guard[8] = {0, 0, 0, 0, 0, 0, 0, 0};
-CONSTRUCTOR void __guard_setup(void) __attribute__((constructor));
-__dead void __stack_smash_handler(char func[], int damaged);
+long __guard[8] = {0, 0, 0, 0, 0, 0, 0, 0};	/* gcc */
+int __stack_chk_guard;				/* pcc */
+CONSTRUCTOR void __guard_setup(void);
+__dead void __stack_smash_handler(const char func[], int damaged);
+__dead void __stack_chk_fail(void);
 
 CONSTRUCTOR void
 __guard_setup(void)
@@ -76,11 +81,12 @@ __guard_setup(void)
 		guard[2] = '\n';
 		guard[3] = 255;
 	}
+	memcpy(&__stack_chk_guard, guard, sizeof (__stack_chk_guard));
 }
 
 /* ARGSUSED1 */
 void
-__stack_smash_handler(char func[], __unused int damaged)
+__stack_smash_handler(const char func[], __unused int damaged)
 {
 	struct syslog_data sdata = SYSLOG_DATA_INIT;
 	const char message[] = "stack overflow in function %s";
@@ -104,4 +110,10 @@ __stack_smash_handler(char func[], __unused int damaged)
 	kill(getpid(), SIGABRT);
 
 	_exit(127);
+}
+
+void
+__stack_chk_fail(void)
+{
+	__stack_smash_handler("unknown (pcc)", 0);
 }
