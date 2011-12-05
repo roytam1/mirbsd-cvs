@@ -1,12 +1,14 @@
-# $MirOS: src/lib/libssl/ssl/Makefile,v 1.7 2006/03/27 18:28:07 tg Exp $
+# $MirOS: src/lib/libssl/ssl/Makefile,v 1.8 2006/03/27 19:19:14 tg Exp $
 # $OpenBSD: Makefile,v 1.21 2005/11/24 20:49:23 deraadt Exp $
 
 SHLIB_VERSION?=	11.0
 LIB=		ssl
+DPADD+=		${LIBCRYPTO}
+LDADD+=		-lcrypto
 
-SSLEAYDIST= src
+SSLEAYDIST=	src
 
-LSSL_SRC= ${.CURDIR}/../${SSLEAYDIST}/ssl
+LSSL_SRC=	${.CURDIR}/../${SSLEAYDIST}/ssl
 
 .if ${MACHINE_ARCH} == "i386"
 CPPFLAGS+= -DBN_ASM
