@@ -35,7 +35,7 @@
 
 #include "ntpd.h"
 
-__RCSID("$MirOS: src/usr.sbin/ntpd/ntpd.c,v 1.15 2007/07/31 20:32:47 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/ntpd/ntpd.c,v 1.16 2007/09/26 12:44:47 tg Exp $");
 
 void		sighdlr(int);
 __dead void	usage(void);
@@ -43,7 +43,7 @@ int		main(int, char *[]);
 int		check_child(pid_t, const char *);
 int		dispatch_imsg(struct ntpd_conf *);
 void		reset_adjtime(void);
-int		ntpd_adjtime(double);
+int		ntpd_adjtime(double, int);
 void		ntpd_settime(double);
 
 volatile sig_atomic_t	 quit = 0;
@@ -277,7 +277,7 @@ dispatch_imsg(struct ntpd_conf *conf)
 			if (imsg.hdr.len != IMSG_HEADER_SIZE + sizeof(d))
 				fatalx("invalid IMSG_ADJTIME received");
 			memcpy(&d, imsg.data, sizeof(d));
-			n = ntpd_adjtime(d);
+			n = ntpd_adjtime(d, conf->trace);
 			imsg_compose(ibuf, IMSG_ADJTIME, 0, 0, &n, sizeof(n));
 			break;
 		case IMSG_SETTIME:
@@ -335,7 +335,7 @@ reset_adjtime(void)
 }
 
 int
-ntpd_adjtime(double d)
+ntpd_adjtime(double d, int trace)
 {
 	struct timeval	tv, olddelta;
 	double		o;
@@ -345,7 +345,7 @@ ntpd_adjtime(double d)
 	d_to_tv(d, &tv);
 	rv = adjtime(&tv, &olddelta);
 	o = (double)olddelta.tv_sec + (double)olddelta.tv_usec / 1000000.;
-	if (d >= LOG_NEGLIGEE / 1000. || d <= LOG_NEGLIGEE / -1000.)
+	if (trace || d >= LOG_NEGLIGEE / 1000. || d <= LOG_NEGLIGEE / -1000.)
 		log_info("adjusting local clock by %fs, old drift %fs", d, o);
 	else
 		log_debug("adjusting local clock by %fs, old drift %fs", d, o);
