@@ -1,4 +1,4 @@
-$MirOS: src/sys/dev/pci/pcidevs,v 1.10 2006/05/26 13:32:43 tg Exp $
+$MirOS: src/sys/dev/pci/pcidevs,v 1.12 2006/06/07 20:46:13 tg Exp $
 /*	$NetBSD: pcidevs,v 1.580 2003/09/26 07:45:15 matt Exp $		*/
 /*	$OpenBSD: pcidevs,v 1.901 2005/08/01 22:52:47 brad Exp $	*/
 /*	$NetBSD: pcidevs,v 1.30 1997/06/24 06:20:24 thorpej Exp $ 	*/
@@ -586,6 +586,7 @@ vendor	HAWKING		0x17b3	Hawking Technology
 vendor	INPROCOMM	0x17fe	INPROCOMM
 vendor	LANERGY		0x1812	Lanergy
 vendor	RALINK		0x1814	Ralink
+vendor	QUMRANET	0x1af4	Qumranet
 vendor	SYMPHONY2	0x1c1c	Symphony Labs
 vendor	TEKRAM2		0x1de1	Tekram Technology
 vendor	HINT		0x3388	Hint
@@ -2721,6 +2722,12 @@ product QLOGIC ISP6312		0x6312	ISP6312
 /* Quantum Designs products */
 product QUANTUMDESIGNS 8500	0x0001	8500
 product QUANTUMDESIGNS 8580	0x0002	8580
+
+/* Qumranet */
+product QUMRANET VIRTIO_1000	0x1000	VirtIO Network
+product QUMRANET VIRTIO_1001	0x1001	VirtIO Block
+product QUMRANET VIRTIO_1002	0x1002	VirtIO Balloon
+product QUMRANET VIRTIO_1003	0x1003	VirtIO Console
 
 /* Ralink Technology Corporation */
 product RALINK RT2460A		0x0101	RT2460A
