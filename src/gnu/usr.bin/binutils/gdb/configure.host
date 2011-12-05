@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.bin/binutils/gdb/configure.host,v 1.2 2005/04/19 20:13:12 tg Exp $
+# $MirOS: src/gnu/usr.bin/binutils/gdb/configure.host,v 1.3 2005/06/05 21:24:16 tg Exp $
 # Mapping of configurations into GDB host definitions.  This is
 # invoked from the autoconf generated configure script.
 
@@ -61,7 +61,7 @@ i[34567]86-ncr-*)	gdb_host=ncr3000 ;;
 i[34567]86-*-dgux*)	gdb_host=i386v4 ;;
 i[34567]86-*-freebsd* | i[34567]86-*-kfreebsd*-gnu)
 			gdb_host=fbsd ;;
-i386-*-mirbsd*)		gdb_host=obsd ;;
+i386-*-mirbsd*)		gdb_host=mbsd ;;
 i[34567]86-*-netbsdelf* | i[34567]86-*-knetbsd*-gnu)
 			gdb_host=nbsdelf ;;
 i[34567]86-*-netbsd*)	gdb_host=nbsdaout ;;
@@ -107,7 +107,6 @@ mips64*-*-openbsd*)	gdb_host=obsd64 ;;
 
 powerpc-*-aix*)		gdb_host=aix ;;
 powerpc-*-linux*)	gdb_host=linux ;;
-powerpc-*-mirbsd*)	gdb_host=obsd ;;
 powerpc-*-netbsd* | powerpc-*-knetbsd*-gnu)
 			gdb_host=nbsd ;;
 powerpc-*-openbsd*)	gdb_host=obsd ;;
@@ -127,7 +126,7 @@ sparc64-*-freebsd* | sparc64-*-kfreebsd*-gnu)
 			gdb_host=fbsd ;;
 sparc-*-linux*)		gdb_host=linux ;;
 sparc64-*-linux*)	gdb_host=linux64 ;;
-sparc-*-mirbsd*)	gdb_host=obsd ;;
+sparc-*-mirbsd*)	gdb_host=mbsd ;;
 sparc-*-netbsdelf* | sparc-*-knetbsd*-gnu)
 			gdb_host=nbsdelf ;;
 sparc-*-netbsdaout*)	gdb_host=nbsdaout ;;
