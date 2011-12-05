@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/sparc/include/asm.h,v 1.4 2006/11/03 15:14:01 tg Exp $ */
+/**	$MirOS: src/sys/arch/sparc/include/asm.h,v 1.5 2007/02/18 12:53:19 tg Exp $ */
 /*	$OpenBSD: asm.h,v 1.4 2003/06/04 22:08:17 deraadt Exp $	*/
 /*	$NetBSD: asm.h,v 1.5 1997/07/16 15:16:43 christos Exp $ */
 
@@ -39,8 +39,8 @@
  * SUCH DAMAGE.
  */
 
-#ifndef _ASM_H_
-#define _ASM_H_
+#ifndef _SPARC_ASM_H_
+#define _SPARC_ASM_H_
 
 #ifdef __ELF__
 #define _C_LABEL(name)		name
@@ -68,7 +68,7 @@
  */
 #ifdef __ELF__
 #define WARN_REFERENCES(_sym,_msg)	\
-	.section .gnu.warning. ## _sym ; .ascii _msg ; .text
+	.section .gnu.warning. ## _sym ; .ascii _msg ; .previous
 #endif /* __ELF__ */
 
 
@@ -98,22 +98,32 @@
 #define PICCY_OFFSET(var,dest,tmp)
 #endif
 
+/* let kernels and others override entrypoint alignment */
+#ifndef _ALIGN_TEXT
+#define _ALIGN_TEXT		.align 4
+#endif
+
 #define FTYPE(x)		.type x,@function
 #define OTYPE(x)		.type x,@object
 
 #define	_ENTRY(name) \
-	.align 4; .globl name; .proc 1; FTYPE(name); name:
+	.text; _ALIGN_TEXT; .globl name; .proc 1; FTYPE(name); name:
 
 #define ENTRY(name)		_ENTRY(_C_LABEL(name))
+#define NENTRY(name)		_ENTRY(_C_LABEL(name))
 #define	ASENTRY(name)		_ENTRY(_ASM_LABEL(name))
 #define	FUNC(name)		ASENTRY(name)
 
+#define ALTENTRY(name) \
+	.globl _C_LABEL(name); FTYPE(_C_LABEL(name)); _C_LABEL(name):
+#define DENTRY(name) \
+	.globl _C_LABEL(name); OTYPE(_C_LABEL(name)); _C_LABEL(name):
 
 #define ASMSTR			.asciz
 
-#define RCSID(x)	.section .comment; \
-			.ascii "@(""#)rcsid: "; \
-			.asciz x; \
-			.previous
+#define RCSID(x)		.section .comment; \
+				.ascii "@(""#)rcsid: "; \
+				.asciz x; \
+				.previous
 
-#endif /* _ASM_H_ */
+#endif /* _SPARC_ASM_H_ */
