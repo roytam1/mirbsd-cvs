@@ -1,4 +1,4 @@
-/**	$MirOS: src/bin/md5/md5.c,v 1.5 2005/11/16 17:08:46 tg Exp $ */
+/**	$MirOS: src/bin/md5/md5.c,v 1.6 2006/04/09 22:43:09 tg Exp $ */
 /*	$OpenBSD: md5.c,v 1.32 2004/12/29 17:32:44 millert Exp $	*/
 
 /*
@@ -40,7 +40,7 @@
 #include <crc.h>
 #include "suma.h"
 
-__RCSID("$MirOS: src/bin/md5/md5.c,v 1.5 2005/11/16 17:08:46 tg Exp $");
+__RCSID("$MirOS: src/bin/md5/md5.c,v 1.6 2006/04/09 22:43:09 tg Exp $");
 
 #define MAX_DIGEST_LEN	128
 
@@ -259,11 +259,13 @@ main(int argc, char **argv)
 	argv += optind;
 
 	/* Most arguments are mutually exclusive */
-	fl = pflag + tflag + xflag + cflag + (input_string != NULL) + bflag;
-	if (fl > 1 || (fl && argc && cflag == 0))
+	fl = pflag + tflag + xflag + cflag + (input_string != NULL) +
+	    bflag - (bflag & pflag);
+	if (fl > 1 || (fl && argc && cflag == 0 && bflag == 0))
 		usage();
-	if (cflag != 0 && hashes[1] != NULL)
-		errx(1, "only a single algorithm may be specified in -c mode");
+	if ((bflag + cflag) != 0 && hashes[1] != NULL)
+		errx(1, "only a single algorithm may be specified in -%c mode",
+		    cflag ? 'c' : 'b');
 
 	/* No algorithm specified, check the name we were called as. */
 	if (hashes[0] == NULL) {
@@ -281,8 +283,6 @@ main(int argc, char **argv)
 		digest_time(hashes);
 	else if (xflag)
 		digest_test(hashes);
-	else if (bflag)
-		digest_file("-", hashes, pflag, 1);
 	else if (input_string)
 		digest_string(input_string, hashes);
 	else if (cflag) {
@@ -292,10 +292,10 @@ main(int argc, char **argv)
 			while (argc--)
 				error += digest_filelist(*argv++, hashes[0]);
 	} else if (pflag || argc == 0)
-		digest_file("-", hashes, pflag, 0);
+		digest_file("-", hashes, pflag, bflag);
 	else
 		while (argc--)
-			digest_file(*argv++, hashes, 0, 0);
+			digest_file(*argv++, hashes, 0, bflag);
 
 	return(error ? EXIT_FAILURE : EXIT_SUCCESS);
 }
@@ -641,8 +641,8 @@ digest_test(struct hash_functions **hashes)
 void
 usage(void)
 {
-	fprintf(stderr, "usage: %s [-b | -p | -t | -x | -c [checklist ...] | "
-	    "-s string | file ...]\n", __progname);
+	fprintf(stderr, "usage: %s [-[b]p | -t | -x | -c [checklist ...] | "
+	    "-s string | [-b] file ...]\n", __progname);
 	if (strcmp(__progname, "cksum") == 0)
 		fprintf(stderr, "             [-a algorithms]] [-o 1 | 2]\n");
 

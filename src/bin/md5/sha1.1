@@ -27,9 +27,11 @@
 .Sh SYNOPSIS
 .Nm sha1
 .Oo
+.Oo Fl b Oc
 .Fl p | t | x |
 .Fl c Oo Ar checklist ... Oc |
 .Fl s Ar string |
+.Oo Fl b Oc
 .Ar file ...
 .Oc
 .Sh DESCRIPTION
@@ -50,6 +52,8 @@ such as
 .Pp
 The options are as follows:
 .Bl -tag -width Ds
+.It Fl b
+Print the checksum as binary to stdout.
 .It Xo
 .Fl c
 .Op Ar checklist ...
