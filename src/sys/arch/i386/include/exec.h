@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/include/exec.h,v 1.4 2006/04/27 20:44:32 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/include/exec.h,v 1.5 2006/06/25 03:57:56 tg Exp $ */
 /*	$OpenBSD: exec.h,v 1.9 2003/04/17 03:42:14 drahn Exp $	*/
 /*	$NetBSD: exec.h,v 1.6 1994/10/27 04:16:05 cgd Exp $	*/
 
@@ -65,9 +65,7 @@ struct relocation_info_i386 {
 #ifndef SMALL_KERNEL
 #define _NLIST_DO_AOUT
 #define _KERN_DO_AOUT
-#if 0
 #define _KERN_DO_ECOFF		/* for ports/plan9/kencc */
-#endif
 #endif
 
 #endif  /* _I386_EXEC_H_ */
