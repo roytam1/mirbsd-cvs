@@ -1,4 +1,4 @@
-/* $MirOS: src/gnu/usr.bin/binutils/gdb/dwarf2read.c,v 1.4 2005/06/05 21:24:18 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/binutils/gdb/dwarf2read.c,v 1.5 2005/07/07 16:22:57 tg Exp $ */
 
 /* DWARF 2 debugging format support for GDB.
 
@@ -56,7 +56,7 @@
 #include "gdb_assert.h"
 #include <sys/types.h>
 
-__RCSID("$MirOS: src/gnu/usr.bin/binutils/gdb/dwarf2read.c,v 1.4 2005/06/05 21:24:18 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/binutils/gdb/dwarf2read.c,v 1.5 2005/07/07 16:22:57 tg Exp $");
 
 /* A note on memory usage for this file.
    
@@ -2663,6 +2663,9 @@ process_die (struct die_info *die, struct dwarf2_cu *cu)
       read_enumeration_type (die, cu);
       process_enumeration_scope (die, cu);
       break;
+    case DW_TAG_set_type:
+      read_set_type (die, cu);
+      break;
 
     /* FIXME drow/2004-03-14: These initialize die->type, but do not create
        a symbol or process any children.  Therefore it doesn't do anything
@@ -4025,7 +4028,7 @@ determine_class_name (struct die_info *die, struct dwarf2_cu *cu)
 }
 
 
-static void 
+static void
 read_set_type (struct die_info * die, struct dwarf2_cu *cu)
 {
   struct type *domain_type;
@@ -6920,7 +6923,7 @@ new_symbol (struct die_info *die, struct type *type, struct dwarf2_cu *cu)
 	case DW_TAG_structure_type:
 	case DW_TAG_union_type:
 	case DW_TAG_enumeration_type:
-        case DW_TAG_set_type:
+	case DW_TAG_set_type:
 	  SYMBOL_CLASS (sym) = LOC_TYPEDEF;
 	  SYMBOL_DOMAIN (sym) = STRUCT_DOMAIN;
 
@@ -7302,7 +7305,8 @@ determine_prefix (struct die_info *die, struct dwarf2_cu *cu)
   struct die_info *parent;
 
   if (cu->language != language_cplus
-      && cu->language != language_java)
+      && cu->language != language_java
+      && cu->language != language_pascal)
     return NULL;
 
   parent = die->parent;
