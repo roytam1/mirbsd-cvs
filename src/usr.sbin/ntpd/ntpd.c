@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/ntpd/ntpd.c,v 1.9 2005/12/04 14:14:47 tg Exp $ */
+/**	$MirOS: src/usr.sbin/ntpd/ntpd.c,v 1.10 2006/08/12 23:39:40 tg Exp $ */
 /*	$OpenBSD: ntpd.c,v 1.40 2005/09/06 21:27:10 wvdputte Exp $ */
 
 /*-
@@ -35,7 +35,7 @@
 
 #include "ntpd.h"
 
-__RCSID("$MirOS: src/usr.sbin/ntpd/ntpd.c,v 1.9 2005/12/04 14:14:47 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/ntpd/ntpd.c,v 1.10 2006/08/12 23:39:40 tg Exp $");
 
 void		sighdlr(int);
 __dead void	usage(void);
@@ -297,7 +297,8 @@ dispatch_imsg(struct ntpd_conf *conf)
 			if (name[imsg.hdr.len] != '\0' ||
 			    strlen(name) != imsg.hdr.len)
 				fatalx("invalid IMSG_HOST_DNS received");
-			cnt = host_dns(name, &hn);
+			if ((cnt = host_dns(name, &hn)) == -1)
+				break;
 			buf = imsg_create(ibuf, IMSG_HOST_DNS,
 			    imsg.hdr.peerid, 0,
 			    cnt * sizeof(struct sockaddr_storage));
