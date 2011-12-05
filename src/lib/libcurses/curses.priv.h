@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/lib/libcurses/curses.priv.h,v 1.2 2005/03/06 20:28:59 tg Exp $ */
 /*	$OpenBSD: curses.priv.h,v 1.32 2003/04/13 11:20:47 jmc Exp $	*/
 
 /****************************************************************************
@@ -753,7 +753,7 @@ extern NCURSES_EXPORT(char *) _nc_printf_string (const char *fmt, va_list ap);
 extern NCURSES_EXPORT(void) _nc_add_to_try (struct tries **tree, const char *str, unsigned short code);
 extern NCURSES_EXPORT(char *) _nc_expand_try (struct tries *tree, unsigned short code, int *count, size_t len);
 extern NCURSES_EXPORT(int) _nc_remove_key (struct tries **tree, unsigned short code);
-extern NCURSES_EXPORT(int) _nc_remove_string (struct tries **tree, char *string);
+extern NCURSES_EXPORT(int) _nc_remove_string (struct tries **tree, const char *string);
 
 /* elsewhere ... */
 extern NCURSES_EXPORT(WINDOW *) _nc_makenew (int, int, int, int, int);

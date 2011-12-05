@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: define_key.c,v 1.4 2001/01/22 18:01:36 millert Exp $	*/
 
 /****************************************************************************
@@ -35,10 +36,11 @@
 #include <curses.priv.h>
 
 MODULE_ID("$From: define_key.c,v 1.6 2000/12/10 02:43:26 tom Exp $")
+__RCSID("$MirOS$");
 
 NCURSES_EXPORT(int)
 define_key
-(char *str, int keycode)
+(const char *str, int keycode)
 {
     int code = ERR;
 
