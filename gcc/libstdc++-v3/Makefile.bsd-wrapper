@@ -1,4 +1,4 @@
-# $MirOS: gcc/libstdc++-v3/Makefile.bsd-wrapper,v 1.12 2005/07/07 20:31:11 tg Exp $
+# $MirOS: gcc/libstdc++-v3/Makefile.bsd-wrapper,v 1.13 2005/11/22 17:55:24 tg Exp $
 
 .include <bsd.own.mk>
 .include "${GNUSYSTEM_AUX_DIR}/locations.mk"
@@ -26,6 +26,10 @@ CLEANFILES+=	include libsupc++/cp-demangle.c src/atomicity.cc \
 		src/collate_members.cc src/ctype_members.cc \
 		src/messages_members.cc src/monetary_members.cc \
 		src/numeric_members.cc src/time_members.cc
+
+.if ${DEBUGLIBS:L} == "yes"
+COPTS+=		-g
+.endif
 
 LIBFILES=	libstdc++.a libstdc++.la libsupc++.a libsupc++.la
 .if ${NOPIC:L} == "no"

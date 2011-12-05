@@ -1,4 +1,4 @@
-# $MirOS: gcc/libobjc/Makefile.bsd-wrapper,v 1.7 2005/11/22 17:55:23 tg Exp $
+# $MirOS: gcc/libobjc/Makefile.bsd-wrapper,v 1.8 2005/11/22 18:17:20 tg Exp $
 
 .include <bsd.own.mk>
 .include "${GNUSYSTEM_AUX_DIR}/locations.mk"
@@ -13,6 +13,10 @@ INST_TARGET=	install-libs
 INCS=		NXConstStr.h Object.h Protocol.h encoding.h hash.h \
 		objc-api.h objc-list.h objc.h sarray.h thr.h typedstream.h
 CLEANFILES+=	config.h libtool stamp-h
+
+.if ${DEBUGLIBS:L} == "yes"
+COPTS+=		-g
+.endif
 
 .include <bsd.cfwrap.mk>
 
