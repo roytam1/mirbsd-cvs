@@ -57,8 +57,7 @@
 #define	OFFSET_ARRAY_SIZE	8
 #define	SETTIME_MIN_OFFSET	180	/* min offset for settime at start */
 #define	SETTIME_TIMEOUT		15	/* max seconds to wait with -s */
-#define	LOG_NEGLIGEE1		125	/* negligible drift to not log (ms) */
-#define	LOG_NEGLIGEE2		2000	/* same for quiet mode */
+#define	LOG_NEGLIGEE		125	/* negligible drift to not log (ms) */
 
 enum client_state {
 	STATE_NONE,

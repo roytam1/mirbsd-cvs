@@ -49,7 +49,6 @@ volatile sig_atomic_t	 quit = 0;
 volatile sig_atomic_t	 reconfig = 0;
 volatile sig_atomic_t	 sigchld = 0;
 struct imsgbuf		*ibuf;
-int			 LOG_NEGLIGEE = LOG_NEGLIGEE1;
 
 void
 sighdlr(int sig)
@@ -97,17 +96,13 @@ main(int argc, char *argv[])
 	log_init(1);		/* log to stderr until daemonized */
 	res_init();		/* XXX */
 
-	while ((ch = getopt(argc, argv, "df:qsS")) != -1) {
+	while ((ch = getopt(argc, argv, "df:sS")) != -1) {
 		switch (ch) {
 		case 'd':
 			conf.debug = 1;
-			LOG_NEGLIGEE = LOG_NEGLIGEE1;
 			break;
 		case 'f':
 			conffile = optarg;
-			break;
-		case 'q':
-			LOG_NEGLIGEE = LOG_NEGLIGEE2;
 			break;
 		case 's':
 			conf.settime = 1;

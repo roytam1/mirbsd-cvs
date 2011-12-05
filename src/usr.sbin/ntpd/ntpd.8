@@ -24,7 +24,7 @@
 .Sh SYNOPSIS
 .Nm ntpd
 .Bk -words
-.Op Fl dqSs
+.Op Fl dSs
 .Op Fl f Ar file
 .Ek
 .Sh DESCRIPTION
@@ -86,10 +86,6 @@ Use
 as the configuration file,
 instead of the default
 .Pa /etc/ntpd.conf .
-.It Fl q
-Run quietly.
-.Nm
-only logs adjustments of more than 2 seconds.
 .It Fl S
 Do not set the time immediately at startup.
 This is the default.
