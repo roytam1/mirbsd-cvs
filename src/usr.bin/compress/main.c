@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.bin/compress/main.c,v 1.6 2005/11/23 17:08:49 tg Exp $ */
+/**	$MirOS: src/usr.bin/compress/main.c,v 1.7 2005/11/24 11:53:21 tg Exp $ */
 /*	$OpenBSD: main.c,v 1.64 2005/07/11 14:16:47 millert Exp $	*/
 
 #ifndef SMALL
@@ -53,7 +53,7 @@ static const char license[] =
 #include <paths.h>
 #include "compress.h"
 
-__RCSID("$MirOS: src/usr.bin/compress/main.c,v 1.6 2005/11/23 17:08:49 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/compress/main.c,v 1.7 2005/11/24 11:53:21 tg Exp $");
 
 #define min(a,b) ((a) < (b)? (a) : (b))
 
@@ -381,12 +381,15 @@ main(int argc, char *argv[])
 			if (decomp) {
 				if (set_outfile(infile, outfile,
 				    sizeof outfile) == NULL) {
-					if (!recurse) {
+					if (!force && !recurse) {
 						warnx("%s: unknown suffix: "
 						    "ignored", infile);
 						rc = rc ? rc : WARNING;
 					}
-					continue;
+					if (!force)
+						continue;
+					strlcpy(outfile, infile,
+					    sizeof (outfile));
 				}
 			} else {
 				if ((size_t)snprintf(outfile, sizeof(outfile),

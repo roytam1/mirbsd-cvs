@@ -1,4 +1,4 @@
-.\"	$MirOS$
+.\"	$MirOS: src/usr.bin/compress/compress.1,v 1.2 2005/03/13 18:32:49 tg Exp $
 .\"	$OpenBSD: compress.1,v 1.29 2003/10/01 08:43:17 jmc Exp $
 .\"	$NetBSD: compress.1,v 1.5 1995/03/26 09:44:34 glass Exp $
 .\"
@@ -212,6 +212,8 @@ or
 .Nm gzcat
 behave as
 .Xr cat 1 .
+.Pp
+This option also turns off ignoring files based on their suffix.
 .It Fl g
 Use deflate scheme which reportedly provides better compression rates (force
 .Nm gzip
