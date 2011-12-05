@@ -1,4 +1,4 @@
-# $MirOS: src/libexec/makewhatis/Makefile,v 1.3 2005/11/23 16:04:02 tg Exp $
+# $MirOS: src/libexec/makewhatis/Makefile,v 1.4 2005/11/23 16:22:22 tg Exp $
 # $OpenBSD: Makefile,v 1.7 2004/08/06 12:05:08 espie Exp $
 
 MAN=	makewhatis.8
@@ -36,7 +36,7 @@ clean:
 .include "../Makefile.inc"
 .include <bsd.own.mk>
 
-.if !defined(NOMAN)
+.if ${NOMAN:L} == "no"
 install: maninstall
 .  include <bsd.man.mk>
 .endif
