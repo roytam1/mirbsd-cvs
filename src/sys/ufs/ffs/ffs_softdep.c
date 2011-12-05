@@ -1,5 +1,5 @@
-/**	$MirOS: src/sys/ufs/ffs/ffs_softdep.c,v 1.4 2005/07/21 21:52:25 tg Exp $ */
-/*	$OpenBSD: ffs_softdep.c,v 1.60 2005/07/20 16:30:34 pedro Exp $	*/
+/**	$MirOS: src/sys/ufs/ffs/ffs_softdep.c,v 1.5 2005/07/21 22:23:38 tg Exp $ */
+/*	$OpenBSD: ffs_softdep.c,v 1.60+1.63+1.64+1.69+1.71+1.74+1.77+1.78+1.79+1.102 2005/07/20 16:30:34 pedro Exp $	*/
 /*
  * Copyright 1998, 2000 Marshall Kirk McKusick. All Rights Reserved.
  *
@@ -1910,6 +1910,7 @@ softdep_setup_freeblocks(ip, length)
 	freeblks = pool_get(&freeblks_pool, PR_WAITOK);
 	bzero(freeblks, sizeof(struct freeblks));
 	freeblks->fb_list.wk_type = D_FREEBLKS;
+	freeblks->fb_state = ATTACHED;
 	freeblks->fb_uid = ip->i_ffs_uid;
 	freeblks->fb_previousinum = ip->i_number;
 	freeblks->fb_devvp = ip->i_devvp;
@@ -1980,8 +1981,9 @@ softdep_setup_freeblocks(ip, length)
 	vp = ITOV(ip);
 	ACQUIRE_LOCK(&lk);
 	drain_output(vp, 1);
-	while (getdirtybuf(&LIST_FIRST(&vp->v_dirtyblkhd), MNT_WAIT)) {
-		bp = LIST_FIRST(&vp->v_dirtyblkhd);
+	while ((bp = LIST_FIRST(&vp->v_dirtyblkhd))) {
+		if (!getdirtybuf(&bp, MNT_WAIT))
+			break;
 		(void) inodedep_lookup(fs, ip->i_number, 0, &inodedep);
 		deallocate_dependencies(bp, inodedep);
 		bp->b_flags |= B_INVAL | B_NOCACHE;
@@ -1991,6 +1993,20 @@ softdep_setup_freeblocks(ip, length)
 	}
 	if (inodedep_lookup(fs, ip->i_number, 0, &inodedep) != 0)
 		(void) free_inodedep(inodedep);
+
+	if (delay) {
+		freeblks->fb_state |= DEPCOMPLETE;
+		/*
+		 * If the inode with zeroed block pointers is now on disk we
+		 * can start freeing blocks. Add freeblks to the worklist
+		 * instead of calling handle_workitem_freeblocks() directly as
+		 * it is more likely that additional IO is needed to complete
+		 * the request than in the !delay case.
+		 */
+		if ((freeblks->fb_state & ALLCOMPLETE) == ALLCOMPLETE)
+			add_to_worklist(&freeblks->fb_list);
+	}
+
 	FREE_LOCK(&lk);
 	/*
 	 * If the inode has never been written to disk (delay == 0),
@@ -2076,7 +2092,7 @@ deallocate_dependencies(bp, inodedep)
 			 * If the inode has already been written, then they
 			 * can be dumped directly onto the work list.
 			 */
-			LIST_FOREACH(dirrem, &pagedep->pd_dirremhd, dm_next) {
+			while ((dirrem = LIST_FIRST(&pagedep->pd_dirremhd))) {
 				LIST_REMOVE(dirrem, dm_next);
 				dirrem->dm_dirinum = pagedep->pd_ino;
 				if (inodedep == NULL ||
@@ -3141,6 +3157,8 @@ handle_workitem_remove(dirrem)
 	}
 	WORKLIST_INSERT(&inodedep->id_inowait, &dirrem->dm_list);
 	FREE_LOCK(&lk);
+	ip->i_flag |= IN_CHANGE;
+	UFS_UPDATE(VTOI(vp), 0);
 	vput(vp);
 }
 
@@ -3502,6 +3520,13 @@ softdep_disk_write_complete(bp)
 	struct inodedep *inodedep;
 	struct bmsafemap *bmsafemap;
 
+	/*
+	 * If an error occurred while doing the write, then the data
+	 * has not hit the disk and the dependencies cannot be unrolled.
+	 */
+	if ((bp->b_flags & B_ERROR) && !(bp->b_flags & B_INVAL))
+		return;
+
 #ifdef DEBUG
 	if (lk.lkt_held != -1)
 		panic("softdep_disk_write_complete: lock is held");
@@ -3729,7 +3754,6 @@ handle_written_inodeblock(inodedep, bp)
 	if ((inodedep->id_state & IOSTARTED) == 0)
 		panic("handle_written_inodeblock: not started");
 	inodedep->id_state &= ~IOSTARTED;
-	inodedep->id_state |= COMPLETE;
 	dp = (struct ufs1_dinode *)bp->b_data +
 	    ino_to_fsbo(inodedep->id_fs, inodedep->id_ino);
 	/*
@@ -3748,6 +3772,7 @@ handle_written_inodeblock(inodedep, bp)
 		buf_dirty(bp);
 		return (1);
 	}
+	inodedep->id_state |= COMPLETE;
 	/*
 	 * Roll forward anything that had to be rolled back before
 	 * the inode could be updated.
@@ -3834,6 +3859,10 @@ handle_written_inodeblock(inodedep, bp)
 			continue;
 
 		case D_FREEBLKS:
+			wk->wk_state |= COMPLETE;
+			if ((wk->wk_state & ALLCOMPLETE) != ALLCOMPLETE)
+				continue;
+			/* FALLTHROUGH */
 		case D_FREEFRAG:
 		case D_DIRREM:
 			add_to_worklist(wk);
@@ -4114,10 +4143,10 @@ softdep_update_inodeblock(ip, bp, waitfor)
 		FREE_LOCK(&lk);
 		return;
 	}
-	gotit = getdirtybuf(&inodedep->id_buf, MNT_WAIT);
+	bp = inodedep->id_buf;
+	gotit = getdirtybuf(&bp, MNT_WAIT);
 	FREE_LOCK(&lk);
-	if (gotit &&
-	    (error = bwrite(inodedep->id_buf)) != 0)
+	if (gotit && (error = bwrite(bp)) != 0)
 		softdep_error("softdep_update_inodeblock: bwrite", error);
 	if ((inodedep->id_state & DEPCOMPLETE) == 0)
 		panic("softdep_update_inodeblock: update failed");
@@ -4274,6 +4303,8 @@ softdep_fsync(vp)
 		    &bp);
 		if (error == 0)
 			error = bwrite(bp);
+		else
+			brelse(bp);
 		vput(pvp);
 		if (error != 0)
 			return (error);
@@ -4402,11 +4433,11 @@ top:
 	 * all potential buffers on the dirty list will be visible.
 	 */
 	drain_output(vp, 1);
-	if (getdirtybuf(&LIST_FIRST(&vp->v_dirtyblkhd), MNT_WAIT) == 0) {
+	bp = LIST_FIRST(&vp->v_dirtyblkhd);
+	if (getdirtybuf(&bp, MNT_WAIT) == 0) {
 		FREE_LOCK(&lk);
 		return (0);
 	}
-	bp = LIST_FIRST(&vp->v_dirtyblkhd);
 loop:
 	/*
 	 * As we hold the buffer locked, none of its dependencies
@@ -4548,8 +4579,8 @@ loop:
 			/* NOTREACHED */
 		}
 	}
-	(void) getdirtybuf(&LIST_NEXT(bp, b_vnbufs), MNT_WAIT);
 	nbp = LIST_NEXT(bp, b_vnbufs);
+	getdirtybuf(&nbp, MNT_WAIT);
 	FREE_LOCK(&lk);
 	bawrite(bp);
 	ACQUIRE_LOCK(&lk);
@@ -4698,6 +4729,7 @@ flush_pagedep_deps(pvp, mp, diraddhdp)
 	struct diraddhd *diraddhdp;
 {
 	struct proc *p = CURPROC;	/* XXX */
+	struct worklist *wk;
 	struct inodedep *inodedep;
 	struct ufsmount *ump;
 	struct diradd *dap;
@@ -4750,7 +4782,34 @@ flush_pagedep_deps(pvp, mp, diraddhdp)
 				break;
 			}
 			drain_output(vp, 0);
+			/*
+			 * If first block is still dirty with a D_MKDIR
+			 * dependency then it needs to be written now.
+			 */
+			for (;;) {
+				error = 0;
+				ACQUIRE_LOCK(&lk);
+				bp = incore(vp, 0);
+				if (bp == NULL) {
+					FREE_LOCK(&lk);
+					break;
+				}
+				LIST_FOREACH(wk, &bp->b_dep, wk_list)
+					if (wk->wk_type == D_MKDIR)
+						break;
+				if (wk) {
+					gotit = getdirtybuf(bp, MNT_WAIT);
+					FREE_LOCK(&lk);
+					if (gotit && (error = bwrite(bp)) != 0)
+						break;
+				} else
+					FREE_LOCK(&lk);
+				break;
+			}
 			vput(vp);
+			/* Flushing of first block failed */
+			if (error)
+				break;
 			ACQUIRE_LOCK(&lk);
 			/*
 			 * If that cleared dependencies, go on to next.
@@ -4781,10 +4840,10 @@ flush_pagedep_deps(pvp, mp, diraddhdp)
 		 * push them to disk.
 		 */
 		if ((inodedep->id_state & DEPCOMPLETE) == 0) {
-			gotit = getdirtybuf(&inodedep->id_buf, MNT_WAIT);
+			bp = inodedep->id_buf;
+			gotit = getdirtybuf(&bp, MNT_WAIT);
 			FREE_LOCK(&lk);
-			if (gotit &&
-			    (error = bwrite(inodedep->id_buf)) != 0)
+			if (gotit && (error = bwrite(bp)) != 0)
 				break;
 			ACQUIRE_LOCK(&lk);
 			if (dap != LIST_FIRST(diraddhdp))
@@ -4854,20 +4913,23 @@ request_cleanup(resource, islocked)
 	/*
 	 * We never hold up the filesystem syncer process.
 	 */
-	if (p == filesys_syncer)
+	if (p == filesys_syncer || (p->p_flag & P_SOFTDEP))
 		return (0);
 	/*
 	 * First check to see if the work list has gotten backlogged.
 	 * If it has, co-opt this process to help clean up two entries.
 	 * Because this process may hold inodes locked, we cannot
 	 * handle any remove requests that might block on a locked
-	 * inode as that could lead to deadlock.
+	 * inode as that could lead to deadlock. We set P_SOFTDEP
+	 * to avoid recursively processing the worklist.
 	 */
 	if (num_on_worklist > max_softdeps / 10) {
+		p->p_flag |= P_SOFTDEP;
 		if (islocked)
 			FREE_LOCK(&lk);
 		process_worklist_item(NULL, LK_NOWAIT);
 		process_worklist_item(NULL, LK_NOWAIT);
+		p->p_flag &= ~P_SOFTDEP;
 		stat_worklist_push += 2;
 		if (islocked)
 			ACQUIRE_LOCK(&lk);
@@ -5002,7 +5064,7 @@ clear_inodedeps(p)
 	struct proc *p;
 {
 	struct inodedep_hashhead *inodedephd;
-	struct inodedep *inodedep;
+	struct inodedep *inodedep = NULL;
 	static int next = 0;
 	struct mount *mp;
 	struct vnode *vp;
@@ -5074,7 +5136,6 @@ clear_inodedeps(p)
 		vn_finished_write(mp);
 #endif
 		ACQUIRE_LOCK(&lk);
-		drain_output(vp, 1);
 	}
 	FREE_LOCK(&lk);
 }
