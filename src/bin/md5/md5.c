@@ -1,4 +1,4 @@
-/**	$MirOS: src/bin/md5/md5.c,v 1.6 2006/04/09 22:43:09 tg Exp $ */
+/**	$MirOS: src/bin/md5/md5.c,v 1.7 2006/05/09 22:17:34 tg Exp $ */
 /*	$OpenBSD: md5.c,v 1.32 2004/12/29 17:32:44 millert Exp $	*/
 
 /*
@@ -40,7 +40,7 @@
 #include <crc.h>
 #include "suma.h"
 
-__RCSID("$MirOS: src/bin/md5/md5.c,v 1.6 2006/04/09 22:43:09 tg Exp $");
+__RCSID("$MirOS: src/bin/md5/md5.c,v 1.7 2006/05/09 22:17:34 tg Exp $");
 
 #define MAX_DIGEST_LEN	128
 
@@ -61,6 +61,8 @@ union ANY_CTX {
 void digest_print(const char *, const char *, const char *);
 void digest_print_short(const char *, const char *, const char *);
 void digest_print_string(const char *, const char *, const char *);
+void digest_printbin_pad(const char *);
+void digest_printbin_string(const char *);
 
 #define NHASHES	11
 struct hash_functions {
@@ -70,6 +72,7 @@ struct hash_functions {
 	void (*init)(void *);
 	void (*update)(void *, const unsigned char *, unsigned int);
 	char * (*end)(void *, char *);
+	void (*printbin)(const char *);
 	void (*print)(const char *, const char *, const char *);
 	void (*printstr)(const char *, const char *, const char *);
 } functions[NHASHES + 1] = {
@@ -80,6 +83,7 @@ struct hash_functions {
 		(void (*)(void *))CKSUM_Init,
 		(void (*)(void *, const unsigned char *, unsigned int))CKSUM_Update,
 		(char *(*)(void *, char *))CKSUM_End,
+		digest_printbin_pad,
 		digest_print_short,
 		digest_print_short
 	}, {
@@ -89,6 +93,7 @@ struct hash_functions {
 		(void (*)(void *))SUM_Init,
 		(void (*)(void *, const unsigned char *, unsigned int))SUM_Update,
 		(char *(*)(void *, char *))SUM_End,
+		digest_printbin_pad,
 		digest_print_short,
 		digest_print_short
 	}, {
@@ -98,6 +103,7 @@ struct hash_functions {
 		(void (*)(void *))SYSVSUM_Init,
 		(void (*)(void *, const unsigned char *, unsigned int))SYSVSUM_Update,
 		(char *(*)(void *, char *))SYSVSUM_End,
+		digest_printbin_pad,
 		digest_print_short,
 		digest_print_short
 	}, {
@@ -107,6 +113,7 @@ struct hash_functions {
 		(void (*)(void *))SUMA_Init,
 		(void (*)(void *, const unsigned char *, unsigned int))SUMA_Update,
 		(char *(*)(void *, char *))SUMA_End,
+		digest_printbin_string,
 		digest_print,
 		digest_print_string
 	}, {
@@ -116,6 +123,7 @@ struct hash_functions {
 		(void (*)(void *))MD4Init,
 		(void (*)(void *, const unsigned char *, unsigned int))MD4Update,
 		(char *(*)(void *, char *))MD4End,
+		digest_printbin_string,
 		digest_print,
 		digest_print_string
 	}, {
@@ -125,6 +133,7 @@ struct hash_functions {
 		(void (*)(void *))MD5Init,
 		(void (*)(void *, const unsigned char *, unsigned int))MD5Update,
 		(char *(*)(void *, char *))MD5End,
+		digest_printbin_string,
 		digest_print,
 		digest_print_string
 	}, {
@@ -134,6 +143,7 @@ struct hash_functions {
 		(void (*)(void *))RMD160Init,
 		(void (*)(void *, const unsigned char *, unsigned int))RMD160Update,
 		(char *(*)(void *, char *))RMD160End,
+		digest_printbin_string,
 		digest_print,
 		digest_print_string
 	}, {
@@ -143,6 +153,7 @@ struct hash_functions {
 		(void (*)(void *))SHA1Init,
 		(void (*)(void *, const unsigned char *, unsigned int))SHA1Update,
 		(char *(*)(void *, char *))SHA1End,
+		digest_printbin_string,
 		digest_print,
 		digest_print_string
 	}, {
@@ -152,6 +163,7 @@ struct hash_functions {
 		(void (*)(void *))SHA256_Init,
 		(void (*)(void *, const unsigned char *, unsigned int))SHA256_Update,
 		(char *(*)(void *, char *))SHA256_End,
+		digest_printbin_string,
 		digest_print,
 		digest_print_string
 	}, {
@@ -161,6 +173,7 @@ struct hash_functions {
 		(void (*)(void *))SHA384_Init,
 		(void (*)(void *, const unsigned char *, unsigned int))SHA384_Update,
 		(char *(*)(void *, char *))SHA384_End,
+		digest_printbin_string,
 		digest_print,
 		digest_print_string
 	}, {
@@ -170,10 +183,11 @@ struct hash_functions {
 		(void (*)(void *))SHA512_Init,
 		(void (*)(void *, const unsigned char *, unsigned int))SHA512_Update,
 		(char *(*)(void *, char *))SHA512_End,
+		digest_printbin_string,
 		digest_print,
 		digest_print_string
 	}, {
-		NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL
+		NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL
 	},
 };
 
@@ -378,17 +392,9 @@ digest_file(const char *file, struct hash_functions **hashes, int echo,
 	for (hfp = hashes; *hfp != NULL; hfp++) {
 		(void)(*hfp)->end((*hfp)->ctx, digest);
 		free((*hfp)->ctx);
-		if (dobin) {
-			for (nread = 0; nread < (ssize_t)(strlen(digest)/2);
-			    ++nread) {
-				int i = digest[nread * 2] - 0x30;
-				data[nread] = ((i > 9) ? i - 0x27: i) << 4;
-				i = digest[nread * 2 + 1] - 0x30;
-				data[nread] |= ((i > 9) ? i - 0x27 : i);
-			}
-			write(STDOUT_FILENO, data, (size_t)nread);
-			return;
-		} else if (fd == STDIN_FILENO)
+		if (dobin)
+			(*hfp)->printbin(digest);
+		else if (fd == STDIN_FILENO)
 			(void)puts(digest);
 		else
 			(*hfp)->print((*hfp)->name, file, digest);
@@ -647,4 +653,36 @@ usage(void)
 		fprintf(stderr, "             [-a algorithms]] [-o 1 | 2]\n");
 
 	exit(EXIT_FAILURE);
+}
+
+void
+digest_printbin_pad(const char *digest)
+{
+	uint64_t one, two;
+	char *c;
+
+	one = strtoll(digest, &c, 10);
+	two = strtoll(++c, NULL, 10);
+	if (asprintf(&c, "%016llX%016llX", one, two) == -1)
+		return;
+	digest_printbin_string(c);
+	free(c);
+}
+
+void
+digest_printbin_string(const char *digest)
+{
+	int i, j, k;
+
+	for (i = 0; i < (ssize_t)(strlen(digest)/2); ++i) {
+		j = digest[i * 2] - 0x30;
+		k = digest[i * 2 + 1] - 0x30;
+		if ((j < 0) || (k < 0))
+			break;
+		j = (j > 9) ? (((j - 7) > 15) ? (j - 0x27) : (j - 7)) : j;
+		k = (k > 9) ? (((k - 7) > 15) ? (k - 0x27) : (k - 7)) : k;
+		if ((j < 0) || (k < 0) || (j > 15) || (k > 15))
+			break;
+		putchar((j << 4) | k);
+	}
 }

@@ -1,4 +1,4 @@
-.\"	$MirOS: src/bin/md5/cksum.1,v 1.5 2006/05/09 22:17:33 tg Exp $
+.\"	$MirOS: src/bin/md5/cksum.1,v 1.6 2006/05/09 22:19:06 tg Exp $
 .\"	$OpenBSD: cksum.1,v 1.5 2005/03/07 23:41:53 jmc Exp $
 .\"
 .\" Copyright (c) 2006
@@ -69,6 +69,8 @@ The output line consists of three whitespace separated fields: a
 .Tn CRC
 checksum, the number of octets in the input,
 and name of the file or string.
+Binary output consists of two 64-bit parts,
+corresponding to the checksum and length, respectively.
 If no file name is specified, the standard input is used and no file name
 is written.
 .It sum
@@ -76,6 +78,8 @@ The output line consists of three whitespace separated fields: a
 .Tn CRC
 checksum, the number of kilobytes in the input,
 and name of the file or string.
+Binary output consists of two 64-bit parts,
+corresponding to the checksum and length, respectively.
 If no file name is specified, the standard input is used and no file name
 is written.
 .It sysvsum
@@ -83,12 +87,16 @@ The output line consists of three whitespace separated fields: a
 .Tn CRC
 checksum, the number of 512-byte blocks in the input,
 and name of the file or string.
+Binary output consists of two 64-bit parts,
+corresponding to the checksum and length, respectively.
 If no file name is specified, the standard input is used and no file name
 is written.
 .It all others
 The output line consists of four whitespace separated fields:
 the name of the algorithm used, the name of the file or string in
 parentheses, an equals sign, and the cryptographic hash of the input.
+Binary output consists of simply the sedecimal hash value, read from left
+to right (big endian), converted into bytes; the length is not encoded.
 If no file name is specified, the standard input is used and only
 the cryptographic hash is output.
 .It suma
