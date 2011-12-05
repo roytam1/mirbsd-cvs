@@ -1,4 +1,4 @@
-# $MirOS: gcc/gpcdoc/Makefile,v 1.1 2005/11/20 13:50:43 tg Exp $
+# $MirOS: gcc/gpcdoc/Makefile,v 1.2 2005/11/22 17:55:23 tg Exp $
 
 FILES!=		echo *.info
 
@@ -11,3 +11,4 @@ install:
 .endfor
 
 .include <bsd.own.mk>
+.include "../Makefile.inc"
