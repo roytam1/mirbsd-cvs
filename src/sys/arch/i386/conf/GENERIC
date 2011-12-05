@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/conf/GENERIC,v 1.25 2005/12/19 22:03:17 tg Exp $
+# $MirOS: src/sys/arch/i386/conf/GENERIC,v 1.26 2006/01/09 18:34:15 tg Exp $
 # $OpenBSD: GENERIC,v 1.360 2004/05/11 04:01:00 deraadt Exp $
 # $NetBSD: GENERIC,v 1.48 1996/05/20 18:17:23 mrg Exp $
 #-
@@ -13,7 +13,7 @@
 
 machine		i386			# arch, used by config; REQUIRED
 
-# $MirOS: src/sys/arch/i386/conf/GENERIC,v 1.25 2005/12/19 22:03:17 tg Exp $
+# $MirOS: src/sys/arch/i386/conf/GENERIC,v 1.26 2006/01/09 18:34:15 tg Exp $
 # $OpenBSD: GENERIC,v 1.112 2004/11/28 23:39:45 canacar Exp $
 #
 # Machine-independent option; used by all architectures.
@@ -278,6 +278,7 @@ option	WSDISPLAY_COMPAT_USL		# VT handling
 option	WSDISPLAY_COMPAT_RAWKBD		# can get raw scancodes
 option	WSDISPLAY_DEFAULTSCREENS=8	# number of virtual consoles
 option	WSDISPLAY_COMPAT_PCVT		# emulate some ioctls
+#option	WSDISPLAY_SCROLLBACK_SUPPORT	# always on if !SMALL_KERNEL
 
 pckbc0		at isa?			# PC keyboard controller
 pckbd*		at pckbc?		# PC keyboard

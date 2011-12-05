@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/dev/wscons/wsdisplay.c,v 1.3 2005/07/04 01:15:48 tg Exp $ */
+/* $MirOS: src/sys/dev/wscons/wsdisplay.c,v 1.4 2005/07/21 21:52:20 tg Exp $ */
 /* $OpenBSD: wsdisplay.c,v 1.61 2005/07/17 10:43:24 miod Exp $ */
 /* $NetBSD: wsdisplay.c,v 1.82 2005/02/27 00:27:52 perry Exp $ */
 
@@ -35,7 +35,7 @@
 #ifndef	SMALL_KERNEL
 #define WSMOUSED_SUPPORT
 #define	BURNER_SUPPORT
-#define	SCROLLBACK_SUPPORT
+#define	WSDISPLAY_SCROLLBACK_SUPPORT
 #endif
 
 #include <sys/param.h>
@@ -2008,7 +2008,7 @@ wsdisplay_switchtoconsole()
 	}
 }
 
-#ifdef SCROLLBACK_SUPPORT
+#ifdef WSDISPLAY_SCROLLBACK_SUPPORT
 void
 wsscrollback(void *arg, int op)
 {
