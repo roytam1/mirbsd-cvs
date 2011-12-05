@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/sparc/stand/Makefile.inc,v 1.3 2006/06/16 21:52:52 tg Exp $
+# $MirOS: src/sys/arch/sparc/stand/Makefile.inc,v 1.4 2006/06/17 20:19:15 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.12 2004/07/13 21:03:38 marc Exp $
 # $NetBSD: Makefile.inc,v 1.5 1996/02/01 22:33:01 mycroft Exp $
 
@@ -6,7 +6,8 @@ BINDIR=		/usr/mdec
 
 .include "../Makefile.reloc"
 
-CFLAGS+=	-fno-stack-protector -ffreestanding -Os -Wall -Werror
+CFLAGS+=	-Os -Wall -Werror -fno-stack-protector -ffreestanding \
+		-fno-zero-initialized-in-bss
 SACFLAGS=	-D_STANDALONE
 CPPFLAGS+=	-I${S} -I${SADIR}/libsa -I. -Dmemmove=memcpy -D_STANDALONE \
 		-I${.CURDIR} -Derrno=errno \

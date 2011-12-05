@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/sparc/stand/bootxx/Makefile,v 1.2 2005/03/06 21:27:23 tg Exp $
+# $MirOS: src/sys/arch/sparc/stand/bootxx/Makefile,v 1.3 2006/06/16 21:52:52 tg Exp $
 # $OpenBSD: Makefile,v 1.7 2003/08/11 06:35:45 deraadt Exp $
 # $NetBSD: Makefile,v 1.2 1995/09/30 21:43:38 pk Exp $
 
@@ -28,7 +28,6 @@ ${PROG}: ${OBJS}
 	${LD} -N -Ttext ${RELOC} -e start ${OBJS} ${_SOBJS} ${_KOBJS} \
 	    -o ${PROG}.elf
 	@size ${PROG}.elf
-	strip -s ${PROG}.elf
 	elf2aout ${PROG}.elf ${PROG} -b
 
 srt0.o: srt0.S
