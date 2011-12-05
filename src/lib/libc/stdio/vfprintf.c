@@ -1,3 +1,25 @@
+/* $MirOS: src/share/misc/licence.template,v 1.20 2006/12/11 21:04:56 tg Rel $ */
+
+/*-
+ * Copyright (c) 2007
+ *	Thorsten Glaser <tg@mirbsd.de>
+ *
+ * Provided that these terms and disclaimer and all copyright notices
+ * are retained or reproduced in an accompanying document, permission
+ * is granted to deal in this work without restriction, including un-
+ * limited rights to use, publicly perform, distribute, sell, modify,
+ * merge, give away, or sublicence.
+ *
+ * This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
+ * the utmost extent permitted by applicable law, neither express nor
+ * implied; without malicious intent or gross negligence. In no event
+ * may a licensor, author or contributor be held liable for indirect,
+ * direct, other damage, loss, or other issues arising in any way out
+ * of dealing in the work, even if advised of the possibility of such
+ * damage or existence of a defect, except proven that it results out
+ * of said person's immediate fault when using the work as intended.
+ */
+
 /*	$OpenBSD: vfprintf.c,v 1.32 2005/08/08 08:05:36 espie Exp $ */
 /*-
  * Copyright (c) 1990 The Regents of the University of California.
@@ -41,6 +63,7 @@
 #include <sys/mman.h>
 
 #include <stddef.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -50,7 +73,7 @@
 #include "local.h"
 #include "fvwrite.h"
 
-__RCSID("$MirOS: src/lib/libc/stdio/vfprintf.c,v 1.4 2007/01/10 23:28:12 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/stdio/vfprintf.c,v 1.5 2007/01/11 20:56:55 tg Exp $");
 
 static void __find_arguments(const char *fmt0, va_list ap, va_list **argtable,
     size_t *argtablesiz);
@@ -149,16 +172,18 @@ static int exponent(char *, int, int);
 #define FPT		0x100		/* Floating point number */
 #define PTRINT		0x200		/* (unsigned) ptrdiff_t */
 #define SIZEINT		0x400		/* (signed) size_t */
+#define CHARINT		0x800		/* (un)signed char */
 
 int
 vfprintf(FILE *fp, const char *fmt0, _BSD_VA_LIST_ ap)
 {
-	char *fmt;	/* format string */
-	int ch;	/* character from fmt */
-	int n, m, n2;	/* handy integers (short term usage) */
-	char *cp;	/* handy char pointer (short term usage) */
-	struct __siov *iovp;/* for PRINT macro */
-	int flags;	/* flags as above */
+	char *fmt;		/* format string */
+	int ch;			/* character from fmt */
+	int n, m, n2;		/* handy integers (short term usage) */
+	char *cp;		/* handy char pointer (short term usage) */
+	wchar_t *wcp;		/* handy wchar_t pointer (short term usage) */
+	struct __siov *iovp;	/* for PRINT macro */
+	int flags;		/* flags as above */
 	int ret;		/* return value accumulator */
 	int width;		/* width from format (%8d), or 0 */
 	int prec;		/* precision from format (%.3d), or -1 */
@@ -166,7 +191,11 @@ vfprintf(FILE *fp, const char *fmt0, _BSD_VA_LIST_ ap)
 	wchar_t wc;
 	mbstate_t ps;
 #ifdef FLOATING_POINT
+#if 0
 	char *decimal_point = localeconv()->decimal_point;
+#else
+#define decimal_point		"."
+#endif
 	char softsign;		/* temporary negative sign for floats */
 	double _double;		/* double precision arguments %[eEfgG] */
 	int expt;		/* integer value of exponent */
@@ -189,13 +218,16 @@ vfprintf(FILE *fp, const char *fmt0, _BSD_VA_LIST_ ap)
 #define NIOV 8
 	struct __suio uio;	/* output information: summary */
 	struct __siov iov[NIOV];/* ... and individual io vectors */
-	char buf[BUF];		/* space for %c, %[diouxX], %[eEfgG] */
+	char buf[BUF];		/* space for %[Ccm], %[diouxX], %[eEfgG] */
 	char ox[2];		/* space for 0x hex-prefix */
 	va_list *argtable;	/* args, built due to positional arg */
 	va_list statargtable[STATIC_ARG_TBL_SIZE];
 	size_t argtablesiz;
 	int nextarg;		/* 1-based argument index */
 	va_list orgap;		/* original argument pointer */
+	char *mmapalloc = NULL;	/* something we need to munmap */
+	size_t mmapalcsz = 0;	/* and its size */
+	int origerrno;		/* errno on function entry */
 
 	/*
 	 * Choose PADSIZE to trade efficiency vs. size.  If larger printf
@@ -207,6 +239,8 @@ vfprintf(FILE *fp, const char *fmt0, _BSD_VA_LIST_ ap)
 	 {' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '};
 	static char zeroes[PADSIZE] =
 	 {'0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0'};
+
+	origerrno = errno;
 
 	/*
 	 * BEWARE, these 'goto error' on error, and PAD uses 'n'.
@@ -257,13 +291,15 @@ vfprintf(FILE *fp, const char *fmt0, _BSD_VA_LIST_ ap)
 	    flags&PTRINT ? GETARG(ptrdiff_t) : \
 	    flags&SIZEINT ? GETARG(ssize_t) : \
 	    flags&SHORTINT ? (long)(short)GETARG(int) : \
+	    flags&CHARINT ? (long)(signed char)GETARG(int) : \
 	    (long)GETARG(int))
 #define	UARG() \
 	(flags&QUADINT ? GETARG(u_quad_t) : \
 	    flags&LONGINT ? GETARG(u_long) : \
-	    flags&PTRINT ? GETARG(ptrdiff_t) : /* XXX */ \
+	    flags&PTRINT ? GETARG(intptr_t) : \
 	    flags&SIZEINT ? GETARG(size_t) : \
 	    flags&SHORTINT ? (u_long)(u_short)GETARG(int) : \
+	    flags&CHARINT ? (u_long)(unsigned char)GETARG(int) : \
 	    (u_long)GETARG(u_int))
 
 	 /*
@@ -292,10 +328,10 @@ vfprintf(FILE *fp, const char *fmt0, _BSD_VA_LIST_ ap)
 	}
 
 /*
-* Get the argument indexed by nextarg.   If the argument table is
-* built, use it to get the argument.  If its not, get the next
-* argument (and arguments must be gotten sequentially).
-*/
+ * Get the argument indexed by nextarg.   If the argument table is
+ * built, use it to get the argument.  If its not, get the next
+ * argument (and arguments must be gotten sequentially).
+ */
 #define GETARG(type) \
 	(((argtable != NULL) ? (void)(ap = argtable[nextarg]) : (void)0), \
 	 nextarg++, va_arg(ap, type))
@@ -326,19 +362,28 @@ vfprintf(FILE *fp, const char *fmt0, _BSD_VA_LIST_ ap)
 	 * Scan the format for conversions ('%' character).
 	 */
 	for (;;) {
+#ifdef __MirBSD__
+		for (cp = fmt; (ch = *fmt) != '\0' && ch != '%'; ++fmt)
+			;
+#else
 		cp = fmt;
 		while ((n = mbrtowc(&wc, fmt, MB_CUR_MAX, &ps)) > 0) {
 			fmt += n;
-			if (wc == '%') {
+			if (wc == L'%') {
 				fmt--;
 				break;
 			}
 		}
+#endif
 		if ((m = fmt - cp) != 0) {
 			PRINT(cp, m);
 			ADDTORET(m);
 		}
+#ifdef __MirBSD__
+		if (ch == '\0')
+#else
 		if (n <= 0)
+#endif
 			goto done;
 		fmt++;		/* skip over '%' */
 
@@ -348,8 +393,8 @@ vfprintf(FILE *fp, const char *fmt0, _BSD_VA_LIST_ ap)
 		prec = -1;
 		sign = '\0';
 
-rflag:		ch = *fmt++;
-reswitch:	switch (ch) {
+ rflag:		ch = *fmt++;
+ reswitch:	switch (ch) {
 		case ' ':
 			/*
 			 * ''If the space and + flags both appear, the space
@@ -434,7 +479,18 @@ reswitch:	switch (ch) {
 			goto rflag;
 #endif
 		case 'h':
-			flags |= SHORTINT;
+			if (*fmt == 'h') {
+				fmt++;
+				flags |= CHARINT;
+			} else
+				flags |= SHORTINT;
+			goto rflag;
+		case 'j':
+#if (INTMAX_MIN != INT64_MIN) || (INTMAX_MAX != INT64_MAX) || \
+    (UINTMAX_MAX != UINT64_MAX)
+#error This code assumes that intmax_t = int64_t, uintmax_t = uint64_t
+#endif
+			flags |= QUADINT;
 			goto rflag;
 		case 'l':
 			if (*fmt == 'l') {
@@ -453,7 +509,24 @@ reswitch:	switch (ch) {
 		case 'z':
 			flags |= SIZEINT;
 			goto rflag;
+		case 'C':
+			flags |= LONGINT;
+			/*FALLTHROUGH*/
 		case 'c':
+			if (flags & LONGINT) {
+				mbstate_t lcs = { 0, 0 };
+
+				wc = GETARG(wint_t);
+				size = wcrtomb(buf, wc, &lcs);
+				if ((size_t)size == (size_t)-1) {
+					buf[0] = 0xEF;
+					buf[1] = 0xBF;
+					buf[2] = 0xBD;
+					size = 3;
+				}
+				(cp = buf)[size] = '\0';
+				goto procstr;
+			}
 			*(cp = buf) = GETARG(int);
 			size = 1;
 			sign = '\0';
@@ -536,6 +609,14 @@ reswitch:	switch (ch) {
 				sign = '-';
 			break;
 #endif /* FLOATING_POINT */
+		case 'm':
+			n = errno;
+			strerror_r(origerrno, cp = buf, BUF);
+			/* strerror_r(3) may return EINVAL or ERANGE, but
+			 * these are of no meaning to vfprintf -> clean up
+			 */
+			errno = n;
+			goto procstr;
 		case 'n':
 			if (flags & QUADINT)
 				*GETARG(quad_t *) = ret;
@@ -543,6 +624,8 @@ reswitch:	switch (ch) {
 				*GETARG(long *) = ret;
 			else if (flags & SHORTINT)
 				*GETARG(short *) = ret;
+			else if (flags & CHARINT)
+				*GETARG(signed char *) = ret;
 			else if (flags & PTRINT)
 				*GETARG(ptrdiff_t *) = ret;
 			else if (flags & SIZEINT)
@@ -572,9 +655,36 @@ reswitch:	switch (ch) {
 			flags |= HEXPREFIX;
 			ch = 'x';
 			goto nosign;
+		case 'S':
+			flags |= LONGINT;
+			/*FALLTHROUGH*/
 		case 's':
+			if (flags & LONGINT)
+				goto gotls;
 			if ((cp = GETARG(char *)) == NULL)
 				cp = "(null)";
+			goto procstr;
+ gotls:
+			if ((wcp = GETARG(wchar_t *)) == NULL)
+				wcp = L"(null)";
+			if ((size = wcstombs(NULL, wcp, 0) + 1) == 0) {
+				/* EILSEQ */
+				fp->_flags |= __SERR;
+				goto error;
+			}
+			/* this is awkward, some kind of malloc wannabe */
+			if (mmapalcsz)
+				munmap(mmapalloc, mmapalcsz);
+			cp = mmapalloc = (char *)mmap(NULL, mmapalcsz = size,
+			    PROT_WRITE|PROT_READ, MAP_ANON|MAP_PRIVATE, -1, 0);
+			if (mmapalloc == MAP_FAILED) {
+				mmapalcsz = 0;
+				ret = EOF;
+				goto error;
+			}
+			/* now copy over the wide string */
+			wcstombs(cp, wcp, size);
+ procstr:
 			if (prec >= 0) {
 				/*
 				 * can't use strlen; can only look for the
@@ -591,6 +701,25 @@ reswitch:	switch (ch) {
 					size = prec;
 			} else
 				size = strlen(cp);
+			if (flags & LONGINT) {
+				/*
+				 * no partial multibyte characters are to be
+				 * written - we know we are only called with
+				 * either cp=buf pointing to one mbchar plus
+				 * NUL or by gotls: cp=mmapalloc pointing to
+				 * a NUL-terminated multibyte string; we ba-
+				 * sically check if the input byte AFTER the
+				 * last byte to be printed is a continuation
+				 * character and wind back until it isn't; a
+				 * trick that can only work on already vali-
+				 * dated NUL-terminated pure CESU-8 strings.
+				 */
+#if !defined(__STDC_ISO_10646__) || (__STDC_ISO_10646__ != 200009L)
+#error This code assumes CESU-8 intrinsics from MirBSD
+#endif
+				while (size && ((cp[size] & 0xC0) == 0x80))
+					--size;
+			}
 			sign = '\0';
 			break;
 		case 'U':
@@ -605,20 +734,20 @@ reswitch:	switch (ch) {
 			goto hex;
 		case 'x':
 			xdigs = "0123456789abcdef";
-hex:			_uquad = UARG();
+ hex:			_uquad = UARG();
 			base = HEX;
 			/* leading 0x/X only if non-zero */
 			if (flags & ALT && _uquad != 0)
 				flags |= HEXPREFIX;
 
 			/* unsigned conversions */
-nosign:			sign = '\0';
+ nosign:		sign = '\0';
 			/*
 			 * ''... diouXx conversions ... if a precision is
 			 * specified, the 0 flag will be ignored.''
 			 *	-- ANSI X3J11
 			 */
-number:			if ((dprec = prec) >= 0)
+ number:		if ((dprec = prec) >= 0)
 				flags &= ~ZEROPAD;
 
 			/*
@@ -776,13 +905,15 @@ number:			if ((dprec = prec) >= 0)
 
 		FLUSH();	/* copy out the I/O vectors */
 	}
-done:
+ done:
 	FLUSH();
-error:
+ error:
 	if (argtable != NULL && argtable != statargtable) {
 		munmap(argtable, argtablesiz);
 		argtable = NULL;
 	}
+	if (mmapalcsz)
+		munmap(mmapalloc, mmapalcsz);
 	return (__sferror(fp) ? EOF : ret);
 	/* NOTREACHED */
 }
@@ -812,6 +943,12 @@ error:
 #define T_SIZEINT	19
 #define T_SSIZEINT	20
 #define TP_SSIZEINT	21
+#define T_WINTT		22
+#define TP_WCHART	23
+#define T_CHAR		24
+#define T_U_CHAR	25
+#define	TP_SCHAR	26
+#define T_U_PTRINT	27
 
 /*
  * Find all arguments when a positional parameter is encountered.  Returns a
@@ -850,12 +987,14 @@ __find_arguments(const char *fmt0, va_list ap, va_list **argtable,
 #define	ADDSARG() \
 	((flags&QUADINT) ? ADDTYPE(T_QUAD) : \
 	    ((flags&LONGINT) ? ADDTYPE(T_LONG) : \
-		((flags&SHORTINT) ? ADDTYPE(T_SHORT) : ADDTYPE(T_INT))))
+	    ((flags&CHARINT) ? ADDTYPE(T_CHAR) : \
+		((flags&SHORTINT) ? ADDTYPE(T_SHORT) : ADDTYPE(T_INT)))))
 
 #define	ADDUARG() \
 	((flags&QUADINT) ? ADDTYPE(T_U_QUAD) : \
 	    ((flags&LONGINT) ? ADDTYPE(T_U_LONG) : \
-		((flags&SHORTINT) ? ADDTYPE(T_U_SHORT) : ADDTYPE(T_U_INT))))
+	    ((flags&CHARINT) ? ADDTYPE(T_U_CHAR) : \
+		((flags&SHORTINT) ? ADDTYPE(T_U_SHORT) : ADDTYPE(T_U_INT)))))
 
 	/*
 	 * Add * arguments to the type array.
@@ -888,22 +1027,28 @@ __find_arguments(const char *fmt0, va_list ap, va_list **argtable,
 	 * Scan the format for conversions ('%' character).
 	 */
 	for (;;) {
+#ifdef __MirBSD__
+		for (cp = fmt; (ch = *fmt) != '\0' && ch != '%'; ++fmt)
+			;
+		if (ch == '\0')
+#else
 		cp = fmt;
 		while ((n = mbrtowc(&wc, fmt, MB_CUR_MAX, &ps)) > 0) {
 			fmt += n;
-			if (wc == '%') {
+			if (wc == L'%') {
 				fmt--;
 				break;
 			}
 		}
 		if (n <= 0)
+#endif
 			goto done;
 		fmt++;		/* skip over '%' */
 
 		flags = 0;
 
-rflag:		ch = *fmt++;
-reswitch:	switch (ch) {
+ rflag:		ch = *fmt++;
+ reswitch:	switch (ch) {
 		case ' ':
 		case '#':
 			goto rflag;
@@ -942,7 +1087,11 @@ reswitch:	switch (ch) {
 			goto rflag;
 #endif
 		case 'h':
-			flags |= SHORTINT;
+			if (*fmt == 'h') {
+				fmt++;
+				flags |= CHARINT;
+			} else
+				flags |= SHORTINT;
 			goto rflag;
 		case 'l':
 			if (*fmt == 'l') {
@@ -952,6 +1101,7 @@ reswitch:	switch (ch) {
 				flags |= LONGINT;
 			}
 			goto rflag;
+		case 'j':
 		case 'q':
 			flags |= QUADINT;
 			goto rflag;
@@ -961,8 +1111,14 @@ reswitch:	switch (ch) {
 		case 'z':
 			flags |= SIZEINT;
 			goto rflag;
+		case 'C':
+			flags |= LONGINT;
+			/*FALLTHROUGH*/
 		case 'c':
-			ADDTYPE(T_INT);
+			if (flags & LONGINT)
+				ADDTYPE(T_WINTT);
+			else
+				ADDTYPE(T_INT);
 			break;
 		case 'D':
 			flags |= LONGINT;
@@ -997,6 +1153,8 @@ reswitch:	switch (ch) {
 				ADDTYPE(TP_LONG);
 			else if (flags & SHORTINT)
 				ADDTYPE(TP_SHORT);
+			else if (flags & CHARINT)
+				ADDTYPE(TP_SCHAR);
 			else if (flags & PTRINT)
 				ADDTYPE(TP_PTRINT);
 			else if (flags & SIZEINT)
@@ -1016,8 +1174,14 @@ reswitch:	switch (ch) {
 		case 'p':
 			ADDTYPE(TP_VOID);
 			break;
+		case 'S':
+			flags |= LONGINT;
+			/*FALLTHROUGH*/
 		case 's':
-			ADDTYPE(TP_CHAR);
+			if (flags & LONGINT)
+				ADDTYPE(TP_WCHART);
+			else
+				ADDTYPE(TP_CHAR);
 			break;
 		case 'U':
 			flags |= LONGINT;
@@ -1033,7 +1197,7 @@ reswitch:	switch (ch) {
 			if (flags & QUADINT)
 				ADDTYPE(T_U_QUAD);
 			else if (flags & PTRINT)
-				ADDTYPE(T_PTRINT);
+				ADDTYPE(T_U_PTRINT);
 			else if (flags & SIZEINT)
 				ADDTYPE(T_SIZEINT);
 			else
@@ -1045,7 +1209,7 @@ reswitch:	switch (ch) {
 			break;
 		}
 	}
-done:
+ done:
 	/*
 	 * Build the argument table.
 	 */
@@ -1127,6 +1291,24 @@ done:
 			break;
 		case TP_SSIZEINT:
 			(void) va_arg(ap, ssize_t *);
+			break;
+		case T_WINTT:
+			(void) va_arg(ap, wint_t);
+			break;
+		case TP_WCHART:
+			(void) va_arg(ap, wchar_t *);
+			break;
+		case T_CHAR:
+			(void) va_arg(ap, int);
+			break;
+		case T_U_CHAR:
+			(void) va_arg(ap, int);
+			break;
+		case TP_SCHAR:
+			(void) va_arg(ap, signed char *);
+			break;
+		case T_U_PTRINT:
+			(void) va_arg(ap, intptr_t);
 			break;
 		}
 	}

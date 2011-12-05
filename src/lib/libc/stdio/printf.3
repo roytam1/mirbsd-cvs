@@ -1,6 +1,8 @@
-.\"	$MirOS$
+.\"	$MirOS: src/lib/libc/stdio/printf.3,v 1.3 2007/01/11 21:39:26 tg Exp $
 .\"	$OpenBSD: printf.3,v 1.49 2005/07/26 03:30:25 jaredy Exp $
 .\"
+.\" Copyright (c) 2007
+.\"	Thorsten Glaser <tg@mirbsd.de>
 .\" Copyright (c) 1990, 1991, 1993
 .\"	The Regents of the University of California.  All rights reserved.
 .\"
@@ -34,7 +36,7 @@
 .\"
 .\"     @(#)printf.3	8.1 (Berkeley) 6/4/93
 .\"
-.Dd January 11, 2007
+.Dd April 11, 2007
 .Dt PRINTF 3
 .Os
 .Sh NAME
@@ -147,7 +149,7 @@ effectively assume an infinite
 .Pp
 The format string is composed of zero or more directives:
 ordinary
-.\" multibyte
+multibyte
 characters (not
 .Cm % ) ,
 which are copied unchanged to the output stream,
@@ -176,7 +178,8 @@ Zero or more of the following flags:
 A hash
 .Sq Cm #
 character
-specifying that the value should be converted to an ``alternate form''.
+specifying that the value should be converted to an
+.Dq alternate form .
 For
 .Cm c ,
 .Cm d ,
@@ -324,6 +327,47 @@ conversion corresponds to a pointer to a
 .Li short int
 argument.
 .It
+The optional character sequence
+.Cm hh ,
+specifying that a following
+.Cm d ,
+.Cm i ,
+.Cm o ,
+.Cm u ,
+.Cm x ,
+or
+.Cm X
+conversion corresponds to a
+.Li signed char
+or
+.Li unsigned char
+argument, or that a following
+.Cm n
+conversion corresponds to a pointer to a
+.Li signed char
+argument.
+.It
+The optional character
+.Cm j ,
+specifying that a following
+.Cm d ,
+.Cm i ,
+.Cm o ,
+.Cm u ,
+.Cm x ,
+or
+.Cm X
+conversion corresponds to a
+.Em intmax_t
+or
+.Em uintmax_t
+argument, or that a following
+.Cm n
+conversion corresponds to a pointer to a
+.Em intmax_t
+argument.
+(In the current implementation, this is a quad integer.)
+.It
 The optional character
 .Cm l
 (ell) specifying that a following
@@ -342,6 +386,11 @@ argument, or that a following
 .Cm n
 conversion corresponds to a pointer to a
 .Li long int
+argument, or that a following
+.Cm c ,
+or
+.Cm s
+conversion corresponds to a wide character
 argument.
 .It
 The optional character sequence
@@ -380,7 +429,7 @@ or
 conversion corresponds to a
 .Em ptrdiff_t
 or
-the corresponding unsigned integer type
+.Em intptr_t
 argument, or that a following
 .Cm n
 conversion corresponds to a pointer to a
@@ -400,12 +449,11 @@ or
 conversion corresponds to a
 .Em size_t
 or
-the corresponding signed integer type
+.Em ssize_t
 argument, or that a following
 .Cm n
 conversion corresponds to a pointer to a
-signed integer type corresponding to
-.Em size_t
+.Em ssize_t
 argument.
 .It
 The character
@@ -536,14 +584,34 @@ is used if the exponent from its conversion is less than -4 or greater than
 or equal to the precision.
 Trailing zeros are removed from the fractional part of the result; a
 decimal point appears only if it is followed by at least one digit.
+.It Cm C
+Deprecated alias for
+.Cm lc .
+Do not use.
 .It Cm c
-The
+If the
+.Cm l
+specifier is not given, the
 .Li int
 argument is converted to an
 .Li unsigned char ,
 and the resulting character is written.
+Otherwise, the
+.Li wint_t
+argument is converted to an
+.Li wchar_t ,
+and the resulting wide character is written as multibyte string
+according to the rules of the
+.Cm ls
+conversion.
+.It Cm S
+Deprecated alias for
+.Cm ls .
+Do not use.
 .It Cm s
-The
+If the
+.Cm l
+specifier is not given, the
 .Li char *
 argument is expected to be a pointer to an array of character type (pointer
 to a string).
@@ -558,6 +626,25 @@ need be present; if the precision is not specified, or is greater than
 the size of the array, the array must contain a terminating
 .Tn NUL
 character.
+.Pp
+If the
+.Cm l
+specifier is given, the
+.Li wchar_t *
+argument is expected to be a pointer to an array of wide character type
+.Pq pointer to a wide string .
+The wide character string
+.Em must
+be
+.Tn NUL
+terminated.
+The wide string is then converted to a multibyte string; if the conversion
+fails due to an invalid wide character, the function fails with
+.Er EILSEQ .
+Otherwise, the output is truncated to at most the number of octets (bytes)
+corresponding to the field precision; however, no incomplete multibyte
+characters are written.
+Then, it is padded to the field width if specified.
 .It Cm p
 The
 .Li void *
@@ -565,6 +652,11 @@ pointer argument is printed in hexadecimal (as if by
 .Ql %#x
 or
 .Ql %#lx ) .
+.It Cm m
+The equivalent of
+.Fn strerror errno
+is written.
+This is a non-portable extension, don't use.
 .It Cm n
 The number of characters written so far is stored into the
 integer indicated by the
@@ -674,6 +766,14 @@ newfmt(const char *fmt, ...)
 	return (p);
 }
 .Ed
+.\".Pp
+.\"To output a multilingual greeting (see portability caveat):
+.\".Bd -literal -offset indent
+.\"#include <stdio.h>
+.\"
+.\"printf("%s\en%ls\en%ls\en", "Hello, World!", \e
+.\"    L"こんにちは", L"Schöne Grüße!");
+.\".Ed
 .Sh SEE ALSO
 .Xr printf 1 ,
 .Xr scanf 3
@@ -688,6 +788,10 @@ and
 .Fn vsprintf
 functions conform to
 .St -ansiC .
+.Pp
+Some of the
+.St -ansiC-99
+extensions have been implemented.
 .Sh HISTORY
 The functions
 .Fn snprintf
@@ -696,6 +800,12 @@ and
 first appeared in
 .Bx 4.4 .
 .Pp
+The
+.Cm %m
+conversion first appeared in the GNU/Linux libc5 library.
+This implementation, which processes width and precision too, first appeared in
+.Mx 10 .
+.Pp
 The functions
 .Fn asprintf
 and
@@ -703,10 +813,20 @@ and
 first appeared in the GNU C library.
 This implementation first appeared in
 .Ox 2.3 .
+.Pp
+The
+.Cm %C
+and
+.Cm %S
+conversions appear in Plan 9 as well as GNU libc 2.0,
+and were first implemented for
+.Mx 10 .
 .Sh CAVEATS
 The conversion formats
+.Cm %C ,
 .Cm \&%D ,
 .Cm \&%O ,
+.Cm %S ,
 and
 .Cm %U
 are not standard and
@@ -773,3 +893,12 @@ parameters, up to the
 last positionally specified parameter, are used in the format string.
 This allows for the format string to be parsed for this information.
 Failure to do this will mean the code is non-portable and liable to fail.
+.Pp
+On
+.Mx ,
+wide characters are always in UCS-2 Unicode, and multibyte characters
+are always in CESU-8 (UTF-8), for both the source and execution
+character sets; however, this is not portable.
+Other operating systems might not implement locale at all (even some
+of the other BSDs) or on a non-Unicode basis (e.g. the Citrus I18N
+extension for BSD) or require calls to set an appropriate locale.
