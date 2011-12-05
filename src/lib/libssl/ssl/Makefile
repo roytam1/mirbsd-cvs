@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libssl/ssl/Makefile,v 1.6 2005/12/06 01:46:45 tg Exp $
+# $MirOS: src/lib/libssl/ssl/Makefile,v 1.7 2006/03/27 18:28:07 tg Exp $
 # $OpenBSD: Makefile,v 1.21 2005/11/24 20:49:23 deraadt Exp $
 
 SHLIB_VERSION?=	11.0
@@ -31,11 +31,12 @@ includes:
 	@test -d ${DESTDIR}/usr/include/openssl || \
 	    mkdir ${DESTDIR}/usr/include/openssl
 	@cd ${LSSL_SRC}; for i in $(HDRS); do \
-	    j="cmp -s $$i ${DESTDIR}/usr/include/openssl/`basename $$i` || \
-	    ${INSTALL} ${INSTALL_COPY} -o ${BINOWN} -g ${BINGRP} -m 444 $$i\
-		${DESTDIR}/usr/include/openssl"; \
-	    echo $$j; \
-	    eval "$$j"; \
-	done;
+		j="cmp -s $$i ${DESTDIR}/usr/include/openssl/$$(basename $$i) \
+		    || cp -p $$i ${DESTDIR}/usr/include/openssl/"; \
+		echo $$j; \
+		eval "$$j"; \
+	done
+	chown -R ${BINOWN}:${BINGRP} ${DESTDIR}/usr/include/openssl
+	chmod -R a=rX ${DESTDIR}/usr/include/openssl
 
 .include <bsd.lib.mk>
