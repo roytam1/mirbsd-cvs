@@ -37,7 +37,7 @@ static const char rcsid[] =
  * combined efforts of Van, Steve McCanne and Craig Leres of LBL.
  */
 
-#include <sys/types.h>
+#include <sys/param.h>
 #include <sys/time.h>
 #include <sys/ioctl.h>
 #include <sys/wait.h>
@@ -67,6 +67,8 @@ static const char rcsid[] =
 #include "pfctl.h"
 #include "pfctl_parser.h"
 #include "privsep.h"
+
+__RCSID("$MirOS$");
 
 int aflag;			/* translate network and broadcast addresses */
 int dflag;			/* print filter code */
