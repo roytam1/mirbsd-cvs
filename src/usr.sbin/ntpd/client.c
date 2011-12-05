@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/ntpd/client.c,v 1.5 2007/07/31 19:57:02 tg Exp $ */
+/**	$MirOS: src/usr.sbin/ntpd/client.c,v 1.6 2007/07/31 20:32:45 tg Exp $ */
 /*	$OpenBSD: client.c,v 1.66 2005/09/24 00:32:03 dtucker Exp $ */
 
 /*
@@ -28,7 +28,7 @@
 
 #include "ntpd.h"
 
-__RCSID("$MirOS: src/usr.sbin/ntpd/client.c,v 1.5 2007/07/31 19:57:02 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/ntpd/client.c,v 1.6 2007/07/31 20:32:45 tg Exp $");
 
 #ifdef DDEBUG
 #define log_reply	log_info
@@ -91,7 +91,7 @@ client_addr_init(struct ntp_peer *p)
 			break;
 		default:
 			fatal("king bula sez: wrong AF in client_addr_init");
-			/* not reached */
+			/* NOTREACHED */
 		}
 	}
 

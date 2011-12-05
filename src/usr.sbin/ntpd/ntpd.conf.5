@@ -1,3 +1,4 @@
+.\" $MirOS$
 .\" $OpenBSD: ntpd.conf.5,v 1.9 2004/11/08 19:09:19 otto Exp $
 .\"
 .\" Copyright (c) 2003, 2004 Henning Brauer <henning@openbsd.org>
@@ -14,7 +15,7 @@
 .\" AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT
 .\" OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .\"
-.Dd June 17, 2004
+.Dd $Mdocdate$
 .Dt NTPD.CONF 5
 .Os
 .Sh NAME
@@ -40,11 +41,17 @@ daemon should listen on.
 If it appears multiple times,
 .Xr ntpd 8
 will listen on each given address.
-If
+If the exact string
 .Sq *
 is given as an address,
 .Xr ntpd 8
 will listen on all local addresses.
+Otherwise,
+.Ar address
+can be followed by an asterisk
+.Pq Sq *
+and a UDP port number to listen on instead of the default
+.Dv 123 .
 .Xr ntpd 8
 does not listen on any address by default.
 For example:
@@ -70,6 +77,7 @@ For example:
 .Bd -literal -offset indent
 server 10.0.0.2
 server ntp.example.org
+server ::1*12345
 .Ed
 .Pp
 To provide redundancy, it is good practice to configure multiple servers.

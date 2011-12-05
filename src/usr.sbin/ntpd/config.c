@@ -31,7 +31,7 @@
 
 #include "ntpd.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.sbin/ntpd/config.c,v 1.2 2007/07/31 19:57:02 tg Exp $");
 
 struct ntp_addr	*host_v4(const char *);
 struct ntp_addr	*host_v6(const char *);
@@ -42,21 +42,60 @@ int
 host(const char *s, struct ntp_addr **hn)
 {
 	struct ntp_addr	*h = NULL;
+	char *q = NULL, *cp;
+	int portno = 0;
 
 	if (!strcmp(s, "*"))
 		if ((h = calloc(1, sizeof(struct ntp_addr))) == NULL)
 			fatal(NULL);
 
+	if ((cp = strrchr(s, '*')) != NULL) {
+		const char *ep = NULL;
+
+		if ((q = strdup(s)) == NULL)
+			fatal(NULL);
+		cp = q + (cp - s);
+		*cp++ = '\0';
+		portno = strtonum(cp, 1, 65535, &ep);
+		if (ep) {
+			log_warnx("syntax error: port number for %s is %s: %s",
+			    q, ep, cp);
+			exit(1);
+		}
+	}
+
 	/* IPv4 address? */
 	if (h == NULL)
-		h = host_v4(s);
+		h = host_v4(q ? q : s);
 
 	/* IPv6 address? */
 	if (h == NULL)
-		h = host_v6(s);
+		h = host_v6(q ? q : s);
+
+	if (q)
+		free(q);
 
 	if (h == NULL)
 		return (0);
+
+	if (portno) {
+		struct sockaddr_in *sa_in;
+		struct sockaddr_in6 *sa_in6;
+
+		switch (h->ss.ss_family) {
+		case AF_INET:
+			sa_in = (struct sockaddr_in *)&h->ss;
+			sa_in->sin_port = htons(portno);
+			break;
+		case AF_INET6:
+			sa_in6 = (struct sockaddr_in6 *)&h->ss;
+			sa_in6->sin6_port = htons(portno);
+			break;
+		default:
+			fatal("wrong AF for port assignment in config::host");
+			/* NOTREACHED */
+		}
+	}
 
 	*hn = h;
 

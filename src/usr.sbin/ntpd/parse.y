@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/ntpd/parse.y,v 1.3 2006/08/12 23:53:35 tg Exp $ */
+/**	$MirOS: src/usr.sbin/ntpd/parse.y,v 1.4 2007/07/31 19:57:02 tg Exp $ */
 /*	$OpenBSD: parse.y,v 1.25 2005/06/19 16:42:57 henning Exp $ */
 
 /*
@@ -37,7 +37,7 @@
 
 #include "ntpd.h"
 
-__RCSID("$MirOS: src/usr.sbin/ntpd/parse.y,v 1.3 2006/08/12 23:53:35 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/ntpd/parse.y,v 1.4 2007/07/31 19:57:02 tg Exp $");
 
 static struct ntpd_conf		*conf;
 static FILE			*fin = NULL;
@@ -219,6 +219,8 @@ conf_main	: LISTEN ON address	{
 		;
 
 address		: STRING		{
+			char *p;
+
 			if (($$ = calloc(1, sizeof(struct ntp_addr_wrap))) ==
 			    NULL)
 				fatal(NULL);
@@ -229,7 +231,12 @@ address		: STRING		{
 				free($$);
 				YYERROR;
 			}
-			$$->name = $1;
+			if (!strcmp($1, "*") || (p = strrchr($1, '*')) == NULL)
+				$$->name = $1;
+			else if (($$->name = strdup($1)) == NULL)
+				fatal(NULL);
+			else
+				$$->name[p - $1] = '\0';
 		}
 		;
 
