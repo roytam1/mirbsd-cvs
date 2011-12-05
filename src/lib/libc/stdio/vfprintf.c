@@ -50,7 +50,7 @@
 #include "local.h"
 #include "fvwrite.h"
 
-__RCSID("$MirOS: src/lib/libc/stdio/vfprintf.c,v 1.2 2005/03/06 20:28:45 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/stdio/vfprintf.c,v 1.3 2005/09/22 20:13:05 tg Exp $");
 
 static void __find_arguments(const char *fmt0, va_list ap, va_list **argtable,
     size_t *argtablesiz);
@@ -76,7 +76,7 @@ __sprint(FILE *fp, struct __suio *uio)
 }
 
 /*
- * Helper function for `fprintf to unbuffered unix file': creates a
+ * Helper function for 'fprintf to unbuffered unix file': creates a
  * temporary buffer.  We only work on write-only files; this avoids
  * worries about ungetc buffers and so forth.
  */
@@ -209,8 +209,16 @@ vfprintf(FILE *fp, const char *fmt0, _BSD_VA_LIST_ ap)
 	 {'0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0'};
 
 	/*
-	 * BEWARE, these `goto error' on error, and PAD uses `n'.
+	 * BEWARE, these 'goto error' on error, and PAD uses 'n'.
 	 */
+#define	ADDTORET(x) do {	\
+	int oldret = ret;	\
+	ret += (x);		\
+	if (oldret > ret) {	\
+		ret = EOF;	\
+		goto error;	\
+	}			\
+} while (0)
 #define	PRINT(ptr, len) do { \
 	iovp->iov_base = (ptr); \
 	iovp->iov_len = (len); \
@@ -314,7 +322,7 @@ vfprintf(FILE *fp, const char *fmt0, _BSD_VA_LIST_ ap)
 
 	memset(&ps, 0, sizeof(ps));
 	/*
-	 * Scan the format for conversions (`%' character).
+	 * Scan the format for conversions ('%' character).
 	 */
 	for (;;) {
 		cp = fmt;
@@ -327,7 +335,7 @@ vfprintf(FILE *fp, const char *fmt0, _BSD_VA_LIST_ ap)
 		}
 		if ((m = fmt - cp) != 0) {
 			PRINT(cp, m);
-			ret += m;
+			ADDTORET(m);
 		}
 		if (n <= 0)
 			goto done;
@@ -343,7 +351,7 @@ rflag:		ch = *fmt++;
 reswitch:	switch (ch) {
 		case ' ':
 			/*
-			 * ``If the space and + flags both appear, the space
+			 * ''If the space and + flags both appear, the space
 			 * flag will be ignored.''
 			 *	-- ANSI X3J11
 			 */
@@ -355,7 +363,7 @@ reswitch:	switch (ch) {
 			goto rflag;
 		case '*':
 			/*
-			 * ``A negative field width argument is taken as a
+			 * ''A negative field width argument is taken as a
 			 * - flag followed by a positive field width.''
 			 *	-- ANSI X3J11
 			 * They don't exclude field widths read from args.
@@ -395,7 +403,7 @@ reswitch:	switch (ch) {
 			goto reswitch;
 		case '0':
 			/*
-			 * ``Note that 0 is taken as a flag, not as the
+			 * ''Note that 0 is taken as a flag, not as the
 			 * beginning of a field width.''
 			 *	-- ANSI X3J11
 			 */
@@ -550,7 +558,7 @@ reswitch:	switch (ch) {
 			goto nosign;
 		case 'p':
 			/*
-			 * ``The argument shall be a pointer to void.  The
+			 * ''The argument shall be a pointer to void.  The
 			 * value of the pointer is converted to a sequence
 			 * of printable characters, in an implementation-
 			 * defined manner.''
@@ -569,7 +577,7 @@ reswitch:	switch (ch) {
 			if (prec >= 0) {
 				/*
 				 * can't use strlen; can only look for the
-				 * NUL in the first `prec' characters, and
+				 * NUL in the first 'prec' characters, and
 				 * strlen() will go further.
 				 */
 				char *p = memchr(cp, 0, prec);
@@ -605,7 +613,7 @@ hex:			_uquad = UARG();
 			/* unsigned conversions */
 nosign:			sign = '\0';
 			/*
-			 * ``... diouXx conversions ... if a precision is
+			 * ''... diouXx conversions ... if a precision is
 			 * specified, the 0 flag will be ignored.''
 			 *	-- ANSI X3J11
 			 */
@@ -613,7 +621,7 @@ number:			if ((dprec = prec) >= 0)
 				flags &= ~ZEROPAD;
 
 			/*
-			 * ``The result of converting a zero value with an
+			 * ''The result of converting a zero value with an
 			 * explicit precision of zero is no characters.''
 			 *	-- ANSI X3J11
 			 */
@@ -672,9 +680,9 @@ number:			if ((dprec = prec) >= 0)
 		}
 
 		/*
-		 * All reasonable formats wind up here.  At this point, `cp'
+		 * All reasonable formats wind up here.  At this point, 'cp'
 		 * points to a string which (if not flags&LADJUST) should be
-		 * padded out to `width' places.  If flags&ZEROPAD, it should
+		 * padded out to 'width' places.  If flags&ZEROPAD, it should
 		 * first be prefixed by any sign or other prefix; otherwise,
 		 * it should be blank padded before the prefix is emitted.
 		 * After any left-hand padding and prefixing, emit zeroes
@@ -763,7 +771,7 @@ number:			if ((dprec = prec) >= 0)
 			PAD(width - realsz, blanks);
 
 		/* finally, adjust ret */
-		ret += width > realsz ? width : realsz;
+		ADDTORET(width > realsz ? width : realsz);
 
 		FLUSH();	/* copy out the I/O vectors */
 	}
@@ -876,7 +884,7 @@ __find_arguments(const char *fmt0, va_list ap, va_list **argtable,
 	memset(&ps, 0, sizeof(ps));
 
 	/*
-	 * Scan the format for conversions (`%' character).
+	 * Scan the format for conversions ('%' character).
 	 */
 	for (;;) {
 		cp = fmt;
