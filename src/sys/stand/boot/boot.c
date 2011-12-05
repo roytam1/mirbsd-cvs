@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/stand/boot/boot.c,v 1.3 2006/04/05 22:12:16 tg Exp $	*/
+/**	$MirOS: src/sys/stand/boot/boot.c,v 1.4 2006/04/06 00:05:33 tg Exp $	*/
 /*	$OpenBSD: boot.c,v 1.30 2004/01/29 00:54:08 tom Exp $	*/
 
 /*
@@ -101,7 +101,8 @@ boot(dev_t bootdev)
 #else
 	if (hook_value) {
 		cmd.boothowto = 0;
-		snprintf(myconf, sizeof(myconf), "/etc/boot.%d", hook_value);
+		snprintf(myconf, sizeof (myconf), "/etc/boot.%03x",
+		    (hook_value & 0xFFF));
 		cmd.conf = myconf;
 		cmd.addr = (void *)DEFAULT_KERNEL_ADDRESS;
 		cmd.timeout = 5;
