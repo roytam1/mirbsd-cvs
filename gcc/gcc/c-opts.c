@@ -1,4 +1,4 @@
-/* $MirOS: gcc/gcc/c-opts.c,v 1.2 2005/03/25 19:29:01 tg Exp $ */
+/* $MirOS: gcc/gcc/c-opts.c,v 1.3 2006/01/31 12:02:27 tg Exp $ */
 
 /* C/ObjC/C++ command line option handling.
    Copyright (C) 2002, 2003, 2004 Free Software Foundation, Inc.
@@ -1181,8 +1181,9 @@ c_common_post_options (const char **pfilename)
       }
     } else {
       if (honour_copts != 1)
-	warning ("someone does not honour COPTS correctly, seen %d times",
+	inform ("someone does not honour COPTS correctly, seen %d times",
 	 honour_copts);
+    }
   }
 
   if (flag_preprocess_only)
