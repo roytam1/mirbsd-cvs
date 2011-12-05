@@ -1,4 +1,4 @@
-/* $MirOS: src/gnu/usr.bin/binutils/ld/lexsup.c,v 1.3 2005/03/28 22:21:13 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/binutils/ld/lexsup.c,v 1.4 2005/06/05 21:24:40 tg Exp $ */
 
 /* Parse options for the GNU linker.
    Copyright 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000,
@@ -43,7 +43,7 @@
 #include "ldemul.h"
 #include "demangle.h"
 
-__RCSID("$MirOS: src/gnu/usr.bin/binutils/ld/lexsup.c,v 1.3 2005/03/28 22:21:13 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/binutils/ld/lexsup.c,v 1.4 2005/06/05 21:24:40 tg Exp $");
 
 #ifndef PATH_SEPARATOR
 #if defined (__MSDOS__) || (defined (_WIN32) && ! defined (__CYGWIN32__))
@@ -592,6 +592,14 @@ parse_args (unsigned argc, char **argv)
   really_longopts[irl].name = NULL;
 
   ldemul_add_options (is, &shortopts, il, &longopts, irl, &really_longopts);
+
+  /* We support the -Wl,-foo idiom of the xgcc compiler driver here,
+     because some build system writers are too stupid to realise the
+     difference between LD and CCLD.  We do not support -Wl,-foo,bar
+     for simplicity; use -Wl,-foo -Wl,bar instead.  */
+  for (i = 1; i < argc; i++)
+    if (strncmp (argv[i], "-Wl,", 4) == 0)
+      memmove (argv[i], argv[i] + 4, strlen(argv[i] + 4) + /* NUL */ 1);
 
   /* The -G option is ambiguous on different platforms.  Sometimes it
      specifies the largest data size to put into the small data
