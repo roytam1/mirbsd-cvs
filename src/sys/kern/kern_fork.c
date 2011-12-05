@@ -1,9 +1,9 @@
-/**	$MirOS: src/sys/kern/kern_fork.c,v 1.4 2005/07/04 05:11:59 tg Exp $	*/
+/**	$MirOS: src/sys/kern/kern_fork.c,v 1.5 2005/07/23 19:36:05 tg Exp $	*/
 /*	$OpenBSD: kern_fork.c,v 1.73 2004/11/23 19:08:55 miod Exp $	*/
 /*	$NetBSD: kern_fork.c,v 1.29 1996/02/09 18:59:34 christos Exp $	*/
 
 /*
- * Copyright (c) 2004 Thorsten Glaser
+ * Copyright (c) 2004, 2008 Thorsten Glaser
  * Copyright (c) 2003 Ted Unangst
  * Copyright (c) 1982, 1986, 1989, 1991, 1993
  *	The Regents of the University of California.  All rights reserved.
@@ -68,7 +68,7 @@
 #include <uvm/uvm_map.h>
 
 int	nprocs = 1;		/* process 0 */
-int	randompid;		/* when set to 1, pid's go random */
+int	randompid;		/* when set to 1, PIDs go random */
 pid_t	lastpid;
 struct	forkstat forkstat;
 
@@ -325,7 +325,8 @@ fork1(struct proc *p1, int exitsig, int flags, void *stack, size_t stacksize,
 
 	/* Find an unused pid satisfying 1 <= lastpid <= PID_MAX */
 	do {
-		lastpid = 1 + (randompid ? arc4random() : lastpid) % PID_MAX;
+		lastpid = randompid ? arc4random_uniform(PID_MAX) :
+		    (lastpid + 1) % PID_MAX;
 	} while (pidtaken(lastpid));
 	p2->p_pid = lastpid;
 
