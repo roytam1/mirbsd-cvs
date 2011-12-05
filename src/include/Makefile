@@ -1,4 +1,4 @@
-# $MirOS: src/include/Makefile,v 1.10 2005/12/04 20:24:40 tg Exp $
+# $MirOS: src/include/Makefile,v 1.11 2006/01/31 14:19:17 tg Exp $
 # $OpenBSD: Makefile,v 1.135 2005/07/10 06:53:44 grange Exp $
 # $NetBSD: Makefile,v 1.59 1996/05/15 21:36:43 jtc Exp $
 # @(#)Makefile	5.45.1.1 (Berkeley) 5/6/91
@@ -71,7 +71,8 @@ includes:
 			    $$j ${DESTDIR}/usr/include/$$i/$$j; \
 		done; \
 	done
-	@ln -sf openssl ${DESTDIR}/usr/include/ssl
+	@rm -f ${DESTDIR}/usr/include/ssl && \
+	    ln -sf openssl ${DESTDIR}/usr/include/ssl
 	@echo installing ${LFILES}
 	@for i in ${LFILES}; do \
 		rm -f ${DESTDIR}/usr/include/$$i && \
