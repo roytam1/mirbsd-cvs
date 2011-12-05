@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/vnd.c,v 1.20 2008/06/13 18:22:33 tg Exp $ */
+/**	$MirOS: src/sys/dev/vnd.c,v 1.21 2008/06/13 18:24:10 tg Exp $ */
 /*	$OpenBSD: vnd.c,v 1.85 2008/03/24 01:16:58 krw Exp $	*/
 /*	$NetBSD: vnd.c,v 1.26 1996/03/30 23:06:11 christos Exp $	*/
 
@@ -85,7 +85,9 @@
 #include <sys/conf.h>
 
 #include <crypto/blf.h>
+#ifdef CRYPTO
 #include <crypto/rijndael.h>
+#endif
 
 #include <miscfs/specfs/specdev.h>
 
@@ -133,7 +135,9 @@ struct vnd_ctx {
 	union {
 		void *ctx_ptr;			/* pointer for malloc/free */
 		blf_ctx *blowfish;		/* key for BLF, BF_CBC */
+#ifdef CRYPTO
 		rijndael_ctx *rijndael;		/* key for AES*_CBC */
+#endif
 	} key;
 	uint8_t alg;				/* algorithm to use */
 };
@@ -199,12 +203,14 @@ vndencrypt(struct vnd_softc *vnd, caddr_t addr, size_t size, daddr_t off,
 {
 	size_t i, n;
 	u_char iv[VNDIOC_MAXBSZ];
+#ifdef CRYPTO
 	rijndael_do_cbc_t aes_op;
 
 	if (encrypt)
 		aes_op = rijndael_cbc_encrypt_fast;
 	else
 		aes_op = rijndael_cbc_decrypt_fast;
+#endif
 
 	n = dbtob(1);
 	for (i = 0; i < size/n; i++) {
@@ -222,6 +228,7 @@ vndencrypt(struct vnd_softc *vnd, caddr_t addr, size_t size, daddr_t off,
 			else
 				blf_cbc_decrypt(vnd->sc_enc_blf, iv, addr, n);
 			break;
+#ifdef CRYPTO
 		case VNDIOC_ALG_AES128_CBC:
 		case VNDIOC_ALG_AES192_CBC:
 		case VNDIOC_ALG_AES256_CBC:
@@ -231,6 +238,7 @@ vndencrypt(struct vnd_softc *vnd, caddr_t addr, size_t size, daddr_t off,
 			(*aes_op)(vnd->sc_enc_aes, iv, addr, addr,
 			    n / VNDIOC_BSZ_AES);
 			break;
+#endif
 		}
 
 		addr += n;
@@ -931,6 +939,7 @@ vndioctl(dev_t dev, u_long cmd, caddr_t addr, int flag, struct proc *p)
 			if (ksz <= VNDIOC_IVSZ)
 				goto VNDIOCSET_encinval;
 			break;
+#ifdef CRYPTO
 		case VNDIOC_ALG_AES128_CBC:
 			if (ksz != VNDIOC_KSZ_AES128_CBC)
 				goto VNDIOCSET_encinval;
@@ -943,6 +952,7 @@ vndioctl(dev_t dev, u_long cmd, caddr_t addr, int flag, struct proc *p)
 			if (ksz != VNDIOC_KSZ_AES256_CBC)
 				goto VNDIOCSET_encinval;
 			break;
+#endif
 		default:
 			goto VNDIOCSET_encinval;
 		}
@@ -958,6 +968,7 @@ vndioctl(dev_t dev, u_long cmd, caddr_t addr, int flag, struct proc *p)
 			case VNDIOC_ALG_BF_CBC:
 				vnd->sc_enc_len = sizeof (*vnd->sc_enc_blf);
 				break;
+#ifdef CRYPTO
 			case VNDIOC_ALG_AES128_CBC:
 			case VNDIOC_ALG_AES192_CBC:
 			case VNDIOC_ALG_AES256_CBC:
@@ -967,6 +978,7 @@ vndioctl(dev_t dev, u_long cmd, caddr_t addr, int flag, struct proc *p)
 				goto VNDIOCSET_encerror;
 				/* remove these two lines once implemented */
 				break;
+#endif
 			}
 			vnd->sc_enc_ptr = malloc(vnd->sc_enc_len, M_DEVBUF,
 			    M_WAITOK);
@@ -981,11 +993,13 @@ vndioctl(dev_t dev, u_long cmd, caddr_t addr, int flag, struct proc *p)
 				blf_key(vnd->sc_enc_blf, key + VNDIOC_IVSZ,
 				    ksz - VNDIOC_IVSZ);
 				break;
+#ifdef CRYPTO
 			case VNDIOC_ALG_AES128_CBC:
 			case VNDIOC_ALG_AES192_CBC:
 			case VNDIOC_ALG_AES256_CBC:
 				/* not implemented */
 				break;
+#endif
 			}
 
 			bzero(key, sizeof (key));
