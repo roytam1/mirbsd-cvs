@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/ntpd/parse.y,v 1.4 2007/07/31 19:57:02 tg Exp $ */
+/**	$MirOS: src/usr.sbin/ntpd/parse.y,v 1.5 2007/08/10 22:22:03 tg Exp $ */
 /*	$OpenBSD: parse.y,v 1.25 2005/06/19 16:42:57 henning Exp $ */
 
 /*
@@ -37,7 +37,7 @@
 
 #include "ntpd.h"
 
-__RCSID("$MirOS: src/usr.sbin/ntpd/parse.y,v 1.4 2007/07/31 19:57:02 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/ntpd/parse.y,v 1.5 2007/08/10 22:22:03 tg Exp $");
 
 static struct ntpd_conf		*conf;
 static FILE			*fin = NULL;
@@ -391,7 +391,7 @@ yylex(void)
 
 	yylval.lineno = lineno;
 	if (c == '#')
-		while ((c = lgetc(fin)) != '\n' && c != EOF)
+		while ((c = getc(fin)) != '\n' && c != EOF)
 			; /* nothing */
 
 	switch (c) {
