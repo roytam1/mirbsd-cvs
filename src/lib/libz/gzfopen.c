@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libz/gzfopen.c,v 1.2 2006/01/24 13:19:44 tg Exp $ */
+/* $MirOS: src/lib/libz/gzfopen.c,v 1.3 2006/01/24 19:41:51 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -31,7 +31,7 @@
 #include "zutil.h"
 #include "gzio.h"
 
-__RCSID("$MirOS: src/lib/libz/gzfopen.c,v 1.2 2006/01/24 13:19:44 tg Exp $");
+__RCSID("$MirOS: src/lib/libz/gzfopen.c,v 1.3 2006/01/24 19:41:51 tg Exp $");
 
 static FILE *zf_open(const char *, const char *, int);
 static int zf_read(void *, char *, int);
@@ -96,6 +96,9 @@ zf_open(const char *path, const char *mode, int fd)
 		errno = e;
 		return (NULL);
 	}
+
+	if (path == NULL)
+		f->_file = fd;
 
 	return (f);
 }
