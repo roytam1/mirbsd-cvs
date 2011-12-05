@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.bin/cvs/Makefile.bsd-wrapper,v 1.5 2005/07/09 17:34:38 tg Exp $
+# $MirOS: src/gnu/usr.bin/cvs/Makefile.bsd-wrapper,v 1.6 2005/07/09 17:43:44 tg Exp $
 # $OpenBSD: Makefile.bsd-wrapper,v 1.44 2004/01/02 09:01:24 millert Exp $
 
 # ATTN: see below
@@ -13,7 +13,7 @@ CFARGS=	--prefix=/usr --mandir=/usr/share/man --datadir=/usr/libexec \
 	--disable-lock-compatibility --disable-rootcommit \
 	--disable-old-info-format-support --with-rsh=/usr/bin/ssh \
 	--with-editor=/bin/ed --with-tmpdir=/var/tmp --with-umask=002 \
-	--with-cvs-admin-group=_cvsadmin
+	--with-cvs-admin-group=_cvsadmin --enable-config-override=no
 XARGS=	ZLIB_LIBS=-lz
 
 .include <bsd.own.mk>
