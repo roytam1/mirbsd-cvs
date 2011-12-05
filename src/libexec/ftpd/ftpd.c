@@ -1,5 +1,5 @@
-/**	$MirOS: src/libexec/ftpd/ftpd.c,v 1.5 2005/04/30 22:54:16 tg Exp $ */
-/*	$OpenBSD: ftpd.c,v 1.168 2005/08/22 17:49:37 mickey Exp $	*/
+/**	$MirOS: src/libexec/ftpd/ftpd.c,v 1.6 2005/11/23 16:03:58 tg Exp $ */
+/*	$OpenBSD: ftpd.c,v 1.184 2008/09/12 16:12:08 moritz Exp $	*/
 /*	$NetBSD: ftpd.c,v 1.15 1995/06/03 22:46:47 mycroft Exp $	*/
 
 /*
@@ -118,7 +118,7 @@ static const char copyright[] =
 #include "monitor.h"
 
 __SCCSID("@(#)ftpd.c	8.4 (Berkeley) 4/16/94");
-__RCSID("$MirOS: src/libexec/ftpd/ftpd.c,v 1.5 2005/04/30 22:54:16 tg Exp $");
+__RCSID("$MirOS: src/libexec/ftpd/ftpd.c,v 1.6 2005/11/23 16:03:58 tg Exp $");
 
 static char version[] = "Version 6.6/MirOS";
 
@@ -2209,14 +2209,19 @@ static void
 myoob(void)
 {
 	char *cp;
+	int ret;
 
 	/* only process if transfer occurring */
 	if (!transflag)
 		return;
 	cp = tmpline;
-	if (getline(cp, 7, stdin) == NULL) {
+	ret = getline(cp, 7, stdin);
+	if (ret == -1) {
 		reply(221, "You could at least say goodbye.");
 		dologout(0);
+	} else if (ret == -2) {
+		/* Ignore truncated command */
+		return;
 	}
 	upper(cp);
 	if (strcmp(cp, "ABOR\r\n") == 0) {
