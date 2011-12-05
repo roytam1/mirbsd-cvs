@@ -1,5 +1,5 @@
-/* $MirOS$ */
-/* $OpenBSD: wsdisplay_compat_usl.c,v 1.15 2004/04/02 04:39:51 deraadt Exp $ */
+/* $MirOS: src/sys/dev/wscons/wsdisplay_compat_usl.c,v 1.2 2005/03/06 21:27:59 tg Exp $ */
+/* $OpenBSD: wsdisplay_compat_usl.c,v 1.18 2006/10/16 15:51:26 tom Exp $ */
 /* $NetBSD: wsdisplay_compat_usl.c,v 1.12 2000/03/23 07:01:47 thorpej Exp $ */
 
 /*
@@ -182,7 +182,7 @@ usl_detachproc(cookie, waitok, callback, cbarg)
 
 	/*
 	 * Normally, this is called from the controlling process.
-	 * Is is supposed to reply with a VT_RELDISP ioctl(), so
+	 * It is supposed to reply with a VT_RELDISP ioctl(), so
 	 * it is not useful to tsleep() here.
 	 */
 	sd->s_callback = callback;
@@ -342,7 +342,7 @@ wsdisplay_usl_ioctl1(sc, cmd, data, flag, p)
 		for (idx = 0; idx <= maxidx; idx++)
 			if (wsdisplay_screenstate(sc, idx) == EBUSY)
 				ss->v_state |= (1 << (idx + 1));
-#undef s
+#undef ss
 		return (0);
 
 #ifdef WSDISPLAY_COMPAT_PCVT
@@ -426,12 +426,22 @@ wsdisplay_usl_ioctl2(sc, scr, cmd, data, flag, p)
 #undef d
 		return (0);
 
+#if defined(__i386__)
 	    case KDENABIO:
-		if (suser(p, 0) || securelevel > 1)
+		if (suser(p, 0) || securelevel > 0)
 			return (EPERM);
 		/* FALLTHRU */
 	    case KDDISABIO:
 		return (0);
+#else
+	    case KDENABIO:
+	    case KDDISABIO:
+		/*
+		 * This is a lie, but non-x86 platforms are not supposed to
+		 * issue these ioctls anyway.
+		 */
+		return (0);
+#endif
 	    case KDSETRAD:
 		/* XXX ignore for now */
 		return (0);

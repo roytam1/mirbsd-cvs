@@ -1,5 +1,5 @@
-/* $MirOS: src/sys/dev/wscons/wsdisplayvar.h,v 1.2 2005/03/06 21:27:59 tg Exp $ */
-/* $OpenBSD: wsdisplayvar.h,v 1.15 2005/05/15 11:29:15 miod Exp $ */
+/* $MirOS: src/sys/dev/wscons/wsdisplayvar.h,v 1.3 2005/07/04 01:15:48 tg Exp $ */
+/* $OpenBSD: wsdisplayvar.h,v 1.22 2006/12/02 11:25:09 miod Exp $ */
 /* $NetBSD: wsdisplayvar.h,v 1.30 2005/02/04 02:10:49 perry Exp $ */
 
 /*
@@ -59,31 +59,23 @@ struct device;
 struct wsdisplay_emulops {
 	void	(*cursor)(void *c, int on, int row, int col);
 	int	(*mapchar)(void *, int, unsigned int *);
-	void	(*putchar)(void *c, int row, int col,
-				u_int uc, long attr);
+	void	(*putchar)(void *c, int row, int col, u_int uc, long attr);
 	void	(*copycols)(void *c, int row, int srccol, int dstcol,
 		    int ncols);
-	void	(*erasecols)(void *c, int row, int startcol,
-		    int ncols, long);
-	void	(*copyrows)(void *c, int srcrow, int dstrow,
-		    int nrows);
-	void	(*eraserows)(void *c, int row, int nrows, long);
-	int	(*alloc_attr)(void *c, int fg, int bg, int flags, long *);
+	void	(*erasecols)(void *c, int row, int startcol, int ncols, long);
+	void	(*copyrows)(void *c, int srcrow, int dstrow, int nrows);
+	void	(*eraserows)(void *c, int row, int nrows, long attr);
+	int	(*alloc_attr)(void *c, int fg, int bg, int flags, long *attrp);
+	void	(*unpack_attr)(void *c, long attr, int *fg, int *bg, int *ul);
 /* fg / bg values. Made identical to ANSI terminal color codes. */
-/* XXX should be #if NWSEMUL_SUN > 1 */
-#if defined(__sparc__) || defined(__sparc64__)
-#define WSCOL_WHITE	wscol_white
-#define WSCOL_BLACK	wscol_black
-#else
 #define WSCOL_BLACK	0
-#define WSCOL_WHITE	7
-#endif
 #define WSCOL_RED	1
 #define WSCOL_GREEN	2
 #define WSCOL_BROWN	3
 #define WSCOL_BLUE	4
 #define WSCOL_MAGENTA	5
 #define WSCOL_CYAN	6
+#define WSCOL_WHITE	7
 /* flag values: */
 #define WSATTR_REVERSE	1
 #define WSATTR_HILIT	2
@@ -92,12 +84,6 @@ struct wsdisplay_emulops {
 #define WSATTR_WSCOLORS 16
 	/* XXX need a free_attr() ??? */
 };
-
-/* XXX should be #if NWSEMUL_SUN > 1 */
-#if defined(__sparc__) || defined(__sparc64__)
-extern int wscol_white, wscol_black;
-extern int wskernel_fg, wskernel_bg;
-#endif
 
 #define	WSSCREEN_NAME_SIZE	16
 
@@ -112,6 +98,14 @@ struct wsscreen_descr {
 #define WSSCREEN_HILIT		4	/* can highlight (however) */
 #define WSSCREEN_BLINK		8	/* can blink */
 #define WSSCREEN_UNDERLINE	16	/* can underline */
+};
+
+/*
+ * Character cell description (for emulation mode).
+ */
+struct wsdisplay_charcell {
+	u_int	uc;
+	long	attr;
 };
 
 struct wsdisplay_font;
@@ -133,19 +127,10 @@ struct wsdisplay_accessops {
 			       void (*) (void *, int, int), void *);
 	int	(*load_font)(void *, void *, struct wsdisplay_font *);
 	void	(*scrollback)(void *, void *, int);
-	u_int16_t (*getchar)(void *, int, int);
+	int	(*getchar)(void *, int, int, struct wsdisplay_charcell *);
 	void	(*burn_screen)(void *, u_int, u_int);
 	void	(*pollc)(void *, int);
 	int     (*delete_font)(void *, void *, int);
-};
-
-/*
- * Attachment information provided by wsdisplaydev devices when attaching
- * wsdisplay units.
- */
-struct wsdisplaydev_attach_args {
-	const struct wsdisplay_accessops *accessops;	/* access ops */
-	void	*accesscookie;				/* access cookie */
 };
 
 /* passed to wscons by the video driver to tell about its capabilities */
@@ -163,6 +148,7 @@ struct wsemuldisplaydev_attach_args {
 	const struct wsscreen_list *scrdata;		/* screen cfg info */
 	const struct wsdisplay_accessops *accessops;	/* access ops */
 	void	*accesscookie;				/* access cookie */
+	u_int	defaultscreens;				/* screens to create */
 };
 
 #define	WSEMULDISPLAYDEVCF_CONSOLE	0
@@ -185,7 +171,6 @@ struct wscons_syncops {
  */
 void	wsdisplay_cnattach(const struct wsscreen_descr *, void *,
 				int, int, long);
-int	wsdisplaydevprint(void *, const char *);
 int	wsemuldisplaydevprint(void *, const char *);
 
 /*

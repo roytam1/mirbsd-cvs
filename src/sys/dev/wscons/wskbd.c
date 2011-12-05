@@ -1,5 +1,5 @@
-/* $MirOS: src/sys/dev/wscons/wskbd.c,v 1.5 2005/07/21 21:52:21 tg Exp $ */
-/* $OpenBSD: wskbd.c,v 1.45 2005/07/08 02:26:07 marc Exp $ */
+/* $MirOS: src/sys/dev/wscons/wskbd.c,v 1.6 2006/05/25 12:20:26 tg Exp $ */
+/* $OpenBSD: wskbd.c,v 1.53 2006/08/14 17:41:08 miod Exp $ */
 /* $NetBSD: wskbd.c,v 1.80 2005/05/04 01:52:16 augustss Exp $ */
 
 /*
@@ -80,11 +80,6 @@
  * to `wscons_events' and passes them up to the appropriate reader.
  */
 
-#ifndef	SMALL_KERNEL
-#define	BURNER_SUPPORT
-#define	WSDISPLAY_SCROLLBACK_SUPPORT
-#endif
-
 #include <sys/param.h>
 #include <sys/conf.h>
 #include <sys/device.h>
@@ -111,8 +106,18 @@
 #include <dev/wscons/wseventvar.h>
 #include <dev/wscons/wscons_callbacks.h>
 
+#include "audio.h"		/* NAUDIO (mixer tuning) */
 #include "wsdisplay.h"
+#include "wskbd.h"
 #include "wsmux.h"
+
+#ifdef	SMALL_KERNEL
+#undef	NWSKBD_HOTKEY
+#define	NWSKBD_HOTKEY 0
+#else
+#define	BURNER_SUPPORT
+#define	SCROLLBACK_SUPPORT
+#endif
 
 #ifdef WSKBD_DEBUG
 #define DPRINTF(x)	if (wskbddebug) printf x
@@ -205,11 +210,6 @@ int	wskbd_detach(struct device *, int);
 int	wskbd_activate(struct device *, enum devact);
 
 int	wskbd_displayioctl(struct device *, u_long, caddr_t, int, struct proc *);
-#if NWSDISPLAY > 0
-int	wskbd_set_display(struct device *, struct wsevsrc *);
-#else
-#define	wskbd_set_display NULL
-#endif
 
 void	update_leds(struct wskbd_internal *);
 void	update_modifier(struct wskbd_internal *, u_int, int, int);
@@ -281,7 +281,12 @@ struct wskbd_keyrepeat_data wskbd_default_keyrepeat_data = {
 struct wssrcops wskbd_srcops = {
 	WSMUX_KBD,
 	wskbd_mux_open, wskbd_mux_close, wskbd_do_ioctl,
-	wskbd_displayioctl, wskbd_set_display
+	wskbd_displayioctl,
+#if NWSDISPLAY > 0
+	wskbd_set_display
+#else
+	NULL
+#endif
 };
 #endif
 
@@ -429,6 +434,27 @@ wskbd_attach(struct device *parent, struct device *self, void *aux)
 			printf("%s: attach error=%d\n",
 			    sc->sc_base.me_dv.dv_xname, error);
 	}
+#endif
+
+#if WSDISPLAY > 0 && NWSMUX == 0
+	if (ap->console == 0) {
+		/*
+		 * In the non-wsmux world, always connect wskbd0 and wsdisplay0
+		 * together.
+		 */
+		extern struct cfdriver wsdisplay_cd;
+
+		if (wsdisplay_cd.cd_ndevs != 0 && self->dv_unit == 0) {
+			if (wskbd_set_display(self,
+			    wsdisplay_cd.cd_devs[0]) == 0)
+				wsdisplay_set_kbd(wsdisplay_cd.cd_devs[0],
+				    (struct wsevsrc *)sc);
+		}
+	}
+#endif
+
+#if NWSKBD_HOTKEY > 0
+	wskbd_hotkey_init();
 #endif
 }
 
@@ -649,7 +675,6 @@ wskbd_deliver_event(struct wskbd_softc *sc, u_int type, int value)
 {
 	struct wseventvar *evar;
 	struct wscons_event *ev;
-	struct timeval xxxtime;
 	int put;
 
 	evar = sc->sc_base.me_evp;
@@ -676,8 +701,7 @@ wskbd_deliver_event(struct wskbd_softc *sc, u_int type, int value)
 	}
 	ev->type = type;
 	ev->value = value;
-	microtime(&xxxtime);
-	TIMEVAL_TO_TIMESPEC(&xxxtime, &ev->time);
+	nanotime(&ev->time);
 	evar->put = put;
 	WSEVENT_WAKEUP(evar);
 }
@@ -956,6 +980,18 @@ wskbd_displayioctl(struct device *dev, u_long cmd, caddr_t data, int flag,
 	int len, error;
 
 	switch (cmd) {
+	case WSKBDIO_BELL:
+	case WSKBDIO_COMPLEXBELL:
+	case WSKBDIO_SETBELL:
+	case WSKBDIO_SETKEYREPEAT:
+	case WSKBDIO_SETDEFAULTKEYREPEAT:
+	case WSKBDIO_SETMAP:
+	case WSKBDIO_SETENCODING:
+		if ((flag & FWRITE) == 0)
+			return (EACCES);
+	}
+
+	switch (cmd) {
 #define	SETBELL(dstp, srcp, dfltp)					\
     do {								\
 	(dstp)->pitch = ((srcp)->which & WSKBD_BELL_DOPITCH) ?		\
@@ -968,22 +1004,16 @@ wskbd_displayioctl(struct device *dev, u_long cmd, caddr_t data, int flag,
     } while (0)
 
 	case WSKBDIO_BELL:
-		if ((flag & FWRITE) == 0)
-			return (EACCES);
 		return ((*sc->sc_accessops->ioctl)(sc->sc_accesscookie,
 		    WSKBDIO_COMPLEXBELL, (caddr_t)&sc->sc_bell_data, flag, p));
 
 	case WSKBDIO_COMPLEXBELL:
-		if ((flag & FWRITE) == 0)
-			return (EACCES);
 		ubdp = (struct wskbd_bell_data *)data;
 		SETBELL(ubdp, ubdp, &sc->sc_bell_data);
 		return ((*sc->sc_accessops->ioctl)(sc->sc_accesscookie,
 		    WSKBDIO_COMPLEXBELL, (caddr_t)ubdp, flag, p));
 
 	case WSKBDIO_SETBELL:
-		if ((flag & FWRITE) == 0)
-			return (EACCES);
 		kbdp = &sc->sc_bell_data;
 setbell:
 		ubdp = (struct wskbd_bell_data *)data;
@@ -1020,8 +1050,6 @@ getbell:
     } while (0)
 
 	case WSKBDIO_SETKEYREPEAT:
-		if ((flag & FWRITE) == 0)
-			return (EACCES);
 		kkdp = &sc->sc_keyrepeat_data;
 setkeyrepeat:
 		ukdp = (struct wskbd_keyrepeat_data *)data;
@@ -1049,8 +1077,6 @@ getkeyrepeat:
 #undef SETKEYREPEAT
 
 	case WSKBDIO_SETMAP:
-		if ((flag & FWRITE) == 0)
-			return (EACCES);
 		umdp = (struct wskbd_map_data *)data;
 		if (umdp->maplen > WSKBDIO_MAXMAPLEN)
 			return (EINVAL);
@@ -1083,8 +1109,6 @@ getkeyrepeat:
 		return(0);
 
 	case WSKBDIO_SETENCODING:
-		if ((flag & FWRITE) == 0)
-			return (EACCES);
 		enc = *((kbd_t *)data);
 		if (KB_ENCODING(enc) == KB_USER) {
 			/* user map must already be loaded */
@@ -1176,15 +1200,14 @@ wskbd_set_console_display(struct device *displaydv, struct wsevsrc *me)
 }
 
 int
-wskbd_set_display(struct device *dv, struct wsevsrc *me)
+wskbd_set_display(struct device *dv, struct device *displaydv)
 {
 	struct wskbd_softc *sc = (struct wskbd_softc *)dv;
-	struct device *displaydv = me != NULL ? me->me_dispdv : NULL;
 	struct device *odisplaydv;
 	int error;
 
-	DPRINTF(("wskbd_set_display: %s me=%p odisp=%p disp=%p cons=%d\n",
-		 dv->dv_xname, me, sc->sc_base.me_dispdv, displaydv, 
+	DPRINTF(("wskbd_set_display: %s odisp=%p disp=%p cons=%d\n",
+		 dv->dv_xname, sc->sc_base.me_dispdv, displaydv, 
 		 sc->sc_isconsole));
 
 	if (sc->sc_isconsole)
@@ -1488,6 +1511,12 @@ wskbd_translate(struct wskbd_internal *id, u_int type, int value)
 	int gindex, iscommand = 0;
 
 	if (type == WSCONS_EVENT_ALL_KEYS_UP) {
+#if NWSDISPLAY > 0
+		if (sc != NULL && sc->sc_repeating) {
+			sc->sc_repeating = 0;
+			timeout_del(&sc->sc_repeat_ch);
+		}
+#endif
 		id->t_modifiers &= ~(MOD_SHIFT_L | MOD_SHIFT_R |
 		    MOD_CONTROL_L | MOD_CONTROL_R |
 		    MOD_META_L | MOD_META_R |
@@ -1617,6 +1646,23 @@ wskbd_translate(struct wskbd_internal *id, u_int type, int value)
 			ksym = group[gindex];
 		}
 	}
+
+#if NWSKBD_HOTKEY > 0
+	/* Submit Audio keys for hotkey processing */
+	if (KS_GROUP(ksym) == KS_GROUP_Function) {
+		switch (ksym) {
+#if NAUDIO > 0
+		case KS_AudioMute:
+		case KS_AudioLower:
+		case KS_AudioRaise:
+			wskbd_hotkey_put(ksym);
+			return (0);
+#endif
+		default:
+			break;
+		}
+	}
+#endif
 
 	/* Process compose sequence and dead accents */
 	res = KS_voidSymbol;
