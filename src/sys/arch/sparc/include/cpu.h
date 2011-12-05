@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/sys/arch/sparc/include/cpu.h,v 1.2 2006/03/01 21:41:32 tg Exp $ */
 /*	$OpenBSD: cpu.h,v 1.20 2003/06/02 23:27:54 millert Exp $	*/
 /*	$NetBSD: cpu.h,v 1.24 1997/03/15 22:25:15 pk Exp $ */
 
@@ -52,7 +52,8 @@
  		/*	2	   formerly int: vsyncblank */
 #define CPU_CPUTYPE	3	/* int: cpu type */
 #define CPU_V8MUL	4
-#define CPU_MAXID	5	/* 4 valid machdep IDs */
+#define CPU_CONSDEV	5	/* dev_t: console terminal device */
+#define CPU_MAXID	6	/* 5 valid machdep IDs */
 
 #define	CTL_MACHDEP_NAMES { \
 	{ 0, 0 }, \
@@ -60,6 +61,7 @@
 	{ 0, 0 }, \
 	{ "cputype", CTLTYPE_INT }, \
 	{ "v8mul", CTLTYPE_INT }, \
+	{ "console_device", CTLTYPE_STRUCT }, \
 }
 
 #ifdef _KERNEL

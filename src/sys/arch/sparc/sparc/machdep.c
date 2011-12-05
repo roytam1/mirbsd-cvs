@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/sparc/sparc/machdep.c,v 1.5 2006/06/11 00:15:12 tg Exp $ */
+/**	$MirOS: src/sys/arch/sparc/sparc/machdep.c,v 1.6 2006/06/11 02:22:06 tg Exp $ */
 /*	$OpenBSD: machdep.c,v 1.98 2004/03/10 23:02:54 tom Exp $	*/
 /*	$NetBSD: machdep.c,v 1.85 1997/09/12 08:55:02 pk Exp $ */
 
@@ -68,6 +68,7 @@
 
 #include <uvm/uvm_extern.h>
 
+#include <dev/cons.h>
 #include <dev/rndvar.h>
 
 #include <machine/autoconf.h>
@@ -442,6 +443,7 @@ cpu_sysctl(name, namelen, oldp, oldlenp, newp, newlen, p)
 #endif
 	int ret;
 	extern int v8mul;
+	dev_t dev;
 
 	/* all sysctl names are this level are terminal */
 	if (namelen != 1)
@@ -478,6 +480,10 @@ cpu_sysctl(name, namelen, oldp, oldlenp, newp, newlen, p)
 		return (sysctl_rdint(oldp, oldlenp, newp, cputyp));
 	case CPU_V8MUL:
 		return (sysctl_rdint(oldp, oldlenp, newp, v8mul));
+	case CPU_CONSDEV:
+		dev = (cn_tab == NULL) ? NODEV : cn_tab->cn_dev;
+		return (sysctl_rdstruct(oldp, oldlenp, newp, &dev,
+		    sizeof (dev)));
 	default:
 		return (EOPNOTSUPP);
 	}
