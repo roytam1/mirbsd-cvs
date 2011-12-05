@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: ext2fs_vfsops.c,v 1.38 2005/07/28 23:11:25 pedro Exp $	*/
 /*	$NetBSD: ext2fs_vfsops.c,v 1.1 1997/06/11 09:34:07 bouyer Exp $	*/
 
@@ -138,6 +139,9 @@ ext2fs_mountroot()
 		return (error);
 	}
 
+	/* for now */
+	mp->mnt_flag |= MNT_RDONLY;
+
 	if ((error = ext2fs_mountfs(rootvp, mp, p)) != 0) {
 		mp->mnt_vfc->vfc_refcount--;
 		vfs_unbusy(mp, p);
@@ -184,6 +188,9 @@ ext2fs_mount(mp, path, data, ndp, p)
 	size_t size;
 	int error, flags;
 	mode_t accessmode;
+
+	/* for now */
+	mp->mnt_flag |= MNT_RDONLY;
 
 	error = copyin(data, (caddr_t)&args, sizeof (struct ufs_args));
 	if (error)
