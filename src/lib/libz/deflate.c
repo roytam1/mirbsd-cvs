@@ -1,4 +1,4 @@
-/**	$MirOS: src/lib/libz/deflate.c,v 1.5 2005/07/24 23:02:50 tg Exp $ */
+/**	$MirOS: src/lib/libz/deflate.c,v 1.6 2005/07/24 23:19:02 tg Exp $ */
 /*	$OpenBSD: deflate.c,v 1.10 2005/07/20 15:56:41 millert Exp $	*/
 /* deflate.c -- compress data using the deflation algorithm
  * Copyright (C) 1995-2005 Jean-loup Gailly.
@@ -51,7 +51,7 @@
 
 #include "deflate.h"
 
-zRCSID("$MirOS: src/lib/libz/deflate.c,v 1.5 2005/07/24 23:02:50 tg Exp $")
+zRCSID("$MirOS: src/lib/libz/deflate.c,v 1.6 2005/07/24 23:19:02 tg Exp $")
 
 /* ===========================================================================
  *  Function prototypes.
@@ -551,7 +551,7 @@ int ZEXPORT deflate (strm, flush)
     }
     s = strm->state;
 
-    if (strm->next_out == Z_NULL ||
+    if (strm->next_out == Z_NULL || s == Z_NULL ||
         (strm->next_in == Z_NULL && strm->avail_in != 0) ||
         (s->status == FINISH_STATE && flush != Z_FINISH)) {
         ERR_RETURN(strm, Z_STREAM_ERROR);
