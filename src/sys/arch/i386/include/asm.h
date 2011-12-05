@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/include/asm.h,v 1.6 2007/02/18 16:45:22 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/include/asm.h,v 1.7 2007/02/18 16:49:47 tg Exp $ */
 /*	$OpenBSD: asm.h,v 1.7 2003/06/02 23:27:47 millert Exp $	*/
 /*	$NetBSD: asm.h,v 1.7 1994/10/27 04:15:56 cgd Exp $	*/
 
@@ -40,12 +40,21 @@
 #define _I386_ASM_H_
 
 #ifdef PIC
+#ifdef __ELF__
 #define PIC_PROLOGUE	\
 	pushl	%ebx;	\
 	call	666f;	\
 666:			\
 	popl	%ebx;	\
-	addl	$_C_LABEL(_GLOBAL_OFFSET_TABLE_)+[.-666b], %ebx
+	addl	$_GLOBAL_OFFSET_TABLE_+[.-666b], %ebx
+#else
+#define PIC_PROLOGUE	\
+	pushl	%ebx;	\
+	call	666f;	\
+666:			\
+	popl	%ebx;	\
+	addl	$__GLOBAL_OFFSET_TABLE_+[.-666b], %ebx
+#endif
 #define PIC_EPILOGUE	\
 	popl	%ebx
 #define PIC_PLT(x)	x@PLT
