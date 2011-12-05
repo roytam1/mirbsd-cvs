@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/vnd.c,v 1.5 2005/07/21 21:52:17 tg Exp $	*/
+/**	$MirOS: src/sys/dev/vnd.c,v 1.6 2007/09/18 19:40:05 tg Exp $	*/
 /*	$OpenBSD: vnd.c,v 1.74 2007/05/12 12:19:23 krw Exp $	*/
 /*	$OpenBSD: vnd.c,v 1.57 2005/12/29 20:02:03 pedro Exp $	*/
 /*	$NetBSD: vnd.c,v 1.26 1996/03/30 23:06:11 christos Exp $	*/
@@ -832,16 +832,42 @@ vndioctl(dev, cmd, addr, flag, p)
 			vndunlock(vnd);
 			return (error);
 		}
-		error = VOP_GETATTR(nd.ni_vp, &vattr, p->p_ucred, p);
-		if (error) {
-			VOP_UNLOCK(nd.ni_vp, 0, p);
-			(void) vn_close(nd.ni_vp, f_rdopen, p->p_ucred, p);
-			vndunlock(vnd);
-			return (error);
+		if (nd.ni_vp->v_type == VBLK) {
+			struct partinfo pi;
+			struct bdevsw *bsw;
+			long sscale;
+			dev_t bdv;
+
+			bdv = vp->v_rdev;
+			bsw = bdevsw_lookup(bdv);
+			if ((bsw->d_ioctl == NULL) || (bsw->d_ioctl(bdv,
+			    DIOCGPART, (caddr_t)&pi, FREAD, p)))
+				vnd->sc_size = 0;
+			else {
+				sscale = pi.disklab->d_secsize / DEV_BSIZE;
+#ifdef DEBUG
+				if (vnddebug & VDB_INIT)
+					printf("vndioctl: bdevsize %li"
+					    " secsize %li sscale %li\n",
+					    (long)pi.part->p_size,
+					    (long)pi.disklab->d_secsize,
+					    sscale);
+#endif
+				vnd->sc_size = pi.part->p_size * sscale;
+			}
+		} else {
+			error = VOP_GETATTR(nd.ni_vp, &vattr, p->p_ucred, p);
+			if (error) {
+				VOP_UNLOCK(nd.ni_vp, 0, p);
+				vn_close(nd.ni_vp, f_rdopen, p->p_ucred, p);
+				vndunlock(vnd);
+				return (error);
+			}
+			/* note truncation */
+			vnd->sc_size = btodb(vattr.va_size);
 		}
 		VOP_UNLOCK(nd.ni_vp, 0, p);
 		vnd->sc_vp = nd.ni_vp;
-		vnd->sc_size = btodb(vattr.va_size);	/* note truncation */
 		if ((error = vndsetcred(vnd, p->p_ucred)) != 0) {
 			(void) vn_close(nd.ni_vp, f_rdopen, p->p_ucred, p);
 			vndunlock(vnd);
