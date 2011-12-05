@@ -1,4 +1,4 @@
-.\"	$MirOS: src/usr.bin/indent/indent.1,v 1.2 2005/03/13 18:33:02 tg Exp $
+.\"	$MirOS: src/usr.bin/indent/indent.1,v 1.3 2005/04/17 04:24:14 tg Exp $
 .\"	$OpenBSD: indent.1,v 1.15 2005/02/04 09:22:58 jmc Exp $
 .\"
 .\" Copyright (c) 1980, 1990, 1993
@@ -48,6 +48,7 @@
 .Op Fl bbb | nbbb
 .Op Fl \&bc | nbc
 .Op Fl \&bl | \&br
+.Op Fl \&bs | nbs
 .Op Fl c Ns Ar n
 .Op Fl \&cd Ns Ar n
 .Op Fl cdb | ncdb
@@ -169,6 +170,9 @@ if (...) {
 }
 .Ed
 .Pp
+.It Fl bs , nbs
+Enables (disables) Bill Shannon mode, in which the
+sizeof keyword is always followed by a space.
 .It Fl c Ns Ar n
 The column in which comments on code start.
 The default is 33.
