@@ -50,7 +50,7 @@
 #include "local.h"
 #include "fvwrite.h"
 
-__RCSID("$MirOS: src/lib/libc/stdio/vfprintf.c,v 1.3 2005/09/22 20:13:05 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/stdio/vfprintf.c,v 1.4 2007/01/10 23:28:12 tg Exp $");
 
 static void __find_arguments(const char *fmt0, va_list ap, va_list **argtable,
     size_t *argtablesiz);
@@ -216,6 +216,7 @@ vfprintf(FILE *fp, const char *fmt0, _BSD_VA_LIST_ ap)
 	ret += (x);		\
 	if (oldret > ret) {	\
 		ret = EOF;	\
+		errno = ERANGE;	\
 		goto error;	\
 	}			\
 } while (0)
