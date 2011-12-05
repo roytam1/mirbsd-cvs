@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: exec_script.c,v 1.21 2004/07/07 07:31:40 marius Exp $	*/
 /*	$NetBSD: exec_script.c,v 1.13 1996/02/04 02:15:06 christos Exp $	*/
 
@@ -95,8 +96,18 @@ exec_script_makecmds(p, epp)
 	 * if the magic isn't that of a shell script, or we've already
 	 * done shell script processing for this exec, punt on it.
 	 */
-	if ((epp->ep_flags & EXEC_INDIR) != 0 ||
-	    epp->ep_hdrvalid < EXEC_SCRIPT_MAGICLEN ||
+	if ((epp->ep_flags & EXEC_INDIR) != 0)
+		return (ENOEXEC);
+	hdrlinelen = min(epp->ep_hdrvalid, MAXINTERP);
+	if (hdrlinelen >= 3)
+		if ((((unsigned char *)hdrstr)[0] == 0xEF) &&
+		    (((unsigned char *)hdrstr)[1] == 0xBB) &&
+		    (((unsigned char *)hdrstr)[2] == 0xBF)) {
+			/* skip UTF-8 Byte Order Mark at beginning of file */
+			hdrlinelen -= 3;
+			hdrstr += 3;
+		}
+	if (hdrlinelen < EXEC_SCRIPT_MAGICLEN ||
 	    strncmp(hdrstr, EXEC_SCRIPT_MAGIC, EXEC_SCRIPT_MAGICLEN))
 		return ENOEXEC;
 
@@ -107,7 +118,6 @@ exec_script_makecmds(p, epp)
 	 * (The latter requirement means that we have to check
 	 * for both spaces and tabs later on.)
 	 */
-	hdrlinelen = min(epp->ep_hdrvalid, MAXINTERP);
 	for (cp = hdrstr + EXEC_SCRIPT_MAGICLEN; cp < hdrstr + hdrlinelen;
 	    cp++) {
 		if (*cp == '\n') {
