@@ -1,4 +1,4 @@
-$MirOS: src/sys/dev/pci/pcidevs,v 1.12 2006/06/07 20:46:13 tg Exp $
+$MirOS: src/sys/dev/pci/pcidevs,v 1.14 2010/04/03 21:21:55 tg Exp $
 /*	$NetBSD: pcidevs,v 1.580 2003/09/26 07:45:15 matt Exp $		*/
 /*	$OpenBSD: pcidevs,v 1.901 2005/08/01 22:52:47 brad Exp $	*/
 /*	$NetBSD: pcidevs,v 1.30 1997/06/24 06:20:24 thorpej Exp $ 	*/
@@ -599,6 +599,7 @@ vendor	BUSLOGIC2	0x4b10	Buslogic
 vendor	GEMTEK		0x5046	Gemtek
 vendor	S3		0x5333	S3
 vendor	NETPOWER2	0x5700	NetPower
+vendor	XENSOURCE	0x5853	XenSource
 vendor	C4T		0x6374	c't Magazin
 vendor	QUANCM		0x8008	Quancm Electronic GmbH
 vendor	INTEL		0x8086	Intel
@@ -3363,6 +3364,9 @@ product WINBOND W6692		0x6692	W6692 ISDN
 
 /* Winbond Electronics products (PCI products set 2) */
 product WINBOND2 W89C940	0x1980	Linksys EtherPCI
+
+/* XenSource */
+product XENSOURCE XENPLATFORM	0x0001	Xen Platform Device
 
 /* Xircom products */
 product XIRCOM X3201_3		0x0002	X3201-3
