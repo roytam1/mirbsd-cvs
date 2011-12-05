@@ -1,4 +1,4 @@
-# $MirOS: src/lib/csu/common_elf/Makefile.inc,v 1.7 2005/06/26 18:07:53 tg Exp $
+# $MirOS: src/lib/csu/common_elf/Makefile.inc,v 1.8 2005/10/21 11:02:39 tg Exp $
 # $NetBSD: Makefile.inc,v 1.23 2003/03/19 16:54:25 ross Exp $
 
 .include <bsd.own.mk>
@@ -42,32 +42,32 @@ gcrt0.o: crt0.c
 crti.o: crti.c
 	# Don't reorder top-level statements and blocks
 	${COMPILE.c} ${.IMPSRC} -o ${.TARGET}.o -fno-unit-at-a-time
-	${LD} -X -r -o ${.TARGET} ${.TARGET}.o
+	${LD} -x -r -o ${.TARGET} ${.TARGET}.o
 	@rm -f ${.TARGET}.o
 
 crtn.o: crtn.c
 	${COMPILE.c} ${.IMPSRC} -o ${.TARGET}.o
-	${LD} -X -r -o ${.TARGET} ${.TARGET}.o
+	${LD} -x -r -o ${.TARGET} ${.TARGET}.o
 	@rm -f ${.TARGET}.o
 
 crtbegin.o: crtbegin.c
 	${COMPILE.c} ${.IMPSRC} -o ${.TARGET}.o
-	${LD} -X -r -o ${.TARGET} ${.TARGET}.o
+	${LD} -x -r -o ${.TARGET} ${.TARGET}.o
 	@rm -f ${.TARGET}.o
 
 crtbeginS.o: crtbegin.c
 	${COMPILE.c} ${SHARED_FLAGS} ${.ALLSRC} -o ${.TARGET}.o
-	${LD} -X -r -o ${.TARGET} ${.TARGET}.o
+	${LD} -x -r -o ${.TARGET} ${.TARGET}.o
 	@rm -f ${.TARGET}.o
 
 crtend.o: crtend.c
 	${COMPILE.c} ${.IMPSRC} -o ${.TARGET}.o
-	${LD} -X -r -o ${.TARGET} ${.TARGET}.o
+	${LD} -x -r -o ${.TARGET} ${.TARGET}.o
 	@rm -f ${.TARGET}.o
 
 crtendS.o: crtend.c
 	${COMPILE.c} ${SHARED_FLAGS} ${.ALLSRC} -o ${.TARGET}.o
-	${LD} -X -r -o ${.TARGET} ${.TARGET}.o
+	${LD} -x -r -o ${.TARGET} ${.TARGET}.o
 	@rm -f ${.TARGET}.o
 
 realinstall:

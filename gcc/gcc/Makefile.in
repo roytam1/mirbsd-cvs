@@ -1,4 +1,4 @@
-# $MirOS: gcc/gcc/Makefile.in,v 1.8 2006/02/01 00:34:55 tg Exp $
+# $MirOS: gcc/gcc/Makefile.in,v 1.9 2006/03/01 19:49:35 tg Exp $
 #
 # Makefile for GNU Compiler Collection
 # Run 'configure' to generate Makefile from Makefile.in
@@ -1255,33 +1255,48 @@ $(T)crtbegin.o: crtstuff.c $(GCC_PASSES) $(TCONFIG_H) auto-host.h \
   gbl-ctors.h stmp-int-hdrs tsystem.h coretypes.h $(TM_H)
 	$(GCC_FOR_TARGET) $(CRTSTUFF_CFLAGS) $(CRTSTUFF_T_CFLAGS) \
 	  @inhibit_libc@ -c $(srcdir)/crtstuff.c -DCRT_BEGIN \
-	  -o $(T)crtbegin$(objext)
+	  -o $(T)crtstmp$(objext)
+	`$(GCC_FOR_TARGET) -print-prog-name=ld` -x -r \
+	  -o $(T)crtbegin$(objext) $(T)crtstmp$(objext)
+	@rm -f $(T)crtstmp$(objext)
 
 $(T)crtend.o: crtstuff.c $(GCC_PASSES) $(TCONFIG_H) auto-host.h \
   gbl-ctors.h stmp-int-hdrs tsystem.h coretypes.h $(TM_H)
 	$(GCC_FOR_TARGET) $(CRTSTUFF_CFLAGS) $(CRTSTUFF_T_CFLAGS) \
 	  @inhibit_libc@ -c $(srcdir)/crtstuff.c -DCRT_END \
-	  -o $(T)crtend$(objext)
+	  -o $(T)crtstmp$(objext)
+	`$(GCC_FOR_TARGET) -print-prog-name=ld` -x -r \
+	  -o $(T)crtend$(objext) $(T)crtstmp$(objext)
+	@rm -f $(T)crtstmp$(objext)
 
 # These are versions of crtbegin and crtend for shared libraries.
 $(T)crtbeginS.o: crtstuff.c $(GCC_PASSES) $(TCONFIG_H) auto-host.h \
   gbl-ctors.h stmp-int-hdrs tsystem.h coretypes.h $(TM_H)
 	$(GCC_FOR_TARGET) $(CRTSTUFF_CFLAGS) $(CRTSTUFF_T_CFLAGS_S) \
 	  @inhibit_libc@ -c $(srcdir)/crtstuff.c -DCRT_BEGIN -DCRTSTUFFS_O \
-	  -o $(T)crtbeginS$(objext)
+	  -o $(T)crtstmp$(objext)
+	`$(GCC_FOR_TARGET) -print-prog-name=ld` -x -r \
+	  -o $(T)crtbeginS$(objext) $(T)crtstmp$(objext)
+	@rm -f $(T)crtstmp$(objext)
 
 $(T)crtendS.o: crtstuff.c $(GCC_PASSES) $(TCONFIG_H) auto-host.h \
   gbl-ctors.h stmp-int-hdrs tsystem.h coretypes.h $(TM_H)
 	$(GCC_FOR_TARGET) $(CRTSTUFF_CFLAGS) $(CRTSTUFF_T_CFLAGS_S) \
 	  @inhibit_libc@ -c $(srcdir)/crtstuff.c -DCRT_END -DCRTSTUFFS_O \
-	  -o $(T)crtendS$(objext)
+	  -o $(T)crtstmp$(objext)
+	`$(GCC_FOR_TARGET) -print-prog-name=ld` -x -r \
+	  -o $(T)crtendS$(objext) $(T)crtstmp$(objext)
+	@rm -f $(T)crtstmp$(objext)
 
 # This is a version of crtbegin for -static links.
 $(T)crtbeginT.o: crtstuff.c $(GCC_PASSES) $(TCONFIG_H) auto-host.h \
   gbl-ctors.h stmp-int-hdrs tsystem.h coretypes.h $(TM_H)
 	$(GCC_FOR_TARGET) $(CRTSTUFF_CFLAGS) $(CRTSTUFF_T_CFLAGS) \
 	  @inhibit_libc@ -c $(srcdir)/crtstuff.c -DCRT_BEGIN -DCRTSTUFFT_O \
-	  -o $(T)crtbeginT$(objext)
+	  -o $(T)crtstmp$(objext)
+	`$(GCC_FOR_TARGET) -print-prog-name=ld` -x -r \
+	  -o $(T)crtbeginT$(objext) $(T)crtstmp$(objext)
+	@rm -f $(T)crtstmp$(objext)
 
 # Compile the start modules crt0.o and mcrt0.o that are linked with
 # every program
@@ -1290,9 +1305,15 @@ mcrt0.o: s-crt0; @true
 
 s-crt0:	$(CRT0_S) $(MCRT0_S) $(GCC_PASSES) $(CONFIG_H)
 	$(GCC_FOR_TARGET) $(GCC_CFLAGS) $(CRT0STUFF_T_CFLAGS) \
-	  -o crt0.o -c $(CRT0_S)
+	  -o crtstmp$(objext)
+	`$(GCC_FOR_TARGET) -print-prog-name=ld` -x -r \
+	  -o crt0.o -c $(CRT0_S) crtstmp$(objext)
+	@rm -f crtstmp$(objext)
 	$(GCC_FOR_TARGET) $(GCC_CFLAGS) $(CRT0STUFF_T_CFLAGS) \
-	  -o mcrt0.o -c $(MCRT0_S)
+	  -o crtstmp$(objext)
+	`$(GCC_FOR_TARGET) -print-prog-name=ld` -x -r \
+	  -o mcrt0.o -c $(MCRT0_S) crtstmp$(objext)
+	@rm -f crtstmp$(objext)
 	$(STAMP) s-crt0
 #
 # Compiling object files from source files.
