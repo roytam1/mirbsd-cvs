@@ -1,4 +1,4 @@
-# $MirOS: gcc/Makefile.inc,v 1.19 2005/11/23 15:39:49 tg Exp $
+# $MirOS: gcc/Makefile.inc,v 1.20 2005/11/23 18:29:45 tg Exp $
 
 .ifndef _MODGCC_MAKEFILE_INC
 _MODGCC_MAKEFILE_INC=1
@@ -48,7 +48,7 @@ NO_BOEHMGC=	Yes
 
 GCC_NATIVE?=	Yes
 NO_BOEHMGC?=	No
-GMAKE?=		/usr/local/bin/gmake
+GMAKE?=		/usr/mpkg/bin/gmake
 CPP=		${CC} -E
 
 .if ${NO_BOEHMGC:L} != "no"
