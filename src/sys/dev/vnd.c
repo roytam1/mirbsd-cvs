@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/vnd.c,v 1.7 2007/09/18 19:52:45 tg Exp $	*/
+/**	$MirOS: src/sys/dev/vnd.c,v 1.8 2007/09/18 20:11:25 tg Exp $	*/
 /*	$OpenBSD: vnd.c,v 1.74 2007/05/12 12:19:23 krw Exp $	*/
 /*	$OpenBSD: vnd.c,v 1.57 2005/12/29 20:02:03 pedro Exp $	*/
 /*	$NetBSD: vnd.c,v 1.26 1996/03/30 23:06:11 christos Exp $	*/
@@ -241,8 +241,8 @@ vndopen(dev, flags, mode, p)
 
 	if ((sc->sc_flags & VNF_INITED) &&
 	    (sc->sc_flags & VNF_HAVELABEL) == 0) {
-		sc->sc_flags |= VNF_HAVELABEL;
 		vndgetdisklabel(dev, sc);
+		sc->sc_flags |= VNF_HAVELABEL;
 	}
 
 	part = DISKPART(dev);
