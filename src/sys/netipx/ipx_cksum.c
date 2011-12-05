@@ -1,4 +1,4 @@
-/**	$MirOS$	*/
+/**	$MirOS: src/sys/netipx/ipx_cksum.c,v 1.2 2005/03/06 21:28:23 tg Exp $	*/
 /*	$OpenBSD: ipx_cksum.c,v 1.6 2003/12/10 07:22:43 itojun Exp $	*/
 
 /*-
@@ -195,13 +195,13 @@ commoncase:
 		}
 		FOLD(sum);
 	}
+	rnd_addpool_add(sum);
 	if (mlen == -1) {
 		/* We had an odd number of bytes to sum; assume a garbage
 		   byte of zero and clean up */
 		sum += sum;
 		FOLD(sum);
 	}
-	rnd_addpool_add(sum);
 	/*
 	 * sum has already been kept to low sixteen bits.
 	 * just examine result and exit.

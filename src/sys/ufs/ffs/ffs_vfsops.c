@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/ufs/ffs/ffs_vfsops.c,v 1.4 2005/07/04 00:10:45 tg Exp $ */
+/**	$MirOS: src/sys/ufs/ffs/ffs_vfsops.c,v 1.5 2005/07/07 15:16:27 tg Exp $ */
 /*	$OpenBSD: ffs_vfsops.c,v 1.70 2005/07/03 20:14:02 drahn Exp $	*/
 /*	$NetBSD: ffs_vfsops.c,v 1.19 1996/02/09 22:22:26 christos Exp $	*/
 
@@ -677,8 +677,8 @@ ffs_mountfs(devvp, mp, p)
 	 */
 	rnd_addpool_add(fs->fs_firstfield);
 	rnd_addpool_add(fs->fs_unused_1);
-	rnd_addpool_add(fs->fs_id[0] ^ arc4random());
-	rnd_addpool_add(fs->fs_id[1] ^ (fs->fs_time + fs->fs_fscktime));
+	rnd_addpool_add(fs->fs_id[0]);
+	rnd_addpool_add(fs->fs_id[1] ^ (fs->fs_time - fs->fs_fscktime));
 	fs->fs_firstfield = arc4random();
 	fs->fs_unused_1 = arc4random();
 

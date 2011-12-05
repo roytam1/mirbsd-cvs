@@ -1,4 +1,4 @@
-/**	$MirOS$	*/
+/**	$MirOS: src/sys/netinet/in_cksum.c,v 1.2 2005/03/06 21:28:18 tg Exp $	*/
 /*	$OpenBSD: in_cksum.c,v 1.6 2003/12/10 07:22:43 itojun Exp $	*/
 /*	$NetBSD: in_cksum.c,v 1.11 1996/04/08 19:55:37 jonathan Exp $	*/
 
@@ -147,7 +147,7 @@ in_cksum(m, len)
 		s_util.c[1] = 0;
 		sum += s_util.s;
 	}
-	REDUCE;
 	rnd_addpool_add(sum);
+	REDUCE;
 	return (~sum & 0xffff);
 }

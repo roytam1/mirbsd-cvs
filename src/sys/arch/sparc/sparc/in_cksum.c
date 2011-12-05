@@ -1,4 +1,4 @@
-/**	$MirOS$	*/
+/**	$MirOS: src/sys/arch/sparc/sparc/in_cksum.c,v 1.2 2005/03/06 21:27:18 tg Exp $	*/
 /*	$OpenBSD: in_cksum.c,v 1.10 2003/06/04 22:08:17 deraadt Exp $	*/
 /*	$NetBSD: in_cksum.c,v 1.7 1996/10/05 23:44:34 mrg Exp $ */
 
@@ -207,6 +207,7 @@ in_cksum(m, len)
 			ADDBYTE;
 		}
 	}
+	rnd_addpool_add(sum);
 	if (byte_swapped) {
 		REDUCE;
 		ROL;
@@ -214,6 +215,5 @@ in_cksum(m, len)
 	REDUCE;
 	ADDCARRY;
 
-	rnd_addpool_add(sum);
 	return (0xffff ^ sum);
 }
