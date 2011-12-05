@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/lib/libkvm/kvm_private.h,v 1.2 2005/10/21 11:02:47 tg Exp $ */
 /*	$OpenBSD: kvm_private.h,v 1.9 2004/01/07 02:16:33 millert Exp $ */
 /*	$NetBSD: kvm_private.h,v 1.7 1996/05/05 04:32:15 gwr Exp $	*/
 
@@ -51,6 +51,7 @@ struct __kvm {
 	int	vmfd;		/* virtual memory file (-1 if crashdump) */
 	int	swfd;		/* swap file (e.g., /dev/drum) */
 	int	nlfd;		/* namelist file (e.g., /vmunix) */
+	FILE	*nl_f;		/* stdio access to nlfd if required */
 	struct kinfo_proc *procbase;
 	struct kinfo_proc2 *procbase2;
 	int	nbpg;		/* page size */
