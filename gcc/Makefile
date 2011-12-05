@@ -1,4 +1,4 @@
-# $MirOS: gcc/Makefile,v 1.11 2005/11/23 15:42:08 tg Exp $
+# $MirOS: gcc/Makefile,v 1.12 2005/11/24 19:51:50 tg Exp $
 
 .include <bsd.own.mk>
 .include "${GNUSYSTEM_AUX_DIR}/locations.mk"
@@ -100,25 +100,40 @@ bootstrapbuild: ${_STFILE_SUB}
 	    NO_CXX=Yes NO_OBJC=Yes NO_PASCAL=Yes NO_BOEHMGC=Yes
 
 bootstrap:
-	@cd ${.CURDIR} && ${MAKE} obj && exec ${MAKE} do-bootstrap
+	@cd ${.CURDIR} && ${MAKE} obj && exec ${MAKE} do-bootstrap \
+	    _LIBERTY_GIVEN=$$(l="${_LIBERTY}"; \
+	    if [[ -e $${l:-/nonexistant} ]]; then print yes; \
+		else print no; fi)
 
 do-bootstrap:
+.if ${_LIBERTY_GIVEN} == "no"
 	cd ${GNU_LIBIBERTY_SRC} && exec ${MAKE} obj
 	cd ${GNU_LIBIBERTY_SRC} && exec ${MAKE} depend
 	cd ${GNU_LIBIBERTY_SRC} && exec ${MAKE} all
+.endif
 	mkdir -p ${SUBOBJDIR}/bs-{1,2}
+.if ${_LIBERTY_GIVEN} == "no"
 	cd ${.CURDIR} && exec ${MAKE} bootstrapbuild COMPILER_ONLY=Yes \
 	    _LIBERTY=${GNU_LIBIBERTY_SRC}/obj/libiberty.a \
 	    GCC_NATIVE=no GCC_PREFIX=${SUBOBJDIR}/bs-1
 	cd ${.CURDIR} && exec ${MAKE} install COMPILER_ONLY=Yes \
 	    _LIBERTY=${GNU_LIBIBERTY_SRC}/obj/libiberty.a \
 	    GCC_NATIVE=no GCC_PREFIX=${SUBOBJDIR}/bs-1
+.else
+	cd ${.CURDIR} && exec ${MAKE} bootstrapbuild COMPILER_ONLY=Yes \
+	    GCC_NATIVE=no GCC_PREFIX=${SUBOBJDIR}/bs-1
+	cd ${.CURDIR} && exec ${MAKE} install COMPILER_ONLY=Yes \
+	    GCC_NATIVE=no GCC_PREFIX=${SUBOBJDIR}/bs-1
+.endif
+.if ${_LIBERTY_GIVEN} == "no"
 	cd ${GNU_LIBIBERTY_SRC} && exec ${MAKE} cleandir
 	cd ${GNU_LIBIBERTY_SRC} && exec ${MAKE} depend \
 	    CC=${SUBOBJDIR}/bs-1/bin/mgcc CPP="${SUBOBJDIR}/bs-1/bin/mgcc -E"
 	cd ${GNU_LIBIBERTY_SRC} && exec ${MAKE} all \
 	    CC=${SUBOBJDIR}/bs-1/bin/mgcc CPP="${SUBOBJDIR}/bs-1/bin/mgcc -E"
+.endif
 	cd ${.CURDIR} && exec ${MAKE} cleandir-recursive COMPILER_ONLY=Yes
+.if ${_LIBERTY_GIVEN} == "no"
 	cd ${.CURDIR} && exec ${MAKE} all COMPILER_ONLY=Yes \
 	    _LIBERTY=${GNU_LIBIBERTY_SRC}/obj/libiberty.a \
 	    CC=${SUBOBJDIR}/bs-1/bin/mgcc \
@@ -127,16 +142,32 @@ do-bootstrap:
 	    _LIBERTY=${GNU_LIBIBERTY_SRC}/obj/libiberty.a \
 	    CC=${SUBOBJDIR}/bs-1/bin/mgcc \
 	    GCC_NATIVE=no GCC_PREFIX=${SUBOBJDIR}/bs-2
+.else
+	cd ${.CURDIR} && exec ${MAKE} all COMPILER_ONLY=Yes \
+	    CC=${SUBOBJDIR}/bs-1/bin/mgcc \
+	    GCC_NATIVE=no GCC_PREFIX=${SUBOBJDIR}/bs-2
+	cd ${.CURDIR} && exec ${MAKE} install COMPILER_ONLY=Yes \
+	    CC=${SUBOBJDIR}/bs-1/bin/mgcc \
+	    GCC_NATIVE=no GCC_PREFIX=${SUBOBJDIR}/bs-2
+.endif
+.if ${_LIBERTY_GIVEN} == "no"
 	cd ${GNU_LIBIBERTY_SRC} && exec ${MAKE} cleandir
 	cd ${GNU_LIBIBERTY_SRC} && exec ${MAKE} depend \
 	    CC=${SUBOBJDIR}/bs-2/bin/mgcc CPP="${SUBOBJDIR}/bs-2/bin/mgcc -E"
 	cd ${GNU_LIBIBERTY_SRC} && exec ${MAKE} all \
 	    CC=${SUBOBJDIR}/bs-2/bin/mgcc CPP="${SUBOBJDIR}/bs-2/bin/mgcc -E"
+.endif
 	cd ${.CURDIR} && exec ${MAKE} cleandir-recursive COMPILER_ONLY=Yes
+.if ${_LIBERTY_GIVEN} == "no"
 	cd ${.CURDIR} && exec ${MAKE} all \
 	    _LIBERTY=${GNU_LIBIBERTY_SRC}/obj/libiberty.a \
 	    CC=${SUBOBJDIR}/bs-2/bin/mgcc \
 	    CXX=${SUBOBJDIR}/bs-2/bin/g++
+.else
+	cd ${.CURDIR} && exec ${MAKE} all \
+	    CC=${SUBOBJDIR}/bs-2/bin/mgcc \
+	    CXX=${SUBOBJDIR}/bs-2/bin/g++
+.endif
 	cd ${.CURDIR} && exec ${SUDO} ${MAKE} install
 
 .PHONY: bootstrapbuild bootstrap do-bootstrap
