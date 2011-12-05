@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.5 2006/01/24 12:48:21 tg Rel $ */
+/* $MirOS: src/lib/libz/gzfopen.c,v 1.1 2006/01/24 13:04:10 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -30,18 +30,42 @@
 #include <stdio.h>
 #include "zutil.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libz/gzfopen.c,v 1.1 2006/01/24 13:04:10 tg Exp $");
 
+static FILE *zf_open(const char *, const char *, int);
 static int zf_read(void *, char *, int);
 static int zf_write(void *, const char *, int);
+static int zf_seek(void *, fpos_t, int);
 static int zf_close(void *);
 
 FILE *
 gzfopen(const char *path, const char *mode)
 {
+	if (path == NULL) {
+		errno = EINVAL;
+		return (NULL);
+	}
+
+	return zf_open(path, mode, 0);
+}
+
+FILE *
+gzfdopen(int fd, const char *mode)
+{
+	return zf_open(NULL, mode, fd);
+}
+
+FILE *
+zf_open(const char *path, const char *mode, int fd)
+{
 	gzFile s;
 	FILE *f;
 	bool r;
+
+	if (mode == NULL) {
+		errno = EINVAL;
+		return (NULL);
+	}
 
 	if (*mode == 'r')
 		r = true;
@@ -52,7 +76,7 @@ gzfopen(const char *path, const char *mode)
 		return (NULL);
 	}
 
-	s = gzopen(path, mode);
+	s = (path == NULL) ? gzdopen(fd, mode) : gzopen(path, mode);
 	if (s == (gzFile)Z_NULL) {
 		errno = ENXIO;
 		return (NULL);
