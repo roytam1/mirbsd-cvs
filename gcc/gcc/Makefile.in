@@ -1,4 +1,4 @@
-# $MirOS: gcc/gcc/Makefile.in,v 1.5 2005/08/26 20:57:20 tg Exp $
+# $MirOS: gcc/gcc/Makefile.in,v 1.6 2005/11/22 17:55:20 tg Exp $
 #
 # Makefile for GNU Compiler Collection
 # Run 'configure' to generate Makefile from Makefile.in
@@ -729,7 +729,7 @@ LIBDEPS= $(LIBINTL_DEP) $(LIBICONV_DEP) #$(LIBIBERTY)
 
 # Likewise, for use in the tools that must run on this machine
 # even if we are cross-building GCC.
-BUILD_LIBDEPS= $(BUILD_LIBIBERTY)
+BUILD_LIBDEPS= #$(BUILD_LIBIBERTY)
 
 # How to link with both our special library facilities
 # and the system's installed libraries.
