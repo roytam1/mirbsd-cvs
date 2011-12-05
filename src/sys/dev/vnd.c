@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/vnd.c,v 1.6 2007/09/18 19:40:05 tg Exp $	*/
+/**	$MirOS: src/sys/dev/vnd.c,v 1.7 2007/09/18 19:52:45 tg Exp $	*/
 /*	$OpenBSD: vnd.c,v 1.74 2007/05/12 12:19:23 krw Exp $	*/
 /*	$OpenBSD: vnd.c,v 1.57 2005/12/29 20:02:03 pedro Exp $	*/
 /*	$NetBSD: vnd.c,v 1.26 1996/03/30 23:06:11 christos Exp $	*/
@@ -493,8 +493,12 @@ vndstrategy(bp)
 					vndencrypt(vnd, bp->b_data,
 					   bp->b_bcount, bp->b_blkno, 1);
 				auio.uio_rw = UIO_WRITE;
-				bp->b_error = VOP_WRITE(vnd->sc_vp, &auio, 0,
-				    vnd->sc_cred);
+				/*
+				 * Upper layer has already checked I/O for
+				 * limits, so there is no need to do it again.
+				 */
+				bp->b_error = VOP_WRITE(vnd->sc_vp, &auio,
+				    IO_NOLIMIT, vnd->sc_cred);
 				/* Data in buffer cache needs to be in clear */
 				if (vnd->sc_keyctx)
 					vndencrypt(vnd, bp->b_data,
@@ -838,7 +842,7 @@ vndioctl(dev, cmd, addr, flag, p)
 			long sscale;
 			dev_t bdv;
 
-			bdv = vp->v_rdev;
+			bdv = nd.ni_vp->v_rdev;
 			bsw = bdevsw_lookup(bdv);
 			if ((bsw->d_ioctl == NULL) || (bsw->d_ioctl(bdv,
 			    DIOCGPART, (caddr_t)&pi, FREAD, p)))
