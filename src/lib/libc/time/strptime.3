@@ -1,6 +1,8 @@
+.\"	$MirOS$
 .\"	$OpenBSD: strptime.3,v 1.9 2005/07/22 03:23:37 jaredy Exp $
+.\"	$NetBSD: strptime.3,v 1.27 2009/05/24 02:30:17 ginsbach Exp $
 .\"
-.\" Copyright (c) 1997, 1998 The NetBSD Foundation, Inc.
+.\" Copyright (c) 1997, 1998, 2008 The NetBSD Foundation, Inc.
 .\" All rights reserved.
 .\"
 .\" This file was contributed to The NetBSD Foundation by Klaus Klein.
@@ -48,7 +50,9 @@ The
 .Nm
 function converts the character string pointed to by
 .Fa buf
-to values which are stored in the ``tm'' structure pointed to by
+to values which are stored in the
+.Va tm
+structure pointed to by
 .Fa tm ,
 using the format specified by
 .Fa format .
@@ -93,7 +97,8 @@ the date and time, using the locale's date and time format.
 .It Cm \&%C
 the century number [0,99]; leading zeros are permitted but not required.
 Note that the converted value is added to the current value of the
-``tm_year'' field (in order that the "\&%y" conversion be useful).
+.Va tm_year
+field (in order that the "\&%y" conversion be useful).
 .It Cm \&%d
 the day of month [1,31];
 leading zeros are permitted but not required.
@@ -102,6 +107,9 @@ the date as %m/%d/%y.
 .It Cm \&%e
 the same as
 .Cm \&%d .
+.It Cm \&%F
+the date as %Y-%m-%d
+(the ISO 8601 date format).
 .It Cm \&%h
 the same as
 .Cm \&%b .
@@ -111,6 +119,14 @@ leading zeros are permitted but not required.
 .It Cm \&%I
 the hour (12-hour clock) [1,12];
 leading zeros are permitted but not required.
+.It Cm \&%J
+the Julian Date representation (see
+.Xr strftime 3 ) .
+.Po
+A
+.Mx
+extension.
+.Pc
 .It Cm \&%j
 the day number of the year [1,366];
 leading zeros are permitted but not required.
@@ -140,6 +156,14 @@ the time as %H:%M.
 .It Cm \&%S
 the seconds [0,61];
 leading zeros are permitted but not required.
+.It Cm \&%s
+the number of seconds since the Epoch, UTC (see
+.Xr mktime 3 ) .
+.Po
+A
+.Nx
+extension.
+.Pc
 .It Cm \&%t
 any whitespace.
 .It Cm \&%T
@@ -171,7 +195,8 @@ Leading zeros are permitted but not required.
 .It Cm \&%Y
 the year, including the century (i.e., 1998).
 .It Cm \&%%
-A `%' is written.
+matches a literal
+.Sq \&% .
 No argument is converted.
 .El
 .Ss Modified conversion specifications

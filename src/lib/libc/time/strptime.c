@@ -1,5 +1,5 @@
-/**	$MirOS: src/lib/libc/time/strptime.c,v 1.2 2005/03/06 20:28:50 tg Exp $ */
-/*	$OpenBSD: strptime.c,v 1.11 2005/08/08 08:05:38 espie Exp $ */
+/**	$MirOS: src/lib/libc/time/strptime.c,v 1.3 2005/09/22 20:33:01 tg Exp $ */
+/*	$OpenBSD: strptime.c,v 1.12 2008/06/26 05:42:05 ray Exp $ */
 /*	$NetBSD: strptime.c,v 1.12 1998/01/20 21:39:40 mycroft Exp $	*/
 
 /*-
@@ -16,13 +16,6 @@
  * 2. Redistributions in binary form must reproduce the above copyright
  *    notice, this list of conditions and the following disclaimer in the
  *    documentation and/or other materials provided with the distribution.
- * 3. All advertising materials mentioning features or use of this software
- *    must display the following acknowledgement:
- *        This product includes software developed by the NetBSD
- *        Foundation, Inc. and its contributors.
- * 4. Neither the name of The NetBSD Foundation nor the names of its
- *    contributors may be used to endorse or promote products derived
- *    from this software without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE NETBSD FOUNDATION, INC. AND CONTRIBUTORS
  * ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
@@ -39,13 +32,18 @@
 
 #include <sys/cdefs.h>
 #include <sys/localedef.h>
+#include <sys/taitime.h>
 #include <ctype.h>
+#include <errno.h>
+#include <limits.h>
 #include <locale.h>
+#include <stdint.h>
+#include <stdlib.h>
 #include <string.h>
 #include <time.h>
 #include <tzfile.h>
 
-__RCSID("$MirOS: src/lib/libc/time/strptime.c,v 1.2 2005/03/06 20:28:50 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/time/strptime.c,v 1.3 2005/09/22 20:33:01 tg Exp $");
 
 #define	_ctloc(x)		(_DefaultTimeLocale.x)
 
@@ -73,7 +71,7 @@ _strptime(const char *buf, const char *fmt, struct tm *tm, int initialize)
 {
 	unsigned char c;
 	const unsigned char *bp;
-	size_t len;
+	size_t len = 0;
 	int alt_format, i;
 	static int century, relyear;
 
@@ -82,7 +80,7 @@ _strptime(const char *buf, const char *fmt, struct tm *tm, int initialize)
 		relyear = -1;
 	}
 
-	bp = (unsigned char *)buf;
+	bp = (const unsigned char *)buf;
 	while ((c = *fmt) != '\0') {
 		/* Clear `alternate' modifier prior to new conversion. */
 		alt_format = 0;
@@ -134,6 +132,12 @@ literal:
 		case 'D':	/* The date as "%m/%d/%y". */
 			_LEGAL_ALT(0);
 			if (!(bp = _strptime(bp, "%m/%d/%y", tm, 0)))
+				return (NULL);
+			break;
+
+		case 'F':	/* The date as "%Y-%m-%d". */
+			_LEGAL_ALT(0);
+			if (!(bp = _strptime(bp, "%Y-%m-%d", tm, 0)))
 				return (NULL);
 			break;
 
@@ -250,6 +254,51 @@ literal:
 				return (NULL);
 			break;
 
+		case 'J': {	/* Julian Date */
+			/* modified julian date, as per DJB */
+			mjd_t t_mjd;
+			/* julian date, as per http://tycho.usno.navy.mil/mjd.html */
+			double t_jd;
+			/* like _conv(), width from SQLite3 */
+			char cvb[20], *cp;
+			size_t cvbp = 0;
+			int gotdot = 0, saved_errno;
+
+			if (*bp != '.' && (*bp < '0' || *bp > '9'))
+				return (NULL);
+
+			while (cvbp < sizeof(cvb) - 1)
+				if ((!gotdot && *bp == '.') ||
+				    (*bp >= '0' && *bp <= '9')) {
+					if (*bp == '.')
+						gotdot = 1;
+					cvb[cvbp++] = *bp++;
+				} else
+					break;
+			cvb[cvbp] = '\0';
+
+			saved_errno = errno;
+			errno = 0;
+			t_jd = strtod(cvb, &cp);
+			if (errno == ERANGE)
+				cp = NULL;
+			errno = saved_errno;
+			if (cp == NULL || *cp != '\0')
+				return (NULL);
+			t_jd -= 2400000.5;		/* JD -> MJD */
+			t_mjd.mjd = (time_t)t_jd;	/* day part */
+			if (t_mjd.mjd < 0)
+				--t_mjd.mjd;		/* make seconds positive */
+			t_jd -= t_mjd.mjd;		/* frac. seconds part */
+			/* how many seconds has our day? */
+			t_mjd.sec = 86400;
+			t_jd *= ((mjd2tm(t_mjd).tm_sec == 60) ? 86401 : 86400);
+			t_mjd.sec = t_jd;		/* int. seconds part */
+			/* return the value */
+			*tm = mjd2tm(t_mjd);
+			break;
+		}
+
 		case 'j':	/* The day of year. */
 			_LEGAL_ALT(0);
 			if (!(_conv_num(&bp, &tm->tm_yday, 1, 366)))
@@ -302,6 +351,36 @@ literal:
 			_LEGAL_ALT(_ALT_O);
 			if (!(_conv_num(&bp, &tm->tm_sec, 0, 61)))
 				return (NULL);
+			break;
+
+#ifndef TIME_MAX
+#ifdef _BSD_TIME_T_IS_64_BIT
+#define TIME_MAX	INT32_MAX
+#else
+#define TIME_MAX	INT64_MAX
+#endif
+#endif
+		case 's':	/* seconds since the epoch */
+			{
+				time_t sse = 0;
+				uint64_t rulim = TIME_MAX;
+
+				if (*bp < '0' || *bp > '9')
+					return (NULL);
+
+				do {
+					sse *= 10;
+					sse += *bp++ - '0';
+					rulim /= 10;
+				} while ((sse <= TIME_MAX / 10) &&
+					 rulim && *bp >= '0' && *bp <= '9');
+
+				if (sse < 0 || (uint64_t)sse > TIME_MAX)
+					return (NULL);
+
+				if (localtime_r(&sse, tm) == NULL)
+					return (NULL);
+			}
 			break;
 
 		case 'U':	/* The week of year, beginning on sunday. */
