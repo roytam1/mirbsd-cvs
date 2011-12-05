@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.bin/mkisofs/Makefile,v 1.2 2005/10/21 10:46:27 tg Exp $
+# $MirOS: src/gnu/usr.bin/mkisofs/Makefile,v 1.3 2006/10/06 13:44:57 tg Exp $
 
 PROG=		mkisofs
 MAN=		mkisofs.8tbl
@@ -7,7 +7,7 @@ MAN=		mkisofs.8tbl
 COPTS+=		-Wall
 CPPFLAGS+=	-DUSE_LARGEFILES -DABORT_DEEP_ISO_ONLY -DAPPLE_HYB -DUSE_SCG \
 		-DDVD_VIDEO -DSYSTEM_ID_DEFAULT=\"MirOS\" -DUDF \
-		-DUSE_LIBSCHILY -DVANILLA_AUTOCONF -DUSE_STATIC_CONF -Dlint \
+		-DUSE_LIBSCHILY -DVANILLA_AUTOCONF -DUSE_STATIC_CONF \
 		-DAPPID_DEFAULT=\"MirOS\ mkisofs\" -DHOST_VENDOR=\"MirOS\" \
 		-DHOST_CPU=\"${MACHINE}\" -DHOST_OS=\"Mir${MACHINE_OS}\"
 
