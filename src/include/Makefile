@@ -1,4 +1,4 @@
-# $MirOS: src/include/Makefile,v 1.8 2005/11/03 22:28:39 tg Exp $
+# $MirOS: src/include/Makefile,v 1.9 2005/12/04 17:50:19 tg Exp $
 # $OpenBSD: Makefile,v 1.135 2005/07/10 06:53:44 grange Exp $
 # $NetBSD: Makefile,v 1.59 1996/05/15 21:36:43 jtc Exp $
 # @(#)Makefile	5.45.1.1 (Berkeley) 5/6/91
@@ -21,7 +21,7 @@ FILES=	a.out.h ar.h assert.h bitstring.h blf.h bm.h bsd_auth.h cast.h \
 	sgtty.h sha1.h sha2.h signal.h skipjack.h stab.h stdbool.h \
 	stddef.h stdint.h stdio.h stdlib.h string.h strings.h struct.h \
 	sysexits.h tar.h time.h ttyent.h tzfile.h unistd.h utime.h \
-	utmp.h vis.h wchar.h wctype.h
+	utmp.h vis.h wchar.h #wctype.h
 
 MFILES=	float.h frame.h
 LFILES=	errno.h fcntl.h syslog.h termios.h stdarg.h varargs.h
