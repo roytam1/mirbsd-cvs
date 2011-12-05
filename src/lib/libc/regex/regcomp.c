@@ -48,7 +48,7 @@
 #include "cclass.h"
 #include "cname.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libc/regex/regcomp.c,v 1.2 2007/02/12 05:37:50 tg Exp $");
 
 /*
  * parse structure, passed up and down to avoid global variables and
@@ -251,8 +251,8 @@ static void
 p_ere(struct parse *p, int stop)	/* character this ERE should end at */
 {
 	char c;
-	sopno prevback;
-	sopno prevfwd;
+	sopno prevback = 0;
+	sopno prevfwd = 0;
 	sopno conc;
 	int first = 1;		/* is this the first alternative? */
 
@@ -1434,9 +1434,9 @@ static void
 findmust(struct parse *p, struct re_guts *g)
 {
 	sop *scan;
-	sop *start;
-	sop *newstart;
-	sopno newlen;
+	sop *start = NULL;
+	sop *newstart = NULL;
+	sopno newlen = 0;
 	sop s;
 	char *cp;
 	sopno i;
@@ -1446,7 +1446,6 @@ findmust(struct parse *p, struct re_guts *g)
 		return;
 
 	/* find the longest OCHAR sequence in strip */
-	newlen = 0;
 	scan = g->strip + 1;
 	do {
 		s = *scan++;
@@ -1484,6 +1483,8 @@ findmust(struct parse *p, struct re_guts *g)
 		}
 	} while (OP(s) != OEND);
 
+	if (start == NULL)		/* just in case */
+		g->mlen = 0;
 	if (g->mlen == 0)		/* there isn't one */
 		return;
 
