@@ -1,4 +1,4 @@
-/* $MirOS: gcc/gcc/gthr-posix.c,v 1.3 2005/05/19 22:11:55 tg Exp $ */
+/* $MirOS: gcc/gcc/gthr-posix.c,v 1.4 2005/05/19 22:46:30 tg Exp $ */
 
 /* POSIX threads dummy routines for systems without weak definitions.  */
 /* Compile this one with gcc.  */
@@ -28,6 +28,9 @@ Software Foundation, 59 Temple Place - Suite 330, Boston, MA
    This exception does not however invalidate any other reasons why
    the executable file might be covered by the GNU General Public License.  */
 
+/* pull in <pthread.h> via "gthr.h" */
+#define _PTHREADS 1
+
 #include "system.h"
 #include "coretypes.h"
 #include "tconfig.h"
@@ -36,7 +39,7 @@ Software Foundation, 59 Temple Place - Suite 330, Boston, MA
 #define _LIBOBJC_WEAK
 #include "gthr.h"
 
-__RCSID("$MirOS: gcc/gcc/gthr-posix.c,v 1.3 2005/05/19 22:11:55 tg Exp $");
+__RCSID("$MirOS: gcc/gcc/gthr-posix.c,v 1.4 2005/05/19 22:46:30 tg Exp $");
 
 int
 pthread_once (pthread_once_t *once ATTRIBUTE_UNUSED,

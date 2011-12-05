@@ -1650,9 +1650,6 @@ fdioctl(dev, cmd, addr, flag, p)
 		if (((struct mtop *)addr)->mt_op != MTOFFL)
 			return EIO;
 
-#ifdef COMPAT_SUNOS
-	case SUNOS_FDIOCEJECT:
-#endif
 	case DIOCEJECT:
 		fd_do_eject(fd);
 		return (0);

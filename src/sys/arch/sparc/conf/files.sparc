@@ -1,4 +1,4 @@
-#	$MirOS$
+#	$MirOS: src/sys/arch/sparc/conf/files.sparc,v 1.2 2005/03/06 21:27:16 tg Exp $
 #	$OpenBSD: files.sparc,v 1.59 2004/02/29 21:44:12 miod Exp $
 #	$NetBSD: files.sparc,v 1.44 1997/08/31 21:29:16 pk Exp $
 
@@ -316,9 +316,6 @@ file	arch/sparc/sparc/db_disasm.c	ddb
 
 # OpenBSD binary compatibility (COMPAT_OPENBSD)
 include "../../../compat/openbsd/files.openbsd"
-
-# Miscellaneous
-file	netns/ns_cksum.c		ns
 
 # Magma Serial/Parallel boards
 device magma {}

@@ -1,19 +1,23 @@
-# $MirOS$
-# $OpenBSD: Makefile,v 1.1 1997/09/17 10:46:24 downsj Exp $
+# $MirOS: src/sys/arch/i386/stand/libz/Makefile,v 1.4 2005/07/07 12:46:12 tg Exp $
 
-LIB=	z
+.include <bsd.own.mk>
 
-.PATH:  ${.CURDIR}/../../../../lib/libz
+# This is needed for libz in the boot loader
+S=		${.CURDIR}/../../../..
+CFLAGS+=	${SACFLAGS} ${DEBUGFLAGS}
+CPPFLAGS+=	-I${S}/lib/libsa
 
-CFLAGS= -O2 -D_ZLIB_PRIVATE -I${.CURDIR}/../../../../lib/libz
+# This is used to build a small libz
+CPPFLAGS+=	-DSLOW -DSMALL -DNOBYFOUR -DNO_GZIP
+CPPFLAGS+=	-DDYNAMIC_CRC_TABLE -DBUILDFIXED
 
-SRCS=	adler32.c crc32.c infblock.c infcodes.c inffast.c \
-	inflate.c inftrees.c infutil.c
+LIB=		z
+SRCS=		adler32.c crc32.c infback.c inffast.c inflate.c inftrees.c
+.PATH: ${BSDSRCDIR}/lib/libz
 
-${OBJS}:	${.CURDIR}/../Makefile.inc
+NOPIC=		Yes
+DEBUGLIBS=	No
 
 install:
-
-NOPIC=	yes
 
 .include <bsd.lib.mk>

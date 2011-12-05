@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/i386/dkcsum.c,v 1.4 2005/08/02 11:57:31 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/i386/dkcsum.c,v 1.5 2006/05/26 13:40:57 tg Exp $ */
 /*	$OpenBSD: dkcsum.c,v 1.19 2005/08/01 16:46:55 krw Exp $	*/
 
 /*-
@@ -42,14 +42,13 @@
 #include <sys/stat.h>
 #include <sys/systm.h>
 #include <dev/rndvar.h>
+#include <zlib.h>
 
 #include <machine/biosvar.h>
 
 #define	b_cylin	b_resid
 
 dev_t dev_rawpart(struct device *);	/* XXX */
-
-extern unsigned long adler32(unsigned long, const char *, unsigned);
 
 extern u_int32_t bios_cksumlen;
 extern bios_diskinfo_t *bios_diskinfo;
@@ -146,7 +145,7 @@ dkcsumattach(void)
 		/* Find the BIOS device */
 		hit = 0;
 		for (bdi = bios_diskinfo; bdi->bios_number != -1; bdi++) {
-			add_timer_randomness((bdi->bios_number * bdi->flags)
+			rnd_addpool_add((bdi->bios_number * bdi->flags)
 			    ^ (int)bdi);
 			/* Skip non-harddrives and bootable CD-ROMs */
 			if ((!(bdi->bios_number & 0x80)) ||

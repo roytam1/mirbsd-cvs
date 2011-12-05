@@ -82,9 +82,6 @@
 #else
 #include <machine/frame.h>
 #endif
-#ifdef COMPAT_SVR4
-#include <machine/svr4_machdep.h>
-#endif
 
 #include <sparc/fpu/fpu_extern.h>
 #include <sparc/sparc/memreg.h>
@@ -345,28 +342,12 @@ trap(type, psr, pc, tf)
 			trapsignal(p, SIGILL, type, ILL_ILLOPC, sv);
 			break;
 		}
-#if defined(COMPAT_SVR4)
-badtrap:
-#endif
 		/* the following message is gratuitous */
 		/* ... but leave it in until we find anything */
 		printf("%s[%d]: unimplemented software trap 0x%x\n",
 			p->p_comm, p->p_pid, type);
 		trapsignal(p, SIGILL, type, ILL_ILLOPC, sv);
 		break;
-
-#ifdef COMPAT_SVR4
-	case T_SVR4_GETCC:
-	case T_SVR4_SETCC:
-	case T_SVR4_GETPSR:
-	case T_SVR4_SETPSR:
-	case T_SVR4_GETHRTIME:
-	case T_SVR4_GETHRVTIME:
-	case T_SVR4_GETHRESTIME:
-		if (!svr4_trap(type, p))
-			goto badtrap;
-		break;
-#endif
 
 	case T_AST:
 		break;	/* the work is all in userret() */

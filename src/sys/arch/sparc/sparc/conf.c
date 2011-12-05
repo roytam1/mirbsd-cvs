@@ -86,10 +86,6 @@
 #include "wsmouse.h"
 #include "wsmux.h"
 
-#ifdef XFS
-#include <xfs/nxfs.h>
-cdev_decl(xfs_dev);
-#endif
 #include "ksyms.h"
 
 struct bdevsw	bdevsw[] =
