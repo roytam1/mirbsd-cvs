@@ -1,7 +1,5 @@
-/* $MirOS: src/gnu/usr.bin/binutils/binutils/readelf.c,v 1.4 2005/06/05 21:24:07 tg Exp $ */
-
 /* readelf.c -- display contents of an ELF format file
-   Copyright 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005
+   Copyright 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2009
    Free Software Foundation, Inc.
 
    Originally developed by Eric Youngdale <eric@andante.jic.com>
@@ -119,7 +117,7 @@
 #include "getopt.h"
 #include "libiberty.h"
 
-__RCSID("$MirOS: src/gnu/usr.bin/binutils/binutils/readelf.c,v 1.4 2005/06/05 21:24:07 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/binutils/binutils/readelf.c,v 1.5 2005/07/07 16:22:45 tg Exp $");
 
 char *program_name = "readelf";
 static long archive_file_offset;
@@ -6110,8 +6108,8 @@ process_dynamic_section (FILE *file)
 	      time_t time = entry->d_un.d_val;
 
 	      tmp = gmtime (&time);
-	      printf ("%04llu-%02u-%02uT%02u:%02u:%02u\n",
-		      (uint64_t)tmp->tm_year + 1900, tmp->tm_mon + 1,
+	      printf ("%04lld-%02u-%02uT%02u:%02u:%02u\n",
+		      (int64_t)tmp->tm_year + 1900, tmp->tm_mon + 1,
 		      tmp->tm_mday,
 		      tmp->tm_hour, tmp->tm_min, tmp->tm_sec);
 
