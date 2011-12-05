@@ -370,6 +370,21 @@ If you have only one server on
 .Dq tcp6 ,
 only IPv6 traffic will be routed to the server.
 .El
+.Sh ENVIRONMENT
+.Nm
+tries to set the following DJB-compatible environment variables:
+.Bl -tag -width TCPREMOTEPORT
+.It TCPREMOTEIP
+Contains the IPv4 address of the peer in dotted-decimal format,
+or, as an extension to the DJB specification, the protocol address
+in the format returned by
+.Xr getnameinfo 3
+with the
+.Dv NI_NUMERICHOST
+option set.
+.It TCPREMOTEPORT
+Contains the port of the peer (in decimal).
+.El
 .Sh SEE ALSO
 .Xr comsat 8 ,
 .Xr fingerd 8 ,
@@ -388,6 +403,8 @@ Support for Sun-RPC
 based services is modelled after that
 provided by SunOS 4.1.
 IPv6 support was added by the KAME project in 1999.
+DJB compatible environment variables were added in
+.Mx 9 .
 .Sh BUGS
 Host address specifiers, while they make conceptual sense for RPC
 services, do not work entirely correctly.

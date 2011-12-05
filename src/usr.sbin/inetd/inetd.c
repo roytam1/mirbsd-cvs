@@ -1,7 +1,8 @@
-/**	$MirOS: src/usr.sbin/inetd/inetd.c,v 1.2 2005/03/13 19:17:01 tg Exp $ */
+/**	$MirOS: src/usr.sbin/inetd/inetd.c,v 1.3 2005/04/29 18:35:12 tg Exp $ */
 /*	$OpenBSD: inetd.c,v 1.123 2005/04/02 18:10:52 otto Exp $	*/
 
 /*
+ * Copyright (c) 2006 Thorsten Glaser.
  * Copyright (c) 1983,1991 The Regents of the University of California.
  * All rights reserved.
  *
@@ -30,6 +31,7 @@
  * SUCH DAMAGE.
  */
 
+#if 0
 #ifndef lint
 char copyright[] =
 "@(#) Copyright (c) 1983 Regents of the University of California.\n\
@@ -40,6 +42,7 @@ char copyright[] =
 /*static const char sccsid[] = "from: @(#)inetd.c	5.30 (Berkeley) 6/3/91";*/
 static const char rcsid[] = "$OpenBSD: inetd.c,v 1.123 2005/04/02 18:10:52 otto Exp $";
 #endif /* not lint */
+#endif
 
 /*
  * Inetd - Internet super-server
@@ -164,6 +167,9 @@ static const char rcsid[] = "$OpenBSD: inetd.c,v 1.123 2005/04/02 18:10:52 otto 
 #include <rpc/pmap_clnt.h>
 #include <rpcsvc/nfs_prot.h>
 #include "pathnames.h"
+
+__SCCSID("@(#)inetd.c	5.30 (Berkeley) 6/3/91");
+__RCSID("$MirOS$");
 
 #define	TOOMANY		256		/* don't start more than TOOMANY */
 #define	CNT_INTVL	60		/* servers in CNT_INTVL sec. */
@@ -1943,6 +1949,26 @@ spawn(struct servtab *sep, int ctrl)
 		if (sep->se_bi)
 			(*sep->se_bi->bi_fn)(ctrl, sep);
 		else {
+			char remote_host[NI_MAXHOST], remote_port[NI_MAXSERV];
+			struct sockaddr_storage remote_sa;
+			socklen_t remote_salen = sizeof (remote_sa);
+
+			if (!getpeername(ctrl, (struct sockaddr *)&remote_sa,
+			    &remote_salen))
+				if (!getnameinfo((struct sockaddr *)&remote_sa,
+				    remote_salen, remote_host, NI_MAXHOST,
+				    remote_port, NI_MAXSERV,
+				    NI_NUMERICHOST | NI_NUMERICSERV)) {
+					unsetenv("TCPREMOTEHOST");
+					unsetenv("TCPREMOTEINFO");
+					if (setenv("TCPREMOTEIP",
+					    remote_host, 1))
+						unsetenv("TCPREMOTEIP");
+					if (setenv("TCPREMOTEPORT",
+					    remote_port, 1))
+						unsetenv("TCPREMOTEPORT");
+				}
+
 			if ((pwd = getpwnam(sep->se_user)) == NULL) {
 				syslog(LOG_ERR,
 				    "getpwnam: %s: No such user",
