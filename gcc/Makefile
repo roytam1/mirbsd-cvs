@@ -1,4 +1,4 @@
-# $MirOS: gcc/Makefile,v 1.7 2005/11/22 17:55:18 tg Exp $
+# $MirOS: gcc/Makefile,v 1.8 2005/11/22 19:38:53 tg Exp $
 
 .include <bsd.own.mk>
 .include "${BSDSRCDIR}/Makefile.inc"
@@ -19,7 +19,7 @@ INSTALL_TGTS=	includes install
 EXTRA_ENV=	PATH=/bin:/usr/bin:/sbin:/usr/sbin
 
 .if ${GCC_NATIVE:L} != "yes"
-EXTRA_ENV:=	${EXTRA_ENV:S!PATH=!PATH=${BSDMAKE:H}:${CC:H}!}
+EXTRA_ENV:=	${EXTRA_ENV:S!PATH=!PATH=${BSDMAKE:H}:${CC:H}:!}
 _STCMD=
 _STFILE_SUB=
 _STFILE_DEST=
