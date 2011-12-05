@@ -1,8 +1,7 @@
 /* @(#)nls_config.c	1.4 02/12/03 2000,2001 J. Schilling */
-#ifndef lint
-static	char sccsid[] =
-	"@(#)nls_config.c	1.4 02/12/03 2000,2001 J. Schilling";
-#endif
+#include <sys/cdefs.h>
+__SCCSID("@(#)nls_config.c	1.4 02/12/03 2000,2001 J. Schilling");
+__RCSID("$MirOS$");
 /*
  *	Modifications to make the code portable Copyright (c) 2000 J. Schilling
  *	This file contains code taken from nls_base.c to avoid loops

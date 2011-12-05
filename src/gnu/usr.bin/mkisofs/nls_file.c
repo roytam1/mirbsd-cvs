@@ -1,8 +1,7 @@
 /* @(#)nls_file.c	1.2 03/02/28 2000 J. Schilling */
-#ifndef lint
-static	char sccsid[] =
-	"@(#)nls_file.c	1.2 03/02/28 2000 J. Schilling";
-#endif
+#include <sys/cdefs.h>
+__SCCSID("@(#)nls_file.c	1.2 03/02/28 2000 J. Schilling");
+__RCSID("$MirOS$");
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

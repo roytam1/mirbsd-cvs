@@ -1,8 +1,7 @@
 /* @(#)mkisofs.c	1.138 03/07/13 joerg */
-#ifndef lint
-static	char sccsid[] =
-	"@(#)mkisofs.c	1.138 03/07/13 joerg";
-#endif
+#include <sys/cdefs.h>
+__SCCSID("@(#)mkisofs.c	1.138 03/07/13 joerg");
+__RCSID("$MirOS$");
 /*
  * Program mkisofs.c - generate iso9660 filesystem  based upon directory
  * tree on hard disk.

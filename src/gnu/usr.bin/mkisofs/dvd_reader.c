@@ -1,8 +1,7 @@
 /* @(#)dvd_reader.c	1.2 03/03/06 joerg */
-#ifndef lint
-static	char sccsid[] =
-	"@(#)dvd_reader.c	1.2 03/03/06 joerg";
-#endif
+#include <sys/cdefs.h>
+__SCCSID("@(#)dvd_reader.c	1.2 03/03/06 joerg");
+__RCSID("$MirOS$");
 /*
  * Copyright (C) 2001, 2002 Billy Biggs <vektor@dumbterm.net>,
  *                          Håkan Hjort <d95hjort@dtek.chalmers.se>,

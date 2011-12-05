@@ -1,8 +1,7 @@
 /* @(#)softmagic.c	1.6 03/03/06 joerg */
-#ifndef lint
-static	char sccsid[] =
-	"@(#)softmagic.c	1.6 03/03/06 joerg";
-#endif
+#include <sys/cdefs.h>
+__SCCSID("@(#)softmagic.c	1.6 03/03/06 joerg");
+__RCSID("$MirOS$");
 /*
 **	find file types by using a modified "magic" file
 **
@@ -44,11 +43,6 @@ static	char sccsid[] =
 #include <stdxlib.h>
 
 #include "file.h"
-
-#ifndef	lint
-static char *moduleid = 
-	"@(#)$Id$";
-#endif	/* lint */
 
 #ifdef DEBUG
 int	debug = 1; 	/* debugging 				*/

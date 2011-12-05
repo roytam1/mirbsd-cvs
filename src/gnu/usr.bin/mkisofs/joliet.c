@@ -1,8 +1,7 @@
 /* @(#)joliet.c	1.37 03/04/28 joerg */
-#ifndef lint
-static	char sccsid[] =
-	"@(#)joliet.c	1.37 03/04/28 joerg";
-#endif
+#include <sys/cdefs.h>
+__SCCSID("@(#)joliet.c	1.37 03/04/28 joerg");
+__RCSID("$MirOS$");
 /*
  * File joliet.c - handle Win95/WinNT long file/unicode extensions for iso9660.
  *

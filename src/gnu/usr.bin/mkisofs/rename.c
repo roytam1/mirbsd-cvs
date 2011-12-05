@@ -1,8 +1,7 @@
 /* @(#)rename.c	1.3 03/06/15 Copyright 1998-2003 J. Schilling */
-#ifndef lint
-static	char sccsid[] =
-	"@(#)rename.c	1.3 03/06/15 Copyright 1998-2003 J. Schilling";
-#endif
+#include <sys/cdefs.h>
+__SCCSID("@(#)rename.c	1.3 03/06/15 Copyright 1998-2003 J. Schilling");
+__RCSID("$MirOS$");
 /*
  *	rename() for old systems that don't have it.
  *

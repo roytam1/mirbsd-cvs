@@ -3,10 +3,9 @@ XXX
 SIZEOF testen !!!
 */
 /* @(#)scsi_cdr.c	1.134 03/07/18 Copyright 1995-2002 J. Schilling */
-#ifndef lint
-static	char sccsid[] =
-	"@(#)scsi_cdr.c	1.134 03/07/18 Copyright 1995-2002 J. Schilling";
-#endif
+#include <sys/cdefs.h>
+__SCCSID("@(#)scsi_cdr.c	1.134 03/07/18 Copyright 1995-2002 J. Schilling");
+__RCSID("$MirOS$");
 /*
  *	SCSI command functions for cdrecord
  *	covering pre-MMC standard functions up to MMC-2

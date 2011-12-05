@@ -1,8 +1,7 @@
 /* @(#)cd_misc.c	1.10 01/10/29 Copyright 1997 J. Schilling */
-#ifndef lint
-static	char sccsid[] =
-	"@(#)cd_misc.c	1.10 01/10/29 Copyright 1997 J. Schilling";
-#endif
+#include <sys/cdefs.h>
+__SCCSID("@(#)cd_misc.c	1.10 01/10/29 Copyright 1997 J. Schilling");
+__RCSID("$MirOS$");
 /*
  *	Misc CD support routines
  *

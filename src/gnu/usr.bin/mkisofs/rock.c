@@ -1,8 +1,7 @@
 /* @(#)rock.c	1.40 03/05/06 joerg */
-#ifndef lint
-static	char sccsid[] =
-	"@(#)rock.c	1.40 03/05/06 joerg";
-#endif
+#include <sys/cdefs.h>
+__SCCSID("@(#)rock.c	1.40 03/05/06 joerg");
+__RCSID("$MirOS$");
 /*
  * File rock.c - generate RRIP  records for iso9660 filesystems.
  *

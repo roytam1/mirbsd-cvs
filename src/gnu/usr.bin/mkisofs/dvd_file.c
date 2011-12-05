@@ -1,8 +1,7 @@
 /* @(#)dvd_file.c	1.2 02/12/23 joerg */
-#ifndef lint
-static	char sccsid[] =
-	"@(#)dvd_file.c	1.2 02/12/23 joerg";
-#endif
+#include <sys/cdefs.h>
+__SCCSID("@(#)dvd_file.c	1.2 02/12/23 joerg");
+__RCSID("$MirOS$");
 /* 
  * DVD_VIDEO code 
  *  Copyright (c) 2002 Olaf Beck - olaf_sc@yahoo.com

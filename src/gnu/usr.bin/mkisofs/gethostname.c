@@ -1,8 +1,7 @@
 /* @(#)gethostname.c	1.14 00/08/26 Copyright 1995 J. Schilling */
-#ifndef lint
-static	char sccsid[] =
-	"@(#)gethostname.c	1.14 00/08/26 Copyright 1995 J. Schilling";
-#endif
+#include <sys/cdefs.h>
+__SCCSID("@(#)gethostname.c	1.14 00/08/26 Copyright 1995 J. Schilling");
+__RCSID("$MirOS$");
 /*
  *	Copyright (c) 1995 J. Schilling
  */

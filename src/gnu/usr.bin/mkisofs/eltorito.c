@@ -1,9 +1,7 @@
 /* @(#)eltorito.c	1.27 03/06/21 joerg */
-#ifndef lint
-static	char sccsid[] =
-	"@(#)eltorito.c	1.27 03/06/21 joerg";
-
-#endif
+#include <sys/cdefs.h>
+__SCCSID("@(#)eltorito.c	1.27 03/06/21 joerg");
+__RCSID("$MirOS$");
 /*
  * Program eltorito.c - Handle El Torito specific extensions to iso9660.
  *

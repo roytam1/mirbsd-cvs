@@ -1,8 +1,7 @@
 /* @(#)volume.c	1.12 02/10/04 joerg, Copyright 1997, 1998, 1999, 2000 James Pearson */
-#ifndef lint
-static	char sccsid[] =
-	"@(#)volume.c	1.12 02/10/04 joerg, Copyright 1997, 1998, 1999, 2000 James Pearson";
-#endif
+#include <sys/cdefs.h>
+__SCCSID("@(#)volume.c	1.12 02/10/04 joerg, Copyright 1997, 1998, 1999, 2000 James Pearson");
+__RCSID("$MirOS$");
 /*
  *      Copyright (c) 1997, 1998, 1999, 2000 James Pearson
  *

@@ -1,8 +1,7 @@
 /* @(#)getargs.c	2.33 03/06/15 Copyright 1985, 1988, 1994-2003 J. Schilling */
-#ifndef lint
-static	char sccsid[] =
-	"@(#)getargs.c	2.33 03/06/15 Copyright 1985, 1988, 1994-2003 J. Schilling";
-#endif
+#include <sys/cdefs.h>
+__SCCSID("@(#)getargs.c	2.33 03/06/15 Copyright 1985, 1988, 1994-2003 J. Schilling");
+__RCSID("$MirOS$");
 #define	NEW
 /*
  *	Copyright (c) 1985, 1988, 1994-2003 J. Schilling

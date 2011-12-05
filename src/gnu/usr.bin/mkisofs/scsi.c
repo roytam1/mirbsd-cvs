@@ -1,8 +1,7 @@
 /* @(#)scsi.c	1.17 00/12/04 Copyright 1997 J. Schilling */
-#ifndef lint
-static	char sccsid[] =
-	"@(#)scsi.c	1.17 00/12/04 Copyright 1997 J. Schilling";
-#endif
+#include <sys/cdefs.h>
+__SCCSID("@(#)scsi.c	1.17 00/12/04 Copyright 1997 J. Schilling");
+__RCSID("$MirOS$");
 /*
  *	Copyright (c) 1997 J. Schilling
  */

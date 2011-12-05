@@ -1,8 +1,7 @@
 /* @(#)scgsettarget.c	1.1 00/08/25 Copyright 2000 J. Schilling */
-#ifndef lint
-static	char _sccsid[] =
-	"@(#)scgsettarget.c	1.1 00/08/25 Copyright 2000 J. Schilling";
-#endif
+#include <sys/cdefs.h>
+__SCCSID("@(#)scgsettarget.c	1.1 00/08/25 Copyright 2000 J. Schilling");
+__RCSID("$MirOS$");
 /*
  *	scg Library 
  *	set target SCSI address

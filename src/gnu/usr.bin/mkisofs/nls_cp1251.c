@@ -1,8 +1,7 @@
 /* @(#)nls_cp1251.c	1.1 02/12/01 2002 */
-#ifndef lint
-static	char sccsid[] =
-	"@(#)nls_cp1251.c	1.1 02/12/01 2002 ";
-#endif
+#include <sys/cdefs.h>
+__SCCSID("@(#)nls_cp1251.c	1.1 02/12/01 2002 ");
+__RCSID("$MirOS$");
 /*
  *	Modifications to make the code portable Copyright (c) 2000 J. Schilling
  *

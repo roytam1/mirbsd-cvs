@@ -1,8 +1,7 @@
 /* @(#)nls_koi8-u.c	1.1 02/12/03 2002 J. Schilling by Andy Shevchenko */
-#ifndef lint
-static	char sccsid[] =
-	"@(#)nls_koi8-u.c	1.1 02/12/03 2002 J. Schilling by Andy Shevchenko";
-#endif
+#include <sys/cdefs.h>
+__SCCSID("@(#)nls_koi8-u.c	1.1 02/12/03 2002 J. Schilling by Andy Shevchenko");
+__RCSID("$MirOS$");
 /*
  *	Modifications to make the code portable Copyright (c) 2000 J. Schilling
  *

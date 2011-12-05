@@ -1,8 +1,7 @@
 /* @(#)modes.c	1.24 01/10/29 Copyright 1988 J. Schilling */
-#ifndef lint
-static	char sccsid[] =
-	"@(#)modes.c	1.24 01/10/29 Copyright 1988 J. Schilling";
-#endif
+#include <sys/cdefs.h>
+__SCCSID("@(#)modes.c	1.24 01/10/29 Copyright 1988 J. Schilling");
+__RCSID("$MirOS$");
 /*
  *	SCSI mode page handling
  *

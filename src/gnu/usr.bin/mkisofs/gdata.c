@@ -1,8 +1,7 @@
 /* @(#)gdata.c	1.1 01/01/21 Copyright 2001 J. Schilling */
-#ifndef lint
-static	char sccsid[] =
-	"@(#)gdata.c	1.1 01/01/21 Copyright 2001 J. Schilling";
-#endif
+#include <sys/cdefs.h>
+__SCCSID("@(#)gdata.c	1.1 01/01/21 Copyright 2001 J. Schilling");
+__RCSID("$MirOS$");
 
 #include <mconfig.h>
 #include "internal.h"

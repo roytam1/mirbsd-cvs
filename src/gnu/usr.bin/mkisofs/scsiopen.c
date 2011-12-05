@@ -1,8 +1,7 @@
 /* @(#)scsiopen.c	1.94 03/05/08 Copyright 1995,2000 J. Schilling */
-#ifndef lint
-static	char sccsid[] =
-	"@(#)scsiopen.c	1.94 03/05/08 Copyright 1995,2000 J. Schilling";
-#endif
+#include <sys/cdefs.h>
+__SCCSID("@(#)scsiopen.c	1.94 03/05/08 Copyright 1995,2000 J. Schilling");
+__RCSID("$MirOS$");
 /*
  *	SCSI command functions for cdrecord
  *

@@ -1,9 +1,7 @@
 /* @(#)files.c	1.11 02/12/25 joerg */
-#ifndef lint
-static	char sccsid[] =
-	"@(#)files.c	1.11 02/12/25 joerg";
-
-#endif
+#include <sys/cdefs.h>
+__SCCSID("@(#)files.c	1.11 02/12/25 joerg");
+__RCSID("$MirOS$");
 /*
  * File files.c - Handle ADD_FILES related stuff.
 

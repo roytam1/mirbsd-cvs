@@ -1,8 +1,7 @@
 /* @(#)apple_driver.c	1.5 03/02/16 joerg */
-#ifndef lint
-static	char sccsid[] =
-	"@(#)apple_driver.c	1.5 03/02/16 joerg";
-#endif
+#include <sys/cdefs.h>
+__SCCSID("@(#)apple_driver.c	1.5 03/02/16 joerg");
+__RCSID("$MirOS$");
 /*
 **	apple_driver.c: extract Mac partition label, maps and boot driver
 **

@@ -1,5 +1,8 @@
 /* @(#)scsihack.c	1.42 03/03/23 Copyright 1997,2000,2001 J. Schilling */
-char _sccsid[] = "$MirOS$";
+#include <sys/cdefs.h>
+__SCCSID("@(#)scsihack.c	1.42 03/03/23 Copyright 1997,2000,2001 J. Schilling");
+__RCSID("$MirOS$");
+static char module_id[] = "$MirOS$";
 /*
  *	Interface for other generic SCSI implementations.
  *	Emulate the functionality of /dev/scg? with the local
@@ -349,7 +352,7 @@ scgo_dversion(scgp, what)
 		case SCG_AUTHOR:
 			return (_scg_auth_schily);
 		case SCG_SCCS_ID:
-			return (_sccsid);
+			return (module_id);
 		}
 	}
 	return ((char *)0);

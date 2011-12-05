@@ -1,8 +1,7 @@
 /* @(#)tree.c	1.76 03/07/10 joerg */
-#ifndef lint
-static	char sccsid[] =
-	"@(#)tree.c	1.76 03/07/10 joerg";
-#endif
+#include <sys/cdefs.h>
+__SCCSID("@(#)tree.c	1.76 03/07/10 joerg");
+__RCSID("$MirOS$");
 /*
  * File tree.c - scan directory  tree and build memory structures for iso9660
  * filesystem

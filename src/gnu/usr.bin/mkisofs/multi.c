@@ -1,8 +1,7 @@
 /* @(#)multi.c	1.61 03/04/30 joerg */
-#ifndef lint
-static	char sccsid[] =
-	"@(#)multi.c	1.61 03/04/30 joerg";
-#endif
+#include <sys/cdefs.h>
+__SCCSID("@(#)multi.c	1.61 03/04/30 joerg");
+__RCSID("$MirOS$");
 /*
  * File multi.c - scan existing iso9660 image and merge into
  * iso9660 filesystem.  Used for multisession support.

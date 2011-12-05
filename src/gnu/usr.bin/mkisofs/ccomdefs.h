@@ -1,4 +1,3 @@
-/* $MirOS$ */
 /* @(#)ccomdefs.h	1.3 03/06/15 Copyright 2000 J. Schilling */
 /*
  *	Various compiler dependant macros.

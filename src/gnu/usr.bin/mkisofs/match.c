@@ -1,8 +1,7 @@
 /* @(#)match.c	1.16 03/06/21 joerg */
-#ifndef lint
-static	char sccsid[] =
-	"@(#)match.c	1.16 03/06/21 joerg";
-#endif
+#include <sys/cdefs.h>
+__SCCSID("@(#)match.c	1.16 03/06/21 joerg");
+__RCSID("$MirOS$");
 /*
  * 27-Mar-96: Jan-Piet Mens <jpm@mens.de>
  * added 'match' option (-m) to specify regular expressions NOT to be included

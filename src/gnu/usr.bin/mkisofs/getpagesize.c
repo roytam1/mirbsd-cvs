@@ -1,8 +1,7 @@
 /* @(#)getpagesize.c	1.1 01/11/28 Copyright 2001 J. Schilling */
-#ifndef lint
-static	char sccsid[] =
-	"@(#)getpagesize.c	1.1 01/11/28 Copyright 2001 J. Schilling";
-#endif
+#include <sys/cdefs.h>
+__SCCSID("@(#)getpagesize.c	1.1 01/11/28 Copyright 2001 J. Schilling");
+__RCSID("$MirOS$");
 /*
  *	Copyright (c) 2001 J. Schilling
  */

@@ -1,8 +1,7 @@
 /* @(#)file.c	1.4 01/10/29 joerg */
-#ifndef lint
-static	char sccsid[] =
-	"@(#)file.c	1.4 01/10/29 joerg";
-#endif
+#include <sys/cdefs.h>
+__SCCSID("@(#)file.c	1.4 01/10/29 joerg");
+__RCSID("$MirOS$");
 /*
 **	find file types by using a modified "magic" file
 **
@@ -60,10 +59,6 @@ static	char sccsid[] =
  *
  * 4. This notice may not be removed or altered.
  */
-#ifndef	lint
-static char *moduleid = 
-	"@(#)$Id$";
-#endif	/* lint */
 
 #include <mconfig.h>
 #include <stdio.h>

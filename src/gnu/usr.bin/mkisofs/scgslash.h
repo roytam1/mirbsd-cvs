@@ -1,4 +1,3 @@
-/* $MirOS$ */
 
 /* @(#)scsicdb.h	2.18 03/04/20 Copyright 1986 J. Schilling */
 /*

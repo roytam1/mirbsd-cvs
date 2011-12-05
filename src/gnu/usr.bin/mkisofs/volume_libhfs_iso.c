@@ -1,7 +1,6 @@
-#ifndef lint
-static	char sccsid[] =
-	"@(#)volume.c	1.3 02/02/10 joerg";
-#endif
+#include <sys/cdefs.h>
+__SCCSID("@(#)volume.c	1.3 02/02/10 joerg");
+__RCSID("$MirOS$");
 /*
  * hfsutils - tools for reading and writing Macintosh HFS volumes
  * Copyright (C) 1996, 1997 Robert Leslie

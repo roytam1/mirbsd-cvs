@@ -1,8 +1,7 @@
 /* @(#)apprentice.c	1.5 03/03/06 joerg */
-#ifndef lint
-static	char sccsid[] =
-	"@(#)apprentice.c	1.5 03/03/06 joerg";
-#endif
+#include <sys/cdefs.h>
+__SCCSID("@(#)apprentice.c	1.5 03/03/06 joerg");
+__RCSID("$MirOS$");
 /*
 **	find file types by using a modified "magic" file
 **
@@ -44,11 +43,6 @@ static	char sccsid[] =
 #include <strdefs.h>
 #include <ctype.h>
 #include "file.h"
-
-#ifndef	lint
-static char *moduleid = 
-	"@(#)$Id$";
-#endif	/* lint */
 
 int	__f_nmagic = 0;		/* number of valid magic[]s 		*/
 struct  magic *__f_magic;	/* array of magic entries		*/

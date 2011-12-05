@@ -1,9 +1,7 @@
 /* @(#)hash.c	1.15 02/02/10 joerg */
-#ifndef lint
-static	char sccsid[] =
-	"@(#)hash.c	1.15 02/02/10 joerg";
-
-#endif
+#include <sys/cdefs.h>
+__SCCSID("@(#)hash.c	1.15 02/02/10 joerg");
+__RCSID("$MirOS$");
 /*
  * File hash.c - generate hash tables for iso9660 filesystem.
 

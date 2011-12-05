@@ -1,4 +1,3 @@
-/* $MirOS$ */
 /* @(#)findline.c	1.14 03/06/15 Copyright 1985, 1995-2003 J. Schilling */
 /*
  *	findline

@@ -1,8 +1,7 @@
 /* @(#)cmpnullbytes.c	1.2 03/06/15 Copyright 1988,2002-2003 J. Schilling */
-#ifndef lint
-static	char sccsid[] =
-	"@(#)cmpnullbytes.c	1.2 03/06/15 Copyright 1988,2002-2003 J. Schilling";
-#endif  /* lint */
+#include <sys/cdefs.h>
+__SCCSID("@(#)cmpnullbytes.c	1.2 03/06/15 Copyright 1988,2002-2003 J. Schilling");
+__RCSID("$MirOS$");
 /*
  *	compare data against null
  *

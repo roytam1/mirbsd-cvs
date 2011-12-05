@@ -7,20 +7,6 @@
  * $Id$
  *
  * $Log$
- * Revision 1.1  2003/10/30 17:27:26  tg
- * the most crude hack I ever made...
- *
- * mkisofs from cdrtools-2.01a19.tar.bz2
- *
- * TODO:
- * * nuke use of character 0x60 from CVS (!)
- * * nuke NLS
- * * have this... *thing* use libc actually for things
- *   such as printf(), and not make its own *shudder*
- * * shrink
- * * verify it works
- * * send out an extermination mission to the author
- *
  * Revision 1.22  1997/01/15 17:23:24  christos
  * - add support for elf core files: find the program name under SVR4 [Ken Pizzini]
  * - print strings only up to the first carriage return [various]

@@ -1,9 +1,7 @@
-/* $MirOS: src/gnu/usr.bin/mkisofs/write.c,v 1.1.7.1 2005/03/06 16:46:54 tg Exp $ */
 /* @(#)write.c	1.79 03/07/13 joerg */
-#if 0
-static	char sccsid[] =
-	"@(#)write.c	1.79 03/07/13 joerg";
-#endif
+#include <sys/cdefs.h>
+__SCCSID("@(#)write.c	1.79 03/07/13 joerg");
+__RCSID("$MirOS$");
 /*
  * Program write.c - dump memory  structures to  file for iso9660 filesystem.
  *
@@ -50,8 +48,6 @@ static	char sccsid[] =
 #ifdef	VMS
 #include "vms.h"
 #endif
-
-__RCSID("$MirOS: src/gnu/usr.bin/mkisofs/write.c,v 1.1.7.1 2005/03/06 16:46:54 tg Exp $");
 
 /* Max number of sectors we will write at  one time */
 #define	NSECT 16

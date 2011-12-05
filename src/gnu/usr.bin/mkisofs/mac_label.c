@@ -1,8 +1,7 @@
 /* @(#)mac_label.c	1.6 02/05/20 joerg, Copyright 1997, 1998, 1999, 2000 James Pearson */
-#ifndef lint
-static	char sccsid[] =
-	"@(#)mac_label.c	1.6 02/05/20 joerg, Copyright 1997, 1998, 1999, 2000 James Pearson";
-#endif
+#include <sys/cdefs.h>
+__SCCSID("@(#)mac_label.c	1.6 02/05/20 joerg, Copyright 1997, 1998, 1999, 2000 James Pearson");
+__RCSID("$MirOS$");
 /*
  *      Copyright (c) 1997, 1998, 1999, 2000 James Pearson
  *

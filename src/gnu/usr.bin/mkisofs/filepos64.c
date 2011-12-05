@@ -1,4 +1,3 @@
-/* $MirOS$ */
 /* @(#)filepos64.c	1.5 00/12/28 Copyright 2000 J. Schilling */
 /*
  *	Copyright (c) 2000 J. Schilling

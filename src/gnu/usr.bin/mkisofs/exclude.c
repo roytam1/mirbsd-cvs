@@ -1,8 +1,7 @@
 /* @(#)exclude.c	1.8 00/12/05 joerg */
-#ifndef lint
-static	char sccsid[] =
-	"@(#)exclude.c	1.8 00/12/05 joerg";
-#endif
+#include <sys/cdefs.h>
+__SCCSID("@(#)exclude.c	1.8 00/12/05 joerg");
+__RCSID("$MirOS$");
 /*
  * 9-Dec-93 R.-D. Marzusch, marzusch@odiehh.hanse.de:
  * added 'exclude' option (-x) to specify pathnames NOT to be included in

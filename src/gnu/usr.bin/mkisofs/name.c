@@ -1,9 +1,7 @@
 /* @(#)name.c	1.27 03/04/04 joerg */
-#ifndef lint
-static	char sccsid[] =
-	"@(#)name.c	1.27 03/04/04 joerg";
-
-#endif
+#include <sys/cdefs.h>
+__SCCSID("@(#)name.c	1.27 03/04/04 joerg");
+__RCSID("$MirOS$");
 /*
  * File name.c - map full Unix file names to unique 8.3 names that
  * would be valid on DOS.

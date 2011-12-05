@@ -1,8 +1,7 @@
 /* @(#)scgtimes.c	1.1 00/08/25 Copyright 1995,2000 J. Schilling */
-#ifndef lint
-static	char sccsid[] =
-	"@(#)scgtimes.c	1.1 00/08/25 Copyright 1995,2000 J. Schilling";
-#endif
+#include <sys/cdefs.h>
+__SCCSID("@(#)scgtimes.c	1.1 00/08/25 Copyright 1995,2000 J. Schilling");
+__RCSID("$MirOS$");
 /*
  *	SCSI user level command timing
  *

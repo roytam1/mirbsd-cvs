@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.bin/mkisofs/Makefile,v 1.3 2006/10/06 13:44:57 tg Exp $
+# $MirOS: src/gnu/usr.bin/mkisofs/Makefile,v 1.4 2007/08/09 08:50:28 tg Exp $
 
 PROG=		mkisofs
 MAN=		mkisofs.8tbl
@@ -41,10 +41,10 @@ SRCS=		apple.c apprentice.c astoi.c astoll.c block.c boot.c \
 		record.c rename.c rock.c saveargs.c scgsettarget.c scgtimes.c \
 		scsi.c scsi_cdr.c scsierrs.c scsihack.c scsihelp.c scsiopen.c \
 		scsitransp.c serrmsg.c seterrno.c setfp.c snprintf.c \
-		softmagic.c spawn.c sprintf.c strcatl.c strdup.c stream.c \
+		softmagic.c spawn.c sprintf.c strcatl.c stream.c \
 		streql.c swabbytes.c tree.c udf.c usleep.c volume.c \
 		volume_libhfs_iso.c write.c
 
-# Someone to send an extermination mission to Jörg Schily?
+# Someone to send an extermination mission to JÃ¶rg Schily?
 
 .include <bsd.prog.mk>

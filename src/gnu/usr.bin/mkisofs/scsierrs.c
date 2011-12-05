@@ -1,8 +1,7 @@
 /* @(#)scsierrs.c	2.28 02/04/16 Copyright 1987-1996 J. Schilling */
-#ifndef lint
-static	char sccsid[] =
-	"@(#)scsierrs.c	2.28 02/04/16 Copyright 1987-1996 J. Schilling";
-#endif
+#include <sys/cdefs.h>
+__SCCSID("@(#)scsierrs.c	2.28 02/04/16 Copyright 1987-1996 J. Schilling");
+__RCSID("$MirOS$");
 /*
  *	Error printing for scsitransp.c
  *

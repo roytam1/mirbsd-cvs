@@ -1,8 +1,7 @@
 /* @(#)scsihelp.c	1.3 02/10/21 Copyright 2002 J. Schilling */
-#ifndef lint
-static	char sccsid[] =
-	"@(#)scsihelp.c	1.3 02/10/21 Copyright 2002 J. Schilling";
-#endif
+#include <sys/cdefs.h>
+__SCCSID("@(#)scsihelp.c	1.3 02/10/21 Copyright 2002 J. Schilling");
+__RCSID("$MirOS$");
 /*
  *	scg Library 
  *	Help subsystem

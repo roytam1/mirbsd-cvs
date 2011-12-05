@@ -1,8 +1,7 @@
 /* @(#)getav0.c	1.13 03/07/13 Copyright 1985, 1995-2003 J. Schilling */
-#ifndef lint
-static	char sccsid[] =
-	"@(#)getav0.c	1.13 03/07/13 Copyright 1985, 1995-2003 J. Schilling";
-#endif
+#include <sys/cdefs.h>
+__SCCSID("@(#)getav0.c	1.13 03/07/13 Copyright 1985, 1995-2003 J. Schilling");
+__RCSID("$MirOS$");
 /*
  *	Get arg vector by scanning the stack
  *

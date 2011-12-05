@@ -1,4 +1,3 @@
-/* $MirOS$ */
 /* @(#)openfd64.c	1.6 03/06/15 Copyright 2000-2003 J. Schilling */
 /*
  *	Copyright (c) 2000-2003 J. Schilling

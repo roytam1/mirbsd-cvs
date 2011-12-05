@@ -1,8 +1,7 @@
 /* @(#)stream.c	1.2 03/04/28 Copyright 2002-2003 J. Schilling */
-#ifndef lint
-static	char sccsid[] =
-	"@(#)stream.c	1.2 03/04/28 Copyright 2002-2003 J. Schilling";
-#endif
+#include <sys/cdefs.h>
+__SCCSID("@(#)stream.c	1.2 03/04/28 Copyright 2002-2003 J. Schilling");
+__RCSID("$MirOS$");
 /*
  *	ISO-9660 stream (pipe) file module for mkisofs
  *

@@ -1,8 +1,7 @@
 /* @(#)boot.c	1.10 03/04/28 Copyright 1999 J. Schilling */
-#ifndef lint
-static	char sccsid[] =
-	"@(#)boot.c	1.10 03/04/28 Copyright 1999 J. Schilling";
-#endif
+#include <sys/cdefs.h>
+__SCCSID("@(#)boot.c	1.10 03/04/28 Copyright 1999 J. Schilling");
+__RCSID("$MirOS$");
 /*
  *	Support for generic boot (sector 0..16)
  *	and to boot Sun sparc systems.

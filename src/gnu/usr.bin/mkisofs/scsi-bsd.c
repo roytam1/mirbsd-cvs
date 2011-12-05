@@ -1,6 +1,8 @@
 /* @(#)scsi-bsd.c	1.41 02/10/19 Copyright 1997 J. Schilling */
-char __sccsid[]="$MirOS$";
-#define _sccsid __sccsid
+#include <sys/cdefs.h>
+__SCCSID("@(#)scsi-bsd.c	1.41 02/10/19 Copyright 1997 J. Schilling");
+__RCSID("$MirOS$");
+static char module_id_md[] = "$MirOS$";
 /*
  *	Interface for the NetBSD/FreeBSD/OpenBSD generic SCSI implementation.
  *
@@ -108,7 +110,7 @@ scgo_version(scgp, what)
 		case SCG_AUTHOR:
 			return (_scg_auth_schily);
 		case SCG_SCCS_ID:
-			return (__sccsid);
+			return (module_id_md);
 		}
 	}
 	return ((char *)0);
@@ -589,7 +591,7 @@ scgo_version(scgp, what)
 		case SCG_AUTHOR:
 			return (_scg_auth_schily);
 		case SCG_SCCS_ID:
-			return (__sccsid);
+			return (module_id_md);
 		}
 	}
 	return ((char *)0);

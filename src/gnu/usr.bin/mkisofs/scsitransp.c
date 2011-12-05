@@ -1,8 +1,8 @@
 /* @(#)scsitransp.c	1.86 03/05/03 Copyright 1988,1995,2000 J. Schilling */
-/*#ifndef lint*/
-static	char sccsid[] =
-	"@(#)scsitransp.c	1.86 03/05/03 Copyright 1988,1995,2000 J. Schilling";
-/*#endif*/
+#include <sys/cdefs.h>
+__SCCSID("@(#)scsitransp.c	1.86 03/05/03 Copyright 1988,1995,2000 J. Schilling");
+__RCSID("$MirOS$");
+static char module_id_transp[] = "$MirOS$";
 /*
  *	SCSI user level command transport routines (generic part).
  *
@@ -136,7 +136,7 @@ scg_version(scgp, what)
 		case SCG_AUTHOR:
 			return (_scg_auth_schily);
 		case SCG_SCCS_ID:
-			return (sccsid);
+			return (module_id_transp);
 		default:
 			return ((char *)0);
 		}

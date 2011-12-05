@@ -1,8 +1,7 @@
 /* @(#)ifo_read.c	1.4 03/04/04 joerg */
-#ifndef lint
-static	char sccsid[] =
-	"@(#)ifo_read.c	1.4 03/04/04 joerg";
-#endif
+#include <sys/cdefs.h>
+__SCCSID("@(#)ifo_read.c	1.4 03/04/04 joerg");
+__RCSID("$MirOS$");
 /*
  * Copyright (C) 2002 Olaf Beck <olaf_sc@yahoo.com>
  *		     Jörg Schilling <schilling@fokus.gmd.de>

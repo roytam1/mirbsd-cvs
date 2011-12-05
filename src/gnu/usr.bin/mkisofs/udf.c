@@ -1,8 +1,7 @@
 /* @(#)udf.c	1.12 03/04/28 Copyright 2001 J. Schilling */
-#ifndef lint
-static	char sccsid[] =
-	"@(#)udf.c	1.12 03/04/28 Copyright 2001 J. Schilling";
-#endif
+#include <sys/cdefs.h>
+__SCCSID("@(#)udf.c	1.12 03/04/28 Copyright 2001 J. Schilling");
+__RCSID("$MirOS$");
 /*
  * udf.c - UDF support for mkisofs
  *
