@@ -1,4 +1,4 @@
-.\" $MirOS: src/usr.sbin/ntpd/ntpd.8,v 1.5 2005/12/04 14:14:47 tg Exp $
+.\" $MirOS: src/usr.sbin/ntpd/ntpd.8,v 1.6 2007/07/31 20:32:46 tg Exp $
 .\" $OpenBSD: ntpd.8,v 1.14 2005/06/21 19:55:18 deraadt Exp $
 .\"
 .\" Copyright (c) 2003, 2004 Henning Brauer <henning@openbsd.org>
@@ -15,7 +15,7 @@
 .\" AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT
 .\" OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .\"
-.Dd $Mdocdate$
+.Dd $Mdocdate: July 31 2007 $
 .Dt NTPD 8
 .Os
 .Sh NAME
@@ -99,7 +99,8 @@ before starting
 .Nm .
 .It Fl t
 Trace information about the peer(s) used for adjusting.
-Use several times for more information.
+Use several times for more information, unless running with
+.Fl d .
 .El
 .Sh FILES
 .Bl -tag -width "/etc/ntpd.confXXX" -compact
