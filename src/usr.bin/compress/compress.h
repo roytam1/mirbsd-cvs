@@ -1,7 +1,8 @@
-/**	$MirOS: src/usr.bin/compress/compress.h,v 1.2 2005/03/13 18:32:49 tg Exp $ */
-/*	$OpenBSD: compress.h,v 1.7 2003/09/05 04:46:35 tedu Exp $	*/
+/**	$MirOS: src/usr.bin/compress/compress.h,v 1.3 2005/04/14 11:46:44 tg Exp $ */
+/*	$OpenBSD: compress.h,v 1.8 2005/06/26 18:20:26 otto Exp $	*/
 
 /*
+ * Copyright (c) 2005 Thorsten Glaser
  * Copyright (c) 1997 Michael Shalayeff
  * All rights reserved.
  *
@@ -30,6 +31,8 @@
 #ifndef	_COMPRESS_H
 #define	_COMPRESS_H
 
+#include <sys/stat.h>
+
 struct z_info {
 	u_int64_t total_in;	/* # bytes in */
 	u_int64_t total_out;	/* # bytes out */
@@ -55,15 +58,16 @@ extern char null_magic[];
 
 extern void *z_open(int, const char *, char *, int, u_int32_t, int);
 extern FILE *zopen(const char *, const char *,int);
+extern FILE *zdopen(int, const char *,int);
 extern int zread(void *, char *, int);
 extern int zwrite(void *, const char *, int);
-extern int z_close(void *, struct z_info *);
+extern int z_close(void *, struct z_info *, const char *, struct stat *);
 
 
 extern void *gz_open(int, const char *, char *, int, u_int32_t, int);
 extern int gz_read(void *, char *, int);
 extern int gz_write(void *, const char *, int);
-extern int gz_close(void *, struct z_info *);
+extern int gz_close(void *, struct z_info *, const char *, struct stat *);
 extern int gz_flush(void *, int);
 
 extern void *lzh_open(int, const char *, char *, int, u_int32_t, int);
@@ -75,7 +79,9 @@ extern int lzh_flush(void *, int);
 extern void *null_open(int, const char *, char *, int, u_int32_t, int);
 extern int null_read(void *, char *, int);
 extern int null_write(void *, const char *, int);
-extern int null_close(void *, struct z_info *);
+extern int null_close(void *, struct z_info *, const char *, struct stat *);
 extern int null_flush(void *, int);
 
-#endif	/* ndef _COMPRESS_H */
+extern void setfile(const char *, int, struct stat *);
+
+#endif /* ndef _COMPRESS_H */

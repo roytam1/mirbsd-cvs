@@ -1,5 +1,5 @@
-/**	$MirOS: src/usr.bin/compress/main.c,v 1.4 2005/04/29 18:35:07 tg Exp $ */
-/*	$OpenBSD: main.c,v 1.62 2005/04/17 16:17:39 deraadt Exp $	*/
+/**	$MirOS: src/usr.bin/compress/main.c,v 1.5 2005/11/16 22:10:56 tg Exp $ */
+/*	$OpenBSD: main.c,v 1.64 2005/07/11 14:16:47 millert Exp $	*/
 
 #ifndef SMALL
 static const char copyright[] =
@@ -53,7 +53,7 @@ static const char license[] =
 #include <paths.h>
 #include "compress.h"
 
-__RCSID("$MirOS: src/usr.bin/compress/main.c,v 1.4 2005/04/29 18:35:07 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/compress/main.c,v 1.5 2005/11/16 22:10:56 tg Exp $");
 
 #define min(a,b) ((a) < (b)? (a) : (b))
 
@@ -69,7 +69,7 @@ const struct compressor {
 	void *(*open)(int, const char *, char *, int, u_int32_t, int);
 	int (*read)(void *, char *, int);
 	int (*write)(void *, const char *, int);
-	int (*close)(void *, struct z_info *);
+	int (*close)(void *, struct z_info *, const char *, struct stat *);
 } c_table[] = {
 #define M_DEFLATE (&c_table[0])
   { "deflate", ".gz", "\037\213", gz_open, gz_read, gz_write, gz_close },
@@ -94,7 +94,6 @@ const struct compressor null_method =
 #endif /* SMALL */
 
 int permission(const char *);
-void setfile(const char *, int, struct stat *);
 __dead void usage(int);
 int docompress(const char *, char *, const struct compressor *,
     int, struct stat *);
@@ -465,7 +464,7 @@ docompress(const char *in, char *out, const struct compressor *method,
 
 	if ((ifd = open(in, O_RDONLY)) < 0) {
 		if (verbose >= 0)
-			warn("%s", out);
+			warn("%s", in);
 		return (FAILURE);
 	}
 
@@ -511,10 +510,7 @@ docompress(const char *in, char *out, const struct compressor *method,
 		error = FAILURE;
 	}
 
-	if (error == SUCCESS)
-		setfile(out, ofd, sb);
-
-	if ((method->close)(cookie, &info)) {
+	if ((method->close)(cookie, &info, out, sb)) {
 		if (!error && verbose >= 0)
 			warn("%s", out);
 		error = FAILURE;
@@ -613,7 +609,7 @@ dodecompress(const char *in, char *out, const struct compressor *method,
 	else if ((ofd = open(out, O_WRONLY|O_CREAT|O_TRUNC, S_IWUSR)) < 0) {
 		if (verbose >= 0)
 			warn("%s", in);
-		(method->close)(cookie, NULL);
+		(method->close)(cookie, NULL, NULL, NULL);
 		return (FAILURE);
 	}
 
@@ -633,15 +629,11 @@ dodecompress(const char *in, char *out, const struct compressor *method,
 		error = errno == EINVAL ? WARNING : FAILURE;
 	}
 
-	if (error == SUCCESS)
-		setfile(out, ofd, sb);
-
-	if ((method->close)(cookie, &info)) {
+	if ((method->close)(cookie, &info, NULL, NULL)) {
 		if (!error && verbose >= 0)
 			warnx("%s", in);
 		error = FAILURE;
 	}
-
 	if (!nosave) {
 		if (info.mtime != 0) {
 			sb->st_mtimespec.tv_sec =
@@ -654,6 +646,8 @@ dodecompress(const char *in, char *out, const struct compressor *method,
 		if (cat && strcmp(out, "/dev/stdout") != 0)
 			cat = 0;		/* have a real output name */
 	}
+	if (error == SUCCESS)
+		setfile(out, ofd, sb);
 
 	if (ofd != -1 && close(ofd)) {
 		if (!error && verbose >= 0)
@@ -680,15 +674,8 @@ setfile(const char *name, int fd, struct stat *fs)
 {
 	struct timeval tv[2];
 
-	if (cat || testmode)
+	if (name == NULL || cat || testmode)
 		return;
-
-	if (!pipin || !nosave) {
-		TIMESPEC_TO_TIMEVAL(&tv[0], &fs->st_atimespec);
-		TIMESPEC_TO_TIMEVAL(&tv[1], &fs->st_mtimespec);
-		if (futimes(fd, tv))
-			warn("futimes: %s", name);
-	}
 
 	/*
 	 * If input was a pipe we don't have any info to restore but we
@@ -718,6 +705,13 @@ setfile(const char *name, int fd, struct stat *fs)
 
 	if (fs->st_flags && fchflags(fd, fs->st_flags))
 		warn("fchflags: %s", name);
+
+	if (!nosave) {
+		TIMESPEC_TO_TIMEVAL(&tv[0], &fs->st_atimespec);
+		TIMESPEC_TO_TIMEVAL(&tv[1], &fs->st_mtimespec);
+		if (futimes(fd, tv))
+			warn("futimes: %s", name);
+	}
 }
 
 int

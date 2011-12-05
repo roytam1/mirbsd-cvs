@@ -1,8 +1,10 @@
-/**	$MirOS: src/usr.bin/compress/zopen.c,v 1.4 2005/04/29 18:35:07 tg Exp $ */
-/*	$OpenBSD: zopen.c,v 1.15 2005/04/17 16:17:39 deraadt Exp $	*/
+/**	$MirOS: src/usr.bin/compress/zopen.c,v 1.5 2005/11/16 22:10:56 tg Exp $ */
+/*	$OpenBSD: zopen.c,v 1.16 2005/06/26 18:20:26 otto Exp $	*/
 /*	$NetBSD: zopen.c,v 1.5 1995/03/26 09:44:53 glass Exp $	*/
 
 /*-
+ * Copyright (c) 2005
+ *	Thorsten "mirabile" Glaser <tg@mirbsd.org>
  * Copyright (c) 1985, 1986, 1992, 1993
  *	The Regents of the University of California.  All rights reserved.
  *
@@ -52,6 +54,7 @@
  * Diomidis Spinellis <dds@doc.ic.ac.uk>.
  *
  * zopen(filename, mode, bits)
+ * zdopen(fd, mode, bits)
  *	Returns a FILE * that can be used for read or write.  The modes
  *	supported are only "r" and "w".  Seeking is not allowed.  On
  *	reading the file is decompressed, on writing it is compressed.
@@ -73,7 +76,7 @@
 #include "compress.h"
 
 __SCCSID("@(#)zopen.c	8.1 (Berkeley) 6/27/93");
-__RCSID("$MirOS: src/usr.bin/compress/zopen.c,v 1.4 2005/04/29 18:35:07 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/compress/zopen.c,v 1.5 2005/11/16 22:10:56 tg Exp $");
 
 #define	BITS		16		/* Default bits. */
 #define	HSIZE		69001		/* 95% occupancy */
@@ -310,7 +313,9 @@ nomatch:		if (output(zs, (code_int) zs->zs_ent) == -1)
 }
 
 int
-z_close(void *cookie, struct z_info *info)
+z_close(void *cookie, struct z_info *info,
+    const char *name __attribute__((unused)),
+    struct stat *sb __attribute__((unused)))
 {
 	struct s_zstate *zs;
 	int rval;
@@ -338,6 +343,9 @@ z_close(void *cookie, struct z_info *info)
 		info->total_out = (off_t)zs->zs_bytes_out;
 	}
 
+#if !defined(SAVECORE) && !defined(Z_STANDALONE)
+	setfile(name, zs->zs_fd, sb);
+#endif
 	rval = close(zs->zs_fd);
 	free(zs);
 	return (rval);
@@ -346,7 +354,7 @@ z_close(void *cookie, struct z_info *info)
 static int
 zclose(void *cookie)
 {
-	return z_close(cookie, NULL);
+	return z_close(cookie, NULL, NULL, NULL);
 }
 
 /*-
@@ -733,6 +741,20 @@ zopen(const char *name, const char *mode, int bits)
 	void *cookie;
 	if ((fd = open(name, (*mode=='r'? O_RDONLY:O_WRONLY|O_CREAT),
 	    S_IRUSR|S_IWUSR|S_IRGRP|S_IROTH)) == -1)
+		return NULL;
+	if ((cookie = z_open(fd, mode, NULL, bits, 0, 0)) == NULL) {
+		close(fd);
+		return NULL;
+	}
+	return funopen(cookie, (*mode == 'r'?zread:NULL),
+	    (*mode == 'w'?zwrite:NULL), NULL, zclose);
+}
+
+FILE *
+zdopen(int fd, const char *mode, int bits)
+{
+	void *cookie;
+	if (fd == -1)
 		return NULL;
 	if ((cookie = z_open(fd, mode, NULL, bits, 0, 0)) == NULL) {
 		close(fd);
