@@ -1,4 +1,4 @@
-/**	$MirOS: src/lib/libz/zlib.h,v 1.4 2005/07/24 23:02:51 tg Exp $ */
+/**	$MirOS: src/lib/libz/zlib.h,v 1.5 2005/07/24 23:19:03 tg Exp $ */
 /*	$OpenBSD: zlib.h,v 1.9 2005/07/20 15:56:41 millert Exp $	*/
 /* zlib.h -- interface of the 'zlib' general purpose compression library
   version 1.2.3, July 18th, 2005
@@ -1336,6 +1336,13 @@ ZEXTERN int ZEXPORT inflateBackInit_ OF((z_streamp strm, int windowBits,
 ZEXTERN const char   * ZEXPORT zError           OF((int));
 ZEXTERN int            ZEXPORT inflateSyncPoint OF((z_streamp z));
 ZEXTERN const uLongf * ZEXPORT get_crc_table    OF((void));
+__END_DECLS
+
+/* MirOS extension */
+#define ZLIB_HAS_GZFOPEN
+__BEGIN_DECLS
+FILE *gzfopen(const char *, const char *);
+FILE *gzfdopen(int, const char *);
 __END_DECLS
 
 #endif /* ZLIB_H */
