@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.bin/binutils/Makefile,v 1.2 2005/04/19 20:14:50 tg Exp $
+# $MirOS: src/gnu/usr.bin/binutils/Makefile,v 1.3 2005/06/14 00:12:51 tg Exp $
 
   # libraries
   SUBDIR+= libiberty
@@ -8,7 +8,9 @@
   # executables
   SUBDIR+= binutils
   SUBDIR+= gas
+.if ${MACHINE} != "sparc"
   SUBDIR+= gdb
+.endif
   SUBDIR+= ld
 
 prereq: _SUBDIRUSE
