@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/iso/Makefile,v 1.8 2006/01/11 00:17:30 tg Exp $
+# $MirOS: src/distrib/i386/iso/Makefile,v 1.9 2006/01/13 11:30:56 tg Exp $
 # $OpenBSD: Makefile,v 1.3 2003/03/04 20:24:49 deraadt Exp $
 
 .include <bsd.own.mk>
@@ -28,7 +28,7 @@ prepare-workdir:${DESTDIR}/usr/mdec/boot ${.OBJDIR}/../ramdisk/bsd.rd \
 	fi
 	dd if=${DESTDIR}/usr/mdec/boot obs=2048 conv=osync \
 	    of=workdir/etc/boot.386
-	cp ${.OBJDIR}/../ramdisk/bsd.rd workdir/v${OSrev}/i386/
+	gzip -n9 <${.OBJDIR}/../ramdisk/bsd.rd >workdir/v${OSrev}/i386/bsd.rd
 	if [[ -e ${DESTDIR}/usr/mdec/pxeboot ]]; then \
 		cp ${DESTDIR}/usr/mdec/pxeboot workdir/v${OSrev}/i386/; \
 	fi
