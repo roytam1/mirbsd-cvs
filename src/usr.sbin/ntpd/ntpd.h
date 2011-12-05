@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/ntpd/ntpd.h,v 1.6 2005/10/27 09:35:29 tg Exp $ */
+/**	$MirOS: src/usr.sbin/ntpd/ntpd.h,v 1.8 2005/12/04 14:14:47 tg Exp $ */
 /*	$OpenBSD: ntpd.h,v 1.61 2005/09/24 00:32:03 dtucker Exp $ */
 
 /*
@@ -188,18 +188,23 @@ struct imsg {
 /* log.c */
 void		 log_init(int);
 void		 vlog(int, const char *, va_list)
+    __attribute__((format (syslog, 2, 0)))
     __attribute__((format (printf, 2, 0)))
     __attribute__((nonnull (2)));
 void		 log_warn(const char *, ...)
+    __attribute__((format (syslog, 1, 2)))
     __attribute__((format (printf, 1, 2)))
     __attribute__((nonnull (1)));
 void		 log_warnx(const char *, ...)
+    __attribute__((format (syslog, 1, 2)))
     __attribute__((format (printf, 1, 2)))
     __attribute__((nonnull (1)));
 void		 log_info(const char *, ...)
+    __attribute__((format (syslog, 1, 2)))
     __attribute__((format (printf, 1, 2)))
     __attribute__((nonnull (1)));
 void		 log_debug(const char *, ...)
+    __attribute__((format (syslog, 1, 2)))
     __attribute__((format (printf, 1, 2)))
     __attribute__((nonnull (1)));
 __dead void	 fatal(const char *);

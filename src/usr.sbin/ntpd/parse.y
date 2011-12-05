@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/usr.sbin/ntpd/parse.y,v 1.2 2005/07/26 12:40:45 tg Exp $ */
 /*	$OpenBSD: parse.y,v 1.25 2005/06/19 16:42:57 henning Exp $ */
 
 /*
@@ -36,7 +36,7 @@
 
 #include "ntpd.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.sbin/ntpd/parse.y,v 1.2 2005/07/26 12:40:45 tg Exp $");
 
 static struct ntpd_conf		*conf;
 static FILE			*fin = NULL;
@@ -45,6 +45,7 @@ static int			 errors = 0;
 const char			*infile;
 
 int	 yyerror(const char *, ...)
+    __attribute__((format (syslog, 1, 2)))
     __attribute__((format (printf, 1, 2)))
     __attribute__((nonnull (1)));
 int	 kw_cmp(const void *, const void *);

@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/usr.sbin/ntpd/log.c,v 1.2 2005/07/26 12:40:45 tg Exp $ */
 /*	$OpenBSD: log.c,v 1.7 2005/03/31 12:14:01 henning Exp $ */
 
 /*
@@ -27,12 +27,14 @@
 
 #include "ntpd.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.sbin/ntpd/log.c,v 1.2 2005/07/26 12:40:45 tg Exp $");
 
 int	 debug;
 
 void	 logit(int, const char *, ...)
-    __attribute__((format (printf, 2, 3))) __attribute__((nonnull (2)));
+    __attribute__((format (syslog, 2, 3)))
+    __attribute__((format (printf, 2, 3)))
+    __attribute__((nonnull (2)));
 
 void
 log_init(int n_debug)
