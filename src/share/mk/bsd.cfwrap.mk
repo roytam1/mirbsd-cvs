@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.cfwrap.mk,v 1.3 2005/03/26 21:57:17 tg Exp $
+# $MirOS: src/share/mk/bsd.cfwrap.mk,v 1.4 2005/05/06 16:56:30 tg Exp $
 
 .if !defined(BSD_CFWRAP_MK)
 BSD_CFWRAP_MK=1
@@ -70,8 +70,7 @@ XARGS+=	INSTALL_PROGRAM="${INSTALL_PROGRAM}" INSTALL_DATA="${INSTALL_DATA}" \
 XVARS+=	CPPFLAGS="${CPPFLAGS}" LDFLAGS="${LDFLAGS} ${LDSTATIC}" \
 	INSTALL_STRIP="${INSTALL_STRIP}"
 
-_CFVARS=PATH="/bin:/usr/bin:/sbin:/usr/sbin" ${XVARS} ${XARGS} \
-	GCC_NO_WERROR=1 ${CFVARS}
+_CFVARS+=${XVARS} ${XARGS} GCC_NO_WERROR=1 ${CFVARS}
 
 CFARGS+=--build=${OStriplet} --host=${GCCHOST} --srcdir=${FSFSRC}
 .if ${GCCTARGET} != ${GCCHOST}
