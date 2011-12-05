@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/sparc/include/asm.h,v 1.3 2006/06/11 00:15:10 tg Exp $ */
+/**	$MirOS: src/sys/arch/sparc/include/asm.h,v 1.4 2006/11/03 15:14:01 tg Exp $ */
 /*	$OpenBSD: asm.h,v 1.4 2003/06/04 22:08:17 deraadt Exp $	*/
 /*	$NetBSD: asm.h,v 1.5 1997/07/16 15:16:43 christos Exp $ */
 
@@ -112,7 +112,8 @@
 #define ASMSTR			.asciz
 
 #define RCSID(x)	.section .comment; \
-			.asciz "@(""#)rcsid: " x; \
+			.ascii "@(""#)rcsid: "; \
+			.asciz x; \
 			.previous
 
 #endif /* _ASM_H_ */
