@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/stand/boot/boot.c,v 1.5 2006/04/06 22:02:33 tg Exp $	*/
+/**	$MirOS: src/sys/stand/boot/boot.c,v 1.6 2006/04/10 18:43:35 tg Exp $	*/
 /*	$OpenBSD: boot.c,v 1.30 2004/01/29 00:54:08 tom Exp $	*/
 
 /*
@@ -107,7 +107,7 @@ boot(dev_t bootdev)
 		cmd.addr = (void *)DEFAULT_KERNEL_ADDRESS;
 		cmd.timeout = 5;
 
-		if ((st = read_conf()))
+		if ((st = read_conf()) < 0)
 			printf("Attempt to read %s failed.\n", cmd.conf);
 	}
 #endif
