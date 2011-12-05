@@ -1,4 +1,4 @@
-# $MirOS: gcc/gcc/p/Make-lang.in,v 1.15 2005/11/22 18:54:56 tg Exp $
+# $MirOS: gcc/gcc/p/Make-lang.in,v 1.16 2006/01/31 12:48:37 tg Exp $
 # Top level Makefile fragment for GNU Pascal.
 #
 # Copyright (C) 1987-2005 Free Software Foundation, Inc.
@@ -53,14 +53,22 @@
 # `'   for gcc-3.[0-3].x
 # GCC_VERSION_FOR_GPC34 yields additionally:
 # `34' for gcc-3.[4-9].x
+# GCC_VERSION_FOR_GPC40 yields additionally:
+# `40' for gcc-4.x
 GPC_GCC_2_=2
 GPC_GCC_28_=8
 GPC_GCC_34_PPQ_=foo
 GPC_GCC_34_PPP=$(GPC_GCC_34_PPQ_$(target_noncanonical))
 GPC_GCC_34_PP_=34
 GPC_GCC_34_=$(GPC_GCC_34_PP_$(GPC_GCC_34_PPP))
+GPC_GCC_40_PPQ_=fallback_to_34
+GPC_GCC_40_PPP=$(GPC_GCC_40_PPQ_$(TREE_GIMPLE_H))
+GPC_GCC_40_PP_=40
+GPC_GCC_40_PP_fallback_to_34=$(GPC_GCC_34_)
+GPC_GCC_40_=$(GPC_GCC_40_PP_$(GPC_GCC_40_PPP))
 GCC_VERSION_FOR_GPC=$(GPC_GCC_2_$(BACKEND))$(GPC_GCC_28_$(gcc_version))
 GCC_VERSION_FOR_GPC34=$(GCC_VERSION_FOR_GPC)$(GPC_GCC_34_)
+GCC_VERSION_FOR_GPC40=$(GCC_VERSION_FOR_GPC)$(GPC_GCC_40_)
 GPC_GCC_VERSION_28=$(version)
 GPC_GCC_VERSION_2=$(gcc_version)
 GPC_GCC_VERSION_=$(gcc_version)
@@ -68,6 +76,8 @@ GPC_GCC_VERSION=$(GPC_GCC_VERSION_$(GCC_VERSION_FOR_GPC))
 GPC_GCC_VERSION_OBJS_28=pexecute.o
 GPC_GCC_VERSION_OBJS_=intl.o
 GPC_GCC_VERSION_OBJS=$(GPC_GCC_VERSION_OBJS_$(GCC_VERSION_FOR_GPC))
+GPC_OBJS_FOR_40=p/gimplify.o
+GPC_OBJS_40=$(GPC_OBJS_FOR_$(GCC_VERSION_FOR_GPC40))
 GPC_GCC_VERSION_LINK_=p/diagnostic.o attribs.o main.o libbackend.a $(LIBERTY)
 GPC_GCC_VERSION_LINK_2=`cat p/stamp-gbe`
 GPC_GCC_VERSION_LINK_28=`cat p/stamp-gbe` choose-temp.o pexecute.o
@@ -259,7 +269,8 @@ gpc-run: $(srcdir)/p/script/gpc-run $(VERSION_FILENAME)
 # Headers and flags for GPC specific files.
 GPC_GBE_H=$(CONFIG_H) system.h tree.h input.h rtl.h flags.h output.h expr.h \
           except.h function.h convert.h toplev.h $(GPC_GCC_VERSION_H)
-P_H=$(GPC_GBE_H) p/gpc.h p/p-tree.def p/predef.def $(srcdir)/p/parse.h p/gbe.h
+P_H=$(GPC_GBE_H) p/gpc.h p/plant.h p/p-tree.def p/predef.def \
+          $(srcdir)/p/parse.h p/gbe.h
 ALL_GPC_FLAGS=$(ALL_CFLAGS) $(ALL_CPPFLAGS) $(GPC_ALL_WARNINGS) $(INCLUDES) \
   -DGPC -DGPC_UNITS_DIR=\"$(unitsubdir)\" -I$(srcdir)/p
 
@@ -281,10 +292,10 @@ GPC_OBJS=p/parse.o p/declarations.o p/expressions.o p/gpc-lex.o p/lang.o \
 	p/typecheck.o p/types.o p/convert.o p/dbxout.o p/dwarf2out.o \
 	p/expr.o p/fold-const.o p/function.o p/integrate.o p/optabs.o \
 	p/stor-layout.o p/toplev.o p/tree.o p/stmt.o p/emit-rtl.o \
-	p/varasm.o p/version.o p/gpcpp.o
+	p/varasm.o p/version.o p/gpcpp.o p/plant.o $(GPC_OBJS_40)
 
 gpc1$(exeext): $(P) $(GPC_GCC_VERSION_DEPS) $(GPC_OBJS) $(LIBDEPS)
-	@grep "@@ PATCHED FOR GPC 20051114 @@" $(srcdir)/stor-layout.c > /dev/null || \
+	@grep "@@ PATCHED FOR GPC 20060322 @@" $(srcdir)/stor-layout.c > /dev/null || \
 	 { echo "*** There have been changes in the patch for GCC. Please start with a fresh"; \
 	   echo "*** copy of the GCC sources and do a new build, including configure."; \
 	   exit 1; } >&2
@@ -317,6 +328,9 @@ p/options.o: p/options.c $(P_H) p/lang-options.h p/gpc-options.h p/p-version.h
 
 p/parse.o: $(srcdir)/p/parse.c $(P_H)
 	$(CC) -o $@ -c $(ALL_GPC_FLAGS) $(BIG_SWITCHFLAG) $<
+
+p/plant.o: $(srcdir)/p/plant.c $(P_H)
+	$(CC) -o $@ -c $(ALL_GPC_FLAGS) $<
 
 p/predef.o: p/predef.c $(P_H) $(RTSSRCDIR)/constants.def
 	$(CC) -o $@ -c $(ALL_GPC_FLAGS) -std=gnu99 $<
@@ -352,6 +366,9 @@ p/fold-const.o: fold-const.c $(GPC_BE_H)
 	$(CC) -o $@ -c $(ALL_GPC_GBE_FLAGS) $<
 
 p/function.o: function.c $(GPC_BE_H)
+	$(CC) -o $@ -c $(ALL_GPC_GBE_FLAGS) $<
+
+p/gimplify.o: gimplify.c $(GPC_BE_H)
 	$(CC) -o $@ -c $(ALL_GPC_GBE_FLAGS) $<
 
 p/integrate.o: integrate.c $(GPC_BE_H)

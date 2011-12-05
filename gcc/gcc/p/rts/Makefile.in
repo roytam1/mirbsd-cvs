@@ -1,7 +1,7 @@
-# $MirOS: gcc/gcc/p/rts/Makefile.in,v 1.6 2005/11/20 18:02:45 tg Exp $
+# $MirOS: gcc/gcc/p/rts/Makefile.in,v 1.7 2005/11/22 21:54:07 tg Exp $
 # Makefile for the GNU Pascal Run Time System
 #
-# Copyright (C) 1995-2005 Free Software Foundation, Inc.
+# Copyright (C) 1995-2006 Free Software Foundation, Inc.
 #
 # Authors: J.J. van der Heijden <j.j.vanderheijden@student.utwente.nl>
 #          Frank Heckenbach <frank@pascal.gnu.de>
@@ -59,8 +59,8 @@ GPCSOLIB=$(DESTDIR)/$(GPCSOLIBNAME)
 PFLAGS1=--unit-path=$(VPATH) --automake
 RTS_WARN=-W -Wall -Wmissing-prototypes -Wmissing-declarations
 RTS_CFLAGS=-I. $(RTS_WARN) $(CFLAGS) $(RTSFLAGS)# -DDEBUG
-RTS_PFLAGS=$(subst -Wformat,,$(RTS_CFLAGS)) $(PFLAGS) $(PFLAGS1) `cat needed-options` \
-  -DRTS_RELEASE_STRING="'$(rts_version)'" -DGCC_VERSION="'$(GCC_VERSION)'" -Wno-error
+RTS_PFLAGS=$(subst -Wformat,,$(RTS_CFLAGS)) -Wno-error $(PFLAGS) $(PFLAGS1) \
+  -DRTS_RELEASE_STRING="'$(rts_version)'" -DGCC_VERSION="'$(GCC_VERSION)'"
 
 PAS_SRC=rtsc.pas string1.pas error.pas heap.pas string2.pas time.pas random.pas \
  fname.pas files.pas getopt.pas sets.pas math.pas endian.pas move.pas init.pas
@@ -151,13 +151,7 @@ init.o init.lo: $(VERSION_FILENAME)
 # or a change to the RTS's interface modify rtsc.pas (don't just
 # touch it if you're going to distribute the patch), so the
 # following rule will force the complete RTS to be recompiled.
-$(OBJS) $(SO_OBJS): rtsc.pas constants.def rts-config.inc needed-options
-
-# The Pascal source is not used, but we have to provide any.
-# `-x Preprocessed-Pascal /dev/null' works as well, except on mingw.
-needed-options: endian.pas
-	$(PC) $(subst -Wformat,,$(RTS_CFLAGS)) $(PFLAGS) $(PFLAGS1) --print-needed-options "$<" 2> "$@" || true
-	if grep '^[^-]' "$@" > /dev/null; then echo "needed-options: `cat "$@"`" >&2; rm -f "$@"; false; else true; fi
+$(OBJS) $(SO_OBJS): rtsc.pas constants.def rts-config.inc
 
 $(GPCLIB): $(OBJS)
 	-rm -f $(GPCLIB)
@@ -172,7 +166,7 @@ $(GPCSOLIB): $(SO_OBJS)
 	$(CC) -shared -Wl,-soname=$(GPCSOLIBNAME) -fPIC -o $(GPCSOLIB) $(SO_OBJS)
 
 mostlyclean:
-	-rm -f $(OBJS) $(SO_OBJS) *.gpi *.gpd core needed-options stamp-error-gpi
+	-rm -f $(OBJS) $(SO_OBJS) *.gpi *.gpd core stamp-error-gpi
 
 clean: mostlyclean
 	-rm -f $(GPCLIB) $(GPCSOLIB)

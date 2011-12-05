@@ -1,6 +1,6 @@
 /*Language-specific hook definitions for Pascal front end.
 
-  Copyright (C) 1991-2005 Free Software Foundation, Inc.
+  Copyright (C) 1991-2006 Free Software Foundation, Inc.
 
   Authors: Jukka Virtanen <jtv@hut.fi>
            Jan-Jaap van der Heijden <j.j.vanderheijden@student.utwente.nl>
@@ -33,6 +33,10 @@
 #endif
 #ifdef GCC_3_3
 #include "gtype-p.h"
+#endif
+
+#ifdef GCC_4_0
+#include "tree-gimple.h"
 #endif
 
 /* The following functions are not called from GPC, but needed by
@@ -102,6 +106,7 @@ pascal_expand_expr (tree t, rtx r, enum machine_mode mm, enum expand_modifier em
 #endif
 #endif
 {
+#ifndef GCC_4_0
   enum tree_code code = TREE_CODE (t);
   if (code == PASCAL_BIT_FIELD_REF)
     return expand_expr (
@@ -117,8 +122,8 @@ pascal_expand_expr (tree t, rtx r, enum machine_mode mm, enum expand_modifier em
                TREE_OPERAND (t, 0),
                TREE_OPERAND (t, 1),
                TREE_OPERAND (t, 2),
-               code == IO_RANGE_CHECK_EXPR),
-              r, mm, em);
+               code == IO_RANGE_CHECK_EXPR, 0),
+             r, mm, em);
   else if (code == PASCAL_CONSTRUCTOR_CALL)
     return expand_expr (
              build_predef_call (p_New, TREE_OPERAND (t, 0)),
@@ -132,8 +137,151 @@ pascal_expand_expr (tree t, rtx r, enum machine_mode mm, enum expand_modifier em
     }
 #endif
   else
+#endif
     gcc_unreachable ();
 }
+
+#ifdef GCC_4_0
+int
+pascal_gimplify_expr (tree *expr_p, tree *pre_p ATTRIBUTE_UNUSED,
+                   tree *post_p ATTRIBUTE_UNUSED)
+{
+  tree t = *expr_p;
+  enum tree_code code = TREE_CODE (t);
+  tree res;
+  switch (code)
+    {
+    case PASCAL_BIT_FIELD_REF:      
+      res = build_pascal_packed_array_ref (
+               TREE_OPERAND (t, 0),
+               TREE_OPERAND (t, 1),
+               TREE_OPERAND (t, 2),
+               1);
+      res = unshare_expr (res);
+      break;
+
+    case RANGE_CHECK_EXPR:
+    case IO_RANGE_CHECK_EXPR:
+      res = build_range_check (
+               TREE_OPERAND (t, 0),
+               TREE_OPERAND (t, 1),
+               TREE_OPERAND (t, 2),
+               code == IO_RANGE_CHECK_EXPR, 1);
+      res = unshare_expr (res);
+      break;
+
+    case PASCAL_CONSTRUCTOR_CALL:
+      {
+        tree save_statement_list = current_statement_list;
+        current_statement_list = NULL_TREE;
+        res = build_predef_call (p_New, TREE_OPERAND (t, 0));
+        res = build (COMPOUND_EXPR, TREE_TYPE (res),
+                       current_statement_list, res);
+        current_statement_list = save_statement_list;
+        unshare_all_trees (res);
+      }
+      break;
+
+    case ADDR_EXPR:
+      /* Case taken for Ada front end */
+      /* If we're taking the address of a constant CONSTRUCTOR, force it to
+         be put into static memory.  We know it's going to be readonly given
+         the semantics we have and it's required to be static memory in
+         the case when the reference is in an elaboration procedure.  */
+      if (TREE_CODE (TREE_OPERAND (t, 0)) == CONSTRUCTOR
+          && TREE_CONSTANT (TREE_OPERAND (t, 0)))
+        {
+          tree new_var
+            = create_tmp_var (TREE_TYPE (TREE_OPERAND (t, 0)), "constructor");
+
+          TREE_READONLY (new_var) = 1;
+          TREE_STATIC (new_var) = 1;
+          TREE_ADDRESSABLE (new_var) = 1;
+          DECL_INITIAL (new_var) = TREE_OPERAND (t, 0);
+
+          TREE_OPERAND (t, 0) = new_var;
+          return GS_ALL_DONE;
+        }
+      return GS_UNHANDLED;
+
+    case CONSTRUCTOR:
+      if (TREE_CODE (TREE_TYPE (t)) == SET_TYPE)
+        {
+          tree type = TREE_TYPE (t);
+          tree elt = CONSTRUCTOR_ELTS (t);
+          tree domain = TYPE_DOMAIN (type);
+          tree domain_min = convert (sbitsizetype, TYPE_MIN_VALUE (domain));
+          tree domain_max = convert (sbitsizetype, TYPE_MAX_VALUE (domain));
+          tree bitlength;
+          tree st;
+          tree dest;
+          res = create_tmp_var (type, "set_constructor");
+          dest = build_unary_op (ADDR_EXPR, res, 0);
+
+      /* Align the set.  */
+      if (set_alignment)
+        domain_min = size_binop (BIT_AND_EXPR, domain_min, sbitsize_int (-(int)
+set_alignment));
+
+      bitlength = size_binop (PLUS_EXPR,
+                              size_binop (MINUS_EXPR, domain_max, domain_min),
+                              sbitsize_int (1));
+
+
+     if (TREE_INT_CST_HIGH (bitlength)) {
+        error ("set size too big for host integers");
+        return GS_ERROR;
+      }
+      bitlength = convert (sizetype, bitlength);
+
+          /* Clear storage */
+          st = build_memset (dest, TYPE_SIZE_UNIT (type), integer_zero_node);
+          gimplify_and_add (st, pre_p);
+          /* Set bits */
+          for (; elt != NULL_TREE; elt = TREE_CHAIN (elt))
+            { 
+              tree startbit = TREE_PURPOSE (elt);
+              tree endbit   = TREE_VALUE (elt);
+              if (startbit == NULL_TREE)
+            {
+              startbit = save_expr (endbit);
+              endbit = startbit;
+            }
+              
+          startbit = convert (sizetype, startbit);
+          endbit = convert (sizetype, endbit);
+          if (! integer_zerop (domain_min))
+            {
+              startbit = convert (sbitsizetype, startbit);
+              endbit = convert (sbitsizetype, endbit);
+              startbit = size_binop (MINUS_EXPR, startbit, domain_min);
+              endbit = size_binop (MINUS_EXPR, endbit, domain_min);
+            }
+          startbit = convert (sizetype, startbit);
+          endbit = convert (sizetype, endbit);
+
+              st = build_routine_call (setbits_routine_node,
+                     tree_cons (NULL_TREE, dest,
+                     tree_cons (NULL_TREE, bitlength, 
+                     tree_cons (NULL_TREE, startbit,
+                     build_tree_list (NULL_TREE, endbit)))));
+              gimplify_and_add (st, pre_p);
+            }
+          break;
+        }
+      else
+        {
+//          fprintf(stderr, "pascal_gimplify_expr");
+//          debug_tree (t);
+        }
+      /* Falltrough */
+    default:
+      return GS_UNHANDLED;
+    }
+    *expr_p = res;
+    return GS_OK;
+}
+#endif
 
 const char *
 pascal_decl_name (tree decl, int verbosity ATTRIBUTE_UNUSED)
@@ -155,7 +303,7 @@ print_lang_decl (FILE *file, tree node, int indent)
       if (DECL_LANG_SPECIFIC (node)->used_in_scope)
         {
           indent_to (file, indent + 4);
-          fprintf (file, "used_in_scope %i\n", DECL_LANG_SPECIFIC (node)->used_in_scope);
+          fprintf (file, "used_in_scope %li\n", DECL_LANG_SPECIFIC (node)->used_in_scope);
         }
     }
 }
@@ -404,12 +552,19 @@ add_pascal_tree_codes (void)
 
 /* Tree code classes. */
 #define DEFTREECODE(SYM, NAME, TYPE, LENGTH) TYPE,
-
+#ifdef GCC_4_0
+const enum tree_code_class tree_code_type[] = {
+#include "tree.def"
+ tcc_exceptional,
+#include "p-tree.def"
+};
+#else
 const char tree_code_type[] = {
 #include "tree.def"
   'x',
 #include "p-tree.def"
 };
+#endif
 #undef DEFTREECODE
 
 /* Table indexed by tree code giving number of expression
@@ -447,10 +602,14 @@ static void builtin_define_std (const char *); ATTRIBUTE_UNUSED
 static void
 do_def (const char *s)
 {
+  int c;
   make_definition (s, 1);
-#if 0
-  if (co->print_needed_options)
-    fprintf (stderr, "-D%s ", s);
+#ifdef GCC_3_3
+  if ((!strncmp (s, "MSDOS", c = 5) ||
+       !strncmp (s, "_WIN32", c = 6) ||
+       !strncmp (s, "__EMX__", c = 7))
+       && (s[c] == 0 || s[c] == '='))
+    make_definition ("__OS_DOS__=1", 1);
 #endif
 }
 
@@ -498,18 +657,22 @@ c_lex (tree *t ATTRIBUTE_UNUSED)
   return 0;
 }
 
-extern void cpp_define (void *, const char *);
+extern void gpc_cpp_define (void *, const char *);
 void
-cpp_define (void *r ATTRIBUTE_UNUSED, const char *s)
+gpc_cpp_define (void *r ATTRIBUTE_UNUSED, const char *s)
 {
   builtin_define_std (s);
 }
 
-extern void cpp_assert (void *, const char *);
+#define cpp_define(r, s) gpc_cpp_define(r, s)
+
+extern void gpc_cpp_assert (void *, const char *);
 void
-cpp_assert (void *pfile ATTRIBUTE_UNUSED, const char *str ATTRIBUTE_UNUSED)
+gpc_cpp_assert (void *pfile ATTRIBUTE_UNUSED, const char *str ATTRIBUTE_UNUSED)
 {
 }
+
+#define cpp_assert(pfile, str) gpc_cpp_assert(pfile, str)
 
 #define preprocessing_asm_p() 0
 #define preprocessing_trad_p() 0
@@ -587,9 +750,18 @@ static int pascal_handle_option (size_t, const char *, int);
 static int
 pascal_handle_option (size_t scode, const char *arg, int value)
 {
+#ifdef GCC_4_0
+  if ((enum opt_code) scode == OPT_Werror)
+    {
+      global_dc->warning_as_error_requested = value;
+      return 1;
+    }
+#endif
+
   switch ((enum opt_code) scode)
   {
 #include "handle-opts.c"
+
     default:
       break;
   }
@@ -678,7 +850,9 @@ lang_init (void)
      (gcc-2 only), and it seems to cause a hard to reproduce memory management
      problem (gcc-3 only, reported by David Wood <DJWOOD1@qinetiq.com>).
      So we just turn it off here. */
+#ifndef GCC_4_0
   debug_no_type_hash = 1;
+#endif
 
 #ifndef EGCS
   init_gpc_lex (input_filename);
@@ -739,44 +913,16 @@ lang_init (void)
       exit (FATAL_EXIT_CODE);
     }
 
-      /* Should be not needed with integrate preprocessor */
+      /* Should be not needed with integrated preprocessor */
       /* The following is no joke! The difference between what the
          preprocessor and the compiler think of BYTES_BIG_ENDIAN is
          exactly the problem we're dealing with here. */
   if (co->print_needed_options)
     {
-#if 0
-#if BYTES_BIG_ENDIAN
-      if (!BYTES_BIG_ENDIAN)
-        fputs ("--little-endian", stderr);
-#else
-      if (BYTES_BIG_ENDIAN)
-        fputs ("--big-endian", stderr);
-#endif
-#endif
       fputs ("\n", stderr);
       while (fgetc (finput) != EOF) ;
       exit (1);
     }
-#if 0
-#if BYTES_BIG_ENDIAN
-  if (!BYTES_BIG_ENDIAN && co->option_big_endian < 0)
-    {
-      input_filename = NULL;
-      lineno = column = 0;
-      error ("you must give the option `--little-endian'");
-      exit (FATAL_EXIT_CODE);
-    }
-#else
-  if (BYTES_BIG_ENDIAN && co->option_big_endian < 0)
-    {
-      input_filename = NULL;
-      lineno = column = 0;
-      error ("you must give the option `--big-endian'");
-      exit (FATAL_EXIT_CODE);
-    }
-#endif
-#endif
 
   /* In gcc-2.8.1, init_tree_codes() has not been called yet.
      Do it in init_parse instead. */
@@ -1356,6 +1502,17 @@ handle_alias_attribute (tree *node, tree name, tree args, int flags ATTRIBUTE_UN
 }
 #endif
 
+static void pascal_clear_binding_stack (void);
+static void
+pascal_clear_binding_stack (void)
+{
+  if (errorcount || sorrycount)
+    exit_compilation ();
+  while (! global_bindings_p ())
+    poplevel (0, 0, 0);
+}
+
+
 #undef LANG_HOOKS_NAME
 #define LANG_HOOKS_NAME "GNU Pascal"
 #undef LANG_HOOKS_INIT
@@ -1370,6 +1527,12 @@ handle_alias_attribute (tree *node, tree name, tree args, int flags ATTRIBUTE_UN
 #undef LANG_HOOKS_POST_OPTIONS
 #define LANG_HOOKS_POST_OPTIONS pascal_post_options
 #endif
+
+#ifndef GCC_4_0
+#undef LANG_HOOKS_CLEAR_BINDING_STACK
+#define LANG_HOOKS_CLEAR_BINDING_STACK pascal_clear_binding_stack
+#endif
+
 #undef LANG_HOOKS_DECODE_OPTION
 #define LANG_HOOKS_DECODE_OPTION lang_decode_option
 #undef LANG_HOOKS_INIT_OPTIONS
@@ -1402,7 +1565,7 @@ handle_alias_attribute (tree *node, tree name, tree args, int flags ATTRIBUTE_UN
 #define LANG_HOOKS_TYPE_FOR_SIZE type_for_size
 #define LANG_HOOKS_TYPE_FOR_MODE type_for_mode
 
-#define LANG_HOOKS_MARK_ADDRESSABLE mark_addressable
+#define LANG_HOOKS_MARK_ADDRESSABLE pascal_mark_addressable
 #define LANG_HOOKS_TRUTHVALUE_CONVERSION truthvalue_conversion
 
 #undef LANG_HOOKS_DUP_LANG_SPECIFIC_DECL
@@ -1416,6 +1579,62 @@ handle_alias_attribute (tree *node, tree name, tree args, int flags ATTRIBUTE_UN
 
 #undef LANG_HOOKS_HASH_TYPES
 #define LANG_HOOKS_HASH_TYPES false
+
+
+#ifdef GCC_4_0
+#undef LANG_HOOKS_CALLGRAPH_EXPAND_FUNCTION
+#define LANG_HOOKS_CALLGRAPH_EXPAND_FUNCTION pascal_expand_function
+
+#undef LANG_HOOKS_GIMPLIFY_EXPR
+#define LANG_HOOKS_GIMPLIFY_EXPR pascal_gimplify_expr
+
+#undef LANG_HOOKS_TYPES_COMPATIBLE_P
+#define LANG_HOOKS_TYPES_COMPATIBLE_P pascal_types_compatible_p
+
+int 
+pascal_types_compatible_p (tree t1, tree t2)
+{
+  if (TREE_CODE (t1) == POINTER_TYPE && TREE_CODE (t2) == POINTER_TYPE)
+    {
+      t1 = TREE_TYPE (t1);
+      t2 = TREE_TYPE (t2);
+    }
+  if (PASCAL_TYPE_STRING (t1) && PASCAL_TYPE_STRING (t2))
+    return 1;
+  else if (PASCAL_TYPE_SCHEMA (t1) && PASCAL_TYPE_SCHEMA (t2))
+    {
+      tree base1 = t1, base2 = t2;
+      if (TYPE_LANG_BASE (t1))
+        base1 = TYPE_LANG_BASE (t1);
+      if (TYPE_LANG_BASE (t2))
+        base2 = TYPE_LANG_BASE (t2);
+      base1 = TYPE_MAIN_VARIANT (base1);
+      base2 = TYPE_MAIN_VARIANT (base2);
+      if (base1 == base2)
+        return 1;
+    }
+  return strictly_comp_types (TYPE_MAIN_VARIANT (t1), TYPE_MAIN_VARIANT (t2));
+}
+
+static void
+pascal_expand_function (tree fndecl)
+{
+  /* We have nothing special to do while expanding functions for Pascal.  */
+  tree_rest_of_compilation (fndecl);
+}
+#endif
+
+#ifdef GCC_3_3
+bool
+#else
+int
+#endif
+pascal_mark_addressable (tree exp)
+{
+  return mark_addressable2 (exp, 1);
+}
+
+
 
 static void
 pascal_parse (int debug)

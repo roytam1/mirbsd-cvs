@@ -102,43 +102,45 @@
      p_class = 333,
      p_override = 334,
      p_reintroduce = 335,
-     p_Addr = 336,
-     p_Assigned = 337,
-     p_Dispose = 338,
-     p_Exit = 339,
-     p_FormatString = 340,
-     p_New = 341,
-     p_Return = 342,
-     LEX_INTCONST = 343,
-     LEX_INTCONST_BASE = 344,
-     LEX_STRCONST = 345,
-     LEX_REALCONST = 346,
-     LEX_BUILTIN_PROCEDURE = 347,
-     LEX_BUILTIN_PROCEDURE_WRITE = 348,
-     LEX_BUILTIN_FUNCTION = 349,
-     LEX_ID = 350,
-     LEX_CARET_WHITE = 351,
-     LEX_CARET_LETTER = 352,
-     LEX_ASSIGN = 353,
-     LEX_RENAME = 354,
-     LEX_RANGE = 355,
-     LEX_ELLIPSIS = 356,
-     LEX_CONST_EQUAL = 357,
-     LEX_SYMDIFF = 358,
-     LEX_NE = 359,
-     LEX_GE = 360,
-     LEX_LE = 361,
-     LEX_POWER = 362,
-     LEX_BPPLUS = 363,
-     LEX_BPMINUS = 364,
-     LEX_CEIL_PLUS = 365,
-     LEX_CEIL_MINUS = 366,
-     LEX_FLOOR_PLUS = 367,
-     LEX_FLOOR_MINUS = 368,
-     LEX_CEIL_MULT = 369,
-     LEX_CEIL_DIV = 370,
-     LEX_FLOOR_MULT = 371,
-     LEX_FLOOR_DIV = 372
+     p_view = 336,
+     p_Addr = 337,
+     p_Assigned = 338,
+     p_Dispose = 339,
+     p_Exit = 340,
+     p_FormatString = 341,
+     p_New = 342,
+     p_Return = 343,
+     p_StringOf = 344,
+     LEX_INTCONST = 345,
+     LEX_INTCONST_BASE = 346,
+     LEX_STRCONST = 347,
+     LEX_REALCONST = 348,
+     LEX_BUILTIN_PROCEDURE = 349,
+     LEX_BUILTIN_PROCEDURE_WRITE = 350,
+     LEX_BUILTIN_FUNCTION = 351,
+     LEX_ID = 352,
+     LEX_CARET_WHITE = 353,
+     LEX_CARET_LETTER = 354,
+     LEX_ASSIGN = 355,
+     LEX_RENAME = 356,
+     LEX_RANGE = 357,
+     LEX_ELLIPSIS = 358,
+     LEX_CONST_EQUAL = 359,
+     LEX_SYMDIFF = 360,
+     LEX_NE = 361,
+     LEX_GE = 362,
+     LEX_LE = 363,
+     LEX_POWER = 364,
+     LEX_BPPLUS = 365,
+     LEX_BPMINUS = 366,
+     LEX_CEIL_PLUS = 367,
+     LEX_CEIL_MINUS = 368,
+     LEX_FLOOR_PLUS = 369,
+     LEX_FLOOR_MINUS = 370,
+     LEX_CEIL_MULT = 371,
+     LEX_CEIL_DIV = 372,
+     LEX_FLOOR_MULT = 373,
+     LEX_FLOOR_DIV = 374
    };
 #endif
 /* Tokens.  */
@@ -220,56 +222,58 @@
 #define p_class 333
 #define p_override 334
 #define p_reintroduce 335
-#define p_Addr 336
-#define p_Assigned 337
-#define p_Dispose 338
-#define p_Exit 339
-#define p_FormatString 340
-#define p_New 341
-#define p_Return 342
-#define LEX_INTCONST 343
-#define LEX_INTCONST_BASE 344
-#define LEX_STRCONST 345
-#define LEX_REALCONST 346
-#define LEX_BUILTIN_PROCEDURE 347
-#define LEX_BUILTIN_PROCEDURE_WRITE 348
-#define LEX_BUILTIN_FUNCTION 349
-#define LEX_ID 350
-#define LEX_CARET_WHITE 351
-#define LEX_CARET_LETTER 352
-#define LEX_ASSIGN 353
-#define LEX_RENAME 354
-#define LEX_RANGE 355
-#define LEX_ELLIPSIS 356
-#define LEX_CONST_EQUAL 357
-#define LEX_SYMDIFF 358
-#define LEX_NE 359
-#define LEX_GE 360
-#define LEX_LE 361
-#define LEX_POWER 362
-#define LEX_BPPLUS 363
-#define LEX_BPMINUS 364
-#define LEX_CEIL_PLUS 365
-#define LEX_CEIL_MINUS 366
-#define LEX_FLOOR_PLUS 367
-#define LEX_FLOOR_MINUS 368
-#define LEX_CEIL_MULT 369
-#define LEX_CEIL_DIV 370
-#define LEX_FLOOR_MULT 371
-#define LEX_FLOOR_DIV 372
+#define p_view 336
+#define p_Addr 337
+#define p_Assigned 338
+#define p_Dispose 339
+#define p_Exit 340
+#define p_FormatString 341
+#define p_New 342
+#define p_Return 343
+#define p_StringOf 344
+#define LEX_INTCONST 345
+#define LEX_INTCONST_BASE 346
+#define LEX_STRCONST 347
+#define LEX_REALCONST 348
+#define LEX_BUILTIN_PROCEDURE 349
+#define LEX_BUILTIN_PROCEDURE_WRITE 350
+#define LEX_BUILTIN_FUNCTION 351
+#define LEX_ID 352
+#define LEX_CARET_WHITE 353
+#define LEX_CARET_LETTER 354
+#define LEX_ASSIGN 355
+#define LEX_RENAME 356
+#define LEX_RANGE 357
+#define LEX_ELLIPSIS 358
+#define LEX_CONST_EQUAL 359
+#define LEX_SYMDIFF 360
+#define LEX_NE 361
+#define LEX_GE 362
+#define LEX_LE 363
+#define LEX_POWER 364
+#define LEX_BPPLUS 365
+#define LEX_BPMINUS 366
+#define LEX_CEIL_PLUS 367
+#define LEX_CEIL_MINUS 368
+#define LEX_FLOOR_PLUS 369
+#define LEX_FLOOR_MINUS 370
+#define LEX_CEIL_MULT 371
+#define LEX_CEIL_DIV 372
+#define LEX_FLOOR_MULT 373
+#define LEX_FLOOR_DIV 374
 
 
 
 
 #if ! defined (YYSTYPE) && ! defined (YYSTYPE_IS_DECLARED)
-#line 108 "parse.y"
+#line 112 "parse.y"
 typedef union YYSTYPE {
   enum tree_code code;
   long itype;
   tree ttype;
 } YYSTYPE;
 /* Line 2359 of glr.c.  */
-#line 273 "parse.h"
+#line 277 "parse.h"
 # define YYSTYPE_IS_DECLARED 1
 # define YYSTYPE_IS_TRIVIAL 1
 #endif

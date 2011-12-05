@@ -1,6 +1,6 @@
 /*Pascal declarations.
 
-  Copyright (C) 1988-2005 Free Software Foundation, Inc.
+  Copyright (C) 1988-2006 Free Software Foundation, Inc.
 
   Authors: Jukka Virtanen <jtv@hut.fi>
            Peter Gerwinski <peter@gerwinski.de>
@@ -59,7 +59,7 @@ extern struct obstack permanent_obstack;
 tree current_function_decl;
 #endif
 
-tree pascal_global_trees[PTI_MAX];
+tree pascal_global_trees[PTI_MAX] = {0};
 
 /* Nonzero while defining an explicitly `packed' record. */
 int defining_packed_type = 0;
@@ -218,12 +218,12 @@ struct binding_level GTY(())
   int marker;
 
   /* Scope Index. */
-  int scope;
+  long scope;
 
   struct lang_decl *shared_decl_lang_specific;
 };
 
-static int scope_index = 0;
+static long scope_index = 0;
 
 /* The binding level currently in effect. */
 static GTY(()) struct binding_level *current_binding_level = ((struct binding_level *) NULL);
@@ -236,18 +236,21 @@ static tree poplevel_expand_1 (int, int);
 static int contains_aligned_field (tree);
 static int find_duplicate_fields (tree, tree);
 static int field_decl_cmp (const PTR, const PTR);
-static int check_routine_decl (tree, tree, tree, int, int, int, tree, int);
 static tree shadow_one_level (tree, tree);
 static int resolve_forward_decl (tree);
 static tree lookup_c_type (const char *);
 static tree make_real (double);
-static tree gpc_builtin_routine (const char *, const char *, int, tree, tree);
+static tree gpc_builtin_routine (const char *, const char *, int, tree,
+                                 tree, tree);
 #if defined (EGCS97) && !defined (GCC_3_3)
 static void mark_binding_level (void *);
 #endif
 static tree mangle_name (tree);
 static int same_value (tree, tree);
 static int same_imported (tree, tree);
+static void check_id_redeclaration (tree, const char *);
+static void check_field_list (tree);
+static tree peek_name (tree);
 
 /* Nonzero if we are currently in the global binding level. */
 int
@@ -308,6 +311,42 @@ resolve_forward_decl (tree name)
   return 0;
 }
 
+static void
+alloc_new_scope (struct binding_level *level)
+{
+  struct lang_decl * sd;
+#ifndef EGCS97
+  sd = (struct lang_decl *) xmalloc (sizeof (*(sd)));
+#else
+  sd = (struct lang_decl *) ggc_alloc (sizeof (*(sd)));
+#endif
+  memset (sd, 0, sizeof (*(sd)));
+  LANG_SPECIFIC_SHARED (sd) = self_id;
+  sd->used_in_scope = level->scope = ++scope_index;
+  level->shared_decl_lang_specific = sd;
+}
+
+struct scope_stack {
+  struct scope_stack * next;
+  long scope;
+  struct lang_decl * shared_decl_lang_specific;
+};
+
+struct scope_stack *  scope_stack_top = 0;
+
+void
+push_scope (void)
+{
+  struct scope_stack * ns;
+  ns = (struct scope_stack *) xmalloc (sizeof (*ns));
+  ns->next = scope_stack_top;
+  scope_stack_top = ns;
+  ns->scope = current_binding_level->scope;
+  ns->shared_decl_lang_specific = 
+              current_binding_level->shared_decl_lang_specific;
+  alloc_new_scope (current_binding_level);
+}
+
 /* Enter a new binding level. */
 void
 pushlevel (int transparent)
@@ -327,16 +366,7 @@ pushlevel (int transparent)
       newlevel->scope = newlevel->next->scope;
     }
   else
-    {
-#ifndef EGCS97
-      newlevel->shared_decl_lang_specific = (struct lang_decl *) xmalloc (sizeof (*(newlevel->shared_decl_lang_specific)));
-#else
-      newlevel->shared_decl_lang_specific = (struct lang_decl *) ggc_alloc (sizeof (*(newlevel->shared_decl_lang_specific)));
-#endif
-      memset (newlevel->shared_decl_lang_specific, 0, sizeof (*(newlevel->shared_decl_lang_specific)));
-      LANG_SPECIFIC_SHARED (newlevel->shared_decl_lang_specific) = self_id;
-      newlevel->shared_decl_lang_specific->used_in_scope = newlevel->scope = ++scope_index;
-    }
+    alloc_new_scope (newlevel);
 }
 
 /* Exit a binding level.
@@ -370,6 +400,8 @@ poplevel (int keep, int reverse, int routinebody)
 
   /* Output any nested inline functions within this block if not done yet. */
   for (t = decls; t; t = TREE_CHAIN (t))
+  /* @@@@@@@@@@@@@@ */
+#ifndef GCC_4_0
     if (TREE_CODE (t) == FUNCTION_DECL
         && !TREE_ASM_WRITTEN (t)
         && DECL_INITIAL (t)
@@ -386,8 +418,11 @@ poplevel (int keep, int reverse, int routinebody)
 #endif
         pop_function_context ();
       }
-    else if (TREE_CODE (t) == LABEL_DECL)
+    else 
+#endif
+    if (TREE_CODE (t) == LABEL_DECL)
       {
+        gcc_assert (DECL_CONTEXT (t));
         if (!PASCAL_LABEL_SET (t))
           {
             error_with_decl (t, "label `%s' not set");
@@ -459,7 +494,85 @@ poplevel (int keep, int reverse, int routinebody)
   free (level);
 #endif
 
+#ifdef GCC_4_0
+  if (current_function_decl)
+    plant_bind_block (block);
+#endif
+
   return block;
+}
+
+void
+pop_record_level (tree t)
+{
+  struct scope_stack * os = scope_stack_top;
+  if (t)
+    check_field_list (t);
+  current_binding_level->scope = os->scope;
+  current_binding_level->shared_decl_lang_specific =
+                   os->shared_decl_lang_specific;
+  scope_stack_top = os->next;
+  free (os);
+}
+
+static void
+check_param_redeclaration (tree name, tree res, const char * msg1,
+                          const char * msg2);
+static void
+check_param_redeclaration (tree name, tree res, const char * msg1,
+                          const char * msg2)
+{
+  if (name == res)
+    {
+      if (co->pascal_dialect & C_E_O_PASCAL)
+        error (msg2, IDENTIFIER_NAME (name));
+      else
+        warning (msg2, IDENTIFIER_NAME (name));
+    }
+  check_id_redeclaration (name, msg1);
+}
+
+void
+pop_param_level (tree args, tree res)
+{
+  args = EMPTY_PARENTHESES (args) ? NULL_TREE : args;
+  for (; args ; args = TREE_CHAIN (args))
+    {
+      const char * msg1 = "`%s' used in parameter list, but shadowed by"
+                          " a parameter";
+      const char * msg2 = "parameter `%s' conflicts with result variable";
+      if ( TREE_CODE (args) == FUNCTION_DECL)
+        {
+          gcc_assert (DECL_NAME (args));
+          check_param_redeclaration (DECL_NAME (args), res, msg1, msg2);
+        }
+      else if (TREE_CODE (args) == TREE_LIST)
+        {
+          tree idlist = TREE_PURPOSE (args);
+          tree type = TREE_VALUE (args);
+          for (; idlist ; idlist = TREE_CHAIN (idlist))
+            check_param_redeclaration (TREE_VALUE (idlist), res, msg1, msg2);
+          if (type && TREE_CODE (type) == TREE_LIST && TREE_VALUE (type))
+            for (; TREE_CODE (type) == TREE_LIST; type = TREE_CHAIN (type))
+              {
+                const char * m1 = "`%s' used in parameter list, but shadowed"
+                  " by a conformant array bound";
+                const char * m2 = "conformant array bound `%s' conflicts"
+                                  " with result variable";
+                check_param_redeclaration (TREE_PURPOSE (type), res, m1, m2);
+                check_param_redeclaration (TREE_VALUE (type), res, m1, m2);
+              }
+        }
+      else
+        gcc_unreachable ();
+    }
+  if (res)
+    {
+      gcc_assert (TREE_CODE (res) == IDENTIFIER_NODE);
+      check_id_redeclaration (res,
+         "`%s' used in parameter list, but shadowed by result variable");
+    }
+  pop_record_level (NULL_TREE);
 }
 
 /* Push a level within a routine. This is for blocks to be made when necessary.
@@ -469,7 +582,9 @@ pushlevel_expand (int implicit)
 {
   pushlevel (1);
   current_binding_level->implicit = implicit;
+#ifndef GCC_4_0
   clear_last_expr ();
+#endif
   expand_start_bindings (0);
 }
 
@@ -565,8 +680,15 @@ tree
 build_formal_param (tree idlist, tree type, int value_var_or_const, int protected)
 {
   tree t = build_tree_list (idlist, type);
-  PASCAL_CONST_PARM (t) = value_var_or_const == 2;
-  if (PASCAL_CONST_PARM (t))
+  PASCAL_CONST_PARM (t) = value_var_or_const == 2 || value_var_or_const == 3;
+  if (value_var_or_const == 3)
+    {
+      chk_dialect ("`const var' parameters are", GNU_PASCAL);
+      value_var_or_const = !((TREE_CODE (type) == POINTER_TYPE
+                              && PASCAL_TYPE_CLASS (type))
+                             || TREE_CODE (type) == REFERENCE_TYPE);
+    }
+  else if (value_var_or_const == 2)
     {
       int size;
       chk_dialect ("`const' parameters are", B_D_M_PASCAL);
@@ -574,7 +696,8 @@ build_formal_param (tree idlist, tree type, int value_var_or_const, int protecte
                            || TREE_CODE (type) == VOID_TYPE
                            || PASCAL_TYPE_OBJECT (type)
                            || PASCAL_TYPE_UNDISCRIMINATED_SCHEMA (type)
-                           || (!PASCAL_TYPE_STRING (type)
+                           || (!PASCAL_TYPE_PREDISCRIMINATED_STRING (type)
+                               && !PASCAL_TYPE_UNDISCRIMINATED_STRING (type)
                                && ((size = int_size_in_bytes (type)) == -1
                                    || (size > int_size_in_bytes (ptr_type_node)
                                        && !SCALAR_TYPE (TREE_CODE (type))
@@ -823,8 +946,10 @@ add_parm_decl (tree list, tree type, tree name)
   TREE_THIS_VOLATILE (decl) |= TYPE_VOLATILE (type);
   prediscriminate_schema (decl);
   DECL_ARG_TYPE (decl) = TREE_TYPE (decl);
+#ifndef GCC_4_0
   if (PROMOTE_PROTOTYPES && ORDINAL_TYPE (TREE_CODE (type)) && TYPE_PRECISION (type) < TYPE_PRECISION (integer_type_node))
     DECL_ARG_TYPE (decl) = integer_type_node;
+#endif
   TREE_CHAIN (decl) = list;
   return decl;
 }
@@ -981,7 +1106,12 @@ pushdecl (tree x)
       if (!DECL_INITIAL (x))
         {
           DECL_RESULT (x) = DECL_RESULT (t);
+#ifndef GCC_4_0
+          /* @@@@@@@@@@@@@@@@@@@@@@ */
           DECL_SAVED_INSNS (x) = DECL_SAVED_INSNS (t);
+#else
+          DECL_STRUCT_FUNCTION (x) = DECL_STRUCT_FUNCTION (t);
+#endif
           DECL_ARGUMENTS (x) = DECL_ARGUMENTS (t);
 #ifndef EGCS97
           DECL_FRAME_SIZE (x) = DECL_FRAME_SIZE (t);
@@ -1020,7 +1150,8 @@ pushdecl (tree x)
       if (p && (p->kind == bk_const || p->kind == bk_type || p->kind == bk_var))
         t2 = p->decl;
     }
-  if (t2 && TREE_CODE_CLASS (TREE_CODE (t2)) == 'd' && DECL_LANG_SPECIFIC (t2)
+  if (t2 && TREE_CODE_CLASS (TREE_CODE (t2)) == tcc_declaration
+      && DECL_LANG_SPECIFIC (t2)
       && DECL_LANG_SPECIFIC (t2)->used_in_scope >= current_binding_level->scope)
     error ("identifier `%s' redeclared in a scope where an outer value was used", IDENTIFIER_NAME (name));
 
@@ -1143,15 +1274,27 @@ declare_label (tree id)
 {
   tree label = pushdecl (build_decl (LABEL_DECL, id, void_type_node));
   gcc_assert (!EM (label));
+//  fprintf(stderr, "declare_label\n");
   if (!current_function_decl || co->longjmp_all_nonlocal_labels)
     /* Create a jmp_buf variable for non-local gotos to this label.
        `jmp_buf' is in fact `unsigned[5]' (see ../builtins.c). */
-    DECL_LANG_LABEL_JMPBUF (label) = make_new_variable ("jmpbuf",
-      build_simple_array_type (unsigned_type_node, build_index_type (build_int_2 (5, 0))));
+    {
+      tree d = make_new_variable ("jmpbuf",
+                build_simple_array_type (ptr_type_node,
+                build_index_type (build_int_2 (5, 0))));
+    DECL_LANG_LABEL_JMPBUF (label) = d;
+    TREE_SIDE_EFFECTS (d) = TREE_THIS_VOLATILE (d) = 1;
+//    fprintf(stderr, "make_new_variable: jmpbuf\n");
+    }
   else
     {
+#ifndef GCC_4_0
       label_rtx (label);
       declare_nonlocal_label (label);
+#else
+//      fprintf(stderr, "declare_nonlocal_label\n");
+  //    gcc_assert (0);
+#endif
     }
   return label;
 }
@@ -1182,7 +1325,8 @@ set_label (tree t)
           for (b = current_binding_level->next; b && !l; b = b->next)
             for (l = b->labels_used; l && TREE_VALUE (l) != decl; l = TREE_CHAIN (l)) ;
           if (b)
-            error_or_warning (pedantic || !(co->pascal_dialect & B_D_PASCAL), "invalid `goto' target");
+            error_or_warning (pedantic || co->iso_goto_restrictions,
+                              "invalid `goto' target");
         }
     }
 }
@@ -1199,7 +1343,12 @@ pascal_expand_goto (tree t)
     }
   TREE_USED (decl) = 1;
   if (DECL_CONTEXT (decl) != current_function_decl)
-    PASCAL_LABEL_NONLOCAL (decl) = 1;
+    {
+      PASCAL_LABEL_NONLOCAL (decl) = 1;
+#ifdef GCC_4_0
+      mark_decl_referenced (decl);
+#endif
+    }
   else
     {
       struct binding_level *b;
@@ -1223,7 +1372,12 @@ pascal_expand_goto (tree t)
             }
         }
     }
+#ifndef GCC_4_0
   if (DECL_RTL_SET_P (decl))
+#else
+  if (DECL_CONTEXT (decl) == current_function_decl
+       || !DECL_LANG_LABEL_JMPBUF (decl))
+#endif
     expand_goto (decl);
   else if (DECL_CONTEXT (decl) || current_module->main_program)
     {
@@ -1268,11 +1422,21 @@ do_setjmp (void)
       b->names_end = tree_last (b->names);
     }
   for (d = current_binding_level->names; d; d = TREE_CHAIN (d))
-    if (TREE_CODE (d) == LABEL_DECL && !DECL_RTL_SET_P (d))
+    if (TREE_CODE (d) == LABEL_DECL
+#ifndef GCC_4_0
+         && !DECL_RTL_SET_P (d)
+#endif
+        )
       {
+#ifndef GCC_4_0
         label_rtx (d);
+#endif
         /* Avoid calling `setjmp' for labels that are only used locally */
-        if (TREE_USED (DECL_LANG_LABEL_JMPBUF (d)))
+        if (DECL_LANG_LABEL_JMPBUF (d) 
+#ifndef GCC_4_0
+            && TREE_USED (DECL_LANG_LABEL_JMPBUF (d))
+#endif
+           )
           {
             expand_start_cond (build_routine_call (setjmp_routine_node,
               build_tree_list (NULL_TREE, build_unary_op (ADDR_EXPR, DECL_LANG_LABEL_JMPBUF (d), 0))), 0);
@@ -1313,8 +1477,8 @@ check_duplicate_id (tree t)
 }
 
 /* Look up the current meaning of NAME. Return a *_DECL node or NULL_TREE if undefined. */
-tree
-lookup_name (tree name)
+static tree
+peek_name (tree name)
 {
   tree t;
   for (t = current_type_list; t && TREE_VALUE (t) != name; t = TREE_CHAIN (t)) ;
@@ -1333,7 +1497,14 @@ lookup_name (tree name)
           t = p->decl;
         }
     }
-  if (t && TREE_CODE_CLASS (TREE_CODE (t)) == 'd')
+  return t;
+}
+
+tree
+lookup_name (tree name)
+{
+  tree t = peek_name (name);
+  if (t && TREE_CODE_CLASS (TREE_CODE (t)) == tcc_declaration)
     {
       /* Record that the declaration was used in the current scope, thus the
          identifier may not be redefined there. Ideally, we'd store the scope
@@ -1670,7 +1841,11 @@ init_decl_processing (void)
   global_binding_level = current_binding_level;
 
 #ifdef EGCS97
+#ifdef GCC_4_0
+  build_common_tree_nodes (0, 0);
+#else
   build_common_tree_nodes (0);
+#endif
 #else
   error_mark_node = make_node (ERROR_MARK);
   TREE_TYPE (error_mark_node) = error_mark_node;
@@ -1807,12 +1982,18 @@ init_decl_processing (void)
   byte_boolean_type_node = build_boolean_type (TYPE_PRECISION (byte_unsigned_type_node));
   short_boolean_type_node = build_boolean_type (TYPE_PRECISION (short_unsigned_type_node));
   word_boolean_type_node = build_boolean_type (TYPE_PRECISION (pascal_cardinal_type_node));
+  cword_boolean_type_node = build_boolean_type (TYPE_PRECISION (unsigned_type_node));
   long_boolean_type_node = build_boolean_type (TYPE_PRECISION (long_unsigned_type_node));
   long_long_boolean_type_node = build_boolean_type (TYPE_PRECISION (long_long_unsigned_type_node));
   cboolean_type_node = make_unsigned_type (BOOL_TYPE_SIZE);
   TREE_SET_CODE (cboolean_type_node, BOOLEAN_TYPE);
+#ifndef GCC_4_0
   TYPE_MAX_VALUE (cboolean_type_node) = build_int_2 (1, 0);
   TREE_TYPE (TYPE_MAX_VALUE (cboolean_type_node)) = cboolean_type_node;
+#else
+  TYPE_MAX_VALUE (cboolean_type_node) = 
+       build_int_cst_wide (cboolean_type_node, 1, 0);
+#endif
   TYPE_PRECISION (cboolean_type_node) = 1;
 
   /* Set alignment. */
@@ -1842,8 +2023,12 @@ init_decl_processing (void)
                      TYPE_MODE (long_double_type_node)));
   char_max_node = convert (char_type_node, TYPE_MAX_VALUE (char_type_node));
   complex_zero_node = build_complex (TREE_TYPE (real_zero_node), real_zero_node, real_zero_node);
+#ifndef GCC_4_0
   null_pointer_node = build_int_2 (0, 0);
   TREE_TYPE (null_pointer_node) = ptr_type_node;
+#else
+  null_pointer_node = build_int_cst(ptr_type_node, 0);
+#endif
   null_pseudo_const_node = build_indirect_ref (null_pointer_node, NULL);
 
   cstring_type_node = build_pointer_type (char_type_node);
@@ -1855,23 +2040,37 @@ init_decl_processing (void)
   packed_array_unsigned_short_type_node = make_unsigned_type (prec / 2);
 
   empty_set_type_node = make_node (SET_TYPE);
+  PASCAL_TYPE_CANONICAL_SET (empty_set_type_node) = 1;
 
 #define dopar(type, next) tree_cons (NULL_TREE, type, next)
 
-  memcpy_routine_node = gpc_builtin_routine ("__builtin_memcpy", "memcpy", BUILT_IN_MEMCPY,
-    ptr_type_node, dopar (ptr_type_node, dopar (const_ptr_type_node, dopar (sizetype, void_list_node))));
+#define ATTR_NULL NULL_TREE
+#define ATTR_NORETURN_NOTHROW_LIST \
+  tree_cons (get_identifier ("noreturn"), NULL_TREE, NULL_TREE)
+ /*           tree_cons (get_identifier ("nothrow"), NULL_TREE, NULL_TREE) */
+
+  memcpy_routine_node = gpc_builtin_routine ("__builtin_memcpy", "memcpy",
+    BUILT_IN_MEMCPY,
+    ptr_type_node, dopar (ptr_type_node, dopar (const_ptr_type_node, dopar (sizetype, void_list_node))), ATTR_NULL);
   memset_routine_node = gpc_builtin_routine ("__builtin_memset", "memset", BUILT_IN_MEMSET,
-    ptr_type_node, dopar (ptr_type_node, dopar (integer_type_node, dopar (sizetype, void_list_node))));
+    ptr_type_node, dopar (ptr_type_node, dopar (integer_type_node, dopar (sizetype, void_list_node))), ATTR_NULL);
   strlen_routine_node = gpc_builtin_routine ("__builtin_strlen", "strlen", BUILT_IN_STRLEN,
-    sizetype, dopar (build_pointer_type (p_build_type_variant (char_type_node, 1, 0)), void_list_node));
+    sizetype, dopar (build_pointer_type (p_build_type_variant (char_type_node, 1, 0)), void_list_node), ATTR_NULL);
   setjmp_routine_node = gpc_builtin_routine ("__builtin_setjmp", "setjmp", BUILT_IN_SETJMP,
-    integer_type_node, dopar (ptr_type_node, void_list_node));
+    integer_type_node, dopar (ptr_type_node, void_list_node), ATTR_NULL);
   longjmp_routine_node = gpc_builtin_routine ("__builtin_longjmp", "longjmp", BUILT_IN_LONGJMP,
-    void_type_node, dopar (ptr_type_node, dopar (integer_type_node, void_list_node)));
+    void_type_node, dopar (ptr_type_node, dopar (integer_type_node, void_list_node)), ATTR_NORETURN_NOTHROW_LIST);
   return_address_routine_node = gpc_builtin_routine ("__builtin_return_address", NULL, BUILT_IN_RETURN_ADDRESS,
-    ptr_type_node, dopar (unsigned_type_node, void_list_node));
+    ptr_type_node, dopar (unsigned_type_node, void_list_node), ATTR_NULL);
   frame_address_routine_node = gpc_builtin_routine ("__builtin_frame_address", NULL, BUILT_IN_FRAME_ADDRESS,
-    ptr_type_node, dopar (unsigned_type_node, void_list_node));
+    ptr_type_node, dopar (unsigned_type_node, void_list_node), ATTR_NULL);
+
+#ifdef GCC_4_0
+  build_common_builtin_nodes ();
+  (*targetm.init_builtins) ();
+
+  main_identifier_node = get_identifier ("main");
+#endif
 
   pedantic_lvalues = pedantic;
 
@@ -1888,7 +2087,7 @@ init_decl_processing (void)
    If LIBRARY_NAME is nonzero, use that as the name to be called if we
    can't opencode the function. */
 static tree
-gpc_builtin_routine (const char *name, const char *library_name, int function_code, tree resulttype, tree args)
+gpc_builtin_routine (const char *name, const char *library_name, int function_code, tree resulttype, tree args, tree attributes)
 {
   tree decl = build_decl (FUNCTION_DECL, get_identifier (name), build_function_type (resulttype, args));
   DECL_EXTERNAL (decl) = 1;
@@ -1896,10 +2095,12 @@ gpc_builtin_routine (const char *name, const char *library_name, int function_co
   if (library_name)
     SET_DECL_ASSEMBLER_NAME (decl, get_identifier (library_name));
 #ifdef EGCS97
+#ifndef GCC_4_0
   make_decl_rtl (decl, NULL);
+#endif
   DECL_BUILT_IN_CLASS (decl) = BUILT_IN_NORMAL;
   DECL_FUNCTION_CODE (decl) = function_code;
-  decl_attributes (&decl, NULL_TREE, 0);
+  decl_attributes (&decl, attributes, 0);
 #else
   make_decl_rtl (decl, NULL, 1);
   DECL_BUILT_IN (decl) = 1;
@@ -1911,13 +2112,19 @@ gpc_builtin_routine (const char *name, const char *library_name, int function_co
 #ifdef EGCS97
 tree
 #ifdef GCC_3_3
-builtin_function (const char *name, tree type, int function_code, enum built_in_class class ATTRIBUTE_UNUSED, const char *library_name, tree dummy ATTRIBUTE_UNUSED)
+builtin_function (const char *name, tree type, int function_code, enum built_in_class class ATTRIBUTE_UNUSED, const char *library_name, tree attributes)
 #else
 builtin_function (const char *name, tree type, int function_code, enum built_in_class class ATTRIBUTE_UNUSED, const char *library_name)
 #endif
 {
   return gpc_builtin_routine (name, library_name, function_code,
-    TREE_TYPE (type), TYPE_ARG_TYPES (type));
+    TREE_TYPE (type), TYPE_ARG_TYPES (type),
+#ifdef GCC_3_3
+    attributes
+#else
+    NULL_TREE
+#endif
+  );
 }
 #endif
 
@@ -2041,13 +2248,29 @@ field_decl_cmp (const PTR xp, const PTR yp)
               && DECL_NAME (x) < DECL_NAME (y))) ? -1 : 1;
 }
 
+static long
+visible_list_length (tree t);
+
+static long
+visible_list_length (tree t)
+{
+  long res = 0;
+  while (t)
+    {
+      res += !PASCAL_FIELD_SHADOWED (t);
+      t = TREE_CHAIN (t);
+    }
+  return res;
+}
+
 /* If there are lots of fields, sort them to speed up find_field(). We arbitrarily
    consider 8 fields to be "a lot" (so "lots" are 16 or more fields ;-). */
+
 void
 sort_fields (tree t)
 {
   tree fieldlist = TYPE_FIELDS (t), x;
-  int len = list_length (fieldlist);
+  long len = visible_list_length (fieldlist);
   if (len >= 16)
     {
 #ifdef EGCS97
@@ -2056,7 +2279,10 @@ sort_fields (tree t)
       tree *fields = (tree *) obstack_alloc (TYPE_OBSTACK (t), len * sizeof (tree));
 #endif
       for (len = 0, x = fieldlist; x; x = TREE_CHAIN (x))
-        fields[len++] = x;
+        {
+          if (!(PASCAL_FIELD_SHADOWED (x)))
+            fields[len++] = x;
+        }
       qsort (fields, len, sizeof (tree), field_decl_cmp);
       allocate_type_lang_specific (t);
       TYPE_LANG_SORTED_FIELDS (t) = fields;
@@ -2069,6 +2295,42 @@ sort_fields (tree t)
     }
 }
 
+static void
+check_id_redeclaration (tree name, const char * msg)
+{
+  tree t = peek_name (name);
+  if (t && TREE_CODE_CLASS (TREE_CODE (t)) == tcc_declaration
+      && DECL_LANG_SPECIFIC (t)
+      && DECL_LANG_SPECIFIC (t)->used_in_scope >= current_binding_level->scope)
+    {
+      if (co->pascal_dialect & C_E_O_PASCAL)
+        error (msg, IDENTIFIER_NAME (name));
+      else
+        warning (msg, IDENTIFIER_NAME (name));
+    }
+}
+
+
+static void
+check_field_list (tree record)
+{
+  tree field;
+  if (TREE_CODE (record) == POINTER_TYPE && PASCAL_TYPE_CLASS (record))
+    record = TREE_TYPE (record);
+  if (!RECORD_OR_UNION (TREE_CODE (record)))
+    return;
+  for (field = TYPE_FIELDS (record); field; field = TREE_CHAIN (field))
+    if (!DECL_NAME (field) || DECL_NAME (field) == schema_id)
+      check_field_list (TREE_TYPE (field));
+    else
+      {
+        tree name = DECL_NAME (field);
+        gcc_assert (name);
+        check_id_redeclaration (name, 
+             "field `%s' declared but an outer value was used");
+      }
+}
+
 static int
 find_duplicate_fields (tree main_type, tree current_type)
 {
@@ -2079,7 +2341,7 @@ find_duplicate_fields (tree main_type, tree current_type)
   for (field = TYPE_FIELDS (current_type); field; field = TREE_CHAIN (field))
     if (!DECL_NAME (field) || DECL_NAME (field) == schema_id)
       res += find_duplicate_fields (main_type, TREE_TYPE (field));
-    else
+    else if (!(PASCAL_FIELD_SHADOWED (field)))
       {
         tree dup = find_field (main_type, DECL_NAME (field), 2);
         gcc_assert (dup);
@@ -2137,18 +2399,30 @@ finish_struct (tree t, tree fieldlist, int allow_packed)
       if (bits)
         {
           /* Explicit `packed' record, ordinal field (which can be bit-packed) */
+#if 1
           if (uns != TYPE_UNSIGNED (type))
             {
               TREE_TYPE (x) = type = build_type_copy (type);
               new_main_variant (type);
               TYPE_UNSIGNED (type) = uns;
             }
+#else
+          /* @@@@ In principle we should do this, but it causes problems
+             in inipak1[lm].pas and sam9.pas */
+          TREE_TYPE (x) = type = build_type_copy (type);
+          new_main_variant (type);
+          TYPE_UNSIGNED (type) = uns;
+          TYPE_PRECISION (type) = TREE_INT_CST_LOW (bits);
+#endif
 #ifdef EGCS97
           DECL_SIZE (x) = bitsize_int (TREE_INT_CST_LOW (bits));
 #else
           DECL_FIELD_SIZE (x) = TREE_INT_CST_LOW (bits);
 #endif
           DECL_BIT_FIELD (x) = 1;
+#ifdef GCC_4_0
+          DECL_NONADDRESSABLE_P (x) = 1;
+#endif
 #if 0
           DECL_PACKED (x) = 0;  /* suppress warning with `-Wpacked' */
 #endif
@@ -2308,6 +2582,16 @@ routine_attributes (tree *d, tree attributes, tree *assembler_name)
           DECL_INLINE (*d) = 1;
         *tt = TREE_CHAIN (*tt);
       }
+#ifdef EGCS97
+    else if (IDENTIFIER_IS_BUILT_IN (TREE_PURPOSE (*tt), p_noinline))
+      {
+        if (TREE_VALUE (*tt))
+          error ("spurious argument to `%s' attribute",
+                 IDENTIFIER_NAME (TREE_PURPOSE (*tt)));
+         DECL_UNINLINABLE (*d) = 1;
+         *tt = TREE_CHAIN (*tt);
+      }
+#endif
     else
       tt = &TREE_CHAIN (*tt);
   pascal_decl_attributes (d, attributes);
@@ -2438,7 +2722,9 @@ declare_routine (tree heading, tree directives, int interface)
   else
     SET_DECL_ASSEMBLER_NAME (d, mangle_name (name));
 
+#ifndef GCC_4_0
   rest_of_decl_compilation (d, 0, !DECL_CONTEXT (d), 1 /* for GPC */);
+#endif
 
   /* Prevent the optimizer from removing it if it is public. */
   if (TREE_PUBLIC (d))
@@ -2471,7 +2757,9 @@ build_implicit_routine_decl (tree id, tree res_type, tree args, int attributes)
   if (attributes & ER_CONST)
     TREE_READONLY (d) = 1;
   mark_addressable (d);
+#ifndef GCC_4_0
   rest_of_decl_compilation (d, NULL, 1, 1);
+#endif
   return d;
 }
 
@@ -2584,7 +2872,7 @@ compare_routine_decls (tree d1, tree d2)
     DECL_LANG_RESULT_VARIABLE (d1), 0, PASCAL_METHOD (d1), PASCAL_STRUCTOR_METHOD (d1), d2, 1);
 }
 
-static int
+int
 check_routine_decl (tree arg, tree restype, tree resvar, int empty_parentheses,
                     int method, int structor, tree old, int bothways)
 {
@@ -2610,14 +2898,22 @@ check_routine_decl (tree arg, tree restype, tree resvar, int empty_parentheses,
         return 0;
     }
   for (; arg && old_arg; arg = TREE_CHAIN (arg), old_arg = TREE_CHAIN (old_arg))
-    if (PASCAL_TYPE_OPEN_ARRAY (TREE_TYPE (arg)) != PASCAL_TYPE_OPEN_ARRAY (TREE_TYPE (old_arg))
-        || (!PASCAL_TYPE_OPEN_ARRAY (TREE_TYPE (arg)) && DECL_NAME (arg) != DECL_NAME (old_arg))
-        || TYPE_READONLY (TREE_TYPE (arg)) != TYPE_READONLY (TREE_TYPE (old_arg))
-        || PASCAL_PAR_SAME_ID_LIST (arg) != PASCAL_PAR_SAME_ID_LIST (old_arg)
-        || (TREE_CODE (TREE_TYPE (arg)) == REFERENCE_TYPE
-            && TYPE_READONLY (TREE_TYPE (TREE_TYPE (arg))) != TYPE_READONLY (TREE_TYPE (TREE_TYPE (old_arg))))
-        || !strictly_comp_types (TREE_TYPE (arg), TREE_TYPE (old_arg)))
+   { 
+     tree t1 = TREE_TYPE (arg);
+     tree t2 = TREE_TYPE (old_arg);
+#define NCMP_A(c, x, y) (c(x) != c(y))
+    if (NCMP_A (PASCAL_TYPE_OPEN_ARRAY, t1, t2)
+        || (!PASCAL_TYPE_OPEN_ARRAY (t1)
+            && DECL_NAME (arg) != DECL_NAME (old_arg))
+        || NCMP_A (TYPE_READONLY, t1, t2)
+        || NCMP_A (PASCAL_PAR_SAME_ID_LIST, arg, old_arg)
+        || NCMP_A (TREE_CODE, t1, t2)
+        || (TREE_CODE (t1) == REFERENCE_TYPE
+            && NCMP_A (TYPE_READONLY, TREE_TYPE (t1), TREE_TYPE (t2)))
+        || !strictly_comp_types (t1, t2))
       break;
+#undef NCMP_A
+    }
   return !arg && !old_arg;
 }
 
@@ -2786,7 +3082,9 @@ start_routine (tree heading, tree directive)
 #ifndef EGCS97
   make_function_rtl (decl);
 #else
+#ifndef GCC_4_0
   make_decl_rtl (decl, NULL);
+#endif
 #endif
   immediate_size_expand = 0;
   DECL_RESULT (decl) = build_decl (RESULT_DECL, NULL_TREE,
@@ -2926,7 +3224,9 @@ start_implicit_routine (tree decl, tree id, tree result, tree args)
   make_function_rtl (decl);
   temporary_allocation ();
 #else
+#ifndef GCC_4_0
   make_decl_rtl (decl, NULL);
+#endif
 #endif
 #ifndef GCC_3_4
   init_function_start (decl, input_filename, lineno);
@@ -2985,8 +3285,10 @@ finish_routine (tree shadowed)
   /* Obey `register' declarations if `setjmp' is called in this fn. */
   if (current_function_calls_setjmp)
     {
+#ifndef GCC_4_0
       setjmp_protect (DECL_INITIAL (fndecl));
       setjmp_protect_args ();
+#endif
     }
 
   /* Generate rtl for function exit. */
@@ -3003,8 +3305,11 @@ finish_routine (tree shadowed)
   ggc_push_context ();
 #endif
 
+
   /* Run the optimizers and output the assembler code for this function. */
+#ifndef GCC_4_0
   rest_of_compilation (fndecl);
+#endif
 
   if (DECL_LANG_RESULT_VARIABLE (fndecl))
     DECL_LANG_RESULT_VARIABLE (fndecl) = DECL_NAME (DECL_LANG_RESULT_VARIABLE (fndecl));
@@ -3018,7 +3323,12 @@ finish_routine (tree shadowed)
   ggc_pop_context ();
 #endif
 
+#ifndef GCC_4_0
+#ifndef GCC_4_0
   if (!DECL_SAVED_INSNS (fndecl))
+#else
+  if (!DECL_STRUCT_FUNCTION (fndecl))
+#endif
     {
       /* Stop pointing to the local nodes about to be freed. But DECL_INITIAL
          must remain nonzero (unless rest_of_compilation set this to 0),
@@ -3027,6 +3337,7 @@ finish_routine (tree shadowed)
         DECL_INITIAL (fndecl) = error_mark_node;
       DECL_ARGUMENTS (fndecl) = NULL_TREE;
     }
+#endif
   if (outer_function_chain)
     pop_function_context ();
   else
@@ -3120,9 +3431,10 @@ declare_types (void)
   /* Resolve forward types */
   for (scan = current_type_list; scan; scan = TREE_CHAIN (scan))
     if (TREE_PURPOSE (scan) && (TREE_CODE (TREE_TYPE (TREE_PURPOSE (scan))) == LANG_TYPE
-         || (TREE_CODE (TREE_TYPE (TREE_PURPOSE (scan))) == POINTER_TYPE
-	     && PASCAL_TYPE_CLASS (TREE_TYPE (TREE_PURPOSE (scan)))
-	     && TREE_CODE (TREE_TYPE (TREE_TYPE (TREE_PURPOSE (scan)))) == LANG_TYPE)))
+          || (TREE_CODE (TREE_TYPE (TREE_PURPOSE (scan))) == POINTER_TYPE
+	      && PASCAL_TYPE_CLASS (TREE_TYPE (TREE_PURPOSE (scan)))
+	      && TREE_CODE (TREE_TYPE (TREE_TYPE (TREE_PURPOSE (scan))))
+                 == LANG_TYPE)))
       {
         tree otype = TREE_TYPE (TREE_PURPOSE (scan));
         tree decl = lookup_name (TREE_VALUE (scan)), type;
@@ -3130,27 +3442,29 @@ declare_types (void)
         if (decl && TREE_CODE (decl) == TYPE_DECL)
           {
             type = TREE_TYPE (decl);
-	    if (is_class) {
-              if (TREE_CODE (type) == POINTER_TYPE && PASCAL_TYPE_CLASS (type))
-		{
-	          type = TREE_TYPE (type);
-                  if (TREE_CODE (type) != LANG_TYPE)
-		    error ("duplicate forward class declaration for `%s'",
-		         IDENTIFIER_NAME (TREE_VALUE (scan)));
-                  else
-                    {
-                      error ("unresolved forward class `%s'",
-                             IDENTIFIER_NAME (TREE_VALUE (scan)));
-                      type = void_type_node;
-                    }
-		}
-	      else
-		{
-		  error ("forward class %s' redefined as non-class",
-	                 IDENTIFIER_NAME (TREE_VALUE (scan)));
-		  type = void_type_node;
-		}
-	    }
+	    if (is_class)
+              {
+                if (TREE_CODE (type) == POINTER_TYPE
+                    && PASCAL_TYPE_CLASS (type))
+		  {
+	            type = TREE_TYPE (type);
+                    if (TREE_CODE (type) != LANG_TYPE)
+		      error ("duplicate forward class declaration for `%s'",
+		               IDENTIFIER_NAME (TREE_VALUE (scan)));
+                    else
+                      {
+                        error ("unresolved forward class `%s'",
+                                IDENTIFIER_NAME (TREE_VALUE (scan)));
+                        type = void_type_node;
+                      }
+		  }
+	        else
+		  {
+		    error ("forward class %s' redefined as non-class",
+	                    IDENTIFIER_NAME (TREE_VALUE (scan)));
+		    type = void_type_node;
+		  }
+              }
 	  }
         else if (is_class)
 	  {
@@ -3177,7 +3491,9 @@ declare_types (void)
         tree type = TREE_TYPE (TREE_PURPOSE (scan));
         tree decl = pushdecl (TREE_PURPOSE (scan));
         gcc_assert (!EM (decl));
+#ifndef GCC_4_0
         rest_of_decl_compilation (decl, NULL, !DECL_CONTEXT (decl), 0);
+#endif
         handle_autoexport (TREE_VALUE (scan));
         if (TYPE_STUB_DECL (type))
           rest_of_type_compilation (type, current_binding_level == global_binding_level);
@@ -3319,14 +3635,21 @@ declare_constant (tree name, tree value)
       && TREE_CODE (value) != FIX_TRUNC_EXPR)
     error ("constant has non-constant value");
   if (!TREE_CONSTANT (value))  /* @@ Better: if contains SAVE_EXPR ... */
+#ifndef GCC_4_0
     value = unsave_expr (value);
+#else
+    if (pascal_global_bindings_p () && !EM (TREE_TYPE (value)))
+      value = save_nonconstants (value);
+#endif
 
   value = set_exp_original_code (value, ERROR_MARK);
   d = build_decl (CONST_DECL, name, TREE_TYPE (value));
   DECL_INITIAL (d) = value;
   pushdecl (d);
   handle_autoexport (name);
+#ifndef GCC_4_0
   rest_of_decl_compilation (d, NULL, pascal_global_bindings_p (), 0);
+#endif
   return d;
 }
 
@@ -3649,17 +3972,25 @@ declare_variables (tree name_list, tree type, tree init, int qualifiers, tree at
 
       if (!DECL_ARTIFICIAL (d))
         d = pushdecl (d);
+#ifdef GCC_4_0
+      else
+        pushdecl_nocheck (d);
+#endif
       gcc_assert (!EM (d));
 
       if (local_static)
         DECL_CONTEXT (d) = NULL_TREE;  /* for deferred initializers */
 
       /* Output the assembler code and/or RTL code. */
+#ifndef GCC_4_0
       rest_of_decl_compilation (d, NULL, !DECL_CONTEXT (d), 1 /* for GPC */);
+#endif
 
+#ifndef GCC_4_0
       /* Compute and store the initial value. */
       if (DECL_CONTEXT (d))
         expand_decl_init (d);
+#endif
 
       /* d might be a pointer to an undiscriminated schema. At this point,
          we can pre-discriminate it using its own contents. */
@@ -3730,9 +4061,21 @@ new_string_by_model (tree model, tree data, int copy)
   if (!model || PASCAL_TYPE_UNDISCRIMINATED_STRING (model))
     {
       int isstring = is_string_compatible_type (data, 1);
+      tree slen, olen;
       gcc_assert (isstring);
+      olen = PASCAL_STRING_LENGTH (data);
+#if 0
+      /* @@@@@ this caused problem with cstrassign.pas */       
+      if (copy)
+        {
+          slen = make_new_variable ("string_len", TREE_TYPE (olen));
+          expand_expr_stmt1 (build_modify_expr (slen, NOP_EXPR, olen));
+        }
+      else
+#endif
+        slen = save_expr (olen);
       type = build_pascal_string_schema (
-        build_pascal_binary_op (MAX_EXPR, integer_one_node, save_expr (PASCAL_STRING_LENGTH (data))));
+                  build_pascal_binary_op (MAX_EXPR, integer_one_node, slen));
     }
   else
     type = TYPE_MAIN_VARIANT (model);

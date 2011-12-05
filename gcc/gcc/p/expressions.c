@@ -1,6 +1,6 @@
 /*Pascal expressions.
 
-  Copyright (C) 1992-2005 Free Software Foundation, Inc.
+  Copyright (C) 1992-2006 Free Software Foundation, Inc.
 
   Authors: Jukka Virtanen <jtv@hut.fi>
            Peter Gerwinski <peter@gerwinski.de>
@@ -28,6 +28,11 @@
 
 #include "gpc.h"
 
+#ifdef GCC_4_0
+#include "tree-gimple.h"
+#endif
+
+
 static int implicit_comparison = 0;
 int operators_defined = 0;
 
@@ -44,6 +49,7 @@ static tree c_size_in_bytes (tree);
 static tree pointer_int_sum (enum tree_code, tree, tree);
 static tree pointer_diff (tree, tree);
 static tree strip_needless_lists (tree);
+static tree do_range_error (tree, const char *);
 
 /* Set the type of a strings, starting at index 1.
    The empty string gets range 1 .. 1, because 1 .. 0 would be invalid.
@@ -54,6 +60,7 @@ static void
 set_string_length (tree value, int wide_flag, int length)
 {
   gcc_assert (length >= 0);
+//  length ++;
   TREE_TYPE (value) = build_simple_array_type (p_build_type_variant (
     wide_flag ? wchar_type_node : char_type_node, 1, 0),
     build_range_type (pascal_integer_type_node, integer_one_node,
@@ -195,9 +202,14 @@ combine_strings (tree strings, int mode)
       *q++ = 0;
   else
     *q = 0;
+#ifdef GCC_4_0
+  value = build_string (length, p);
+  free (p);
+#else
   value = make_node (STRING_CST);
   TREE_STRING_POINTER (value) = p;
   TREE_STRING_LENGTH (value) = length;
+#endif
   PASCAL_CST_FRESH (value) = !!mode;
   set_string_length (value, wide_flag, wide_flag ? length / wchar_bytes : length - 1);
   return value;
@@ -216,7 +228,7 @@ constant_expression_warning (tree value)
 }
 
 tree
-build_range_check(tree min, tree max, tree expr, int is_io)
+build_range_check (tree min, tree max, tree expr, int is_io, int gimplifying)
 {
   int chklo = min != NULL_TREE;
   int chkhi = max != NULL_TREE;
@@ -237,7 +249,15 @@ build_range_check(tree min, tree max, tree expr, int is_io)
 #else
           int side_effects __attribute__((unused)) = TREE_SIDE_EFFECTS (expr);
           tree cond, tv, t;
-          tree tmpvar = make_new_variable ("range_check", TREE_TYPE (expr));
+          tree tmpvar =
+#ifdef GCC_4_0
+            gimplifying ?
+              create_tmp_var (TREE_TYPE (expr), "range_check") :
+#endif
+              make_new_variable ("range_check", TREE_TYPE (expr));
+#ifndef GCC_4_0
+          gcc_assert(!gimplifying);
+#endif
           tv = build (MODIFY_EXPR, TREE_TYPE (expr), tmpvar, expr);
           TREE_SIDE_EFFECTS (tv) = 1;
           PASCAL_VALUE_ASSIGNED (tmpvar) = 1;
@@ -249,12 +269,28 @@ build_range_check(tree min, tree max, tree expr, int is_io)
             }
           t = build (COMPOUND_EXPR, TREE_TYPE (tmpvar),
                 build_predef_call (is_io ? p_IORangeCheckError : p_RangeCheckError,
-                NULL_TREE), tmpvar);
+                NULL_TREE), tmpvar /* min? min : max */);
           t = build (COND_EXPR, TREE_TYPE (tmpvar), cond, t, tmpvar);
           t = build (COMPOUND_EXPR, TREE_TYPE (t), tv, t);
           return t;
 #endif
         }
+}
+
+tree
+do_range_error (tree min, const char * msg)
+{
+  if (co->pascal_dialect & C_E_O_PASCAL)
+    {
+      warning(msg);
+      return build (COMPOUND_EXPR, TREE_TYPE (min), 
+               build_predef_call (p_RangeCheckError, NULL_TREE), min);
+    }
+  else
+    {
+      error (msg);
+      return error_mark_node;
+    }
 }
 
 tree
@@ -274,17 +310,11 @@ range_check_2 (tree min, tree max, tree expr)
   expr = fold (expr);
   is_cst = TREE_CODE (expr) == INTEGER_CST;
   if (is_cst && (const_lt (expr, min) || const_lt (max, expr)))
-    {
-      error ("constant out of range");
-      return error_mark_node;
-    }
+    return do_range_error (min, "constant out of range");
   low_expr  = is_cst ? expr : TYPE_MIN_VALUE (TREE_TYPE (expr));
   high_expr = is_cst ? expr : TYPE_MAX_VALUE (TREE_TYPE (expr));
   if (const_lt (max, low_expr) || const_lt (high_expr, min))
-    {
-      error ("ranges of value and target are disjoint");
-      return error_mark_node;
-    }
+    return do_range_error (min, "ranges of value and target are disjoint");
   if (co->range_checking)
     {
       int chklo = TREE_CODE (low_expr)  != INTEGER_CST || TREE_CODE (min) != INTEGER_CST || const_lt (low_expr, min);
@@ -298,7 +328,7 @@ range_check_2 (tree min, tree max, tree expr)
             max = NULL_TREE;
 
           if (TREE_SIDE_EFFECTS (expr))
-            return build_range_check(min, max, expr, co->range_checking>1);
+            return build_range_check(min, max, expr, co->range_checking>1, 0);
           else if (co->range_checking>1)
             code = IO_RANGE_CHECK_EXPR;
           else
@@ -363,8 +393,8 @@ tree
 check_discriminants (tree x, tree y)
 {
   tree fx, fy, cond = NULL_TREE;
-  tree tx = TREE_CODE_CLASS (TREE_CODE (x)) == 't' ? x : TREE_TYPE (x);
-  tree ty = TREE_CODE_CLASS (TREE_CODE (y)) == 't' ? y : TREE_TYPE (y);
+  tree tx = TREE_CODE_CLASS (TREE_CODE (x)) == tcc_type ? x : TREE_TYPE (x);
+  tree ty = TREE_CODE_CLASS (TREE_CODE (y)) == tcc_type ? y : TREE_TYPE (y);
   if (PASCAL_TYPE_SCHEMA (tx) && PASCAL_TYPE_SCHEMA (ty)
       && TYPE_LANG_BASE (tx) == TYPE_LANG_BASE (ty))
     {
@@ -487,7 +517,8 @@ get_operator (const char *op_id, const char *op_name, tree arg1, tree arg2, int 
 
   /* For "fresh" constants try the most basic and the longest type.
      For Char constants try Char and String. */
-  if (TREE_CODE_CLASS (TREE_CODE (arg1)) == 'c' && PASCAL_CST_FRESH (arg1))
+  if (TREE_CODE_CLASS (TREE_CODE (arg1)) == tcc_constant
+       && PASCAL_CST_FRESH (arg1))
     {
       if (TREE_CODE (arg1) == INTEGER_CST && TREE_CODE (TREE_TYPE (arg1)) == INTEGER_TYPE)
         {
@@ -507,13 +538,15 @@ get_operator (const char *op_id, const char *op_name, tree arg1, tree arg2, int 
       if (found)
         return found;
     }
-  if (TREE_CODE_CLASS (TREE_CODE (arg1)) != 't' && is_string_compatible_type (arg1, 0))
+  if (TREE_CODE_CLASS (TREE_CODE (arg1)) != tcc_type
+       && is_string_compatible_type (arg1, 0))
     {
       found = get_operator (op_id, op_name, string_schema_proto_type, arg2, new);
       if (found)
         return found;
     }
-  if (TREE_CODE_CLASS (TREE_CODE (arg2)) == 'c' && PASCAL_CST_FRESH (arg2))
+  if (TREE_CODE_CLASS (TREE_CODE (arg2)) == tcc_constant
+       && PASCAL_CST_FRESH (arg2))
     {
       if (TREE_CODE (arg2) == INTEGER_CST && TREE_CODE (TREE_TYPE (arg2)) == INTEGER_TYPE)
         {
@@ -533,7 +566,8 @@ get_operator (const char *op_id, const char *op_name, tree arg1, tree arg2, int 
       if (found)
         return found;
     }
-  if (TREE_CODE_CLASS (TREE_CODE (arg2)) != 't' && is_string_compatible_type (arg2, 0))
+  if (TREE_CODE_CLASS (TREE_CODE (arg2)) != tcc_type
+       && is_string_compatible_type (arg2, 0))
     {
       found = get_operator (op_id, op_name, arg1, string_schema_proto_type, new);
       if (found)
@@ -723,7 +757,8 @@ set_exp_original_code (tree t, enum tree_code code)
   }
 
   /* Flag constants in parentheses for ISO 7185. */
-  if ((TREE_CODE_CLASS (TREE_CODE (t)) == 'c' || TREE_CODE (t) == NON_LVALUE_EXPR)
+  if ((TREE_CODE_CLASS (TREE_CODE (t)) == tcc_constant
+        || TREE_CODE (t) == NON_LVALUE_EXPR)
       && PASCAL_CST_PARENTHESES (t) != (code == NOP_EXPR))
     {
       t = copy_node (t);
@@ -1009,18 +1044,27 @@ parser_build_binary_op (enum tree_code code, tree exp1, tree exp2)
             || (t1 == POINTER_TYPE && t2 == INTEGER_TYPE)
             || (t1 == SET_TYPE && t2 == SET_TYPE)
             ||  (is_string_compatible_type (exp1, 1) && is_string_compatible_type (exp2, 1))))
-        binary_op_error (code);
+        {
+          binary_op_error (code);
+          return error_mark_node;
+        }
       break;
     case MINUS_EXPR:
       if (!((IS_NUMERIC (t1) && IS_NUMERIC (t2))
             || (t1 == POINTER_TYPE && (t2 == POINTER_TYPE || t2 == INTEGER_TYPE))
             || (t1 == SET_TYPE && t2 == SET_TYPE)))
-        binary_op_error (code);
+        {
+          binary_op_error (code);
+          return error_mark_node;
+        }
       break;
     case MULT_EXPR:
       if (!((IS_NUMERIC (t1) && IS_NUMERIC (t2))
             || (t1 == SET_TYPE && t2 == SET_TYPE)))
-        binary_op_error (code);
+        {
+          binary_op_error (code);
+          return error_mark_node;
+        }
       break;
     case RDIV_EXPR:
     case TRUNC_DIV_EXPR:
@@ -1030,13 +1074,17 @@ parser_build_binary_op (enum tree_code code, tree exp1, tree exp2)
     case LSHIFT_EXPR:
     case RSHIFT_EXPR:
       if (!IS_NUMERIC (t1) || !IS_NUMERIC (t2))
-        binary_op_error (code);
+        {
+          binary_op_error (code);
+          return error_mark_node;
+        }
       break;
     default: /* NOTHING */;
   }
 
   result = build_pascal_binary_op (code, exp1, exp2);
-  if (TREE_CODE_CLASS (TREE_CODE (result)) == 'c' && TREE_OVERFLOW (result))
+  if (TREE_CODE_CLASS (TREE_CODE (result)) == tcc_constant
+       && TREE_OVERFLOW (result))
     {
       TREE_OVERFLOW (result) = 0;
       error ("constant overflow in expression");
@@ -1276,7 +1324,10 @@ build_pascal_binary_op (enum tree_code code, tree exp1, tree exp2)
       tree result, temp;
 
       if (!comptypes (TYPE_MAIN_VARIANT (TREE_TYPE (exp1)), TYPE_MAIN_VARIANT (TREE_TYPE (exp2))))
-        error ("operation on incompatible sets");
+        {
+          error ("operation on incompatible sets");
+          return error_mark_node;
+        }
       if (code == LT_EXPR || code == GT_EXPR)
         chk_dialect ("`>' or `<' applied to sets is", GNU_PASCAL);
       if (code == SYMDIFF_EXPR)
@@ -1567,7 +1618,8 @@ build_pascal_binary_op (enum tree_code code, tree exp1, tree exp2)
   }
 
   result = build_binary_op (code, exp1, exp2);
-  if (TREE_CODE_CLASS (TREE_CODE (result)) == 'c' && TREE_OVERFLOW (result))
+  if (TREE_CODE_CLASS (TREE_CODE (result)) == tcc_constant
+       && TREE_OVERFLOW (result))
     error ("arithmetical overflow");
   return result;
 }
@@ -1636,8 +1688,8 @@ build_pascal_unary_op (enum tree_code code, tree xarg)
 
   /* -42 is still a simple constant, but -(42) is not. */
   if ((code == NEGATE_EXPR || code == CONVERT_EXPR)
-      && TREE_CODE_CLASS (TREE_CODE (t)) == 'c'
-      && TREE_CODE_CLASS (TREE_CODE (xarg)) == 'c')
+      && TREE_CODE_CLASS (TREE_CODE (t)) == tcc_constant
+      && TREE_CODE_CLASS (TREE_CODE (xarg)) == tcc_constant)
     {
       PASCAL_CST_FRESH (t) = PASCAL_CST_FRESH (xarg);
       PASCAL_CST_PARENTHESES (t) = PASCAL_CST_PARENTHESES (xarg);
@@ -1794,10 +1846,14 @@ build_pascal_address_expression (tree factor, int untyped)
         {
           tree length = convert (pascal_integer_type_node,
                           build_int_2 (TREE_STRING_LENGTH (factor) - 1, 0));
+          tree st = build_pascal_string_schema (length);
+          tree capf = TYPE_FIELDS (st);
+          tree lenf = TREE_CHAIN (capf);
+          tree schf = TREE_CHAIN (lenf);
           factor = build_constructor (build_pascal_string_schema (length),
-                     tree_cons (NULL_TREE, length,
-                     tree_cons (NULL_TREE, length,
-                     build_tree_list (NULL_TREE, factor))));
+                     tree_cons (capf, length,
+                     tree_cons (lenf, length,
+                     build_tree_list (schf, factor))));
           /* Make this a valid lvalue for taking addresses. */
           TREE_CONSTANT (factor) = 1;
           TREE_STATIC (factor) = 1;
@@ -1813,7 +1869,7 @@ build_pascal_address_expression (tree factor, int untyped)
       if (TREE_CODE (t) == VAR_DECL)
         PASCAL_VALUE_ASSIGNED (t) = 1;
 
-      if (TREE_CODE_CLASS (TREE_CODE (t)) == 'c')
+      if (TREE_CODE_CLASS (TREE_CODE (t)) == tcc_constant)
         {
           error ("trying to take the address of a constant");
           return error_mark_node;
@@ -2168,6 +2224,8 @@ tree
 truthvalue_conversion (tree expr)
 {
   CHK_EM (expr);
+  /* @@@@@@@@@ Gimplifier puts error_mark_node as a type */
+  CHK_EM (TREE_TYPE (expr));
   switch (TREE_CODE (expr))
   {
     case EQ_EXPR:
@@ -2176,13 +2234,19 @@ truthvalue_conversion (tree expr)
     case GE_EXPR:
     case LT_EXPR:
     case GT_EXPR:
+      return convert (boolean_type_node, expr);
+
     case TRUTH_ANDIF_EXPR:
     case TRUTH_ORIF_EXPR:
     case TRUTH_AND_EXPR:
     case TRUTH_OR_EXPR:
     case TRUTH_XOR_EXPR:
     case TRUTH_NOT_EXPR:
-      gcc_assert (TREE_TYPE (expr) == boolean_type_node);
+      if (TREE_TYPE (expr) != boolean_type_node)
+        return fold (build (TREE_CODE (expr), boolean_type_node,
+                              truthvalue_conversion (TREE_OPERAND (expr, 0)),
+                              truthvalue_conversion (TREE_OPERAND (expr, 1))));
+//      gcc_assert (TREE_TYPE (expr) == boolean_type_node);
       return expr;
 
     case INTEGER_CST:
@@ -2355,6 +2419,8 @@ build_binary_op (enum tree_code code, tree op0, tree op1)
   /* Strip NON_LVALUE_EXPRs, etc., since we aren't using as an lvalue. */
   STRIP_TYPE_NOPS (op0);
   STRIP_TYPE_NOPS (op1);
+
+  gcc_assert (code0 != SET_TYPE && code1 != SET_TYPE);
 
   switch (code)
   {
@@ -2647,7 +2713,9 @@ build_binary_op (enum tree_code code, tree op0, tree op1)
 
     /* dead code was here */
     case IN_EXPR:
+#ifndef GCC_4_0
     case CARD_EXPR:
+#endif
       gcc_unreachable ();
 
     default:
@@ -2901,7 +2969,12 @@ c_size_in_bytes (tree type)
 #else
   t = size_binop (CEIL_DIV_EXPR, TYPE_SIZE (type), size_int (BITS_PER_UNIT));
 #endif
+#ifdef GCC_4_0
+  if (TREE_CODE (t) == INTEGER_CST)
+    force_fit_type (t, 0, 0, 0);
+#else
   force_fit_type (t, 0);
+#endif
   return t;
 }
 
@@ -3124,7 +3197,7 @@ build_unary_op (enum tree_code code, tree xarg, int noconvert)
          to which the address will point. Note that you can't get a
          restricted pointer by taking the address of something, so we
          only have to deal with `const' and `volatile' here. */
-      if ((DECL_P (arg) || TREE_CODE_CLASS (TREE_CODE (arg)) == 'r')
+      if ((DECL_P (arg) || TREE_CODE_CLASS (TREE_CODE (arg)) == tcc_reference)
           && (TREE_READONLY (arg) || TREE_THIS_VOLATILE (arg)))
         argtype = c_build_type_variant (argtype, TREE_READONLY (arg), TREE_THIS_VOLATILE (arg));
 
@@ -3134,8 +3207,11 @@ build_unary_op (enum tree_code code, tree xarg, int noconvert)
         return error_mark_node;
 
       if (TREE_CODE (arg) == BIT_FIELD_REF && PASCAL_TYPE_PACKED (TREE_TYPE (TREE_OPERAND (arg, 0))))
-        error ("invalid use of component of packed array `%s'",
+        {
+          error ("invalid use of component of packed array `%s'",
                IDENTIFIER_NAME (DECL_NAME (TREE_OPERAND (arg, 0))));
+          return error_mark_node;
+        }
 
       if (TREE_CODE (arg) == COMPONENT_REF)
         {
@@ -3211,7 +3287,8 @@ build_type_cast (tree type, tree value)
 
   if (type == TREE_TYPE (value))
     {
-      if (TREE_CODE_CLASS (TREE_CODE (value)) == 'c' && PASCAL_CST_FRESH (value))
+      if (TREE_CODE_CLASS (TREE_CODE (value)) == tcc_constant
+           && PASCAL_CST_FRESH (value))
         {
           value = copy_node (value);
           PASCAL_CST_FRESH (value) = 0;
@@ -3739,8 +3816,15 @@ build_modify_expr (tree lhs, enum tree_code modifycode, tree rhs)
         }
       lastfield = tree_last (field);
       return build_memcpy (
+#ifndef GCC_4_0
         build_unary_op (ADDR_EXPR, build (COMPONENT_REF, TREE_TYPE (field), lhs, field), 1),
         build_unary_op (ADDR_EXPR, build (COMPONENT_REF, TREE_TYPE (field2), rhs, field2), 2),
+#else
+        build_unary_op (ADDR_EXPR, build3 (COMPONENT_REF, TREE_TYPE (field),
+           lhs, field, NULL_TREE), 1),
+        build_unary_op (ADDR_EXPR, build3 (COMPONENT_REF, TREE_TYPE (field2),
+           rhs, field2,  NULL_TREE), 2),
+#endif
         size_binop (CEIL_DIV_EXPR,
           size_binop (MINUS_EXPR, size_binop (PLUS_EXPR, bit_position (lastfield), DECL_SIZE (lastfield)), bit_position (field)),
           bitsize_int (TYPE_PRECISION (byte_integer_type_node))));

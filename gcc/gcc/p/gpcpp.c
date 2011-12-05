@@ -1,8 +1,8 @@
-/* $MirOS: gcc/gcc/p/gpcpp.c,v 1.3 2005/03/28 02:57:58 tg Exp $ */
+/* $MirOS: gcc/gcc/p/gpcpp.c,v 1.4 2005/11/20 12:28:11 tg Exp $ */
 
 /*GNU Pascal Compiler Preprocessor (GPCPP)
 
-  Copyright (C) 1986-2005 Free Software Foundation, Inc.
+  Copyright (C) 1986-2006 Free Software Foundation, Inc.
 
   Authors: Paul Rubin
            Richard Stallman
@@ -484,9 +484,6 @@ static U_CHAR is_space[256];  /* char is horizontal or vertical space. */
 #define SKIP_ALL_WHITE_SPACE(p) do { while (is_space[*p]) p++; } while (0)
 
 static int errors = 0;  /* Error counter */
-#if 0
-static const char *out_fname;  /* Name of output file, for error messages. */
-#endif
 
 /* Stack of conditionals currently in progress
    (including both successful and failing conditionals). */
@@ -586,18 +583,9 @@ static HASHNODE *install (U_CHAR *, int, enum node_type, char *, int, int);
 static HASHNODE *lookup (U_CHAR *, int, int);
 static void delete_macro (HASHNODE *);
 static int hashf (U_CHAR *, int, int);
-#if 0
-static void initialize_char_syntax (void);
-#endif
 static void initialize_builtins (void);
-#if 0
-static void make_definition (const char *, int);
-#endif
 static void make_undef (char *, FILE_BUF *);
 static void append_include_chain (struct file_name_list *, struct file_name_list *);
-#if 0
-extern void fancy_abort (void) ATTRIBUTE_NORETURN;
-#endif
 static void perror_with_name (const char *);
 static void pfatal_with_name (const char *) ATTRIBUTE_NORETURN;
 static void pipe_closed (int) ATTRIBUTE_NORETURN;
@@ -941,12 +929,6 @@ gpcpp_process_options (int argc, char **argv)
     --cp;
   progname = cp;
 
-#if 0
-  in_fname = NULL;
-  out_fname = NULL;
-  initialize_char_syntax ();
-#endif
-
   no_line_directives = 0;
   no_output = 0;
   delphi_comments = 0;
@@ -963,16 +945,7 @@ gpcpp_process_options (int argc, char **argv)
   /* Process switches and find input file name. */
 
   for (i = 1; i < argc; i++) {
-    if (argv[i][0] != '-') {
-#if 0
-      if (out_fname != NULL)
-        fatal ("usage: %s [switches] input output", argv[0]);
-      else if (in_fname != NULL)
-        out_fname = argv[i];
-      else
-        in_fname = argv[i];
-#endif
-    } else {
+    if (argv[i][0] == '-') {
       switch (argv[i][1]) {
 
       case 'i':
@@ -1052,18 +1025,6 @@ gpcpp_process_options (int argc, char **argv)
           goto option_error;
         break;
 
-#if 0
-      case 'o':
-        if (out_fname != NULL)
-          fatal ("output filename specified twice");
-        if (i + 1 == argc)
-          fatal ("filename missing after `-o' option");
-        out_fname = argv[++i];
-        if (!strcmp (out_fname, "-"))
-          out_fname = "";
-        break;
-#endif
-
       case 'p':
         if (!strcmp (argv[i], "-pedantic"))
           pedantic = 1;
@@ -1131,10 +1092,6 @@ gpcpp_process_options (int argc, char **argv)
 #endif
         fprintf (stderr, "\n");
         verbose = 1;
-#if 0
-        if (argv[i][1] != 'v')
-          exit (SUCCESS_EXIT_CODE);
-#endif
         break;
 
       case 'H':
@@ -1201,16 +1158,6 @@ gpcpp_process_options (int argc, char **argv)
           goto option_error;
         break;
 
-#if 0
-      case '\0': /* handle '-' as file name meaning stdin or stdout */
-        if (in_fname == NULL) {
-          in_fname = "";
-          break;
-        } else if (out_fname == NULL) {
-          out_fname = "";
-          break;
-        }
-#endif
         /* FALLTHROUGH */
       default:
       option_error: ;
@@ -1229,12 +1176,6 @@ gpcpp_process_options (int argc, char **argv)
   /* Do partial setup of input buffer for the sake of generating
      early #line directives (when -g is in effect). */
   fp = &instack[++indepth];
-#if 0
-  if (in_fname == NULL)
-    in_fname = "";
-  fp->nominal_fname = fp->fname = (in_fname == NULL || *in_fname == 0) ? "stdin" : in_fname;
-  fp->lineno = 0;
-#endif
 
   /* Install __LINE__, etc. Must follow initialize_char_syntax and option processing. */
   initialize_builtins ();
@@ -1259,11 +1200,13 @@ gpcpp_process_options (int argc, char **argv)
       int c;
       char *p = pend_defs[i];
       make_definition (p, pend_defs_case_sensitive[i]);
+#ifndef GCC_3_3 
       if ((!strncmp (p, "MSDOS", c = 5) ||
            !strncmp (p, "_WIN32", c = 6) ||
            !strncmp (p, "__EMX__", c = 7))
           && (p[c] == 0 || p[c] == '='))
         make_definition ("__OS_DOS__=1", 1);
+#endif
     }
   }
 
@@ -1293,36 +1236,10 @@ gpcpp_main (const char *filename, FILE * in_file)
   /* Copy the entire contents of the main input file into
      the stacked input buffer previously allocated for it. */
 
-#if 0
-  /* check for stdin */
-  if (in_fname == NULL || *in_fname == 0) {
-    in_fname = "";
-    f = 0;
-  } else if ((f = open (in_fname, O_RDONLY, 0666)) < 0) {
-    pfatal_with_name (in_fname);
-    return 0;
-  }
-#endif
-
-#if 0
-  fp->nominal_fname = fp->fname = (in_fname == NULL || *in_fname == 0) ? "stdin" : in_fname;
-  if (!open_input_file (f, fp))
-    exit (FATAL_EXIT_CODE);
-  fp->if_stack = if_stack;
-#else
   fp->nominal_fname = fp->fname = filename;
   if (!open_input_file (fileno (in_file), fp))
     return 1;
   fp->if_stack = if_stack;
-#endif
-
-#if 0
-  /* Now that we know the input file is valid, open the output. */
-  if (!out_fname || !strcmp (out_fname, ""))
-    out_fname = "stdout";
-  else if (!freopen (out_fname, "w", stdout))
-    pfatal_with_name (out_fname);
-#endif
 
   output_line_directive (fp, &outbuf, 0, same_file);
 
@@ -1354,23 +1271,11 @@ gpcpp_main (const char *filename, FILE * in_file)
 int
 gpcpp_writeout (const char *out_filename, FILE * out_file)
 {
-#if 0
-  if (!inhibit_output)
-    safe_write (fileno (stdout), (char *) outbuf.buf, outbuf.bufp - outbuf.buf);
-
-  if (ferror (stdout) || fclose (stdout) != 0)
-    fatal ("I/O error on output");
-
-  if (errors)
-    exit (FATAL_EXIT_CODE);
-  exit (SUCCESS_EXIT_CODE);
-#else
   safe_write (out_filename, fileno (out_file),
                (char *) outbuf.buf, outbuf.bufp - outbuf.buf);
   if (ferror (out_file) || fclose (out_file) != 0)
     fatal ("I/O error on output");
   return errors;
-#endif
 }
 
 int 

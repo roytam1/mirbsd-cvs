@@ -1,8 +1,8 @@
-{ $MirOS: gcc/gcc/p/rts/random.pas,v 1.4 2005/11/20 12:28:14 tg Exp $ }
+{ $MirOS: gcc/gcc/p/rts/random.pas,v 1.5 2005/11/20 21:26:25 tg Exp $ }
 
 { Pseudo random number generator
 
-  Copyright (C) 1997-2005 Free Software Foundation, Inc.
+  Copyright (C) 1997-2006 Free Software Foundation, Inc.
 
   Authors: Frank Heckenbach <frank@pascal.gnu.de>
            Toby Ewing <ewing@iastate.edu>

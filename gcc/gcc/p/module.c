@@ -1,8 +1,8 @@
-/* $MirOS: gcc/gcc/p/module.c,v 1.3 2005/11/20 12:28:12 tg Exp $ */
+/* $MirOS: gcc/gcc/p/module.c,v 1.4 2005/11/20 17:27:36 tg Exp $ */
 
 /*Module support for GNU Pascal
 
-  Copyright (C) 1994-2005, Free Software Foundation, Inc.
+  Copyright (C) 1994-2006, Free Software Foundation, Inc.
 
   Authors: Jukka Virtanen <jtv@hut.fi>
            Peter Gerwinski <peter@gerwinski.de>
@@ -30,6 +30,9 @@
 
 #include "gpc.h"
 #include "p/p-version.h"
+#ifdef GCC_4_0
+#include "version.h"
+#endif
 
 #ifdef EGCS
 #define HOST_PTR_PRINTF_CAST_TYPE PTR
@@ -205,6 +208,7 @@ static void store_flags (tree);
   SN (byte_boolean_type_node) \
   SN (short_boolean_type_node) \
   SN (word_boolean_type_node) \
+  SN (cword_boolean_type_node) \
   SN (long_boolean_type_node) \
   SN (long_long_boolean_type_node) \
   SN (wchar_type_node) \
@@ -414,10 +418,16 @@ associate_external_objects (tree external_name_list)
           {
             if (TREE_CODE (name) == VAR_DECL && PASCAL_TYPE_FILE (TREE_TYPE (name)))
               PASCAL_EXTERNAL_OBJECT (name) = 1;
-            else
-              warning ("identifier `%s' in %s heading is not a variable of file type",
+            else if (co->pascal_dialect & CLASSIC_PASCAL)
+              error (
+                "identifier `%s' in %s heading is not a variable of file type",
                        IDENTIFIER_NAME (id),
                        current_module->main_program ? "program" : "module");
+            else
+              warning (
+                "identifier `%s' in %s heading is not a variable of file type",
+                IDENTIFIER_NAME (id),
+                current_module->main_program ? "program" : "module");
           }
         else
           found = 0;
@@ -585,6 +595,8 @@ finalize_module (int implementation_follows)
 {
   if (co->implementation_only && co->automake_level)
     warning ("`--automake' together with `--implementation-only' can cause problems");
+  if (errorcount || sorrycount)
+    exit_compilation ();
   if (!implementation_follows /* && !co->implementation_only */)
     {
       /* Extend GPI files to contain additional information from
@@ -1125,8 +1137,13 @@ store_executable_name (void)
           while (p > q && *p != '.')
             p--;
           if (*p == '.')
-            *p = 0;
-          executable_file_name = q;
+            {
+              *p = 0;
+              executable_file_name = q; 
+            }
+          else
+            error("`--executable-file-name' given but input file name"
+                   " have no suffix");
         }
       else
         gcc_unreachable ();
@@ -1833,6 +1850,8 @@ store_node (tree node)
   STORE_ANY (n);
 }
 
+static int loading_module_interface;
+
 static tree
 load_tree (MEMFILE *s, gpi_int start_of_nodes, gpi_int size_of_offsets, int module_interface)
 {
@@ -1867,13 +1886,17 @@ load_tree (MEMFILE *s, gpi_int start_of_nodes, gpi_int size_of_offsets, int modu
   push_obstacks_nochange ();
   end_temporary_allocation ();
 #endif
+  loading_module_interface = module_interface ;
   result = load_node ();
   /* Do this here after all nodes have been loaded and are thus complete. */
   for (n = NUM_SPECIAL_NODES; n < nodes_count; n++)
     {
       tree t = rb.nodes[n];
       if (t && (TREE_CODE (t) == FUNCTION_DECL || (TREE_CODE (t) == VAR_DECL))
-          && !DECL_RTL_SET_P (t))
+/* #ifndef GCC_4_0 */
+          && !DECL_RTL_SET_P (t)
+/* #endif */
+          )
         {
           if (!module_interface)
             {
@@ -1881,10 +1904,34 @@ load_tree (MEMFILE *s, gpi_int start_of_nodes, gpi_int size_of_offsets, int modu
                 PASCAL_FORWARD_DECLARATION (t) = 0;
               else
                 DECL_EXTERNAL (t) = 1;  /* not for module interface so init_any won't ignore it */
+#if 0
+              if (TREE_CODE (t) == VAR_DECL)
+                DECL_INITIAL (t) = NULL_TREE;
+#endif
             }
+#if 0
+          else
+            {
+              mark_decl_referenced (t);
+            }
+#endif
           PASCAL_DECL_WEAK (t) = 0;
           PASCAL_DECL_IMPORTED (t) = 1;
+          if (module_interface && TREE_CODE (t) == VAR_DECL
+              && DECL_INITIAL (t))
+            {
+#if 0
+              fprintf (stderr, "DECL_INITIAL (%p)\n", t);
+              debug_tree (t);
+              debug_tree (DECL_INITIAL (t));
+#endif
+            }
+#ifdef GCC_4_0
+          /* @@@@@@@ Otherwise we have problems with vmt */
+          rest_of_decl_compilation (t, 1, 0);
+#else
           rest_of_decl_compilation (t, NULL, 1, 1);
+#endif
         }
       /* Support `private' for object fields/methods */
       if (!module_interface
@@ -1947,7 +1994,11 @@ load_string (MEMFILE *s)
 
 /* Storing/loading a node's flags. @@@@ Very much GCC version dependent. */
 #ifdef EGCS97
+#ifdef GCC_4_0
+#define DECL_FLAGS_SIZE 8
+#else
 #define DECL_FLAGS_SIZE 6
+#endif
 #define DECL_EXTRA_STORED(t) (t->decl.u1.i)
 #else
 #ifdef EGCS
@@ -1957,6 +2008,12 @@ load_string (MEMFILE *s)
 #endif
 #define DECL_EXTRA_STORED(t) DECL_FRAME_SIZE (t)
 #endif
+#ifndef GCC_4_0
+#define FLAGS_OFFSET 2
+#else
+#define FLAGS_OFFSET 3
+#endif
+
 static void
 store_flags (tree t)
 {
@@ -1965,10 +2022,10 @@ store_flags (tree t)
      where it refers to debug info (see ../tree.h). */
   if (TYPE_P (t))
     TREE_ASM_WRITTEN (t) = 0;
-  store_length ((tree *) t + 2, 4);
+  store_length ((tree *) t + FLAGS_OFFSET, 4);
   TREE_ASM_WRITTEN (t) = save;
 }
-#define load_flags(t) LOAD_LENGTH ((tree *) t + 2, 4)
+#define load_flags(t) LOAD_LENGTH ((tree *) t + FLAGS_OFFSET, 4)
 
 /* Store the fields of a node in a stream. */
 static void
@@ -2036,7 +2093,7 @@ store_node_fields (tree t, int uid)
     store_flags (t);
   switch (TREE_CODE_CLASS (code))
   {
-    case 't':
+    case tcc_type:
       store_length (&TYPE_UID (t) + 1, 4 + sizeof (TYPE_ALIGN (t)));
       store_node (TYPE_NAME (t));
       store_node (TYPE_SIZE (t));
@@ -2047,7 +2104,7 @@ store_node_fields (tree t, int uid)
       store_node (TYPE_GET_INITIALIZER (t));
       store_node (TYPE_MAIN_VARIANT (t) == t ? NULL_TREE : TYPE_MAIN_VARIANT (t));
       break;
-    case 'd':
+    case tcc_declaration:
       {
         gpi_int n;
         store_length ((&DECL_SIZE (t)) + 1, DECL_FLAGS_SIZE);
@@ -2066,15 +2123,17 @@ store_node_fields (tree t, int uid)
         STORE_ANY (n);
         break;
       }
-    case 'c':
+    case tcc_constant:
       store_node (TREE_TYPE (t));
       break;
-    case '1':
-    case '2':
+    case tcc_unary:
+    case tcc_binary:
+#ifndef GCC_4_0
     case '3':
-    case '<':
-    case 'e':
-    case 'r':
+#endif
+    case tcc_comparison:
+    case tcc_expression:
+    case tcc_reference:
       {
         int i, l = NUMBER_OF_OPERANDS (code);
         store_node (TREE_TYPE (t));
@@ -2299,7 +2358,11 @@ store_node_fields (tree t, int uid)
 
     case VAR_DECL:
       store_node (TREE_TYPE (t));
-      /* No need to store DECL_INITIAL. */
+#if 1
+      /* We need to store DECL_INITIAL to pass initial value from
+         interface to the implementation */
+      store_node (DECL_INITIAL (t));
+#endif
       store_string (IDENTIFIER_POINTER (DECL_ASSEMBLER_NAME (t)));
       break;
 
@@ -2312,7 +2375,11 @@ store_node_fields (tree t, int uid)
       break;
 
     default:
+#ifdef GCC_4_0
+      gcc_assert (class_done);
+#else
       gcc_assert (class_done && code != RTL_EXPR);
+#endif
   }
 }
 
@@ -2492,16 +2559,33 @@ load_node (void)
       t = get_identifier (id);
       free (id);
     }
+  else if (code == STRING_CST)
+    {
+        char *s;
+        struct {char c[4];} pp;
+        gpi_int l;
+        tree ty;
+        LOAD_ANY(pp);
+        ty = load_node ();
+        LOAD_ANY(l);
+        s = xmalloc (l + 1);
+        LOAD_LENGTH (s, l);
+        t = build_string (l, s);
+        memcpy ((tree *) t + FLAGS_OFFSET, &pp, 4);
+        TREE_TYPE (t) = ty;
+        free (s);
+    }
   else
     t = make_node (code);
   itab_store_node (itab, original_uid, t);
   gcc_assert (!rb.nodes[uid]);
   rb.nodes[uid] = t;
-  if (code != IDENTIFIER_NODE && code != INTERFACE_NAME_NODE)
+  if (code != IDENTIFIER_NODE && code != INTERFACE_NAME_NODE
+      && code != STRING_CST)
     load_flags (t);
   switch (TREE_CODE_CLASS (code))
   {
-    case 't':
+    case tcc_type:
       {
         tree tmp;
         LOAD_LENGTH (&TYPE_UID (t) + 1, 4 + sizeof (TYPE_ALIGN (t)));
@@ -2511,6 +2595,10 @@ load_node (void)
         TYPE_SIZE_UNIT (t) = load_node ();
 #endif
         TYPE_POINTER_TO (t) = load_node ();
+#ifdef GCC_4_0
+        TYPE_CACHED_VALUES_P (t) = 0;
+        TYPE_CACHED_VALUES (t) = NULL_TREE;
+#endif
         tmp = load_node ();
         if (tmp)
           {
@@ -2527,7 +2615,7 @@ load_node (void)
           }
         break;
       }
-    case 'd':
+    case tcc_declaration:
       {
         gpi_int n;
         char *s;
@@ -2550,15 +2638,18 @@ load_node (void)
         DECL_IN_SYSTEM_HEADER (t) = 1;
         break;
       }
-    case 'c':
-      TREE_TYPE (t) = load_node ();
+    case tcc_constant:
+      if (code != STRING_CST)
+        TREE_TYPE (t) = load_node ();
       break;
-    case '1':
-    case '2':
+    case tcc_unary:
+    case tcc_binary:
+#ifndef GCC_4_0
     case '3':
-    case '<':
-    case 'e':
-    case 'r':
+#endif
+    case tcc_comparison:
+    case tcc_expression:
+    case tcc_reference:
       {
         int i, l = NUMBER_OF_OPERANDS (code);
         TREE_TYPE (t) = load_node ();
@@ -2747,22 +2838,6 @@ load_node (void)
       TREE_IMAGPART (t) = load_node ();
       break;
 
-    case STRING_CST:
-      {
-        char *s;
-        gpi_int l;
-        LOAD_ANY(l);
-        TREE_STRING_LENGTH (t) = l;
-#ifdef EGCS97
-        s = xmalloc (l + 1);
-#else
-        s = oballoc (l + 1);
-#endif
-        LOAD_LENGTH (s, l);
-        TREE_STRING_POINTER (t) = s;
-        break;
-      }
-
     case FUNCTION_DECL:
       {
         char *assembler_name_str;
@@ -2829,7 +2904,13 @@ load_node (void)
     case VAR_DECL:
       {
         char *assembler_name_str;
+        tree init;
         TREE_TYPE (t) = load_node ();
+#if 1
+        init = load_node ();
+        if (loading_module_interface && itab == current_interface_table)
+          DECL_INITIAL (t) = init;
+#endif
         assembler_name_str = load_string (rb.infile);
         gcc_assert (*assembler_name_str);
         SET_DECL_ASSEMBLER_NAME (t, get_identifier (assembler_name_str));
@@ -2865,7 +2946,7 @@ create_gpi_files (void)
   tree escan;
   gcc_assert (!current_module->interface);
   current_module->interface = 1;
-  if (co->implementation_only)
+  if (co->implementation_only || errorcount || sorrycount)
     return;
   for (escan = current_module->exports; escan; escan = TREE_CHAIN (escan))
     {

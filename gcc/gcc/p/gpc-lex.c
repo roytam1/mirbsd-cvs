@@ -1,6 +1,6 @@
 /*GNU Pascal compiler lexical analyzer
 
-  Copyright (C) 1989-2005, Free Software Foundation, Inc.
+  Copyright (C) 1989-2006, Free Software Foundation, Inc.
 
   Authors: Jukka Virtanen <jtv@hut.fi>
            Peter Gerwinski <peter@gerwinski.de>
@@ -147,7 +147,7 @@ int CheckFeature (TLexFeatureIndex Feature, int Message)
         error_or_warning (PEDANTIC (B_D_M_PASCAL), "missing white space after decimal integer constant");
       break;
     case IntegersBase:
-      chk_dialect_name ("radix#value", E_O_PASCAL);
+      chk_dialect_name ("radix#value", E_O_PASCAL|SUN_PASCAL);
       break;
     case IntegersHex:
       chk_dialect ("hexadecimal numbers with `$' are", B_D_M_PASCAL);
@@ -158,7 +158,8 @@ int CheckFeature (TLexFeatureIndex Feature, int Message)
       break;
     case RealsWithDotOnly:
       if (!(co->pascal_dialect & B_D_PASCAL))
-        warning ("ISO Pascal requires a digit after the decimal point");
+        error_or_warning (PEDANTIC (~C_E_O_PASCAL),
+           "ISO Pascal requires a digit after the decimal point");
       break;
     case RealsWithoutExpDigits:
       error_or_warning (PEDANTIC (B_D_PASCAL), "real constant exponent has no digits");
@@ -511,7 +512,13 @@ yylex (void)
           type = long_long_integer_type_node;
         else
           type = long_long_unsigned_type_node;
+#ifdef GCC_4_0
+        t = build_int_cst_wide (type, 
+                                TREE_INT_CST_LOW (t),
+                                TREE_INT_CST_HIGH (t));
+#else
         TREE_TYPE (t) = type;
+#endif
         PASCAL_CST_FRESH (t) = 1;
         yylval.ttype = t;
         break;

@@ -527,7 +527,7 @@ char *yytext;
 /*Lexer for Standard and Extended Pascal with Borland and GNU
   extensions
 
-  Copyright (C) 2000-2005 Free Software Foundation, Inc.
+  Copyright (C) 2000-2006 Free Software Foundation, Inc.
 
   Author: Frank Heckenbach <frank@pascal.gnu.de>
 
@@ -871,13 +871,13 @@ static void SetString (int DoubleQuoted)
         else
           switch (*++c)
             {
-              case 'n':  *d++ = TARGET_NEWLINE; break;
-              case 't':  *d++ = TARGET_TAB;     break;
-              case 'r':  *d++ = TARGET_CR;      break;
-              case 'f':  *d++ = TARGET_FF;      break;
-              case 'b':  *d++ = TARGET_BS;      break;
-              case 'v':  *d++ = TARGET_VT;      break;
-              case 'a':  *d++ = TARGET_BELL;    break;
+              case 'n':  *d++ = '\n' /* TARGET_NEWLINE */; break;
+              case 't':  *d++ = '\t' /* TARGET_TAB */;     break;
+              case 'r':  *d++ = '\r' /* TARGET_CR */;      break;
+              case 'f':  *d++ = '\f' /* TARGET_FF */;      break;
+              case 'b':  *d++ = '\b' /* TARGET_BS */;      break;
+              case 'v':  *d++ = '\v' /* TARGET_VT */;      break;
+              case 'a':  *d++ = '\a' /* TARGET_BELL */;    break;
               case 'e':
               case 'E':  *d++ = 27;             break;
               case 'x':  {
