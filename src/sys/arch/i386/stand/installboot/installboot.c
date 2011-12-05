@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.4 2005/12/04 13:05:40 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.5 2005/12/04 13:27:00 tg Exp $ */
 /*	$OpenBSD: installboot.c,v 1.47 2004/07/15 21:44:16 tom Exp $	*/
 /*	$NetBSD: installboot.c,v 1.5 1995/11/17 23:23:50 gwr Exp $ */
 
@@ -84,7 +84,7 @@
 #include <unistd.h>
 #include <util.h>
 
-__RCSID("$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.4 2005/12/04 13:05:40 tg Exp $");
+__RCSID("$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.5 2005/12/04 13:27:00 tg Exp $");
 
 extern	char *__progname;
 int	verbose, nowrite, nheads, nsectors, userspec = 0;
@@ -302,7 +302,9 @@ main(int argc, char *argv[])
 	}
 
 	if (nheads == -1 || nsectors == -1)
-		fprintf(stderr, "warning: Unable to get BIOS geometry, must/should specify -h and -s\nwarning: the drive may not boot in non-LBA mode");
+		fprintf(stderr, "warning: Unable to get BIOS geometry, "
+		    "must/should specify -h and -s\nwarning: the drive "
+		    "may not boot in non-LBA mode\n");
 
 	/* Extract and load block numbers */
 	if (loadblocknums(boot, devfd, &dl) != 0)
