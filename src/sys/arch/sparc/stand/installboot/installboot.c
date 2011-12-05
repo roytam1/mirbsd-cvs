@@ -217,15 +217,21 @@ loadprotoblocks(fname, size)
 		return NULL;
 	}
 	if (nl[X_BLOCKTABLE].n_type != N_DATA + N_EXT) {
-		warnx("nlist: %s: wrong type", nl[X_BLOCKTABLE].n_un.n_name);
+		warnx("nlist: %s: wrong type (should be %04X, is %04X)",
+		    nl[X_BLOCKTABLE].n_un.n_name, N_DATA + N_EXT,
+		    nl[X_BLOCKTABLE].n_type);
 		return NULL;
 	}
 	if (nl[X_BLOCKCOUNT].n_type != N_DATA + N_EXT) {
-		warnx("nlist: %s: wrong type", nl[X_BLOCKCOUNT].n_un.n_name);
+		warnx("nlist: %s: wrong type (should be %04X, is %04X)",
+		    nl[X_BLOCKCOUNT].n_un.n_name, N_DATA + N_EXT,
+		    nl[X_BLOCKCOUNT].n_type);
 		return NULL;
 	}
 	if (nl[X_BLOCKSIZE].n_type != N_DATA + N_EXT) {
-		warnx("nlist: %s: wrong type", nl[X_BLOCKSIZE].n_un.n_name);
+		warnx("nlist: %s: wrong type (should be %04X, is %04X)",
+		    nl[X_BLOCKSIZE].n_un.n_name, N_DATA + N_EXT,
+		    nl[X_BLOCKSIZE].n_type);
 		return NULL;
 	}
 
