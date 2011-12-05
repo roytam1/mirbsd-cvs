@@ -72,4 +72,4 @@ typedef struct {
 	char data[1];
 } NAMES;
 
-int	ls_main(int, char *[]);
+int ls_main(int, char *[]) __dead;

@@ -1,4 +1,4 @@
-/**	$MirOS: src/bin/ls/ls.c,v 1.2 2005/03/06 18:55:21 tg Exp $ */
+/**	$MirOS: src/bin/ls/ls.c,v 1.3 2005/10/21 11:02:34 tg Exp $ */
 /*	$OpenBSD: ls.c,v 1.24 2005/06/15 17:47:17 millert Exp $	*/
 /*	$NetBSD: ls.c,v 1.18 1996/07/09 09:16:29 mycroft Exp $	*/
 
@@ -53,7 +53,7 @@
 #include "extern.h"
 
 __SCCSID("@(#)ls.c	8.7 (Berkeley) 8/5/94");
-__RCSID("$MirOS: src/bin/ls/ls.c,v 1.2 2005/03/06 18:55:21 tg Exp $");
+__RCSID("$MirOS: src/bin/ls/ls.c,v 1.3 2005/10/21 11:02:34 tg Exp $");
 
 static void	 display(FTSENT *, FTSENT *);
 static int	 mastercmp(const FTSENT **, const FTSENT **);
@@ -391,7 +391,7 @@ display(FTSENT *p, FTSENT *list)
 	int entries, needstats;
 	char *user, *group, buf[21];	/* 64 bits == 20 digits */
 	char nuser[12], ngroup[12];
-	char *flags = NULL;
+	const char *flags = NULL;
 
 	/*
 	 * If list is NULL there are two possibilities: that the parent
@@ -445,7 +445,7 @@ display(FTSENT *p, FTSENT *list)
 				maxinode = sp->st_ino;
 			if (sp->st_nlink > maxnlink)
 				maxnlink = sp->st_nlink;
-			if (sp->st_size > maxsize)
+			if ((u_quad_t)sp->st_size > maxsize)
 				maxsize = sp->st_size;
 
 			btotal += sp->st_blocks;
@@ -488,8 +488,14 @@ display(FTSENT *p, FTSENT *list)
 				if (f_flags) {
 					np->flags = &np->data[ulen + 1 + glen + 1];
 				  	(void)strlcpy(np->flags, flags, flen + 1);
-					if (*flags != '-')
-						free(flags);
+					if (*flags != '-') {
+						union {
+							const void *cvp;
+							void *vp;
+						} fnord;
+						fnord.cvp = flags;
+						free(fnord.vp);
+					}
 				}
 				cur->fts_pointer = np;
 			}
@@ -514,7 +520,7 @@ display(FTSENT *p, FTSENT *list)
 		d.s_inode = strlen(buf);
 		(void)snprintf(buf, sizeof(buf), "%lu", maxnlink);
 		d.s_nlink = strlen(buf);
-		(void)snprintf(buf, sizeof(buf), "%qu", maxsize);
+		(void)snprintf(buf, sizeof(buf), "%llu", maxsize);
 		d.s_size = strlen(buf);
 		d.s_user = maxuser;
 	}

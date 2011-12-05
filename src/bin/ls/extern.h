@@ -51,4 +51,4 @@ void	 printacol(DISPLAY *);
 void	 printlong(DISPLAY *);
 void	 printscol(DISPLAY *);
 void	 printstream(DISPLAY *);
-void	 usage(void);
+void	 usage(void) __dead;
