@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/sparc/include/asm.h,v 1.6 2007/02/18 16:45:23 tg Exp $ */
+/**	$MirOS: src/sys/arch/sparc/include/asm.h,v 1.7 2007/02/18 16:49:47 tg Exp $ */
 /*	$OpenBSD: asm.h,v 1.4 2003/06/04 22:08:17 deraadt Exp $	*/
 /*	$NetBSD: asm.h,v 1.5 1997/07/16 15:16:43 christos Exp $ */
 
@@ -100,7 +100,7 @@
 
 /* let kernels and others override entrypoint alignment */
 #ifndef _ALIGN_TEXT
-#define _ALIGN_TEXT		.align 4
+#define _ALIGN_TEXT		.p2align 2
 #endif
 
 #define FTYPE(x)		.type x,@function
