@@ -1,4 +1,4 @@
-# $MirOS: src/lib/csu/common_elf/Makefile.inc,v 1.10 2007/06/21 14:54:01 tg Exp $
+# $MirOS: src/lib/csu/common_elf/Makefile.inc,v 1.11 2008/11/18 16:51:14 tg Exp $
 # $NetBSD: Makefile.inc,v 1.23 2003/03/19 16:54:25 ross Exp $
 
 .include <bsd.own.mk>
@@ -81,7 +81,7 @@ crtbeginS.o: crtbegin.c
 	@rm -f $@.o
 
 crtbeginT.o: crtbegin.c
-	${COMPILE.c} -fPIE -o $@.o ${.IMPSRC}
+	${COMPILE.c} -o $@.o ${.IMPSRC}
 	${LD} ${_DISCARD} -r -o $@ $@.o
 	@rm -f $@.o
 
