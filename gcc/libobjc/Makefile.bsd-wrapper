@@ -1,11 +1,11 @@
-# $MirOS: gcc/libobjc/Makefile.bsd-wrapper,v 1.6 2005/07/07 20:31:07 tg Exp $
+# $MirOS: gcc/libobjc/Makefile.bsd-wrapper,v 1.7 2005/11/22 17:55:23 tg Exp $
 
 .include <bsd.own.mk>
 .include "${GNUSYSTEM_AUX_DIR}/locations.mk"
 
 NOMAN=		yes
 CFARGS+=	--enable-static ${CF_PIC} --disable-libtool-lock \
-		--prefix=${GCC_PREFIX} --enable-objc-gc
+		--prefix=${GCC_PREFIX} ${OBJC_GC}
 XARGS+=		LIBIBERTY_HDRS="${GNU_LIBIBERTY_INC}" \
 		LIBOBJC_VERSION=${LIBOBJC_VER} \
 		LIBOBJC_GC_VERSION=${LIBOBJC_VER}

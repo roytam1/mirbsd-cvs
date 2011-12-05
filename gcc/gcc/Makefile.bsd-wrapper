@@ -1,4 +1,4 @@
-# $MirOS: gcc/gcc/Makefile.bsd-wrapper,v 1.23 2005/11/20 17:02:22 tg Exp $
+# $MirOS: gcc/gcc/Makefile.bsd-wrapper,v 1.24 2005/11/22 17:55:20 tg Exp $
 
 .include <bsd.own.mk>
 .include "${GNUSYSTEM_AUX_DIR}/locations.mk"
@@ -71,7 +71,7 @@ CFVARS+=	gcc_cv_as_ix86_gotoff_in_data=no
 CFARGS+=	--prefix=${GCC_PREFIX} --libexecdir=${GCC_PREFIX}/lib \
 		--infodir=${GCC_INFODIR} --mandir=${GCC_MANDIR} \
 		--disable-generated-files-in-srcdir --with-system-zlib \
-		--disable-threads --enable-objc-gc --enable-shared \
+		--disable-threads ${OBJC_GC} --enable-shared \
 		--enable-stack-protector --disable-sjlj-exceptions \
 		--with-local-prefix=${GCC_PREFIX} --disable-nls \
 		--with-gxx-include-dir=${GCC_PREFIX}/include/gxx ${__LANGS}

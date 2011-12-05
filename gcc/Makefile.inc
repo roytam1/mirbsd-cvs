@@ -1,4 +1,4 @@
-# $MirOS: gcc/Makefile.inc,v 1.13 2005/10/08 21:43:20 tg Exp $
+# $MirOS: gcc/Makefile.inc,v 1.14 2005/11/22 17:55:18 tg Exp $
 
 .ifndef _MODGCC_MAKEFILE_INC
 _MODGCC_MAKEFILE_INC=1
@@ -31,6 +31,8 @@ GCC_NATIVE=	No
 NO_ADA?=	Yes
 NO_JAVA=	Yes
 NO_THREADS=	Yes
+OBJC_GC=	--disable-objc-gc
+NO_BOEHMGC=	Yes
 .  if ${OStype} == "Darwin"
 GMAKE?=		/usr/bin/make
 .  endif
@@ -40,7 +42,14 @@ GMAKE?=		/usr/bin/make
 NO_JAVA=	Yes #implied
 .endif
 
+.if defined(NO_OBJC) && defined(NO_JAVA) \
+    && ${NO_OBJC:L} != "no" && ${NO_JAVA:L} != "no"
+NO_BOEHMGC=	Yes
+.endif
+
 GCC_NATIVE?=	Yes
+OBJC_GC?=	--enable-objc-gc
+NO_BOEHMGC?=	No
 GMAKE?=		/usr/local/bin/gmake
 
 # System defines

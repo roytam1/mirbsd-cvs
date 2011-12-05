@@ -1,4 +1,4 @@
-# $MirOS: gcc/Makefile.sub,v 1.13 2005/05/14 16:21:47 tg Exp $
+# $MirOS: gcc/Makefile.sub,v 1.14 2005/11/20 13:50:42 tg Exp $
 
 .if defined(COMPILER_ONLY) && ${COMPILER_ONLY:L} != "no"
 
@@ -43,8 +43,7 @@ prereq: _SUBDIRUSE
   SKIPDIR+= libstdc++-v3
 .  endif
 
-.  if defined(NO_OBJC) && defined(NO_JAVA) \
-    && ${NO_OBJC:L} != "no" && ${NO_JAVA:L} != "no"
+.  if defined(NO_BOEHMGC) && ${NO_BOEHMGC:L} != "no"
   SKIPDIR+= boehm-gc
 .  endif
 
