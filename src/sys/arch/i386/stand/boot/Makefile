@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/stand/boot/Makefile,v 1.4 2006/04/05 22:12:16 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/boot/Makefile,v 1.5 2006/04/19 11:03:29 tg Exp $
 
 .include "${.CURDIR}/../Makefile.inc"
 
@@ -77,7 +77,7 @@ ${.CURDIR}/disasm:	${PROG}
 testmkr: ${PROG}
 	cat /usr/mdec/mbrldr ${PROG} | dd conv=osync of=$@
 	let size=$$(stat -f %z $@); /usr/mdec/installboot -v -i 1 \
-	    $$((size / 512)) /usr/mdec/ldsec $@
+	    $$(( (size - 1) / 512)) /usr/mdec/ldsec $@
 
 .else
 NOPROG=		Yes
