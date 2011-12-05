@@ -1,4 +1,4 @@
-/**	$MirOS: src/lib/libz/gzio.c,v 1.6 2005/07/24 23:02:51 tg Exp $ */
+/**	$MirOS: src/lib/libz/gzio.c,v 1.7 2005/07/24 23:19:02 tg Exp $ */
 /*	$OpenBSD: gzio.c,v 1.14 2005/07/20 15:56:41 millert Exp $	*/
 /* gzio.c -- IO on .gz files
  * Copyright (C) 1995-2005 Jean-loup Gailly.
@@ -10,7 +10,7 @@
 #include <stdio.h>
 #include "zutil.h"
 
-zRCSID("$MirOS: src/lib/libz/gzio.c,v 1.6 2005/07/24 23:02:51 tg Exp $")
+zRCSID("$MirOS: src/lib/libz/gzio.c,v 1.7 2005/07/24 23:19:02 tg Exp $")
 
 #ifdef NO_DEFLATE       /* for compatibility with old definition */
 #  define NO_GZCOMPRESS
@@ -46,25 +46,7 @@ static int const gz_magic[2] = {0x1f, 0x8b}; /* gzip magic header */
 #define COMMENT      0x10 /* bit 4 set: file comment present */
 #define RESERVED     0xE0 /* bits 5..7: reserved */
 
-typedef struct gz_stream {
-    z_stream stream;
-    int      z_err;   /* error code for last stream operation */
-    int      z_eof;   /* set if end of input file */
-    FILE     *file;   /* .gz file */
-    Byte     *inbuf;  /* input buffer */
-    Byte     *outbuf; /* output buffer */
-    uLong    crc;     /* crc32 of uncompressed data */
-    char     *msg;    /* error message */
-    char     *path;   /* path name for debugging only */
-    int      transparent; /* 1 if input file is not a .gz file */
-    char     mode;    /* 'w' or 'r' */
-    z_off_t  start;   /* start of compressed data in file (header skipped) */
-    z_off_t  in;      /* bytes into deflate or inflate */
-    z_off_t  out;     /* bytes out of deflate or inflate */
-    int      back;    /* one character push-back */
-    int      last;    /* true if push-back is last character */
-} gz_stream;
-
+#include "gzio.h"
 
 local gzFile gz_open      OF((const char *path, const char *mode, int  fd));
 local int do_flush        OF((gzFile file, int flush));
