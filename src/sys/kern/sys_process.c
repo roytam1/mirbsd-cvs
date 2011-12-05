@@ -242,7 +242,7 @@ sys_ptrace(p, v, retval)
 		iov.iov_len = sizeof(int);
 		uio.uio_iov = &iov;
 		uio.uio_iovcnt = 1;
-		uio.uio_offset = (off_t)(long)SCARG(uap, addr);
+		uio.uio_offset = (off_t)(unsigned long)SCARG(uap, addr);
 		uio.uio_resid = sizeof(int);
 		uio.uio_segflg = UIO_SYSSPACE;
 		uio.uio_rw = write ? UIO_WRITE : UIO_READ;
@@ -259,7 +259,7 @@ sys_ptrace(p, v, retval)
 		iov.iov_len = piod.piod_len;
 		uio.uio_iov = &iov;
 		uio.uio_iovcnt = 1;
-		uio.uio_offset = (off_t)(long)piod.piod_offs;
+		uio.uio_offset = (off_t)(unsigned long)piod.piod_offs;
 		uio.uio_resid = piod.piod_len;
 		uio.uio_segflg = UIO_USERSPACE;
 		uio.uio_procp = p;
