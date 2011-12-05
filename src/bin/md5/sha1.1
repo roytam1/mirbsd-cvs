@@ -49,6 +49,12 @@ large file must be "compressed" in a secure manner before being
 encrypted with a private (secret) key under a public-key cryptosystem
 such as
 .Em RSA .
+However, recently the SHA family's (SHA-0, SHA-1, SHA-2 (SHA-384 and
+SHA-512) all share the same design) weakness has been proven in reduced
+versions of SHA-1 and partially SHA-2 and collisions for SHA-1 can be found.
+The use of other hash functions is encouraged; however, as RIPEMD-160
+is only little more secure, combining hashes from different families or,
+better, different approaches (Tiger, Whirlpool) is recommended.
 .Pp
 The options are as follows:
 .Bl -tag -width Ds
