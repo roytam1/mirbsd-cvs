@@ -117,7 +117,7 @@
 #include "getopt.h"
 #include "libiberty.h"
 
-__RCSID("$MirOS: src/gnu/usr.bin/binutils/binutils/readelf.c,v 1.5 2005/07/07 16:22:45 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/binutils/binutils/readelf.c,v 1.6 2009/02/24 14:54:17 tg Exp $");
 
 char *program_name = "readelf";
 static long archive_file_offset;
@@ -5366,7 +5366,7 @@ dynamic_section_mips_val (Elf_Internal_Dyn *entry)
 	time_t time = entry->d_un.d_val;
 	tmp = gmtime (&time);
 	snprintf (timebuf, sizeof (timebuf), "%04lld-%02u-%02uT%02u:%02u:%02u",
-		  (int64_t)tmp->tm_year + 1900, tmp->tm_mon + 1, tmp->tm_mday,
+		  tmp->tm_year + 1900LL, tmp->tm_mon + 1, tmp->tm_mday,
 		  tmp->tm_hour, tmp->tm_min, tmp->tm_sec);
 	printf ("Time Stamp: %s\n", timebuf);
       }
@@ -6109,7 +6109,7 @@ process_dynamic_section (FILE *file)
 
 	      tmp = gmtime (&time);
 	      printf ("%04lld-%02u-%02uT%02u:%02u:%02u\n",
-		      (int64_t)tmp->tm_year + 1900, tmp->tm_mon + 1,
+		      tmp->tm_year + 1900LL, tmp->tm_mon + 1,
 		      tmp->tm_mday,
 		      tmp->tm_hour, tmp->tm_min, tmp->tm_sec);
 
@@ -11232,7 +11232,7 @@ process_mips_specific (FILE *file)
 	      tmp = gmtime (&time);
 	      snprintf (timebuf, sizeof (timebuf),
 			"%04lld-%02u-%02uT%02u:%02u:%02u",
-			(int64_t)tmp->tm_year + 1900, tmp->tm_mon + 1, tmp->tm_mday,
+			tmp->tm_year + 1900LL, tmp->tm_mon + 1, tmp->tm_mday,
 			tmp->tm_hour, tmp->tm_min, tmp->tm_sec);
 
 	      printf ("%3lu: ", (unsigned long) cnt);
@@ -11616,7 +11616,7 @@ process_gnu_liblist (FILE *file)
 	      tmp = gmtime (&time);
 	      snprintf (timebuf, sizeof (timebuf),
 			"%04lld-%02u-%02uT%02u:%02u:%02u",
-			(int64_t)tmp->tm_year + 1900, tmp->tm_mon + 1, tmp->tm_mday,
+			tmp->tm_year + 1900LL, tmp->tm_mon + 1, tmp->tm_mday,
 			tmp->tm_hour, tmp->tm_min, tmp->tm_sec);
 
 	      printf ("%3lu: ", (unsigned long) cnt);
