@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/sys/arch/i386/include/exec.h,v 1.3 2006/03/31 03:46:15 tg Exp $ */
 /*	$OpenBSD: exec.h,v 1.9 2003/04/17 03:42:14 drahn Exp $	*/
 /*	$NetBSD: exec.h,v 1.6 1994/10/27 04:16:05 cgd Exp $	*/
 
@@ -59,11 +59,13 @@ struct relocation_info_i386 {
 #define ELF_TARG_MACH		EM_386 /* XXX - EM_486 is currently unused
                                           by all OSs/compilers/linkers */
 
-#define _NLIST_DO_AOUT
 #define _NLIST_DO_ELF
-
-#define _KERN_DO_AOUT
 #define _KERN_DO_ELF
+
+#ifndef SMALL_KERNEL
+#define _NLIST_DO_AOUT
+#define _KERN_DO_AOUT
 #define _KERN_DO_ECOFF		/* for ports/plan9/kencc */
+#endif
 
 #endif  /* _I386_EXEC_H_ */
