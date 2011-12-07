@@ -1,6 +1,5 @@
 # $NetBSD: Makefile,v 1.17 2011/10/16 13:43:26 jruoho Exp $
 
-.include <bsd.own.mk>
 
 TESTSDIR=	${TESTSBASE}/lib/libm
 
@@ -26,10 +25,12 @@ TESTS_C+=	t_tan
 TESTS_C+=	t_tanh
 
 LDADD+=		-lm
-#COPTS+=	-Wfloat-equal
 
-.if ${MACHINE_ARCH} == "alpha"
-COPTS+=                 -mieee
-.endif
+CFLAGS!=	pkg-config --cflags atf-c
+LDFLAGS!=	pkg-config --libs-only-L --libs-only-other atf-c
+LIBS!=		pkg-config --libs-only-l atf-c
 
-.include <bsd.test.mk>
+all: $(TESTS_C)
+
+.c:
+	${CC} ${CFLAGS} ${LDFLAGS} -o $@ $< ${LIBS} ${LDADD}
