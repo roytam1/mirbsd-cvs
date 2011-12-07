@@ -36,6 +36,8 @@ __RCSID("$NetBSD: t_ceil.c,v 1.7 2011/09/17 12:12:19 jruoho Exp $");
 #include <limits.h>
 #include <stdio.h>
 
+#define	__arraycount(__x)	(sizeof(__x) / sizeof(__x[0]))
+
 #ifdef __vax__
 #define SMALL_NUM	1.0e-38
 #else

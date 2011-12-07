@@ -34,6 +34,8 @@ __RCSID("$NetBSD: t_tanh.c,v 1.6 2011/09/12 17:45:51 jruoho Exp $");
 #include <atf-c.h>
 #include <math.h>
 
+#define	__arraycount(__x)	(sizeof(__x) / sizeof(__x[0]))
+
 /*
  * tanh(3)
  */

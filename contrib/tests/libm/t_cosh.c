@@ -35,6 +35,8 @@ __RCSID("$NetBSD: t_cosh.c,v 1.4 2011/10/18 14:16:42 jruoho Exp $");
 #include <math.h>
 #include <stdio.h>
 
+#define	__arraycount(__x)	(sizeof(__x) / sizeof(__x[0]))
+
 /*
  * cosh(3)
  */

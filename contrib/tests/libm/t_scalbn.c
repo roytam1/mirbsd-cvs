@@ -34,6 +34,8 @@ __RCSID("$NetBSD: t_scalbn.c,v 1.7 2011/09/13 07:07:32 jruoho Exp $");
 #include <math.h>
 #include <limits.h>
 
+#define	__arraycount(__x)	(sizeof(__x) / sizeof(__x[0]))
+
 #include <atf-c.h>
 
 static const int exps[] = { 0, 1, -1, 100, -100 };

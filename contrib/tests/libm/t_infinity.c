@@ -36,6 +36,8 @@ __RCSID("$NetBSD: t_infinity.c,v 1.5 2011/07/08 05:10:05 jruoho Exp $");
 #include <float.h>
 #include <stdlib.h>
 
+#define	__arraycount(__x)	(sizeof(__x) / sizeof(__x[0]))
+
 ATF_TC(infinity_float);
 ATF_TC_HEAD(infinity_float, tc)
 {

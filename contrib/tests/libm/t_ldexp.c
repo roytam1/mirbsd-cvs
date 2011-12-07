@@ -39,6 +39,8 @@ __RCSID("$NetBSD: t_ldexp.c,v 1.10 2011/09/19 05:40:38 jruoho Exp $");
 #include <stdio.h>
 #include <string.h>
 
+#define	__arraycount(__x)	(sizeof(__x) / sizeof(__x[0]))
+
 #define SKIP	9999
 #define FORMAT  "%23.23lg"
 

@@ -34,6 +34,8 @@ __RCSID("$NetBSD: t_erf.c,v 1.1 2011/09/17 12:00:50 jruoho Exp $");
 #include <atf-c.h>
 #include <math.h>
 
+#define	__arraycount(__x)	(sizeof(__x) / sizeof(__x[0]))
+
 /*
  * erf(3)
  */

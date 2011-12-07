@@ -32,6 +32,8 @@
 #include <atf-c.h>
 #include <math.h>
 
+#define	__arraycount(__x)	(sizeof(__x) / sizeof(__x[0]))
+
 /*
  * asin(3)
  */

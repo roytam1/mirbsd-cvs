@@ -29,6 +29,8 @@
 #include <atf-c.h>
 #include <math.h>
 
+#define	__arraycount(__x)	(sizeof(__x) / sizeof(__x[0]))
+
 /*
  * This tests for a bug in the initial implementation where
  * precision was lost in an internal substraction, leading to

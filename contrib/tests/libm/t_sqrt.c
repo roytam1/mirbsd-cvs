@@ -35,6 +35,8 @@ __RCSID("$NetBSD: t_sqrt.c,v 1.2 2011/11/19 12:46:41 mlelstv Exp $");
 #include <math.h>
 #include <stdio.h>
 
+#define	__arraycount(__x)	(sizeof(__x) / sizeof(__x[0]))
+
 /*
  * sqrt(3)
  */

@@ -35,6 +35,8 @@ __RCSID("$NetBSD: t_log.c,v 1.5 2011/09/18 04:49:11 jruoho Exp $");
 #include <stdio.h>
 #include <math.h>
 
+#define	__arraycount(__x)	(sizeof(__x) / sizeof(__x[0]))
+
 /*
  * log10(3)
  */

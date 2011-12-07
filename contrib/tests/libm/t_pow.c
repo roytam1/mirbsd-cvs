@@ -34,6 +34,8 @@ __RCSID("$NetBSD: t_pow.c,v 1.2 2011/09/23 13:48:28 jruoho Exp $");
 #include <atf-c.h>
 #include <math.h>
 
+#define	__arraycount(__x)	(sizeof(__x) / sizeof(__x[0]))
+
 /*
  * pow(3)
  */

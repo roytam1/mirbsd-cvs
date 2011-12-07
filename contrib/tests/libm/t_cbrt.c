@@ -35,6 +35,8 @@ __RCSID("$NetBSD: t_cbrt.c,v 1.1 2011/10/16 08:25:40 jruoho Exp $");
 #include <math.h>
 #include <stdio.h>
 
+#define	__arraycount(__x)	(sizeof(__x) / sizeof(__x[0]))
+
 /*
  * cbrt(3)
  */
