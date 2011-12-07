@@ -455,7 +455,7 @@ ATF_TC_BODY(ldexpf_zero_pos, tc)
 	{								\
 									\
 		atf_tc_set_md_var(tc, "descr",				\
-		    "Test ldexp(3) for " ___STRING(desc));		\
+		    "Test ldexp(3) for " __STRING(desc));		\
 	}								\
 	ATF_TC_BODY(name, tc)						\
 	{								\
