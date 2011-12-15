@@ -3,6 +3,12 @@
 #-
 # Not complicated enough for copyright.
 
+#cat >/etc/resolv.conf <<'EOF'
+#lookup file bind
+#nameserver 8.8.8.8
+#EOF
+
 unset LANGUAGE
 LC_ALL=C; export LC_ALL
 apt-get update
+apt-get -y --purge dist-upgrade
