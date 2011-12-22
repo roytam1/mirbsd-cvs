@@ -1,8 +1,8 @@
-% $MirOS$
+% $MirOS: contrib/code/Flyers/de.tex,v 1.1 2011/12/22 12:56:40 bsiegert Exp $
 %
 
 \documentclass[
-a4paper,%
+a4paper,landscape,%11pt,%
 notumble%,
 %%nofoldmark,
 %%dvipdfm,
@@ -15,6 +15,12 @@ notumble%,
 %%draft,
 ]{leaflet}
 
+% xelatex things
+\usepackage{fontspec,xunicode}
+%\setromanfont[Mapping=tex-text,BoldFont={GentiumBasic-Bold},ItalicFont={Gentium-It},BoldItalicFont={GentiumBasic-BoldIt}]{Gentium-Regular}
+\setromanfont[Mapping=tex-text]{Gentium Basic}
+
+
 
 %\renewcommand*\foldmarkrule{.3mm}
 %\renewcommand*\foldmarklength{5mm}
@@ -26,32 +32,41 @@ notumble%,
 \usepackage{url}
 \usepackage{graphicx}
 \usepackage{color}
+
 \definecolor{LIGHTGRAY}{gray}{.9}
+\definecolor{yellow}{rgb}{1,0.8,0}
+\definecolor{darkred}{rgb}{0.8,0,0}
+
+\makeatletter
+% as seen on http://www.ureader.de/msg/136217834.aspx
+\newcommand{\sectbox}[1]{%
+ \noindent\protect\colorbox{yellow}{%
+ \@tempdima=\hsize
+ \advance\@tempdima by-2\fboxsep
+ \advance\@tempdima by-2\fboxrule
+ \protect\parbox{\@tempdima}{%
+ \medskip
+ \raggedright % extra commands here
+ %\color{white}
+ #1 \medskip
+}}}
+
+\renewcommand\section{\@startsection{section}{1}{1em}%
+  {-3.5ex \@plus -.75ex}%
+  {1ex} %{1.5ex}%
+  {\normalfont\Large\itshape\sectbox}}
+\renewcommand\subsection{\@startsection{subsection}{2}{\z@}%
+  {-2.5ex plus -.5ex}%
+  {1\p@} %{1ex}%
+  {\normalfont\normalsize\sectfont\color{darkred}}}
+
+
+\makeatother
+
 
 \usepackage{ngerman}
 
-%%%%\renewcommand{\descfont}{\normalfont}
 
-%\newcommand*\defaultmarker{\textsuperscript\textasteriskcentered}
-
-%\title{The document class \Lclass{leaflet}}
-%\author{%
-%  Rolf Niepraschk\\
-%  Walter Schmidt\\
-%  Hubert G\"a\ss lein}
-%\date{Last updated~\docdate\\printed \today}
-
-%\CutLine*{1}% Dotted line without scissors
-%\CutLine{6}%  Dotted line with scissors
-
-%\AddToBackground{5}{%  Background of a small page
-%  \put(0,0){\textcolor{Cerulean}{\rule{\paperwidth}{\paperheight}}}}
-
-%\AddToBackground*{2}{% Background of a large page
-%  \put(\LenToUnit{.5\paperwidth},\LenToUnit{.5\paperheight}){%
-%    \makebox(0,0)[c]{%
-%      \resizebox{.9\paperwidth}{!}{\rotatebox{35.26}{%
-%        \textsf{\textbf{\textcolor{LIGHTGRAY}{BACKGROUND}}}}}}}}
 
 \begin{document}
 
@@ -62,15 +77,20 @@ notumble%,
 
 \newpage
 
+%\section{\colorbox{yellow}{\makebox[\columnwidth]{Aktuelle Version}}}
 \section{Aktuelle Version}
 
 \subsection{MirOS \# 10-current}
 
 Die auf dieser Veranstaltung verteilte CD enthält MirOS \# 10-current -- eine Betaversion von MirOS \# 11. Das System basiert auf OpenBSD-current und älteren Versionen. MirOS BSD enthält auch eine verbesserte Shell (mksh), einen Ports Tree (MirPorts), eine Akronymdatenbank (wtf) und GNU cvs 1.12 mit eigenen Erweiterungen.
-Es stammt von OpenBSD ab; von dort werden auch regelmäßig die Quellen importiert und abgeglichen. Außerdem enthält es Code aus NetBSD® u.a. Quellen.
-Der völlig neu geschriebene Bootloader ist Multiboot-kompatibel, so dass er von GRUB aus aufgerufen werden kann. Der Zufallszahlen- generator wurde verbessert und viele System- komponenten aktualisiert. pkgsrc® kann parallel zusätzlich zu MirPorts genutzt werden. Viele Ports in MirPorts liegen in neuen Versionen vor.
-MirOS entstand aufgrund einer Meinungs- verschiedenheit zwischen Theo de Raadt, OpenBSD- Projektleiter, und Thorsten Glaser, mittlerweile MirOS- Chefentwickler. Für das MirPorts-Framework ist Benny Siegert verantwortlich. Adam Hoka hilft bei der Entwicklung von mksh. Daneben tragen auch weitere Personen zum Projekt bei.
-￼Der mitgelieferte gcc-3.4-Compiler enthält den Propolice Stack Smashing Protector und unter- stützt C, C++, Pascal, Objective-C und Ada.
+
+Es stammt von OpenBSD ab; von dort werden auch regelmäßig die Quellen importiert und abgeglichen. Außerdem enthält es Code aus NetBSD® u.a. Quellen.
+
+Der völlig neu geschriebene Bootloader ist Multiboot-kompatibel, so dass er von GRUB aus aufgerufen werden kann. Der Zufallszahlen- generator wurde verbessert und viele System- komponenten aktualisiert. pkgsrc® kann parallel zusätzlich zu MirPorts genutzt werden. Viele Ports in MirPorts liegen in neuen Versionen vor.
+
+MirOS entstand aufgrund einer Meinungs- verschiedenheit zwischen Theo de Raadt, OpenBSD- Projektleiter, und Thorsten Glaser, mittlerweile MirOS- Chefentwickler. Für das MirPorts-Framework ist Benny Siegert verantwortlich. Adam Hoka hilft bei der Entwicklung von mksh. Daneben tragen auch weitere Per sonen zum Projekt bei.
+
+￼Der mitgelieferte gcc-3.4-Compiler enthält den Propolice Stack Smashing Protector und unter- stützt C, C++, Pascal, Objective-C und Ada.
 
 \subsection{"`Triforce"'-Live-CD}
 
@@ -96,7 +116,8 @@ Für stabile Releases gibt es binäre Sicherheits- updates, auch direkt währ
 
 IPv6 wird überall unterstützt, auch im Apache-1.3- basierten Webserver. ISDN-Treiber werden mitgeliefert.
 
-Aus rechtlichen Gründen müssen wir noch auf die Advertising Clauses hinweisen; es sind leider zu viele, um sie auf diesem Flyer zu nennen. Sie stehen aber alleauf http://www.mirbsd.org/about.htm .
+Aus rechtlichen Gründen müssen wir noch auf die Advertising Clauses hinweisen; es sind leider zu viele, um sie auf diesem Flyer zu nennen. Sie stehen aber alle
+auf http://www.mirbsd.org/about.htm .
 
 \newpage
 
@@ -115,7 +136,11 @@ In MirOS und MirPorts sollen die „Dotfiles“, die versteckten Konfigurationsd
 MirPorts ist portabel. Dabei werden folgende Betriebssysteme unterstützt:
 
 \begin{itemize}
-\item MirOS BSD (-stable und -current)\item OpenBSD (-stable und -current)\item MidnightBSD\item Mac OS X (ab 10.4) / Darwin\item Interix / SFU 3.5 (eingeschränkt)
+\item MirOS BSD (-stable und -current)
+\item OpenBSD (-stable und -current)
+\item MidnightBSD
+\item Mac OS X (ab 10.4) / Darwin
+\item Interix / SFU 3.5 (eingeschränkt)
 \end{itemize}
 
 Es wird auch auf stabilen Releases dazu geraten, immer die neueste MirPorts-Version zu benutzen. Für alle Plattformen suchen wir noch Entwickler sowie Tester, die Pakete bauen und Bugreports an die Entwickler schicken.
@@ -124,7 +149,7 @@ Es wird auch auf stabilen Releases dazu geraten, immer die neueste MirPorts-Vers
 
 \section{mksh, die MirOS Korn Shell}
 
-Als Standard-Shell in MirOS wird mskh – ein Ab- kömmling der Korn Shell – benutzt. bash-Benutzer werden sich sofort zurechtfinden, die meisten Kommandos sind dieselben.
+Als Standard-Shell in MirOS wird mskh – ein Abkömmling der Korn Shell – benutzt. bash-Benutzer werden sich sofort zurechtfinden, die meisten Kommandos sind dieselben.
 
 mksh ist kleiner und vor allem schneller als Shells wie bash oder zsh. Sie enthält die Features aus der ksh von OpenBSD sowie sehr viele Bugfixes. Der Code ist sehr sauber (Warnungen, const-Cleanup); er wurde von den Entwicklern sowie der Firma Coverity auf Sicherheitsprobleme hin überprüft.
 
@@ -140,6 +165,8 @@ mksh ist portabel und läuft auf sehr vielen Systemen, sei es BSD, Linux, Mac O
 
 \section{MirLibtool}
 
-Libtool beim Übersetzen von Bibliotheken macht vie-lerlei Probleme. So bricht es zum Beispiel ab, wenn kein C++-Compiler vorhanden ist. Deshalb enthält MirPorts eine komplett eigene Libtool-Version namens MirLibtool.MirLibtool basiert auf libtool 1.5 und ist mit allen Versionen der autotools kompatibel. Die MirPorts- Infrastruktur installiert es automatisch und transparent für den Benutzer, wenn ein Port autoconf aufruft.
+Libtool beim Übersetzen von Bibliotheken macht vie-
+lerlei Probleme. So bricht es zum Beispiel ab, wenn kein C++-Compiler vorhanden ist. Deshalb enthält MirPorts eine komplett eigene Libtool-Version namens MirLibtool.
+MirLibtool basiert auf libtool 1.5 und ist mit allen Versionen der autotools kompatibel. Die MirPorts- Infrastruktur installiert es automatisch und transparent für den Benutzer, wenn ein Port autoconf aufruft.
 
 \end{document}
