@@ -33,7 +33,7 @@ notumble%,
 \usepackage{graphicx}
 \usepackage{color}
 
-\definecolor{LIGHTGRAY}{gray}{.9}
+\definecolor{LIGHTGRAY}{gray}{.75}
 \definecolor{yellow}{rgb}{1,0.8,0}
 \definecolor{darkred}{rgb}{0.8,0,0}
 
@@ -55,10 +55,12 @@ notumble%,
   {-3.5ex \@plus -.75ex}%
   {1ex} %{1.5ex}%
   {\normalfont\Large\itshape\sectbox}}
-\renewcommand\subsection{\@startsection{subsection}{2}{\z@}%
+\newcommand\mysubsection{\@startsection{subsection}{2}{1.1em}%
   {-2.5ex plus -.5ex}%
   {1\p@} %{1ex}%
-  {\normalfont\normalsize\sectfont\color{darkred}}}
+  {\normalfont\Large\itshape\color{darkred}}}
+
+\renewcommand\subsection[1]{\mysubsection{#1}{\color{LIGHTGRAY}{\vspace{2pt}\hrule height 1pt}}}
 
 
 \makeatother
@@ -90,7 +92,7 @@ Der völlig neu geschriebene Bootloader ist Multiboot-kompatibel, so dass er vo
 
 MirOS entstand aufgrund einer Meinungs- verschiedenheit zwischen Theo de Raadt, OpenBSD- Projektleiter, und Thorsten Glaser, mittlerweile MirOS- Chefentwickler. Für das MirPorts-Framework ist Benny Siegert verantwortlich. Adam Hoka hilft bei der Entwicklung von mksh. Daneben tragen auch weitere Per sonen zum Projekt bei.
 
-￼Der mitgelieferte gcc-3.4-Compiler enthält den Propolice Stack Smashing Protector und unter- stützt C, C++, Pascal, Objective-C und Ada.
+Der mitgelieferte gcc-3.4-Compiler enthält den Propolice Stack Smashing Protector und unter- stützt C, C++, Pascal, Objective-C und Ada.
 
 \subsection{"`Triforce"'-Live-CD}
 
