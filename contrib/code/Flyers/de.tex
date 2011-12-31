@@ -1,62 +1,10 @@
-% $MirOS: contrib/code/Flyers/de.tex,v 1.4 2011/12/25 22:50:38 bsiegert Exp $
+% $MirOS: contrib/code/Flyers/de.tex,v 1.5 2011/12/31 13:35:25 bsiegert Exp $
 %
 
 \documentclass[a4paper,landscape,11pt,notumble]{leaflet}
-
-% xelatex things
-\usepackage{fontspec,xunicode}
-\setromanfont[Mapping=tex-text]{Gentium Basic}
-
-
-\usepackage{url}
-\usepackage{graphicx}
-\usepackage{color}
-
-\definecolor{LIGHTGRAY}{gray}{.6}
-\definecolor{yellow}{rgb}{1,0.6,0}
-\definecolor{darkred}{rgb}{0.6,0,0}
-
-\makeatletter
-% as seen on http://www.ureader.de/msg/136217834.aspx
-\newcommand{\sectbox}[1]{%
- \noindent\protect\colorbox{yellow}{%
- \@tempdima=\hsize
- \advance\@tempdima by-2\fboxsep
- \advance\@tempdima by-2\fboxrule
- \protect\parbox{\@tempdima}{%
- \medskip
- \raggedright % extra commands here
- %\color{white}
- #1 \medskip
-}}}
-
-\renewcommand\section{\@startsection{section}{1}{0.9em}%
-  {-3.5ex \@plus -.75ex}%
-  {1ex} %{1.5ex}%
-  {\normalfont\Large\itshape\sectbox}}
-\newcommand\mysubsection{\@startsection{subsection}{2}{1em}%
-  {-2.5ex plus -.5ex}%
-  {1\p@} %{1ex}%
-  {\normalfont\Large\itshape\color{darkred}}}
-
-\renewcommand\subsection[1]{\mysubsection{#1}{\color{LIGHTGRAY}{\vspace{2pt}\hrule height 1pt}\vspace{3pt}}}
-
-\newlength\oldfbs
-\newcommand\graybox{\setlength\oldfbs\fboxsep%
- \setlength\fboxsep{0pt}%
- \noindent\fbox{\color{LIGHTGRAY}\rule{\columnwidth}{1ex}}%
- \setlength\fboxsep\oldfbs}	
-
-\setlength\parskip{0pt plus 2pt}
-\setlength\parindent{1em}
-\urlstyle{same}
-
-
-\makeatother
-
+\usepackage{mirosflyer}
 
 \usepackage{ngerman}
-
 
 \hyphenation{Mir-OS}
 
@@ -108,8 +56,7 @@ Die "`Triforce"'-Live-CD erlaubt den Start von drei Betriebssystemen ohne vorher
 
 \section{MirOS BSD}
 
-{\hangindent 1em\hangafter=0%
-\textcolor{darkred}{\itshape\Large MirOS BSD ist ein sicheres Betriebssystem aus der BSD-Familie.}\par\medskip}
+\largered{MirOS BSD ist ein sicheres Betriebssystem aus der BSD-Familie.}
 
 Es stammt von OpenBSD ab; von dort werden auch regelmäßig die Quellen importiert und abgeglichen. Außerdem enthält es Code aus NetBSD® u.a. Quellen.
 
