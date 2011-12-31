@@ -1,34 +1,13 @@
-% $MirOS: contrib/code/Flyers/de.tex,v 1.3 2011/12/22 14:50:06 bsiegert Exp $
+% $MirOS: contrib/code/Flyers/de.tex,v 1.4 2011/12/25 22:50:38 bsiegert Exp $
 %
 
-\documentclass[
-a4paper,landscape,11pt,%
-notumble%,
-%%nofoldmark,
-%%dvipdfm,
-%%portrait,
-%%titlepage,
-%%nocombine,
-%%a3paper,
-%%debug,
-%%nospecialtricks,
-%%draft,
-]{leaflet}
+\documentclass[a4paper,landscape,11pt,notumble]{leaflet}
 
 % xelatex things
 \usepackage{fontspec,xunicode}
-%\setromanfont[Mapping=tex-text,BoldFont={GentiumBasic-Bold},ItalicFont={Gentium-It},BoldItalicFont={GentiumBasic-BoldIt}]{Gentium-Regular}
 \setromanfont[Mapping=tex-text]{Gentium Basic}
 
 
-
-%\renewcommand*\foldmarkrule{.3mm}
-%\renewcommand*\foldmarklength{5mm}
-
-%\usepackage[T1]{fontenc}
-%\usepackage{textcomp}
-%\usepackage{mathptmx}
-%\usepackage[scaled=0.9]{helvet}
 \usepackage{url}
 \usepackage{graphicx}
 \usepackage{color}
@@ -70,6 +49,8 @@ notumble%,
 
 \setlength\parskip{0pt plus 2pt}
 \setlength\parindent{1em}
+\urlstyle{same}
+
 
 \makeatother
 
@@ -77,6 +58,7 @@ notumble%,
 \usepackage{ngerman}
 
 
+\hyphenation{Mir-OS}
 
 \begin{document}
 
@@ -104,22 +86,19 @@ Projekt?\par
 
 \newpage
 
-%\section{\colorbox{yellow}{\makebox[\columnwidth]{Aktuelle Version}}}
 \section{Aktuelle Version}
 
 \subsection{MirOS \# 10-current}
 
-%\fontsize{10.5}{12}\selectfont
-
 Die auf dieser Veranstaltung verteilte CD enthält MirOS \#10-current -- eine Betaversion von MirOS \#11. Das System basiert auf OpenBSD-current und älteren Versionen. MirOS BSD enthält auch eine verbesserte Shell (mksh), einen Ports Tree (MirPorts), eine Akronymdatenbank (wtf) und GNU cvs 1.12 mit eigenen Erweiterungen.
 
-Es stammt von OpenBSD ab; von dort werden auch regelmäßig die Quellen importiert und abgeglichen. Außerdem enthält es Code aus NetBSD® u.a. Quellen.
+Es stammt von OpenBSD ab; von dort werden auch regelmäßig die Quellen importiert und abgeglichen. Außerdem enthält es Code aus NetBSD® u.\,a. Quellen.
 
-Der völlig neu geschriebene Bootloader ist Multiboot-kompatibel, so dass er von GRUB aus aufgerufen werden kann. Der Zufallszahlen- generator wurde verbessert und viele System- komponenten aktualisiert. pkgsrc® kann parallel zusätzlich zu MirPorts genutzt werden. Viele Ports in MirPorts liegen in neuen Versionen vor.
+Der völlig neu geschriebene Bootloader ist Multiboot-kompatibel, so dass er von GRUB aus aufgerufen werden kann. Der Zufallszahlengenerator wurde verbessert und viele Systemkomponenten aktualisiert. pkgsrc® kann parallel zusätzlich zu MirPorts genutzt werden. Viele Ports in MirPorts liegen in neuen Versionen vor.
 
-MirOS entstand aufgrund einer Meinungs- verschiedenheit zwischen Theo de Raadt, OpenBSD- Projektleiter, und Thorsten Glaser, mittlerweile MirOS- Chefentwickler. Für das MirPorts-Framework ist Benny Siegert verantwortlich. Adam Hoka hilft bei der Entwicklung von mksh. Daneben tragen auch weitere Personen zum Projekt bei.
+MirOS entstand aufgrund einer Meinungsverschiedenheit zwischen Theo de Raadt, OpenBSD-Projektleiter, und Thorsten Glaser, mittlerweile MirOS-Chefentwickler. Für das MirPorts-Framework ist Benny Siegert verantwortlich. Adam Hoka hilft bei der Entwicklung von mksh. Daneben tragen auch weitere Personen zum Projekt bei.
 
-Der mitgelieferte gcc-3.4-Compiler enthält den Propolice Stack Smashing Protector und unter- stützt C, C++, Pascal, Objective-C und Ada.
+Der mitgelieferte gcc-3.4-Compiler enthält den Propolice Stack Smashing Protector und unterstützt C, C++, Pascal, Objective-C und Ada.
 
 \subsection{"`Triforce"'-Live-CD}
 
@@ -142,12 +121,11 @@ Die meisten Unterschiede zwischen MirOS und OpenBSD liegen im Detail.
 
 Das Basissystem ist deutlich entschlackt worden. Wenig genutzte Komponenten wie NIS, Kerberos, Bind und BSD Games wurden entfernt. Die beiden letzteren sind als Ports installierbar. Unterstützung für Internationalisierung, UTF-8 und Unicode ist integriert, auch Citrus libiconv ist verfügbar.
 
-Für stabile Releases gibt es binäre Sicherheits- updates, auch direkt während der Installation wählbar.
-
+Für stabile Releases gibt es binäre Sicherheitsupdates, auch direkt während der Installation wählbar.
 IPv6 wird überall unterstützt, auch im Apache-1.3-basierten Webserver. ISDN-Treiber werden mitgeliefert.
 
 Aus rechtlichen Gründen müssen wir noch auf die Advertising Clauses hinweisen; es sind leider zu viele, um sie auf diesem Flyer zu nennen. Sie stehen aber alle
-auf http://www.mirbsd.org/about.htm .
+auf \url{http://www.mirbsd.org/about.htm}.
 
 \newpage
 
@@ -174,9 +152,9 @@ Benny Siegert\par
 \subsection{Kontakt}
 {\large
 \begin{tabular}{ll}
-Homepage: & \textcolor{darkred}{http://www.mirbsd.org/}\\
+Homepage: & \textcolor{darkred}{\url{http://www.mirbsd.org/}}\\
 %& http://www.mirbsd.org/\\
-IRC: & \textcolor{darkred}{\#mirbsd} auf irc.freenode.net\\
+IRC: & \textcolor{darkred}{\url{#mirbsd}} auf irc.freenode.net\\
 \end{tabular}
 \par}
 \vspace{3ex}%
@@ -188,9 +166,9 @@ IRC: & \textcolor{darkred}{\#mirbsd} auf irc.freenode.net\\
 
 MirPorts -- ein Abkömmling des OpenBSD Ports Trees -- ist unsere Lösung für die Installation zusätzlicher Software, die nicht im Basissystem enthalten ist.
 
-Nach der Installation oder nach Updates konfiguriert man MirPorts mit „make setup“ im Verzeichnis /usr/ports (bei parallelen Installationen /usr/mirports). Die Ports selbst befinden sich in Unterverzeichnissen, nach Kategorien sortiert. Ein einfaches „mmake install“ in solch einem Verzeichnis lädt den Quellcode des Programms herunter, kompiliert ihn, erstellt ein Binärpaket und installiert dieses. Dabei werden auch Abhängigkeiten automatisch berücksichtigt. Weiterhin gibt es die Möglichkeit Ports in verschiedenen „Flavours“ (zum Beispiel mit oder ohne X) zu bauen.
+Nach der Installation oder nach Updates konfiguriert man MirPorts mit „make setup“ im Verzeichnis \url{/usr/ports} (bei parallelen Installationen \url{/usr/mirports}). Die Ports selbst befinden sich in Unterverzeichnissen, nach Kategorien sortiert. Ein einfaches „mmake install“ in solch einem Verzeichnis lädt den Quellcode des Programms herunter, kompiliert ihn, erstellt ein Binärpaket und installiert dieses. Dabei werden auch Abhängigkeiten automatisch berücksichtigt. Weiterhin gibt es die Möglichkeit Ports in verschiedenen „Flavours“ (zum Beispiel mit oder ohne X) zu bauen.
 
-In MirOS und MirPorts sollen die „Dotfiles“, die versteckten Konfigurationsdateien im Home- Verzeichnis unter ~/.etc gesammelt werden. Außerdem gibt es die Möglichkeit unter ~/.etc/bin eigene Programme und Skripte abzulegen.
+In MirOS und MirPorts sollen die „Dotfiles“, die versteckten Konfigurationsdateien im Home- Verzeichnis unter \url{~/.etc} gesammelt werden. Außerdem gibt es die Möglichkeit unter \url{~/.etc/bin} eigene Programme und Skripte abzulegen.
 
 MirPorts ist portabel. Dabei werden folgende Betriebssysteme unterstützt:
 
@@ -208,7 +186,7 @@ Es wird auch auf stabilen Releases dazu geraten, immer die neueste MirPorts-Vers
 
 \section{mksh, die MirOS Korn Shell}
 
-Als Standard-Shell in MirOS wird mskh – ein Abkömmling der Korn Shell – benutzt. bash-Benutzer werden sich sofort zurechtfinden, die meisten Kommandos sind dieselben.
+Als Standard-Shell in MirOS wird mskh -- ein Abkömmling der Korn Shell -- benutzt. bash-Benutzer werden sich sofort zurechtfinden, die meisten Kommandos sind dieselben.
 
 mksh ist kleiner und vor allem schneller als Shells wie bash oder zsh. Sie enthält die Features aus der ksh von OpenBSD sowie sehr viele Bugfixes. Der Code ist sehr sauber (Warnungen, const-Cleanup); er wurde von den Entwicklern sowie der Firma Coverity auf Sicherheitsprobleme hin überprüft.
 
@@ -225,6 +203,6 @@ mksh ist portabel und läuft auf sehr vielen Systemen, sei es BSD, Linux, Mac O
 \section{MirLibtool}
 
 Libtool beim Übersetzen von Bibliotheken macht vielerlei Probleme. So bricht es zum Beispiel ab, wenn kein C++-Compiler vorhanden ist. Deshalb enthält MirPorts eine komplett eigene Libtool-Version namens MirLibtool.
-MirLibtool basiert auf libtool 1.5 und ist mit allen Versionen der autotools kompatibel. Die MirPorts- Infrastruktur installiert es automatisch und transparent für den Benutzer, wenn ein Port autoconf aufruft.
+MirLibtool basiert auf libtool 1.5 und ist mit allen Versionen der autotools kompatibel. Die MirPorts-Infrastruktur installiert es automatisch und transparent für den Benutzer, wenn ein Port autoconf aufruft.
 
 \end{document}
