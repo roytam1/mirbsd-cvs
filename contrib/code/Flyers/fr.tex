@@ -1,0 +1,152 @@
+% $MirOS: contrib/code/Flyers/de.tex,v 1.6 2011/12/31 13:41:14 bsiegert Exp $
+%
+
+\documentclass[a4paper,landscape,11pt,notumble]{leaflet}
+\usepackage{mirosflyer}
+
+\usepackage[frenchb]{babel}
+
+\hyphenation{Mir-OS}
+
+\begin{document}
+
+%\maketitle
+%\thispagestyle{empty}
+
+\graybox
+\begin{center}
+{\noindent\raisebox{-1ex}{\includegraphics[height=3ex]{img/Flag_of_France}}%
+\quad F~~R~~A~~N~~\c C~~A~~I~~S\par}
+\vfill
+
+\fontsize{48}{48}\selectfont Le projet\par
+\fontsize{64}{64}\selectfont MirOS,\par
+\fontsize{48}{48}\selectfont c'est quoi déjà?\par
+
+\vfill
+
+\includegraphics[width=0.75\columnwidth]{img/m-color}
+
+\vfill%
+\end{center}%
+\graybox
+
+\newpage
+
+\section{Version actuelle}
+
+\subsection{MirOS \#10-current}
+
+La version actuellement disponible est MirOS \#10-current, une version bêta de MirOS \#11. Ce système est basé sur OpenBSD-current ainsi que sur des versions antérieures. MirOS BSD inclut également un puissant Shell (mksh), un \emph{ports tree} amélioré (MirPorts), une base de donnés d’acronymes (wtf) et GNU cvs 1.12 avec des extensions. 
+
+Le bootloader a été largement réécrit, de façon à être compatible avec le standard multiboot. Il peut donc être appelé par GRUB. Le générateur de nombres aléatoires (SRNG) a été amélioré; de nombreux composants du système ont été mis à jour. En outre, il est possible d’installer pkgsrc® en parallèle de MirPorts, en tant que complément. De nombreux ports sont disponibles dans leur nouvelles versions.
+
+Le compilateur fourni est gcc 3.4, il intègre le protecteur du stack Propolice et permet la programmation en C, C++, Pascal, Objective-C et Ada.
+
+\subsection{Live CD \flqq~triforce~\frqq}
+
+Le Live CD \flqq~triforce~\frqq permet le démarrage de trois systèmes: MirOS/i386, MirOS/sparc et Grml.org (un système de sauvetage basé sur GNU/Linux). La partie MirOS peut être utilisée soit pour l’installation, soit pour travailler sur un système complet de MirOS – sans installation. Quelques ports y sont préinstallés. Le live CD nécessite au moins 80 Mo de mémoire vive en mode texte ou 128 Mo en mode graphique. Une copie (avec dd) du CD peut démarrer à partir d’un disque dur, d’une clé USB ou d’une carte mémoire.
+
+\newpage
+
+\section{MirOS BSD}
+
+\largered{MirOS BSD est un système d’exploitation libre et sécurisé de la famille des BSD.}
+
+Il est dérivé d’OpenBSD, dont le code source est régulièrement importé et intégré. En outre, il contient du code de NetBSD® et d’autres sources.
+
+MirOS était né suite à un désaccord entre Theo de Raadt, leader d’OpenBSD, et Thorsten Glaser, qui est maintenant le développeur en chef de MirOS. Le responsable pour MirPorts est Benny Siegert. Adam Hoka aide au développement de mksh. Il y a encore d’autres personnes qui contribuent au projet.
+
+MirOS BSD anticipe souvent les grands changements d’OpenBSD. Par exemple, il a été le premier à proposer ELF sur i386 ainsi qu’à intégrer gcc3. Des décisions inverses sont souvent prises par rapport à OpenBSD – par exemple, il n’y aura pas de SMP dans MirOS BSD.
+
+La plupart des différences entre MirOS et OpenBSD se retrouvent dans une infinité de détails – en espérant que le résultat soit un BSD plus convivial.
+
+Le système de base est moins lourd. Des modules peu utilisés (NIS, Kerberos, Bind et BSD Games) ont été supprimés, les deux derniers étant disponibles en tant que port. Le système de base supporte l’internationalisation, UTF-8 et Unicode. Citrus libiconv est également intégré.
+
+Pour les versions stables, des mises à jour binaires sont disponibles lors de l’installation et après.
+
+Le protocole IPv6 fonctionne parfaitement, même dans le serveur web dérivé d’Apache 1.3. Des pilotes pour ISDN sont également fournis.
+
+Pour des raisons legales, nous devons publier les advertising clauses. Malheureusement, il y en a trop pour les mentionner ici, mais ils sont tous sur notre site Web
+\url{http://www.mirbsd.org/about.htm}.
+
+\newpage
+
+%%% Back Cover Page
+
+\graybox\par
+\begin{center}
+\vspace{3ex}
+{\Large\itshape
+Amusez-vous bien avec MirOS!\par\medskip
+L'équipe des développeurs\par\medskip
+\color{darkred}%
+Thorsten Glaser\\
+Benny Siegert\par
+}
+
+\vfill
+
+\includegraphics[width=0.75\columnwidth]{img/bsdaemon}
+
+\vfill%
+\end{center}%
+\subsection{Contact}
+{\large
+\begin{tabular}{ll}
+site Web: & \textcolor{darkred}{\url{http://www.mirbsd.org/}}\\
+%& http://www.mirbsd.org/\\
+IRC: & \textcolor{darkred}{\url{#mirbsd}} sur irc.freenode.net\\
+\end{tabular}
+\par}
+\vspace{3ex}%
+\graybox
+
+\newpage
+
+\section{MirPorts}
+
+MirPorts -- dérivé du ports tree d’OpenBSD -- est notre solution pour installer des logiciels supplémentaires non livrés avec le système de base.
+
+Après son installation ou une mise à jour, la configuration est lancée avec « make setup » dans le dossier /usr/mirports. Les ports eux-mêmes sont contenus dans des sous-dossiers, classés par catégories. Un simple « mmake install » dans un dossier télécharge le code source du programme, effectue la compilation, crée un paquet binaire et l’installe. MirPorts tient compte automatiquement de toutes les dépendences. On peut en outre installer plusieurs variantes d’un même port (avec ou sans support pour X, par exemple).
+
+Sur des systèmes MirOS et MirPorts, les \flqq~dotfiles~\frqq, c’est-à-dire les fichiers de configuration cachés, peuvent être rassemblés sous \url{~/.etc}. Ceci évite le chaos habituel dans le dossier home. On peut aussi déposer ses propres logiciels et scripts sous \url{~/.etc/bin}.
+
+On peut installer sa propre instance de MirPorts comme simple utilisateur dans le dossier home, et mettre à jour des paquets installés.
+
+MirPorts fonctionne sous les systèmes d’exploitation suivants :
+
+\begin{itemize}
+\item MirOS BSD (-stable et -current)
+\item OpenBSD (-stable et -current)
+\item Mac OS X (à partir de 10.4) / Darwin
+\item Interix / SFU 3.5 (support partiel)
+\end{itemize}
+
+Même sous les versions « stables », il est toujours recommandé d’utiliser la version la plus récente de MirPorts. Pour tous les plate-formes, nous cherchons des développeurs et des testeurs.
+
+\newpage
+
+\section{mksh, le Korn Shell de MirOS}
+
+L’interpréteur de commande (Shell) par défaut sur MirOS s’appelle mksh – un dérivé du Korn Shell. Les utilisateurs de bash vont s’y retrouver, car la plupart des commandes sont les mêmes.
+
+Cependant, mksh est moins gourmand en mémoire, et plus performant que bash ou zsh. Il unit les caractéristiques de pdksh d’OpenBSD et de Debian ainsi que de nombreux correctifs. Le code est très propre (avertissements, const cleanup); sa sécurité a été contrôlée par les développeurs et les spécialistes de Coverity, Inc.
+
+mksh se prête aussi bien à l’usage interactif qu’à la programmation de scripts. Malgré sa taille modeste, il inclut toutes les fonctionnalités importantes, y compris bien sûr le support pour UTF-8.
+
+mksh est très portable et fonctionne sous de nombreux systèmes, notamment BSD, Linux, Mac OS, Solaris, HURD, HP-UX, AIX et même Windows. Les systèmes suivants (entre autres) fournissent un paquet pour mksh :
+
+\begin{itemize}
+\item Debian, Gentoo, FreeWRT, Fedora, d’autres distributions GNU/Linux et OpenSUSE build service
+\item NetBSD® pkgsrc®, FreeBSD® Ports, MidnightBSD
+\item fink, MacPorts et d’autres collections Mac
+\end{itemize}
+
+\section{MirLibtool}
+
+Libtool est très utile pour les bibliothèques partagées mais il a des inconvénients. Par exemple, la compilation s’arrête s’il manque le compilateur C++. C’est pourquoi MirPorts contient sa propre version de libtool nommée MirLibtool.
+
+MirLibtool est basé sur GNU libtool 1.5, et est compatible avec tous les versions d’autotools. L’infrastructure de MirPorts l’installe automatiquement  si un port utilise autoconf.
+
+\end{document}
