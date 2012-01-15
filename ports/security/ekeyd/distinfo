@@ -1,7 +1,7 @@
 $MirOS$
 
-MD5 (ekeyd-1.1.1.tar.gz) = 7c99c29884b25f9d175bdb81e7a704bf
-RMD160 (ekeyd-1.1.1.tar.gz) = ed93590eb8e0cafb540c0a2bd59cb3f79b5481b5
-SHA1 (ekeyd-1.1.1.tar.gz) = b7848a3c3f4f9a878ab0c83de6e4faa55b4541e3
-SIZE (ekeyd-1.1.1.tar.gz) = 92588
-TIGER (ekeyd-1.1.1.tar.gz) = 6f75de0002d8ef48df1e78f64ee93cf08a83234f98a24652
+MD5 (ekeyd_1.1.5.orig.tar.gz) = 020b67ed8fae4324099269e2106ac96e
+RMD160 (ekeyd_1.1.5.orig.tar.gz) = eb89174e244d3c69352ef19073eb99893869e9df
+SHA1 (ekeyd_1.1.5.orig.tar.gz) = 036e1e69127a3751f62fffb2221ff2d0738aef99
+SIZE (ekeyd_1.1.5.orig.tar.gz) = 101366
+TIGER (ekeyd_1.1.5.orig.tar.gz) = 016784c7f24bf44cf21c0a5f5f18b10b0a12ad54c122fac8

@@ -1,4 +1,4 @@
-@comment $MirOS$
+@comment $MirOS: ports/security/ekeyd/PLIST,v 1.1 2009/11/14 21:45:29 tg Exp $
 man/man5/ekeyd.conf.5
 man/man8/ekey-rekey.8
 man/man8/ekey-setkey.8
@@ -14,12 +14,13 @@ share/doc/ekeyd/AUTHORS
 share/doc/ekeyd/COPYING
 share/doc/ekeyd/ChangeLog
 share/doc/ekeyd/README
-share/doc/ekeyd/README.egd-linux
+@comment share/doc/ekeyd/README.Centos5
+@comment share/doc/ekeyd/README.FreeBSD
+@comment share/doc/ekeyd/README.egd-linux
 share/doc/ekeyd/README.egd-protocol
 share/doc/ekeyd/README.protocol
 share/doc/ekeyd/README.security
 share/doc/ekeyd/THANKS
-share/doc/ekeyd/WARNING
 @sample ${SYSCONFDIR}/entropykey/
 share/examples/ekeyd/ekeyd.conf
 @sample ${SYSCONFDIR}/entropykey/ekeyd.conf
