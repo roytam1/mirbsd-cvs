@@ -1,4 +1,4 @@
-% $MirOS: contrib/code/Flyers/de.tex,v 1.6 2011/12/31 13:41:14 bsiegert Exp $
+% $MirOS: contrib/code/Flyers/en.tex,v 1.1 2012/01/03 20:47:59 bsiegert Exp $
 %
 
 \documentclass[a4paper,landscape,11pt,notumble]{leaflet}
@@ -38,17 +38,28 @@ Project?\par
 
 The CD distributed at this event contains MirOS \#10-current---a beta version of MirOS \#11. This system is based on OpenBSD-current and older versions. MirOS BSD also includes an improved shell (mksh), ports tree (MirPorts), acronym database (wtf) and GNU cvs 1.12 with custom extensions.
 
-The \textcolor{darkred}{bootloader} has been mostly rewritten and is now multiboot compliant so it can be called from GRUB.  The \textcolor{darkred}{random number generator} (SRNG) has been improved, and many core components have been updated. pkgsrc® can be installed in parallel to and as a complement of MirPorts. MirPorts provides many ports in new versions.
+The \textcolor{darkred}{bootloader} has been mostly rewritten and is now multiboot compliant so it can be called from GRUB.
+The \textcolor{darkred}{random number generator} (SRNG) has been improved, and many core components have been updated.
+pkgsrc® can be installed in parallel to and as a complement of MirPorts, giving access to thousands of packages for current software. 
 
 The included gcc 3.4 compiler has the Propolice Stack Smashing Protector and supports C, C++, Pascal,  Objective-C and Ada.
 
 
-\subsection{``Triforce'' Live CD}
+\subsection{About the DVD}
 
-The ``Triforce'' live CD allows to boot three systems: MirOS/i386, MirOS/sparc and Grml.org (a GNU/Linux based rescue system). The MirOS part can be used either for installation or as a live CD, allowing to use a full MirOS system with some pre-installed ports without writing to the hard drive.
+The DVD distributed at this event allows installing MirOS~BSD on the \textcolor{darkred}{i386 and sparc architecture}.
+It does not contain a live system; however, live CDs can be downloaded from our homepage.
+To start the installation, boot from the DVD and select ``Install''.
 
-For booting the live CD, your computer should have at least 80~MiB of RAM for text mode or 128~MiB for booting the graphical interface. The CD can also be written (using dd) to a hard drive, USB stick or memory card to boot.
-
+The DVD also contains a repository of \textcolor{darkred}{over 5000 binary packages} (for i386) compiled from a stable pkgsrc® branch.
+To use these packages, select the \url{pkgsrc10.ngz} set during the installation.
+Then, add \url{/usr/pkg/bin} and \url{/usr/pkg/sbin} to your PATH and execute:
+%
+\begin{verbatim}
+export PKG_PATH=/cdrom/packages/All
+\end{verbatim}
+%
+You can now install binary packages with a simple pkg\_add command, for example ``sudo pkg\_add screen''.
 
 \newpage
 
@@ -58,7 +69,7 @@ For booting the live CD, your computer should have at least 80~MiB of RAM for te
 
 It is a derivative of OpenBSD. Source code from OpenBSD is regularly imported and merged. A lot of code and ideas are adopted from NetBSD® and other sources.
 
-MirOS was started after some differences in opinion between Theo de Raadt, the OpenBSD project leader, and Thorsten Glaser, who is now our lead developer. The principal maintainer of MirPorts is Benny Siegert. Several more persons are contributors for the project.
+MirOS was started after some differences in opinion between Theo de~Raadt, the OpenBSD project leader, and Thorsten Glaser, who is now our lead developer. The principal maintainer of MirPorts is Benny Siegert. Several more persons are contributors for the project.
 
 MirOS BSD often anticipates bigger changes in OpenBSD and includes them before OpenBSD itself. For example, ELF on i386 and support for gcc3 were available in MirOS first. Controversial decisions are often made differently from OpenBSD; for instance, SMP as implemented in OpenBSD is not supported in MirOS.
 
@@ -107,13 +118,18 @@ IRC: & \textcolor{darkred}{\url{#mirbsd}} or \textcolor{darkred}{\url{#!/bin/mks
 
 \newpage
 
-\section{MirPorts}
+\section{Installing additional software}
 
-MirPorts---a derivative of the OpenBSD ports tree---is our solution for installing additional software packages not contained in the base system.
+For installing additional software not in the base system, we offer two solutions: 
+\textcolor{darkred}{MirPorts}---a derivative of the OpenBSD ports tree---and \textcolor{darkred}{pkgsrc®}, which is maintained by the NetBSD project.
+MirOS~BSD support for pkgsrc is a work in progress; however, it contains more packages (more than 11000) and in newer versions.
+Binary packages for pkgsrc® are available on \url{ftp.netbsd.org}.
 
-After the first checkout or after updates, “make setup” in /usr/ports (or /usr/mirports for parallel installations) installs the package tools and configures the MirPorts infrastructure. The ports themselves are in subdirectories, sorted by category. Just executing “mmake install” in such a directory will download the source code, compile it, create a binary package and install it. Dependencies are automatically installed when necessary. Some ports exist in different “flavours”, e.g. with or without X support.
+\subsection{Introduction to MirPorts}
 
-Both MirOS and MirPorts should put most of the “dotfiles” in users’ home directories in a single directory named “.etc”. You can have your own programs and scripts in ~/.etc/bin.
+After the first checkout or after updates, ``make setup'' in \url{/usr/ports} installs the package tools and configures the MirPorts infrastructure. The ports themselves are in subdirectories, sorted by category. Just executing ``mmake install'' in such a directory will download the source code, compile it, create a binary package and install it. Dependencies are automatically installed when necessary. Some ports exist in different ``flavours'', e.\,g. with or without X support.
+
+Both MirOS and MirPorts should put most of the ``dotfiles'' in users' home directories in a single directory named ``.etc''. You can have your own programs and scripts in \url{~/.etc/bin}.
 
 MirPorts is portable. It has support for the following operating systems:
 
@@ -125,7 +141,8 @@ MirPorts is portable. It has support for the following operating systems:
 \item Interix / SFU 3.5 (limited support)
 \end{itemize}
 
-Even on stable releases, using the newest MirPorts version is recommended. For all platforms, we are still searching for developers as well as testers to build packages and to submit bug reports.
+\noindent
+Even on stable releases, using the newest MirPorts version is recommended. 
 
 \newpage
 
@@ -137,7 +154,7 @@ mksh is smaller and much faster than other shells, such as bash or zsh. It conta
 
 mksh is great for interactive use but lends itself equally well for shell scripting purposes. Even with its small size, no important features are missing. UTF-8 is fully supported, of course.
 
-mksh is portable and runs on a wide variety of architectures and operating systems, e.\,g. BSD, Linux, Mac OS, Solaris, HURD, HP-UX, AIX, IRIX, QNX, Minix 3, Tru64, Ultrix and even Windows. The following systems (and many more) come with an mksh package:
+mksh is portable and runs on a wide variety of architectures and operating systems, e.\,g. BSD, Linux, Mac OS, Solaris, HURD, HP-UX, AIX, IRIX, QNX, Minix 3, Tru64, Ultrix and even Windows. The following systems (and more) come with an mksh package:
 
 \begin{itemize}
 \item Debian, Gentoo, FreeWRT, Fedora and other GNU/Linux distributions, OpenSUSE Buildservice
