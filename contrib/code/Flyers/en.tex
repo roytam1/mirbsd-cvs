@@ -1,4 +1,4 @@
-% $MirOS: contrib/code/Flyers/en.tex,v 1.1 2012/01/03 20:47:59 bsiegert Exp $
+% $MirOS: contrib/code/Flyers/en.tex,v 1.2 2012/01/27 15:35:23 bsiegert Exp $
 %
 
 \documentclass[a4paper,landscape,11pt,notumble]{leaflet}
@@ -118,6 +118,22 @@ IRC: & \textcolor{darkred}{\url{#mirbsd}} or \textcolor{darkred}{\url{#!/bin/mks
 
 \newpage
 
+\section{mksh, the MirOS Korn Shell}
+
+The standard shell in MirOS is mksh, derived from the Korn Shell. bash users should immediately feel at home as the commands are very similar.
+
+mksh is smaller and much faster than other shells, such as bash or zsh. It contains the features from the OpenBSD and Debian pdksh and many, many bugfixes. Its code is very clean (warnings, const cleanup) and has been checked for security problems by the developers and by Coverity, Inc.
+
+mksh is great for interactive use but lends itself equally well for shell scripting purposes. Even with its small size, no important features are missing. UTF-8 is fully supported, of course.
+
+mksh is portable and runs on a wide variety of architectures and operating systems, e.\,g. BSD, Linux, Mac OS, Solaris, HURD, HP-UX, AIX, IRIX, QNX, Minix 3, Tru64, Ultrix and even Windows. The following systems (and more) come with an mksh package:
+
+\begin{itemize}
+\item Debian, Gentoo, FreeWRT, Fedora and other GNU/Linux distributions, OpenSUSE Buildservice
+\item NetBSD® pkgsrc®, FreeBSD® Ports, MidnightBSD
+\item fink, MacPorts and other Mac toolkits
+\end{itemize}
+
 \section{Installing additional software}
 
 For installing additional software not in the base system, we offer two solutions: 
@@ -125,7 +141,9 @@ For installing additional software not in the base system, we offer two solution
 MirOS~BSD support for pkgsrc is a work in progress; however, it contains more packages (more than 11000) and in newer versions.
 Binary packages for pkgsrc® are available on \url{ftp.netbsd.org}.
 
-\subsection{Introduction to MirPorts}
+\newpage
+
+\section{Introduction to MirPorts}
 
 After the first checkout or after updates, ``make setup'' in \url{/usr/ports} installs the package tools and configures the MirPorts infrastructure. The ports themselves are in subdirectories, sorted by category. Just executing ``mmake install'' in such a directory will download the source code, compile it, create a binary package and install it. Dependencies are automatically installed when necessary. Some ports exist in different ``flavours'', e.\,g. with or without X support.
 
@@ -144,25 +162,7 @@ MirPorts is portable. It has support for the following operating systems:
 \noindent
 Even on stable releases, using the newest MirPorts version is recommended. 
 
-\newpage
-
-\section{mksh, the MirOS Korn Shell}
-
-The standard shell in MirOS is mksh, derived from the Korn Shell. bash users should immediately feel at home as the commands are very similar.
-
-mksh is smaller and much faster than other shells, such as bash or zsh. It contains the features from the OpenBSD and Debian pdksh and many, many bugfixes. Its code is very clean (warnings, const cleanup) and has been checked for security problems by the developers and by Coverity, Inc.
-
-mksh is great for interactive use but lends itself equally well for shell scripting purposes. Even with its small size, no important features are missing. UTF-8 is fully supported, of course.
-
-mksh is portable and runs on a wide variety of architectures and operating systems, e.\,g. BSD, Linux, Mac OS, Solaris, HURD, HP-UX, AIX, IRIX, QNX, Minix 3, Tru64, Ultrix and even Windows. The following systems (and more) come with an mksh package:
-
-\begin{itemize}
-\item Debian, Gentoo, FreeWRT, Fedora and other GNU/Linux distributions, OpenSUSE Buildservice
-\item NetBSD® pkgsrc®, FreeBSD® Ports, MidnightBSD
-\item fink, MacPorts and other Mac toolkits
-\end{itemize}
-
-\section{MirLibtool}
+\subsection{MirLibtool}
 
 Libtool is used by many packages to build shared libraries in  a portable way. However, there are many problems with it—for example, it breaks when no C++ compiler is installed. Therefore, MirPorts contains a modified version named MirLibtool.
 
