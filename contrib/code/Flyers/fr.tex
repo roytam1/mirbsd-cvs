@@ -1,4 +1,4 @@
-% $MirOS: contrib/code/Flyers/fr.tex,v 1.1 2012/01/03 21:04:06 bsiegert Exp $
+% $MirOS: contrib/code/Flyers/fr.tex,v 1.2 2012/01/27 16:14:40 bsiegert Exp $
 %
 
 \documentclass[a4paper,landscape,11pt,notumble]{leaflet}
@@ -120,37 +120,6 @@ IRC: & \textcolor{darkred}{\url{#mirbsd}} sur irc.freenode.net\\
 
 \newpage
 
-\section{Pour aller plus loin}
-
-\noindent
-MirPorts  est notre solution 
-pour installer des logiciels supplémentaires non livrés avec le système de base, nous offrons deux solutions: \textcolor{darkred}{MirPorts} -- dérivé du ports tree d’OpenBSD -- et \textcolor{darkred}{pkgsrc®}, par le projet NetBSD.
-Même si tous les paquets ne fonctionnent pas encore sous MirOS~BSD, pkgsrc® contient un plus grand nombre de paquets (plus de 11000) et ceci dans des versions plus récentes.
-
-\subsection{Introduction à MirPorts}
-
-Après son installation ou une mise à jour, la configuration de MirPorts est lancée avec « make setup » dans le dossier \url{/usr/ports}.
-Les ports eux-mêmes sont contenus dans des sous-dossiers, classés par catégories.
-Un simple « mmake install » dans un dossier télécharge le code source du programme, effectue la compilation, crée un paquet binaire et l’installe.
-MirPorts tient compte automatiquement de toutes les dépendences.
-Certains ports existent en plusieurs variantes (avec ou sans support pour X, par exemple).
-
-Sur des systèmes MirOS et MirPorts, les \flqq~dotfiles~\frqq, c’est-à-dire les fichiers de configuration cachés, peuvent être rassemblés sous \url{~/.etc}. Ceci évite le chaos habituel dans le dossier home. On peut aussi déposer ses propres logiciels et scripts sous \url{~/.etc/bin}.
-
-MirPorts fonctionne sous les systèmes d'exploitation suivants :
-%
-\begin{itemize}
-\item MirOS BSD (-stable et -current)
-\item OpenBSD (-stable et -current)
-\item Mac OS X (à partir de 10.4) / Darwin
-\item Interix / SFU 3.5 (support partiel)
-\end{itemize}
-
-\medskip
-\noindent
-Même sous les versions stable de MirOS, il est toujours recommandé d’utiliser la version la plus récente de MirPorts. 
-\newpage
-
 \section{mksh, le Korn Shell de MirOS}
 
 \noindent
@@ -168,7 +137,38 @@ mksh est très portable et fonctionne sous de nombreux systèmes, notamment BSD,
 \item fink, MacPorts et d’autres collections Mac
 \end{itemize}
 
-\section{MirLibtool}
+\section{Pour aller plus loin}
+
+\noindent
+MirPorts est notre solution pour installer des logiciels supplémentaires non livrés avec le système de base, nous offrons deux solutions: \textcolor{darkred}{MirPorts} -- dérivé du ports tree d’OpenBSD -- et \textcolor{darkred}{pkgsrc®}, par le projet NetBSD.
+Même si tous les paquets ne fonctionnent pas encore sous MirOS~BSD, pkgsrc® contient un plus grand nombre de paquets (plus de 11000) et ceci dans des versions plus récentes.
+
+\newpage
+
+\section{Introduction à MirPorts}
+
+Après son installation ou une mise à jour, la configuration de MirPorts est lancée avec « make setup » dans le dossier \url{/usr/ports}.
+Les ports eux-mêmes sont contenus dans des sous-dossiers, classés par catégories.
+Un simple « mmake install » dans un dossier télécharge le code source du programme, effectue la compilation, crée un paquet binaire et l’installe.
+MirPorts tient compte automatiquement de toutes les dépendences.
+Certains ports existent en plusieurs variantes (avec ou sans support pour X, par exemple).
+
+Sur des systèmes MirOS et MirPorts, les \flqq~dotfiles~\frqq, c’est-à-dire les fichiers de configuration cachés, peuvent être rassemblés sous \url{~/.etc}. Ceci évite le chaos habituel dans le dossier home. On peut aussi déposer ses propres logiciels et scripts sous \url{~/.etc/bin}.
+
+MirPorts fonctionne sous les systèmes suivants :
+%
+\begin{itemize}
+\item MirOS BSD (-stable et -current)
+\item OpenBSD (-stable et -current)
+\item Mac OS X (à partir de 10.4) / Darwin
+\item Interix / SFU 3.5 (support partiel)
+\end{itemize}
+
+\medskip
+\noindent
+Même sous les versions stables de MirOS, il est toujours recommandé d’utiliser la version la plus récente de MirPorts. 
+
+\subsection{MirLibtool}
 
 \noindent
 Libtool est très utile pour les bibliothèques partagées mais il a des inconvénients. Par exemple, la compilation s’arrête s’il manque le compilateur C++. C’est pourquoi MirPorts contient sa propre version de libtool nommée MirLibtool.
