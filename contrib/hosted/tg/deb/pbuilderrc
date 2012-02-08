@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/tg/deb/pbuilderrc,v 1.22 2011/11/02 13:53:30 tg Exp $
+# $MirOS: contrib/hosted/tg/deb/pbuilderrc,v 1.23 2011/11/30 21:39:10 tg Exp $
 #-
 # Sample ~/.pbuilderrc for multiple architecture, distribution and
 # suite support. May work, but may just as well break. Experimental.
@@ -8,7 +8,7 @@
 # debian.org: sarge etch lenny squeeze wheezy sid
 # debian-ports.org: dpo (unstable+unreleased)
 # not supported: experimental
-# ubuntu: dapper hardy karmic lucid maverick natty oneiric precise
+# ubuntu: dapper hardy jaunty karmic lucid maverick natty oneiric precise
 # *-backports: sarge etch lenny squeeze; all ubuntus
 # *-backports-sloppy: lenny
 # univention: not supported… yet…
@@ -41,10 +41,10 @@ setuptofail() {
 DISTROS='debian dpo ubuntu'
 DISTS_debian='sarge etch lenny squeeze wheezy sid'
 DISTS_dpo='dpo'
-DISTS_ubuntu='dapper hardy karmic lucid maverick natty oneiric precise'
+DISTS_ubuntu='dapper hardy jaunty karmic lucid maverick natty oneiric precise'
 DISTBACKPORTS_debian=sarge:etch:lenny:squeeze
 DISTBACKPORTSLOPPY_debian=lenny
-DISTBACKPORTUPDATE_ubuntu=dapper:hardy:karmic:lucid:maverick:natty:oneiric:precise
+DISTBACKPORTUPDATE_ubuntu=dapper:hardy:jaunty:karmic:lucid:maverick:natty:oneiric:precise
 MIRROR_sarge=http://ftp.hosteurope.de/mirror/archive.debian.org/debian/
 MIRROR_etch=http://ftp.hosteurope.de/mirror/archive.debian.org/debian/
 MIRROR_lenny=http://ftp.hosteurope.de/mirror/ftp.debian.org/debian/
@@ -55,6 +55,7 @@ MIRROR_unstable=http://ftp.debian-ports.org/debian
 MIRROR_unreleased=http://ftp.debian-ports.org/debian
 MIRROR_dapper=http://old-releases.ubuntu.com/ubuntu/
 MIRROR_hardy=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
+MIRROR_jaunty=http://old-releases.ubuntu.com/ubuntu/
 MIRROR_karmic=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
 MIRROR_lucid=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
 MIRROR_maverick=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
@@ -69,6 +70,7 @@ MIRRORSECURITY_wheezy=http://ftp.hosteurope.de/mirror/ftp.debian.org/debian-secu
 MIRRORSECURITY_sid=NO
 MIRRORSECURITY_dapper=http://old-releases.ubuntu.com/ubuntu/
 MIRRORSECURITY_hardy=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
+MIRRORSECURITY_jaunty=http://old-releases.ubuntu.com/ubuntu/
 MIRRORSECURITY_karmic=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
 MIRRORSECURITY_lucid=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
 MIRRORSECURITY_maverick=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
@@ -379,7 +381,7 @@ export USEDEVPTS=yes
 export USEPROC=yes
 
 case $DISTRIBUTION in
-(sarge|etch|lenny|squeeze|dapper|hardy|karmic|lucid|maverick|natty)
+(sarge|etch|lenny|squeeze|dapper|hardy|jaunty|karmic|lucid|maverick|natty)
 	EXTRAPACKAGES="$EXTRAPACKAGES debconf-english"
 	;;
 (*)
