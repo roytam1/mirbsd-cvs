@@ -1,5 +1,5 @@
 /*
- * $LynxId: HTML.c,v 1.148 2010/11/01 22:19:09 tom Exp $
+ * $LynxId: HTML.c,v 1.155 2012/02/10 18:36:39 tom Exp $
  *
  *		Structured stream to Rich hypertext converter
  *		============================================
@@ -14,6 +14,8 @@
  *   Being Overidden
  *
  */
+
+#define HTSTREAM_INTERNAL 1
 
 #include <HTUtils.h>
 
@@ -138,7 +140,7 @@ static int HTML_end_element(HTStructured * me, int element_number,
 
 static int HTML_start_element(HTStructured * me, int element_number,
 			      const BOOL *present,
-			      const char **value,
+			      STRING2PTR value,
 			      int tag_charset,
 			      char **include);
 
@@ -148,9 +150,9 @@ static int HTML_start_element(HTStructured * me, int element_number,
 #define VERBOSE_IMG(value,src_type,string) \
       ((verbose_img) ? (newtitle = MakeNewTitle(value,src_type)): string)
 
-static char *MakeNewTitle(const char **value, int src_type);
-static char *MakeNewImageValue(const char **value);
-static char *MakeNewMapValue(const char **value, const char *mapstr);
+static char *MakeNewTitle(STRING2PTR value, int src_type);
+static char *MakeNewImageValue(STRING2PTR value);
+static char *MakeNewMapValue(STRING2PTR value, const char *mapstr);
 
 /*	Set an internal flag that the next call to a stack-affecting method
  *	is only internal and the stack manipulation should be skipped. - kw
@@ -795,7 +797,7 @@ static void HTMLSRC_apply_markup(HTStructured * context, HTlexeme lexeme, int st
 	    HTML_start_element(context,
 			       (int) ts->element,
 			       ts->present,
-			       (const char **) ts->value,
+			       (STRING2PTR) ts->value,
 			       tag_charset,
 			       NULL);
 	else
@@ -847,7 +849,7 @@ static void LYStartArea(HTStructured * obj, const char *href,
 }
 
 static void LYHandleFIG(HTStructured * me, const BOOL *present,
-			const char **value,
+			STRING2PTR value,
 			int isobject,
 			int imagemap,
 			const char *id,
@@ -955,7 +957,7 @@ static void clear_objectdata(HTStructured * me)
  */
 static int HTML_start_element(HTStructured * me, int element_number,
 			      const BOOL *present,
-			      const char **value,
+			      STRING2PTR value,
 			      int tag_charset,
 			      char **include)
 {
@@ -4416,7 +4418,12 @@ static int HTML_start_element(HTStructured * me, int element_number,
 		} else {
 		    StrAllocCopy(I.value, "BUTTON");
 		}
+	    } else if (I.value == 0) {
+		StrAllocCopy(I.value, "BUTTON");
 	    }
+
+	    if (present && present[HTML_BUTTON_READONLY])
+		I.readonly = YES;
 
 	    if (present && present[HTML_BUTTON_DISABLED])
 		I.disabled = YES;
@@ -4775,7 +4782,7 @@ static int HTML_start_element(HTStructured * me, int element_number,
 		I.value = ImageSrc;
 	    }
 	    if (present && present[HTML_INPUT_READONLY])
-		I.disabled = YES;
+		I.readonly = YES;
 	    if (present && present[HTML_INPUT_CHECKED])
 		I.checked = YES;
 	    if (present && present[HTML_INPUT_SIZE] &&
@@ -5026,10 +5033,11 @@ static int HTML_start_element(HTStructured * me, int element_number,
 	 * Lynx treats disabled and readonly textarea's the same -
 	 * unmodifiable in either case.
 	 */
-	me->textarea_disabled = NO;
+	me->textarea_readonly = NO;
 	if (present && present[HTML_TEXTAREA_READONLY])
-	    me->textarea_disabled = YES;
+	    me->textarea_readonly = YES;
 
+	me->textarea_disabled = NO;
 	if (present && present[HTML_TEXTAREA_DISABLED])
 	    me->textarea_disabled = YES;
 
@@ -5072,7 +5080,7 @@ static int HTML_start_element(HTStructured * me, int element_number,
 	 * Start a new SELECT block. - FM
 	 */
 	LYHandleSELECT(me,
-		       present, (const char **) value,
+		       present, (STRING2PTR) value,
 		       include,
 		       TRUE);
 	break;
@@ -6060,7 +6068,7 @@ static int HTML_end_element(HTStructured * me, int element_number,
 
     case HTML_P:
 	LYHandlePlike(me,
-		      (const BOOL *) 0, (const char **) 0,
+		      (const BOOL *) 0, (STRING2PTR) 0,
 		      include, 0,
 		      FALSE);
 	break;
@@ -6825,6 +6833,7 @@ static int HTML_end_element(HTStructured * me, int element_number,
 	    I.accept_cs = me->textarea_accept_cs;
 	    me->textarea_accept_cs = NULL;
 	    I.disabled = me->textarea_disabled;
+	    I.readonly = me->textarea_readonly;
 	    I.id = me->textarea_id;
 
 	    /*
@@ -7696,7 +7705,6 @@ HTStructured *HTML_new(HTParentAnchor *anchor,
     me->textarea_accept_cs = NULL;
     me->textarea_cols = 0;
     me->textarea_rows = 4;
-    me->textarea_disabled = NO;
     me->textarea_id = NULL;
 
     HTChunkInit(&me->math, 128);
@@ -8235,7 +8243,7 @@ int HTLoadError(HTStream *sink GCC_UNUSED, int number,
     return -number;
 }
 
-static char *MakeNewTitle(const char **value, int src_type)
+static char *MakeNewTitle(STRING2PTR value, int src_type)
 {
     char *ptr;
     char *newtitle = NULL;
@@ -8277,7 +8285,7 @@ static char *MakeNewTitle(const char **value, int src_type)
     return newtitle;
 }
 
-static char *MakeNewImageValue(const char **value)
+static char *MakeNewImageValue(STRING2PTR value)
 {
     char *ptr;
     char *newtitle = NULL;
@@ -8295,7 +8303,7 @@ static char *MakeNewImageValue(const char **value)
     return newtitle;
 }
 
-static char *MakeNewMapValue(const char **value, const char *mapstr)
+static char *MakeNewMapValue(STRING2PTR value, const char *mapstr)
 {
     char *ptr;
     char *newtitle = NULL;

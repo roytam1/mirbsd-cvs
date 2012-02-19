@@ -1,5 +1,5 @@
 /*
- * $LynxId: LYCharUtils.c,v 1.109 2010/11/07 21:21:01 tom Exp $
+ * $LynxId: LYCharUtils.c,v 1.117 2012/02/10 18:36:39 tom Exp $
  *
  *  Functions associated with LYCharSets.c and the Lynx version of HTML.c - FM
  *  ==========================================================================
@@ -548,6 +548,25 @@ void LYFillLocalFileURL(char **href,
     return;
 }
 
+void LYAddMETAcharsetToStream(HTStream *target, int disp_chndl)
+{
+    char *buf = 0;
+
+    if (disp_chndl == -1)
+	/*
+	 * -1 means use current_char_set.
+	 */
+	disp_chndl = current_char_set;
+
+    if (target != 0 && disp_chndl >= 0) {
+	HTSprintf0(&buf, "<META %s content=\"text/html;charset=%s\">\n",
+		   "http-equiv=\"content-type\"",
+		   LYCharSet_UC[disp_chndl].MIMEname);
+	(*target->isa->put_string) (target, buf);
+	FREE(buf);
+    }
+}
+
 /*
  *  This function writes a line with a META tag to an open file,
  *  which will specify a charset parameter to use when the file is
@@ -1091,7 +1110,6 @@ char **LYUCFullyTranslateString(char **str,
     int uck;
     int lowest_8;
     UCode_t code = 0;
-    unsigned long lcode;
     BOOL output_utf8 = 0, repl_translated_C0 = 0;
     size_t len;
     const char *name = NULL;
@@ -1132,9 +1150,7 @@ char **LYUCFullyTranslateString(char **str,
 #ifdef KANJI_CODE_OVERRIDE
     static unsigned char sjis_1st = '\0';
 
-#ifdef CONV_JISX0201KANA_JISX0208KANA
     unsigned char sjis_str[3];
-#endif
 #endif
 
     /*
@@ -1247,8 +1263,7 @@ char **LYUCFullyTranslateString(char **str,
 		} else if (sjis_1st && IS_SJIS_LO(code)) {
 		    sjis_1st = '\0';
 		} else {
-#ifdef CONV_JISX0201KANA_JISX0208KANA
-		    if (0xA1 <= code && code <= 0xDF) {
+		    if (conv_jisx0201kana && 0xA1 <= code && code <= 0xDF) {
 			sjis_str[2] = '\0';
 			JISx0201TO0208_SJIS(UCH(code),
 					    sjis_str, sjis_str + 1);
@@ -1256,7 +1271,6 @@ char **LYUCFullyTranslateString(char **str,
 			p++;
 			continue;
 		    }
-#endif
 		}
 	    }
 #endif
@@ -1535,15 +1549,12 @@ char **LYUCFullyTranslateString(char **str,
 	     * (3) Is 127 and we don't have HTPassHighCtrlRaw or HTCJK set.
 	     * (4) Is 128 - 159 and we don't have HTPassHighCtrlNum set.
 	     */
-	    if ((((what == P_hex)
-		  ? sscanf(cp, "%lx", &lcode)
-		  : sscanf(cp, "%lu", &lcode)) != 1) ||
-		lcode > 0x7fffffffL) {
+	    if (UCScanCode(&code, cp, (BOOL) (what == P_hex))) {
+		code = LYcp1252ToUnicode(code);
+		state = S_check_uni;
+	    } else {
 		state = S_recover;
 		break;
-	    } else {
-		code = LYcp1252ToUnicode((UCode_t) lcode);
-		state = S_check_uni;
 	    }
 	    break;
 
@@ -2011,10 +2022,10 @@ void LYParseRefreshURL(char *content,
  *  This function processes META tags in HTML streams. - FM
  */
 void LYHandleMETA(HTStructured * me, const BOOL *present,
-		  const char **value,
+		  STRING2PTR value,
 		  char **include GCC_UNUSED)
 {
-    char *http_equiv = NULL, *name = NULL, *content = NULL;
+    char *http_equiv = NULL, *name = NULL, *content = NULL, *charset = NULL;
     char *href = NULL, *id_string = NULL, *temp = NULL;
     char *cp, *cp0, *cp1 = NULL;
     int url_type = 0;
@@ -2064,141 +2075,49 @@ void LYHandleMETA(HTStructured * me, const BOOL *present,
 	    FREE(content);
 	}
     }
+    if (present[HTML_META_CHARSET] &&
+	non_empty(value[HTML_META_CHARSET])) {
+	StrAllocCopy(charset, value[HTML_META_CHARSET]);
+	convert_to_spaces(charset, TRUE);
+	LYUCTranslateHTMLString(&charset, me->tag_charset, me->tag_charset,
+				NO, NO, YES, st_other);
+	if (*charset == '\0') {
+	    FREE(charset);
+	}
+    }
     CTRACE((tfp,
-	    "LYHandleMETA: HTTP-EQUIV=\"%s\" NAME=\"%s\" CONTENT=\"%s\"\n",
+	    "LYHandleMETA: HTTP-EQUIV=\"%s\" NAME=\"%s\" CONTENT=\"%s\" CHARSET=\"%s\"\n",
 	    NONNULL(http_equiv),
 	    NONNULL(name),
-	    NONNULL(content)));
+	    NONNULL(content),
+	    NONNULL(charset)));
 
     /*
-     * Make sure we have META name/value pairs to handle.  - FM
+     * Check for a text/html Content-Type with a charset directive, if we
+     * didn't already set the charset via a server's header.  - AAC & FM
      */
-    if (!(http_equiv || name) || !content)
-	goto free_META_copies;
-
-    /*
-     * Check for a no-cache Pragma
-     * or Cache-Control directive. - FM
-     */
-    if (!strcasecomp(NonNull(http_equiv), "Pragma") ||
-	!strcasecomp(NonNull(http_equiv), "Cache-Control")) {
-	LYUCTranslateHTMLString(&content, me->tag_charset, me->tag_charset,
-				NO, NO, YES, st_other);
-	if (!strcasecomp(content, "no-cache")) {
-	    me->node_anchor->no_cache = TRUE;
-	    HText_setNoCache(me->text);
-	}
-
-	/*
-	 * If we didn't get a Cache-Control MIME header, and the META has one,
-	 * convert to lowercase, store it in the anchor element, and if we
-	 * haven't yet set no_cache, check whether we should.  - FM
-	 */
-	if ((!me->node_anchor->cache_control) &&
-	    !strcasecomp(NonNull(http_equiv), "Cache-Control")) {
-	    LYLowerCase(content);
-	    StrAllocCopy(me->node_anchor->cache_control, content);
-	    if (me->node_anchor->no_cache == FALSE) {
-		cp0 = content;
-		while ((cp = strstr(cp0, "no-cache")) != NULL) {
-		    cp += 8;
-		    while (*cp != '\0' && WHITE(*cp))
-			cp++;
-		    if (*cp == '\0' || *cp == ';') {
-			me->node_anchor->no_cache = TRUE;
-			HText_setNoCache(me->text);
-			break;
-		    }
-		    cp0 = cp;
-		}
-		if (me->node_anchor->no_cache == TRUE)
-		    goto free_META_copies;
-		cp0 = content;
-		while ((cp = strstr(cp0, "max-age")) != NULL) {
-		    cp += 7;
-		    while (*cp != '\0' && WHITE(*cp))
-			cp++;
-		    if (*cp == '=') {
-			cp++;
-			while (*cp != '\0' && WHITE(*cp))
-			    cp++;
-			if (isdigit(UCH(*cp))) {
-			    cp0 = cp;
-			    while (isdigit(UCH(*cp)))
-				cp++;
-			    if (*cp0 == '0' && cp == (cp0 + 1)) {
-				me->node_anchor->no_cache = TRUE;
-				HText_setNoCache(me->text);
-				break;
-			    }
-			}
-		    }
-		    cp0 = cp;
-		}
-	    }
-	}
-
-	/*
-	 * Check for an Expires directive. - FM
-	 */
-    } else if (!strcasecomp(NonNull(http_equiv), "Expires")) {
-	/*
-	 * If we didn't get an Expires MIME header, store it in the anchor
-	 * element, and if we haven't yet set no_cache, check whether we
-	 * should.  Note that we don't accept a Date header via META tags,
-	 * because it's likely to be untrustworthy, but do check for a Date
-	 * header from a server when making the comparison.  - FM
-	 */
-	LYUCTranslateHTMLString(&content, me->tag_charset, me->tag_charset,
-				NO, NO, YES, st_other);
-	StrAllocCopy(me->node_anchor->expires, content);
-	if (me->node_anchor->no_cache == FALSE) {
-	    if (!strcmp(content, "0")) {
-		/*
-		 * The value is zero, which we treat as an absolute no-cache
-		 * directive.  - FM
-		 */
-		me->node_anchor->no_cache = TRUE;
-		HText_setNoCache(me->text);
-	    } else if (me->node_anchor->date != NULL) {
-		/*
-		 * We have a Date header, so check if the value is less than or
-		 * equal to that.  - FM
-		 */
-		if (LYmktime(content, TRUE) <=
-		    LYmktime(me->node_anchor->date, TRUE)) {
-		    me->node_anchor->no_cache = TRUE;
-		    HText_setNoCache(me->text);
-		}
-	    } else if (LYmktime(content, FALSE) == 0) {
-		/*
-		 * We don't have a Date header, and the value is in past for
-		 * us.  - FM
-		 */
-		me->node_anchor->no_cache = TRUE;
-		HText_setNoCache(me->text);
-	    }
-	}
-
-	/*
-	 * Check for a text/html Content-Type with a charset directive, if we
-	 * didn't already set the charset via a server's header.  - AAC & FM
-	 */
-    } else if (isEmpty(me->node_anchor->charset) &&
-	       !strcasecomp(NonNull(http_equiv), "Content-Type")) {
+    if (isEmpty(me->node_anchor->charset) &&
+	(charset ||
+	 (!strcasecomp(NonNull(http_equiv), "Content-Type") && content))) {
 	LYUCcharset *p_in = NULL;
 	LYUCcharset *p_out = NULL;
 
-	LYUCTranslateHTMLString(&content, me->tag_charset, me->tag_charset,
-				NO, NO, YES, st_other);
-	LYLowerCase(content);
+	if (charset) {
+	    LYLowerCase(charset);
+	} else {
+	    LYUCTranslateHTMLString(&content, me->tag_charset, me->tag_charset,
+				    NO, NO, YES, st_other);
+	    LYLowerCase(content);
+	}
 
-	if ((cp1 = strstr(content, "charset")) != NULL) {
+	if ((cp1 = charset) != NULL ||
+	    (cp1 = strstr(content, "charset")) != NULL) {
 	    BOOL chartrans_ok = NO;
 	    char *cp3 = NULL, *cp4;
 	    int chndl;
 
-	    cp1 += 7;
+	    if (!charset)
+		cp1 += 7;
 	    while (*cp1 == ' ' || *cp1 == '=' || *cp1 == '"')
 		cp1++;
 
@@ -2363,6 +2282,117 @@ void LYHandleMETA(HTStructured * me, const BOOL *present,
 	 * Set the kcode element based on the charset.  - FM
 	 */
 	HText_setKcode(me->text, me->node_anchor->charset, p_in);
+    }
+
+    /*
+     * Make sure we have META name/value pairs to handle.  - FM
+     */
+    if (!(http_equiv || name) || !content)
+	goto free_META_copies;
+
+    /*
+     * Check for a no-cache Pragma
+     * or Cache-Control directive. - FM
+     */
+    if (!strcasecomp(NonNull(http_equiv), "Pragma") ||
+	!strcasecomp(NonNull(http_equiv), "Cache-Control")) {
+	LYUCTranslateHTMLString(&content, me->tag_charset, me->tag_charset,
+				NO, NO, YES, st_other);
+	if (!strcasecomp(content, "no-cache")) {
+	    me->node_anchor->no_cache = TRUE;
+	    HText_setNoCache(me->text);
+	}
+
+	/*
+	 * If we didn't get a Cache-Control MIME header, and the META has one,
+	 * convert to lowercase, store it in the anchor element, and if we
+	 * haven't yet set no_cache, check whether we should.  - FM
+	 */
+	if ((!me->node_anchor->cache_control) &&
+	    !strcasecomp(NonNull(http_equiv), "Cache-Control")) {
+	    LYLowerCase(content);
+	    StrAllocCopy(me->node_anchor->cache_control, content);
+	    if (me->node_anchor->no_cache == FALSE) {
+		cp0 = content;
+		while ((cp = strstr(cp0, "no-cache")) != NULL) {
+		    cp += 8;
+		    while (*cp != '\0' && WHITE(*cp))
+			cp++;
+		    if (*cp == '\0' || *cp == ';') {
+			me->node_anchor->no_cache = TRUE;
+			HText_setNoCache(me->text);
+			break;
+		    }
+		    cp0 = cp;
+		}
+		if (me->node_anchor->no_cache == TRUE)
+		    goto free_META_copies;
+		cp0 = content;
+		while ((cp = strstr(cp0, "max-age")) != NULL) {
+		    cp += 7;
+		    while (*cp != '\0' && WHITE(*cp))
+			cp++;
+		    if (*cp == '=') {
+			cp++;
+			while (*cp != '\0' && WHITE(*cp))
+			    cp++;
+			if (isdigit(UCH(*cp))) {
+			    cp0 = cp;
+			    while (isdigit(UCH(*cp)))
+				cp++;
+			    if (*cp0 == '0' && cp == (cp0 + 1)) {
+				me->node_anchor->no_cache = TRUE;
+				HText_setNoCache(me->text);
+				break;
+			    }
+			}
+		    }
+		    cp0 = cp;
+		}
+	    }
+	}
+
+	/*
+	 * Check for an Expires directive. - FM
+	 */
+    } else if (!strcasecomp(NonNull(http_equiv), "Expires")) {
+	/*
+	 * If we didn't get an Expires MIME header, store it in the anchor
+	 * element, and if we haven't yet set no_cache, check whether we
+	 * should.  Note that we don't accept a Date header via META tags,
+	 * because it's likely to be untrustworthy, but do check for a Date
+	 * header from a server when making the comparison.  - FM
+	 */
+	LYUCTranslateHTMLString(&content, me->tag_charset, me->tag_charset,
+				NO, NO, YES, st_other);
+	StrAllocCopy(me->node_anchor->expires, content);
+	if (me->node_anchor->no_cache == FALSE) {
+	    if (!strcmp(content, "0")) {
+		/*
+		 * The value is zero, which we treat as an absolute no-cache
+		 * directive.  - FM
+		 */
+		me->node_anchor->no_cache = TRUE;
+		HText_setNoCache(me->text);
+	    } else if (me->node_anchor->date != NULL) {
+		/*
+		 * We have a Date header, so check if the value is less than or
+		 * equal to that.  - FM
+		 */
+		if (LYmktime(content, TRUE) <=
+		    LYmktime(me->node_anchor->date, TRUE)) {
+		    me->node_anchor->no_cache = TRUE;
+		    HText_setNoCache(me->text);
+		}
+	    } else if (LYmktime(content, FALSE) == 0) {
+		/*
+		 * We don't have a Date header, and the value is in past for
+		 * us.  - FM
+		 */
+		me->node_anchor->no_cache = TRUE;
+		HText_setNoCache(me->text);
+	    }
+	}
 
 	/*
 	 * Check for a Refresh directive.  - FM
@@ -2551,6 +2581,7 @@ void LYHandleMETA(HTStructured * me, const BOOL *present,
     FREE(http_equiv);
     FREE(name);
     FREE(content);
+    FREE(charset);
 }
 
 /*
@@ -2563,7 +2594,7 @@ void LYHandleMETA(HTStructured * me, const BOOL *present,
  *  end tag is present or not in the markup. - FM
  */
 void LYHandlePlike(HTStructured * me, const BOOL *present,
-		   const char **value,
+		   STRING2PTR value,
 		   char **include GCC_UNUSED,
 		   int align_idx,
 		   int start)
@@ -2670,7 +2701,7 @@ void LYHandlePlike(HTStructured * me, const BOOL *present,
  *  an end tag. - FM
  */
 void LYHandleSELECT(HTStructured * me, const BOOL *present,
-		    const char **value,
+		    STRING2PTR value,
 		    char **include GCC_UNUSED,
 		    int start)
 {
@@ -3065,7 +3096,7 @@ void LYCheckForContentBase(HTStructured * me)
  *  or ID attribute was present in the tag. - FM
  */
 void LYCheckForID(HTStructured * me, const BOOL *present,
-		  const char **value,
+		  STRING2PTR value,
 		  int attribute)
 {
     HTChildAnchor *ID_A = NULL;

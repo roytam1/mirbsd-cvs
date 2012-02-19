@@ -1,5 +1,5 @@
 /*
- * $LynxId: HTFile.c,v 1.127 2010/10/27 00:10:02 tom Exp $
+ * $LynxId: HTFile.c,v 1.129 2012/02/10 01:10:51 tom Exp $
  *
  *			File Access				HTFile.c
  *			===========
@@ -2088,8 +2088,9 @@ static int print_local_dir(DIR *dp, char *localname,
 	     */
 	    if (strcmp(DIRED_NAME(HTBTree_object(next_element)), "..")) {
 #ifdef DIRED_SUPPORT
-		test = (DIRED_BLOK(HTBTree_object(next_element))
-			== 'D' ? 'D' : 'F');
+		test =
+		    (char) (DIRED_BLOK(HTBTree_object(next_element))
+			    == 'D' ? 'D' : 'F');
 		if (state != test) {
 #ifndef LONG_LIST
 		    if (dir_list_style == FILES_FIRST) {
@@ -3085,7 +3086,7 @@ void HTSetProgramPath(ProgramPaths code, const char *path)
 /*
  * Reset the list of known program paths to the ones that are compiled-in
  */
-void HTInitProgramPaths(void)
+void HTInitProgramPaths(BOOL init)
 {
     ProgramPaths code;
     int n;
@@ -3217,7 +3218,9 @@ void HTInitProgramPaths(void)
 	if (test != NULL && test != path) {
 	    free((char *) test);
 	}
-	HTSetProgramPath(code, path);
+	if (init) {
+	    HTSetProgramPath(code, path);
+	}
     }
 }
 

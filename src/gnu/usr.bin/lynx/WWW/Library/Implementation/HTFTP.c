@@ -1,5 +1,5 @@
 /*
- * $LynxId: HTFTP.c,v 1.99 2010/10/31 17:56:13 tom Exp $
+ * $LynxId: HTFTP.c,v 1.101 2012/02/09 12:34:48 tom Exp $
  *
  *			File Transfer Protocol (FTP) Client
  *			for a WorldWideWeb browser
@@ -1199,7 +1199,7 @@ static int get_listen_socket(void)
 
 #ifdef INET6
     /* query address family of control connection */
-    slen = sizeof(soc_address);
+    slen = (LY_SOCKLEN) sizeof(soc_address);
     if (getsockname(control->socket, (struct sockaddr *) &soc_address,
 		    &slen) < 0) {
 	return HTInetStatus("getsockname failed");
@@ -1288,7 +1288,7 @@ static int get_listen_socket(void)
 #else
     {
 	int status;
-	LY_SOCKLEN address_length = sizeof(soc_address);
+	LY_SOCKLEN address_length = (LY_SOCKLEN) sizeof(soc_address);
 
 #ifdef SOCKS
 	if (socks_flag)
@@ -1304,7 +1304,7 @@ static int get_listen_socket(void)
 	    return HTInetStatus("getsockname");
 #ifdef INET6
 	CTRACE((tfp, "HTFTP: This host is %s\n",
-		HTInetString((SockA *) soc_in)));
+		HTInetString((void *) soc_in)));
 
 	soc_in->sin_port = 0;	/* Unspecified: please allocate */
 #else
@@ -1352,7 +1352,7 @@ static int get_listen_socket(void)
 #ifdef INET6
     CTRACE((tfp, "HTFTP: bound to port %d on %s\n",
 	    (int) ntohs(soc_in->sin_port),
-	    HTInetString((SockA *) soc_in)));
+	    HTInetString((void *) soc_in)));
 #else
     CTRACE((tfp, "HTFTP: bound to port %d on %s\n",
 	    (int) ntohs(soc_in->sin_port),
@@ -3420,7 +3420,7 @@ static int setup_connection(const char *name,
 		}
 		passive_port = (PortNumber) p0;
 
-		sslen = sizeof(ss);
+		sslen = (LY_SOCKLEN) sizeof(ss);
 		if (getpeername(control->socket, (struct sockaddr *) &ss,
 				&sslen) < 0) {
 		    fprintf(tfp, "HTFTP: getpeername(control) failed\n");
@@ -4034,7 +4034,7 @@ int HTFTPLoad(const char *name,
 #else
 	struct sockaddr_in soc_address;
 #endif /* INET6 */
-	LY_SOCKLEN soc_addrlen = sizeof(soc_address);
+	LY_SOCKLEN soc_addrlen = (LY_SOCKLEN) sizeof(soc_address);
 
 #ifdef SOCKS
 	if (socks_flag)

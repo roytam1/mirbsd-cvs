@@ -1,5 +1,5 @@
 /*
- * $LynxId: SGML.c,v 1.142 2010/12/10 01:46:10 tom Exp $
+ * $LynxId: SGML.c,v 1.148 2012/02/10 18:32:26 tom Exp $
  *
  *			General SGML Parser code		SGML.c
  *			========================
@@ -11,6 +11,8 @@
  *
  *	 6 Feb 93  Binary searches used. Interface modified.
  */
+
+#define HTSTREAM_INTERNAL 1
 
 #include <HTUtils.h>
 
@@ -335,7 +337,7 @@ static void HTMLSRC_apply_markup(HTStream *context,
 	    (*context->actions->start_element) (context->target,
 						(int) ts->element,
 						ts->present,
-						(const char **) ts->value,
+						(STRING2PTR) ts->value,
 						context->current_tag_charset,
 						&context->include);
 	else
@@ -1355,7 +1357,7 @@ static void start_element(HTStream *context)
     status = (*context->actions->start_element) (context->target,
 						 (int) TAGNUM_OF_TAGP(new_tag),
 						 context->present,
-						 (const char **) context->value,	/* coerce type for think c */
+						 (STRING2PTR) context->value,	/* coerce type for think c */
 						 context->current_tag_charset,
 						 &context->include);
     if (status == HT_PARSER_OTHER_CONTENT)
@@ -2632,17 +2634,14 @@ static void SGML_character(HTStream *context, int c_in)
 	    /*
 	     * Terminate the numeric entity and try to handle it.  - FM
 	     */
-	    unsigned long lcode;
+	    UCode_t code;
 	    int i;
 
 	    HTChunkTerminate(string);
 #ifdef USE_PRETTYSRC
 	    entity_string = string->data;
 #endif
-	    if ((context->isHex
-		 ? sscanf(string->data, "%lx", &lcode)
-		 : sscanf(string->data, "%lu", &lcode)) == 1) {
-		UCode_t code = (UCode_t) lcode;
+	    if (UCScanCode(&code, string->data, context->isHex)) {
 
 /* =============== work in ASCII below here ===============  S/390 -- gil -- 1092 */
 		if (AssumeCP1252(context)) {
@@ -4634,7 +4633,7 @@ unsigned char *SJIS_TO_JIS1(unsigned HI,
 			    unsigned LO,
 			    unsigned char *JCODE)
 {
-    HI = UCH(HI - UCH((HI <= 0x9F) ? 0x71 : 0xB1));
+    HI = UCH(HI - (unsigned) UCH((HI <= 0x9F) ? 0x71 : 0xB1));
     HI = UCH((HI << 1) + 1);
     if (0x7F < LO)
 	LO--;
