@@ -200,7 +200,6 @@ struct _HTStream {
     BOOL first_bracket;
     BOOL second_bracket;
     BOOL isHex;
-    BOOL end_slash;
 
     HTParentAnchor *node_anchor;
     LYUCcharset *inUCI;		/* pointer to anchor UCInfo */
@@ -3473,28 +3472,12 @@ static void SGML_character(HTStream *context, char c_in)
     case S_tag_gap:		/* Expecting attribute or '>' */
 	if (WHITE(c))
 	    break;		/* Gap between attributes */
-	if (c == '/') {
-	    context->end_slash = TRUE;
-	    break;
-	}
 	if (c == '>') {		/* End of tag */
 #ifdef USE_PRETTYSRC
 	    if (!psrc_view)
 #endif
-		if (context->current_tag->name) {
+		if (context->current_tag->name)
 		    start_element(context);
-		    if (context->end_slash) {
-			if (context->recover == NULL) {
-			    StrAllocCopy(context->recover, "</");
-			    context->recover_index = 0;
-			} else {
-			    StrAllocCat(context->recover, "</");
-			}
-			StrAllocCat(context->recover, context->current_tag->name);
-			StrAllocCat(context->recover, ">");
-			context->end_slash = FALSE;
-		    }
-		}
 #ifdef USE_PRETTYSRC
 	    if (psrc_view) {
 		PSRCSTART(abracket);
@@ -3502,11 +3485,9 @@ static void SGML_character(HTStream *context, char c_in)
 		PSRCSTOP(abracket);
 	    }
 #endif
-	    context->end_slash = FALSE;
 	    context->state = S_text;
 	    break;
 	}
-	context->end_slash = FALSE;
 	HTChunkPutc(string, c);
 	context->state = S_attr;	/* Get attribute */
 	break;
