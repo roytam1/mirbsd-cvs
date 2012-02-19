@@ -1,4 +1,4 @@
-/* $LynxId: LYKeymap.h,v 1.42 2010/09/25 11:35:30 tom Exp $ */
+/* $LynxId: LYKeymap.h,v 1.48 2012/02/12 18:29:34 tom Exp $ */
 #ifndef LYKEYMAP_H
 #define LYKEYMAP_H
 
@@ -11,6 +11,7 @@ extern "C" {
 #endif
     extern BOOLEAN LYisNonAlnumKeyname(int ch, int KeyName);
     extern HTList *LYcommandList(void);
+    extern const char *lec_to_lecname(int code);
     extern char *LYKeycodeToString(int c, int upper8);
     extern char *fmt_keys(int lkc_first, int lkc_second);
     extern char *key_for_func(int func);
@@ -150,7 +151,9 @@ extern "C" {
 	,LYK_PREV_DOC
 	,LYK_NEXT_DOC
 	,LYK_ACTIVATE
-	,LYK_SUBMIT		/* mostly like LYK_ACTIVATE, for mouse use, don't map */
+	,LYK_MOUSE_SUBMIT	/* mostly like LYK_ACTIVATE, for mouse use, don't map */
+	,LYK_SUBMIT
+	,LYK_RESET
 	,LYK_GOTO
 	,LYK_ECGOTO
 	,LYK_HELP
@@ -200,7 +203,7 @@ extern "C" {
 	,LYK_GROW_TEXTAREA
 	,LYK_INSERT_FILE
 
-#ifdef EXP_ADDRLIST_PAGE
+#ifdef USE_ADDRLIST_PAGE
 	,LYK_ADDRLIST
 #else
 #define LYK_ADDRLIST      LYK_ADD_BOOKMARK
@@ -239,6 +242,7 @@ extern "C" {
 
 #ifdef SUPPORT_CHDIR
 	,LYK_CHDIR
+	,LYK_PWD
 #endif
 
 #ifdef USE_CURSES_PADS
@@ -269,6 +273,12 @@ extern "C" {
 	,LYK_CACHE_JAR
 #else
 #define LYK_CACHE_JAR LYK_UNKNOWN
+#endif
+
+#ifdef USE_MAXSCREEN_TOGGLE
+	,LYK_MAXSCREEN_TOGGLE
+#else
+#define LYK_MAXSCREEN_TOGGLE  LYK_UNKNOWN
 #endif
 
     } LYKeymapCode;

@@ -1,4 +1,4 @@
-/* $LynxId: LYUtils.h,v 1.85 2010/09/24 09:58:04 tom Exp $ */
+/* $LynxId: LYUtils.h,v 1.91 2012/02/09 18:55:26 tom Exp $ */
 #ifndef LYUTILS_H
 #define LYUTILS_H
 
@@ -8,6 +8,10 @@
 #ifndef HTLIST_H
 #include <HTList.h>
 #endif /* HTLIST_H */
+
+#ifndef HTSTREAM_H
+#include <HTStream.h>
+#endif /* HTSTREAM_H */
 
 #ifdef VMS
 #include <HTFTP.h>
@@ -89,7 +93,7 @@ extern "C" {
 #define LYIsPathSep(ch) ((ch) == '/')
 #define LYIsDosDrive(s) FALSE	/* really nothing */
 #endif
-#ifdef EXP_ADDRLIST_PAGE
+#ifdef USE_ADDRLIST_PAGE
 #define LYIsListpageTitle(name) \
     (!strcmp((name), LIST_PAGE_TITLE) || \
      !strcmp((name), ADDRLIST_PAGE_TITLE))
@@ -113,7 +117,7 @@ extern "C" {
 				      char *prefix_list, char *suffix_list);
     extern BOOLEAN LYFixCursesOnForAccess(const char *addr, const char *physical);
     extern BOOLEAN LYPathOffHomeOK(char *fbuffer, size_t fbuffer_size);
-    extern BOOLEAN LYValidateFilename(char *result, char *given);
+    extern BOOLEAN LYValidateFilename(bstring **result, bstring **given);
     extern BOOLEAN LYisAbsPath(const char *path);
     extern BOOLEAN LYisLocalAlias(const char *filename);
     extern BOOLEAN LYisLocalFile(const char *filename);
@@ -189,6 +193,7 @@ extern "C" {
     extern void LYmsec_delay(unsigned msec);
     extern void LYsetXDisplay(char *new_display);
     extern void WriteInternalTitle(FILE *fp0, const char *Title);
+    extern void WriteStreamTitle(HTStream *target, const char *Title);
     extern void change_sug_filename(char *fname);
     extern void convert_to_spaces(char *string, int condense);
     extern void free_and_clear(char **obj);
@@ -271,6 +276,11 @@ extern "C" {
 #if defined(WIN_EX)		/* 1997/10/16 (Thu) 20:13:28 */
     extern char *HTDOS_short_name(const char *path);
     extern char *w32_strerror(DWORD ercode);
+#endif
+
+#if defined(WIN_EX) || defined(__CYGWIN__)	/* 2000/03/07 (Tue) 17:17:46 */
+    extern int unsafe_filename(const char *fname);
+    extern FILE *safe_fopen(const char *fname, const char *mode);
 #endif
 
 #ifdef VMS
@@ -512,8 +522,6 @@ extern "C" {
 /*
  *  Miscellaneous.
  */
-#define ON      1
-#define OFF     0
 #define STREQ(a,b)    (strcmp(a,b) == 0)
 #define STRNEQ(a,b,c) (StrNCmp(a,b,c) == 0)
 
