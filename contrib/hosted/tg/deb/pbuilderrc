@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/tg/deb/pbuilderrc,v 1.23 2011/11/30 21:39:10 tg Exp $
+# $MirOS: contrib/hosted/tg/deb/pbuilderrc,v 1.24 2012/02/08 10:40:46 tg Exp $
 #-
 # Sample ~/.pbuilderrc for multiple architecture, distribution and
 # suite support. May work, but may just as well break. Experimental.
@@ -379,6 +379,7 @@ APTGETOPT=(--purge)
 export USEDEVFS=no
 export USEDEVPTS=yes
 export USEPROC=yes
+unset ADDITIONAL_BUILDRESULTS
 
 case $DISTRIBUTION in
 (sarge|etch|lenny|squeeze|dapper|hardy|jaunty|karmic|lucid|maverick|natty)
