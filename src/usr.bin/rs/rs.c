@@ -50,7 +50,7 @@
 #endif
 #endif
 
-__RCSID("$MirOS: src/usr.bin/rs/rs.c,v 1.3 2010/10/28 18:13:48 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/rs/rs.c,v 1.4 2012/03/25 13:41:15 tg Exp $");
 
 long	flags;
 #define	TRANSPOSE	000001
@@ -235,13 +235,8 @@ usage(void)
 void
 prepfile(void)
 {
-	const char **ep;
-	int  i;
-	int  j;
-	const char **lp;
-	int colw;
-	int max = 0;
-	int n;
+	int i, j, colw, max, n;
+	const char **ep, **lp;
 
 	if (!nelem)
 		exit(0);
@@ -281,6 +276,7 @@ prepfile(void)
 	if (flags & SQUEEZE) {
 		if (flags & TRANSPOSE)
 			for (ep = elem, i = 0; i < ocols; i++) {
+				max = 0;
 				for (j = 0; j < orows; j++)
 					if ((n = strlen(*ep++)) > max)
 						max = n;
@@ -288,6 +284,7 @@ prepfile(void)
 			}
 		else
 			for (ep = elem, i = 0; i < ocols; i++) {
+				max = 0;
 				for (j = i; j < nelem; j += ocols)
 					if ((n = strlen(ep[j])) > max)
 						max = n;
