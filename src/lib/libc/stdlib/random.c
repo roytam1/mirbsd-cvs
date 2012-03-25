@@ -1,4 +1,4 @@
-/*	$OpenBSD: random.c,v 1.14 2005/08/08 08:05:37 espie Exp $ */
+/*	$OpenBSD: random.c,v 1.16 2012/03/21 12:36:49 millert Exp $ */
 /*
  * Copyright (c) 1983 Regents of the University of California.
  * All rights reserved.
@@ -35,7 +35,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libc/stdlib/random.c,v 1.2 2011/02/19 02:12:03 tg Exp $");
 
 /*
  * random.c:
@@ -197,7 +197,8 @@ srandom(unsigned int x)
 	if (rand_type == TYPE_0)
 		state[0] = x;
 	else {
-		state[0] = x;
+		/* A seed of 0 would result in state[] always being zero. */
+		state[0] = x ? x : 1;
 		for (i = 1; i < rand_deg; i++) {
 			/*
 			 * Implement the following, without overflowing 31 bits:
@@ -221,12 +222,12 @@ srandom(unsigned int x)
  * srandomdev:
  *
  * Many programs choose the seed value in a totally predictable manner.
- * This often causes problems.  We seed the generator using the much more
- * secure arc4random(3) interface.  Note that this particular seeding
- * procedure can generate states which are impossible to reproduce by
- * calling srandom() with any value, since the succeeding terms in the
- * state buffer are no longer derived from the LC algorithm applied to
- * a fixed seed.
+ * This often causes problems.  We seed the generator using the much
+ * more secure arc4random_buf(3) interface.
+ * Note that this particular seeding procedure can generate states
+ * which are impossible to reproduce by calling srandom() with any
+ * value, since the succeeding terms in the state buffer are no longer
+ * derived from the LC algorithm applied to a fixed seed.
  */
 void
 srandomdev(void)
