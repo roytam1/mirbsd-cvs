@@ -1,4 +1,4 @@
-/*	$OpenBSD: rs.c,v 1.16 2005/05/15 13:19:14 jmc Exp $	*/
+/*	$OpenBSD: rs.c,v 1.21 2012/03/04 04:05:15 fgsch Exp $	*/
 
 /*-
  * Copyright (c) 1993
@@ -29,20 +29,6 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-static const char copyright[] =
-"@(#) Copyright (c) 1993\n\
-	The Regents of the University of California.  All rights reserved.\n";
-#endif /* not lint */
-
-#ifndef lint
-#if 0
-static const char sccsid[] = "@(#)rs.c	8.1 (Berkeley) 6/6/93";
-#else
-static const char rcsid[] = "$OpenBSD: rs.c,v 1.16 2005/05/15 13:19:14 jmc Exp $";
-#endif
-#endif /* not lint */
-
 /*
  *	rs - reshape a data array
  *	Author:  John Kunze, Office of Comp. Affairs, UCB
@@ -71,15 +57,10 @@ long	flags;
 #define	NULLPAD		002000
 #define	RECYCLE		004000
 #define	SKIPPRINT	010000
-#define	ICOLBOUNDS	020000
-#define	OCOLBOUNDS	040000
 #define ONEPERCHAR	0100000
 #define NOARGS		0200000
 
 short	*colwidths;
-short	*cord;
-short	*icbd;
-short	*ocbd;
 int	nelem;
 char	**elem;
 char	**endelem;
@@ -97,8 +78,7 @@ int	owidth = 80, gutter = 2;
 void	  usage(void);
 void	  getargs(int, char *[]);
 void	  getfile(void);
-int	  getline(void);
-char	 *getlist(short **, char *);
+int	  get_line(void);
 char	**getptrs(char **);
 void	  prepfile(void);
 void	  prints(char *, int);
@@ -134,11 +114,11 @@ getfile(void)
 	char **padto;
 
 	while (skip--) {
-		getline();
+		get_line();
 		if (flags & SKIPPRINT)
 			puts(curline);
 	}
-	getline();
+	get_line();
 	if (flags & NOARGS && curlen < owidth)
 		flags |= ONEPERLINE;
 	if (flags & ONEPERLINE)
@@ -184,7 +164,7 @@ getfile(void)
 				INCR(ep);
 			}
 		}
-	} while (getline() != EOF);
+	} while (get_line() != EOF);
 	*ep = NULL;				/* mark end of pointers */
 	nelem = ep - elem;
 }
@@ -238,7 +218,7 @@ usage(void)
 	extern char *__progname;
 
 	fprintf(stderr,
-	    "usage: %s [-CcSs[x]] [-KkGgw N] [-EeHhjmnTtyz] [rows [cols]]\n",
+	    "usage: %s [-CcSs[x]] [-GgKkw N] [-EeHhjmnTtyz] [rows [cols]]\n",
 	    __progname);
 	exit(1);
 }
@@ -287,7 +267,7 @@ prepfile(void)
 			*ep = *(ep - nelem);
 		nelem = lp - elem;
 	}
-	if (!(colwidths = (short *) malloc(ocols * sizeof(short))))
+	if (!(colwidths = (short *) calloc(ocols, sizeof(short))))
 		errx(1, "malloc:  No gutter space");
 	if (flags & SQUEEZE) {
 		if (flags & TRANSPOSE)
@@ -323,7 +303,7 @@ prepfile(void)
 char	ibuf[BSIZE];		/* two screenfuls should do */
 
 int
-getline(void)	/* get line; maintain curline, curlen; manage storage */
+get_line(void)	/* get line; maintain curline, curlen; manage storage */
 {
 	static	int putlength;
 	static	char *endblock = ibuf + BSIZE;
@@ -469,17 +449,6 @@ getargs(int ac, char *av[])
 		case 'z':			/* squeeze col width */
 			flags |= SQUEEZE;
 			break;
-		case 'o':			/* col order */
-			getlist(&cord, optarg);
-			break;
-		case 'b':
-			flags |= ICOLBOUNDS;
-			getlist(&icbd, optarg);
-			break;
-		case 'B':
-			flags |= OCOLBOUNDS;
-			getlist(&ocbd, optarg);
-			break;
 		default:
 			usage();
 		}
@@ -494,56 +463,17 @@ getargs(int ac, char *av[])
 			warnx("columns value %s", errstr);
 			usage();
 		}
+		/* FALLTHROUGH */
 	case 1:
 		orows = strtonum(av[0], 0, INT_MAX, &errstr);
 		if (errstr) {
 			warnx("columns value %s", errstr);
 			usage();
 		}
+		/* FALLTHROUGH */
 	case 0:
 		break;
 	default:
 		usage();
 	}
-}
-
-char *
-getlist(short **list, char *p)
-{
-	int count = 1;
-	char *t, *ep;
-	long l;
-
-	for (t = p + 1; *t; t++) {
-		if (!isdigit(*t)) {
-			warnx("option -%c requires a list of unsigned numbers separated by commas", *t);
-			usage();
-		}
-		count++;
-		while (*t && isdigit(*t))
-			t++;
-		if (*t != ',')
-			break;
-	}
-	if (!(*list = (short *) malloc(count * sizeof(short))))
-		errx(1, "No list space");
-	count = 0;
-	for (t = p + 1; *t; t++) {
-		errno = 0;
-		l = strtol(t, &ep, 10);
-		if (t == ep)
-			break;		/* can't happen */
-		if ((errno == ERANGE && (l == LONG_MAX || l == LONG_MIN)) ||
-		    (l > SHRT_MAX || l < SHRT_MIN)) {
-			warnx("list value out of range");
-			usage();
-		}
-		(*list)[count++] = (short)l;
-		printf("++ %d ", (*list)[count-1]);
-		fflush(stdout);
-		if (*(t = ep) != ',')
-			break;
-	}
-	(*list)[count] = 0;
-	return(t - 1);
 }
