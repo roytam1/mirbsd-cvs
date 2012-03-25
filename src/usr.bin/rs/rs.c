@@ -1,4 +1,4 @@
-/*	$OpenBSD: rs.c,v 1.16 2005/05/15 13:19:14 jmc Exp $	*/
+/*	$OpenBSD: rs.c,v 1.21 2012/03/04 04:05:15 fgsch Exp $	*/
 
 /*-
  * Copyright (c) 1993
@@ -50,10 +50,7 @@
 #endif
 #endif
 
-__COPYRIGHT("@(#) Copyright (c) 1993\n\
-	The Regents of the University of California.  All rights reserved.\n");
-__SCCSID("@(#)rs.c	8.1 (Berkeley) 6/6/93");
-__RCSID("$MirOS: src/usr.bin/rs/rs.c,v 1.2 2007/07/14 21:08:11 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/rs/rs.c,v 1.3 2010/10/28 18:13:48 tg Exp $");
 
 long	flags;
 #define	TRANSPOSE	000001
@@ -69,15 +66,10 @@ long	flags;
 #define	NULLPAD		002000
 #define	RECYCLE		004000
 #define	SKIPPRINT	010000
-#define	ICOLBOUNDS	020000
-#define	OCOLBOUNDS	040000
 #define ONEPERCHAR	0100000
 #define NOARGS		0200000
 
 short	*colwidths;
-short	*cord;
-short	*icbd;
-short	*ocbd;
 int	nelem;
 const char **elem;
 const char **endelem;
@@ -96,7 +88,6 @@ void	  usage(void) __dead;
 void	  getargs(int, char *[]);
 void	  getfile(void);
 int	  get_line(void);
-char	 *getlist(short **, char *);
 const char **getptrs(const char **);
 void	  prepfile(void);
 void	  prints(const char *, int);
@@ -236,7 +227,7 @@ usage(void)
 	extern char *__progname;
 
 	fprintf(stderr,
-	    "usage: %s [-CcSs[x]] [-KkGgw N] [-EeHhjmnTtyz] [rows [cols]]\n",
+	    "usage: %s [-CcSs[x]] [-GgKkw N] [-EeHhjmnTtyz] [rows [cols]]\n",
 	    __progname);
 	exit(1);
 }
@@ -285,7 +276,7 @@ prepfile(void)
 			*ep = *(ep - nelem);
 		nelem = lp - elem;
 	}
-	if (!(colwidths = (short *) malloc(ocols * sizeof(short))))
+	if (!(colwidths = (short *) calloc(ocols, sizeof(short))))
 		errx(1, "malloc:  No gutter space");
 	if (flags & SQUEEZE) {
 		if (flags & TRANSPOSE)
@@ -467,17 +458,6 @@ getargs(int ac, char *av[])
 		case 'z':			/* squeeze col width */
 			flags |= SQUEEZE;
 			break;
-		case 'o':			/* col order */
-			getlist(&cord, optarg);
-			break;
-		case 'b':
-			flags |= ICOLBOUNDS;
-			getlist(&icbd, optarg);
-			break;
-		case 'B':
-			flags |= OCOLBOUNDS;
-			getlist(&ocbd, optarg);
-			break;
 		default:
 			usage();
 		}
@@ -492,56 +472,17 @@ getargs(int ac, char *av[])
 			warnx("columns value %s", errstr);
 			usage();
 		}
+		/* FALLTHROUGH */
 	case 1:
 		orows = strtonum(av[0], 0, INT_MAX, &errstr);
 		if (errstr) {
 			warnx("columns value %s", errstr);
 			usage();
 		}
+		/* FALLTHROUGH */
 	case 0:
 		break;
 	default:
 		usage();
 	}
-}
-
-char *
-getlist(short **list, char *p)
-{
-	int count = 1;
-	char *t, *ep;
-	long l;
-
-	for (t = p + 1; *t; t++) {
-		if (!isdigit(*t)) {
-			warnx("option -%c requires a list of unsigned numbers separated by commas", *t);
-			usage();
-		}
-		count++;
-		while (*t && isdigit(*t))
-			t++;
-		if (*t != ',')
-			break;
-	}
-	if (!(*list = (short *) malloc(count * sizeof(short))))
-		errx(1, "No list space");
-	count = 0;
-	for (t = p + 1; *t; t++) {
-		errno = 0;
-		l = strtol(t, &ep, 10);
-		if (t == ep)
-			break;		/* can't happen */
-		if ((errno == ERANGE && (l == LONG_MAX || l == LONG_MIN)) ||
-		    (l > SHRT_MAX || l < SHRT_MIN)) {
-			warnx("list value out of range");
-			usage();
-		}
-		(*list)[count++] = (short)l;
-		printf("++ %d ", (*list)[count-1]);
-		fflush(stdout);
-		if (*(t = ep) != ',')
-			break;
-	}
-	(*list)[count] = 0;
-	return(t - 1);
 }
