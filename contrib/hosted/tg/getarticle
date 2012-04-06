@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $
+# $MirOS: contrib/hosted/tg/getarticle,v 1.1 2012/02/16 20:41:03 tg Exp $
 #-
 # Copyright © 2012
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -19,10 +19,15 @@
 # damage or existence of a defect, except proven that it results out
 # of said person’s immediate fault when using the work as intended.
 #-
-# call this with:
+# call this with one of:
+#	getarticle gmane.foo.bar 1234
 #	getarticle $message_id
 # ensure ~/mail/x can be a unix/mbox format mail folder we append to
 
-printf 'mode reader\r\narticle <%s>\r\nquit\r\n' "$1" | \
+if (( $# == 2 )); then
+	printf 'mode reader\r\ngroup %s\r\narticle %d\r\nquit\r\n' "$1" "$2"
+else
+	printf 'mode reader\r\narticle <%s>\r\nquit\r\n' "$1"
+fi | \
     nc news.gmane.org 119 | sed -e $'s/\r$//' -e '1,/^[^0-9]/d' -e '/^\.$/,$d' | \
     (date -u +'From MAILER-DAEMON %a %b %e %H:%M:%S %Y'; cat) >>~/mail/x
