@@ -2,10 +2,14 @@ My notes on JSON
 ================
 
 Compiled from both ECMA 262 (normative) and RFC 4627 (Informational)
-for tarent Gesellschaft fuer Softwareentwicklung und IT-Beratung mbH.
+for tarent Gesellschaft fuer Softwareentwicklung und IT-Beratung mbH
+with subsequent independent development in private.
 
 An implementation (no guarantees for completeness / correctness) is at:
 https://evolvis.org/scm/viewvc.php/evolvis/trunk/gforge_base/evolvisforge/gforge/common/include/minijson.php?view=log
+That implementation ("minijson") was created for tarent solutions GmbH.
+Everything else in here was independently made. Still credits to tarent
+for sponsoring the initial development and giving it a reason.
 
 
 Any JSON (JavaScript Object Notation) text shall be encoded in Unicode.
@@ -17,11 +21,11 @@ default encoding and content-transfer-encoding: UTF-8, 8bit
 alternative: UTF-16 and UTF-32, binary
 
 A JSON text consists of an optional Unicode BOM <U+FEFF> in either
-UTF-16 variant (or UTF-8) and one expansion of the syntactical goal
-either JSON<RFC> or JSON<ECMA> (or, probably, their subset).
+UTF-16 variant (or UTF-8) and exactly one expansion of the syntac-
+tical goal either JSON<RFC> or JSON<ECMA>.
 
 
-primitive types:
+primitive types that can be represented in JSON:
 - string
 - number (can emit integral, fractional, exponential number or null literal)
 - boolean (literal: true, false)
@@ -30,9 +34,27 @@ structured types:
 - object (associative array)
 - array (indexed array, 0-based, no gaps)
 
+JSON basic data types:
+- literal null (also representing a non-number)
+- boolean (literal true, literal false)
+- integral Number
+- floating-point Number (decimal fractional with decimal exponent)
+- String
+- Object (associative array)
+- Array (zero-based non-sparse indexed array)
+
 Rules for associative arrays:
-- keys SHOULD be unique (recommend: overwrite dups with last one)
+- keys SHOULD be unique
 - order of keys is unsorted but usually preserving
+Strict rules for associative arrays:
+- the last element wins in case of duplicates
+- keys are sorted ASCIIbetically (read: in numerically ascending order
+  of their Unicode BMP (UTF-16) codepoints) before emitting
+- this implies that keys are unique when emitted
+- and that a round-trip is not order-preserving but the order is stable
+- rationale for this: CVE-2011-4815 (in short: we MUST NOT leak the
+  internal order if the internal representation of an associative array
+  is a hash table that does not preserve order of addition)
 
 
 /* lexical grammar (case-sensitive) */
@@ -82,6 +104,17 @@ so neither next element lookup nor mandatory whitespace are required.
 Both lexems/tokens and the content (keys and values) are case-sensitive,
 although some decoders read e.g. literalnull or \n case-insensitively.
 
+/* security considerations */
+- ensure no invalid things (e.g. unencoded UTF-16) show up
+- according to ECMA-262, RFC4627 allows a parser to accept extensions
+  (possibly, but not limited to, different numerical formats, writing
+  Object keys with apostrophes or unescaped, allowing trailing commata
+  in Object and Array definitions, allowing comments, etc.); this MUST
+  NOT be done; be strict and anal as per the standard
+- the content of a String consists of arbitrary 16-bit codepoints, that
+  is, \uFFFF is valid in a String as are loose UTF-16 surrogates
+- impose a nesting depth limit when reading
+
 
 /* when emitting a Number */
 - ECMA: NaN and both positive and negative infinity emit a literalnull
@@ -93,7 +126,7 @@ although some decoders read e.g. literalnull or \n case-insensitively.
 - values other than -0 have the identity mapping
 
 /* when emitting a string */
-- escape '"\' with \
+- escape '"' and '\' with \
 - escape BS/FF/NL/CR/HT with \+letter
 - escape <0x00..0x1F> with \uNNNN
 - pass <0x7F> and <0080..009F> literally!
@@ -104,12 +137,13 @@ although some decoders read e.g. literalnull or \n case-insensitively.
 
 /* when emitting an Object or Array */
 - if the object/array is cyclical, throw an error
-- acyclical nesting depth is unlimited
-- Objects are in for-in enumeration order, if any, otherwise unsorted
+- acyclical nesting depth is unlimited (implementations SHOULD impose a limit)
+- (ECMA says: Objects are in for-in enumeration order, if any, otherwise unsorted)
+- Objects are ASCIIbetically sorted by their keys
 - Arrays are in numerical order, from 0 to nelems-1, with no gaps
-- 'undefined', functions, etc. produce an undefined value
-- Objects do not emit slots whose value is undefined at all!
+- (ECMAscript only: 'undefined', functions, etc. produce an undefined value)
+- Objects do not emit slots whose value is undefined at all! (but slots with null)
 - Arrays emit undefined values as literalnull
 
-_____________________________________________________________________
-$MirOS: contrib/hosted/tg/json.txt,v 1.4 2011/11/19 00:13:49 tg Exp $
+__________________________________________________________________________________
+$MirOS: contrib/hosted/tg/code/MirJSON/json.txt,v 1.1 2012/04/08 17:12:54 tg Exp $
