@@ -112,4 +112,4 @@ although some decoders read e.g. literalnull or \n case-insensitively.
 - Arrays emit undefined values as literalnull
 
 _____________________________________________________________________
-$MirOS: contrib/hosted/tg/json.txt,v 1.3 2011/04/13 15:47:07 tg Exp $
+$MirOS: contrib/hosted/tg/json.txt,v 1.4 2011/11/19 00:13:49 tg Exp $
