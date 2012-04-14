@@ -50,7 +50,7 @@
 #endif
 #endif
 
-__RCSID("$MirOS: src/usr.bin/rs/rs.c,v 1.4 2012/03/25 13:41:15 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/rs/rs.c,v 1.5 2012/03/25 13:47:52 tg Exp $");
 
 long	flags;
 #define	TRANSPOSE	000001
@@ -74,7 +74,7 @@ int	nelem;
 const char **elem;
 const char **endelem;
 char	*curline;
-int	allocsize = BUFSIZ;
+size_t	allocsize = BUFSIZ;
 int	curlen;
 int	irows, icols;
 int	orows, ocols;
@@ -342,7 +342,7 @@ const char **
 getptrs(const char **sp)
 {
 	const char **p;
-	int newsize, gap;
+	size_t newsize, gap;
 
 	newsize = allocsize * 2;
 	p = realloc(elem, newsize * sizeof(char *));
