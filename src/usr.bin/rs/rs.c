@@ -45,13 +45,16 @@
 #include <unistd.h>
 
 #ifdef USE_LIBBSD
-#include <bsd/bsd.h>
+#ifndef __RCSID
+#define __RCSID(x)	static const char rcsid[] __attribute__((__used__)) = x
+#endif
 #ifndef __dead
 #define __dead		__attribute__((__noreturn__))
 #endif
+extern long long strtonum(const char *, long long, long long, const char **);
 #endif
 
-__RCSID("$MirOS: src/usr.bin/rs/rs.c,v 1.6 2012/04/14 12:29:24 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/rs/rs.c,v 1.7 2012/04/14 12:33:26 tg Exp $");
 
 long	flags;
 #define	TRANSPOSE	000001
