@@ -42,6 +42,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 
 #ifdef USE_LIBBSD
 #include <bsd/bsd.h>
@@ -50,7 +51,7 @@
 #endif
 #endif
 
-__RCSID("$MirOS: src/usr.bin/rs/rs.c,v 1.5 2012/03/25 13:47:52 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/rs/rs.c,v 1.6 2012/04/14 12:29:24 tg Exp $");
 
 long	flags;
 #define	TRANSPOSE	000001
