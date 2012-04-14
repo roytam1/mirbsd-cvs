@@ -1,9 +1,11 @@
-.\"	$MirOS$
-.\"	$OpenBSD: rs.1,v 1.15 2009/10/15 07:38:09 sobrado Exp $
-.\"	$FreeBSD: src/usr.bin/rs/rs.1,v 1.4 1999/08/28 01:05:21 peter Exp $
-.\"
+.\" $MirOS: src/usr.bin/rs/rs.1,v 1.2 2012/03/25 13:47:52 tg Exp $
+.\" $OpenBSD: rs.1,v 1.15 2009/10/15 07:38:09 sobrado Exp $
+.\" $FreeBSD: src/usr.bin/rs/rs.1,v 1.4 1999/08/28 01:05:21 peter Exp $
+.\"-
 .\" Copyright (c) 1993
 .\"	The Regents of the University of California.  All rights reserved.
+.\" Copyright (c) 2008, 2009, 2010, 2012
+.\"	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
 .\"
 .\" Redistribution and use in source and binary forms, with or without
 .\" modification, are permitted provided that the following conditions
@@ -31,7 +33,134 @@
 .\"
 .\"	@(#)rs.1	8.2 (Berkeley) 12/30/93
 .\"
-.Dd $Mdocdate: March 25 2012 $
+.\"-
+.\" Try to make GNU groff and AT&T nroff more compatible
+.\" * ` generates ‘ in gnroff, so use \`
+.\" * ' generates ’ in gnroff, \' generates ´, so use \*(aq
+.\" * - generates ‐ in gnroff, \- generates −, so .tr it to -
+.\"   thus use - for hyphens and \- for minus signs and option dashes
+.\" * ~ is size-reduced and placed atop in groff, so use \*(TI
+.\" * ^ is size-reduced and placed atop in groff, so use \*(ha
+.\" * \(en does not work in nroff, so use \*(en
+.\" * <>| are problematic, so redefine and use \*(Lt\*(Gt\*(Ba
+.\" Also make sure to use \& especially with two-letter words.
+.\" The section after the "doc" macropackage has been loaded contains
+.\" additional code to convene between the UCB mdoc macropackage (and
+.\" its variant as BSD mdoc in groff) and the GNU mdoc macropackage.
+.\"
+.ie \n(.g \{\
+.	if \*[.T]ascii .tr \-\N'45'
+.	if \*[.T]latin1 .tr \-\N'45'
+.	if \*[.T]utf8 .tr \-\N'45'
+.	ds <= \[<=]
+.	ds >= \[>=]
+.	ds Rq \[rq]
+.	ds Lq \[lq]
+.	ds sL \(aq
+.	ds sR \(aq
+.	if \*[.T]utf8 .ds sL `
+.	if \*[.T]ps .ds sL `
+.	if \*[.T]utf8 .ds sR '
+.	if \*[.T]ps .ds sR '
+.	ds aq \(aq
+.	ds TI \(ti
+.	ds ha \(ha
+.	ds en \(en
+.\}
+.el \{\
+.	ds aq '
+.	ds TI ~
+.	ds ha ^
+.	ds en \(em
+.\}
+.\"
+.\" Implement .Dd with the Mdocdate RCS keyword
+.\"
+.rn Dd xD
+.de Dd
+.ie \\$1$Mdocdate: \{\
+.	xD \\$2 \\$3, \\$4
+.\}
+.el .xD \\$1 \\$2 \\$3 \\$4 \\$5 \\$6 \\$7 \\$8
+..
+.\"
+.\" .Dd must come before definition of .Mx, because when called
+.\" with -mandoc, it might implement .Mx itself, but we want to
+.\" use our own definition. And .Dd must come *first*, always.
+.\"
+.Dd $Mdocdate: March 15 2010 $
+.\"
+.\" Check which macro package we use, and do other -mdoc setup.
+.\"
+.ie \n(.g \{\
+.	if \*[.T]utf8 .tr \[la]\*(Lt
+.	if \*[.T]utf8 .tr \[ra]\*(Gt
+.	ie d volume-ds-1 .ds tT gnu
+.	el .ds tT bsd
+.\}
+.el .ds tT ucb
+.\"
+.\" Implement .Mx (MirBSD)
+.\"
+.ie "\*(tT"gnu" \{\
+.	eo
+.	de Mx
+.	nr curr-font \n[.f]
+.	nr curr-size \n[.ps]
+.	ds str-Mx \f[\n[curr-font]]\s[\n[curr-size]u]
+.	ds str-Mx1 \*[Tn-font-size]\%MirOS\*[str-Mx]
+.	if !\n[arg-limit] \
+.	if \n[.$] \{\
+.	ds macro-name Mx
+.	parse-args \$@
+.	\}
+.	if (\n[arg-limit] > \n[arg-ptr]) \{\
+.	nr arg-ptr +1
+.	ie (\n[type\n[arg-ptr]] == 2) \
+.	as str-Mx1 \~\*[arg\n[arg-ptr]]
+.	el \
+.	nr arg-ptr -1
+.	\}
+.	ds arg\n[arg-ptr] "\*[str-Mx1]
+.	nr type\n[arg-ptr] 2
+.	ds space\n[arg-ptr] "\*[space]
+.	nr num-args (\n[arg-limit] - \n[arg-ptr])
+.	nr arg-limit \n[arg-ptr]
+.	if \n[num-args] \
+.	parse-space-vector
+.	print-recursive
+..
+.	ec
+.	ds sP \s0
+.	ds tN \*[Tn-font-size]
+.\}
+.el \{\
+.	de Mx
+.	nr cF \\n(.f
+.	nr cZ \\n(.s
+.	ds aa \&\f\\n(cF\s\\n(cZ
+.	if \\n(aC==0 \{\
+.		ie \\n(.$==0 \&MirOS\\*(aa
+.		el .aV \\$1 \\$2 \\$3 \\$4 \\$5 \\$6 \\$7 \\$8 \\$9
+.	\}
+.	if \\n(aC>\\n(aP \{\
+.		nr aP \\n(aP+1
+.		ie \\n(C\\n(aP==2 \{\
+.			as b1 \&MirOS\ #\&\\*(A\\n(aP\\*(aa
+.			ie \\n(aC>\\n(aP \{\
+.				nr aP \\n(aP+1
+.				nR
+.			\}
+.			el .aZ
+.		\}
+.		el \{\
+.			as b1 \&MirOS\\*(aa
+.			nR
+.		\}
+.	\}
+..
+.\}
+.\"-
 .Dt RS 1
 .Os
 .Sh NAME
@@ -82,14 +211,14 @@ Output columns are delimited by the single character
 A missing
 .Ar x
 is taken to be
-.Ql ^I .
+.Ql \*(haI .
 .It Fl c Ns Op Ar x
 Input columns are delimited by the single character
 .Ar x .
 A missing
 .Ar x
 is taken to be
-.Ql ^I .
+.Ql \*(haI .
 .It Fl E
 Consider each character of input as an array entry.
 .It Fl e
@@ -184,7 +313,7 @@ into a convenient
 .Dq window
 format, as in
 .Bd -literal -offset indent
-$ who | rs
+$ who \*(Ba rs
 .Ed
 .Pp
 This function has been incorporated into the
@@ -195,13 +324,13 @@ suffices.
 .Pp
 To convert stream input into vector output and back again, use
 .Bd -literal -offset indent
-$ rs 1 0 | rs 0 1
+$ rs 1 0 \*(Ba rs 0 1
 .Ed
 .Pp
 A 10 by 10 array of random numbers from 1 to 100 and
 its transpose can be generated with
 .Bd -literal -offset indent
-$ jot \-r 100 | rs 10 10 | tee array | rs \-T >tarray
+$ jot \-r 100 \*(Ba rs 10 10 \*(Ba tee array \*(Ba rs \-T \*(Gttarray
 .Ed
 .Pp
 In the editor
@@ -215,7 +344,7 @@ and then be neatly reshaped into 9 columns with
 .Pp
 Finally, to sort a database by the first line of each 4-line field, try
 .Bd -literal -offset indent
-$ rs \-eC 0 4 | sort | rs \-c 0 1
+$ rs \-eC 0 4 \*(Ba sort \*(Ba rs \-c 0 1
 .Ed
 .Sh SEE ALSO
 .Xr jot 1 ,
