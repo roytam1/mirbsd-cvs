@@ -1,4 +1,4 @@
-# $MirOS: ports/lang/ewe/Makefile,v 1.1 2008/10/05 15:26:57 tg Exp $
+# $MirOS: ports/lang/ewe/Makefile,v 1.2 2009/03/04 16:16:28 tg Exp $
 
 NOT_FOR_PLATFORM=	Interix:*:*
 
@@ -10,6 +10,7 @@ COMMENT-gtk2=		Lunix Ewe with GTK+2 front-end (stand-alone)
 COMMENT-gtk2ne=		Lunix Ewe with GTK+2 front-end (executable only)
 CATEGORIES=		lang java
 VERSION=		1.49mb4
+DASH_VER=		1
 DISTNAME=		ewe-${VERSION}
 HOMEPAGE=		http://www.ewesoft.com/M2.htm
 RESPONSIBLE=		Thorsten Glaser <tg@freewrt.org>
