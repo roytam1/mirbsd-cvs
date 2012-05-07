@@ -1,0 +1,75 @@
+mws_setname imprint "Impressum (imprint)"
+mws_setheadline "Impressum (imprint)"
+mws_putheader '$MirOS$'
+mws_content <<'EOF'
+<h2>Legal information</h2>
+<p>All content of the website mirbsd.de including the main content mirrors,
+ whose master is www.mirbsd.org (miros.unixforge.de), is licenced content and
+ property of the MirOS Project and Thorsten Glaser. In no event content
+ posted to the MirWiki or contained in the website as defined above may
+ be included into material which is not licenced under an <a
+ href="http://web.archive.org/web/20080428235312/http://www.opensource.org/docs/definition.php">OSD</a> and <a
+ href="http://web.archive.org/web/20080428235312/http://www.debian.org/social_contract#guidelines">DFSG</a> compliant
+ or otherwise unfree (as deemed by the MirOS Project) licence, such as the
+ GNU so-called &quot;Free&quot; Documentation License. All content, if not
+ explicitly marked, is covered by <a href="http://web.archive.org/web/20080428235312/http://mirbsd.de/MirOS-Licence">the
+ MirOS licence</a> template. The look and
+ feel of the MirOS website is licenced differently, please refer to the
+ <a href="http://web.archive.org/web/20080428235312/http://www.mirbsd.org/LICENCE">website licence</a> for further
+ information (<a href="http://web.archive.org/web/20080428235312/http://www.mirbsd.org/newsite/LICENCE">licence
+ for the new website</a>).</p>
+<h2>Impressum</h2>
+<p>Aufgrund geltenden deutschen Rechtes sind die im folgenden genannten
+ Personen Anbieter im Sinne des Teledienstegesetzes f&uuml;r die Webseiten
+ des MirOS-Projektes:</p><ul>
+<li>Thorsten Glaser (<a href="mailto:tg@mirbsd.de">eMail</a>)<br />
+ Sch&uuml;llerweg 16<br />
+ D-53129 Bonn<br />
+ Deutschland (Germany / Allemagne)</li>
+<li>Joseph S&ouml;ntgen (<a href="mailto:cnuke@66h.42h.de">eMail</a>)<br />
+ Auf dem Acker 3<br />
+ D-53343 Wachtberg<br />
+ Deutschland (Germany / Allemagne)</li>
+<li>Benny Siegert (<a href="mailto:bsiegert@mirbsd.org">eMail</a>)<br />
+ Forsthausstra&szlig;e 10<br />
+ D-71234 Bietigheim-Bissingen<br />
+ Deutschland (Germany / Allemagne)</li>
+</ul>
+<p>Verantwortlicher im Sinne des Pressegesetzes (<b>V.i.S.d.P.</b>) ist
+ f&uuml;r die Webseiten &quot;mirbsd.de&quot; und &quot;www.mirbsd.org&quot;
+ (inklusive Mirrors) Thorsten Glaser; f&uuml;r die neue Homepage (zur Zeit
+ experimentiell unter http://www.mirbsd.org/newsite/ erreichbar) und die
+ Flyer Benny Siegert. Inhalte auf den Mailinglisten und anderen
+ &ouml;ffentlichen Bereichen (wie dem ex-MirWiki) sind Eigentum der Autoren;
+ V.i.S.d.P. ist auch hier Thorsten Glaser &ndash; es wird darauf hingewiesen,
+ da&szlig; Mailinglisten nicht redigierbar sind.</p>
+<h2>Urheberrechte</h2>
+<p>Das Urheberrecht f&uuml;r die genannten Webseiten liegt bei den jeweiligen
+ Autoren bzw. dem MirOS-Projekt. Genaueres findest Du <a
+ href="http://web.archive.org/web/20080428235312/http://www.mirbsd.org/LICENCE">in der Webseiten-Lizenz</a> (auch
+ <a href="http://web.archive.org/web/20080428235312/http://www.mirbsd.org/newsite/LICENCE">auf der neuen Seite</a>).</p>
+<h2>Transferdienste</h2>
+<h3>Allgemeines</h3>
+<p>Die Seiten des MirOS-Projektes werden von einer Vielzahl verschiedener
+ Anbieter bereitgestellt, eine Integrit&auml;t und Aktualit&auml;t kann
+ daher nicht gew&auml;hrleistet werden. Eine Vielzahl von Personen und
+ Leitungseinfl&uuml;ssen k&ouml;nnen Daten verf&auml;lschen, und wir sind
+ aufwandsm&auml;&szlig;ig nicht in der Lage, s&auml;mtliche Spiegel
+ dauerhaft zu &uuml;berpr&uuml;fen. Bei Problemem bitten wir um
+ Benachrichtigung.</p>
+<p>Es wird zum Teil auf fremde Webseiten verwiesen, bei denen die Inhalte
+ noch weniger kontrollierbar sind &ndash; auch hier bitten wir um einen
+ Hinweis, falls es zu Problemen mit den Hypertextverweisen oder den Inhalten
+ der verlinkten Seiten kommen sollte.</p>
+<h3>DNS, Webhosting</h3>
+<p>Die Seiten des MirOS-Projektes werden von einigen Mirrors bereitgestellt,
+ die sich in verschiedenen L&auml;ndern befinden und nicht von uns betreut
+ werden. Auch die Nameserver- und Domaindienste beruhen darauf, da&szlig; uns
+ Externe diese bereitstellen. Wir befreien hiermit die Anbieter von Mirrors
+ unserer Webseiten davon, f&uuml;r deren durch uns bereitgestellten Inhalt zu
+ haften, weisen aber gleichzeitig darauf hin, da&szlig; der Inhalt des Mirrors
+ nicht notwendigerweise mit dem vom Projekt gew&uuml;nschten Inhalt
+ &uuml;bereinstimmt.</p>
+EOF
+mws_putfooter
+exit 0
