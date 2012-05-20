@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/miscfs/procfs/procfs_subr.c,v 1.2 2007/05/24 08:03:00 tg Exp $ */
+/**	$MirOS: src/sys/miscfs/procfs/procfs_subr.c,v 1.3 2007/05/24 23:27:18 tg Exp $ */
 /*	$OpenBSD: procfs_subr.c,v 1.22 2005/04/16 22:19:28 kettenis Exp $	*/
 /*	$NetBSD: procfs_subr.c,v 1.15 1996/02/12 15:01:42 christos Exp $	*/
 
@@ -152,7 +152,7 @@ loop:
 	case Pproc:	/* /proc/N = dr-xr-xr-x */
 		/* sysctl kern.allowpse=0 changes to dr-x------ */
 		pfs->pfs_mode = S_IRUSR | S_IXUSR |
-		    (allowpse ? S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH : 0);
+		    ((allowpsa || allowpse) ? S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH : 0);
 		vp->v_type = VDIR;
 		break;
 
