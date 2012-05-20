@@ -47,14 +47,14 @@
 __COPYRIGHT("@(#) Copyright (c) 1991, 1993\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)tail.c	8.1 (Berkeley) 6/6/93");
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/tail/tail.c,v 1.2 2010/09/18 19:33:17 tg Exp $");
 
 int fflag, rflag, rval;
-char *fname;
+const char *fname;
 int is_stdin;
 
 static void obsolete(char **);
-static void usage(void);
+static void usage(void) __dead;
 
 int
 main(int argc, char *argv[])
@@ -110,6 +110,7 @@ main(int argc, char *argv[])
 			ARG(1, FBYTES, RBYTES);
 			break;
 		case 'F':
+			setlinebuf(stdout);
 		case 'f':
 			fflag = 1;
 			break;

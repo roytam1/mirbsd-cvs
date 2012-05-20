@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: extern.h,v 1.9 2004/02/16 19:48:21 otto Exp $	*/
 /*	$NetBSD: extern.h,v 1.3 1994/11/23 07:42:00 jtc Exp $	*/
 
@@ -45,8 +46,8 @@ int bytes(FILE *, off_t);
 int lines(FILE *, off_t);
 
 void ierr(void);
-void oerr(void);
+void oerr(void) __dead;
 
 extern int fflag, rflag, rval;
-extern char *fname;
+extern const char *fname;
 extern int is_stdin;
