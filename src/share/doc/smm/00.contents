@@ -48,8 +48,8 @@ The information in these documents applies to
 the 4.4BSD system as distributed by U.C. Berkeley.
 .SH
 Reference Manual \- Section 8
-.tl '''(8)'
 .IP
+.tl '''intro(8)'
 Section 8 of the UNIX Programmer's Manual contains information related to
 system operation, administration,  and maintenance.
 .SH
