@@ -1,4 +1,4 @@
-.\"	$MirOS$
+.\"	$MirOS: src/share/doc/usd/00.contents,v 1.2 2012/05/21 19:33:02 tg Exp $
 .\"	$OpenBSD: 00.contents,v 1.4 2004/04/09 12:10:04 jmc Exp $
 .\"
 .\" Copyright (c) 2012
@@ -37,14 +37,17 @@
 .nr LL 72n
 .nr LT 72n
 .\}
+.	\" st - sorta title (for local, i.e. not -ms, use)
 .de st
 .lt \\n(LTu
 .tl \\$1 \\$2 \\$3 \\$4 \\$5 \\$6 \\$7 \\$8 \\$9
 ..
-.de ND
-.KE
-.sp
-.KS
+.	\" cb - conditional break
+.\" break if $1 doesn't fit onto the current line any more,
+.\" then output $1
+.de cb
+.if !(\\n(.lu-\\n(.iu-\\n(.ku-\w\\$1u) .br
+\\$1
 ..
 .OH '''USD Contents'
 .EH 'USD Contents'''
@@ -61,212 +64,239 @@ The Unix User's Reference Manual
 .R
 for the 4.4BSD system as distributed by U.C. Berkeley.
 .sp 1i
-.KS
+
 .SH
 Getting Started
-.ND
+
 .IP
 .st "'Unix for Beginners \- Second Edition''USD:1'"
 .QP
 An introduction to the most basic uses of the system.
-.ND
+.cb "\(bu 01.begin(USD)"
+
 .IP
 .st "'Learn \- Computer\-Aided Instruction on UNIX (Second Edition)''USD:2'"
 .QP
 Describes a computer-aided instruction program that walks new users through
 the basics of files, the editor, and document prepararation software.
-.ND
+
 .SH
 Basic Utilities
-.ND
+
 .IP
 .st "'An Introduction to the UNIX Shell''USD:3'"
 .QP
 Steve Bourne's introduction to the capabilities of
-.I sh ,
+.I sh(1) ,
 a command interpreter especially popular for writing shell scripts.
-.ND
+.cb "\(bu 03.shell(USD)"
+
 .IP
 .st "'An Introduction to the C shell''USD:4'"
 .QP
 This introduction to
-.I csh
-(a command interpreter popular for interactive work), describes many
+.I csh(1) ,
+a command interpreter popular for interactive work, describes many
 commonly used UNIX commands, assumes little prior knowledge of UNIX,
 and has a glossary useful for beginners.
-.ND
+
 .IP
 .st "'DC \- An Interactive Desk Calculator''USD:5'"
 .QP
 A super HP calculator, if you do not need floating point.
-.ND
+.cb "\(bu 05.dc(USD) \(bu \fIdc(1)\fR"
+
 .IP
 .st "'BC \- An Arbitrary Precision Desk-Calculator Language''USD:6'"
 .QP
 A front end for DC that provides infix notation, control flow, and
 built\-in functions.
-.ND
+.cb "\(bu 06.bc(USD) \(bu \fIbc(1)\fR"
+
 .SH
 Communicating with the World
-.ND
+
 .IP
 .st "'Mail Reference Manual''USD:7'"
 .QP
-Complete details on one of the programs for sending and reading your mail.
-.ND
+Complete details on one of the programs for sending and reading your
+.I mail(1) .
+.cb "\(bu 07.mail(USD)"
+
 .IP
 .st "'The Rand MH Message Handling System''USD:8'"
 .QP
 This system for managing your computer mail uses lots of small programs,
 instead of one large one.
-.ND
+
 .SH
 Text Editing
-.ND
+
 .IP
 .st "'A Tutorial Introduction to the Unix Text Editor''USD:9'"
 .QP
 An easy way to get started with the line editor,
-.I ed .
-.ND
+.I ed(1) .
+.cb "\(bu 09.edtut(USD)"
+
 .IP
 .st "'Advanced Editing on Unix''USD:10'"
 .QP
 The next step.
-.ND
+.cb "\(bu 10.edadv(USD)"
+.cb "\(bu 11.edit(USD)"
+
 .IP
 .st "'Ex: A Tutorial''USD:11'"
 .QP
-The document to learn to use the \fIex\fR editor.
-.ND
+The document to learn to use the \fIex(1)\fR editor.
+.cb "\(bu 13.ex(USD)"
+
 .IP
 .st "'An Introduction to Display Editing with Vi''USD:12'"
 .QP
-The document to learn to use the \fIvi\fR screen editor.
-.ND
+The document to learn to use the \fIvi(1)\fR screen editor.
+.cb "\(bu 12.vi(USD)"
+
 .IP
 .st "'Vi/Ex Reference Manual''USD:13'"
 .QP
-The definitive reference for the \fInvi\fR,\fInex\fR editors.
-.ND
+The definitive reference for the \fInvi\fR, \fInex\fR editors.
+.cb "\(bu 13.viref(USD)"
+
 .IP
 .st "'Jove Manual for UNIX Users''USD:14'"
 .QP
 Jove is a small, self-documenting, customizable display editor, based on
 EMACS.  A plausible alternative to
 .I vi .
-.ND
+.cb "\(bu 14.jove(USD)"
+
 .IP
 .st "'SED \- A Non-interactive Text Editor''USD:15'"
 .QP
 Describes a one-pass variant of
 .I ed
 useful as a filter for processing large files.
-.ND
+.cb "\(bu 15.sed(USD) \(bu \fIsed(1)\fR"
+
 .IP
 .st "'AWK \- A Pattern Scanning and Processing Language (Second Edition)''USD:16'"
 .QP
 A program for data selection and transformation.
-.ND
+.cb "\(bu 16.awk(USD) \(bu \fIawk(1)\fR"
+
 .SH
 Document Preparation
-.ND
+
 .IP
 .st "'Typing Documents on UNIX: Using the \-ms Macros with roff''USD:17'"
 .QP
 Describes and gives examples of the basic use of the typesetting tools and
 ``-ms'', a frequently used package of formatting requests that make it easier
 to lay out most documents.
-.ND
+.cb "\(bu 17.msmacros(USD) \(bu \fIms(7)\fR"
+
 .IP
 .st "'A Revised Version of \-ms''USD:18'"
 .QP
 A brief description of the Berkeley revisions made to the \-ms formatting
 macros for nroff and troff.
-.ND
+.cb "\(bu 18.msdiffs(USD)"
+
 .IP
 .st "'Writing Papers with \fInroff\fR using \-me''USD:19'"
 .QP
 Another popular macro package for
 .I nroff .
-.ND
+.cb "\(bu 19.memacros(USD) \(bu \fIme(7)\fR"
+
 .IP
 .st "'\-me Reference Manual''USD:20'"
 .QP
 The final word on \-me.
-.ND
+.cb "\(bu 20.meref(USD)"
+
 .IP
 .st "'NROFF/TROFF User\'s Manual''USD:21'"
 .QP
 Extremely detailed information about these document formatting programs.
-.ND
+.cb "\(bu 21.troff(USD)"
+
 .IP
 .st "'A TROFF Tutorial''USD:22'"
 .QP
 An introduction to the most basic uses of
-.I troff
+.I nroff(1)
 for those who really want to know such things, or want to write their
 own macros.
-.ND
+.cb "\(bu 22.trofftut(USD)"
+
 .IP
 .st "'A System for Typesetting Mathematics''USD:23'"
 .QP
 Describes
-.I eqn ,
+.I eqn(1) ,
 an easy-to-learn language for high-quality mathematical typesetting.
-.ND
+.cb "\(bu 23.eqn(USD)"
+
 .IP
 .st "'Typesetting Mathematics \- User\'s Guide (Second Edition)''USD:24'"
 .QP
 More details about how to use
 .I eqn .
-.ND
+.cb "\(bu 24.eqnguide(USD)"
+
 .IP
 .st "'Tbl \- A Program to Format Tables''USD:25'"
 .QP
 A program for easily typesetting tabular material.
-.ND
+.cb "\(bu 25.tbl(USD) \(bu \fItbl(1)\fR"
+
 .IP
 .st "'Refer \- A Bibliography System''USD:26'"
 .QP
 An introduction to one set of tools used to maintain bibliographic databases.
 The major program,
-.I refer ,
+.I refer(1) ,
 is used to automatically retrieve and format the references
 based on document citations.
-.ND
+.cb "\(bu 26.refer(USD)"
+
 .IP
 .st "'Some Applications of Inverted Indexes on the UNIX System''USD:27'"
 .QP
 Mike Lesk's paper describes the
 .I refer
 programs in a somewhat larger context.
-.ND
+.cb "\(bu 27.invert(USD)"
+
 .IP
 .st "'BIB \- A Program for Formatting Bibliographies''USD:28'"
 .QP
 This is an alternative to
 .I refer
 for expanding citations in documents.
-.ND
+.cb "\(bu 28.bib(USD)"
+
 .IP
 .st "'Writing Tools \- The STYLE and DICTION Programs''USD:29'"
 .QP
 These are programs which can help you understand and improve your
 writing style.
-.ND
+.cb "\(bu 29.diction(USD)"
+
 .SH
 Amusements
-.ND
+
 .IP
 .st "'A Guide to the Dungeons of Doom''USD:30'"
 .QP
 An introduction to the popular game of \fIrogue\fP, a fantasy game
 which is one of the biggest known users of VAX cycles.
-.ND
+
 .IP
 .st "'Star Trek''USD:31'"
 .QP
 You are the Captain of the Starship Enterprise.  Wipe out the
 Klingons and save the Federation.
-.KE
