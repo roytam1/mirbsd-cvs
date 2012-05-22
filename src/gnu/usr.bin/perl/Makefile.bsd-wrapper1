@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/gnu/usr.bin/perl/Makefile.bsd-wrapper1,v 1.3 2008/12/13 23:47:31 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -131,7 +131,7 @@ MANSRCALL=
     perlsyn 1			pod/perlsyn.pod \
     perlthrtut 1		pod/perlthrtut.pod \
     perltie 1			pod/perltie.pod \
-    perltoc 1			pod/perltoc.pod \
+    perltoc 1			perltoc2.pod \
     perltodo 1			pod/perltodo.pod \
     perltooc 1			pod/perltooc.pod \
     perltoot 1			pod/perltoot.pod \
@@ -536,6 +536,14 @@ stamp-mansrc.build:
 
 man.build: ${MANSRC_COOKIE} .WAIT ${MANALL} ${PSALL}
 .PHONY: man.build mansrc.build
+
+PERLTOC2_ALL=	${MANALL}
+.for _i _j in ${MLINKS}
+PERLTOC2_ALL+=	${_j}
+.endfor
+
+perltoc2.pod: pod/perltoc.pod perltoc2.gen
+	${MKSH} perltoc2.gen ${PERLTOC2_ALL} <pod/perltoc.pod >$@
 
 cleandir:
 	rm -f ${MANALL} ${MANSRCALL} ${PSALL}
