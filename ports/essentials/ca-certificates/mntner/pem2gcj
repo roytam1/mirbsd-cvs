@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/essentials/ca-certificates/mntner/pem2jks,v 1.2 2010/12/12 16:17:53 tg Exp $
+# $MirOS: ports/essentials/ca-certificates/mntner/pem2gcj,v 1.1 2012/05/24 14:52:22 tg Exp $
 #-
 # Copyright (c) 2009, 2010, 2012
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -19,7 +19,7 @@
 # damage or existence of a defect, except proven that it results out
 # of said person's immediate fault when using the work as intended.
 #-
-# To be run in a squeeze chroot, gcj-4.4-jdk installed
+# To be run in a squeeze chroot, gcj-jre-headless installed
 #
 # Requirements:
 #	./pem/*.[0-9]	→ certs (PEM format)
