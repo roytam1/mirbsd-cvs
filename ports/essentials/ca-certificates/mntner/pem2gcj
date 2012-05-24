@@ -1,0 +1,41 @@
+#!/bin/mksh
+# $MirOS: ports/essentials/ca-certificates/mntner/pem2jks,v 1.2 2010/12/12 16:17:53 tg Exp $
+#-
+# Copyright (c) 2009, 2010, 2012
+#	Thorsten Glaser <tg@mirbsd.org>
+#
+# Provided that these terms and disclaimer and all copyright notices
+# are retained or reproduced in an accompanying document, permission
+# is granted to deal in this work without restriction, including un-
+# limited rights to use, publicly perform, distribute, sell, modify,
+# merge, give away, or sublicence.
+#
+# This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
+# the utmost extent permitted by applicable law, neither express nor
+# implied; without malicious intent or gross negligence. In no event
+# may a licensor, author or contributor be held liable for indirect,
+# direct, other damage, loss, or other issues arising in any way out
+# of dealing in the work, even if advised of the possibility of such
+# damage or existence of a defect, except proven that it results out
+# of said person's immediate fault when using the work as intended.
+#-
+# To be run in a squeeze chroot, gcj-4.4-jdk installed
+#
+# Requirements:
+#	./pem/*.[0-9]	→ certs (PEM format)
+#	./dsc/*		→ descriptions (we assume every one has one!)
+#	gkeytool	→ GCJ version (not Sun or OpenJDK/IcedTea)
+# We also assume certs with the same hash have the same description
+# and trust (this is not necessarily true, but WFM for now).
+
+rm -f keystore.gcj
+cd pem
+for bn in *; do
+	d=$(<../dsc/${bn%.*})
+	echo y | gkeytool -import -v -trustcacerts \
+	    -alias "「$bn」 $d" -file $bn \
+	    -keystore ../keystore.gcj -storepass ""
+done
+cd ..
+print
+gkeytool -list -keystore keystore.gcj -storepass ""
