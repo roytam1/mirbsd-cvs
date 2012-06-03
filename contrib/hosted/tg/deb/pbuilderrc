@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/tg/deb/pbuilderrc,v 1.24 2012/02/08 10:40:46 tg Exp $
+# $MirOS: contrib/hosted/tg/deb/pbuilderrc,v 1.25 2012/03/09 16:27:24 tg Exp $
 #-
 # Sample ~/.pbuilderrc for multiple architecture, distribution and
 # suite support. May work, but may just as well break. Experimental.
@@ -205,7 +205,8 @@ export ARCHITECTURE ARCH=$ARCHITECTURE
 export AUTO_DEBSIGN=no
 export BUILDPLACE=/var/cache/pbuilder/build/
 export BUILDRESULT=/var/cache/pbuilder/result-$DIST/
-export CCACHEDIR=
+# absolutely never use ccache with pbuilder, it is positively unsafe
+export CCACHEDIR=""	# requirement to empty it here!
 export BASEPATH=/var/cache/pbuilder/base.cow-$DIST$ARCHSUFFIX${CUSTOM:+-$CUSTOM}/
 export BUILDRESULTUID=1006
 export BUILDRESULTGID=200
