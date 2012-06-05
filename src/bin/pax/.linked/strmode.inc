@@ -32,10 +32,12 @@
 #include <sys/stat.h>
 #include <string.h>
 
+__RCSID("$MirOS$");
+
 void
 strmode(mode_t mode, char *p)
 {
-	 /* print type */
+	/* print type */
 	switch (mode & S_IFMT) {
 	case S_IFDIR:			/* directory */
 		*p++ = 'd';
