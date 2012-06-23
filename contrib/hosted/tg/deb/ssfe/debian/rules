@@ -1,5 +1,5 @@
 #!/usr/bin/make -f
-# $MirOS: contrib/hosted/tg/deb/mircpio/debian/rules,v 1.20 2012/06/07 00:27:08 tg Exp $
+# $MirOS: contrib/hosted/tg/deb/ssfe/debian/rules,v 1.1 2012/06/23 16:16:45 tg Exp $
 
 DEB_BUILD_ARCH=$(shell dpkg-architecture -qDEB_BUILD_ARCH)
 DEB_HOST_ARCH=$(shell dpkg-architecture -qDEB_HOST_ARCH)
@@ -98,6 +98,9 @@ endif
 	dpkg-gencontrol -pssfe -Pdebian/ssfe -isp
 	mv debian/ssfe/DEBIAN/control debian/B/c/
 	rm -rf debian/ssfe/DEBIAN
+	# backwards-compatible way to set Multi-Arch
+	printf '/^Architecture: /a\n%s\n.\nw\nq\n' 'Multi-Arch: foreign' | \
+	    ed -s debian/B/c/control
 	# goodbye dh_md5sums
 	(cd debian/ssfe && find . -type f | sed s,^./,, | sort | \
 	    xargs md5sum) >debian/B/c/md5sums
