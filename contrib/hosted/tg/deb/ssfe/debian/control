@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/tg/deb/mircpio/debian/control,v 1.19 2012/06/07 00:38:22 tg Exp $
+# $MirOS: contrib/hosted/tg/deb/ssfe/debian/control,v 1.1 2012/06/23 16:16:44 tg Exp $
 #
 Source: ssfe
 Section: comm
@@ -15,6 +15,7 @@ Package: ssfe
 Architecture: any
 Multi-Arch: foreign
 Depends: ${shlibs:Depends}
+Replaces: sirc
 Description: split-screen front end for dumb programmes
  ssfe(1) is the Sirc Screen Front-End (or Split Screen Front-End),
  which runs a line-oriented program in the background and provides
