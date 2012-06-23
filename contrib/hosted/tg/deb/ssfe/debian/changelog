@@ -1,0 +1,5 @@
+ssfe (20120623-1) unstable; urgency=low
+
+  * Initial packaging, for WTF, based on mircpio packaging.
+
+ -- Thorsten Glaser <tg@mirbsd.de>  Sat, 23 Jun 2012 16:08:39 +0000
