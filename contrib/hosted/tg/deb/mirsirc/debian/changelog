@@ -1,3 +1,11 @@
+mirsirc (20120624-2) unstable; urgency=low
+
+  * Adjust dependencies for etch via "corelist -d Encode",
+    although keep a known-good major version of it.
+  * Update version in dsircp automatically.
+
+ -- Thorsten Glaser <tg@mirbsd.de>  Sun, 24 Jun 2012 13:08:39 +0000
+
 mirsirc (20120624-1) unstable; urgency=low
 
   * Initial packaging, for WTF.

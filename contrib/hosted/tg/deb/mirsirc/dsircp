@@ -55,7 +55,7 @@
 # http://www.eleves.ens.fr:8080/home/espel/sirc/sirc.html
 # This fork of sirc is maintained in the MirPorts Framework, though.
 
-$version='2.211-MirDebian-20120624-1';
+$version='2.211-MirDebian-@@VERSION@@';
 $date='01 Sep 2005';
 $add_ons='';
 $msgchannel = '';

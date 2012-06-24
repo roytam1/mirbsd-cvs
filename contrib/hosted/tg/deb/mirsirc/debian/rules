@@ -1,15 +1,24 @@
 #!/usr/bin/make -f
-# $MirOS: contrib/hosted/tg/deb/ssfe/debian/rules,v 1.3 2012/06/23 16:39:53 tg Exp $
-#-
-# Remember to update the Debian $version in dsircp as inline patch!
+# $MirOS: contrib/hosted/tg/deb/mirsirc/debian/rules,v 1.1 2012/06/24 12:45:45 tg Exp $
 
-build build-arch build-indep:
+build build-arch:
+
+build-indep: debian/dsircp
+
+debian/dsircp: dsircp
+	v=$$(dpkg-parsechangelog | while read x y; do \
+		test x"$$x" = x"Version:" || continue; \
+		echo "$$y"; \
+		break; \
+	done) && test -n "$$v" && \
+	    sed "s#@@VERSION@@#$$v#" <dsircp >debian/dsircp~
+	mv debian/dsircp~ debian/dsircp
 
 clean:
 	# goodbye dh_testdir
 	test -f dsircp
 	test -x debian/rules
-	-rm -rf debian/B debian/mirsirc
+	-rm -rf debian/B debian/mirsirc debian/dsircp*
 	# goodbye dh_clean
 	-rm -f debian/files debian/substvars
 
