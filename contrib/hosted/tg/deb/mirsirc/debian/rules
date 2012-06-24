@@ -1,5 +1,5 @@
 #!/usr/bin/make -f
-# $MirOS: contrib/hosted/tg/deb/mirsirc/debian/rules,v 1.1 2012/06/24 12:45:45 tg Exp $
+# $MirOS: contrib/hosted/tg/deb/mirsirc/debian/rules,v 1.2 2012/06/24 13:09:03 tg Exp $
 
 build build-arch:
 
@@ -47,7 +47,7 @@ binary-indep: build-indep
 		gzip -n9 $$i; \
 	done
 	# goodbye dh_install
-	cp dsircp sirc debian/mirsirc/usr/bin/
+	cp debian/dsircp sirc debian/mirsirc/usr/bin/
 	cp n0thing.pl sirc.help socks.pl debian/mirsirc/usr/share/sirc/
 	# goodbye dh_installman
 	cp -a sirc.1 debian/mirsirc/usr/share/man/man1/

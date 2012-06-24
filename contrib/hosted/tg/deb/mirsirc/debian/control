@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/tg/deb/mirsirc/debian/control,v 1.1 2012/06/24 12:45:45 tg Exp $
+# $MirOS: contrib/hosted/tg/deb/mirsirc/debian/control,v 1.2 2012/06/24 13:09:02 tg Exp $
 #
 Source: mirsirc
 Section: net
@@ -43,3 +43,7 @@ Description: programmable small perl irc client (UTF-8, TLS, IPv6 ready)
  messages from identified users with different hooks («»[[¬]]).
  .
  SSL is supported by prefixing the port number with an 's' letter.
+ .
+ If you get “Can't connect to host: Network is unreachable”,
+ try “/eval $have_socket=4;” and “/server 0”, or pass sirc
+ a Legacy IP only server hostname. (TODO: fallback automatically)
