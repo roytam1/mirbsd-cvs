@@ -1,0 +1,5 @@
+mirsirc (20120624-1) unstable; urgency=low
+
+  * Initial packaging, for WTF.
+
+ -- Thorsten Glaser <tg@mirbsd.de>  Sun, 24 Jun 2012 12:45:25 +0000

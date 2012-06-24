@@ -55,7 +55,7 @@
 # http://www.eleves.ens.fr:8080/home/espel/sirc/sirc.html
 # This fork of sirc is maintained in the MirPorts Framework, though.
 
-$version='2.211-MirPorts-@DIST_DATE@';
+$version='2.211-MirDebian-20120624-1';
 $date='01 Sep 2005';
 $add_ons='';
 $msgchannel = '';
@@ -63,7 +63,7 @@ $interactive = 1;
 $has_capab = 0; $capab_cmd = ''; $capab_response = ''; $opportunistic_cmd = '';
 $has_identifymsg = 0; $unverified = 1; $unverified_m = 0;
 
-$libdir=$ENV{"SIRCLIB"} || "@PREFIX@/share/sirc/";
+$libdir=$ENV{"SIRCLIB"} || "/usr/share/sirc/";
 push(@INC, $libdir, $ENV{"HOME"}."/.etc/sirc");
 @loadpath=($ENV{"HOME"}."/.etc/sirc", $libdir, ".");
 
