@@ -1,5 +1,5 @@
 #!/usr/bin/make -f
-# $MirOS: contrib/hosted/tg/deb/mirsirc/debian/rules,v 1.3 2012/06/24 13:21:16 tg Exp $
+# $MirOS: contrib/hosted/tg/deb/mirsirc/debian/rules,v 1.4 2012/06/24 14:10:16 tg Exp $
 
 build build-arch:
 
@@ -63,9 +63,7 @@ binary-indep: build-indep
 	# goodbye dh_installdeb
 	-rm -rf debian/B
 	mkdir -p debian/mirsirc/DEBIAN debian/B/c
-	set -e; for f in postinst postrm prerm; do \
-		cp -a debian/mksh.$$f debian/B/c/$$f; \
-	done
+	cd debian && cp -a postinst postrm prerm B/c/
 	# goodbye dh_gencontrol
 	dpkg-gencontrol -pmirsirc -Pdebian/mirsirc -isp
 	mv debian/mirsirc/DEBIAN/control debian/B/c/

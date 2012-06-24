@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: contrib/hosted/tg/deb/mksh/debian/mksh.postinst,v 1.8 2012/06/06 22:56:55 tg Exp $
+# $MirOS: contrib/hosted/tg/deb/mirsirc/debian/postinst,v 1.1 2012/06/24 14:10:16 tg Exp $
 
 set -e
 
@@ -26,7 +26,6 @@ set -e
 case $1 in
 configure)
 	update-alternatives --install /usr/bin/irc irc /usr/bin/sirc 20 \
-	    --slave /usr/bin/ksh usr.bin.ksh /bin/mksh \
 	    --slave /usr/share/man/man1/irc.1.gz irc.1 \
 	    /usr/share/man/man1/sirc.1.gz
 	test -x /usr/bin/update-menus && update-menus

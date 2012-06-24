@@ -5,7 +5,7 @@ mirsirc (20120624-3) unstable; urgency=low
   * Update version in dsircp automatically.
   * Add menu and irc alternative, like Debian’s sirc does.
 
- -- Thorsten Glaser <tg@mirbsd.de>  Sun, 24 Jun 2012 14:09:30 +0000
+ -- Thorsten Glaser <tg@mirbsd.de>  Sun, 24 Jun 2012 14:13:37 +0000
 
 mirsirc (20120624-1) unstable; urgency=low
 
