@@ -1,5 +1,5 @@
 #!/usr/bin/make -f
-# $MirOS: contrib/hosted/tg/deb/mirsirc/debian/rules,v 1.2 2012/06/24 13:09:03 tg Exp $
+# $MirOS: contrib/hosted/tg/deb/mirsirc/debian/rules,v 1.3 2012/06/24 13:21:16 tg Exp $
 
 build build-arch:
 
@@ -33,7 +33,8 @@ binary-indep: build-indep
 	# goodbye dh_installdirs
 	-rm -rf debian/mirsirc
 	mkdir -p debian/mirsirc/usr/bin debian/mirsirc/usr/share/doc/mirsirc \
-	    debian/mirsirc/usr/share/man/man1 debian/mirsirc/usr/share/sirc
+	    debian/mirsirc/usr/share/man/man1 debian/mirsirc/usr/share/menu \
+	    debian/mirsirc/usr/share/sirc
 	# goodbye dh_installchangelogs
 	cp -a debian/changelog \
 	    debian/mirsirc/usr/share/doc/mirsirc/changelog.Debian
@@ -49,6 +50,8 @@ binary-indep: build-indep
 	# goodbye dh_install
 	cp debian/dsircp sirc debian/mirsirc/usr/bin/
 	cp n0thing.pl sirc.help socks.pl debian/mirsirc/usr/share/sirc/
+	# goodbye dh_installmenu
+	cp -a debian/menu debian/mirsirc/usr/share/menu/mirsirc
 	# goodbye dh_installman
 	cp -a sirc.1 debian/mirsirc/usr/share/man/man1/
 	gzip -n9 debian/mirsirc/usr/share/man/man1/sirc.1
@@ -60,6 +63,9 @@ binary-indep: build-indep
 	# goodbye dh_installdeb
 	-rm -rf debian/B
 	mkdir -p debian/mirsirc/DEBIAN debian/B/c
+	set -e; for f in postinst postrm prerm; do \
+		cp -a debian/mksh.$$f debian/B/c/$$f; \
+	done
 	# goodbye dh_gencontrol
 	dpkg-gencontrol -pmirsirc -Pdebian/mirsirc -isp
 	mv debian/mirsirc/DEBIAN/control debian/B/c/
@@ -74,7 +80,7 @@ binary-indep: build-indep
 	(cd debian/mirsirc && find . | sort | paxcpio \
 	    -oC512 -Hustar -Minodes -Mlinks -Muidgid -Mgslash) | \
 	    gzip -n9 >debian/B/data.tar.gz
-	cd debian/B/c && chmod 644 *
+	cd debian/B/c && chmod 644 * && chmod 755 postinst postrm prerm
 	(cd debian/B/c && find . | sort | paxcpio \
 	    -oC512 -Hustar -Minodes -Mlinks -Muidgid -Mgslash) | \
 	    gzip -n9 >debian/B/control.tar.gz
