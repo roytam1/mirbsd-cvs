@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.bin/perl/perltoc2.gen,v 1.1 2012/05/22 00:57:40 tg Exp $
+# $MirOS: src/gnu/usr.bin/perl/perltoc2.gen,v 1.2 2012/06/29 20:58:57 tg Exp $
 #-
 # Copyright © 2011, 2012
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -524,7 +524,7 @@ function act {
 	[[ ${la[2]} = *(-) ]] || return
 	v=$(asso_getv "f" "${la[1]}") || return
 	line=${line#"${la[0]}"+([	 ])"${la[1]}"}
-	line="${la[0]} $v$line"
+	line="${la[0]} B<L<$v>>$line"
 }
 
 while IFS= read -r line; do
@@ -544,7 +544,7 @@ for n in "${manlinks[@]}"; do
 done | sort | while IFS= read -r line; do
 	print -r -- "=item *
 
-L<$line>
+B<L<$line>>
 "
 done
 
