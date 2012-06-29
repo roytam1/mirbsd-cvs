@@ -1,4 +1,5 @@
-# $MirOS$
+# $MirOS: contrib/hosted/tg/deb/dot.devscripts,v 1.1 2012/06/24 19:34:31 tg Exp $
 
 DEBCHANGE_MAINTTRAILER=no
+DEBCHANGE_MULTIMAINT_MERGE=yes
 DEBCHANGE_RELEASE_HEURISTIC=log
