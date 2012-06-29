@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.bin/perl/Makefile.bsd-wrapper1,v 1.3 2008/12/13 23:47:31 tg Exp $
+# $MirOS: src/gnu/usr.bin/perl/Makefile.bsd-wrapper1,v 1.4 2012/05/22 00:57:41 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -512,6 +512,7 @@ MANALL+= ${page}.cat${sect}
 MANSRCALL+= ${page}.${sect}
 MANSRC_COOKIE=stamp-mansrc.build
 _quick${sect}+=${file} ${page}.${sect}
+_quickdeps${sect}+=${file}
 .    ifdef MANPS
 PSALL+= ${page}.ps${sect}
 .    endif
@@ -526,6 +527,9 @@ ${page}.${sect}: ${file}
 mansrc.build: 
 .for sect in 1 3p
 .  if !empty(_quick${sect})
+mansrc.build: mansrc.build_quick${sect}
+
+mansrc.build_quick${sect}: ${_quickdeps${sect}}
 	cd ${.OBJDIR} && ${POD2MAN} --section=${sect} --official ${_quick${sect}}
 .  endif
 .endfor
