@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/tg/assockit.ksh,v 1.2 2011/07/05 20:15:26 tg Exp $
+# $MirOS: src/gnu/usr.bin/perl/perltoc2.gen,v 1.1 2012/05/22 00:57:40 tg Exp $
 #-
 # Copyright © 2011, 2012
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -512,9 +512,15 @@ for manfile in "$@"; do
 	manlinks+=("$x")
 done
 
+act_s=0
 function act {
 	[[ $line = =+([0-9a-zA-Z])@([	 ])* ]] || return
 	set -A la -- $line
+	if (( act_s )); then
+		[[ ${la[0]} = =back ]] && act_s=0
+		return
+	fi
+	[[ ${la[0]} = =head2 && ${la[1]} = perlglossary ]] && act_s=1
 	[[ ${la[2]} = *(-) ]] || return
 	v=$(asso_getv "f" "${la[1]}") || return
 	line=${line#"${la[0]}"+([	 ])"${la[1]}"}
