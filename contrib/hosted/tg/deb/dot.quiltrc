@@ -1,6 +1,6 @@
-# $MirOS$
+# $MirOS: contrib/hosted/tg/deb/dot.quiltrc,v 1.1 2012/06/24 19:34:31 tg Exp $
 
-while test -z "$QUILT_PATCHES"; do
+while test -z "$QUILT_PATCHES" || test x"$QUILT_PATCHES" = x"-"; do
 	d=.
 	while :; do
 		test -d $d/debian && test -x $d/debian/rules && break
@@ -23,3 +23,5 @@ while test -z "$QUILT_PATCHES"; do
 	# this is not a real loop, exit it always
 	break
 done
+test x"$QUILT_PATCHES" = x"-" && QUILT_PATCHES=patches
+:
