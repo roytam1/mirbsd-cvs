@@ -1,6 +1,6 @@
-# $MirOS: contrib/code/Snippets/getshver,v 1.10 2010/09/27 21:13:18 tg Exp $
+# $MirOS: contrib/code/Snippets/getshver,v 1.11 2011/11/02 21:48:05 tg Exp $
 #-
-# Copyright (c) 2009, 2010, 2011
+# Copyright (c) 2009, 2010, 2011, 2012
 #	Thorsten Glaser <tg@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
@@ -117,8 +117,9 @@ if test x"$x" != x""; then
 	exit 0
 fi
 
-# mksh, mirbsdksh (pre-mksh), oksh (3.7+), pdksh
+# lksh, mksh, mirbsdksh (pre-mksh), oksh (3.7+), pdksh
 case $KSH_VERSION in
+*LEGACY\ KSH*) echo "mksh-legacy ${KSH_VERSION#*KSH }" ; exit 0 ;;
 *MIRBSD\ KSH*) echo "mksh ${KSH_VERSION#*KSH }" ; exit 0 ;;
 *PD\ KSH*MirOS*) echo "pdksh-mbsd${KSH_VERSION#*PD KSH}"; exit 0 ;;
 *PD\ KSH*)
