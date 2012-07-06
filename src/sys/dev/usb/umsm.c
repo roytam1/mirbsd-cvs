@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: umsm.c,v 1.85 2012/01/14 10:26:11 sthen Exp $	*/
 
 /*
@@ -57,7 +58,7 @@ int     umsmdebug = 0;
 int umsm_match(struct device *, void *, void *);
 void umsm_attach(struct device *, struct device *, void *);
 int umsm_detach(struct device *, int);
-int umsm_activate(struct device *, int);
+int umsm_activate(struct device *, enum devact);
 
 int umsm_open(void *, int);
 void umsm_close(void *, int);
@@ -320,6 +321,8 @@ umsm_attach(struct device *parent, struct device *self, void *aux)
 	usb_endpoint_descriptor_t *ed;
 	int i;
 
+	printf("\n");
+
 	bzero(&uca, sizeof(uca));
 	sc->sc_udev = uaa->device;
 	sc->sc_iface = uaa->iface;
@@ -428,12 +431,15 @@ umsm_detach(struct device *self, int flags)
 }
 
 int
-umsm_activate(struct device *self, int act)
+umsm_activate(struct device *self, enum devact act)
 {
 	struct umsm_softc *sc = (struct umsm_softc *)self;
 	int rv = 0;
 
 	switch (act) {
+	case DVACT_ACTIVATE:
+		break;
+
 	case DVACT_DEACTIVATE:
 		if (sc->sc_subdev != NULL)
 			rv = config_deactivate(sc->sc_subdev);
