@@ -1,3 +1,4 @@
+.\"	$MirOS$
 .\"	$OpenBSD: umsm.4,v 1.81 2012/05/24 09:08:38 kirby Exp $
 .\"
 .\" Copyright (c) 2006 Jonathan Gray <jsg@openbsd.org>
@@ -102,6 +103,7 @@ driver:
 .It Li "Toshiba 3G HSDPA MiniCard" Ta "PCI Express Mini Card"
 .It Li "Vodafone Mobile Connect 3G" Ta "CardBus"
 .It Li "Vodafone Mobile Broadband K3765" Ta "USB"
+.It Li "Vodafone Mobile Broadband K4505-z" Ta "USB"
 .It Li "ZTE AC2746" Ta "USB"
 .It Li "ZTE MF112" Ta "USB"
 .It Li "ZTE MF190" Ta "USB"
@@ -235,6 +237,8 @@ is then started using:
 The
 .Nm
 device driver first appeared in
+.Mx 11
+from
 .Ox 4.0 .
 .Sh AUTHORS
 .An -nosplit
