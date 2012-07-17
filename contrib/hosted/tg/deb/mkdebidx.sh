@@ -1,5 +1,5 @@
 #!/bin/mksh
-rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.53 2011/12/28 00:45:47 tg Exp $'
+rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.54 2012/07/15 11:16:42 tg Exp $'
 #-
 # Copyright (c) 2008, 2009, 2010, 2011, 2012
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -45,7 +45,7 @@ function remsign {
 	ssh -o ControlPath=$tmpfnm "$target" cat \>$tmpfnm
 	ssh -o ControlPath=$tmpfnm -t "$target" "$* $tmpfnm" 0<&2 1>&2
 	rv=$?
-	ssh -o ControlPath=$tmpfnm "$target" "cat $tmpfnm.sig; rm -f $tmpfnm $tmpfnm.sig"
+	ssh -o ControlPath=$tmpfnm "$target" "cat $tmpfnm.asc; rm -f $tmpfnm $tmpfnm.asc"
 	ssh -o ControlPath=$tmpfnm "$target" -O exit
 	return $rv
 }
@@ -441,7 +441,7 @@ done
 EOF
 print -r -- " <title>${repo_title} Index</title>"
 cat <<'EOF'
- <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.53 2011/12/28 00:45:47 tg Exp $" />
+ <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.54 2012/07/15 11:16:42 tg Exp $" />
  <style type="text/css">
   table {
    border: 1px solid black;
