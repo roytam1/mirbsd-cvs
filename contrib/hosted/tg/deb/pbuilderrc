@@ -1,11 +1,11 @@
-# $MirOS: contrib/hosted/tg/deb/pbuilderrc,v 1.25 2012/03/09 16:27:24 tg Exp $
+# $MirOS: contrib/hosted/tg/deb/pbuilderrc,v 1.26 2012/06/03 18:06:35 tg Exp $
 #-
 # Sample ~/.pbuilderrc for multiple architecture, distribution and
 # suite support. May work, but may just as well break. Experimental.
 #
 # Set DIST=lenny-backports-sloppy/i386 CUSTOM=foo for example.
 #-
-# debian.org: sarge etch lenny squeeze wheezy sid
+# debian.org: sarge etch lenny squeeze wheezy jessie sid
 # debian-ports.org: dpo (unstable+unreleased)
 # not supported: experimental
 # ubuntu: dapper hardy jaunty karmic lucid maverick natty oneiric precise
@@ -39,7 +39,7 @@ setuptofail() {
 
 # known distributions and distribution-specific things (suites, mirrors, …)
 DISTROS='debian dpo ubuntu'
-DISTS_debian='sarge etch lenny squeeze wheezy sid'
+DISTS_debian='sarge etch lenny squeeze wheezy jessie sid'
 DISTS_dpo='dpo'
 DISTS_ubuntu='dapper hardy jaunty karmic lucid maverick natty oneiric precise'
 DISTBACKPORTS_debian=sarge:etch:lenny:squeeze
@@ -50,6 +50,7 @@ MIRROR_etch=http://ftp.hosteurope.de/mirror/archive.debian.org/debian/
 MIRROR_lenny=http://ftp.hosteurope.de/mirror/ftp.debian.org/debian/
 MIRROR_squeeze=http://ftp.hosteurope.de/mirror/ftp.debian.org/debian/
 MIRROR_wheezy=http://ftp.hosteurope.de/mirror/ftp.debian.org/debian/
+MIRROR_jessie=http://ftp.hosteurope.de/mirror/ftp.debian.org/debian/
 MIRROR_sid=http://ftp.hosteurope.de/mirror/ftp.debian.org/debian/
 MIRROR_unstable=http://ftp.debian-ports.org/debian
 MIRROR_unreleased=http://ftp.debian-ports.org/debian
@@ -67,6 +68,7 @@ MIRRORSECURITY_etch=http://ftp.hosteurope.de/mirror/archive.debian.org/debian-se
 MIRRORSECURITY_lenny=http://ftp.hosteurope.de/mirror/ftp.debian.org/debian-security/
 MIRRORSECURITY_squeeze=http://ftp.hosteurope.de/mirror/ftp.debian.org/debian-security/
 MIRRORSECURITY_wheezy=http://ftp.hosteurope.de/mirror/ftp.debian.org/debian-security/
+MIRRORSECURITY_jessie=NO
 MIRRORSECURITY_sid=NO
 MIRRORSECURITY_dapper=http://old-releases.ubuntu.com/ubuntu/
 MIRRORSECURITY_hardy=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
@@ -225,7 +227,7 @@ case $DISTRO in
 (debian)
 	x=cowdancer,apt,debian-archive-keyring
 	case $DIST:$DISTRIBUTION in
-	(squeeze-backports*:*|*:wheezy|*:sid)
+	(squeeze-backports*:*|*:wheezy|*:jessie|*:sid)
 		EXTRAPACKAGES='apt debian-archive-keyring eatmydata fakeroot file-rc'
 		;;
 	(*:sarge)
