@@ -1,0 +1,16 @@
+#!/bin/mksh
+# $MirOS$
+#-
+# BDF -> clst (list of characters contained within)
+
+function bdf2clst {
+	typeset -Uui16 -Z7 x
+	sed -n '/^ENCODING[	 ]/s///p' | while read x; do
+		print ${x#16#}
+	done
+}
+
+for i in *.bdf; do
+	o=${i%.bdf}.clst
+	bdf2clst <"$i" | sort >"$o"
+done
