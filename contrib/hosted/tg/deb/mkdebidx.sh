@@ -1,5 +1,5 @@
 #!/bin/mksh
-rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.54 2012/07/15 11:16:42 tg Exp $'
+rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.55 2012/07/17 13:11:50 tg Exp $'
 #-
 # Copyright (c) 2008, 2009, 2010, 2011, 2012
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -101,13 +101,15 @@ for suite in dists/*; do
 	[[ $suites = : || $suites = *:"$suite":* ]] || continue
 	archs=
 	distribution=
+	debootstrap_compat=0
 	. $suite/distinfo.sh
 	suitearchs=${archs:-${normarchs[*]}}
 	components=Components:
 	for dist in $suite/*; do
 		[[ -d $dist/. ]] || continue
 		rm -rf $dist/binary-* $dist/source
-		ovf= oef= osf=
+		ovf= oef= osf= om=-m
+		(( debootstrap_compat )) && om=
 		[[ -s $dist/override.file ]] && ovf=$dist/override.file
 		[[ -s $dist/override.extra ]] && oef="-e $dist/override.extra"
 		[[ -s $dist/override.src ]] && osf="-s $dist/override.src"
@@ -137,7 +139,7 @@ for suite in dists/*; do
 				print "\n===> Creating" \
 				    "${dist#dists/}/$arch/Packages\n"
 				mkdir -p $dist/binary-$arch
-				dpkg-scanpackages $oef -m -a $arch \
+				dpkg-scanpackages $oef $om -a $arch \
 				    $dist $ovf | \
 				    putfile $dist/binary-$arch/Packages
 				(( nmds++ )) || firstmd=$arch
@@ -441,7 +443,7 @@ done
 EOF
 print -r -- " <title>${repo_title} Index</title>"
 cat <<'EOF'
- <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.54 2012/07/15 11:16:42 tg Exp $" />
+ <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.55 2012/07/17 13:11:50 tg Exp $" />
  <style type="text/css">
   table {
    border: 1px solid black;
