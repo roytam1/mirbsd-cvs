@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: ucom.c,v 1.26 2005/04/08 04:30:17 deraadt Exp $ */
 /*	$NetBSD: ucom.c,v 1.49 2003/01/01 00:10:25 thorpej Exp $	*/
 
@@ -916,7 +917,7 @@ ucomstart(struct tty *tp)
 	u_char *data;
 	int cnt;
 
-	if (sc->sc_dying)
+	if (sc->sc_dying || !sc->sc_oxfer)
 		return;
 
 	s = spltty();
@@ -1039,6 +1040,11 @@ Static usbd_status
 ucomstartread(struct ucom_softc *sc)
 {
 	usbd_status err;
+
+	if (!sc->sc_ixfer) {
+		DPRINTF(("ucomstartread: device shutting down\n"));
+		return (USBD_NOT_CONFIGURED);
+	}
 
 	DPRINTFN(5,("ucomstartread: start\n"));
 	usbd_setup_xfer(sc->sc_ixfer, sc->sc_bulkin_pipe,
