@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $
+# $MirOS: X11/extras/bdfctool/bdfctool.sh,v 1.1 2012/08/18 15:16:16 tg Exp $
 #-
 # Copyright © 2012
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -32,7 +32,7 @@ shift $((OPTIND - 1))
 (( $# )) && mode=
 
 if [[ $mode = ?(h) ]]; then
-	print -u2 "Usage: ${0##*/} -c | -d | -e [-a]"
+	print -ru2 "Usage: ${0##*/} -c | -d | -e [-a]"
 	[[ $mode = h ]]; exit $?
 fi
 
@@ -54,7 +54,7 @@ if [[ $mode = e ]]; then
 					print -r -- "$line"
 					continue
 				fi
-				print -u2 "E: Unexpected end of 'e' command" \
+				print -ru2 "E: Unexpected end of 'e' command" \
 				    "at line $lno"
 				exit 2
 			done
@@ -110,6 +110,236 @@ if [[ $mode = e ]]; then
 fi
 
 if (( uascii != -1 )); then
-	print -u2 "E: ±a not allowed for -$mode mode"
+	print -ru2 "E: ±a not allowed for -$mode mode"
 	exit 1
+fi
+
+Fdef=		# currently valid 'd' line
+set -A Fhead	# lines of file header, including comments intersparsed
+set -A Fprop	# lines of file properties, same
+set -A Gprop	# glyph property line (from Fdef), per glyph
+set -A Gdata	# glyph data line, per glyph
+set -A Gcomm	# glyph comments (if any) as string, per glyph
+set -A Fcomm	# lines of comments at end of file
+
+state=0
+
+function parse_bdfc_file {
+	local last
+
+	set -A last
+	while IFS= read -r line; do
+		(( ++lno ))
+		if [[ $line = C ]]; then
+			(( ${#last[@]} )) && Fprop+=("${last[@]}")
+			state=1
+			return
+		elif [[ $line = '=bdfc 1' ]]; then
+			continue
+		fi
+		last+=("$line")
+		[[ $line = "' "* ]] && continue
+		if [[ $line = h* ]]; then
+			Fhead+=("${last[@]}")
+		elif [[ $line = p* ]]; then
+			Fprop+=("${last[@]}")
+		else
+			print -ru2 "E: invalid line #$lno: '$line'"
+			exit 2
+		fi
+		set -A last
+	done
+	(( ${#last[@]} )) && Fprop+=("${last[@]}")
+	state=2
+}
+
+function parse_bdfc_edit {
+	local w shiftbits uw line r i
+
+	if (( (w = f[2]) <= 8 )); then
+		(( shiftbits = 8 - w ))
+		(( uw = 5 ))
+	elif (( w <= 16 )); then
+		(( shiftbits = 16 - w ))
+		(( uw = 7 ))
+	elif (( w <= 24 )); then
+		(( shiftbits = 24 - w ))
+		(( uw = 9 ))
+	else
+		(( shiftbits = 32 - w ))
+		(( uw = 11 ))
+	fi
+
+	if (( (i = f[3]) < 1 || i > 999 )); then
+		print -ru2 "E: nonsensical number of lines '${f[3]}' in" \
+		    "line $lno, U+${ch#16#}"
+		exit 2
+	fi
+
+	while (( i-- )); do
+		if ! IFS= read -r line; then
+			print -ru2 "E: Unexpected end of 'e' command" \
+			    "at line $lno, U+${ch#16#}"
+			exit 2
+		fi
+		linx=${line//　/.}
+		linx=${linx//䷀/#}
+		linx=${linx//▌/|}
+		linx=${linx//[ .]/0}
+		linx=${linx//[#*]/1}
+		if [[ $linx != +([01])'|' || ${#linx} != $((w + 1)) ]]; then
+			print -ru2 "E: U+${ch#16#} (line #$lno) bitmap line" \
+			    $((f[3] - i)) "invalid: '$line'"
+			exit 2
+		fi
+		linx=${linx%'|'}
+		typeset -Uui16 -Z$uw bhex=2#$linx
+		(( bhex <<= shiftbits ))
+		r+=${bhex#16#}:
+	done
+	f[3]=${r%:}
+	f[0]=c
+}
+
+function parse_bdfc_glyph {
+	local last
+
+	set -A last
+	while IFS= read -r line; do
+		(( +lno ))
+		if [[ $line = . ]]; then
+			(( ${#last[@]} )) && Fcomm+=("${last[@]}")
+			if (( strict )) && read x; then
+				print -ru2 "E: data '$x' past end of file" \
+				    "on line $lno"
+				exit 3
+			fi
+			state=3
+			return
+		fi
+		if [[ $line = "' "* ]]; then
+			last+=("$line")
+			continue
+		fi
+		set -A f -- $line
+		if [[ ${f[0]} = d ]]; then
+			Fdef="${f[*]}"
+			continue
+		fi
+		if [[ ${f[0]} != [ce] ]]; then
+			print -ru2 "E: invalid line #$lno: '$line'"
+			exit 2
+		fi
+		if [[ $Fdef != 'd '* ]]; then
+			print -ru2 "E: char at line $lno without defaults set"
+			exit 2
+		fi
+		if [[ ${f[1]} != [0-9A-F][0-9A-F][0-9A-F][0-9A-F] ]]; then
+			print -ru2 "E: invalid encoding '${f[1]}' at line $lno"
+			exit 2
+		fi
+		typeset -Uui16 -Z7 ch=16#${f[1]}
+		if (( ${#f[*]} < 4 || ${#f[*]} > 5 )); then
+			print -ru2 "E: invalid number of fields on line $lno" \
+			    "at U+${ch#16#}: ${#f[*]}: '$line'"
+			exit 2
+		fi
+		if (( f[2] < 1 || f[2] > 32 )); then
+			print -ru2 "E: width ${f[2]} not in 1#32 at line $lno"
+			exit 2
+		fi
+		[[ ${f[4]} = "uni${ch#16#}" ]] && unset f[4]
+		if [[ ${f[0]} = e ]]; then
+			if (( strict )); then
+				print -ru2 "E: edit not allowed in strict" \
+				    "mode at U+${ch#16#}, line $lno: '$line'"
+				exit 3
+			fi
+			parse_bdfc_edit
+		else
+			if (( f[2] <= 8 )); then
+				x='+([0-9A-F][0-9A-F]:)'
+			elif (( f[2] <= 16 )); then
+				x='+([0-9A-F][0-9A-F][0-9A-F][0-9A-F]:)'
+			elif (( f[2] <= 24 )); then
+				x='+([0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F]:)'
+			else
+				x='+([0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F]:)'
+			fi
+			if eval [[ '${f[3]}:' != "$x" ]]; then
+				print -ru2 "E: invalid hex encoding for" \
+				    "U+${ch#16#}, line $lno: '${f[3]}'"
+				exit 2
+			fi
+		fi
+		Gdata[ch]="${f[*]}"
+		if (( ${#last[@]} )); then
+			for line in "${last[@]}"; do
+				Gcomm[ch]+=$line$'\n'
+			done
+			set -A last
+		fi
+		Gprop[ch]=$Fdef
+	done
+	(( ${#last[@]} )) && Fcomm+=("${last[@]}")
+	state=2
+}
+
+function parse_bdfc {
+	while :; do
+		case $state {
+		(0) parse_bdfc_file ;;
+		(1) parse_bdfc_glyph ;;
+		(2)
+			if (( strict )); then
+				print -ru2 "E: Unexpected EOF at line $lno"
+				exit 3
+			fi
+			return 0
+			;;
+		(3)
+			(( strict )) && return 0
+			state=0
+			;;
+		}
+	done
+	print -ru2 "E: internal error (at line $lno), shouldn't happen"
+	exit 255
+}
+
+if [[ $mode = c ]]; then
+	if ! IFS= read -r line; then
+		print -ru2 "E: read error at BOF"
+		exit 2
+	fi
+	lno=1
+	if [[ $line = 'STARTFONT 2.1' ]]; then
+		parse_bdf
+	elif [[ $line = '=bdfc 1' ]]; then
+		strict=0
+		parse_bdfc
+	else
+		print -ru2 "E: not BDF or bdfc at BOF: '$line'"
+		exit 2
+	fi
+
+	# write .bdfc stream
+
+	for line in '=bdfc 1' "${Fhead[@]}" "${Fprop[@]}"; do
+		print -r -- "$line"
+	done
+	print C
+	Fdef=
+	for x in ${!Gdata[*]}; do
+		if [[ ${Gprop[x]} != "$Fdef" ]]; then
+			Fdef=${Gprop[x]}
+			print -r -- $Fdef
+		fi
+		print -r -- "${Gcomm[x]}${Gdata[x]}"
+	done
+	for line in "${Fcomm[@]}"; do
+		print -r -- "$line"
+	done
+	print .
+	exit 0
 fi

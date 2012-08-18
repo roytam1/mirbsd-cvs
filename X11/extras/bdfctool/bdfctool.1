@@ -1,4 +1,4 @@
-.\" $MirOS: X11/extras/bdfctool/bdfctool.1,v 1.1 2012/08/18 14:39:27 tg Exp $
+.\" $MirOS: X11/extras/bdfctool/bdfctool.1,v 1.2 2012/08/18 15:16:16 tg Exp $
 .\"-
 .\" Copyright © 2012
 .\"	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
@@ -199,7 +199,8 @@ It is optimised for being operated on using the jupp text editor and
 shell scripts.
 Lines starting with an apostrophe U+0027 and a space U+0020 can be
 used anywhere inside the file, except within the trailing-data lines
-of an edit block (see below), to denote a comment, which is retained.
+of an edit block (see below), to denote a comment, which is retained
+(tacked on to the following character).
 .Pp
 Next comes a block of font header information that are just
 passed through, prefixed with a
@@ -296,6 +297,23 @@ The trailing dot does not denote the end of file for the
 operation, as it can handle concatenated files, but is used
 to have an easy way to switch between the file and glyph sections,
 since the former does not use a structured line format.
+.Sh RETURN VALUES
+The
+.Nm
+utility exits with one of the following values:
+.Pp
+.Bl -tag -width XXX -compact
+.It Li 0
+No error occurred.
+.It Li 1
+Wrong usage.
+.It Li 2
+An error during processing occurred, e.g. invalid input.
+.It Li 3
+A strict mode
+.Pq Fl d
+error occurred, e.g. invalid input.
+.El
 .Sh EXAMPLES
 The following example should be a minimal valid font demonstrating
 all features of the bdfc format:
@@ -343,3 +361,5 @@ has its own ideas of how a
 font file should look like, and if you deviate from that,
 you might get an error; although, support for more features
 can surely be added.
+.Pp
+The current practical limit on glyph width is 32.
