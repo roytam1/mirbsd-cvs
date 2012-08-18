@@ -1,4 +1,4 @@
-.\" $MirOS: contrib/samples/portmdoc,v 1.8 2010/03/15 18:05:06 tg Exp $
+.\" $MirOS: X11/extras/bdfctool/bdfctool.1,v 1.1 2012/08/18 14:39:27 tg Exp $
 .\"-
 .\" Copyright © 2012
 .\"	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
@@ -57,7 +57,7 @@
 .\" with -mandoc, it might implement .Mx itself, but we want to
 .\" use our own definition. And .Dd must come *first*, always.
 .\"
-.Dd $Mdocdate: March 15 2010 $
+.Dd $Mdocdate: August 18 2012 $
 .\"
 .\" Check which macro package we use, and do other -mdoc setup.
 .\"
@@ -137,7 +137,7 @@
 .Nd convert BDF and bdfc font files
 .Sh SYNOPSIS
 .Nm
-.Fl c \*(Ba d \*(Ba e
+.Fl c \*(Ba d \*(Ba e Op Fl a
 .Sh DESCRIPTION
 The
 .Nm
@@ -153,6 +153,15 @@ input stream and writes data to standard output.
 .Pp
 The options are as follows:
 .Bl -tag -width XXX
+.It Fl a
+In edit mode, emit ASCII (1:2) encoding for an unset bit
+.Pq Sq Li \&. ,
+a set bit
+.Pq Sq Li \&#
+and the line end separator
+.Pq Sq Li \&\*(Ba .
+.It Ic +a
+In edit mode, emit Unicode (1:1) encoding (default).
 .It Fl d
 Decompress the font from bdfc into
 .Tn BDF .
