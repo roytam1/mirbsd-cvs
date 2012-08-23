@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: X11/extras/bdfctool/bdfctool.sh,v 1.1 2012/08/18 15:16:16 tg Exp $
+# $MirOS: X11/extras/bdfctool/bdfctool.sh,v 1.2 2012/08/18 16:44:30 tg Exp $
 #-
 # Copyright © 2012
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -131,10 +131,15 @@ function parse_bdfc_file {
 	while IFS= read -r line; do
 		(( ++lno ))
 		if [[ $line = C ]]; then
-			(( ${#last[@]} )) && Fprop+=("${last[@]}")
+			Fprop+=("${last[@]}")
 			state=1
 			return
 		elif [[ $line = '=bdfc 1' ]]; then
+			if (( strict )); then
+				print -ru2 "E: another begin of file" \
+				    "on line $lno"
+				exit 3
+			fi
 			continue
 		fi
 		last+=("$line")
@@ -149,7 +154,7 @@ function parse_bdfc_file {
 		fi
 		set -A last
 	done
-	(( ${#last[@]} )) && Fprop+=("${last[@]}")
+	Fprop+=("${last[@]}")
 	state=2
 }
 
@@ -208,7 +213,7 @@ function parse_bdfc_glyph {
 	while IFS= read -r line; do
 		(( +lno ))
 		if [[ $line = . ]]; then
-			(( ${#last[@]} )) && Fcomm+=("${last[@]}")
+			Fcomm+=("${last[@]}")
 			if (( strict )) && read x; then
 				print -ru2 "E: data '$x' past end of file" \
 				    "on line $lno"
@@ -273,15 +278,13 @@ function parse_bdfc_glyph {
 			fi
 		fi
 		Gdata[ch]="${f[*]}"
-		if (( ${#last[@]} )); then
-			for line in "${last[@]}"; do
-				Gcomm[ch]+=$line$'\n'
-			done
-			set -A last
-		fi
+		for line in "${last[@]}"; do
+			Gcomm[ch]+=$line$'\n'
+		done
+		set -A last
 		Gprop[ch]=$Fdef
 	done
-	(( ${#last[@]} )) && Fcomm+=("${last[@]}")
+	Fcomm+=("${last[@]}")
 	state=2
 }
 
@@ -343,3 +346,88 @@ if [[ $mode = c ]]; then
 	print .
 	exit 0
 fi
+
+if [[ $mode != d ]]; then
+	print -u2 "E: cannot happen (control flow issue in ${0##*/}:$LINENO)"
+	exit 255
+fi
+
+if ! IFS= read -r line; then
+	print -ru2 "E: read error at BOF"
+	exit 2
+fi
+lno=1
+if [[ $line != '=bdfc 1' ]]; then
+	print -ru2 "E: not bdfc at BOF: '$line'"
+	exit 2
+fi
+
+strict=1
+parse_bdfc
+
+# analyse data for BDF
+numprop=0
+for line in "${Fprop[@]}"; do
+	[[ $line = p* ]] && let ++numprop
+done
+numchar=${#Gdata[*]}
+
+# write BDF stream
+print 'STARTFONT 2.1'
+for line in "${Fhead[@]}"; do
+	if [[ $line = h* ]]; then
+		print -r -- "${line#h}"
+	else
+		print -r -- "COMMENT ${line#\' }"
+	fi
+done
+set -A last
+print STARTPROPERTIES $((numprop))
+for line in "${Fprop[@]}"; do
+	if [[ $line = p* ]]; then
+		last+=("${line#p}")
+	else
+		last+=("COMMENT ${line#\' }")
+		continue
+	fi
+	for line in "${last[@]}"; do
+		print -r -- "$line"
+	done
+	set -A last
+done
+print ENDPROPERTIES
+for line in "${last[@]}"; do
+	print -r -- "$line"
+done
+print CHARS $((numchar))
+for x in ${!Gdata[*]}; do
+	IFS=$'\n'
+	set -A xcomm -- ${Gcomm[x]}
+	IFS=$' \t\n'
+	for line in "${xcomm[@]}"; do
+		print -r -- "COMMENT ${line#\' }"
+	done
+	set -A xprop -- ${Gprop[x]}
+	set -A f -- ${Gdata[x]}
+	IFS=:
+	set -A bmp -- ${f[3]}
+	IFS=$' \t\n'
+	typeset -Uui16 -Z7 ch=16#${f[1]}
+	cat <<-EOF
+		STARTCHAR ${f[4]:-uni${ch#16#}}
+		ENCODING $((ch))
+		SWIDTH ${xprop[1]} ${xprop[2]}
+		DWIDTH ${xprop[3]} ${xprop[4]}
+		BBX ${f[2]} ${#bmp[*]} ${xprop[5]} ${xprop[6]}
+		BITMAP
+	EOF
+	for line in "${bmp[@]}"; do
+		print $line
+	done
+	print ENDCHAR
+done
+for line in "${Fcomm[@]}"; do
+	print -r -- "COMMENT ${line#\' }"
+done
+print ENDFONT
+exit 0
