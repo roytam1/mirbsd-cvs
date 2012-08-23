@@ -143,7 +143,7 @@ function parse_bdfc_file {
 			continue
 		fi
 		last+=("$line")
-		[[ $line = "' "* ]] && continue
+		[[ $line = \' || $line = "' "* ]] && continue
 		if [[ $line = h* ]]; then
 			Fhead+=("${last[@]}")
 		elif [[ $line = p* ]]; then
@@ -211,7 +211,7 @@ function parse_bdfc_glyph {
 
 	set -A last
 	while IFS= read -r line; do
-		(( +lno ))
+		(( ++lno ))
 		if [[ $line = . ]]; then
 			Fcomm+=("${last[@]}")
 			if (( strict )) && read x; then
@@ -222,7 +222,7 @@ function parse_bdfc_glyph {
 			state=3
 			return
 		fi
-		if [[ $line = "' "* ]]; then
+		if [[ $line = \' || $line = "' "* ]]; then
 			last+=("$line")
 			continue
 		fi
@@ -348,7 +348,7 @@ if [[ $mode = c ]]; then
 fi
 
 if [[ $mode != d ]]; then
-	print -u2 "E: cannot happen (control flow issue in ${0##*/}:$LINENO)"
+	print -ru2 "E: cannot happen (control flow issue in ${0##*/}:$LINENO)"
 	exit 255
 fi
 
@@ -378,7 +378,7 @@ for line in "${Fhead[@]}"; do
 	if [[ $line = h* ]]; then
 		print -r -- "${line#h}"
 	else
-		print -r -- "COMMENT ${line#\' }"
+		print -r -- "COMMENT${line#\'}"
 	fi
 done
 set -A last
@@ -387,7 +387,7 @@ for line in "${Fprop[@]}"; do
 	if [[ $line = p* ]]; then
 		last+=("${line#p}")
 	else
-		last+=("COMMENT ${line#\' }")
+		last+=("COMMENT${line#\'}")
 		continue
 	fi
 	for line in "${last[@]}"; do
@@ -405,7 +405,7 @@ for x in ${!Gdata[*]}; do
 	set -A xcomm -- ${Gcomm[x]}
 	IFS=$' \t\n'
 	for line in "${xcomm[@]}"; do
-		print -r -- "COMMENT ${line#\' }"
+		print -r -- "COMMENT${line#\'}"
 	done
 	set -A xprop -- ${Gprop[x]}
 	set -A f -- ${Gdata[x]}
@@ -427,7 +427,7 @@ for x in ${!Gdata[*]}; do
 	print ENDCHAR
 done
 for line in "${Fcomm[@]}"; do
-	print -r -- "COMMENT ${line#\' }"
+	print -r -- "COMMENT${line#\'}"
 done
 print ENDFONT
 exit 0
