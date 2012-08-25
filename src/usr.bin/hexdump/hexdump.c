@@ -30,22 +30,16 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-char copyright[] =
-"@(#) Copyright (c) 1989 The Regents of the University of California.\n\
- All rights reserved.\n";
-#endif /* not lint */
-
-#ifndef lint
-/*static char sccsid[] = "from: @(#)hexdump.c	5.5 (Berkeley) 6/1/90";*/
-static char rcsid[] = "$OpenBSD: hexdump.c,v 1.11 2003/07/10 00:06:51 david Exp $";
-#endif /* not lint */
-
 #include <sys/types.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "hexdump.h"
+
+__COPYRIGHT("@(#) Copyright (c) 1989 The Regents of the University of California.\n\
+ All rights reserved.\n");
+__SCCSID("@(#)hexdump.c   5.5 (Berkeley) 6/1/90");
+__RCSID("$MirOS$");
 
 FS *fshead;				/* head of format strings */
 int blocksize;				/* data block size */
