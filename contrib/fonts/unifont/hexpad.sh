@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/fonts/unifont/hexpad.sh,v 1.2 2012/09/01 18:03:46 tg Exp $
+# $MirOS: contrib/fonts/unifont/hexpad.sh,v 1.3 2012/09/01 18:15:33 tg Exp $
 #-
 # Copyright © 2012
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -150,4 +150,18 @@ done <unifont.hex | tee hexpad.log
 print -u4 .
 print -u5 .
 exec 4>&- 5>&-
+
+if [[ -s ../9x18.lst && -s ../18x18ko.lst ]]; then
+	set -A known
+	for x in $(<../9x18.lst) $(<../18x18ko.lst); do
+		known[0x$x]=1
+	done
+
+	while read a b; do
+		[[ $a = HORZ || $a = VERT ]] || continue
+		(( known[0x$b] )) && continue
+		print $a $b
+	done <hexpad.log >hexpad.chk
+fi
+
 print DONE
