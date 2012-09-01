@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/fonts/unifont/hexpad.sh,v 1.1 2012/09/01 17:57:34 tg Exp $
+# $MirOS: contrib/fonts/unifont/hexpad.sh,v 1.2 2012/09/01 18:03:46 tg Exp $
 #-
 # Copyright © 2012
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -57,11 +57,10 @@ while IFS=: read i data rest; do
 done <rc-priv.hex
 
 function check_hw {
-	typeset -Uui16 -Z5 q r
+	typeset -Uui16 -Z5 q
 
-	q=0x${data: 0:2}
-	r=0x${data: 30:2}
-	(( top |= (q || r) ))
+	q=0x${data: 30:2}
+	(( top = (q != 0) ))
 }
 
 function check_fw {
@@ -69,7 +68,7 @@ function check_fw {
 
 	q=0x${data: 0:4}
 	r=0x${data: 60:4}
-	(( top |= (q || r) ))
+	(( top = (q || r) ))
 	if [[ $data = @(AAAA00018000*5555|555580000001*AAAA) ]]; then
 		top=0
 		odd=0
@@ -81,7 +80,7 @@ function merge_hw {
 
 	q=0x${data: j*2:2}
 	(( odd |= (q & 1) ))
-	l+=:${q#16#}00
+	l+=${q#16#}00:
 }
 
 function merge_fw {
@@ -90,7 +89,7 @@ function merge_fw {
 	q=0x${data: j*4:4}
 	(( odd |= (q & 1) ))
 	(( q <<= 7 ))
-	l+=:${q#16#}
+	l+=${q#16#}:
 }
 
 exec 4>unihalf9x18.bdfc 5>unihalf18x18.bdfc
@@ -118,7 +117,7 @@ while IFS=: read i data rest; do
 		ofd=4
 		nulls=0000
 		sz=hw
-		l="c $i 9 $nulls"
+		l="c $i 9 "
 	elif (( ${#data} == 64 )); then
 		if (( ${%s} != 2 && ${%s} != 0 )); then
 			print NOTF $i
@@ -127,7 +126,7 @@ while IFS=: read i data rest; do
 		ofd=5
 		nulls=000000
 		sz=fw
-		l="c $i 18 $nulls"
+		l="c $i 18 $nulls:"
 	else
 		print E:UW $i ${#data}
 		continue
@@ -137,7 +136,11 @@ while IFS=: read i data rest; do
 	while (( ++j < 16 )); do
 		eval merge_$sz
 	done
-	l+=:$nulls
+	if [[ $sz = fw ]]; then
+		l+=$nulls
+	else
+		l+=$nulls:$nulls
+	fi
 	print -ru$ofd -- $l
 	eval check_$sz
 	(( odd )) && print HORZ $i
