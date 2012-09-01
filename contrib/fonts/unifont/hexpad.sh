@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $
+# $MirOS: contrib/fonts/unifont/hexpad.sh,v 1.1 2012/09/01 17:57:34 tg Exp $
 #-
 # Copyright © 2012
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -21,9 +21,24 @@
 #-
 # Read unifont.hex and remove glyphs from blanks.hex and rc-priv.hex
 # then pad 8x16 to 9x18 and 16x16 to 18x18 and output them into bdfc
-# stub files, separate by glyph width. (Character width is ignored.)
+# stub files, separate by glyph width if character width matches it.
+# (Theoretically, we should allow ${%s} == -1 for halfwidth, but all
+# occurrences in GNU Unifont are fullwidth.)
+
+set -U
 
 set -A skip
+integer skip
+# pure awkwardness later
+skip[0]=1
+# invalid codepoints
+skip[0xFFFE]=1
+skip[0xFFFF]=1
+# surrogates
+c=0xD800
+while (( c <= 0xDFFF )); do
+	skip[c++]=1
+done
 while IFS=: read i data rest; do
 	if [[ $data = 00542A542A542A542A542A542A542A00 ]]; then
 		skip[0x$i]=1
@@ -94,12 +109,21 @@ while IFS=: read i data rest; do
 		print SKIP $i
 		continue
 	fi
+	s=${ch#1#}
 	if (( ${#data} == 32 )); then
+		if (( ${%s} != 1 && ${%s} != 0 )); then
+			print NOTH $i
+			continue
+		fi
 		ofd=4
 		nulls=0000
 		sz=hw
 		l="c $i 9 $nulls"
 	elif (( ${#data} == 64 )); then
+		if (( ${%s} != 2 && ${%s} != 0 )); then
+			print NOTF $i
+			continue
+		fi
 		ofd=5
 		nulls=000000
 		sz=fw
