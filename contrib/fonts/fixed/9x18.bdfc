@@ -1,30 +1,28 @@
 =bdfc 1
-' "$MirOS: X11/xc/fonts/bdf/misc/9x18.bdf,v 1.6 2011/11/20 00:11:05 tg Exp $"
-' "$ucs-fonts: 9x18.bdf,v 1.53 2009-04-06 18:50:15+01 mgk25 Rel $"
-' "Send bug reports to Markus Kuhn <http://www.cl.cam.ac.uk/~mgk25/>"
+' "$MirOS: X11/xc/fonts/bdf/misc/9x18.bdf,v 1.6.2.1 2012/07/31 21:34:38 tg Exp $"
 hFONT -Misc-Fixed-Medium-R-Normal--18-120-100-100-C-90-ISO10646-1
 hSIZE 12 100 100
 hFONTBOUNDINGBOX 9 18 0 -4
-pFONTNAME_REGISTRY ""
-pFOUNDRY "Misc"
-pFAMILY_NAME "Fixed"
-pWEIGHT_NAME "Medium"
-pSLANT "R"
-pSETWIDTH_NAME "Normal"
 pADD_STYLE_NAME ""
+pAVERAGE_WIDTH 90
+pCAP_HEIGHT 10
+pCHARSET_ENCODING "1"
+pCHARSET_REGISTRY "ISO10646"
+pCOPYRIGHT "Fonts are not under Copyright protection in Germany."
+pDEFAULT_CHAR 0
+pFAMILY_NAME "Fixed"
+pFONTNAME_REGISTRY ""
+pFONT_ASCENT 14
+pFONT_DESCENT 4
+pFOUNDRY "Misc"
 pPIXEL_SIZE 18
 pPOINT_SIZE 120
 pRESOLUTION_X 100
 pRESOLUTION_Y 100
+pSETWIDTH_NAME "Normal"
+pSLANT "R"
 pSPACING "C"
-pAVERAGE_WIDTH 90
-pCHARSET_REGISTRY "ISO10646"
-pCHARSET_ENCODING "1"
-pDEFAULT_CHAR 0
-pFONT_DESCENT 4
-pFONT_ASCENT 14
-pCOPYRIGHT "Public domain font.  Share and enjoy."
-pCAP_HEIGHT 10
+pWEIGHT_NAME "Medium"
 pX_HEIGHT 7
 C
 d 540 0 9 0 0 -4

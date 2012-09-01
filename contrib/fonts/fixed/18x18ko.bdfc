@@ -1,39 +1,27 @@
 =bdfc 1
-' $MirOS: X11/xc/fonts/bdf/misc/18x18ko.bdf,v 1.2 2011/04/18 22:14:19 tg Exp $
-'
-' This font contains padded 16x16 Hangul glyphs derived from 
-' -KAIST-Gothic-Medium-R-Normal--16-160-75-75-C-160-JOHABSH-1
-' as distributed with Hanterm 3.x <http://elf.kaist.ac.kr/hanterm>. 
-' Glyphs for Hanja and symbols were taken by PAIK Yunju (Hanterm
-' development contributer) from 
-' -daewoo-gothic-medium-r-normal--16-120-100-100-c-160-ksc5601.1987-0
-' (donated by Daewoo Inc. of Korea to the X Consortium).
-' Remain glyphs come from 18x18ja.bdf.
-' Prepared by Jungshik SHIN <jshin@pantheon.yale.edu>, 2000-04-02
-' $ucs-fonts: 18x18ko.bdf,v 1.4 2002-08-26 18:05:49+01 mgk25 Rel $
-' Send bug reports to Markus Kuhn <http://www.cl.cam.ac.uk/~mgk25/>
+' $MirOS: X11/xc/fonts/bdf/misc/18x18ko.bdf,v 1.2.2.1 2012/07/31 21:33:09 tg Exp $
 hFONT -Misc-Fixed-Medium-R-Normal-ko-18-120-100-100-C-180-ISO10646-1
 hSIZE 12 100 100
 hFONTBOUNDINGBOX 18 18 0 -3
+pADD_STYLE_NAME "ko"
+pAVERAGE_WIDTH 180
+pCHARSET_ENCODING "1"
+pCHARSET_REGISTRY "ISO10646"
+pCOPYRIGHT "Fonts are not under Copyright protection in Germany."
+pDEFAULT_CHAR 0
+pFAMILY_NAME "Fixed"
+pFONTNAME_REGISTRY ""
 pFONT_ASCENT 15
 pFONT_DESCENT 3
-pDEFAULT_CHAR 0
-pCOPYRIGHT "Public domain font.  Share and enjoy."
-pFONTNAME_REGISTRY ""
 pFOUNDRY "Misc"
-pFAMILY_NAME "Fixed"
-pWEIGHT_NAME "Medium"
-pSLANT "R"
-pSETWIDTH_NAME "Normal"
-pADD_STYLE_NAME "ko"
 pPIXEL_SIZE 18
 pPOINT_SIZE 120
 pRESOLUTION_X 100
 pRESOLUTION_Y 100
+pSETWIDTH_NAME "Normal"
+pSLANT "R"
 pSPACING "C"
-pAVERAGE_WIDTH 180
-pCHARSET_REGISTRY "ISO10646"
-pCHARSET_ENCODING "1"
+pWEIGHT_NAME "Medium"
 C
 d 1080 0 18 0 0 -3
 c 0000 18 000000:000000:555500:000000:400100:000000:400100:000000:400100:000000:400100:000000:400100:000000:555500:000000:000000:000000 char0
