@@ -1,4 +1,5 @@
 =bdfc 1
+' $MirOS: X11/xc/fonts/bdf/misc/6x13.bdf,v 1.2 2007/06/15 19:52:16 tg Exp $
 ' $ucs-fonts: 6x13.bdf,v 1.112 2002-11-10 18:33:16+00 mgk25 Rel $
 ' Send bug reports to Markus Kuhn <http://www.cl.cam.ac.uk/~mgk25/>
 hFONT -Misc-Fixed-Medium-R-SemiCondensed--13-120-75-75-C-60-ISO10646-1
@@ -23,7 +24,6 @@ pDEFAULT_CHAR 0
 pFONT_DESCENT 2
 pFONT_ASCENT 11
 pCOPYRIGHT "Public domain font.  Share and enjoy."
-p_XMBDFED_INFO "Edited with xmbdfed 4.5."
 pCAP_HEIGHT 9
 pX_HEIGHT 6
 C
@@ -1746,6 +1746,7 @@ c 1E98 6 00:20:50:20:00:88:88:A8:A8:A8:50:00:00
 c 1E99 6 00:20:50:20:00:88:88:88:98:68:08:88:70
 c 1E9A 6 08:04:04:08:00:70:08:78:88:88:78:00:00
 c 1E9B 6 00:20:20:00:30:48:40:C0:40:40:40:00:00
+c 1E9E 6 00:00:18:68:88:90:B8:88:88:90:A0:00:00
 c 1EA0 6 00:00:20:50:88:88:88:F8:88:88:88:00:20
 c 1EA1 6 00:00:00:00:00:70:08:78:88:98:68:00:20
 c 1EA2 6 20:50:10:20:20:50:88:88:F8:88:88:00:00
