@@ -30,15 +30,12 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-static char copyright[] =
-"@(#) Copyright (c) 1984, 1993\n\
-	The Regents of the University of California.  All rights reserved.\n";
-#endif /* not lint */
+#include <sys/cdefs.h>
 
-#ifndef lint
-static char sccsid[] = "@(#)arp.c	8.2 (Berkeley) 1/2/94";
-#endif /* not lint */
+__COPYRIGHT("@(#) Copyright (c) 1984, 1993\n\
+	The Regents of the University of California.  All rights reserved.\n");
+__SCCSID("@(#)arp.c	8.2 (Berkeley) 1/2/94");
+__RCSID("$MirOS$");
 
 /*
  * set arp table entries

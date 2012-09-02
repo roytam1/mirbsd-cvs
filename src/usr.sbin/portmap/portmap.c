@@ -30,24 +30,14 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-char copyright[] =
-"@(#) Copyright (c) 1990 The Regents of the University of California.\n\
- All rights reserved.\n";
-#endif /* not lint */
+#include <sys/cdefs.h>
 
-#ifndef lint
-#if 0
-static char sccsid[] = "from: @(#)portmap.c	5.4 (Berkeley) 4/19/91";
-#else
-static char rcsid[] = "$OpenBSD: portmap.c,v 1.34 2005/05/22 21:19:39 henning Exp $";
-#endif
-#endif /* not lint */
-
-/*
-@(#)portmap.c	2.3 88/08/11 4.0 RPCSRC
-static char sccsid[] = "@(#)portmap.c 1.32 87/08/06 Copyr 1984 Sun Micro";
-*/
+__COPYRIGHT("@(#) Copyright (c) 1990 The Regents of the University of California.\n\
+ All rights reserved.\n");
+__SCCSID("@(#)portmap.c	5.4 (Berkeley) 4/19/91");
+__RCSID("$MirOS$");
+__SCCSID("@(#)portmap.c	2.3 88/08/11 4.0 RPCSRC");
+__SCCSID("@(#)portmap.c 1.32 87/08/06 Copyr 1984 Sun Micro");
 
 /*
  * portmap.c, Implements the program,version to port number mapping for

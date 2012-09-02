@@ -29,16 +29,12 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-char copyright[] =
-"@(#) Copyright (c) 1988 The Regents of the University of California.\n\
- All rights reserved.\n";
-#endif /* not lint */
+#include <sys/cdefs.h>
 
-#ifndef lint
-/*static const char sccsid[] = "from: @(#)passwd.c	5.5 (Berkeley) 7/6/91";*/
-static const char rcsid[] = "$OpenBSD: passwd.c,v 1.19 2005/05/01 02:51:08 deraadt Exp $";
-#endif /* not lint */
+__COPYRIGHT("@(#) Copyright (c) 1988 The Regents of the University of California.\n\
+ All rights reserved.\n");
+__SCCSID("@(#)passwd.c	5.5 (Berkeley) 7/6/91");
+__RCSID("$MirOS$");
 
 #include <stdio.h>
 #include <stdlib.h>

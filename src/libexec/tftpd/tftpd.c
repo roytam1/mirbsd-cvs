@@ -29,16 +29,12 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-char copyright[] =
-"@(#) Copyright (c) 1983 Regents of the University of California.\n\
- All rights reserved.\n";
-#endif /* not lint */
+#include <sys/cdefs.h>
 
-#ifndef lint
-/*static char sccsid[] = "from: @(#)tftpd.c	5.13 (Berkeley) 2/26/91";*/
-static char rcsid[] = "$OpenBSD: tftpd.c,v 1.40 2005/03/10 10:22:32 claudio Exp $";
-#endif /* not lint */
+__COPYRIGHT("@(#) Copyright (c) 1983 Regents of the University of California.\n\
+ All rights reserved.\n");
+__SCCSID("@(#)tftpd.c	5.13 (Berkeley) 2/26/91");
+__RCSID("$MirOS$");
 
 /*
  * Trivial file transfer protocol server.

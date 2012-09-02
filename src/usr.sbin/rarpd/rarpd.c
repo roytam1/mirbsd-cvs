@@ -21,16 +21,12 @@
  * WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
  */
-#ifndef lint
-char    copyright[] =
-"@(#) Copyright (c) 1990 The Regents of the University of California.\n\
- All rights reserved.\n";
-#endif				/* not lint */
 
-#ifndef lint
-static char rcsid[] = "$OpenBSD: rarpd.c,v 1.44 2004/09/15 22:33:15 deraadt Exp $";
-#endif
+#include <sys/cdefs.h>
 
+__COPYRIGHT("@(#) Copyright (c) 1990 The Regents of the University of California.\n\
+ All rights reserved.\n");
+__RCSID("$MirOS$");
 
 /*
  * rarpd - Reverse ARP Daemon
