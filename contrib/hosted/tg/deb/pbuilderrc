@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/tg/deb/pbuilderrc,v 1.26 2012/06/03 18:06:35 tg Exp $
+# $MirOS: contrib/hosted/tg/deb/pbuilderrc,v 1.27 2012/07/29 00:24:40 tg Exp $
 #-
 # Sample ~/.pbuilderrc for multiple architecture, distribution and
 # suite support. May work, but may just as well break. Experimental.
@@ -254,12 +254,17 @@ case $DISTRO in
 	DEBOOTSTRAPOPTS=(
 		--arch=$ARCHITECTURE
 		--include=$x,file-rc
-		--exclude=sysv-rc,insserv,ubuntu-keyring
+		--exclude=sysv-rc,ubuntu-keyring
 		--components=${COMPONENTS// /,}
 		--variant=buildd
 		--keyring=/usr/share/keyrings/${keyringfile}.gpg
 	)
-	REMOVEPACKAGES="$REMOVEPACKAGES sysv-rc insserv"
+	REMOVEPACKAGES="$REMOVEPACKAGES sysv-rc"
+	case $DISTRIBUTION in
+	(sarge|etch|lenny|squeeze)
+		REMOVEPACKAGES="$REMOVEPACKAGES insserv"
+		;;
+	esac
 	;;
 (dpo)
 	DISTRIBUTION=unstable
@@ -270,12 +275,12 @@ case $DISTRO in
 	DEBOOTSTRAPOPTS=(
 		--arch=$ARCHITECTURE
 		--include=cowdancer,apt,debian-ports-archive-keyring,file-rc
-		--exclude=sysv-rc,insserv,ubuntu-keyring
+		--exclude=sysv-rc,ubuntu-keyring
 		--components=${COMPONENTS// /,}
 		--variant=buildd
 		--keyring=/usr/share/keyrings/debian-ports-archive-keyring.gpg
 	)
-	REMOVEPACKAGES="$REMOVEPACKAGES sysv-rc insserv"
+	REMOVEPACKAGES="$REMOVEPACKAGES sysv-rc"
 	;;
 (ubuntu)
 	case $DIST:$DISTRIBUTION in
