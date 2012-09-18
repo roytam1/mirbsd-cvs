@@ -1,4 +1,4 @@
-# $MirOS: contrib/code/Snippets/getshver,v 1.12 2012/06/30 17:50:27 tg Exp $
+# $MirOS: contrib/code/Snippets/getshver,v 1.13 2012/09/18 14:15:32 tg Exp $
 #-
 # Copyright (c) 2009, 2010, 2011, 2012
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -66,6 +66,9 @@ puts $v
 exit 0
 '
 # ))) END of Tcl section
+
+LC_ALL=C
+export LC_ALL
 
 if test x"`echo u ^ echo x`" = x"x"; then
 	# Bourne shell, maybe Heirloom sh (tested)
