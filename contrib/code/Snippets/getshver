@@ -1,4 +1,4 @@
-# $MirOS: contrib/code/Snippets/getshver,v 1.11 2011/11/02 21:48:05 tg Exp $
+# $MirOS: contrib/code/Snippets/getshver,v 1.12 2012/06/30 17:50:27 tg Exp $
 #-
 # Copyright (c) 2009, 2010, 2011, 2012
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -17,6 +17,9 @@
 # of dealing in the work, even if advised of the possibility of such
 # damage or existence of a defect, except proven that it results out
 # of said person's immediate fault when using the work as intended.
+#-
+# There's also this one (although mksh never sets $SH_VERSION):
+# http://www.in-ulm.de/~mascheck/various/whatshell/whatshell.sh.html
 
 # escape this from tclsh \
 set x = 1
@@ -78,6 +81,14 @@ fi
 
 case $ZSH_VERSION in
 *[0-9]*) echo "zsh $ZSH_VERSION"; exit 0 ;;
+esac
+
+case $VERSION in
+zsh*) printf "zsh-old $VERSION"; exit 0 ;;
+esac
+
+case $YASH_VERSION in
+*.*) echo "yash $YASH_VERSION"; exit 0 ;;
 esac
 
 case x$SHELL_VERSION in
