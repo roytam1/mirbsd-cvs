@@ -1,4 +1,4 @@
-# $MirOS: contrib/code/Snippets/getshver,v 1.13 2012/09/18 14:15:32 tg Exp $
+# $MirOS: contrib/code/Snippets/getshver,v 1.14 2012/09/18 14:17:01 tg Exp $
 #-
 # Copyright (c) 2009, 2010, 2011, 2012
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -144,6 +144,19 @@ case $KSH_VERSION in
 		# unspecified: Debian (modern), 5.2.14 (sorta modern),
 		# some older or vendor-modified version, old oksh
 		echo "pdksh ${KSH_VERSION#*KSH }"
+	fi
+	exit 0 ;;
+esac
+case $SH_VERSION in
+*PD\ KSH*MirOS*) echo "pdksh-binsh-mbsd${SH_VERSION#*PD KSH}"; exit 0 ;;
+*PD\ KSH*)
+	if test x"`typeset -i10 x=0x10 2>&-; echo $x`" = x"16"; then
+		# printing SH_VERSION here is rather useless though
+		echo "pdksh-binsh-obsd ${SH_VERSION#*KSH }"
+	else
+		# unspecified: Debian (modern), 5.2.14 (sorta modern),
+		# some older or vendor-modified version, old oksh
+		echo "pdksh-binsh ${SH_VERSION#*KSH }"
 	fi
 	exit 0 ;;
 esac
