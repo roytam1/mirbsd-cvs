@@ -1,0 +1,19 @@
+#!/bin/mksh
+# $MirOS$
+
+if a=$(whence -p waveplay) && [[ -n $a && -x $a ]]; then
+	alias _wavplay='waveplay -'
+else
+	alias _wavplay='sox -t wav /dev/stdin -t sunau /dev/audio'
+fi
+
+trap "" INT
+
+for a in "$@"; do
+	if [[ -s $a ]]; then
+		print -ru2 "♬ $a"
+		flac -d -c "$a" | _wavplay
+	else
+		print -ru2 "Skipping illegible '$a'"
+	fi
+done
