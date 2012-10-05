@@ -1,6 +1,6 @@
 <?php
 /*-
- * $MirOS$
+ * $MirOS: contrib/hosted/tg/mailfrom.php,v 1.1 2012/10/05 22:21:36 tg Exp $
  *-
  * Copyright © 2012
  *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
@@ -22,6 +22,36 @@
  *-
  * The correct way to send eMail from PHP. Do not bug the poor people
  * in #sendmail on Freenode IRC if you’re doing it wrong.
+ *
+ * Usage example:
+ *	$res = util_sendmail('noreply@example.com',
+ *	    array('user@example.com', 'ceo@example.com'),
+ *	    array(
+ *		'From' => 'Webserver <noreply@example.com>',
+ *		'To' => 'Random L. User <user@example.com>',
+ *		'Cc' => 'PHB <ceo@example.com>',
+ *		'Subject' => 'Testmail äöüß € ☺',
+ *		'MIME-Version' => '1.0',
+ *		'Content-Type' => 'text/plain; charset=UTF-8',
+ *		'Content-Transfer-Encoding' => '8bit',
+ *	    ), array(
+ *		'Hello!',
+ *		'',
+ *		'This is a test äöüß € ☺ mail.',
+ *	    ));
+ *
+ *	echo $res[0] ? "Success\n" : ("Failure\n" . print_r($res, true));
+ *
+ * The body could have been passed as a string (with lines separated
+ * by \n, \r\n or even \r) instead of as an array of lines, as well.
+ * This is probably most useful when the text gets passed from other
+ * code. For headers, this is not supported due to the mandatory en‐
+ * coding of them this function performs, by the standards.
+ *
+ * Suggested further reading:
+ * ‣ http://me.veekun.com/blog/2012/04/09/php-a-fractal-of-bad-design/
+ * ‣ https://en.wikiquote.org/wiki/Rasmus_Lerdorf
+ * ‣ http://www.rfc-editor.org/rfc/rfc822.txt and its successors
  */
 
 /**
