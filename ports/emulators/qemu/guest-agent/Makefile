@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/emulators/qemu/guest-agent/Makefile,v 1.1 2012/10/17 23:24:37 tg Exp $
 
 COMMENT=		QEMU Guest Agent
 CATEGORIES=		emulators
@@ -17,6 +17,7 @@ PERMIT_PACKAGE_FTP=	Yes
 
 .include <mirports.sys.mk>
 
+BUILD_DEPENDS+=		:python->=2.4,<=3.0:lang/python/2.5
 LIB_DEPENDS+=		glib-2.0.0.0,gmodule-2.0.0.0,gobject-2.0.0.0::devel/glib
 USE_GMAKE=		Yes
 CONFIGURE_STYLE=	simple
