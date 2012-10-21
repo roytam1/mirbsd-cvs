@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $
+# $MirOS: contrib/hosted/tg/sdmksh,v 1.1 2012/10/21 16:38:04 tg Exp $
 #-
 # Copyright © 2012
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -36,9 +36,10 @@ if ! T=$(mktemp -d /tmp/sdmksh.$sessname.XXXXXXXXXX); then
 fi
 
 export SDMKSH_PATH="$T/.logpath"
+print "sdmksh $sessname started at $(date)" >"$SDMKSH_PATH"
 
-if ! mknod "$SDMKSH_PATH" p || [[ ! -p $SDMKSH_PATH ]]; then
-	print -u2 Could not create logging FIFO.
+if [[ ! -s $SDMKSH_PATH ]]; then
+	print -u2 Could not create logging file.
 	rm -rf "$T"
 	exit 1
 fi
@@ -67,7 +68,7 @@ cat >"$T/.scfg" <<-EOF
 	defscrollback 16384
 	escape ^Oo
 	logfile "sdmkshlog.%n"
-	screen -t Log$sessname -L 0 "$T/.runlog"
+	screen -t Log$sessname 0 "$T/.runlog"
 	split
 	focus down
 	screen -t sh$sessname 1 "$T/.runshell"
