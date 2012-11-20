@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/hosted/tg/getarticle,v 1.1 2012/02/16 20:41:03 tg Exp $
+# $MirOS: contrib/hosted/tg/getarticle,v 1.2 2012/04/06 23:59:21 tg Exp $
 #-
 # Copyright © 2012
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -26,6 +26,8 @@
 
 if (( $# == 2 )); then
 	printf 'mode reader\r\ngroup %s\r\narticle %d\r\nquit\r\n' "$1" "$2"
+elif [[ $1 = */+([0-9]) ]]; then
+	printf 'mode reader\r\ngroup %s\r\narticle %d\r\nquit\r\n' "${1%/*}" "${1##*/}"
 else
 	printf 'mode reader\r\narticle <%s>\r\nquit\r\n' "$1"
 fi | \
