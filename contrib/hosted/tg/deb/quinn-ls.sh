@@ -1,7 +1,7 @@
 #!/bin/mksh
-rcsid='$MirOS: contrib/hosted/tg/deb/quinn-ls.sh,v 1.5 2011/06/25 14:28:31 tg Exp $'
+rcsid='$MirOS: contrib/hosted/tg/deb/quinn-ls.sh,v 1.6 2011/11/11 20:24:02 tg Exp $'
 #-
-# Copyright © 2011
+# Copyright © 2011, 2012
 #	Thorsten Glaser <tg@debian.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
@@ -63,6 +63,26 @@ function isdebver {
 
 	eval [[ \$1 = $epochglob$uvglob$dvglob ]]
 }
+
+# packages to never ask rmadison for
+asso_setv 1 nomadison arngc
+asso_setv 1 nomadison atari-bootstrap
+asso_setv 1 nomadison atari-fdisk
+asso_setv 1 nomadison ca-bundle
+asso_setv 1 nomadison defoma
+asso_setv 1 nomadison m68k-gcc-defaults
+asso_setv 1 nomadison m68k-vme-tftplilo
+asso_setv 1 nomadison m68kboot
+asso_setv 1 nomadison mircpio
+asso_setv 1 nomadison mirhost
+asso_setv 1 nomadison mirmake
+asso_setv 1 nomadison mirsirc
+asso_setv 1 nomadison ssfe
+asso_setv 1 nomadison vmelilo
+asso_setv 1 nomadison vmelilo-installer
+asso_setv 1 nomadison wtf
+asso_setv 1 nomadison wtf-debian-keyring
+asso_setv 1 nomadison xfree86
 
 i=0
 function do_gather {
@@ -131,6 +151,10 @@ fi
 
 print -u2 '\nrunning rmadison…'
 asso_loadk pkgs
+i=${#asso_y[*]}
+while (( i-- )); do
+	asso_isset nomadison "${asso_y[i]}" && unset asso_y[i]
+done
 rmadison -s sid "${asso_y[@]}" |&
 while read -pr pkg pipe vsn pipe sid pipe arches; do
 	#print -u2 "D: pkg<$pkg> vsn<$vsn> sid<$sid> arches<$arches>"
