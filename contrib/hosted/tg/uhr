@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/hosted/tg/uhr,v 1.4 2012/05/28 00:24:01 tg Exp $
+# $MirOS: contrib/hosted/tg/uhr,v 1.5 2012/05/28 00:30:00 tg Exp $
 #-
 # Copyright © 2012
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -21,6 +21,11 @@
 #-
 # Analoguhr mit Digitalanzeige. Grundlegende Annahme: schnelles Ter‐
 # minal, d.h. keine Voroptimierung der Darstellung durch Shellcode.
+
+if [[ $MKSH_UNIXTIME != [1-9]+([0-9]).[0-9][0-9][0-9][0-9][0-9][0-9] ]]; then
+	print -u2 Your mksh is too old.
+	exit 1
+fi
 
 # stupid GNU idiots breaking everything by default… grml…
 bcopt=
@@ -254,15 +259,28 @@ refresh "${px[@]}"; set -A px
 
 set -A do -- -1 -1 -1
 while (( !got_sigwinch )); do
+	(( tosleep = 1000000 - ${MKSH_UNIXTIME#*.} ))
+	if (( tosleep > 999999 )); then
+		sleep 0.2
+		(( tosleep = 1000000 - ${MKSH_UNIXTIME#*.} ))
+	fi
+	if (( tosleep > 999999 )); then
+		# huh… maybe no gettimeofday(2) here
+		while :; do
+			d=$(date +'%H %M %S,%d %b %Y')
+			set -A dt $d
+			(( dt[2] == do[2] )) || break
+			sleep 0.1
+		done
+	else
+		sleep 0.$tosleep
+	fi
+
 	d=$(date +'%H %M %S,%d %b %Y')
 	S=${d#*,}
 	d=${d%,*}
 	set -A dt $d
 
-	if (( dt[2] == do[2] )); then
-		sleep 0.1
-		continue
-	fi
 	(( dt[0] = (dt[0] % 12) * 5 + (dt[1] / 12) ))
 	if (( do[2] != -1 )); then
 		retrace lms$((do[2])) M_SP F_NO
