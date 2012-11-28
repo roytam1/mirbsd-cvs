@@ -1,5 +1,5 @@
 #!/bin/mksh
-rcsid='$MirOS: contrib/hosted/tg/deb/quinn-ls.sh,v 1.6 2011/11/11 20:24:02 tg Exp $'
+rcsid='$MirOS: contrib/hosted/tg/deb/quinn-ls.sh,v 1.7 2012/11/25 21:13:16 tg Exp $'
 #-
 # Copyright © 2011, 2012
 #	Thorsten Glaser <tg@debian.org>
@@ -19,13 +19,14 @@ rcsid='$MirOS: contrib/hosted/tg/deb/quinn-ls.sh,v 1.6 2011/11/11 20:24:02 tg Ex
 # damage or existence of a defect, except proven that it results out
 # of said person’s immediate fault when using the work as intended.
 
-gather=cwd
+gather=cwd fromfile=
 mydir=$(realpath "$(dirname "$0")")
 PATH="$mydir:$mydir/..:$PATH" . assockit.ksh
 
-while getopts "l" ch; do
+while getopts "L:l" ch; do
 	case $ch {
-	(l)	gather=installed ;;
+	(L)	gather=installed fromfile=$OPTARG ;;
+	(l)	gather=installed fromfile= ;;
 	(*)	exit 1 ;;
 	}
 done
@@ -130,7 +131,19 @@ if [[ $gather = cwd ]]; then
 		do_gather
 	done
 elif [[ $gather = installed ]]; then
-	dpkg-query -Wf '${Package} ${Version} ${Source} ${Package}\n' |&
+	if [[ -n $fromfile ]]; then
+		# e.g. from running the following command:
+		# chroot --userspec=65534:65534 /var/cache/pbuilder/build/cow.27937 \
+		#     /usr/bin/dpkg-query -Wf '${Package} ${Version} ${Source} ${Package}\n' \
+		#     >thefile
+		if [[ ! -s $fromfile ]]; then
+			print -u2 "Cannot read $fromfile."
+			exit 1
+		fi
+		cat "$fromfile"
+	else
+		dpkg-query -Wf '${Package} ${Version} ${Source} ${Package}\n'
+	fi |&
 	while read -p name Version Source x rest; do
 		if [[ $Source = *'('*')' ]]; then
 			# this is not customary…
