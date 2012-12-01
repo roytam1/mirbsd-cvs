@@ -22,11 +22,14 @@ alternative: UTF-16 and UTF-32, binary
 
 A JSON text consists of an optional Unicode BOM <U+FEFF> in either
 UTF-16 variant (or UTF-8) and exactly one expansion of the syntac-
-tical goal either JSON<RFC> or JSON<ECMA>.
+tical goal either JSON<RFC> or JSON<ECMA>. Its first (after a BOM,
+if any) two octets are always 7-bit ASCII; the encoding can be de-
+tected using the pattern of NUL octets thus.
 
 
 primitive types that can be represented in JSON:
-- string
+- string (Unicode; not binary-safe; not NUL-safe in many implementations;
+  usually UTF-16 but no surrogate integrity guaranteed)
 - number (can emit integral, fractional, exponential number or null literal)
 - boolean (literal: true, false)
 - null (literal: null) -- also: NaN, -Inf, +Inf (infinite numbers)
@@ -111,8 +114,13 @@ although some decoders read e.g. literalnull or \n case-insensitively.
   Object keys with apostrophes or unescaped, allowing trailing commata
   in Object and Array definitions, allowing comments, etc.); this MUST
   NOT be done; be strict and anal as per the standard
-- the content of a String consists of arbitrary 16-bit codepoints, that
-  is, \uFFFF is valid in a String as are loose UTF-16 surrogates
+- a String is a sequence of arbitrary 16-bit Unicode codepoints, that
+  is, \u0000 \uFFFE \uFFFF and loose UTF-16 surrogates are valid; for
+  an information interchange format we'd like to forbid at least the
+  first three (NUL for its use in many programming environments in C
+  strings, and \uFFFE and \uFFFF as they're invalid Unicode as JSON
+  is not binary-safe anyway); the base language uses Unicode, so we
+  don't check for UTF-16 as that's something different
 - impose a nesting depth limit when reading
 
 
@@ -129,10 +137,12 @@ although some decoders read e.g. literalnull or \n case-insensitively.
 - escape '"' and '\' with \
 - escape BS/FF/NL/CR/HT with \+letter
 - escape <0x00..0x1F> with \uNNNN
+  (except <0x00> should never happen)
 - pass <0x7F> and <0080..009F> literally!
-- pass everything else literally
 - for codepoints outside the BMP, emit the UTF-16 surrogate pair as
   escapes \uNNNN\uNNNN (do not pass them literally)
+- pass everything else (up to <FFFD>) literally
+  (<FFFE> and <FFFF> should never happen either)
 - any character MAY be escaped (as unicode)
 
 /* when emitting an Object or Array */
@@ -140,10 +150,11 @@ although some decoders read e.g. literalnull or \n case-insensitively.
 - acyclical nesting depth is unlimited (implementations SHOULD impose a limit)
 - (ECMA says: Objects are in for-in enumeration order, if any, otherwise unsorted)
 - Objects are ASCIIbetically sorted by their keys
+  (to avoid CVE-2011-4815 and because JSON is an interchange format)
 - Arrays are in numerical order, from 0 to nelems-1, with no gaps
 - (ECMAscript only: 'undefined', functions, etc. produce an undefined value)
 - Objects do not emit slots whose value is undefined at all! (but slots with null)
 - Arrays emit undefined values as literalnull
 
 __________________________________________________________________________________
-$MirOS: contrib/hosted/tg/code/MirJSON/json.txt,v 1.1 2012/04/08 17:12:54 tg Exp $
+$MirOS: contrib/hosted/tg/code/MirJSON/json.txt,v 1.2 2012/04/08 17:37:59 tg Exp $
