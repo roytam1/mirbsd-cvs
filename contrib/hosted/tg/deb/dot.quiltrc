@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/tg/deb/dot.quiltrc,v 1.1 2012/06/24 19:34:31 tg Exp $
+# $MirOS: contrib/hosted/tg/deb/dot.quiltrc,v 1.2 2012/06/29 15:17:14 tg Exp $
 
 while test -z "$QUILT_PATCHES" || test x"$QUILT_PATCHES" = x"-"; do
 	d=.
@@ -13,7 +13,9 @@ while test -z "$QUILT_PATCHES" || test x"$QUILT_PATCHES" = x"-"; do
 
 	QUILT_PATCHES="debian/patches"
 	QUILT_PATCH_OPTS="--reject-format=unified"
-	QUILT_DIFF_OPTS="--show-c-function"
+	QUILT_DIFF_OPTS=""
+	test -n "$QUILTRC_NO_DIFF_P" || \
+	    QUILT_DIFF_OPTS="$QUILT_DIFF_OPTS --show-c-function"
 	QUILT_DIFF_ARGS="-p ab --no-timestamps --no-index --color=auto"
 	QUILT_REFRESH_ARGS="-p ab --no-timestamps --no-index"
 	QUILT_PUSH_ARGS="--color=auto"
