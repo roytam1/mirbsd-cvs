@@ -1,5 +1,5 @@
 #!/bin/mksh
-rcsid='$MirOS: contrib/hosted/tg/deb/quinn-ls.sh,v 1.7 2012/11/25 21:13:16 tg Exp $'
+rcsid='$MirOS: contrib/hosted/tg/deb/quinn-ls.sh,v 1.8 2012/11/28 20:47:58 tg Exp $'
 #-
 # Copyright © 2011, 2012
 #	Thorsten Glaser <tg@debian.org>
@@ -78,6 +78,7 @@ asso_setv 1 nomadison mircpio
 asso_setv 1 nomadison mirhost
 asso_setv 1 nomadison mirmake
 asso_setv 1 nomadison mirsirc
+asso_setv 1 nomadison pbuilder-satisfydepends-dummy
 asso_setv 1 nomadison ssfe
 asso_setv 1 nomadison vmelilo
 asso_setv 1 nomadison vmelilo-installer
