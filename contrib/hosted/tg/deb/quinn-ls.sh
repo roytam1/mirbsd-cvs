@@ -1,5 +1,5 @@
 #!/bin/mksh
-rcsid='$MirOS: contrib/hosted/tg/deb/quinn-ls.sh,v 1.8 2012/11/28 20:47:58 tg Exp $'
+rcsid='$MirOS: contrib/hosted/tg/deb/quinn-ls.sh,v 1.9 2012/12/02 18:02:34 tg Exp $'
 #-
 # Copyright © 2011, 2012
 #	Thorsten Glaser <tg@debian.org>
@@ -71,6 +71,8 @@ asso_setv 1 nomadison atari-bootstrap
 asso_setv 1 nomadison atari-fdisk
 asso_setv 1 nomadison ca-bundle
 asso_setv 1 nomadison defoma
+asso_setv 1 nomadison evolvis-anonsvnsh
+asso_setv 1 nomadison evolvis-meta
 asso_setv 1 nomadison m68k-gcc-defaults
 asso_setv 1 nomadison m68k-vme-tftplilo
 asso_setv 1 nomadison m68kboot
