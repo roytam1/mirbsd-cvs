@@ -150,7 +150,6 @@ xthread_t (*_Xthread_self_fn)(void) = NULL;
 #define ESZTEST() ECHECK(EOVERFLOW)
 #endif
 #endif
-#endif
 
 #ifdef __UNIXOS2__
 #define select(n,r,w,x,t) os2ClientSelect(n,r,w,x,t)
