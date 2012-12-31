@@ -131,13 +131,24 @@ xthread_t (*_Xthread_self_fn)(void) = NULL;
 
 #if defined(LOCALCONN) || defined(LACHMAN)
 #ifdef EMSGSIZE
+#ifdef EOVERFLOW
+#define ESZTEST() (ECHECK(EMSGSIZE) || ECHECK(ERANGE) || ECHECK(EOVERFLOW))
+#else
 #define ESZTEST() (ECHECK(EMSGSIZE) || ECHECK(ERANGE))
+#endif
+#else
+#ifdef EOVERFLOW
+#define ESZTEST() (ECHECK(ERANGE) || ECHECK(EOVERFLOW))
 #else
 #define ESZTEST() ECHECK(ERANGE)
+#endif
 #endif
 #else
 #ifdef EMSGSIZE
 #define ESZTEST() ECHECK(EMSGSIZE)
+#elif defined(EOVERFLOW)
+#define ESZTEST() ECHECK(EOVERFLOW)
+#endif
 #endif
 #endif
 
