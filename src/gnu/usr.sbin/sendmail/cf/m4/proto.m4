@@ -1532,8 +1532,9 @@ R<?> <e s> <$+>			$#error $@ nouser $: "550 User unknown"')
 R<?> <$*> <$+>			$@ $2',
 `dnl
 # return the original address
-R<> <> <$+> <@ $+> <$*>		$@ $1')',
-`dnl')
+R<> <> <$+> <@ $+> <$*>		$@ $1')
+')
+
 
 ifelse(substr(confDELIVERY_MODE,0,1), `d', `errprint(`WARNING: Antispam rules not available in deferred delivery mode.
 ')')

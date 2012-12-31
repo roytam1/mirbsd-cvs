@@ -69,8 +69,8 @@ struct {								\
 	struct type **tqe_prev;	/* address of previous next element */	\
 }
 
-/* 
- * tail queue access methods 
+/*
+ * tail queue access methods
  */
 #define	SM_TAILQ_FIRST(head)		((head)->tqh_first)
 #define	SM_TAILQ_END(head)		NULL

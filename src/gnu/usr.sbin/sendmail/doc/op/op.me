@@ -5999,7 +5999,7 @@ mailer.
 .ip @
 Look up addresses in the user database.
 .ip %
-Do not attempt delivery on initial recipient of a message
+Do not attempt delivery on initial receipt of a message
 or on queue runs
 unless the queued message is selected
 using one of the -qI/-qR/-qS queue run modifiers
@@ -7540,6 +7540,10 @@ This is intended to allow you to get responsiveness
 by processing the queue fairly frequently
 without thrashing your system by trying jobs too often.
 The default units are minutes.
+Note:
+This option is ignored for queue runs that select a subset
+of the queue, i.e.,
+.q \-q[!][I|R|S|Q][string]
 .ip MustQuoteChars=\fIs\fP
 [no short name]
 Sets the list of characters that must be quoted if used in a full name

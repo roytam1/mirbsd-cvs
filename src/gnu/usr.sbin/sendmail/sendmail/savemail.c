@@ -506,6 +506,7 @@ returntosender(msg, returnq, flags, e)
 	int flags;
 	register ENVELOPE *e;
 {
+	int ret;
 	register ENVELOPE *ee;
 	ENVELOPE *oldcur = CurEnv;
 	ENVELOPE errenvelope;
@@ -703,24 +704,35 @@ returntosender(msg, returnq, flags, e)
 
 	/* actually deliver the error message */
 	sendall(ee, SM_DELIVER);
+	(void) dropenvelope(ee, true, false);
+
+	/* check for delivery errors */
+	ret = -1;
+	if (ee->e_parent == NULL ||
+	    !bitset(EF_RESPONSE, ee->e_parent->e_flags))
+	{
+		ret = 0;
+	}
+	else
+	{
+		for (q = ee->e_sendqueue; q != NULL; q = q->q_next)
+		{
+			if (QS_IS_ATTEMPTED(q->q_state))
+			{
+				ret = 0;
+				break;
+			}
+		}
+	}
 
 	/* restore state */
-	(void) dropenvelope(ee, true, false);
 	sm_rpool_free(ee->e_rpool);
 	CurEnv = oldcur;
 	returndepth--;
 
-	/* check for delivery errors */
-	if (ee->e_parent == NULL ||
-	    !bitset(EF_RESPONSE, ee->e_parent->e_flags))
-		return 0;
-	for (q = ee->e_sendqueue; q != NULL; q = q->q_next)
-	{
-		if (QS_IS_ATTEMPTED(q->q_state))
-			return 0;
-	}
-	return -1;
+	return ret;
 }
+
 /*
 **  ERRBODY -- output the body of an error message.
 **
