@@ -1,6 +1,7 @@
 /*	$OpenBSD: systrace-error.c,v 1.2 2002/12/05 19:39:27 fgsch Exp $	*/
 /*
  * Copyright 2002 Niels Provos <provos@citi.umich.edu>
+ * Copyright © 2012 Thorsten Glaser <tg@mirbsd.org>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -41,8 +42,10 @@
 #include "systrace.h"
 #include "systrace-errno.h"
 
+__RCSID("$MirOS$");
+
 struct systrace_error {
-	char *name;
+	const char *name;
 	int errno;
 } systrace_errors[] = {
 	{ "EPERM", SYSTRACE_EPERM },
@@ -129,11 +132,11 @@ struct systrace_error {
 	{ "ENEEDAUTH", SYSTRACE_ENEEDAUTH },
 	{ "EIPSEC", SYSTRACE_EIPSEC },
 	{ "ELAST", SYSTRACE_ELAST },
-	{ NULL, 0}
+	{ NULL, 0 }
 };
 
 int
-systrace_error_translate(char *name)
+systrace_error_translate(const char *name)
 {
 	struct systrace_error *error = systrace_errors;
 

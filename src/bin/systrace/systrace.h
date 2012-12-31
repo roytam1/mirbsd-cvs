@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: systrace.h,v 1.27 2006/07/02 12:34:15 sturm Exp $	*/
 /*
  * Copyright 2002 Niels Provos <provos@citi.umich.edu>
@@ -158,7 +159,7 @@ int systrace_updatepolicy(int fd, struct policy *policy);
 struct filterq *systrace_policyflq(struct policy *, const char *, const char *);
 char *systrace_getpolicyname(const char *);
 
-int systrace_error_translate(char *);
+int systrace_error_translate(const char *);
 
 #define SYSTRACE_MAXALIAS	10
 
