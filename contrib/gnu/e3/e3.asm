@@ -1,8 +1,8 @@
-; $MirOS: contrib/gnu/e3/e3.asm,v 1.5 2008/12/30 01:43:29 tg Exp $
+; $MirOS: contrib/gnu/e3/e3.asm,v 1.6 2009/06/29 19:16:35 tg Exp $
 ;
 ;--------------------------------------------------------------------
 ;
-;  e3.asm v2.7.1 Copyright (C) 2000-2007 Albrecht Kleine <kleine@ak.sax.de>
+;  e3.asm v2.8 Copyright (C) 2000-2010 Albrecht Kleine
 ;
 ;  This program is free software; you can redistribute it and/or modify
 ;  it under the terms of the GNU General Public License as published by
@@ -431,21 +431,13 @@ ExtAscii:mov bl,ah			;don't use al (carries char e.g. TAB)
 	xor eax,eax
 	mov [EmaCtrl],eax
 CompJump2:mov bh,0
-%ifdef YASM
+%ifdef AMD64
 	and ebx,0ffh
 %else
 	lea ebx,[bx]			;1 byte shorter than 'and ebx,0ffh'
 %endif
 	movzx ebx,word [2*ebx+jumptab1] ;2*ebx is due 2 byte per entry
-;;;%ifdef YASM
-;;;%ifdef AMD64
-;;;	add rbx,0x400000b0
-;;;%else
-;;;	add ebx,0x08048080		;most ugly work around ever written
-;;;%endif
-;;;%else
 	add ebx,_start			;offset inside code
-;;;%endif
 ;-------
 	call ebx			;the general code jump dispatcher
 ;-------
@@ -980,7 +972,7 @@ KeyEmaCtrlW:mov ecx,[showblock]
 	cmp byte[mode],PI
 	jne NOPI1
 KECW:	
-%ifndef YASM
+%ifndef AMD64
 	jecxz KeyCtrlY
 %else
 	or ecx,ecx
@@ -1233,7 +1225,7 @@ KeyVICmdI:call KeyVI1Char
 ;-------
 KeyVICmdp:mov ecx,[EmaKiSize]		;check this before call KeyEmaCtrlY
 jmpKFC2:
-%ifdef YASM
+%ifdef AMD64
 	or ecx,ecx
 	jz KFC2
 %else
@@ -1390,7 +1382,7 @@ NoEmBlock:call GetEditScreenSize	;check changed tty size
 DispShortLine:call LookPgBegin 		;go on 1st char upper left on screen
 	mov esi,edi			;esi for reading chars from text
 	mov ecx,[lines]
-%ifndef YASM
+%ifndef AMD64
 	jecxz Kviex
 %else
 	or ecx,ecx
@@ -1478,13 +1470,13 @@ ELZ7:
 	cmp al,080h
 	pop eax
 	jz UByte234			;MSB 10...... =do not count 
-	jb CountByte			;MSB 01...... 00...... count valid 7bit ASCII
-	push eax
-	mov al,byte [esi]		;check next byte for vaild UTF8 follower byte
-	and al,0C0h
-	cmp al,80h			;is UTF8 byte 2,3,4,..  ?
-	pop eax
-	jnz UByte234			;no do not count wrong UTF8 starter byte
+;	jb CountByte			;MSB 01...... 00...... count valid 7bit ASCII
+;	push eax			;is UTF8 starter byte
+;	mov al,byte [esi]		;check next byte for valid UTF8 follower byte
+;	and al,0C0h
+;	cmp al,80h			;is UTF8 byte 2,3,4,..  ?
+;	pop eax
+;	jnz UByte234			;no do not count wrong UTF8 starter byte
 CountByte:inc edx
 	inc ah				;1
 UByte234:cmp edx,[zloffst]
@@ -1842,7 +1834,20 @@ IS0:	push ebx			;local loop starts here
 	lea edi,[screenline+stdtxtlen]
 	mov ecx,ebx
 	cld
+%ifdef UTF8
 	rep movsb			;copy line buffer into screen display buffer
+%else
+lop7:	jecxz lop7end
+	lodsb
+	cmp al,0x80
+	jb below128
+	mov al,'.'			;do not disp char>127 in ASCII mode, but '.' place holder
+below128:
+	stosb	
+	dec ecx
+	jmp short lop7
+lop7end:	
+%endif
 	mov ecx,edx
 	sub ecx,ebx
 	mov al,32			;fill up with blanks
@@ -1853,10 +1858,10 @@ IS0:	push ebx			;local loop starts here
 	sub ebx,ecx
 	add bl,stdtxtlen		;offset+column
 %ifdef UTF8
-%ifdef UTF8RTS
-	cmp byte [isUTF8],0
-	je noUTF_I
-%endif
+;%ifdef UTF8RTS				;don't need to care here
+;	cmp byte [isUTF8],0
+;	je noUTF_I
+;%endif
 	mov esi,ecx
 ISloopUTF8:lodsb
 	and al,0C0h
@@ -1917,12 +1922,7 @@ IS2:	cmp al,0			;marker of cursor keys etc.
 	cmp ah,5			;end
 	jne NotEnd
 	lea edi,[ecx+ebx]
-IS0j:	
-%ifdef UTF8
-	jmp IS0
-%else
-	jmp short IS0
-%endif
+IS0j:	jmp IS0
 NotEnd:	cmp ah,0			;home
 	jne NotHome
 	mov edi,ecx
@@ -2837,9 +2837,9 @@ KECY3:	POP_ALL
 KECY:
 %endif
 	mov ecx,[EmaKiSize]
-%ifdef YASM
+%ifdef AMD64
 	or ecx,ecx
-	jmp KeawRet
+	je KeawRet			;was jmp KeawRet (fixed in May 2010)
 %else
 	jecxz KeawRet
 %endif
@@ -3291,7 +3291,7 @@ RestoreStatusLine:PUSH_ALL		;important e.g. for asksave
 	jnz RSL0			;...caused by different handling due single ESC keys
 	cmp byte [VICmdMode],1
 	jnz NOVI0
-	mov ebx,'CMD '
+	mov eax,' CMD'
 	jmp short RSL1
 %ifdef ALT_IS_META
 RSL0:	mov dword [eax],'EscH'
@@ -4900,11 +4900,19 @@ RecConti:lodsb
 	cmp al,LINEFEED			;EOL?
 	jz short RRR			;jz RecReturn
 	cmp al,')'
+%ifndef AMD64
 	jz short RRet2
 	cmp al,'='			;end of task?
 RRR:	jz short RecReturn
 	cmp al,'!'			;white space?
 	jb short RecConti
+%else
+	jz RRet2
+	cmp al,'='			;end of task?
+RRR:	jz RecReturn
+	cmp al,'!'			;white space?
+	jb RecConti
+%endif
 	cmp byte[signctl],0		;last was opcode?
 	jnz short CheckNP		;sign is allowed after opcode only
 	cmp al,'+'
@@ -6100,8 +6108,8 @@ align 2
 editmode:db 'p WSp Pip Emp NE'
 ;
 helptext:
-db "MicroEditor e3 v2.7.1"
-%ifndef NASM
+db "MicroEditor e3 v2.8"
+%ifdef YASM
 db "Y"
 %endif
 %ifdef UTF8
@@ -6109,13 +6117,13 @@ db "-UTF8 ",0C2h,0A9h
 %else
 db " (C)"
 %endif
-db "2000-07 A.Kleine",10
+db "2000-10 A.Kleine",10
 db "Enter filename or leave with RETURN",10,10
 %ifdef YASM
 %ifdef UTF8
-helptextsize equ 54h
+helptextsize equ 51h
 %else
-helptextsize equ 50h
+helptextsize equ 47h
 %endif
 %else
 helptextsize equ $-helptext
