@@ -1,3 +1,47 @@
+News of May 2010
+================
+
+Nearly 3 years after the 'final release' here is once more 
+a release of e3: version 2.8. This version was reduced down
+to the minimum, i.e, armlinux, e3c and elks parts are
+removed, if interested still use e3-2.7.1.
+
+In 2.8 there are fixed some bugs, most of them are related with
+UTF-8 processing, thus related to the Linux versions of e3.
+
+Also the Makefile destinations are reduced to:
+	make		# same as make 32 (needs NASM)
+	make 32		# e3 of 32 bit
+	make 64		# e3 of 64 bit
+	make install
+	make clean
+
+Some other options exist by editing the Makefile:
+DEBUG=false   		# or true
+NASM_OR_YASM=nasm	# or yasm
+
+Editing e3.h opens some other choices, most important
+the choice between default UTF-8 and 7bit-only support.
+
+BTW, the people of YASM and NASM did good jobs last years,
+so you can build the 64 bit version of e3 using same
+code with both NASM or YASM assemblers without differences.
+I have used NASM v.2.08 and YASM v.1.0.0.2319 for this release.
+
+About more changes, see top of ChangeLog file.
+
+	******************************************
+	* All of you who have never heard of e3  *
+	* now continue reading README_OLD.       *
+	* README_OLD is not quite up-to-date but *   
+	* gives some more information about e3.  *
+	******************************************
+-- 
+Enjoy!
+Albrecht
+
+===============================================================================
+
 README for mini editor e3 release 2.7.1
 
 (c) GPL 2000-07 Albrecht Kleine  

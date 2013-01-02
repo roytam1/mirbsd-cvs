@@ -1,5 +1,5 @@
 ;--------------------------------------------------------------------------
-;  e3.asm v2.7.0 Copyright (C) 2000-06 Albrecht Kleine <kleine@ak.sax.de>
+;  e3.asm v2.8 Copyright (C) 2000-10 Albrecht Kleine
 ;
 ;  see GNU copyright details in e3.asm
 ;--------------------------------------------------------------------------
@@ -14,7 +14,7 @@
 %define LESSWRITEOPS
 ;-------
 %define UTF8				;for UTF8 console or xterm e.g. @ Suse 9.1
-;%define UTF8RTS				;runtime detection of UTF8 console display
+%define UTF8RTS				;runtime detection of UTF8 console display
 ;-------
 %define BEEP_IN_VI			;undef if you hate beeping computers
 %define USE_MATH			;undef if you don't use the numerics
