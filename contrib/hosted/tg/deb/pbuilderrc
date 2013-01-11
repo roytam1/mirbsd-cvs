@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/tg/deb/pbuilderrc,v 1.29 2012/09/28 17:54:58 tg Exp $
+# $MirOS: contrib/hosted/tg/deb/pbuilderrc,v 1.30 2012/11/12 18:53:14 tg Exp $
 #-
 # Sample ~/.pbuilderrc for multiple architecture, distribution and
 # suite support. May work, but may just as well break. Experimental.
@@ -48,7 +48,7 @@ DISTBACKPORTSLOPPY_debian=lenny
 DISTBACKPORTUPDATE_ubuntu=dapper:hardy:jaunty:karmic:lucid:maverick:natty:oneiric:precise:quantal:raring
 MIRROR_sarge=http://ftp.hosteurope.de/mirror/archive.debian.org/debian/
 MIRROR_etch=http://ftp.hosteurope.de/mirror/archive.debian.org/debian/
-MIRROR_lenny=http://ftp.hosteurope.de/mirror/ftp.debian.org/debian/
+MIRROR_lenny=http://ftp.hosteurope.de/mirror/archive.debian.org/debian/
 MIRROR_squeeze=http://ftp.hosteurope.de/mirror/ftp.debian.org/debian/
 MIRROR_wheezy=http://ftp.hosteurope.de/mirror/ftp.debian.org/debian/
 MIRROR_jessie=http://ftp.hosteurope.de/mirror/ftp.debian.org/debian/
@@ -58,9 +58,9 @@ MIRROR_unreleased=http://ftp.debian-ports.org/debian
 MIRROR_dapper=http://old-releases.ubuntu.com/ubuntu/
 MIRROR_hardy=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
 MIRROR_jaunty=http://old-releases.ubuntu.com/ubuntu/
-MIRROR_karmic=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
+MIRROR_karmic=http://old-releases.ubuntu.com/ubuntu/
 MIRROR_lucid=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
-MIRROR_maverick=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
+MIRROR_maverick=http://old-releases.ubuntu.com/ubuntu/
 MIRROR_natty=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
 MIRROR_oneiric=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
 MIRROR_precise=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
@@ -68,7 +68,7 @@ MIRROR_quantal=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
 MIRROR_raring=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
 MIRRORSECURITY_sarge=http://ftp.hosteurope.de/mirror/archive.debian.org/debian-security/
 MIRRORSECURITY_etch=http://ftp.hosteurope.de/mirror/archive.debian.org/debian-security/
-MIRRORSECURITY_lenny=http://ftp.hosteurope.de/mirror/ftp.debian.org/debian-security/
+MIRRORSECURITY_lenny=http://ftp.hosteurope.de/mirror/archive.debian.org/debian-security/
 MIRRORSECURITY_squeeze=http://ftp.hosteurope.de/mirror/ftp.debian.org/debian-security/
 MIRRORSECURITY_wheezy=http://ftp.hosteurope.de/mirror/ftp.debian.org/debian-security/
 MIRRORSECURITY_jessie=NO
@@ -76,9 +76,9 @@ MIRRORSECURITY_sid=NO
 MIRRORSECURITY_dapper=http://old-releases.ubuntu.com/ubuntu/
 MIRRORSECURITY_hardy=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
 MIRRORSECURITY_jaunty=http://old-releases.ubuntu.com/ubuntu/
-MIRRORSECURITY_karmic=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
+MIRRORSECURITY_karmic=http://old-releases.ubuntu.com/ubuntu/
 MIRRORSECURITY_lucid=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
-MIRRORSECURITY_maverick=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
+MIRRORSECURITY_maverick=http://old-releases.ubuntu.com/ubuntu/
 MIRRORSECURITY_natty=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
 MIRRORSECURITY_oneiric=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
 MIRRORSECURITY_precise=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
@@ -86,9 +86,9 @@ MIRRORSECURITY_quantal=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
 MIRRORSECURITY_raring=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
 MIRRORBACKPORTS_sarge=http://ftp.hosteurope.de/mirror/archive.debian.org/debian-backports/
 MIRRORBACKPORTS_etch=http://ftp.hosteurope.de/mirror/archive.debian.org/debian-backports/
-MIRRORBACKPORTS_lenny=http://ftp.hosteurope.de/mirror/backports.debian.org/
+MIRRORBACKPORTS_lenny=http://ftp.hosteurope.de/mirror/archive.debian.org/debian-backports/
 MIRRORBACKPORTS_squeeze=http://ftp.hosteurope.de/mirror/backports.debian.org/
-MIRRORBACKPORTSLOPPY_lenny=http://ftp.hosteurope.de/mirror/backports.debian.org/
+MIRRORBACKPORTSLOPPY_lenny=http://ftp.hosteurope.de/mirror/archive.debian.org/debian-backports/
 
 COMPONENTS_debian=main
 COMPONENTS_dpo=main
@@ -227,20 +227,21 @@ case $DISTRIBUTION in
 	;;
 esac
 export DEBOOTSTRAP=debootstrap
-REMOVEPACKAGES='grub grub2 grub-pc grub-legacy lilo tasksel'
+REMOVEPACKAGES='grub grub2 grub-pc grub-legacy lilo tasksel tasksel-data'
 case $DISTRO in
 (debian)
 	x=cowdancer,apt,debian-archive-keyring
 	case $DIST:$DISTRIBUTION in
-	(squeeze-backports*:*|*:wheezy|*:jessie|*:sid)
-		EXTRAPACKAGES='apt debian-archive-keyring eatmydata fakeroot file-rc'
-		;;
 	(*:sarge)
 		x=apt
-		EXTRAPACKAGES='apt fakeroot file-rc'
+		EXTRAPACKAGES='apt fakeroot file-rc sysv-rc-'
 		;;
+	(*:etch|*:lenny|squeeze:*)
+		EXTRAPACKAGES='apt debian-archive-keyring fakeroot file-rc sysv-rc-'
+		;;
+
 	(*)
-		EXTRAPACKAGES='apt debian-archive-keyring fakeroot file-rc'
+		EXTRAPACKAGES='apt debian-archive-keyring eatmydata fakeroot file-rc sysv-rc-'
 		;;
 	esac
 	case $DIST in
@@ -264,10 +265,9 @@ case $DISTRO in
 		--variant=buildd
 		--keyring=/usr/share/keyrings/${keyringfile}.gpg
 	)
-	REMOVEPACKAGES="$REMOVEPACKAGES sysv-rc"
 	case $DISTRIBUTION in
 	(sarge|etch|lenny|squeeze)
-		REMOVEPACKAGES="$REMOVEPACKAGES insserv"
+		EXTRAPACKAGES="$EXTRAPACKAGES insserv-"
 		;;
 	esac
 	;;
@@ -276,7 +276,7 @@ case $DISTRO in
 	# Note: debootstrap cannot include packages from unreleased, so this
 	# fails if the architecture is not bootstrappable without unreleased
 	# (use multistrap or a custom repository then; adjust dist above)
-	EXTRAPACKAGES='apt debian-ports-archive-keyring eatmydata fakeroot file-rc'
+	EXTRAPACKAGES='apt debian-ports-archive-keyring eatmydata fakeroot file-rc sysv-rc-'
 	DEBOOTSTRAPOPTS=(
 		--arch=$ARCHITECTURE
 		--include=cowdancer,apt,debian-ports-archive-keyring,file-rc
@@ -285,15 +285,14 @@ case $DISTRO in
 		--variant=buildd
 		--keyring=/usr/share/keyrings/debian-ports-archive-keyring.gpg
 	)
-	REMOVEPACKAGES="$REMOVEPACKAGES sysv-rc"
 	;;
 (ubuntu)
 	case $DIST:$DISTRIBUTION in
-	(maverick-backports:*|*:natty|*:oneiric|*:precise|*:quantal|*:raring)
-		EXTRAPACKAGES='apt ubuntu-keyring eatmydata fakeroot'
+	(*:dapper|*:hardy|*:jaunty|*:karmic|*:lucid|maverick:*)
+		EXTRAPACKAGES='apt ubuntu-keyring fakeroot'
 		;;
 	(*)
-		EXTRAPACKAGES='apt ubuntu-keyring fakeroot'
+		EXTRAPACKAGES='apt ubuntu-keyring eatmydata fakeroot'
 		;;
 	esac
 	DEBOOTSTRAPOPTS=(
@@ -379,6 +378,7 @@ esac
 export OTHERMIRROR
 export PDEBUILD_PBUILDER=cowbuilder
 export PKGNAME_LOGFILE_EXTENTION=_${ARCHITECTURE}.build
+export PKGNAME_LOGFILE_EXTENSION=$PKGNAME_LOGFILE_EXTENTION
 export PKGNAME_LOGFILE=yes
 export PBUILDERSATISFYDEPENDSCMD=/usr/lib/pbuilder/pbuilder-satisfydepends
 #export PBUILDERSATISFYDEPENDSCMD=/usr/lib/pbuilder/pbuilder-satisfydepends-experimental
