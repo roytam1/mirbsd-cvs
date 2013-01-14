@@ -1,8 +1,8 @@
 <?php
 /*-
- * $MirOS: contrib/hosted/tg/mailfrom.php,v 1.1 2012/10/05 22:21:36 tg Exp $
+ * $MirOS: contrib/hosted/tg/mailfrom.php,v 1.2 2012/10/05 22:55:09 tg Exp $
  *-
- * Copyright © 2012
+ * Copyright © 2012, 2013
  *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  *
  * Provided that these terms and disclaimer and all copyright notices
@@ -50,6 +50,7 @@
  *
  * Suggested further reading:
  * ‣ http://me.veekun.com/blog/2012/04/09/php-a-fractal-of-bad-design/
+ * ‣ http://gynvael.coldwind.pl/?id=492
  * ‣ https://en.wikiquote.org/wiki/Rasmus_Lerdorf
  * ‣ http://www.rfc-editor.org/rfc/rfc822.txt and its successors
  */
@@ -148,6 +149,16 @@ function util_sendmail($sender, $recip, $hdrs, $body) {
 		$hdr_seen[$kf] = true;
 		/* append to message */
 		$msg[] = mb_encode_mimeheader($k . ": " . $v,
+		    "UTF-8", "Q", "\015\012");
+	}
+
+	/* handle mandatory header fields */
+
+	if (!isset($hdr_seen['date'])) {
+		$msg[] = "Date: " . date("r");
+	}
+	if (!isset($hdr_seen['from'])) {
+		$msg[] = mb_encode_mimeheader("From: " . $adrs[0],
 		    "UTF-8", "Q", "\015\012");
 	}
 
