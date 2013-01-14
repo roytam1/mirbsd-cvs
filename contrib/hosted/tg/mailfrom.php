@@ -56,6 +56,30 @@
  */
 
 /**
+ * util_sendmail_encode_hdr() - Encode an eMail header
+ *
+ * This function wraps the PHP mb_encode_mimeheader function,
+ * permitting short headers (like Content-Type usually is) to
+ * pass through unencoded (because if Content-Type is encoded
+ * at least Postfix does not handle the eMail correctly).
+ *
+ * @param	string	$fname
+ *		The name of the eMail header to use, which
+ *		must not preg_match /[^!-9;-~]/ (not checked)
+ * @param	string	$ftext
+ *		The unstructured field text to encode
+ * @result	string
+ *		The encoded header field, without trailing CRLF
+ */
+function util_sendmail_encode_hdr($fname, $ftext) {
+	$field = $fname . ": " . $ftext;
+	if (strlen($field) > 78 || preg_match('/[^ -~]/', $field) !== 0) {
+		$field = mb_encode_mimeheader($field, "UTF-8", "Q", "\015\012");
+	}
+	return $field;
+}
+
+/**
  * util_sendmail() - Send an eMail
  *
  * This function should be used in place of the PHP mail() function.
@@ -148,18 +172,16 @@ function util_sendmail($sender, $recip, $hdrs, $body) {
 		}
 		$hdr_seen[$kf] = true;
 		/* append to message */
-		$msg[] = mb_encode_mimeheader($k . ": " . $v,
-		    "UTF-8", "Q", "\015\012");
+		$msg[] = util_sendmail_encode_hdr($k, $v);
 	}
 
 	/* handle mandatory header fields */
 
 	if (!isset($hdr_seen['date'])) {
-		$msg[] = "Date: " . date("r");
+		$msg[] = util_sendmail_encode_hdr("Date", date("r"));
 	}
 	if (!isset($hdr_seen['from'])) {
-		$msg[] = mb_encode_mimeheader("From: " . $adrs[0],
-		    "UTF-8", "Q", "\015\012");
+		$msg[] = util_sendmail_encode_hdr("From", $adrs[0]);
 	}
 
 	$msg[] = "";
