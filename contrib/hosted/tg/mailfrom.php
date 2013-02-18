@@ -1,6 +1,6 @@
 <?php
 /*-
- * $MirOS: contrib/hosted/tg/mailfrom.php,v 1.2 2012/10/05 22:55:09 tg Exp $
+ * $MirOS: contrib/hosted/tg/mailfrom.php,v 1.4 2013/01/14 15:08:40 tg Exp $
  *-
  * Copyright © 2012, 2013
  *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
@@ -72,6 +72,13 @@
  *		The encoded header field, without trailing CRLF
  */
 function util_sendmail_encode_hdr($fname, $ftext) {
+	$old_encoding = mb_internal_encoding();
+	mb_internal_encoding("UTF-8");
+	$rv = util_sendmail_encode_hdr_int($fname, $ftext);
+	mb_internal_encoding($old_encoding);
+	return $rv;
+}
+function util_sendmail_encode_hdr_int($fname, $ftext) {
 	$field = $fname . ": " . $ftext;
 	if (strlen($field) > 78 || preg_match('/[^ -~]/', $field) !== 0) {
 		$field = mb_encode_mimeheader($field, "UTF-8", "Q", "\015\012");
@@ -172,16 +179,16 @@ function util_sendmail($sender, $recip, $hdrs, $body) {
 		}
 		$hdr_seen[$kf] = true;
 		/* append to message */
-		$msg[] = util_sendmail_encode_hdr($k, $v);
+		$msg[] = util_sendmail_encode_hdr_int($k, $v);
 	}
 
 	/* handle mandatory header fields */
 
 	if (!isset($hdr_seen['date'])) {
-		$msg[] = util_sendmail_encode_hdr("Date", date("r"));
+		$msg[] = util_sendmail_encode_hdr_int("Date", date("r"));
 	}
 	if (!isset($hdr_seen['from'])) {
-		$msg[] = util_sendmail_encode_hdr("From", $adrs[0]);
+		$msg[] = util_sendmail_encode_hdr_int("From", $adrs[0]);
 	}
 
 	$msg[] = "";
