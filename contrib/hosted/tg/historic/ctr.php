@@ -8,9 +8,9 @@
  <title>Website Visitor Counter script by Thorsten Glaser</title>
 </head><body><?php
 /*-
- * $MirOS: contrib/hosted/tg/historic/ctr.php,v 1.3 2010/11/10 16:14:56 tg Exp $
+ * $MirOS: contrib/hosted/tg/historic/ctr.php,v 1.5 2011/06/21 20:27:22 tg Exp $
  *-
- * Copyright © 2006, 2010, 2011
+ * Copyright © 2006, 2010, 2011, 2013
  *	Thorsten Glaser <tg@mirbsd.org>
  *
  * Provided that these terms and disclaimer and all copyright notices
@@ -32,11 +32,11 @@
  * damage or existence of a defect, except proven that it results out
  * of said person’s immediate fault when using the work as intended.
  *-
- * Use this as follows (probably better with CDATA, but what the hey):
- *	<script type="text/javascript" language="JavaScript"><!--
+ * Use this as follows:
+ *	<script language="JavaScript" type="text/javascript">//<![CDATA[
  *		var debug = 0;	// auf 1 setzen zum Debuggen
  *		document.write('<iframe height="70" width="120" align="center" scrolling="no" marginheight="0" marginwidth="0" src="http://{server}/ctr.php?debug=' + debug + '&amp;id=' + escape(document.location) + ' frameborder="0" />');
- *	//--></script>
+ *	//]]></script>
  */
 
 /* the following function taken from the MirBSD homepage */
@@ -44,8 +44,7 @@
  * base64 encoding, file system safe
  * used for locating of arguments
  */
-function mybase64($arg)
-{
+function mybase64($arg) {
 	$tmp1 = base64_encode($arg);
 	$balt = array("+", "=", "/");
 	$bneu = array(".", "_", "-");
@@ -56,8 +55,7 @@ function mybase64($arg)
 /*
  * We call this to abort sanely.
  */
-function s_die($message)
-{
+function s_die($message) {
 	global $odata;
 
 	echo "\n<h1>Fatal script error</h1>\n";
