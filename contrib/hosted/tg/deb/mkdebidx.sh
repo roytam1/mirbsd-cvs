@@ -1,5 +1,5 @@
 #!/bin/mksh
-rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.56 2012/08/02 21:01:39 tg Exp $'
+rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.57 2013/02/16 17:27:28 tg Exp $'
 #-
 # Copyright (c) 2008, 2009, 2010, 2011, 2012, 2013
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -228,6 +228,11 @@ for suite in dists/*; do
 	[[ $release_sign_detached = [01] ]] || \
 	    (( release_sign_detached = release_sign_inline ? 0 : 1 ))
 
+	# Debian's fix for CVE-2013-1051 consists of disabling
+	# support for InRelease files altogether (WTF!)
+	release_sign_detached=1
+	release_sign_inline=0
+
 	(( release_sign_detached )) && $gpg_remote gpg -u $repo_keyid \
 	    -sab <$suite/Release-tmp >$suite/Release-sig
 	(( release_sign_inline )) && $gpg_remote gpg -u $repo_keyid \
@@ -443,7 +448,7 @@ done
 EOF
 print -r -- " <title>${repo_title} Index</title>"
 cat <<'EOF'
- <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.56 2012/08/02 21:01:39 tg Exp $" />
+ <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.57 2013/02/16 17:27:28 tg Exp $" />
  <style type="text/css">
   table {
    border: 1px solid black;
