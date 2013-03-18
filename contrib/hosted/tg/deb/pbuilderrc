@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/tg/deb/pbuilderrc,v 1.31 2013/01/11 13:02:11 tg Exp $
+# $MirOS: contrib/hosted/tg/deb/pbuilderrc,v 1.32 2013/01/11 14:26:21 tg Exp $
 #-
 # Sample ~/.pbuilderrc for multiple architecture, distribution and
 # suite support. May work, but may just as well break. Experimental.
@@ -43,8 +43,8 @@ DISTROS='debian dpo ubuntu'
 DISTS_debian='sarge etch lenny squeeze wheezy jessie sid'
 DISTS_dpo='dpo'
 DISTS_ubuntu='dapper hardy jaunty karmic lucid maverick natty oneiric precise quantal raring'
-DISTBACKPORTS_debian=sarge:etch:lenny:squeeze
-DISTBACKPORTSLOPPY_debian=lenny
+DISTBACKPORTS_debian=sarge:etch:lenny:squeeze:wheezy
+DISTBACKPORTSLOPPY_debian=lenny:squeeze
 DISTBACKPORTUPDATE_ubuntu=dapper:hardy:jaunty:karmic:lucid:maverick:natty:oneiric:precise:quantal:raring
 MIRROR_sarge=http://ftp.hosteurope.de/mirror/archive.debian.org/debian/
 MIRROR_etch=http://ftp.hosteurope.de/mirror/archive.debian.org/debian/
@@ -88,7 +88,9 @@ MIRRORBACKPORTS_sarge=http://ftp.hosteurope.de/mirror/archive.debian.org/debian-
 MIRRORBACKPORTS_etch=http://ftp.hosteurope.de/mirror/archive.debian.org/debian-backports/
 MIRRORBACKPORTS_lenny=http://ftp.hosteurope.de/mirror/archive.debian.org/debian-backports/
 MIRRORBACKPORTS_squeeze=http://ftp.hosteurope.de/mirror/backports.debian.org/
+MIRRORBACKPORTS_wheezy=http://ftp.hosteurope.de/mirror/ftp.debian.org/debian/
 MIRRORBACKPORTSLOPPY_lenny=http://ftp.hosteurope.de/mirror/archive.debian.org/debian-backports/
+MIRRORBACKPORTSLOPPY_squeeze=http://ftp.hosteurope.de/mirror/ftp.debian.org/debian/
 
 COMPONENTS_debian=main
 COMPONENTS_dpo=main
