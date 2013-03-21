@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/tg/deb/pbuilderrc,v 1.32 2013/01/11 14:26:21 tg Exp $
+# $MirOS: contrib/hosted/tg/deb/pbuilderrc,v 1.33 2013/03/18 16:27:17 tg Exp $
 #-
 # Sample ~/.pbuilderrc for multiple architecture, distribution and
 # suite support. May work, but may just as well break. Experimental.
@@ -87,10 +87,10 @@ MIRRORSECURITY_raring=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
 MIRRORBACKPORTS_sarge=http://ftp.hosteurope.de/mirror/archive.debian.org/debian-backports/
 MIRRORBACKPORTS_etch=http://ftp.hosteurope.de/mirror/archive.debian.org/debian-backports/
 MIRRORBACKPORTS_lenny=http://ftp.hosteurope.de/mirror/archive.debian.org/debian-backports/
-MIRRORBACKPORTS_squeeze=http://ftp.hosteurope.de/mirror/backports.debian.org/
+MIRRORBACKPORTS_squeeze=http://ftp.hosteurope.de/mirror/ftp.debian.org/debian-backports/
 MIRRORBACKPORTS_wheezy=http://ftp.hosteurope.de/mirror/ftp.debian.org/debian/
 MIRRORBACKPORTSLOPPY_lenny=http://ftp.hosteurope.de/mirror/archive.debian.org/debian-backports/
-MIRRORBACKPORTSLOPPY_squeeze=http://ftp.hosteurope.de/mirror/ftp.debian.org/debian/
+MIRRORBACKPORTSLOPPY_squeeze=http://ftp.hosteurope.de/mirror/ftp.debian.org/debian-backports/
 
 COMPONENTS_debian=main
 COMPONENTS_dpo=main
