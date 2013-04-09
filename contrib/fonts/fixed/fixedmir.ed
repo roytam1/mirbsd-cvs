@@ -1,0 +1,9 @@
+1a
+' "$MirOS$"
+.
+/^hFONT/s/-Misc-Fixed/-MirOS-FixedMisc/
+.g/-ko/s//-/
+/^pADD_STYLE_NAME/s/".*"/""/
+/^pFAMILY_NAME/s/".*"/"FixedMisc"/
+/^pFOUNDRY/s/".*"/"MirOS"/
+wq
