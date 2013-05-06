@@ -1,17 +1,20 @@
-# $MirOS: contrib/hosted/tg/deb/pbuilderrc,v 1.33 2013/03/18 16:27:17 tg Exp $
+# $MirOS: contrib/hosted/tg/deb/pbuilderrc,v 1.34 2013/03/21 21:27:59 tg Exp $
 #-
 # Sample ~/.pbuilderrc for multiple architecture, distribution and
 # suite support. May work, but may just as well break. Experimental.
 #
-# Set DIST=lenny-backports-sloppy/i386 CUSTOM=foo for example.
+# Example uses include setting DIST=sid (regular package build),
+# DIST=lenny-backports-sloppy/i386 or DIST=sid/amd64 CUSTOM=foo
+# (with linux32 or linux64, respectively, prepended to build for
+# the other architecture, and select chroots appropriately).
 #-
 # debian.org: sarge etch lenny squeeze wheezy jessie sid
 # debian-ports.org: dpo (unstable+unreleased)
 # not supported: experimental
 # ubuntu: dapper hardy jaunty karmic lucid maverick natty oneiric
-#	  precise quantal raring
-# *-backports: sarge etch lenny squeeze; all ubuntus
-# *-backports-sloppy: lenny
+#	  precise quantal raring saucy
+# *-backports: sarge etch lenny squeeze wheezy; all ubuntus
+# *-backports-sloppy: lenny squeeze
 # univention: not supported… yet…
 #
 # NOTE for sarge: bootstrapping includes sarge-backports for
@@ -42,10 +45,10 @@ setuptofail() {
 DISTROS='debian dpo ubuntu'
 DISTS_debian='sarge etch lenny squeeze wheezy jessie sid'
 DISTS_dpo='dpo'
-DISTS_ubuntu='dapper hardy jaunty karmic lucid maverick natty oneiric precise quantal raring'
+DISTS_ubuntu='dapper hardy jaunty karmic lucid maverick natty oneiric precise quantal raring saucy'
 DISTBACKPORTS_debian=sarge:etch:lenny:squeeze:wheezy
 DISTBACKPORTSLOPPY_debian=lenny:squeeze
-DISTBACKPORTUPDATE_ubuntu=dapper:hardy:jaunty:karmic:lucid:maverick:natty:oneiric:precise:quantal:raring
+DISTBACKPORTUPDATE_ubuntu=dapper:hardy:jaunty:karmic:lucid:maverick:natty:oneiric:precise:quantal:raring:saucy
 MIRROR_sarge=http://ftp.hosteurope.de/mirror/archive.debian.org/debian/
 MIRROR_etch=http://ftp.hosteurope.de/mirror/archive.debian.org/debian/
 MIRROR_lenny=http://ftp.hosteurope.de/mirror/archive.debian.org/debian/
@@ -66,12 +69,13 @@ MIRROR_oneiric=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
 MIRROR_precise=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
 MIRROR_quantal=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
 MIRROR_raring=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
+MIRROR_saucy=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
 MIRRORSECURITY_sarge=http://ftp.hosteurope.de/mirror/archive.debian.org/debian-security/
 MIRRORSECURITY_etch=http://ftp.hosteurope.de/mirror/archive.debian.org/debian-security/
 MIRRORSECURITY_lenny=http://ftp.hosteurope.de/mirror/archive.debian.org/debian-security/
 MIRRORSECURITY_squeeze=http://ftp.hosteurope.de/mirror/ftp.debian.org/debian-security/
 MIRRORSECURITY_wheezy=http://ftp.hosteurope.de/mirror/ftp.debian.org/debian-security/
-MIRRORSECURITY_jessie=NO
+MIRRORSECURITY_jessie=http://ftp.hosteurope.de/mirror/ftp.debian.org/debian-security/
 MIRRORSECURITY_sid=NO
 MIRRORSECURITY_dapper=http://old-releases.ubuntu.com/ubuntu/
 MIRRORSECURITY_hardy=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
@@ -84,6 +88,7 @@ MIRRORSECURITY_oneiric=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
 MIRRORSECURITY_precise=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
 MIRRORSECURITY_quantal=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
 MIRRORSECURITY_raring=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
+MIRRORSECURITY_saucy=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
 MIRRORBACKPORTS_sarge=http://ftp.hosteurope.de/mirror/archive.debian.org/debian-backports/
 MIRRORBACKPORTS_etch=http://ftp.hosteurope.de/mirror/archive.debian.org/debian-backports/
 MIRRORBACKPORTS_lenny=http://ftp.hosteurope.de/mirror/archive.debian.org/debian-backports/
@@ -119,7 +124,8 @@ case $DIST in
 		: uname values match
 	else
 		echo >&2 "E: Want $ARCHITECTURE but got $host_ARCHITECTURE"
-		echo >&2 "W: Did you forget to prepend linux32 to cowbuilder?"
+		echo >&2 "W: Did you forget to prepend linux32 or linux64" \
+		    "to cowbuilder?"
 		setuptofail
 		return
 	fi
