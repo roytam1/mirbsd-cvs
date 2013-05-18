@@ -2,7 +2,7 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.182 2008/10/30 19:40:35 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.183 2008/11/02 23:06:37 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R36</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -757,7 +757,9 @@ mws_content <<'EOF'
  <li>MirOS #10-current (i386 pcc20081028-MirPorts-0)</li>
  <li>MirOS #10-current (i386 SUNWcc5.9 Linux_i386 2007/05/03, GNU ld 2.13.90.0.2 20020802)</li>
  <li>MidnightBSD 0.2.1-RELEASE-p2 (i386 pcc20081028-MirPorts-0)</li>
+ <li>Solaris 8 Generic_117350-41 sun4u (sparc64 gcc3.4.3)</li>
  <li>QNX 6.3.2 2006/03/16-14:19:50EST (i386 gcc2.95.3)</li>
+ <li>ecce!GNU/Linux 1.00 2.0.38a (i386 libc5 gcc2.7.2.3) <em>except</em> locale support</li>
 </ul>
 <h3 id="regress_rel">Current Release</h3>
 <ul>
@@ -848,7 +850,6 @@ mws_content <<'EOF'
  <li>Mac OSX Leopard Server 10.5.4 (9E17) Darwin 9.4.0 (macppc cross-llvmgcc4.2.1-Apple_5555-LLVM_2039)</li>
  <li>Max OSX iPhoneOS 2.0 (N82AP) Darwin 9.3.1 (arm cross-gcc4.0.1-Apple_5484 Apple SDK)</li>
  <li>Max OSX iPhoneOS 2.0 (N82AP) Darwin 9.3.1 (arm llvmgcc4.2.1-Apple_5555 Saurik iphone-gcc 4.2-20080604-1-8)</li>
- <li>Solaris 8 Generic_117350-41 sun4u (sparc64 gcc3.4.3)</li>
  <li>Interix 3.5 SP-8.0.1969.1 (i386 gcc3.3 win2k)</li>
  <li>Interix 3.5 SP-8.0.1969.1 (i386 msc CL.EXE 13.00.9466 (standard), LINK.EXE 7.00.9466)</li>
  <li>Interix 3.5 SP-8.0.1969.1 (i386 msc CL.EXE 14.00.50727.42 (optimising), LINK.EXE 8.00.50727.42)</li>
@@ -877,7 +878,6 @@ mws_content <<'EOF'
  <li>Debian GNU/Linux 4.0 testing 2.6.25-2-686 (i386 llvmgcc4.2.1-Apple_5555-LLVM_r52845)</li>
  <li>Debian GNU/Linux 4.0 sid 2.6.18-6-vserver-s390x (S/390 gcc4.3.1-2)</li>
  <li>Debian GNU/Linux 4.0 sid 2.6.22-2-powerpc (macppc gcc4.2.2-3)</li>
- <li>ecce!GNU/Linux 1.00 2.0.38a (i386 libc5 gcc2.7.2.3) <em>except</em> locale support</li>
  <li>Mandriva GNU/Linux CS 2006.0 2.6.12-22mdksmp (i386 gcc4.0.1-5mdk)</li>
  <li>Oracle Enterprise GNU/Linux 4 2.6.9-42.0.0.0.1.ELsmp (amd64 gcc3.4.6-3.1 Red Hat)</li>
  <li>Red Hat GNU/Linux RHEL5 2.6.18-8.1.6.el5 (amd64 gcc4.1.1-52)</li>
@@ -1022,6 +1022,7 @@ mws_content <<'EOF'
  <li>[tg] Recognise nwcc (Nils Weller’s C compiler) in <tt>Build.sh</tt></li>
  <li>[tg] If &lt;strings.h&gt; exists, pull it in for strcasecmp(3)</li>
  <li>[tg] Welcome QNX/Neutrino; work around broken <tt>/bin/ed</tt></li>
+ <li>[tg] Simplify, shorten, speed up <tt>PS1</tt> in <tt>dot.mkshrc</tt></li>
 </ul>
 <p id="r36">mksh R36 features the following changes:</p><ul>
  <li>Fix <tt>Build.sh</tt> invocation without ‘-r’, 10x Elias Pipping</li>
