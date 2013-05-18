@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/miniroot/install.sub,v 1.9 2005/07/24 16:44:13 tg Exp $
+# $MirOS: src/distrib/miniroot/install.sub,v 1.10 2005/09/26 22:55:26 tg Exp $
 # $OpenBSD: install.sub,v 1.388 2005/07/02 00:55:48 uwe Exp $
 # $NetBSD: install.sub,v 1.5.2.8 1996/09/02 23:25:02 pk Exp $
 #
@@ -1512,12 +1512,6 @@ donetconfig() {
 	manual_net_cfg
 }
 
-populateusrlocal() {
-	if [ -f /mnt/etc/mtree/BSD.local.dist ]; then
-		/mnt/usr/sbin/chroot /mnt /usr/sbin/mtree -Uedqn -p /usr/local -f /etc/mtree/BSD.local.dist >/dev/null
-	fi
-}
-
 questions() {
 	local _bd _td
 
@@ -1529,7 +1523,7 @@ questions() {
 
 	ask_yn "Start ntpd(8) by default?" no
 	if [[ $resp == y ]]; then
-		echo "ntpd_flags=		# enabled during install" \
+		echo "ntpd_flags=-s		# enabled during install" \
 		    >>/mnt/etc/rc.conf.local
 	fi
 
@@ -1594,8 +1588,6 @@ finish_up() {
 	cd /
 
 	md_installboot $ROOTDISK
-
-	populateusrlocal
 
 	[ -x /mnt/$MODE.site ] && /mnt/usr/sbin/chroot /mnt /$MODE.site
 
