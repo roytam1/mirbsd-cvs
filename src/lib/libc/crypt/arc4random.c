@@ -1,4 +1,4 @@
-/**	$MirOS: src/lib/libc/crypt/arc4random.c,v 1.13 2008/04/07 20:51:05 tg Exp $ */
+/**	$MirOS: src/lib/libc/crypt/arc4random.c,v 1.14 2008/04/07 20:55:49 tg Exp $ */
 /*	$OpenBSD: arc4random.c,v 1.14 2005/06/06 14:57:59 kjell Exp $	*/
 
 /*
@@ -46,7 +46,7 @@
 #include <string.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: src/lib/libc/crypt/arc4random.c,v 1.13 2008/04/07 20:51:05 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/crypt/arc4random.c,v 1.14 2008/04/07 20:55:49 tg Exp $");
 
 #ifdef __GNUC__
 #define inline __inline
@@ -222,10 +222,8 @@ arc4random_pushb(const void *buf, size_t len)
 		v += c;
 		idat.buf[j % 256] ^= c;
 	}
-	while (j < 256) {
-		idat.buf[j] ^= ((const uint8_t *)buf)[j % len];
-		j++;
-	}
+	j = MAX(sizeof (tai64na_t), 2 * sizeof (uint32_t));
+	len = MIN(256, MAX(j, len));
 	v += (k = arc4random()) & 3;
 	v += (intptr_t)buf & 0xFFFFFFFF;
 
