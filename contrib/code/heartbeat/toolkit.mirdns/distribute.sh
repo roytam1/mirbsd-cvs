@@ -1,8 +1,8 @@
 #!/bin/mksh
-# $MirOS: contrib/code/heartbeat/toolkit.mirdns/distribute.sh,v 1.3 2005/10/07 22:12:33 tg Exp $
+# $MirOS: src/share/misc/licence.template,v 1.6 2006/01/24 22:24:02 tg Rel $
 #-
-# Copyright (c) 2004, 2005
-#	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+# Copyright (c) 2004, 2005, 2006
+#	Thorsten Glaser <tg@mirbsd.de>
 #
 # Licensee is hereby permitted to deal in this work without restric-
 # tion, including unlimited rights to use, publicly perform, modify,
@@ -28,29 +28,29 @@
 # This script must be chmod'd +x to work.
 #
 # You need to visudo on the target machine and add a line such as:
-#	mirdns	ALL = NOPASSWD: /usr/local/bin/svc -t /service/dnscache
-# for the update process to work.
+#	mirdns	ALL = NOPASSWD: /service/tinymaster/.etc/svc -t /service/dnscache
+# and create a symlink for the update process to work.
 
 
 # Just in case...
-export PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/bin
+export PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/bin:/usr/mpkg/bin
 
-tinydns=$(cd $(dirname $0); pwd)
+tinydns=$(readlink -nf $(dirname $0))
 cd $tinydns
 
 if [[ -z $1 ]]; then
 	# master distributor
 	for m in N-*; do
 		if [[ -e $m ]]; then
-			$0 $m >/dev/null 2>&1 &
+			${SHELL:-/bin/mksh} $0 $m >/dev/null 2>&1 &
 		else
 			exit 0
 		fi
 	done
 	exit 0
 else
-	nice scp -BCpq -i $tinydns/id_rsa -F $tinydns/ssh_config \
+	nice scp ${2:--BCpq} -i $tinydns/id_rsa -F $tinydns/ssh_config \
 	    $tinydns/data.cdb mirdns@$1:$tinydns/data.cdb && \
 	    nice ssh -T -i $tinydns/id_rsa -F $tinydns/ssh_config \
-	    -l mirdns $1 "sudo svc -t /service/dnscache"
+	    -l mirdns $1 "sudo ${tinydns%root}.etc/svc -t /service/dnscache"
 fi

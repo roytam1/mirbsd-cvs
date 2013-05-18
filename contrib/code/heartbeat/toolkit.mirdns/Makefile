@@ -1,7 +1,7 @@
-# $MirOS: contrib/code/heartbeat/toolkit.mirdns/Makefile,v 1.2 2005/05/25 23:50:30 tg Exp $
+# $MirOS: src/share/misc/licence.template,v 1.6 2006/01/24 22:24:02 tg Rel $
 #-
-# Copyright (c) 2004
-#	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+# Copyright (c) 2004, 2006
+#	Thorsten Glaser <tg@mirbsd.de>
 #
 # Licensee is hereby permitted to deal in this work without restric-
 # tion, including unlimited rights to use, publicly perform, modify,
@@ -31,7 +31,7 @@
 .endif
 
 SHELL=	/bin/mksh
-SERVER=	http://users.mirsolutions.de/~tg/.DNS/
+SERVER=	http://tg.mirsolutions.de/.DNS/
 TDNS?=	/service/tinymaster
 HBCL?=	/service/mirdns
 
@@ -42,6 +42,10 @@ data: tdata ipscript
 
 data.cdb: data
 	tinydns-data
+	-svc -t /service/dnscache
+
+dist: all
+	${SHELL} ${.CURDIR}/distribute.sh
 
 editdata:
 	co -l tdata
@@ -85,7 +89,7 @@ service:
 .ifdef MASTER
 tdata,v.gz: tdata,v
 	gzip -9c tdata,v >tdata,v.gz
-	cat tdata,v.gz >~tg/pub/.DNS/tdata,v.gz
+	cat tdata,v.gz >~tg/Dat/pub/.DNS/tdata,v.gz
 
 zip:	tdata,v.gz
 	@rm tdata,v.gz
@@ -103,4 +107,4 @@ fetch:
 extract: fetch
 	@co -u tdata,v
 
-.PHONY:	all editdata dialin dialout dialin-local service zip fetch extract
+.PHONY:	all editdata dialin dialout dialin-local dist service zip fetch extract

@@ -1,8 +1,8 @@
 #!/bin/mksh
-# $MirOS: contrib/code/heartbeat/toolkit.mirdns/make.sh,v 1.2 2005/05/25 23:50:30 tg Exp $
+# $MirOS: src/share/misc/licence.template,v 1.6 2006/01/24 22:24:02 tg Rel $
 #-
-# Copyright (c) 2004
-#	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+# Copyright (c) 2004, 2006
+#	Thorsten Glaser <tg@mirbsd.de>
 #
 # Licensee is hereby permitted to deal in this work without restric-
 # tion, including unlimited rights to use, publicly perform, modify,
@@ -29,11 +29,11 @@
 
 
 # Just in case...
-export PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/bin
+export PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/bin:/usr/mpkg/bin
 
 # Do it!
 cd $(dirname $0)
-F=${1:-data.cdb}
+F=${1:-all}
 [[ -n $1 ]] && shift
 
 let i=50
