@@ -33,21 +33,14 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)error.c	5.3 (Berkeley) 6/1/90";
-#else
-static char rcsid[] = "$OpenBSD: error.c,v 1.10 2005/06/08 03:18:59 pvalchev Exp $";
-#endif
-#endif /* not lint */
-
 /* routines for printing error messages  */
 
 #include "defs.h"
 
+__RCSID("$MirOS$");
 
 void
-fatal(char *msg)
+fatal(const char *msg)
 {
     fprintf(stderr, "%s: %s\n", input_file_name, msg);
     done(2);
@@ -63,9 +56,9 @@ no_space(void)
 
 
 void
-open_error(char *filename)
+open_error(const char *filename)
 {
-    fprintf(stderr, "%s: cannot open source file\n", input_file_name);
+    fprintf(stderr, "%s: cannot open source file '%s'\n", input_file_name, filename);
     done(2);
 }
 

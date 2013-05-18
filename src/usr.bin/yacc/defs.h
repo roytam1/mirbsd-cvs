@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: defs.h,v 1.11 2005/06/08 03:18:59 pvalchev Exp $	*/
 /*	$NetBSD: defs.h,v 1.6 1996/03/19 03:21:30 jtc Exp $	*/
 
@@ -222,23 +223,23 @@ extern char lflag;
 extern char rflag;
 extern char tflag;
 extern char vflag;
-extern char *symbol_prefix;
+extern const char *symbol_prefix;
 
 extern char *cptr;
 extern char *line;
 extern int lineno;
 extern int outline;
 
-extern char *banner[];
-extern char *tables[];
-extern char *header[];
-extern char *body[];
-extern char *trailer[];
+extern const char *banner[];
+extern const char *tables[];
+extern const char *header[];
+extern const char *body[];
+extern const char *trailer[];
 
 extern char *action_file_name;
 extern char *code_file_name;
 extern char *defines_file_name;
-extern char *input_file_name;
+extern const char *input_file_name;
 extern char *output_file_name;
 extern char *text_file_name;
 extern char *union_file_name;
@@ -309,49 +310,49 @@ extern short final_state;
 
 /* global functions */
 
-extern char *allocate();
-extern bucket *lookup();
-extern bucket *make_bucket();
+extern char *allocate(unsigned int);
+extern bucket *lookup(char *);
+extern bucket *make_bucket(const char *);
 extern void set_first_derives(void);
 extern void closure(short *, int);
 extern void finalize_closure(void);
 
-extern void fatal(char *);
+extern void fatal(const char *) __dead;
 
 extern void reflexive_transitive_closure(unsigned *, int);
-extern void done(int);
+extern void done(int) __dead;
 
-extern void no_space(void);
-extern void open_error(char *);
-extern void open_write_error(char *);
-extern void unexpected_EOF(void);
+extern void no_space(void) __dead;
+extern void open_error(const char *) __dead;
+extern void open_write_error(char *) __dead;
+extern void unexpected_EOF(void) __dead;
 extern void print_pos(char *, char *);
-extern void syntax_error(int, char *, char *);
-extern void unterminated_comment(int, char *, char *);
-extern void unterminated_string(int, char *, char *);
-extern void unterminated_text(int, char *, char *);
-extern void unterminated_union(int, char *, char *);
-extern void over_unionized(char *);
-extern void illegal_tag(int, char *, char *);
-extern void illegal_character(char *);
-extern void used_reserved(char *);
-extern void tokenized_start(char *);
+extern void syntax_error(int, char *, char *) __dead;
+extern void unterminated_comment(int, char *, char *) __dead;
+extern void unterminated_string(int, char *, char *) __dead;
+extern void unterminated_text(int, char *, char *) __dead;
+extern void unterminated_union(int, char *, char *) __dead;
+extern void over_unionized(char *) __dead;
+extern void illegal_tag(int, char *, char *) __dead;
+extern void illegal_character(char *) __dead;
+extern void used_reserved(char *) __dead;
+extern void tokenized_start(char *) __dead;
 extern void retyped_warning(char *);
 extern void reprec_warning(char *);
 extern void revalued_warning(char *);
-extern void terminal_start(char *);
+extern void terminal_start(char *) __dead;
 extern void restarted_warning(void);
-extern void no_grammar(void);
-extern void terminal_lhs(int);
+extern void no_grammar(void) __dead;
+extern void terminal_lhs(int) __dead;
 extern void prec_redeclared(void);
-extern void unterminated_action(int, char *, char *);
+extern void unterminated_action(int, char *, char *) __dead;
 extern void dollar_warning(int, int);
-extern void dollar_error(int, char *, char *);
-extern void untyped_lhs(void);
-extern void untyped_rhs(int, char *);
-extern void unknown_rhs(int);
+extern void dollar_error(int, char *, char *) __dead;
+extern void untyped_lhs(void) __dead;
+extern void untyped_rhs(int, char *) __dead;
+extern void unknown_rhs(int) __dead;
 extern void default_action_warning(void);
-extern void undefined_goal(char *);
+extern void undefined_goal(char *) __dead;
 extern void undefined_symbol_warning(char *);
 
 extern void lalr(void);
@@ -362,7 +363,7 @@ extern void make_parser(void);
 extern void verbose(void);
 extern void output(void);
 extern void free_parser(void);
-extern void write_section(char *[]);
+extern void write_section(const char *[]);
 
 extern void create_symbol_table(void);
 extern void free_symbol_table(void);

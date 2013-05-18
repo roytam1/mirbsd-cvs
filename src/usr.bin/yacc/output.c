@@ -33,15 +33,9 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)output.c	5.7 (Berkeley) 5/24/93";
-#else
-static char rcsid[] = "$OpenBSD: output.c,v 1.14 2005/06/10 16:40:45 pvalchev Exp $";
-#endif
-#endif /* not lint */
-
 #include "defs.h"
+
+__RCSID("$MirOS$");
 
 static int nvectors;
 static int nentries;
@@ -1014,7 +1008,7 @@ output_debug(void)
 	symnam[i] = 0;
     for (i = ntokens - 1; i >= 2; --i)
 	symnam[symbol_value[i]] = symbol_name[i];
-    symnam[0] = "end-of-file";
+    symnam[0] = strdup("end-of-file");
 
     if (!rflag) ++outline;
     fprintf(output_file,

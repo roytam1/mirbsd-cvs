@@ -33,15 +33,9 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)lalr.c	5.3 (Berkeley) 6/1/90";
-#else
-static char rcsid[] = "$OpenBSD: lalr.c,v 1.8 2003/06/19 16:34:53 pvalchev Exp $";
-#endif
-#endif /* not lint */
-
 #include "defs.h"
+
+__RCSID("$MirOS$");
 
 typedef
   struct shorts
@@ -63,7 +57,7 @@ short *goto_map;
 short *from_state;
 short *to_state;
 
-short **transpose();
+short **transpose(short **, int);
 void set_state_table(void);
 void set_accessing_symbol(void);
 void set_shift_table(void);
@@ -403,7 +397,7 @@ build_relations(void)
   shifts *sp;
   int length;
   int nedges;
-  int done;
+  int done_;
   int state1;
   int stateno;
   int symbol1;
@@ -447,16 +441,16 @@ build_relations(void)
 	  add_lookback_edge(stateno, *rulep, i);
 
 	  length--;
-	  done = 0;
-	  while (!done)
+	  done_ = 0;
+	  while (!done_)
 	    {
-	      done = 1;
+	      done_ = 1;
 	      rp--;
 	      if (ISVAR(*rp))
 		{
 		  stateno = states[--length];
 		  edge[nedges++] = map_goto(stateno, *rp);
-		  if (nullable[*rp] && length > 0) done = 0;
+		  if (nullable[*rp] && length > 0) done_ = 0;
 		}
 	    }
 	}
@@ -512,7 +506,7 @@ add_lookback_edge(int stateno, int ruleno, int gotono)
 
 
 short **
-transpose(short **R, int n)
+transpose(short **R_, int n)
 {
   short **new_R;
   short **temp_R;
@@ -525,7 +519,7 @@ transpose(short **R, int n)
 
   for (i = 0; i < n; i++)
     {
-      sp = R[i];
+      sp = R_[i];
       if (sp)
 	{
 	  while (*sp >= 0)
@@ -552,7 +546,7 @@ transpose(short **R, int n)
 
   for (i = 0; i < n; i++)
     {
-      sp = R[i];
+      sp = R_[i];
       if (sp)
 	{
 	  while (*sp >= 0)

@@ -33,15 +33,11 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)closure.c	5.3 (Berkeley) 5/24/93";
-#else
-static char rcsid[] = "$OpenBSD: closure.c,v 1.8 2005/06/10 16:40:45 pvalchev Exp $";
-#endif
-#endif /* not lint */
-
 #include "defs.h"
+
+__RCSID("$MirOS$");
+
+void set_EFF(void);
 
 short *itemset;
 short *itemsetend;

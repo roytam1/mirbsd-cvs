@@ -33,15 +33,9 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)reader.c	5.7 (Berkeley) 1/20/91";
-#else
-static char rcsid[] = "$NetBSD: reader.c,v 1.5 1996/03/19 03:21:43 jtc Exp $";
-#endif
-#endif /* not lint */
-
 #include "defs.h"
+
+__RCSID("$MirOS$");
 
 /*  The line size must be a positive integer.  One hundred was chosen	*/
 /*  because few lines in Yacc input grammars exceed 100 characters.	*/
@@ -74,6 +68,7 @@ bucket **plhs;
 int name_pool_size;
 char *name_pool;
 
+void declare_expect(int);
 void cachec(int);
 void get_line(void);
 char * dup_line(void);
@@ -1818,7 +1813,7 @@ void
 pack_grammar(void)
 {
     int i, j;
-    int assoc, prec;
+    int assoc, prec_;
 
     ritem = (short *) MALLOC(nitems*sizeof(short));
     if (ritem == 0) no_space();
@@ -1848,13 +1843,13 @@ pack_grammar(void)
 	rlhs[i] = plhs[i]->index;
 	rrhs[i] = j;
 	assoc = TOKEN;
-	prec = 0;
+	prec_ = 0;
 	while (pitem[j])
 	{
 	    ritem[j] = pitem[j]->index;
 	    if (pitem[j]->class == TERM)
 	    {
-		prec = pitem[j]->prec;
+		prec_ = pitem[j]->prec;
 		assoc = pitem[j]->assoc;
 	    }
 	    ++j;
@@ -1863,7 +1858,7 @@ pack_grammar(void)
 	++j;
 	if (rprec[i] == UNDEFINED)
 	{
-	    rprec[i] = prec;
+	    rprec[i] = prec_;
 	    rassoc[i] = assoc;
 	}
     }

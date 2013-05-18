@@ -33,20 +33,6 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-char copyright[] =
-"@(#) Copyright (c) 1989 The Regents of the University of California.\n\
- All rights reserved.\n";
-#endif /* not lint */
-
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)main.c	5.5 (Berkeley) 5/24/93";
-#else
-static char rcsid[] = "$OpenBSD: main.c,v 1.20 2005/06/08 03:18:59 pvalchev Exp $";
-#endif
-#endif /* not lint */
-
 #include <sys/types.h>
 #include <fcntl.h>
 #include <paths.h>
@@ -55,14 +41,18 @@ static char rcsid[] = "$OpenBSD: main.c,v 1.20 2005/06/08 03:18:59 pvalchev Exp 
 #include <unistd.h>
 #include "defs.h"
 
+__COPYRIGHT("@(#) Copyright (c) 1989 The Regents of the University of California.\n\
+ All rights reserved.\n");
+__RCSID("$MirOS$");
+
 char dflag;
 char lflag;
 char rflag;
 char tflag;
 char vflag;
 
-char *symbol_prefix;
-char *file_prefix = "y";
+const char *symbol_prefix;
+const char *file_prefix = "y";
 
 int lineno;
 int outline;
@@ -72,7 +62,7 @@ int explicit_file_name;
 char *action_file_name;
 char *code_file_name;
 char *defines_file_name;
-char *input_file_name = "";
+const char *input_file_name = "";
 char *output_file_name;
 char *text_file_name;
 char *union_file_name;
@@ -111,12 +101,13 @@ char  *rassoc;
 short **derives;
 char *nullable;
 
-void onintr(int);
+void onintr(int) __dead;
 void set_signals(void);
-void usage(void);
+void usage(void) __dead;
 void getargs(int, char *[]);
 void create_file_names(void);
 void open_files(void);
+FILE *fsopen(const char *, const char *);
 
 volatile sig_atomic_t sigdie;
 
@@ -136,7 +127,7 @@ done(int k)
 
 
 void
-onintr(int signo)
+onintr(int signo __unused)
 {
     sigdie = 1;
     done(1);
@@ -248,7 +239,7 @@ void
 create_file_names(void)
 {
     size_t len;
-    char *tmpdir;
+    const char *tmpdir;
 
     if ((tmpdir = getenv("TMPDIR")) == NULL || *tmpdir == '\0')
 	tmpdir = _PATH_TMP;
@@ -324,7 +315,7 @@ create_file_names(void)
 
 
 FILE *
-fsopen(char *name, char *mode)
+fsopen(const char *name, const char *mode)
 {
     FILE *fp = NULL;
     int fd, mod = O_RDONLY;

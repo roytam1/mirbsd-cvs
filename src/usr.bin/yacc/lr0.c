@@ -33,15 +33,9 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)lr0.c	5.3 (Berkeley) 1/20/91";
-#else
-static char rcsid[] = "$OpenBSD: lr0.c,v 1.8 2003/06/19 16:34:53 pvalchev Exp $";
-#endif
-#endif /* not lint */
-
 #include "defs.h"
+
+__RCSID("$MirOS$");
 
 extern short *itemset;
 extern short *itemsetend;
@@ -605,7 +599,7 @@ set_nullable(void)
 {
     int i, j;
     int empty;
-    int done;
+    int done_;
 
     nullable = MALLOC(nsyms);
     if (nullable == 0) no_space();
@@ -613,10 +607,10 @@ set_nullable(void)
     for (i = 0; i < nsyms; ++i)
 	nullable[i] = 0;
 
-    done = 0;
-    while (!done)
+    done_ = 0;
+    while (!done_)
     {
-	done = 1;
+	done_ = 1;
 	for (i = 1; i < nitems; i++)
 	{
 	    empty = 1;
@@ -632,7 +626,7 @@ set_nullable(void)
 		if (!nullable[j])
 		{
 		    nullable[j] = 1;
-		    done = 0;
+		    done_ = 0;
 		}
 	    }
 	}

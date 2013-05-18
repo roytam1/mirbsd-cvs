@@ -33,15 +33,9 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)symtab.c	5.3 (Berkeley) 6/1/90";
-#else
-static char rcsid[] = "$OpenBSD: symtab.c,v 1.12 2005/06/10 16:40:45 pvalchev Exp $";
-#endif
-#endif /* not lint */
-
 #include "defs.h"
+
+__RCSID("$MirOS$");
 
 /* TABLE_SIZE is the number of entries in the symbol table. */
 /* TABLE_SIZE must be a power of two.			    */
@@ -53,13 +47,13 @@ bucket **symbol_table;
 bucket *first_symbol;
 bucket *last_symbol;
 
-int hash(char *);
+int hash(const char *);
 
 
 int
-hash(char *name)
+hash(const char *name)
 {
-    char *s;
+    const char *s;
     int c, k;
 
     assert(name && *name);
@@ -73,7 +67,7 @@ hash(char *name)
 
 
 bucket *
-make_bucket(char *name)
+make_bucket(const char *name)
 {
     bucket *bp;
 

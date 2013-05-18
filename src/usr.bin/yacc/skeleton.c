@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.bin/yacc/skeleton.c,v 1.5 2008/07/08 19:22:00 tg Exp $ */
+/**	$MirOS: src/usr.bin/yacc/skeleton.c,v 1.6 2008/07/08 19:24:30 tg Exp $ */
 /*	$OpenBSD: skeleton.c,v 1.29 2008/07/08 15:06:50 otto Exp $	*/
 /*	$NetBSD: skeleton.c,v 1.10 1996/03/25 00:36:18 mrg Exp $	*/
 
@@ -36,7 +36,7 @@
 
 #include <sys/cdefs.h>
 __SCCSID("@(#)skeleton.c	5.8 (Berkeley) 4/29/95");
-__RCSID("$MirOS: src/usr.bin/yacc/skeleton.c,v 1.5 2008/07/08 19:22:00 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/yacc/skeleton.c,v 1.6 2008/07/08 19:24:30 tg Exp $");
 
 #include "defs.h"
 
@@ -48,7 +48,7 @@ __RCSID("$MirOS: src/usr.bin/yacc/skeleton.c,v 1.5 2008/07/08 19:22:00 tg Exp $"
 /*  the body either are not useful outside of semantic actions or	*/
 /*  are conditional.							*/
 
-char *banner[] =
+const char *banner[] =
 {
     "#include <stdlib.h>",
     "#include <string.h>",
@@ -73,7 +73,7 @@ char *banner[] =
 };
 
 
-char *tables[] =
+const char *tables[] =
 {
     "#if defined(__cplusplus) || defined(__STDC__)",
     "extern const short yylhs[];",
@@ -108,7 +108,7 @@ char *tables[] =
 };
 
 
-char *header[] =
+const char *header[] =
 {
     "#ifdef YYSTACKSIZE",
     "#undef YYMAXDEPTH",
@@ -139,7 +139,7 @@ char *header[] =
 };
 
 
-char *body[] =
+const char *body[] =
 {
     "/* allocate initial stack or double stack size, up to YYMAXDEPTH */",
     "#if defined(__cplusplus) || defined(__STDC__)",
@@ -228,7 +228,8 @@ char *body[] =
     "    if (yyss == NULL && yygrowstack()) goto yyoverflow;",
     "    yyssp = yyss;",
     "    yyvsp = yyvs;",
-    "    *yyssp = yystate = 0;",
+    "    *yyssp = 0;",
+    "    yystate = 0;",
     "",
     "yyloop:",
     "    if ((yyn = yydefred[yystate]) != 0) goto yyreduce;",
@@ -258,7 +259,7 @@ char *body[] =
     "        {",
     "            goto yyoverflow;",
     "        }",
-    "        *++yyssp = yystate = yytable[yyn];",
+    "        yystate = *++yyssp = yytable[yyn];",
     "        *++yyvsp = yylval;",
     "        yychar = (-1);",
     "        if (yyerrflag > 0)  --yyerrflag;",
@@ -299,7 +300,7 @@ char *body[] =
     "                {",
     "                    goto yyoverflow;",
     "                }",
-    "                *++yyssp = yystate = yytable[yyn];",
+    "                yystate = *++yyssp = yytable[yyn];",
     "                *++yyvsp = yylval;",
     "                goto yyloop;",
     "            }",
@@ -351,7 +352,7 @@ char *body[] =
 };
 
 
-char *trailer[] =
+const char *trailer[] =
 {
     "    }",
     "    yyssp -= yym;",
@@ -390,6 +391,7 @@ char *trailer[] =
     "        yystate = yytable[yyn];",
     "    else",
     "        yystate = yydgoto[yym];",
+/* assert: int yystate is now in the range of short */
     "#if YYDEBUG",
     "    if (yydebug)",
     "        printf(\"%sdebug: after reduction, shifting from state %d \\",
@@ -399,7 +401,7 @@ char *trailer[] =
     "    {",
     "        goto yyoverflow;",
     "    }",
-    "    *++yyssp = yystate;",
+    "    *++yyssp = (short)yystate;",	/* cast to make pcc happy */
     "    *++yyvsp = yyval;",
     "    goto yyloop;",
     "yyoverflow:",
@@ -428,11 +430,11 @@ char *trailer[] =
 
 
 void
-write_section(char *section[])
+write_section(const char *section[])
 {
     int c;
     int i;
-    char *s;
+    const char *s;
     FILE *f;
 
     f = code_file;

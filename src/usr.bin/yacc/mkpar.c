@@ -33,15 +33,9 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)mkpar.c	5.3 (Berkeley) 1/20/91";
-#else
-static char rcsid[] = "$NetBSD: mkpar.c,v 1.4 1996/03/19 03:21:39 jtc Exp $";
-#endif
-#endif /* not lint */
-
 #include "defs.h"
+
+__RCSID("$MirOS$");
 
 action **parser;
 int SRtotal;
@@ -57,10 +51,10 @@ short final_state;
 static int SRcount;
 static int RRcount;
 
-extern action *parse_actions();
-extern action *get_shifts();
-extern action *add_reductions();
-extern action *add_reduce();
+extern action *parse_actions(int);
+extern action *get_shifts(int);
+extern action *add_reductions(int, action *);
+extern action *add_reduce(action *, int, int);
 
 int sole_reduction(int);
 void free_action_row(action *);
@@ -105,7 +99,7 @@ get_shifts(int stateno)
 {
     action *actions, *temp;
     shifts *sp;
-    short *to_state;
+    short *to_state_;
     int i, k;
     int symbol;
 
@@ -113,10 +107,10 @@ get_shifts(int stateno)
     sp = shift_table[stateno];
     if (sp)
     {
-	to_state = sp->shift;
+	to_state_ = sp->shift;
 	for (i = sp->nshifts - 1; i >= 0; i--)
 	{
-	    k = to_state[i];
+	    k = to_state_[i];
 	    symbol = accessing_symbol[k];
 	    if (ISTOKEN(symbol))
 	    {
@@ -201,15 +195,15 @@ void
 find_final_state(void)
 {
     int goal, i;
-    short *to_state;
+    short *to_state_;
     shifts *p;
 
     p = shift_table[0];
-    to_state = p->shift;
+    to_state_ = p->shift;
     goal = ritem[1];
     for (i = p->nshifts - 1; i >= 0; --i)
     {
-	final_state = to_state[i];
+	final_state = to_state_[i];
 	if (accessing_symbol[final_state] == goal) break;
     }
 }
