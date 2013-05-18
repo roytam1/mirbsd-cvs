@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.345 2011/07/25 16:00:05 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.346 2011/07/25 16:21:56 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -7934,4 +7934,53 @@ Tag: debian event
  of the time ;-)</p>
 <p>We’re indeed still working on resurrecting m68k, but that’s no
  news. More on that later, I’d say.</p>
+----
+Date: 27.07.2011 20:16
+Author: tg@
+Title: Бања Лука (Banja Luka)
+Tag: debian event
+
+<p>Been hot and dry today (although the sky is now back full of
+ dark clouds), so I had a headache most of the morning until way
+ past noon. Better now though, and I found a place where I could
+ get Cevapi, which are really some sort of quick imbiss / fast
+ food here (no Đuveč pirinač though, and she didn’t have any
+ Ajvar nor did she speak any language other than the local, but
+ that wasn’t a problem, only a bit dry because I didn’t give in
+ and took the offered Ketchup). Bought a 1ℓ bottle of Kruškovac
+ (from Hrvatska, though) and some small plastic glasses, then.</p>
+<p>I wonder how many people would, now, be willing to give Bosna
+ i Hercegovina a try as holiday region (which might have been the
+ intent of having a Balkan DebConf). I’m sure I do.</p>
+<p>To all attendees: the hotel will give you some kind of stamped
+ hardpaper card which states where you stayed on the trip, and for
+ how long – give that to the border guards when exiting Bosnia.</p>
+----
+Date: 27.07.2011 20:21
+Author: tg@
+Title: jupp: new release, new distro package
+Tag: debian news
+
+<p><a href="@@RELPATH@@jupp.htm#r3_1j17">jupp 3.1.17</a> uploaded
+ today, mostly thanks to user input suggesting I improve things,
+ especially the syntax highlighting. (Maybe more to come.) I like
+ users who don’t complain but give helpful comments and send in
+ patches even.</p>
+<p>Since the Debian FTP masters complain that the NEW queue is
+ empty for the first time in ages, I also uploaded jupp to Debian
+ proper (got requests, several, from actual users – independent
+ of each other). I originally thought I were the only user, it’s
+ not worth it, maybe too close to joe (which segfaults a lot more
+ and has some ugly things, so I cherry-picked the better features
+ of it instead of rebasing jupp), but it’s had a package in mports
+ (MidnightBSD ports) for ages, users submitted one to FreeBSD® last
+ year and keep it updated, there’s even a WIP package in pkgsrc®,
+ and who knows where else or how many people are using my OpenSuSE
+ Buildservice package or have had installed the previous DEB package
+ I uploaded to my play repo. So now I feel it worth to upload.</p>
+<p>I even invested some <em>major</em> packaging rework, such as
+ splitting the build-arch and build-indep parts from each other,
+ and importing the upstream source into the packaging VCS, as I
+ have learned in the “packaging with git” talk here at DebConf.
+ (No guys, I will stick to CVS as git doesn’t give me anything.)</p>
 ----
