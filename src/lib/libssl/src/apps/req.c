@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libssl/src/apps/req.c,v 1.2 2005/03/06 20:29:27 tg Exp $ */
+/* $MirOS: src/lib/libssl/src/apps/req.c,v 1.3 2005/04/29 13:52:28 tg Exp $ */
 
 /* apps/req.c */
 /* Copyright (C) 1995-1998 Eric Young (eay@cryptsoft.com)
@@ -1531,6 +1531,19 @@ static void MS_CALLBACK req_cb(int p, int n, void *arg)
 	if (p == 2) c='*';
 	if (p == 3) c='\n';
 	BIO_write((BIO *)arg,&c,1);
+#ifdef HAVE_ARC4RANDOM
+	{
+		uint32_t newentropy;
+
+#ifdef HAVE_ARC4RANDOM_PUSHB
+		RAND_bytes((u_char *)&newentropy, sizeof (newentropy));
+		newentropy = arc4random_pushb(&newentropy, sizeof (newentropy));
+#else
+		newentropy = arc4random();
+#endif
+		RAND_add(&newentropy, sizeof (newentropy), 31.2);
+	}
+#endif
 	(void)BIO_flush((BIO *)arg);
 #ifdef LINT
 	p=n;

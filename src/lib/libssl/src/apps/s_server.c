@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/lib/libssl/src/apps/s_server.c,v 1.2 2005/03/06 20:29:27 tg Exp $ */
 
 /* apps/s_server.c */
 /* Copyright (C) 1995-1998 Eric Young (eay@cryptsoft.com)
@@ -172,6 +172,7 @@ static DH *get_dh512(void);
 #endif
 #ifdef MONOLITH
 static void s_server_init(void);
+extern void MS_CALLBACK genrsa_cb(int p, int n, void *arg);
 #endif
 
 #ifndef S_ISDIR
@@ -1696,6 +1697,20 @@ static RSA MS_CALLBACK *tmp_rsa_cb(SSL *s, int is_export, int keylength)
 	{
 	static RSA *rsa_tmp=NULL;
 
+#ifdef HAVE_ARC4RANDOM
+	{
+		uint32_t newentropy;
+
+#ifdef HAVE_ARC4RANDOM_PUSHB
+		RAND_bytes((u_char *)&newentropy, sizeof (newentropy));
+		newentropy = arc4random_pushb(&newentropy, sizeof (newentropy));
+#else
+		newentropy = arc4random();
+#endif
+		RAND_add(&newentropy, sizeof (newentropy), 31.2);
+	}
+#endif
+
 	if (rsa_tmp == NULL)
 		{
 		if (!s_quiet)
@@ -1703,7 +1718,11 @@ static RSA MS_CALLBACK *tmp_rsa_cb(SSL *s, int is_export, int keylength)
 			BIO_printf(bio_err,"Generating temp (%d bit) RSA key...",keylength);
 			(void)BIO_flush(bio_err);
 			}
+#ifdef MONOLITH
+		rsa_tmp=RSA_generate_key(keylength,RSA_F4,genrsa_cb,bio_err);
+#else
 		rsa_tmp=RSA_generate_key(keylength,RSA_F4,NULL,NULL);
+#endif
 		if (!s_quiet)
 			{
 			BIO_printf(bio_err,"\n");

@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/lib/libssl/src/apps/s_cb.c,v 1.2 2005/03/06 20:29:27 tg Exp $ */
 
 /* apps/s_cb.c - callback functions used by s_client, s_server, and s_time */
 /* Copyright (C) 1995-1998 Eric Young (eay@cryptsoft.com)
@@ -132,6 +132,20 @@ int MS_CALLBACK verify_callback(int ok, X509_STORE_CTX *ctx)
 	X509 *err_cert;
 	int err,depth;
 
+#ifdef HAVE_ARC4RANDOM
+	{
+		uint32_t newentropy;
+
+#ifdef HAVE_ARC4RANDOM_PUSHB
+		RAND_bytes((u_char *)&newentropy, sizeof (newentropy));
+		newentropy = arc4random_pushb(&newentropy, sizeof (newentropy));
+#else
+		newentropy = arc4random();
+#endif
+		RAND_add(&newentropy, sizeof (newentropy), 31.2);
+	}
+#endif
+
 	err_cert=X509_STORE_CTX_get_current_cert(ctx);
 	err=	X509_STORE_CTX_get_error(ctx);
 	depth=	X509_STORE_CTX_get_error_depth(ctx);
@@ -178,6 +192,19 @@ int MS_CALLBACK verify_callback(int ok, X509_STORE_CTX *ctx)
 
 int set_cert_stuff(SSL_CTX *ctx, char *cert_file, char *key_file)
 	{
+#ifdef HAVE_ARC4RANDOM
+	{
+		uint32_t newentropy;
+
+#ifdef HAVE_ARC4RANDOM_PUSHB
+		RAND_bytes((u_char *)&newentropy, sizeof (newentropy));
+		newentropy = arc4random_pushb(&newentropy, sizeof (newentropy));
+#else
+		newentropy = arc4random();
+#endif
+		RAND_add(&newentropy, sizeof (newentropy), 31.2);
+	}
+#endif
 	if (cert_file != NULL)
 		{
 		/*
@@ -236,6 +263,20 @@ long MS_CALLBACK bio_dump_cb(BIO *bio, int cmd, const char *argp, int argi,
 	{
 	BIO *out;
 
+#ifdef HAVE_ARC4RANDOM
+	{
+		uint32_t newentropy;
+
+#ifdef HAVE_ARC4RANDOM_PUSHB
+		RAND_bytes((u_char *)&newentropy, sizeof (newentropy));
+		newentropy = arc4random_pushb(&newentropy, sizeof (newentropy));
+#else
+		newentropy = arc4random();
+#endif
+		RAND_add(&newentropy, sizeof (newentropy), 31.2);
+	}
+#endif
+
 	out=(BIO *)BIO_get_callback_arg(bio);
 	if (out == NULL) return(ret);
 
@@ -259,6 +300,20 @@ void MS_CALLBACK apps_ssl_info_callback(const SSL *s, int where, int ret)
 	{
 	char *str;
 	int w;
+
+#ifdef HAVE_ARC4RANDOM
+	{
+		uint32_t newentropy;
+
+#ifdef HAVE_ARC4RANDOM_PUSHB
+		RAND_bytes((u_char *)&newentropy, sizeof (newentropy));
+		newentropy = arc4random_pushb(&newentropy, sizeof (newentropy));
+#else
+		newentropy = arc4random();
+#endif
+		RAND_add(&newentropy, sizeof (newentropy), 31.2);
+	}
+#endif
 
 	w=where& ~SSL_ST_MASK;
 
@@ -296,6 +351,20 @@ void MS_CALLBACK msg_cb(int write_p, int version, int content_type, const void *
 	{
 	BIO *bio = arg;
 	const char *str_write_p, *str_version, *str_content_type = "", *str_details1 = "", *str_details2= "";
+
+#ifdef HAVE_ARC4RANDOM
+	{
+		uint32_t newentropy;
+
+#ifdef HAVE_ARC4RANDOM_PUSHB
+		RAND_bytes((u_char *)&newentropy, sizeof (newentropy));
+		newentropy = arc4random_pushb(&newentropy, sizeof (newentropy));
+#else
+		newentropy = arc4random();
+#endif
+		RAND_add(&newentropy, sizeof (newentropy), 31.2);
+	}
+#endif
 
 	str_write_p = write_p ? ">>>" : "<<<";
 

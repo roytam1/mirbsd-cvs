@@ -75,7 +75,10 @@
 #undef PROG
 #define PROG genrsa_main
 
-static void MS_CALLBACK genrsa_cb(int p, int n, void *arg);
+#ifndef MONOLITH
+static 
+#endif
+void MS_CALLBACK genrsa_cb(int p, int n, void *arg);
 
 int MAIN(int, char **);
 
@@ -294,7 +297,10 @@ err:
 	OPENSSL_EXIT(ret);
 	}
 
-static void MS_CALLBACK genrsa_cb(int p, int n, void *arg)
+#ifndef MONOLITH
+static 
+#endif
+void MS_CALLBACK genrsa_cb(int p, int n, void *arg)
 	{
 	char c='*';
 
@@ -303,6 +309,19 @@ static void MS_CALLBACK genrsa_cb(int p, int n, void *arg)
 	if (p == 2) c='*';
 	if (p == 3) c='\n';
 	BIO_write((BIO *)arg,&c,1);
+#ifdef HAVE_ARC4RANDOM
+	{
+		uint32_t newentropy;
+
+#ifdef HAVE_ARC4RANDOM_PUSHB
+		RAND_bytes((u_char *)&newentropy, sizeof (newentropy));
+		newentropy = arc4random_pushb(&newentropy, sizeof (newentropy));
+#else
+		newentropy = arc4random();
+#endif
+		RAND_add(&newentropy, sizeof (newentropy), 31.2);
+	}
+#endif
 	(void)BIO_flush((BIO *)arg);
 #ifdef LINT
 	p=n;
