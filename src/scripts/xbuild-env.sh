@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/scripts/xbuild-env.sh,v 1.5 2006/02/28 22:13:25 tg Exp $
+# $MirOS: src/scripts/xbuild-env.sh,v 1.6 2006/03/01 13:28:34 tg Exp $
 #-
 # Copyright (c) 2004, 2005, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -56,7 +56,7 @@ case $MACHINE {
 		exit 1
 	fi
 	;;
-esac
+}
 
 [[ -z $TARGET ]] && TARGET=${MARCH}-unknown-mirbsd$(uname -r)
 [[ -z $BSDSRCDIR ]] && BSDSRCDIR=/usr/src
