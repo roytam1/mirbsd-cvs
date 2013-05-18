@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.lib.mk,v 1.51 2007/03/02 02:58:57 tg Exp $
+# $MirOS: src/share/mk/bsd.lib.mk,v 1.52 2007/03/08 10:07:02 tg Exp $
 # $OpenBSD: bsd.lib.mk,v 1.43 2004/09/20 18:52:38 espie Exp $
 # $NetBSD: bsd.lib.mk,v 1.67 1996/01/17 20:39:26 mycroft Exp $
 # @(#)bsd.lib.mk	5.26 (Berkeley) 5/2/91
@@ -131,13 +131,6 @@ LINK.shlib?=	${LINKER} ${CFLAGS:M*} ${SHLIB_FLAGS} -shared \
 	    '${CFLAGS:M-[ID]*} ${AINC} ${.IMPSRC} -o $@'
 	@${COMPILE.S} ${AFLAGS_${.TARGET:C/\.(g|s)o$/.o/}:M*} \
 	    ${CFLAGS:M-[ID]*} ${AINC} ${.IMPSRC} -o $@.o
-	@${LD} ${_DISCARD} -r $@.o -o $@
-	@rm -f $@.o
-
-	@${CPP} -D_ASM_SOURCE ${AFLAGS:N-Wa,*:M*} ${CPPFLAGS} \
-	    ${CFLAGS:M-[ID]*} ${AINC} ${AFLAGS_${.TARGET}:N-Wa,*:M*} $< | \
-	    ${AS} ${AFLAGS:M-Wa,*:S/-Wa//:S/,/ /g} \
-	    ${AFLAGS_${.TARGET}:M-Wa,*:S/-Wa//:S/,/ /g} -o $@.o
 	@${LD} ${_DISCARD} -r $@.o -o $@
 	@rm -f $@.o
 
@@ -300,8 +293,8 @@ realinstall: beforeinstall
 tags: ${.CURDIR}/tags
 
 ${.CURDIR}/tags: ${SRCS}
-	ctags -w -f $@ ${.ALLSRC:N*.S:N*.s}
-	egrep "^SYSENTRY(.*)|^ENTRY(.*)|^NENTRY(.*)|^FUNC(.*)|^SYSCALL(.*)" \
+	${CTAGS} -w -f $@ ${.ALLSRC:N*.S:N*.s}
+	egrep "^SYSENTRY(.*)|^ENTRY(.*)|^NENTRY(.*)|^ALTENTRY(.*)|^FUNC(.*)|^SYSCALL(.*)" \
 	    /dev/null ${.ALLSRC:M*.S} ${.ALLSRC:M*.s} | sed \
 	    "s;\([^:]*\):\([^(]*\)(\([^, )]*\)\(.*\);\3 \1 /^\2(\3\4$$/;" >>$@
 	sort -o $@ $@
