@@ -1,10 +1,10 @@
-# $MirOS: ports/infrastructure/templates/perlmod.Makefile,v 1.1 2009/01/01 17:11:33 bsiegert Exp $
+# $MirOS: ports/devel/p5-Sub-Uplevel/Makefile,v 1.1 2009/01/02 16:19:50 bsiegert Exp $
 
 COMMENT=		apparently run a function in a higher stack frame
 DISTNAME=		Sub-Uplevel-0.2002
 PKGNAME=		p5-${DISTNAME}-${DASH_VER}
 CATEGORIES=		devel perl5
-MASTER_SITES=		${MASTER_SITE_PERL_CPAN:=../../authors/id/D/DA/DAGOLDEN}
+MASTER_SITES=		${MASTER_SITE_PERL_CPAN:=../../authors/id/D/DA/DAGOLDEN/}
 
 PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes
