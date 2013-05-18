@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.bin/lock/lock.c,v 1.3 2005/11/23 17:36:20 tg Exp $ */
+/**	$MirOS: src/usr.bin/lock/lock.c,v 1.4 2005/11/23 17:42:41 tg Exp $ */
 /*	$OpenBSD: lock.c,v 1.21 2005/07/14 14:42:28 jmc Exp $	*/
 /*	$NetBSD: lock.c,v 1.8 1996/05/07 18:32:31 jtc Exp $	*/
 
@@ -67,7 +67,7 @@ static char copyright[] =
 #include <bsd_auth.h>
 
 __SCCSID("@(#)lock.c	8.1 (Berkeley) 6/6/93");
-__RCSID("$MirOS: src/usr.bin/lock/lock.c,v 1.3 2005/11/23 17:36:20 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/lock/lock.c,v 1.4 2005/11/23 17:42:41 tg Exp $");
 
 #define	TIMEOUT	15
 
@@ -104,7 +104,7 @@ main(int argc, char *argv[])
 	else
 		p = argv[0];
 
-	if (!strcmp(p, "lock-np")) {
+	if (!strcmp(p, "lock-np") || !strcmp(p, "SCREEN-LOCK")) {
 		no_timeout = 1;
 		usemine = 1;
 	}

@@ -1,9 +1,9 @@
-$MirOS$
+$MirOS: ports/misc/screen/patches/patch-etc_etcscreenrc,v 1.1.7.1 2005/03/18 15:58:21 tg Exp $
 --- etc/etcscreenrc.orig	Fri Dec  5 13:45:51 2003
-+++ etc/etcscreenrc	Sun Jan 23 20:35:01 2005
++++ etc/etcscreenrc	Sat Dec 17 00:09:49 2005
 @@ -1,12 +1,14 @@
 +# $Id$
-+# $MirOS$
++# $MirOS: ports/misc/screen/patches/patch-etc_etcscreenrc,v 1.1.7.1 2005/03/18 15:58:21 tg Exp $
  #
  # This is an example for the global screenrc file.
 -# You may want to install this file as /usr/local/etc/screenrc.
@@ -19,7 +19,7 @@ $MirOS$
  
  #defflow on # will force screen to process ^S/^Q
  
-@@ -14,7 +15,7 @@ deflogin on
+@@ -14,7 +16,7 @@ deflogin on
  #autodetach off
  
  vbell on
@@ -28,7 +28,7 @@ $MirOS$
  
  # all termcap entries are now duplicated as terminfo entries.
  # only difference should be the slightly modified syntax, and check for
-@@ -36,9 +37,13 @@ vbell_msg "   Wuff  ----  Wuff!!  "
+@@ -36,9 +38,13 @@ vbell_msg "   Wuff  ----  Wuff!!  "
  # IC    insert multiple chars
  # nx    terminal uses xon/xoff
  
@@ -44,7 +44,7 @@ $MirOS$
  #the vt100 description does not mention "dl". *sigh*
  termcap  vt100 dl=5\E[M
  terminfo vt100 dl=5\E[M
-@@ -55,20 +60,20 @@ terminfo sun 'up=^K:AL=\E[%p1%dL:DL=\E[%
+@@ -55,20 +61,20 @@ terminfo sun 'up=^K:AL=\E[%p1%dL:DL=\E[%
  #xterm understands both im/ic and doesn't have a status line.
  #Note: Do not specify im and ic in the real termcap/info file as
  #some programs (e.g. vi) will (no,no, may (jw)) not work anymore.
@@ -70,7 +70,7 @@ $MirOS$
  #terminfo xterm|xterms|xs ti=\E7\E[?47l
  
  #make hp700 termcap/info better
-@@ -78,17 +83,23 @@ terminfo hp700 'Z0=\E[?3h:Z1=\E[?3l:hs:t
+@@ -78,17 +84,23 @@ terminfo hp700 'Z0=\E[?3h:Z1=\E[?3l:hs:t
  #wyse-75-42 must have defflow control (xo = "terminal uses xon/xoff")
  #(nowadays: nx = padding doesn't work, have to use xon/off)
  #essential to have it here, as this is a slow terminal.
