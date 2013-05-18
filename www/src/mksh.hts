@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.442 2012/02/11 15:25:24 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.443 2012/03/03 21:44:53 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1028,7 +1028,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Fix regression in re-entry printing single-char strings</li><!-- nuke that on release/upload -->
  <li>[tg] Reduce stack usage a bit; speed up hash tables at size cost</li>
  <li>[tg] <tt>MKSH_SMALL</tt> no longer implies <tt>-fno-inline</tt></li>
- <li>[tg] Drop some Android-specific unused code (lsmod builtin)</li>
+ <li>[tg] Support optional seed in <tt>${parameter@#seed}</tt> for security</li>
 </ul>
 <p>Changes in the current (unreleased) stable branch:</p><ul>
  <li>[tg, Jilles Tjoelker] skip readonly check in unevaluated ternary twig</li>
@@ -1055,6 +1055,13 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Fix regression in mirtoconf output wrt. cached values (introduced
   with divmod-needed check)</li><!-- nuke that on release/upload -->
  <li>[tg, RT] Support Minix in its variants Minix 3 and Ninix 3 better</li>
+ <li>[tg] Drop some Android-specific unused code (lsmod builtin)</li>
+ <li>[tg, RT, lewellyn] Support various versions of BSD/OS better</li>
+ <li>[tg] More code cleanup and new developer-only debugging functions</li>
+ <li>[tg, Andrew Kudryashov] Fix some tab completion related escaping bugs</li>
+ <li>[tg, draenog] Honour COLUMNS and LINES from the environment in scripts</li>
+ <li>[tg, winstonw] The sleep built-in utility now blocks more signals</li>
+ <li>[tg] Warn when using another deprecated function that will be removed</li>
 </ul>
 <p id="r40d">mksh R40d is a must-have bugfix update:</p><ul>
  <li>[tg] New <tt>test.sh</tt> ‘-f’ option (same as ‘-C fastbox’)</li>
