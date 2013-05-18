@@ -1,4 +1,6 @@
-# $MirOS: gcc/libada/Makefile,v 1.2 2007/06/10 03:19:27 tg Exp $
+# $MirOS: gcc/libada/Makefile,v 1.3 2007/06/10 13:03:29 tg Exp $
+
+.include "../Makefile.inc"
 
 .ifdef _CROSSBUILD
 FLAGS+=	ALL_TARGET='gnatlib cross-gnattools ada.all.cross'
