@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libexpat/xmlwf/xmltchar.h,v 1.2 2005/03/06 20:29:06 tg Exp $ */
+/* $MirOS: src/lib/libexpat/xmlwf/xmltchar.h,v 1.4 2005/11/03 22:28:14 tg Exp $ */
 
 #ifdef XML_UNICODE
 #ifndef XML_UNICODE_WCHAR_T
@@ -10,8 +10,8 @@
 #define fputts fputws
 #define puttc putwc
 #define tcscmp wcscmp
-#define tcscpy(a,b,c) wcscpy((a),(b))
-#define tcscat(a,b,c) wcscat((a),(b))
+#define tcscpy(a,b,c) wcslcpy((a),(b),(c))
+#define tcscat(a,b,c) wcslcat((a),(b),(c))
 #define tcschr wcschr
 #define tcsrchr wcsrchr
 #define tcslen wcslen
