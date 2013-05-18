@@ -18,25 +18,20 @@ fwscanf			#wchar.h	-
 getwc			 wchar.h	C:getwc		stdio/getwc.c
 getwchar		 wchar.h	C:getwc		stdio/getwchar.c
 iswalnum		 wctype.h	C:iswalnum	libhaible/iswTYPE.c
-iswalnum	ok	 wctype.h	C:iswalnum	STUB! i18n/multibyte.c
 iswalpha		 wctype.h	C:iswalnum	libhaible/iswTYPE.c
-iswalpha	ok	 wctype.h	C:iswalnum	STUB! i18n/multibyte.c
 iswblank		 wctype.h	C:iswalnum	libhaible/iswTYPE.c
 iswcntrl		 wctype.h	C:iswalnum	libhaible/iswTYPE.c
 iswctype		 wctype.h	H:iswctype	libhaible/iswctype.c
 iswdigit		 wctype.h	C:iswalnum	libhaible/iswTYPE.c
 iswgraph		 wctype.h	C:iswalnum	libhaible/iswTYPE.c
 iswlower		 wctype.h	C:iswalnum	libhaible/iswTYPE.c
-iswlower	ok	 wctype.h	C:iswalnum	STUB! i18n/multibyte.c
 iswprint		 wctype.h	C:iswalnum	libhaible/iswTYPE.c
 iswpunct		 wctype.h	C:iswalnum	libhaible/iswTYPE.c
 iswspace		 wctype.h	C:iswalnum	libhaible/iswTYPE.c
 iswupper		 wctype.h	C:iswalnum	libhaible/iswTYPE.c
-iswupper	ok	 wctype.h	C:iswalnum	STUB! i18n/multibyte.c
 iswxdigit		 wctype.h	C:iswalnum	libhaible/iswTYPE.c
 localeconv		 locale.h	C:setlocale	i18n/langinfo.c
 mblen			 stdlib.h	C:mblen		libhaible/mblen.c
-mblen		ok	 stdlib.h	C:mblen		STUB! i18n/multibyte.c
 mbrlen			 wchar.h	H:mbrlen	libhaible/mbrlen.c
 mbrtowc			 wchar.h	C:mbrtowc	i18n/mbrtowc.c
 mbsinit			 wchar.h	C:mbsinit	i18n/mbsinit.c
@@ -44,7 +39,6 @@ mbsrtowcs		#wchar.h	#:mbsrtowcs
 mbstowcs		 stdlib.h	C:mbstowcs	libhaible/mbstowcs.c
 mbstowcs	dep	 stdlib.h	C:mbstowcs	STUB! i18n/multibyte.c
 mbtowc			 stdlib.h	C:mbtowc	libhaible/mbtowc.c
-mbtowc		ok	 stdlib.h	C:mbtowc	STUB! i18n/multibyte.c
 nl_langinfo		 langinfo.h	C:nl_langinfo	i18n/langinfo.c
 putwc			 wchar.h	C:putwc		stdio/putwc.c
 putwchar		 wchar.h	C:putwc		stdio/putwchar.c
@@ -53,9 +47,7 @@ swprintf		#wchar.h	-
 swscanf			#wchar.h	-
 towctrans		 wctype.h	H:towctrans	libhaible/towctrans.c
 towlower		 wctype.h	C:towlower	libhaible/towlower.c
-towlower	ok	 wctype.h	C:towlower	STUB! i18n/multibyte.c
 towupper		 wctype.h	C:towlower	libhaible/towupper.c
-towupper	ok	 wctype.h	C:towlower	STUB! i18n/multibyte.c
 ungetwc			 wchar.h	C:ungetwc	stdio/ungetwc.c
 vfwprintf		#wchar.h	-
 vfwscanf		#wchar.h	-
@@ -100,7 +92,6 @@ wcswidth		 wchar.h	-		libhaible/wcswidth.c
 wcsxfrm			#wchar.h	H:wmemchr
 wctob			 wchar.h	C:wctob		i18n/wctob.c
 wctomb			 stdlib.h	C:wctomb	libhaible/wctomb.c
-wctomb		ok	 stdlib.h	C:wctomb	STUB! i18n/multibyte.c
 wctrans			 wctype.h	H:wctrans	libhaible/wctrans.c
 wctype			 wchar.h	H:wctype	libhaible/wctype.c
 wcwidth			 wchar.h	-		libhaible/wcwidth.c
