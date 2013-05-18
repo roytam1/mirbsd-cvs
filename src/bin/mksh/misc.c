@@ -1101,6 +1101,10 @@ print_value_quoted(const char *s)
 				  c = 'f';
 				if (0)
 					/* FALLTHROUGH */
+			case '\n':
+				  c = 'n';
+				if (0)
+					/* FALLTHROUGH */
 			case '\r':
 				  c = 'r';
 				if (0)
@@ -1119,17 +1123,18 @@ print_value_quoted(const char *s)
 				/* FALLTHROUGH */
 			case '\\':
 				shf_putc('\\', shl_stdout);
-				/* FALLTHROUGH */
-			case '\n':
- dgk_regchar:
-				shf_putc(c, shl_stdout);
-				break;
+
+				if (0)
+					/* FALLTHROUGH */
 			default:
-				if (c >= 32 && c <= 0x7E)
-					goto dgk_regchar;
-				/* FALLTHROUGH */
+				  if (c < 32 || c > 0x7E) {
+					/* FALLTHROUGH */
 			case '\'':
-				shf_fprintf(shl_stdout, "\\x%02X", c);
+					shf_fprintf(shl_stdout, "\\x%02X", c);
+					break;
+				}
+
+				shf_putc(c, shl_stdout);
 				break;
 			}
 		}
