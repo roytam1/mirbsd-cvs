@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.213 2009/07/09 18:56:37 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.214 2009/07/10 10:59:11 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -4344,7 +4344,7 @@ Author: tg@
  KDE Wallet, for <a href="http://www.tarent.com/">tarent GmbH</a>, and
  would like public feedback, before releasing an 1.00 version, both on <a
  href="@@ABSPATH@@/cvs.cgi/contrib/hosted/tg/code/kwalletcli/">the source
- code</a> and <a href="https://eurynome.mirbsd.org/debs/dists/hardy/wtf/pkgs/kwalletcli/kwalletcli_0.92-1.dsc">an
+ code</a> and <a href="https://eurynome.mirbsd.org/debs/dists/hardy/wtf/pkgs/kwalletcli/kwalletcli_0.93-1.dsc">an
  experimental Debian package</a> of it.</p>
 <p>Nice things it can do:</p><ul>
  <li>get and set password stanzas in the KWallet via CLI</li>
@@ -4374,6 +4374,7 @@ Author: tg@
  kwalletcli</a>, let's see if it gets in. More to follow.</p>
 <p><strong>Update</strong> 09.07. – version 0.91-1 -> 0.92-1<br />People who
  port this to KDE 4 (create a <tt>kwif4.cc</tt> file) welcome!</p>
+<p><strong>Update</strong> 12.07. – version 0.92-1 -> 0.93-1</p>
 ----
 Title: mksh change announcement: support future POSIX standard
 Date: 09.07.2009 18:54
@@ -4386,4 +4387,17 @@ Tag: mksh
 <p>Most of the thread can be seen on the miros-discuss@ mailing list
  archives (although both MARC and GMane seem to not have all related
  eMails... weird).</p>
+----
+Title: vacation
+Date: 13.07.2009 18:32
+Author: tg@
+Language: de
+
+<p>Ich bin jetzt bei gecko2@ für ’ne Woche, mal entspannen. ObRecovery:
+ für zirka 2 € mehr habe ich durch IC-Nutzung eine Stunde Fahrt eingespart.
+ Vive le Deutsche Bahn :þ</p>
+<p>Pläne: viel offline sein. Ansonsten vielleicht ein wenig mksh(1)-Hacking
+ (siehe letztes Posting) oder so.</p>
+<p>Gestern mußte ich noch einen Fipptehler bei kwalletcli fixen ☹ dafür
+ sollte™ heute auf Arbeit alles gut gelaufen sein.</p>
 ----
