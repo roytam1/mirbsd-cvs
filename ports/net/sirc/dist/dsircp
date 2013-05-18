@@ -1,5 +1,5 @@
 #!/usr/bin/env perl
-# $MirOS: ports/net/sirc/dist/dsircp,v 1.22 2008/12/20 17:57:28 tg Exp $
+# $MirOS: ports/net/sirc/dist/dsircp,v 1.23 2009/01/08 19:53:37 tg Exp $
 #-
 # dsircp: dumb-mode small irc client in perl
 # by orabidoo <roger.espel.llima@pobox.com>
@@ -99,7 +99,41 @@ couldn't be found. Have you even bothered to run 'install'?\n";
 }
 use Encode;
 use POSIX ":sys_wait_h";
-use BSD::arc4random qw(arc4random_pushb arc4random_bytes);
+use BSD::arc4random qw(arc4random arc4random_pushb arc4random_bytes);
+
+my $running_sum = arc4random();
+
+sub
+adler32
+{
+	my ($n, $buf) = @_;
+	my ($s1, $s2);
+
+	$s1 = $n & 0xFFFF;
+	$s2 = ($n >> 16) & 0xFFFF;
+
+	$n = 0;
+	foreach my $ch (unpack("C*", $buf)) {
+		$s1 += $ch;
+		$s2 += $s1;
+		if ($n == 5552) {
+			$s1 %= 65521;
+			$s2 %= 65521;
+			$n = 0;
+		}
+	}
+
+	$n = ($s1 % 65521) | (($s2 % 65521) << 16);
+	return ($n);
+}
+
+sub arc4adlerpush {
+  my $s = $_;
+
+  $running_sum = adler32($running_sum, pack("w", arc4random()) . $s);
+  $s = pack("w", time) . pack("L", $running_sum);
+  BSD::arc4random::arc4random_addrandom($s);
+}
 
 sub parseserver {
   local $args = $_[0];
@@ -411,6 +445,7 @@ sub gl {
   local($buf)='';
   local($buf2)='';
   if (sysread($_[0], $buf, 4096)) {
+    arc4adlerpush($buf);
     if ($_[0] eq $S) {
       $buf =~ s/\ca([<>])\ca/\cb$1\cb/g;
       $buf =~ s/\cc((1[0-5]|0?[0-9])(,(1[0-5]|0?[0-9]))?)?//g;
@@ -443,6 +478,7 @@ sub sl {
   } else {
     $buf3 = Encode::encode("windows-1252", $buf2, 0);
   }
+  arc4adlerpush($buf3);
   &print("*\cbE\cb* Error writing to server: $!") unless print $S $buf3."\n";
 }
 
@@ -854,7 +890,7 @@ sub ctcpreply {
     $rest .= ($rest == 1) ? " second" : " seconds";
   } elsif ($ctcp eq 'RANDOM') {
     my $t = (BSD::arc4random::have_kintf() ? "" : "not ") . "pushing to kernel";
-    arc4random_pushb("$who$puh1$towho$rest");
+    $running_sum = arc4random_pushb("$who$puh1$towho$rest") | 1;
     &tell("*** RANDEX protocol reply from $who$puh1 to $towho, ${t}");
     $vis = 0;
   }

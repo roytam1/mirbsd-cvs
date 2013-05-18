@@ -18,7 +18,7 @@
 #else
 #define RELEASE_OS	"unknown OS"
 #endif
-#define RELEASE_VER	"TinyIRC 20081229"
+#define RELEASE_VER	"TinyIRC 20090108"
 #define RELEASE_L	RELEASE_VER " (" RELEASE_OS ") MirOS-contrib"
 #define RELEASE_S	RELEASE_VER " MirOS"
 /*-
@@ -76,7 +76,7 @@
 #define	__RCSID(x)	static const char __rcsid[] __attribute__((used)) = (x)
 #endif
 
-__RCSID("$MirOS: contrib/code/Snippets/tinyirc.c,v 1.31 2008/12/29 22:12:42 tg Exp $");
+__RCSID("$MirOS: contrib/code/Snippets/tinyirc.c,v 1.32 2008/12/29 22:19:26 tg Exp $");
 
 #ifndef __dead
 #define __dead
@@ -89,6 +89,8 @@ uint32_t arc4random_pushb(const void *, size_t);
 #define arc4random_pushb(buf, len) arc4random_addrandom((u_char *)(buf),
 	    (int)(len))
 #endif
+
+extern unsigned long adler32(unsigned long, const void *, unsigned int);
 
 struct dlist {
     char name[64];
@@ -171,6 +173,18 @@ static void dowinch(int);
 static void dowinsz(int);
 int main(int, char *[]);
 static void pushlastchan(char *);
+void arc4adlerpush(const void *);
+
+void arc4adlerpush(const void *buf)
+{
+	static unsigned long s = 1;
+	time_t v;
+
+	v = arc4random();
+	s = adler32(adler32(s, &v, sizeof (v)), buf, strlen(buf));
+	v = time(NULL) ^ (time_t)s;
+	arc4random_pushb(&v, sizeof (v));
+}
 
 int my_stricmp(const char *str1, const char *str2)
 {
@@ -255,6 +269,7 @@ int makeconnect(const char *hostname)
 
 int sendline(void)
 {
+    arc4adlerpush(lineout);
     if (write(sockfd, lineout, strlen(lineout)) < 1)
 	return 0;
     return 1;
@@ -643,6 +658,7 @@ int serverinput(void)
 	    serverdata[cursd++] = ich;
 	else {
 	    serverdata[cursd] = 0;
+	    arc4adlerpush(serverdata);
 	    if (cursd) {
 		cursd = 0;
 		return parsedata();
@@ -655,6 +671,7 @@ void parseinput(void)
 {
     int i, j, outcol = 0, found = 0;
 
+    arc4adlerpush(linein);
     if (*linein == '\0')
 	return;
 
@@ -1206,6 +1223,9 @@ pushlastchan(char *cname)
 
 PROG=		tinyirc
 NOMAN=		Yes
+
+LDADD+=		-lz
+DPADD+=		${LIBZ}
 
 .ifdef SMALL
 CPPFLAGS+=	-D_USE_OLD_CURSES_
