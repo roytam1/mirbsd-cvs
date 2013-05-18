@@ -1,14 +1,11 @@
-$OpenBSD: patch-lib_fileutils_rb,v 1.1 2004/05/10 19:46:46 sturm Exp $
---- lib/fileutils.rb.orig	2003-12-13 01:31:22.000000000 +0100
-+++ lib/fileutils.rb	2004-05-02 20:16:29.000000000 +0200
-@@ -178,7 +178,9 @@ module FileUtils
-       end
-       stack.reverse_each do |path|
-         begin
--          Dir.mkdir path, mode
-+	  if File.exist?(path) == false
-+		Dir.mkdir path, mode
-+	  end
-         rescue SystemCallError => err
-           raise unless File.directory?(path)
-         end
+$OpenBSD: patch-lib_fileutils_rb,v 1.4 2007/12/27 18:32:33 bernd Exp $
+--- lib/fileutils.rb.orig	Sun Mar  4 16:03:11 2007
++++ lib/fileutils.rb	Sat Sep 22 00:10:28 2007
+@@ -236,6 +236,7 @@ module FileUtils
+ 
+   def fu_mkdir(path, mode)   #:nodoc:
+     path = path.sub(%r</\z>, '')
++    return true if File.exist?(path)
+     if mode
+       Dir.mkdir path, mode
+       File.chmod mode, path

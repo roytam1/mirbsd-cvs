@@ -1,13 +1,9 @@
-# $MirOS: ports/lang/ruby/ruby.port.mk,v 1.2 2006/02/01 15:42:15 tg Exp $
+# $MirOS: ports/lang/ruby/ruby.port.mk,v 1.3 2007/04/07 15:00:47 bsiegert Exp $
 # $OpenBSD: ruby.port.mk,v 1.4 2004/02/20 22:52:58 couderc Exp $
-
-# to fix this, use ${OStriplet} or OSname+OSREV or OSname+OSver
-BROKEN=	OSname and OSrev abuse in lang/ruby/ruby.port.mk
 
 # ruby module
 
-RUN_DEPENDS+=::lang/ruby
-LIB_DEPENDS+=ruby.1.81::lang/ruby
+LIB_DEPENDS+=ruby::lang/ruby
 
 # location of ruby libraries
 MODRUBY_LIBDIR=		${LOCALBASE}/lib/ruby
@@ -20,7 +16,7 @@ MODRUBY_EXAMPLEDIR=	${PREFIX}/share/examples/ruby
 CONFIGURE_STYLE?=	simple
 CONFIGURE_SCRIPT?=	${LOCALBASE}/bin/ruby extconf.rb
 
-REV=1.8
-SUB=${MACHINE_ARCH}-openbsd${OSREV}
-SUBST_VARS=SUB REV
+REV=			1.8
+SUB=			${MACHINE_ARCH}-${OStype:L}${OSREV}
+SUBST_VARS+=		SUB REV
 

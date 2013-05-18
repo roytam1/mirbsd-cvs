@@ -1,3 +1,7 @@
-MD5 (ruby-1.8.1.tar.gz) = 5d52c7d0e6a6eb6e3bc68d77e794898e
-RMD160 (ruby-1.8.1.tar.gz) = 1491b3285be245268ca988b4be2c3e85adfc5b27
-SHA1 (ruby-1.8.1.tar.gz) = 894cb1e7624b74e699d127344ce5600fc3a7d515
+$MirOS$
+
+MD5 (ruby-1.8.6-p114.tar.bz2) = b4d0c74497f684814bcfbb41b7384a71
+RMD160 (ruby-1.8.6-p114.tar.bz2) = 332d6e98ef79ad8175ce699ed5293407763f769f
+SHA1 (ruby-1.8.6-p114.tar.bz2) = 9929782935ebb77d040593a010b8d65b03ce6e23
+SIZE (ruby-1.8.6-p114.tar.bz2) = 3920921
+TIGER (ruby-1.8.6-p114.tar.bz2) = fb6f528738c610b36073936bc3d7d99704cfb54c9f90a031

@@ -1,17 +1,17 @@
-# $MirOS: ports/lang/ruby/Makefile,v 1.6 2007/04/11 17:57:44 bsiegert Exp $
+# $MirOS: ports/lang/ruby/Makefile,v 1.7 2008/03/09 17:23:03 tg Exp $
 # $OpenBSD: Makefile,v 1.27 2004/02/20 22:52:57 couderc Exp $
-
-# to fix this, use ${OStriplet} or OSname+OSREV or OSname+OSver
-BROKEN=	OSname and OSrev abuse in lang/ruby/Makefile
 
 COMMENT=		object oriented script language with threads
 
-VERSION=		1.8.1
-DASH_VER=		1
+VERSION=		1.8.6-p114
+DASH_VER=		0
 DISTNAME=		ruby-${VERSION}
+PKGNAME=		ruby-${VERSION:S/-/./}-${DASH_VER}
 CATEGORIES=		lang
 
 HOMEPAGE=		http://www.ruby-lang.org/
+
+EXTRACT_SUFX=		.tar.bz2
 
 # GPL
 PERMIT_PACKAGE_CDROM=	Yes
@@ -21,7 +21,7 @@ PERMIT_DISTFILES_FTP=	Yes
 
 MASTER_SITES=		ftp://www.ruby-lang.org/pub/ruby/1.8/ \
 			ftp://mirror.nucba.ac.jp/pub/ruby/1.8/ \
-			ftp://ftp.kr.freebsd.org/pub/ruby/1.8/
+			http://dl.ambiweb.de/mirrors/ftp.ruby-lang.org/pub/ruby/1.8/
 
 CONFIGURE_STYLE=	autoconf no-autoheader
 AUTOCONF_NEW=		Yes
@@ -46,7 +46,7 @@ NO_REGRESS=		Yes
 .include <mirports.sys.mk>
 
 REV=			1.8
-SUB=			${MACHINE_ARCH}-${OSname}${OSrev}
+SUB=			${MACHINE_ARCH}-${OStype:L}${OSREV}
 SUBST_VARS=		SUB REV
 
 post-extract:
