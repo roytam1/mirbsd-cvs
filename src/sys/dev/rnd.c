@@ -1,11 +1,11 @@
-/**	$MirOS: src/sys/dev/rnd.c,v 1.45 2008/07/12 16:15:15 tg Exp $ */
+/**	$MirOS: src/sys/dev/rnd.c,v 1.46 2008/07/26 19:40:51 tg Exp $ */
 /*	$OpenBSD: rnd.c,v 1.78 2005/07/07 00:11:24 djm Exp $	*/
 
 /*
  * rnd.c -- A strong random number generator
  *
  * Copyright (c) 2000, 2002, 2003, 2004, 2005, 2006, 2007, 2008
- *	Thorsten “mirabilos” Glaser <tg@mirbsd.de>
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 1996, 1997, 2000-2002 Michael Shalayeff.
  * Copyright Theodore Ts'o, 1994, 1995, 1996, 1997, 1998, 1999.
  * All rights reserved.
@@ -725,9 +725,8 @@ randomattach(void)
 	for (i = 0; i < 256; i++)
 		arc4random_state.s[i] = i;
 	arc4_reinit(NULL);
-	/* 10 minutes, per dm@openbsd's suggestion */
 	if (!arc4random_seedfreq)
-		arc4random_seedfreq = 10 * 60 * hz;
+		arc4random_seedfreq = hz << 9;	/* approx. 8½ minutes */
 
 	++rnd_attached;
 
