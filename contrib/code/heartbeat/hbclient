@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/heartbeat/hbclient,v 1.3 2005/12/17 05:46:07 tg Exp $
+# $MirOS: contrib/code/heartbeat/hbclient,v 1.4 2006/01/28 14:43:33 tg Exp $
 #-
 # Copyright (c) 2004, 2006
 #	Thorsten "mirabilos" Glaser <tg@66h.42h.de>
@@ -147,6 +147,9 @@ function clean
 }
 
 #=== subroutines (not configurable) ===
+
+progname="${0:-hbClient}"	# programme name
+progname="${progname##*/}"	# basename of progname
 
 #-- logging
 
