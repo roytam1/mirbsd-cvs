@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.27 2007/05/24 22:07:08 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.28 2007/06/12 21:58:25 tg Exp $ */
 /*	$OpenBSD: installboot.c,v 1.47 2004/07/15 21:44:16 tom Exp $	*/
 /*	$NetBSD: installboot.c,v 1.5 1995/11/17 23:23:50 gwr Exp $ */
 
@@ -88,7 +88,7 @@
 #include <unistd.h>
 #include <util.h>
 
-__RCSID("$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.27 2007/05/24 22:07:08 tg Exp $");
+__RCSID("$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.28 2007/06/12 21:58:25 tg Exp $");
 
 extern const char *__progname;
 int	verbose, nowrite, nheads, nsectors, userspec = 0;
@@ -131,7 +131,7 @@ static int	do_record(u_int8_t *, daddr_t, u_int);
 static void
 usage(void)
 {
-	fprintf(stderr, "usage:\t%s [-n] [-v] [-s sec-per-track] "
+	fprintf(stderr, "usage:\t%s [-1npv] [-P part] [-s sec-per-track] "
 	    "[-h track-per-cyl]\n", __progname);
 	fprintf(stderr, "\t    boot bootxx device\n");
 	fprintf(stderr, "\t    [-S sector] -I bootstart bootend bootxx device\n");
