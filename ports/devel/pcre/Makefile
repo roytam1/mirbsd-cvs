@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/pcre/Makefile,v 1.5 2006/12/20 15:31:15 tg Exp $
+# $MirOS: ports/devel/pcre/Makefile,v 1.6 2007/05/17 23:06:32 tg Exp $
 # $OpenBSD: Makefile,v 1.12 2004/01/14 17:21:52 jakob Exp $
 
 COMMENT=		perl-compatible regular expression library
@@ -8,6 +8,7 @@ MASTER_SITES=		ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/ \
 			${MASTER_SITE_SOURCEFORGE:=pcre/}
 HOMEPAGE=		http://www.pcre.org/
 
+# 3-clause UCB-style
 PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
