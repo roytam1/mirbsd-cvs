@@ -1,8 +1,11 @@
-# $MirOS: ports/textproc/sablotron/Makefile,v 1.6 2008/05/07 22:48:43 tg Exp $
+# $MirOS: ports/textproc/sablotron/Makefile,v 1.7 2009/08/16 17:19:07 tg Exp $
 # $OpenBSD: Makefile,v 1.17 2004/02/29 00:18:19 avsm Exp $
+
+BROKEN=			iconv problems
 
 COMMENT=		fast, compact and portable XSL/XSLT processor
 VSN=			1.0.1
+DASH_VER=		1
 DISTNAME=		Sablot-${VSN}
 PKGNAME=		sablotron-${VSN}-${DASH_VER}
 CATEGORIES=    		textproc
@@ -20,11 +23,11 @@ MODULES+=		converters/libiconv
 MODULES+=		textproc/expat
 BUILD_DEPENDS+=		:p5-XML-Parser-*:textproc/p5-XML-Parser
 
+USE_CXX=		Yes
 USE_GMAKE=		Yes
 AUTOCONF_NEW=		Yes
-MODGNU_RECURSE_DIRS=	${WRKSRC}/tools ${WRKSRC}
 
-CONFIGURE_STYLE=	gnu
+CONFIGURE_STYLE=	autoconf
 CONFIGURE_ENV+=		SABLOT_GPL=1
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED} --enable-static \
 			--enable-debugger --with-expat-prefix=${EXPAT_PREFIX:Q} \
