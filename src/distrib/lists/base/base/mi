@@ -480,7 +480,7 @@
 ./usr/lib/libotermcap.so.7.0
 ./usr/lib/libpanel.so.5.0
 ./usr/lib/libpcap.so.5.0
-./usr/lib/libpng.so.7.0
+./usr/lib/libpng.so.7.1
 ./usr/lib/libpthread.so.10.0
 ./usr/lib/libsectok.so.8.0
 ./usr/lib/libskey.so.7.0

@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libpng/png.h,v 1.3 2006/06/09 00:30:27 tg Exp $ */
+/* $MirOS: src/lib/libpng/png.h,v 1.4 2006/06/09 00:34:46 tg Exp $ */
 
 /* png.h - header file for MirOS in-tree PNG library
  *
@@ -116,9 +116,9 @@
  */
 
 /* Version information for png.h - this should match the version in png.c */
-#define PNG_LIBPNG_VER_STRING "1.2.10-MirOS"
+#define PNG_LIBPNG_VER_STRING "1.2.12-MirOS"
 #define PNG_HEADER_VERSION_STRING \
-   " libpng version 1.2.10-MirOS - June 9, 2006 (header)\n"
+   " libpng version 1.2.12-MirOS - June 27, 2006 (header)\n"
 
 #define PNG_LIBPNG_VER_SONUM   0
 #define PNG_LIBPNG_VER_DLLNUM  13
@@ -126,7 +126,7 @@
 /* These should match the first 3 components of PNG_LIBPNG_VER_STRING: */
 #define PNG_LIBPNG_VER_MAJOR   1
 #define PNG_LIBPNG_VER_MINOR   2
-#define PNG_LIBPNG_VER_RELEASE 10
+#define PNG_LIBPNG_VER_RELEASE 12
 /* This should match the numeric part of the final component of
  * PNG_LIBPNG_VER_STRING, omitting any leading zero: */
 
@@ -154,7 +154,7 @@
  * Versions 0.7 through 1.0.0 were in the range 0 to 100 here (only
  * version 1.0.0 was mis-numbered 100 instead of 10000).  From
  * version 1.0.1 it's    xxyyzz, where x=major, y=minor, z=release */
-#define PNG_LIBPNG_VER 10210 /* 1.2.10 */
+#define PNG_LIBPNG_VER 10212 /* 1.2.12 */
 
 #ifndef PNG_VERSION_INFO_ONLY
 /* include the compression library's header */
@@ -1160,7 +1160,7 @@ struct png_struct_def
 /* This triggers a compiler error in png.c, if png.c and png.h
  * do not agree upon the version number.
  */
-typedef png_structp version_1_2_10;
+typedef png_structp version_1_2_12;
 
 typedef png_struct FAR * FAR * png_structpp;
 
@@ -2443,7 +2443,7 @@ extern PNG_EXPORT(void,png_save_uint_16)
 #define PNG_HAVE_IHDR               0x01
 #define PNG_HAVE_PLTE               0x02
 #define PNG_HAVE_IDAT               0x04
-#define PNG_AFTER_IDAT              0x08
+#define PNG_AFTER_IDAT              0x08 /* Have complete zlib datastream */
 #define PNG_HAVE_IEND               0x10
 #define PNG_HAVE_gAMA               0x20
 #define PNG_HAVE_cHRM               0x40
@@ -2453,6 +2453,7 @@ extern PNG_EXPORT(void,png_save_uint_16)
 #define PNG_WROTE_INFO_BEFORE_PLTE 0x400
 #define PNG_BACKGROUND_IS_GRAY     0x800
 #define PNG_HAVE_PNG_SIGNATURE    0x1000
+#define PNG_HAVE_CHUNK_AFTER_IDAT 0x2000 /* Have another chunk after IDAT */
 
 /* flags for the transformations the PNG library does on the image data */
 #define PNG_BGR                0x0001
@@ -3231,6 +3232,29 @@ PNG_EXTERN void png_do_write_intrapixel PNGARG((png_row_infop row_info,
 /* png.c */ /* PRIVATE */
 PNG_EXTERN void png_init_mmx_flags PNGARG((png_structp png_ptr));
 #endif
+
+#if defined(PNG_INCH_CONVERSIONS) && defined(PNG_FLOATING_POINT_SUPPORTED)
+PNG_EXTERN png_uint_32 png_get_pixels_per_inch PNGARG((png_structp png_ptr,
+png_infop info_ptr));
+
+PNG_EXTERN png_uint_32 png_get_x_pixels_per_inch PNGARG((png_structp png_ptr,
+png_infop info_ptr));
+
+PNG_EXTERN png_uint_32 png_get_y_pixels_per_inch PNGARG((png_structp png_ptr,
+png_infop info_ptr));
+
+PNG_EXTERN float png_get_x_offset_inches PNGARG((png_structp png_ptr,
+png_infop info_ptr));
+
+PNG_EXTERN float png_get_y_offset_inches PNGARG((png_structp png_ptr,
+png_infop info_ptr));
+
+#if defined(PNG_pHYs_SUPPORTED)
+PNG_EXTERN png_uint_32 png_get_pHYs_dpi PNGARG((png_structp png_ptr,
+png_infop info_ptr, png_uint_32 *res_x, png_uint_32 *res_y, int *unit_type));
+#endif /* PNG_pHYs_SUPPORTED */
+#endif  /* PNG_INCH_CONVERSIONS && PNG_FLOATING_POINT_SUPPORTED */
+
 /* Maintainer: Put new private prototypes here ^ and in libpngpf.3 */
 
 #endif /* PNG_INTERNAL */

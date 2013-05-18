@@ -1,5 +1,5 @@
 #include <sys/cdefs.h>
-__RCSID("$MirOS: src/lib/libpng/png.c,v 1.4 2006/06/09 00:30:27 tg Exp $");
+__RCSID("$MirOS: src/lib/libpng/png.c,v 1.5 2006/06/09 00:34:46 tg Exp $");
 
 /* png.c - location for general purpose libpng functions
  *
@@ -15,7 +15,7 @@ __RCSID("$MirOS: src/lib/libpng/png.c,v 1.4 2006/06/09 00:30:27 tg Exp $");
 #include "png.h"
 
 /* Generate a compiler error if there is an old png.h in the search path. */
-typedef version_1_2_10 Your_png_h_is_not_version_1_2_10;
+typedef version_1_2_12 Your_png_h_is_not_version_1_2_12;
 
 /* Version information for C files.  This had better match the version
  * string defined in png.h.  */
@@ -695,7 +695,7 @@ png_charp PNGAPI
 png_get_copyright(png_structp png_ptr)
 {
    if (&png_ptr != NULL)  /* silence compiler warning about unused png_ptr */
-   return ((png_charp) "\n libpng version 1.2.10-MirOS - June 9, 2006\n\
+   return ((png_charp) "\n libpng version 1.2.12-MirOS - June 27, 2006\n\
    Copyright (c) 2004-2006 The MirOS Project - http://mirbsd.de/\n\
    Copyright (c) 1998-2006 Glenn Randers-Pehrson\n\
    Copyright (c) 1996-1997 Andreas Dilger\n\
