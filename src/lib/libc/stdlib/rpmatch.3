@@ -1,4 +1,4 @@
-.\" $MirOS: src/share/misc/licence.template,v 1.20 2006/12/11 21:04:56 tg Rel $
+.\" $MirOS: src/lib/libc/stdlib/rpmatch.3,v 1.1 2007/05/22 16:13:51 tg Exp $
 .\"-
 .\" Copyright (c) 2007
 .\"	Thorsten Glaser <tg@mirbsd.de>
@@ -18,7 +18,7 @@
 .\" damage or existence of a defect, except proven that it results out
 .\" of said person's immediate fault when using the work as intended.
 .\"-
-.Dd May 22, 2007
+.Dd $Mdocdate$
 .Dt RPMATCH 3
 .Os GNU
 .Sh NAME
@@ -31,7 +31,7 @@
 .Fn rpmatch "const char *response"
 .Sh DESCRIPTION
 The
-.Fn getline
+.Fn rpmatch
 function is a GNU extension and should not be used in new code.
 It is only implemented in
 .Mx
@@ -49,6 +49,6 @@ or
 returning 0; returning -1 otherwise.
 .Sh HISTORY
 The
-.Fn getline
+.Fn rpmatch
 function was first introduced to BSD in
 .Mx 10 .
