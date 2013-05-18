@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/i18n/langinfo.c,v 1.8 2006/01/31 19:56:36 tg Exp $ */
+/* $MirOS: src/lib/libc/i18n/langinfo.c,v 1.9 2006/05/21 12:12:29 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006
@@ -39,7 +39,7 @@
 
 #include "mir18n.h"
 
-__RCSID("$MirOS: src/lib/libc/i18n/langinfo.c,v 1.8 2006/01/31 19:56:36 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/langinfo.c,v 1.9 2006/05/21 12:12:29 tg Exp $");
 
 /* fake locale support */
 
@@ -70,7 +70,7 @@ struct lconv _DefaultLocaleConv = {
 struct lconv *
 __weak_localeconv(void)
 {
-	return (struct lconv *)&_DefaultLocaleConv;
+	return ((struct lconv *)&_DefaultLocaleConv);
 }
 
 const char *
@@ -79,89 +79,89 @@ __weak_nl_langinfo(nl_item item)
 	const char *s;
 
 	switch (item) {
-	  case CODESET:
+	case CODESET:
 		s = __locale_is_utf8 ? "UTF-8" : "ISO_646.irv:1991";
 		break;
-	  case D_T_FMT:
+	case D_T_FMT:
 		s = _DefaultTimeLocale.d_t_fmt;
 		break;
-	  case D_FMT:
+	case D_FMT:
 		s = _DefaultTimeLocale.d_fmt;
 		break;
-	  case T_FMT:
+	case T_FMT:
 		s = _DefaultTimeLocale.t_fmt;
 		break;
-	  case T_FMT_AMPM:
+	case T_FMT_AMPM:
 		s = _DefaultTimeLocale.t_fmt_ampm;
 		break;
-	  case AM_STR:
-	  case PM_STR:
+	case AM_STR:
+	case PM_STR:
 		s = _DefaultTimeLocale.am_pm[item - AM_STR];
 		break;
-	  case DAY_1:
-	  case DAY_2:
-	  case DAY_3:
-	  case DAY_4:
-	  case DAY_5:
-	  case DAY_6:
-	  case DAY_7:
+	case DAY_1:
+	case DAY_2:
+	case DAY_3:
+	case DAY_4:
+	case DAY_5:
+	case DAY_6:
+	case DAY_7:
 		s = _DefaultTimeLocale.day[item - DAY_1];
 		break;
-	  case ABDAY_1:
-	  case ABDAY_2:
-	  case ABDAY_3:
-	  case ABDAY_4:
-	  case ABDAY_5:
-	  case ABDAY_6:
-	  case ABDAY_7:
+	case ABDAY_1:
+	case ABDAY_2:
+	case ABDAY_3:
+	case ABDAY_4:
+	case ABDAY_5:
+	case ABDAY_6:
+	case ABDAY_7:
 		s = _DefaultTimeLocale.abday[item - ABDAY_1];
 		break;
-	  case MON_1:
-	  case MON_2:
-	  case MON_3:
-	  case MON_4:
-	  case MON_5:
-	  case MON_6:
-	  case MON_7:
-	  case MON_8:
-	  case MON_9:
-	  case MON_10:
-	  case MON_11:
-	  case MON_12:
+	case MON_1:
+	case MON_2:
+	case MON_3:
+	case MON_4:
+	case MON_5:
+	case MON_6:
+	case MON_7:
+	case MON_8:
+	case MON_9:
+	case MON_10:
+	case MON_11:
+	case MON_12:
 		s = _DefaultTimeLocale.mon[item - MON_1];
 		break;
-	  case ABMON_1:
-	  case ABMON_2:
-	  case ABMON_3:
-	  case ABMON_4:
-	  case ABMON_5:
-	  case ABMON_6:
-	  case ABMON_7:
-	  case ABMON_8:
-	  case ABMON_9:
-	  case ABMON_10:
-	  case ABMON_11:
-	  case ABMON_12:
+	case ABMON_1:
+	case ABMON_2:
+	case ABMON_3:
+	case ABMON_4:
+	case ABMON_5:
+	case ABMON_6:
+	case ABMON_7:
+	case ABMON_8:
+	case ABMON_9:
+	case ABMON_10:
+	case ABMON_11:
+	case ABMON_12:
 		s = _DefaultTimeLocale.abmon[item - ABMON_1];
 		break;
-	  case RADIXCHAR:
+	case RADIXCHAR:
 		s = _DefaultLocaleConv.decimal_point;
 		break;
-	  case YESSTR:
+	case YESSTR:
 		s = "yes";
 		break;
-	  case YESEXPR:
+	case YESEXPR:
 		s = "^[Yy]";
 		break;
-	  case NOSTR:
+	case NOSTR:
 		s = "no";
 		break;
-	  case NOEXPR:
+	case NOEXPR:
 		s = "^[Nn]";
 		break;
-	  case THOUSEP:
-	  case CRNCYSTR:
-	  default:
+	case THOUSEP:
+	case CRNCYSTR:
+	default:
 		s = _DefaultLocaleConv.thousands_sep;
 		break;
 	}
