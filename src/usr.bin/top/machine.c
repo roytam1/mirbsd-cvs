@@ -41,7 +41,6 @@
 #include <string.h>
 #include <limits.h>
 #include <err.h>
-#include <math.h>
 #include <unistd.h>
 #include <sys/errno.h>
 #include <sys/sysctl.h>
