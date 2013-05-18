@@ -60,6 +60,8 @@
 #include "event.h"
 #include "log.h"
 
+__RCSID("$MirOS$");
+
 int decode_int(u_int32_t *pnumber, struct evbuffer *evbuf);
 
 static struct evbuffer *_buf;	/* not thread safe */
@@ -118,7 +120,7 @@ evtag_marshal(struct evbuffer *evbuf, u_int8_t tag,
 {
 	evbuffer_add(evbuf, &tag, sizeof(tag));
 	encode_int(evbuf, len);
-	evbuffer_add(evbuf, (void *)data, len);
+	evbuffer_add(evbuf, data, len);
 }
 
 /* Marshaling for integers */

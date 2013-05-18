@@ -58,6 +58,9 @@
 #include "event-internal.h"
 #include "log.h"
 
+__RCSID("$MirOS$\t"
+    _EVENT_H_);
+
 #ifdef HAVE_EVENT_PORTS
 extern const struct eventop evportops;
 #endif
@@ -848,7 +851,9 @@ event_queue_insert(struct event_base *base, struct event *ev, int queue)
 		TAILQ_INSERT_TAIL(&signalqueue, ev, ev_signal_next);
 		break;
 	case EVLIST_TIMEOUT: {
+#ifndef NDEBUG
 		struct event *tmp = RB_INSERT(event_tree, &base->timetree, ev);
+#endif
 		assert(tmp == NULL);
 		break;
 	}

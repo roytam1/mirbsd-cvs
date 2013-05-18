@@ -57,6 +57,8 @@
 #include "event.h"
 #include "log.h"
 
+__RCSID("$MirOS$");
+
 #define EVLIST_X_KQINKERNEL	0x1000
 
 #define NEVENT		64

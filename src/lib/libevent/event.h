@@ -27,7 +27,7 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 #ifndef _EVENT_H_
-#define _EVENT_H_
+#define _EVENT_H_	"$MirOS$"
 
 #ifdef __cplusplus
 extern "C" {

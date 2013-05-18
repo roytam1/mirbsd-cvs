@@ -59,6 +59,8 @@
 
 #include "event.h"
 
+__RCSID("$MirOS$");
+
 struct evbuffer *
 evbuffer_new(void)
 {

@@ -53,6 +53,8 @@
 #include "evsignal.h"
 #include "log.h"
 
+__RCSID("$MirOS$");
+
 #ifndef howmany
 #define        howmany(x, y)   (((x)+((y)-1))/(y))
 #endif
