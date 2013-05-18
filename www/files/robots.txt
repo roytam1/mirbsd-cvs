@@ -1,4 +1,4 @@
-# $MirOS: www/files/robots.txt,v 1.1 2007/06/09 23:29:51 tg Exp $
+# $MirOS: www/files/robots.txt,v 1.2 2007/10/02 18:55:00 tg Exp $
 
 # Allow downloads
 
@@ -33,7 +33,11 @@ Disallow: /?wlog-6
 # other not-to-be-listed content
 Disallow: /GBG/
 Disallow: /MirOS/
+Disallow: /Pkgs/
 Disallow: /current/
+Disallow: /d/
+Disallow: /dist/
+Disallow: /distfiles/
 
 # Disallow other bots
 
@@ -51,4 +55,19 @@ Disallow: /man8
 Disallow: /man9
 # nor the download area
 Disallow: /MirOS/
+Disallow: /Pkgs/
 Disallow: /current/
+Disallow: /d/
+Disallow: /dist/
+Disallow: /distfiles/
+
+# This crawler operates at 1 Hz
+
+User-Agent: sitebot
+Disallow: /cvs.cgi/
+Disallow: /MirOS/
+Disallow: /Pkgs/
+Disallow: /current/
+Disallow: /d/
+Disallow: /dist/
+Disallow: /distfiles/
