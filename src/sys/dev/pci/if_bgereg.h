@@ -1,5 +1,4 @@
-/*	$OpenBSD: if_bgereg.h,v 1.104 2011/02/15 19:49:47 robert Exp $	*/
-
+/* $OpenBSD: if_bgereg.h,v 1.8 2004/03/19 21:57:36 miod Exp $ */
 /*
  * Copyright (c) 2001 Wind River Systems
  * Copyright (c) 1997, 1998, 1999, 2001
@@ -76,17 +75,6 @@
 #define BGE_SOFTWARE_GENCOMM		0x00000B50
 #define BGE_SOFTWARE_GENCOMM_SIG	0x00000B54
 #define BGE_SOFTWARE_GENCOMM_NICCFG	0x00000B58
-#define BGE_SOFTWARE_GENCOMM_VER	0x00000B5C
-#define    BGE_VER_SHIFT			16
-#define BGE_SOFTWARE_GENCOMM_FW		0x00000B78
-#define    BGE_FW_PAUSE				0x00000002
-#define BGE_SOFTWARE_GENCOMM_NICCFG2	0x00000D38
-#define BGE_SOFTWARE_GENCOMM_NICCFG3	0x00000D3C
-#define BGE_SOFTWARE_GENCOMM_NICCFG4	0x00000D60
-#define    BGE_NICCFG4_GMII_MODE		0x00000002
-#define    BGE_NICCFG4_RGMII_STD_IBND_DISABLE	0x00000004
-#define    BGE_NICCFG4_RGMII_EXT_IBND_RX_EN	0x00000008
-#define    BGE_NICCFG4_RGMII_EXT_IBND_TX_EN	0x00000010
 #define BGE_SOFTWARE_GENCOMM_END	0x00000FFF
 #define BGE_UNMAPPED			0x00001000
 #define BGE_UNMAPPED_END		0x00001FFF
@@ -182,10 +170,6 @@
 #define BGE_PCI_MSI_ADDR_LO		0x60
 #define BGE_PCI_MSI_DATA		0x64
 
-/* PCI MSI. ??? */
-#define BGE_PCIE_CAPID_REG		0xD0
-#define BGE_PCIE_CAPID			0x10
-
 /*
  * PCI registers specific to the BCM570x family.
  */
@@ -208,18 +192,6 @@
 #define BGE_PCI_UNDI_TX_BD_PRODIDX_LO	0xAC
 #define BGE_PCI_ISR_MBX_HI		0xB0
 #define BGE_PCI_ISR_MBX_LO		0xB4
-#define BGE_PCI_PRODID_ASICREV		0xBC
-#define BGE_PCI_GEN2_PRODID_ASICREV	0xF4
-#define BGE_PCI_GEN15_PRODID_ASICREV	0xFC
-
-/* XXX:
- * Used in PCI-Express code for 575x chips.
- * Should be replaced with checking for a PCI config-space
- * capability for PCI-Express, and PCI-Express standard 
- * offsets into that capability block.
- */
-#define BGE_PCI_CONF_DEV_CTRL		0xD8
-#define BGE_PCI_CONF_DEV_STUS		0xDA
 
 /* PCI Misc. Host control register */
 #define BGE_PCIMISCCTL_CLEAR_INTA	0x00000001
@@ -231,137 +203,69 @@
 #define BGE_PCIMISCCTL_REG_WORDSWAP	0x00000040
 #define BGE_PCIMISCCTL_INDIRECT_ACCESS	0x00000080
 #define BGE_PCIMISCCTL_ASICREV		0xFFFF0000
-#define BGE_PCIMISCCTL_ASICREV_SHIFT	16
 
-#if BYTE_ORDER == LITTLE_ENDIAN
-#define BGE_DMA_SWAP_OPTIONS \
-	BGE_MODECTL_WORDSWAP_NONFRAME| \
-	BGE_MODECTL_BYTESWAP_DATA|BGE_MODECTL_WORDSWAP_DATA
-#else
-#define BGE_DMA_SWAP_OPTIONS \
-	BGE_MODECTL_WORDSWAP_NONFRAME|BGE_MODECTL_BYTESWAP_NONFRAME| \
-	BGE_MODECTL_BYTESWAP_DATA|BGE_MODECTL_WORDSWAP_DATA
-#endif
+#define BGE_BIGENDIAN_INIT						\
+	(BGE_PCIMISCCTL_ENDIAN_BYTESWAP|				\
+	BGE_PCIMISCCTL_ENDIAN_WORDSWAP|BGE_PCIMISCCTL_CLEAR_INTA|	\
+	BGE_PCIMISCCTL_INDIRECT_ACCESS|BGE_PCIMISCCTL_MASK_PCI_INTR)
 
-#define BGE_INIT \
-	(BGE_PCIMISCCTL_ENDIAN_WORDSWAP|BGE_PCIMISCCTL_CLEAR_INTA| \
-	 BGE_PCIMISCCTL_MASK_PCI_INTR|BGE_PCIMISCCTL_INDIRECT_ACCESS)
+#define BGE_LITTLEENDIAN_INIT						\
+	(BGE_PCIMISCCTL_CLEAR_INTA|BGE_PCIMISCCTL_MASK_PCI_INTR|	\
+	BGE_PCIMISCCTL_ENDIAN_WORDSWAP|BGE_PCIMISCCTL_INDIRECT_ACCESS)
 
-#define BGE_CHIPID_BCM5700_A0		0x7000
-#define BGE_CHIPID_BCM5700_A1		0x7001
-#define BGE_CHIPID_BCM5700_B0		0x7100
-#define BGE_CHIPID_BCM5700_B1		0x7101
-#define BGE_CHIPID_BCM5700_B2		0x7102
-#define BGE_CHIPID_BCM5700_B3		0x7103
-#define BGE_CHIPID_BCM5700_ALTIMA	0x7104
-#define BGE_CHIPID_BCM5700_C0		0x7200
-#define BGE_CHIPID_BCM5701_A0		0x0000	/* grrrr */
-#define BGE_CHIPID_BCM5701_B0		0x0100
-#define BGE_CHIPID_BCM5701_B2		0x0102
-#define BGE_CHIPID_BCM5701_B5		0x0105
-#define BGE_CHIPID_BCM5703_A0		0x1000
-#define BGE_CHIPID_BCM5703_A1		0x1001
-#define BGE_CHIPID_BCM5703_A2		0x1002
-#define BGE_CHIPID_BCM5703_A3		0x1003
-#define BGE_CHIPID_BCM5703_B0		0x1100
-#define BGE_CHIPID_BCM5704_A0		0x2000
-#define BGE_CHIPID_BCM5704_A1		0x2001
-#define BGE_CHIPID_BCM5704_A2		0x2002
-#define BGE_CHIPID_BCM5704_A3		0x2003
-#define BGE_CHIPID_BCM5704_B0		0x2100
-#define BGE_CHIPID_BCM5705_A0		0x3000
-#define BGE_CHIPID_BCM5705_A1		0x3001
-#define BGE_CHIPID_BCM5705_A2		0x3002
-#define BGE_CHIPID_BCM5705_A3		0x3003
-#define BGE_CHIPID_BCM5750_A0		0x4000
-#define BGE_CHIPID_BCM5750_A1		0x4001
-#define BGE_CHIPID_BCM5750_A3		0x4003
-#define BGE_CHIPID_BCM5750_B0		0x4010
-#define BGE_CHIPID_BCM5750_B1		0x4101
-#define BGE_CHIPID_BCM5750_C0		0x4200
-#define BGE_CHIPID_BCM5750_C1		0x4201
-#define BGE_CHIPID_BCM5750_C2		0x4202
-#define BGE_CHIPID_BCM5714_A0		0x5000
-#define BGE_CHIPID_BCM5761_A0		0x5761000
-#define BGE_CHIPID_BCM5761_A1		0x5761100
-#define BGE_CHIPID_BCM5784_A0		0x5784000
-#define BGE_CHIPID_BCM5784_A1		0x5784100
-#define BGE_CHIPID_BCM5752_A0		0x6000
-#define BGE_CHIPID_BCM5752_A1		0x6001
-#define BGE_CHIPID_BCM5752_A2		0x6002
-#define BGE_CHIPID_BCM5714_B0		0x8000
-#define BGE_CHIPID_BCM5714_B3		0x8003
-#define BGE_CHIPID_BCM5715_A0		0x9000
-#define BGE_CHIPID_BCM5715_A1		0x9001
-#define BGE_CHIPID_BCM5715_A3		0x9003
-#define BGE_CHIPID_BCM5755_A0		0xa000
-#define BGE_CHIPID_BCM5755_A1		0xa001
-#define BGE_CHIPID_BCM5755_A2		0xa002
-#define BGE_CHIPID_BCM5755_C0		0xa200
-#define BGE_CHIPID_BCM5787_A0		0xb000
-#define BGE_CHIPID_BCM5787_A1		0xb001
-#define BGE_CHIPID_BCM5787_A2		0xb002
-#define BGE_CHIPID_BCM5906_A0		0xc000
-#define BGE_CHIPID_BCM5906_A1		0xc001
-#define BGE_CHIPID_BCM5906_A2		0xc002
-#define BGE_CHIPID_BCM57780_A0		0x57780000
-#define BGE_CHIPID_BCM57780_A1		0x57780001
+#define BGE_CHIPID_TIGON_I		0x40000000
+#define BGE_CHIPID_TIGON_II		0x60000000
+#define BGE_CHIPID_BCM5700_B0		0x71000000
+#define BGE_CHIPID_BCM5700_B1		0x71020000
+#define BGE_CHIPID_BCM5700_B2		0x71030000
+#define BGE_CHIPID_BCM5700_ALTIMA	0x71040000
+#define BGE_CHIPID_BCM5700_C0		0x72000000
+#define BGE_CHIPID_BCM5701_A0		0x00000000	/* grrrr */
+#define BGE_CHIPID_BCM5701_B0		0x01000000
+#define BGE_CHIPID_BCM5701_B2		0x01020000
+#define BGE_CHIPID_BCM5701_B5		0x01050000
+#define BGE_CHIPID_BCM5703_A0		0x10000000
+#define BGE_CHIPID_BCM5703_A1		0x10010000
+#define BGE_CHIPID_BCM5703_A2		0x10020000
+#define BGE_CHIPID_BCM5704_A0		0x20000000
+#define BGE_CHIPID_BCM5704_A1		0x20010000
+#define BGE_CHIPID_BCM5704_A2		0x20020000
+#define BGE_CHIPID_BCM5704_A3		0x20030000
+#define BGE_CHIPID_BCM5705_A0		0x30000000
+#define BGE_CHIPID_BCM5705_A1		0x30010000
+#define BGE_CHIPID_BCM5705_A2		0x30020000
+#define BGE_CHIPID_BCM5705_A3		0x30030000
 
 /* shorthand one */
-#define BGE_ASICREV(x)			((x) >> 12)
+#define BGE_ASICREV(x)			((x) >> 28)
 #define BGE_ASICREV_BCM5700		0x07
 #define BGE_ASICREV_BCM5701		0x00
 #define BGE_ASICREV_BCM5703		0x01
 #define BGE_ASICREV_BCM5704		0x02
 #define BGE_ASICREV_BCM5705		0x03
-#define BGE_ASICREV_BCM5750		0x04
-#define BGE_ASICREV_BCM5714_A0		0x05	/* 5714, 5715 */
-#define BGE_ASICREV_BCM5752		0x06
-#define BGE_ASICREV_BCM5780		0x08
-#define BGE_ASICREV_BCM5714		0x09	/* 5714, 5715 */
-#define BGE_ASICREV_BCM5755		0x0a
-#define BGE_ASICREV_BCM5787		0x0b
-#define BGE_ASICREV_BCM5906		0x0c
-#define BGE_ASICREV_USE_PRODID_REG	0x0f
-#define BGE_ASICREV_BCM5761		0x5761
-#define BGE_ASICREV_BCM5784		0x5784
-#define BGE_ASICREV_BCM5785		0x5785
-#define BGE_ASICREV_BCM57780		0x57780
-#define BGE_ASICREV_BCM5717		0x5717
-#define BGE_ASICREV_BCM57765		0x57785
 
 /* chip revisions */
-#define BGE_CHIPREV(x)			((x) >> 8)
+#define BGE_CHIPREV(x)			((x) >> 24)
 #define BGE_CHIPREV_5700_AX		0x70
 #define BGE_CHIPREV_5700_BX		0x71
 #define BGE_CHIPREV_5700_CX		0x72
 #define BGE_CHIPREV_5701_AX		0x00
-#define BGE_CHIPREV_5703_AX		0x10
-#define BGE_CHIPREV_5704_AX		0x20
-#define BGE_CHIPREV_5704_BX		0x21
-#define BGE_CHIPREV_5750_AX		0x40
-#define BGE_CHIPREV_5750_BX		0x41
-#define BGE_CHIPREV_5761_AX		0x57611
-#define BGE_CHIPREV_5784_AX		0x57841
 
 /* PCI DMA Read/Write Control register */
 #define BGE_PCIDMARWCTL_MINDMA		0x000000FF
 #define BGE_PCIDMARWCTL_RDADRR_BNDRY	0x00000700
 #define BGE_PCIDMARWCTL_WRADDR_BNDRY	0x00003800
-#define BGE_PCIDMARWCTL_ONEDMA_ATONCE	0x0000C000
-#define BGE_PCIDMARWCTL_ONEDMA_ATONCE_GLOBAL	0x00004000
-#define BGE_PCIDMARWCTL_ONEDMA_ATONCE_LOCAL	0x00008000
+#define BGE_PCIDMARWCTL_ONEDMA_ATONCE	0x00004000
 #define BGE_PCIDMARWCTL_RD_WAT		0x00070000
+#define BGE_PCIDMARWCTL_RD_WAT_SHIFT	16
 #define BGE_PCIDMARWCTL_WR_WAT		0x00380000
+#define BGE_PCIDMARWCTL_WR_WAT_SHIFT	19
 #define BGE_PCIDMARWCTL_USE_MRM		0x00400000
 #define BGE_PCIDMARWCTL_ASRT_ALL_BE	0x00800000
 #define BGE_PCIDMARWCTL_DFLT_PCI_RD_CMD	0x0F000000
+#define BGE_PCIDMARWCTL_DFLT_PCI_RD_CMD_SHIFT	24
 #define BGE_PCIDMARWCTL_DFLT_PCI_WR_CMD	0xF0000000
-
-#define BGE_PCIDMARWCTL_RD_WAT_SHIFT(x)	((x) << 16)
-#define BGE_PCIDMARWCTL_WR_WAT_SHIFT(x)	((x) << 19)
-#define BGE_PCIDMARWCTL_RD_CMD_SHIFT(x)	((x) << 24)
-#define BGE_PCIDMARWCTL_WR_CMD_SHIFT(x)	((x) << 28)
+#define BGE_PCIDMARWCTL_DFLT_PCI_WR_CMD_SHIFT	28
 
 #define BGE_PCI_READ_BNDRY_DISABLE	0x00000000
 #define BGE_PCI_READ_BNDRY_16BYTES	0x00000100
@@ -387,24 +291,14 @@
  * register is set.
  */
 #define BGE_PCISTATE_FORCE_RESET	0x00000001
-#define BGE_PCISTATE_INTR_NOT_ACTIVE	0x00000002
+#define BGE_PCISTATE_INTR_STATE		0x00000002
 #define BGE_PCISTATE_PCI_BUSMODE	0x00000004 /* 1 = PCI, 0 = PCI-X */
-#define BGE_PCISTATE_PCI_BUSSPEED	0x00000008 /* 1 = 66/133, 0 = 33/66 */
+#define BGE_PCISTATE_PCI_BUSSPEED	0x00000008 /* 1 = 33/66, 0 = 66/133 */
 #define BGE_PCISTATE_32BIT_BUS		0x00000010 /* 1 = 32bit, 0 = 64bit */
 #define BGE_PCISTATE_WANT_EXPROM	0x00000020
 #define BGE_PCISTATE_EXPROM_RETRY	0x00000040
 #define BGE_PCISTATE_FLATVIEW_MODE	0x00000100
-#define BGE_PCISTATE_RETRY_SAME_DMA	0x00002000
 #define BGE_PCISTATE_PCI_TGT_RETRY_MAX	0x00000E00
-
-/*
- * The following bits in PCI state register are reserved.
- * If we check that the register values reverts on reset,
- * do not check these bits. On some 5704C (rev A3) and some
- * Altima chips, these bits do not revert until much later
- * in the bge driver's bge_reset() chip-reset state machine.
- */
-#define BGE_PCISTATE_RESERVED	((1 << 12) + (1 <<7))
 
 /*
  * PCI Clock Control register -- note, this register is read only
@@ -628,15 +522,8 @@
 #define BGE_RX_BD_RULES_CTL15		0x04F8
 #define BGE_RX_BD_RULES_MASKVAL15	0x04FC
 #define BGE_RX_RULES_CFG		0x0500
-#define BGE_MAX_RX_FRAME_LOWAT		0x0504
-#define BGE_SERDES_CFG			0x0590
-#define BGE_SERDES_STS			0x0594
-#define BGE_PHYCFG1			0x05A0
-#define BGE_PHYCFG2			0x05A4
-#define BGE_EXT_RGMII_MODE		0x05A8
-#define BGE_SGDIG_CFG			0x05B0
-#define BGE_SGDIG_STS			0x05B4
-#define BGE_MAC_STATS			0x0800
+#define BGE_RX_STATS			0x0800
+#define BGE_TX_STATS			0x0880
 
 /* Ethernet MAC Mode register */
 #define BGE_MACMODE_RESET		0x00000001
@@ -742,7 +629,6 @@
 #define BGE_RXMODE_RX_PROMISC		0x00000100
 #define BGE_RXMODE_RX_NO_CRC_CHECK	0x00000200
 #define BGE_RXMODE_RX_KEEP_VLAN_DIAG	0x00000400
-#define BGE_RXMODE_RX_IPV6_CSUM_ENABLE	0x01000000
 
 /* Receive MAC status register */
 #define BGE_RXSTAT_REMOTE_XOFFED	0x00000001
@@ -766,151 +652,6 @@
 #define BGE_RXRULEMASK_VALUE		0x0000FFFF
 #define BGE_RXRULEMASK_MASKVAL		0xFFFF0000
 
-/* SERDES configuration register */
-#define BGE_SERDESCFG_RXR		0x00000007 /* phase interpolator */
-#define BGE_SERDESCFG_RXG		0x00000018 /* rx gain setting */
-#define BGE_SERDESCFG_RXEDGESEL		0x00000040 /* rising/falling egde */
-#define BGE_SERDESCFG_TX_BIAS		0x00000380 /* TXDAC bias setting */
-#define BGE_SERDESCFG_IBMAX		0x00000400 /* bias current +25% */
-#define BGE_SERDESCFG_IBMIN		0x00000800 /* bias current -25% */
-#define BGE_SERDESCFG_TXMODE		0x00001000
-#define BGE_SERDESCFG_TXEDGESEL		0x00002000 /* rising/falling edge */
-#define BGE_SERDESCFG_MODE		0x00004000 /* TXCP/TXCN disabled */
-#define BGE_SERDESCFG_PLLTEST		0x00008000 /* PLL test mode */
-#define BGE_SERDESCFG_CDET		0x00010000 /* comma detect enable */
-#define BGE_SERDESCFG_TBILOOP		0x00020000 /* local loopback */
-#define BGE_SERDESCFG_REMLOOP		0x00040000 /* remote loopback */
-#define BGE_SERDESCFG_INVPHASE		0x00080000 /* Reverse 125MHz clock */
-#define BGE_SERDESCFG_12REGCTL		0x00300000 /* 1.2v regulator ctl */
-#define BGE_SERDESCFG_REGCTL		0x00C00000 /* regulator ctl (2.5v) */
-
-/* SERDES status register */
-#define BGE_SERDESSTS_RXSTAT		0x0000000F /* receive status bits */
-#define BGE_SERDESSTS_CDET		0x00000010 /* comma code detected */
-
-/* PHYCFG1 config */
-#define BGE_PHYCFG1_RGMII_INT		0x00000001
-#define BGE_PHYCFG1_RGMII_EXT_RX_DEC	0x02000000
-#define BGE_PHYCFG1_RGMII_SND_STAT_EN	0x04000000
-#define BGE_PHYCFG1_TXC_DRV		0x20000000
-
-/* PHYCFG2 config */
-#define BGE_PHYCFG2_INBAND_ENABLE	0x00000001
-#define BGE_PHYCFG2_EMODE_MASK_MASK	0x000001c0
-#define BGE_PHYCFG2_EMODE_MASK_AC131	0x000000c0
-#define BGE_PHYCFG2_EMODE_MASK_50610	0x00000100
-#define BGE_PHYCFG2_EMODE_MASK_RT8211	0x00000000
-#define BGE_PHYCFG2_EMODE_MASK_RT8201	0x000001c0
-#define BGE_PHYCFG2_EMODE_COMP_MASK	0x00000e00
-#define BGE_PHYCFG2_EMODE_COMP_AC131	0x00000600
-#define BGE_PHYCFG2_EMODE_COMP_50610	0x00000400
-#define BGE_PHYCFG2_EMODE_COMP_RT8211	0x00000800
-#define BGE_PHYCFG2_EMODE_COMP_RT8201	0x00000000
-#define BGE_PHYCFG2_FMODE_MASK_MASK	0x00007000
-#define BGE_PHYCFG2_FMODE_MASK_AC131	0x00006000
-#define BGE_PHYCFG2_FMODE_MASK_50610	0x00004000
-#define BGE_PHYCFG2_FMODE_MASK_RT8211	0x00000000
-#define BGE_PHYCFG2_FMODE_MASK_RT8201	0x00007000
-#define BGE_PHYCFG2_FMODE_COMP_MASK	0x00038000
-#define BGE_PHYCFG2_FMODE_COMP_AC131	0x00030000
-#define BGE_PHYCFG2_FMODE_COMP_50610	0x00008000
-#define BGE_PHYCFG2_FMODE_COMP_RT8211	0x00038000
-#define BGE_PHYCFG2_FMODE_COMP_RT8201	0x00000000
-#define BGE_PHYCFG2_GMODE_MASK_MASK	0x001c0000
-#define BGE_PHYCFG2_GMODE_MASK_AC131	0x001c0000
-#define BGE_PHYCFG2_GMODE_MASK_50610	0x00100000
-#define BGE_PHYCFG2_GMODE_MASK_RT8211	0x00000000
-#define BGE_PHYCFG2_GMODE_MASK_RT8201	0x001c0000
-#define BGE_PHYCFG2_GMODE_COMP_MASK	0x00e00000
-#define BGE_PHYCFG2_GMODE_COMP_AC131	0x00e00000
-#define BGE_PHYCFG2_GMODE_COMP_50610	0x00000000
-#define BGE_PHYCFG2_GMODE_COMP_RT8211	0x00200000
-#define BGE_PHYCFG2_GMODE_COMP_RT8201	0x00000000
-#define BGE_PHYCFG2_ACT_MASK_MASK	0x03000000
-#define BGE_PHYCFG2_ACT_MASK_AC131	0x03000000
-#define BGE_PHYCFG2_ACT_MASK_50610	0x01000000
-#define BGE_PHYCFG2_ACT_MASK_RT8211	0x03000000
-#define BGE_PHYCFG2_ACT_MASK_RT8201	0x01000000
-#define BGE_PHYCFG2_ACT_COMP_MASK	0x0c000000
-#define BGE_PHYCFG2_ACT_COMP_AC131	0x00000000
-#define BGE_PHYCFG2_ACT_COMP_50610	0x00000000
-#define BGE_PHYCFG2_ACT_COMP_RT8211	0x00000000
-#define BGE_PHYCFG2_ACT_COMP_RT8201	0x08000000
-#define BGE_PHYCFG2_QUAL_MASK_MASK	0x30000000
-#define BGE_PHYCFG2_QUAL_MASK_AC131	0x30000000
-#define BGE_PHYCFG2_QUAL_MASK_50610	0x30000000
-#define BGE_PHYCFG2_QUAL_MASK_RT8211	0x30000000
-#define BGE_PHYCFG2_QUAL_MASK_RT8201	0x30000000
-#define BGE_PHYCFG2_QUAL_COMP_MASK	0xc0000000
-#define BGE_PHYCFG2_QUAL_COMP_AC131	0x00000000
-#define BGE_PHYCFG2_QUAL_COMP_50610	0x00000000
-#define BGE_PHYCFG2_QUAL_COMP_RT8211	0x00000000
-#define BGE_PHYCFG2_QUAL_COMP_RT8201	0x00000000
-#define BGE_PHYCFG2_50610_LED_MODES \
-        (BGE_PHYCFG2_EMODE_MASK_50610 | \
-         BGE_PHYCFG2_EMODE_COMP_50610 | \
-         BGE_PHYCFG2_FMODE_MASK_50610 | \
-         BGE_PHYCFG2_FMODE_COMP_50610 | \
-         BGE_PHYCFG2_GMODE_MASK_50610 | \
-         BGE_PHYCFG2_GMODE_COMP_50610 | \
-         BGE_PHYCFG2_ACT_MASK_50610 | \
-         BGE_PHYCFG2_ACT_COMP_50610 | \
-         BGE_PHYCFG2_QUAL_MASK_50610 | \
-         BGE_PHYCFG2_QUAL_COMP_50610)
-#define BGE_PHYCFG2_AC131_LED_MODES \
-        (BGE_PHYCFG2_EMODE_MASK_AC131 | \
-         BGE_PHYCFG2_EMODE_COMP_AC131 | \
-         BGE_PHYCFG2_FMODE_MASK_AC131 | \
-         BGE_PHYCFG2_FMODE_COMP_AC131 | \
-         BGE_PHYCFG2_GMODE_MASK_AC131 | \
-         BGE_PHYCFG2_GMODE_COMP_AC131 | \
-         BGE_PHYCFG2_ACT_MASK_AC131 | \
-         BGE_PHYCFG2_ACT_COMP_AC131 | \
-         BGE_PHYCFG2_QUAL_MASK_AC131 | \
-         BGE_PHYCFG2_QUAL_COMP_AC131)
-#define BGE_PHYCFG2_RTL8211C_LED_MODES \
-        (BGE_PHYCFG2_EMODE_MASK_RT8211 | \
-         BGE_PHYCFG2_EMODE_COMP_RT8211 | \
-         BGE_PHYCFG2_FMODE_MASK_RT8211 | \
-         BGE_PHYCFG2_FMODE_COMP_RT8211 | \
-         BGE_PHYCFG2_GMODE_MASK_RT8211 | \
-         BGE_PHYCFG2_GMODE_COMP_RT8211 | \
-         BGE_PHYCFG2_ACT_MASK_RT8211 | \
-         BGE_PHYCFG2_ACT_COMP_RT8211 | \
-         BGE_PHYCFG2_QUAL_MASK_RT8211 | \
-         BGE_PHYCFG2_QUAL_COMP_RT8211)
-#define BGE_PHYCFG2_RTL8201E_LED_MODES \
-        (BGE_PHYCFG2_EMODE_MASK_RT8201 | \
-         BGE_PHYCFG2_EMODE_COMP_RT8201 | \
-         BGE_PHYCFG2_FMODE_MASK_RT8201 | \
-         BGE_PHYCFG2_FMODE_COMP_RT8201 | \
-         BGE_PHYCFG2_GMODE_MASK_RT8201 | \
-         BGE_PHYCFG2_GMODE_COMP_RT8201 | \
-         BGE_PHYCFG2_ACT_MASK_RT8201 | \
-         BGE_PHYCFG2_ACT_COMP_RT8201 | \
-         BGE_PHYCFG2_QUAL_MASK_RT8201 | \
-         BGE_PHYCFG2_QUAL_COMP_RT8201)
-
-/* EXT_RGMII_MODE config */
-#define BGE_RGMII_MODE_TX_ENABLE	0x00000001
-#define BGE_RGMII_MODE_TX_LOWPWR	0x00000002
-#define BGE_RGMII_MODE_TX_RESET		0x00000004
-#define BGE_RGMII_MODE_RX_INT_B		0x00000100
-#define BGE_RGMII_MODE_RX_QUALITY	0x00000200
-#define BGE_RGMII_MODE_RX_ACTIVITY	0x00000400
-#define BGE_RGMII_MODE_RX_ENG_DET	0x00000800
-
-/* SGDIG config (not documented) */
-#define BGE_SGDIGCFG_PAUSE_CAP		0x00000800
-#define BGE_SGDIGCFG_ASYM_PAUSE		0x00001000
-#define BGE_SGDIGCFG_SEND		0x40000000
-#define BGE_SGDIGCFG_AUTO		0x80000000
-
-/* SGDIG status (not documented) */
-#define BGE_SGDIGSTS_PAUSE_CAP		0x00080000
-#define BGE_SGDIGSTS_ASYM_PAUSE		0x00100000
-#define BGE_SGDIGSTS_DONE		0x00000002
-
 /* MI communication register */
 #define BGE_MICOMM_DATA			0x0000FFFF
 #define BGE_MICOMM_REG			0x001F0000
@@ -930,9 +671,8 @@
 
 #define BGE_MIMODE_SHORTPREAMBLE	0x00000002
 #define BGE_MIMODE_AUTOPOLL		0x00000010
-#define BGE_MIMODE_500KHZ_CONST		0x00008000
 #define BGE_MIMODE_CLKCNT		0x001F0000
-#define BGE_MIMODE_BASE			0x000C0000
+
 
 /*
  * Send data initiator control registers.
@@ -942,7 +682,6 @@
 #define BGE_SDI_STATS_CTL		0x0C08
 #define BGE_SDI_STATS_ENABLE_MASK	0x0C0C
 #define BGE_SDI_STATS_INCREMENT_MASK	0x0C10
-#define BGE_ISO_PKT_TX			0x0C20
 #define BGE_LOCSTATS_COS0		0x0C80
 #define BGE_LOCSTATS_COS1		0x0C84
 #define BGE_LOCSTATS_COS2		0x0C88
@@ -993,7 +732,6 @@
 #define BGE_SDCMODE_RESET		0x00000001
 #define BGE_SDCMODE_ENABLE		0x00000002
 #define BGE_SDCMODE_ATTN		0x00000004
-#define BGE_SDCMODE_CDELAY		0x00000010
 
 /* Send Data completion status register */
 #define BGE_SDCSTAT_ATTN		0x00000004
@@ -1249,9 +987,6 @@
 #define BGE_RBDI_STD_REPL_THRESH	0x2C18
 #define BGE_RBDI_JUMBO_REPL_THRESH	0x2C1C
 
-#define BGE_STD_REPL_LWM		0x2D00
-#define BGE_JUMBO_REPL_LWM		0x2D04
-
 /* Receive BD Initiator Mode register */
 #define BGE_RBDIMODE_RESET		0x00000001
 #define BGE_RBDIMODE_ENABLE		0x00000002
@@ -1368,7 +1103,7 @@
 #define BGE_HCCMODE_ENABLE		0x00000002
 #define BGE_HCCMODE_ATTN		0x00000004
 #define BGE_HCCMODE_COAL_NOW		0x00000008
-#define BGE_HCCMODE_MSI_BITS		0x00000070
+#define BGE_HCCMODE_MSI_BITS		0x0x000070
 #define BGE_HCCMODE_STATBLK_SIZE	0x00000180
 
 #define BGE_STATBLKSZ_FULL		0x00000000
@@ -1514,12 +1249,6 @@
 #define BGE_RDMAMODE_PCI_FIFOOREAD_ATTN	0x00000100
 #define BGE_RDMAMODE_LOCWRITE_TOOBIG	0x00000200
 #define BGE_RDMAMODE_ALL_ATTNS		0x000003FC
-#define BGE_RDMAMODE_BD_SBD_CRPT_ATTN	0x00000800
-#define BGE_RDMAMODE_MBUF_RBD_CRPT_ATTN	0x00001000
-#define BGE_RDMAMODE_MBUF_SBD_CRPT_ATTN	0x00002000
-#define BGE_RDMAMODE_FIFO_SIZE_128	0x00020000
-#define BGE_RDMAMODE_FIFO_LONG_BURST	0x00030000
-#define BGE_RDMAMODE_MULT_DMA_RD_DIS	0x01000000
 
 /* Read DMA status register */
 #define BGE_RDMASTAT_PCI_TGT_ABRT_ATTN	0x00000004
@@ -1549,9 +1278,6 @@
 #define BGE_WDMAMODE_PCI_FIFOOREAD_ATTN	0x00000100
 #define BGE_WDMAMODE_LOCREAD_TOOBIG	0x00000200
 #define BGE_WDMAMODE_ALL_ATTNS		0x000003FC
-#define BGE_WDMAMODE_RX_ACCEL		0x00000400
-#define BGE_WDMAMODE_STATUS_TAG_FIX	0x20000000
-#define BGE_WDMAMODE_BURST_ALL_DATA	0xc0000000
 
 /* Write DMA status register */
 #define BGE_WDMASTAT_PCI_TGT_ABRT_ATTN	0x00000004
@@ -1605,19 +1331,6 @@
 #define BGE_RXCPUSTAT_MA_DATAMASK_OFLOW	0x20000000
 #define BGE_RXCPUSTAT_MA_REQ_FIFOOFLOW	0x40000000
 #define BGE_RXCPUSTAT_BLOCKING_READ	0x80000000
-
-
-/*
- * V? CPU registers
- */
-#define BGE_VCPU_STATUS			0x5100
-#define BGE_VCPU_EXT_CTRL		0x6890
-
-#define BGE_VCPU_STATUS_INIT_DONE	0x04000000
-#define BGE_VCPU_STATUS_DRV_RESET 	0x08000000
-
-#define BGE_VCPU_EXT_CTRL_HALT_CPU	0x00400000
-#define BGE_VCPU_EXT_CTRL_DISABLE_WOL	0x20000000
 
 
 /*
@@ -1857,81 +1570,11 @@
 #define BGE_MODE_CTL			0x6800
 #define BGE_MISC_CFG			0x6804
 #define BGE_MISC_LOCAL_CTL		0x6808
-#define BGE_CPU_EVENT			0x6810
 #define BGE_EE_ADDR			0x6838
 #define BGE_EE_DATA			0x683C
 #define BGE_EE_CTL			0x6840
 #define BGE_MDI_CTL			0x6844
 #define BGE_EE_DELAY			0x6848
-
-#define BGE_FASTBOOT_PC			0x6894
-
-/*
- * NVRAM Control registers
- */
-
-#define BGE_NVRAM_CMD			0x7000
-#define BGE_NVRAM_STAT			0x7004
-#define BGE_NVRAM_WRDATA		0x7008
-#define BGE_NVRAM_ADDR			0x700c
-#define BGE_NVRAM_RDDATA		0x7010
-#define BGE_NVRAM_CFG1			0x7014
-#define BGE_NVRAM_CFG2			0x7018
-#define BGE_NVRAM_CFG3			0x701c
-#define BGE_NVRAM_SWARB			0x7020
-#define BGE_NVRAM_ACCESS		0x7024
-#define BGE_NVRAM_WRITE1		0x7028
-
-
-#define BGE_NVRAMCMD_RESET		0x00000001
-#define BGE_NVRAMCMD_DONE		0x00000008
-#define BGE_NVRAMCMD_START		0x00000010
-#define BGE_NVRAMCMD_WR			0x00000020 /* 1 = wr, 0 = rd */
-#define BGE_NVRAMCMD_ERASE		0x00000040
-#define BGE_NVRAMCMD_FIRST		0x00000080
-#define BGE_NVRAMCMD_LAST		0x00000100
-
-#define BGE_NVRAM_READCMD \
-	(BGE_NVRAMCMD_FIRST|BGE_NVRAMCMD_LAST| \
-	BGE_NVRAMCMD_START|BGE_NVRAMCMD_DONE)
-#define BGE_NVRAM_WRITECMD \
-	(BGE_NVRAMCMD_FIRST|BGE_NVRAMCMD_LAST| \
-	BGE_NVRAMCMD_START|BGE_NVRAMCMD_DONE|BGE_NVRAMCMD_WR)
-
-#define BGE_NVRAMSWARB_SET0		0x00000001
-#define BGE_NVRAMSWARB_SET1		0x00000002
-#define BGE_NVRAMSWARB_SET2		0x00000003
-#define BGE_NVRAMSWARB_SET3		0x00000004
-#define BGE_NVRAMSWARB_CLR0		0x00000010
-#define BGE_NVRAMSWARB_CLR1		0x00000020
-#define BGE_NVRAMSWARB_CLR2		0x00000040
-#define BGE_NVRAMSWARB_CLR3		0x00000080
-#define BGE_NVRAMSWARB_GNT0		0x00000100
-#define BGE_NVRAMSWARB_GNT1		0x00000200
-#define BGE_NVRAMSWARB_GNT2		0x00000400
-#define BGE_NVRAMSWARB_GNT3		0x00000800
-#define BGE_NVRAMSWARB_REQ0		0x00001000
-#define BGE_NVRAMSWARB_REQ1		0x00002000
-#define BGE_NVRAMSWARB_REQ2		0x00004000
-#define BGE_NVRAMSWARB_REQ3		0x00008000
-
-#define BGE_NVRAMACC_ENABLE		0x00000001
-#define BGE_NVRAMACC_WRENABLE		0x00000002
-
-/*
- * TLP Control Register
- * Applicable to BCM5721 and BCM5751 only
- */
-#define BGE_TLP_CONTROL_REG		0x7c00
-#define BGE_TLP_DATA_FIFO_PROTECT	0x02000000
-
-/*
- * PHY Test Control Register
- * Applicable to BCM5721 and BCM5751 only
- */
-#define BGE_PHY_TEST_CTRL_REG		0x7e2c
-#define BGE_PHY_PCIE_SCRAM_MODE		0x0020
-#define BGE_PHY_PCIE_LTASS_MODE		0x0040
 
 /* Mode control register */
 #define BGE_MODECTL_INT_SNDCOAL_ONLY	0x00000001
@@ -1960,11 +1603,6 @@
 /* Misc. config register */
 #define BGE_MISCCFG_RESET_CORE_CLOCKS	0x00000001
 #define BGE_MISCCFG_TIMER_PRESCALER	0x000000FE
-#define BGE_MISCCFG_BOARD_ID_5788	0x00010000
-#define BGE_MISCCFG_BOARD_ID_5788M	0x00018000
-#define BGE_MISCCFG_BOARD_ID_MASK	0x0001e000
-#define BGE_MISCCFG_EPHY_IDDQ		0x00200000
-#define BGE_MISCCFG_KEEP_GPHY_POWER	0x04000000
 
 #define BGE_32BITTIME_66MHZ		(0x41 << 1)
 
@@ -2049,13 +1687,12 @@
 	} while(0)
 
 /*
- * This magic number is written to the firmware mailbox at 0xb50
- * before a software reset is issued.  After the internal firmware
- * has completed its initialization it will write the opposite of 
- * this value, ~BGE_MAGIC_NUMBER, to the same location, allowing the
- * driver to synchronize with the firmware.
+ * This magic number is used to prevent PXE restart when we
+ * issue a software reset. We write this magic number to the
+ * firmware mailbox at 0xB50 in order to prevent the PXE boot
+ * code from running.
  */
-#define BGE_MAGIC_NUMBER		0x4B657654
+#define BGE_MAGIC_NUMBER                0x4B657654
 
 typedef struct {
 	u_int32_t		bge_addr_hi;
@@ -2064,10 +1701,7 @@ typedef struct {
 #define BGE_HOSTADDR(x,y)						\
 	do {								\
 		(x).bge_addr_lo = ((u_int64_t) (y) & 0xffffffff);	\
-		if (sizeof(bus_addr_t) == 8)				\
-			(x).bge_addr_hi = ((u_int64_t) (y) >> 32);	\
-		else							\
-			(x).bge_addr_hi = 0;				\
+		(x).bge_addr_hi = ((u_int64_t) (y) >> 32);		\
 	} while(0)
 
 /* Ring control block structure */
@@ -2085,31 +1719,23 @@ struct bge_rcb {
 	bus_space_write_2(sc->bge_btag, sc->bge_bhandle, \
 			  rcb + offsetof(struct bge_rcb, offset), val)
 
-#define BGE_RCB_MAXLEN_FLAGS(maxlen, flags)	((maxlen) << 16 | (flags))
+#define BGE_RCB_MAXLEN_FLAGS(maxlen, flags)	((maxlen << 16) | (flags))
 
 #define BGE_RCB_FLAG_USE_EXT_RX_BD	0x0001
 #define BGE_RCB_FLAG_RING_DISABLED	0x0002
 
 struct bge_tx_bd {
 	bge_hostaddr		bge_addr;
-#if BYTE_ORDER == LITTLE_ENDIAN
 	u_int16_t		bge_flags;
 	u_int16_t		bge_len;
 	u_int16_t		bge_vlan_tag;
 	u_int16_t		bge_rsvd;
-#else
-	u_int16_t		bge_len;
-	u_int16_t		bge_flags;
-	u_int16_t		bge_rsvd;
-	u_int16_t		bge_vlan_tag;
-#endif
 };
 
 #define BGE_TXBDFLAG_TCP_UDP_CSUM	0x0001
 #define BGE_TXBDFLAG_IP_CSUM		0x0002
 #define BGE_TXBDFLAG_END		0x0004
 #define BGE_TXBDFLAG_IP_FRAG		0x0008
-#define BGE_TXBDFLAG_JMB_PKT		0x0008
 #define BGE_TXBDFLAG_IP_FRAG_END	0x0010
 #define BGE_TXBDFLAG_VLAN_TAG		0x0040
 #define BGE_TXBDFLAG_COAL_NOW		0x0080
@@ -2125,7 +1751,6 @@ struct bge_tx_bd {
 
 struct bge_rx_bd {
 	bge_hostaddr		bge_addr;
-#if BYTE_ORDER == LITTLE_ENDIAN
 	u_int16_t		bge_len;
 	u_int16_t		bge_idx;
 	u_int16_t		bge_flags;
@@ -2134,36 +1759,8 @@ struct bge_rx_bd {
 	u_int16_t		bge_ip_csum;
 	u_int16_t		bge_vlan_tag;
 	u_int16_t		bge_error_flag;
-#else
-	u_int16_t		bge_idx;
-	u_int16_t		bge_len;
-	u_int16_t		bge_type;
-	u_int16_t		bge_flags;
-	u_int16_t		bge_ip_csum;
-	u_int16_t		bge_tcp_udp_csum;
-	u_int16_t		bge_error_flag;
-	u_int16_t		bge_vlan_tag;
-#endif
 	u_int32_t		bge_rsvd;
 	u_int32_t		bge_opaque;
-};
-
-struct bge_ext_rx_bd {
-	bge_hostaddr		bge_addr1;
-	bge_hostaddr		bge_addr2;
-	bge_hostaddr		bge_addr3;
-#if BYTE_ORDER == LITTLE_ENDIAN
-	u_int16_t		bge_len2;
-	u_int16_t		bge_len1;
-	u_int16_t		bge_rsvd;
-	u_int16_t		bge_len3;
-#else
-	u_int16_t		bge_len1;
-	u_int16_t		bge_len2;
-	u_int16_t		bge_len3;
-	u_int16_t		bge_rsvd;
-#endif
-	struct bge_rx_bd	bge_bd;
 };
 
 #define BGE_RXBDFLAG_END		0x0004
@@ -2185,29 +1782,17 @@ struct bge_ext_rx_bd {
 #define BGE_RXERRFLAG_GIANT		0x0080
 
 struct bge_sts_idx {
-#if BYTE_ORDER == LITTLE_ENDIAN
 	u_int16_t		bge_rx_prod_idx;
 	u_int16_t		bge_tx_cons_idx;
-#else
-	u_int16_t		bge_tx_cons_idx;
-	u_int16_t		bge_rx_prod_idx;
-#endif
 };
 
 struct bge_status_block {
 	u_int32_t		bge_status;
 	u_int32_t		bge_rsvd0;
-#if BYTE_ORDER == LITTLE_ENDIAN
 	u_int16_t		bge_rx_jumbo_cons_idx;
 	u_int16_t		bge_rx_std_cons_idx;
 	u_int16_t		bge_rx_mini_cons_idx;
 	u_int16_t		bge_rsvd1;
-#else
-	u_int16_t		bge_rx_std_cons_idx;
-	u_int16_t		bge_rx_jumbo_cons_idx;
-	u_int16_t		bge_rsvd1;
-	u_int16_t		bge_rx_mini_cons_idx;
-#endif
 	struct bge_sts_idx	bge_idx[16];
 };
 
@@ -2221,24 +1806,18 @@ struct bge_status_block {
 /*
  * SysKonnect Subsystem IDs
  */
+#define SK_SUBSYSID_9D21		0x4421
 #define SK_SUBSYSID_9D41		0x4441
-
-/*
- * Dell PCI vendor ID
- */
-#define DELL_VENDORID			0x1028
 
 /*
  * Offset of MAC address inside EEPROM.
  */
 #define BGE_EE_MAC_OFFSET		0x7C
-#define BGE_EE_MAC_OFFSET_5906		0x10
 #define BGE_EE_HWCFG_OFFSET		0xC8
 
 #define BGE_HWCFG_VOLTAGE		0x00000003
 #define BGE_HWCFG_PHYLED_MODE		0x0000000C
 #define BGE_HWCFG_MEDIA			0x00000030
-#define BGE_HWCFG_ASF			0x00000080
 
 #define BGE_VOLTAGE_1POINT3		0x00000000
 #define BGE_VOLTAGE_1POINT8		0x00000001
@@ -2250,6 +1829,9 @@ struct bge_status_block {
 #define BGE_MEDIA_UNSPEC		0x00000000
 #define BGE_MEDIA_COPPER		0x00000010
 #define BGE_MEDIA_FIBER			0x00000020
+
+#define BGE_PCI_READ_CMD		0x06000000
+#define BGE_PCI_WRITE_CMD		0x70000000
 
 #define BGE_TICKS_PER_SEC		1000000
 
@@ -2454,9 +2036,14 @@ struct bge_gib {
  * boundary.
  */
 
-#define BGE_JUMBO_FRAMELEN	9022
-#define BGE_JUMBO_MTU		(BGE_JUMBO_FRAMELEN - ETHER_HDR_LEN - ETHER_CRC_LEN - ETHER_VLAN_ENCAP_LEN)
+#define ETHER_ALIGN 2
+
+#define BGE_FRAMELEN		1518
+#define BGE_MAX_FRAMELEN	1536
+#define BGE_JUMBO_FRAMELEN	9018
+#define BGE_JUMBO_MTU		(BGE_JUMBO_FRAMELEN-ETHER_HDR_LEN-ETHER_CRC_LEN)
 #define BGE_PAGE_SIZE		PAGE_SIZE
+#define BGE_MIN_FRAMELEN		60
 
 /*
  * Other utility macros.
@@ -2468,10 +2055,23 @@ struct bge_gib {
  */
 #define BGE_VPD_FLAG		0x8000
  
+/* VPD structures */
+struct vpd_res {
+	u_int8_t		vr_id;
+	u_int8_t		vr_len;
+	u_int8_t		vr_pad;
+};
+ 
+struct vpd_key {
+	char			vk_key[2];
+	u_int8_t		vk_len;
+};
+ 
 #define VPD_RES_ID	0x82	/* ID string */
 #define VPD_RES_READ	0x90	/* start of read only area */
 #define VPD_RES_WRITE	0x81	/* start of read/write area */
 #define VPD_RES_END	0x78	/* end tag */
+
 
 /*
  * Register access macros. The Tigon always uses memory mapped register
@@ -2507,6 +2107,9 @@ struct bge_gib {
 #define BGE_JRAWLEN (BGE_JUMBO_FRAMELEN + ETHER_ALIGN)
 #define BGE_JLEN (BGE_JRAWLEN + (sizeof(u_int64_t) - \
 	(BGE_JRAWLEN % sizeof(u_int64_t))))
+#define BGE_JPAGESZ PAGE_SIZE
+#define BGE_RESID (BGE_JPAGESZ - (BGE_JLEN * BGE_JSLOTS) % BGE_JPAGESZ)
+#define BGE_JMEM ((BGE_JLEN * BGE_JSLOTS) + BGE_RESID)
 
 /*
  * Ring structures. Most of these reside in host memory and we tell
@@ -2516,7 +2119,7 @@ struct bge_gib {
  */
 struct bge_ring_data {
 	struct bge_rx_bd	bge_rx_std_ring[BGE_STD_RX_RING_CNT];
-	struct bge_ext_rx_bd	bge_rx_jumbo_ring[BGE_JUMBO_RX_RING_CNT];
+	struct bge_rx_bd	bge_rx_jumbo_ring[BGE_JUMBO_RX_RING_CNT];
 	struct bge_rx_bd	bge_rx_return_ring[BGE_RETURN_RING_CNT];
 	struct bge_tx_bd	bge_tx_ring[BGE_TX_RING_CNT];
 	struct bge_status_block	bge_status_block;
@@ -2532,7 +2135,7 @@ struct bge_ring_data {
 /*
  * Number of DMA segments in a TxCB. Note that this is carefully
  * chosen to make the total struct size an even power of two. It's
- * critical that no TxCB be split across a page boundary since
+ * critical that no TxCB be split across a page boundry since
  * no attempt is made to allocate physically contiguous memory.
  * 
  */
@@ -2554,8 +2157,15 @@ struct bge_chain_data {
 	struct mbuf		*bge_rx_mini_chain[BGE_MINI_RX_RING_CNT];
 	bus_dmamap_t		bge_tx_map[BGE_TX_RING_CNT];
 	bus_dmamap_t		bge_rx_std_map[BGE_STD_RX_RING_CNT];
-	bus_dmamap_t		bge_rx_jumbo_map[BGE_JUMBO_RX_RING_CNT];
+	bus_dmamap_t		bge_rx_jumbo_map;
+	/* Stick the jumbo mem management stuff here too. */
+	caddr_t			bge_jslots[BGE_JSLOTS];
+	void			*bge_jumbo_buf;
 };
+
+#define BGE_JUMBO_DMA_ADDR(sc, m) \
+	((sc)->bge_cdata.bge_rx_jumbo_map->dm_segs[0].ds_addr + \
+	 (mtod((m), char *) - (char *)(sc)->bge_cdata.bge_jumbo_buf))
 
 struct bge_type {
 	u_int16_t		bge_vid;
@@ -2563,17 +2173,20 @@ struct bge_type {
 	char			*bge_name;
 };
 
+#define BGE_HWREV_TIGON		0x01
+#define BGE_HWREV_TIGON_II	0x02
 #define BGE_TIMEOUT		100000
 #define BGE_TXCONS_UNSET		0xFFFF	/* impossible value */
 
-struct txdmamap_pool_entry {
-	bus_dmamap_t dmamap;
-	SLIST_ENTRY(txdmamap_pool_entry) link;
+struct bge_jpool_entry {
+	int                             slot;
+	LIST_ENTRY(bge_jpool_entry)	jpool_entries;
 };
 
-#define ASF_ENABLE		1
-#define ASF_NEW_HANDSHAKE	2
-#define ASF_STACKUP		4
+struct bge_bcom_hack {
+	int			reg;
+	int			val;
+};
 
 struct bge_softc {
 	struct device		bge_dev;
@@ -2584,36 +2197,14 @@ struct bge_softc {
 	struct pci_attach_args	bge_pa;
 	struct mii_data		bge_mii;
 	struct ifmedia		bge_ifmedia;	/* media info */
-	u_int32_t		bge_flags;
-#define BGE_TXRING_VALID	0x00000001
-#define BGE_RXRING_VALID	0x00000002
-#define BGE_JUMBO_RXRING_VALID	0x00000004
-#define BGE_RX_ALIGNBUG		0x00000008
-#define BGE_NO_3LED		0x00000010
-#define BGE_PCIX		0x00000020
-#define BGE_PCIE		0x00000040
-#define BGE_ASF_MODE		0x00000080
-#define BGE_NO_EEPROM		0x00000100
-#define BGE_JUMBO_CAPABLE	0x00000200
-#define BGE_10_100_ONLY		0x00000400
-#define BGE_PHY_FIBER_TBI	0x00000800
-#define BGE_PHY_FIBER_MII	0x00001000
-#define BGE_PHY_CRC_BUG		0x00002000
-#define BGE_PHY_ADC_BUG		0x00004000
-#define BGE_PHY_5704_A0_BUG	0x00008000
-#define BGE_PHY_JITTER_BUG	0x00010000
-#define BGE_PHY_BER_BUG		0x00020000
-#define BGE_PHY_ADJUST_TRIM	0x00040000
-#define BGE_NO_ETH_WIRE_SPEED	0x00080000
-#define BGE_IS_5788		0x00100000
-#define BGE_5705_PLUS		0x00200000
-#define BGE_5750_PLUS		0x00400000
-#define BGE_5755_PLUS		0x00800000
-#define BGE_5714_FAMILY		0x01000000
-#define BGE_5700_FAMILY		0x02000000
-
+	u_int8_t		bge_extram;	/* has external SSRAM */
+	u_int8_t		bge_tbi;
+	u_int8_t		bge_rx_alignment_bug;
 	bus_dma_tag_t		bge_dmatag;
 	u_int32_t		bge_chipid;
+	u_int8_t		bge_asicrev;
+	u_int8_t		bge_chiprev;
+	u_int8_t		bge_no_3_led;
 	struct bge_ring_data	*bge_rdata;	/* rings */
 	struct bge_chain_data	bge_cdata;	/* mbufs */
 	bus_dmamap_t		bge_ring_map;
@@ -2621,33 +2212,20 @@ struct bge_softc {
 	u_int16_t		bge_rx_saved_considx;
 	u_int16_t		bge_ev_saved_considx;
 	u_int16_t		bge_return_ring_cnt;
-	u_int32_t		bge_tx_prodidx;
 	u_int16_t		bge_std;	/* current std ring head */
-	int			bge_std_cnt;
 	u_int16_t		bge_jumbo;	/* current jumo ring head */
-	int			bge_jumbo_cnt;
+	LIST_HEAD(__bge_jfreehead, bge_jpool_entry)	bge_jfree_listhead;
+	LIST_HEAD(__bge_jinusehead, bge_jpool_entry)	bge_jinuse_listhead;
 	u_int32_t		bge_stat_ticks;
 	u_int32_t		bge_rx_coal_ticks;
 	u_int32_t		bge_tx_coal_ticks;
 	u_int32_t		bge_rx_max_coal_bds;
 	u_int32_t		bge_tx_max_coal_bds;
 	u_int32_t		bge_tx_buf_ratio;
-	u_int32_t		bge_sts;
-#define BGE_STS_LINK		0x00000001	/* MAC link status */
-#define BGE_STS_LINK_EVT	0x00000002	/* pending link event */
-#define BGE_STS_AUTOPOLL	0x00000004	/* PHY auto-polling  */
-#define BGE_STS_BIT(sc, x)	((sc)->bge_sts & (x))
-#define BGE_STS_SETBIT(sc, x)	((sc)->bge_sts |= (x))
-#define BGE_STS_CLRBIT(sc, x)	((sc)->bge_sts &= ~(x))
-	int			bge_flowflags;
+	int			bge_if_flags;
 	int			bge_txcnt;
+	int			bge_link;
 	struct timeout		bge_timeout;
-	struct timeout		bge_rxtimeout;
-	u_int32_t		bge_rx_discards;
-	u_int32_t		bge_tx_discards;
-	u_int32_t		bge_rx_inerrors;
-	u_int32_t		bge_rx_overruns;
-	u_int32_t		bge_tx_collisions;
-	SLIST_HEAD(, txdmamap_pool_entry) txdma_list;
-	struct txdmamap_pool_entry *txdma[BGE_TX_RING_CNT];
+	char			*bge_vpd_prodname;
+	char			*bge_vpd_readonly;
 };
