@@ -1,4 +1,4 @@
-/*	$MirOS: src/include/locale.h,v 1.5 2005/09/30 21:46:52 tg Exp $	*/
+/*	$MirOS: src/include/locale.h,v 1.6 2005/09/30 22:13:54 tg Exp $	*/
 /*	$OpenBSD: locale.h,v 1.6 2003/06/02 19:34:12 millert Exp $	*/
 /*	$NetBSD: locale.h,v 1.6 1994/10/26 00:56:02 cgd Exp $	*/
 
@@ -38,17 +38,23 @@
 
 #include <sys/cdefs.h>
 
+#ifdef _LOCALE_CONST_LCONV
+#define Cchar	const char
+#else
+#define Cchar	char
+#endif
+
 struct lconv {
-	char	*decimal_point;
-	char	*thousands_sep;
-	char	*grouping;
-	char	*int_curr_symbol;
-	char	*currency_symbol;
-	char	*mon_decimal_point;
-	char	*mon_thousands_sep;
-	char	*mon_grouping;
-	char	*positive_sign;
-	char	*negative_sign;
+	Cchar	*decimal_point;
+	Cchar	*thousands_sep;
+	Cchar	*grouping;
+	Cchar	*int_curr_symbol;
+	Cchar	*currency_symbol;
+	Cchar	*mon_decimal_point;
+	Cchar	*mon_thousands_sep;
+	Cchar	*mon_grouping;
+	Cchar	*positive_sign;
+	Cchar	*negative_sign;
 	char	int_frac_digits;
 	char	frac_digits;
 	char	p_cs_precedes;
@@ -58,6 +64,7 @@ struct lconv {
 	char	p_sign_posn;
 	char	n_sign_posn;
 };
+#undef Cchar
 
 #define	LC_ALL		0
 #define	LC_COLLATE	1
