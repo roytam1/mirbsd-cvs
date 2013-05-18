@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/sparc/stand/boot/Makefile,v 1.3 2006/06/16 21:52:52 tg Exp $
+# $MirOS: src/sys/arch/sparc/stand/boot/Makefile,v 1.4 2007/06/11 21:12:58 tg Exp $
 # $OpenBSD: Makefile,v 1.12 2003/08/11 06:35:45 deraadt Exp $
 # $NetBSD: Makefile,v 1.2 1995/09/30 21:43:38 pk Exp $
 
@@ -22,8 +22,8 @@ LIBS=		${LIBSA} ${LIBKERN} ${LIBZ}
 
 ${PROG}: ${OBJS} ${LIBS}
 	${LD} -N -Ttext ${RELOC2} --format a.out-sparc-netbsd \
-	    -e start ${OBJS} ${LIBSA} ${LIBKERN} ${LIBZ} \
-	    $$(${CC} -print-libgcc-file-name) -o ${PROG}.elf
+	    -e start ${OBJS} --start-group ${LIBSA} ${LIBKERN} ${LIBZ} \
+	    $$(${CC} -print-libgcc-file-name) --end-group -o ${PROG}.elf
 	@size ${PROG}.elf
 	strip -s ${PROG}.elf
 	elf2aout ${PROG}.elf ${PROG} -b

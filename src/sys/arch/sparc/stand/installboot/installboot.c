@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/sys/arch/sparc/stand/installboot/installboot.c,v 1.4 2006/08/17 12:37:51 tg Exp $ */
 /*	$OpenBSD: installboot.c,v 1.4 2003/08/25 23:36:46 tedu Exp $	*/
 /*	$NetBSD: installboot.c,v 1.1 1997/06/01 03:39:45 mrg Exp $	*/
 
@@ -49,7 +49,9 @@
 #include <string.h>
 #include <unistd.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/sys/arch/sparc/stand/installboot/installboot.c,v 1.4 2006/08/17 12:37:51 tg Exp $");
+
+extern const char *__progname;
 
 int	verbose, nowrite, hflag;
 char	*boot, *proto, *dev;
@@ -80,14 +82,14 @@ static void	devread(int, void *, daddr_t, size_t, char *);
 __dead static void usage(void);
 int 		main(int, char *[]);
 
-
 static void
 usage()
 {
 	fprintf(stderr,
-	    "usage:\tinstallboot [-nvh] [-a <karch>] <boot> <proto> <device>\n"
-	    "\tinstallboot [-nvh] [-a <karch>] -s isofsblk -e isofseblk \\\n
-	    \t    <boot (ignored, can be /dev/null)> <proto> <device>\n");
+	    "usage:\t%s [-nvh] [-a <karch>] <boot> <proto> <device>\n"
+	    "\t%s [-nvh] [-a <karch>] -s isofsblk -e isofseblk\n"
+	    "\t    <boot (ignored, can be /dev/null)> <proto> <device>\n",
+	    __progname, __progname);
 	exit(1);
 }
 

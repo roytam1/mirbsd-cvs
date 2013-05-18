@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: promdev.h,v 1.3 2003/08/14 17:13:57 deraadt Exp $	*/
 /*	$NetBSD: promdev.h,v 1.3 1995/09/18 21:31:50 pk Exp $ */
 
@@ -41,8 +42,8 @@ struct promdata {
 #define DT_NET		2
 #define DT_BYTE		3
 	/* Hooks for netif.c */
-	int	(*xmit)(struct promdata *, void *, size_t);
-	int	(*recv)(struct promdata *, void *, size_t);
+	ssize_t	(*xmit)(struct promdata *, void *, size_t);
+	ssize_t	(*recv)(struct promdata *, void *, size_t);
 };
 
 #define LOADADDR	((caddr_t)0x4000)
@@ -61,7 +62,7 @@ extern int	debug;
 extern void	prom_init(void);
 
 /* Note: dvma_*() routines are for "oldmon" machines only */
-extern void	dvma_init(void);	
+extern void	dvma_init(void);
 extern char	*dvma_mapin(char *, size_t);
 extern char	*dvma_mapout(char *, size_t);
 extern char	*dvma_alloc(int);
