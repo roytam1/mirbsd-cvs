@@ -37,7 +37,7 @@
 __COPYRIGHT("@(#) Copyright (c) 1991, 1993\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)init.c	8.2 (Berkeley) 4/28/95");
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/sbin/init/init.c,v 1.2 2011/02/19 00:53:19 tg Exp $");
 
 #include <sys/sysctl.h>
 #include <sys/wait.h>
@@ -1350,7 +1350,7 @@ nice_death(void)
 			goto die;
 		/* lopool_reinit runs every 1-3 seconds, so sleep */
 		if (rnd_fd != -1)
-			sleep(3);
+			sleep(1);
 
 		clang = 0;
 		alarm(DEATH_WATCH);
@@ -1385,6 +1385,7 @@ nice_death(void)
 		close(arnd_fd);
 	}
 	if (rnd_fd != -1) {
+		sleep(3);
 		arc4random_stir();
 		arc4random_buf(rnd_buf, sizeof(rnd_buf));
 		write(rnd_fd, rnd_buf, sizeof(rnd_buf));

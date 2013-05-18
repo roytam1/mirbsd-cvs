@@ -1,5 +1,5 @@
 # $MirSecuCron$
-# $MirOS: src/etc/rc,v 1.114 2011/02/13 21:17:13 tg Exp $
+# $MirOS: src/etc/rc,v 1.115 2011/02/18 23:06:06 tg Exp $
 # $OpenBSD: rc,v 1.277 2006/01/12 21:54:15 deraadt Exp $
 #-
 # System startup script run by init on autoboot or after single-user.
@@ -144,11 +144,9 @@ if [[ $1 = shutdown ]]; then
 	echo Received shutdown request.
 
 	# empty lopool into compressor arcfour state
-	#XXX send SIGTERM to _most_ processes here
-	#XXX except SIGTERM does not usually ask them to arc4random_atexit()...
 	dd if=/dev/arandom of=/dev/wrandom count=1 2>/dev/null
 	sync 2>/dev/null &	# why not?
-	sleep 3.2		# wait “long enough”
+	sleep 0.1
 	# cause the kernel to re-stir arc4random
 	dd if=/var/db/host.random of=/dev/arandom 2>/dev/null
 	# save a random seed
