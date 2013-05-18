@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/i18n/isutf8.c,v 1.7 2006/06/02 19:45:00 tg Exp $ */
+/* $MirOS: src/lib/libc/i18n/mbcurmax.c,v 1.5 2006/06/03 22:14:51 tg Exp $ */
 
 /*-
  * Copyright (c) 2005, 2006
@@ -27,10 +27,10 @@
 
 #include "mir18n.h"
 
-__RCSID("$MirOS: src/lib/libc/i18n/isutf8.c,v 1.7 2006/06/02 19:45:00 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/mbcurmax.c,v 1.5 2006/06/03 22:14:51 tg Exp $");
 
 int
 __mb_cur_max(void)
 {
-	return (__locale_is_utf8 ? 3 : 1);
+	return (__locale_is_utf8 ? ((3 * 2) - 1) : 1);
 }

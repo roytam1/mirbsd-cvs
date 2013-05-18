@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/i18n/wcrtomb.c,v 1.10 2006/06/02 19:45:00 tg Exp $ */
+/* $MirOS: src/lib/libc/i18n/wcrtomb.c,v 1.11 2006/06/03 13:43:50 tg Exp $ */
 
 /*-
  * Copyright (c) 2005, 2006
@@ -27,7 +27,8 @@
  * THIS FUNCTION VIOLATES THE INTERFACE DEFINITION!
  * If the 'ps' argument contains a conversion state, at maximum, five
  * bytes (two from the 'ps', three (= MB_CUR_MAX) from the 'wc' argu-
- * ment) are stored.
+ * ment) are stored. We changed MB_LEN_MAX and MB_CUR_MAX on 20061027
+ * to accomodate this fact.
  */
 
 #include <errno.h>
@@ -35,7 +36,7 @@
 
 #include "mir18n.h"
 
-__RCSID("$MirOS: src/lib/libc/i18n/wcrtomb.c,v 1.10 2006/06/02 19:45:00 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/wcrtomb.c,v 1.11 2006/06/03 13:43:50 tg Exp $");
 
 size_t
 wcrtomb(char *__restrict__ src, wchar_t wc, mbstate_t *__restrict__ ps)

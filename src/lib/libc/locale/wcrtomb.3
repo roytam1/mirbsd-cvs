@@ -57,11 +57,20 @@ if
 is an initial conversion state.
 Contrary to and violating
 .St -susv3 ,
-this implementation can store up to five bytes in
+this implementation can store more bytes in
 .Fa s
 if
 .Fa ps
 is not the initial conversion state.
+Starting with
+.Mx 10 ,
+.Dv MB_CUR_MAX
+has been adjusted to accomodate this fact, from the old value of
+.Dq 3
+to a new value of
+.Dq 5
+calculated by the formula
+.Do Po old-MB_CUR_MAX * 2 Pc \- 1 Dc .
 .Pp
 The behaviour of
 .Fn wcrtomb
