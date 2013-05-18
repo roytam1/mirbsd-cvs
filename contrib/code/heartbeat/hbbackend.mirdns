@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/heartbeat/hbbackend.mirdns,v 1.8 2006/03/20 02:11:59 tg Exp $
+# $MirOS: contrib/code/heartbeat/hbbackend.mirdns,v 1.9 2006/03/29 01:32:08 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -106,8 +106,8 @@ function dns_write
 		print -n ACTION CALL $thecookie MirDNSv3 $myuser \
 		    | nc -4nuw0 127.0.0.1 3740
 	else
-		mksh $tinydns/make.sh
-		mksh $tinydns/distribute.sh &
+		# ensure this doesn't take more than a second or so
+		./make.sh all dist
 	fi
 }
 
