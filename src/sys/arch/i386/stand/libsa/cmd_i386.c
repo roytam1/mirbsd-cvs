@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/cmd_i386.c,v 1.3 2006/08/19 14:20:30 tg Exp $	*/
+/**	$MirOS: src/sys/arch/i386/stand/libsa/cmd_i386.c,v 1.4 2008/08/01 11:24:59 tg Exp $	*/
 /*	$OpenBSD: cmd_i386.c,v 1.29 2006/09/18 21:14:15 mpf Exp $	*/
 
 /*
@@ -66,7 +66,6 @@ const struct cmd_table cmd_machine[] = {
 #ifdef DEBUG
 	{ "regs",	CMDT_CMD, Xregs },
 #endif
-	{ "off",	CMDT_CMD, Xturnoff },
 #endif
 	{ "oldbios",	CMDT_CMD, Xoldbios },
 	{ NULL, 0 }
