@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/sparc/conf/FLOPPY,v 1.6 2008/07/13 23:53:53 tg Exp $
+# $MirOS: src/sys/arch/sparc/conf/FLOPPY,v 1.7 2008/07/13 23:57:37 tg Exp $
 # $miros: src/sys/arch/sparc/conf/GENERIC,v 1.19 2008/07/13 23:57:37 tg Exp $
 
 machine		sparc			# arch, used by config; REQUIRED
@@ -26,7 +26,7 @@ option		NO_PROPOLICE		# remove stack protector
 option		BOOT_CONFIG		# add support for boot -c
 option		TIMEZONE=0		# time zone to adjust RTC time by
 option		DST=0			# daylight saving time used by RTC
-option		MINIROOTSIZE=3328	# size of ramdisk array
+option		MINIROOTSIZE=3456	# size of ramdisk array
 option		RAMDISK_HOOKS		# allow using initrd
 
 #option		CRYPTO			# Cryptographic framework
@@ -54,7 +54,7 @@ option		MFS			# memory file system
 #option		TCP_FACK		# Forward Acknowledgements for TCP
 #option		TCP_SIGNATURE		# TCP MD5 Signatures
 
-#option		NFSCLIENT		# Nightmare File System client
+option		NFSCLIENT		# Nightmare File System client
 #option		NFSSERVER		# Nightmare File System server
 
 option		CD9660			# ISO 9660 + Rock Ridge file system

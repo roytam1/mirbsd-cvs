@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/list.sparc-fdd,v 1.10 2008/12/27 00:29:41 tg Exp $
+# $MirOS: src/distrib/common/list.sparc-fdd,v 1.11 2009/04/16 13:20:23 tg Exp $
 
 SRCDIRS	distrib/special sys/arch/sparc/stand
 SRCDIRS	bin sbin usr.bin usr.sbin libexec
@@ -12,6 +12,7 @@ LINK	instbin					bin/chmod bin/chgrp sbin/chown usr/bin/chflags
 LINK	instbin					bin/cp
 LINK	instbin					bin/date
 LINK	instbin					bin/dd
+LINK	instbin					bin/df
 LINK	instbin					bin/ed
 LINK	instbin					bin/hostname
 LINK	instbin					bin/ln
@@ -22,7 +23,9 @@ LINK	instbin					bin/mksh bin/sh
 LINK	instbin					bin/mv
 LINK	instbin					bin/pax bin/cpio bin/tar
 LINK	instbin					bin/rm
+LINK	instbin					bin/sleep
 LINK	instbin					bin/stty
+LINK	instbin					bin/sync
 LINK	instbin					sbin/disklabel
 LINK	instbin					sbin/dmesg
 LINK	instbin					sbin/fsck
@@ -32,6 +35,7 @@ LINK	instbin					sbin/init
 LINK	instbin					sbin/mount
 LINK	instbin					sbin/mount_cd9660
 LINK	instbin					sbin/mount_ffs
+LINK	instbin					sbin/mount_nfs
 LINK	instbin					sbin/newfs sbin/mount_mfs
 LINK	instbin					sbin/reboot sbin/halt
 LINK	instbin					sbin/route
@@ -39,6 +43,7 @@ LINK	instbin					sbin/scsi
 LINK	instbin					sbin/swapctl
 LINK	instbin					sbin/umount
 LINK	instbin					usr/bin/compress usr/bin/gunzip usr/bin/gzip
+LINK	instbin					usr/bin/find
 LINK	instbin					usr/bin/ftp
 LINK	instbin					usr/bin/grep usr/bin/egrep usr/bin/fgrep
 LINK	instbin					usr/bin/hexdump usr/bin/hd usr/bin/od
@@ -49,6 +54,7 @@ LINK	instbin					usr/bin/script
 LINK	instbin					usr/bin/sed
 LINK	instbin					usr/mdec/installboot
 LINK	instbin					usr/sbin/chkuterm
+LINK	instbin					usr/sbin/chroot
 LINK	instbin					usr/sbin/eeprom
 LINK	instbin					usr/sbin/rdate
 LINK	instbin					usr/sbin/sysctl
