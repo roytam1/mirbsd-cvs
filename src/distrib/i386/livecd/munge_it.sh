@@ -135,6 +135,10 @@ ed -s etc/ttys <<-'EOF'
 	s/off/on secure/
 	wq
 EOF
+ed -s usr/bin/ftp <<-'EOF'
+	%g/MirOS ftp(1)/s//MirOS LiveCD/
+	wq
+EOF
 ed -s var/cron/tabs/root <<-'EOF'
 	/daily/s/^/#/
 	/weekly/s/^/#/
