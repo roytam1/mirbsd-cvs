@@ -1,13 +1,14 @@
+# $MirOS: contrib/gnu/libtool/ltmain.sh,v 1.26 2008/05/03 21:55:54 tg Exp $
+# $miros: contrib/gnu/libtool/ltmain.sh,v 1.26 2008/05/03 21:55:54 tg Exp $
+# $miros: contrib/gnu/libtool/ltmain.in,v 1.46 2008/05/03 18:55:14 tg Exp $
+#-
 # ltmain.sh - Provide generalized library-building support services.
-# $MirOS: contrib/gnu/libtool/ltmain.sh,v 1.22 2007/02/22 22:36:45 tg Exp $
-# $miros: contrib/gnu/libtool/ltmain.sh,v 1.22 2007/02/22 22:36:45 tg Exp $
-# _MirOS: contrib/gnu/libtool/ltmain.in,v 1.39 2007/02/22 22:30:37 tg Exp $
 # NOTE: Changing this file will not affect anything until you rerun configure.
 #
-# Copyright (C) 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005, 2006
-# Free Software Foundation, Inc.
+# Copyright (C) 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005, 2006,
+# 2007, 2008  Free Software Foundation, Inc.
 # Originally by Gordon Matzigkeit <gord@gnu.ai.mit.edu>, 1996
-# MirLibtool patches contributed 2004, 2005, 2006 by
+# MirLibtool patches contributed 2004, 2005, 2006, 2008 by
 # Thorsten Glaser <tg@mirbsd.de> for the MirOS Project
 #
 # This program is free software; you can redistribute it and/or modify
@@ -48,8 +49,8 @@ EXIT_FAILURE=1
 
 PROGRAM=ltmain.sh
 PACKAGE=libtool
-VERSION=1.5.23a
-TIMESTAMP=" (MirLibtool 2007/02/22 22:31:54)"
+VERSION=1.5.27a
+TIMESTAMP=" (MirLibtool 2008/05/03 21:55:15)"
 
 # Be Bourne compatible (taken from Autoconf:_AS_BOURNE_COMPATIBLE).
 if test -n "${ZSH_VERSION+set}" && (emulate sh) >/dev/null 2>&1; then
@@ -90,7 +91,7 @@ EOF
 fi
 
 default_mode=
-help="Try '$progname --help' for more information."
+help="Try \`$progname --help' for more information."
 magic="%%%MAGIC variable%%%"
 mkdir="mkdir"
 mv="mv -f"
@@ -118,14 +119,20 @@ esac
 # These must not be set unconditionally because not all systems understand
 # e.g. LANG=C (notably SCO).
 # We save the old values to restore during execute mode.
-for lt_var in LANG LC_ALL LC_CTYPE LC_COLLATE LC_MESSAGES
+lt_env=
+for lt_var in LANG LANGUAGE LC_ALL LC_CTYPE LC_COLLATE LC_MESSAGES
 do
   eval "if test \"\${$lt_var+set}\" = set; then
 	  save_$lt_var=\$$lt_var
+	  lt_env=\"$lt_var=\$$lt_var \$lt_env\"
 	  $lt_var=C
 	  export $lt_var
 	fi"
 done
+
+if test -n "$lt_env"; then
+  lt_env="env $lt_env"
+fi
 
 # Make sure IFS has a sensible default
 lt_nl='
@@ -296,7 +303,7 @@ func_infer_tag ()
 	# line option must be used.
 	if test -z "$tagname"; then
 	  $echo "$modename: unable to infer tagged configuration"
-	  $echo "$modename: specify a tag with '--tag'" 1>&2
+	  $echo "$modename: specify a tag with \`--tag'" 1>&2
 	  exit $EXIT_FAILURE
 #        else
 #          $echo "$modename: using $tagname tagged configuration"
@@ -381,7 +388,7 @@ func_extract_archives ()
 	  darwin_curdir=`pwd`
 	  darwin_base_archive=`$echo "X$darwin_archive" | $Xsed -e 's%^.*/%%'`
 	  darwin_arches=`lipo -info "$darwin_archive" 2>/dev/null | $EGREP Architectures 2>/dev/null`
-	  if test -n "$darwin_arches"; then
+	  if test -n "$darwin_arches"; then 
 	    darwin_arches=`echo "$darwin_arches" | $SED -e 's/.*are://'`
 	    darwin_arch=
 	    $show "$darwin_base_archive has multiple architectures $darwin_arches"
@@ -405,13 +412,13 @@ func_extract_archives ()
 	    cd "$darwin_orig_dir"
 	  else
 	    cd "$darwin_orig_dir"
-	    func_extract_an_archive "$my_xdir" "$my_xabs"
+ 	    func_extract_an_archive "$my_xdir" "$my_xabs"
 	  fi # $darwin_arches
 	fi # $run
 	;;
       *)
-	func_extract_an_archive "$my_xdir" "$my_xabs"
-	;;
+        func_extract_an_archive "$my_xdir" "$my_xabs"
+        ;;
       esac
       my_oldobjs="$my_oldobjs "`find $my_xdir -name \*.$objext -print -o -name \*.lo -print | $NL2SP`
     done
@@ -488,23 +495,22 @@ do
 
   --version)
     echo "\
-
 $PROGRAM (GNU $PACKAGE) $VERSION$TIMESTAMP
 
-Copyright (C) 2006  Free Software Foundation, Inc.
+Copyright (C) 2008  Free Software Foundation, Inc.
 This is free software; see the source for copying conditions.  There is NO
 warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE."
     echo "\
 
 MirLibtool contributed to the FSF by Thorsten Glaser for the MirOS Project.
-Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
-express, or implied, to the maximum extent permitted by applicable
-law, without malicious intent or gross negligence; in no event may
-licensor, an author or contributor be held liable for any indirect
-or other damage, or direct damage except proven a consequence of a
-direct error of said person and intended use of this work, loss or
-other issues arising in any way out of its use, even if advised of
-the possibility of such damage or existence of a defect."
+This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
+the utmost extent permitted by applicable law, neither express nor
+implied; without malicious intent or gross negligence. In no event
+may a licensor, author or contributor be held liable for indirect,
+direct, other damage, loss, or other issues arising in any way out
+of dealing in the work, even if advised of the possibility of such
+damage or existence of a defect, except proven that it results out
+of said person's immediate fault when using the work as intended."
     exit $?
     ;;
 
@@ -572,7 +578,7 @@ the possibility of such damage or existence of a defect."
     ;;
 
   -*)
-    $echo "$modename: unrecognized option '$arg'" 1>&2
+    $echo "$modename: unrecognized option \`$arg'" 1>&2
     $echo "$help" 1>&2
     exit $EXIT_FAILURE
     ;;
@@ -585,13 +591,13 @@ the possibility of such damage or existence of a defect."
 done
 
 if test -n "$prevopt"; then
-  $echo "$modename: option '$prevopt' requires an argument" 1>&2
+  $echo "$modename: option \`$prevopt' requires an argument" 1>&2
   $echo "$help" 1>&2
   exit $EXIT_FAILURE
 fi
 
 case $disable_libs in
-no)
+no) 
   ;;
 shared)
   build_libtool_libs=no
@@ -642,7 +648,7 @@ if test -z "$show_help"; then
       # Just use the default operation mode.
       if test -z "$mode"; then
 	if test -n "$nonopt"; then
-	  $echo "$modename: warning: cannot infer operation mode from '$nonopt'" 1>&2
+	  $echo "$modename: warning: cannot infer operation mode from \`$nonopt'" 1>&2
 	else
 	  $echo "$modename: warning: cannot infer operation mode without MODE-ARGS" 1>&2
 	fi
@@ -653,14 +659,14 @@ if test -z "$show_help"; then
 
   # Only execute mode is allowed to have -dlopen flags.
   if test -n "$execute_dlfiles" && test "$mode" != execute; then
-    $echo "$modename: unrecognized option '-dlopen'" 1>&2
+    $echo "$modename: unrecognized option \`-dlopen'" 1>&2
     $echo "$help" 1>&2
     exit $EXIT_FAILURE
   fi
 
   # Change the help message to a mode-specific one.
   generic_help="$help"
-  help="Try '$modename --help --mode=$mode' for more information."
+  help="Try \`$modename --help --mode=$mode' for more information."
 
   # These modes are in order of execution frequency so that they run quickly.
   case $mode in
@@ -696,7 +702,7 @@ if test -z "$show_help"; then
 	case $arg in
 	-o)
 	  if test -n "$libobj" ; then
-	    $echo "$modename: you cannot specify '-o' more than once" 1>&2
+	    $echo "$modename: you cannot specify \`-o' more than once" 1>&2
 	    exit $EXIT_FAILURE
 	  fi
 	  arg_mode=target
@@ -714,15 +720,15 @@ if test -z "$show_help"; then
 	  ;;
 
 	-Xcompiler)
-	  arg_mode=arg	#  the next one goes into the "base_compile" arg list
-	  continue	#  The current "srcfile" will either be retained or
-	  ;;		#  replaced later.  I would guess that would be a bug.
+	  arg_mode=arg  #  the next one goes into the "base_compile" arg list
+	  continue      #  The current "srcfile" will either be retained or
+	  ;;            #  replaced later.  I would guess that would be a bug.
 
 	-Wc,*)
 	  args=`$echo "X$arg" | $Xsed -e "s/^-Wc,//"`
 	  lastarg=
 	  save_ifs="$IFS"; IFS=','
-	  for arg in $args; do
+ 	  for arg in $args; do
 	    IFS="$save_ifs"
 
 	    # Double-quote args containing other shell metacharacters.
@@ -762,7 +768,7 @@ if test -z "$show_help"; then
       # Many Bourne shells cannot handle close brackets correctly
       # in scan sets, and some SunOS ksh mistreat backslash-escaping
       # in scan sets (worked around with variable expansion),
-      # and furthermore cannot handle '|' '&' '(' ')' in scan sets
+      # and furthermore cannot handle '|' '&' '(' ')' in scan sets 
       # at all, so we specify them separately.
       *[\[\~\#\^\&\*\(\)\{\}\|\;\<\>\?\'\ \	]*|*]*|"")
 	lastarg="\"$lastarg\""
@@ -778,7 +784,7 @@ if test -z "$show_help"; then
       exit $EXIT_FAILURE
       ;;
     target)
-      $echo "$modename: you must specify a target with '-o'" 1>&2
+      $echo "$modename: you must specify a target with \`-o'" 1>&2
       exit $EXIT_FAILURE
       ;;
     *)
@@ -801,10 +807,11 @@ if test -z "$show_help"; then
     *.class) xform=class ;;
     *.cpp) xform=cpp ;;
     *.cxx) xform=cxx ;;
-    *.f90) xform=f90 ;;
+    *.[fF][09]?) xform=[fF][09]. ;;
     *.for) xform=for ;;
     *.java) xform=java ;;
     *.obj) xform=obj ;;
+    *.sx) xform=sx ;;
     esac
 
     libobj=`$echo "X$libobj" | $Xsed -e "s/\.$xform$/.lo/"`
@@ -812,7 +819,7 @@ if test -z "$show_help"; then
     case $libobj in
     *.lo) obj=`$echo "X$libobj" | $Xsed -e "$lo2o"` ;;
     *)
-      $echo "$modename: cannot determine name of library object from '$libobj'" 1>&2
+      $echo "$modename: cannot determine name of library object from \`$libobj'" 1>&2
       exit $EXIT_FAILURE
       ;;
     esac
@@ -845,7 +852,7 @@ if test -z "$show_help"; then
     esac
     test "X$libobj" != "X$qlibobj" \
 	&& $echo "X$libobj" | grep '[]~#^*{};<>?"'"'"' 	&()|`$[]' \
-	&& $echo "$modename: libobj name '$libobj' may not contain shell special characters."
+	&& $echo "$modename: libobj name \`$libobj' may not contain shell special characters."
     objname=`$echo "X$obj" | $Xsed -e 's%^.*/%%'`
     xdir=`$echo "X$obj" | $Xsed -e 's%/[^/]*$%%'`
     if test "X$xdir" = "X$obj"; then
@@ -910,7 +917,7 @@ if test -z "$show_help"; then
 
 This indicates that another process is trying to use the same
 temporary object file, and libtool could not work around it because
-your compiler does not support '-c' and '-o' together.  If you
+your compiler does not support \`-c' and \`-o' together.  If you
 repeat this compilation, it may succeed, by chance, but you had better
 avoid parallel builds (make -j) in this platform, or get a better
 compiler."
@@ -973,7 +980,7 @@ EOF
       $run $rm "$lobj" "$output_obj"
 
       $show "$command"
-      if $run eval "$command"; then :
+      if $run eval $lt_env "$command"; then :
       else
 	test -n "$output_obj" && $run $rm $removelist
 	exit $EXIT_FAILURE
@@ -990,7 +997,7 @@ $srcfile
 
 This indicates that another process is trying to use the same
 temporary object file, and libtool could not work around it because
-your compiler does not support '-c' and '-o' together.  If you
+your compiler does not support \`-c' and \`-o' together.  If you
 repeat this compilation, it may succeed, by chance, but you had better
 avoid parallel builds (make -j) in this platform, or get a better
 compiler."
@@ -1018,7 +1025,7 @@ EOF
 
       # Allow error messages only from the first compilation.
       if test "$suppress_opt" = yes; then
-	suppress_output=' >/dev/null 2>&1'
+        suppress_output=' >/dev/null 2>&1'
       fi
     else
       # No PIC object so indicate it doesn't exist in the libtool
@@ -1045,7 +1052,7 @@ EOF
       command="$command$suppress_output"
       $run $rm "$obj" "$output_obj"
       $show "$command"
-      if $run eval "$command"; then :
+      if $run eval $lt_env "$command"; then :
       else
 	$run $rm $removelist
 	exit $EXIT_FAILURE
@@ -1062,7 +1069,7 @@ $srcfile
 
 This indicates that another process is trying to use the same
 temporary object file, and libtool could not work around it because
-your compiler does not support '-c' and '-o' together.  If you
+your compiler does not support \`-c' and \`-o' together.  If you
 repeat this compilation, it may succeed, by chance, but you had better
 avoid parallel builds (make -j) in this platform, or get a better
 compiler."
@@ -1178,6 +1185,7 @@ EOF
     thread_safe=no
     vinfo=
     vinfo_number=no
+    single_module="${wl}-single_module"
 
     func_infer_tag $base_compile
 
@@ -1284,7 +1292,7 @@ EOF
 	expsyms)
 	  export_symbols="$arg"
 	  if test ! -f "$arg"; then
-	    $echo "$modename: symbol file '$arg' does not exist"
+	    $echo "$modename: symbol file \`$arg' does not exist"
 	    exit $EXIT_FAILURE
 	  fi
 	  prev=
@@ -1336,7 +1344,7 @@ EOF
 		   test -z "$non_pic_object" ||
 		   test "$pic_object" = none && \
 		   test "$non_pic_object" = none; then
-		  $echo "$modename: cannot find name of object for '$arg'" 1>&2
+		  $echo "$modename: cannot find name of object for \`$arg'" 1>&2
 		  exit $EXIT_FAILURE
 		fi
 
@@ -1394,7 +1402,7 @@ EOF
 	      else
 		# Only an error if not doing a dry-run.
 		if test -z "$run"; then
-		  $echo "$modename: '$arg' is not a valid libtool object" 1>&2
+		  $echo "$modename: \`$arg' is not a valid libtool object" 1>&2
 		  exit $EXIT_FAILURE
 		else
 		  # Dry-run case.
@@ -1415,7 +1423,7 @@ EOF
 	      fi
 	    done
 	  else
-	    $echo "$modename: link input file '$save_arg' does not exist"
+	    $echo "$modename: link input file \`$save_arg' does not exist"
 	    exit $EXIT_FAILURE
 	  fi
 	  arg=$save_arg
@@ -1469,7 +1477,7 @@ EOF
 	  continue
 	  ;;
 	shrext)
-	  shrext_cmds="$arg"
+  	  shrext_cmds="$arg"
 	  prev=
 	  continue
 	  ;;
@@ -1501,7 +1509,7 @@ EOF
 
       -allow-undefined)
 	# FIXME: remove this flag sometime in the future.
-	$echo "$modename: '-allow-undefined' is deprecated because it is the default" 1>&2
+	$echo "$modename: \`-allow-undefined' is deprecated because it is the default" 1>&2
 	continue
 	;;
 
@@ -1540,7 +1548,7 @@ EOF
 
       -framework|-arch|-isysroot)
 	case " $CC " in
-	  *" ${arg} ${1} "* | *" ${arg}	${1} "*)
+	  *" ${arg} ${1} "* | *" ${arg}	${1} "*) 
 		prev=darwin_framework_skip ;;
 	  *) compiler_flags="$compiler_flags $arg"
 	     prev=darwin_framework ;;
@@ -1567,15 +1575,27 @@ EOF
 	continue
 	;;
 
-      -L*)
-	dir=`$echo "X$arg" | $Xsed -e 's/^-L//'`
+      -L*|-Wl,--library-after=*)
+	case $arg in
+	-L*)
+	  minus_l_command="-L"
+	  dir=`$echo "X$arg" | $Xsed -e 's/^-L//'`
+	  ;;
+	-Wl,--library-after=*)
+	  #XXX if a path (after realpathising) is an argument to
+	  #XXX both -L and -Wl,--library-after, the -L call must
+	  #XXX be removed from the list normally
+	  minus_l_command="-Wl,--library-after="
+	  dir=`$echo "X$arg" | $Xsed -e 's/[-_a-zA-Z0-9,]*=//'`
+	  ;;
+	esac
 	# We need an absolute path.
 	case $dir in
 	[\\/]* | [A-Za-z]:[\\/]*) ;;
 	*)
 	  absdir=`cd "$dir" && pwd`
 	  if test -z "$absdir"; then
-	    $echo "$modename: cannot determine absolute directory name of '$dir'" 1>&2
+	    $echo "$modename: cannot determine absolute directory name of \`$dir'" 1>&2
 	    absdir="$dir"
 	    notinst_path="$notinst_path $dir"
 	  fi
@@ -1583,9 +1603,9 @@ EOF
 	  ;;
 	esac
 	case "$deplibs " in
-	*" -L$dir "*) ;;
+	*" $minus_l_command$dir "*) ;;
 	*)
-	  deplibs="$deplibs -L$dir"
+	  deplibs="$deplibs $minus_l_command$dir"
 	  lib_search_path="$lib_search_path $dir"
 	  ;;
 	esac
@@ -1616,7 +1636,8 @@ EOF
 	    # These systems don't actually have a C library (as such)
 	    test "X$arg" = "X-lc" && continue
 	    ;;
-	  *-*-dragonfly* | *-*-freebsd* | *-*-mirbsd* | *-*-openbsd*)
+	  *-*-dragonfly* | *-*-freebsd* | *-*-midnightbsd* | \
+	  *-*-mirbsd* | *-*-openbsd*)
 	    # Do not include libc due to us having libc/libc_r.
 	    test "X$arg" = "X-lc" && continue
 	    ;;
@@ -1636,7 +1657,8 @@ EOF
 	  esac
 	elif test "X$arg" = "X-lc_r"; then
 	 case $host in
-	 *-*-dragonfly* | *-*-freebsd* | *-*-mirbsd* | *-*-openbsd*)
+	 *-*-dragonfly* | *-*-freebsd* | *-*-midnightbsd* | \
+	 *-*-mirbsd* | *-*-openbsd*)
 	   # Do not include libc_r directly, use -pthread flag.
 	   continue
 	   ;;
@@ -1678,6 +1700,11 @@ EOF
 	continue
 	;;
 
+      -multi_module)
+	single_module="${wl}-multi_module"
+	continue
+	;;
+
       -module)
 	module=yes
 	continue
@@ -1691,10 +1718,11 @@ EOF
       # -m* pass through architecture-specific compiler args for GCC
       # -m*, -t[45]*, -txscale* pass through architecture-specific
       # compiler args for GCC
-      # -pg pass through profiling flag for GCC
+      # -p, -pg, --coverage, -fprofile-* pass through profiling flag for GCC
+      # -F/path gives path to uninstalled frameworks, gcc on darwin
       # @file GCC response files
-      -64|-mips[0-9]|-r[0-9][0-9]*|-xarch=*|-xtarget=*|+DA*|+DD*|-q*|-m*|-pg| \
-      -t[45]*|-txscale*|@*)
+      -64|-mips[0-9]|-r[0-9][0-9]*|-xarch=*|-xtarget=*|+DA*|+DD*|-q*|-m*| \
+      -t[45]*|-txscale*|-p|-pg|--coverage|-fprofile-*|-F*|@*)
 
 	# Unknown arguments in both finalize_command and compile_command need
 	# to be aesthetically quoted because they are evaled later.
@@ -1722,11 +1750,11 @@ EOF
 
       -no-install)
 	case $host in
-	*-*-cygwin* | *-*-mingw* | *-*-pw32* | *-*-os2*)
+	*-*-cygwin* | *-*-mingw* | *-*-pw32* | *-*-os2* | *-*-darwin*)
 	  # The PATH hackery in wrapper scripts is required on Windows
-	  # in order for the loader to find any dlls it needs.
-	  $echo "$modename: warning: '-no-install' is ignored for $host" 1>&2
-	  $echo "$modename: warning: assuming '-no-fast-install' instead" 1>&2
+	  # and Darwin in order for the loader to find any dlls it needs.
+	  $echo "$modename: warning: \`-no-install' is ignored for $host" 1>&2
+	  $echo "$modename: warning: assuming \`-no-fast-install' instead" 1>&2
 	  fast_install=no
 	  ;;
 	*) no_install=yes ;;
@@ -1902,7 +1930,7 @@ EOF
 	     test -z "$non_pic_object" ||
 	     test "$pic_object" = none && \
 	     test "$non_pic_object" = none; then
-	    $echo "$modename: cannot find name of object for '$arg'" 1>&2
+	    $echo "$modename: cannot find name of object for \`$arg'" 1>&2
 	    exit $EXIT_FAILURE
 	  fi
 
@@ -1910,7 +1938,7 @@ EOF
 	  xdir=`$echo "X$arg" | $Xsed -e 's%/[^/]*$%%'`
 	  if test "X$xdir" = "X$arg"; then
 	    xdir=
-	  else
+ 	  else
 	    xdir="$xdir/"
 	  fi
 
@@ -1960,7 +1988,7 @@ EOF
 	else
 	  # Only an error if not doing a dry-run.
 	  if test -z "$run"; then
-	    $echo "$modename: '$arg' is not a valid libtool object" 1>&2
+	    $echo "$modename: \`$arg' is not a valid libtool object" 1>&2
 	    exit $EXIT_FAILURE
 	  else
 	    # Dry-run case.
@@ -2026,7 +2054,7 @@ EOF
     done # argument parsing loop
 
     if test -n "$prev"; then
-      $echo "$modename: the '$prevarg' option requires an argument" 1>&2
+      $echo "$modename: the \`$prevarg' option requires an argument" 1>&2
       $echo "$help" 1>&2
       exit $EXIT_FAILURE
     fi
@@ -2133,7 +2161,7 @@ EOF
 	  case $file in
 	  *.la) ;;
 	  *)
-	    $echo "$modename: libraries can '-dlopen' only libtool libraries: $file" 1>&2
+	    $echo "$modename: libraries can \`-dlopen' only libtool libraries: $file" 1>&2
 	    exit $EXIT_FAILURE
 	    ;;
 	  esac
@@ -2186,11 +2214,16 @@ EOF
 	  ;;
 	-l*)
 	  if test "$linkmode" != lib && test "$linkmode" != prog; then
-	    $echo "$modename: warning: '-l' is ignored for archives/objects" 1>&2
+	    $echo "$modename: warning: \`-l' is ignored for archives/objects" 1>&2
 	    continue
 	  fi
 	  name=`$echo "X$deplib" | $Xsed -e 's/^-l//'`
-	  for searchdir in $newlib_search_path $lib_search_path $sys_lib_search_path $shlib_search_path; do
+	  if test "$linkmode" = lib; then
+	    searchdirs="$newlib_search_path $lib_search_path $compiler_lib_search_dirs $sys_lib_search_path $shlib_search_path"
+	  else
+	    searchdirs="$newlib_search_path $lib_search_path $sys_lib_search_path $shlib_search_path"
+	  fi
+	  for searchdir in $searchdirs; do
 	    for search_ext in .la $std_shrext .so .a; do
 	      # Search the libtool library
 	      lib="$searchdir/lib${name}${search_ext}"
@@ -2221,7 +2254,7 @@ EOF
 	      case " $predeps $postdeps " in
 	      *" $deplib "*)
 		if (${SED} -e '2q' $lib |
-		    grep "^# Generated by .*$PACKAGE") >/dev/null 2>&1; then
+                    grep "^# Generated by .*$PACKAGE") >/dev/null 2>&1; then
 		  library_names=
 		  old_library=
 		  case $lib in
@@ -2246,19 +2279,19 @@ EOF
 		    continue
 		  fi
 		fi
-		;;
+	        ;;
 	      *) ;;
 	      esac
 	    fi
 	  fi
 	  ;; # -l
-	-L*)
+	-L*|-Wl,--library-after=*)
 	  case $linkmode in
 	  lib)
 	    deplibs="$deplib $deplibs"
 	    test "$pass" = conv && continue
 	    newdependency_libs="$deplib $newdependency_libs"
-	    newlib_search_path="$newlib_search_path "`$echo "X$deplib" | $Xsed -e 's/^-L//'`
+	    newlib_search_path="$newlib_search_path "`$echo "X$deplib" | $Xsed -e 's/^-L//' -e 's/^-Wl,--library-after=//'`
 	    ;;
 	  prog)
 	    if test "$pass" = conv; then
@@ -2274,7 +2307,7 @@ EOF
 	    newlib_search_path="$newlib_search_path "`$echo "X$deplib" | $Xsed -e 's/^-L//'`
 	    ;;
 	  *)
-	    $echo "$modename: warning: '-L' is ignored for archives/objects" 1>&2
+	    $echo "$modename: warning: \`-L' is ignored for archives/objects" 1>&2
 	    ;;
 	  esac # linkmode
 	  continue
@@ -2303,7 +2336,7 @@ EOF
 	    case $deplibs_check_method in
 	      match_pattern*)
 		set dummy $deplibs_check_method
-		match_pattern_regex=`expr "$deplibs_check_method" : "$2 \(.*\)"`
+	        match_pattern_regex=`expr "$deplibs_check_method" : "$2 \(.*\)"`
 		if eval $echo \"$deplib\" 2>/dev/null \
 		    | $SED 10q \
 		    | $EGREP "$match_pattern_regex" > /dev/null; then
@@ -2313,7 +2346,7 @@ EOF
 	      pass_all)
 		valid_a_lib=yes
 		;;
-	    esac
+            esac
 	    if test "$valid_a_lib" != yes; then
 	      $echo
 	      $echo "*** Warning: Trying to link with static lib archive $deplib."
@@ -2364,14 +2397,14 @@ EOF
 	esac # case $deplib
 	if test "$found" = yes || test -f "$lib"; then :
 	else
-	  $echo "$modename: cannot find the library '$lib' or unhandled argument '$deplib'" 1>&2
+	  $echo "$modename: cannot find the library \`$lib' or unhandled argument \`$deplib'" 1>&2
 	  exit $EXIT_FAILURE
 	fi
 
 	# Check to see that this really is a libtool archive.
 	if (${SED} -e '2q' $lib | grep "^# Generated by .*$PACKAGE") >/dev/null 2>&1; then :
 	else
-	  $echo "$modename: '$lib' is not a valid libtool archive" 1>&2
+	  $echo "$modename: \`$lib' is not a valid libtool archive" 1>&2
 	  exit $EXIT_FAILURE
 	fi
 
@@ -2409,7 +2442,7 @@ EOF
 	  deplibs="$lib $deplibs"
 	  if test -z "$libdir"; then
 	    if test -z "$old_library"; then
-	      $echo "$modename: cannot find name of link library for '$lib'" 1>&2
+	      $echo "$modename: cannot find name of link library for \`$lib'" 1>&2
 	      exit $EXIT_FAILURE
 	    fi
 	    # It is a libtool convenience library, so add in its objects.
@@ -2418,15 +2451,15 @@ EOF
 	    tmp_libs=
 	    for deplib in $dependency_libs; do
 	      deplibs="$deplib $deplibs"
-	      if test "X$duplicate_deps" = "Xyes" ; then
-		case "$tmp_libs " in
-		*" $deplib "*) specialdeplibs="$specialdeplibs $deplib" ;;
-		esac
-	      fi
+              if test "X$duplicate_deps" = "Xyes" ; then
+	        case "$tmp_libs " in
+	        *" $deplib "*) specialdeplibs="$specialdeplibs $deplib" ;;
+	        esac
+              fi
 	      tmp_libs="$tmp_libs $deplib"
 	    done
 	  elif test "$linkmode" != prog && test "$linkmode" != lib; then
-	    $echo "$modename: '$lib' is not a convenience library" 1>&2
+	    $echo "$modename: \`$lib' is not a convenience library" 1>&2
 	    exit $EXIT_FAILURE
 	  fi
 	  continue
@@ -2439,14 +2472,14 @@ EOF
 	  linklib="$l"
 	done
 	if test -z "$linklib"; then
-	  $echo "$modename: cannot find name of link library for '$lib'" 1>&2
+	  $echo "$modename: cannot find name of link library for \`$lib'" 1>&2
 	  exit $EXIT_FAILURE
 	fi
 
 	# This library was specified with -dlopen.
 	if test "$pass" = dlopen; then
 	  if test -z "$libdir"; then
-	    $echo "$modename: cannot -dlopen a convenience library: '$lib'" 1>&2
+	    $echo "$modename: cannot -dlopen a convenience library: \`$lib'" 1>&2
 	    exit $EXIT_FAILURE
 	  fi
 	  if test -z "$dlname" ||
@@ -2469,7 +2502,7 @@ EOF
 	*)
 	  abs_ladir=`cd "$ladir" && pwd`
 	  if test -z "$abs_ladir"; then
-	    $echo "$modename: warning: cannot determine absolute directory name of '$ladir'" 1>&2
+	    $echo "$modename: warning: cannot determine absolute directory name of \`$ladir'" 1>&2
 	    $echo "$modename: passing it literally to the linker, although it might fail" 1>&2
 	    abs_ladir="$ladir"
 	  fi
@@ -2480,7 +2513,7 @@ EOF
 	# Find the relevant object directory and library name.
 	if test "X$installed" = Xyes; then
 	  if test ! -f "$libdir/$linklib" && test -f "$abs_ladir/$linklib"; then
-	    $echo "$modename: warning: library '$lib' was moved." 1>&2
+	    $echo "$modename: warning: library \`$lib' was moved." 1>&2
 	    dir="$ladir"
 	    absdir="$abs_ladir"
 	    libdir="$abs_ladir"
@@ -2507,7 +2540,7 @@ EOF
 	# This library was specified with -dlpreopen.
 	if test "$pass" = dlpreopen; then
 	  if test -z "$libdir"; then
-	    $echo "$modename: cannot -dlpreopen a convenience library: '$lib'" 1>&2
+	    $echo "$modename: cannot -dlpreopen a convenience library: \`$lib'" 1>&2
 	    exit $EXIT_FAILURE
 	  fi
 	  # Prefer using a static library (so that no silly _DYNAMIC symbols
@@ -2695,7 +2728,7 @@ EOF
 	    # If the library has no export list, then create one now
 	    if test -f "$output_objdir/$soname-def"; then :
 	    else
-	      $show "extracting exported symbol list from '$soname'"
+	      $show "extracting exported symbol list from \`$soname'"
 	      save_ifs="$IFS"; IFS='~'
 	      cmds=$extract_expsyms_cmds
 	      for cmd in $cmds; do
@@ -2709,7 +2742,7 @@ EOF
 
 	    # Create $newlib
 	    if test -f "$output_objdir/$newlib"; then :; else
-	      $show "generating import library for '$soname'"
+	      $show "generating import library for \`$soname'"
 	      save_ifs="$IFS"; IFS='~'
 	      cmds=$old_archive_from_expsyms_cmds
 	      for cmd in $cmds; do
@@ -2746,11 +2779,11 @@ EOF
                       $EGREP ": [^:]* bundle" >/dev/null ; then
 		      $echo "** Warning, lib $linklib is a module, not a shared library"
 		      if test -z "$old_library" ; then
-			$echo
-			$echo "** And there doesn't seem to be a static archive available"
-			$echo "** The link will probably fail, sorry"
+		        $echo
+		        $echo "** And there doesn't seem to be a static archive available"
+		        $echo "** The link will probably fail, sorry"
 		      else
-			add="$dir/$old_library"
+		        add="$dir/$old_library"
 		      fi
 		    fi
 		esac
@@ -2838,9 +2871,9 @@ EOF
 	    elif test "$hardcode_automatic" = yes; then
 	      if test -n "$inst_prefix_dir" &&
 		 test -f "$inst_prefix_dir$libdir/$linklib" ; then
-		add="$inst_prefix_dir$libdir/$linklib"
+	        add="$inst_prefix_dir$libdir/$linklib"
 	      else
-		add="$libdir/$linklib"
+	        add="$libdir/$linklib"
 	      fi
 	    else
 	      # We cannot seem to hardcode it, guess we'll fake it.
@@ -2896,9 +2929,9 @@ EOF
 	      if test -z "$global_symbol_pipe"; then
 		$echo
 		$echo "*** However, this would only work if libtool was able to extract symbol"
-		$echo "*** lists from a program, using 'nm' or equivalent, but libtool could"
+		$echo "*** lists from a program, using \`nm' or equivalent, but libtool could"
 		$echo "*** not find such a program.  So, this module is probably useless."
-		$echo "*** 'nm' from GNU binutils and a full rebuild may help."
+		$echo "*** \`nm' from GNU binutils and a full rebuild may help."
 	      fi
 	      if test "$build_old_libs" = no; then
 		build_libtool_libs=module
@@ -2962,7 +2995,7 @@ EOF
 		*)
 		  absdir=`cd "$dir" && pwd`
 		  if test -z "$absdir"; then
-		    $echo "$modename: warning: cannot determine absolute directory name of '$dir'" 1>&2
+		    $echo "$modename: warning: cannot determine absolute directory name of \`$dir'" 1>&2
 		    absdir="$dir"
 		  fi
 		  ;;
@@ -2972,11 +3005,11 @@ EOF
 		else
 		  eval libdir=`${SED} -n -e 's/^libdir=\(.*\)$/\1/p' $deplib`
 		  if test -z "$libdir"; then
-		    $echo "$modename: '$deplib' is not a valid libtool archive" 1>&2
+		    $echo "$modename: \`$deplib' is not a valid libtool archive" 1>&2
 		    exit $EXIT_FAILURE
 		  fi
 		  if test "$absdir" != "$libdir"; then
-		    $echo "$modename: warning: '$deplib' seems to be moved" 1>&2
+		    $echo "$modename: warning: \`$deplib' seems to be moved" 1>&2
 		  fi
 		  path="$absdir"
 		fi
@@ -2986,12 +3019,18 @@ EOF
 		  # we do not want to link against static libs,
 		  # but need to link against shared
 		  eval deplibrary_names=`${SED} -n -e 's/^library_names=\(.*\)$/\1/p' $deplib`
+		  eval deplibdir=`${SED} -n -e 's/^libdir=\(.*\)$/\1/p' $deplib`
 		  if test -n "$deplibrary_names" ; then
 		    for tmp in $deplibrary_names ; do
 		      depdepl=$tmp
 		    done
-		    if test -f "$path/$depdepl" ; then
+		    if test -f "$deplibdir/$depdepl" ; then
+		      depdepl="$deplibdir/$depdepl"
+	      	    elif test -f "$path/$depdepl" ; then
 		      depdepl="$path/$depdepl"
+		    else
+		      # Can't find it, oh well...
+		      depdepl=
 		    fi
 		    # do not add paths which are already there
 		    case " $newlib_search_path " in
@@ -3139,32 +3178,33 @@ EOF
 
     case $linkmode in
     oldlib)
-      if test -n "$deplibs"; then
-	$echo "$modename: warning: '-l' and '-L' are ignored for archives" 1>&2
-      fi
+      case " $deplibs" in
+      *\ -l* | *\ -L*)
+	$echo "$modename: warning: \`-l' and \`-L' are ignored for archives" 1>&2 ;;
+      esac
 
       if test -n "$dlfiles$dlprefiles" || test "$dlself" != no; then
-	$echo "$modename: warning: '-dlopen' is ignored for archives" 1>&2
+	$echo "$modename: warning: \`-dlopen' is ignored for archives" 1>&2
       fi
 
       if test -n "$rpath"; then
-	$echo "$modename: warning: '-rpath' is ignored for archives" 1>&2
+	$echo "$modename: warning: \`-rpath' is ignored for archives" 1>&2
       fi
 
       if test -n "$xrpath"; then
-	$echo "$modename: warning: '-R' is ignored for archives" 1>&2
+	$echo "$modename: warning: \`-R' is ignored for archives" 1>&2
       fi
 
       if test -n "$vinfo"; then
-	$echo "$modename: warning: '-version-info/-version-number' is ignored for archives" 1>&2
+	$echo "$modename: warning: \`-version-info/-version-number' is ignored for archives" 1>&2
       fi
 
       if test -n "$release"; then
-	$echo "$modename: warning: '-release' is ignored for archives" 1>&2
+	$echo "$modename: warning: \`-release' is ignored for archives" 1>&2
       fi
 
       if test -n "$export_symbols" || test -n "$export_symbols_regex"; then
-	$echo "$modename: warning: '-export-symbols' is ignored for archives" 1>&2
+	$echo "$modename: warning: \`-export-symbols' is ignored for archives" 1>&2
       fi
 
       # Now set the variables for building old libraries.
@@ -3174,7 +3214,7 @@ EOF
       ;;
 
     lib)
-      # Make sure we only generate libraries of the form 'libNAME.la'.
+      # Make sure we only generate libraries of the form `libNAME.la'.
       case $outputname in
       lib*)
 	name=`$echo "X$outputname" | $Xsed -e 's/\.la$//' -e 's/^lib//'`
@@ -3183,7 +3223,7 @@ EOF
 	;;
       *)
 	if test "$module" = no; then
-	  $echo "$modename: libtool library '$output' must begin with 'lib'" 1>&2
+	  $echo "$modename: libtool library \`$output' must begin with \`lib'" 1>&2
 	  $echo "$help" 1>&2
 	  exit $EXIT_FAILURE
 	fi
@@ -3200,7 +3240,7 @@ EOF
 
       if test -n "$objs"; then
 	if test "$deplibs_check_method" != pass_all; then
-	  $echo "$modename: cannot build libtool library '$output' from non-libtool objects on this host:$objs" 2>&1
+	  $echo "$modename: cannot build libtool library \`$output' from non-libtool objects on this host:$objs" 2>&1
 	  exit $EXIT_FAILURE
 	else
 	  $echo
@@ -3211,12 +3251,12 @@ EOF
       fi
 
       if test "$dlself" != no; then
-	$echo "$modename: warning: '-dlopen self' is ignored for libtool libraries" 1>&2
+	$echo "$modename: warning: \`-dlopen self' is ignored for libtool libraries" 1>&2
       fi
 
       set dummy $rpath
       if test "$#" -gt 2; then
-	$echo "$modename: warning: ignoring multiple '-rpath's for a libtool library" 1>&2
+	$echo "$modename: warning: ignoring multiple \`-rpath's for a libtool library" 1>&2
       fi
       install_libdir="$2"
 
@@ -3224,7 +3264,7 @@ EOF
       if test -z "$rpath"; then
 	if test "$build_libtool_libs" = yes; then
 	  # Building a libtool convenience library.
-	  # Some compilers have problems with a '.al' extension so
+	  # Some compilers have problems with a `.al' extension so
 	  # convenience libraries should have the same extension an
 	  # archive normally would.
 	  oldlibs="$output_objdir/$libname.$libext $oldlibs"
@@ -3233,11 +3273,11 @@ EOF
 	fi
 
 	if test -n "$vinfo"; then
-	  $echo "$modename: warning: '-version-info/-version-number' is ignored for convenience libraries" 1>&2
+	  $echo "$modename: warning: \`-version-info/-version-number' is ignored for convenience libraries" 1>&2
 	fi
 
 	if test -n "$release"; then
-	  $echo "$modename: warning: '-release' is ignored for convenience libraries" 1>&2
+	  $echo "$modename: warning: \`-release' is ignored for convenience libraries" 1>&2
 	fi
       else
 
@@ -3247,7 +3287,7 @@ EOF
 	IFS="$save_ifs"
 
 	if test -n "$8"; then
-	  $echo "$modename: too many parameters to '-version-info'" 1>&2
+	  $echo "$modename: too many parameters to \`-version-info'" 1>&2
 	  $echo "$help" 1>&2
 	  exit $EXIT_FAILURE
 	fi
@@ -3280,9 +3320,10 @@ EOF
 	    age="0"
 	    ;;
 	  irix|nonstopux)
-	    current=`expr $number_major + $number_minor - 1`
+	    current=`expr $number_major + $number_minor`
 	    age="$number_minor"
 	    revision="$number_minor"
+	    lt_irix_increment=no
 	    ;;
 	  esac
 	  ;;
@@ -3297,8 +3338,8 @@ EOF
 	case $current in
 	0|[1-9]|[1-9][0-9]|[1-9][0-9][0-9]|[1-9][0-9][0-9][0-9]|[1-9][0-9][0-9][0-9][0-9]) ;;
 	*)
-	  $echo "$modename: CURRENT '$current' must be a nonnegative integer" 1>&2
-	  $echo "$modename: '$vinfo' is not valid version information" 1>&2
+	  $echo "$modename: CURRENT \`$current' must be a nonnegative integer" 1>&2
+	  $echo "$modename: \`$vinfo' is not valid version information" 1>&2
 	  exit $EXIT_FAILURE
 	  ;;
 	esac
@@ -3306,8 +3347,8 @@ EOF
 	case $revision in
 	0|[1-9]|[1-9][0-9]|[1-9][0-9][0-9]|[1-9][0-9][0-9][0-9]|[1-9][0-9][0-9][0-9][0-9]) ;;
 	*)
-	  $echo "$modename: REVISION '$revision' must be a nonnegative integer" 1>&2
-	  $echo "$modename: '$vinfo' is not valid version information" 1>&2
+	  $echo "$modename: REVISION \`$revision' must be a nonnegative integer" 1>&2
+	  $echo "$modename: \`$vinfo' is not valid version information" 1>&2
 	  exit $EXIT_FAILURE
 	  ;;
 	esac
@@ -3315,15 +3356,15 @@ EOF
 	case $age in
 	0|[1-9]|[1-9][0-9]|[1-9][0-9][0-9]|[1-9][0-9][0-9][0-9]|[1-9][0-9][0-9][0-9][0-9]) ;;
 	*)
-	  $echo "$modename: AGE '$age' must be a nonnegative integer" 1>&2
-	  $echo "$modename: '$vinfo' is not valid version information" 1>&2
+	  $echo "$modename: AGE \`$age' must be a nonnegative integer" 1>&2
+	  $echo "$modename: \`$vinfo' is not valid version information" 1>&2
 	  exit $EXIT_FAILURE
 	  ;;
 	esac
 
 	if test "$age" -gt "$current"; then
-	  $echo "$modename: AGE '$age' is greater than the current interface number '$current'" 1>&2
-	  $echo "$modename: '$vinfo' is not valid version information" 1>&2
+	  $echo "$modename: AGE \`$age' is greater than the current interface number \`$current'" 1>&2
+	  $echo "$modename: \`$vinfo' is not valid version information" 1>&2
 	  exit $EXIT_FAILURE
 	fi
 
@@ -3341,7 +3382,8 @@ EOF
 	  versuffix="$major.$age.$revision"
 	  # Darwin ld doesn't like 0 for these options...
 	  minor_current=`expr $current + 1`
-	  verstring="${wl}-compatibility_version ${wl}$minor_current ${wl}-current_version ${wl}$minor_current.$revision"
+	  xlcverstring="${wl}-compatibility_version ${wl}$minor_current ${wl}-current_version ${wl}$minor_current.$revision"
+	  verstring="-compatibility_version $minor_current -current_version $minor_current.$revision"
 	  ;;
 
 	freebsd-aout)
@@ -3355,11 +3397,14 @@ EOF
 	  ;;
 
 	irix | nonstopux)
-	  major=`expr $current - $age + 1`
-
+	  if test "X$lt_irix_increment" = "Xno"; then
+	    major=`expr $current - $age`
+	  else
+	    major=`expr $current - $age + 1`
+	  fi
 	  case $version_type in
-	    nonstopux)	verstring_prefix=nonstopux ;;
-	    *)		verstring_prefix=sgi ;;
+	    nonstopux) verstring_prefix=nonstopux ;;
+	    *)         verstring_prefix=sgi ;;
 	  esac
 	  verstring="$verstring_prefix$major.$revision"
 
@@ -3371,7 +3416,7 @@ EOF
 	    verstring="$verstring_prefix$major.$iface:$verstring"
 	  done
 
-	  # Before this point, $major must not contain '.'.
+	  # Before this point, $major must not contain `.'.
 	  major=.$major
 	  versuffix="$major.$revision"
 	  ;;
@@ -3414,7 +3459,7 @@ EOF
 	  ;;
 
 	*)
-	  $echo "$modename: unknown library version type '$version_type'" 1>&2
+	  $echo "$modename: unknown library version type \`$version_type'" 1>&2
 	  $echo "Fatal configuration error.  See the $PACKAGE docs for more information." 1>&2
 	  exit $EXIT_FAILURE
 	  ;;
@@ -3469,11 +3514,11 @@ EOF
 	for p in $tempremovelist; do
 	  case $p in
 	    *.$objext)
-	      ;;
+	       ;;
 	    $output_objdir/$outputname | $output_objdir/$libname.* | $output_objdir/${libname}${release}.*)
 	       if test "X$precious_files_regex" != "X"; then
-		 if echo $p | $EGREP -e "$precious_files_regex" >/dev/null 2>&1
-		 then
+	         if echo $p | $EGREP -e "$precious_files_regex" >/dev/null 2>&1
+	         then
 		   continue
 		 fi
 	       fi
@@ -3551,7 +3596,8 @@ EOF
 	  *-*-netbsd*)
 	    # Don't link with libc until the a.out ld.so is fixed.
 	    ;;
-	  *-*-dragonfly* | *-*-freebsd* | *-*-mirbsd* | *-*-openbsd*)
+	  *-*-dragonfly* | *-*-freebsd* | *-*-midnightbsd* | \
+	  *-*-mirbsd* | *-*-openbsd*)
 	    # Do not include libc due to us having libc/libc_r.
 	    ;;
 	  *-*-sco3.2v5* | *-*-sco5v6*)
@@ -3560,7 +3606,7 @@ EOF
 	  *-*-sysv4.2uw2* | *-*-sysv5* | *-*-unixware* | *-*-OpenUNIX*)
 	    # Compiler inserts libc in the correct place for threads to work
 	    ;;
-	  *)
+ 	  *)
 	    # Add libc to deplibs on all other systems if necessary.
 	    if test "$build_libtool_need_lc" = "yes"; then
 	      deplibs="$deplibs -lc"
@@ -3615,7 +3661,7 @@ EOF
 		    i=""
 		    ;;
 		  esac
-		fi
+	        fi
 		if test -n "$i" ; then
 		  libname=`eval \\$echo \"$libname_spec\"`
 		  deplib_matches=`eval \\$echo \"$library_names_spec\"`
@@ -3644,7 +3690,7 @@ EOF
 	    for i in $deplibs; do
 	      name=`expr $i : '-l\(.*\)'`
 	      # If $name is empty we are operating on a -L argument.
-	      if test "$name" != "" && test "$name" != "0"; then
+              if test "$name" != "" && test "$name" != "0"; then
 		$rm conftest
 		if $LTCC $LTCFLAGS -o conftest conftest.c $i; then
 		  ldd_output=`ldd conftest`
@@ -3694,7 +3740,7 @@ EOF
 	  for a_deplib in $deplibs; do
 	    name=`expr $a_deplib : '-l\(.*\)'`
 	    # If $name is empty we are operating on a -L argument.
-	    if test "$name" != "" && test  "$name" != "0"; then
+            if test "$name" != "" && test  "$name" != "0"; then
 	      if test "X$allow_libtool_libs_with_static_runtimes" = "Xyes" ; then
 		case " $predeps $postdeps " in
 		*" $a_deplib "*)
@@ -3779,8 +3825,8 @@ EOF
 		  for potent_lib in $potential_libs; do
 		    potlib="$potent_lib" # see symlink-check above in file_magic test
 		    if eval $echo \"$potent_lib\" 2>/dev/null \
-			| ${SED} 10q \
-			| $EGREP "$match_pattern_regex" > /dev/null; then
+		        | ${SED} 10q \
+		        | $EGREP "$match_pattern_regex" > /dev/null; then
 		      newdeplibs="$newdeplibs $a_deplib"
 		      a_deplib=""
 		      break 2
@@ -3855,9 +3901,9 @@ EOF
 	    if test -z "$global_symbol_pipe"; then
 	      $echo
 	      $echo "*** However, this would only work if libtool was able to extract symbol"
-	      $echo "*** lists from a program, using 'nm' or equivalent, but libtool could"
+	      $echo "*** lists from a program, using \`nm' or equivalent, but libtool could"
 	      $echo "*** not find such a program.  So, this module is probably useless."
-	      $echo "*** 'nm' from GNU binutils and a full rebuild may help."
+	      $echo "*** \`nm' from GNU binutils and a full rebuild may help."
 	    fi
 	    if test "$build_old_libs" = no; then
 	      oldlibs="$output_objdir/$libname.$libext"
@@ -3964,7 +4010,10 @@ EOF
 	     test -n "$hardcode_libdirs"; then
 	    libdir="$hardcode_libdirs"
 	    if test -n "$hardcode_libdir_flag_spec_ld"; then
-	      eval dep_rpath=\"$hardcode_libdir_flag_spec_ld\"
+	      case $archive_cmds in
+	      *\$LD*) eval dep_rpath=\"$hardcode_libdir_flag_spec_ld\" ;;
+	      *)      eval dep_rpath=\"$hardcode_libdir_flag_spec\" ;;
+	      esac
 	    else
 	      eval dep_rpath=\"$hardcode_libdir_flag_spec\"
 	    fi
@@ -4015,7 +4064,7 @@ EOF
 	# Prepare the list of exported symbols
 	if test -z "$export_symbols"; then
 	  if test "$always_export_symbols" = yes || test -n "$export_symbols_regex"; then
-	    $show "generating symbol list for '$libname.la'"
+	    $show "generating symbol list for \`$libname.la'"
 	    export_symbols="$output_objdir/$libname.exp"
 	    $run $rm $export_symbols
 	    cmds=$export_symbols_cmds
@@ -4025,9 +4074,9 @@ EOF
 	      eval cmd=\"$cmd\"
 	      if len=`expr "X$cmd" : ".*"` &&
 	       test "$len" -le "$max_cmd_len" || test "$max_cmd_len" -le -1; then
-		$show "$cmd"
-		$run eval "$cmd" || exit $?
-		skipped_export=false
+	        $show "$cmd"
+	        $run eval "$cmd" || exit $?
+	        skipped_export=false
 	      else
 	        # The command line is too long to execute in one step.
 	        $show "using reloadable object file for export list..."
@@ -4074,7 +4123,7 @@ EOF
 	    libobjs="$libobjs $func_extract_archives_result"
 	  fi
 	fi
-
+	
 	if test "$thread_safe" = yes && test -n "$thread_safe_flag_spec"; then
 	  eval flag=\"$thread_safe_flag_spec\"
 	  linker_flags="$linker_flags $flag"
@@ -4168,13 +4217,13 @@ EOF
 	  eval concat_cmds=\"\${concat_cmds}$reload_cmds $objlist $last_robj\"
 
 	  if ${skipped_export-false}; then
-	    $show "generating symbol list for '$libname.la'"
+	    $show "generating symbol list for \`$libname.la'"
 	    export_symbols="$output_objdir/$libname.exp"
 	    $run $rm $export_symbols
 	    libobjs=$output
 	    # Append the command to create the export file.
 	    eval concat_cmds=\"\$concat_cmds~$export_symbols_cmds\"
-	  fi
+          fi
 
 	  # Set up a command to remove the reloadable object files
 	  # after they are used.
@@ -4274,34 +4323,35 @@ EOF
       ;;
 
     obj)
-      if test -n "$deplibs"; then
-	$echo "$modename: warning: '-l' and '-L' are ignored for objects" 1>&2
-      fi
+      case " $deplibs" in
+      *\ -l* | *\ -L*)
+	$echo "$modename: warning: \`-l' and \`-L' are ignored for objects" 1>&2 ;;
+      esac
 
       if test -n "$dlfiles$dlprefiles" || test "$dlself" != no; then
-	$echo "$modename: warning: '-dlopen' is ignored for objects" 1>&2
+	$echo "$modename: warning: \`-dlopen' is ignored for objects" 1>&2
       fi
 
       if test -n "$rpath"; then
-	$echo "$modename: warning: '-rpath' is ignored for objects" 1>&2
+	$echo "$modename: warning: \`-rpath' is ignored for objects" 1>&2
       fi
 
       if test -n "$xrpath"; then
-	$echo "$modename: warning: '-R' is ignored for objects" 1>&2
+	$echo "$modename: warning: \`-R' is ignored for objects" 1>&2
       fi
 
       if test -n "$vinfo"; then
-	$echo "$modename: warning: '-version-info' is ignored for objects" 1>&2
+	$echo "$modename: warning: \`-version-info' is ignored for objects" 1>&2
       fi
 
       if test -n "$release"; then
-	$echo "$modename: warning: '-release' is ignored for objects" 1>&2
+	$echo "$modename: warning: \`-release' is ignored for objects" 1>&2
       fi
 
       case $output in
       *.lo)
 	if test -n "$objs$old_deplibs"; then
-	  $echo "$modename: cannot build library object '$output' from non-libtool objects" 1>&2
+	  $echo "$modename: cannot build library object \`$output' from non-libtool objects" 1>&2
 	  exit $EXIT_FAILURE
 	fi
 	libobj="$output"
@@ -4405,17 +4455,17 @@ EOF
 	*cygwin*) output=`$echo $output | ${SED} -e 's,.exe$,,;s,$,.exe,'` ;;
       esac
       if test -n "$vinfo"; then
-	$echo "$modename: warning: '-version-info' is ignored for programs" 1>&2
+	$echo "$modename: warning: \`-version-info' is ignored for programs" 1>&2
       fi
 
       if test -n "$release"; then
-	$echo "$modename: warning: '-release' is ignored for programs" 1>&2
+	$echo "$modename: warning: \`-release' is ignored for programs" 1>&2
       fi
 
       if test "$preload" = yes; then
 	if test "$dlopen_support" = unknown && test "$dlopen_self" = unknown &&
 	   test "$dlopen_self_static" = unknown; then
-	  $echo "$modename: warning: 'AC_LIBTOOL_DLOPEN' not used. Assuming no dlopen support."
+	  $echo "$modename: warning: \`AC_LIBTOOL_DLOPEN' not used. Assuming no dlopen support."
 	fi
       fi
 
@@ -4429,12 +4479,12 @@ EOF
 
       case $host in
       *darwin*)
-	# Don't allow lazy linking, it breaks C++ global constructors
-	if test "$tagname" = CXX ; then
-	compile_command="$compile_command ${wl}-bind_at_load"
-	finalize_command="$finalize_command ${wl}-bind_at_load"
-	fi
-	;;
+        # Don't allow lazy linking, it breaks C++ global constructors
+        if test "$tagname" = CXX ; then
+        compile_command="$compile_command ${wl}-bind_at_load"
+        finalize_command="$finalize_command ${wl}-bind_at_load"
+        fi
+        ;;
       esac
 
 
@@ -4595,7 +4645,7 @@ EOF
 	  $show "creating $output_objdir/$dlsyms"
 
 	  test -z "$run" && $echo > "$output_objdir/$dlsyms" "\
-/* $dlsyms - symbol resolution table for '$outputname' dlsym emulation. */
+/* $dlsyms - symbol resolution table for \`$outputname' dlsym emulation. */
 /* Generated by $PROGRAM - GNU $PACKAGE $VERSION$TIMESTAMP */
 
 #ifdef __cplusplus
@@ -4609,14 +4659,14 @@ extern \"C\" {
 "
 
 	  if test "$dlself" = yes; then
-	    $show "generating symbol list for '$output'"
+	    $show "generating symbol list for \`$output'"
 
 	    test -z "$run" && $echo ': @PROGRAM@ ' > "$nlist"
 
 	    # Add our own program objects to the symbol list.
 	    progfiles=`$echo "X$objs$old_deplibs" | $SP2NL | $Xsed -e "$lo2o" | $NL2SP`
 	    for arg in $progfiles; do
-	      $show "extracting global C symbols from '$arg'"
+	      $show "extracting global C symbols from \`$arg'"
 	      $run eval "$NM $arg | $global_symbol_pipe >> '$nlist'"
 	    done
 
@@ -4655,7 +4705,7 @@ extern \"C\" {
 	  fi
 
 	  for arg in $dlprefiles; do
-	    $show "extracting global C symbols from '$arg'"
+	    $show "extracting global C symbols from \`$arg'"
 	    name=`$echo "$arg" | ${SED} -e 's%^.*/%%'`
 	    $run eval '$echo ": $name " >> "$nlist"'
 	    $run eval "$NM $arg | $global_symbol_pipe >> '$nlist'"
@@ -4792,7 +4842,7 @@ static const void *lt_preloaded_setup() {
           esac
 	  ;;
 	*)
-	  $echo "$modename: unknown suffix for '$dlsyms'" 1>&2
+	  $echo "$modename: unknown suffix for \`$dlsyms'" 1>&2
 	  exit $EXIT_FAILURE
 	  ;;
 	esac
@@ -4890,7 +4940,7 @@ static const void *lt_preloaded_setup() {
 	relink_command="$finalize_var$finalize_command$finalize_rpath"
 
 	$echo "$modename: warning: this platform does not like uninstalled shared libraries" 1>&2
-	$echo "$modename: '$output' will be relinked during installation" 1>&2
+	$echo "$modename: \`$output' will be relinked during installation" 1>&2
       else
 	if test "$fast_install" != no; then
 	  link_command="$finalize_var$compile_command$finalize_rpath"
@@ -5024,7 +5074,7 @@ EOF
 # define IS_DIR_SEPARATOR(ch) ((ch) == DIR_SEPARATOR)
 #else /* DIR_SEPARATOR_2 */
 # define IS_DIR_SEPARATOR(ch) \
-	(((ch) == DIR_SEPARATOR) || ((ch) == DIR_SEPARATOR_2))
+        (((ch) == DIR_SEPARATOR) || ((ch) == DIR_SEPARATOR_2))
 #endif /* DIR_SEPARATOR_2 */
 
 #ifndef PATH_SEPARATOR_2
@@ -5292,7 +5342,7 @@ strendzap(char *str, const char *pat)
 
 static void
 lt_error_core (int exit_status, const char * mode,
-	  const char * message, va_list ap)
+          const char * message, va_list ap)
 {
   fprintf (stderr, "%s: %s: ", program_name, mode);
   vfprintf (stderr, message, ap);
@@ -5500,7 +5550,7 @@ else
     fi
   else
     # The program doesn't exist.
-    \$echo \"\$0: error: '\$progdir/\$program' does not exist\" 1>&2
+    \$echo \"\$0: error: \\\`\$progdir/\$program' does not exist\" 1>&2
     \$echo \"This script is just a wrapper for \$program.\" 1>&2
     $echo \"See the $PACKAGE documentation for more information.\" 1>&2
     exit $EXIT_FAILURE
@@ -5540,7 +5590,7 @@ fi\
 
       # Do each command in the archive commands.
       if test -n "$old_archive_from_new_cmds" && test "$build_libtool_libs" = yes; then
-	cmds=$old_archive_from_new_cmds
+       cmds=$old_archive_from_new_cmds
       else
 	# POSIX demands no paths to be encoded in archives.  We have
 	# to avoid creating archives with duplicate basenames if we
@@ -5630,7 +5680,7 @@ fi\
 	      # the above command should be used before it gets too long
 	      oldobjs=$objlist
 	      if test "$obj" = "$last_oldobj" ; then
-		RANLIB=$save_RANLIB
+	        RANLIB=$save_RANLIB
 	      fi
 	      test -z "$concat_cmds" || concat_cmds=$concat_cmds~
 	      eval concat_cmds=\"\${concat_cmds}$old_archive_cmds\"
@@ -5648,7 +5698,7 @@ fi\
       fi
       save_ifs="$IFS"; IFS='~'
       for cmd in $cmds; do
-	eval cmd=\"$cmd\"
+        eval cmd=\"$cmd\"
 	IFS="$save_ifs"
 	$show "$cmd"
 	$run eval "$cmd" || exit $?
@@ -5703,7 +5753,7 @@ fi\
 		name=`$echo "X$deplib" | $Xsed -e 's%^.*/%%'`
 		eval libdir=`${SED} -n -e 's/^libdir=\(.*\)$/\1/p' $deplib`
 		if test -z "$libdir"; then
-		  $echo "$modename: '$deplib' is not a valid libtool archive" 1>&2
+		  $echo "$modename: \`$deplib' is not a valid libtool archive" 1>&2
 		  exit $EXIT_FAILURE
 		fi
 		newdependency_libs="$newdependency_libs $libdir/$name"
@@ -5717,7 +5767,7 @@ fi\
 	      name=`$echo "X$lib" | $Xsed -e 's%^.*/%%'`
 	      eval libdir=`${SED} -n -e 's/^libdir=\(.*\)$/\1/p' $lib`
 	      if test -z "$libdir"; then
-		$echo "$modename: '$lib' is not a valid libtool archive" 1>&2
+		$echo "$modename: \`$lib' is not a valid libtool archive" 1>&2
 		exit $EXIT_FAILURE
 	      fi
 	      newdlfiles="$newdlfiles $libdir/$name"
@@ -5728,7 +5778,7 @@ fi\
 	      name=`$echo "X$lib" | $Xsed -e 's%^.*/%%'`
 	      eval libdir=`${SED} -n -e 's/^libdir=\(.*\)$/\1/p' $lib`
 	      if test -z "$libdir"; then
-		$echo "$modename: '$lib' is not a valid libtool archive" 1>&2
+		$echo "$modename: \`$lib' is not a valid libtool archive" 1>&2
 		exit $EXIT_FAILURE
 	      fi
 	      newdlprefiles="$newdlprefiles $libdir/$name"
@@ -5864,7 +5914,7 @@ relink_command=\"$relink_command\""
 
       case $arg in
       -d) isdir=yes ;;
-      -f)
+      -f) 
       	case " $install_prog " in
 	*[\\\ /]cp\ *) ;;
 	*) prev=$arg ;;
@@ -5905,7 +5955,7 @@ relink_command=\"$relink_command\""
     fi
 
     if test -n "$prev"; then
-      $echo "$modename: the '$prev' option requires an argument" 1>&2
+      $echo "$modename: the \`$prev' option requires an argument" 1>&2
       $echo "$help" 1>&2
       exit $EXIT_FAILURE
     fi
@@ -5936,7 +5986,7 @@ relink_command=\"$relink_command\""
       # Not a directory, so check to see that there is only one file specified.
       set dummy $files
       if test "$#" -gt 2; then
-	$echo "$modename: '$dest' is not a directory" 1>&2
+	$echo "$modename: \`$dest' is not a directory" 1>&2
 	$echo "$help" 1>&2
 	exit $EXIT_FAILURE
       fi
@@ -5948,7 +5998,7 @@ relink_command=\"$relink_command\""
 	case $file in
 	*.lo) ;;
 	*)
-	  $echo "$modename: '$destdir' must be an absolute directory name" 1>&2
+	  $echo "$modename: \`$destdir' must be an absolute directory name" 1>&2
 	  $echo "$help" 1>&2
 	  exit $EXIT_FAILURE
 	  ;;
@@ -5977,7 +6027,7 @@ relink_command=\"$relink_command\""
 	# Check to see that this really is a libtool archive.
 	if (${SED} -e '2q' $file | grep "^# Generated by .*$PACKAGE") >/dev/null 2>&1; then :
 	else
-	  $echo "$modename: '$file' is not a valid libtool archive" 1>&2
+	  $echo "$modename: \`$file' is not a valid libtool archive" 1>&2
 	  $echo "$help" 1>&2
 	  exit $EXIT_FAILURE
 	fi
@@ -6020,7 +6070,7 @@ relink_command=\"$relink_command\""
 	  # are installed into $libdir/../bin (currently, that works fine)
 	  # but it's something to keep an eye on.
 	  if test "$inst_prefix_dir" = "$destdir"; then
-	    $echo "$modename: error: cannot install '$file' to a directory not ending in $libdir" 1>&2
+	    $echo "$modename: error: cannot install \`$file' to a directory not ending in $libdir" 1>&2
 	    exit $EXIT_FAILURE
 	  fi
 
@@ -6031,11 +6081,11 @@ relink_command=\"$relink_command\""
 	    relink_command=`$echo "$relink_command" | $SP2NL | $SED "s%@inst_prefix_dir@%%" | $NL2SP`
 	  fi
 
-	  $echo "$modename: warning: relinking '$file'" 1>&2
+	  $echo "$modename: warning: relinking \`$file'" 1>&2
 	  $show "$relink_command"
 	  if $run eval "$relink_command"; then :
 	  else
-	    $echo "$modename: error: relink '$file' with the above command before installing it" 1>&2
+	    $echo "$modename: error: relink \`$file' with the above command before installing it" 1>&2
 	    exit $EXIT_FAILURE
 	  fi
 	fi
@@ -6060,7 +6110,7 @@ relink_command=\"$relink_command\""
 
 	  if test "$#" -gt 0; then
 	    # Delete the old symlinks, and create new ones.
-	    # Try 'ln -sf' first, because the 'ln' binary might depend on
+	    # Try `ln -sf' first, because the `ln' binary might depend on
 	    # the symlink we replace!  Solaris /bin/ln does not understand -f,
 	    # so we also need to try rm && ln -s.
 	    for linkname
@@ -6125,7 +6175,7 @@ relink_command=\"$relink_command\""
 	  destfile=
 	  ;;
 	*)
-	  $echo "$modename: cannot copy a libtool object to '$destfile'" 1>&2
+	  $echo "$modename: cannot copy a libtool object to \`$destfile'" 1>&2
 	  $echo "$help" 1>&2
 	  exit $EXIT_FAILURE
 	  ;;
@@ -6196,7 +6246,7 @@ relink_command=\"$relink_command\""
 
 	  # Check the variables that should have been set.
 	  if test -z "$notinst_deplibs"; then
-	    $echo "$modename: invalid libtool wrapper script '$wrapper'" 1>&2
+	    $echo "$modename: invalid libtool wrapper script \`$wrapper'" 1>&2
 	    exit $EXIT_FAILURE
 	  fi
 
@@ -6213,7 +6263,7 @@ relink_command=\"$relink_command\""
 	    fi
 	    libfile="$libdir/"`$echo "X$lib" | $Xsed -e 's%^.*/%%g'` ### testsuite: skip nested quoting test
 	    if test -n "$libdir" && test ! -f "$libfile"; then
-	      $echo "$modename: warning: '$lib' has not been installed in '$libdir'" 1>&2
+	      $echo "$modename: warning: \`$lib' has not been installed in \`$libdir'" 1>&2
 	      finalize=no
 	    fi
 	  done
@@ -6242,13 +6292,13 @@ relink_command=\"$relink_command\""
 	      $show "$relink_command"
 	      if $run eval "$relink_command"; then :
 	      else
-		$echo "$modename: error: relink '$file' with the above command before installing it" 1>&2
+		$echo "$modename: error: relink \`$file' with the above command before installing it" 1>&2
 		${rm}r "$tmpdir"
 		continue
 	      fi
 	      file="$outputname"
 	    else
-	      $echo "$modename: warning: cannot relink '$file'" 1>&2
+	      $echo "$modename: warning: cannot relink \`$file'" 1>&2
 	    fi
 	  else
 	    # Install the binary that we compiled earlier.
@@ -6257,7 +6307,7 @@ relink_command=\"$relink_command\""
 	fi
 
 	# remove .exe since cygwin /usr/bin/install will append another
-	# one anyway
+	# one anyway 
 	case $install_prog,$host in
 	*/usr/bin/install*,*cygwin*)
 	  case $file:$destfile in
@@ -6307,7 +6357,7 @@ relink_command=\"$relink_command\""
     done
 
     if test -n "$future_libdirs"; then
-      $echo "$modename: warning: remember to run '$progname --finish$future_libdirs'" 1>&2
+      $echo "$modename: warning: remember to run \`$progname --finish$future_libdirs'" 1>&2
     fi
 
     if test -n "$current_libdirs"; then
@@ -6372,7 +6422,7 @@ relink_command=\"$relink_command\""
     # Handle -dlopen flags immediately.
     for file in $execute_dlfiles; do
       if test ! -f "$file"; then
-	$echo "$modename: '$file' is not a file" 1>&2
+	$echo "$modename: \`$file' is not a file" 1>&2
 	$echo "$help" 1>&2
 	exit $EXIT_FAILURE
       fi
@@ -6383,7 +6433,7 @@ relink_command=\"$relink_command\""
 	# Check to see that this really is a libtool archive.
 	if (${SED} -e '2q' $file | grep "^# Generated by .*$PACKAGE") >/dev/null 2>&1; then :
 	else
-	  $echo "$modename: '$lib' is not a valid libtool archive" 1>&2
+	  $echo "$modename: \`$lib' is not a valid libtool archive" 1>&2
 	  $echo "$help" 1>&2
 	  exit $EXIT_FAILURE
 	fi
@@ -6401,7 +6451,7 @@ relink_command=\"$relink_command\""
 	# Skip this library if it cannot be dlopened.
 	if test -z "$dlname"; then
 	  # Warn if it was a shared library.
-	  test -n "$library_names" && $echo "$modename: warning: '$file' was not linked with '-export-dynamic'"
+	  test -n "$library_names" && $echo "$modename: warning: \`$file' was not linked with \`-export-dynamic'"
 	  continue
 	fi
 
@@ -6411,8 +6461,10 @@ relink_command=\"$relink_command\""
 	if test -f "$dir/$objdir/$dlname"; then
 	  dir="$dir/$objdir"
 	else
-	  $echo "$modename: cannot find '$dlname' in '$dir' or '$dir/$objdir'" 1>&2
-	  exit $EXIT_FAILURE
+	  if test ! -f "$dir/$dlname"; then
+	    $echo "$modename: cannot find \`$dlname' in \`$dir' or \`$dir/$objdir'" 1>&2
+	    exit $EXIT_FAILURE
+	  fi
 	fi
 	;;
 
@@ -6423,7 +6475,7 @@ relink_command=\"$relink_command\""
 	;;
 
       *)
-	$echo "$modename: warning '-dlopen' is ignored for non-libtool libraries and objects" 1>&2
+	$echo "$modename: warning \`-dlopen' is ignored for non-libtool libraries and objects" 1>&2
 	continue
 	;;
       esac
@@ -6476,12 +6528,10 @@ relink_command=\"$relink_command\""
       fi
 
       # Restore saved environment variables
-      for lt_var in LANG LC_ALL LC_CTYPE LC_COLLATE LC_MESSAGES
+      for lt_var in LANG LANGUAGE LC_ALL LC_CTYPE LC_COLLATE LC_MESSAGES
       do
 	eval "if test \"\${save_$lt_var+set}\" = set; then
 		$lt_var=\$save_$lt_var; export $lt_var
-	      else
-		$lt_unset $lt_var
 	      fi"
       done
 
@@ -6695,7 +6745,7 @@ relink_command=\"$relink_command\""
   esac
 
   if test -z "$exec_cmd"; then
-    $echo "$modename: invalid operation mode '$mode'" 1>&2
+    $echo "$modename: invalid operation mode \`$mode'" 1>&2
     $echo "$generic_help" 1>&2
     exit $EXIT_FAILURE
   fi
@@ -6717,10 +6767,10 @@ Provide generalized library-building support services.
     --debug           enable verbose shell tracing
 -n, --dry-run         display commands without modifying any files
     --features        display basic configuration information and exit
-    --finish          same as '--mode=finish'
+    --finish          same as \`--mode=finish'
     --help            display this help message and exit
     --mode=MODE       use operation mode MODE [default=inferred from MODE-ARGS]
-    --quiet           same as '--silent'
+    --quiet           same as \`--silent'
     --silent          don't print informational messages
     --tag=TAG         use configuration variables from tag TAG
     --version         print version information
@@ -6735,7 +6785,7 @@ MODE must be one of the following:
       link            create a library or an executable
       uninstall       remove libraries from an installed directory
 
-MODE-ARGS vary depending on the MODE.  Try '$modename --help --mode=MODE' for
+MODE-ARGS vary depending on the MODE.  Try \`$modename --help --mode=MODE' for
 a more detailed description of MODE.
 
 Report bugs to <bug-libtool@gnu.org>."
@@ -6749,7 +6799,7 @@ clean)
 Remove files from the build directory.
 
 RM is the name of the program to use to delete files associated with each FILE
-(typically '/bin/rm').  RM-OPTIONS are options (such as '-f') to be passed
+(typically \`/bin/rm').  RM-OPTIONS are options (such as \`-f') to be passed
 to RM.
 
 If FILE is a libtool library, object or program, all the files associated
@@ -6767,14 +6817,14 @@ This mode accepts the following additional options:
   -o OUTPUT-FILE    set the output file name to OUTPUT-FILE
   -prefer-pic       try to building PIC objects only
   -prefer-non-pic   try to building non-PIC objects only
-  -static           always build a '.o' file suitable for static linking
+  -static           always build a \`.o' file suitable for static linking
 
-COMPILE-COMMAND is a command to be used in creating a 'standard' object file
+COMPILE-COMMAND is a command to be used in creating a \`standard' object file
 from the given SOURCEFILE.
 
 The output file name is determined by removing the directory component from
-SOURCEFILE, then substituting the C source code suffix '.c' with the
-library object suffix, '.lo'."
+SOURCEFILE, then substituting the C source code suffix \`.c' with the
+library object suffix, \`.lo'."
   ;;
 
 execute)
@@ -6787,7 +6837,7 @@ This mode accepts the following additional options:
 
   -dlopen FILE      add the directory containing FILE to the library path
 
-This mode sets the library path environment variable according to '-dlopen'
+This mode sets the library path environment variable according to \`-dlopen'
 flags.
 
 If any of the ARGS are libtool executable wrappers, then they are translated
@@ -6806,7 +6856,7 @@ Complete the installation of libtool libraries.
 Each LIBDIR is a directory that contains libtool libraries.
 
 The commands that this mode executes may require superuser privileges.  Use
-the '--dry-run' option if you just want to see what would be executed."
+the \`--dry-run' option if you just want to see what would be executed."
   ;;
 
 install)
@@ -6816,7 +6866,7 @@ install)
 Install executables or libraries.
 
 INSTALL-COMMAND is the installation command.  The first component should be
-either the 'install' or 'cp' program.
+either the \`install' or \`cp' program.
 
 The rest of the components are interpreted as arguments to that command (only
 BSD-compatible install options are recognized)."
@@ -6836,7 +6886,7 @@ The following components of LINK-COMMAND are treated specially:
 
   -all-static       do not do any dynamic linking at all
   -avoid-version    do not add a version suffix if possible
-  -dlopen FILE      '-dlpreopen' FILE if it cannot be dlopened at runtime
+  -dlopen FILE      \`-dlpreopen' FILE if it cannot be dlopened at runtime
   -dlpreopen FILE   link in FILE and add its symbols to lt_preloaded_symbols
   -export-dynamic   allow symbols from OUTPUT-FILE to be resolved with dlsym(3)
   -export-symbols SYMFILE
@@ -6852,7 +6902,7 @@ The following components of LINK-COMMAND are treated specially:
   -o OUTPUT-FILE    create OUTPUT-FILE from the specified objects
   -objectlist FILE  Use a list of object files found in FILE to specify objects
   -precious-files-regex REGEX
-		    don't remove output files matching REGEX
+                    don't remove output files matching REGEX
   -release RELEASE  specify package release information
   -rpath LIBDIR     the created library will eventually be installed in LIBDIR
   -R[ ]LIBDIR       add LIBDIR to the runtime path of programs and libraries
@@ -6862,20 +6912,20 @@ The following components of LINK-COMMAND are treated specially:
   -version-info CURRENT[:REVISION[:AGE]]
                     specify library version info [each variable defaults to 0]
 
-All other options (arguments beginning with '-') are ignored.
+All other options (arguments beginning with \`-') are ignored.
 
-Every other argument is treated as a filename.  Files ending in '.la' are
+Every other argument is treated as a filename.  Files ending in \`.la' are
 treated as uninstalled libtool libraries, other files are standard or library
 object files.
 
-If the OUTPUT-FILE ends in '.la', then a libtool library is created,
-only library objects ('.lo' files) may be specified, and '-rpath' is
+If the OUTPUT-FILE ends in \`.la', then a libtool library is created,
+only library objects (\`.lo' files) may be specified, and \`-rpath' is
 required, except when creating a convenience library.
 
-If OUTPUT-FILE ends in '.a' or '.lib', then a standard library is created
-using 'ar' and 'ranlib', or on Windows using 'lib'.
+If OUTPUT-FILE ends in \`.a' or \`.lib', then a standard library is created
+using \`ar' and \`ranlib', or on Windows using \`lib'.
 
-If OUTPUT-FILE ends in '.lo' or '.${objext}', then a reloadable object file
+If OUTPUT-FILE ends in \`.lo' or \`.${objext}', then a reloadable object file
 is created, otherwise an executable program is created."
   ;;
 
@@ -6886,7 +6936,7 @@ uninstall)
 Remove libraries from an installation directory.
 
 RM is the name of the program to use to delete files associated with each FILE
-(typically '/bin/rm').  RM-OPTIONS are options (such as '-f') to be passed
+(typically \`/bin/rm').  RM-OPTIONS are options (such as \`-f') to be passed
 to RM.
 
 If FILE is a libtool library, all the files associated with it are deleted.
@@ -6894,14 +6944,14 @@ Otherwise, only FILE itself is deleted using RM."
   ;;
 
 *)
-  $echo "$modename: invalid operation mode '$mode'" 1>&2
+  $echo "$modename: invalid operation mode \`$mode'" 1>&2
   $echo "$help" 1>&2
   exit $EXIT_FAILURE
   ;;
 esac
 
 $echo
-$echo "Try '$modename --help' for more information about other modes."
+$echo "Try \`$modename --help' for more information about other modes."
 
 exit $?
 

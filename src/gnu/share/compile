@@ -1,6 +1,7 @@
 #! /bin/sh
-# $MirOS: contrib/gnu/automake/lib/compile,v 1.3 2005/03/13 16:35:24 tg Exp $
-# _MirOS: contrib/gnu/automake/lib/compile,v 1.3 2005/03/13 16:35:24 tg Exp $
+# $MirOS: contrib/gnu/automake/lib/compile,v 1.4 2008/05/02 23:31:52 tg Exp $
+# $miros: contrib/gnu/automake/lib/compile,v 1.4 2008/05/02 23:31:52 tg Exp $
+#-
 # Wrapper for compilers which do not understand `-c -o'.
 
 scriptversion=2005-02-03.08
