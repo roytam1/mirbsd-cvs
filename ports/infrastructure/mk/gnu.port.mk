@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/gnu.port.mk,v 1.50 2008/11/01 19:57:15 tg Exp $
+# $MirOS: ports/infrastructure/mk/gnu.port.mk,v 1.51 2008/11/01 19:59:02 tg Exp $
 # $OpenBSD: gnu.port.mk,v 1.19 2004/06/06 11:49:08 espie Exp $
 
 AUTOCONF_NEW?=		No
@@ -121,12 +121,13 @@ MODGNU_NUKES=		${MODGNU_COPIES} libtool ltconfig
 
 # 1. copy over MirGNUTOOLS into target directories, no matter what
 _MODGNU_loop=	rm -f ${MODGNU_NUKES}; ( cd ${PORTSDIR}/infrastructure/db/; \
-		install -c -m 555 ${MODGNU_COPIES} $$d/ ); F=configure.ac; \
-		test -e $$F || F=configure.in; test -e $$F && ACAUX=$$(grep -a \
+		${INSTALL} -c -m 555 ${MODGNU_COPIES} $$d/ ); F=configure.ac; \
+		test -e $$F || F=configure.in; [ -e $$F ] && ACAUX=$$(grep -a \
 		^AC_CONFIG_AUX_DIR\( $$F | sed -e 's/AC_CONFIG_AUX_DIR(\[*//' \
-		-e 's/\]*).*$$//'); test -z "$$ACAUX" && ACAUX=.; if [ . != \
-		"$$ACAUX" ]; then ( cd $$ACAUX && rm -f ${MODGNU_NUKES} ); \
-		install -c -m 555 ${MODGNU_COPIES} $$ACAUX/; fi; export ACAUX;
+		-e 's/\]*).*$$//'); [[ -n $$ACAUX && -d $$ACAUX/. ]] || \
+		ACAUX=.; if [[ . != $$ACAUX ]]; then ( cd $$ACAUX && rm -f \
+		${MODGNU_NUKES} || :); ${INSTALL} -c -m 555 ${MODGNU_COPIES} \
+		$$ACAUX/; fi; export ACAUX;
 
 # 2. update Libtool to MirLibtool
 .if ${MODGNU_MIRLIBTOOL:L} != "no"
