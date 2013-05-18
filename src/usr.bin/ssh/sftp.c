@@ -1,4 +1,4 @@
-/* $OpenBSD: sftp.c,v 1.91 2006/08/03 03:34:42 deraadt Exp $ */
+/* $OpenBSD: sftp.c,v 1.93 2006/09/30 17:48:22 ray Exp $ */
 /*
  * Copyright (c) 2001-2004 Damien Miller <djm@openbsd.org>
  *
@@ -42,7 +42,7 @@
 #include "sftp-common.h"
 #include "sftp-client.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/ssh/sftp.c,v 1.12 2006/09/20 21:41:04 tg Exp $");
 
 /* File to read commands from */
 FILE* infile;
@@ -482,7 +482,7 @@ is_dir(char *path)
 	if (stat(path, &sb) == -1)
 		return(0);
 
-	return(sb.st_mode & S_IFDIR);
+	return(S_ISDIR(sb.st_mode));
 }
 
 static int
@@ -506,7 +506,7 @@ remote_is_dir(struct sftp_conn *conn, char *path)
 		return(0);
 	if (!(a->flags & SSH2_FILEXFER_ATTR_PERMISSIONS))
 		return(0);
-	return(a->perm & S_IFDIR);
+	return(S_ISDIR(a->perm));
 }
 
 static int
@@ -966,6 +966,7 @@ parse_args(const char **cpp, int *pflag, int *lflag, int *iflag,
 	case I_CHOWN:
 	case I_CHGRP:
 		/* Get numeric arg (mandatory) */
+		errno = 0;
 		l = strtol(cp, &cp2, base);
 		if (cp2 == cp || ((l == LONG_MIN || l == LONG_MAX) &&
 		    errno == ERANGE) || l < 0) {
