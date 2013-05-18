@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/lib/file.c,v 1.15 2008/10/12 15:35:22 tg Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/lib/file.c,v 1.16 2008/11/02 17:39:05 tg Exp $ */
 /* $OpenBSD: file.c,v 1.26 2003/08/21 20:24:57 espie Exp $	*/
 
 /*
@@ -33,7 +33,7 @@
 #include <libgen.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/file.c,v 1.15 2008/10/12 15:35:22 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/file.c,v 1.16 2008/11/02 17:39:05 tg Exp $");
 
 /* Try to find the log dir for an incomplete package specification.
  * Used in pkg_info and pkg_delete. Returns the number of matches,
@@ -433,7 +433,7 @@ fileGetURL(char *base, char *spec)
 			    decompressor = "gzip";
 		}
 		dup2(fileno(ftp), 0);
-		exit(vsystem("%s | tar -x%spf -", decompressor,
+		exit(asystem("%s | tar -x%spf -", decompressor,
 		    Verbose ? "v" : ""));
 	    }
 	    else {
@@ -624,7 +624,7 @@ copy_file(const char *dir, const char *fname, const char *to)
 	snprintf(cmd, sizeof(cmd), "cp -p -r %s %s", fname, to);
     else
 	snprintf(cmd, sizeof(cmd), "cp -p -r %s/%s %s", dir, fname, to);
-    if (vsystem("%s", cmd)) {
+    if (asystem("%s", cmd)) {
 	cleanup(0);
 	errx(2, "could not perform '%s'", cmd);
     }
@@ -639,13 +639,13 @@ move_file(const char *dir, const char *fname, char *to)
 	snprintf(cmd, sizeof(cmd), "mv -f %s %s", fname, to);
     else
 	snprintf(cmd, sizeof(cmd), "mv -f %s/%s %s", dir, fname, to);
-    if (vsystem("%s", cmd)) {
+    if (asystem("%s", cmd)) {
 	cleanup(0);
 	errx(2, "could not perform '%s'", cmd);
     }
 #ifdef AS_USER
     if (!geteuid())
-	vsystem("chown -f %s %s", getlogin(), to);
+	asystem("chown -f %s %s", getlogin(), to);
     /* no error handling, we don't care if chown fails */
 #endif
 }
@@ -707,8 +707,8 @@ unpack(char *pkg, const char *flist)
     if (!flist)
 	flist = "";
     if (decompressor ?
-      vsystem("%s -dc %s | tar %s - %s", decompressor, pkg, args, flist) :
-      vsystem("tar %s %s %s", args, pkg, flist)) {
+      asystem("%s -dc %s | tar %s - %s", decompressor, pkg, args, flist) :
+      asystem("tar %s %s %s", args, pkg, flist)) {
 	pwarnx("tar extract of %s failed!", pkg);
 	return 1;
     }

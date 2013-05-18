@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.21 2007/03/30 23:35:34 tg Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.22 2008/10/12 15:35:20 tg Exp $ */
 /* $OpenBSD: perform.c,v 1.32 2003/08/21 20:24:56 espie Exp $	*/
 
 /*
@@ -29,7 +29,7 @@
 #include <signal.h>
 #include <errno.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.21 2007/03/30 23:35:34 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.22 2008/10/12 15:35:20 tg Exp $");
 
 static int pkg_do(char *);
 static int sanity_check(char *);
@@ -340,10 +340,10 @@ pkg_do(char *pkg)
 
     /* Look for the requirements file */
     if (fexists(REQUIRE_FNAME)) {
-	vsystem("chmod +x %s", REQUIRE_FNAME);	/* be sure */
+	asystem("chmod +x %s", REQUIRE_FNAME);	/* be sure */
 	if (Verbose)
 	    printf("Running requirements file first for '%s'\n", PkgName);
-	if (!Fake && vsystem("./%s %s INSTALL", REQUIRE_FNAME, PkgName)) {
+	if (!Fake && asystem("./%s %s INSTALL", REQUIRE_FNAME, PkgName)) {
 	    pwarnx("package '%s' fails requirements %s", pkg_fullname,
 		   Force ? "installing anyway" : "- not installed");
 	    if (!Force) {
@@ -355,10 +355,10 @@ pkg_do(char *pkg)
 
     /* If we're really installing, and have an installation file, run it */
     if (!NoInstall && fexists(INSTALL_FNAME)) {
-	vsystem("chmod +x %s", INSTALL_FNAME);	/* make sure */
+	asystem("chmod +x %s", INSTALL_FNAME);	/* make sure */
 	if (Verbose)
 	    printf("Running install with PRE-INSTALL for '%s'\n", PkgName);
-	if (!Fake && vsystem("./%s %s PRE-INSTALL", INSTALL_FNAME, PkgName)) {
+	if (!Fake && asystem("./%s %s PRE-INSTALL", INSTALL_FNAME, PkgName)) {
 	    pwarnx("install script returned error status");
 	    unlink(INSTALL_FNAME);
 	    code = 1;
@@ -377,7 +377,7 @@ pkg_do(char *pkg)
 		   p ? p->name : "/");
 	if (!Fake) {
 
-	    if (vsystem("mtree -q -U -f %s -d -e -p %s", MTREE_FNAME,
+	    if (asystem("mtree -q -U -f %s -d -e -p %s", MTREE_FNAME,
 			p ? p->name : "/"))
 		pwarnx("mtree returned a non-zero status - continuing");
 	}
@@ -388,7 +388,7 @@ pkg_do(char *pkg)
     if (!NoInstall && fexists(INSTALL_FNAME)) {
 	if (Verbose)
 	    printf("Running install with POST-INSTALL for '%s'\n", PkgName);
-	if (!Fake && vsystem("./%s %s POST-INSTALL", INSTALL_FNAME, PkgName)) {
+	if (!Fake && asystem("./%s %s POST-INSTALL", INSTALL_FNAME, PkgName)) {
 	    pwarnx("install script returned error status");
 	    unlink(INSTALL_FNAME);
 	    code = 1;
@@ -426,7 +426,7 @@ pkg_do(char *pkg)
 	}
 	raise_privs();
 	/* Make sure pkg_info can read the entry */
-	vsystem("chmod a+rx %s", LogDir);
+	asystem("chmod a+rx %s", LogDir);
 	if (fexists(DEINSTALL_FNAME))
 	    move_file(".", DEINSTALL_FNAME, LogDir);
 	if (fexists(REQUIRE_FNAME))
@@ -476,7 +476,7 @@ pkg_do(char *pkg)
 	}
 
 	snprintf(buf, sizeof buf, "%s/%s", LogDir, p->name);
-	if (stat(buf,&sbuf) == -1 || vsystem("%s %s", Pager, buf)) {
+	if (stat(buf,&sbuf) == -1 || asystem("%s %s", Pager, buf)) {
 	    pwarnx("cannot open '%s' as display file", buf);
 	    DisplayMode = CAT;	/* in case the pager is just missing */
 	}
@@ -515,7 +515,7 @@ install_dep_local(char *base, char *pattern)
     if (cp) {
 	if (Verbose)
 	    printf("Loading it from '%s'\n", cp);
-	if (vsystem("pkg_add %s%s %s%s",
+	if (asystem("pkg_add %s%s %s%s",
 		     Prefix ? "-p " : "",
 		     Prefix ? Prefix : "",
 		     Verbose ? "-v " : "", cp)) {
@@ -560,7 +560,7 @@ install_dep_ftp(char *base, char *pattern)
 		      pattern, CONTENTS_FNAME);
 		if (!Force)
 		    return 1;
-	    } else if (vsystem("(pwd; cat %s) | pkg_add %s%s %s-S",
+	    } else if (asystem("(pwd; cat %s) | pkg_add %s%s %s-S",
 			     CONTENTS_FNAME,
 			     Prefix ? "-p " : "",
 			     Prefix ? Prefix : "",
@@ -695,7 +695,7 @@ cleanup(int signo)
 	    write(STDOUT_FILENO, buf, strlen(buf));
 	}
 	if (!Fake && zapLogDir && LogDir[0])
-	    vsystem("%s -rf %s", REMOVE_CMD, LogDir);	/* XXX */
+	    asystem("%s -rf %s", REMOVE_CMD, LogDir);	/* XXX */
 	leave_playpen(Home);				/* XXX */
 	if (signo)
 	    _exit(1);

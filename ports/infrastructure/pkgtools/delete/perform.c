@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/delete/perform.c,v 1.10 2006/11/19 22:34:07 tg Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/delete/perform.c,v 1.11 2006/12/11 11:10:21 bsiegert Exp $ */
 /*	$OpenBSD: perform.c,v 1.16 2003/08/21 20:24:56 espie Exp $	*/
 
 /*
@@ -29,7 +29,7 @@
 #include "delete.h"
 #include <libgen.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/delete/perform.c,v 1.10 2006/11/19 22:34:07 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/delete/perform.c,v 1.11 2006/12/11 11:10:21 bsiegert Exp $");
 
 static int pkg_do(char *);
 static void sanity_check(char *);
@@ -201,8 +201,8 @@ pkg_do(char *pkg)
     if (fexists(REQUIRE_FNAME)) {
 	if (Verbose)
 	    printf("Executing 'require' script.\n");
-	vsystem("chmod +x %s", REQUIRE_FNAME);	/* be sure */
-	if (vsystem("./%s %s DEINSTALL", REQUIRE_FNAME, pkg)) {
+	asystem("chmod +x %s", REQUIRE_FNAME);	/* be sure */
+	if (asystem("./%s %s DEINSTALL", REQUIRE_FNAME, pkg)) {
 	    pwarnx("package %s fails requirements %s", pkg,
 		   Force ? "" : "- not deleted");
 	    if (!Force) {
@@ -215,8 +215,8 @@ pkg_do(char *pkg)
 	if (Fake)
 	    printf("Would execute de-install script at this point.\n");
 	else {
-	    vsystem("chmod +x %s", DEINSTALL_FNAME);	/* make sure */
-	    if (vsystem("./%s %s DEINSTALL", DEINSTALL_FNAME, pkg)) {
+	    asystem("chmod +x %s", DEINSTALL_FNAME);	/* make sure */
+	    if (asystem("./%s %s DEINSTALL", DEINSTALL_FNAME, pkg)) {
 		pwarnx("deinstall script returned error status");
 		if (!Force) {
 		    free(pkg);
@@ -270,7 +270,7 @@ pkg_do(char *pkg)
 	raise_privs();
     }
     if (!Fake) {
-	if (vsystem("%s -r %s", REMOVE_CMD, LogDir)) {
+	if (asystem("%s -r %s", REMOVE_CMD, LogDir)) {
 	    pwarnx("couldn't remove log entry in %s, deinstall failed", LogDir);
 	    if (!Force) {
 		free(pkg);

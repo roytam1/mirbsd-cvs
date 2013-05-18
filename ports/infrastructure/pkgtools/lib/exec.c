@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/lib/exec.c,v 1.6 2008/10/12 14:35:17 tg Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/lib/exec.c,v 1.7 2008/10/12 15:35:22 tg Exp $ */
 /*	$OpenBSD: exec.c,v 1.8 2003/09/05 19:40:42 tedu Exp $	*/
 
 /*
@@ -26,7 +26,7 @@
 #include "lib.h"
 #include <sys/wait.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/exec.c,v 1.6 2008/10/12 14:35:17 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/exec.c,v 1.7 2008/10/12 15:35:22 tg Exp $");
 
 #ifdef AS_USER
 static bool PrivsDropped = false;
@@ -38,7 +38,7 @@ static bool PrivsDropped = false;
  */
 
 int
-vsystem(const char *fmt, ...)
+asystem(const char *fmt, ...)
 {
 	va_list	args;
 	char	*cmd;
@@ -46,18 +46,18 @@ vsystem(const char *fmt, ...)
 	int	ret;
 
 	if ((maxargs = sysconf(_SC_ARG_MAX)) == -1) {
-		pwarnx("vsystem can't retrieve max args");
+		pwarnx("asystem can't retrieve max args");
 		return 1;
 	}
 	maxargs -= 32;			/* some slop for the sh -c */
 	if ((cmd = (char *) malloc((size_t)maxargs)) == NULL) {
-		pwarnx("vsystem can't alloc arg space");
+		pwarnx("asystem can't alloc arg space");
 		return 1;
 	}
 
 	va_start(args, fmt);
 	if (vsnprintf(cmd, (size_t)maxargs, fmt, args) >= maxargs) {
-		pwarnx("vsystem args are too long");
+		pwarnx("asystem args are too long");
 		free(cmd);
 		return 1;
 	}

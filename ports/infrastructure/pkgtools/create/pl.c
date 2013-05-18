@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/create/pl.c,v 1.21 2006/11/19 22:34:06 tg Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/create/pl.c,v 1.22 2008/04/07 18:55:16 tg Exp $ */
 /*	$OpenBSD: pl.c,v 1.11 2003/08/15 00:03:22 espie Exp $	*/
 
 /*
@@ -29,7 +29,7 @@
 #include <md5.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/create/pl.c,v 1.21 2006/11/19 22:34:06 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/create/pl.c,v 1.22 2008/04/07 18:55:16 tg Exp $");
 
 ld_type_t LdType = LD_STATIC;
 
@@ -246,7 +246,7 @@ trylink(const char *from, const char *to)
 	if (errno == ENOENT) {
 		/* try making the container directory */
 		if ((cp = strrchr(to, '/')) != NULL) {
-			vsystem("mkdir -p %.*s", (int)(cp - to), to);
+			asystem("mkdir -p %.*s", (int)(cp - to), to);
 		}
 		return link(from, to);
 	}

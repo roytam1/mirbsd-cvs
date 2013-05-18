@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/lib/lib.h,v 1.17 2008/10/12 14:35:17 tg Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/lib/lib.h,v 1.18 2008/10/12 15:35:22 tg Exp $ */
 /*	$OpenBSD: lib.h,v 1.14 2003/08/21 20:24:57 espie Exp $	*/
 
 /*
@@ -149,7 +149,7 @@ typedef int (*matchfn)(const char *found, char *data, int len);
 
 /* Prototypes */
 /* Misc */
-int		vsystem(const char *, ...)
+int		asystem(const char *, ...)
 		    __attribute__((__format__ (printf, 1, 2)));
 #define runcomm(cmd, nargs, args, outf) runcomm_((const char *)(cmd), \
 	    (nargs), (const char * const *)(args), (outf))
