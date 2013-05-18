@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: contrib/code/mirmake/dist/scripts/Copy.sh,v 1.23 2005/12/17 05:46:09 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Copy.sh,v 1.24 2006/08/26 22:46:44 tg Exp $
 
 wd=$(readlink -f $(dirname $0))
 version=$(date +%Y%m%d)
@@ -13,7 +13,8 @@ cvs -Rqd ${CVSROOT:-/cvs} co -PA \
     src/usr.bin/readlink src/usr.bin/tsort src/usr.bin/xinstall \
     src/include/getopt.h src/include/ohash.h src/include/sysexits.h \
     src/include/md4.h src/include/md5.h src/include/rmd160.h \
-    src/include/sha1.h src/include/sha2.h src/include/stdbool.h \
+    src/include/sha1.h src/include/sha2.h src/include/tiger.h \
+    src/include/stdbool.h \
     src/lib/libc/hash src/lib/libc/ohash \
     src/lib/libc/stdio/asprintf.c src/lib/libc/stdio/vasprintf.c \
     src/lib/libc/stdio/mktemp.c \

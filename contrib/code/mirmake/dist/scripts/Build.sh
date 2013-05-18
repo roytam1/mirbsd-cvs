@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.86 2006/10/13 12:44:42 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.87 2006/10/13 16:39:52 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -207,7 +207,7 @@ sed_exp="-e 's#@@machine@@#${new_machin}#g' \
 cp $d_src/lib/libc/stdlib/getopt_long.c $d_src/lib/libc/string/strlfun.c \
     $d_src/include/*.h $d_src/usr.bin/mkdep/mkdep.sh $d_build/
 cp $d_src/share/mk/*.mk $d_build/mk/
-cp $d_src/include/{getopt,md4,md5,rmd160,sha1,sha2}.h \
+cp $d_src/include/{getopt,md4,md5,rmd160,sha1,sha2,tiger}.h \
     $d_script/../contrib/mirmake.h $d_build/F/
 
 # Patch sources
@@ -457,7 +457,9 @@ sed -e 's/hashinc/sha2.h/g' -e 's/HASH_\{0,1\}/SHA384_/g' \
     $d_src/lib/libc/hash/helper.c >sha384hl.c
 sed -e 's/hashinc/sha2.h/g' -e 's/HASH_\{0,1\}/SHA512_/g' \
     $d_src/lib/libc/hash/helper.c >sha512hl.c
-cp  $d_src/lib/libc/hash/{md4,md5,rmd160,sha1,sha2}.c \
+sed -e 's/hashinc/tiger.h/g' -e 's/HASH/TIGER/g' \
+    $d_src/lib/libc/hash/helper.c >tigerhl.c
+cp  $d_src/lib/libc/hash/{md4,md5,rmd160,sha1,sha2,tiger}.c \
     $d_src/lib/libc/string/strlfun.c \
     $d_src/lib/libc/stdlib/{getopt_long,strtoll}.c \
     $d_src/lib/libc/stdio/{{,v}asprintf,mktemp}.c .

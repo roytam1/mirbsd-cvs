@@ -1,9 +1,9 @@
-# $MirOS: contrib/code/mirmake/dist/scripts/Makefile.lib,v 1.15 2006/10/13 12:44:42 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Makefile.lib,v 1.16 2006/10/13 16:39:52 tg Exp $
 
 LIB=		mirmake
-SRCS+=		md4.c md5.c rmd160.c sha1.c sha2.c \
+SRCS+=		md4.c md5.c rmd160.c sha1.c sha2.c tiger.c \
 		md4hl.c md5hl.c rmd160hl.c sha1hl.c \
-		sha256hl.c sha384hl.c sha512hl.c \
+		sha256hl.c sha384hl.c sha512hl.c tigerhl.c \
 		getopt_long.c
 
 NOPIC=		yes
