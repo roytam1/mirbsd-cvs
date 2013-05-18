@@ -65,7 +65,6 @@
 ./man1/cp.htm
 ./man1/cpan.htm
 ./man1/cpio.htm
-./man1/cpp.htm
 ./man1/crontab.htm
 ./man1/crunchgen.htm
 ./man1/ctags.htm
@@ -219,6 +218,7 @@
 ./man1/makepsres.htm
 ./man1/makestrs.htm
 ./man1/man.htm
+./man1/mcpp.htm
 ./man1/md5.htm
 ./man1/merge.htm
 ./man1/mergelib.htm
@@ -3002,6 +3002,8 @@
 ./man3/alarm.htm
 ./man3/alloca.htm
 ./man3/alphasort.htm
+./man3/ambsntowcs.htm
+./man3/ambstowcs.htm
 ./man3/arc4random.htm
 ./man3/arc4random_addrandom.htm
 ./man3/arc4random_push.htm
@@ -3072,6 +3074,8 @@
 ./man3/authnone_create.htm
 ./man3/authunix_create.htm
 ./man3/authunix_create_default.htm
+./man3/awcsntombs.htm
+./man3/awcstombs.htm
 ./man3/backspace.htm
 ./man3/basename.htm
 ./man3/baudrate.htm
@@ -4529,6 +4533,7 @@
 ./man3/iswdigit.htm
 ./man3/iswgraph.htm
 ./man3/iswlower.htm
+./man3/iswoctet.htm
 ./man3/iswprint.htm
 ./man3/iswpunct.htm
 ./man3/iswspace.htm
