@@ -253,3 +253,27 @@ Date: 06.07.2007
  creation of the ISO fell into that timeframe.</p>
 <p>On a side note, the series of GNOME port updates is continuing.</p>
 ----
+Title: mksh R29g released; impact of German law on MirOS base
+Date: 09.07.2007
+
+<p><a href="@@RELPATH@@mksh.htm">mksh R29g</a> has been released mostly
+ to fix large file support in some operating systems (mostly GNU), which
+ was tested for correctly, but the test result was not used during the
+ actual compilation. Found by hondza, thanks! This stable version update
+ also contains some other minor changes from mksh-current that don't
+ affect existing behaviour (so none of the nice features shown earlier)
+ which aren't that noteworthy though. <small>There's still an issue in
+ that <tt>-D_LARGE_FILES=1</tt> is defined even if it's not required
+ sometimes, which is fixed in mksh-current, but it doesn't hurt.</small></p>
+<p>German penal and crime code, Article 202c, forbids us from “retrieving,
+ making available” (and some other things) tools that can be used to gain
+ illegal access to data or access codes. While we do not approve of this law
+ at all, we will be forced to abide by it in a few weeks (once it's been
+ published in the print version of the parliament's papers), so tcpdump(8)
+ was removed from the base system. We do not believe providing MirPorts
+ makes us liable for the actions of the end user, and hope no other tool
+ in the base system is affected by this law. We will try to make politicians
+ realise how bad that is, as they are effectively preventing sysadmins as
+ well as researchers, teachers and students from securing systems. (Maybe
+ they just want to make us affected by the Federal Trojan?)</p>
+----
