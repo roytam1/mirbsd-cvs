@@ -1,5 +1,5 @@
 <?php
-/* $MirOS: www/files/index.php,v 1.5 2008/05/03 01:44:05 tg Exp $ */
+/* $MirOS: www/files/index.php,v 1.6 2008/05/03 01:47:26 tg Exp $ */
 /*-
  * The MirOS Project - Webpages
  * Copyrighted material; read LICENCE for terms of use.
@@ -60,20 +60,27 @@ function get_include_contents($filename) {
 		$flag = false;
 		break;
 	}
+	if (!$flag) {
+		$rq = "content/".mybase64($rq).".inc";
+		if (!is_readable($rq)) {
+			$flag = true;
+			$rq = "main";
+		}
+	}
 	if ($flag) {
-		$fhtm = is_readable($rq . ".htm");
-		$fphp = is_readable($rq . ".php");
 		if (!empty($_SERVER["HTTPS"]))
 			$svr = "https";
 		else
 			$svr = "http";
 		$svr .= "://" . $_SERVER['HTTP_HOST'];
-		if ($fphp)
-			$fn = $svr . "/" . $rq . ".php";
-		else if ($fhtm)
+		$fn = $svr . "/main.htm";
+		if (is_readable($rq . ".htm"))
 			$fn = $svr . "/" . $rq . ".htm";
-		else
-			$fn = false;
+		else {
+			$rq = "content/".mybase64($rq).".inc";
+			if (is_readable("content/".mybase64($rq).".inc"))
+				$fn = false;
+		}
 		if ($fn !== false) {
 			header("Status: 301 Moved Permanently", true, 301);
 			header("Location: " . $fn, true);
@@ -82,24 +89,7 @@ function get_include_contents($filename) {
 		}
 	}
 	/* --- end www3 hooks --- */
-	if (is_readable("content/".mybase64($rq).".override")) {
-		header('Content-Type: text/html');
-		$fn = file_get_contents("content/".mybase64($rq).".override");
-		readfile(rtrim($fn));
-		exit;
-	}
-	$rq = "content/".mybase64($rq).".inc";
-	if (!is_readable($rq)) {
-		if (!empty($_SERVER["HTTPS"])) {
-			$proto="https";
-		} else {
-			$proto="http";
-		}
-		header("Status: 404 Content Not Found");
-		header("Location: ".$proto."://".
-		    $_SERVER['HTTP_HOST']."/404.php".$qs);
-		exit;
-	}
+
  // Declare global variables
  unset($tg_svr);
  unset($tg_bws);
