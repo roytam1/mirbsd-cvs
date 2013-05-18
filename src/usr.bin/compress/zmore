@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/usr.bin/compress/zmore,v 1.3 2006/09/20 22:24:51 tg Exp $
+# $MirOS: src/usr.bin/compress/zmore,v 1.4 2008/03/19 18:29:50 tg Exp $
 # $OpenBSD: zmore,v 1.4 2003/07/29 07:42:45 otto Exp $
 #
 # Copyright (c) 2003 Todd C. Miller <Todd.Miller@courtesan.com>
@@ -21,6 +21,15 @@
 # Materiel Command, USAF, under agreement number F39502-99-1-0512.
 #
 
+case $0 in
+*less)	defpager=less ;;
+*more)	defpager=more ;;
+*less*)	defpager=less ;;
+*)	defpager=mode ;;
+esac
+
+test -z "$PAGER" && PAGER=$defpager
+
 # Pull out any command line flags so we can pass them to more/less
 flags=
 while test $# -ne 0; do
@@ -41,18 +50,21 @@ done
 
 # No files means read from stdin
 if [ $# -eq 0 ]; then
-	compress -cdfq 2>&1 | ${PAGER-more} $flags
+	compress -cdfq 2>&1 | $PAGER $flags
 	exit 0
 fi
 
 oterm=$(stty -g 2>/dev/null)
 while test $# -ne 0; do
-	compress -cdfq "$1" 2>&1 | ${PAGER-more} $flags
+	compress -cdfq "$1" 2>&1 | $PAGER $flags
 	prev=$1
 	shift
 	if tty -s && test -n "$oterm" -a $# -gt 0; then
-		#echo -n "--More--(Next file: $1)"
-		echo -n "$prev (END) - Next: $1 "
+		if test $defpager = less; then
+			echo -n "$prev (END) - Next: $1 "
+		else
+			echo -n "--More--(Next file: $1)"
+		fi
 		trap "stty $oterm 2>/dev/null" 0 1 2 3 5 13 15
 		stty cbreak -echo 2>/dev/null
 		REPLY=$(dd bs=1 count=1 2>/dev/null)

@@ -1,4 +1,4 @@
-# $MirOS: src/usr.bin/compress/Makefile,v 1.3 2007/04/29 21:24:44 tg Exp $
+# $MirOS: src/usr.bin/compress/Makefile,v 1.4 2007/05/08 21:52:55 tg Exp $
 # $OpenBSD: Makefile,v 1.20 2007/01/24 10:53:43 jmc Exp $
 
 PROG=	compress
@@ -14,6 +14,9 @@ LINKS=	${BINDIR}/compress ${BINDIR}/uncompress \
 MLINKS+=compress.1 uncompress.1 compress.1 zcat.1
 MLINKS+=gzip.1 gunzip.1 gzip.1 gzcat.1
 MLINKS+=zdiff.1 zcmp.1
+
+LINKS+=	${BINDIR}/zmore ${BINDIR}/zless
+MLINKS+=zmore.1 zless.1
 
 LDADD=		-lz
 DPADD=		${LIBZ}

@@ -18,11 +18,12 @@
 .\" Agency (DARPA) and Air Force Research Laboratory, Air Force
 .\" Materiel Command, USAF, under agreement number F39502-99-1-0512.
 .\"
-.Dd June 23, 2003
+.Dd $Mdocdate$
 .Dt ZMORE 1
 .Os
 .Sh NAME
-.Nm zmore
+.Nm zmore ,
+.Nm zless
 .Nd view compressed files
 .Sh SYNOPSIS
 .Nm zmore
@@ -48,6 +49,10 @@ that are specified are passed to the user's preferred
 (which is
 .Pa /usr/bin/more
 by default).
+If called as
+.Nm zless ,
+the default pager used is
+.Pa /usr/bin/less .
 .Pp
 When multiple files are specified,
 .Nm
@@ -83,7 +88,9 @@ style compression since there is no suffix on which to make a decision.
 .It Ev PAGER
 Program used to display files.
 If unset,
-.Pa /usr/bin/more
+.Pa more
+or
+.Pa less
 is used.
 .El
 .Sh SEE ALSO

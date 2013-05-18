@@ -442,6 +442,7 @@
 ./usr/bin/zfgrep
 ./usr/bin/zforce
 ./usr/bin/zgrep
+./usr/bin/zless
 ./usr/bin/zmore
 ./usr/bin/znew
 ./usr/include
@@ -1845,6 +1846,7 @@
 ./usr/share/man/cat1/zfgrep.0
 ./usr/share/man/cat1/zforce.0
 ./usr/share/man/cat1/zgrep.0
+./usr/share/man/cat1/zless.0
 ./usr/share/man/cat1/zmore.0
 ./usr/share/man/cat1/znew.0
 ./usr/share/man/cat2
