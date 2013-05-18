@@ -1,5 +1,5 @@
 <!-- PageID: wlog-9 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.54 2006/10/24 11:26:56 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.55 2006/10/28 20:43:25 tg Exp $</small>
 <h1>MirBSD &ndash; WTF is Verpeilungsfaktor?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -997,6 +997,8 @@ plot [150:200] 	"bs06.4Kmin.txt" using 1:3 with lines title "exc{\350}s en chlor
   tuesday and pull the strings from the other wounds. (Yuck.)</p>
  <p>Let's see when I can tend to the other projects&#8230; (someone want
   to take on wsconfig(8)?)</p>
+ <p>Today, I recompiled screen and mc, and made centericq (sort of) utf8
+  capable&#8230; enough for what I need.</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
