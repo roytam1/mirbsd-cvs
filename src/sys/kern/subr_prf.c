@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: subr_prf.c,v 1.61 2005/04/14 21:58:50 krw Exp $	*/
 /*	$NetBSD: subr_prf.c,v 1.45 1997/10/24 18:14:25 chuck Exp $	*/
 
@@ -106,6 +107,8 @@ int	consintr = 1;	/* ok to handle console interrupts? */
 extern	int log_open;	/* subr_log: is /dev/klog open? */
 const	char *panicstr; /* arg to first call to panic (used as a flag
 			   to indicate that panic has already been called). */
+void (*panic_hook)(void) = NULL;
+void (*panic_hook_display)(void) = NULL;
 #ifdef DDB
 /*
  * Enter ddb on panic.
@@ -198,6 +201,13 @@ panic(const char *fmt, ...)
 		panicstr = panicbuf;
 	}
 	va_end(ap);
+
+	if (panic_hook) {
+		void (*tmp_panic_hook)(void) = panic_hook;
+
+		panic_hook = NULL;
+		tmp_panic_hook();
+	}
 
 	printf("panic: ");
 	va_start(ap, fmt);
@@ -1114,6 +1124,4 @@ putchar(int c)
 
 	return (c);
 }
-
-
 #endif

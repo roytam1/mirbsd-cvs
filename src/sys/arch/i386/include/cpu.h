@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/include/cpu.h,v 1.4 2005/05/05 23:11:28 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/include/cpu.h,v 1.5 2006/02/26 01:17:27 tg Exp $ */
 /*	$OpenBSD: cpu.h,v 1.59 2004/04/02 22:28:41 tedu Exp $	*/
 /*	$NetBSD: cpu.h,v 1.35 1996/05/05 19:29:26 christos Exp $	*/
 
@@ -279,7 +279,8 @@ void	setconf(void);
 #define CPU_SSE			14	/* supports SSE */
 #define CPU_SSE2		15	/* supports SSE2 */
 #define CPU_XCRYPT		16	/* supports VIA xcrypt in userland */
-#define CPU_MAXID		17	/* number of valid machdep ids */
+#define CPU_APVRESET		17	/* reset VGA on panic() if XF86 */
+#define CPU_MAXID		18	/* number of valid machdep ids */
 
 #define	CTL_MACHDEP_NAMES { \
 	{ 0, 0 }, \
@@ -299,6 +300,7 @@ void	setconf(void);
 	{ "sse", CTLTYPE_INT }, \
 	{ "sse2", CTLTYPE_INT }, \
 	{ "xcrypt", CTLTYPE_INT }, \
+	{ "apvreset", CTLTYPE_INT }, \
 }
 
 #endif /* !_I386_CPU_H_ */

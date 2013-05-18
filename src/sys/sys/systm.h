@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/sys/sys/systm.h,v 1.2 2005/03/06 21:28:34 tg Exp $ */
 /*	$OpenBSD: systm.h,v 1.60 2004/01/05 00:16:56 espie Exp $	*/
 /*	$NetBSD: systm.h,v 1.50 1996/06/09 04:55:09 briggs Exp $	*/
 
@@ -73,7 +73,8 @@
  */
 extern int securelevel;		/* system security level */
 extern const char *panicstr;	/* panic message */
-extern const char version[];		/* system version */
+extern void (*panic_hook)(void); /* for resetting video */
+extern const char version[];	/* system version */
 extern const char copyright[];	/* system copyright */
 extern const char ostype[];
 extern const char osversion[];

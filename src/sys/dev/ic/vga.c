@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/sys/dev/ic/vga.c,v 1.2 2005/03/06 21:27:40 tg Exp $ */
 /* $OpenBSD: vga.c,v 1.32 2004/02/27 17:44:44 millert Exp $ */
 /* $NetBSD: vga.c,v 1.28.2.1 2000/06/30 16:27:47 simonb Exp $ */
 
@@ -49,6 +49,8 @@
 #include <dev/wscons/unicode.h>
 
 #include <dev/ic/pcdisplay.h>
+
+extern void (*panic_hook_display)(void);
 
 #if 0
 #include "opt_wsdisplay_compat.h" /* for WSCONS_SUPPORT_PCVTFONTS */
@@ -103,6 +105,8 @@ int	vga_mapchar(void *, int, unsigned int *);
 void	vga_putchar(void *, int, int, u_int, long);
 int	vga_alloc_attr(void *, int, int, int, long *);
 void	vga_copyrows(void *, int, int, int);
+
+void	vga_panic_hook(void);
 
 static const struct wsdisplay_emulops vga_emulops = {
 	pcdisplay_cursor,
@@ -478,6 +482,8 @@ vga_init(vc, iot, memt)
 		vc->vc_fonts[i] = 0;
 
 	vc->currentfontset1 = vc->currentfontset2 = 0;
+
+	panic_hook_display = vga_panic_hook;
 }
 
 void
@@ -1285,6 +1291,12 @@ vga_getchar(c, row, col)
 	struct vga_config *vc = c;
 
 	return (pcdisplay_getchar(vc->active, row, col));
+}
+
+void
+vga_panic_hook(void)
+{
+	printf("vga_panic_hook: dummy\n");
 }
 
 struct cfdriver vga_cd = {
