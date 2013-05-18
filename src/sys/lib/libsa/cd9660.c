@@ -363,7 +363,7 @@ cd9660_seek(struct open_file *f, off_t offset, int where)
 		fp->off += offset;
 		break;
 	case SEEK_END:
-		fp->off = fp->size - offset;
+		fp->off = fp->size + offset;
 		break;
 	default:
 		return -1;

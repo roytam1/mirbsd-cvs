@@ -25,7 +25,7 @@
 #include <lib/libsa/stand.h>
 #include <lib/libsa/fat.h>
 
-__RCSID("$MirOS: src/sys/lib/libsa/fat.c,v 1.14 2009/01/15 21:42:50 tg Exp $");
+__RCSID("$MirOS: src/sys/lib/libsa/fat.c,v 1.15 2009/03/13 20:40:58 tg Exp $");
 
 #if BYTE_ORDER != LITTLE_ENDIAN
 #define getlew(ofs) (buf[(ofs)] + ((unsigned)buf[(ofs) + 1] << 8))
@@ -374,7 +374,7 @@ fat_seek(struct open_file *f, off_t offset, int where)
 		break;
 	case SEEK_END:
 		((struct fat_file *)f->f_fsdata)->nodeseekp =
-		    ((struct fat_file *)f->f_fsdata)->nodesize - offset;
+		    ((struct fat_file *)f->f_fsdata)->nodesize + offset;
 		break;
 	default:
 		return (-1);

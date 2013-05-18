@@ -615,7 +615,7 @@ ufs_seek(struct open_file *f, off_t offset, int where)
 		fp->f_seekp += offset;
 		break;
 	case SEEK_END:
-		fp->f_seekp = fp->f_di.di_size - offset;
+		fp->f_seekp = fp->f_di.di_size + offset;
 		break;
 	default:
 		return (-1);

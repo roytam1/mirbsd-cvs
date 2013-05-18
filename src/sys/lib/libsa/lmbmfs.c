@@ -25,7 +25,7 @@
 #include <lib/libsa/stand.h>
 #include <lib/libsa/lmbmfs.h>
 
-__RCSID("$MirOS: src/sys/lib/libsa/lmbmfs.c,v 1.3 2009/08/11 13:40:07 tg Exp $");
+__RCSID("$MirOS: src/sys/lib/libsa/lmbmfs.c,v 1.4 2009/12/26 15:06:15 tg Exp $");
 
 extern struct lmbm_modinfo {
 	void *mod_start;
@@ -191,7 +191,7 @@ lmbmfs_seek(struct open_file *f, off_t offset, int where)
 		break;
 	case SEEK_END:
 		((struct lmbmfs_file *)f->f_fsdata)->nodeseekp =
-		    ((struct lmbmfs_file *)f->f_fsdata)->item->size - offset;
+		    ((struct lmbmfs_file *)f->f_fsdata)->item->size + offset;
 		break;
 	default:
 		return (-1);

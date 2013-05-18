@@ -626,7 +626,7 @@ nfs_seek(struct open_file *f, off_t offset, int where)
 		d->off += offset;
 		break;
 	case SEEK_END:
-		d->off = size - offset;
+		d->off = size + offset;
 		break;
 	default:
 		return (-1);
