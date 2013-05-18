@@ -1,0 +1,20 @@
+# $MirOS$
+
+KERNEL_PREP=	print 'rootdev 6 0\nquit' | config -ef bsd.tmp
+BOOT=		${REALOBJDIR}/../../sys/arch/i386/stand/liveboot/boot
+CDROM_MDOPTS=	-b etc/boot.iso -c etc/boot.cat \
+		-no-emul-boot -boot-load-size 4 -boot-info-table
+
+bsd: ${BSDOBJDIR}/distrib/generic/bsd
+	cp -f $> $@
+
+unpack-md:
+	${SUDO} cp ${.CURDIR}/${MACHINE}/boot.* ${WRKDIR}/etc/
+
+cdrom-mdcopy:
+	${SUDO} cp ${BOOT} ${WRKDIR}/etc/boot.iso
+
+cdrom-mdboot:
+	${DESTDIR}/usr/mdec/installboot -v -I $$(fgrep \
+	    ${WRKDIR}/etc/boot.ldr mkisofs.log | while read start end rest; do \
+		print -- $$start $$end; done) ${BOOTXX} ${CDROM}

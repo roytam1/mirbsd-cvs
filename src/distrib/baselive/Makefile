@@ -1,12 +1,39 @@
-# $MirOS: src/distrib/baselive/Makefile,v 1.3 2006/08/18 22:32:40 tg Exp $
+# $MirOS$
 
 .include <bsd.own.mk>
 
-TOPDIR?=	${.CURDIR}/..
-CDROM?=		livecd${OSrev}.iso
+# common variables
 REALOBJDIR!=	readlink -nf ${.OBJDIR}
+TOPDIR?=	${.CURDIR}/..
 
-ANONCVSROOT=	anoncvs@anoncvs.mirbsd.org:/cvs
+.if exists(${.CURDIR}/Makefile.${MACHINE})
+.  include "${.CURDIR}/Makefile.${MACHINE}"
+.endif
+
+# temporary mounts
+WRKDIR=		${REALOBJDIR}/tmpdata
+TMPMOUNT=	${REALOBJDIR}/tmpmnt
+VND?=		svnd0
+VND_DEV=	/dev/${VND}a
+VND_RDEV=	/dev/r${VND}a
+VND_CRDEV=	/dev/r${VND}c
+RAWLABEL?=	-r
+
+RDSETROOT?=	${REALOBJDIR}/../common/elfrdsetroot
+
+IMAGE?=		mrdev${OSrev}.fs
+IMAGESIZE?=	8192
+IMAGEOPTS?=	minfree=0,optimization=space,bsize=4096,fsize=512,density=2048
+IMAGETYPE?=	ipldisc
+IMAGE_PREP?=	@:
+KERNEL_PREP?=	@:
+
+INSTALLBOOT?=	${DESTDIR}/usr/mdec/installboot
+BOOT?=		${DESTDIR}/usr/mdec/boot
+BOOTXX?=	${DESTDIR}/usr/mdec/bootxx
+
+CDROM?=		livecd${OSrev}.iso
+CDROM_MDOPTS?=
 
 all install:
 
@@ -21,30 +48,43 @@ ${CDROM}:
 	@touch $@
 .endif
 
-unpack:
-	mkdir -p workdir/v${OSrev}
+unpack: unpack-mi unpack-md
+
+unpack-mi:
+	test ! -e ${TMPMOUNT} || (cd ${TOPDIR}/common; ${MAKE} unconfig)
+	${SUDO} rm -rf ${WRKDIR}
+	mkdir -p ${WRKDIR}/v${OSrev}
 .for _i in base dev etc gnu xbase xetc
-	cd workdir && ${SUDO} tar xzphf ${BSDRELDIR}/rel/${_i}${OSrev}.ngz
+	cd ${WRKDIR} && ${SUDO} tar xzphf ${BSDRELDIR}/rel/${_i}${OSrev}.ngz
 .endfor
-	cd workdir && ln -sf ${TOPDIR}/common/00-README
-	cd workdir/v${OSrev} && ln -s ${BSDRELDIR}/rel i386
-	${SUDO} cp ${.CURDIR}/boot.* workdir/etc/
+	cd ${WRKDIR}/v${OSrev} && ln -s ${BSDRELDIR}/rel ${MACHINE}
+	cp ${TOPDIR}/common/00-README ${WRKDIR}/
+	cat ${TOPDIR}/common/boot.cfg.${MACHINE} ${.CURDIR}/boot.cfg.tail | \
+	    sudo dd of=${WRKDIR}/etc/boot.cfg
 
-gendev: mr.fs
+unpack-md:
 
-mr.fs:
-	dd if=/dev/zero of=mr.fs bs=512 count=8192
-	${SUDO} vnconfig -v -c svnd0 mr.fs
-	${SUDO} disklabel -w -r svnd0 ipldisc
-	${SUDO} newfs -m 0 -o space -c 16 -i 1024 /dev/rsvnd0a
-	mkdir -p tmpmnt
-	${SUDO} mount /dev/svnd0a tmpmnt
-	${SUDO} cp workdir/dev/MAKEDEV tmpmnt/
-	cd tmpmnt && ${SUDO} ${MKSH} MAKEDEV all
-	@${SUDO} dd if=/dev/arandom bs=512 count=4 of=tmpmnt/.rs
-	@df -i tmpmnt
-	-${SUDO} umount tmpmnt
-	-${SUDO} vnconfig -u svnd0
+gendev: ${IMAGE} bsd
+
+${IMAGE}:
+	test ! -e ${TMPMOUNT} || (cd ${TOPDIR}/common; ${MAKE} unconfig)
+	${SUDO} rm -rf ${TMPMOUNT}
+	${SUDO} mkdir -p ${TMPMOUNT}
+	${SUDO} cp ${WRKDIR}/dev/MAKEDEV ${TMPMOUNT}/
+	cd ${TMPMOUNT} && ${SUDO} ${MKSH} MAKEDEV all
+	-${SUDO} dd if=/dev/arandom bs=512 count=4 of=${TMPMOUNT}/.rs
+	${SUDO} makefs -s ${IMAGESIZE}b -o ${IMAGEOPTS} ${IMAGE} ${TMPMOUNT}
+	${SUDO} vnconfig -v -c ${VND} ${IMAGE}
+	${SUDO} disklabel -w ${RAWLABEL} ${VND} ${IMAGETYPE}
+	${SUDO} mount -r ${VND_DEV} ${TMPMOUNT}
+	${IMAGE_PREP}
+	@echo ""
+	@df -i ${TMPMOUNT}
+	@echo ""
+	${SUDO} umount ${TMPMOUNT}
+	${SUDO} fsck -fy ${VND_RDEV}
+	${SUDO} vnconfig -v -u ${VND}
+	${SUDO} rm -rf ${TMPMOUNT}
 
 addcontrib:
 	@if [[ ! -s ${BSDSRCDIR}/contrib/code/jupp/jupprc ]]; then \
@@ -56,32 +96,31 @@ addcontrib:
 		exit 1; \
 	fi
 	mkdir -p tempdir
-	targpath=$$(readlink -nf workdir); cd tempdir; \
-	    CC=${CC:Q} CFLAGS=${CFLAGS:Q}\ ${COPTS:Q} \
+	cd tempdir; CC=${CC:Q} CFLAGS=${CFLAGS:Q}\ ${COPTS:Q} \
 	    ${MKSH} ${BSDSRCDIR}/contrib/code/jupp/configure \
 	    --prefix=/usr --sysconfdir=/etc && \
-	    make && ${SUDO} make install DESTDIR="$$targpath"
+	    make && ${SUDO} make install DESTDIR=${WRKDIR:Q}
 	cd tempdir; cp ${BSDSRCDIR}/contrib/code/Snippets/tinyirc.c . && \
 	    print 'PROG=tinyirc\nLDADD=-ltermcap\nNOMAN=yes\n.include' \
 	    '<bsd.prog.mk>' >mkirc && make -f mkirc && \
-	    ${SUDO} make -f mkirc install BINDIR=../workdir/usr/bin
+	    ${SUDO} make -f mkirc install BINDIR=${WRKDIR}/usr/bin
 
 prepimg:
-	cd workdir && MACHINE=${MACHINE} \
+	cd ${WRKDIR} && MACHINE=${MACHINE} \
 	    ${SUDO} ${MKSH} ${.CURDIR}/munge_it.sh
 
-bsd.gz: ${REALOBJDIR}/../generic/bsd mr.fs
-	-rm -f bsd bsd.gz
-	gzip -d <${REALOBJDIR}/../generic/bsd >bsd
-	print 'rootdev 6 0\nquit' | config -ef bsd	# (6,0) = cd0a
-	${REALOBJDIR}/../common/elfrdsetroot bsd <mr.fs
-	gzip -n9 bsd
+bsd.gz: bsd ${IMAGE}
+	-rm -f bsd.tmp
+	gzip -d <bsd >bsd.tmp
+	${KERNEL_PREP}
+	${RDSETROOT} bsd.tmp <${IMAGE}
+	gzip -n9 <bsd.tmp >$@
 
 nukefiles:
-	cd workdir && ${SUDO} rm -rf etc/X11 usr/{local/lib/X11,releng} \
+	cd ${WRKDIR} && ${SUDO} rm -rf etc/X11 usr/{local/lib/X11,releng} \
 	    usr/{,X11R6/}{doc,info,man} usr/X11R6/lib/X11/doc
-	-for name in workdir/usr/lib/*@(.so.*|.a); do \
-		print -n stripping $$name ...; \
+	-for name in ${WRKDIR}/usr/lib/*@(.so.*|.a); do \
+		print -n stripping $${name##*/} ...; \
 		if [[ $$name = *.a ]]; then \
 			${SUDO} strip -g $$name && print; \
 		else \
@@ -89,46 +128,39 @@ nukefiles:
 		fi; \
 	done
 
-makeimg: bsd.gz mr.fs
-	${SUDO} dd if=bsd.gz obs=2048 conv=osync of=workdir/bsd
-	${SUDO} dd if=${BSDOBJDIR}/sys/arch/i386/stand/liveboot/boot \
-	    obs=2048 conv=osync of=workdir/v${OSrev}/i386/boot.liv
-	cd workdir/v${OSrev}/i386 && ${SUDO} cp boot.liv boot.iso
-	sed 's!RMD160 (!&v${OSrev}/i386/!' <workdir/v${OSrev}/i386/RMD160 \
-	    >workdir/RMD160
-	touch workdir/boot.cat
-	cd workdir && rmd160 00-README boot.cat bsd stand/fsrw.cpio \
-	    tftpboot/bsd tftpboot/pxeboot v${OSrev}/i386/boot.iso \
-	    v${OSrev}/i386/boot.liv >>RMD160
-	rm -f workdir/boot.cat
-	cd workdir; rm -f boot.cat; sort -uo RMD160 RMD160; gzip -n9 RMD160
+makeimg: cdrom-prepare cdrom-mdcopy cdrom-generate cdrom-mdboot cdrom-finish
+
+cdrom-prepare: bsd.gz
+	${SUDO} dd if=bsd.gz obs=2048 conv=osync of=${WRKDIR}/bsd
+	${SUDO} cp ${BOOT} ${WRKDIR}/etc/boot.ldr
+	cd ${WRKDIR}; sed 's!RMD160 (!&v${OSrev}/${MACHINE}/!' \
+	    <v${OSrev}/${MACHINE}/RMD160 >RMD160; ${SUDO} touch etc/boot.cat
+	cd ${WRKDIR}; rmd160 00-README bsd etc/boot.* stand/* >>RMD160
+	-${SUDO} rm -f ${WRKDIR}/etc/boot.cat ${CDROM}
+	cd ${WRKDIR}; sort -uo RMD160 RMD160; gzip -n9 RMD160
 	# pad for gzsig(1) application later on
-	dd if=/dev/zero count=2 >>workdir/RMD160.gz
-	-rm -f ${CDROM}
-	cd workdir && ${SUDO} ${MKSH} ${.CURDIR}/mklocatedb.sh \
-	    ${REALOBJDIR}/mr.fs
-	touch ${CDROM}
-	${SUDO} mkisofs -R -L -d -D -N -v -v -f \
-	    -b v${OSrev}/i386/boot.iso -c boot.cat -p "Thorsten Glaser" \
-	    -P "The http://MirBSD.de/ team and its contributors" \
-	    -V "MirOS #${OSrev} BSD/${MACHINE} Live CD" \
+	dd if=/dev/zero count=2 >>${WRKDIR}/RMD160.gz
+	cd ${WRKDIR} && ${SUDO} ${MKSH} ${.CURDIR}/mklocatedb.sh \
+	    ${REALOBJDIR}/${IMAGE}
+
+cdrom-generate:
+	${SUDO} mkisofs -R -f -L -d -D -N -v -v ${CDROM_MDOPTS} \
+	    -P 'The MirOS Project and its contributors' \
+	    -p 'Copyright © 2006 Thorsten Glaser' \
+	    -V 'MirOS #${OSrev} BSD/${MACHINE} Live CD' \
 	    -volset "$$(uname -slm) Live" -sysid "MirOSBSD" \
-	    -no-emul-boot -boot-load-size 4 -boot-info-table \
-	    -pad -o ${CDROM} workdir 2>&1 | tee mkisofs.log
-	workdir/usr/mdec/installboot -v -I \
-	    $$(fgrep 'workdir/v${OSrev}/i386/boot.liv' mkisofs.log | \
-		while read start end rest; do print $$start $$end; done) \
-	    workdir/usr/mdec/bootxx ${CDROM}
+	    -pad -o ${CDROM} ${WRKDIR} 2>&1 | tee mkisofs.log
+	${SUDO} chown $$(id -u) ${CDROM}
 
-rdsetroot: ${TOPDIR}/common/elfrdsetroot.c
-	${HOSTCC} ${HOSTCFLAGS} -DDEBUG -o $@ ${.ALLSRC}
 
-unconfig:
-	-${SUDO} umount -f /dev/svnd0a
-	-${SUDO} vnconfig -u svnd0
 
-.PHONY:	addcontrib clean cleandir cleannobsd cleanworkdir \
-	gendev it makeimg nukefiles prepimg tstmnt tstumnt unconfig unpack
+
+
+
+
+
+
+
 
 clean cleandir cleannobsd: cleanworkdir
 	-rm -f ${CDROM} bsd{,.gz} mkisofs.log mr.fs rdsetroot
