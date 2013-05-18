@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /* $OpenBSD: sshlogin.h,v 1.8 2006/08/03 03:34:42 deraadt Exp $ */
 
 /*

@@ -1,4 +1,4 @@
-/* $OpenBSD: log.c,v 1.40 2007/05/17 07:50:31 djm Exp $ */
+/* $OpenBSD: log.c,v 1.41 2008/06/10 04:50:25 dtucker Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -48,7 +48,7 @@
 #include "xmalloc.h"
 #include "log.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/log.c,v 1.4 2006/09/20 21:40:59 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/log.c,v 1.5 2007/05/19 22:22:25 tg Exp $");
 
 static LogLevel log_level = SYSLOG_LEVEL_INFO;
 static int log_on_stderr = 1;
@@ -106,6 +106,17 @@ log_facility_number(char *name)
 	return SYSLOG_FACILITY_NOT_SET;
 }
 
+const char *
+log_facility_name(SyslogFacility facility)
+{
+	u_int i;
+
+	for (i = 0;  log_facilities[i].name; i++)
+		if (log_facilities[i].val == facility)
+			return log_facilities[i].name;
+	return NULL;
+}
+
 LogLevel
 log_level_number(char *name)
 {
@@ -116,6 +127,17 @@ log_level_number(char *name)
 			if (strcasecmp(log_levels[i].name, name) == 0)
 				return log_levels[i].val;
 	return SYSLOG_LEVEL_NOT_SET;
+}
+
+const char *
+log_level_name(LogLevel level)
+{
+	u_int i;
+
+	for (i = 0; log_levels[i].name != NULL; i++)
+		if (log_levels[i].val == level)
+			return log_levels[i].name;
+	return NULL;
 }
 
 /* Error messages that should be logged. */

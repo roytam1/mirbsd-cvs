@@ -1,5 +1,5 @@
-/* $MirOS: src/usr.bin/ssh/auth.h,v 1.9 2007/09/02 18:53:13 tg Exp $ */
-/* $OpenBSD: auth.h,v 1.60 2007/09/21 08:15:29 djm Exp $ */
+/* $MirOS: src/usr.bin/ssh/auth.h,v 1.10 2008/03/02 21:14:18 tg Exp $ */
+/* $OpenBSD: auth.h,v 1.62 2008/11/04 08:22:12 djm Exp $ */
 
 /*
  * Copyright (c) 2000 Markus Friedl.  All rights reserved.
@@ -54,6 +54,7 @@ struct Authctxt {
 	struct passwd	*pw;		/* set if 'valid' */
 	char		*style;
 	void		*kbdintctxt;
+	void		*jpake_ctx;
 #ifdef BSD_AUTH
 	auth_session_t	*as;
 #endif
@@ -123,6 +124,9 @@ int	bsdauth_respond(void *, u_int, char **);
 int	skey_query(void *, char **, char **, u_int *, char ***, u_int **);
 int	skey_respond(void *, u_int, char **);
 
+void	auth2_jpake_get_pwdata(Authctxt *, BIGNUM **, char **, char **);
+void	auth2_jpake_stop(Authctxt *);
+
 int	allowed_user(struct passwd *);
 struct passwd * getpwnamallow(const char *user);
 
@@ -132,8 +136,7 @@ int	verify_response(Authctxt *, const char *);
 char	*authorised_keys_file(struct passwd *);
 char	*authorised_keys_file2(struct passwd *);
 
-int
-secure_filename(FILE *, const char *, struct passwd *, char *, size_t);
+FILE	*auth_openkeyfile(const char *, struct passwd *, int);
 
 HostStatus
 check_key_in_hostfiles(struct passwd *, Key *, const char *,

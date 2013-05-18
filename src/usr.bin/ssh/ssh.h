@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /* $OpenBSD: ssh.h,v 1.78 2006/08/03 03:34:42 deraadt Exp $ */
 
 /*

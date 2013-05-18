@@ -38,6 +38,8 @@
 #include "monitor_wrap.h"
 #include "servconf.h"
 
+__RCSID("$MirOS$");
+
 /* import */
 extern ServerOptions options;
 

@@ -1,5 +1,5 @@
-# $MirOS: src/usr.bin/ssh/sshd/Makefile,v 1.4 2007/09/02 18:53:14 tg Exp $
-# $OpenBSD: Makefile,v 1.67 2008/02/04 21:53:00 markus Exp $
+# $MirOS: src/usr.bin/ssh/sshd/Makefile,v 1.5 2008/03/02 21:14:24 tg Exp $
+# $OpenBSD: Makefile,v 1.68 2008/11/04 08:22:13 djm Exp $
 
 .PATH:		${.CURDIR}/..
 
@@ -17,7 +17,7 @@ SRCS=	sshd.c auth-rhosts.c auth-passwd.c auth-rsa.c auth-rh-rsa.c \
 	auth-bsdauth.c auth2-hostbased.c auth2-kbdint.c \
 	auth2-none.c auth2-passwd.c auth2-pubkey.c \
 	monitor_mm.c monitor.c monitor_wrap.c \
-	kexdhs.c kexgexs.c sftp-server.c sftp-common.c
+	kexdhs.c kexgexs.c sftp-server.c sftp-common.c auth2-jpake.c
 
 DPADD+=	${LIBCRYPTO} ${LIBUTIL} ${LIBZ} ${LIBDES}
 LDADD+=	-lcrypto -lutil -lz -ldes

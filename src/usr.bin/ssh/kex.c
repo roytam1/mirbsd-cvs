@@ -1,4 +1,4 @@
-/* $OpenBSD: kex.c,v 1.79 2007/06/05 06:52:37 djm Exp $ */
+/* $OpenBSD: kex.c,v 1.80 2008/09/06 12:24:13 djm Exp $ */
 /*
  * Copyright (c) 2000, 2001 Markus Friedl.  All rights reserved.
  *
@@ -46,11 +46,9 @@
 #include "dispatch.h"
 #include "monitor.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/kex.c,v 1.5 2007/01/25 16:18:36 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/kex.c,v 1.6 2007/06/16 15:41:50 tg Exp $");
 
 #define KEX_COOKIE_LEN	16
-
-extern const EVP_MD *evp_ssh_sha256(void);
 
 /* prototype */
 static void kex_kexinit_finish(Kex *);
@@ -318,7 +316,7 @@ choose_kex(Kex *k, char *client, char *server)
 		k->evp_md = EVP_sha1();
 	} else if (strcmp(k->name, KEX_DHGEX_SHA256) == 0) {
 		k->kex_type = KEX_DH_GEX_SHA256;
-		k->evp_md = evp_ssh_sha256();
+		k->evp_md = EVP_sha256();
 	} else
 		fatal("bad kex alg %s", k->name);
 }

@@ -39,6 +39,8 @@
 #include "ssh2.h"
 #include "monitor_wrap.h"
 
+__RCSID("$MirOS$");
+
 void
 kexdh_server(Kex *kex)
 {

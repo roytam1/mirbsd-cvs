@@ -42,6 +42,8 @@
 #include "compat.h"
 #include "monitor_wrap.h"
 
+__RCSID("$MirOS$");
+
 void
 kexgex_server(Kex *kex)
 {

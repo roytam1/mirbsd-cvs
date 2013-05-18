@@ -30,6 +30,8 @@
 #include "canohost.h"
 #include "monitor_wrap.h"
 
+__RCSID("$MirOS$");
+
 /* import */
 extern ServerOptions options;
 

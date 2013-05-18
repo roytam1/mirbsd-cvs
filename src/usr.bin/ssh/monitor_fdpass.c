@@ -1,4 +1,4 @@
-/* $OpenBSD: monitor_fdpass.c,v 1.17 2008/03/24 16:11:07 deraadt Exp $ */
+/* $OpenBSD: monitor_fdpass.c,v 1.18 2008/11/30 11:59:26 dtucker Exp $ */
 /*
  * Copyright 2001 Niels Provos <provos@citi.umich.edu>
  * All rights reserved.
@@ -35,7 +35,7 @@
 #include "log.h"
 #include "monitor_fdpass.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/ssh/monitor_fdpass.c,v 1.2 2008/07/13 16:03:56 tg Exp $");
 
 int
 mm_send_fd(int sock, int fd)
@@ -64,7 +64,10 @@ mm_send_fd(int sock, int fd)
 	msg.msg_iov = &vec;
 	msg.msg_iovlen = 1;
 
-	if ((n = sendmsg(sock, &msg, 0)) == -1) {
+	while ((n = sendmsg(sock, &msg, 0)) == -1 && (errno == EAGAIN ||
+	    errno == EINTR))
+		debug3("%s: sendmsg(%d): %s", __func__, fd, strerror(errno));
+	if (n == -1) {
 		error("%s: sendmsg(%d): %s", __func__, fd,
 		    strerror(errno));
 		return -1;
@@ -100,7 +103,10 @@ mm_receive_fd(int sock)
 	msg.msg_control = &cmsgbuf.buf;
 	msg.msg_controllen = CMSG_LEN(sizeof(int));
 
-	if ((n = recvmsg(sock, &msg, 0)) == -1) {
+	while ((n = recvmsg(sock, &msg, 0)) == -1 && (errno == EAGAIN ||
+	    errno == EINTR))
+		debug3("%s: recvmsg: %s", __func__, strerror(errno));
+	if (n == -1) {
 		error("%s: recvmsg: %s", __func__, strerror(errno));
 		return -1;
 	}

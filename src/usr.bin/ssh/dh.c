@@ -1,4 +1,4 @@
-/* $OpenBSD: dh.c,v 1.45 2007/09/27 00:15:57 ray Exp $ */
+/* $OpenBSD: dh.c,v 1.47 2008/06/26 09:19:39 djm Exp $ */
 /*
  * Copyright (c) 2000 Niels Provos.  All rights reserved.
  *
@@ -37,7 +37,7 @@
 #include "log.h"
 #include "misc.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/dh.c,v 1.6 2006/11/09 02:42:05 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/dh.c,v 1.7 2007/10/02 01:20:23 tg Exp $");
 
 static int
 parse_prime(int linenum, char *line, struct dhgroup *dhg)
@@ -45,6 +45,7 @@ parse_prime(int linenum, char *line, struct dhgroup *dhg)
 	char *cp, *arg;
 	char *strsize, *gen, *prime;
 	const char *errstr = NULL;
+	long long n;
 
 	cp = line;
 	if ((arg = strdelim(&cp)) == NULL)
@@ -61,11 +62,23 @@ parse_prime(int linenum, char *line, struct dhgroup *dhg)
 	arg = strsep(&cp, " "); /* type */
 	if (cp == NULL || *arg == '\0')
 		goto fail;
+	/* Ensure this is a safe prime */
+	n = strtonum(arg, 0, 5, &errstr);
+	if (errstr != NULL || n != MODULI_TYPE_SAFE)
+		goto fail;
 	arg = strsep(&cp, " "); /* tests */
 	if (cp == NULL || *arg == '\0')
 		goto fail;
+	/* Ensure prime has been tested and is not composite */
+	n = strtonum(arg, 0, 0x1f, &errstr);
+	if (errstr != NULL ||
+	    (n & MODULI_TESTS_COMPOSITE) || !(n & ~MODULI_TESTS_COMPOSITE))
+		goto fail;
 	arg = strsep(&cp, " "); /* tries */
 	if (cp == NULL || *arg == '\0')
+		goto fail;
+	n = strtonum(arg, 0, 1<<30, &errstr);
+	if (errstr != NULL || n == 0)
 		goto fail;
 	strsize = strsep(&cp, " "); /* size */
 	if (cp == NULL || *strsize == '\0' ||
@@ -152,7 +165,7 @@ choose_dh(int min, int wantbits, int max)
 	}
 
 	linenum = 0;
-	which = arc4random() % bestcount;
+	which = arc4random_uniform(bestcount);
 	while (fgets(line, sizeof(line), f)) {
 		if (!parse_prime(linenum, line, &dhg))
 			continue;

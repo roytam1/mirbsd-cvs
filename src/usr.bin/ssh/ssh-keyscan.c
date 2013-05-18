@@ -1,4 +1,4 @@
-/* $OpenBSD: ssh-keyscan.c,v 1.75 2007/12/27 14:22:08 dtucker Exp $ */
+/* $OpenBSD: ssh-keyscan.c,v 1.77 2008/11/01 11:14:36 sobrado Exp $ */
 /*
  * Copyright 1995, 1996 by David Mazieres <dm@lcs.mit.edu>.
  *
@@ -42,7 +42,7 @@
 #include "misc.h"
 #include "hostfile.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/ssh-keyscan.c,v 1.6 2006/11/09 02:42:06 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/ssh-keyscan.c,v 1.7 2008/03/02 21:14:22 tg Exp $");
 
 /* Flag indicating whether IPv4 or IPv6.  This can be set on the command line.
    Default value is AF_UNSPEC means both IPv4 and IPv6. */
@@ -54,7 +54,7 @@ int ssh_port = SSH_DEFAULT_PORT;
 #define KT_DSA	2
 #define KT_RSA	4
 
-int get_keytypes = KT_RSA1;	/* Get only RSA1 keys by default */
+int get_keytypes = KT_RSA;	/* Get only RSA keys by default */
 
 int hash_hosts = 0;		/* Hash hostname on output */
 
@@ -701,8 +701,9 @@ fatal(const char *fmt,...)
 static __dead void
 usage(void)
 {
-	fprintf(stderr, "usage: %s [-46Hv] [-f file] [-p port] [-T timeout] [-t type]\n"
-	    "\t\t   [host | addrlist namelist] [...]\n",
+	fprintf(stderr,
+	    "usage: %s [-46Hv] [-f file] [-p port] [-T timeout] [-t type]\n"
+	    "\t\t   [host | addrlist namelist] ...\n",
 	    __progname);
 	exit(1);
 }

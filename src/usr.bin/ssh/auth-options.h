@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /* $OpenBSD: auth-options.h,v 1.17 2008/03/26 21:28:14 djm Exp $ */
 
 /*

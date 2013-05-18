@@ -1,5 +1,5 @@
-/* $MirOS: src/usr.bin/ssh/readconf.h,v 1.9 2006/09/20 21:41:01 tg Exp $ */
-/* $OpenBSD: readconf.h,v 1.72 2008/01/19 23:09:49 djm Exp $ */
+/* $MirOS: src/usr.bin/ssh/readconf.h,v 1.10 2008/03/02 21:14:20 tg Exp $ */
+/* $OpenBSD: readconf.h,v 1.76 2008/11/04 08:22:13 djm Exp $ */
 
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
@@ -48,6 +48,7 @@ typedef struct {
 						 * authentication. */
 	int     kbd_interactive_authentication; /* Try keyboard-interactive auth. */
 	char	*kbd_interactive_devices; /* Keyboard-interactive auth devices. */
+	int     zero_knowledge_password_authentication;	/* Try jpake */
 	int     batch_mode;	/* Batch mode: do not ask for passwords. */
 	int     check_host_ip;	/* Also keep track of keys for IP address */
 	int     strict_host_key_checking;	/* Strict host key checking. */
@@ -119,6 +120,7 @@ typedef struct {
 
 	char	*local_command;
 	int	permit_local_command;
+	int	visual_host_key;
 
 }       Options;
 
@@ -131,7 +133,7 @@ typedef struct {
 void     initialize_options(Options *);
 void     fill_default_options(Options *);
 int	 read_config_file(const char *, const char *, Options *, int);
-int	 parse_forward(Forward *, const char *);
+int	 parse_forward(Forward *, const char *, int);
 
 int
 process_config_line(Options *, const char *, char *, const char *, int, int *);
