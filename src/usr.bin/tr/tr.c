@@ -45,7 +45,7 @@
 __COPYRIGHT("@(#) Copyright (c) 1988, 1993\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)tr.c	8.2 (Berkeley) 5/4/95");
-__RCSID("$MirOS: src/usr.bin/tr/tr.c,v 1.3 2007/07/16 15:12:03 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/tr/tr.c,v 1.4 2008/11/22 13:51:11 tg Exp $");
 
 static wchar_t string1[NCHARS], string2[NCHARS];
 
@@ -95,9 +95,8 @@ main(int argc, char *argv[])
 	setlocale(LC_ALL, "");
 #endif
 
-	for (lastch = 0; lastch < (NCHARS - 1); ++lastch)
+	for (lastch = 0; lastch < NCHARS; ++lastch)
 		string1[lastch] = lastch;
-	string1[NCHARS - 1] = 0;
 
 	cflag = dflag = sflag = false;
 	while ((ich = getopt(argc, argv, "cds")) != -1)
