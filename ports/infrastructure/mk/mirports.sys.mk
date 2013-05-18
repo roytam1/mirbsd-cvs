@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.36 2006/09/22 00:09:19 tg Exp $
+# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.37 2006/09/24 17:32:58 tg Exp $
 #-
 # Copyright (c) 2005, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -134,9 +134,11 @@ NO_CXX=			C++ is still broken, please update
 .  elif ${OSver:R} == 9
 .    if ${OSver:E} > 129
 _CKSUM_SIZE=		#defined
+_STAT_SIZE=		#defined
 .    endif
 .  else
 _CKSUM_SIZE=		#defined
+_STAT_SIZE=		#defined
 .  endif
 .endif
 

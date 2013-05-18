@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.132 2006/10/06 19:34:37 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.133 2006/10/06 20:01:06 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -1284,8 +1284,10 @@ README_NAME?=		${TEMPLATES}/README.port
 
 REORDER_DEPENDENCIES?=
 
-.ifdef _CKSUM_SIZE
+.if defined(_STAT_SIZE)
 _size_fragment=		stat -f 'SIZE (%N) = %z' $$file
+.elif defined(_CKSUM_SIZE)
+_size_fragment=		cksum -a size $$file
 .else
 _size_fragment=		print "SIZE ($$file) =" $$(wc -c <"$$file")
 .endif
