@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.172 2009/03/21 01:12:25 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.173 2009/03/22 12:25:21 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -3610,4 +3610,22 @@ Language: de
 <p>Ja, und sie war schön!</p>
 <p>Jetzt erstmal Kaffee, bißchen Geocachen, dann weiter hacken,
  und mit Benny zu kommunizieren versuchen ;)</p>
+----
+Author: tg@
+Title: mksh improvements
+Date: 22.03.2009 18:51
+Tag: mksh
+
+<p>Today's commits should fix Debian #518359 (not tried yet, as looking
+ at a 14" Belinea 10 40 40 CRT makes my eyes and head hurt), as well as
+ improve a lot of more things.</p>
+<p>The mksh(1) echo builtin now behaves more POSIXly in "set -o posix"
+ mode (or when called as "sh", if that feature was set at compile time).
+ The exact feature set is negotiable, if certain parties, say pkgsrc®,
+ are interested.</p>
+<p>Thanks to the OpenBSD developers for improving their ksh as well.</p>
+<p>The ;&amp; and ;;&amp; features are delayed for now though, sorry.</p>
+<p>We're in a feature freeze; people <strong>please test</strong> <a
+ href="@@RELPATH@@permalinks/wlog-10_e20081013-tg.htm">mksh-current</a>
+ on your system to make <em>R37</em> rock!</p>
 ----
