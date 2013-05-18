@@ -1,9 +1,9 @@
 #!/bin/mksh
-# $MirOS: src/scripts/roff2htm,v 1.21 2005/12/06 13:10:45 tg Exp $
+# $MirOS: src/scripts/roff2htm,v 1.28 2006/01/19 01:43:34 tg Exp $
 # $ekkoBSD: catman2html.sh,v 1.2 2004/03/07 03:02:53 stephen Exp $
 #-
-# Copyright (c) 2004, 2005
-#	Thorsten "mirabile" Glaser <tg@mirbsd.de>
+# Copyright (c) 2004, 2005, 2006
+#	Thorsten "mirabilos" Glaser <tg@mirbsd.de>
 # Copyright (c) 2004
 #	Stephen Paskaluk <sap@mirbsd.org>
 #
@@ -99,7 +99,7 @@ s/\([0-9A-z][-.,0-9A-z]*\)-\n\(  *\)\([0-9A-z][-.,0-9A-z]*([1-9][A-z]*)\)\([^ ]*
 	    -e 's#<b>+</b>#\&bull;#'					\
 	    -e 's#</\([bi]\)><\1>##g'					\
 	    -e 's#</\([bi]\)>\([[:punct:][:space:]]*\)<\1>#\2#g'	\
-	    -e 's#\([^[:punct:]]\)\([[:punct:]]*\)\(<[bi]>\)#\1\3\2#g'	\
+	    -e 's#\([^[:punct:]]\)\([-!"#$%&'\''()*+,./:;=?@[\]^_`{|}~]*\)\(<[bi]>\)#\1\3\2#g'	\
 	    -e 's#\(<i>[fh]t*p:[^<]*\)</i>/#\1/</i>#g'			\
 	    -e 's#\(<i>/[^<]*\)</i>/#\1/</i>#g'				\
 	    -e 's#<h3>*<b>*>#<h3>#g' -e 's#</b></h3>#</h3>#g'		\
@@ -135,37 +135,20 @@ output_header()
 		 <title>RTFM ${1}(${2})</title>
 		 <meta name="robots" content="index, follow" />
 		</head><body>
-		<script type="text/javascript"><!--
-		 google_ad_client = "pub-0266998858986985";
-		 google_ad_width = 468;
-		 google_ad_height = 15;
-		 google_ad_format = "468x15_0ads_al_s";
-		 google_ad_channel = "9683305767";
-		 google_color_border = "CCCCCC";
-		 google_color_bg = "CCCCCC";
-		 google_color_link = "000000";
-		 google_color_url = "006600";
-		 google_color_text = "006600";
-		//--></script>
-		<script type="text/javascript"
-		 src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
-		</script>
-		<p style="font-size:2pt;">This product includes material provided by Thorsten Glaser.</p>
 		<h1>MirOS Manual: <a href="../man${2}/${1}.htm"><tt>${1}(${2})</tt></a></h1>
-		<p style="font-size:xx-small;">Generated on ${gendate} by
-		 \$MirOS: src/scripts/roff2htm,v 1.21 2005/12/06 13:10:45 tg Exp $</p>
-		<hr />
 	EOF
 }
 
 output_footer()
 {
 	cat <<-EOF
-		<hr />
+		<hr /><p style="font-size:xx-small;">Generated on ${gendate} by
+		 \$MirOS: src/scripts/roff2htm,v 1.28 2006/01/19 01:43:34 tg Exp $</p>
 		<p>These manual pages are copyrighted by their respective writers; their
 		 source can normally be found in our <a href="/cvs.cgi/src/">CVSweb</a>.
-		 The rest is Copyright &copy; 2002-2005 <a href="http://MirBSD.org/">The
-		 MirOS Project</a>, Germany.</p>
+		 The rest is Copyright &copy; 2002-2006 <a href="http://MirBSD.org/">The
+		 MirOS Project</a>, Germany. <i style="font-size:3pt;"><br />
+		 This product includes material provided by Thorsten Glaser.</i></p>
 		<p style="font-size:x-small;">This manual page's HTML representation
 		 is supposed to be <a href="http://validator.w3.org/check/referer">valid
 		 XHTML/1.1</a>; if not, please send a bug report - diffs preferred.</p>
