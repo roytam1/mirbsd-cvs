@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/bootxx/bootxx.S,v 1.3 2007/02/26 02:52:46 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/bootxx/bootxx.S,v 1.4 2007/02/26 03:07:07 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2007
@@ -191,10 +191,6 @@ Lmlp2:	movsb			/* copy over as many bytes as needed */
 	/* call subroutine that does the actual loading */
 	mov	dl,[Ldrv]
 	call	[Lldp]
-	/* progress meter */
-	mov	ax,0x0E2E
-	mov	bx,7
-	int	0x10			/* output a dot */
 	/* and loop back */
 	pop	cx
 	dec	cl
@@ -264,18 +260,24 @@ LsIN0:	pusha
 	int	0x13
 	push	ds
 	pop	es
+	/* progress meter */
+	pushf
+	mov	ax,0x0E2E
+	mov	bx,7
+	int	0x10			/* output a dot */
+	popf
 	popa
 	jnc	Lretn
 	dec	bp
 	pusha
 	mov	si,offset Lldf
 	jz	Lbarf
-	xor	ax,ax
-	int	0x13
-	mov	ax,0x0E40		/* say it fails */
+	mov	ax,0x0E30		/* say it fails */
 	add	ax,bp
 	mov	bx,7
 	int	0x10
+	xor	ax,ax
+	int	0x13
 	popa
 	jmp	LsIN0
 
