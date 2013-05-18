@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/ramdisk/Makefile,v 1.11 2006/07/24 00:24:02 tg Exp $
+# $MirOS: src/distrib/ramdisk/Makefile,v 1.12 2006/07/24 00:24:43 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -64,6 +64,10 @@ INSTALLBOOT?=	${DESTDIR}/usr/mdec/installboot -h 2 -s ${FLOPPYSECS}
 BOOT?=		${DESTDIR}/usr/mdec/boot
 BOOTXX?=	${DESTDIR}/usr/mdec/bootxx
 
+# compact disc image (set to no to disable)
+CDROM?=		cdrom${OSrev}.iso
+CDROM_MDOPTS?=
+
 #---
 
 _RD_KERNELS=	bsd.rd
@@ -71,8 +75,8 @@ _RD_KERNELS=	bsd.rd
 _RD_KERNELS+=	bsd.rd.net
 .endif
 
-ALL_TGTS=	${_RD_KERNELS} ${FLOPPY:S/^no$//}
-INST_FILES?=	${_RD_KERNELS} ${FLOPPY:S/^no$//}
+ALL_TGTS=	${_RD_KERNELS} ${FLOPPY:S/^no$//} ${CDROM:S/^no$//}
+INST_FILES?=	${_RD_KERNELS} ${FLOPPY:S/^no$//} ${CDROM:S/^no$//}
 
 all: ${ALL_TGTS}
 
@@ -89,7 +93,8 @@ unconfig:
 
 cleannobsd: unconfig
 	rm -f *core ${CBIN} ${CBIN}.mk ${CBIN}.cache ${CBIN}.conf \
-	    ${RDSETROOT} *.c *.o *.lo bsd.{uc,st} ${_RD_KERNELS}
+	    ${RDSETROOT} *.c *.o *.lo bsd.{uc,st} ${_RD_KERNELS} mkisofs.log
+	rm -rf workdir
 
 clean cleandir: cleannobsd
 	rm -f bsd
@@ -167,6 +172,30 @@ ${FLOPPY}: bsd.st
 	${SUDO} fsck -fy ${VND_RDEV}
 	${SUDO} vnconfig -v -u ${VND}
 	${SUDO} rm -rf ${TMPMOUNT}
+
+${CDROM}: cdrom-prepare cdrom-mdcopy cdrom-generate cdrom-mdboot
+
+cdrom-prepare: bsd.rd
+	-rm -rf workdir
+	mkdir -p workdir/{etc,v${OSrev}/${MACHINE}}
+	@if [[ -e ${.CURDIR}/contrib ]]; then \
+		echo Integrating contrib dir; \
+		mkdir workdir/contrib; \
+		cd workdir/contrib; \
+		lndir ${.CURDIR}/contrib; \
+	fi
+	cp ${BOOT} workdir/etc/boot.ldr
+	cp ${.CURDIR}/boot.cfg.${MACHINE} workdir/etc/boot.cfg
+	cp bsd.rd workdir/v${OSrev}/${MACHINE}/
+	cp ${.CURDIR}/00-README workdir/
+
+cdrom-generate:
+	mkisofs -r -f -L -d -D -N -v -v \
+	    -P 'The http://mirbsd.de/ team and its contributors' \
+	    -p 'Copyright © 2002-2006 by The MirOS Project' \
+	    -V 'MirOS #${OSrev} BSD/${MACHINE} boot-only CD' \
+	    -volset "$$(uname -slm) Setup" -sysid "MirOSBSD" \
+	    -pad -o ${CDROM} workdir 2>&1 | tee mkisofs.log
 
 .include <bsd.obj.mk>
 .include <bsd.subdir.mk>

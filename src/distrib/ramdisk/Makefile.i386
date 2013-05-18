@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/distrib/ramdisk/Makefile.i386,v 1.1 2006/07/24 00:24:02 tg Exp $
 
 IMAGESIZE=	3072
 
@@ -7,4 +7,5 @@ RAMDISK_PREP=	print 'rootdev 17 0\nquit' | config -ef ${DO_BSDRD_UC}
 
 BOOT=		${BSDOBJDIR}/sys/arch/i386/stand/fdboot/boot
 
+CDROM=		no
 INST_FILES=	${FLOPPY}
