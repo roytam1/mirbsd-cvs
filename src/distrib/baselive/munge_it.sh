@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/baselive/munge_it.sh,v 1.16 2007/02/20 00:04:00 tg Exp $
+# $MirOS: src/distrib/baselive/munge_it.sh,v 1.17 2007/02/20 00:57:32 tg Exp $
 #-
 # Copyright (c) 2006, 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -72,7 +72,7 @@ ed -s etc/ntpd.conf <<-'EOMD'
 EOMD
 ed -s etc/rc <<-'EOMD'
 	1i
-		# $MirOS: src/distrib/baselive/munge_it.sh,v 1.16 2007/02/20 00:04:00 tg Exp $
+		# $MirOS: src/distrib/baselive/munge_it.sh,v 1.17 2007/02/20 00:57:32 tg Exp $
 	.
 	/shutdown request/ka
 	/^fi/a
@@ -99,6 +99,13 @@ ed -s etc/rc <<-'EOMD'
 		    cp /stand/locate.database /var/db/locate.database
 		print ' done'
 
+	.
+	/dmesg.boot/i
+
+		# try to get some entropy from the network
+		(ulimit -T 60; exec /usr/bin/ftp -mvo /dev/arandom \
+		    https://herc.mirbsd.org/rn.cgi?live"<$(uname -a)>" \
+		    >/dev/wrandom 2>&1)
 	.
 	/parsed console/a
 		[[ -e /etc/ttys ]] && if [[ $consdev != nochg ]]; then
