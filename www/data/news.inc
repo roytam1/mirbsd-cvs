@@ -831,3 +831,22 @@ Author: tg@
  should all be installable on this snapshot, although it does come with
  more recent MirPorts Framework.</p>
 ----
+Title: ssh host key changes for anoncvs mirror
+Date: 15.05.2008
+Author: tg@
+
+<p>Our anoncvs mirror has changed its ssh host keys due to a Debian-specific
+ problem (it's hosted on a machine running Debian GNU/Linux courtesy of
+ gecko2@). The new keys are:</p><ul>
+<li><tt>85.214.23.162,2001:470:1f0b:f0:0:6d69:7262:7364,2001:470:1f0b:f0:230:48ff:fe53:976,unixforge.de,anoncvs.mirbsd.org,anoncvs4.mirbsd.org,anoncvs6.mirbsd.org,hephaistos.gecko.ig42.org ssh-dss AAAAB3NzaC1kc3MAAACBAJmb9uS6pPtt2OhOhbyJTfoOH1IKzQX/ofA+Wm628FN7/NDv05R5etx7/5M5HJ370GTmwT81MnXMeh01FeifBqthadbOEXEn8rKAQtNRYq7anXgQua8IPu2yyy8OqHqcM22aHG64ex+lNqmD6crYMoaSsPoJzHwCtNi71rpJgoDnAAAAFQDDOoUXGc6wpOK4UYFOGG8dOTEvWwAAAIB9JT+bljVQG7gHzG9trqCXsMvtBAuMn/19LxKF+2JcS2Dk2oGLm3RNMCDU99OCx4FTYfKp4pLV+kV3P5lCvf0i8u7Wo7xIdrylNvnfIp2XRAB2PqZbnY0o8DIgs3aa8N1Dx/1yHBTFTiZjzzAaoZZlK9Fnxaxdme1+2FT5XuXBnwAAAIA1ciMxJOXqbxzMXC3V7yhV1XkA9Ygd3XfGfICIBaxRl9xSjGYQ/84u0aKpKSa6Y9iNDBhfgGUKUwcPOkRumuWeZ+AJ3daur98/jL+BmNutpPbAmUaxiC7z0akN9ihdm56oLbnU7cybgGWMomikvEg/zqNx4khpQeRb0rdSGub/ug==</tt></li>
+<li><tt>85.214.23.162,2001:470:1f0b:f0:0:6d69:7262:7364,2001:470:1f0b:f0:230:48ff:fe53:976,unixforge.de,anoncvs.mirbsd.org,anoncvs4.mirbsd.org,anoncvs6.mirbsd.org,hephaistos.gecko.ig42.org ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA60xpci97hqTWvuoivnnT58MT+vPcBJmoH+YLn/Yx1ryU4aZdw6l/RsqmDj70NleZ0twIYd9l5qzE4byJxenY/vhF3KJKMoEqVms4TrKAO9Efrk+eUDQm74tAkhGjD589o9ilk5Z/aeRpUfIUCGxJwmOzaFZ+gFEWWrbLqOfEVad/jawMnwl6vIoAZWucOUjUQaTuqsof+lIX+XJ/8A3SD6DfdmLwRcyx/EOd3+vAA3DBFHuef+/w0hoCb5n3mN7VfRovqNeyQ3LxAfE5fQNnbzFsYM9VCC5xDhOa6Kxji51lHTMyTz3SPXHV7dRvQ+4bdJ2I3yYXztGraI4bNIbBTQ==</tt></li>
+</ul><p>Please copy these into <tt>/etc/ssh/ssh_known_hosts</tt> or
+ <tt>~/.etc/ssh/known_hosts</tt>, overriding the existing keys for the
+ same IPs or host names.</p>
+<p>The current version of the <tt>/etc/ssh/ssh_known_hosts</tt> file can be
+ retrieved via anonymous CVS (from the server affected), anonymous rsync (also
+ from <a href="http://www.allbsd.org/">rsync.allbsd.org</a>), CVSweb (from
+ both servers) or by an eMail request.</p>
+<p>Yesterday's snapshot does <em>not</em> yet include the new public host
+ keys, as they were generated only today.</p>
+----
