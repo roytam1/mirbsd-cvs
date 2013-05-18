@@ -1,4 +1,4 @@
-.\" $MirOS: src/share/man/man9/style.9,v 1.14 2010/01/29 09:38:57 tg Exp $
+.\" $MirOS: src/share/man/man9/style.9,v 1.15 2010/03/15 18:05:07 tg Exp $
 .\"-
 .\" Copyright (c) 2002-2010 The MirOS Project.
 .\" Copyright (c) ? OpenBSD
@@ -576,14 +576,14 @@ statement is more than a single line, in which case they are permitted.
 .Bd -literal -offset indent
 for (p = buf; *p != \*(aq\e0\*(aq; ++p)
 	;	/* nothing */
-for (;;)
+while (1)	/* or: for (;;) */
 	stmt;
-for (;;) {
+while (1) {
 	z = a + really + long + statement + that + needs +
 	    two + lines + gets + indented + four + spaces +
 	    on + the + second + and + subsequent + lines;
 }
-for (;;) {
+while (1) {
 	if (cond)
 		stmt;
 }
