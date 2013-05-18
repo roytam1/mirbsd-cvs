@@ -1,5 +1,5 @@
 #!/bin/mksh
-rcsid='$MirOS: src/sys/arch/sparc/stand/bootxx/mkbxinst.sh,v 1.20 2010/01/16 21:12:26 tg Exp $'
+rcsid='$MirOS: src/sys/arch/sparc/stand/bootxx/mkbxinst.sh,v 1.21 2010/01/16 21:30:32 tg Exp $'
 #-
 # Copyright (c) 2007, 2008, 2009, 2010
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -49,7 +49,8 @@ set -A sect_text -- $(objdump -wh --target=a.out-sunos-big $1 | fgrep .text)
 typeset -Uui10 ofs tblsz
 (( ofs = sym_block_start - sym_start + fofs_text ))
 strip -F a.out-sunos-big -s -o $T $1
-(( $(stat -f %z $T) <= (15 * 512) )) || die 1 bootxx too big
+outsz=$(stat -f %z $T)
+(( outsz <= (15 * 512) )) || die 1 bootxx too big
 tblsz=$(dd if=$T bs=1 skip=$ofs count=4 2>/dev/null | \
     hexdump -ve '"0x" 4/1 "%02X"')
 part1=$(dd if=$T bs=1 skip=8 count=$((ofs - 8)) 2>/dev/null | \
@@ -187,6 +188,7 @@ EOF
 typeset -i ustar_keep=$((sym__ustar_keep - sym_start + fofs_text ))
 (( ustar_keep < 100 )) || die 1 ustar_keep is too large
 print typeset -i ustar_keep=$ustar_keep \#XXX
+print typeset -i outsz=$outsz
 print typeset -i blktblsz=$tblsz
 cat <<'EOF'
 set -A blktblent
@@ -263,5 +265,16 @@ done
 # Part 2
 EOF
 print -r "print -n '$part2'"
-print exit 0
+cat <<'EOF'
+
+# Pad with random octets until end of sector
+typeset -Uui8 x
+while (( outsz++ & 511 )); do
+	(( x = RANDOM & 0xFF ))
+	print -n "\\0${x#8#}"
+done
+let outsz--
+
+exit 0
+EOF
 exit 0
