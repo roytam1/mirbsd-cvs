@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/sparc/stand/bootxx/Makefile,v 1.9 2007/10/16 21:06:49 tg Exp $
+# $MirOS: src/sys/arch/sparc/stand/bootxx/Makefile,v 1.10 2007/10/16 21:26:22 tg Exp $
 # $OpenBSD: Makefile,v 1.7 2003/08/11 06:35:45 deraadt Exp $
 # $NetBSD: Makefile,v 1.2 1995/09/30 21:43:38 pk Exp $
 
@@ -23,33 +23,34 @@ CPPFLAGS+=	-I${.CURDIR}/../common -I${.CURDIR}/../../../../arch \
 		-I${.CURDIR}/../../../.. -I${.CURDIR}/../../../../lib/libsa \
 		-DBOOTXX
 
-CLEANFILES+=	${PROG}.elf
+CLEANFILES+=	${PROG}.{bin,elf} bxinst
 
-${PROG}: ${OBJS}
-	${LD} -N -Ttext ${RELOC} -e start ${OBJS} ${_SOBJS} ${_KOBJS} \
-	    -o ${PROG}.elf
-	@size ${PROG}.elf
-	elf2aout ${PROG}.elf ${PROG} -b
+all: ${PROG} bxinst
 
-CLEANFILES+=	${PROG}.bin ${PROG}.part*
-bxinst: ${PROG} bxinst.sh
-	strip -F a.out-sunos-big -s -o ${PROG}.bin ${PROG}
-	print -n '\01\03\01\07\060\0200\0\07' | \
-	    dd of=${PROG}.bin conv=notrunc 2>/dev/null
+${PROG}: ${PROG}.elf
+	elf2aout $@.elf $@ -b
+
+.include <bsd.prog.mk>
+
+${PROG}.bin: ${PROG}
+	strip -F a.out-sunos-big -s -o $@ $>
+
+${PROG}.elf: ${OBJS}
+	${LD} -N -Ttext ${RELOC} -e start ${OBJS} ${_SOBJS} ${_KOBJS} -o $@
+	@size $@
+
+bxinst: ${PROG}.bin bxinst.sh
 	eval $$(nm --target=a.out-sunos-big ${PROG} | \
 	    sed -n '/_start$$/s/^\([0-9a-fA-F]*\) . \(_.*\)$$/\2=0x\1/p'); \
 	typeset -Uui10 ofs tblsz; ((ofs = _block_start - _start + 32)); \
-	dd if=${PROG}.bin bs=$$ofs count=1 of=${PROG}.part1 2>/dev/null; \
 	tblsz=$$(dd if=${PROG}.bin bs=1 skip=$$ofs count=4 2>/dev/null | \
 	    hexdump -ve '"0x" 4/1 "%02X"'); \
-	dd if=${PROG}.bin of=${PROG}.part2 bs=1 \
-	    skip=$$((ofs + tblsz * 4 + 8)) 2>/dev/null; \
 	sed -e "s@@TBLSZ@@$$tblsz" \
-	    -e "s@@PARTONE@@$$(hexdump -ve '1/1 "\\\\0%o"' ${PROG}.part1)" \
-	    -e "s@@PARTTWO@@$$(hexdump -ve '1/1 "\\\\0%o"' ${PROG}.part2)" \
+	    -e "s@@PARTONE@@$$(dd bs=1 skip=8 count=$$((ofs - 8)) \
+		if=${PROG}.bin 2>/dev/null | hexdump -ve '1/1 "\\\\0%o"')" \
+	    -e "s@@PARTTWO@@$$(dd bs=1 skip=$$((ofs + tblsz * 4 + 8)) \
+		if=${PROG}.bin 2>/dev/null | hexdump -ve '1/1 "\\\\0%o"')" \
 	    <${.CURDIR}/bxinst.sh >$@
 
 srt0.o: srt0.S
 	${CC} ${CFLAGS} ${CPPFLAGS} -D_LOCORE -c ${.IMPSRC}
-
-.include <bsd.prog.mk>

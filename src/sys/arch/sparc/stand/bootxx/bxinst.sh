@@ -1,5 +1,5 @@
 #!/usr/bin/env mksh
-# $MirOS: src/share/misc/licence.template,v 1.20 2006/12/11 21:04:56 tg Rel $
+# $MirOS: src/sys/arch/sparc/stand/bootxx/bxinst.sh,v 1.1 2007/10/16 21:26:22 tg Exp $
 #-
 # Copyright (c) 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -46,7 +46,7 @@ exit 1
 #XXX TODO
 
 # Part 1
-print -n '@@PARTONE@@'
+print -n '\01\03\01\07\060\0200\0\07@@PARTONE@@'
 
 # The Block Table
 # note: currently, MI installboot(8) assumes 512-byte blocks, maybe
