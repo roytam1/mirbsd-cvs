@@ -48,7 +48,7 @@
 #include <sys/cdefs.h>
 #if defined(__RCSID) && !defined(__lint)
 __RCSID("$NetBSD: ffs_alloc.c,v 1.17 2006/12/18 21:03:29 christos Exp $");
-__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/ffs/ffs_alloc.c,v 1.4 2008/10/31 21:24:24 tg Exp $");
+__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/ffs/ffs_alloc.c,v 1.5 2010/03/06 21:29:08 tg Exp $");
 #endif	/* !__lint */
 
 #include <sys/param.h>
@@ -121,7 +121,7 @@ ffs_alloc(struct inode *ip, daddr_t lbn __unused, daddr_t bpref, int size,
 		cg = dtog(fs, bpref);
 	bno = ffs_hashalloc(ip, cg, bpref, size, ffs_alloccg);
 	if (bno > 0) {
-		DIP_ADD(ip, blocks, size / DEV_BSIZE);
+		DIP_ADD(ip, blocks, size / 512);
 		*bnp = bno;
 		return (0);
 	}
