@@ -1,9 +1,9 @@
-/* $MirOS: gcc/gcc/config/mirbsd.h,v 1.15 2006/12/11 20:30:59 tg Exp $ */
+/* $MirOS: gcc/gcc/config/mirbsd.h,v 1.16 2006/12/11 20:35:09 tg Exp $ */
 
 /* Base configuration file for all MirOS BSD targets.
-   Copyright (C) 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2005, 2006
+   Copyright (C) 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2005, 2006, 2007
    Free Software Foundation, Inc.
-   Contributed by Thorsten "mirabilos" Glaser <tg@mirbsd.de>
+   Contributed by Thorsten “mirabilos” Glaser <tg@mirbsd.de>
 
 This file is part of GCC.
 
@@ -49,7 +49,7 @@ Boston, MA 02111-1307, USA.  */
 #endif
 
 #undef CPP_SPEC
-#define CPP_SPEC MIRBSD_CPP_SPEC
+#define CPP_SPEC			MIRBSD_CPP_SPEC
 
 /* Since we use gas, stdin -> - is a good idea.  */
 #define AS_NEEDS_DASH_FOR_PIPED_INPUT
@@ -106,14 +106,14 @@ Boston, MA 02111-1307, USA.  */
      %{!symbolic:-lc}}"
 
 #undef LIB_SPEC
-#define LIB_SPEC MIRBSD_LIB_SPEC
+#define LIB_SPEC		MIRBSD_LIB_SPEC
 
 /* Provide a LIBGCC_SPEC stub for shared libgcc use.  */
 
 #define MIRBSD_LIBGCC_SPEC	"-lgcc"
 
 #undef LIBGCC_SPEC
-#define LIBGCC_SPEC MIRBSD_LIBGCC_SPEC
+#define LIBGCC_SPEC		MIRBSD_LIBGCC_SPEC
 
 /* When building shared libraries, the initialization and finalization
    functions for the library are .init and .fini respectively.  */
@@ -235,9 +235,15 @@ Boston, MA 02111-1307, USA.  */
 #undef LINK_SPEC
 #define LINK_SPEC MIRBSD_LINK_SPEC
 
+/* This is to address issues with libgcc: some of the functions are
+   also provided by libc, and we prefer these due to them being less
+   buggy.  Since we always use GNU ld, we can use the libs grouping
+   feature to prevent listing the libraries two or three times each.  */
+#define LINK_GCC_C_SEQUENCE_SPEC "--start-group %L %G --end-group"
+
 /* Don't assume anything about the header files.  Needed for libjava.  */
 #undef	NO_IMPLICIT_EXTERN_C
-#define	NO_IMPLICIT_EXTERN_C	1
+#define	NO_IMPLICIT_EXTERN_C 1
 
 /* MirOS libc already provides the ProPolice functions.  */
 
