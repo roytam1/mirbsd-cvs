@@ -1,5 +1,5 @@
-# $MirOS: src/etc/profile,v 1.13 2006/01/03 02:15:24 tg Exp $
-
+# $MirOS: src/etc/profile,v 1.14 2006/01/03 02:16:29 tg Exp $
+#-
 umask 022
 [ -z "$KSH_VERSION" ] && alias print='echo -e'
 [ -s "$HOME/.profile.preinit" ] && . $HOME/.profile.preinit
@@ -60,10 +60,10 @@ elif [ -n "$BASH_VERSION" ]; then
 	set -o emacs
 	shopt -s extglob
 	[[ $TERM = screen ]] && \
-		X_COLOUR=$X_COLOUR'[5;34;40m\]screen:\[[0m'
+		X_COLOUR=$X_COLOUR'[1;36;40m\]screen:\['
 	if [[ $OSTYPE = linux-gnu || $OSTYPE = Linux ]]; then
 		# compat_linux(8)
-		PS1='\['$X_COLOUR'[1;31m\]Linux!\[[0m\]\u@\h:\w \$ '
+		PS1='\['$X_COLOUR'[31m\]Linux!\[[0m\]\u@\h:\w \$ '
 		alias ls='/bin/ls --color'
 	else
 		# native via ports
