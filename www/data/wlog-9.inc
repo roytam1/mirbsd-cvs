@@ -1363,4 +1363,15 @@ Author: tg@
  and we have issues with binary-only stuff (BLOBs) too. Still it is slowly
  being undermined by addition of mir-tools to the system ☻ and – while a̲l̲l̲
  embedded system development kits suck, this one sucks the least.</p>
+<p>A few days ago, I had access to a Soekris vpn1411 card – hifn(4) – that
+ just worked™ out of the box on a bsd.rd kernel. Nice. I noted that rdate,
+ as well as uuencode(1) and uudecode(1) and their base64 variants were not
+ available, so I added them; rdate(8) even fits on the small floppy (8KiB)
+ and is now The Official ping6(8) Replacement™ on floppy, since the latter
+ is about 28K.</p>
+<p>Today I officially declare that gdb(1) isn't usable on MirOS. I tracked
+ down an GCC bug but was confused because a “load register with immediate”
+ opcode appeared to change memory (the stack frame – the print command did
+ not seem to be affected). But hey, I eventually found the bug. Now, all I
+ wait for is Sun to release their compiler under MIT licence… as if.</p>
 ----
