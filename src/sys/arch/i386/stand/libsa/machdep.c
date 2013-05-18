@@ -31,6 +31,8 @@
 #include "biosdev.h"
 #include <machine/apmvar.h>
 #include <machine/biosvar.h>
+#include <sys/disklabel.h>
+#include "disk.h"
 
 volatile struct BIOS_regs	BIOS_regs;
 
@@ -45,6 +47,9 @@ machdep(void)
 {
 	int i, j;
 	struct i386_boot_probes *pr;
+
+	/* Init stuff */
+	TAILQ_INIT(&disklist);
 
 	/*
 	 * The list of probe routines is now in conf.c.

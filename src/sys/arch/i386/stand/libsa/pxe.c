@@ -1,4 +1,4 @@
-/*	$MirOS: src/sys/arch/i386/stand/libsa/pxe.c,v 1.7 2009/01/10 20:28:28 tg Exp $ */
+/*	$MirOS: src/sys/arch/i386/stand/libsa/pxe.c,v 1.8 2009/01/10 20:29:42 tg Exp $ */
 /*	$OpenBSD: pxe.c,v 1.5 2007/07/27 17:46:56 tom Exp $ */
 /*	$NetBSD: pxe.c,v 1.5 2003/03/11 18:29:00 drochner Exp $	*/
 
@@ -103,6 +103,9 @@
 #include "pxeboot.h"
 #include "pxe.h"
 #include "pxe_netif.h"
+
+extern uint32_t pxe_bang;
+extern uint32_t pxe_plus;
 
 int have_pxe = -1;
 
@@ -307,6 +310,40 @@ pxeprobe(void)
 	}
 }
 
+#define try_pxenv(cp) do {					\
+	pxenv = (pxenv_t *)cp;					\
+	if (memcmp(pxenv->Signature, S_SIZE("PXENV+")) != 0)	\
+		pxenv = NULL;					\
+	else {							\
+		for (i = 0, ucp = (u_int8_t *)cp, cksum = 0;	\
+		     i < pxenv->Length; i++)			\
+			cksum += ucp[i];			\
+		if (cksum != 0) {				\
+			printf("\npxe_init: bad cksum (0x%x) "	\
+			    "for PXENV+ at 0x%lx\n", cksum,	\
+			    (u_long) cp);			\
+			pxenv = NULL;				\
+		}						\
+	}							\
+} while (/* CONSTCOND */ 0)
+
+#define try_pxe(cp) do {					\
+	pxe = (pxe_t *)cp;					\
+	if (memcmp(pxe->Signature, S_SIZE("!PXE")) != 0)	\
+		pxe = NULL;					\
+	else {							\
+		for (i = 0, ucp = (u_int8_t *)cp, cksum = 0;	\
+		     i < pxe->StructLength; i++)		\
+			cksum += ucp[i];			\
+		if (cksum != 0) {				\
+			printf("pxe_init: bad cksum (0x%x) "	\
+			    "for !PXE at 0x%lx\n", cksum,	\
+			    (u_long) cp);			\
+			pxe = NULL;				\
+		}						\
+	}							\
+} while (/* CONSTCOND */ 0)
+
 int
 pxe_init(int quiet)
 {
@@ -336,40 +373,20 @@ pxe_init(int quiet)
 	pxenv = NULL;
 	pxe = NULL;
 
-	for (cp = (char *)0xa0000; cp > (char *)0x10000; cp -= 2) {
-		if (pxenv == NULL) {
-			pxenv = (pxenv_t *)cp;
-			if (memcmp(pxenv->Signature, S_SIZE("PXENV+")) != 0)
-				pxenv = NULL;
-			else {
-				for (i = 0, ucp = (u_int8_t *)cp, cksum = 0;
-				     i < pxenv->Length; i++)
-					cksum += ucp[i];
-				if (cksum != 0) {
-					printf("\npxe_init: bad cksum (0x%x) "
-					    "for PXENV+ at 0x%lx\n", cksum,
-					    (u_long) cp);
-					pxenv = NULL;
-				}
-			}
-		}
+	if (pxe_plus)
+		try_pxenv(PTOV(pxe_plus >> 16, pxe_plus & 0xFFFF));
 
-		if (pxe == NULL) {
-			pxe = (pxe_t *)cp;
-			if (memcmp(pxe->Signature, S_SIZE("!PXE")) != 0)
-				pxe = NULL;
-			else {
-				for (i = 0, ucp = (u_int8_t *)cp, cksum = 0;
-				     i < pxe->StructLength; i++)
-					cksum += ucp[i];
-				if (cksum != 0) {
-					printf("pxe_init: bad cksum (0x%x) "
-					    "for !PXE at 0x%lx\n", cksum,
-					    (u_long) cp);
-					pxe = NULL;
-				}
-			}
-		}
+	if (pxe_bang)
+		try_pxe(PTOV(pxe_bang >> 16, pxe_bang & 0xFFFF));
+
+	if (pxe_plus == pxe_bang && (!pxe || !pxenv))
+		goto got_one;	/* probably from SYSLINUX */
+
+	for (cp = (char *)0xa0000; cp > (char *)0x10000; cp -= 2) {
+		if (pxenv == NULL)
+			try_pxenv(cp);
+		if (pxe == NULL)
+			try_pxe(cp);
 
 		if (pxe != NULL && pxenv != NULL)
 			break;
@@ -380,6 +397,7 @@ pxe_init(int quiet)
 		return 1;
 	}
 
+ got_one:
 	if (pxenv == NULL) {
 		/* assert(pxe != NULL); */
 

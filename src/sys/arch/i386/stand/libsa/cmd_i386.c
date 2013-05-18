@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/cmd_i386.c,v 1.20 2009/01/02 20:37:30 tg Exp $	*/
+/**	$MirOS: src/sys/arch/i386/stand/libsa/cmd_i386.c,v 1.21 2009/01/10 20:28:28 tg Exp $	*/
 /*	$OpenBSD: cmd_i386.c,v 1.29 2006/09/18 21:14:15 mpf Exp $	*/
 
 /*
@@ -42,7 +42,6 @@
 
 extern const char version[];
 extern int i386_flag_oldbios;
-extern struct disklist_lh disklist;
 
 #ifndef SMALL_BOOT
 int Xboot(void);
@@ -104,15 +103,9 @@ Xlabel(void)
 		return (0);
 	}
 
-	for (dip = TAILQ_FIRST(&disklist); dip; dip = TAILQ_NEXT(dip, list)) {
-		d = dip->bios_info.bios_number;
-
-		if ((((dip->bios_info.flags & BDI_EL_TORITO) ? 'c' :
-		    d & 0x80 ? 'h' : 'f') == dname[0]) &&
-		    (((dip->bios_info.flags & BDI_EL_TORITO) ? 0 :
-		    d & 0x7F) == (dname[2] - '0')))
+	for (dip = TAILQ_FIRST(&disklist); dip; dip = TAILQ_NEXT(dip, list))
+		if (!strncmp(dip->name, dname, 3))
 			break;
-	}
 	if (!dip) {
 		printf("Device for %cd%c not found\n", dname[0], dname[2]);
 		return (0);
@@ -149,6 +142,7 @@ Xboot(void)
 	bios_diskinfo_t *bd = NULL;
 	char *buf;
 	uint32_t baddr;
+	struct diskinfo *dip;
 
 	if (cmd.argc != 2) {
 		printf("machine boot {cd,fd,hd}<0123>[abcd]\n");
@@ -186,7 +180,12 @@ Xboot(void)
 	buf = (void *)((intptr_t)baddr);
 
 	/* Read boot sector from device */
-	bd = bios_dklookup(dev);
+	for (dip = TAILQ_FIRST(&disklist); dip; dip = TAILQ_NEXT(dip, list))
+		if (!strncmp(cmd.argv[1], dip->name, 3))
+			break;
+	if (!dip)
+		goto bad;
+	bd = &dip->bios_info;
 	st = biosd_io(F_READ, bd, 0, 1, buf);
 	if (st)
 		goto bad;

@@ -55,10 +55,6 @@ int bios_getdiskinfo(int, bios_diskinfo_t *);
 int biosd_io(int, bios_diskinfo_t *, daddr_t, int, void *);
 const char * bios_getdisklabel(bios_diskinfo_t *, struct disklabel *);
 
-/* diskprobe.c */
-struct diskinfo *dklookup(int);
-bios_diskinfo_t *bios_dklookup(int);
-
 /* bioscons.c */
 void pc_probe(struct consdev *);
 void pc_init(struct consdev *);

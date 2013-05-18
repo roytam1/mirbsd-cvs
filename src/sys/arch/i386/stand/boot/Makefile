@@ -1,4 +1,6 @@
-# $MirOS: src/sys/arch/i386/stand/boot/Makefile,v 1.21 2009/01/10 17:48:29 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/boot/Makefile,v 1.22 2009/01/10 18:11:22 tg Exp $
+
+SMALL_BOOT?=	No
 
 .include "${.CURDIR}/../Makefile.inc"
 
@@ -14,6 +16,11 @@ CPPFLAGS+=	${DEBUGFLAGS}
 CPPFLAGS+=	${SACFLAGS:M-[DI]*}
 COPTS+=		${SACFLAGS:N-[DI]*}
 
+.if ${SMALL_BOOT:L} == "no"
+# comment this out if trouble
+CPPFLAGS+=	-DUSE_PXE
+.endif
+
 #AFLAGS+=	-Wa,-R
 #AFLAGS+=	-Wa,-a
 
@@ -28,7 +35,7 @@ INSTALL_STRIP=
 .PATH:		${S}/stand/boot
 
 LDFLAGS+=	${BOOTLDFLAGS}
-SRCS=		srt0.S
+SRCS+=		srt0.S
 
 .ifdef BOOTSELECT_HOOK
 SRCS+=		hook.S

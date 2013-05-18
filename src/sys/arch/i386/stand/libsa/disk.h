@@ -32,6 +32,8 @@
 
 #include <sys/queue.h>
 
+struct fs_ops;
+
 /* All the info on a disk we've found */
 struct diskinfo {
 	bios_diskinfo_t bios_info;
@@ -40,11 +42,18 @@ struct diskinfo {
 	dev_t bsddev, bootdev;
 
 	TAILQ_ENTRY(diskinfo) list;
+
+	struct fs_ops *ops;
+	char name[5];
 };
 TAILQ_HEAD(disklist_lh, diskinfo);
 
 /* Head of this list */
 extern struct diskinfo *bootdev_dip;
+extern struct disklist_lh disklist;
+
+/* Entry for boot device */
+extern struct diskinfo *start_dip;
 
 void dump_diskinfo(void);
 int disk_trylabel(struct diskinfo *);

@@ -1,7 +1,9 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/dev_i386.c,v 1.10 2009/01/10 14:49:04 tg Exp $	*/
+/**	$MirOS: src/sys/arch/i386/stand/libsa/dev_i386.c,v 1.11 2009/01/10 20:28:28 tg Exp $	*/
 /*	$OpenBSD: dev_i386.c,v 1.30 2007/06/27 20:29:37 mk Exp $	*/
 
 /*
+ * Copyright (c) 2009 Thorsten Glaser
+ * Copyright (c) 2004 Tom Cosgrove
  * Copyright (c) 1996-1999 Michael Shalayeff
  * All rights reserved.
  *
@@ -27,12 +29,26 @@
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#define USE_PXE
+
+#ifdef SMALL_BOOT
+#undef USE_PXE
+#endif
+
 #include "libsa.h"
 #include "biosdev.h"
 #include <sys/param.h>
 #include <dev/cons.h>
 
 extern int debug;
+
+#ifdef USE_PXE
+extern const char *fs_name[];
+extern int nfsname;
+extern struct devsw netsw[];
+
+extern char *bootmac;		/* gets passed to kernel for network boot */
+#endif
 
 /* XXX use slot for 'rd' for 'hd' pseudo-device */
 const char bdevs[][4] = {
@@ -52,13 +68,56 @@ int
 devopen(struct open_file *f, const char *fname, char **file)
 {
 	struct devsw *dp = devsw;
-	register int i, rc = 1;
+#ifdef USE_PXE
+	char *p, *stripdev;
+#endif
+	int i, rc = 1;
 
 	*file = (char *)fname;
 
 #ifdef DEBUG
 	if (debug)
-		printf("devopen:");
+		printf("devopen(%s):", fname);
+#endif
+
+#ifdef USE_PXE
+	/* Make sure we have a prefix, e.g. hd0a: or tftp:. */
+	for (p = (char *)fname; *p != ':' && *p != '\0'; ) p++;
+	if (*p != ':')
+		goto do_local;
+	stripdev = p + 1;
+
+	for (i = 0; i < nfsname; i++) {
+		if ((fs_name[i] != NULL) &&
+		    (strncmp(fname, fs_name[i], p - fname) == 0)) {
+
+			/* Force oopen() etc to use this filesystem. */
+			f->f_ops = &file_system[i];
+			f->f_dev = dp = &netsw[0];
+
+			rc = (*dp->dv_open)(f, NULL);
+			if (rc == 0)
+				*file = stripdev;
+			else
+				f->f_dev = NULL;
+#ifdef DEBUG
+			if (debug)
+				putchar('\n');
+#endif
+			return rc;
+		}
+	}
+
+	/*
+	 * Assume that any network filesystems would be caught by the
+	 * code above, so that the next phase of devopen() is only for
+	 * local devices.
+	 *
+	 * Clear bootmac, to signal that we loaded this file from a
+	 * non-network device.
+	 */
+ do_local:
+	bootmac = NULL;
 #endif
 
 	for (i = 0; i < ndevs && rc != 0; dp++, i++) {

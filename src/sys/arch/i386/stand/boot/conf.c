@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/boot/conf.c,v 1.15 2009/01/10 13:06:19 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/boot/conf.c,v 1.16 2009/01/10 14:49:03 tg Exp $ */
 /*	$OpenBSD: conf.c,v 1.39 2008/04/19 23:20:22 weingart Exp $	*/
 
 /*
@@ -51,6 +51,9 @@
 #include "pxeboot.h"
 #include "pxe_net.h"
 
+#include <sys/disklabel.h>
+#include "disk.h"
+
 void pxecheck(void);
 #endif
 
@@ -98,10 +101,11 @@ struct fs_ops file_system[] = {
 	  fat_stat,    fat_readdir    },
 #endif
 #ifdef USE_PXE
-	{ nfs_open,    nfs_close,    nfs_read,    nfs_write,    nfs_seek,
-	  nfs_stat,    nfs_readdir    },
+#define O_TFTP 4
 	{ tftp_open,   tftp_close,   tftp_read,   tftp_write,   tftp_seek,
 	  tftp_stat,   tftp_readdir   },
+	{ nfs_open,    nfs_close,    nfs_read,    nfs_write,    nfs_seek,
+	  nfs_stat,    nfs_readdir    },
 #endif
 };
 int nfsys = NENTS(file_system);
@@ -115,6 +119,12 @@ struct devsw	devsw[] = {
 int ndevs = NENTS(devsw);
 
 #ifdef USE_PXE
+/* must match file_system[] */
+const char *fs_name[] = {
+	NULL, NULL, NULL, "tftp", "nfs"
+};
+int nfsname = NENTS(fs_name);
+
 struct devsw	netsw[] = {
 	{ "net",  net_strategy, net_open, net_close, net_ioctl },
 };
@@ -136,12 +146,22 @@ void
 pxecheck(void)
 {
 	if (have_pxe > 0) {
+		if (i386_biosflags & 4) {
+			start_dip = alloc(sizeof (struct diskinfo));
+			bzero(start_dip, sizeof (struct diskinfo));
+			memcpy(start_dip->name, "tftp", 5);
+			start_dip->ops = &file_system[O_TFTP];
+			start_dip->bios_info.flags = BDI_NOTADISK;
+			TAILQ_INSERT_TAIL(&disklist, start_dip, list);
+		}
+
 		have_pxe = 1;
 		sa_cleanup = pxe_shutdown;
 	} else {
 		have_pxe = 0;
 		nibprobes -= 1;
 		nfsys -= 2;
+		nfsname -= 2;
 #if 0
 		ndevs -= 1;
 #endif

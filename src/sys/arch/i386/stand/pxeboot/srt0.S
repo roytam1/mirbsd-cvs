@@ -225,6 +225,12 @@ i386_biosflags:
 i386_dosdev:
 	.byte	0
 
+	.globl	pxe_bang
+	.globl	pxe_plus
+pxe_bang:
+pxe_plus:
+	.long	0
+
 	bounce_buf = 0x30000
 	.globl	bounce_buf
 	.size	bounce_buf, 4096

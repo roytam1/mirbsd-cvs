@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/biosdev.c,v 1.24 2009/01/10 18:15:10 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/libsa/biosdev.c,v 1.25 2009/01/10 20:28:27 tg Exp $ */
 /*	$OpenBSD: biosdev.c,v 1.74 2008/06/25 15:32:18 reyk Exp $	*/
 
 /*
@@ -469,7 +469,7 @@ biosopen(struct open_file *f, ...)
 {
 	va_list ap;
 	register char	*cp, **file;
-	dev_t maj, unit, part;
+	dev_t unit, part;
 	struct diskinfo *dip;
 	int biosdev;
 
@@ -483,65 +483,31 @@ biosopen(struct open_file *f, ...)
 #endif
 
 	f->f_devdata = NULL;
+
 	/* search for device specification */
-	cp += 2;
-	if (cp[2] != ':') {
-		if (cp[3] != ':')
-			return ENOENT;
-		else
-			cp++;
+	while (*cp != ':' && *cp)
+		++cp;
+	if (*cp == '\0' || cp - *file < 2) {
+		cp = *file;
+		goto nodevspec;
 	}
 
-	for (maj = 0; maj < nbdevs && strncmp(*file, bdevs[maj], cp - *file); )
-	    maj++;
-	if (maj >= nbdevs) {
-		printf("Unknown device: ");
-		for (cp = *file; *cp != ':'; cp++)
-			putchar(*cp);
-		putchar('\n');
-		return EADAPT;
+	for (dip = TAILQ_FIRST(&disklist); dip; dip = TAILQ_NEXT(dip, list))
+		if (!strncmp(*file, dip->name, cp - *file - 1))
+			break;
+	if (!dip) {
+		cp = *file;
+		goto nodevspec;
 	}
 
-	/* get unit */
-	if ('0' <= *cp && *cp <= '9')
-		unit = *cp++ - '0';
-	else {
-		printf("Bad unit number\n");
-		return EUNIT;
-	}
 	/* get partition */
-	if ('a' <= *cp && *cp <= 'p')
-		part = *cp++ - 'a';
-	else {
-		printf("Bad partition id\n");
-		return EPART;
-	}
+	unit = cp[-2] - '0';
+	part = cp[-1] - 'a';
+	++cp;
 
-	if (*cp == ':')
-		cp++;
-	if (*cp != 0)
-		*file = cp;
-	else
-		f->f_flags |= F_RAW;
+	biosdev = dip->bios_info.bios_number;
 
-	biosdev = unit;
-	switch (maj) {
-	case 0:  /* wd */
-	case 4:  /* sd */
-	case 17: /* hd */
-		biosdev |= 0x80;
-		break;
-	case 2:  /* fd */
-		break;
-	case 6:  /* cd */
-		biosdev = 0xFF /*bios_bootdev*/ & 0xff;
-		break;
-	default:
-		return ENXIO;
-	}
-
-	/* Find device */
-	bootdev_dip = dip = dklookup(biosdev);
+	bootdev_dip = dip;
 
 	/* Fix up bootdev */
 	{ dev_t bsd_dev;
@@ -552,10 +518,10 @@ biosopen(struct open_file *f, ...)
 		    B_CONTROLLER(bsd_dev), B_UNIT(bsd_dev), part);
 	}
 
-#if 0
-	dip->bios_info.bsd_dev = dip->bootdev;
-	bootdev = dip->bootdev;
-#endif
+ nodevspec:
+	if ((dip = bootdev_dip) == NULL)
+		if ((dip = bootdev_dip = start_dip) == NULL)
+			return (EADAPT);
 
 #ifdef BIOS_DEBUG
 	if (debug) {
@@ -571,8 +537,6 @@ biosopen(struct open_file *f, ...)
 
 	f->f_devdata = dip;
 
-	if (*cp == ':')
-		cp++;
 	if (*cp != 0)
 		*file = cp;
 	else

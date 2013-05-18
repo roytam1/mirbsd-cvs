@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/diskprobe.c,v 1.11 2009/01/03 13:43:33 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/libsa/diskprobe.c,v 1.12 2009/01/10 14:49:04 tg Exp $ */
 /*	$OpenBSD: diskprobe.c,v 1.29 2007/06/18 22:11:20 krw Exp $	*/
 
 /*
@@ -53,7 +53,10 @@ static int disksum(int);
 struct disklist_lh disklist;
 
 /* Pointer to boot device */
-struct diskinfo *bootdev_dip;
+struct diskinfo *bootdev_dip = NULL;
+
+/* Pointer to original boot device */
+struct diskinfo *start_dip = NULL;
 
 extern int debug;
 
@@ -78,7 +81,14 @@ floppyprobe(void)
 			break;
 		}
 
-		printf(" fd%u", i);
+		if (!start_dip && i386_biosdev == i)
+			start_dip = dip;
+
+		dip->name[0] = 'f';
+		dip->name[1] = 'd';
+		dip->name[2] = '0' + i;
+		dip->name[3] = '\0';
+		printf(" %s", dip->name);
 
 		/* Fill out best we can - (fd?) */
 		dip->bios_info.bsd_dev = MAKEBOOTDEV(2, 0, 0, i, RAW_PART);
@@ -106,26 +116,8 @@ hardprobe(void)
 	u_int bsdunit, type;
 	u_int scsi = 0, ide = 0;
 
-#ifndef SMALL_BOOT
-	/* CD-ROM */
-//	if (i386_toridev) { //XXX
-		printf(" cd0");
-		dip = alloc(sizeof(struct diskinfo));
-		memset(dip, 0, sizeof(*dip));
-		dip->bios_info.bsd_dev = MAKEBOOTDEV(6, 0, 0, 0, RAW_PART);
-		dip->bios_info.flags |= (BDI_INVALID | BDI_EL_TORITO);
-//		dip->bios_info.bios_number = i386_toridev;
-		TAILQ_INSERT_TAIL(&disklist, dip, list);
-//	}
-#endif
-
 	/* Hard disks */
 	for (i = 0x80; i < 0x88; i++) {
-#ifndef SMALL_BOOT
-//		if (i == i386_toridev)
-//			continue;
-#endif
-
 		dip = alloc(sizeof(struct diskinfo));
 		bzero(dip, sizeof(*dip));
 
@@ -138,7 +130,15 @@ hardprobe(void)
 			break;
 		}
 
-		printf(" hd%u%s", i&0x7f, (dip->bios_info.bios_edd > 0?"+":""));
+		if (!start_dip && i386_biosdev == i)
+			start_dip = dip;
+
+		dip->name[0] = 'h';
+		dip->name[1] = 'd';
+		dip->name[2] = '0' + (i & 0x7F);
+		dip->name[3] = '\0';
+		printf(" %s%s", dip->name,
+		    (dip->bios_info.bios_edd > 0 ? "+" : ""));
 
 		/* Try to find the label, to figure out device type */
 		if ((bios_getdisklabel(&dip->bios_info, &dip->disklabel)) ) {
@@ -190,9 +190,6 @@ diskprobe(void)
 	/* These get passed to kernel */
 	bios_diskinfo_t *bios_diskinfo;
 
-	/* Init stuff */
-	TAILQ_INIT(&disklist);
-
 	/* Do probes */
 	floppyprobe();
 #ifdef BIOS_DEBUG
@@ -200,6 +197,9 @@ diskprobe(void)
 		printf(";");
 #endif
 	hardprobe();
+
+	if (!start_dip)
+		start_dip = TAILQ_FIRST(&disklist);
 
 	/* Checksumming of hard disks */
 	for (i = 0; disksum(i++) && i < MAX_CKSUMLEN; )
@@ -224,100 +224,6 @@ diskprobe(void)
 	    bios_diskinfo);
 }
 
-
-#ifdef notdef
-void
-cdprobe(void)
-{
-	struct diskinfo *dip;
-	int cddev = bios_cddev & 0xff;
-
-	/* Another BIOS boot device... */
-
-	if (bios_cddev == -1)			/* Not been set, so don't use */
-		return;
-
-	dip = alloc(sizeof(struct diskinfo));
-	bzero(dip, sizeof(*dip));
-
-#if 0
-	if (bios_getdiskinfo(cddev, &dip->bios_info)) {
-		printf(" <!cd0>");	/* XXX */
-		free(dip, 0);
-		return;
-	}
-#endif
-
-	printf(" cd0");
-
-	dip->bios_info.bios_number = cddev;
-	dip->bios_info.bios_edd = 1;		/* Use the LBA calls */
-	dip->bios_info.flags |= BDI_GOODLABEL | BDI_EL_TORITO;
-	dip->bios_info.checksum = 0;		 /* just in case */
-	dip->bios_info.bsd_dev =
-	    MAKEBOOTDEV(0, 0, 0, 0xff, RAW_PART);
-
-	/* Create an imaginary disk label */
-	dip->disklabel.d_secsize = 2048;
-	dip->disklabel.d_ntracks = 1;
-	dip->disklabel.d_nsectors = 100;
-	dip->disklabel.d_ncylinders = 1;
-	dip->disklabel.d_secpercyl = dip->disklabel.d_ntracks *
-	    dip->disklabel.d_nsectors;
-	if (dip->disklabel.d_secpercyl == 0) {
-		dip->disklabel.d_secpercyl = 100;
-		/* as long as it's not 0, since readdisklabel divides by it */
-	}
-
-	strncpy(dip->disklabel.d_typename, "ATAPI CD-ROM",
-	    sizeof(dip->disklabel.d_typename));
-	dip->disklabel.d_type = DTYPE_ATAPI;
-
-	strncpy(dip->disklabel.d_packname, "fictitious",
-	    sizeof(dip->disklabel.d_packname));
-	dip->disklabel.d_secperunit = 100;
-	dip->disklabel.d_rpm = 300;
-	dip->disklabel.d_interleave = 1;
-
-	dip->disklabel.d_bbsize = 2048;
-	dip->disklabel.d_sbsize = 2048;
-
-	/* 'a' partition covering the "whole" disk */
-	dip->disklabel.d_partitions[0].p_offset = 0;
-	dip->disklabel.d_partitions[0].p_size = 100;
-	dip->disklabel.d_partitions[0].p_fstype = FS_UNUSED;
-
-	/* The raw partition is special */
-	dip->disklabel.d_partitions[RAW_PART].p_offset = 0;
-	dip->disklabel.d_partitions[RAW_PART].p_size = 100;
-	dip->disklabel.d_partitions[RAW_PART].p_fstype = FS_UNUSED;
-
-	dip->disklabel.d_npartitions = RAW_PART + 1;
-
-	dip->disklabel.d_magic = DISKMAGIC;
-	dip->disklabel.d_magic2 = DISKMAGIC;
-	dip->disklabel.d_checksum = dkcksum(&dip->disklabel);
-
-	/* Add to queue of disks */
-	TAILQ_INSERT_TAIL(&disklist, dip, list);
-}
-#endif
-
-
-/* Find info on given BIOS disk */
-struct diskinfo *
-dklookup(int dev)
-{
-	struct diskinfo *dip;
-
-	for(dip = TAILQ_FIRST(&disklist); dip; dip = TAILQ_NEXT(dip, list))
-		if((dip->bios_info.bios_number == dev) &&
-		    !(dip->bios_info.flags & BDI_EL_TORITO))
-			return(dip);
-
-	return NULL;
-}
-
 void
 dump_diskinfo(void)
 {
@@ -330,28 +236,15 @@ dump_diskinfo(void)
 		bios_diskinfo_t *bdi = &dip->bios_info;
 		int d = bdi->bios_number;
 
-		printf("%cd%d\t0x%X\t%s\t%d\t%d\t%d\t0x%X\t0x%X\n",
-		    (bdi->flags & BDI_EL_TORITO) ? 'c' : ((d & 0x80)?'h':'f'),
-		    (bdi->flags & BDI_EL_TORITO) ?  0  : d & 0x7F, d,
-			(bdi->flags & BDI_BADLABEL)?"*none*":"label",
+		if (bdi->flags & BDI_NOTADISK) {
+			printf("%s\tnone\n", dip->name);
+			continue;
+		}
+		printf("%s\t0x%X\t%s\t%d\t%d\t%d\t0x%X\t0x%X\n",
+		    dip->name, d, (bdi->flags & BDI_BADLABEL)?"*none*":"label",
 		    bdi->bios_cylinders, bdi->bios_heads, bdi->bios_sectors,
 		    bdi->flags, bdi->checksum);
 	}
-}
-
-/* Find BIOS portion on given BIOS disk
- * XXX - Use dklookup() instead.
- */
-bios_diskinfo_t *
-bios_dklookup(int dev)
-{
-	struct diskinfo *dip;
-
-	dip = dklookup(dev);
-	if (dip)
-		return &dip->bios_info;
-
-	return NULL;
 }
 
 /*
@@ -372,7 +265,8 @@ disksum(int blk)
 		bios_diskinfo_t *bdi = &dip->bios_info;
 
 		/* Skip this disk if it is not a HD or has had an I/O error */
-		if (!(bdi->bios_number & 0x80) || bdi->flags & BDI_INVALID)
+		if (!(bdi->bios_number & 0x80) ||
+		    bdi->flags & (BDI_INVALID | BDI_NOTADISK))
 			continue;
 
 		/* Adler32 checksum */
@@ -387,7 +281,7 @@ disksum(int blk)
 				dip2 = TAILQ_NEXT(dip2, list)) {
 			bios_diskinfo_t *bd = &dip2->bios_info;
 			if ((bd->bios_number & 0x80) &&
-			    !(bd->flags & BDI_INVALID) &&
+			    !(bd->flags & (BDI_INVALID | BDI_NOTADISK)) &&
 			    bdi->checksum == bd->checksum)
 				reprobe = 1;
 		}
