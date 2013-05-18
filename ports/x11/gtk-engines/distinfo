@@ -1,5 +1,7 @@
-MD5 (gtk-engines-2.10.2.tar.bz2) = 01de081b24d7b5d92093cad5c5e4b8c7
-RMD160 (gtk-engines-2.10.2.tar.bz2) = a70adee858cb787ea164c0e17de42aa68015a69f
-SHA1 (gtk-engines-2.10.2.tar.bz2) = 25109487274b9af4d1ec260aec022df5a61aee06
-SIZE (gtk-engines-2.10.2.tar.bz2) = 654866
-TIGER (gtk-engines-2.10.2.tar.bz2) = 7a8cd7c337775e7cc5ada5c76111d4ad1a33d942016b42ef
+$MirOS$
+
+MD5 (gtk-engines-2.12.2.tar.bz2) = a73506d8262eb52e0e4bd8e04517ea4e
+RMD160 (gtk-engines-2.12.2.tar.bz2) = d6f577c2b6c1c55287647f2e17f7439bf2337425
+SHA1 (gtk-engines-2.12.2.tar.bz2) = 9bebc66b2543471c10ba9cb9059d59e070142e98
+SIZE (gtk-engines-2.12.2.tar.bz2) = 653441
+TIGER (gtk-engines-2.12.2.tar.bz2) = 7fd4efdd67ce6b02d744898a3461579f473f845819151f66
