@@ -1,4 +1,4 @@
-@comment $MirOS: ports/devel/libglade/pkg/PLIST,v 1.2 2005/12/28 18:20:52 bsiegert Exp $
+@comment $MirOS: ports/devel/libglade/pkg/PLIST,v 1.3 2007/01/26 12:37:07 bsiegert Exp $
 @comment $OpenBSD: PLIST,v 1.5 2004/09/14 23:43:56 espie Exp $
 bin/libglade-convert
 include/libglade-2.0/glade/glade-build.h
@@ -25,6 +25,7 @@ share/gtk-doc/html/libglade/libglade-lib.html
 share/gtk-doc/html/libglade/libglade-modules.html
 share/gtk-doc/html/libglade/libglade-notes.html
 share/gtk-doc/html/libglade/libglade.devhelp
+share/gtk-doc/html/libglade/libglade.devhelp2
 share/gtk-doc/html/libglade/right.png
 share/gtk-doc/html/libglade/style.css
 share/gtk-doc/html/libglade/up.png

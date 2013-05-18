@@ -1,13 +1,13 @@
-# $MirOS: ports/devel/libglade/Makefile,v 1.9 2007/01/26 12:37:06 bsiegert Exp $
+# $MirOS: ports/devel/libglade/Makefile,v 1.10 2007/02/22 22:57:47 tg Exp $
 # $OpenBSD: Makefile,v 1.7 2004/12/22 06:31:05 espie Exp $
 
 COMMENT=		library for loading GLADE interface files at runtime
-V=			2.5.1
+V=			2.6.1
 DISTNAME=		libglade-${V}
-PKGNAME=		libglade2-${V}-1
+PKGNAME=		libglade2-${V}-${DASH_VER}
 CATEGORIES=		devel
 HOMEPAGE=		http://www.gnome.org
-MASTER_SITES=		${MASTER_SITE_GNOME:=sources/libglade/2.5/}
+MASTER_SITES=		${MASTER_SITE_GNOME:=sources/libglade/2.6/}
 EXTRACT_SUFX=           .tar.bz2
 
 # GNU LGPLv2.0
