@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/kern/kern_sysctl.c,v 1.8 2006/08/18 12:29:53 tg Exp $ */
+/**	$MirOS: src/sys/kern/kern_sysctl.c,v 1.9 2006/08/19 11:04:01 tg Exp $ */
 /*	$NetBSD: kern_sysctl.c,v 1.146 2003/09/28 13:24:48 dsl Exp $	*/
 /*	$OpenBSD: kern_sysctl.c,v 1.126 2005/06/04 05:10:40 tedu Exp $	*/
 /*	$NetBSD: kern_sysctl.c,v 1.17 1996/05/20 17:49:05 mrg Exp $	*/
@@ -304,7 +304,6 @@ kern_sysctl(name, namelen, oldp, oldlenp, newp, newlen, p)
 		switch (name[0]) {
 		case KERN_PROC:
 		case KERN_PROC2:
-		case KERN_PROF:
 		case KERN_MALLOCSTATS:
 		case KERN_TTY:
 		case KERN_POOL:

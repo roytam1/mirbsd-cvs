@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/sys/sys/sysctl.h,v 1.2 2005/03/06 21:28:34 tg Exp $ */
 /*	$NetBSD: sysctl.h,v 1.99 2003/09/28 13:02:19 dsl Exp $	*/
 /*	$OpenBSD: sysctl.h,v 1.77 2004/04/19 22:52:33 tedu Exp $	*/
 /*	$NetBSD: sysctl.h,v 1.16 1996/04/09 20:55:36 cgd Exp $	*/
@@ -130,7 +130,7 @@ struct ctlname {
 #define	KERN_VNODE		13	/* struct: vnode structures */
 #define	KERN_PROC		14	/* struct: process entries */
 #define	KERN_FILE		15	/* struct: file entries */
-#define	KERN_PROF		16	/* node: kernel profiling info */
+/* gap1				16	*/
 #define	KERN_POSIX1		17	/* int: POSIX.1 version */
 #define	KERN_NGROUPS		18	/* int: # of supplemental group ids */
 #define	KERN_JOB_CONTROL	19	/* int: is job control available */
@@ -207,7 +207,7 @@ struct ctlname {
 	{ "vnode", CTLTYPE_STRUCT }, \
 	{ "proc", CTLTYPE_STRUCT }, \
 	{ "file", CTLTYPE_STRUCT }, \
-	{ "profiling", CTLTYPE_NODE }, \
+	{ "gap1", 0 }, \
 	{ "posix1version", CTLTYPE_INT }, \
 	{ "ngroups", CTLTYPE_INT }, \
 	{ "job_control", CTLTYPE_INT }, \
