@@ -1,10 +1,11 @@
-# $MirOS: ports/net/sirc/Makefile,v 1.28 2010/03/30 21:03:05 tg Exp $
+# $MirOS: ports/net/sirc/Makefile,v 1.29 2011/12/16 18:17:04 tg Exp $
 
 COMMENT=		programmable small perl irc client (utf-8, TLS, IPv6 ready)
 CATEGORIES=		net
 DIST_NAME=		sirc
 DIST_DATE=		20111216
 DIST_SOURCE=		port
+DASH_VER=		1
 RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.org>
 HOMEPAGE=		http://www.iagora.com/~espel/sirc/sirc.html
 
