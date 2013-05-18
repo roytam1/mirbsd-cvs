@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.446 2012/03/24 23:38:43 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.447 2012/03/29 19:38:46 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -741,6 +741,12 @@ exec /usr/bin/ld "${args[@]}"</pre>
  please note: it’s <tt>mksh</tt> or “The MirBSD Korn Shell” (“MidnightBSD
  Korn Shell” is also appropriate), but <em>never</em> <del>Mksh</del> or
  somesuch!</p>
+<p id="pcur"><i>current</i>: Honours <tt>LDSTATIC</tt> (which is appended
+ to <tt>LDFLAGS</tt> and, if not empty (e.g. consists of whitespace), adds
+ more mksh-local code to to the build to avoid pulling in more libc code
+ and improving LTO effect. <i>(unfinished…)</i></p>
+<p id="p40f">R40f: Honours <tt>AWK</tt>. Is a lot more anal wrt. using
+ cached Makefile includes. <i>(unfinished…)</i></p>
 <p id="p40e">R40e: No longer tries to use GCC and C99 extensions. It has
  a run-time check in Build.sh which may trigger a core dump; preseed with
  HAVE_SILENT_IDIVWRAPV=0 in the environment to skip the check and always
@@ -976,10 +982,13 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <h2 id="caveat">Users' Upgrade Caveat</h2>
 <p>This does not necessarily list new features, only these which users
  should be aware of for existing scripts.</p>
+<p id="ccur"><i>current</i>: … <i>(unfinished…)</i></p>
+<p id="c40f">R40f: … <i>(unfinished…)</i></p>
 <p id="c40e">R40e: Interpreting "010" as octal number will now emit a warning
  at run-time. Several bugfixes lead to slightly changed behaviour to conform
  better to the standards. The worst offending bugs in the persistent history
- code have been fixed, but its use is still discouraged.</p>
+ code have been fixed, but its use is still discouraged. THIS VERSION IS
+ BROKEN WITHOUT A HOTFIX which your packager probably added.</p>
 <p id="c40d">R40d: Interpreting "010" as octal number is now deprecated
  and <em>will</em> be removed soon. You can now use “local” and “set -A”
  together to create function-local arrays. The test(1) built-in command
@@ -1040,19 +1049,27 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Reduce stack usage a bit; speed up hash tables at size cost</li>
  <li>[tg] <tt>MKSH_SMALL</tt> no longer implies <tt>-fno-inline</tt></li>
  <li>[tg] Support optional seed in <tt>${parameter@#seed}</tt> for security</li>
+ <li>[tg] New <tt>Build.sh</tt> environment configurable: LDSTATIC (empty)</li>
+ <li>[tg] Improve LTO effect by always adding our copies of distributed utility
+  function sources when linking statically (i.e. LDSTATIC is not empty)</li>
+</ul>
+<p>Changes in the current (unreleased) stable branch:</p><ul>
  <li>[tg, RT] Implement fcntl(2)-based advisory locking as an alternative
   iff flock(2) is not found (LP: #912691); keep trying in the face of EINTR</li>
- <li style="list-style:none;">Changes scheduled for later MFC:</li>
  <li>[tg] Fix severe regression wrt. initialising tty(4) states</li>
  <li>[tg] Improve testsuite, build-time checks and debugging output</li>
- <li>[tg, RT, winstonw] Improve portability to BeOS (broken), Cygwin (good),
-  SCO OpenServer (good), SCO UnixWare (good), USL C, Plan 9 (broken), …</li>
+ <li>[tg, RT, winstonw] Improve portability to BeOS (works), Cygwin (good),
+  Dell UNIX (works somewhat, but not with gcc), LynxOS (works somewhat),
+  NeXTstep (works but not OpenStep 4.2), USL C compiler, SCO OpenServer (good),
+  SCO UnixWare (good), Plan 9 (still broken)</li>
  <li>[tg] <tt>rlim_t</tt> is supposed to be unsigned</li>
- <li>[tg] Some code and warning cleanup</li>
+ <li>[tg] Some code, warning and spelling cleanup</li>
+ <li>[tg] New <tt>Build.sh</tt> environment configurable: AWK (= awk)</li>
+ <li>[tg, DONG-DONG YANG] Add safety net in the Emacs line editing code</li>
+ <li>[tg] No longer rely on env(1), id(1), printf(1) in the testsuite, and
+  strcasecmp(3), strcasestr(3), strncasecmp(3) in the code</li>
+ <li>[tg, stsc, RT] Reduce system requirements of <tt>check.pl</tt> further</li>
 </ul>
-<!--
-<p>Changes in the current (unreleased) stable branch:</p><ul>
--->
 <p id="r40e">mksh R40e is another must-have bugfix update:</p><ul>
  <li>[tg, Jilles Tjoelker] skip readonly check in unevaluated ternary twig</li>
  <li>[tg, anonymous] fix all remaining <tt>ifs.sh</tt> testcases</li>
