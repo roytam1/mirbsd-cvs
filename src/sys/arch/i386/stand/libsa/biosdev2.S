@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/libsa/biosdev2.S,v 1.3 2009/01/11 13:43:47 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/libsa/biosdev2.S,v 1.4 2009/01/11 17:08:30 tg Exp $ */
 
 /*-
  * Copyright (c) 2009
@@ -48,6 +48,7 @@ biosdev_lbaprobe:
 	mov	dl,[ebp+8]
 	call	prot_to_real
 	.code16
+	sti
 	push	edx
 	mov	ah,0
 	int	0x13
@@ -89,6 +90,7 @@ biosdev_lbaprobe:
 LnoCD:	or	dh,8
 LnoLBA:	call	real_to_prot
 	.code32
+	sti
 	pop	edi
 	pop	esi
 	pop	ebx
@@ -118,6 +120,7 @@ biosdev_CHS:
 	mov	bl,[ebp+28]
 	call	prot_to_real
 	.code16
+	sti
 	mov	ax,bx
 	mov	bx,0x3000
 	mov	es,bx
@@ -130,6 +133,7 @@ biosdev_io:
 	mov	bl,ah
 1:	call	real_to_prot
 	.code32
+	sti
 	xor	eax,eax
 	mov	al,bl
 	pop	edi
@@ -164,6 +168,7 @@ biosdev_LBA:
 	mov	esi,offset biosdev_lba_buf - 0x30000
 	call	prot_to_real
 	.code16
+	sti
 	push	bx
 	mov	bx,0x3000
 	mov	ds,bx
