@@ -1,4 +1,4 @@
-.\" $MirOS: ports/infrastructure/pkgtools/rtfm/bsd.port.mk.5,v 1.26 2008/11/02 17:26:06 tg Exp $
+.\" $MirOS: ports/infrastructure/pkgtools/rtfm/bsd.port.mk.5,v 1.27 2008/11/10 02:21:00 tg Exp $
 .\" $OpenBSD: bsd.port.mk.5,v 1.134 2004/02/18 13:39:02 xsa Exp $
 .\"
 .\" Copyright (c) 2007, 2008 Thorsten Glaser
@@ -63,7 +63,7 @@
 .\" with -mandoc, it might implement .Mx itself, but we want to
 .\" use our own definition. And .Dd must come *first*, always.
 .\"
-.Dd $Mdocdate: November 2 2008 $
+.Dd $Mdocdate: November 10 2008 $
 .\"
 .\" Implement .Mx (MirBSD)
 .\"
@@ -1491,6 +1491,26 @@ Path to package installation records.
 Defaults to
 .Pa /var/db/pkg .
 User settings.
+.It Ev PKG_SUFX
+Extension and format to choose for packages.
+Possible values are:
+.Bl -tag -width xcpio
+.It Pa .cgz
+sv4cpio with CRC, compressed with gzip.
+Default on all systems except OpenBSD.
+.It Pa .clz
+sv4cpio with CRC, compressed with lzma.
+Requires
+.Nm lzmadec
+to be installed to handle,
+.Nm lzma
+and ~320M datasize to create, no automatic dependency.
+.It Pa .cpio
+sv4cpio with CRC, uncompressed.
+.It Pa .tgz
+ustar, compressed with gzip.
+Default on OpenBSD.
+.El
 .It Ev PKGREPOSITORY
 User settings.
 Location for packages built (default ${PORTSDIR}/Packages).

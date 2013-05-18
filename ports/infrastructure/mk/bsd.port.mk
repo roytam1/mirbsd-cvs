@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.240 2008/11/10 20:34:55 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.241 2008/11/10 20:38:16 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -1048,9 +1048,9 @@ EXTRACT_CASES+=		\
 BUILD_DEPENDS+=		:lzma-*:archivers/lzma
 EXTRACT_CASES+=		\
     *.tar.lzma | *.tlz | *.cpio.lzma | *.clz | *.mcz.lzma)		\
-	lzma -dc ${FULLDISTDIR}/$$archive | ${TAR} xf - ;;		\
+	lzmadec <${FULLDISTDIR}/$$archive | ${TAR} xf - ;;		\
     *.lzma)								\
-	lzma -dc ${FULLDISTDIR}/$$archive >$$(basename $$archive .lzma) ;;
+	lzmadec <${FULLDISTDIR}/$$archive >$$(basename $$archive .lzma) ;;
 .endif
 
 .if ${_USE_ZIP:L} != "no"
