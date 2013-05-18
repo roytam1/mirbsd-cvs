@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.40 2005/12/18 16:36:29 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.41 2005/12/20 19:57:53 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -317,6 +317,15 @@ if [[ $(make -f f all) -ge $mv ]]; then
 		[[ $m = /usr/bin/make ]] || rm -f $m
 	else
 		# Write a wrapper
+		if [[ -x $localbase/bin/mmake && \
+		    $(mmake -f f all) -lt $mv ]]; then
+			if [[ $(head -1 $localbase/bin/mmake) \
+			    != "#!$MKSH" ]]; then
+				print -u2 Error: You must upgrade MirMake \
+				    via ports.
+				exit 1
+			fi
+		fi
 		cat >$localbase/bin/mmake <<-EOF
 			#!$MKSH
 			exec $m -m $shmk -m $sysmk "\$@"
@@ -324,9 +333,18 @@ if [[ $(make -f f all) -ge $mv ]]; then
 		chown $myuid:$mygid $localbase/bin/mmake
 		chmod 555 $localbase/bin/mmake
 		mkdir -p $shmk
+		# Fake package installation
+		mkdir -p $localbase/db/pkg/mirmake-$f_ver-0
+		sed -e "s#/usr/mpkg#$localbase#" \
+		    <$portsdir/infrastructure/templates/basepkg.CONTENTS \
+		    >$localbase/db/pkg/mirmake-$f_ver-0/+CONTENTS
 	fi
 fi
 if [[ $(mmake -f f all) -lt $mv ]]; then
+	if [[ $(cd $localbase/db/pkg && echo mirmake-*) != "mirmake-*" ]]; then
+		print -u2 Error: You must upgrade MirMake via ports.
+		exit 1
+	fi
 	# Too old (or nonexistant), install new mirmake
 	dependdist make
 	cd mirmake
@@ -349,6 +367,11 @@ if [[ $(mmake -f f all) -lt $mv ]]; then
 	set +e
 	cd $T
 	rm -rf mirmake
+	# Fake package installation
+	mkdir -p $localbase/db/pkg/mirmake-$f_ver-0
+	sed -e "s#/usr/mpkg#$localbase#" \
+	    <$portsdir/infrastructure/templates/basepkg.CONTENTS \
+	    >$localbase/db/pkg/mirmake-$f_ver-0/+CONTENTS
 fi
 
 # Copy <*.mk> includes
@@ -379,6 +402,11 @@ if [[ ! -f /usr/bin/nroff && ! -f $localbase/bin/nroff ]]; then
 	set +e
 	# Building this without NOMAN=yes can be done by a port.
 	rm -rf mirnroff
+	# Fake package installation
+	mkdir -p $localbase/db/pkg/nroff-$f_ver-0
+	sed -e "s#/usr/mpkg#$localbase#" \
+	    <$portsdir/infrastructure/templates/basepkg.CONTENTS \
+	    >$localbase/db/pkg/nroff-$f_ver-0/+CONTENTS
 fi
 [[ $iopt = 1 ]] && exit 0
 unset NROFF
@@ -396,6 +424,11 @@ if [[ ! -x /usr/sbin/mtree && ! -x $localbase/bin/mtree ]]; then
 	set +e
 	cd ..
 	rm -rf mtree
+	# Fake package installation
+	mkdir -p $localbase/db/pkg/mtree-$f_ver-0
+	sed -e "s#/usr/mpkg#$localbase#" \
+	    <$portsdir/infrastructure/templates/basepkg.CONTENTS \
+	    >$localbase/db/pkg/mtree-$f_ver-0/+CONTENTS
 fi
 [[ $run_mtree = 0 ]] &&	mtree -U -e -d -n -p / -f $T/fake.mtree
 
@@ -521,19 +554,35 @@ if [[ ! -s $localbase/db/mmake.cfg ]]; then
 	EOF
 fi
 
-cd $portsdir/infrastructure/pkgtools
-export LOCALBASE=$localbase PORTSDIR=$portsdir
-set -e
-mmake cleandir
-mmake obj
-mmake cleandir
-mmake depend
-mmake PORTABLE=Yes PKG_USER="$myuid"
-mmake install
-set +e
-rm -rf {add,create,delete,info,lib,pkg,rtfm,upgrade}/obj
-unset LOCALBASE
-cd $T
+f_ver=$(<$portsdir/infrastructure/pkgtools/VERSION)
+        if [[ $(cd $localbase/db/pkg && echo mirmake-*) != "mirmake-*" ]]; then
+
+if [[ $(cd $localbase/db/pkg && echo pkgtools-$f_ver-*) \
+    != "pkgtools-$f_ver-*" ]]; then
+	# Current package tools are already installed
+elif [[ $(cd $localbase/db/pkg && echo pkgtools-*) != "pkgtools-*" ]]; then
+	print -u2 Error: upgrade pkgtools via ports.
+	exit 1
+else
+	cd $portsdir/infrastructure/pkgtools
+	export LOCALBASE=$localbase PORTSDIR=$portsdir
+	set -e
+	mmake cleandir
+	mmake obj
+	mmake cleandir
+	mmake depend
+	mmake PORTABLE=Yes PKG_USER="$myuid"
+	mmake install
+	set +e
+	rm -rf {add,create,delete,info,lib,pkg,rtfm,upgrade}/obj
+	unset LOCALBASE
+	cd $T
+	# Fake package installation
+	mkdir -p $localbase/db/pkg/pkgtools-$f_ver-0
+	sed -e "s#/usr/mpkg#$localbase#" \
+	    <$portsdir/infrastructure/templates/basepkg.CONTENTS \
+	    >$localbase/db/pkg/pkgtools-$f_ver-0/+CONTENTS
+fi
 
 
 # Check if we need to install cpio
