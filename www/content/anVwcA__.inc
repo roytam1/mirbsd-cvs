@@ -1,5 +1,5 @@
 <!-- PageID: jupp -->
-<small class="rcsid">$MirOS: www/content/anVwcA__.inc,v 1.11 2006/10/18 01:12:53 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/anVwcA__.inc,v 1.12 2006/10/24 11:26:56 tg Exp $</small>
 <h1>jupp &ndash; the Editor</h1>
 <p>
  The current version is <em>joe-3.1jupp6</em>.
@@ -109,7 +109,8 @@
   for Windows&reg;</a> (cygwin stand-alone compiled, comes with its
   own copy of cygwin1.dll and a .inf file for easy installation),
   self-extracting LHarc archive, right-click on <tt>setup.inf</tt>,
-  select <u>I</u>nstall, wait a few seconds, remove directory (<a
+  select <b style="font-weight:normal; text-decoration:underline;">I</b>nstall,
+  wait a few seconds, remove directory (<a
   href="http://mira.66h.42h.de/pub/jupp-w32.exe.asc">OpenPGP
   signature</a>)</li>
 </ul>
