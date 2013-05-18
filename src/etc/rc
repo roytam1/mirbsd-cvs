@@ -1,5 +1,5 @@
 # $MirSecuCron$
-# $MirOS: src/etc/rc,v 1.101 2009/08/13 17:47:57 tg Exp $
+# $MirOS: src/etc/rc,v 1.102 2009/08/18 17:41:46 tg Exp $
 # $OpenBSD: rc,v 1.277 2006/01/12 21:54:15 deraadt Exp $
 #-
 # System startup script run by init on autoboot or after single-user.
@@ -397,12 +397,23 @@ fi
 
 # read old random seed; if there's no /var/db/host.random, make
 # one through random(4); else reset seed file anyway so that if
-# a shutdown-less reboot occurs the next seed is not a repeat
+# a shutdown-less reboot occurs the next seed is not a repeat -
+# also reset arandom(4)
 {
 	cat /var/db/host.random >/dev/urandom
-	(dd if=/dev/arandom count=5; dd if=/dev/urandom count=3) | \
+	(dd if=/dev/arandom count=3; dd if=/dev/urandom count=5) | \
 	    dd of=/var/db/host.random
 	chmod 600 /var/db/host.random
+	sync
+
+	let RANDOM=$(dd if=/dev/arandom bs=4 count=1 2>&- | hexdump -e '"%u"')
+	set -o arc4random
+	typeset -i1 a=RANDOM b=RANDOM c=RANDOM d=RANDOM
+	print -nr -- "${a#1#}${b#1#}${c#1#}${d#1#}" >/dev/arandom
+	unset a b c d
+
+	dd if=/dev/arandom count=3 >>/var/db/host.random
+	let RANDOM=$(dd if=/dev/arandom bs=4 count=1 2>&- | hexdump -e '"%u"')
 } >/dev/wrandom 2>&1
 
 # clean up left-over files
@@ -424,13 +435,6 @@ fi
 # save a copy of the boot messages
 dmesg | tee /var/run/dmesg.boot | cksum -ba rmd160 >/dev/wrandom
 
-# reset arandom(4)
-let RANDOM=$(dd if=/dev/arandom bs=4 count=1 2>&- | hexdump -e '"%d"')
-set -o arc4random
-typeset -i1 a=RANDOM b=RANDOM c=RANDOM d=RANDOM
-print -n "${a#1#}${b#1#}${c#1#}${d#1#}" >/dev/arandom
-unset a b c d
-
 # Initialise anoncvs chroot /dev directory
 i=0
 grep ':/var/anoncvs.*:/usr/libexec/anoncvssh$' /etc/master.passwd |&
@@ -439,7 +443,7 @@ while IFS=: read -p name pass rest; do
 done
 (( i )) && if [[ -d /var/anoncvs/dev/. ]]; then
 	mount_mfs -s 128 swap /var/anoncvs/dev
-	(cd /dev; pax -rw -pe arandom null zero /var/anoncvs/dev/)
+	(cd /dev; pax -rw -pe arandom wrandom null zero /var/anoncvs/dev/)
 	syslogd_flags="$syslogd_flags -a /var/anoncvs/dev/log"
 fi
 
