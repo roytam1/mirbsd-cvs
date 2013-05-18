@@ -1,6 +1,9 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.6 2002/12/29 19:43:50 fgsch Exp $
 
-COMMENT=			High-level language for numerical computations
+NOT_FOR_PLATFORM= MirBSD:*:* # needs a Fortran compiler
+
+COMMENT=	high-level language for numerical computations
 VERSION=	2.0.16
 DISTNAME=	octave-${VERSION}
 CATEGORIES=    	math
@@ -19,6 +22,7 @@ MASTER_SITES=		${MASTER_SITE_GNU:=octave/}
 REGRESS_DEPENDS=::devel/dejagnu
 
 USE_GMAKE=	Yes
+USE_CXX=	Yes
 
 CONFIGURE_STYLE=	gnu dest
 MODGNU_RECURSE_DIRS=	${WRKSRC}/kpathsea ${WRKSRC}/readline \
