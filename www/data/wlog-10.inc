@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.249 2009/11/01 16:48:23 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.250 2009/11/03 20:37:21 bsiegert Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -5332,5 +5332,4 @@ Bus error
  Martin W. Gregory, The infectiousness of pompous prose, <i>Nature</i>
  <b>360</b> 11&ndash;12 (1992). Unfortunately, you will need a
  subscription to read it.</p>
-
 ----
