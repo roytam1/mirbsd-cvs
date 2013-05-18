@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/makefs/nbsrc/usr.sbin/mtree/spec.c,v 1.9 2009/07/23 19:32:27 tg Exp $ */
+/**	$MirOS: src/usr.sbin/makefs/nbsrc/usr.sbin/mtree/spec.c,v 1.10 2010/03/06 20:40:27 tg Exp $ */
 /*	$NetBSD: spec.c,v 1.78 2009/09/22 04:38:21 apb Exp $	*/
 
 /*-
@@ -74,7 +74,7 @@
 #if 0
 static char sccsid[] = "@(#)spec.c	8.2 (Berkeley) 4/28/95";
 #else
-__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/nbsrc/usr.sbin/mtree/spec.c,v 1.9 2009/07/23 19:32:27 tg Exp $");
+__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/nbsrc/usr.sbin/mtree/spec.c,v 1.10 2010/03/06 20:40:27 tg Exp $");
 __RCSID("$NetBSD: spec.c,v 1.78 2009/09/22 04:38:21 apb Exp $");
 #endif
 #endif /* not lint */
@@ -115,8 +115,10 @@ static	void	set(char *, NODE *);
 static	void	unset(char *, NODE *);
 static	void	addchild(NODE *, NODE *);
 static	int	nodecmp(const NODE *, const NODE *);
+#ifndef DEBIAN
 static	int	appendfield(int, const char *, ...)
 		    __attribute__((__format__(__printf__, 2, 3)));
+#endif
 
 #define REPLACEPTR(x,v)	do { if ((x)) free((x)); (x) = (v); } while (0)
 
