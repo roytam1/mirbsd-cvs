@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/i386/locore.s,v 1.8 2008/06/13 13:58:04 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/i386/locore.s,v 1.9 2008/08/03 21:02:03 tg Exp $ */
 /*	$OpenBSD: locore.s,v 1.77.2.1 2005/02/27 00:39:58 brad Exp $	*/
 /*	$NetBSD: locore.s,v 1.145 1996/05/03 19:41:19 christos Exp $	*/
 
@@ -143,7 +143,6 @@
 	.globl	_C_LABEL(proc0paddr), _C_LABEL(curpcb), _C_LABEL(PTDpaddr)
 	.globl	_C_LABEL(dynamic_gdt)
 	.globl	_C_LABEL(bootapiver), _C_LABEL(bootargc), _C_LABEL(bootargv)
-	.globl	_C_LABEL(rnd_bootpool)
 
 _C_LABEL(cpu):		.long	0	# are we 386, 386sx, 486, 586 or 686
 _C_LABEL(cpu_id):	.long	0	# saved from 'cpuid' instruction
