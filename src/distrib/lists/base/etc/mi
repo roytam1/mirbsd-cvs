@@ -110,6 +110,7 @@
 ./etc/ssl/certs/0c364b2d.0
 ./etc/ssl/certs/0dbd0096.0
 ./etc/ssl/certs/0e82f83a.0
+./etc/ssl/certs/1149214e.0
 ./etc/ssl/certs/11f154d6.0
 ./etc/ssl/certs/124bbd54.0
 ./etc/ssl/certs/128b9c8d.0
@@ -136,6 +137,7 @@
 ./etc/ssl/certs/4151ce3c.0
 ./etc/ssl/certs/42a1ec4f.0
 ./etc/ssl/certs/4643210f.0
+./etc/ssl/certs/48d70003.0
 ./etc/ssl/certs/4d654d1d.0
 ./etc/ssl/certs/4e18c148.0
 ./etc/ssl/certs/4f19d2b4.0
@@ -145,12 +147,14 @@
 ./etc/ssl/certs/54edfa5d.0
 ./etc/ssl/certs/56e607f4.0
 ./etc/ssl/certs/57692373.0
+./etc/ssl/certs/58b68fb7.0
 ./etc/ssl/certs/594f1775.0
 ./etc/ssl/certs/5d86d068.0
 ./etc/ssl/certs/5ed36f99.0
 ./etc/ssl/certs/5ee07a24.0
 ./etc/ssl/certs/613f892a.0
 ./etc/ssl/certs/63fabaf8.0
+./etc/ssl/certs/6536328f.0
 ./etc/ssl/certs/66eb5c17.0
 ./etc/ssl/certs/66ec64da.0
 ./etc/ssl/certs/69b0411c.0
@@ -193,6 +197,7 @@
 ./etc/ssl/certs/a3896b44.0
 ./etc/ssl/certs/a3c60019.0
 ./etc/ssl/certs/a7605362.0
+./etc/ssl/certs/aaa0e946.0
 ./etc/ssl/certs/aad3d04d.0
 ./etc/ssl/certs/ad1d6da9.0
 ./etc/ssl/certs/af694f57.0
