@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/gnu/usr.bin/lynx/WWW/Library/Implementation/HTString.c,v 1.2 2005/03/27 22:42:33 tg Exp $ */
 
 /*		Case-independent string comparison		HTString.c
  *
@@ -157,6 +157,7 @@ int strncasecomp(const char *a,
     return ((long) n < 0 ? 0 : cm[*us1] - cm[*--us2]);
 }
 
+/* XXX this only handles leading asterisks but is ok for now */
 int strcasecomp_asterisk(const char *a, const char *b)
 {
 	unsigned const char *cm = charmap;
@@ -167,7 +168,7 @@ int strcasecomp_asterisk(const char *a, const char *b)
 		return strcasecomp(a, b);
 
 	if (*b == '*') {
-		us1 = us2;
+		us1 = b;
 		us2 = a;
 	}
 

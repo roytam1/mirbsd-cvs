@@ -1,4 +1,4 @@
-/* $MirOS: src/gnu/usr.bin/lynx/WWW/Library/Implementation/HTTP.c,v 1.3 2005/10/21 21:42:34 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/lynx/WWW/Library/Implementation/HTTP.c,v 1.4 2006/02/21 03:00:19 tg Exp $ */
 
 /*	HyperText Tranfer Protocol	- Client implementation		HTTP.c
  *	==========================
@@ -453,11 +453,14 @@ static int HTLoadHTTP(const char *arg,
     const char *connect_url = NULL;	/* The URL being proxied */
     char *connect_host = NULL;	/* The host being proxied */
     SSL *handle = NULL;		/* The SSL handle */
-    char ssl_dn[256];
+    char ssl_dn[1024];
     char *cert_host;
     char *ssl_host;
     char *p;
     char *msg = NULL;
+    int status_sslcertcheck;
+    char *ssl_dn_start;
+    char *ssl_all_cns;
 
 #if SSLEAY_VERSION_NUMBER >= 0x0900
     BOOL try_tls = TRUE;
@@ -626,8 +629,11 @@ static int HTLoadHTTP(const char *arg,
 #if 0
 /* XXX fix for multiple /CN= in this */
 HTSprintf0(&msg, "SSL DN is '%s'", ssl_dn);
+/* SSL DN is '/CN=cacert.org/CN=*.cacert.org' (y) */
 HTForcedPrompt(ssl_noprompt, msg, YES);
+FREE(msg);
 #endif
+#if 0
 	if ((cert_host = strstr(ssl_dn, "/CN=")) == NULL) {
 	    HTSprintf0(&msg,
 		       gettext("SSL error:Can't find common name in certificate-Continue?"));
@@ -661,6 +667,93 @@ HTForcedPrompt(ssl_noprompt, msg, YES);
 		}
 	    }
 	}
+#else
+	/*
+	 * X.509 DN validation taking ALL CN fields into account
+	 * (c) 2006 Thorsten Glaser <tg@mirbsd.de>
+	 */
+
+	/* initialise status information */
+	status_sslcertcheck = 0;		/* 0 = no CN found in DN */
+	ssl_dn_start = ssl_dn;
+	ssl_all_cns = NULL;
+	/* get host we're connecting to */
+	ssl_host = HTParse(url, "", PARSE_HOST);
+	/* strip port number */
+	if ((p = strchr(ssl_host, ':')) != NULL)
+	    *p = '\0';
+#if 0 /* debug */
+HTSprintf0(&msg, "SSL init host(%s) dn(%s)", ssl_host, ssl_dn_start);
+HTForcedPrompt(ssl_noprompt, msg, YES);FREE(msg);
+#endif
+	/* validate all CNs found in DN */
+	while ((cert_host = strstr(ssl_dn_start, "/CN=")) != NULL) {
+	    status_sslcertcheck = 1;		/* 1 = could not verify CN */
+	    /* start of CommonName */
+	    cert_host += 4;
+	    /* find next part of DistinguishedName */
+	    if ((p = strchr(cert_host, '/')) != NULL) {
+		*p = '\0';
+		ssl_dn_start = p;	/* yes this points to the NUL byte */
+	    } else
+		ssl_dn_start = NULL;
+	    /* strip port number */
+	    if ((p = strchr(cert_host, ':')) != NULL)
+		*p = '\0';
+#if 0 /* debug */
+StrAllocCopy(p,cert_host);
+if (ssl_dn_start) *ssl_dn_start = '/';
+HTSprintf0(&msg, "SSL check host(%s) next(%s)", p/*cert_host*/, ssl_dn_start ? ssl_dn_start : "<NULL>");
+FREE(p);
+if (ssl_dn_start) *ssl_dn_start = '\0';
+HTForcedPrompt(ssl_noprompt, msg, YES);FREE(msg);
+#endif
+	    /* verify this CN */
+	    if (!strcasecomp_asterisk(ssl_host, cert_host)) {
+		status_sslcertcheck = 2;	/* 2 = verified peer */
+		/* I think this is cool to have in the logs --mirabilos */
+		HTSprintf0(&msg,
+			   gettext("Verified connection to %s (cert=%s)"),
+			   ssl_host, cert_host);
+#if 0 /* debug */
+		HTForcedPrompt(ssl_noprompt, msg, YES);
+#else
+		_HTProgress(msg);
+#endif
+		FREE(msg);
+		/* no need to continue the verification loop */
+		break;
+	    }
+	    /* add this CN to list of failed CNs */
+	    if (ssl_all_cns == NULL) {
+		StrAllocCopy(ssl_all_cns, cert_host);
+	    } else {
+		StrAllocCat(ssl_all_cns, ":");
+		StrAllocCat(ssl_all_cns, cert_host);
+	    }
+	    /* if we cannot retry, don't try it */
+	    if (ssl_dn_start == NULL)
+		break;
+	    /* now retry next CN found in DN */
+	    *ssl_dn_start = '/';	/* formerly NUL byte */
+	}
+	/* if an error occured, format the appropriate message */
+	if (status_sslcertcheck == 0)
+	    HTSprintf0(&msg,
+		       gettext("SSL error:Can't find common name in certificate-Continue?"));
+	else if (status_sslcertcheck == 1)
+	    HTSprintf0(&msg,
+		       gettext("SSL error:host(%s)!=cert(%s)-Continue?"),
+			       ssl_host, ssl_all_cns);
+	/* if an error occured, let the user decide how much he trusts */
+	if (status_sslcertcheck < 2)
+	    if (!HTForcedPrompt(ssl_noprompt, msg, YES)) {
+		status = HT_NOT_LOADED;
+		FREE(msg);
+		FREE(ssl_all_cns);
+		goto done;
+	    }
+#endif
 
 	HTSprintf0(&msg,
 		   gettext("Secure %d-bit %s (%s) HTTP connection"),
