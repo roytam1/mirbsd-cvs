@@ -1,4 +1,4 @@
-/* $MirOS: src/include/wctype.h,v 1.2 2005/12/17 05:46:13 tg Exp $ */
+/* $MirOS: contrib/code/libhaible/wctype.h,v 1.3 2006/05/23 11:39:37 tg Exp $ */
 
 /*-
  * Copyright (c) 2005
@@ -30,7 +30,11 @@
 
 #include <wchar.h>
 
-typedef const short * const * wctrans_t;
+#ifndef __BIT_TYPES_DEFINED__
+#include <machine/types.h>
+#endif
+
+typedef const uint16_t * const *wctrans_t;
 
 __BEGIN_DECLS
 int	iswalnum(wint_t);
