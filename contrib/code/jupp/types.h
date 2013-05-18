@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/jupp/types.h,v 1.4 2006/12/11 23:54:50 tg Exp $ */
+/* $MirOS: contrib/code/jupp/types.h,v 1.5 2009/10/18 14:52:57 tg Exp $ */
 
 /*-
  * This file is part of JUPP, a variant of Joe's Own Editor.
@@ -129,6 +129,7 @@ struct options {
 	unsigned char	*context;
 	unsigned char	*lmsg;
 	unsigned char	*rmsg;
+	char	*hmsg;
 	int	linums;
 	int	readonly;
 	int	french;
