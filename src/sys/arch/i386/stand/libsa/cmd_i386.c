@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/cmd_i386.c,v 1.10 2009/01/01 21:46:38 tg Exp $	*/
+/**	$MirOS: src/sys/arch/i386/stand/libsa/cmd_i386.c,v 1.11 2009/01/01 22:53:43 tg Exp $	*/
 /*	$OpenBSD: cmd_i386.c,v 1.29 2006/09/18 21:14:15 mpf Exp $	*/
 
 /*
@@ -43,6 +43,10 @@
 extern const char version[];
 extern int i386_flag_oldbios;
 extern struct disklist_lh disklist;
+
+#ifndef SMALL_BOOT
+extern uint32_t bios_bootpte[4];
+#endif
 
 #ifndef SMALL_BOOT
 int Xboot(void);
@@ -171,7 +175,7 @@ Xboot(void)
 	dev += (cmd.argv[1][2] - '0');
 	part = (cmd.argv[1][3] - 'a');
 
-	if (part > 0)
+	if (part >= 0)
 		printf("[%x,%d]\n", dev, part);
 	else
 		printf("[%x]\n", dev);
@@ -188,15 +192,13 @@ Xboot(void)
 	if (st)
 		goto bad;
 
-	/* Frob boot flag in buffer from HD */
-	if ((dev & 0x80) && (part > 0)){
-		int i, j;
-
-		for (i = 0, j = DOSPARTOFF; i < 4; i++, j += 16)
-			if (part == i)
-				buf[j] |= 0x80;
-			else
-				buf[j] &= ~0x80;
+	if (part < 0) {
+		/* boot whole sector; just zero bootpart */
+		bzero(bios_bootpte, 16);
+	} else {
+		memcpy(bios_bootpte, buf + DOSPARTOFF + part * 16, 16);
+		if ((st = biosd_io(F_READ, bd, bios_bootpte[2], 1, buf)))
+			goto bad;
 	}
 
 	/* Load %dl, ljmp */
