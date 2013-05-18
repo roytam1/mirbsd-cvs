@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.203 2008/05/03 22:19:36 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.204 2008/06/12 19:50:55 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -2338,6 +2338,16 @@ clean:
 .  if ${_clean:L:Mdist}
 	@${ECHO_MSG} "===>  Dist cleaning for ${FULLPKGNAME${SUBPACKAGE}}"
 	@if cd ${FULLDISTDIR} 2>/dev/null; then \
+		if [ "${_DISTFILES}" -o "${_PATCHFILES}" ]; then \
+			rm -f ${_DISTFILES} ${_PATCHFILES}; \
+		fi \
+	fi
+	@if cd ${DISTDIR}/CDROM/${DIST_SUBDIR} 2>/dev/null; then \
+		if [ "${_DISTFILES}" -o "${_PATCHFILES}" ]; then \
+			rm -f ${_DISTFILES} ${_PATCHFILES}; \
+		fi \
+	fi
+	@if cd ${DISTDIR}/FTP/${DIST_SUBDIR} 2>/dev/null; then \
 		if [ "${_DISTFILES}" -o "${_PATCHFILES}" ]; then \
 			rm -f ${_DISTFILES} ${_PATCHFILES}; \
 		fi \
