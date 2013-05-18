@@ -75,7 +75,6 @@
 
 /* The following are used externally (sysctl_hw). */
 char	machine[] = MACHINE;		/* from <machine/param.h> */
-char	machine_arch[] = MACHINE_ARCH;	/* from <machine/param.h> */
 char	*cpu_class = "sun4";
 char	cpu_model[130];
 char	cpu_hotfix[40];

@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/i386/machdep.c,v 1.14 2007/02/06 22:25:20 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/i386/machdep.c,v 1.15 2007/03/02 03:13:25 tg Exp $ */
 /*	$OpenBSD: machdep.c,v 1.310 2004/11/02 21:20:59 miod Exp $	*/
 /*	$NetBSD: machdep.c,v 1.214 1996/11/10 03:16:17 thorpej Exp $	*/
 
@@ -190,7 +190,6 @@ extern struct proc *npxproc;
 
 /* the following is used externally (sysctl_hw) */
 char machine[] = "i386";		/* cpu "architecture" */
-char machine_arch[] = "i386";		/* machine == machine_arch */
 
 /*
  * Declare these as initialized data so we can patch them.
