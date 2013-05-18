@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.146 2010/01/14 11:01:44 tg Exp $
+# $MirOS: src/Makefile,v 1.147 2010/01/29 18:29:41 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -278,6 +278,8 @@ _do-dist:
 		echo Do not call this target directly; \
 		exit 1; \
 	fi
+	@echo Initialising sudo as ${SUDO:Q}
+	${SUDO} true
 	mkdir -p ${HOME}/.etc/systrace
 .ifdef QUICK_DIST2
 .  if ${NO_JAVA:L} == "no"
@@ -303,8 +305,11 @@ _do-dist:
 		exit 1; \
 	}
 .endif
-	@echo Initialising sudo as ${SUDO:Q}
-	${SUDO} true
+	@if ! ${SUDO} mksh -c '[[ -w /var/anoncvs/bin/cvs ]]'; then \
+		print 'Your /var/anoncvs must be mounted read-write'; \
+		${SUDO} rm -rf ${HOME}; \
+		exit 1; \
+	fi
 	@echo ============================================================
 	@if [[ ! -e /var/tmp/.buildnotice ]]; then \
 		${SUDO} install -c -o 0 -g 0 -m 600 /dev/null \
