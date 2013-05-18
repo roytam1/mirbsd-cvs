@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/common/Makefile.inc,v 1.11 2006/04/06 11:07:29 tg Exp $
+# $MirOS: src/distrib/i386/common/Makefile.inc,v 1.12 2006/04/07 12:15:58 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.15 2004/11/25 22:02:08 deraadt Exp $
 
 .ifndef _MODSRC_DISTRIB_I386_COMMON_MAKEFILE_INC
@@ -86,6 +86,7 @@ bsd.gz: ${DO_BSDRD_NAME}.uncompressed
 
 ${DO_BSDRD_NAME}.uncompressed: ${IMAGE} bsd rdsetroot
 	gzip -d <bsd >${DO_BSDRD_NAME}.uncompressed
+	print 'rootdev 17 0\nquit' | config -ef bsd	# (17,0) = rd0a
 	${REALOBJDIR}/rdsetroot ${DO_BSDRD_NAME}.uncompressed <${IMAGE}
 
 ${DO_BSDRD_NAME}: ${DO_BSDRD_NAME}.uncompressed
