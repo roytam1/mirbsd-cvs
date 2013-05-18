@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $
+# $MirOS: contrib/hosted/tg/dumpargs,v 1.1 2013/05/18 15:24:03 tg Exp $
 #-
 # Copyright © 2013
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -30,7 +30,7 @@
 			print -nr -- " $((++i)):${x@Q}"
 		done
 		print
-	} | tee /dev/stderr | \
+	} | /usr/bin/tee /dev/stderr | \
 	    /usr/bin/logger -p user.debug -t "dumpargs[$$]"
 } 2>&1 | {
 	print "=== dumpargs[$$] ==="
