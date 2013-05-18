@@ -1,11 +1,11 @@
-/**	$MirOS: src/sys/sys/param.h,v 1.55 2006/12/11 20:48:35 tg Exp $ */
+/**	$MirOS: src/sys/sys/param.h,v 1.56 2007/01/25 15:52:27 tg Exp $ */
 /*	$OpenBSD: param.h,v 1.54 2004/02/27 18:06:55 deraadt Exp $	*/
 /*	$NetBSD: param.h,v 1.23 1996/03/17 01:02:29 thorpej Exp $	*/
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006
  *	The MirOS Project.  All rights reserved.
- * Copyright (c) 2002, 2003
+ * Copyright (c) 2002, 2003, 2007
  *	Thorsten "mirabilos" Glaser <tg@66h.42h.de>
  * Copyright (c) 1982, 1986, 1989, 1993
  *	The Regents of the University of California.  All rights reserved.
@@ -48,7 +48,7 @@
 #define	BSD	199306		/* System version (year & month). */
 #define BSD4_3	1
 #define BSD4_4	1
-#define	MirBSD	0x09AA		/* minor 10-7F=prerelease; 80=release
+#define	MirBSD	0x09AB		/* minor 10-7F=prerelease; 80=release
 				 * minor 81-9F=stable; A0-FF=unlocked
 				 */
 #ifndef _LOCORE
@@ -177,6 +177,42 @@
 #define	isclr(a,i)	(((a)[(i)/NBBY] & (1<<((i)%NBBY))) == 0)
 
 /* Macros for counting, rounding and bounding */
+#ifdef __GNUC__
+#ifndef howmany
+#define howmany(x,y)	__extension__({		\
+	typeof (x) __SP_x = (x);		\
+	typeof (y) __SP_y = (y);		\
+	((__SP_x + (__SP_y - 1)) / __SP_y);	\
+})
+#endif
+#define roundup(x,y)	__extension__({		\
+	typeof (x) __SP_x = (x);		\
+	typeof (y) __SP_y = (y);		\
+	(howmany(__SP_x, __SP_y) * __SP_y);	\
+})
+#define powerof2(x)	__extension__({		\
+	typeof (x) __SP_x = (x);		\
+	(((__SP_x - 1) & __SP_x) == 0);		\
+})
+#define MIN(x,y)	__extension__({		\
+	typeof (x) __SP_x = (x);		\
+	typeof (y) __SP_y = (y);		\
+	((__SP_x < __SP_y) ? __SP_x : __SP_y);	\
+})
+#define MAX(x,y)	__extension__({		\
+	typeof (x) __SP_x = (x);		\
+	typeof (y) __SP_y = (y);		\
+	((__SP_x > __SP_y) ? __SP_x : __SP_y);	\
+})
+#define __BOUNDINT(minv,maxv,x)	__extension__({	\
+	typeof (minv) __SP_minv = (minv);	\
+	typeof (maxv) __SP_maxv = (maxv);	\
+	typeof (x) __SP_x = (x);		\
+	( (__SP_x < __SP_minv) ? __SP_minv :	\
+	  (__SP_x > __SP_maxv) ? __SP_maxv :	\
+	  __SP_x );				\
+})
+#else
 #ifndef howmany
 #define	howmany(x, y)	(((x)+((y)-1))/(y))
 #endif
@@ -187,8 +223,9 @@
 
 #define	__BOUNDINT(minv,maxv,v)	\
 	( ((v) < (minv)) ? (minv) : ( ((v) > (maxv)) ? (maxv) : (v) ) )
-#define	__BOUNDINT0(maxv,v)	__BOUNDINT(0,(maxv),(v))
-#define	__BOUNDINTU(maxv,v)	( ((v) > (maxv)) ? (maxv) : (v) )
+#endif /* !__GNUC__ */
+#define __BOUNDINT0(maxv,x)	__BOUNDINT(0,(maxv),(x))
+#define __BOUNDINTU(maxv,x)	MIN((maxv),(x))
 
 /* Macros for calculating the offset of a field */
 #if !defined(offsetof) && defined(_KERNEL)
