@@ -1,4 +1,5 @@
-/**	$MirOS: src/sys/dev/rndvar.h,v 1.3 2006/03/27 09:25:23 tg Exp $ */
+#define RNADDPOOL_DEBUG
+/**	$MirOS: src/sys/dev/rndvar.h,v 1.4 2006/03/27 09:45:29 tg Exp $ */
 /*	$OpenBSD: rndvar.h,v 1.19 2003/11/03 18:24:28 tedu Exp $	*/
 
 /*
@@ -83,6 +84,20 @@ extern struct rndstats rndstats;
 extern uint32_t rnd_addpool_buf[];
 extern uint32_t rnd_addpool_num;
 extern uint32_t rnd_addpool_allow;
+#ifdef RNADDPOOL_DEBUG
+#define	rnd_addpool_add(x)						\
+	do {								\
+		uint32_t xx = (x);					\
+		printf("rnd_addpool_add: %08X", xx);			\
+		if (rnd_addpool_allow) {				\
+			printf(" -> %d", rnd_addpool_num);		\
+			rnd_addpool_buf[rnd_addpool_num++] ^= xx;	\
+			if (rnd_addpool_num == rnd_addpool_size)	\
+				rnd_addpool_num = 0;			\
+		}							\
+		printf("\n");						\
+	} while(0)
+#else
 #define	rnd_addpool_add(x)						\
 	do {								\
 		if (rnd_addpool_allow) {				\
@@ -91,6 +106,7 @@ extern uint32_t rnd_addpool_allow;
 				rnd_addpool_num = 0;			\
 		}							\
 	} while(0)
+#endif
 
 #define	add_true_randomness(d)	enqueue_randomness(RND_SRC_TRUE,  (int)(d))
 #define	add_timer_randomness(d)	enqueue_randomness(RND_SRC_TIMER, (int)(d))

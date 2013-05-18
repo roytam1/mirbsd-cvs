@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/rnd.c,v 1.19 2006/05/28 13:19:11 tg Exp $ */
+/**	$MirOS: src/sys/dev/rnd.c,v 1.20 2006/05/28 13:24:54 tg Exp $ */
 /*	$OpenBSD: rnd.c,v 1.78 2005/07/07 00:11:24 djm Exp $	*/
 
 /*
@@ -1257,12 +1257,33 @@ rnd_addpool_reinit(void *v)
 	}
 
 	/* add this user-space and untrusted bucket to random pool */
-	for (i = 0; i < rnd_addpool_size; ++i)
+#ifdef RNADDPOOL_DEBUG
+	printf("rnd_addpool_reinit:");
+#endif
+	for (i = 0; i < rnd_addpool_size; ++i) {
+#ifdef RNADDPOOL_DEBUG
+		printf(" <%d:%08X", i, rnd_addpool_buf[i]);
+#endif
 		if ((j = rnd_addpool_buf[i]))	/* don't add all zeroes */
-			if (++j)		/* don't add all ones */
+			if (++j) {		/* don't add all ones */
+#ifdef RNADDPOOL_DEBUG
+				printf(" ok");
+#endif
 				add_true_randomness(j - (random() & 1));
+			}
+#ifdef RNADDPOOL_DEBUG
+		printf(">");
+#endif
+	}
+#ifdef RNADDPOOL_DEBUG
+	printf("\n");
+#endif
 	bzero(rnd_addpool_buf, sizeof (rnd_addpool_buf));
 
+#ifdef RNADDPOOL_DEBUG
+	timeout_add(&rnd_addpool_timeout, hz << 4);	/* 16 seconds */
+#else
 	/* re-schedule this routine in about 32..40 seconds (randomised) */
 	timeout_add(&rnd_addpool_timeout, (hz << 5) + (random() % (hz << 3)));
+#endif
 }
