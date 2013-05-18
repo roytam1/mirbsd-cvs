@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/lib/libsa/fat.c,v 1.6 2008/12/28 05:17:16 tg Exp $ */
+/* $MirOS: src/sys/lib/libsa/fat.c,v 1.7 2008/12/28 05:17:59 tg Exp $ */
 
 /*-
  * Copyright (c) 2005
@@ -287,12 +287,15 @@ fat_read(struct open_file *f, void *buf, size_t size, size_t *resid)
 		ff->datasec = 0;
 	}
 
+	if (ff->nodecluster == 1) {
+		isroot = 1;
+		blksiz = 512;
+	}
+
 	if (ff->datasec == 0) {
 		int skip = (ff->nodeseekp / ff->bpc);
 		ff->datasec = ff->nodecluster;
 		if (ff->datasec == 1) {
-			isroot = 1;
-			blksiz = 512;
 			ff->datasec = ff->nodeseekp / 512 + ff->rootofs;
 			if ((rv = rd(f, ff->databuf, ff->datasec, 512))) {
 				ff->datasec = 0;
