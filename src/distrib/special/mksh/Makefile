@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/special/mksh/Makefile,v 1.13 2007/08/12 13:42:19 tg Exp $
+# $MirOS: src/distrib/special/mksh/Makefile,v 1.14 2007/08/24 14:19:58 tg Exp $
 # $miros: src/bin/mksh/Makefile,v 1.29 2007/01/18 16:05:05 tg Exp $
 
 .include <bsd.own.mk>
@@ -25,7 +25,7 @@ CPPFLAGS+=	-DMKSH_SMALL -DMKSH_ASSUME_UTF8 -DMKSH_NEED_MKNOD \
 		-DHAVE_STRLCPY=1 -DHAVE_ARC4RANDOM_DECL=1 \
 		-DHAVE_ARC4RANDOM_PUSHB_DECL=1 -DHAVE_SYS_SIGLIST_DECL=1 \
 		-DHAVE_PERSISTENT_HISTORY=0
-COPTS+=		-Wall -fno-inline
+COPTS+=		-std=gnu99 -Wall -fno-inline
 
 regress: ${PROG} check.pl check.t
 	-rm -rf regress-dir
