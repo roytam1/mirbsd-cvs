@@ -1,11 +1,11 @@
-# $MirOS: www/src/mksh_old.hts,v 1.45 2011/12/11 19:18:34 tg Exp $
+# $MirOS: www/src/mksh_old.hts,v 1.46 2012/07/30 21:44:25 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh/old "mksh – old versions"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh_old.hts,v 1.45 2011/12/11 19:18:34 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh_old.hts,v 1.46 2012/07/30 21:44:25 tg Exp $'
 mws_content <<'EOF'
 <h2><a href="mksh.htm">mksh</a> – old versions</h2>
 
@@ -449,7 +449,7 @@ mws_content <<'EOF'
  <li>[tg] Changes of variables inside Bourne style POSIX functions indeed
   affect the current execution environment (of the function caller)</li>
  <li>[tg] Fix getopts behaviour (sync with AT&amp;T ksh93 not ksh88)</li>
- <li>[tg] “eval $(false)” shall return 0 (Debian Closes: #550717)</li>
+ <li>[tg] “eval $(false)” shall return 0 (Debian #550717)</li>
  <li>[tg] Ensure that <tt>/* apo'strophes in comments */</tt> work</li>
  <li>[tg] New <tt>Build.sh</tt> flag <tt>-M</tt> to not compile but spit out a
   <tt>Makefrag.inc</tt> file from the current build environment, such as the
@@ -527,12 +527,12 @@ mws_content <<'EOF'
  <li>[tg] Sync with oksh: fix Vi editing mode word erase handling, again</li>
  <li>[tg] Skip whitespace between POSIX style shell function name and its
   definition parenthesēs during detection if an alias of the same name
-  already exists to be more robust (Debian Closes: #535970)</li>
+  already exists to be more robust (Debian #535970)</li>
  <li>[tg] Build system improvements for ACK and nwcc, both on Debian sid</li>
  <li>[tg] Fix spelling error in changelog discovered by Lintian</li>
  <li>[tg] Aligh “set -o nounset” / “set -u” behaviour with future POSIX
   standard, as discussed with GNU bash maintainers, David Korn from AT&amp;T
-  ksh93, and The Open Group; prompted by use in Debian; Closes: #539538</li>
+  ksh93, and The Open Group; prompted by use in Debian; Debian #539538</li>
  <li>[tg] add an unsupported way to make printf(1) a builtin</li>
  <li>[tg] Build system and regression test code and comment improvements:
   better and more comments matching reality better; more reliability w.r.t.
@@ -605,7 +605,7 @@ mws_content <<'EOF'
  <li>[tg] Decouple MKSH_CONSERVATIVE_FDS from MKSH_SMALL</li>
  <li>[tg] Enable MKSH_CONSERVATIVE_FDS by default on Minix 3</li>
  <li>[tg] Work around the (in-)famous ACK "const" bug</li>
- <li>[tg] Optimise structure alignment and padding; Closes: #522778</li>
+ <li>[tg] Optimise structure alignment and padding; Debian #522778</li>
  <li>[tg] Retain <tt>LOCPATH</tt> (for glibc locale) in <tt>check.pl</tt></li>
  <li>[tg] Document, simplify and clean up the code better</li>
  <li>[tg] Use <i>mirbsd.org</i> eMail addresses consistently</li>
@@ -658,7 +658,7 @@ mws_content <<'EOF'
  <li>[tg] Replace the memory allocator by something equally simple
   and homegrown but optimised for use with mksh and free checking</li>
  <li>[tg] Import a couple of minor fixes (e.g. spelling) from oksh</li>
- <li>[tg] Fix problems with "set -e" for real; from oksh, Closes: #518359</li>
+ <li>[tg] Fix problems with "set -e" for real; from oksh, Debian #518359</li>
  <li>[tg] In "set -o posix" mode, have limited echo(1) to improve
   standards compliance; the exact feature set is open for discussion,
   e.g. with pkgsrc® people; for now, only <tt>-n</tt> as first arg</li>
@@ -725,7 +725,7 @@ mws_content <<'EOF'
  <li>Fix mis-information re. <tt>-o posix</tt> mode in the manual page</li>
  <li>If <tt>-o posix</tt> is set, do not keep file descriptors created via
   I/O redirection, as Korn Shells do, private; add regression test; Debian
-  Closes: #499139; reported by Markus Schaber and Agustin Martin Domingo</li>
+  Debian #499139; reported by Markus Schaber and Agustin Martin Domingo</li>
  <li>Work around GNU getopt(3) violating every single standard in existence
   regarding flag placement on the command line (test suite), from Debian</li>
  <li>Sync internal wcwidth(3) implementation with Markus Kuhn’s latest</li>
@@ -1186,7 +1186,7 @@ mws_content <<'EOF'
   cause of at least http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=408850
   and breakage with FORTIFY_SOURCE on SuSE; thanks to Pascal Bleser (yaloki),
   Marcus Rückert (darix), Martin Zobel-Helas, Steve Langasek (vorlon) for
-  tracking this bug down in two different places; Closes: Debian #421518</li>
+  tracking this bug down in two different places; Debian #421518</li>
  <li>small manual page fixes</li>
  <li>copy $PATH from Build.sh to test.sh; thanks to a test account on Sun
   Solaris 11 donated by Julian Wiesener (yofuh) I was able to verify that

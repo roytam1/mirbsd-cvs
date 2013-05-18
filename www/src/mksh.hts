@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.485 2012/12/17 23:46:28 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.486 2012/12/18 15:46:11 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1185,9 +1185,9 @@ exec /usr/bin/ld "${args[@]}"</pre>
    <li>no mksh extension <tt>-T</tt></li>
    <li>use “long”, not “int32_t”, for arithmetics</li>
   </ul></li>
- <li>[tg] fix trimming with positional parameters (Closes: #48453)</li>
- <li>[tg] ensure that case end tokens are not mixed up (Closes: #220272)</li>
- <li>[tg] make alias definitions in mksh -c work (Closes: #517009), hack</li>
+ <li>[tg] fix trimming with positional parameters (Debian #48453)</li>
+ <li>[tg] ensure that case end tokens are not mixed up (Debian #220272)</li>
+ <li>[tg] make alias definitions in mksh -c work (Debian #517009), hack</li>
  <li>[tg] Apply speed improvements and add <tt>MKSH_SMALL_BUT_FAST</tt></li>
  <li>[tg] Fix <tt>CONSERVATIVE_FDS</tt> use-before-definition bug</li>
  <li>[tg] Correct two regressions when tab-completing (LP: #1025843) and fix
@@ -1430,7 +1430,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
   by default, manually re-enabled in the installer only on MirBSD</li>
  <li>[tg] Regenerate wcwidth table from Unicode 6.0.0</li>
  <li>[tg] Change behaviour of argument-less exit in traps to match SUSv4,
-  original patch from Jonathan Nieder (Debian Closes: #599484)</li>
+  original patch from Jonathan Nieder (Debian #599484)</li>
  <li>[tg] <tt>dot.mkshrc</tt> no longer <tt>export</tt>s <tt>$PS1</tt>,
   as recommended by Frank Terbeck, to avoid confusing other shells</li>
  <li>[tg] The character width table is now in sync with Unicode 6.0.0</li>
@@ -1443,7 +1443,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Extension ${foo@#} expands to hash of $foo (mksh specific)</li>
  <li>[tg, Jörg-Volker Peetz] Emacs prev-hist-word resets the counter if other
   editing commands were run in between; repeat calling works, even together
-  with arguments, now; arguments are 0-based (Debian Closes: #603801)</li>
+  with arguments, now; arguments are 0-based (Debian #603801)</li>
  <li>[tg] Introduce MKSH_NOPROSPECTOFWORK which implies MKSH_UNEMPLOYED
   and additionally disables job signals, |&amp;, sigprocmask(2), etc.</li>
  <li>[tg] POSIX: <tt>trap 'echo foo' UNKNOWN</tt> is not a syntax error</li>
@@ -1498,7 +1498,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
   <tt>${##}</tt> and <tt>${#?}</tt></li>
  <li>[tg] Bring back “test -H” ifdef S_ISCDF (for HP-UX) from pdksh</li>
  <li>[tg] Align read-only variable behaviour with (future) POSIX</li>
- <li>[tg] Permit <tt>${foo%(*}</tt> on FSH (Debian Closes: #619947)</li>
+ <li>[tg] Permit <tt>${foo%(*}</tt> on FSH (Debian #619947)</li>
  <li>[tg, rsc] Allow skipping testcases that need a controlling tty</li>
  <li>[tg] Correct skipping the UTF-8 BOM when identifying a file</li>
  <li>[tg] Do not use <tt>&lt;stdbool.h&gt;</tt> any longer</li>
