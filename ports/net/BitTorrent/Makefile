@@ -1,23 +1,24 @@
-# $MirOS: ports/net/BitTorrent/Makefile,v 1.4 2005/11/25 07:54:00 tg Exp $
+# $MirOS: ports/net/BitTorrent/Makefile,v 1.5 2006/09/14 00:11:30 tg Exp $
 # $OpenBSD: Makefile,v 1.4 2004/04/15 03:41:14 jolan Exp $
 
-COMMENT=			cooperative file distribution system implemented in Python
-DISTNAME=	BitTorrent-3.4.2
-CATEGORIES=	net
-MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=bittorrent/}
-HOMEPAGE=	http://bittorrent.com/
+# note to porters: if you want to add a new version of mainline bittorrent
+# to the MirPorts Framework, contact <tg@mirbsd.de> first; I'd like to re-
+# tain the 3.4-latest port due to its licence (4.x and up have PERMIT_PAK-
+# KAGE_*=No due to proprietary licence).
+
+COMMENT=		cooperative file distribution system implemented in Python
+DISTNAME=		BitTorrent-3.4.2
+CATEGORIES=		net
+MASTER_SITES=		${MASTER_SITE_SOURCEFORGE:=bittorrent/}
+HOMEPAGE=		http://bittorrent.com/
 
 # MIT
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes
-# When upgrading to 4.2, uncomment these:
-## proprietary licence
-#PERMIT_PACKAGE_CDROM=	No
-#PERMIT_PACKAGE_FTP=	No
 
-MODULES=	lang/python
+MODULES+=		lang/python
 
 post-configure:
 	for f in ${WRKBUILD}/bt*.py; do \
