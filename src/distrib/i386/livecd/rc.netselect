@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/livecd/rc.netselect,v 1.1 2006/04/05 22:38:12 tg Exp $
+# $MirOS: src/distrib/i386/livecd/rc.netselect,v 1.2 2006/04/05 22:48:51 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -96,6 +96,7 @@ function do_netconf
 	fi
 }
 
+print
 print Select the MirOS Live CD \'modus operandi\'
 print =========================================
 print 1\) manual/no network, no graphics

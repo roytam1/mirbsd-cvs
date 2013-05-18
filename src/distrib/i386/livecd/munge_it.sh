@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.12 2006/04/07 12:37:02 tg Exp $
+# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.13 2006/04/07 12:53:33 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -49,6 +49,7 @@ ed -s etc/group <<-'EOF'
 	wq
 EOF
 ed -s etc/master.passwd <<-'EOF'
+	/^root:/s!/root!/dev/.root!
 	/^nobody:/i
 		live:$2a$04$NCMhVFfIg3afYRXLCDGjcOPYJxem4lxSLcthQT5AaejUaAAvIWdCW:32762:32762:staff:0:0:MirOS BSD Live CD User:/home/live:/bin/mksh
 	.
@@ -63,7 +64,7 @@ ed -s etc/ntpd.conf <<-'EOF'
 EOF
 ed -s etc/rc <<-'EOF'
 	1i
-		# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.12 2006/04/07 12:37:02 tg Exp $
+		# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.13 2006/04/07 12:53:33 tg Exp $
 	.
 	/shutdown request/ka
 	/^fi/a
@@ -145,11 +146,9 @@ pwd_mkdb -pd $(readlink -nf etc) master.passwd
 dd if=/dev/urandom bs=4096 count=1 of=var/db/host.random
 
 mv root dev/.root
-ln -s dev/.root root
-
 # tmp because of perms
 find dev/.root etc tmp var | sort | cpio -oC512 -Hsv4crc -Mset >home/fsrw.cpio
 rm -rf dev/.root var sys
-mkdir -p dev/.root var
+mkdir -p var
 
 exit 0
