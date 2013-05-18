@@ -1771,3 +1771,23 @@ Author: tg@
 <p>I would have listened to the grml talk at MoeLUG tonight, but nobody of
  my mates with cars wanted to go. Too bad, I really liked the Altbier.</p>
 ----
+Date: 29.08.2007
+Author: tg@
+Title: Happy 5th birthday, MirBSD!
+
+<p>For its birthday, it got further improvements to the www source code as
+ well as a merged page more; unity of mind, and consens between developers
+ regarding how to handle the next events and J�rg Schilling, and nobody, I
+ think, noticed. But how fitting that Theo de Raadt is now guilty of doing
+ actual harm to his own project, by shouting at Linux® developers, so that
+ they use GPL-only instead of BSD/GPL dual licencing for their fork of his
+ ath(4) OpenHAL (after fixing a licence violation that they were correctly
+ accused of). At least me and nbd from OpenWrt think so.</p>
+<p>These are quiet times, and I worked long today (biking up a mountain to
+ the server housing farm *sigh*, and hating Subversion even more), as did,
+ or so I think, Benny. My SPARCstation (demo.mirbsd.org) finished creating
+ a new snapshot, hereby dubbed MirOS #10 RC6, which will be uploaded soon,
+ along with a recent one for the i386 architecture. I hope it works really
+ well, so that we can release as soon as possible (and tested; XTaran took
+ it okay and is currently backing up his stuff, thanks).</p>
+----
