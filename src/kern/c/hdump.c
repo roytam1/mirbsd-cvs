@@ -21,7 +21,7 @@
 #include <sys/param.h>
 #include <libckern.h>
 
-__RCSID("$MirOS: src/kern/c/hdump.c,v 1.1 2008/12/28 05:10:30 tg Exp $");
+__RCSID("$MirOS: src/kern/c/hdump.c,v 1.2 2009/01/14 23:33:21 tg Exp $");
 
 extern int printf(const char *, ...)
     __attribute__((format (printf, 1, 2)));
@@ -32,7 +32,7 @@ void
 memhexdump(const void *buf_, size_t ofs, size_t len)
 {
 	uint8_t ch;
-	const uint8_t *buf = buf_ + ofs;
+	const uint8_t *buf = (const uint8_t *)buf_ + ofs;
 	size_t i;
 
  loop:
