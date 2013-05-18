@@ -1,9 +1,14 @@
-# $MirOS: src/lib/libc/i18n/Makefile.inc,v 1.10 2006/06/01 21:58:12 tg Exp $
+# $MirOS: src/lib/libc/i18n/Makefile.inc,v 1.11 2006/06/01 21:59:49 tg Exp $
 
 .PATH: ${LIBCSRCDIR}/i18n
 
 # for OpenBSD's manual pages and strto<num> sources
 .include "${LIBCSRCDIR}/locale/Makefile.inc"
+
+SRCS+=	tbl_attr.c
+SRCS+=	tbl_towl.c
+SRCS+=	tbl_towu.c
+SRCS+=	tbl_wnop.c
 
 SRCS+=	btowc.c
 SRCS+=	catalogues.c

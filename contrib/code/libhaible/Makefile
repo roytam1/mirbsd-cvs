@@ -1,15 +1,13 @@
-# $MirOS: contrib/code/libhaible/Makefile,v 1.30 2006/06/01 21:58:15 tg Exp $
+# $MirOS: contrib/code/libhaible/Makefile,v 1.31 2006/06/01 21:59:52 tg Exp $
 
 LIB=	haible
 NOPIC=	Yes	# for now
-SRCS+=	attribute.c
 SRCS+=	iswctype.c
 SRCS+=	mblen.c
 SRCS+=	mbrlen.c
 SRCS+=	mbsrtowcs.c
 SRCS+=	mbstowcs.c
 SRCS+=	mbtowc.c
-SRCS+=	tow_nop.c towl_tbl.c towu_tbl.c
 SRCS+=	towctrans.c
 SRCS+=	towlower.c
 SRCS+=	towupper.c
@@ -27,6 +25,9 @@ SRCS+=	wcstok.c
 # reachover for libc
 .include <bsd.own.mk>
 LIBCSRCDIR?=	${BSDSRCDIR}/lib/libc
+
+# for "miri18n.h"
+CPPFLAGS+= -I${LIBCSRCDIR}/include
 
 # missing
 #SRCS+=	fwprintf.c

@@ -1,8 +1,8 @@
-/* $MirOS$ */
+/* $MirOS: contrib/code/libhaible/tow_nop.c,v 1.1 2006/05/30 10:48:54 tg Exp $ */
 
 #include <sys/types.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: contrib/code/libhaible/tow_nop.c,v 1.1 2006/05/30 10:48:54 tg Exp $");
 
 /* for towlower and towupper tables */
 
