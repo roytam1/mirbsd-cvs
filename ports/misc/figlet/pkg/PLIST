@@ -1,10 +1,10 @@
-@comment $MirOS$
+@comment $MirOS: ports/misc/figlet/pkg/PLIST,v 1.2 2005/12/28 01:46:22 tg Exp $
 bin/chkfont
 bin/figlet
 bin/figlet-febrew
 bin/figlist
 bin/showfigfonts
-man/man6/figlet.6
+man/cat6/figlet.0
 share/figlet/1943____.flf
 share/figlet/3-d.flf
 share/figlet/3x5.flf
