@@ -1,5 +1,5 @@
-.\"	$MirOS$
-.\"	$OpenBSD: myname.5,v 1.1 2003/07/26 07:07:08 jmc Exp $
+.\"	$MirOS: src/share/man/man5/myname.5,v 1.2 2005/03/06 19:38:42 tg Exp $
+.\"	$OpenBSD: myname.5,v 1.2 2004/12/20 15:40:00 jaredy Exp $
 .\"
 .\" Copyright (c) 2003 Jason McIntyre <jmc@openbsd.org>
 .\"
@@ -51,7 +51,9 @@ See
 .Xr hostname 7
 for a description of hostname resolution.
 .Pp
-The file must not contain comments.
+Empty lines and lines beginning with
+.Sq #
+are ignored.
 .Sh FILES
 .Bl -tag -width "/etc/myname" -compact
 .It Pa /etc/myname

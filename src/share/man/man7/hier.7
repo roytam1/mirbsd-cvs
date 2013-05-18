@@ -1,5 +1,5 @@
-.\"	$MirOS$
-.\"	$OpenBSD: hier.7,v 1.47 2004/07/15 23:43:02 jmc Exp $
+.\"	$MirOS: src/share/man/man7/hier.7,v 1.2 2005/03/06 19:38:44 tg Exp $
+.\"	$OpenBSD: hier.7,v 1.58 2005/07/14 19:22:20 jmc Exp $
 .\"	$NetBSD: hier.7,v 1.7 1994/11/30 19:07:10 jtc Exp $
 .\"
 .\" Copyright (c) 1990, 1993
@@ -45,14 +45,24 @@ Root directory.
 .It /altroot/
 Alternate (backup) location for the root
 .Pq Sq /
-filesystem.
+filesystem
+(see
+.Xr afterboot 8 ) .
 .It /bin/
 User utilities fundamental to both single and multi-user environments.
 These programs are statically compiled and therefore do not depend on any
 system libraries to run.
 .It /bsd
-Pure kernel executable (the operating system loaded into memory
-at boot-time).
+Pure kernel executable
+(the operating system loaded into memory at boot-time).
+.It /bsd.mp
+Pure kernel executable
+for multi-processor machines.
+.It /bsd.rd
+Installation kernel.
+The built-in RAM disk contains utilities which can be run
+without an external file system, so this kernel is useful
+for limited system maintenance too.
 .It /dev/
 Block and character device files.
 .Pp
@@ -86,6 +96,13 @@ Configuration files for the authenticating gateway user shell (see
 .It disklabels/
 Backup disklabels (see
 .Xr disklabel 8 ) .
+.It firmware/
+Firmware files for various devices.
+.It fonts/
+Configuration files for X11 window system fonts.
+.It hotplug/
+Scripts for the hotplug daemon,
+.Xr hotplugd 8 .
 .It isakmpd/
 Configuration files for
 .Xr isakmpd 8 .
@@ -106,8 +123,11 @@ List of radius servers and their associated shared secrets for
 .Xr login_radius 8 .
 .It skel/
 Example
-.Dq \&.
+.Sq .\&
 (dot) files for new accounts.
+.It skey/
+One-time password user database for
+.Xr skey 1 .
 .It sliphome/
 Configuration files for
 .Xr sliplogin 8 .
@@ -139,14 +159,13 @@ system libraries to run.
 .It /stand/
 Programs used in a stand-alone environment.
 .It /tmp/
-Temporary files, usually an
-.Xr mfs 8
-memory-based filesystem (the contents
+Temporary files;
+the contents
 of
 .Pa /tmp
-are usually
+are
 .Em not
-preserved across a system reboot).
+preserved across a system reboot.
 .It /usr/
 Contains the majority of user utilities and applications.
 .Pp
@@ -208,8 +227,12 @@ Machine specific C include files.
 C include files for miscellaneous file systems.
 .It net/
 Miscellaneous network C include files.
+.It net80211/
+C include files for 802.11 wireless networking.
 .It netatalk/
 C include files for the AppleTalk protocol.
+.It netbt/
+C include files for the Bluetooth protocol.
 .It netinet/
 C include files for Internet standard protocols (see
 .Xr inet 4 ) .
@@ -247,15 +270,20 @@ C include files for the virtual memory interface.
 .El
 .Pp
 .It lib/
-Archive libraries.
+System libraries.
+See
+.Xr intro 3
+for a description of library types.
 .It libdata/
 Miscellaneous utility data files.
 .Pp
-.Bl -tag -width "perl5/" -compact
+.Bl -tag -width "ldscripts/" -compact
 .It cvs/
 Placeholder for user contributed
 .Xr cvs 1
 code/scripts.
+.It ldscripts/
+ELF linker scripts.
 .It lint/
 Prebuilt
 .Xr lint 1

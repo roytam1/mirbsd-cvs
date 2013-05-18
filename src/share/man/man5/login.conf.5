@@ -30,7 +30,7 @@
 .\" OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 .\" SUCH DAMAGE.
 .\"
-.\" $OpenBSD: login.conf.5,v 1.33 2003/09/05 19:28:04 jmc Exp $
+.\" $OpenBSD: login.conf.5,v 1.39 2005/04/28 06:36:02 biorn Exp $
 .\" BSDI $From: login.conf.5,v 2.20 2000/06/26 14:50:38 prb Exp $
 .\"
 .Dd June 18, 2001
@@ -161,7 +161,7 @@ See
 .Xr login 1 .
 .\"
 .Pp
-.It localcipher Ta string Ta old Ta
+.It localcipher Ta string Ta blowfish,6 Ta
 The cipher to use for local passwords.
 Possible values are:
 .Dq old ,
@@ -256,7 +256,7 @@ If the user's password will expire within this length of time then
 warn the user of this.
 .\"
 .Pp
-.It passwordcheck Ta path Ta \  Ta
+.It passwordcheck Ta program Ta "" Ta
 An external program that checks the quality of the password.
 The password is passed to the program on
 .Pa stdin .
@@ -299,7 +299,11 @@ Initial priority (nice) level.
 Require home directory to login.
 .\"
 .Pp
-.It shell Ta program Ta \  Ta
+.It setenv Ta envlist Ta "" Ta
+A list of environment variables and associated values to be set for the class.
+.\"
+.Pp
+.It shell Ta program Ta "" Ta
 Session shell to execute rather than the shell specified in the password file.
 The
 .Ev SHELL
@@ -317,6 +321,10 @@ Should always have a leading
 to ensure octal interpretation.
 See
 .Xr umask 2 .
+.\"
+.Pp
+.It vmemoryuse Ta size Ta "" Ta
+Maximum virtual memoryuse size limit.
 .\"
 .Pp
 .It welcome Ta file Ta Pa /etc/motd Ta
@@ -341,7 +349,8 @@ to the capability name (e.g.,
 and
 .Va openfiles-cur ) .
 .Pp
-\*(oSwill never define capabilities which start with
+.Ox
+will never define capabilities which start with
 .Li x-
 or
 .Li X- ,
@@ -351,11 +360,27 @@ software).
 The argument types are defined as:
 .Bl -tag -width programxx
 .\"
+.It envlist
+A comma-separated list of environment variables of the form
+.Ev variable Ns No = Ns value .
+If no value is specified, the
+.Sq =
+is optional.
+A
+.Li ~
+in the path name is expanded to the user's home directory
+if it is at the end of a string or is followed by a slash
+.Pq Sq /
+or the user's login name.
+A
+.Li $
+in the path name is expanded to the user's login name.
+.\"
 .It file
 Path name to a text file.
 .\"
 .It list
-A comma separated list of values.
+A comma-separated list of values.
 .\"
 .It number
 A number.
@@ -368,12 +393,12 @@ implies the number is expressed in octal.
 Any other number is treated as decimal.
 .\"
 .It path
-A space separated list of path names.
-If a
+A space-separated list of path names.
+Login name and directory are substituted as for
+.Em envlist .
+Additionally, a
 .Li ~
-is the first character in the path name, the
-.Li ~
-is expanded to the user's home directory.
+is only expanded at the beginning of a path name.
 .\"
 .It program
 A path name to program.
@@ -386,7 +411,7 @@ It may have a trailing
 .Li b
 to multiply the value by 512, a
 .Li k
-to multiply the value by 1 K (1024), and a
+to multiply the value by 1 K (1024), and an
 .Li m
 to multiply the value by 1 M (1048576).
 .\"
@@ -423,7 +448,7 @@ For example, to indicate 1 and 1/2 hours, the following string could be used:
 \*(oSuses BSD Authentication, which is made up of a variety of
 authentication styles.
 The authentication styles currently provided are:
-.Bl -tag -width kerberosxx
+.Bl -tag -width krb5-or-pwdxx
 .\"
 .It Li activ
 Authenticate using an ActivCard token.
@@ -442,6 +467,8 @@ See
 .\"
 .It Li krb5
 Request a password and use it to request a ticket from the kerberos 5 server.
+See
+.Xr login_krb5 8 .
 .\"
 .It Li krb5-or-pwd
 Request a password and first try the
@@ -450,15 +477,17 @@ authentication style and if that fails use the same password with the
 .Li passwd
 authentication style.
 See
-.Ql info heimdal .
+.Xr login_krb5-or-pwd 8 .
 .\"
 .It Li lchpass
 Change user's local password.
 See
-.Xr login_chpass 8 .
+.Xr login_lchpass 8 .
 .\"
 .It Li passwd
 Request a password and check it against the password in the master.passwd file.
+See
+.Xr login_passwd 8 .
 .\"
 .It Li radius
 Normally linked to another authentication type, contact the radius server
@@ -478,7 +507,7 @@ Request a password and check it against the password in the rpasswd.db file.
 Send a challenge and request a response, checking it
 with S/Key (tm) authentication.
 See
-.Xr skey 1 .
+.Xr login_skey 8 .
 .\"
 .It Li snk
 Authenticate using a SecureNet Key token.
@@ -541,8 +570,8 @@ The authentication type,
 used to determine the available authentication styles.
 .It Ar username
 The name of the user to authenticate.
-The name may contain an instance, e.g.
-.Dq user.root ,
+The name may contain an instance, e.g.\&
+.Dq user/root ,
 as used by Kerberos authentication.
 If the authentication style being used does not support such instances,
 the request will fail.

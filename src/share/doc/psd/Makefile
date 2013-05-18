@@ -1,5 +1,5 @@
-# $MirOS$
-# $OpenBSD: Makefile,v 1.5 2004/04/09 12:10:04 jmc Exp $
+# $MirOS: src/share/doc/psd/Makefile,v 1.2 2005/03/06 19:38:24 tg Exp $
+# $OpenBSD: Makefile,v 1.6 2004/10/10 02:42:59 mickey Exp $
 
 INSTDIR=psd
 FILES=	00.contents Makefile Title

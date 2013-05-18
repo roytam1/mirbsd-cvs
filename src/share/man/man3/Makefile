@@ -1,4 +1,4 @@
-# $MirOS: src/share/man/man3/Makefile,v 1.2 2005/03/28 22:36:15 tg Exp $
+# $MirOS: src/share/man/man3/Makefile,v 1.3 2005/03/29 18:06:02 tg Exp $
 
 MANSECT=	3
 
@@ -7,6 +7,8 @@ MLINKS+=bitstring.3 bit_alloc.3 bitstring.3 bit_clear.3 \
 	bitstring.3 bit_nclear.3 bitstring.3 bit_set.3 \
 	bitstring.3 bit_size.3  bitstring.3 bit_test.3 bitstring.3 bit_nset.3 \
 	bitstring.3 bitstr_size.3
+MLINKS+=CMSG_DATA.3 CMSG_FIRSTHDR.3 CMSG_DATA.3 CMSG_LEN.3 \
+	CMSG_DATA.3 CMSG_NXTHDR.3 CMSG_DATA.3 CMSG_SPACE.3
 MLINKS+=end.3 edata.3 end.3 etext.3
 MLINKS+=queue.3 LIST_ENTRY.3 queue.3 LIST_HEAD.3 \
 	queue.3 LIST_HEAD_INITIALIZER.3 queue.3 LIST_FIRST.3 \

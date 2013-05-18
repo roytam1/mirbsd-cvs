@@ -1,5 +1,5 @@
-.\"	$MirOS: src/share/man/man8/afterboot.8,v 1.2 2005/03/06 19:38:45 tg Exp $
-.\"	$OpenBSD: afterboot.8,v 1.89 2004/04/20 06:39:04 tedu Exp $
+.\"	$MirOS: src/share/man/man8/afterboot.8,v 1.3 2005/07/07 13:39:38 tg Exp $
+.\"	$OpenBSD: afterboot.8,v 1.110 2005/07/14 21:12:17 jmc Exp $
 .\"
 .\" Copyright (c) 1997 Marshall M. Midden
 .\" All rights reserved.
@@ -38,7 +38,7 @@
 .Nm afterboot
 .Nd things to check after the first complete boot
 .Sh DESCRIPTION
-.Ss Starting Out
+.Ss Starting out
 This document attempts to list items for the system administrator
 to check and set up after the installation and first complete boot of the
 system.
@@ -63,10 +63,10 @@ Administrators will rapidly become more familiar with
 if they get used to using the high quality manual pages.
 .Pp
 In order to browse a file, for example
-.Pa /usr/share/man/COPYRIGHT ,
+.Pa /usr/share/doc/legal/1stREAD ,
 which you \fBshould really\fR read, type:
 .Pp
-.Dl # less /usr/share/man/COPYRIGHT
+.Dl # less /usr/share/doc/legal/1stREAD
 .Pp
 Within
 .Xr less 1 ,
@@ -85,8 +85,8 @@ Most significant and easily fixed problems will be reported at
 The web page will mention if a problem is security related.
 It is recommended that you check this page regularly.
 .Ss Login
-Login as
-.Dq Ic root .
+Log in as
+.Dq root .
 You can do so on the console, or over the network using
 .Xr ssh 1 .
 If you wish to log in as root over the network, edit the
@@ -110,7 +110,7 @@ for DSA Version 2 (extremely slow).
 .Pp
 Upon successful login on the console, you may see the message
 .Dq Don't login as root, use su .
-For security reasons, it is bad practice to login as root during regular use
+For security reasons, it is bad practice to log in as root during regular use
 and maintenance of the system.
 Instead, administrators are encouraged to add a
 .Dq regular
@@ -153,11 +153,13 @@ command.
 If needed, change the date, and/or change the symbolic link of
 .Pa /etc/localtime
 to the correct time zone in the
-.Pa /usr/share/zoneinfo/right
+.Pa /usr/share/zoneinfo
 directory.
 .Pp
 It is highly recommended to use
-.Xr rdate 8
+.Xr ntpd 8 ,
+or at least
+.Xr rdate 8 ,
 to set the system clock against a NTP or time server.
 In the default crontab, there is even an entry which does that
 automatically after installation, using the
@@ -172,20 +174,7 @@ Set the current date to January 27th, 1999 3:04pm:
 .Dl # date 199901271504
 .Pp
 Set the time zone to Atlantic Standard Time:
-.Dl # ln -fs /usr/share/zoneinfo/right/Canada/Atlantic /etc/localtime
-.Pp
-Go into single user mode and get the time from an SNTP server:
-.Dl # kill 1
-.Dl # rdate -ncv ntp0.nl.net
-.Ss System daemon configuration database
-The file
-.Pa /etc/rc.conf
-is used to configure the system daemons.
-Administrators should make changes to the default settings by editing a
-separate file,
-.Pa /etc/rc.conf.local
-.Pq this may need to be created from scratch .
-Values can then be added in as desired.
+.Dl # ln -fs /usr/share/zoneinfo/Canada/Atlantic /etc/localtime
 .Ss Check hostname
 Use the
 .Ic hostname
@@ -304,46 +293,15 @@ you will have to kill it by running
 .Ic kill $(</var/run/dhclient.pid)
 after you flush the routes.
 .Pp
-If you wish to route packets between interfaces, add the directive
+If you wish to route packets between interfaces, add one or both
+of the following directives (depending on whether IPv4 or IPv6 routing
+is required) to
+.Pa /etc/sysctl.conf :
 .Pp
 .Dl net.inet.ip.forwarding=1
-.Pp
-or
-.Pp
 .Dl net.inet6.ip6.forwarding=1
 .Pp
-to
-.Pa /etc/sysctl.conf .
 Packets are not forwarded by default, due to RFC requirements.
-.Pp
-You can add new
-.Dq virtual interfaces
-by adding the required entries to
-.Pa /etc/hostname.if .
-.Ss Domain Name Server (DNS)
-If you are using the Domain Name Service, check the
-.Pa /etc/resolv.conf
-file.
-It may look something like:
-.Bd -literal -offset indent
-domain nts.umn.edu
-nameserver 128.101.101.101
-nameserver 134.84.84.84
-search nts.umn.edu. umn.edu.
-lookup file bind
-.Ed
-.Pp
-If using a caching name server, add the line "nameserver 127.0.0.1" first.
-.Ss RPC-based network services
-Several services depend on the RPC portmapper,
-.Xr portmap 8 ,
-being running for proper operation.
-This includes YP and NFS exports, among other services.
-To get the RPC portmapper to start automatically on boot,
-you will need to have this line in
-.Pa /etc/rc.conf.local :
-.Pp
-.Dl portmap=YES
 .Ss Check disk mounts
 Check that the disks are mounted correctly by
 comparing the
@@ -394,22 +352,14 @@ Refer to the above example and
 for information on the format of this file.
 .Pp
 You may wish to do NFS partitions now too, or you can do them later.
-.Ss Concatenated disks (ccd)
-If you are using
-.Xr ccd 4
-concatenated disks, edit
-.Pa /etc/ccd.conf .
-Use the
-.Ic ccdconfig -U
-command to unload and the
-.Ic ccdconfig -C
-command to create tables internal to the kernel for the concatenated disks.
-You then
-.Xr mount 8 ,
-.Xr umount 8 ,
-and edit
-.Pa /etc/fstab
-as needed.
+.Ss Check the running system
+You can use
+.Xr ps 1 ,
+.Xr netstat 1 ,
+and
+.Xr fstat 1
+to check on running processes, network connections, and opened files,
+respectively.
 .Sh CHANGING /etc FILES
 The system should be usable now, but you may wish to do more customizing,
 such as adding users, etc.
@@ -454,33 +404,46 @@ group if they need root access.
 For example:
 .Pp
 .Dl wheel:*:0:root,myself
-.Ss rc.conf, rc.conf.local, rc.local, rc.securelevel, rc.shutdown
-Check for any local changes needed in the files
-.Pa /etc/rc.conf ,
-.Pa /etc/rc.local ,
+.Ss System command scripts
+The
+.Pa /etc/rc.*\&
+scripts are invoked at boot time, after single user mode has exited,
+and at shutdown.
+The whole process is controlled, more or less, by the master script
+.Pa /etc/rc .
+This script should not be changed by administrators.
+.Pp
+.Pa /etc/rc
+is in turn influenced by the configuration variables present in
+.Pa /etc/rc.conf .
+Again this script should not be changed by administrators:
+site-specific changes should be made to
+.Pq freshly created if necessary
+.Pa /etc/rc.conf.local .
+.Pp
+Any commands which should be run before the system sets its
+secure level should be made to
 .Pa /etc/rc.securelevel ,
-and
+and commands to be run after the system sets its
+secure level should be made to
+.Pa /etc/rc.local .
+Commands to be run before system shutdown should be set in
 .Pa /etc/rc.shutdown .
-Turning on something like the Network Time Protocol in
-.Pa /etc/rc.conf.local
-requires making sure the package is installed.
+.Pp
+For more information about system startup/shutdown files, see
+.Xr rc 8 ,
+.Xr rc.conf 8 ,
+.Xr securelevel 7 ,
+and
+.Xr rc.shutdown 8 .
 .Pp
 If you've installed X, you may want to turn on
 .Xr xdm 1 ,
 the X Display Manager.
-To do this, change the value of xdm_flags in
+To do this, change the value of
+.Va xdm_flags
+in
 .Pa /etc/rc.conf.local .
-.Ss Printers
-Edit
-.Pa /etc/printcap
-and
-.Pa /etc/hosts.lpd
-to get any printers set up.
-Consult
-.Xr lpd 8
-and
-.Xr printcap 5
-if needed.
 .Ss Set keyboard type
 Some architectures permit keyboard type control.
 Use the
@@ -495,34 +458,18 @@ encoding.
 Store the encoding in
 .Pa /etc/kbdtype
 to make sure it is set automatically at boot time.
-.Ss Tighten up security
-You might wish to tighten up security more by editing
-.Pa /etc/fbtab
-as when installing X.
-In
-.Pa /etc/inetd.conf
-comment out any extra entries you do not need,
-and only add things that are really needed.
-Note that by default the
-.Xr telnetd 8
+.Ss Printers
+Edit
+.Pa /etc/printcap
 and
-.Xr ftpd 8
-daemons are not enabled in favor of SSH (Secure Shell).
-.Ss Default security
-The root user is not allowed to log in via SSH by default, see
-.Xr sshd_config 5 .
-.Pp
-The MirPorts Framework builds with
-.Xr systrace 1
-on by default.
-.Pp
-The
-.Xr malloc.conf 5
-file is set to some sane
-.Em debugging
-values by default.
-You might want to review it for performance.
-.Ss Mail Aliases
+.Pa /etc/hosts.lpd
+to get any printers set up.
+Consult
+.Xr lpd 8
+and
+.Xr printcap 5
+if needed.
+.Ss Mail aliases
 Edit
 .Pa /etc/mail/aliases
 and set the three standard aliases to go to either a mailing list, or
@@ -530,8 +477,8 @@ the system administrator.
 .Bd -literal -offset indent
 # Well-known aliases -- these should be filled in!
 root:		sysadm
-manager:	sysadm
-dumper:		sysadm
+manager:	root
+dumper:		root
 .Ed
 .Pp
 Run
@@ -557,7 +504,7 @@ This makes it possible to send mail locally, but not receive mail from remote
 servers, which is ideal if you have one central incoming mail machine and
 several clients.
 To cause sendmail to accept external network connections, modify the
-.Dq sendmail_flags
+.Va sendmail_flags
 variable in
 .Pa /etc/rc.conf.local
 to use the
@@ -565,10 +512,11 @@ to use the
 file in accordance with the comments therein.
 This file was generated from
 .Pa openbsd-proto.mc .
+.Pp
 Note that sendmail now also listens on port 587 by default.
 This is to implement the RFC 2476 message submission protocol.
 You may disable this via the
-.Dq no_default_msa
+.Ic no_default_msa
 option in your sendmail .mc file.
 See
 .Pa /usr/share/sendmail/README
@@ -576,6 +524,82 @@ for more information.
 The
 .Pa /etc/mail/localhost.cf
 file already has this disabled.
+.Ss Automounter daemon (AMD)
+If using the
+.Xr amd 8
+package,
+go into the
+.Pa /etc/amd
+directory and set it up by
+renaming
+.Pa master.sample
+to
+.Pa master
+and editing it and creating other maps as needed.
+Alternatively, you can get your maps with YP.
+.Ss BIND name server (DNS)
+If you are using the BIND name server, check the
+.Pa /etc/resolv.conf
+file.
+It may look something like:
+.Bd -literal -offset indent
+domain nts.umn.edu
+nameserver 128.101.101.101
+nameserver 134.84.84.84
+search nts.umn.edu. umn.edu.
+lookup file bind
+.Ed
+.Pp
+If using a caching name server, add the line "nameserver 127.0.0.1" first.
+To get a local caching name server to run
+you will need to set
+.Va named_flags
+in
+.Pa /etc/rc.conf.local .
+The same holds true if the machine is going to be a
+name server for your domain.
+In both these cases, make sure that
+.Xr named 8
+is running
+(otherwise there are long waits for resolver timeouts).
+.Ss BOOTP server
+If this is a BOOTP server, edit
+.Pa /etc/dhcpd.conf
+as needed.
+.Xr dhcpd 8
+will have to be turned on in
+.Xr rc.conf.local 8 .
+.Ss Clock synchronisation
+In order to make sure the system clock is synchronised
+to that of a publicly accessible NTP server,
+make sure that
+.Pa /etc/rc.conf.local
+contains the following:
+.Pp
+.Dl ntpd_flags=\&"\&"
+.Pp
+See
+.Xr ntpd 8 ,
+.Xr rdate 8 ,
+and
+.Xr timed 8
+for more information on setting the system's date.
+.Ss Concatenated disks (ccd)
+If you are using
+.Xr ccd 4
+concatenated disks, edit
+.Pa /etc/ccd.conf .
+Use the
+.Ic ccdconfig -U
+command to unload and the
+.Ic ccdconfig -C
+command to create tables internal to the kernel for the concatenated disks.
+You then
+.Xr mount 8 ,
+.Xr umount 8 ,
+and edit
+.Pa /etc/fstab
+as needed.
 .Ss DHCP server
 If this is a
 DHCP
@@ -588,26 +612,31 @@ You will have to make sure
 .Pa /etc/rc.conf.local
 has:
 .Pp
-.Dl dhcpd_flags=-q
+.Dl dhcpd_flags=\&"\&"
 .Pp
 or run
 .Xr dhcpd 8
 manually.
-.Ss BOOTP server
-If this is a
-BOOTP
-server, edit
-.Pa /etc/bootptab
-as needed.
-You will have to turn it on in
-.Pa /etc/inetd.conf
-or run
-.Xr bootpd 8
-in its stand-alone mode.
+.Ss HP remote boot server
+Edit
+.Pa /etc/rbootd.conf
+if needed for remote booting.
+If you do not have HP computers doing remote booting, do not enable this.
+.Ss Kerberos
+If you are going to use
+.Xr kerberos 8
+for authentication, and you already have a
+Kerberos
+master, change directory to
+.Pa /etc/kerberosV
+and configure.
+Remember to get a
+.Pa srvtab
+from the master so that the remote commands work.
 .Ss NFS server
 If this is an NFS server
 make sure
-.Pa /etc/rc.conf
+.Pa /etc/rc.conf.local
 has:
 .Pp
 .Dl nfs_server=YES
@@ -617,12 +646,51 @@ Edit
 and get it correct.
 It is probably easier to reboot than to get the daemons running manually,
 but you can get the order correct by looking at
-.Pa /etc/netstart .
-.Ss HP remote boot server
-Edit
-.Pa /etc/rbootd.conf
-if needed for remote booting.
-If you do not have HP computers doing remote booting, do not enable this.
+.Pa /etc/rc .
+.Ss RPC-based network services
+Several services depend on the RPC portmapper,
+.Xr portmap 8 ,
+being running for proper operation.
+This includes YP and NFS exports, among other services.
+To get the RPC portmapper to start automatically on boot,
+you will need to have this line in
+.Pa /etc/rc.conf.local :
+.Pp
+.Dl portmap=YES
+.Ss YP setup
+Check the YP domain name with the
+.Xr domainname 1
+command.
+If necessary, correct it by editing the
+.Pa /etc/defaultdomain
+file (see
+.Xr defaultdomain 5 ) .
+The
+.Pa /etc/netstart
+script reads this file on bootup to determine and set the domain name.
+You may also set the running system's domain name with the
+.Xr domainname 1
+command.
+To start YP client services, simply run
+.Ic ypbind ,
+then perform the remaining
+YP activation as described in
+.Xr passwd 5
+and
+.Xr group 5 .
+.Pp
+In particular, to enable YP passwd support, you'll need to add the following
+line to
+.Pa /etc/master.passwd :
+.Pp
+.Dl +:*::::::::
+.Pp
+You do this by using
+.Xr vipw 8 .
+.Pp
+There are many more YP man pages available to help you.
+You can find more information by starting with
+.Xr yp 8 .
 .Ss Daily, weekly, monthly scripts
 Look at and possibly edit the
 .Pa /etc/daily , /etc/weekly ,
@@ -650,13 +718,22 @@ for the mount option:
 .Pp
 .Dl /dev/wd0j /altroot ffs xx 0 0
 .Pp
-and you must add a line to root's crontab:
+and you must add a line to root's
+.Xr crontab 5 :
 .Pp
 .Dl ROOTBACKUP=1
 .Pp
 so that the
 .Pa /etc/daily
 script will make a daily backup of the root filesystem.
+.Ss Tighten up security
+You might wish to tighten up security more by editing
+.Pa /etc/fbtab
+as when installing X.
+In
+.Pa /etc/inetd.conf
+comment out any extra entries you do not need,
+and only add things that are really needed.
 .Ss Other files in /etc
 Look at the other files in
 .Pa /etc
@@ -693,7 +770,7 @@ as root
 and see if anything unexpected is present.
 Do you need anything else?
 Do you wish to change things?
-e.g., if you do not
+For example, if you do not
 like root getting standard output of the daily scripts, and want only
 the security scripts that are mailed internally, you can type
 .Ic crontab -e
@@ -759,6 +836,12 @@ impossible.
 Sometimes checking the mailing lists for
 past problems that people have encountered will result in a fix posted.
 .Sh COMPILING A KERNEL
+Note:
+The standard
+.Ox
+kernel configuration (GENERIC) is suitable for most purposes.
+Use of an alternative kernel configuration is not recommended.
+.Pp
 First, review the system message buffer using the
 .Xr dmesg 8
 command to find out information on your system's devices as probed by the
@@ -798,7 +881,7 @@ After either of these two methods, you can place the new kernel (called
 .Pa bsd )
 in
 .Pa /
-(i.e.
+(i.e.\&
 .Pa /bsd )
 and the system will boot it next time.
 Most people save their backup kernels as
@@ -842,6 +925,23 @@ boot time in the kernel image.
 .Xr dhcpd 8 ,
 .Xr dmesg 8 ,
 .Xr domainname 1 ,
+.Xr fstat 1 ,
+.Xr hostname 1 ,
+.Xr ls 1 ,
+.Xr make 1 ,
+.Xr man 1 ,
+.Xr netstat 1 ,
+.Xr passwd 1 ,
+.Xr pkg_add 1 ,
+.Xr ps 1 ,
+.Xr ssh 1 ,
+.Xr su 1 ,
+.Xr xdm 1 ,
+.Xr ccd 4 ,
+.Xr aliases 5 ,
+.Xr crontab 5 ,
+.Xr defaultdomain 5 ,
+.Xr dhcpd.conf 5 ,
 .Xr exports 5 ,
 .Xr fbtab 5 ,
 .Xr fstab 5 ,
@@ -850,10 +950,29 @@ boot time in the kernel image.
 .Xr hostname 1 ,
 .Xr hostname 7 ,
 .Xr hostname.if 5 ,
+.Xr login.conf 5 ,
+.Xr passwd 5 ,
+.Xr printcap 5 ,
+.Xr resolv.conf 5 ,
+.Xr ssh_config 5 ,
+.Xr sysctl.conf 5 ,
+.Xr hier 7 ,
+.Xr hostname 7 ,
+.Xr packages 7 ,
+.Xr ports 7 ,
+.Xr adduser 8 ,
+.Xr amd 8 ,
+.Xr ccdconfig 8 ,
+.Xr chown 8 ,
+.Xr config 8 ,
+.Xr dhclient 8 ,
+.Xr dhcp 8 ,
+.Xr dhcpd 8 ,
+.Xr dmesg 8 ,
+.Xr ftpd 8 ,
 .Xr ifconfig 8 ,
 .Xr inetd 8 ,
 .Xr kbd 8 ,
-.Xr login.conf 5 ,
 .Xr lpd 8 ,
 .Xr ls 1 ,
 .Xr make 1 ,
@@ -863,25 +982,19 @@ boot time in the kernel image.
 .Xr netstart 8 ,
 .Xr netstat 1 ,
 .Xr newaliases 8 ,
-.Xr packages 7 ,
-.Xr passwd 1 ,
-.Xr passwd 5 ,
-.Xr pkg_add 1 ,
+.Xr ntpd 8 ,
 .Xr portmap 8 ,
 .Xr ports 7 ,
 .Xr printcap 5 ,
 .Xr rbootd 8 ,
 .Xr rc 8 ,
 .Xr rdate 8 ,
-.Xr resolv.conf 5 ,
 .Xr rmt 8 ,
 .Xr route 8 ,
-.Xr ssh 1 ,
-.Xr ssh_config 5 ,
-.Xr sshd_config 8 ,
-.Xr su 1 ,
+.Xr sendmail 8 ,
 .Xr sudo 8 ,
-.Xr telnetd 8 ,
+.Xr sysctl 8 ,
+.Xr timed 8 ,
 .Xr umount 8 ,
 .Xr vipw 8 ,
 .Xr xdm 1

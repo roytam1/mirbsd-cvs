@@ -1,5 +1,5 @@
-# $MirOS$
-# $OpenBSD: Makefile,v 1.6 2004/04/09 12:10:04 jmc Exp $
+# $MirOS: src/share/doc/usd/Makefile,v 1.2 2005/03/06 19:38:32 tg Exp $
+# $OpenBSD: Makefile,v 1.8 2004/10/10 02:53:28 mickey Exp $
 
 INSTDIR=usd
 FILES=	00.contents Makefile Title

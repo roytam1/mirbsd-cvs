@@ -1,5 +1,5 @@
-# $MirOS: src/share/misc/Makefile,v 1.2 2005/03/06 19:38:47 tg Exp $
-# $OpenBSD: Makefile,v 1.9 2003/06/03 18:26:59 deraadt Exp $
+# $MirOS: src/share/misc/Makefile,v 1.3 2005/03/15 18:41:03 tg Exp $
+# $OpenBSD: Makefile,v 1.10 2004/11/19 18:18:53 deraadt Exp $
 # from: @(#)Makefile	5.13 (Berkeley) 5/7/91
 
 NOOBJ=	yes

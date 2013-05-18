@@ -1,5 +1,5 @@
-# $MirOS$
-# $OpenBSD: Makefile,v 1.6 2004/04/09 12:10:04 jmc Exp $
+# $MirOS: src/share/doc/smm/Makefile,v 1.2 2005/03/06 19:38:27 tg Exp $
+# $OpenBSD: Makefile,v 1.7 2004/10/10 02:44:18 mickey Exp $
 # from: @(#)Makefile	8.1 (Berkeley) 6/10/93
 
 INSTDIR=smm
