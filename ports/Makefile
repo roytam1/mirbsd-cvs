@@ -1,4 +1,4 @@
-# $MirOS: ports/Makefile,v 1.24 2007/01/26 20:31:51 tg Exp $
+# $MirOS: ports/Makefile,v 1.25 2007/02/22 15:18:32 tg Exp $
 # $OpenBSD: Makefile,v 1.43 2003/12/15 17:56:40 espie Exp $
 # $FreeBSD: Makefile,v 1.36 1997/10/04 15:54:31 jkh Exp $
 #-
@@ -141,6 +141,7 @@ setup: Setup.sh
 	print '/@@local/d\ni\n    usr\n\tmpkg\n.\n%p\nQ' | \
 	    ed -s ${.CURDIR}/infrastructure/templates/fake.mtree | \
 	    ${SUDO} mtree -U -e -d -n -p /
+.if exists(/etc/X11/app-defaults)
 	[[ -L /usr/mpkg/lib/X11/app-defaults ]] || \
 	    if [[ -d /usr/mpkg/lib/X11/app-defaults ]]; then \
 		${SUDO} mv /usr/mpkg/lib/X11/app-defaults/* \
@@ -148,6 +149,7 @@ setup: Setup.sh
 		${SUDO} rmdir /usr/mpkg/lib/X11/app-defaults; \
 	fi
 	${SUDO} ln -sf /etc/X11/app-defaults /usr/mpkg/lib/X11/app-defaults
+.endif
 	${SUDO} rm -rf /usr/mpkg/.sst /etc/.mirports.test.*
 	(echo "Policy: /usr/bin/env, Emulation: native"; \
 	    cat ${.CURDIR}/infrastructure/templates/systrace.filter) \
