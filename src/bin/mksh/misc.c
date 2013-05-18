@@ -6,7 +6,7 @@
 #include <grp.h>
 #endif
 
-__RCSID("$MirOS: src/bin/mksh/misc.c,v 1.44.2.1 2007/03/03 21:37:57 tg Exp $\t"
+__RCSID("$MirOS: src/bin/mksh/misc.c,v 1.44.2.2 2007/03/03 22:38:24 tg Exp $\t"
 	MKSH_SH_H_ID);
 
 #undef USE_CHVT
@@ -88,9 +88,9 @@ str_save(const char *s, Area *ap)
 
 /* called from XcheckN() to grow buffer */
 char *
-Xcheck_grow_(XString *xsp, char *xp, unsigned more)
+Xcheck_grow_(XString *xsp, const char *xp, unsigned more)
 {
-	char *old_beg = xsp->beg;
+	const char *old_beg = xsp->beg;
 
 	xsp->len += more > xsp->len ? more : xsp->len;
 	xsp->beg = aresize(xsp->beg, xsp->len + 8, xsp->areap);
