@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: servconf.h,v 1.71 2004/12/23 23:11:00 djm Exp $	*/
+/**	$MirOS: src/usr.bin/ssh/servconf.h,v 1.2 2005/03/13 18:33:30 tg Exp $ */
+/*	$OpenBSD: servconf.h,v 1.72 2005/12/06 22:38:27 reyk Exp $	*/
 
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
@@ -121,6 +121,8 @@ typedef struct {
 
 	char   *authorized_keys_file;	/* File containing public keys */
 	char   *authorized_keys_file2;
+
+	int	permit_tun;
 }       ServerOptions;
 
 void	 initialize_server_options(ServerOptions *);

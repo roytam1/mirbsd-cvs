@@ -10,7 +10,7 @@
  */
 
 #include "includes.h"
-RCSID("$MirOS: src/usr.bin/ssh/servconf.c,v 1.4 2005/06/22 16:11:39 tg Exp $");
+RCSID("$MirOS: src/usr.bin/ssh/servconf.c,v 1.5 2005/11/23 19:45:14 tg Exp $");
 
 #include "ssh.h"
 #include "log.h"
@@ -90,6 +90,7 @@ initialize_server_options(ServerOptions *options)
 	options->authorized_keys_file = NULL;
 	options->authorized_keys_file2 = NULL;
 	options->num_accept_env = 0;
+	options->permit_tun = -1;
 
 	/* Needs to be accessable in many places */
 	use_privsep = -1;
@@ -201,6 +202,8 @@ fill_default_server_options(ServerOptions *options)
 	}
 	if (options->authorized_keys_file == NULL)
 		options->authorized_keys_file = _PATH_SSH_USER_PERMITTED_KEYS;
+	if (options->permit_tun == -1)
+		options->permit_tun = SSH_TUNMODE_NO;
 
 	/* Turn privilege separation on by default */
 	if (use_privsep == -1)
@@ -227,7 +230,7 @@ typedef enum {
 	sBanner, sUseDNS, sHostbasedAuthentication,
 	sHostbasedUsesNameFromPacketOnly, sClientAliveInterval,
 	sClientAliveCountMax, sAuthorizedKeysFile, sAuthorizedKeysFile2,
-	sAcceptEnv,
+	sAcceptEnv, sPermitTunnel,
 	sUsePrivilegeSeparation,
 	sDeprecated, sUnsupported
 } ServerOpCodes;
@@ -306,6 +309,7 @@ static struct {
 	{ "authorizedkeysfile2", sAuthorizedKeysFile2 },
 	{ "useprivilegeseparation", sUsePrivilegeSeparation},
 	{ "acceptenv", sAcceptEnv },
+	{ "permittunnel", sPermitTunnel },
 	{ NULL, sBadOption }
 };
 
@@ -863,6 +867,28 @@ parse_flag:
 			options->accept_env[options->num_accept_env++] =
 			    xstrdup(arg);
 		}
+		break;
+
+	case sPermitTunnel:
+		intptr = &options->permit_tun;
+		arg = strdelim(&cp);
+		if (!arg || *arg == '\0')
+			fatal("%s line %d: Missing yes/point-to-point/"
+			    "ethernet/no argument.", filename, linenum);
+		value = 0;	/* silence compiler */
+		if (strcasecmp(arg, "ethernet") == 0)
+			value = SSH_TUNMODE_ETHERNET;
+		else if (strcasecmp(arg, "point-to-point") == 0)
+			value = SSH_TUNMODE_POINTOPOINT;
+		else if (strcasecmp(arg, "yes") == 0)
+			value = SSH_TUNMODE_YES;
+		else if (strcasecmp(arg, "no") == 0)
+			value = SSH_TUNMODE_NO;
+		else
+			fatal("%s line %d: Bad yes/point-to-point/ethernet/"
+			    "no argument: %s", filename, linenum, arg);
+		if (*intptr == -1)
+			*intptr = value;
 		break;
 
 	case sDeprecated:

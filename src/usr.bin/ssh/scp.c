@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.bin/ssh/scp.c,v 1.4 2005/06/22 16:11:39 tg Exp $ */
+/* $MirOS: src/usr.bin/ssh/scp.c,v 1.5 2005/11/23 19:45:14 tg Exp $ */
 
 /*
  * scp - secure remote copy.  This is basically patched BSD rcp which
@@ -73,7 +73,7 @@
  */
 
 #include "includes.h"
-RCSID("$MirOS: src/usr.bin/ssh/scp.c,v 1.4 2005/06/22 16:11:39 tg Exp $");
+RCSID("$MirOS: src/usr.bin/ssh/scp.c,v 1.5 2005/11/23 19:45:14 tg Exp $");
 
 #include "xmalloc.h"
 #include "atomicio.h"
@@ -232,6 +232,7 @@ main(int argc, char **argv)
 	addargs(&args, "-x");
 	addargs(&args, "-h");		/* disable tcp lowdelay */
 	addargs(&args, "-oForwardAgent no");
+	addargs(&args, "-oPermitLocalCommand no");
 	addargs(&args, "-oClearAllForwardings yes");
 
 	fflag = tflag = 0;

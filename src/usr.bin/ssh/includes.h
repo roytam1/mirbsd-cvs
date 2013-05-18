@@ -1,5 +1,5 @@
-/**	$MirOS: src/usr.bin/ssh/includes.h,v 1.3 2005/06/22 16:11:39 tg Exp $ */
-/*	$OpenBSD: includes.h,v 1.20 2005/11/15 11:59:54 millert Exp $	*/
+/**	$MirOS: src/usr.bin/ssh/includes.h,v 1.4 2005/11/23 19:45:14 tg Exp $ */
+/*	$OpenBSD: includes.h,v 1.21 2005/12/08 18:34:11 reyk Exp $	*/
 
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
@@ -35,6 +35,8 @@
 #include <netinet/ip.h>
 #include <arpa/inet.h>
 #include <netdb.h>
+
+#include <net/if.h>
 
 #include <stddef.h>
 #include <netgroup.h>

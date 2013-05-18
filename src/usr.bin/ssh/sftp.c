@@ -16,7 +16,7 @@
 
 #include "includes.h"
 
-RCSID("$MirOS: src/usr.bin/ssh/sftp.c,v 1.5 2005/11/23 18:04:20 tg Exp $");
+RCSID("$MirOS: src/usr.bin/ssh/sftp.c,v 1.6 2005/11/23 19:45:15 tg Exp $");
 
 #include <glob.h>
 #include <histedit.h>
@@ -1438,6 +1438,7 @@ main(int argc, char **argv)
 	addargs(&args, "-h");		/* disable tcp lowdelay */
 	addargs(&args, "-oForwardX11 no");
 	addargs(&args, "-oForwardAgent no");
+	addargs(&args, "-oPermitLocalCommand no");
 	addargs(&args, "-oClearAllForwardings yes");
 
 	ll = SYSLOG_LEVEL_INFO;

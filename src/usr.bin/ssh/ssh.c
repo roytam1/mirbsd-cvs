@@ -40,7 +40,7 @@
  */
 
 #include "includes.h"
-RCSID("$MirOS: src/usr.bin/ssh/ssh.c,v 1.6 2005/11/23 18:04:21 tg Exp $");
+RCSID("$MirOS: src/usr.bin/ssh/ssh.c,v 1.7 2005/11/23 19:45:15 tg Exp $");
 
 #include <openssl/evp.h>
 #include <openssl/err.h>
@@ -156,54 +156,15 @@ u_int control_server_pid = 0;
 static void
 usage(void)
 {
-	fprintf(stderr, "Usage: %s [options] host [command]\n", __progname);
-	fprintf(stderr, "Options:\n");
-	fprintf(stderr, "  -l user     Log in using this user name.\n");
-	fprintf(stderr, "  -n          Redirect input from " _PATH_DEVNULL ".\n");
-	fprintf(stderr, "  -F config   Config file (default: ~/%s).\n",
-	     _PATH_SSH_USER_CONFFILE);
-	fprintf(stderr, "  -A          Enable authentication agent forwarding.\n");
-	fprintf(stderr, "  -a          Disable authentication agent forwarding (default).\n");
-	fprintf(stderr, "  -X          Enable X11 connection forwarding.\n");
-	fprintf(stderr, "  -Y          Enable trusted X11 connection forwarding.\n");
-	fprintf(stderr, "  -x          Disable X11 connection forwarding (default).\n");
-	fprintf(stderr, "  -i file     Identity for public key authentication "
-	    "(default: ~/.etc/ssh/identity)\n");
-#ifdef SMARTCARD
-	fprintf(stderr, "  -I reader   Set smartcard reader.\n");
-#endif
-	fprintf(stderr, "  -t          Tty; allocate a tty even if command is given.\n");
-	fprintf(stderr, "  -T          Do not allocate a tty.\n");
-	fprintf(stderr, "  -v          Verbose; display verbose debugging messages.\n");
-	fprintf(stderr, "              Multiple -v increases verbosity.\n");
-	fprintf(stderr, "  -V          Display version number only.\n");
-	fprintf(stderr, "  -q          Quiet; don't display any warning messages.\n");
-	fprintf(stderr, "  -f          Fork into background after authentication.\n");
-	fprintf(stderr, "  -e char     Set escape character; ``none'' = disable (default: ~).\n");
-
-	fprintf(stderr, "  -c cipher   Select encryption algorithm\n");
-	fprintf(stderr, "  -m macs     Specify MAC algorithms for protocol version 2.\n");
-	fprintf(stderr, "  -p port     Connect to this port.  Server must be on the same port.\n");
-	fprintf(stderr, "  -L [bind_address:]listen-port:host:port   Forward loc. port to rem. addr.\n");
-	fprintf(stderr, "  -R [bind_address:]listen-port:host:port   Forward rem. port to loc. addr.\n");
-	fprintf(stderr, "              These cause %s to listen for connections on a port, and\n", __progname);
-	fprintf(stderr, "              forward them to the other side by connecting to host:port.\n");
-	fprintf(stderr, "  -D [bind_address:]port   Dynamic application-level port forwarding.\n");
-	fprintf(stderr, "  -C          Enable compression.\n");
-	fprintf(stderr, "  -N          Do not execute a shell or command.\n");
-	fprintf(stderr, "  -g          Allow remote hosts to connect to forwarded ports.\n");
-	fprintf(stderr, "  -1          Force protocol version 1.\n");
-	fprintf(stderr, "  -2          Force protocol version 2.\n");
-	fprintf(stderr, "  -4          Use IPv4 only.\n");
-	fprintf(stderr, "  -6          Use IPv6 only.\n");
-	fprintf(stderr, "  -o 'option' Process the option as if it was read from a configuration file.\n");
-	fprintf(stderr, "  -s          Invoke command (mandatory) as SSH2 subsystem.\n");
-	fprintf(stderr, "  -b addr     Local IP address.\n");
-	fprintf(stderr, "  -h          Disable lowdelay TOS type, e.g. for rsync.\n");
-	fprintf(stderr, "  -M          Enable session multiplexing master mode.\n");
-	fprintf(stderr, "  -S ctl_path Use ctl_path as socket for session multiplexing.\n");
-	fprintf(stderr, "  -O ctl_cmd  Pass command to multiplex session master.\n");
-	exit(1);
+	fprintf(stderr,
+"usage: ssh [-1246AaCfghkMNnqsTtVvXxY] [-b bind_address] [-c cipher_spec]\n"
+"           [-D [bind_address:]port] [-e escape_char] [-F configfile]\n"
+"           [-i identity_file] [-L [bind_address:]port:host:hostport]\n"
+"           [-l login_name] [-m mac_spec] [-O ctl_cmd] [-o option] [-p port]\n"
+"           [-R [bind_address:]port:host:hostport] [-S ctl_path]\n"
+"           [-w tunnel:tunnel] [user@]hostname [command]\n"
+	);
+	exit(255);
 }
 
 static int ssh_session(void);
@@ -257,7 +218,7 @@ main(int ac, char **av)
 	pw = getpwuid(original_real_uid);
 	if (!pw) {
 		logit("You don't exist, go away!");
-		exit(1);
+		exit(255);
 	}
 	/* Take a copy of the returned structure. */
 	pw = pwcopy(pw);
@@ -278,7 +239,7 @@ main(int ac, char **av)
 
 again:
 	while ((opt = getopt(ac, av,
-	    "1246ab:c:e:fghi:kl:m:no:p:qstvxACD:F:I:L:MNO:PR:S:TVXY")) != -1) {
+	    "1246ab:c:e:fghi:kl:m:no:p:qstvxACD:F:I:L:MNO:PR:S:TVw:XY")) != -1) {
 		switch (opt) {
 		case '1':
 			options.protocol = SSH_PROTO_1;
@@ -373,6 +334,15 @@ again:
 			if (opt == 'V')
 				exit(0);
 			break;
+		case 'w':
+			if (options.tun_open == -1)
+				options.tun_open = SSH_TUNMODE_DEFAULT;
+			options.tun_local = a2tun(optarg, &options.tun_remote);
+			if (options.tun_local == SSH_TUNID_ERR) {
+				fprintf(stderr, "Bad tun device '%s'\n", optarg);
+				exit(255);
+			}
+			break;
 		case 'q':
 			options.log_level = SYSLOG_LEVEL_QUIET;
 			break;
@@ -388,7 +358,7 @@ again:
 			else {
 				fprintf(stderr, "Bad escape character '%s'.\n",
 				    optarg);
-				exit(1);
+				exit(255);
 			}
 			break;
 		case 'c':
@@ -403,7 +373,7 @@ again:
 					fprintf(stderr,
 					    "Unknown cipher type '%s'\n",
 					    optarg);
-					exit(1);
+					exit(255);
 				}
 				if (options.cipher == SSH_CIPHER_3DES)
 					options.ciphers = "3des-cbc";
@@ -419,7 +389,7 @@ again:
 			else {
 				fprintf(stderr, "Unknown mac type '%s'\n",
 				    optarg);
-				exit(1);
+				exit(255);
 			}
 			break;
 		case 'M':
@@ -432,7 +402,7 @@ again:
 			options.port = a2port(optarg);
 			if (options.port == 0) {
 				fprintf(stderr, "Bad port '%s'\n", optarg);
-				exit(1);
+				exit(255);
 			}
 			break;
 		case 'l':
@@ -446,7 +416,7 @@ again:
 				fprintf(stderr,
 				    "Bad local forwarding specification '%s'\n",
 				    optarg);
-				exit(1);
+				exit(255);
 			}
 			break;
 
@@ -457,7 +427,7 @@ again:
 				fprintf(stderr,
 				    "Bad remote forwarding specification "
 				    "'%s'\n", optarg);
-				exit(1);
+				exit(255);
 			}
 			break;
 
@@ -468,7 +438,7 @@ again:
 			if ((fwd.listen_host = hpdelim(&cp)) == NULL) {
 				fprintf(stderr, "Bad dynamic forwarding "
 				    "specification '%.100s'\n", optarg);
-				exit(1);
+				exit(255);
 			}
 			if (cp != NULL) {
 				fwd.listen_port = a2port(cp);
@@ -481,7 +451,7 @@ again:
 			if (fwd.listen_port == 0) {
 				fprintf(stderr, "Bad dynamic port '%s'\n",
 				    optarg);
-				exit(1);
+				exit(255);
 			}
 			add_local_forward(&options, &fwd);
 			xfree(p);
@@ -502,7 +472,7 @@ again:
 			line = xstrdup(optarg);
 			if (process_config_line(&options, host ? host : "",
 			    line, "command-line", 0, &dummy) != 0)
-				exit(1);
+				exit(255);
 			xfree(line);
 			break;
 		case 's':
@@ -675,7 +645,7 @@ again:
 	    options.address_family, options.connection_attempts,
 	    original_effective_uid == 0 && options.use_privileged_port,
 	    options.proxy_command) != 0)
-		exit(1);
+		exit(255);
 
 	/*
 	 * If we successfully made the connection, load the host private key
@@ -1090,6 +1060,28 @@ ssh_session2_setup(int id, void *arg)
 		packet_send();
 	}
 
+	if (options.tun_open != SSH_TUNMODE_NO) {
+		Channel *c;
+		int fd;
+
+		debug("Requesting tun.");
+		if ((fd = tun_open(options.tun_local,
+		    options.tun_open)) >= 0) {
+			c = channel_new("tun", SSH_CHANNEL_OPENING, fd, fd, -1,
+			    CHAN_TCP_WINDOW_DEFAULT, CHAN_TCP_PACKET_DEFAULT,
+			    0, "tun", 1);
+			c->datagram = 1;
+			packet_start(SSH2_MSG_CHANNEL_OPEN);
+			packet_put_cstring("tun@openssh.com");
+			packet_put_int(c->self);
+			packet_put_int(c->local_window_max);
+			packet_put_int(c->local_maxpacket);
+			packet_put_int(options.tun_open);
+			packet_put_int(options.tun_remote);
+			packet_send();
+		}
+	}
+
 	client_session2_setup(id, tty_flag, subsystem_flag, getenv("TERM"),
 	    NULL, fileno(stdin), &command, environ, &ssh_subsystem_reply);
 
@@ -1154,6 +1146,11 @@ ssh_session2(void)
 
 	if (!no_shell_flag || (datafellows & SSH_BUG_DUMMYCHAN))
 		id = ssh_session2_open();
+
+	/* Execute a local command */
+	if (options.local_command != NULL &&
+	    options.permit_local_command)
+		ssh_local_cmd(options.local_command);
 
 	/* If requested, let ssh continue in the background. */
 	if (fork_after_authentication_flag)
