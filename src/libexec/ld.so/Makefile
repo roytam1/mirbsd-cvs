@@ -1,4 +1,4 @@
-# $MirOS: src/libexec/ld.so/Makefile,v 1.9 2008/10/16 13:31:20 tg Exp $
+# $MirOS: src/libexec/ld.so/Makefile,v 1.10 2008/10/16 14:19:01 tg Exp $
 # $OpenBSD: Makefile,v 1.34 2006/05/11 22:03:22 deraadt Exp $
 
 SUBDIR=		ldconfig ldd
@@ -31,7 +31,12 @@ INSTALL_STRIP=
 
 ELF_LDFLAGS+=	--shared -Bsymbolic --no-undefined
 
-$(PROG):
-	$(LD) -x -e _dl_start $(ELF_LDFLAGS) -o $(PROG) $(OBJS) $(LDADD)
+CLEANFILES+=	${PROG}~
+${PROG}:
+	${LD} -r -o ${PROG}~ ${OBJS}
+	objcopy --redefine-sym memcpy=_dl_memcpy ${PROG}~
+	${LD} -x -e _dl_start ${ELF_LDFLAGS} -o ${PROG} ${PROG}~ ${LDADD}
+#$(PROG):
+#	$(LD) -x -e _dl_start $(ELF_LDFLAGS) -o $(PROG) $(OBJS) $(LDADD)
 
 .include <bsd.prog.mk>

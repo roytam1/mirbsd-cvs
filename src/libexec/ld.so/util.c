@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/libexec/ld.so/util.c,v 1.2 2006/08/30 03:52:53 tg Exp $ */
 /*	$OpenBSD: util.c,v 1.18 2004/06/14 15:07:36 millert Exp $	*/
 
 /*
@@ -33,7 +33,7 @@
 #include <string.h>
 #include "archdep.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/libexec/ld.so/util.c,v 1.2 2006/08/30 03:52:53 tg Exp $");
 
 __dead void __stack_smash_handler(char [], int);
 
@@ -142,4 +142,11 @@ _dl_random(void)
 	_dl_sysctl(mib, 2, &rnd, &len, NULL, 0);
 
 	return (rnd);
+}
+
+void *
+_dl_memcpy(void *dst, const void *src, size_t len)
+{
+	_dl_bcopy(src, dst, len);
+	return (dst);
 }
