@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/include/mir18n.h,v 1.13 2007/02/02 19:28:34 tg Exp $ */
+/* $MirOS: src/lib/libc/include/mir18n.h,v 1.14 2007/02/02 21:06:24 tg Exp $ */
 
 #ifndef _LIBC_MIR18N_H
 #define _LIBC_MIR18N_H
@@ -53,6 +53,7 @@
 #define punct	  0
 #define alnum	  0
 
+/* XXX these are copied in src/include/ctype.h */
 #define wctype_alnum  iswmask(11, alpha|xdigit, 0)
 #define wctype_alpha  iswmask(2, alpha, 0)
 #define wctype_blank  iswmask(8, blank, 0)
