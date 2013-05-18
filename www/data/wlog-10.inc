@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.322 2011/02/19 18:01:23 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.323 2011/03/03 16:24:29 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -7441,4 +7441,50 @@ Tag: debian event ill mksh rant
  and I still offer a prompt conversion service (send me any GNU bash or oksh
  <tt>$PS1</tt> and I’ll send that to you in mksh(1) syntax – optionally with
  adjustments/improvements, like cwd uses only up to 1/3 of screen width).</p>
+----
+Date: 06.03.2011 02:06
+Author: tg@
+Title: mksh gains recursive parser for command substitutions – $(…)
+Tag: debian mksh news
+
+<p><a href="@@RELPATH@@mksh.htm#clog">mksh-current</a> has just gained an
+ <em>experimental</em> recursive parser for command substitutions, fixing
+ <a href="https://bugzilla.redhat.com/show_bug.cgi?id=496791">RedHat
+ BZ#496791</a> and decades-old complaints about the pdksh codebase,
+ compared to AT&amp;T ksh93. (GNU bash could also do the example, but not
+ some other things mksh(1) parses fine now.)</p>
+<p class="boxhead">This means that things like the following work now.</p>
+ <div class="boxtext"><pre>
+	# POSIX, should “always” work
+	echo $(case 1 in (1) echo yes;; (2) echo no;; esac)
+	# POSIX optional, works now in mksh, works in GNU bash
+	echo $(case 1 in 1) echo yes;; 2) echo no;; esac)
+	# GNU bash seems to choke on comments ending with backslash
+	# a comment with " ' \
+	x=$(
+	echo yes
+	# a comment with " ' \
+	)
+	# No non-recursive COMSUB parser can pass all of the above
+	# tests and these below at the same time (some extensions)
+	echo $(typeset -i10 x=16#20; echo $x)
+	echo $(typeset -Uui16 x=16#$(id -u)
+	) .
+	echo $(c=1; d=1
+	typeset -Uui16 a=36#foo; c=2
+	typeset -Uui16 b=36 #foo; d=2
+	echo $a $b $c $d)
+	# the ‘#’ is especially tricky, that’s why the above cases
+ </pre>
+</div><p class="boxfoot">Next on my TODO is the complete rewrite of the
+ read built-in command, as well as its documentation. I think that the
+ (reduced) goals for mksh R40 will have been met by then, except porting
+ to LynxOS and MPE, but we’re working on it, and re-testing Syllable and
+ Plan 9). Of course, a release implies testing on <em>a lot</em> of the
+ supposedly supported platforms, so it won’t be out “immediately”. Though,
+ associative arrays have been removed from the R40 goals, so that I can
+ at least get a new release out. Note that Debian and OpenSuSE Buildservice
+ users have been provided with somewhat well-tested mksh-current snapshots
+ for a while already, and Gentoo users can use the “live ebuild”; there’s
+ always compiling from source too…</p>
 ----
