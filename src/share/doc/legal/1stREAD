@@ -1,4 +1,4 @@
-$MirOS: src/share/doc/legal/1stREAD,v 1.3 2006/02/01 21:41:12 tg Exp $
+$MirOS: src/share/doc/legal/1stREAD,v 1.4 2006/03/29 21:35:41 tg Exp $
 
 LICENCE OVERVIEW
 ----------------
@@ -62,7 +62,7 @@ licencing repository.
 	The MirOS Licence Template is the preferred boiler-
 	plate to be put on new files.
 
-/usr/src/share/misc/license.template
+mircvs://src/share/misc/Attic/license.template
 	The OpenBSD/ISC license template is an acceptable
 	OSI approved licence with weaker phrasing and a
 	disclaimer not optimal for protection under EU law.
