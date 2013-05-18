@@ -1,4 +1,4 @@
-rcsid_parser='$MirOS: www/mk/parser,v 1.9 2008/12/04 13:23:35 tg Exp $'
+rcsid_parser='$MirOS: www/mk/parser,v 1.10 2008/12/04 14:04:44 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -17,6 +17,8 @@ integer state=1
 integer tai
 typeset -l parser_lctmp
 rcsid_parsed=
+
+srcf=$name
 
 while IFS= read -r line; do
 	if [[ $line = RCSID:* && -z $rcsid_parsed ]]; then
@@ -40,6 +42,7 @@ while IFS= read -r line; do
 			e_id[entry]=${e_id[entry]}-g$guid
 			let guid++
 		done
+		ei_srcf[entry]=$srcf
 		ids=$ids${e_id[entry]}:
 		let ++entry
 		state=2
@@ -52,7 +55,7 @@ while IFS= read -r line; do
 			state=0
 			continue
 		else
-			print -u2 "Unknown header in data/$name.inc: $line"
+			print -u2 "Unknown header in data/$srcf.inc: $line"
 			exit 1
 		fi
 		state=1
@@ -74,7 +77,7 @@ while IFS= read -r line; do
 			for x in $parser_lctmp; do
 				if [[ $x != +([0-9a-z_]) ]]; then
 					print -u2 "Invalid tag '$x' in" \
-					    "data/$name.inc: $line"
+					    "data/$srcf.inc: $line"
 					continue
 				fi
 				e_tag[entry]=${e_tag[entry]}$sp$x
@@ -84,9 +87,9 @@ while IFS= read -r line; do
 	else
 		ei_body[entry]=${ei_body[entry]}${ei_body[entry]+$nl}$line
 	fi
-done <"$TOP/data/$name.inc"
+done <"$TOP/data/$srcf.inc"
 if (( state != 2 )); then
-	print -u2 "Last line of data/$name.inc not a separator!"
+	print -u2 "Last line of data/$srcf.inc not a separator!"
 	exit 1
 fi
 integer entries=entry
