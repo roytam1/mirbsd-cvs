@@ -22,7 +22,7 @@
 
 #include "sh.h"
 
-__RCSID("$MirOS: src/bin/mksh/exec.c,v 1.65 2009/09/20 16:40:55 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/exec.c,v 1.66 2009/10/02 18:08:32 tg Exp $");
 
 static int comexec(struct op *, struct tbl *volatile, const char **,
     int volatile, volatile int *);
@@ -497,7 +497,7 @@ comexec(struct op *t, struct tbl *volatile tp, const char **ap,
 		if (keepasn_ok && tp && tp->type == CFUNC &&
 		    !(tp->flag & FKSH)) {
 			bourne_function_call = true;
-			type_flags = 0;
+			type_flags = EXPORT;
 		} else
 			type_flags = LOCAL|LOCAL_COPY|EXPORT;
 	}
