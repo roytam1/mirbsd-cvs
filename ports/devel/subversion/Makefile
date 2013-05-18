@@ -1,8 +1,8 @@
-# $MirOS: ports/devel/subversion/Makefile,v 1.20 2008/09/21 18:05:52 bsiegert Exp $
+# $MirOS: ports/devel/subversion/Makefile,v 1.21 2008/12/15 20:27:35 tg Exp $
 
 COMMENT=		Subversion revision control system
 VERSION=		1.5.2
-DASH_VER=		0
+DASH_VER=		1
 DISTNAME=		subversion-${VERSION}
 CATEGORIES=		devel net
 HOMEPAGE=		http://subversion.tigris.org/
