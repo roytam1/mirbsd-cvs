@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/scripts/mkmcz,v 1.4 2005/12/16 11:08:35 tg Exp $
+# $MirOS: ports/infrastructure/scripts/mkmcz,v 1.5 2005/12/16 11:09:00 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -32,7 +32,13 @@ fi
 target=$1
 repo=$2
 tag=
-if [[ -z $3 ]]; then
+if [[ -n $3 && -n $4 ]]; then
+	if [[ $CVS = svn ]]; then
+		print -u2 mkmcz: Do not know how to do this
+		exit 2
+	fi
+	tag="-r$4:$3"
+elif [[ -z $3 ]]; then
 	tag="-r$4"
 elif [[ $CVS = svn ]]; then
 	[[ -n $3 ]] && tag="-r { $3 }"
@@ -59,7 +65,7 @@ if ! ( umask 022; exec env CVSUMASK=022 $CVS $CVSARGS "$tag" $5 ); then
 	exit 1
 fi
 print -r -- - "$LOCALBASE/bin/mpczar -o '$1' -I CVS -I .svn -r ."
-$LOCALBASE/bin/mpczar -o '$1' -I CVS -I .svn -r .
+$LOCALBASE/bin/mpczar -o "$1" -I CVS -I .svn -r .
 rv=$?
 cd /tmp
 rm -rf "$T"
