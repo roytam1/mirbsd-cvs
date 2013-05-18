@@ -38,7 +38,7 @@
 #include "channels.h"
 #include "groupaccess.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/servconf.c,v 1.11 2006/09/20 21:41:02 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/servconf.c,v 1.12 2006/09/21 21:47:31 tg Exp $");
 
 static void add_listen_addr(ServerOptions *, char *, u_short);
 static void add_one_listen_addr(ServerOptions *, char *, u_short);
@@ -304,7 +304,7 @@ static struct {
 	{ "x11uselocalhost", sX11UseLocalhost, SSHCFG_ALL },
 	{ "xauthlocation", sXAuthLocation, SSHCFG_GLOBAL },
 	{ "strictmodes", sStrictModes, SSHCFG_GLOBAL },
-	{ "permitemptypasswords", sEmptyPasswd, SSHCFG_GLOBAL },
+	{ "permitemptypasswords", sEmptyPasswd, SSHCFG_ALL },
 	{ "permituserenvironment", sPermitUserEnvironment, SSHCFG_GLOBAL },
 	{ "uselogin", sUseLogin, SSHCFG_GLOBAL },
 	{ "compression", sCompression, SSHCFG_GLOBAL },
@@ -1234,6 +1234,8 @@ copy_set_server_options(ServerOptions *dst, ServerOptions *src, int preauth)
 {
 	if (src->password_authentication != -1)
 		dst->password_authentication = src->password_authentication;
+	if (src->permit_empty_passwd != -1)
+		dst->permit_empty_passwd = src->permit_empty_passwd;
 	if (src->banner != NULL) {
 		if (dst->banner != NULL)
 			xfree(dst->banner);
