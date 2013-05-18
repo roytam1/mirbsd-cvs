@@ -1,6 +1,6 @@
 mws_setname subprojects/kwalletcli "kwalletcli – CLI for the KDE Wallet"
 mws_setheadline CLI for the KDE Wallet
-mws_putheader '$MirOS: www/src/kwalletcli.hts,v 1.13 2010/01/20 17:33:00 tg Exp $'
+mws_putheader '$MirOS: www/src/kwalletcli.hts,v 1.14 2010/02/14 19:28:04 tg Exp $'
 mws_content <<'EOF'
 <h2>Table of Content</h2>
 EOF
@@ -22,6 +22,8 @@ mws_content <<'EOF'
  information. Currently, only the default wallet is supported; while
  the CLI itself could be enhanced by a selection, the utilities also
  provided cannot really expose this functionality.</p>
+<p>kwalletcli is OSI Certified <img alt="Open Source Software™"
+ src="@@RELPATH@@pics/open_source_button.png" /></p>
 
 <h3 id="download">Download</h3>
 <p>Current version: kwalletcli 2.01</p><ul>
@@ -37,8 +39,8 @@ mws_content <<'EOF'
 <h3 id="contents">Ingredients</h3>
 <p>The kwalletcli distfile provides a number of things:</p><ul>
  <li>A <tt>LICENCE</tt> file. kwalletcli is covered by <a
-  href="@@ABSPATH@@/files/MirOS-Licence.htm">The MirOS Licence</a>;
-  the logo is <em>additionally</em> LGPL v3+</li>
+  href="@@ABSPATH@@/MirOS-Licence.htm">The MirOS Licence</a>; the logo is
+  <em>additionally</em> LGPL v3+ (both OSI certified, DFSG free, etc.)</li>
  <li>An SVG logo and a few compiled PNG versions.</li>
  <li>The CLI itself (binary). The manual page (HTML): kwalletcli(1)</li>
  <li>An ssh-askpass(1) alike tool called <tt>kwalletaskpass(1)</tt>,
