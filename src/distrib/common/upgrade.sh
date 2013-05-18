@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/common/upgrade.sh,v 1.7 2009/03/29 11:33:29 tg Exp $
+# $MirOS: src/distrib/common/upgrade.sh,v 1.8 2009/12/28 17:00:19 tg Exp $
 # $OpenBSD: upgrade.sh,v 1.61 2005/04/02 14:27:08 krw Exp $
 # $NetBSD: upgrade.sh,v 1.2.4.5 1996/08/27 18:15:08 gwr Exp $
 #
@@ -120,8 +120,45 @@ if ! umount /mnt; then
 fi
 mount_fs
 
+# Upgrade helper for pkgutl*.ngz (pre-install part)
+rm -f /mnt/usr/mpkg/_{upgrade,flst}
+if [[ -d /mnt/usr/mpkg/db/. ]]; then (
+	cd /mnt/usr/mpkg
+	# fold in /usr/mpkg/db/pkg/{mirmake,pkgtools}-* from the database
+	# as well as the contents of the mirmake package (pkgtools is OK)
+	for i in db/pkg/mirmake-*; do
+		[[ -d $i/. ]] || continue
+		print -r -- "$i" >>_flst
+		grep -v '^[+@]' $i/+CONTENTS | grep -v '^share/mmake' >>_flst
+		print share/mmake >>_flst
+	done
+	for i in db/pkg/pkgtools-*; do
+		[[ -d $i/. ]] && print -r -- "$i" >>_flst
+	done
+	# XXX no sort here… # sort -uo _flst _flst
+	cpio -oC512 -Hnewc -Mset <_flst >_upgrade
+	rm -rf $(<_flst)
+	rm -f _flst
+); fi
+
 # Install sets.
 install_sets
+
+# Upgrade helper for pkgutl*.ngz (post-install part)
+if [[ -s /mnt/usr/mpkg/_upgrade ]]; then (
+	cd /mnt/usr/mpkg
+	found=0
+	for i in db/pkg/pkgtools-*; do
+		[[ -d $i/. ]] || continue
+		found=1
+		break
+	done
+	if (( !found )); then
+		# restore mirmake and pkgtools from before
+		tar xphf _upgrade
+	fi
+	rm -f _upgrade
+); fi
 
 # Little upgrade helpers
 [[ -e /mnt/etc/boot.conf && ! -e /mnt/boot.cfg ]] && \
