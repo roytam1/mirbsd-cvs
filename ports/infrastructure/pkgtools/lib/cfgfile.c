@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: ports/infrastructure/pkgtools/lib/cfgfile.c,v 1.1.2.12 2010/03/04 18:03:37 bsiegert Exp $ */
 
 /*-
  * Copyright (c) 2009, 2010
@@ -31,7 +31,7 @@
 #include <err.h>
 #include "lib.h"
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/cfgfile.c,v 1.1.2.11 2010/02/27 16:20:18 bsiegert Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/cfgfile.c,v 1.1.2.12 2010/03/04 18:03:37 bsiegert Exp $");
 
 SLIST_HEAD(cfg_varlist, cfg_var);
 struct cfg_var {
@@ -312,7 +312,7 @@ char
 					size_t n;
 				       	n = strlen(var->val)-strlen(string);
 					rv_size += n;
-					if (!(rv = reallocf(rv, rv_size))) {
+					if (!(rv = realloc(rv, rv_size))) {
 						warn(NULL);
 						return NULL;
 					}
@@ -355,10 +355,10 @@ cfg_dump_sources(void)
 void
 cfg_add_source(unsigned long priority, bool remote, const char *source)
 {
-	struct cfg_source *sp, *sp_temp, *newsp;
+	struct cfg_source *sp, *newsp;
 
 	/* Check for duplicates */
-	LIST_FOREACH_SAFE(sp, &Sources, entries, sp_temp) {
+	LIST_FOREACH(sp, &Sources, entries) {
 		if (!strcmp(sp->source, source)) {
 			if (sp->remote == remote && sp->priority == priority)
 				return; /* entry already exists */
@@ -367,6 +367,7 @@ cfg_add_source(unsigned long priority, bool remote, const char *source)
 				LIST_REMOVE(sp, entries);
 				free(sp->source);
 				free(sp);
+				break;
 			}
 		}
 	}
@@ -416,12 +417,12 @@ cfg_add_source(unsigned long priority, bool remote, const char *source)
 bool
 cfg_remove_source(const char *source)
 {
-	struct cfg_source *sp, *sp_temp;
+	struct cfg_source *sp;
 
 	if (!source)
 		return NULL;
 
-	LIST_FOREACH_SAFE(sp, &Sources, entries, sp_temp) {
+	LIST_FOREACH(sp, &Sources, entries) {
 		if (!strcmp(source, sp->source)) {
 			LIST_REMOVE(sp, entries);
 			free(sp->source);

@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: ports/infrastructure/pkgtools/lib/srclist.c,v 1.1.2.1 2010/03/04 18:03:39 bsiegert Exp $ */
 
 /*-
  * Copyright (c) 2010
@@ -31,7 +31,7 @@
 #include <err.h>
 #include "lib.h"
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/cfgfile.c,v 1.1.2.11 2010/02/27 16:20:18 bsiegert Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/srclist.c,v 1.1.2.1 2010/03/04 18:03:39 bsiegert Exp $");
 
 /* A word on memory management:
  * The strings to be entered into "source" above are just the pointers
@@ -126,9 +126,9 @@ findmatchingname_srcs(const struct cfg_sourcelist *sources, const char *pattern)
 void
 matchlist_destroy(struct matchlist *matches)
 {
-	struct match *mp, *mp_temp;
+	struct match *mp;
 
-	TAILQ_FOREACH_SAFE(mp, matches, entries, mp_temp) {
+	while ((mp = TAILQ_FIRST(matches))) {
 		free(mp->pkgname);
 		TAILQ_REMOVE(matches, mp, entries);
 		free(mp);
