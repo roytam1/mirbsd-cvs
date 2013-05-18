@@ -1,26 +1,36 @@
-$MirOS: src/share/doc/legal/LICENCE-GNU,v 1.5 2006/03/19 21:23:18 tg Exp $
+$MirOS: src/share/doc/legal/LICENCE-GNU,v 1.6 2006/06/15 19:18:49 tg Exp $
 
-Readme for GNU software on MirOS
-================================
+Special rules for GNU and similar less free software
+====================================================
 
-This file covers the most frequently asked questions about
-the GNU tools which are contributational part of the MirOS
-base installation. It also does cover legal requirements.
+Non-GNU software
+----------------
+
+Some software comes under GPL (lynx, mkisofs, perl) or
+different licences (sendmail, perl). For GPL software,
+the "Obtaining source code" section below applies. For
+sendmail, it applies similarily.
+
+GNU software
+------------
+
+Some software comes under GPL with documentation under
+either GPL or GFDL, and requires copyright assignment,
+namely: autotools, binutils, cvs, gcc, rcs, texinfo
+
+The section "Obtaining source code" below applies. The
+GNU software parts are however not covered by the col-
+lective copyright on MirOS asserted by the founder. We
+also ask any contributor to this part of the source to
+assign back the US style copyright to the FSF. Europe-
+an droit d'auteur rights are retained.
 
 
-Documentation
--------------
-
-Do you wonder where the documentation is?
-
-Well, the Free Software Foundation USA has ensured we cannot
-distribute the documentation enclosed with gcc 3.4.5 because
-of licence issues.
-
-(However, see below, there is a compromise.)
+GNU FDL
+-------
 
 The MirOS project goals forbid distributing code - this does
-not exclude docs - which we cannot modify.
+not exclude documentation - which we cannot modify.
 
 The GNU Free Documentation License has been deemed non-free,
 unless neither cover texts nor invariant sections are speci-
@@ -36,14 +46,14 @@ cf. http://people.debian.org/%7Esrivasta/Position_Statement.xhtml
 If you don't like the fact, contact your local FSF represen-
 tative, or the FSF Europe or USA.
 
-
 Compromise
 ----------
 
-Currently, we are delivering GCC with documentation as tool,
-contributed alongside MirOS but not part of it. GNU binutils
-are, however, contained in the MirOS base system, and we are
-including documentation.
+Currently, we are delivering GNU software bundled with MirOS
+and do not exclude documentation. RMS has assured we can re-
+distribute the GFDL-licenced parts in our CVS repository and
+on CDs, via SSH, in a non-world-readable or encrypted direc-
+tory. See: http://marc.theaimsgroup.com/?m=113699292525210
 
 All copyright on the changes is assigned back to the FSF, so
 there is not much we can do about it. In order to fulfil the
@@ -52,39 +62,87 @@ available at the CVSweb of "sources.redhat.com", and the mo-
 dified and original versions are visible via MirOS CVSweb as
 shown below.
 
-The collective copyright assigned onto the whole of MirOS by
-Thorsten Glaser as project leader does *not* cover the parts
-licenced under any version of the GNU FDL.
+We urge people to not licence their work under GNU FDL, pre-
+vent people from relicencing our own documentation under it,
+e.g. in the website licence, when possible, and ask them not
+to do it otherwise. We must live with the FSF documentation,
+but we do not allow committers to modify them unless changes
+are assigned back to the FSF, to prevent additional require-
+ments to burden us.
 
 
-Libraries under the GNU GPL without linking exception clause
-------------------------------------------------------------
+GNU GPL
+-------
 
-While building the base system, you'll see apparently weird-
-looking messages, such as
-objdump.o: Linking with libopcodes infects with the GNU General Public License!
-objdump.o: Linking with libbfd infects with the GNU General Public License!
-objdump.o: Linking with libiberty infects with the GNU General Public License!
+http://groups.google.com/group/comp.lang.python/msg/29c7588fbecd8289
+and at http://www.symlink.ch/articles/06/12/18/1515227.shtml (German)
 
-We have tried to identify any potential source of GPL poiso-
-ning in the MirOS source tree, and have started to do so for
-MirPorts. If you should encounter these or similar infection
-warning messages, this is informational - the actual licence
-virus only gets active if the final, linked, binary is redi-
-stributed. If we should have missed to identify a GPL'd lib-
-rary which is installed during the release process, or you'd
-like to help us with modifying MirPorts the same way, please
-contact us immediately.
+Despite FSF propaganda (FUD), the GNU GPL is not a viral li-
+cence if you do not redistribute the end product of combina-
+ting some work with a GPL licenced work. Dynamic linking and
+dlopen(3) are not combining, as they are brought together at
+run time only. GPLv2 section 0 says the act of running isn't
+restricted. Mere aggregation of GPL and non-GPL work on some
+medium (e.g. our installation sets) don't "infect" either.
+
+The ChangeLog requirement is met by CVS logs (both the files
+and the logs within the ,v files themselves). The source can
+be obtained for free from our CVSweb unless distributed with
+the MirOS release/snapshot you obtained. Note that the bina-
+ries you receive need not correspond to the source code (for
+non-GPL binaries only).
+
+GPLv3
+-----
+
+We do not yet have a stance on the GPLv3, because it has not
+yet been released. We however hope that there will not be an
+additional liability or responsibility burdened upon us.
 
 
-The ChangeLog requirement of the GNU GPL
-----------------------------------------
+Obtaining source code
+---------------------
 
-Our changelogs are CVS, and the old ones from GNU
-are retrievable via CVS:
+On your MirOS Release CD, source code for the base system is
+at /v{version}/source{version}.ngz and xfree{version}.ngz; a
+link is placed in the machine-dependent subdirectories to be
+able to easily install them.
 
-anoncvs access with ssh:
+Third-party sources for Release, Snapshot or Live CDs can be
+obtained from /v{version}/[Dd]istfiles, or /[Dd]istfiles, or
+/v{version}/[Dd]ist, or /[Dd]ist, if existent. Live CDs come
+with the source code of packages pre-installed, unless these
+have distfiles placed on the HTTP mirror(s), see below.
+
+Source code for less free software that comes with MirOS, as
+listed above, is available via CVSweb, anonCVS, or anonRSYNC
+as described below.
+
+Distfiles not on the distribution media
+---------------------------------------
+
+According to the GNU General Public License (Version 2), Section
+3b, we hereby guarantee that, unless the required source code is
+available on the same media (as per Section 3a), it shall be ac-
+cessible to the general public on our HTTP download mirrors, for
+at least three years after the initial release date of the media
+and at no cost other than the expense of physically distributing
+these files. Because HTTP mirrors is the medium customarily used
+for software interchange, when it comes to "distfiles" of ports,
+we do not offer any other means, unless the mirrors are not wor-
+king. However, if you want the complete material downloadable at
+our mirrors on fixed media, contact us and we'll send them, at a
+little extra fee, to you, as an additional service going further
+than what the GPL requires.
+
+Distfiles covered by other licences shall be treated similarily.
+
+Mirror list
+-----------
+
+anonymous cvs access with ssh:
 	CVSROOT=anoncvs@anoncvs.mirbsd.org:/cvs
+	Port: 22
 	password: anoncvs
 
 	CVSROOT=anoncvs-mirbsd@anoncvs.allbsd.org:/???
@@ -93,24 +151,17 @@ anoncvs access with ssh:
 
 anonymous rsync access:
 	- via rsync protocol
-	rsync://rsync.allbsd.org/mirbsd-cvs/
-	rsync://rsync.allbsd.org/mirbsd-old-cvs/
+	rsync://rsync.allbsd.org/miros-cvs/
 	- via SSH
-	anoncvs@anoncvs.mirbsd.org:/cvs/
+	anoncvs@anoncvs.mirbsd.org:/cvs/	(pass: anoncvs)
 
 cvsweb access with http:
-	http://cvs.mirbsd.de/	(general)
+	http://cvs.mirbsd.de/	(generic redirection to one of below)
 	http://cvsweb.allbsd.org/cvsweb.cgi/?cvsroot=mirbsd
-	http://cvsweb.allbsd.org/cvsweb.cgi/?cvsroot=mirbsd-old
-	http://www.mirbsd.org/cvs.cgi/?cvsroot=miros	(/cvs)
-	http://www.mirbsd.org/cvs.cgi/?cvsroot=ocvs	(/ocvs)
-	http://www.mirbsd.org/cvs.cgi/?cvsroot=ncvs	(/ncvs)
+	http://www.mirbsd.org/cvs.cgi/?cvsroot=miros
 
 direct access to changelog files:
 	http://www.mirbsd.org/clogs/
-	http://www.mirbsd.org/clogs/			(/cvs)
-	http://www.mirbsd.org/clogs/old/ChangeLog*	(/ocvs)
-	http://www.mirbsd.org/clogs/old/NewChangeLog*	(/ncvs)
 
 access to files' changelogs from upstream:
 	http://www.openbsd.org/
@@ -120,66 +171,8 @@ access to files' changelogs from upstream:
 	http://www.gnu.org/
 	http://sources.redhat.com/projects.html
 
-
-Licence blurb
--------------
-Every single GNU-licensed (GPL, LGPL, etc.) file in this directory
-is covered by the licence in the lowest possible version that is
-written in the file, and relicensing files taken from MirOS under
-later versions of e.g. the GPL (when the original file is, say,
-GPLv1'd) is prohibited. You may of course ask the MirOS development
-team, which will decide on a case by case basis. For some projects,
-we are trying to assign back the copyright to the FSF (for practical
-reasons, ignoring political problems); for these files this restriction
-does not apply unless it's stated in the copyright header itself.
-
-To remove GNU FDL licenced material we have been forced (see the above
-blurb about documentation). This is a consensus that has been discussed
-on the debian-legal mailing list. MirBSD, MirLinux (MirOS) strive to be
-DFSG-free operating systems, with MirPorts being only a defined way to
-locally add third-party packages (itself BSD-style licenced as well),
-thus we took the consequence and removed GFDL-licenced documentation
-from the installed base system and, where feasible, from the source,
-except as described above.
-
-
-Other particulars
------------------
-
-$OpenBSD: README,v 1.1 2001/08/18 13:12:57 espie Exp $
-
-Some of the software in this subtree follows special rules.
-
-Specifically, the FSF not only wants the GPL licence, but they
-also insist that you assign your copyright to the FSF for anything
-but trivial changes.
-
-So:
-- check the history of external code before importing it.
-- be ready to arrange for copyright papers somewhat in advance if
-you want to work on it (the FSF takes a few months to process these).
-
-Otherwise, changes might not make it to the main distribution, and may
-need some further maintenance over time, or risk getting lost.
-
-Some internal changes are acceptable, but OpenBSD can't afford to maintain
-a complete separate toolchain on its own.
-
-
-Assigning copyright back to the FSF
------------------------------------
-
-The FSF demands this for accepting patches, and demands the agreement
-be made under US law. Contributor retains his moral rights under European
-"Droit d'Auteur" style law.
-
-The following MirOS committers and contributors have standing
-copyright assignments with the FSF:
-- tg@ (Thorsten Glaser)
-	* all of src/gnu/
-	* all of gcc/
-
-Of the following persons related to MirOS/OpenBSD this is known, too:
-- espie@openbsd.org (Marc Espie)
-- etoh@openbsd.org (Hiroaki Etoh) - acceptance pending
-- kettenis@openbsd.org (Mark Kettenis) - pending
+access to distfiles, ISOs, CVS repository tarballs ("HTTP mirrors"):
+	rsync://rsync.allbsd.org/miros-ftp/
+	http://www.mirbsd.org/MirOS/
+	http://pub.allbsd.org/MirOS/
+	ftp://ftp.allbsd.org/pub/MirOS/
