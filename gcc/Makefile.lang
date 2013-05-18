@@ -1,4 +1,4 @@
-# $MirOS: gcc/Makefile.lang,v 1.6 2006/07/04 00:02:13 tg Exp $
+# $MirOS: gcc/Makefile.lang,v 1.7 2006/12/11 20:46:46 tg Exp $
 
 .ifndef _MODGCC_MAKEFILE_LANG
 _MODGCC_MAKEFILE_LANG=1
@@ -20,7 +20,7 @@ NO_CXX?=	Yes
 NO_OBJC?=	Yes
 # GCJ is not recommended because it's out of date and takes
 # ages to build. It does however work, for low values of work.
-NO_JAVA=	Yes
+NO_JAVA?=	Yes
 # Pascal is known to work and be in a fairly good shape.
 NO_PASCAL?=	Yes
 .else
@@ -36,13 +36,13 @@ NO_THREADS?=	Yes
 NO_JAVA=	Yes #implied
 .endif
 
-.if defined(NO_CXX) && ${NO_CXX:L} != "no"
+.if ${NO_CXX:L} != "no"
 NO_JAVA=	Yes #implied
 .endif
 
 # only check java since nobody uses libobjc_gc anyway
 # (noone sane uses libobjc anyway, to state truth...)
-.if !defined(NO_JAVA) || ${NO_JAVA:L} == "no"
+.if ${NO_JAVA:L} == "no"
 NO_BOEHMGC?=	No
 .  if ${NO_BOEHMGC:L} != "no"
 NO_JAVA=	Yes #implied
