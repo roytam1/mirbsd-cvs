@@ -1687,3 +1687,62 @@ Author: tg@
  be fixed during the next build. No idea. I guess it could be a caste-align
  issue. I do not even want to fix the bootloder, the code is so ugly.</p>
 ----
+Title: FrOSCon is over
+Date: 27.08.2007
+Author: bsiegert@
+
+<p>Along with this post, I am inserting a vim modeline into the source
+ of this page. Finally.</p>
+
+<p>As said in the title, FrOSCon 2007 is over. IMHO, it was one of the
+ best conferences I have ever attended. I loved the relaxed atmosphere,
+ the cool people, the catering, and the Free Beer&mdash;sponsored by
+ O'Reilly, who really deserve more credit for that. There were many
+ niceties and little things that made the conference truly
+ great&mdash;like the Wii lounge, where I played some tennis against
+ Marius from AllBSD.</p>
+ 
+<p>I was not at all happy with the way our booth was handled though: It
+ consisted of a row of tables, the showcase computer standing with the
+ monitor to the front. <i>Behind</i> the tables, three to six persons
+ were sitting crouched behind their laptops, only one of which (tg@)
+ actually using MirOS. The others were not even familiar with the
+ project, with its goals or with the content of the flyers. The showcase
+ was almost only ever used for showing something when I was present,
+ doing so myself. Flyers and CDs were not proactively handed out to
+ visitors, they had to get these themselves.  Note: I will not accept
+ this behavior again from someone with an exhibitor's pass for
+ MirOS.</p>
+
+<p>On a more positive note, my talk <a
+ href="http://programm.froscon.org/2007/events/6.de.html">automake,
+ autoconf, libtool&mdash;an introduction to the GNU build system</a> was
+ a success.  The lecture hall was almost full; the audience was
+ interested and critical, asking many questions along the way and at the
+ end. (Thank you for that.) I started 15 minutes late because the video
+ team did not have a new cassette for recording. They called a helper
+ over DECT, asking for a new one. The helper came five minutes later,
+ asked if we were the ones that called and went off again to actually
+ get the cassette. It was truly a WTF moment for all of us, the audience
+ waiting. I made it through at an impressive speed: All my original
+ slides as well as the demo were in, and even with questions, I made it
+ in about 50 to 55 minutes.</p>
+ 
+<p>In the abstract, I had made a bold statement about cmake being a
+ flawed concept compared to the autotools, but I did not have any data
+ points to actually back up my claim, and promptly I got some questions
+ about this weak point of mine. Sorry for the unsatisfying answers.</p>
+
+<p>The slides in PDF format as well as the code examples are
+ downloadable from the FrOSCon program website. If you attended the
+ talk, I would be happy to receive some feedback, remarks and criticism
+ via the form on the same page.</p>
+
+<p>Oh, and it is true that the website here is somewhat broken now
+ because I did not commit all of my changes. The point is that commit
+ windows, with a r/w CVS repository, are rare now for some reason.
+ Halfway through my commits, I was distracted and could not finish. By
+ and large, and contrary to popular belief, a conference and exhibition
+ where you have a booth is not a good place or time for hacking.</p>
+<!-- vim:se tw=72 ai sw=1 ft=html enc=UTF-8: -->
+----
