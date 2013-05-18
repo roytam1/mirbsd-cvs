@@ -1,3 +1,24 @@
+/*-
+ * Copyright (c) 2006
+ *	Thorsten "mirabile" Glaser <tg@mirbsd.de>
+ *
+ * Licensee is hereby permitted to deal in this work without restric-
+ * tion, including unlimited rights to use, publicly perform, modify,
+ * merge, distribute, sell, give away or sublicence, provided all co-
+ * pyright notices above, these terms and the disclaimer are retained
+ * in all redistributions or reproduced in accompanying documentation
+ * or other materials provided with binary redistributions.
+ *
+ * Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
+ * express, or implied, to the maximum extent permitted by applicable
+ * law, without malicious intent or gross negligence; in no event may
+ * licensor, an author or contributor be held liable for any indirect
+ * or other damage, or direct damage except proven a consequence of a
+ * direct error of said person and intended use of this work, loss or
+ * other issues arising in any way out of its use, even if advised of
+ * the possibility of such damage or existence of a nontrivial bug.
+ */
+
 /* An ircII-like split-screen front end
    Copyright (C) 1995 Roger Espel Llima
 
@@ -55,7 +76,7 @@
 #define	__RCSID(x)	static const char __rcsid[] __attribute__((used)) = (x)
 #endif
 
-__RCSID("$MirOS: ports/comms/ssfe/dist/ssfe.c,v 1.4 2005/12/18 16:36:28 tg Exp $");
+__RCSID("$MirOS: ports/comms/ssfe/dist/ssfe.c,v 1.5 2005/12/18 16:38:20 tg Exp $");
 
 #define BUF_SIZE 4096
 #define MAX_COLS 4096
@@ -496,9 +517,22 @@ unsigned char *readbuf;
 int rc; {
 #endif
 
-  unsigned char t, *r, *lwr, *lww;
-  int lwrc, lwbold = 0, lwunder = 0, lwinv = 0, lwx;
+  unsigned char t, *r, *lwr, *lww, dtsc[255];
+  int lwrc, lwbold = 0, lwunder = 0, lwinv = 0, lwx, dts;
 
+  if ((readbuf[2] == ':') && (readbuf[5] > 0x7E)) {
+    int i = 5, j;
+    memset(dtsc, 0, sizeof (dtsc));
+    strlcpy(dtsc, "\r\n     ", sizeof (dtsc));
+    j = strlen(dtsc);
+    while ((readbuf[i] > 0x7E) && (j < sizeof (dtsc)))
+      dtsc[j++] = readbuf[i++];
+    strlcat(dtsc, "    ", sizeof (dtsc));
+  } else if ((readbuf[2] == ':') && (readbuf[5] == '|')) {
+    strlcpy(dtsc, "\r\n     |    ", sizeof (dtsc));
+  } else {
+    strlcpy(dtsc, "\r\n          ", sizeof (dtsc));
+  }
   if (cursorwhere!=0) {
     winscroll();
     gotoxy(wherex, wherey);
@@ -535,6 +569,7 @@ int rc; {
   lwr=r=readbuf;
   lwrc=rc;
   lwx=wherex;
+  dts = strlen(dtsc) + 1;
   while(rc-->0) {
     t=(*r++);
     if (t=='\r') continue;
@@ -548,7 +583,7 @@ int rc; {
       }
       write(1, writebuf, w-writebuf);
       Newline();
-      write(1, "\r\n           ", 13);
+      write(1, dtsc, dts);
       w=writebuf;
       lwr=r; lww=w; lwrc=rc;
       lwbold=bold; lwinv=inv; lwunder=under;
