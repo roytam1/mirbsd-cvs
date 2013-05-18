@@ -1,4 +1,4 @@
-# $MirOS: contrib/code/libhaible/Makefile,v 1.28 2006/06/01 21:47:00 tg Exp $
+# $MirOS: contrib/code/libhaible/Makefile,v 1.29 2006/06/01 21:54:50 tg Exp $
 
 LIB=	haible
 NOPIC=	Yes	# for now
@@ -27,20 +27,6 @@ SRCS+=	wcstok.c
 # reachover for libc
 .include <bsd.own.mk>
 LIBCSRCDIR?=	${BSDSRCDIR}/lib/libc
-
-.PATH: ${LIBCSRCDIR}/locale
-CPPFLAGS+= -I${LIBCSRCDIR}/locale
-SRCS+=	wcstod.c
-SRCS+=	wcstol.c
-SRCS+=	wcstoll.c
-SRCS+=	wcstoul.c
-SRCS+=	wcstoull.c
-
-CFLAGS_wcstod.o+=	-Wno-cast-qual
-CFLAGS_wcstol.o+=	-Wno-cast-qual
-CFLAGS_wcstoll.o+=	-Wno-cast-qual
-CFLAGS_wcstoul.o+=	-Wno-cast-qual
-CFLAGS_wcstoull.o+=	-Wno-cast-qual
 
 # missing
 #SRCS+=	fwprintf.c

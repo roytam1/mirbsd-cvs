@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libc/locale/Makefile.inc,v 1.3 2006/05/21 12:45:55 tg Exp $
+# $MirOS: src/lib/libc/locale/Makefile.inc,v 1.4 2006/05/26 14:12:22 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.10 2005/08/08 05:53:01 espie Exp $
 
 .ifdef __LIBC_OPENBSD_LOCALE
@@ -34,6 +34,19 @@ CFLAGS+=-I${.CURDIR}
 .else
 
 .PATH: ${LIBCSRCDIR}/locale
+CPPFLAGS+= -I${LIBCSRCDIR}/locale
+
+SRCS+=	wcstod.c
+SRCS+=	wcstol.c
+SRCS+=	wcstoll.c
+SRCS+=	wcstoul.c
+SRCS+=	wcstoull.c
+
+CFLAGS_wcstod.o+=	-Wno-cast-qual
+CFLAGS_wcstol.o+=	-Wno-cast-qual
+CFLAGS_wcstoll.o+=	-Wno-cast-qual
+CFLAGS_wcstoul.o+=	-Wno-cast-qual
+CFLAGS_wcstoull.o+=	-Wno-cast-qual
 
 MAN+=	btowc.3 mbrtowc.3 mbsinit.3 nl_langinfo.3 setlocale.3 \
 	wcrtomb.3 wctob.3

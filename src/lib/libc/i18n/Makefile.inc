@@ -1,8 +1,8 @@
-# $MirOS: src/lib/libc/i18n/Makefile.inc,v 1.8 2006/01/30 13:01:44 tg Exp $
+# $MirOS: src/lib/libc/i18n/Makefile.inc,v 1.9 2006/05/26 13:52:06 tg Exp $
 
 .PATH: ${LIBCSRCDIR}/i18n
 
-# for OpenBSD's manual pages
+# for OpenBSD's manual pages and strto<num> sources
 .include "${LIBCSRCDIR}/locale/Makefile.inc"
 
 SRCS+=	btowc.c
