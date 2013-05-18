@@ -1,11 +1,11 @@
-# $MirOS: src/distrib/tools/Makefile,v 1.14 2007/10/20 20:28:13 tg Exp $
+# $MirOS: src/distrib/tools/Makefile,v 1.15 2007/10/20 21:59:49 tg Exp $
 
 all: sundsklbl
 
 .include <bsd.own.mk>
 
 .if ${MACHINE_ARCH} == "i386"
-all: i386_chain
+all: prepend_chain
 .endif
 
 CHAINSECTOR?=	24
@@ -26,6 +26,9 @@ cleandir: .PHONY clean
 
 i386_chain: i386_chain.o
 	ld -o $@ --oformat binary -Ttext 0 $>
+
+prepend_chain: ${.CURDIR}/mkprepbs.sh i386_chain
+	${MKSH} ${.CURDIR}/mkprepbs.sh i386_chain.o i386_chain >$@
 
 sundsklbl: sundsklbl.c
 	cd ${.CURDIR} && ${MAKE} -f ${.SYSMK}/bsd.prog.mk \
