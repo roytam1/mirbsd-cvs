@@ -1,7 +1,7 @@
-.\"	$MirOS: src/usr.sbin/vnconfig/vnconfig.8,v 1.5 2006/02/21 23:42:54 tg Exp $
+.\"	$MirOS: src/usr.sbin/vnconfig/vnconfig.8,v 1.6 2006/02/22 00:22:00 tg Exp $
 .\"	$OpenBSD: vnconfig.8,v 1.21 2004/09/10 15:37:53 pedro Exp $
 .\"
-.\" Copyright (c) 2006 Thorsten Glaser
+.\" Copyright (c) 2006, 2009 Thorsten Glaser
 .\" Copyright (c) 1993 University of Utah.
 .\" Copyright (c) 1980, 1989, 1991, 1993
 .\"	The Regents of the University of California.  All rights reserved.
@@ -36,7 +36,7 @@
 .\"
 .\"     @(#)vnconfig.8	8.1 (Berkeley) 6/5/93
 .\"
-.Dd July 8, 1993
+.Dd $Mdocdate$
 .Dt VNCONFIG 8
 .Os
 .Sh NAME
@@ -106,26 +106,48 @@ Associate an encryption key with the device.
 All data will be encrypted using the Blowfish cipher before it is
 written to the disk.
 Encryption only works with
-.Pa svnd .
+.Pa svnd ,
+not with
+.Pa vnd .
 .It Fl K Ar algorithm
 Generate a PEM format keyfile containing an encrypted ASN.1
 octet string which can be used as keyfile for further invocations of
 .Nm
 .Fl kf .
-The ASN.1 octet string contains 448 random bits gained from use of
-.Xr arc4random 3
-unless the
+This is incompatible with the
+.Fl K Ar rounds / Fl S Ar saltfile
+method invented in
+.Ox 4.2 .
+.Pp
+If the
 .Fl k
-option is given, in which case the old key will be asked for twice
-first and then written (as PEM encoded ASN.1 octet string, encrypted)
-into the file in order to assist transitioning.
-In that case, you will be asked first for the old key twice, then for
-the new PEM passphrase twice.
+option is also used, the system will convert an old (plain password)
+encryption key to a keyfile by first asking (twice) for the plaintext
+password, then (twice) for the PEM passphrase with which to protect
+the keyfile (consisting of an encoded version of the old plaintext
+password).
+This can be used to migrate old encrypted volumes using the
+.Ox
+blowfish (bf-cbc) format to the new keyfile-based scheme, which
+supports changing the user (PEM) passphrase without needing to
+re-encrypt the actual data.
+.Pp
+If the
+.Fl k
+option is not used,
+.Nm
+will create a keyfile consisting of 448 random bits (for use with
+the new-style bf-cbc algorithm \*(en other algorithms will follow
+and use different formats), ask (twice) for a PEM passphrase with
+which the newly created keyfile is to be protected, which can be
+changed by the user without needing to re-encrypt the actual data,
+then save the keyfile just created to disc.
+.Pp
 The
 .Ar algorithm
 can be chosen from the default
 .Xr openssltool 1
-list.
+list; see below for an example.
 .It Fl l
 List the vnd devices and indicate which ones are in use.
 If a specific
@@ -178,3 +200,19 @@ Support for external keyfiles was added in
 .Sh BUGS
 This command should really be named
 .Nm vndconfig .
+.Pp
+Currently, only bf-cbc (Blowfish) encryption in an
+.Ox
+compatible format is available.
+Support for AES (including VIA C3 hardware acceleration) is planned.
+.Pp
+Configuring a block device, such as
+.Pa /dev/wd0e ,
+as
+.Ar regular_file
+will result in very bad I/O performance due to the use of
+synchronous (reliable) writes, even if the inner filesystem
+is mounted async or with softupdates.
+Character special devices cannot be used at all.
+This is a bug inherited from
+.Ox .
