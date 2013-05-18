@@ -1,5 +1,5 @@
 # $MirSecuCron$
-# $MirOS: src/usr.bin/ssh/ssh_config,v 1.17 2009/03/22 15:01:23 tg Exp $
+# $MirOS: src/usr.bin/ssh/ssh_config,v 1.18 2009/07/18 14:09:19 tg Exp $
 # $OpenBSD: ssh_config,v 1.25 2009/02/17 01:28:32 djm Exp $
 
 # This is the ssh client system-wide configuration file.  See
@@ -15,56 +15,78 @@
 # Thus, host-specific definitions should be at the beginning of the
 # configuration file, and defaults at the end.
 
-# Site-wide defaults for some commonly used options.  For a comprehensive
-# list of available options, their meanings and defaults, please see the
-# ssh_config(5) man page.
+# Site-wide defaults for some ssh_config(5) options.
 
 # Host *
-#   ForwardAgent no
-#   ForwardX11 no
-#   ForwardX11Trusted no
-#   ClearAllForwardings no
-#   ExitOnForwardFailure no
-#   GatewayPorts no
-#   RhostsRSAAuthentication no
-#   RSAAuthentication yes
-#   NumberOfPasswordPrompts 3
-#   PasswordAuthentication yes
-#   HostbasedAuthentication no
-#   ChallengeResponseAuthentication yes
-#   PubkeyAuthentication yes
-#   HashKnownHosts no
-#   BatchMode no
-#   CheckHostIP yes
-#   AddressFamily any
-#   BindAddress ...
-#   ConnectionAttempts 1
-#   ConnectTimeout 0
-#   StrictHostKeyChecking ask
-#   VerifyHostKeyDNS no
-#   HostKeyAlias ...
-#   IdentityFile ~/.etc/ssh/identity
-#   IdentityFile ~/.etc/ssh/id_rsa
-#   IdentityFile ~/.etc/ssh/id_dsa
-#   IdentitiesOnly no
-#   Port 22
-#   Protocol 2,1
-#   Cipher blowfish
-#   Ciphers aes256-ctr,arcfour256,aes256-cbc,cast128-cbc,aes128-cbc,blowfish-cbc,rijndael-cbc@lysator.liu.se,aes128-ctr,arcfour128,arcfour,aes192-cbc,aes192-ctr,3des-cbc
-#   MACs umac-64@openssh.com,hmac-ripemd160,hmac-ripemd160@openssh.com,hmac-sha1,hmac-sha1-96,hmac-md5,hmac-md5-96
-#   EscapeChar ~
-#   TCPKeepAlive yes
-#   Tunnel no
-#   TunnelDevice any:any
-#   PermitLocalCommand no
-#   VisualHostKey no
-#   Compression no
-#   CompressionLevel 6
+#	AddressFamily any
+#	BatchMode no
+#	BindAddress ...
+#	ChallengeResponseAuthentication yes
+#	CheckHostIP yes
+#	Cipher blowfish
+#	Ciphers aes256-ctr,arcfour256,aes256-cbc,cast128-cbc,aes128-cbc,blowfish-cbc,rijndael-cbc@lysator.liu.se,aes128-ctr,arcfour128,arcfour,aes192-cbc,aes192-ctr,3des-cbc
+#	ClearAllForwardings no
+#	Compression no
+#	CompressionLevel 6
+#	ConnectionAttempts 1
+#	ConnectTimeout 0
+#	ControlMaster no
+#	ControlPath none
+#	DynamicForward ...
+#	EnableSSHKeysign no
+#	EscapeChar ~
+#	ExitOnForwardFailure no
+#	ForwardAgent no
+#	ForwardX11 no
+#	ForwardX11Trusted no
+#	GatewayPorts no
+#	GlobalKnownHostsFile /etc/ssh/ssh_known_hosts
+#	HashKnownHosts no
+#	HostKeyAlgorithms ssh-rsa,ssh-dss
+#	HostKeyAlias ...
+#	HostbasedAuthentication no
+#	Hostname ...
+#	IdentitiesOnly no
+#	IdentityFile ~/.etc/ssh/id_dsa
+#	IdentityFile ~/.etc/ssh/id_rsa
+#	IdentityFile ~/.etc/ssh/identity
+#	KbdInteractiveAuthentication yes
+#	KbdInteractiveDevices ...
+#	LocalCommand ...
+#	LocalForward ...
+#	LogLevel INFO
+#	MACs umac-64@openssh.com,hmac-ripemd160,hmac-ripemd160@openssh.com,hmac-sha1,hmac-sha1-96,hmac-md5,hmac-md5-96
+#	NoHostAuthenticationForLocalhost no
+#	NumberOfPasswordPrompts 3
+#	PasswordAuthentication yes
+#	PermitLocalCommand no
+#	Port 22
+#	PreferredAuthentications hostbased,publickey,keyboard-interactive,password
+#	Protocol 2,1
+#	ProxyCommand none
+#	PubkeyAuthentication yes
+#	RekeyLimit ...
+#	RemoteForward ...
+#	RhostsRSAAuthentication no
+#	RSAAuthentication yes
+#	SendEnv ...
+#	ServerAliveCountMax 3
+#	ServerAliveInterval 0
+#	SmartcardDevice ...
+#	StrictHostKeyChecking ask
+#	TCPKeepAlive yes
+#	Tunnel no
+#	TunnelDevice any:any
+#	UsePrivilegedPort no
+#	User ...
+#	UserKnownHostsFile ~/.etc/ssh/known_hosts
+#	VerifyHostKeyDNS no
+#	VisualHostKey no
+#	XAuthLocation /usr/X11R6/bin/xauth
 
 
-# Use a dual config like this for session multiplexing
-# in your ~/.etc/ssh/config file:
+# Add this for session multiplexing (replace 1000 with
+# your UID) at the bottom of the ~/.etc/ssh/config file:
 
 # Host *
-#   ControlMaster no
-#   ControlPath /var/run/ssh-agent/1000/ctl.%r@%h:%p
+#	ControlPath /var/run/ssh-agent/1000/ctl.%r@%h:%p

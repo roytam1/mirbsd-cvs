@@ -40,7 +40,7 @@
 #include "kex.h"
 #include "mac.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/readconf.c,v 1.16 2008/12/16 20:55:25 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/readconf.c,v 1.17 2009/03/22 15:01:18 tg Exp $");
 
 /* Format of the configuration file:
 
@@ -60,7 +60,7 @@ __RCSID("$MirOS: src/usr.bin/ssh/readconf.c,v 1.16 2008/12/16 20:55:25 tg Exp $"
      User foo
 
    Host fake.com
-     HostName another.host.name.real.org
+     Hostname another.host.name.real.org
      User blaah
      Port 34289
      ForwardX11 no

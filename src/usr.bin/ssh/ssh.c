@@ -95,7 +95,7 @@
 #include "scard.h"
 #endif
 
-__RCSID("$MirOS: src/usr.bin/ssh/ssh.c,v 1.25 2008/12/16 22:13:31 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/ssh.c,v 1.26 2009/03/22 15:01:22 tg Exp $");
 
 extern char *__progname;
 
@@ -134,7 +134,7 @@ char *config = NULL;
 
 /*
  * Name of the host we are connecting to.  This is the name given on the
- * command line, or the HostName specified for the user-supplied name in a
+ * command line, or the Hostname specified for the user-supplied name in a
  * configuration file.
  */
 char *host;

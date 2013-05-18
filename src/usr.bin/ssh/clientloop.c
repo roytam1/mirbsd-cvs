@@ -101,7 +101,7 @@
 #include "match.h"
 #include "msg.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/clientloop.c,v 1.14 2008/12/16 20:55:20 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/clientloop.c,v 1.15 2009/03/22 15:01:15 tg Exp $");
 
 /* import options */
 extern Options options;
@@ -117,7 +117,7 @@ extern int muxserver_sock;
 
 /*
  * Name of the host we are connecting to.  This is the name given on the
- * command line, or the HostName specified for the user-supplied name in a
+ * command line, or the Hostname specified for the user-supplied name in a
  * configuration file.
  */
 extern char *host;
