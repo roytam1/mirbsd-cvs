@@ -1,5 +1,5 @@
 <!-- PageID: wlog-9 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.31 2006/08/09 22:40:22 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.32 2006/08/09 22:42:45 tg Exp $</small>
 <h1>MirBSD &ndash; WTF is Verpeilungsfaktor?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -470,6 +470,14 @@
   the weather etc. If someone wants to pay 1000 &euro; netto (i.e. taxes
   and so on already subtracted), or more, for a unix developer or admin,
   please contact me.</p>
+</div>
+
+<div class="wlentry">
+ <h3 id="e20060810">10.08.2006 by tg@</h3>
+ <p>Despite it all, I made lynx and GNU groff mirports, reinstated tyler
+  as developer by his own request, fixed *roff macros (new MirNroff cpio
+  distfile for Interix might be required soon), enhanced and fixed docs,
+  helped FreeWRT people (website/server is down, we know), etc.</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
