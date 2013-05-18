@@ -1,5 +1,5 @@
 <!-- PageID: wlog-9 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.59 2006/10/29 22:22:43 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.60 2006/10/31 01:20:58 tg Exp $</small>
 <h1>MirBSD &ndash; WTF is Verpeilungsfaktor?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -1019,6 +1019,27 @@ plot [150:200] 	"bs06.4Kmin.txt" using 1:3 with lines title "exc{\350}s en chlor
  <p>Happy Birthday, <tt>cnuke@</tt>!</p>
  <p>Note to self: read operator(7) throughoutly, especially the priority
   level of the ?: ternary operator.</p>
+</div>
+
+<div class="wlentry">
+ <h3 id="e20061101">01.11.2006 by tg@</h3>
+ <p>While building with MALLOC_OPTIONS=AFGHPZ I found a bug in perl(1)'s
+  regexp code. While cought using the 'P' option (cf. malloc.conf(5)), I
+  tracked it down to an out-of-bounds write to an array of uint32_ts due
+  to a false estimate of the array size. I however can't seem to fix it.
+  Also, and this sucks, I decided to write iconv(1) and locale(1) but as
+  of now, after trying to hack perl and drinking some Met, can't get my,
+  admittedly lazy, arse to do it.</p>
+ <p>On the other hand, I fixed more in cap_mkdb(1) and hope that OpenBSD
+  will merge the fixes.</p>
+ <p>I'm also intending to do a quick utf-8 hack to mksh(1) &ndash; utf-8
+  codeset will make backspace remove entire multibyte sequences. Also, I
+  plan on adding a '-c &lt;charset&gt;' or so flag to the editors in the
+  base system (i.e. ed(1) and vi(1)) so that it'll setlocale(3), then if
+  nl_langinfo(3) CODESET replies something different iconv(3) between em
+  (need to take latin1 fallback for 'C' locale into account, discuss the
+  issue on mailing list first).</p>
+ <p>bsiegert@ has phone, yet no 'net, at home now. Yay!</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
