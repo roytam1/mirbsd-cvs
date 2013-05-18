@@ -1,5 +1,5 @@
 <!-- PageID: older -->
-<small class="rcsid">$MirOS: www/content/b2xkZXI_.inc,v 1.25 2006/04/06 12:00:59 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/b2xkZXI_.inc,v 1.26 2006/04/23 22:20:01 tg Exp $</small>
 <h1>Older News and Weblogs</h1>
 <h3>Old News</h3>
 <p><a href="#newsend">Skip to News bottom</a></p><ul>
@@ -918,12 +918,16 @@
  MirBSD, only available for visitors at the cost of 10 Euro.</li>
 <li><a href="/?wlog-7">From Autumn 2003 to 22C3 (2005)</a> the seemingly
  endless weblog during the lifetime of the #7 release.</li>
+<li><a href="/?wlog-8">Starting at 22C3 to FrOSCon 2006</a>, the life
+ of MirOS #8 ended exactly half a year (plus two days to recover) after
+ its surprising, impressive, release.</li>
 </ul><p>For the current developers' weblog, please refer to the <a
- href="/?wlog-8">weblog past MirOS BSD #8</a> starting at 22C3.</p>
+ href="/?wlog-9">weblog past MirOS BSD #9</a> starting at FrOSCon 2006.</p>
 
 <h3>ChangeLog</h3><ul>
 <li><a href="/?clog-2004">Snapshots released 2004</a></li>
 <li><a href="/?clog-2005">Snapshots released 2005</a></li>
+<li><a href="/?clog-2006">Snapshots released 2006</a></li>
 </ul><p>Featuring a compact yet detailled list of changes between the
  snapshots uploaded &ndash; both for developers and users. A stripped
  down version (for user view) is being used for putting info into

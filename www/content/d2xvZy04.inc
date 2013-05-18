@@ -1,5 +1,5 @@
 <!-- PageID: wlog-8 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.88 2006/06/19 03:13:29 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.89 2006/06/19 12:16:20 tg Exp $</small>
 <h1>MirBSD &ndash; WTF, We Have a Release!?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -1543,6 +1543,14 @@ celebrate this event, rotate the wlog and start a new one.</p>
   it being made a property of every single fucking file in existence and
   having to take special care for newly-added files? CVS rules seriously
   (I'm positive now).</p>
+</div>
+
+<div class="wlentry">
+ <h3 id="e20060623">23.06.2006 by tg@</h3>
+ <p>This will be the last wlog entry, as we're preparing to go to the <a
+  href="http://www.froscon.org/">FrOSCon</a> 2006 now. After exactly six
+  months, this ends the life of MirOS #8 without prejudice.</p>
+ <p>agreed bsiegert@</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
