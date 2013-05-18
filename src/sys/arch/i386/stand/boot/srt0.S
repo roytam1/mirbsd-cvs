@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $ */
+/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.51 2009/01/10 18:15:09 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009
@@ -50,6 +50,14 @@ Ldrvi:	.long	0x6A6D4F00	/* drive information */
 	i386_userpt = Ldrvi
 	i386_biosdev = Ldrvi + 1
 	i386_biosflags = Ldrvi + 2
+		/*-
+		 * 01101101 = flags invalid
+		 * xxxxxx00 = nothing special about drives
+		 * xxxxxx01 = i386_dosdev valid, DOS interface
+		 * xxxxxx10 = pxelinux or invalid FOOlinux
+		 * xxxxxx11 = syslinux/extlinux/isolinux
+		 * xxxxx1xx = probably booted via PXE
+		 */
 	i386_dosdev = Ldrvi + 3
 	.size	i386_userpt,1
 	.size	i386_biosdev,1
@@ -103,7 +111,7 @@ Linit:	xor	eax,eax
 	mov	ebx,ss:[bp+4]
 	mov	cs:[ecx + offset pxe_bang - offset _start],ebx
 	cmp	byte ptr cs:[ecx + offset i386_biosflags - offset _start],0x6D
-	je	1f
+	je	2f
 	push	cs
 	pop	es
 	lea	di,[ecx + offset bios_bootpte - offset _start]
@@ -111,7 +119,13 @@ Linit:	xor	eax,eax
 	movsd
 	movsd
 	movsd
-1:
+	jmp	2f
+1:	cmp	edx,0x00007C00
+	jne	2f
+	mov	ebx,0x00040000
+	mov	bl,cs:[ecx + offset Ldrvi - offset _start]
+	mov	cs:cs:[ecx + offset Ldrvi - offset _start],ebx
+2:
 #endif
 
 	/* set up initial stack */
@@ -180,6 +194,7 @@ Lpxelinux:
 	mov	cs:[ecx + offset pxe_bang - offset _start],eax
 	mov	cs:[ecx + offset pxe_plus - offset _start],eax
 	xor	edx,edx
+	mov	dh,4		/* probably PXE :) */
 	mov	bx,3		/* clean up but retain PXE and UNDI */
 	jmp	Loklx
 
@@ -200,7 +215,8 @@ Linvlinux:
 	xor	bx,bx		/* clean up everything */
 Loklx:	or	dh,2
 	shl	edx,8
-	or	cs:[ecx + offset Ldrvi - offset _start],edx
+	mov	dl,cs:[ecx + offset Ldrvi - offset _start]
+	mov	cs:[ecx + offset Ldrvi - offset _start],edx
 
 	mov	ax,0x000C	/* SYSLINUX: final cleanup */
 	mov	dx,bx		/* see above */
