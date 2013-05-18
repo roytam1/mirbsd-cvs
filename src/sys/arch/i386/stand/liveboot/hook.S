@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/liveboot/hook.S,v 1.17 2007/07/11 14:11:47 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/liveboot/hook.S,v 1.18 2007/07/15 19:48:04 tg Exp $ */
 
 /*-
  * Copyright (c) 2006, 2007
@@ -30,9 +30,9 @@
 	.data
 lbl_mayskip:
 	.ascii	"\n\rHold down SHIFT to skip the coloured menu"
-	.ascii	" and go directly to the bootloader...\n"
+	.ascii	" and go directly to the bootloader...\n\r"
 	.ascii	"On a WRAP/Soekris, press 4 (Live) or 7 (Setup)"
-	.asciz	" for serial console @38k4,8N1.\n"
+	.asciz	" for serial console @38k4,8N1.\n\r"
 lbl_title:
 	.asciz	"MirOS #10 Setup/Live CD"
 lbl_menus:
