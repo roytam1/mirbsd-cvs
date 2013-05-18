@@ -2900,3 +2900,18 @@ Author: tg@
  and sparc base10.ngz dist sets. Thanks to TNF’s replaced, who mentioned
  the issue to me in the <tt>#!/bin/mksh</tt> channel in IRC.</p>
 ----
+Date: 12.03.2008
+Author: tg@
+
+<p>Oh, another wlog entry ☺</p>
+<p>I found out that, actually, you can commit into both a branch and HEAD
+ within the same directory on the same commit command. It’s just our log
+ scripts which suck. This will be fixed RSN. It works if you use another,
+ <em>different</em> directory as the last one (like I thought). This also
+ means you can ignore commitid 10047D8245653D8184A and 10047D8248447FC1F5F,
+ as these never went live.</p>
+<p>Someone wants to do <a href="http://article.gmane.org/gmane.comp.embedded.freewrt.bugs/1856">an
+ appliance with FreeWRT</a>, maybe I can let him hire (and pay) me for that.
+ I could definitively need the money at the moment (hint hint).</p>
+<p>If not, I can always port MirPorts to MidnightBSD…</p>
+----
