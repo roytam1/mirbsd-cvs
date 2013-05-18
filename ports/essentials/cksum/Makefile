@@ -1,4 +1,4 @@
-# $MirOS: ports/essentials/cksum/Makefile,v 1.20 2008/02/10 11:38:43 bsiegert Exp $
+# $MirOS: ports/essentials/cksum/Makefile,v 1.21 2008/03/09 16:42:42 tg Exp $
 
 COMMENT=		MirOS cksum(1) with multiple hash algorithms
 CATEGORIES=		essentials
@@ -17,7 +17,6 @@ PERMIT_PACKAGE_FTP=	Yes
 .include <mirports.sys.mk>
 
 WRKDIST=		${WRKDIR}/cksum
-#CPPFLAGS+=		-isystem ${.SYSMK} -D_MIRMAKE_DEFNS
 
 BUILD_DEPENDS+=		:mirmake->=20080309:devel/mirmake
 
