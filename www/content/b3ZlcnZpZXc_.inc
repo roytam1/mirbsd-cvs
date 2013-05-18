@@ -1,5 +1,5 @@
 <!-- PageID: overview -->
-<small class="rcsid">$MirOS: www/content/b3ZlcnZpZXc_.inc,v 1.24 2006/06/04 21:01:26 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/b3ZlcnZpZXc_.inc,v 1.25 2006/10/29 22:22:43 tg Exp $</small>
 <h1>Quick Overview &ndash; All in one page</h1>
 
 <h2>Maintenance</h2>
@@ -93,6 +93,7 @@
 
 <p>We used to have RFC1991 compatible PGP keys with which releases and
  snapshots were signed. These are the keys used (most recent first):</p><ul>
+ <li>tg@ <a href="http://blackhole.pca.dfn.de:11371/pks/lookup?op=vindex&amp;fingerprint=on&amp;search=0xE99007E0">0xE99007E0</a> (for Debian stuff)</li>
  <li>tg@ <a href="http://blackhole.pca.dfn.de:11371/pks/lookup?op=vindex&amp;fingerprint=on&amp;search=0x5CE51C3D">0x5CE51C3D</a> (no longer in use)</li>
  <li>bsiegert@ <a href="http://blackhole.pca.dfn.de:11371/pks/lookup?op=vindex&amp;fingerprint=on&amp;search=0xC246B025">0xC246B025</a></li>
  <li>tg@ <a href="http://blackhole.pca.dfn.de:11371/pks/lookup?op=vindex&amp;fingerprint=on&amp;search=0x68ED2381">0x68ED2381</a> (no longer in use)</li>
