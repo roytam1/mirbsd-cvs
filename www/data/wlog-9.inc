@@ -1254,3 +1254,19 @@ Title: SPARC port updates
  most shell scripting I do is in <a href="@@RELPATH@@mksh.htm">mksh</a>,
  and I can use <a href="/?jupp">jupp</a>; no BSD make there though).</p>
 ----
+Date: 15.06.2007
+Title: I'm bored so lemme write something here…
+Author: tg@
+
+<p>We now have an uppercase Eszett (ſz ligature) ẞ in the fixed-misc fonts
+ and my <a href="/cvs.cgi/contrib/samples/dot.Xmodmap">keymap</a>; it maps
+ towlower(L'ẞ' == 0x1E9E) = L'ß' == 0x00DF, whose upper-case mapping stays
+ at L"SS" though. I sent the changes in the font to Markus Kuhn, hoping he
+ will integrate them in the next stock XFree86® (and that x.org crap too…)
+ version.</p>
+<p><a href="@@RELPATH@@mksh.htm">mksh</a> is now a better <tt>/bin/sh</tt>
+ for some people in Debilian who don't know of Korn Shell tradition. Also,
+ it won't try to execute ELF, a.out, COFF, gzip and NE any longer.</p>
+<p>Been working on <a href="https://www.freewrt.org/trac/">FreeWRT</a> all
+ the time (even during the dayjob), so I didn't have the energy left to do
+ more on the SPARC issues.</p>

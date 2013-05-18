@@ -1,10 +1,10 @@
-# $MirOS: www/src/mksh.hts,v 1.7 2007/06/06 23:47:29 tg Exp $
+# $MirOS: www/src/mksh.hts,v 1.1 2007/06/09 23:29:56 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.7 2007/06/06 23:47:29 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.1 2007/06/09 23:29:56 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R29</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -651,6 +651,15 @@ mws_content <<'EOF'
  <li>Remove support for honouring the <tt>CPP</tt> environment variable;
   <tt>$CC -E -</tt> is simply used instead in the places where <tt>$CPP</tt>
   was used previously, because that was used in other places already</li>
+ <li>If a file called <tt>arc4random.c</tt> is lying around in the source
+  directory at mirtoconf time, scan for <tt>&lt;sys/sysctl.h&gt;</tt> and
+  use the file if arc4random(3) isn't found otherwise. From Debian.</li>
+ <li>If the basename of argv[0] starts with “sh”, activate FPOSIX.</li>
+ <li>If FPOSIX, don't pre-define any aliases (like integer) to benefit
+  operating environments that never heard of the great Korn Shell…</li>
+ <li>#if defined(MKSH_SMALL) || defined(MKSH_NOVI) disable the vi
+  editing mode.</li>
+ <li>Don't try to execute ELF, a.out, COFF, gzip or MZ binaries.</li>
 </ul>
 <p>Please use mksh R29f because of below modifications:</p><ul>
  <li>Fix detection of function prototypes (data declaractions were ok)</li>
