@@ -1,5 +1,5 @@
 <!-- PageID: mksh -->
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.57 2006/09/13 18:38:13 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.58 2006/09/14 00:42:07 tg Exp $</small>
 
 <h1>mksh(1) R28</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
@@ -454,7 +454,7 @@
   <li>Darwin 8.7.0 Mac OSX 10.4 (powerpc)</li>
   <li>Debian GNU/Linux 3.1-unstable (all architectures) &ndash; debianised</li>
   <li>OpenBSD 3.9 (sparc64) &ndash; via <a href="http://www.mirbsd.org/GBG/mksh-obsdport.tgz">contributed port</a></li>
-  <li>Debian GNU/Linux 3.1-stable 2.4.27-2-k7 (i386) &ndash; via an experimental pkgsrc&reg; package submitted to dfjoerg for inclusion in at least pkgsrc-wip</li>
+  <li>Debian GNU/Linux 3.1-stable 2.4.27-2-k7 (i386) &ndash; via an experimental pkgsrc&reg; package</li>
   <li>CYGWIN_NT-5.0 1.5.19(0.150/4/2) 2006-01-20 13:28 (i386) &ndash; testsuite not run</li>
   <li>Interix SFU 3.5 (Windows&reg; 2000 Pro) SP-8.0.1969.1 (i386) &ndash; testsuite not run</li>
   <li>NetBSD 3.0 (mac68k) &ndash; tested by Jonathan "ciruZ" Schleifer</li>
@@ -464,22 +464,19 @@
   <li>FreeBSD (unknown) &ndash; part of FreeBSD Ports: not tried</li>
   <li>Gentoo GNU/Linux (i386 powerpc) &ndash; part of Portage: not tried</li>
   <li>CRUX GNU/Linux (i386) &ndash; via Han Boetes' repository: not tested</li>
+  <li>generic pkgsrc&reg; &ndash; not tested; ONLY_FOR_PLATFORMS not honoured</li>
  </ul></li>
  <li>mksh R28&szlig;<ul>
   <li>NetBSD 1.6.1 (pmax)</li>
    <!-- missing:
   <li>MirOS BSD #9-stable (sparc)</li>
   <li>Solaris 10 (?) &ndash; tested by Tonnerre Lombard</li>
-  <li>pkgsrc</li>
   <li>Mac OSX Panther (powerpc) &ndash; not tested, via Fink</li>
   <li>Plan 9 POSIX Environment</li>
    -->
  </ul></li>
  <li>mksh R27e<ul>
-  <li>Debian GNU/Linux (i386, S/390): works (debianised)</li>
-  <li>FreeWRT GNU/Linux (mipsel): works (package contained)</li>
-  <li>MirOS #9 (i386, sparc): both as part of base installation and via ports</li>
-  <li>Solaris 8 (sparc64): works (testsuite and usage on the shell
+  <!-- li>Solaris 8 (sparc64): works (testsuite and usage on the shell
    account; please do not distribute the binaries)</li>
   <li>Generic GNU/Linux information: on most distributions, the testsuite
    succeeds without trouble after installing ed(1). We must build a dynamic
@@ -490,7 +487,7 @@
    but the place to install them is not unified.</li>
   <li>CRUX GNU/Linux (i386): works (package by Han Boetes who even uses mksh
    as /bin/sh and tells everyone to ditch bash)</li>
-  <li>Available under FreeBSD as ports/shells/mksh</li>
+  <li>Available under FreeBSD as ports/shells/mksh</li -->
   <li>Ubuntu GNU/Linux (amd64 i386 powerpc): part of &quot;edgy universe&quot;</li>
  </ul></li>
  <li>mksh R27d<ul>
