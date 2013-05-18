@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/tools/Makefile,v 1.16 2007/10/20 22:24:41 tg Exp $
+# $MirOS: src/distrib/tools/Makefile,v 1.17 2007/10/20 22:32:02 tg Exp $
 
 all: sundsklbl
 
@@ -59,8 +59,8 @@ makecdimage: .PHONY
 	    ${MKSH} ${BSDSRCDIR}/usr.sbin/installboot/bxinst.i386 -S 2 | \
 	    dd of=${CDROM} conv=notrunc bs=512 seek=${CHAINSECTOR} 2>/dev/null
 	fgrep b_sparc.ldr mkisofs.log | \
-	    ${MKSH} ${BSDSRCDIR}/usr.sbin/installboot/bxinst.sparc -S 2 | \
-	    mksh ${.CURDIR}/prepend_chain.sh -s ${CHAINSECTOR} | \
+	    ${MKSH} ${BSDSRCDIR}/usr.sbin/installboot/bxinst.sparc \
+	    -0 ${CHAINSECTOR} -S 2 | \
 	    dd of=${CDROM} conv=notrunc 2>/dev/null
 
 .include <bsd.obj.mk>
