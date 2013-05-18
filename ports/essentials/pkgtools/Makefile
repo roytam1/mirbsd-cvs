@@ -1,8 +1,8 @@
-# $MirOS: ports/essentials/pkgtools/Makefile,v 1.7 2006/01/13 03:49:25 tg Exp $
+# $MirOS: ports/essentials/pkgtools/Makefile,v 1.8 2006/01/25 20:50:51 tg Exp $
 
 COMMENT=		"MirPorts Framework package tools"
 CATEGORIES=		essentials infrastructure
-CVS_DISTREPO=		_anoncvs@thor.66h.42h.de:/cvs
+CVS_DISTREPO=		_anoncvs@anoncvs.66h.42h.de:/cvs
 CVS_DISTDATE=		2005/12/30
 CVS_DISTMODS=		ports/infrastructure/pkgtools
 CVS_DISTFILE=		pkgtools
