@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/tools/Makefile,v 1.7 2007/10/01 21:59:14 tg Exp $
+# $MirOS: src/distrib/tools/Makefile,v 1.8 2007/10/01 22:00:24 tg Exp $
 
 all: sundsklbl
 
@@ -62,7 +62,6 @@ makebootcd_i386: .PHONY
 	done) /usr/mdec/bootxx ${CDROM}
 
 makebootcd_sparc: .PHONY
-	# XXX see ../common/Makefile.sparc::cdrom-mdboot if this doesn’t work
 	/usr/mdec/installboot -v $$(fgrep \
 	    b_sparc.ldr mkisofs.log | \
 	    while read start end rest; do \

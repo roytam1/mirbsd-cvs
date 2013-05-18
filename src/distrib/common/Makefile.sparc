@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/Makefile.sparc,v 1.7 2007/10/01 20:53:45 tg Exp $
+# $MirOS: src/distrib/common/Makefile.sparc,v 1.8 2007/10/01 21:52:20 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.14 2002/05/01 19:21:28 mickey Exp $
 
 #INSTALLBOOT?=	${DESTDIR}/usr/mdec/installboot
@@ -15,14 +15,9 @@ cdrom-mdcopy:
 	ln ${WRKDIR}/v${OSrev}/${MACHINE}/bsd.rd ${WRKDIR}/vmunix # for kicks
 	ln ${WRKDIR}/v${OSrev}/${MACHINE}/bsd.rd ${WRKDIR}/bsd	# no comment…
 
-# XXX is this really necessary?
 cdrom-mdboot:
-	test ! -e ${TMPMOUNT} || (cd ${.CURDIR}; ${MAKE} unconfig)
-	mkdir -p ${TMPMOUNT}
-	${SUDO} vnconfig -v -c ${VND} ${CDROM}
-	${SUDO} disklabel -w ${VND} fakecdrom "MirOS BSD/sparc "
-	${SUDO} ${DESTDIR}/usr/mdec/installboot -v $$(fgrep \
-	    ${WRKDIR}/b_${MACHINE}.ldr mkisofs.log | while read start end rest; do \
-		print -- -s $$start -e $$end; done) dummy ${BOOTXX} ${VND_CRDEV}
-	${SUDO} vnconfig -v -u ${VND}
-	${SUDO} rm -rf ${TMPMOUNT}
+	${DESTDIR}/usr/mdec/installboot -v $$(fgrep \
+	    ${WRKDIR}/b_${MACHINE}.ldr mkisofs.log | \
+	    while read start end rest; do \
+		print -- -s $$start -e $$end; \
+	done) dummy ${BOOTXX} ${CDROM}
