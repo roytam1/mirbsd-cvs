@@ -34,7 +34,7 @@ static char *rcsid = "$OpenBSD: multibyte.c,v 1.4 2003/06/02 20:18:38 millert Ex
 #include <stdlib.h>
 #include <wchar.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libc/i18n/multibyte.c,v 1.2 2005/11/21 20:40:39 tg Exp $");
 
 /*
  * Stub multibyte character functions.
@@ -43,7 +43,7 @@ __RCSID("$MirOS$");
  */
 
 int
-mblen(s, n)
+__weak_mblen(s, n)
 	const char *s;
 	size_t n;
 {
@@ -56,7 +56,7 @@ mblen(s, n)
 
 /*ARGSUSED*/
 int
-mbtowc(pwc, s, n)
+__weak_mbtowc(pwc, s, n)
 	wchar_t *pwc;
 	const char *s;
 	size_t n;
@@ -72,7 +72,7 @@ mbtowc(pwc, s, n)
 
 /*ARGSUSED*/
 int
-wctomb(char *s, wchar_t wchar)
+__weak_wctomb(char *s, wchar_t wchar)
 {
 	if (s == NULL)
 		return 0;
@@ -83,7 +83,7 @@ wctomb(char *s, wchar_t wchar)
 
 /*ARGSUSED*/
 size_t
-mbstowcs(pwcs, s, n)
+__weak_mbstowcs(pwcs, s, n)
 	wchar_t *pwcs;
 	const char *s;
 	size_t n;
@@ -103,7 +103,7 @@ mbstowcs(pwcs, s, n)
 
 /*ARGSUSED*/
 size_t
-wcstombs(s, pwcs, n)
+__weak_wcstombs(s, pwcs, n)
 	char *s;
 	const wchar_t *pwcs;
 	size_t n;
@@ -122,37 +122,49 @@ wcstombs(s, pwcs, n)
 }
 
 int
-iswalnum(wint_t x)
+__weak_iswalnum(wint_t x)
 {
 	return isalnum(x);
 }
 
 int
-iswalpha(wint_t x)
+__weak_iswalpha(wint_t x)
 {
 	return isalpha(x);
 }
 
 int
-iswlower(wint_t x)
+__weak_iswlower(wint_t x)
 {
 	return islower(x);
 }
 
 int
-iswupper(wint_t x)
+__weak_iswupper(wint_t x)
 {
 	return isupper(x);
 }
 
 wint_t
-towlower(wint_t x)
+__weak_towlower(wint_t x)
 {
 	return tolower(x);
 }
 
 wint_t
-towupper(wint_t x)
+__weak_towupper(wint_t x)
 {
 	return toupper(x);
 }
+
+__weak_alias(mblen, __weak_mblen);
+__weak_alias(mbtowc, __weak_mbtowc);
+__weak_alias(wctomb, __weak_wctomb);
+__weak_alias(mbstowcs, __weak_mbstowcs);
+__weak_alias(wcstombs, __weak_wcstombs);
+__weak_alias(iswalnum, __weak_iswalnum);
+__weak_alias(iswalpha, __weak_iswalpha);
+__weak_alias(iswlower, __weak_iswlower);
+__weak_alias(iswupper, __weak_iswupper);
+__weak_alias(towlower, __weak_towlower);
+__weak_alias(towupper, __weak_towupper);
