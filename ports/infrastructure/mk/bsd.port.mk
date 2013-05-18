@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.178 2007/05/26 02:38:11 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.179 2007/05/26 02:41:27 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -1665,7 +1665,7 @@ fetch:
 
 checksum: fetch
 	@-cd ${DISTDIR} && rm -f ${_CKSUMFILES:S!^!{CDROM,FTP}/!} 2>/dev/null
-.  if !defined(NO_CHECKSUM)
+.  if !defined(NO_CHECKSUM) && !empty(_CKSUMFILES)
 	@checksum_file=${CHECKSUM_FILE}; \
 	integer new_cksum=0${_CKSUM_SIZE}; \
 	if [ ! -f $$checksum_file ]; then \
@@ -1780,7 +1780,7 @@ checksum: fetch
 		fi ; \
   fi
 .  endif
-.  if ${PERMIT_DISTFILES_FTP:L} == "yes"
+.  if (${PERMIT_DISTFILES_FTP:L} == "yes") && !empty(_CKSUMFILES)
 	@cd ${DISTDIR}; all=; for i in ${_CKSUMFILES:H}; do \
 		[[ " $$all " = *" $$i "* ]] || all="$$all $$i"; \
 	done; \
