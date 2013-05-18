@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/samples/import-3rdpty,v 1.14 2006/11/21 03:55:28 tg Exp $
+# $MirOS: contrib/samples/import-3rdpty,v 1.15 2007/02/05 16:42:29 tg Exp $
 #-
 # Copyright (c) 2004, 2005, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -24,7 +24,7 @@
 # other issues arising in any way out of its use, even if advised of
 # the possibility of such damage or existence of a defect.
 
-print -ru2 -- '========= $MirOS: contrib/samples/import-3rdpty,v 1.14 2006/11/21 03:55:28 tg Exp $ ========='
+print -ru2 -- '========= $MirOS: contrib/samples/import-3rdpty,v 1.15 2007/02/05 16:42:29 tg Exp $ ========='
 
 ignlist=0
 force=0
@@ -1413,6 +1413,7 @@ case $vendor {
   lynx|cdk)	B=1.1.109; V=lynx	;; # Thomas Dickey (lynx, cdk)
   gpc)		B=1.1.111; V=gpc	;; # GNU Pascal
   freetype)	B=1.1.115; V=freetype	;; # freetype.org
+  libz|zlib)	B=1.1.117; V=libz	;; # zlib stuff
   tg)		B=1.1.201; V=tg		;; # Thorsten Glaser
   bsiegert)	B=1.1.203; V=bsiegert	;; # Benny Siegert
 # wbx)		B=1.1.205; V=wbx	;; # Waldemar Brodkorb
