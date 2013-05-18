@@ -2,7 +2,7 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.206 2009/02/23 23:40:48 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.207 2009/02/25 17:43:58 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R36b</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -120,7 +120,7 @@ mws_content <<'EOF'
  it to suit his needs. The sample file configures a few aliases and shell
  functions as well as a sensible prompt (<tt>$PS1</tt>) and some csh-like
  directory stack functions and zsh-like hooks. Full use of this file requires
- a few special UNIX® tools, e.g. readlink(1) with the <tt>-f</tt> flag.</p>
+ a few special UNIX® tools.</p>
 
 <h2 id="irc">Support</h2>
 <p>We provide an online manual page in <a
@@ -419,6 +419,8 @@ mws_content <<'EOF'
  libc5 (on Linux 2.0.38) work, but locale detection is not automatic.</p>
 <p>mksh can be used as /bin/sh on Debian and similarly strict distributions,
  which allow to use e.g. ash/dash there as well.</p>
+<p>klibc (with stock klcc as compiler wrapper) is WIP pending fixes in
+ klibc upstream. mksh works with patched klibc and headers.</p>
 
 <h5 id="oe_hpux">OS: HP-UX</h5>
 <p>Support for HP-UX with GCC appeared in mksh R29 and works with HP’s C
@@ -734,7 +736,7 @@ mws_content <<'EOF'
  emacs editing mode has been changed for Unicode/UTF-8 mode, which adds a
  new <tt>set -o utf8-hack</tt> mode. The <tt>set -o sh</tt> command has
  been completely removed, <tt>set -o posix</tt> merely turns off brace
- expansion as side effect. There is no limit (well, 2³¹ probably) on
+ expansion as side effect. There is no limit (well, 2³² probably) on
  array sizes any more. Many bugs and security holes have been closed in
  mksh and are still in oksh and OpenBSD ksh. The user interface has much
  less bugs and surprises; emacs editing mode is enabled by default.
@@ -1006,12 +1008,9 @@ mws_content <<'EOF'
  horizontally scrolled one is finally (with R28) bug-free even with
  multiline and very long prompts optionally with embedded newlines,
  and more suitable for small terminals)</li>
-<li>Introduce <tt>mksh_ari_t</tt> and <tt>mksh_uari_t</tt> and ensure
- that current arithmetics is limited to 32 bit by it; later, ensure
- that current arithmetics will be bound to this type for easy switching</li>
-<li>I’d like to switch the internal integer type to 64 bits
- signed (any takers?). This includes 2⁶⁴-1 (not 2³¹-1) as
- maximum valid array index. Maybe make it a compile time option,
+<li>Ensure arithmetics are properly bound to <tt>mksh_ari_t</tt> and
+ <tt>mksh_uari_t</tt> and offer switching to 64 bit, including as
+ array index type, as a compile time option;
  seeing as some systems (DEC?) may not have a 64 bit type</li>
 <li>Adding <tt>goto</tt> and <tt>label</tt> keywords/commands</li>
 <li>Adding builtins <tt>fstat</tt>, <tt>lstat</tt>, <tt>traverse</tt>, …</li>
@@ -1022,6 +1021,7 @@ mws_content <<'EOF'
  Plan 9, Syllable – debug these: jobless mode</li>
 <li>Mode for no input line editing at all (required for Plan 9)
  and no Emacs just Vi mode (requested by unknown at FOSDEM 2009 – yuck)</li>
+<li>Real Unicode command line editing code</li>
 <li>Build with more platforms’ native tools or other compilers
  – ACK, kencc, ICC/UWIN, egcs/UWIN, tcc</li>
 <li>Add the ability to handle embedded NUL bytes in strings read,
@@ -1071,6 +1071,15 @@ mws_content <<'EOF'
  <li>[tg] Fix ${foo/@(%)/\\x} in UTF-8 mode (utf_widthadj for control
   characters U+0080‥U+009F is slightly broken; this fix shifts the
   brokenness into the command line editing mode only)</li>
+ <li>[tg] Introduce <tt>mksh_ari_t</tt> and <tt>mksh_uari_t</tt>
+  internal types to limit arithmetics to 32 bit on all systems;
+  currently depending on the already-used standard <tt>int32_t</tt>
+  and <tt>uint32_t</tt> types. Future expansion to 64 bit possible</li>
+ <li>[tg] The variables PGRP, PPID, RANDOM and USER_ID are now unsigned</li>
+ <li>[tg] Fix off-by-one breaking PS1 ending with a newline; bug
+  reported by Matthias Diener</li>
+ <li>[tg] Just pass through C1 control characters for now</li>
+ <li>[tg] Code and internal interfaces cleanup</li>
 </ul>
 <p id="r36b">mksh R36b is a compatible, major bug-fix update:</p><ul>
  <li>[tg] Add check for naming the output file “scn” instead of “a.out” or
