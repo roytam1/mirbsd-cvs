@@ -1,5 +1,5 @@
 <!-- PageID: wlog-9 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.18 2006/07/19 17:42:50 bsiegert Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.19 2006/07/21 04:26:19 tg Exp $</small>
 <h1>MirBSD &ndash; WTF is Verpeilungsfaktor?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -345,6 +345,15 @@
   changing keyboards between German, French and US&mdash;the
   latter for example here in Plan 9 because I don't know how to
   change the keyboard layout ...</p>
+</div>
+
+<div class="wlentry">
+ <h3 id="e20060721">21.07.2006 by tg@</h3>
+ <p>Other than fixing the website ;) I did only some minor stuff just to
+  keep activity. I also &quot;have to&quot; hack on FreeWRT but it's way
+  too hot for anything productive.</p>
+ <p>GNU make sucks.</p>
+ <p>Benny should just use the US keyboard layout anywhere.</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
