@@ -1,5 +1,5 @@
-# $MirOS: src/distrib/i386/common/Makefile.inc,v 1.3 2005/03/29 17:54:47 tg Exp $
-# $OpenBSD: Makefile.inc,v 1.14 2004/05/05 23:40:13 deraadt Exp $
+# $MirOS: src/distrib/i386/common/Makefile.inc,v 1.4 2005/07/01 11:51:42 tg Exp $
+# $OpenBSD: Makefile.inc,v 1.15 2004/11/25 22:02:08 deraadt Exp $
 
 .ifndef _MODSRC_DISTRIB_I386_COMMON_MAKEFILE_INC
 _MODSRC_DISTRIB_I386_COMMON_MAKEFILE_INC=1

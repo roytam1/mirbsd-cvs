@@ -1,5 +1,5 @@
-#	$MirOS$
-#	$OpenBSD: Makefile,v 1.3 2004/03/11 22:16:50 deraadt Exp $
+#	$MirOS: src/distrib/sparc/cdfs/Makefile,v 1.2 2005/03/06 18:58:06 tg Exp $
+#	$OpenBSD: Makefile,v 1.5 2005/03/11 15:40:59 deraadt Exp $
 
 TOP=	${.CURDIR}/..
 
@@ -19,6 +19,7 @@ ${CDROM}:
 	cp ${DESTDIR}/usr/mdec/boot ${.OBJDIR}/cd-dir/${OSREV}/sparc
 	cp ${DESTDIR}/usr/mdec/bootxx ${.OBJDIR}/cd-dir/${OSREV}/sparc
 	(mkhybrid -a -r -f -v -v -T -L -d -D -N -o ${.OBJDIR}/${CDROM} \
+	(mkhybrid -a -R -v -v -T -L -d -D -N -o ${.OBJDIR}/${CDROM} \
 	    -A "MirOS #${OSrev} ${MACHINE} Boot-CD; http://mirbsd.de/" \
 	    -P "© 2002, 2003, 2004  The MirOS Project" \
 	    -p "The http://mirbsd.de/ team and its contributors" \
@@ -33,6 +34,10 @@ ${CDROM}:
 	disklabel -w svnd0 fakecdrom "OpenBSD/sparc   "
 	umount /mnt
 	vnconfig -u svnd0
+	# XXX Some sparc machines fail to load the kernel correctly if the
+	# XXX cd image is truncated.  It is not yet known why this happens.
+	# XXX For now we pad the image.
+	dd if=/dev/zero bs=2k count=200 >> ${.OBJDIR}/${CDROM}
 
 install:
 	cp ${CDROM} ${DESTDIR}/snapshot

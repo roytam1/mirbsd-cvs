@@ -1,9 +1,9 @@
-# $MirOS$
-# $OpenBSD: list,v 1.24 2004/01/04 00:29:51 deraadt Exp $
-# $NetBSD: list,v 1.4.4.1 1996/06/20 20:30:26 pk Exp $
+# $MirOS: src/distrib/ramdisk/list,v 1.2 2005/03/06 18:58:05 tg Exp $
+#	$OpenBSD: list,v 1.28 2005/01/12 18:25:30 deraadt Exp $
+#	$NetBSD: list,v 1.4.4.1 1996/06/20 20:30:26 pk Exp $
 
 SRCDIRS distrib/special
-SRCDIRS gnu/usr.bin usr.bin bin sbin usr.sbin
+SRCDIRS bin sbin usr.bin usr.sbin
 
 # copy the crunched binary, link to it, and kill it
 COPY	${OBJDIR}/instbin			instbin
@@ -15,6 +15,8 @@ LINK	instbin					bin/df
 LINK	instbin					bin/ed
 LINK	instbin					bin/expr
 LINK	instbin					bin/hostname
+LINK	instbin					bin/ksh bin/sh
+ARGVLINK ksh		-sh
 LINK	instbin					bin/ln
 LINK	instbin					bin/ls
 LINK	instbin					bin/mkdir
@@ -22,15 +24,13 @@ LINK	instbin					bin/mt
 LINK	instbin					bin/mv
 LINK	instbin					bin/pax bin/tar bin/cpio
 LINK	instbin					bin/rm
-LINK	instbin					bin/ksh bin/sh
 LINK	instbin					bin/stty
-LINK	instbin					bin/sleep
 LINK	instbin					bin/sync
-LINK	instbin					sbin/dmesg
-LINK	instbin					sbin/fsck_ffs sbin/fsck
-LINK	instbin					sbin/reboot sbin/halt
-LINK	instbin					sbin/ifconfig
 LINK	instbin					sbin/dhclient
+LINK	instbin					sbin/dmesg
+LINK	instbin					sbin/fsck
+LINK	instbin					sbin/fsck_ffs
+LINK	instbin					sbin/ifconfig
 LINK	instbin					sbin/init
 LINK	instbin					sbin/mknod
 LINK	instbin					sbin/mount
@@ -40,8 +40,9 @@ LINK	instbin					sbin/mount_nfs
 LINK	instbin					sbin/newfs
 LINK	instbin					sbin/ping
 LINK	instbin					sbin/ping6
-LINK	instbin					sbin/rtsol
+LINK	instbin					sbin/reboot sbin/halt
 LINK	instbin					sbin/route
+LINK	instbin					sbin/rtsol
 LINK	instbin					sbin/umount
 LINK	instbin					usr/bin/cksum
 LINK	instbin					usr/bin/ftp
@@ -50,8 +51,6 @@ LINK	instbin					usr/bin/sed
 LINK	instbin					usr/bin/hexdump usr/bin/hd usr/bin/od
 LINK	instbin					usr/bin/nc
 LINK	instbin					usr/bin/printf
-
-ARGVLINK ksh		-sh
 
 # various files that we need in /etc for the install
 COPY	${DESTDIR}/etc/group			etc/group

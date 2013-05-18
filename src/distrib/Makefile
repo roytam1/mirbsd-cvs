@@ -1,5 +1,5 @@
-# $MirOS: src/distrib/Makefile,v 1.2 2005/03/06 18:58:01 tg Exp $
-# $OpenBSD: Makefile,v 1.25 2004/05/03 15:18:18 drahn Exp $
+# $MirOS: src/distrib/Makefile,v 1.3 2005/06/26 18:07:52 tg Exp $
+# $OpenBSD: Makefile,v 1.27 2005/01/13 22:27:13 deraadt Exp $
 
 .include "Makefile.inc"
 REL_NO_KERNEL?=	No

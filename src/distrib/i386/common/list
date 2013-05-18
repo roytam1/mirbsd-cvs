@@ -1,9 +1,9 @@
-# $MirOS: src/distrib/i386/common/list,v 1.2 2005/03/06 18:58:03 tg Exp $
-# $OpenBSD: list,v 1.10 2003/08/08 19:39:14 deraadt Exp $
+# $MirOS: src/distrib/i386/common/list,v 1.3 2005/06/14 13:36:07 tg Exp $
+# $OpenBSD: list,v 1.15 2005/05/04 17:08:07 miod Exp $
 
-SRCDIRS distrib/special usr.bin/ssh
-SRCDIRS usr.bin bin sbin usr.sbin gnu/usr.bin
-SRCDIRS sys/arch/i386/stand libexec
+SRCDIRS distrib/special
+SRCDIRS bin sbin usr.bin usr.sbin
+SRCDIRS sys/arch/i386/stand libexec usr.bin/ssh
 
 # copy the crunched binary, link to it, and kill it
 COPY	${OBJDIR}/instbin			instbin
@@ -29,7 +29,8 @@ LINK	instbin					sbin/dhclient
 LINK	instbin					sbin/disklabel
 LINK	instbin					sbin/dmesg
 LINK	instbin					sbin/fdisk
-LINK	instbin					sbin/fsck_ffs sbin/fsck
+LINK	instbin					sbin/fsck
+LINK	instbin					sbin/fsck_ffs
 LINK	instbin					sbin/ifconfig
 LINK	instbin					sbin/init
 LINK	instbin					sbin/mknod
