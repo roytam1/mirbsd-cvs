@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/ksh-chan.inc,v 1.10 2012/11/11 12:20:39 tg Exp $
+RCSID: $MirOS: www/data/ksh-chan.inc,v 1.11 2012/11/11 12:36:01 tg Exp $
 Title: Homepage of the original Korn Shell
 Link: http://www.kornshell.com/
 
@@ -95,6 +95,16 @@ Block: yes
  to get what <tt>geirha</tt> says is the closest thing to documentation
  at the moment.</p>
 ----
+Title: comp.unix.shell Frequently Asked Questions
+Link: http://cfajohnson.com/shell/cus-faq.html
+
+FAQ of the Usenet group <tt>comp.unix.shell</tt>
+----
+Title: csh Programming Considered Harmful
+Link: http://www.faqs.org/faqs/unix-faq/shell/csh-whynot/
+
+Rather polarising article about why the C Shell is not desirable.
+----
 Title: Morris Bolsky, The KornShell Command and Programming Language
 ISBN: 978-0-13-516972-8 (0-13-516972-0)
 
@@ -182,16 +192,6 @@ Link: http://www.in-ulm.de/~mascheck/
 
 Plethora of historic and recent information on shells on
 various unicēs, the shebang, urban legends, etc.
-----
-Title: comp.unix.shell Frequently Asked Questions
-Link: http://cfajohnson.com/shell/cus-faq.html
-
-FAQ of the Usenet group <tt>comp.unix.shell</tt>
-----
-Title: csh Programming Considered Harmful
-Link: http://www.faqs.org/faqs/unix-faq/shell/csh-whynot/
-
-Rather polarising article about why the C Shell is not desirable.
 ----
 Title: * Portable Shell::
 Link: http://www.gnu.org/software/autoconf/manual/html_node/Portable-Shell.html
