@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/install.sub,v 1.52 2009/08/15 17:43:50 tg Exp $
+# $MirOS: src/distrib/common/install.sub,v 1.53 2009/08/15 17:46:52 tg Exp $
 # $OpenBSD: install.sub,v 1.388 2005/07/02 00:55:48 uwe Exp $
 # $NetBSD: install.sub,v 1.5.2.8 1996/09/02 23:25:02 pk Exp $
 #
@@ -734,7 +734,7 @@ v6_config() {
 }
 
 v4_defroute() {
-	typeset _dr _prompt=" or 'none'"
+	typeset _dr _fls _prompt=" or 'none'"
 
 	_prompt="Default IPv4 route? (IPv4 address$dhcp_requested$_prompt)"
 
@@ -746,8 +746,9 @@ v4_defroute() {
 		[[ $resp = @(none|dhcp) ]] && break
 		route -n delete -inet default >/dev/null 2>&1
 		route -n add -inet default "$resp" && {
-			echo "route add -inet default $resp" \
-			    >/tmp/hostname.local
+			set -A _fls __ /tmp/hostname.*
+			(( ${#foo[*]} == 1 )) || _fls=/tmp/hostname.local
+			echo "route add -inet default $resp" >>$_fls
 			break
 		}
 		# Put the old default route back. The new one did not work.
