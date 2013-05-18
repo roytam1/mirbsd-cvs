@@ -1,5 +1,5 @@
 <!-- PageID: wlog-9 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.44 2006/09/14 00:42:08 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.45 2006/09/20 23:42:27 tg Exp $</small>
 <h1>MirBSD &ndash; WTF is Verpeilungsfaktor?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -709,6 +709,15 @@
  <p>mksh(1) world domination is going to succeed.</p>
  <p>-rHEAD contains lots of security updates; yes I promised a snapshot,
   quite some time ago actually, to be out shortly. Okay okay.</p>
+</div>
+
+<div class="wlentry">
+ <h3 id="e20060921">21.09.2006 by tg@</h3>
+ <p>Someone remind me to get <tt>Darren Tucker</tt> a beer.</p>
+ <p>I need plumbing in Plan 9! If I select a line like</p><pre>
+/usr/src/foo/bar/bar.c:123: warning: fnord
+ </pre><p>then I mark the filename with the mouse, type "jupp ", hit the
+  middle mouse button, press return. That could be easier. Plan 9.</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
