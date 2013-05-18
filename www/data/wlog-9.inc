@@ -2684,3 +2684,29 @@ Date: 22.02.2008
 <p>We'll resume normal-heavy operation very soon, so keep your INBOXen ready
  :)</p>
 ----
+Author: tg@
+Date: 24.02.2008
+Title: FOSDEM Zwischenbericht
+
+<p>We actually distributed about 182 CDs yesterday, and today, early morning,
+ no CDs are left any more. We’re also about to run out of flyers. Benny’s
+ showcase box aided really in catching users (especially the pink mouse, for
+ the female part of the visitors, who tried Frozen-Bubble when we offered it
+ to them).</p>
+<p>Benny and I also decided on Unicode improvements and hacked Mac OSX Leopard
+ support into MirPorts, this time correctly. This is really weird, and both of
+ my fellow Mac fanboys decided that Leopard is quite buggy and thusly sucks.
+ Probably due to the UNIX2003 certification?</p>
+<p>Bruxelles is fun, and the hotel was very good (not really cheap, but not
+ too expensive either). Sadly we probably don’t have any time to really go
+ geocacheing, and our usual restaurant – le petite planéte – no longer exists,
+ although we found a suitable replacement, with a delicious Assiette Mergues.
+ Belgian beer was as good as usual, although it makes getting up early on the
+ next day more difficult. The OpenBSD people donated 3 cans of Jupiler to us,
+ which was unexpected but makes room for hopes of improvement.</p>
+<p>The frietjes booth outside actually understood my attempts to talk to them
+ in dutch and, although my pronunciacion is very bad (of course), she told me
+ it’s not too bad overall (for a duitslander). They seem to pronounce ‘ie’ as
+ a long ‘i’… I need more practice, but this part of Bruxelles is mostly french
+ only.</p>
+----
