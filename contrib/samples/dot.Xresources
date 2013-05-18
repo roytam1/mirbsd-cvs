@@ -1,4 +1,4 @@
-! $MirOS: contrib/samples/dot.Xresources,v 1.7 2008/05/03 01:09:31 tg Exp $
+! $MirOS: contrib/samples/dot.Xresources,v 1.8 2009/01/05 13:09:17 tg Exp $
 !-
 ! Copyright (c) 2003, 2004, 2005, 2006, 2007
 !	Thorsten "mirabilos" Glaser <tg@mirbsd.de>
@@ -226,7 +226,7 @@ UXTerm*utf8Fonts.font:		-misc-fixed-medium-r-normal--18-120-100-100-c-90-iso1064
 UXTerm*utf8Fonts.wideFont:	-misc-fixed-medium-r-normal-ko-18-120-100-100-c-180-iso10646-1
 UXTerm*visualBell:		true
 ! undo some Kubuntu brain damage
-UXTerm*charClass:		33:33,35:35,37:37,38:38,43:43.44:44,45:45,46:46,47:47,58:58,61:61,62:62,63:63,64:64,95:48,126:126
+UXTerm*charClass:		33:33,35:35,37:37,38:38,43:43,44:44,45:45,46:46,47:47,58:58,61:61,62:62,63:63,64:64,95:48,126:126
 
 !--- euc-jp kterm settings ---
 KTerm*VT100*loginShell:		true
