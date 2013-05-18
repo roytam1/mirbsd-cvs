@@ -34,6 +34,9 @@ while :; do
 	elif [[ $1 = -P ]]; then
 		: ${CVSROOT:=_anoncvs@pfau.mirbsd.org:$what}
 		shift
+	elif [[ $1 = -M ]]; then
+		: ${CVSROOT:=_anoncvs@hugh.mirbsd.org:$what}
+		shift
 	elif [[ $1 = -4 ]]; then
 		sshx="$sshx -4"
 		shift
