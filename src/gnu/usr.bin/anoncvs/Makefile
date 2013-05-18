@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.bin/anoncvs/Makefile,v 1.8 2008/07/10 12:41:47 tg Exp $
+# $MirOS: src/gnu/usr.bin/anoncvs/Makefile,v 1.9 2008/11/29 17:03:52 tg Exp $
 
 CBIN=		anoncvsbin
 BINDIR=		/var/anoncvs
@@ -28,25 +28,25 @@ realinstall:
 
 .if defined(DESTDIR) && ${DESTDIR} != "" && ${DESTDIR} != "/"
 distribution:
-	install -c -o ${BINOWN} -g ${BINGRP} -m ${NONBINMODE} \
+	install -c -o ${BINOWN} -g ${CONFGRP} -m ${NONBINMODE} \
 	    /dev/null ${DESTDIR}${BINDIR}/.hushlogin
-	install -c -o ${BINOWN} -g ${BINGRP} -m ${NONBINMODE} \
+	install -c -o ${BINOWN} -g ${CONFGRP} -m ${NONBINMODE} \
 	    ${.CURDIR}/dot.plan ${DESTDIR}${BINDIR}/.plan
-	install -c -o ${BINOWN} -g ${BINGRP} -m ${NONBINMODE} \
+	install -c -o ${BINOWN} -g ${CONFGRP} -m ${NONBINMODE} \
 	    ${.CURDIR}/resolv.conf ${DESTDIR}${BINDIR}/etc/
-	install -c -o ${BINOWN} -g ${BINGRP} -m ${NONBINMODE} \
+	install -c -o ${BINOWN} -g ${CONFGRP} -m ${NONBINMODE} \
 	    ${DESTDIR}/etc/group ${DESTDIR}${BINDIR}/etc/
-	install -c -o ${BINOWN} -g ${BINGRP} -m ${NONBINMODE} \
+	install -c -o ${BINOWN} -g ${CONFGRP} -m ${NONBINMODE} \
 	    ${DESTDIR}/etc/hosts ${DESTDIR}${BINDIR}/etc/
-	install -c -o ${BINOWN} -g ${BINGRP} -m ${NONBINMODE} \
+	install -c -o ${BINOWN} -g ${CONFGRP} -m ${NONBINMODE} \
 	    ${DESTDIR}/etc/passwd ${DESTDIR}${BINDIR}/etc/
-	install -c -o ${BINOWN} -g ${BINGRP} -m ${NONBINMODE} \
+	install -c -o ${BINOWN} -g ${CONFGRP} -m ${NONBINMODE} \
 	    ${DESTDIR}/etc/protocols ${DESTDIR}${BINDIR}/etc/
-	install -c -o ${BINOWN} -g ${BINGRP} -m ${NONBINMODE} \
+	install -c -o ${BINOWN} -g ${CONFGRP} -m ${NONBINMODE} \
 	    ${DESTDIR}/etc/pwd.db ${DESTDIR}${BINDIR}/etc/
-	install -c -o ${BINOWN} -g ${BINGRP} -m ${NONBINMODE} \
+	install -c -o ${BINOWN} -g ${CONFGRP} -m ${NONBINMODE} \
 	    ${DESTDIR}/etc/services ${DESTDIR}${BINDIR}/etc/
-	install -c -o ${BINOWN} -g ${BINGRP} -m ${NONBINMODE} \
+	install -c -o ${BINOWN} -g ${CONFGRP} -m ${NONBINMODE} \
 	    ${DESTDIR}/etc/ttys.dist ${DESTDIR}${BINDIR}/etc/ttys
 .else
 distribution:
