@@ -1,7 +1,7 @@
-# $MirOS: ports/x11/gentoo/Makefile,v 1.3 2005/03/30 18:13:56 bsiegert Exp $
+# $MirOS: ports/x11/gentoo/Makefile,v 1.4 2006/09/14 00:15:14 tg Exp $
 # $OpenBSD: Makefile,v 1.6 2002/09/09 16:22:10 pvalchev Exp $
 
-COMMENT=			GTK+ Graphical filemanager
+COMMENT=		gtk+ graphical file manager
 
 VERSION=		0.11.34
 DISTNAME=		gentoo-${VERSION}
@@ -21,6 +21,7 @@ LIB_DEPENDS= 		gtk.1.2,gdk.1.2::x11/gtk+1 \
 			glib.1::devel/glib1
 
 CONFIGURE_STYLE=	gnu
+USE_X11=		Yes
 NO_REGRESS=		Yes
 
 post-install:
