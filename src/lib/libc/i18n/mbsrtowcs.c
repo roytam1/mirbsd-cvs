@@ -1,18 +1,12 @@
-/* $MirOS: src/lib/libc/i18n/mbsrtowcs.c,v 1.9 2007/02/02 21:06:21 tg Exp $ */
-
 /*-
- * Copyright (c) 2006, 2007
- *	Thorsten Glaser <tg@mirbsd.de>
+ * Copyright (c) 2008
+ *	Thorsten Glaser <tg@mirbsd.org>
  *
  * Provided that these terms and disclaimer and all copyright notices
  * are retained or reproduced in an accompanying document, permission
  * is granted to deal in this work without restriction, including un-
  * limited rights to use, publicly perform, distribute, sell, modify,
  * merge, give away, or sublicence.
- *
- * Advertising materials mentioning features or use of this work must
- * display the following acknowledgement:
- *	This product includes material provided by Thorsten Glaser.
  *
  * This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
  * the utmost extent permitted by applicable law, neither express nor
@@ -24,105 +18,70 @@
  * of said person's immediate fault when using the work as intended.
  */
 
-#include <errno.h>
 #include <wchar.h>
 
-__RCSID("$MirOS: src/lib/libc/i18n/mbsrtowcs.c,v 1.9 2007/02/02 21:06:21 tg Exp $");
+__RCSID("$MirOS$");
 
 #ifdef MBSNRTOWCS
 size_t
-mbsnrtowcs(wchar_t *__restrict__ dst, const char **__restrict__ src,
-    size_t max, size_t len, mbstate_t *__restrict__ ps)
+mbsnrtowcs(wchar_t * restrict pwcs, const char ** restrict s,
+    size_t max, size_t n, mbstate_t * restrict ps)
 #else
+#define max MB_CUR_MAX
 size_t
-mbsrtowcs(wchar_t *__restrict__ dst, const char **__restrict__ src,
-    size_t len, mbstate_t *__restrict__ ps)
+mbsrtowcs(wchar_t * restrict pwcs, const char ** restrict s,
+    size_t n, mbstate_t * restrict ps)
 #endif
 {
 	static mbstate_t internal_mbstate = { 0, 0 };
-	const unsigned char *s = (const unsigned char *)(*src);
-	wchar_t *d = dst;
-	wint_t c, wc /* shut up gcc */ = 0;
-	uint8_t count;
-
-	/* make sure we can at least write one output wide character */
-	if ((dst != NULL) && (len == 0))
-		return (0);
+	size_t rv = 0, fr;
+	wchar_t wc;
+	const char * src = *s;
 
 	if (__predict_false(ps == NULL))
 		ps = &internal_mbstate;
 
-	if ((count = ps->count)) {
-		wc = ps->value << 6;
-		goto conv_state;
-	}
-
- conv_first:
 #ifdef MBSNRTOWCS
-	if (s >= (*(const unsigned char **)src + max)) {
-		/* wc is unimportant here since count == 0 */
- empty_buf:
-		if (dst != NULL) {
-			/* ps is only updated if we really write! */
-			ps->count = count;
-			ps->value = wc >> 6;
-			*src = (const char *)s;
+	if (!max) {
+		while (!pwcs || n) {
+			if (optu8to16(&wc, NULL, 0, ps) != 0)
+				break;
+			if (pwcs)
+				*pwcs++ = wc;
+			++rv;
+			--n;
 		}
-		return (d - dst);
+		goto done;
 	}
 #endif
-	wc = *s++;
-	if (__predict_true(wc < 0x80)) {
-		/* count == 0 already */
-		;
-	} else if (wc < 0xC2) {
-		/* < 0xC0: spurious second byte */
-		/* < 0xC2: non-minimalistic mapping error in 2-byte seqs */
- ilseq:
-		errno = EILSEQ;
-		return ((size_t)(-1));
-	} else if (wc < 0xE0) {
-		count = 1; /* one byte follows */
-		wc = (wc & 0x1F) << 6;
-	} else if (wc < 0xF0) {
-		count = 2; /* two bytes follow */
-		wc = (wc & 0x0F) << 12;
-	} else {
-		/* we don't support more than UCS-2 */
-		goto ilseq;
-	}
 
- conv_state:
-	while (__predict_false(count)) {
+ loop:
 #ifdef MBSNRTOWCS
-		if (s >= (*(const unsigned char **)src + max))
-			goto empty_buf;	/* here, we store wc and count */
+	if (!max)
+		goto done;
 #endif
-		if (((c = *s++) & 0xC0) != 0x80)
-			goto ilseq;
-		c &= 0x3F;
-		wc |= c << (6 * --count);
-
-		/* Check for non-minimalistic mapping error in 3-byte seqs */
-		if (__predict_false(count && (wc < 0x0800)))
-			goto ilseq;
+	if (pwcs && !n)
+		goto done;
+	if ((fr = optu8to16(&wc, src, max, ps)) == (size_t)-2) {
+		src += max;
+		goto done;
 	}
+	/* fr == (size_t)-1 can never happen */
+	src += fr;
+#ifdef MBSNRTOWCS
+	max -= fr;
+#endif
+	if (pwcs)
+		*pwcs++ = wc;
+	++rv;
+	--n;
+	if (wc)
+		goto loop;
+	src = NULL;
+	--rv;
 
-	if (__predict_false(wc > WCHAR_MAX))
-		goto ilseq;
-
-	if (dst != NULL)
-		*d = wc;
-	if (wc != L'\0') {
-		++d;
-		if ((dst == NULL) || (--len))
-			goto conv_first;
-	} else
-		s = NULL;
-
-	if (dst != NULL) {
-		*src = (const char *)s;
-		ps->count = 0;
-	}
-	return (d - dst);
+ done:
+	if (pwcs)
+		*s = src;
+	return (rv);
 }
