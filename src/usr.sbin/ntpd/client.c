@@ -27,7 +27,7 @@
 
 #include "ntpd.h"
 
-__RCSID("$MirOS: src/usr.sbin/ntpd/client.c,v 1.12 2007/10/03 21:15:17 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/ntpd/client.c,v 1.13 2007/10/03 21:16:31 tg Exp $");
 
 #ifdef DDEBUG
 #define log_reply	log_info
@@ -333,7 +333,7 @@ client_update(struct ntp_peer *p, int trace)
 		}
 
 	if (trace > 2)
-		log_info("client_update, %d good, best = %dms delay", good,
+		log_info("client_update, %d good, best = %3dms delay", good,
 		    (int)((p->reply[best].delay + .0005) * 1000.));
 
 	if (good < 8)
