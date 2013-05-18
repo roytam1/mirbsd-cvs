@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.bin/cap_mkdb/cap_mkdb.c,v 1.9 2006/10/31 03:04:49 tg Exp $ */
+/**	$MirOS: src/usr.bin/cap_mkdb/cap_mkdb.c,v 1.10 2006/11/01 00:49:45 tg Exp $ */
 /*	$OpenBSD: cap_mkdb.c,v 1.14 2006/03/04 20:32:51 otto Exp $	*/
 /*	$NetBSD: cap_mkdb.c,v 1.5 1995/09/02 05:47:12 jtc Exp $	*/
 
@@ -51,7 +51,7 @@
 __COPYRIGHT("@(#) Copyright (c) 1992, 1993\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)cap_mkdb.c	8.2 (Berkeley) 4/27/95");
-__RCSID("$MirOS: src/usr.bin/cap_mkdb/cap_mkdb.c,v 1.9 2006/10/31 03:04:49 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/cap_mkdb/cap_mkdb.c,v 1.10 2006/11/01 00:49:45 tg Exp $");
 
 void	 db_build(char **);
 void	 dounlink(void);
@@ -225,7 +225,7 @@ db_build(char **ifiles)
 		}
 		if (!*p) {
 			warnx("no name field: %.*s", (int)MIN(len, 20), bp);
-			continue;
+			goto next_cap;
 		}
 
 #ifdef DEBUG
@@ -299,13 +299,13 @@ db_build(char **ifiles)
 		case 1:
 			warnx("ignored duplicate: %.*s",
 			    (int)key.size, (char *)key.data);
-			continue;
+			goto next_cap;
 		}
 		++reccnt;
 
 		/* If only one name, ignore the rest. */
 		if ((p = strchr(bp, '|')) == NULL)
-			continue;
+			goto next_cap;
 
 #ifdef DEBUG
 		bzero(data.data, bplen);
@@ -341,6 +341,7 @@ db_build(char **ifiles)
 			if (*p == (info ? ',' : ':'))
 				break;
 		}
+ next_cap:
 		free(bp);
 	}
 
