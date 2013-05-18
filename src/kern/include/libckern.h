@@ -1,4 +1,4 @@
-/* $MirOS: src/kern/include/libckern.h,v 1.25 2011/01/03 19:02:51 tg Exp $ */
+/* $MirOS: src/kern/include/libckern.h,v 1.27 2011/07/06 22:22:08 tg Exp $ */
 
 /*-
  * Copyright (c) 2008, 2010, 2011
@@ -108,6 +108,8 @@ void bcopy(const void *, void *, size_t)
     __attribute__((__bounded__ (__buffer__, 1, 3)))
     __attribute__((__bounded__ (__buffer__, 2, 3)));
 void bzero(void *, size_t)
+    __attribute__((__bounded__ (__buffer__, 1, 2)));
+void explicit_bzero(void *, size_t)
     __attribute__((__bounded__ (__buffer__, 1, 2)));
 
 int ffs(int);

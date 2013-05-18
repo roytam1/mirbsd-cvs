@@ -73,6 +73,8 @@ KUSRCS+=	arcfour_base.c
 KUSRCS+=	arcfour_ksa.c
 KUSRCS+=	arcfour_ksa256.c
 
+KXSRCS+=	explicit_bzero.c
+
 # …
 
 .ifndef KERNSTAND
