@@ -1,20 +1,42 @@
 # $MirOS$
-# $OpenBSD: Makefile,v 1.2 2000/02/20 21:50:18 millert Exp $
 
-PROG=	infocmp
-SRCS=	infocmp.c dump_entry.c
-MAN=	infocmp.1tbl
-DPADD=	${LIBCURSES}
-LDADD=	-lcurses
-CURSES= ${.CURDIR}/../../lib/libcurses
-TIC=	${.CURDIR}/../tic
-CPPFLAGS+=	-I${CURSES} -I${TIC} -I.
-CLEANFILES+=	termsort.c
-.PATH:  ${TIC}
+PROG=		infocmp
+DPADD+=		${LIBCURSES}
+LDADD+=		-lcurses
 
-beforedepend: termsort.c
+NCMANSRCS+=	infocmp.1m
 
-termsort.c: ${TIC}/MKtermsort.sh
-	${SHELL} ${TIC}/MKtermsort.sh awk ${CURSES}/Caps >${.TARGET}
+.include <bsd.own.mk>
+
+LIBNCDIR?=	${BSDSRCDIR}/lib/libncurses
+.include "${LIBNCDIR}/Makefile.inc"
+
+CPPFLAGS+=	-I${NCSRCDIR}/progs
+
+.PATH: ${NCSRCDIR}/progs
+
+SRCS+=		dump_entry.c
+SRCS+=		infocmp.c
+
+GENERATED=	ncurses_def.h parametrized.h termsort.c
+CLEANFILES+=	${GENERATED}
+
+beforedepend: ${GENERATED}
+
+ncurses_def.h: ${NCSRCDIR}/include/MKncurses_def.sh \
+    ${NCSRCDIR}/include/ncurses_defs
+	AWK=${AWK:Q} ${MKSH} ${NCSRCDIR}/include/MKncurses_def.sh \
+	    ${NCSRCDIR}/include/ncurses_defs >$@
+
+parametrized.h: ${NCSRCDIR}/include/MKparametrized.sh ${NCSRCDIR}/include/Caps
+	AWK=${AWK:Q} ${MKSH} ${NCSRCDIR}/include/MKparametrized.sh \
+	    ${NCSRCDIR}/include/Caps >$@
+
+termsort.c: ${NCSRCDIR}/progs/MKtermsort.sh ${NCSRCDIR}/include/Caps
+	${MKSH} ${NCSRCDIR}/progs/MKtermsort.sh ${AWK:Q} \
+	    ${NCSRCDIR}/include/Caps >$@
 
 .include <bsd.prog.mk>
+
+dump_entry.o: termsort.c
+${OBJS}: ${GENERATED:Ntermsort.c}

@@ -1,9 +1,9 @@
-#	$OpenBSD: Makefile,v 1.11 1999/06/29 19:39:39 millert Exp $
+# $MirOS$
 
-PROG=	tput
-DPADD=	${LIBCURSES}
-LDADD=	-lcurses
-MLINKS=	tput.1 clear.1
-LINKS= ${BINDIR}/tput ${BINDIR}/clear
+PROG=		tput
+LINKS+=		${BINDIR}/tput ${BINDIR}/clear
+MLINKS+=	tput.1 clear.1
+DPADD+=		${LIBCURSES}
+LDADD+=		-lcurses
 
 .include <bsd.prog.mk>

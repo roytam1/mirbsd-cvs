@@ -1,19 +1,52 @@
 # $MirOS$
-# $OpenBSD: Makefile,v 1.3 1999/12/12 08:02:10 millert Exp $
 
-PROG=	tic
-SRCS=	dump_entry.c tic.c
-MAN=	tic.1 captoinfo.1tbl infotocap.1
-LINKS=	${BINDIR}/tic ${BINDIR}/infotocap ${BINDIR}/tic ${BINDIR}/captoinfo
-DPADD=	${LIBCURSES}
-LDADD=	-lcurses
-CURSES=	${.CURDIR}/../../lib/libcurses
-CPPFLAGS+=	-I${CURSES} -I.
-CLEANFILES+=	termsort.c
+PROG=		tic
+LINKS=		${BINDIR}/tic ${BINDIR}/captoinfo \
+		${BINDIR}/tic ${BINDIR}/infotocap
+DPADD+=		${LIBCURSES}
+LDADD+=		-lcurses
 
-beforedepend: termsort.c
+NCMANSRCS+=	captoinfo.1m
+NCMANSRCS+=	infotocap.1m
+NCMANSRCS+=	tic.1m
 
-termsort.c: MKtermsort.sh
-	${SHELL} ${.CURDIR}/MKtermsort.sh awk ${CURSES}/Caps >${.TARGET}
+.include <bsd.own.mk>
+
+LIBNCDIR?=	${BSDSRCDIR}/lib/libncurses
+.include "${LIBNCDIR}/Makefile.inc"
+
+CPPFLAGS+=	-I${NCSRCDIR}/progs
+CPPFLAGS+=	-D'PROG_CAPTOINFO="captoinfo"' \
+		-D'PROG_INFOTOCAP="infotocap"' \
+		-D'PROG_RESET="reset"' -D'PROG_INIT="init"'
+
+.PATH: ${NCSRCDIR}/progs
+
+SRCS+=		dump_entry.c
+SRCS+=		tic.c
+
+GENERATED=	ncurses_def.h parametrized.h termsort.c transform.h
+CLEANFILES+=	${GENERATED}
+
+beforedepend: ${GENERATED}
+
+ncurses_def.h: ${NCSRCDIR}/include/MKncurses_def.sh \
+    ${NCSRCDIR}/include/ncurses_defs
+	AWK=${AWK:Q} ${MKSH} ${NCSRCDIR}/include/MKncurses_def.sh \
+	    ${NCSRCDIR}/include/ncurses_defs >$@
+
+parametrized.h: ${NCSRCDIR}/include/MKparametrized.sh ${NCSRCDIR}/include/Caps
+	AWK=${AWK:Q} ${MKSH} ${NCSRCDIR}/include/MKparametrized.sh \
+	    ${NCSRCDIR}/include/Caps >$@
+
+termsort.c: ${NCSRCDIR}/progs/MKtermsort.sh ${NCSRCDIR}/include/Caps
+	${MKSH} ${NCSRCDIR}/progs/MKtermsort.sh ${AWK:Q} \
+	    ${NCSRCDIR}/include/Caps >$@
+
+transform.h:
+	print -n >$@
 
 .include <bsd.prog.mk>
+
+dump_entry.o: termsort.c
+${OBJS}: ${GENERATED:Ntermsort.c}

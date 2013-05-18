@@ -11,7 +11,7 @@
   SUBDIR+= libcitrus_iconv
 .endif
   SUBDIR+= libcompat
-  SUBDIR+= libcurses
+# SUBDIR+= libcurses
   SUBDIR+= libdes
   SUBDIR+= libedit
   SUBDIR+= libevent
@@ -22,7 +22,7 @@
   SUBDIR+= libl
   SUBDIR+= libm
   SUBDIR+= libmenu
-# SUBDIR+= libncurses
+  SUBDIR+= libncurses
   SUBDIR+= libocurses
   SUBDIR+= libossaudio
   SUBDIR+= libpanel

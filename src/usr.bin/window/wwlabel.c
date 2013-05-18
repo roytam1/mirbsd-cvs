@@ -33,16 +33,11 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)wwlabel.c	8.1 (Berkeley) 6/6/93";
-#else
-static char rcsid[] = "$OpenBSD: wwlabel.c,v 1.6 2003/06/03 02:56:23 millert Exp $";
-#endif
-#endif /* not lint */
-
 #include "ww.h"
 #include "char.h"
+
+__SCCSID("@(#)wwlabel.c	8.1 (Berkeley) 6/6/93");
+__RCSID("$MirOS$");
 
 /*
  * Label window w on f,
@@ -63,7 +58,7 @@ char *l;
 	char *fmap;
 	unsigned char *smap;
 	char touched;
-	char *p;
+	const char *p;
 
 	if (f->ww_fmap == 0)
 		return;

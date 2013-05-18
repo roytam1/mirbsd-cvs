@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.bin/lynx/Makefile.bsd-wrapper,v 1.9 2006/09/13 19:31:47 tg Exp $
+# $MirOS: src/gnu/usr.bin/lynx/Makefile.bsd-wrapper,v 1.10 2006/09/20 22:25:25 tg Exp $
 # $OpenBSD: Makefile.bsd-wrapper,v 1.12 2003/05/01 18:59:36 avsm Exp $
 
 MAN=		lynx.1
@@ -8,14 +8,14 @@ FSFMAKEFILE=	makefile
 .include <bsd.own.mk>
 
 CFARGS=		--sysconfdir=/etc --prefix=/usr --with-ssl=/usr --with-zlib \
-		--enable-addrlist-page --enable-charset-choice \
+		--enable-addrlist-page --enable-charset-choice --enable-widec \
 		--enable-color-style --disable-full-paths --enable-warnings \
 		--enable-internal-links --enable-kbd-layout --enable-ipv6 \
 		--enable-nested-tables --disable-nls --enable-nsl-fork \
-		--with-screen=ncurses --disable-scrollbar --enable-cjk \
+		--with-screen=ncursesw --disable-scrollbar --enable-cjk \
 		--enable-underlines --enable-vertrace --without-bzlib
 .if ${NOPIC:L} == "no"
-# japanese-utf8 logic needs some sort of iconv :(
+# japanese-utf8 logic needs some sort of iconv
 CFARGS+=	--enable-japanese-utf8
 .else
 # citrus iconv does not work on static arches :(

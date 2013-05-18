@@ -33,17 +33,12 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)wwwrite.c	8.1 (Berkeley) 6/6/93";
-#else
-static char rcsid[] = "$OpenBSD: wwwrite.c,v 1.6 2003/06/03 02:56:23 millert Exp $";
-#endif
-#endif /* not lint */
-
 #include "ww.h"
 #include "tt.h"
 #include "char.h"
+
+__SCCSID("@(#)wwwrite.c	8.1 (Berkeley) 6/6/93");
+__RCSID("$MirOS$");
 
 #define UPDATE() \
 	if (!ISSET(w->ww_wflags, WWW_NOUPDATE) && w->ww_cur.r >= 0 && \
@@ -102,7 +97,7 @@ int n;
 				if (!isprt(*p)) {
 					r = p + 1;
 					s = q;
-					p = unctrl(*p);
+					p = (char *)unctrl(*p);
 					q = p + 10;
 				}
 				wwinschar(w, w->ww_cur.r, w->ww_cur.c,
@@ -130,7 +125,7 @@ int n;
 					   isunctrl(*p)) {
 					r = p + 1;
 					s = q;
-					p = unctrl(*p);
+					p = (char *)unctrl(*p);
 					q = p + 10;
 				} else
 					break;

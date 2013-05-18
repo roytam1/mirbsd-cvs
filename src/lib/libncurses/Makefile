@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libncurses/Makefile,v 1.2.2.1 2006/10/27 15:53:02 tg Exp $
+# $MirOS: src/lib/libncurses/Makefile,v 1.4 2006/10/27 16:12:50 tg Exp $
 
 LIB=		ncurses
 LIBLINKS=	curses ncursesw termcap termlib
@@ -760,6 +760,7 @@ includes:
 	cd ${DESTDIR}/usr/include/ncursesw; ln -sf curses.h ncurses.h
 	cd ${DESTDIR}/usr/include; \
 	    for i in ncurses.h ncurses_dll.h term.h termcap.h unctrl.h; do \
+		[[ $$(readlink $$i) = ncursesw/$$i ]] && continue; \
 		rm -f $$i; \
 		ln -s ncursesw/$$i; \
 	done
@@ -773,6 +774,12 @@ catmaninstall:
 .endif
 
 afterinstall:
+	${INSTALL} -d -o ${BINOWN} -g ${BINGRP} -m ${DIRMODE} \
+	    ${DESTDIR}/usr/share/doc/html/curses
+	cd ${NCSRCDIR}/doc/html; ${INSTALL} ${INSTALL_COPY} -o ${DOCOWN} \
+	    -g ${DOCGRP} -m ${DOCMODE} NCURSES-Programming-HOWTO.html \
+	    announce.html hackguide.html index.html ncurses-intro.html \
+	    ${DESTDIR}/usr/share/doc/html/curses/
 	${INSTALL} ${INSTALL_COPY} -o ${DOCOWN} -g ${DOCGRP} -m ${DOCMODE} \
 	    ${NCSRCDIR}/include/Caps ${DESTDIR}/usr/share/misc/
 

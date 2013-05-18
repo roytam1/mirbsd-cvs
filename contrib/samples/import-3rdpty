@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/samples/import-3rdpty,v 1.9 2006/09/24 18:14:09 tg Exp $
+# $MirOS: contrib/samples/import-3rdpty,v 1.10 2006/10/02 22:55:44 tg Exp $
 #-
 # Copyright (c) 2004, 2005, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -24,7 +24,7 @@
 # other issues arising in any way out of its use, even if advised of
 # the possibility of such damage or existence of a defect.
 
-print -ru2 -- '========= $MirOS: contrib/samples/import-3rdpty,v 1.9 2006/09/24 18:14:09 tg Exp $ ========='
+print -ru2 -- '========= $MirOS: contrib/samples/import-3rdpty,v 1.10 2006/10/02 22:55:44 tg Exp $ ========='
 
 ignlist=0
 force=0
@@ -636,6 +636,7 @@ openbsd)
 		lib/libc/yp \
 		lib/libcom_err \
 		lib/libcompat/regexp/COPYRIGHT \
+		lib/libcurses \
 		lib/libcurses++ \
 		lib/libdes/README \
 		lib/libdes/VERSION \
@@ -648,6 +649,7 @@ openbsd)
 		lib/libevent/sample \
 		lib/libevent/test \
 		lib/libexpat \
+		lib/libform \
 		lib/libgssapi \
 		lib/libhdb \
 		lib/libintl \
@@ -672,7 +674,9 @@ openbsd)
 		lib/libm/noieee_src \
 		lib/libm/src/w_cabs.c \
 		lib/libm/src/w_cabsf.c \
+		lib/libmenu \
 		lib/libossaudio/shlib_version \
+		lib/libpanel \
 		lib/libpcap/CHANGES \
 		lib/libpcap/README \
 		lib/libpthread/arch/alpha \
@@ -971,6 +975,7 @@ openbsd)
 		usr.bin/fsplit \
 		usr.bin/gencat \
 		usr.bin/gprof \
+		usr.bin/infocmp \
 		usr.bin/lam \
 		usr.bin/learn \
 		usr.bin/leave \
@@ -1041,7 +1046,9 @@ openbsd)
 		usr.bin/telnet/enc_des.c \
 		usr.bin/telnet/kerberos5.c \
 		usr.bin/telnet/tn3270.c \
+		usr.bin/tic \
 		usr.bin/tn3270 \
+		usr.bin/tset \
 		usr.bin/vacation \
 		usr.bin/ypcat \
 		usr.bin/ypmatch \

@@ -33,14 +33,6 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)wwinit.c	8.2 (Berkeley) 4/28/95";
-#else
-static char rcsid[] = "$OpenBSD: wwinit.c,v 1.16 2003/08/01 22:01:37 david Exp $";
-#endif
-#endif /* not lint */
-
 #include <stdlib.h>
 #include "ww.h"
 #include "tt.h"
@@ -49,6 +41,9 @@ static char rcsid[] = "$OpenBSD: wwinit.c,v 1.16 2003/08/01 22:01:37 david Exp $
 #include <signal.h>
 #include <string.h>
 #include "char.h"
+
+__SCCSID("@(#)wwinit.c	8.2 (Berkeley) 4/28/95");
+__RCSID("$MirOS$");
 
 wwinit()
 {
@@ -367,7 +362,8 @@ wwaddcap(cap, kp, len)
 {
 	char tbuf[1024];	/* tgetstr(, &tp) does strlcpy(tp,, 1024) */
 	char *tp = tbuf;
-	char *str, *p;
+	char *str;
+	const char *p;
 
 	if ((str = tgetstr(cap, &tp)) != 0) {
 		int need = strlen(cap) + 3;

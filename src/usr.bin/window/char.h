@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: char.h,v 1.6 2003/06/03 02:56:23 millert Exp $	*/
 /*	$NetBSD: char.h,v 1.3 1995/09/28 10:34:01 tls Exp $	*/
 
@@ -49,6 +50,12 @@
 #if defined(TERMINFO) || defined(NCURSES_VERSION)
 #include <term.h>
 #endif
+
+/* XXX ncurses 5.5 includes <ctype.h>, which is what we should use */
+#undef _C
+#undef _P
+#undef _U
+/* XXX this sucks */
 
 extern char _cmap[];
 #define ctrl(c)		(c & 0x1f)
