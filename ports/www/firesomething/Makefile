@@ -1,7 +1,5 @@
-# $MirOS: ports/www/firesomething/Makefile,v 1.32 2008/12/06 13:35:31 tg Exp $
+# $MirOS: ports/www/firesomething/Makefile,v 1.33 2008/12/06 16:11:48 tg Exp $
 # $OpenBSD: Makefile,v 1.41 2005/11/15 09:21:52 wilfried Exp $
-
-BROKEN=			dependency cairo not ported/committed yet
 
 ONLY_FOR_PLATFORM=	*:*:alpha *:*:i386 *:*:sparc *:*:sparc64 *:*:amd64 *:*:powerpc
 COMMENT=		one of the successors to the Netscape browser engine
