@@ -1,4 +1,4 @@
-# $MirOS: ports/lang/python/Makefile.inc,v 1.15 2008/04/07 19:20:05 tg Exp $
+# $MirOS: ports/lang/python/Makefile.inc,v 1.16 2008/07/15 19:47:13 bsiegert Exp $
 # $OpenBSD: Makefile.inc,v 1.32 2005/06/06 20:47:04 alek Exp $
 
 .include <mirports.sys.mk>
@@ -91,8 +91,5 @@ post-install:
 		cd ${PREFIX}/lib && ln -s python${VERSION}/config/libpython${VERSION}.so.0.0; \
 	fi
 	${INSTALL_DATA_DIR} ${PREFIX}/share/doc/python${VERSION}
-	${INSTALL_DATA} ${FILESDIR}/CHANGES.OpenBSD \
-		${PREFIX}/share/doc/python${VERSION}/CHANGES.OpenBSD
-	[[ ! -f ${FILESDIR}/CHANGES.MirPorts ]] || \
-	    ${INSTALL_DATA} ${FILESDIR}/CHANGES.MirPorts \
+	${INSTALL_DATA} ${FILESDIR}/CHANGES.* \
 	    ${PREFIX}/share/doc/python${VERSION}/
