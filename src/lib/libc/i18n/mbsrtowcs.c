@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/i18n/mbsrtowcs.c,v 1.3 2006/06/03 21:52:51 tg Exp $ */
+/* $MirOS: src/lib/libc/i18n/mbsrtowcs.c,v 1.4 2006/11/01 20:01:19 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -30,7 +30,7 @@
 
 #include "mir18n.h"
 
-__RCSID("$MirOS: src/lib/libc/i18n/mbsrtowcs.c,v 1.3 2006/06/03 21:52:51 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/mbsrtowcs.c,v 1.4 2006/11/01 20:01:19 tg Exp $");
 
 size_t
 mbsrtowcs(wchar_t *__restrict__ dst, const char **__restrict__ src,
@@ -80,7 +80,14 @@ mbsrtowcs(wchar_t *__restrict__ dst, const char **__restrict__ src,
 
  conv_state:
 	while (__predict_false(count)) {
-		if (((c = *s++) & 0xC0) != 0x80)
+		if ((c = *s++) == 0) {
+			ps->count = count;
+			ps->value = wc >> 6;
+			if (dst != NULL)
+				*src = NULL;
+			return (d - dst);
+		}
+		if ((c & 0xC0) != 0x80)
 			goto ilseq;
 		c &= 0x3F;
 		wc |= c << (6 * --count);
