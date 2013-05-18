@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/imake.port.mk,v 1.7 2006/12/30 22:05:48 tg Exp $
+# $MirOS: ports/infrastructure/mk/imake.port.mk,v 1.8 2006/12/30 22:07:58 tg Exp $
 # $OpenBSD: imake.port.mk,v 1.3 2003/07/28 17:17:05 sturm Exp $
 
 # XXX
@@ -11,6 +11,10 @@ INSTALL_TARGET+=	install.man
 XMKMF?=			xmkmf -a
 XMKMF+=			-DPorts
 EXTRA_XAKE_FLAGS+=	CC=${CC:Q} COPTS=${COPTS:Q} CPPFLAGS=${CPPFLAGS:Q}
+
+.if ${USE_X11:L} != "yes"
+IGNORE=			"uses imake, but USE_X11 not set"
+.endif
 
 .if !exists(${X11BASE})
 IGNORE=			"uses imake, but ${X11BASE} not found"
