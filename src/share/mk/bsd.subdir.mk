@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.subdir.mk,v 1.6 2007/05/17 18:38:36 tg Exp $
+# $MirOS: src/share/mk/bsd.subdir.mk,v 1.7 2008/04/10 14:07:46 tg Exp $
 # $OpenBSD: bsd.subdir.mk,v 1.14 2005/02/05 10:39:50 espie Exp $
 # $NetBSD: bsd.subdir.mk,v 1.11 1996/04/04 02:05:06 jtc Exp $
 # @(#)bsd.subdir.mk	5.9 (Berkeley) 2/1/91
@@ -15,54 +15,52 @@ SKIPDIR?=
 
 _SUBDIRUSE: .USE
 .if defined(SUBDIR)
-	@for entry in ${SUBDIR}; do ( \
-		set -e; \
-		if [[ -d ${.CURDIR}/$$entry.${MACHINE} ]]; then \
-			_newdir_="$$entry.${MACHINE}"; \
+	@for _dirent_ in ${SUBDIR}; do \
+		if [[ -d ${.CURDIR}/$$_dirent_.${MACHINE} ]]; then \
+			_newdir_=$$_dirent_.${MACHINE}; \
 		else \
-			_newdir_="$$entry"; \
+			_newdir_=$$_dirent_; \
 		fi; \
-		if [[ -z $$_THISDIR_ ]]; then \
-			_nextdir_="$$_newdir_"; \
+		if [[ -n $$_thisdir_ ]]; then \
+			_nextdir_=$$_thisdir_/$$_newdir_; \
 		else \
-			_nextdir_="$$_THISDIR_/$$_newdir_"; \
+			_nextdir_=$$_newdir_; \
 		fi; \
-		_makefile_spec_=; \
-		[[ ! -f ${.CURDIR}/$$_newdir_/Makefile.bsd-wrapper ]] \
-		    || _makefile_spec_="-f Makefile.bsd-wrapper"; \
-		subskipdir=; \
-		for skipdir in ${SKIPDIR}; do \
-			subentry=$${skipdir#$$entry}; \
-			if [[ $$subentry != $$skipdir ]]; then \
-				if [[ -z $$subentry ]]; then \
-					print -r -- "($$_nextdir_ skipped)"; \
-					break; \
-				fi; \
-				subskipdir="$$subskipdir $${subentry#/}"; \
+		if [[ -s ${.CURDIR}/$$_newdir_/Makefile.bsd-wrapper ]]; then \
+			_nextmf_="-f Makefile.bsd-wrapper"; \
+		else \
+			_nextmf_=; \
+		fi; \
+		_nextsd_=; \
+		for _skipck_ in ${SKIPDIR}; do \
+			if [[ $$_skipck_ = $$_dirent_ ]]; then \
+				print -r "($$_nextdir_ skipped)"; \
+				continue 2; \
+			elif [[ $$_skipck_ != $$_dirent_/* ]]; then \
+				continue; \
 			fi; \
+			_nextsd_="$$_nextsd_ $${_skipck_#$$_dirent_/}"; \
 		done; \
-		if [[ -z $$skipdir || -n $$subentry ]]; then \
-			print -r "===> $$_nextdir_"; \
-			cd ${.CURDIR}/$$_newdir_; \
-			${MAKE} SKIPDIR="$$subskipdir" $$_makefile_spec_ \
-			    _THISDIR_="$$_nextdir_" ${MAKE_FLAGS} \
-			    ${.TARGET:S/realinstall/install/:S/.depend/depend/}; \
-		fi; \
-	) done
+		print -r "===> $$_nextdir_"; \
+		(cd ${.CURDIR}/$$_newdir_ && exec ${MAKE} \
+		    SKIPDIR="$$_nextsd_" ${MAKE_FLAGS} $$_nextmf_ \
+		    ${.TARGET:S/realinstall/install/:S/.depend/depend/}); \
+	done
 
 ${SUBDIR}::
-	@set -e; \
-	if [[ -d ${.CURDIR}/${.TARGET}.${MACHINE} ]]; then \
-		_newdir_=${.TARGET}.${MACHINE}; \
+	@if [[ -d ${.CURDIR}/$@.${MACHINE} ]]; then \
+		_newdir_=$@.${MACHINE}; \
 	else \
-		_newdir_=${.TARGET}; \
+		_newdir_=$@; \
 	fi; \
-	_makefile_spec_=; \
-	[[ ! -f ${.CURDIR}/$$_newdir_/Makefile.bsd-wrapper ]] \
-	    || _makefile_spec_="-f Makefile.bsd-wrapper"; \
+	if [[ -s ${.CURDIR}/$$_newdir_/Makefile.bsd-wrapper ]]; then \
+		_nextmf_="-f Makefile.bsd-wrapper"; \
+	else \
+		_nextmf_=; \
+	fi; \
 	print -r "===> $$_newdir_"; \
-	cd ${.CURDIR}/$$_newdir_; \
-	${MAKE} ${MAKE_FLAGS} $$_makefile_spec_ _THISDIR_="$$_newdir_" all
+	cd ${.CURDIR}/$$_newdir_ && exec ${MAKE} \
+	    ${MAKE_FLAGS} $$_nextmf_ _thisdir_="$$_newdir_" all
 .endif
 
 .if !target(install)
