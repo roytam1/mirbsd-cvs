@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/tools/Makefile,v 1.17 2007/10/20 22:32:02 tg Exp $
+# $MirOS: src/distrib/tools/Makefile,v 1.18 2007/10/20 23:30:40 tg Exp $
 
 all: sundsklbl
 
@@ -51,7 +51,7 @@ makecdimage: .PHONY
 	mkisofs -r -f -L -d -D -N -v -v -b b_i386.iso -c boot.cat \
 	    -no-emul-boot -boot-load-size 4 -boot-info-table \
 	    -P 'The http://mirbsd.de/ team and its contributors' \
-	    -p 'Copyright © 2002-2007 by The MirOS Project' \
+	    -p 'Copyright © 2002-2008 by The MirOS Project' \
 	    -V 'MirOS #${OSrev} BSD manifold-boot CD' \
 	    -volset "$$(uname -sl) i386/sparc Setup" -sysid MirOSBSD \
 	    -pad -o ${CDROM} cddir 2>&1 | tee mkisofs.log
