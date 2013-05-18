@@ -674,7 +674,11 @@ static void print_help_strings(const char *name,
 #ifndef VMS
 BOOLEAN LYNoCore = NO_FORCED_CORE_DUMP;
 BOOLEAN restore_sigpipe_for_children = FALSE;
+#if !defined(LYNX_DONT_CATCH_SIGBUS) || \
+    !defined(LYNX_DONT_CATCH_SIGSEGV) || \
+    !defined(LYNX_DONT_CATCH_SIGILL)
 static void FatalProblem(int sig);
+#endif
 #endif /* !VMS */
 
 #if defined(USE_COLOR_STYLE)
@@ -1991,11 +1995,17 @@ int main(int argc,
 	(void) signal(SIGINT, cleanup_sig);
 #ifndef __linux__
 #ifdef SIGBUS
+#ifndef LYNX_DONT_CATCH_SIGBUS
 	(void) signal(SIGBUS, FatalProblem);
+#endif
 #endif /* SIGBUS */
 #endif /* !__linux__ */
+#ifndef LYNX_DONT_CATCH_SIGSEGV
 	(void) signal(SIGSEGV, FatalProblem);
+#endif
+#ifndef LYNX_DONT_CATCH_SIGILL
 	(void) signal(SIGILL, FatalProblem);
+#endif
 	/*
 	 * Since we're doing lots of TCP, just ignore SIGPIPE altogether.
 	 *
@@ -4378,6 +4388,9 @@ static BOOL parse_arg(char **argv,
 }
 
 #ifndef VMS
+#if !defined(LYNX_DONT_CATCH_SIGBUS) || \
+    !defined(LYNX_DONT_CATCH_SIGSEGV) || \
+    !defined(LYNX_DONT_CATCH_SIGILL)
 static void FatalProblem(int sig)
 {
     /*
@@ -4483,4 +4496,5 @@ Lynx now exiting with signal:  %d\r\n\r\n", sig);
 	exit_immediately(EXIT_FAILURE);
     }
 }
+#endif
 #endif /* !VMS */

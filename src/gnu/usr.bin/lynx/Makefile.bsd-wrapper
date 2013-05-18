@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.bin/lynx/Makefile.bsd-wrapper,v 1.40 2012/09/02 16:31:09 tg Exp $
+# $MirOS: src/gnu/usr.bin/lynx/Makefile.bsd-wrapper,v 1.41 2012/12/31 21:19:38 tg Exp $
 # $OpenBSD: Makefile.bsd-wrapper,v 1.12 2003/05/01 18:59:36 avsm Exp $
 
 MAN=		lynx.1
@@ -54,6 +54,12 @@ CFARGS+=	--prefix=/usr \
 .if ${CROSS_MODE:L} == "yes"
 CFARGS+=	--with-build-cc=${HOSTCC:Q} \
 		--with-build-cflags=${HOSTCFLAGS:Q}
+.endif
+
+.ifdef DEBUG
+CPPFLAGS+=	-DLYNX_DONT_CATCH_SIGBUS
+CPPFLAGS+=	-DLYNX_DONT_CATCH_SIGSEGV
+CPPFLAGS+=	-DLYNX_DONT_CATCH_SIGILL
 .endif
 
 # do not hardcode paths; do not scan for ports stuff
