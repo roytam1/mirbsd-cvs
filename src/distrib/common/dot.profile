@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/dot.profile,v 1.3 2006/10/07 23:29:13 tg Exp $
+# $MirOS: src/distrib/common/dot.profile,v 1.4 2006/10/08 00:24:42 tg Exp $
 # $OpenBSD: dot.profile,v 1.4 2002/09/13 21:38:47 deraadt Exp $
 # $NetBSD: dot.profile,v 1.1 1995/12/18 22:54:43 pk Exp $
 #
@@ -70,11 +70,12 @@ if [ ! -f /.profile.done ]; then
 	[ -x /usr/sbin/eeprom ] && eeprom 2>&1 | cksum -ba sha512 >/dev/prandom
 	# basic HD randomness reads (doesn't matter if they break)
 	( ( (dd if=/dev/rwd0c count=126; dd if=/dev/rsd0c count=126; dd \
-	    if=/var/db/host.random) 2>&1 | cksum -ba sha512 >/dev/arandom) &)
+	    if=/var/db/host.random of=/dev/arandom) 2>&1 | cksum -ba sha512 \
+	    >/dev/prandom) &)
 
 	# say hello and legalese
 	echo '
-Welcome to MirOS #9-stable!
+Welcome to MirOS #9-current!
 This is the old installer, expect it to be replaced really soon.
 
 Welcome to the MirOS BSD operating system installer.  This work is
@@ -126,6 +127,6 @@ This work is provided "AS IS" and WITHOUT WARRANTY of any kind.\n'
 	done
 fi
 export TERM=vt220
-echo -n '\nAvailable editor: ed'
+echo -n \\nAvailable editor: ed
 [ -s /ed.hlp ] && echo -n ' - help with # less /ed.hlp'
-echo '\n'
+echo \\n
