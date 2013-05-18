@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.79 2006/11/17 01:36:37 tg Exp $
+# $MirOS: src/Makefile,v 1.80 2006/11/17 01:43:32 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -160,6 +160,7 @@ dist:
 _DISTS=		base
 .ifdef QUICK_DIST2
 QUICK_DIST=	implied
+NO_LIVECD=	implied
 .else
 _DISTS+=	x11
 .endif
@@ -203,10 +204,16 @@ _do-dist:
 .endif
 .ifdef QUICK_DIST
 	@echo QUICK dist-build mode active:
-	@echo not building ports, package tools, live CD or HTML manual pages.
+	@echo not building ports, package tools, or HTML manual pages.
 .  ifdef QUICK_DIST2
 	@echo not building XFree86® either.
 .  endif
+.endif
+.ifdef NO_LIVECD
+.  ifndef QUICK_DIST
+	@echo QUICK dist-build mode active:
+.  endif
+	@echo not building the baselive CD image.
 .endif
 	@echo ============================================================
 	${SUDO} rm -rf ${BSDOBJDIR} ${BSDRELDIR}
@@ -333,7 +340,7 @@ _do-dist:
 	@date
 	@/bin/ls -Fl ${BSDRELDIR}/rel
 	@echo ============================================================
-.if !defined(QUICK_DIST) && !defined(NO_LIVECD)
+.if !defined(NO_LIVECD)
 	cd ${BSDSRCDIR}/distrib/baselive && ${MAKE} it #cleanworkdir
 	@echo
 	@echo Done with MirOS Snapshot generation.
