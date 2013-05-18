@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/i18n/charsets.c,v 1.10 2006/05/21 12:12:28 tg Exp $ */
+/* $MirOS: src/lib/libc/i18n/charsets.c,v 1.11 2006/05/21 12:38:39 tg Exp $ */
 
 /*-
  * Copyright (c) 2005
@@ -35,24 +35,17 @@
 
 #include "mir18n.h"
 
-__RCSID("$MirOS: src/lib/libc/i18n/charsets.c,v 1.10 2006/05/21 12:12:28 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/charsets.c,v 1.11 2006/05/21 12:38:39 tg Exp $");
 
 /* simple locale support (C and UTF-8) */
 
-char *__weak_setlocale(int, const char *);
+const char *__weak_setlocale(int, const char *);
 
-char *
+const char *
 __weak_setlocale(int category, const char *locale)
 {
-#define	UTF8	"en_US.UTF-8"
-#define	UTF8L	12
-	static char rv[UTF8L];
-
-	rv[0] = 'C';
-	rv[1] = '\0';
-
 	if ((category != LC_CTYPE) && (category != LC_ALL))
-		return (rv);
+		return ("C");
 
 	if (locale == NULL)
 		goto getlocale;
@@ -64,7 +57,7 @@ __weak_setlocale(int category, const char *locale)
 			if (!locale || !*locale)
 				locale = getenv("LANG");
 			if (!locale)
-				locale = rv;
+				locale = "C";
 		}
 	}
 
@@ -72,9 +65,7 @@ __weak_setlocale(int category, const char *locale)
 	    || strcasestr(locale, "utf8"));
 
  getlocale:
-	if (__locale_is_utf8)
-		memcpy(rv, UTF8, UTF8L);
-	return (rv);
+	return (__locale_is_utf8 ? "en_US.UTF-8" : "C");
 }
 
 __weak_alias(setlocale, __weak_setlocale);
