@@ -1,4 +1,4 @@
-# $MirOS: ports/www/firesomething/Makefile,v 1.23 2008/04/02 00:35:17 tg Exp $
+# $MirOS: ports/www/firesomething/Makefile,v 1.24 2008/05/07 22:48:45 tg Exp $
 # $OpenBSD: Makefile,v 1.41 2005/11/15 09:21:52 wilfried Exp $
 
 ONLY_FOR_PLATFORM=	*:*:alpha *:*:i386 *:*:sparc *:*:sparc64 *:*:amd64 *:*:powerpc
@@ -17,6 +17,8 @@ PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
+
+.include <mirports.sys.mk>
 
 MASTER_SITES=		ftp://archive.mozilla.org/pub/mozilla.org/firefox/releases/${VER}/source/ \
 			http://ftp.eu.mozilla.org/pub/mozilla.org/firefox/releases/${VER}/source/ \
@@ -38,6 +40,9 @@ USE_GMAKE=		Yes
 # Regression tests are too hard to adapt to run here
 NO_REGRESS=		Yes
 SUBST_VARS=		LOCALBASE SO_VERSION VER
+.if ${OStype:NMirBSD:NOpenBSD}
+PLIST=			${PKGDIR}/PLIST.${OStype}
+.endif
 
 MODGNU_RECURSE_DIRS=	${WRKSRC}/nsprpub ${WRKSRC}
 
@@ -79,7 +84,9 @@ post-extract:
 
 post-patch:
 .for dir in security/coreconf directory/c-sdk/config
-	cd ${WRKSRC}/${dir} && ln -sf OpenBSD.mk MirBSD.mk
+	cd ${WRKSRC}/${dir} && \
+	    ln -sf FreeBSD.mk MidnightBSD.mk && \
+	    ln -sf OpenBSD.mk MirBSD.mk
 .endfor
 
 pre-configure:

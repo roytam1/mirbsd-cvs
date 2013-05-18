@@ -1,7 +1,7 @@
-$MirOS: ports/www/firesomething/patches/patch-nsprpub_configure_in,v 1.3 2008/03/31 21:33:56 bsiegert Exp $
+$MirOS: ports/www/firesomething/patches/patch-nsprpub_configure_in,v 1.4 2008/04/02 00:35:17 tg Exp $
 $OpenBSD: patch-nsprpub_configure_in,v 1.3 2005/04/09 15:43:47 wilfried Exp $
---- nsprpub/configure.in.orig	Tue Jan 16 23:35:58 2007
-+++ nsprpub/configure.in	Mon Mar 31 21:47:41 2008
+--- nsprpub/configure.in.orig	Tue Jan 16 22:36:21 2007
++++ nsprpub/configure.in	Tue May 20 00:22:52 2008
 @@ -42,7 +42,7 @@ dnl ***** END LICENSE BLOCK *****
  AC_PREREQ(2.12)
  AC_INIT(config/libc_r.h)
@@ -28,11 +28,29 @@ $OpenBSD: patch-nsprpub_configure_in,v 1.3 2005/04/09 15:43:47 wilfried Exp $
  if test "$OS_ARCH" = "IRIX64"; then
      OS_ARCH=IRIX
  fi
-@@ -1708,14 +1713,16 @@ mips-sony-newsos*)
+@@ -1708,14 +1718,34 @@ mips-sony-newsos*)
      _DEBUG_FLAGS="-gstabs"
  	;;
  
 -*-openbsd*)
++*-midnightbsd*)
++    if test -z "$USE_NSPR_THREADS"; then
++        USE_PTHREADS=1
++    fi
++    AC_DEFINE(XP_UNIX)
++    AC_DEFINE(FREEBSD)
++    AC_DEFINE(HAVE_BSD_FLOCK)
++    AC_DEFINE(HAVE_SOCKLEN_T)
++    CFLAGS="$CFLAGS $(DSO_CFLAGS) -ansi -Wall"
++    MOZ_OBJFORMAT=elf
++    DLL_SUFFIX="so"
++    MKSHLIB='$(CC) $(DSO_LDOPTS) -o $@'
++    DSO_CFLAGS=-fPIC
++    DSO_LDOPTS='-shared -Wl,-soname -Wl,$(notdir $@)'
++    MDCPUCFG_H=_freebsd.cfg
++    PR_MD_CSRCS=freebsd.c
++    ;;
++
 +*-openbsd*|*-mirbsd*)
      AC_DEFINE(XP_UNIX)
      AC_DEFINE(OPENBSD)
@@ -47,7 +65,16 @@ $OpenBSD: patch-nsprpub_configure_in,v 1.3 2005/04/09 15:43:47 wilfried Exp $
      DSO_CFLAGS=-fPIC
      MDCPUCFG_H=_openbsd.cfg
      PR_MD_CSRCS=openbsd.c
-@@ -2460,7 +2467,7 @@ if test -n "$USE_PTHREADS"; then
+@@ -2438,7 +2468,7 @@ if test -n "$USE_PTHREADS"; then
+             _PTHREAD_LDFLAGS=
+         fi
+ 	    ;;
+-    *-freebsd*)
++    *-freebsd*|*-midnightbsd*)
+ 	    AC_DEFINE(_REENTRANT)
+ 	    AC_DEFINE(_THREAD_SAFE)
+ 	    dnl -pthread links in -lc_r, so don't specify it explicitly.
+@@ -2460,7 +2490,7 @@ if test -n "$USE_PTHREADS"; then
  	        _PTHREAD_LDFLAGS=
  	    fi
  	    ;;
@@ -56,12 +83,12 @@ $OpenBSD: patch-nsprpub_configure_in,v 1.3 2005/04/09 15:43:47 wilfried Exp $
          if test "$ac_cv_have_dash_pthread" = "yes"; then
              _PTHREAD_LDFLAGS=-pthread
          fi
-@@ -2560,7 +2567,7 @@ case "$target" in
+@@ -2560,7 +2590,7 @@ case "$target" in
      _PTHREAD_LDFLAGS=
      USE_USER_PTHREADS=
      ;;
 -*-netbsd*|*-openbsd*)
-+*-netbsd*|*-openbsd*|*-mirbsd*)
++*-netbsd*|*-openbsd*|*-mirbsd*|*-midnightbsd*)
      if test -n "$USE_NSPR_THREADS"; then
          AC_DEFINE(_PR_LOCAL_THREADS_ONLY)
      fi

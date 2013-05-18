@@ -1,10 +1,17 @@
-$MirOS$
---- nsprpub/pr/tests/Makefile.in.orig	Thu Dec  8 21:07:52 2005
-+++ nsprpub/pr/tests/Makefile.in	Thu Dec  8 21:08:38 2005
-@@ -423,6 +423,12 @@ endif
+$MirOS: ports/www/firesomething/patches/patch-nsprpub_pr_tests_Makefile_in,v 1.1 2006/05/11 20:55:45 bsiegert Exp $
+--- nsprpub/pr/tests/Makefile.in.orig	Sun Apr 25 15:01:02 2004
++++ nsprpub/pr/tests/Makefile.in	Tue May 20 00:24:25 2008
+@@ -423,6 +423,19 @@ endif
  LDOPTS += -Xlinker -R $(ABSOLUTE_LIB_DIR)
  endif
  
++ifeq ($(OS_ARCH),MidnightBSD)
++ifeq ($(USE_PTHREADS),1)
++LDOPTS += -pthread
++endif
++LDOPTS += -Xlinker -R $(ABSOLUTE_LIB_DIR)
++endif
++
 +ifeq ($(OS_ARCH),MirBSD)
 +ifeq ($(USE_PTHREADS),1)
 +LDOPTS += -pthread
@@ -14,7 +21,7 @@ $MirOS$
  ifeq ($(OS_ARCH),OpenBSD)
  ifeq ($(USE_PTHREADS),1)
  LDOPTS += -pthread
-@@ -440,7 +446,7 @@ LIBPTHREAD = -lpthread
+@@ -440,7 +453,7 @@ LIBPTHREAD = -lpthread
  ifeq ($(OS_ARCH),AIX)
  LIBPTHREAD = -lpthreads
  endif
