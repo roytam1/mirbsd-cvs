@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.42 2005/12/20 20:13:21 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.43 2005/12/20 20:19:48 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -434,8 +434,6 @@ fi
 
 
 # Write environmental stuff
-DISTDIR=$(readlink -nf $DISTDIR)
-
 cat >$localbase/db/SetEnv.sh <<-EOF
 	LOCALBASE='$localbase'
 	PORTSDIR='$portsdir'
