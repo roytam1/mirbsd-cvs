@@ -1,7 +1,7 @@
-$MirOS: ports/misc/screen/patches/patch-screen_c,v 1.8 2007/03/04 20:00:50 tg Exp $
+$MirOS: ports/misc/screen/patches/patch-screen_c,v 1.9 2007/03/04 21:36:11 tg Exp $
 $OpenBSD: shmpatch-screen_c,v 1.1 2003/11/22 00:56:58 espie Exp $
 --- screen.c.orig	Mon Sep  8 14:26:19 2003
-+++ screen.c	Sun Mar  4 19:47:45 2007
++++ screen.c	Sun Mar  4 22:05:32 2007
 @@ -71,6 +71,12 @@
  #if (defined(AUX) || defined(_AUX_SOURCE)) && defined(POSIX)
  # include <compat.h>
@@ -48,7 +48,20 @@ $OpenBSD: shmpatch-screen_c,v 1.1 2003/11/22 00:56:58 espie Exp $
  /*
   * Do this last
   */
-@@ -461,6 +479,37 @@ char **av;
+@@ -377,8 +395,11 @@ char **av;
+ #ifdef DEBUG
+   opendebug(1, 0);
+ #endif
++#ifndef PORT_VERSION
++#define PORT_VERSION ""
++#endif
+   sprintf(version, "%d.%.2d.%.2d%s (%s) %s", REV, VERS,
+-	  PATCHLEVEL, STATE, ORIGIN, DATE);
++	  PATCHLEVEL, STATE PORT_VERSION, ORIGIN, DATE);
+   nversion = REV * 10000 + VERS * 100 + PATCHLEVEL;
+   debug2("-- screen debug started %s (%s)\n", *av, version);
+ #ifdef POSIX
+@@ -461,6 +482,37 @@ char **av;
    zmodem_recvcmd = SaveStr("!!! rz -vv -b -E");
  #endif
  
@@ -86,7 +99,7 @@ $OpenBSD: shmpatch-screen_c,v 1.1 2003/11/22 00:56:58 espie Exp $
  #ifdef COPY_PASTE
    CompileKeys((char *)0, 0, mark_key_tab);
  #endif
-@@ -1223,6 +1272,10 @@ char **av;
+@@ -1223,6 +1275,10 @@ char **av;
        if (MakeDisplay(LoginName, attach_tty, attach_term, n, getppid(), &attach_Mode) == 0)
  	Panic(0, "Could not alloc display");
  #ifdef ENCODINGS
@@ -97,7 +110,7 @@ $OpenBSD: shmpatch-screen_c,v 1.1 2003/11/22 00:56:58 espie Exp $
        D_encoding = nwin_options.encoding > 0 ? nwin_options.encoding : 0;
        debug1("D_encoding = %d\n", D_encoding);
  #endif
-@@ -2428,10 +2481,10 @@ int rec;
+@@ -2428,10 +2484,10 @@ int rec;
  #endif
  	      break;
  	    case 'y':
@@ -110,7 +123,7 @@ $OpenBSD: shmpatch-screen_c,v 1.1 2003/11/22 00:56:58 espie Exp $
  	      break;
  	    case 'a':
  	      sprintf(p, tm->tm_hour >= 12 ? "pm" : "am");
-@@ -3174,3 +3227,53 @@ char *p;
+@@ -3174,3 +3230,61 @@ char *p;
    return 0;
  }
  
@@ -119,7 +132,7 @@ $OpenBSD: shmpatch-screen_c,v 1.1 2003/11/22 00:56:58 espie Exp $
 +#if defined(ENCODINGS) && defined(UTF8) && defined(POSIX)
 +static const char sfe_qs[] = "\030\032\r\xE2\x82\xAC.\033[6n";
 +__RCSID("$miros: src/usr.sbin/wsconfig/wsconfig.c,v 1.12 2007/03/04 20:00:51 tg Exp $");
-+__RCSID("$MirOS: ports/misc/screen/patches/patch-screen_c,v 1.8 2007/03/04 20:00:50 tg Exp $");
++__RCSID("$MirOS: ports/misc/screen/patches/patch-screen_c,v 1.9 2007/03/04 21:36:11 tg Exp $");
 +
 +int
 +scan_for_encoding(fd)
@@ -128,6 +141,8 @@ $OpenBSD: shmpatch-screen_c,v 1.1 2003/11/22 00:56:58 espie Exp $
 +	struct termios tio, otio;
 +	char sbuf[64];
 +	int i, j = -1;
++	fd_set fds;
++	struct timeval tv;
 +
 +	if (tcgetattr(fd, &otio))
 +		return (-1);
@@ -137,8 +152,13 @@ $OpenBSD: shmpatch-screen_c,v 1.1 2003/11/22 00:56:58 espie Exp $
 +	if (tcsetattr(fd, TCSANOW, &tio))
 +		goto out;
 +	if ((size_t)write(fd, sfe_qs, strlen(sfe_qs)) != strlen(sfe_qs))
-+		goto out;
-+	sleep1000(250 /* ms */);
++		goto noin;
++	FD_ZERO(&fds);
++	FD_SET(fd, &fds);
++	tv.tv_sec = 2;
++	tv.tv_usec = 0;
++	if (select(fd + 1, &fds, NULL, NULL, &tv) <= 0)
++		goto noin;
 +	i = read(fd, sbuf, sizeof (sbuf));
 +	if (i > 5 && sbuf[0] == 033 && sbuf[1] == '[') {
 +		j = 2;
@@ -157,6 +177,7 @@ $OpenBSD: shmpatch-screen_c,v 1.1 2003/11/22 00:56:58 espie Exp $
 +		else
 +			j = -1;
 +	}
++ noin:
 +	write(fd, "\r      \r", 8);
 + out:
 +	tcflush(fd, TCIOFLUSH);

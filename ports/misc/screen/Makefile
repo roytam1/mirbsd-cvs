@@ -1,11 +1,11 @@
-# $MirOS: ports/misc/screen/Makefile,v 1.15 2007/03/02 05:20:05 tg Exp $
+# $MirOS: ports/misc/screen/Makefile,v 1.16 2007/03/04 20:00:50 tg Exp $
 # $OpenBSD: Makefile,v 1.52 2004/01/17 05:34:28 brad Exp $
 
 NOT_FOR_PLATFORM=	Interix:*:*
 
 COMMENT=		multi-screen window manager
 VERSION=		4.0.3
-DASH_VER=		5
+DASH_VER=		6
 DISTNAME=		screen-${VERSION}
 CATEGORIES=		misc
 MASTER_SITES=		ftp://ftp.uni-erlangen.de/pub/utilities/screen/
@@ -23,6 +23,7 @@ AUTOCONF_NEW=		Yes
 CONFIGURE_ARGS+=	--enable-colors256 \
 			--enable-rxvt_osc
 CONFIGURE_ARGS+=	--with-sys-screenrc=${SYSCONFDIR:Q}/screenrc
+EXTRA_MAKE_FLAGS+=	BRANDING=-D'PORT_VERSION=\"-${DASH_VER}\"'
 
 FLAVORS=		static shm
 FLAVOR?=

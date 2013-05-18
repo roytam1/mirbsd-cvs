@@ -1,0 +1,13 @@
+$MirOS$
+--- Makefile.in.orig	Sun Mar  4 22:10:40 2007
++++ Makefile.in	Sun Mar  4 22:13:25 2007
+@@ -70,6 +70,9 @@ screen: $(OFILES)
+ .c.o:
+ 	$(CC) -c -I. -I$(srcdir) $(M_CFLAGS) $(DEFS) $(OPTIONS) $(CFLAGS) $<
+ 
++screen.o: screen.c
++	$(CC) -c -I. -I$(srcdir) $(M_CFLAGS) $(DEFS) $(OPTIONS) $(CFLAGS) $< $(BRANDING)
++
+ install_bin: .version screen
+ 	-if [ -f $(DESTDIR)$(bindir)/$(SCREEN) ] && [ ! -f $(DESTDIR)$(bindir)/$(SCREEN).old ]; \
+ 		then mv $(DESTDIR)$(bindir)/$(SCREEN) $(DESTDIR)$(bindir)/$(SCREEN).old; fi
