@@ -1,4 +1,4 @@
-/* $MirOS: src/kern/include/libckern.h,v 1.12 2008/08/03 00:21:26 tg Exp $ */
+/* $MirOS: src/kern/include/libckern.h,v 1.13 2008/08/03 21:02:02 tg Exp $ */
 
 /*-
  * Copyright (c) 2008
@@ -35,14 +35,6 @@
 #endif
 #endif
 
-#if !defined(_WCHAR_H_)
-typedef __WCHAR_TYPE__	wchar_t;
-typedef __WINT_TYPE__	wint_t;
-typedef struct {
-	unsigned int count:2;
-	unsigned int value:12;	/* 10 for mbstowcs, 12 for wcstombs */
-} __attribute__((packed)) mbstate_t;
-
 #ifndef __IN_MKDEP
 /* makedepend may not define the constants we are checking for */
 #if __WCHAR_MAX__ != 65535U
@@ -53,16 +45,34 @@ typedef struct {
 #endif
 #endif /* !__IN_MKDEP */
 
+#if !defined(_GCC_WCHAR_T) && !defined(__cplusplus)
+#define _GCC_WCHAR_T
+typedef __WCHAR_TYPE__ wchar_t;
+#endif
+
+#if !defined(_GCC_WINT_T)
+#define _GCC_WINT_T
+typedef __WINT_TYPE__ wint_t;
+#endif
+
+#if !defined(_GCC_MBSTATE_T)
+#define _GCC_MBSTATE_T
+typedef struct {
+	unsigned int count:2;
+	unsigned int value:12;
+} __attribute__((packed)) mbstate_t;
+#endif
+
 #undef WCHAR_MIN
 #define WCHAR_MIN	0
 #undef WCHAR_MAX
 #define WCHAR_MAX	0xFFFDU
 #undef WEOF
 #define WEOF		0xFFFFU
+
 #ifndef EOF
 #define EOF		(-1)
 #endif
-#endif /* !_WCHAR_H_ */
 
 __BEGIN_DECLS
 void __main(void);

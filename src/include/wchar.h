@@ -1,4 +1,4 @@
-/* $MirOS: src/include/wchar.h,v 1.23 2008/08/16 22:27:10 tg Exp $ */
+/* $MirOS: src/include/wchar.h,v 1.24 2008/08/17 00:19:07 tg Exp $ */
 
 /*-
  * Copyright (c) 2007, 2008
@@ -33,18 +33,6 @@
 #include <stdio.h>
 #include <time.h>
 
-#ifndef __LIBCKERN_H_
-
-#if !defined(_GCC_WCHAR_T) && !defined(__cplusplus)
-#define	_GCC_WCHAR_T
-typedef	__WCHAR_TYPE__	wchar_t;
-#endif
-
-#if !defined(_GCC_WINT_T)
-#define	_GCC_WINT_T
-typedef	__WINT_TYPE__	wint_t;
-#endif
-
 #ifndef __IN_MKDEP
 /* makedepend may not define the constants we are checking for */
 #if __WCHAR_MAX__ != 65535U
@@ -55,6 +43,18 @@ typedef	__WINT_TYPE__	wint_t;
 #endif
 #endif /* !__IN_MKDEP */
 
+#if !defined(_GCC_WCHAR_T) && !defined(__cplusplus)
+#define _GCC_WCHAR_T
+typedef __WCHAR_TYPE__ wchar_t;
+#endif
+
+#if !defined(_GCC_WINT_T)
+#define _GCC_WINT_T
+typedef __WINT_TYPE__ wint_t;
+#endif
+
+#if !defined(_GCC_MBSTATE_T)
+#define _GCC_MBSTATE_T
 typedef struct {
 	/*-
 	 * 0: initial state
@@ -71,15 +71,14 @@ typedef struct {
 	 */
 	unsigned int value:12;
 } __attribute__((packed)) mbstate_t;
+#endif
 
 #undef WCHAR_MIN
-#define	WCHAR_MIN		0
+#define WCHAR_MIN	0
 #undef WCHAR_MAX
-#define	WCHAR_MAX		0xFFFDU
+#define WCHAR_MAX	0xFFFDU
 #undef WEOF
-#define	WEOF			0xFFFFU
-
-#endif /* !__LIBCKERN_H_ */
+#define WEOF		0xFFFFU
 
 typedef unsigned int wctype_t;
 
