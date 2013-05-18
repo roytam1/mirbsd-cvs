@@ -1,8 +1,8 @@
 #!/bin/mksh
-# $MirOS: src/libexec/randshuffle/randshuffle,v 1.5 2006/01/13 03:06:15 tg Exp $
+# $MirOS: src/share/misc/licence.template,v 1.8 2006/06/16 23:03:39 tg Rel $
 #-
-# Copyright (c) 2003, 2004, 2005, 2006
-#	Thorsten "mirabile" Glaser <tg@mirbsd.de>
+# Copyright (c) 2006
+#	Thorsten Glaser <tg@mirbsd.de>
 #
 # Licensee is hereby permitted to deal in this work without restric-
 # tion, including unlimited rights to use, publicly perform, modify,
@@ -23,62 +23,18 @@
 # direct error of said person and intended use of this work, loss or
 # other issues arising in any way out of its use, even if advised of
 # the possibility of such damage or existence of a nontrivial bug.
-#-
-# re-seed the random seed state file (batched)
-
-exec 2>&1
 
 export PATH=/bin:/usr/bin:/sbin:/usr/sbin
 
-R=$(mktemp /tmp/.randshuffle.XXXXXXXXXX) || exit 1
-S=$(mktemp /tmp/.randshuffle.XXXXXXXXXX) || { rm -f $R; exit 1; }
-trap 'rm -f $R $S; exit 0' 0
-trap 'rm -f $R $S; trap - EXIT; exit 1' 1 2 3 13 15
-
-dd if=/dev/prandom of=$R bs=160 count=1 >/dev/null 2>&1 || exit 1
-dd if=/dev/arandom of=$S bs=160 count=16 >/dev/null 2>&1 || exit 1
-SUMS="$(date) $(rmd160 $R $S) $RANDOM $((ps ax|wc -l) 2>&1) $PPID $SECONDS $$"
-RANDOM=$(print -r -- "$SUMS" | cksum -o 1 | while read a b; do
-	print $a
-	print $b | cksum -b -a suma >>$R 2>/dev/null
-    done)
-cat $S >>$R
-sync
-dd if=/dev/prandom of=$S bs=160 count=1 >/dev/null 2>&1 || exit 1
-cat $S >>$R
-dd if=/dev/urandom of=$S bs=160 count=27 >/dev/null 2>&1 || exit 1
-cat $S >>$R
-SUMS="$SUMS $RANDOM"
-cat /var/db/host.random >/dev/arandom
-SUMS="$SUMS $RANDOM $(mksh -c 'echo $RANDOM')"
-dd if=/dev/arandom of=$S bs=160 count=1 >/dev/null 2>&1 || {
-	cat $R >/dev/arandom
-	exit 1
-}
-cat $S >>$R
-sync
-dd if=/dev/urandom of=$S bs=160 count=56 >/dev/null 2>&1 || {
-	cat $R >/dev/arandom
-	exit 1
-}
-SUMS="$(md5 $R $S /var/db/host.random) $RANDOM $SUMS $(mksh -c 'echo $RANDOM')"
-print $RANDOM | cksum -b -a suma >/var/db/host.random 2>/dev/null
-cat $R $S >>/var/db/host.random
-SUMS="$SUMS $RANDOM"
-dd if=/dev/prandom of=$R bs=160 count=1 >/dev/null 2>&1 || {
-	print -r -- "$SUMS" >/dev/arandom
-	exit 2
-}
-sync
-SUMS="$SUMS $RANDOM"
-dd if=/dev/urandom of=$S bs=160 count=1 >/dev/null 2>&1 || {
-	print -r -- "$SUMS" >>$R
-	cat $R >/dev/arandom
-	exit 2
-}
-cat $R >>$S
-print -r -- "$SECONDS $KSH_VERSION $SUMS $RANDOM $(date)" >$R
-# insert here additional >>$R 2>&1, e.g. ftp(1) calls
-TZ=UTC date | cat $R - | cksum -b -a sha512 | cat - $S >/dev/arandom
+( date; echo $RANDOM $PPID $SECONDS $TMOUT $$ $KSH_VERSION; ps ax ) 2>&1 | \
+    cksum -ba sha512 >/dev/prandom
+cat /var/db/host.random >/dev/urandom 2>&1
+rm -f /var/db/host.random
+umask 077
+( dd if=/dev/prandom count=1; dd if=/dev/arandom count=4; dd if=/dev/urandom \
+    count=3 ) >/var/db/host.random 2>/dev/prandom
+chown 0:0 /var/db/host.random
+chmod 0600 /var/db/host.random
 print "notice: system random seed rotated! $((RANDOM & 255))" | logger
-print -n $RANDOM >/dev/prandom
+( TZ=UTC date; print $RANDOM $SECONDS ) 2>&1 | cksum -ba suma >/dev/prandom
+exit 0
