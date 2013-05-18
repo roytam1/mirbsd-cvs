@@ -1,12 +1,13 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.4 2003/10/26 23:49:37 naddy Exp $
 
-BROKEN=			"security issues"
+BROKEN=			security issues
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 
 COMMENT=			Darwin Streaming Server
 COMMENT-admin=			Darwin Streaming Server, Admin Interface
-COMMENT-examples=			Darwin Streaming Server, Example Movies
+COMMENT-examples=		Darwin Streaming Server, Example Movies
 COMMENT-proxy=			Darwin Streaming Proxy
 
 VERSION=	4.1.3

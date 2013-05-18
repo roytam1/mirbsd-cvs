@@ -1,10 +1,11 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.15 2004/03/03 18:17:13 brad Exp $
 
 .if ${MACHINE_ARCH} == "powerpc"
-BROKEN=		"config file parser bug on ${MACHINE_ARCH}"
+BROKEN=		config file parser bug on ${MACHINE_ARCH}
 .endif
 
-COMMENT=			Secure Internet Live Conferencing (SILC) server
+COMMENT=	Secure Internet Live Conferencing (SILC) server
 
 DISTNAME=	silc-server-0.9.18
 CATEGORIES=	net

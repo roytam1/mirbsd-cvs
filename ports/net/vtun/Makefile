@@ -1,8 +1,9 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.27 2003/09/30 15:10:53 naddy Exp $
 
-BROKEN=		"insecure due to protocol flaws"
+BROKEN=		insecure due to protocol flaws
 
-COMMENT=			virtual tunnels over TCP/IP networks with traffic shaping
+COMMENT=	virtual tunnels over TCP/IP networks with traffic shaping
 
 DISTNAME=	vtun-2.6
 CATEGORIES=	net
