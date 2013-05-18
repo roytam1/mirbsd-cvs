@@ -3,7 +3,7 @@
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.228 2009/05/16 17:48:31 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.229 2009/05/16 18:42:37 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R37c</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -242,7 +242,7 @@ mws_content <<'EOF'
  56/24), e.g. if the system supports few (mksh R37c and up)</li>
 <li><tt>-DMKSH_MIDNIGHTBSD01ASH_COMPAT</tt> – parse “--” on the shell command
  line like MidnightBSD 0.1 <tt>/bin/sh</tt> but different from all other
- shells (mksh R38 and up)</li>
+ shells; <em>requires</em> <tt>-DMKSH_BINSHREDUCED</tt> (mksh R38 and up)</li>
 <li><tt>-DMKSH_NOPWNAM</tt> – if MKSH_SMALL is not set, still omit getpwnam(3)
  calls in order to not pull in the nsswitch or PAM libraries</li>
 <li><tt>-DMKSH_NOVI</tt> – if this or MKSH_SMALL is set, the vi command line
@@ -1010,7 +1010,8 @@ mws_content <<'EOF'
  <li>[tg] Improve regression tests relating to <tt>${foo:1:2}</tt> and
   <tt>${#foo}</tt> and <tt>let wc=1#x</tt> and utf8-mode</li>
  <li>[tg] Use per-file copyright notices, move global text to manpage</li>
- <li>[tg] Expose new MKSH_MIDNIGHTBSD01ASH_COMPAT ifdef</li>
+ <li>[tg] Expose new MKSH_MIDNIGHTBSD01ASH_COMPAT ifdef; change it to
+  only trigger if FPOSIX (or MKSH_BINSHREDUCED and <tt>/bin/sh</tt>)</li>
  <li>[tg] Remove already-dead “#if 0” style debugging code</li>
 </ul>
 <p id="r37c">mksh R37c provides these follow-up fixes:</p><ul>
