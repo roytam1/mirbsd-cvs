@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.sbin/sendmail/cf/cf/Makefile,v 1.3 2005/05/05 00:41:03 tg Exp $
+# $MirOS: src/gnu/usr.sbin/sendmail/cf/cf/Makefile,v 1.4 2006/03/23 13:20:21 tg Exp $
 # $OpenBSD: Makefile,v 1.22 2006/03/22 18:43:53 millert Exp $
 #
 #  Makefile for configuration files.
@@ -225,5 +225,7 @@ M4FILES=\
 	${CFDIR}/ostype/uxpds.m4
 
 $(ALL): $(M4FILES)
+
+.PHONY: regen-databases
 
 .include <bsd.prog.mk>
