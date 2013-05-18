@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/conf/FLOPPY,v 1.15 2006/07/06 13:33:16 tg Exp $
+# $MirOS: src/sys/arch/i386/conf/RAMDISK,v 1.1 2006/07/24 01:11:27 tg Exp $
 # _MirOS: src/sys/arch/i386/conf/GENERIC,v 1.29 2006/07/06 13:32:07 tg Exp $
 
 machine		i386			# arch, used by config; REQUIRED
@@ -130,7 +130,7 @@ option		DUMMY_NOPS		# speed hack; recommended
 option		PLIP			# Ethernet over parallel port
 #option		NTFS			# NT file system (experimental)
 
-config		bsd	swap generic
+config		bsd	root on rd0a
 
 mainbus0 at root
 
