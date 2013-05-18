@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.20 2006/12/11 21:04:56 tg Rel $ */
+/* $MirOS: src/lib/libc/i18n/wcsrtombs.c,v 1.6 2007/02/02 21:06:22 tg Exp $ */
 
 /*-
  * Copyright (c) 2006, 2007
@@ -27,7 +27,7 @@
 #include <errno.h>
 #include <wchar.h>
 
-__RCSID("$MirOS: src/lib/libc/i18n/wcsrtombs.c,v 1.5 2007/02/02 19:28:34 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/wcsrtombs.c,v 1.6 2007/02/02 21:06:22 tg Exp $");
 
 #ifdef WCSNRTOMBS
 size_t
@@ -42,7 +42,7 @@ wcsrtombs(char *__restrict__ dst, const wchar_t **__restrict__ src,
 	static mbstate_t internal_mbstate = { 0, 0 };	/* if ps == NULL */
 	const wchar_t *s = *src;
 	unsigned char *d = (unsigned char *)dst;
-	wint_t wc;
+	wint_t wc /* shut up gcc */ = 0;
 	uint8_t count;
 
 	/* make sure we can at least write one output byte */

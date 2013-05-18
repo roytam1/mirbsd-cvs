@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.20 2006/12/11 21:04:56 tg Rel $ */
+/* $MirOS: src/lib/libc/i18n/mbsrtowcs.c,v 1.9 2007/02/02 21:06:21 tg Exp $ */
 
 /*-
  * Copyright (c) 2006, 2007
@@ -27,7 +27,7 @@
 #include <errno.h>
 #include <wchar.h>
 
-__RCSID("$MirOS: src/lib/libc/i18n/mbsrtowcs.c,v 1.8 2007/02/02 19:28:33 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/mbsrtowcs.c,v 1.9 2007/02/02 21:06:21 tg Exp $");
 
 #ifdef MBSNRTOWCS
 size_t
@@ -42,7 +42,7 @@ mbsrtowcs(wchar_t *__restrict__ dst, const char **__restrict__ src,
 	static mbstate_t internal_mbstate = { 0, 0 };
 	const unsigned char *s = (const unsigned char *)(*src);
 	wchar_t *d = dst;
-	wint_t c, wc;
+	wint_t c, wc /* shut up gcc */ = 0;
 	uint8_t count;
 
 	/* make sure we can at least write one output wide character */
