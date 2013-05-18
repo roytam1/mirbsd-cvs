@@ -3,6 +3,7 @@
 COMMENT=	"command-line MPEG audio decoder and player"
 
 DISTNAME=	madplay-0.15.1b
+PKGNAME=	${DISTNAME}-1
 CATEGORIES=	audio
 HOMEPAGE=	http://mad.sourceforge.net/
 
@@ -17,7 +18,7 @@ MASTER_SITES=	ftp://ftp.mars.org/pub/mpeg/ \
 		${MASTER_SITE_SOURCEFORGE:=mad/}
 
 MODULES=	devel/gettext
-LIB_DEPENDS=	id3tag.3::audio/libid3tag mad.2::audio/libmad
+LIB_DEPENDS=	id3tag::audio/libid3tag mad::audio/libmad
 
 FLAVORS=	esd
 FLAVOR?=

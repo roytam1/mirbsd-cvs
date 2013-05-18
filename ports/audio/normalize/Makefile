@@ -1,8 +1,10 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.7 2004/01/27 20:19:13 sturm Exp $
 
 COMMENT=	"audio file volume normalizer"
 
 DISTNAME=	normalize-0.7.4
+PKGNAME=	${DISTNAME}-1
 CATEGORIES=	audio
 MASTER_SITES=	http://www.cs.columbia.edu/~cvaill/normalize/
 
@@ -28,7 +30,7 @@ CONFIGURE_ARGS=	--disable-xmms \
 		--with-mad \
 		--with-audiofile
 
-LIB_DEPENDS=	mad.2::audio/libmad \
+LIB_DEPENDS=	mad::audio/libmad \
 		audiofile::devel/libaudiofile
 
 .include <bsd.port.mk>
