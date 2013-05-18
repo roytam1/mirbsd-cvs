@@ -9787,6 +9787,19 @@ expected-stdout:
 	ia baz : .
 	oa baz .
 ---
+name: funsub-2
+description:
+	You can now reliably use local and return in funsubs
+	(not exit though)
+stdin:
+	x=q; e=1; x=${ echo a; e=2; echo x$e;}; echo 1:y$x,$e,$?.
+	x=q; e=1; x=${ echo a; typeset e=2; echo x$e;}; echo 2:y$x,$e,$?.
+	x=q; e=1; x=${ echo a; typeset e=2; return 3; echo x$e;}; echo 3:y$x,$e,$?.
+expected-stdout:
+	1:ya x2,2,0.
+	2:ya x2,1,0.
+	3:ya,1,3.
+---
 name: test-stnze-1
 description:
 	Check that the short form [ $x ] works
