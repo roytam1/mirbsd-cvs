@@ -1,13 +1,11 @@
-# $MirOS: ports/x11/windowmaker/Makefile,v 1.5 2006/02/09 11:15:55 tg Exp $
+# $MirOS: ports/x11/windowmaker/Makefile,v 1.6 2006/02/09 12:25:14 tg Exp $
 # $OpenBSD: Makefile,v 1.57 2003/08/16 19:06:07 tedu Exp $
-
-BROKEN=			error: 'FC_WIDTH' undeclared (first use in this function)
 
 COMMENT=		'window manager that emulates NEXTSTEP(tm)'
 COMMENT-lang=		"language subpackage for Window Maker"
 
-V=			0.91.0
-PL=			1
+V=			0.92.0
+PL=			0
 DISTNAME=		WindowMaker-${V}
 PKGNAME=		${DISTNAME:L}-${PL}
 CATEGORIES=		x11 x11/windowmaker
