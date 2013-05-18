@@ -12,9 +12,11 @@ else
 fi
 
 PS1='# '
-USER_ID=
-[ -x /usr/bin/id ] && USER_ID=$(ulimit -c 0; /usr/bin/id -u 2>/dev/null)
-: ${USER_ID:=0}
+test -n "$USER_ID" || if test -x /usr/bin/id; then
+	USER_ID=$(ulimit -c 0; /usr/bin/id -u 2>/dev/null)
+else
+	USER_ID=0
+fi
 if [ -z "$USER" ]; then
 	PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/dbin:/usr/dsbin:/usr/local/bin:/usr/mpkg/bin
 	PS1='SINGLE:$PWD # '
@@ -97,4 +99,4 @@ if [ -O /var/run/ssh-agent/$USER_ID ]; then
 	unset _dir
 fi
 
-: $MirOS: src/etc/profile,v 1.56 2008/05/07 12:16:12 tg Exp $
+: $MirOS: src/etc/profile,v 1.57 2008/05/13 01:15:07 tg Exp $
