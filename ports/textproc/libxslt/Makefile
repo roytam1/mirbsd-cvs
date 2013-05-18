@@ -1,15 +1,15 @@
-# $MirOS: ports/textproc/libxslt/Makefile,v 1.2 2005/12/28 00:56:18 bsiegert Exp $
+# $MirOS: ports/textproc/libxslt/Makefile,v 1.3 2006/09/14 00:14:09 tg Exp $
 # $OpenBSD: Makefile,v 1.34 2004/04/08 06:32:43 marcm Exp $
 
-COMMENT=			XSLT C Library for GNOME
+COMMENT=		XSLT C Library for GNOME
 
-DISTNAME=		libxslt-1.1.15
+DISTNAME=		libxslt-1.1.20
 CATEGORIES=		textproc
 
 HOMEPAGE=		http://xmlsoft.org/XSLT/
 
-MASTER_SITES=		ftp://xmlsoft.org/ \
-			${MASTER_SITE_GNOME:=sources/libxslt/1.0/}
+MASTER_SITES=		ftp://xmlsoft.org/libxml2/ \
+			${MASTER_SITE_GNOME:=sources/libxslt/1.1/}
 
 # BSD-like
 PERMIT_PACKAGE_CDROM=	Yes
@@ -25,7 +25,11 @@ USE_GMAKE=		Yes
 CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		Yes
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
+CONFIGURE_ARGS+=	--enable-static
 CONFIGURE_ARGS+=	--with-libxml-include-prefix='${LOCALBASE}/include/'
 CONFIGURE_ARGS+=	--without-python
+CONFIGURE_ARGS+=	--disable-dependency-tracking
+CONFIGURE_ARGS+=	--disable-libtool-lock
+
 
 .include <bsd.port.mk>
