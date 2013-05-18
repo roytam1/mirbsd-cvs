@@ -181,6 +181,9 @@ length bytes (of course only the lower/first three are used), and
 after that, the contents of the “inner filesystem”. That's it. No
 version information, and this is by design.
 
+Note: as of March 2007, dumps and a little bit of random seed are
+packed together in a .tar.gz file as dump format to save space.
+
 
 2.6. Operation of ‘fwcf restore’ (NEW IN 1.03)
 ―――――――――――――――――――――――――――――――― ┄┄┄┄┄┄┄┄┄┄┄┄┄
@@ -397,4 +400,4 @@ They are provided as hint only and not part of the specifi-
 cation itself. They may change without notice.
 
 ⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼
-$MirOS: contrib/hosted/fwcf/fwcf.txt,v 1.30 2007/02/28 21:17:00 tg Exp $
+$MirOS: contrib/hosted/fwcf/fwcf.txt,v 1.31 2007/02/28 23:17:34 tg Exp $

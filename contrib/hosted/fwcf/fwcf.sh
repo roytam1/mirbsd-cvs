@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: contrib/hosted/fwcf/fwcf.sh,v 1.23 2007/03/02 05:31:34 tg Exp $
+# $MirOS: contrib/hosted/fwcf/fwcf.sh,v 1.24 2007/03/02 05:35:47 tg Exp $
 #-
 # Copyright (c) 2006, 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -36,6 +36,7 @@
 # 10 - fwcf dump: failed
 # 11 - fwcf commit: fwcf setup not yet run (use -f to force)
 # 11 - fwcf status: fwcf setup not yet run
+# 12 - fwcf restore: cannot read the backup
 # 255 - fwcf erase: failed
 # 255 - internal error
 
@@ -259,7 +260,18 @@ fi
 if test $1 = dump; then
 	fn=$2
 	test -n "$fn" || fn=-
-	cat "$part" | fwcf.helper -UD $fn || exit 10
+	rm -rf /tmp/.fwcf.dump
+	mkdir -m 0700 /tmp/.fwcf.dump
+	cd /tmp/.fwcf.dump
+	if ! cat "$part" | fwcf.helper -UD dump; then
+		cd /
+		rm -rf /tmp/.fwcf.dump
+		exit 10
+	fi
+	dd if=/dev/urandom of=seed bs=256 count=1 >/dev/null 2>&1
+	tar -czf "$fn" dump seed
+	cd /
+	rm -rf /tmp/.fwcf.dump
 	case $fn in
 	-)	echo "fwcf: dump to standard output complete." >&2
 		;;
@@ -279,10 +291,27 @@ if test $1 = restore; then
 	fi
 	fn=$2
 	test -n "$fn" || fn=-
-	if ! ( fwcf.helper -MD $fn | mtd -F write - fwcf ); then
+	rm -rf /tmp/.fwcf.restore
+	mkdir -m 0700 /tmp/.fwcf.restore
+	cd /tmp/.fwcf.restore
+	if ! tar -xzf "$fn"; then
+		cd /
+		rm -rf /tmp/.fwcf.restore
+		exit 12
+	fi
+	dd if=seed of=/dev/urandom bs=256 count=1 >/dev/null 2>&1
+	if test ! -e dump; then
+		echo 'fwcf: error: invalid backup' >&2
+		cd /
+		rm -rf /tmp/.fwcf.restore
+		exit 12
+	fi
+	if ! ( fwcf.helper -MD dump | mtd -F write - fwcf ); then
 		echo 'fwcf: error: cannot write to mtd!' >&2
 		exit 6
 	fi
+	cd /
+	rm -rf /tmp/.fwcf.restore
 	case $fn in
 	-)	echo "fwcf: restore from standard output complete." >&2
 		;;
