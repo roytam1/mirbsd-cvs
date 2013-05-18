@@ -14,7 +14,7 @@
 
 @SET_MAKE@
 
-# $MirOS: src/gnu/usr.bin/cvs/src/Makefile.am,v 1.7 2011/12/04 14:15:05 tg Exp $
+# $MirOS: src/gnu/usr.bin/cvs/src/Makefile.am,v 1.8 2011/12/04 22:50:41 tg Exp $
 # Makefile for GNU CVS program.
 #
 # Copyright (C) 1986-2005 The Free Software Foundation, Inc.
@@ -128,15 +128,15 @@ am_cvs_OBJECTS = add.$(OBJEXT) admin.$(OBJEXT) annotate.$(OBJEXT) \
 	import.$(OBJEXT) lock.$(OBJEXT) log.$(OBJEXT) \
 	log-buffer.$(OBJEXT) login.$(OBJEXT) logmsg.$(OBJEXT) \
 	ls.$(OBJEXT) main.$(OBJEXT) mkmodules.$(OBJEXT) \
-	modules.$(OBJEXT) ms-buffer.$(OBJEXT) no_diff.$(OBJEXT) \
-	parseinfo.$(OBJEXT) patch.$(OBJEXT) rcs.$(OBJEXT) \
-	rcscmds.$(OBJEXT) recurse.$(OBJEXT) release.$(OBJEXT) \
-	remove.$(OBJEXT) repos.$(OBJEXT) root.$(OBJEXT) \
-	rsh-client.$(OBJEXT) run.$(OBJEXT) scramble.$(OBJEXT) \
-	server.$(OBJEXT) stack.$(OBJEXT) status.$(OBJEXT) \
-	subr.$(OBJEXT) suck.$(OBJEXT) tag.$(OBJEXT) update.$(OBJEXT) \
-	version.$(OBJEXT) vers_ts.$(OBJEXT) watch.$(OBJEXT) \
-	wrapper.$(OBJEXT) zlib.$(OBJEXT)
+	modules.$(OBJEXT) ms-buffer.$(OBJEXT) myndbm.$(OBJEXT) \
+	no_diff.$(OBJEXT) parseinfo.$(OBJEXT) patch.$(OBJEXT) \
+	rcs.$(OBJEXT) rcscmds.$(OBJEXT) recurse.$(OBJEXT) \
+	release.$(OBJEXT) remove.$(OBJEXT) repos.$(OBJEXT) \
+	root.$(OBJEXT) rsh-client.$(OBJEXT) run.$(OBJEXT) \
+	scramble.$(OBJEXT) server.$(OBJEXT) stack.$(OBJEXT) \
+	status.$(OBJEXT) subr.$(OBJEXT) suck.$(OBJEXT) tag.$(OBJEXT) \
+	update.$(OBJEXT) version.$(OBJEXT) vers_ts.$(OBJEXT) \
+	watch.$(OBJEXT) wrapper.$(OBJEXT) zlib.$(OBJEXT)
 cvs_OBJECTS = $(am_cvs_OBJECTS)
 am__DEPENDENCIES_1 =
 DEFAULT_INCLUDES = -I. -I$(srcdir) -I$(top_builddir)
@@ -302,6 +302,7 @@ cvs_SOURCES = \
 	mkmodules.c \
 	modules.c \
 	ms-buffer.c ms-buffer.h \
+	myndbm.c \
 	no_diff.c \
 	parseinfo.c parseinfo.h \
 	patch.c \
@@ -335,6 +336,7 @@ cvs_SOURCES = \
 	hardlink.h \
 	hash.h \
 	history.h \
+	myndbm.h \
 	rcs.h \
 	root.h \
 	server.h \
