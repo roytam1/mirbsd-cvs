@@ -2,7 +2,7 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.207 2009/02/25 17:43:58 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.208 2009/03/15 19:09:58 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R36b</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -69,7 +69,8 @@ mws_content <<'EOF'
  exactly does it do, or why another shell? These questions will be answered
  <a href="#contrib">below</a> for the people interested. Right now, you only
  need to know that mksh is a <a href="http://www.debian.org/social_contract#guidelines">DFSG</a>-free
- and <a href="http://www.opensource.org/docs/osd">OSD</a>-compliant
+ and <a href="http://www.opensource.org/docs/osd">OSD</a>-compliant (and OSI
+ approved)
  successor to pdksh, developed as part of <a href="http://mirbsd.de/">the
  MirOS Project</a> as native bourne/POSIX/korn shell for MirOS BSD, but also
  to be readily available under other UNIX®-like operating systems.</p>
@@ -83,12 +84,13 @@ mws_content <<'EOF'
  notices are not removed in their entirety; modifying is allowed (but if
  the result is still called mksh, it’s discouraged; talk with us if you
  feel you have to modify mksh). The individual licences used are the MirOS
- licence, 2-clause and 3-clause UCB licences and the ISC licence; <a
+ licence, and (for BSD compatibility on other oerating systems) the 3-clause
+ UCB licence and the ISC licence; <a
  href="/cvs.cgi/src/bin/mksh/copyright?rev=HEAD">full terms</a> are
  available via CVSweb. pdksh originally was public domain, with a few
  exceptions, but these files are not part of mksh R21 or up. The mksh(1) author
  (mirabilos) acknowledges the contributions of these people who dedicated pdksh
- to the public, and asserts a collective copyright on the code.
+ and oksh to the public, and asserts a collective copyright on the code.
  All these licences are DFSG clean and conform to the OSD, and the MirOS
  Licence is listed on the pages of the ifrOSS licence centre as well as
  in the FSF/UNESCO Directory of Free Software. The MirBSD Korn Shell is <a
@@ -197,6 +199,7 @@ mws_content <<'EOF'
  dash), or a super-set (GNU bash) to work; the Z Shell sometimes works as
  well, but the ULTRIX <tt>/bin/sh</tt> or the C shell (csh, tcsh) or “bsh”
  or a scripting shell like the wish won’t. Accepted arguments are:</p><ul>
+<li><tt>-combine</tt> – all-in-one build (gcc4, mksh R37 and up)</li>
 <li><tt>-j</tt> – parallel build (mksh R31d and up)</li>
 <li><tt>-llvm[=…]</tt> – compile to bytecode; option arguments (or, if none
  given, ‘-std-compile-opts’) are passed to LLVM opt (mksh R36b and up)</li>
@@ -234,7 +237,8 @@ mws_content <<'EOF'
  editing mode (which is orphaned anyway, yet functional) is omitted</li>
 <li><tt>-DMKSH_CLS_STRING</tt> – the string to send to the terminal to clear
  the window (default: <tt>"\033[;H\033[J"</tt>)</li>
-<li><tt>-DMKSH_AFREE_DEBUG</tt> – run with extra alloc/free checking</li>
+<li><tt>-DMKSH_AFREE_DEBUG</tt> – run with extra alloc/free checking
+ (mksh R36b and below)</li>
 <li><tt>-DMKSH_BINSHREDUCED</tt> – include code to automatically “set -o
  posix” to reduce functionality if called as <tt>sh</tt> or <tt>-sh</tt></li>
 </ul>
@@ -541,6 +545,8 @@ mws_content <<'EOF'
  operating environment requires). The manual page requires the Berkeley mdoc
  macros (either the BSD or the GNU groff version) to be installed during
  formatting time.</p>
+<p>Note that a <tt>~/.mkshrc</tt> file will <em>not</em> be executed if
+ <tt>$ENV</tt> is set and not empty, nor is there an <tt>/etc/mkshrc</tt>.</p>
 
 <h2 id="upgrade">For packagers: Upgrades</h2>
 <p>At <a href="http://freshmeat.net/projects/mksh">Freshmeat</a> you can
@@ -550,9 +556,8 @@ mws_content <<'EOF'
  ChangeLog</a>, these are the packager-visible upgrade notes regarding
  changes in the build system (<tt>Build.sh</tt> and friends, compiler
  support, packaging conventions, bad examples, etc).</p>
-<p>mksh R37 has a new ‘-combine’ <tt>Build.sh</tt> option and supports
- additional <tt>CPPFLAGS</tt>: <tt>-DMKSH_UNEMPLOYED</tt> (for Plan 9,
- Minix 3, mostly) and <tt>-DMKSH_VILE</tt> (for the atrocious)</p>
+<p>mksh R37 has a new ‘-combine’ <tt>Build.sh</tt> option. The
+ <tt>-DMKSH_AFREE_DEBUG</tt> flag is gone due to a new allocator.</p>
 <p>mksh R36b stays compatible, no surprises there. The ‘-llvm’ option
  to <tt>Build.sh</tt>, however, is new.</p>
 <p>mksh R36’s <tt>Build.sh</tt> script ‘-q’ option is gone. Furthermore,
@@ -639,7 +644,9 @@ mws_content <<'EOF'
  available for various distributions as well as as SRPM (source RPM).
  The inofficial <em>portable</em> SRPM has been retired; the OBS SRPM
  has been changed to be buildable on Debian and MirBSD as well as include
- the <tt>arc4random.c</tt> sample file.</li>
+ the <tt>arc4random.c</tt> sample file. There are <a
+ href="http://download.opensuse.org/repositories/home:/mirabile/CentOS_5/src/">more
+ downloads</a> available, just browse a little.</li>
 <li><a href="http://finkproject.org/">Fink</a> delivers an <a
  href="http://pdb.finkproject.org/pdb/package.php/mksh">mksh package</a>
  from Andreas “gecko2” Gockel.</li>
@@ -677,7 +684,8 @@ mws_content <<'EOF'
  MidnightBSD 0.2-CURRENT from 18th August 2007 onwards has mksh as both <a
  href="http://cvsweb.midnightbsd.org/src/contrib/mksh/"><tt>/bin/mksh</tt></a>
  and <a href="http://cvsweb.midnightbsd.org/src/bin/mksh/"><tt>/bin/ksh</tt></a>,
- i.e. it is the default MidnightBSD Korn shell.</li>
+ i.e. it is the default MidnightBSD Korn shell. Plans are to make it
+ the default shell as well, according to the founder, laffer1.</li>
 <li><a href="http://www.pkgsrc.org/">NetBSD® pkgsrc®</a> (native also on recent
  DragonFly BSD; available for many other operating systems as well) has a <a
  href="http://cvsweb.netbsd.org/bsdweb.cgi/pkgsrc/shells/mksh/">package</a>
@@ -726,7 +734,8 @@ mws_content <<'EOF'
 <p>mksh is a direct descendant from the OpenBSD <tt>/bin/ksh</tt> and
  contains all of its bug fixes and enhancements <strong>except</strong>
  the “GNU bash-like <tt>$PS1</tt>” and “ulimit can handle multiple
- limits in one invocation” changes. The DeliLinux developer who
+ limits in one invocation” changes. Some of the more weird diffs in
+ oksh have not been merged either. The DeliLinux developer who
  is responsible for packaging oksh for GNU/Linux should instead use mksh
  and port that diff over (be careful to not break the fixes to the command
  line editing modes, these are subtilely broken in OpenBSD). Even better,
@@ -1015,13 +1024,14 @@ mws_content <<'EOF'
 <li>Adding <tt>goto</tt> and <tt>label</tt> keywords/commands</li>
 <li>Adding builtins <tt>fstat</tt>, <tt>lstat</tt>, <tt>traverse</tt>, …</li>
 <li>for a b in …; do (like make(1) does)</li>
-<li>${foo:S/bar/baz/g} ${foo:C/bar/baz/x}</li>
+<li>${foo:S/bar/baz/g} and maybe ${foo:C/bar/baz/x} via regex(3)</li>
 <li>A sensible website</li>
 <li>Build and actually work on more platforms – PW32, Minix 3,
  Plan 9, Syllable – debug these: jobless mode</li>
 <li>Mode for no input line editing at all (required for Plan 9)
  and no Emacs just Vi mode (requested by unknown at FOSDEM 2009 – yuck)</li>
 <li>Real Unicode command line editing code</li>
+<li>Real Unicode internal op, including ${foo:2:3}</li>
 <li>Build with more platforms’ native tools or other compilers
  – ACK, kencc, ICC/UWIN, egcs/UWIN, tcc</li>
 <li>Add the ability to handle embedded NUL bytes in strings read,
@@ -1048,8 +1058,6 @@ mws_content <<'EOF'
   limits in a single invocation from oksh (thanks millert) -->
  <li>[ahoka] Begin porting to <a href="http://www.haiku-os.org/">Haiku</a>
   and, implicitly, BeOS (not finished yet)</li>
- <li>[tg] Prepare code for new memory allocator (unfinished)</li>
- <li>[tg] Use a (nmemb, size) API for allocation to check for overflows</li>
  <li>[tg] Rename <tt>-o utf8-hack</tt> to <tt>-o utf8-mode</tt></li>
  <li>[tg] Fix spacing mode error (pasto) in the mdoc(7) format manpage</li>
  <li>[tg] Document that, currently, shell integer variables are limited
@@ -1076,10 +1084,20 @@ mws_content <<'EOF'
   currently depending on the already-used standard <tt>int32_t</tt>
   and <tt>uint32_t</tt> types. Future expansion to 64 bit possible</li>
  <li>[tg] The variables PGRP, PPID, RANDOM and USER_ID are now unsigned</li>
- <li>[tg] Fix off-by-one breaking PS1 ending with a newline; bug
+ <li>[tg] Fix two off-by-ones breaking PS1 ending with a newline; bug
   reported by Matthias Diener</li>
  <li>[tg] Just pass through C1 control characters for now</li>
  <li>[tg] Code and internal interfaces cleanup</li>
+ <li>[tg] Regression test fixes for Cygwin env(1) being unsorted</li>
+ <li>[tg] Replace the memory allocator by something equally simple
+  and homegrown but optimised for use with mksh and free checking</li>
+ <li>[tg] Import a couple of minor fixes (e.g. spelling) from oksh</li>
+ <li>[tg] Fix problems with "set -e" for real; from oksh</li>
+ <li>[tg] In "set -o posix" mode, have limited echo(1) to improve
+  standards compliance; the exact feature set is open for discussion,
+  e.g. with pkgsrc® people; for now, only <tt>-n</tt> as first arg</li>
+ <li>[tg] Make test builtin operator precedence consistent; from oksh</li>
+ <li>[tg] Revamp and fold and enhance the regression tests</li>
 </ul>
 <p id="r36b">mksh R36b is a compatible, major bug-fix update:</p><ul>
  <li>[tg] Add check for naming the output file “scn” instead of “a.out” or
