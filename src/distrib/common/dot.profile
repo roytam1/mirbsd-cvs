@@ -1,8 +1,8 @@
-# $MirOS: src/distrib/common/dot.profile,v 1.45 2009/01/18 15:44:08 tg Exp $
+# $MirOS: src/distrib/common/dot.profile,v 1.46 2009/01/18 15:52:58 tg Exp $
 # $OpenBSD: dot.profile,v 1.4 2002/09/13 21:38:47 deraadt Exp $
 # $NetBSD: dot.profile,v 1.1 1995/12/18 22:54:43 pk Exp $
 #
-# Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008
+# Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009
 #	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
 # Copyright (c) 1995 Jason R. Thorpe
 # Copyright (c) 1994 Christopher G. Demetriou
@@ -134,8 +134,8 @@ This work is provided "AS IS" and WITHOUT WARRANTY of any kind.\n'
 		print -n ' or (S)hell? '
 		read _forceloop
 		case $_forceloop {
-		([Ii]*)	/install ;;
-		([Uu]*)	/upgrade ;;
+		([Ii]*)	/install; break ;;
+		([Uu]*)	/upgrade; break ;;
 		}
 	done
 	unset _forceloop
