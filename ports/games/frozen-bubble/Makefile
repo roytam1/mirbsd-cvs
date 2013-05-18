@@ -1,4 +1,4 @@
-# $MirOS: ports/games/frozen-bubble/Makefile,v 1.4 2006/11/04 03:09:20 tg Exp $
+# $MirOS: ports/games/frozen-bubble/Makefile,v 1.5 2006/11/04 04:12:03 tg Exp $
 # $NetBSD: Makefile,v 1.16 2005/05/22 20:08:01 jlam Exp $
 
 COMMENT=		Pop the frozen bubbles
@@ -15,7 +15,7 @@ PERMIT_PACKAGE_FTP=	Yes
 MASTER_SITES=		http://www.frozen-bubble.org/data/
 
 LIB_DEPENDS+=		SDL_Pango::devel/sdl-pango
-B_R_DEPENDS+=		:p5-SDL->=1.20.0-1:devel/p5-SDL \
+B_R_DEPENDS+=		:p5-SDL->=1.20.0-2:devel/p5-SDL \
 			:sdl-mixer->=1.2.2:devel/sdl-mixer \
 			:sdl-pango->=0.1.2-2:devel/sdl-pango
 BUILD_DEPENDS+=		${B_R_DEPENDS}
