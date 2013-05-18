@@ -1,5 +1,5 @@
 <!-- PageID: mksh -->
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.56 2006/09/09 16:23:09 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.57 2006/09/13 18:38:13 tg Exp $</small>
 
 <h1>mksh(1) R28</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
@@ -37,6 +37,7 @@
   ANSI'n'POSIX Environment (not finished)</li>
  <li>Fix portability of regression tests using fgrep(1)</li>
  <li>Fix description of $RANDOM in manual page</li>
+ <li>Fix build under OpenSolaris Build 47 (reported in IRC)</li>
 </ul>
 <p>Upgrading to mksh R28 with these changes is highly recommended:</p><ul>
  <li>For these who build software as root, the regression testsuite

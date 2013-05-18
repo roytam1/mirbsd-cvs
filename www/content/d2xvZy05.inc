@@ -1,5 +1,5 @@
 <!-- PageID: wlog-9 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.42 2006/09/04 00:38:13 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.43 2006/09/04 00:53:48 tg Exp $</small>
 <h1>MirBSD &ndash; WTF is Verpeilungsfaktor?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -652,6 +652,46 @@
   must say I'm&#8230; shocked. (And make these &lt;h2&gt; smaller in the
   CSS, please.)</p>
  <p>Other than that, not much noteworthy happened.</p>
+</div>
+
+<div class="wlentry">
+ <h3 id="e20060913">13.09.2006 by tg@</h3>
+ <p>The more you work with software, the more it sucks. I found out that
+  I have to rewrite at least mksh(1)'s emacs editing mode, due to design
+  bugs rendering command-line editing with tabs broken, but better re-do
+  the whole damned thing (taking 64-bit integers and wide chars into the
+  initial design considerations). Same goes for MirPorts, after stumping
+  across a bazillion more quoting bugs. If I had the money&#8230;</p>
+ <p>&Agrave; propos rewriting&#8230; don't you dare mention FreeWRT.</p>
+ <p>A computer-illiterate visitor today decided the new design sucks too
+  and prefers the old one. Yay! I still wonder why we didn't keep my CMS
+  (or rather, excuse for not having a CMS) and changed only the content;
+  dynamic page elements, such as news or wlog, could've been implemented
+  within the existing framework as well.</p>
+ <p>Yep, MirOS now hosts foreign projects within its CVS. Trusted people
+  only, of course. (Time to redesign CVS's operation.)</p>
+ <p>I'm missing a lot more catch-up things but you should have a look at
+  <a href="http://bsdstats.org/">BSDstats</a> and their sub-page over <a
+  href="http://bsdstats.org/mirbsd/">MirOS</a>.</p>
+ <p>Somehow I've been missing &quot;the spirit&quot; lately. Add to that
+  the truth that, out of MirOS, I've basically written <em>nothing</em>,
+  only doing integration work or writing (sometimes larger, such as with
+  e.g. djbdns) patches. Even these rarely add major functionality. Magic
+  is only contained in the one thing I have really written myself and of
+  which I can be proud, the licence. Sucks, if you consider yourself not
+  a lawyer but a programmer, eh? On the other hand, integration work is,
+  both, importand and a good starting point into snapping how all works.
+  Maybe I should really &quot;clone&quot; MirBSD again, this time not as
+  an OpenBSD fork, but as a modular smallish system not even self-hosted
+  in the beginning. Starting with the cvs- and ctm-based infrastructure,
+  then some kind of packaging tools, initial utilities including an mksh
+  rewrite, a bootloader, kernel, installer, third-party apps. But that's
+  a thing I can't do alone unless I dedicate myself fully to it and some
+  other person maintains MirOS. I guess I will never get that far. Wise,
+  it is not, to reinvent the wheel. Building upon and improving existing
+  solutions (which suck) is the way to go in this world. Does this suck?
+  I guess it does. And I guess I'm not the first dreamer.</p>
+ <p>And I guess I don't have the vigour to do even one of them :'(</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
