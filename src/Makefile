@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.100 2007/05/10 13:09:21 tg Exp $
+# $MirOS: src/Makefile,v 1.101 2007/05/17 14:52:24 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -6,6 +6,7 @@
 .endif
 .include <bsd.own.mk>
 .include "Makefile.inc"
+.include "gcc/Makefile.lang"
 NOMAN?=		no
 CVSROOT?=	/cvs
 ANONCVSROOT?=	anoncvs@anoncvs.mirbsd.org:/cvs
@@ -125,6 +126,11 @@ do-htman:
 	    && lndir ${BSDRELDIR}/base/usr/share/doc/${_doc} \
 	    && ${_STCMD} -f ${BSDOBJDIR}/htman/.policy.mk ${MAKE}
 .endfor
+	mkdir -p ${BSDOBJDIR}/htman/texinfo
+	cd ${.CURDIR} && ${_STCMD} -f ${BSDOBJDIR}/htman/.policy.mk \
+	    ${MAKE} do-htinfo
+	cd ${BSDSRCDIR}/gnu/usr.bin/cvs/obj/doc && \
+	    makeinfo --no-split --html -I /usr/src/gnu/usr.bin/cvs/doc /usr/src/gnu/usr.bin/cvs/doc/cvs.texinfo
 	cp ${BSDOBJDIR}/share/doc/legal/LICENCE-BSD.0 \
 	    ${BSDOBJDIR}/htman/man/cat7/BSD-Licence.0
 	BSDOBJDIR=${BSDOBJDIR:Q} BSDSRCDIR=${BSDSRCDIR:Q} \
@@ -132,18 +138,94 @@ do-htman:
 	    ${SHELL} ${.CURDIR}/scripts/genhtman.sh
 	. ${.CURDIR}/scripts/roff2htm; output_htaccess >${BSDOBJDIR}/htman/H
 	-rm -f ${BSDOBJDIR}/htman/.policy.mk
-	${SUDO} mkdir -p ${BSDRELDIR}/htman/docs
+	${SUDO} mkdir -p ${BSDRELDIR}/htman/{docs,manINFO}
 	cd ${BSDOBJDIR}/htman/htm && \
 	    find man* -type f | ${SUDO} cpio -pdlu ${BSDRELDIR}/htman/
+	cd ${BSDOBJDIR}/htman/texinfo && \
+	    find *.htm | ${SUDO} cpio -pdlu ${BSDRELDIR}/htman/manINFO/
 	cd ${BSDRELDIR}/base/usr/share/doc/html && \
 	    ${SUDO} pax -rw * ${BSDRELDIR}/htman/docs/
 	cd ${BSDRELDIR}/htman/docs && ${SUDO} rm -f \
 	    $$(find . -type f -a ! -name '*.htm' -a \
 		! -name '*.html' -a ! -name '*.jpg')
 	${SUDO} cp ${BSDOBJDIR}/htman/H ${BSDRELDIR}/htman/.htaccess
+	${SUDO} cp ${BSDOBJDIR}/htman/H ${BSDRELDIR}/htman/manINFO/.htaccess
 	${SUDO} cp ${BSDOBJDIR}/htman/H ${BSDRELDIR}/htman/docs/.htaccess
 	${SUDO} chown -R 0:0 ${BSDRELDIR}/htman/*
 	${SUDO} chmod -R a=rX ${BSDRELDIR}/htman/*
+
+do-htinfo:
+	cd ${BSDOBJDIR}/gnu/usr.bin/binutils/bfd/doc && \
+	    makeinfo --no-split --html -I ${BSDSRCDIR}/gnu/usr.bin/binutils/bfd/doc \
+	    ${BSDSRCDIR}/gnu/usr.bin/binutils/bfd/doc/bfd.texinfo && \
+	    makeinfo --no-split --html -I ${BSDSRCDIR}/gnu/usr.bin/binutils/bfd/doc \
+	    ${BSDSRCDIR}/gnu/usr.bin/binutils/bfd/doc/bfdint.texi && \
+	    cp bfd.html bfdint.html ${BSDOBJDIR}/htman/texinfo/
+	cd ${BSDOBJDIR}/gnu/usr.bin/binutils/binutils/doc && \
+	    makeinfo --no-split --html -I ${BSDSRCDIR}/gnu/usr.bin/binutils/binutils/doc \
+	    ${BSDSRCDIR}/gnu/usr.bin/binutils/binutils/doc/binutils.texi && \
+	    cp binutils.html ${BSDOBJDIR}/htman/texinfo/
+	cd ${BSDOBJDIR}/gnu/usr.bin/binutils/gas/doc && \
+	    makeinfo --no-split --html -I ${BSDSRCDIR}/gnu/usr.bin/binutils/gas/doc \
+	    ${BSDSRCDIR}/gnu/usr.bin/binutils/bfd/doc/as.texinfo && \
+	    cp as.html ${BSDOBJDIR}/htman/texinfo/
+	cd ${BSDOBJDIR}/gnu/usr.bin/binutils/gdb/doc && \
+	    makeinfo --no-split --html \
+	    -I ${BSDSRCDIR}/gnu/usr.bin/binutils/gdb/mi \
+	    -I ${BSDSRCDIR}/gnu/usr.bin/binutils/gdb/doc \
+	    ${BSDSRCDIR}/gnu/usr.bin/binutils/gdb/doc/gdb.texinfo && \
+	    makeinfo --no-split --html -I ${BSDSRCDIR}/gnu/usr.bin/binutils/gdb/doc \
+	    ${BSDSRCDIR}/gnu/usr.bin/binutils/gdb/doc/gdbint.texinfo && \
+	    makeinfo --no-split --html -I ${BSDSRCDIR}/gnu/usr.bin/binutils/gdb/doc \
+	    ${BSDSRCDIR}/gnu/usr.bin/binutils/gdb/doc/stabs.texinfo && \
+	    makeinfo --no-split --html -I ${BSDSRCDIR}/gnu/usr.bin/binutils/gdb/doc \
+	    ${BSDSRCDIR}/gnu/usr.bin/binutils/gdb/doc/annotate.texinfo && \
+	    cp {gdb,gdbint,stabs,annotate}.html ${BSDOBJDIR}/htman/texinfo/
+	cd ${BSDOBJDIR}/gnu/usr.bin/binutils/ld && \
+	    makeinfo --no-split --html \
+	    -I ${BSDSRCDIR}/gnu/usr.bin/binutils/ld \
+	    -I ${BSDSRCDIR}/gnu/usr.bin/binutils/bfd/doc \
+	    ${BSDSRCDIR}/gnu/usr.bin/binutils/ld/ld.texinfo && \
+	    makeinfo --no-split --html \
+	    -I ${BSDSRCDIR}/gnu/usr.bin/binutils/ld \
+	    -I ${BSDSRCDIR}/gnu/usr.bin/binutils/bfd/doc \
+	    ${BSDSRCDIR}/gnu/usr.bin/binutils/ld/ldint.texinfo && \
+	    cp ld.html ${BSDOBJDIR}/htman/texinfo/
+	cd ${BSDOBJDIR}/gnu/usr.bin/cvs/doc && \
+	    makeinfo --no-split --html -I ${BSDSRCDIR}/gnu/usr.bin/cvs/doc \
+	    ${BSDSRCDIR}/gnu/usr.bin/cvs/doc/cvs.texinfo && \
+	    makeinfo --no-split --html \
+	    ${BSDSRCDIR}/gnu/usr.bin/cvs/doc/cvsclient.texi && \
+	    cp cvs.html cvsclient.html ${BSDOBJDIR}/htman/texinfo/
+	cd ${BSDOBJDIR}/htman/texinfo && \
+	    makeinfo --no-split --html -I ${BSDSRCDIR}/gcc/gcc/doc/include \
+	    ${BSDSRCDIR}/gcc/gcc/doc/cpp.texi && \
+	    makeinfo --no-split --html -I ${BSDSRCDIR}/gcc/gcc/doc/include \
+	    ${BSDSRCDIR}/gcc/gcc/doc/gcc.texi && \
+	    makeinfo --no-split --html -I ${BSDSRCDIR}/gcc/gcc/doc/include \
+	    ${BSDSRCDIR}/gcc/gcc/doc/gccint.texi && \
+	    makeinfo --no-split --html \
+	    ${BSDSRCDIR}/gcc/gcc/doc/cppinternals.texi
+.if ${NO_ADA:L} == "no"
+	cd ${BSDOBJDIR}/gcc/gcc && \
+	    makeinfo --no-split --html \
+	    -I ${BSDSRCDIR}/gcc/gcc/doc/include -I ${BSDSRCDIR}/gcc/gcc/ada \
+	    doc/gnat_ugn_unw.texi && \
+	    makeinfo --no-split --html \
+	    -I ${BSDSRCDIR}/gcc/gcc/doc/include -I ${BSDSRCDIR}/gcc/gcc/ada \
+	    ${BSDSRCDIR}/gcc/gcc/ada/gnat_rm.texi && \
+	    makeinfo --no-split --html \
+	    -I ${BSDSRCDIR}/gcc/gcc/doc/include -I ${BSDSRCDIR}/gcc/gcc/ada \
+	    ${BSDSRCDIR}/gcc/gcc/ada/gnat-style.texi && \
+	    cp {gnat_ugn_unw,gnat_rm,gnat-style}.html ${BSDOBJDIR}/htman/texinfo/
+.endif
+.if ${NO_PASCAL:L} == "no"
+	cp ${BSDSRCDIR}/gcc/gpcdoc/*.html ${BSDOBJDIR}/htman/texinfo/
+.endif
+	cd ${BSDOBJDIR}/htman/texinfo && for file in *.html; do \
+		iconv -f iso-8859-1 -t utf-8 $$a >$${a%l}; \
+		print '/iso-8859-1/s//utf-8/\nwq' | ed -s $${a%l}; \
+	done
 
 base-distbuild:
 	cd ${.CURDIR} && exec ${MAKE} mksystrace-obj
@@ -191,10 +273,6 @@ _DISTS+=	x11
 _DISTS+=	htman
 .endif
 DIST_RESTART?=	0
-
-.ifdef QUICK_DIST2
-.  include "gcc/Makefile.lang"
-.endif
 
 _do-dist:
 	@h=${HOME:Q}; [[ $$h = $$HOME ]] || exit 1

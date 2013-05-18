@@ -1,5 +1,5 @@
 This is gpc.info, produced by makeinfo version 4.8 from
-/home/tg/x/gpc-20051116/doc/en/gpc.texi.
+/tmp/gpc-20060325/p/doc/en/gpc.texi.
 
 INFO-DIR-SECTION GNU programming tools
 START-INFO-DIR-ENTRY
@@ -16,7 +16,7 @@ END-INFO-DIR-ENTRY
 manual provided the copyright notice and this permission notice are
 preserved on all copies.
 
-   Copyright (C) 1988-2005 Free Software Foundation, Inc.
+   Copyright (C) 1988-2006 Free Software Foundation, Inc.
 
    Permission is granted to copy and distribute modified versions of
 this manual under the conditions for verbatim copying, provided also
@@ -42,7 +42,7 @@ GNU Pascal
 
 This manual documents how to run, install and maintain the GNU Pascal
 Compiler (GPC), as well as its new features and incompatibilities, and
-how to report bugs. It corresponds to GPC 20051116 (GCC 2.8.1, 2.95.x,
+how to report bugs. It corresponds to GPC 20060325 (GCC 2.8.1, 2.95.x,
 3.2.x, 3.3.x or 3.4.x).
 
 * Menu:
@@ -193,10 +193,9 @@ features.
    If you are familiar with Standard Pascal (ISO 7185) programming, you
 can probably just go ahead and try to compile your programs. Also, most
 of the ISO Extended Pascal Standard (ISO 10206) is implemented into GNU
-Pascal. The Extended Pascal features still missing from GPC are
-`qualified' module import, `protected' module export variables, set
-types with variable bounds, structured value initializers and
-expressions as subrange lower bounds.
+Pascal. The Extended Pascal features still missing from GPC are set
+types with variable bounds and discriminated ordinal schema as schema
+discriminants.
 
    If you are a Borland Pascal programmer, you should probably start
 reading the QuickStart guide from BP to GNU Pascal, see *Note Borland
@@ -348,6 +347,9 @@ quasi-standards:
 
         - Initialized variables. [Example (initvardemo.pas)]
 
+        - Structured value constructors - build array or record values
+          without using temporary variables.
+
         - Functions can return array or record values.
 
         - Result variables. [Example (resultvardemo.pas)]
@@ -407,6 +409,8 @@ quasi-standards:
    * From Borland Delphi:
 
         - `abstract' object types and methods
+
+        - classes
 
         - `is' and `as' operators to test object type membership
 
@@ -551,6 +555,41 @@ with, e.g., `(B)' for BP compatibility.
 cleaner, more flexible or otherwise more useful ones. This might lead
 to minor problems with old code, but we suppose they're rare and easy
 to overcome. Backward-incompatible changes are marked with `(@)'.
+
+   * preliminary support for gcc-4.0.x
+
+   * handle named exit from a method
+
+   * check string parameters more strictly (@)
+
+   * use at least integer precision for arithmetic (@)
+
+   * refuse `--executable-file-name' on names without a suffix
+
+   * do not create `.gpi' files from incorrect input
+
+   * `CWordBool' type
+
+   * allow passing variant selector by reference in default mode
+
+   * `noinline' attribute
+
+   * check for identifier redeclaration in records and parameter lists
+     (@)
+
+   * set constants are compatible with packed sets
+
+   * `ReadString' and `StringOf' predefined routines (M)
+
+   * pass discriminated string schema by value (@)
+
+   * `const var' parameters
+
+   * preliminary support for OOE class views (test/view1[a-g].pas)
+
+   * `--iso-goto-restrictions' option
+
+   * `--preprocessed' option
 
    * integrated preprocessor (@)
 
@@ -1030,7 +1069,7 @@ File: gpc.info,  Node: Current version,  Next: Turbo Pascal compatibility,  Prev
 3.1.2 What is the current version?
 ----------------------------------
 
-The current version is 20051116.
+The current version is 20060325.
 
    Releases are available as a source archive and precompiled binaries
 for several common platforms from the GPC web site,
@@ -1094,6 +1133,7 @@ EMX 0.9B                      (OS/2, Dos)
 Cygwin32 beta20 and higher    (MS-Windows95/98, MS-Windows NT)
 mingw32                       (MS-Windows95/98, MS-Windows NT)
 MSYS                          (MS-Windows)
+Mac OS/X 10.3                 
 mips-sgi-irix5.3              
 mips-sgi-irix6.5              
 sun-sparc-sunos4.1.4          
@@ -1789,7 +1829,7 @@ in BP mode (or with a special switch) short string of capacity 255
 
    Q: So when will these short strings be available?
 
-   A: It's been planned for over a year. The delay has been caused by
+   A: It's been planned for some years. The delay has been caused by
 more pressing problems.
 
 
@@ -2212,7 +2252,7 @@ install GPC on DOS-like platforms.
      building GPC, but you need additional tools:
 
      `bash', `bzip2', *GNU* `sed', GNU `awk', GNU `m4', `bison' (at
-     least version 2.0), `flex' (version 2.5.27), `autoconf' (version
+     least version 2.1), `flex' (version 2.5.27), `autoconf' (version
      2.12), `texinfo' (at least version 4.2), `help2man'.
 
      Make sure that these are installed. The minimal distributions are
@@ -2244,22 +2284,22 @@ install GPC on DOS-like platforms.
 
      From a directory of your choice (e.g. `/home/fred'), unpack the
      GCC and GNU Pascal source distributions. This will create separate
-     subdirectories for GCC and GPC. Let us assume `gcc-2.95.3' and
-     `gpc-20030209' in this example.
+     subdirectories for GCC and GPC. Let us assume `gcc-3.4.3' and
+     `gpc-20041218' in this example.
           % cd /home/fred
-          % gzip -c -d gcc-core-2.95.3.tar.gz | tar xf -
-          % gzip -c -d gpc-20030209.tar.gz | tar xf -
+          % bzip2 -d < gcc-core-3.4.3.tar.bz2 | tar xf -
+          % gzip -c -d gpc-20041218.tar.gz | tar xf -
 
      `cd' to the GPC directory and move the contents (a subdirectory
      `p') to the subdirectory `gcc' of the GCC directory:
 
-          % mv /home/fred/gpc-20030209/p /home/fred/gcc-2.95.3/gcc/
+          % mv /home/fred/gpc-20041218/p /home/fred/gcc-3.4.3/gcc/
 
      Instead of moving the directory, it is now also possible to make a
      symbolic link (if the OS supports symlinks). This is useful if you
      want to build GPC with several different GCC versions:
 
-          % ln -s /home/fred/gpc-20030209/p /home/fred/gcc-2.95.3/gcc/p
+          % ln -s /home/fred/gpc-20041218/p /home/fred/gcc-3.4.3/gcc/p
 
      It is recommended, though not required, to use a separate
      directory for building the compiler, rather than compiling in the
@@ -2291,7 +2331,7 @@ install GPC on DOS-like platforms.
      script in the GCC source directory:
 
           % cd /home/fred/gpc-build
-          % /home/fred/gcc-2.95.3/configure --enable-languages=pascal
+          % /home/fred/gcc-3.4.3/configure --enable-languages=pascal
 
      This creates all the necessary config files, links and Makefile in
      the GCC object directory.
@@ -2475,6 +2515,9 @@ File: gpc.info,  Node: Cross-Compilers,  Next: Crossbuilding,  Prev: Compilation
 GNU Pascal can function as a cross-compiler for many machines.
 Information about GNU tools in a cross-configuration can be found at
 `ftp://ftp.cygnus.com/pub/embedded/crossgcc/'.
+
+   If you want a cross-compiler targetting Linux you may use Dan Kegel's
+crosstool from `http://www.kegel.com/crosstool/'
 
    Since GNU Pascal generates assembler code, you need a cross-assembler
 that GNU Pascal can run, in order to produce object files. If you want
@@ -2757,6 +2800,13 @@ addition to those understood by GCC.
 `--no-longjmp-all-nonlocal-labels'
      Use `longjmp' only for nonlocal labels in the main program
      (default except for Darwin/PPC).
+
+`--iso-goto-restrictions'
+     Do not allow jumps into structured instructions (default).
+
+`--no-iso-goto-restrictions'
+     Allow jumps into structured instructions (default in
+     `--borland-pascal').
 
 `--nonlocal-exit'
      Allow non-local `Exit' statements (default in `--ucsd-pascal' and
@@ -3399,23 +3449,31 @@ imports modules, they will be searched for in a directory called `units'
 `--object-pascal'
 `--ucsd-pascal'
 `--borland-pascal'
+`--delphi'
 `--pascal-sc'
+`--mac-pascal'
      GNU Pascal supports the features of several different Pascal
-     standards and dialects. By default, they are all enabled. These
-     switches tell GPC to restrict itself to the features of the
-     specified standard. It does not enable any additional features.
-     Warnings about certain dangerous constructs which would be valid in
-     the specified dialect (e.g., assignment to a typed constant with
-     `--borland-pascal') are suppressed.
+     standards and dialects. The intention is to have common language,
+     where features off all dialects are available.  As result, the
+     defualt language is the biggest dialect, with most features.
+     Sometimies features of different dialect conflict (in such cases
+     we usually provide more detailed switches to choose desired
+     behaviour). These switches turn on maximal compatiblity with given
+     dialect. In particular they tell GPC to restrict itself to the
+     features of the specified standard.  Warnings about certain
+     dangerous constructs which would be valid in the specified dialect
+     (e.g., assignment to a typed constant with `--borland-pascal') are
+     suppressed.
 
      By default, GNU Pascal allows the redefinition of some keywords.
      Each of these switches causes GNU Pascal to forbid the redefinition
      of keywords of the specified standard.
 
-     Valid ISO 7185 Pascal programs should compile properly with or
-     without `--classic-pascal'. However, without this option, certain
-     GNU extensions and Pascal features from other dialects are
-     supported as well. With this option, they are rejected.
+     Most ISO 7185 Pascal programs should compile properly with or
+     without `--classic-pascal'. However, without this option, some
+     constructs behave in non-standard way. Moreover, certain GNU
+     extensions and Pascal features from other dialects are supported
+     as well. With this option, they are rejected.
 
      These options are not intended to be useful; they exist only to
      satisfy pedants who would otherwise claim that GNU Pascal fails to
@@ -6328,16 +6386,17 @@ File: gpc.info,  Node: OOP,  Next: Compiler Directives,  Prev: Type Casts,  Up: 
 6.8 Object-Oriented Programming
 ===============================
 
-GNU Pascal follows the object model of Borland Pascal 7.0. The BP
-object extensions are almost fully implemented into GPC. This includes
-inheritance, virtual and non-virtual methods, constructors,
-destructors, pointer compatibility, extended `New' syntax (with
-constructor call and/or as a Boolean function), extended `Dispose'
-syntax (with destructor call).
+GNU Pascal allows multiple object models. The oldest one follows the
+object model of Borland Pascal 7.0. The BP object extensions are almost
+fully implemented into GPC. This includes inheritance, virtual and
+non-virtual methods, constructors, destructors, pointer compatibility,
+extended `New' syntax (with constructor call and/or as a Boolean
+function), extended `Dispose' syntax (with destructor call).
 
-   The Borland object model is different from the ISO draft, but it
-will not be too difficult now to implement that too (plus the Borland
-Delphi Object Extensions which are quite similar to the ISO draft).
+   The Borland object model is different from the ISO draft, but now we
+have also partial support of ISO draft (plus the Borland Delphi Object
+Extensions which are quite similar to the ISO draft). Moreover most of
+traditional Mac Pascal object model is covered.
 
    The syntax for an object type declaration is as follows:
 
@@ -7608,7 +7667,7 @@ type `gpc --print-file-name=units' on the command line.)
        `protected var' can be used since this guarantees passing by
        reference.
 
-       Copyright (C) 1998-2005 Free Software Foundation, Inc.
+       Copyright (C) 1998-2006 Free Software Foundation, Inc.
 
        Authors: Jukka Virtanen <jtv@hut.fi>
                 Peter Gerwinski <peter@gerwinski.de>
@@ -7646,7 +7705,7 @@ type `gpc --print-file-name=units' on the command line.)
        General Public License. }
 
      {$gnu-pascal,I-}
-     {$if __GPC_RELEASE__ <> 20051116}
+     {$if __GPC_RELEASE__ <> 20060325}
      {$error
      Trying to compile gpc.pas with a non-matching GPC version is likely
      to cause problems.
@@ -9627,8 +9686,8 @@ type `gpc --print-file-name=units' on the command line.)
      { @@ procedure AnyStringTFDD_Rewrite (var f: GPC_FDR; var Buf:
        VarAnyString); attribute (name = '_p_AnyStringTFDD_Rewrite'); }
      procedure StringTFDD_Reset (var f: GPC_FDR; var Buf: ConstAnyString;
-       const s: String); attribute (name = '_p_StringTFDD_Reset');
-       external;
+       var s: array [m .. n: Integer] of Char); attribute (name
+       = '_p_StringTFDD_Reset'); external;
      { @@ procedure StringTFDD_Rewrite (var f: GPC_FDR; var Buf:
        VarAnyString; var s: String); attribute (name
        = '_p_StringTFDD_Rewrite'); }
@@ -10192,7 +10251,7 @@ or `PDCurses' library which can be found in
          keycode 125 = CtrlL
          keycode 127 = CtrlL
 
-       Copyright (C) 1998-2005 Free Software Foundation, Inc.
+       Copyright (C) 1998-2006 Free Software Foundation, Inc.
 
        Author: Frank Heckenbach <frank@pascal.gnu.de>
 
@@ -10913,7 +10972,7 @@ programs.
          there are other ways to achieve the same in GPC, see the GPC
          unit.
 
-       Copyright (C) 1998-2005 Free Software Foundation, Inc.
+       Copyright (C) 1998-2006 Free Software Foundation, Inc.
 
        Authors: Frank Heckenbach <frank@pascal.gnu.de>
                 Prof. Abimbola A. Olowofoyeku <African_Chief@bigfoot.com>
@@ -11124,7 +11183,7 @@ releases.
        see, perhaps when more routines suited for this/these unit(s) will
        be found, the design will become clearer ...
 
-       Copyright (C) 1998-2005 Free Software Foundation, Inc.
+       Copyright (C) 1998-2006 Free Software Foundation, Inc.
 
        Author: Frank Heckenbach <frank@pascal.gnu.de>
 
@@ -11225,7 +11284,7 @@ a higher level than those provided by the RTS.
      { Some routines for file and directory handling on a higher level
        than those provided by the RTS.
 
-       Copyright (C) 2000-2005 Free Software Foundation, Inc.
+       Copyright (C) 2000-2006 Free Software Foundation, Inc.
 
        Author: Frank Heckenbach <frank@pascal.gnu.de>
 
@@ -11366,7 +11425,7 @@ in `http://www.gnu-pascal.de/libs/'.
        To use the GMP unit, you will need the GMP library which can be
        found in http://www.gnu-pascal.de/libs/
 
-       Copyright (C) 1998-2005 Free Software Foundation, Inc.
+       Copyright (C) 1998-2006 Free Software Foundation, Inc.
 
        Author: Frank Heckenbach <frank@pascal.gnu.de>
 
@@ -12003,7 +12062,7 @@ units available for BP, like some `Turbo Power' units.
        @@NOTE - SOME OF THE ROUTINES IN THIS UNIT MAY NOT WORK CORRECTLY.
        TEST CAREFULLY AND USE WITH CARE!
 
-       Copyright (C) 1998-2005 Free Software Foundation, Inc.
+       Copyright (C) 1998-2006 Free Software Foundation, Inc.
 
        Authors: Prof. Abimbola A. Olowofoyeku <African_Chief@bigfoot.com>
                 Frank Heckenbach <frank@pascal.gnu.de>
@@ -12233,7 +12292,7 @@ which can be used in GPC programs without special provisions.
        purposes and don't always release it at the end. Therefore, the
        usefulness of this unit is rather limited.
 
-       Copyright (C) 1998-2005 Free Software Foundation, Inc.
+       Copyright (C) 1998-2006 Free Software Foundation, Inc.
 
        Author: Frank Heckenbach <frank@pascal.gnu.de>
 
@@ -12335,7 +12394,7 @@ files.
        http://www.gnu-pascal.de/contrib/eike/
        The filename is pas2po-VERSION.tar.gz.
 
-       Copyright (C) 2001-2005 Free Software Foundation, Inc.
+       Copyright (C) 2001-2006 Free Software Foundation, Inc.
 
        Author: Eike Lange <eike.lange@uni-essen.de>
 
@@ -12529,7 +12588,7 @@ files or memory blocks, according to the definition of `MD5' in `RFC
      { Functions to compute MD5 message digest of files or memory blocks,
        according to the definition of MD5 in RFC 1321 from April 1992.
 
-       Copyright (C) 1995, 1996, 2000-2005 Free Software Foundation, Inc.
+       Copyright (C) 1995, 1996, 2000-2006 Free Software Foundation, Inc.
 
        Author: Frank Heckenbach <frank@pascal.gnu.de>
 
@@ -12610,7 +12669,7 @@ doesn't need overlays.
 
      { Dummy BP compatible overlay unit for GPC
 
-       Copyright (C) 1998-2005 Free Software Foundation, Inc.
+       Copyright (C) 1998-2006 Free Software Foundation, Inc.
 
        Author: Frank Heckenbach <frank@pascal.gnu.de>
 
@@ -12691,7 +12750,7 @@ transparently under Dos as far as possible.
 
      { Piping data from and to processes
 
-       Copyright (C) 1998-2005 Free Software Foundation, Inc.
+       Copyright (C) 1998-2006 Free Software Foundation, Inc.
 
        Author: Frank Heckenbach <frank@pascal.gnu.de>
 
@@ -12916,7 +12975,7 @@ whenever possible.
        under Linux and DJGPP). It is provided here only to serve as a
        replacement for BP's Port and PortW pseudo arrays.
 
-       Copyright (C) 1998-2005 Free Software Foundation, Inc.
+       Copyright (C) 1998-2006 Free Software Foundation, Inc.
 
        Author: Frank Heckenbach <frank@pascal.gnu.de>
 
@@ -12999,7 +13058,7 @@ printer jobs in the same program.
 
      { BP compatible printer unit with extensions
 
-       Copyright (C) 1998-2005 Free Software Foundation, Inc.
+       Copyright (C) 1998-2006 Free Software Foundation, Inc.
 
        Author: Frank Heckenbach <frank@pascal.gnu.de>
 
@@ -13188,7 +13247,7 @@ in `http://www.gnu-pascal.de/libs/'.
        with `\u0' or `\l0'). A verbatim `&' or `\' can be specified with
        `\&' or `\\', resp.
 
-       Copyright (C) 1998-2005 Free Software Foundation, Inc.
+       Copyright (C) 1998-2006 Free Software Foundation, Inc.
 
        Author: Frank Heckenbach <frank@pascal.gnu.de>
 
@@ -13354,7 +13413,7 @@ programs.
 
      { BP compatible Strings unit
 
-       Copyright (C) 1999-2005 Free Software Foundation, Inc.
+       Copyright (C) 1999-2006 Free Software Foundation, Inc.
 
        Author: Frank Heckenbach <frank@pascal.gnu.de>
 
@@ -13429,7 +13488,7 @@ level than those provided by the RTS.
      { Some routines for string handling on a higher level than those
        provided by the RTS.
 
-       Copyright (C) 1999-2005 Free Software Foundation, Inc.
+       Copyright (C) 1999-2006 Free Software Foundation, Inc.
 
        Author: Frank Heckenbach <frank@pascal.gnu.de>
 
@@ -13777,7 +13836,7 @@ compatible pseudo random number generator and/or BP compatible
        have to `Mark' the heap which makes memory de-/allocations much
        faster if the program doesn't use `Mark' otherwise.
 
-       Copyright (C) 1998-2005 Free Software Foundation, Inc.
+       Copyright (C) 1998-2006 Free Software Foundation, Inc.
 
        Authors: Peter Gerwinski <peter@gerwinski.de>
                 Prof. Abimbola A. Olowofoyeku <African_Chief@bigfoot.com>
@@ -14084,7 +14143,7 @@ which causes everything written to it to be written to two other files.
 
      { Some text file tricks.
 
-       Copyright (C) 2002-2005 Free Software Foundation, Inc.
+       Copyright (C) 2002-2006 Free Software Foundation, Inc.
 
        Author: Frank Heckenbach <frank@pascal.gnu.de>
 
@@ -14182,7 +14241,7 @@ program. Use with care, and read the notes in the interface, please.
          after its termination will be trapped by the outer TrapExec
          again.
 
-       Copyright (C) 1996-2005 Free Software Foundation, Inc.
+       Copyright (C) 1996-2006 Free Software Foundation, Inc.
 
        Author: Frank Heckenbach <frank@pascal.gnu.de>
 
@@ -14245,7 +14304,7 @@ TP3. ;-) It is not meant to be used in any newly written code.
 
      { Turbo Pascal 3.0 compatibility unit
 
-       Copyright (C) 1998-2005 Free Software Foundation, Inc.
+       Copyright (C) 1998-2006 Free Software Foundation, Inc.
 
        Author: Frank Heckenbach <frank@pascal.gnu.de>
 
@@ -14344,7 +14403,7 @@ programs.
          there are other ways to achieve the same in GPC, see the GPC
          unit.
 
-       Copyright (C) 1998-2005 Free Software Foundation, Inc.
+       Copyright (C) 1998-2006 Free Software Foundation, Inc.
 
        Author: Frank Heckenbach <frank@pascal.gnu.de>
 
@@ -17563,6 +17622,8 @@ variables:
    * iocritical
 
    * name (with a string constant parameter)
+
+   * noinline
 
    For types it allows the following additional attributes:
 
@@ -25676,7 +25737,7 @@ Synopsis
 --------
 
      type
-       PtrCard = Integer attribute (Size = BitSizeOf (Pointer));
+       PtrInt = Integer attribute (Size = BitSizeOf (Pointer));
 
 Description
 -----------
@@ -29191,7 +29252,7 @@ File: gpc.info,  Node: view,  Next: virtual,  Prev: var,  Up: Reference
 view
 ====
 
-Not yet implemented.
+(Under construction.)
 
 Synopsis
 --------
@@ -29204,7 +29265,8 @@ Object class view.
 Conforming to
 -------------
 
-`view' is an Object Pascal extension.
+`view' is an Object Pascal extension. Currently GPC only supports views
+without parents.
 
 Example
 -------
@@ -29656,24 +29718,9 @@ Pascal), and `near' and `far' (according to Borland Pascal).
 
    The exceptions are:
 
-   * `Operator' can't be used as a type, untyped constant or exported
-     interface, i.e. when it would be followed by `=' (unless it's
-     disabled as a keyword explicitly or by dialect options, see
-     below). This is because of a conflict with a definition of the
-     operator `='. (It can be used as a typed constant, but it might be
-     confusing if you later decide to make it untyped, so use with
-     care.)
-
-   * The first statement after `initialization' (Delphi specific unit
-     initialization) must not start with `('.  (Statements starting
-     with `(' are uncommon, anyway, but not impossible.) This does not
-     restrict the usage of `Initialization' as an identifier.
-
-   * The following keywords can't be used _immediately_ after an
-     `import' part: `uses', `implementation', `operator',
-     `constructor', `destructor'. Using `uses' instead of `import', or
-     putting some other declaration between `import' and the
-     problematic keyword helps.
+   * The keyword `uses' can't be used _immediately_ after an `import'
+     part: using `import' or `uses' consistently or putting some other
+     declaration between `import' and  `uses' helps.
 
    A dialect option turns off all keywords that do not belong to this
 dialect. Besides, any keyword can be enabled and disabled with the
@@ -29977,7 +30024,7 @@ var (any) (*note var::)
      variable declaration or reference parameter declaration
 
 view (OP) (*note view::)
-     object class view (not yet implemented)
+     OOE class view
 
 virtual (OP, BP, BD, MP) (*note virtual::)
      virtual object method declaration
@@ -30476,7 +30523,7 @@ The GPC mailing list is <gpc@gnu.de>. To subscribe, send the command
 list can be found at `http://www.gnu-pascal.de/crystal/gpc/en/'.
 
    The list changes regularly. The present version refers to the
-current GPC snapshot, 20051116.
+current GPC snapshot, 20060325.
 
    This list is part of the GNU Pascal Manual, included in GPC
 distributions and snapshots. You can always browse the most current
@@ -30777,13 +30824,93 @@ release, together with the date (YYYYMMDD) on which they were fixed, so
 you can check if some problem has already been solved in a recent
 release or developer version. For new features, see *Note News::.
 
+   * 20060304: Do not allow passing strings to parameters of type array
+     of char subrange (avoids passing out of range values).
+
+   * 20060228: Use at least integer precision for arithmetic (avoids
+     loss of precision due to overflow)
+
+   * 20060225: Avoid ICE on some record types
+
+   * 20060225: Avoid segfault in bison parser
+
+   * 20060214: Avoid ICE on unimplemented operators (ice4.pas)
+
+   * 20060214: Avoid ICE on bad forward declaration (ice3.pas)
+
+   * 20060214: ISO-10206 requires at least one output parameter in
+     `ReadStr' (rstr2a.pas)
+
+   * 20060213: Allow side effects in arguments of `ReadStr' (rstr1.pas)
+
+   * 20060213: Correctly pass substrings to `StringTFDD_Reset'
+     (fjf1099.pas)
+
+   * 20060213: Avoid ICE on multiple errors with set constants
+     (constv2c.pas)
+
+   * 20060213: Avoid ICE on bad parent class (delc.pas)
+
+   * 20060212: fix passing of multiple string values to `const'
+     conformant arrays (confa2.pas)
+
+   * 20060212: Avoid ICE on invalid conformant arrays (confa3.pas)
+
+   * 20060212: Avoid confusing initialized variant records with
+     conformal arrays (confa1.pas)
+
+   * 20060212: Avoid ICE on invalid set argument (sets16a.pas)
+
+   * 20060212: Avoid ICE on incompatible arguments in binary operators
+
+   * 20060212: gpc rejected some valid strings arguments (peter8.pas)
+
+   * 20060208: In ISO modes check identifier scopes stricter in record
+     types and parameter lists (gale7[a-m].pas, gale8[a-u].pas)
+
+   * 20060203: Fix problems with strange characters in some versions of
+     ncurses
+
+   * 20060130: In ISO modes report out of range constants only at
+     runtime (range1.pas)
+
+   * 20060130: make set literals and packed sets compatible
+     (sets17a.pas)
+
+   * 20060128: check `type of' argument more strictly in ISO modes
+     (gale9[abc].pas, gale10.pas, gale11[a-d].pas)
+
+   * 20060128: in ISO-7185 mode require that program parameters are
+     files (pparm1.pas)
+
+   * 20060128: require digit after decimal point in ISO modes
+     (real2.pas)
+
+   * 20060128: in ISO modes allow sets inside packed records and arrays
+     (pack13.pas)
+
+   * 20060128: in ISO modes require parameters to `read' and `write'
+     (read3.pas, write3.pas)
+
+   * 20060127: allow string literals in ISO-7185 mode (const1.pas)
+
+   * 20060127: allow empty ranges in set constructors (sets18.pas)
+
+   * 20060127: correct comparison of sets (sets15.pas)
+
+   * 20051118: avoid crash when preprocessing (prep1a.pas)
+
+   * 20051118: define `__OS_DOS__' on Dos and Windows
+
+   * 20051118: fix spurious warning about `-Wuninitialized'
+
    * 20051114: fix passing discriminated string schema
 
    * 20051105: constructor calls inside constructors and destructor
      calls inside destructors
 
    * 20051104: allow testing when different GPC version using the same
-     backend is already intalled
+     backend is already installed
 
    * 20051025: correctly parse `import foo; uses qualified;'
      (waldek15.pas)
@@ -31397,8 +31524,11 @@ File: gpc.info,  Node: Preprocessor,  Next: Lexical analyzer,  Up: Internals
 12.1 The Pascal preprocessor
 ============================
 
-`gpcpp' is based on the C preprocessor, so it does everything `cpp'
-does (see the cpp manual) and some more.  In particular:
+`gpc' contains integrated preprocessor. It is internally identical to
+the former `gpcpp' standalone preprocessor, so it does everything
+`gpcpp' did. In turn `gpcpp' is based on `cpp' so it has most
+capabilities of `cpp' (see the cpp manual) and some more.  In
+particular:
 
    * Comments like `cpp' does, but within `{ ... }' and `(* ... *)',
      also after `//' if `delphi-comments' is active, never within `/*
@@ -31824,6 +31954,20 @@ Some problematic parts of Pascal syntax in various dialects (see also
      with expressions in parentheses. This is resolved in the parser
      using GLR with `%dprec', and in the following processing of
      initializers.
+
+   * Extended Pascal structured value constructors. The problem here is
+     that identically looking constructs have different meaning:
+     `foo[bar : baz]' may be a record or array constructor. Also
+     `foo[bar]' may be an array access or a set constructor (and, as a
+     Gnu extension also a record or array constructor). One problem is
+     how to choose proper semantic action. Another is that the
+     constucts involved (array access and record, array and set
+     constructors) have different, but overlapping syntax. The problem
+     is resolved using superset approach: the parser accepts anything
+     resembling array access or a constructor and builds a tree
+     representing its structure. Then semantic actions decide which
+     construct is expected and verify that it is in fact well-formed
+     (or report an error).
 
    * Extended Pascal (and many dialects) allow the lower bound of a
      subrange declaration to be an arbitrary expression (Standard Pascal
@@ -33442,7 +33586,7 @@ and `docdemos/' (unless stated otherwise in the file itself). They are
 distributed under the GNU General Public License with a notable
 exception:
 
-   Copyright (C) 1997-2005 Free Software Foundation, Inc.
+   Copyright (C) 1997-2006 Free Software Foundation, Inc.
 
    Authors: See notice in the demo program. If not listed there, these
 are the authors of the GNU Pascal Compiler.
@@ -34672,24 +34816,24 @@ Index-GPC
  [index ]
 * Menu:
 
-* * <1>:                                 Set Operations.      (line   6)
-* *:                                     Complex Number Operations.
+* * <1>:                                 Complex Number Operations.
                                                               (line   6)
+* *:                                     Set Operations.      (line   6)
 * **:                                    Complex Number Operations.
                                                               (line   6)
 * + <1>:                                 Complex Number Operations.
                                                               (line   6)
 * + <2>:                                 Set Operations.      (line   6)
 * +:                                     String Operations.   (line   6)
-* - <1>:                                 Set Operations.      (line   6)
-* -:                                     Complex Number Operations.
+* - <1>:                                 Complex Number Operations.
                                                               (line   6)
+* -:                                     Set Operations.      (line   6)
 * -A:                                    GPC Command Line Options.
-                                                              (line 507)
+                                                              (line 514)
 * -amtmpfile:                            GPC Command Line Options.
                                                               (line  54)
 * -assertions:                           GPC Command Line Options.
-                                                              (line 340)
+                                                              (line 347)
 * -autobuild:                            GPC Command Line Options.
                                                               (line  72)
 * -autolink:                             GPC Command Line Options.
@@ -34703,21 +34847,21 @@ Index-GPC
 * -automake-gpc:                         GPC Command Line Options.
                                                               (line  45)
 * -big-endian:                           GPC Command Line Options.
-                                                              (line 423)
+                                                              (line 430)
 * -borland-objects:                      GPC Command Line Options.
-                                                              (line 486)
+                                                              (line 493)
 * -borland-pascal:                       GPC Command Line Options.
-                                                              (line 630)
+                                                              (line 637)
 * -case-value-checking:                  GPC Command Line Options.
-                                                              (line 237)
+                                                              (line 244)
 * -cidefine:                             GPC Command Line Options.
-                                                              (line 417)
+                                                              (line 424)
 * -classic-pascal:                       GPC Command Line Options.
-                                                              (line 614)
+                                                              (line 621)
 * -classic-pascal-level-0:               GPC Command Line Options.
-                                                              (line 608)
+                                                              (line 615)
 * -csdefine:                             GPC Command Line Options.
-                                                              (line 420)
+                                                              (line 427)
 * -cstrings-as-strings:                  GPC Command Line Options.
                                                               (line 115)
 * -debug-automake:                       GPC Command Line Options.
@@ -34729,51 +34873,51 @@ Index-GPC
 * -debug-tree:                           GPC Command Line Options.
                                                               (line  10)
 * -delphi:                               GPC Command Line Options.
-                                                              (line 633)
+                                                              (line 640)
 * -delphi-comments:                      GPC Command Line Options.
                                                               (line 151)
 * -delphi-method-shadowing:              GPC Command Line Options.
-                                                              (line 479)
+                                                              (line 486)
 * -disable-debug-info:                   GPC Command Line Options.
                                                               (line  28)
 * -disable-default-paths:                GPC Command Line Options.
-                                                              (line 404)
+                                                              (line 411)
 * -disable-keyword:                      GPC Command Line Options.
-                                                              (line 324)
+                                                              (line 331)
 * -disable-predefined-identifier:        GPC Command Line Options.
-                                                              (line 337)
+                                                              (line 344)
 * -double-quoted-strings:                GPC Command Line Options.
                                                               (line 178)
 * -E:                                    GPC Command Line Options.
-                                                              (line 510)
+                                                              (line 517)
 * -enable-keyword:                       GPC Command Line Options.
-                                                              (line 321)
+                                                              (line 328)
 * -enable-predefined-identifier:         GPC Command Line Options.
-                                                              (line 334)
+                                                              (line 341)
 * -exact-compare-strings:                GPC Command Line Options.
                                                               (line 172)
 * -executable-file-name:                 GPC Command Line Options.
-                                                              (line 365)
+                                                              (line 372)
 * -executable-path:                      GPC Command Line Options.
-                                                              (line 382)
+                                                              (line 389)
 * -extended-pascal:                      GPC Command Line Options.
-                                                              (line 620)
+                                                              (line 627)
 * -extended-syntax:                      GPC Command Line Options.
                                                               (line  96)
 * -field-widths:                         GPC Command Line Options.
-                                                              (line 299)
+                                                              (line 306)
 * -gnu-objects:                          GPC Command Line Options.
-                                                              (line 495)
+                                                              (line 502)
 * -gnu-pascal:                           GPC Command Line Options.
-                                                              (line 649)
+                                                              (line 656)
 * -gpc-main <1>:                         Importing Libraries from Other Languages.
                                                               (line 103)
 * -gpc-main:                             GPC Command Line Options.
-                                                              (line 349)
+                                                              (line 356)
 * -gpi-destination-path:                 GPC Command Line Options.
-                                                              (line 407)
+                                                              (line 414)
 * -H:                                    GPC Command Line Options.
-                                                              (line 513)
+                                                              (line 520)
 * -ignore-function-results:              GPC Command Line Options.
                                                               (line 103)
 * -ignore-garbage-after-dot:             GPC Command Line Options.
@@ -34781,35 +34925,37 @@ Index-GPC
 * -ignore-packed:                        GPC Command Line Options.
                                                               (line  83)
 * -implementation-only:                  GPC Command Line Options.
-                                                              (line 362)
+                                                              (line 369)
 * -implicit-result:                      GPC Command Line Options.
-                                                              (line 327)
+                                                              (line 334)
 * -init-modules:                         GPC Command Line Options.
-                                                              (line 413)
+                                                              (line 420)
 * -interface-only:                       GPC Command Line Options.
-                                                              (line 358)
+                                                              (line 365)
 * -io-checking:                          GPC Command Line Options.
-                                                              (line 199)
+                                                              (line 206)
+* -iso-goto-restrictions:                GPC Command Line Options.
+                                                              (line 192)
 * -little-endian:                        GPC Command Line Options.
-                                                              (line 427)
+                                                              (line 434)
 * -longjmp-all-nonlocal-labels:          GPC Command Line Options.
                                                               (line 185)
 * -mac-objects:                          GPC Command Line Options.
-                                                              (line 489)
+                                                              (line 496)
 * -mac-pascal:                           GPC Command Line Options.
-                                                              (line 646)
+                                                              (line 653)
 * -macros:                               GPC Command Line Options.
                                                               (line 157)
 * -maximum-field-alignment:              GPC Command Line Options.
                                                               (line  79)
 * -methods-always-virtual:               GPC Command Line Options.
-                                                              (line 461)
+                                                              (line 468)
 * -mixed-comments:                       GPC Command Line Options.
                                                               (line 137)
 * -nested-comments:                      GPC Command Line Options.
                                                               (line 145)
 * -no-assertions:                        GPC Command Line Options.
-                                                              (line 343)
+                                                              (line 350)
 * -no-autobuild:                         GPC Command Line Options.
                                                               (line  76)
 * -no-autolink:                          GPC Command Line Options.
@@ -34817,7 +34963,7 @@ Index-GPC
 * -no-automake:                          GPC Command Line Options.
                                                               (line  69)
 * -no-case-value-checking:               GPC Command Line Options.
-                                                              (line 241)
+                                                              (line 248)
 * -no-cstrings-as-strings:               GPC Command Line Options.
                                                               (line 118)
 * -no-debug-source:                      GPC Command Line Options.
@@ -34825,17 +34971,17 @@ Index-GPC
 * -no-delphi-comments:                   GPC Command Line Options.
                                                               (line 154)
 * -no-delphi-method-shadowing:           GPC Command Line Options.
-                                                              (line 483)
+                                                              (line 490)
 * -no-double-quoted-strings:             GPC Command Line Options.
                                                               (line 181)
 * -no-exact-compare-strings:             GPC Command Line Options.
                                                               (line 175)
 * -no-executable-path:                   GPC Command Line Options.
-                                                              (line 385)
+                                                              (line 392)
 * -no-extended-syntax:                   GPC Command Line Options.
                                                               (line 100)
 * -no-field-widths:                      GPC Command Line Options.
-                                                              (line 303)
+                                                              (line 310)
 * -no-ignore-function-results:           GPC Command Line Options.
                                                               (line 106)
 * -no-ignore-garbage-after-dot:          GPC Command Line Options.
@@ -34843,233 +34989,235 @@ Index-GPC
 * -no-ignore-packed:                     GPC Command Line Options.
                                                               (line  86)
 * -no-implicit-result:                   GPC Command Line Options.
-                                                              (line 331)
+                                                              (line 338)
 * -no-io-checking:                       GPC Command Line Options.
-                                                              (line 202)
+                                                              (line 209)
+* -no-iso-goto-restrictions:             GPC Command Line Options.
+                                                              (line 195)
 * -no-longjmp-all-nonlocal-labels:       GPC Command Line Options.
                                                               (line 188)
 * -no-macros:                            GPC Command Line Options.
                                                               (line 160)
 * -no-methods-always-virtual:            GPC Command Line Options.
-                                                              (line 464)
+                                                              (line 471)
 * -no-mixed-comments:                    GPC Command Line Options.
                                                               (line 141)
 * -no-nested-comments:                   GPC Command Line Options.
                                                               (line 148)
 * -no-nonlocal-exit:                     GPC Command Line Options.
-                                                              (line 196)
+                                                              (line 203)
 * -no-object-checking:                   GPC Command Line Options.
-                                                              (line 221)
+                                                              (line 228)
 * -no-object-destination-path:           GPC Command Line Options.
-                                                              (line 400)
+                                                              (line 407)
 * -no-object-path:                       GPC Command Line Options.
-                                                              (line 378)
+                                                              (line 385)
 * -no-objects-are-references:            GPC Command Line Options.
-                                                              (line 470)
+                                                              (line 477)
 * -no-objects-require-override:          GPC Command Line Options.
-                                                              (line 476)
+                                                              (line 483)
 * -no-pedantic:                          GPC Command Line Options.
-                                                              (line 310)
+                                                              (line 317)
 * -no-pointer-arithmetic:                GPC Command Line Options.
                                                               (line 112)
 * -no-pointer-checking:                  GPC Command Line Options.
-                                                              (line 215)
+                                                              (line 222)
 * -no-pointer-checking-user-defined:     GPC Command Line Options.
-                                                              (line 208)
+                                                              (line 215)
 * -no-progress-bar:                      GPC Command Line Options.
                                                               (line  42)
 * -no-progress-messages:                 GPC Command Line Options.
                                                               (line  35)
 * -no-propagate-units:                   GPC Command Line Options.
-                                                              (line 355)
+                                                              (line 362)
 * -no-range-and-object-checking:         GPC Command Line Options.
-                                                              (line 233)
+                                                              (line 240)
 * -no-range-checking:                    GPC Command Line Options.
-                                                              (line 227)
+                                                              (line 234)
 * -no-read-base-specifier:               GPC Command Line Options.
-                                                              (line 254)
-* -no-read-hex:                          GPC Command Line Options.
                                                               (line 261)
-* -no-read-white-space:                  GPC Command Line Options.
+* -no-read-hex:                          GPC Command Line Options.
                                                               (line 268)
+* -no-read-white-space:                  GPC Command Line Options.
+                                                              (line 275)
 * -no-short-circuit:                     GPC Command Line Options.
                                                               (line 133)
 * -no-stack-checking:                    GPC Command Line Options.
-                                                              (line 248)
+                                                              (line 255)
 * -no-transparent-file-names:            GPC Command Line Options.
-                                                              (line 296)
+                                                              (line 303)
 * -no-truncate-strings:                  GPC Command Line Options.
                                                               (line 168)
 * -no-typed-address:                     GPC Command Line Options.
-                                                              (line 317)
+                                                              (line 324)
 * -no-unit-destination-path:             GPC Command Line Options.
-                                                              (line 392)
+                                                              (line 399)
 * -no-unit-path:                         GPC Command Line Options.
-                                                              (line 372)
+                                                              (line 379)
 * -no-write-capital-exponent:            GPC Command Line Options.
-                                                              (line 290)
+                                                              (line 297)
 * -no-write-clip-strings:                GPC Command Line Options.
-                                                              (line 276)
-* -no-write-real-blank:                  GPC Command Line Options.
                                                               (line 283)
+* -no-write-real-blank:                  GPC Command Line Options.
+                                                              (line 290)
 * -nonlocal-exit:                        GPC Command Line Options.
-                                                              (line 192)
+                                                              (line 199)
 * -nostdinc:                             GPC Command Line Options.
-                                                              (line 501)
+                                                              (line 508)
 * -object-checking:                      GPC Command Line Options.
-                                                              (line 218)
+                                                              (line 225)
 * -object-destination-path:              GPC Command Line Options.
-                                                              (line 396)
+                                                              (line 403)
 * -object-pascal:                        GPC Command Line Options.
-                                                              (line 623)
+                                                              (line 630)
 * -object-path:                          GPC Command Line Options.
-                                                              (line 375)
+                                                              (line 382)
 * -objects-are-references:               GPC Command Line Options.
-                                                              (line 467)
+                                                              (line 474)
 * -objects-require-override:             GPC Command Line Options.
-                                                              (line 473)
+                                                              (line 480)
 * -ooe-objects:                          GPC Command Line Options.
-                                                              (line 492)
+                                                              (line 499)
 * -P:                                    GPC Command Line Options.
-                                                              (line 516)
+                                                              (line 523)
 * -pascal-sc:                            GPC Command Line Options.
-                                                              (line 637)
+                                                              (line 644)
 * -pedantic:                             GPC Command Line Options.
-                                                              (line 306)
+                                                              (line 313)
 * -pointer-arithmetic:                   GPC Command Line Options.
                                                               (line 109)
 * -pointer-checking:                     GPC Command Line Options.
-                                                              (line 212)
+                                                              (line 219)
 * -pointer-checking-user-defined:        GPC Command Line Options.
-                                                              (line 205)
+                                                              (line 212)
 * -preprocessed:                         GPC Command Line Options.
-                                                              (line 498)
+                                                              (line 505)
 * -print-needed-options:                 GPC Command Line Options.
-                                                              (line 431)
+                                                              (line 438)
 * -progress-bar:                         GPC Command Line Options.
                                                               (line  39)
 * -progress-messages:                    GPC Command Line Options.
                                                               (line  32)
 * -propagate-units:                      GPC Command Line Options.
-                                                              (line 352)
+                                                              (line 359)
 * -range-and-object-checking:            GPC Command Line Options.
-                                                              (line 230)
+                                                              (line 237)
 * -range-checking:                       GPC Command Line Options.
-                                                              (line 224)
+                                                              (line 231)
 * -read-base-specifier:                  GPC Command Line Options.
-                                                              (line 251)
-* -read-hex:                             GPC Command Line Options.
                                                               (line 258)
-* -read-white-space:                     GPC Command Line Options.
+* -read-hex:                             GPC Command Line Options.
                                                               (line 265)
+* -read-white-space:                     GPC Command Line Options.
+                                                              (line 272)
 * -remap:                                GPC Command Line Options.
-                                                              (line 504)
+                                                              (line 511)
 * -setlimit:                             GPC Command Line Options.
-                                                              (line 346)
+                                                              (line 353)
 * -short-circuit:                        GPC Command Line Options.
                                                               (line 129)
 * -stack-checking:                       GPC Command Line Options.
-                                                              (line 245)
+                                                              (line 252)
 * -standard-pascal:                      GPC Command Line Options.
-                                                              (line 617)
+                                                              (line 624)
 * -standard-pascal-level-0:              GPC Command Line Options.
-                                                              (line 611)
+                                                              (line 618)
 * -sun-pascal:                           GPC Command Line Options.
-                                                              (line 643)
+                                                              (line 650)
 * -transparent-file-names:               GPC Command Line Options.
-                                                              (line 293)
+                                                              (line 300)
 * -truncate-strings:                     GPC Command Line Options.
                                                               (line 164)
 * -typed-address:                        GPC Command Line Options.
-                                                              (line 313)
+                                                              (line 320)
 * -ucsd-pascal:                          GPC Command Line Options.
-                                                              (line 627)
+                                                              (line 634)
 * -unit-destination-path:                GPC Command Line Options.
-                                                              (line 389)
+                                                              (line 396)
 * -unit-path:                            GPC Command Line Options.
-                                                              (line 369)
+                                                              (line 376)
 * -uses:                                 GPC Command Line Options.
-                                                              (line 410)
+                                                              (line 417)
 * -vax-pascal:                           GPC Command Line Options.
-                                                              (line 640)
+                                                              (line 647)
 * -Wabsolute:                            GPC Command Line Options.
                                                               (line 121)
 * -Wdynamic-arrays:                      GPC Command Line Options.
-                                                              (line 588)
+                                                              (line 595)
 * -Wfloat-equal:                         GPC Command Line Options.
-                                                              (line 549)
+                                                              (line 556)
 * -Widentifier-case:                     GPC Command Line Options.
-                                                              (line 447)
-* -Widentifier-case-local:               GPC Command Line Options.
-                                                              (line 440)
-* -Wimplicit-abstract:                   GPC Command Line Options.
-                                                              (line 519)
-* -Wimplicit-io:                         GPC Command Line Options.
-                                                              (line 543)
-* -Winherited-abstract:                  GPC Command Line Options.
-                                                              (line 527)
-* -Winterface-file-name:                 GPC Command Line Options.
                                                               (line 454)
+* -Widentifier-case-local:               GPC Command Line Options.
+                                                              (line 447)
+* -Wimplicit-abstract:                   GPC Command Line Options.
+                                                              (line 526)
+* -Wimplicit-io:                         GPC Command Line Options.
+                                                              (line 550)
+* -Winherited-abstract:                  GPC Command Line Options.
+                                                              (line 534)
+* -Winterface-file-name:                 GPC Command Line Options.
+                                                              (line 461)
 * -Wlocal-external:                      GPC Command Line Options.
-                                                              (line 582)
+                                                              (line 589)
 * -Wmixed-comments:                      GPC Command Line Options.
-                                                              (line 596)
+                                                              (line 603)
 * -Wnear-far:                            GPC Command Line Options.
-                                                              (line 563)
+                                                              (line 570)
 * -Wnested-comments:                     GPC Command Line Options.
-                                                              (line 602)
+                                                              (line 609)
 * -Wno-absolute:                         GPC Command Line Options.
                                                               (line 125)
 * -Wno-dynamic-arrays:                   GPC Command Line Options.
-                                                              (line 592)
-* -Wno-float-equal:                      GPC Command Line Options.
-                                                              (line 552)
-* -Wno-identifier-case:                  GPC Command Line Options.
-                                                              (line 450)
-* -Wno-identifier-case-local:            GPC Command Line Options.
-                                                              (line 444)
-* -Wno-implicit-abstract:                GPC Command Line Options.
-                                                              (line 523)
-* -Wno-implicit-io:                      GPC Command Line Options.
-                                                              (line 546)
-* -Wno-inherited-abstract:               GPC Command Line Options.
-                                                              (line 531)
-* -Wno-interface-file-name:              GPC Command Line Options.
-                                                              (line 457)
-* -Wno-local-external:                   GPC Command Line Options.
-                                                              (line 585)
-* -Wno-mixed-comments:                   GPC Command Line Options.
                                                               (line 599)
-* -Wno-near-far:                         GPC Command Line Options.
-                                                              (line 566)
-* -Wno-nested-comments:                  GPC Command Line Options.
-                                                              (line 605)
-* -Wno-object-assignment:                GPC Command Line Options.
-                                                              (line 539)
-* -Wno-semicolon:                        GPC Command Line Options.
-                                                              (line 579)
-* -Wno-typed-const:                      GPC Command Line Options.
+* -Wno-float-equal:                      GPC Command Line Options.
                                                               (line 559)
+* -Wno-identifier-case:                  GPC Command Line Options.
+                                                              (line 457)
+* -Wno-identifier-case-local:            GPC Command Line Options.
+                                                              (line 451)
+* -Wno-implicit-abstract:                GPC Command Line Options.
+                                                              (line 530)
+* -Wno-implicit-io:                      GPC Command Line Options.
+                                                              (line 553)
+* -Wno-inherited-abstract:               GPC Command Line Options.
+                                                              (line 538)
+* -Wno-interface-file-name:              GPC Command Line Options.
+                                                              (line 464)
+* -Wno-local-external:                   GPC Command Line Options.
+                                                              (line 592)
+* -Wno-mixed-comments:                   GPC Command Line Options.
+                                                              (line 606)
+* -Wno-near-far:                         GPC Command Line Options.
+                                                              (line 573)
+* -Wno-nested-comments:                  GPC Command Line Options.
+                                                              (line 612)
+* -Wno-object-assignment:                GPC Command Line Options.
+                                                              (line 546)
+* -Wno-semicolon:                        GPC Command Line Options.
+                                                              (line 586)
+* -Wno-typed-const:                      GPC Command Line Options.
+                                                              (line 566)
 * -Wno-underscore:                       GPC Command Line Options.
-                                                              (line 572)
+                                                              (line 579)
 * -Wno-warnings:                         GPC Command Line Options.
-                                                              (line 437)
+                                                              (line 444)
 * -Wobject-assignment:                   GPC Command Line Options.
-                                                              (line 535)
+                                                              (line 542)
 * -write-capital-exponent:               GPC Command Line Options.
-                                                              (line 287)
+                                                              (line 294)
 * -write-clip-strings:                   GPC Command Line Options.
-                                                              (line 272)
-* -write-real-blank:                     GPC Command Line Options.
                                                               (line 279)
+* -write-real-blank:                     GPC Command Line Options.
+                                                              (line 286)
 * -Wsemicolon:                           GPC Command Line Options.
-                                                              (line 576)
+                                                              (line 583)
 * -Wtyped-const:                         GPC Command Line Options.
-                                                              (line 555)
+                                                              (line 562)
 * -Wunderscore:                          GPC Command Line Options.
-                                                              (line 569)
+                                                              (line 576)
 * -Wwarnings:                            GPC Command Line Options.
-                                                              (line 434)
+                                                              (line 441)
 * /:                                     Complex Number Operations.
                                                               (line   6)
 * <:                                     Set Operations.      (line   6)
@@ -35080,25 +35228,25 @@ Index-GPC
 * ><:                                    Set Operations.      (line   6)
 * >=:                                    Set Operations.      (line   6)
 * Abs:                                   Abs.                 (line   6)
-* absolute <1>:                          Keywords.            (line  74)
+* absolute <1>:                          Keywords.            (line  59)
 * absolute:                              absolute.            (line   6)
-* abstract <1>:                          abstract.            (line   6)
-* abstract:                              Keywords.            (line  77)
+* abstract <1>:                          Keywords.            (line  62)
+* abstract:                              abstract.            (line   6)
 * Acknowledgments:                       Acknowledgments.     (line   6)
 * Addr:                                  Addr.                (line   6)
 * alignment:                             AlignOf.             (line   6)
 * Alignment, Type Implementation:        Alignment.           (line   6)
 * AlignOf:                               AlignOf.             (line   6)
-* all <1>:                               all.                 (line   6)
+* all <1>:                               Keywords.            (line  65)
 * all <2>:                               export.              (line   6)
-* all:                                   Keywords.            (line  80)
+* all:                                   all.                 (line   6)
 * and <1>:                               Operations for Integer and Ordinal Types.
                                                               (line   6)
-* and <2>:                               Keywords.            (line  83)
-* and:                                   and.                 (line   6)
+* and <2>:                               and.                 (line   6)
+* and:                                   Keywords.            (line  68)
 * and then:                              and then.            (line   6)
-* and_then <1>:                          and_then.            (line   6)
-* and_then:                              Keywords.            (line  87)
+* and_then <1>:                          Keywords.            (line  72)
+* and_then:                              and_then.            (line   6)
 * ANSI:                                  Resources.           (line 107)
 * AnsiChar:                              AnsiChar.            (line   6)
 * AnyFile:                               AnyFile.             (line   6)
@@ -35108,48 +35256,48 @@ Index-GPC
 * ArcCos:                                ArcCos.              (line   6)
 * Archives, mailing list:                Mailing List Archives.
                                                               (line   6)
-* ArcSin <1>:                            ArcSin.              (line   6)
-* ArcSin:                                Complex Number Operations.
+* ArcSin <1>:                            Complex Number Operations.
                                                               (line   6)
-* ArcTan <1>:                            ArcTan.              (line   6)
-* ArcTan:                                Complex Number Operations.
+* ArcSin:                                ArcSin.              (line   6)
+* ArcTan <1>:                            Complex Number Operations.
                                                               (line   6)
+* ArcTan:                                ArcTan.              (line   6)
 * Arg <1>:                               Complex Number Operations.
                                                               (line   6)
 * Arg:                                   Arg.                 (line   6)
 * arguments, command line:               Accessing Command Line Arguments.
                                                               (line   6)
-* array <1>:                             Keywords.            (line  90)
+* array <1>:                             Keywords.            (line  75)
 * array:                                 array.               (line   6)
 * Array Types, Data Types:               Array Types.         (line   6)
 * array, conformant:                     Conformant Arrays.   (line   6)
 * array, open:                           Open Arrays.         (line   6)
 * array, slice access:                   String Slice Access. (line   6)
-* as <1>:                                Keywords.            (line  93)
+* as <1>:                                Keywords.            (line  78)
 * as:                                    as.                  (line   6)
-* asm <1>:                               Keywords.            (line  96)
+* asm <1>:                               Keywords.            (line  81)
 * asm:                                   asm.                 (line   6)
 * asm, Statements, Source Structure:     asm Inline.          (line   6)
-* asmname <1>:                           asmname.             (line   6)
-* asmname:                               Keywords.            (line  99)
+* asmname <1>:                           Keywords.            (line  84)
+* asmname:                               asmname.             (line   6)
 * Assert:                                Assert.              (line   6)
 * Assign:                                Assign.              (line   6)
 * Assigned:                              Assigned.            (line   6)
 * Assignment, Statements, Source Structure: Assignment.       (line   6)
 * attribute <1>:                         attribute.           (line   6)
-* attribute:                             Keywords.            (line 102)
+* attribute:                             Keywords.            (line  87)
 * authors:                               Acknowledgments.     (line   6)
 * Automake, internals:                   Automake.            (line   6)
 * begin <1>:                             begin.               (line   6)
-* begin:                                 Keywords.            (line 105)
+* begin:                                 Keywords.            (line  90)
 * begin end, Statements, Source Structure: begin end Compound Statement.
                                                               (line   6)
 * binary distributions, installing:      Binary Distributions.
                                                               (line   6)
 * Bind <1>:                              Bind.                (line   6)
 * Bind:                                  File Routines.       (line   6)
-* bindable <1>:                          bindable.            (line   6)
-* bindable:                              Keywords.            (line 109)
+* bindable <1>:                          Keywords.            (line  94)
+* bindable:                              bindable.            (line   6)
 * Binding <1>:                           Binding.             (line   6)
 * Binding:                               File Routines.       (line   6)
 * BindingType:                           BindingType.         (line   6)
@@ -35173,15 +35321,15 @@ Index-GPC
 * ByteBool:                              ByteBool.            (line   6)
 * ByteCard:                              ByteCard.            (line   6)
 * ByteInt:                               ByteInt.             (line   6)
-* c <1>:                                 Keywords.            (line 112)
-* c:                                     c.                   (line   6)
+* c <1>:                                 c.                   (line   6)
+* c:                                     Keywords.            (line  97)
 * C:                                     Other Languages.     (line   6)
-* c_language <1>:                        c_language.          (line   6)
-* c_language:                            Keywords.            (line 115)
+* c_language <1>:                        Keywords.            (line 100)
+* c_language:                            c_language.          (line   6)
 * Card <1>:                              Card.                (line   6)
 * Card:                                  Set Operations.      (line   6)
 * Cardinal:                              Cardinal.            (line   6)
-* case <1>:                              Keywords.            (line 118)
+* case <1>:                              Keywords.            (line 103)
 * case:                                  case.                (line   6)
 * case, Statements, Source Structure:    case Statement.      (line   6)
 * CBoolean:                              CBoolean.            (line   6)
@@ -35196,12 +35344,12 @@ Index-GPC
 * Chr:                                   Chr.                 (line   6)
 * CInteger:                              CInteger.            (line   6)
 * class <1>:                             class.               (line   6)
-* class:                                 Keywords.            (line 122)
+* class:                                 Keywords.            (line 107)
 * Classic Pascal:                        Resources.           (line 107)
 * Close:                                 Close.               (line   6)
-* Cmplx <1>:                             Cmplx.               (line   6)
-* Cmplx:                                 Complex Number Operations.
+* Cmplx <1>:                             Complex Number Operations.
                                                               (line   6)
+* Cmplx:                                 Cmplx.               (line   6)
 * command line arguments:                Accessing Command Line Arguments.
                                                               (line   6)
 * command line options:                  Invoking GPC.        (line   6)
@@ -35218,24 +35366,24 @@ Index-GPC
 * Complex:                               Complex.             (line   6)
 * complex numbers, operations:           Complex Number Operations.
                                                               (line   6)
-* Concat <1>:                            String Operations.   (line   6)
-* Concat:                                Concat.              (line   6)
+* Concat <1>:                            Concat.              (line   6)
+* Concat:                                String Operations.   (line   6)
 * conformant arrays, internals:          Parameter passing.   (line  16)
 * Conjugate:                             Conjugate.           (line   6)
-* const <1>:                             Keywords.            (line 125)
+* const <1>:                             Keywords.            (line 110)
 * const:                                 const.               (line   6)
 * const parameters, internals:           Parameter passing.   (line  43)
 * Constant Declaration, Source Structures: Constant Declaration.
                                                               (line   6)
-* constructor <1>:                       Keywords.            (line 128)
+* constructor <1>:                       Keywords.            (line 113)
 * constructor:                           constructor.         (line   6)
 * Continue:                              Continue.            (line   6)
 * contributed units:                     Contributed units.   (line   6)
 * Contributions:                         Resources.           (line   6)
 * contributors:                          Acknowledgments.     (line   6)
 * Copy:                                  Copy.                (line   6)
-* Copying <1>:                           Library Copying.     (line   6)
-* Copying:                               Copying.             (line   6)
+* Copying <1>:                           Copying.             (line   6)
+* Copying:                               Library Copying.     (line   6)
 * Cos <1>:                               Complex Number Operations.
                                                               (line   6)
 * Cos:                                   Cos.                 (line   6)
@@ -35264,8 +35412,8 @@ Index-GPC
 * Dec:                                   Dec.                 (line   6)
 * DefineSize:                            DefineSize.          (line   6)
 * Delete:                                Delete.              (line   6)
-* destructor <1>:                        Keywords.            (line 131)
-* destructor:                            destructor.          (line   6)
+* destructor <1>:                        destructor.          (line   6)
+* destructor:                            Keywords.            (line 116)
 * DevPascal <1>:                         IDE.                 (line  23)
 * DevPascal:                             Resources.           (line  47)
 * Discard:                               Discard.             (line   6)
@@ -35274,33 +35422,33 @@ Index-GPC
                                                               (line   6)
 * distribution, minimal:                 Compiling GPC.       (line  51)
 * div <1>:                               div.                 (line   6)
-* div:                                   Keywords.            (line 134)
+* div:                                   Keywords.            (line 119)
 * djgpp:                                 MS-DOS with DJGPP.   (line   6)
-* do <1>:                                do.                  (line   6)
-* do:                                    Keywords.            (line 137)
+* do <1>:                                Keywords.            (line 122)
+* do:                                    do.                  (line   6)
 * documentation:                         Resources.           (line  84)
 * Dos:                                   Dos.                 (line   6)
-* DOS, MS- <1>:                          MS-DOS with DJGPP.   (line   6)
-* DOS, MS-:                              MS-DOS or OS/2 with EMX.
+* DOS, MS- <1>:                          MS-DOS or OS/2 with EMX.
                                                               (line   6)
+* DOS, MS-:                              MS-DOS with DJGPP.   (line   6)
 * DosUnix:                               DosUnix.             (line   6)
 * Double <1>:                            Double.              (line   6)
 * Double:                                Real Types.          (line   6)
 * download:                              Download.            (line   6)
-* downto <1>:                            Keywords.            (line 143)
-* downto:                                downto.              (line   6)
+* downto <1>:                            downto.              (line   6)
+* downto:                                Keywords.            (line 128)
 * Drawing:                               Resources.           (line  12)
-* Editor:                                Resources.           (line  39)
+* Editor:                                Resources.           (line  47)
 * efence:                                Libraries.           (line   6)
 * ElectricFence:                         Libraries.           (line   6)
-* else <1>:                              Keywords.            (line 146)
+* else <1>:                              Keywords.            (line 131)
 * else:                                  else.                (line   6)
 * emacs:                                 IDE.                 (line   9)
 * Empty:                                 Empty.               (line   6)
 * EMX:                                   MS-DOS or OS/2 with EMX.
                                                               (line   6)
 * end <1>:                               end.                 (line   6)
-* end:                                   Keywords.            (line 151)
+* end:                                   Keywords.            (line 136)
 * endianness:                            Endianness.          (line   6)
 * EOF:                                   EOF.                 (line   6)
 * EOLn:                                  EOLn.                (line   6)
@@ -35308,33 +35456,33 @@ Index-GPC
 * EQ:                                    EQ.                  (line   6)
 * EQPad:                                 EQPad.               (line   6)
 * Erase:                                 Erase.               (line   6)
-* except <1>:                            except.              (line   6)
-* except:                                Keywords.            (line 157)
+* except <1>:                            Keywords.            (line 142)
+* except:                                except.              (line   6)
 * Exclude:                               Exclude.             (line   6)
 * Exit:                                  Exit.                (line   6)
 * Exp <1>:                               Complex Number Operations.
                                                               (line   6)
 * Exp:                                   Exp.                 (line   6)
-* export <1>:                            export.              (line   6)
-* export:                                Keywords.            (line 160)
-* exports <1>:                           Keywords.            (line 163)
-* exports:                               exports.             (line   6)
+* export <1>:                            Keywords.            (line 145)
+* export:                                export.              (line   6)
+* exports <1>:                           exports.             (line   6)
+* exports:                               Keywords.            (line 148)
 * Extend:                                Extend.              (line   6)
-* Extended <1>:                          Extended.            (line   6)
-* Extended:                              Real Types.          (line   6)
+* Extended <1>:                          Real Types.          (line   6)
+* Extended:                              Extended.            (line   6)
 * Extended Pascal:                       Resources.           (line 107)
-* external <1>:                          Importing Libraries from Other Languages.
+* external <1>:                          Keywords.            (line 151)
+* external <2>:                          Importing Libraries from Other Languages.
                                                               (line   6)
-* external <2>:                          Keywords.            (line 166)
 * external:                              external.            (line   6)
 * Fail:                                  Fail.                (line   6)
 * False:                                 False.               (line   6)
 * FAQ:                                   FAQ.                 (line   6)
-* far <1>:                               Keywords.            (line 169)
-* far:                                   far.                 (line   6)
+* far <1>:                               far.                 (line   6)
+* far:                                   Keywords.            (line 154)
 * far, internals:                        forward near far.    (line   6)
-* file <1>:                              Keywords.            (line 172)
-* file:                                  file.                (line   6)
+* file <1>:                              file.                (line   6)
+* file:                                  Keywords.            (line 157)
 * File layout, internals:                File Layout.         (line   6)
 * File Types, Intrinsic, Data Types:     File Types.          (line   6)
 * FilePos:                               FilePos.             (line   6)
@@ -35342,34 +35490,34 @@ Index-GPC
 * FileSize:                              FileSize.            (line   6)
 * FileUtils:                             FileUtils.           (line   6)
 * FillChar:                              FillChar.            (line   6)
-* finalization <1>:                      Keywords.            (line 175)
-* finalization:                          finalization.        (line   6)
+* finalization <1>:                      finalization.        (line   6)
+* finalization:                          Keywords.            (line 160)
 * Finalize:                              Finalize.            (line   6)
 * finally <1>:                           finally.             (line   6)
-* finally:                               Keywords.            (line 178)
+* finally:                               Keywords.            (line 163)
 * Flush:                                 Flush.               (line   6)
 * for <1>:                               for.                 (line   6)
-* for:                                   Keywords.            (line 181)
+* for:                                   Keywords.            (line 166)
 * for, Statements, Source Structure:     for Statement.       (line   6)
 * FormatString <1>:                      I18N.                (line   6)
 * FormatString:                          FormatString.        (line   6)
-* forward <1>:                           forward.             (line   6)
-* forward:                               Keywords.            (line 184)
+* forward <1>:                           Keywords.            (line 169)
+* forward:                               forward.             (line   6)
 * forward, internals:                    forward near far.    (line   6)
 * Frac:                                  Frac.                (line   6)
 * FrameAddress:                          FrameAddress.        (line   6)
 * Free Software:                         GNU.                 (line   6)
-* Freedom <1>:                           Resources.           (line 149)
-* Freedom <2>:                           Copying.             (line   6)
-* Freedom:                               Library Copying.     (line   6)
+* Freedom <1>:                           Copying.             (line   6)
+* Freedom <2>:                           Library Copying.     (line   6)
+* Freedom:                               Resources.           (line 149)
 * FreeMem <1>:                           Memory Management Routines.
                                                               (line   6)
 * FreeMem:                               FreeMem.             (line   6)
 * Frequently Asked Questions:            FAQ.                 (line   6)
 * front-end, internals <1>:              Syntax parsing.      (line   6)
 * front-end, internals:                  Tree nodes.          (line   6)
-* function <1>:                          function.            (line   6)
-* function:                              Keywords.            (line 187)
+* function <1>:                          Keywords.            (line 172)
+* function:                              function.            (line   6)
 * function, Subroutine Declaration, Source Structure: The Function.
                                                               (line   6)
 * functional type:                       Procedural Types.    (line   6)
@@ -35382,14 +35530,14 @@ Index-GPC
 * German:                                Resources.           (line  84)
 * Get <1>:                               File Routines.       (line   6)
 * Get:                                   Get.                 (line   6)
-* GetMem <1>:                            GetMem.              (line   6)
-* GetMem:                                Memory Management Routines.
+* GetMem <1>:                            Memory Management Routines.
                                                               (line   6)
-* gettext:                               Resources.           (line  65)
+* GetMem:                                GetMem.              (line   6)
 * GetText:                               I18N.                (line   6)
-* GetTimeStamp <1>:                      GetTimeStamp.        (line   6)
-* GetTimeStamp:                          Date And Time Routines.
+* gettext:                               Resources.           (line  65)
+* GetTimeStamp <1>:                      Date And Time Routines.
                                                               (line   6)
+* GetTimeStamp:                          GetTimeStamp.        (line   6)
 * gmp:                                   Libraries.           (line   6)
 * GMP:                                   GMP.                 (line   6)
 * GNU DBM:                               Resources.           (line  71)
@@ -35398,8 +35546,8 @@ Index-GPC
 * GNU Library General Public License:    Library Copying.     (line   6)
 * GNU Pascal command line options:       Invoking GPC.        (line   6)
 * GNU, project:                          GNU.                 (line   6)
-* goto <1>:                              goto.                (line   6)
-* goto:                                  Keywords.            (line 190)
+* goto <1>:                              Keywords.            (line 175)
+* goto:                                  goto.                (line   6)
 * goto, Statements, Source Structure:    goto Statement.      (line   6)
 * GPC and other languages:               Other Languages.     (line   6)
 * GPC source, internals:                 Internals.           (line   6)
@@ -35421,35 +35569,34 @@ Index-GPC
 * highlights:                            Highlights.          (line   6)
 * HTTP:                                  Download.            (line   6)
 * I18N:                                  I18N.                (line   6)
-* IDE <1>:                               Resources.           (line  31)
-* IDE <2>:                               IDE.                 (line   6)
+* IDE <1>:                               IDE.                 (line   6)
 * IDE:                                   Resources.           (line  47)
-* if <1>:                                if.                  (line   6)
-* if:                                    Keywords.            (line 193)
+* if <1>:                                Keywords.            (line 178)
+* if:                                    if.                  (line   6)
 * if, Statements, Source Structure:      if Statement.        (line   6)
-* Im <1>:                                Im.                  (line   6)
-* Im:                                    Complex Number Operations.
+* Im <1>:                                Complex Number Operations.
                                                               (line   6)
-* implementation <1>:                    implementation.      (line   6)
-* implementation:                        Keywords.            (line 196)
-* import <1>:                            import.              (line   6)
-* import:                                Keywords.            (line 199)
+* Im:                                    Im.                  (line   6)
+* implementation <1>:                    Keywords.            (line 181)
+* implementation:                        implementation.      (line   6)
+* import <1>:                            Keywords.            (line 184)
+* import:                                import.              (line   6)
 * import part <1>:                       Modules.             (line   6)
 * import part:                           Units.               (line   6)
 * Import Part, Source Structures:        Modules and Units.   (line   6)
-* in <1>:                                Set Operations.      (line   6)
-* in <2>:                                Keywords.            (line 202)
-* in:                                    in.                  (line   6)
+* in <1>:                                Keywords.            (line 187)
+* in <2>:                                in.                  (line   6)
+* in:                                    Set Operations.      (line   6)
 * Inc <1>:                               Operations for Integer and Ordinal Types.
                                                               (line   6)
 * Inc:                                   Inc.                 (line   6)
 * Include:                               Include.             (line   6)
 * Index:                                 Index.               (line   6)
-* inherited <1>:                         OOP.                 (line 141)
-* inherited <2>:                         inherited.           (line   6)
-* inherited:                             Keywords.            (line 206)
-* initialization <1>:                    Keywords.            (line 209)
-* initialization:                        initialization.      (line   6)
+* inherited <1>:                         inherited.           (line   6)
+* inherited <2>:                         OOP.                 (line 142)
+* inherited:                             Keywords.            (line 191)
+* initialization <1>:                    initialization.      (line   6)
+* initialization:                        Keywords.            (line 194)
 * Initialize:                            Initialize.          (line   6)
 * InOutRes:                              InOutRes.            (line   6)
 * Input:                                 Input.               (line   6)
@@ -35473,28 +35620,28 @@ Index-GPC
                                                               (line   6)
 * integer, operations:                   Operations for Integer and Ordinal Types.
                                                               (line   6)
-* interface <1>:                         Keywords.            (line 212)
+* interface <1>:                         Keywords.            (line 197)
 * interface:                             interface.           (line   6)
 * interfaces, internals:                 GPI files.           (line   6)
 * intermediate code, internals:          Tree nodes.          (line   6)
 * Internals:                             Internals.           (line   6)
 * Internationalization <1>:              Resources.           (line  65)
 * Internationalization:                  I18N.                (line   6)
-* interrupt <1>:                         Keywords.            (line 215)
-* interrupt:                             interrupt.           (line   6)
+* interrupt <1>:                         interrupt.           (line   6)
+* interrupt:                             Keywords.            (line 200)
 * Intl:                                  Intl.                (line   6)
 * IOResult:                              IOResult.            (line   6)
-* is <1>:                                is.                  (line   6)
-* is:                                    Keywords.            (line 218)
+* is <1>:                                Keywords.            (line 203)
+* is:                                    is.                  (line   6)
 * ISO 10206:                             Resources.           (line 107)
 * ISO 7185:                              Resources.           (line 107)
 * keywords, internals:                   Parsing keywords.    (line   6)
 * label <1>:                             label.               (line   6)
-* label:                                 Keywords.            (line 221)
+* label:                                 Keywords.            (line 206)
 * Label Declaration, Source Structures:  Label Declaration.   (line   6)
 * language definition, internals:        Syntax parsing.      (line   6)
-* LastPosition <1>:                      LastPosition.        (line   6)
-* LastPosition:                          File Routines.       (line   6)
+* LastPosition <1>:                      File Routines.       (line   6)
+* LastPosition:                          LastPosition.        (line   6)
 * LE:                                    LE.                  (line   6)
 * Leave:                                 Leave.               (line   6)
 * Length:                                Length.              (line   6)
@@ -35503,9 +35650,9 @@ Index-GPC
 * Lexer problems, internals:             Lexer problems.      (line   6)
 * lexical analyzer, internals:           Lexical analyzer.    (line   6)
 * LGPL:                                  Library Copying.     (line   6)
-* Libraries:                             GPC Options.         (line  87)
 * libraries:                             Libraries.           (line   6)
-* library <1>:                           Keywords.            (line 224)
+* Libraries:                             GPC Options.         (line  87)
+* library <1>:                           Keywords.            (line 209)
 * library:                               library.             (line   6)
 * Library General Public License:        Library Copying.     (line   6)
 * linking:                               Importing Libraries from Other Languages.
@@ -35522,8 +35669,8 @@ Index-GPC
 * LongestReal:                           LongestReal.         (line   6)
 * LongestWord:                           LongestWord.         (line   6)
 * LongInt:                               LongInt.             (line   6)
-* LongReal <1>:                          LongReal.            (line   6)
-* LongReal:                              Real Types.          (line   6)
+* LongReal <1>:                          Real Types.          (line   6)
+* LongReal:                              LongReal.            (line   6)
 * LongWord:                              LongWord.            (line   6)
 * Loops, Loop Control Statements:        Loop Control Statements.
                                                               (line   6)
@@ -35534,9 +35681,9 @@ Index-GPC
                                                               (line   6)
 * magic, internals:                      Tree nodes.          (line 106)
 * Mailing List:                          Mailing List.        (line   6)
-* Mailing List Archives <1>:             Mailing List Archives.
+* Mailing List Archives <1>:             Resources.           (line  99)
+* Mailing List Archives:                 Mailing List Archives.
                                                               (line   6)
-* Mailing List Archives:                 Resources.           (line  99)
 * main program:                          Importing Libraries from Other Languages.
                                                               (line 103)
 * Mark:                                  Mark.                (line   6)
@@ -35559,59 +35706,59 @@ Index-GPC
 * Min:                                   Min.                 (line   6)
 * MinReal:                               MinReal.             (line   6)
 * MkDir:                                 MkDir.               (line   6)
-* mod <1>:                               Keywords.            (line 227)
-* mod:                                   mod.                 (line   6)
+* mod <1>:                               mod.                 (line   6)
+* mod:                                   Keywords.            (line 212)
 * module <1>:                            module.              (line   6)
-* module:                                Keywords.            (line 230)
+* module:                                Keywords.            (line 215)
 * modules, internals:                    GPI files.           (line   6)
 * Modules, source structure:             Modules.             (line   6)
 * Move:                                  Move.                (line   6)
 * MoveLeft:                              MoveLeft.            (line   6)
 * MoveRight:                             MoveRight.           (line   6)
-* MS Windows 95/98/NT <1>:               Download.            (line 144)
-* MS Windows 95/98/NT:                   MS Windows 95/98/NT. (line   6)
-* MS-DOS <1>:                            MS-DOS or OS/2 with EMX.
+* MS Windows 95/98/NT <1>:               MS Windows 95/98/NT. (line   6)
+* MS Windows 95/98/NT:                   Download.            (line 153)
+* MS-DOS <1>:                            MS-DOS with DJGPP.   (line   6)
+* MS-DOS:                                MS-DOS or OS/2 with EMX.
                                                               (line   6)
-* MS-DOS:                                MS-DOS with DJGPP.   (line   6)
 * MySQL:                                 Resources.           (line  71)
-* name <1>:                              Keywords.            (line 233)
-* name <2>:                              Importing Libraries from Other Languages.
+* name <1>:                              Keywords.            (line 218)
+* name <2>:                              name.                (line   6)
+* name:                                  Importing Libraries from Other Languages.
                                                               (line   6)
-* name:                                  name.                (line   6)
 * ncurses <1>:                           Libraries.           (line   6)
 * ncurses:                               CRT.                 (line   6)
 * NE:                                    NE.                  (line   6)
-* near <1>:                              Keywords.            (line 236)
-* near:                                  near.                (line   6)
+* near <1>:                              near.                (line   6)
+* near:                                  Keywords.            (line 221)
 * near, internals:                       forward near far.    (line   6)
 * NEPad:                                 NEPad.               (line   6)
-* New <1>:                               OOP.                 (line 147)
-* New <2>:                               New.                 (line   6)
-* New:                                   Memory Management Routines.
+* New <1>:                               Memory Management Routines.
                                                               (line   6)
+* New <2>:                               OOP.                 (line 148)
+* New:                                   New.                 (line   6)
 * NewCString:                            NewCString.          (line   6)
 * news:                                  News.                (line   6)
 * Newsgroups:                            Newsgroups.          (line   6)
-* nil <1>:                               Keywords.            (line 239)
-* nil:                                   nil.                 (line   6)
-* not <1>:                               not.                 (line   6)
-* not <2>:                               Operations for Integer and Ordinal Types.
+* nil <1>:                               nil.                 (line   6)
+* nil:                                   Keywords.            (line 224)
+* not <1>:                               Operations for Integer and Ordinal Types.
                                                               (line   6)
-* not:                                   Keywords.            (line 242)
+* not <2>:                               not.                 (line   6)
+* not:                                   Keywords.            (line 227)
 * Null:                                  Null.                (line   6)
-* object <1>:                            Keywords.            (line 245)
+* object <1>:                            Keywords.            (line 230)
 * object:                                object.              (line   6)
 * Object Types, Data Types:              Object Types.        (line   6)
 * object-oriented programming:           OOP.                 (line   6)
 * Objects:                               Exporting GPC Libraries to Other Languages.
                                                               (line  26)
 * Odd:                                   Odd.                 (line   6)
-* of <1>:                                Keywords.            (line 248)
-* of:                                    of.                  (line   6)
-* on <1>:                                Keywords.            (line 254)
+* of <1>:                                of.                  (line   6)
+* of:                                    Keywords.            (line 233)
+* on <1>:                                Keywords.            (line 239)
 * on:                                    on.                  (line   6)
-* only <1>:                              only.                (line   6)
-* only:                                  Keywords.            (line 257)
+* only <1>:                              Keywords.            (line 242)
+* only:                                  only.                (line   6)
 * OOP:                                   OOP.                 (line   6)
 * operations, complex numbers:           Complex Number Operations.
                                                               (line   6)
@@ -35621,7 +35768,7 @@ Index-GPC
 * operations, sets:                      Set Operations.      (line   6)
 * operations, string:                    String Operations.   (line   6)
 * operator <1>:                          operator.            (line   6)
-* operator:                              Keywords.            (line 260)
+* operator:                              Keywords.            (line 245)
 * operator, Subroutine Declaration, Source Structure: The Operator.
                                                               (line   6)
 * Operators:                             Operators.           (line   6)
@@ -35629,31 +35776,31 @@ Index-GPC
 * operators, user-defined:               User-defined Operators.
                                                               (line   6)
 * options, command line:                 Invoking GPC.        (line   6)
-* or <1>:                                Keywords.            (line 263)
-* or <2>:                                or.                  (line   6)
-* or:                                    Operations for Integer and Ordinal Types.
+* or <1>:                                or.                  (line   6)
+* or <2>:                                Operations for Integer and Ordinal Types.
                                                               (line   6)
+* or:                                    Keywords.            (line 248)
 * or else:                               or else.             (line   6)
 * or_else <1>:                           or_else.             (line   6)
-* or_else:                               Keywords.            (line 267)
+* or_else:                               Keywords.            (line 252)
 * Ord:                                   Ord.                 (line   6)
 * Ordinal Types, Intrinsic, Data Types:  Ordinal Types.       (line   6)
 * ordinal, operations:                   Operations for Integer and Ordinal Types.
                                                               (line   6)
 * OS/2:                                  MS-DOS or OS/2 with EMX.
                                                               (line   6)
-* otherwise <1>:                         Keywords.            (line 270)
+* otherwise <1>:                         Keywords.            (line 255)
 * otherwise:                             otherwise.           (line   6)
 * Output:                                Output.              (line   6)
 * output file option:                    GPC Options.         (line  62)
 * Overlay:                               Overlay.             (line   6)
-* overload <1>:                          overload.            (line   6)
-* overload:                              Keywords.            (line 274)
+* overload <1>:                          Keywords.            (line 259)
+* overload:                              overload.            (line   6)
 * override <1>:                          override.            (line   6)
-* override:                              Keywords.            (line 277)
+* override:                              Keywords.            (line 262)
 * Pack:                                  Pack.                (line   6)
-* packed <1>:                            Keywords.            (line 280)
-* packed:                                packed.              (line   6)
+* packed <1>:                            packed.              (line   6)
+* packed:                                Keywords.            (line 265)
 * Page:                                  Page.                (line   6)
 * PAnsiChar:                             PAnsiChar.           (line   6)
 * ParamCount <1>:                        ParamCount.          (line   6)
@@ -35664,9 +35811,9 @@ Index-GPC
 * parameter passing, internals:          Parameter passing.   (line   6)
 * parameter, protected:                  Protected Parameters.
                                                               (line   6)
-* ParamStr <1>:                          Accessing Command Line Arguments.
+* ParamStr <1>:                          ParamStr.            (line   6)
+* ParamStr:                              Accessing Command Line Arguments.
                                                               (line   6)
-* ParamStr:                              ParamStr.            (line   6)
 * parser, internals:                     Syntax parsing.      (line   6)
 * parsing, internals:                    Parsing keywords.    (line   6)
 * Pascal standards:                      Resources.           (line 107)
@@ -35675,8 +35822,8 @@ Index-GPC
 * PChar:                                 PChar.               (line   6)
 * PDCurses <1>:                          CRT.                 (line   6)
 * PDCurses:                              Libraries.           (line   6)
-* PENG <1>:                              Resources.           (line  31)
-* PENG:                                  IDE.                 (line  13)
+* PENG <1>:                              IDE.                 (line  13)
+* PENG:                                  Resources.           (line  31)
 * Pi:                                    Pi.                  (line   6)
 * Pipes:                                 Pipes.               (line   6)
 * Planned features, internals:           Planned.             (line   6)
@@ -35690,25 +35837,25 @@ Index-GPC
 * Polar:                                 Polar.               (line   6)
 * Ports:                                 Ports.               (line   6)
 * Pos:                                   Pos.                 (line   6)
-* Position <1>:                          Position.            (line   6)
-* Position:                              File Routines.       (line   6)
+* Position <1>:                          File Routines.       (line   6)
+* Position:                              Position.            (line   6)
 * PostgreSQL:                            Resources.           (line  71)
-* pow <1>:                               Complex Number Operations.
+* pow <1>:                               Keywords.            (line 270)
+* pow <2>:                               Complex Number Operations.
                                                               (line   6)
-* pow <2>:                               pow.                 (line   6)
-* pow:                                   Keywords.            (line 285)
+* pow:                                   pow.                 (line   6)
 * Pred <1>:                              Operations for Integer and Ordinal Types.
                                                               (line   6)
 * Pred:                                  Pred.                (line   6)
 * preprocessor:                          Compiler Directives. (line   6)
 * preprocessor, internals:               Preprocessor.        (line   6)
 * Printer:                               Printer.             (line   6)
-* private <1>:                           private.             (line   6)
-* private:                               Keywords.            (line 288)
+* private <1>:                           Keywords.            (line 273)
+* private:                               private.             (line   6)
 * procedural parameters, internals:      Parameter passing.   (line  20)
 * procedural type:                       Procedural Types.    (line   6)
 * procedure <1>:                         procedure.           (line   6)
-* procedure:                             Keywords.            (line 291)
+* procedure:                             Keywords.            (line 276)
 * Procedure Call, Statements, Source Structure: Procedure Call.
                                                               (line   6)
 * procedure, Subroutine Declaration, Source Structure: The Procedure.
@@ -35717,32 +35864,32 @@ Index-GPC
 * Professional Support:                  Professional Support.
                                                               (line   6)
 * program <1>:                           program.             (line   6)
-* program:                               Keywords.            (line 294)
+* program:                               Keywords.            (line 279)
 * programming in GPC:                    Programming.         (line   6)
 * Programs, source structure:            The Program.         (line   6)
 * property <1>:                          property.            (line   6)
-* property:                              Keywords.            (line 297)
+* property:                              Keywords.            (line 282)
 * protected <1>:                         protected.           (line   6)
 * protected <2>:                         Importing Libraries from Other Languages.
                                                               (line  96)
-* protected:                             Keywords.            (line 300)
+* protected:                             Keywords.            (line 285)
 * protected, parameter:                  Protected Parameters.
                                                               (line   6)
 * PtrCard:                               PtrCard.             (line   6)
 * PtrDiffType:                           PtrDiffType.         (line   6)
 * PtrInt:                                PtrInt.              (line   6)
 * PtrWord:                               PtrWord.             (line   6)
-* public <1>:                            Keywords.            (line 304)
-* public:                                public.              (line   6)
-* published <1>:                         published.           (line   6)
-* published:                             Keywords.            (line 307)
-* Put <1>:                               File Routines.       (line   6)
-* Put:                                   Put.                 (line   6)
-* qualified <1>:                         qualified.           (line   6)
-* qualified:                             Keywords.            (line 310)
+* public <1>:                            public.              (line   6)
+* public:                                Keywords.            (line 289)
+* published <1>:                         Keywords.            (line 292)
+* published:                             published.           (line   6)
+* Put <1>:                               Put.                 (line   6)
+* Put:                                   File Routines.       (line   6)
+* qualified <1>:                         Keywords.            (line 295)
+* qualified:                             qualified.           (line   6)
 * Questions, Frequently Asked:           FAQ.                 (line   6)
 * raise <1>:                             raise.               (line   6)
-* raise:                                 Keywords.            (line 313)
+* raise:                                 Keywords.            (line 298)
 * Random:                                Random.              (line   6)
 * Randomize:                             Randomize.           (line   6)
 * Re <1>:                                Complex Number Operations.
@@ -35754,37 +35901,37 @@ Index-GPC
 * Real <1>:                              Real.                (line   6)
 * Real:                                  Real Types.          (line   6)
 * record <1>:                            record.              (line   6)
-* record:                                Keywords.            (line 316)
+* record:                                Keywords.            (line 301)
 * Record Types, Data Types:              Record Types.        (line   6)
 * record, variant:                       Variant Records.     (line   6)
-* Redistribution <1>:                    Copying.             (line   6)
-* Redistribution:                        Library Copying.     (line   6)
+* Redistribution <1>:                    Library Copying.     (line   6)
+* Redistribution:                        Copying.             (line   6)
 * RegEx:                                 RegEx.               (line   6)
 * Release:                               Release.             (line   6)
 * Rename:                                Rename.              (line   6)
-* repeat <1>:                            Keywords.            (line 319)
-* repeat:                                repeat.              (line   6)
+* repeat <1>:                            repeat.              (line   6)
+* repeat:                                Keywords.            (line 304)
 * repeat, Statements, Source Structure:  repeat Statement.    (line   6)
 * Reporting Bugs:                        Reporting Bugs.      (line   6)
 * Reset:                                 Reset.               (line   6)
-* resident <1>:                          Keywords.            (line 322)
-* resident:                              resident.            (line   6)
+* resident <1>:                          resident.            (line   6)
+* resident:                              Keywords.            (line 307)
 * Resources:                             Resources.           (line   6)
-* restricted <1>:                        Keywords.            (line 325)
-* restricted:                            restricted.          (line   6)
+* restricted <1>:                        restricted.          (line   6)
+* restricted:                            Keywords.            (line 310)
 * Result:                                Result.              (line   6)
 * Return:                                Return.              (line   6)
 * ReturnAddress:                         ReturnAddress.       (line   6)
 * Rewrite:                               Rewrite.             (line   6)
-* RHIDE <1>:                             Resources.           (line  39)
-* RHIDE:                                 IDE.                 (line  18)
+* RHIDE <1>:                             IDE.                 (line  18)
+* RHIDE:                                 Resources.           (line  39)
 * RmDir:                                 RmDir.               (line   6)
 * Round:                                 Round.               (line   6)
 * routines, predefined:                  Library Routines.    (line   6)
 * Run Time Library <1>:                  Run Time System.     (line   6)
 * Run Time Library:                      Library Routines.    (line   6)
-* Run Time System <1>:                   Library Routines.    (line   6)
-* Run Time System:                       Run Time System.     (line   6)
+* Run Time System <1>:                   Run Time System.     (line   6)
+* Run Time System:                       Library Routines.    (line   6)
 * RunError:                              RunError.            (line   6)
 * rx <1>:                                Libraries.           (line   6)
 * rx:                                    RegEx.               (line   6)
@@ -35793,36 +35940,36 @@ Index-GPC
 * Seek:                                  Seek.                (line   6)
 * SeekEOF:                               SeekEOF.             (line   6)
 * SeekEOLn:                              SeekEOLn.            (line   6)
-* SeekRead <1>:                          SeekRead.            (line   6)
-* SeekRead:                              File Routines.       (line   6)
+* SeekRead <1>:                          File Routines.       (line   6)
+* SeekRead:                              SeekRead.            (line   6)
 * SeekUpdate <1>:                        SeekUpdate.          (line   6)
 * SeekUpdate:                            File Routines.       (line   6)
 * SeekWrite <1>:                         File Routines.       (line   6)
 * SeekWrite:                             SeekWrite.           (line   6)
 * segment <1>:                           segment.             (line   6)
-* segment:                               Keywords.            (line 328)
+* segment:                               Keywords.            (line 313)
 * Self:                                  Self.                (line   6)
-* set <1>:                               set.                 (line   6)
-* set:                                   Keywords.            (line 331)
+* set <1>:                               Keywords.            (line 316)
+* set:                                   set.                 (line   6)
 * Set Types, Data Types:                 Set Types.           (line   6)
 * SetFileTime:                           SetFileTime.         (line   6)
 * SetLength:                             SetLength.           (line   6)
 * sets, operations:                      Set Operations.      (line   6)
 * SetType:                               SetType.             (line   6)
-* shl <1>:                               Keywords.            (line 334)
-* shl <2>:                               Operations for Integer and Ordinal Types.
+* shl <1>:                               Operations for Integer and Ordinal Types.
                                                               (line   6)
+* shl <2>:                               Keywords.            (line 319)
 * shl:                                   shl.                 (line   6)
 * ShortBool:                             ShortBool.           (line   6)
 * ShortCard:                             ShortCard.           (line   6)
 * ShortInt:                              ShortInt.            (line   6)
-* ShortReal <1>:                         Real Types.          (line   6)
-* ShortReal:                             ShortReal.           (line   6)
+* ShortReal <1>:                         ShortReal.           (line   6)
+* ShortReal:                             Real Types.          (line   6)
 * ShortWord:                             ShortWord.           (line   6)
-* shr <1>:                               Operations for Integer and Ordinal Types.
-                                                              (line   6)
+* shr <1>:                               Keywords.            (line 322)
 * shr <2>:                               shr.                 (line   6)
-* shr:                                   Keywords.            (line 337)
+* shr:                                   Operations for Integer and Ordinal Types.
+                                                              (line   6)
 * Sin <1>:                               Complex Number Operations.
                                                               (line   6)
 * Sin:                                   Sin.                 (line   6)
@@ -35863,9 +36010,9 @@ Index-GPC
 * Subroutine Declaration, Source Structures: Subroutine Declaration.
                                                               (line   6)
 * SubStr:                                SubStr.              (line   6)
-* Succ <1>:                              Operations for Integer and Ordinal Types.
+* Succ <1>:                              Succ.                (line   6)
+* Succ:                                  Operations for Integer and Ordinal Types.
                                                               (line   6)
-* Succ:                                  Succ.                (line   6)
 * support:                               Support.             (line   6)
 * Support, professional:                 Professional Support.
                                                               (line   6)
@@ -35876,18 +36023,18 @@ Index-GPC
 * team:                                  Acknowledgments.     (line   6)
 * Test Suite, Running:                   Testing.             (line   6)
 * Test Suite, writing tests:             Reporting Bugs.      (line   6)
-* Text <1>:                              File Types.          (line   6)
-* Text:                                  Text.                (line   6)
+* Text <1>:                              Text.                (line   6)
+* Text:                                  File Types.          (line   6)
 * Text editor:                           Resources.           (line  31)
 * TFDD <1>:                              TFDDs.               (line   6)
 * TFDD:                                  TFDD.                (line   6)
-* then <1>:                              Keywords.            (line 340)
-* then:                                  then.                (line   6)
+* then <1>:                              then.                (line   6)
+* then:                                  Keywords.            (line 325)
 * Time <1>:                              Time.                (line   6)
 * Time:                                  Date And Time Routines.
                                                               (line   6)
 * TimeStamp:                             TimeStamp.           (line   6)
-* to <1>:                                Keywords.            (line 344)
+* to <1>:                                Keywords.            (line 329)
 * to:                                    to.                  (line   6)
 * to begin do:                           to begin do.         (line   6)
 * to end do:                             to end do.           (line   6)
@@ -35897,11 +36044,11 @@ Index-GPC
 * True:                                  True.                (line   6)
 * Trunc:                                 Trunc.               (line   6)
 * Truncate:                              Truncate.            (line   6)
-* try <1>:                               Keywords.            (line 349)
-* try:                                   try.                 (line   6)
+* try <1>:                               try.                 (line   6)
+* try:                                   Keywords.            (line 334)
 * Turbo3:                                Turbo3.              (line   6)
-* type <1>:                              type.                (line   6)
-* type:                                  Keywords.            (line 352)
+* type <1>:                              Keywords.            (line 337)
+* type:                                  type.                (line   6)
 * type casts:                            Type Casts.          (line   6)
 * Type Declaration, Source Structures:   Type Declaration.    (line   6)
 * Type Definition Possibilities:         Type Definition Possibilities.
@@ -35920,50 +36067,49 @@ Index-GPC
 * types, schemata:                       Schema Types.        (line   6)
 * types, subrange:                       Subrange Types.      (line   6)
 * types, variant records:                Variant Records.     (line   6)
-* Unbind <1>:                            Unbind.              (line   6)
-* Unbind:                                File Routines.       (line   6)
+* Unbind <1>:                            File Routines.       (line   6)
+* Unbind:                                Unbind.              (line   6)
 * unit <1>:                              unit.                (line   6)
-* unit:                                  Keywords.            (line 356)
+* unit:                                  Keywords.            (line 341)
 * units, contributed:                    Contributed units.   (line   6)
 * units, included with GPC:              GPC Units.           (line   6)
 * units, internals:                      GPI files.           (line   6)
 * Units, source structure:               Units.               (line   6)
 * Unpack:                                Unpack.              (line   6)
-* until <1>:                             until.               (line   6)
-* until:                                 Keywords.            (line 359)
+* until <1>:                             Keywords.            (line 344)
+* until:                                 until.               (line   6)
 * untyped files:                         File Types.          (line   6)
 * untyped parameters, internals:         Parameter passing.   (line  50)
 * UpCase:                                UpCase.              (line   6)
 * Update <1>:                            Update.              (line   6)
 * Update:                                File Routines.       (line   6)
-* uses <1>:                              uses.                (line   6)
-* uses:                                  Keywords.            (line 362)
+* uses <1>:                              Keywords.            (line 347)
+* uses:                                  uses.                (line   6)
 * Val:                                   Val.                 (line   6)
-* value <1>:                             Keywords.            (line 365)
+* value <1>:                             Keywords.            (line 350)
 * value:                                 value.               (line   6)
 * var <1>:                               var.                 (line   6)
-* var:                                   Keywords.            (line 368)
+* var:                                   Keywords.            (line 353)
 * var, Statements, Source Structure:     The Declaring Statement.
                                                               (line   6)
 * Variable Declaration, Source Structures: Variable Declaration.
                                                               (line   6)
-* view <1>:                              Keywords.            (line 371)
-* view:                                  view.                (line   6)
-* virtual <1>:                           virtual.             (line   6)
-* virtual:                               Keywords.            (line 374)
+* view <1>:                              view.                (line   6)
+* view:                                  Keywords.            (line 356)
+* virtual <1>:                           Keywords.            (line 359)
+* virtual:                               virtual.             (line   6)
 * VMT:                                   Exporting GPC Libraries to Other Languages.
                                                               (line  26)
 * Void:                                  Void.                (line   6)
 * web site:                              Download.            (line   6)
 * while <1>:                             while.               (line   6)
-* while:                                 Keywords.            (line 377)
+* while:                                 Keywords.            (line 362)
 * while, Statements, Source Structure:   while Statement.     (line   6)
 * WinDos:                                WinDos.              (line   6)
 * Windows 95/98/NT, MS <1>:              Download.            (line 144)
-* Windows 95/98/NT, MS <2>:              MS Windows 95/98/NT. (line   6)
-* Windows 95/98/NT, MS:                  Download.            (line 153)
+* Windows 95/98/NT, MS:                  MS Windows 95/98/NT. (line   6)
 * with <1>:                              with.                (line   6)
-* with:                                  Keywords.            (line 380)
+* with:                                  Keywords.            (line 365)
 * with, Statements, Source Structure:    with Statement.      (line   6)
 * Word:                                  Word.                (line   6)
 * WordBool:                              WordBool.            (line   6)
@@ -35972,7 +36118,7 @@ Index-GPC
 * WriteStr:                              WriteStr.            (line   6)
 * WWW:                                   Download.            (line   6)
 * xemacs:                                IDE.                 (line   9)
-* xor <1>:                               Keywords.            (line 383)
+* xor <1>:                               Keywords.            (line 368)
 * xor <2>:                               xor.                 (line   6)
 * xor:                                   Operations for Integer and Ordinal Types.
                                                               (line   6)
@@ -35981,595 +36127,595 @@ Index-GPC
 
 
 Tag Table:
-Node: Top1503
-Node: Welcome3363
-Node: Highlights8640
-Node: News20527
-Node: FAQ35059
-Node: GNU Pascal35750
-Node: What and why36117
-Node: Current version38037
-Node: Turbo Pascal compatibility38924
-Node: Supported platforms39799
-Node: Installing GPC41287
-Node: Documentation files42032
-Node: Components42590
-Node: Debugger43228
-Node: Libraries45212
-Node: Contributed units49211
-Node: IDE49539
-Node: GPC on DJGPP50793
-Node: What is DJGPP51712
-Node: DJGPP FAQ52254
-Node: DJGPP download52745
-Node: Installing GPC on DJGPP53466
-Node: DJGPP Info reader55439
-Node: DJGPP DPMI server55759
-Node: Assembler syntax56194
-Node: DJGPP specific code57698
-Node: Stack size60086
-Node: Strings in GPC61754
-Node: String schema62300
-Node: Strings in variant records63258
-Node: Length byte65225
-Node: Strings as value parameters66011
-Node: Short strings66799
-Node: C strings67720
-Node: Getting Help69226
-Node: Miscellaneous FAQ69926
-Node: Contributing70194
-Node: GPC web site70455
-Node: About the FAQ70826
-Node: Installation71627
-Node: Download72168
-Node: Binary Distributions77681
-Node: Compiling GPC80309
-Node: Compilation Notes90814
-Node: MS-DOS with DJGPP91247
-Node: MS-DOS or OS/2 with EMX92234
-Node: MS Windows 95/98/NT92788
-Node: Cross-Compilers93562
-Node: Crossbuilding94849
-Node: Invoking GPC95691
-Node: GPC Command Line Options98049
-Node: GPC Options115283
-Node: Programming124731
-Node: Source Structures126369
-Node: The Program127476
-Node: Label Declaration129058
-Node: Constant Declaration129461
-Node: Type Declaration133408
-Node: Variable Declaration136206
-Node: Subroutine Declaration137771
-Node: The Procedure138055
-Node: The Function138883
-Node: The Operator140335
-Node: Subroutine Parameter List Declaration140657
-Node: Statements146607
-Node: Assignment147041
-Node: begin end Compound Statement147566
-Node: if Statement148049
-Node: case Statement148812
-Node: for Statement150694
-Node: while Statement152991
-Node: repeat Statement153508
-Node: asm Inline154053
-Node: with Statement154506
-Node: goto Statement154653
-Node: Procedure Call154890
-Node: The Declaring Statement155253
-Node: Loop Control Statements156389
-Node: Modules and Units156849
-Node: Modules157167
-Node: Units161088
-Node: Data Types163284
-Node: Type Definition164197
-Node: Ordinal Types164711
-Node: Integer Types165893
-Node: Natural Integer Types166688
-Node: Main Branch Integer Types167607
-Node: Integer Types with Specified Size169794
-Node: Integer Types and Compatibility171144
-Node: Summary of Integer Types172652
-Node: Real Types175370
-Node: String Types177122
-Node: Character Types177986
-Node: Enumerated Types178287
-Node: File Types179295
-Node: Boolean (Intrinsic)180354
-Node: Pointer (Intrinsic)181087
-Node: Type Definition Possibilities181486
-Node: Subrange Types182259
-Node: Array Types183495
-Node: Record Types184612
-Node: Variant Records186064
-Node: Schema Types187045
-Node: Set Types194053
-Node: Pointer Types195201
-Node: Procedural Types196958
-Node: Object Types199567
-Node: Type Initializers199884
-Node: Restricted Types201527
-Node: Machine-dependencies in Types203708
-Node: Endianness204022
-Node: Alignment207631
-Node: Operators207793
-Node: Built-in Operators208133
-Node: User-defined Operators209059
-Node: Parameters210451
-Node: Protected Parameters210847
-Node: Conformant Arrays211635
-Node: Open Arrays211924
-Node: String Slice Access212700
-Node: Pointer Arithmetics214020
-Node: Type Casts215316
-Node: OOP219628
-Node: Compiler Directives224296
-Node: Library Routines232223
-Node: File Routines232822
-Node: String Operations238236
-Node: Accessing Command Line Arguments240851
-Node: Memory Management Routines241684
-Node: Operations for Integer and Ordinal Types242667
-Node: Complex Number Operations244028
-Node: Set Operations246083
-Node: Date And Time Routines248362
-Node: Other Languages249100
-Node: Importing Libraries from Other Languages250026
-Node: Exporting GPC Libraries to Other Languages253447
-Node: Notes for Debugging255630
-Node: I18N256680
-Node: Run Time System261247
-Node: GPC Units370295
-Node: CRT372472
-Node: Dos411439
-Node: DosUnix420725
-Node: FileUtils425830
-Node: GMP432252
-Node: GPCUtil463823
-Node: HeapMon472244
-Node: Intl475953
-Node: MD5483864
-Node: Overlay486738
-Node: Pipes489285
-Node: Ports499520
-Node: Printer503182
-Node: RegEx507197
-Node: Strings519988
-Node: StringUtils523402
-Node: System536291
-Node: TFDD551890
-Node: Trap553981
-Node: Turbo3558302
-Node: WinDos560795
-Node: Borland Pascal567135
-Node: BP Compatibility568469
-Node: BP Incompatibilities569866
-Node: String type571727
-Node: Qualified identifiers573838
-Node: Assembler574236
-Node: Move; FillChar575370
-Node: Real type576014
-Node: Graph unit577172
-Node: OOP units578520
-Node: Keep; GetIntVec; SetIntVec578888
-Node: TFDDs579722
-Node: Mem; Port; Ptr; Seg; Ofs; PrefixSeg; etc.580235
-Node: Endianness assumptions581971
-Node: - -borland-pascal - disable GPC extensions584832
-Node: -w - disable all warnings585573
-Node: - -uses=System - Swap; HeapError; etc.586052
-Node: -D__BP_TYPE_SIZES__ - small integer types etc.586677
-Node: - -pack-struct - disable structure alignment587424
-Node: -D__BP_RANDOM__ - BP compatible pseudo random number generator587999
-Node: -D__BP_UNPORTABLE_ROUTINES__ - Intr; DosVersion; etc.589040
-Node: -D__BP_PARAMSTR_0__ - BP compatible ParamStr (0) behaviour590249
-Node: IDE versus command line591586
-Node: Comments596273
-Node: BP Compatible Compiler Directives597695
-Node: Units; GPI files and Automake598166
-Node: Optimization601216
-Node: Debugging602200
-Node: Objects603103
-Node: Strings in BP and GPC603666
-Node: Typed Constants605731
-Node: Bit; Byte and Memory Manipulation607407
-Node: User-defined Operators in GPC610311
-Node: Data Types in BP and GPC611036
-Node: BP Procedural Types614603
-Node: Files616550
-Node: Built-in Constants617294
-Node: Built-in Operators in BP and GPC617679
-Node: Built-in Procedures and Functions618434
-Node: Special Parameters619636
-Node: Miscellaneous620835
-Node: BP and Extended Pascal623251
-Node: Portability hints625717
-Node: Reference631189
-Node: Abs635712
-Node: absolute636903
-Node: abstract639989
-Node: Addr640327
-Node: AlignOf641309
-Node: all642193
-Node: and642503
-Node: and then645142
-Node: and_then645975
-Node: AnsiChar648052
-Node: AnyFile648800
-Node: Append650695
-Node: ArcCos652131
-Node: ArcSin652827
-Node: ArcTan653531
-Node: Arg654310
-Node: array655004
-Node: as656227
-Node: asm656600
-Node: asmname657034
-Node: Assert657378
-Node: Assign658148
-Node: Assigned658557
-Node: attribute659525
-Node: begin661958
-Node: Bind662827
-Node: bindable663228
-Node: Binding663633
-Node: BindingType664044
-Node: BitSizeOf666527
-Node: BlockRead667683
-Node: BlockWrite668159
-Node: Boolean668646
-Node: Break669446
-Node: Byte670564
-Node: ByteBool671425
-Node: ByteCard672305
-Node: ByteInt673125
-Node: c674006
-Node: Card674315
-Node: Cardinal674909
-Node: case675951
-Node: CBoolean678152
-Node: CCardinal679013
-Node: Char679746
-Node: ChDir680529
-Node: Chr681367
-Node: CInteger681959
-Node: c_language682682
-Node: class683020
-Node: Close683357
-Node: Cmplx683656
-Node: Comp684224
-Node: CompilerAssert685014
-Node: Complex686676
-Node: Concat687273
-Node: Conjugate687658
-Node: const688404
-Node: constructor690066
-Node: Continue690419
-Node: Copy691355
-Node: Cos692861
-Node: CString693554
-Node: CString2String693998
-Node: CStringCopyString694357
-Node: CurrentRoutineName694765
-Node: CWord695418
-Node: Cycle696180
-Node: Date697089
-Node: Dec697696
-Node: DefineSize699105
-Node: Delete699445
-Node: destructor699917
-Node: Discard700261
-Node: Dispose701711
-Node: div702258
-Node: do702769
-Node: Double703545
-Node: downto704108
-Node: else704661
-Node: Empty706079
-Node: end706398
-Node: EOF707345
-Node: EOLn707718
-Node: EpsReal708096
-Node: EQ708373
-Node: EQPad708681
-Node: Erase708983
-Node: except709286
-Node: Exclude709546
-Node: Exit710443
-Node: Exp711862
-Node: export712688
-Node: exports713888
-Node: Extend714194
-Node: Extended715669
-Node: external716098
-Node: Fail716502
-Node: False716762
-Node: far717628
-Node: file718461
-Node: FilePos718978
-Node: FileSize719300
-Node: FillChar719630
-Node: finalization720042
-Node: Finalize720474
-Node: finally721269
-Node: Flush721534
-Node: for721836
-Node: FormatString723477
-Node: forward723762
-Node: Frac724111
-Node: FrameAddress725382
-Node: FreeMem725668
-Node: function726535
-Node: GE726892
-Node: GEPad727201
-Node: Get727501
-Node: GetMem727883
-Node: GetTimeStamp729151
-Node: goto729723
-Node: GT730140
-Node: GTPad730445
-Node: Halt730746
-Node: High731452
-Node: if732868
-Node: Im734364
-Node: implementation734934
-Node: import735305
-Node: in737313
-Node: Inc738385
-Node: Include739852
-Node: Index740743
-Node: inherited741022
-Node: initialization741424
-Node: Initialize741871
-Node: InOutRes742649
-Node: Input742960
-Node: Insert743298
-Node: Int743636
-Node: Integer744967
-Node: interface745772
-Node: interrupt746126
-Node: IOResult746482
-Node: is746787
-Node: label747127
-Node: LastPosition747497
-Node: LE747856
-Node: Leave748169
-Node: Length749284
-Node: LEPad749613
-Node: library749921
-Node: Ln750227
-Node: LoCase750959
-Node: LongBool751260
-Node: LongCard752151
-Node: LongestBool752966
-Node: LongestCard753888
-Node: LongestInt754689
-Node: LongestReal755498
-Node: LongestWord755995
-Node: LongInt756816
-Node: LongReal757697
-Node: LongWord758130
-Node: Low758948
-Node: LT760177
-Node: LTPad760481
-Node: Mark760782
-Node: Max761073
-Node: MaxChar761385
-Node: MaxInt761721
-Node: MaxReal762140
-Node: MedBool762442
-Node: MedCard763319
-Node: MedInt764199
-Node: MedReal765035
-Node: MedWord765448
-Node: Min766330
-Node: MinReal766645
-Node: MkDir766942
-Node: mod767763
-Node: module768157
-Node: Move768482
-Node: MoveLeft768806
-Node: MoveRight769146
-Node: name769490
-Node: NE772579
-Node: near772883
-Node: NEPad773711
-Node: New774013
-Node: NewCString774911
-Node: nil775238
-Node: not776714
-Node: Null777189
-Node: object778677
-Node: Odd779489
-Node: of780207
-Node: on780647
-Node: only780885
-Node: operator781196
-Node: or781500
-Node: Ord784091
-Node: or else785025
-Node: or_else785825
-Node: otherwise787766
-Node: Output789170
-Node: overload789516
-Node: override789786
-Node: Pack790122
-Node: packed790609
-Node: Page792368
-Node: PAnsiChar792723
-Node: ParamCount793186
-Node: ParamStr794000
-Node: PChar794838
-Node: Pi795302
-Node: PObjectType795557
-Node: Pointer797033
-Node: Polar797515
-Node: Pos797836
-Node: Position798150
-Node: pow798488
-Node: Pred798962
-Node: private800983
-Node: procedure801416
-Node: program801783
-Node: property802149
-Node: protected802487
-Node: PtrCard803051
-Node: PtrDiffType803643
-Node: PtrInt804348
-Node: PtrWord804927
-Node: public805512
-Node: published805944
-Node: Put806381
-Node: qualified806770
-Node: raise807099
-Node: Random807361
-Node: Randomize807627
-Node: Re807899
-Node: Read808403
-Node: ReadLn808841
-Node: ReadStr809237
-Node: Real809572
-Node: record810100
-Node: Release812655
-Node: Rename812961
-Node: repeat813288
-Node: Reset814316
-Node: resident815625
-Node: restricted815952
-Node: Result816300
-Node: Return816849
-Node: ReturnAddress817119
-Node: Rewrite817411
-Node: RmDir820126
-Node: Round820944
-Node: RunError822545
-Node: Seek822864
-Node: SeekEOF823190
-Node: SeekEOLn823510
-Node: SeekRead823838
-Node: SeekUpdate824202
-Node: SeekWrite824575
-Node: segment824943
-Node: Self825254
-Node: set825532
-Node: SetFileTime827090
-Node: SetLength827469
-Node: SetType828567
-Node: shl831135
-Node: ShortBool832098
-Node: ShortCard832993
-Node: ShortInt833801
-Node: ShortReal834653
-Node: ShortWord835095
-Node: shr836048
-Node: Sin837234
-Node: Single837925
-Node: SizeOf838227
-Node: SizeType839071
-Node: SmallInt839629
-Node: Sqr840385
-Node: SqRt841220
-Node: StandardError842252
-Node: StandardInput842548
-Node: StandardOutput842870
-Node: StdErr843188
-Node: Str843984
-Node: String844753
-Node: String2CString845045
-Node: SubStr845398
-Node: Succ846610
-Node: Text848623
-Node: then849134
-Node: Time849714
-Node: TimeStamp850326
-Node: to852454
-Node: to begin do852882
-Node: to end do853199
-Node: Trim853515
-Node: True853828
-Node: Trunc854692
-Node: Truncate856081
-Node: try856396
-Node: type856644
-Node: type of859172
-Node: TypeOf859418
-Node: Unbind860612
-Node: unit861002
-Node: Unpack861314
-Node: until861810
-Node: UpCase862238
-Node: Update862544
-Node: uses862863
-Node: Val864320
-Node: value866204
-Node: var866740
-Node: view869073
-Node: virtual869368
-Node: Void869711
-Node: while870187
-Node: with871126
-Node: Word871538
-Node: WordBool872356
-Node: Write873233
-Node: WriteLn873731
-Node: WriteStr874181
-Node: xor874545
-Node: Keywords876043
-Node: Support887081
-Node: Mailing List888683
-Node: Mailing List Archives890917
-Node: Newsgroups891586
-Node: Professional Support892847
-Node: Compiler Crashes893590
-Node: Reporting Bugs894224
-Node: Testing905801
-Node: To Do907743
-Node: Known Bugs909389
-Node: Planned Features910585
-Node: Planned - Strings911591
-Node: Planned - OOP913513
-Node: Planned - Other types915563
-Node: Planned - Misc916740
-Node: Planned - Utilities918636
-Node: Fixed Bugs919185
-Node: Internals939814
-Node: Preprocessor943370
-Node: Lexical analyzer945690
-Node: Lexer problems946640
-Node: BP character constants949736
-Node: Compiler directives internally954989
-Node: Syntax parsing958348
-Node: Parsing conflicts961881
-Node: Parsing keywords964232
-Node: forward near far966799
-Node: Tree nodes968131
-Node: Parameter passing972930
-Node: GPI files975394
-Node: Automake988226
-Node: File Layout990773
-Node: Planned991556
-Node: Copying995624
-Node: Library Copying1014809
-Node: Demo Copying1042959
-Node: Acknowledgments1044588
-Node: Resources1059409
-Node: GNU1064735
-Node: Manifesto1068269
-Node: Gnu is Not Unix1069565
-Ref: Gnu is Not Unix-Footnote-11071927
-Node: Why GNU1072817
-Node: GNU Unix Compatibility1073893
-Node: GNU Availability1074345
-Node: Why Help GNU1074813
-Node: How To Contribute to GNU1076216
-Node: GNU Benefits1078044
-Ref: GNU Benefits-Footnote-11080305
-Node: Objections to GNU1080579
-Ref: Objections to GNU-Footnote-11095086
-Ref: Objections to GNU-Footnote-21095128
-Ref: Objections to GNU-Footnote-31095648
-Node: Funding1095754
-Node: Index-GPC1098232
+Node: Top1499
+Node: Welcome3359
+Node: Highlights8557
+Node: News20580
+Node: FAQ35937
+Node: GNU Pascal36628
+Node: What and why36995
+Node: Current version38915
+Node: Turbo Pascal compatibility39802
+Node: Supported platforms40677
+Node: Installing GPC42196
+Node: Documentation files42941
+Node: Components43499
+Node: Debugger44137
+Node: Libraries46121
+Node: Contributed units50120
+Node: IDE50448
+Node: GPC on DJGPP51702
+Node: What is DJGPP52621
+Node: DJGPP FAQ53163
+Node: DJGPP download53654
+Node: Installing GPC on DJGPP54375
+Node: DJGPP Info reader56348
+Node: DJGPP DPMI server56668
+Node: Assembler syntax57103
+Node: DJGPP specific code58607
+Node: Stack size60995
+Node: Strings in GPC62663
+Node: String schema63209
+Node: Strings in variant records64167
+Node: Length byte66134
+Node: Strings as value parameters66920
+Node: Short strings67708
+Node: C strings68628
+Node: Getting Help70134
+Node: Miscellaneous FAQ70834
+Node: Contributing71102
+Node: GPC web site71363
+Node: About the FAQ71734
+Node: Installation72535
+Node: Download73076
+Node: Binary Distributions78589
+Node: Compiling GPC81217
+Node: Compilation Notes91718
+Node: MS-DOS with DJGPP92151
+Node: MS-DOS or OS/2 with EMX93138
+Node: MS Windows 95/98/NT93692
+Node: Cross-Compilers94466
+Node: Crossbuilding95876
+Node: Invoking GPC96718
+Node: GPC Command Line Options99076
+Node: GPC Options116515
+Node: Programming126366
+Node: Source Structures128004
+Node: The Program129111
+Node: Label Declaration130693
+Node: Constant Declaration131096
+Node: Type Declaration135043
+Node: Variable Declaration137841
+Node: Subroutine Declaration139406
+Node: The Procedure139690
+Node: The Function140518
+Node: The Operator141970
+Node: Subroutine Parameter List Declaration142292
+Node: Statements148242
+Node: Assignment148676
+Node: begin end Compound Statement149201
+Node: if Statement149684
+Node: case Statement150447
+Node: for Statement152329
+Node: while Statement154626
+Node: repeat Statement155143
+Node: asm Inline155688
+Node: with Statement156141
+Node: goto Statement156288
+Node: Procedure Call156525
+Node: The Declaring Statement156888
+Node: Loop Control Statements158024
+Node: Modules and Units158484
+Node: Modules158802
+Node: Units162723
+Node: Data Types164919
+Node: Type Definition165832
+Node: Ordinal Types166346
+Node: Integer Types167528
+Node: Natural Integer Types168323
+Node: Main Branch Integer Types169242
+Node: Integer Types with Specified Size171429
+Node: Integer Types and Compatibility172779
+Node: Summary of Integer Types174287
+Node: Real Types177005
+Node: String Types178757
+Node: Character Types179621
+Node: Enumerated Types179922
+Node: File Types180930
+Node: Boolean (Intrinsic)181989
+Node: Pointer (Intrinsic)182722
+Node: Type Definition Possibilities183121
+Node: Subrange Types183894
+Node: Array Types185130
+Node: Record Types186247
+Node: Variant Records187699
+Node: Schema Types188680
+Node: Set Types195688
+Node: Pointer Types196836
+Node: Procedural Types198593
+Node: Object Types201202
+Node: Type Initializers201519
+Node: Restricted Types203162
+Node: Machine-dependencies in Types205343
+Node: Endianness205657
+Node: Alignment209266
+Node: Operators209428
+Node: Built-in Operators209768
+Node: User-defined Operators210694
+Node: Parameters212086
+Node: Protected Parameters212482
+Node: Conformant Arrays213270
+Node: Open Arrays213559
+Node: String Slice Access214335
+Node: Pointer Arithmetics215655
+Node: Type Casts216951
+Node: OOP221263
+Node: Compiler Directives226033
+Node: Library Routines233960
+Node: File Routines234559
+Node: String Operations239973
+Node: Accessing Command Line Arguments242588
+Node: Memory Management Routines243421
+Node: Operations for Integer and Ordinal Types244404
+Node: Complex Number Operations245765
+Node: Set Operations247820
+Node: Date And Time Routines250099
+Node: Other Languages250837
+Node: Importing Libraries from Other Languages251763
+Node: Exporting GPC Libraries to Other Languages255184
+Node: Notes for Debugging257367
+Node: I18N258417
+Node: Run Time System262984
+Node: GPC Units372055
+Node: CRT374232
+Node: Dos413199
+Node: DosUnix422485
+Node: FileUtils427590
+Node: GMP434012
+Node: GPCUtil465583
+Node: HeapMon474004
+Node: Intl477713
+Node: MD5485624
+Node: Overlay488498
+Node: Pipes491045
+Node: Ports501280
+Node: Printer504942
+Node: RegEx508957
+Node: Strings521748
+Node: StringUtils525162
+Node: System538051
+Node: TFDD553650
+Node: Trap555741
+Node: Turbo3560062
+Node: WinDos562555
+Node: Borland Pascal568895
+Node: BP Compatibility570229
+Node: BP Incompatibilities571626
+Node: String type573487
+Node: Qualified identifiers575598
+Node: Assembler575996
+Node: Move; FillChar577130
+Node: Real type577774
+Node: Graph unit578932
+Node: OOP units580280
+Node: Keep; GetIntVec; SetIntVec580648
+Node: TFDDs581482
+Node: Mem; Port; Ptr; Seg; Ofs; PrefixSeg; etc.581995
+Node: Endianness assumptions583731
+Node: - -borland-pascal - disable GPC extensions586592
+Node: -w - disable all warnings587333
+Node: - -uses=System - Swap; HeapError; etc.587812
+Node: -D__BP_TYPE_SIZES__ - small integer types etc.588437
+Node: - -pack-struct - disable structure alignment589184
+Node: -D__BP_RANDOM__ - BP compatible pseudo random number generator589759
+Node: -D__BP_UNPORTABLE_ROUTINES__ - Intr; DosVersion; etc.590800
+Node: -D__BP_PARAMSTR_0__ - BP compatible ParamStr (0) behaviour592009
+Node: IDE versus command line593346
+Node: Comments598033
+Node: BP Compatible Compiler Directives599455
+Node: Units; GPI files and Automake599926
+Node: Optimization602976
+Node: Debugging603960
+Node: Objects604863
+Node: Strings in BP and GPC605426
+Node: Typed Constants607491
+Node: Bit; Byte and Memory Manipulation609167
+Node: User-defined Operators in GPC612071
+Node: Data Types in BP and GPC612796
+Node: BP Procedural Types616363
+Node: Files618310
+Node: Built-in Constants619054
+Node: Built-in Operators in BP and GPC619439
+Node: Built-in Procedures and Functions620194
+Node: Special Parameters621396
+Node: Miscellaneous622595
+Node: BP and Extended Pascal625011
+Node: Portability hints627477
+Node: Reference632949
+Node: Abs637472
+Node: absolute638663
+Node: abstract641749
+Node: Addr642087
+Node: AlignOf643069
+Node: all643953
+Node: and644263
+Node: and then646902
+Node: and_then647735
+Node: AnsiChar649812
+Node: AnyFile650560
+Node: Append652455
+Node: ArcCos653891
+Node: ArcSin654587
+Node: ArcTan655291
+Node: Arg656070
+Node: array656764
+Node: as657987
+Node: asm658360
+Node: asmname658794
+Node: Assert659138
+Node: Assign659908
+Node: Assigned660317
+Node: attribute661285
+Node: begin663733
+Node: Bind664602
+Node: bindable665003
+Node: Binding665408
+Node: BindingType665819
+Node: BitSizeOf668302
+Node: BlockRead669458
+Node: BlockWrite669934
+Node: Boolean670421
+Node: Break671221
+Node: Byte672339
+Node: ByteBool673200
+Node: ByteCard674080
+Node: ByteInt674900
+Node: c675781
+Node: Card676090
+Node: Cardinal676684
+Node: case677726
+Node: CBoolean679927
+Node: CCardinal680788
+Node: Char681521
+Node: ChDir682304
+Node: Chr683142
+Node: CInteger683734
+Node: c_language684457
+Node: class684795
+Node: Close685132
+Node: Cmplx685431
+Node: Comp685999
+Node: CompilerAssert686789
+Node: Complex688451
+Node: Concat689048
+Node: Conjugate689433
+Node: const690179
+Node: constructor691841
+Node: Continue692194
+Node: Copy693130
+Node: Cos694636
+Node: CString695329
+Node: CString2String695773
+Node: CStringCopyString696132
+Node: CurrentRoutineName696540
+Node: CWord697193
+Node: Cycle697955
+Node: Date698864
+Node: Dec699471
+Node: DefineSize700880
+Node: Delete701220
+Node: destructor701692
+Node: Discard702036
+Node: Dispose703486
+Node: div704033
+Node: do704544
+Node: Double705320
+Node: downto705883
+Node: else706436
+Node: Empty707854
+Node: end708173
+Node: EOF709120
+Node: EOLn709493
+Node: EpsReal709871
+Node: EQ710148
+Node: EQPad710456
+Node: Erase710758
+Node: except711061
+Node: Exclude711321
+Node: Exit712218
+Node: Exp713637
+Node: export714463
+Node: exports715663
+Node: Extend715969
+Node: Extended717444
+Node: external717873
+Node: Fail718277
+Node: False718537
+Node: far719403
+Node: file720236
+Node: FilePos720753
+Node: FileSize721075
+Node: FillChar721405
+Node: finalization721817
+Node: Finalize722249
+Node: finally723044
+Node: Flush723309
+Node: for723611
+Node: FormatString725252
+Node: forward725537
+Node: Frac725886
+Node: FrameAddress727157
+Node: FreeMem727443
+Node: function728310
+Node: GE728667
+Node: GEPad728976
+Node: Get729276
+Node: GetMem729658
+Node: GetTimeStamp730926
+Node: goto731498
+Node: GT731915
+Node: GTPad732220
+Node: Halt732521
+Node: High733227
+Node: if734643
+Node: Im736139
+Node: implementation736709
+Node: import737080
+Node: in739088
+Node: Inc740160
+Node: Include741627
+Node: Index742518
+Node: inherited742797
+Node: initialization743199
+Node: Initialize743646
+Node: InOutRes744424
+Node: Input744735
+Node: Insert745073
+Node: Int745411
+Node: Integer746742
+Node: interface747547
+Node: interrupt747901
+Node: IOResult748257
+Node: is748562
+Node: label748902
+Node: LastPosition749272
+Node: LE749631
+Node: Leave749944
+Node: Length751059
+Node: LEPad751388
+Node: library751696
+Node: Ln752002
+Node: LoCase752734
+Node: LongBool753035
+Node: LongCard753926
+Node: LongestBool754741
+Node: LongestCard755663
+Node: LongestInt756464
+Node: LongestReal757273
+Node: LongestWord757770
+Node: LongInt758591
+Node: LongReal759472
+Node: LongWord759905
+Node: Low760723
+Node: LT761952
+Node: LTPad762256
+Node: Mark762557
+Node: Max762848
+Node: MaxChar763160
+Node: MaxInt763496
+Node: MaxReal763915
+Node: MedBool764217
+Node: MedCard765094
+Node: MedInt765974
+Node: MedReal766810
+Node: MedWord767223
+Node: Min768105
+Node: MinReal768420
+Node: MkDir768717
+Node: mod769538
+Node: module769932
+Node: Move770257
+Node: MoveLeft770581
+Node: MoveRight770921
+Node: name771265
+Node: NE774354
+Node: near774658
+Node: NEPad775486
+Node: New775788
+Node: NewCString776686
+Node: nil777013
+Node: not778489
+Node: Null778964
+Node: object780452
+Node: Odd781264
+Node: of781982
+Node: on782422
+Node: only782660
+Node: operator782971
+Node: or783275
+Node: Ord785866
+Node: or else786800
+Node: or_else787600
+Node: otherwise789541
+Node: Output790945
+Node: overload791291
+Node: override791561
+Node: Pack791897
+Node: packed792384
+Node: Page794143
+Node: PAnsiChar794498
+Node: ParamCount794961
+Node: ParamStr795775
+Node: PChar796613
+Node: Pi797077
+Node: PObjectType797332
+Node: Pointer798808
+Node: Polar799290
+Node: Pos799611
+Node: Position799925
+Node: pow800263
+Node: Pred800737
+Node: private802758
+Node: procedure803191
+Node: program803558
+Node: property803924
+Node: protected804262
+Node: PtrCard804826
+Node: PtrDiffType805418
+Node: PtrInt806123
+Node: PtrWord806701
+Node: public807286
+Node: published807718
+Node: Put808155
+Node: qualified808544
+Node: raise808873
+Node: Random809135
+Node: Randomize809401
+Node: Re809673
+Node: Read810177
+Node: ReadLn810615
+Node: ReadStr811011
+Node: Real811346
+Node: record811874
+Node: Release814429
+Node: Rename814735
+Node: repeat815062
+Node: Reset816090
+Node: resident817399
+Node: restricted817726
+Node: Result818074
+Node: Return818623
+Node: ReturnAddress818893
+Node: Rewrite819185
+Node: RmDir821900
+Node: Round822718
+Node: RunError824319
+Node: Seek824638
+Node: SeekEOF824964
+Node: SeekEOLn825284
+Node: SeekRead825612
+Node: SeekUpdate825976
+Node: SeekWrite826349
+Node: segment826717
+Node: Self827028
+Node: set827306
+Node: SetFileTime828864
+Node: SetLength829243
+Node: SetType830341
+Node: shl832909
+Node: ShortBool833872
+Node: ShortCard834767
+Node: ShortInt835575
+Node: ShortReal836427
+Node: ShortWord836869
+Node: shr837822
+Node: Sin839008
+Node: Single839699
+Node: SizeOf840001
+Node: SizeType840845
+Node: SmallInt841403
+Node: Sqr842159
+Node: SqRt842994
+Node: StandardError844026
+Node: StandardInput844322
+Node: StandardOutput844644
+Node: StdErr844962
+Node: Str845758
+Node: String846527
+Node: String2CString846819
+Node: SubStr847172
+Node: Succ848384
+Node: Text850397
+Node: then850908
+Node: Time851488
+Node: TimeStamp852100
+Node: to854228
+Node: to begin do854656
+Node: to end do854973
+Node: Trim855289
+Node: True855602
+Node: Trunc856466
+Node: Truncate857855
+Node: try858170
+Node: type858418
+Node: type of860946
+Node: TypeOf861192
+Node: Unbind862386
+Node: unit862776
+Node: Unpack863088
+Node: until863584
+Node: UpCase864012
+Node: Update864318
+Node: uses864637
+Node: Val866094
+Node: value867978
+Node: var868514
+Node: view870847
+Node: virtual871194
+Node: Void871537
+Node: while872013
+Node: with872952
+Node: Word873364
+Node: WordBool874182
+Node: Write875059
+Node: WriteLn875557
+Node: WriteStr876007
+Node: xor876371
+Node: Keywords877869
+Node: Support888095
+Node: Mailing List889697
+Node: Mailing List Archives891931
+Node: Newsgroups892600
+Node: Professional Support893861
+Node: Compiler Crashes894604
+Node: Reporting Bugs895238
+Node: Testing906815
+Node: To Do908757
+Node: Known Bugs910403
+Node: Planned Features911599
+Node: Planned - Strings912605
+Node: Planned - OOP914527
+Node: Planned - Other types916577
+Node: Planned - Misc917754
+Node: Planned - Utilities919650
+Node: Fixed Bugs920199
+Node: Internals943408
+Node: Preprocessor946964
+Node: Lexical analyzer949431
+Node: Lexer problems950381
+Node: BP character constants953477
+Node: Compiler directives internally958730
+Node: Syntax parsing962089
+Node: Parsing conflicts965622
+Node: Parsing keywords968814
+Node: forward near far971381
+Node: Tree nodes972713
+Node: Parameter passing977512
+Node: GPI files979976
+Node: Automake992808
+Node: File Layout995355
+Node: Planned996138
+Node: Copying1000206
+Node: Library Copying1019391
+Node: Demo Copying1047541
+Node: Acknowledgments1049170
+Node: Resources1063991
+Node: GNU1069317
+Node: Manifesto1072851
+Node: Gnu is Not Unix1074147
+Ref: Gnu is Not Unix-Footnote-11076509
+Node: Why GNU1077399
+Node: GNU Unix Compatibility1078475
+Node: GNU Availability1078927
+Node: Why Help GNU1079395
+Node: How To Contribute to GNU1080798
+Node: GNU Benefits1082626
+Ref: GNU Benefits-Footnote-11084887
+Node: Objections to GNU1085161
+Ref: Objections to GNU-Footnote-11099668
+Ref: Objections to GNU-Footnote-21099710
+Ref: Objections to GNU-Footnote-31100230
+Node: Funding1100336
+Node: Index-GPC1102814
 
 End Tag Table

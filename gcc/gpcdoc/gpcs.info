@@ -1,5 +1,5 @@
 This is gpcs.info, produced by makeinfo version 4.8 from
-/home/tg/x/gpc-20051116/doc/en/gpcs.texi.
+/tmp/gpc-20060325/p/doc/en/gpcs.texi.
 
 START-INFO-DIR-ENTRY
 * Pascal Coding Standards: (gpcs).      GNU Pascal Coding Standards.
@@ -7,7 +7,7 @@ END-INFO-DIR-ENTRY
 
    GNU Pascal Coding Standards
 
-   Copyright (C) 2001-2005 Free Software Foundation, Inc.
+   Copyright (C) 2001-2006 Free Software Foundation, Inc.
 
    Permission is granted to make and distribute verbatim copies of this
 manual provided the copyright notice and this permission notice are
@@ -29,7 +29,7 @@ File: gpcs.info,  Node: Top,  Next: Preface,  Up: (dir)
 Version
 *******
 
-Last updated 2005-01-01.
+Last updated 2006-02-02.
 
 * Menu:
 
@@ -61,7 +61,7 @@ specific notes, thus cross references are provided which will lead you
 to the more extensive information contained in the GNU Coding Standards.
 
    This release of the GNU Pascal Coding Standards was last updated
-2005-01-01.
+2006-02-02.
 
    The GNU Pascal Coding Standards are available as part of the GPC
 distribution - in binary distributions as info files, in source
@@ -2011,31 +2011,31 @@ Index
 
 
 Tag Table:
-Node: Top968
-Node: Preface1551
-Node: Legal Issues3534
-Node: Design Advice3891
-Node: Source Language4319
-Node: Pascal and C4987
-Node: Using Extensions7229
-Node: Program Behavior11697
-Node: Writing Pascal15025
-Node: Assorted Tips16408
-Node: Consistency Checking21933
-Node: Formatting24186
-Node: Comments27421
-Node: Order34455
-Node: Capitalization38953
-Node: Compiler Directives42443
-Node: Spacing51483
-Node: Line Breaks55772
-Node: Strings63135
-Node: Internationalization64839
-Node: MemoryMap65114
-Node: Documentation65396
-Node: Managing Releases66703
-Node: Makefile Conventions67171
-Node: Glossary68483
-Node: Index70104
+Node: Top964
+Node: Preface1547
+Node: Legal Issues3530
+Node: Design Advice3887
+Node: Source Language4315
+Node: Pascal and C4983
+Node: Using Extensions7225
+Node: Program Behavior11693
+Node: Writing Pascal15021
+Node: Assorted Tips16404
+Node: Consistency Checking21929
+Node: Formatting24182
+Node: Comments27417
+Node: Order34451
+Node: Capitalization38949
+Node: Compiler Directives42439
+Node: Spacing51479
+Node: Line Breaks55768
+Node: Strings63131
+Node: Internationalization64835
+Node: MemoryMap65110
+Node: Documentation65392
+Node: Managing Releases66699
+Node: Makefile Conventions67167
+Node: Glossary68479
+Node: Index70100
 
 End Tag Table

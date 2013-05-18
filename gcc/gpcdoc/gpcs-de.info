@@ -1,5 +1,5 @@
 This is gpcs-de.info, produced by makeinfo version 4.8 from
-/home/tg/x/gpc-20051116/doc/de/gpcs.texi.
+/tmp/gpc-20060325/p/doc/de/gpcs.texi.
 
 START-INFO-DIR-ENTRY
 * Pascal Coding Standards: (gpcs-de).   GNU Pascal Coding Standards (German).
@@ -7,7 +7,7 @@ END-INFO-DIR-ENTRY
 
    GNU Pascal Coding Standards
 
-   Copyright (C) 2001-2005 Free Software Foundation, Inc.
+   Copyright (C) 2001-2006 Free Software Foundation, Inc.
 
    Permission is granted to make and distribute verbatim copies of this
 manual provided the copyright notice and this permission notice are
@@ -29,8 +29,8 @@ File: gpcs-de.info,  Node: Top,  Next: Vorwort,  Up: (dir)
 Version
 *******
 
-Letzte Änderung 2005-01-01.  Basierend auf der englischen Version von
-2005-01-01.
+Letzte Änderung 2006-02-02.  Basierend auf der englischen Version von
+2006-02-02.
 
 * Menu:
 
@@ -75,7 +75,7 @@ sind. Die meisten dieser Regeln können mit wenigen Anmerkungen versehen
 aus dem Dokument übernommen werden, weswegen sich Referenzen zu den GNU
 Coding Standards in diesem Dokument befinden.
 
-   Letzte Aktualisierung dieses Dokuments (original): 2005-01-01.
+   Letzte Aktualisierung dieses Dokuments (original): 2006-02-02.
 
    Die GNU Pascal Coding Standards sind als Teil der GPC-Distributionen
 erhältlich - in Binärdistributionen als Info-Dateien, in
@@ -2156,9 +2156,9 @@ Index
 * Umbruch langer Zeilen:                 Zeilenumbrüche.      (line 119)
 * Unendliche Schleifen:                  Verschiedene Tips.   (line 140)
 * Variablen-Deklaration:                 Reihenfolge.         (line  53)
+* Veröffentlichung des Programmes:       Veröffentlichungen.  (line   6)
 * Verschachtelte Kommentare:             Kommentare.          (line  29)
 * Verschiedene Tips:                     Verschiedene Tips.   (line   6)
-* Veröffentlichung des Programmes:       Veröffentlichungen.  (line   6)
 * Wo man die GPCS findet:                Vorwort.             (line  33)
 * Wrapper:                               Pascal und C.        (line  11)
 * Zeichenketten:                         Strings.             (line   6)
@@ -2168,31 +2168,31 @@ Index
 
 
 Tag Table:
-Node: Top980
-Node: Vorwort1670
-Node: Rechtliches4443
-Node: Gestaltungsratschläge4822
-Node: Die Programmiersprache5342
-Node: Pascal und C6153
-Node: Erweiterungen benutzen8960
-Node: Verhalten von Programmen14201
-Node: Pascal Programmieren18187
-Node: Verschiedene Tips19771
-Node: Konsitenzüberprüfung25840
-Node: Formatierung28265
-Node: Kommentare31886
-Node: Reihenfolge39984
-Node: Großschreibung44931
-Node: Compiler-Direktiven48822
-Node: Zwischenraum59453
-Node: Zeilenumbrüche63992
-Node: Strings71856
-Node: Internationalisierung73753
-Node: MemoryMap74051
-Node: Dokumentation74360
-Node: Veröffentlichungen75839
-Node: Makefile-Regeln76419
-Node: Glossar77766
-Node: Index79677
+Node: Top976
+Node: Vorwort1666
+Node: Rechtliches4439
+Node: Gestaltungsratschläge4818
+Node: Die Programmiersprache5338
+Node: Pascal und C6149
+Node: Erweiterungen benutzen8956
+Node: Verhalten von Programmen14197
+Node: Pascal Programmieren18183
+Node: Verschiedene Tips19767
+Node: Konsitenzüberprüfung25836
+Node: Formatierung28261
+Node: Kommentare31882
+Node: Reihenfolge39980
+Node: Großschreibung44927
+Node: Compiler-Direktiven48818
+Node: Zwischenraum59449
+Node: Zeilenumbrüche63988
+Node: Strings71852
+Node: Internationalisierung73749
+Node: MemoryMap74047
+Node: Dokumentation74356
+Node: Veröffentlichungen75835
+Node: Makefile-Regeln76415
+Node: Glossar77762
+Node: Index79673
 
 End Tag Table
