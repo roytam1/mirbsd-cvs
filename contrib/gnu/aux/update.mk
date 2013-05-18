@@ -1,4 +1,4 @@
-# $MirOS: contrib/gnu/aux/update.mk,v 1.3 2005/02/11 14:31:17 tg Exp $
+# $MirOS: contrib/gnu/aux/update.mk,v 1.4 2006/10/18 23:43:04 tg Exp $
 
 ONLY?=
 SOURCES=
@@ -65,7 +65,7 @@ update:
 		echo -n "$$dstf	<== $$srcf processing... "; \
 		printf '/\\$$%s\n%s\n%s\nwq %s\n' \
 		    "MirOS:/ka" "'a,t'a-1" \
-		    "'as~\\\$$MirOS~_MirOS~" \
+		    "'as~MirOS:~miros:~" \
 		    $$dstf | ed -s "$$srcf"; \
 		echo "done"; \
 	done
