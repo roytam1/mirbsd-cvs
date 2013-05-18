@@ -1,6 +1,7 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.8 2002/12/29 20:31:41 fgsch Exp $
 
-COMMENT=			Windows 95/98/NT like window manager
+COMMENT=	Windows 95/98/NT like window manager
 
 DISTNAME=	qvwm-1.1.8
 CATEGORIES=     x11
@@ -34,6 +35,7 @@ CONFIGURE_ARGS+= --without-esd
 .endif
 
 .if ${FLAVOR:L:Mimlib}
+USE_CXX=	Yes # depends on libungif, which uses CXX
 LIB_DEPENDS+=	Imlib.19::graphics/imlib
 CONFIGURE_ARGS+= --with-imlib-prefix=${LOCALBASE}
 .else

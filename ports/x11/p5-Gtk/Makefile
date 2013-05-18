@@ -1,9 +1,9 @@
-# $MirOS: ports/x11/p5-Gtk/Makefile,v 1.6 2006/09/14 00:15:33 tg Exp $
+# $MirOS: ports/x11/p5-Gtk/Makefile,v 1.7 2007/03/31 22:02:12 tg Exp $
 # $OpenBSD: Makefile,v 1.15 2004/06/26 23:09:15 jcs Exp $
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=		set of modules to use Gtk+ libraries from Perl
+COMMENT=	set of modules to use Gtk+ libraries from Perl
 VERSION=	0.7008
 DISTNAME=	Gtk-Perl-${VERSION}
 PKGNAME=	p5-Gtk-${VERSION}-0
@@ -19,6 +19,7 @@ HOMEPAGE=	http://www.gtkperl.org/
 MASTER_SITES=	${MASTER_SITE_PERL_CPAN:=Gtk/}
 
 USE_X11=	Yes
+USE_CXX=	Yes # depends on libungif, which uses CXX
 
 LIB_DEPENDS=	gtk.1.2,glib.1.2::x11/gtk+1 \
 		gdk_pixbuf.2::graphics/gdk-pixbuf \

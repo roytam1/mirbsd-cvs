@@ -1,8 +1,8 @@
-# $MirOS: ports/x11/wmthemeinstall/Makefile,v 1.3 2006/02/09 09:36:26 tg Exp $
+# $MirOS: ports/x11/wmthemeinstall/Makefile,v 1.4 2006/09/14 00:15:44 tg Exp $
 # $OpenBSD: Makefile,v 1.13 2002/09/17 14:35:04 wilfried Exp $
 # $FreeBSD: ports/x11-wm/wmthemeinstall/Makefile,v 1.5 2000/10/05 06:42:57 reg Exp $
 
-COMMENT=			neat theme manager for Window Maker
+COMMENT=		neat theme manager for Window Maker
 
 DISTNAME=		wmthemeinstall-0.62
 CATEGORIES=		x11 x11/windowmaker
@@ -18,6 +18,7 @@ RUN_DEPENDS=		:windowmaker-*:x11/windowmaker
 LIB_DEPENDS=		gtk.1,gdk.1::x11/gtk+1
 
 USE_X11=		Yes
+USE_CXX=		Yes # depends on windowmaker, which uses CXX
 USE_GMAKE=		Yes
 NO_REGRESS=		Yes
 CONFIGURE_STYLE=	gnu

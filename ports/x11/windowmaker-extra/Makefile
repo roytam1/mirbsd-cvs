@@ -1,6 +1,7 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.11 2004/02/01 20:17:47 sturm Exp $
 
-COMMENT=			themes and icons for Window Maker
+COMMENT=		themes and icons for Window Maker
 
 DISTNAME=		WindowMaker-extra-0.1
 PKGNAME=		${DISTNAME:L}-0
@@ -20,6 +21,7 @@ MASTER_SITES=		${MASTER_SITE_WINDOWMAKER:=source/release/}
 RUN_DEPENDS=		:windowmaker-*:x11/windowmaker
 
 USE_X11=		Yes
+USE_CXX=		Yes # depends on windowmaker, which uses CXX
 NO_REGRESS=		Yes
 
 CONFIGURE_STYLE=	gnu

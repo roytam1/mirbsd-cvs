@@ -1,6 +1,7 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.23 2002/12/01 13:41:34 wilfried Exp $
 
-COMMENT=			color vt102 terminal emulator with transparency support
+COMMENT=		color vt102 terminal emulator with transparency support
 
 DISTNAME=		wterm-6.2.9
 CATEGORIES=		x11
@@ -19,6 +20,7 @@ MASTER_SITES=		http://largo.windowmaker.org/files/
 BUILD_DEPENDS=		${RUN_DEPENDS}
 RUN_DEPENDS=		:windowmaker->=0.50.0:x11/windowmaker
 
+USE_CXX=		Yes # depends on libungif, which uses CXX
 USE_X11=		Yes
 NO_REGRESS=		Yes
 CONFIGURE_STYLE=	gnu

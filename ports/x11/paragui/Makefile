@@ -1,7 +1,7 @@
-# $MirOS: ports/x11/paragui/Makefile,v 1.2 2006/02/09 11:15:54 tg Exp $
+# $MirOS: ports/x11/paragui/Makefile,v 1.3 2006/09/14 00:15:33 tg Exp $
 # $OpenBSD: Makefile,v 1.13 2004/02/25 02:35:18 naddy Exp $
 
-COMMENT=			cross-platform high-level application framework
+COMMENT=	cross-platform high-level application framework
 VERSION=	0.7.2
 DISTNAME=	paragui-${VERSION}
 CATEGORIES=	x11 devel
@@ -19,6 +19,7 @@ LIB_DEPENDS=	SDL::devel/sdl \
 		SDL_ttf::devel/sdl-ttf \
 		SDL_image::devel/sdl-image 
 USE_X11=	Yes
+USE_CXX=	Yes # depends on sdl-ttf and sdl-image, which uses CXX
 USE_GMAKE=	Yes
 CONFIGURE_STYLE=autoconf
 MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC} ${WRKSRC}/test

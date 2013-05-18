@@ -1,7 +1,7 @@
-# $MirOS: ports/x11/sawfish/Makefile,v 1.4 2006/02/09 11:15:55 tg Exp $
+# $MirOS: ports/x11/sawfish/Makefile,v 1.5 2006/09/14 00:15:37 tg Exp $
 # $OpenBSD: Makefile,v 1.13 2003/05/15 04:39:16 margarida Exp $
 
-COMMENT=			extensible window manager
+COMMENT=	extensible window manager
 
 VERSION=	0.36
 DISTNAME=	sawfish-${VERSION}
@@ -27,6 +27,7 @@ PERMIT_DISTFILES_FTP=	Yes
 SUBST_VARS=	OPSYS_VER VERSION
 
 USE_X11=	Yes
+USE_CXX=	Yes # depends on libungif, which uses CXX
 USE_GMAKE=      Yes
 CONFIGURE_STYLE= gnu
 MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC}/etc
