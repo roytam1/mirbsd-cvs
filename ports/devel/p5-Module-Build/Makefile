@@ -1,11 +1,12 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.1.1.1 2004/05/26 11:16:49 msf Exp $
 
-COMMENT=			build and install Perl modules
+COMMENT=		build and install Perl modules
 
-V=		0.25
-DISTNAME=	Module-Build-${V}
-PKGNAME=	p5-${DISTNAME}-0
-CATEGORIES=	devel perl5
+V=			0.31
+DISTNAME=		Module-Build-${V}
+PKGNAME=		p5-${DISTNAME}-${DASH_VER}
+CATEGORIES=		devel perl5
 
 
 # Artistic
@@ -18,10 +19,9 @@ MASTER_SITES=	${MASTER_SITE_PERL_CPAN:=Module/}
 
 CONFIGURE_STYLE= perl modbuild
 
-BUILD_DEPENDS=	${RUN_DEPENDS}
-RUN_DEPENDS=	::archivers/p5-Archive-Tar \
+B_R_DEPENDS=	::archivers/p5-Archive-Tar \
 		::devel/p5-ExtUtils-ParseXS \
-		::devel/p5-YAML
+		:p5-YAML->=0.35:devel/p5-YAML
 
 PKG_ARCH=	*
 
