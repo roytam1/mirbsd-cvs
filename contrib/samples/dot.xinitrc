@@ -1,7 +1,7 @@
 #!/bin/sh
-# $MirOS: contrib/samples/dot.xinitrc,v 1.5 2009/08/27 16:42:39 tg Exp $
+# $MirOS: contrib/samples/dot.xinitrc,v 1.6 2010/01/27 11:29:21 tg Exp $
 #-
-# Copyright (c) 2003, 2004, 2005, 2009
+# Copyright (c) 2003, 2004, 2005, 2009, 2011
 #	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
 #
 # Licensee is hereby permitted to deal in this work without restric-
@@ -65,6 +65,9 @@ fi
 # disable DPMS and turn off screen saver
 xset s off
 xset -dpms
+
+# run xlock on moving to the upper-right corner
+xidle -ne -program '/usr/X11R6/bin/xlock -mode life' &
 
 [ -s $HOME/.xinitrc.local ] && . $HOME/.xinitrc.local
 

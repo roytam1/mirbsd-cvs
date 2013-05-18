@@ -2,6 +2,17 @@ Hello all!
 
 For some future directions, see near the end of file.
 
+[ Update 2011-10-15: Some of this is no longer true;
+I’m still using the .Xmodmap on BSD and GNU-at-work,
+the latter in the “gnu” CVS branch, and the .xinitrc
+at home. At work I also use the .Xresources file from
+here – currently transitioning to a newer xterm than
+MirBSD’s 200 or hardy’s 229 to get rid of cut buffers
+and become able to use an underlined cursor – but on
+BSD I’ve switched to the much easier one from base –
+src/etc/skel/dot.Xresources,v – and just UXTerm. As
+font I use fixed-misc 9x18+18x18ko exclusively now. ]
+
 I'm using the X Windowing System primarily as an xterm
 multiplexer, so I get eight virtual consol^Wworkspaces
 with one "work" xterm on each, plus logs and top(1).
@@ -35,7 +46,7 @@ The file ~/.etc/bin/xtm referred in said file is this one:
 
 ---- cutting here may damage your screen surface -----
 #!/bin/mksh
-# $MirOS: contrib/samples/myXenvironment,v 1.13 2006/12/20 16:23:00 tg Exp $
+# $MirOS: contrib/samples/myXenvironment,v 1.14 2008/11/08 22:24:29 tg Exp $
 unset LANG LC_ALL
 export LC_CTYPE=C
 if [[ $1 = vga ]]; then
@@ -100,6 +111,12 @@ exit 0
 
 Netscape can use the mouse wheel as well: ~/.Xresources
 (the file is saved as dot.Xresources in this directory)
+
+[ Update 2011-10-15: My IBM X40 doesn’t have a mouse or
+wheel, so… besides, I use GNU screen inside most xterms
+which has different scrolling mechanisms, and I don’t
+push back into the xterm scroll buffer; copy-paste also
+is easier that way. ]
 
 
 Possible future directions:
