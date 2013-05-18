@@ -1,4 +1,4 @@
-# $MirOS: src/etc/Makefile,v 1.11 2005/09/23 10:51:04 tg Exp $
+# $MirOS: src/etc/Makefile,v 1.12 2005/09/23 10:52:51 tg Exp $
 # $OpenBSD: Makefile,v 1.226 2005/05/26 23:06:06 mcbride Exp $
 
 TZDIR=		/usr/share/zoneinfo
@@ -53,7 +53,8 @@ distrib-dirs:
 	fi
 .endif
 	mtree -qdef mtree/4.4BSD.dist -p ${DESTDIR}/ -U
-	cd ${DESTDIR}/var/anoncvs/anoncvs; ln -s . usr; ln -s . var
+	cd ${DESTDIR}/var/anoncvs/anoncvs; \
+		rm -f usr var; ln -s . usr; ln -s . var
 	for i in ${DESTDIR}/usr/{ports,src}; do \
 		[[ -d $$i ]] || ${INSTALL} -d -o root -g wsrc -m 775 $$i; \
 	done
@@ -302,7 +303,7 @@ install-generated:
 DHSIZE=	1024 1536 2048 3072 4096
 update-moduli:
 	{ \
-		echo '# $$MirOS: src/etc/Makefile,v 1.11 2005/09/23 10:51:04 tg Exp $$'; \
+		echo '# $$MirOS: src/etc/Makefile,v 1.12 2005/09/23 10:52:51 tg Exp $$'; \
 		echo '# Time Type Tests Tries Size Generator Modulus'; \
 		for i in ${DHSIZE}; do \
 			ssh-keygen -b $$i -G /dev/stdout; \
