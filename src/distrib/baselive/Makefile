@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/baselive/Makefile,v 1.47 2009/01/18 19:24:36 tg Exp $
+# $MirOS: src/distrib/baselive/Makefile,v 1.48 2009/01/18 19:26:35 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -159,9 +159,8 @@ addcontrib:
 	    --prefix=/usr --sysconfdir=/etc --disable-dependency-tracking && \
 	    make && ${SUDO} make install DESTDIR=${WRKDIR:Q}
 	cd tempdir; cp ${BSDSRCDIR}/contrib/code/Snippets/tinyirc.c . && \
-	    print 'PROG=tinyirc\nLDADD=-ltermcap\nNOMAN=yes\n.include' \
-	    '<bsd.prog.mk>' >mkirc && make -f mkirc && \
-	    ${SUDO} make -f mkirc install BINDIR=${WRKDIR}/usr/bin
+	    make -f tinyirc.c && ${SUDO} make -f tinyirc.c install \
+	    DESTDIR=${WRKDIR:Q} BINDIR=/usr/bin
 	${SUDO} install -o 0 -g 0 -m 644 \
 	    ${BSDSRCDIR}/contrib/samples/dot.Xmodmap \
 	    ${WRKDIR}/etc/skel/.Xmodmap
