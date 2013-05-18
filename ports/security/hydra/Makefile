@@ -24,7 +24,7 @@ CONFIGURE_STYLE=	gnu dest
 post-extract:
 		@chmod -R u+w ${WRKDIST}
 
-MAKE_FLAGS=		CC=${_PASS_CC:Q} OPTS=${CFLAGS:Q}
+MAKE_FLAGS=		CC=${_PASS_CC:T:Q} OPTS=${CFLAGS:Q}
 FAKE_FLAGS=		INSTALL="${WRKINST}${PREFIX}/bin"
 
 post-install:

@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/perl.port.mk,v 1.11 2008/10/04 18:37:32 tg Exp $
+# $MirOS: ports/infrastructure/mk/perl.port.mk,v 1.12 2009/01/03 20:45:39 bsiegert Exp $
 # $OpenBSD: perl.port.mk,v 1.9 2004/06/08 20:28:19 sturm Exp $
 # Based on bsd.port.mk, originally by Jordan K. Hubbard.
 
@@ -39,7 +39,7 @@ MODPERL_configure= cd ${MODPERL_SRC}; ${_SYSTRACE_CMD} ${SETENV} ${CONFIGURE_ENV
 REGRESS_TARGET?=test
 .elif ${CONFIGURE_STYLE:L:Mperl}
 MODPERL_configure= cd ${MODPERL_SRC}; ${_SYSTRACE_CMD} ${SETENV} ${CONFIGURE_ENV} \
-	CC=${_PASS_CC:Q} CFLAGS=${CFLAGS:M*:Q} CXX=${_PASS_CXX:Q} \
+	CC=${_PASS_CC:T:Q} CFLAGS=${CFLAGS:M*:Q} CXX=${_PASS_CXX:T:Q} \
 	CXXFLAGS=${CXXFLAGS:M*:Q} YACC=${YACC:Q} LD=${LD:Q} \
 	LDFLAGS=${LDFLAGS:Q} /usr/bin/perl Makefile.PL \
 	PREFIX=${PREFIX:Q} ${MODPERL_CONFIG_VARS}

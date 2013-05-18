@@ -1,4 +1,4 @@
-# $MirOS: ports/security/rdp/Makefile,v 1.4 2008/03/23 13:26:05 bsiegert Exp $
+# $MirOS: ports/security/rdp/Makefile,v 1.5 2008/10/04 19:03:40 tg Exp $
 # $OpenBSD: Makefile,v 1.16 2004/02/01 07:12:39 pvalchev Exp $
 
 COMMENT=	ICMP router discovery protocol spoofer
@@ -18,7 +18,7 @@ PERMIT_DISTFILES_FTP=	Yes
 WRKDIST=	${WRKDIR}
 
 do-build:
-	cd ${WRKSRC} && ${_PASS_CC} ${CFLAGS} -I${PREFIX}/include -o rdp \
+	cd ${WRKSRC} && ${_PASS_CC:Q} ${CFLAGS} -I${PREFIX}/include -o rdp \
 		icmp_rdp.c -L${PREFIX}/lib -lnet -lpcap
 
 NO_REGRESS=	Yes

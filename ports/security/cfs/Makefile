@@ -14,7 +14,7 @@ PERMIT_DISTFILES_CDROM=	No
 PERMIT_DISTFILES_FTP=	Yes
 
 do-build:
-	@cd ${WRKSRC} && env CCTMP=${_PASS_CC:Q} CFLAGS="${CFLAGS}" sh make_with_bad_rpcgen cfs
+	@cd ${WRKSRC} && env CCTMP=${_PASS_CC:T:Q} CFLAGS="${CFLAGS}" sh make_with_bad_rpcgen cfs
 
 NO_REGRESS=	Yes
 

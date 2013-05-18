@@ -19,7 +19,7 @@ PERMIT_DISTFILES_FTP=	Yes
 WRKDIST=	${WRKDIR}
 
 do-build:
-	cd ${WRKSRC}; ${_PASS_CC} ${CFLAGS} -DNOETHERNAMES -o tcpshow tcpshow.c
+	cd ${WRKSRC}; ${_PASS_CC:Q} ${CFLAGS} -DNOETHERNAMES -o tcpshow tcpshow.c
 
 NO_REGRESS=	Yes
 

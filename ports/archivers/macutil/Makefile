@@ -1,8 +1,9 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.3 2003/09/23 15:29:41 sturm Exp $
 
-COMMENT=			several programs to handle macintosh files and archives
+COMMENT=		several programs to handle macintosh files and archives
 DISTNAME=		macutil2.0b3
-PKGNAME=		macutil-2.0b3-0
+PKGNAME=		macutil-2.0b3-${DASH_VER}
 CATEGORIES=		archivers
 
 # None
@@ -16,8 +17,8 @@ EXTRACT_SUFX=		.shar.Z
 
 MAKE_FILE=		makefile
 WRKDIST=		${WRKDIR}/macutil
-MAKE_ENV=		CF="${CFLAGS}" \
-			CC=${_PASS_CC:Q}
+MAKE_ENV+=		CF=${CFLAGS:Q} \
+			CC=${_PASS_CC:T:Q}
 
 NO_REGRESS=		Yes
 

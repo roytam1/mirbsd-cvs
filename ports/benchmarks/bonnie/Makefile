@@ -20,8 +20,8 @@ PERMIT_DISTFILES_FTP=	Yes
 NO_REGRESS=	Yes
 
 do-build:
-	${_PASS_CC} ${CFLAGS} -o ${WRKBUILD}/bonnie.o -c ${WRKSRC}/Bonnie.c
-	cd ${WRKBUILD}; ${_PASS_CC} -static -o bonnie bonnie.o
+	${_PASS_CC:Q} ${CFLAGS} -o ${WRKBUILD}/bonnie.o -c ${WRKSRC}/Bonnie.c
+	cd ${WRKBUILD}; ${_PASS_CC:Q} -static -o bonnie bonnie.o
 
 do-install:
 	${INSTALL_PROGRAM_DIR} ${PREFIX}/bin

@@ -16,7 +16,7 @@ NO_REGRESS=	Yes
 
 do-build:
 	cd ${WRKSRC} && \
-		${_PASS_CC} ${CFLAGS} -o randread randread.c filelist.c
+	    ${_PASS_CC:Q} ${CFLAGS} -o randread randread.c filelist.c
 
 do-install:
 	${INSTALL_PROGRAM} ${WRKSRC}/randread ${PREFIX}/bin

@@ -23,7 +23,7 @@ MODQT_MT=	Yes
 
 EXTRA_MAKE_FLAGS= \
 	INCPATH='-I${MODQT_INCDIR}' \
-	LINK=${_PASS_CXX:Q} \
+	LINK=${_PASS_CXX:T:Q} \
 	LFLAGS='' \
 	LIBS='-pthread -L${MODQT_LIBDIR} -L${LOCALBASE}/lib -lqt-mt -L${X11BASE}/lib -lX11' \
 	AR='ar cq'

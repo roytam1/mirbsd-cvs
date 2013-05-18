@@ -15,7 +15,7 @@ PERMIT_DISTFILES_FTP=	Yes
 
 do-configure:
 	@sed -e s,@PREFIX@,${PREFIX},g \
-	     -e s,@CC@,${_PASS_CC:Q},g ${FILESDIR}/config > ${WRKSRC}/config
+	     -e s,@CC@,${_PASS_CC:T:Q},g ${FILESDIR}/config > ${WRKSRC}/config
 
 NO_REGRESS=	Yes
 

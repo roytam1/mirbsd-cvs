@@ -1,4 +1,4 @@
-# $MirOS: ports/plan9/kencc/Makefile,v 1.5 2008/10/04 19:03:34 tg Exp $
+# $MirOS: ports/plan9/kencc/Makefile,v 1.6 2008/11/18 21:11:40 tg Exp $
 
 # sort of hard to add more...
 ONLY_FOR_PLATFORM=	Darwin:*:powerpc MirBSD:*:i386 OpenBSD:*:i386
@@ -39,7 +39,7 @@ CPP_DEFINES+=		__MirBSD__
 
 PORTPATH=		${WRKSRC}/${FBSDORMAC}/${PROCESSOR}/bin:${WRKDIR}/bin:${_PORTPATH}
 MK_VARS=		WRKSRC=${WRKSRC:Q} \
-			MP_CC=${_PASS_CC:Q} MP_CFLAGS=${CFLAGS:Q} \
+			MP_CC=${_PASS_CC:T:Q} MP_CFLAGS=${CFLAGS:Q} \
 			FBSDORMAC=${FBSDORMAC:Q} \
 			objtype=${PROCESSOR:Q}
 
@@ -72,7 +72,7 @@ do-extract:
 	cd ${WRKDIR}/install/utils && cp -r ../inferno/mkfiles .
 
 do-configure:
-	cd ${WRKSRC} && ${SETENV} HOSTCC=${_PASS_CC:Q}\ ${CFLAGS:Q} \
+	cd ${WRKSRC} && ${SETENV} HOSTCC=${_PASS_CC:T:Q}\ ${CFLAGS:Q} \
 	    FBSDORMAC=${FBSDORMAC:Q} PROCESSOR=${PROCESSOR:Q} \
 	    WRKSRC=${WRKSRC:Q} ${SCRIPTS_ENV} ${SH} ./makemk.sh
 	print '%g/@PREFIX@/s!!${PREFIX}!g\nwq' | \

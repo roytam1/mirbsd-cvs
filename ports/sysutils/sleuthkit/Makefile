@@ -18,7 +18,7 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	"commercial contributor must indemnify all others"
 PERMIT_DISTFILES_FTP=	Yes
 
-MAKE_FLAGS=		CC=${_PASS_CC:Q} OPT="${CFLAGS}" DEBUG=""
+MAKE_FLAGS=		CC=${_PASS_CC:T:Q} OPT="${CFLAGS}" DEBUG=""
 
 NO_REGRESS=		Yes
 

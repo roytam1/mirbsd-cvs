@@ -1,4 +1,4 @@
-# $MirOS: ports/chinese/crxvt/Makefile,v 1.3 2006/09/14 00:07:32 tg Exp $
+# $MirOS: ports/chinese/crxvt/Makefile,v 1.4 2008/10/04 19:03:02 tg Exp $
 # $OpenBSD: Makefile,v 1.15 2003/09/22 22:53:36 pvalchev Exp $
 
 COMMENT=			Chinese(Big5) VT100 terminal emulator for X
@@ -29,7 +29,7 @@ post-configure:
 	
 post-extract:
 	mv ${FILESDIR}/OpenBSD ${WRKSRC}/script/os_def/
-	echo CC=${_PASS_CC:Q} >> ${WRKSRC}/script/os_def/OpenBSD
+	echo CC=${_PASS_CC:T:Q} >> ${WRKSRC}/script/os_def/OpenBSD
 	echo CFLAGS=${CFLAGS:Q} >> ${WRKSRC}/script/os_def/OpenBSD
 
 NO_REGRESS=	Yes

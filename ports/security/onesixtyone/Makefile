@@ -18,7 +18,7 @@ NO_REGRESS=	Yes
 
 do-build:
 	@perl -pi -e "s/logf/logfile/g" ${WRKSRC}/onesixtyone.c
-	${_PASS_CC} ${CFLAGS} -o ${WRKSRC}/onesixtyone ${WRKSRC}/onesixtyone.c
+	${_PASS_CC:Q} ${CFLAGS} -o ${WRKSRC}/onesixtyone ${WRKSRC}/onesixtyone.c
 
 do-install:
 	${INSTALL_PROGRAM} ${WRKSRC}/onesixtyone ${PREFIX}/bin

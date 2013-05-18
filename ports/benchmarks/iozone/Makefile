@@ -17,7 +17,7 @@ PERMIT_PACKAGE_FTP=	"incomplete/bad license"
 PERMIT_DISTFILES_CDROM=	"incomplete/bad license"
 PERMIT_DISTFILES_FTP=	"incomplete/bad license"
 
-MAKE_ENV=	CC=${_PASS_CC:Q}
+MAKE_ENV=	CC=${_PASS_CC:T:Q}
 
 NO_REGRESS=	Yes
 

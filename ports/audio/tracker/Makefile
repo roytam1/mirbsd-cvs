@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/audio/tracker/Makefile,v 1.5 2009/04/08 05:36:15 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.21 2003/05/12 18:02:44 sturm Exp $
 
 COMMENT=	MOD player
@@ -18,7 +18,7 @@ PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
 WRKDIST=		${WRKDIR}/tracker
-EXTRA_XAKE_FLAGS=	MACHINE=openbsd CC=${_PASS_CC:Q} INSTALL="$(INSTALL)" \
+EXTRA_XAKE_FLAGS=	MACHINE=openbsd CC=${_PASS_CC:T:Q} INSTALL="$(INSTALL)" \
 		CFLAGS_openbsd='-O3 -funroll-loops -finline-functions ${COPTS}' \
 		INST_BIN_OPT="-c -s -m $(BINMODE) -o $(BINOWN) -g $(BINGRP)" \
 		INST_MAN_OPT="-c -m 644 -o $(BINOWN) -g $(BINGRP)" \

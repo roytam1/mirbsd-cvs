@@ -1,4 +1,4 @@
-# $MirOS: ports/graphics/gd/Makefile,v 1.3 2006/09/14 00:09:50 tg Exp $
+# $MirOS: ports/graphics/gd/Makefile,v 1.4 2008/10/04 19:03:10 tg Exp $
 # $OpenBSD: Makefile,v 1.37 2003/04/19 13:30:47 espie Exp $
 # $FreeBSD: Makefile,v 1.5 1998/06/25 03:13:16 vanilla Exp $
 
@@ -20,7 +20,7 @@ PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
 CPPFLAGS+=	-DHAVE_LIBJPEG -DHAVE_LIBTTF -DHAVE_LIBPNG
-MAKE_FLAGS+=	COMPILER=${_PASS_CC:Q} prefix="${PREFIX}" \
+MAKE_FLAGS+=	COMPILER=${_PASS_CC:T:Q} prefix="${PREFIX}" \
 		INCLUDEDIRS="-I. -I${LOCALBASE}/include/libpng -I${LOCALBASE}/include/freetype1/freetype -I${LOCALBASE}/include" \
 		LIBS="-lgd -lm -lpng -lz -ljpeg -lttf" \
 		LIBDIRS="-L. -L${LOCALBASE}/lib"

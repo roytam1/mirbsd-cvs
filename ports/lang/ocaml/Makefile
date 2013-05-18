@@ -1,4 +1,4 @@
-# $MirOS: ports/lang/ocaml/Makefile,v 1.4 2008/03/23 13:22:29 bsiegert Exp $
+# $MirOS: ports/lang/ocaml/Makefile,v 1.5 2008/10/04 19:03:14 tg Exp $
 # $OpenBSD: Makefile,v 1.27 2004/03/05 21:54:35 avsm Exp $
 
 COMMENT=	ML language based on complete class-based objective system
@@ -20,7 +20,7 @@ CONFIGURE_STYLE=	simple
 CONFIGURE_ARGS+=-tkdefs '-I${LOCALBASE}/include/tk8.4 -I${LOCALBASE}/include/tcl8.4' 
 CONFIGURE_ARGS+=-tklibs -L${LOCALBASE}/lib 
 CONFIGURE_ARGS+=-prefix ${PREFIX} 
-CONFIGURE_ARGS+=-cc ${_PASS_CC:Q}\ ${CFLAGS:Q}
+CONFIGURE_ARGS+=-cc ${_PASS_CC:T:Q}\ ${CFLAGS:Q}
 CONFIGURE_ARGS+=-x11include ${X11BASE}/include -x11lib ${X11BASE}/lib
 
 LIB_DEPENDS=	tcl84::lang/tcl/8.4 \

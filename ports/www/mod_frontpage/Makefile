@@ -43,8 +43,8 @@ do-build:
 	cd ${WRKBUILD} && \
 	    ${APXS} -Wall -c ${DEF} ${DEF2} ${INC} \
 	       -o ${WRKBUILD}/mod_frontpage.so ${WRKSRC}/mod_frontpage.c
-	${_PASS_CC} ${CFLAGS} ${DEF2} ${INC} -o ${WRKBUILD}/fpexec ${WRKSRC}/fpexec.c
-	${_PASS_CC} ${CFLAGS} ${DEF2} ${INC} \
+	${_PASS_CC:Q} ${CFLAGS} ${DEF2} ${INC} -o ${WRKBUILD}/fpexec ${WRKSRC}/fpexec.c
+	${_PASS_CC:Q} ${CFLAGS} ${DEF2} ${INC} \
 	    -o ${WRKBUILD}/fpstatic ${WRKSRC}/fpstatic.c
 	@sed 's,!!PREFIX!!,${PREFIX},' ${FILESDIR}/mod_frontpage-enable > \
 	    ${WRKBUILD}/mod_frontpage-enable

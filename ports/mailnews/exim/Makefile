@@ -1,4 +1,4 @@
-# $MirOS: ports/mailnews/exim/Makefile,v 1.10 2008/06/08 17:05:38 bsiegert Exp $
+# $MirOS: ports/mailnews/exim/Makefile,v 1.11 2008/10/04 19:03:16 tg Exp $
 
 COMMENT=		flexible mail transfer agent
 VERSION=		4.69
@@ -122,7 +122,7 @@ do-configure:
 .if ${FLAVOUR:L:Miconv}
 	@echo "HAVE_ICONV=yes" >> ${WRKSRC}/Local/Makefile
 .endif
-	@echo CC=${_PASS_CC:Q} >> ${WRKSRC}/Local/Makefile
+	@echo CC=${_PASS_CC:T:Q} >> ${WRKSRC}/Local/Makefile
 	@echo CFLAGS=${CFLAGS:Q} >> ${WRKSRC}/Local/Makefile
 
 post-install:

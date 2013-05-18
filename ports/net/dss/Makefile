@@ -1,4 +1,4 @@
-# $MirOS: ports/net/dss/Makefile,v 1.7 2008/10/04 19:03:20 tg Exp $
+# $MirOS: ports/net/dss/Makefile,v 1.8 2008/10/16 19:43:57 tg Exp $
 # $OpenBSD: Makefile,v 1.4 2003/10/26 23:49:37 naddy Exp $
 
 BROKEN=			unfetchable distfile
@@ -64,7 +64,7 @@ post-patch:
 		's,-g -Wall,-Wall,g'
 
 do-build:
-	cd ${WRKSRC}; env CC=${_PASS_CC:Q} CFLAGS=${CFLAGS:Q} ./Buildit
+	cd ${WRKSRC}; env CC=${_PASS_CC:T:Q} CFLAGS=${CFLAGS:Q} ./Buildit
 
 post-build:
 	rm -fr ${WRKTMP}/{server,proxy}

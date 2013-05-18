@@ -15,7 +15,7 @@ PERMIT_DISTFILES_FTP=	Yes
 CONFIGURE_STYLE= gnu dest old
 
 CONFIGURE_ARGS=	--datadir='$${DESTDIR}${PREFIX}/share/its4' \
-		--with-cpp=${_PASS_CXX:Q}
+		--with-cpp=${_PASS_CXX:T:Q}
 
 WRKDIST=	${WRKDIR}/its4
 

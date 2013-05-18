@@ -1,4 +1,4 @@
-# $MirOS: ports/textproc/ispell/Makefile,v 1.3 2006/09/14 00:14:06 tg Exp $
+# $MirOS: ports/textproc/ispell/Makefile,v 1.4 2008/10/04 19:03:44 tg Exp $
 # $OpenBSD: Makefile,v 1.37 2004/01/14 17:09:08 jakob Exp $
 
 COMMENT=			interactive spelling checker
@@ -110,7 +110,7 @@ post-patch:
 	@sed "s%/usr/local%${PREFIX}%g" ${WRKSRC}/local.h.samp > \
 		${WRKSRC}/local.h
 	@echo "#define CFLAGS \"${CFLAGS}\"" >> ${WRKSRC}/local.h
-	@echo "#define CC \""${_PASS_CC:Q}\" >> ${WRKSRC}/local.h
+	@echo "#define CC \""${_PASS_CC:T:Q}\" >> ${WRKSRC}/local.h
 
 post-build:
 	@sed "s%/usr/local%${PREFIX}%g" ${FILESDIR}/ispell-config > \

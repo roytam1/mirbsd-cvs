@@ -19,7 +19,7 @@ CONFIGURE_STYLE= gnu
 CPPFLAGS+=	-Dunix
 
 post-build:
-	@cd ${WRKSRC}/utils && ${_PASS_CC} ${CFLAGS} -o splitprc splitprc.c
+	@cd ${WRKSRC}/utils && ${_PASS_CC:Q} ${CFLAGS} -o splitprc splitprc.c
 
 do-install:
 	${INSTALL_PROGRAM} ${WRKSRC}/src/pila/pila ${PREFIX}/bin

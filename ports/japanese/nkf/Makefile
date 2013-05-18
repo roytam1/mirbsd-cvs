@@ -30,7 +30,7 @@ pre-extract:
 	@mkdir -p ${WRKSRC}
 
 pre-build:
-	cd ${WRKDIST} && ${_PASS_CC} ${CFLAGS} -o nkf nkf.c
+	cd ${WRKDIST} && ${_PASS_CC:Q} ${CFLAGS} -o nkf nkf.c
 
 # original english man page was rather difficult to follow
 post-install:	

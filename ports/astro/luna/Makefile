@@ -16,7 +16,7 @@ MASTER_SITES=	ftp://ftp.vector.co.jp/pack/dos/edu/science/space/
 
 BUILD_DEPENDS=	::archivers/lha
 
-MAKE_ENV=	CC=${_PASS_CC:Q}
+MAKE_ENV=	CC=${_PASS_CC:T:Q}
 MAKE_FILE=	makefile
 NO_REGRESS=	Yes
 

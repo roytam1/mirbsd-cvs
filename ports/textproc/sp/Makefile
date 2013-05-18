@@ -15,7 +15,7 @@ PERMIT_DISTFILES_FTP=	Yes
 
 MASTER_SITES=	ftp://ftp.jclark.com/pub/sp/
 
-MAKE_FLAGS=	CXX=${_PASS_CXX:Q} \
+MAKE_FLAGS=	CXX=${_PASS_CXX:T:Q} \
 		CXXFLAGS="${CXXFLAGS} -fno-implicit-templates -ansi" \
 		DEFINES="-DSP_HAVE_BOOL -DSP_ANSI_CLASS_INST -DSP_MULTI_BYTE \
 		         -DSP_HAVE_SOCKET" \

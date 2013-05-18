@@ -37,7 +37,7 @@ post-extract:
 pre-build:
 	@echo "#include <machine/endian.h>" > ${WRKDIR}/.endian.c
 	@echo "BYTE_ORDER" >> ${WRKDIR}/.endian.c
-	@${_PASS_CC} -E ${WRKDIR}/.endian.c > ${WRKDIR}/.endian.out
+	@${_PASS_CC:Q} -E ${WRKDIR}/.endian.c > ${WRKDIR}/.endian.out
 	@if { grep -q 4321 ${WRKDIR}/.endian.out; } then \
 	   echo -DHIGHFIRST > ${WRKDIR}/.endian; \
 	 else \

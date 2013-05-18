@@ -35,8 +35,8 @@ pre-build:
 
 do-build:
 	cd ${WRKSRC} && \
-		${_PASS_CC} ${CFLAGS} -o write-highscores write-highscores.c \
-		&& ./makehtml
+	    ${_PASS_CC:Q} ${CFLAGS} -o write-highscores write-highscores.c && \
+	    ./makehtml
 
 do-install:
 	${INSTALL_PROGRAM} ${WRKSRC}/pathological ${PREFIX}/bin

@@ -34,7 +34,7 @@ pre-build:
 	fi)
 
 do-build:
-	(cd ${WRKSRC} ; CC=${_PASS_CC:Q} CFLAGS="${CFLAGS}" ./Crack -makeonly)
+	(cd ${WRKSRC} ; CC=${_PASS_CC:T:Q} CFLAGS="${CFLAGS}" ./Crack -makeonly)
 	(cd ${WRKSRC} ; ./Crack -makedict)
 .if !defined(USE_DES)
 	@#(cd ${WRKSRC} ; ./Crack -fgnd -fmt bsd ${FILESDIR}/pw-md5.test)

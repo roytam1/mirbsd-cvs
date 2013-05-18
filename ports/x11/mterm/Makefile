@@ -20,7 +20,7 @@ USE_X11=		Yes
 NO_REGRESS=		Yes
 
 ALL_TARGET=		mterm
-MAKE_FLAGS=		CC=${_PASS_CC:Q} FLAGS="${CFLAGS}" \
+MAKE_FLAGS=		CC=${_PASS_CC:T:Q} FLAGS="${CFLAGS}" \
 			INCLUDES="-I${X11BASE}/include" \
 			LIB_DIRS="-L${X11BASE}/lib"
 

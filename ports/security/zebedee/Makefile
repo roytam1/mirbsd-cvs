@@ -35,7 +35,7 @@ OSLIBS_openbsd+= ${LIBNET_LIBS}
 
 NO_REGRESS=	Yes
 
-MAKE_FLAGS+=	CC=${_PASS_CC:Q} CFLAGS="${CFLAGS}" OS=openbsd \
+MAKE_FLAGS+=	CC=${_PASS_CC:T:Q} CFLAGS="${CFLAGS}" OS=openbsd \
 		DEFINES_openbsd="${DEFINES_openbsd}" \
 		OSLIBS_openbsd="${OSLIBS_openbsd}"
 

@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.253 2009/06/18 20:55:36 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.254 2009/06/22 12:07:30 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -228,7 +228,7 @@ DESTDIRNAME?=		DESTDIR
 DESTDIR?=		${WRKINST}
 P5SITE=			libdata/perl5/site_perl
 
-MAKE_FLAGS?=		CC=${_PASS_CC:Q}
+MAKE_FLAGS?=		CC=${_PASS_CC:T:Q}
 .if !defined(FAKE_FLAGS)
 FAKE_FLAGS=		${DESTDIRNAME}=${WRKINST:Q}
 .endif
@@ -468,16 +468,14 @@ WRKDIR?=		${.CURDIR}/w-${PKGNAME}${_FLAVOUR_EXT2}
 
 .undef CC
 .undef CXX
-#_PASS_CC=		${WRKDIR:Q}/bin/mpcc
-#_PASS_CXX=		${WRKDIR:Q}/bin/mpcxx
-_PASS_CC=		mpcc
-_PASS_CXX=		mpcxx
+_PASS_CC=		${WRKDIR}/bin/mpcc
+_PASS_CXX=		${WRKDIR}/bin/mpcxx
 .if ${USE_COMPILER:L} == "pcc"
 _PASS_CC=		${_ORIG_CC}
 _PASS_CXX=		${_ORIG_CXX}
 .endif
-CC=			${_PASS_CC}
-CXX=			${_PASS_CXX}
+CC=			${_PASS_CC:T}
+CXX=			${_PASS_CXX:T}
 
 MAKE_FILE?=		Makefile
 PORTHOME?=		/${PKGNAME}_writes_to_HOME
@@ -485,8 +483,8 @@ PORTHOME?=		/${PKGNAME}_writes_to_HOME
 MAKE_ENV+=		HOME=${PORTHOME:Q} PATH=${PORTPATH:Q} \
 			PREFIX=${PREFIX:Q} TRUEPREFIX=${PREFIX:Q} \
 			LOCALBASE=${LOCALBASE:Q} X11BASE=${X11BASE:Q} \
-			CC=${_PASS_CC:Q} LDFLAGS=${LDFLAGS:Q} ${DESTDIRNAME}= \
-			CXX=${_PASS_CXX:Q} CFLAGS=${CFLAGS:M*:Q} \
+			CC=${_PASS_CC:T:Q} LDFLAGS=${LDFLAGS:Q} ${DESTDIRNAME}= \
+			CXX=${_PASS_CXX:T:Q} CFLAGS=${CFLAGS:M*:Q} \
 			BINOWN=${BINOWN:Q} BINGRP=${BINGRP:Q} \
 			EXTRA_SYS_MK_INCLUDES=\"${PORTSDIR:Q}/infrastructure/mk/mirports.bsd.mk\"
 .if ${NO_CXX:L} == "no"
@@ -1363,11 +1361,11 @@ MODSIMPLE_configure=	cd ${WRKCONF} && \
 
 MODSIMPLE_USE_INSTALL?=	${INSTALL} -c -o ${BINOWN} -g ${BINGRP}
 MODSIMPLE_configure_env=REALOS=${OStype:Q} MKSH=${MKSH:Q} \
-			ac_cv_path_CC=${_PASS_CC:Q} ac_cv_path_CXX=${_PASS_CXX:Q} \
-			CC=${_PASS_CC:Q} CFLAGS="$$(print -nr -- ${CFLAGS:Q} | \
+			ac_cv_path_CC=${_PASS_CC:T:Q} ac_cv_path_CXX=${_PASS_CXX:T:Q} \
+			CC=${_PASS_CC:T:Q} CFLAGS="$$(print -nr -- ${CFLAGS:Q} | \
 			    sed -e 's${CPPFLAGS:S\\\\\\g}g' \
 			    -e 's/[ 	]*$$//')" \
-			CXX=${_PASS_CXX:Q} CXXFLAGS="$$(print -nr -- ${CXXFLAGS:Q} | \
+			CXX=${_PASS_CXX:T:Q} CXXFLAGS="$$(print -nr -- ${CXXFLAGS:Q} | \
 			    sed -e 's${CPPFLAGS:S\\\\\\g}g' \
 			    -e 's/[ 	]*$$//')" \
 			LD=${LD:Q} LDFLAGS=${LDFLAGS:Q} CPPFLAGS=${CPPFLAGS:Q} \

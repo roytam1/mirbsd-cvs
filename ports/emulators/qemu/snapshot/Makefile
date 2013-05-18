@@ -1,4 +1,4 @@
-# $MirOS: ports/emulators/qemu/snapshot/Makefile,v 1.2 2008/05/11 20:35:46 tg Exp $
+# $MirOS: ports/emulators/qemu/snapshot/Makefile,v 1.3 2008/10/04 19:03:06 tg Exp $
 # $OpenBSD: Makefile,v 1.32 2008/04/28 22:52:38 todd Exp $
 
 # no success building on other platforms yet
@@ -29,7 +29,7 @@ USE_X11=		Yes
 FILESDIR=		${.CURDIR}/../files
 CONFIGURE_STYLE=	simple
 CONFIGURE_ARGS+=	--prefix=${PREFIX:Q} \
-			--cc=${_PASS_CC:Q} \
+			--cc=${_PASS_CC:T:Q} \
 			--make=${GMAKE:Q} \
 			--interp-prefix=${LOCALBASE:Q}/share/qemu/gnemul-%M \
 			--extra-cflags=${CFLAGS:M*:Q} \

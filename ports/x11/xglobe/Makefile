@@ -1,4 +1,4 @@
-# $MirOS: ports/x11/xglobe/Makefile,v 1.5 2008/03/09 17:23:46 tg Exp $
+# $MirOS: ports/x11/xglobe/Makefile,v 1.6 2008/10/04 19:03:51 tg Exp $
 # $OpenBSD: Makefile,v 1.21 2003/02/25 10:34:02 espie Exp $
 
 COMMENT=	display the Earth on X11
@@ -40,7 +40,7 @@ post-install::
 MAKE_FLAGS+=	QT_INCLUDE_DIR=${MODQT_INCDIR}
 MAKE_FLAGS+=	QT_LIB_DIR=${MODQT_LIBDIR}
 
-MAKE_FLAGS+=	CPP=${_PASS_CXX:Q} LINK=${_PASS_CXX:Q}
+MAKE_FLAGS+=	CPP=${_PASS_CXX:T:Q} LINK=${_PASS_CXX:T:Q}
 MAKE_FLAGS+=	OPTIONS="${CXXFLAGS} -pthread -fno-exceptions -funroll-loops"
 MAKE_FLAGS+=	LFLAGS='-pthread'
 MAKE_FLAGS+=	LIBS='-lX11 -lqt-mt -lm'

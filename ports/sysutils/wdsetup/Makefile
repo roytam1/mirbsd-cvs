@@ -16,7 +16,7 @@ PERMIT_DISTFILES_FTP=	Yes
 MASTER_SITES=	ftp://sunsite.unc.edu/pub/Linux/system/network/drivers/
 
 do-build:
-	${_PASS_CC} ${CFLAGS} -o ${WRKSRC}/wdsetup ${WRKSRC}/wdsetup.c -li386
+	${_PASS_CC:Q} ${CFLAGS} -o ${WRKSRC}/wdsetup ${WRKSRC}/wdsetup.c -li386
 
 NO_REGRESS=	Yes
 

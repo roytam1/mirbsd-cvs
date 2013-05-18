@@ -19,7 +19,7 @@ PERMIT_DISTFILES_FTP=   Yes
 MASTER_SITES=	${HOMEPAGE}
 
 MAKE_FLAGS= \
-	CC=${_PASS_CXX:Q} \
+	CC=${_PASS_CXX:T:Q} \
 	CFLAGS='${CFLAGS} -c -DVERSION="$${VERSION}" -DDATE="$${DATE}"' \
 	LDFLAGS='-lreadline -ltermcap'
 

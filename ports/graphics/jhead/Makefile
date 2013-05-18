@@ -25,7 +25,7 @@ CFLAGS+=	-O0
 
 do-build:
 	cd ${WRKSRC} && \
-		${_PASS_CC} ${CFLAGS} -o jhead exif.c jhead.c jpgfile.c -lm
+	    ${_PASS_CC:Q} ${CFLAGS} -o jhead exif.c jhead.c jpgfile.c -lm
 
 post-build:
 	@gzip -d ${WRKSRC}/jhead.1.gz 

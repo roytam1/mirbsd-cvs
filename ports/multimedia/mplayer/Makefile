@@ -1,4 +1,4 @@
-# $MirOS: ports/multimedia/mplayer/Makefile,v 1.21 2008/11/08 23:03:53 tg Exp $
+# $MirOS: ports/multimedia/mplayer/Makefile,v 1.22 2009/05/24 19:52:54 tg Exp $
 # $OpenBSD: Makefile,v 1.83 2005/05/09 12:24:38 biorn Exp $
 
 # May not be hard to add more.
@@ -57,7 +57,7 @@ CONFIGURE_ARGS+=--disable-alsa \
 		--disable-directfb \
 		--enable-cdparanoia \
 		--prefix=${PREFIX:Q} \
-		--cc=${_PASS_CC:Q} \
+		--cc=${_PASS_CC:T:Q} \
 		--confdir=${CONFDIR}
 # disable OSS audio if no TV needed
 CONFIGURE_ARGS+=--enable-ossaudio \
@@ -198,7 +198,7 @@ CONFIGURE_ARGS+=--disable-caca
 .endif
 
 .if ${USE_CXX:L} != "yes"
-EXTRA_XAKE_FLAGS+=	CXX=${_PASS_CXX:Q}
+EXTRA_XAKE_FLAGS+=	CXX=${_PASS_CXX:T:Q}
 .endif
 
 CONFIGURE_ARGS+=	--with-extraincdir=${CF_INCDIR} \

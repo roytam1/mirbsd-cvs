@@ -1,4 +1,4 @@
-# $MirOS: ports/graphics/ffmpeg/Makefile,v 1.6 2007/04/07 15:01:22 bsiegert Exp $
+# $MirOS: ports/graphics/ffmpeg/Makefile,v 1.7 2008/10/04 19:03:10 tg Exp $
 # $OpenBSD: Makefile,v 1.9 2004/04/18 00:36:22 jolan Exp $
 
 COMMENT=	audio/video converter and streamer with bktr(4) support
@@ -35,7 +35,7 @@ CFLAGS+=-fomit-frame-pointer
 
 CONFIGURE_STYLE=simple
 CONFIGURE_ARGS+=${CONFIGURE_SHARED} \
-		--cc=${_PASS_CC:Q} \
+		--cc=${_PASS_CC:T:Q} \
 		--make=${MAKE_PROGRAM} \
 		--extra-cflags="-I${LOCALBASE}/include" \
 		--extra-ldflags="-L${LOCALBASE}/lib -L${X11BASE}/lib" \

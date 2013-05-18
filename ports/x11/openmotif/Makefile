@@ -1,4 +1,4 @@
-# $MirOS: ports/x11/openmotif/Makefile,v 1.6 2006/09/14 00:15:32 tg Exp $
+# $MirOS: ports/x11/openmotif/Makefile,v 1.7 2008/10/04 19:03:48 tg Exp $
 # $OpenBSD: Makefile,v 1.20 2004/02/22 16:47:58 naddy Exp $
 
 # unbreak dependencies in ports/infrastructure/mk/bsd.port.mk once fixed!
@@ -44,7 +44,7 @@ USE_X11=		Yes
 
 ALL_TARGET=		World
 INSTALL_TARGET=		install install.man
-EXTRA_XAKE_FLAGS+=	CC=${_PASS_CC:Q} COPTS="${COPTS}"
+EXTRA_XAKE_FLAGS+=	CC=${_PASS_CC:T:Q} COPTS="${COPTS}"
 
 # This dialog has been copied from the lesstif port.
 .if defined(HAVE_MOTIF) && ${HAVE_MOTIF:L} == "yes"

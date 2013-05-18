@@ -12,7 +12,7 @@ PERMIT_DISTFILES_FTP=	Yes
 
 MASTER_SITES=		http://monkey.org/~jose/openbsd/ports/
 
-MAKE_FLAGS=		CC=${_PASS_CC:Q} OBJ=l2a.o EXE=l2a LLL=-ll
+MAKE_FLAGS=		CC=${_PASS_CC:T:Q} OBJ=l2a.o EXE=l2a LLL=-ll
 
 NO_REGRESS=		Yes
 

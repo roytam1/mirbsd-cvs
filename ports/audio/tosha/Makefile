@@ -1,4 +1,4 @@
-# $MirOS: ports/audio/tosha/Makefile,v 1.3 2008/05/01 00:56:43 tg Exp $
+# $MirOS: ports/audio/tosha/Makefile,v 1.4 2008/10/04 19:02:57 tg Exp $
 # $OpenBSD: Makefile,v 1.22 2003/08/09 17:39:16 pvalchev Exp $
 
 COMMENT=		read CD digital audio data through the SCSI bus
@@ -14,7 +14,7 @@ PERMIT_DISTFILES_FTP=	Yes
 
 MASTER_SITES=		${MASTER_SITE_FREEBSD_LOCAL:=markp/}
 
-MAKE_ENV=		SYSCONFDIR=${SYSCONFDIR:Q} CC=${_PASS_CC:Q}
+MAKE_ENV=		SYSCONFDIR=${SYSCONFDIR:Q} CC=${_PASS_CC:T:Q}
 
 NO_REGRESS=		Yes
 

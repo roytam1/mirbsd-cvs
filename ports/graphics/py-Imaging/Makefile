@@ -54,7 +54,7 @@ do-configure:
 
 pre-build:
 	@cd ${LIB_IMAGING} && \
-		${MAKE_ENV} ${MAKE_PROGRAM} CC=${_PASS_CC:Q} OPT="${CFLAGS}"
+		${MAKE_ENV} ${MAKE_PROGRAM} CC=${_PASS_CC:T:Q} OPT="${CFLAGS}"
 
 post-install:
 	${INSTALL_SCRIPT_DIR} ${PREFIX}/share/examples/py-Imaging

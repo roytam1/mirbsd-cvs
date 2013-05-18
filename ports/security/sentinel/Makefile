@@ -21,7 +21,7 @@ LIB_DEPENDS=		net::net/libnet
 WRKDIST=		${WRKDIR}/sentinel
 
 ALL_TARGET=		sentinel
-MAKE_FLAGS=		CC=${_PASS_CC:Q} CFLAGS='${CFLAGS} -Wall -I. \
+MAKE_FLAGS=		CC=${_PASS_CC:T:Q} CFLAGS='${CFLAGS} -Wall -I. \
 			 -I${LOCALBASE}/include `libnet-config --defines`'
 
 NO_REGRESS=		Yes

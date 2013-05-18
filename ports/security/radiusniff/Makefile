@@ -18,7 +18,7 @@ WRKSRC=			${WRKDIR}/radiusniff-0.2
 NO_REGRESS=		Yes
 
 do-build:
-	cd ${WRKSRC} && ${_PASS_CC} -DOPENBSD \
+	cd ${WRKSRC} && ${_PASS_CC:Q} -DOPENBSD \
 	-DDICTIONARY_FILENAME=\"${PREFIX}/share/radiusniff/dictionary\" \
 	-DCLIENTS_FILENAME=\"${PREFIX}/share/radiusniff/clients\" \
 	-I${LOCALBASE}/include -L${LOCALBASE}/lib -o radiusniff \

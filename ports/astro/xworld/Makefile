@@ -1,4 +1,4 @@
-# $MirOS: ports/astro/xworld/Makefile,v 1.4 2007/04/04 22:24:02 tg Exp $
+# $MirOS: ports/astro/xworld/Makefile,v 1.5 2008/10/04 19:02:55 tg Exp $
 # $OpenBSD: Makefile,v 1.5 2003/03/31 12:35:52 sturm Exp $
 
 COMMENT=		earth as seen from the direction of the sun
@@ -20,9 +20,9 @@ NO_REGRESS=		Yes
 
 pre-build:
 	cd ${WRKSRC} && \
-	    CC=${_PASS_CC:Q} CFLAGS=${CFLAGS:M*:Q} INSTALL=${INSTALL:Q} INCLUDES= \
-	    CAT=cat STRIP=strip MORELIBS=${LDFLAGS:Q} LDLIBS='-lm -lX11' \
-	    ${LOCALBASE}/bin/csh configure
+	    CC=${_PASS_CC:T:Q} CFLAGS=${CFLAGS:M*:Q} INSTALL=${INSTALL:Q} \
+	    INCLUDES= CAT=cat STRIP=strip MORELIBS=${LDFLAGS:Q} \
+	    LDLIBS='-lm -lX11' ${LOCALBASE}/bin/csh configure
 
 do-install:
 	${INSTALL_PROGRAM} ${WRKBUILD}/xworld ${PREFIX}/bin/

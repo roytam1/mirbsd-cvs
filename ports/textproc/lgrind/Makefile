@@ -1,4 +1,4 @@
-# $MirOS: ports/textproc/lgrind/Makefile,v 1.3 2007/04/16 18:54:07 bsiegert Exp $
+# $MirOS: ports/textproc/lgrind/Makefile,v 1.4 2008/10/04 19:03:45 tg Exp $
 # $OpenBSD: Makefile,v 1.12 2004/04/11 19:12:24 sturm Exp $
 
 COMMENT=	LaTeX vgrind(1) look-alike
@@ -30,7 +30,7 @@ DIST_SUBDIR=	${DISTNAME}
 MAKE_FLAGS=	BASEDIR=${PREFIX} \
 		DEFSFILE=${TEXMF}/tex/latex/lgrind/lgrindef \
 		VERSION=${VERSION} \
-		CC=${_PASS_CC:Q} CFLAGS='${CFLAGS}'
+		CC=${_PASS_CC:T:Q} CFLAGS='${CFLAGS}'
 FAKE_FLAGS=	BASEDIR=${WRKINST}${PREFIX}
 
 B_R_DEPENDS+=	:teTeX_base-*:print/teTeX/base

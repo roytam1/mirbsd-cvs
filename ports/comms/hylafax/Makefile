@@ -1,4 +1,4 @@
-# $MirOS: ports/comms/hylafax/Makefile,v 1.6 2008/03/23 11:47:20 bsiegert Exp $
+# $MirOS: ports/comms/hylafax/Makefile,v 1.7 2008/10/04 19:03:02 tg Exp $
 # $OpenBSD: Makefile,v 1.41 2003/11/11 22:24:19 todd Exp $
 
 BROKEN=			uses old C++ API
@@ -27,12 +27,12 @@ USE_GMAKE=		Yes
 USE_CXX=		Yes
 
 CONFIGURE_ARGS =	--nointeractive
-CONFIGURE_ARGS+=	--with-CC=${_PASS_CC:Q}
-CONFIGURE_ARGS+=	--with-CXX=${_PASS_CXX:Q}
+CONFIGURE_ARGS+=	--with-CC=${_PASS_CC:T:Q}
+CONFIGURE_ARGS+=	--with-CXX=${_PASS_CXX:T:Q}
 CONFIGURE_ARGS+=        --with-INSTALL=""
 CONFIGURE_ARGS+=	--with-PAGESIZE=A4
 
-CONFIGURE_ENV+=		CCOMPILER=${_PASS_CC:Q} CXXCOMPILER=${_PASS_CXX:Q} \
+CONFIGURE_ENV+=		CCOMPILER=${_PASS_CC:T:Q} CXXCOMPILER=${_PASS_CXX:T:Q} \
 			GCOPTS="${CFLAGS}" GCXXOPTS="${CXXFLAGS}" \
 			PREFIX="${PREFIX}" LOCALBASE="${LOCALBASE}"
 

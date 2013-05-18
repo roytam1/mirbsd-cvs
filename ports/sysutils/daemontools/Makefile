@@ -1,4 +1,4 @@
-# $MirOS: ports/sysutils/daemontools/Makefile,v 1.13 2008/11/08 19:54:26 tg Exp $
+# $MirOS: ports/sysutils/daemontools/Makefile,v 1.14 2008/11/08 23:04:06 tg Exp $
 
 COMMENT=		collection of tools for managing unix services
 CATEGORIES=		sysutils
@@ -31,9 +31,9 @@ BINLIST=		envdir envuidgid fghack multilog pgrphack \
 
 do-build:
 	if [[ ! -e ${WRKSRC}/admin/${DISTNAME}/src/home ]]; then \
-		print -r -- ${_PASS_CC:Q} ${CFLAGS:M*:Q} \
+		print -r -- ${_PASS_CC:T:Q} ${CFLAGS:M*:Q} \
 		    >${WRKSRC}/admin/${DISTNAME}/src/conf-cc; \
-		print -r -- ${_PASS_CC:Q} ${CFLAGS:M*:Q} ${LDFLAGS:M*:Q} \
+		print -r -- ${_PASS_CC:T:Q} ${CFLAGS:M*:Q} ${LDFLAGS:M*:Q} \
 		    >${WRKSRC}/admin/${DISTNAME}/src/conf-ld; \
 		print -r -- ${PREFIX:Q} >${WRKSRC}/admin/${DISTNAME}/src/home; \
 	fi

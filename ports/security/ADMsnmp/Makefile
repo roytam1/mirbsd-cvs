@@ -22,7 +22,7 @@ WRKDIST=		${WRKDIR}/ADMsnmp
 NO_REGRESS=		Yes
 
 do-build:
-	cd ${WRKSRC}; ${_PASS_CC} ${CFLAGS} \
+	cd ${WRKSRC}; ${_PASS_CC:Q} ${CFLAGS} \
 		-DPORTSHAREDIR="${TRUEPREFIX}/share/ADMsnmp" \
 		-o ADMsnmp snmp.c
 

@@ -22,7 +22,7 @@ post-extract:
 	@cd ${FULLDISTDIR} && cp -f ${DISTFILES} ${WRKSRC}
 
 do-build:
-	${_PASS_CC} ${CFLAGS} -o ${WRKBUILD}/ttcp ${WRKSRC}/ttcp.c
+	${_PASS_CC:Q} ${CFLAGS} -o ${WRKBUILD}/ttcp ${WRKSRC}/ttcp.c
 
 NO_REGRESS=	Yes
 

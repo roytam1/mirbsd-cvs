@@ -1,4 +1,4 @@
-# $MirOS: ports/security/pgp+/Makefile,v 1.9 2008/10/04 19:03:38 tg Exp $
+# $MirOS: ports/security/pgp+/Makefile,v 1.10 2008/11/08 23:04:04 tg Exp $
 
 COMMENT=		Pretty Good Privacy 2.6.3in
 DISTNAME=		pgp263in010323
@@ -34,7 +34,7 @@ PGP_DOC_DIR=		${PREFIX}/share/doc/pgp
 # Before the build figure out if we are on a big endian machine or not
 pre-build:
 	@print '#include <machine/endian.h>\npgpin: BYTE_ORDER' | \
-	    ${_PASS_CC} -E - >${WRKDIR}/.endian.out
+	    ${_PASS_CC:Q} -E - >${WRKDIR}/.endian.out
 	@if fgrep -q 'pgpin: 4321' ${WRKDIR}/.endian.out; then \
 		echo -DHIGHFIRST >${WRKDIR}/.endian; \
 	else \
@@ -43,10 +43,10 @@ pre-build:
 
 do-build:
 	@cd ${WRKSRC} && ${SETENV} ${MAKE_ENV} ${MAKE} -f makefile all \
-	    CC=${_PASS_CC:Q} CFLAGS=${CFLAGS:M*:Q}" -DUNIX -DPORTABLE \
+	    CC=${_PASS_CC:T:Q} CFLAGS=${CFLAGS:M*:Q}" -DUNIX -DPORTABLE \
 	    -DMERRITT -DIDEA32 -DPGP_DOC_DIR=\\\"${PGP_DOC_DIR}\\\" \
 	    -DMAX_NAMELEN=255 $$(<${WRKDIR}/.endian)" \
-	    LD=${_PASS_CC:Q} LDFLAGS=${LDSTATIC:M*:Q}
+	    LD=${_PASS_CC:T:Q} LDFLAGS=${LDSTATIC:M*:Q}
 	cp ${FILESDIR}/README.MirPorts ${WRKDIST}/doc/
 
 do-install:

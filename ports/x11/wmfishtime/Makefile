@@ -1,4 +1,4 @@
-# $MirOS: ports/x11/wmfishtime/Makefile,v 1.3 2006/09/14 00:15:43 tg Exp $
+# $MirOS: ports/x11/wmfishtime/Makefile,v 1.4 2008/10/04 19:03:51 tg Exp $
 # $OpenBSD: Makefile,v 1.7 2002/09/17 15:22:27 wilfried Exp $
 
 COMMENT=			wm-dockapp; clock application with clock, date and fish
@@ -19,7 +19,7 @@ MASTER_SITES=		${HOMEPAGE}software/
 
 LIB_DEPENDS=		gtk.1,gdk.1::x11/gtk+1
 
-MAKE_FLAGS=		CC=${_PASS_CC:Q} \
+MAKE_FLAGS=		CC=${_PASS_CC:T:Q} \
 			CFLAGS="${CFLAGS} -Wall `gtk-config --cflags`" \
 			LIBS="`gtk-config --libs`"
 

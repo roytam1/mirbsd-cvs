@@ -20,7 +20,7 @@ USE_X11=	Yes
 WRKDIST=	${WRKDIR}/${PKGNAME}
 
 do-build:
-	cd ${WRKSRC} && ${_PASS_CC:Q} blast.c -I${X11BASE}/include ${CFLAGS} -L$(X11BASE)/lib -lX11 -lXext -o blast
+	cd ${WRKSRC} && ${_PASS_CC:T:Q} blast.c -I${X11BASE}/include ${CFLAGS} -L$(X11BASE)/lib -lX11 -lXext -o blast
 
 NO_REGRESS=	Yes
 

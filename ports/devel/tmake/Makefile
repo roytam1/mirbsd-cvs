@@ -26,9 +26,9 @@ MODQT_MT=	Yes
 
 do-install:
 	@perl -pi \
-		-e 's|%%CC%%|'${_PASS_CC:Q}'|g;' \
+		-e 's|%%CC%%|'${_PASS_CC:T:Q}'|g;' \
 		-e 's|%%CFLAGS%%|${CFLAGS}|g;' \
-		-e 's|%%CXX%%|'${_PASS_CXX:Q}'|g;' \
+		-e 's|%%CXX%%|'${_PASS_CXX:T:Q}'|g;' \
 		-e 's|%%CXXFLAGS%%|${CXXFLAGS}|g;' \
 		-e 's|%%LOCALBASE%%|${LOCALBASE}|g;' \
 		-e 's|%%MODQT_INCDIR%%|${MODQT_INCDIR}|g;' \

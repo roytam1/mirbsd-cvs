@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/audio/abcde/Makefile,v 1.8 2009/08/16 15:19:58 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.7 2004/04/13 21:07:48 brad Exp $
 
 COMMENT=	command-line utility to rip and encode audio cds
@@ -50,11 +50,11 @@ post-patch:
 
 do-build:
 	cd ${WRKDIR}/cd-discid-${V2} && \
-		${WRKDIR:Q}/bin/${_PASS_CC} ${CFLAGS} -o cd-discid cd-discid.c
+	    ${_PASS_CC:Q} ${CFLAGS} -o cd-discid cd-discid.c
 .if ${FLAVOUR:L:Mlame}
 	cd ${WRKDIR}/id3-0.12 && \
-		perl -pi -e 's,#include <getopt.h>,/*#include <getopt.h>*/,g' id3.c && \
-		${WRKDIR:Q}/bin/${_PASS_CC} ${CFLAGS} -o id3 id3.c
+	    perl -pi -e 's,#include <getopt.h>,/*#include <getopt.h>*/,g' id3.c && \
+	    ${_PASS_CC:Q} ${CFLAGS} -o id3 id3.c
 .endif
 
 do-install:

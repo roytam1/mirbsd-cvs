@@ -17,7 +17,7 @@ PERMIT_DISTFILES_FTP=	Yes
 NO_REGRESS=	Yes
 
 do-build:
-	${_PASS_CC} ${CFLAGS} -Wall ${WRKSRC}/portscanner.c \
+	${_PASS_CC:Q} ${CFLAGS} -Wall ${WRKSRC}/portscanner.c \
 		-o ${WRKBUILD}/portscanner
 	@sed -e s#portscan#portscanner#g ${WRKSRC}/portscan.1 > \
 		${WRKBUILD}/portscanner.1

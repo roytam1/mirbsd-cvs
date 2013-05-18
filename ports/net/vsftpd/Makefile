@@ -19,7 +19,7 @@ MASTER_SITES=		ftp://vsftpd.beasts.org/users/cevans/
 
 ALL_TARGET=		vsftpd
 
-MAKE_FLAGS=		CC=${_PASS_CC:Q} CFLAGS=${CFLAGS:Q}" -Wall -W -Wshadow"
+MAKE_FLAGS=		CC=${_PASS_CC:T:Q} CFLAGS=${CFLAGS:Q}" -Wall -W -Wshadow"
 
 SAMPLEDIR=		${PREFIX}/share/examples/vsftpd
 NO_REGRESS=		Yes

@@ -29,8 +29,8 @@ EXAMPLES=		autossh.host rscreen
 
 do-build:
 	cd ${WRKBUILD}; \
-		${_PASS_CC} ${CFLAGS} ${DEFS} -c ${WRKSRC}/autossh.c -o autossh.o; \
-		${_PASS_CC} -o autossh autossh.o
+		${_PASS_CC:Q} ${CFLAGS} ${DEFS} -c ${WRKSRC}/autossh.c -o autossh.o; \
+		${_PASS_CC:Q} -o autossh autossh.o
 
 do-install:
 	${INSTALL_DATA_DIR} ${PREFIX}/share/doc/autossh

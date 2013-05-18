@@ -19,7 +19,7 @@ NO_REGRESS=		Yes
 WRKDIST=		${WRKDIR}
 
 do-build:
-	cd ${WRKBUILD} && ${_PASS_CC} ${CFLAGS} -o pstree pstree.c
+	cd ${WRKBUILD} && ${_PASS_CC:Q} ${CFLAGS} -o pstree pstree.c
 
 do-install:
 	${INSTALL_PROGRAM} ${WRKBUILD}/pstree ${PREFIX}/bin/pstree

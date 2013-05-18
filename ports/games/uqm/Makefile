@@ -1,4 +1,4 @@
-# $MirOS: ports/games/uqm/Makefile,v 1.6 2008/03/09 17:22:45 tg Exp $
+# $MirOS: ports/games/uqm/Makefile,v 1.7 2008/10/04 19:03:09 tg Exp $
 # $OpenBSD: Makefile,v 1.9 2004/03/31 03:42:16 jolan Exp $
 
 # 64-bit issues, unaligned memory access
@@ -99,7 +99,7 @@ do-configure:
 	@sed -e "s|@PREFIX@|${PREFIX}|g ; s|@ENDIAN@|define|g" \
 		${FILESDIR}/config.h > ${WRKSRC}/src/config.h
 .endif
-	@sed -e "s|@CC@|"${_PASS_CC:Q}"|g ; s|@CFLAGS@|${CFLAGS}|g ; \
+	@sed -e "s|@CC@|"${_PASS_CC:T:Q}"|g ; s|@CFLAGS@|${CFLAGS}|g ; \
 		s|@LOCALBASE@|${LOCALBASE}|g ; s|@PREFIX@|${PREFIX}|g ; \
 		s|@X11BASE@|${X11BASE}|g" ${FILESDIR}/build.vars \
 		> ${WRKSRC}/build.vars
