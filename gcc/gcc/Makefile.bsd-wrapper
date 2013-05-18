@@ -1,4 +1,4 @@
-# $MirOS: gcc/gcc/Makefile.bsd-wrapper,v 1.45 2006/12/11 20:30:54 tg Exp $
+# $MirOS: gcc/gcc/Makefile.bsd-wrapper,v 1.46 2007/06/10 03:19:27 tg Exp $
 
 .include <bsd.own.mk>
 .include "${GNUSYSTEM_AUX_DIR}/locations.mk"
@@ -23,6 +23,8 @@ INFO+=		doc/gcj.info
 
 .if (${CROSS_MODE:L} == "yes") && !defined(_CROSSBUILD)
 ALL_TARGET?=	native xgcc cpp xlimits.h
+XARGS+=		LANGUAGES='c $$(CONFIG_LANGUAGES)'
+XARGS+=		GNATMAKENATIVE="--GCC=/usr/bin/mgcc --GNATLINK='/usr/bin/gnatlink --GCC=/usr/bin/mgcc --LINK=/usr/bin/mgcc'"
 .else
 ALL_TARGET?=
 .endif
@@ -178,6 +180,9 @@ post-install:
 	@echo 'Remember to copy over: /usr/lib/crt{begin,end}{,S,T}.o'
 	@echo '  /usr/lib/gcc/${GCCTARGET}/${GCCVERSION}/{f{PIC,pic},include}'
 	@echo '  /usr/lib/gcc/${GCCTARGET}/${GCCVERSION}/lib{gcc,gcov}.a'
+.  if !defined(NO_ADA) || ${NO_ADA:L} == "no"
+	@echo '  /usr/lib/gcc/${GCCTARGET}/${GCCVERSION}/ada{include,lib}'
+.  endif
 .endif
 	chown -R ${BINOWN}:${BINGRP} \
 	    ${DESTDIR}${GCC_PREFIX}/lib/gcc/${GCCTARGET}/${GCCVERSION}
