@@ -1,4 +1,4 @@
-# $MirOS: ports/converters/libiconv/libiconv.port.mk,v 1.10 2006/08/26 23:33:46 tg Exp $
+# $MirOS: ports/converters/libiconv/libiconv.port.mk,v 1.11 2007/03/20 20:35:02 tg Exp $
 # $OpenBSD: iconv.port.mk,v 1.4 2001/11/27 17:44:04 brad Exp $
 
 # This is equivalent to USE_MOTIF.
@@ -56,13 +56,13 @@ _ICONV_M4FILE=	${PORTSDIR}/converters/libiconv/iconvold.m4
 _ICONV_M4FILE=	${PORTSDIR}/converters/libiconv/iconv.m4
 .endif
 
-_MODGNU_loop_hooks+=	m4f=; if [[ -f $$d/iconv.m4 ]]; then \
-				m4f=$$d/iconv.m4; \
-			elif [[ -f $$d/m4/iconv.m4 ]]; then \
+_MODGNU_loop_hooks+=	m4f=; if [[ -f $$d/m4/iconv.m4 ]]; then \
 				m4f=$$d/m4/iconv.m4; \
 			elif [[ -f $$d/$$ACAUX/iconv.m4 ]]; then \
 				m4f=$$d/$$ACAUX/iconv.m4; \
 			elif [[ -f $$d/$$ACAUX/m4/iconv.m4 ]]; then \
 				m4f=$$d/$$ACAUX/m4/iconv.m4; \
+			else \
+				m4f=$$d/iconv.m4; \
 			fi; \
 			[[ -z $$m4f ]] || cp ${_ICONV_M4FILE} $$m4f;
