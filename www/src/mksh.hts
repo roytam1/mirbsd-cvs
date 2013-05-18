@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.395 2011/04/09 18:47:16 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.396 2011/04/22 21:44:37 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1091,7 +1091,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
   discovered by Waldemar Brodkorb and other bad effects</li>
  <li>[tg] Fix NULL pointer dereference during iteration loop when checking
   for alias recursion; discovered by Michal Hlavinka</li>
- <li>[tg] More int → bool conversion, whitespace and related code cleanup</li>
+ <li>[tg] More int → bool conversion, whitespace and general code cleanup</li>
  <li>[tg] Fix window size not being checked during runtime of external
   programmes by not relying on SIGWINCH so much but instead checking
   before every interactive editing of a command line</li>
@@ -1204,6 +1204,9 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg, wbx] Functions now inherit a global <tt>set -x</tt></li>
  <li>[tg] Do not explicitly initialise static globals to 0/NULL</li>
  <li>[tg] Eliminate some dead code (functions, globals)</li>
+ <li>[tg] Correct more tree handling bugs and merge similar code</li>
+ <li>[tg] Add “+=” to concatenate scalars and append to arrays</li>
+ <li>[tg] Support empty here document delimiters</li>
 </ul>
 <p id="r39c">mksh R39c is an important minor bugfix release:</p><ul>
  <li>[tg] Build system, code, docs and testsuite cleanup, also style(9)</li>
