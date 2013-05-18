@@ -1,7 +1,7 @@
 #!/bin/sh
-# $MirOS: contrib/code/mirmake/dist/scripts/Copy.sh,v 1.27 2008/03/12 23:51:18 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Copy.sh,v 1.28 2008/04/06 22:48:19 tg Exp $
 
-wd=$(readlink -f $(dirname $0))
+wd=$(realpath $(dirname $0))
 version=$(date +%Y%m%d)
 echo version=$version >$wd/Version.sh
 
@@ -12,7 +12,7 @@ cvs -Rqd ${CVSROOT:-/cvs} co -PA \
     src/bin/mksh/setmode.c \
     src/usr.bin/lndir src/usr.bin/xinstall \
     src/usr.bin/make src/usr.bin/mkdep src/usr.bin/lorder \
-    src/usr.bin/readlink src/usr.bin/tsort \
+    src/usr.bin/tsort \
     src/include/getopt.h src/include/ohash.h src/include/sysexits.h \
     src/include/stdbool.h \
     src/include/adler32.h src/include/md4.h src/include/md5.h \

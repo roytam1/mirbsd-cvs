@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.117 2008/05/03 01:09:29 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.118 2008/05/07 13:34:38 tg Exp $
 #-
 # Copyright (c) 2006, 2008
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -385,34 +385,6 @@ add_libohash=
 if testfunc 'u_int32_t ohash_interval(const char *, const char **)' \
     'return ohash_interval((void *)0, (void *)0);'; then
 	add_libohash=$d_build/ohash/libohash.a
-fi
-
-# build readlink
-rm -rf $d_build/readlink
-cd $d_src/usr.bin; find readlink | cpio -pdlu $d_build
-cd $d_build/readlink
-${d_build}/bmake -m ${d_build}/mk NOMAN=yes NOOBJ=yes
-export PATH=${d_build}/readlink:$PATH
-cd $top
-cat >>Install.sh <<EOF
-\$i -c -s \$ug -m 555 ${d_build}/readlink/readlink \$DESTDIR${dt_bin}/
-EOF
-if [[ $is_catman = 1 ]]; then
-	cd $d_build/readlink
-	if ! $NROFF -mandoc readlink.1 >readlink.cat1; then
-		echo "Warning: manpage build failure." >&2
-		is_catman=0
-	fi
-	cd $top
-fi
-if [[ $is_catman = 0 ]]; then
-	cat >>Install.sh <<EOF
-\$i -c \$ug -m 444 ${d_build}/readlink/readlink.1 \$DESTDIR${dt_man}/readlink.1
-EOF
-else
-	cat >>Install.sh <<EOF
-\$i -c \$ug -m 444 ${d_build}/readlink/readlink.cat1 \$DESTDIR${dt_man}/readlink.0
-EOF
 fi
 
 # build tsort
