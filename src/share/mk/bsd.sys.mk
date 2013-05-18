@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.sys.mk,v 1.4 2006/01/31 13:24:18 tg Exp $
+# $MirOS: src/share/mk/bsd.sys.mk,v 1.5 2006/01/31 13:42:47 tg Exp $
 # $OpenBSD: bsd.sys.mk,v 1.8 2000/07/06 23:12:41 millert Exp $
 # $NetBSD: bsd.sys.mk,v 1.2 1995/12/13 01:25:07 cgd Exp $
 
@@ -13,7 +13,7 @@ CFLAGS+=	-Werror
 COMPILE.c:=	GCC_HONOUR_COPTS=2 ${COMPILE.c}
 .  endif
 
-.  if defined(DESTDIR)
+.  if defined(DESTDIR) && (!defined(CROSS_MODE) || ${CROSS_MODE:L} != "yes")
 CPPFLAGS+=	-nostdinc -isystem ${DESTDIR}/usr/include
 CXXFLAGS+=	-isystem ${DESTDIR}/usr/include/gxx \
 		-isystem ${DESTDIR}/usr/include/gxx/${OStriplet} \
