@@ -1,7 +1,7 @@
-# $MirOS: ports/x11/gnome/terminal/Makefile,v 1.3 2006/02/09 11:15:47 tg Exp $
+# $MirOS: ports/x11/gnome/terminal/Makefile,v 1.4 2006/09/14 00:15:21 tg Exp $
 # $OpenBSD: Makefile,v 1.14 2004/12/15 13:57:57 alek Exp $
 
-COMMENT=			GNOME terminal
+COMMENT=		GNOME terminal
 
 DISTNAME=		gnome-terminal-2.8.2
 CATEGORIES=		x11/gnome
@@ -27,6 +27,8 @@ LIB_DEPENDS=		gnomeui-2::x11/gnome/libgnomeui \
 			startup-notification-1::devel/startup-notification \
 			vte::devel/vte
 
+USE_X11=		Yes
+USE_CXX=		Yes # fam, shared-mime-info
 USE_GMAKE=		Yes
 CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		Yes

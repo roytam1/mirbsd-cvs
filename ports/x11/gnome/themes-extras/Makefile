@@ -1,10 +1,9 @@
-# $MirOS: ports/x11/gnome/themes-extras/Makefile,v 1.5 2006/12/20 15:32:48 tg Exp $
+# $MirOS: ports/x11/gnome/themes-extras/Makefile,v 1.6 2007/03/31 22:02:11 tg Exp $
 
 COMMENT=		themes collection for GNOME
 
 VERSION=		0.4
-# XXX is this correct?
-DISTNAME=		gnome-themes-extras-${VERSION}-${DASH_VER}
+DISTNAME=		gnome-themes-extras-${VERSION}
 CATEGORIES=		x11 x11/gnome
 
 HOMEPAGE=		http://www.gnome.org
@@ -27,6 +26,7 @@ RUN_DEPENDS=		:gtk-engines2->=2.2.0:x11/gtk-engines
 LIB_DEPENDS= 		gnomeui-2.0::x11/gnome/libgnomeui
 
 USE_X11=		Yes
+USE_CXX=		Yes # fam, shared-mime-info
 CONFIGURE_STYLE= 	gnu automake
 
 .include <bsd.port.mk>

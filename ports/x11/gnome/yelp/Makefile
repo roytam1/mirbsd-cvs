@@ -1,6 +1,7 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.6 2004/02/22 05:33:55 marcm Exp $
 
-COMMENT=			GNOME 2.0 help browser
+COMMENT=		GNOME help browser
 
 VERSION=		2.4.2
 DISTNAME=		yelp-${VERSION}
@@ -26,7 +27,9 @@ LIB_DEPENDS=		gnomeui-2::x11/gnome/libgnomeui \
 			exslt::textproc/libxslt
 
 USE_GMAKE=		Yes
+USE_CXX=		Yes # fam, shared-mime-info
 USE_X11=		Yes
-CONFIGURE_STYLE=	gnu
+CONFIGURE_STYLE=	autoconf
+AUTOCONF_NEW=		Yes
 
 .include <bsd.port.mk>

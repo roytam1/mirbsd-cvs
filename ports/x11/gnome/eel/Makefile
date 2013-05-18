@@ -1,7 +1,7 @@
-# $MirOS: ports/x11/gnome/eel/Makefile,v 1.2 2006/02/09 11:15:41 tg Exp $
+# $MirOS: ports/x11/gnome/eel/Makefile,v 1.3 2006/09/14 00:15:16 tg Exp $
 # $OpenBSD: Makefile,v 1.12 2004/12/15 13:57:56 alek Exp $
 
-COMMENT=			Eazel Extensions Library
+COMMENT=		Eazel Extensions Library
 
 DISTNAME=		eel-2.8.2
 CATEGORIES=		devel x11/gnome
@@ -23,6 +23,7 @@ LIB_DEPENDS=		gnomeui-2.0::x11/gnome/libgnomeui \
 			gailutil.17::x11/gnome/gail
 
 USE_X11=		Yes
+USE_CXX=		Yes # fam, shared-mime-info
 USE_GMAKE=		Yes
 CONFIGURE_STYLE= 	autoconf
 AUTOCONF_NEW=		Yes

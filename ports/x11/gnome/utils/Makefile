@@ -1,6 +1,7 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.3 2003/12/01 04:13:07 marcm Exp $
 
-COMMENT=			GNOME utility programs
+COMMENT=		GNOME utility programs
 
 DISTNAME=		gnome-utils-2.4.1
 CATEGORIES=		x11/gnome
@@ -22,8 +23,10 @@ LIB_DEPENDS=		gnomeui-2.200::x11/gnome/libgnomeui \
 MODULES+=		devel/pkgconfig
 
 USE_X11=		Yes
+USE_CXX=		Yes # fam, shared-mime-info
 USE_GMAKE=		Yes
-CONFIGURE_STYLE=	gnu
+CONFIGURE_STYLE=	autoconf
+AUTOCONF_NEW=		Yes
 CONFIGURE_ARGS+=	--with-gconf-schema-file-dir=${LOCALBASE}/share/schemas/gnome-utils
 
 post-patch:

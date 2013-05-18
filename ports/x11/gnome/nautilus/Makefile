@@ -1,7 +1,7 @@
-# $MirOS: ports/x11/gnome/nautilus/Makefile,v 1.2 2006/02/09 11:15:46 tg Exp $
+# $MirOS: ports/x11/gnome/nautilus/Makefile,v 1.3 2006/09/14 00:15:20 tg Exp $
 # $OpenBSD: Makefile,v 1.13 2004/12/15 13:57:57 alek Exp $
 
-COMMENT=			GNOME shell and file manager
+COMMENT=		GNOME shell and file manager
 
 DISTNAME=		nautilus-2.8.2
 CATEGORIES=		x11 x11/gnome
@@ -26,6 +26,7 @@ LIB_DEPENDS=		eel-2.10.2::x11/gnome/eel \
 RUN_DEPENDS=		:gnome-icon-theme-*:x11/gnome/icon-theme
 
 USE_X11=		Yes
+USE_CXX=		Yes # fam, shared-mime-info, libgsf
 USE_GMAKE=		Yes
 CONFIGURE_STYLE= 	autoconf old
 AUTOCONF_NEW=		Yes

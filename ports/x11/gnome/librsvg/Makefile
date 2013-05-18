@@ -1,7 +1,7 @@
-# $MirOS: ports/x11/gnome/librsvg/Makefile,v 1.6 2006/06/03 16:02:42 bsiegert Exp $
+# $MirOS: ports/x11/gnome/librsvg/Makefile,v 1.7 2006/09/14 00:15:20 tg Exp $
 # $OpenBSD: Makefile,v 1.12 2004/12/23 05:03:09 marcm Exp $
 
-COMMENT=			SAX-based render library for SVG files
+COMMENT=		SAX-based render library for SVG files
 
 VERSION=		2.8.1
 DISTNAME=		librsvg-${VERSION}
@@ -34,6 +34,7 @@ LIB_DEPENDS=		art_lgpl_2.5::graphics/libart \
 MODULES+=		devel/pkgconfig
 
 USE_X11=		Yes
+USE_CXX=		Yes # fam, shared-mime-info, libgsf
 USE_GMAKE=		Yes
 CONFIGURE_STYLE= 	autogen
 AUTOCONF_NEW=		Yes

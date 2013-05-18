@@ -1,7 +1,7 @@
-# $MirOS: ports/x11/gnome/controlcenter2/Makefile,v 1.2 2006/02/09 11:15:41 tg Exp $
+# $MirOS: ports/x11/gnome/controlcenter2/Makefile,v 1.3 2006/09/14 00:15:15 tg Exp $
 # $OpenBSD: Makefile,v 1.12 2004/12/15 13:57:56 alek Exp $
 
-COMMENT=			GNOME control center
+COMMENT=		GNOME control center
 
 VERSION=		2.8.1
 DISTNAME=		control-center-${VERSION}
@@ -26,6 +26,7 @@ PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
 USE_X11=		Yes
+USE_CXX=		Yes # fam, shared-mime-info, cups, libgsf
 USE_GMAKE=		Yes
 CONFIGURE_STYLE= 	autoconf old
 AUTOCONF_NEW=		Yes

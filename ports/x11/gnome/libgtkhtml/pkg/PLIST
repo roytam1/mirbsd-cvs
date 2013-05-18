@@ -68,10 +68,8 @@ include/gtkhtml-2.0/libgtkhtml/util/rfc1738.h
 include/gtkhtml-2.0/libgtkhtml/view/htmlevent.h
 include/gtkhtml-2.0/libgtkhtml/view/htmlselection.h
 include/gtkhtml-2.0/libgtkhtml/view/htmlview.h
-lib/libgtkhtml-2.a
 lib/libgtkhtml-2.la
 lib/pkgconfig/libgtkhtml-2.0.pc
-%%SHARED%%
 @dirrm lib/pkgconfig
 @dirrm include/gtkhtml-2.0/libgtkhtml/view
 @dirrm include/gtkhtml-2.0/libgtkhtml/util

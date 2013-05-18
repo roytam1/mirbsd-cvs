@@ -1,7 +1,7 @@
-# $MirOS: ports/x11/gnome/libbonoboui/Makefile,v 1.2 2005/12/29 18:15:41 bsiegert Exp $
+# $MirOS: ports/x11/gnome/libbonoboui/Makefile,v 1.3 2006/09/14 00:15:18 tg Exp $
 # $OpenBSD: Makefile,v 1.12 2004/12/15 13:57:56 alek Exp $
 
-COMMENT=			user interface components for bonobo
+COMMENT=		user interface components for bonobo
 
 DISTNAME=		libbonoboui-2.10.1
 CATEGORIES=		x11/gnome
@@ -25,6 +25,8 @@ LIB_DEPENDS=		gnome-2::x11/gnome/libgnome \
 			gnomecanvas-2::x11/gnome/libgnomecanvas \
 			popt.0.3::devel/popt
 
+USE_X11=		Yes
+USE_CXX=		Yes # fam, shared-mime-info
 USE_GMAKE=		Yes
 CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		Yes

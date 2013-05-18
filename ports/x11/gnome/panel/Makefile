@@ -1,7 +1,7 @@
-# $MirOS: ports/x11/gnome/panel/Makefile,v 1.3 2006/02/09 11:15:46 tg Exp $
+# $MirOS: ports/x11/gnome/panel/Makefile,v 1.4 2006/09/14 00:15:21 tg Exp $
 # $OpenBSD: Makefile,v 1.15 2004/12/30 04:25:06 marcm Exp $
 
-COMMENT=			GNOME panel
+COMMENT=		GNOME panel
 
 VERSION=		2.8.2
 DISTNAME=		gnome-panel-${VERSION}
@@ -29,6 +29,7 @@ LIB_DEPENDS= 		gnome-desktop-2.0::x11/gnome/desktop \
 			ecal,edataserver::x11/gnome/evolution-data-server
 
 USE_X11=		Yes
+USE_CXX=		Yes # fam, shared-mime-info
 USE_GMAKE=		Yes
 CONFIGURE_STYLE= 	autoconf
 AUTOCONF_NEW=		Yes

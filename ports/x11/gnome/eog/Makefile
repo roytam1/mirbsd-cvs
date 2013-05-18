@@ -1,7 +1,7 @@
-# $MirOS: ports/x11/gnome/eog/Makefile,v 1.2 2006/02/09 11:15:42 tg Exp $
+# $MirOS: ports/x11/gnome/eog/Makefile,v 1.3 2006/09/14 00:15:16 tg Exp $
 # $OpenBSD: Makefile,v 1.6 2005/02/13 18:50:25 alek Exp $
 
-COMMENT=			Eye of GNOME: an image viewing and cataloging program
+COMMENT=		Eye of GNOME: an image viewing and cataloging program
 DISTNAME=		eog-2.8.2
 CATEGORIES=		graphics x11/gnome
 
@@ -25,6 +25,7 @@ RUN_DEPENDS=		:scrollkeeper-*:textproc/scrollkeeper
 			
 
 USE_X11=		Yes
+USE_CXX=		Yes # fam, shared-mime-info
 USE_GMAKE=		Yes
 CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		Yes

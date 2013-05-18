@@ -1,7 +1,7 @@
-# $MirOS: ports/x11/gnome/libgnome/Makefile,v 1.3 2006/02/09 11:15:44 tg Exp $
+# $MirOS: ports/x11/gnome/libgnome/Makefile,v 1.4 2006/09/14 00:15:18 tg Exp $
 # $OpenBSD: Makefile,v 1.10 2004/12/15 13:57:56 alek Exp $
 
-COMMENT=			libraries for the GNOME project
+COMMENT=		libraries for the GNOME project
 
 DISTNAME=		libgnome-2.12.0.1
 CATEGORIES=		x11/gnome
@@ -26,6 +26,8 @@ LIB_DEPENDS=		esd.0.2::audio/esound \
 			audiofile::devel/libaudiofile \
 			xslt.1::textproc/libxslt
 
+USE_X11=		Yes
+USE_CXX=		Yes # fam, shared-mime-info
 USE_GMAKE=		Yes
 CONFIGURE_STYLE=	autoconf old
 AUTOCONF_NEW=		yes

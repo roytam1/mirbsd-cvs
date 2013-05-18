@@ -1,7 +1,7 @@
-# $MirOS: ports/x11/gnome/session/Makefile,v 1.2 2006/02/09 11:15:47 tg Exp $
+# $MirOS: ports/x11/gnome/session/Makefile,v 1.3 2006/09/14 00:15:21 tg Exp $
 # $OpenBSD: Makefile,v 1.13 2004/12/15 13:57:57 alek Exp $
 
-COMMENT=			GNOME session
+COMMENT=		GNOME session
 
 DISTNAME=		gnome-session-2.8.1
 CATEGORIES=		x11 x11/gnome
@@ -24,6 +24,7 @@ BUILD_DEPENDS= 		:p5-XML-Parser-*:textproc/p5-XML-Parser \
 LIB_DEPENDS= 		gnomeui-2.0::x11/gnome/libgnomeui
 
 USE_X11=		Yes
+USE_CXX=		Yes # fam, shared-mime-info
 USE_GMAKE=		Yes
 CONFIGURE_STYLE= 	autoconf
 AUTOCONF_NEW=		Yes

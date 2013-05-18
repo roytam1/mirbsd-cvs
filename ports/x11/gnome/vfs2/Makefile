@@ -1,7 +1,7 @@
-# $MirOS: ports/x11/gnome/vfs2/Makefile,v 1.7 2005/12/29 18:38:33 bsiegert Exp $
+# $MirOS: ports/x11/gnome/vfs2/Makefile,v 1.8 2006/09/14 00:15:23 tg Exp $
 # $OpenBSD: Makefile,v 1.14 2004/12/15 13:57:57 alek Exp $
 
-COMMENT=			GNOME Virtual File System
+COMMENT=		GNOME Virtual File System
 
 VERSION=		2.12.2
 DISTNAME=		gnome-vfs-${VERSION}
@@ -33,7 +33,10 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
+.include <mirports.sys.mk>
+
 USE_X11=		Yes
+USE_CXX=		Yes # fam, shared-mime-info
 USE_GMAKE=		Yes
 CONFIGURE_STYLE=	autogen old
 AUTOCONF_NEW=		Yes

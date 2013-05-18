@@ -1,7 +1,7 @@
-# $MirOS: ports/x11/gnome/zenity/Makefile,v 1.3 2006/02/09 11:15:49 tg Exp $
+# $MirOS: ports/x11/gnome/zenity/Makefile,v 1.4 2006/09/14 00:15:24 tg Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2003/10/08 01:25:43 marcm Exp $
 
-COMMENT=			dialogs for Gnome
+COMMENT=		dialogs for Gnome
 
 DISTNAME=		zenity-1.6
 CATEGORIES=		x11/gnome
@@ -26,7 +26,9 @@ LIB_DEPENDS=		gconf-2::devel/gconf \
 			gnomecanvas-2::x11/gnome/libgnomecanvas \
 
 USE_GMAKE=		Yes
-CONFIGURE_STYLE=	gnu
+USE_X11=		Yes
+CONFIGURE_STYLE=	autoconf
+AUTOCONF_NEW=		Yes
 
 post-patch:
 	@ln -s /usr/bin/true ${WRKDIR}/bin/scrollkeeper-update

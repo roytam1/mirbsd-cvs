@@ -1,14 +1,12 @@
-# $MirOS: ports/x11/gnome/gdm/Makefile,v 1.2 2006/02/09 11:15:43 tg Exp $
+# $MirOS: ports/x11/gnome/gdm/Makefile,v 1.3 2006/09/14 00:15:17 tg Exp $
 # $OpenBSD: Makefile,v 1.3 2004/01/30 13:36:51 marcm Exp $
 
-
-COMMENT=			GNOME display manager
+COMMENT=		GNOME display manager
 
 DISTNAME=		gdm-2.4.4.7
 CATEGORIES=		x11/gnome
 
 HOMEPAGE=		http://www.jirka.org/gdm.html
-
 
 # LGPL
 PERMIT_PACKAGE_CDROM=	Yes
@@ -28,6 +26,7 @@ MODULES+=		devel/pkgconfig
 
 
 CONFDIR=		${SYSCONFDIR}/X11
+USE_CXX=		Yes # fam, shared-mime-info, cups, libgsf
 USE_X11=		Yes
 USE_GMAKE=		Yes
 CONFIGURE_STYLE=	autoconf old

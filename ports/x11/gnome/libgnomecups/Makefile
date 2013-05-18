@@ -1,6 +1,6 @@
-# $MirOS: ports/x11/gnome/libgnomecups/Makefile,v 1.3 2006/02/09 11:15:44 tg Exp $
+# $MirOS: ports/x11/gnome/libgnomecups/Makefile,v 1.4 2006/09/14 00:15:19 tg Exp $
 
-COMMENT=			CUPS functionality hooks for GNOME
+COMMENT=		CUPS functionality hooks for GNOME
 
 VERSION=		0.1.14
 DISTNAME=		libgnomecups-${VERSION}
@@ -25,6 +25,7 @@ BUILD_DEPENDS=		:p5-XML-Parser-*:textproc/p5-XML-Parser
 LIB_DEPENDS=		gthread-2.0.0.0,glib-2.0.0.0,gmodule-2.0.0.0,gobject-2.0.0.0::devel/glib \
 			cups.2::print/cups
 
+USE_CXX=		Yes # depends on cups, which uses CXX
 USE_GMAKE=		Yes
 CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		Yes

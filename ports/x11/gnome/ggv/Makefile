@@ -1,7 +1,7 @@
-# $MirOS: ports/x11/gnome/ggv/Makefile,v 1.3 2006/09/14 00:15:17 tg Exp $
+# $MirOS: ports/x11/gnome/ggv/Makefile,v 1.4 2007/03/31 22:02:11 tg Exp $
 # $OpenBSD: Makefile,v 1.6 2005/03/06 10:51:07 alek Exp $
 
-COMMENT=			GNOME frontend for GhostScript
+COMMENT=		GNOME frontend for GhostScript
 DISTNAME=		ggv-2.8.4
 CATEGORIES=		print x11/gnome
 
@@ -24,6 +24,7 @@ B_R_DEPENDS+=		:scrollkeeper-*:textproc/scrollkeeper \
 			:ghostscript-*:print/ghostscript/artifex
 
 USE_X11=		Yes
+USE_CXX=		Yes # fam, shared-mime-info
 USE_GMAKE=		Yes
 CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		Yes

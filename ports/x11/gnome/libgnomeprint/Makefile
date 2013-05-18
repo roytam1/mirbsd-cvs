@@ -1,4 +1,4 @@
-# $MirOS: ports/x11/gnome/libgnomeprint/Makefile,v 1.8 2006/09/14 00:15:19 tg Exp $
+# $MirOS: ports/x11/gnome/libgnomeprint/Makefile,v 1.9 2006/12/20 15:32:43 tg Exp $
 # $OpenBSD: Makefile,v 1.9 2004/12/15 13:57:56 alek Exp $
 
 COMMENT=		printing framework for GNOME
@@ -11,7 +11,6 @@ PKGNAME-cups=		libgnomeprint-cups-${VERSION}-${DASH_VER}
 CATEGORIES=		x11/gnome devel
 
 HOMEPAGE=		http://www.gnome.org/projects/gnome-print/
-
 
 # LGPL
 PERMIT_PACKAGE_CDROM=	Yes
@@ -38,11 +37,13 @@ MULTI_PACKAGES=
 .if ${FLAVOR:L:Mno_cups}
 CONFIGURE_ARGS+=	--without-cups
 .else
+USE_CXX=		Yes # depends on cups, which uses CXX
 BUILD_DEPENDS+=		::x11/gnome/libgnomecups
 CONFIGURE_ARGS+=	--with-cups
 MULTI_PACKAGES+=	-cups
 .endif
 
+USE_X11=		Yes # wtf, should be non-graphical
 USE_GMAKE=		Yes
 CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		Yes
