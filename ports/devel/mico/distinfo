@@ -1,3 +1,7 @@
-MD5 (mico-2.3.6.tar.gz) = 3bef81f6b8edebe838d097f4d922b774
-RMD160 (mico-2.3.6.tar.gz) = 5fd59ec0c8b9a1b45f1d4b5f089b04ad0e0bfb18
-SHA1 (mico-2.3.6.tar.gz) = 85d92583d6f42c0a560784b80347e1e63ef5e0af
+$MirOS$
+
+MD5 (mico-2.3.12.tar.gz) = b94252f78da414cc0c7122cdd2a4b2be
+RMD160 (mico-2.3.12.tar.gz) = 2f45ace5044233f171ac8e4fd389d523befaca51
+SHA1 (mico-2.3.12.tar.gz) = e1885362d559ea97c62a2437a1d3a94114ef5b05
+SIZE (mico-2.3.12.tar.gz) = 2837502
+TIGER (mico-2.3.12.tar.gz) = 71b9e404f9cdaa06ca8baee73c6a6d3574cfd742eb7f316e

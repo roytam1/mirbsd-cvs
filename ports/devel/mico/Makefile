@@ -1,7 +1,8 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.4 2002/10/25 22:37:52 naddy Exp $
 
 COMMENT=		free and complete CORBA-compliant implementation
-DISTNAME=		mico-2.3.6
+DISTNAME=		mico-2.3.12
 CATEGORIES=		devel
 HOMEPAGE=		http://www.mico.org/
 MASTER_SITES=		${HOMEPAGE}
@@ -13,25 +14,24 @@ PERMIT_DISTFILES_FTP=	Yes
 
 USE_CXX=		Yes
 USE_GMAKE=		Yes
-CONFIGURE_STYLE=	gnu
+CONFIGURE_STYLE=	autoconf
 
-MODGNU_RECURSE_DIRS=	${WRKSRC}/admin ${WRKSRC}
-
-FAKE_FLAGS=		prefix="${WRKINST}${PREFIX}"
+FAKE_FLAGS=		prefix=${WRKINST:Q}${PREFIX:Q}
 WRKDIST=        	${WRKDIR}/mico
 NO_REGRESS=		Yes
 
-FLAVOURS=		ssl gtk tcl
+FLAVOURS=		gtk tcl
 FLAVOUR?=
 
-.if ${FLAVOUR:L:Mssl}
 CONFIGURE_ARGS+=	--with-ssl
-.endif
 
 .if ${FLAVOUR:L:Mgtk}
+.  error PFRAG.gtk probably needed
 LIB_DEPENDS+=		gtk.1.2::x11/gtk+
 CONFIGURE_ARGS+=	--with-gtk
 USE_X11=		Yes
+.else
+CONFIGURE_ARGS+=	--without-x
 .endif
 
 .if ${FLAVOUR:L:Mtcl}
