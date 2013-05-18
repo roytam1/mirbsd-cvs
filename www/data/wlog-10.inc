@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.240 2009/09/25 19:41:15 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.241 2009/09/25 19:58:35 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -5035,19 +5035,19 @@ Tag: mksh snippet
  in making it work with, say, Debian etch mksh R28, eMail me. Note: that
  → character is a literal Tab (the "[→·]" Tab-Space occurs often).</p>
 <div class="boxtext"><pre>
-	ca=$(print -n '\001'); ce=$(print -n '\033'); cm=$(print -n '\r')
-	: ${HOSTNAME:=$(ulimit -c 0; hostname -s 2&gt;&amp;-)}
-	[[ $HOSTNAME = @(localhost|*([→ ])) ]] &amp;&amp; \
-	    HOSTNAME=$(ulimit -c 0; hostname 2&gt;&amp;-)
-	: ${USER:=$(ulimit -c 0; id -un 2&gt;&amp;- || print \?)}
-	if (( USER_ID )); then PS1='$'; else PS1='#'; fi
+ca=$(print -n '\001'); ce=$(print -n '\033'); cm=$(print -n '\r')
+: ${HOSTNAME:=$(ulimit -c 0; hostname -s 2&gt;&amp;-)}
+[[ $HOSTNAME = @(localhost|*([→·])) ]] &amp;&amp; \
+    HOSTNAME=$(ulimit -c 0; hostname 2&gt;&amp;-)
+: ${USER:=$(ulimit -c 0; id -un 2&gt;&amp;- || print \?)}
+if (( USER_ID )); then PS1='$'; else PS1='#'; fi
 
-	function twd {
-		typeset d=${PWD:-?} p=~
+function twd {
+	typeset d=${PWD:-?} p=~
 
-		[[ $p = ?(*/) ]] || d=${d/#$p/~}
-		print -nr -- "$d"
-	}
+	[[ $p = ?(*/) ]] || d=${d/#$p/~}
+	print -nr -- "$d"
+}
 </pre></div><p class="boxfoot">If you do not need exactly the effect
  of "\w" (tilde unexpansion), use <tt>$PWD</tt> ipv <tt>$(twd)</tt> below.
  Note that $USER and $HOSTNAME are usually evaluated only once; escape them
@@ -5055,7 +5055,12 @@ Tag: mksh snippet
 <ol>
  <li>Show Happy face upon successful execution
 <div class="boxtext"><pre>
-bash$ PS1="\`if [ \$? = 0 ]; then echo \[\e[33m\]^_^\[\e[0m\]; else echo \[\e[31m\]O_O\[\e[0m\]; fi\`[\u@\h:\w]\$ "
+bash$ PS1="\`if [ \$? = 0 ]; then
+	echo \[\e[33m\]^_^\[\e[0m\]
+else
+	echo \[\e[31m\]O_O\[\e[0m\]
+fi\`[\u@\h:\w]\$ "
+
 mksh$ PS1="$ca$cm"'$(if (( $? )); then
 	print "'"$ca$ce[31m$caO_O$ca$ce[0m$ca"'"
 else
