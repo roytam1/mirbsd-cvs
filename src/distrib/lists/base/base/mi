@@ -2639,6 +2639,7 @@
 ./usr/share/tmac/mdoc/doc
 ./usr/share/tmac/mdoc/doc-common
 ./usr/share/tmac/mdoc/doc-ditroff
+./usr/share/tmac/mdoc/doc-groff
 ./usr/share/tmac/mdoc/doc-nroff
 ./usr/share/tmac/mdoc/doc-syms
 ./usr/share/tmac/me

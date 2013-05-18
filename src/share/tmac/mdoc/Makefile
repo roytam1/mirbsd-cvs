@@ -1,8 +1,8 @@
-# $MirOS: src/share/tmac/mdoc/Makefile,v 1.3 2005/03/15 16:26:17 tg Exp $
+# $MirOS: src/share/tmac/mdoc/Makefile,v 1.4 2006/06/16 22:55:10 tg Exp $
 # $OpenBSD: Makefile,v 1.4 2003/04/08 01:44:59 millert Exp $
 # @(#)Makefile	8.1 (Berkeley) 6/8/93
 
-MSRCS=	doc doc-ditroff doc-common doc-nroff doc-syms
+MSRCS=	doc doc-ditroff doc-common doc-groff doc-nroff doc-syms
 BINDIR=	/usr/share/tmac/mdoc
 LINKS=	${BINDIR}/doc ${BINDIR}/../tmac.doc
 

@@ -1,7 +1,7 @@
-.\"	$MirOS: src/share/tmac/mdoc/doc,v 1.12 2006/08/10 23:42:47 tg Exp $
+.\"	$MirOS: src/share/tmac/mdoc/doc,v 1.13 2006/09/28 12:03:27 tg Exp $
 .\"	$OpenBSD: doc,v 1.15 2004/06/06 22:38:09 jmc Exp $
 .\"
-.\" Copyright (c) 2003, 2004, 2005, 2006
+.\" Copyright (c) 2003, 2004, 2005, 2006, 2008
 .\"	Thorsten Glaser <tg@mirbsd.de>
 .\" Copyright (c) 1991, 1993
 .\"	The Regents of the University of California.
@@ -49,6 +49,9 @@
 .\}
 .if n \{\
 .       so /usr/share/tmac/mdoc/doc-nroff
+.\}
+.if \n(.g \{\
+.	so /usr/share/tmac/mdoc/doc-groff
 .\}
 .so /usr/share/tmac/mdoc/doc-common
 .so /usr/share/tmac/mdoc/doc-syms
