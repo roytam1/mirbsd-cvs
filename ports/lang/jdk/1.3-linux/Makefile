@@ -1,4 +1,4 @@
-# $MirOS: ports/lang/jdk/1.3-linux/Makefile,v 1.5 2006/09/14 00:10:22 tg Exp $
+# $MirOS: ports/lang/jdk/1.3-linux/Makefile,v 1.6 2006/12/28 02:32:05 tg Exp $
 # $OpenBSD: Makefile,v 1.23 2004/05/01 14:29:17 sturm Exp $
 
 BROKEN=			1.3.1_13 is no longer available at Sun,\
@@ -46,7 +46,7 @@ FETCH_MANUALLY+= " ${DISTFILES} into ${FULLDISTDIR}."
 JDK_HOME=		${PREFIX}/jdk1.3.1-linux
 
 # Add empty OpenBSD and MirBSD resource bundle for javah
-post-patch:
+disabled-post-patch:
 	mkdir -p ${WRKSRC}/lib/com/sun/tools/javah/resources
 	touch ${WRKSRC}/lib/com/sun/tools/javah/resources/OpenBSD_i386.properties
 	touch ${WRKSRC}/lib/com/sun/tools/javah/resources/MirBSD_i386.properties
