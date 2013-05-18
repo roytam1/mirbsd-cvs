@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/Snippets/tinyirc.c,v 1.8 2006/06/09 20:36:37 tg Exp $ */
+/* $MirOS: contrib/code/Snippets/tinyirc.c,v 1.9 2006/06/15 19:18:45 tg Exp $ */
 
 /* Configuration options */
 static const char DEFAULTSERVER[] = "irc.mirbsd.org";
@@ -24,14 +24,14 @@ static const char DEFAULTSERVER[] = "irc.mirbsd.org";
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 
-   Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
-   express, or implied, to the maximum extent permitted by applicable
-   law, without malicious intent or gross negligence; in no event may
-   licensor, an author or contributor be held liable for any indirect
-   or other damage, or direct damage except proven a consequence of a
-   direct error of said person and intended use of this work, loss or
-   other issues arising in any way out of its use, even if advised of
-   the possibility of such damage or existence of a nontrivial bug.
+   This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
+   the utmost extent permitted by applicable law, neither express nor
+   implied; without malicious intent or gross negligence. In no event
+   may a licensor, author or contributor be held liable for indirect,
+   direct, other damage, loss, or other issues arising in any way out
+   of dealing in the work, even if advised of the possibility of such
+   damage or existence of a defect, except proven that it results out
+   of said person's immediate fault when using the work as intended.
 
    You should have received a copy of the GNU General Public License
    along with this program; if not, write to the Free Software
@@ -77,7 +77,7 @@ static const char DEFAULTSERVER[] = "irc.mirbsd.org";
 #define	__RCSID(x)	static const char __rcsid[] __attribute__((used)) = (x)
 #endif
 
-__RCSID("$MirOS: contrib/code/Snippets/tinyirc.c,v 1.8 2006/06/09 20:36:37 tg Exp $");
+__RCSID("$MirOS: contrib/code/Snippets/tinyirc.c,v 1.9 2006/06/15 19:18:45 tg Exp $");
 
 struct dlist {
     char name[64];
