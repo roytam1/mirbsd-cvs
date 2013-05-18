@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/mirmake/dist/contrib/arc4random.c,v 1.1 2006/08/26 16:45:26 tg Exp $ */
+/* $MirOS: contrib/code/mirmake/dist/contrib/arc4random.c,v 1.2 2006/08/26 19:39:38 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -24,17 +24,18 @@
 #include <sys/param.h>
 #include <sys/time.h>
 #include <fcntl.h>
+#include <stddef.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: contrib/code/mirmake/dist/contrib/arc4random.c,v 1.1 2006/08/26 16:45:26 tg Exp $");
+__RCSID("$MirOS: contrib/code/mirmake/dist/contrib/arc4random.c,v 1.2 2006/08/26 19:39:38 tg Exp $");
 
 void
 arc4random_push(int n)
 {
-	arc4random_pushb(&n, sizeof (int));
+	arc4random_pushb((void *)(&n), sizeof (int));
 }
 
 uint32_t
@@ -58,7 +59,7 @@ arc4random_pushb(const void *buf, size_t len)
 	v += arc4random() * (random() & 0xFF);
 	v += (ptrdiff_t)buf;
 
-	arc4random_addrandom(&v, sizeof (v));
+	arc4random_addrandom((void *)(&v), sizeof (v));
 }
 
 #ifndef _ARC4RANDOM_WRAP
@@ -162,7 +163,7 @@ static void
 arc4_stir(struct arc4_stream *as)
 {
 	struct timeval tv;
-	char *tvp;
+	unsigned char *tvp;
 	int i;
 #ifdef USE_SYSCTL
 	int     mib[2];
@@ -269,8 +270,8 @@ arc4_stir(struct arc4_stream *as)
 	arc4_stir_pid = getpid();
 	gettimeofday(&tv, NULL);
 	if ((tvp = malloc(sizeof (rnd) + sizeof (tv) + 1)) == NULL) {
-		arc4_addrandom(as, &tv, sizeof (rv));
-		arc4_addrandom(as, rnd, sizeof (rnd));
+		arc4_addrandom(as, (void *)(&tv), sizeof (tv));
+		arc4_addrandom(as, (void *)rnd, sizeof (rnd));
 	} else {
 		memmove(tvp + 1, &tv, sizeof (tv));
 		memmove(tvp + sizeof (tv) + 1, rnd, sizeof (rnd));
