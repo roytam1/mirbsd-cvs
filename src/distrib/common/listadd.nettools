@@ -1,4 +1,0 @@
-# $MirOS$
-
-LINK	instbin					sbin/ping
-LINK	instbin					sbin/rtsol
