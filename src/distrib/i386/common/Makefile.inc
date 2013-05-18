@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/common/Makefile.inc,v 1.6 2006/01/15 23:46:37 tg Exp $
+# $MirOS: src/distrib/i386/common/Makefile.inc,v 1.7 2006/02/01 18:30:49 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.15 2004/11/25 22:02:08 deraadt Exp $
 
 .ifndef _MODSRC_DISTRIB_I386_COMMON_MAKEFILE_INC
@@ -145,7 +145,7 @@ ${CBIN}.mk ${CBIN}.cache ${CBIN}.c: ${CRUNCHCONF}
 	    -c ${CBIN}.c -e ${CBIN} -m ${CBIN}.mk ${CRUNCHCONF}
 
 ${CBIN}: ${CBIN}.mk ${CBIN}.cache ${CBIN}.c
-	make -f ${CBIN}.mk CFLAGS="${CFLAGS}" all
+	make -f ${CBIN}.mk all
 	${STRIP} --strip-all -R .comment -R .eh_frame ${CBIN}
 
 ${CRUNCHCONF}: ${LISTS}
