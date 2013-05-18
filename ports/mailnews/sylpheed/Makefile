@@ -1,7 +1,7 @@
-# $MirOS: ports/mailnews/sylpheed/Makefile,v 1.3 2006/05/15 21:24:37 bsiegert Exp $
+# $MirOS: ports/mailnews/sylpheed/Makefile,v 1.4 2006/09/14 00:10:49 tg Exp $
 # $OpenBSD: Makefile,v 1.48 2004/04/10 19:13:50 couderc Exp $
 
-COMMENT=			mail/news client in gtk+
+COMMENT=		mail/news client in gtk+
 
 VERSION=		2.2.4
 DISTNAME=		sylpheed-${VERSION}
@@ -34,6 +34,7 @@ CONFIGURE_ARGS+=	--disable-compface
 .endif
 
 .if ${FLAVOR:L:Mgpgme}
+PERMIT_PACKAGE_CDROM=	dependency security/gnupg is not allowed for CDROM
 LIB_DEPENDS+=		gpgme.4::security/gpgme
 CONFIGURE_ARGS+=	--enable-gpgme
 .else
