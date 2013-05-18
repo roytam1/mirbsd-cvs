@@ -1,7 +1,12 @@
 <!-- PageID: news -->
-<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.58 2006/02/22 02:40:23 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.59 2006/02/26 12:22:25 tg Exp $</small>
 
 <h1>Current MirOS News</h1><ul>
+
+<li>01.03.2006<br />Again success building a cross-compiler to i386 Debian
+	GNU/Linux from MirOS (tested with printf(1) because GNU libc is an
+	ugly piece of shit unable to build mksh(1) sh(1) date(1) etc.) but
+	this time with GCC 3.4.6 and <tt>--with-sysroot</tt>.</li>
 
 <li>26.02.2006<br />The MirOS Project glances by appearance at FOSDEM 2006
 	and sells T-Shirts and CD-Rs of the latest snapshot which also has
