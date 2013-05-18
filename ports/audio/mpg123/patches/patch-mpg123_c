@@ -1,8 +1,14 @@
-$MirOS: ports/audio/mpg123/patches/patch-mpg123_c,v 1.2 2006/09/04 18:57:27 tg Exp $
+$MirOS: ports/audio/mpg123/patches/patch-mpg123_c,v 1.3 2008/05/16 22:14:19 tg Exp $
 $OpenBSD: patch-mpg123.c,v 1.2 2001/04/24 00:48:12 naddy Exp $
 --- mpg123.c.orig	Tue Jun 15 20:21:14 1999
-+++ mpg123.c	Fri May 16 22:05:45 2008
-@@ -22,6 +22,7 @@
++++ mpg123.c	Sat May 17 23:16:09 2008
+@@ -17,11 +17,13 @@
+ #include <errno.h>
+ #include <string.h>
+ #include <fcntl.h>
++#include <locale.h>
+ 
+ #if 0
  #define SET_RT 
  #endif
  
@@ -10,16 +16,16 @@ $OpenBSD: patch-mpg123.c,v 1.2 2001/04/24 00:48:12 naddy Exp $
  
  #ifdef SET_RT
  #include <sched.h>
-@@ -34,6 +35,8 @@
+@@ -34,6 +36,8 @@
  
  #include "version.h"
  
-+__RCSID("$MirOS: ports/audio/mpg123/patches/patch-mpg123_c,v 1.2 2006/09/04 18:57:27 tg Exp $");
++__RCSID("$MirOS: ports/audio/mpg123/patches/patch-mpg123_c,v 1.3 2008/05/16 22:14:19 tg Exp $");
 +
  static void usage(char *dummy);
  static void long_usage(char *);
  static void print_title(void);
-@@ -177,6 +180,9 @@ void init_output(void)
+@@ -177,6 +181,9 @@ void init_output(void)
          _exit(0);
        default: /* parent */
          xfermem_init_writer (buffermem);
@@ -29,7 +35,7 @@ $OpenBSD: patch-mpg123.c,v 1.2 2001/04/24 00:48:12 naddy Exp $
          param.outmode = DECODE_BUFFER;
      }
    }
-@@ -222,7 +228,6 @@ void shuffle_files(int numfiles)
+@@ -222,7 +229,6 @@ void shuffle_files(int numfiles)
  {
      int loop, rannum;
  
@@ -37,7 +43,7 @@ $OpenBSD: patch-mpg123.c,v 1.2 2001/04/24 00:48:12 naddy Exp $
      if(shuffleord)
        free(shuffleord);
      shuffleord = (int *) malloc((numfiles + 1) * sizeof(int));
-@@ -238,7 +243,7 @@ void shuffle_files(int numfiles)
+@@ -238,7 +244,7 @@ void shuffle_files(int numfiles)
      /* now shuffle them */
      if(numfiles >= 2) {
        for (loop = 0; loop < numfiles; loop++) {
@@ -46,7 +52,7 @@ $OpenBSD: patch-mpg123.c,v 1.2 2001/04/24 00:48:12 naddy Exp $
          rannum += (rannum >= loop);
  	shuffleord[loop] ^= shuffleord[rannum];
  	shuffleord[rannum] ^= shuffleord[loop];
-@@ -306,9 +311,9 @@ char *find_next_file (int argc, char *ar
+@@ -306,9 +312,9 @@ char *find_next_file (int argc, char *ar
                  if (line[0]=='\0' || line[0]=='#')
                      continue;
  		if ((listnamedir) && (line[0]!='/') && (line[0]!='\\')){
@@ -59,7 +65,7 @@ $OpenBSD: patch-mpg123.c,v 1.2 2001/04/24 00:48:12 naddy Exp $
                  }
                  return (line);
              }
-@@ -329,6 +334,7 @@ void init_input (int argc, char *argv[])
+@@ -329,6 +335,7 @@ void init_input (int argc, char *argv[])
  {
      int mallocsize = 0;
      char *tempstr;
@@ -67,7 +73,7 @@ $OpenBSD: patch-mpg123.c,v 1.2 2001/04/24 00:48:12 naddy Exp $
  
      shuffle_listsize = 0;
  
-@@ -344,11 +350,11 @@ void init_input (int argc, char *argv[])
+@@ -344,11 +351,11 @@ void init_input (int argc, char *argv[])
  		exit(1);
  	    }
  	}
@@ -81,7 +87,7 @@ $OpenBSD: patch-mpg123.c,v 1.2 2001/04/24 00:48:12 naddy Exp $
  	shuffle_listsize++;
      }
      if (shuffle_listsize) {
-@@ -380,7 +386,7 @@ char *get_next_file(int argc, char **arg
+@@ -380,7 +387,7 @@ char *get_next_file(int argc, char **arg
          curfile++;
      }
      else {
@@ -90,7 +96,7 @@ $OpenBSD: patch-mpg123.c,v 1.2 2001/04/24 00:48:12 naddy Exp $
      }
  
      return newfile;
-@@ -477,7 +483,7 @@ topt opts[] = {
+@@ -477,7 +484,7 @@ topt opts[] = {
      {'t', "test",        0,                  0, &param.outmode, DECODE_TEST},
      {'s', "stdout",      0,       SetOutStdout, &param.outmode, DECODE_FILE},
      {'S', "STDOUT",      0,       SetOutStdout1, &param.outmode, DECODE_AUDIOFILE},
@@ -99,17 +105,18 @@ $OpenBSD: patch-mpg123.c,v 1.2 2001/04/24 00:48:12 naddy Exp $
      {'c', "check",       0,                  0, &param.checkrange, TRUE},
      {'v', "verbose",     0,        set_verbose, 0,           0},
      {'q', "quiet",       0,                  0, &param.quiet,      TRUE},
-@@ -776,6 +782,9 @@ int main(int argc, char *argv[])
+@@ -776,6 +783,10 @@ int main(int argc, char *argv[])
  #endif	
  	int init;
  
 +	/* Initialise early */
 +	(void)arc4random();
++	(void)setlocale(LC_ALL, "");
 +
  #ifdef OS2
          _wildcard(&argc,&argv);
  #endif
-@@ -913,18 +922,6 @@ int main(int argc, char *argv[])
+@@ -913,18 +924,6 @@ int main(int argc, char *argv[])
  				&dirname, &filename))
  				fprintf(stderr, "\nDirectory: %s", dirname);
  			fprintf(stderr, "\nPlaying MPEG stream from %s ...\n", filename);

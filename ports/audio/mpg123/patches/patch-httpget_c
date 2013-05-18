@@ -1,7 +1,7 @@
-$MirOS: ports/audio/mpg123/patches/patch-httpget_c,v 1.1.7.1 2005/03/18 15:43:03 tg Exp $
+$MirOS: ports/audio/mpg123/patches/patch-httpget_c,v 1.2 2008/05/16 22:14:19 tg Exp $
 $OpenBSD: patch-httpget_c,v 1.1 2003/11/13 20:51:50 margarida Exp $
---- httpget.c.orig	Fri May 16 21:00:49 2008
-+++ httpget.c	Fri May 16 22:02:13 2008
+--- httpget.c.orig	Sat May 17 22:51:03 2008
++++ httpget.c	Sat May 17 23:14:45 2008
 @@ -55,11 +55,10 @@ void readstring (char *string, int maxle
  #endif
  	int pos = 0;
@@ -163,8 +163,8 @@ $OpenBSD: patch-httpget_c,v 1.1 2003/11/13 20:51:50 margarida Exp $
 +				while (*cp == '\r' || *cp == '\n' ||
 +				    *cp == '\t' || *cp == ' ')
 +					*cp-- = '\0';
-+				fprintf(stderr, "%s%s\n", "ICY metainfo: ",
-+				    request);
++				fprintf(stderr, "%s%ls\n", "ICY metainfo: ",
++				    uniprint(request));
 +			}
  		} while (request[0] != '\r' && request[0] != '\n');
  	} while (relocate && purl[0] && numrelocs++ < 5);

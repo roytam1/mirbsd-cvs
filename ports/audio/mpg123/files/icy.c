@@ -33,7 +33,7 @@
 #include <unistd.h>
 #include "mpg123.h"
 
-__RCSID("$MirOS: src/share/misc/licence.template,v 1.24 2008/04/22 11:43:31 tg Rel $");
+__RCSID("$MirOS: ports/audio/mpg123/files/icy.c,v 1.1 2008/05/16 22:14:19 tg Exp $");
 
 static int icy_freq, icy_done;
 static char *icy_buf = NULL;
@@ -125,7 +125,7 @@ icy_parse(int fd)
 		free(icy_buf);
  usenew:
 		icy_buf = newbuf;
-		fprintf(stderr, "ICY metadata: %s\n", icy_buf);
+		fprintf(stderr, "ICY metadata: %ls\n", uniprint(icy_buf));
 	} else
 		free(newbuf);
 	return (0);
