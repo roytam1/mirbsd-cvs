@@ -1,11 +1,11 @@
-# $MirOS: www/src/mksh_old.hts,v 1.40 2011/05/29 02:28:10 tg Exp $
+# $MirOS: www/src/mksh_old.hts,v 1.41 2011/06/12 18:12:08 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh/old "mksh – old versions"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh_old.hts,v 1.40 2011/05/29 02:28:10 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh_old.hts,v 1.41 2011/06/12 18:12:08 tg Exp $'
 mws_content <<'EOF'
 <h2><a href="mksh.htm">mksh</a> – old versions</h2>
 
@@ -166,9 +166,6 @@ mws_content <<'EOF'
 <p>mksh R38b works on QNX 6.4 out of the box.</p>
 <p>mksh R38 offers <tt>-DMKSH_MIDNIGHTBSD01ASH_COMPAT</tt> and users
  should be warned about the “!string” line and UTF-8 mode changes.</p>
-<p>Freshmeat announcements <strong>have ceased</strong> because the
- site switched to a very user-unfriendly HTML (especially Lynx). Use
- the <a href="@@RELPATH@@tag_mksh.rss">RSS feed</a> instead.</p>
 <p>mksh R37c now honours <tt>-DMKSH_CONSERVATIVE_FDS</tt> and ACK.
  The regression test suite keeps <tt>LOCPATH</tt> around.</p>
 <p>mksh R37b now honours <tt>-DMKSH_UNEMPLOYED</tt> for the jobless

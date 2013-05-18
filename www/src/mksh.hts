@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.404 2011/06/11 03:19:15 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.405 2011/06/12 18:12:05 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -515,8 +515,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
  been pushed upstream and is in Android 1.6). Integration
  into both AOSP and the Google master, as <tt>/system/bin/sh</tt>, has
  been done and it can be enabled on a per-target basis at the moment;
- the next (end of 2010 or so) release of Android is expected to ship
- with mksh as its one and only shell.</p>
+ mksh is shipped with Android 3.0 and newer releases.</p>
 
 <h5 class="cr" id="oe_iphone">Platform: iPhone</h5>
 <p>This is just <a href="#oe_osx">Mac OSX</a>, compile (natively, or
@@ -870,14 +869,14 @@ exec /usr/bin/ld "${args[@]}"</pre>
  mksh as <tt>/bin/sh</tt> since 2010-02-25. AOSP and the Google
  master build mksh and ash since 2010-08-24/25, and it can be
  enabled as <tt>/system/bin/sh</tt> on a per-target basis or the
- default can be switched from ash, which is expected for Gingerbread.</li>
+ default can be switched from ash, which is done for 3.0 and up.</li>
 <li class="cr"><img class="fr" width="66" height="62" alt="[Grml logo]"
  src="@@RELPATH@@pics/logos/grml.png" /><a
  href="http://www.ubuntu.com/">Ubuntu GNU/Linux</a>, the <a
  href="http://grml.org/">grml</a> (and grml64) Live-CD, and other Debian
- derivates also have an mksh package; Knoppix, SIDUX, <a
- href="http://www.nexenta.org/os">Nexenta OS</a> (GNU/Solaris), and
- grml-small do <em>not</em> contain or offer mksh. <em>Note</em>: We need
+ derivates also have an mksh package; Knoppix, SIDUX and <a
+ href="http://www.nexenta.org/os">Nexenta OS</a> (GNU/Solaris)
+ do <em>not</em> contain or offer mksh. <em>Note</em>: We need
  URLs to the packages for these, can anyone provide any?</li>
 <li class="cr"><img class="fr" width="68" height="64" alt="[Arch logo]"
  src="@@RELPATH@@pics/logos/arch.png" /><a
@@ -938,8 +937,8 @@ exec /usr/bin/ld "${args[@]}"</pre>
  src="@@RELPATH@@pics/logos/hmug.png" />The <a
  href="http://www.hmug.org/pub/MacOS_X/BSD/Applications/Shells/mksh/">HMUG</a>,
  some US-American Apple Users’ Group packages mksh for Darwin, too.</li>
-<li class="cr">Frugalware Linux contains a broken mksh package; the build logs show
- the problem is on their side. (XXX Someone has any URL for us?)</li>
+<li class="cr">Frugalware Linux contains an mksh <a
+ href="http://www.frugalware.org/packages/107405">package</a></li>
 <li class="cr">Olivier Duchateau provides Slackware/Zenwalk GNU/Linux <a
  href="http://www.errements.net/slackbuilds/mksh/">packaging</a> for mksh</li>
 <li class="cr"><img class="fr" width="262" height="60" alt="[GreenViolet logo]"
@@ -956,7 +955,8 @@ exec /usr/bin/ld "${args[@]}"</pre>
  src="@@RELPATH@@pics/logos/pld.png" />The <a
  href="http://cvs.pld-linux.org/cgi-bin/cvsweb.cgi/packages/mksh/mksh.spec">PLD
  Linux Distribution</a> also has one</li>
-<li class="cr">Alt Linux has some (XXX fill in)</li>
+<li class="cr">A rather old package is included with <a
+ href="http://sisyphus.ru/en/srpm/mksh">Alt Linux Sisyphus</a>.</li>
 <li class="cr">There are probably many more, please drop us a note!</li>
 <li><a href="http://linux.softpedia.com/get/System/Shells/MirBSD-Korn-Shell-24602.shtml">Softpedia</a>
  lists mksh, just like the FSF/UNESCO directory.</li>

@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/news.inc,v 1.143 2011/03/11 17:58:35 bsiegert Exp $
+RCSID: $MirOS: www/data/news.inc,v 1.144 2011/06/12 18:12:04 tg Exp $
 Title: Older news from the MirOS Project
 Date: 01.03.2006
 
@@ -1964,8 +1964,8 @@ Date: 12.06.2011 18:12
 Author: tg@
 Tag: mksh
 
-<p>The <a href="@@RELPATH@@mksh.htm#r39c">MirBSD Korn Shell R40</a> has
- finally been released. This is a must-upgrade, a major everything version.
+<p>The <a href="@@RELPATH@@mksh.htm">MirBSD Korn Shell R40</a> has finally
+ been released. This is a must-upgrade, a major <em>everything</em> version.
  See the <a href="@@RELPATH@@mksh.htm#r40">changelog</a> for now, until <a
  href="@@RELPATH@@mksh.htm#c40">caveats</a> are filled in, due to the sheer
  amount of changes. The diff between the last and the new release is more
