@@ -11,13 +11,13 @@
  <desc>
   Logo for the MirBSD Korn Shell
   Based on an experimental draft of a new MirOS logo (CC-BY-IDC)
-  Utilising Gentium Book Basic (Bold Oblique)
+  Utilising Gentium Book Basic (Bold Italic)
 
-  $MirOS: www/pics/mksh.svg,v 1.10 2008/12/30 20:12:40 tg Exp $
-  Copyright © 2008 Lukas ＜smultron@midnightbsd.org＞
+  $MirOS: www/pics/mksh.svg,v 1.11 2009/02/15 15:26:23 tg Exp $
+  Copyright © 2008 Lukas U. ＜smultron@midnightbsd.org＞
   Copyright © 2008 Thorsten „mirabilos“ Glaser ＜tg@mirbsd.de＞
 
-  This image is covered by a Creative Commons licence.
+  This image is covered by the same terms as mksh itself.
   Nonwithstanding that, the trademark rights for any elements
   used have to be obtained separately.
  </desc>
