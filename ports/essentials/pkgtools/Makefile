@@ -1,4 +1,6 @@
-# $MirOS: ports/essentials/pkgtools/Makefile,v 1.23 2006/10/06 13:48:23 tg Exp $
+# $MirOS: ports/essentials/pkgtools/Makefile,v 1.24 2006/10/13 17:25:59 tg Exp $
+#-
+# This port should contain no patches.
 
 COMMENT=		MirPorts Framework package tools
 CATEGORIES=		essentials infrastructure

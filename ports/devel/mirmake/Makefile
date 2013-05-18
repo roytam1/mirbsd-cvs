@@ -1,4 +1,6 @@
-# $MirOS: ports/devel/mirmake/Makefile,v 1.16 2006/10/06 22:20:42 tg Exp $
+# $MirOS: ports/devel/mirmake/Makefile,v 1.17 2006/10/13 16:55:31 tg Exp $
+#-
+# This port should contain no patches.
 
 COMMENT=		portable MirOS make(1) variant
 DISTNAME=		mirmake-20061013
