@@ -1,4 +1,4 @@
-/* $MirOS: contrib/hosted/fwcf/adler.h,v 1.6 2007/02/28 16:09:41 tg Exp $ */
+/* $MirOS: contrib/hosted/fwcf/adler.h,v 1.7 2007/03/09 21:10:28 tg Exp $ */
 
 /*-
  * Copyright (c) 2006, 2007
@@ -23,12 +23,12 @@
  *-
  * See also:
  *	contrib/hosted/fwcf/adler.h
- *	kern/z/adler32s.c
- *	kern/z/adler32_i386.S
+ *	src/kern/z/adler32s.c
+ *	src/kern/z/adler32_i386.S
  */
 
 #ifndef ADLER_H
-#define ADLER_H	"$MirOS: contrib/hosted/fwcf/adler.h,v 1.6 2007/02/28 16:09:41 tg Exp $"
+#define ADLER_H	"$MirOS: contrib/hosted/fwcf/adler.h,v 1.7 2007/03/09 21:10:28 tg Exp $"
 
 /*
  * ADLER-32 implementation

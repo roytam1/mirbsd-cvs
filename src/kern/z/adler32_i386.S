@@ -1,4 +1,4 @@
-/* $MirOS: src/kern/z/adler32_i386.S,v 1.3 2007/02/28 16:11:32 tg Exp $ */
+/* $MirOS: src/kern/z/adler32_i386.S,v 1.4 2007/03/02 03:56:08 tg Exp $ */
 
 /*-
  * Copyright (c) 2006, 2007
@@ -27,8 +27,8 @@
  *-
  * See also:
  *	contrib/hosted/fwcf/adler.h
- *	kern/z/adler32s.c
- *	kern/z/adler32_i386.S
+ *	src/kern/z/adler32s.c
+ *	src/kern/z/adler32_i386.S
  */
 
 #include <machine/asm.h>
@@ -36,7 +36,7 @@
 #include <dev/rndvar.h>
 #endif
 
-RCSID("$MirOS: src/kern/z/adler32_i386.S,v 1.3 2007/02/28 16:11:32 tg Exp $")
+RCSID("$MirOS: src/kern/z/adler32_i386.S,v 1.4 2007/03/02 03:56:08 tg Exp $")
 
 #define BASE	65521	/* largest prime smaller than 65536 */
 #define NMAX	5552	/* largest n: 255n(n+1)/2 + (n+1)(BASE-1) <= 2^32-1 */
