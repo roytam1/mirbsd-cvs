@@ -1,4 +1,4 @@
-# $MirOS: www/mk/htsconv,v 1.5 2007/08/20 11:54:53 tg Exp $
+# $MirOS: www/mk/htsconv,v 1.6 2007/08/24 14:01:51 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -26,7 +26,7 @@ function mws_putheader {
 	mws_content <"$TOP"/mk/tmpl.pre
 	print -nr "<small class=\"rcsdiv\">Generated <!-- $mws__difftag --> on"
 	print -nr " <span class=\"rcsid\">$(TZ=UTC date +'%F %T')</span>"
-	print -nr ' by <span class="rcsid">$MirOS: www/mk/htsconv,v 1.5 2007/08/20 11:54:53 tg Exp $</span>'
+	print -nr ' by <span class="rcsid">$MirOS: www/mk/htsconv,v 1.6 2007/08/24 14:01:51 tg Exp $</span>'
 	[[ -n $rcsid ]] && print -nr " from <span class=\"rcsid\">$rcsid</span>"
 	print '</small>\n'
 }
@@ -51,11 +51,13 @@ function mws_putfooter {
 function mws_content {
 	sed \
 	    -e "s@@RELPATH@@$mws__relpathg" \
-	    -e 's\([0-9A-z][-.,0-9A-z]*\)(\(PAPERS\))<a href="/cman/man\2/\1.htm">&</a>g' \
-	    -e 's\([0-9A-z][-.,0-9A-z]*\)(\(PSD\))<a href="/cman/man\2/\1.htm">&</a>g' \
-	    -e 's\([0-9A-z][-.,0-9A-z]*\)(\(SMM\))<a href="/cman/man\2/\1.htm">&</a>g' \
-	    -e 's\([0-9A-z][-.,0-9A-z]*\)(\(USD\))<a href="/cman/man\2/\1.htm">&</a>g' \
-	    -e 's\([0-9A-z][-.,0-9A-z]*\)(\([1-9]\)[/0-9A-Za-z]*)<a href="/cman/man\2/\1.htm">&</a>g'
+	    -e 's\([0-9A-z][-.,0-9A-z]*\)(\(DOCS\))<a href="/htman/i386/man\2/\1.htm">&</a>g' \
+	    -e 's\([0-9A-z][-.,0-9A-z]*\)(\(PAPERS\))<a href="/htman/i386/man\2/\1.htm">&</a>g' \
+	    -e 's\([0-9A-z][-.,0-9A-z]*\)(\(PSD\))<a href="/htman/i386/man\2/\1.htm">&</a>g' \
+	    -e 's\([0-9A-z][-.,0-9A-z]*\)(\(SMM\))<a href="/htman/i386/man\2/\1.htm">&</a>g' \
+	    -e 's\([0-9A-z][-.,0-9A-z]*\)(\(USD\))<a href="/htman/i386/man\2/\1.htm">&</a>g' \
+	    -e 's\([0-9A-z][-.,0-9A-z]*\)(\([1-9]\)/sparc)<a href="/htman/sparc/man\2/\1.htm">&</a>g'
+	    -e 's\([0-9A-z][-.,0-9A-z]*\)(\([1-9]\)[/0-9A-Za-z]*)<a href="/htman/i386/man\2/\1.htm">&</a>g'
 }
 
 function mws_push {

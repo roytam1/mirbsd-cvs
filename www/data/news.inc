@@ -76,6 +76,8 @@ Author: tg@
  migration to the new CMS (“mws”) using HTTP 301 redirects. Same goes for
  manual pages (/manN/ -&gt; /cman/manN/) to save space on search engines'
  hard disc drives. Finally, news and wlog now have permalinks (beta).</p>
+<p>UPDATE (02.10.2007): Manpages now have better md redirects, and you can
+ use various syntaxes, including /man/foo.1 or /man{i386,sparc}/bar.8</p>
 <p>&#x60e3;&#x6d41;&#x30fb;&#x30a2;&#x30b9;&#x30ab;&#x30fb;&#x30e9;&#x30f3;&#x30b0;&#x30ec;&#x30fc;
  (well, just call him Soryu) and NetBSD®'s Stefan Schumacher have taken
  photographs of the MirOS team (the Duo Benny and me, Przemysław who run

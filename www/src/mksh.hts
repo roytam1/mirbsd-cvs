@@ -1,10 +1,10 @@
-# $MirOS: www/src/mksh.hts,v 1.64 2007/09/25 22:39:36 tg Exp $
+# $MirOS: www/src/mksh.hts,v 1.65 2007/09/26 14:54:18 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.64 2007/09/25 22:39:36 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.65 2007/09/26 14:54:18 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R31c</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -98,7 +98,7 @@ mws_content <<'EOF'
 
 <h2 id="irc">Support</h2>
 <p>We provide an online manual page in <a
- href="http://www.mirbsd.org/cman/man1/mksh.htm">HTML</a> and <a
+ href="http://www.mirbsd.org/man/mksh.1">HTML</a> and <a
  href="http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh.pdf">PDF</a> format.
  Reading books about Korn Shells in general is recommended as further help,
  but beware of the <a href="#contrib">differences</a> to other shells.</p>

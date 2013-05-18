@@ -1,5 +1,5 @@
 <?php
-/* $MirOS: www/files/index.php,v 1.3 2007/06/03 22:39:54 tg Exp $ */
+/* $MirOS: www/files/index.php,v 1.1 2007/06/09 23:29:51 tg Exp $ */
 /*-
  * The MirOS Project - Webpages
  * Copyrighted material; read LICENCE for terms of use.
@@ -128,9 +128,9 @@
 	} else {
 		echo ereg_replace(
 		    "([0-9A-z][-.,0-9A-z]*)\(([1-9])[/0-9A-Za-z]*\)",
-		    "<a href=\"/man\\2/\\1.htm\">\\0</a>", ereg_replace(
-		    "([0-9A-z][-.,0-9A-z]*)\((PAPERS|PSD|SMM|USD)\)",
-		    "<a href=\"/cman/man\\2/\\1.htm\">\\0</a>", $cmsc));
+		    "<a href=\"/htman/i386/man\\2/\\1.htm\">\\0</a>", ereg_replace(
+		    "([0-9A-z][-.,0-9A-z]*)\((DOCS|PAPERS|PSD|SMM|USD)\)",
+		    "<a href=\"/htman/i386/man\\2/\\1.htm\">\\0</a>", $cmsc));
 	}
  ?>
 </div>

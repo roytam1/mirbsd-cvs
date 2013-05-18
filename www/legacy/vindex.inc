@@ -15,5 +15,5 @@
   <li><a href="/irc.htm">IRC</a></li>
   <li><a href="/projects.htm">Project Ideas</a></li>
   <li><a href="/?danke">Donate</a></li>
-  <li><a href="/cman/">Manpages</a></li>
+  <li>Manpages <a href="/htman/i386/">i386</a> <a href="/htman/sparc/">sparc</a></li>
   <li><a href="/?style">StyleSelect</a></li>
