@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/scripts/roff2htm,v 1.38 2007/01/25 11:04:42 tg Exp $
+# $MirOS: src/scripts/roff2htm,v 1.39 2007/01/25 11:19:43 tg Exp $
 # $ekkoBSD: catman2html.sh,v 1.2 2004/03/07 03:02:53 stephen Exp $
 #-
 # Copyright (c) 2004, 2005, 2006, 2007
@@ -96,7 +96,7 @@ s/\([0-9A-z][-.,0-9A-z]*\)-\n\(  *\)\([0-9A-z][-.,0-9A-z]*([1-9][A-z]*)\)\([^ ]*
 	    -e 's#<pre></pre>##g'					\
 	    -e 's#</pre><pre>##g'					\
 	    -e "s#<a href=\"../man${1:-0}/#<a href=\"#g"		\
-	| while IFS= read line; do
+	| while IFS= read -r line; do
 		if [[ $line = *@([!	  ])* ]]; then
 			print -r -- "$line"
 			let isblank=0
@@ -126,7 +126,7 @@ output_footer()
 {
 	cat <<-EOF
 		<hr /><p style="font-size:xx-small;">Generated on ${gendate} by
-		 \$MirOS: src/scripts/roff2htm,v 1.38 2007/01/25 11:04:42 tg Exp $</p>
+		 \$MirOS: src/scripts/roff2htm,v 1.39 2007/01/25 11:19:43 tg Exp $</p>
 		<p>These manual pages are copyrighted by their respective writers; their
 		 source is available at our <a href="http://cvs.mirbsd.de/">CVSweb</a>.
 		 The rest is Copyright Â© 2002-2007 <a href="http://www.mirbsd.org/">The
