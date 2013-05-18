@@ -8,15 +8,6 @@
  * limited rights to use, publicly perform, distribute, sell, modify,
  * merge, give away, or sublicence.
  *
- * Advertising materials mentioning features or use of this work must
- * display the following acknowledgement:
- *	This product includes material provided by Thorsten Glaser.
- * This acknowledgement does not need to be reprinted if this work is
- * linked into a bigger work whose licence does not allow such clause
- * and the author of this work is given due credit in the bigger work
- * or its accompanying documents, where such information is generally
- * kept, provided that said credits are retained.
- *
  * This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
  * the utmost extent permitted by applicable law, neither express nor
  * implied; without malicious intent or gross negligence. In no event
@@ -36,7 +27,7 @@
 #include "libintl.h"
 
 static const char __rcsid_intl[] __attribute__((used)) =
-    "$MirOS: contrib/hosted/libnointl/nointl.c,v 1.5 2007/07/14 19:50:18 tg Exp $";
+    "$MirOS: contrib/hosted/libnointl/nointl.c,v 1.6 2007/07/14 19:51:02 tg Exp $";
 
 #define __unused	__attribute__((unused))
 

@@ -15,11 +15,6 @@ is granted to deal in this work without restriction, including un-
 limited rights to use, publicly perform, distribute, sell, modify,
 merge, give away, or sublicence.
 
-Advertising materials mentioning features or use of this work must
-display the following acknowledgement:
-	This product includes material provided by Thorsten Glaser
-	for the FreeWRT Project.
-
 This work is provided “AS IS” and WITHOUT WARRANTY of any kind, to
 the utmost extent permitted by applicable law, neither express nor
 implied; without malicious intent or gross negligence. In no event
@@ -382,10 +377,9 @@ SSH on port 22; module “fwcf”. CVSweb is also available, e.g. at
 http://cvs.mirbsd.de/contrib/hosted/fwcf/ or its mirrors.
 
 FWCF code is released under the same licence terms as the speci-
-fication, but without the advertising clause. The author however
-would really appreciate users to credit his name and that of the
-FreeWRT Project in derived works and/or links to the CVS reposi-
-tory of the original source.
+fication. The author would really appreciate users to credit his
+name and that of the FreeWRT Project in derived works and/or the
+placement of links to the CVS repository of the original source.
 
 
 8. The “asz” file format (NEW IN 1.03)
@@ -431,4 +425,4 @@ They are provided as hint only and not part of the specifi-
 cation itself. They may change without notice.
 
 ⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼
-$MirOS: contrib/hosted/fwcf/fwcf.txt,v 1.36 2007/03/13 18:31:07 tg Exp $
+$MirOS: contrib/hosted/fwcf/fwcf.txt,v 1.37 2007/07/02 14:55:44 tg Exp $

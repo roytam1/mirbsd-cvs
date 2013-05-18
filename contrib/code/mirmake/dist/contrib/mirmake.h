@@ -1,9 +1,9 @@
-/* $MirOS: contrib/code/mirmake/dist/contrib/mirmake.h,v 1.38 2008/04/06 22:37:36 tg Exp $ */
+/* $MirOS: src/share/misc/licence.template,v 1.24 2008/04/22 11:43:31 tg Rel $ */
 
 /*-
  * Copyright (c) 2005, 2006, 2008
- *	Thorsten “mirabilos” Glaser <tg@mirbsd.de>
- * Based upon some code
+ *	Thorsten "mirabilos" Glaser <tg@mirbsd.de>
+ * Partially based upon some code
  * Copyright (c) 1991, 1993
  *	The Regents of the University of California.
  * This code is derived from software contributed to Berkeley by
@@ -14,15 +14,6 @@
  * is granted to deal in this work without restriction, including un-
  * limited rights to use, publicly perform, distribute, sell, modify,
  * merge, give away, or sublicence.
- *
- * Advertising materials mentioning features or use of this work must
- * display the following acknowledgement:
- *	This product includes material provided by Thorsten Glaser.
- * This acknowledgement does not need to be reprinted if this work is
- * linked into a bigger work whose licence does not allow such clause
- * and the author of this work is given due credit in the bigger work
- * or its accompanying documents, where such information is generally
- * kept, provided that said credits are retained.
  *
  * This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
  * the utmost extent permitted by applicable law, neither express nor

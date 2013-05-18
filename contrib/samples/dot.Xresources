@@ -1,17 +1,13 @@
-! $MirOS: contrib/samples/dot.Xresources,v 1.5 2007/03/08 09:09:21 tg Exp $
+! $MirOS: src/share/misc/licence.template,v 1.24 2008/04/22 11:43:31 tg Rel $
 !-
 ! Copyright (c) 2003, 2004, 2005, 2006, 2007
-!	Thorsten "mirabilos" Glaser <tg@66h.42h.de>
+!	Thorsten "mirabilos" Glaser <tg@mirbsd.de>
 !
 ! Provided that these terms and disclaimer and all copyright notices
 ! are retained or reproduced in an accompanying document, permission
 ! is granted to deal in this work without restriction, including un-
 ! limited rights to use, publicly perform, distribute, sell, modify,
 ! merge, give away, or sublicence.
-!
-! Advertising materials mentioning features or use of this work must
-! display the following acknowledgement:
-!	This product includes material provided by Thorsten Glaser.
 !
 ! This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
 ! the utmost extent permitted by applicable law, neither express nor

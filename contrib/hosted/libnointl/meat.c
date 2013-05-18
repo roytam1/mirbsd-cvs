@@ -8,15 +8,6 @@
  * limited rights to use, publicly perform, distribute, sell, modify,
  * merge, give away, or sublicence.
  *
- * Advertising materials mentioning features or use of this work must
- * display the following acknowledgement:
- *	This product includes material provided by Thorsten Glaser.
- * This acknowledgement does not need to be reprinted if this work is
- * linked into a bigger work whose licence does not allow such clause
- * and the author of this work is given due credit in the bigger work
- * or its accompanying documents, where such information is generally
- * kept, provided that said credits are retained.
- *
  * This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
  * the utmost extent permitted by applicable law, neither express nor
  * implied; without malicious intent or gross negligence. In no event
@@ -30,7 +21,7 @@
 /* this is not a stand-alone file */
 #ifndef LIBINTL_REDEFINE /* first time only */
 static const char __rcsid_meat[] __attribute__((used)) =
-    "$MirOS$";
+    "$MirOS: contrib/hosted/libnointl/meat.c,v 1.1 2007/06/25 16:32:53 tg Exp $";
 #endif
 
 char *

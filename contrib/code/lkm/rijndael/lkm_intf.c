@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/lkm/rijndael/lkm_intf.c,v 1.6 2008/03/20 21:26:46 tg Exp $ */
+/* $MirOS: contrib/code/lkm/rijndael/lkm_intf.c,v 1.7 2008/03/21 00:14:12 tg Exp $ */
 
 /*-
  * Copyright (c) 2005, 2008
@@ -10,10 +10,6 @@
  * pyright notices above, these terms and the disclaimer are retained
  * in all redistributions or reproduced in accompanying documentation
  * or other materials provided with binary redistributions.
- *
- * All advertising materials mentioning features or use of this soft-
- * ware must display the following acknowledgement:
- *	This product includes material provided by Thorsten Glaser.
  *
  * Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
  * express, or implied, to the maximum extent permitted by applicable
