@@ -1,6 +1,6 @@
 divert(-1)dnl
 #
-# $MirOS: src/gnu/usr.sbin/sendmail/cf/cf/openbsd-proto.mc,v 1.10 2011/07/02 18:53:07 tg Exp $
+# $MirOS: src/gnu/usr.sbin/sendmail/cf/cf/openbsd-localhost.mc,v 1.10 2011/07/02 19:35:41 tg Exp $
 # @(#)openbsd-proto.mc $Revision$
 #
 # Copyright (c) 2002, 2003, 2004, 2005, 2007, 2008, 2011
@@ -21,7 +21,7 @@ divert(-1)dnl
 #
 
 divert(0)dnl
-VERSIONID(`$MirOS: src/gnu/usr.sbin/sendmail/cf/cf/openbsd-proto.mc,v 1.10 2011/07/02 18:53:07 tg Exp $')dnl
+VERSIONID(`$MirOS: src/gnu/usr.sbin/sendmail/cf/cf/openbsd-localhost.mc,v 1.10 2011/07/02 19:35:41 tg Exp $')dnl
 OSTYPE(openbsd)dnl
 dnl
 dnl
@@ -187,6 +187,11 @@ dnl Say hello to our friendly user
 dnl
 define(`confSMTP_LOGIN_MSG',
   `$j ready at $b\n >> Bitte keine Werbung einwerfen! <<\nWho do you wanna pretend to be today?')dnl
+dnl
+dnl Raise some pool sizes and timeouts
+dnl
+define(`confMCI_CACHE_SIZE', `32')dnl
+define(`confTO_QUEUERETURN', `14d')dnl
 dnl
 dnl
 dnl That's all, folks.
