@@ -1,11 +1,11 @@
-# $MirOS: www/src/mksh_old.hts,v 1.26 2010/01/28 21:05:34 tg Exp $
+# $MirOS: www/src/mksh_old.hts,v 1.27 2010/02/14 19:28:05 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh/old "mksh – old versions"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh_old.hts,v 1.26 2010/01/28 21:05:34 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh_old.hts,v 1.27 2010/02/14 19:28:05 tg Exp $'
 mws_content <<'EOF'
 <h2><a href="mksh.htm">mksh</a> – old versions</h2>
 
@@ -1266,7 +1266,10 @@ mws_content <<'EOF'
 	typeset -Uui16 b=36 #foo; d=2
 	echo $a $b $c $d)
  </pre> etc.</li>
-<li>check if <tt>-lcrypt</tt> is really needed on AIX</li>
+<li><tt>/etc/mkshrc</tt> (maybe only if ~/.mkshrc does not exist,
+ with similar rules; ENV=/ could be the magic "default" value;
+ maybe go through $ENV -&gt; ~/.mkshrc -&gt; /etc/mkshrc by both
+ existence and being &gt;0 bytes...</li>
 </ul>
 EOF
 mws_putfooter
