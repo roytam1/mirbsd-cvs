@@ -1,4 +1,4 @@
-/* $MirOS: src/kern/include/libckern.h,v 1.3 2007/02/06 23:19:33 tg Exp $ */
+/* $MirOS: src/kern/include/libckern.h,v 1.4 2007/02/06 23:32:56 tg Exp $ */
 
 #ifndef __LIBCKERN_H_
 #define __LIBCKERN_H_
@@ -54,6 +54,13 @@ __END_DECLS
 			    (__WC_s->value & 0x3F);	\
 		(__WC_rv);				\
 	})
+#endif
+
+#ifndef __LIBCKERN_HAVE_ADLER32_DECL
+#define __LIBCKERN_HAVE_ADLER32_DECL
+__BEGIN_DECLS
+extern u_long adler32(u_long, const uint8_t *, unsigned);
+__END_DECLS
 #endif
 
 #endif
