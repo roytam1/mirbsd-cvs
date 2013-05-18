@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.42 2006/05/26 21:40:21 tg Exp $
+# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.43 2006/06/09 01:05:16 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -68,7 +68,7 @@ ed -s etc/master.passwd <<-'EOF'
 	.
 	wq
 EOF
-ed -s etc/make.cfg <<-'EOF'
+: || ed -s etc/make.cfg <<-'EOF'
 	$a
 		### Run MirPorts off the Live CD
 		DISTDIR?=		${LOCALBASE}/.ports/Distfiles
@@ -88,7 +88,7 @@ EOF
 #EOF
 ed -s etc/rc <<-'EOF'
 	1i
-		# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.42 2006/05/26 21:40:21 tg Exp $
+		# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.43 2006/06/09 01:05:16 tg Exp $
 	.
 	/shutdown request/ka
 	/^fi/a
@@ -136,7 +136,7 @@ ed -s etc/rc <<-'EOF'
 	/openssl genrsa/s/4096/1024/
 	wq
 EOF
-ed -s etc/rc.local <<-'EOF'
+: || ed -s etc/rc.local <<-'EOF'
 	$a
 		has_pkgs=0
 		for a in /v?/*/*.cgz; do
