@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.15 2006/12/23 03:18:10 tg Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.16 2006/12/26 15:20:58 tg Exp $ */
 /* $OpenBSD: perform.c,v 1.32 2003/08/21 20:24:56 espie Exp $	*/
 
 /*
@@ -29,7 +29,7 @@
 #include <signal.h>
 #include <errno.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.15 2006/12/23 03:18:10 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.16 2006/12/26 15:20:58 tg Exp $");
 
 static int pkg_do(char *);
 static int sanity_check(char *);
@@ -632,7 +632,8 @@ write_deps(void)
 	    pwarnx("dependency registration is incomplete");
 	raise_privs();
     }
-
+    free(PkgDeps);
+    PkgDeps = NULL;
 }
 
 static int
