@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.sbin/wsconfig/wsconfig.c,v 1.4 2006/08/16 23:28:27 tg Exp $ */
+/* $MirOS: src/usr.sbin/wsconfig/wsconfig.c,v 1.5 2006/10/28 18:54:48 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -34,7 +34,7 @@
 #include <string.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: src/usr.sbin/wsconfig/wsconfig.c,v 1.4 2006/08/16 23:28:27 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/wsconfig/wsconfig.c,v 1.5 2006/10/28 18:54:48 tg Exp $");
 
 #define DEFDEV	"/dev/ttyCcfg"
 
@@ -55,7 +55,6 @@ __dead void usage(void);
  * -S			print out active VT number
  *
  * === default device: ttyname(stdin) ===
- * -O <number>		select font in slot #number
  * -o <name>		select font #name
  */
 
@@ -70,20 +69,13 @@ main(int argc, char **argv)
 	wsdev = DEFDEV;
 	action = 0;
 
-	while ((c = getopt(argc, argv, "f:I:O:o:qSs:")) != -1)
+	while ((c = getopt(argc, argv, "f:I:o:qSs:")) != -1)
 		switch (c) {
 		case 'f':
 			wsdev = optarg;
 			break;
 		case 'I':
 			action = 5;
-			nr = strtonum(optarg, 0, WSDISPLAY_MAXFONT - 1, &est);
-			if (est)
-				errx(1, "slot number %s is %s", optarg, est);
-			f.index = nr;
-			break;
-		case 'O':
-			action = 3;
 			nr = strtonum(optarg, 0, WSDISPLAY_MAXFONT - 1, &est);
 			if (est)
 				errx(1, "slot number %s is %s", optarg, est);
@@ -114,7 +106,7 @@ main(int argc, char **argv)
 	if (!action)
 		usage();
 
-	if ((wsdev == DEFDEV) && ((action == 3) || (action == 4)))
+	if ((wsdev == DEFDEV) && (action == 4))
 		wsdev = ttyname(STDIN_FILENO);
 
 	/* apparently O_RDONLY wouldn't matter but we stay safe */
@@ -135,18 +127,11 @@ main(int argc, char **argv)
 			err(3, "ioctl VT_GETACTIVE");
 		printf("%d\n", nr);
 		break;
-	case 3:
-		if (ioctl(wsfd, WSDISPLAYIO_LSFONT, &f) == -1)
-			err(3, "ioctl WSDISPLAYIO_LSFONT");
-		if (!q)
-			printf("selected font slot %d", f.index);
-		/* FALLTHROUGH */
 	case 4:
 		if (ioctl(wsfd, WSDISPLAYIO_USEFONT, &f) == -1)
 			err(3, "ioctl WSDISPLAYIO_USEFONT");
 		if (!q)
-			printf("%s name \"%s\"\n", action == 3 ? "" :
-			    "selected font", f.name);
+			printf("selected font \"%s\"\n", f.name);
 		break;
 	case 5:
 		if (ioctl(wsfd, WSDISPLAYIO_LSFONT, &f) == -1)
@@ -204,7 +189,7 @@ usage(void)
 
 	fprintf(stderr, "Usage:\n"
 	    "%s [-f ctldev] -s screen\n"
-	    "%s [-f wsdev] { -I slot | -O slot | -o name }\n",
+	    "%s [-q] [-f wsdev] { -I slot | -o name }\n",
 	    __progname, __progname);
 	exit(1);
 }
