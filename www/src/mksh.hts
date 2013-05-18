@@ -1,4 +1,4 @@
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.90 2008/03/06 17:41:09 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.91 2008/03/08 19:48:10 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -720,6 +720,10 @@ mws_content <<'EOF'
  <li style="list-style:none;">– known to <strong>FAIL</strong> building</li>
  <li>Fabrice Bellard’s tcc in combination with GNU libc often fails linking</li>
  <li>Some pcc versions mis-compile with -O enabled</li>
+ <li>mksh works on Plan 9, but does not return after executing a non-builtin command</li>
+ <li>mksh does not correctly work on Minix 3</li>
+ <li>mksh segfaults upon execution on Syllable Desktop</li>
+ <li>The status of Syllable Server is unknown</li>
 </ul>
 
 <h2 id="vsn">Recommendations on version numbering</h2>
