@@ -1,6 +1,6 @@
 #!/usr/bin/env mksh
 # $Id$
-# $MirOS: src/etc/security,v 1.16 2009/01/14 21:16:26 tg Exp $
+# $MirOS: src/etc/security,v 1.17 2009/02/09 11:08:06 tg Exp $
 # $OpenBSD: security,v 1.71 2005/02/22 10:50:55 otto Exp $
 # from: @(#)security	8.1 (Berkeley) 6/9/93
 
@@ -147,7 +147,7 @@ awk -F: '{
 		printf("Login %s has non-alphanumeric characters.\n", $1);
 	if (length($1) > 31)
 		printf("Login %s has more than 31 characters.\n", $1);
-	if ($2 == "" && $2 !~ /^_*anoncvs$/ && $2 !~ /^_*rsync$/)
+	if ($2 == "" && $1 !~ /^_*anoncvs$/ && $1 !~ /^_*rsync$/)
 		printf("Login %s has no password.\n", $1);
 	if ($2 != "" && length($2) != 13 && ($10 ~ /.*sh$/ || $10 == "") &&
 	   ($2 !~ /^\$[0-9a-f]+\$/) && ($2 != "skey")) {
