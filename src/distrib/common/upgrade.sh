@@ -1,4 +1,5 @@
 #!/bin/mksh
+#	$MirOS$
 #	$OpenBSD: upgrade.sh,v 1.61 2005/04/02 14:27:08 krw Exp $
 #	$NetBSD: upgrade.sh,v 1.2.4.5 1996/08/27 18:15:08 gwr Exp $
 #
@@ -121,6 +122,12 @@ mount_fs
 
 # Install sets.
 install_sets
+
+# Little upgrade helpers
+[[ -e /mnt/etc/boot.conf && ! -e /mnt/boot.cfg ]] && \
+    cp /mnt/etc/boot.conf /mnt/boot.cfg
+[[ -e /mnt/etc/boot.cfg && ! -e /mnt/boot.cfg ]] && \
+    cp /mnt/etc/boot.cfg /mnt/boot.cfg
 
 # Perform final steps common to both an install and an upgrade.
 finish_up
