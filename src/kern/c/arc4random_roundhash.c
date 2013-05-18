@@ -1,5 +1,5 @@
 /*-
- * Copyright (c) 2010
+ * Copyright (c) 2010, 2011
  *	Thorsten Glaser <tg@mirbsd.org>
  *
  * Provided that these terms and disclaimer and all copyright notices
@@ -20,7 +20,7 @@
 
 #include <libckern.h>
 
-__RCSID("$MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $");
+__RCSID("$MirOS: src/kern/c/arc4random_roundhash.c,v 1.1 2010/09/12 17:10:49 tg Exp $");
 
 void
 arc4random_roundhash(uint32_t pools[32], uint8_t *poolptr,
@@ -32,12 +32,12 @@ arc4random_roundhash(uint32_t pools[32], uint8_t *poolptr,
 
 	pool = *poolptr;
 	while (len--) {
+		pool = (pool + 1) & 31;
 		h = pools[pool];
 		h += *buf++;
 		h += h << 10;
 		h ^= h >> 6;
 		pools[pool] = h;
-		pool = (pool + 1) & 31;
 	}
 	*poolptr = pool;
 }
