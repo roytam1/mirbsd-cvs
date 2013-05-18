@@ -1,4 +1,4 @@
-# $MirOS: ports/mailnews/pine/Makefile,v 1.23 2008/03/09 17:23:07 tg Exp $
+# $MirOS: ports/mailnews/pine/Makefile,v 1.24 2008/10/04 19:03:17 tg Exp $
 # $OpenBSD: Makefile,v 1.56 2003/10/05 21:42:29 jakob Exp $
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:* MirBSD:*:*
@@ -15,7 +15,7 @@ PICO_VERSION=		4.10
 PILOT_VERSION=		2.0
 IMAP_VERSION=		2004.357
 PINE_PATCHLEV=		7	# must be the highest
-CCLIENT_PATCHLEV=	5
+CCLIENT_PATCHLEV=	6
 PICOLOT_PATCHLEV=	2
 PINE_PATCHLEV?=		${CCLIENT_PATCHLEV}
 DISTNAME=		pine${VERSION}
@@ -31,7 +31,7 @@ MASTER_SITES=		ftp://ftp.cac.washington.edu/pine/old/ \
 			ftp://ftp.sunet.se/pub/unix/mail/pine/
 EXTRACT_SUFX=		.tar.Z
 HOMEPAGE=		http://www.washington.edu/pine/
-RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.de>
+RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.org>
 
 # Free, but cannot distribute with non-opensource on same media.
 # Modified versions must be marked as such.
