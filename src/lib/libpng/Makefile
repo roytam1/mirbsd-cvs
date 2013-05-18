@@ -1,6 +1,6 @@
-# $MirOS: src/lib/libpng/Makefile,v 1.10 2008/03/23 17:54:52 tg Exp $
+# $MirOS: src/lib/libpng/Makefile,v 1.11 2008/10/22 19:11:48 tg Exp $
 
-SHLIB_VERSION?= 9.0
+SHLIB_VERSION?= 9.1
 LIB=		png
 SRCS=		png.c pngerror.c pngget.c pngmem.c pngpread.c \
 		pngread.c pngrio.c pngrtran.c pngrutil.c pngset.c \

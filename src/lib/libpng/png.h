@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libpng/png.h,v 1.8 2008/04/07 19:54:33 tg Exp $ */
+/* $MirOS: src/lib/libpng/png.h,v 1.9 2008/10/22 19:11:50 tg Exp $ */
 
 /* png.h - header file for MirOS in-tree PNG library
  *
@@ -12,8 +12,8 @@
  * the Licensor being the MirOS Project and Thorsten Glaser as leader,
  * with the following copyright holders:
  *
- * Copyright (c) 2004-2008 Thorsten Glaser, The MirOS Project
- * Copyright (c) 1998-2008 Glenn Randers-Pehrson
+ * Copyright (c) 2004-2009 Thorsten Glaser, The MirOS Project
+ * Copyright (c) 1998-2009 Glenn Randers-Pehrson
  * Copyright (c) 1996, 1997 Andreas Dilger
  * Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.
  *
@@ -109,9 +109,9 @@
  */
 
 /* Version information for png.h - this should match the version in png.c */
-#define PNG_LIBPNG_VER_STRING "1.2.32-MirOS"
+#define PNG_LIBPNG_VER_STRING "1.2.35-MirOS"
 #define PNG_HEADER_VERSION_STRING \
-   " libpng version 1.2.32-MirOS - September 18, 2008\n"
+   " libpng version 1.2.35-MirOS - February 14, 2009\n"
 
 #define PNG_LIBPNG_VER_SONUM   0
 #define PNG_LIBPNG_VER_DLLNUM  13
@@ -119,7 +119,7 @@
 /* These should match the first 3 components of PNG_LIBPNG_VER_STRING: */
 #define PNG_LIBPNG_VER_MAJOR   1
 #define PNG_LIBPNG_VER_MINOR   2
-#define PNG_LIBPNG_VER_RELEASE 32
+#define PNG_LIBPNG_VER_RELEASE 35
 /* This should match the numeric part of the final component of
  * PNG_LIBPNG_VER_STRING, omitting any leading zero: */
 
@@ -147,7 +147,7 @@
  * Versions 0.7 through 1.0.0 were in the range 0 to 100 here (only
  * version 1.0.0 was mis-numbered 100 instead of 10000).  From
  * version 1.0.1 it's    xxyyzz, where x=major, y=minor, z=release */
-#define PNG_LIBPNG_VER 10232 /* 1.2.32 */
+#define PNG_LIBPNG_VER 10235 /* 1.2.35 */
 
 #ifndef PNG_VERSION_INFO_ONLY
 /* include the compression library's header */
@@ -848,7 +848,10 @@ typedef void (PNGAPI *png_unknown_chunk_ptr) PNGARG((png_structp));
 #define PNG_TRANSFORM_SWAP_ALPHA     0x0100    /* read and write */
 #define PNG_TRANSFORM_SWAP_ENDIAN    0x0200    /* read and write */
 #define PNG_TRANSFORM_INVERT_ALPHA   0x0400    /* read and write */
-#define PNG_TRANSFORM_STRIP_FILLER   0x0800    /* WRITE only */
+#define PNG_TRANSFORM_STRIP_FILLER   0x0800    /* WRITE only, deprecated */
+/* Added to libpng-1.2.34 */
+#define PNG_TRANSFORM_STRIP_FILLER_BEFORE 0x0800  /* WRITE only */
+#define PNG_TRANSFORM_STRIP_FILLER_AFTER  0x1000  /* WRITE only */
 
 /* Flags for MNG supported features */
 #define PNG_FLAG_MNG_EMPTY_PLTE     0x01
@@ -1157,7 +1160,7 @@ struct png_struct_def
 /* This triggers a compiler error in png.c, if png.c and png.h
  * do not agree upon the version number.
  */
-typedef png_structp version_1_2_32;
+typedef png_structp version_1_2_35;
 
 typedef png_struct FAR * FAR * png_structpp;
 
@@ -2209,33 +2212,80 @@ extern PNG_EXPORT(void, png_write_png) PNGARG((png_structp png_ptr,
 #if !defined(PNG_DEBUG_FILE) && defined(_MSC_VER)
 #include <crtdbg.h>
 #if (PNG_DEBUG > 1)
-#define png_debug(l,m)  _RPT0(_CRT_WARN,m)
-#define png_debug1(l,m,p1)  _RPT1(_CRT_WARN,m,p1)
-#define png_debug2(l,m,p1,p2) _RPT2(_CRT_WARN,m,p1,p2)
+#ifndef _DEBUG
+#  define _DEBUG
+#endif
+#ifndef png_debug
+#define png_debug(l,m)  _RPT0(_CRT_WARN,m PNG_STRING_NEWLINE)
+#endif
+#ifndef png_debug1
+#define png_debug1(l,m,p1)  _RPT1(_CRT_WARN,m PNG_STRING_NEWLINE,p1)
+#endif
+#ifndef png_debug2
+#define png_debug2(l,m,p1,p2) _RPT2(_CRT_WARN,m PNG_STRING_NEWLINE,p1,p2)
+#endif
 #endif
 #else /* PNG_DEBUG_FILE || !_MSC_VER */
 #ifndef PNG_DEBUG_FILE
 #define PNG_DEBUG_FILE stderr
 #endif /* PNG_DEBUG_FILE */
 #if (PNG_DEBUG > 1)
+#ifndef png_debug
+/* Note: ["%s"m PNG_STRING_NEWLINE] probably does not work on
+ * non-ISO compilers */
+#ifdef __STDC__
 #define png_debug(l,m) \
 { \
      int num_tabs=l; \
-     fprintf(PNG_DEBUG_FILE,"%s"m,(num_tabs==1 ? "\t" : \
+     fprintf(PNG_DEBUG_FILE,"%s"m PNG_STRING_NEWLINE,(num_tabs==1 ? "\t" : \
        (num_tabs==2 ? "\t\t":(num_tabs>2 ? "\t\t\t":"")))); \
 }
+#endif
+#ifndef png_debug1
 #define png_debug1(l,m,p1) \
 { \
      int num_tabs=l; \
-     fprintf(PNG_DEBUG_FILE,"%s"m,(num_tabs==1 ? "\t" : \
+     fprintf(PNG_DEBUG_FILE,"%s"m PNG_STRING_NEWLINE,(num_tabs==1 ? "\t" : \
        (num_tabs==2 ? "\t\t":(num_tabs>2 ? "\t\t\t":""))),p1); \
 }
+#endif
+#ifndef png_debug2
 #define png_debug2(l,m,p1,p2) \
 { \
      int num_tabs=l; \
-     fprintf(PNG_DEBUG_FILE,"%s"m,(num_tabs==1 ? "\t" : \
+     fprintf(PNG_DEBUG_FILE,"%s"m PNG_STRING_NEWLINE,(num_tabs==1 ? "\t" : \
        (num_tabs==2 ? "\t\t":(num_tabs>2 ? "\t\t\t":""))),p1,p2); \
 }
+#endif
+#else /* __STDC __ */
+#ifndef png_debug
+#define png_debug(l,m) \
+     int num_tabs=l; \
+     char format[256]; \
+     snprintf(format,256,"%s%s%s",(num_tabs==1 ? "\t" : \
+       (num_tabs==2 ? "\t\t":(num_tabs>2 ? "\t\t\t":""))), \
+       m,PNG_STRING_NEWLINE); \
+     fprintf(PNG_DEBUG_FILE,format);
+#endif
+#ifndef png_debug1
+#define png_debug1(l,m,p1) \
+     int num_tabs=l; \
+     char format[256]; \
+     snprintf(format,256,"%s%s%s",(num_tabs==1 ? "\t" : \
+       (num_tabs==2 ? "\t\t":(num_tabs>2 ? "\t\t\t":""))), \
+       m,PNG_STRING_NEWLINE); \
+     fprintf(PNG_DEBUG_FILE,format,p1);
+#endif
+#ifndef png_debug2
+#define png_debug2(l,m,p1,p2) \
+     int num_tabs=l; \
+     char format[256]; \
+     snprintf(format,256,"%s%s%s",(num_tabs==1 ? "\t" : \
+       (num_tabs==2 ? "\t\t":(num_tabs>2 ? "\t\t\t":""))), \
+       m,PNG_STRING_NEWLINE); \
+     fprintf(PNG_DEBUG_FILE,format,p1,p2);
+#endif
+#endif /* __STDC __ */
 #endif /* (PNG_DEBUG > 1) */
 #endif /* _MSC_VER */
 #endif /* (PNG_DEBUG > 0) */
@@ -3190,6 +3240,15 @@ png_infop info_ptr, png_uint_32 *res_x, png_uint_32 *res_y, int *unit_type));
 
 /* Read the chunk header (length + type name) */
 PNG_EXTERN png_uint_32 png_read_chunk_header PNGARG((png_structp png_ptr));
+
+/* Added at libpng version 1.2.34 */
+#if defined(PNG_cHRM_SUPPORTED)
+PNG_EXTERN int png_check_cHRM_fixed  PNGARG((png_structp png_ptr,
+   png_fixed_point int_white_x, png_fixed_point int_white_y,
+   png_fixed_point int_red_x, png_fixed_point int_red_y, png_fixed_point
+   int_green_x, png_fixed_point int_green_y, png_fixed_point int_blue_x,
+   png_fixed_point int_blue_y));
+#endif
 
 /* Maintainer: Put new private prototypes here ^ and in libpngpf.3 */
 
