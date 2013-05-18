@@ -1,4 +1,4 @@
-# $MirOS: src/bin/mksh/Makefile,v 1.97 2012/04/07 11:19:46 tg Exp $
+# $MirOS: src/bin/mksh/Makefile,v 1.98 2012/04/14 16:07:44 tg Exp $
 #-
 # Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010,
 #		2011, 2012
@@ -78,7 +78,8 @@ regress: ${PROG} check.pl check.t
 	mkdir -p regress-dir
 	echo export FNORD=666 >regress-dir/.mkshrc
 	HOME=$$(realpath regress-dir) perl ${.CURDIR}/check.pl \
-	    -s ${.CURDIR}/check.t -v -p ./${PROG} -C fastbox,nodeprecated
+	    -s ${.CURDIR}/check.t -v -p ./${PROG} \
+	    -C shell:legacy-no,int:32,nodeprecated,fastbox
 
 test-build: .PHONY
 	-rm -rf build-dir
