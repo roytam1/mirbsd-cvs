@@ -740,7 +740,7 @@ zx_putchar(void *cookie, int row, int col, u_int uc, long attr)
 	volatile struct zx_draw *zd;
 	volatile u_int32_t *dp;
 	u_int8_t *fb;
-	int fs, i, fg, bg, ul;
+	int fs, i, fg, bg, ulflag;
 
 	ri = (struct rasops_info *)cookie;
 
@@ -759,7 +759,7 @@ zx_putchar(void *cookie, int row, int col, u_int uc, long attr)
 	fb = (u_int8_t *)font->data + (uc - font->firstchar) *
 	    ri->ri_fontscale;
 	fs = font->stride;
-	rasops_unpack_attr(attr, &fg, &bg, &ul);
+	rasops_unpack_attr(attr, &fg, &bg, &ulflag);
 
 	while ((zc->zc_csr & ZX_CSR_BLT_BUSY) != 0)
 		;
@@ -782,7 +782,7 @@ zx_putchar(void *cookie, int row, int col, u_int uc, long attr)
 	}
 
 	/* underline */
-	if (ul) {
+	if (ulflag & WSATTR_UNDERLINE) {
 		dp -= 2 << ZX_WWIDTH;
 		*dp = 0xffffffff;
 	}

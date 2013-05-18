@@ -419,20 +419,22 @@ pcdisplay_alloc_attr(id, fg, bg, flags, attrp)
 }
 
 static void
-pcdisplay_unpack_attr(id, attr, fg, bg, ul)
+pcdisplay_unpack_attr(id, attr, fg, bg, flags)
 	void *id;
 	long attr;
-	int *fg, *bg, *ul;
+	int *fg, *bg, *flags;
 {
 	if (attr == (FG_BLACK | BG_LIGHTGREY)) {
 		*fg = WSCOL_BLACK;
 		*bg = WSCOL_WHITE;
+		if (flags != NULL)
+			*flags = WSATTR_REVERSE;
 	} else {
 		*fg = WSCOL_WHITE;
 		*bg = WSCOL_BLACK;
+		if (flags != NULL)
+			*flags = 0;
 	}
-	if (ul != NULL)
-		*ul = 0;
 }
 
 struct cfdriver pcdisplay_cd = {

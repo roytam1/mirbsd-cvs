@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/dev/ic/vga.c,v 1.5 2007/02/06 21:40:40 tg Exp $ */
+/* $MirOS: src/sys/dev/ic/vga.c,v 1.6 2007/02/06 21:41:16 tg Exp $ */
 /* $OpenBSD: vga.c,v 1.42 2006/11/29 19:11:15 miod Exp $ */
 /* $NetBSD: vga.c,v 1.28.2.1 2000/06/30 16:27:47 simonb Exp $ */
 
@@ -1002,7 +1002,7 @@ vga_alloc_attr(id, fg, bg, flags, attrp)
 		if (flags & (WSATTR_UNDERLINE | WSATTR_REVERSE))
 			return (EINVAL);
 		if (flags & WSATTR_WSCOLORS)
-			*attrp = fgansitopc[fg] | bgansitopc[bg];
+			*attrp = fgansitopc[fg & 7] | bgansitopc[bg & 7];
 		else
 			*attrp = 7;
 		if (flags & WSATTR_HILIT)
@@ -1014,10 +1014,10 @@ vga_alloc_attr(id, fg, bg, flags, attrp)
 }
 
 void
-vga_unpack_attr(id, attr, fg, bg, ul)
+vga_unpack_attr(id, attr, fg, bg, flags)
 	void *id;
 	long attr;
-	int *fg, *bg, *ul;
+	int *fg, *bg, *flags;
 {
 	struct vgascreen *scr = id;
 	struct vga_config *vc = scr->cfg;
@@ -1025,16 +1025,23 @@ vga_unpack_attr(id, attr, fg, bg, ul)
 	if (vc->hdl.vh_mono) {
 		*fg = (attr & 0x07) == 0x07 ? WSCOL_WHITE : WSCOL_BLACK;
 		*bg = attr & 0x70 ? WSCOL_WHITE : WSCOL_BLACK;
-		if (ul != NULL)
-			*ul = *fg != WSCOL_WHITE && (attr & 0x01) ? 1 : 0;
+		if (flags != NULL)
+			*flags = (*bg == WSCOL_WHITE ? WSATTR_REVERSE : 0) |
+			    (((attr & 0x01) && ((attr & 0x07) != 0x07)) ?
+			    WSATTR_UNDERLINE : 0);
 	} else {
 		*fg = pctoansi[attr & 0x07];
 		*bg = pctoansi[(attr & 0x70) >> 4];
-		if (ul != NULL)
-			*ul = 0;
+		if (flags != NULL)
+			*flags = 0;
 	}
-	if (attr & FG_INTENSE)
+	if (attr & FG_BLINK && flags != NULL)
+		*flags |= WSATTR_BLINK;
+	if (attr & FG_INTENSE) {
 		*fg += 8;
+		if (flags != NULL)
+			*flags |= WSATTR_HILIT;
+	}
 }
 
 void
