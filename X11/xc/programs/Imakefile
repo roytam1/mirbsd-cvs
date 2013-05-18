@@ -34,7 +34,7 @@ SCREENSAVESRCDIR = beforelight
   LBXPROXYSRCDIR = lbxproxy
 #endif
   PROXYMGRSRCDIR = proxymngr
-    RSTARTSRCDIR = rstart
+    RSTARTSRCDIR =
    SMPROXYSRCDIR = smproxy
        TWMSRCDIR = twm
   XCONSOLESRCDIR = xconsole

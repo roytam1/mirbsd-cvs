@@ -1,4 +1,4 @@
-# $MirOS: X11/Makefile,v 1.35 2006/10/28 19:42:35 tg Exp $
+# $MirOS: X11/Makefile,v 1.36 2008/06/11 10:11:45 tg Exp $
 
 .include <bsd.own.mk>
 .include "${BSDSRCDIR}/Makefile.inc"
@@ -84,8 +84,6 @@ do-install:
 	    ${DESTDIR}/usr/X11R6/man/cat{1,3,4,5,7}
 	cd ${.CURDIR}/depends && exec ${MAKE} install
 	cd xc && ${MAKE} install CC="${CC}" && exec ${MAKE} install.man
-	cd xc/programs/rstart && ${MAKE} install CC="${CC}" \
-	    && exec ${MAKE} install.man
 	cd ${.CURDIR}/extras && exec ${MAKE} install
 	/usr/libexec/makewhatis ${DESTDIR}/usr/X11R6/man
 .if !defined(NOFONTS) || ${NOFONTS:L} == "no"
