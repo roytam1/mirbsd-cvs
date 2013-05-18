@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/ramdisk/list.local,v 1.11 2006/02/24 12:51:40 tg Exp $
+# $MirOS: src/distrib/i386/ramdisk/list.local,v 1.12 2006/02/24 12:58:02 tg Exp $
 
 # extra
 
@@ -56,6 +56,7 @@ SPECIAL	cp ${DESTDIR}/etc/skel/.etc/ssh/known_hosts .etc/ssh/known_hosts
 LINK	instbin					bin/date
 LINK	instbin					bin/ps
 LINK	instbin					bin/sync
+LINK	instbin					sbin/ancontrol
 LINK	instbin					sbin/atactl
 LINK	instbin					sbin/kbd
 LINK	instbin					sbin/mount_nfs

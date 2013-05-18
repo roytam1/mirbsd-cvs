@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/common/list,v 1.8 2005/12/21 17:52:13 tg Exp $
+# $MirOS: src/distrib/i386/common/list,v 1.9 2006/02/23 17:45:03 tg Exp $
 # $OpenBSD: list,v 1.15 2005/05/04 17:08:07 miod Exp $
 
 SRCDIRS distrib/special usr.bin/ssh
@@ -24,7 +24,6 @@ LINK	instbin					bin/pax bin/cpio bin/tar
 LINK	instbin					bin/rm
 LINK	instbin					bin/sleep
 LINK	instbin					bin/stty
-LINK	instbin					sbin/ancontrol
 LINK	instbin					sbin/dhclient
 LINK	instbin					sbin/disklabel
 LINK	instbin					sbin/dmesg
