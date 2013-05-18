@@ -1,8 +1,8 @@
 #!/bin/mksh
-# $MirOS: src/libexec/randshuffle/randshuffle,v 1.22 2008/07/30 19:38:54 tg Exp $
+# $MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $
 #-
-# Copyright (c) 2006, 2007, 2008
-#	Thorsten Glaser <tg@mirbsd.de>
+# Copyright (c) 2006, 2007, 2008, 2010
+#	Thorsten Glaser <tg@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
 # are retained or reproduced in an accompanying document, permission
@@ -46,9 +46,10 @@ fi
 sleep $((RANDOM % 120 + 30))
 (print -r "$$ $((RANDOM << 15 | RANDOM)) $PPID $SECONDS $TMOUT $KSH_VERSION"; \
  sysctl -a; ps -akwwx -o "$(ps -L)"; ps -aexwwo pid,args; ps -axwwo pid,args; \
- date) 2>&1 | cksum -ba sha256 >/dev/wrandom
+ date) 2>&1 | \
+    cksum -ba oaat1s -a sfv -a sha256 -a tiger -a whirlpool >/dev/wrandom
 sleep $((RANDOM % 9 + 9))
-cat "${files[@]}" >/dev/urandom 2>/dev/wrandom
+cat "${files[@]}" >/dev/arandom 2>/dev/wrandom
 sleep $((RANDOM % 9 + 9))
 umask 077
 for file in "${files[@]}"; do
