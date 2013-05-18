@@ -2859,4 +2859,9 @@ Author: tg@
  issues have been fixed too. Plus, all the hashes, including ADLER32,
  SFV, SUMA, TIGER and WHIRLPOOL, now work on Darwin too (tested on both
  i386 and macppc).</p>
+<p>Now it’s release engineering. I have started tagging, after a few
+ final updates and fixes, and asked Benny to write a release announcement.
+ Let’s see when the builds are done, calculate a good four days for the
+ sparc side. Afterwards, we’ll switch to wlog-10, and back up the repo to
+ get it all on one CD (i386, sparc, source, CVS).</p>
 ----
