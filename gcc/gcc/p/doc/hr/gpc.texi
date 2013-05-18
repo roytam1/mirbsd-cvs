@@ -220,12 +220,12 @@ Dodatak:
 * GNU::               GNU projekt.
 * Indeks::            Indeks koncepta i imena simbola (nedovr¹eno).
 
+@end menu
+
 (Napomena: naslovi nekih poglavlja nisu prevedeni zbog unakrsnih referenci iz
            neprevedenih poglavlja priruènika i prema njima. Ponegdje u
            izborniku bi se mogao pojaviti problem oko `è' i sl. zbog buga
            u starijim verzijama - <= 4.0f - GNU `info' programa.)
-
-@end menu
 
 @include welcome.texi
 @include about.texi

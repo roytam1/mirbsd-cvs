@@ -1,4 +1,4 @@
-# $MirOS: gcc/gpcdoc/Makefile,v 1.4 2009/12/27 16:43:05 tg Exp $
+# $MirOS: gcc/gpcdoc/Makefile,v 1.5 2009/12/27 17:05:41 tg Exp $
 
 MAN=		gpc.1 gpc-run.1
 
@@ -12,7 +12,9 @@ HTMLFILES=	${INFOFILES:.info=.html}
 # aiding the GNU Make-lang.in copied part
 srcdir=		${.CURDIR}/../gcc
 MAKEINFO=	makeinfo
-MAKEINFOFLAGS=	--no-split --enable-encoding
+MAKEINFOFLAGS=	--no-split
+MAKEINFO_INFO=	--enable-encoding
+MAKEINFO_HTML=	--html
 
 # copied from gpc p/Make-lang.in {{{
 GPC_GENERATED_TEXI=\
@@ -114,35 +116,36 @@ MAKEINFO_HR=LANG=hr_HR LC_ALL=hr_HR $(MAKEINFO) $(MAKEINFOFLAGS) $(GPC_DOC_DIRS_
 
 # adapted from gpc p/Make-lang.in
 gpc.info: $(GPC_TEXI_EN)
-	$(MAKEINFO_EN) -o $@ gpc.texi
+	$(MAKEINFO_EN) ${MAKEINFO_INFO} -o $@ gpc.texi
 
 gpcs.info: $(GPC_TEXI_EN)
-	$(MAKEINFO_EN) -o $@ gpcs.texi
+	$(MAKEINFO_EN) ${MAKEINFO_INFO} -o $@ gpcs.texi
 
 gpcs-de.info: $(GPC_TEXI_DE)
-	$(MAKEINFO_DE) -o $@ gpcs.texi
+	$(MAKEINFO_DE) ${MAKEINFO_INFO} -o $@ gpcs.texi
 
 gpc-hr.info: $(GPC_TEXI_HR)
-	$(MAKEINFO_HR) -o $@ gpc.texi
+	$(MAKEINFO_HR) ${MAKEINFO_INFO} -o $@ gpc.texi
 
 gpcs-hr.info: $(GPC_TEXI_HR)
-	$(MAKEINFO_HR) -o $@ gpcs.texi
+	$(MAKEINFO_HR) ${MAKEINFO_INFO} -o $@ gpcs.texi
 
 # and once again, for HTML output
 gpc.html: $(GPC_TEXI_EN)
-	$(MAKEINFO_EN) --html -o $@ gpc.texi
+	$(MAKEINFO_EN) ${MAKEINFO_HTML} -o $@ gpc.texi
 
 gpcs.html: $(GPC_TEXI_EN)
-	$(MAKEINFO_EN) --html -o $@ gpcs.texi
+	$(MAKEINFO_EN) ${MAKEINFO_HTML} -o $@ gpcs.texi
 
 gpcs-de.html: $(GPC_TEXI_DE)
-	$(MAKEINFO_DE) --html -o $@ gpcs.texi
+	$(MAKEINFO_DE) ${MAKEINFO_HTML} -o $@ gpcs.texi
 
 gpc-hr.html: $(GPC_TEXI_HR)
-	$(MAKEINFO_HR) --html -o $@ gpc.texi
+	$(MAKEINFO_HR) ${MAKEINFO_HTML} -o $@ gpc.texi
 
 gpcs-hr.html: $(GPC_TEXI_HR)
-	$(MAKEINFO_HR) --html -o $@ gpcs.texi
+	$(MAKEINFO_HR) ${MAKEINFO_HTML} -o $@ gpcs.texi
+
 
 all: ${INFOFILES} ${HTMLFILES}
 CLEANFILES+=	${INFOFILES} ${HTMLFILES}

@@ -249,7 +249,7 @@ ih je preveo na njemaèki.
 @item Prof.@: Phil Nelson
 kreirao je sustav za prijavu bugova za GPC u listopadu 1996.
 
-@item @uref{Robert Höhne}
+@item Robert Höhne
 napisao je @uref{http://www.tu-chemnitz.de/~rho/rhide.html,RHIDE},
 integriranu razvojnu okolinu za GNU prevoditelje koja se vrti pod
 DOS-om (DJGPP) i Linuxom, te dodao podr¹ku za GNU Pascal u jesen

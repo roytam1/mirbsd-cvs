@@ -211,7 +211,7 @@ izvornim kodom.
 @html
 <table align=right><tr><td>
 <a href="../images/crtdemo.png">
-<img alt="[CRTDemo screen] src="../images/crtdemo-small.png" width=133 height=138>
+<img alt="[CRTDemo screen]" src="../images/crtdemo-small.png" width=133 height=138>
 <br>
 (PNG, 21 kB)
 </a>
