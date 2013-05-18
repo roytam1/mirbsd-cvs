@@ -157,7 +157,7 @@
 #endif
 
 #ifdef EXTERN
-__RCSID("$MirOS: src/bin/mksh/sh.h,v 1.577 2012/08/03 18:45:32 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/sh.h,v 1.578 2012/08/17 18:34:24 tg Exp $");
 #endif
 #define MKSH_VERSION "R40 2012/08/17"
 
@@ -1632,7 +1632,7 @@ char *evalstr(const char *cp, int);
 char *evalonestr(const char *cp, int);
 char *debunk(char *, const char *, size_t);
 void expand(const char *, XPtrV *, int);
-int glob_str(char *, XPtrV *, int);
+int glob_str(char *, XPtrV *, bool);
 /* exec.c */
 int execute(struct op * volatile, volatile int, volatile int * volatile);
 int shcomexec(const char **);

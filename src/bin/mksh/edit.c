@@ -28,7 +28,7 @@
 
 #ifndef MKSH_NO_CMDLINE_EDITING
 
-__RCSID("$MirOS: src/bin/mksh/edit.c,v 1.244 2012/07/20 20:50:07 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/edit.c,v 1.245 2012/07/20 22:47:22 tg Exp $");
 
 /*
  * in later versions we might use libtermcap for this, but since external
@@ -779,7 +779,7 @@ glob_path(int flags, const char *pat, XPtrV *wp, const char *lpath)
 
 		oldsize = XPsize(*wp);
 		/* mark dirs */
-		glob_str(Xstring(xs, xp), wp, 1);
+		glob_str(Xstring(xs, xp), wp, true);
 		newsize = XPsize(*wp);
 
 		/* Check that each match is executable... */
