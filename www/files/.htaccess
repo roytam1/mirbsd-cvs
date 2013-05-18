@@ -1,4 +1,4 @@
-# $MirOS: www/files/.htaccess,v 1.5 2008/03/24 19:59:48 tg Exp $
+# $MirOS: www/files/.htaccess,v 1.6+1 2008/09/17 21:12:18 tg uncommitted $
 
 Options ExecCGI Indexes SymLinksIfOwnerMatch
 IndexOptions -FancyIndexing
@@ -40,6 +40,14 @@ AddType 'text/plain; charset=cp437' asc
 AddType 'text/plain; charset=utf-8' txt
 AddType 'application/x-x509-ca-cert' cer
 AddType 'application/metalink+xml' metalink
+
+# serve XHTML stuff as text/html by default, but upgrade
+# to application/xml+xhtml if the client requests it
+RewriteEngine On
+RewriteCond %{HTTP_ACCEPT} application/xhtml\+xml
+RewriteCond %{HTTP_ACCEPT} !application/xhtml\+xml\s*;\s*q=0
+RewriteCond %{THE_REQUEST} HTTP/1\.1
+RewriteRule \.htm$ - [T=application/xhtml+xml]
 
 # forced text files
 <Files LICENCE>
