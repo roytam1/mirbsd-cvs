@@ -1,4 +1,4 @@
-# $MirOS: src/lib/Makefile,v 1.8 2006/07/03 16:30:32 tg Exp $
+# $MirOS: src/lib/Makefile,v 1.10 2006/10/28 19:07:32 tg Exp $
 # $OpenBSD: Makefile,v 1.49 2003/05/14 01:46:51 hin Exp $
 # $NetBSD: Makefile,v 1.20.4.1 1996/06/14 17:22:38 cgd Exp $
 
@@ -11,7 +11,6 @@
   SUBDIR+= libcitrus_iconv
 .endif
   SUBDIR+= libcompat
-# SUBDIR+= libcurses
   SUBDIR+= libdes
   SUBDIR+= libedit
   SUBDIR+= libevent
