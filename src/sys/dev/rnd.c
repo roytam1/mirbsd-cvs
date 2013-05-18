@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/rnd.c,v 1.28 2007/06/27 18:33:04 tg Exp $ */
+/**	$MirOS: src/sys/dev/rnd.c,v 1.29 2007/07/26 10:16:21 tg Exp $ */
 /*	$OpenBSD: rnd.c,v 1.78 2005/07/07 00:11:24 djm Exp $	*/
 
 /*
@@ -432,7 +432,7 @@ struct rndstats rndstats;
 
 void srandom(u_long);
 void prnd_reinit(void *);
-static void rnd_addpool_reinit(void *);
+void rnd_addpool_reinit(void *);
 
 static u_int32_t roll(u_int32_t w, int i)
 {
@@ -586,7 +586,8 @@ arc4maybeinit(void)
 
 	if (!arc4random_initialised) {
 		/* 10 minutes, per dm@'s suggestion */
-		timeout_add(&arc4_timeout, 10 * 60 * hz);
+		if (rnd_attached)
+			timeout_add(&arc4_timeout, 10 * 60 * hz);
 		arc4random_initialised++;
 		arc4_stir();
 	}
@@ -616,9 +617,14 @@ prnd_reinit(void *v)
 	extern int hz;
 	extern volatile int ticks;
 
+	if (!rnd_attached) {
+		srandom(ticks ^ time.tv_sec);
+		return;
+	}
+
 	timeout_add(&prnd_timeout, hz << 8);
 	/* re-seed the PRNG about once every 4-and-a-bit minutes */
-	srandom(rnd_attached ? arc4random() : (ticks ^ time.tv_sec));
+	srandom(arc4random());
 }
 
 void
@@ -663,7 +669,7 @@ randomattach(void)
 	for (i = 0; i < 256; i++)
 		arc4random_state.s[i] = i;
 	arc4_reinit(NULL);
-	rnd_addpool_reinit(NULL);
+	timeout_add(&rnd_addpool_timeout, hz << 5);
 
 	++rnd_attached;
 	/* this one is enqueued in init_main.c */
@@ -1247,16 +1253,19 @@ randomioctl(dev_t dev, u_long cmd, caddr_t data, int flag, struct proc *p)
 	return (ret);
 }
 
-static void
+void
 rnd_addpool_reinit(void *v)
 {
 	extern int hz;
 	register int i;
 	register uint32_t j;
 
-	if (!rnd_addpool_allow || !rnd_attached) {
-		/* reschedule in eight minutes if disabled, a half on boot */
-		timeout_add(&rnd_addpool_timeout, hz << (rnd_attached ? 9 : 5));
+	if (!rnd_attached)
+		return;
+
+	if (!rnd_addpool_allow) {
+		/* reschedule to try again in eight minutes if disabled */
+		timeout_add(&rnd_addpool_timeout, hz << 9);
 		return;
 	}
 
