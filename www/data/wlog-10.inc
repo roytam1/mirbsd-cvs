@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.254 2009/11/08 20:09:06 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.255 2009/11/12 19:21:01 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -5414,4 +5414,32 @@ Date: 12.11.2009 19:16
 <p>Of course I still have to make a MirPort for that Lua dæmon, but for
  now, things work quite well. (I do have a rather large TODO and woke up
  with headaches and slight cold today.)</p>
+----
+Title: Yes, I am happy with my eKey ☺
+Author: tg@
+Date: 15.11.2009 01:49
+
+<p><a href="@@RELPATH@@permalinks/wlog-10_e20091112-tg.htm">I am, indeed,
+ happy</a> with my <a href="http://www.entropykey.co.uk/">eKey</a>. I’ve
+ <a href="@@ABSPATH@@/cvs.cgi/ports/security/ekeyd/">ported</a> the ekeyd
+ support software (but could not get ekey-ulusbd to work), created a real
+ lot of patches, and discussed with «rjek» in IRC happily.</p>
+<p>I now get about 4 KiB/sec on large streams (such as 64 KiB) reads from
+ srandom(4), with 8 KiB/sec initially, in contrast to the less-than-100
+ Bytes per second (300 Bytes per second initially) without the eKey.</p>
+<p>Of course, there’s still room for improvement – I fixed the ioctl(2)
+ calls, removed strcpy(3) and sprintf(3) calls, and added arc4random_buf(3)
+ calls for generating the nonce (which can now be made much larger than
+ the 12 conservative bytes the original code reads from urandom(4)), and
+ made it work <em>at all</em> on our platform (and, possible, OpenBSD).
+ But I get statistics now, even if told that my <tt>ekeyrng</tt> mksh(1)
+ script is “Cute”.</p>
+<p>Make sure you update to at least <tt>luasocket-2.0.1-1</tt> for some
+ bugfix (pkg_info(1) has <a href="http://marc.info/?m=125823720030423">a
+ bug</a> preventing it from seeing that – what worries me even more are
+ some outputs not sent with the mail), and that you have a recent kernel
+ (post the “wtf ist hallowe’en” snapshot!) since lsusb (even when ported)
+ doesn’t output anything, and nobody knows what arguments to ekey-ulusbd
+ are needed to make it find the eKey.</p>
+<p>ObInfo: new CA bundles are out too, and more binary packages.</p>
 ----
