@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.57 2006/06/25 05:39:48 tg Exp $
+# $MirOS: src/Makefile,v 1.58 2006/07/01 00:34:59 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -69,6 +69,7 @@ distrib-dirs:
 	[[ -d ${DESTDIR}/. ]] || \
 	    ${SUDO} ${INSTALL} -d -o root -g wheel -m 755 ${DESTDIR}
 	${SUDO} mtree -p ${DESTDIR}/ -Uqdef ${.CURDIR}/etc/mtree/4.4BSD.dist
+	${SUDO} mtree -p ${DESTDIR}/ -Uqdef ${.CURDIR}/etc/mtree/special
 	cd ${DESTDIR}/var/anoncvs/anoncvs && \
 	    ${SUDO} rm -f usr var && \
 	    ${SUDO} ln -s . var
