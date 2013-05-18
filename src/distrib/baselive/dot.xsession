@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/baselive/dot.xsession,v 1.13 2009/10/31 20:09:54 tg Exp $
+# $MirOS: src/distrib/baselive/dot.xsession,v 1.14 2009/10/31 21:16:37 tg Exp $
 #-
 # Copyright (c) 2006, 2007, 2008, 2009
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -38,14 +38,16 @@ failsafe='xterm -geometry 80x24-0-0'
 text=twm:101,evilwm-session:102,evilwm-bare:103,failsafe:1
 typeset -i number=104
 set -A wm
+defwm=twm
 wm[0]=twm
 wm[1]=$failsafe
 wm[101]=twm
 wm[102]=evilwm-session
 wm[103]=evilwm
 if x=$(whence -p icewm-session); then
-	wm[0]=$x
 	text=$text,icewm:$number
+	defwm=icewm
+	wm[0]=$x
 	wm[number++]=$x
 fi
 if x=$(whence -p wm2); then
