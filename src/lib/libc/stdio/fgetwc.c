@@ -34,6 +34,8 @@
 #include <wchar.h>
 #include "local.h"
 
+__RCSID("$MirOS$");
+
 wint_t __fgetwc_unlock(FILE *);
 
 wint_t
@@ -71,6 +73,7 @@ __fgetwc_unlock(FILE *fp)
 		c = ch;
 		size = mbrtowc(&wc, &c, 1, st);
 		if (size == (size_t)-1) {
+			fp->_flags |= __SERR;
 			errno = EILSEQ;
 			return WEOF;
 		}
