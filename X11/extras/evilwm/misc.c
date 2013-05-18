@@ -11,6 +11,8 @@
 #include "evilwm.h"
 #include "log.h"
 
+__RCSID("$MirOS$");
+
 /* Now do this by fork()ing twice so we don't have to worry about SIGCHLDs */
 void spawn(const char *const cmd[]) {
 	pid_t pid;

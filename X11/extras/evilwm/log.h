@@ -2,8 +2,8 @@
  * Copyright (C) 1999-2005 Ciaran Anscomb <evilwm@6809.org.uk>
  * see README for license and other details. */
 
-#ifndef __LOG_H__
-#define __LOG_H__
+#ifndef LOG_H
+#define LOG_H "$MirOS$"
 
 #if defined(STDIO) || defined(DEBUG) || defined(XDEBUG)
 # include <stdio.h>
@@ -29,4 +29,4 @@
 # define LOG_XDEBUG(...)
 #endif
 
-#endif  /* __LOG_H__ */
+#endif

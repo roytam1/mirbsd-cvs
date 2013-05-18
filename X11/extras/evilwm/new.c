@@ -9,6 +9,8 @@
 #include "evilwm.h"
 #include "log.h"
 
+__RCSID("$MirOS$");
+
 #ifdef MWM_HINTS
 static PropMwmHints *get_mwm_hints(Window);
 #endif

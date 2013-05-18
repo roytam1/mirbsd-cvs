@@ -1,4 +1,5 @@
-/* $MirOS$ */
+#ifndef EVILWM_H
+#define EVILWM_H "$MirOS$"
 
 #include <X11/X.h>
 #include <X11/Xlib.h>
@@ -235,3 +236,5 @@ void hide(Client *c);
 void switch_vdesk(int v);
 #endif /* def VWM */
 ScreenInfo *find_screen(Window root);
+
+#endif

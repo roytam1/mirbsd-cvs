@@ -10,6 +10,11 @@
 #include "evilwm.h"
 #include "log.h"
 
+__RCSID("$MirOS$");
+__IDSTRING(rcsid_evilwm_h, EVILWM_H);
+__IDSTRING(rcsid_keymap_h, KEYMAP_H);
+__IDSTRING(rcsid_log_h, LOG_H);
+
 Display		*dpy;
 int 		num_screens;
 ScreenInfo	*screens;
@@ -129,7 +134,7 @@ int main(int argc, char *argv[]) {
 			grabmask2 = parse_modifiers(argv[i]);
 #ifdef STDIO
 		} else if (!strcmp(argv[i], "-V")) {
-			LOG_INFO("evilwm version " VERSION " $MirOS: X11/extras/evilwm/main.c,v 1.5 2005/11/22 22:35:35 tg Exp $\n");
+			LOG_INFO("evilwm version " VERSION " $MirOS: X11/extras/evilwm/main.c,v 1.6 2006/08/14 18:57:57 tg Exp $\n");
 			exit(0);
 #endif
 		} else {

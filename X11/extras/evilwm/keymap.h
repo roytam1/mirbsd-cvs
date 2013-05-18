@@ -1,5 +1,5 @@
-#ifndef _KEYMAP_H
-#define _KEYMAP_H
+#ifndef KEYMAP_H
+#define KEYMAP_H "$MirOS$"
 
 #define KEY_NEXT	XK_Tab
 #define KEY_NEW		XK_Return

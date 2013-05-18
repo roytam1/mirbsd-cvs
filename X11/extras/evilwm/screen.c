@@ -8,6 +8,8 @@
 #include "evilwm.h"
 #include "log.h"
 
+__RCSID("$MirOS$");
+
 #ifdef INFOBANNER
 Window info_window = None;
 
