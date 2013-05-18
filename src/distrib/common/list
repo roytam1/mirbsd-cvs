@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/list,v 1.13 2007/04/02 10:18:38 tg Exp $
+# $MirOS: src/distrib/common/list,v 1.14 2007/05/24 20:32:19 tg Exp $
 
 # standard tools in the crunched binary
 COPY	${OBJDIR}/instbin			instbin
@@ -33,6 +33,7 @@ LINK	instbin					sbin/mount_ffs
 LINK	instbin					sbin/mount_nfs
 LINK	instbin					sbin/newfs sbin/mount_mfs
 LINK	instbin					sbin/ping
+LINK	instbin					sbin/ping6
 LINK	instbin					sbin/reboot sbin/halt
 LINK	instbin					sbin/route
 LINK	instbin					sbin/rtsol
@@ -50,6 +51,7 @@ LINK	instbin					usr/bin/script
 LINK	instbin					usr/bin/sed
 LINK	instbin					usr/mdec/installboot
 LINK	instbin					usr/sbin/chkuterm
+LINK	instbin					usr/sbin/chroot
 LINK	instbin					usr/sbin/sysctl
 LINK	instbin					usr/sbin/vnconfig
 ARGVLINK mksh					-mksh

@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/listend.i386-big,v 1.14 2007/03/18 02:54:38 tg Exp $
+# $MirOS: src/distrib/common/listend.i386-big,v 1.15 2007/04/30 18:26:13 tg Exp $
 
 # extra programmes
 LINK	instbin					bin/ps
@@ -14,7 +14,6 @@ LINK	instbin					sbin/mountd
 LINK	instbin					sbin/newfs_msdos
 LINK	instbin					sbin/nfsd
 LINK	instbin					sbin/pfctl
-LINK	instbin					sbin/ping6
 LINK	instbin					sbin/portmap
 LINK	instbin					sbin/raidctl
 LINK	instbin					sbin/restore
@@ -31,7 +30,6 @@ LINK	instbin					usr/bin/showmount
 LINK	instbin					usr/bin/ssh
 LINK	instbin					usr/bin/ssh-keygen
 LINK	instbin					usr/libexec/tftpd
-LINK	instbin					usr/sbin/chroot
 LINK	instbin					usr/sbin/dhcpd
 LINK	instbin					usr/sbin/fdformat
 LINK	instbin					usr/sbin/ifwatchd
