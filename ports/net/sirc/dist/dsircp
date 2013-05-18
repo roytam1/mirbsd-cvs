@@ -1,5 +1,5 @@
 #!/usr/bin/perl
-# $MirOS: ports/net/sirc/dist/dsircp,v 1.12 2007/05/20 23:01:27 tg Exp $
+# $MirOS: ports/net/sirc/dist/dsircp,v 1.12.2.1 2008/07/08 02:11:46 tg Exp $
 #-
 # dsircp: dumb-mode small irc client in perl
 # by orabidoo <roger.espel.llima@pobox.com>
@@ -1503,6 +1503,17 @@ sub docommand {
       &sl("PRIVMSG $newarg :\caPING $t\ca");
       &dohooks("send_ctcp", $newarg, "PING $t");
       &tell("*** Sending a CTCP PING to $newarg");
+    } else {
+      &tell("*\cbE\cb* You must specify a nick or channel!");
+    }
+  } elsif ($cmd eq 'RANDEX') {
+    &dosplat;
+    if ($args) {
+      local($t) = pack("u", arc4random_bytes(32, "send to $args"));
+      chop($t);
+      &getarg;
+      &sl("PRIVMSG $newarg :\caENTROPY $t\ca");
+      &tell("*D* Sending a CTCP ENTROPY to $newarg");
     } else {
       &tell("*\cbE\cb* You must specify a nick or channel!");
     }
