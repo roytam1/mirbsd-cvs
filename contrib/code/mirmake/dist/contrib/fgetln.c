@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/mirmake/dist/contrib/fgetln.c,v 1.3 2008/04/06 22:35:24 tg Exp $ */
+/* $MirOS: contrib/code/mirmake/dist/contrib/fgetln.c,v 1.4 2009/05/20 10:22:33 tg Exp $ */
 
 /*-
  * Copyright (c) 2007
@@ -27,7 +27,7 @@
 #include <stdio.h>
 #include <string.h>
 
-__RCSID("$MirOS: contrib/code/mirmake/dist/contrib/fgetln.c,v 1.3 2008/04/06 22:35:24 tg Exp $");
+__RCSID("$MirOS: contrib/code/mirmake/dist/contrib/fgetln.c,v 1.4 2009/05/20 10:22:33 tg Exp $");
 
 #if defined(__GLIBC__)
 
@@ -38,10 +38,16 @@ char *fgetln(FILE *, size_t *);
 char *
 fgetln(FILE *stream, size_t *len)
 {
-	char *lb = NULL;
-	size_t lbsz = 0;
+	static char *lb = NULL;
+	static size_t lbsz = 0;
 
-	*len = getline(&lb, &lbsz, stream);
-	return ((*len == (size_t)-1) ? NULL : lb);
+	if ((*len = getline(&lb, &lbsz, stream)) != (size_t)-1)
+		return (lb);
+
+	/* not required by manpage, but reference implementation does this */
+	*len = 0;
+
+	/* not required to zero lb or lbsz: getdelim manages it */
+	return (NULL);
 }
 #endif
