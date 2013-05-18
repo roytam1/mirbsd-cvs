@@ -22,7 +22,7 @@
 
 #include "sh.h"
 
-__RCSID("$MirOS: src/bin/mksh/eval.c,v 1.63 2009/07/25 20:26:31 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/eval.c,v 1.64 2009/08/01 19:31:02 tg Exp $");
 
 /*
  * string expansion
@@ -1425,7 +1425,7 @@ homedir(char *name)
 {
 	struct tbl *ap;
 
-	ap = ktenter(&homedirs, name, hash(name));
+	ap = ktenter(&homedirs, name, hash(name), NULL);
 	if (!(ap->flag & ISSET)) {
 		struct passwd *pw;
 
