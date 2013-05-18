@@ -2,7 +2,7 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.177 2008/10/25 18:26:55 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.178 2008/10/25 18:40:32 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R36</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -1004,8 +1004,16 @@ mws_content <<'EOF'
   &lt;awmorp@gmail.com&gt; – maybe the rest is a kernel bug?)</li>
  <!-- li>Import the GNU bash- and zsh-style ability to get and set multiple
   limits in a single invocation from oksh (thanks millert) -->
- <li>Add check for naming the output file “scn” instead of “a.out” or
+ <li>[tg] Add check for naming the output file “scn” instead of “a.out” or
   “a.exe” when compiling scn.c, for Haiku, from Adam “replaced” Hoka</li>
+ <li>[tg] Rewrite utf_backch macro and x_bs2 function into a combined
+  x_bs3 function for the Emacs editing mode, to optimise them and get
+  rid of the use of <tt>__typeof__</tt> (suggested by Anders “ragge”
+  Magnusson after the problem was spot by replaced) and one of the uses
+  of the statements-as-expressions feature</li>
+ <li>[ahoka] Add mirtoconf check for nice(3), missing on Haiku</li>
+ <li>[ahoka] Begin porting to <a href="http://www.haiku-os.org/">Haiku</a>
+  and, implicitly, BeOS (not finished yet)</li>
 </ul>
 <p id="r36">mksh R36 features the following changes:</p><ul>
  <li>Fix <tt>Build.sh</tt> invocation without ‘-r’, 10x Elias Pipping</li>

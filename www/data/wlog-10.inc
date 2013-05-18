@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.88 2008/10/22 21:14:46 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.89 2008/10/24 22:36:37 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -1894,4 +1894,35 @@ Title: Giving up far-away aims to achieve the nearest ones at all
  work, and his Officejet not, we belive that either the ISDN voltage (it
  was accidentally plugged next to the NTBA first) or, much more likely, a
  recent thunderstorm b0rked it. So much for high-tech. My low-tech works.</p>
+----
+Date: 26.10.2008 22:20
+Author: tg@
+Title: new developer
+
+<p>Adam “replaced” Hoka, who has advertised and bug-spotted (and fixed)
+ in the past, begun a Haiku port of <a href="@@RELPATH@@mksh.htm">mksh</a>.
+ He has been given CVS commit access for that purpose (possibly extended
+ later), and as such, is now the 8th developer (counting both active and
+ passive ones) to The MirOS Project.</p>
+<p>Apparently, the Haiku port now compiles but does not run. Possibly
+ another buggy operating system to add to the list.</p>
+<p>I somehow end up fixing <a href="http://pcc.ludd.ltu.se/">pcc</a> each
+ time I try to build it. But code size on i386 has <em>much</em> improved
+ recently, although still nowhere near gcc ‘-Os’ already much better than
+ its ‘-O2’ counterpart, both gcc3 and gcc4. I’m still waiting for more bug
+ fixes, and more of my fixes integrated into upstream, before updating the
+ pcc mirport though.</p>
+<p>While I removed the use of <tt>__typeof__</tt> from the mksh(1) source,
+ SUNWcc still explodes on it unless we use <tt>HAVE_EXPSTMT=0</tt> *sigh*</p>
+<p>There are new “hosted” subprojects in our CVS repository. These are for
+ each committer to place his/her stuff into, which, in contrast to other
+ stuff in the <tt>contrib</tt> module, does not necessarily need to have
+ something to do with BSD, Unix, shell, etc. However, existing mismatched
+ code (the .exe files of my keyboard layout and Benny’s polymers code) will
+ not be moved, because that doesn’t make sense with cvs(1).</p>
+<p>Today, my health has been somewhat better, but I still feel as if I had
+ a cold but hidden, so it does not impact me that much but I cannot lose it
+ either. Headaches started at about 20³⁰, which I consider good, even though
+ I now cannot comply with Jonathan’s wish of having a look at llvm-gcc for
+ spotting a bug in libobjfw.</p>
 ----

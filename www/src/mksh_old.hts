@@ -1,10 +1,10 @@
-# $MirOS: www/src/mksh_old.hts,v 1.10 2008/07/28 03:22:32 tg Exp $
+# $MirOS: www/src/mksh_old.hts,v 1.11 2008/09/30 17:34:25 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh/old "mksh – old versions"
-mws_putheader '$MirOS: www/src/mksh_old.hts,v 1.10 2008/07/28 03:22:32 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh_old.hts,v 1.11 2008/09/30 17:34:25 tg Exp $'
 mws_content <<'EOF'
 <h1><a href="mksh.htm">mksh</a> – old versions</h1>
 <p>This page lists information about mksh R29 and earlier.</p>
@@ -649,7 +649,7 @@ mws_content <<'EOF'
  <li>please GCC 4 with the usual crazy set of warning flags</li>
  <li>remove 'version' editor binding and remap emacs ^V to quote-meta ('literal')</li>
  <li>use open(2) instead of creat(3), from OpenBSD</li>
- <li>fix order of includes</li>
+ <li>[bsiegert] fix order of includes</li>
  <li>some code simplification; no explicit LFS needed any more</li>
 </ul>
 <p>R24 is an <b>important bug fix</b> release and the new required
