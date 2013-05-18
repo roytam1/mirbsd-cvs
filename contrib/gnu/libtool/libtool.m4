@@ -1,4 +1,4 @@
-# $MirOS: contrib/gnu/libtool/libtool.m4,v 1.63 2008/05/03 18:42:38 tg Exp $
+# $MirOS: contrib/gnu/libtool/libtool.m4,v 1.64 2008/05/03 20:41:19 tg Exp $
 #-
 # libtool.m4 - Configure libtool for the host system. -*-Autoconf-*-
 ## Copyright 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005, 2006, 2007,
@@ -473,6 +473,7 @@ AC_DEFUN([_LT_REQUIRED_DARWIN_CHECKS],[
     AC_CACHE_CHECK([for -exported_symbols_list linker flag],
       [lt_cv_ld_exported_symbols_list],
       [lt_cv_ld_exported_symbols_list=no
+ifelse(AC_AUTOCONF_VERSION, [2.13], [], [
       save_LDFLAGS=$LDFLAGS
       echo "_main" > conftest.sym
       LDFLAGS="$LDFLAGS -Wl,-exported_symbols_list,conftest.sym"
@@ -480,6 +481,7 @@ AC_DEFUN([_LT_REQUIRED_DARWIN_CHECKS],[
    [lt_cv_ld_exported_symbols_list=yes],
    [lt_cv_ld_exported_symbols_list=no])
    LDFLAGS="$save_LDFLAGS"
+])
     ])
     case $host_os in
     rhapsody* | darwin1.[[0123]])
@@ -527,6 +529,7 @@ AC_DEFUN([_LT_REQUIRED_DARWIN_CHECKS],[
 # to the aix ld manual.
 AC_DEFUN([_LT_AC_SYS_LIBPATH_AIX],
 [AC_REQUIRE([LT_AC_PROG_SED])dnl
+ifelse(AC_AUTOCONF_VERSION, [2.13], [aix_libpath="/usr/lib:/lib"], [
 AC_LINK_IFELSE(AC_LANG_PROGRAM,[
 lt_aix_libpath_sed='
     /Import File Strings/,/^$/ {
@@ -541,6 +544,7 @@ if test -z "$aix_libpath"; then
   aix_libpath=`dump -HX64 conftest$ac_exeext 2>/dev/null | $SED -n -e "$lt_aix_libpath_sed"`
 fi],[])
 if test -z "$aix_libpath"; then aix_libpath="/usr/lib:/lib"; fi
+])
 ])# _LT_AC_SYS_LIBPATH_AIX
 
 
