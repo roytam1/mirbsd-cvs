@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.289 2009/10/15 12:58:56 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.290 2009/10/15 18:16:03 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -214,14 +214,15 @@ mws_content <<'EOF'
 <li><tt>-j</tt> – parallel build (mksh R31d and up)</li>
 <li><tt>-llvm[=…]</tt> – compile to bytecode; option arguments (or, if none
  given, ‘-std-compile-opts’) are passed to LLVM opt (mksh R36b and up)</li>
+<li><tt>-M</tt> – instead of compiling, create <tt>Makefrag.inc</tt> (R40+)</li>
 <li><tt>-Q</tt> – be (only) a little less verbose</li>
 <li><tt>-r</tt> – don’t try to build a pre-formatted version
  of the manual page using nroff(1) if found – <em>recommended</em></li>
 </ul>
-<p>Note on <tt>-j</tt> vs <tt>-llvm</tt> vs <tt>-combine</tt>: these three
- are mutually exclusive and, in this paragraph, listed in the order of
- preference, with the least preferred first (being <tt>-j</tt>) and the
- most preferred last (being <tt>-combine</tt> which achieves the best
+<p>Note on <tt>-combine</tt> vs <tt>-j</tt> vs <tt>-llvm</tt> vs
+ <tt>-M</tt>: these four are mutually exclusive. The least preferred of
+ the three actually compiling flavours is <tt>-j</tt>, and the one we
+ consider best is <tt>-combine</tt> (since it achieves the best
  optimisations). It is sometimes possible to use <tt>-j</tt> together
  with <tt>-llvm</tt> to parallelise LLVM Bytecode generation, though.</p>
 <p>The build script also honours the following environment variables:</p><ul>
@@ -1035,6 +1036,12 @@ mws_content <<'EOF'
  <li>[tg] Fix getopts behaviour (sync with AT&amp;T ksh93 not ksh88)</li>
  <li>[tg] “eval $(false)” shall return 0 (Debian Closes: #550717)</li>
  <li>[tg] Ensure that <tt>/* apo'strophes in comments */</tt> work</li>
+ <li>[tg] New <tt>Build.sh</tt> flag <tt>-M</tt> to not compile but spit out a
+  <tt>Makefrag.inc</tt> file from the current build environment, such as the
+  (cross)compiler, CFLAGS, LDFLAGS, etc. which then can be sourced by e.g. the
+  Android NDK, or built with make(1) – BSD make and GNU make have been tested,
+  but almost all makes should work if the source and build directories are the
+  same or VPATH is supported at least (use of this option is discouraged)</li>
 </ul>
 <p id="r39">mksh R39 evolved into these through various means:</p><ul>
  <li>[tg] Shut up a bogus gcc warning during configuration process</li>
