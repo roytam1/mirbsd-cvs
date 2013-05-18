@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/lib/libkern/tai_make.c,v 1.1.7.1 2005/03/06 16:33:47 tg Exp $ */
+/* $MirOS: src/sys/lib/libkern/tai_make.c,v 1.2 2005/12/17 05:46:26 tg Exp $ */
 
 /*-
  * Copyright (c) 2004, 2005
@@ -32,7 +32,7 @@
 #include <stdio.h>
 #include <time.h>
 
-__RCSID("$MirOS: src/sys/lib/libkern/tai_make.c,v 1.1.7.1 2005/03/06 16:33:47 tg Exp $");
+__RCSID("$MirOS: src/sys/lib/libkern/tai_make.c,v 1.2 2005/12/17 05:46:26 tg Exp $");
 
 static const char preamble[] =
 "/* AUTOMATICALLY GENERATED - DO NOT EDIT! */\n\n"
@@ -41,11 +41,20 @@ static const char preamble[] =
 "static tai64_t _leaps[] = {\n";
 
 static const char epilogue[] =
+/* spare for config(8) */
 "\t0,\n"
 "\t0,\n"
 "\t0,\n"
 "\t0,\n"
-"\t0\n"
+"\t0,\n"
+"\t0,\n"
+
+/* last one must be 0 */
+"\t0,\n"
+/* all bits to 1, for config(8) as marker */
+"\t-1LL\n"
+
+/* rest of the C file */
 "};\n\n"
 "tai64_t *\n_tai_leaps(void)\n"
 "{\n"
