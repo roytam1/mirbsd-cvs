@@ -1,5 +1,5 @@
 <!-- PageID: wlog-8 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.79 2006/06/11 22:37:32 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.80 2006/06/12 20:38:55 tg Exp $</small>
 <h1>MirBSD &ndash; WTF, We Have a Release!?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -1400,7 +1400,9 @@ celebrate this event, rotate the wlog and start a new one.</p>
  <h3 id="e20060612">12.06.2006 by tg@</h3>
  <p>Not much success with sparc&#8230;&ndash; as if there were some bug,
   deep hidden inside the kernel. I will try building a #9-beta kernel on
-  the box (natively, on #7-stable) then.</p>
+  the box (natively on #7-stable) then. UPDATE: Didn't make a difference
+  either. Can please <b>someone</b> tell me why it freezes in midst of a
+  printf(9)?</p>
  <p>Not much success with &quot;real life&quot; either and it's just too
   hot for real FreeWRT work. Also, I ought to add .gz read/write support
   to config(8) -e&#8230;</p>
