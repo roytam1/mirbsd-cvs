@@ -1,4 +1,4 @@
-# $MirOS: src/etc/rc,v 1.62 2007/03/09 13:41:48 tg Exp $
+# $MirOS: src/etc/rc,v 1.63 2007/03/19 22:14:14 tg Exp $
 # $OpenBSD: rc,v 1.277 2006/01/12 21:54:15 deraadt Exp $
 #-
 # System startup script run by init on autoboot or after single-user.
@@ -15,8 +15,7 @@ export LC_CTYPE HOME PATH
 
 # strip comments (and leading/trailing whitespace if IFS is set) from
 # any file(s) given as argument, or stdin if none, and spew to stdout
-function stripcom
-{
+function stripcom {
 	cat "$@" | while read _line; do
 		set -o noglob
 		_line=${_line%%#*}
@@ -99,8 +98,7 @@ wsconsctl_conf()
 # Sort the "/etc/fstab" arrays:
 # -> sorting is done on $_mp[] from 0 to ${#_mp[*]}-1
 # -> swapping is done on $_dev[] $_mp[] $_fstype[] $_opt[]
-function _fsswap
-{
+function _fsswap {
 	local dev mp fstype opt rest
 
 	dev=${_dev[$1]}
@@ -119,8 +117,7 @@ function _fsswap
 	_opt[$2]=$opt
 }
 
-function _fssort
-{
+function _fssort {
 	integer i=0
 	while (( i < (${#_mp[*]} - 1) )); do
 		integer j=i k=i+1

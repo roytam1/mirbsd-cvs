@@ -77,8 +77,7 @@ unset _shellok
 [[ -n $KSH_VERSION ]] && alias cls='print -n \\033c'
 # convenience aliases and functions:
 [[ -x /emul/linux/bin/bash ]] && alias lx='/emul/linux/bin/bash --login'
-function bye
-{
+function bye {
 	[[ $1 = k ]] && ssh-agent -k
 	local M='\033c'
 	[ $? -ne 0 ] && M='\033c Warning: ssh-agent returned error!\n'
@@ -86,8 +85,7 @@ function bye
 	exit
 	logout
 }
-function ge		# German ⇄ English
-{
+function ge {		# German ⇄ English
 	$BROWSER "http://dict.leo.org/?search=$*"
 }
 
@@ -110,4 +108,4 @@ if [ -O /var/run/ssh-agent/$USER_ID ]; then
 	fi
 fi
 
-: $MirOS$
+: $MirOS: src/etc/profile,v 1.48 2007/04/16 18:54:37 tg Exp $
