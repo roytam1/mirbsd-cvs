@@ -63,6 +63,7 @@
 ./etc/skel
 ./etc/skel/.etc
 ./etc/skel/.etc/bin
+./etc/skel/.etc/calendar
 ./etc/skel/.etc/ssh
 ./etc/skel/mail
 ./etc/sliphome

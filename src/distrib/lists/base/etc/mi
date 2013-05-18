@@ -92,6 +92,7 @@
 ./etc/services
 ./etc/shells
 ./etc/skel/.Xresources
+./etc/skel/.etc/calendar/calendar
 ./etc/skel/.etc/ssh/known_hosts
 ./etc/skel/.mailrc
 ./etc/sliphome/slip.hosts
