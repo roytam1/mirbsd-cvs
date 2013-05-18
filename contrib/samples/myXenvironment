@@ -30,7 +30,7 @@ The file ~/.etc/bin/xtm referred in said file is this one:
 
 ---- cutting here may damage your screen surface -----
 #!/bin/mksh
-# $MirOS: contrib/samples/myXenvironment,v 1.7 2006/02/01 00:49:02 tg Exp $
+# $MirOS: contrib/samples/myXenvironment,v 1.8 2006/02/01 13:32:05 tg Exp $
 if [[ $1 = vga ]]; then
 	# exec xtm vga ...
 	shift
@@ -53,6 +53,7 @@ elif [[ $1 = thuge ]]; then
 	    "$@" &
 	exit 0
 else
+	shift
 	exec /usr/X11R6/bin/xterm -class TXTerm -geom 127x41+1+1 \
 	    -fn -xos4-terminus-medium-r-normal--16-160-72-72-c-80-iso8859-1 \
 	    "$@"
