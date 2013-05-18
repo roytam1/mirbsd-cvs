@@ -1271,3 +1271,25 @@ Author: tg@
  the time (even during the dayjob), so I didn't have the energy left to do
  more on the SPARC issues.</p>
 ----
+Date: 25.06.2007
+Title: libnointl
+Author: tg@
+
+<p>Before I forget to write this down… today, I released a piece of code I
+ call <a href="/cvs.cgi/contrib/hosted/libnointl/">libnointl</a>. This was
+ an original idea (and implementation¹) of mine, but I only got it because
+ of swishy (Dale Anderson) who complained about his cross-compiling issues
+ and troubles to me in IRC (I'm feeling the same when working for and with
+ FreeWRT; he's also using µClibc, but non-POSIX FSH paths). Thanks for the
+ intuition; if I get famous (FreeWRT and OpenWrt are already adopting it),
+ you shall become it too.</p>
+<p>¹) The API is part from gettext's <tt>libintl.h</tt> header – only from
+ the non-copyrightable interface part only – and the ABI is re-engineered,
+ using nm(1). There is one function actually doing something inside, whose
+ implementation is from Dr. Dobb's Journal (but easily doable within a few
+ minutes, and found at many other places on the net), optimised by me, and
+ adjusted to match GNU gettext libintl's behavious, of course.</p>
+<p>Han Boetes suggested to feed it back to the GNU gettext people… I guess
+ they won't like the licence (MirBSD licence + advertising clause, but GPL
+ compatible), as it's a GNU project they probably want the paperwork.</p>
+----
