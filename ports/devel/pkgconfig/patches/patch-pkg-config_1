@@ -1,7 +1,7 @@
-$MirOS$
---- pkg-config.1.orig	Thu Jan 16 21:06:47 2003
-+++ pkg-config.1	Fri Dec 26 15:17:44 2008
-@@ -33,7 +33,7 @@ program: program.c
+$MirOS: ports/devel/pkgconfig/patches/patch-pkg-config_1,v 1.1 2008/12/26 15:42:06 tg Exp $
+--- pkg-config.1.orig	Wed Jan 16 22:26:27 2008
++++ pkg-config.1	Fri Nov 20 18:24:13 2009
+@@ -53,7 +53,7 @@ program: program.c
  \fIpkg-config\fP retrieves information about packages from 
  special metadata files. These files are named after the package, 
  with the extension \fI.pc\fP. By default, pkg-config looks in 

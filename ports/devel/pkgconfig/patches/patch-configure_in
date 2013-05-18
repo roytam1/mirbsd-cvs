@@ -1,24 +1,26 @@
-$MirOS: ports/devel/pkgconfig/patches/patch-configure_in,v 1.1.7.1 2005/03/18 15:45:22 tg Exp $
---- configure.in.orig	Thu Jan 16 21:07:09 2003
-+++ configure.in	Wed Dec 28 15:45:50 2005
-@@ -10,38 +10,12 @@ AM_PROG_LIBTOOL
+$MirOS: ports/devel/pkgconfig/patches/patch-configure_in,v 1.2 2005/12/28 15:49:35 tg Exp $
+--- configure.in.orig	Wed Jan 16 23:47:44 2008
++++ configure.in	Fri Nov 20 18:28:38 2009
+@@ -69,50 +69,12 @@ AC_SUBST(WARN_CFLAGS)
  
- AC_PROG_CC
+ AC_DEFINE_UNQUOTED(ENABLE_INDIRECT_DEPS, `test $use_indirect_deps = no; echo $?`, [Link library to all dependent libraries, not only directly needed ones])
  
 -AC_MSG_CHECKING([for Win32])
 -case "$host" in
 -  *-*-mingw*)
 -    native_win32=yes
-     AC_DEFINE(USE_INSTALLED_GLIB, 1, [We are using an installed GLib])
 -  ;;
 -  *)
 -    native_win32=no
 -  ;;
 -esac
 -AC_MSG_RESULT([$native_win32])
- 
--AM_CONDITIONAL(USE_INSTALLED_GLIB, test x$native_win32 = xyes)
 -
+ case "$libdir" in
+ *lib64) AC_DEFINE(PREFER_LIB64,1,[Define if your native architecture defines libdir to be $prefix/lib64 instead of $prefix/lib.]) ;;
+ *) : ;;
+ esac
+ 
 -if test x$native_win32 = xyes; then
 -  # On Win32, use the normal installed GLib.  Yes, this is a circular
 -  # dependency. But then, only experienced hackers that presumably can
@@ -29,15 +31,25 @@ $MirOS: ports/devel/pkgconfig/patches/patch-configure_in,v 1.1.7.1 2005/03/18 15
 -  # These are correct for GLib 2.x
 -  GLIB_CFLAGS="-I$includedir/glib-2.0 -I$libdir/glib-2.0/include"
 -  GLIB_LIBS="-L$libdir -lglib-2.0 -liconv -lintl"
--
-   AC_SUBST(GLIB_LIBS)
-   AC_SUBST(GLIB_CFLAGS)
- 
--  AC_CONFIG_AUX_DIR(.)
+-  use_installed_glib=yes
 -else
--  AC_CONFIG_SUBDIRS(glib-1.2.8)
--fi # !native_win32
-+AM_CONDITIONAL(USE_INSTALLED_GLIB, test xyes = xyes)
+-  use_installed_glib=no
+-  AC_ARG_WITH([installed-glib],
+-    [  --with-installed-glib   Use installed Glib-2.x], [
+-    if test x$withval = xyes; then
+-      # Not on Win32, but the user requested to use the installed Glib-2.x,
+-      # therefore we may assume that (some older version of) pkg-config can
+-      # be found in the users PATH (otherwise we simply ignore the request).
+-      AC_CHECK_PROGS([PKG_CONFIG], [pkg-config], [])
+-      if test -n $PKG_CONFIG && $PKG_CONFIG --exists glib-2.0; then
+-	GLIB_CFLAGS=`$PKG_CONFIG --cflags glib-2.0`
+-	GLIB_LIBS=`$PKG_CONFIG --libs glib-2.0`
+-	use_installed_glib=yes
+-      fi
+-    fi
+-  ])
+-fi # !use_installed_glib
++use_installed_glib=yes
  
- AC_FUNC_ALLOCA
+ AM_CONDITIONAL(USE_INSTALLED_GLIB, test x$use_installed_glib = xyes)
  
