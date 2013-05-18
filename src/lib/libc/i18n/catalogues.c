@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/i18n/catalogues.c,v 1.4 2005/09/30 22:13:55 tg Exp $ */
+/* $MirOS: src/lib/libc/i18n/catalogues.c,v 1.5 2005/12/17 05:46:14 tg Exp $ */
 
 /*-
  * Copyright (c) 2005
@@ -26,7 +26,7 @@
 #include <langinfo.h>
 #include <nl_types.h>
 
-__RCSID("$MirOS: src/lib/libc/i18n/catalogues.c,v 1.4 2005/09/30 22:13:55 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/catalogues.c,v 1.5 2005/12/17 05:46:14 tg Exp $");
 
 /* fake NLS support */
 
@@ -39,7 +39,7 @@ nl_catd
 _catopen(const char *name __attribute__((unused)),
     int oflag __attribute__((unused)))
 {
-	return ((nl_catd) 0);
+	return (0);
 }
 
 int

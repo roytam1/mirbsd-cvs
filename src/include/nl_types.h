@@ -1,4 +1,4 @@
-/*	$MirOS: src/include/nl_types.h,v 1.2 2005/03/06 19:13:40 tg Exp $	*/
+/*	$MirOS: src/include/nl_types.h,v 1.3 2006/05/30 20:11:59 tg Exp $	*/
 /*	$OpenBSD: nl_types.h,v 1.7 2002/02/16 21:27:17 millert Exp $	*/
 /*	$NetBSD: nl_types.h,v 1.6 1996/05/13 23:11:15 jtc Exp $	*/
 
@@ -46,8 +46,8 @@
 #define	NL_SETD		1
 #define NL_CAT_LOCALE   1
 
-typedef void *nl_catd;
-typedef long nl_item;
+typedef int nl_catd;
+typedef int nl_item;
 
 __BEGIN_DECLS
 extern nl_catd 	catopen(const char *, int);
