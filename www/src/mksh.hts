@@ -2,7 +2,7 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.187 2008/11/11 01:54:07 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.188 2008/11/11 22:24:50 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R36</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -86,7 +86,9 @@ mws_content <<'EOF'
  to the public, and asserts a collective copyright on the code.
  All these licences are DFSG clean and conform to the OSD, and the MirOS
  Licence is listed on the pages of the ifrOSS licence centre as well as
- in the FSF/UNESCO Directory of Free Software.</p>
+ in the FSF/UNESCO Directory of Free Software. The MirBSD Korn Shell is
+ OSI Certified <img src="@@RELPATH@@pics/open_source_button.png"
+ alt="Open Source Software™" /></p>
 <p>To compile mksh, you will need a bourne or POSIX shell (Solaris
  <tt>/bin/sh</tt> is enough, and the Z shell should work), a C compiler (at
  the moment, only the one from the <a href="http://gcc.gnu.org/">GNU Compiler
