@@ -1,8 +1,8 @@
-# $MirOS: src/distrib/tools/boot.cfg.serial,v 1.2 2009/08/15 18:17:04 tg Exp $
+# $MirOS: src/distrib/tools/boot.cfg.serial,v 1.3 2009/08/15 18:27:59 tg Exp $
 #
 echo
 echo ==================================================================
-echo # MirOS BSD #10-current (i386) | (c) 2002-2009 The MirOS Project #
+echo # MirOS BSD #10-current (i386) | (c) 2002-2010 The MirOS Project #
 echo ==================================================================
 echo
 echo Booting MirBSD Installer with serial console at COM1:@,8N1
@@ -11,7 +11,7 @@ set tty com0
 stty com0 @
 echo
 echo ==================================================================
-echo # MirOS BSD #10-current (i386) | (c) 2002-2009 The MirOS Project #
+echo # MirOS BSD #10-current (i386) | (c) 2002-2010 The MirOS Project #
 echo ==================================================================
 echo
 echo Booting MirBSD Installer with serial console at COM1:@,8N1

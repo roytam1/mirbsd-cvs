@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/kern/init_main.c,v 1.24 2009/02/22 17:06:27 tg Exp $ */
+/**	$MirOS: src/sys/kern/init_main.c,v 1.25 2009/11/09 19:43:46 tg Exp $ */
 /*	$OpenBSD: init_main.c,v 1.120 2004/11/23 19:08:55 miod Exp $	*/
 /*	$NetBSD: init_main.c,v 1.84.4.1 1996/06/02 09:08:06 mrg Exp $	*/
 /*	$OpenBSD: kern_xxx.c,v 1.9 2003/08/15 20:32:18 tedu Exp $	*/
@@ -109,7 +109,7 @@ const char	copyright[] =
 "Copyright (c) 1982, 1986, 1989, 1991, 1993\n"
 "\tThe Regents of the University of California.  All rights reserved.\n"
 "Copyright (c) 1995-2004 OpenBSD. All rights reserved.  http://www.OpenBSD.org\n"
-"Copyright (c) 2002-2009 The MirOS Project and contributors.  http://mirbsd.de\n";
+"Copyright (c) 2002-2010 The MirOS Project and contributors.  http://mirbsd.de\n";
 
 /* Components of the first process -- never freed. */
 struct	session session0;

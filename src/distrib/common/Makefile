@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/Makefile,v 1.46 2009/06/29 19:43:33 tg Exp $
+# $MirOS: src/distrib/common/Makefile,v 1.47 2009/08/15 18:24:42 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -77,7 +77,7 @@ CDROM_OPTS+=	applicationid=NetBSD_makefs
 CDROM_OPTS+=	label=MirOS~v${OSrev}~BSD/${MACHINE}~boot-only~CD
 CDROM_OPTS+=	no-trailing-padding
 CDROM_OPTS+=	preparer=MirBSD_and_its_contributors
-CDROM_OPTS+=	publisher=Copyright_\<c\>_2002=2009_The_MirOS_Project
+CDROM_OPTS+=	publisher=Copyright_\<c\>_2002=2010_The_MirOS_Project
 CDROM_OPTS+=	rockridge
 CDROM_OPTS+=	rr-squash
 CDROM_OPTS+=	volumeid=$$(uname -slm | tr -- '- \#' :_):Setup
