@@ -1,4 +1,4 @@
-# $MirOS: gcc/gcc/Makefile.bsd-wrapper,v 1.28 2005/11/23 18:29:47 tg Exp $
+# $MirOS: gcc/gcc/Makefile.bsd-wrapper,v 1.29 2006/02/01 01:28:39 tg Exp $
 
 .include <bsd.own.mk>
 .include "${GNUSYSTEM_AUX_DIR}/locations.mk"
@@ -78,6 +78,8 @@ CFARGS+=	--prefix=${GCC_PREFIX} --libexecdir=${GCC_PREFIX}/lib \
 		--with-gxx-include-dir=${GCC_PREFIX}/include/gxx ${__LANGS}
 .if !defined(NO_THREADS) || ${NO_THREADS:L} == "no"
 CFARGS+=	--enable-threads=posix
+.else
+CFARGS+=	--disable-threads
 .endif
 
 CLEANFILES+=	gcclink ${MAN} ${INFO} doc/fsf-funding.7 doc/gccinstall.info \
