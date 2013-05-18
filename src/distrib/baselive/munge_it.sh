@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/baselive/munge_it.sh,v 1.34 2008/07/07 13:57:13 tg Exp $
+# $MirOS: src/distrib/baselive/munge_it.sh,v 1.35 2008/07/09 23:32:01 tg Exp $
 #-
 # Copyright (c) 2006, 2007, 2008
 #	Thorsten “mirabilos” Glaser <tg@mirbsd.de>
@@ -78,7 +78,7 @@ ed -s etc/ntpd.conf <<-'EOMD'
 EOMD
 ed -s etc/rc <<-'EOMD'
 	1i
-		# $MirOS: src/distrib/baselive/munge_it.sh,v 1.34 2008/07/07 13:57:13 tg Exp $
+		# $MirOS: src/distrib/baselive/munge_it.sh,v 1.35 2008/07/09 23:32:01 tg Exp $
 	.
 	/cprng.*pr16/d
 	i
@@ -197,7 +197,16 @@ pwd_mkdb -pd $(readlink -nf etc) master.passwd
     chmod 600 var/db/host.random) \
     >/dev/wrandom 2>&1
 
-rm -rf usr/X11R6/lib/X11/fonts/{100dpi,OTF,Speedo,Type1,cyrillic,local}
+(cd usr/X11R6/lib/X11/fonts; rm -rf 100dpi OTF Speedo Type1 cyrillic local \
+    misc/*-ISO8859-@(1[013456]|[2345789]).* misc/*{KOI8,JISX0201}* \
+    75dpi/*-ISO8859-@(1[0345]|[2349]).* misc/{fonts.alias,gb,hang,jis,k14}*)
+cp $myplace/misc_fonts.alias usr/X11R6/lib/X11/fonts/misc/fonts.alias
+chown 0:0 usr/X11R6/lib/X11/fonts/misc/fonts.alias
+chmod 444 usr/X11R6/lib/X11/fonts/misc/fonts.alias
+(cd usr/X11R6/lib/X11/fonts/75dpi; mkfontdir)
+(cd usr/X11R6/lib/X11/fonts/misc; mkfontdir)
+(cd usr/X11R6/lib/X11; fc-cache -v .)
+
 mv usr/X11R6/lib/X11/fonts usr/X11R6/lib/fonts
 (cd usr/X11R6/lib/X11; ln -s ../fonts)
 # tmp because of perms
