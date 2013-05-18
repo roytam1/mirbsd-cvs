@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.66 2008/08/02 00:19:48 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.67 2008/08/08 20:29:16 bsiegert Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -1353,5 +1353,28 @@ Title: Improving MirPorts by porting stuff
  is try to build some stuff using this newer version of pkgconfig and
  try to find out if it works. So, if you are feeling lucky: Install this
  and try to build some software on MirOS.</p>
+----
+Date: 08.08.2008 21:03
+Author: tg@
+Title: Cats, Rivella, other nice things, and… yuck
 
+<p>Still <a href="@@RELPATH@@permalinks/wlog-10_e20080725-tg.htm">cats
+ have less sorrows</p>. Now it’s proven that feline specimen <a
+ href="http://incredimazing.com/static/media/2007/12/09/915d7ec0e067ac2/i_question.jpg">can
+ actually spell</a>. Poor “lolcats” who are abused by many.</p>
+<p>Discovering <a href="http://www.rivella.ch/">Rivella</a> and Tonnerre
+ mentioning that swiss chocolate exported into the EU is artificially
+ made more sweet than inland production (yuck, sweet chocolate) are some
+ promising points voting for working in Switzerland. It’s still expensive
+ and a major change though. But the payment is good, too.</p>
+<p>While mkisofs is finally gone, I had to fix lots of bugs and port a
+ new language, <tt>lang/pawn</tt>, actually better than others, but the
+ interna still look more than very fragile. Same problem as with Ewe:
+ written for Win32-only at first, made portable later by persons who
+ don’t know how to code for Unix. Ugh, and… I’ve got to learn Python.</p>
+<p>Either my VPN, gecko2s Server, or the network (at home, Strato, or
+ here) sucks. Hm… maybe it’s the backup Tonnerre makes.</p>
+<p>I should search for some more geocaces, but now that I have some more
+ time than at the beginning of the week, the weather is worsening, and
+ we still have the duties. *grml* I need tear set up, too…</p>
 ----
