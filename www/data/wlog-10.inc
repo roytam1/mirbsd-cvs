@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.248 2009/10/31 22:28:05 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.249 2009/11/01 16:48:23 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -5294,4 +5294,43 @@ Tag: bug rant snapshot
  href="http://static.netboot.me/gpxe/netbootme.dsk">gPXE image</a> can be
  dd(1)d onto a floppy disc.</p>
 <p>Benny finally made ports/print/ttftot42 – thanks!</p>
+----
+Title: Subversion 1.6 and other stuff
+Author: bsiegert@
+Date: 03.11.2009 14:11
+
+<p>For compatibility reasons, the current version of Subversion in
+ MirPorts is still 1.5. I tried to remedy the situation a few days ago
+ and committed subversion-1.6.6-0 into a branch a few days ago. It is
+ not yet in the trunk because it has some nasty bugs. For example this
+ gem:</p>
+
+<pre>% perl -MSVN::Core -e 1
+Bus error
+</pre>
+
+<p>This, of course, makes svk unusable, as it is written in Perl using
+ the SVN perl bindings. svk is my way of making Subversion bearable,
+ with easy replication, offline commits, and more.</p>
+
+<p>I think I found the reason now: The SVN people managed to screw up
+ the Perl module build so that the modules link against stuff in
+ /usr/lib instead of <tt>$PREFIX</tt>. Incidentally, Darwin includes
+ svn-1.4.4 in the base system. Sigh.</p>
+
+<p>Wow, it seems that I have not written anything here in the last four
+ months. Between my thesis and Real Life(TM), there is just not enough
+ time for everything.</p>
+
+<p>One more thing though: I have been attending a course on "Scientific
+ Writing" at the Universit&eacute; de Haute Alsace, with excellent hints
+ on article styles, writing readable scientific prose, and more. I can
+ recommend such a course to every scientist, but also to all those who
+ regularly publish things&mdash;including articles in CS journals, Free
+ software project posters or announcements. There are also some
+ excellent articles on how <em>not</em> to write. I especially recommend
+ Martin W. Gregory, The infectiousness of pompous prose, <i>Nature</i>
+ <b>360</b> 11&ndash;12 (1992). Unfortunately, you will need a
+ subscription to read it.</p>
+
 ----
