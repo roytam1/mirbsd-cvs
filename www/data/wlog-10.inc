@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.149 2009/01/25 20:48:48 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.150 2009/01/31 22:22:40 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -3065,7 +3065,8 @@ Tag: bug event mksh snapshot unicode
  disc detection code in boot(8/i386). I've also changed the magics, API
  etc. a little between these, rewriting or removing quite some parts of
  both installboot(8/i386) and <tt>bootxx.sh</tt> a.k.a. self-installing
- bootblocks.</p>
+ bootblocks. Oh, and MBR and PBR are smaller, or rather, have more room
+ for informatory texts and data block storage now.</p>
 <p>Lucas “laffer1” Holt from <a href="http://www.midnightbsd.org/">that
  cat's BSD</a> helped me testing, qemu and bare metal IBM X40 works, so
  I suppose it's good. Can't test on VMware Server 2 right now.</p>
@@ -3091,4 +3092,16 @@ Tag: bug event mksh snapshot unicode
  in time. Thanks again, Daniel Seuffert from AllBSD.de, for all support
  you and others give to the smaller BSDs. Heh, and laffer1 is not quite
  done yet with his ISO (or UDF?) either.</p>
+----
+Author: tg@
+Title: ext2fs damage
+Date: 01.02.2009 00:42
+Tag: bug
+
+<p>Fun: MirBSD #8, #10 and #10-current can’t edit or create symlink(7)s
+ on ext2fs, MirBSD #7quater could. They hang the filesystem, as well as
+ the parent of the mount point, on access, and damage the filesystem. I
+ have <em>no</em> idea… (msdos is damaging long filenames, btw.)</p>
+<p>4.4OpenBSD can… oO</p>
+<p>Benny has done more work on ext2fs, maybe he’ll fix it.</p>
 ----
