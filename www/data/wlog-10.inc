@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.311 2010/09/26 16:35:17 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.312 2010/10/08 21:02:51 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -7124,4 +7124,47 @@ Tag: news rant release security snapshot
  or upgrade to the latest kernel. I ran dieharder, and the results look
  good. The latest RNG subsystem pulls from many more sources and mixes
  better; I’ll summarise it later probably.</p>
+----
+Title: Debian/m68k re-bootstrapping
+Author: tg@
+Date: 16.10.2010 19:55
+Tag: debian
+
+<p>I’m currently working on something which will eventually amount to a
+ re-bootstrapping of sorts of the Debian/m68k (Linux) port – patches to
+ the Linux kernel, gcc, etc. are prepared (some have been accepted into
+ upstream or the packages already). I will probably have more, once the
+ compile processes finish, anyway (even emulated, it’s slow).</p>
+<p>I think that, once I get past that TLS (thread-local storage, needed
+ by eglibc) migration, I will try to find out a list of packages needed
+ for debootstrap (AFAICT: all packages marked Essential, or of priority
+ important, and all marked Build-Essential (for the *-builder variant),
+ and their dependencies (although I’ll substitute sysv-rc with file-rc,
+ which is better and needs less deps)) and pull arch:all from sid, then
+ build the rest myself using a consistent snapshot of sid possibly with
+ patches going to unreleased. Then I can use cowbuilder to make cleaner
+ packages, which can eventually be uploaded (once I get enough to get a
+ buildd running – kernel, bootloader, etc) – binNMUs are way to go here
+ I suppose. I will only upload once it’s self-hosted, installable (seen
+ by edos-debcheck), clean, etc. (i.e. I’ll rebuild <strong>all</strong>
+ binaries) and probably keep a bootstrap repo around (until m68k caught
+ up) so that unstable (possibly amended by unreleased for a while) will
+ not again become uninstallable, e.g. if arch:all packages change their
+ dependencies (Python, gcc-defaults are some I’ve seen). That bootstrap
+ repository is needed anyway because debootstrap can’t install from two
+ separate repositories (unstable+unreleased for example).</p>
+<p>Progress is slow because I try to keep as close to official packages
+ as possible, refuse to cross-compile, and try to produce uploadable if
+ possible packages all the time. Getting patches into packages, so that
+ I can build from unstable, instead of debian-ports.org unreleased, has
+ proven time-consuming and occasionally frustrating as well. Although I
+ would like to thank the people who helped me on the way already. (I am
+ not naming any in fear of forgetting some, but you know who you are ☺)
+ They are among the Debian (gcc, kernel, m68k) and Linux-68k crowd.</p>
+<p>(Why does genattrtab in gcc-4.4 take 3½ hours when it took less than
+ half an hour in gcc-4.3 anyway?)</p>
+<p>I’m also still working on <a href="@@RELPATH@@mksh.htm">mksh</a> and
+ some Python ISO hacks for <a href="http://grml.org/">mika</a> and some
+ minor stuff, and further cleaning up MirBSD.</p><!-- RSS stop -->
+<p>Well, did I mention dentists are sadists?</p>
 ----
