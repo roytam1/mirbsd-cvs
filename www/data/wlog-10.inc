@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.177 2009/03/29 22:37:30 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.178 2009/04/05 12:19:12 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -3693,7 +3693,7 @@ Tag: bug mksh
 ----
 Date: 05.04.2009 12:16
 Author: tg@
-Title:
+Title: mksh at Apple again
 Tag: mksh
 
 <p><a href="http://www.midnightbsd.org/">laffer1</a> remembered me of <a
@@ -3702,4 +3702,6 @@ Tag: mksh
  into their base system. He also did it back then, as requested, and the
  bug #6735470 would be the result. Unfortunately, one still cannot get a
  publicly accessible version of them.</p>
+<p>By the way, <a href="@@RELPATH@@permalinks/news_e20090405-tg.htm">the
+ R37b version</a> is out.</p>
 ----
