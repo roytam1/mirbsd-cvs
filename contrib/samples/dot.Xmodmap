@@ -1,4 +1,4 @@
-! $MirOS: contrib/samples/dot.Xmodmap,v 1.5 2007/02/19 05:41:40 tg Exp $
+! $MirOS: contrib/samples/dot.Xmodmap,v 1.6 2007/03/04 10:20:12 tg Exp $
 !-
 ! Copyright © 2004, 2007
 !	Thorsten “mirabilos” Glaser <tg@mirbsd.de>
@@ -13,7 +13,7 @@
 ! display the following acknowledgement:
 !	This product includes material provided by Thorsten Glaser.
 !
-! This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
+! This work is provided “AS IS” and WITHOUT WARRANTY of any kind, to
 ! the utmost extent permitted by applicable law, neither express nor
 ! implied; without malicious intent or gross negligence. In no event
 ! may a licensor, author or contributor be held liable for indirect,
@@ -22,22 +22,29 @@
 ! damage or existence of a defect, except proven that it results out
 ! of said person's immediate fault when using the work as intended.
 !-
-! MirKBD (Light Layout) Revision 2, US with Meta key, for XFree86(R)
+! MirKBD Revision 2⌈b⌋, English (Europe) with Meta key, for XFree86®
 !
 ! Advanced .Xmodmap file with US-based layout plus Meta and Compose,
 ! for 105-key PC keyboards (usable with 102-key or laptop keyboards,
 ! too). Emulating Meta with Mode_switch helps with X11 applications.
+! All ISO-8859-1 code points are directly typable on a 101-key board
+! and all directly typable code points can be represented in cp1252.
 !
 ! Diversions from pristine XFree86(R) and Windows(R) 2000 US layout:
-! * The Alt_L key generates Meta_L	(adds 0x80 to latin1 code)
-! * The Win_L key generates Alt_L	(e.g. for window managers)
-! * The < > | key generates Mode_switch	(emulates Meta for X apps)
-! * The Win_R key generates Meta_R
-! * The Win_M key generates Compose	(also for Unicode compose)
-! * The Backspace key, shifted and with Mode_switch, generates ‘Ÿ’
-! * The CapsLock key generates Ellipsis, Euro, DE-DblQL, Trademark
-! * The Tab key, with Mode_switch, generates EN-DblQL and EN-DblQR
-! * The Return key, with Mode_switch, generates Bullet and HorizLn
+! • The Alt_L key generates Meta_L	(adds 0x80 to latin1 code)
+! • The Win_L key generates Alt_L	(e.g. for window managers)
+! • The < > | key generates Mode_switch	(emulates Meta for X apps)
+! • The Win_R key generates Meta_R
+! • The Win_M key generates Compose	(also for Unicode compose)
+! • The Backspace key, shifted and with Mode_switch, generates ‘Ÿ’
+! • The CapsLock key generates Ellipsis, Euro, DE-DblQL, Trademark
+! • The Tab key, with Mode_switch, generates EN-DblQL and EN-DblQR
+! • The Return key, with Mode_switch, generates Bullet and en dash
+! The following behavioural differences can be seen on NT platforms:
+! • The “Meta” and “Mode_switch” function is done by the Alt_R key
+! • The < > | (102nd) key does Ellipsis, Euro, DE-DblQL, Trademark
+! • The Alt_L, Win_L, Win_R, CapsLock keys retain common behaviour
+! • The Win_M key also keeps common behaviour; there is no Compose
 
 keycode	0x09 =	Escape		Escape
 keycode	0x43 =	F1		XF86_Switch_VT_1
@@ -91,7 +98,7 @@ keycode	0x20 =	o		O		U00EF		U00CF
 keycode	0x21 =	p		P		U00F0		U00D0
 keycode	0x22 =	bracketleft	braceleft	U00DB		U00FB
 keycode	0x23 =	bracketright	braceright	U00DD		U00FD
-keycode	0x24 =	Return		Return		U2022		U2015
+keycode	0x24 =	Return		Return		U2022		U2013
 keycode	0x6B =	KP_Delete	Delete
 keycode	0x67 =	End
 keycode	0x69 =	Next
