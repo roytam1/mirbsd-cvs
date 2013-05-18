@@ -1,4 +1,4 @@
-/* $MirOS: src/gnu/usr.bin/lynx/src/LYMain.c,v 1.9 2006/06/15 19:37:00 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/lynx/src/LYMain.c,v 1.10 2006/09/13 19:18:36 tg Exp $ */
 
 #include <HTUtils.h>
 #include <HTTP.h>
@@ -632,6 +632,10 @@ static void FatalProblem(int sig);
 #if defined(USE_COLOR_STYLE)
 char *lynx_lss_file2 = NULL;	/* from command-line options */
 char *lynx_lss_file = NULL;	/* from config-file, etc. */
+#endif
+
+#ifdef USE_DEFAULT_COLORS
+BOOLEAN LYuse_default_colors = TRUE;
 #endif
 
 #ifdef __DJGPP__

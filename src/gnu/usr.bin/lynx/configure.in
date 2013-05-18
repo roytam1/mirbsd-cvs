@@ -1,4 +1,4 @@
-dnl $MirOS: src/gnu/usr.bin/lynx/configure.in,v 1.11 2006/06/30 20:58:57 tg Exp $
+dnl $MirOS: src/gnu/usr.bin/lynx/configure.in,v 1.12 2006/09/13 19:18:32 tg Exp $
 dnl
 dnl Process this file with autoconf to produce a configure script.
 dnl written jan/1997
@@ -27,7 +27,7 @@ dnl ---------------------------------------------------------------------------
 dnl
 dnl ask PRCS to plug-in the project-version for the configure-script.
 dnl $Format: "AC_REVISION($ProjectVersion$)"$
-AC_REVISION(2.8.6pre.3)
+AC_REVISION(2.8.6pre.4)
 
 # Save the original $CFLAGS so we can distinguish whether the user set those
 # in the environment, or whether autoconf added -O and -g options:
@@ -59,7 +59,7 @@ AC_ARG_WITH(system-type,
 PACKAGE=lynx
 dnl ask PRCS to plug-in the project-version for the packages.
 # $Format: "VERSION=$ProjectVersion$"$
-VERSION=2.8.6pre.3
+VERSION=2.8.6pre.4
 AC_SUBST(PACKAGE)
 AC_SUBST(VERSION)
 AC_SUBST(DESTDIR)

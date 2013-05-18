@@ -1,4 +1,4 @@
-/* $MirOS: src/gnu/usr.bin/lynx/src/LYGlobalDefs.h,v 1.3 2005/12/19 23:57:05 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/lynx/src/LYGlobalDefs.h,v 1.4 2006/09/13 19:18:36 tg Exp $ */
 
 /* global variable definitions */
 
@@ -576,6 +576,10 @@ extern "C" {
 
 #if defined(USE_COLOR_STYLE)
     extern char *lynx_lss_file;
+#endif
+
+#ifdef USE_DEFAULT_COLORS
+    extern BOOLEAN LYuse_default_colors;
 #endif
 
     extern int HTNoDataOK;	/* HT_NO_DATA-is-ok hack */

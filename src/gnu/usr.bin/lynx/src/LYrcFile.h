@@ -1,4 +1,4 @@
-/* $MirOS: src/gnu/usr.bin/lynx/src/LYrcFile.h,v 1.4 2006/06/15 19:37:01 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/lynx/src/LYrcFile.h,v 1.5 2006/09/13 19:18:38 tg Exp $ */
 
 #ifndef LYRCFILE_H
 #define LYRCFILE_H
@@ -51,6 +51,7 @@
 #define RC_CSWING_PATH                  "cswing_path"
 #define RC_DEFAULT_BOOKMARK_FILE        "default_bookmark_file"
 #define RC_DEFAULT_CACHE_SIZE           "default_cache_size"
+#define RC_DEFAULT_COLORS               "default_colors"
 #define RC_DEFAULT_EDITOR               "default_editor"
 #define RC_DEFAULT_INDEX_FILE           "default_index_file"
 #define RC_DEFAULT_KEYPAD_MODE          "default_keypad_mode"
