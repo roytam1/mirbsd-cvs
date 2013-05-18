@@ -1,5 +1,5 @@
 #!/usr/bin/env mksh
-# $MirOS: ports/infrastructure/pkgtools/upgrade/pkg_upgrade.sh,v 1.15 2006/02/20 21:06:43 tg Exp $
+# $MirOS: ports/infrastructure/pkgtools/upgrade/pkg_upgrade.sh,v 1.16 2006/02/20 21:08:56 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -107,12 +107,17 @@ if [[ -f $PKG_DBDIR/$OLDPKGS/+REQUIRED_BY ]] ; then
 	mv -f $PKG_DBDIR/$OLDPKGS/+REQUIRED_BY $TMPDIR
 fi
 
+fd=
+fa=
 if grep -qi '^@comment upgrade-no-scripts' $TMPDIR/+CONTENTS; then
 	fd=-D
 	fa=-I
-else
-	fd=
-	fa=
+fi
+if grep -qi '^@comment upgrade-no-install-script' $TMPDIR/+CONTENTS; then
+	fa=-I
+fi
+if grep -qi '^@comment upgrade-no-deinstall-script' $TMPDIR/+CONTENTS; then
+	fd=-D
 fi
 
 if grep -qi '^@option base-package' $TMPDIR/+CONTENTS; then
