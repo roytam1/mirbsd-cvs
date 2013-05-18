@@ -1,4 +1,8 @@
+# $MirOS$
 # $OpenBSD: ruby.port.mk,v 1.4 2004/02/20 22:52:58 couderc Exp $
+
+# to fix this, use ${OStriplet} or OSname+OSREV or OSname+OSver
+BROKEN="OSname and OSrev abuse in lang/ruby/ruby.port.mk"
 
 # ruby module
 

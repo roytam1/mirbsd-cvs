@@ -1,7 +1,7 @@
-# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.27 2005/12/17 05:46:19 tg Exp $
+# $MirOS: src/share/misc/licence.template,v 1.6 2006/01/24 22:24:02 tg Rel $
 #-
-# Copyright (c) 2005
-#	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+# Copyright (c) 2005, 2006
+#	Thorsten Glaser <tg@mirbsd.de>
 #
 # Licensee is hereby permitted to deal in this work without restric-
 # tion, including unlimited rights to use, publicly perform, modify,
@@ -33,11 +33,25 @@ OSNAME!=		uname -s
 OSname=			${OSNAME:L}
 .endif
 
-.if !defined(OSREV) || empty(OSREV)
-OSREV!=			uname -r
-.endif
-.if !defined(OSrev) || empty(OSrev)
-OSrev=			${OSREV:S/.//g}
+# Determine version number. OSREV is uname -r, OSver is major.minor
+.if ${OStype} == "MirBSD"
+OSver!=	print '.include "/usr/share/mk/sys.mk"\nall:\n.ifdef OSrelm\n\t@echo' \
+	    '$${OSrel}.$${OSrelm}\n.else\n\t@echo $${OSrev}.$${OSrpl}\n.endif' \
+	    | ${MAKE} -rf - all
+# fake 'uname -r' for speed
+OSREV=	${OSver:R}
+.elif ${OStype} == "OpenBSD"
+OSver!=	print '.include "/usr/share/mk/sys.mk"\nall:\n\t@echo $${OSREV}' \
+	    | ${MAKE} -rf - all
+# fake 'uname -r' for speed
+OSREV=	${OSver}
+.elif ${OStype} == "Interix"
+.  error Fill in later!
+.elif ${OStype} == "Darwin"
+OSREV!=	uname -r
+OSver=	${OSREV:C/^([0-9]*\.[0-9]*)\..*$/\1/}
+.else
+.  error Unknown OStype '${OStype}'!
 .endif
 
 #--- Specific OS Dependencies
@@ -91,6 +105,8 @@ PKG_SUFX=		.tgz
 HAS_TIMET64=		No
 FETCH_CMD=		/usr/bin/ftp -V -m
 
+OSrev=			${OSREV:S/.//}
+
 .  if ${OSrev} < 35
 MODPERL_DESTDIR=	$${${DESTDIRNAME}}
 _SYSTRACE_ARGS=		-i -a
@@ -106,13 +122,10 @@ _GDIFFLAG=		NEED_GDIFF=yes
 #---
 
 .if ${OStype} == "MirBSD"
-.  if ${OSrev} < 8
+.  if ${OSver:R} < 8
 .    error Operating System too old and unsupported.
-.  elif ${OSrev} == 8
-.    ifndef OSrpl
-OSrpl!=			x=$$(uname -l); x=16\#$${x\#@(\#[0-9][a-z])}; let x=$${x%%-*}; print $$x
-.    endif
-.    if ${OSrpl} < 40
+.  elif ${OSver:R} == 8
+.    if ${OSver:E} < 40
 HAS_CXX=		reason
 NO_CXX=			C++ is still broken, please update
 .    endif
@@ -135,7 +148,6 @@ MKC_USAP?=		No
 MKSH?=			/bin/mksh
 MODPERL_DESTDIR?=
 NOPIC_PLATFORMS?=
-OSREV?=			${OSrev}
 PKG_ARGS_ADD?=
 PKG_SUFX?=		.cgz
 _CKSUM_A?=		cksum -a

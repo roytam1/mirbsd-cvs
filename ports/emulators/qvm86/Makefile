@@ -1,4 +1,4 @@
-# $MirOS: ports/emulators/qvm86/Makefile,v 1.5 2005/11/21 20:46:01 tg Exp $
+# $MirOS: ports/emulators/qvm86/Makefile,v 1.6 2006/01/01 02:45:59 tg Exp $
 # $OpenBSD: Makefile,v 1.7 2005/11/05 12:11:05 todd Exp $
 
 BROKEN=			problems with network, sound, etc.
@@ -49,12 +49,7 @@ LKMDIR=			${TRUEPREFIX}/share/qemu/lkm
 MAKE_ENV+=		BSDMAKE=/usr/bin/make
 MAKE_ENV+=		LKMDIR=${LKMDIR}
 
-SMKVER!=		let major=$$(print | /usr/bin/env -i \
-			    /usr/bin/make -f - ___DISPLAY_MAKEVARS=OSrev); \
-			let minor=$$(print | /usr/bin/env -i \
-			    /usr/bin/make -f - ___DISPLAY_MAKEVARS=OSrpl); \
-			let 'version=major * 256 + minor'; print $$version
-
+SMKVER!=		print $$((${OSver:R} * 256 + ${OSver:E}))
 .if ${SMKVER} < 2106
 IGNORE+=		"requires a newer system make(1), please upgrade"
 .endif

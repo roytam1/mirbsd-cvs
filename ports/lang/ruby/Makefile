@@ -1,5 +1,8 @@
-# $MirOS$
+# $MirOS: ports/lang/ruby/Makefile,v 1.2 2005/07/06 19:21:32 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.27 2004/02/20 22:52:57 couderc Exp $
+
+# to fix this, use ${OStriplet} or OSname+OSREV or OSname+OSver
+BROKEN="OSname and OSrev abuse in lang/ruby/Makefile"
 
 COMMENT=		"object oriented script language with threads"
 

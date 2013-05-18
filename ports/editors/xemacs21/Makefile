@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/editors/xemacs21/Makefile,v 1.2 2005/07/06 19:21:30 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.20 2003/07/06 18:34:48 naddy Exp $
 
 COMMENT=		"heavily customizable and extensible editor"
@@ -85,9 +85,7 @@ FAKE_FLAGS=	prefix='$${WRKINST}$${DESTDIR}${PREFIX}' \
 ####
 
 # Arch string for configure
-# copied from emacs and xemacs20 ports
-
-GCCARCH=        ${MACHINE_ARCH}-unknown-openbsd${OSREV}
+GCCARCH=        ${OStriplet}
 
 CONFIGURE_ARGS+=	${GCCARCH}
 SUBST_VARS=	GCCARCH

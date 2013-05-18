@@ -354,7 +354,7 @@ RUN_DEPENDS+=::${MYDIR},-estdc
 .  endif
 .endif
 
-CONFIG=${MACHINE_ARCH}-unknown-openbsd${OSREV}
+CONFIG=${OStriplet}
 SUBST_VARS=CONFIG V
 .include <bsd.port.mk>
 
