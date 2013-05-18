@@ -1,5 +1,5 @@
 #!/usr/bin/env mksh
-# $MirOS: CVSROOT/mklogci,v 1.37 2008/07/03 18:35:08 tg Exp $
+# $MirOS: CVSROOT/mklogci,v 1.38 2008/07/03 18:41:13 tg Exp $
 #-
 # Copyright (c) 2005, 2006, 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -249,8 +249,11 @@ while (( $# > 2 )); do
 	fnew[i]=$3
 	shift; shift; shift
 
-	# cvs import or cvs add directory
-	[[ $i = 0 && ${fold[i]} = @(- )* && ${fnew[i]} = NONE ]] && break
+	if [[ $i = 0 && ${fold[i]} = @(- )* && ${fnew[i]} = NONE ]]; then
+		# cvs import or cvs add directory
+		[[ $1 = NONE ]] && shift
+		break
+	fi
 
 	let ++i
 done
