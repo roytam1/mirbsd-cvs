@@ -20,7 +20,7 @@
 #include "cvs.h"
 #include "getline.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/patch.c,v 1.2 2007/02/16 19:41:59 tg Exp $");
 
 static RETSIGTYPE patch_cleanup (int);
 static Dtype patch_dirproc (void *callerdat, const char *dir,
@@ -279,6 +279,7 @@ patch_proc (int argc, char **argv, char *xwhere, char *mwhere, char *mfile,
     int which;
     char *repository;
     char *where;
+    char *cp;
 
     TRACE ( TRACE_FUNCTION, "patch_proc ( %s, %s, %s, %d, %d, %s, %s )",
 	    xwhere ? xwhere : "(null)",
@@ -301,7 +302,6 @@ patch_proc (int argc, char **argv, char *xwhere, char *mwhere, char *mfile,
     /* if mfile isn't null, we need to set up to do only part of the module */
     if (mfile != NULL)
     {
-	char *cp;
 	char *path;
 
 	/* if the portion of the module is a path, put the dir part on repos */
@@ -351,14 +351,30 @@ patch_proc (int argc, char **argv, char *xwhere, char *mwhere, char *mfile,
 
     if (rev1 != NULL && !rev1_validated)
     {
-	tag_check_valid (rev1, argc - 1, argv + 1, local_specified, 0,
-			 repository, false);
+	if ((cp = strchr(rev1, ':')) != NULL)
+	{
+	    *cp++ = '\0';
+	    date1 = Make_Date (cp);
+	    if (*rev1 == '\0')
+		rev1 = NULL;
+	}
+	if (rev1)
+	    tag_check_valid (rev1, argc - 1, argv + 1, local_specified, 0,
+			     repository, false);
 	rev1_validated = 1;
     }
     if (rev2 != NULL && !rev2_validated)
     {
-	tag_check_valid (rev2, argc - 1, argv + 1, local_specified, 0,
-			 repository, false);
+	if ((cp = strchr(rev2, ':')) != NULL)
+	{
+	    *cp++ = '\0';
+	    date2 = Make_Date (cp);
+	    if (*rev2 == '\0')
+		rev2 = NULL;
+	}
+	if (rev2)
+	    tag_check_valid (rev2, argc - 1, argv + 1, local_specified, 0,
+			     repository, false);
 	rev2_validated = 1;
     }
 
