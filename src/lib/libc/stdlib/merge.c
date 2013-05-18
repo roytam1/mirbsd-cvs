@@ -51,8 +51,10 @@
 #include <stdlib.h>
 #include <string.h>
 
-static void setup(u_char *, u_char *, size_t, size_t, int (*)());
-static void insertionsort(u_char *, size_t, size_t, int (*)());
+static void setup(u_char *, u_char *, size_t, size_t,
+    int (*)(const void *, const void *));
+static void insertionsort(u_char *, size_t, size_t,
+    int (*)(const void *, const void *));
 
 #define ISIZE sizeof(int)
 #define PSIZE sizeof(u_char *)
@@ -153,7 +155,7 @@ EXPONENTIAL:	    		for (i = size; ; i <<= 1)
 	    					break;
 	    				} else if ((*cmp)(q, p) <= sense) {
 	    					t = p;
-	    					if (i == size)
+	    					if ((size_t)i == size)
 	    						big = 0; 
 	    					goto FASTCASE;
 	    				} else
@@ -166,7 +168,7 @@ EXPONENTIAL:	    		for (i = size; ; i <<= 1)
 	    					b = p;
 	    			}
 	    			goto COPY;
-FASTCASE:	    		while (i > size)
+FASTCASE:	    		while ((size_t)i > size)
 	    				if ((*cmp)(q,
 	    					p = b + (i >>= 1)) <= sense)
 	    					t = p;

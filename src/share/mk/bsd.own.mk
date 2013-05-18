@@ -1,153 +1,219 @@
-#	$OpenBSD: bsd.own.mk,v 1.92 2005/01/18 00:28:42 mickey Exp $
-#	$NetBSD: bsd.own.mk,v 1.24 1996/04/13 02:08:09 thorpej Exp $
+# $MirOS: src/share/mk/bsd.own.mk,v 1.52 2007/08/24 14:20:06 tg Exp $
+# $OpenBSD: bsd.own.mk,v 1.92 2005/01/18 00:28:42 mickey Exp $
+# $NetBSD: bsd.own.mk,v 1.24 1996/04/13 02:08:09 thorpej Exp $
+
+.if !defined(BSD_OWN_MK)
+BSD_OWN_MK=1
 
 # Host-specific overrides
 .if defined(MAKECONF) && exists(${MAKECONF})
-.include "${MAKECONF}"
-.elif exists(/etc/mk.conf)
-.include "/etc/mk.conf"
+.  include "${MAKECONF}"
+.elif exists(/etc/${MAKE:T}.cfg)
+.  include "/etc/${MAKE:T}.cfg"
 .endif
 
-# Set `WARNINGS' to `yes' to add appropriate warnings to each compilation
-WARNINGS?=	no
-# Set `SKEY' to `yes' to build with support for S/key authentication.
-SKEY?=		yes
-# Set `KERBEROS5' to `yes' to build with support for Kerberos5 authentication.
-KERBEROS5?=	yes
-# Set `YP' to `yes' to build with support for NIS/YP.
-YP?=		yes
-# Set `TCP_WRAPPERS' to `yes' to build certain networking daemons with
-# integrated support for libwrap.
-TCP_WRAPPERS?=	yes
-# Set `AFS` to `yes' to build with AFS support.
-AFS?=		yes
-# Set `DEBUGLIBS' to `yes' to build libraries with debugging symbols
-DEBUGLIBS?=	no
-# Set toolchain to be able to know differences.
-.if ${MACHINE_ARCH} == "m68k" || ${MACHINE_ARCH} == "m88k" || \
-    ${MACHINE_ARCH} == "vax"
-ELF_TOOLCHAIN?=	no
+SKEY?=		Yes	# no = avoid building with support for S/key auth
+DEBUGLIBS?=	No	# yes (snapshots), no (releases), removed (mirmake)
+MALLOC_TYPE?=	mmap	# default: mmap, other: brk
+
+CROSS_MODE?=	No
+.if !make(obj) && (${CROSS_MODE:L} == "yes")
+DEFFLAGS=	No
+EXPERIMENTAL=	Yes
+.endif
+
+DEFFLAGS?=	Yes
+.if ${DEFFLAGS:L} != "no"
+COPTS?=		${_DEFCOPTS} ${GCEXTRA}
 .else
-ELF_TOOLCHAIN?=	yes
+COPTS?=		# at least define it
 .endif
 
-# gcc3
-.if ${MACHINE_ARCH} == "alpha" || \
-    ${MACHINE_ARCH} == "m68k" || ${MACHINE_ARCH} == "m88k" || \
-    ${MACHINE_ARCH} == "sparc" || ${MACHINE_ARCH} == "vax"
-USE_GCC3?=no
-.else
-USE_GCC3?=yes
+.ifdef __CRAZY
+WARNINGS=	yes
+CFLAGS+=	-Wall -Wextra -Wunused -Wdeclaration-after-statement -Wundef \
+		-Wendif-labels -Wshadow -Wpointer-arith -Wbad-function-cast \
+		-Wcast-qual -Wcast-align -Wwrite-strings -Wstrict-prototypes \
+		-Wold-style-definition -Wmissing-prototypes -Winline \
+		-Wmissing-declarations -Wmissing-noreturn -Winit-self \
+		-Wmissing-format-attribute -Wredundant-decls -std=gnu99
 .endif
 
+# Set to yes to add CDIAGFLAGS to CFLAGS
+WARNINGS?=		No
+# Set to yes to build shared libraries with basic debugging information
+DEBUGLIBS?=		No	# yes, we have this twice
+# Set to yes for a stricter patent policy (USA and OpenBSD only)
+MKC_USAP?=		No
+# Set to sudo to automatically switch to root and only if needed
+SUDO?=
 # where the system object and source trees are kept; can be configurable
 # by the user in case they want them in ~/foosrc and ~/fooobj, for example
-BSDSRCDIR?=	/usr/src
-BSDOBJDIR?=	/usr/obj
+BSDSRCDIR?=		/usr/src
+BSDOBJDIR?=		/usr/obj
+BSDRELDIR?=		/usr/releng
+# Shared files for system GNU configure and build process
+GNUSYSTEM_AUX_DIR?=	${BSDSRCDIR}/gnu/share
 
-BINGRP?=	bin
+
 BINOWN?=	root
+BINGRP?=	bin
+CONFGRP?=	wheel
 BINMODE?=	555
 NONBINMODE?=	444
 DIRMODE?=	755
 
-# Define MANZ to have the man pages compressed (gzip)
-#MANZ=		1
+BSD_PREFIX?=	/usr
 
-# Define MANPS to have PostScript manual pages generated
-#MANPS=		1
-
-SHAREDIR?=	/usr/share
-SHAREGRP?=	bin
-SHAREOWN?=	root
+SHAREDIR?=	${BSD_PREFIX}/share
+SHAREOWN?=	${BINOWN}
+SHAREGRP?=	${BINGRP}
 SHAREMODE?=	${NONBINMODE}
 
-MANDIR?=	/usr/share/man/cat
-MANGRP?=	bin
-MANOWN?=	root
+.if ${BSD_PREFIX} == "/usr"
+MANDIR?=	${BSD_PREFIX}/share/man/cat
+.else
+MANDIR?=	${BSD_PREFIX}/man/cat
+.endif
+MANOWN?=	${SHAREOWN}
+MANGRP?=	${SHAREGRP}
 MANMODE?=	${NONBINMODE}
 
-PSDIR?=		/usr/share/man/ps
-PSGRP?=		bin
-PSOWN?=		root
-PSMODE?=	${NONBINMODE}
-
-LIBDIR?=	/usr/lib
-LINTLIBDIR?=	/usr/libdata/lint
-LIBGRP?=	${BINGRP}
+LIBDIR?=	${BSD_PREFIX}/lib
+LINTLIBDIR?=	${BSD_PREFIX}/libdata/lint
 LIBOWN?=	${BINOWN}
+LIBGRP?=	${BINGRP}
 LIBMODE?=	${NONBINMODE}
 
-DOCDIR?=        /usr/share/doc
-DOCGRP?=	bin
-DOCOWN?=	root
-DOCMODE?=       ${NONBINMODE}
+DOCDIR?=	${SHAREDIR}/doc
+DOCOWN?=	${SHAREOWN}
+DOCGRP?=	${SHAREGRP}
+DOCMODE?=	${NONBINMODE}
 
-LKMDIR?=	/usr/lkm
-LKMGRP?=	${BINGRP}
+LKMDIR?=	${BSD_PREFIX}/lkm
 LKMOWN?=	${BINOWN}
+LKMGRP?=	${BINGRP}
 LKMMODE?=	${NONBINMODE}
-
-NLSDIR?=	/usr/share/nls
-NLSGRP?=	bin
-NLSOWN?=	root
-NLSMODE?=	${NONBINMODE}
-
-# Shared files for system gnu configure, not used yet
-GNUSYSTEM_AUX_DIR?=${BSDSRCDIR}/share/gnu
 
 INSTALL_COPY?=	-c
 .ifndef DEBUG
 INSTALL_STRIP?=	-s
+STRIP?=		strip
 .endif
+INSTALL_STRIP?=
+STRIP?=		:
 
 # This may be changed for _single filesystem_ configurations (such as
 # routers and other embedded systems); normal systems should leave it alone!
 STATIC?=	-static
 
-# Define SYS_INCLUDE to indicate whether you want symbolic links to the system
-# source (``symlinks''), or a separate copy (``copies''); (latter useful
-# in environments where it's not possible to keep /sys publicly readable)
-#SYS_INCLUDE= 	symlinks
+NOLINT?=	yes
+NOMAN?=		no
+NOOBJ?=		no
+NOPIC?=		no
 
-# don't try to generate PIC versions of libraries on machines
-# which don't support PIC.
-.if (${MACHINE_ARCH} == "vax") || (${MACHINE_ARCH} == "m88k")
-NOPIC=
+LDFLAGS?=
+.if ${NOPIC:L} != "no" && !${LDFLAGS:M-static}
+LDFLAGS+=	${STATIC}
 .endif
 
-# pic relocation flags.
-.if (${MACHINE_ARCH} == "sparc64")
-PICFLAG=-fPIC
+OBJECT_FMT=	ELF		# ELF a.out COFF Mach-O PE
+RTLD_TYPE=	BSD		# dyld GNU BSD
+
+.if ${OBJECT_FMT} == "Mach-O"
+PICFLAG=	-fno-common
+.elif ${OBJECT_FMT} == "PE"
+PICFLAG=	# not needed; -fpic/-fPIC generates broken code
+.elif (${MACHINE_ARCH} == "sparc") || (${MACHINE_ARCH} == "sparc64")
+PICFLAG=	-fPIC
 .else
-PICFLAG=-fpic
-. if ${MACHINE_ARCH} == "m68k"
-# Function CSE makes gas -k not recognize external function calls as lazily
-# resolvable symbols, thus sometimes making ld.so report undefined symbol
-# errors on symbols found in shared library members that would never be
-# called.  Ask niklas@openbsd.org for details.
-PICFLAG+=-fno-function-cse
-. endif
+PICFLAG=	-fpic
 .endif
 
-.if (${MACHINE_ARCH} == "sparc64") || (${MACHINE_ARCH} == "sparc")
-ASPICFLAG=-KPIC
-.elif (${ELF_TOOLCHAIN:L} == "no")
-ASPICFLAG=-k
+.if ${MACHINE_ARCH} == "sparc"
+ASPICFLAG=	-KPIC
+.elif ${OBJECT_FMT} == "a.out"
+ASPICFLAG=	-k
 .endif
 
-# don't try to generate PROFILED versions of libraries on machines
-# which don't support profiling.
-.if 0
-NOPROFILE=
+# XXX fixme
+PIC?=		cat --
+BIB?=		cat --
+
+BIB?=		bib
+EQN?=		neqn
+GREMLIN?=	grn
+GRIND?=		vgrind -f
+INDXBIB?=	indxbib
+MKDEP_SH?=	mkdep
+MKSH?=		/bin/mksh
+NROFF?=		nrcon ${MACROS} ${PAGES}
+PIC?=		pic
+REFER?=		refer
+ROFF?=		groff -Tps ${MACROS} ${PAGES}
+SOELIM?=	soelim
+TBL?=		tbl
+
+# this used to be in <bsd.prog.mk> but we need it
+# e.g. for depending DLLs on CSU objects
+
+.if ${OBJECT_FMT} == "ELF"
+LIBCRT0?=	${DESTDIR}/usr/lib/crt0.o
+CRTBEGIN?=	${DESTDIR}/usr/lib/crtbegin.o
+CRTEND?=	${DESTDIR}/usr/lib/crtend.o
+CRTI?=		${DESTDIR}/usr/lib/crti.o
+CRTN?=		${DESTDIR}/usr/lib/crtn.o
+.  if defined(DESTDIR)
+${CRTBEGIN} ${CRTEND} ${CRTI} ${CRTN} ${LIBCRT0}: .OPTIONAL .NOTMAIN
+.  endif
+.endif
+LIBC?=		${DESTDIR}/usr/lib/libc.a
+LIBCOMPAT?=	${DESTDIR}/usr/lib/libcompat.a
+LIBCRYPTO?=	${DESTDIR}/usr/lib/libcrypto.a
+LIBCURSES?=	${DESTDIR}/usr/lib/libcurses.a
+LIBDES?=	${DESTDIR}/usr/lib/libdes.a
+LIBEDIT?=	${DESTDIR}/usr/lib/libedit.a
+LIBEVENT?=	${DESTDIR}/usr/lib/libevent.a
+LIBEXPAT?=	${DESTDIR}/usr/lib/libexpat.a
+LIBFL?=		${DESTDIR}/usr/lib/libfl.a
+LIBFORM?=	${DESTDIR}/usr/lib/libform.a
+LIBICONV?=	${DESTDIR}/usr/lib/libiconv.a
+LIBKEYNOTE?=	${DESTDIR}/usr/lib/libkeynote.a
+LIBKVM?=	${DESTDIR}/usr/lib/libkvm.a
+LIBL?=		${DESTDIR}/usr/lib/libl.a
+LIBM?=		${DESTDIR}/usr/lib/libm.a
+LIBMENU?=	${DESTDIR}/usr/lib/libmenu.a
+LIBMILTER?=	${DESTDIR}/usr/lib/libmilter.a
+LIBOLDCURSES?=	${DESTDIR}/usr/lib/libocurses.a
+LIBOSSAUDIO?=	${DESTDIR}/usr/lib/libossaudio.a
+LIBPANEL?=	${DESTDIR}/usr/lib/libpanel.a
+LIBPCAP?=	${DESTDIR}/usr/lib/libpcap.a
+LIBPERL?=	${DESTDIR}/usr/lib/libperl.a
+LIBPNG?=	${DESTDIR}/usr/lib/libpng.a
+LIBPTHREAD?=	${DESTDIR}/usr/lib/libpthread.a
+LIBRPCSVC?=	${DESTDIR}/usr/lib/librpcsvc.a
+LIBSECTOK?=	${DESTDIR}/usr/lib/libsectok.a
+LIBSKEY?=	${DESTDIR}/usr/lib/libskey.a
+LIBSSL?=	${DESTDIR}/usr/lib/libssl.a
+LIBTERMCAP?=	${DESTDIR}/usr/lib/libtermcap.a
+LIBTERMLIB?=	${DESTDIR}/usr/lib/libtermlib.a
+LIBUSB?=	${DESTDIR}/usr/lib/libusbhid.a
+LIBUTIL?=	${DESTDIR}/usr/lib/libutil.a
+LIBY?=		${DESTDIR}/usr/lib/liby.a
+LIBZ?=		${DESTDIR}/usr/lib/libz.a
+
+.if ${MACHINE_ARCH} == "i386"
+LIBARCH?=	${DESTDIR}/usr/lib/lib${MACHINE_ARCH}.a
+.else
+LIBARCH?=
 .endif
 
-# No lint, for now.
-NOLINT=
-
-BSD_OWN_MK=Done
+# old stuff
+LIBOSSAUDIO?=	${DESTDIR}/usr/lib/libossaudio.a
 
 .PHONY: spell clean cleandir obj manpages print all \
 	depend beforedepend afterdepend cleandepend \
-	all lint cleanman nlsinstall cleannls includes \
+	all lint cleanman includes \
 	beforeinstall realinstall maninstall afterinstall install
+
+.endif

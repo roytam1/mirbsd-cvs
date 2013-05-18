@@ -277,7 +277,7 @@ NewClient(u_int8_t *addr)
 	}
 
 	bzero(ctmp, sizeof(CLIENT));
-	bcopy(addr, &ctmp->addr[0], RMP_ADDRLEN);
+	memmove(&ctmp->addr[0], addr, RMP_ADDRLEN);
 	return(ctmp);
 }
 
@@ -375,7 +375,7 @@ NewConn(RMPCONN *rconn)
 	 *  Copy template into `rtmp', init file descriptor to `-1' and
 	 *  set ptr to next elem NULL.
 	 */
-	bcopy((char *)rconn, (char *)rtmp, sizeof(RMPCONN));
+	memmove((char *)rtmp, (char *)rconn, sizeof(RMPCONN));
 	rtmp->bootfd = -1;
 	rtmp->next = NULL;
 
@@ -494,7 +494,7 @@ FindConn(RMPCONN *rconn)
 	RMPCONN *rtmp;
 
 	for (rtmp = RmpConns; rtmp != NULL; rtmp = rtmp->next)
-		if (bcmp((char *)&rconn->rmp.hp_hdr.saddr[0],
+		if (memcmp((char *)&rconn->rmp.hp_hdr.saddr[0],
 		    (char *)&rtmp->rmp.hp_hdr.saddr[0], RMP_ADDRLEN) == 0)
 			break;
 

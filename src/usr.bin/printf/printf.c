@@ -1,6 +1,7 @@
+/**	$MirOS: src/usr.bin/printf/printf.c,v 1.2 2005/07/23 18:53:22 tg Exp $ */
 /*	$OpenBSD: printf.c,v 1.12 2004/05/31 15:48:26 pedro Exp $	*/
 
-/*
+/*-
  * Copyright (c) 1989 The Regents of the University of California.
  * All rights reserved.
  *
@@ -29,27 +30,22 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-#if !defined(SHELL) && !defined(BUILTIN)
+#if 0
 char copyright[] =
 "@(#) Copyright (c) 1989 The Regents of the University of California.\n\
  All rights reserved.\n";
 #endif
-#endif /* not lint */
-
-#ifndef lint
-/*static char sccsid[] = "from: @(#)printf.c	5.9 (Berkeley) 6/1/90";*/
-static char rcsid[] = "$OpenBSD: printf.c,v 1.12 2004/05/31 15:48:26 pedro Exp $";
-#endif /* not lint */
 
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <limits.h>
-#include <locale.h>
 #include <errno.h>
 #include <err.h>
+
+__SCCSID("@(#)printf.c	5.9 (Berkeley) 6/1/90");
+__RCSID("$MirOS: src/usr.bin/printf/printf.c,v 1.2 2005/07/23 18:53:22 tg Exp $");
 
 static int	 print_escape_str(const char *);
 static int	 print_escape(const char *);
@@ -59,11 +55,11 @@ static double	 getdouble(void);
 static int	 getint(void);
 static long	 getlong(void);
 static unsigned long getulong(void);
-static char	*getstr(void);
-static char	*mklong(const char *, int); 
+static const char *getstr(void);
+static char	*mklong(const char *, int);
 static void      check_conversion(const char *, const char *);
-static void	 usage(void); 
-     
+static void	 usage(void);
+
 static int	rval;
 static char  **gargv;
 
@@ -73,23 +69,13 @@ static char  **gargv;
 
 #ifdef SHELL
 #define main printfcmd
-#include "../../bin/sh/bltin/bltin.h"
+#include "bltin.h"
 #include <stdarg.h>
-
-static void 
-warnx(const char *fmt, ...)
-{
-	
-	char buf[64];
-	va_list ap;
-
-	va_start(ap, fmt);
-	vsnprintf(buf, sizeof buf, fmt, ap);
-	va_end(ap);
-
-	error(buf);
-}
 #endif /* SHELL */
+
+#ifdef BUILTIN
+int progprintf(int, char *[]);
+#endif
 
 #define PF(f, func) { \
 	if (fieldwidth) \
@@ -115,10 +101,6 @@ main(int argc, char *argv[])
 	char convch, nextch;
 	char *format;
 
-#if !defined(SHELL) && !defined(BUILTIN)
-	setlocale (LC_ALL, "");
-#endif
-
 	if (argc < 2) {
 		usage();
 		return (1);
@@ -133,9 +115,9 @@ main(int argc, char *argv[])
 		/*
 		 * Basic algorithm is to scan the format string for conversion
 		 * specifications -- once one is found, find out if the field
-		 * width or precision is a '*'; if it is, gather up value. 
+		 * width or precision is a '*'; if it is, gather up value.
 		 * Note, format strings are reused as necessary to use up the
-		 * provided arguments, arguments of zero/null string are 
+		 * provided arguments, arguments of zero/null string are
 		 * provided to use up the format string.
 		 */
 
@@ -149,7 +131,7 @@ main(int argc, char *argv[])
 					putchar ('%');
 					break;
 				} else if (*fmt == 'b') {
-					char *p = getstr();
+					const char *p = getstr();
 					if (print_escape_str(p)) {
 						return (rval);
 					}
@@ -182,7 +164,7 @@ main(int argc, char *argv[])
 					break;
 				}
 				case 's': {
-					char *p = getstr();
+					const char *p = getstr();
 					PF(start, p);
 					break;
 				}
@@ -244,7 +226,7 @@ main(int argc, char *argv[])
 
 
 /*
- * Print SysV echo(1) style escape string 
+ * Print SysV echo(1) style escape string
  *	Halts processing string and returns 1 if a \c escape is encountered.
  */
 static int
@@ -256,10 +238,10 @@ print_escape_str(const char *str)
 	while (*str) {
 		if (*str == '\\') {
 			str++;
-			/* 
+			/*
 			 * %b string octal constants are not like those in C.
-			 * They start with a \0, and are followed by 0, 1, 2, 
-			 * or 3 octal digits. 
+			 * They start with a \0, and are followed by 0, 1, 2,
+			 * or 3 octal digits.
 			 */
 			if (*str == '0') {
 				str++;
@@ -272,7 +254,7 @@ print_escape_str(const char *str)
 			} else if (*str == 'c') {
 				return 1;
 			} else {
-				str--;			
+				str--;
 				str += print_escape(str);
 			}
 		} else {
@@ -285,7 +267,7 @@ print_escape_str(const char *str)
 }
 
 /*
- * Print "standard" escape characters 
+ * Print "standard" escape characters
  */
 static int
 print_escape(const char *str)
@@ -313,7 +295,7 @@ print_escape(const char *str)
 			value <<= 4;
 			value += hextobin(*str);
 		}
-		if (value > UCHAR_MAX) {
+		if ((unsigned)value > UCHAR_MAX) {
 			warnx ("escape sequence out of range for character");
 			rval = 1;
 		}
@@ -342,11 +324,7 @@ print_escape(const char *str)
 		break;
 
 	case 'e':			/* escape */
-#ifdef __GNUC__
-		putchar('\e');
-#else
 		putchar(033);
-#endif
 		break;
 
 	case 'f':			/* form-feed */
@@ -383,7 +361,7 @@ mklong(const char *str, int ch)
 {
 	static char *copy;
 	static int copysize;
-	int len;	
+	int len;
 
 	len = strlen(str) + 2;
 	if (copysize < len) {
@@ -403,7 +381,7 @@ mklong(const char *str, int ch)
 	copy[len - 3] = 'l';
 	copy[len - 2] = ch;
 	copy[len - 1] = '\0';
-	return (copy);	
+	return (copy);
 }
 
 static int
@@ -414,7 +392,7 @@ getchr(void)
 	return((int)**gargv++);
 }
 
-static char *
+static const char *
 getstr(void)
 {
 	if (!*gargv)
@@ -422,10 +400,10 @@ getstr(void)
 	return(*gargv++);
 }
 
-static char *number = "+-.0123456789";
 static int
 getint(void)
 {
+	static const char *number = "+-.0123456789";
 	if (!*gargv)
 		return(0);
 

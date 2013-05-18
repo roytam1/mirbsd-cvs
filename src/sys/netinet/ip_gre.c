@@ -204,8 +204,23 @@ gre_input2(m , hlen, proto)
 	m_adj(m, hlen);
 
 #if NBPFILTER > 0
-        if (sc->sc_if.if_bpf)
-		bpf_mtap_af(sc->sc_if.if_bpf, af, m);
+        if (sc->sc_if.if_bpf) {
+                /*
+                 * We need to prepend the address family as
+                 * a four byte field.  Cons up a fake header
+                 * to pacify bpf.  This is safe because bpf
+                 * will only read from the mbuf (i.e., it won't
+                 * try to free it or keep a pointer a to it).
+                 */
+                struct mbuf m0;
+
+		m0.m_flags = 0;
+                m0.m_next = m;
+                m0.m_len = 4;
+                m0.m_data = (char *) &af;
+
+                bpf_mtap(sc->sc_if.if_bpf, &m0);
+        }
 #endif
 
 	s = splimp();		/* possible */
@@ -335,8 +350,24 @@ gre_mobile_input(struct mbuf *m, ...)
 	ifq = &ipintrq;
 
 #if NBPFILTER > 0
-        if (sc->sc_if.if_bpf)
-		bpf_mtap_af(sc->sc_if.if_bpf, AF_INET, m);
+        if (sc->sc_if.if_bpf) {
+                /*
+                 * We need to prepend the address family as
+                 * a four byte field.  Cons up a fake header
+                 * to pacify bpf.  This is safe because bpf
+                 * will only read from the mbuf (i.e., it won't
+                 * try to free it or keep a pointer a to it).
+                 */
+                struct mbuf m0;
+		u_int af = AF_INET;
+
+		m0.m_flags = 0;
+                m0.m_next = m;
+                m0.m_len = 4;
+                m0.m_data = (char *) &af;
+
+                bpf_mtap(sc->sc_if.if_bpf, &m0);
+        }
 #endif
 
 	s = splimp();       /* possible */

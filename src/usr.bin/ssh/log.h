@@ -1,3 +1,4 @@
+/* $MirOS: src/usr.bin/ssh/log.h,v 1.3 2006/04/19 10:40:48 tg Exp $ */
 /* $OpenBSD: log.h,v 1.15 2006/08/18 09:13:25 deraadt Exp $ */
 
 /*
@@ -43,20 +44,21 @@ typedef enum {
 	SYSLOG_LEVEL_NOT_SET = -1
 }       LogLevel;
 
-void     log_init(char *, LogLevel, SyslogFacility, int);
+void     log_init(const char *, LogLevel, SyslogFacility, int);
 
 SyslogFacility	log_facility_number(char *);
 LogLevel log_level_number(char *);
 
 void     fatal(const char *, ...) __dead __attribute__((format(printf, 1, 2)));
 void     error(const char *, ...) __attribute__((format(printf, 1, 2)));
-void     sigdie(const char *, ...) __attribute__((format(printf, 1, 2)));
+void     sigdie(const char *, ...) __attribute__((format(printf, 1, 2))) __dead;
 void     logit(const char *, ...) __attribute__((format(printf, 1, 2)));
 void     verbose(const char *, ...) __attribute__((format(printf, 1, 2)));
 void     debug(const char *, ...) __attribute__((format(printf, 1, 2)));
 void     debug2(const char *, ...) __attribute__((format(printf, 1, 2)));
 void     debug3(const char *, ...) __attribute__((format(printf, 1, 2)));
 
-void	 do_log(LogLevel, const char *, va_list);
+void	 do_log(LogLevel, const char *, va_list)
+	    __attribute__((format(printf, 2, 0)));
 void	 cleanup_exit(int) __dead;
 #endif

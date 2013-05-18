@@ -30,12 +30,11 @@
 #include "key.h"
 #include "hostfile.h"
 #include "auth.h"
-#ifdef GSSAPI
-#include "ssh-gss.h"
-#endif
 #include "monitor_wrap.h"
 
-/* Flags set authorized_keys flags */
+__RCSID("$MirOS: src/usr.bin/ssh/auth-options.c,v 1.2 2006/07/23 14:19:26 tg Exp $");
+
+/* Flags set authorised_keys flags */
 int no_port_forwarding_flag = 0;
 int no_agent_forwarding_flag = 0;
 int no_x11_forwarding_flag = 0;

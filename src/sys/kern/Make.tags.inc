@@ -1,4 +1,5 @@
-#	$OpenBSD: Make.tags.inc,v 1.7 2002/07/15 21:29:16 mickey Exp $
+# $MirOS$
+# $OpenBSD: Make.tags.inc,v 1.7 2002/07/15 21:29:16 mickey Exp $
 
 # Common files for "make tags".
 # Included by the Makefile for each architecture.
@@ -7,7 +8,7 @@
 # there is a struct tag with the same name (eg., vmmeter).  The real
 # solution would probably be for ctags to generate "struct vmmeter" tags.
 
-COMM=	$S/adosfs/*.[ch] \
+COMM=	\
 	$S/altq/*.[ch] \
 	$S/compat/*/*.[ch] \
 	$S/conf/*.[ch] \
@@ -21,14 +22,13 @@ COMM=	$S/adosfs/*.[ch] \
 	$S/msdosfs/*.[ch] \
 	$S/net/*.[ch] \
 	$S/netatalk/*.[ch] \
-	$S/netccitt/*.[ch] \
 	$S/netinet/*.[ch] \
 	$S/netinet6/*.[ch] \
 	$S/netipx/*.[ch] \
-	$S/netiso/*.[ch] \
+	$S/netisdn/*.[ch] \
 	$S/netnatm/*.[ch] \
-	$S/netns/*.[ch] \
 	$S/nfs/*.[ch] \
+	$S/ntfs/*.[ch] \
 	$S/scsi/*.[ch] \
 	$S/ufs/*/*.[ch] \
 	$S/uvm/*.[ch] \

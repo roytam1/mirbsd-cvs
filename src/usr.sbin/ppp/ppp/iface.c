@@ -409,7 +409,7 @@ iface_Clear(struct iface *iface, struct ncp *ncp, int family, int how)
           log_Printf(LogERROR, "iface_Clear: socket(): %s\n", strerror(errno));
         else if (iface_addr_Zap(iface->name, iface->addr + n, *s)) {
           ncp_IfaceAddrDeleted(ncp, iface->addr + n);
-          bcopy(iface->addr + n + 1, iface->addr + n,
+          memmove(iface->addr + n, iface->addr + n + 1,
                 (iface->addrs - n - 1) * sizeof *iface->addr);
           iface->addrs--;
           n--;
@@ -463,7 +463,7 @@ iface_Add(struct iface *iface, struct ncp *ncp, const struct ncprange *ifa,
       ncpaddr_copy(&iface->addr[n].peer, peer);
       if (!iface_addr_Add(iface->name, iface->addr + n, s)) {
         if (removed) {
-          bcopy(iface->addr + n + 1, iface->addr + n,
+          memmove(iface->addr + n, iface->addr + n + 1,
                 (iface->addrs - n - 1) * sizeof *iface->addr);
           iface->addrs--;
           n--;
@@ -497,7 +497,7 @@ iface_Add(struct iface *iface, struct ncp *ncp, const struct ncprange *ifa,
   if (how & IFACE_ADD_FIRST) {
     /* Stuff it at the start of our list */
     n = 0;
-    bcopy(iface->addr, iface->addr + 1, iface->addrs * sizeof *iface->addr);
+    memmove(iface->addr + 1, iface->addr, iface->addrs * sizeof *iface->addr);
   } else
     n = iface->addrs;
 
@@ -526,7 +526,7 @@ iface_Delete(struct iface *iface, struct ncp *ncp, const struct ncpaddr *del)
     if (ncpaddr_equal(&found, del)) {
       if (iface_addr_Zap(iface->name, iface->addr + n, s)) {
         ncp_IfaceAddrDeleted(ncp, iface->addr + n);
-        bcopy(iface->addr + n + 1, iface->addr + n,
+        memmove(iface->addr + n, iface->addr + n + 1,
               (iface->addrs - n - 1) * sizeof *iface->addr);
         iface->addrs--;
         res = 1;

@@ -1,4 +1,3 @@
-/*	$OpenBSD: common.c,v 1.6 2003/10/31 08:42:24 otto Exp $	*/
 /*	$NetBSD: common.c,v 1.16 2003/08/07 16:44:30 agc Exp $	*/
 
 /*-
@@ -38,7 +37,7 @@
 #if 0
 static char sccsid[] = "@(#)common.c	8.1 (Berkeley) 6/4/93";
 #else
-static const char rcsid[] = "$OpenBSD: common.c,v 1.6 2003/10/31 08:42:24 otto Exp $";
+__RCSID("$NetBSD: common.c,v 1.16 2003/08/07 16:44:30 agc Exp $");
 #endif
 #endif /* not lint && not SCCSID */
 

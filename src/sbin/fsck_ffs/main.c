@@ -30,20 +30,6 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-static const char copyright[] =
-"@(#) Copyright (c) 1980, 1986, 1993\n\
-	The Regents of the University of California.  All rights reserved.\n";
-#endif /* not lint */
-
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)main.c	8.2 (Berkeley) 1/23/94";
-#else
-static const char rcsid[] = "$OpenBSD: main.c,v 1.29 2007/02/09 19:52:32 otto Exp $";
-#endif
-#endif /* not lint */
-
 #include <sys/param.h>
 #include <sys/time.h>
 #include <sys/mount.h>
@@ -59,6 +45,11 @@ static const char rcsid[] = "$OpenBSD: main.c,v 1.29 2007/02/09 19:52:32 otto Ex
 #include "fsck.h"
 #include "extern.h"
 #include "fsutil.h"
+
+__COPYRIGHT("@(#) Copyright (c) 1980, 1986, 1993\n\
+	The Regents of the University of California.  All rights reserved.\n");
+__SCCSID("@(#)main.c	8.2 (Berkeley) 1/23/94");
+__RCSID("$MirOS$");
 
 volatile sig_atomic_t returntosingle;
 
@@ -300,7 +291,7 @@ checkfilesys(char *filesys, char *mntpt, long auxdata, int child)
 	muldup = NULL;
 	inocleanup();
 	if (fsmodified) {
-		(void)time(&sblock.fs_time);
+		sblock.fs_time = time(NULL);
 		sbdirty();
 	}
 	if (cvtlevel && sblk.b_dirty) {

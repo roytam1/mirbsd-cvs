@@ -25,6 +25,8 @@
 #include "xmalloc.h"
 #include "log.h"
 
+__RCSID("$MirOS$");
+
 const EVP_CIPHER *evp_aes_128_ctr(void);
 void ssh_aes_ctr_iv(EVP_CIPHER_CTX *, int, u_char *, u_int);
 
@@ -75,7 +77,7 @@ ssh_aes_ctr(EVP_CIPHER_CTX *ctx, u_char *dest, const u_char *src,
 
 static int
 ssh_aes_ctr_init(EVP_CIPHER_CTX *ctx, const u_char *key, const u_char *iv,
-    int enc)
+    int enc __attribute__((unused)))
 {
 	struct ssh_aes_ctr_ctx *c;
 

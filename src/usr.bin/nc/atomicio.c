@@ -30,7 +30,10 @@
 #include <sys/uio.h>
 #include <errno.h>
 #include <unistd.h>
+
 #include "atomicio.h"
+
+__RCSID("$MirOS: src/usr.bin/nc/atomicio.c,v 1.3 2005/04/29 18:35:09 tg Exp $");
 
 /*
  * ensure all of data on socket comes through. f==read || f==vwrite

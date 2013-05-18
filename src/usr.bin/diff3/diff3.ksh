@@ -1,5 +1,5 @@
-#!/bin/ksh -
-#
+#!/bin/mksh
+# $MirOS: src/usr.bin/diff3/diff3.ksh,v 1.2 2005/07/07 13:39:43 tg Exp $
 # $OpenBSD: diff3.ksh,v 1.4 2006/02/22 22:35:11 jmc Exp $
 #
 # Copyright (c) 2003 Todd C. Miller <Todd.Miller@courtesan.com>

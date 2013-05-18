@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: search.h,v 1.7 2004/07/08 21:15:11 millert Exp $	*/
 /*	$NetBSD: search.h,v 1.9 1995/08/08 21:14:45 jtc Exp $	*/
 
@@ -12,9 +13,9 @@
 #include <sys/cdefs.h>
 #include <machine/ansi.h>
 
-#ifdef	_BSD_SIZE_T_
-typedef	_BSD_SIZE_T_	size_t;
-#undef	_BSD_SIZE_T_
+#if !defined(_GCC_SIZE_T)
+#define	_GCC_SIZE_T
+typedef	__SIZE_TYPE__	size_t;
 #endif
 
 typedef struct entry {

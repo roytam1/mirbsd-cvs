@@ -147,7 +147,7 @@ main(int argc, char *argv[])
 					herror(0);
 					exit(1);
 				}
-				bcopy(hp->h_addr, &OMSG.rip_nets[0].n_dst,
+				memmove(&OMSG.rip_nets[0].n_dst, hp->h_addr,
 				      sizeof(OMSG.rip_nets[0].n_dst));
 				OMSG.rip_nets[0].n_family = RIP_AF_INET;
 				OMSG.rip_nets[0].n_mask = -1;
@@ -413,7 +413,7 @@ out(char *host)
 			herror(host);
 			return -1;
 		}
-		bcopy(hp->h_addr, &router.sin_addr, sizeof(router.sin_addr));
+		memmove(&router.sin_addr, hp->h_addr, sizeof(router.sin_addr));
 	}
 	router.sin_port = htons(RIP_PORT);
 
@@ -617,7 +617,7 @@ getnet(char *name,
 		i = (int)(mname - name);
 		if (i > sizeof(hname)-1)	/* name too long */
 			return 0;
-		bcopy(name, hname, i);
+		memmove(hname, name, i);
 		hname[i] = '\0';
 		mname++;
 		name = hname;

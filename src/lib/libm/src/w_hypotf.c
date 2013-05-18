@@ -8,13 +8,14 @@
  *
  * Developed at SunPro, a Sun Microsystems, Inc. business.
  * Permission to use, copy, modify, and distribute this
- * software is freely granted, provided that this notice 
+ * software is freely granted, provided that this notice
  * is preserved.
  * ====================================================
  */
 
+#include <sys/cdefs.h>
 #if defined(LIBM_SCCS) && !defined(lint)
-static char rcsid[] = "$NetBSD: w_hypotf.c,v 1.3 1995/05/10 20:49:09 jtc Exp $";
+__RCSID("$NetBSD: w_hypotf.c,v 1.6 2002/05/26 22:02:01 wiz Exp $");
 #endif
 
 /*
@@ -23,6 +24,7 @@ static char rcsid[] = "$NetBSD: w_hypotf.c,v 1.3 1995/05/10 20:49:09 jtc Exp $";
 
 #include "math.h"
 #include "math_private.h"
+
 
 float
 hypotf(float x, float y)	/* wrapper hypotf */

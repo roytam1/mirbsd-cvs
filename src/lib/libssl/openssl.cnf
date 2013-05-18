@@ -43,8 +43,7 @@ emailAddress_max		= 64
 challengePassword		= A challenge password
 challengePassword_min		= 4
 challengePassword_max		= 20
-
-unstructuredName		= An optional company name
+unstructuredName		= An optional name (eg, "subjectAltName=IP:1.2.3.4")
 
 [ x509v3_extensions ]
 

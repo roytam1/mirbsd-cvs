@@ -1,3 +1,4 @@
+/**	$MirOS: src/usr.bin/indent/indent.c,v 1.2 2005/03/13 18:33:02 tg Exp $ */
 /*	$OpenBSD: indent.c,v 1.18 2004/11/29 06:20:03 jsg Exp $	*/
 
 /*
@@ -33,17 +34,12 @@
  */
 
 #ifndef lint
-char copyright[] =
+static const char copyright[] =
 "@(#) Copyright (c) 1985 Sun Microsystems, Inc.\n\
  @(#) Copyright (c) 1980, 1993\n\
 	 The Regents of the University of California.\n\
  @(#) Copyright (c) 1976 Board of Trustees of the University of Illinois.\n\
  All rights reserved.\n";
-#endif /* not lint */
-
-#ifndef lint
-/*static char sccsid[] = "@(#)indent.c	5.17 (Berkeley) 6/7/93";*/
-static char rcsid[] = "$OpenBSD: indent.c,v 1.18 2004/11/29 06:20:03 jsg Exp $";
 #endif /* not lint */
 
 #include <sys/param.h>
@@ -52,11 +48,14 @@ static char rcsid[] = "$OpenBSD: indent.c,v 1.18 2004/11/29 06:20:03 jsg Exp $";
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "indent_globs.h"
-#include "indent_codes.h"
 #include <ctype.h>
 #include <errno.h>
 #include <err.h>
+#include "indent_globs.h"
+#include "indent_codes.h"
+
+__SCCSID("@(#)indent.c	5.17 (Berkeley) 6/7/93");
+__RCSID("$MirOS: src/usr.bin/indent/indent.c,v 1.2 2005/03/13 18:33:02 tg Exp $");
 
 char       *in_name = "Standard Input";	/* will always point to name of input
 					 * file */
@@ -154,6 +153,7 @@ main(int argc, char **argv)
 #ifdef undef
     max_col = 78;		/* -l78 */
     lineup_to_parens = 1;	/* -lp */
+    lineup_indent = 1;		/* -lpi */
     ps.ljust_decl = 0;		/* -ndj */
     ps.com_ind = 33;		/* -c33 */
     star_comment_cont = 1;	/* -sc */
@@ -172,6 +172,7 @@ main(int argc, char **argv)
     procnames_start_line = 1;	/* -psl */
     proc_calls_space = 0;	/* -npcs */
     comment_delimiter_on_blankline = 1;	/* -cdb */
+    space_after_cast = 1;	/* -csp */
     ps.leave_comma = 1;		/* -nbc */
 #endif
 
@@ -222,8 +223,11 @@ main(int argc, char **argv)
 	    bakcopy();
 	}
     }
-    if (ps.com_ind <= 1)
-	ps.com_ind = 2;		/* dont put normal comments before column 2 */
+    if (ps.com_ind < 2)
+	ps.com_ind = ps.com_ind
+	    ? 2			/* dont put normal comments before column 2 */
+	    : 1;		/* enable "don't touch any comments" mode */
+
     if (troff) {
 	if (bodyf.font[0] == 0)
 	    parsefont(&bodyf, "R");
@@ -501,7 +505,7 @@ check_type:
 	    if (ps.in_decl && !ps.block_init)
 		if (troff && !ps.dumped_decl_indent && !is_procname && ps.last_token == decl) {
 		    ps.dumped_decl_indent = 1;
-		    snprintf(e_code, (l_code - e_code) + 5, 
+		    snprintf(e_code, (l_code - e_code) + 5,
 			"\n.Du %dp+\200p \"%s\"\n", dec_ind * 7, token);
 		    e_code += strlen(e_code);
 		    CHECK_SIZE_CODE;
@@ -536,9 +540,12 @@ check_type:
 
 	case rparen:		/* got a ')' or ']' */
 	    rparen_count--;
+	    ps.want_blank = true;
 	    if (ps.cast_mask & (1 << ps.p_l_follow) & ~ps.sizeof_mask) {
 		ps.last_u_d = true;
 		ps.cast_mask &= (1 << ps.p_l_follow) - 1;
+		if (!space_after_cast)
+		    ps.want_blank = false;
 	    }
 	    ps.sizeof_mask &= (1 << ps.p_l_follow) - 1;
 	    if (--ps.p_l_follow < 0) {
@@ -549,7 +556,6 @@ check_type:
 		ps.paren_level = ps.p_l_follow;	/* then indent it */
 
 	    *e_code++ = token[0];
-	    ps.want_blank = true;
 
 	    if (sp_sw && (ps.p_l_follow == 0)) {	/* check for end of if
 							 * (...), or some such */
@@ -1058,7 +1064,7 @@ check_type:
 			*sc_end++ = ' ';
 			--line_no;
 		    }
-		    bcopy(s_lab + com_start, sc_end, com_end - com_start);
+		    memmove(sc_end, s_lab + com_start, com_end - com_start);
 		    sc_end += com_end - com_start;
 		    if (sc_end >= &save_com[sc_size])
 			abort();

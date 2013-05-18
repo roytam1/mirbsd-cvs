@@ -1,4 +1,5 @@
-/* *	$OpenBSD: indent_globs.h,v 1.10 2003/06/25 21:24:53 deraadt Exp $*/
+/**	$MirOS$ */
+/**	$OpenBSD: indent_globs.h,v 1.10 2003/06/25 21:24:53 deraadt Exp $*/
 /*
  * Copyright (c) 1985 Sun Microsystems, Inc.
  * Copyright (c) 1980, 1993
@@ -32,6 +33,9 @@
  *
  *	from: @(#)indent_globs.h	8.1 (Berkeley) 6/6/93
  */
+
+#ifndef	_INDENT_GLOBS_H
+#define	_INDENT_GLOBS_H
 
 #define BACKSLASH '\\'
 #define bufsize 200		/* size of internal buffers */
@@ -157,6 +161,7 @@ int         cuddle_else;	/* true if else should cuddle up to '}' */
 int         star_comment_cont;	/* true iff comment continuation lines should
 				 * have stars at the beginning of each line. */
 int         comment_delimiter_on_blankline;
+int	    space_after_cast;	/* are casts followed by space? */
 int         troff;		/* true iff were generating troff input */
 int         procnames_start_line;	/* if true, the names of procedures
 					 * being defined get placed in column
@@ -176,6 +181,8 @@ int         continuation_indent;/* set to the indentation between the edge of
 				 * code and continuation lines */
 int         lineup_to_parens;	/* if true, continued code within parens will
 				 * be lined up to the open paren */
+int	    lineup_indent;	/* if lineup_to_parens is false, setting this
+				 * to false will remove additional spaces */
 int         Bill_Shannon;	/* true iff a blank should always be inserted
 				 * after sizeof */
 int         blanklines_after_declarations_at_proctop;	/* This is vaguely
@@ -339,3 +346,5 @@ void reduce(void);
 void parse(int);
 void pr_comment(void);
 void bakcopy(void);
+
+#endif

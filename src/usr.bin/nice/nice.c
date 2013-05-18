@@ -30,18 +30,11 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-char copyright[] =
-"@(#) Copyright (c) 1989 The Regents of the University of California.\n\
- All rights reserved.\n";
-#endif /* not lint */
-
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)nice.c	5.4 (Berkeley) 6/1/90";
-#endif
-static char rcsid[] = "$OpenBSD: nice.c,v 1.9 2003/06/10 22:20:49 deraadt Exp $";
-#endif /* not lint */
+#include <sys/cdefs.h>
+__COPYRIGHT("@(#) Copyright (c) 1989 The Regents of the University of California.\n\
+ All rights reserved.\n");
+__SCCSID("@(#)nice.c	5.4 (Berkeley) 6/1/90");
+__RCSID("$MirOS$");
 
 #include <sys/time.h>
 #include <sys/resource.h>
@@ -64,7 +57,9 @@ main(int argc, char *argv[])
 	int niceness = DEFNICE;
 	int c;
 
+#ifndef __MirBSD__
 	setlocale(LC_ALL, "");
+#endif
 
 	/* handle obsolete -number syntax */
 	if (argc > 1 && argv[1][0] == '-' && isdigit(argv[1][1])) {

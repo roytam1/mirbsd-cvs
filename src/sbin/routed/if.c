@@ -562,7 +562,7 @@ ifinit(void)
 			continue;
 		}
 
-		bcopy(&ifs0, &ifs, sizeof(ifs0));
+		memmove(&ifs, &ifs0, sizeof(ifs0));
 		ifs0.int_state |= IS_ALIAS;	/* next will be an alias */
 
 		ifs.int_addr = S_ADDR(INFO_IFA(&info));
@@ -871,7 +871,7 @@ ifinit(void)
 		/* Add it to the list of interfaces
 		 */
 		ifp = (struct interface *)rtmalloc(sizeof(*ifp), "ifinit");
-		bcopy(&ifs, ifp, sizeof(*ifp));
+		memmove(ifp, &ifs, sizeof(*ifp));
 		if (ifnet != 0) {
 			ifp->int_next = ifnet;
 			ifnet->int_prev = ifp;

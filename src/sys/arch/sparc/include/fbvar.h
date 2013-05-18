@@ -1,4 +1,4 @@
-/*	$OpenBSD: fbvar.h,v 1.11 2003/06/28 17:05:35 miod Exp $	*/
+/*	$OpenBSD: fbvar.h,v 1.17 2006/12/03 16:38:13 miod Exp $	*/
 /*	$NetBSD: fbvar.h,v 1.9 1997/07/07 23:31:30 pk Exp $ */
 
 /*
@@ -42,13 +42,6 @@
  */
 
 /*
- * Frame buffer device flags.
- */
-
-#define	FB_PFOUR	0x00010000	/* indicates fb is a pfour fb */
-#define FB_USERMASK	(0)		/* flags that the user can set */
-
-/*
  * Common frame buffer variables.
  * All framebuffer softc structures must start with such a structure.
  */
@@ -65,9 +58,15 @@ struct sunfb {
 	int	*sf_crowp, *sf_ccolp;	/* PROM cursor position */
 
 	int	sf_flags;
+#define	FB_PFOUR	0x00000001	/* indicates a P4 fb */
 	volatile u_int32_t* sf_pfour;	/* P4 register when applicable */
 
 	struct	rasops_info sf_ro;
+
+	struct	wsscreen_descr sf_wsd;
+	struct	wsscreen_list sf_wsl;
+	struct	wsscreen_descr *sf_scrlist[1];
+	int	sf_nscreens;
 };
 
 /*
@@ -77,13 +76,12 @@ extern int fbnode;
 
 void	fb_setsize(struct sunfb*, int, int, int, int, int);
 void	fbwscons_init(struct sunfb *, int);
-void	fbwscons_console_init(struct sunfb *, struct wsscreen_descr *, int,
-    void (*)(void *, u_int, u_int));
+void	fbwscons_console_init(struct sunfb *, int);
 void	fbwscons_setcolormap(struct sunfb *,
     void (*)(void *, u_int, u_int8_t, u_int8_t, u_int8_t));
+void	fbwscons_attach(struct sunfb *, struct wsdisplay_accessops *, int);
 
 #if defined(SUN4)
 int	fb_pfour_id(void *);
-int	fb_pfour_get_video(struct sunfb *);
-void	fb_pfour_set_video(struct sunfb *, int);
+void	fb_pfour_burner(void *, u_int, u_int);
 #endif

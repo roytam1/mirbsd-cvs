@@ -319,7 +319,7 @@ notifybiff(char *msg)
 		addr.sin_len = sizeof(struct sockaddr_in);
 		addr.sin_family = hp->h_addrtype;
 		addr.sin_port = sp->s_port;
-		bcopy(hp->h_addr, &addr.sin_addr, hp->h_length);
+		memmove(&addr.sin_addr, hp->h_addr, hp->h_length);
 	}
 	if (f < 0 && (f = socket(AF_INET, SOCK_DGRAM, 0)) == -1) {
 		merr(NOTFATAL, "socket: %s", strerror(errno));

@@ -1,11 +1,12 @@
-#	$OpenBSD: Makefile,v 1.2 2002/06/09 05:53:55 todd Exp $
+# $MirOS: src/distrib/ramtools/init/Makefile,v 1.2 2006/05/26 18:50:30 tg Exp $
 
-PROG=	init
-MAN=
-COPTS+=-Os
-CFLAGS+=-DDEFAULT_STATE=single_user
-DPADD=	${LIBUTIL}
-LDADD=	-lutil
-.PATH:  ${.CURDIR}/../../../sbin/init
+.include <bsd.own.mk>
+
+SRC_PATH=	${BSDSRCDIR}/sbin/init
+
+PROG=		init
+CPPFLAGS+=	-DDEFAULT_STATE=single_user
+DPADD+=		${LIBUTIL}
+LDADD+=		-lutil
 
 .include <bsd.prog.mk>

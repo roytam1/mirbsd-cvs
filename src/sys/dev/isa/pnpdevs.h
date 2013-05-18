@@ -1,4 +1,6 @@
-/*
+/* $MirOS$ */
+
+/*-
  * THIS FILE AUTOMATICALLY GENERATED.  DO NOT EDIT.
  *
  * generated from:

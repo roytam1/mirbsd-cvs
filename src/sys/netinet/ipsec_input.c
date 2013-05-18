@@ -564,13 +564,26 @@ ipsec_common_input_cb(struct mbuf *m, struct tdb *tdbp, int skip, int protoff,
 #if NBPFILTER > 0
 	bpfif = &encif[0].sc_if;
 	if (bpfif->if_bpf) {
+		/*
+		 * We need to prepend the address family as
+		 * a four byte field.  Cons up a dummy header
+		 * to pacify bpf.  This is safe because bpf
+		 * will only read from the mbuf (i.e., it won't
+		 * try to free it or keep a pointer a to it).
+		 */
+		struct mbuf m1;
 		struct enchdr hdr;
 
 		hdr.af = af;
 		hdr.spi = tdbp->tdb_spi;
 		hdr.flags = m->m_flags & (M_AUTH|M_CONF|M_AUTH_AH);
 
-		bpf_mtap_hdr(bpfif->if_bpf, (char *)&hdr, ENC_HDRLEN, m);
+		m1.m_flags = 0;
+		m1.m_next = m;
+		m1.m_len = ENC_HDRLEN;
+		m1.m_data = (char *) &hdr;
+
+		bpf_mtap(bpfif->if_bpf, &m1);
 	}
 #endif
 

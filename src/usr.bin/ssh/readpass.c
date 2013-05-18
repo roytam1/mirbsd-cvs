@@ -43,6 +43,8 @@
 #include "ssh.h"
 #include "uidswap.h"
 
+__RCSID("$MirOS$");
+
 static char *
 ssh_askpass(char *askpass, const char *msg)
 {
@@ -140,7 +142,7 @@ read_passphrase(const char *prompt, int flags)
 		if (getenv(SSH_ASKPASS_ENV))
 			askpass = getenv(SSH_ASKPASS_ENV);
 		else
-			askpass = _PATH_SSH_ASKPASS_DEFAULT;
+			askpass = (char *)_PATH_SSH_ASKPASS_DEFAULT;
 		if ((ret = ssh_askpass(askpass, prompt)) == NULL)
 			if (!(flags & RP_ALLOW_EOF))
 				return xstrdup("");

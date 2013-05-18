@@ -1,6 +1,8 @@
+/**	$MirOS: src/usr.sbin/ntpd/parse.y,v 1.4 2007/07/31 19:57:02 tg Exp $ */
 /*	$OpenBSD: parse.y,v 1.25 2005/06/19 16:42:57 henning Exp $ */
 
 /*
+ * Copyright (c) 2007 Thorsten Glaser <tg@mirbsd.org>
  * Copyright (c) 2002, 2003, 2004 Henning Brauer <henning@openbsd.org>
  * Copyright (c) 2001 Markus Friedl.  All rights reserved.
  * Copyright (c) 2001 Daniel Hartmeier.  All rights reserved.
@@ -35,14 +37,18 @@
 
 #include "ntpd.h"
 
+__RCSID("$MirOS: src/usr.sbin/ntpd/parse.y,v 1.4 2007/07/31 19:57:02 tg Exp $");
+
 static struct ntpd_conf		*conf;
 static FILE			*fin = NULL;
 static int			 lineno = 1;
 static int			 errors = 0;
 const char			*infile;
 
-int	 yyerror(const char *, ...);
-int	 yyparse(void);
+int	 yyerror(const char *, ...)
+    __attribute__((format (syslog, 1, 2)))
+    __attribute__((format (printf, 1, 2)))
+    __attribute__((nonnull (1)));
 int	 kw_cmp(const void *, const void *);
 int	 lookup(char *);
 int	 lgetc(FILE *);
@@ -63,6 +69,7 @@ typedef struct {
 
 %token	LISTEN ON
 %token	SERVER SERVERS
+%token	SERVERLOOP
 %token	ERROR
 %token	<v.string>		STRING
 %type	<v.addr>		address
@@ -176,9 +183,44 @@ conf_main	: LISTEN ON address	{
 			free($2->name);
 			free($2);
 		}
+		| SERVERLOOP address	{
+			struct ntp_peer		*p;
+			struct ntp_addr		*h, *next;
+
+			p = new_peer();
+			p->stratum_offset = 1;
+			for (h = $2->a; h != NULL; h = next) {
+				next = h->next;
+				if (h->ss.ss_family != AF_INET &&
+				    h->ss.ss_family != AF_INET6) {
+					yyerror("IPv4 or IPv6 address "
+					    "or hostname expected");
+					free(h);
+					free(p);
+					free($2->name);
+					free($2);
+					YYERROR;
+				}
+				h->next = p->addr;
+				p->addr = h;
+			}
+
+			p->addr_head.a = p->addr;
+			p->addr_head.pool = 0;
+			p->addr_head.name = strdup($2->name);
+			if (p->addr_head.name == NULL)
+				fatal(NULL);
+			if (p->addr != NULL)
+				p->state = STATE_DNS_DONE;
+			TAILQ_INSERT_TAIL(&conf->ntp_peers, p, entry);
+			free($2->name);
+			free($2);
+		}
 		;
 
 address		: STRING		{
+			char *p;
+
 			if (($$ = calloc(1, sizeof(struct ntp_addr_wrap))) ==
 			    NULL)
 				fatal(NULL);
@@ -189,7 +231,12 @@ address		: STRING		{
 				free($$);
 				YYERROR;
 			}
-			$$->name = $1;
+			if (!strcmp($1, "*") || (p = strrchr($1, '*')) == NULL)
+				$$->name = $1;
+			else if (($$->name = strdup($1)) == NULL)
+				fatal(NULL);
+			else
+				$$->name[p - $1] = '\0';
 		}
 		;
 
@@ -230,6 +277,7 @@ lookup(char *s)
 		{ "listen",		LISTEN},
 		{ "on",			ON},
 		{ "server",		SERVER},
+		{ "serverloop",		SERVERLOOP},
 		{ "servers",		SERVERS}
 	};
 	const struct keywords	*p;

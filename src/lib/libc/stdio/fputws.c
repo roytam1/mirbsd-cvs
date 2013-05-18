@@ -35,10 +35,10 @@
 #include <wchar.h>
 #include "local.h"
 
+wint_t __fputwc_unlock(wchar_t, FILE *);
+
 int
-fputws(ws, fp)
-	const wchar_t * __restrict ws;
-	FILE * __restrict fp;
+fputws(const wchar_t * __restrict ws, FILE * __restrict fp)
 {
 	flockfile(fp);
 	_SET_ORIENTATION(fp, 1);

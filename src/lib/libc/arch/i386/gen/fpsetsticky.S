@@ -6,6 +6,8 @@
 
 #include <machine/asm.h>
 
+	.text
+
 ENTRY(fpsetsticky)
 	subl $28,%esp
 

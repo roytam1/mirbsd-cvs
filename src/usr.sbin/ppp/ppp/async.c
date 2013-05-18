@@ -50,6 +50,8 @@
 #include "descriptor.h"
 #include "physical.h"
 
+__RCSID("$MirOS: src/usr.sbin/ppp/ppp/async.c,v 1.2 2005/03/13 19:17:13 tg Exp $");
+
 #define MODE_HUNT 0x01
 #define MODE_ESC  0x02
 
@@ -102,7 +104,7 @@ async_LayerPush(struct bundle *bundle, struct link *l, struct mbuf *bp,
                 int pri, u_short *proto)
 {
   struct physical *p = link2physical(l);
-  u_char *cp, *sp, *ep;
+  u_char *cp, *sp, *ep, *tmp;
   struct mbuf *wp;
   size_t oldcnt;
   int cnt;
@@ -134,7 +136,8 @@ async_LayerPush(struct bundle *bundle, struct link *l, struct mbuf *bp,
   cnt = cp - p->async.xbuff;
   m_freem(bp);
   bp = m_get(cnt, MB_ASYNCOUT);
-  memcpy(MBUF_CTOP(bp), p->async.xbuff, cnt);
+  if ((tmp = MBUF_CTOP(bp)) != NULL)
+    memcpy(tmp, p->async.xbuff, cnt);
   bp->priv = cnt - oldcnt;
   log_DumpBp(LogASYNC, "Write", bp);
 

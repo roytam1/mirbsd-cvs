@@ -1,3 +1,4 @@
+.\"	$MirOS: src/usr.bin/sed/sed.1,v 1.3 2005/03/15 23:15:02 tg Exp $
 .\"	$OpenBSD: sed.1,v 1.23 2004/10/04 21:37:49 jmc Exp $
 .\"
 .\" Copyright (c) 1992, 1993
@@ -180,6 +181,17 @@ The escape sequence \en matches a newline character embedded in the
 pattern space.
 You can't, however, use a literal newline character in an address or
 in the substitute command.
+.Pp
+However, because
+.Nm
+cyclically copies a line of input, not including its terminating newline
+character, into a
+.Em pattern space ,
+you first must use the
+.Sq N
+function to concatenate two lines, or do a similar trick, to get a
+newline into the
+.Em pattern space .
 .El
 .Pp
 One special feature of

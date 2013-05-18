@@ -6,6 +6,8 @@
 
 #include <machine/asm.h>
 
+	.text
+
 ENTRY(ffs)
 	bsfl	4(%esp),%eax
 	jz	L1	 		/* ZF is set if all bits are 0 */

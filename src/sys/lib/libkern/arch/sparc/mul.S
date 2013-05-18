@@ -1,6 +1,4 @@
-/*	$OpenBSD: mul.S,v 1.5 2003/06/02 23:28:09 millert Exp $	*/
-/*	$NetBSD: mul.S,v 1.2 1994/10/26 06:40:01 cgd Exp $	*/
-
+/* $OpenBSD: mul.S,v 1.6 2005/08/07 16:40:15 espie Exp $ */
 /*
  * Copyright (c) 1992, 1993
  *	The Regents of the University of California.  All rights reserved.
@@ -32,16 +30,7 @@
  * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
- *
- * Header: mul.s,v 1.5 92/06/25 13:24:03 torek Exp
  */
-
-#if defined(LIBC_SCCS) && !defined(lint)
-#ifdef notdef
-	.asciz "@(#)mul.s	8.1 (Berkeley) 6/4/93"
-#endif
-	.asciz "$OpenBSD: mul.S,v 1.5 2003/06/02 23:28:09 millert Exp $"
-#endif /* LIBC_SCCS and not lint */
 
 /*
  * Signed multiply, from Appendix E of the Sparc Version 8
@@ -54,6 +43,11 @@
  */
 
 #include "DEFS.h"
+#ifndef STRONG_SPARC
+.weak .mul
+#else
+FUNC(__mul)
+#endif
 FUNC(.mul)
 	mov	%o0, %y		! multiplier -> Y
 	andncc	%o0, 0xfff, %g0	! test bits 12..31
@@ -108,7 +102,7 @@ FUNC(.mul)
 	! %o0 was indeed negative; fix upper 32 bits of result by subtracting 
 	! %o1 (i.e., return %o4 - %o1 in %o1).
 	retl
-	sub	%o4, %o1, %o1
+	 sub	%o4, %o1, %o1
 
 1:
 	retl
@@ -153,4 +147,4 @@ Lmul_shortway:
 	srl	%o5, 20, %o5	! shift low bits right 20, zero fill at left
 	or	%o5, %o0, %o0	! construct low part of result
 	retl
-	sra	%o4, 20, %o1	! ... and extract high part of result
+	 sra	%o4, 20, %o1	! ... and extract high part of result

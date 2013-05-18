@@ -33,6 +33,8 @@
 
 #include <machine/asm.h>
 
+	.text
+
 ENTRY(__divsi3)
 	movl 4(%esp),%eax
 	cltd

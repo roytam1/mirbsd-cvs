@@ -1,3 +1,4 @@
+/**	$MirOS: src/usr.bin/vmstat/vmstat.c,v 1.3 2005/11/23 18:04:27 tg Exp $ */
 /*	$NetBSD: vmstat.c,v 1.29.4.1 1996/06/05 00:21:05 cgd Exp $	*/
 /*	$OpenBSD: vmstat.c,v 1.96 2005/07/04 01:54:10 djm Exp $	*/
 
@@ -36,14 +37,6 @@ static char copyright[] =
 	The Regents of the University of California.  All rights reserved.\n";
 #endif /* not lint */
 
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)vmstat.c	8.1 (Berkeley) 6/6/93";
-#else
-static const char rcsid[] = "$OpenBSD: vmstat.c,v 1.96 2005/07/04 01:54:10 djm Exp $";
-#endif
-#endif /* not lint */
-
 #include <sys/param.h>
 #include <sys/time.h>
 #include <sys/proc.h>
@@ -74,6 +67,9 @@ static const char rcsid[] = "$OpenBSD: vmstat.c,v 1.96 2005/07/04 01:54:10 djm E
 
 #include <uvm/uvm_object.h>
 #include <uvm/uvm_extern.h>
+
+__SCCSID("@(#)vmstat.c	8.1 (Berkeley) 6/6/93");
+__RCSID("$MirOS: src/usr.bin/vmstat/vmstat.c,v 1.3 2005/11/23 18:04:27 tg Exp $");
 
 struct nlist namelist[] = {
 #define X_UVMEXP	0		/* sysctl */
@@ -409,17 +405,17 @@ dovmstat(u_int interval, int reps)
 #define pgtok(a) ((a) * ((int)uvmexp.pagesize >> 10))
 		(void)printf("%7u%7u ",
 		    pgtok(total.t_avm), pgtok(total.t_free));
-		(void)printf("%5u ", rate(uvmexp.faults - ouvmexp.faults));
-		(void)printf("%3u ", rate(uvmexp.pdreact - ouvmexp.pdreact));
-		(void)printf("%3u ", rate(uvmexp.pageins - ouvmexp.pageins));
+		(void)printf("%5u ", (unsigned)rate(uvmexp.faults - ouvmexp.faults));
+		(void)printf("%3u ", (unsigned)rate(uvmexp.pdreact - ouvmexp.pdreact));
+		(void)printf("%3u ", (unsigned)rate(uvmexp.pageins - ouvmexp.pageins));
 		(void)printf("%3u %3u ",
-		    rate(uvmexp.pdpageouts - ouvmexp.pdpageouts), 0);
-		(void)printf("%3u ", rate(uvmexp.pdscans - ouvmexp.pdscans));
+		    (unsigned)rate(uvmexp.pdpageouts - ouvmexp.pdpageouts), 0);
+		(void)printf("%3u ", (unsigned)rate(uvmexp.pdscans - ouvmexp.pdscans));
 		dkstats();
 		(void)printf("%4u %5u %4u ",
-		    rate(uvmexp.intrs - ouvmexp.intrs),
-		    rate(uvmexp.syscalls - ouvmexp.syscalls),
-		    rate(uvmexp.swtch - ouvmexp.swtch));
+		    (unsigned)rate(uvmexp.intrs - ouvmexp.intrs),
+		    (unsigned)rate(uvmexp.syscalls - ouvmexp.syscalls),
+		    (unsigned)rate(uvmexp.swtch - ouvmexp.swtch));
 		cpustats();
 		(void)printf("\n");
 		(void)fflush(stdout);
@@ -567,7 +563,9 @@ dosum(void)
 	(void)printf("%11u traps\n", uvmexp.traps);
 	(void)printf("%11u interrupts\n", uvmexp.intrs);
 	(void)printf("%11u cpu context switches\n", uvmexp.swtch);
+#if 0 /* XXX */
 	(void)printf("%11u fpu context switches\n", uvmexp.fpswtch);
+#endif
 	(void)printf("%11u software interrupts\n", uvmexp.softs);
 	(void)printf("%11u syscalls\n", uvmexp.syscalls);
 	(void)printf("%11u pagein operations\n", uvmexp.pageins);
@@ -747,6 +745,7 @@ dointr(void)
 			return;
 		}
 
+#ifdef KERN_INTRCNT_VECTOR
 		mib[0] = CTL_KERN;
 		mib[1] = KERN_INTRCNT;
 		mib[2] = KERN_INTRCNT_VECTOR;
@@ -758,6 +757,7 @@ dointr(void)
 			snprintf(intrname, sizeof(intrname), "irq%d/%s",
 			    vector, name);
 		}
+#endif
 
 		mib[0] = CTL_KERN;
 		mib[1] = KERN_INTRCNT;
@@ -1002,7 +1002,7 @@ print_pool(struct pool *pp, char *name)
 	PRWORD(ovflw, " %*d", 6, 1, pp->pr_hiwat);
 	PRWORD(ovflw, " %*d", 6, 1, pp->pr_minpages);
 	PRWORD(ovflw, " %*s", 6, 1, maxp);
-	PRWORD(ovflw, " %*lu\n", 5, 1, pp->pr_nidle);	
+	PRWORD(ovflw, " %*lu\n", 5, 1, pp->pr_nidle);
 }
 
 static void dopool_kvm(void);

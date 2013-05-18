@@ -38,6 +38,8 @@
 #include "compat.h"
 #include "log.h"
 
+__RCSID("$MirOS$");
+
 /*
  * SSH Protocol 1.5 aka New Channel Protocol
  * Thanks to Martina, Axel and everyone who left Erlangen, leaving me bored.
@@ -80,8 +82,8 @@ static void	chan_send_eof2(Channel *);
 static void	chan_shutdown_write(Channel *);
 static void	chan_shutdown_read(Channel *);
 
-static char *ostates[] = { "open", "drain", "wait_ieof", "closed" };
-static char *istates[] = { "open", "drain", "wait_oclose", "closed" };
+static const char *ostates[] = { "open", "drain", "wait_ieof", "closed" };
+static const char *istates[] = { "open", "drain", "wait_oclose", "closed" };
 
 static void
 chan_set_istate(Channel *c, u_int next)

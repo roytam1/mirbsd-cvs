@@ -15,10 +15,9 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <sys/time.h>
 #include <sys/param.h>
+#include <sys/time.h>
+#include <sys/stat.h>
 
 #include <dirent.h>
 #include <errno.h>
@@ -39,6 +38,8 @@
 
 #include "sftp.h"
 #include "sftp-common.h"
+
+__RCSID("$MirOS: src/usr.bin/ssh/sftp-server.c,v 1.9 2007/09/13 13:52:54 tg Exp $");
 
 /* helper */
 #define get_int64()			buffer_get_int64(&iqueue);

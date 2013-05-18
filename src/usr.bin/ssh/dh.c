@@ -37,6 +37,8 @@
 #include "log.h"
 #include "misc.h"
 
+__RCSID("$MirOS: src/usr.bin/ssh/dh.c,v 1.6 2006/11/09 02:42:05 tg Exp $");
+
 static int
 parse_prime(int linenum, char *line, struct dhgroup *dhg)
 {
@@ -282,7 +284,7 @@ dh_new_group(BIGNUM *gen, BIGNUM *modulus)
 DH *
 dh_new_group1(void)
 {
-	static char *gen = "2", *group1 =
+	static const char *gen = "2", *group1 =
 	    "FFFFFFFF" "FFFFFFFF" "C90FDAA2" "2168C234" "C4C6628B" "80DC1CD1"
 	    "29024E08" "8A67CC74" "020BBEA6" "3B139B22" "514A0879" "8E3404DD"
 	    "EF9519B3" "CD3A431B" "302B0A6D" "F25F1437" "4FE1356D" "6D51C245"
@@ -296,7 +298,7 @@ dh_new_group1(void)
 DH *
 dh_new_group14(void)
 {
-	static char *gen = "2", *group14 =
+	static const char *gen = "2", *group14 =
 	    "FFFFFFFF" "FFFFFFFF" "C90FDAA2" "2168C234" "C4C6628B" "80DC1CD1"
 	    "29024E08" "8A67CC74" "020BBEA6" "3B139B22" "514A0879" "8E3404DD"
 	    "EF9519B3" "CD3A431B" "302B0A6D" "F25F1437" "4FE1356D" "6D51C245"

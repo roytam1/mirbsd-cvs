@@ -1,36 +1,22 @@
-#	$OpenBSD: Makefile,v 1.7 2003/06/23 18:50:53 mickey Exp $
-
+# $MirOS: src/lib/librpcsvc/Makefile,v 1.2 2005/03/06 20:29:22 tg Exp $
+# $OpenBSD: Makefile,v 1.7 2003/06/23 18:50:53 mickey Exp $
 
 RPCSRCS=	bootparam_prot.x klm_prot.x mount.x nfs_prot.x \
 		nlm_prot.x rex.x rnusers.x rusers.x rquota.x rstat.x rwall.x \
-		sm_inter.x spray.x yp.x yppasswd.x
+		sm_inter.x spray.x
 SRCS=		${RPCSRCS:R:S/$/.c/g}
-HDRS=           ${RPCSRCS:R:S/$/.h/g}
-CLEANFILES+=	${SRCS} ${HDRS}
+CLEANFILES+=	${SRCS} ${RPCSRCS:R:S/$/.h/g}
 
 LIB=		rpcsvc
-NOMAN=
-NOPIC=
+NOMAN=		yes
+NOPIC=		yes
 
-all:		${HDRS}
-beforedepend:	${HDRS}
+all:		${RPCSRCS:R:S/$/.h/g}
+beforedepend:	${RPCSRCS:R:S/$/.h/g}
+prereq:		${RPCSRCS:R:S/$/.h/g}
 
-includes:	${HDRS}
-	${INSTALL} -d -o ${BINOWN} -g ${BINGRP} -m 755 \
-		${DESTDIR}/usr/include/rpcsvc
-	@echo installing rpc .h and .x files
-	@(cd ${.CURDIR}; for i in $(RPCSRCS); do \
-	    cmp -s $(.CURDIR)/$$i ${DESTDIR}/usr/include/rpcsvc/$$i || \
-		{ j="${INSTALL} ${INSTALL_COPY} -o ${BINOWN} -g ${BINGRP} -m 444 $$i \
-		${DESTDIR}/usr/include/rpcsvc"; \
-		echo $$j; $$j; } \
-	done)
-	@sleep 1; for i in $(HDRS); do \
-	    cmp -s $$i ${DESTDIR}/usr/include/rpcsvc/$$i || \
-		{ j="${INSTALL} ${INSTALL_COPY} -o ${BINOWN} -g ${BINGRP} -m 444 $$i \
-		${DESTDIR}/usr/include/rpcsvc"; \
-		echo $$j; $$j; } \
-	done
+HDRDST=		${DESTDIR}/usr/include/rpcsvc
+HDRS=		${RPCSRCS} ${RPCSRCS:R:S/$/.h/g:S!^!${.OBJDIR}/!}
 
 # new suffixes have to go afterwards, because bsd.lib.mk clears them
 .include <bsd.lib.mk>

@@ -1,3 +1,4 @@
+.\" $MirOS$
 .\" $OpenBSD: mount_ntfs.8,v 1.5 2003/09/18 09:13:52 jmc Exp $
 .\" $NetBSD: mount_ntfs.8,v 1.13 2003/02/14 16:21:48 grant Exp $
 .\"
@@ -186,7 +187,7 @@ offset should be '63' on i386 (see
 .Pp
 If the NTFS partition is marked as
 .Ql dynamic
-under Microsoft Windows XP,
+under Microsoft NT,
 it won't be possible to access it under
 .Ox
-anymore.
+anymore, because its type and layout change.

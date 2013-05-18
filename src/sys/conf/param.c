@@ -1,3 +1,4 @@
+/**	$MirOS: src/sys/conf/param.c,v 1.2 2006/04/06 10:50:39 tg Exp $ */
 /*	$OpenBSD: param.c,v 1.23 2004/01/01 20:17:34 millert Exp $	*/
 /*	$NetBSD: param.c,v 1.16 1996/03/12 03:08:40 mrg Exp $	*/
 
@@ -47,7 +48,6 @@
 #include <sys/mbuf.h>
 #include <ufs/ufs/quota.h>
 #include <sys/kernel.h>
-#include <sys/utsname.h>
 #ifdef SYSVSHM
 #include <machine/vmparam.h>
 #include <sys/shm.h>
@@ -161,7 +161,7 @@ struct	msginfo msginfo = {
  * them here forces loader errors if this file is omitted
  * (if they've been externed everywhere else; hah!).
  */
-struct	buf *buf, *swbuf;
+struct	buf *buf;
 char	*buffers;
 
-struct	utsname utsname;
+int	rootdev_override = 0;

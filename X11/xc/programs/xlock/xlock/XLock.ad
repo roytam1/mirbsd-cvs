@@ -63,6 +63,7 @@ XLock.program: fortune -s
 !XLock.messagesfile: fortune.dat
 !XLock.messagefile: /etc/hosts
 !XLock.message: "Go away, no one is here"
+!XLock.messagefont: -misc-fixed-bold-*-*-*-24-*-*-*-*-*-iso8859-1
 XLock.messagefont: -b&h-lucida-medium-r-normal-sans-24-*-*-*-*-*-iso8859-1
 !XLock.messagefont: -*-times-*-*-*-*-18-*-*-*-*-*-*-*
 

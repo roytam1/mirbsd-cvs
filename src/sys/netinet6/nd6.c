@@ -1,3 +1,4 @@
+/**	$MirOS: src/sys/netinet6/nd6.c,v 1.5 2005/04/14 22:22:12 tg Exp $ */
 /*	$OpenBSD: nd6.c,v 1.69 2005/05/09 05:37:36 brad Exp $	*/
 /*	$KAME: nd6.c,v 1.280 2002/06/08 19:52:07 itojun Exp $	*/
 
@@ -1933,7 +1934,9 @@ nd6_need_cache(ifp)
 	case IFT_PROPVIRTUAL:
 	case IFT_L2VLAN:
 	case IFT_IEEE80211:
+#ifdef IFT_CARP
 	case IFT_CARP:
+#endif
 	case IFT_GIF:		/* XXX need more cases? */
 		return (1);
 	default:
@@ -2140,8 +2143,9 @@ fill_prlist(oldp, oldlenp, ol)
 				time_t maxexpire;
 
 				/* XXX: we assume time_t is signed. */
-				maxexpire = (-1) &
-					~(1 << ((sizeof(maxexpire) * 8) - 1));
+				maxexpire = (sizeof(maxexpire) == 8)
+				    ? 0x7FFFFFFFFFFFFFFFLL
+				    : 0x7FFFFFFFLL;
 				if (pr->ndpr_vltime <
 				    maxexpire - pr->ndpr_lastupdate) {
 					p->expire = pr->ndpr_lastupdate +

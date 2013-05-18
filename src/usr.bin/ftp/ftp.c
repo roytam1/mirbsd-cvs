@@ -59,10 +59,6 @@
  * SUCH DAMAGE.
  */
 
-#if !defined(lint) && !defined(SMALL)
-static const char rcsid[] = "$OpenBSD: ftp.c,v 1.67 2007/06/16 08:58:33 espie Exp $";
-#endif /* not lint and not SMALL */
-
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/socket.h>
@@ -87,6 +83,8 @@ static const char rcsid[] = "$OpenBSD: ftp.c,v 1.67 2007/06/16 08:58:33 espie Ex
 #include <utime.h>
 
 #include "ftp_var.h"
+
+__RCSID("$MirOS: src/usr.bin/ftp/ftp.c,v 1.5 2006/10/03 19:22:17 tg Exp $");
 
 union sockunion {
 	struct sockinet {
@@ -446,10 +444,12 @@ getreply(int expecteof)
 				code = 421;
 				return (4);
 			}
-			if (c != '\r' && (verbose > 0 ||
-			    ((verbose > -1 && n == '5' && dig > 4)) &&
-			    (((!n && c < '5') || (n && n < '5'))
-			     || !retry_connect))) {
+			if ( ((c != '\r') && (verbose > 0)) ||
+			     (((verbose > -1) && (n == '5') && (dig > 4)) &&
+			      ((!retry_connect) || (
+			       (((!n) && (c < '5')) || (n && (n < '5')))) )
+			     )
+			   ) {
 				if (proxflag &&
 				   (dig == 1 || (dig == 5 && verbose == 0)))
 					fprintf(ttyout, "%s:", hostname);
@@ -1579,7 +1579,7 @@ noport:
 			result = COMPLETE + 1; /* xxx */
 		}
 	skip_port:
-		
+
 		if (result == ERROR && sendport == -1) {
 			sendport = 0;
 			tmpno = 1;

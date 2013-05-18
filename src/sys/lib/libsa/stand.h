@@ -1,3 +1,4 @@
+/**	$MirOS: src/sys/lib/libsa/stand.h,v 1.6 2006/11/21 13:20:08 tg Exp $	*/
 /*	$OpenBSD: stand.h,v 1.43 2004/01/03 14:08:53 espie Exp $	*/
 /*	$NetBSD: stand.h,v 1.18 1996/11/30 04:35:51 gwr Exp $	*/
 
@@ -32,16 +33,15 @@
  *	@(#)stand.h	8.1 (Berkeley) 6/11/93
  */
 
+#ifndef	_SYS_LIBSA_STAND_H
+#define	_SYS_LIBSA_STAND_H
+
 #include <sys/types.h>
 #include <sys/cdefs.h>
 #include <sys/stat.h>
 #include <sys/stdarg.h>
 #include "saioctl.h"
 #include "saerrno.h"
-
-#ifndef NULL
-#define	NULL	0
-#endif
 
 struct open_file;
 
@@ -141,16 +141,20 @@ void	twiddle(void);
 void	gets(char *);
 __dead void	panic(const char *, ...) __attribute__((noreturn));
 __dead void	_rtt(void) __attribute__((noreturn));
-#define	bzero(s,n)	((void)memset((s),0,(n)))
+#if 0
+#define bzero(s,n)	((void)memset((s),0,(n)))
 #define bcmp(s1,s2,n)	(memcmp((s2),(s1),(n)))
-#define	bcopy(s1,s2,n)	((void)memcpy((s2),(s1),(n)))
-void	*memcpy(void *, const void *, size_t);
+#endif
+#define bcopy(s1,s2,n)	((void)memmove((s2),(s1),(n)))
+void	*memmove(void *, const void *, size_t);
 int	memcmp(const void *, const void *, size_t);
 char	*strncpy(char *, const char *, size_t);
-char	*strcpy(char *, const char *);
 int	strncmp(const char *, const char *, size_t);
 int	strcmp(const char *, const char *);
-size_t	strlen(const char *);
+size_t	 strlcpy(char *, const char *, size_t)
+		__attribute__ ((__bounded__(__string__,1,3)));
+size_t	 strlcat(char *, const char *, size_t)
+		__attribute__ ((__bounded__(__string__,1,3)));
 long	strtol(const char *, char **, int);
 char	*strchr(const char *, int);
 void	*memset(void *, int, size_t);
@@ -208,3 +212,6 @@ int	devopen(struct open_file *, const char *, char **);
 void	machdep_start(char *, int, char *, char *, char *);
 time_t	getsecs(void);
 
+#include <libckern.h>
+
+#endif

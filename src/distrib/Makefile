@@ -1,23 +1,44 @@
-#	$OpenBSD: Makefile,v 1.27 2005/01/13 22:27:13 deraadt Exp $
+# $MirOS: src/distrib/Makefile,v 1.11 2006/09/29 22:12:05 tg Exp $
 
-.if	make(obj)
-SUBDIR= special alpha crunch hp300 hppa i386 mac68k macppc mvme68k \
-	mvme88k mvmeppc sparc sparc64 vax amd64 cats sgi zaurus
-.elif	!make(install)
-SUBDIR= special
-.endif
-.if	make(clean) || make(cleandir)
-SUBDIR+=crunch
-.endif
-.if exists(${MACHINE})
-SUBDIR+= ${MACHINE}
-.endif
-SUBDIR+= notes
+.include <bsd.own.mk>
 
-#all: crunch-tools _SUBDIRUSE
+REL_NO_GENERIC?=	No
+REL_NO_RAMDISK?=	No
+.if ${REL_NO_GENERIC:L} != "no"
+REL_NO_RAMDISK=		Yes
+.endif
 
-crunch-tools:
-	(cd $(.CURDIR)/crunch; $(MAKE) obj; \
-	 $(MAKE) depend && ${MAKE} && ${SUDO} ${MAKE} DESTDIR= install)
+.if make(obj) || make(clean) || make(cleandir) || make(cleannobsd)
+_DESCEND=		Yes
+.else
+_DESCEND=		No
+.endif
+
+SUBDIR=
+
+.if ${_DESCEND} == "Yes" || (${REL_NO_RAMDISK:L} == "no" && !make(install))
+  SUBDIR+=		special
+.endif
+
+.if ${_DESCEND} == "Yes" || ${REL_NO_GENERIC:L} == "no"
+  SUBDIR+=		generic
+.endif
+
+.if ${_DESCEND} == "Yes" || ${REL_NO_RAMDISK:L} == "no"
+  SUBDIR+=		common
+#  for now, not on sparc
+.  if ${MACHINE} == "i386"
+  SUBDIR+=		common/extra
+.  endif
+.endif
+
+.if ${_DESCEND} == "Yes"
+  SUBDIR+=		baselive
+.endif
+
+cleannobsd: _SUBDIRUSE
+
+unconfig:
+	-cd common && ${MAKE} unconfig
 
 .include <bsd.subdir.mk>

@@ -48,7 +48,7 @@ perror(const char *s)
 		v->iov_base = (char *)s;
 		v->iov_len = strlen(s);
 		v++;
-		v->iov_base = ": ";
+		v->iov_base = (void *)": ";
 		v->iov_len = 2;
 		v++;
 	}
@@ -56,7 +56,7 @@ perror(const char *s)
 	v->iov_base = buf;
 	v->iov_len = strlen(v->iov_base);
 	v++;
-	v->iov_base = "\n";
+	v->iov_base = (void *)"\n";
 	v->iov_len = 1;
 	(void)writev(STDERR_FILENO, iov, (v - iov) + 1);
 }

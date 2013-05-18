@@ -43,12 +43,7 @@
 #include <dev/wscons/wscons_callbacks.h>
 
 static const struct wsemul_ops *wsemul_conf[] = {
-#ifdef WSEMUL_SUN
-	&wsemul_sun_ops,
-#endif
-#ifndef WSEMUL_NO_VT100
 	&wsemul_vt100_ops,
-#endif
 #ifdef WSEMUL_DUMB
 	&wsemul_dumb_ops,
 #endif

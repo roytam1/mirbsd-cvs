@@ -899,7 +899,7 @@ nge_attach(parent, self, aux)
 			   sizeof(struct nge_list_data), &kva,
 			   BUS_DMA_NOWAIT)) {
 		printf("%s: can't map dma buffers (%d bytes)\n",
-		       sc->sc_dv.dv_xname, sizeof(struct nge_list_data));
+		       sc->sc_dv.dv_xname, (int)sizeof(struct nge_list_data));
 		bus_dmamem_free(sc->sc_dmatag, &seg, rseg);
 		goto fail;
 	}
@@ -1160,7 +1160,7 @@ nge_alloc_jumbo_mem(sc)
 	}
 	if (bus_dmamem_map(sc->sc_dmatag, &seg, rseg, NGE_JMEM, &kva,
 			   BUS_DMA_NOWAIT)) {
-		printf("%s: can't map dma buffers (%d bytes)\n",
+		printf("%s: can't map dma buffers (%ld bytes)\n",
 		       sc->sc_dv.dv_xname, NGE_JMEM);
 		bus_dmamem_free(sc->sc_dmatag, &seg, rseg);
 		return (ENOBUFS);

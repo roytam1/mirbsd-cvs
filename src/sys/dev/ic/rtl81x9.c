@@ -1281,7 +1281,7 @@ rl_attach(sc)
 	for (i = 0; i < RL_TX_LIST_CNT; i++) {
 		if (bus_dmamap_create(sc->sc_dmat, MCLBYTES, 1, MCLBYTES, 0,
 		    BUS_DMA_NOWAIT, &sc->rl_cdata.rl_tx_dmamap[i]) != 0) {
-			printf("%s: can't create tx maps\n");
+			printf("%s: can't create tx maps\n", sc->sc_dev.dv_xname);
 			/* XXX free any allocated... */
 			return (1);
 		}

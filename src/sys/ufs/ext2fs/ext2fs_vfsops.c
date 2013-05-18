@@ -131,7 +131,7 @@ ext2fs_mountroot()
 	 * Get vnodes for swapdev and rootdev.
 	 */
 	if (bdevvp(swapdev, &swapdev_vp) || bdevvp(rootdev, &rootvp))
-		panic("ext2fs_mountroot: can't setup bdevvp's");
+		panic("ext2fs_mountroot: can't setup bdevvps");
 
 	if ((error = vfs_rootmountalloc("ext2fs", "root_device", &mp)) != 0) {
 		vrele(rootvp);

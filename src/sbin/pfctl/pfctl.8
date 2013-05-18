@@ -1,4 +1,4 @@
-.\" $OpenBSD: pfctl.8,v 1.120 2005/06/13 20:18:52 henning Exp $
+.\" $OpenBSD: pfctl.8,v 1.110 2004/03/20 09:31:42 david Exp $
 .\"
 .\" Copyright (c) 2001 Kjell Wooding.  All rights reserved.
 .\"
@@ -33,23 +33,17 @@
 .Sh SYNOPSIS
 .Nm pfctl
 .Bk -words
-.Op Fl AdeghmNnOoqRrvz
-.Op Fl a Ar anchor
-.Xo
-.Oo Fl D
-.Ar macro Ns = Ns Ar value Oc
-.Xc
+.Op Fl AdeghNnOqRrvz
+.Op Fl a Ar anchor Ns Op Ar :ruleset
+.Op Fl D Ar macro=value
 .Op Fl F Ar modifier
 .Op Fl f Ar file
 .Op Fl i Ar interface
-.Op Fl k Ar host | network
+.Op Fl k Ar host
 .Op Fl p Ar device
 .Op Fl s Ar modifier
-.Oo Xo
-.Fl t Ar table
-.Fl T Ar command
-.Op Ar address ... Oc
-.Xc
+.Op Fl T Ar command Op Ar address ...
+.Op Fl t Ar table
 .Op Fl x Ar level
 .Ek
 .Sh DESCRIPTION
@@ -78,14 +72,9 @@ supported.
 Translation rules are described in
 .Xr pf.conf 5 .
 .Pp
-When the variable
-.Va pf
-is set to
-.Dv YES
-in
-.Xr rc.conf.local 8 ,
-the rule file specified with the variable
-.Va pf_rules
+When the variable pf is set to YES in
+.Xr rc.conf 8 ,
+the rule file specified with the variable pf_rules
 is loaded automatically by the
 .Xr rc 8
 scripts and the packet filter is enabled.
@@ -96,7 +85,7 @@ Forwarding can be enabled by setting the
 variables
 .Em net.inet.ip.forwarding
 and/or
-.Em net.inet6.ip6.forwarding
+.Em net.inet6.ip6.forwarding ,
 to 1.
 Set them permanently in
 .Xr sysctl.conf 5 .
@@ -109,61 +98,48 @@ The options are as follows:
 .It Fl A
 Load only the queue rules present in the rule file.
 Other rules and options are ignored.
-.It Fl a Ar anchor
+.It Fl a Ar anchor Ns Op Ar :ruleset
 Apply flags
 .Fl f ,
-.Fl F ,
+.Fl F
 and
 .Fl s
 only to the rules in the specified
-.Ar anchor .
+.Ar anchor
+and optional named ruleset
+.Ar ruleset .
 In addition to the main ruleset,
 .Nm
-can load and manipulate additional rulesets by name,
-called anchors.
-The main ruleset is the default anchor.
-.Pp
-Anchors are referenced by name and may be nested,
-with the various components of the anchor path separated by
-.Sq /
-characters, similar to how file system hierarchies are laid out.
-The last component of the anchor path is where ruleset operations are
-performed.
-.Pp
+can load and manipulate additional rulesets by name.
+Named rulesets are attached at
+.Ar anchor
+points, which are also referenced by name.
 Evaluation of
 .Ar anchor
 rules from the main ruleset is described in
 .Xr pf.conf 5 .
-.Pp
-For example, the following will show all filter rules (see the
-.Fl s
-flag below) inside the anchor
-.Dq authpf/smith(1234) ,
-which would have been created for user
-.Dq smith
-by
-.Xr authpf 8 ,
-PID 1234:
+For example, to show all filter rules inside anchor
+.Li foo :
 .Bd -literal -offset indent
-# pfctl -a "authpf/smith(1234)" -s rules
+# pfctl -a foo -s rules
 .Ed
 .Pp
-Private tables can also be put inside anchors, either by having table
+Private tables can also be put inside subrulesets, either by having table
 statements in the
 .Xr pf.conf 5
-file that is loaded in the anchor, or by using regular table commands, as in:
+file that is loaded in the anchor, or by using regular table commands as in:
 .Bd -literal -offset indent
-# pfctl -a foo/bar -t mytable -T add 1.2.3.4 5.6.7.8
+# pfctl -a foo:bar -t mytable -T add 1.2.3.4 5.6.7.8
 .Ed
 .Pp
 When a rule referring to a table is loaded in an anchor, the rule will use the
-private table if one is defined, and then fall back to the table defined in the
+private table if one is defined, and then fallback to the table defined in the
 main ruleset, if there is one.
-This is similar to C rules for variable scope.
+This is similar to C rules for variables.
 It is possible to create distinct tables with the same name in the global
 ruleset and in an anchor, but this is often bad design and a warning will be
 issued in that case.
-.It Fl D Ar macro Ns = Ns Ar value
+.It Fl D Ar macro=value
 Define
 .Ar macro
 to be set to
@@ -182,23 +158,23 @@ Flush the filter parameters specified by
 (may be abbreviated):
 .Pp
 .Bl -tag -width xxxxxxxxxxxx -compact
-.It Fl F Cm nat
+.It Fl F Ar nat
 Flush the NAT rules.
-.It Fl F Cm queue
+.It Fl F Ar queue
 Flush the queue rules.
-.It Fl F Cm rules
+.It Fl F Ar rules
 Flush the filter rules.
-.It Fl F Cm state
+.It Fl F Ar state
 Flush the state table (NAT and filter).
-.It Fl F Cm Sources
+.It Fl F Ar Sources
 Flush the source tracking table.
-.It Fl F Cm info
+.It Fl F Ar info
 Flush the filter information (statistics that are not bound to rules).
-.It Fl F Cm Tables
+.It Fl F Ar Tables
 Flush the tables.
-.It Fl F Cm osfp
+.It Fl F Ar osfp
 Flush the passive operating system fingerprints.
-.It Fl F Cm all
+.It Fl F Ar all
 Flush all of the above.
 .El
 .It Fl f Ar file
@@ -217,44 +193,28 @@ Help.
 .It Fl i Ar interface
 Restrict the operation to the given
 .Ar interface .
-.It Fl k Ar host | network
+.It Fl k Ar host
 Kill all of the state entries originating from the specified
-.Ar host
-or
-.Ar network .
+.Ar host .
 A second
 .Fl k Ar host
-or
-.Fl k Ar network
 option may be specified, which will kill all the state entries
-from the first host/network to the second.
+from the first
+.Ar host
+to the second
+.Ar host .
 For example, to kill all of the state entries originating from
-.Dq host :
-.Pp
-.Dl # pfctl -k host
+.Li host :
+.Bd -literal -offset indent
+# pfctl -k host
+.Ed
 .Pp
 To kill all of the state entries from
-.Dq host1
+.Li host1
 to
-.Dq host2 :
-.Pp
-.Dl # pfctl -k host1 -k host2
-.Pp
-To kill all states originating from 192.168.1.0/24 to 172.16.0.0/16:
-.Pp
-.Dl # pfctl -k 192.168.1.0/24 -k 172.16.0.0/16
-.Pp
-A network prefix length of 0 can be used as a wildcard.
-To kill all states with the target
-.Dq host2 :
-.Pp
-.Dl # pfctl -k 0.0.0.0/0 -k host2
-.It Fl m
-Merge in explicitly given options without resetting those
-which are omitted.
-Allows single options to be modified without disturbing the others:
+.Li host2 :
 .Bd -literal -offset indent
-# echo "set loginterface fxp0" | pfctl -mf -
+# pfctl -k host1 -k host2
 .Ed
 .It Fl N
 Load only the NAT rules present in the rule file.
@@ -264,39 +224,6 @@ Do not actually load rules, just parse them.
 .It Fl O
 Load only the options present in the rule file.
 Other rules and options are ignored.
-.It Fl o
-Enable the ruleset optimizer.
-The ruleset optimizer attempts to improve rulesets by removing rule
-duplication and making better use of rule ordering.
-Specifically, it does four things:
-.Pp
-.Bl -enum -compact
-.It
-remove duplicate rules
-.It
-remove rules that are a subset of another rule
-.It
-combine multiple rules into a table when advantageous
-.It
-re-order the rules to improve evaluation performance
-.El
-.Pp
-A second
-.Fl o
-may be specified to use the currently loaded ruleset as a feedback profile
-to tailor the optimization of the
-.Ar quick
-rules to the actual network behavior.
-.Pp
-It is important to note that the ruleset optimizer will modify the ruleset
-to improve performance.
-A side effect of the ruleset modification is that per-rule accounting
-statistics will have different meanings than before.
-If per-rule accounting is important for billing purposes or whatnot, either
-the ruleset optimizer should not be used or a
-.Ar label
-field should be added to all of the accounting rules to act as optimization
-barriers.
 .It Fl p Ar device
 Use the device file
 .Ar device
@@ -315,9 +242,9 @@ Show the filter parameters specified by
 (may be abbreviated):
 .Pp
 .Bl -tag -width xxxxxxxxxxxxx -compact
-.It Fl s Cm nat
+.It Fl s Ar nat
 Show the currently loaded NAT rules.
-.It Fl s Cm queue
+.It Fl s Ar queue
 Show the currently loaded queue rules.
 When used together with
 .Fl v ,
@@ -327,59 +254,51 @@ When used together with
 .Nm
 will loop and show updated queue statistics every five seconds, including
 measured bandwidth and packets per second.
-.It Fl s Cm rules
+.It Fl s Ar rules
 Show the currently loaded filter rules.
 When used together with
 .Fl v ,
 the per-rule statistics (number of evaluations,
 packets and bytes) are also shown.
-Note that the
-.Dq skip step
-optimization done automatically by the kernel
+Note that the 'skip step' optimization done automatically by the kernel
 will skip evaluation of rules where possible.
 Packets passed statefully are counted in the rule that created the state
 (even though the rule isn't evaluated more than once for the entire
 connection).
-.It Fl s Cm Anchors
-Show the currently loaded anchors directly attached to the main ruleset.
+.It Fl s Ar Anchors
+Show the currently loaded anchors.
 If
 .Fl a Ar anchor
-is specified as well, the anchors loaded directly below the given
-.Ar anchor
-are shown instead.
-If
-.Fl v
-is specified, all anchors attached under the target anchor will be
-displayed recursively.
-.It Fl s Cm state
+is specified as well, the named rulesets currently loaded in the specified
+anchor are shown instead.
+.It Fl s Ar state
 Show the contents of the state table.
-.It Fl s Cm Sources
+.It Fl s Ar Sources
 Show the contents of the source tracking table.
-.It Fl s Cm info
+.It Fl s Ar info
 Show filter information (statistics and counters).
 When used together with
 .Fl v ,
 source tracking statistics are also shown.
-.It Fl s Cm labels
-Show per-rule statistics (label, evaluations, packets total, bytes total,
-packets in, bytes in, packets out, bytes out) of
+.It Fl s Ar labels
+Show per-rule statistics (label, evaluations, packets, bytes) of
 filter rules with labels, useful for accounting.
-.It Fl s Cm timeouts
+.It Fl s Ar timeouts
 Show the current global timeouts.
-.It Fl s Cm memory
+.It Fl s Ar memory
 Show the current pool memory hard limits.
-.It Fl s Cm Tables
+.It Fl s Ar Tables
 Show the list of tables.
-.It Fl s Cm osfp
+.It Fl s Ar osfp
 Show the list of operating system fingerprints.
-.It Fl s Cm Interfaces
+.It Fl s Ar Interfaces
 Show the list of interfaces and interface drivers available to PF.
 When used together with a double
 .Fl v ,
 interface statistics are also shown.
 .Fl i
 can be used to select an interface or a group of interfaces.
-.It Fl s Cm all
+.It Fl s Ar all
 Show all of the above, except for the lists of interfaces and operating
 system fingerprints.
 .El
@@ -390,25 +309,25 @@ Specify the
 Commands include:
 .Pp
 .Bl -tag -width xxxxxxxxxxxx -compact
-.It Fl T Cm kill
+.It Fl T Ar kill
 Kill a table.
-.It Fl T Cm flush
+.It Fl T Ar flush
 Flush all addresses of a table.
-.It Fl T Cm add
+.It Fl T Ar add
 Add one or more addresses in a table.
 Automatically create a nonexisting table.
-.It Fl T Cm delete
+.It Fl T Ar delete
 Delete one or more addresses from a table.
-.It Fl T Cm replace
+.It Fl T Ar replace
 Replace the addresses of the table.
 Automatically create a nonexisting table.
-.It Fl T Cm show
+.It Fl T Ar show
 Show the content (addresses) of a table.
-.It Fl T Cm test
+.It Fl T Ar test
 Test if the given addresses match a table.
-.It Fl T Cm zero
+.It Fl T Ar zero
 Clear all the statistics of a table.
-.It Fl T Cm load
+.It Fl T Ar load
 Load only the table definitions from
 .Xr pf.conf 5 .
 This is used in conjunction with the
@@ -420,18 +339,16 @@ flag, as in:
 .El
 .Pp
 For the
-.Cm add ,
-.Cm delete ,
-.Cm replace ,
+.Ar add ,
+.Ar delete ,
+.Ar replace
 and
-.Cm test
+.Ar test
 commands, the list of addresses can be specified either directly on the command
 line and/or in an unformatted text file, using the
 .Fl f
 flag.
-Comments starting with a
-.Sq #
-are allowed in the text file.
+Comments starting with a "#" are allowed in the text file.
 With these commands, the
 .Fl v
 flag can also be used once or twice, in which case
@@ -448,17 +365,11 @@ The address/network has been changed (negated).
 .It D
 The address/network has been deleted.
 .It M
-The address matches
-.Po
-.Cm test
-operation only
-.Pc .
+The address matches (test operation only).
 .It X
 The address/network is duplicated and therefore ignored.
 .It Y
-The address/network cannot be added/deleted due to conflicting
-.Sq \&!
-attributes.
+The address/network cannot be added/deleted due to conflicting "!" attribute.
 .It Z
 The address/network has been cleared (statistics).
 .El
@@ -470,8 +381,8 @@ flag of
 For example, the following commands define a wide open firewall which will keep
 track of packets going to or coming from the
 .Ox
-FTP server.
-The following commands configure the firewall and send 10 pings to the FTP
+ftp server.
+The following commands configure the firewall and send 10 pings to the ftp
 server:
 .Bd -literal -offset indent
 # printf "table <test> { ftp.openbsd.org }\en \e
@@ -480,11 +391,11 @@ server:
 .Ed
 .Pp
 We can now use the table
-.Cm show
+.Ar show
 command to output, for each address and packet direction, the number of packets
 and bytes that are being passed or blocked by rules referencing the table.
 The time at which the current accounting started is also shown with the
-.Dq Cleared
+.Ar Cleared
 line.
 .Bd -literal -offset indent
 # pfctl -t test -vTshow
@@ -500,8 +411,7 @@ Similarly, it is possible to view global information about the tables
 by using the
 .Fl v
 modifier twice and the
-.Fl s
-.Cm Tables
+.Ar show Tables
 command.
 This will display the number of addresses on each table,
 the number of rules which reference the table, and the global
@@ -522,18 +432,16 @@ packet statistics for the whole table:
 .Ed
 .Pp
 As we can see here, only one packet \- the initial ping request \- matched the
-table, but all packets passing as the result of the state are correctly
+table; but all packets passing as the result of the state are correctly
 accounted for.
 Reloading the table(s) or ruleset will not affect packet accounting in any way.
 The two
-.Dq XPass
+.Ar XPass
 counters are incremented instead of the
-.Dq Pass
-counters when a
-.Dq stateful
-packet is passed but doesn't match the table anymore.
-This will happen in our example if someone flushes the table while the
-.Xr ping 8
+.Ar Pass
+counters when a "stateful" packet is passed but doesn't match the table
+anymore.
+This will happen in our example if someone flushes the table while the ping
 command is running.
 .Pp
 When used with a single
@@ -547,11 +455,11 @@ The flags are defined as follows:
 For constant tables, which cannot be altered outside
 .Xr pf.conf 5 .
 .It p
-For persistent tables, which don't get automatically killed when no rules
+For persistent tables, which don't get automatically flushed when no rules
 refer to them.
 .It a
 For tables which are part of the
-.Em active
+.Ar active
 tableset.
 Tables without this flag do not really exist, cannot contain addresses, and are
 only listed if the
@@ -559,7 +467,7 @@ only listed if the
 flag is given.
 .It i
 For tables which are part of the
-.Em inactive
+.Ar inactive
 tableset.
 This flag can only be witnessed briefly during the loading of
 .Xr pf.conf 5 .
@@ -567,7 +475,7 @@ This flag can only be witnessed briefly during the loading of
 For tables which are referenced (used) by rules.
 .It h
 This flag is set when a table in the main ruleset is hidden by one or more
-tables of the same name from anchors attached below it.
+tables of the same name in sub-rulesets (anchors).
 .El
 .It Fl t Ar table
 Specify the name of the table.
@@ -576,20 +484,20 @@ Produce more verbose output.
 A second use of
 .Fl v
 will produce even more verbose output including ruleset warnings.
-See the previous section for its effect on table commands.
+See previous section for its effect on table commands.
 .It Fl x Ar level
 Set the debug
 .Ar level
 (may be abbreviated) to one of the following:
 .Pp
 .Bl -tag -width xxxxxxxxxxxx -compact
-.It Fl x Cm none
+.It Fl x Ar none
 Don't generate debug messages.
-.It Fl x Cm urgent
+.It Fl x Ar urgent
 Generate debug messages only for serious errors.
-.It Fl x Cm misc
+.It Fl x Ar misc
 Generate debug messages for various errors.
-.It Fl x Cm loud
+.It Fl x Ar loud
 Generate debug messages for common conditions.
 .El
 .It Fl z
@@ -599,15 +507,12 @@ Clear per-rule statistics.
 .Bl -tag -width "/etc/pf.conf" -compact
 .It Pa /etc/pf.conf
 Packet filter rules file.
-.It Pa /etc/pf.os
-Passive operating system fingerprint database.
 .El
 .Sh SEE ALSO
 .Xr pf 4 ,
 .Xr pf.conf 5 ,
 .Xr pf.os 5 ,
 .Xr sysctl.conf 5 ,
-.Xr authpf 8 ,
 .Xr ftp-proxy 8 ,
 .Xr rc 8 ,
 .Xr rc.conf 8 ,

@@ -1,3 +1,4 @@
+/**	$MirOS$	*/
 /*	$OpenBSD: loadfile_machdep.h,v 1.1 2003/04/17 03:42:14 drahn Exp $	*/
 /*	$NetBSD: loadfile_machdep.h,v 1.1 1999/04/29 03:17:12 tsubai Exp $	*/
 
@@ -37,6 +38,9 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
+#ifndef	_LOADFILE_MACHDEP_H
+#define	_LOADFILE_MACHDEP_H
+
 #define BOOT_ELF
 #define ELFSIZE 32
 
@@ -46,7 +50,7 @@
 #define LOADADDR(a)		((((u_long)(a)) + offset)&0xfffffff)
 #define ALIGNENTRY(a)		((u_long)(a))
 #define READ(f, b, c)		read((f), (void *)LOADADDR(b), (c))
-#define BCOPY(s, d, c)		memcpy((void *)LOADADDR(d), (void *)(s), (c))
+#define BCOPY(s, d, c)		memmove((void *)LOADADDR(d), (void *)(s), (c))
 #define BZERO(d, c)		memset((void *)LOADADDR(d), 0, (c))
 #define	WARN(a)			(void)(printf a, \
 				    printf((errno ? ": %s\n" : "\n"), \
@@ -57,3 +61,5 @@
 #define OKMAGIC(a)		((a) == OMAGIC)
 
 void run_loadfile(u_long *, int);
+
+#endif

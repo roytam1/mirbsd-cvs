@@ -1,6 +1,4 @@
-.\"	$OpenBSD: tmac.andoc,v 1.4 2003/06/02 23:30:16 millert Exp $
-.\"
-.\"
+.\" $MirOS$
 .\" Copyright (c) 1990 The Regents of the University of California.
 .\" All rights reserved.
 .\"
@@ -28,7 +26,7 @@
 .\" OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 .\" SUCH DAMAGE.
 .\"
-.\"	@(#)tmac.andoc	8.1 (Berkeley) 6/30/93
+.\"	@(#)tmac.andoc	5.8 (Berkeley) 7/14/92
 .\"
 .\" If -mdoc macros, source tmac.mdoc
 .\" If -man macros, check to see if groff or troff/nroff is being used
@@ -41,7 +39,12 @@
 ..
 .de TH
 .rn TH xX
-.so /usr/share/tmac/tmac.an.old
+.ie \n(.g \{\
+.	so /usr/share/tmac/tmac.groff_an
+.\}
+.el \{\
+.	so /usr/share/tmac/tmac.an.old
+.\}
 .TH "\\$1" "\\$2" "\\$3" "\\$4" "\\$5" "\\$6" "\\$7" "\\$8"
 .rm xX
 ..

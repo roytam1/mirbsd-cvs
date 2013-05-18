@@ -1,5 +1,6 @@
-.\"	$OpenBSD: compat_linux.8,v 1.36 2005/03/11 23:03:58 jmc Exp $
-.\"	$NetBSD: compat_linux.8,v 1.2 1995/10/16 20:17:59 fvdl Exp $
+.\" $MirOS: src/share/man/man8/compat_linux.8,v 1.2 2005/03/06 19:38:45 tg Exp $
+.\" $OpenBSD: compat_linux.8,v 1.36 2005/03/11 23:03:58 jmc Exp $
+.\" $NetBSD: compat_linux.8,v 1.2 1995/10/16 20:17:59 fvdl Exp $
 .\"
 .\" Copyright (c) 1995 Frank van der Linden
 .\" All rights reserved.
@@ -53,6 +54,11 @@ for kernels compiled with the
 option and kern.emul.linux
 .Xr sysctl 8
 enabled.
+The default OS type is set to the host OS type, usually
+.Nm MirBSD ,
+but can be changed via the
+.Dv kern.emul_uname
+sysctl.
 .Pp
 A lot of programs are dynamically linked.
 This means that the Linux shared libraries that the programs depend on

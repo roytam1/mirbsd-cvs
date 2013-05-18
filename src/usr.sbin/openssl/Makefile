@@ -1,31 +1,23 @@
-#	$OpenBSD: Makefile,v 1.17 2005/04/29 05:42:55 djm Exp $
+# $MirOS: src/usr.sbin/openssl/Makefile,v 1.11 2007/09/28 12:12:56 tg Exp $
+# $OpenBSD: Makefile,v 1.17 2005/04/29 05:42:55 djm Exp $
 
-PROG=	openssl
-LDADD=	-lssl -lcrypto
-MAN1=	openssl.1
+PROG=		openssl
+LDADD=		-lssl -lcrypto
+DPADD=		${LIBSSL} ${LIBCRYPTO}
 
-SSLEAYDIST= lib/libssl/src
+.include <bsd.own.mk>
 
-SSLEAY_SRC= ${.CURDIR}/../../${SSLEAYDIST}/apps
-SSLEAY_SRC_TOP= ${.CURDIR}/../../${SSLEAYDIST}
+SSLEAYDIST=	lib/libssl/src
+SSLEAY_SRC_TOP=	${BSDSRCDIR}/${SSLEAYDIST}
+SSLEAY_SRC=	${SSLEAY_SRC_TOP}/apps
 
-.if ${MACHINE_ARCH} == "i386" || ${MACHINE_ARCH} == "vax" || \
-    ${MACHINE_ARCH} == "amd64"
+CPPFLAGS+=	-DMONOLITH
+CPPFLAGS+=	-DMBSD_CB_ARND
+CPPFLAGS+=	-I${SSLEAY_SRC_TOP} -I${SSLEAY_SRC}
 
-CFLAGS+= -DL_ENDIAN
-.else
-.if ${MACHINE_ARCH} == "alpha"
-# no ENDIAN stuff defined for alpha
-.else
-CFLAGS+= -DB_ENDIAN
-.endif
-.endif
+.include "${SSLEAY_SRC_TOP}/../Makefile.inc"
 
-CFLAGS+= -DMONOLITH -DOPENSSL_NO_IDEA -DTERMIOS -DANSI_SOURCE -DOPENSSL_NO_RC5
-CFLAGS+= -DOPENSSL_NO_MDC2
-CFLAGS+= -I${SSLEAY_SRC_TOP}
-
-SRCS=	verify.c asn1pars.c req.c dgst.c dh.c enc.c passwd.c gendh.c errstr.c\
+SRCS=	verify.c asn1pars.c req.c dgst.c dh.c enc.c passwd.c gendh.c errstr.c \
 	pkcs7.c crl2p7.c crl.c ca.c \
 	rsa.c dsa.c dsaparam.c \
 	x509.c genrsa.c gendsa.c s_server.c s_client.c speed.c \
@@ -34,5 +26,7 @@ SRCS=	verify.c asn1pars.c req.c dgst.c dh.c enc.c passwd.c gendh.c errstr.c\
 	dhparam.c openssl.c rand.c rsautl.c engine.c ocsp.c prime.c
 
 .PATH:	${SSLEAY_SRC}
+
+SRCS+=		asn1octetstream.c
 
 .include <bsd.prog.mk>

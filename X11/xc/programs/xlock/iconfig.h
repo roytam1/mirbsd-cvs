@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /* Config file for xlockmore
  * Many "ideas" taken from xscreensaver-1.34 by Jamie Zawinski.
  *
@@ -15,7 +16,7 @@ XCOMM Define these now or down further below, see below for explaination.
 XCOMM  #define CPPCompiler
 #define XpmLibrary	
 XCOMM  #define XmLibrary
-#if BuildGLXLibrary == YES
+#if (BuildGLXLibrary == YES) && (HasCplusplus != NO)
 #define GLLibrary
 #endif
 XCOMM  #define TtfLibrary
@@ -56,11 +57,16 @@ XCOMM   *** BEGIN C++ CONFIG SECTION ***
 XCOMM Only the solitare, invert.c, and text3d.cc modes use this.
 XCOMM modes use this.
 XCOMM If your system has libXpm, remove the 'XCOMM  ' from the next line.
-XCOMM  #define CPPCompiler
+#if HasCplusplus != NO
+#define CPPCompiler
+#else
+#undef CPPCompiler
+#endif
 
 XCOMM If your system has C++, remove the 'XCOMM  ' from the next line.
 #ifdef CPPCompiler
 CPPDEF = -DHAVE_CXX
+CCLINK = $(CXXLINK)
 XCOMM Need this to get text3d.cc to work.
 XCOMM If your system has these 2 remove the 'XCOMM  ' from the next 2 lines.
 XCOMM  #define TtfLibrary
@@ -147,7 +153,11 @@ XCOMM GLINC = -I/usr/local/include
 XCOMM If you get an error "Cannot find libMesaGL" while linking, set GLLIBPATH
 XCOMM to the directory libMesaGL.* is in.  Below is a guess.
 XCOMM !!!WARNING!!! Known security hole with MesaGL < 3.0 if setuid root
+#if HasCplusplus == NO
+GLLIB = -lGL
+#else
 GLLIB = -lGL -lGLU
+#endif
 XCOMM   GLLIB = -L/usr/local/lib -lMesaGL -lMesaGLU
 
 #if defined(SGIArchitecture) && !defined(OpenBSDArchitecture)
@@ -371,6 +381,11 @@ PASSWDDEF = -DHAVE_SHADOW
 XCOMM Problems finding libXext.so.0 when sticky bit is set
 EXTRA_LDOPTIONS = -R/usr/lib:/usr/openwin/lib:/usr/dt/lib:/usr/local/lib
 
+#if OSMajorVersion == 2 && OSMinorVersion < 7
+PIXMAPTYPE = sol
+#else
+PIXMAPTYPE = solaris
+#endif
 #else
 SYSTEMDEF = -DSUNOS4 -DUSE_MATHERR
 SLEEPDEF = -DHAVE_USLEEP
@@ -378,7 +393,9 @@ SLEEPDEF = -DHAVE_USLEEP
 XCOMM  PASSWDDEF = -DSUNOS_ADJUNCT_PASSWD
 PASSWDDEF = -DHAVE_SHADOW
 #endif
+PIXMAPTYPE = sun
 #endif
+BITMAPTYPE = sun
 #else
 #if HasShadowPasswd
 PASSWDDEF = -DHAVE_SHADOW
@@ -398,26 +415,44 @@ SYSTEMDEF = -D_HPUX_SOURCE -DSYSV -DUSE_MATHERR
 SLEEPDEF = -DHAVE_USLEEP
 #endif
 EXTRA_LIBRARIES = -lXhp11
+BITMAPTYPE = hp
+PIXMAPTYPE = hp
 #else
 #ifdef i386SVR4Architecture
 EXTRA_LIBRARIES = -lsocket -lnsl -lgen
 PASSWDDEF = -DHAVE_SHADOW
+BITMAPTYPE = x11
+PIXMAPTYPE = x11
 #else
 #if defined(FreeBSDArchitecture) || defined(NetBSDArchitecture) || defined(i386BsdArchitecture) || defined(OpenBSDArchitecture)
 SLEEPDEF = -DHAVE_USLEEP
+BITMAPTYPE = bsd
+PIXMAPTYPE = bsd
 #ifndef OpenBSDArchitecture
 INSTPGMFLAGS = -s -o root -m 4111
 #else
-INSTPGMFLAGS = -s -g auth -m 2755
+INSTPGMFLAGS = -s -g auth -m 2555
+#ifndef MirBSDArchitecture
+BITMAPTYPE = blowfish
+PIXMAPTYPE = blowfish
+#endif
 #endif
 #else
 #ifdef LinuxArchitecture
 SLEEPDEF = -DHAVE_USLEEP
+BITMAPTYPE = linux
+PIXMAPTYPE = linux
 #if HasShadowPasswd && !UseElfFormat
 EXTRA_LIBRARIES = -lgdbm
 #endif
 #else
+#ifdef SGIArchitecture
+BITMAPTYPE = sgi
+PIXMAPTYPE = sgi
+#else
 #ifdef AIXArchitecture
+BITMAPTYPE = ibm
+PIXMAPTYPE = ibm
 XCOMM If AIX 3.1 or less, do not have struct passwd and other things
 #if OSMajorVersion < 3 || (OSMajorVersion == 3 && OSMinorVersion < 2)
 SYSTEMDEF = -DLESS_THAN_AIX3_2
@@ -437,6 +472,8 @@ XCOMM  EXTRA_LIBRARIES = -laudit
 
 #else
 #ifdef UltrixArchitecture
+BITMAPTYPE = dec
+PIXMAPTYPE = dec
 EXTRA_LIBRARIES = -lauth
 XCOMM Use this if your site is using SIA:
 XCOMM  PASSWDDEF = -DSIA
@@ -445,21 +482,20 @@ XCOMM  PASSWDLIB = -lsecurity
 
 #ifdef SCOArchitecture
 PASSWDDEF = -DHAVE_SHADOW -DSVR4
-#endif
-#endif
-#endif
-#endif
-#endif
-#endif
-#endif
-#endif
-
-#if defined(OpenBSDArchitecture)
-BITMAPTYPE = blowfish
-PIXMAPTYPE = blowfish
+BITMAPTYPE = sco
+PIXMAPTYPE = sco
 #else
 BITMAPTYPE = x11
 PIXMAPTYPE = x11
+
+#endif
+#endif
+#endif
+#endif
+#endif
+#endif
+#endif
+#endif
 #endif
 
 XLOCKINC = -I$(top_srcdir) -I. -I$(UTILSDIR)

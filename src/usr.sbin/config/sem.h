@@ -49,7 +49,7 @@ int		defattr(const char *, struct nvlist *);
 void		defdev(struct devbase *, int, struct nvlist *, struct nvlist *);
 void		defdevattach(struct deva *, struct devbase *,
 		    struct nvlist *, struct nvlist *);
-struct devbase *getdevbase(char *name);
+struct devbase *getdevbase(const char *name);
 struct deva    *getdevattach(const char *name);
 struct attr    *getattr(const char *name);
 void		setmajor(struct devbase *d, int n);

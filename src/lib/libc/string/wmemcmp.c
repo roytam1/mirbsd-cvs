@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: wmemcmp.c,v 1.4 2005/08/08 08:05:37 espie Exp $	*/
 /*	$NetBSD: wmemcmp.c,v 1.3 2003/04/06 18:33:23 tshiozak Exp $	*/
 
@@ -30,7 +31,6 @@
  */
 
 #include <wchar.h>
-#include "locale/runetype.h"
 
 int
 wmemcmp(const wchar_t *s1, const wchar_t *s2, size_t n)
@@ -39,9 +39,8 @@ wmemcmp(const wchar_t *s1, const wchar_t *s2, size_t n)
 
 	for (i = 0; i < n; i++) {
 		if (*s1 != *s2) {
-			/* wchar might be unsigned */
-			return *(const rune_t *)s1 >
-			       *(const rune_t *)s2 ? 1 : -1;
+			return *(const wchar_t *)s1 >
+			       *(const wchar_t *)s2 ? 1 : -1;
 		}
 		s1++;
 		s2++;

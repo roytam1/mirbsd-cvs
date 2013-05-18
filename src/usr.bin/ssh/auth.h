@@ -1,3 +1,4 @@
+/* $MirOS: src/usr.bin/ssh/auth.h,v 1.9 2007/09/02 18:53:13 tg Exp $ */
 /* $OpenBSD: auth.h,v 1.60 2007/09/21 08:15:29 djm Exp $ */
 
 /*
@@ -32,9 +33,8 @@
 
 #include <openssl/rsa.h>
 
+#ifdef BSD_AUTH
 #include <bsd_auth.h>
-#ifdef KRB5
-#include <krb5.h>
 #endif
 
 typedef struct Authctxt Authctxt;
@@ -54,12 +54,8 @@ struct Authctxt {
 	struct passwd	*pw;		/* set if 'valid' */
 	char		*style;
 	void		*kbdintctxt;
+#ifdef BSD_AUTH
 	auth_session_t	*as;
-#ifdef KRB5
-	krb5_context	 krb5_ctx;
-	krb5_ccache	 krb5_fwd_ccache;
-	krb5_principal	 krb5_user;
-	char		*krb5_ticket_file;
 #endif
 	void		*methoddata;
 };
@@ -71,7 +67,7 @@ struct Authctxt {
  */
 
 struct Authmethod {
-	char	*name;
+	const char *name;
 	int	(*userauth)(Authctxt *authctxt);
 	int	*enabled;
 };
@@ -109,17 +105,10 @@ int	 auth_rhosts_rsa_key_allowed(struct passwd *, char *, char *, Key *);
 int	 hostbased_key_allowed(struct passwd *, const char *, char *, Key *);
 int	 user_key_allowed(struct passwd *, Key *);
 
-#ifdef KRB5
-int	auth_krb5(Authctxt *authctxt, krb5_data *auth, char **client, krb5_data *);
-int	auth_krb5_tgt(Authctxt *authctxt, krb5_data *tgt);
-int	auth_krb5_password(Authctxt *authctxt, const char *password);
-void	krb5_cleanup_proc(Authctxt *authctxt);
-#endif /* KRB5 */
-
 void	do_authentication(Authctxt *);
 void	do_authentication2(Authctxt *);
 
-void	auth_log(Authctxt *, int, char *, char *);
+void	auth_log(Authctxt *, int, const char *, const char *);
 void	userauth_finish(Authctxt *, int, char *);
 int	auth_root_allowed(char *);
 
@@ -140,8 +129,8 @@ struct passwd * getpwnamallow(const char *user);
 char	*get_challenge(Authctxt *);
 int	verify_response(Authctxt *, const char *);
 
-char	*authorized_keys_file(struct passwd *);
-char	*authorized_keys_file2(struct passwd *);
+char	*authorised_keys_file(struct passwd *);
+char	*authorised_keys_file2(struct passwd *);
 
 int
 secure_filename(FILE *, const char *, struct passwd *, char *, size_t);

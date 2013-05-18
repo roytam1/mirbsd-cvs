@@ -220,7 +220,7 @@ getpackets(int bpffd, u_int8_t *sysname, struct ether_addr *ea)
 		/* Pull out ethernet header */
 		if (len < sizeof(struct ether_header))
 			goto next;
-		bcopy(mpkt, &eh, sizeof(struct ether_header));
+		memmove(&eh, mpkt, sizeof(struct ether_header));
 		eh.ether_type = ntohs(eh.ether_type);
 		len -= sizeof(struct ether_header);
 		mpkt += sizeof(struct ether_header);
@@ -228,7 +228,7 @@ getpackets(int bpffd, u_int8_t *sysname, struct ether_addr *ea)
 		/* Pull out pppoe header */
 		if (len < sizeof(struct pppoe_header))
 			goto next;
-		bcopy(mpkt, &ph, sizeof(struct pppoe_header));
+		memmove(&ph, mpkt, sizeof(struct pppoe_header));
 		mpkt += sizeof(struct pppoe_header);
 		len -= sizeof(struct pppoe_header);
 		ph.len = ntohs(ph.len);
@@ -281,7 +281,7 @@ recv_padi(int bpffd, struct ether_addr *ea, struct ether_header *eh,
 
 	if (ph->sessionid != 0)
 		return;
-	if (bcmp(&eh->ether_dhost[0], etherbroadcastaddr, ETHER_ADDR_LEN))
+	if (memcmp(&eh->ether_dhost[0], etherbroadcastaddr, ETHER_ADDR_LEN))
 		return;
 
 	tag_init(&tl);

@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: mc146818reg.h,v 1.7 2003/10/21 18:58:49 jmc Exp $	*/
 /*	$NetBSD: mc146818reg.h,v 1.1 1995/05/04 19:31:18 cgd Exp $	*/
 
@@ -118,8 +119,8 @@
  * Periodic Interrupt Rate Select constants (Control register A)
  */
 #define	MC_RATE_NONE	0x0	/* No periodic interrupt */
-#define	MC_RATE_1	0x1     /* 256 Hz if MC_BASE_32_KHz, else 32768 Hz */
-#define	MC_RATE_2	0x2     /* 128 Hz if MC_BASE_32_KHz, else 16384 Hz */
+#define	MC_RATE_1	0x1     /* 256 Hz if MC_BASE_32_kHz, else 32768 Hz */
+#define	MC_RATE_2	0x2     /* 128 Hz if MC_BASE_32_kHz, else 16384 Hz */
 #define	MC_RATE_8192_Hz	0x3	/* 122.070 us period */
 #define	MC_RATE_4096_Hz	0x4	/* 244.141 us period */
 #define	MC_RATE_2048_Hz	0x5	/* 488.281 us period */
@@ -139,7 +140,7 @@
  */
 #define	MC_BASE_4_MHz	0x00		/* 4MHz crystal */
 #define	MC_BASE_1_MHz	0x10		/* 1MHz crystal */
-#define	MC_BASE_32_KHz	0x20		/* 32KHz crystal */
+#define	MC_BASE_32_kHz	0x20		/* 32kHz crystal */
 #define	MC_BASE_NONE	0x60		/* actually, both of these reset */
 #define	MC_BASE_RESET	0x70
 
@@ -194,4 +195,3 @@ typedef u_int mc_todregs[MC_NTODREGS];
 		    mc146818_read(sc, MC_REGB) & ~MC_REGB_SET);		\
 	} while (0);
 #endif
-

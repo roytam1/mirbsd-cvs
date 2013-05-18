@@ -1,3 +1,4 @@
+/**	$MirOS$	*/
 /*	$OpenBSD: rnd_keys.c,v 1.2 2000/03/02 00:29:48 todd Exp $	*/
 
 /* Copyright (C) 1993 Eric Young - see COPYING for more details */
@@ -100,7 +101,7 @@ des_init_random_number_generator(des_cblock *seed)
       gethostname(hostname, sizeof(hostname));
       hent = gethostbyname(hostname);
       if (hent != NULL)
-	bcopy(hent->h_addr_list[0], &uniq[0], sizeof(uniq[0]));
+	memmove(&uniq[0], hent->h_addr_list[0], sizeof(uniq[0]));
       else
 	uniq[0] = gethostid();
 #ifdef MSDOS

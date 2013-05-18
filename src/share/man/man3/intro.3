@@ -1,3 +1,4 @@
+.\"	$MirOS: src/share/man/man3/intro.3,v 1.3 2005/07/24 13:07:59 tg Exp $
 .\"	$OpenBSD: intro.3,v 1.30 2005/04/18 19:20:59 robert Exp $
 .\"	$NetBSD: intro.3,v 1.5 1995/05/10 22:46:24 jtc Exp $
 .\"
@@ -384,6 +385,8 @@ protocols.
 See
 .Xr ssl 3 .
 .Pp
+.El
+.Bl -tag -width "libkvm" -compact
 .It libstdc++ Pq Fl lstdc++
 GCC subroutine library for C++.
 See
@@ -478,7 +481,6 @@ Typically, a library will have a number of variants:
 .Bd -unfilled -offset indent
 libc.a
 libc.so.30.1
-libc_p.a
 libc_pic.a
 .Ed
 .Pp
@@ -536,20 +538,6 @@ flag, although on systems that support it, this will be the default and
 need not be specified.
 .Pp
 Libraries with a
-.Sq _p.a
-suffix are profiling libraries.
-They contain extra information suitable for analysing programs,
-such as execution speed and call counts.
-This in turn can be interpreted by utilities such as
-.Xr gprof 1 .
-The C compiler,
-.Xr cc 1 ,
-can be instructed to generate profiling code,
-or to link with profiling libraries, by specifying the
-.Fl pg
-flag.
-.Pp
-Libraries with a
 .Sq _pic.a
 suffix contain position-independent code
 .Pq PIC .
@@ -585,12 +573,7 @@ and can be viewed using
 The building of PIC versions of libraries and dynamic libraries can be
 prevented by setting the variable
 .Dv NOPIC
-in
-.Pa /etc/mk.conf .
-The building of profiling versions of libraries and/or dynamic libraries can
-be prevented by setting the variable
-.Dv NOPROFILE
-in
+to yes in
 .Pa /etc/mk.conf .
 See
 .Xr mk.conf 5

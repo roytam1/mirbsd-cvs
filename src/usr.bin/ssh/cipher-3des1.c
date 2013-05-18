@@ -32,6 +32,8 @@
 #include "xmalloc.h"
 #include "log.h"
 
+__RCSID("$MirOS$");
+
 /*
  * This is used by SSH1:
  *
@@ -55,8 +57,8 @@ const EVP_CIPHER * evp_ssh1_3des(void);
 void ssh1_3des_iv(EVP_CIPHER_CTX *, int, u_char *, int);
 
 static int
-ssh1_3des_init(EVP_CIPHER_CTX *ctx, const u_char *key, const u_char *iv,
-    int enc)
+ssh1_3des_init(EVP_CIPHER_CTX *ctx, const u_char *key,
+    const u_char *iv __attribute__((unused)), int enc)
 {
 	struct ssh1_3des_ctx *c;
 	u_char *k1, *k2, *k3;

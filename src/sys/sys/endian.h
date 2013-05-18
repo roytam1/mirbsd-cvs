@@ -1,6 +1,9 @@
+/**	$MirOS: src/sys/sys/endian.h,v 1.2 2005/03/06 21:28:34 tg Exp $ */
 /*	$OpenBSD: endian.h,v 1.14 2004/01/11 19:17:31 brad Exp $	*/
 
 /*-
+ * Copyright (c) 2004, 2006
+ *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
  * Copyright (c) 1997 Niklas Hallqvist.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -41,8 +44,6 @@
 #include <sys/cdefs.h>
 
 #define LITTLE_ENDIAN	1234
-
-
 #define BIG_ENDIAN	4321
 #define PDP_ENDIAN	3412
 
@@ -130,7 +131,7 @@
 	    __swap64md(__swap64_x);					\
 })
 
-#endif /* __GNUC__  */
+#endif /* __GNUC__ */
 
 #else /* MD_SWAP */
 #define swap16 __swap16gen
@@ -182,12 +183,12 @@ __END_DECLS
 #define betoh32 swap32
 #define betoh64 swap64
 
-#define htole16(x) (x)
-#define htole32(x) (x)
-#define htole64(x) (x)
-#define letoh16(x) (x)
-#define letoh32(x) (x)
-#define letoh64(x) (x)
+#define htole16(x) ((uint16_t)(x))
+#define htole32(x) ((uint32_t)(x))
+#define htole64(x) ((uint64_t)(x))
+#define letoh16(x) ((uint16_t)(x))
+#define letoh32(x) ((uint32_t)(x))
+#define letoh64(x) ((uint64_t)(x))
 
 #endif /* BYTE_ORDER */
 
@@ -208,24 +209,52 @@ __END_DECLS
 #define letoh32 swap32
 #define letoh64 swap64
 
-#define htobe16(x) (x)
-#define htobe32(x) (x)
-#define htobe64(x) (x)
-#define betoh16(x) (x)
-#define betoh32(x) (x)
-#define betoh64(x) (x)
+#define htobe16(x) ((uint16_t)(x))
+#define htobe32(x) ((uint32_t)(x))
+#define htobe64(x) ((uint64_t)(x))
+#define betoh16(x) ((uint16_t)(x))
+#define betoh32(x) ((uint32_t)(x))
+#define betoh64(x) ((uint64_t)(x))
 
 #endif /* BYTE_ORDER */
 
-#define htons htobe16
-#define htonl htobe32
-#define ntohs betoh16
-#define ntohl betoh32
+#if BYTE_ORDER == PDP_ENDIAN
+#error You are crazy. Go away.
+#endif /* BYTE_ORDER */
 
-#define	NTOHL(x) (x) = ntohl((u_int32_t)(x))
-#define	NTOHS(x) (x) = ntohs((u_int16_t)(x))
-#define	HTONL(x) (x) = htonl((u_int32_t)(x))
-#define	HTONS(x) (x) = htons((u_int16_t)(x))
+#define	bswap16		swap16
+#define	bswap32		swap32
+#define	bswap64		swap64
+
+#define	htons		htobe16
+#define	htonl		htobe32
+#define	ntohs		betoh16
+#define	ntohl		betoh32
+
+#define	be16toh		betoh16
+#define	be32toh		betoh32
+#define	be64toh		betoh64
+#define	le16toh		letoh16
+#define	le32toh		letoh32
+#define	le64toh		letoh64
+
+#define	NTOHL(x)	(x) = ntohl((u_int32_t)(x))
+#define	NTOHS(x)	(x) = ntohs((u_int16_t)(x))
+#define	HTONL(x)	(x) = htonl((u_int32_t)(x))
+#define	HTONS(x)	(x) = htons((u_int16_t)(x))
+
+#define	BE16TOH(x)	(x) = be16toh((u_int16_t)(x))
+#define	BE32TOH(x)	(x) = be32toh((u_int32_t)(x))
+#define	BE64TOH(x)	(x) = be64toh((u_int64_t)(x))
+#define	HTOBE16(x)	(x) = htobe16((u_int16_t)(x))
+#define	HTOBE32(x)	(x) = htobe32((u_int32_t)(x))
+#define	HTOBE64(x)	(x) = htobe64((u_int64_t)(x))
+#define	LE16TOH(x)	(x) = le16toh((u_int16_t)(x))
+#define	LE32TOH(x)	(x) = le32toh((u_int32_t)(x))
+#define	LE64TOH(x)	(x) = le64toh((u_int64_t)(x))
+#define	HTOLE16(x)	(x) = htole16((u_int16_t)(x))
+#define	HTOLE32(x)	(x) = htole32((u_int32_t)(x))
+#define	HTOLE64(x)	(x) = htole64((u_int64_t)(x))
 
 #endif /* _POSIX_SOURCE */
 #endif /* _SYS_ENDIAN_H_ */

@@ -1,34 +1,27 @@
-#	$OpenBSD: Makefile,v 1.6 2004/10/10 02:42:59 mickey Exp $
+# $MirOS: src/share/doc/psd/Makefile,v 1.2 2005/03/06 19:38:24 tg Exp $
+# $OpenBSD: Makefile,v 1.6 2004/10/10 02:42:59 mickey Exp $
 
-# Missing or not installed:
-# 01.cacm 02.implement 03.iosys 04.uprog 06.Clang
-# 07.pascal 08.f77 09.f77io 11.adb 13.rcs 14.sccs
-
-DOCDIR=	/usr/share/doc/psd
+INSTDIR=psd
 FILES=	00.contents Makefile Title
-SUBDIR=	05.sysman 20.ipctut 21.ipc
-.if exists(12.make)
-SUBDIR+= 12.make
-.endif
-.if exists(18.gprof)
-SUBDIR+= 18.gprof
-.endif
-.if exists(19.curses)
-SUBDIR+= 19.curses
-.endif
+SUBDIR!=echo */Makefile | sed 's,/Makefile[[:>:]],,g'
+
+.include <bsd.own.mk>
+
+all: _SUBDIRUSE
+all: Title.txt contents.txt
 
 Title.ps: ${FILES}
-	groff Title > ${.TARGET}
+	${ROFF} Title >${.TARGET}
 Title.txt: ${FILES}
-	groff -Tascii Title > ${.TARGET}
+	${NROFF} Title >${.TARGET}
 
 contents.ps: ${FILES}
-	groff -ms 00.contents > ${.TARGET}
+	${ROFF} -ms 00.contents >${.TARGET}
 contents.txt: ${FILES}
-	groff -Tascii -ms 00.contents > ${.TARGET}
+	${NROFF} -ms 00.contents >${.TARGET}
 
 beforeinstall:
 	install -c -o ${DOCOWN} -g ${DOCGRP} -m ${DOCMODE} ${FILES} \
-	    ${DESTDIR}${DOCDIR}
+	    ${DESTDIR}${DOCDIR}/${INSTDIR}
 
 .include <bsd.subdir.mk>

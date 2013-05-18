@@ -1,6 +1,8 @@
+/**	$MirOS: src/sys/stand/boot/boot.c,v 1.10 2006/11/21 02:53:39 tg Exp $	*/
 /*	$OpenBSD: boot.c,v 1.30 2004/01/29 00:54:08 tom Exp $	*/
 
 /*
+ * Copyright (c) 2002, 2003, 2004, 2006 Thorsten Glaser
  * Copyright (c) 2003 Dale Rahn
  * Copyright (c) 1997,1998 Michael Shalayeff
  * All rights reserved.
@@ -33,13 +35,16 @@
 #include <sys/stat.h>
 #include <libsa.h>
 #include <lib/libsa/loadfile.h>
-#include <lib/libkern/funcs.h>
+#ifdef IN_PXEBOOT
+#include <pxe.h>
+
+extern BOOTPLAYER bootplayer;
+#endif
 
 #include "cmd.h"
 
 static const char *const kernels[] = {
 	"/bsd",
-	"/obsd",
 	"/bsd.old",
 	NULL
 };
@@ -47,31 +52,78 @@ static const char *const kernels[] = {
 char prog_ident[40];
 char *progname = "BOOT";
 
-extern	const char version[];
+extern const char version[];
 struct cmd_state cmd;
 int bootprompt = 1;
+uint32_t hook_value = 0;
 
 void
 boot(dev_t bootdev)
 {
 	const char *bootfile = kernels[0];
-	int i = 0, try = 0, st;
+	int i = 0, try = 0, st = -1;
 	u_long marks[MARK_MAX];
+#ifdef IN_PXEBOOT
+	uint32_t ip;
+#endif
+#if defined(IN_PXEBOOT) || !defined(SMALL_BOOT)
+	char myconf[32];
+#endif
 
 	machdep();
 
 	snprintf(prog_ident, sizeof(prog_ident),
-	    ">> OpenBSD/" MACHINE " %s %s", progname, version);
-	printf("%s\n", prog_ident);
+	    "MirBSD boot %s", version);
+	printf(">> %s\n>> booting from device %Xh",
+	    prog_ident, bootdev);
 
 	devboot(bootdev, cmd.bootdev);
+	printf(" = %s\n", cmd.bootdev);
 	strlcpy(cmd.image, bootfile, sizeof(cmd.image));
+
+	cmd.conf = NULL;
+#ifdef IN_PXEBOOT
+	ip = bootplayer.yip;
+
+	/*
+	 * Let's be non-intrusive.. We try to get our /$IP/boot.cfg
+	 * first, and if that fails, fall back to /boot.cfg, and
+	 * if that fails, do no boot.cfg at all.
+	 * Pim van Pelt / Paul de Weerd 20040328
+	 */
 	cmd.boothowto = 0;
-	cmd.conf = "/etc/boot.conf";
+	snprintf(myconf, sizeof(myconf), "/%d.%d.%d.%d/boot.cfg",
+	    ip & 0xff, (ip >> 8) & 0xff, (ip >> 16) & 0xff, (ip >> 24) & 0xff);
+	cmd.conf = myconf;
 	cmd.addr = (void *)DEFAULT_KERNEL_ADDRESS;
 	cmd.timeout = 5;
 
 	st = read_conf();
+#elif !defined(SMALL_BOOT)
+	if (hook_value) {
+		cmd.boothowto = 0;
+		snprintf(myconf, sizeof (myconf), "/boot.%d",
+		    (hook_value % 999));
+		cmd.conf = myconf;
+		cmd.addr = (void *)DEFAULT_KERNEL_ADDRESS;
+		cmd.timeout = 5;
+
+		st = read_conf();
+	}
+#endif
+
+	if (st < 0) {
+#if defined(IN_PXEBOOT) || !defined(SMALL_BOOT)
+		if (cmd.conf)
+			printf("Attempt to read %s failed.\n", cmd.conf);
+#endif
+		cmd.boothowto = 0;
+		cmd.conf = "/boot.cfg";
+		cmd.addr = (void *)DEFAULT_KERNEL_ADDRESS;
+		cmd.timeout = 5;
+
+		st = read_conf();
+	}
 	if (!bootprompt)
 		snprintf(cmd.path, sizeof cmd.path, "%s:%s",
 		    cmd.bootdev, cmd.image);
@@ -81,7 +133,7 @@ boot(dev_t bootdev)
 		if (bootprompt && st <= 0)
 			do {
 				printf("boot> ");
-			} while(!getcmd());
+			} while (!getcmd());
 		st = 0;
 		bootprompt = 1;	/* allow reselect should we fail */
 
@@ -92,18 +144,19 @@ boot(dev_t bootdev)
 
 		if (kernels[++i] == NULL) {
 			try += 1;
-			bootfile = kernels[i=0];
+			bootfile = kernels[i = 0];
 		} else
 			bootfile = kernels[i];
 		strlcpy(cmd.image, bootfile, sizeof(cmd.image));
-		printf(" failed(%d). will try %s\n", errno, bootfile);
+		printf(" failed(%d).%s%s\n", errno,
+		    (cmd.timeout) ? " will try " : "",
+		    (cmd.timeout) ? bootfile : "");
 
-		if (try < 2)
-			cmd.timeout++;
-		else {
-			if (cmd.timeout)
+		if (cmd.timeout) {
+			if (try < 2)
+				cmd.timeout++;
+			else
 				printf("Turning timeout off.\n");
-			cmd.timeout = 0;
 		}
 	}
 

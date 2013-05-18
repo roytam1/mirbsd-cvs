@@ -1,5 +1,6 @@
-/*	$OpenPackages$ */
+/**	$MirOS: src/usr.bin/make/cmd_exec.c,v 1.4 2005/11/24 12:37:43 tg Exp $ */
 /*	$OpenBSD: cmd_exec.c,v 1.5 2004/04/07 13:11:35 espie Exp $ */
+
 /*
  * Copyright (c) 2001 Marc Espie.
  *
@@ -37,8 +38,10 @@
 #include "memory.h"
 #include "pathnames.h"
 
+__RCSID("$MirOS: src/usr.bin/make/cmd_exec.c,v 1.4 2005/11/24 12:37:43 tg Exp $");
+
 char *
-Cmd_Exec(const char *cmd, char **err)
+Cmd_Exec(const char *cmd, const char **err)
 {
     char	*args[4];	/* Args for invoking the shell */
     int 	fds[2]; 	/* Pipe streams */
@@ -55,8 +58,8 @@ Cmd_Exec(const char *cmd, char **err)
     *err = NULL;
 
     /* Set up arguments for the shell. */
-    args[0] = "sh";
-    args[1] = "-c";
+    args[0] = (char *)"mksh";
+    args[1] = (char *)"-c";
     args[2] = (char *)cmd;
     args[3] = NULL;
 
@@ -75,14 +78,14 @@ Cmd_Exec(const char *cmd, char **err)
 	/* Duplicate the output stream to the shell's output, then
 	 * shut the extra thing down. Note we don't fetch the error
 	 * stream: user can use redirection to grab it as this goes
-	 * through /bin/sh.
+	 * through /bin/mksh.
 	 */
 	if (fds[1] != 1) {
 	    (void)dup2(fds[1], 1);
 	    (void)close(fds[1]);
 	}
 
-	(void)execv(_PATH_BSHELL, args);
+	(void)execv(_PATH_MIRBSDKSH, args);
 	_exit(1);
 	/*NOTREACHED*/
 
@@ -139,4 +142,3 @@ Cmd_Exec(const char *cmd, char **err)
 bad:
     return estrdup("");
 }
-

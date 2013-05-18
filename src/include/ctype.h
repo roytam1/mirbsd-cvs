@@ -1,69 +1,45 @@
-/*	$OpenBSD: ctype.h,v 1.18 2005/08/08 05:53:00 espie Exp $	*/
-/*	$NetBSD: ctype.h,v 1.14 1994/10/26 00:55:47 cgd Exp $	*/
+/* $MirOS: src/include/ctype.h,v 1.16 2007/03/22 03:57:49 tg Exp $ */
 
-/*
- * Copyright (c) 1989 The Regents of the University of California.
- * All rights reserved.
- * (c) UNIX System Laboratories, Inc.
- * All or some portions of this file are derived from material licensed
- * to the University of California by American Telephone and Telegraph
- * Co. or Unix System Laboratories, Inc. and are reproduced herein with
- * the permission of UNIX System Laboratories, Inc.
+/*-
+ * Copyright (c) 2006, 2007
+ *	Thorsten Glaser <tg@mirbsd.de>
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the University nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
- *    without specific prior written permission.
+ * Provided that these terms and disclaimer and all copyright notices
+ * are retained or reproduced in an accompanying document, permission
+ * is granted to deal in this work without restriction, including un-
+ * limited rights to use, publicly perform, distribute, sell, modify,
+ * merge, give away, or sublicence.
  *
- * THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS ``AS IS'' AND
- * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE
- * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
- * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
- * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
- * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
- * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
- * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
- * SUCH DAMAGE.
- *
- *	@(#)ctype.h	5.3 (Berkeley) 4/3/91
+ * This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
+ * the utmost extent permitted by applicable law, neither express nor
+ * implied; without malicious intent or gross negligence. In no event
+ * may a licensor, author or contributor be held liable for indirect,
+ * direct, other damage, loss, or other issues arising in any way out
+ * of dealing in the work, even if advised of the possibility of such
+ * damage or existence of a defect, except proven that it results out
+ * of said person's immediate fault when using the work as intended.
  */
 
 #ifndef _CTYPE_H_
 #define _CTYPE_H_
+
 #include <sys/cdefs.h>
 
-#define	_U	0x01
-#define	_L	0x02
-#define	_N	0x04
-#define	_S	0x08
-#define	_P	0x10
-#define	_C	0x20
-#define	_X	0x40
-#define	_B	0x80
+/* from src/lib/libc/include/mir18n.h,v 1.14 */
+#define _ctp_alnum	0x000C
+#define _ctp_alpha	0x0004
+#define _ctp_blank	0x0040
+#define _ctp_cntrl	0x0080
+#define _ctp_digit	0x0408
+#define _ctp_graph	0x1020
+#define _ctp_lower	0x0002
+#define _ctp_print	0x0020
+#define _ctp_punct	0x1C20
+#define _ctp_space	0x0010
+#define _ctp_upper	0x0001
+#define _ctp_xdigit	0x0008
 
 __BEGIN_DECLS
-
-extern const char	*_ctype_;
-extern const short	*_tolower_tab_;
-extern const short	*_toupper_tab_;
-
-/* extern __inline is a GNU C extension */
-#ifdef __GNUC__
-#define	__CTYPE_INLINE	extern __inline
-#else
-#define	__CTYPE_INLINE	static __inline
-#endif
-
-#if defined(__GNUC__) || defined(_ANSI_LIBRARY) || defined(lint)
 int	isalnum(int);
 int	isalpha(int);
 int	iscntrl(int);
@@ -79,117 +55,85 @@ int	tolower(int);
 int	toupper(int);
 
 #if !defined(_ANSI_SOURCE) && !defined(_POSIX_SOURCE)
-int	isblank(int);
 int	isascii(int);
+#if __OPENBSD_VISIBLE
+int	isbinry(int);
+#endif
+int	isblank(int);
 int	toascii(int);
-int	_tolower(int);
-int	_toupper(int);
 #endif /* !_ANSI_SOURCE && !_POSIX_SOURCE */
 
-#endif /* __GNUC__ || _ANSI_LIBRARY || lint */
+#if !defined(lint)
 
-#if !defined(_ANSI_LIBRARY) && !defined(lint)
+extern const unsigned char __C_attribute_table_pg[256];
 
-__CTYPE_INLINE int isalnum(int c)
-{
-	return (c == -1 ? 0 : ((_ctype_ + 1)[(unsigned char)c] & (_U|_L|_N)));
-}
+#ifdef __GNUC__
+#define __CTYPE_IMPL(c,t) __extension__({				\
+	unsigned __CTYPE_Ic = (c);					\
+									\
+	(__CTYPE_Ic > 127) ? 0 :					\
+	 ((__C_attribute_table_pg[__CTYPE_Ic] & (_ctp_ ## t & 0xFF)) &&	\
+	 !(__C_attribute_table_pg[__CTYPE_Ic] & (_ctp_ ## t >> 8)));	\
+})
+#else
+#define __CTYPE_IMPL(c,t)				\
+	((((unsigned)(c)) > 127) ? 0 :			\
+	 ((__C_attribute_table_pg[((unsigned)(c))] &	\
+	    (_ctp_ ## t & 0xFF)) &&			\
+	 !(__C_attribute_table_pg[((unsigned)(c))] &	\
+	    (_ctp_ ## t >> 8))))
+#endif
 
-__CTYPE_INLINE int isalpha(int c)
-{
-	return (c == -1 ? 0 : ((_ctype_ + 1)[(unsigned char)c] & (_U|_L)));
-}
+#define isalnum(c)	__CTYPE_IMPL((c),alnum)
+#define isalpha(c)	__CTYPE_IMPL((c),alpha)
+#define iscntrl(c)	__CTYPE_IMPL((c),cntrl)
+#define isdigit(c)	__CTYPE_IMPL((c),digit)
+#define isgraph(c)	__CTYPE_IMPL((c),graph)
+#define islower(c)	__CTYPE_IMPL((c),lower)
+#define isprint(c)	__CTYPE_IMPL((c),print)
+#define ispunct(c)	__CTYPE_IMPL((c),punct)
+#define isspace(c)	__CTYPE_IMPL((c),space)
+#define isupper(c)	__CTYPE_IMPL((c),upper)
+#define isxdigit(c)	__CTYPE_IMPL((c),xdigit)
 
-__CTYPE_INLINE int iscntrl(int c)
-{
-	return (c == -1 ? 0 : ((_ctype_ + 1)[(unsigned char)c] & _C));
-}
-
-__CTYPE_INLINE int isdigit(int c)
-{
-	return (c == -1 ? 0 : ((_ctype_ + 1)[(unsigned char)c] & _N));
-}
-
-__CTYPE_INLINE int isgraph(int c)
-{
-	return (c == -1 ? 0 : ((_ctype_ + 1)[(unsigned char)c] & (_P|_U|_L|_N)));
-}
-
-__CTYPE_INLINE int islower(int c)
-{
-	return (c == -1 ? 0 : ((_ctype_ + 1)[(unsigned char)c] & _L));
-}
-
-__CTYPE_INLINE int isprint(int c)
-{
-	return (c == -1 ? 0 : ((_ctype_ + 1)[(unsigned char)c] & (_P|_U|_L|_N|_B)));
-}
-
-__CTYPE_INLINE int ispunct(int c)
-{
-	return (c == -1 ? 0 : ((_ctype_ + 1)[(unsigned char)c] & _P));
-}
-
-__CTYPE_INLINE int isspace(int c)
-{
-	return (c == -1 ? 0 : ((_ctype_ + 1)[(unsigned char)c] & _S));
-}
-
-__CTYPE_INLINE int isupper(int c)
-{
-	return (c == -1 ? 0 : ((_ctype_ + 1)[(unsigned char)c] & _U));
-}
-
-__CTYPE_INLINE int isxdigit(int c)
-{
-	return (c == -1 ? 0 : ((_ctype_ + 1)[(unsigned char)c] & (_N|_X)));
-}
-
-__CTYPE_INLINE int tolower(int c)
-{
-	if ((unsigned int)c > 255)
-		return (c);
-	return ((_tolower_tab_ + 1)[c]);
-}
-
-__CTYPE_INLINE int toupper(int c)
-{
-	if ((unsigned int)c > 255)
-		return (c);
-	return ((_toupper_tab_ + 1)[c]);
-}
+#ifdef __GNUC__
+#define tolower(c)	__extension__({			\
+	int __CTYPE_Tl = (c);				\
+							\
+	(__CTYPE_Tl >= 'A') && (__CTYPE_Tl <= 'Z') ?	\
+	    __CTYPE_Tl - 'A' + 'a' : __CTYPE_Tl;	\
+})
+#define toupper(c)	__extension__({			\
+	int __CTYPE_Tu = (c);				\
+							\
+	(__CTYPE_Tu >= 'a') && (__CTYPE_Tu <= 'z') ?	\
+	    __CTYPE_Tu - 'a' + 'A' : __CTYPE_Tu;	\
+})
+#else
+#define tolower(c)	(((c) >= 'A') && ((c) <= 'Z') ? (c) - 'A' + 'a' : (c))
+#define toupper(c)	(((c) >= 'a') && ((c) <= 'z') ? (c) - 'a' + 'A' : (c))
+#endif
 
 #if !defined(_ANSI_SOURCE) && !defined(_POSIX_SOURCE)
-__CTYPE_INLINE int isblank(int c)
-{
-	return (c == ' ' || c == '\t');
-}
+#define isascii(c)	((unsigned)(c) < 0x80)
+#define isblank(c)	__CTYPE_IMPL((c),blank)
+#define toascii(c)	((c) & 0x7F)
 
-__CTYPE_INLINE int isascii(int c)
-{
-	return ((unsigned int)c <= 0177);
-}
-
-__CTYPE_INLINE int toascii(int c)
-{
-	return (c & 0177);
-}
-
-__CTYPE_INLINE int _tolower(int c)
-{
-	return (c - 'A' + 'a');
-}
-
-__CTYPE_INLINE int _toupper(int c)
-{
-	return (c - 'a' + 'A');
-}
+#define _tolower(c)	((c) - 'A' + 'a')
+#define _toupper(c)	((c) - 'a' + 'A')
 #endif /* !_ANSI_SOURCE && !_POSIX_SOURCE */
 
-#endif /* !_ANSI_LIBRARY && !lint */
+#if __OPENBSD_VISIBLE
+#define isbinry(c)	__extension__({				\
+	uint8_t __CTYPE_Ic = (c);				\
+								\
+	((__CTYPE_Ic == 0x00) || (__CTYPE_Ic == 0xC0) ||	\
+	    (__CTYPE_Ic == 0xC1) || (__CTYPE_Ic > 0xEF));	\
+})
+#endif
+
+#endif /* !lint */
 
 __END_DECLS
-
-#undef __CTYPE_INLINE
 
 #endif /* !_CTYPE_H_ */

@@ -577,7 +577,7 @@ bge_alloc_jumbo_mem(sc)
 	}
 	if (bus_dmamem_map(sc->bge_dmatag, &seg, rseg, BGE_JMEM, &kva,
 			   BUS_DMA_NOWAIT)) {
-		printf("%s: can't map dma buffers (%d bytes)\n",
+		printf("%s: can't map dma buffers (%ld bytes)\n",
 		    sc->bge_dev.dv_xname, BGE_JMEM);
 		bus_dmamem_free(sc->bge_dmatag, &seg, rseg);
 		return (ENOBUFS);
@@ -599,7 +599,8 @@ bge_alloc_jumbo_mem(sc)
 		return (ENOBUFS);
 	}
 	sc->bge_cdata.bge_jumbo_buf = (caddr_t)kva;
-	DPRINTFN(1,("bge_jumbo_buf = 0x%08X\n", sc->bge_cdata.bge_jumbo_buf));
+	DPRINTFN(1,("bge_jumbo_buf = 0x%08X\n", (unsigned int)
+	    sc->bge_cdata.bge_jumbo_buf));
 
 	LIST_INIT(&sc->bge_jfree_listhead);
 	LIST_INIT(&sc->bge_jinuse_listhead);
@@ -1517,7 +1518,7 @@ bge_attach(parent, self, aux)
 	u_int32_t		mac_addr = 0;
 	u_int32_t		command;
 	struct ifnet		*ifp;
-	int			unit, error = 0;
+	int			error = 0;
 	caddr_t			kva;
 
 	s = splimp();
@@ -1603,7 +1604,7 @@ bge_attach(parent, self, aux)
 		sc->arpcom.ac_enaddr[5] = (u_char)mac_addr;
 	} else if (bge_read_eeprom(sc, (caddr_t)&sc->arpcom.ac_enaddr,
 	    BGE_EE_MAC_OFFSET + 2, ETHER_ADDR_LEN)) {
-		printf("bge%d: failed to read station address\n", unit);
+		printf("%s: failed to read station address\n", sc->bge_dev.dv_xname);
 		bge_release_resources(sc);
 		error = ENXIO;
 		goto fail;
@@ -1628,7 +1629,7 @@ bge_attach(parent, self, aux)
 			   sizeof(struct bge_ring_data), &kva,
 			   BUS_DMA_NOWAIT)) {
 		printf("%s: can't map dma buffers (%d bytes)\n",
-		    sc->bge_dev.dv_xname, sizeof(struct bge_ring_data));
+		    sc->bge_dev.dv_xname, (int)sizeof(struct bge_ring_data));
 		bus_dmamem_free(sc->bge_dmatag, &seg, rseg);
 		goto fail;
 	}

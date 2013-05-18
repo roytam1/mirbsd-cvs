@@ -1,4 +1,5 @@
-#! /bin/ksh
+#!/bin/mksh
+# $MirOS$
 #
 # Copyright (c) 2004 Dale Rahn <drahn@openbsd.org>
 #

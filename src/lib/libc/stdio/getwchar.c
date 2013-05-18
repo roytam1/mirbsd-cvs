@@ -38,8 +38,7 @@
 #undef getwchar
 
 wint_t
-getwchar()
+getwchar(void)
 {
-
 	return fgetwc(stdin);
 }

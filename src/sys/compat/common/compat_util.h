@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: compat_util.h,v 1.7 2002/03/14 01:26:49 millert Exp $	*/
 /*	$NetBSD: compat_util.h,v 1.1 1995/06/24 20:16:05 christos Exp $	*/
 
@@ -50,9 +51,6 @@ struct emul_flags_xtab {
 
 int emul_find(struct proc *, caddr_t *, const char *, char *,
 		   char **, int);
-
-unsigned long emul_flags_translate(const struct emul_flags_xtab *tab,
-		   unsigned long in, unsigned long *leftover);
 
 #define CHECK_ALT_EXIST(p, sgp, root, path) \
     emul_find(p, sgp, root, path, &(path), 0)

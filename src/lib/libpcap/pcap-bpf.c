@@ -213,9 +213,11 @@ pcap_open_live(const char *device, int snaplen, int promisc, int to_ms,
 	struct bpf_version bv;
 	u_int v;
 	pcap_t *p;
+#ifdef BIOCGDLTLIST
 	struct bpf_dltlist bdl;
 
 	bzero(&bdl, sizeof(bdl));
+#endif
 	p = (pcap_t *)malloc(sizeof(*p));
 	if (p == NULL) {
 		snprintf(ebuf, PCAP_ERRBUF_SIZE, "malloc: %s",
@@ -279,6 +281,7 @@ pcap_open_live(const char *device, int snaplen, int promisc, int to_ms,
 #endif
 	p->linktype = v;
 
+#ifdef BIOCGDLTLIST
 	/*
 	 * We know the default link type -- now determine all the DLTs
 	 * this interface supports.  If this fails with EINVAL, it's
@@ -306,6 +309,7 @@ pcap_open_live(const char *device, int snaplen, int promisc, int to_ms,
 			goto bad;
 		}
 	}
+#endif
 
 	/* set timeout */
 	if (to_ms != 0) {
@@ -339,7 +343,9 @@ pcap_open_live(const char *device, int snaplen, int promisc, int to_ms,
  bad:
 	if (fd >= 0)
 		(void)close(fd);
+#ifdef BIOCGDLTLIST
 	free(bdl.bfl_list);
+#endif
 	free(p);
 	return (NULL);
 }
@@ -376,6 +382,9 @@ pcap_setfilter(pcap_t *p, struct bpf_program *fp)
 int
 pcap_setdirection(pcap_t *p, pcap_direction_t d)
 {
+#ifndef BIOCSDIRFILT
+	return (-1);
+#else
 	u_int dirfilt;
 
 	switch (d) {
@@ -398,14 +407,17 @@ pcap_setdirection(pcap_t *p, pcap_direction_t d)
 		return (-1);
 	}
 	return (0);
+#endif
 }
 
 int
 pcap_set_datalink(pcap_t *p, int dlt)
 {
+#ifdef BIOCSDLT
 	int i;
 
 	if (p->dlt_count == 0) {
+#endif
 		/*
 		 * We couldn't fetch the list of DLTs, or we don't
 		 * have a "set datalink" operation, which means
@@ -420,6 +432,7 @@ pcap_set_datalink(pcap_t *p, int dlt)
 		 * It is, so there's nothing we need to do here.
 		 */
 		return (0);
+#ifdef BIOCSDLT
 	}
 	for (i = 0; i < p->dlt_count; i++)
 		if (p->dlt_list[i] == dlt)
@@ -433,6 +446,7 @@ pcap_set_datalink(pcap_t *p, int dlt)
 	}
 	p->linktype = dlt;
 	return (0);
+#endif
 
 unsupported:
 	(void) snprintf(p->errbuf, sizeof(p->errbuf),

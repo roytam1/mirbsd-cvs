@@ -1,8 +1,9 @@
+/**	$MirOS: src/usr.bin/file/readelf.h,v 1.4 2007/06/24 21:29:32 tg Exp $ */
 /*	$OpenBSD: readelf.h,v 1.5 2004/05/19 02:32:36 tedu Exp $ */
 /*
  * Copyright (c) Christos Zoulas 2003.
  * All Rights Reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met:
@@ -99,6 +100,7 @@ typedef struct {
 
 /* e_type */
 #define ET_EXEC		2
+#define ET_DYN		3
 #define ET_CORE		4
 
 /* sh_type */
@@ -226,6 +228,10 @@ typedef struct {
 #define NT_NETBSD_EMULATION	2
 #define NT_FREEBSD_VERSION	1
 #define NT_OPENBSD_VERSION	1
+#define	NT_MIRBSD_VERSION	1
+#define	NT_MIROS_VERSION	1
+#define	NT_MIROS_STRTEST	"MirOS "
+#define	NT_MIROS_STRTLEN	6
 /* GNU executables (name = "GNU") */
 #define NT_GNU_VERSION		1
 
@@ -233,5 +239,8 @@ typedef struct {
 #define GNU_OS_LINUX	0
 #define GNU_OS_HURD	1
 #define GNU_OS_SOLARIS	2
+#define GNU_OS_KFREEBSD	3
+#define GNU_OS_KNETBSD	4
+#define GNU_OS_SYLLABLE	5
 
 #endif

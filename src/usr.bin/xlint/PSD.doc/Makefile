@@ -1,11 +1,11 @@
-#	OpenBSD$
+# $MirOS$
 
-DIR=	psd/09.lint
+DIR=	psd/22.lint
 SRCS=	lint.ms
 MACROS=	-ms
-REFER=	refer -e -p /usr/doc/run/Ind
+REFER=	refer -e -p /usr/share/dict/papers/Ind
 
-paper.${PRINTER}: ${SRCS}
-	${REFER} ${SRCS} | ${ROFF} > ${.TARGET}
+paper.ps: ${SRCS}
+	${REFER} ${SRCS} | ${ROFF} >$@
 
 .include <bsd.doc.mk>

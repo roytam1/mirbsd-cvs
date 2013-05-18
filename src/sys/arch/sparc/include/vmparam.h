@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: vmparam.h,v 1.28 2003/06/02 23:27:55 millert Exp $	*/
 /*	$NetBSD: vmparam.h,v 1.13 1997/07/12 16:20:03 perry Exp $	*/
 
@@ -65,7 +66,7 @@
 #define	DFLDSIZ		(32*1024*1024)		/* initial data size limit */
 #endif
 #ifndef MAXDSIZ
-#define	MAXDSIZ		(128*1024*1024)		/* max data size */
+#define	MAXDSIZ		(320*1024*1024)		/* max data size */
 #endif
 #ifndef	DFLSSIZ
 #define	DFLSSIZ		(512*1024)		/* initial stack size limit */

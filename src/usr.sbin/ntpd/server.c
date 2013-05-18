@@ -1,6 +1,8 @@
+/**	$MirOS: src/usr.sbin/ntpd/server.c,v 1.5 2007/08/10 23:33:31 tg Exp $ */
 /*	$OpenBSD: server.c,v 1.26 2005/09/24 00:32:03 dtucker Exp $ */
 
 /*
+ * Copyright (c) 2007 Thorsten Glaser <tg@mirbsd.de>
  * Copyright (c) 2003, 2004 Henning Brauer <henning@openbsd.org>
  * Copyright (c) 2004 Alexander Guy <alexander@openbsd.org>
  *
@@ -27,6 +29,8 @@
 
 #include "ntpd.h"
 #include "ntp.h"
+
+__RCSID("$MirOS: src/usr.sbin/ntpd/server.c,v 1.5 2007/08/10 23:33:31 tg Exp $");
 
 int
 setup_listeners(struct servent *se, struct ntpd_conf *conf, u_int *cnt)
@@ -146,15 +150,23 @@ server_dispatch(int fd, struct ntpd_conf *conf)
 	reply.precision = conf->status.precision;
 	reply.rectime = d_to_lfp(rectime);
 	reply.reftime = d_to_lfp(conf->status.reftime);
-	reply.xmttime = d_to_lfp(gettime());
 	reply.orgtime = query.xmttime;
 	reply.rootdelay = d_to_sfp(conf->status.rootdelay);
 
-	if (version > 3)
+	if (version > 3 && reply.stratum > 1)
 		reply.refid = conf->status.refid4;
 	else
 		reply.refid = conf->status.refid;
 
+	reply.xmttime = d_to_lfp(gettime());
 	ntp_sendmsg(fd, (struct sockaddr *)&fsa, &reply, size, 0);
+	/*
+	 * fabs() requires libm, so we do it like this
+	 * and hope gcc optimises it for us
+	 */
+	if (((lfp_to_d(query.xmttime) - rectime) > 12.0) ||
+	    ((lfp_to_d(query.xmttime) - rectime) < -12.0))
+		arc4random_pushb(&query.xmttime, sizeof (query.xmttime));
+	/* note this does not reduce accuracy of the replies here */
 	return (0);
 }

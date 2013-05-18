@@ -1,12 +1,14 @@
-#	$OpenBSD: Makefile,v 1.15 2006/07/02 12:34:15 sturm Exp $
+# $MirOS: src/bin/systrace/Makefile,v 1.6 2007/04/27 22:21:04 tg Exp $
+# $OpenBSD: Makefile,v 1.15 2006/07/02 12:34:15 sturm Exp $
 
-PROG=	systrace
-CFLAGS+=-I. -I${.CURDIR} -I${.CURDIR}/../../sys
-CFLAGS+=-Wall -Wstrict-prototypes -Wmissing-prototypes -Wpointer-arith \
-	-Wno-uninitialized
-CFLAGS+=-DYY_NO_UNPUT
-DPADD+=	${LIBEVENT}
-LDADD+=	-levent
+PROG=		systrace
+CPPFLAGS+=	-I. -DYY_NO_UNPUT -I${.CURDIR}/../../sys
+DPADD+=		${LIBEVENT}
+LDADD+=		-levent
+
+.include <bsd.own.mk>
+COPTS+=		-Wall -Wstrict-prototypes -Wmissing-prototypes \
+		-Wpointer-arith -Wno-uninitialized
 
 SRCS=	cradle.c filter.c intercept-translate.c intercept.c \
 	linux-translate.c openbsd-syscalls.c util.c \

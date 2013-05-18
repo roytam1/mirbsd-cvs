@@ -178,7 +178,6 @@ sonewconn(struct socket *head, int connstatus)
 	so->so_ruid = head->so_ruid;
 	so->so_egid = head->so_egid;
 	so->so_rgid = head->so_rgid;
-	so->so_cpid = head->so_cpid;
 	so->so_siguid = head->so_siguid;
 	so->so_sigeuid = head->so_sigeuid;
 

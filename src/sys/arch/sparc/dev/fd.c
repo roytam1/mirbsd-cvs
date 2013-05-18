@@ -688,7 +688,7 @@ fdstrategy(bp)
 #ifdef FD_DEBUG
 	if (fdc_debug > 1)
 	    printf("fdstrategy: b_blkno %d b_bcount %ld blkno %d cylin %ld\n",
-		    bp->b_blkno, bp->b_bcount, fd->sc_blkno, bp->b_cylin);
+		    bp->b_blkno, bp->b_bcount, fd->sc_blkno, (long)bp->b_cylin);
 #endif
 
 	/* Queue transfer on drive, activate drive and controller if idle. */
@@ -1650,9 +1650,6 @@ fdioctl(dev, cmd, addr, flag, p)
 		if (((struct mtop *)addr)->mt_op != MTOFFL)
 			return EIO;
 
-#ifdef COMPAT_SUNOS
-	case SUNOS_FDIOCEJECT:
-#endif
 	case DIOCEJECT:
 		fd_do_eject(fd);
 		return (0);

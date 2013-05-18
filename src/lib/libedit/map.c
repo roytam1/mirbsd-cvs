@@ -1,5 +1,6 @@
+/**	$MirOS$ */
 /*	$OpenBSD: map.c,v 1.9 2003/10/31 08:42:24 otto Exp $	*/
-/*	$NetBSD: map.c,v 1.19 2003/08/07 16:44:32 agc Exp $	*/
+/*	$NetBSD: map.c,v 1.20 2004/08/13 12:10:39 mycroft Exp $	*/
 
 /*-
  * Copyright (c) 1992, 1993
@@ -34,19 +35,15 @@
  */
 
 #include "config.h"
-#if !defined(lint) && !defined(SCCSID)
-#if 0
-static char sccsid[] = "@(#)map.c	8.1 (Berkeley) 6/4/93";
-#else
-static const char rcsid[] = "$OpenBSD: map.c,v 1.9 2003/10/31 08:42:24 otto Exp $";
-#endif
-#endif /* not lint && not SCCSID */
 
 /*
  * map.c: Editor function definitions
  */
 #include <stdlib.h>
 #include "el.h"
+
+__SCCSID("@(#)map.c	8.1 (Berkeley) 6/4/93");
+__RCSID("$MirOS$");
 
 #define	N_KEYS 256
 

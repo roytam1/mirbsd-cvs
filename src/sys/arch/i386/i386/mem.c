@@ -64,6 +64,8 @@ caddr_t zeropage;
 #ifdef APERTURE
 static int ap_open_count = 0;
 extern int allowaperture;
+extern int aperture_vreset;
+extern void (*panic_hook_display)(void);
 
 #define VGA_START 0xA0000
 #define BIOS_END  0xFFFFF
@@ -97,6 +99,8 @@ mmopen(dev, flag, mode, p)
 		if (ap_open_count > 0)
 			return(EPERM);
 		ap_open_count++;
+		if (aperture_vreset)
+			panic_hook = panic_hook_display;
 		break;
 #endif
 	default:
@@ -113,8 +117,10 @@ mmclose(dev, flag, mode, p)
 	struct proc *p;
 {
 #ifdef APERTURE
-	if (minor(dev) == 4)
+	if (minor(dev) == 4) {
 		ap_open_count--;
+		panic_hook = NULL;
+	}
 #endif
 	return (0);
 }

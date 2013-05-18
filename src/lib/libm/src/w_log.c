@@ -5,13 +5,14 @@
  *
  * Developed at SunPro, a Sun Microsystems, Inc. business.
  * Permission to use, copy, modify, and distribute this
- * software is freely granted, provided that this notice 
+ * software is freely granted, provided that this notice
  * is preserved.
  * ====================================================
  */
 
+#include <sys/cdefs.h>
 #if defined(LIBM_SCCS) && !defined(lint)
-static char rcsid[] = "$NetBSD: w_log.c,v 1.6 1995/05/10 20:49:33 jtc Exp $";
+__RCSID("$NetBSD: w_log.c,v 1.9 2002/05/26 22:02:02 wiz Exp $");
 #endif
 
 /*
@@ -20,6 +21,7 @@ static char rcsid[] = "$NetBSD: w_log.c,v 1.6 1995/05/10 20:49:33 jtc Exp $";
 
 #include "math.h"
 #include "math_private.h"
+
 
 double
 log(double x)		/* wrapper log */
@@ -32,7 +34,7 @@ log(double x)		/* wrapper log */
 	if(_LIB_VERSION == _IEEE_ || isnan(x) || x > 0.0) return z;
 	if(x==0.0)
 	    return __kernel_standard(x,x,16); /* log(0) */
-	else 
+	else
 	    return __kernel_standard(x,x,17); /* log(x<0) */
 #endif
 }

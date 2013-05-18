@@ -1,3 +1,4 @@
+.\"	$MirOS: src/usr.bin/uuencode/uuencode.1,v 1.2 2005/03/13 18:33:52 tg Exp $
 .\"	$OpenBSD: uuencode.1,v 1.16 2005/01/11 18:30:28 jmc Exp $
 .\"	$FreeBSD: uuencode.1,v 1.26 2003/03/18 14:24:47 fanf Exp $
 .\"
@@ -42,7 +43,7 @@
 .Nd encode/decode a binary file
 .Sh SYNOPSIS
 .Nm uuencode
-.Op Fl m
+.Op Fl mr
 .Op Fl o Ar output_file
 .Op Ar file
 .Ar name
@@ -53,6 +54,7 @@
 .Op Fl i
 .Fl o Ar output_file
 .Nm b64encode
+.Op Fl r
 .Op Fl o Ar output_file
 .Op Ar file
 .Ar name
@@ -120,6 +122,11 @@ are as follows:
 Use the Base64 method of encoding, rather than the traditional
 .Nm
 algorithm.
+.It Fl r
+Do not write any framing lines.
+This is a
+.Mx
+extension.
 .It Fl o Ar output_file
 Output to
 .Ar output_file
@@ -214,6 +221,14 @@ and
 .Nm
 utilities appeared in
 .Bx 4.0 .
+.Pp
+The
+.Nm b64decode
+and
+.Nm b64encode
+utilities appeared in
+.Ox 3.6 ,
+.Mx 8 .
 .Sh BUGS
 Files encoded using the traditional algorithm are expanded by 35%
 (3 bytes become 4 plus control information).

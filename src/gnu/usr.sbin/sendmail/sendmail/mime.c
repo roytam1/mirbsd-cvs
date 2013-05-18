@@ -525,10 +525,14 @@ mime8to7(mci, header, e, boundaries, flags, level)
 		while (sm_io_fgets(e->e_dfp, SM_TIME_DEFAULT, buf, sizeof(buf))
 			!= NULL)
 		{
-			bt = mimeboundary(buf, boundaries);
-			if (bt != MBT_NOTSEP)
-				break;
-			if (!putline(buf, mci))
+			if (!bitset(MCIF_INLONGLINE, mci->mci_flags))
+			{
+				bt = mimeboundary(buf, boundaries);
+				if (bt != MBT_NOTSEP)
+					break;
+			}
+			if (!putxline(buf, strlen(buf), mci,
+				      PXLF_MAPFROM|PXLF_NOADDEOL))
 				goto writeerr;
 		}
 		if (sm_io_eof(e->e_dfp))

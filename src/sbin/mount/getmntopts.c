@@ -30,14 +30,6 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)getmntopts.c	8.1 (Berkeley) 3/27/94";
-#else
-static char rcsid[] = "$OpenBSD: getmntopts.c,v 1.9 2004/07/05 18:33:38 otto Exp $";
-#endif
-#endif /* not lint */
-
 #include <sys/param.h>
 #include <sys/mount.h>
 
@@ -48,6 +40,9 @@ static char rcsid[] = "$OpenBSD: getmntopts.c,v 1.9 2004/07/05 18:33:38 otto Exp
 #include <string.h>
 
 #include "mntopts.h"
+
+__SCCSID("@(#)getmntopts.c	8.1 (Berkeley) 3/27/94");
+__RCSID("$MirOS: src/sbin/mount/getmntopts.c,v 1.2 2005/03/06 19:50:17 tg Exp $");
 
 int
 getmntopts(const char *optionp, const struct mntopt *m0, int *flagp)

@@ -44,19 +44,6 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-static char copyright[] =
-"@(#) Copyright (c) 1980, 1988, 1993\n\
-	The Regents of the University of California.  All rights reserved.\n";
-#endif /* not lint */
-
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)tput.c	8.3 (Berkeley) 4/28/95";
-#endif
-static char rcsid[] = "$OpenBSD: tput.c,v 1.16 2004/10/05 14:46:11 jaredy Exp $";
-#endif /* not lint */
-
 #include <sys/param.h>
 
 #include <ctype.h>
@@ -70,6 +57,16 @@ static char rcsid[] = "$OpenBSD: tput.c,v 1.16 2004/10/05 14:46:11 jaredy Exp $"
 #include <string.h>
 
 #include <sys/wait.h>
+
+/*
+ * Note: we do *not* use the ncurses code here, but rather
+ *       the OpenBSD grown one.
+ */
+
+__COPYRIGHT("@(#) Copyright (c) 1980, 1988, 1993\n\
+	The Regents of the University of California.  All rights reserved.\n");
+__SCCSID("@(#)tput.c	8.3 (Berkeley) 4/28/95");
+__RCSID("$MirOS$");
 
 static void   init(void);
 static char **process(char *, char *, char **);
@@ -244,7 +241,7 @@ process(char *cap, char *str, char **argv)
 	if (arg_need > 9)
 		errx(2, "too many arguments (%d) for capability `%s'",
 		    arg_need, cap);
-	
+
 	for (i = 0; i < arg_need; i++) {
 		long l;
 

@@ -377,6 +377,12 @@ removefromlist(list, sendq, e)
 	{
 		(void) sm_strlcpy(bufp, denlstring(list, false, true), i);
 
+#if _FFR_ADDR_TYPE_MODES
+		if (AddrTypeModes)
+			macdefine(&e->e_macro, A_PERM, macid("{addr_type}"),
+				  "e r d");
+		else
+#endif /* _FFR_ADDR_TYPE_MODES */
 		macdefine(&e->e_macro, A_PERM, macid("{addr_type}"), "e r");
 		for (p = bufp; *p != '\0'; )
 		{

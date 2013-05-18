@@ -14,6 +14,8 @@
 #include <regex.h>
 #include <err.h>
 
+__RCSID("$MirOS: src/bin/expr/expr.c,v 1.2 2007/07/05 23:09:32 tg Exp $");
+
 struct val	*make_int(int);
 struct val	*make_str(char *);
 void		 free_value(struct val *);
@@ -373,6 +375,10 @@ eval3(void)
 	return l;
 }
 
+#ifdef __MirBSD__
+#define strcoll	strcmp
+#endif
+
 /* Parse and evaluate comparison expressions */
 struct val *
 eval2(void)
@@ -497,7 +503,9 @@ main(int argc, char *argv[])
 {
 	struct val     *vp;
 
+#ifndef __MirBSD__
 	(void) setlocale(LC_ALL, "");
+#endif
 	av = argv + 1;
 
 	nexttoken(0);

@@ -28,9 +28,6 @@
 #include "pathnames.h"
 #include "auth.h"
 #include "canohost.h"
-#ifdef GSSAPI
-#include "ssh-gss.h"
-#endif
 #include "monitor_wrap.h"
 
 /* import */

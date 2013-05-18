@@ -1,3 +1,4 @@
+/**	$MirOS: src/usr.bin/ftp/main.c,v 1.7 2006/10/03 19:46:14 tg Exp $ */
 /*	$OpenBSD: main.c,v 1.65 2007/06/16 08:58:33 espie Exp $	*/
 /*	$NetBSD: main.c,v 1.24 1997/08/18 10:20:26 lukem Exp $	*/
 
@@ -59,16 +60,6 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-static const char copyright[] =
-"@(#) Copyright (c) 1985, 1989, 1993, 1994\n\
-	The Regents of the University of California.  All rights reserved.\n";
-#endif /* not lint */
-
-#if !defined(lint) && !defined(SMALL)
-static const char rcsid[] = "$OpenBSD: main.c,v 1.65 2007/06/16 08:58:33 espie Exp $";
-#endif /* not lint and not SMALL */
-
 /*
  * FTP User Program -- Command Interface.
  */
@@ -86,6 +77,10 @@ static const char rcsid[] = "$OpenBSD: main.c,v 1.65 2007/06/16 08:58:33 espie E
 #include <unistd.h>
 
 #include "ftp_var.h"
+
+__COPYRIGHT("@(#)Copyright (c) 1985, 1989, 1993, 1994\n\
+	The Regents of the University of California.  All rights reserved.\n");
+__RCSID("$MirOS: src/usr.bin/ftp/main.c,v 1.7 2006/10/03 19:46:14 tg Exp $");
 
 int family = PF_UNSPEC;
 

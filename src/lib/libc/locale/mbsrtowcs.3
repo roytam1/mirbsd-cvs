@@ -1,3 +1,4 @@
+.\" $MirOS$
 .\" $OpenBSD: mbsrtowcs.3,v 1.1 2005/05/11 18:44:12 espie Exp $
 .\" $NetBSD: mbsrtowcs.3,v 1.6 2003/09/08 17:54:31 wiz Exp $
 .\"
@@ -25,13 +26,14 @@
 .\" OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 .\" SUCH DAMAGE.
 .\"
-.Dd February 4, 2002
+.Dd November 20, 2006
 .Dt MBSRTOWCS 3
 .Os
 .\" ----------------------------------------------------------------------
 .Sh NAME
-.Nm mbsrtowcs
-.Nd converts a multibyte character string to a wide character string \
+.Nm mbsrtowcs ,
+.Nm mbsnrtowcs
+.Nd convert a multibyte character string to a wide character string \
 (restartable)
 .\" ----------------------------------------------------------------------
 .Sh SYNOPSIS
@@ -39,28 +41,42 @@
 .Ft size_t
 .Fn mbsrtowcs "wchar_t * restrict pwcs" "const char ** restrict s" "size_t n" \
 "mbstate_t * restrict ps"
+.Ft size_t
+.Fn mbsnrtowcs "wchar_t * restrict pwcs" "const char ** restrict s" \
+"size_t max" "size_t n" "mbstate_t * restrict ps"
 .\" ----------------------------------------------------------------------
 .Sh DESCRIPTION
-The
 .Fn mbsrtowcs
 converts the multibyte character string indirectly pointed to by
 .Fa s
 to the corresponding wide character string, and stores it in the
 array pointed to by
 .Fa pwcs .
+.Fn mbsnrtowcs
+behaves the same, but reads at most
+.Fa max
+octets from the string indirectly pointed to by
+.Fa s .
 The conversion stops due to the following reasons:
 .Bl -bullet
 .It
 The conversion reaches a null byte.
 In this case, the null byte is also converted.
 .It
-The
 .Fn mbsrtowcs
+or
+.Fn mbsnrtowcs
 has already stored
 .Fa n
 wide characters.
 .It
 The conversion encounters an invalid character.
+.It
+The
+.Fn mbsnrtowcs
+function has already devoured
+.Fa max
+octets.
 .El
 .Pp
 Each character is converted as if
@@ -86,12 +102,17 @@ is not a
 null pointer and the conversion is stopped due to reaching
 a null byte, the
 .Fn mbsrtowcs
-places the state object pointed to by
+and
+.Fn mbsnrtowcs
+functions place the state object pointed to by
 .Fa ps
 to an initial state after the conversion has taken place.
 .Pp
 The behaviour of the
 .Fn mbsrtowcs
+and
+.Fn mbsnrtowcs
+functions
 is affected by the
 .Dv LC_CTYPE
 category of the current locale.
@@ -109,24 +130,30 @@ is not modified and
 .Fa n
 is ignored.
 .It "ps == NULL"
-The
 .Fn mbsrtowcs
 uses its own internal state object to keep the conversion state,
 instead of
 .Fa ps
 mentioned in this manual page.
+.Fn mbsnrtowcs
+has an own internal state which is different from the one of
+.Fn mbsrtowcs .
 .Pp
 Calling any other functions in
 .Em libc
 never change the internal
 state of
+.Fn mbsnrtowcs
+or
 .Fn mbsrtowcs ,
-which is initialized at startup time of the program.
+which is initialised at startup time of the program.
 .El
 .\" ----------------------------------------------------------------------
 .Sh RETURN VALUES
 .Fn mbsrtowcs
-returns:
+and
+.Fn mbsnrtowcs
+return:
 .Bl -tag -width 012345678901
 .It 0 or positive
 The value returned is the number of elements stored in the array pointed to by
@@ -149,13 +176,17 @@ The array indirectly pointed to by
 contains a byte sequence forming invalid character.
 In this case,
 .Fn mbsrtowcs
-sets
+and
+.Fn mbsnrtowcs
+set
 .Va errno
 to indicate the error.
 .El
 .\" ----------------------------------------------------------------------
 .Sh ERRORS
 .Fn mbsrtowcs
+and
+.Fn mbsnrtowcs
 may cause an error in the following cases:
 .Bl -tag -width Er
 .It Bq Er EILSEQ
@@ -183,3 +214,10 @@ The restrict qualifier is added at
 .\" .St -isoC99 .
 ISO/IEC 9899/1999
 .Dq Pq ISO C99 .
+The
+.Fn mbsnrtowcs
+function is a GNU extension.
+.Sh HISTORY
+.Fn mbsnrtowcs
+first appeared in
+.Mx 10 .

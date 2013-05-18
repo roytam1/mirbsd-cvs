@@ -30,17 +30,6 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-static char copyright[] =
-"@(#) Copyright (c) 1980, 1990, 1993\n\
-	The Regents of the University of California.  All rights reserved.\n";
-#endif /* not lint */
-
-#ifndef lint
-/*static char sccsid[] = "from: @(#)quotaon.c	8.1 (Berkeley) 6/6/93";*/
-static char *rcsid = "$Id$";
-#endif /* not lint */
-
 /*
  * Turn quota on/off for a filesystem.
  */
@@ -55,6 +44,12 @@ static char *rcsid = "$Id$";
 #include <fstab.h>
 #include <unistd.h>
 
+__COPYRIGHT("@(#) Copyright (c) 1980, 1990, 1993\n\
+	The Regents of the University of California.  All rights reserved.\n");
+__SCCSID("@(#)quotaon.c	8.1 (Berkeley) 6/6/93");
+__RCSID("$Id$");
+__RCSID("$MirOS$");
+
 char *qfname = QUOTAFILENAME;
 char *qfextension[] = INITQFNAMES;
 
@@ -63,6 +58,13 @@ int	gflag;		/* operate on group quotas */
 int	uflag;		/* operate on user quotas */
 int	vflag;		/* verbose */
 
+void usage(const char *) __dead;
+int quotaonoff(struct fstab *, int, int, char *);
+int oneof(char *, char *[], int);
+int hasquota(struct fstab *, int, char **, int);
+int readonly(struct fstab *);
+
+int
 main(int argc, char *argv[])
 {
 	struct fstab *fs;
@@ -144,7 +146,8 @@ main(int argc, char *argv[])
 	exit(errs);
 }
 
-usage(char *whoami)
+void
+usage(const char *whoami)
 {
 
 	fprintf(stderr, "Usage:\n\t%s [-g] [-u] [-v] -a\n", whoami);

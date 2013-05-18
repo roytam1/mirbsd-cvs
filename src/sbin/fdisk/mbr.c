@@ -1,3 +1,4 @@
+/**	$MirOS: src/sbin/fdisk/mbr.c,v 1.2 2005/03/06 19:49:54 tg Exp $ */
 /*	$OpenBSD: mbr.c,v 1.22 2006/05/29 05:09:36 ray Exp $	*/
 
 /*
@@ -43,6 +44,7 @@
 #include "mbr.h"
 #include "part.h"
 
+__RCSID("$MirOS: src/sbin/fdisk/mbr.c,v 1.2 2005/03/06 19:49:54 tg Exp $");
 
 void
 MBR_init(disk_t *disk, mbr_t *mbr)
@@ -56,7 +58,7 @@ MBR_init(disk_t *disk, mbr_t *mbr)
 	mbr->signature = DOSMBR_SIGNATURE;
 
 	/* Use whole disk, save for first head, on first cyl. */
-	mbr->part[3].id = DOSPTYP_OPENBSD;
+	mbr->part[3].id = DOSPTYP_MIRBSD;
 	mbr->part[3].scyl = 0;
 	mbr->part[3].shead = 1;
 	mbr->part[3].ssect = 1;
@@ -124,11 +126,11 @@ MBR_print(mbr_t *mbr, char *units)
 	/* Header */
 	printf("Signature: 0x%X\n",
 	    (int)mbr->signature);
-	PRT_print(0, NULL, units);
+	PRT_print(0, NULL, units, 0);
 
 	/* Entries */
 	for (i = 0; i < NDOSPART; i++)
-		PRT_print(i, &mbr->part[i], units);
+		PRT_print(i, &mbr->part[i], units, mbr->code[MBR_FORCE_DEFPART]);
 }
 
 int
@@ -193,6 +195,6 @@ MBR_pcopy(disk_t *disk, mbr_t *mbr)
 		PRT_parse(disk, &mbr_disk[MBR_PART_OFF +
 		    MBR_PART_SIZE * i],
 		    offset, reloff, &mbr->part[i]);
-		PRT_print(i, &mbr->part[i], NULL);
+		PRT_print(i, &mbr->part[i], NULL, mbr->code[MBR_FORCE_DEFPART]);
 	}
 }

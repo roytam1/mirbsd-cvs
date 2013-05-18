@@ -1,4 +1,4 @@
-/*	$OpenPackages$ */
+/**	$MirOS: src/usr.bin/make/varmodifiers.c,v 1.4 2005/08/20 12:54:50 tg Exp $ */
 /*	$OpenBSD: varmodifiers.c,v 1.14 2005/07/15 20:43:23 espie Exp $	*/
 /*	$NetBSD: var.c,v 1.18 1997/03/18 19:24:46 christos Exp $	*/
 
@@ -65,10 +65,9 @@
 /* VarModifiers_Apply is mostly a constituent function of Var_Parse, it
  * is also called directly by Var_SubstVar.  */
 
-
 #include <ctype.h>
 #include <sys/types.h>
-#ifndef MAKE_BOOTSTRAP
+#ifndef NO_REGEX
 #include <regex.h>
 #endif
 #include <stddef.h>
@@ -88,6 +87,7 @@
 #include "memory.h"
 #include "gnode.h"
 
+__RCSID("$MirOS: src/usr.bin/make/varmodifiers.c,v 1.4 2005/08/20 12:54:50 tg Exp $");
 
 /* Var*Pattern flags */
 #define VAR_SUB_GLOBAL	0x01	/* Apply substitution globally */
@@ -129,7 +129,7 @@ static bool VarUniq(struct Name *, bool, Buffer, void *);
 static bool VarLoop(struct Name *, bool, Buffer, void *);
 
 
-#ifndef MAKE_BOOTSTRAP
+#ifndef NO_REGEX
 static void VarREError(int, regex_t *, const char *);
 static bool VarRESubstitute(struct Name *, bool, Buffer, void *);
 static char *do_regex(const char *, const struct Name *, void *);
@@ -178,8 +178,8 @@ static void *get_sysvpattern(const char **, SymTable *, bool, int);
 static void *get_loop(const char **, SymTable *, bool, int);
 static char *LoopGrab(const char **);
 
-static struct Name dummy;
-static struct Name *dummy_arg = &dummy;
+static struct Name dummy_;
+static struct Name *dummy_arg = &dummy_;
 
 static struct modifier {
 	bool atstart;
@@ -191,7 +191,7 @@ static struct modifier {
     match_mod = {false, get_stringarg, NULL, VarMatch, free_stringarg},
     nomatch_mod = {false, get_stringarg, NULL, VarNoMatch, free_stringarg},
     subst_mod = {false, get_spatternarg, NULL, VarSubstitute, free_patternarg},
-#ifndef MAKE_BOOTSTRAP
+#ifndef NO_REGEX
     resubst_mod = {false, get_patternarg, do_regex, NULL, free_patternarg},
 #endif
     quote_mod = {false, check_empty, VarQuote, NULL , NULL},
@@ -215,12 +215,12 @@ static struct modifier {
 ;
 
 void
-VarModifiers_Init()
+VarModifiers_Init(void)
 {
     choose_mod['M'] = &match_mod;
     choose_mod['N'] = &nomatch_mod;
     choose_mod['S'] = &subst_mod;
-#ifndef MAKE_BOOTSTRAP
+#ifndef NO_REGEX
     choose_mod['C'] = &resubst_mod;
 #endif
     choose_mod['Q'] = &quote_mod;
@@ -490,7 +490,7 @@ do_sort(const char *s, const struct Name *dummy UNUSED, void *arg UNUSED)
 	return Buf_Retrieve(&buf);
     } else {
     	free(t);
-    	return "";
+    	return (char *)"";
     }
 }
 
@@ -538,7 +538,7 @@ static char *
 do_assign(const char *s, const struct Name *n, void *arg)
 {
     VarPattern *v = (VarPattern *)arg;
-    char *msg;
+    const char *msg;
     char *result;
 
     switch (v->flags) {
@@ -572,7 +572,7 @@ static char *
 do_exec(const char *s UNUSED, const struct Name *n UNUSED, void *arg)
 {
     VarPattern *v = (VarPattern *)arg;
-    char *msg;
+    const char *msg;
     char *result;
 
     result = Cmd_Exec(v->lbuffer, &msg);
@@ -785,7 +785,7 @@ VarSubstitute(struct Name *word, bool addSpace, Buffer buf,
     return true;
 }
 
-#ifndef MAKE_BOOTSTRAP
+#ifndef NO_REGEX
 /*-
  *-----------------------------------------------------------------------
  * VarREError --
@@ -1080,7 +1080,7 @@ check_shcmd(const char **p, SymTable *ctxt UNUSED, bool b UNUSED, int endc)
 static char *
 do_shcmd(const char *s, const struct Name *n UNUSED, void *arg UNUSED)
 {
-    char	*err;
+    const char	*err;
     char	*t;
 
     t = Cmd_Exec(s, &err);
@@ -1341,7 +1341,7 @@ free_patternarg(void *p)
     free(vp);
 }
 
-#ifndef MAKE_BOOTSTRAP
+#ifndef NO_REGEX
 static char *
 do_regex(const char *s, const struct Name *n UNUSED, void *arg)
 {
@@ -1408,7 +1408,7 @@ VarModifiers_Apply(char *str, const struct Name *name, SymTable *ctxt,
 	if (DEBUG(VAR))
 	    printf("Applying :%c to \"%s\"\n", *tstr, str);
 
-	mod = choose_mod[*tstr];
+	mod = choose_mod[(int)(*tstr)];
 	arg = NULL;
 
 	if (mod != NULL && (!mod->atstart || atstart))

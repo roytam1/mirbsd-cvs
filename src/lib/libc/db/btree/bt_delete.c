@@ -1,3 +1,4 @@
+/**	$MirOS: src/lib/libc/db/btree/bt_delete.c,v 1.2 2005/03/06 20:28:35 tg Exp $ */
 /*	$OpenBSD: bt_delete.c,v 1.11 2005/08/05 13:02:59 espie Exp $	*/
 
 /*-
@@ -40,6 +41,9 @@
 
 #include <db.h>
 #include "btree.h"
+
+__SCCSID("@(#)bt_delete.c	8.13 (Berkeley) 7/28/94");
+__RCSID("$MirOS: src/lib/libc/db/btree/bt_delete.c,v 1.2 2005/03/06 20:28:35 tg Exp $");
 
 static int __bt_bdelete(BTREE *, const DBT *);
 static int __bt_curdel(BTREE *, const DBT *, PAGE *, u_int);
@@ -138,11 +142,11 @@ __bt_stkacq(BTREE *t, PAGE **hp, CURSOR *c)
 	EPG *e;
 	EPGNO *parent;
 	PAGE *h;
-	indx_t idx;
+	indx_t idx = 0;
 	pgno_t pgno;
 	recno_t nextpg, prevpg;
 	int exact, level;
-	
+
 	/*
 	 * Find the first occurrence of the key in the tree.  Toss the
 	 * currently locked page so we don't hit an already-locked page.
@@ -258,7 +262,7 @@ __bt_stkacq(BTREE *t, PAGE **hp, CURSOR *c)
 		if ((h = mpool_get(t->bt_mp, prevpg, 0)) == NULL)
 			return (1);
 	}
-	
+
 
 ret:	mpool_put(t->bt_mp, h, 0);
 	return ((*hp = mpool_get(t->bt_mp, c->pg.pgno, 0)) == NULL);
@@ -386,7 +390,7 @@ __bt_pdelete(BTREE *t, PAGE *h)
 		/* Get the parent page. */
 		if ((pg = mpool_get(t->bt_mp, parent->pgno, 0)) == NULL)
 			return (RET_ERROR);
-		
+
 		idx = parent->index;
 		bi = GETBINTERNAL(pg, idx);
 
@@ -547,7 +551,7 @@ __bt_curdel(BTREE *t, const DBT *key, PAGE *h, u_int idx)
 			key = &c->key;
 		}
 		/* Check previous key, if not at the beginning of the page. */
-		if (idx > 0) { 
+		if (idx > 0) {
 			e.page = h;
 			e.index = idx - 1;
 			if (__bt_cmp(t, key, &e) == 0) {

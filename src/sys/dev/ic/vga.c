@@ -1,3 +1,4 @@
+/* $MirOS: src/sys/dev/ic/vga.c,v 1.7 2007/02/07 05:06:23 tg Exp $ */
 /* $OpenBSD: vga.c,v 1.44 2007/02/06 22:03:23 miod Exp $ */
 /* $NetBSD: vga.c,v 1.28.2.1 2000/06/30 16:27:47 simonb Exp $ */
 
@@ -48,6 +49,8 @@
 #include <dev/wscons/unicode.h>
 
 #include <dev/ic/pcdisplay.h>
+
+extern void (*panic_hook_display)(void);
 
 #if 0
 #include "opt_wsdisplay_compat.h" /* for WSCONS_SUPPORT_PCVTFONTS */
@@ -103,6 +106,8 @@ void	vga_putchar(void *, int, int, u_int, long);
 int	vga_alloc_attr(void *, int, int, int, long *);
 void	vga_copyrows(void *, int, int, int);
 void	vga_unpack_attr(void *, long, int *, int *, int *);
+
+void	vga_panic_hook(void);
 
 static const struct wsdisplay_emulops vga_emulops = {
 	pcdisplay_cursor,
@@ -236,6 +241,7 @@ void	vga_free_screen(void *, void *);
 int	vga_show_screen(void *, void *, int,
 			void (*) (void *, int, int), void *);
 int	vga_load_font(void *, void *, struct wsdisplay_font *);
+int	vga_delete_font(void *, void *, int);
 void	vga_scrollback(void *, void *, int);
 void	vga_burner(void *v, u_int on, u_int flags);
 int	vga_getchar(void *, int, int, struct wsdisplay_charcell *);
@@ -251,7 +257,9 @@ const struct wsdisplay_accessops vga_accessops = {
 	vga_load_font,
 	vga_scrollback,
 	vga_getchar,
-	vga_burner
+	vga_burner,
+	NULL,			/* pollc */
+	vga_delete_font
 };
 
 /*
@@ -505,6 +513,8 @@ vga_init(vc, iot, memt)
 		vc->vc_fonts[i] = 0;
 
 	vc->currentfontset1 = vc->currentfontset2 = 0;
+
+	panic_hook_display = vga_panic_hook;
 }
 
 void
@@ -900,6 +910,31 @@ vga_load_font(v, cookie, data)
 	return (0);
 }
 
+int
+vga_delete_font(v, cookie, idx)
+	void *v;
+	void *cookie;
+	int idx;
+{
+	struct vga_config *vc = v;
+	struct vgascreen *scr;
+	struct vgafont *f;
+
+	if (idx <= 0 || idx >= 8)
+		return (EINVAL);
+
+	f = vc->vc_fonts[idx];
+	LIST_FOREACH(scr, &vc->screens, next) {
+		if (f == scr->fontset1 || f == scr->fontset2)
+			return (EINVAL);
+	}
+
+	free(f, M_DEVBUF);
+	vc->vc_fonts[idx] = 0;
+
+	return 0;
+}
+
 void
 vga_scrollback(v, cookie, lines)
 	void *v;
@@ -982,10 +1017,10 @@ vga_alloc_attr(id, fg, bg, flags, attrp)
 }
 
 void
-vga_unpack_attr(id, attr, fg, bg, ul)
+vga_unpack_attr(id, attr, fg, bg, flags)
 	void *id;
 	long attr;
-	int *fg, *bg, *ul;
+	int *fg, *bg, *flags;
 {
 	struct vgascreen *scr = id;
 	struct vga_config *vc = scr->cfg;
@@ -993,16 +1028,23 @@ vga_unpack_attr(id, attr, fg, bg, ul)
 	if (vc->hdl.vh_mono) {
 		*fg = (attr & 0x07) == 0x07 ? WSCOL_WHITE : WSCOL_BLACK;
 		*bg = attr & 0x70 ? WSCOL_WHITE : WSCOL_BLACK;
-		if (ul != NULL)
-			*ul = *fg != WSCOL_WHITE && (attr & 0x01) ? 1 : 0;
+		if (flags != NULL)
+			*flags = (*bg == WSCOL_WHITE ? WSATTR_REVERSE : 0) |
+			    (((attr & 0x01) && ((attr & 0x07) != 0x07)) ?
+			    WSATTR_UNDERLINE : 0);
 	} else {
 		*fg = pctoansi[attr & 0x07];
 		*bg = pctoansi[(attr & 0x70) >> 4];
-		if (ul != NULL)
-			*ul = 0;
+		if (flags != NULL)
+			*flags = 0;
 	}
-	if (attr & FG_INTENSE)
+	if (attr & FG_BLINK && flags != NULL)
+		*flags |= WSATTR_BLINK;
+	if (attr & FG_INTENSE) {
 		*fg += 8;
+		if (flags != NULL)
+			*flags |= WSATTR_HILIT;
+	}
 }
 
 void
@@ -1315,6 +1357,12 @@ vga_getchar(c, row, col, cell)
 	
 	return (pcdisplay_getchar(vc->active, row, col, cell));
 }	
+
+void
+vga_panic_hook(void)
+{
+	printf("vga_panic_hook: dummy\n");
+}
 
 struct cfdriver vga_cd = {
 	NULL, "vga", DV_DULL

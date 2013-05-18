@@ -46,6 +46,8 @@
 #include <netinet/in.h>
 #include <ifaddrs.h>
 
+int get_myaddress(struct sockaddr_in *);
+
 /* 
  * don't use gethostbyname, which would invoke yellow pages
  *

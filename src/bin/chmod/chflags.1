@@ -1,3 +1,5 @@
+.\"	$MirOS$
+.\"	$NetBSD: chflags.1,v 1.17 2003/08/07 11:13:16 agc Exp $
 .\"	$OpenBSD: chflags.1,v 1.5 2004/09/28 22:11:40 jmc Exp $
 .\"	$NetBSD: chflags.1,v 1.4 1995/08/31 22:50:22 jtc Exp $
 .\"
@@ -33,7 +35,7 @@
 .\"
 .\"	@(#)chflags.1	8.4 (Berkeley) 5/2/95
 .\"
-.Dd May 2, 1995
+.Dd May 20, 2007
 .Dt CHFLAGS 1
 .Os
 .Sh NAME
@@ -45,6 +47,7 @@
 .Fl R
 .Op Fl H | L | P
 .Oc
+.Op Fl h
 .Ar flags
 .Ar file Op Ar ...
 .Sh DESCRIPTION
@@ -78,6 +81,11 @@ option is also specified, all symbolic links are followed.
 If the
 .Fl R
 option is also specified, no symbolic links are followed.
+.It Fl h
+If the
+.Ar file
+or a file encountered during directory traversal is a symbolic link,
+the file flags of the link itself is changed.
 .El
 .Pp
 Flags are a comma separated list of keywords.
@@ -114,13 +122,6 @@ For more information on setting the system security level,
 see
 .Xr securelevel 7 .
 .Pp
-Symbolic links do not have flags, so unless the
-.Fl H
-or
-.Fl L
-option is set,
-.Nm
-on a symbolic link always succeeds and has no effect.
 The
 .Fl H ,
 .Fl L ,
@@ -145,6 +146,7 @@ utility exits 0 on success or >0 if an error occurred.
 .Sh SEE ALSO
 .Xr ls 1 ,
 .Xr chflags 2 ,
+.Xr lchflags 2 ,
 .Xr stat 2 ,
 .Xr fts 3 ,
 .Xr securelevel 7 ,
@@ -154,3 +156,7 @@ The
 .Nm
 command first appeared in
 .Bx 4.4 .
+The
+.Fl h
+option first appeared in
+.Mx 10 .

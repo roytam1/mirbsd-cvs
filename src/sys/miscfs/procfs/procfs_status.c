@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: procfs_status.c,v 1.8 2004/05/05 23:52:10 tedu Exp $	*/
 /*	$NetBSD: procfs_status.c,v 1.11 1996/03/16 23:52:50 christos Exp $	*/
 
@@ -120,15 +121,17 @@ procfs_stat_gen(p, s, l)
 	}
 
 	if (p->p_flag & P_INMEM)
-		snprintf(ps, sizeof(ps), " %ld,%ld",
-		    p->p_stats->p_start.tv_sec, p->p_stats->p_start.tv_usec);
+		snprintf(ps, sizeof(ps), " %lld,%ld",
+		    (int64_t)p->p_stats->p_start.tv_sec,
+		    p->p_stats->p_start.tv_usec);
 	else
 		snprintf(ps, sizeof(ps), " -1,-1");
 	COUNTORCAT(s, l, ps, n);
 
 	calcru(p, &ut, &st, (void *) 0);
-	snprintf(ps, sizeof(ps), " %ld,%ld %ld,%ld",
-	    ut.tv_sec, ut.tv_usec, st.tv_sec, st.tv_usec);
+	snprintf(ps, sizeof(ps), " %lld,%ld %lld,%ld",
+	    (int64_t)ut.tv_sec, ut.tv_usec,
+	    (int64_t)st.tv_sec, st.tv_usec);
 	COUNTORCAT(s, l, ps, n);
 
 	snprintf(ps, sizeof(ps), " %s",

@@ -1,7 +1,10 @@
+/**	$MirOS: src/usr.bin/cap_mkdb/cap_mkdb.c,v 1.10 2006/11/01 00:49:45 tg Exp $ */
 /*	$OpenBSD: cap_mkdb.c,v 1.14 2006/03/04 20:32:51 otto Exp $	*/
 /*	$NetBSD: cap_mkdb.c,v 1.5 1995/09/02 05:47:12 jtc Exp $	*/
 
 /*-
+ * Copyright (c) 2006
+ *	Thorsten Glaser <tg@mirbsd.de>
  * Copyright (c) 1992, 1993
  *	The Regents of the University of California.  All rights reserved.
  *
@@ -30,19 +33,6 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-static char copyright[] =
-"@(#) Copyright (c) 1992, 1993\n\
-	The Regents of the University of California.  All rights reserved.\n";
-#endif /* not lint */
-
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)cap_mkdb.c	8.2 (Berkeley) 4/27/95";
-#endif
-static char rcsid[] = "$OpenBSD: cap_mkdb.c,v 1.14 2006/03/04 20:32:51 otto Exp $";
-#endif /* not lint */
-
 #include <sys/param.h>
 #include <sys/stat.h>
 
@@ -51,22 +41,44 @@ static char rcsid[] = "$OpenBSD: cap_mkdb.c,v 1.14 2006/03/04 20:32:51 otto Exp 
 #include <errno.h>
 #include <fcntl.h>
 #include <limits.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
 #include <unistd.h>
 
+__COPYRIGHT("@(#) Copyright (c) 1992, 1993\n\
+	The Regents of the University of California.  All rights reserved.\n");
+__SCCSID("@(#)cap_mkdb.c	8.2 (Berkeley) 4/27/95");
+__RCSID("$MirOS: src/usr.bin/cap_mkdb/cap_mkdb.c,v 1.10 2006/11/01 00:49:45 tg Exp $");
+
 void	 db_build(char **);
 void	 dounlink(void);
-void	 usage(void);
+__dead void usage(void);
 int	 igetnext(char **, char **);
 int	 main(int, char *[]);
 
 DB *capdbp;
 int info, verbose;
+bool commentfld = false;
 char *capname, buf[8 * 1024];
 
+#ifdef DEBUG
+static int debug_put(const struct __db *, DBT *, const DBT *, unsigned int);
+static FILE *capdbpf;
+static DB capdbps = {
+	DB_RECNO,
+	NULL,
+	NULL,
+	NULL,
+	debug_put,
+	NULL,
+	NULL,
+	NULL,
+	NULL
+};
+#else
 HASHINFO openinfo = {
 	4096,		/* bsize */
 	16,		/* ffactor */
@@ -75,6 +87,7 @@ HASHINFO openinfo = {
 	NULL,		/* hash() */
 	0		/* lorder */
 };
+#endif
 
 /*
  * cap_mkdb creates a capability hash database for quick retrieval of capability
@@ -89,8 +102,11 @@ main(int argc, char *argv[])
 	int c;
 
 	capname = NULL;
-	while ((c = getopt(argc, argv, "f:iv")) != -1) {
+	while ((c = getopt(argc, argv, "cf:iv")) != -1) {
 		switch(c) {
+		case 'c':
+			commentfld = true;
+			break;
 		case 'f':
 			capname = optarg;
 			break;
@@ -118,8 +134,13 @@ main(int argc, char *argv[])
 	(void)snprintf(buf, sizeof(buf), "%s.db", capname ? capname : *argv);
 	if ((capname = strdup(buf)) == NULL)
 		err(1, NULL);
+#ifdef DEBUG
+	capdbp = &capdbps;
+	if ((capdbpf = fopen(capname, "wb+")) == NULL)
+#else
 	if ((capdbp = dbopen(capname, O_CREAT | O_TRUNC | O_RDWR,
 	    DEFFILEMODE, DB_HASH, &openinfo)) == NULL)
+#endif
 		err(1, "%s", buf);
 
 	if (atexit(dounlink))
@@ -127,7 +148,11 @@ main(int argc, char *argv[])
 
 	db_build(argv);
 
+#ifdef DEBUG
+	if (fclose(capdbpf))
+#else
 	if (capdbp->close(capdbp) < 0)
+#endif
 		err(1, "%s", capname);
 	capname = NULL;
 	exit(0);
@@ -159,7 +184,7 @@ db_build(char **ifiles)
 	recno_t reccnt;
 	size_t len, bplen;
 	int st;
-	char *bp, *p, *t;
+	char *bp, *p, *t, *c;
 
 	cgetusedb(0);		/* disable reading of .db files in getcap(3) */
 
@@ -173,6 +198,11 @@ db_build(char **ifiles)
 		 * NULL and one extra byte.
 		 */
 		len = strlen(bp);
+		if (info)
+			/* we need to escape all colons, safe approach */
+			for (p = bp; *p; ++p)
+				if (*p == ':')
+					len += 3;
 		if (bplen <= len + 2) {
 			int newbplen = bplen + MAX(256, len + 2);
 			void *newdata;
@@ -184,10 +214,23 @@ db_build(char **ifiles)
 		}
 
 		/* Find the end of the name field. */
-		if ((p = strchr(bp, info ? ',' : ':')) == NULL) {
-			warnx("no name field: %.*s", (int)MIN(len, 20), bp);
-			continue;
+		p = bp;
+		while (*p) {
+			if (*p == (info ? ',' : ':'))
+				break;
+			if ((*p == '\\') || (*p == '^'))
+				++p;
+			if (*p)
+				++p;
 		}
+		if (!*p) {
+			warnx("no name field: %.*s", (int)MIN(len, 20), bp);
+			goto next_cap;
+		}
+
+#ifdef DEBUG
+		bzero(data.data, bplen);
+#endif
 
 		/* First byte of stored record indicates status. */
 		switch(st) {
@@ -201,49 +244,51 @@ db_build(char **ifiles)
 		}
 
 		/* Create the stored record. */
-		if (info) {
-			(void) memcpy(&((u_char *)(data.data))[1], bp, len + 1);
-			data.size = len + 2;
-			for (t = memchr((char *)data.data + 1, ',', data.size - 1);
-			     t;
-			     t = memchr(t, ',', data.size - (t - (char *)data.data)))
+		t = (char *)data.data + 1;
+		c = bp;
+		/* Copy capability, collapsing empty fields */
+		while (*c) {
+			while ((*c == '\\') || (*c == '^')) {
+				*t++ = *c++;
+				if (*c == '\0')
+					break;
+				if (info && ((c[-1] == '\\') && (*c == ':'))) {
+					/* must be escaped */
+					*t++ = '0';
+					*t++ = '7';
+					*t++ = '2';
+					c++;
+				} else
+					*t++ = *c++;
+			}
+			/* we have an unescaped character */
+			if (*c == (info ? ',' : ':')) {
+				/* field end */
 				*t++ = ':';
-
-			if (memchr((char *)data.data + 1, '\0', data.size - 2)) {
-				warnx("NUL in entry: %.*s", (int)MIN(len, 20), bp);
+				/* skip delimiter and following white space */
+				while ((*c == (info ? ',' : ':')) ||
+				    (*c == ' ') || (*c == '\t') ||
+				    (*c == '\n') || (*c == '\r'))
+					c++;
 				continue;
 			}
-		} else {
-			char *capbeg, *capend;
-
-			t = (char *)data.data + 1;
-			/* Copy the cap name and trailing ':' */
-			len = p - bp + 1;
-			memcpy(t, bp, len);
-			t += len;
-
-			/* Copy entry, collapsing empty fields. */
-			capbeg = p + 1;
-			while (*capbeg) {
-				/* Skip empty fields. */
-				if ((len = strspn(capbeg, ": \t\n\r")))
-					capbeg += len;
-
-				/* Find the end of this cap and copy it w/ : */
-				capend = strchr(capbeg, ':');
-				if (capend)
-					len = capend - capbeg + 1;
-				else
-					len = strlen(capbeg);
-				memcpy(t, capbeg, len);
-				t += len;
-				capbeg += len;
+			/* it's a normal character */
+			if (info && (*c == ':')) {
+				/* must be escaped */
+				*t++ = '\\';
+				*t++ = '0';
+				*t++ = '7';
+				*t++ = '2';
+				c++;
+				continue;
 			}
-			*t = '\0';
-			data.size = t - (char *)data.data + 1;
+			*t++ = *c++;
 		}
+		*t++ = '\0';
+		data.size = t - (char *)data.data;
 
 		/* Store the record under the name field. */
+		/* No need for escapes 'cause the cap parser never sees this */
 		key.data = bp;
 		key.size = p - bp;
 
@@ -254,22 +299,32 @@ db_build(char **ifiles)
 		case 1:
 			warnx("ignored duplicate: %.*s",
 			    (int)key.size, (char *)key.data);
-			continue;
+			goto next_cap;
 		}
 		++reccnt;
 
 		/* If only one name, ignore the rest. */
 		if ((p = strchr(bp, '|')) == NULL)
-			continue;
+			goto next_cap;
+
+#ifdef DEBUG
+		bzero(data.data, bplen);
+#endif
 
 		/* The rest of the names reference the entire name. */
+		/* No need for escapes 'cause the cap parser never sees this */
 		((char *)(data.data))[0] = SHADOW;
 		(void) memmove(&((u_char *)(data.data))[1], key.data, key.size);
 		data.size = key.size + 1;
 
 		/* Store references for other names. */
+		/* No need for escapes either, but honour them */
 		for (p = t = bp;; ++p) {
-			if (p > t && (*p == (info ? ',' : ':') || *p == '|')) {
+			/* We know we can't hit NUL, cf. warnx("no name field */
+			while ((*p == '\\') || (*p == '^'))
+				p += 2;
+			if ((p > t) && ((*p == '|') ||
+			    (!commentfld && (*p == (info ? ',' : ':'))))) {
 				key.size = p - t;
 				key.data = t;
 				switch(capdbp->put(capdbp,
@@ -286,6 +341,7 @@ db_build(char **ifiles)
 			if (*p == (info ? ',' : ':'))
 				break;
 		}
+ next_cap:
 		free(bp);
 	}
 
@@ -306,6 +362,29 @@ void
 usage(void)
 {
 	(void)fprintf(stderr,
-	    "usage: cap_mkdb [-iv] [-f outfile] file1 [file2 ...]\n");
+	    "usage: cap_mkdb [-civ] [-f outfile] file1 [file2 ...]\n");
 	exit(1);
 }
+
+#ifdef DEBUG
+static int
+debug_put(const struct __db *tmp1 __unused, DBT *key, const DBT *data,
+    unsigned int tmp2 __unused)
+{
+	char *ob, *bp;
+	size_t len;
+
+	len = key->size + data->size + 2;
+	if ((ob = malloc(len)) == NULL)
+		err(1, "malloc");
+	memmove(ob, key->data, key->size);
+	bp = ob + key->size;
+	*bp++ = '\t';
+	memmove(bp, data->data, data->size);
+	bp += data->size;
+	*bp = '\n';
+
+	fwrite(ob, len, 1, capdbpf);
+	return (0);
+}
+#endif

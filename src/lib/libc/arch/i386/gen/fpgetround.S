@@ -6,6 +6,8 @@
 
 #include <machine/asm.h>
 
+	.text
+
 ENTRY(fpgetround)
 	subl $4,%esp
 	fnstcw (%esp)

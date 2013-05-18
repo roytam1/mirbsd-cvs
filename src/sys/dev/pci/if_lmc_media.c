@@ -1,5 +1,5 @@
+/* $MirOS$ */
 /* $OpenBSD: if_lmc_media.c,v 1.14 2004/05/12 06:35:11 tedu Exp $ */
-/* $Id$ */
 
 /*-
  * Copyright (c) 1997-1999 LAN Media Corporation (LMC)
@@ -660,7 +660,7 @@ lmc_ssi_set_speed(lmc_softc_t * const sc, lmc_ctl_t *ctl)
 	lmc_av9110_t *av;
 
         /* original settings for clock rate of:
-         *  100 KHz (8,25,0,0,2) were incorrect
+         *  100 kHz (8,25,0,0,2) were incorrect
          *  they should have been 80,125,1,3,3
          *  There are 17 param combinations to produce this freq.
          *  For 1.5 MHz use 120,100,1,1,2 (226 param. combinations)
@@ -714,7 +714,7 @@ lmc_ssi_get_link_status(lmc_softc_t * const sc)
         link_status = 0x0000ffff - ( link_status & 0x0000ffff);
 
         return( link_status );
-#else  
+#else
 
 	link_status = lmc_mii_readreg(sc, 0, 16);
 
@@ -876,7 +876,7 @@ lmc_ssi_watchdog (lmc_softc_t * const sc)
  *  write the register address to MII reg 17 and the *  data to MII reg 18. */
 static void lmc_t1_write(lmc_softc_t * const sc, int a, int d)
 {
-        lmc_mii_writereg(sc, 0, 17, a);        
+        lmc_mii_writereg(sc, 0, 17, a);
 	lmc_mii_writereg(sc, 0, 18, d);
 }
 
@@ -1022,7 +1022,7 @@ lmc_t1_get_link_status(lmc_softc_t * const sc){
                 {                        /* turn off blue LED */
                         printf("%s: link status: RAIS turn OFF Blue %x\n", sc->lmc_xname, link_status ); /* DEBUG */
 			lmc_led_off(sc, LMC_DS3_LED1);
-                }       
+                }
 	}
         /*
 	 * T1F_RYEL wiggles quite a bit,
@@ -1041,7 +1041,7 @@ lmc_t1_get_link_status(lmc_softc_t * const sc){
                         }
                         else
                         {
-                                /* turn on yellow LED */                         
+                                /* turn on yellow LED */
                                 printf("%s: link status: RYEL turn ON Yellow %x\n", sc->lmc_xname, link_status); /* DEBUG */
                                 lmc_led_on(sc, LMC_DS3_LED0);
                         }
@@ -1147,7 +1147,7 @@ lmc_t1_watchdog(lmc_softc_t * const sc)
 			printf ("%s: Red Alarm\n", sc->lmc_xname);
 		lmc_led_on (sc, LMC_DS3_LED2 | LMC_DS3_LED3);
 		sc->lmc_red = 1;
-	} else { 
+	} else {
 		if (sc->lmc_red == 1)
 			printf ("%s: Red Alarm ok\n", sc->lmc_xname);
 	lmc_led_off (sc, LMC_DS3_LED3);

@@ -52,10 +52,6 @@
 
 #include <machine/cpu.h>
 
-#ifdef GPROF
-#include <sys/gmon.h>
-#endif
-
 /*
  * Clock handling routines.
  *
@@ -244,11 +240,11 @@ hardclock(frame)
  * compute the second argument to timeout_add() from an absolute time.
  */
 int
-hzto(tv)
-	struct timeval *tv;
+hzto(struct timeval *tv)
 {
 	unsigned long ticks;
-	long sec, usec;
+	time_t sec;
+	long usec;
 	int s;
 
 	/*
@@ -391,10 +387,6 @@ void
 statclock(frame)
 	register struct clockframe *frame;
 {
-#ifdef GPROF
-	register struct gmonparam *g;
-	register int i;
-#endif
 	static int schedclk;
 	register struct proc *p;
 
@@ -414,19 +406,6 @@ statclock(frame)
 		else
 			cp_time[CP_USER]++;
 	} else {
-#ifdef GPROF
-		/*
-		 * Kernel statistics are just like addupc_intr, only easier.
-		 */
-		g = &_gmonparam;
-		if (g->state == GMON_PROF_ON) {
-			i = CLKF_PC(frame) - g->lowpc;
-			if (i < g->textsize) {
-				i /= HISTFRACTION * sizeof(*g->kcount);
-				g->kcount[i]++;
-			}
-		}
-#endif
 		if (--pscnt > 0)
 			return;
 		/*

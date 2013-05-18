@@ -1,8 +1,10 @@
+/**	$MirOS: src/usr.bin/make/parse.c,v 1.5 2005/11/24 13:20:34 tg Exp $ */
 /*	$OpenPackages$ */
 /*	$OpenBSD: parse.c,v 1.71 2007/03/20 03:50:39 tedu Exp $	*/
 /*	$NetBSD: parse.c,v 1.29 1997/03/10 21:20:04 christos Exp $	*/
 
 /*
+ * Copyright (c) 2005 Thorsten Glaser
  * Copyright (c) 1999 Marc Espie.
  *
  * Extensive code changes for the OpenBSD project.
@@ -91,6 +93,7 @@
 #include "stats.h"
 #include "garray.h"
 
+__RCSID("$MirOS: src/usr.bin/make/parse.c,v 1.5 2005/11/24 13:20:34 tg Exp $");
 
 static struct growableArray gsources, gtargets;
 #define SOURCES_SIZE	128
@@ -160,7 +163,7 @@ static GNode	*predecessor;
  * keyword is used as a source ("0" if the keyword isn't special as a source)
  */
 static struct {
-    char	  *name;	/* Name of keyword */
+    const char	  *name;	/* Name of keyword */
     ParseSpecial  spec; 	/* Type when used as a target */
     int 	  op;		/* Operator when used as a source */
 } parseKeywords[] = {
@@ -790,7 +793,7 @@ ParseDoDependency(char *line)	/* the line to parse */
 		 * Dir module could have added a directory to the path...
 		 */
 		LIST	    emptyPath;
-		LIST	    curTargs;	/* list of target names to be found 
+		LIST	    curTargs;	/* list of target names to be found
 					 * and added to the targets list */
 
 		Lst_Init(&emptyPath);
@@ -968,11 +971,11 @@ ParseDoDependency(char *line)	/* the line to parse */
 	     * If it was .NULL, the source is the suffix to use when a file
 	     * has no valid suffix.
 	     */
-	    char  savec;
+	    char  saveci;
 	    while (*cp && !isspace(*cp)) {
 		cp++;
 	    }
-	    savec = *cp;
+	    saveci = *cp;
 	    *cp = '\0';
 	    switch (specType) {
 		case Suffixes:
@@ -993,8 +996,8 @@ ParseDoDependency(char *line)	/* the line to parse */
 		default:
 		    break;
 	    }
-	    *cp = savec;
-	    if (savec != '\0') {
+	    *cp = saveci;
+	    if (saveci != '\0') {
 		cp++;
 	    }
 	    while (isspace(*cp)) {
@@ -1025,7 +1028,7 @@ ParseDoDependency(char *line)	/* the line to parse */
 	    }
 
 	    if (*cp == '(') {
-		GNode	  *gn;
+		GNode	  *gn2;
 		LIST	  sources; /* list of archive source names after
 				    * expansion */
 
@@ -1036,8 +1039,8 @@ ParseDoDependency(char *line)	/* the line to parse */
 		    return;
 		}
 
-		while ((gn = (GNode *)Lst_DeQueue(&sources)) != NULL)
-		    ParseDoSrc(tOp, gn->name);
+		while ((gn2 = (GNode *)Lst_DeQueue(&sources)) != NULL)
+		    ParseDoSrc(tOp, gn2->name);
 		cp = line;
 	    } else {
 		if (*cp) {
@@ -1433,6 +1436,28 @@ ParseIsCond(Buffer linebuf, Buffer copy, char *line)
 	Var_Delete(line);
 	return true;
     }
+    case COND_ISUERR:
+	line += 5;
+	while (*line != '\0' && isspace(*line))
+		++line;
+	{
+		char *t = Var_Subst(line, NULL, false);
+		Parse_Error(PARSE_FATAL, "Aborting: %s", t ? t : line);
+		if (t)
+			free(t);
+	}
+	return true;
+    case COND_ISTRACE:
+	line += 5;
+	while (*line != '\0' && isspace(*line))
+		++line;
+	{
+		char *t = Var_Subst(line, NULL, false);
+		Parse_Error(PARSE_WARNING, "Traceing: %s", t ? t : line);
+		if (t)
+			free(t);
+	}
+	return true;
     default:
 	break;
     }
@@ -1503,7 +1528,7 @@ Parse_File(
 		stripped = strip_comments(&copy, line);
 		if (*stripped == '.' && ParseIsCond(&buf, &copy, stripped+1))
 		    ;
-		else if (FEATURES(FEATURE_SYSVINCLUDE) && 
+		else if (FEATURES(FEATURE_SYSVINCLUDE) &&
 		    strncmp(stripped, "include", 7) == 0 &&
 		    isspace(stripped[7]) &&
 		    strchr(stripped, ':') == NULL) {
@@ -1511,7 +1536,7 @@ Parse_File(
 			ParseTraditionalInclude(stripped + 7);
 		} else if (FEATURES(FEATURE_CONDINCLUDE) &&
 		    (*stripped == '-' || *stripped == 's') &&
-		    strncmp(stripped+1, "include", 7) == 0 && 
+		    strncmp(stripped+1, "include", 7) == 0 &&
 		    isspace(stripped[8]) &&
 		    strchr(stripped, ':') == NULL) {
 		    	ParseConditionalInclude(stripped+8);
@@ -1585,7 +1610,7 @@ Parse_Init(void)
     Static_Lst_Init(sysIncPath);
     Array_Init(&gsources, SOURCES_SIZE);
     Array_Init(&gtargets, TARGETS_SIZE);
-    
+
     LowParse_Init();
 #ifdef CLEANUP
     Static_Lst_Init(&targCmds);
@@ -1618,4 +1643,3 @@ Parse_MainName(Lst listmain)	/* result list */
     else
 	Lst_AtEnd(listmain, mainNode);
 }
-

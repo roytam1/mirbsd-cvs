@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: time.c,v 1.15 2003/06/10 22:20:53 deraadt Exp $	*/
 /*	$NetBSD: time.c,v 1.7 1995/06/27 00:34:00 jtc Exp $	*/
 
@@ -36,13 +37,6 @@ static char copyright[] =
 	The Regents of the University of California.  All rights reserved.\n";
 #endif /* not lint */
 
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)time.c	8.1 (Berkeley) 6/6/93";
-#endif
-static char rcsid[] = "$OpenBSD: time.c,v 1.15 2003/06/10 22:20:53 deraadt Exp $";
-#endif /* not lint */
-
 #include <sys/param.h>
 #include <sys/time.h>
 #include <sys/resource.h>
@@ -55,6 +49,9 @@ static char rcsid[] = "$OpenBSD: time.c,v 1.15 2003/06/10 22:20:53 deraadt Exp $
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+
+__SCCSID("@(#)time.c	8.1 (Berkeley) 6/6/93");
+__RCSID("$MirOS$");
 
 int lflag;
 int portableflag;
@@ -88,8 +85,8 @@ main(int argc, char *argv[])
 
 	argc -= optind;
 	argv += optind;
-	
-	if (argc < 1) 
+
+	if (argc < 1)
 		usage();
 
 	gettimeofday(&before, (struct timezone *)NULL);
@@ -118,20 +115,20 @@ main(int argc, char *argv[])
 	timersub(&after, &before, &after);
 
 	if (portableflag) {
-		fprintf(stderr, "real %9ld.%02ld\n", 
-			after.tv_sec, after.tv_usec/10000);
-		fprintf(stderr, "user %9ld.%02ld\n",
-			ru.ru_utime.tv_sec, ru.ru_utime.tv_usec/10000);
-		fprintf(stderr, "sys  %9ld.%02ld\n",
-			ru.ru_stime.tv_sec, ru.ru_stime.tv_usec/10000);
+		fprintf(stderr, "real %9lld.%02ld\n",
+			(int64_t)after.tv_sec, after.tv_usec/10000);
+		fprintf(stderr, "user %9lld.%02ld\n",
+			(int64_t)ru.ru_utime.tv_sec, ru.ru_utime.tv_usec/10000);
+		fprintf(stderr, "sys  %9lld.%02ld\n",
+			(int64_t)ru.ru_stime.tv_sec, ru.ru_stime.tv_usec/10000);
 	} else {
 
-		fprintf(stderr, "%9ld.%02ld real ", 
-			after.tv_sec, after.tv_usec/10000);
-		fprintf(stderr, "%9ld.%02ld user ",
-			ru.ru_utime.tv_sec, ru.ru_utime.tv_usec/10000);
-		fprintf(stderr, "%9ld.%02ld sys\n",
-			ru.ru_stime.tv_sec, ru.ru_stime.tv_usec/10000);
+		fprintf(stderr, "%9lld.%02ld real ",
+			(int64_t)after.tv_sec, after.tv_usec/10000);
+		fprintf(stderr, "%9lld.%02ld user ",
+			(int64_t)ru.ru_utime.tv_sec, ru.ru_utime.tv_usec/10000);
+		fprintf(stderr, "%9lld.%02ld sys\n",
+			(int64_t)ru.ru_stime.tv_sec, ru.ru_stime.tv_usec/10000);
 	}
 
 	if (lflag) {
@@ -191,10 +188,10 @@ main(int argc, char *argv[])
 	exit(WIFEXITED(status) ? WEXITSTATUS(status) : EXIT_FAILURE);
 }
 
-__dead void 
+__dead void
 usage(void)
 {
-	extern char *__progname;   
+	extern char *__progname;
 
 	(void)fprintf(stderr, "usage: %s [-lp] command\n", __progname);
 	exit(1);

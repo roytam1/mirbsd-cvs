@@ -6,11 +6,13 @@
 
 #include <machine/asm.h>
 
-#ifdef STRRCHR
-ENTRY(strrchr)
-#else
+	.section .comment
+	.asciz	"$MirOS: src/lib/libc/arch/i386/string/rindex.S,v 1.3 2005/04/16 20:36:13 tg Exp $"
+
+	.text
+
+NENTRY(strrchr)
 ENTRY(rindex)
-#endif
 	pushl	%ebx
 	movl	8(%esp),%edx
 	movb	12(%esp),%cl

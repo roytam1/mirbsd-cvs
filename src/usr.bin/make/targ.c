@@ -1,3 +1,4 @@
+/**	$MirOS: src/usr.bin/make/targ.c,v 1.2 2005/11/24 13:20:34 tg Exp $ */
 /*	$OpenPackages$ */
 /*	$OpenBSD: targ.c,v 1.40 2006/01/20 23:10:19 espie Exp $ */
 /*	$NetBSD: targ.c,v 1.11 1997/02/20 16:51:50 christos Exp $	*/
@@ -118,6 +119,8 @@
 #ifdef CLEANUP
 #include <stdlib.h>
 #endif
+
+__RCSID("$MirOS: src/usr.bin/make/targ.c,v 1.2 2005/11/24 13:20:34 tg Exp $");
 
 static struct ohash targets;	/* a hash table of same */
 static struct ohash_info gnode_info = {
@@ -265,7 +268,7 @@ TargFreeGN(void *gnp)
  *-----------------------------------------------------------------------
  */
 GNode *
-Targ_FindNodei(const char *name, const char *ename, 
+Targ_FindNodei(const char *name, const char *ename,
     int flags)			/* flags governing events when target not
 				 * found */
 {
@@ -409,13 +412,13 @@ Targ_PrintCmd(void *cmd)
  *-----------------------------------------------------------------------
  */
 char *
-Targ_FmtTime(TIMESTAMP time)
+Targ_FmtTime(TIMESTAMP tm)
 {
     struct tm		*parts;
     static char 	buf[128];
     time_t t;
 
-    t = timestamp2time_t(time);
+    t = timestamp2time_t(tm);
 
     parts = localtime(&t);
     strftime(buf, sizeof buf, "%H:%M:%S %b %d, %Y", parts);

@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /* $OpenBSD: tcpdrop.c,v 1.4 2004/05/22 23:55:22 deraadt Exp $ */
 
 /*
@@ -28,6 +29,7 @@
 
 #include <err.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <stdlib.h>
 #include <netdb.h>

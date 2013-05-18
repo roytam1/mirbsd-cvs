@@ -22,6 +22,8 @@
 #include "perl.h"
 #include "regcomp.h"
 
+__RCSID("$MirOS$");
+
 #define FCALL *f
 
 #ifdef __Lynx__
@@ -5219,7 +5221,8 @@ Perl_sv_clear(pTHX_ register SV *sv)
 	    IoIFP(sv) != PerlIO_stdout() &&
 	    IoIFP(sv) != PerlIO_stderr())
 	{
-	    io_close((IO*)sv, FALSE);
+	    /* XXX io_close says we must not ignore the result */
+	    bool dummy = io_close((IO*)sv, FALSE);
 	}
 	if (IoDIRP(sv) && !(IoFLAGS(sv) & IOf_FAKE_DIRP))
 	    PerlDir_close(IoDIRP(sv));

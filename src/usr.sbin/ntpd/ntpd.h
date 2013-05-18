@@ -1,6 +1,8 @@
+/**	$MirOS: src/usr.sbin/ntpd/ntpd.h,v 1.13 2007/10/03 22:52:58 tg Exp $ */
 /*	$OpenBSD: ntpd.h,v 1.70 2006/06/04 18:58:13 otto Exp $ */
 
 /*
+ * Copyright (c) 2007 Thorsten Glaser <tg@mirbsd.org>
  * Copyright (c) 2003, 2004 Henning Brauer <henning@openbsd.org>
  *
  * Permission to use, copy, modify, and distribute this software for any
@@ -53,10 +55,10 @@
 #define	QSCALE_OFF_MAX			0.50
 
 #define	QUERYTIME_MAX		15	/* single query might take n secs max */
-#define	OFFSET_ARRAY_SIZE	8
+#define	OFFSET_ARRAY_SIZE	4	/* min. 3, recommended 6, max. 8 */
 #define	SETTIME_MIN_OFFSET	180	/* min offset for settime at start */
 #define	SETTIME_TIMEOUT		15	/* max seconds to wait with -s */
-#define	LOG_NEGLIGEE		128	/* negligible drift to not log (ms) */
+#define	LOG_NEGLIGEE		125	/* negligible drift to not log (ms) */
 
 enum client_state {
 	STATE_NONE,
@@ -119,6 +121,7 @@ struct ntp_peer {
 	u_int32_t			 id;
 	u_int8_t			 shift;
 	u_int8_t			 trustlevel;
+	uint8_t				 stratum_offset;
 	int				 lasterror;
 };
 
@@ -129,6 +132,7 @@ struct ntpd_conf {
 	u_int8_t				listen_all;
 	u_int8_t				settime;
 	u_int8_t				debug;
+	uint8_t					trace;
 	u_int32_t				scale;
 };
 
@@ -186,13 +190,28 @@ struct imsg {
 /* prototypes */
 /* log.c */
 void		 log_init(int);
-void		 vlog(int, const char *, va_list);
-void		 log_warn(const char *, ...);
-void		 log_warnx(const char *, ...);
-void		 log_info(const char *, ...);
-void		 log_debug(const char *, ...);
-void		 fatal(const char *);
-void		 fatalx(const char *);
+void		 vlog(int, const char *, va_list)
+    __attribute__((format (syslog, 2, 0)))
+    __attribute__((format (printf, 2, 0)))
+    __attribute__((nonnull (2)));
+void		 log_warn(const char *, ...)
+    __attribute__((format (syslog, 1, 2)))
+    __attribute__((format (printf, 1, 2)))
+    __attribute__((nonnull (1)));
+void		 log_warnx(const char *, ...)
+    __attribute__((format (syslog, 1, 2)))
+    __attribute__((format (printf, 1, 2)))
+    __attribute__((nonnull (1)));
+void		 log_info(const char *, ...)
+    __attribute__((format (syslog, 1, 2)))
+    __attribute__((format (printf, 1, 2)))
+    __attribute__((nonnull (1)));
+void		 log_debug(const char *, ...)
+    __attribute__((format (syslog, 1, 2)))
+    __attribute__((format (printf, 1, 2)))
+    __attribute__((nonnull (1)));
+__dead void	 fatal(const char *);
+__dead void	 fatalx(const char *);
 const char *	 log_sockaddr(struct sockaddr *);
 
 /* buffer.c */
@@ -244,7 +263,7 @@ int	client_peer_init(struct ntp_peer *);
 int	client_addr_init(struct ntp_peer *);
 int	client_nextaddr(struct ntp_peer *);
 int	client_query(struct ntp_peer *);
-int	client_dispatch(struct ntp_peer *, u_int8_t);
+int	client_dispatch(struct ntp_peer *, u_int8_t, uint8_t);
 void	client_log_error(struct ntp_peer *, const char *, int);
 void	update_scale(double);
 time_t	scale_interval(time_t);

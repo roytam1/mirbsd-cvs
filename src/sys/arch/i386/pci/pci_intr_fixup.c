@@ -1,3 +1,4 @@
+/**	$MirOS: src/sys/arch/i386/pci/pci_intr_fixup.c,v 1.5 2005/08/02 11:19:39 tg Exp $ */
 /*	$OpenBSD: pci_intr_fixup.c,v 1.37 2005/07/09 22:15:44 mickey Exp $	*/
 /*	$NetBSD: pci_intr_fixup.c,v 1.10 2000/08/10 21:18:27 soda Exp $	*/
 
@@ -26,6 +27,7 @@
  * IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 /*-
  * Copyright (c) 1999 The NetBSD Foundation, Inc.
  * All rights reserved.
@@ -62,6 +64,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+
 /*
  * Copyright (c) 1999, by UCHIYAMA Yasushi
  * All rights reserved.
@@ -100,12 +103,12 @@
 
 #include <machine/bus.h>
 #include <machine/intr.h>
-#include <machine/i8259.h>
 
 #include <dev/pci/pcireg.h>
 #include <dev/pci/pcivar.h>
 #include <dev/pci/pcidevs.h>
 
+#include <i386/isa/icu.h>
 #include <i386/pci/pcibiosvar.h>
 
 struct pciintr_link_map {
@@ -161,11 +164,6 @@ const struct pciintr_icu_table {
 	  opti82c558_init },
 	{ PCI_VENDOR_OPTI,	PCI_PRODUCT_OPTI_82C700,
 	  opti82c700_init },
-
-	{ PCI_VENDOR_RCC,	PCI_PRODUCT_RCC_ROSB4,
-	  osb4_init },
-	{ PCI_VENDOR_RCC,	PCI_PRODUCT_RCC_CSB5,
-	  osb4_init },
 
 	{ PCI_VENDOR_VIATECH,	PCI_PRODUCT_VIATECH_VT82C596A,
 	  via82c586_init, },
@@ -678,15 +676,18 @@ pci_intr_header_fixup(pc, tag, ihp)
 		/* believe PCI IRQ Routing table */
 		p = " WARNING: overriding";
 		ihp->line = l->irq;
-	} else
-		/* believe PCI Interrupt Configuration Register (default) */
+	} else {
+		/* routed by BIOS, but inconsistent */
+		/* believe PCI Interrupt Configuration Register */
 		p = " WARNING: preserving";
+		ihp->line = l->irq = irq;
+	}
 
 	if (pcibios_flags & PCIBIOS_INTRDEBUG) {
 		register pcireg_t id = pci_conf_read(pc, tag, PCI_ID_REG);
 
-		printf("%d:%d:%d %04x:%04x pin %c clink 0x%02x irq %d stage %d"
-		    "%s irq %d\n", bus, device, function,
+		printf("\n%d:%d:%d %04x:%04x pin %c clink 0x%02x irq %d "
+		    "stage %d %s irq %d\n", bus, device, function,
 		    PCI_VENDOR(id), PCI_PRODUCT(id), '@' + ihp->pin, l->clink,
 		    ((l->irq == I386_PCI_INTERRUPT_LINE_NO_CONNECTION)?
 		    -1 : l->irq), l->fixup_stage, p, irq);

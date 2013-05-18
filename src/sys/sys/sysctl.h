@@ -1,3 +1,5 @@
+/**	$MirOS: src/sys/sys/sysctl.h,v 1.5 2007/05/16 20:50:49 tg Exp $ */
+/*	$NetBSD: sysctl.h,v 1.99 2003/09/28 13:02:19 dsl Exp $	*/
 /*	$OpenBSD: sysctl.h,v 1.77 2004/04/19 22:52:33 tedu Exp $	*/
 /*	$NetBSD: sysctl.h,v 1.16 1996/04/09 20:55:36 cgd Exp $	*/
 
@@ -128,7 +130,7 @@ struct ctlname {
 #define	KERN_VNODE		13	/* struct: vnode structures */
 #define	KERN_PROC		14	/* struct: process entries */
 #define	KERN_FILE		15	/* struct: file entries */
-#define	KERN_PROF		16	/* node: kernel profiling info */
+/*define gap			16	*/
 #define	KERN_POSIX1		17	/* int: POSIX.1 version */
 #define	KERN_NGROUPS		18	/* int: # of supplemental group ids */
 #define	KERN_JOB_CONTROL	19	/* int: is job control available */
@@ -144,7 +146,7 @@ struct ctlname {
 #define	KERN_SOMINCONN		29	/* int: half-open controllable param */
 #define	KERN_USERMOUNT		30	/* int: users may mount filesystems */
 #define	KERN_RND		31	/* struct: rnd(4) statistics */
-#define	KERN_NOSUIDCOREDUMP	32	/* int: no setuid coredumps ever */ 
+#define	KERN_NOSUIDCOREDUMP	32	/* int: no setuid coredumps ever */
 #define	KERN_FSYNC		33	/* int: file synchronization support */
 #define	KERN_SYSVMSG		34	/* int: SysV message queue suppoprt */
 #define	KERN_SYSVSEM		35	/* int: SysV semaphore support */
@@ -177,10 +179,17 @@ struct ctlname {
 #define	KERN_SHMINFO		62	/* struct: SysV struct shminfo */
 #define KERN_INTRCNT		63	/* node: interrupt counters */
 #define	KERN_WATCHDOG		64	/* node: watchdog */
-#define	KERN_EMUL		65	/* node: emuls */
-#define	KERN_PROC2		66	/* struct: process entries */
-#define	KERN_MAXCLUSTERS	67	/* number of mclusters */
-#define	KERN_MAXID		68	/* number of valid kern ids */
+#define	KERN_ALLOWPSA		65	/* int: allow user "ps a" */
+#define	KERN_ALLOWPSE		66	/* int: allow user "ps e" */
+#define	KERN_EMUL		67	/* node: emuls */
+#define	KERN_ROOT_DEVICE	68	/* string: root device */
+#define	KERN_ROOT_PARTITION	69	/* int: root partition */
+#define	KERN_PROC2		70	/* struct: process entries */
+#define	KERN_PUSHRAND		71	/* int: allow rnd_addpool_add() API */
+#define	KERN_MAXCLUSTERS	72	/* number of mclusters */
+#define	KERN_EMULUNAME		73	/* uname for the linuxulator */
+#define	KERN_OSPATCHLEVEL	74	/* string: system patchlevel */
+#define	KERN_MAXID		75	/* number of valid kern ids */
 
 #define	CTL_KERN_NAMES { \
 	{ 0, 0 }, \
@@ -199,7 +208,7 @@ struct ctlname {
 	{ "vnode", CTLTYPE_STRUCT }, \
 	{ "proc", CTLTYPE_STRUCT }, \
 	{ "file", CTLTYPE_STRUCT }, \
-	{ "profiling", CTLTYPE_NODE }, \
+	{ "gap", 0 }, \
 	{ "posix1version", CTLTYPE_INT }, \
 	{ "ngroups", CTLTYPE_INT }, \
 	{ "job_control", CTLTYPE_INT }, \
@@ -248,9 +257,16 @@ struct ctlname {
 	{ "shminfo", CTLTYPE_STRUCT }, \
 	{ "intrcnt", CTLTYPE_NODE }, \
  	{ "watchdog", CTLTYPE_NODE }, \
+	{ "allowpsa", CTLTYPE_INT }, \
+	{ "allowpse", CTLTYPE_INT }, \
  	{ "emul", CTLTYPE_NODE }, \
+	{ "root_device", CTLTYPE_STRING }, \
+	{ "root_partition", CTLTYPE_INT }, \
  	{ "proc2", CTLTYPE_STRUCT }, \
+	{ "pushrand", CTLTYPE_INT }, \
  	{ "maxclusters", CTLTYPE_INT }, \
+	{ "emul_uname", CTLTYPE_STRING }, \
+	{ "ospatchlevel", CTLTYPE_STRING }, \
 }
 
 /*
@@ -374,8 +390,7 @@ struct kinfo_proc2 {
 	u_int32_t p_tdev;		/* DEV_T: controlling tty dev */
 
 	u_int32_t p_estcpu;		/* U_INT: Time averaged value of p_cpticks. */
-	u_int32_t p_rtime_sec;		/* STRUCT TIMEVAL: Real time. */
-	u_int32_t p_rtime_usec;		/* STRUCT TIMEVAL: Real time. */
+	u_int64_t p_rtime_sec_32;	/* dummy (unused) */
 	int32_t	p_cpticks;		/* INT: Ticks of cpu time. */
 	u_int32_t p_pctcpu;		/* FIXPT_T: %cpu for this process during p_swtime */
 	u_int32_t p_swtime;		/* U_INT: Time swapped in or out. */
@@ -448,6 +463,8 @@ struct kinfo_proc2 {
 	u_int32_t p_svgid;		/* GID_T: saved group id */
 	char    p_emul[KI_EMULNAMELEN];	/* syscall emulation name */
 	u_int64_t p_rlim_rss_cur;	/* RLIM_T: soft limit for rss */
+	time_t p_rtime_sec;		/* STRUCT TIMEVAL: Real time. */
+	u_int32_t p_rtime_usec;		/* STRUCT TIMEVAL: Real time. */
 };
 
 /*
@@ -516,7 +533,8 @@ struct kinfo_proc2 {
 #define	HW_SENSORS	11		/* node: hardware monitors */
 #define	HW_CPUSPEED	12		/* get CPU frequency */
 #define	HW_SETPERF	13		/* set CPU performance % */
-#define	HW_MAXID	14		/* number of valid hw ids */
+#define	HW_MACHINE_ARCH	14		/* string: machine architecture */
+#define	HW_MAXID	15		/* number of valid hw ids */
 
 #define	CTL_HW_NAMES { \
 	{ 0, 0 }, \
@@ -533,6 +551,7 @@ struct kinfo_proc2 {
 	{ "sensors", CTLTYPE_NODE}, \
 	{ "cpuspeed", CTLTYPE_INT }, \
 	{ "setperf", CTLTYPE_INT }, \
+	{ "machine_arch", CTLTYPE_STRING }, \
 }
 
 /*
@@ -649,9 +668,6 @@ int sysctl_iflist(int, struct walkarg *);
 int sysctl_rtable(int *, u_int, void *, size_t *, void *, size_t);
 int sysctl_clockrate(char *, size_t *);
 int sysctl_vnode(char *, size_t *, struct proc *);
-#ifdef GPROF
-int sysctl_doprof(int *, u_int, void *, size_t *, void *, size_t);
-#endif
 int sysctl_dopool(int *, u_int, char *, size_t *);
 
 void fill_eproc(struct proc *, struct eproc *);

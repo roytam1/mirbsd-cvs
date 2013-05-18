@@ -59,10 +59,6 @@
  * SUCH DAMAGE.
  */
 
-#if !defined(lint) && !defined(SMALL)
-static const char rcsid[] = "$OpenBSD: cmds.c,v 1.55 2006/11/22 04:08:35 ray Exp $";
-#endif /* not lint and not SMALL */
-
 /*
  * FTP User Program -- Command Routines.
  */
@@ -83,6 +79,8 @@ static const char rcsid[] = "$OpenBSD: cmds.c,v 1.55 2006/11/22 04:08:35 ray Exp
 
 #include "ftp_var.h"
 #include "pathnames.h"
+
+__RCSID("$MirOS: src/usr.bin/ftp/cmds.c,v 1.4 2006/10/03 19:22:16 tg Exp $");
 
 jmp_buf	jabort;
 char   *mname;

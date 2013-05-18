@@ -1,3 +1,4 @@
+/**	$MirOS: src/sys/lib/libsa/tftp.c,v 1.2 2005/03/06 21:28:08 tg Exp $	*/
 /*	$OpenBSD: tftp.c,v 1.2 2004/04/02 04:39:51 deraadt Exp $	*/
 /*	$NetBSD: tftp.c,v 1.15 2003/08/18 15:45:29 dsl Exp $	 */
 
@@ -162,14 +163,14 @@ tftp_makereq(struct tftp_handle *h)
 	ssize_t         res;
 	struct tftphdr *t;
 
-	bzero(&wbuf, sizeof(wbuf));
+	memset(&wbuf, 0, sizeof(wbuf));
 
 	wbuf.t.th_opcode = htons((u_short) RRQ);
 	wtail = wbuf.t.th_stuff;
 	l = strlen(h->path);
-	bcopy(h->path, wtail, l + 1);
+	memmove(wtail, h->path, l + 1);
 	wtail += l + 1;
-	bcopy("octet", wtail, 6);
+	memmove(wtail, "octet", 6);
 	wtail += 6;
 
 	t = &h->lastdata.t;
@@ -205,7 +206,7 @@ tftp_getnextblock(struct tftp_handle *h)
 	int             res;
 	struct tftphdr *t;
 
-	bzero(&wbuf, sizeof(wbuf));
+	memset(&wbuf, 0, sizeof(wbuf));
 
 	wbuf.t.th_opcode = htons((u_short) ACK);
 	wbuf.t.th_block = htons((u_short) h->currblock);
@@ -238,7 +239,7 @@ tftp_terminate(struct tftp_handle *h)
 	} wbuf;
 	char           *wtail;
 
-	bzero(&wbuf, sizeof(wbuf));
+	memset(&wbuf, 0, sizeof(wbuf));
 
 	if (h->islastblock) {
 		wbuf.t.th_opcode = htons((u_short) ACK);
@@ -261,7 +262,7 @@ tftp_open(char *path, struct open_file *f)
 	int             res;
 
 	tftpfile = (struct tftp_handle *) alloc(sizeof(*tftpfile));
-	if (tftpfile == NULL)
+	if (!tftpfile)
 		return ENOMEM;
 
 	tftpfile->iodesc = io = socktodesc(*(int *) (f->f_devdata));
@@ -335,8 +336,8 @@ tftp_read(struct open_file *f, void *addr, size_t size, size_t *resid)
 				return EINVAL;
 			}
 			count = (size < inbuffer ? size : inbuffer);
-			bcopy(tftpfile->lastdata.t.th_data + offinblock,
-			    addr, count);
+			memmove(addr,
+			    tftpfile->lastdata.t.th_data + offinblock, count);
 
 			addr = (caddr_t)addr + count;
 			tftpfile->off += count;
@@ -353,7 +354,7 @@ tftp_read(struct open_file *f, void *addr, size_t size, size_t *resid)
 
 	}
 
-	if (resid != NULL)
+	if (resid)
 		*resid = size;
 	return 0;
 }

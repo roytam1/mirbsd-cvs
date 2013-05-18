@@ -1,11 +1,12 @@
-#!/bin/sh -
-#
-#	$OpenBSD: weekly,v 1.19 2007/02/02 14:52:48 ajacoutot Exp $
-#
-umask 022
+#!/bin/mksh
+# $MirOS: src/etc/weekly,v 1.8 2006/10/14 12:55:41 tg Exp $
+# $OpenBSD: weekly,v 1.14 2003/06/30 22:04:57 avsm Exp $
 
-PATH=/bin:/sbin:/usr/sbin:/usr/bin:/usr/libexec
-export PATH
+umask 022
+export TZ=UTC PATH=/bin:/usr/bin:/sbin:/usr/sbin:/usr/libexec:/usr/local/bin:/usr/mpkg/bin
+cd /
+
+print RUNTIME=$(date +%J)
 
 if [ -f /etc/weekly.local ]; then
 	echo ""
@@ -15,7 +16,7 @@ fi
 
 echo ""
 if [ -f /var/db/locate.database ]; then
-	TMP=`mktemp /var/db/locate.database.XXXXXXXXXX`
+	TMP=$(mktemp /var/db/locate.database.XXXXXXXXXX)
 	if [ $? -eq 0 ]; then
 		trap 'rm -f $TMP; exit 1' 0 1 15
 		echo "Rebuilding locate database:"
@@ -39,11 +40,3 @@ fi
 echo ""
 echo "Rebuilding whatis databases:"
 makewhatis
-
-# If LOGINACCOUNTING is set to 1 in the environment, report user
-# accounting information
-[ "X$LOGINACCOUNTING" = X1 ] && {
-	echo ""
-	echo "Doing login accounting:"
-	ac -p | sort -nr -k 2
-}

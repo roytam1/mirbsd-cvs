@@ -1,5 +1,5 @@
-#!/bin/sh -
-#
+#!/bin/mksh
+# $MirOS: src/usr.bin/compress/gzexe,v 1.2 2005/07/07 13:39:42 tg Exp $
 # $OpenBSD: gzexe,v 1.4 2005/09/30 06:50:44 otto Exp $
 #
 #  Copyright (c) 2003 Otto Moerbeek <otto@drijf.net>
@@ -28,7 +28,7 @@ header () {
 	typeset prog tmp
 	# first section needs variable expansion, second not
 	cat <<- EOF
-		#!/bin/sh -
+		#!/bin/mksh
 		$magic
 		lines=$lines
 	EOF

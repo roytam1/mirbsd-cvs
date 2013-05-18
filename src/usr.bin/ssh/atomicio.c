@@ -36,6 +36,8 @@
 
 #include "atomicio.h"
 
+__RCSID("$MirOS: src/usr.bin/ssh/atomicio.c,v 1.5 2007/06/21 14:46:45 tg Exp $");
+
 /*
  * ensure all of data on socket comes through. f==read || f==vwrite
  */

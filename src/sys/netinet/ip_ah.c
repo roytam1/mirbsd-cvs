@@ -686,7 +686,7 @@ ah_input(struct mbuf *m, struct tdb *tdb, int skip, int protoff)
 int
 ah_input_cb(void *op)
 {
-	int s, roff, rplen, error, skip, protoff;
+	int s, roff, rplen, error = 0, skip, protoff;
 	unsigned char calc[AH_ALEN_MAX];
 	struct mbuf *m1, *m0, *m;
 	struct cryptodesc *crd;
@@ -935,11 +935,12 @@ ah_output(struct mbuf *m, struct tdb *tdb, struct mbuf **mp, int skip,
 	int len, rplen;
 	u_int8_t prot;
 	struct ah *ah;
-#if NBPFILTER > 0
-	struct ifnet *ifn = &(encif[0].sc_if);
 
-	if (ifn->if_bpf) {
+#if NBPFILTER > 0
+	{
+		struct ifnet *ifn;
 		struct enchdr hdr;
+		struct mbuf m1;
 
 		bzero (&hdr, sizeof(hdr));
 
@@ -947,7 +948,15 @@ ah_output(struct mbuf *m, struct tdb *tdb, struct mbuf **mp, int skip,
 		hdr.spi = tdb->tdb_spi;
 		hdr.flags |= M_AUTH | M_AUTH_AH;
 
-		bpf_mtap_hdr(ifn->if_bpf, (char *)&hdr, ENC_HDRLEN, m);
+		m1.m_flags = 0;
+		m1.m_next = m;
+		m1.m_len = ENC_HDRLEN;
+		m1.m_data = (char *) &hdr;
+
+		ifn = &(encif[0].sc_if);
+
+		if (ifn->if_bpf)
+			bpf_mtap(ifn->if_bpf, &m1);
 	}
 #endif
 
@@ -1208,7 +1217,7 @@ ah_output(struct mbuf *m, struct tdb *tdb, struct mbuf **mp, int skip,
 int
 ah_output_cb(void *op)
 {
-	int skip, protoff, error;
+	int skip, protoff, error = 0;
 	struct tdb_crypto *tc;
 	struct cryptop *crp;
 	struct tdb *tdb;

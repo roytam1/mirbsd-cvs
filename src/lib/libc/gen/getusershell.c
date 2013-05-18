@@ -37,12 +37,14 @@
 #include <unistd.h>
 #include <paths.h>
 
+__RCSID("$MirOS: src/lib/libc/gen/getusershell.c,v 1.4 2005/09/22 20:40:00 tg Exp $");
+
 /*
  * Local shells should NOT be added here.  They should be added in
  * /etc/shells.
  */
 
-static char *okshells[] = { _PATH_BSHELL, _PATH_CSHELL, _PATH_KSHELL, NULL };
+static char *okshells[] = { (char *)_PATH_BSHELL, (char *)"/bin/mksh", NULL };
 static char **curshell, **shells, *strings;
 static char **initshells(void);
 
@@ -65,7 +67,7 @@ getusershell(void)
 void
 endusershell(void)
 {
-	
+
 	if (shells != NULL)
 		free(shells);
 	shells = NULL;

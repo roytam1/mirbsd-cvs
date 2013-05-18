@@ -220,9 +220,9 @@ enter_lastlog(PERSON *pn)
 	if (doit) {
 		w = walloc(pn);
 		w->info = LASTLOG;
-		bcopy(ll.ll_line, w->tty, UT_LINESIZE);
+		memmove(w->tty, ll.ll_line, UT_LINESIZE);
 		w->tty[UT_LINESIZE] = 0;
-		bcopy(ll.ll_host, w->host, UT_HOSTSIZE);
+		memmove(w->host, ll.ll_host, UT_HOSTSIZE);
 		w->host[UT_HOSTSIZE] = 0;
 		w->loginat = ll.ll_time;
 	}
@@ -234,9 +234,9 @@ enter_where(struct utmp *ut, PERSON *pn)
 	WHERE *w = walloc(pn);
 
 	w->info = LOGGEDIN;
-	bcopy(ut->ut_line, w->tty, UT_LINESIZE);
+	memmove(w->tty, ut->ut_line, UT_LINESIZE);
 	w->tty[UT_LINESIZE] = 0;
-	bcopy(ut->ut_host, w->host, UT_HOSTSIZE);
+	memmove(w->host, ut->ut_host, UT_HOSTSIZE);
 	w->host[UT_HOSTSIZE] = 0;
 	w->loginat = (time_t)ut->ut_time;
 	find_idle_and_ttywrite(w);

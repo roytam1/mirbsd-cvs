@@ -46,6 +46,8 @@
 #include "dispatch.h"
 #include "monitor.h"
 
+__RCSID("$MirOS: src/usr.bin/ssh/kex.c,v 1.5 2007/01/25 16:18:36 tg Exp $");
+
 #define KEX_COOKIE_LEN	16
 
 extern const EVP_MD *evp_ssh_sha256(void);
@@ -56,7 +58,7 @@ static void kex_choose_conf(Kex *);
 
 /* put algorithm proposal into buffer */
 static void
-kex_prop2buf(Buffer *b, char *proposal[PROPOSAL_MAX])
+kex_prop2buf(Buffer *b, const char *proposal[PROPOSAL_MAX])
 {
 	u_int i;
 
@@ -116,7 +118,7 @@ kex_prop_free(char **proposal)
 
 /* ARGSUSED */
 static void
-kex_protocol_error(int type, u_int32_t seq, void *ctxt)
+kex_protocol_error(int type, u_int32_t seq, void *ctxt __attribute__((unused)))
 {
 	error("Hm, kex protocol error: type %d seq %u", type, seq);
 }
@@ -188,7 +190,8 @@ kex_send_kexinit(Kex *kex)
 
 /* ARGSUSED */
 void
-kex_input_kexinit(int type, u_int32_t seq, void *ctxt)
+kex_input_kexinit(int type __attribute__((unused)),
+    u_int32_t seq __attribute__((unused)), void *ctxt)
 {
 	char *ptr;
 	u_int i, dlen;
@@ -214,7 +217,7 @@ kex_input_kexinit(int type, u_int32_t seq, void *ctxt)
 }
 
 Kex *
-kex_setup(char *proposal[PROPOSAL_MAX])
+kex_setup(const char *proposal[PROPOSAL_MAX])
 {
 	Kex *kex;
 

@@ -81,6 +81,7 @@ struct pppoe_tag {
 #define	PPPOE_TAG_GENERIC_ERROR		0x0203	/* Generic Error */
 
 extern int option_verbose;
+extern int ignorepadt;
 extern u_char etherbroadcastaddr[];
 
 void server_mode(int, u_int8_t *, u_int8_t *, struct ether_addr *);

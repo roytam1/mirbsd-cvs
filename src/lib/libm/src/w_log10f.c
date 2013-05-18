@@ -8,21 +8,23 @@
  *
  * Developed at SunPro, a Sun Microsystems, Inc. business.
  * Permission to use, copy, modify, and distribute this
- * software is freely granted, provided that this notice 
+ * software is freely granted, provided that this notice
  * is preserved.
  * ====================================================
  */
 
+#include <sys/cdefs.h>
 #if defined(LIBM_SCCS) && !defined(lint)
-static char rcsid[] = "$NetBSD: w_log10f.c,v 1.3 1995/05/10 20:49:37 jtc Exp $";
+__RCSID("$NetBSD: w_log10f.c,v 1.6 2002/05/26 22:02:02 wiz Exp $");
 #endif
 
-/* 
+/*
  * wrapper log10f(X)
  */
 
 #include "math.h"
 #include "math_private.h"
+
 
 float
 log10f(float x)		/* wrapper log10f */
@@ -37,7 +39,7 @@ log10f(float x)		/* wrapper log10f */
 	    if(x==(float)0.0)
 	        /* log10(0) */
 	        return (float)__kernel_standard((double)x,(double)x,118);
-	    else 
+	    else
 	        /* log10(x<0) */
 	        return (float)__kernel_standard((double)x,(double)x,119);
 	} else

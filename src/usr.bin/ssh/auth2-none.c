@@ -42,10 +42,9 @@
 #include "atomicio.h"
 #include "compat.h"
 #include "ssh2.h"
-#ifdef GSSAPI
-#include "ssh-gss.h"
-#endif
 #include "monitor_wrap.h"
+
+__RCSID("$MirOS: src/usr.bin/ssh/auth2-none.c,v 1.5 2006/09/20 21:40:56 tg Exp $");
 
 /* import */
 extern ServerOptions options;
@@ -116,7 +115,7 @@ userauth_none(Authctxt *authctxt)
 	packet_check_eom();
 	userauth_banner();
 	if (options.password_authentication)
-		return (PRIVSEP(auth_password(authctxt, "")));
+		return (PRIVSEP(auth_password(authctxt, (char *)"")));
 	return (0);
 }
 

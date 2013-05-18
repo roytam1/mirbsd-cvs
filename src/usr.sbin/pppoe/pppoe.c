@@ -53,6 +53,7 @@
 #include "pppoe.h"
 
 int option_verbose = 0;
+int ignorepadt = 0;
 u_char etherbroadcastaddr[6] = { 0xff, 0xff, 0xff, 0xff, 0xff, 0xff };
 
 int main(int, char **);
@@ -78,7 +79,7 @@ main(int argc, char **argv)
 	if ((pw = getpwnam("_ppp")) == NULL)
 		err(EX_CONFIG, "getpwnam(\"_ppp\")");
 
-	while ((c = getopt(argc, argv, "svi:n:p:")) != -1) {
+	while ((c = getopt(argc, argv, "stvi:n:p:")) != -1) {
 		switch (c) {
 		case 'i':
 			if (ifname != NULL) {
@@ -107,6 +108,13 @@ main(int argc, char **argv)
 				return (EX_USAGE);
 			}
 			smode = 1;
+			break;
+		case 't':
+			if (ignorepadt) {
+				usage();
+				return (EX_USAGE);
+			}	
+			ignorepadt = 1;
 			break;
 		case 'v':
 			option_verbose++;
@@ -445,7 +453,7 @@ getifhwaddr(char *ifnhint, char *ifnambuf, struct ether_addr *ea)
 			freeifaddrs(ifap);
 			return (-1);
 		}
-		bcopy(dl->sdl_data + dl->sdl_nlen, ea, sizeof(*ea));
+		memmove(ea, dl->sdl_data + dl->sdl_nlen, sizeof(*ea));
 		strlcpy(ifnambuf, ifa->ifa_name, IFNAMSIZ);
 		freeifaddrs(ifap);
 		return (0);
@@ -463,7 +471,7 @@ usage(void)
 {
 	extern char *__progname;
 
-	fprintf(stderr,"%s [-sv] [-i interface] [-n service] [-p system]\n",
+	fprintf(stderr,"%s [-stv] [-i interface] [-n service] [-p system]\n",
 	    __progname);
 }
 

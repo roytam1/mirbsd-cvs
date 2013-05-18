@@ -1,3 +1,5 @@
+# $MirOS: src/usr.sbin/httpd/src/Configuration.tmpl,v 1.2 2005/03/13 19:16:41 tg Exp $
+#
 # Config file for the Apache httpd.
 
 # Configuration.tmpl is the template for Configuration. Configuration should
@@ -48,8 +50,8 @@
 #   risk and only when you like to see Apache+mod_ssl dump core ;-)
 #
 # o The SSL_CONSERVATIVE rule can be used to disable some non-conservative
-#   code inside mod_ssl. These are usually recently introduced features 
-#   which some people still want to consider unstable. So, to be maximum 
+#   code inside mod_ssl. These are usually recently introduced features
+#   which some people still want to consider unstable. So, to be maximum
 #   conservative, one can enable this flag and this way remove such code.
 #
 # o The SSL_VENDOR rule can be used to enable code inside mod_ssl which can be
@@ -78,7 +80,7 @@ Rule SSL_VENDOR=no
 # well.  Settings here have priority; If not set, Configure will attempt to
 # guess the C compiler, looking for gcc first, then cc.
 #
-# Optimization note: 
+# Optimization note:
 # Be careful when adding optimization flags (like -O3 or -O6) on the OPTIM
 # entry, especially when using some GCC variants. Experience showed that using
 # these for compiling Apache is risky. If you don't want to see Apache dumping
@@ -109,7 +111,7 @@ EXTRA_DEPS=
 #
 # EAPI:
 #   The EAPI rule enables more module hooks, a generic low-level hook
-#   mechanism, a generic context mechanism and shared memory based pools. 
+#   mechanism, a generic context mechanism and shared memory based pools.
 #
 # EAPI_MM:
 #   Set the EAPI_MM variable to either the directory of a MM Shared Memory
@@ -132,7 +134,7 @@ Rule EAPI=no
 # The Configure script currently has only limited built-in
 # knowledge on how to compile these DSO files because this is
 # heavily platform-dependent. The current state of supported and
-# explicitly unsupported platforms can be found in the file 
+# explicitly unsupported platforms can be found in the file
 # "htdocs/manual/dso.html", under "Supported Platforms".
 #
 # For other platforms where you want to use the DSO mechanism you
@@ -149,7 +151,7 @@ Rule EAPI=no
 # module mod_so (see corresponding `AddModule' command below).
 # Then enable the DSO feature for particular modules individually
 # by replacing their `AddModule' command with `SharedModule' and
-# change the filename extension from `.o' to `.so'. 
+# change the filename extension from `.o' to `.so'.
 #
 # Sometimes the DSO files need to be linked against other shared
 # libraries to explicitly resolve symbols from them when the
@@ -196,17 +198,6 @@ Rule SHARED_CHAIN=default
 #  location to EXTRA_LIBS, otherwise Configure will assume
 #  "-L/usr/local/lib -lsocks5"
 #
-# IRIXNIS:
-#  Only takes effect if Configure determines that you are running
-#  SGI IRIX.  If you are using a (ancient) 4.x version of IRIX, you
-#  need this if you are using NIS and Apache needs access to it for
-#  things like mod_userdir.  This is not required on 5.x and later
-#  and you should not enable it on such systems.
-#
-# IRIXN32:
-#  If you are running a version of IRIX and Configure detects
-#  n32 libraries, it will use those instead of the o32 ones.
-#
 # PARANOID:
 #  New with version 1.3, during Configure modules can run
 #  pre-programmed shell commands in the same environment that
@@ -215,34 +206,14 @@ Rule SHARED_CHAIN=default
 #  is performing this function. If PARANOID is set to yes, it will
 #  actually print-out the code that the modules execute
 #
-# EXPAT:
-#  Include an Expat implementation into Apache for use by the
-#  modules. James Clark's Expat package (expat-lite) is bundled
-#  with Apache for the convenience of our users. The EXPAT rule
-#  determines which Expat implementation, if any, to use as follows:
-#
-#  Rule EXPAT=yes       : Use system Expat if available; otherwise
-#                         use bundled Expat (lib/expat-lite). If
-#                         neither exists the build will fail
-#  Rule EXPAT=no        : Don't include Expat at all
-#  Rule EXPAT=default   : If Expat can be found at the system or
-#                         in lib/expat-lite, use it; otherwise
-#                         skip it
-# 
-# CYGWIN_WINSOCK: 
-#  Use Win32 API system calls for socket communication instead 
-#  of Cygwin's POSIX.1 wrappers. This avoids the Cygwin specific
-#  implementation and uses the Win32 native calls. Should be faster
-#  and more reliable for high-load systems.  
-# 
 
 Rule SOCKS4=no
 Rule SOCKS5=no
 Rule IRIXNIS=no
 Rule IRIXN32=yes
 Rule PARANOID=no
-Rule EXPAT=default
-Rule CYGWIN_WINSOCK=no 
+Rule CYGWIN_WINSOCK=no
+Rule INET6=no
 
 # DEV_RANDOM:
 #  Note: this rule is only used when compiling mod_auth_digest.
@@ -283,9 +254,9 @@ Rule WANTHSREGEX=default
 # can have visible effects; for instance, if UserDir followed Alias,
 # you couldn't alias out a particular user's home directory.
 
-# The configuration below is what we consider a decent default 
+# The configuration below is what we consider a decent default
 # configuration.  If you want the functionality provided by a particular
-# module, remove the "#" sign at the beginning of the line. But remember, 
+# module, remove the "#" sign at the beginning of the line. But remember,
 # the more modules you compile into the server, the larger the executable
 # is and the more memory it will take, so if you are unlikely to use the
 # functionality of a particular module you might wish to leave it out.
@@ -348,14 +319,14 @@ AddModule modules/standard/mod_negotiation.o
 ##
 ## Content delivery modules
 ##
-## The status module allows the server to display current details about 
-## how well it is performing and what it is doing.  Consider also enabling 
+## The status module allows the server to display current details about
+## how well it is performing and what it is doing.  Consider also enabling
 ## the 'ExtendedStatus On' directive to allow full status information.
 ## Please note that doing so can result in a palpable performance hit.
 
 AddModule modules/standard/mod_status.o
 
-## The Info module displays configuration information for the server and 
+## The Info module displays configuration information for the server and
 ## all included modules. It's very useful for debugging.
 
 # AddModule modules/standard/mod_info.o
@@ -371,8 +342,8 @@ AddModule modules/standard/mod_dir.o
 AddModule modules/standard/mod_cgi.o
 
 ## The asis module implements ".asis" file types, which allow the embedding
-## of HTTP headers at the beginning of the document.  mod_imap handles internal 
-## imagemaps (no more cgi-bin/imagemap/!).  mod_actions is used to specify 
+## of HTTP headers at the beginning of the document.  mod_imap handles internal
+## imagemaps (no more cgi-bin/imagemap/!).  mod_actions is used to specify
 ## CGI scripts which act as "handlers" for particular files, for example to
 ## automatically convert every GIF to another file type.
 
@@ -401,19 +372,19 @@ AddModule modules/standard/mod_userdir.o
 
 AddModule modules/standard/mod_alias.o
 
-## The URL rewriting module allows for powerful URI-to-URI and 
-## URI-to-filename mapping using a regular expression based 
+## The URL rewriting module allows for powerful URI-to-URI and
+## URI-to-filename mapping using a regular expression based
 ## rule-controlled rewriting engine.
 
 # AddModule modules/standard/mod_rewrite.o
 
 ##
-## Access control and authentication modules. 
+## Access control and authentication modules.
 ##
 AddModule modules/standard/mod_access.o
 AddModule modules/standard/mod_auth.o
 
-## The anon_auth module allows for anonymous-FTP-style username/ 
+## The anon_auth module allows for anonymous-FTP-style username/
 ## password authentication.
 
 # AddModule modules/standard/mod_auth_anon.o
@@ -426,7 +397,7 @@ AddModule modules/standard/mod_auth.o
 # AddModule modules/standard/mod_auth_dbm.o
 # AddModule modules/standard/mod_auth_db.o
 
-## "digest" implements HTTP Digest Authentication rather than the less 
+## "digest" implements HTTP Digest Authentication rather than the less
 ## secure Basic Auth used by the other modules.  This is the old version.
 
 # AddModule modules/standard/mod_digest.o
@@ -456,10 +427,10 @@ AddModule modules/standard/mod_auth.o
 
 # AddModule modules/proxy/libproxy.a
 
-## Optional response header manipulation modules. 
+## Optional response header manipulation modules.
 ##
-## cern_meta mimics the behavior of the CERN web server with regards to 
-## metainformation files.  
+## cern_meta mimics the behavior of the CERN web server with regards to
+## metainformation files.
 
 # AddModule modules/standard/mod_cern_meta.o
 
@@ -478,7 +449,7 @@ AddModule modules/standard/mod_auth.o
 ## mod_usertrack is the new name for mod_cookies.  This module
 ## uses Netscape cookies to automatically construct and log
 ## click-trails from Netscape cookies, or compatible clients who
-## aren't coming in via proxy.   
+## aren't coming in via proxy.
 ##
 ## You do not need this, or any other module to allow your site
 ## to use Cookies.  This module is for user tracking only
@@ -498,8 +469,8 @@ AddModule modules/standard/mod_auth.o
 # AddModule modules/standard/mod_unique_id.o
 
 ## mod_so lets you add modules to Apache without recompiling.
-## This is an experimental feature at this stage and only supported 
-## on a subset of the platforms we generally support. 
+## This is an experimental feature at this stage and only supported
+## on a subset of the platforms we generally support.
 ## Don't change this entry to a 'SharedModule' variant (Bootstrapping!)
 
 # AddModule modules/standard/mod_so.o
@@ -517,8 +488,7 @@ AddModule modules/standard/mod_setenvif.o
 # AddModule modules/keynote/mod_keynote.o
 
 ## mod_ssl incorporates SSL into Apache.
-## It must stay last here to be first in execution to 
+## It must stay last here to be first in execution to
 ## fake basic authorization.
 
 # AddModule modules/ssl/libssl.a
-

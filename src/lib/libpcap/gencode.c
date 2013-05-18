@@ -61,6 +61,8 @@ struct rtentry;
 #include "os-proto.h"
 #endif
 
+__RCSID("$MirOS$");
+
 #define JMP(c) ((c)|BPF_JMP|BPF_K)
 
 /* Locals */
@@ -3028,7 +3030,7 @@ gen_pf_ruleset(char *ruleset)
 		/* NOTREACHED */
 	}
 	if (strlen(ruleset) >= sizeof(((struct pfloghdr *)0)->ruleset)) {
-		bpf_error("ruleset names can only be %d characters",
+		bpf_error("ruleset names can only be %zu characters",
 		    sizeof(((struct pfloghdr *)0)->ruleset) - 1);
 		/* NOTREACHED */
 	}

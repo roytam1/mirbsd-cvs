@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: subr_prof.c,v 1.14 2003/09/01 18:06:03 henning Exp $	*/
 /*	$NetBSD: subr_prof.c,v 1.12 1996/04/22 01:38:50 christos Exp $	*/
 
@@ -41,104 +42,6 @@
 #include <sys/syscallargs.h>
 
 #include <machine/cpu.h>
-
-#ifdef GPROF
-#include <sys/malloc.h>
-#include <sys/gmon.h>
-#include <uvm/uvm_extern.h>
-
-/*
- * Froms is actually a bunch of unsigned shorts indexing tos
- */
-struct gmonparam _gmonparam = { GMON_PROF_OFF };
-
-extern char etext[];
-
-
-void
-kmstartup()
-{
-	char *cp;
-	struct gmonparam *p = &_gmonparam;
-	int size;
-
-	/*
-	 * Round lowpc and highpc to multiples of the density we're using
-	 * so the rest of the scaling (here and in gprof) stays in ints.
-	 */
-	p->lowpc = ROUNDDOWN(KERNBASE, HISTFRACTION * sizeof(HISTCOUNTER));
-	p->highpc = ROUNDUP((u_long)etext, HISTFRACTION * sizeof(HISTCOUNTER));
-	p->textsize = p->highpc - p->lowpc;
-	printf("Profiling kernel, textsize=%ld [%lx..%lx]\n",
-	       p->textsize, p->lowpc, p->highpc);
-	p->kcountsize = p->textsize / HISTFRACTION;
-	p->hashfraction = HASHFRACTION;
-	p->fromssize = p->textsize / HASHFRACTION;
-	p->tolimit = p->textsize * ARCDENSITY / 100;
-	if (p->tolimit < MINARCS)
-		p->tolimit = MINARCS;
-	else if (p->tolimit > MAXARCS)
-		p->tolimit = MAXARCS;
-	p->tossize = p->tolimit * sizeof(struct tostruct);
-	size = p->kcountsize + p->fromssize + p->tossize;
-	cp = (char *)uvm_km_zalloc(kernel_map, round_page(size));
-	if (cp == 0) {
-		printf("No memory for profiling.\n");
-		return;
-	}
-	p->tos = (struct tostruct *)cp;
-	cp += p->tossize;
-	p->kcount = (u_short *)cp;
-	cp += p->kcountsize;
-	p->froms = (u_short *)cp;
-}
-
-/*
- * Return kernel profiling information.
- */
-int
-sysctl_doprof(name, namelen, oldp, oldlenp, newp, newlen)
-	int *name;
-	u_int namelen;
-	void *oldp;
-	size_t *oldlenp;
-	void *newp;
-	size_t newlen;
-{
-	struct gmonparam *gp = &_gmonparam;
-	int error;
-
-	/* all sysctl names at this level are terminal */
-	if (namelen != 1)
-		return (ENOTDIR);		/* overloaded */
-
-	switch (name[0]) {
-	case GPROF_STATE:
-		error = sysctl_int(oldp, oldlenp, newp, newlen, &gp->state);
-		if (error)
-			return (error);
-		if (gp->state == GMON_PROF_OFF)
-			stopprofclock(&proc0);
-		else
-			startprofclock(&proc0);
-		return (0);
-	case GPROF_COUNT:
-		return (sysctl_struct(oldp, oldlenp, newp, newlen,
-		    gp->kcount, gp->kcountsize));
-	case GPROF_FROMS:
-		return (sysctl_struct(oldp, oldlenp, newp, newlen,
-		    gp->froms, gp->fromssize));
-	case GPROF_TOS:
-		return (sysctl_struct(oldp, oldlenp, newp, newlen,
-		    gp->tos, gp->tossize));
-	case GPROF_GMONPARAM:
-		return (sysctl_rdstruct(oldp, oldlenp, newp, gp, sizeof *gp));
-	default:
-		return (EOPNOTSUPP);
-	}
-	/* NOTREACHED */
-}
-#endif /* GPROF */
 
 /*
  * Profiling system call.

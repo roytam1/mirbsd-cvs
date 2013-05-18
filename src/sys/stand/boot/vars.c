@@ -1,3 +1,4 @@
+/**	$MirOS: src/sys/stand/boot/vars.c,v 1.3 2007/10/01 20:41:39 tg Exp $ */
 /*	$OpenBSD: vars.c,v 1.11 2004/01/29 00:54:08 tom Exp $	*/
 
 /*
@@ -30,7 +31,6 @@
 #include <sys/param.h>
 #include <libsa.h>
 #include <sys/reboot.h>
-#include <lib/libkern/funcs.h>
 #include "cmd.h"
 
 extern char prog_ident[];
@@ -114,8 +114,22 @@ Ximage(void)
 {
 	if (cmd.argc != 2)
 		printf("%s\n", cmd.image);
-	else
-		strlcpy(cmd.image, cmd.argv[1], sizeof(cmd.image));
+	else {
+		char *dp = cmd.image, *ep = dp + sizeof (cmd.image) - 1;
+		const char *sp = cmd.argv[1];
+
+		while (*sp && dp < ep)
+			if (*sp != '@')
+				*dp++ = *sp++;
+			else {
+				strlcpy(dp, MACHINE,
+				    sizeof (cmd.image) - (dp - cmd.image));
+				while (*dp)
+					++dp;
+				++sp;
+			}
+		*dp = '\0';
+	}
 	return 0;
 }
 

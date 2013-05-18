@@ -302,6 +302,7 @@ void		pmap_writetext(unsigned char *, int);
 
 #define		pmap_update(pm)		/* nothing */
 #define		pmap_copy(DP,SP,D,L,S)	/* nothing */
+#define		pmap_proc_iflush(p,va,len)	/* nothing */
 
 /* SUN4/SUN4C SPECIFIC DECLARATIONS */
 

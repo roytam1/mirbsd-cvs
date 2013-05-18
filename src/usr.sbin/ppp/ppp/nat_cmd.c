@@ -537,11 +537,14 @@ nat_LayerPull(struct bundle *bundle, struct link *l, struct mbuf *bp,
       last = &bp->m_nextpkt;
       nfrags = 0;
       while ((fptr = PacketAliasGetFragment(MBUF_CTOP(bp))) != NULL) {
+	u_char *tmp;
+
         nfrags++;
         PacketAliasFragmentIn(MBUF_CTOP(bp), fptr);
         len = ntohs(((struct ip *)fptr)->ip_len);
         *last = m_get(len, MB_NATIN);
-        memcpy(MBUF_CTOP(*last), fptr, len);
+	if ((tmp = MBUF_CTOP(*last)) != NULL)
+          memcpy(tmp, fptr, len);
         free(fptr);
         last = &(*last)->m_nextpkt;
       }

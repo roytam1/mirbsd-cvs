@@ -1,3 +1,5 @@
+/* $MirOS: src/usr.sbin/httpd/src/modules/proxy/mod_proxy.h,v 1.2 2005/03/13 19:16:51 tg Exp $ */
+
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
@@ -57,7 +59,7 @@
  */
 
 #ifndef MOD_PROXY_H
-#define MOD_PROXY_H 
+#define MOD_PROXY_H
 
 /*
  * Main include file for the Apache proxy
@@ -312,7 +314,7 @@ int ap_proxy_is_ipaddr(struct dirconn_entry *This, pool *p);
 int ap_proxy_is_domainname(struct dirconn_entry *This, pool *p);
 int ap_proxy_is_hostname(struct dirconn_entry *This, pool *p);
 int ap_proxy_is_word(struct dirconn_entry *This, pool *p);
-int ap_proxy_doconnect(int sock, struct sockaddr_in *addr, request_rec *r);
+int ap_proxy_doconnect(int sock, struct sockaddr *addr, request_rec *r);
 int ap_proxy_garbage_init(server_rec *, pool *);
 /* This function is called by ap_table_do() for all header lines */
 int ap_proxy_send_hdr_line(void *p, const char *key, const char *value);

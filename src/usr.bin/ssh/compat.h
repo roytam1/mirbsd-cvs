@@ -1,3 +1,4 @@
+/* $MirOS: src/usr.bin/ssh/compat.h,v 1.3 2006/04/19 10:40:47 tg Exp $ */
 /* $OpenBSD: compat.h,v 1.41 2006/12/12 03:58:42 djm Exp $ */
 
 /*
@@ -62,7 +63,7 @@ void     enable_compat13(void);
 void     enable_compat20(void);
 void     compat_datafellows(const char *);
 int	 proto_spec(const char *);
-char	*compat_cipher_proposal(char *);
+const char *compat_cipher_proposal(const char *);
 
 extern int compat13;
 extern int compat20;

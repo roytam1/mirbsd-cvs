@@ -37,9 +37,6 @@
 #include "packet.h"
 #include "dh.h"
 #include "ssh2.h"
-#ifdef GSSAPI
-#include "ssh-gss.h"
-#endif
 #include "monitor_wrap.h"
 
 void

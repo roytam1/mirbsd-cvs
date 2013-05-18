@@ -38,6 +38,8 @@
 #include "misc.h"
 #include "scard.h"
 
+__RCSID("$MirOS: src/usr.bin/ssh/scard.c,v 1.4 2006/09/20 21:41:01 tg Exp $");
+
 #if OPENSSL_VERSION_NUMBER < 0x00907000L
 #define USE_ENGINE
 #define RSA_get_default_method RSA_get_default_openssl_method

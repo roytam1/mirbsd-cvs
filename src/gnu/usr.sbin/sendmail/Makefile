@@ -1,4 +1,5 @@
-#	$OpenBSD: Makefile,v 1.9 2004/06/29 04:07:49 millert Exp $
+# $MirOS$
+# $OpenBSD: Makefile,v 1.9 2004/06/29 04:07:49 millert Exp $
 
 # We only use these libs internally
 .if !make(install)
@@ -17,5 +18,9 @@ SUBDIR+= libmilter sendmail mailstats makemap praliases smrsh editmap cf/cf
 .if make(install)
 SUBDIR+= doc/op cf
 .endif
+
+afterinstall:
+	${INSTALL} -c -o ${DOCOWN} -g ${DOCGRP} -m ${DOCMODE} LICENSE \
+	    ${DESTDIR}${DOCDIR}/legal/LICENCE.smtpd
 
 .include <bsd.subdir.mk>

@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: lex.c,v 1.32 2004/05/10 15:25:51 deraadt Exp $	*/
 /*	$NetBSD: lex.c,v 1.10 1997/05/17 19:55:13 pk Exp $	*/
 
@@ -30,18 +31,14 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-#if 0
-static const char sccsid[] = "@(#)lex.c	8.2 (Berkeley) 4/20/95";
-#else
-static const char rcsid[] = "$OpenBSD: lex.c,v 1.32 2004/05/10 15:25:51 deraadt Exp $";
-#endif
-#endif /* not lint */
-
+#include <sys/cdefs.h>
 #include "rcv.h"
 #include <errno.h>
 #include <fcntl.h>
 #include "extern.h"
+
+__SCCSID("@(#)lex.c	8.2 (Berkeley) 4/20/95");
+__RCSID("$MirOS$");
 
 /*
  * Mail -- a mail program
@@ -405,7 +402,7 @@ execute(char *linebuf, int contxt)
 		if (c  == 0) {
 			*msgvec = first(com->c_msgflag,
 				com->c_msgmask);
-			msgvec[1] = NULL;
+			msgvec[1] = 0;
 		}
 		if (*msgvec == 0) {
 			puts("No applicable messages");
@@ -435,7 +432,7 @@ execute(char *linebuf, int contxt)
 		if (c  == 0) {
 			*msgvec = first(com->c_msgflag,
 				com->c_msgmask);
-			msgvec[1] = NULL;
+			msgvec[1] = 0;
 		}
 		if (*msgvec == 0) {
 			puts("No applicable messages");

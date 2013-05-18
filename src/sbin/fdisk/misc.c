@@ -1,3 +1,4 @@
+/**	$MirOS: src/sbin/fdisk/misc.c,v 1.2 2005/03/06 19:49:54 tg Exp $ */
 /*	$OpenBSD: misc.c,v 1.16 2005/11/21 01:59:24 krw Exp $	*/
 
 /*
@@ -25,6 +26,7 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include <sys/cdefs.h>
 #include <err.h>
 #include <stdio.h>
 #include <ctype.h>
@@ -35,29 +37,29 @@
 #include <limits.h>
 #include "misc.h"
 
+__RCSID("$MirOS: src/sbin/fdisk/misc.c,v 1.2 2005/03/06 19:49:54 tg Exp $");
+
 struct unit_type unit_types[] = {
-	{"b", 1			, "Bytes"},
-	{" ", DEV_BSIZE		, "Sectors"},
-	{"K", 1024		, "Kilobytes"},
-	{"M", 1024 * 1024	, "Megabytes"},
-	{"G", 1024 * 1024 *1024	, "Gigabytes"},
-	{NULL, 0		, NULL },
+	{ ' ', "  ", DEV_BSIZE		, "Sectors" },
+	{ 'b', " b", 1			, "Bytes" },
+	{ 'k', "Ki", 1024		, "Kibibytes" },
+	{ 'm', "Mi", 1024 * 1024	, "Mebibytes" },
+	{ 'g', "Gi", 1024 * 1024 * 1024	, "Gibibytes" },
+	{   0, NULL, 0			, NULL }
 };
 
 int
 unit_lookup(char *units)
 {
-	int i = 0;
+	int i = -1;
 	if (units == NULL)
 		return (UNIT_TYPE_DEFAULT);
 
-	while (unit_types[i].abbr != NULL) {
-		if (strncasecmp(unit_types[i].abbr, units, 1) == 0)
+	while (unit_types[++i].abbr)
+		if ((*units | 0x20) == unit_types[i].abbr)
 			break;
-		i++;
-	}
 	/* default */
-	if (unit_types[i].abbr == NULL)
+	if (unit_types[i].abbr == 0)
 		return (UNIT_TYPE_DEFAULT);
 
 	return (i);

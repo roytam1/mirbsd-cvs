@@ -1,4 +1,4 @@
-/*	$OpenBSD: if_pflog.c,v 1.15 2005/07/31 03:52:18 pascoe Exp $	*/
+/*	$OpenBSD: if_pflog.c,v 1.11 2003/12/31 11:18:25 cedric Exp $	*/
 /*
  * The authors of this code are John Ioannidis (ji@tla.org),
  * Angelos D. Keromytis (kermit@csd.uch.gr) and 
@@ -39,7 +39,6 @@
 #include <sys/param.h>
 #include <sys/systm.h>
 #include <sys/mbuf.h>
-#include <sys/proc.h>
 #include <sys/socket.h>
 #include <sys/ioctl.h>
 
@@ -175,18 +174,15 @@ pflogioctl(struct ifnet *ifp, u_long cmd, caddr_t data)
 int
 pflog_packet(struct pfi_kif *kif, struct mbuf *m, sa_family_t af, u_int8_t dir,
     u_int8_t reason, struct pf_rule *rm, struct pf_rule *am,
-    struct pf_ruleset *ruleset, struct pf_pdesc *pd)
+    struct pf_ruleset *ruleset)
 {
 #if NBPFILTER > 0
 	struct ifnet *ifn;
 	struct pfloghdr hdr;
+	struct mbuf m1;
 
-	if (kif == NULL || m == NULL || rm == NULL || pd == NULL)
+	if (kif == NULL || m == NULL || rm == NULL)
 		return (-1);
-
-	ifn = &(pflogif[0].sc_if);
-	if (!ifn->if_bpf)
-		return (0);
 
 	bzero(&hdr, sizeof(hdr));
 	hdr.length = PFLOG_REAL_HDRLEN;
@@ -201,21 +197,12 @@ pflog_packet(struct pfi_kif *kif, struct mbuf *m, sa_family_t af, u_int8_t dir,
 	} else {
 		hdr.rulenr = htonl(am->nr);
 		hdr.subrulenr = htonl(rm->nr);
-		if (ruleset != NULL && ruleset->anchor != NULL)
-			strlcpy(hdr.ruleset, ruleset->anchor->name,
+		if (ruleset != NULL)
+			memcpy(hdr.ruleset, ruleset->name,
 			    sizeof(hdr.ruleset));
+
+			
 	}
-	if (rm->log & PF_LOG_SOCKET_LOOKUP && !pd->lookup.done)
-		pd->lookup.done = pf_socket_lookup(dir, pd);
-	if (pd->lookup.done > 0) {
-		hdr.uid = pd->lookup.uid;
-		hdr.pid = pd->lookup.pid;
-	} else {
-		hdr.uid = UID_MAX;
-		hdr.pid = NO_PID;
-	}
-	hdr.rule_uid = rm->cuid;
-	hdr.rule_pid = rm->cpid;
 	hdr.dir = dir;
 
 #ifdef INET
@@ -228,7 +215,14 @@ pflog_packet(struct pfi_kif *kif, struct mbuf *m, sa_family_t af, u_int8_t dir,
 	}
 #endif /* INET */
 
-	bpf_mtap_hdr(ifn->if_bpf, (char *)&hdr, PFLOG_HDRLEN, m);
+	m1.m_next = m;
+	m1.m_len = PFLOG_HDRLEN;
+	m1.m_data = (char *) &hdr;
+
+	ifn = &(pflogif[0].sc_if);
+
+	if (ifn->if_bpf)
+		bpf_mtap(ifn->if_bpf, &m1);
 #endif
 
 	return (0);

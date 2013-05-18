@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: rndioctl.h,v 1.10 2003/06/02 19:24:22 mickey Exp $	*/
 
 /*
@@ -32,7 +33,7 @@
 #ifndef __RNDIOCTL_H__
 #define __RNDIOCTL_H__
 
-/* ioctl()'s for the random number generator */
+/* ioctl()s for the random number generator */
 
 struct rnd_pool_info {
 	size_t	entropy_count;

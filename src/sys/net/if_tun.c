@@ -1,3 +1,4 @@
+/**	$MirOS: src/sys/net/if_tun.c,v 1.2 2005/03/06 21:28:16 tg Exp $ */
 /*	$OpenBSD: if_tun.c,v 1.68 2005/06/08 06:53:32 henning Exp $	*/
 /*	$NetBSD: if_tun.c,v 1.24 1996/05/07 02:40:48 thorpej Exp $	*/
 
@@ -375,7 +376,16 @@ tunclose(dev_t dev, int flag, int mode, struct proc *p)
 					    (tp->tun_flags & TUN_DSTADDR)?
 					    RTF_HOST : 0);
 				}
-				/* XXX INET6 */
+# ifdef INET6
+				else
+# endif
+#endif
+#ifdef INET6
+				if (ifa->ifa_addr->sa_family == AF_INET6) {
+					rtinit(ifa, (int)RTM_DELETE,
+					    (tp->tun_flags & TUN_DSTADDR)?
+					    RTF_HOST : 0);
+				}
 #endif
 			}
 			/*

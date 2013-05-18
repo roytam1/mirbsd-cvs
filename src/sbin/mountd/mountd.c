@@ -1,3 +1,4 @@
+/**	$MirOS: src/sbin/mountd/mountd.c,v 1.2 2005/03/06 19:50:26 tg Exp $ */
 /*	$OpenBSD: mountd.c,v 1.63 2005/04/08 20:09:38 jaredy Exp $	*/
 /*	$NetBSD: mountd.c,v 1.31 1996/02/18 11:57:53 fvdl Exp $	*/
 
@@ -39,14 +40,6 @@ static char copyright[] =
 	The Regents of the University of California.  All rights reserved.\n";
 #endif /* not lint */
 
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)mountd.c  8.15 (Berkeley) 5/1/95";
-#else
-static char rcsid[] = "$NetBSD: mountd.c,v 1.31 1996/02/18 11:57:53 fvdl Exp $";
-#endif
-#endif /* not lint */
-
 #include <sys/param.h>
 #include <sys/file.h>
 #include <sys/ioctl.h>
@@ -78,6 +71,9 @@ static char rcsid[] = "$NetBSD: mountd.c,v 1.31 1996/02/18 11:57:53 fvdl Exp $";
 #include "pathnames.h"
 
 #include <stdarg.h>
+
+__SCCSID("@(#)mountd.c  8.15 (Berkeley) 5/1/95");
+__RCSID("$MirOS: src/sbin/mountd/mountd.c,v 1.2 2005/03/06 19:50:26 tg Exp $");
 
 /*
  * Structures for keeping the mount list and export list
@@ -227,9 +223,10 @@ main(int argc, char *argv[])
 {
 	SVCXPRT *udptransp, *tcptransp;
 	FILE *pidfile;
-	int c;
+	int c, wantport = 0;
+	const char *errstr;
 
-	while ((c = getopt(argc, argv, "dnr")) != -1)
+	while ((c = getopt(argc, argv, "dnp:r")) != -1)
 		switch (c) {
 		case 'd':
 			debug = 1;
@@ -237,11 +234,18 @@ main(int argc, char *argv[])
 		case 'n':
 			resvport_only = 0;
 			break;
+		case 'p':
+			wantport = strtonum(optarg, 0, 65535, &errstr);
+			if (errstr != NULL) {
+				fprintf(stderr, "port number %s\n", errstr);
+				exit(1);
+			}
+			break;
 		case 'r':
 			/* Compatibility */
 			break;
 		default:
-			fprintf(stderr, "Usage: mountd [-dn] [export_file]\n");
+			fprintf(stderr, "Usage: mountd [-dn] [-p port] [export_file]\n");
 			exit(1);
 		}
 	argc -= optind;
@@ -287,8 +291,10 @@ main(int argc, char *argv[])
 	signal(SIGHUP, (void (*)(int)) new_exportlist);
 	signal(SIGTERM, (void (*)(int)) send_umntall);
 	signal(SIGSYS, SIG_IGN);
-	if ((udptransp = svcudp_create(RPC_ANYSOCK)) == NULL ||
-	    (tcptransp = svctcp_create(RPC_ANYSOCK, 0, 0)) == NULL) {
+	if ((udptransp = svcudp_bufcreate_withport(RPC_ANYSOCK,
+	    UDPMSGSIZE, UDPMSGSIZE, wantport)) == NULL ||
+	    (tcptransp = svctcp_create_withport(RPC_ANYSOCK, 0, 0, wantport))
+	    == NULL) {
 		syslog(LOG_ERR, "Can't create socket");
 		exit(1);
 	}

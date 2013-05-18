@@ -4,5 +4,7 @@ PROG=	hexdump
 SRCS=	conv.c display.c hexdump.c hexsyntax.c odsyntax.c parse.c
 MAN=	hexdump.1 od.1
 LINKS=	${BINDIR}/hexdump ${BINDIR}/od
+LINKS+=	${BINDIR}/hexdump ${BINDIR}/hd
+MLINKS=	hexdump.1 hd.1
 
 .include <bsd.prog.mk>

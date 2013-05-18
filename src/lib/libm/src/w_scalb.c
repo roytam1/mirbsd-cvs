@@ -5,18 +5,19 @@
  *
  * Developed at SunPro, a Sun Microsystems, Inc. business.
  * Permission to use, copy, modify, and distribute this
- * software is freely granted, provided that this notice 
+ * software is freely granted, provided that this notice
  * is preserved.
  * ====================================================
  */
 
+#include <sys/cdefs.h>
 #if defined(LIBM_SCCS) && !defined(lint)
-static char rcsid[] = "$NetBSD: w_scalb.c,v 1.6 1995/05/10 20:49:48 jtc Exp $";
+__RCSID("$NetBSD: w_scalb.c,v 1.9 2002/05/26 22:02:02 wiz Exp $");
 #endif
 
 /*
  * wrapper scalb(double x, double fn) is provide for
- * passing various standard test suite. One 
+ * passing various standard test suite. One
  * should use scalbn() instead.
  */
 
@@ -25,10 +26,11 @@ static char rcsid[] = "$NetBSD: w_scalb.c,v 1.6 1995/05/10 20:49:48 jtc Exp $";
 
 #include <errno.h>
 
-double
 #ifdef _SCALB_INT
+double
 scalb(double x, int fn)		/* wrapper scalb */
 #else
+double
 scalb(double x, double fn)	/* wrapper scalb */
 #endif
 {
@@ -43,10 +45,10 @@ scalb(double x, double fn)	/* wrapper scalb */
 	}
 	if(z==0.0&&z!=x) {
 	    return __kernel_standard(x,(double)fn,33); /* scalb underflow */
-	} 
+	}
 #ifndef _SCALB_INT
 	if(!finite(fn)) errno = ERANGE;
 #endif
 	return z;
-#endif 
+#endif
 }

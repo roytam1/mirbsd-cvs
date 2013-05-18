@@ -1,3 +1,4 @@
+/**	$MirOS: src/usr.sbin/httpd/src/modules/standard/mod_so.c,v 1.2 2005/03/13 19:16:57 tg Exp $ */
 /*	$OpenBSD: mod_so.c,v 1.14 2005/02/09 12:13:10 henning Exp $ */
 
 /* ====================================================================
@@ -58,7 +59,7 @@
  * University of Illinois, Urbana-Champaign.
  */
 
-/* 
+/*
  * This module is used to load Apache modules at runtime. This means that the
  * server functionality can be extended without recompiling and even without
  * taking the server down at all. Only a HUP or USR1 signal needs to be send
@@ -84,7 +85,7 @@
  *
  * To use the shared module, move the .so file(s) into an appropriate
  * directory. You might like to create a directory called "modules" under you
- * server root for this (e.g. /usr/local/httpd/modules). 
+ * server root for this (e.g. /usr/local/httpd/modules).
  *
  * Then edit your conf/httpd.conf file, and add LoadModule lines. For
  * example
@@ -156,7 +157,7 @@ static void *so_sconf_create(pool *p, server_rec *s)
     so_server_conf *soc;
 
     soc = (so_server_conf *)ap_pcalloc(p, sizeof(so_server_conf));
-    soc->loaded_modules = ap_make_array(p, DYNAMIC_MODULE_LIMIT, 
+    soc->loaded_modules = ap_make_array(p, DYNAMIC_MODULE_LIMIT,
                                      sizeof(moduleinfo));
     ap_os_dso_init();
 
@@ -185,7 +186,7 @@ static void unload_module(moduleinfo *modi)
     modi->name = NULL;
 }
 
-/* 
+/*
  * This is the cleanup routine for files loaded by
  * load_file(). Unfortunately we don't keep a record of the filename
  * that was loaded, so we can't report the unload for debug purposes
@@ -197,17 +198,17 @@ static void unload_file(void *handle)
     ap_os_dso_unload((ap_os_dso_handle_t)handle);
 }
 
-/* 
+/*
  * This is called for the directive LoadModule and actually loads
  * a shared object file into the address space of the server process.
  */
 
-static const char *load_module(cmd_parms *cmd, void *dummy, 
+static const char *load_module(cmd_parms *cmd, void *dummy,
                                char *modname, char *filename)
 {
     ap_os_dso_handle_t modhandle;
     module *modp;
-    const char *szModuleFile=ap_server_root_relative(cmd->pool, filename);
+    char *szModuleFile=ap_server_root_relative(cmd->pool, filename);
     so_server_conf *sconf;
     moduleinfo *modi;
     moduleinfo *modie;
@@ -217,12 +218,12 @@ static const char *load_module(cmd_parms *cmd, void *dummy,
     if (err != NULL) {
         return err;
     }
-    
-    /* 
+
+    /*
      * check for already existing module
-     * If it already exists, we have nothing to do 
+     * If it already exists, we have nothing to do
      */
-    sconf = (so_server_conf *)ap_get_module_config(cmd->server->module_config, 
+    sconf = (so_server_conf *)ap_get_module_config(cmd->server->module_config,
 	                                        &so_module);
     modie = (moduleinfo *)sconf->loaded_modules->elts;
     for (i = 0; i < sconf->loaded_modules->nelts; i++) {
@@ -243,7 +244,7 @@ static const char *load_module(cmd_parms *cmd, void *dummy,
     if (!(modhandle = ap_os_dso_load(szModuleFile))) {
 	const char *my_error = ap_os_dso_error();
 	return ap_pstrcat (cmd->pool, "Cannot load ", szModuleFile,
-			" into server: ", 
+			" into server: ",
 			my_error ? my_error : "(reason unknown)",
 			NULL);
     }
@@ -262,9 +263,9 @@ static const char *load_module(cmd_parms *cmd, void *dummy,
     modi->modp = modp;
     modp->dynamic_load_handle = (void *)modhandle;
 
-    /* 
+    /*
      * Make sure the found module structure is really a module structure
-     * 
+     *
      */
     if (   modp->magic != MODULE_MAGIC_COOKIE_AP13 
         && modp->magic != MODULE_MAGIC_COOKIE_EAPI) {
@@ -279,20 +280,20 @@ static const char *load_module(cmd_parms *cmd, void *dummy,
                      "(please recompile it with -DEAPI)", filename);
     }
 
-    /* 
+    /*
      * Add this module to the Apache core structures
      */
     ap_add_loaded_module(modp);
 
-    /* 
+    /*
      * Register a cleanup in the config pool (normally pconf). When
      * we do a restart (or shutdown) this cleanup will cause the
      * shared object to be unloaded.
      */
-    ap_register_cleanup(cmd->pool, modi, 
+    ap_register_cleanup(cmd->pool, modi,
 		     (void (*)(void*))unload_module, ap_null_cleanup);
 
-    /* 
+    /*
      * Finally we need to run the configuration process for the module
      */
     ap_single_module_configure(cmd->pool, cmd->server, modp);
@@ -300,7 +301,7 @@ static const char *load_module(cmd_parms *cmd, void *dummy,
     return NULL;
 }
 
-/* 
+/*
  * This implements the LoadFile directive and loads an arbitrary
  * shared object file into the adress space of the server process.
  */
@@ -314,17 +315,17 @@ static const char *load_file(cmd_parms *cmd, void *dummy, char *filename)
     if (err != NULL) {
         return err;
     }
-    
+
     file = ap_server_root_relative(cmd->pool, filename);
-    
+
     if (!(handle = ap_os_dso_load(file))) {
 	const char *my_error = ap_os_dso_error();
-	return ap_pstrcat (cmd->pool, "Cannot load ", filename, 
-			" into server:", 
+	return ap_pstrcat (cmd->pool, "Cannot load ", filename,
+			" into server:",
 			my_error ? my_error : "(reason unknown)",
 			NULL);
     }
-    
+
     ap_log_error(APLOG_MARK, APLOG_DEBUG|APLOG_NOERRNO, NULL,
 		"loaded file %s", filename);
 

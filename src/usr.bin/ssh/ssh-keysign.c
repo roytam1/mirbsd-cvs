@@ -50,6 +50,8 @@
 #include "readconf.h"
 #include "uidswap.h"
 
+__RCSID("$MirOS$");
+
 /* XXX readconf.c needs these */
 uid_t original_real_uid;
 
@@ -141,7 +143,7 @@ valid_request(struct passwd *pw, char *host, Key **ret, u_char *data,
 }
 
 int
-main(int argc, char **argv)
+main(void)
 {
 	Buffer b;
 	Options options;

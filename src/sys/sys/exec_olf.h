@@ -1,4 +1,6 @@
+/**	$MirOS$ */
 /*	$OpenBSD: exec_olf.h,v 1.8 2001/06/22 14:11:00 deraadt Exp $	*/
+
 /*
  * Copyright (c) 1996 Erik Theisen.  All rights reserved.
  *
@@ -56,15 +58,15 @@
 #define OLFMAG3		ELFMAG3		/* e_ident[OI_MAG3] */
 #define OLFMAG		"\177OLF"	/* magic */
 #define SOLFMAG		SELFMAG		/* size of magic */
- 
+
 /* e_ident[] file class */
 #define OLFCLASSNONE	ELFCLASSNONE	/* invalid */
 #define OLFCLASS32	ELFCLASS32	/* 32-bit objs */
 #define OLFCLASS64	ELFCLASS64	/* 64-bit objs */
 #define OLFCLASSNUM	ELFCLASSNUM	/* number of classes */
- 
+
 /* e_ident[] data encoding */
-#define OLFDATANONE	ELFDATANONE	/* invalid */   
+#define OLFDATANONE	ELFDATANONE	/* invalid */
 #define OLFDATA2LSB	ELFDATA2LSB	/* Little-Endian */
 #define OLFDATA2MSB	ELFDATA2MSB	/* Big-Endian */
 #define OLFDATANUM	ELFDATANUM	/* number of data encode defines */
@@ -87,7 +89,9 @@
 #define OOS_SCO		10		/* SCO UNIX */
 #define OOS_DELL	11		/* DELL SVR4 */
 #define OOS_NCR		12		/* NCR SVR4 */
-#define OOS_NUM		13		/* Number of systems */
+#define	OOS_MIRBSD	13		/* MirOS BSD */
+#define	OOS_EKKOBSD	14		/* ekkoBSD */
+#define OOS_NUM		15		/* Number of systems */
 /*
  * Lowercase and numbers ONLY.
  * No whitespace or punc.
@@ -105,11 +109,13 @@
 #define OOSN_SCO	"sco"		/* SCO UNIX */
 #define OOSN_DELL	"dell"		/* DELL SVR4 */
 #define OOSN_NCR	"ncr"		/* NCR SVR4 */
+#define	OOSN_MIRBSD	"mirbsd"	/* MirOS BSD */
+#define	OOSN_EKKOBSD	"ekkobsd"	/* ekkoBSD */
 #define ONAMEV 		{ OOSN_NULL, OOSN_OPENBSD, OOSN_NETBSD, \
 		 	  OOSN_FREEBSD, OOSN_44BSD, OOSN_LINUX, \
 		 	  OOSN_SVR4, OOSN_ESIX, OOSN_SOLARIS, \
 			  OOSN_IRIX, OOSN_SCO,  OOSN_DELL, \
-			  OOSN_NCR, \
+			  OOSN_NCR, OOSN_MIRBSD, OOSN_EKKOBSD, \
 		 	0 }
 
 /* e_ident[] dynamic */

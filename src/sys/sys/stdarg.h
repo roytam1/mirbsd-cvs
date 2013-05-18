@@ -1,48 +1,60 @@
-/*	$OpenBSD: stdarg.h,v 1.3 2004/02/26 17:21:59 drahn Exp $ */
-/*
- * Copyright (c) 2003, 2004  Marc espie <espie@openbsd.org>
+/* $MirOS: src/sys/sys/stdarg.h,v 1.2 2007/10/01 18:58:08 tg Exp $ */
+
+/*-
+ * Copyright (c) 2007
+ *	Thorsten Glaser <tg@mirbsd.de>
  *
- * Permission to use, copy, modify, and distribute this software for any
- * purpose with or without fee is hereby granted, provided that the above
- * copyright notice and this permission notice appear in all copies.
+ * Provided that these terms and disclaimer and all copyright notices
+ * are retained or reproduced in an accompanying document, permission
+ * is granted to deal in this work without restriction, including un-
+ * limited rights to use, publicly perform, distribute, sell, modify,
+ * merge, give away, or sublicence.
  *
- * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
- * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
- * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
- * ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
- * WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
- * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
- * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ * This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
+ * the utmost extent permitted by applicable law, neither express nor
+ * implied; without malicious intent or gross negligence. In no event
+ * may a licensor, author or contributor be held liable for indirect,
+ * direct, other damage, loss, or other issues arising in any way out
+ * of dealing in the work, even if advised of the possibility of such
+ * damage or existence of a defect, except proven that it results out
+ * of said person's immediate fault when using the work as intended.
  */
 
-#ifndef _STDARG_H_
-#define _STDARG_H_
+#ifndef _STDARG_H
+#define _STDARG_H
 
-#if defined(__GNUC__) && __GNUC__ >= 3
+/* ragge's pcc and gcc3+ do stdargs in a machine-independent way */
+#if (defined(__PCC__) && ((__PCC__ > 0) || (__PCC_MINOR__ > 9) || \
+     ((__PCC_MINOR__ == 9) && (__PCC_MINORMINOR__ > 8)))) || \
+    (defined(__GNUC__) && (__GNUC__ >= 3))
+
+#ifdef __PCC__
+typedef char *va_list;
+#else /* !__PCC__ */
 #include <machine/ansi.h>
-
-/* Define __gnuc_va_list.  */
 
 #ifndef __GNUC_VA_LIST
 #define __GNUC_VA_LIST
 typedef __builtin_va_list __gnuc_va_list;
 #endif
 
-/* Note that the type used in va_arg is supposed to match the
-   actual type **after default promotions**.
-   Thus, va_arg (..., short) is not valid.  */
-
-#define va_start(v,l)	__builtin_stdarg_start((v),l)
-#define va_end		__builtin_va_end
-#define va_arg		__builtin_va_arg
-#define va_copy(d,s)	__builtin_va_copy((d),(s))
-#define __va_copy(d,s)	__builtin_va_copy((d),(s))
-
-
 typedef __gnuc_va_list va_list;
+#endif /* !__PCC__ */
 
-#else
-#include <machine/stdarg.h>
+#define va_start(ap,list)	__builtin_stdarg_start((ap), (list))
+/* note: “type” must be promoted, i.e. “short” is not valid, use “int” */
+#define va_arg(ap,type)		__builtin_va_arg((ap), type)
+#define va_end(ap)		__builtin_va_end(ap)
+
+#if !defined(_ANSI_SOURCE) && \
+    (!defined(_POSIX_C_SOURCE) && !defined(_XOPEN_SOURCE) || \
+     defined(_ISOC99_SOURCE) || (__STDC_VERSION__ - 0) >= 199901L)
+#define va_copy(dst,src)	__builtin_va_copy((dst), (src))
 #endif
 
-#endif /* not _STDARG_H_ */
+#else /* ! pcc > 0.9.8 || gcc >= 3 */
+/* try to cover up for type and stack alignment, etc. */
+#include <machine/stdarg.h>
+#endif /* ! pcc > 0.9.8 || gcc >= 3 */
+
+#endif /* !_STDARG_H */

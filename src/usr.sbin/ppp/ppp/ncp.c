@@ -78,6 +78,7 @@
 #include "cbcp.h"
 #include "datalink.h"
 
+__RCSID("$MirOS: src/usr.sbin/ppp/ppp/ncp.c,v 1.2 2005/03/13 19:17:16 tg Exp $");
 
 static u_short default_urgent_tcp_ports[] = {
   21,	/* ftp */
@@ -115,7 +116,8 @@ ncp_Init(struct ncp *ncp, struct bundle *bundle)
 
   ncp->cfg.urgent.udp.nports = ncp->cfg.urgent.udp.maxports = NDEFUDPPORTS;
   ncp->cfg.urgent.udp.port = (u_short *)malloc(NDEFUDPPORTS * sizeof(u_short));
-  memcpy(ncp->cfg.urgent.udp.port, default_urgent_udp_ports,
+  if (NDEFUDPPORTS > 0)
+    memcpy(ncp->cfg.urgent.udp.port, default_urgent_udp_ports,
          NDEFUDPPORTS * sizeof(u_short));
 
 
@@ -217,6 +219,7 @@ ncp_Enqueue(struct ncp *ncp, int af, int pri, char *ptr, int count)
 #endif
   struct ipcp *ipcp = &ncp->ipcp;
   struct mbuf *bp;
+  u_char *tmp;
 
   /*
    * We allocate an extra 6 bytes, four at the front and two at the end.
@@ -235,7 +238,8 @@ ncp_Enqueue(struct ncp *ncp, int af, int pri, char *ptr, int count)
     bp = m_get(count + 6, MB_IPOUT);
     bp->m_offset += 4;
     bp->m_len -= 6;
-    memcpy(MBUF_CTOP(bp), ptr, count);
+    if ((tmp = MBUF_CTOP(bp)) != NULL)
+      memcpy(tmp, ptr, count);
     m_enqueue(ipcp->Queue + pri, bp);
     break;
 
@@ -249,7 +253,8 @@ ncp_Enqueue(struct ncp *ncp, int af, int pri, char *ptr, int count)
     bp = m_get(count + 6, MB_IPOUT);
     bp->m_offset += 4;
     bp->m_len -= 6;
-    memcpy(MBUF_CTOP(bp), ptr, count);
+    if ((tmp = MBUF_CTOP(bp)) != NULL)
+      memcpy(tmp, ptr, count);
     m_enqueue(ipv6cp->Queue + pri, bp);
     break;
 #endif

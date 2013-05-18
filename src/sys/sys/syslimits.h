@@ -39,7 +39,7 @@
 #define	MAX_CANON		  255	/* max bytes in term canon input line */
 #define	MAX_INPUT		  255	/* max bytes in terminal input */
 #define	NAME_MAX		  255	/* max bytes in a file name */
-#define	NGROUPS_MAX		   16	/* max supplemental group id's */
+#define	NGROUPS_MAX		   16	/* max supplemental group ids */
 #define	OPEN_MAX		   64	/* max open files per process */
 #define	PATH_MAX		 1024	/* max bytes in pathname */
 #define	PIPE_BUF		  512	/* max bytes for atomic pipe writes */
@@ -54,11 +54,11 @@
 #define	EXPR_NEST_MAX		   32	/* max expressions nested in expr(1) */
 #define	LINE_MAX		 2048	/* max bytes in an input line */
 #ifndef RE_DUP_MAX
-#define	RE_DUP_MAX		  255	/* max RE's in interval notation */
+#define	RE_DUP_MAX		  255	/* max REs in interval notation */
 #endif
 
 #if !defined(_POSIX_C_SOURCE) || defined(_XOPEN_SOURCE)
-#define	IOV_MAX			 1024	/* max # of iov's (readv,sendmsg,etc) */
+#define	IOV_MAX			 1024	/* max # of iovs (readv,sendmsg,etc) */
 #define	NZERO			   20	/* default "nice" */
 #endif /* !_POSIX_C_SOURCE || _XOPEN_SOURCE */
 

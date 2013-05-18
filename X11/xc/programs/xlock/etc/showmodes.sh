@@ -1,4 +1,4 @@
-#!/bin/ksh
+#!/bin/mksh
 
 # or /bin/bash
 

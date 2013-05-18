@@ -32,14 +32,8 @@
 .Os
 .Sh NAME
 .Nm ahc
-.Nd Adaptec VL/EISA/PCI SCSI host adapter driver
+.Nd Adaptec PCI SCSI host adapter driver
 .Sh SYNOPSIS
-For VL cards:
-.Cd "ahc0	at isa? port ? irq ?"
-.Pp
-For EISA cards:
-.Cd "ahc*	at eisa? slot ?"
-.Pp
 For PCI cards:
 .Cd "ahc*	at pci? dev ? function ?"
 .Pp
@@ -261,14 +255,13 @@ restoring SCB data.
 .Sh SEE ALSO
 .Xr cd 4 ,
 .Xr ch 4 ,
-.Xr eisa 4 ,
 .Xr intro 4 ,
 .Xr isa 4 ,
 .Xr pci 4 ,
 .Xr scsi 4 ,
 .Xr sd 4 ,
 .Xr ss 4 ,
-.Xr st 4 ,
+.Xr \&st 4 ,
 .Xr uk 4
 .Sh AUTHORS
 The core
@@ -306,3 +299,6 @@ Reselection in target mode fails to function correctly on all high voltage
 differential boards as shipped by Adaptec.
 Information on how to modify HVD board to work correctly in target mode is
 available from Adaptec.
+.Pp
+The EISA support was dropped in
+.Mx 8 .

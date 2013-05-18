@@ -1,3 +1,4 @@
+/**	$MirOS: src/lib/libutil/logout.c,v 1.2 2005/03/06 20:29:37 tg Exp $	*/
 /*	$OpenBSD: logout.c,v 1.7 2004/05/28 07:03:47 deraadt Exp $	*/
 /*
  * Copyright (c) 1988, 1993
@@ -28,11 +29,6 @@
  * SUCH DAMAGE.
  */
 
-#if defined(LIBC_SCCS) && !defined(lint)
-/* from: static char sccsid[] = "@(#)logout.c	8.1 (Berkeley) 6/4/93"; */
-static const char rcsid[] = "$Id$";
-#endif /* LIBC_SCCS and not lint */
-
 #include <sys/types.h>
 #include <sys/time.h>
 
@@ -43,6 +39,9 @@ static const char rcsid[] = "$Id$";
 #include <string.h>
 
 #include "util.h"
+
+__SCCSID("@(#)logout.c	8.1 (Berkeley) 6/4/93");
+__RCSID("$MirOS$");
 
 typedef struct utmp UTMP;
 
@@ -58,8 +57,8 @@ logout(const char *line)
 	while (read(fd, &ut, sizeof(UTMP)) == sizeof(UTMP)) {
 		if (!ut.ut_name[0] || strncmp(ut.ut_line, line, UT_LINESIZE))
 			continue;
-		bzero(ut.ut_name, UT_NAMESIZE);
-		bzero(ut.ut_host, UT_HOSTSIZE);
+		memset(ut.ut_name, 0, UT_NAMESIZE);
+		memset(ut.ut_host, 0, UT_HOSTSIZE);
 		(void)time(&ut.ut_time);
 		(void)lseek(fd, -(off_t)sizeof(UTMP), SEEK_CUR);
 		(void)write(fd, &ut, sizeof(UTMP));

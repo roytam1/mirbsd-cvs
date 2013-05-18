@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: mbr.h,v 1.11 2003/06/03 01:13:19 weingart Exp $	*/
 
 /*
@@ -31,10 +32,12 @@
 #include "part.h"
 
 /* Various constants */
-#define MBR_CODE_SIZE 0x1BE
-#define MBR_PART_SIZE	0x10
-#define MBR_PART_OFF 0x1BE
-#define MBR_SIG_OFF 0x1FE
+#define	MBR_CODE_SIZE		0x1BE	/* all of boot code */
+#define	MBR_SMALLCODE_SIZE	0x1B7	/* not the fdef flag and NT magic */
+#define	MBR_PART_SIZE		0x10	/* size of one PTBL entry */
+#define	MBR_PART_OFF		0x1BE	/* offset of first PTBL entry */
+#define	MBR_SIG_OFF		0x1FE
+#define	MBR_FORCE_DEFPART	0x01B7	/* offset of the fdef flag */
 
 
 /* MBR type */
@@ -63,4 +66,3 @@ void MBR_pcopy(disk_t *, mbr_t *);
 #endif
 
 #endif /* _MBR_H */
-

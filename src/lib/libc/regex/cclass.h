@@ -35,11 +35,13 @@
  *	@(#)cclass.h	8.3 (Berkeley) 3/20/94
  */
 
+__RCSID("$MirOS$");
+
 /* character-class table */
 static struct cclass {
-	char *name;
-	char *chars;
-	char *multis;
+	const char *name;
+	const char *chars;
+	const char *multis;
 } cclasses[] = {
 	{ "alnum",	"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz\
 0123456789",				""} ,

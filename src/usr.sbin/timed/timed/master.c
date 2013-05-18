@@ -598,7 +598,7 @@ addmach(char *name, struct sockaddr_in *addr, struct netinfo *ntp)
 				b = newhost_hash->l_bak;
 				f->l_bak = ret;
 				b->l_fwd = ret;
-				bcopy(newhost_hash,ret,sizeof(*ret));
+				memmove(ret,newhost_hash,sizeof(*ret));
 				ret = newhost_hash;
 				ret->head = 1;
 				ret->h_fwd = ret;
@@ -675,7 +675,7 @@ remmach(struct hosttbl *htp)
 		f->l_bak = htp;
 		b->l_fwd = htp;
 		hnxt->head = 1;
-		bcopy(hnxt, htp, sizeof(*htp));
+		memmove(htp, hnxt, sizeof(*htp));
 		lasthfree = hnxt;
 	} else {
 		lasthfree = htp;

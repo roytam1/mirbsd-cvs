@@ -39,7 +39,6 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <sys/types.h>
 #include <sys/param.h>
 #include <sys/socket.h>
 
@@ -58,20 +57,28 @@
 #include "buffer.h"
 #include "servconf.h"
 
+__RCSID("$MirOS: src/usr.bin/ssh/sshlogin.c,v 1.5 2007/07/05 22:48:52 tg Exp $");
+
 extern Buffer loginmsg;
 extern ServerOptions options;
+
+#ifdef SMALL
+#define usmall	__attribute__((unused))
+#else
+#define usmall	/* nothing */
+static time_t get_last_login_time(uid_t, const char *, char *, size_t);
 
 /*
  * Returns the time when the user last logged in.  Returns 0 if the
  * information is not available.  This must be called before record_login.
  * The host the user logged in from will be returned in buf.
  */
-time_t
-get_last_login_time(uid_t uid, const char *logname,
+static time_t
+get_last_login_time(uid_t uid, const char *logname __attribute__((unused)),
     char *buf, size_t bufsize)
 {
 	struct lastlog ll;
-	char *lastlog;
+	const char *lastlog;
 	int fd;
 	off_t pos, r;
 
@@ -132,18 +139,22 @@ store_lastlog_message(const char *user, uid_t uid)
 		buffer_append(&loginmsg, buf, strlen(buf));
 	}
 }
+#endif
 
 /*
  * Records that the user has logged in.  I wish these parts of operating
  * systems were more standardized.
  */
 void
-record_login(pid_t pid, const char *tty, const char *user, uid_t uid,
-    const char *host, struct sockaddr *addr, socklen_t addrlen)
+record_login(pid_t pid __attribute__((unused)), const char *tty usmall,
+    const char *user usmall, uid_t uid usmall, const char *host usmall,
+    struct sockaddr *addr __attribute__((unused)),
+    socklen_t addrlen __attribute__((unused)))
 {
+#ifndef SMALL
 	int fd;
 	struct lastlog ll;
-	char *lastlog;
+	const char *lastlog;
 	struct utmp u;
 
 	/* save previous login details before writing new */
@@ -179,13 +190,16 @@ record_login(pid_t pid, const char *tty, const char *user, uid_t uid,
 			close(fd);
 		}
 	}
+#endif
 }
 
 /* Records that the user has logged out. */
 void
-record_logout(pid_t pid, const char *tty)
+record_logout(pid_t pid __attribute__((unused)), const char *tty usmall)
 {
+#ifndef SMALL
 	const char *line = tty + 5;	/* /dev/ttyq8 -> ttyq8 */
 	if (logout(line))
 		logwtmp(line, "", "");
+#endif
 }

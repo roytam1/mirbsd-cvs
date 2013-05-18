@@ -1,3 +1,4 @@
+/*	$MirOS: src/bin/ls/print.c,v 1.3 2005/10/21 11:02:34 tg Exp $	*/
 /*	$OpenBSD: print.c,v 1.24 2005/06/15 17:47:17 millert Exp $	*/
 /*	$NetBSD: print.c,v 1.15 1996/12/11 03:25:39 thorpej Exp $	*/
 
@@ -33,14 +34,6 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)print.c	8.5 (Berkeley) 7/28/94";
-#else
-static char rcsid[] = "$OpenBSD: print.c,v 1.24 2005/06/15 17:47:17 millert Exp $";
-#endif
-#endif /* not lint */
-
 #include <sys/param.h>
 #include <sys/stat.h>
 
@@ -55,14 +48,17 @@ static char rcsid[] = "$OpenBSD: print.c,v 1.24 2005/06/15 17:47:17 millert Exp 
 #include <time.h>
 #include <tzfile.h>
 #include <unistd.h>
-#include <util.h>
 
 #include "ls.h"
 #include "extern.h"
 
+__SCCSID("@(#)print.c	8.5 (Berkeley) 7/28/94");
+__RCSID("$MirOS: src/bin/ls/print.c,v 1.3 2005/10/21 11:02:34 tg Exp $");
+
+extern int termwidth;
+
 static int	printaname(FTSENT *, u_long, u_long);
 static void	printlink(FTSENT *);
-static void	printsize(size_t, off_t);
 static void	printtime(time_t);
 static int	printtype(u_int);
 static int	compute_columns(DISPLAY *, int *);
@@ -100,7 +96,7 @@ printlong(DISPLAY *dp)
 		if (f_inode)
 			(void)printf("%*u ", dp->s_inode, sp->st_ino);
 		if (f_size)
-			(void)printf("%*qd ",
+			(void)printf("%*lld ",
 			    dp->s_block, howmany(sp->st_blocks, blocksize));
 		(void)strmode(sp->st_mode, buf);
 		np = p->fts_pointer;
@@ -113,10 +109,10 @@ printlong(DISPLAY *dp)
 			(void)printf("%3d, %3d ",
 			    major(sp->st_rdev), minor(sp->st_rdev));
 		else if (dp->bcfile)
-			(void)printf("%*s%*qd ",
+			(void)printf("%*s%*lld ",
 			    8 - dp->s_size, "", dp->s_size, sp->st_size);
 		else
-			printsize(dp->s_size, sp->st_size);	
+			(void)printf("%*lld ", dp->s_size, sp->st_size);
 		if (f_accesstime)
 			printtime(sp->st_atime);
 		else if (f_statustime)
@@ -136,7 +132,6 @@ static int
 compute_columns(DISPLAY *dp, int *pnum)
 {
 	int colwidth;
-	extern int termwidth;
 	int mywidth;
 
 	colwidth = dp->maxlen;
@@ -229,7 +224,7 @@ printaname(FTSENT *p, u_long inodefield, u_long sizefield)
 	if (f_inode)
 		chcnt += printf("%*u ", (int)inodefield, sp->st_ino);
 	if (f_size)
-		chcnt += printf("%*qd ",
+		chcnt += printf("%*lld ",
 		    (int)sizefield, howmany(sp->st_blocks, blocksize));
 	chcnt += putname(p->fts_name);
 	if (f_type || (f_typedir && S_ISDIR(sp->st_mode)))
@@ -294,7 +289,6 @@ printacol(DISPLAY *dp)
 void
 printstream(DISPLAY *dp)
 {
-	extern int termwidth;
 	FTSENT *p;
 	int col;
 	int extwidth;
@@ -312,7 +306,8 @@ printstream(DISPLAY *dp)
 			continue;
 		if (col > 0) {
 			(void)putchar(','), col++;
-			if (col + 1 + extwidth + p->fts_namelen >= termwidth)
+			if (col + 1 + extwidth + p->fts_namelen >=
+			    (size_t)termwidth)
 				(void)putchar('\n'), col = 0;
 			else
 				(void)putchar(' '), col++;
@@ -364,16 +359,4 @@ printlink(FTSENT *p)
 	path[lnklen] = '\0';
 	(void)printf(" -> ");
 	(void)putname(path);
-}
-
-static void
-printsize(size_t width, off_t bytes)
-{
-	char ret[FMT_SCALED_STRSIZE];
-
-	if ((f_humanval) && (fmt_scaled(bytes, ret) != -1)) {
-		(void)printf("%*s ", (u_int)width, ret);
-		return;
-	}
-	(void)printf("%*qd ", (u_int)width, bytes);
 }

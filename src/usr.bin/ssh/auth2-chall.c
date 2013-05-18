@@ -39,14 +39,20 @@
 #include "dispatch.h"
 #include "log.h"
 
+__RCSID("$MirOS$");
+
 static int auth2_challenge_start(Authctxt *);
 static int send_userauth_info_request(Authctxt *);
 static void input_userauth_info_response(int, u_int32_t, void *);
 
+#ifdef BSD_AUTH
 extern KbdintDevice bsdauth_device;
+#endif
 
 KbdintDevice *devices[] = {
+#ifdef BSD_AUTH
 	&bsdauth_device,
+#endif
 	NULL
 };
 
@@ -307,7 +313,11 @@ input_userauth_info_response(int type, u_int32_t seq, void *ctxt)
 void
 privsep_challenge_enable(void)
 {
+#ifdef BSD_AUTH
 	extern KbdintDevice mm_bsdauth_device;
+#endif
 	/* As long as SSHv1 has devices[0] hard coded this is fine */
+#ifdef BSD_AUTH
 	devices[0] = &mm_bsdauth_device;
+#endif
 }

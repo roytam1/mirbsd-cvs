@@ -8,6 +8,7 @@
  */
 
 #include <sys/types.h>
+#include <sys/time.h>
 #include <sys/socket.h>
 #include <sys/queue.h>
 #include <sys/time.h>
@@ -40,6 +41,8 @@
 #include "atomicio.h"
 #include "misc.h"
 #include "hostfile.h"
+
+__RCSID("$MirOS: src/usr.bin/ssh/ssh-keyscan.c,v 1.6 2006/11/09 02:42:06 tg Exp $");
 
 /* Flag indicating whether IPv4 or IPv6.  This can be set on the command line.
    Default value is AF_UNSPEC means both IPv4 and IPv6. */
@@ -315,7 +318,7 @@ keygrab_ssh1(con *c)
 	return (rsa);
 }
 
-static int
+static __dead int
 hostjump(Key *hostkey)
 {
 	kexjmp_key = hostkey;
@@ -667,7 +670,7 @@ conloop(void)
 static void
 do_host(char *host)
 {
-	char *name = strnnsep(&host, " \t\n");
+	char *name = strnnsep(&host, (char *)" \t\n");
 	int j;
 
 	if (name == NULL)
@@ -695,7 +698,7 @@ fatal(const char *fmt,...)
 		exit(255);
 }
 
-static void
+static __dead void
 usage(void)
 {
 	fprintf(stderr, "usage: %s [-46Hv] [-f file] [-p port] [-T timeout] [-t type]\n"
@@ -710,9 +713,6 @@ main(int argc, char **argv)
 	int debug_flag = 0, log_level = SYSLOG_LEVEL_INFO;
 	int opt, fopt_count = 0;
 	char *tname;
-
-	extern int optind;
-	extern char *optarg;
 
 	TAILQ_INIT(&tq);
 

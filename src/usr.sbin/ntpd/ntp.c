@@ -1,6 +1,7 @@
 /*	$OpenBSD: ntp.c,v 1.92 2006/10/21 07:30:58 henning Exp $ */
 
 /*
+ * Copyright (c) 2006, 2007 Thorsten Glaser <tg@mirbsd.de>
  * Copyright (c) 2003, 2004 Henning Brauer <henning@openbsd.org>
  * Copyright (c) 2004 Alexander Guy <alexander.guy@andern.org>
  *
@@ -8,13 +9,16 @@
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
  *
- * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
- * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
- * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
- * ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
- * WHATSOEVER RESULTING FROM LOSS OF MIND, USE, DATA OR PROFITS, WHETHER
- * IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING
- * OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ * The following disclaimer must also be retained:
+ *
+ * This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
+ * the utmost extent permitted by applicable law, neither express nor
+ * implied; without malicious intent or gross negligence. In no event
+ * may a licensor, author or contributor be held liable for indirect,
+ * direct, other damage, loss, or other issues arising in any way out
+ * of dealing in the work, even if advised of the possibility of such
+ * damage or existence of a defect, except proven that it results out
+ * of said person's immediate fault when using the work as intended.
  */
 
 #include <sys/param.h>
@@ -33,6 +37,8 @@
 
 #include "ntpd.h"
 #include "ntp.h"
+
+__RCSID("$MirOS: src/usr.sbin/ntpd/ntp.c,v 1.17 2007/10/03 22:50:58 tg Exp $");
 
 #define	PFD_PIPE_MAIN	0
 #define	PFD_MAX		1
@@ -268,7 +274,7 @@ ntp_main(int pipe_prnt[2], struct ntpd_conf *nconf)
 			if (pfd[j].revents & (POLLIN|POLLERR)) {
 				nfds--;
 				if (client_dispatch(idx2peer[j - idx_peers],
-				    conf->settime) == -1)
+				    conf->settime, conf->trace) == -1)
 					ntp_quit = 1;
 			}
 	}
@@ -396,8 +402,29 @@ priv_adjtime(void)
 	int		  offset_cnt = 0, i = 0;
 	struct ntp_peer	**peers;
 	double		  offset_median;
+	double weight_cnt = 0.0;
+	int weight_half = 0;
 
 	TAILQ_FOREACH(p, &conf->ntp_peers, entry) {
+		if (conf->trace > 5)
+			log_info("priv_adjtime, #%02d %s peer, trust %d %s,"
+			    " st %2d dst %3dms ofs %6.1fms addr %s",
+			    offset_cnt,
+			    p->update.good ? "good" : "bad ",
+			    p->trustlevel,
+			    p->trustlevel < TRUSTLEVEL_BADPEER ? "bad" : "ok",
+			    p->update.status.stratum,
+			    (int)((p->update.delay + .0005) * 1000.),
+			    p->update.offset * 1000.,
+			    log_sockaddr((struct sockaddr *)&p->addr->ss));
+		else if (conf->trace > 3)
+			log_info("priv_adjtime, #%02d, peer"
+			    " trustlevel %d %s, %sgood",
+			    offset_cnt,
+			    p->trustlevel,
+			    p->trustlevel < TRUSTLEVEL_BADPEER ? "bad" : "ok",
+			    p->update.good ? "" : "not ");
+
 		if (p->trustlevel < TRUSTLEVEL_BADPEER)
 			continue;
 		if (!p->update.good)
@@ -405,8 +432,11 @@ priv_adjtime(void)
 		offset_cnt++;
 	}
 
-	if (offset_cnt == 0)
+	if (offset_cnt == 0) {
+		if (conf->trace > 2)
+			log_info("priv_adjtime, no peers");
 		return (1);
+	}
 
 	if ((peers = calloc(offset_cnt, sizeof(struct ntp_peer *))) == NULL)
 		fatal("calloc priv_adjtime");
@@ -419,30 +449,73 @@ priv_adjtime(void)
 
 	qsort(peers, offset_cnt, sizeof(struct ntp_peer *), offset_compare);
 
+	if (conf->trace > 2)
+		log_info("priv_adjtime, %d peers", offset_cnt);
+	if (conf->trace > 4 || (conf->trace && conf->debug))
+		for (i = 0; i < offset_cnt; ++i)
+			log_info("peer %2d: %s, trust %d "
+			    " st %2d dst %3dms ofs %6.1fms addr %s", i,
+			    peers[i]->update.good ? "good" : "bad ",
+			    peers[i]->trustlevel < TRUSTLEVEL_BADPEER ? 0 : 1,
+			    peers[i]->update.status.stratum,
+			    (int)((peers[i]->update.delay + .0005) * 1000.),
+			    peers[i]->update.offset * 1000.,
+			    log_sockaddr((struct sockaddr *)&peers[i]->addr->ss));
+
+	offset_median = 0.0;
+	for (i = 0; i < offset_cnt; ++i) {
+		double j = (i + 1) * (offset_cnt - i);
+		double k = peers[offset_cnt / 2]->update.offset;
+		if (weight_half) {
+			j += weight_half;
+			weight_half = 0;
+		} else if ((i + 1) * 2 == offset_cnt) {
+			weight_half = weight_cnt;
+			j += weight_half;
+		} else if (i * 2 + 1 == offset_cnt)
+			j += 2.0 * weight_cnt;
+		k -= peers[i]->update.offset;
+		if (k > 1. || k < -1.)
+			continue;	/* ignore false-tickers */
+		offset_median += j * peers[i]->update.offset;
+		weight_cnt += j;
+	}
+	offset_median /= weight_cnt;
+
 	if (offset_cnt > 1 && offset_cnt % 2 == 0) {
-		offset_median =
-		    (peers[offset_cnt / 2 - 1]->update.offset +
-		    peers[offset_cnt / 2]->update.offset) / 2;
 		conf->status.rootdelay =
 		    (peers[offset_cnt / 2 - 1]->update.delay +
 		    peers[offset_cnt / 2]->update.delay) / 2;
 		conf->status.stratum = MAX(
 		    peers[offset_cnt / 2 - 1]->update.status.stratum,
 		    peers[offset_cnt / 2]->update.status.stratum);
+		if (conf->trace)
+			log_info("adj%c stc %d dst %3d ofs %6.1f srv %s", '1',
+			    peers[offset_cnt / 2 - 1]->update.status.stratum,
+			    (int)((peers[offset_cnt / 2 - 1]->update.delay + .0005) * 1000.),
+			    peers[offset_cnt / 2 - 1]->update.offset * 1000.,
+			    log_sockaddr((struct sockaddr *)&peers[offset_cnt / 2 - 1]->addr->ss));
 	} else {
-		offset_median = peers[offset_cnt / 2]->update.offset;
 		conf->status.rootdelay =
 		    peers[offset_cnt / 2]->update.delay;
 		conf->status.stratum =
 		    peers[offset_cnt / 2]->update.status.stratum;
 	}
+	if (conf->trace)
+		log_info("adj%c stc %d dst %3d ofs %6.1f srv %s",
+		    (offset_cnt > 1 && offset_cnt % 2 == 0) ? '2' : 'x',
+		    peers[offset_cnt / 2]->update.status.stratum,
+		    (int)((peers[offset_cnt / 2]->update.delay + .0005) * 1000.),
+		    peers[offset_cnt / 2]->update.offset * 1000.,
+		    log_sockaddr((struct sockaddr *)&peers[offset_cnt / 2]->addr->ss));
 	conf->status.leap = peers[offset_cnt / 2]->update.status.leap;
 
 	imsg_compose(ibuf_main, IMSG_ADJTIME, 0, 0,
 	    &offset_median, sizeof(offset_median));
 
 	conf->status.reftime = gettime();
-	conf->status.stratum++;	/* one more than selected peer */
+	/* one more than selected peer, but cap */
+	conf->status.stratum = MIN(conf->status.stratum, 254) + 1;
 	update_scale(offset_median);
 
 	conf->status.refid4 =
@@ -452,11 +525,16 @@ priv_adjtime(void)
 		    &peers[offset_cnt / 2]->addr->ss)->sin_addr.s_addr;
 	else
 		conf->status.refid = conf->status.refid4;
+	if (peers[offset_cnt / 2]->update.status.stratum < 1)
+		conf->status.refid =
+		    peers[offset_cnt / 2]->update.status.refid;
 
 	free(peers);
 
 	TAILQ_FOREACH(p, &conf->ntp_peers, entry)
 		p->update.good = 0;
+
+	return (0);
 }
 
 int
@@ -518,20 +596,19 @@ update_scale(double offset)
 time_t
 scale_interval(time_t requested)
 {
-	time_t interval, r;
+	double interval = requested, r;
 
-	interval = requested * conf->scale;
-	r = arc4random() % MAX(5, interval / 10);
-	return (interval + r);
+	r = (interval *= conf->scale) / 10.;
+	if (r > 7.)
+		r = 7.;
+	return (interval + (arc4random() % (int)(r + .5)) - (r / 2.));
 }
 
 time_t
 error_interval(void)
 {
-	time_t interval, r;
+	double interval = INTERVAL_QUERY_PATHETIC, r;
 
-	interval = INTERVAL_QUERY_PATHETIC * QSCALE_OFF_MAX / QSCALE_OFF_MIN;
-	r = arc4random() % (interval / 10);
-	return (interval + r);
+	r = (interval *= QSCALE_OFF_MAX / QSCALE_OFF_MIN) / 10.;
+	return (interval + (arc4random() % (int)(r + .5)) - (r / 2.));
 }
-

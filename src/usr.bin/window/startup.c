@@ -33,20 +33,15 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)startup.c	8.1 (Berkeley) 6/6/93";
-#else
-static char rcsid[] = "$OpenBSD: startup.c,v 1.8 2003/06/03 02:56:23 millert Exp $";
-#endif
-#endif /* not lint */
-
 #include "defs.h"
 #include <stdlib.h>
 #include "value.h"
 #include "var.h"
 #include "char.h"
 #include "local.h"
+
+__SCCSID("@(#)startup.c	8.1 (Berkeley) 6/6/93");
+__RCSID("$MirOS$");
 
 doconfig()
 {
@@ -57,8 +52,8 @@ doconfig()
 	if ((home = getenv("HOME")) == NULL || *home == '\0')
 		return -1;
 	(void) snprintf(buf, sizeof(buf), "%.*s/%s",
-		(sizeof buf - sizeof runcom) / sizeof (char) - 1,
-		home, runcom);
+	    (int)((sizeof buf - sizeof runcom) / sizeof (char) - 1),
+	    home, runcom);
 	return dosource(buf);
 }
 

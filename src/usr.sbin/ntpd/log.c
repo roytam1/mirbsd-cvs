@@ -1,6 +1,8 @@
+/**	$MirOS: src/usr.sbin/ntpd/log.c,v 1.4 2007/08/10 22:22:03 tg Exp $ */
 /*	$OpenBSD: log.c,v 1.7 2005/03/31 12:14:01 henning Exp $ */
 
 /*
+ * Copyright (c) 2007 Thorsten Glaser <tg@mirbsd.de>
  * Copyright (c) 2003, 2004 Henning Brauer <henning@openbsd.org>
  *
  * Permission to use, copy, modify, and distribute this software for any
@@ -26,9 +28,14 @@
 
 #include "ntpd.h"
 
+__RCSID("$MirOS: src/usr.sbin/ntpd/log.c,v 1.4 2007/08/10 22:22:03 tg Exp $");
+
 int	 debug;
 
-void	 logit(int, const char *, ...);
+void	 logit(int, const char *, ...)
+    __attribute__((format (syslog, 2, 3)))
+    __attribute__((format (printf, 2, 3)))
+    __attribute__((nonnull (2)));
 
 void
 log_init(int n_debug)
@@ -154,11 +161,19 @@ fatalx(const char *emsg)
 const char *
 log_sockaddr(struct sockaddr *sa)
 {
-	static char	buf[NI_MAXHOST];
+	static char	buf[NI_MAXHOST + 8];
+	struct sockinet {
+		u_char	si_len;
+		u_char	si_family;
+		u_char	si_port[2];
+	} *si = (struct sockinet *)sa;
+	u_short s_port;
 
-	if (getnameinfo(sa, SA_LEN(sa), buf, sizeof(buf), NULL, 0,
+	if (getnameinfo(sa, SA_LEN(sa), buf, MAXHOSTNAMELEN, NULL, 0,
 	    NI_NUMERICHOST))
 		return ("(unknown)");
-	else
-		return (buf);
+	memcpy(&s_port, &si->si_port, sizeof (u_short));
+	if (s_port && ntohs(s_port) != 123)
+		snprintf(buf + strlen(buf), 8, "*%hu", ntohs(s_port));
+	return (buf);
 }

@@ -1,372 +1,502 @@
-#	$OpenBSD: Makefile,v 1.108 2004/11/30 15:46:01 mickey Exp $
+# $MirOS: src/Makefile,v 1.119 2007/10/21 13:25:54 tg Exp $
+# $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
-#
-# For more information on building in tricky environments, please see
-# the list of possible environment variables described in
-# /usr/share/mk/bsd.README.
-#
-# Building recommendations:
-#
-# 1) If at all possible, put this source tree in /usr/src.  If /usr/src
-# must be a symbolic link, setenv BSDSRCDIR to point to the real location.
-#
-# 2) It is also recommended that you compile with objects outside the
-# source tree. To do this, ensure /usr/obj exists or points to some
-# area of disk of sufficient size.  Then do "cd /usr/src; make obj".
-# This will make a symbolic link called "obj" in each directory, as
-# well as populate the /usr/obj properly with directories for the
-# objects.
-#
-# 3) It is strongly recommended that you build and install a new kernel
-# before rebuilding your system. Some of the new programs may use new
-# functionality or depend on API changes that your old kernel doesn't have.
-#
-# 4) If you are reasonably sure that things will compile OK, use the
-# "make build" target supplied here. Good luck.
-#
-# 5) If you want to setup a cross-build environment, there is a "cross-tools"
-# target available which upon completion of "make TARGET=<target> cross-tools"
-# (where <target> is one of the names in the /sys/arch directory) will produce
-# a set of compilation tools along with the includes in the /usr/cross/<target>
-# directory. The "cross-distrib" target will build cross-tools as well as
-# binaries for a given <target>.
-#
+.if defined(MAKECONF) && exists(${MAKECONF})
+.  error MAKECONF is set to '${MAKECONF}', you don't want this!
+.endif
+.include <bsd.own.mk>
+.include "Makefile.inc"
+.if exists(gcc/Makefile.lang)
+.  include "gcc/Makefile.lang"
+.else
+NO_ADA?=	Yes
+NO_PASCAL?=	Yes
+.endif
+NOMAN?=		no
+.if ${MACHINE_ARCH} == "sparc"
+# cannot be implemented until boot(8/sparc) parses boot.cfg
+NO_LIVECD=	ENOCOFFEE
+.endif
+CVSROOT?=	/cvs
+ANONCVSROOT?=	anoncvs@anoncvs.mirbsd.org:/cvs
 
-.include <bsd.own.mk>	# for NOMAN, if it's there.
-
-SUBDIR+= lib include bin libexec sbin usr.bin usr.sbin share games
-SUBDIR+= gnu
-
-SUBDIR+= sys lkm
-
-.if (${KERBEROS5:L} == "yes")
-SUBDIR+= kerberosV
+  SUBDIR+= lib
+  SUBDIR+= include
+  SUBDIR+= bin
+  SUBDIR+= libexec
+  SUBDIR+= sbin
+  SUBDIR+= usr.bin
+  SUBDIR+= usr.sbin
+  SUBDIR+= share
+  SUBDIR+= gnu
+  SUBDIR+= sys
+.if make(clean) || make(cleandir) || make(obj)
+  SUBDIR+= distrib
 .endif
 
-.if   make(clean) || make(cleandir) || make(obj)
-SUBDIR+= distrib regress
-.endif
-
-.if exists(regress)
-regression-tests:
-	@echo Running regression tests...
-	@cd ${.CURDIR}/regress && ${MAKE} depend && exec ${MAKE} regress
-.endif
-
-includes:
-	cd ${.CURDIR}/include && ${MAKE} prereq && exec ${SUDO} ${MAKE} includes
-
-beforeinstall:
-	cd ${.CURDIR}/etc && exec ${MAKE} DESTDIR=${DESTDIR} distrib-dirs
+beforeinstall: distrib-dirs
 	cd ${.CURDIR}/include && exec ${MAKE} includes
 
 afterinstall:
-.ifndef NOMAN
+.if ${NOMAN:L} == "no"
 	cd ${.CURDIR}/share/man && exec ${MAKE} makedb
 .endif
 
-build:
-.ifdef GLOBAL_AUTOCONF_CACHE
-	cp /dev/null ${GLOBAL_AUTOCONF_CACHE}
-.endif
-	cd ${.CURDIR}/share/mk && exec ${SUDO} ${MAKE} install
-	cd ${.CURDIR}/include && ${MAKE} prereq && exec ${SUDO} ${MAKE} includes
-	${SUDO} ${MAKE} cleandir
-	cd ${.CURDIR}/lib && ${MAKE} depend && ${MAKE} && \
-	    NOMAN=1 exec ${SUDO} ${MAKE} install
-	cd ${.CURDIR}/gnu/lib && ${MAKE} depend && ${MAKE} && \
-	    NOMAN=1 exec ${SUDO} ${MAKE} install
-	${MAKE} depend && ${MAKE} && exec ${SUDO} ${MAKE} install
+mksystrace: mksystrace-obj mksystrace-dest
 
-.if !defined(TARGET)
-cross-tools cross-distrib:
-	echo "TARGET must be set"; exit 1
-.else
-cross-tools:	cross-includes cross-binutils cross-gcc cross-lib
-cross-distrib:	cross-tools cross-bin cross-etc-root-var
+mksystrace-obj:
+	cd ${BSDOBJDIR} && env WRITEDIR=${BSDOBJDIR:Q} \
+	    ${SHELL} ${BSDSRCDIR}/scripts/systrace.mk ${MAKE}
 
-CROSSCPPFLAGS?=	-nostdinc -I${CROSSDIR}/usr/include
-CROSSLDFLAGS?=	-nostdlib -L${CROSSDIR}/usr/lib -static
-CROSSCFLAGS?=	${CROSSCPPFLAGS}
-CROSSCXXFLAGS?=	${CROSSCPPFLAGS}
-LDSTATIC?=	-static
+mksystrace-dest:
+	d=${DESTDIR:Q}; cd $${d:-/}; [[ -n $$d ]] || d="/:/*"; \
+	    env WRITEDIR="$$d" NOWRITEDIR=${BSDOBJDIR:Q} \
+	    ${SUDO} ${SHELL} ${BSDSRCDIR}/scripts/systrace.mk ${MAKE}
 
-CROSSDIR=	${DESTDIR}/usr/cross/${TARGET}
-CROSSENV=	AR=${CROSSDIR}/usr/bin/ar AS=${CROSSDIR}/usr/bin/as \
-		CC=${CROSSDIR}/usr/bin/cc CPP=${CROSSDIR}/usr/bin/cpp \
-		CXX=${CROSSDIR}/usr/bin/c++ \
-		LD=${CROSSDIR}/usr/bin/ld NM=${CROSSDIR}/usr/bin/nm \
-		LORDER=/usr/bin/lorder RANLIB=${CROSSDIR}/usr/bin/ranlib \
-		SIZE=${CROSSDIR}/usr/bin/size STRIP=${CROSSDIR}/usr/bin/strip \
-		HOSTCC=\"${CC}\" HOSTCXX=\"${CXX}\" NOMAN= DESTDIR=${CROSSDIR} \
-		HOSTCFLAGS=\"${CFLAGS}\" HOSTCXXFLAGS=\"${CXXFLAGS}\" \
-		HOSTLDFLAGS=\"${LDFLAGS} \" \
-		CFLAGS=\"${CROSSCFLAGS}\" CPPFLAGS=\"${CROSSCPPFLAGS}\" \
-		CXXFLAGS=\"${CROSSCXXFLAGS}\" \
-		LDFLAGS=\"${CROSSLDFLAGS}\"
-CROSSPATH=	${PATH}:${CROSSDIR}/usr/bin
-CROSSLANGS?=	c c++
+build-pre:
+	-${SUDO} rm -f ${_STFILE_OBJ} ${_STFILE_DEST}
+	cd ${.CURDIR} && exec ${MAKE} mksystrace
+	cd ${.CURDIR}/share/mk \
+	    && exec ${SUDO} ${_STCMD_DEST} ${MAKE} install
+	cd ${.CURDIR}/include \
+	    && ${_STCMD_OBJ} ${MAKE} prereq \
+	    && exec ${SUDO} ${_STCMD_DEST} ${MAKE} includes
+	rm -rf ${BSDOBJDIR}/lib
+	cd ${.CURDIR}/lib \
+	    && ${MAKE} obj \
+	    && ${_STCMD_OBJ} ${MAKE} depend \
+	    && ${_STCMD_OBJ} ${MAKE} \
+	    && exec ${SUDO} ${_STCMD_DEST} ${MAKE} install NOMAN=yes
+	cd ${.CURDIR} && ${_STCMD_OBJ} ${MAKE} depend
 
-CROSSDIRS=	${CROSSDIR}/.dirs_done
-CROSSOBJ=	${CROSSDIR}/usr/obj/.obj_done
-CROSSINCLUDES=	${CROSSDIR}/usr/include/.includes_done
-CROSSBINUTILS=	${CROSSDIR}/usr/bin/.binutils_done
-CROSSGCC=	${CROSSDIR}/usr/bin/.gcc_done
-NO_CROSS=	isakmpd tn3270 less sudo openssl libkeynote libssl \
-		photurisd keynote sectok ssh
+contbuild:
+	cd ${.CURDIR} && exec ${MAKE} mksystrace
+	cd ${.CURDIR} && ${_STCMD_OBJ} ${MAKE} \
+	    && exec ${SUDO} ${_STCMD_DEST} ${MAKE} install
+	@sleep 1
+	${SUDO} rm -f ${_STFILE_OBJ} ${_STFILE_DEST}
 
-cross-dirs:	${CROSSDIRS}
-cross-obj:	${CROSSOBJ}
-cross-includes:	${CROSSINCLUDES}
-cross-binutils:	${CROSSBINUTILS}
-cross-gcc:	${CROSSGCC}
-
-cross-env:	.PHONY
-	@echo ${CROSSENV} MACHINE=${TARGET} \
-	    MACHINE_ARCH=`cat ${CROSSDIR}/TARGET_ARCH`
-
-${CROSSDIRS}:
-	@-mkdir -p ${CROSSDIR}
-	@case ${TARGET} in \
-		alpha|amd64|hppa|hppa64|i386|m68k|m88k|powerpc|sparc|sparc64|vax) \
-			echo ${TARGET} ;;\
-		amiga|hp300|mac68k|mvme68k) \
-			echo m68k ;;\
-		luna88k|mvme88k) \
-			echo m88k ;;\
-		macppc|mvmeppc) \
-			echo powerpc ;;\
-		sgi) \
-			echo mips64 ;;\
-		*) \
-			(echo Unknown arch ${TARGET} >&2) ; exit 1;; \
-	esac > ${CROSSDIR}/TARGET_ARCH
-	@echo TARGET_ARCH is `cat ${CROSSDIR}/TARGET_ARCH`
-	@eval `grep '^osr=' sys/conf/newvers.sh`; \
-	   sed "s/\$$/-unknown-openbsd$$osr/" ${CROSSDIR}/TARGET_ARCH > \
-	   ${CROSSDIR}/TARGET_CANON
-	@-mkdir -p ${CROSSDIR}
-	@-mkdir -p ${CROSSDIR}/usr/`cat ${CROSSDIR}/TARGET_CANON`
-	@ln -sf ${CROSSDIR}/usr/include \
-	    ${CROSSDIR}/usr/`cat ${CROSSDIR}/TARGET_CANON`/include
-	@ln -sf ${CROSSDIR}/usr/lib \
-	    ${CROSSDIR}/usr/`cat ${CROSSDIR}/TARGET_CANON`/lib
-	@-mkdir -p ${CROSSDIR}/usr/`cat ${CROSSDIR}/TARGET_CANON`/bin
-	@(cd ${.CURDIR}/etc && DESTDIR=${CROSSDIR} ${MAKE} distrib-dirs)
-	@touch ${CROSSDIRS}
-
-${CROSSOBJ}:	${CROSSDIRS}
-	@-mkdir -p ${CROSSDIR}/usr/obj
-	@(cd ${.CURDIR} && \
-	    BSDOBJDIR=${CROSSDIR}/usr/obj \
-	    MACHINE=${TARGET} \
-	    MACHINE_ARCH=`cat ${CROSSDIR}/TARGET_ARCH` \
-	    BSDSRCDIR=${.CURDIR} MAKEOBJDIR=obj.${MACHINE}.${TARGET} \
-	    ${MAKE} obj)
-	@touch ${CROSSOBJ}
-
-${CROSSINCLUDES}:	${CROSSOBJ}
-	@-mkdir -p ${CROSSDIR}/usr/include
-	@(cd ${.CURDIR}/include && \
-	    MACHINE=${TARGET} MACHINE_ARCH=`cat ${CROSSDIR}/TARGET_ARCH` \
-	    MAKEOBJDIR=obj.${MACHINE}.${TARGET} \
-	    ${MAKE} prereq && \
-	    MACHINE=${TARGET} MACHINE_ARCH=`cat ${CROSSDIR}/TARGET_ARCH` \
-	    MAKEOBJDIR=obj.${MACHINE}.${TARGET} \
-	    ${MAKE} DESTDIR=${CROSSDIR} includes)
-	@touch ${CROSSINCLUDES}
-
-.if ${MACHINE_ARCH} == "m68k" || ${MACHINE_ARCH} == "m88k" || \
-    ${MACHINE_ARCH} == "vax"
-BINUTILS=	ar as ld nm ranlib objcopy objdump strings strip
-NEW_BINUTILS?=	No
-.else
-BINUTILS=	ar as gasp ld nm objcopy objdump ranlib readelf size \
-		strings strip
-NEW_BINUTILS?=	Yes
-.endif
-
-${CROSSBINUTILS}:	${CROSSINCLUDES}
-.if ${NEW_BINUTILS:L} == "yes"
-	(cd ${.CURDIR}/gnu/usr.bin/binutils; \
-	    MAKEOBJDIR=obj.${MACHINE}.${TARGET} \
-	    TARGET_ARCH=`cat ${CROSSDIR}/TARGET_ARCH` \
-	    ${MAKE} -f Makefile.bsd-wrapper depend && \
-	    MAKEOBJDIR=obj.${MACHINE}.${TARGET} \
-	    TARGET_ARCH=`cat ${CROSSDIR}/TARGET_ARCH` \
-	    ${MAKE} -f Makefile.bsd-wrapper all && \
-	    DESTDIR=${CROSSDIR} MAKEOBJDIR=obj.${MACHINE}.${TARGET} \
-	    ${MAKE} -f Makefile.bsd-wrapper install)
-.else
-	(cd ${.CURDIR}/gnu/usr.bin/gas; \
-	    TARGET_MACHINE_ARCH=`cat ${CROSSDIR}/TARGET_ARCH` \
-	    MAKEOBJDIR=obj.${MACHINE}.${TARGET} ${MAKE} depend all; \
-	    TARGET_MACHINE_ARCH=`cat ${CROSSDIR}/TARGET_ARCH` \
-	    DESTDIR=${CROSSDIR} MAKEOBJDIR=obj.${MACHINE}.${TARGET} \
-	    ${MAKE} NOMAN= install)
-	ln -sf ${CROSSDIR}/usr/bin/as \
-	    ${CROSSDIR}/usr/`cat ${CROSSDIR}/TARGET_CANON`/bin/as
-	(cd ${.CURDIR}/gnu/usr.bin/ld; \
-	    TARGET_MACHINE_ARCH=`cat ${CROSSDIR}/TARGET_ARCH` \
-	    MAKEOBJDIR=obj.${MACHINE}.${TARGET} \
-	    ${MAKE} NOPIC= NOMAN= depend all; \
-	    TARGET_MACHINE_ARCH=`cat ${CROSSDIR}/TARGET_ARCH` \
-	    DESTDIR=${CROSSDIR} MAKEOBJDIR=obj.${MACHINE}.${TARGET} \
-	    ${MAKE} NOPIC= NOMAN= install)
-	ln -sf ${CROSSDIR}/usr/bin/ld \
-	    ${CROSSDIR}/usr/`cat ${CROSSDIR}/TARGET_CANON`/bin/ld
-	(cd ${.CURDIR}/usr.bin/ar; \
-	    MAKEOBJDIR=obj.${MACHINE}.${TARGET} ${MAKE} NOMAN= depend all; \
-	    DESTDIR=${CROSSDIR} MAKEOBJDIR=obj.${MACHINE}.${TARGET} \
-	    ${MAKE} NOMAN= install)
-	ln -sf ${CROSSDIR}/usr/bin/ar \
-	    ${CROSSDIR}/usr/`cat ${CROSSDIR}/TARGET_CANON`/bin/ar
-	(cd ${.CURDIR}/usr.bin/ranlib; \
-	    MAKEOBJDIR=obj.${MACHINE}.${TARGET} ${MAKE} NOMAN= depend all; \
-	    DESTDIR=${CROSSDIR} MAKEOBJDIR=obj.${MACHINE}.${TARGET} \
-	    ${MAKE} NOMAN= install)
-	ln -sf ${CROSSDIR}/usr/bin/ranlib \
-	    ${CROSSDIR}/usr/`cat ${CROSSDIR}/TARGET_CANON`/bin/ranlib
-	(cd ${.CURDIR}/usr.bin/strip; \
-	    MAKEOBJDIR=obj.${MACHINE}.${TARGET} \
-	    ${MAKE} TARGET_MACHINE_ARCH=`cat ${CROSSDIR}/TARGET_ARCH` \
-	    NOMAN= depend all; \
-	    DESTDIR=${CROSSDIR} MAKEOBJDIR=obj.${MACHINE}.${TARGET} \
-	    ${MAKE} TARGET_MACHINE_ARCH=`cat ${CROSSDIR}/TARGET_ARCH` \
-	    NOMAN= install)
-	ln -sf ${CROSSDIR}/usr/bin/strip \
-	    ${CROSSDIR}/usr/`cat ${CROSSDIR}/TARGET_CANON`/bin/strip
-.endif
-	(cd ${.CURDIR}/usr.bin/nm; \
-	    MAKEOBJDIR=obj.${MACHINE}.${TARGET} \
-	    ${MAKE} NOMAN= depend all; \
-	    DESTDIR=${CROSSDIR} MAKEOBJDIR=obj.${MACHINE}.${TARGET} \
-	    ${MAKE} NOMAN= install)
-	ln -sf ${CROSSDIR}/usr/bin/nm \
-	    ${CROSSDIR}/usr/`cat ${CROSSDIR}/TARGET_CANON`/bin/nm
-	ln -sf ${CROSSDIR}/usr/bin/size \
-	    ${CROSSDIR}/usr/`cat ${CROSSDIR}/TARGET_CANON`/bin/size
-	@for cmd in ${BINUTILS}; do \
-	 if [ ! -e ${CROSSDIR}/usr/bin/$$cmd -a \
-	 -e ${CROSSDIR}/usr/bin/`cat ${CROSSDIR}/TARGET_CANON`-$$cmd ]; then \
-	    ln -sf ${CROSSDIR}/usr/bin/`cat ${CROSSDIR}/TARGET_CANON`-$$cmd \
-	        ${CROSSDIR}/usr/bin/$$cmd ;\
-	 elif [ -e ${CROSSDIR}/usr/bin/$$cmd -a \
-	 ! -e ${CROSSDIR}/usr/bin/`cat ${CROSSDIR}/TARGET_CANON`-$$cmd ]; then \
-	    ln -sf ${CROSSDIR}/usr/bin/$$cmd \
-	        ${CROSSDIR}/usr/bin/`cat ${CROSSDIR}/TARGET_CANON`-$$cmd; \
-	 fi ;\
-	 if [ -e ${CROSSDIR}/usr/bin/$$cmd -a \
-	 ! -e ${CROSSDIR}/usr/`cat ${CROSSDIR}/TARGET_CANON`/bin/$$cmd ]; then \
-	    ln -sf ${CROSSDIR}/usr/bin/$$cmd \
-	        ${CROSSDIR}/usr/`cat ${CROSSDIR}/TARGET_CANON`/bin/$$cmd; \
-	 fi ;\
+distrib-dirs:
+	[[ -d ${DESTDIR}/. ]] || \
+	    ${SUDO} ${INSTALL} -d -o root -g wheel -m 755 ${DESTDIR}
+	${SUDO} mtree -p ${DESTDIR}/ -Uqdef ${.CURDIR}/etc/mtree/4.4BSD.dist
+	grep -v -e '^fd' -e dev/fd ${.CURDIR}/etc/mtree/special | \
+	    ${SUDO} mtree -p ${DESTDIR}/ -Uqde
+	cd ${DESTDIR}/var/anoncvs/anoncvs && \
+	    ${SUDO} rm -f usr var && \
+	    ${SUDO} ln -s . var
+	for i in ${DESTDIR}/usr/{ports,src}; do \
+		[[ -d $$i ]] || \
+		    ${SUDO} ${INSTALL} -d -o root -g wsrc -m 775 $$i; \
 	done
-	@touch ${CROSSBINUTILS}
+	cd ${DESTDIR}/ && ${SUDO} rm -f sys && ${SUDO} ln -s usr/src/sys sys
 
-# bsd.own.mk can't do it for us
-.if ${TARGET} == "amd64" || ${TARGET} == "cats" || \
-    ${TARGET} == "hppa" || ${TARGET} == "hppa64" || \
-    ${TARGET} == "sparc64" || ${TARGET} == "sgi"
-USE_GCC3=yes
+b-r:
+	# Test if the targets are mounted suitable for root (BTSTF)
+.for _dir in ${BSDOBJDIR} ${BSDRELDIR}
+	mkdir -p ${_dir} || ${SUDO} mkdir -p ${_dir}
+	${SUDO} touch ${_dir}/permissions.test
+	${SUDO} chown root:wheel ${_dir}/permissions.test
+	${SUDO} rm ${_dir}/permissions.test
+.endfor
+	touch ${BSDOBJDIR}/permissions.test && rm ${BSDOBJDIR}/permissions.test
+	cd ${.CURDIR} && exec ${MAKE} obj
+	cd ${.CURDIR} && exec ${MAKE} build-pre DESTDIR=
+	cd ${.CURDIR} && exec ${MAKE} contbuild DESTDIR=
+
+release:
+	mkdir -p ${DESTDIR} || ${SUDO} mkdir -p ${DESTDIR}
+	cd ${.CURDIR} && exec ${MAKE} mksystrace-dest
+	cd ${.CURDIR} && exec ${SUDO} ${_STCMD_DEST} ${MAKE} install
+	cd ${.CURDIR}/etc && exec ${SUDO} ${_STCMD_DEST} ${MAKE} etc-files
+	@sleep 1
+	${SUDO} rm -f ${_STFILE_DEST}
+
+do-htman:
+	-${SUDO} rm -rf ${BSDOBJDIR}/htman ${BSDRELDIR}/htman
+	${SUDO} mkdir -p ${BSDOBJDIR}/htman ${BSDRELDIR}/htman
+	${SUDO} chown $$(id -u) ${BSDOBJDIR}/htman ${BSDRELDIR}/htman
+	BSDOBJDIR=${BSDOBJDIR:Q} BSDSRCDIR=${BSDSRCDIR:Q} \
+	    BSDRELDIR=${BSDRELDIR:Q} OSrev=${OSrev:Q} \
+	    ${SHELL} ${.CURDIR}/scripts/genhtman.sh
+	${SUDO} chown -R 0:0 ${BSDRELDIR}/htman/*
+	${SUDO} chmod -R a=rX ${BSDRELDIR}/htman/*
+
+do-htinfopapers:
+	cd ${BSDOBJDIR} && env WRITEDIR=${BSDOBJDIR:Q} \
+	    ${SHELL} ${BSDSRCDIR}/scripts/systrace.mk ${MAKE} ${SHELL}
+.for _doc in papers psd smm usd
+	cd ${BSDOBJDIR}/htman/papers/${_doc} && ${_STCMD_OBJ} ${MAKE}
+.endfor
+	cd ${.CURDIR} && ${_STCMD_OBJ} ${MAKE} _do-htinfo
+	-rm -f ${BSDOBJDIR}/.policy.mk
+
+_do-htinfo:
+	cd ${BSDOBJDIR}/gnu/usr.bin/binutils/bfd/doc && \
+	    rm -f {bfd,bfdint}.html && \
+	    makeinfo --no-split --html -I ${BSDSRCDIR}/gnu/usr.bin/binutils/bfd/doc \
+	    ${BSDSRCDIR}/gnu/usr.bin/binutils/bfd/doc/bfd.texinfo && \
+	    makeinfo --no-split --html -I ${BSDSRCDIR}/gnu/usr.bin/binutils/bfd/doc \
+	    ${BSDSRCDIR}/gnu/usr.bin/binutils/bfd/doc/bfdint.texi && \
+	    cp {bfd,bfdint}.html ${BSDOBJDIR}/htman/texinfo/
+	cd ${BSDOBJDIR}/gnu/usr.bin/binutils/binutils/doc && \
+	    rm -f binutils.html && \
+	    makeinfo --no-split --html -I ${BSDSRCDIR}/gnu/usr.bin/binutils/binutils/doc \
+	    ${BSDSRCDIR}/gnu/usr.bin/binutils/binutils/doc/binutils.texi && \
+	    cp binutils.html ${BSDOBJDIR}/htman/texinfo/
+	cd ${BSDOBJDIR}/gnu/usr.bin/binutils/gas/doc && \
+	    rm -f as.html && \
+	    makeinfo --no-split --html -I ${BSDSRCDIR}/gnu/usr.bin/binutils/gas/doc \
+	    ${BSDSRCDIR}/gnu/usr.bin/binutils/gas/doc/as.texinfo && \
+	    cp as.html ${BSDOBJDIR}/htman/texinfo/
+	cd ${BSDOBJDIR}/gnu/usr.bin/binutils/gdb/doc && \
+	    rm -f {gdb,gdbint,stabs,annotate}.html && \
+	    makeinfo --no-split --html \
+	    -I ${BSDSRCDIR}/gnu/usr.bin/binutils/gdb/mi \
+	    -I ${BSDSRCDIR}/gnu/usr.bin/binutils/gdb/doc \
+	    ${BSDSRCDIR}/gnu/usr.bin/binutils/gdb/doc/gdb.texinfo && \
+	    makeinfo --no-split --html -I ${BSDSRCDIR}/gnu/usr.bin/binutils/gdb/doc \
+	    ${BSDSRCDIR}/gnu/usr.bin/binutils/gdb/doc/gdbint.texinfo && \
+	    makeinfo --no-split --html -I ${BSDSRCDIR}/gnu/usr.bin/binutils/gdb/doc \
+	    ${BSDSRCDIR}/gnu/usr.bin/binutils/gdb/doc/stabs.texinfo && \
+	    makeinfo --no-split --html -I ${BSDSRCDIR}/gnu/usr.bin/binutils/gdb/doc \
+	    ${BSDSRCDIR}/gnu/usr.bin/binutils/gdb/doc/annotate.texinfo && \
+	    cp {gdb,gdbint,stabs,annotate}.html ${BSDOBJDIR}/htman/texinfo/
+	cd ${BSDOBJDIR}/gnu/usr.bin/binutils/ld && \
+	    rm -f ld{,int}.html && \
+	    makeinfo --no-split --html \
+	    -I ${BSDSRCDIR}/gnu/usr.bin/binutils/ld \
+	    -I ${BSDSRCDIR}/gnu/usr.bin/binutils/bfd/doc \
+	    ${BSDSRCDIR}/gnu/usr.bin/binutils/ld/ld.texinfo && \
+	    makeinfo --no-split --html \
+	    -I ${BSDSRCDIR}/gnu/usr.bin/binutils/ld \
+	    -I ${BSDSRCDIR}/gnu/usr.bin/binutils/bfd/doc \
+	    ${BSDSRCDIR}/gnu/usr.bin/binutils/ld/ldint.texinfo && \
+	    cp ld{,int}.html ${BSDOBJDIR}/htman/texinfo/
+	cd ${BSDOBJDIR}/gnu/usr.bin/cvs/doc && \
+	    rm -f cvs{,client}.html && \
+	    makeinfo --no-split --html -I ${BSDSRCDIR}/gnu/usr.bin/cvs/doc \
+	    ${BSDSRCDIR}/gnu/usr.bin/cvs/doc/cvs.texinfo && \
+	    makeinfo --no-split --html \
+	    ${BSDSRCDIR}/gnu/usr.bin/cvs/doc/cvsclient.texi && \
+	    cp cvs{,client}.html ${BSDOBJDIR}/htman/texinfo/
+	cd ${BSDOBJDIR}/gcc/gcc && \
+	    rm -f {cpp{,internals},gcc{,int}}.html && \
+	    makeinfo --no-split --html -I ${BSDSRCDIR}/gcc/gcc/doc/include \
+	    ${BSDSRCDIR}/gcc/gcc/doc/cpp.texi && \
+	    makeinfo --no-split --html -I ${BSDSRCDIR}/gcc/gcc/doc/include \
+	    ${BSDSRCDIR}/gcc/gcc/doc/gcc.texi && \
+	    makeinfo --no-split --html -I ${BSDSRCDIR}/gcc/gcc/doc/include \
+	    ${BSDSRCDIR}/gcc/gcc/doc/gccint.texi && \
+	    makeinfo --no-split --html \
+	    ${BSDSRCDIR}/gcc/gcc/doc/cppinternals.texi && \
+	    cp {cpp{,internals},gcc{,int}}.html ${BSDOBJDIR}/htman/texinfo/
+.if ${NO_ADA:L} == "no"
+	cd ${BSDOBJDIR}/gcc/gcc && \
+	    rm -f gnat{_ugn_unw,_rm,-style}.html && \
+	    makeinfo --no-split --html \
+	    -I ${BSDSRCDIR}/gcc/gcc/doc/include -I ${BSDSRCDIR}/gcc/gcc/ada \
+	    doc/gnat_ugn_unw.texi && \
+	    makeinfo --no-split --html \
+	    -I ${BSDSRCDIR}/gcc/gcc/doc/include -I ${BSDSRCDIR}/gcc/gcc/ada \
+	    ${BSDSRCDIR}/gcc/gcc/ada/gnat_rm.texi && \
+	    makeinfo --no-split --html \
+	    -I ${BSDSRCDIR}/gcc/gcc/doc/include -I ${BSDSRCDIR}/gcc/gcc/ada \
+	    ${BSDSRCDIR}/gcc/gcc/ada/gnat-style.texi && \
+	    cp gnat{_ugn_unw,_rm,-style}.html ${BSDOBJDIR}/htman/texinfo/
+.endif
+.if ${NO_PASCAL:L} == "no"
+	cp ${BSDSRCDIR}/gcc/gpcdoc/gpc{,s,s-de}.html ${BSDOBJDIR}/htman/texinfo/
 .endif
 
-${CROSSGCC}:		${CROSSBINUTILS}
-.if ${USE_GCC3:L} == "yes"
-	(cd ${.CURDIR}/gnu/usr.bin/gcc; \
-	    MAKEOBJDIR=obj.${MACHINE}.${TARGET} \
-	    TARGET_ARCH=`cat ${CROSSDIR}/TARGET_ARCH` CROSSDIR=${CROSSDIR} \
-	    ${MAKE} -f Makefile.bsd-wrapper depend && \
-	    MAKEOBJDIR=obj.${MACHINE}.${TARGET} \
-	    TARGET_ARCH=`cat ${CROSSDIR}/TARGET_ARCH` CROSSDIR=${CROSSDIR} \
-	    ${MAKE} -f Makefile.bsd-wrapper all && \
-	    DESTDIR=${CROSSDIR} MAKEOBJDIR=obj.${MACHINE}.${TARGET} \
-	    ${MAKE} -f Makefile.bsd-wrapper install)
-	ln -sf ${CROSSDIR}/usr/bin/`cat ${CROSSDIR}/TARGET_CANON`-g++ \
-	    ${CROSSDIR}/usr/bin/c++
-	ln -sf ${CROSSDIR}/usr/libexec/cpp \
-	    ${CROSSDIR}/usr/bin/cpp
+base-distbuild:
+	cd ${.CURDIR} && exec ${MAKE} mksystrace-obj
+	cd ${.CURDIR}/distrib && ${_STCMD_OBJ} ${MAKE} depend && \
+	    exec ${_STCMD_OBJ} ${MAKE}
+	-rm -f ${_STFILE_OBJ}
+
+base-distinstall:
+	cd ${.CURDIR} && exec ${MAKE} mksystrace-dest
+	-rm -rf ${_STFILE_OBJ} ${DESTDIR}/snapshot
+	${INSTALL} -d -o root -g wheel -m 755 ${DESTDIR}/snapshot
+	cd ${DESTDIR} && for file in usr/mdec/*{boot,mbr}*; do \
+		[[ -e $$file ]] || continue; \
+		${INSTALL} -c -o root -g wheel -m 444 $$file snapshot/; \
+	done
+	cd ${.CURDIR}/distrib && exec ${_STCMD_DEST} ${MAKE} install
+	cd ${.CURDIR}/share/man && exec ${_STCMD_DEST} ${MAKE} makedb
+	cd ${.CURDIR}/gnu/usr.bin/texinfo && exec ${_STCMD_DEST} \
+	    ${MAKE} -f Makefile.bsd-wrapper mkinfodir
+	-rm -f ${_STFILE_DEST}
+
+dist-q:
+	cd ${.CURDIR} && exec /usr/bin/env -i MAKEFLAGS=${MFLAGS:M*:Q} \
+	    HOME=$$(/usr/bin/mktemp -d /var/tmp/buildhome.XXXXXXXXXX) \
+	    PATH=/bin:/usr/bin:/sbin:/usr/sbin:/usr/X11R6/bin TZ=UTC \
+	    ${MAKE} BATCH=1 _do-dist 2>&1 | tee -a ${.CURDIR}/Build.log
+	@date | tee -a ${.CURDIR}/Build.log
+	-[[ -d ${BSDRELDIR}/rel && -s ${.CURDIR}/Build.log ]] && \
+	    ${SUDO} cp ${.CURDIR}/Build.log ${BSDRELDIR}/rel/
+
+dist:
+	cd ${.CURDIR} && exec /usr/bin/env -i MAKEFLAGS=${MFLAGS:M*:Q} \
+	    HOME=$$(/usr/bin/mktemp -d /var/tmp/buildhome.XXXXXXXXXX) \
+	    PATH=/bin:/usr/bin:/sbin:/usr/sbin:/usr/X11R6/bin TZ=UTC \
+	    ${MAKE} _do-dist 2>&1 | tee -a ${.CURDIR}/Build.log
+	@date | tee -a ${.CURDIR}/Build.log
+	-[[ -d ${BSDRELDIR}/rel && -s ${.CURDIR}/Build.log ]] && \
+	    ${SUDO} cp ${.CURDIR}/Build.log ${BSDRELDIR}/rel/
+
+_DISTS=		base
+.if !exists(${BSDSRCDIR}/contrib/code/Snippets/tinyirc.c) || \
+    !exists(${BSDSRCDIR}/contrib/code/jupp/jupprc)
+NO_LIVECD=	incomplete
+.endif
+.ifdef QUICK_DIST2
+QUICK_DIST=	implied
+NO_LIVECD=	implied
 .else
-	(cd ${CROSSDIR}/usr/obj/gnu/egcs/gcc; \
-	    /bin/sh ${.CURDIR}/gnu/egcs/gcc/configure \
-	    --with-gnu-as --with-gnu-ld --prefix ${CROSSDIR}/usr \
-	    --target `cat ${CROSSDIR}/TARGET_CANON` \
-	    --enable-languages="c,c++" --enable-cpp --disable-nls \
-	    --with-gxx-include-dir=${CROSSDIR}/usr/include/g++ && \
-	    PATH=${CROSSPATH} ${MAKE} BISON=yacc LANGUAGES="${CROSSLANGS}" \
-	    CFLAGS="${CFLAGS} -I${.CURDIR}/gnu/lib/libiberty/include" \
-	    LIBIBERTY_INCLUDES=${.CURDIR}/gnu/lib/libiberty/include \
-	    DEMANGLER_PROG= DEMANGLE_H= LDFLAGS="${LDSTATIC}" build_infodir=. \
-	    GCC_FOR_TARGET="./xgcc -B./ -I${CROSSDIR}/usr/include" && \
-	    ${MAKE} BISON=yacc LANGUAGES="${CROSSLANGS}" LDFLAGS="${LDSTATIC}" \
-	    GCC_FOR_TARGET="./xgcc -B./ -I${CROSSDIR}/usr/include" \
-	    CFLAGS="${CFLAGS} -I${.CURDIR}/gnu/lib/libiberty/include" \
-	    LIBIBERTY_INCLUDES=${.CURDIR}/gnu/lib/libiberty/include \
-	    build_infodir=. INSTALL_MAN= INSTALL_HEADERS_DIR= install)
-	ln -sf ${CROSSDIR}/usr/bin/`cat ${CROSSDIR}/TARGET_CANON`-gcc \
-	    ${CROSSDIR}/usr/bin/cc
-	ln -sf ${CROSSDIR}/usr/bin/`cat ${CROSSDIR}/TARGET_CANON`-g++ \
-	    ${CROSSDIR}/usr/bin/c++
-	${INSTALL} -c -o ${BINOWN} -g ${BINGRP} -m ${BINMODE} \
-	    ${CROSSDIR}/usr/obj/gnu/egcs/gcc/cpp \
-	    ${CROSSDIR}/usr/libexec/cpp
-	sed -e 's#/usr/libexec/cpp#${CROSSDIR}/usr/libexec/cpp#' \
-	    -e 's#/usr/include#${CROSSDIR}/usr/include#' \
-	    ${.CURDIR}/usr.bin/cpp/cpp.sh > ${CROSSDIR}/usr/bin/cpp
-	chmod ${BINMODE} ${CROSSDIR}/usr/bin/cpp
-	chown ${BINOWN}:${BINGRP} ${CROSSDIR}/usr/bin/cpp
+_DISTS+=	x11
 .endif
-	@touch ${CROSSGCC}
+.ifndef QUICK_DIST
+_DISTS+=	htman
+.endif
+DIST_RESTART?=	0
 
-# XXX MAKEOBJDIR maybe should be obj.${TARGET} here, revisit later
-cross-lib:	${CROSSGCC}
-	MACHINE=${TARGET} MACHINE_ARCH=`cat ${CROSSDIR}/TARGET_ARCH`; \
-	export MACHINE MACHINE_ARCH; \
-	(cd ${.CURDIR}/lib; \
-	    for lib in csu libc; do \
-	    (cd $$lib; \
-	        eval ${CROSSENV} MAKEOBJDIR=obj.${MACHINE}.${TARGET} \
-		    ${MAKE} depend all install); \
+_do-dist:
+	@h=${HOME:Q}; [[ $$h = $$HOME ]] || exit 1
+	@if [[ $$HOME != /var/tmp/buildhome.* ]]; then \
+		echo Do not call this target directly; \
+		exit 1; \
+	fi
+	mkdir -p ${HOME}/.etc/systrace
+.ifdef QUICK_DIST2
+.  if ${NO_JAVA:L} == "no"
+	@[[ -e /usr/X11R6/include/X11/X.h && -e /usr/X11R6/lib/libX11.a ]] || \
+	    {	print 'To build gcc/libjava you must have X11 installed!'; \
+		${SUDO} rm -rf ${HOME}; \
+		exit 1; \
+	}
+.  endif
+.endif
+	@[[ -x /usr/mpkg/bin/gmake ]] || { \
+		print 'To build gcc you must have GNU make installed!'; \
+		${SUDO} rm -rf ${HOME}; \
+		exit 1; \
+	}
+.ifndef QUICK_DIST
+	@c='${CVSROOT}'; [[ $$c = *@(@)*@(:/)* || -e $$c/CVSROOT/config ]] || \
+	    {	print 'To build a full release CVSROOT must point to the'; \
+		print 'locally mounted MirOS /cvs or a remote repository'; \
+		${SUDO} rm -rf ${HOME}; \
+		exit 1; \
+	}
+.endif
+	@echo Initialising sudo as ${SUDO:Q}
+	${SUDO} true
+	@echo ============================================================
+	@if [[ ! -e /var/tmp/.buildnotice ]]; then \
+		${SUDO} install -c -o 0 -g 0 -m 600 /dev/null \
+		    /var/tmp/.buildnotice; \
+	fi
+	${SUDO} ${MKSH} -c 'echo rm -rf ${HOME} >>/var/tmp/.buildnotice'
+	@${SUDO} rm -f ${BSDRELDIR}/rel/Build.log
+	@echo Initiating MirOS Build...
+	@date
+.ifdef BATCH
+	@echo BATCH mode engaged.
+.else
+	@echo INTERACTIVE mode engaged.
+.endif
+.ifdef QUICK_DIST
+	@echo QUICK dist-build mode active:
+	@echo not building ports, package tools, or HTML manual pages.
+.  ifdef QUICK_DIST2
+	@echo not building XFree86® either.
+.  endif
+.endif
+.ifdef NO_LIVECD
+.  ifndef QUICK_DIST
+	@echo QUICK dist-build mode active:
+.  endif
+.  if ${NO_LIVECD} == "incomplete"
+	@echo Your checkout is not complete:
+.  endif
+	@echo not building the baselive CD image.
+.endif
+	@echo ============================================================
+.if ${DIST_RESTART} > 0
+	@print not removing ${BSDOBJDIR:Q} and ${BSDRELDIR:Q}
+.elif defined(NFS_DIST)
+	@for dir in ${BSDOBJDIR} ${BSDRELDIR}; do \
+		if [[ -d $$dir ]]; then \
+			${SUDO} rm -rf $$dir/{*,.*}; \
+		elif [[ -e $$dir ]]; then \
+			print "Warning: '$$dir' not a directory!"; \
+			print "The build might fail due to strange"; \
+			print "mount combinations, symlinks, etc."; \
+			print "and '$$dir' cannot be cleaned either!"; \
+		else \
+			print "Warning: '$$dir' non-existant; if you"; \
+			print "intend an NFS dist you should better"; \
+			print "mount something there before starting!"; \
+		fi; \
+	done
+.else
+	${SUDO} rm -rf ${BSDOBJDIR} ${BSDRELDIR}
+.endif
+	cd ${.CURDIR} && exec ${MAKE} distrib-dirs DESTDIR=
+	${SUDO} install -d -o 0 -g 0 -m ${DIRMODE} ${BSDRELDIR}/{base,rel,x11}
+.if ${DIST_RESTART} == 0
+	cd ${.CURDIR} && exec ${MAKE} b-r
+.elif ${DIST_RESTART} == 1
+	cd ${.CURDIR} && exec ${MAKE} contbuild
+.endif
+.ifndef QUICK_DIST2
+	@date
+.  if ${DIST_RESTART} < 3
+	cd ${.CURDIR}/X11 && exec ${MAKE} b-r
+.  endif
+.endif
+	@date
+.if ${DIST_RESTART} < 4
+	cd ${.CURDIR}/gcc && exec ${MAKE} b-r
+.endif
+	@date
+.if ${DIST_RESTART} < 5
+	cd ${.CURDIR} && exec ${MAKE} release DESTDIR=${BSDRELDIR}/base
+	cd ${.CURDIR}/gcc && \
+	    exec ${SUDO} ${MAKE} install DESTDIR=${BSDRELDIR}/base
+.  ifndef QUICK_DIST2
+	cd ${.CURDIR}/X11 && \
+	    exec ${SUDO} ${MAKE} release DESTDIR=${BSDRELDIR}/x11
+.  endif
+.endif
+	@date
+.if ${DIST_RESTART} < 6
+	cd ${.CURDIR} && exec ${MAKE} base-distbuild DESTDIR=${BSDRELDIR}/base
+	cd ${.CURDIR} && exec ${SUDO} ${MAKE} base-distinstall \
+	    DESTDIR=${BSDRELDIR}/base
+.endif
+.ifndef QUICK_DIST
+	@date
+	t=0; cd ${BSDRELDIR}; \
+	if mount 2>&- | fgrep ' on ${BSDRELDIR}/usr ' >&- 2>&-; then \
+		${SUDO} umount ${BSDRELDIR}/usr; \
+	fi; \
+	test ! -e usr || ${SUDO} rm -rf usr; \
+	mkdir usr && \
+	${SUDO} mount_mfs -s 458752 swap ${BSDRELDIR}/usr && \
+	if ! test -e ${BSDRELDIR}/rel/ports${OSrev}.ngz; then \
+		cd usr && \
+		(umask 002; cvs -Rqz3 -d ${CVSROOT} co -PA ports) && \
+		${MKSH} ${.CURDIR}/scripts/mnt-cvsroot ${ANONCVSROOT} . && \
+		${SUDO} chown -R root:wsrc ports && \
+		cd .. && \
+		find usr/ports | sort | cpio -oC512 -Hsv4cpio -Mset | \
+		    gzip -n9 | ${SUDO} dd of=rel/ports${OSrev}.ngz && t=1; \
+	else \
+		${SUDO} tar xzphf ${BSDRELDIR}/rel/ports${OSrev}.ngz \
+		    usr/ports/{CVS,M*,S*,essentials/pkgtools,in*} && t=1; \
+	fi; \
+	test -e ${BSDRELDIR}/rel/pkgutl${OSrev}.ngz || if [[ $$t = 1 ]]; then \
+		cd ${BSDRELDIR}/base/dev; ${SUDO} ./MAKEDEV std systrace; \
+		cd ..; ${SUDO} rm -rf usr/{mpkg,ports} .etc var/games; \
+		${SUDO} mkdir .etc; cd ../usr; ${SUDO} pax -rw -pe -l \
+		    ports/{Makefile,Setup.sh,essentials/pkgtools,infra*} \
+		    ${BSDRELDIR}/base/usr && cd ${BSDRELDIR}/base && \
+		${SUDO} chroot . mksh -c 'cd /usr/ports && make \
+		    HOME=/ SUDO= setup' && \
+		find usr/mpkg | sort | ${SUDO} cpio -oC512 -Hsv4cpio -Mset | \
+		    gzip -n9 | ${SUDO} dd of=../rel/pkgutl${OSrev}.ngz && t=; \
+		[[ -z $$t ]] || rm -f ${BSDRELDIR}/rel/pkgutl${OSrev}.ngz; \
+		cd ${BSDRELDIR}; ${SUDO} rm -rf base/dev/!(MAKEDEV) \
+		    base/usr/{mpkg,ports} base/.etc base/var/games; \
+		${SUDO} mkdir -m 0775 ${BSDRELDIR}/base/usr/ports; \
+		${SUDO} chown root:wsrc ${BSDRELDIR}/base/usr/ports; \
+	fi; \
+	cd ${BSDRELDIR}; ${SUDO} umount ${BSDRELDIR}/usr; \
+	test -e ${BSDRELDIR}/rel/pkgutl${OSrev}.ngz
+	@date
+	if [[ ! -e ${BSDRELDIR}/rel/htpsd${OSrev}.ngz || \
+	    ! -e ${BSDRELDIR}/rel/htusd${OSrev}.ngz ]]; then \
+		cd ${.CURDIR} && exec ${MAKE} do-htman; \
+	fi
+.endif
+	@date
+	@echo ============================================================
+	@if [[ -e /var/tmp/.buildnotice ]]; then \
+		${SUDO} cat /var/tmp/.buildnotice; \
+		${SUDO} ${MKSH} /var/tmp/.buildnotice; \
+		${SUDO} rm -f /var/tmp/.buildnotice || true; \
+		echo ============================================================; \
+	fi
+	@echo Checking files:
+	@echo
+.for _set in ${_DISTS}
+	-cd ${BSDSRCDIR}/distrib/lists/${_set} && \
+	    DESTDIR=${BSDRELDIR:Q}/${_set} RELEASEDIR=${BSDRELDIR:Q}/rel \
+	    ${SUDO} ${SHELL} ${BSDSRCDIR}/scripts/tarsets check
+.endfor
+	@echo ============================================================
+.ifndef BATCH
+	@date
+	@read a?'Press Return to continue...'
+.endif
+	@date
+	cd ${BSDRELDIR}/base/snapshot && ${SUDO} ${INSTALL} -c \
+	    -o root -g wheel -m 444 * ${BSDRELDIR}/rel/
+.for _set in ${_DISTS}
+	-cd ${BSDSRCDIR}/distrib/lists/${_set} && \
+	    DESTDIR=${BSDRELDIR:Q}/${_set} RELEASEDIR=${BSDRELDIR:Q}/rel \
+	    ${SUDO} ${SHELL} ${BSDSRCDIR}/scripts/tarsets make ${OSrev}
+.endfor
+	-cd ${BSDRELDIR}/rel; \
+	    ${SUDO} rm -f CKSUM* index.txt; \
+	    ( \
+		/bin/ls -d1 !(@(Build|index.txt)*); \
+		echo CKSUM; \
+		echo CKSUM.gz; \
+		echo index.txt; \
+	    ) | ${SUDO} sort -uo index.txt; \
+	    sort -k3 |& exec 3>&p; exec 4<&p; \
+	    sort |& exec 5>&p; exec 6<&p; \
+	    cksum -a cksum -a rmd160 -a tiger !(@(Build|CKSUM)*) | \
+	    while IFS= read -r line; do \
+		if [[ $$line = *" = "+([0-9a-fA-F]) ]]; then \
+			print -ru5 "$$line"; \
+		else \
+			print -ru3 "$$line"; \
+		fi; \
 	    done; \
-	    eval ${CROSSENV} MAKEOBJDIR=obj.${MACHINE}.${TARGET} \
-	        SKIPDIR=\"${NO_CROSS} libocurses/PSD.doc\" \
-	        ${MAKE} depend all install)
+	    exec 3>&-; exec 5>&-; \
+	    (cat <&4; cat <&6) | ${SUDO} dd of=CKSUM 2>/dev/null; \
+	    ${SUDO} chmod 755 $$(find . -type d); \
+	    ${SUDO} chmod 444 $$(find . -type f); \
+	    ${SUDO} chown -R 0:0 .
+	@echo ============================================================
+	@echo Done with MirOS Build.
+.if ${DIST_RESTART} != 0
+	@${SUDO} touch ${BSDRELDIR}/rel/Not_an_official_release!
+.endif
+	@/bin/ls -Fl ${BSDRELDIR}/rel
+.if !defined(NO_LIVECD)
+	@date
+.endif
+	@echo ============================================================
+.if !defined(NO_LIVECD)
+	cd ${BSDSRCDIR}/distrib/baselive && ${MAKE} it #cleanworkdir
+	@echo
+	@echo Done with MirOS Snapshot generation.
+	@/bin/ls -Fl ${BSDOBJDIR}/distrib/baselive/livecd${OSrev}.iso
+	@echo ============================================================
+.endif
 
-cross-bin:	${CROSSOBJ}
-	MACHINE=${TARGET} MACHINE_ARCH=`cat ${CROSSDIR}/TARGET_ARCH`; \
-	export MACHINE MACHINE_ARCH; \
-	for i in libexec bin sbin usr.bin usr.sbin; do \
-	(cd ${.CURDIR}/$$i; \
-	    eval ${CROSSENV} MAKEOBJDIR=obj.${MACHINE}.${TARGET} \
-	        SKIPDIR=\"${BINUTILS} ${NO_CROSS}\" \
-	        ${MAKE} depend all install); \
-	done
+.PHONY:	beforeinstall afterinstall mksystrace mksystrace-obj mksystrace-dest \
+	build-pre contbuild distrib-dirs b-r release do-htman \
+	base-distbuild base-distinstall dist-q dist _do-dist cleandir
 
-cross-etc-root-var:	${CROSSOBJ}
-	(cd ${.CURDIR}/etc && \
-	    DESTDIR=${CROSSDIR} ${MAKE} distribution-etc-root-var)
-
-cross-depend:	.PHONY
-	@(cd ${.CURDIR} && \
-	    BSDOBJDIR=${CROSSDIR}/usr/obj \
-	    BSDSRCDIR=${.CURDIR} MAKEOBJDIR=obj.${MACHINE}.${TARGET} \
-	    SKIPDIR="${NO_CROSS}" \
-	    ${MAKE} depend)
-
-cross-clean:	.PHONY
-	@(cd ${.CURDIR} && \
-	    BSDOBJDIR=${CROSSDIR}/usr/obj \
-	    BSDSRCDIR=${.CURDIR} MAKEOBJDIR=obj.${MACHINE}.${TARGET} \
-	    SKIPDIR="${NO_CROSS}" \
-	    ${MAKE} clean)
-
-cross-cleandir:	.PHONY
-	@(cd ${.CURDIR} && \
-	    BSDOBJDIR=${CROSSDIR}/usr/obj \
-	    BSDSRCDIR=${.CURDIR} MAKEOBJDIR=obj.${MACHINE}.${TARGET} \
-	    SKIPDIR="${NO_CROSS}" \
-	    ${MAKE} cleandir)
-
-.endif # defined(TARGET)
- 
 .include <bsd.subdir.mk>
+
+cleandir:
+	-rm -rf ${BSDOBJDIR}/htman

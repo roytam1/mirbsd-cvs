@@ -1,3 +1,4 @@
+/**	$MirOS: src/sys/kern/vfs_cluster.c,v 1.2 2005/03/06 21:28:03 tg Exp $ */
 /*	$OpenBSD: vfs_cluster.c,v 1.33 2004/10/26 17:16:27 pedro Exp $	*/
 /*	$NetBSD: vfs_cluster.c,v 1.12 1996/04/22 01:39:05 christos Exp $	*/
 
@@ -53,7 +54,7 @@ struct buf *cluster_rbuild(struct vnode *, u_quad_t, struct buf *,
 	    daddr_t, daddr_t, long, int, long);
 void	    cluster_wbuild(struct vnode *, struct buf *, long,
 	    daddr_t, int, daddr_t);
-struct cluster_save *cluster_collectbufs(struct vnode *, 
+struct cluster_save *cluster_collectbufs(struct vnode *,
 	    struct cluster_info *, struct buf *);
 
 #ifdef DIAGNOSTIC
@@ -286,7 +287,7 @@ cluster_rbuild(vp, filesize, bp, lbn, blkno, size, run, flags)
 #ifdef DIAGNOSTIC
 	if (size != vp->v_mount->mnt_stat.f_iosize)
 		panic("cluster_rbuild: size %ld != filesize %ld",
-			size, vp->v_mount->mnt_stat.f_iosize);
+			size, (long)vp->v_mount->mnt_stat.f_iosize);
 #endif
 	if ((u_quad_t)size * (u_quad_t)(lbn + run + 1) > filesize)
 		--run;
@@ -610,7 +611,7 @@ cluster_wbuild(vp, last_bp, size, start_lbn, len, lbn)
 #ifdef DIAGNOSTIC
 	if (size != vp->v_mount->mnt_stat.f_iosize)
 		panic("cluster_wbuild: size %ld != filesize %ld",
-			size, vp->v_mount->mnt_stat.f_iosize);
+			size, (long)vp->v_mount->mnt_stat.f_iosize);
 #endif
 redo:
 	while ((!incore(vp, start_lbn) || start_lbn == lbn) && len) {

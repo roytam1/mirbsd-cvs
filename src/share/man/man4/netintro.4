@@ -104,18 +104,12 @@ due to errors in device operation.
 .Sh PROTOCOLS
 The system currently supports the
 Internet
-protocols, the Xerox Network Systems(tm) protocols,
-and some of the
-.Tn ISO OSI
 protocols.
 Raw socket interfaces are provided to the
 .Tn IP
 protocol
 layer of the
-Internet, and to the
-.Tn IDP
-protocol of Xerox
-.Tn NS .
+Internet.
 Consult the appropriate manual pages in this section for more
 information regarding the support for each protocol family.
 .Sh ADDRESSING
@@ -145,11 +139,7 @@ are known to the system
 .Bd -literal
 #define    AF_UNIX      1    /* local to host (pipes, portals) */
 #define    AF_INET      2    /* internetwork: UDP, TCP, etc. */
-#define    AF_NS        6    /* Xerox NS protocols */
-#define    AF_CCITT     10   /* CCITT protocols, X.25 etc */
-#define    AF_HYLINK    15   /* NSC Hyperchannel */
 #define    AF_APPLETALK 16   /* AppleTalk */
-#define    AF_ISO       18   /* ISO protocols */
 #define    AF_IPX       23   /* Novell Internet Protocol */
 #define    AF_INET6     24   /* IPv6 */
 #define    AF_NATM      27   /* native ATM access */

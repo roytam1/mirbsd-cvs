@@ -1,3 +1,4 @@
+# $MirOS$
 # $OpenBSD: pf.os,v 1.21 2006/07/28 21:51:12 david Exp $
 # passive OS fingerprinting
 # -------------------------
@@ -304,6 +305,7 @@ S22:64:1:52:M*,N,N,S,N,W0:	Linux:2.2:ts:Linux 2.2 w/o timestamps
 57344:64:0:64:M*,N,N,S,N,W0,N,N,T:	OpenBSD:3.3-4.0:no-df:OpenBSD 3.3-4.0 (scrub no-df)
 
 65535:64:1:64:M*,N,N,S,N,W0,N,N,T:	OpenBSD:3.0-4.0:opera:OpenBSD 3.0-4.0 (Opera)
+16384:64:1:60:M*,N,W0,S,T:		OpenBSD:3.8:mm-obsd:OpenBSD or MirBSD (MunARi)
 
 # ----------------- Solaris -----------------
 
@@ -682,5 +684,3 @@ S12:64:0:44:M1452:			AXIS:5600:v5.64:AXIS Printer Server 5600 v5.64
 *:128:1:48:M536,N,N,S:			@Windows:98::Windows 98
 *:128:1:48:M*,N,N,S:			@Windows:XP::Windows XP/2000
 *:128:1:48:M*,N,N,S:			@Windows:2000::Windows XP/2000
-
-

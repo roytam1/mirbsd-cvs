@@ -1,10 +1,12 @@
 /*
- * Written by J.T. Conklin <jtc@netbsd.org>.
+ * Written by J.T. Conklin <jtc@NetBSD.org>.
  * Public domain.
  */
 
+#include <sys/cdefs.h>
 #if defined(LIBM_SCCS) && !defined(lint)
-static char rcsid[] = "$NetBSD: s_isinf.c,v 1.3 1995/05/11 23:20:14 jtc Exp $";
+__RCSID("$MirOS$");
+__RCSID("$NetBSD: s_isinf.c,v 1.6 2003/07/26 19:25:05 salo Exp $");
 #endif
 
 /*
@@ -14,6 +16,9 @@ static char rcsid[] = "$NetBSD: s_isinf.c,v 1.3 1995/05/11 23:20:14 jtc Exp $";
 
 #include "math.h"
 #include "math_private.h"
+
+#undef isinf
+int isinf(double);
 
 int
 isinf(double x)

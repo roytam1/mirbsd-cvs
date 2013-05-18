@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: linux_exec.c,v 1.23 2004/04/15 00:22:42 tedu Exp $	*/
 /*	$NetBSD: linux_exec.c,v 1.13 1996/04/05 00:01:10 christos Exp $	*/
 
@@ -161,7 +162,7 @@ linux_e_proc_init(p, vmspace)
 	memset(p->p_emuldata, '\0', sizeof(struct linux_emuldata));
 
 	/* Set the process idea of the break to the real value */
-	((struct linux_emuldata *)(p->p_emuldata))->p_break = 
+	((struct linux_emuldata *)(p->p_emuldata))->p_break =
 	    vmspace->vm_daddr + ctob(vmspace->vm_dsize);
 }
 
@@ -405,7 +406,7 @@ exec_linux_aout_prep_omagic(p, epp)
 	 * computed (in execve(2)) by rounding *up* `ep_tsize' and `ep_dsize'
 	 * respectively to page boundaries.
 	 * Compensate `ep_dsize' for the amount of data covered by the last
-	 * text page. 
+	 * text page.
 	 */
 	dsize = epp->ep_dsize + execp->a_text - round_page(execp->a_text);
 	epp->ep_dsize = (dsize > 0) ? dsize : 0;
@@ -479,9 +480,14 @@ linux_elf_probe(p, epp, itp, pos, os)
 	int error;
 	size_t len;
 
+	if (!ELFNAME(os_pt_note)(p, epp, epp->ep_hdr, "MirOS Linux", 12, 4))
+		goto emulated;
+
 	brand = elf32_check_brand(eh);
 	if (brand && strcmp(brand, "Linux"))
 		return (EINVAL);
+
+emulated:
 	if (itp[0]) {
 		if ((error = emul_find(p, NULL, linux_emul_path, itp, &bp, 0)))
 			return (error);

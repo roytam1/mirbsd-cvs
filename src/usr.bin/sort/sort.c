@@ -32,19 +32,11 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-static char copyright[] =
-"@(#) Copyright (c) 1993\n\
-	The Regents of the University of California.  All rights reserved.\n";
-#endif /* not lint */
-
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)sort.c	8.1 (Berkeley) 6/6/93";
-#else
-static char rcsid[] = "$OpenBSD: sort.c,v 1.25 2005/04/11 21:04:48 moritz Exp $";
-#endif
-#endif /* not lint */
+#include <sys/cdefs.h>
+__COPYRIGHT("@(#) Copyright (c) 1993\n\
+	The Regents of the University of California.  All rights reserved.\n");
+__SCCSID("@(#)sort.c	8.1 (Berkeley) 6/6/93");
+__RCSID("$MirOS$");
 
 /*
  * Sort sorts a file using an optional user-defined key.
@@ -114,7 +106,9 @@ main(int argc, char *argv[])
 	FILE *outfp = NULL;
 	void *p;
 
+#ifndef __MirBSD__
 	setlocale(LC_ALL, "");
+#endif
 
 	if ((clist = calloc((ND+1)*2, sizeof(struct coldesc))) == NULL ||
 	    (ftpos = fldtab = calloc(ND+2, sizeof(struct field))) == NULL)

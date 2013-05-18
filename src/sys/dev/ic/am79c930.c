@@ -436,8 +436,7 @@ void am79c930_regdump (sc)
 }
 #endif
 
-void am79c930_chip_init (sc, how)
-	struct am79c930_softc *sc;
+void am79c930_chip_init (struct am79c930_softc *sc, int how)
 {
 	/* zero the bank select register, and leave it that way.. */
 	bus_space_write_1(sc->sc_iot, sc->sc_ioh, AM79C930_BSS, 0);

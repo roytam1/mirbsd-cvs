@@ -107,7 +107,7 @@ static int long_i2c(ASN1_VALUE **pval, unsigned char *cont, int *putype, const A
 	/* this exists to bypass broken gcc optimization */
 	char *cp = (char *)pval;
 
-	/* use memcpy, because we may not be long aligned */
+	/* use memcpy, because we may be not long aligned */
 	memcpy(&ltmp, cp, sizeof(long));
 
 	if(ltmp == it->size) return -1;

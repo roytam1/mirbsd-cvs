@@ -1,11 +1,12 @@
+/**	$MirOS: src/sys/uvm/uvm_mmap.c,v 1.3 2005/05/14 15:59:44 tg Exp $ */
 /*	$OpenBSD: uvm_mmap.c,v 1.55 2005/01/15 06:54:51 otto Exp $	*/
 /*	$NetBSD: uvm_mmap.c,v 1.49 2001/02/18 21:19:08 chs Exp $	*/
 
 /*
  * Copyright (c) 1997 Charles D. Cranor and Washington University.
- * Copyright (c) 1991, 1993 The Regents of the University of California.  
+ * Copyright (c) 1991, 1993 The Regents of the University of California.
  * Copyright (c) 1988 University of Utah.
- * 
+ *
  * All rights reserved.
  *
  * This code is derived from software contributed to Berkeley by
@@ -23,7 +24,7 @@
  * 3. All advertising materials mentioning features or use of this software
  *    must display the following acknowledgement:
  *      This product includes software developed by the Charles D. Cranor,
- *	Washington University, University of California, Berkeley and 
+ *	Washington University, University of California, Berkeley and
  *	its contributors.
  * 4. Neither the name of the University nor the names of its contributors
  *    may be used to endorse or promote products derived from this software
@@ -77,46 +78,6 @@
 /*
  * unimplemented VM system calls:
  */
-
-/*
- * sys_sbrk: sbrk system call.
- */
-
-/* ARGSUSED */
-int
-sys_sbrk(p, v, retval)
-	struct proc *p;
-	void *v;
-	register_t *retval;
-{
-#if 0
-	struct sys_sbrk_args /* {
-		syscallarg(int) incr;
-	} */ *uap = v;
-#endif
-
-	return (ENOSYS);
-}
-
-/*
- * sys_sstk: sstk system call.
- */
-
-/* ARGSUSED */
-int
-sys_sstk(p, v, retval)
-	struct proc *p;
-	void *v;
-	register_t *retval;
-{
-#if 0
-	struct sys_sstk_args /* {
-		syscallarg(int) incr;
-	} */ *uap = v;
-#endif
-
-	return (ENOSYS);
-}
 
 /*
  * sys_mquery: provide mapping hints to applications that do fixed mappings
@@ -428,7 +389,7 @@ sys_mmap(p, v, retval)
 	}
 
 	/*
-	 * now check (MAP_FIXED) or get (!MAP_FIXED) the "addr" 
+	 * now check (MAP_FIXED) or get (!MAP_FIXED) the "addr"
 	 */
 
 	if (flags & MAP_FIXED) {
@@ -513,7 +474,7 @@ sys_mmap(p, v, retval)
 				flags |= MAP_PRIVATE;	/* for a file */
 		}
 
-		/* 
+		/*
 		 * MAP_PRIVATE device mappings don't make sense (and aren't
 		 * supported anyway).  However, some programs rely on this,
 		 * so just change it to MAP_SHARED.
@@ -613,7 +574,7 @@ sys_mmap(p, v, retval)
 
 out:
 	if (fp)
-		FRELE(fp);	
+		FRELE(fp);
 	return (error);
 }
 
@@ -684,7 +645,7 @@ sys_msync(p, v, retval)
 	 */
 	if (size == 0) {
 		vm_map_entry_t entry;
-		
+
 		vm_map_lock_read(map);
 		rv = uvm_map_lookup_entry(map, addr, &entry);
 		if (rv == TRUE) {
@@ -713,7 +674,7 @@ sys_msync(p, v, retval)
 	rv = uvm_map_clean(map, addr, addr+size, uvmflags);
 
 	/*
-	 * and return... 
+	 * and return...
 	 */
 	return (rv);
 }
@@ -744,7 +705,7 @@ sys_munmap(p, v, retval)
 
 	addr = (vaddr_t) SCARG(uap, addr);
 	size = (vsize_t) SCARG(uap, len);
-	
+
 	/*
 	 * align the address to a page boundary, and adjust the size accordingly
 	 */
@@ -775,7 +736,7 @@ sys_munmap(p, v, retval)
 	vm_map_lock(map);	/* lock map so we can checkprot */
 
 	/*
-	 * interesting system call semantic: make sure entire range is 
+	 * interesting system call semantic: make sure entire range is
 	 * allocated before allowing an unmap.
 	 */
 
@@ -824,7 +785,7 @@ sys_mprotect(p, v, retval)
 	addr = (vaddr_t)SCARG(uap, addr);
 	size = (vsize_t)SCARG(uap, len);
 	prot = SCARG(uap, prot);
-	
+
 	if ((prot & VM_PROT_ALL) != prot)
 		return (EINVAL);
 
@@ -842,7 +803,7 @@ sys_mprotect(p, v, retval)
 	 * doit
 	 */
 
-	rv = uvm_map_protect(&p->p_vmspace->vm_map, 
+	rv = uvm_map_protect(&p->p_vmspace->vm_map,
 			   addr, addr+size, prot, FALSE);
 
 	if (rv == KERN_SUCCESS)
@@ -870,7 +831,7 @@ sys_minherit(p, v, retval)
 	vaddr_t addr;
 	vsize_t size, pageoff;
 	vm_inherit_t inherit;
-	
+
 	addr = (vaddr_t)SCARG(uap, addr);
 	size = (vsize_t)SCARG(uap, len);
 	inherit = SCARG(uap, inherit);
@@ -885,7 +846,7 @@ sys_minherit(p, v, retval)
 
 	if ((ssize_t)size < 0)
 		return (EINVAL);
-	
+
 	switch (uvm_map_inherit(&p->p_vmspace->vm_map, addr, addr+size,
 			 inherit)) {
 	case KERN_SUCCESS:
@@ -915,7 +876,7 @@ sys_madvise(p, v, retval)
 	vaddr_t addr;
 	vsize_t size, pageoff;
 	int advice, rv;
-	
+
 	addr = (vaddr_t)SCARG(uap, addr);
 	size = (vsize_t)SCARG(uap, len);
 	advice = SCARG(uap, behav);
@@ -1022,7 +983,7 @@ sys_mlock(p, v, retval)
 	addr -= pageoff;
 	size += pageoff;
 	size = (vsize_t) round_page(size);
-	
+
 	/* disallow wrap-around. */
 	if (addr + (ssize_t)size < addr)
 		return (EINVAL);
@@ -1247,7 +1208,7 @@ uvm_mmap(map, addr, size, prot, maxprot, flags, handle, foff, locklimit)
 			 * XXXCDC: checking maxprot protects us from the
 			 * "persistbug" program but this is not a long term
 			 * solution.
-			 * 
+			 *
 			 * XXXCDC: we don't bother calling uncache with the vp
 			 * VOP_LOCKed since we know that we are already
 			 * holding a valid reference to the uvn (from the
@@ -1281,7 +1242,7 @@ uvm_mmap(map, addr, size, prot, maxprot, flags, handle, foff, locklimit)
 			}
 			advice = UVM_ADV_RANDOM;
 		}
-		
+
 		if (uobj == NULL)
 			return((vp->v_type == VREG) ? ENOMEM : EINVAL);
 
@@ -1293,7 +1254,7 @@ uvm_mmap(map, addr, size, prot, maxprot, flags, handle, foff, locklimit)
 	 * set up mapping flags
 	 */
 
-	uvmflag = UVM_MAPFLAG(prot, maxprot, 
+	uvmflag = UVM_MAPFLAG(prot, maxprot,
 			(flags & MAP_SHARED) ? UVM_INH_SHARE : UVM_INH_COPY,
 			advice, uvmflag);
 
@@ -1314,7 +1275,7 @@ uvm_mmap(map, addr, size, prot, maxprot, flags, handle, foff, locklimit)
 			 */
 			return (0);
 		}
-		
+
 		vm_map_lock(map);
 
 		if (map->flags & VM_MAP_WIREFUTURE) {
@@ -1353,7 +1314,7 @@ uvm_mmap(map, addr, size, prot, maxprot, flags, handle, foff, locklimit)
 	/*
 	 * errors: first detach from the uobj, if any.
 	 */
-	
+
 	if (uobj)
 		uobj->pgops->pgo_detach(uobj);
 

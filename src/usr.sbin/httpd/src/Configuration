@@ -141,17 +141,6 @@ Rule SHARED_CHAIN=default
 #  location to EXTRA_LIBS, otherwise Configure will assume
 #  "-L/usr/local/lib -lsocks5"
 #
-# IRIXNIS:
-#  Only takes effect if Configure determines that you are running
-#  SGI IRIX.  If you are using a (ancient) 4.x version of IRIX, you
-#  need this if you are using NIS and Apache needs access to it for
-#  things like mod_userdir.  This is not required on 5.x and later
-#  and you should not enable it on such systems.
-#
-# IRIXN32:
-#  If you are running a version of IRIX and Configure detects
-#  n32 libraries, it will use those instead of the o32 ones.
-#
 # PARANOID:
 #  New with version 1.3, during Configure modules can run
 #  pre-programmed shell commands in the same environment that
@@ -160,33 +149,12 @@ Rule SHARED_CHAIN=default
 #  is performing this function. If PARANOID is set to yes, it will
 #  actually print-out the code that the modules execute
 #
-# EXPAT:
-#  Include an Expat implementation into Apache for use by the
-#  modules. James Clark's Expat package (expat-lite) is bundled
-#  with Apache for the convenience of our users. The EXPAT rule
-#  determines which Expat implementation, if any, to use as follows:
-#
-#  Rule EXPAT=yes       : Use system Expat if available; otherwise
-#                         use bundled Expat (lib/expat-lite). If
-#                         neither exists the build will fail
-#  Rule EXPAT=no        : Don't include Expat at all
-#  Rule EXPAT=default   : If Expat can be found at the system or
-#                         in lib/expat-lite, use it; otherwise
-#                         skip it
-# 
-# CYGWIN_WINSOCK: 
-#  Use Win32 API system calls for socket communication instead 
-#  of Cygwin's POSIX.1 wrappers. This avoids the Cygwin specific
-#  implementation and uses the Win32 native calls. Should be faster
-#  and more reliable for high-load systems.  
-# 
 
 Rule SOCKS4=no
 Rule SOCKS5=no
 Rule IRIXNIS=no
 Rule IRIXN32=yes
 Rule PARANOID=no
-Rule EXPAT=default
 Rule CYGWIN_WINSOCK=no 
 
 # DEV_RANDOM:

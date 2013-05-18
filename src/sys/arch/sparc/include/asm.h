@@ -1,3 +1,4 @@
+/**	$MirOS: src/sys/arch/sparc/include/asm.h,v 1.6 2007/02/18 16:45:23 tg Exp $ */
 /*	$OpenBSD: asm.h,v 1.4 2003/06/04 22:08:17 deraadt Exp $	*/
 /*	$NetBSD: asm.h,v 1.5 1997/07/16 15:16:43 christos Exp $ */
 
@@ -38,8 +39,8 @@
  * SUCH DAMAGE.
  */
 
-#ifndef _ASM_H_
-#define _ASM_H_
+#ifndef _SPARC_ASM_H_
+#define _SPARC_ASM_H_
 
 #ifdef __ELF__
 #define _C_LABEL(name)		name
@@ -67,7 +68,7 @@
  */
 #ifdef __ELF__
 #define WARN_REFERENCES(_sym,_msg)	\
-	.section .gnu.warning. ## _sym ; .ascii _msg ; .text
+	.section .gnu.warning. ## _sym ; .ascii _msg ; .previous
 #endif /* __ELF__ */
 
 
@@ -97,28 +98,35 @@
 #define PICCY_OFFSET(var,dest,tmp)
 #endif
 
+/* let kernels and others override entrypoint alignment */
+#ifndef _ALIGN_TEXT
+#define _ALIGN_TEXT		.align 4
+#endif
+
 #define FTYPE(x)		.type x,@function
 #define OTYPE(x)		.type x,@object
 
 #define	_ENTRY(name) \
-	.align 4; .globl name; .proc 1; FTYPE(name); name:
+	.text; _ALIGN_TEXT; .globl name; .proc 1; FTYPE(name); name:
 
-#ifdef GPROF
-#define _PROF_PROLOGUE \
-	.data; .align 4; 1: .long 0; \
-	.text; save %sp,-96,%sp; sethi %hi(1b),%o0; call mcount; \
-	or %o0,%lo(1b),%o0; restore
-#else
+/* no profiling */
 #define _PROF_PROLOGUE
-#endif
 
 #define ENTRY(name)		_ENTRY(_C_LABEL(name)); _PROF_PROLOGUE
+#define NENTRY(name)		_ENTRY(_C_LABEL(name))
 #define	ASENTRY(name)		_ENTRY(_ASM_LABEL(name)); _PROF_PROLOGUE
 #define	FUNC(name)		ASENTRY(name)
 
+#define ALTENTRY(name) \
+	.globl _C_LABEL(name); FTYPE(_C_LABEL(name)); _C_LABEL(name):
+#define DENTRY(name) \
+	.globl _C_LABEL(name); OTYPE(_C_LABEL(name)); _C_LABEL(name):
 
 #define ASMSTR			.asciz
 
-#define RCSID(name)		.asciz name
+#define RCSID(x)		.section .comment; \
+				.ascii "@(""#)rcsid: "; \
+				.asciz x; \
+				.previous
 
-#endif /* _ASM_H_ */
+#endif /* _SPARC_ASM_H_ */

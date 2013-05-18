@@ -1,8 +1,9 @@
-/*	$OpenBSD: netisr_dispatch.h,v 1.7 2004/11/28 23:39:45 canacar Exp $	*/
+/* $MirOS: src/sys/net/netisr_dispatch.h,v 1.2 2005/03/06 21:28:16 tg Exp $ */
+/* $OpenBSD: netisr_dispatch.h,v 1.7 2004/11/28 23:39:45 canacar Exp $	*/
 /* $NetBSD: netisr_dispatch.h,v 1.2 2000/07/02 04:40:47 cgd Exp $ */
 
 /*
- * netisr_dispatch: This file is included by the 
+ * netisr_dispatch: This file is included by the
  *	machine dependant softnet function.  The
  *	DONETISR macro should be set before including
  *	this file.  i.e.:
@@ -26,12 +27,15 @@
 #include "ppp.h"
 #include "bridge.h"
 #include "pppoe.h"
+#include "lpt.h"
 #endif
 
 /*
  * When adding functions to this list, be sure to add headers to provide
  * their prototypes in <net/netisr.h> (if necessary).
  */
+
+	DONETISR(NETISR_RND,netrndintr);
 
 #ifdef INET
 #if NETHER > 0
@@ -65,6 +69,9 @@
 #endif
 #if NBRIDGE > 0
         DONETISR(NETISR_BRIDGE,bridgeintr);
+#endif
+#if defined(PLIP) && NLPT > 0
+	DONETISR(NETISR_PLIP,plipsoftint)
 #endif
 #if NPPPOE > 0
 	DONETISR(NETISR_PPPOE,pppoeintr);

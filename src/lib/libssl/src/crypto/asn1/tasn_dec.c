@@ -77,7 +77,7 @@ static int asn1_d2i_ex_primitive(ASN1_VALUE **pval, unsigned char **in, long len
 					const ASN1_ITEM *it, int tag, int aclass, char opt, ASN1_TLC *ctx);
 
 /* Table to convert tags to bit values, used for MSTRING type */
-static unsigned long tag2bit[32]={
+static const unsigned long tag2bit[32]={
 0,	0,	0,	B_ASN1_BIT_STRING,	/* tags  0 -  3 */
 B_ASN1_OCTET_STRING,	0,	0,		B_ASN1_UNKNOWN,/* tags  4- 7 */
 B_ASN1_UNKNOWN,	B_ASN1_UNKNOWN,	B_ASN1_UNKNOWN,	B_ASN1_UNKNOWN,/* tags  8-11 */
@@ -664,7 +664,11 @@ static int asn1_d2i_ex_primitive(ASN1_VALUE **pval, unsigned char **in, long inl
 		 * internally irrespective of the type. So instead just check
 		 * for UNIVERSAL class and ignore the tag.
 		 */
-		if(!asn1_collect(&buf, &p, plen, inf, -1, V_ASN1_UNIVERSAL)) goto err;
+		if(!asn1_collect(&buf, &p, plen, inf, -1, V_ASN1_UNIVERSAL))
+			{
+			free_cont = 1;
+			goto err;
+			}
 		len = buf.length;
 		/* Append a final null to string */
 		if(!BUF_MEM_grow_clean(&buf, len + 1)) {

@@ -41,9 +41,7 @@
 #endif
 #include <time.h>
 
-#ifndef lint
-FILE_RCSID("@(#)$Id$")
-#endif  /* lint */
+__RCSID("$MirOS$");
 
 #define SZOF(a)	(sizeof(a) / sizeof(a[0]))
 
@@ -70,7 +68,7 @@ file_mdump(struct magic *m)
 		if (m->in_op & FILE_OPINVERSE)
 			(void) fputc('~', stderr);
 		(void) fprintf(stderr, "%c%d),",
-			       ((m->in_op&0x7F) < SZOF(optyp)) ? 
+			       ((size_t)(m->in_op&0x7F) < SZOF(optyp)) ? 
 					optyp[m->in_op&0x7F] : '?',
 				m->in_offset);
 	}
@@ -80,7 +78,7 @@ file_mdump(struct magic *m)
 	if (m->mask_op & FILE_OPINVERSE)
 		(void) fputc('~', stderr);
 	if (m->mask) {
-		if ((m->mask_op & 0x7F) < SZOF(optyp)) 
+		if ((size_t)(m->mask_op & 0x7F) < SZOF(optyp)) 
 			fputc(optyp[m->mask_op&0x7F], stderr);
 		else
 			fputc('?', stderr);

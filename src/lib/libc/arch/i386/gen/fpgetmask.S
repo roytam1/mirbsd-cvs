@@ -6,6 +6,8 @@
 
 #include <machine/asm.h>
 
+	.text
+
 ENTRY(fpgetmask)
 	subl $4,%esp
 	fnstcw (%esp)

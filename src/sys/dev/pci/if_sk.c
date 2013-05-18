@@ -1265,7 +1265,7 @@ sk_attach(struct device *parent, struct device *self, void *aux)
 	if (bus_dmamem_map(sc->sc_dmatag, &seg, rseg,
 	    sizeof(struct sk_ring_data), &kva, BUS_DMA_NOWAIT)) {
 		printf("%s: can't map dma buffers (%d bytes)\n",
-		       sc_if->sk_dev.dv_xname, sizeof(struct sk_ring_data));
+		       sc_if->sk_dev.dv_xname, (int)sizeof(struct sk_ring_data));
 		bus_dmamem_free(sc->sc_dmatag, &seg, rseg);
 		goto fail;
 	}

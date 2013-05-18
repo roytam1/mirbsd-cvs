@@ -783,11 +783,11 @@ tcp_ident(oldp, oldlenp, newp, newlen, dodrop)
 {
 	int error = 0, s;
 	struct tcp_ident_mapping tir;
-	struct inpcb *inp;
+	struct inpcb *inp = NULL;
 	struct tcpcb *tp = NULL;
-	struct sockaddr_in *fin, *lin;
+	struct sockaddr_in *fin = NULL, *lin = NULL;
 #ifdef INET6
-	struct sockaddr_in6 *fin6, *lin6;
+	struct sockaddr_in6 *fin6 = NULL, *lin6 = NULL;
 	struct in6_addr f6, l6;
 #endif
 	if (dodrop) {

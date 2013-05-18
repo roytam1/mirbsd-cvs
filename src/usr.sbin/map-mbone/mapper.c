@@ -36,12 +36,15 @@
  */
 
 #include <string.h>
+#include <err.h>
 #include <netdb.h>
 #include <sys/time.h>
 #include "defs.h"
 #include <arpa/inet.h>
 #include <stdarg.h>
 #include <poll.h>
+
+__RCSID("$MirOS$");
 
 #define DEFAULT_TIMEOUT	2	/* How long to wait before retrying requests */
 #define DEFAULT_RETRIES 1	/* How many times to ask each router */

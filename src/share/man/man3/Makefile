@@ -1,8 +1,7 @@
-#	$OpenBSD: Makefile,v 1.18 2005/07/04 03:03:16 jaredy Exp $
-#	@(#)Makefile	8.2 (Berkeley) 12/13/93
+# $MirOS: src/share/man/man3/Makefile,v 1.3 2005/03/29 18:06:02 tg Exp $
 
-MAN=	assert.3 bitstring.3 CMSG_DATA.3 dlfcn.3 dl_iterate_phdr.3 end.3 \
-	intro.3 queue.3 stdarg.3 sysexits.3 tree.3
+MANSECT=	3
+
 MLINKS+=bitstring.3 bit_alloc.3 bitstring.3 bit_clear.3 \
 	bitstring.3 bit_decl.3 bitstring.3 bit_ffc.3 bitstring.3 bit_ffs.3 \
 	bitstring.3 bit_nclear.3 bitstring.3 bit_set.3 \
@@ -69,4 +68,5 @@ MLINKS+=tree.3 RB_PROTOTYPE.3 tree.3 RB_GENERATE.3 \
 	tree.3 RB_INIT.3 tree.3 RB_INSERT.3 tree.3 RB_REMOVE.3 \
 	tree.3 RB_FOREACH.3
 
+.include "../automan.mk"
 .include <bsd.prog.mk>

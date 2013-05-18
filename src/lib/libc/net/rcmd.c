@@ -1,3 +1,4 @@
+/* $MirOS: src/lib/libc/net/rcmd.c,v 1.3 2005/07/09 13:23:32 tg Exp $ */
 /*
  * Copyright (c) 1995, 1996, 1998 Theo de Raadt.  All rights reserved.
  * Copyright (c) 1983, 1993, 1994
@@ -47,6 +48,8 @@
 #include <syslog.h>
 #include <stdlib.h>
 #include <netgroup.h>
+
+__RCSID("$MirOS: src/lib/libc/net/rcmd.c,v 1.3 2005/07/09 13:23:32 tg Exp $");
 
 int	__ivaliduser(FILE *, in_addr_t, const char *, const char *);
 int	__ivaliduser_sa(FILE *, struct sockaddr *, socklen_t,
@@ -217,7 +220,7 @@ rcmd_af(char **ahost, int porta, const char *locuser, const char *remuser,
 			goto bad;
 		}
 again:
-		bzero(readsp, fdssize);
+		memset(readsp, 0, fdssize);
 		FD_SET(s, readsp);
 		FD_SET(s2, readsp);
 		errno = 0;

@@ -1,3 +1,5 @@
+.\"	$MirOS$
+.\"	$NetBSD: chmod.1,v 1.21 2005/12/09 20:27:02 wiz Exp $
 .\"	$OpenBSD: chmod.1,v 1.27 2004/02/14 18:14:14 jmc Exp $
 .\"	$NetBSD: chmod.1,v 1.8 1995/03/21 09:02:07 cgd Exp $
 .\"
@@ -33,7 +35,7 @@
 .\"
 .\"	@(#)chmod.1	8.4 (Berkeley) 3/31/94
 .\"
-.Dd March 31, 1994
+.Dd May 20, 2007
 .Dt CHMOD 1
 .Os
 .Sh NAME
@@ -45,6 +47,7 @@
 .Fl R
 .Op Fl H | L | P
 .Oc
+.Op Fl h
 .Ar mode
 .Op Ar
 .Sh DESCRIPTION
@@ -75,15 +78,12 @@ option is also specified, all symbolic links are followed.
 If the
 .Fl R
 option is also specified, no symbolic links are followed.
+.It Fl h
+If
+.Ar file
+is symbolic link, the mode of the link is changed.
 .El
 .Pp
-Symbolic links do not have modes, so unless the
-.Fl H
-or
-.Fl L
-option is set,
-.Nm
-on a symbolic link always succeeds and has no effect.
 The
 .Fl H ,
 .Fl L ,
@@ -190,6 +190,17 @@ Symbolic modes are specified according to the following format:
 .Sm on
 .Ar file
 .Op Ar ...
+.Ed
+.Pp
+The symbolic mode is described by the following grammar:
+.Bd -literal -offset indent
+mode         ::= clause [, clause ...]
+clause       ::= [who ...] [action ...] last_action
+action       ::= op [perm ...]
+last_action  ::= op [perm ...]
+who          ::= a | u | g | o
+op           ::= + | \- | =
+perm         ::= r | s | t | w | x | X | u | g | o
 .Ed
 .Pp
 The
@@ -364,6 +375,7 @@ Set the group bits equal to the user bits, but clear the group write bit.
 .Xr find 1 ,
 .Xr install 1 ,
 .Xr chmod 2 ,
+.Xr lchmod 2 ,
 .Xr stat 2 ,
 .Xr umask 2 ,
 .Xr fts 3 ,
@@ -388,6 +400,10 @@ A
 .Nm
 command appeared in
 .At v1 .
+The
+.Fl h
+option appeared in
+.Mx 10 .
 .Sh BUGS
 There's no
 .Ar perm

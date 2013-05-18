@@ -23,11 +23,13 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  *
+ *	$MirOS: src/usr.sbin/ppp/ppp/bundle.c,v 1.2 2005/03/13 19:17:13 tg Exp $
  *	$OpenBSD: bundle.c,v 1.70 2005/07/17 19:13:24 brad Exp $
  */
 
 #include <sys/param.h>
 #include <sys/socket.h>
+#include <sys/ioctl.h>
 #include <netinet/in.h>
 #include <net/if.h>
 #include <net/if_tun.h>		/* For TUNS* ioctls */

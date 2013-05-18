@@ -1,7 +1,7 @@
 
- OpenSSL 0.9.7j 04 May 2006
+ OpenSSL 0.9.7m 23 Feb 2007
 
- Copyright (c) 1998-2005 The OpenSSL Project
+ Copyright (c) 1998-2007 The OpenSSL Project
  Copyright (c) 1995-1998 Eric A. Young, Tim J. Hudson
  All rights reserved.
 
@@ -101,7 +101,8 @@
 
  RSA Security holds software patents on the RC5 algorithm.  If you
  intend to use this cipher, you must contact RSA Security for
- licensing conditions. Their web page is http://www.rsasecurity.com/.
+ licensing conditions. Their web page is http://www.rsasecurity.com/
+ (the patent is only valud in the United States of America).
 
  RC4 is a trademark of RSA Security, so use of this label should perhaps
  only be used with RSA Security's permission.

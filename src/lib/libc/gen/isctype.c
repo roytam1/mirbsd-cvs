@@ -1,150 +1,96 @@
-/*	$OpenBSD: isctype.c,v 1.11 2005/08/08 08:05:34 espie Exp $ */
-/*
- * Copyright (c) 1989 The Regents of the University of California.
- * All rights reserved.
- * (c) UNIX System Laboratories, Inc.
- * All or some portions of this file are derived from material licensed
- * to the University of California by American Telephone and Telegraph
- * Co. or Unix System Laboratories, Inc. and are reproduced herein with
- * the permission of UNIX System Laboratories, Inc.
+/* $MirOS: src/lib/libc/gen/isctype.c,v 1.8 2007/03/22 03:06:49 tg Exp $ */
+
+/*-
+ * Copyright (c) 2006, 2007
+ *	Thorsten Glaser <tg@mirbsd.de>
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the University nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
- *    without specific prior written permission.
+ * Provided that these terms and disclaimer and all copyright notices
+ * are retained or reproduced in an accompanying document, permission
+ * is granted to deal in this work without restriction, including un-
+ * limited rights to use, publicly perform, distribute, sell, modify,
+ * merge, give away, or sublicence.
  *
- * THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS ``AS IS'' AND
- * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE
- * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
- * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
- * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
- * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
- * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
- * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
- * SUCH DAMAGE.
+ * This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
+ * the utmost extent permitted by applicable law, neither express nor
+ * implied; without malicious intent or gross negligence. In no event
+ * may a licensor, author or contributor be held liable for indirect,
+ * direct, other damage, loss, or other issues arising in any way out
+ * of dealing in the work, even if advised of the possibility of such
+ * damage or existence of a defect, except proven that it results out
+ * of said person's immediate fault when using the work as intended.
  */
 
 #define _ANSI_LIBRARY
 #include <ctype.h>
 #include <stdio.h>
 
+__RCSID("$MirOS: src/lib/libc/gen/isctype.c,v 1.8 2007/03/22 03:06:49 tg Exp $");
+
 #undef isalnum
-int
-isalnum(int c)
-{
-	return (c == EOF ? 0 : ((_ctype_ + 1)[(unsigned char)c] & (_U|_L|_N)));
-}
-
 #undef isalpha
-int
-isalpha(int c)
-{
-	return (c == EOF ? 0 : ((_ctype_ + 1)[(unsigned char)c] & (_U|_L)));
-}
-
-#undef isblank
-int
-isblank(int c)
-{
-	return (c == ' ' || c == '\t');
-}
-
-#undef iscntrl
-int
-iscntrl(int c)
-{
-	return (c == EOF ? 0 : ((_ctype_ + 1)[(unsigned char)c] & _C));
-}
-
-#undef isdigit
-int
-isdigit(int c)
-{
-	return (c == EOF ? 0 : ((_ctype_ + 1)[(unsigned char)c] & _N));
-}
-
-#undef isgraph
-int
-isgraph(int c)
-{
-	return (c == EOF ? 0 : ((_ctype_ + 1)[(unsigned char)c] & (_P|_U|_L|_N)));
-}
-
-#undef islower
-int
-islower(int c)
-{
-	return (c == EOF ? 0 : ((_ctype_ + 1)[(unsigned char)c] & _L));
-}
-
-#undef isprint
-int
-isprint(int c)
-{
-	return (c == EOF ? 0 : ((_ctype_ + 1)[(unsigned char)c] & (_P|_U|_L|_N|_B)));
-}
-
-#undef ispunct
-int
-ispunct(int c)
-{
-	return (c == EOF ? 0 : ((_ctype_ + 1)[(unsigned char)c] & _P));
-}
-
-#undef isspace
-int
-isspace(int c)
-{
-	return (c == EOF ? 0 : ((_ctype_ + 1)[(unsigned char)c] & _S));
-}
-
-#undef isupper
-int
-isupper(int c)
-{
-	return (c == EOF ? 0 : ((_ctype_ + 1)[(unsigned char)c] & _U));
-}
-
-#undef isxdigit
-int
-isxdigit(int c)
-{
-	return (c == EOF ? 0 : ((_ctype_ + 1)[(unsigned char)c] & (_N|_X)));
-}
-
 #undef isascii
+#undef isbinry
+#undef isblank
+#undef iscntrl
+#undef isdigit
+#undef isgraph
+#undef islower
+#undef isprint
+#undef ispunct
+#undef isspace
+#undef isupper
+#undef isxdigit
+#undef toascii
+#undef tolower
+#undef toupper
+
+#define __CTYPE_IMPL2(t)			\
+	int is ## t (int c)			\
+	{					\
+		return __CTYPE_IMPL(c,t);	\
+	}
+
+__CTYPE_IMPL2(alnum)
+__CTYPE_IMPL2(alpha)
+__CTYPE_IMPL2(blank)
+__CTYPE_IMPL2(cntrl)
+__CTYPE_IMPL2(digit)
+__CTYPE_IMPL2(graph)
+__CTYPE_IMPL2(lower)
+__CTYPE_IMPL2(print)
+__CTYPE_IMPL2(punct)
+__CTYPE_IMPL2(space)
+__CTYPE_IMPL2(upper)
+__CTYPE_IMPL2(xdigit)
+
 int
 isascii(int c)
 {
-	return ((unsigned int)c <= 0177);
+	return ((unsigned int)c < 0x80);
 }
 
-#undef toascii
 int
 toascii(int c)
 {
-	return (c & 0177);
+	return (c & 0x7F);
 }
 
-#undef _toupper
 int
-_toupper(int c)
+tolower(int c)
 {
-	return (c - 'a' + 'A');
+	return (((c) >= 'A') && ((c) <= 'Z') ? (c) - 'A' + 'a' : (c));
 }
 
-#undef _tolower
 int
-_tolower(int c)
+toupper(int c)
 {
-	return (c - 'A' + 'a');
+	return (((c) >= 'a') && ((c) <= 'z') ? (c) - 'a' + 'A' : (c));
+}
+
+int
+isbinry(int ch)
+{
+	uint8_t c = ch;
+	return ((c == 0x00) || (c == 0xC0) ||
+	    (c == 0xC1) || (c > 0xEF));
 }

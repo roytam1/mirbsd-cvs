@@ -40,7 +40,7 @@ static char rcsid[] = "$OpenBSD: func.c,v 1.5 2004/05/10 15:26:22 deraadt Exp $"
 #include <string.h>
 
 #include "lint1.h"
-#include "y.tab.h"
+#include "cgram.h"
 
 /*
  * Contains a pointer to the symbol table entry of the current function

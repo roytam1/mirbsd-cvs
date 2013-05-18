@@ -35,13 +35,16 @@
 #include "packet.h"
 #include "compat.h"
 
+__RCSID("$MirOS$");
+
 #define DISPATCH_MIN	0
 #define DISPATCH_MAX	255
 
 dispatch_fn *dispatch[DISPATCH_MAX];
 
 void
-dispatch_protocol_error(int type, u_int32_t seq, void *ctxt)
+dispatch_protocol_error(int type, u_int32_t seq,
+    void *ctxt __attribute__((unused)))
 {
 	logit("dispatch_protocol_error: type %d seq %u", type, seq);
 	if (!compat20)
@@ -52,7 +55,8 @@ dispatch_protocol_error(int type, u_int32_t seq, void *ctxt)
 	packet_write_wait();
 }
 void
-dispatch_protocol_ignore(int type, u_int32_t seq, void *ctxt)
+dispatch_protocol_ignore(int type, u_int32_t seq,
+    void *ctxt __attribute__((unused)))
 {
 	logit("dispatch_protocol_ignore: type %d seq %u", type, seq);
 }

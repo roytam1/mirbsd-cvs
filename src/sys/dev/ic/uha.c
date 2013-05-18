@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: uha.c,v 1.4 2002/03/14 01:26:55 millert Exp $	*/
 /*	$NetBSD: uha.c,v 1.3 1996/10/13 01:37:29 christos Exp $	*/
 
@@ -54,12 +55,8 @@
  * TFS supplies this software to be publicly redistributed
  * on the understanding that TFS is not responsible for the correct
  * functioning of this software in any circumstances.
- *
- * commenced: Sun Sep 27 18:14:01 PDT 1992
- * slight mod to make work with 34F as well: Wed Jun  2 18:05:48 WST 1993
  */
 
-#include <sys/types.h>
 #include <sys/param.h>
 #include <sys/systm.h>
 #include <sys/kernel.h>
@@ -433,7 +430,7 @@ uha_scsi_cmd(xs)
 			 * Set up the scatter gather block
 			 */
 			SC_DEBUG(sc_link, SDEV_DB4,
-			    ("%d @0x%x:- ", xs->datalen, xs->data));
+			    ("%d @0x%lx:- ", xs->datalen, (long)xs->data));
 			datalen = xs->datalen;
 			thiskv = (int) xs->data;
 			thisphys = KVTOPHYS(thiskv);
@@ -444,7 +441,7 @@ uha_scsi_cmd(xs)
 				/* put in the base address */
 				sg->seg_addr = thisphys;
 
-				SC_DEBUGN(sc_link, SDEV_DB4, ("0x%x", thisphys));
+				SC_DEBUGN(sc_link, SDEV_DB4, ("0x%lx", (long)thisphys));
 
 				/* do it at least once */
 				nextphys = thisphys;

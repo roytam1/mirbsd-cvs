@@ -1,32 +1,13 @@
-#	$OpenBSD: Makefile,v 1.29 2003/08/04 07:29:22 hin Exp $
-
-.include <bsd.own.mk>
+# $MirOS: src/usr.bin/passwd/Makefile,v 1.2 2005/03/13 18:33:20 tg Exp $
+# $OpenBSD: Makefile,v 1.29 2003/08/04 07:29:22 hin Exp $
 
 PROG=	passwd
-SRCS=	local_passwd.c yp_passwd.c passwd.c pwd_gensalt.c getpwent.c \
-	pwd_check.c
+SRCS=	getpwent.c local_passwd.c passwd.c pwd_check.c pwd_gensalt.c
 .PATH:  ${.CURDIR}/../../lib/libc/gen
-DPADD+= ${LIBRPCSVC} ${LIBUTIL}
-LDADD+= -lrpcsvc -lutil
-CFLAGS+= -I${.CURDIR}
-
-.if (${YP:L} == "yes")
-CFLAGS+=-DYP -I${.CURDIR}/../../lib/libc/yp
-.endif
-
-.include <bsd.own.mk>	# For Kerberos
-
-.if (${KERBEROS5:L} == "yes")
-SRCS+= krb5_passwd.c
-CFLAGS+= -DKRB5
-DPADD+=	${LIBKRB5} ${LIBASN1} ${LIBDES} ${LIBCRYPTO}
-LDADD+=	-lkrb5 -lasn1 -ldes -lcrypto
-.endif
+DPADD+=	${LIBUTIL}
+LDADD+=	-lutil
 
 BINMODE=4555
-BINOWN=root
-
-getpwent.o: getpwent.c
-	${COMPILE.c} -UYP ${.CURDIR}/../../lib/libc/gen/getpwent.c
+BINOWN=	root
 
 .include <bsd.prog.mk>

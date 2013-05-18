@@ -24,9 +24,8 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <sys/types.h>
-#include <sys/stat.h>
 #include <sys/param.h>
+#include <sys/stat.h>
 
 #include <grp.h>
 #include <pwd.h>
@@ -41,6 +40,8 @@
 
 #include "sftp.h"
 #include "sftp-common.h"
+
+__RCSID("$MirOS$");
 
 /* Clear contents of attributes structure */
 void

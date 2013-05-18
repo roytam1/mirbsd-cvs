@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: mtree.h,v 1.10 2003/06/02 23:36:54 millert Exp $	*/
 /*	$NetBSD: mtree.h,v 1.7 1995/03/07 21:26:27 cgd Exp $	*/
 
@@ -32,6 +33,7 @@
  *	@(#)mtree.h	8.1 (Berkeley) 6/6/93
  */
 
+#include <sys/time.h>
 #include <string.h>
 #include <stdlib.h>
 
@@ -52,7 +54,11 @@ typedef struct _node {
 	char	*slink;				/* symbolic link reference */
 	uid_t	st_uid;				/* uid */
 	gid_t	st_gid;				/* gid */
+#ifdef S_ISTXT
 #define	MBITS	(S_ISUID|S_ISGID|S_ISTXT|S_IRWXU|S_IRWXG|S_IRWXO)
+#else
+#define	MBITS	(S_ISUID|S_ISGID|S_IRWXU|S_IRWXG|S_IRWXO)
+#endif
 	mode_t	st_mode;			/* mode */
 	nlink_t	st_nlink;			/* link count */
 	u_int32_t file_flags;			/* file flags */

@@ -1,4 +1,5 @@
-/*	$OpenBSD: adw.c,v 1.28 2004/01/09 21:32:23 brad Exp $ */
+/* $MirOS: src/sys/dev/ic/adw.c,v 1.2 2005/03/06 21:27:37 tg Exp $ */
+/* $OpenBSD: adw.c,v 1.28 2004/01/09 21:32:23 brad Exp $ */
 /* $NetBSD: adw.c,v 1.23 2000/05/27 18:24:50 dante Exp $	 */
 
 /*
@@ -38,7 +39,6 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <sys/types.h>
 #include <sys/param.h>
 #include <sys/systm.h>
 #include <sys/kernel.h>
@@ -64,6 +64,10 @@
 #ifndef DDB
 #define	Debugger()	panic("should call debugger here (adw.c)")
 #endif				/* ! DDB */
+
+#ifdef __PTRDIFF_TYPE__
+typedef __PTRDIFF_TYPE__ ptrdiff_t;
+#endif
 
 /******************************************************************************/
 
@@ -217,8 +221,8 @@ adw_alloc_carriers(sc)
 	/*
          * Allocate the control structure.
          */
-	sc->sc_control->carriers = 
-		malloc(sizeof(ADW_CARRIER) * ADW_MAX_CARRIER, M_DEVBUF, 
+	sc->sc_control->carriers =
+		malloc(sizeof(ADW_CARRIER) * ADW_MAX_CARRIER, M_DEVBUF,
 		       M_NOWAIT);
 	if (sc->sc_control->carriers == NULL)
 		return (ENOMEM);
@@ -888,7 +892,7 @@ adw_build_sglist(ccb, scsiqp, sg_block)
 	ADW_SG_BLOCK   *sg_block;
 {
 	u_long          sg_block_next_addr;	/* block and its next */
-	u_int32_t       sg_block_physical_addr;
+	ptrdiff_t	sg_block_physical_addr;
 	int             i;	/* how many SG entries */
 	bus_dma_segment_t *sg_list = &ccb->dmamap_xfer->dm_segs[0];
 	int             sg_elem_cnt = ccb->dmamap_xfer->dm_nsegs;
@@ -921,7 +925,7 @@ adw_build_sglist(ccb, scsiqp, sg_block)
 		sg_block_physical_addr += sizeof(ADW_SG_BLOCK);
 
 		sg_block->sg_cnt = NO_OF_SG_PER_BLOCK;
-		sg_block->sg_ptr = sg_block_physical_addr;
+		sg_block->sg_ptr = (void *)sg_block_physical_addr;
 		sg_block = (ADW_SG_BLOCK *) sg_block_next_addr;	/* virt. addr */
 	} while (1);
 }
@@ -1084,7 +1088,7 @@ adw_timeout(arg)
 
 
 void
-adw_reset_bus(sc) 
+adw_reset_bus(sc)
 	ADW_SOFTC		*sc;
 {
 	ADW_CCB	*ccb;
@@ -1141,7 +1145,7 @@ adw_print_info(sc, tid)
 	else {
 		period = (hshk_cfg & 0x1f00) >> 8;
 		switch (period) {
-		case 0x11: 
+		case 0x11:
 			printf("80.0 ");
 			break;
 		case 0x10:
@@ -1156,7 +1160,7 @@ adw_print_info(sc, tid)
 	}
 
 	printf("xfers\n");
-}	
+}
 
 
 /******************************************************************************/
@@ -1235,10 +1239,10 @@ NO_ERROR:
 			case SCSI_INTERM:
 			case SCSI_INTERM_COND_MET:
 				/*
-				 * These non-zero status values are 
+				 * These non-zero status values are
 				 * not really error conditions.
 				 *
-				 * XXX - would it be too paranoid to 
+				 * XXX - would it be too paranoid to
 				 *       add SCSI_OK here in
 				 *       case the docs are wrong re
 				 *       QD_NO_ERROR?
@@ -1260,7 +1264,7 @@ NO_ERROR:
 				sc->sc_freeze_dev[scsiq->target_id] = 1;
 				xs->error = XS_BUSY;
 				break;
-		
+
 			default: /* scsiq->scsi_status value */
 				printf("%s: bad scsi_status: 0x%02x.\n"
 				    ,sc->sc_dev.dv_xname
@@ -1269,7 +1273,7 @@ NO_ERROR:
 				break;
 			}
 			break;
-		
+
 		case QHSTA_M_SEL_TIMEOUT:
 			xs->error = XS_SELTIMEOUT;
 			break;
@@ -1317,17 +1321,17 @@ NO_ERROR:
 			adw_reset_bus(sc);
 			xs->error = XS_RESET;
 			break;
-			
+
 		default: /* scsiq->host_status value */
 			/*
 			 * XXX - is a panic really appropriate here? If
-			 *       not, would it be better to make the 
-			 *       XS_DRIVER_STUFFUP case above the 
+			 *       not, would it be better to make the
+			 *       XS_DRIVER_STUFFUP case above the
 			 *       default behaviour? Or XS_RESET?
 			 */
 			panic("%s: bad host_status: 0x%02x"
 			    ,sc->sc_dev.dv_xname, scsiq->host_status);
-			break;      
+			break;
 		}
 		break;
 
@@ -1390,10 +1394,10 @@ adw_async_callback(sc, code)
 
 
 	case ADW_ASYNC_CARRIER_READY_FAILURE:
-		/* 
+		/*
 		 * Carrier Ready failure.
 	         *
-		 * A warning only - RISC too busy to realize it's been 
+		 * A warning only - RISC too busy to realize it's been
 		 * tickled. Occurs in normal operation under heavy
 		 * load, so a message is printed only when ADW_DEBUG'ing
 		 */

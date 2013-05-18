@@ -285,7 +285,7 @@ static char *check_code(pool *p, const char *code, char **real_code)
     while (word[0]) {
         /* <num>
          */
-        if (ap_isdigit(word[0])) {
+        if (isdigit((unsigned char)word[0])) {
             num = atoi(word);
         }
         else {
@@ -479,7 +479,7 @@ static int add_expires(request_rec *r)
     };
 
     expires = base + additional;
-    ap_snprintf(age, sizeof(age), "max-age=%d",
+    snprintf(age, sizeof(age), "max-age=%d",
 		(int) expires - (int) r->request_time);
     ap_table_mergen(r->headers_out, "Cache-Control", ap_pstrdup(r->pool, age));
     tzset();                    /* redundant? called implicitly by localtime,

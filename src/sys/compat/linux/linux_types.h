@@ -1,3 +1,4 @@
+/**	$MirOS: src/sys/compat/linux/linux_types.h,v 1.2 2005/03/06 21:27:30 tg Exp $ */
 /*	$OpenBSD: linux_types.h,v 1.8 2005/05/19 18:27:28 mickey Exp $	*/
 /*	$NetBSD: linux_types.h,v 1.5 1996/05/20 01:59:28 fvdl Exp $	*/
 
@@ -34,6 +35,11 @@
 
 #ifndef _LINUX_TYPES_H
 #define _LINUX_TYPES_H
+
+#ifdef _KERNEL
+/* long/long timeval */
+#include <compat/common/kern_gen.h>
+#endif
 
 typedef struct {
 	long	val[2];
@@ -114,7 +120,7 @@ struct linux_select {
 	fd_set *readfds;
 	fd_set *writefds;
 	fd_set *exceptfds;
-	struct timeval *timeout;
+	struct timeval_compat *timeout;
 };
 
 struct linux_stat {
@@ -141,7 +147,7 @@ struct linux_stat {
 };
 
 struct linux_tms {
-	linux_clock_t ltms_utime;	
+	linux_clock_t ltms_utime;
 	linux_clock_t ltms_stime;
 	linux_clock_t ltms_cutime;
 	linux_clock_t ltms_cstime;

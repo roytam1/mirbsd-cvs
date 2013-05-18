@@ -113,6 +113,11 @@
 #include "ssl_locl.h"
 #include <openssl/evp.h>
 #include <openssl/md5.h>
+#ifndef OPENSSL_NO_ARC4PUSH
+#include <openssl/rand.h>
+#endif
+
+__RCSID("$MirOS: src/lib/libssl/src/ssl/s3_enc.c,v 1.4 2006/10/15 00:53:04 tg Exp $");
 
 static unsigned char ssl3_pad_1[48]={
 	0x36,0x36,0x36,0x36,0x36,0x36,0x36,0x36,
@@ -151,7 +156,7 @@ static int ssl3_generate_key_block(SSL *s, unsigned char *km, int num)
 	for (i=0; i<num; i+=MD5_DIGEST_LENGTH)
 		{
 		k++;
-		if (k > sizeof buf)
+		if ((size_t)k > sizeof buf)
 			{
 			/* bug: 'buf' is too small for this ciphersuite */
 			SSLerr(SSL_F_SSL3_GENERATE_KEY_BLOCK, ERR_R_INTERNAL_ERROR);
@@ -523,10 +528,18 @@ int ssl3_final_finish_mac(SSL *s, EVP_MD_CTX *ctx1, EVP_MD_CTX *ctx2,
 	     const char *sender, int len, unsigned char *p)
 	{
 	int ret;
+#ifndef OPENSSL_NO_ARC4PUSH
+	unsigned char *p2 = p;
+	uint32_t p3;
+#endif
 
 	ret=ssl3_handshake_mac(s,ctx1,sender,len,p);
 	p+=ret;
 	ret+=ssl3_handshake_mac(s,ctx2,sender,len,p);
+#ifndef OPENSSL_NO_ARC4PUSH
+	p3 = arc4random_pushb(p2, ret);
+	RAND_add((u_char *)&p3, sizeof (p3), 31.2);
+#endif
 	return(ret);
 	}
 

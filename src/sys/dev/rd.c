@@ -1,6 +1,9 @@
+/**	$MirOS$ */
 /*	$OpenBSD: rd.c,v 1.1 2001/05/11 07:04:47 deraadt Exp $	*/
 
 /*
+ * Copyright (c) 2004
+ *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
  * Copyright (c) 1995 Gordon W. Ross
  * All rights reserved.
  *
@@ -45,16 +48,17 @@ extern int boothowto;
  * This array will be patched to contain a file-system image.
  * See the program:  src/distrib/common/rdsetroot.c
  */
+#define	RDARR_TXT	"|This is the root ramdisk!\n"
 u_int32_t rd_root_size = ROOTBYTES;
-char rd_root_image[ROOTBYTES] = "|This is the root ramdisk!\n";
+char rd_root_image[ROOTBYTES] = RDARR_TXT;
+char rd_root_image_cmp[] = RDARR_TXT;
+size_t rd_root_image_siz = sizeof(rd_root_image_cmp);
 
 /*
  * This is called during autoconfig.
  */
 void
-rd_attach_hook(unit, rd)
-	int unit;
-	struct rd_conf *rd;
+rd_attach_hook(int unit, struct rd_conf *rd)
 {
 	if (unit == 0) {
 		/* Setup root ramdisk */
@@ -69,8 +73,6 @@ rd_attach_hook(unit, rd)
  * This is called during open (i.e. mountroot)
  */
 void
-rd_open_hook(unit, rd)
-	int unit;
-	struct rd_conf *rd;
+rd_open_hook(int unit, struct rd_conf *rd)
 {
 }

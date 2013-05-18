@@ -1,3 +1,4 @@
+/**	$MirOS: src/libexec/ftpd/ftpd.c,v 1.5 2005/04/30 22:54:16 tg Exp $ */
 /*	$OpenBSD: ftpd.c,v 1.168 2005/08/22 17:49:37 mickey Exp $	*/
 /*	$NetBSD: ftpd.c,v 1.15 1995/06/03 22:46:47 mycroft Exp $	*/
 
@@ -65,15 +66,6 @@ static const char copyright[] =
 	The Regents of the University of California.  All rights reserved.\n";
 #endif /* not lint */
 
-#ifndef lint
-#if 0
-static const char sccsid[] = "@(#)ftpd.c	8.4 (Berkeley) 4/16/94";
-#else
-static const char rcsid[] =
-    "$OpenBSD: ftpd.c,v 1.168 2005/08/22 17:49:37 mickey Exp $";
-#endif
-#endif /* not lint */
-
 /*
  * FTP server.
  */
@@ -125,7 +117,10 @@ static const char rcsid[] =
 #include "extern.h"
 #include "monitor.h"
 
-static char version[] = "Version 6.6/OpenBSD";
+__SCCSID("@(#)ftpd.c	8.4 (Berkeley) 4/16/94");
+__RCSID("$MirOS: src/libexec/ftpd/ftpd.c,v 1.5 2005/04/30 22:54:16 tg Exp $");
+
+static char version[] = "Version 6.6/MirOS";
 
 extern	off_t restart_point;
 extern	char cbuf[];
@@ -149,6 +144,8 @@ int	maxtimeout = 7200;/* don't allow idle time to be set beyond 2 hours */
 int	logging;
 int	anon_ok = 1;
 int	anon_only = 0;
+int	anon_dele = 1;
+int	anon_rmd = 1;
 int	multihome = 0;
 int	guest;
 int	stats;
@@ -268,7 +265,7 @@ curdir(void)
 	return (guest ? path+1 : path);
 }
 
-char *argstr = "AdDhnlMSt:T:u:UvP46";
+char *argstr = "AdDfhnlMSt:T:u:UvP46";
 
 static void
 usage(void)
@@ -298,6 +295,11 @@ main(int argc, char *argv[])
 		switch (ch) {
 		case 'A':
 			anon_only = 1;
+			break;
+
+		case 'f':
+			anon_dele = 0;
+			anon_rmd = 0;
 			break;
 
 		case 'd':
@@ -1782,7 +1784,7 @@ void
 statcmd(void)
 {
 	union sockunion *su;
-	u_char *a, *p;
+	u_char *a = NULL, *p = NULL;
 	char hbuf[MAXHOSTNAMELEN];
 	int ispassive;
 	int error;
@@ -2023,6 +2025,11 @@ delete(char *name)
 {
 	struct stat st;
 
+	if (!anon_dele && guest) {
+		nack("DELE");
+		return;
+	}
+
 	LOGCMD("delete", name);
 	if (stat(name, &st) < 0) {
 		perror_reply(550, name);
@@ -2104,6 +2111,10 @@ makedir(char *name)
 void
 removedir(char *name)
 {
+	if (!anon_rmd && guest) {
+		nack("RMD");
+		return;
+	}
 
 	LOGCMD("rmdir", name);
 	if (rmdir(name) < 0)
@@ -2806,8 +2817,8 @@ logxfer(char *name, off_t size, time_t start)
 		strvis(vpw, guest? guestpw : pw->pw_name, VIS_SAFE|VIS_NOSLASH);
 
 		len = snprintf(buf, sizeof(buf),
-		    "%.24s %d %s %qd %s %c %s %c %c %s ftp %d %s %s\n",
-		    ctime(&now), now - start + (now == start),
+		    "%.24s %lld %s %qd %s %c %s %c %c %s ftp %d %s %s\n",
+		    ctime(&now), (long long)now - (long long)start + (now == start),
 		    vremotehost, (long long)size, vpath,
 		    ((type == TYPE_A) ? 'a' : 'b'), "*" /* none yet */,
 		    'o', ((guest) ? 'a' : 'r'),

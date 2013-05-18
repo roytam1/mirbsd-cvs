@@ -62,7 +62,7 @@ getlogin(void)
 int
 getlogin_r(char *name, size_t namelen)
 {
-	int logname_size;
+	size_t logname_size;
 
 	if (name == NULL)
 		return EFAULT;

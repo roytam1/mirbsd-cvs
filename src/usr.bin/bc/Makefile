@@ -1,19 +1,18 @@
-#	$OpenBSD: Makefile,v 1.2 2003/11/03 19:51:42 otto Exp $
+# $MirOS: src/usr.bin/bc/Makefile,v 1.2 2005/03/15 19:23:46 tg Exp $
+# $OpenBSD: Makefile,v 1.2 2003/11/03 19:51:42 otto Exp $
 
 PROG=		bc
-SRCS=		bc.c scan.c
-CPPFLAGS+=	-I. -I${.CURDIR}
+SRCS=		bc.y scan.l
+CPPFLAGS+=	-I.
 CFLAGS+=	-Wall -Wno-unused
-YFLAGS+=
-CLEANFILES+=	bc.c y.tab.h scan.c lex.yy.c
 
 beforeinstall:
-	install -c -o ${BINOWN} -g ${BINGRP} -m 444 ${.CURDIR}/bc.library \
-	    ${DESTDIR}/usr/share/misc
+	install -c -o ${BINOWN} -g ${BINGRP} -m ${SHAREMODE} \
+	    ${.CURDIR}/bc.library ${DESTDIR}/usr/share/misc/
 
 # These get installed verbatim
 .if make(install)
-SUBDIR+= USD.doc
+SUBDIR+=	USD.doc
 .endif
 
 .include <bsd.prog.mk>

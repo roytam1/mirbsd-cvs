@@ -18,7 +18,7 @@
 #include <sys/stat.h>
 
 #include <openssl/rsa.h>
-#include <openssl/md5.h>
+#include <md5.h>
 
 #include <pwd.h>
 #include <stdio.h>
@@ -38,12 +38,11 @@
 #include "key.h"
 #include "hostfile.h"
 #include "auth.h"
-#ifdef GSSAPI
-#include "ssh-gss.h"
-#endif
 #include "monitor_wrap.h"
 #include "ssh.h"
 #include "misc.h"
+
+__RCSID("$MirOS: src/usr.bin/ssh/auth-rsa.c,v 1.8 2006/09/20 21:40:55 tg Exp $");
 
 /* import */
 extern ServerOptions options;
@@ -55,7 +54,7 @@ extern ServerOptions options;
 extern u_char session_id[16];
 
 /*
- * The .ssh/authorized_keys file contains public keys, one per line, in the
+ * The .etc/ssh/authorised_keys file contains public keys, one per line, in the
  * following format:
  *   options bits e n comment
  * where bits, e and n are decimal numbers,
@@ -104,10 +103,10 @@ auth_rsa_verify_response(Key *key, BIGNUM *challenge, u_char response[16])
 		fatal("auth_rsa_verify_response: bad challenge length %d", len);
 	memset(buf, 0, 32);
 	BN_bn2bin(challenge, buf + 32 - len);
-	MD5_Init(&md);
-	MD5_Update(&md, buf, 32);
-	MD5_Update(&md, session_id, 16);
-	MD5_Final(mdbuf, &md);
+	MD5Init(&md);
+	MD5Update(&md, buf, 32);
+	MD5Update(&md, session_id, 16);
+	MD5Final(mdbuf, &md);
 
 	/* Verify that the response is the original challenge. */
 	if (memcmp(response, mdbuf, 16) != 0) {
@@ -176,8 +175,8 @@ auth_rsa_key_allowed(struct passwd *pw, BIGNUM *client_n, Key **rkey)
 	/* Temporarily use the user's uid. */
 	temporarily_use_uid(pw);
 
-	/* The authorized keys. */
-	file = authorized_keys_file(pw);
+	/* The authorised keys. */
+	file = authorised_keys_file(pw);
 	debug("trying public RSA key file %s", file);
 
 	/* Fail quietly if file does not exist */
@@ -187,7 +186,7 @@ auth_rsa_key_allowed(struct passwd *pw, BIGNUM *client_n, Key **rkey)
 		xfree(file);
 		return (0);
 	}
-	/* Open the file containing the authorized keys. */
+	/* Open the file containing the authorised keys. */
 	f = fopen(file, "r");
 	if (!f) {
 		/* Restore the privileged uid. */

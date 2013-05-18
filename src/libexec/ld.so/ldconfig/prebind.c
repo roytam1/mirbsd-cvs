@@ -15,10 +15,9 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#include <sys/types.h>
+#include <sys/param.h>
 #include <sys/stat.h>
 #include <sys/syslimits.h>
-#include <sys/param.h>
 #include <sys/mman.h>
 #include <errno.h>
 #include <fcntl.h>
@@ -410,7 +409,7 @@ load_file(const char *filename, int objtype)
 			}
 		}
 		if (note_found == 0)
-			goto done; /* no OpenBSD note found */
+			goto done; /* no MirOS note found */
 	}
 
 	if ((objtype == OBJTYPE_LIB || objtype == OBJTYPE_DLO) &&
@@ -463,7 +462,7 @@ done:
 
 /*
  * check if the given executable header on a ELF executable
- * has the proper OpenBSD note on the file if it is not present
+ * has the proper MirOS note on the file if it is not present
  * binaries will be skipped.
  */
 int
@@ -479,10 +478,10 @@ elf_check_note(void *buf, Elf_Phdr *phdr)
 	pint = (u_int *)((char *)buf + address);
 	osname = (char *)buf + address + sizeof(*pint) * 3;
 
-	if (pint[0] == 8 /* OpenBSD\0 */ &&
-	    pint[1] == 4 /* ??? */ &&
+	if (pint[0] == 0x0A /* MirOS·BSD\0 */ &&
+	    pint[1] == 4 /* desc */ &&
 	    pint[2] == 1 /* type_osversion */ &&
-	    strcmp("OpenBSD", osname) == 0)
+	    strcmp("MirOS BSD", osname) == 0)
 		return 1;
 
 	return 0;
@@ -671,7 +670,7 @@ elf_load_object(void *pexe, const char *name)
 			    object->dyn.pltrelsz);
 			object->dyn.jmprel = (long)plt;
 		} else {
-			object->dyn.jmprel = NULL;
+			object->dyn.jmprel = 0;
 		}
 		if (object->dyn.rpath != NULL){
 			object->dyn.rpath = strdup(object->dyn.rpath);
@@ -754,7 +753,7 @@ load_obj_needed(struct elf_object *object)
 	int err;
 
 	needed_list = (Elf_Word *)object->dyn.needed;
-	for (i = 0; needed_list[i] != NULL; i++) {
+	for (i = 0; needed_list[i] != 0; i++) {
 		if (verbose > 1)
 			printf("lib: %s\n", needed_list[i] +
 			    object->dyn.strtab);
@@ -826,8 +825,8 @@ elf_copy_syms(struct symcache_noflag *tcache, struct symcache_noflag *scache,
 					   "obj %d: sym %ld %s "
 					   "nobj %s\n",
 					    i, (int)scache[i].obj->dyn.null,
-					    scache[i].sym -
-					    scache[i].obj->dyn.symtab,
+					    (long)(scache[i].sym -
+					    scache[i].obj->dyn.symtab),
 					    scache[i].sym->st_name +
 					    scache[i].obj->dyn.strtab,
 					    scache[i].obj->load_name);
@@ -884,8 +883,8 @@ insert_sym_objcache(struct elf_object *obj, int idx,
 				   "obj %d: sym %ld %s "
 				   "nobj %s\n",
 				    idx, (int)ref_obj->dyn.null,
-				    ref_sym -
-				    ref_obj->dyn.symtab,
+				    (long)(ref_sym -
+				    ref_obj->dyn.symtab),
 				    ref_sym->st_name +
 				    ref_obj->dyn.strtab,
 				    ref_obj->load_name);

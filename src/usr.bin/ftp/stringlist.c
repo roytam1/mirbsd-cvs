@@ -32,16 +32,14 @@
  * SUCH DAMAGE.
  */
 
-#if defined(LIBC_SCCS) && !defined(lint) && !defined(SMALL)
-static const char rcsid[] = "$OpenBSD: stringlist.c,v 1.7 2006/04/25 05:45:20 tedu Exp $";
-#endif /* LIBC_SCCS and not lint and not SMALL */
-
 #include <stdio.h>
 #include <string.h>
 #include <err.h>
 #include <stdlib.h>
 
 #include "stringlist.h"
+
+__RCSID("$MirOS: src/usr.bin/ftp/stringlist.c,v 1.3 2005/04/29 18:35:09 tg Exp $");
 
 #define _SL_CHUNKSIZE	20
 

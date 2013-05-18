@@ -28,7 +28,9 @@ THIS SOFTWARE.
 #include <string.h>
 #include <stdlib.h>
 #include "awk.h"
-#include "ytab.h"
+#include "awkgram.h"
+
+__RCSID("$MirOS$");
 
 Node *nodealloc(int n)
 {

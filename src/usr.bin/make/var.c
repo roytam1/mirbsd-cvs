@@ -1,3 +1,4 @@
+/**	$MirOS: src/usr.bin/make/var.c,v 1.4 2006/09/21 03:46:53 tg Exp $ */
 /*	$OpenPackages$ */
 /*	$OpenBSD: var.c,v 1.61 2007/01/02 13:21:31 espie Exp $	*/
 /*	$NetBSD: var.c,v 1.18 1997/03/18 19:24:46 christos Exp $	*/
@@ -84,6 +85,8 @@
 #include "symtable.h"
 #include "gnode.h"
 
+__RCSID("$MirOS: src/usr.bin/make/var.c,v 1.4 2006/09/21 03:46:53 tg Exp $");
+
 /* extended indices for System V stuff */
 #define FTARGET_INDEX	7
 #define DTARGET_INDEX	8
@@ -134,13 +137,14 @@ GSymT		*VAR_CMD;	/* variables defined on the command-line */
 static SymTable *CTXT_GLOBAL, *CTXT_CMD;
 
 
-static char *varnames[] = {
+static const char *varnames[] = {
     TARGET,
     PREFIX,
     ARCHIVE,
     MEMBER,
     OODATE,
     ALLSRC,
+    GNUALLSRC,
     IMPSRC,
     FTARGET,
     DTARGET,
@@ -268,6 +272,10 @@ quick_lookup(const char *name, const char **enamePtr, uint32_t *pk)
 	break;
     case K_ALLSRC % MAGICSLOTS1:
 	if (name[0] == ALLSRC[0] && len == 1)
+	    return ALLSRC_INDEX;
+	break;
+    case K_GNUALLSRC % MAGICSLOTS1:
+	if (name[0] == GNUALLSRC[0] && len == 1)
 	    return ALLSRC_INDEX;
 	break;
     case K_IMPSRC % MAGICSLOTS1:
@@ -963,7 +971,7 @@ Var_Subst(const char *str, 	/* the string in which to substitute */
 		 * when the file is parsed.  */
 		if (!errorReported)
 		    Parse_Error(PARSE_FATAL,
-				 "Undefined variable \"%.*s\"",length,str);
+			"Undefined variable \"%.*s\"",(int)length,str);
 		str += length;
 		errorReported = true;
 	    } else {

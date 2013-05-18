@@ -1,11 +1,12 @@
-/*	$OpenBSD: ffs.S,v 1.2 1996/09/27 06:47:45 mickey Exp $	*/
-
+/*	$OpenBSD: ffs.S,v 1.3 2005/08/07 11:30:38 espie Exp $ */
 /*
  * Written by J.T. Conklin <jtc@netbsd.org>.
  * Public domain.
  */
 
 #include <machine/asm.h>
+
+	.text
 
 ENTRY(ffs)
 	bsfl	4(%esp),%eax

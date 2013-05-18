@@ -1,4 +1,4 @@
-#!/bin/sh -
+#!/bin/mksh
 copyright="\
 /*
  * Copyright (c) 1992, 1993
@@ -29,7 +29,8 @@ copyright="\
  * SUCH DAMAGE.
  */
 "
-SCRIPT_ID='$OpenBSD: vnode_if.sh,v 1.14 2005/05/22 21:07:23 pedro Exp $'
+SCRIPT_ID='$MirOS$'
+# SCRIPT_ID='$OpenBSD: vnode_if.sh,v 1.14 2005/05/22 21:07:23 pedro Exp $'
 # SCRIPT_ID='$NetBSD: vnode_if.sh,v 1.9 1996/02/29 20:58:22 cgd Exp $'
 
 # Script to produce VFS front-end sugar.

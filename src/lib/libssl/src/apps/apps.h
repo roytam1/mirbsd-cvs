@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /* apps/apps.h */
 /* Copyright (C) 1995-1998 Eric Young (eay@cryptsoft.com)
  * All rights reserved.
@@ -125,6 +127,11 @@
 #include <openssl/engine.h>
 #endif
 #include <openssl/ossl_typ.h>
+
+#ifdef MBSD_CB_ARND
+#include <sys/param.h>
+#include <sys/sysctl.h>
+#endif
 
 int app_RAND_load_file(const char *file, BIO *bio_e, int dont_warn);
 int app_RAND_write_file(const char *file, BIO *bio_e);

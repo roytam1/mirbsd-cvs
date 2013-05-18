@@ -1,4 +1,4 @@
-/* $OpenPackages$ */
+/* $MirOS$ */
 /* $OpenBSD: memory.c,v 1.3 2004/04/07 13:11:36 espie Exp $ */
 
 /*
@@ -45,7 +45,9 @@
 #include "defines.h"
 #include "memory.h"
 
-static void enomem(size_t);
+__RCSID("$MirOS$");
+
+static void enomem(size_t) __attribute__((noreturn));
 
 /*
  * emalloc --
@@ -165,4 +167,3 @@ eunlink(const char *file)
 	}
 	return unlink(file);
 }
-

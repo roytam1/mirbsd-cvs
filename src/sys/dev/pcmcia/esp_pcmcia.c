@@ -1,3 +1,4 @@
+/**	$MirOS: src/sys/dev/pcmcia/esp_pcmcia.c,v 1.2 2005/03/06 21:27:54 tg Exp $ */
 /*	$OpenBSD: esp_pcmcia.c,v 1.5 2005/01/27 17:04:55 millert Exp $	*/
 /*	$NetBSD: esp_pcmcia.c,v 1.8 2000/06/05 15:36:45 tsutsui Exp $	*/
 
@@ -79,8 +80,8 @@ struct esp_pcmcia_softc {
 #define ESP_PCMCIA_ATTACHING	2		/* attach in progress */
 };
 
-int	esp_pcmcia_match(struct device *, void *, void *); 
-void	esp_pcmcia_attach(struct device *, struct device *, void *);  
+int	esp_pcmcia_match(struct device *, void *, void *);
+void	esp_pcmcia_attach(struct device *, struct device *, void *);
 void	esp_pcmcia_init(struct esp_pcmcia_softc *);
 int	esp_pcmcia_detach(struct device *, int);
 int	esp_pcmcia_enable(void *, int);
@@ -196,7 +197,7 @@ esp_pcmcia_attach(parent, self, aux)
 		goto iomap_failed;
 	}
 
-	printf(" port 0x%lx/%d", esc->sc_pcioh.addr, esc->sc_pcioh.size);
+	printf(" port 0x%lx/%d", esc->sc_pcioh.addr, (int)(esc->sc_pcioh.size));
 
 	esp_pcmcia_init(esc);
 

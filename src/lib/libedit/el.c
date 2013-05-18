@@ -1,5 +1,6 @@
+/**	$MirOS: src/lib/libedit/el.c,v 1.3 2005/04/19 15:16:13 tg Exp $ */
+/*	$NetBSD: el.c,v 1.39 2004/07/08 00:51:36 christos Exp $	*/
 /*	$OpenBSD: el.c,v 1.14 2004/08/23 18:31:25 otto Exp $	*/
-/*	$NetBSD: el.c,v 1.36 2003/10/18 23:48:42 christos Exp $	*/
 
 /*-
  * Copyright (c) 1992, 1993
@@ -34,13 +35,6 @@
  */
 
 #include "config.h"
-#if !defined(lint) && !defined(SCCSID)
-#if 0
-static char sccsid[] = "@(#)el.c	8.2 (Berkeley) 1/3/94";
-#else
-static const char rcsid[] = "$OpenBSD: el.c,v 1.14 2004/08/23 18:31:25 otto Exp $";
-#endif
-#endif /* not lint && not SCCSID */
 
 /*
  * el.c: EditLine interface functions
@@ -51,6 +45,9 @@ static const char rcsid[] = "$OpenBSD: el.c,v 1.14 2004/08/23 18:31:25 otto Exp 
 #include <stdlib.h>
 #include <stdarg.h>
 #include "el.h"
+
+__SCCSID("@(#)el.c	8.2 (Berkeley) 1/3/94");
+__RCSID("$MirOS: src/lib/libedit/el.c,v 1.3 2005/04/19 15:16:13 tg Exp $");
 
 /* el_init():
  *	Initialize editline and set default parameters.
@@ -272,9 +269,9 @@ el_set(EditLine *el, int op, ...)
 	case EL_PREP_TERM:
 		rv = va_arg(va, int);
 		if (rv)
-			read_prepare(el);
+			(void) tty_rawmode(el);
 		else
-			read_finish(el);
+			(void) tty_cookedmode(el);
 		rv = 0;
 		break;
 
@@ -437,18 +434,20 @@ el_source(EditLine *el, const char *fname)
 	fp = NULL;
 	if (fname == NULL) {
 #ifdef HAVE_ISSETUGID
-		static const char elpath[] = "/.editrc";
 		char path[MAXPATHLEN];
 
 		if (issetugid())
 			return (-1);
+		if ((fp = fopen(".editrc", "r")) != NULL)
+			goto found;
 		if ((ptr = getenv("HOME")) == NULL)
 			return (-1);
 		if (strlcpy(path, ptr, sizeof(path)) >= sizeof(path))
 			return (-1);
-		if (strlcat(path, elpath, sizeof(path)) >= sizeof(path))
+		if (strlcat(path, "/.etc/editrc", sizeof(path)) >= sizeof(path))
 			return (-1);
 		fname = path;
+	found:	;
 #else
 		/*
 		 * If issetugid() is missing, always return an error, in order
@@ -532,10 +531,13 @@ el_editmode(EditLine *el, int argc, const char **argv)
 		return (-1);
 
 	how = argv[1];
-	if (strcmp(how, "on") == 0)
+	if (strcmp(how, "on") == 0) {
 		el->el_flags &= ~EDIT_DISABLED;
-	else if (strcmp(how, "off") == 0)
+		tty_rawmode(el);
+	} else if (strcmp(how, "off") == 0) {
+		tty_cookedmode(el);
 		el->el_flags |= EDIT_DISABLED;
+	}
 	else {
 		(void) fprintf(el->el_errfile, "edit: Bad value `%s'.\n", how);
 		return (-1);

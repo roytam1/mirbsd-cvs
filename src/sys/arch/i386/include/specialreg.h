@@ -129,6 +129,7 @@
  * feature set for simplicity
  */
 #define CPUID_3DNOW	0x40000000	/* has 3DNow! instructions (AMD) */
+#define CPUID_LONG	0x20000000	/* long mode (AMD64, ext cpuid) */
 
 #define CPUIDECX_PNI	0x00000001	/* Prescott New Instructions */
 #define CPUIDECX_MWAIT	0x00000008	/* Monitor/Mwait */

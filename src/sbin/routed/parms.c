@@ -61,7 +61,7 @@ get_parms(struct interface *ifp)
 			 */
 			ifp->int_state |= parmp->parm_int_state;
 			if (parmp->parm_passwd[0] != '\0')
-				bcopy(parmp->parm_passwd, ifp->int_passwd,
+				memmove(ifp->int_passwd, parmp->parm_passwd,
 				      sizeof(ifp->int_passwd));
 			if (parmp->parm_rdisc_pref != 0)
 				ifp->int_rdisc_pref = parmp->parm_rdisc_pref;
@@ -527,7 +527,7 @@ check_parms(struct parm *new)
 	}
 
 	parmp = (struct parm*)malloc(sizeof(*parmp));
-	bcopy(new, parmp, sizeof(*parmp));
+	memmove(parmp, new, sizeof(*parmp));
 	parmp->parm_next = parms;
 	parms = parmp;
 
@@ -557,7 +557,7 @@ getnet(char *name,
 		i = (int)(mname - name);
 		if (i > sizeof(hname)-1)	/* name too long */
 			return 0;
-		bcopy(name, hname, i);
+		memmove(hname, name, i);
 		hname[i] = '\0';
 		mname++;
 		name = hname;
@@ -615,7 +615,7 @@ gethost(char *name,
 
 	hp = gethostbyname(name);
 	if (hp) {
-		bcopy(hp->h_addr, addrp, sizeof(*addrp));
+		memmove(addrp, hp->h_addr, sizeof(*addrp));
 		return 1;
 	}
 

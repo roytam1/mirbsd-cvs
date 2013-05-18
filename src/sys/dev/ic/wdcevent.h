@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /* $OpenBSD: wdcevent.h,v 1.4 2003/09/28 21:01:43 grange Exp $ */
 
 /*
@@ -67,7 +68,7 @@ static __inline void WDC_LOG_ATAPI_CMD(struct channel_softc *chp, int drive,
 
 	record[0] = (flags >> 8);
 	record[1] = flags & 0xff;
-	bcopy(cmd, &record[2], len);
+	memmove(&record[2], cmd, len);
 
 	wdc_log(chp, WDCEVENT_ATAPI_CMD, len + 2, record);
 }

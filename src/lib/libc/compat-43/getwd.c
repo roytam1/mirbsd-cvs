@@ -46,4 +46,4 @@ getwd(char *buf)
 }
 
 __warn_references(getwd,
-    "warning: getwd() possibly used unsafely; consider using getcwd()");
+    "getwd() possibly used unsafely; consider using getcwd()");

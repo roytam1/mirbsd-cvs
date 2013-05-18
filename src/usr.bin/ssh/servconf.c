@@ -38,6 +38,8 @@
 #include "channels.h"
 #include "groupaccess.h"
 
+__RCSID("$MirOS: src/usr.bin/ssh/servconf.c,v 1.18 2007/04/29 20:23:13 tg Exp $");
+
 static void add_listen_addr(ServerOptions *, char *, u_short);
 static void add_one_listen_addr(ServerOptions *, char *, u_short);
 
@@ -78,12 +80,6 @@ initialize_server_options(ServerOptions *options)
 	options->hostbased_uses_name_from_packet_only = -1;
 	options->rsa_authentication = -1;
 	options->pubkey_authentication = -1;
-	options->kerberos_authentication = -1;
-	options->kerberos_or_local_passwd = -1;
-	options->kerberos_ticket_cleanup = -1;
-	options->kerberos_get_afs_token = -1;
-	options->gss_authentication=-1;
-	options->gss_cleanup_creds = -1;
 	options->password_authentication = -1;
 	options->kbd_interactive_authentication = -1;
 	options->challenge_response_authentication = -1;
@@ -109,8 +105,8 @@ initialize_server_options(ServerOptions *options)
 	options->use_dns = -1;
 	options->client_alive_interval = -1;
 	options->client_alive_count_max = -1;
-	options->authorized_keys_file = NULL;
-	options->authorized_keys_file2 = NULL;
+	options->authorised_keys_file = NULL;
+	options->authorised_keys_file2 = NULL;
 	options->num_accept_env = 0;
 	options->permit_tun = -1;
 	options->num_permitted_opens = -1;
@@ -127,12 +123,12 @@ fill_default_server_options(ServerOptions *options)
 		/* fill default hostkeys for protocols */
 		if (options->protocol & SSH_PROTO_1)
 			options->host_key_files[options->num_host_key_files++] =
-			    _PATH_HOST_KEY_FILE;
+			    (char *)_PATH_HOST_KEY_FILE;
 		if (options->protocol & SSH_PROTO_2) {
 			options->host_key_files[options->num_host_key_files++] =
-			    _PATH_HOST_RSA_KEY_FILE;
+			    (char *)_PATH_HOST_RSA_KEY_FILE;
 			options->host_key_files[options->num_host_key_files++] =
-			    _PATH_HOST_DSA_KEY_FILE;
+			    (char *)_PATH_HOST_DSA_KEY_FILE;
 		}
 	}
 	if (options->num_ports == 0)
@@ -140,7 +136,7 @@ fill_default_server_options(ServerOptions *options)
 	if (options->listen_addrs == NULL)
 		add_listen_addr(options, NULL, 0);
 	if (options->pid_file == NULL)
-		options->pid_file = _PATH_SSH_DAEMON_PID_FILE;
+		options->pid_file = (char *)_PATH_SSH_DAEMON_PID_FILE;
 	if (options->server_key_bits == -1)
 		options->server_key_bits = 768;
 	if (options->login_grace_time == -1)
@@ -148,7 +144,7 @@ fill_default_server_options(ServerOptions *options)
 	if (options->key_regeneration_time == -1)
 		options->key_regeneration_time = 3600;
 	if (options->permit_root_login == PERMIT_NOT_SET)
-		options->permit_root_login = PERMIT_YES;
+		options->permit_root_login = PERMIT_NO;
 	if (options->ignore_rhosts == -1)
 		options->ignore_rhosts = 1;
 	if (options->ignore_user_known_hosts == -1)
@@ -164,7 +160,7 @@ fill_default_server_options(ServerOptions *options)
 	if (options->x11_use_localhost == -1)
 		options->x11_use_localhost = 1;
 	if (options->xauth_location == NULL)
-		options->xauth_location = _PATH_XAUTH;
+		options->xauth_location = (char *)_PATH_XAUTH;
 	if (options->strict_modes == -1)
 		options->strict_modes = 1;
 	if (options->tcp_keep_alive == -1)
@@ -183,18 +179,6 @@ fill_default_server_options(ServerOptions *options)
 		options->rsa_authentication = 1;
 	if (options->pubkey_authentication == -1)
 		options->pubkey_authentication = 1;
-	if (options->kerberos_authentication == -1)
-		options->kerberos_authentication = 0;
-	if (options->kerberos_or_local_passwd == -1)
-		options->kerberos_or_local_passwd = 1;
-	if (options->kerberos_ticket_cleanup == -1)
-		options->kerberos_ticket_cleanup = 1;
-	if (options->kerberos_get_afs_token == -1)
-		options->kerberos_get_afs_token = 0;
-	if (options->gss_authentication == -1)
-		options->gss_authentication = 0;
-	if (options->gss_cleanup_creds == -1)
-		options->gss_cleanup_creds = 1;
 	if (options->password_authentication == -1)
 		options->password_authentication = 1;
 	if (options->kbd_interactive_authentication == -1)
@@ -227,15 +211,15 @@ fill_default_server_options(ServerOptions *options)
 		options->client_alive_interval = 0;
 	if (options->client_alive_count_max == -1)
 		options->client_alive_count_max = 3;
-	if (options->authorized_keys_file2 == NULL) {
-		/* authorized_keys_file2 falls back to authorized_keys_file */
-		if (options->authorized_keys_file != NULL)
-			options->authorized_keys_file2 = options->authorized_keys_file;
+	if (options->authorised_keys_file2 == NULL) {
+		/* authorised_keys_file2 falls back to authorised_keys_file */
+		if (options->authorised_keys_file != NULL)
+			options->authorised_keys_file2 = options->authorised_keys_file;
 		else
-			options->authorized_keys_file2 = _PATH_SSH_USER_PERMITTED_KEYS2;
+			options->authorised_keys_file2 = (char *)_PATH_SSH_USER_PERMITTED_KEYS2;
 	}
-	if (options->authorized_keys_file == NULL)
-		options->authorized_keys_file = _PATH_SSH_USER_PERMITTED_KEYS;
+	if (options->authorised_keys_file == NULL)
+		options->authorised_keys_file = (char *)_PATH_SSH_USER_PERMITTED_KEYS;
 	if (options->permit_tun == -1)
 		options->permit_tun = SSH_TUNMODE_NO;
 
@@ -250,9 +234,7 @@ typedef enum {
 	sPort, sHostKeyFile, sServerKeyBits, sLoginGraceTime, sKeyRegenerationTime,
 	sPermitRootLogin, sLogFacility, sLogLevel,
 	sRhostsRSAAuthentication, sRSAAuthentication,
-	sKerberosAuthentication, sKerberosOrLocalPasswd, sKerberosTicketCleanup,
-	sKerberosGetAFSToken,
-	sKerberosTgtPassing, sChallengeResponseAuthentication,
+	sChallengeResponseAuthentication,
 	sPasswordAuthentication, sKbdInteractiveAuthentication,
 	sListenAddress, sAddressFamily,
 	sPrintMotd, sPrintLastLog, sIgnoreRhosts,
@@ -265,8 +247,8 @@ typedef enum {
 	sMaxStartups, sMaxAuthTries,
 	sBanner, sUseDNS, sHostbasedAuthentication,
 	sHostbasedUsesNameFromPacketOnly, sClientAliveInterval,
-	sClientAliveCountMax, sAuthorizedKeysFile, sAuthorizedKeysFile2,
-	sGssAuthentication, sGssCleanupCreds, sAcceptEnv, sPermitTunnel,
+	sClientAliveCountMax, sAuthorisedKeysFile, sAuthorisedKeysFile2,
+	sAcceptEnv, sPermitTunnel,
 	sMatch, sPermitOpen, sForceCommand, sChrootDirectory,
 	sUsePrivilegeSeparation,
 	sDeprecated, sUnsupported
@@ -299,26 +281,14 @@ static struct {
 	{ "rsaauthentication", sRSAAuthentication, SSHCFG_ALL },
 	{ "pubkeyauthentication", sPubkeyAuthentication, SSHCFG_ALL },
 	{ "dsaauthentication", sPubkeyAuthentication, SSHCFG_GLOBAL }, /* alias */
-#ifdef KRB5
-	{ "kerberosauthentication", sKerberosAuthentication, SSHCFG_ALL },
-	{ "kerberosorlocalpasswd", sKerberosOrLocalPasswd, SSHCFG_GLOBAL },
-	{ "kerberosticketcleanup", sKerberosTicketCleanup, SSHCFG_GLOBAL },
-	{ "kerberosgetafstoken", sKerberosGetAFSToken, SSHCFG_GLOBAL },
-#else
 	{ "kerberosauthentication", sUnsupported, SSHCFG_ALL },
 	{ "kerberosorlocalpasswd", sUnsupported, SSHCFG_GLOBAL },
 	{ "kerberosticketcleanup", sUnsupported, SSHCFG_GLOBAL },
 	{ "kerberosgetafstoken", sUnsupported, SSHCFG_GLOBAL },
-#endif
 	{ "kerberostgtpassing", sUnsupported, SSHCFG_GLOBAL },
 	{ "afstokenpassing", sUnsupported, SSHCFG_GLOBAL },
-#ifdef GSSAPI
-	{ "gssapiauthentication", sGssAuthentication, SSHCFG_ALL },
-	{ "gssapicleanupcredentials", sGssCleanupCreds, SSHCFG_GLOBAL },
-#else
 	{ "gssapiauthentication", sUnsupported, SSHCFG_ALL },
 	{ "gssapicleanupcredentials", sUnsupported, SSHCFG_GLOBAL },
-#endif
 	{ "passwordauthentication", sPasswordAuthentication, SSHCFG_ALL },
 	{ "kbdinteractiveauthentication", sKbdInteractiveAuthentication, SSHCFG_ALL },
 	{ "challengeresponseauthentication", sChallengeResponseAuthentication, SSHCFG_GLOBAL },
@@ -335,7 +305,7 @@ static struct {
 	{ "x11uselocalhost", sX11UseLocalhost, SSHCFG_ALL },
 	{ "xauthlocation", sXAuthLocation, SSHCFG_GLOBAL },
 	{ "strictmodes", sStrictModes, SSHCFG_GLOBAL },
-	{ "permitemptypasswords", sEmptyPasswd, SSHCFG_GLOBAL },
+	{ "permitemptypasswords", sEmptyPasswd, SSHCFG_ALL },
 	{ "permituserenvironment", sPermitUserEnvironment, SSHCFG_GLOBAL },
 	{ "uselogin", sUseLogin, SSHCFG_GLOBAL },
 	{ "compression", sCompression, SSHCFG_GLOBAL },
@@ -359,8 +329,10 @@ static struct {
 	{ "reversemappingcheck", sDeprecated, SSHCFG_GLOBAL },
 	{ "clientaliveinterval", sClientAliveInterval, SSHCFG_GLOBAL },
 	{ "clientalivecountmax", sClientAliveCountMax, SSHCFG_GLOBAL },
-	{ "authorizedkeysfile", sAuthorizedKeysFile, SSHCFG_GLOBAL },
-	{ "authorizedkeysfile2", sAuthorizedKeysFile2, SSHCFG_GLOBAL },
+	{ "authorizedkeysfile", sDeprecated, SSHCFG_GLOBAL },
+	{ "authorizedkeysfile2", sDeprecated, SSHCFG_GLOBAL },
+	{ "authorisedkeysfile", sAuthorisedKeysFile, SSHCFG_GLOBAL },
+	{ "authorisedkeysfile2", sAuthorisedKeysFile2, SSHCFG_GLOBAL },
 	{ "useprivilegeseparation", sUsePrivilegeSeparation, SSHCFG_GLOBAL},
 	{ "acceptenv", sAcceptEnv, SSHCFG_GLOBAL },
 	{ "permittunnel", sPermitTunnel, SSHCFG_GLOBAL },
@@ -812,30 +784,6 @@ parse_flag:
 		intptr = &options->pubkey_authentication;
 		goto parse_flag;
 
-	case sKerberosAuthentication:
-		intptr = &options->kerberos_authentication;
-		goto parse_flag;
-
-	case sKerberosOrLocalPasswd:
-		intptr = &options->kerberos_or_local_passwd;
-		goto parse_flag;
-
-	case sKerberosTicketCleanup:
-		intptr = &options->kerberos_ticket_cleanup;
-		goto parse_flag;
-
-	case sKerberosGetAFSToken:
-		intptr = &options->kerberos_get_afs_token;
-		goto parse_flag;
-
-	case sGssAuthentication:
-		intptr = &options->gss_authentication;
-		goto parse_flag;
-
-	case sGssCleanupCreds:
-		intptr = &options->gss_cleanup_creds;
-		goto parse_flag;
-
 	case sPasswordAuthentication:
 		intptr = &options->password_authentication;
 		goto parse_flag;
@@ -1111,13 +1059,13 @@ parse_flag:
 	 * These options can contain %X options expanded at
 	 * connect time, so that you can specify paths like:
 	 *
-	 * AuthorizedKeysFile	/etc/ssh_keys/%u
+	 * AuthorisedKeysFile	/etc/ssh_keys/%u
 	 */
-	case sAuthorizedKeysFile:
-	case sAuthorizedKeysFile2:
-		charptr = (opcode == sAuthorizedKeysFile) ?
-		    &options->authorized_keys_file :
-		    &options->authorized_keys_file2;
+	case sAuthorisedKeysFile:
+	case sAuthorisedKeysFile2:
+		charptr = (opcode == sAuthorisedKeysFile) ?
+		    &options->authorised_keys_file :
+		    &options->authorised_keys_file2;
 		goto parse_filename;
 
 	case sClientAliveInterval:
@@ -1316,12 +1264,11 @@ void
 copy_set_server_options(ServerOptions *dst, ServerOptions *src, int preauth)
 {
 	M_CP_INTOPT(password_authentication);
-	M_CP_INTOPT(gss_authentication);
 	M_CP_INTOPT(rsa_authentication);
 	M_CP_INTOPT(pubkey_authentication);
-	M_CP_INTOPT(kerberos_authentication);
 	M_CP_INTOPT(hostbased_authentication);
 	M_CP_INTOPT(kbd_interactive_authentication);
+	M_CP_INTOPT(permit_empty_passwd);
 	M_CP_INTOPT(permit_root_login);
 
 	M_CP_INTOPT(allow_tcp_forwarding);

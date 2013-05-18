@@ -128,7 +128,7 @@ static int DefineIndex(pool *p, char *cpLine, int *pos, int *len, char **cpVar)
             cc = CC_BRACECLOSE;
         else if (ap_isalpha(*cp))
             cc = CC_IDCHAR1;
-        else if (ap_isdigit(*cp) || *cp == '_' || *cp == ':')
+        else if (isdigit((unsigned char)*cp) || *cp == '_' || *cp == ':')
             cc = CC_IDCHAR;
         else if (*cp == '\0')
             cc = CC_EOS;

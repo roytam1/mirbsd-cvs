@@ -42,8 +42,7 @@ sleep(unsigned int seconds)
 	rqt.tv_sec = seconds;
 	rqt.tv_nsec = 0;
 
-	if (nanosleep(&rqt, &rmt) < 0)
-		;
+	nanosleep(&rqt, &rmt);
 
 	return(rmt.tv_sec);
 }

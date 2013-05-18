@@ -618,8 +618,18 @@ hopefully catches attempts to access uninitialized memory.
 
 #ifdef PERL_MALLOC_WRAP
 #define MEM_WRAP_CHECK(n,t) MEM_WRAP_CHECK_1(n,t,PL_memory_wrap)
+#ifdef __GNUC__
+#define MEM_WRAP_CHECK_1(n,t,a) ((void)__extension__({	\
+	if (sizeof (t) > 1) {				\
+		size_t MEM_WRAP_CHKSZ = (MEM_SIZE)~0;	\
+		if ((n) > MEM_WRAP_CHKSZ / sizeof (t))	\
+			Perl_croak_nocontext(a);	\
+	}						\
+}))
+#else
 #define MEM_WRAP_CHECK_1(n,t,a) \
 	(void)(sizeof(t) > 1 && (n) > ((MEM_SIZE)~0)/sizeof(t) && (Perl_croak_nocontext(a),0))
+#endif
 #define MEM_WRAP_CHECK_(n,t) MEM_WRAP_CHECK(n,t),
 
 #define PERL_STRLEN_ROUNDUP(n) ((void)(((n) > (MEM_SIZE)~0 - 2 * PERL_STRLEN_ROUNDUP_QUANTUM) ? (Perl_croak_nocontext(PL_memory_wrap),0):0),((n-1+PERL_STRLEN_ROUNDUP_QUANTUM)&~((MEM_SIZE)PERL_STRLEN_ROUNDUP_QUANTUM-1)))

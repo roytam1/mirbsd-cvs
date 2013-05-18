@@ -29,7 +29,6 @@
 
 #define _DYN_LOADER
 
-#include <sys/types.h>
 #include <sys/param.h>
 #include <fcntl.h>
 #include <sys/mman.h>

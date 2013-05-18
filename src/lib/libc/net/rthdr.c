@@ -1,9 +1,10 @@
+/**	$MirOS$ */
 /*	$OpenBSD: rthdr.c,v 1.7 2005/03/25 13:24:12 otto Exp $	*/
 
 /*
  * Copyright (C) 1995, 1996, 1997, and 1998 WIDE Project.
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met:
@@ -30,7 +31,6 @@
  */
 
 #include <sys/param.h>
-#include <sys/types.h>
 #include <sys/socket.h>
 
 #include <netinet/in.h>
@@ -38,6 +38,8 @@
 
 #include <string.h>
 #include <stdio.h>
+
+__RCSID("$MirOS$");
 
 size_t
 inet6_rthdr_space(int type, int seg)
@@ -67,7 +69,7 @@ inet6_rthdr_init(void *bp, int type)
 	switch (type) {
 	case IPV6_RTHDR_TYPE_0:
 		ch->cmsg_len = CMSG_LEN(sizeof(struct ip6_rthdr0));
-		bzero(rthdr, sizeof(struct ip6_rthdr0));
+		memset(rthdr, 0, sizeof(struct ip6_rthdr0));
 		rthdr->ip6r_type = IPV6_RTHDR_TYPE_0;
 		return (ch);
 	default:
@@ -91,7 +93,7 @@ inet6_rthdr_add(struct cmsghdr *cmsg, const struct in6_addr *addr, u_int flags)
 		if (rt0->ip6r0_segleft == 23)
 			return (-1);
 		rt0->ip6r0_segleft++;
-		bcopy(addr, (caddr_t)rt0 + ((rt0->ip6r0_len + 1) << 3),
+		memmove((caddr_t)rt0 + ((rt0->ip6r0_len + 1) << 3), addr,
 		    sizeof(struct in6_addr));
 		rt0->ip6r0_len += sizeof(struct in6_addr) >> 3;
 		cmsg->cmsg_len = CMSG_LEN((rt0->ip6r0_len + 1) << 3);

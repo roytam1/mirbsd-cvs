@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*      $OpenBSD: isp_openbsd.h,v 1.24 2003/03/30 16:57:42 krw Exp $ */
 /*
  * OpenBSD Specific definitions for the Qlogic ISP Host Adapter
@@ -32,11 +33,11 @@
 #include <sys/param.h>
 #include <sys/systm.h>
 #include <sys/kernel.h>
-#include <sys/errno.h>  
+#include <sys/errno.h>
 #include <sys/ioctl.h>
 #include <sys/device.h>
 #include <sys/malloc.h>
-#include <sys/buf.h> 
+#include <sys/buf.h>
 #include <sys/proc.h>
 #include <sys/user.h>
 #include <sys/queue.h>
@@ -85,7 +86,7 @@ struct isposinfo {
 #define	isp_scdmap		isp_osinfo.scdmap
 #endif
 	unsigned int		: 28,
-		
+
 		rtpend		: 1,
 		no_mbox_ints	: 1,
 		blocked		: 2;
@@ -114,8 +115,8 @@ struct isposinfo {
 
 #define	ISP2100_SCRLEN		0x800
 
-#define	MEMZERO			bzero
-#define	MEMCPY(dst, src, amt)	bcopy((src), (dst), (amt))
+#define	MEMZERO(d, l)		memset((d), 0, (l))
+#define	MEMCPY			memmove
 #define	SNPRINTF		snprintf
 #define	USEC_DELAY(x)		delay(x)
 #define	USEC_SLEEP(isp, x)		\
@@ -238,7 +239,7 @@ default:							\
 	if (xs->error == XS_NOERROR) {			\
 		xs->error = XS_SENSE;			\
 	}						\
-	bcopy(sp->req_sense_data, &(xs)->sense,		\
+	memmove(&(xs)->sense, sp->req_sense_data,	\
 	    imin(XS_SNSLEN(xs), sp->req_sense_len))
 
 #define	XS_SET_STATE_STAT(a, b, c)
@@ -314,8 +315,8 @@ static void isp_wait_complete(struct ispsoftc *);
  * Driver wide data...
  */
 
-/*              
- * Platform private flags                                               
+/*
+ * Platform private flags
  */
 
 #define	XS_PSTS_INWDOG		0x10000

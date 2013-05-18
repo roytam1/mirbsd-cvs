@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: correct.c,v 1.8 2003/06/02 23:36:55 millert Exp $	*/
 
 /*-
@@ -29,14 +30,13 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-static char sccsid[] = "@(#)correct.c	5.1 (Berkeley) 5/11/93";
-#endif /* not lint */
-
 #include "globals.h"
 #include <math.h>
 #include <sys/types.h>
 #include <sys/times.h>
+
+__SCCSID("@(#)correct.c	5.1 (Berkeley) 5/11/93");
+__RCSID("$MirOS$");
 
 static void adjclock(struct timeval*);
 
@@ -158,8 +158,8 @@ adjclock(struct timeval *corr)
 		}
 	} else {
 		syslog(LOG_WARNING,
-		       "clock correction %ld sec too large to adjust",
-		       adj.tv_sec);
+		       "clock correction %lld sec too large to adjust",
+		       (int64_t)adj.tv_sec);
 		(void) gettimeofday(&now, 0);
 		timeradd(&now, corr, &now);
 		if (settimeofday(&now, 0) < 0)

@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: vars.c,v 1.5 2003/09/20 18:15:32 millert Exp $	*/
 /*	$NetBSD: vars.c,v 1.3 1994/12/08 09:31:19 jtc Exp $	*/
 
@@ -112,5 +113,5 @@ value_t vtable[] = {
 	  "par",	(char *)&PA },
 	{ "hardwareflow", BOOL,			(READ|WRITE)<<PUBLIC,
 	  "hf",		(char *)FALSE },
-	{ NOSTR, NULL, NULL, NOSTR, NOSTR }
+	{ NOSTR, 0, 0, NOSTR, NOSTR }
 };

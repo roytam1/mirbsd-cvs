@@ -152,7 +152,7 @@ Parse_DoVar(const char *line,
 	return true;
     }
     if (type & VAR_SHELL) {
-	char *err;
+	const char *err;
 
 	if (strchr(arg, '$') != NULL) {
 	    char *sub;

@@ -78,6 +78,8 @@ static char _rcsid[] = "$OpenBSD: route6d.c,v 1.42 2005/05/26 21:56:41 henning E
 
 #include "route6d.h"
 
+__RCSID("$MirOS$");
+
 #define	MAXFILTER	40
 
 #ifdef	DEBUG
@@ -1142,7 +1144,7 @@ riprecv(void)
 	if (iff_find(ifcp, 'N') != NULL)
 		return;
 
-	tracet(1, "Recv(%s): from %s.%d info(%d)\n",
+	tracet(1, "Recv(%s): from %s.%d info(%zd)\n",
 	    ifcp->ifc_name, inet6_n2p(&nh), ntohs(fsock.sin6_port), nn);
 
 	t = time(NULL);

@@ -1,5 +1,4 @@
-/*	$OpenBSD: emacs.c,v 1.7 2003/11/25 20:12:38 otto Exp $	*/
-/*	$NetBSD: emacs.c,v 1.16 2003/11/02 20:07:58 christos Exp $	*/
+/*	$NetBSD: emacs.c,v 1.19 2004/10/28 21:14:52 dsl Exp $	*/
 
 /*-
  * Copyright (c) 1992, 1993
@@ -38,7 +37,7 @@
 #if 0
 static char sccsid[] = "@(#)emacs.c	8.1 (Berkeley) 6/4/93";
 #else
-static const char rcsid[] = "$OpenBSD: emacs.c,v 1.7 2003/11/25 20:12:38 otto Exp $";
+__RCSID("$NetBSD: emacs.c,v 1.19 2004/10/28 21:14:52 dsl Exp $");
 #endif
 #endif /* not lint && not SCCSID */
 
@@ -72,7 +71,10 @@ em_delete_or_list(EditLine *el, int c __attribute__((__unused__)))
 			return (CC_ERROR);
 		}
 	} else {
-		c_delafter(el, el->el_state.argument);	/* delete after dot */
+		if (el->el_state.doingarg)
+			c_delafter(el, el->el_state.argument);
+		else
+			c_delafter1(el);
 		if (el->el_line.cursor > el->el_line.lastchar)
 			el->el_line.cursor = el->el_line.lastchar;
 				/* bounds check */
@@ -288,8 +290,8 @@ em_upper_case(EditLine *el, int c __attribute__((__unused__)))
 	    el->el_state.argument, ce__isword);
 
 	for (cp = el->el_line.cursor; cp < ep; cp++)
-		if (islower((unsigned char) *cp))
-			*cp = toupper(*cp);
+		if (islower((unsigned char)*cp))
+			*cp = toupper((unsigned char)*cp);
 
 	el->el_line.cursor = ep;
 	if (el->el_line.cursor > el->el_line.lastchar)
@@ -312,16 +314,16 @@ em_capitol_case(EditLine *el, int c __attribute__((__unused__)))
 	    el->el_state.argument, ce__isword);
 
 	for (cp = el->el_line.cursor; cp < ep; cp++) {
-		if (isalpha((unsigned char) *cp)) {
-			if (islower((unsigned char) *cp))
-				*cp = toupper(*cp);
+		if (isalpha((unsigned char)*cp)) {
+			if (islower((unsigned char)*cp))
+				*cp = toupper((unsigned char)*cp);
 			cp++;
 			break;
 		}
 	}
 	for (; cp < ep; cp++)
-		if (isupper((unsigned char) *cp))
-			*cp = tolower(*cp);
+		if (isupper((unsigned char)*cp))
+			*cp = tolower((unsigned char)*cp);
 
 	el->el_line.cursor = ep;
 	if (el->el_line.cursor > el->el_line.lastchar)
@@ -344,8 +346,8 @@ em_lower_case(EditLine *el, int c __attribute__((__unused__)))
 	    el->el_state.argument, ce__isword);
 
 	for (cp = el->el_line.cursor; cp < ep; cp++)
-		if (isupper((unsigned char) *cp))
-			*cp = tolower(*cp);
+		if (isupper((unsigned char)*cp))
+			*cp = tolower((unsigned char)*cp);
 
 	el->el_line.cursor = ep;
 	if (el->el_line.cursor > el->el_line.lastchar)
@@ -480,4 +482,27 @@ em_inc_search_prev(EditLine *el, int c __attribute__((__unused__)))
 
 	el->el_search.patlen = 0;
 	return (ce_inc_search(el, ED_SEARCH_PREV_HISTORY));
+}
+
+
+/* em_delete_prev_char():
+ *	Delete the character to the left of the cursor
+ *	[^?]
+ */
+protected el_action_t
+/*ARGSUSED*/
+em_delete_prev_char(EditLine *el, int c __attribute__((__unused__)))
+{
+
+	if (el->el_line.cursor <= el->el_line.buffer)
+		return (CC_ERROR);
+
+	if (el->el_state.doingarg)
+		c_delbefore(el, el->el_state.argument);
+	else
+		c_delbefore1(el);
+	el->el_line.cursor -= el->el_state.argument;
+	if (el->el_line.cursor < el->el_line.buffer)
+		el->el_line.cursor = el->el_line.buffer;
+	return (CC_REFRESH);
 }

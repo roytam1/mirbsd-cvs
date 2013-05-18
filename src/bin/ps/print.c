@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: print.c,v 1.38 2005/07/06 21:41:24 millert Exp $	*/
 /*	$NetBSD: print.c,v 1.27 1995/09/29 21:58:12 cgd Exp $	*/
 
@@ -211,7 +212,9 @@ state(const struct kinfo_proc2 *kp, VARENT *ve)
 
 	case SRUN:
 	case SIDL:
+#ifdef SONPROC
 	case SONPROC:
+#endif
 		state = *cp = 'R';
 		break;
 
@@ -253,6 +256,7 @@ state(const struct kinfo_proc2 *kp, VARENT *ve)
 		*cp++ = '+';
 	*cp = '\0';
 
+#if 0
 	if (state == 'R' && ncpu && kp->p_cpuid != KI_NOCPU) {
 		char pbuf[16];
 
@@ -261,6 +265,7 @@ state(const struct kinfo_proc2 *kp, VARENT *ve)
 		strlcat(buf, pbuf, sizeof buf);
 		cp = buf + strlen(buf);
 	}
+#endif
 
 	(void)printf("%-*s", v->width, buf);
 }

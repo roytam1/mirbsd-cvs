@@ -30,14 +30,6 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)dir.c	8.5 (Berkeley) 12/8/94";
-#else
-static const char rcsid[] = "$OpenBSD: dir.c,v 1.19 2007/02/08 13:09:53 otto Exp $";
-#endif
-#endif /* not lint */
-
 #include <sys/param.h>
 #include <sys/time.h>
 #include <ufs/ufs/dinode.h>
@@ -51,6 +43,9 @@ static const char rcsid[] = "$OpenBSD: dir.c,v 1.19 2007/02/08 13:09:53 otto Exp
 #include "fsck.h"
 #include "fsutil.h"
 #include "extern.h"
+
+__SCCSID("@(#)dir.c	8.5 (Berkeley) 12/8/94");
+__RCSID("$MirOS: src/sbin/fsck_ffs/dir.c,v 1.3 2005/04/29 18:34:56 tg Exp $");
 
 char	*lfname = "lost+found";
 int	lfmode = 01700;

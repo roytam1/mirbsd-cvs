@@ -2362,7 +2362,33 @@ main(argc, argv, envp)
 
 		if (QueueIntvl > 0)
 		{
-			(void) runqueue(true, false, queuepersistent, true);
+#if _FFR_RUNPQG
+			if (qgrp != NOQGRP)
+			{
+				int rwgflags = RWG_NONE;
+
+				/*
+				**  To run a specific queue group mark it to
+				**  be run, select the work group it's in and
+				**  increment the work counter.
+				*/
+
+				for (i = 0; i < NumQueue && Queue[i] != NULL;
+				     i++)
+					Queue[i]->qg_nextrun = (time_t) -1;
+				Queue[qgrp]->qg_nextrun = 0;
+				if (Verbose)
+					rwgflags |= RWG_VERBOSE;
+				if (queuepersistent)
+					rwgflags |= RWG_PERSISTENT;
+				rwgflags |= RWG_FORCE;
+				(void) run_work_group(Queue[qgrp]->qg_wgrp,
+						      rwgflags);
+			}
+			else
+#endif /* _FFR_RUNPQG */
+				(void) runqueue(true, false, queuepersistent,
+						true);
 
 			/*
 			**  If queuepersistent but not in daemon mode then
@@ -2517,9 +2543,12 @@ main(argc, argv, envp)
 		macdefine(&BlankEnvelope.e_macro, A_TEMP, '_', authinfo);
 
 		/* at this point we are in a child: reset state */
-		sm_rpool_free(MainEnvelope.e_rpool);
-		(void) newenvelope(&MainEnvelope, &MainEnvelope,
-				   sm_rpool_new_x(NULL));
+		{
+			SM_RPOOL_T *opool = MainEnvelope.e_rpool;
+			(void) newenvelope(&MainEnvelope, &MainEnvelope,
+					   sm_rpool_new_x(NULL));
+			sm_rpool_free(opool);
+		}
 	}
 
 	if (LogLevel > 9)

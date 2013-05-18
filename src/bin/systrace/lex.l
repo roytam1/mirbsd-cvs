@@ -45,7 +45,9 @@
 
 #include "intercept.h"
 #include "systrace.h"
-#include "y.tab.h"
+#include "parse.h"
+
+__RCSID("$MirOS$");
 
 extern int yyerror(const char *fmt, ...);
 int yylex(void);

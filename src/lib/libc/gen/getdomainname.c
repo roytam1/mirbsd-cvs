@@ -32,16 +32,12 @@
 #include <sys/sysctl.h>
 #include <unistd.h>
 
+__RCSID("$MirOS: src/lib/libc/gen/getdomainname.c,v 1.2 2005/03/06 20:28:40 tg Exp $");
+
 int
 getdomainname(char *name, size_t namelen)
 {
-	int mib[2];
-	size_t size;
-
-	mib[0] = CTL_KERN;
-	mib[1] = KERN_DOMAINNAME;
-	size = namelen;
-	if (sysctl(mib, 2, name, &size, NULL, 0) == -1)
-		return (-1);
+	if (namelen > 0 && name != NULL)
+		*name = 0;
 	return (0);
 }

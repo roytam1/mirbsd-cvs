@@ -1,6 +1,6 @@
 #ifndef COND_H
 #define COND_H
-/*	$OpenPackages$ */
+/**	$MirOS: src/usr.bin/make/cond.h,v 1.2 2005/09/01 23:14:22 tg Exp $ */
 /*	$OpenBSD: cond.h,v 1.2 2002/06/11 21:12:11 espie Exp $ */
 
 /*
@@ -39,6 +39,8 @@
 #define COND_ISFOR	3
 #define COND_ISUNDEF	4
 #define COND_ISINCLUDE	5
+#define COND_ISUERR	6
+#define COND_ISTRACE	7
 
 /* whattodo = Cond_Eval(line);
  *	Parses a conditional expression (without the leading dot),

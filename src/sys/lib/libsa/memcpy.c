@@ -1,3 +1,4 @@
+/**	$MirOS$	*/
 /*	$OpenBSD: memcpy.c,v 1.5 2003/08/08 03:36:07 deraadt Exp $	*/
 /*	$NetBSD: bcopy.c,v 1.5 1995/04/22 13:46:50 cgd Exp $	*/
 
@@ -33,10 +34,11 @@
  */
 
 #include <sys/types.h>
-#include "stand.h"
+#include "libsa/stand.h"
 
 /*
  * This is designed to be small, not fast.
+ * And it implements memmove, not what it seems to be.
  */
 void *
 memcpy(void *s1, const void *s2, size_t n)

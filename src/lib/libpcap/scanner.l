@@ -22,11 +22,6 @@
  * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
  */
 
-#ifndef lint
-static const char rcsid[] =
-    "@(#) $Header$ (LBL)";
-#endif
-
 #include <sys/types.h>
 #include <sys/time.h>
 
@@ -41,15 +36,18 @@ static const char rcsid[] =
 #include <pcap-namedb.h>
 
 #ifdef INET6
-#include <netdb.h> 
+#include <netdb.h>
 #include <sys/socket.h>
 #endif /*INET6*/
+
+__RCSID("$Header$ (LBL)");
+__RCSID("$MirOS$");
 
 #ifdef HAVE_OS_PROTO_H
 #include "os-proto.h"
 #endif
 
-#include "grammar.tab.h"
+#include "grammar.h"
 
 static int stoi(char *);
 static inline int xdtoi(int);
@@ -349,4 +347,3 @@ stoi(s)
 
 	return n;
 }
-

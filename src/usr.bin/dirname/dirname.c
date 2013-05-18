@@ -16,16 +16,14 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#ifndef lint
-static char rcsid[] = "$OpenBSD: dirname.c,v 1.11 2005/04/07 07:16:21 otto Exp $";                                         
-#endif /* not lint */                                                      
-
 #include <err.h>
 #include <libgen.h>
 #include <locale.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+
+__RCSID("$MirOS$");
 
 void usage(void);
 
@@ -35,7 +33,9 @@ main(int argc, char *argv[])
 	int ch;
 	char *dir;
 
+#ifndef __MirBSD__
 	setlocale(LC_ALL, "");
+#endif
 
 	while ((ch = getopt(argc, argv, "")) != -1) {
 		switch (ch) {

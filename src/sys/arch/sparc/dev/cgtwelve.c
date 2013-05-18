@@ -1,4 +1,4 @@
-/*	$OpenBSD: cgtwelve.c,v 1.9 2003/06/28 17:05:33 miod Exp $	*/
+/*	$OpenBSD: cgtwelve.c,v 1.15 2006/06/02 20:00:54 miod Exp $	*/
 
 /*
  * Copyright (c) 2002, 2003 Miodrag Vallat.  All rights reserved.
@@ -33,7 +33,7 @@
 
 /*
  * The cgtwelve framebuffer is a 3-slot SBUS card, that will fit only in
- * SPARCstation 1, 1+, 2 and 5, or in an xbox SBUS extension (untested).
+ * SPARCstation 1, 1+, 2 and 5, or in an xbox SBUS extension.
  *
  * It is a 24-bit 3D accelerated framebuffer made by Matrox, featuring 4MB
  * (regular model) or 8MB (high-res model) of video memory, a complex
@@ -76,7 +76,6 @@
 /* per-display variables */
 struct cgtwelve_softc {
 	struct	sunfb	sc_sunfb;	/* common base device */
-	struct	sbusdev sc_sd;		/* sbus device */
 	struct	rom_reg sc_phys;
 
 	volatile struct cgtwelve_dpu *sc_dpu;
@@ -86,49 +85,30 @@ struct cgtwelve_softc {
 	volatile u_long *sc_inten;	/* true color plane */
 
 	int	sc_highres;
-	int	sc_nscreens;
 };
 
-struct wsscreen_descr cgtwelve_stdscreen = {
-	"std",
-};
-
-const struct wsscreen_descr *cgtwelve_scrlist[] = {
-	&cgtwelve_stdscreen,
-};
-
-struct wsscreen_list cgtwelve_screenlist = {
-	sizeof(cgtwelve_scrlist) / sizeof(struct wsscreen_descr *),
-	    cgtwelve_scrlist
-};
-
-int cgtwelve_ioctl(void *, u_long, caddr_t, int, struct proc *);
-int cgtwelve_alloc_screen(void *, const struct wsscreen_descr *, void **,
-    int *, int *, long *);
-void cgtwelve_free_screen(void *, void *);
-int cgtwelve_show_screen(void *, void *, int, void (*cb)(void *, int, int),
-    void *);
-paddr_t cgtwelve_mmap(void *, off_t, int);
-void cgtwelve_reset(struct cgtwelve_softc *, int);
-void cgtwelve_prom(void *);
-
-static __inline__ void cgtwelve_ramdac_wraddr(struct cgtwelve_softc *sc,
-    u_int32_t addr);
+int	cgtwelve_ioctl(void *, u_long, caddr_t, int, struct proc *);
+paddr_t	cgtwelve_mmap(void *, off_t, int);
+void	cgtwelve_prom(void *);
+static __inline__
+void	cgtwelve_ramdac_wraddr(struct cgtwelve_softc *, u_int32_t);
+void	cgtwelve_reset(struct cgtwelve_softc *, int);
 
 struct wsdisplay_accessops cgtwelve_accessops = {
 	cgtwelve_ioctl,
 	cgtwelve_mmap,
-	cgtwelve_alloc_screen,
-	cgtwelve_free_screen,
-	cgtwelve_show_screen,
+	NULL,	/* alloc_screen */
+	NULL,	/* free_screen */
+	NULL,	/* show_screen */
 	NULL,	/* load_font */
 	NULL,	/* scrollback */
 	NULL,	/* getchar */
 	NULL,	/* burner */
+	NULL	/* pollc */
 };
 
-int cgtwelvematch(struct device *, void *, void *);
-void cgtwelveattach(struct device *, struct device *, void *);
+int	cgtwelvematch(struct device *, void *, void *);
+void	cgtwelveattach(struct device *, struct device *, void *);
 
 struct cfattach cgtwelve_ca = {
 	sizeof(struct cgtwelve_softc), cgtwelvematch, cgtwelveattach
@@ -139,13 +119,8 @@ struct cfdriver cgtwelve_cd = {
 };
 
 
-/*
- * Match a cgtwelve.
- */
 int
-cgtwelvematch(parent, vcf, aux)
-	struct device *parent;
-	void *vcf, *aux;
+cgtwelvematch(struct device *parent, void *vcf, void *aux)
 {
 	struct cfdata *cf = vcf;
 	struct confargs *ca = aux;
@@ -157,17 +132,11 @@ cgtwelvematch(parent, vcf, aux)
 	return (1);
 }
 
-/*
- * Attach a display.
- */
 void
-cgtwelveattach(parent, self, args)
-	struct device *parent, *self;
-	void *args;
+cgtwelveattach(struct device *parent, struct device *self, void *args)
 {
 	struct cgtwelve_softc *sc = (struct cgtwelve_softc *)self;
 	struct confargs *ca = args;
-	struct wsemuldisplaydev_attach_args waa;
 	int node;
 	int isconsole = 0;
 	char *ps;
@@ -227,18 +196,10 @@ cgtwelveattach(parent, self, args)
 	sc->sc_sunfb.sf_ro.ri_hw = sc;
 	fbwscons_init(&sc->sc_sunfb, isconsole ? 0 : RI_CLEAR);
 
-	cgtwelve_stdscreen.capabilities = sc->sc_sunfb.sf_ro.ri_caps;
-	cgtwelve_stdscreen.nrows = sc->sc_sunfb.sf_ro.ri_rows;
-	cgtwelve_stdscreen.ncols = sc->sc_sunfb.sf_ro.ri_cols;
-	cgtwelve_stdscreen.textops = &sc->sc_sunfb.sf_ro.ri_ops;
-
 	if (isconsole) {
-		fbwscons_console_init(&sc->sc_sunfb,
-		    &cgtwelve_stdscreen, -1, NULL);
+		fbwscons_console_init(&sc->sc_sunfb, -1);
 		shutdownhook_establish(cgtwelve_prom, sc);
 	}
-
-	sbus_establish(&sc->sc_sd, &sc->sc_sunfb.sf_dev);
 
 	printf("%s: %dx%d", self->dv_xname,
 	    sc->sc_sunfb.sf_width, sc->sc_sunfb.sf_height);
@@ -247,20 +208,11 @@ cgtwelveattach(parent, self, args)
 		printf(", microcode rev. %s", ps);
 	printf("\n");
 
-	waa.console = isconsole;
-	waa.scrdata = &cgtwelve_screenlist;
-	waa.accessops = &cgtwelve_accessops;
-	waa.accesscookie = sc;
-	config_found(self, &waa, wsemuldisplaydevprint);
+	fbwscons_attach(&sc->sc_sunfb, &cgtwelve_accessops, isconsole);
 }
 
 int
-cgtwelve_ioctl(dev, cmd, data, flags, p)
-	void *dev;
-	u_long cmd;
-	caddr_t data;
-	int flags;
-	struct proc *p;
+cgtwelve_ioctl(void *dev, u_long cmd, caddr_t data, int flags, struct proc *p)
 {
 	struct cgtwelve_softc *sc = dev;
 	struct wsdisplay_fbinfo *wdf;
@@ -299,6 +251,10 @@ cgtwelve_ioctl(dev, cmd, data, flags, p)
 		}
 		break;
 
+	case WSDISPLAYIO_SVIDEO:
+	case WSDISPLAYIO_GVIDEO:
+		break;
+
 	default:
 		return (-1);	/* not supported yet */
 	}
@@ -306,13 +262,8 @@ cgtwelve_ioctl(dev, cmd, data, flags, p)
 	return (0);
 }
 
-/*
- * Clean up hardware state (e.g., after bootup or after X crashes).
- */
 void
-cgtwelve_reset(sc, depth)
-	struct cgtwelve_softc *sc;
-	int depth;
+cgtwelve_reset(struct cgtwelve_softc *sc, int depth)
 {
 	u_int32_t c;
 
@@ -410,15 +361,8 @@ cgtwelve_reset(sc, depth)
 	sc->sc_sunfb.sf_depth = depth;
 }
 
-/*
- * Return the address that would map the given device at the given
- * offset, allowing for the given protection, or return -1 for error.
- */
 paddr_t
-cgtwelve_mmap(v, offset, prot)
-	void *v;
-	off_t offset;
-	int prot;
+cgtwelve_mmap(void *v, off_t offset, int prot)
 {
 	struct cgtwelve_softc *sc = v;
 
@@ -435,50 +379,7 @@ cgtwelve_mmap(v, offset, prot)
 		    CG12_OFF_INTEN) + offset) | PMAP_NC);
 	}
 
-	return (-1);	/* not a user-map offset */
-}
-
-int
-cgtwelve_alloc_screen(v, type, cookiep, curxp, curyp, attrp)
-	void *v;
-	const struct wsscreen_descr *type;
-	void **cookiep;
-	int *curxp, *curyp;
-	long *attrp;
-{
-	struct cgtwelve_softc *sc = v;
-
-	if (sc->sc_nscreens > 0)
-		return (ENOMEM);
-
-	*cookiep = &sc->sc_sunfb.sf_ro;
-	*curyp = 0;
-	*curxp = 0;
-	sc->sc_sunfb.sf_ro.ri_ops.alloc_attr(&sc->sc_sunfb.sf_ro,
-	     0, 0, 0, attrp);
-	sc->sc_nscreens++;
-	return (0);
-}
-
-void
-cgtwelve_free_screen(v, cookie)
-	void *v;
-	void *cookie;
-{
-	struct cgtwelve_softc *sc = v;
-
-	sc->sc_nscreens--;
-}
-
-int
-cgtwelve_show_screen(v, cookie, waitok, cb, cbarg)
-	void *v;
-	void *cookie;
-	int waitok;
-	void (*cb)(void *, int, int);
-	void *cbarg;
-{
-	return (0);
+	return (-1);
 }
 
 /*

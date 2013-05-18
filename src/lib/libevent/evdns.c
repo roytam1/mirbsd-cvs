@@ -110,6 +110,8 @@
 #include <netinet/in6.h>
 #endif
 
+__RCSID("$MirOS: src/lib/libevent/evdns.c,v 1.3 2007/05/17 17:15:34 tg Exp $");
+
 #ifdef WIN32
 typedef int socklen_t;
 #endif
@@ -278,7 +280,7 @@ struct server_request {
 // Given a pointer to an evdns_server_request, get the corresponding
 // server_request.
 #define TO_SERVER_REQUEST(base_ptr)										\
-	((struct server_request*)											\
+	((struct server_request*)(void *)											\
 	 (((char*)(base_ptr) - OFFSET_OF(struct server_request, base))))
 
 // The number of good nameservers that we have
@@ -301,7 +303,7 @@ static int global_max_nameserver_timeout = 3;
 
 // These are the timeout values for nameservers. If we find a nameserver is down
 // we try to probe it at intervals as given below. Values are in seconds.
-static const struct timeval global_nameserver_timeouts[] = {{10, 0}, {60, 0}, {300, 0}, {900, 0}, {3600, 0}};
+static struct timeval global_nameserver_timeouts[] = {{10, 0}, {60, 0}, {300, 0}, {900, 0}, {3600, 0}};
 static const int global_nameserver_timeouts_length = sizeof(global_nameserver_timeouts)/sizeof(struct timeval);
 
 static const char *const evdns_error_strings[] = {"no error", "The name server was unable to interpret the query", "The name server suffered an internal error", "The requested domain name does not exist", "The name server refused to reply to the request"};
@@ -453,7 +455,7 @@ nameserver_prod_callback(int fd, short events, void *arg) {
 // and wait longer to send the next probe packet.
 static void
 nameserver_probe_failed(struct nameserver *const ns) {
-	const struct timeval * timeout;
+	struct timeval *timeout;
 	(void) evtimer_del(&ns->timeout_event);
 	if (ns->state == 1) {
 		// This can happen if the nameserver acts in a way which makes us mark
@@ -540,7 +542,8 @@ nameserver_up(struct nameserver *const ns) {
 static void
 request_trans_id_set(struct request *const req, const u16 trans_id) {
 	req->trans_id = trans_id;
-	*((u16 *) req->request) = htons(trans_id);
+	req->request[0] = trans_id >> 8;
+	req->request[1] = trans_id & 0xFF;
 }
 
 // Called to remove a request from a list and dealloc it.
@@ -1392,7 +1395,11 @@ evdns_request_data_build(const char *const name, const int name_len,
 
 // exported function
 struct evdns_server_port *
-evdns_add_server_port(int socket, int is_tcp, evdns_request_callback_fn_type cb, void *user_data)
+evdns_add_server_port(int socknr, int is_tcp
+#ifdef NDEBUG
+    __attribute__((unused))
+#endif
+    , evdns_request_callback_fn_type cb, void *user_data)
 {
 	struct evdns_server_port *port;
 	if (!(port = malloc(sizeof(struct evdns_server_port))))
@@ -1400,7 +1407,7 @@ evdns_add_server_port(int socket, int is_tcp, evdns_request_callback_fn_type cb,
 	memset(port, 0, sizeof(struct evdns_server_port));
 
 	assert(!is_tcp); // TCP sockets not yet implemented
-	port->socket = socket;
+	port->socket = socknr;
 	port->refcnt = 1;
 	port->choked = 0;
 	port->closing = 0;
@@ -1653,8 +1660,8 @@ evdns_server_request_respond(struct evdns_server_request *_req, int err)
 	r = sendto(port->socket, req->response, req->response_len, 0,
 			   (struct sockaddr*) &req->addr, req->addrlen);
 	if (r<0) {
-		int err = last_error(port->socket);
-		if (! error_is_eagain(err))
+		int errnr = last_error(port->socket);
+		if (! error_is_eagain(errnr))
 			return -1;
 
 		if (port->pending_replies) {
@@ -1819,9 +1826,9 @@ static int
 evdns_request_transmit_to(struct request *req, struct nameserver *server) {
 	const int r = send(server->socket, req->request, req->request_len, 0);
 	if (r < 0) {
-		int err = last_error(server->socket);
-		if (error_is_eagain(err)) return 1;
-		nameserver_failed(req->ns, strerror(err));
+		int errnr = last_error(server->socket);
+		if (error_is_eagain(errnr)) return 1;
+		nameserver_failed(req->ns, strerror(errnr));
 		return 2;
 	} else if (r != (int)req->request_len) {
 		return 1;  // short write
@@ -2013,7 +2020,7 @@ _evdns_nameserver_add_impl(unsigned long int address, int port) {
 	const struct nameserver *server = server_head, *const started_at = server_head;
 	struct nameserver *ns;
 	struct sockaddr_in sin;
-	int err = 0;
+	int errnr = 0;
 	if (server) {
 		do {
 			if (server->address == address) return 3;
@@ -2027,7 +2034,7 @@ _evdns_nameserver_add_impl(unsigned long int address, int port) {
 	memset(ns, 0, sizeof(struct nameserver));
 
 	ns->socket = socket(PF_INET, SOCK_DGRAM, 0);
-	if (ns->socket < 0) { err = 1; goto out1; }
+	if (ns->socket < 0) { errnr = 1; goto out1; }
 #ifdef WIN32
         {
 		u_long nonblocking = 1;
@@ -2040,7 +2047,7 @@ _evdns_nameserver_add_impl(unsigned long int address, int port) {
 	sin.sin_port = htons(port);
 	sin.sin_family = AF_INET;
 	if (connect(ns->socket, (struct sockaddr *) &sin, sizeof(sin)) != 0) {
-		err = 2;
+		errnr = 2;
 		goto out2;
 	}
 
@@ -2048,7 +2055,7 @@ _evdns_nameserver_add_impl(unsigned long int address, int port) {
 	ns->state = 1;
 	event_set(&ns->event, ns->socket, EV_READ | EV_PERSIST, nameserver_ready_callback, ns);
 	if (event_add(&ns->event, NULL) < 0) {
-          err = 2;
+          errnr = 2;
           goto out2;
         }
 
@@ -2075,8 +2082,8 @@ out2:
 	CLOSE_SOCKET(ns->socket);
 out1:
 	free(ns);
-	log(EVDNS_LOG_WARN, "Unable to add nameserver %s: error %d", debug_ntoa(address), err);
-	return err;
+	log(EVDNS_LOG_WARN, "Unable to add nameserver %s: error %d", debug_ntoa(address), errnr);
+	return errnr;
 }
 
 // exported function
@@ -2473,10 +2480,10 @@ search_try_next(struct request *const req) {
 			// this name without a postfix
 			if (string_num_dots(req->search_origname) < req->search_state->ndots) {
 				// yep, we need to try it raw
-				struct request *const newreq = request_new(req->request_type, req->search_origname, req->search_flags, req->user_callback, req->user_pointer);
+				struct request *const newreq2 = request_new(req->request_type, req->search_origname, req->search_flags, req->user_callback, req->user_pointer);
 				log(EVDNS_LOG_DEBUG, "Search: trying raw query %s", req->search_origname);
-				if (newreq) {
-					request_submit(newreq);
+				if (newreq2) {
+					request_submit(newreq2);
 					return 0;
 				}
 			}

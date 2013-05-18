@@ -35,9 +35,8 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <sys/types.h>
-#include <sys/stat.h>
 #include <sys/param.h>
+#include <sys/stat.h>
 
 #include <openssl/evp.h>
 
@@ -59,11 +58,13 @@
 #include "pathnames.h"
 #include "misc.h"
 
+__RCSID("$MirOS: src/usr.bin/ssh/ssh-add.c,v 1.6 2006/09/20 21:41:04 tg Exp $");
+
 /* argv0 */
 extern char *__progname;
 
 /* Default files to add */
-static char *default_files[] = {
+static const char *default_files[] = {
 	_PATH_SSH_CLIENT_ID_RSA,
 	_PATH_SSH_CLIENT_ID_DSA,
 	_PATH_SSH_CLIENT_IDENTITY,
@@ -325,8 +326,6 @@ usage(void)
 int
 main(int argc, char **argv)
 {
-	extern char *optarg;
-	extern int optind;
 	AuthenticationConnection *ac = NULL;
 	char *sc_reader_id = NULL;
 	int i, ch, deleting = 0, ret = 0;

@@ -44,6 +44,8 @@
 #include <unistd.h>
 #include <stdarg.h>
 
+__RCSID("$MirOS: src/lib/libc/gen/syslog.c,v 1.3 2005/09/22 20:40:01 tg Exp $");
+
 static struct syslog_data sdata = SYSLOG_DATA_INIT;
 
 extern char	*__progname;		/* Program name, from crt0. */
@@ -111,7 +113,7 @@ vsyslog_r(int pri, struct syslog_data *data, const char *fmt, va_list ap)
 	int fd, saved_errno, error;
 #define	TBUF_LEN	2048
 #define	FMT_LEN		1024
-	char *stdp, tbuf[TBUF_LEN], fmt_cpy[FMT_LEN];
+	char *stdp = NULL, tbuf[TBUF_LEN], fmt_cpy[FMT_LEN];
 	int tbuf_left, fmt_left, prlen;
 
 #define	INTERNALLOG	LOG_ERR|LOG_CONS|LOG_PERROR|LOG_PID
@@ -157,7 +159,7 @@ vsyslog_r(int pri, struct syslog_data *data, const char *fmt, va_list ap)
 	prlen = snprintf(p, tbuf_left, "<%d>", pri);
 	DEC();
 
-	/* 
+	/*
 	 * syslogd will expand time automagically for reentrant case, and
 	 * for normal case, just do like before
 	 */
@@ -196,10 +198,10 @@ vsyslog_r(int pri, struct syslog_data *data, const char *fmt, va_list ap)
 			++fmt;
 			if (data == &sdata) {
 				prlen = snprintf(t, fmt_left, "%s",
-				    strerror(saved_errno)); 
+				    strerror(saved_errno));
 			} else {
 				prlen = snprintf(t, fmt_left, "Error %d",
-				    saved_errno); 
+				    saved_errno);
 			}
 			if (prlen < 0)
 				prlen = 0;
@@ -231,7 +233,7 @@ vsyslog_r(int pri, struct syslog_data *data, const char *fmt, va_list ap)
 
 		iov[0].iov_base = stdp;
 		iov[0].iov_len = cnt - (stdp - tbuf);
-		iov[1].iov_base = "\n";
+		iov[1].iov_base = (void *)"\n";
 		iov[1].iov_len = 1;
 		(void)writev(STDERR_FILENO, iov, 2);
 	}
@@ -269,11 +271,11 @@ vsyslog_r(int pri, struct syslog_data *data, const char *fmt, va_list ap)
 	if (error == -1 && (data->log_stat & LOG_CONS) &&
 	    (fd = open(_PATH_CONSOLE, O_WRONLY|O_NONBLOCK, 0)) >= 0) {
 		struct iovec iov[2];
-		
+
 		p = strchr(tbuf, '>') + 1;
 		iov[0].iov_base = p;
 		iov[0].iov_len = cnt - (p - tbuf);
-		iov[1].iov_base = "\r\n";
+		iov[1].iov_base = (void *)"\r\n";
 		iov[1].iov_len = 2;
 		(void)writev(fd, iov, 2);
 		(void)close(fd);

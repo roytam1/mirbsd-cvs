@@ -35,20 +35,6 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-static char copyright[] =
-"@(#) Copyright (c) 1980, 1990, 1993, 1994\n\
-	The Regents of the University of California.  All rights reserved.\n";
-#endif /* not lint */
-
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)df.c	8.7 (Berkeley) 4/2/94";
-#else
-static char rcsid[] = "$OpenBSD: df.c,v 1.43 2005/02/20 01:34:56 pedro Exp $";
-#endif
-#endif /* not lint */
-
 #include <sys/param.h>
 #include <sys/stat.h>
 #include <sys/mount.h>
@@ -63,6 +49,11 @@ static char rcsid[] = "$OpenBSD: df.c,v 1.43 2005/02/20 01:34:56 pedro Exp $";
 #include <unistd.h>
 #include <util.h>
 
+__IDSTRING(copyright, "@(#) Copyright (c) 1980, 1990, 1993, 1994\n\
+	The Regents of the University of California.  All rights reserved.\n");
+__SCCSID("@(#)df.c	8.7 (Berkeley) 4/2/94");
+__RCSID("$MirOS$");
+
 extern	char *__progname;
 
 char	*getmntpt(char *);
@@ -74,15 +65,12 @@ void	 prtstat(struct statfs *, int, int, int);
 void	 posixprint(struct statfs *, long, int);
 int 	 bread(int, off_t, void *, int);
 void	 usage(void);
-void	 prthumanval(long long);
-void	 prthuman(struct statfs *sfsp, unsigned long);
 
 int		raw_df(char *, struct statfs *);
 extern int	ffs_df(int, char *, struct statfs *);
-extern int	lfs_df(int, char *, struct statfs *);
 extern int	e2fs_df(int, char *, struct statfs *);
 
-int	hflag, iflag, kflag, lflag, nflag, Pflag;
+int	iflag, kflag, lflag, nflag, Pflag;
 char	**typelist = NULL;
 
 int
@@ -95,18 +83,13 @@ main(int argc, char *argv[])
 	int width, maxwidth;
 	char *mntpt;
 
-	while ((ch = getopt(argc, argv, "hiklnPt:")) != -1)
+	while ((ch = getopt(argc, argv, "iklnPt:")) != -1)
 		switch (ch) {
-		case 'h':
-			hflag = 1;
-			kflag = 0;
-			break;
 		case 'i':
 			iflag = 1;
 			break;
 		case 'k':
 			kflag = 1;
-			hflag = 0;
 			break;
 		case 'l':
 			lflag = 1;
@@ -289,31 +272,6 @@ regetmntinfo(struct statfs **mntbufp, long mntsize)
 }
 
 /*
- * "human-readable" output: use 3 digits max.--put unit suffixes at
- * the end.  Makes output compact and easy-to-read esp. on huge disks.
- * Code moved into libutil; this is now just a wrapper.
- */
-void
-prthumanval(long long bytes)
-{
-	char ret[FMT_SCALED_STRSIZE];
-
-	if (fmt_scaled(bytes, ret) == -1) {
-		(void)printf(" %lld", bytes);
-		return;
-	}
-	(void)printf(" %7s", ret);
-}
-
-void
-prthuman(struct statfs *sfsp, unsigned long used)
-{
-	prthumanval((long long)sfsp->f_blocks * (long long)sfsp->f_bsize);
-	prthumanval((long long)used * (long long)sfsp->f_bsize);
-	prthumanval((long long)sfsp->f_bavail * (long long)sfsp->f_bsize);
-}
-
-/*
  * Convert statfs returned filesystem size into BLOCKSIZE units.
  * Attempts to avoid overflow for large filesystems.
  */
@@ -333,9 +291,6 @@ prtstat(struct statfs *sfsp, int maxwidth, int headerlen, int blocksize)
 	(void)printf("%-*.*s", maxwidth, maxwidth, sfsp->f_mntfromname);
 	used = sfsp->f_blocks - sfsp->f_bfree;
 	availblks = sfsp->f_bavail + used;
-	if (hflag)
-		prthuman(sfsp, used);
-	else
 		(void)printf(" %*u %9u %9d", headerlen,
 		    fsbtoblk(sfsp->f_blocks, sfsp->f_bsize, blocksize),
 		    fsbtoblk(used, sfsp->f_bsize, blocksize),
@@ -364,12 +319,6 @@ bsdprint(struct statfs *mntbuf, long mntsize, int maxwidth)
 	long blocksize;
 
 	/* Print the header line */
-	if (hflag) {
-		header = "   Size";
-		headerlen = strlen(header);
-		(void)printf("%-*.*s %s    Used   Avail Capacity",
-			     maxwidth, maxwidth, "Filesystem", header);
-	} else {
 		if (kflag) {
 			blocksize = 1024;
 			header = "1K-blocks";
@@ -378,7 +327,6 @@ bsdprint(struct statfs *mntbuf, long mntsize, int maxwidth)
 			header = getbsize(&headerlen, &blocksize);
 		(void)printf("%-*.*s %s      Used     Avail Capacity",
 			     maxwidth, maxwidth, "Filesystem", header);
-	}
 	if (iflag)
 		(void)printf(" iused   ifree  %%iused");
 	(void)printf("  Mounted on\n");
@@ -425,7 +373,7 @@ posixprint(struct statfs *mntbuf, long mntsize, int maxwidth)
 
 		(void) printf ("%-*.*s %*d %10ld %11d %5.0f%%   %s\n",
 			maxwidth, maxwidth, sfsp->f_mntfromname,
-			strlen(blockstr),
+			(int)strlen(blockstr),
 			fsbtoblk(sfsp->f_blocks, sfsp->f_bsize, blocksize),
 			fsbtoblk(used, sfsp->f_bsize, blocksize),
 			fsbtoblk(sfsp->f_bavail, sfsp->f_bsize, blocksize),
@@ -445,10 +393,6 @@ raw_df(char *file, struct statfs *sfsp)
 
 	if (ffs_df(rfd, file, sfsp) == 0) {
 		ret = 0;
-#if 0
-	} else if (lfs_df(rfd, file, sfsp) == 0) {
-		ret = 0;
-#endif
 	} else if (e2fs_df(rfd, file, sfsp) == 0) {
 		ret = 0;
 	}
@@ -477,7 +421,7 @@ void
 usage(void)
 {
 	(void)fprintf(stderr,
-	    "usage: %s [-hiklnP] [-t type] [[file | file_system] ...]\n",
+	    "usage: %s [-iklnP] [-t type] [[file | file_system] ...]\n",
 	    __progname);
 	exit(1);
 }

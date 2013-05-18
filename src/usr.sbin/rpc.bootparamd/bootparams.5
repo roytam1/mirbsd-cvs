@@ -1,3 +1,4 @@
+.\" $MirOS$
 .\" $OpenBSD: bootparams.5,v 1.8 2003/06/12 12:59:52 jmc Exp $
 .\"
 .\" Copyright (c) 1994 Gordon W. Ross
@@ -56,10 +57,15 @@ and may be continued onto multiple lines with a backslash.
 .Pp
 For example:
 .Bd -literal -offset indent
-client	root=server:/export/client/root \\
-	swap=server:/export/client/swap \\
+client	root=server:/export/client/root \e
+	swap=server:/export/client/swap \e
 	dump=server:/export/client/swap
 .Ed
+.Pp
+In this version of
+.Nm rpc.bootparamd ,
+.Ar client
+can be an asterisk ("*") for wildcard processing.
 .Pp
 When the client named "client" requests the pathname for
 its logical "root" it will be given the server name

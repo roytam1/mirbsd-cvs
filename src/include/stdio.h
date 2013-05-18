@@ -1,3 +1,4 @@
+/**	$MirOS: src/include/stdio.h,v 1.5 2006/10/02 02:56:58 tg Exp $ */
 /*	$OpenBSD: stdio.h,v 1.32 2005/05/11 18:39:19 espie Exp $	*/
 /*	$NetBSD: stdio.h,v 1.18 1996/04/25 18:29:21 jtc Exp $	*/
 
@@ -38,19 +39,21 @@
 #ifndef	_STDIO_H_
 #define	_STDIO_H_
 
-#if !defined(_ANSI_SOURCE) && !defined(__STRICT_ANSI__)
+#if (!defined(_ANSI_SOURCE) && !defined(__STRICT_ANSI__)) || \
+    defined(_GNU_SOURCE)
 #include <sys/types.h>
 #endif
 
 #include <sys/cdefs.h>
 #include <machine/ansi.h>
 
-#ifdef	_BSD_SIZE_T_
-typedef	_BSD_SIZE_T_	size_t;
-#undef	_BSD_SIZE_T_
+#if !defined(_GCC_SIZE_T)
+#define	_GCC_SIZE_T
+typedef	__SIZE_TYPE__	size_t;
 #endif
 
 #ifdef	_BSD_OFF_T_
+/* LONGLONG */
 typedef	_BSD_OFF_T_	off_t;
 #undef	_BSD_OFF_T_
 #endif
@@ -58,8 +61,10 @@ typedef	_BSD_OFF_T_	off_t;
 #ifndef NULL
 #ifdef 	__GNUG__
 #define	NULL	__null
+#elif defined(lint)
+#define	NULL	0
 #else
-#define	NULL	0L
+#define	NULL	((void *)((__PTRDIFF_TYPE__)0UL))
 #endif
 #endif
 
@@ -417,5 +422,11 @@ static __inline int __sputc(int _c, FILE *_p) {
 #define	putchar(x)	putc(x, stdout)
 #define getchar_unlocked()	getc_unlocked(stdin)
 #define putchar_unlocked(c)	putc_unlocked(c, stdout)
+
+#if defined(_GNU_SOURCE) && !defined(__STRICT_ANSI__)
+__BEGIN_DECLS
+ssize_t getline(char **, size_t *, FILE *);
+__END_DECLS
+#endif
 
 #endif /* _STDIO_H_ */

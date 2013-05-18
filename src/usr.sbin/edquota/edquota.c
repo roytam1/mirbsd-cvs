@@ -672,13 +672,13 @@ int
 cvtatos(time_t time, char *units, time_t *seconds)
 {
 
-	if (bcmp(units, "second", 6) == 0)
+	if (memcmp(units, "second", 6) == 0)
 		*seconds = time;
-	else if (bcmp(units, "minute", 6) == 0)
+	else if (memcmp(units, "minute", 6) == 0)
 		*seconds = time * 60;
-	else if (bcmp(units, "hour", 4) == 0)
+	else if (memcmp(units, "hour", 4) == 0)
 		*seconds = time * 60 * 60;
-	else if (bcmp(units, "day", 3) == 0)
+	else if (memcmp(units, "day", 3) == 0)
 		*seconds = time * 24 * 60 * 60;
 	else {
 		(void)printf("%s: bad units, specify %s\n", units,

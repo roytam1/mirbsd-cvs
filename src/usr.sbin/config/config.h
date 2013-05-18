@@ -1,3 +1,4 @@
+/**	$MirOS: src/usr.sbin/config/config.h,v 1.2 2005/03/13 19:16:18 tg Exp $ */
 /*	$OpenBSD: config.h,v 1.21 2004/01/04 18:30:05 deraadt Exp $	*/
 /*	$NetBSD: config.h,v 1.30 1997/02/02 21:12:30 thorpej Exp $	*/
 
@@ -166,7 +167,7 @@ struct deva {
  * An "instance" of a device.  The same instance may be listed more
  * than once, e.g., "xx0 at isa? port FOO" + "xx0 at isa? port BAR".
  *
- * After everything has been read in and verified, the devi's are
+ * After everything has been read in and verified, the devis are
  * "packed" to collect all the information needed to generate ioconf.c.
  * In particular, we try to collapse multiple aliases into a single entry.
  * We then assign each "primary" (non-collapsed) instance a cfdata index.
@@ -297,13 +298,13 @@ struct	deva *alldevas;		/* list of all devbase attachment structures */
 struct	config *allcf;		/* list of configured kernels */
 struct	devi *alldevi;		/* list of all instances */
 struct	devi *allpseudo;	/* list of all pseudo-devices */
-int	ndevi;			/* number of devi's (before packing) */
-int	npseudo;		/* number of pseudo's */
+int	ndevi;			/* number of devis (before packing) */
+int	npseudo;		/* number of pseudos */
 
 struct	files *allfiles;	/* list of all kernel source files */
 struct objects *allobjects;	/* list of all kernel object and library files */
 
-struct	devi **packed;		/* arrayified table for packed devi's */
+struct	devi **packed;		/* arrayified table for packed devis */
 int	npacked;		/* size of packed table, <= ndevi */
 
 struct {			/* pv[] table for config */
@@ -369,9 +370,12 @@ void	initsem(void);
 void	*emalloc(size_t);
 void	*erealloc(void *, size_t);
 char	*sourcepath(const char *);
-void	error(const char *, ...);			/* immediate errs */
-void	xerror(const char *, int, const char *, ...);	/* delayed errs */
-__dead void panic(const char *, ...);
+void	error(const char *, ...)			/* immediate errs */
+    __attribute__((format (printf, 1, 2)));
+void	xerror(const char *, int, const char *, ...)	/* delayed errs */
+    __attribute__((format (printf, 3, 4)));
+void panic(const char *, ...)
+    __attribute__((noreturn, format (printf, 1, 2)));
 struct nvlist *newnv(const char *, const char *, void *, int, struct nvlist *);
 void	nvfree(struct nvlist *);
 void	nvfreel(struct nvlist *);

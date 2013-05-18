@@ -35,11 +35,10 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <sys/types.h>
+#include <sys/param.h>
 #include <sys/wait.h>
 #include <sys/socket.h>
 #include <sys/time.h>
-#include <sys/param.h>
 
 #include <netinet/in.h>
 
@@ -73,6 +72,8 @@
 #include "auth-options.h"
 #include "serverloop.h"
 #include "misc.h"
+
+__RCSID("$MirOS: src/usr.bin/ssh/serverloop.c,v 1.5 2006/10/13 18:40:50 tg Exp $");
 
 extern ServerOptions options;
 

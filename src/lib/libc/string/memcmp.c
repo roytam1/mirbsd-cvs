@@ -31,15 +31,25 @@
  * SUCH DAMAGE.
  */
 
+#if !defined(_KERNEL) && !defined(_STANDALONE)
 #include <string.h>
+#else
+#include <lib/libkern/libkern.h>
+#endif
+
+__RCSID("$MirOS: src/lib/libc/string/memcmp.c,v 1.5 2006/05/13 14:49:03 tg Exp $");
+
+#ifdef BCMP
+#define	memcmp	bcmp
+#endif
 
 /*
- * Compare memory regions.
+ * Compare memory regions (vax cmpc3 instruction)
  */
 int
 memcmp(const void *s1, const void *s2, size_t n)
 {
-	if (n != 0) {
+	if (__predict_true(n != 0)) {
 		const unsigned char *p1 = s1, *p2 = s2;
 
 		do {

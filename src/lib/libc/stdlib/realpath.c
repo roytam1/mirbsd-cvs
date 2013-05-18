@@ -50,7 +50,7 @@ realpath(const char *path, char resolved[PATH_MAX])
 	size_t left_len, resolved_len;
 	unsigned symlinks;
 	int serrno, slen;
-	char left[PATH_MAX], next_token[PATH_MAX], symlink[PATH_MAX];
+	char left[PATH_MAX], next_token[PATH_MAX], symlink_[PATH_MAX];
 
 	serrno = errno;
 	symlinks = 0;
@@ -84,7 +84,7 @@ realpath(const char *path, char resolved[PATH_MAX])
 		 */
 		p = strchr(left, '/');
 		s = p ? p : left + left_len;
-		if (s - left >= sizeof(next_token)) {
+		if ((size_t)(s - left) >= sizeof(next_token)) {
 			errno = ENAMETOOLONG;
 			return (NULL);
 		}
@@ -141,11 +141,11 @@ realpath(const char *path, char resolved[PATH_MAX])
 				errno = ELOOP;
 				return (NULL);
 			}
-			slen = readlink(resolved, symlink, sizeof(symlink) - 1);
+			slen = readlink(resolved, symlink_, sizeof(symlink_) - 1);
 			if (slen < 0)
 				return (NULL);
-			symlink[slen] = '\0';
-			if (symlink[0] == '/') {
+			symlink_[slen] = '\0';
+			if (symlink_[0] == '/') {
 				resolved[1] = 0;
 				resolved_len = 1;
 			} else if (resolved_len > 1) {
@@ -158,25 +158,25 @@ realpath(const char *path, char resolved[PATH_MAX])
 
 			/*
 			 * If there are any path components left, then
-			 * append them to symlink. The result is placed
+			 * append them to symlink_. The result is placed
 			 * in `left'.
 			 */
 			if (p != NULL) {
-				if (symlink[slen - 1] != '/') {
-					if (slen + 1 >= sizeof(symlink)) {
+				if (symlink_[slen - 1] != '/') {
+					if (slen + 1U >= sizeof(symlink_)) {
 						errno = ENAMETOOLONG;
 						return (NULL);
 					}
-					symlink[slen] = '/';
-					symlink[slen + 1] = 0;
+					symlink_[slen] = '/';
+					symlink_[slen + 1] = 0;
 				}
-				left_len = strlcat(symlink, left, sizeof(left));
+				left_len = strlcat(symlink_, left, sizeof(left));
 				if (left_len >= sizeof(left)) {
 					errno = ENAMETOOLONG;
 					return (NULL);
 				}
 			}
-			left_len = strlcpy(left, symlink, sizeof(left));
+			left_len = strlcpy(left, symlink_, sizeof(left));
 		}
 	}
 

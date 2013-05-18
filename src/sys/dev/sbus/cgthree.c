@@ -384,7 +384,7 @@ cgthree_alloc_screen(void *v, const struct wsscreen_descr *type,
 	*curyp = 0;
 	*curxp = 0;
 	sc->sc_sunfb.sf_ro.ri_ops.alloc_attr(&sc->sc_sunfb.sf_ro,
-	    WSCOL_BLACK, WSCOL_WHITE, WSATTR_WSCOLORS, attrp);
+	    WSCOL_WHITE, WSCOL_BLACK, WSATTR_WSCOLORS, attrp);
 	sc->sc_nscreens++;
 	return (0);
 }

@@ -33,6 +33,8 @@
 
 #include "SYS.h"
 
+	.text
+
 	.globl	_end
 	.globl	__curbrk
 

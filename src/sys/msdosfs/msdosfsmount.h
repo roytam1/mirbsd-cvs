@@ -1,3 +1,4 @@
+/**	$MirOS$	*/
 /*	$OpenBSD: msdosfsmount.h,v 1.16 2004/05/14 04:05:05 tedu Exp $	*/
 /*	$NetBSD: msdosfsmount.h,v 1.16 1997/10/17 11:24:24 ws Exp $	*/
 
@@ -47,6 +48,9 @@
  * 
  * October 1992
  */
+
+#ifndef	_MSDOSFS_MOUNT_H
+#define	_MSDOSFS_MOUNT_H
 
 /*
  * Layout of the mount control block for a msdos file system.
@@ -209,3 +213,5 @@ int msdosfs_sync(struct mount *, int, struct ucred *, struct proc *);
 int msdosfs_fhtovp(struct mount *, struct fid *, struct vnode **);
 int msdosfs_vptofh(struct vnode *, struct fid *);
 int msdosfs_init(struct vfsconf *);
+
+#endif

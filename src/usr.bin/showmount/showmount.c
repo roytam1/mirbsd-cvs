@@ -161,7 +161,7 @@ main(int argc, char *argv[])
 	bzero(&clnt_sin, sizeof clnt_sin);
 	clnt_sin.sin_len = sizeof clnt_sin;
 	clnt_sin.sin_family = AF_INET;
-	bcopy(hp->h_addr, (char *)&clnt_sin.sin_addr, hp->h_length);
+	memmove((char *)&clnt_sin.sin_addr, hp->h_addr, hp->h_length);
 	clnt_sock = RPC_ANYSOCK;
 	client = clnttcp_create(&clnt_sin, RPCPROG_MNT, mntvers,
 	    &clnt_sock, 0, 0);

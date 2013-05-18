@@ -40,22 +40,6 @@
 #include <string.h>
 #include <unistd.h>
 
-static int direntcmp(const void *, const void *);
-
-/*
- * Comparison function for sorting dirent structures that never returns 0;
- * this causes qsort() to emulate a stable sort.
- */
-static int
-direntcmp(const void *d1, const void *d2)
-{
-	int i;
-
-	i = strcmp((*(struct dirent **)d1)->d_name,
-	    (*(struct dirent **)d2)->d_name);
-	return (i != 0 ? i : (char *)d2 - (char *)d1);
-}
-
 /*
  * Open a directory.
  */

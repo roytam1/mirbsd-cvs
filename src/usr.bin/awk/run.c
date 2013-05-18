@@ -33,7 +33,9 @@ THIS SOFTWARE.
 #include <stdlib.h>
 #include <time.h>
 #include "awk.h"
-#include "ytab.h"
+#include "awkgram.h"
+
+__RCSID("$MirOS$");
 
 #define tempfree(x)	if (istemp(x)) tfree(x); else
 

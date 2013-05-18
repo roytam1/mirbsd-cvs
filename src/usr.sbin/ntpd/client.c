@@ -1,6 +1,7 @@
 /*	$OpenBSD: client.c,v 1.69 2006/06/04 18:58:13 otto Exp $ */
 
 /*
+ * Copyright (c) 2007 Thorsten Glaser <tg@mirbsd.de>
  * Copyright (c) 2003, 2004 Henning Brauer <henning@openbsd.org>
  * Copyright (c) 2004 Alexander Guy <alexander.guy@andern.org>
  *
@@ -26,7 +27,15 @@
 
 #include "ntpd.h"
 
-int	client_update(struct ntp_peer *);
+__RCSID("$MirOS: src/usr.sbin/ntpd/client.c,v 1.14 2007/10/03 21:17:31 tg Exp $");
+
+#ifdef DDEBUG
+#define log_reply	log_info
+#else
+#define log_reply	log_debug
+#endif
+
+int	client_update(struct ntp_peer *, int);
 void	set_deadline(struct ntp_peer *, time_t);
 
 void
@@ -81,7 +90,7 @@ client_addr_init(struct ntp_peer *p)
 			break;
 		default:
 			fatal("king bula sez: wrong AF in client_addr_init");
-			/* not reached */
+			/* NOTREACHED */
 		}
 	}
 
@@ -176,7 +185,7 @@ client_query(struct ntp_peer *p)
 }
 
 int
-client_dispatch(struct ntp_peer *p, u_int8_t settime)
+client_dispatch(struct ntp_peer *p, u_int8_t settime, uint8_t trace)
 {
 	char			 buf[NTP_MSGSIZE];
 	ssize_t			 size;
@@ -209,7 +218,8 @@ client_dispatch(struct ntp_peer *p, u_int8_t settime)
 		interval = error_interval();
 		set_next(p, interval);
 		log_info("reply from %s: not synced, next query %ds",
-		    log_sockaddr((struct sockaddr *)&p->addr->ss), interval);
+		    log_sockaddr((struct sockaddr *)&p->addr->ss),
+		    (int)interval);
 		return (0);
 	}
 
@@ -240,7 +250,7 @@ client_dispatch(struct ntp_peer *p, u_int8_t settime)
 		log_info("reply from %s: negative delay %fs, "
 		    "next query %ds",
 		    log_sockaddr((struct sockaddr *)&p->addr->ss),
-		    p->reply[p->shift].delay, interval);
+		    p->reply[p->shift].delay, (int)interval);
 		return (0);
 	}
 	p->reply[p->shift].error = (T2 - T1) - (T3 - T4);
@@ -251,11 +261,11 @@ client_dispatch(struct ntp_peer *p, u_int8_t settime)
 	p->reply[p->shift].status.precision = msg.precision;
 	p->reply[p->shift].status.rootdelay = sfp_to_d(msg.rootdelay);
 	p->reply[p->shift].status.rootdispersion = sfp_to_d(msg.dispersion);
-	p->reply[p->shift].status.refid = ntohl(msg.refid);
-	p->reply[p->shift].status.refid4 = msg.xmttime.fractionl;
+	p->reply[p->shift].status.refid = msg.refid;
+	p->reply[p->shift].status.refid4 = htonl(msg.xmttime.fractionl);
 	p->reply[p->shift].status.reftime = lfp_to_d(msg.reftime);
 	p->reply[p->shift].status.poll = msg.ppoll;
-	p->reply[p->shift].status.stratum = msg.stratum;
+	p->reply[p->shift].status.stratum = msg.stratum - p->stratum_offset;
 
 	if (p->trustlevel < TRUSTLEVEL_PATHETIC)
 		interval = scale_interval(INTERVAL_QUERY_PATHETIC);
@@ -267,6 +277,12 @@ client_dispatch(struct ntp_peer *p, u_int8_t settime)
 	set_next(p, interval);
 	p->state = STATE_REPLY_RECEIVED;
 
+	if (trace > 1)
+		log_info("rcvd str %d dst %3d ofs %6.1f srv %s",
+		    msg.stratum, (int)((p->reply[p->shift].delay + .0005) * 1000.),
+		    p->reply[p->shift].offset * 1000.,
+		    log_sockaddr((struct sockaddr *)&p->addr->ss));
+
 	/* every received reply which we do not discard increases trust */
 	if (p->trustlevel < TRUSTLEVEL_MAX) {
 		if (p->trustlevel < TRUSTLEVEL_BADPEER &&
@@ -276,11 +292,12 @@ client_dispatch(struct ntp_peer *p, u_int8_t settime)
 		p->trustlevel++;
 	}
 
-	log_debug("reply from %s: offset %f delay %f, "
+	log_reply("reply from %s: offset %fs delay %fs, "
 	    "next query %ds", log_sockaddr((struct sockaddr *)&p->addr->ss),
-	    p->reply[p->shift].offset, p->reply[p->shift].delay, interval);
+	    p->reply[p->shift].offset, p->reply[p->shift].delay,
+	    (int)interval);
 
-	client_update(p);
+	client_update(p, trace);
 	if (settime)
 		priv_settime(p->reply[p->shift].offset);
 
@@ -291,7 +308,7 @@ client_dispatch(struct ntp_peer *p, u_int8_t settime)
 }
 
 int
-client_update(struct ntp_peer *p)
+client_update(struct ntp_peer *p, int trace)
 {
 	int	i, best = 0, good = 0;
 
@@ -315,7 +332,11 @@ client_update(struct ntp_peer *p)
 				best = i;
 		}
 
-	if (good < 8)
+	if (trace > 2)
+		log_info("client_update, %d good, best = %3dms delay", good,
+		    (int)((p->reply[best].delay + .0005) * 1000.));
+
+	if (good < OFFSET_ARRAY_SIZE)
 		return (-1);
 
 	memcpy(&p->update, &p->reply[best], sizeof(p->update));

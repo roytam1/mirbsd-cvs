@@ -1,3 +1,4 @@
+/**	$MirOS: src/sys/sys/tty.h,v 1.2 2005/03/06 21:28:35 tg Exp $ */
 /*	$OpenBSD: tty.h,v 1.19 2004/09/19 21:34:43 mickey Exp $	*/
 /*	$NetBSD: tty.h,v 1.30.4.1 1996/06/02 09:08:13 mrg Exp $	*/
 
@@ -301,8 +302,7 @@ int	cttypoll(dev_t, int, struct proc *);
 int	clalloc(struct clist *, int, int);
 void	clfree(struct clist *);
 
-#if defined(COMPAT_43) || defined(COMPAT_SUNOS) || defined(COMPAT_SVR4) || \
-    defined(COMPAT_FREEBSD) || defined(COMPAT_OSF1)
+#if defined(COMPAT_43)
 # define COMPAT_OLDTTY
 int 	ttcompat(struct tty *, u_long, caddr_t, int, struct proc *);
 #endif

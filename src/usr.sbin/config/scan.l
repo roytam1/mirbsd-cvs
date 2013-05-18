@@ -49,7 +49,9 @@
 #include <string.h>
 #include <unistd.h>
 #include "config.h"
-#include "y.tab.h"
+#include "gram.h"
+
+__RCSID("$MirOS: src/usr.sbin/config/scan.l,v 1.3 2007/02/19 03:24:55 tg Exp $");
 
 int	yyline;
 const char *yyfile;
@@ -179,8 +181,7 @@ rmoptions	return RMOPTIONS;
  * Open the "main" file (conffile).
  */
 int
-firstfile(fname)
-	const char *fname;
+firstfile(const char *fname)
 {
 
 	if ((yyin = fopen(fname, "r")) == NULL)
@@ -191,6 +192,16 @@ firstfile(fname)
 }
 
 /*
+ * Return the input stream
+ */
+FILE *getfp(void);
+FILE *
+getfp(void)
+{
+	return yyin;
+}
+
+/*
  * Open the named file for inclusion at the current point.  Returns 0 on
  * success (file opened and previous state pushed), nonzero on failure
  * (fopen failed, complaint made).  The `ateof' parameter controls the
@@ -198,9 +209,7 @@ firstfile(fname)
  * If ateof == 0 then nothing is inserted.
  */
 int
-include(fname, ateof)
-	const char *fname;
-	int ateof;
+include(const char *fname, int ateof)
 {
 	FILE *fp;
 	struct incl *in;
@@ -240,7 +249,7 @@ include(fname, ateof)
  * Terminate the most recent inclusion.
  */
 static int
-endinclude()
+endinclude(void)
 {
 	struct incl *in;
 	int ateof;
@@ -266,7 +275,7 @@ endinclude()
  * token lookahead, so we can tell.
  */
 int
-currentline()
+currentline(void)
 {
 	extern int yychar;
 

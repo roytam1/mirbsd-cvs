@@ -107,12 +107,11 @@ fnd:
 	}
 
 	/* Allow f->f_ops to be set by devopen routine. */
-	if (f->f_ops != NULL) {
+	if (f->f_ops) {
 		error = f->f_ops->open(file, f);
 		if (error == 0)
 			return fd;
-	}
-	else {
+	} else {
 		/* pass file name to the different filesystem open routines */
 		for (i = 0; i < nfsys; i++) {
 			/* convert mode (0,1,2) to FREAD, FWRITE. */

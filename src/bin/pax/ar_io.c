@@ -1,3 +1,4 @@
+/**	$MirOS: src/bin/pax/ar_io.c,v 1.7 2007/02/17 04:12:40 tg Exp $ */
 /*	$OpenBSD: ar_io.c,v 1.37 2005/08/04 10:02:44 mpf Exp $	*/
 /*	$NetBSD: ar_io.c,v 1.5 1996/03/26 23:54:13 mrg Exp $	*/
 
@@ -34,20 +35,13 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-#if 0
-static const char sccsid[] = "@(#)ar_io.c	8.2 (Berkeley) 4/18/94";
-#else
-static const char rcsid[] = "$OpenBSD: ar_io.c,v 1.37 2005/08/04 10:02:44 mpf Exp $";
-#endif
-#endif /* not lint */
-
-#include <sys/types.h>
+#include <sys/param.h>
 #include <sys/time.h>
 #include <sys/stat.h>
 #include <sys/ioctl.h>
+#ifndef __INTERIX
 #include <sys/mtio.h>
-#include <sys/param.h>
+#endif
 #include <sys/wait.h>
 #include <signal.h>
 #include <string.h>
@@ -60,6 +54,9 @@ static const char rcsid[] = "$OpenBSD: ar_io.c,v 1.37 2005/08/04 10:02:44 mpf Ex
 #include "pax.h"
 #include "options.h"
 #include "extern.h"
+
+__SCCSID("@(#)ar_io.c	8.2 (Berkeley) 4/18/94");
+__RCSID("$MirOS: src/bin/pax/ar_io.c,v 1.7 2007/02/17 04:12:40 tg Exp $");
 
 /*
  * Routines which deal directly with the archive I/O device/file.
@@ -83,13 +80,16 @@ static int invld_rec;			/* tape has out of spec record size */
 static int wr_trail = 1;		/* trailer was rewritten in append */
 static int can_unlnk = 0;		/* do we unlink null archives?  */
 const char *arcname;			/* printable name of archive */
+static char *arcname_;			/* this is so we can free(3) it */
 const char *gzip_program;		/* name of gzip program */
 static pid_t zpid = -1;			/* pid of child process */
 int force_one_volume;			/* 1 if we ignore volume changes */
 
+#ifndef __INTERIX
 static int get_phys(void);
+#endif
 extern sigset_t s_mask;
-static void ar_start_gzip(int, const char *, int);
+static void ar_start_gzip(int, int);
 
 /*
  * ar_open()
@@ -103,7 +103,9 @@ static void ar_start_gzip(int, const char *, int);
 int
 ar_open(const char *name)
 {
+#ifndef __INTERIX
 	struct mtget mb;
+#endif
 
 	if (arfd != -1)
 		(void)close(arfd);
@@ -124,7 +126,7 @@ ar_open(const char *name)
 		} else if ((arfd = open(name, EXT_MODE, DMOD)) < 0)
 			syswarn(1, errno, "Failed open to read on %s", name);
 		if (arfd != -1 && gzip_program != NULL)
-			ar_start_gzip(arfd, gzip_program, 0);
+			ar_start_gzip(arfd, 0);
 		break;
 	case ARCHIVE:
 		if (name == NULL) {
@@ -135,7 +137,7 @@ ar_open(const char *name)
 		else
 			can_unlnk = 1;
 		if (arfd != -1 && gzip_program != NULL)
-			ar_start_gzip(arfd, gzip_program, 1);
+			ar_start_gzip(arfd, 1);
 		break;
 	case APPND:
 		if (name == NULL) {
@@ -181,7 +183,11 @@ ar_open(const char *name)
 	}
 
 	if (S_ISCHR(arsb.st_mode))
+#ifndef __INTERIX
 		artyp = ioctl(arfd, MTIOCGET, &mb) ? ISCHR : ISTAPE;
+#else
+		artyp = ISCHR;
+#endif
 	else if (S_ISBLK(arsb.st_mode))
 		artyp = ISBLK;
 	else if ((lseek(arfd, (off_t)0L, SEEK_CUR) == -1) && (errno == ESPIPE))
@@ -391,7 +397,7 @@ ar_close(void)
 #	ifdef LONG_OFF_T
 		(void)fprintf(listf, "%s: unknown format, %lu bytes skipped.\n",
 #	else
-		(void)fprintf(listf, "%s: unknown format, %qu bytes skipped.\n",
+		(void)fprintf(listf, "%s: unknown format, %llu bytes skipped.\n",
 #	endif
 		    argv0, rdcnt);
 		(void)fflush(listf);
@@ -400,13 +406,17 @@ ar_close(void)
 	}
 
 	if (strcmp(NM_CPIO, argv0) == 0)
-		(void)fprintf(listf, "%qu blocks\n", (rdcnt ? rdcnt : wrcnt) / 5120);
+#	ifdef LONG_OFF_T
+		(void)fprintf(listf, "%lu blocks\n", (rdcnt ? rdcnt : wrcnt) / 5120);
+#	else
+		(void)fprintf(listf, "%llu blocks\n", (rdcnt ? rdcnt : wrcnt) / 5120);
+#	endif
 	else if (strcmp(NM_TAR, argv0) != 0)
 		(void)fprintf(listf,
 #	ifdef LONG_OFF_T
 		    "%s: %s vol %d, %lu files, %lu bytes read, %lu bytes written.\n",
 #	else
-		    "%s: %s vol %d, %lu files, %qu bytes read, %qu bytes written.\n",
+		    "%s: %s vol %d, %lu files, %llu bytes read, %llu bytes written.\n",
 #	endif
 		    argv0, frmt->name, arvol-1, flcnt, rdcnt, wrcnt);
 	(void)fflush(listf);
@@ -721,7 +731,9 @@ ar_rdsync(void)
 	long fsbz;
 	off_t cpos;
 	off_t mpos;
+#ifndef __INTERIX
 	struct mtop mb;
+#endif
 
 	/*
 	 * Fail resync attempts at user request (done) or if this is going to be
@@ -739,6 +751,7 @@ ar_rdsync(void)
 		did_io = 1;
 
 	switch (artyp) {
+#ifndef __INTERIX
 	case ISTAPE:
 		/*
 		 * if the last i/o was a successful data transfer, we assume
@@ -759,6 +772,7 @@ ar_rdsync(void)
 			break;
 		lstrval = 1;
 		break;
+#endif
 	case ISREG:
 	case ISCHR:
 	case ISBLK:
@@ -864,7 +878,9 @@ int
 ar_rev(off_t sksz)
 {
 	off_t cpos;
+#ifndef __INTERIX
 	struct mtop mb;
+#endif
 	int phyblk;
 
 	/*
@@ -928,6 +944,7 @@ ar_rev(off_t sksz)
 			return(-1);
 		}
 		break;
+#ifndef __INTERIX
 	case ISTAPE:
 		/*
 		 * Calculate and move the proper number of PHYSICAL tape
@@ -976,11 +993,13 @@ ar_rev(off_t sksz)
 			return(-1);
 		}
 		break;
+#endif
 	}
 	lstrval = 1;
 	return(0);
 }
 
+#ifndef __INTERIX
 /*
  * get_phys()
  *	Determine the physical block size on a tape drive. We need the physical
@@ -1094,6 +1113,7 @@ get_phys(void)
 	}
 	return(phyblk);
 }
+#endif
 
 /*
  * ar_next()
@@ -1228,10 +1248,10 @@ ar_next(void)
 		 */
 		if (ar_open(buf) >= 0) {
 			if (freeit) {
-				(void)free((char *)arcname);
+				free(arcname_);
 				freeit = 0;
 			}
-			if ((arcname = strdup(buf)) == NULL) {
+			if ((arcname = arcname_ = strdup(buf)) == NULL) {
 				done = 1;
 				lstrval = -1;
 				paxwarn(0, "Cannot save archive name.");
@@ -1252,7 +1272,7 @@ ar_next(void)
  * to keep the fd the same in the calling function (parent).
  */
 void
-ar_start_gzip(int fd, const char *gzip_program, int wr)
+ar_start_gzip(int fd, int wr)
 {
 	int fds[2];
 	const char *gzip_flags;
@@ -1283,7 +1303,7 @@ ar_start_gzip(int fd, const char *gzip_program, int wr)
 		}
 		close(fds[0]);
 		close(fds[1]);
-		if (execlp(gzip_program, gzip_program, gzip_flags, (char *)NULL) < 0)
+		if (execlp(gzip_program, gzip_program, gzip_flags, NULL) < 0)
 			err(1, "could not exec");
 		/* NOTREACHED */
 	}

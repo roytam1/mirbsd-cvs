@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: kernfs.h,v 1.14 2003/09/23 16:51:13 millert Exp $	*/
 /*	$NetBSD: kernfs.h,v 1.10 1996/02/09 22:40:21 christos Exp $	*/
 
@@ -58,6 +59,7 @@ struct kern_target {
 #ifdef IPSEC
 #define KTT_IPSECSPI	107
 #endif
+#define	KTT_INT64	164
 	u_char kt_tag;
 	u_char kt_vtype;
 	mode_t kt_mode;

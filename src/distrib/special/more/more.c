@@ -48,20 +48,6 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-static const char copyright[] =
-"@(#) Copyright (c) 1980 The Regents of the University of California.\n\
- All rights reserved.\n";
-#endif /* not lint */
-
-#ifndef lint
-#if 0
-static const char sccsid[] = "@(#)more.c	5.28 (Berkeley) 3/1/93";
-#else
-static const char rcsid[] = "$OpenBSD: more.c,v 1.26 2004/07/02 12:59:44 millert Exp $";
-#endif
-#endif /* not lint */
-
 /*
  * more.c - General purpose tty output filter and file perusal program
  *
@@ -96,6 +82,11 @@ static const char rcsid[] = "$OpenBSD: more.c,v 1.26 2004/07/02 12:59:44 millert
 #include <termios.h>
 #include <unistd.h>
 #include <paths.h>
+
+__COPYRIGHT("@(#) Copyright (c) 1980\n\
+	The Regents of the University of California.  All rights reserved.\n");
+__SCCSID("@(#)more.c	5.28 (Berkeley) 3/1/93");
+__RCSID("$MirOS: src/distrib/special/more/more.c,v 1.3 2006/09/22 15:48:37 tg Exp $");
 
 #define Fopen(s, m)	(Currline = 0, file_pos = 0, fopen(s,m))
 #define Ftell(f)	(file_pos)
@@ -226,7 +217,9 @@ main(int argc, char **argv)
 	int		ch;
 	char		initbuf[80];
 
+#ifndef __MirBSD__
 	setlocale(LC_ALL, "");
+#endif
 
 	/* all signals just use a stub handler and interrupt syscalls */
 	sigemptyset(&sa.sa_mask);
@@ -1859,7 +1852,7 @@ resize_line(char *pos)
 
 	linsize *= 2;
 	if (Line != Lineb)
-		np = realloc(Line, linsize); 
+		np = realloc(Line, linsize);
 	else if ((np = malloc(linsize)) != NULL)
 		memcpy(np, Lineb, sizeof(Lineb));
 	if (np == NULL) {

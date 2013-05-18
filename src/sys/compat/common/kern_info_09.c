@@ -1,3 +1,4 @@
+/**	$MirOS: src/sys/compat/common/kern_info_09.c,v 1.2 2005/03/06 21:27:29 tg Exp $ */
 /*	$OpenBSD: kern_info_09.c,v 1.12 2004/06/22 23:52:17 jfb Exp $	*/
 /*	$NetBSD: kern_info_09.c,v 1.5 1996/02/21 00:10:59 cgd Exp $	*/
 
@@ -50,6 +51,7 @@
  * there are other COMPAT_* options that need these old functions.
  */
 
+#if defined(COMPAT_OPENBSD)
 /* ARGSUSED */
 int
 compat_09_sys_getdomainname(p, v, retval)
@@ -68,8 +70,9 @@ compat_09_sys_getdomainname(p, v, retval)
 	sz = SCARG(uap,len);
 	return (kern_sysctl(&name, 1, SCARG(uap, domainname), &sz, 0, 0, p));
 }
+#endif
 
-
+#if defined(COMPAT_OPENBSD) || defined(COMPAT_LINUX)
 /* ARGSUSED */
 int
 compat_09_sys_setdomainname(p, v, retval)
@@ -77,19 +80,10 @@ compat_09_sys_setdomainname(p, v, retval)
 	void *v;
 	register_t *retval;
 {
-	struct compat_09_sys_setdomainname_args /* {
-		syscallarg(char *) domainname;
-		syscallarg(int) len;
-	} */ *uap = v;
-	int name;
-	int error;
-
-	if ((error = suser(p, 0)) != 0)
-		return (error);
-	name = KERN_DOMAINNAME;
-	return (kern_sysctl(&name, 1, 0, 0, SCARG(uap, domainname),
-			    SCARG(uap, len), p));
+	/* not implemented */
+	return suser(p, 0);
 }
+#endif
 
 struct outsname {
 	char	sysname[32];
@@ -99,6 +93,7 @@ struct outsname {
 	char	machine[32];
 };
 
+#if defined(COMPAT_OPENBSD)
 /* ARGSUSED */
 int
 compat_09_sys_uname(p, v, retval)
@@ -106,6 +101,7 @@ compat_09_sys_uname(p, v, retval)
 	void *v;
 	register_t *retval;
 {
+	extern char emul_uname[];
 	struct compat_09_sys_uname_args /* {
 		syscallarg(struct outsname *) name;
 	} */ *uap = v;
@@ -113,7 +109,7 @@ compat_09_sys_uname(p, v, retval)
 	const char *cp;
 	char *dp, *ep;
 
-	strlcpy(outsname.sysname, ostype, sizeof(outsname.sysname));
+	strlcpy(outsname.sysname, emul_uname, sizeof(outsname.sysname));
 	strlcpy(outsname.nodename, hostname, sizeof(outsname.nodename));
 	strlcpy(outsname.release, osrelease, sizeof(outsname.release));
 	dp = outsname.version;
@@ -132,3 +128,4 @@ compat_09_sys_uname(p, v, retval)
 	return (copyout((caddr_t)&outsname, (caddr_t)SCARG(uap, name),
 			sizeof(struct outsname)));
 }
+#endif

@@ -1,21 +1,27 @@
-#	$OpenBSD: Makefile.inc,v 1.30 2005/06/17 02:45:19 djm Exp $
+# $MirOS: src/usr.bin/ssh/Makefile.inc,v 1.8 2007/06/27 13:40:22 tg Exp $
+# $OpenBSD: Makefile.inc,v 1.30 2005/06/17 02:45:19 djm Exp $
 
-CFLAGS+=	-I${.CURDIR}/..
+.ifndef _MODSRC_USR_BIN_SSH_MAKEFILE_INC
+_MODSRC_USR_BIN_SSH_MAKEFILE_INC=1
 
-CDIAGFLAGS=	-Wall
-#CDIAGFLAGS+=	-Werror
-CDIAGFLAGS+=	-Wpointer-arith
-CDIAGFLAGS+=	-Wno-uninitialized
-CDIAGFLAGS+=	-Wstrict-prototypes
-CDIAGFLAGS+=	-Wmissing-prototypes
-CDIAGFLAGS+=	-Wunused
-CDIAGFLAGS+=	-Wsign-compare
-CDIAGFLAGS+=	-Wbounded
-CDIAGFLAGS+=	-Wshadow
+CPPFLAGS+=	-I${.CURDIR}/..
+CPPFLAGS+=	-DZCONST=const
+
+CFLAGS+=	-Wall
+CFLAGS+=	-Wpointer-arith
+CFLAGS+=	-Wno-uninitialized
+CFLAGS+=	-Wstrict-prototypes
+CFLAGS+=	-Wmissing-prototypes
+CFLAGS+=	-Wunused
+CFLAGS+=	-Wsign-compare
+CFLAGS+=	-Wbounded
+CFLAGS+=	-Wshadow
+
+CDIAGFLAGS+=	-Wno-cast-qual
 
 #DEBUG=-g
 
-#CFLAGS+=	-DSMARTCARD
+#CPPFLAGS+=	-DSMARTCARD
 #LDADD+=	-lsectok
 
 .include <bsd.obj.mk>
@@ -26,4 +32,12 @@ DPADD+=         ${.CURDIR}/../lib/${__objdir}/libssh.a
 .else
 LDADD+=         -L${.CURDIR}/../lib -lssh
 DPADD+=         ${.CURDIR}/../lib/libssh.a
+.endif
+
+.if exists(../Makefile.inc)
+.  include "../Makefile.inc"
+.endif
+
+COPTS+=		${PICFLAG} -DPIC
+
 .endif

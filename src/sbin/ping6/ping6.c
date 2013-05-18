@@ -1,3 +1,4 @@
+/**	$MirOS: src/sbin/ping6/ping6.c,v 1.2 2005/03/06 19:50:32 tg Exp $	*/
 /*	$OpenBSD: ping6.c,v 1.59 2004/09/14 22:12:27 deraadt Exp $	*/
 /*	$KAME: ping6.c,v 1.163 2002/10/25 02:19:06 itojun Exp $	*/
 
@@ -64,14 +65,14 @@
  * SUCH DAMAGE.
  */
 
+#include <sys/cdefs.h>
+
 #ifndef lint
 static char copyright[] =
 "@(#) Copyright (c) 1989, 1993\n\
 	The Regents of the University of California.  All rights reserved.\n";
-#endif /* not lint */
-
-#ifndef lint
 static char sccsid[] = "@(#)ping.c	8.1 (Berkeley) 6/5/93";
+__RCSID("$MirOS: src/sbin/ping6/ping6.c,v 1.2 2005/03/06 19:50:32 tg Exp $");
 #endif /* not lint */
 
 /*
@@ -1330,7 +1331,7 @@ pinger(void)
 			(void)gettimeofday(&tv, NULL);
 			tv32.tv32_sec = htonl(tv.tv_sec);
 			tv32.tv32_usec = htonl(tv.tv_usec);
-			bcopy(&tv32, &outpack[ICMP6ECHOLEN], sizeof tv32);
+			memmove(&outpack[ICMP6ECHOLEN], &tv32, sizeof tv32);
 		}
 		cc = ICMP6ECHOLEN + datalen;
 	}
@@ -1503,7 +1504,7 @@ pr_pack(u_char *buf, int cc, struct msghdr *mhdr)
 		seq = ntohs(icp->icmp6_seq);
 		++nreceived;
 		if (timing) {
-			bcopy(icp + 1, &tv32, sizeof tv32);
+			memmove(&tv32, icp + 1, sizeof tv32);
 			tp.tv_sec = ntohl(tv32.tv32_sec);
 			tp.tv_usec = ntohl(tv32.tv32_usec);
 			tvsub(&tv, &tp);
@@ -2663,7 +2664,7 @@ nigroup(char *name)
 
 	if (inet_pton(AF_INET6, "ff02::2:0000:0000", &in6) != 1)
 		return NULL;	/*XXX*/
-	bcopy(digest, &in6.s6_addr[12], 4);
+	memmove(&in6.s6_addr[12], digest, 4);
 
 	if (inet_ntop(AF_INET6, &in6, hbuf, sizeof(hbuf)) == NULL)
 		return NULL;

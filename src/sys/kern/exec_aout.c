@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: exec_aout.c,v 1.9 2003/06/24 22:45:33 espie Exp $	*/
 /*	$NetBSD: exec_aout.c,v 1.14 1996/02/04 02:15:01 christos Exp $	*/
 
@@ -41,8 +42,8 @@
 #include <uvm/uvm_extern.h>
 
 #if defined(_KERN_DO_AOUT)
-#if defined(COMPAT_AOUT)
-void aout_compat_setup(struct exec_package *epp);
+#if defined(COMPAT_OPENBSD)
+void openbsd_compat_setup(struct exec_package *epp);
 #endif
 
 /*
@@ -92,8 +93,8 @@ exec_aout_makecmds(p, epp)
 
 	if (error)
 		kill_vmcmds(&epp->ep_vmcmds);
-#ifdef COMPAT_AOUT
-	aout_compat_setup(epp);
+#ifdef COMPAT_OPENBSD
+	openbsd_compat_setup(epp);
 #endif
 
 	return error;
@@ -228,11 +229,10 @@ exec_aout_prep_omagic(p, epp)
 	 * computed (in execve(2)) by rounding *up* `ep_tsize' and `ep_dsize'
 	 * respectively to page boundaries.
 	 * Compensate `ep_dsize' for the amount of data covered by the last
-	 * text page. 
+	 * text page.
 	 */
 	dsize = epp->ep_dsize + execp->a_text - round_page(execp->a_text);
 	epp->ep_dsize = (dsize > 0) ? dsize : 0;
 	return exec_setup_stack(p, epp);
 }
-
 #endif /* _KERN_DO_AOUT */

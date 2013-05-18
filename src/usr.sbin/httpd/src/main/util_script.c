@@ -1,3 +1,5 @@
+/* $MirOS: src/usr.sbin/httpd/src/main/util_script.c,v 1.3 2005/04/17 04:38:35 tg Exp $ */
+
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
@@ -67,6 +69,7 @@
 #include "http_request.h"	/* for sub_req_lookup_uri() */
 #include "util_script.h"
 #include "util_date.h"		/* For parseHTTPdate() */
+#include "sa_len.h"
 
 
 /*
@@ -169,7 +172,7 @@ API_EXPORT(char **) ap_create_environment(pool *p, table *t)
 	}
 	env[j] = ap_pstrcat(p, elts[i].key, "=", elts[i].val, NULL);
 	whack = env[j];
-	if (ap_isdigit(*whack)) {
+	if (isdigit((unsigned char)*whack)) {
 	    *whack++ = '_';
 	}
 	while (*whack != '=') {
@@ -196,6 +199,7 @@ API_EXPORT(void) ap_add_common_vars(request_rec *r)
     array_header *hdrs_arr = ap_table_elts(r->headers_in);
     table_entry *hdrs = (table_entry *) hdrs_arr->elts;
     int i;
+    char servbuf[NI_MAXSERV];
 
     /* use a temporary table which we'll overlap onto
      * r->subprocess_env later
@@ -244,7 +248,7 @@ API_EXPORT(void) ap_add_common_vars(request_rec *r)
     ap_table_addn(e, "PATH", env_path);
     ap_table_addn(e, "SERVER_SIGNATURE", ap_psignature("", r));
     ap_table_addn(e, "SERVER_SOFTWARE", ap_get_server_version());
-    ap_table_addn(e, "SERVER_NAME", 
+    ap_table_addn(e, "SERVER_NAME",
 		  ap_escape_html(r->pool,ap_get_server_name(r)));
     ap_table_addn(e, "SERVER_ADDR", r->connection->local_ip);	/* Apache */
     ap_table_addn(e, "SERVER_PORT",
@@ -258,8 +262,16 @@ API_EXPORT(void) ap_add_common_vars(request_rec *r)
     ap_table_addn(e, "SERVER_ADMIN", s->server_admin);	/* Apache */
     ap_table_addn(e, "SCRIPT_FILENAME", r->filename);	/* Apache */
 
-    ap_table_addn(e, "REMOTE_PORT",
-		  ap_psprintf(r->pool, "%d", ntohs(c->remote_addr.sin_port)));
+    servbuf[0] = '\0';
+    if (!getnameinfo((struct sockaddr *)&c->remote_addr,
+#ifndef HAVE_SOCKADDR_LEN
+		     SA_LEN((struct sockaddr *)&c->remote_addr),
+#else
+		     c->remote_addr.ss_len,
+#endif
+		     NULL, 0, servbuf, sizeof(servbuf), NI_NUMERICSERV)){
+	ap_table_addn(e, "REMOTE_PORT", ap_pstrdup(r->pool, servbuf));
+    }
 
     if (c->user) {
 	ap_table_addn(e, "REMOTE_USER", c->user);
@@ -591,8 +603,8 @@ static int getsfunc_STRING(char *w, int len, void *pvastrs)
     struct vastrs *strs = (struct vastrs*) pvastrs;
     char *p;
     int t;
-    
-    if (!strs->curpos || !*strs->curpos) 
+
+    if (!strs->curpos || !*strs->curpos)
         return 0;
     p = strchr(strs->curpos, '\n');
     if (p)
@@ -610,7 +622,7 @@ static int getsfunc_STRING(char *w, int len, void *pvastrs)
     }
     else
         strs->curpos += t;
-    return t;    
+    return t;
 }
 
 /* ap_scan_script_header_err_strs() accepts additional const char* args...
@@ -618,8 +630,8 @@ static int getsfunc_STRING(char *w, int len, void *pvastrs)
  * character is returned to **arg, **data.  (The first optional arg is
  * counted as 0.)
  */
-API_EXPORT_NONSTD(int) ap_scan_script_header_err_strs(request_rec *r, 
-                                                      char *buffer, 
+API_EXPORT_NONSTD(int) ap_scan_script_header_err_strs(request_rec *r,
+                                                      char *buffer,
                                                       const char **termch,
                                                       int *termarg, ...)
 {
@@ -682,6 +694,14 @@ API_EXPORT(int) ap_call_exec(request_rec *r, child_info *pinfo, char *argv0,
 			 "setrlimit: failed to set CPU usage limit");
 	}
     }
+#ifdef RLIMIT_TIME
+    if (conf->limit_time != NULL) {
+        if ((setrlimit(RLIMIT_TIME, conf->limit_time)) != 0) {
+	    ap_log_error(APLOG_MARK, APLOG_ERR, r->server,
+			 "setrlimit: failed to set max real time limit");
+	}
+    }
+#endif
     if (conf->limit_nproc != NULL) {
         if ((setrlimit(RLIMIT_NPROC, conf->limit_nproc)) != 0) {
 	    ap_log_error(APLOG_MARK, APLOG_ERR, r->server,
@@ -726,7 +746,7 @@ API_EXPORT(int) ap_call_exec(request_rec *r, child_info *pinfo, char *argv0,
 		    return (pid);
 		}
 		else {
-		    ap_snprintf(grpname, 16, "%ld", (long) user_gid);
+		    snprintf(grpname, 16, "%ld", (long) user_gid);
 		}
 	    }
 	    else {

@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 #ifndef VAR_INT_H
 #define VAR_INT_H
 /*
@@ -29,6 +31,7 @@
 #define TARGET		  "@"	/* Target of dependency */
 #define OODATE		  "?"	/* All out-of-date sources */
 #define ALLSRC		  ">"	/* All sources */
+#define GNUALLSRC	  "^"	/* All sources (GNU make compat) */
 #define IMPSRC		  "<"	/* Source implied by transformation */
 #define PREFIX		  "*"	/* Common prefix */
 #define ARCHIVE 	  "!"	/* Archive in "archive(member)" syntax */

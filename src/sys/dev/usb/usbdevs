@@ -1,4 +1,5 @@
-$OpenBSD: usbdevs,v 1.284 2007/07/30 14:11:27 todd Exp $
+$MirOS: src/sys/dev/usb/usbdevs,v 1.4 2005/07/21 21:52:19 tg Exp $
+/* $OpenBSD: usbdevs,v 1.284 2007/07/30 14:11:27 todd Exp $ */
 /* $NetBSD: usbdevs,v 1.322 2003/05/10 17:47:14 hamajima Exp $ */
 
 /*

@@ -63,7 +63,7 @@
 
 #include <openssl/dh.h>
 #include <openssl/bn.h>
-#include <openssl/md5.h>
+#include <md5.h>
 #include <openssl/rand.h>
 
 #include "xmalloc.h"
@@ -96,19 +96,11 @@
 #include "session.h"
 #include "monitor_mm.h"
 #include "monitor.h"
-#ifdef GSSAPI
-#include "ssh-gss.h"
-#endif
 #include "monitor_wrap.h"
 #include "monitor_fdpass.h"
 #include "version.h"
 
-#ifdef LIBWRAP
-#include <tcpd.h>
-#include <syslog.h>
-int allow_severity = LOG_INFO;
-int deny_severity = LOG_WARNING;
-#endif /* LIBWRAP */
+__RCSID("$MirOS: src/usr.bin/ssh/sshd.c,v 1.13 2007/06/16 15:41:53 tg Exp $");
 
 #ifndef O_NOCTTY
 #define O_NOCTTY	0
@@ -328,7 +320,7 @@ main_sigchld_handler(int sig)
  * Signal handler for the alarm after the login grace period has expired.
  */
 /*ARGSUSED*/
-static void
+static __dead void
 grace_alarm_handler(int sig)
 {
 	if (use_privsep && pmonitor != NULL && pmonitor->m_pid > 0)
@@ -401,7 +393,8 @@ sshd_exchange_identification(int sock_in, int sock_out)
 		major = PROTOCOL_MAJOR_1;
 		minor = PROTOCOL_MINOR_1;
 	}
-	snprintf(buf, sizeof buf, "SSH-%d.%d-%.100s\n", major, minor, SSH_VERSION);
+	snprintf(buf, sizeof buf, "SSH-%d.%d-%.100s %d\n", major, minor,
+	    SSH_VERSION, (int)arc4random() & 0xFFFF);
 	server_version_string = xstrdup(buf);
 
 	/* Send our protocol version identification. */
@@ -1639,23 +1632,6 @@ main(int ac, char **av)
 	 */
 	remote_ip = get_remote_ipaddr();
 
-#ifdef LIBWRAP
-	/* Check whether logins are denied from this host. */
-	if (packet_connection_is_on_socket()) {
-		struct request_info req;
-
-		request_init(&req, RQ_DAEMON, __progname, RQ_FILE, sock_in, 0);
-		fromhost(&req);
-
-		if (!hosts_access(&req)) {
-			debug("Connection refused by tcp wrapper");
-			refuse(&req);
-			/* NOTREACHED */
-			fatal("libwrap refuse returns");
-		}
-	}
-#endif /* LIBWRAP */
-
 	/* Log the connection. */
 	verbose("Connection from %.500s port %d", remote_ip, remote_port);
 
@@ -1937,15 +1913,15 @@ do_ssh1_kex(void)
 
 		logit("do_connection: generating a fake encryption key");
 		BN_bn2bin(session_key_int, buf);
-		MD5_Init(&md);
-		MD5_Update(&md, buf, bytes);
-		MD5_Update(&md, sensitive_data.ssh1_cookie, SSH_SESSION_KEY_LENGTH);
-		MD5_Final(session_key, &md);
-		MD5_Init(&md);
-		MD5_Update(&md, session_key, 16);
-		MD5_Update(&md, buf, bytes);
-		MD5_Update(&md, sensitive_data.ssh1_cookie, SSH_SESSION_KEY_LENGTH);
-		MD5_Final(session_key + 16, &md);
+		MD5Init(&md);
+		MD5Update(&md, buf, bytes);
+		MD5Update(&md, sensitive_data.ssh1_cookie, SSH_SESSION_KEY_LENGTH);
+		MD5Final(session_key, &md);
+		MD5Init(&md);
+		MD5Update(&md, session_key, 16);
+		MD5Update(&md, buf, bytes);
+		MD5Update(&md, sensitive_data.ssh1_cookie, SSH_SESSION_KEY_LENGTH);
+		MD5Final(session_key + 16, &md);
 		memset(buf, 0, bytes);
 		xfree(buf);
 		for (i = 0; i < 16; i++)

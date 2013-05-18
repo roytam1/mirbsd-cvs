@@ -5,22 +5,22 @@
  *
  * Developed at SunPro, a Sun Microsystems, Inc. business.
  * Permission to use, copy, modify, and distribute this
- * software is freely granted, provided that this notice 
+ * software is freely granted, provided that this notice
  * is preserved.
  * ====================================================
  */
 
+#include <sys/cdefs.h>
 #if defined(LIBM_SCCS) && !defined(lint)
-static char rcsid[] = "$NetBSD: w_lgamma_r.c,v 1.6 1995/05/10 20:49:27 jtc Exp $";
+__RCSID("$NetBSD: w_lgamma_r.c,v 1.10 2002/05/26 22:02:02 wiz Exp $");
 #endif
 
-/* 
+/*
  * wrapper double lgamma_r(double x, int *signgamp)
  */
 
 #include "math.h"
 #include "math_private.h"
-
 
 double
 lgamma_r(double x, int *signgamp) /* wrapper lgamma_r */
@@ -39,4 +39,4 @@ lgamma_r(double x, int *signgamp) /* wrapper lgamma_r */
         } else
             return y;
 #endif
-}             
+}

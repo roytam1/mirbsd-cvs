@@ -1,8 +1,10 @@
+.\"	$MirOS$
 .\"	$OpenBSD: httpd.8,v 1.26 2005/01/02 18:20:10 jmc Exp $
 .\" Copyright (c) 1995-1997 David Robinson. All rights reserved.
 .\" Copyright (c) 1997-1999 The Apache Group. All rights reserved.
 .\" Copyright (c) 1998-1999 Bob Beck. All rights reserved.
 .\" Copyright (c) 2002-2003 Henning Brauer. All rights reserved.
+.\" Copyright (c) 2004-2005 Thorsten Glaser. All rights reserved.
 .\"
 .\" Redistribution and use in source and binary forms, with or without
 .\" modification, are permitted provided that the following conditions
@@ -55,11 +57,11 @@
 .Os
 .Sh NAME
 .Nm httpd
-.Nd Apache Hypertext Transfer Protocol Server
+.Nd Hypertext Transfer Protocol Daemon
 .Sh SYNOPSIS
 .Nm httpd
 .Bk -words
-.Op Fl FhLlSTtuVvX
+.Op Fl 46FhLlSTtuVvX
 .Op Fl C Ar directive
 .Op Fl c Ar directive
 .Op Fl D Ar parameter
@@ -69,7 +71,9 @@
 .Ek
 .Sh DESCRIPTION
 .Nm
-is the Apache HyperText Transfer Protocol (HTTP) server program.
+is the
+.Mx
+HyperText Transfer Protocol (HTTP) server program.
 It is designed to be run as a stand-alone daemon process.
 When used like this it will create a pool of child processes to
 handle requests.
@@ -79,7 +83,7 @@ signal to the initial (parent) process.
 The PID of this process is written to a file as given in the
 configuration file.
 Normally this service can be enabled for startup on
-.Ox
+.Mx
 by editing
 .Pa /etc/rc.conf.local .
 .Pp
@@ -149,13 +153,17 @@ functionality.
 This manual page only lists the command line arguments.
 For details of the directives necessary to configure
 .Nm ,
-see the Apache manual in
+see a local copy of the Apache(TM) manual in
 .Pa /var/www/htdocs/manual/ .
+This manual is not 100% accurate for
+.Mx
+.Nm
+though.
 Paths in this manual page reflect those
 compiled into
 .Nm
 by default with
-.Ox .
+.Mx .
 .Pp
 The options are as follows:
 .Bl -tag -width Ds
@@ -283,7 +291,6 @@ They must, however, be readable by this user.
 .Xr htdigest 1 ,
 .Xr htpasswd 1 ,
 .Xr chroot 2 ,
-.Xr apachectl 8 ,
 .Xr apxs 8 ,
 .Xr inetd 8 ,
 .Xr logresolve 8 ,
@@ -292,5 +299,7 @@ They must, however, be readable by this user.
 .Xr ssl 8 ,
 .Xr suexec 8
 .Pp
-The Apache manual:
+The
+.Mx
+httpd manual:
 .Pa /var/www/htdocs/manual/ .

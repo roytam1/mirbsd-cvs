@@ -1,3 +1,4 @@
+/*	$OpenBSD: qdivrem.c,v 1.7 2005/08/08 08:05:35 espie Exp $ */
 /*-
  * Copyright (c) 1992, 1993
  *	The Regents of the University of California.  All rights reserved.
@@ -31,10 +32,6 @@
  * SUCH DAMAGE.
  */
 
-#if defined(LIBC_SCCS) && !defined(lint)
-static char rcsid[] = "$OpenBSD: qdivrem.c,v 1.8 2005/02/13 03:37:14 jsg Exp $";
-#endif /* LIBC_SCCS and not lint */
-
 /*
  * Multiprecision divide.  This algorithm is from Knuth vol. 2 (2nd ed),
  * section 4.3.1, pp. 257--259.
@@ -54,7 +51,7 @@ typedef unsigned short digit;
 typedef u_int digit;
 #endif
 
-static void shl(digit *p, int len, int sh);
+static void shl __P((digit *p, int len, int sh));
 
 /*
  * __qdivrem(u, v, rem) returns u/v and, optionally, sets *rem to u%v.

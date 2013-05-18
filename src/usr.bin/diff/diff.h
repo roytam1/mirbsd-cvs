@@ -83,7 +83,8 @@ extern regex_t	ignore_re;
 
 char	*splice(char *, char *);
 int	diffreg(char *, char *, int);
-int	easprintf(char **, const char *, ...);
+int	easprintf(char **, const char *, ...)
+	    __attribute__((format (printf, 2, 3)));
 void	*emalloc(size_t);
 void	*erealloc(void *, size_t);
 void	diffdir(char *, char *);

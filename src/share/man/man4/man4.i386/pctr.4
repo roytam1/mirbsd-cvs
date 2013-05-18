@@ -73,7 +73,7 @@ The functions of the two counters can be programmed with ioctls
 and
 .Dv PCIOCS1 ,
 which require a writeable file descriptor and take an argument of type
-.Dv "unsigned int" . \&
+.Dv "unsigned int" \&.
 The meaning of this integer is dependent on the particular CPU.
 .\" The
 .\" following procedure can be used to determine which counters are
@@ -229,7 +229,7 @@ The Pentium Pro counter functions contain several parts.
 The most significant byte (an 8-bit integer shifted left by
 .Dv P6CTR_CM_SHIFT )
 contains a
-.Em "counter mask" . \&
+.Em "counter mask" \&.
 If non-zero, this sets a threshold for the number of times an event
 must occur in one cycle for the counter to be incremented.
 The
@@ -259,7 +259,7 @@ in order for either of the counters to be enabled.
 This bit should probably be set in counter 1 as well.
 .It Dv P6CTR_I
 Inverts the sense of the
-.Em "counter mask" . \&
+.Em "counter mask" \&.
 When this bit is set, the counter only increments on cycles in which
 there are no
 .Em more
@@ -450,7 +450,7 @@ Number of times BACLEAR is asserted.
 Events marked /mesi require the
 .Dv P6CTR_UM_[MESI]
 bits in the
-.Em "unit mask" . \&
+.Em "unit mask" \&.
 Events marked /a can take the
 .Dv P6CTR_UM_A
 bit.

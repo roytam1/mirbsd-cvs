@@ -33,6 +33,8 @@
 
 #include <machine/asm.h>
 
+	.text
+
 /* like alloc, but automatic automatic free in return */
 
 ENTRY(alloca)

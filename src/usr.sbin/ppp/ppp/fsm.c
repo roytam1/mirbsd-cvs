@@ -68,6 +68,8 @@
 #include "physical.h"
 #include "proto.h"
 
+__RCSID("$MirOS: src/usr.sbin/ppp/ppp/fsm.c,v 1.2 2005/03/13 19:17:14 tg Exp $");
+
 static void FsmSendConfigReq(struct fsm *);
 static void FsmSendTerminateReq(struct fsm *);
 static void FsmInitRestartCounter(struct fsm *, int);
@@ -191,6 +193,7 @@ fsm_Output(struct fsm *fp, u_int code, u_int id, u_char *ptr, int count,
   int plen;
   struct fsmheader lh;
   struct mbuf *bp;
+  u_char *tmp;
 
   if (log_IsKept(fp->LogLevel)) {
     log_Printf(fp->LogLevel, "%s: Send%s(%d) state = %s\n",
@@ -212,9 +215,11 @@ fsm_Output(struct fsm *fp, u_int code, u_int id, u_char *ptr, int count,
   lh.id = id;
   lh.length = htons(plen);
   bp = m_get(plen, mtype);
-  memcpy(MBUF_CTOP(bp), &lh, sizeof(struct fsmheader));
+  if ((tmp = MBUF_CTOP(bp)) != NULL)
+    memcpy(tmp, &lh, sizeof(struct fsmheader));
   if (count)
-    memcpy(MBUF_CTOP(bp) + sizeof(struct fsmheader), ptr, count);
+    if ((tmp = MBUF_CTOP(bp)) != NULL)
+      memcpy(tmp + sizeof(struct fsmheader), ptr, count);
   log_DumpBp(LogDEBUG, "fsm_Output", bp);
   link_PushPacket(fp->link, bp, fp->bundle, LINK_QUEUES(fp->link) - 1,
                   fp->proto);

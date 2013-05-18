@@ -1,3 +1,4 @@
+/**	$MirOS: src/usr.bin/compress/main.c,v 1.10 2006/07/05 21:35:14 tg Exp $ */
 /*	$OpenBSD: main.c,v 1.70 2007/04/04 13:29:45 millert Exp $	*/
 
 #ifndef SMALL
@@ -35,10 +36,6 @@ static const char license[] =
 " THE POSSIBILITY OF SUCH DAMAGE.\n";
 #endif /* SMALL */
 
-#ifndef SMALL
-static const char main_rcsid[] = "$OpenBSD: main.c,v 1.70 2007/04/04 13:29:45 millert Exp $";
-#endif
-
 #include <sys/param.h>
 #include <sys/time.h>
 #include <sys/stat.h>
@@ -56,40 +53,48 @@ static const char main_rcsid[] = "$OpenBSD: main.c,v 1.70 2007/04/04 13:29:45 mi
 #include <paths.h>
 #include "compress.h"
 
+__RCSID("$MirOS: src/usr.bin/compress/main.c,v 1.10 2006/07/05 21:35:14 tg Exp $");
+
 #define min(a,b) ((a) < (b)? (a) : (b))
 
 int cat, decomp, pipin, force, verbose, testmode, list, recurse, storename;
 extern char *__progname;
 
 const struct compressor {
-	char *name;
-	char *suffix;
-	u_char *magic;
+	const char *name;
+	const char *suffix;
+	const u_char *magic;
 	void *(*open)(int, const char *, char *, int, u_int32_t, int);
 	int (*read)(void *, char *, int);
 	int (*write)(void *, const char *, int);
 	int (*close)(void *, struct z_info *, const char *, struct stat *);
 } c_table[] = {
 #define M_DEFLATE (&c_table[0])
-  { "deflate", ".gz", "\037\213", gz_open, gz_read, gz_write, gz_close },
+  { "deflate", ".gz", (const u_char *)"\037\213",
+    gz_open, gz_read, gz_write, gz_close },
 #define M_COMPRESS (&c_table[1])
 #ifndef SMALL
-  { "compress", ".Z", "\037\235", z_open,  zread,   zwrite,   z_close },
+  { "compress", ".Z", (const u_char *)"\037\235",
+    z_open,  zread,   zwrite,   z_close },
 #endif /* SMALL */
 #if 0
 #define M_LZH (&c_table[2])
-  { "lzh", ".lzh", "\037\240", lzh_open, lzh_read, lzh_write, lzh_close },
+  { "lzh", ".lzh", (const u_char *)"\037\240",
+    lzh_open, lzh_read, lzh_write, lzh_close },
 #define M_ZIP (&c_table[3])
-  { "zip", ".zip", "PK", zip_open, zip_read, zip_write, zip_close },
+  { "zip", ".zip", (const u_char *)"PK",
+    zip_open, zip_read, zip_write, zip_close },
 #define M_PACK (&c_table[4])
-  { "pack", ".pak", "\037\036", pak_open, pak_read, pak_write, pak_close },
+  { "pack", ".pak", (const u_char *)"\037\036",
+    pak_open, pak_read, pak_write, pak_close },
 #endif
-  { NULL }
+  { NULL, NULL, NULL, NULL, NULL, NULL, NULL }
 };
 
 #ifndef SMALL
 const struct compressor null_method =
-{ "null", ".nul", "XX", null_open, null_read, null_write, null_close };
+{ "null", ".nul", (const u_char *)"XX",
+  null_open, null_read, null_write, null_close };
 #endif /* SMALL */
 
 int permission(const char *);
@@ -127,7 +132,7 @@ const struct option longopts[] = {
 	{ "fast",	no_argument,		0, '1' },
 	{ "best",	no_argument,		0, '9' },
 #endif /* SMALL */
-	{ NULL }
+	{ NULL,		0,			0, 0 }
 };
 
 int
@@ -136,8 +141,8 @@ main(int argc, char *argv[])
 	FTS *ftsp;
 	FTSENT *entry;
 	const struct compressor *method;
-	const char *s;
-	char *p, *infile;
+	const char *s, *infile;
+	char *p;
 	char outfile[MAXPATHLEN], _infile[MAXPATHLEN], suffix[16];
 	char *nargv[512];	/* some estimate based on ARG_MAX */
 	int bits, ch, error, i, rc, cflag, oflag;
@@ -180,7 +185,7 @@ main(int argc, char *argv[])
 		nargv[0] = *argv++;
 		for (i = 1, (p = strtok_r(p, " ", &last)); p != NULL;
 		    (p = strtok_r(NULL, " ", &last)), i++)
-			if (i < sizeof(nargv)/sizeof(nargv[1]) - argc - 1)
+			if (i < (int)(sizeof(nargv)/sizeof(nargv[1]) - argc - 1))
 				nargv[i] = p;
 			else
 				errx(1, "GZIP is too long");
@@ -269,11 +274,8 @@ main(int argc, char *argv[])
 			testmode = 1;
 			decomp++;
 			break;
-#ifndef SMALL
 		case 'V':
-			printf("%s\n%s\n", main_rcsid, gz_rcsid);
-			printf("%s\n%s\n", z_rcsid, null_rcsid);
-#endif
+			printf("MirOS compress\n");
 			exit (0);
 		case 'v':
 			verbose++;
@@ -301,7 +303,7 @@ main(int argc, char *argv[])
 		if (nargv[0] == NULL)
 			argv = nargv;
 		/* XXX - make sure we don't oflow nargv in $GZIP case (millert) */
-		argv[0] = "-";
+		argv[0] = strdup("-");
 		argv[1] = NULL;
 	}
 	if (oflag && (recurse || argc > 1))
@@ -351,7 +353,7 @@ main(int argc, char *argv[])
 					    strcmp(p, suffix) != 0) &&
 					    snprintf(_infile, sizeof(_infile),
 					    "%s%s", infile, suffix) <
-					    sizeof(_infile) &&
+					    (ssize_t)sizeof(_infile) &&
 					    stat(_infile, entry->fts_statp) ==
 					    0 &&
 					    S_ISREG(entry->fts_statp->st_mode)) {
@@ -390,15 +392,18 @@ main(int argc, char *argv[])
 			else if (decomp) {
 				if (set_outfile(infile, outfile,
 				    sizeof outfile) == NULL) {
-					if (!recurse) {
+					if (!force && !recurse) {
 						warnx("%s: unknown suffix: "
 						    "ignored", infile);
 						rc = rc ? rc : WARNING;
 					}
-					continue;
+					if (!force)
+						continue;
+					strlcpy(outfile, infile,
+					    sizeof (outfile));
 				}
 			} else {
-				if (snprintf(outfile, sizeof(outfile),
+				if ((size_t)snprintf(outfile, sizeof(outfile),
 				    "%s%s", infile, suffix) >= sizeof(outfile)) {
 					warnx("%s%s: name too long",
 					    infile, suffix);
@@ -410,6 +415,10 @@ main(int argc, char *argv[])
 
 		if (verbose > 0 && !pipin && !list)
 			fprintf(stderr, "%s:\t", infile);
+
+		if (!testmode && !strcmp(infile, outfile))
+			errx(1, "Would overwrite infile '%s' with outfile, aborting.",
+			    infile);
 
 		error = (decomp ? dodecompress : docompress)
 		    (infile, outfile, method, bits, entry->fts_statp);
@@ -508,7 +517,7 @@ docompress(const char *in, char *out, const struct compressor *method,
 	}
 
 	while ((nr = read(ifd, buf, sizeof(buf))) > 0)
-		if ((method->write)(cookie, buf, nr) != nr) {
+		if ((method->write)(cookie, (const char *)buf, nr) != nr) {
 			if (verbose >= 0)
 				warn("%s", out);
 			error = FAILURE;
@@ -653,7 +662,7 @@ dodecompress(const char *in, char *out, const struct compressor *method,
 		}
 	}
 
-	while ((nr = (method->read)(cookie, buf, sizeof(buf))) > 0) {
+	while ((nr = (method->read)(cookie, (char *)buf, sizeof(buf))) > 0) {
 		if (ofd != -1 && write(ofd, buf, nr) != nr) {
 			if (verbose >= 0)
 				warn("%s", out);
@@ -774,8 +783,9 @@ const char *
 check_suffix(const char *infile)
 {
 	int i;
-	char *suf, *sep, *separators = ".-_";
-	static char *suffixes[] = { "Z", "gz", "z", "tgz", "taz", NULL };
+	const char *suf, *sep, *separators = ".-_";
+	static const char *suffixes[] =
+	    { "Z", "gz", "z", "tgz", "taz", "cgz", "ngz", NULL };
 
 	for (sep = separators; *sep != '\0'; sep++) {
 		if ((suf = strrchr(infile, *sep)) == NULL)
@@ -811,6 +821,9 @@ set_outfile(const char *infile, char *outfile, size_t osize)
 	if (strcmp(cp, "tgz") == 0) {
 		cp[1] = 'a';
 		cp[2] = 'r';
+	} else if (!strcmp(cp, "cgz") || !strcmp(cp, "ngz")) {
+		*--cp = 0;
+		strlcat(outfile, ".cpio", osize);
 	} else if (strcmp(cp, "taz") == 0)
 		cp[2] = 'r';
 	else

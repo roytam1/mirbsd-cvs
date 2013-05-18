@@ -33,12 +33,11 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <sys/types.h>
+#include <sys/param.h>
 #include <sys/wait.h>
 #include <sys/un.h>
 #include <sys/stat.h>
 #include <sys/socket.h>
-#include <sys/param.h>
 
 #include <errno.h>
 #include <grp.h>
@@ -76,15 +75,10 @@
 #include "canohost.h"
 #include "misc.h"
 #include "session.h"
-#ifdef GSSAPI
-#include "ssh-gss.h"
-#endif
 #include "monitor_wrap.h"
 #include "sftp.h"
 
-#ifdef KRB5
-#include <kafs.h>
-#endif
+__RCSID("$MirOS: src/usr.bin/ssh/session.c,v 1.16 2007/09/13 13:52:54 tg Exp $");
 
 /* func */
 
@@ -97,7 +91,7 @@ void	do_exec_pty(Session *, const char *);
 void	do_exec_no_pty(Session *, const char *);
 void	do_exec(Session *, const char *);
 void	do_login(Session *, const char *);
-void	do_child(Session *, const char *);
+__dead void do_child(Session *, const char *);
 void	do_motd(void);
 int	check_quietlogin(Session *, const char *);
 
@@ -551,28 +545,27 @@ do_exec(Session *s, const char *command)
 	if (options.adm_forced_command) {
 		original_command = command;
 		command = options.adm_forced_command;
+#ifndef SMALL
 		if (strcmp(INTERNAL_SFTP_NAME, command) == 0)
 			s->is_subsystem = SUBSYSTEM_INT_SFTP;
-		else if (s->is_subsystem)
+		else
+#endif
+		if (s->is_subsystem)
 			s->is_subsystem = SUBSYSTEM_EXT;
 		debug("Forced command (config) '%.900s'", command);
 	} else if (forced_command) {
 		original_command = command;
 		command = forced_command;
+#ifndef SMALL
 		if (strcmp(INTERNAL_SFTP_NAME, command) == 0)
 			s->is_subsystem = SUBSYSTEM_INT_SFTP;
-		else if (s->is_subsystem)
+		else
+#endif
+		if (s->is_subsystem)
 			s->is_subsystem = SUBSYSTEM_EXT;
 		debug("Forced command (key option) '%.900s'", command);
 	}
 
-#ifdef GSSAPI
-	if (options.gss_authentication) {
-		temporarily_use_uid(s->pw);
-		ssh_gssapi_storecreds();
-		restore_uid();
-	}
-#endif
 	if (s->ttyfd != -1)
 		do_exec_pty(s, command);
 	else
@@ -770,13 +763,6 @@ do_setup_env(Session *s, const char *shell)
 	env = xcalloc(envsize, sizeof(char *));
 	env[0] = NULL;
 
-#ifdef GSSAPI
-	/* Allow any GSSAPI methods that we've used to alter
-	 * the childs environment as they see fit
-	 */
-	ssh_gssapi_do_child(&env, &envsize);
-#endif
-
 	if (!options.use_login) {
 		/* Set basic environment. */
 		for (i = 0; i < s->num_env; i++)
@@ -839,18 +825,13 @@ do_setup_env(Session *s, const char *shell)
 	if (original_command)
 		child_set_env(&env, &envsize, "SSH_ORIGINAL_COMMAND",
 		    original_command);
-#ifdef KRB5
-	if (s->authctxt->krb5_ticket_file)
-		child_set_env(&env, &envsize, "KRB5CCNAME",
-		    s->authctxt->krb5_ticket_file);
-#endif
 	if (auth_sock_name != NULL)
 		child_set_env(&env, &envsize, SSH_AUTHSOCKET_ENV_NAME,
 		    auth_sock_name);
 
-	/* read $HOME/.ssh/environment. */
+	/* read $HOME/.etc/ssh/environment. */
 	if (options.permit_user_env && !options.use_login) {
-		snprintf(buf, sizeof buf, "%.200s/.ssh/environment",
+		snprintf(buf, sizeof buf, "%.200s/.etc/ssh/environment",
 		    pw->pw_dir);
 		read_environment_file(&env, &envsize, buf);
 	}
@@ -864,7 +845,7 @@ do_setup_env(Session *s, const char *shell)
 }
 
 /*
- * Run $HOME/.ssh/rc, /etc/ssh/sshrc, or xauth (whichever is found
+ * Run $HOME/.etc/ssh/rc, /etc/ssh/sshrc, or xauth (whichever is found
  * first in this order).
  */
 static void
@@ -1176,36 +1157,10 @@ do_child(Session *s, const char *command)
 	child_close_fds();
 
 	/*
-	 * Must take new environment into use so that .ssh/rc,
+	 * Must take new environment into use so that .etc/ssh/rc,
 	 * /etc/ssh/sshrc and xauth are run in the proper environment.
 	 */
 	environ = env;
-
-#ifdef KRB5
-	/*
-	 * At this point, we check to see if AFS is active and if we have
-	 * a valid Kerberos 5 TGT. If so, it seems like a good idea to see
-	 * if we can (and need to) extend the ticket into an AFS token. If
-	 * we don't do this, we run into potential problems if the user's
-	 * home directory is in AFS and it's not world-readable.
-	 */
-
-	if (options.kerberos_get_afs_token && k_hasafs() &&
-	    (s->authctxt->krb5_ctx != NULL)) {
-		char cell[64];
-
-		debug("Getting AFS token");
-
-		k_setpag();
-
-		if (k_afs_cell_of_file(pw->pw_dir, cell, sizeof(cell)) == 0)
-			krb5_afslog(s->authctxt->krb5_ctx,
-			    s->authctxt->krb5_fwd_ccache, cell, NULL);
-
-		krb5_afslog_home(s->authctxt->krb5_ctx,
-		    s->authctxt->krb5_fwd_ccache, NULL, NULL, pw->pw_dir);
-	}
-#endif
 
 	/* Change current directory to the user's home directory. */
 	if (chdir(pw->pw_dir) < 0) {
@@ -1223,6 +1178,7 @@ do_child(Session *s, const char *command)
 	/* restore SIGPIPE for child */
 	signal(SIGPIPE, SIG_DFL);
 
+#ifndef SMALL
 	if (s->is_subsystem == SUBSYSTEM_INT_SFTP) {
 		extern int optind, optreset;
 		int i;
@@ -1238,6 +1194,7 @@ do_child(Session *s, const char *command)
 		__progname = argv[0];
 		exit(sftp_server_main(i, argv, s->pw));
 	}
+#endif
 
 	if (options.use_login) {
 		launch_login(pw, hostname);
@@ -1511,9 +1468,12 @@ session_subsystem_req(Session *s)
 		if (strcmp(subsys, options.subsystem_name[i]) == 0) {
 			prog = options.subsystem_command[i];
 			cmd = options.subsystem_args[i];
+#ifndef SMALL
 			if (!strcmp(INTERNAL_SFTP_NAME, prog)) {
 				s->is_subsystem = SUBSYSTEM_INT_SFTP;
-			} else if (stat(prog, &st) < 0) {
+			} else
+#endif
+			if (stat(prog, &st) < 0) {
 				error("subsystem: cannot stat %s: %s", prog,
 				    strerror(errno));
 				break;
@@ -2049,7 +2009,7 @@ session_setup_x11fwd(Session *s)
 		fatal("gethostname: %.100s", strerror(errno));
 	/*
 	 * auth_display must be used as the displayname when the
-	 * authorization entry is added with xauth(1).  This will be
+	 * authorisation entry is added with xauth(1).  This will be
 	 * different than the DISPLAY string for localhost displays.
 	 */
 	if (options.x11_use_localhost) {
@@ -2093,16 +2053,6 @@ do_cleanup(Authctxt *authctxt)
 
 	if (authctxt == NULL || !authctxt->authenticated)
 		return;
-#ifdef KRB5
-	if (options.kerberos_ticket_cleanup &&
-	    authctxt->krb5_ctx)
-		krb5_cleanup_proc(authctxt);
-#endif
-
-#ifdef GSSAPI
-	if (compat20 && options.gss_cleanup_creds)
-		ssh_gssapi_cleanup_creds();
-#endif
 
 	/* remove agent socket */
 	auth_sock_cleanup_proc(authctxt->pw);

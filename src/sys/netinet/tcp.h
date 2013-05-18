@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: tcp.h,v 1.15 2004/02/10 10:30:24 markus Exp $	*/
 /*	$NetBSD: tcp.h,v 1.8 1995/04/17 05:32:58 cgd Exp $	*/
 
@@ -32,6 +33,10 @@
  *	@(#)tcp.h	8.1 (Berkeley) 6/10/93
  */
 
+/*
+ * improvements 2006 by Marco Munari <mar.develops allerta.it>
+ */
+
 #ifndef _NETINET_TCP_H_
 #define	_NETINET_TCP_H_
 
@@ -63,6 +68,7 @@ struct tcphdr {
 #define	TH_URG	  0x20
 #define	TH_ECE	  0x40
 #define	TH_CWR	  0x80
+#define	TH_BITS	  "\20\2SYN\5ACK\1FIN\3RST\4PUSH\6URG\7ECE\10CWR"
 	u_int16_t th_win;			/* window */
 	u_int16_t th_sum;			/* checksum */
 	u_int16_t th_urp;			/* urgent pointer */
@@ -93,6 +99,8 @@ struct tcphdr {
     (TCPOPT_NOP<<24|TCPOPT_NOP<<16|TCPOPT_TIMESTAMP<<8|TCPOLEN_TIMESTAMP)
 
 /* Option definitions */
+
+/* Warning: redundant with NOP, use it only in writing */
 #define TCPOPT_SACK_PERMIT_HDR \
 (TCPOPT_NOP<<24|TCPOPT_NOP<<16|TCPOPT_SACK_PERMITTED<<8|TCPOLEN_SACK_PERMITTED)
 #define TCPOPT_SACK_HDR   (TCPOPT_NOP<<24|TCPOPT_NOP<<16|TCPOPT_SACK<<8)

@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: debug.c,v 1.13 2004/03/09 19:12:12 tom Exp $	*/
 
 /*
@@ -33,11 +34,15 @@
 
 #define	VBASE	(0xb8000)
 
+#ifndef SMALL_BOOT
 char *const reg_names[] = { REG_NAMES };
 const int nreg = NENTS(reg_names);
+#endif
 struct reg reg;
+#ifndef SMALL_BOOT
 u_int32_t *const reg_values[] = { REG_VALUES(reg) };
 char *const trap_names[] = { TRAP_NAMES };
+#endif
 
 void d_putc(dev_t, int);
 
@@ -48,24 +53,23 @@ void d_putc(dev_t, int);
 #endif
 
 void
-debug_init(void)
-{
-}
-
-
-void
 dump_regs(u_int trapno, u_int arg)
 {
+#ifndef SMALL_BOOT
 	register int i;
+#endif
 	/* make it local, so it won't rely on .data/.bss corruption */
 	struct consdev d_cons, *save_cons;
 
 	/* init cons mod */
 	save_cons = cn_tab;
-	bzero(&d_cons, sizeof(d_cons));
+	memset(&d_cons, 0, sizeof(d_cons));
 	d_cons.cn_putc = &d_putc;
 	cn_tab = &d_cons;
 
+#ifdef SMALL_BOOT
+	printf("\ftrap: %u(%x)\n",trapno, arg);
+#else
 	/* Trap info */
 	printf("\ftrap: %u(%x): %s\ncn_tab=%p\n",
 	    trapno, arg, trap_names[trapno], save_cons);
@@ -79,11 +83,13 @@ dump_regs(u_int trapno, u_int arg)
 	/* %ebx (void *)((*reg_values[3] + 15) & ~0x0F) */
 	dump_mem("Memory dump", (void *)0x1a000, 48);
 	dump_mem("Stack trace", (void *)(*reg_values[4]), 48);
+#endif
 
 	/* restore the console */
 	cn_tab = save_cons;
 }
 
+#ifndef SMALL_BOOT
 void
 dump_mem(char *l, void *p, size_t n)
 {
@@ -91,11 +97,11 @@ dump_mem(char *l, void *p, size_t n)
 
 	printf("%s [%p]:%s", l, p, (n > 6? "\n":" "));
 	for (i = 1; i <= n; i++)
-		printf("%x%c", *(u_int32_t *)p++, ((i%8)? ' ': '\n'));
+		printf("%X%c", *(u_int32_t *)p++, ((i%8)? ' ': '\n'));
 	if (n % 8)
 		printf("\n");
 }
-
+#endif
 
 u_int d_pos;
 
@@ -106,7 +112,7 @@ d_putc(dev_t d, int c)
 	case '\n':	d_pos += 80;					break;
 	case '\r':	d_pos -= d_pos % 80;				break;
 	case '\b':	d_pos--;					break;
-	case '\f':	bzero((void *)VBASE, 80*25*2); d_pos = 0;	break;
+	case '\f':	memset((void *)VBASE, 0, 80*25*2); d_pos = 0;	break;
 		/* print it */
 	default:
 		((u_int16_t volatile *)VBASE)[d_pos++] = 0x0700 | (u_char)c;

@@ -5,23 +5,25 @@
  *
  * Developed at SunPro, a Sun Microsystems, Inc. business.
  * Permission to use, copy, modify, and distribute this
- * software is freely granted, provided that this notice 
+ * software is freely granted, provided that this notice
  * is preserved.
  * ====================================================
  */
 
+#include <sys/cdefs.h>
 #if defined(LIBM_SCCS) && !defined(lint)
-static char rcsid[] = "$NetBSD: e_hypot.c,v 1.9 1995/05/12 04:57:27 jtc Exp $";
+__RCSID("$MirOS$");
+__RCSID("$NetBSD: e_hypot.c,v 1.12 2002/05/26 22:01:50 wiz Exp $");
 #endif
 
 /* __ieee754_hypot(x,y)
  *
- * Method :                  
- *	If (assume round-to-nearest) z=x*x+y*y 
- *	has error less than sqrt(2)/2 ulp, than 
+ * Method :
+ *	If (assume round-to-nearest) z=x*x+y*y
+ *	has error less than sqrt(2)/2 ulp, than
  *	sqrt(z) has error less than 1 ulp (exercise).
  *
- *	So, compute sqrt(x*x+y*y) with some care as 
+ *	So, compute sqrt(x*x+y*y) with some care as
  *	follows to get the error below 1 ulp:
  *
  *	Assume x>y>0;
@@ -31,10 +33,10 @@ static char rcsid[] = "$NetBSD: e_hypot.c,v 1.9 1995/05/12 04:57:27 jtc Exp $";
  *	where x1 = x with lower 32 bits cleared, x2 = x-x1; else
  *	2. if x <= 2y use
  *		t1*yy1+((x-y)*(x-y)+(t1*y2+t2*y))
- *	where t1 = 2x with lower 32 bits cleared, t2 = 2x-t1, 
+ *	where t1 = 2x with lower 32 bits cleared, t2 = 2x-t1,
  *	yy1= y with lower 32 bits chopped, y2 = y-yy1.
- *		
- *	NOTE: scaling may be necessary if some argument is too 
+ *
+ *	NOTE: scaling may be necessary if some argument is too
  *	      large or too tiny
  *
  * Special cases:
@@ -42,8 +44,8 @@ static char rcsid[] = "$NetBSD: e_hypot.c,v 1.9 1995/05/12 04:57:27 jtc Exp $";
  *	hypot(x,y) is NAN if x or y is NAN.
  *
  * Accuracy:
- * 	hypot(x,y) returns sqrt(x^2+y^2) with error less 
- * 	than 1 ulps (units in the last place) 
+ * 	hypot(x,y) returns sqrt(x^2+y^2) with error less
+ * 	than 1 ulps (units in the last place)
  */
 
 #include "math.h"
@@ -80,7 +82,7 @@ __ieee754_hypot(double x, double y)
 	   SET_HIGH_WORD(b,hb);
 	}
 	if(hb < 0x20b00000) {	/* b < 2**-500 */
-	    if(hb <= 0x000fffff) {	/* subnormal b or 0 */	
+	    if(hb <= 0x000fffff) {	/* subnormal b or 0 */
 	        u_int32_t low;
 		GET_LOW_WORD(low,b);
 		if((hb|low)==0) return a;

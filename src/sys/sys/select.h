@@ -1,3 +1,5 @@
+/**	$MirOS$	*/
+/*	$NetBSD: select.h,v 1.14 2002/11/26 19:08:06 christos Exp $	*/
 /*	$OpenBSD: select.h,v 1.6 2003/06/02 23:28:21 millert Exp $	*/
 /*	$NetBSD: select.h,v 1.10 1995/03/26 20:24:38 jtc Exp $	*/
 
@@ -35,6 +37,7 @@
 #ifndef _SYS_SELECT_H_
 #define	_SYS_SELECT_H_
 
+#include <sys/types.h>
 #include <sys/event.h>			/* for struct klist */
 
 /*
@@ -53,6 +56,15 @@ struct proc;
 
 void	selrecord(struct proc *selector, struct selinfo *);
 void	selwakeup(struct selinfo *);
+
+static __inline void
+selnotify(struct selinfo *sip, long knhint)
+{
+
+	if (sip->si_selpid != 0)
+		selwakeup(sip);
+	KNOTE(&sip->si_note, knhint);
+}
 #endif
 
 #endif /* !_SYS_SELECT_H_ */

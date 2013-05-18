@@ -30,20 +30,6 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-static char copyright[] =
-"@(#) Copyright (c) 1988, 1990, 1993\n\
-	The Regents of the University of California.  All rights reserved.\n";
-#endif /* not lint */
-
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)shutdown.c	8.2 (Berkeley) 2/16/94";
-#else
-static char rcsid[] = "$OpenBSD: shutdown.c,v 1.32 2005/05/19 09:28:24 jmc Exp $";
-#endif
-#endif /* not lint */
-
 #include <sys/param.h>
 #include <sys/resource.h>
 #include <sys/syslog.h>
@@ -65,6 +51,12 @@ static char rcsid[] = "$OpenBSD: shutdown.c,v 1.32 2005/05/19 09:28:24 jmc Exp $
 #include <errno.h>
 #include <err.h>
 
+__COPYRIGHT("@(#) Copyright (c) 1988, 1990, 1993\n\
+	The Regents of the University of California.  All rights reserved.\n");
+__SCCSID("@(#)shutdown.c	8.2 (Berkeley) 2/16/94");
+__RCSID("$OpenBSD: shutdown.c,v 1.32 2005/05/19 09:28:24 jmc Exp $");
+__RCSID("$MirOS$");
+
 #include "pathnames.h"
 
 #ifdef DEBUG
@@ -79,7 +71,7 @@ static char rcsid[] = "$OpenBSD: shutdown.c,v 1.32 2005/05/19 09:28:24 jmc Exp $
 #define	S		*1
 #define	NOLOG_TIME	5*60
 struct interval {
-	int timeleft, timetowait;
+	u_int timeleft, timetowait;
 } tlist[] = {
 	{ 10 H,  5 H },
 	{  5 H,  3 H },
@@ -100,18 +92,19 @@ struct interval {
 
 static time_t offset, shuttime;
 static int dofast, dohalt, doreboot, dopower, dodump, killflg, mbuflen, nosync;
-static char *whom, mbuf[BUFSIZ];
+static char mbuf[BUFSIZ];
+static const char *whom;
 
-void badtime(void);
+void __attribute ((noreturn)) badtime(void);
 void __attribute ((noreturn)) die_you_gravy_sucking_pig_dog(void);
 void doitfast(void);
 void __attribute ((noreturn)) finish(int);
 void getoffset(char *);
 void __attribute ((noreturn)) loop(void);
 void nolog(void);
-void timeout(int);
+void __attribute ((noreturn)) timeout(int);
 void timewarn(int);
-void usage(void);
+void __attribute ((noreturn)) usage(void);
 
 int
 main(int argc, char *argv[])
@@ -120,6 +113,9 @@ main(int argc, char *argv[])
 	struct passwd *pw;
 	char *p, *endp;
 	pid_t forkpid;
+
+	if (chdir("/"))
+		warn("chdir(\"/\")");
 
 #ifndef DEBUG
 	if (geteuid())
@@ -278,8 +274,9 @@ loop(void)
 
 static jmp_buf alarmbuf;
 
+static char restricted_environ_PATH[] = "PATH=" _PATH_STDPATH;
 static char *restricted_environ[] = {
-	"PATH=" _PATH_STDPATH,
+	restricted_environ_PATH,
 	NULL
 };
 
@@ -335,7 +332,7 @@ timewarn(int timeleft)
 }
 
 void
-timeout(int signo)
+timeout(int signo __attribute__((unused)))
 {
 	longjmp(alarmbuf, 1);		/* XXX signal/longjmp resource leaks */
 }

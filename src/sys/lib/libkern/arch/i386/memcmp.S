@@ -1,5 +1,5 @@
-/*	$OpenBSD: memcmp.S,v 1.1 2000/06/16 19:56:54 millert Exp $	*/
-
+/**	$MirOS$ */
+/*	$OpenBSD: memcmp.S,v 1.4 2005/08/07 11:30:38 espie Exp $ */
 /*
  * Written by J.T. Conklin <jtc@netbsd.org>.
  * Public domain.
@@ -7,6 +7,9 @@
 
 #include <machine/asm.h>
 
+	.text
+
+NENTRY(bcmp)
 ENTRY(memcmp)
 	pushl	%edi
 	pushl	%esi

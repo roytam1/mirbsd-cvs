@@ -35,6 +35,8 @@
 #ifndef	_FTS_H_
 #define	_FTS_H_
 
+struct _fts_private;			/* implementation data */
+
 typedef struct {
 	struct _ftsent *fts_cur;	/* current node */
 	struct _ftsent *fts_child;	/* linked list of children */
@@ -58,6 +60,7 @@ typedef struct {
 #define	FTS_NAMEONLY	0x1000		/* (private) child names only */
 #define	FTS_STOP	0x2000		/* (private) unrecoverable error */
 	int fts_options;		/* fts_open options, global flags */
+	struct _fts_private *fts_priv;	/* Implementation data */
 } FTS;
 
 typedef struct _ftsent {

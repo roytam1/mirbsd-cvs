@@ -43,6 +43,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+__RCSID("$MirOS: src/lib/libc/gen/scandir.c,v 1.3 2005/09/22 20:40:00 tg Exp $");
+
 /*
  * The DIRSIZ macro is the minimum record length which will hold the directory
  * entry.  This requires the amount of space in struct dirent without the
@@ -71,10 +73,10 @@ scandir(const char *dirname, struct dirent ***namelist,
 
 	/*
 	 * estimate the array size by taking the size of the directory file
-	 * and dividing it by a multiple of the minimum size entry. 
+	 * and dividing it by a multiple of the minimum size entry.
 	 */
 	arraysz = (stb.st_size / 24);
-	if (arraysz > SIZE_T_MAX / sizeof(struct dirent *)) {
+	if ((size_t)arraysz > SIZE_T_MAX / sizeof(struct dirent *)) {
 		errno = ENOMEM;
 		goto fail;
 	}
@@ -90,9 +92,9 @@ scandir(const char *dirname, struct dirent ***namelist,
 		 * Check to make sure the array has space left and
 		 * realloc the maximum size.
 		 */
-		if (nitems >= arraysz) {
+		if (nitems >= (size_t)arraysz) {
 			struct dirent **nnames;
-			
+
 			if (fstat(dirp->dd_fd, &stb) < 0)
 				goto fail;
 
@@ -116,7 +118,7 @@ scandir(const char *dirname, struct dirent ***namelist,
 		p->d_type = d->d_type;
 		p->d_reclen = d->d_reclen;
 		p->d_namlen = d->d_namlen;
-		bcopy(d->d_name, p->d_name, p->d_namlen + 1);
+		memmove(p->d_name, d->d_name, p->d_namlen + 1);
 		names[nitems++] = p;
 	}
 	closedir(dirp);
@@ -139,6 +141,6 @@ fail:
 int
 alphasort(const void *d1, const void *d2)
 {
-	return(strcmp((*(struct dirent **)d1)->d_name,
-	    (*(struct dirent **)d2)->d_name));
+	return(strcmp((*(struct dirent *const *)d1)->d_name,
+	    (*(struct dirent *const *)d2)->d_name));
 }

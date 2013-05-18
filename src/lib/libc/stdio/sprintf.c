@@ -36,10 +36,9 @@
 #include <limits.h>
 #include "local.h"
 
-#if defined(APIWARN)
-__warn_references(sprintf,
-    "warning: sprintf() is often misused, please use snprintf()");
-#endif
+__RCSID("$MirOS: src/lib/libc/stdio/sprintf.c,v 1.4 2005/09/22 20:13:05 tg Exp $");
+
+__warn_references(sprintf, "sprintf() is often misused, consider using snprintf()");
 
 int
 sprintf(char *str, const char *fmt, ...)

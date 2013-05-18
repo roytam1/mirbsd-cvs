@@ -1,5 +1,5 @@
+#	$MirOS$
 #	$OpenBSD: README,v 1.4 2004/03/30 17:14:11 jmc Exp $
-
 #	@(#)README	8.1 (Berkeley) 6/6/93
 
 --------------------------------------------------------------------
@@ -54,3 +54,6 @@ In general this means they should be passed through "sort -df".
 Word lists that are not sorted in this way will not work properly
 with the spell and look commands since these perform binary searches
 on the word lists.
+
+You might want to look at the Makefile for src/share/dict to know how
+the default word list is generated.

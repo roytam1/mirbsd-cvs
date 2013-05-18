@@ -785,7 +785,7 @@ vr_attach(parent, self, aux)
 	if (bus_dmamem_map(sc->sc_dmat, &sc->sc_listseg, rseg,
 	    sizeof(struct vr_list_data), &kva, BUS_DMA_NOWAIT)) {
 		printf("%s: can't map dma buffers (%d bytes)\n",
-		    sc->sc_dev.dv_xname, sizeof(struct vr_list_data));
+		    sc->sc_dev.dv_xname, (int)sizeof(struct vr_list_data));
 		bus_dmamem_free(sc->sc_dmat, &sc->sc_listseg, rseg);
 		goto fail;
 	}

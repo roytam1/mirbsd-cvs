@@ -41,6 +41,7 @@
  * to be passed to an open() syscall through *optr.
  * Return 0 on error.
  */
+int __sflags(const char *, int *);
 int
 __sflags(const char *mode, int *optr)
 {

@@ -54,7 +54,8 @@ static int  mpool_write(MPOOL *, BKT *);
  */
 /* ARGSUSED */
 MPOOL *
-mpool_open(void *key, int fd, pgno_t pagesize, pgno_t maxcache)
+mpool_open(void *key __attribute__((unused)), int fd, pgno_t pagesize,
+    pgno_t maxcache)
 {
 	struct stat sb;
 	MPOOL *mp;
@@ -213,7 +214,7 @@ mpool_get(MPOOL *mp, pgno_t pgno,
 	++mp->pageread;
 #endif
 	off = mp->pagesize * pgno;
-	if ((nr = pread(mp->fd, bp->page, mp->pagesize, off)) != mp->pagesize) {
+	if ((off_t)(nr = pread(mp->fd, bp->page, mp->pagesize, off)) != mp->pagesize) {
 		switch (nr) {
 		case -1:
 			/* errno is set for us by pread(). */
@@ -258,7 +259,7 @@ mpool_get(MPOOL *mp, pgno_t pgno,
  */
 /* ARGSUSED */
 int
-mpool_put(MPOOL *mp, void *page, u_int flags)
+mpool_put(MPOOL *mp __attribute__((unused)), void *page, u_int flags)
 {
 	BKT *bp;
 
@@ -394,7 +395,7 @@ mpool_write(MPOOL *mp, BKT *bp)
 		(mp->pgout)(mp->pgcookie, bp->pgno, bp->page);
 
 	off = mp->pagesize * bp->pgno;
-	if (pwrite(mp->fd, bp->page, mp->pagesize, off) != mp->pagesize)
+	if ((off_t)pwrite(mp->fd, bp->page, mp->pagesize, off) != mp->pagesize)
 		return (RET_ERROR);
 
 	/*

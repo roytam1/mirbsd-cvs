@@ -23,7 +23,6 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 #include <sys/types.h>
 
 #include <pwd.h>
@@ -41,11 +40,10 @@
 #include "hostfile.h"
 #include "auth.h"
 #include "canohost.h"
-#ifdef GSSAPI
-#include "ssh-gss.h"
-#endif
 #include "monitor_wrap.h"
 #include "pathnames.h"
+
+__RCSID("$MirOS$");
 
 /* import */
 extern ServerOptions options;
@@ -99,7 +97,7 @@ userauth_hostbased(Authctxt *authctxt)
 		    "(received %d, expected %d)", key->type, pktype);
 		goto done;
 	}
-	service = datafellows & SSH_BUG_HBSERVICE ? "ssh-userauth" :
+	service = datafellows & SSH_BUG_HBSERVICE ? (char *)"ssh-userauth" :
 	    authctxt->service;
 	buffer_init(&b);
 	buffer_put_string(&b, session_id2, session_id2_len);

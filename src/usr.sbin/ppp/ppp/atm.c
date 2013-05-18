@@ -58,6 +58,8 @@
 #include "main.h"
 #include "atm.h"
 
+__RCSID("$MirOS$");
+
 /* String identifying PPPoA */
 #define PPPOA		"PPPoA"
 #define PPPOA_LEN	(sizeof(PPPOA) - 1)
@@ -214,7 +216,7 @@ atm_Create(struct physical *p)
   dev = NULL;
   if (p->fd < 0 && !strncasecmp(p->name.full, PPPOA, PPPOA_LEN)
       && p->name.full[PPPOA_LEN] == ':') {
-    char iface[25];
+    char iface[26];
     unsigned vci, vpi;
 
     if (sscanf(p->name.full + PPPOA_LEN + 1, "%25[A-Za-z0-9]:%u.%u", iface,

@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: usage.c,v 1.7 2005/02/10 22:24:52 matthieu Exp $	*/
 /*	$NetBSD: usage.c,v 1.1 2001/12/28 17:45:27 augustss Exp $	*/
 
@@ -247,7 +248,7 @@ hid_parse_usage_page(const char *name)
 	int k;
 
 	if (!pages)
-		return NULL;
+		return 0;
 
 	for (k = 0; k < npages; k++)
 		if (strcmp(pages[k].name, name) == 0)

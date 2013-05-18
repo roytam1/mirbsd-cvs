@@ -23,6 +23,8 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
+#include <sys/cdefs.h>
 #include <X11/X.h>
 #include <X11/Xlib.h>
 #include <X11/extensions/Xvlib.h>
@@ -32,6 +34,8 @@
 #include <err.h>
 #include <string.h>
 #include <ctype.h>
+
+__RCSID("$MirOS$");
 
 void
 usage()
@@ -66,7 +70,7 @@ findname(XvAttribute table[], int nattr, const char *name)
 	int i;
 
 	if (strncasecmp(name, "XV_", 3) == 0)
-		name +=3; 
+		name +=3;
 	for (i = 0; i < nattr; i++) {
 		if (strcasecmp(table[i].name+3, name) == 0)
 			return table+i;
@@ -108,7 +112,7 @@ setvar(Display *dpy, XvPortID id, int nflag, XvAttribute table[], int nattr,
 	Atom atom;
 
 	at = findname(table, nattr, name);
-	if (!at) 
+	if (!at)
 		return;
 	if (!(at->flags & XvSettable)) {
 		warnx("Can't set %s", name);
@@ -232,7 +236,7 @@ main(int argc, char *argv[])
 	if (!dpy)
 		errx(1, "Unable to open display %s", displayname(display));
 	if (Success != XvQueryExtension(dpy, &ver, &rev, &reqB, &eventB,
-	    &errorB)) 
+	    &errorB))
 	    	errx(1, "No X-Video extension on %s", displayname(display));
 
 	if (!nflag)

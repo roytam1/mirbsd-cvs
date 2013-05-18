@@ -1,6 +1,8 @@
+/**	$MirOS: src/libexec/ld.so/sparc/rtld_machine.c,v 1.3 2006/06/30 18:11:02 tg Exp $ */
 /*	$OpenBSD: rtld_machine.c,v 1.27 2006/10/28 16:06:05 drahn Exp $ */
 
 /*
+ * Copyright (c) 2006 Thorsten Glaser
  * Copyright (c) 1999 Dale Rahn
  * Copyright (c) 2001 Niklas Hallqvist
  * Copyright (c) 2001 Artur Grabowski
@@ -29,10 +31,8 @@
 
 #define _DYN_LOADER
 
-#include <sys/types.h>
-#include <sys/cdefs.h>
-#include <sys/mman.h>
 #include <sys/param.h>
+#include <sys/mman.h>
 #include <sys/sysctl.h>
 #include <machine/cpu.h>
 
@@ -43,6 +43,8 @@
 #include "syscall.h"
 #include "archdep.h"
 #include "resolve.h"
+
+__RCSID("$MirOS: src/libexec/ld.so/sparc/rtld_machine.c,v 1.3 2006/06/30 18:11:02 tg Exp $");
 
 /*
  * The following table holds for each relocation type:
@@ -242,7 +244,9 @@ _dl_md_reloc(elf_object_t *object, int rel, int relasz)
 				this = NULL;
 				ooff = _dl_find_symbol_bysym(object,
 				    ELF_R_SYM(relas->r_info), &this,
-				    SYM_SEARCH_ALL|SYM_WARNNOTFOUND|
+				    SYM_SEARCH_ALL | (
+				     (ELF_ST_BIND(sym->st_info) == STB_WEAK)
+				     ? 0 : SYM_WARNNOTFOUND ) |
 				    ((type == R_TYPE(JMP_SLOT)) ?
 					SYM_PLT : SYM_NOTPLT),
 				    sym, NULL);
@@ -396,7 +400,7 @@ _dl_md_reloc_got(elf_object_t *object, int lazy)
 		__asm __volatile("nop;nop;nop;nop;nop");
 	}
 
-	object->got_addr = NULL;
+	object->got_addr = 0;
 	object->got_size = 0;
 	this = NULL;
 	ooff = _dl_find_symbol("__got_start", &this,
@@ -428,15 +432,15 @@ _dl_md_reloc_got(elf_object_t *object, int lazy)
 	if (this != NULL)
 		object->plt_size = ooff + this->st_value  - plt_addr;
 
-	if (object->got_addr == NULL)
-		object->got_start = NULL;
+	if (object->got_addr == 0)
+		object->got_start = 0;
 	else {
 		object->got_start = ELF_TRUNC(object->got_addr, _dl_pagesz);
 		object->got_size += object->got_addr - object->got_start;
 		object->got_size = ELF_ROUND(object->got_size, _dl_pagesz);
 	}
-	if (plt_addr == NULL)
-		object->plt_start = NULL;
+	if (plt_addr == 0)
+		object->plt_start = 0;
 	else {
 		object->plt_start = ELF_TRUNC(plt_addr, _dl_pagesz);
 		object->plt_size += plt_addr - object->plt_start;

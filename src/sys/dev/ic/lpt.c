@@ -1,7 +1,11 @@
+/**	$MirOS: src/sys/dev/ic/lpt.c,v 1.2 2005/03/06 21:27:40 tg Exp $	*/
 /*	$OpenBSD: lpt.c,v 1.5 2002/03/14 01:26:54 millert Exp $ */
 /*	$NetBSD: lpt.c,v 1.42 1996/10/21 22:41:14 thorpej Exp $	*/
 
 /*
+ * Copyright (c) 2003, 2005 Thorsten Glaser <tg@MirBSD.org>
+ * Copyright (c) 1994 Matthias Pfaller.
+ * Copyright (c) 1994 Poul-Henning Kamp.
  * Copyright (c) 1993, 1994 Charles Hannum.
  * Copyright (c) 1990 William F. Jolitz, TeleMuse
  * All rights reserved.
@@ -69,6 +73,34 @@
 #include <machine/bus.h>
 #include <machine/intr.h>
 
+#if defined(INET) && defined(PLIP)
+#include "bpfilter.h"
+#include <sys/mbuf.h>
+#include <sys/socket.h>
+
+#include <net/if.h>
+#include <net/if_dl.h>
+#include <net/if_types.h>
+#ifdef	__NetBSD__
+#include <net/if_ether.h>
+#endif
+#include <net/netisr.h>
+
+#include <netinet/in.h>
+#include <netinet/in_systm.h>
+#include <netinet/in_var.h>
+#include <netinet/ip.h>
+#ifdef	__NetBSD__
+#include <netinet/if_inarp.h>
+#else
+#include <netinet/if_ether.h>
+#endif
+#if NBPFILTER > 0
+#include <sys/time.h>
+#include <net/bpf.h>
+#endif
+#endif
+
 #include <dev/ic/lptreg.h>
 #include <dev/ic/lptvar.h>
 
@@ -85,6 +117,52 @@
 #else
 #define LPRINTF(a)	if (lptdebug) printf a
 int lptdebug = 1;
+#endif
+
+#if defined(INET) && defined(PLIP)
+
+#define PLIPMTU		ETHERMTU
+
+#ifndef PLIPMXSPIN1		/* DELAY factor for the plip# interfaces */
+#define	PLIPMXSPIN1	50000	/* Spinning for remote intr to happen */
+#endif
+
+#ifndef PLIPMXSPIN2		/* DELAY factor for the plip# interfaces */
+#define	PLIPMXSPIN2	50000	/* Spinning for remote handshake to happen */
+#endif
+
+#ifndef PLIPMXERRS		/* Max errors before !RUNNING */
+#define	PLIPMXERRS	50
+#endif
+#ifndef PLIPMXRETRY
+#define PLIPMXRETRY	20	/* Max number of retransmits */
+#endif
+#ifndef PLIPRETRY
+#define PLIPRETRY	hz/50	/* Time between retransmits */
+#endif
+
+#define STABILIZE(iot, ioh, io) ({ \
+		int v1, v2; \
+		v2 = bus_space_read_1(iot, ioh, io); \
+		do { \
+			v1 = v2; \
+			v2 = bus_space_read_1(iot, ioh, io); \
+		} while (v1 != v2); \
+		v2; \
+	})
+#endif
+
+#if defined(INET) && defined(PLIP)
+/* Functions for the plip# interface */
+static void	plipattach(struct lpt_softc *);
+static void	plipinput(struct lpt_softc *);
+static int	plipioctl(struct ifnet *, u_long, caddr_t);
+static void	plipoutput(void *);
+static int	plipreceive(struct lpt_softc *, u_char *, int);
+static void	pliprxenable(void *);
+void		plipsoftint(void);
+static void	plipstart(struct ifnet *);
+static int	pliptransmit(struct lpt_softc *, u_char *, int);
 #endif
 
 /* XXX does not belong here */
@@ -142,6 +220,10 @@ lpt_attach_common(sc)
 
 	bus_space_write_1(sc->sc_iot, sc->sc_ioh, lpt_control, LPC_NINIT);
 
+#if defined(INET) && defined(PLIP)
+	plipattach(sc);
+#endif
+
 	timeout_set(&sc->sc_wakeup_tmo, lptwakeup, sc);
 }
 
@@ -182,6 +264,15 @@ lptopen(dev, flag, mode, p)
 
 	if (sc->sc_state)
 		return EBUSY;
+
+#if defined(INET) && defined(PLIP)
+#ifdef	__NetBSD__
+	if (sc->sc_ethercom.ec_if.if_flags & IFF_UP)
+#else
+	if (sc->sc_arpcom.ac_if.if_flags & IFF_UP)
+#endif
+	    return EBUSY;
+#endif
 
 	sc->sc_state = LPT_INIT;
 	LPRINTF(("%s: open: flags=0x%x\n", sc->sc_dev.dv_xname, flags));
@@ -359,7 +450,7 @@ lptpushbytes(sc)
 	return 0;
 }
 
-/* 
+/*
  * Copy a line from user space to a local buffer, then call putc to get the
  * chars moved to the output queue.
  */
@@ -406,6 +497,22 @@ lptintr(arg)
 	    (sc->sc_flags & LPT_NOINTR))
 		return 0;
 
+#if defined(INET) && defined(PLIP)
+#ifdef	__NetBSD__
+	if (sc->sc_ethercom.ec_if.if_flags & IFF_UP) {
+#else
+	if (sc->sc_arpcom.ac_if.if_flags & IFF_UP) {
+#endif
+		if ((sc->sc_control & LPC_IENABLE) == 0)
+			return 0;	/* dispose spurious interrupt */
+
+		bus_space_write_1(iot, ioh, lpt_control, sc->sc_control &= ~LPC_IENABLE);
+		sc->sc_pending |= PLIP_IPENDING;
+		/*softintr(sc->sc_ifsoftint);*/
+		schednetisr(NETISR_PLIP);
+		return 0;
+	}
+#endif
 	/* is printer online and ready for output */
 	if (NOT_READY() && NOT_READY_ERR())
 		return -1;
@@ -447,3 +554,426 @@ lptioctl(dev, cmd, data, flag, p)
 
 	return error;
 }
+
+#if defined(INET) && defined(PLIP)
+static void
+plipattach(struct lpt_softc *sc)
+{
+#ifdef	__NetBSD__
+	struct ifnet *ifp = &sc->sc_ethercom.ec_if;
+#else
+	struct ifnet *ifp = &sc->sc_arpcom.ac_if;
+#endif
+	u_int8_t myaddr[ETHER_ADDR_LEN];
+
+	sc->sc_ifbuf = NULL;
+	snprintf(ifp->if_xname, sizeof ifp->if_xname,
+	    "plip%d", sc->sc_dev.dv_unit);
+	bzero(myaddr, sizeof(myaddr));
+	ifp->if_softc = sc;
+	ifp->if_start = plipstart;
+	ifp->if_ioctl = plipioctl;
+	ifp->if_watchdog = 0;
+	ifp->if_flags = IFF_BROADCAST | IFF_SIMPLEX | IFF_NOTRAILERS;
+	bzero(&sc->sc_pliptimeout, sizeof(struct timeout));
+
+	if_attach(ifp);
+	ether_ifattach(ifp);
+	ifp->if_mtu = PLIPMTU;
+
+#if NBPFILTER > 0
+	bpfattach(&ifp->if_bpf, ifp, DLT_EN10MB, sizeof(struct ether_header));
+#endif
+	/*
+	 * We hope to get Charle's MI softint establish RSN - the
+	 * current hack involves patching icu.s and hardcoding
+	 * the softinterupts in a complete unrelated peace
+	 * of code....
+	sc->sc_ifsoftint = isa_intr_establish(SOFTINT, 0, ISA_IPL_NET,
+				plipsoftint, sc);
+	 */
+}
+
+/*
+ * Process an ioctl request.
+ */
+static int
+plipioctl(struct ifnet *ifp, u_long cmd, caddr_t data)
+{
+	struct proc *p = curproc;
+	struct lpt_softc *sc = (struct lpt_softc *) ifp->if_softc;
+	u_char control = sc->sc_control;
+	struct ifaddr *ifa = (struct ifaddr *)data;
+	struct ifreq *ifr = (struct ifreq *)data;
+	bus_space_tag_t iot = sc->sc_iot;
+	bus_space_handle_t ioh = sc->sc_ioh;
+	struct sockaddr_dl *sdl;
+	int error = 0;
+
+	switch (cmd) {
+	case SIOCSIFFLAGS:
+		if (((ifp->if_flags & IFF_UP) == 0) &&
+		    (ifp->if_flags & IFF_RUNNING)) {
+		        ifp->if_flags &= ~IFF_RUNNING;
+			control = LPC_SELECT | LPC_NINIT;
+			bus_space_write_1(iot, ioh, lpt_control, control);
+
+			if (sc->sc_ifbuf)
+				free(sc->sc_ifbuf, M_DEVBUF);
+			sc->sc_ifbuf = NULL;
+		}
+		if (((ifp->if_flags & IFF_UP)) &&
+		    ((ifp->if_flags & IFF_RUNNING) == 0)) {
+			if (sc->sc_state) {
+				error = EBUSY;
+				break;
+			}
+			if (sc->sc_ih == 0) {
+				error = EINVAL;
+				break;
+			}
+			if (!sc->sc_ifbuf)
+				sc->sc_ifbuf =
+					malloc(ifp->if_mtu + ifp->if_hdrlen,
+					       M_DEVBUF, M_WAITOK);
+		        ifp->if_flags |= IFF_RUNNING;
+			bus_space_write_1(iot, ioh, lpt_control, control & ~LPC_IENABLE);
+			bus_space_write_1(iot, ioh, lpt_data, 0);
+			bus_space_write_1(iot, ioh, lpt_control, control |= LPC_IENABLE);
+		}
+		break;
+
+	case SIOCSIFADDR:
+		sdl = ifp->if_sadl;
+		if (ifa->ifa_addr->sa_family == AF_INET) {
+			if (!sc->sc_ifbuf)
+				sc->sc_ifbuf =
+					malloc(PLIPMTU + ifp->if_hdrlen,
+					       M_DEVBUF, M_WAITOK);
+			LLADDR(sdl)[0] = 0xfc;
+			LLADDR(sdl)[1] = 0xfc;
+			bcopy((caddr_t)&IA_SIN(ifa)->sin_addr,
+			      (caddr_t)&LLADDR(sdl)[2], 4);
+			ifp->if_flags |= IFF_RUNNING | IFF_UP;
+			bus_space_write_1(iot, ioh, lpt_control, control & ~LPC_IENABLE);
+			bus_space_write_1(iot, ioh, lpt_data, 0);
+			bus_space_write_1(iot, ioh, lpt_control, control |= LPC_IENABLE);
+			arp_ifinit(&sc->sc_arpcom, ifa);
+		} else
+			error = EAFNOSUPPORT;
+		break;
+
+	case SIOCAIFADDR:
+	case SIOCDIFADDR:
+	case SIOCSIFDSTADDR:
+		if (ifa->ifa_addr->sa_family != AF_INET)
+			error = EAFNOSUPPORT;
+		break;
+
+	case SIOCSIFMTU:
+        	if ((error = suser(p, 0)))
+            		return(error);
+		if (ifp->if_mtu != ifr->ifr_metric) {
+		        ifp->if_mtu = ifr->ifr_metric;
+			if (sc->sc_ifbuf) {
+				free(sc->sc_ifbuf, M_DEVBUF);
+				sc->sc_ifbuf =
+					malloc(ifp->if_mtu + ifp->if_hdrlen,
+					       M_DEVBUF, M_WAITOK);
+			}
+		}
+		break;
+
+	default:
+		error = EINVAL;
+	}
+	sc->sc_control = control;
+	return (error);
+}
+
+void
+plipsoftint(void)
+{
+	/* while the MI softint framework isn't there, we check
+	   check all lpt devices */
+	struct device *dev;
+
+	for (dev = alldevs.tqh_first; dev; dev = dev->dv_list.tqe_next) {
+		if (dev->dv_cfdata->cf_driver == &lpt_cd) {
+			int pending;
+			struct lpt_softc *sc = (struct lpt_softc*)dev;
+
+			pending = sc->sc_pending;
+			while (sc->sc_pending & PLIP_IPENDING) {
+				pending |= sc->sc_pending;
+				sc->sc_pending = 0;
+				plipinput(sc);
+			}
+
+			if (pending & PLIP_OPENDING)
+				plipoutput(sc);
+		}
+	}
+}
+
+static int
+plipreceive(struct lpt_softc *sc, u_char *buf, int len)
+{
+	bus_space_tag_t iot = sc->sc_iot;
+	bus_space_handle_t ioh = sc->sc_ioh;
+	int i;
+	u_char cksum = 0, cl, ch;
+
+	while (len--) {
+		i = PLIPMXSPIN2;
+		while (((cl = STABILIZE(iot, ioh, lpt_status)) & LPS_NBSY) != 0)
+			if (i-- < 0) return -1;
+		cl = (cl >> 3) & 0x0f;
+		bus_space_write_1(iot, ioh, lpt_data, 0x11);
+		while (((ch = STABILIZE(iot, ioh, lpt_status)) & LPS_NBSY) == 0)
+			if (i-- < 0) return -1;
+		cl |= (ch << 1) & 0xf0;
+		bus_space_write_1(iot, ioh, lpt_data, 0x01);
+		cksum += (*buf++ = cl);
+	}
+	return(cksum);
+}
+
+static void
+pliprxenable(void *arg)
+{
+	struct lpt_softc *sc = arg;
+	bus_space_tag_t iot = sc->sc_iot;
+	bus_space_handle_t ioh = sc->sc_ioh;
+	bus_space_write_1(iot, ioh, lpt_control, sc->sc_control |= LPC_IENABLE);
+}
+
+static void
+plipinput(struct lpt_softc *sc)
+{
+#ifdef	__NetBSD__
+	struct ifnet *ifp = &sc->sc_ethercom.ec_if;
+#else
+	struct ifnet *ifp = &sc->sc_arpcom.ac_if;
+#endif
+	bus_space_tag_t iot = sc->sc_iot;
+	bus_space_handle_t ioh = sc->sc_ioh;
+	struct mbuf *m;
+	struct ether_header *eh;
+	u_char *p = sc->sc_ifbuf, minibuf[4];
+	int s, len, cksum;
+
+	if (((ifp->if_flags & IFF_LINK2) == 0) &&
+	    (!(STABILIZE(iot, ioh, lpt_status) & LPS_NACK))) {
+		bus_space_write_1(iot, ioh, lpt_control, sc->sc_control |= LPC_IENABLE);
+		ifp->if_collisions++;
+		return;
+	}
+
+	bus_space_write_1(iot, ioh, lpt_data, 0x01);
+	bus_space_write_1(iot, ioh, lpt_control, sc->sc_control &= ~LPC_IENABLE);
+
+	if (sc->sc_ifierrs)
+		timeout_del(&sc->sc_pliptimeout);
+
+	if (plipreceive(sc, minibuf, 2) < 0) goto err;
+	len = (minibuf[1] << 8) | minibuf[0];
+	if (len > (ifp->if_mtu + ifp->if_hdrlen)) {
+		log(LOG_NOTICE, "%s: packet > MTU\n", ifp->if_xname);
+		goto err;
+	}
+	if ((cksum = plipreceive(sc, p, len)) < 0) goto err;
+
+	if (plipreceive(sc, minibuf, 1) < 0) goto err;
+	if (cksum != minibuf[0]) {
+		log(LOG_NOTICE, "%s: checksum error\n", ifp->if_xname);
+		goto err;
+	}
+	bus_space_write_1(iot, ioh, lpt_data, 0x00);
+
+	s = splimp();
+	if ((m = m_devget(sc->sc_ifbuf, len, 0, ifp, NULL)) != NULL) {
+		/* We assume that the header fit entirely in one mbuf. */
+		eh = mtod(m, struct ether_header *);
+#if NBPFILTER > 0
+		/*
+		 * Check if there's a BPF listener on this interface.
+		 * If so, hand off the raw packet to bpf.
+		 */
+		if (ifp->if_bpf) {
+			bpf_mtap(ifp->if_bpf, m);
+		}
+#endif
+		/* We assume the header fit entirely in one mbuf. */
+		m_adj(m, sizeof(struct ether_header));
+		ether_input_mbuf(ifp, m);
+	}
+	splx(s);
+	sc->sc_ifierrs = 0;
+	ifp->if_ipackets++;
+	bus_space_write_1(iot, ioh, lpt_control, sc->sc_control |= LPC_IENABLE);
+	return;
+
+err:
+	bus_space_write_1(iot, ioh, lpt_data, 0x00);
+
+	if (sc->sc_ifierrs < PLIPMXERRS) {
+		if (sc->sc_ifierrs > 4 && (STABILIZE(iot, ioh, lpt_status) & LPS_NBSY)) {
+			/* Avoid interrupt nesting ... */
+			sc->sc_ifierrs = PLIPMXERRS - 1;
+		}
+		bus_space_write_1(iot, ioh, lpt_control, sc->sc_control |= LPC_IENABLE);
+	} else {
+		/* We are not able to send or receive anything for now,
+		 * so stop wasting our time and leave the interrupt
+		 * disabled.
+		 */
+		if (sc->sc_ifierrs == PLIPMXERRS)
+			log(LOG_NOTICE, "%s: rx hard error\n", ifp->if_xname);
+		/* But we will retry from time to time. */
+		timeout_set(&sc->sc_pliptimeout, pliprxenable, sc);
+		timeout_add(&sc->sc_pliptimeout, PLIPRETRY * 10);
+	}
+	ifp->if_ierrors++;
+	sc->sc_ifierrs++;
+	return;
+}
+
+static int
+pliptransmit(struct lpt_softc *sc, u_char *buf, int len)
+{
+	bus_space_tag_t iot = sc->sc_iot;
+	bus_space_handle_t ioh = sc->sc_ioh;
+	int i;
+	u_char cksum = 0, c;
+
+	while (len--) {
+		i = PLIPMXSPIN2;
+		cksum += (c = *buf++);
+		while ((STABILIZE(iot, ioh, lpt_status) & LPS_NBSY) == 0)
+			if (i-- < 0) return -1;
+		bus_space_write_1(iot, ioh, lpt_data, c & 0x0f);
+		bus_space_write_1(iot, ioh, lpt_data, (c & 0x0f) | 0x10);
+		c >>= 4;
+		while ((STABILIZE(iot, ioh, lpt_status) & LPS_NBSY) != 0)
+			if (i-- < 0) return -1;
+		bus_space_write_1(iot, ioh, lpt_data, c | 0x10);
+		bus_space_write_1(iot, ioh, lpt_data, c);
+	}
+	return(cksum);
+}
+
+/*
+ * Setup output on interface.
+ */
+static void
+plipstart(struct ifnet *ifp)
+{
+	struct lpt_softc *sc = (struct lpt_softc *) ifp->if_softc;
+	sc->sc_pending |= PLIP_OPENDING;
+	/*softintr(sc->sc_ifsoftint);*/
+	schednetisr(NETISR_PLIP);
+}
+
+static void
+plipoutput(void *arg)
+{
+	struct lpt_softc *sc = arg;
+#ifdef	__NetBSD__
+	struct ifnet *ifp = &sc->sc_ethercom.ec_if;
+#else
+	struct ifnet *ifp = &sc->sc_arpcom.ac_if;
+#endif
+	bus_space_tag_t iot = sc->sc_iot;
+	bus_space_handle_t ioh = sc->sc_ioh;
+	struct mbuf *m0, *m;
+	u_char minibuf[4], cksum;
+	int len, i, s;
+
+	if (ifp->if_flags & IFF_OACTIVE)
+		return;
+	ifp->if_flags |= IFF_OACTIVE;
+
+	if (sc->sc_ifoerrs)
+		timeout_del(&sc->sc_pliptimeout);
+
+	for (;;) {
+		s = splnet();
+		IF_DEQUEUE(&ifp->if_snd, m0);
+		splx(s);
+		if (!m0)
+			break;
+
+#if NBPFILTER > 0
+		if (ifp->if_bpf)
+			bpf_mtap(ifp->if_bpf, m0);
+#endif
+
+		len = m0->m_pkthdr.len;
+		minibuf[0] = 2;
+		minibuf[1] = len;
+		minibuf[2] = len >> 8;
+
+		/* Trigger remote interrupt */
+		i = PLIPMXSPIN1;
+		do {
+			if (sc->sc_pending & PLIP_IPENDING) {
+				bus_space_write_1(iot, ioh, lpt_data, 0x00);
+				sc->sc_pending = 0;
+				plipinput(sc);
+				i = PLIPMXSPIN1;
+			} else if (i-- < 0)
+				goto retry;
+			/* Retrigger remote interrupt */
+			bus_space_write_1(iot, ioh, lpt_data, 0x08);
+		} while ((STABILIZE(iot, ioh, lpt_status) & LPS_NERR) == 0);
+		bus_space_write_1(iot, ioh, lpt_control, sc->sc_control &= ~LPC_IENABLE);
+		if (pliptransmit(sc, minibuf + 1, minibuf[0]) < 0) goto retry;
+		for (cksum = 0, m = m0; m; m = m->m_next) {
+			i = pliptransmit(sc, mtod(m, u_char *), m->m_len);
+			if (i < 0) goto retry;
+			cksum += i;
+		}
+		if (pliptransmit(sc, &cksum, 1) < 0) goto retry;
+		i = PLIPMXSPIN2;
+		while ((STABILIZE(iot, ioh, lpt_status) & LPS_NBSY) == 0)
+			if (i-- < 0) goto retry;
+		sc->sc_pending = 0;
+		bus_space_write_1(iot, ioh, lpt_data, 0x00);
+
+		ifp->if_opackets++;
+		ifp->if_obytes += len + 4;
+		sc->sc_ifoerrs = 0;
+		m_freem(m0);
+		bus_space_write_1(iot, ioh, lpt_control, sc->sc_control |= LPC_IENABLE);
+	}
+	ifp->if_flags &= ~IFF_OACTIVE;
+	return;
+
+retry:
+	if (STABILIZE(iot, ioh, lpt_status) & LPS_NACK)
+		ifp->if_collisions++;
+	else
+		ifp->if_oerrors++;
+
+	ifp->if_flags &= ~IFF_OACTIVE;
+	bus_space_write_1(iot, ioh, lpt_data, 0x00);
+
+	if ((ifp->if_flags & (IFF_RUNNING | IFF_UP)) == (IFF_RUNNING | IFF_UP)
+	    && sc->sc_ifoerrs < PLIPMXRETRY) {
+		s = splnet();
+		IF_PREPEND(&ifp->if_snd, m0);
+		splx(s);
+		timeout_set(&sc->sc_pliptimeout, plipoutput, sc);
+		timeout_add(&sc->sc_pliptimeout, PLIPRETRY);
+	} else {
+		/* we are not able to send this... give up for now */
+		if (sc->sc_ifoerrs == PLIPMXRETRY) {
+			log(LOG_NOTICE, "%s: tx hard error\n", ifp->if_xname);
+		}
+		m_freem(m0);
+	}
+	bus_space_write_1(iot, ioh, lpt_control, sc->sc_control |= LPC_IENABLE);
+	sc->sc_ifoerrs++;
+}
+#endif	/* PLIP and INET */

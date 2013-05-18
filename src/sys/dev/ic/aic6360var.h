@@ -193,7 +193,7 @@ struct aic_softc {
 	do { if ((aic_debug & AIC_DOBREAK) != 0) Debugger(); } while (0)
 #define	AIC_ASSERT(x) \
 	do { \
-		if (!x) { \
+		if (!(x)) { \
 			printf("%s at line %d: assertion failed\n", \
 			    sc->sc_dev.dv_xname, __LINE__); \
 			Debugger(); \

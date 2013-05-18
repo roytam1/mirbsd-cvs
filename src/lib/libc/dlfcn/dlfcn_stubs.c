@@ -44,7 +44,8 @@ const char *	dlerror(void) __attribute__((weak));
 int	dladdr(const void *addr, void *info) __attribute__((weak));
 
 struct dl_phdr_info;
-int	 dl_iterate_phdr(int (*callback)(struct dl_phdr_info *, size_t, void *),	    void *date) __attribute__((weak));
+int	 dl_iterate_phdr(int (*callback)(struct dl_phdr_info *, size_t, void *),
+	    void *date) __attribute__((weak));
 
 #include <stdio.h>
 

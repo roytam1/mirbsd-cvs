@@ -1,3 +1,4 @@
+.\"	$MirOS$
 .\"   $OpenBSD: nfsd.8,v 1.14 2003/10/18 21:29:27 jmc Exp $
 .\"   $NetBSD: nfsd.8,v 1.7 1996/02/18 11:58:24 fvdl Exp $
 .\"
@@ -99,6 +100,12 @@ server specification; see
 .%T "Network File System Protocol Specification" ,
 RFC 1094 and
 .%T "NFS: Network File System Version 3 Protocol Specification" .
+On
+.Mx
+systems, this is always port 2049, or
+.Dv NFS_PORT
+(defined in
+.Aq Pa nfs/nfsproto.h ) .
 .Pp
 The
 .Nm

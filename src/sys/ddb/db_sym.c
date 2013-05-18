@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: db_sym.c,v 1.32 2006/03/13 06:23:20 jsg Exp $	*/
 /*	$NetBSD: db_sym.c,v 1.24 2000/08/11 22:50:47 tv Exp $	*/
 
@@ -148,7 +149,7 @@ ddb_init(void)
 		return;
 	}
 
-	if (xesym != NULL && xesym != xssym)
+	if (xesym != NULL && xesym > xssym)
 		for (symf = db_symformats; *symf != NULL; symf++) {
 			db_symformat = *symf;
 			if (X_db_sym_init((vaddr_t)xesym - (vaddr_t)xssym,

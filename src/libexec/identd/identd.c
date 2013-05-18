@@ -109,7 +109,11 @@ char *
 gethost6(struct sockaddr_in6 *addr)
 {
 	static char hbuf[2][NI_MAXHOST];
+#ifdef NI_WITHSCOPEID
+	const int niflags = NI_NUMERICHOST | NI_WITHSCOPEID;
+#else
 	const int niflags = NI_NUMERICHOST;
+#endif
 	static int bb = 0;
 	int error;
 

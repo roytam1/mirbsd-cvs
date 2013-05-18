@@ -37,6 +37,8 @@
 #include "progressmeter.h"
 #include "atomicio.h"
 
+__RCSID("$MirOS$");
+
 #define DEFAULT_WINSIZE 80
 #define MAX_WINSIZE 512
 #define PADDING 1		/* padding between the progress indicators */
@@ -225,7 +227,7 @@ refresh_progress_meter(void)
 
 /*ARGSUSED*/
 static void
-update_progress_meter(int ignore)
+update_progress_meter(int ignore __attribute__((unused)))
 {
 	int save_errno;
 
@@ -275,12 +277,12 @@ stop_progress_meter(void)
 	if (cur_pos != end_pos)
 		refresh_progress_meter();
 
-	atomicio(vwrite, STDOUT_FILENO, "\n", 1);
+	atomicio(vwrite, STDOUT_FILENO, (char *)"\n", 1);
 }
 
 /*ARGSUSED*/
 static void
-sig_winch(int sig)
+sig_winch(int sig __attribute__((unused)))
 {
 	win_resized = 1;
 }

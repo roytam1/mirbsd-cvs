@@ -1,3 +1,4 @@
+/**	$MirOS: src/sys/netinet/tcp_var.h,v 1.4 2005/07/01 14:16:08 tg Exp $ */
 /*	$OpenBSD: tcp_var.h,v 1.68 2004/11/25 15:32:08 markus Exp $	*/
 /*	$NetBSD: tcp_var.h,v 1.17 1996/02/13 23:44:24 christos Exp $	*/
 
@@ -561,6 +562,9 @@ extern	int tcp_syn_cache_size;
 extern	struct syn_cache_head tcp_syn_cache[];
 extern	u_long syn_cache_count;
 
+extern	struct pool tcpqe_pool;
+extern	int tcp_reass_limit;	/* max entries for tcp reass queues */
+
 int	 tcp_attach(struct socket *);
 void	 tcp_canceltimers(struct tcpcb *);
 struct tcpcb *
@@ -601,7 +605,7 @@ void	 tcp_pulloutofband(struct socket *, u_int, struct mbuf *, int);
 void	 tcp_quench(struct inpcb *, int);
 int	 tcp_reass(struct tcpcb *, struct tcphdr *, struct mbuf *, int *);
 void	 tcp_rscale(struct tcpcb *, u_long);
-void	 tcp_respond(struct tcpcb *, caddr_t, struct mbuf *, tcp_seq,
+void	 tcp_respond(struct tcpcb *, caddr_t, struct tcphdr *, tcp_seq,
 		tcp_seq, int);
 void	 tcp_setpersist(struct tcpcb *);
 void	 tcp_slowtimo(void);

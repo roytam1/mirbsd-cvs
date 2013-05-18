@@ -1,3 +1,4 @@
+/**	$MirOS: src/usr.sbin/mtree/create.c,v 1.2 2005/04/13 20:30:16 tg Exp $ */
 /*	$NetBSD: create.c,v 1.11 1996/09/05 09:24:19 mycroft Exp $	*/
 /*	$OpenBSD: create.c,v 1.24 2004/11/21 19:36:04 otto Exp $	*/
 
@@ -30,14 +31,6 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-#if 0
-static const char sccsid[] = "@(#)create.c	8.1 (Berkeley) 6/6/93";
-#else
-static const char rcsid[] = "$OpenBSD: create.c,v 1.24 2004/11/21 19:36:04 otto Exp $";
-#endif
-#endif /* not lint */
-
 #include <sys/param.h>
 #include <sys/stat.h>
 #include <time.h>
@@ -56,6 +49,9 @@ static const char rcsid[] = "$OpenBSD: create.c,v 1.24 2004/11/21 19:36:04 otto 
 #include <rmd160.h>
 #include "mtree.h"
 #include "extern.h"
+
+__SCCSID("@(#)create.c	8.1 (Berkeley) 6/6/93");
+__RCSID("$MirOS: src/usr.sbin/mtree/create.c,v 1.2 2005/04/13 20:30:16 tg Exp $");
 
 #define	INDENTNAMELEN	15
 #define	MAXLINELEN	80
@@ -122,7 +118,7 @@ cwalk(void)
 			if (!dflag)
 				statf(indent, p);
 			break;
-			
+
 		}
 	}
 	(void)fts_close(t);
@@ -192,9 +188,14 @@ statf(int indent, FTSENT *p)
 	if (keys & F_SIZE && S_ISREG(p->fts_statp->st_mode))
 		output(indent, &offset, "size=%qd", p->fts_statp->st_size);
 	if (keys & F_TIME)
+#ifdef __INTERIX
+		output(indent, &offset, "time=%ld.0",
+		    p->fts_statp->st_mtime);
+#else
 		output(indent, &offset, "time=%ld.%ld",
 		    p->fts_statp->st_mtimespec.tv_sec,
 		    p->fts_statp->st_mtimespec.tv_nsec);
+#endif
 	if (keys & F_CKSUM && S_ISREG(p->fts_statp->st_mode)) {
 		if ((fd = open(p->fts_accpath, O_RDONLY, 0)) < 0 ||
 		    crc(fd, &val, &len))
@@ -240,6 +241,7 @@ statf(int indent, FTSENT *p)
 		output(indent, &offset, "link=%s", escaped_name);
 		free(escaped_name);
 	}
+#ifndef __INTERIX
 	if (keys & F_FLAGS && !S_ISLNK(p->fts_statp->st_mode)) {
 		char *file_flags;
 
@@ -252,6 +254,7 @@ statf(int indent, FTSENT *p)
 			output(indent, &offset, "flags=none");
 		free(file_flags);
 	}
+#endif
 	(void)putchar('\n');
 }
 
@@ -329,7 +332,7 @@ statd(FTS *t, FTSENT *parent, uid_t *puid, gid_t *pgid, mode_t *pmode)
 				error("could not get uname for uid=%u", saveuid);
 		}
 		if (keys & F_UID)
-			(void)printf(" uid=%u", saveuid);
+			(void)printf(" uid=%u", (unsigned)saveuid);
 		if (keys & F_GNAME) {
 			if ((gr = getgrgid(savegid)) != NULL)
 				(void)printf(" gname=%s", gr->gr_name);
@@ -337,9 +340,9 @@ statd(FTS *t, FTSENT *parent, uid_t *puid, gid_t *pgid, mode_t *pmode)
 				error("could not get gname for gid=%u", savegid);
 		}
 		if (keys & F_GID)
-			(void)printf(" gid=%u", savegid);
+			(void)printf(" gid=%u", (unsigned)savegid);
 		if (keys & F_MODE)
-			(void)printf(" mode=%#o", savemode);
+			(void)printf(" mode=%#o", (unsigned)savemode);
 		if (keys & F_NLINK)
 			(void)printf(" nlink=1");
 		(void)printf("\n");

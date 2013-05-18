@@ -63,9 +63,17 @@
 
 #include "log.h"
 
+__RCSID("$MirOS$\t"
+    _LOG_H_);
+
 static void _warn_helper(int severity, int log_errno, const char *fmt,
-                         va_list ap);
+                         va_list ap)
+    __attribute__((format (printf, 3, 0)));
 static void event_log(int severity, const char *msg);
+static int event_vsnprintf(char *, size_t, const char *, va_list)
+    __attribute__((format (printf, 3, 0)));
+static int event_snprintf(char *, size_t, const char *, ...)
+    __attribute__((format (printf, 3, 4)));
 
 static int
 event_vsnprintf(char *str, size_t size, const char *format, va_list args)

@@ -18,10 +18,29 @@ SRCS+=	asprintf.c clrerr.c fclose.c fdopen.c feof.c ferror.c fflush.c fgetc.c \
 	fgetwc.c fgetws.c fputwc.c fputws.c fwide.c getwc.c getwchar.c \
 	putwc.c putwchar.c ungetwc.c
 
+SRCS+=	getline.c
+
+.ifdef __CRAZY
+CFLAGS_findfp.o+= -Wno-error
+CFLAGS_fputs.o+= -Wno-cast-qual
+CFLAGS_funopen.o+= -Wno-cast-qual
+CFLAGS_fwrite.o+= -Wno-cast-qual
+CFLAGS_perror.o+= -Wno-cast-qual
+CFLAGS_puts.o+= -Wno-cast-qual
+CFLAGS_sscanf.o+= -Wno-cast-qual
+CFLAGS_tempnam.o+= -Wno-cast-qual
+CFLAGS_vfprintf.o+= -Wno-error
+CFLAGS_vfscanf.o+= -Wno-error
+CFLAGS___svfscanf.o+= -Wno-error
+CFLAGS_vsscanf.o+= -Wno-cast-qual
+.endif
+
 MAN+=	fclose.3 ferror.3 fflush.3 fgetln.3 fgets.3 fopen.3 fputs.3 \
 	fread.3 fseek.3 funopen.3 getc.3 mktemp.3 perror.3 printf.3 putc.3 \
 	remove.3 scanf.3 setbuf.3 stdio.3 tmpnam.3 ungetc.3 \
 	fgetws.3 fputws.3 fwide.3 getwc.3 putwc.3 ungetwc.3
+
+MAN+=	getline.3
 
 MLINKS+=ferror.3 clearerr.3 ferror.3 feof.3 ferror.3 fileno.3
 MLINKS+=fflush.3 fpurge.3

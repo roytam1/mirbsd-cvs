@@ -1,3 +1,4 @@
+/**	$MirOS: src/lib/libkvm/kvm.c,v 1.3 2005/10/21 11:02:47 tg Exp $ */
 /*	$OpenBSD: kvm.c,v 1.42 2004/09/15 19:31:31 miod Exp $ */
 /*	$NetBSD: kvm.c,v 1.43 1996/05/05 04:31:59 gwr Exp $	*/
 
@@ -34,14 +35,6 @@
  * SUCH DAMAGE.
  */
 
-#if defined(LIBC_SCCS) && !defined(lint)
-#if 0
-static char sccsid[] = "@(#)kvm.c	8.2 (Berkeley) 2/13/94";
-#else
-static char *rcsid = "$OpenBSD: kvm.c,v 1.42 2004/09/15 19:31:31 miod Exp $";
-#endif
-#endif /* LIBC_SCCS and not lint */
-
 #include <sys/param.h>
 #include <sys/user.h>
 #include <sys/proc.h>
@@ -66,10 +59,15 @@ static char *rcsid = "$OpenBSD: kvm.c,v 1.42 2004/09/15 19:31:31 miod Exp $";
 #include <unistd.h>
 #include <kvm.h>
 #include <stdarg.h>
+#include <zlib.h>
 
 #include "kvm_private.h"
 
+__SCCSID("@(#)kvm.c	8.2 (Berkeley) 2/13/94");
+__RCSID("$MirOS: src/lib/libkvm/kvm.c,v 1.3 2005/10/21 11:02:47 tg Exp $");
+
 extern int __fdnlist(int, struct nlist *);
+extern int __fnlist(FILE *, struct nlist *);
 
 static int	kvm_dbopen(kvm_t *, const char *);
 static int	_kvm_get_header(kvm_t *);
@@ -183,6 +181,7 @@ _kvm_open(kvm_t *kd, const char *uf, const char *mf, const char *sf,
 	kd->vmfd = -1;
 	kd->swfd = -1;
 	kd->nlfd = -1;
+	kd->nl_f = NULL;
 	kd->alive = 0;
 	kd->procbase = 0;
 	kd->procbase2 = 0;
@@ -287,6 +286,15 @@ _kvm_open(kvm_t *kd, const char *uf, const char *mf, const char *sf,
 				goto failed;
 		}
 	}
+
+	/* check for gzip'd kernel */
+	if (kd->nlfd >= 0) {
+		unsigned char magic[2];
+		pread(kd->nlfd, magic, 2, lseek(kd->nlfd, 0, SEEK_CUR));
+		if (magic[0] == 0x1f && magic[1] == 0x8b)
+			kd->nl_f = gzfdopen(kd->nlfd, "r");
+	}
+
 	if (kvm_setfd(kd) == 0)
 		return (kd);
 	else
@@ -628,8 +636,12 @@ kvm_close(kvm_t *kd)
 	if (kd->vmfd >= 0)
 		error |= close(kd->vmfd);
 	kd->alive = 0;
-	if (kd->nlfd >= 0)
-		error |= close(kd->nlfd);
+	if (kd->nlfd >= 0) {
+		if (kd->nl_f == NULL)
+			error |= close(kd->nlfd);
+		else
+			error |= fclose(kd->nl_f);
+	}
 	if (kd->swfd >= 0)
 		error |= close(kd->swfd);
 	if (kd->db != 0)
@@ -707,7 +719,7 @@ kvm_dbopen(kvm_t *kd, const char *uf)
 	if (rec.data == 0 || rec.size > sizeof(dbversion))
 		goto close;
 
-	bcopy(rec.data, dbversion, rec.size);
+	memmove(dbversion, rec.data, rec.size);
 	dbversionlen = rec.size;
 	/*
 	 * Read version string from kernel memory.
@@ -720,7 +732,7 @@ kvm_dbopen(kvm_t *kd, const char *uf)
 		goto close;
 	if (rec.data == 0 || rec.size != sizeof(struct nlist))
 		goto close;
-	bcopy((char *)rec.data, (char *)&nitem, sizeof(nitem));
+	memmove((char *)&nitem, (char *)rec.data, sizeof(nitem));
 	if (kvm_read(kd, (u_long)nitem.n_value, kversion, dbversionlen) !=
 	    dbversionlen)
 		goto close;
@@ -728,7 +740,7 @@ kvm_dbopen(kvm_t *kd, const char *uf)
 	 * If they match, we win - otherwise clear out kd->db so
 	 * we revert to slow nlist().
 	 */
-	if (bcmp(dbversion, kversion, dbversionlen) == 0)
+	if (memcmp(dbversion, kversion, dbversionlen) == 0)
 		return (0);
 close:
 	(void)(kd->db->close)(kd->db);
@@ -748,7 +760,10 @@ kvm_nlist(kvm_t *kd, struct nlist *nl)
 	 * slow library call.
 	 */
 	if (kd->db == 0) {
-		rv = __fdnlist(kd->nlfd, nl);
+		if (kd->nl_f == NULL)
+			rv = __fdnlist(kd->nlfd, nl);
+		else
+			rv = __fnlist(kd->nl_f, nl);
 		if (rv == -1)
 			_kvm_err(kd, 0, "bad namelist");
 		return (rv);
@@ -784,10 +799,12 @@ kvm_nlist(kvm_t *kd, struct nlist *nl)
 		/*
 		 * Avoid alignment issues.
 		 */
-		bcopy((char *)&((struct nlist *)rec.data)->n_type,
-		    (char *)&p->n_type, sizeof(p->n_type));
-		bcopy((char *)&((struct nlist *)rec.data)->n_value,
-		    (char *)&p->n_value, sizeof(p->n_value));
+		memmove((char *)&p->n_type,
+		    (char *)&((struct nlist *)rec.data)->n_type,
+		    sizeof(p->n_type));
+		memmove((char *)&p->n_value,
+		    (char *)&((struct nlist *)rec.data)->n_value,
+		    sizeof(p->n_value));
 	}
 	/*
 	 * Return the number of entries that weren't found.

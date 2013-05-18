@@ -1,3 +1,4 @@
+/**	$MirOS: src/libexec/ld.so/loader.c,v 1.7 2006/08/30 04:28:24 tg Exp $ */
 /*	$OpenBSD: loader.c,v 1.107 2006/11/15 19:14:21 deraadt Exp $ */
 
 /*
@@ -28,10 +29,9 @@
 
 #define	_DYN_LOADER
 
-#include <sys/types.h>
+#include <sys/param.h>
 #include <sys/mman.h>
 #include <sys/exec.h>
-#include <sys/param.h>
 #include <sys/sysctl.h>
 #include <nlist.h>
 #include <string.h>
@@ -44,6 +44,8 @@
 #include "sod.h"
 #include "stdlib.h"
 #include "dl_prebind.h"
+
+__RCSID("$MirOS: src/libexec/ld.so/loader.c,v 1.7 2006/08/30 04:28:24 tg Exp $");
 
 /*
  * Local decls.
@@ -63,7 +65,7 @@ int  _dl_pagesz;
 char *_dl_libpath;
 char *_dl_preload;
 char *_dl_bindnow;
-char *_dl_traceld;
+bool _dl_traceld;
 char *_dl_debug;
 char *_dl_showmap;
 char *_dl_norandom;
@@ -204,7 +206,7 @@ _dl_setup_env(char **envp)
 	_dl_libpath = _dl_getenv("LD_LIBRARY_PATH", envp);
 	_dl_preload = _dl_getenv("LD_PRELOAD", envp);
 	_dl_bindnow = _dl_getenv("LD_BIND_NOW", envp);
-	_dl_traceld = _dl_getenv("LD_TRACE_LOADED_OBJECTS", envp);
+	_dl_traceld = _dl_getenv("LD_TRACE_LOADED_OBJECTS", envp) != NULL;
 	_dl_debug = _dl_getenv("LD_DEBUG", envp);
 	_dl_norandom = _dl_getenv("LD_NORANDOM", envp);
 	_dl_noprebind = _dl_getenv("LD_NOPREBIND", envp);
@@ -474,9 +476,7 @@ _dl_boot(const char **argv, char **envp, const long loff, long *dl_data)
 	 */
 
 	_dl_prebind_pre_resolve();
-	failed = 0;
-	if (_dl_traceld == NULL)
-		failed = _dl_rtld(_dl_objects);
+	failed = _dl_traceld ? 0 : _dl_rtld(_dl_objects);
 
 	_dl_prebind_post_resolve();
 
@@ -591,7 +591,7 @@ _dl_boot_bind(const long sp, long *dl_data, Elf_Dyn *dynamicp)
 	argv = (char **)stack;
 	envp = &argv[argc + 1];
 	stack = (long *)envp;
-	while (*stack++ != NULL)
+	while (*stack++ != 0)
 		;
 
 	/*

@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: kern_ipc_23.c,v 1.5 2004/07/15 11:25:59 millert Exp $	*/
 
 /*
@@ -27,6 +28,8 @@
 #include <sys/mount.h>
 #include <sys/syscallargs.h>
 
+#if defined(COMPAT_OPENBSD)
+
 /*
  * Convert between new and old struct {msq,sem,shm}id_ds (both ways)
  */
@@ -39,7 +42,7 @@
 	(to)->type##_perm.mode = (from)->type##_perm.mode & 0xffffU;	\
 	(to)->type##_perm.seq = (from)->type##_perm.seq;		\
 	(to)->type##_perm.key = (from)->type##_perm.key;		\
-	bcopy((caddr_t)&(from)->base, (caddr_t)&(to)->base,		\
+	memmove((caddr_t)&(to)->base, (caddr_t)&(from)->base,		\
 	    sizeof(*(to)) - ((caddr_t)&(to)->base - (caddr_t)to));	\
 } while (0)
 #endif /* SYSVMSG || SYSVSEM || SYSVSHM */
@@ -208,3 +211,4 @@ compat_23_sys_shmctl(struct proc *p, void *v, register_t *retval)
 	    (caddr_t)SCARG(uap, buf), shmid_copyin, shmid_copyout));
 }
 #endif /* SYSVSHM */
+#endif /* def COMPAT_OPENBSD */

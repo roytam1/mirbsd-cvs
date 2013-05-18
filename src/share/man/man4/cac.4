@@ -10,7 +10,6 @@
 .Nd Compaq Smart ARRAY RAID controllers
 .Sh SYNOPSIS
 .Cd "cac* at pci? dev ? function ?"
-.Cd "cac* at eisa? slot ?"
 .Cd "scsibus* at cac?"
 .Sh DESCRIPTION
 The
@@ -39,7 +38,6 @@ Although the controllers are actual RAID controllers the driver makes them
 look just like SCSI controllers.
 All RAID configuration is done through the controllers' BIOSes.
 .Sh SEE ALSO
-.Xr eisa 4 ,
 .Xr intro 4 ,
 .Xr pci 4 ,
 .Xr scsi 4 ,

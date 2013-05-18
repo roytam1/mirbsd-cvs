@@ -1,6 +1,31 @@
+/**	$MirOS$ */
 /*	$OpenBSD: bus.h,v 1.36 2004/05/04 17:06:33 grange Exp $	*/
 /*	$NetBSD: bus.h,v 1.6 1996/11/10 03:19:25 thorpej Exp $	*/
 
+/*
+ * Copyright (c) 2003, Miodrag Vallat.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT,
+ * INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+ * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+ * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
 /*-
  * Copyright (c) 1996, 1997 The NetBSD Foundation, Inc.
  * All rights reserved.
@@ -112,6 +137,9 @@ int	bus_space_alloc(bus_space_tag_t t, bus_addr_t rstart,
 	    bus_space_handle_t *bshp);
 void	bus_space_free(bus_space_tag_t t, bus_space_handle_t bsh,
 	    bus_size_t size);
+
+static void bus_space_barrier(bus_space_tag_t, bus_space_handle_t,
+    bus_addr_t, bus_size_t, int);
 
 /*
  *	u_intN_t bus_space_read_N(bus_space_tag_t tag,
@@ -724,13 +752,18 @@ void	bus_space_free(bus_space_tag_t t, bus_space_handle_t bsh,
  * Note: the i386 does not currently require barriers, but we must
  * provide the flags to MI code.
  */
-#define	bus_space_barrier(t, h, o, l, f)	\
-	((void)((void)(t), (void)(h), (void)(o), (void)(l), (void)(f)))
 #define	BUS_SPACE_BARRIER_READ	0x01		/* force read barrier */
 #define	BUS_SPACE_BARRIER_WRITE	0x02		/* force write barrier */
 /* Compatibility defines */
 #define	BUS_BARRIER_READ	BUS_SPACE_BARRIER_READ
 #define	BUS_BARRIER_WRITE	BUS_SPACE_BARRIER_WRITE
+
+static __inline__ void
+bus_space_barrier(bus_space_tag_t tag, bus_space_handle_t handle,
+    bus_addr_t offset, bus_size_t size, int flags)
+{
+	/* nothing, but can't be a void macro, thanks GCC */
+}
 
 /*
  * Flags used in various bus DMA methods.

@@ -1,17 +1,11 @@
-#	$Sendmail: Makefile,v 8.16 2006/01/05 22:03:31 ca Exp $
+# $MirOS$
+# @(#)Makefile	8.2 (Berkeley) 2/28/1994
 
 DIR=	smm/08.sendmailop
 SRCS=	op.me
 MACROS=	-me
 
-all: op.ps
-
-op.ps: ${SRCS}
-	rm -f ${.TARGET}
-	${PIC} ${SRCS} | ${EQN} | ${ROFF} > ${.TARGET}
-
-paper.txt: ${SRCS}
-	rm -f ${.TARGET}
-	${PIC} ${SRCS} | ${EQN} -Tascii | ${ROFF} -Tascii > ${.TARGET}
+paper.ps: ${SRCS}
+	${PIC} ${SRCS} | ${EQN} | ${ROFF} >${.TARGET}
 
 .include <bsd.doc.mk>

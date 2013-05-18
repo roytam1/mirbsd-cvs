@@ -31,10 +31,9 @@
 #include "channels.h"
 #include "session.h"
 #include "uidswap.h"
-#ifdef GSSAPI
-#include "ssh-gss.h"
-#endif
 #include "monitor_wrap.h"
+
+__RCSID("$MirOS: src/usr.bin/ssh/auth1.c,v 1.7 2006/09/20 21:40:56 tg Exp $");
 
 /* import */
 extern ServerOptions options;
@@ -47,7 +46,7 @@ static int auth1_process_tis_response(Authctxt *, char *, size_t);
 
 struct AuthMethod1 {
 	int type;
-	char *name;
+	const char *name;
 	int *enabled;
 	int (*method)(Authctxt *, char *, size_t);
 };
@@ -90,7 +89,7 @@ static const struct AuthMethod1
 	return (NULL);
 }
 
-static char *
+static const char *
 get_authname(int type)
 {
 	const struct AuthMethod1 *a;
@@ -239,10 +238,7 @@ do_authloop(Authctxt *authctxt)
 
 	/* If the user has no password, accept authentication immediately. */
 	if (options.password_authentication &&
-#ifdef KRB5
-	    (!options.kerberos_authentication || options.kerberos_or_local_passwd) &&
-#endif
-	    PRIVSEP(auth_password(authctxt, ""))) {
+	    PRIVSEP(auth_password(authctxt, (char *)""))) {
 		auth_log(authctxt, 1, "without authentication", "");
 		return;
 	}
@@ -275,17 +271,19 @@ do_authloop(Authctxt *authctxt)
 		if (authenticated == -1)
 			continue; /* "postponed" */
 
+#ifdef BSD_AUTH
 		if (authctxt->as) {
 			auth_close(authctxt->as);
 			authctxt->as = NULL;
 		}
+#endif
 		if (!authctxt->valid && authenticated)
 			fatal("INTERNAL ERROR: authenticated invalid user %s",
 			    authctxt->user);
 
 		/* Special handling for root */
 		if (authenticated && authctxt->pw->pw_uid == 0 &&
-		    !auth_root_allowed(meth->name))
+		    !auth_root_allowed((char *)meth->name))
 			authenticated = 0;
 
  skip:

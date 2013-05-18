@@ -364,7 +364,7 @@ rd_field(struct field *f, char *val, int merge)
 			}
 		}
 		kbmap.maplen = newkbmap.maplen;
-		bcopy(newkbmap.map, kbmap.map,
+		memmove(kbmap.map, newkbmap.map,
 		      kbmap.maplen*sizeof(struct wscons_keymap));
 		break;
 	default:

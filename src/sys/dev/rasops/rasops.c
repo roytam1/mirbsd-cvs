@@ -491,6 +491,8 @@ rasops_alloc_cattr(cookie, fg, bg, flg, attr)
 		swap = fg;
 		fg = bg;
 		bg = swap;
+		if ((flg & WSATTR_WSCOLORS) == 0)
+			flg |= 8;
 	}
 
 	if ((flg & WSATTR_HILIT) != 0)
@@ -517,7 +519,7 @@ rasops_alloc_mattr(cookie, fg, bg, flg, attr)
 	int fg, bg, flg;
 	long *attr;
 {
-	int swap;
+	int swap = 0;
 
 	if ((flg & (WSATTR_BLINK | WSATTR_HILIT | WSATTR_WSCOLORS)) != 0)
 		return (EINVAL);
@@ -529,9 +531,11 @@ rasops_alloc_mattr(cookie, fg, bg, flg, attr)
 		swap = fg;
 		fg = bg;
 		bg = swap;
+		swap = 8;
 	}
 
-	*attr = (bg << 16) | (fg << 24) | ((flg & WSATTR_UNDERLINE) ? 7 : 6);
+	swap |= (flg & WSATTR_UNDERLINE) ? 7 : 6;
+	*attr = (bg << 16) | (fg << 24) | swap;
 	return (0);
 }
 
@@ -827,15 +831,17 @@ rasops_init_devcmap(ri)
  * Unpack a rasops attribute
  */
 void
-rasops_unpack_attr(cookie, attr, fg, bg, underline)
+rasops_unpack_attr(cookie, attr, fg, bg, flags)
 	void *cookie;
 	long attr;
-	int *fg, *bg, *underline;
+	int *fg, *bg, *flags;
 {
 	*fg = ((u_int)attr >> 24) & 0xf;
 	*bg = ((u_int)attr >> 16) & 0xf;
-	if (underline != NULL)
-		*underline = (u_int)attr & 1;
+	if (flags != NULL)
+		*flags = (((u_int)attr & 1) ? WSATTR_UNDERLINE : 0) |
+		    (((u_int)attr & 8) ? WSATTR_REVERSE : 0) |
+		    (*fg & 8 ? WSATTR_HILIT : 0);
 }
 
 /*

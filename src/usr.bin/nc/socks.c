@@ -1,3 +1,4 @@
+/**	$MirOS: src/usr.bin/nc/socks.c,v 1.7 2006/09/21 03:46:54 tg Exp $ */
 /*	$OpenBSD: socks.c,v 1.15 2005/05/24 20:13:28 avsm Exp $	*/
 
 /*
@@ -38,6 +39,8 @@
 #include <string.h>
 #include <unistd.h>
 #include "atomicio.h"
+
+__RCSID("$MirOS: src/usr.bin/nc/socks.c,v 1.7 2006/09/21 03:46:54 tg Exp $");
 
 #define SOCKS_PORT	"1080"
 #define HTTP_PROXY_PORT	"3128"
@@ -147,11 +150,11 @@ socks_connect(const char *host, const char *port,
 		buf[2] = SOCKS_NOAUTH;
 		cnt = atomicio(vwrite, proxyfd, buf, 3);
 		if (cnt != 3)
-			err(1, "write failed (%d/3)", cnt);
+			err(1, "write failed (%zu/3)", cnt);
 
 		cnt = atomicio(read, proxyfd, buf, 2);
 		if (cnt != 2)
-			err(1, "read failed (%d/3)", cnt);
+			err(1, "read failed (%zu/3)", cnt);
 
 		if (buf[1] == SOCKS_NOMETHOD)
 			errx(1, "authentication method negotiation failed");
@@ -200,13 +203,13 @@ socks_connect(const char *host, const char *port,
 
 		cnt = atomicio(vwrite, proxyfd, buf, wlen);
 		if (cnt != wlen)
-			err(1, "write failed (%d/%d)", cnt, wlen);
+			err(1, "write failed (%zu/%zu)", cnt, wlen);
 
 		cnt = atomicio(read, proxyfd, buf, 10);
 		if (cnt != 10)
-			err(1, "read failed (%d/10)", cnt);
+			err(1, "read failed (%zu/10)", cnt);
 		if (buf[1] != 0)
-			errx(1, "connection failed, SOCKS error %d", buf[1]);
+			errx(1, "connection failed, SOCKS error %u", buf[1]);
 	} else if (socksv == 4) {
 		/* This will exit on lookup failure */
 		decode_addrport(host, port, (struct sockaddr *)&addr,
@@ -222,13 +225,13 @@ socks_connect(const char *host, const char *port,
 
 		cnt = atomicio(vwrite, proxyfd, buf, wlen);
 		if (cnt != wlen)
-			err(1, "write failed (%d/%d)", cnt, wlen);
+			err(1, "write failed (%zu/%zu)", cnt, wlen);
 
 		cnt = atomicio(read, proxyfd, buf, 8);
 		if (cnt != 8)
-			err(1, "read failed (%d/8)", cnt);
+			err(1, "read failed (%zu/8)", cnt);
 		if (buf[1] != 90)
-			errx(1, "connection failed, SOCKS error %d", buf[1]);
+			errx(1, "connection failed, SOCKS error %u", buf[1]);
 	} else if (socksv == -1) {
 		/* HTTP proxy CONNECT */
 
@@ -238,26 +241,27 @@ socks_connect(const char *host, const char *port,
 
 		/* Try to be sane about numeric IPv6 addresses */
 		if (strchr(host, ':') != NULL) {
-			r = snprintf(buf, sizeof(buf),
-			    "CONNECT [%s]:%d HTTP/1.0\r\n\r\n",
+			r = snprintf((char *)buf, sizeof(buf),
+			    "CONNECT [%s]:%u HTTP/1.0\r\n\r\n",
 			    host, ntohs(serverport));
 		} else {
-			r = snprintf(buf, sizeof(buf),
-			    "CONNECT %s:%d HTTP/1.0\r\n\r\n",
+			r = snprintf((char *)buf, sizeof(buf),
+			    "CONNECT %s:%u HTTP/1.0\r\n\r\n",
 			    host, ntohs(serverport));
 		}
 		if (r == -1 || (size_t)r >= sizeof(buf))
 			errx(1, "hostname too long");
-		r = strlen(buf);
+		r = strlen((char *)buf);
 
 		cnt = atomicio(vwrite, proxyfd, buf, r);
-		if (cnt != r)
-			err(1, "write failed (%d/%d)", cnt, r);
+		if ((int)cnt != r)
+			err(1, "write failed (%zu/%d)", cnt, r);
 
 		/* Read reply */
 		for (r = 0; r < HTTP_MAXHDRS; r++) {
-			proxy_read_line(proxyfd, buf, sizeof(buf));
-			if (r == 0 && strncmp(buf, "HTTP/1.0 200 ", 12) != 0)
+			proxy_read_line(proxyfd, (char *)buf, sizeof(buf));
+			if (r == 0 && strncmp((char *)buf,
+			    "HTTP/1.0 200 ", 12) != 0)
 				errx(1, "Proxy error: \"%s\"", buf);
 			/* Discard headers until we hit an empty line */
 			if (*buf == '\0')

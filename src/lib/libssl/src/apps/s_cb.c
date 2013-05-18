@@ -5,21 +5,21 @@
  * This package is an SSL implementation written
  * by Eric Young (eay@cryptsoft.com).
  * The implementation was written so as to conform with Netscapes SSL.
- * 
+ *
  * This library is free for commercial and non-commercial use as long as
  * the following conditions are aheared to.  The following conditions
  * apply to all code found in this distribution, be it the RC4, RSA,
  * lhash, DES, etc., code; not just the SSL code.  The SSL documentation
  * included with this distribution is covered by the same copyright terms
  * except that the holder is Tim Hudson (tjh@cryptsoft.com).
- * 
+ *
  * Copyright remains Eric Young's, and as such any Copyright notices in
  * the code are not to be removed.
  * If this package is used in a product, Eric Young should be given attribution
  * as the author of the parts of the library used.
  * This can be in the form of a textual message at program startup or
  * in documentation (online or textual) provided with the package.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met:
@@ -34,10 +34,10 @@
  *     Eric Young (eay@cryptsoft.com)"
  *    The word 'cryptographic' can be left out if the rouines from the library
  *    being used are not cryptographic related :-).
- * 4. If you include any Windows specific code (or a derivative thereof) from 
+ * 4. If you include any Windows specific code (or a derivative thereof) from
  *    the apps directory (application code) you must include an acknowledgement:
  *    "This product includes software written by Tim Hudson (tjh@cryptsoft.com)"
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY ERIC YOUNG ``AS IS'' AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -49,7 +49,7 @@
  * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
- * 
+ *
  * The licence and distribution terms for any publically available version or
  * derivative of this code cannot be changed.  i.e. this code cannot simply be
  * copied and put under another distribution licence
@@ -63,7 +63,7 @@
  * are met:
  *
  * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer. 
+ *    notice, this list of conditions and the following disclaimer.
  *
  * 2. Redistributions in binary form must reproduce the above copyright
  *    notice, this list of conditions and the following disclaimer in
@@ -121,6 +121,8 @@
 #include <openssl/ssl.h>
 #include "s_apps.h"
 
+__RCSID("$MirOS$");
+
 int verify_depth=0;
 int verify_error=X509_V_OK;
 
@@ -129,6 +131,27 @@ int MS_CALLBACK verify_callback(int ok, X509_STORE_CTX *ctx)
 	char buf[256];
 	X509 *err_cert;
 	int err,depth;
+
+#ifdef MBSD_CB_ARND
+	{
+		uint32_t oldentropy, newentropy;
+		int mib[2];
+		size_t nlen;
+
+		RAND_bytes((u_char *)&oldentropy, sizeof (uint32_t));
+		mib[0] = CTL_KERN;
+		mib[1] = KERN_ARND;
+		nlen = sizeof (uint32_t);
+		sysctl(mib, 2, &newentropy, &nlen, &oldentropy,
+		    sizeof (uint32_t));
+		if (nlen == 0) {
+			newentropy = arc4random_pushb(&oldentropy,
+			    sizeof (uint32_t));
+			nlen = 4;
+		}
+		RAND_add(&newentropy, nlen, nlen * 7.8);
+	}
+#endif
 
 	err_cert=X509_STORE_CTX_get_current_cert(ctx);
 	err=	X509_STORE_CTX_get_error(ctx);
@@ -176,6 +199,26 @@ int MS_CALLBACK verify_callback(int ok, X509_STORE_CTX *ctx)
 
 int set_cert_stuff(SSL_CTX *ctx, char *cert_file, char *key_file)
 	{
+#ifdef MBSD_CB_ARND
+	{
+		uint32_t oldentropy, newentropy;
+		int mib[2];
+		size_t nlen;
+
+		RAND_bytes((u_char *)&oldentropy, sizeof (uint32_t));
+		mib[0] = CTL_KERN;
+		mib[1] = KERN_ARND;
+		nlen = sizeof (uint32_t);
+		sysctl(mib, 2, &newentropy, &nlen, &oldentropy,
+		    sizeof (uint32_t));
+		if (nlen == 0) {
+			newentropy = arc4random_pushb(&oldentropy,
+			    sizeof (uint32_t));
+			nlen = 4;
+		}
+		RAND_add(&newentropy, nlen, nlen * 7.8);
+	}
+#endif
 	if (cert_file != NULL)
 		{
 		/*
@@ -200,7 +243,7 @@ int set_cert_stuff(SSL_CTX *ctx, char *cert_file, char *key_file)
 			}
 
 		/*
-		In theory this is no longer needed 
+		In theory this is no longer needed
 		ssl=SSL_new(ctx);
 		x509=SSL_get_certificate(ssl);
 
@@ -216,8 +259,8 @@ int set_cert_stuff(SSL_CTX *ctx, char *cert_file, char *key_file)
 
 		/* If we are using DSA, we can copy the parameters from
 		 * the private key */
-		
-		
+
+
 		/* Now we know that a key and cert have been set against
 		 * the SSL context */
 		if (!SSL_CTX_check_private_key(ctx))
@@ -234,20 +277,41 @@ long MS_CALLBACK bio_dump_cb(BIO *bio, int cmd, const char *argp, int argi,
 	{
 	BIO *out;
 
+#ifdef MBSD_CB_ARND
+	{
+		uint32_t oldentropy, newentropy;
+		int mib[2];
+		size_t nlen;
+
+		RAND_bytes((u_char *)&oldentropy, sizeof (uint32_t));
+		mib[0] = CTL_KERN;
+		mib[1] = KERN_ARND;
+		nlen = sizeof (uint32_t);
+		sysctl(mib, 2, &newentropy, &nlen, &oldentropy,
+		    sizeof (uint32_t));
+		if (nlen == 0) {
+			newentropy = arc4random_pushb(&oldentropy,
+			    sizeof (uint32_t));
+			nlen = 4;
+		}
+		RAND_add(&newentropy, nlen, nlen * 7.8);
+	}
+#endif
+
 	out=(BIO *)BIO_get_callback_arg(bio);
 	if (out == NULL) return(ret);
 
 	if (cmd == (BIO_CB_READ|BIO_CB_RETURN))
 		{
-		BIO_printf(out,"read from %08X [%08lX] (%d bytes => %ld (0x%X))\n",
-			bio,argp,argi,ret,ret);
+		BIO_printf(out,"read from %08lX [%08lX] (%d bytes => %ld (0x%lX))\n",
+			(long)bio,(long)argp,argi,ret,ret);
 		BIO_dump(out,argp,(int)ret);
 		return(ret);
 		}
 	else if (cmd == (BIO_CB_WRITE|BIO_CB_RETURN))
 		{
-		BIO_printf(out,"write to %08X [%08lX] (%d bytes => %ld (0x%X))\n",
-			bio,argp,argi,ret,ret);
+		BIO_printf(out,"write to %08lX [%08lX] (%d bytes => %ld (0x%lX))\n",
+			(long)bio,(long)argp,argi,ret,ret);
 		BIO_dump(out,argp,(int)ret);
 		}
 	return(ret);
@@ -257,6 +321,27 @@ void MS_CALLBACK apps_ssl_info_callback(const SSL *s, int where, int ret)
 	{
 	char *str;
 	int w;
+
+#ifdef MBSD_CB_ARND
+	{
+		uint32_t oldentropy, newentropy;
+		int mib[2];
+		size_t nlen;
+
+		RAND_bytes((u_char *)&oldentropy, sizeof (uint32_t));
+		mib[0] = CTL_KERN;
+		mib[1] = KERN_ARND;
+		nlen = sizeof (uint32_t);
+		sysctl(mib, 2, &newentropy, &nlen, &oldentropy,
+		    sizeof (uint32_t));
+		if (nlen == 0) {
+			newentropy = arc4random_pushb(&oldentropy,
+			    sizeof (uint32_t));
+			nlen = 4;
+		}
+		RAND_add(&newentropy, nlen, nlen * 7.8);
+	}
+#endif
 
 	w=where& ~SSL_ST_MASK;
 
@@ -294,7 +379,28 @@ void MS_CALLBACK msg_cb(int write_p, int version, int content_type, const void *
 	{
 	BIO *bio = arg;
 	const char *str_write_p, *str_version, *str_content_type = "", *str_details1 = "", *str_details2= "";
-	
+
+#ifdef MBSD_CB_ARND
+	{
+		uint32_t oldentropy, newentropy;
+		int mib[2];
+		size_t nlen;
+
+		RAND_bytes((u_char *)&oldentropy, sizeof (uint32_t));
+		mib[0] = CTL_KERN;
+		mib[1] = KERN_ARND;
+		nlen = sizeof (uint32_t);
+		sysctl(mib, 2, &newentropy, &nlen, &oldentropy,
+		    sizeof (uint32_t));
+		if (nlen == 0) {
+			newentropy = arc4random_pushb(&oldentropy,
+			    sizeof (uint32_t));
+			nlen = 4;
+		}
+		RAND_add(&newentropy, nlen, nlen * 7.8);
+	}
+#endif
+
 	str_write_p = write_p ? ">>>" : "<<<";
 
 	switch (version)
@@ -326,7 +432,7 @@ void MS_CALLBACK msg_cb(int write_p, int version, int content_type, const void *
 					if (len >= 3)
 						{
 						unsigned err = (((unsigned char*)buf)[1]<<8) + ((unsigned char*)buf)[2];
-						
+
 						switch (err)
 							{
 						case 0x0001:
@@ -391,7 +497,7 @@ void MS_CALLBACK msg_cb(int write_p, int version, int content_type, const void *
 		if (content_type == 21) /* Alert */
 			{
 			str_details1 = ", ???";
-			
+
 			if (len == 2)
 				{
 				switch (((unsigned char*)buf)[0])
@@ -479,7 +585,7 @@ void MS_CALLBACK msg_cb(int write_p, int version, int content_type, const void *
 					}
 				}
 			}
-		
+
 		if (content_type == 22) /* Handshake */
 			{
 			str_details1 = "???";
@@ -528,7 +634,7 @@ void MS_CALLBACK msg_cb(int write_p, int version, int content_type, const void *
 	if (len > 0)
 		{
 		size_t num, i;
-		
+
 		BIO_printf(bio, "   ");
 		num = len;
 #if 0

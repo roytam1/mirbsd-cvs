@@ -43,6 +43,8 @@
 #include <dbm.h>
 #include "hash.h"
 
+__RCSID("$MirOS$");
+
 /*
  *
  * This package provides dbm and ndbm compatible interfaces to DB.
@@ -59,8 +61,7 @@ static DBM *_dbm_open(const char *, const char *, int, mode_t);
  *	<0 on failure
  */
 int
-dbminit(file)
-	const char *file;
+dbminit(const char *file)
 {
 
 	if (__cur_db != NULL)
@@ -78,7 +79,7 @@ dbminit(file)
  *	<0 on failure
  */
 int
-dbmclose()
+dbmclose(void)
 {
 	int rval;
 
@@ -95,8 +96,7 @@ dbmclose()
  *	NULL on failure
  */
 datum
-fetch(key)
-	datum key;
+fetch(datum key)
 {
 	datum item;
 
@@ -114,7 +114,7 @@ fetch(key)
  *	NULL on failure
  */
 datum
-firstkey()
+firstkey(void)
 {
 	datum item;
 
@@ -133,7 +133,7 @@ firstkey()
  */
 /* ARGSUSED */
 datum
-nextkey(datum key)
+nextkey(datum key __attribute__((unused)))
 {
 	datum item;
 
@@ -151,8 +151,7 @@ nextkey(datum key)
  *	<0 on failure
  */
 int
-delete(key)
-	datum key;
+delete(datum key)
 {
 
 	if (__cur_db == NULL || dbm_rdonly(__cur_db))
@@ -166,8 +165,7 @@ delete(key)
  *	<0 on failure
  */
 int
-store(key, dat)
-	datum key, dat;
+store(datum key, datum dat)
 {
 
 	if (__cur_db == NULL || dbm_rdonly(__cur_db))
@@ -181,11 +179,7 @@ store(key, dat)
  *	 NULL on failure
  */
 static DBM *
-_dbm_open(file, suff, flags, mode)
-	const char *file;
-	const char *suff;
-	int flags;
-	mode_t mode;
+_dbm_open(const char *file, const char *suff, int flags, mode_t mode)
 {
 	HASHINFO info;
 	char path[MAXPATHLEN];
@@ -215,10 +209,7 @@ _dbm_open(file, suff, flags, mode)
  *	 NULL on failure
  */
 DBM *
-dbm_open(file, flags, mode)
-	const char *file;
-	int flags;
-	mode_t mode;
+dbm_open(const char *file, int flags, mode_t mode)
 {
 
 	return(_dbm_open(file, DBM_SUFFIX, flags, mode));
@@ -229,10 +220,8 @@ dbm_open(file, flags, mode)
  *	Nothing.
  */
 void
-dbm_close(db)
-	DBM *db;
+dbm_close(DBM *db)
 {
-
 	(void)(db->close)(db);
 }
 
@@ -242,9 +231,7 @@ dbm_close(db)
  *	NULL on failure
  */
 datum
-dbm_fetch(db, key)
-	DBM *db;
-	datum key;
+dbm_fetch(DBM *db, datum key)
 {
 	datum retdata;
 	int status;
@@ -268,8 +255,7 @@ dbm_fetch(db, key)
  *	NULL on failure
  */
 datum
-dbm_firstkey(db)
-	DBM *db;
+dbm_firstkey(DBM *db)
 {
 	int status;
 	datum retkey;
@@ -289,8 +275,7 @@ dbm_firstkey(db)
  *	NULL on failure
  */
 datum
-dbm_nextkey(db)
-	DBM *db;
+dbm_nextkey(DBM *db)
 {
 	int status;
 	datum retkey;
@@ -310,9 +295,7 @@ dbm_nextkey(db)
  *	<0 on failure
  */
 int
-dbm_delete(db, key)
-	DBM *db;
-	datum key;
+dbm_delete(DBM *db, datum key)
 {
 	int status;
 	DBT dbtkey;
@@ -333,10 +316,7 @@ dbm_delete(db, key)
  *	 1 if DBM_INSERT and entry exists
  */
 int
-dbm_store(db, key, data, flags)
-	DBM *db;
-	datum key, data;
-	int flags;
+dbm_store(DBM *db, datum key, datum data, int flags)
 {
 	DBT dbtkey, dbtdata;
 
@@ -349,8 +329,7 @@ dbm_store(db, key, data, flags)
 }
 
 int
-dbm_error(db)
-	DBM *db;
+dbm_error(DBM *db)
 {
 	HTAB *hp;
 
@@ -359,8 +338,7 @@ dbm_error(db)
 }
 
 int
-dbm_clearerr(db)
-	DBM *db;
+dbm_clearerr(DBM *db)
 {
 	HTAB *hp;
 
@@ -370,16 +348,13 @@ dbm_clearerr(db)
 }
 
 int
-dbm_dirfno(db)
-	DBM *db;
+dbm_dirfno(DBM *db)
 {
-
 	return(((HTAB *)db->internal)->fp);
 }
 
 int
-dbm_rdonly(dbp)
-	DBM *dbp;
+dbm_rdonly(DBM *dbp)
 {
 	HTAB *hashp = (HTAB *)dbp->internal;
 

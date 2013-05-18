@@ -1,5 +1,3 @@
-/*	$OpenBSD: uname.c,v 1.8 2003/07/10 00:06:51 david Exp $	*/
-
 /*
  * Copyright (c) 1994 Winning Strategies, Inc.
  * All rights reserved.
@@ -15,7 +13,7 @@
  * 3. All advertising materials mentioning features or use of this software
  *    must display the following acknowledgement:
  *      This product includes software developed by Winning Strategies, Inc.
- * 4. The name of Winning Strategies, Inc. may not be used to endorse or 
+ * 4. The name of Winning Strategies, Inc. may not be used to endorse or
  *    promote products derived from this software without specific prior
  *    written permission.
  *
@@ -31,43 +29,57 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef lint
-static char rcsid[] = "$OpenBSD: uname.c,v 1.8 2003/07/10 00:06:51 david Exp $";
-#endif /* not lint */
+#include <sys/cdefs.h>
+__RCSID("$MirOS: src/usr.bin/uname/uname.c,v 1.4 2007/05/16 21:30:09 tg Exp $");
+__RCSID("$NetBSD: uname.c,v 1.10 1998/11/09 13:24:05 kleink Exp $");
 
 #include <sys/param.h>
+#include <limits.h>
+#include <locale.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <locale.h>
 #include <unistd.h>
-#include <sys/utsname.h>
-#include <sys/sysctl.h>
 #include <err.h>
 
-static void usage(void);
+#include <sys/sysctl.h>
+#include <sys/utsname.h>
 
-#define	PRINT_SYSNAME	0x01
-#define	PRINT_NODENAME	0x02
-#define	PRINT_RELEASE	0x04
-#define	PRINT_VERSION	0x08
-#define	PRINT_MACHINE	0x10
-#define	PRINT_ALL	0x1f
-#define PRINT_PROCESSOR	0x20
+int main(int, char **);
+static void usage(void) __dead;
+
+/* Note that PRINT_MACHINE_ARCH is excluded from PRINT_ALL! */
+#define	PRINT_SYSNAME		0x01
+#define	PRINT_NODENAME		0x02
+#define	PRINT_RELEASE		0x04
+#define	PRINT_VERSION		0x08
+#define	PRINT_MACHINE		0x10
+#define	PRINT_MACHINE_ARCH	0x20
+#define	PRINT_PATCHLEVEL	0x40
+#define	PRINT_ALL		\
+	    (PRINT_SYSNAME | PRINT_NODENAME | PRINT_RELEASE | \
+	    PRINT_VERSION | PRINT_MACHINE | PRINT_PATCHLEVEL)
 
 int
 main(int argc, char *argv[])
 {
 	struct utsname u;
+	char machine_arch[SYS_NMLN];
+	char ospatchlevel[SYS_NMLN];
 	int c;
 	int space = 0;
 	int print_mask = 0;
 
-	setlocale(LC_ALL, "");
+#ifndef __MirBSD__
+	(void)setlocale(LC_ALL, "");
+#endif
 
-	while ((c = getopt(argc,argv,"amnrsvp")) != -1 ) {
-		switch ( c ) {
+	while ((c = getopt(argc,argv,"almnprsv")) != -1) {
+		switch (c) {
 		case 'a':
 			print_mask |= PRINT_ALL;
+			break;
+		case 'l':
+			print_mask |= PRINT_PATCHLEVEL;
 			break;
 		case 'm':
 			print_mask |= PRINT_MACHINE;
@@ -75,24 +87,24 @@ main(int argc, char *argv[])
 		case 'n':
 			print_mask |= PRINT_NODENAME;
 			break;
-		case 'r': 
+		case 'p':
+			print_mask |= PRINT_MACHINE_ARCH;
+			break;
+		case 'r':
 			print_mask |= PRINT_RELEASE;
 			break;
-		case 's': 
+		case 's':
 			print_mask |= PRINT_SYSNAME;
 			break;
 		case 'v':
 			print_mask |= PRINT_VERSION;
-			break;
-		case 'p':
-			print_mask |= PRINT_PROCESSOR;
 			break;
 		default:
 			usage();
 			/* NOTREACHED */
 		}
 	}
-	
+
 	if (optind != argc) {
 		usage();
 		/* NOTREACHED */
@@ -102,9 +114,25 @@ main(int argc, char *argv[])
 		print_mask = PRINT_SYSNAME;
 	}
 
-	if (uname(&u)) {
-		err(1, NULL);
+	if (uname(&u) != 0) {
+		err(EXIT_FAILURE, "uname");
 		/* NOTREACHED */
+	}
+	if (print_mask & PRINT_MACHINE_ARCH) {
+		int mib[2] = { CTL_HW, HW_MACHINE_ARCH };
+		size_t len = sizeof (machine_arch);
+
+		if (sysctl(mib, sizeof (mib) / sizeof (mib[0]), machine_arch,
+		    &len, NULL, 0) < 0)
+			err(EXIT_FAILURE, "sysctl");
+	}
+	if (print_mask & PRINT_PATCHLEVEL) {
+		int mib[2] = { CTL_KERN, KERN_OSPATCHLEVEL };
+		size_t len = sizeof (ospatchlevel);
+
+		if (sysctl(mib, sizeof (mib) / sizeof (mib[0]), ospatchlevel,
+		    &len, NULL, 0) < 0)
+			err(EXIT_FAILURE, "sysctl");
 	}
 
 	if (print_mask & PRINT_SYSNAME) {
@@ -119,6 +147,11 @@ main(int argc, char *argv[])
 		if (space++) putchar(' ');
 		fputs(u.release, stdout);
 	}
+	if (print_mask & PRINT_PATCHLEVEL) {
+		if (space++) putchar(' ');
+		if (print_mask != PRINT_PATCHLEVEL) fputs("Kv", stdout);
+		fputs(ospatchlevel, stdout);
+	}
 	if (print_mask & PRINT_VERSION) {
 		if (space++) putchar(' ');
 		fputs(u.version, stdout);
@@ -127,28 +160,19 @@ main(int argc, char *argv[])
 		if (space++) putchar(' ');
 		fputs(u.machine, stdout);
 	}
-	if (print_mask & PRINT_PROCESSOR) {
-		char buf[1024];
-		size_t len;
-		int mib[2];
-
+	if (print_mask & PRINT_MACHINE_ARCH) {
 		if (space++) putchar(' ');
-		mib[0] = CTL_HW;
-		mib[1] = HW_MODEL;
-		len = sizeof(buf);
-		if (sysctl(mib, 2, &buf, &len, NULL, 0) == -1)
-			err(1, "sysctl");
-		printf("%.*s", (int)len, buf);
-	}		
+		fputs(machine_arch, stdout);
+	}
 	putchar('\n');
 
-	exit(0);
+	exit(EXIT_SUCCESS);
 	/* NOTREACHED */
 }
 
 static void
 usage(void)
 {
-	fprintf(stderr, "usage: uname [-amnprsv]\n");
-	exit(1);
+	fprintf(stderr, "usage: uname [-almnprsv]\n");
+	exit(EXIT_FAILURE);
 }

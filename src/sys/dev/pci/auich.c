@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: auich.c,v 1.53 2005/05/31 19:17:03 jason Exp $	*/
 
 /*
@@ -421,7 +422,8 @@ auich_attach(parent, self, aux)
 	}
 	if (bus_dmamap_load_raw(sc->dmat, sc->dmalist_map, sc->dmalist_seg,
 	    segs, dmasz, BUS_DMA_NOWAIT)) {
-		printf(": failed to load dmalist map: %d segs %u size\n", segs, dmasz);
+		printf(": failed to load dmalist map: %d segs %u size\n", segs,
+		    (unsigned)dmasz);
 		bus_dmamap_destroy(sc->dmat, sc->dmalist_map);
 		bus_dmamem_unmap(sc->dmat, sc->dmalist_kva, dmasz);
 		bus_dmamem_free(sc->dmat, sc->dmalist_seg, segs);

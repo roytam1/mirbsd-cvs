@@ -1,3 +1,4 @@
+/**	$MirOS: src/sys/netipx/ipx_cksum.c,v 1.2 2005/03/06 21:28:23 tg Exp $	*/
 /*	$OpenBSD: ipx_cksum.c,v 1.6 2003/12/10 07:22:43 itojun Exp $	*/
 
 /*-
@@ -38,8 +39,8 @@
 
 #include <sys/param.h>
 #include <sys/mbuf.h>
-
 #include <netipx/ipx.h>
+#include <dev/rndvar.h>
 
 /*
  * Checksum routine for Internetwork Packet Exchange Packets (Big-Endian).
@@ -194,6 +195,7 @@ commoncase:
 		}
 		FOLD(sum);
 	}
+	rnd_addpool_add(sum);
 	if (mlen == -1) {
 		/* We had an odd number of bytes to sum; assume a garbage
 		   byte of zero and clean up */

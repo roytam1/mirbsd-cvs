@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: db_machdep.h,v 1.9 2003/05/18 02:43:13 andreas Exp $	*/
 /*	$NetBSD: db_machdep.h,v 1.9 1996/05/03 19:23:59 christos Exp $	*/
 
@@ -46,6 +47,7 @@ db_regs_t	ddb_regs;	/* register state */
 #define	DDB_REGS	(&ddb_regs)
 
 #define	PC_REGS(regs)	((db_addr_t)(regs)->tf_eip)
+#define	PC_REGS_L(regs)	((regs)->tf_eip)
 
 #define	BKPT_INST	0xcc		/* breakpoint instruction */
 #define	BKPT_SIZE	(1)		/* size of breakpoint inst */

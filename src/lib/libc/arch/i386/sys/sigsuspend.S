@@ -33,6 +33,8 @@
 
 #include "SYS.h"
 
+	.text
+
 SYSENTRY(sigsuspend)
 	movl	4(%esp),%eax		# fetch mask arg
 	movl	(%eax),%eax		# indirect to mask arg

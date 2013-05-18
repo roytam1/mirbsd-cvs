@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /* 	$OpenBSD: modload.c,v 1.41 2003/08/06 20:37:25 millert Exp $	*/
 /*	$NetBSD: modload.c,v 1.30 2001/11/08 15:33:15 christos Exp $	*/
 
@@ -43,6 +44,7 @@
 
 #include <err.h>
 #include <errno.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -52,8 +54,7 @@
 #include "modload.h"
 #include "pathnames.h"
 
-#define TRUE 1
-#define FALSE 0
+__RCSID("$MirOS$");
 
 #ifndef DFLT_ENTRY
 #define	DFLT_ENTRY	"xxxinit"
@@ -62,13 +63,20 @@
 #define	DFLT_ENTRYEXT	"_lkmentry"
 #endif	/* !DFLT_ENTRYEXT */
 
+#ifdef USE_AOUT
+#define	ENTRY_FMT	"_%s"
+#else
+#define	ENTRY_FMT	"%s"
+#endif
+
 int debug = 0;
 int verbose = 0;
 char *out = NULL;
 int symtab = 1;
 int Sflag;
 
-static	void	cleanup(void);
+static void cleanup(void);
+static void usage(void) __attribute__((noreturn));
 
 /* prelink the module */
 static int
@@ -156,7 +164,7 @@ verify_entry(const char *entry, char *filename)
 	char *s;
 
 	memset(names, 0, sizeof(names));
-	if (asprintf(&s, "_%s", entry) == -1)
+	if (asprintf(&s, ENTRY_FMT, entry) == -1)
 		err(1, "malloc");
 #ifdef	_AOUT_INCLUDE_
 	names[0].n_un.n_name = s;
@@ -234,9 +242,10 @@ loadsym(void *buf, size_t len)
 int
 main(int argc, char *argv[])
 {
-	int strtablen, c, noready = 0, old = 0;
+	int strtablen, c, noready = 0;
+	bool old = false;
 	const char *kname = _PATH_UNIX;
-	char *entry = DFLT_ENTRY;
+	char *entry = strdup(DFLT_ENTRY);
 	char *post = NULL;
 	char *modobj;
 	char modout[80], *p;
@@ -300,8 +309,8 @@ main(int argc, char *argv[])
 	modout[sizeof(modout) - 1] = '\0';
 
 	p = strrchr(modout, '.');
-	if (!p || strcmp(p, ".o"))
-		errx(2, "module object must end in .o");
+	if (!p || (strcmp(p, ".o") && strcmp(p, ".ko")))
+		errx(2, "module object must end in .o or .ko");
 	*p = '\0';
 	if (out == NULL)
 		out = modout;
@@ -321,11 +330,11 @@ main(int argc, char *argv[])
 			if (asprintf(&entry, "%s%s", p, DFLT_ENTRYEXT) == -1)
 				err(1, "asprintf");
 			if (verify_entry(entry, modobj))
-				errx(1, "entry point _%s not found in %s",
-				    entry, modobj);
+				errx(1, "entry point " ENTRY_FMT
+				    " not found in %s", entry, modobj);
 		} else
-			errx(1, "entry point _%s not found in %s", entry,
-			    modobj);
+			errx(1, "entry point " ENTRY_FMT " not found in %s",
+			    entry, modobj);
 	}
 
 	/*
@@ -382,7 +391,7 @@ main(int argc, char *argv[])
 		symtab = 0;
 		if (ioctl(devfd, LMRESERV_O, &resrv) == -1)
 			err(9, "can't reserve memory");
-		old = TRUE;
+		old = true;
 	}
 	fileopen |= PART_RESRV;
 

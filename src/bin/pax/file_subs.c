@@ -1,7 +1,9 @@
+/**	$MirOS: src/bin/pax/file_subs.c,v 1.11 2007/02/17 04:22:23 tg Exp $ */
 /*	$OpenBSD: file_subs.c,v 1.30 2005/11/09 19:59:06 otto Exp $	*/
 /*	$NetBSD: file_subs.c,v 1.4 1995/03/21 09:07:18 cgd Exp $	*/
 
 /*-
+ * Copyright (c) 2007 Thorsten Glaser
  * Copyright (c) 1992 Keith Muller.
  * Copyright (c) 1992, 1993
  *	The Regents of the University of California.  All rights reserved.
@@ -34,14 +36,6 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-#if 0
-static const char sccsid[] = "@(#)file_subs.c	8.1 (Berkeley) 5/31/93";
-#else
-static const char rcsid[] = "$OpenBSD: file_subs.c,v 1.30 2005/11/09 19:59:06 otto Exp $";
-#endif
-#endif /* not lint */
-
 #include <sys/param.h>
 #include <sys/time.h>
 #include <sys/stat.h>
@@ -53,12 +47,28 @@ static const char rcsid[] = "$OpenBSD: file_subs.c,v 1.30 2005/11/09 19:59:06 ot
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#ifdef __INTERIX
+#include <utime.h>
+#endif
 #include "pax.h"
 #include "options.h"
 #include "extern.h"
 
-static int
-mk_link(char *, struct stat *, char *, int);
+__SCCSID("@(#)file_subs.c	8.1 (Berkeley) 5/31/93");
+__RCSID("$MirOS: src/bin/pax/file_subs.c,v 1.11 2007/02/17 04:22:23 tg Exp $");
+
+#ifndef __GLIBC_PREREQ
+#define __GLIBC_PREREQ(maj,min)	0
+#endif
+
+#if !defined(__INTERIX) && (!defined(__GLIBC__) || __GLIBC_PREREQ(2, 3))
+#define PAX_FUTIMES	/* we have futimes() */
+#endif
+
+static int mk_link(char *, struct stat *, char *, int);
+#ifdef PAX_FUTIMES
+static void fset_ftime(char *, int, time_t, time_t, int);
+#endif
 
 /*
  * routines that deal with file operations such as: creating, removing;
@@ -159,9 +169,11 @@ file_close(ARCHD *arcn, int fd)
 		arcn->sb.st_mode &= ~(SETBITS);
 	if (pmode)
 		fset_pmode(arcn->name, fd, arcn->sb.st_mode);
+#ifdef PAX_FUTIMES
 	if (patime || pmtime)
 		fset_ftime(arcn->name, fd, arcn->sb.st_mtime,
 		    arcn->sb.st_atime, 0);
+#endif
 	if (close(fd) < 0)
 		syswarn(0, errno, "Unable to close file descriptor on %s",
 		    arcn->name);
@@ -672,6 +684,9 @@ set_ftime(char *fnm, time_t mtime, time_t atime, int frc)
 {
 	static struct timeval tv[2] = {{0L, 0L}, {0L, 0L}};
 	struct stat sb;
+#ifdef __INTERIX
+	struct utimbuf u;
+#endif
 
 	tv[0].tv_sec = (long)atime;
 	tv[1].tv_sec = (long)mtime;
@@ -692,13 +707,20 @@ set_ftime(char *fnm, time_t mtime, time_t atime, int frc)
 	/*
 	 * set the times
 	 */
+#ifdef __INTERIX
+	u.actime = tv[0].tv_sec;
+	u.modtime = tv[1].tv_sec;
+	if (utime(fnm, &u) < 0)
+#else
 	if (utimes(fnm, tv) < 0)
+#endif
 		syswarn(1, errno, "Access/modification time set failed on: %s",
 		    fnm);
 	return;
 }
 
-void
+#ifdef PAX_FUTIMES
+static void
 fset_ftime(char *fnm, int fd, time_t mtime, time_t atime, int frc)
 {
 	static struct timeval tv[2] = {{0L, 0L}, {0L, 0L}};
@@ -727,6 +749,7 @@ fset_ftime(char *fnm, int fd, time_t mtime, time_t atime, int frc)
 		    fnm);
 	return;
 }
+#endif
 
 /*
  * set_ids()
@@ -743,8 +766,12 @@ set_ids(char *fnm, uid_t uid, gid_t gid)
 		 * ignore EPERM unless in verbose mode or being run by root.
 		 * if running as pax, POSIX requires a warning.
 		 */
-		if (strcmp(NM_PAX, argv0) == 0 || errno != EPERM || vflag ||
-		    geteuid() == 0)
+		if (strcmp(NM_PAX, argv0) == 0
+#ifndef __INTERIX
+		    || errno != EPERM || vflag ||
+		    geteuid() == 0
+#endif
+		    )
 			syswarn(1, errno, "Unable to set file uid/gid of %s",
 			    fnm);
 		return(-1);
@@ -779,17 +806,23 @@ fset_ids(char *fnm, int fd, uid_t uid, gid_t gid)
 int
 set_lids(char *fnm, uid_t uid, gid_t gid)
 {
+#ifndef __APPLE__
 	if (lchown(fnm, uid, gid) < 0) {
 		/*
 		 * ignore EPERM unless in verbose mode or being run by root.
 		 * if running as pax, POSIX requires a warning.
 		 */
-		if (strcmp(NM_PAX, argv0) == 0 || errno != EPERM || vflag ||
-		    geteuid() == 0)
+		if (strcmp(NM_PAX, argv0) == 0
+#ifndef __INTERIX
+		    || errno != EPERM || vflag ||
+		    geteuid() == 0
+#endif
+		    )
 			syswarn(1, errno, "Unable to set file uid/gid of %s",
 			    fnm);
 		return(-1);
 	}
+#endif
 	return(0);
 }
 
@@ -915,6 +948,8 @@ file_write(int fd, char *str, int cnt, int *rem, int *isempt, int sz,
 				 */
 				if (fd > -1 &&
 				    lseek(fd, (off_t)wcnt, SEEK_CUR) < 0) {
+					if (errno == ESPIPE)
+						goto isapipe;
 					syswarn(1,errno,"File seek on %s",
 					    name);
 					return(-1);
@@ -922,6 +957,7 @@ file_write(int fd, char *str, int cnt, int *rem, int *isempt, int sz,
 				st = pt;
 				continue;
 			}
+ isapipe:
 			/*
 			 * drat, the buf is not zero filled
 			 */

@@ -1,3 +1,4 @@
+/**	$MirOS: src/sys/arch/sparc/stand/installboot/installboot.c,v 1.5 2007/06/12 21:58:26 tg Exp $ */
 /*	$OpenBSD: installboot.c,v 1.4 2003/08/25 23:36:46 tedu Exp $	*/
 /*	$NetBSD: installboot.c,v 1.1 1997/06/01 03:39:45 mrg Exp $	*/
 
@@ -48,19 +49,23 @@
 #include <string.h>
 #include <unistd.h>
 
+__RCSID("$MirOS: src/sys/arch/sparc/stand/installboot/installboot.c,v 1.5 2007/06/12 21:58:26 tg Exp $");
+
+extern const char *__progname;
+
 int	verbose, nowrite, hflag;
 char	*boot, *proto, *dev;
 
 struct nlist nl[] = {
 #define X_BLOCKTABLE	0
-	{"_block_table"},
+	{{"_block_table"}},
 #define X_BLOCKCOUNT	1
-	{"_block_count"},
+	{{"_block_count"}},
 #define X_BLOCKSIZE	2
-	{"_block_size"},
-	{NULL}
+	{{"_block_size"}},
+	{{NULL}}
 };
-daddr_t	*block_table;		/* block number array in prototype image */
+int32_t	*block_table;		/* block number array in prototype image */
 int32_t	*block_count_p;		/* size of this array */
 int32_t	*block_size_p;		/* filesystem block size */
 int32_t	max_block_count;
@@ -74,15 +79,17 @@ int	isofseblk = 0;
 char		*loadprotoblocks(char *, long *);
 int		loadblocknums(char *, int);
 static void	devread(int, void *, daddr_t, size_t, char *);
-static void	usage(void);
+__dead static void usage(void);
 int 		main(int, char *[]);
-
 
 static void
 usage()
 {
 	fprintf(stderr,
-		"usage: installboot [-n] [-v] [-h] [-s isofsblk -e isofseblk] [-a <karch>] <boot> <proto> <device>\n");
+	    "usage:\t%s [-nvh] [-a <karch>] <boot> <proto> <device>\n"
+	    "\t%s [-nvh] [-a <karch>] -s isofsblk -e isofseblk\n"
+	    "\t    <boot (ignored, can be /dev/null)> <proto> <device>\n",
+	    __progname, __progname);
 	exit(1);
 }
 
@@ -141,7 +148,7 @@ main(argc, argv)
 		if (sysctl(mib, 2, cpumodel, &size, NULL, 0) == -1)
 			err(1, "sysctl");
 
-		if (size < 5 || strncmp(cpumodel, "SUN-4", 5) != 0) /*XXX*/ 
+		if (size < 5 || strncmp(cpumodel, "SUN-4", 5) != 0) /*XXX*/
 			/* Assume a sun4c/sun4m */
 			karch = "sun4c";
 		else
@@ -217,15 +224,21 @@ loadprotoblocks(fname, size)
 		return NULL;
 	}
 	if (nl[X_BLOCKTABLE].n_type != N_DATA + N_EXT) {
-		warnx("nlist: %s: wrong type", nl[X_BLOCKTABLE].n_un.n_name);
+		warnx("nlist: %s: wrong type (should be %04X, is %04X)",
+		    nl[X_BLOCKTABLE].n_un.n_name, N_DATA + N_EXT,
+		    nl[X_BLOCKTABLE].n_type);
 		return NULL;
 	}
 	if (nl[X_BLOCKCOUNT].n_type != N_DATA + N_EXT) {
-		warnx("nlist: %s: wrong type", nl[X_BLOCKCOUNT].n_un.n_name);
+		warnx("nlist: %s: wrong type (should be %04X, is %04X)",
+		    nl[X_BLOCKCOUNT].n_un.n_name, N_DATA + N_EXT,
+		    nl[X_BLOCKCOUNT].n_type);
 		return NULL;
 	}
 	if (nl[X_BLOCKSIZE].n_type != N_DATA + N_EXT) {
-		warnx("nlist: %s: wrong type", nl[X_BLOCKSIZE].n_un.n_name);
+		warnx("nlist: %s: wrong type (should be %04X, is %04X)",
+		    nl[X_BLOCKSIZE].n_un.n_name, N_DATA + N_EXT,
+		    nl[X_BLOCKSIZE].n_type);
 		return NULL;
 	}
 
@@ -261,21 +274,21 @@ loadprotoblocks(fname, size)
 	block_count_p = (int32_t *)(bp + nl[X_BLOCKCOUNT].n_value + off);
 	block_size_p = (int32_t *) (bp + nl[X_BLOCKSIZE].n_value + off);
 	if ((int)block_table & 3) {
-		warn("%s: invalid address: block_table = %x",
+		warn("%s: invalid address: block_table = %p",
 		     fname, block_table);
 		free(bp);
 		close(fd);
 		return NULL;
 	}
 	if ((int)block_count_p & 3) {
-		warn("%s: invalid address: block_count_p = %x",
+		warn("%s: invalid address: block_count_p = %p",
 		     fname, block_count_p);
 		free(bp);
 		close(fd);
 		return NULL;
 	}
 	if ((int)block_size_p & 3) {
-		warn("%s: invalid address: block_size_p = %x",
+		warn("%s: invalid address: block_size_p = %p",
 		     fname, block_size_p);
 		free(bp);
 		close(fd);
@@ -345,25 +358,13 @@ int	devfd;
 	struct ufs1_dinode	*ip;
 	int		ndb;
 
-	/*
-	 * Open 2nd-level boot program and record the block numbers
-	 * it occupies on the filesystem represented by `devfd'.
-	 */
-	if ((fd = open(boot, O_RDONLY)) < 0)
-		err(1, "open: %s", boot);
-
-	if (fstatfs(fd, &statfsbuf) != 0)
-		err(1, "statfs: %s", boot);
-
 	if (isofsblk) {
-		int i;
-
 		*block_size_p = 512;
 		*block_count_p = (isofseblk - isofsblk + 1) * (2048/512);
 		if (*block_count_p > max_block_count)
-			errx(1, "%s: Too many blocks", boot);
+			errx(1, "CD9660: Too many blocks");
 		if (verbose)
-			printf("%s: %d block numbers: ", boot, *block_count_p);
+			printf("CD9660: %d block numbers: ", *block_count_p);
 		for (i = 0; i < *block_count_p; i++) {
 			blk = (isofsblk * (2048/512)) + i;
 			block_table[i] = blk;
@@ -374,6 +375,16 @@ int	devfd;
 			printf("\n");
 		return 0;
 	}
+
+	/*
+	 * Open 2nd-level boot program and record the block numbers
+	 * it occupies on the filesystem represented by `devfd'.
+	 */
+	if ((fd = open(boot, O_RDONLY)) < 0)
+		err(1, "open: %s", boot);
+
+	if (fstatfs(fd, &statfsbuf) != 0)
+		err(1, "statfs: %s", boot);
 
 	if (strncmp(statfsbuf.f_fstypename, "ffs", MFSNAMELEN) &&
 	    strncmp(statfsbuf.f_fstypename, "ufs", MFSNAMELEN)) {

@@ -34,6 +34,8 @@
 #include "hostfile.h"
 #include "auth.h"
 
+__RCSID("$MirOS$");
+
 /* import */
 extern ServerOptions options;
 extern int use_privsep;

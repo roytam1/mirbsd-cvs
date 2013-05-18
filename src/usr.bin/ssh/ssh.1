@@ -34,8 +34,9 @@
 .\" (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 .\" THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .\"
+.\" $MirOS: src/usr.bin/ssh/ssh.1,v 1.22 2007/06/16 15:41:51 tg Exp $
 .\" $OpenBSD: ssh.1,v 1.273 2008/02/11 07:58:28 jmc Exp $
-.Dd $Mdocdate: February 11 2008 $
+.Dd $Mdocdate: March 2 2008 $
 .Dt SSH 1
 .Os
 .Sh NAME
@@ -43,7 +44,7 @@
 .Nd OpenSSH SSH client (remote login program)
 .Sh SYNOPSIS
 .Nm ssh
-.Op Fl 1246AaCfgKkMNnqsTtVvXxY
+.Op Fl 1246AaCfgMNnqsTtVvXxY
 .Op Fl b Ar bind_address
 .Op Fl c Ar cipher_spec
 .Oo Fl D\ \&
@@ -185,32 +186,14 @@ that do not support the
 cipher.
 Its use is strongly discouraged due to cryptographic weaknesses.
 The default is
-.Dq 3des .
+.Dq blowfish .
 .Pp
 For protocol version 2,
 .Ar cipher_spec
 is a comma-separated list of ciphers
 listed in order of preference.
-The supported ciphers are:
-3des-cbc,
-aes128-cbc,
-aes192-cbc,
-aes256-cbc,
-aes128-ctr,
-aes192-ctr,
-aes256-ctr,
-arcfour128,
-arcfour256,
-arcfour,
-blowfish-cbc,
-and
-cast128-cbc.
-The default is:
-.Bd -literal -offset indent
-aes128-cbc,3des-cbc,blowfish-cbc,cast128-cbc,arcfour128,
-arcfour256,arcfour,aes192-cbc,aes256-cbc,aes128-ctr,
-aes192-ctr,aes256-ctr
-.Ed
+The supported ciphers and default are documented in
+.Xr ssh_config 5 .
 .It Fl D Xo
 .Sm off
 .Oo Ar bind_address : Oc
@@ -276,7 +259,7 @@ the system-wide configuration file
 .Pq Pa /etc/ssh/ssh_config
 will be ignored.
 The default for the per-user configuration file is
-.Pa ~/.ssh/config .
+.Pa ~/.etc/ssh/config .
 .It Fl f
 Requests
 .Nm
@@ -303,11 +286,11 @@ is compiled in (default is no support).
 Selects a file from which the identity (private key) for
 RSA or DSA authentication is read.
 The default is
-.Pa ~/.ssh/identity
+.Pa ~/.etc/ssh/identity
 for protocol version 1, and
-.Pa ~/.ssh/id_rsa
+.Pa ~/.etc/ssh/id_rsa
 and
-.Pa ~/.ssh/id_dsa
+.Pa ~/.etc/ssh/id_dsa
 for protocol version 2.
 Identity files may also be specified on
 a per-host basis in the configuration file.
@@ -315,11 +298,6 @@ It is possible to have multiple
 .Fl i
 options (and multiple identities specified in
 configuration files).
-.It Fl K
-Enables GSSAPI-based authentication and forwarding (delegation) of GSSAPI
-credentials to the server.
-.It Fl k
-Disables forwarding (delegation) of GSSAPI credentials to the server.
 .It Fl L Xo
 .Sm off
 .Oo Ar bind_address : Oc
@@ -458,8 +436,6 @@ For full details of the options listed below, and their possible values, see
 .It ForwardX11Trusted
 .It GatewayPorts
 .It GlobalKnownHostsFile
-.It GSSAPIAuthentication
-.It GSSAPIDelegateCredentials
 .It HashKnownHosts
 .It Host
 .It HostbasedAuthentication
@@ -628,7 +604,7 @@ This can also be specified on a per-host basis in a configuration file.
 .Pp
 X11 forwarding should be enabled with caution.
 Users with the ability to bypass file permissions on the remote host
-(for the user's X authorization database)
+(for the user's X authorisation database)
 can access the local X11 display through the forwarded connection.
 An attacker may then be able to perform activities such as keystroke monitoring.
 .Pp
@@ -677,12 +653,11 @@ Both protocols support similar authentication methods,
 but protocol 2 is preferred since
 it provides additional mechanisms for confidentiality
 (the traffic is encrypted using AES, 3DES, Blowfish, CAST128, or Arcfour)
-and integrity (hmac-md5, hmac-sha1, umac-64, hmac-ripemd160).
+and integrity (hmac-ripemd160, umac-64, hmac-sha1, hmac-md5).
 Protocol 1 lacks a strong mechanism for ensuring the
 integrity of the connection.
 .Pp
 The methods available for authentication are:
-GSSAPI-based authentication,
 host-based authentication,
 public key authentication,
 challenge-response authentication,
@@ -711,7 +686,7 @@ be able to verify the client's
 host key (see the description of
 .Pa /etc/ssh/ssh_known_hosts
 and
-.Pa ~/.ssh/known_hosts ,
+.Pa ~/.etc/ssh/known_hosts ,
 below)
 for login to be permitted.
 This authentication method closes security holes due to IP
@@ -742,7 +717,9 @@ section of
 contains a brief discussion of the two algorithms.
 .Pp
 The file
-.Pa ~/.ssh/authorized_keys
+.Pa ~/.etc/ssh/authorised_keys
+(or, portably,
+.Pa ~/.ssh/authorized_keys )
 lists the public keys that are permitted for logging in.
 When the user logs in, the
 .Nm
@@ -750,33 +727,35 @@ program tells the server which key pair it would like to use for
 authentication.
 The client proves that it has access to the private key
 and the server checks that the corresponding public key
-is authorized to accept the account.
+is authorised to accept the account.
 .Pp
 The user creates his/her key pair by running
 .Xr ssh-keygen 1 .
 This stores the private key in
-.Pa ~/.ssh/identity
+.Pa ~/.etc/ssh/identity
 (protocol 1),
-.Pa ~/.ssh/id_dsa
+.Pa ~/.etc/ssh/id_dsa
 (protocol 2 DSA),
 or
-.Pa ~/.ssh/id_rsa
+.Pa ~/.etc/ssh/id_rsa
 (protocol 2 RSA)
 and stores the public key in
-.Pa ~/.ssh/identity.pub
+.Pa ~/.etc/ssh/identity.pub
 (protocol 1),
-.Pa ~/.ssh/id_dsa.pub
+.Pa ~/.etc/ssh/id_dsa.pub
 (protocol 2 DSA),
 or
-.Pa ~/.ssh/id_rsa.pub
+.Pa ~/.etc/ssh/id_rsa.pub
 (protocol 2 RSA)
 in the user's home directory.
 The user should then copy the public key
 to
-.Pa ~/.ssh/authorized_keys
+.Pa ~/.etc/ssh/authorised_keys
+(or, portably,
+.Pa ~/.ssh/authorized_keys )
 in his/her home directory on the remote machine.
 The
-.Pa authorized_keys
+.Pa authorised_keys
 file corresponds to the conventional
 .Pa ~/.rhosts
 file, and has one key
@@ -811,7 +790,7 @@ the password cannot be seen by someone listening on the network.
 automatically maintains and checks a database containing
 identification for all hosts it has ever been used with.
 Host keys are stored in
-.Pa ~/.ssh/known_hosts
+.Pa ~/.etc/ssh/known_hosts
 in the user's home directory.
 Additionally, the file
 .Pa /etc/ssh/ssh_known_hosts
@@ -998,7 +977,7 @@ connections over the encrypted channel.
 .Pp
 .Nm
 will also automatically set up Xauthority data on the server machine.
-For this purpose, it will generate a random authorization cookie,
+For this purpose, it will generate a random authorisation cookie,
 store it in Xauthority on the server, and verify that any forwarded
 connections carry this cookie and replace it by the real cookie when
 the connection is opened.
@@ -1072,6 +1051,9 @@ using the
 .Xr tun 4
 network pseudo-device,
 allowing two networks to be joined securely.
+Use of this option is however, due to the reasons outlined at
+.Pa http://sites.inka.de/sites/bigred/devel/tcp-tcp.html ,
+discouraged in favour of OpenVPN, until datagram transport is added.
 The
 .Xr sshd_config 5
 configuration option
@@ -1099,7 +1081,7 @@ On the server:
 .Ed
 .Pp
 Client access may be more finely tuned via the
-.Pa /root/.ssh/authorized_keys
+.Pa /root/.etc/ssh/authorised_keys
 file (see below) and the
 .Cm PermitRootLogin
 server option.
@@ -1149,7 +1131,7 @@ The user should normally not set
 .Ev DISPLAY
 explicitly, as that
 will render the X11 connection insecure (and will require the user to
-manually copy any required authorization cookies).
+manually copy any required authorisation cookies).
 .It Ev HOME
 Set to the path of the user's home directory.
 .It Ev LOGNAME
@@ -1215,7 +1197,7 @@ Set to the name of the user logging in.
 Additionally,
 .Nm
 reads
-.Pa ~/.ssh/environment ,
+.Pa ~/.etc/ssh/environment ,
 and adds lines of the format
 .Dq VARNAME=value
 to the environment if the file exists and users are allowed to
@@ -1245,14 +1227,14 @@ This file is used in exactly the same way as
 but allows host-based authentication without permitting login with
 rlogin/rsh.
 .Pp
-.It ~/.ssh/
+.It ~/.etc/ssh/
 This directory is the default location for all user-specific configuration
 and authentication information.
 There is no general requirement to keep the entire contents of this directory
 secret, but the recommended permissions are read/write/execute for the user,
 and not accessible by others.
 .Pp
-.It ~/.ssh/authorized_keys
+.It ~/.etc/ssh/authorised_keys
 Lists the public keys (RSA/DSA) that can be used for logging in as this user.
 The format of this file is described in the
 .Xr sshd 8
@@ -1260,21 +1242,24 @@ manual page.
 This file is not highly sensitive, but the recommended
 permissions are read/write for the user, and not accessible by others.
 .Pp
-.It ~/.ssh/config
+.It ~/.ssh/authorized_keys
+Portable name for the above file.
+.Pp
+.It ~/.etc/ssh/config
 This is the per-user configuration file.
 The file format and configuration options are described in
 .Xr ssh_config 5 .
 Because of the potential for abuse, this file must have strict permissions:
 read/write for the user, and not accessible by others.
 .Pp
-.It ~/.ssh/environment
+.It ~/.etc/ssh/environment
 Contains additional definitions for environment variables; see
 .Sx ENVIRONMENT ,
 above.
 .Pp
-.It ~/.ssh/identity
-.It ~/.ssh/id_dsa
-.It ~/.ssh/id_rsa
+.It ~/.etc/ssh/identity
+.It ~/.etc/ssh/id_dsa
+.It ~/.etc/ssh/id_rsa
 Contains the private key for authentication.
 These files
 contain sensitive data and should be readable by the user but not
@@ -1285,21 +1270,21 @@ It is possible to specify a passphrase when
 generating the key which will be used to encrypt the
 sensitive part of this file using 3DES.
 .Pp
-.It ~/.ssh/identity.pub
-.It ~/.ssh/id_dsa.pub
-.It ~/.ssh/id_rsa.pub
+.It ~/.etc/ssh/identity.pub
+.It ~/.etc/ssh/id_dsa.pub
+.It ~/.etc/ssh/id_rsa.pub
 Contains the public key for authentication.
 These files are not
 sensitive and can (but need not) be readable by anyone.
 .Pp
-.It ~/.ssh/known_hosts
+.It ~/.etc/ssh/known_hosts
 Contains a list of host keys for all hosts the user has logged into
 that are not already in the systemwide list of known host keys.
 See
 .Xr sshd 8
 for further details of the format of this file.
 .Pp
-.It ~/.ssh/rc
+.It ~/.etc/ssh/rc
 Commands in this file are executed by
 .Nm
 when the user logs in, just before the user's shell (or command) is
@@ -1364,15 +1349,15 @@ manual page for more information.
 .Sh SEE ALSO
 .Xr scp 1 ,
 .Xr sftp 1 ,
-.Xr ssh-add 1 ,
-.Xr ssh-agent 1 ,
-.Xr ssh-keygen 1 ,
-.Xr ssh-keyscan 1 ,
+.Xr ssh\-add 1 ,
+.Xr ssh\-agent 1 ,
+.Xr ssh\-keygen 1 ,
+.Xr ssh\-keyscan 1 ,
 .Xr tun 4 ,
 .Xr hosts.equiv 5 ,
 .Xr ssh_config 5 ,
-.Xr ssh-keysign 8 ,
-.Xr sshd 8
+.Xr sshd 8 ,
+.Xr telnet 1
 .Rs
 .%R RFC 4250
 .%T "The Secure Shell (SSH) Protocol Assigned Numbers"

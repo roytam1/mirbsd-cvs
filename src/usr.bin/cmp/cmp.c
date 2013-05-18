@@ -30,19 +30,11 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-static char copyright[] =
-"@(#) Copyright (c) 1987, 1990, 1993, 1994\n\
-	The Regents of the University of California.  All rights reserved.\n";
-#endif /* not lint */
-
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)cmp.c	8.3 (Berkeley) 4/2/94";
-#else
-static char rcsid[] = "$OpenBSD: cmp.c,v 1.11 2003/06/10 22:20:45 deraadt Exp $";
-#endif
-#endif /* not lint */
+#include <sys/cdefs.h>
+__COPYRIGHT("@(#) Copyright (c) 1987, 1990, 1993, 1994\n\
+	The Regents of the University of California.  All rights reserved.\n");
+__SCCSID("@(#)cmp.c	8.3 (Berkeley) 4/2/94");
+__RCSID("$MirOS$");
 
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -69,7 +61,9 @@ main(int argc, char *argv[])
 	int ch, fd1, fd2, special;
 	char *file1, *file2;
 
+#ifndef __MirBSD__
 	setlocale(LC_ALL, "");
+#endif
 
 	while ((ch = getopt(argc, argv, "ls")) != -1)
 		switch (ch) {

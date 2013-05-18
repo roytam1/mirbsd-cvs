@@ -1,4 +1,6 @@
 #! /bin/sh
+# $MirOS: src/gnu/usr.bin/perl/Makefile.SH,v 1.2 2005/03/13 15:01:15 tg Exp $
+#
 case $PERL_CONFIG_SH in
 '')
 	if test -f config.sh
@@ -73,7 +75,7 @@ true)
 	sunos*)
 		linklibperl="-lperl"
 		;;
-	netbsd*|freebsd[234]*|openbsd*)
+	mirbsd*|netbsd*|freebsd[234]*|openbsd*)
 		linklibperl="-L. -lperl"
 		;;
 	interix*)
@@ -1434,5 +1436,3 @@ esac
     esac
     ;;
 esac
-
-# ex: set ts=8 sts=4 sw=4 noet:

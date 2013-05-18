@@ -1,3 +1,4 @@
+.\"	$MirOS: src/usr.sbin/arp/arp.8,v 1.2 2005/03/13 19:16:15 tg Exp $
 .\"	$OpenBSD: arp.8,v 1.15 2005/03/29 21:59:59 henning Exp $
 .\"	$NetBSD: arp.8,v 1.7 1995/03/01 11:50:59 chopps Exp $
 .\"
@@ -149,6 +150,7 @@ with the Ethernet address
 .Ar ether_addr .
 The Ethernet address is given as six hexadecimal bytes separated by
 colons.
+Lines beginning with '#' are considered comments and are ignored.
 .Pp
 The
 .Cm permanent , pub ,

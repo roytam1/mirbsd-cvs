@@ -36,6 +36,8 @@
 #include "log.h"
 #include "match.h"
 
+__RCSID("$MirOS: src/usr.bin/ssh/compat.c,v 1.4 2006/09/20 21:40:58 tg Exp $");
+
 int compat13 = 0;
 int compat20 = 0;
 int datafellows = 0;
@@ -58,7 +60,7 @@ compat_datafellows(const char *version)
 {
 	int i;
 	static struct {
-		char	*pat;
+		const char *pat;
 		int	bugs;
 	} check[] = {
 		{ "OpenSSH-2.0*,"
@@ -202,8 +204,8 @@ proto_spec(const char *spec)
 	return ret;
 }
 
-char *
-compat_cipher_proposal(char *cipher_prop)
+const char *
+compat_cipher_proposal(const char *cipher_prop)
 {
 	Buffer b;
 	char *orig_prop, *fix_ciphers;

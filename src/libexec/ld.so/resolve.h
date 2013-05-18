@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: resolve.h,v 1.52 2006/06/16 21:34:53 kettenis Exp $ */
 
 /*
@@ -32,6 +33,7 @@
 #include <sys/queue.h>
 #include <link.h>
 #include <dlfcn.h>
+#include <stdbool.h>
 
 struct load_list {
 	struct load_list *next;
@@ -236,7 +238,7 @@ extern int  _dl_errno;
 extern char *_dl_libpath;
 extern char *_dl_preload;
 extern char *_dl_bindnow;
-extern char *_dl_traceld;
+extern bool _dl_traceld;
 extern char *_dl_debug;
 
 #define DL_DEB(P) do { if (_dl_debug) _dl_printf P ; } while (0)

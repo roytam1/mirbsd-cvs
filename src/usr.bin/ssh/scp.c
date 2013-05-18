@@ -72,7 +72,6 @@
  */
 
 #include <sys/param.h>
-#include <sys/types.h>
 #include <sys/poll.h>
 #include <sys/wait.h>
 #include <sys/stat.h>
@@ -99,6 +98,8 @@
 #include "log.h"
 #include "misc.h"
 #include "progressmeter.h"
+
+__RCSID("$MirOS: src/usr.bin/ssh/scp.c,v 1.14 2007/08/20 12:11:30 tg Exp $");
 
 #define COPY_BUFLEN	16384
 

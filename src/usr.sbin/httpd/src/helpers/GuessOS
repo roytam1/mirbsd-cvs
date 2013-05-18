@@ -1,4 +1,5 @@
 #!/bin/sh
+# $MirOS$
 #
 # Simple OS/Platform guesser. Similar to config.guess but
 # much, much smaller. Since it was developed for use with
@@ -23,7 +24,7 @@
 # therefore an environment variable is used
 if [ "x$TPF" = "xYES" ]; then
     echo "TPF"
-    exit 0	
+    exit 0
 fi
 
 # First get uname entries that we use below
@@ -38,7 +39,7 @@ MACHINE=`echo ${MACHINE}|sed -e 's/\//_/'`
 
 # Now test for ISC and SCO, since it is has a braindamaged uname.
 #
-# We need to work around FreeBSD 1.1.5.1 
+# We need to work around FreeBSD 1.1.5.1
 XREL=`uname -X 2>/dev/null | grep "^Release" | awk '{print $3}'`
 if [ "x$XREL" != "x" ]; then
     if [ -f /etc/kconfig ]; then
@@ -176,12 +177,17 @@ case "${SYSTEM}:${RELEASE}:${VERSION}:${MACHINE}" in
 	echo "${MACHINE}-whatever-openbsd${OPENBSDVERS}"; exit 0
 	;;
 
+    MirBSD:*)
+	MIRBSDVERS=`echo ${RELEASE}|sed -e 's/[-(].*//'`
+	echo "${MACHINE}-ecce-mirbsd${MIRBSDVERS}"; exit 0
+	;;
+
     OSF1:*:*:*alpha*)
 	echo "${MACHINE}-dec-osf"; exit 0
 	;;
 
 	NONSTOP_KERNEL:*:*:*)
-	echo "${MACHINE}-tandem-oss"; exit 0; 
+	echo "${MACHINE}-tandem-oss"; exit 0;
 	;;
 
     QNX:*)
@@ -262,7 +268,7 @@ case "${SYSTEM}:${RELEASE}:${VERSION}:${MACHINE}" in
     ConvexOS:*:11.*:*)
 	echo "${MACHINE}-v11-${SYSTEM}"; exit 0;
 	;;
-    
+
     UNIX_SV:*:*:maxion)
 	echo "${MACHINE}-ccur-sysv4"; exit 0;
 	;;
@@ -271,7 +277,7 @@ case "${SYSTEM}:${RELEASE}:${VERSION}:${MACHINE}" in
         MACHINE=`uname -p`
         echo "${MACHINE}-concurrent-powermax"; exit 0;
         ;;
-    
+
     UNIX_SV:*)
 	if [ -d /usr/nec ];then
 		echo "mips-nec-sysv4"; exit 0;
@@ -352,7 +358,7 @@ case "$ISNEXT" in
           NEXTOS="nextstep"
      	fi
 
-	NEXTREL="`hostinfo | sed -n 's/.*NeXT Mach \([0-9\.]*\).*/\1/p'`" 
+	NEXTREL="`hostinfo | sed -n 's/.*NeXT Mach \([0-9\.]*\).*/\1/p'`"
 	NEXTARCH=`arch`
 	echo "${NEXTARCH}-next-${NEXTOS}${NEXTREL}" ; exit 0
 
@@ -362,5 +368,5 @@ esac
 # At this point we gone through all the one's
 # we know of: Punt
 
-echo "${MACHINE}-whatever-${SYSTEM},${RELEASE},${VERSION}" 
+echo "${MACHINE}-whatever-${SYSTEM},${RELEASE},${VERSION}"
 exit 0

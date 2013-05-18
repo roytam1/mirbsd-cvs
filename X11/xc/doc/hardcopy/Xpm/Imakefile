@@ -1,0 +1,8 @@
+XCOMM $XFree86: xc/doc/hardcopy/Xpm/Imakefile,v 1.1 2005/03/12 23:54:51 dawes Exp $
+
+InstallHardcopyDoc(xpm,xpm.PS.gz)
+
+XPMDOCDIR = $(TOP)/extras/Xpm/doc
+
+LinkSourceFile(xpm.PS.gz,$(XPMDOCDIR))
+

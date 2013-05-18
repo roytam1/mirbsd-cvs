@@ -1,3 +1,4 @@
+/**	$MirOS: src/sys/lib/libkern/libkern.h,v 1.4 2006/11/21 13:20:09 tg Exp $ */
 /*	$OpenBSD: libkern.h,v 1.22 2004/08/07 00:38:32 deraadt Exp $	*/
 /*	$NetBSD: libkern.h,v 1.7 1996/03/14 18:52:08 christos Exp $	*/
 
@@ -160,12 +161,11 @@ u_long	 random(void);
 void	 srandom(u_long);
 int	 scanc(u_int, const u_char *, const u_char [], int);
 int	 skpc(int, size_t, u_char *);
-size_t	 strlen(const char *);
-char	*strncpy(char *, const char *, size_t)
-		__attribute__ ((__bounded__(__string__,1,3)));
 size_t	 strlcpy(char *, const char *, size_t)
 		__attribute__ ((__bounded__(__string__,1,3)));
 size_t	 strlcat(char *, const char *, size_t)
+		__attribute__ ((__bounded__(__string__,1,3)));
+char	*strncpy(char *, const char *, size_t)
 		__attribute__ ((__bounded__(__string__,1,3)));
 int	 strcmp(const char *, const char *);
 int	 strncmp(const char *, const char *, size_t);
@@ -177,5 +177,7 @@ char	*strrchr(const char *, int);
 extern u_int8_t const __bcd2bin[], __bin2bcd[];
 #define	bcd2bin(b)	(__bcd2bin[(b)&0xff])
 #define	bin2bcd(b)	(__bin2bcd[(b)&0xff])
+
+#include <libckern.h>
 
 #endif /* __LIBKERN_H__ */

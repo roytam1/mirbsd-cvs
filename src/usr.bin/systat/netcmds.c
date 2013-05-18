@@ -195,7 +195,7 @@ selectport(long port, int onoff)
 {
 	struct pitem *p;
 
-	if (ntohs(port) == -1) {
+	if ((short)ntohs(port) == -1) {
 		if (ports == 0)
 			return (0);
 		free((char *)ports), ports = 0;
@@ -290,8 +290,6 @@ selecthost(struct sockaddr *sa, int onoff)
 			p->onoff = onoff;
 			return (0);
 		}
-	if (sa->sa_len > sizeof(struct sockaddr_storage))
-		return (-1);	/*XXX*/
 	if (nhosts == 0)
 		hosts = (struct hitem *)malloc(sizeof (*p));
 	else

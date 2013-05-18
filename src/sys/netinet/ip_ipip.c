@@ -360,9 +360,22 @@ ipip_input(struct mbuf *m, int iphlen, struct ifnet *gifp)
 	}
 
 #if NBPFILTER > 0
-	if (gifp && gifp->if_bpf)
-		bpf_mtap_af(gifp->if_bpf, ifq == &ipintrq ? AF_INET : AF_INET6,
-		    m);
+	if (gifp && gifp->if_bpf) {
+		struct mbuf m0;
+		u_int af;
+
+		if (ifq == &ipintrq)
+			af = AF_INET;
+		else
+			af = AF_INET6;
+
+		m0.m_flags = 0;
+		m0.m_next = m;
+		m0.m_len = 4;
+		m0.m_data = (char *)&af;
+
+		bpf_mtap(gifp->if_bpf, &m0);
+	}
 #endif
 
 	s = splimp();			/* isn't it already? */

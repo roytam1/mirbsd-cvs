@@ -14,7 +14,6 @@ SRCS=	assert.c debug.c errstring.c exc.c heap.c match.c rpool.c strdup.c \
 ENVDEF=	-DNOT_SENDMAIL
 
 # This is not a library that gets installed so only build the .a version
-NOPROFILE=1
-NOPIC=1
+NOPIC=	yes
 
 .include <bsd.lib.mk>

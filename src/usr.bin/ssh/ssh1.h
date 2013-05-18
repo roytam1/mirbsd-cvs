@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /* $OpenBSD: ssh1.h,v 1.6 2006/03/25 22:22:43 djm Exp $ */
 
 /*
@@ -64,10 +65,6 @@
 #define SSH_CMSG_AUTH_TIS			39	/* we use this for s/key */
 #define SSH_SMSG_AUTH_TIS_CHALLENGE		40	/* challenge (string) */
 #define SSH_CMSG_AUTH_TIS_RESPONSE		41	/* response (string) */
-#define SSH_CMSG_AUTH_KERBEROS			42	/* (KTEXT) */
-#define SSH_SMSG_AUTH_KERBEROS_RESPONSE		43	/* (KTEXT) */
-#define SSH_CMSG_HAVE_KERBEROS_TGT		44	/* credentials (s) */
-#define SSH_CMSG_HAVE_AFS_TOKEN			65	/* token (s) */
 
 /* protocol version 1.5 overloads some version 1.3 message types */
 #define SSH_MSG_CHANNEL_INPUT_EOF	SSH_MSG_CHANNEL_CLOSE
@@ -82,10 +79,7 @@
 #define SSH_AUTH_PASSWORD	3
 #define SSH_AUTH_RHOSTS_RSA	4
 #define SSH_AUTH_TIS		5
-#define SSH_AUTH_KERBEROS	6
-#define SSH_PASS_KERBEROS_TGT	7
 				/* 8 to 15 are reserved */
-#define SSH_PASS_AFS_TOKEN	21
 
 /* Protocol flags.  These are bit masks. */
 #define SSH_PROTOFLAG_SCREEN_NUMBER	1	/* X11 forwarding includes screen */

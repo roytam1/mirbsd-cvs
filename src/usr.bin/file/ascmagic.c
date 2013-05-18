@@ -49,9 +49,7 @@
 #endif
 #include "names.h"
 
-#ifndef	lint
-FILE_RCSID("@(#)$Id$")
-#endif	/* lint */
+__RCSID("$MirOS$");
 
 typedef unsigned long unichar;
 
@@ -71,10 +69,10 @@ private int ascmatch(const unsigned char *, const unichar *, size_t);
 protected int
 file_ascmagic(struct magic_set *ms, const unsigned char *buf, size_t nbytes)
 {
-	size_t i;
+	ssize_t i;
 	unsigned char nbuf[HOWMANY+1];	/* one extra for terminating '\0' */
 	unichar ubuf[HOWMANY+1];	/* one extra for terminating '\0' */
-	size_t ulen;
+	ssize_t ulen;
 	struct names *p;
 
 	const char *code = NULL;
@@ -439,7 +437,7 @@ private int
 looks_ascii(const unsigned char *buf, size_t nbytes, unichar *ubuf,
     size_t *ulen)
 {
-	int i;
+	size_t i;
 
 	*ulen = 0;
 
@@ -458,7 +456,7 @@ looks_ascii(const unsigned char *buf, size_t nbytes, unichar *ubuf,
 private int
 looks_latin1(const unsigned char *buf, size_t nbytes, unichar *ubuf, size_t *ulen)
 {
-	int i;
+	size_t i;
 
 	*ulen = 0;
 
@@ -478,7 +476,7 @@ private int
 looks_extended(const unsigned char *buf, size_t nbytes, unichar *ubuf,
     size_t *ulen)
 {
-	int i;
+	size_t i;
 
 	*ulen = 0;
 
@@ -497,7 +495,8 @@ looks_extended(const unsigned char *buf, size_t nbytes, unichar *ubuf,
 private int
 looks_utf8(const unsigned char *buf, size_t nbytes, unichar *ubuf, size_t *ulen)
 {
-	int i, n;
+	size_t i;
+	int n;
 	unichar c;
 	int gotone = 0;
 
@@ -561,7 +560,7 @@ looks_unicode(const unsigned char *buf, size_t nbytes, unichar *ubuf,
     size_t *ulen)
 {
 	int bigend;
-	int i;
+	size_t i;
 
 	if (nbytes < 2)
 		return 0;
@@ -680,7 +679,7 @@ private unsigned char ebcdic_1047_to_8859[] = {
 private void
 from_ebcdic(const unsigned char *buf, size_t nbytes, unsigned char *out)
 {
-	int i;
+	size_t i;
 
 	for (i = 0; i < nbytes; i++) {
 		out[i] = ebcdic_to_ascii[buf[i]];

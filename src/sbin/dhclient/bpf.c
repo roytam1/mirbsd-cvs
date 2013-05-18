@@ -207,8 +207,10 @@ if_register_receive(void)
 	if (ioctl(ifi->rfdesc, BIOCIMMEDIATE, &flag) < 0)
 		error("Can't set immediate mode on bpf device: %m");
 
+#ifdef BIOCSFILDROP
 	if (ioctl(ifi->rfdesc, BIOCSFILDROP, &flag) < 0)
 		error("Can't set filter-drop mode on bpf device: %m");
+#endif
 
 	/* Get the required BPF buffer length from the kernel. */
 	if (ioctl(ifi->rfdesc, BIOCGBLEN, &sz) < 0)

@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: gdt_pci.c,v 1.19 2003/08/06 21:08:06 millert Exp $	*/
 
 /*
@@ -442,7 +443,7 @@ gdt_pci_attach(parent, self, aux)
 		if (bus_space_read_4(dpmemt, dpmemh, GDT_MPR_IC) !=
 		    GDT_MPR_MAGIC) {
 			printf("cannot access DPMEM at 0x%x (shadowed?)\n",
-			    dpmembase);
+			    (unsigned)dpmembase);
 			goto bail_out;
 		}
 

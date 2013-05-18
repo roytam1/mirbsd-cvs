@@ -563,8 +563,8 @@ SendPacket(RMPCONN *rconn)
 	 *  Set Ethernet Destination address to Source (BPF and the enet
 	 *  driver will take care of getting our source address set).
 	 */
-	bcopy((char *)&rconn->rmp.hp_hdr.saddr[0],
-	    (char *)&rconn->rmp.hp_hdr.daddr[0], RMP_ADDRLEN);
+	memmove((char *)&rconn->rmp.hp_hdr.daddr[0],
+		(char *)&rconn->rmp.hp_hdr.saddr[0], RMP_ADDRLEN);
 	rconn->rmp.hp_hdr.len = htons(rconn->rmplen - sizeof(struct hp_hdr));
 
 	/*

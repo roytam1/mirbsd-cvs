@@ -1,10 +1,19 @@
-#	$OpenBSD: Makefile,v 1.13 2005/07/20 21:29:00 jmc Exp $
+# $MirOS: src/lib/libz/Makefile,v 1.23 2007/05/17 18:38:36 tg Exp $
+# $OpenBSD: Makefile,v 1.13 2005/07/20 21:29:00 jmc Exp $
 
-LIB=	z
-HDRS=	zconf.h zlib.h
-SRCS=	adler32.c compress.c crc32.c deflate.c gzio.c infback.c \
-	inffast.c inflate.c inftrees.c trees.c uncompr.c zutil.c
-MAN=	compress.3
+SHLIB_VERSION?=	5.3
+LIB=		z
+HDRS=		zconf.h zlib.h
+SRCS=		adler32.c compress.c crc32.c deflate.c gzio.c infback.c \
+		inffast.c inflate.c inftrees.c trees.c uncompr.c zutil.c
+MAN=		compress.3
+.include <bsd.own.mk>
+COPTS+=		-Wall -Wno-old-style-definitions
+CPPFLAGS+=	-I. -DZCONST=const
+GENHDRS=	crc32.h inffixed.h trees.h
+CLEANFILES+=	mk_crc32 mk_crc32.c mk_inffixed mk_inffixed.c \
+		mk_trees mk_trees.c ${GENHDRS}
+
 MLINKS=	compress.3 zlibVersion.3 compress.3 deflateInit.3 \
 	compress.3 deflate.3 compress.3 deflateEnd.3 \
 	compress.3 inflateInit.3 compress.3 inflate.3 \
@@ -33,17 +42,20 @@ MLINKS=	compress.3 zlibVersion.3 compress.3 deflateInit.3 \
 	compress.3 gzdirect.3 \
 	compress.3 gzclose.3 compress.3 gzerror.3 \
 	compress.3 gzclearerr.3 \
-	compress.3 adler32.3 compress.3 adler32_combine.3 \
+	compress.3 adler32_combine.3 \
 	compress.3 crc32.3 compress.3 crc32_combine.3
-CFLAGS+=-DHAVE_STRERROR -DHAVE_MEMCPY -DHAS_vsnprintf -DHAS_snprintf
 
-includes:
-	@cd ${.CURDIR}; for i in $(HDRS); do \
-		j="cmp -s $$i ${DESTDIR}/usr/include/$$i || \
-		    ${INSTALL} ${INSTALL_COPY} -o ${BINOWN} -g ${BINGRP} -m 444 \
-		    $$i ${DESTDIR}/usr/include"; \
-		echo $$j; \
-		eval "$$j"; \
-	done
+# MirOS extension
+SRCS+=		gzfopen.c
+MAN+=		gzfopen.3
+MLINKS+=	gzfopen.3 gzfdopen.3
 
+HOSTCFLAGS?=	${CFLAGS}
+HOSTLDFLAGS?=	${LDFLAGS}
+HOSTCPPFLAGS?=	${CPPFLAGS}
+HOSTCPPFLAGS+=	-I${.CURDIR}
+
+beforedepend: ${GENHDRS}
+
+.include "Makefile.gen"
 .include <bsd.lib.mk>

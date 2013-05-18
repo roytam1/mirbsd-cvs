@@ -136,6 +136,7 @@ void write_svc_aux(int);
 void write_inetd_register(char *);
 void write_netid_register(char *);
 void write_nettype_register(char *);
+int nullproc(proc_list *proc);
 /*
  * rpc_clntout routines
  */

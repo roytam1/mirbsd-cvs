@@ -1,3 +1,4 @@
+/**	$MirOS: src/sys/arch/i386/include/asm.h,v 1.7 2007/02/18 16:49:47 tg Exp $ */
 /*	$OpenBSD: asm.h,v 1.7 2003/06/02 23:27:47 millert Exp $	*/
 /*	$NetBSD: asm.h,v 1.7 1994/10/27 04:15:56 cgd Exp $	*/
 
@@ -39,12 +40,21 @@
 #define _I386_ASM_H_
 
 #ifdef PIC
+#ifdef __ELF__
 #define PIC_PROLOGUE	\
 	pushl	%ebx;	\
 	call	666f;	\
 666:			\
 	popl	%ebx;	\
-	addl	$_C_LABEL(_GLOBAL_OFFSET_TABLE_)+[.-666b], %ebx
+	addl	$_GLOBAL_OFFSET_TABLE_+[.-666b], %ebx
+#else
+#define PIC_PROLOGUE	\
+	pushl	%ebx;	\
+	call	666f;	\
+666:			\
+	popl	%ebx;	\
+	addl	$__GLOBAL_OFFSET_TABLE_+[.-666b], %ebx
+#endif
 #define PIC_EPILOGUE	\
 	popl	%ebx
 #define PIC_PLT(x)	x@PLT
@@ -58,45 +68,63 @@
 #define PIC_GOTOFF(x)	x
 #endif
 
-#define _C_LABEL(name)	name
+#ifdef __ELF__
+#define _C_LABEL(name)		name
+#else
+#ifdef __STDC__
+#define _C_LABEL(name)		_ ## name
+#else
+#define _C_LABEL(name)		_/**/name
+#endif
+#endif
 #define	_ASM_LABEL(x)	x
 
 /*
- * WEAK ALIAS: create a weak alias
+ * WEAK_ALIAS: create a weak alias (ELF only)
  */
-#define WEAK_ALIAS(alias,sym) \
-	.weak alias; \
+#ifdef __ELF__
+#define WEAK_ALIAS(alias,sym)		\
+	.weak alias;			\
 	alias = sym
+#endif
 
 /*
  * WARN_REFERENCES: create a warning if the specified symbol is referenced
+ * (ELF only).
  */
+#ifdef __ELF__
 #define WARN_REFERENCES(_sym,_msg)	\
-	.section .gnu.warning. ## _sym ; .ascii _msg ; .text
+	.section .gnu.warning. ## _sym ; .ascii _msg ; .previous
+#endif /* __ELF__ */
 
 /* let kernels and others override entrypoint alignment */
 #ifndef _ALIGN_TEXT
-# define _ALIGN_TEXT .align 2, 0x90
+#define _ALIGN_TEXT		.balign 2, 0x90
 #endif
 
-#define _ENTRY(x) \
-	.text; _ALIGN_TEXT; .globl x; .type x,@function; x:
+#define FTYPE(x)		.type x,@function
+#define OTYPE(x)		.type x,@object
 
-#ifdef GPROF
-# define _PROF_PROLOGUE	\
-	pushl %ebp; movl %esp,%ebp; call PIC_PLT(mcount); popl %ebp
-#else
-# define _PROF_PROLOGUE
-#endif
+#define	_ENTRY(name) \
+	.text; _ALIGN_TEXT; .globl name; FTYPE(name); name:
 
-#define	ENTRY(y)	_ENTRY(_C_LABEL(y)); _PROF_PROLOGUE
-#define	NENTRY(y)	_ENTRY(_C_LABEL(y))
-#define	ASENTRY(y)	_ENTRY(_ASM_LABEL(y)); _PROF_PROLOGUE
+/* no profiling */
+#define _PROF_PROLOGUE
 
-#define	ALTENTRY(name)	.globl _C_LABEL(name); _C_LABEL(name):
+#define ENTRY(name)		_ENTRY(_C_LABEL(name)); _PROF_PROLOGUE
+#define NENTRY(name)		_ENTRY(_C_LABEL(name))
+#define	ASENTRY(name)		_ENTRY(_ASM_LABEL(name)); _PROF_PROLOGUE
 
-#define	ASMSTR		.asciz
+#define ALTENTRY(name) \
+	.globl _C_LABEL(name); FTYPE(_C_LABEL(name)); _C_LABEL(name):
+#define DENTRY(name) \
+	.globl _C_LABEL(name); OTYPE(_C_LABEL(name)); _C_LABEL(name):
 
-#define RCSID(x)	.text; .asciz x
+#define ASMSTR			.asciz
+
+#define RCSID(x)		.section .comment; \
+				.ascii "@(""#)rcsid: "; \
+				.asciz x; \
+				.previous
 
 #endif /* !_I386_ASM_H_ */

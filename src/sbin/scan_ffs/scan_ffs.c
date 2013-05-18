@@ -82,12 +82,13 @@ ufsscan(int fd, daddr_t beg, daddr_t end, int flags)
 						    sb->fs_fsize, sb->fs_bsize,
 						    sb->fs_cpg, lastmount);
 					} else {
+						time_t t = sb->fs_time;
 						printf("ffs at %d size %lld "
 						    "mount %s time %s",
 						    blk+(n/512)-(2*SBSIZE/512),
 						    (long long)(off_t)sb->fs_size *
 						    sb->fs_fsize,
-						    lastmount, ctime(&sb->fs_time));
+						    lastmount, ctime(&t));
 					}
 
 					if (flags & FLAG_SMART) {

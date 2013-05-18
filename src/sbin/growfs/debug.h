@@ -1,12 +1,12 @@
-/*	$OpenBSD: debug.h,v 1.3 2003/08/25 23:28:15 tedu Exp $	*/
+/**	$MirOS$	*/
 /*
  * Copyright (c) 2000 Christoph Herrmann, Thomas-Henning von Kamptz
  * Copyright (c) 1980, 1989, 1993 The Regents of the University of California.
  * All rights reserved.
- * 
+ *
  * This code is derived from software contributed to Berkeley by
  * Christoph Herrmann and Thomas-Henning von Kamptz, Munich and Frankfurt.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met:
@@ -47,6 +47,11 @@
 #include <sys/param.h>
 
 #include <ufs/ufs/dinode.h>
+#include <ufs/ffs/fs.h>
+
+#ifndef	rounddown
+#define	rounddown(x,y)	(((x)/(y))*(y))
+#endif
 
 void dbg_open(const char *);
 void dbg_close(void);

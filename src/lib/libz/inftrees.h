@@ -1,3 +1,4 @@
+/**	$MirOS: src/lib/libz/inftrees.h,v 1.2 2005/03/14 21:58:17 tg Exp $ */
 /*	$OpenBSD: inftrees.h,v 1.5 2005/07/20 15:56:41 millert Exp $	*/
 /* inftrees.h -- header to use inftrees.c
  * Copyright (C) 1995-2005 Mark Adler

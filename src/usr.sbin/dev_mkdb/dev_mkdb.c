@@ -128,7 +128,7 @@ main(int argc, char *argv[])
 		 * Create the data; nul terminate the name so caller doesn't
 		 * have to.
 		 */
-		bcopy(dp->d_name, buf, dp->d_namlen);
+		memmove(buf, dp->d_name, dp->d_namlen);
 		buf[dp->d_namlen] = '\0';
 		data.size = dp->d_namlen + 1;
 		if ((db->put)(db, &key, &data, 0))

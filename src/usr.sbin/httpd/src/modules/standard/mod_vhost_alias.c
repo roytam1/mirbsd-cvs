@@ -214,7 +214,7 @@ static const char *vhost_alias_set(cmd_parms *cmd, void *dummy, char *map)
 	    ++p;
 	}
 	/* digit N */
-	if (ap_isdigit(*p)) {
+	if (isdigit((unsigned char)*p)) {
 	    ++p;
 	}
 	else {
@@ -234,7 +234,7 @@ static const char *vhost_alias_set(cmd_parms *cmd, void *dummy, char *map)
 	    ++p;
 	}
 	/* digit M */
-	if (ap_isdigit(*p)) {
+	if (isdigit((unsigned char)*p)) {
 	    ++p;
 	}
 	else {
@@ -336,7 +336,7 @@ static void vhost_alias_interpolate(request_rec *r, const char *name,
 	    ++map;
 	    /* no. of decimal digits in a short plus one */
 	    vhost_alias_checkspace(r, buf, &dest, 7);
-	    dest += ap_snprintf(dest, 7, "%d", ap_get_server_port(r));
+	    dest += snprintf(dest, 7, "%d", ap_get_server_port(r));
 	    continue;
 	}
 	/* deal with %-N+.-M+ -- syntax is already checked */

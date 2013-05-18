@@ -23,9 +23,8 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <sys/types.h>
-#include <sys/stat.h>
 #include <sys/param.h>
+#include <sys/stat.h>
 
 #include <errno.h>
 #include <libgen.h>
@@ -50,10 +49,9 @@
 #include "uidswap.h"
 #include "misc.h"
 #include "packet.h"
-#ifdef GSSAPI
-#include "ssh-gss.h"
-#endif
 #include "monitor_wrap.h"
+
+__RCSID("$MirOS: src/usr.bin/ssh/auth.c,v 1.7 2007/09/02 18:53:13 tg Exp $");
 
 /* import */
 extern ServerOptions options;
@@ -77,7 +75,7 @@ allowed_user(struct passwd * pw)
 {
 	struct stat st;
 	const char *hostname = NULL, *ipaddr = NULL;
-	char *shell;
+	const char *shell;
 	u_int i;
 
 	/* Shouldn't be called if pw is NULL, but better safe than sorry... */
@@ -171,10 +169,11 @@ allowed_user(struct passwd * pw)
 }
 
 void
-auth_log(Authctxt *authctxt, int authenticated, char *method, char *info)
+auth_log(Authctxt *authctxt, int authenticated, const char *method,
+    const char *info)
 {
 	void (*authlog) (const char *fmt,...) = verbose;
-	char *authmsg;
+	const char *authmsg;
 
 	if (use_privsep && !mm_is_monitor() && !authctxt->postponed)
 		return;
@@ -234,7 +233,7 @@ auth_root_allowed(char *method)
  * This returns a buffer allocated by xmalloc.
  */
 static char *
-expand_authorized_keys(const char *filename, struct passwd *pw)
+expand_authorised_keys(const char *filename, struct passwd *pw)
 {
 	char *file, ret[MAXPATHLEN];
 	int i;
@@ -251,21 +250,21 @@ expand_authorized_keys(const char *filename, struct passwd *pw)
 
 	i = snprintf(ret, sizeof(ret), "%s/%s", pw->pw_dir, file);
 	if (i < 0 || (size_t)i >= sizeof(ret))
-		fatal("expand_authorized_keys: path too long");
+		fatal("expand_authorised_keys: path too long");
 	xfree(file);
 	return (xstrdup(ret));
 }
 
 char *
-authorized_keys_file(struct passwd *pw)
+authorised_keys_file(struct passwd *pw)
 {
-	return expand_authorized_keys(options.authorized_keys_file, pw);
+	return expand_authorised_keys(options.authorised_keys_file, pw);
 }
 
 char *
-authorized_keys_file2(struct passwd *pw)
+authorised_keys_file2(struct passwd *pw)
 {
-	return expand_authorized_keys(options.authorized_keys_file2, pw);
+	return expand_authorised_keys(options.authorised_keys_file2, pw);
 }
 
 /* return ok if key exists in sysfile or userfile */
@@ -383,7 +382,9 @@ struct passwd *
 getpwnamallow(const char *user)
 {
 	extern login_cap_t *lc;
+#ifdef BSD_AUTH
 	auth_session_t *as;
+#endif
 	struct passwd *pw;
 
 	parse_server_match_config(&options, user,
@@ -401,13 +402,15 @@ getpwnamallow(const char *user)
 		debug("unable to get login class: %s", user);
 		return (NULL);
 	}
+#ifdef BSD_AUTH
 	if ((as = auth_open()) == NULL || auth_setpwd(as, pw) != 0 ||
-	    auth_approval(as, lc, pw->pw_name, "ssh") <= 0) {
+	    auth_approval(as, lc, pw->pw_name, (char *)"ssh") <= 0) {
 		debug("Approval failure for %s", user);
 		pw = NULL;
 	}
 	if (as != NULL)
 		auth_close(as);
+#endif
 	if (pw != NULL)
 		return (pwcopy(pw));
 	return (NULL);
@@ -459,15 +462,15 @@ fakepw(void)
 	static struct passwd fake;
 
 	memset(&fake, 0, sizeof(fake));
-	fake.pw_name = "NOUSER";
+	fake.pw_name = (char *)"NOUSER";
 	fake.pw_passwd =
-	    "$2a$06$r3.juUaHZDlIbQaO2dS9FuYxL1W9M81R1Tc92PoSNmzvpEqLkLGrK";
-	fake.pw_gecos = "NOUSER";
+	    (char *)"$2a$06$r3.juUaHZDlIbQaO2dS9FuYxL1W9M81R1Tc92PoSNmzvpEqLkLGrK";
+	fake.pw_gecos = (char *)"NOUSER";
 	fake.pw_uid = (uid_t)-1;
 	fake.pw_gid = (gid_t)-1;
-	fake.pw_class = "";
-	fake.pw_dir = "/nonexist";
-	fake.pw_shell = "/nonexist";
+	fake.pw_class = (char *)"";
+	fake.pw_dir = (char *)"/nonexist";
+	fake.pw_shell = (char *)"/nonexist";
 
 	return (&fake);
 }

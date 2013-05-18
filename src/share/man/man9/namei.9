@@ -198,20 +198,20 @@ Pathname lookups cannot be done in interrupt context.
 .It Fn namei "ndp"
 Convert a pathname into a pointer to a locked inode.
 The pathname is specified by
-.Em ndp-\*[Gt]ni_dirp
+.Em ndp-\*(Gtni_dirp
 and is of length
-.Em ndp-\*[Gt]ni_pathlen .
+.Em ndp-\*(Gtni_pathlen .
 The
-.Em ndp-\*[Gt]segflg
+.Em ndp-\*(Gtsegflg
 flags defines whether the name in
-.Em ndp-\*[Gt]ni_dirp
+.Em ndp-\*(Gtni_dirp
 is an address in kernel space (UIO_SYSSPACE) or an address in user
 space (UIO_USERSPACE).
 The locked vnode for the pathname is referenced and returned in
-.Em ndp-\*[Gt]ni_vp .
+.Em ndp-\*(Gtni_vp .
 .Pp
 If
-.Em ndp-\*[Gt]ni_cnd.cn_flags
+.Em ndp-\*(Gtni_cnd.cn_flags
 has the FOLLOW flag set then symbolic links are followed when they
 occur at the end of the name translation process.
 Symbolic links are always followed for all other pathname components
@@ -221,30 +221,30 @@ Search for a pathname.
 This is a very central and rather complicated routine.
 .Pp
 The pathname is specified by
-.Em ndp-\*[Gt]ni_dirp
+.Em ndp-\*(Gtni_dirp
 and is of length
-.Em ndp-\*[Gt]ni_pathlen .
+.Em ndp-\*(Gtni_pathlen .
 The starting directory is taken from
-.Em ndp-\*[Gt]ni_startdir .
+.Em ndp-\*(Gtni_startdir .
 The pathname is descended until done, or a symbolic link is
 encountered.
 .Pp
 The semantics of
 .Fn lookup
 are altered by the operation specified by
-.Em ndp-\*[Gt]ni_cnd.cn_nameiop .
+.Em ndp-\*(Gtni_cnd.cn_nameiop .
 When CREATE, RENAME, or DELETE is specified, information usable in
 creating, renaming, or deleting a directory entry may be calculated.
 .Pp
 If
-.Em ndp-\*[Gt]ci_cnd.cn_flags
+.Em ndp-\*(Gtci_cnd.cn_flags
 has LOCKPARENT set, the parent directory is returned locked in
-.Em ndp-\*[Gt]ni_dvp .
+.Em ndp-\*(Gtni_dvp .
 If WANTPARENT is set, the parent directory is returned unlocked.
 Otherwise the parent directory is not returned.
 If the target of the pathname exists and LOCKLEAF is set, the target
 is returned locked in
-.Em ndp-\*[Gt]ni_vp ,
+.Em ndp-\*(Gtni_vp ,
 otherwise it is returned unlocked.
 .It Fn relookup "dvp" "vpp" "cnp"
 Reacquire a path name component is a directory.
@@ -270,9 +270,9 @@ and
 .Fa flags
 respectively.
 These are the values to which
-.Em ndp-\*[Gt]ni_cnd.cn_nameiop
+.Em ndp-\*(Gtni_cnd.cn_nameiop
 and
-.Em ndp-\*[Gt]ni_cnd.cn_flags
+.Em ndp-\*(Gtni_cnd.cn_flags
 are respectively set.
 The segment flags which defines whether the pathname is in kernel
 address space or user address space is specified by
@@ -280,7 +280,7 @@ address space or user address space is specified by
 The argument
 .Fa namep
 is a pointer to the pathname that
-.Em ndp-\*[Gt]ni_dirp
+.Em ndp-\*(Gtni_dirp
 is set to and
 .Fa p
 is the calling process.

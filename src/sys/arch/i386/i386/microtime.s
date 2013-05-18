@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: microtime.s,v 1.19 2003/06/04 16:36:14 deraadt Exp $	*/
 /*	$NetBSD: microtime.s,v 1.16 1995/04/17 12:06:47 cgd Exp $	*/
 
@@ -53,6 +54,7 @@ ENTRY(microtime)
 #endif
 	movb	$(TIMER_SEL0|TIMER_LATCH),%al
 
+	pushl	%ebp
 	pushfl
 	cli				# disable interrupts
 
@@ -119,20 +121,26 @@ ENTRY(microtime)
 	shrl	$12,%eax		# a = a/4096 = 3433d/4096
 
 common_microtime:
-	movl	_C_LABEL(time),%edx	# get time.tv_sec
-	addl	_C_LABEL(time)+4,%eax	# add time.tv_usec
+	.intel_syntax noprefix
+	mov	edx,[_C_LABEL(time)]	# get time.tv_sec lower
+	mov	ebp,[_C_LABEL(time)+4]	# get time.tv_sec upper
+	add	eax,[_C_LABEL(time)+8]	# add time.tv_usec
 
-	popfl			# enable interrupts
-	
-	cmpl	$1000000,%eax	# carry in timeval?
+	popfd			# enable interrupts
+
+	cmp	eax,1000000	# carry in timeval?
 	jb	3f
-	subl	$1000000,%eax	# adjust usec
-	incl	%edx		# bump sec
-	
-3:	movl	4(%esp),%ecx	# load timeval pointer arg
-	movl	%edx,(%ecx)	# tvp->tv_sec = sec
-	movl	%eax,4(%ecx)	# tvp->tv_usec = usec
+	sub	eax,1000000	# adjust usec
+	add	edx,1		# bump second
+	adc	ebp,0		# carry over
 
+3:	mov	ecx,[esp+8]	# load timeval pointer arg
+	mov	[ecx],edx	# tvp->tv_sec = sec (lower)
+	mov	[ecx+4],ebp	# tvp->tv_sec = sec (upper)
+	mov	[ecx+8],eax	# tvp->tv_usec = usec
+	pop	ebp
+	
+	.att_syntax
 	ret
 
 #if defined(I586_CPU) || defined(I686_CPU)
@@ -143,6 +151,7 @@ common_microtime:
 
 	.align	2, 0x90
 pentium_microtime:
+	pushl	%ebp
 	pushfl
 	cli
 	rdtsc

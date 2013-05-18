@@ -1,3 +1,4 @@
+/**	$MirOS: src/sbin/fdisk/fdisk.c,v 1.3 2005/11/23 16:43:53 tg Exp $ */
 /*	$OpenBSD: fdisk.c,v 1.43 2006/07/27 04:53:27 ray Exp $	*/
 
 /*
@@ -37,10 +38,12 @@
 #include "disk.h"
 #include "user.h"
 
-#define _PATH_MBR _PATH_BOOTDIR "mbr"
+#define _PATH_MBR _PATH_BOOTDIR "mbrmgr"
 static unsigned char builtin_mbr[] = {
 #include "mbrcode.h"
 };
+
+__RCSID("$MirOS: src/sbin/fdisk/fdisk.c,v 1.3 2005/11/23 16:43:53 tg Exp $");
 
 static void
 usage(void)
@@ -49,7 +52,7 @@ usage(void)
 
 	fprintf(stderr, "usage: %s "
 	    "[-ieu] [-c cylinders -h heads -s sectors] [-f mbrfile] device\n"
-	    "\t-i: initialize disk with virgin MBR\n"
+	    "\t-i: initialise disk with virgin MBR\n"
 	    "\t-u: update MBR code, preserve partition table\n"
 	    "\t-e: edit MBRs on disk interactively\n"
 	    "\t-f: specify non-standard MBR template\n"
@@ -150,7 +153,7 @@ main(int argc, char *argv[])
 	if (mbrfile != NULL && (fd = open(mbrfile, O_RDONLY)) == -1) {
 		warn("%s", mbrfile);
 		warnx("using builtin MBR");
-		mbrfile == NULL;
+		mbrfile = NULL;
 	}
 	if (mbrfile == NULL) {
 		memcpy(mbr_buf, builtin_mbr, sizeof(mbr_buf));
@@ -170,4 +173,3 @@ main(int argc, char *argv[])
 
 	return (0);
 }
-

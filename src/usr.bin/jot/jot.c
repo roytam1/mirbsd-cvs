@@ -30,19 +30,6 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-static const char copyright[] =
-"@(#) Copyright (c) 1993\n\
-	The Regents of the University of California.  All rights reserved.\n";
-#endif /* not lint */
-
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)jot.c	8.1 (Berkeley) 6/6/93";
-#endif
-static const char rcsid[] = "$OpenBSD: jot.c,v 1.18 2005/04/11 16:31:20 deraadt Exp $";
-#endif /* not lint */
-
 /*
  * jot - print sequential or random data
  *
@@ -56,6 +43,11 @@ static const char rcsid[] = "$OpenBSD: jot.c,v 1.18 2005/04/11 16:31:20 deraadt 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+__COPYRIGHT("@(#) Copyright (c) 1993\n\
+	The Regents of the University of California.  All rights reserved.\n");
+__SCCSID("@(#)jot.c	8.1 (Berkeley) 6/6/93");
+__RCSID("$MirOS$");
 
 #define	REPS_DEF	100
 #define	BEGIN_DEF	1
@@ -140,7 +132,7 @@ main(int argc, char *argv[])
 				errx(1, "Bad s value:  %s", argv[3]);
 			mask |= 01;
 			if (randomize)
-				warnx("random seeding not supported");
+				arc4random_pushb(&s, sizeof (s));
 		}
 	case 3:
 		if (!is_default(argv[2])) {

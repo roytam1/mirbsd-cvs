@@ -1,7 +1,9 @@
+/**	$MirOS: src/usr.sbin/rdate/rdate.c,v 1.11 2007/08/10 23:52:24 tg Exp $ */
 /*	$OpenBSD: rdate.c,v 1.22 2004/02/18 20:10:53 jmc Exp $	*/
 /*	$NetBSD: rdate.c,v 1.4 1996/03/16 12:37:45 pk Exp $	*/
 
 /*
+ * Copyright (c) 2005, 2007 Thorsten Glaser
  * Copyright (c) 1994 Christos Zoulas
  * All rights reserved.
  *
@@ -38,13 +40,6 @@
  *	Time is returned as the number of seconds since
  *	midnight January 1st 1900.
  */
-#ifndef lint
-#if 0
-from: static char rcsid[] = "$NetBSD: rdate.c,v 1.3 1996/02/22 06:59:18 thorpej Exp $";
-#else
-static const char rcsid[] = "$OpenBSD: rdate.c,v 1.22 2004/02/18 20:10:53 jmc Exp $";
-#endif
-#endif				/* lint */
 
 #include <sys/param.h>
 #include <sys/socket.h>
@@ -53,50 +48,65 @@ static const char rcsid[] = "$OpenBSD: rdate.c,v 1.22 2004/02/18 20:10:53 jmc Ex
 #include <stdio.h>
 #include <ctype.h>
 #include <err.h>
+#include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 #include <time.h>
 
+#include "rdate.h"
+
 /* there are systems without libutil; for portability */
-#ifndef NO_UTIL
+#ifndef	NO_UTIL
 #include <util.h>
 #else
-#define logwtmp(a,b,c)
+#define	logwtmp(a,b,c)	/* nothing */
 #endif
 
-void rfc868time_client (const char *, int, struct timeval *, struct timeval *, int);
-void ntp_client (const char *, int, struct timeval *, struct timeval *, int);
+__RCSID("$MirOS: src/usr.sbin/rdate/rdate.c,v 1.11 2007/08/10 23:52:24 tg Exp $");
 
-extern char    *__progname;
+static void usage(void) __attribute__((noreturn));
 
-void
+extern const char *__progname;
+int debug = 0;
+
+static void
 usage(void)
 {
-	(void) fprintf(stderr, "Usage: %s [-46acnpsv] host\n", __progname);
-	(void) fprintf(stderr, "  -4: use IPv4 only\n");
-	(void) fprintf(stderr, "  -6: use IPv6 only\n");
-	(void) fprintf(stderr, "  -a: use adjtime instead of instant change\n");
-	(void) fprintf(stderr, "  -c: correct leap second count\n");
-	(void) fprintf(stderr, "  -n: use SNTP instead of RFC868 time protocol\n");
-	(void) fprintf(stderr, "  -p: just print, don't set\n");
-	(void) fprintf(stderr, "  -s: just set, don't print\n");
-	(void) fprintf(stderr, "  -v: verbose output\n");
+	fprintf(stderr,
+	    "Usage: %s [-346acdnpsv] [-P ntpport] host\n"
+#ifndef SMALL
+	    "   -3: set SNTP version field to 3\n"
+	    "	-4: use IPv4 only\n"
+	    "	-6: use IPv6 only\n"
+	    "	-a: use adjtime instead of instant change\n"
+	    "	-d: debug SNTP exchange\n"
+	    "	-n: use SNTP instead of RFC868 time protocol\n"
+	    "	-p: just print, don't set\n"
+	    "	-r: show remainder from last adjtime\n"
+	    "	-s: just set, don't print (overrides -v)\n"
+	    "	-v: verbose output (clears -s)\n"
+#endif
+	    , __progname);
+	exit(1);
 }
 
 int
 main(int argc, char **argv)
 {
-	int             pr = 0, silent = 0, ntp = 0, verbose = 0;
-	int		slidetime = 0, corrleaps = 0;
+	int             pr = 0, silent = 0, ntp = 0, verbose = 0, ntpver = 0;
+	int		slidetime = 0, showremainder = 0, portno = 0;
 	char           *hname;
-	extern int      optind;
 	int             c;
 	int		family = PF_UNSPEC;
 
-	struct timeval new, adjust;
+	struct timeval new, adjust, remainder;
 
-	while ((c = getopt(argc, argv, "46psancv")) != -1)
+	while ((c = getopt(argc, argv, "346acdnP:prsv")) != -1)
 		switch (c) {
+		case '3':
+			ntpver = 3;
+			break;
+
 		case '4':
 			family = PF_INET;
 			break;
@@ -105,8 +115,18 @@ main(int argc, char **argv)
 			family = PF_INET6;
 			break;
 
+		case 'P':
+			portno = atoi(optarg);
+			if (portno < 1 || portno > 65535)
+				errx(1, "port number %s out of range", optarg);
+			break;
+
 		case 'p':
 			pr++;
+			break;
+
+		case 'r':
+			showremainder++;
 			break;
 
 		case 's':
@@ -117,33 +137,34 @@ main(int argc, char **argv)
 			slidetime++;
 			break;
 
+		case 'c':
+			break;
+
+		case 'd':
+			debug++;
+			break;
+
 		case 'n':
 			ntp++;
 			break;
 
-		case 'c':
-			corrleaps = 1;
-			break;
-
 		case 'v':
 			verbose++;
+			silent = 0;
 			break;
 
 		default:
 			usage();
-			return 1;
 		}
 
-	if (argc - 1 != optind) {
+	if ((argc - 1) != optind)
 		usage();
-		return 1;
-	}
 	hname = argv[optind];
 
 	if (ntp)
-		ntp_client(hname, family, &new, &adjust, corrleaps);
+		ntp_client(hname, family, &new, &adjust, portno, ntpver);
 	else
-		rfc868time_client(hname, family, &new, &adjust, corrleaps);
+		rfc868time_client(hname, family, &new, &adjust);
 
 	if (!pr) {
 		if (!slidetime) {
@@ -152,7 +173,7 @@ main(int argc, char **argv)
 				err(1, "Could not set time of day");
 			logwtmp("{", "date", "");
 		} else {
-			if (adjtime(&adjust, NULL) == -1)
+			if (adjtime(&adjust, &remainder) == -1)
 				err(1, "Could not adjust time of day");
 		}
 	}
@@ -161,13 +182,14 @@ main(int argc, char **argv)
 		struct tm      *ltm;
 		char		buf[80];
 		time_t		tim = new.tv_sec;
-		double		adjsec;
+		double		adjsec, remainsec;
 
 		ltm = localtime(&tim);
 		(void) strftime(buf, sizeof buf, "%a %b %e %H:%M:%S %Z %Y\n", ltm);
 		(void) fputs(buf, stdout);
 
 		adjsec  = adjust.tv_sec + adjust.tv_usec / 1.0e6;
+		remainsec  = remainder.tv_sec + remainder.tv_usec / 1.0e6;
 
 		if (slidetime || verbose) {
 			if (ntp)
@@ -177,8 +199,12 @@ main(int argc, char **argv)
 			else
 				(void) fprintf(stdout,
 				   "%s: adjust local clock by %ld seconds\n",
-				   __progname, adjust.tv_sec);
+				   __progname, (long)adjust.tv_sec);
 		}
+		if (!pr && slidetime && showremainder)
+			(void) fprintf(stdout,
+			    "%s: remainder before was %.6f seconds\n",
+			    __progname, remainsec);
 	}
 
 	return 0;

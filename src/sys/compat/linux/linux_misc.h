@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: linux_misc.h,v 1.3 2003/07/23 17:42:09 tedu Exp $	*/
 /*	$NetBSD: linux_misc.h,v 1.3 1999/05/13 00:31:57 thorpej Exp $	*/
 
@@ -69,7 +70,7 @@ struct linux_sysinfo {
 __BEGIN_DECLS
 void bsd_to_linux_wstat(int *);
 int linux_select1(struct proc *, register_t *, int, fd_set *, fd_set *,
-    fd_set *, struct timeval *);
+    fd_set *, struct timeval_compat *);
 __END_DECLS
 #endif /* !_KERNEL */
 

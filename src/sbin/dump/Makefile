@@ -1,4 +1,5 @@
-#	$OpenBSD: Makefile,v 1.10 2001/04/10 20:52:10 naddy Exp $
+# $MirOS: src/sbin/dump/Makefile,v 1.2 2005/03/15 18:39:18 tg Exp $
+# $OpenBSD: Makefile,v 1.10 2001/04/10 20:52:10 naddy Exp $
 
 #	dump.h			header file
 #	itime.c			reads /etc/dumpdates
@@ -11,15 +12,11 @@
 #	DEBUG			use local directory to find ddate and dumpdates
 #	TDEBUG			trace out the process forking
 
-PROG=	dump
-LINKS=	${BINDIR}/dump ${BINDIR}/rdump
-CFLAGS+=-DRDUMP
-SRCS=	itime.c main.c optr.c dumprmt.c tape.c traverse.c
-MAN=	dump.8
-MLINKS+=dump.8 rdump.8
-
-.if (${MACHINE_ARCH} == "sparc")
-CFLAGS+= -O0
-.endif
+PROG=		dump
+SRCS=		dumprmt.c itime.c main.c optr.c tape.c traverse.c
+CPPFLAGS+=	-DRDUMP
+LINKS=		${BINDIR}/dump ${BINDIR}/rdump
+MAN=		dump.8
+MLINKS+=	dump.8 rdump.8
 
 .include <bsd.prog.mk>

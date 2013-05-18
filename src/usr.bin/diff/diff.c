@@ -20,10 +20,6 @@
  * Materiel Command, USAF, under agreement number F39502-99-1-0512.
  */
 
-#ifndef lint
-static const char rcsid[] = "$OpenBSD: diff.c,v 1.48 2004/12/09 18:56:10 millert Exp $";
-#endif /* not lint */
-
 #include <sys/param.h>
 #include <sys/stat.h>
 
@@ -39,6 +35,8 @@ static const char rcsid[] = "$OpenBSD: diff.c,v 1.48 2004/12/09 18:56:10 millert
 #include <unistd.h>
 
 #include "diff.h"
+
+__RCSID("$MirOS$");
 
 int	 aflag, bflag, dflag, iflag, lflag, Nflag, Pflag, pflag, rflag;
 int	 sflag, tflag, Tflag, wflag;

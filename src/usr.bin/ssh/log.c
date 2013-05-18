@@ -48,10 +48,12 @@
 #include "xmalloc.h"
 #include "log.h"
 
+__RCSID("$MirOS: src/usr.bin/ssh/log.c,v 1.4 2006/09/20 21:40:59 tg Exp $");
+
 static LogLevel log_level = SYSLOG_LEVEL_INFO;
 static int log_on_stderr = 1;
 static int log_facility = LOG_AUTH;
-static char *argv0;
+static const char *argv0;
 
 extern char *__progname;
 
@@ -201,7 +203,7 @@ debug3(const char *fmt,...)
  */
 
 void
-log_init(char *av0, LogLevel level, SyslogFacility facility, int on_stderr)
+log_init(const char *av0, LogLevel level, SyslogFacility facility, int on_stderr)
 {
 	argv0 = av0;
 
@@ -276,7 +278,7 @@ do_log(LogLevel level, const char *fmt, va_list args)
 	struct syslog_data sdata = SYSLOG_DATA_INIT;
 	char msgbuf[MSGBUFSIZ];
 	char fmtbuf[MSGBUFSIZ];
-	char *txt = NULL;
+	const char *txt = NULL;
 	int pri = LOG_INFO;
 	int saved_errno = errno;
 

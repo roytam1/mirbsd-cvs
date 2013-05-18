@@ -32,6 +32,9 @@
  *	@(#)fsck.h	8.1 (Berkeley) 6/5/93
  */
 
+#ifndef FSCK_FFS_FSCK_H
+#define FSCK_FFS_FSCK_H "$MirOS$
+
 #define	MAXDUP		10	/* limit on dup blks (per inode) */
 #define	MAXBAD		10	/* limit on bad blks (per inode) */
 #define	MAXBUFSPACE	40*1024	/* maximum space to allocate to buffers */
@@ -219,3 +222,10 @@ ino_t allocino(ino_t, int);
 
 int	(*info_fn)(char *, size_t);
 char	*info_filesys;
+
+/* XXX for now */
+#ifndef MAXSYMLINKLEN_UFS1
+#define MAXSYMLINKLEN_UFS1 MAXSYMLINKLEN
+#endif
+
+#endif

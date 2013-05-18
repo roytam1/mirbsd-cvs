@@ -8,13 +8,15 @@
  *
  * Developed at SunPro, a Sun Microsystems, Inc. business.
  * Permission to use, copy, modify, and distribute this
- * software is freely granted, provided that this notice 
+ * software is freely granted, provided that this notice
  * is preserved.
  * ====================================================
  */
 
+#include <sys/cdefs.h>
 #if defined(LIBM_SCCS) && !defined(lint)
-static char rcsid[] = "$NetBSD: s_rintf.c,v 1.4 1995/05/10 20:48:06 jtc Exp $";
+__RCSID("$MirOS$");
+__RCSID("$NetBSD: s_rintf.c,v 1.8 2006/08/01 20:14:35 drochner Exp $");
 #endif
 
 #include "math.h"
@@ -31,12 +33,16 @@ rintf(float x)
 {
 	int32_t i0,jj0,sx;
 	u_int32_t i,i1;
-	float w,t;
+#ifdef __i386__ /* XXX gcc4 will omit the rounding otherwise */
+	volatile
+#endif
+		float w;
+	float t;
 	GET_FLOAT_WORD(i0,x);
 	sx = (i0>>31)&1;
 	jj0 = ((i0>>23)&0xff)-0x7f;
 	if(jj0<23) {
-	    if(jj0<0) { 	
+	    if(jj0<0) {
 		if((i0&0x7fffffff)==0) return x;
 		i1 = (i0&0x07fffff);
 		i0 &= 0xfff00000;

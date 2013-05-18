@@ -1,5 +1,6 @@
+/**	$MirOS$ */
 /*	$OpenBSD: linux_emuldata.h,v 1.3 2004/04/25 03:21:19 jolan Exp $	*/
-/*	$NetBSD: linux_emuldata.h,v 1.4 2002/02/15 16:48:02 christos Exp $	*/
+/*	$NetBSD: linux_emuldata.h,v 1.10 2005/12/11 12:20:19 christos Exp $	*/
 /*-
  * Copyright (c) 1998,2002 The NetBSD Foundation, Inc.
  * All rights reserved.
@@ -46,5 +47,7 @@
  */
 struct linux_emuldata {
 	caddr_t	p_break;	/* Cached per-process break value */	
+	int	debugreg[8];	/* GDB information for ptrace - for use, */
+				/* see ../arch/i386/linux_ptrace.c */
 };
 #endif /* !_LINUX_EMULDATA_H */

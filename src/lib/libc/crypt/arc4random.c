@@ -1,19 +1,24 @@
+/**	$MirOS: src/lib/libc/crypt/arc4random.c,v 1.11 2007/08/09 17:28:55 tg Exp $ */
 /*	$OpenBSD: arc4random.c,v 1.14 2005/06/06 14:57:59 kjell Exp $	*/
 
 /*
+ * Copyright (c) 2006, 2007 Thorsten Glaser <tg@mirbsd.de>
  * Copyright (c) 1996, David Mazieres <dm@uun.org>
  *
  * Permission to use, copy, modify, and distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
  *
- * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
- * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
- * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
- * ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
- * WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
- * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
- * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ * The following disclaimer must also be retained:
+ *
+ * This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
+ * the utmost extent permitted by applicable law, neither express nor
+ * implied; without malicious intent or gross negligence. In no event
+ * may a licensor, author or contributor be held liable for indirect,
+ * direct, other damage, loss, or other issues arising in any way out
+ * of dealing in the work, even if advised of the possibility of such
+ * damage or existence of a defect, except proven that it results out
+ * of said person's immediate fault when using the work as intended.
  */
 
 /*
@@ -33,13 +38,15 @@
  * RC4 is a registered trademark of RSA Laboratories.
  */
 
+#include <sys/param.h>
+#include <sys/sysctl.h>
+#include <sys/taitime.h>
 #include <fcntl.h>
 #include <stdlib.h>
+#include <string.h>
 #include <unistd.h>
-#include <sys/types.h>
-#include <sys/param.h>
-#include <sys/time.h>
-#include <sys/sysctl.h>
+
+__RCSID("$MirOS: src/lib/libc/crypt/arc4random.c,v 1.11 2007/08/09 17:28:55 tg Exp $");
 
 #ifdef __GNUC__
 #define inline __inline
@@ -72,7 +79,7 @@ arc4_init(struct arc4_stream *as)
 }
 
 static inline void
-arc4_addrandom(struct arc4_stream *as, u_char *dat, int datlen)
+arc4_addrandom(struct arc4_stream *as, uint8_t *dat, int datlen)
 {
 	int     n;
 	u_int8_t si;
@@ -91,31 +98,48 @@ arc4_addrandom(struct arc4_stream *as, u_char *dat, int datlen)
 static void
 arc4_stir(struct arc4_stream *as)
 {
-	int     i, mib[2];
-	size_t	len;
-	u_char rnd[128];
+	int     mib[2];
+	size_t	i, len;
+	union {
+		uint8_t charbuf[128];
+		uint32_t intbuf[32];
+		struct {
+			tai64na_t wtime;
+			struct timespec vtime;
+			struct timespec ptime;
+			struct timespec ntime;
+			pid_t thepid;
+		} alignedbuf;
+	} sbuf;
+
+	taina_time(&sbuf.alignedbuf.wtime);
+	sbuf.alignedbuf.thepid = arc4_stir_pid = getpid();
+	clock_gettime(CLOCK_VIRTUAL, &sbuf.alignedbuf.vtime);
+	clock_gettime(CLOCK_PROF, &sbuf.alignedbuf.ptime);
+	clock_gettime(CLOCK_MONOTONIC, &sbuf.alignedbuf.ntime);
+	arc4_addrandom(as, sbuf.charbuf, sizeof (sbuf.alignedbuf));
 
 	mib[0] = CTL_KERN;
 	mib[1] = KERN_ARND;
 
-	len = sizeof(rnd);
-	if (sysctl(mib, 2, rnd, &len, NULL, 0) == -1) {
-		for (i = 0; i < sizeof(rnd) / sizeof(u_int); i ++) {
-			len = sizeof(u_int);
-			if (sysctl(mib, 2, &rnd[i * sizeof(u_int)], &len,
+	len = 128;
+	if (sysctl(mib, 2, &sbuf.charbuf, &len, NULL, 0) == -1) {
+		for (i = 0; i < 32; i++) {
+			len = 4;
+			if (sysctl(mib, 2, &sbuf.intbuf[i], &len,
 			    NULL, 0) == -1)
 				break;
 		}
 	}
-
-	arc4_stir_pid = getpid();
-	arc4_addrandom(as, rnd, sizeof(rnd));
+	/* discard by a randomly fuzzed factor as well */
+	len = 256 + (arc4_getbyte(as) & 0x0F);
+	arc4_addrandom(as, sbuf.charbuf, sizeof (sbuf));
 
 	/*
 	 * Discard early keystream, as per recommendations in:
 	 * http://www.wisdom.weizmann.ac.il/~itsik/RC4/Papers/Rc4_ksa.ps
 	 */
-	for (i = 0; i < 256; i++)
+	for (i = 0; i < len; i++)
 		(void)arc4_getbyte(as);
 	arc4_count = 400000;
 }
@@ -171,23 +195,45 @@ arc4random(void)
 	return arc4_getword(&rs);
 }
 
-#if 0
-/*-------- Test code for i386 --------*/
-#include <stdio.h>
-#include <machine/pctr.h>
-int
-main(int argc, char **argv)
+void
+arc4random_push(int n)
 {
-	const int iter = 1000000;
-	int     i;
-	pctrval v;
-
-	v = rdtsc();
-	for (i = 0; i < iter; i++)
-		arc4random();
-	v = rdtsc() - v;
-	v /= iter;
-
-	printf("%qd cycles\n", v);
+	arc4random_pushb(&n, sizeof (int));
 }
-#endif
+
+uint32_t
+arc4random_pushb(const void *buf, size_t len)
+{
+	uint32_t v, i, k;
+	size_t j;
+	int mib[2];
+	uint8_t sbuf[256];
+	tai64na_t tai64tm;
+
+	v = (rand() << 16) + len;
+	for (j = 0; j < len; ++j)
+		v += ((const uint8_t *)buf)[j];
+	len = MAX(MIN(len, 256), sizeof (tai64na_t));
+	v += (k = arc4random()) & 3;
+	memmove(sbuf, buf, len);
+	taina_time(&tai64tm);
+	v += (intptr_t)buf & 0xFFFFFFFF;
+	for (j = 0; j < sizeof (tai64na_t); ++j)
+		sbuf[j] ^= ((uint8_t *)&tai64tm)[j];
+
+	mib[0] = CTL_KERN;
+	mib[1] = KERN_ARND;
+	j = sizeof (i);
+
+	if (sysctl(mib, 2, &i, &j, sbuf, len) != 0) {
+		memcpy(&i, sbuf + len - 1 - sizeof (i), sizeof (i));
+		i ^= (((v & 1) + 1) * (rand() & 0xFF)) ^ arc4random();
+	}
+
+	memcpy(sbuf, &v, sizeof (uint32_t));
+	memcpy(sbuf + sizeof (uint32_t), &i, sizeof (uint32_t));
+	memcpy(sbuf + 2 * sizeof (uint32_t), &tai64tm, sizeof (tai64na_t));
+	arc4_addrandom(&rs, sbuf, 2 * sizeof (uint32_t) + sizeof (tai64na_t));
+
+	return ((k & ~3) ^ i);
+}

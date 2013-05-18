@@ -1,3 +1,4 @@
+/**	$MirOS$	*/
 /*	$OpenBSD: ufs.c,v 1.17 2003/08/25 23:27:44 tedu Exp $	*/
 /*	$NetBSD: ufs.c,v 1.16 1996/09/30 16:01:22 ws Exp $	*/
 
@@ -275,7 +276,7 @@ buf_read_file(struct open_file *f, char **buf_p, size_t *size_p)
 			fp->f_buf = alloc(fs->fs_bsize);
 
 		if (disk_block == 0) {
-			bzero(fp->f_buf, block_size);
+			memset(fp->f_buf, 0, block_size);
 			fp->f_buf_size = block_size;
 		} else {
 			twiddle();
@@ -367,7 +368,7 @@ ufs_open(char *path, struct open_file *f)
 
 	/* allocate file system specific data structure */
 	fp = alloc(sizeof(struct file));
-	bzero(fp, sizeof(struct file));
+	memset(fp, 0, sizeof(struct file));
 	f->f_fsdata = (void *)fp;
 
 	/* allocate space and read super block */
@@ -474,10 +475,10 @@ ufs_open(char *path, struct open_file *f)
 				goto out;
 			}
 
-			bcopy(cp, &namebuf[link_len], len + 1);
+			memmove(&namebuf[link_len], cp, len + 1);
 
 			if (link_len < fs->fs_maxsymlinklen) {
-				bcopy(fp->f_di.di_shortlink, namebuf,
+				memmove(namebuf, fp->f_di.di_shortlink,
 				    (unsigned) link_len);
 			} else {
 				/*
@@ -500,7 +501,7 @@ ufs_open(char *path, struct open_file *f)
 				if (rc)
 					goto out;
 
-				bcopy((char *)buf, namebuf, (unsigned)link_len);
+				memmove(namebuf, (char *)buf, (unsigned)link_len);
 			}
 
 			/*
@@ -577,7 +578,7 @@ ufs_read(struct open_file *f, void *start, size_t size, size_t *resid)
 		if (csize > buf_size)
 			csize = buf_size;
 
-		bcopy(buf, addr, csize);
+		memmove(addr, buf, csize);
 
 		fp->f_seekp += csize;
 		addr += csize;

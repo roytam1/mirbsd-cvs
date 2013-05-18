@@ -202,7 +202,7 @@ cour_connect()
 	f = signal(SIGALRM, sigALRM);
 again:
 	nc = 0; nl = sizeof(dialer_buf)-1;
-	bzero(dialer_buf, sizeof(dialer_buf));
+	memset(dialer_buf, 0, sizeof(dialer_buf));
 	timeout = 0;
 	for (nc = 0, nl = sizeof(dialer_buf)-1 ; nl > 0 ; nc++, nl--) {
 		if (setjmp(timeoutbuf))
@@ -271,7 +271,7 @@ coursync()
 	while (already++ < MAXRETRY) {
 		tcflush(FD, TCIOFLUSH);
 		cour_write(FD, "\rAT Z\r", 6);	/* reset modem */
-		bzero(buf, sizeof(buf));
+		memset(buf, 0, sizeof(buf));
 		sleep(1);
 		ioctl(FD, FIONREAD, &len);
 		if (len) {

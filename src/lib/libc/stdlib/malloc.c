@@ -35,10 +35,9 @@
  */
 #define SOME_JUNK	0xd0	/* as in "Duh" :-) */
 
-#include <sys/types.h>
+#include <sys/param.h>
 #include <sys/time.h>
 #include <sys/resource.h>
-#include <sys/param.h>
 #include <sys/mman.h>
 #include <sys/uio.h>
 #include <stdio.h>
@@ -51,6 +50,9 @@
 #include <err.h>
 
 #include "thread_private.h"
+
+__IDSTRING(malloc_type, "@(#) mmap malloc 1.84 (OpenBSD)");
+__RCSID("$MirOS: src/lib/libc/stdlib/malloc.c,v 1.5 2006/10/03 19:51:09 tg Exp $");
 
 /*
  * The basic parameters you can tweak.
@@ -516,7 +518,7 @@ wrtwarning(char *p)
 	iov[3].iov_len = strlen(p);
 	iov[4].iov_base = "\n";
 	iov[4].iov_len = 1;
-	
+
 	writev(STDERR_FILENO, iov, 5);
 }
 
@@ -1685,7 +1687,7 @@ free_bytes(void *ptr)
 	/* pointers that we will want to free at some future time */
 	static void *chunk_buffer[16];
 
-	
+
 	/* delay return, returning a random something from before instead */
 	tmpidx = arc4random() % 16;
 	tmpptr = chunk_buffer[tmpidx];
@@ -1693,7 +1695,7 @@ free_bytes(void *ptr)
 	ptr = tmpptr;
 	if (!ptr)
 		return;
-	
+
 	index = ptr2index(ptr);
 
 	pdir_lookup(index, &pi);

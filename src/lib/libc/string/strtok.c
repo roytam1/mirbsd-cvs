@@ -40,7 +40,7 @@ strtok(char *s, const char *delim)
 char *
 strtok_r(char *s, const char *delim, char **last)
 {
-	char *spanp;
+	const char *spanp;
 	int c, sc;
 	char *tok;
 
@@ -53,7 +53,7 @@ strtok_r(char *s, const char *delim, char **last)
 	 */
 cont:
 	c = *s++;
-	for (spanp = (char *)delim; (sc = *spanp++) != 0;) {
+	for (spanp = delim; (sc = *spanp++) != 0;) {
 		if (c == sc)
 			goto cont;
 	}
@@ -70,7 +70,7 @@ cont:
 	 */
 	for (;;) {
 		c = *s++;
-		spanp = (char *)delim;
+		spanp = delim;
 		do {
 			if ((sc = *spanp++) == c) {
 				if (c == 0)

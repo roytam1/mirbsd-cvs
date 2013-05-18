@@ -1,3 +1,4 @@
+/* $MirOS: src/sys/dev/wscons/wsdisplayvar.h,v 1.4 2007/02/06 20:54:51 tg Exp $ */
 /* $OpenBSD: wsdisplayvar.h,v 1.22 2006/12/02 11:25:09 miod Exp $ */
 /* $NetBSD: wsdisplayvar.h,v 1.30 2005/02/04 02:10:49 perry Exp $ */
 
@@ -31,6 +32,9 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#ifndef	_WSDISPLAYVAR_H
+#define	_WSDISPLAYVAR_H
+
 struct device;
 
 /*
@@ -62,7 +66,8 @@ struct wsdisplay_emulops {
 	void	(*copyrows)(void *c, int srcrow, int dstrow, int nrows);
 	void	(*eraserows)(void *c, int row, int nrows, long attr);
 	int	(*alloc_attr)(void *c, int fg, int bg, int flags, long *attrp);
-	void	(*unpack_attr)(void *c, long attr, int *fg, int *bg, int *ul);
+	void	(*unpack_attr)(void *c, long attr, int *fg, int *bg,
+		    int *flags);
 /* fg / bg values. Made identical to ANSI terminal color codes. */
 #define WSCOL_BLACK	0
 #define WSCOL_RED	1
@@ -126,6 +131,7 @@ struct wsdisplay_accessops {
 	int	(*getchar)(void *, int, int, struct wsdisplay_charcell *);
 	void	(*burn_screen)(void *, u_int, u_int);
 	void	(*pollc)(void *, int);
+	int     (*delete_font)(void *, void *, int);
 };
 
 /* passed to wscons by the video driver to tell about its capabilities */
@@ -228,3 +234,4 @@ void wsscrollback(void *v, int op);
 #define	WSDISPLAY_DEFBURNOUT	600000	/* ms */
 #define	WSDISPLAY_DEFBURNIN	250	/* ms */
 
+#endif	/* ndef _WSDISPLAYVAR_H */

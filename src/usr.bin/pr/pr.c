@@ -1,3 +1,4 @@
+/**	$MirOS: src/usr.bin/pr/pr.c,v 1.2 2005/03/13 18:33:22 tg Exp $ */
 /*	$OpenBSD: pr.c,v 1.21 2004/06/21 15:27:19 avsm Exp $	*/
 
 /*-
@@ -39,11 +40,6 @@ static char copyright[] =
 	The Regents of the University of California.  All rights reserved.\n";
 #endif /* not lint */
 
-#ifndef lint
-/* from: static char sccsid[] = "@(#)pr.c	8.1 (Berkeley) 6/6/93"; */
-static char *rcsid = "$OpenBSD: pr.c,v 1.21 2004/06/21 15:27:19 avsm Exp $";
-#endif /* not lint */
-
 #include <sys/types.h>
 #include <sys/time.h>
 #include <sys/stat.h>
@@ -59,6 +55,9 @@ static char *rcsid = "$OpenBSD: pr.c,v 1.21 2004/06/21 15:27:19 avsm Exp $";
 
 #include "pr.h"
 #include "extern.h"
+
+__SCCSID("@(#)pr.c	8.1 (Berkeley) 6/6/93");
+__RCSID("$MirOS: src/usr.bin/pr/pr.c,v 1.2 2005/03/13 18:33:22 tg Exp $");
 
 /*
  * pr:	a printing and pagination filter. If multiple input files
@@ -482,7 +481,7 @@ vertcol(int argc, char *argv[])
 			if (!i) {
 			    ptbf = buf + indy[j];
 			    lstdat[j] = ptbf;
-			} else 
+			} else
 			    ptbf = lstdat[j];
 			vc[cvc].pt = ptbf;
 
@@ -1018,7 +1017,7 @@ mulfile(int argc, char *argv[])
 			    fproc++;
 			} else
 			    cnt = 0;
-			
+
 			if (rc[j] == END) {
 			    /*
 			     * EOF close file
@@ -1100,7 +1099,7 @@ mulfile(int argc, char *argv[])
  *    lim:    buffer length
  *    cnt:    line length or -1 if no line (EOF for example)
  *    cps:    column position 1st char in buffer (large line support)
- *    trnc:    throw away data more than lim up to \n 
+ *    trnc:    throw away data more than lim up to \n
  *    mor:    set if more data in line (not truncated)
  */
 int
@@ -1214,7 +1213,7 @@ inln(FILE *inf, char *buf, int lim, int *cnt, int *cps, int trnc, int *mor)
  *    cnt:    number of chars of valid data in buf
  *    svips:    buffer input column position (for large lines)
  *    svops:    buffer output column position (for large lines)
- *    mor:    output line not complete in this buf; more data to come.    
+ *    mor:    output line not complete in this buf; more data to come.
  *        1 is more, 0 is complete, -1 is no \n's
  */
 int
@@ -1734,7 +1733,7 @@ usage(void)
 }
 
 /*
- * setup:    Validate command args, initialize and perform sanity 
+ * setup:    Validate command args, initialize and perform sanity
  *        checks on options
  */
 int
@@ -1945,7 +1944,7 @@ setup(int argc, char *argv[])
      * make sure long enough for headers. if not disable
      */
     if (lines <= HEADLEN + TAILLEN)
-	++nohead;    
+	++nohead;
     else if (!nohead)
 	lines -= HEADLEN + TAILLEN;
 

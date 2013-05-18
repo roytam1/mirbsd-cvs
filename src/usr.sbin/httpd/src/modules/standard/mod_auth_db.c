@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: mod_auth_db.c,v 1.12 2003/08/21 13:11:36 henning Exp $ */
 
 /* ====================================================================
@@ -60,16 +61,16 @@
 
 /*
  * mod_auth_db: authentication
- * 
+ *
  * Original work by Rob McCool & Brian Behlendorf.
- * 
+ *
  * Adapted to Apache by rst (mod_auth_dbm)
  *
- * Adapted for Berkeley DB by Andrew Cohen 
+ * Adapted for Berkeley DB by Andrew Cohen
  *
  * mod_auth_db was based on mod_auth_dbm.
- * 
- * Warning, this is not a drop in replacement for mod_auth_dbm, 
+ *
+ * Warning, this is not a drop in replacement for mod_auth_dbm,
  * for people wanting to switch from dbm to Berkeley DB.
  * It requires the use of AuthDBUserFile and AuthDBGroupFile
  *           instead of   AuthDBMUserFile    AuthDBMGroupFile
@@ -86,7 +87,7 @@
  * one from DB version 1.85 and 1.86, but DB version 2.x
  * can also be used when compatibility mode is enabled.
  *
- * dirkx - Added Authoritative control to allow passing on to lower  
+ * dirkx - Added Authoritative control to allow passing on to lower
  *         modules if and only if the user-id is not known to this
  *         module. A known user with a faulty or absent password still
  *         causes an AuthRequired. The default is 'Authoritative', i.e.
@@ -161,7 +162,7 @@ static const command_rec db_auth_cmds[] =
 
 module db_auth_module;
 
-static char *get_db_pw(request_rec *r, char *user, const char *auth_dbpwfile)
+static char *get_db_pw(request_rec *r, char *user, char *auth_dbpwfile)
 {
     DB *f;
     DBT d, q;
@@ -176,7 +177,7 @@ static char *get_db_pw(request_rec *r, char *user, const char *auth_dbpwfile)
     ap_server_strip_chroot(auth_dbpwfile, 1);
 
 #if defined(DB3) || defined(DB4)
-    if (   db_create(&f, NULL, 0) != 0 
+    if (   db_create(&f, NULL, 0) != 0
         || f->open(f, auth_dbpwfile, NULL, DB_HASH, DB_RDONLY, 0664) != 0) {
 #elif defined(DB2)
     if (db_open(auth_dbpwfile, DB_HASH, DB_RDONLY, 0664, NULL, NULL, &f) != 0) {
@@ -211,13 +212,13 @@ static char *get_db_pw(request_rec *r, char *user, const char *auth_dbpwfile)
  *      key=username value=":"groupname [":"anything here is ignored]
  * otherwise we now (0.8.14+) assume that the format is
  *      key=username value=groupname
- * The first allows the password and group files to be the same 
+ * The first allows the password and group files to be the same
  * physical DB file;   key=username value=password":"groupname[":"anything]
  *
  * mark@telescope.org, 22Sep95
  */
 
-static char *get_db_grp(request_rec *r, char *user, const char *auth_dbgrpfile)
+static char *get_db_grp(request_rec *r, char *user, char *auth_dbgrpfile)
 {
     char *grp_data = get_db_pw(r, user, auth_dbgrpfile);
     char *grp_colon;

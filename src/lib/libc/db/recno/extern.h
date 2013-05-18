@@ -31,6 +31,9 @@
  *	@(#)extern.h	8.3 (Berkeley) 6/4/94
  */
 
+#ifndef _RECNO_EXTERN_H
+#define _RECNO_EXTERN_H
+
 #include "../btree/extern.h"
 
 int	 __rec_close(DB *);
@@ -50,3 +53,5 @@ int	 __rec_sync(const DB *, u_int);
 int	 __rec_vmap(BTREE *, recno_t);
 int	 __rec_vout(BTREE *);
 int	 __rec_vpipe(BTREE *, recno_t);
+
+#endif

@@ -483,7 +483,7 @@ const char *ssl_cmd_SSLRandomSeed(
         pRS->nCtx = SSL_RSCTX_CONNECT;
     else
         return ap_pstrcat(cmd->pool, "SSLRandomSeed: "
-                          "invalid context: `", arg1, "'");
+                          "invalid context: `", arg1, "'", NULL);
     if (strlen(arg2) > 5 && strEQn(arg2, "file:", 5)) {
         pRS->nSrc   = SSL_RSSRC_FILE;
         pRS->cpPath = ap_pstrdup(mc->pPool, ssl_util_server_root_relative(cmd->pool, "random", arg2+5));

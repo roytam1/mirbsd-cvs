@@ -63,7 +63,7 @@ static char rcsid[] = "$OpenBSD: du.c,v 1.18 2005/04/17 12:27:23 jmc Exp $";
 
 
 int	 linkchk(FTSENT *);
-void	 prtout(quad_t, char *, int);
+void	 prtout(quad_t, char *);
 void	 usage(void);
 
 int
@@ -74,15 +74,15 @@ main(int argc, char *argv[])
 	long blocksize;
 	quad_t totalblocks;
 	int ftsoptions, listdirs, listfiles;
-	int Hflag, Lflag, Pflag, aflag, cflag, hflag, kflag, sflag;
+	int Hflag, Lflag, Pflag, aflag, cflag, kflag, sflag;
 	int ch, notused, rval;
 	char **save;
 
 	save = argv;
-	Hflag = Lflag = Pflag = aflag = cflag = hflag = kflag = sflag = 0;
+	Hflag = Lflag = Pflag = aflag = cflag = kflag = sflag = 0;
 	totalblocks = 0;
 	ftsoptions = FTS_PHYSICAL;
-	while ((ch = getopt(argc, argv, "HLPachksxr")) != -1)
+	while ((ch = getopt(argc, argv, "HLPacksxr")) != -1)
 		switch (ch) {
 		case 'H':
 			Hflag = 1;
@@ -101,9 +101,6 @@ main(int argc, char *argv[])
 			break;
 		case 'c':
 			cflag = 1;
-			break;
-		case 'h':
-			hflag = 1;
 			break;
 		case 'k':
 			kflag = 1;
@@ -159,9 +156,7 @@ main(int argc, char *argv[])
 		argv[1] = NULL;
 	}
 
-	if (hflag)
-		blocksize = 512;
-	else if (kflag)
+	if (kflag)
 		blocksize = 1024;
 	else
 		(void)getbsize(&notused, &blocksize);
@@ -186,7 +181,7 @@ main(int argc, char *argv[])
 			 */
 			if (listdirs || (!listfiles && !p->fts_level))
 				prtout((quad_t)howmany(p->fts_number, blocksize),
-				    p->fts_path, hflag);
+				    p->fts_path);
 			break;
 		case FTS_DC:			/* Ignore. */
 			break;
@@ -205,7 +200,7 @@ main(int argc, char *argv[])
 			 */
 			if (listfiles || !p->fts_level)
 				prtout(howmany(p->fts_statp->st_blocks, blocksize),
-				    p->fts_path, hflag);
+				    p->fts_path);
 			p->fts_parent->fts_number += p->fts_statp->st_blocks;
 			if (cflag)
 				totalblocks += p->fts_statp->st_blocks;
@@ -213,7 +208,7 @@ main(int argc, char *argv[])
 	if (errno)
 		err(1, "fts_read");
 	if (cflag) {
-		prtout((quad_t)howmany(totalblocks, blocksize), "total", hflag);
+		prtout((quad_t)howmany(totalblocks, blocksize), "total");
 	}
 	exit(rval);
 }
@@ -306,18 +301,9 @@ linkchk(FTSENT *p)
 }
 
 void
-prtout(quad_t size, char *path, int hflag)
+prtout(quad_t size, char *path)
 {
-	if (!hflag)
-		(void)printf("%lld\t%s\n", (long long)size, path);
-	else {
-		char buf[FMT_SCALED_STRSIZE];
-
-		if (fmt_scaled(size * 512, buf) == 0)
-			(void)printf("%s\t%s\n", buf, path);
-		else
-			(void)printf("%lld\t%s\n", (long long)size, path);
-	}
+	(void)printf("%lld\t%s\n", (long long)size, path);
 }
 
 void
@@ -325,6 +311,6 @@ usage(void)
 {
 
 	(void)fprintf(stderr,
-		"usage: du [-a | -s] [-chkrx] [-H | -L | -P] [file ...]\n");
+		"usage: du [-a | -s] [-ckrx] [-H | -L | -P] [file ...]\n");
 	exit(1);
 }

@@ -1,9 +1,9 @@
 /*	$OpenBSD: ntp.c,v 1.27 2004/10/26 09:48:59 henning Exp $	*/
 
 /*
+ * Copyright (c) 2002, 2004, 2005, 2006, 2007 by Thorsten Glaser.
  * Copyright (c) 1996, 1997 by N.M. Maclaren. All rights reserved.
  * Copyright (c) 1996, 1997 by University of Cambridge. All rights reserved.
- * Copyright (c) 2002 by Thorsten "mirabile" Glaser.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -31,6 +31,9 @@
 
 #include <sys/param.h>
 #include <sys/socket.h>
+#if defined(MirBSD) && (MirBSD> 0x09AC)
+#include <sys/taitime.h>
+#endif
 #include <sys/time.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
@@ -49,7 +52,9 @@
 #include <time.h>
 #include <unistd.h>
 
-#include "ntpleaps.h"
+#include "rdate.h"
+
+__RCSID("$MirOS: src/usr.sbin/rdate/ntp.c,v 1.16 2007/08/16 10:38:29 tg Exp $");
 
 /*
  * NTP definitions.  Note that these assume 8-bit bytes - sigh.  There
@@ -91,41 +96,39 @@
 #define MILLION_D       1.0e6		/* Must be equal to MILLION_L */
 
 struct ntp_data {
+	double		receive;
+	double		transmit;
+	double		current;
+	double		originate;
+	u_int64_t	xmitck;
+	u_int64_t	recvck;
+	u_int32_t	refid;
 	u_char		status;
 	u_char		version;
 	u_char		mode;
 	u_char		stratum;
-	double		receive;
-	double		transmit;
-	double		current;
-	u_int64_t	recvck;
-
-	/* Local State */
-	double		originate;
-	u_int64_t	xmitck;
 };
 
-void	ntp_client(const char *, int, struct timeval *, struct timeval *, int);
-int	sync_ntp(int, const struct sockaddr *, double *, double *);
-int	write_packet(int, struct ntp_data *);
-int	read_packet(int, struct ntp_data *, double *, double *);
-void	unpack_ntp(struct ntp_data *, u_char *);
-double	current_time(double);
-void	create_timeval(double, struct timeval *, struct timeval *);
-
-#if DEBUG
-void	print_packet(const struct ntp_data *);
-#endif
-
-int	corrleaps;
+static int sync_ntp(int, const struct sockaddr *, double *, double *, int);
+static int write_packet(int, struct ntp_data *, int);
+static int read_packet(int, struct ntp_data *, double *, double *);
+static void unpack_ntp(struct ntp_data *, u_char *);
+static double current_time(double);
+static void create_timeval(double, struct timeval *, struct timeval *);
+static void debug_packet(const struct ntp_data *);
 
 void
 ntp_client(const char *hostname, int family, struct timeval *new,
-    struct timeval *adjust, int leapflag)
+    struct timeval *adjust, int sport, int nversion)
 {
 	struct addrinfo hints, *res0, *res;
 	double offset, error;
-	int accept = 0, ret, s, ierror;
+	int accepts = 0, ret, s, ierror;
+	union {
+		struct sockaddr *s_sa;
+		struct sockaddr_in *s_in;
+		struct sockaddr_in6 *s_in6;
+	} sun;
 
 	memset(&hints, 0, sizeof(hints));
 	hints.ai_family = family;
@@ -136,43 +139,50 @@ ntp_client(const char *hostname, int family, struct timeval *new,
 		/*NOTREACHED*/
 	}
 
-	corrleaps = leapflag;
-	if (corrleaps)
-		ntpleaps_init();
-
 	s = -1;
 	for (res = res0; res; res = res->ai_next) {
 		s = socket(res->ai_family, res->ai_socktype, res->ai_protocol);
 		if (s < 0)
 			continue;
 
-		ret = sync_ntp(s, res->ai_addr, &offset, &error);
+		if (sport) {
+			sun.s_sa = res->ai_addr;
+			switch (sun.s_sa->sa_family) {
+			case AF_INET:
+				sun.s_in->sin_port = htons(sport);
+				break;
+			case AF_INET6:
+				sun.s_in6->sin6_port = htons(sport);
+				break;
+			}
+		}
+
+		ret = sync_ntp(s, res->ai_addr, &offset, &error, nversion);
 		if (ret < 0) {
-#ifdef DEBUG
-			fprintf(stderr, "try the next address\n");
-#endif
+			if (debug)
+				fprintf(stderr, "try the next address\n");
 			close(s);
 			s = -1;
 			continue;
 		}
 
-		accept++;
+		accepts++;
 		break;
 	}
 	freeaddrinfo(res0);
 
-#ifdef DEBUG
-	fprintf(stderr, "Correction: %.6f +/- %.6f\n", offset, error);
-#endif
+	if (debug)
+		fprintf(stderr, "Correction: %.6f +/- %.6f\n", offset, error);
 
-	if (accept < 1)
+	if (accepts < 1)
 		errx(1, "Unable to get a reasonable time estimate");
 
 	create_timeval(offset, new, adjust);
 }
 
 int
-sync_ntp(int fd, const struct sockaddr *peer, double *offset, double *error)
+sync_ntp(int fd, const struct sockaddr *peer, double *offset, double *error,
+    int nver)
 {
 	int attempts = 0, accepts = 0, rejects = 0;
 	int delay = MAX_DELAY, ret;
@@ -198,18 +208,18 @@ sync_ntp(int fd, const struct sockaddr *peer, double *offset, double *error)
 			return (-1);
 		}
 
-		if (write_packet(fd, &data) < 0)
+		if (write_packet(fd, &data, nver) < 0)
 			return (-1);
 
 		ret = read_packet(fd, &data, &x, &y);
+		if (debug > 1)
+			debug_packet(&data);
 
 		if (ret < 0)
 			return (-1);
 		else if (ret > 0) {
-#ifdef DEBUG
-			print_packet(&data);
-#endif
-
+			if (debug == 1)
+				debug_packet(&data);
 			if (++rejects > MAX_QUERIES) {
 				warnx("Too many bad or lost packets");
 				return (-1);
@@ -218,9 +228,8 @@ sync_ntp(int fd, const struct sockaddr *peer, double *offset, double *error)
 		} else
 			++accepts;
 
-#ifdef DEBUG
-		fprintf(stderr, "Offset: %.6f +/- %.6f\n", x, y);
-#endif
+		if (debug)
+			fprintf(stderr, "Offset: %.6f +/- %.6f\n", x, y);
 
 		if ((a = x - *offset) < 0.0)
 			a = -a;
@@ -232,9 +241,9 @@ sync_ntp(int fd, const struct sockaddr *peer, double *offset, double *error)
 			*error = y;
 		}
 
-#ifdef DEBUG
-		fprintf(stderr, "Best: %.6f +/- %.6f\n", *offset, *error);
-#endif
+		if (debug)
+			fprintf(stderr, "Best: %.6f +/- %.6f\n", *offset,
+			    *error);
 
 		if (a > b) {
 			warnx("Inconsistent times received from NTP server");
@@ -250,14 +259,14 @@ sync_ntp(int fd, const struct sockaddr *peer, double *offset, double *error)
 
 /* Send out NTP packet. */
 int
-write_packet(int fd, struct ntp_data *data)
+write_packet(int fd, struct ntp_data *data, int nver)
 {
 	u_char	packet[NTP_PACKET_MIN];
 	ssize_t	length;
 
 	memset(packet, 0, sizeof(packet));
 
-	packet[0] = (NTP_VERSION << 3) | (NTP_MODE_CLIENT);
+	packet[0] = ((nver ? nver : NTP_VERSION) << 3) | (NTP_MODE_CLIENT);
 
 	data->xmitck = (u_int64_t)arc4random() << 32 | arc4random();
 
@@ -277,7 +286,7 @@ write_packet(int fd, struct ntp_data *data)
 	 * the transmit field intelligible.
 	 */
 
-	*(u_int64_t *)(packet + NTP_TRANSMIT) = data->xmitck;
+	memcpy(packet + NTP_TRANSMIT, &data->xmitck, sizeof (u_int64_t));
 
 	data->originate = current_time(JAN_1970);
 
@@ -305,6 +314,7 @@ read_packet(int fd, struct ntp_data *data, double *off, double *error)
 	double	x, y;
 	int	length, r;
 	fd_set	*rfds;
+	static int nosync = 0;
 
 	rfds = calloc(howmany(fd + 1, NFDBITS), sizeof(fd_mask));
 	if (rfds == NULL)
@@ -376,6 +386,11 @@ retry:
 		return (1);
 	}
 
+	if (!nosync && (data->status == 3)) {
+		warnx("Alarm condition - server not synched yet?");
+		nosync = 1;
+	}
+
 	x = data->receive - data->originate;
 	y = data->transmit - data->current;
 
@@ -398,7 +413,7 @@ retry:
 void
 unpack_ntp(struct ntp_data *data, u_char *packet)
 {
-	int i;
+	int32_t i;
 	double d;
 
 	data->current = current_time(JAN_1970);
@@ -407,6 +422,9 @@ unpack_ntp(struct ntp_data *data, u_char *packet)
 	data->version = (packet[0] >> 3) & 0x07;
 	data->mode = packet[0] & 0x07;
 	data->stratum = packet[1];
+
+	memcpy(&data->refid, packet + 12, 4);
+	data->refid = ntohl(data->refid);
 
 	for (i = 0, d = 0.0; i < 8; ++i)
 	    d = 256.0*d+packet[NTP_RECEIVE+i];
@@ -419,7 +437,7 @@ unpack_ntp(struct ntp_data *data, u_char *packet)
 	data->transmit = d / NTP_SCALE;
 
 	/* See write_packet for why this isn't an endian problem. */
-	data->recvck = *(u_int64_t *)(packet + NTP_ORIGINATE);
+	memcpy(&data->recvck, packet + NTP_ORIGINATE, sizeof (u_int64_t));
 }
 
 /*
@@ -430,21 +448,11 @@ double
 current_time(double offset)
 {
 	struct timeval current;
-	u_int64_t t;
 
 	if (gettimeofday(&current, NULL))
 		err(1, "Could not get local time of day");
 
-	/*
-	 * At this point, current has the current TAI time.
-	 * Now subtract leap seconds to set the posix tick.
-	 */
-
-	t = SEC_TO_TAI64(current.tv_sec);
-	if (corrleaps)
-		ntpleaps_sub(&t);
-
-	return (offset + TAI64_TO_SEC(t) + 1.0e-6 * current.tv_usec);
+	return (offset + tick2utc(current.tv_sec) + 1.0e-6 * current.tv_usec);
 }
 
 /*
@@ -478,19 +486,21 @@ create_timeval(double difference, struct timeval *new, struct timeval *adjust)
 	}
 }
 
-#ifdef DEBUG
 void
-print_packet(const struct ntp_data *data)
+debug_packet(const struct ntp_data *data)
 {
 	printf("status:      %u\n", data->status);
 	printf("version:     %u\n", data->version);
 	printf("mode:        %u\n", data->mode);
 	printf("stratum:     %u\n", data->stratum);
+	printf("reference:   0x%08X (%d.%d.%d.%d)\n",
+	    data->refid,
+	    data->refid >> 24, (data->refid >> 16) & 0xFF,
+	    (data->refid >> 8) & 0xFF, data->refid & 0xFF);
 	printf("originate:   %f\n", data->originate);
 	printf("receive:     %f\n", data->receive);
 	printf("transmit:    %f\n", data->transmit);
 	printf("current:     %f\n", data->current);
 	printf("xmitck:      0x%0llX\n", data->xmitck);
 	printf("recvck:      0x%0llX\n", data->recvck);
-};
-#endif
+}

@@ -32,6 +32,8 @@
  * SUCH DAMAGE.
  */
 
+	.text
+
 #include "DEFS.h"
 
 /*

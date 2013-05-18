@@ -2245,6 +2245,10 @@ static struct optioninfo
 # define O_EIGHT_BIT_ADDR_OK	0xdf
 	{ "EightBitAddrOK",	O_EIGHT_BIT_ADDR_OK,	OI_NONE },
 #endif /* _FFR_EIGHT_BIT_ADDR_OK */
+#if _FFR_ADDR_TYPE_MODES
+# define O_ADDR_TYPE_MODES	0xe0
+	{ "AddrTypeModes",	O_ADDR_TYPE_MODES,	OI_NONE },
+#endif /* _FFR_ADDR_TYPE_MODES */
 
 	{ NULL,				'\0',		OI_NONE	}
 };
@@ -3806,6 +3810,12 @@ setoption(opt, val, safe, sticky, e)
 		EightBitAddrOK = atobool(val);
 		break;
 #endif /* _FFR_EIGHT_BIT_ADDR_OK */
+
+#if _FFR_ADDR_TYPE_MODES
+	  case O_ADDR_TYPE_MODES:
+		AddrTypeModes = atobool(val);
+		break;
+#endif /* _FFR_ADDR_TYPE_MODES */
 
 	  default:
 		if (tTd(37, 1))

@@ -1,3 +1,4 @@
+/**	$MirOS: src/sys/arch/i386/stand/boot/conf.c,v 1.7 2006/08/19 14:20:28 tg Exp $ */
 /*	$OpenBSD: conf.c,v 1.32 2005/05/03 13:18:05 tom Exp $	*/
 
 /*
@@ -31,8 +32,9 @@
 #include <netinet/in.h>
 #include <libsa.h>
 #include <lib/libsa/ufs.h>
-#ifdef notdef
 #include <lib/libsa/cd9660.h>
+#include <tori.h>
+#ifdef notdef
 #include <lib/libsa/fat.h>
 #include <lib/libsa/nfs.h>
 #include <lib/libsa/tftp.h>
@@ -43,15 +45,13 @@
 #include <dev/cons.h>
 #include "debug.h"
 
-const char version[] = "2.10";
+const char version[] = __BOOT_VER;
 int	debug = 1;
 
-
-void (*sa_cleanup)(void) = NULL;
-
+void (*sa_cleanup)(void) = (void *)0UL;
 
 void (*i386_probe1[])(void) = {
-	ps2probe, gateA20on, debug_init, cninit,
+	ps2probe, gateA20on, /* debug_init, */ cninit,
 	apmprobe, pciprobe, /* smpprobe, */ memprobe
 };
 void (*i386_probe2[])(void) = {
@@ -66,19 +66,23 @@ int nibprobes = NENTS(probe_list);
 
 
 struct fs_ops file_system[] = {
+#ifndef SMALL_BOOT
+	{ cd9660_open, cd9660_close, cd9660_read, cd9660_write, cd9660_seek,
+	  cd9660_stat, cd9660_readdir },
+#endif
 	{ ufs_open,    ufs_close,    ufs_read,    ufs_write,    ufs_seek,
 	  ufs_stat,    ufs_readdir    },
+#ifndef SMALL_BOOT
 #ifdef notdef
 	{ fat_open,    fat_close,    fat_read,    fat_write,    fat_seek,
 	  fat_stat,    fat_readdir    },
 	{ nfs_open,    nfs_close,    nfs_read,    nfs_write,    nfs_seek,
 	  nfs_stat,    nfs_readdir    },
-	{ cd9660_open, cd9660_close, cd9660_read, cd9660_write, cd9660_seek,
-	  cd9660_stat, cd9660_readdir },
 #endif
 #ifdef _TEST
 	{ null_open,   null_close,   null_read,   null_write,   null_seek,
 	  null_stat,   null_readdir   }
+#endif
 #endif
 };
 int nfsys = NENTS(file_system);
@@ -87,6 +91,9 @@ struct devsw	devsw[] = {
 #ifdef _TEST
 	{ "UNIX", unixstrategy, unixopen, unixclose, unixioctl },
 #else
+#ifndef SMALL_BOOT
+	{ "TORI", toristrategy, toriopen, toriclose, toriioctl },
+#endif
 	{ "BIOS", biosstrategy, biosopen, biosclose, biosioctl },
 #endif
 #if 0
@@ -109,6 +116,6 @@ struct consdev constab[] = {
 	{ pc_probe, pc_init, pc_getc, pc_putc },
 	{ com_probe, com_init, com_getc, com_putc },
 #endif
-	{ NULL }
+	{ 0 }
 };
 struct consdev *cn_tab = constab;

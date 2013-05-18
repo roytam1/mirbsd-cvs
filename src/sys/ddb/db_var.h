@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: db_var.h,v 1.8 2003/06/28 01:52:18 tedu Exp $	*/
 
 /*
@@ -42,7 +43,8 @@
 #define DBCTL_PANIC	5
 #define DBCTL_CONSOLE	6
 #define DBCTL_LOG	7
-#define DBCTL_MAXID	8
+#define DBCTL_CRASH	8
+#define DBCTL_MAXID	9
 
 #define	CTL_DDB_NAMES { \
 	{ NULL, 0 }, \
@@ -53,6 +55,7 @@
 	{ "panic", CTLTYPE_INT }, \
 	{ "console", CTLTYPE_INT }, \
 	{ "log", CTLTYPE_INT }, \
+	{ "crash", CTLTYPE_INT }, \
 }
 
 #ifdef	_KERNEL
@@ -68,4 +71,3 @@ int	ddb_sysctl(int *, u_int, void *, size_t *, void *, size_t,
 #endif
 
 #endif /* _DDB_DB_VAR_H_ */
-

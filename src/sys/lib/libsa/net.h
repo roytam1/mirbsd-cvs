@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: net.h,v 1.7 2003/08/11 06:23:09 deraadt Exp $	*/
 /*	$NetBSD: net.h,v 1.10 1995/10/20 00:46:30 cgd Exp $	*/
 
@@ -51,7 +52,7 @@
 /* Returns true if n_long's on the same net */
 #define	SAMENET(a1, a2, m) ((a1.s_addr & m) == (a2.s_addr & m))
 
-#define MACPY(s, d) bcopy((char *)s, (char *)d, 6)
+#define MACPY(s, d) memmove((char *)d, (char *)s, 6)
 
 #define MAXTMO 20	/* seconds */
 #define MINTMO 2	/* seconds */
@@ -75,7 +76,7 @@ extern	char rootpath[FNAME_SIZE];
 extern	char bootfile[FNAME_SIZE];
 extern	char hostname[FNAME_SIZE];
 extern	int hostnamelen;
-extern	char domainname[FNAME_SIZE];
+extern	char domainname[1];
 extern	int domainnamelen;
 extern	char ifname[IFNAME_SIZE];
 

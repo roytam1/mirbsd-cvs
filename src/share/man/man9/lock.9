@@ -47,7 +47,7 @@
 .Nm lockmgr_printinfo ,
 .Nd kernel lock functions
 .Sh SYNOPSIS
-.Fd #include \*[Lt]sys/lock.h\*[Gt]
+.Fd #include \*(Ltsys/lock.h\*(Gt
 .Ft void
 .Fn simple_lock_init "struct simplelock *slock"
 .Ft void
@@ -305,7 +305,7 @@ in
 .Pa sys/sys/lock.h .
 .\"Machine-dependent simplelock primitives are implemented within the
 .\"file
-.\".Pa sys/arch/\*[Lt]arch\*[Gt]/include/lock.h .
+.\".Pa sys/arch/\*(Ltarch\*(Gt/include/lock.h .
 .Sh SEE ALSO
 .Xr pmap 9 ,
 .Xr spl 9 ,

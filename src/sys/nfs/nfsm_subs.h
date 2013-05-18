@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: nfsm_subs.h,v 1.13 2003/06/02 23:28:20 millert Exp $	*/
 /*	$NetBSD: nfsm_subs.h,v 1.10 1996/03/20 21:59:56 fvdl Exp $	*/
 
@@ -109,7 +110,7 @@
 				nfsm_build(tl, u_int32_t *, t2); \
 				*tl++ = txdr_unsigned(VTONFS(v)->n_fhsize); \
 				*(tl + ((t2>>2) - 2)) = 0; \
-				bcopy((caddr_t)VTONFS(v)->n_fhp,(caddr_t)tl, \
+				memmove((caddr_t)tl,(caddr_t)VTONFS(v)->n_fhp, \
 					VTONFS(v)->n_fhsize); \
 			} else if ((t2 = nfsm_strtmbuf(&mb, &bpos, \
 				(caddr_t)VTONFS(v)->n_fhp, \
@@ -120,24 +121,24 @@
 			} \
 		} else { \
 			nfsm_build(cp, caddr_t, NFSX_V2FH); \
-			bcopy((caddr_t)VTONFS(v)->n_fhp, cp, NFSX_V2FH); \
+			memmove(cp, (caddr_t)VTONFS(v)->n_fhp, NFSX_V2FH); \
 		} }
 
 #define nfsm_srvfhtom(f, v3) \
 		{ if (v3) { \
 			nfsm_build(tl, u_int32_t *, NFSX_UNSIGNED + NFSX_V3FH); \
 			*tl++ = txdr_unsigned(NFSX_V3FH); \
-			bcopy((caddr_t)(f), (caddr_t)tl, NFSX_V3FH); \
+			memmove((caddr_t)tl, (caddr_t)(f), NFSX_V3FH); \
 		} else { \
 			nfsm_build(cp, caddr_t, NFSX_V2FH); \
-			bcopy((caddr_t)(f), cp, NFSX_V2FH); \
+			memmove(cp, (caddr_t)(f), NFSX_V2FH); \
 		} }
 
 #define nfsm_srvpostop_fh(f) \
 		{ nfsm_build(tl, u_int32_t *, 2 * NFSX_UNSIGNED + NFSX_V3FH); \
 		*tl++ = nfs_true; \
 		*tl++ = txdr_unsigned(NFSX_V3FH); \
-		bcopy((caddr_t)(f), (caddr_t)tl, NFSX_V3FH); \
+		memmove((caddr_t)tl, (caddr_t)(f), NFSX_V3FH); \
 		}
 
 #define nfsm_mtofh(d, v, v3, f) \
@@ -285,7 +286,7 @@
 			*tl = txdr_unsigned(NFSV3SATTRTIME_DONTCHANGE);		\
 		}								\
 		}
-				
+
 
 #define	nfsm_strsiz(s,m) \
 		{ nfsm_dissect(tl,u_int32_t *,NFSX_UNSIGNED); \
@@ -331,7 +332,7 @@
 		mb = mreq = nfsm_reqh((v),(a),(s),&bpos)
 
 #define nfsm_reqdone	m_freem(mrep); \
-		nfsmout: 
+		nfsmout:
 
 #define nfsm_rndup(a)	(((a)+3)&(~0x3))
 
@@ -355,7 +356,7 @@
 			nfsm_build(tl,u_int32_t *,t2); \
 			*tl++ = txdr_unsigned(s); \
 			*(tl+((t2>>2)-2)) = 0; \
-			bcopy((caddr_t)(a), (caddr_t)tl, (s)); \
+			memmove((caddr_t)tl, (caddr_t)(a), (s)); \
 		} else if ((t2 = nfsm_strtmbuf(&mb, &bpos, (a), (s))) != 0) { \
 			error = t2; \
 			m_freem(mreq); \
@@ -415,7 +416,7 @@
 			} \
 		} \
 		nfsm_dissect(tl, u_int32_t *, NFSX_V3FH); \
-		bcopy((caddr_t)tl, (caddr_t)(f), NFSX_V3FH); \
+		memmove((caddr_t)(f), (caddr_t)tl, NFSX_V3FH); \
 		if ((nfsd->nd_flag & ND_NFSV3) == 0) \
 			nfsm_adv(NFSX_V2FH - NFSX_V3FH); \
 		}

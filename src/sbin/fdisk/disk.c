@@ -1,3 +1,4 @@
+/**	$MirOS: src/sbin/fdisk/disk.c,v 1.2 2005/03/06 19:49:54 tg Exp $ */
 /*	$OpenBSD: disk.c,v 1.24 2005/12/18 03:42:23 krw Exp $	*/
 
 /*
@@ -30,13 +31,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <sys/param.h>
 #include <sys/fcntl.h>
 #include <sys/ioctl.h>
-#include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/reboot.h>
 #include <sys/disklabel.h>
-#include <sys/param.h>
 #include <sys/sysctl.h>
 #include <machine/cpu.h>
 #ifdef CPU_BIOS
@@ -244,4 +244,3 @@ DISK_printmetrics(disk_t *disk, char *units)
 
 	return (0);
 }
-

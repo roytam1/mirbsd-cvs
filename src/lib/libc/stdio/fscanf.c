@@ -34,6 +34,8 @@
 #include <stdio.h>
 #include <stdarg.h>
 
+int __svfscanf(FILE *, const char *, _BSD_VA_LIST_);
+
 int
 fscanf(FILE *fp, const char *fmt, ...)
 {

@@ -30,20 +30,6 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-static char copyright[] =
-"@(#) Copyright (c) 1990, 1993, 1994\n\
-	The Regents of the University of California.  All rights reserved.\n";
-#endif /* not lint */
-
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)ps.c	8.4 (Berkeley) 4/2/94";
-#else
-static char rcsid[] = "$OpenBSD: ps.c,v 1.40 2004/11/24 19:17:10 deraadt Exp $";
-#endif
-#endif /* not lint */
-
 #include <sys/param.h>
 #include <sys/user.h>
 #include <sys/time.h>
@@ -52,7 +38,6 @@ static char rcsid[] = "$OpenBSD: ps.c,v 1.40 2004/11/24 19:17:10 deraadt Exp $";
 #include <sys/stat.h>
 #include <sys/ioctl.h>
 #include <sys/sysctl.h>
-#include <sys/types.h>
 
 #include <ctype.h>
 #include <err.h>
@@ -69,6 +54,11 @@ static char rcsid[] = "$OpenBSD: ps.c,v 1.40 2004/11/24 19:17:10 deraadt Exp $";
 #include <limits.h>
 
 #include "ps.h"
+
+__IDSTRING(copyright, "@(#) Copyright (c) 1990, 1993, 1994\n\
+	The Regents of the University of California.  All rights reserved.\n");
+__SCCSID("@(#)ps.c	8.4 (Berkeley) 4/2/94");
+__RCSID("$MirOS$");
 
 extern char *__progname;
 
@@ -491,9 +481,9 @@ usage(void)
 {
 	(void)fprintf(stderr,
 	    "usage: %s [-][aCcehjklmrSTuvwx] [-M core] [-N system] [-O fmt] [-o fmt] [-p pid]\n",
-	    __progname);	
-	(void)fprintf(stderr,
-	    "%-*s[-t tty] [-U username] [-W swap]\n", strlen(__progname) + 8, "");
+	    __progname);
+	fprintf(stderr, "%-*s[-t tty] [-U username] [-W swap]\n",
+	    (int)strlen(__progname) + 8, "");
 	(void)fprintf(stderr, "       %s [-L]\n", __progname);
 	exit(1);
 }

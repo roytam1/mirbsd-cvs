@@ -1,4 +1,4 @@
-#!/bin/sh -
+#!/bin/mksh
 #
 #	$OpenBSD: shar.sh,v 1.3 2003/06/03 02:56:16 millert Exp $
 #	$NetBSD: shar.sh,v 1.2 1994/12/21 08:42:04 jtc Exp $

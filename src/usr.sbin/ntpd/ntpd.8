@@ -1,3 +1,4 @@
+.\" $MirOS: src/usr.sbin/ntpd/ntpd.8,v 1.6 2007/07/31 20:32:46 tg Exp $
 .\" $OpenBSD: ntpd.8,v 1.14 2005/06/21 19:55:18 deraadt Exp $
 .\"
 .\" Copyright (c) 2003, 2004 Henning Brauer <henning@openbsd.org>
@@ -14,7 +15,7 @@
 .\" AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT
 .\" OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .\"
-.Dd July 9, 2004
+.Dd $Mdocdate: July 31 2007 $
 .Dt NTPD 8
 .Os
 .Sh NAME
@@ -23,7 +24,7 @@
 .Sh SYNOPSIS
 .Nm ntpd
 .Bk -words
-.Op Fl dSs
+.Op Fl dSst
 .Op Fl f Ar file
 .Ek
 .Sh DESCRIPTION
@@ -41,17 +42,15 @@ as described in RFC 1305.
 uses the
 .Xr adjtime 2
 system call to correct the local system time without causing time jumps.
-Adjustments larger than 128ms are logged using
+Adjustments are logged using
 .Xr syslog 3 .
-The threshold value is chosen to avoid having local clock drift
-thrash the log files.
-Should
-.Nm
-be started with the
-.Fl d
-option, all calls to
-.Xr adjtime 2
-will be logged.
+.Pp
+Leap seconds are accounted correctly on
+.Mx
+using the libc
+.Xr tai_leaps 3
+facility.
+However, NTP will not survive the year 2038.
 .Pp
 .Nm
 is usually started at boot time, and can be enabled by
@@ -98,6 +97,10 @@ eliminating the need to run
 .Xr rdate 8
 before starting
 .Nm .
+.It Fl t
+Trace information about the peer(s) used for adjusting.
+Use several times for more information, unless running with
+.Fl d .
 .El
 .Sh FILES
 .Bl -tag -width "/etc/ntpd.confXXX" -compact
@@ -113,6 +116,7 @@ configuration file
 .Xr rc 8 ,
 .Xr rc.conf 8 ,
 .Xr rdate 8 ,
+.Xr taitime 3 ,
 .Xr timed 8
 .Rs
 .%R RFC 1305
@@ -129,3 +133,8 @@ The
 .Nm
 program first appeared in
 .Ox 3.6 .
+.Pp
+Support for correct leap second handling was added in
+.Mx 8 .
+Trace and serverloop support was added in
+.Mx 10 .

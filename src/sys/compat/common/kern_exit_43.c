@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: kern_exit_43.c,v 1.7 2003/06/02 23:27:59 millert Exp $	*/
 /*	$NetBSD: kern_exit_43.c,v 1.3 1995/10/07 06:26:20 mycroft Exp $	*/
 
@@ -72,6 +73,8 @@
 #define GETPS(rp)	(rp)[PS]
 #endif
 
+#if defined(COMPAT_OPENBSD)
+
 int
 compat_43_sys_wait(p, v, retval)
 	struct proc *p;
@@ -106,3 +109,4 @@ compat_43_sys_wait(p, v, retval)
 		return error;
 	return copyin(SCARG(&a, status), &retval[1], sizeof(retval[1]));
 }
+#endif /* COMPAT_OPENBSD */

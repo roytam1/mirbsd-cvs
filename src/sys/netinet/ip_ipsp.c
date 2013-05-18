@@ -1,3 +1,4 @@
+/**	$MirOS: src/sys/netinet/ip_ipsp.c,v 1.2 2005/03/06 21:28:19 tg Exp $ */
 /*	$OpenBSD: ip_ipsp.c,v 1.164 2005/11/24 12:08:16 pedro Exp $	*/
 /*
  * The authors of this code are John Ioannidis (ji@tla.org),
@@ -483,7 +484,7 @@ tdb_hashstats(void)
 	db_printf("tdb cnt\t\tbucket cnt\n");
 	for (i = 0; i < 16; i++)
 		if (buckets[i] > 0)
-			db_printf("%d%c\t\t%d\n", i, i == 15 ? "+" : "",
+			db_printf("%d%s\t\t%d\n", i, i == 15 ? "+" : "",
 			    buckets[i]);
 }
 #endif	/* DDB */

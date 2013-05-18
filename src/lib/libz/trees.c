@@ -1,3 +1,4 @@
+/**	$MirOS: src/lib/libz/trees.c,v 1.4 2005/07/24 22:50:05 tg Exp $ */
 /*	$OpenBSD: trees.c,v 1.8 2005/07/20 15:56:41 millert Exp $	*/
 /* trees.c -- output deflated data using Huffman coding
  * Copyright (C) 1995-2005 Jean-loup Gailly
@@ -30,7 +31,6 @@
  *          Addison-Wesley, 1983. ISBN 0-201-06672-6.
  */
 
-
 /* #define GEN_TREES_H */
 
 #include "deflate.h"
@@ -38,6 +38,8 @@
 #ifdef DEBUG
 #  include <ctype.h>
 #endif
+
+zRCSID("$MirOS: src/lib/libz/trees.c,v 1.4 2005/07/24 22:50:05 tg Exp $")
 
 /* ===========================================================================
  * Constants
@@ -150,8 +152,8 @@ local void send_tree      OF((deflate_state *s, ct_data *tree, int max_code));
 local int  build_bl_tree  OF((deflate_state *s));
 local void send_all_trees OF((deflate_state *s, int lcodes, int dcodes,
                               int blcodes));
-local void compress_block OF((deflate_state *s, ct_data *ltree,
-                              ct_data *dtree));
+local void compress_block OF((deflate_state *s, const ct_data *ltree,
+                              const ct_data *dtree));
 local void set_data_type  OF((deflate_state *s));
 local unsigned bi_reverse OF((unsigned value, int length));
 local void bi_windup      OF((deflate_state *s));
@@ -986,7 +988,7 @@ void _tr_flush_block(s, buf, stored_len, eof)
     } else if (s->strategy == Z_FIXED || static_lenb == opt_lenb) {
 #endif
         send_bits(s, (STATIC_TREES<<1)+eof, 3);
-        compress_block(s, (ct_data *)static_ltree, (ct_data *)static_dtree);
+        compress_block(s, static_ltree, static_dtree);
 #ifdef DEBUG
         s->compressed_len += 3 + s->static_len;
 #endif
@@ -1071,8 +1073,8 @@ int _tr_tally (s, dist, lc)
  */
 local void compress_block(s, ltree, dtree)
     deflate_state *s;
-    ct_data *ltree; /* literal tree */
-    ct_data *dtree; /* distance tree */
+    const ct_data *ltree; /* literal tree */
+    const ct_data *dtree; /* distance tree */
 {
     unsigned dist;      /* distance of matched string */
     int lc;             /* match length or unmatched char (if dist == 0) */

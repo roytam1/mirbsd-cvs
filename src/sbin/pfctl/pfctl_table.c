@@ -1,4 +1,4 @@
-/*	$OpenBSD: pfctl_table.c,v 1.64 2005/08/17 14:54:59 dhartmei Exp $ */
+/*	$OpenBSD: pfctl_table.c,v 1.59 2004/03/15 15:25:44 dhartmei Exp $ */
 
 /*
  * Copyright (c) 2002 Cedric Berger
@@ -53,7 +53,7 @@
 
 extern void	usage(void);
 static int	pfctl_table(int, char *[], char *, const char *, char *,
-		    const char *, int);
+		    const char *, const char *, int);
 static void	print_table(struct pfr_table *, int, int);
 static void	print_tstats(struct pfr_tstats *, int);
 static int	load_addr(struct pfr_buffer *, int, char *[], char *, int);
@@ -61,7 +61,8 @@ static void	print_addrx(struct pfr_addr *, struct pfr_addr *, int);
 static void	print_astats(struct pfr_astats *, int);
 static void	radix_perror(void);
 static void	xprintf(int, const char *, ...);
-static void	print_iface(struct pfi_kif *, int);
+static void	print_iface(struct pfi_if *, int);
+static void	oprintf(int, int, const char *, int *, int);
 
 static const char	*stats_text[PFR_DIR_MAX][PFR_OP_TABLE_MAX] = {
 	{ "In/Block:",	"In/Pass:",	"In/XPass:" },
@@ -84,13 +85,7 @@ static const char	*istats_text[2][2][2] = {
 
 #define CREATE_TABLE do {						\
 		table.pfrt_flags |= PFR_TFLAG_PERSIST;			\
-		if ((!(opts & PF_OPT_NOACTION) ||			\
-		    (opts & PF_OPT_DUMMYACTION)) &&			\
-		    (pfr_add_tables(&table, 1, &nadd, flags)) &&	\
-		    (errno != EPERM)) {					\
-			radix_perror();					\
-			goto _error;					\
-		}							\
+		RVTEST(pfr_add_tables(&table, 1, &nadd, flags));	\
 		if (nadd) {						\
 			warn_namespace_collision(table.pfrt_name);	\
 			xprintf(opts, "%d table created", nadd);	\
@@ -101,29 +96,31 @@ static const char	*istats_text[2][2][2] = {
 	} while(0)
 
 int
-pfctl_clear_tables(const char *anchor, int opts)
+pfctl_clear_tables(const char *anchor, const char *ruleset, int opts)
 {
-	return pfctl_table(0, NULL, NULL, "-F", NULL, anchor, opts);
+	return pfctl_table(0, NULL, NULL, "-F", NULL, anchor, ruleset, opts);
 }
 
 int
-pfctl_show_tables(const char *anchor, int opts)
+pfctl_show_tables(const char *anchor, const char *ruleset, int opts)
 {
-	return pfctl_table(0, NULL, NULL, "-s", NULL, anchor, opts);
+	return pfctl_table(0, NULL, NULL, "-s", NULL, anchor, ruleset, opts);
 }
 
 int
 pfctl_command_tables(int argc, char *argv[], char *tname,
-    const char *command, char *file, const char *anchor, int opts)
+    const char *command, char *file, const char *anchor, const char *ruleset,
+    int opts)
 {
 	if (tname == NULL || command == NULL)
 		usage();
-	return pfctl_table(argc, argv, tname, command, file, anchor, opts);
+	return pfctl_table(argc, argv, tname, command, file, anchor, ruleset,
+	    opts);
 }
 
 int
 pfctl_table(int argc, char *argv[], char *tname, const char *command,
-    char *file, const char *anchor, int opts)
+    char *file, const char *anchor, const char *ruleset, int opts)
 {
 	struct pfr_table	 table;
 	struct pfr_buffer	 b, b2;
@@ -148,7 +145,9 @@ pfctl_table(int argc, char *argv[], char *tname, const char *command,
 			errx(1, "pfctl_table: strlcpy");
 	}
 	if (strlcpy(table.pfrt_anchor, anchor,
-	    sizeof(table.pfrt_anchor)) >= sizeof(table.pfrt_anchor))
+	    sizeof(table.pfrt_anchor)) >= sizeof(table.pfrt_anchor) ||
+	    strlcpy(table.pfrt_ruleset, ruleset,
+	    sizeof(table.pfrt_ruleset)) >= sizeof(table.pfrt_ruleset))
 		errx(1, "pfctl_table: strlcpy");
 
 	if (!strcmp(command, "-F")) {
@@ -338,6 +337,8 @@ print_table(struct pfr_table *ta, int verbose, int debug)
 		    ta->pfrt_name);
 		if (ta->pfrt_anchor[0])
 			printf("\t%s", ta->pfrt_anchor);
+		if (ta->pfrt_ruleset[0])
+			printf(":%s", ta->pfrt_ruleset);
 		puts("");
 	} else
 		puts(ta->pfrt_name);
@@ -455,14 +456,16 @@ radix_perror(void)
 
 int
 pfctl_define_table(char *name, int flags, int addrs, const char *anchor,
-    struct pfr_buffer *ab, u_int32_t ticket)
+    const char *ruleset, struct pfr_buffer *ab, u_int32_t ticket)
 {
 	struct pfr_table tbl;
 
 	bzero(&tbl, sizeof(tbl));
 	if (strlcpy(tbl.pfrt_name, name, sizeof(tbl.pfrt_name)) >=
 	    sizeof(tbl.pfrt_name) || strlcpy(tbl.pfrt_anchor, anchor,
-	    sizeof(tbl.pfrt_anchor)) >= sizeof(tbl.pfrt_anchor))
+	    sizeof(tbl.pfrt_anchor)) >= sizeof(tbl.pfrt_anchor) ||
+	    strlcpy(tbl.pfrt_ruleset, ruleset, sizeof(tbl.pfrt_ruleset)) >=
+	    sizeof(tbl.pfrt_ruleset))
 		errx(1, "pfctl_define_table: strlcpy");
 	tbl.pfrt_flags = flags;
 
@@ -538,15 +541,17 @@ int
 pfctl_show_ifaces(const char *filter, int opts)
 {
 	struct pfr_buffer	 b;
-	struct pfi_kif		*p;
-	int			 i = 0;
+	struct pfi_if		*p;
+	int			 i = 0, f = PFI_FLAG_GROUP|PFI_FLAG_INSTANCE;
 
+	if (filter != NULL && *filter && !isdigit(filter[strlen(filter)-1]))
+		f &= ~PFI_FLAG_INSTANCE;
 	bzero(&b, sizeof(b));
 	b.pfrb_type = PFRB_IFACES;
 	for (;;) {
 		pfr_buf_grow(&b, b.pfrb_size);
 		b.pfrb_size = b.pfrb_msize;
-		if (pfi_get_ifaces(filter, b.pfrb_caddr, &b.pfrb_size)) {
+		if (pfi_get_ifaces(filter, b.pfrb_caddr, &b.pfrb_size, f)) {
 			radix_perror();
 			return (1);
 		}
@@ -562,30 +567,45 @@ pfctl_show_ifaces(const char *filter, int opts)
 }
 
 void
-print_iface(struct pfi_kif *p, int opts)
+print_iface(struct pfi_if *p, int opts)
 {
-	time_t	tzero = p->pfik_tzero;
+	time_t	tzero = p->pfif_tzero;
+	int	flags = (opts & PF_OPT_VERBOSE) ? p->pfif_flags : 0;
+	int	first = 1;
 	int	i, af, dir, act;
 
-	printf("%s", p->pfik_name);
-	if (opts & PF_OPT_VERBOSE) {
-		if (p->pfik_flags & PFI_IFLAG_SKIP)
-			printf(" (skip)");
-	}
+	printf("%s", p->pfif_name);
+	oprintf(flags, PFI_IFLAG_INSTANCE, "instance", &first, 0);
+	oprintf(flags, PFI_IFLAG_GROUP, "group", &first, 0);
+	oprintf(flags, PFI_IFLAG_CLONABLE, "clonable", &first, 0);
+	oprintf(flags, PFI_IFLAG_DYNAMIC, "dynamic", &first, 0);
+	oprintf(flags, PFI_IFLAG_ATTACHED, "attached", &first, 1);
 	printf("\n");
 
 	if (!(opts & PF_OPT_VERBOSE2))
 		return;
 	printf("\tCleared:     %s", ctime(&tzero));
 	printf("\tReferences:  [ States:  %-18d Rules: %-18d ]\n",
-	    p->pfik_states, p->pfik_rules);
+	    p->pfif_states, p->pfif_rules);
 	for (i = 0; i < 8; i++) {
 		af = (i>>2) & 1;
 		dir = (i>>1) &1;
 		act = i & 1;
 		printf("\t%-12s [ Packets: %-18llu Bytes: %-18llu ]\n",
 		    istats_text[af][dir][act],
-		    (unsigned long long)p->pfik_packets[af][dir][act],
-		    (unsigned long long)p->pfik_bytes[af][dir][act]);
+		    (unsigned long long)p->pfif_packets[af][dir][act],
+		    (unsigned long long)p->pfif_bytes[af][dir][act]);
 	}
 }
+
+void
+oprintf(int flags, int flag, const char *s, int *first, int last)
+{
+	if (flags & flag) {
+		printf(*first ? "\t(%s" : ", %s", s);
+		*first = 0;
+	}
+	if (last && !*first)
+		printf(")");
+}
+

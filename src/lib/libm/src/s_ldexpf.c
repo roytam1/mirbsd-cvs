@@ -8,13 +8,15 @@
  *
  * Developed at SunPro, a Sun Microsystems, Inc. business.
  * Permission to use, copy, modify, and distribute this
- * software is freely granted, provided that this notice 
+ * software is freely granted, provided that this notice
  * is preserved.
  * ====================================================
  */
 
+#include <sys/cdefs.h>
 #if defined(LIBM_SCCS) && !defined(lint)
-static char rcsid[] = "$NetBSD: s_ldexpf.c,v 1.3 1995/05/10 20:47:42 jtc Exp $";
+__RCSID("$MirOS$");
+__RCSID("$NetBSD: s_ldexpf.c,v 1.6 2002/05/26 22:01:57 wiz Exp $");
 #endif
 
 #include "math.h"
@@ -22,10 +24,10 @@ static char rcsid[] = "$NetBSD: s_ldexpf.c,v 1.3 1995/05/10 20:47:42 jtc Exp $";
 #include <errno.h>
 
 float
-ldexpf(float value, int exp)
+ldexpf(float value, int exparg)
 {
 	if(!finitef(value)||value==(float)0.0) return value;
-	value = scalbnf(value,exp);
+	value = scalbnf(value,exparg);
 	if(!finitef(value)||value==(float)0.0) errno = ERANGE;
 	return value;
 }

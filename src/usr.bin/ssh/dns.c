@@ -37,6 +37,8 @@
 #include "dns.h"
 #include "log.h"
 
+__RCSID("$MirOS: src/usr.bin/ssh/dns.c,v 1.4 2006/09/20 21:40:58 tg Exp $");
+
 static const char *errset_text[] = {
 	"success",		/* 0 ERRSET_SUCCESS */
 	"out of memory",	/* 1 ERRSET_NOMEMORY */
@@ -159,7 +161,8 @@ is_numeric_hostname(const char *hostname)
  * Returns 0 if lookup succeeds, -1 otherwise
  */
 int
-verify_host_key_dns(const char *hostname, struct sockaddr *address,
+verify_host_key_dns(const char *hostname,
+    struct sockaddr *address  __attribute__((unused)),
     const Key *hostkey, int *flags)
 {
 	u_int counter;

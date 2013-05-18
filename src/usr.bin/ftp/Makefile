@@ -1,26 +1,35 @@
-#	$OpenBSD: Makefile,v 1.22 2007/06/13 13:52:26 pyr Exp $
+# $MirOS: src/usr.bin/ftp/Makefile,v 1.5 2006/10/03 19:22:16 tg Exp $
+# $OpenBSD: Makefile,v 1.22 2007/06/13 13:52:26 pyr Exp $
 
-# Define SMALL to disable command line editing and https support
-#CFLAGS+=-DSMALL
+.include <bsd.own.mk>
 
 # Uncomment the following to provide defaults for gate-ftp operation
-#CFLAGS+=-DGATE_SERVER=\"ftp-gw.host\" # -DGATE_PORT=21
+#CPPFLAGS+=	-DGATE_SERVER=\"ftp-gw.host\" # -DGATE_PORT=21
 
 .if (defined(USE_SOCKS) && ${USE_SOCKS:L} == "yes")
-CFLAGS += -DSOCKS -I/usr/local/include
-LDADD += -lsocks5
+LOCALBASE?=	/usr/mpkg
+CPPFLAGS+=	-DSOCKS -I${LOCALBASE}/include
+LDADD+=		-lsocks5
 .endif
 
 PROG=	ftp
 SRCS=	cmds.c cmdtab.c complete.c domacro.c fetch.c ftp.c main.c ruserpass.c \
 	cookie.c stringlist.c util.c
 
-CPPFLAGS+= -DINET6
+.ifndef NO_INET6
+CPPFLAGS+=	-DINET6
+.endif
+.ifdef SMALL
+CPPFLAGS+=	-DSMALL
+.else
+LDADD+=		-ledit -lssl -lcrypto
+DPADD+=		${LIBEDIT} ${LIBSSL} ${LIBCRYPTO}
+.endif
 
-LDADD+=	-ledit -lcurses -lutil -lssl -lcrypto
-DPADD+=	${LIBEDIT} ${LIBCURSES} ${LIBUTIL}
-LDSTATIC= ${STATIC}
+LDADD+=		-lcurses -lutil
+DPADD+=		${LIBCURSES} ${LIBUTIL}
 
-#COPTS+= -Wall -Wconversion -Wstrict-prototypes -Wmissing-prototypes
+CFLAGS+=	-Wall
+LDSTATIC=	${STATIC}
 
 .include <bsd.prog.mk>

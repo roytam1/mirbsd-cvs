@@ -1,9 +1,10 @@
-#	$OpenBSD: Makefile.inc,v 1.41 2005/08/06 20:30:03 espie Exp $
+# $MirOS: src/lib/libc/net/Makefile.inc,v 1.4 2005/09/22 20:40:02 tg Exp $
+# $OpenBSD: Makefile.inc,v 1.41 2005/08/06 20:30:03 espie Exp $
 
 # net sources
 .PATH: ${LIBCSRCDIR}/arch/${MACHINE_ARCH}/net ${LIBCSRCDIR}/net
 
-CFLAGS+=-DRESOLVSORT
+CPPFLAGS+= -DRESOLVSORT
 
 SRCS+=	base64.c freeaddrinfo.c gai_strerror.c getaddrinfo.c gethostnamadr.c \
 	getifaddrs.c getnameinfo.c getnetbyaddr.c getnetbyname.c getnetent.c \
@@ -12,7 +13,7 @@ SRCS+=	base64.c freeaddrinfo.c gai_strerror.c getaddrinfo.c gethostnamadr.c \
 	herror.c if_indextoname.c if_nameindex.c if_nametoindex.c inet_addr.c \
 	inet_lnaof.c inet_makeaddr.c inet_neta.c inet_netof.c inet_network.c \
 	inet_net_ntop.c inet_net_pton.c inet_ntoa.c inet_ntop.c inet_pton.c \
-	ipx_addr.c ipx_ntoa.c linkaddr.c net_addrcmp.c nsap_addr.c \
+	ipx_addr.c ipx_ntoa.c linkaddr.c net_addrcmp.c \
 	rcmd.c rresvport.c recv.c res_comp.c res_data.c res_debug.c \
 	res_debug_syms.c \
 	res_init.c res_mkquery.c res_query.c res_random.c res_send.c send.c \
@@ -20,12 +21,6 @@ SRCS+=	base64.c freeaddrinfo.c gai_strerror.c getaddrinfo.c gethostnamadr.c \
 
 # IPv6
 SRCS+=	ip6opt.c rthdr.c vars6.c
-
-# machine-dependent net sources
-# m-d Makefile.inc must include sources for:
-#	htonl() htons() ntohl() ntohs()
-
-.include "${LIBCSRCDIR}/arch/${MACHINE_ARCH}/net/Makefile.inc"
 
 MAN+=	byteorder.3 ethers.3 gai_strerror.3 getaddrinfo.3 gethostbyname.3 \
 	getifaddrs.3 getnameinfo.3 getnetent.3 getprotoent.3 \

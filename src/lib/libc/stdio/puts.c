@@ -47,7 +47,7 @@ puts(const char *s)
 
 	iov[0].iov_base = (void *)s;
 	iov[0].iov_len = c;
-	iov[1].iov_base = "\n";
+	iov[1].iov_base = (void *)"\n";
 	iov[1].iov_len = 1;
 	uio.uio_resid = c + 1;
 	uio.uio_iov = &iov[0];

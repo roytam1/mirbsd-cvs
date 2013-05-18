@@ -49,6 +49,7 @@ devname(int dev, int t)
 	} bkey;
 	static DB *db;
 	static int failure;
+	static char failure_rv[] = "?""?";
 	DBT data, key;
 
 	if (!db && !failure &&
@@ -57,7 +58,7 @@ devname(int dev, int t)
 		failure = 1;
 	}
 	if (failure)
-		return ("??");
+		return (failure_rv);
 
 	/*
 	 * Keys are a mode_t followed by a dev_t.  The former is the type of
@@ -69,5 +70,5 @@ devname(int dev, int t)
 	bkey.type = type;
 	key.data = &bkey;
 	key.size = sizeof(bkey);
-	return ((db->get)(db, &key, &data, 0) ? "??" : (char *)data.data);
+	return ((db->get)(db, &key, &data, 0) ? failure_rv : (char *)data.data);
 }

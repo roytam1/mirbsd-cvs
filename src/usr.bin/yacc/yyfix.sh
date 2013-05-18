@@ -1,6 +1,6 @@
-#!/bin/sh -
-#
-#	$OpenBSD: yyfix.sh,v 1.2 2003/06/03 02:56:24 millert Exp $
+#!/bin/mksh
+# $MirOS$
+# $OpenBSD: yyfix.sh,v 1.2 2003/06/03 02:56:24 millert Exp $
 # Copyright (c) 1990 The Regents of the University of California.
 # All rights reserved.
 #

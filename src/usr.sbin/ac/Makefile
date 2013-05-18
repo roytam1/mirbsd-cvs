@@ -13,6 +13,6 @@ MAN=	ac.8
 # default because of the inability to detect the proper console name
 # easily, especially on m68k systems, which can share binaries.
 #
-#CFLAGS+=-DCONSOLE_TTY=\"vga\"
+#CPPFLAGS+=-DCONSOLE_TTY=\"vga\"
 
 .include <bsd.prog.mk>

@@ -6,7 +6,7 @@ MAN=	tokenadm.8
 LDADD+=	-ldes
 DPADD=	${LIBDES}
 
-CFLAGS+=-I${.CURDIR}/../../libexec/login_token
+CPPFLAGS+=-I${.CURDIR}/../../libexec/login_token
 .PATH:	${.CURDIR}/../../libexec/login_token
 
 TOKENS=	activ crypto snk

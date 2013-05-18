@@ -37,7 +37,7 @@ __cvt(double value, int ndigit, int *decpt, int *sign, int fmode, int pad)
 	if (ndigit == 0) {
 		*sign = value < 0.0;
 		*decpt = 0;
-		return ("");
+		return ((char *)"");
 	}
 
 	if (s) {

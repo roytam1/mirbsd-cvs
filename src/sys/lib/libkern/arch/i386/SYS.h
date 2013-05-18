@@ -1,5 +1,3 @@
-/*	$OpenBSD: SYS.h,v 1.3 2003/06/02 23:28:08 millert Exp $	*/
-
 /*-
  * Copyright (c) 1990 The Regents of the University of California.
  * All rights reserved.
@@ -31,15 +29,91 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  *
- *	from: @(#)SYS.h	5.5 (Berkeley) 5/7/91
+ *	$OpenBSD: SYS.h,v 1.15 2003/06/02 20:18:30 millert Exp $
  */
 
 #include <machine/asm.h>
 #include <sys/syscall.h>
 
-#define	SYSCALL(x)	.text; .align 2; 2: jmp PIC_PLT(cerror); ENTRY(x); movl $(SYS_/**/x),%eax; int $0x80; jc 2b
-#define	RSYSCALL(x)	SYSCALL(x); ret
-#define	PSEUDO(x,y)	ENTRY(x); movl $(SYS_/**/y),%eax; int $0x80; ret
-#define	CALL(x,y)	call PIC_PLT(_/**/y); addl $4*x,%esp
+/*
+ * Design note:
+ *
+ * System calls entry points are really named _thread_sys_{syscall},
+ * and weakly aliased to the name {syscall}. This allows the thread
+ * library to replace system calls at link time.
+ */
 
-	.globl	cerror
+/* Use both _thread_sys_{syscall} and [weak] {syscall}. */
+
+#ifdef __STDC__
+#define	SYSENTRY(x)					\
+			ENTRY(_thread_sys_ ## x)	\
+			.weak _C_LABEL(x);		\
+			_C_LABEL(x) = _C_LABEL(_thread_sys_ ## x)
+#else /* ! __STDC__ */
+#define	SYSENTRY(x)					\
+			ENTRY(_thread_sys_/**/x)	\
+			.weak _C_LABEL(x);		\
+			_C_LABEL(x) = _C_LABEL(_thread_sys_/**/x)
+#endif /* ! __STDC__ */
+
+#ifdef __STDC__
+#define	__DO_SYSCALL(x)					\
+			movl $(SYS_ ## x),%eax;		\
+			int $0x80
+#else /* ! __STDC__ */
+#define	__DO_SYSCALL(x)					\
+			movl $(SYS_/**/x),%eax;		\
+			int $0x80
+#endif /* ! __STDC__ */
+
+#define CERROR          _C_LABEL(__cerror)
+#define CURBRK          _C_LABEL(__curbrk)
+
+/* perform a syscall */
+#define	_SYSCALL_NOERROR(x,y)				\
+		SYSENTRY(x);				\
+			__DO_SYSCALL(y);
+
+#define	SYSCALL_NOERROR(x)				\
+		_SYSCALL_NOERROR(x,x)
+
+/* perform a syscall, set errno */
+#ifdef PIC
+#define	_SYSCALL(x,y)					\
+			.text;				\
+			.align 2;			\
+		2:	PIC_PROLOGUE;			\
+			movl PIC_GOT(CERROR), %ecx;	\
+			PIC_EPILOGUE;			\
+			jmp *%ecx;			\
+		_SYSCALL_NOERROR(x,y)			\
+			jc 2b
+#else
+#define	_SYSCALL(x,y)					\
+			.text;				\
+			.align 2;			\
+		2:					\
+			jmp PIC_PLT(CERROR);		\
+		_SYSCALL_NOERROR(x,y)			\
+			jc 2b
+#endif
+
+#define	SYSCALL(x)					\
+		_SYSCALL(x,x)
+
+/* perform a syscall, return */
+#define	PSEUDO_NOERROR(x,y)				\
+		_SYSCALL_NOERROR(x,y);			\
+			ret
+
+/* perform a syscall, set errno, return */
+#define	PSEUDO(x,y)					\
+		_SYSCALL(x,y);				\
+			ret
+
+/* perform a syscall with the same name, set errno, return */
+#define	RSYSCALL(x)					\
+			PSEUDO(x,x);
+
+	.globl	CERROR

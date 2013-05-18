@@ -27,14 +27,22 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 #ifndef _LOG_H_
-#define _LOG_H_
+#define _LOG_H_	"$MirOS$"
 
-void event_err(int eval, const char *fmt, ...);
-void event_warn(const char *fmt, ...);
-void event_errx(int eval, const char *fmt, ...);
-void event_warnx(const char *fmt, ...);
-void event_msgx(const char *fmt, ...);
-void _event_debugx(const char *fmt, ...);
+void event_err(int eval, const char *fmt, ...)
+    __attribute__((noreturn))
+    __attribute__((format (printf, 2, 3)));
+void event_warn(const char *fmt, ...)
+    __attribute__((format (printf, 1, 2)));
+void event_errx(int eval, const char *fmt, ...)
+    __attribute__((noreturn))
+    __attribute__((format (printf, 2, 3)));
+void event_warnx(const char *fmt, ...)
+    __attribute__((format (printf, 1, 2)));
+void event_msgx(const char *fmt, ...)
+    __attribute__((format (printf, 1, 2)));
+void _event_debugx(const char *fmt, ...)
+    __attribute__((format (printf, 1, 2)));
 #undef USE_DEBUG
 #ifdef USE_DEBUG
 #define event_debug(x) _event_debugx x

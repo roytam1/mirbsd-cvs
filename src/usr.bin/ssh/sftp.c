@@ -15,12 +15,11 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#include <sys/types.h>
+#include <sys/param.h>
 #include <sys/ioctl.h>
 #include <sys/wait.h>
 #include <sys/stat.h>
 #include <sys/socket.h>
-#include <sys/param.h>
 
 #include <ctype.h>
 #include <errno.h>
@@ -43,6 +42,8 @@
 #include "buffer.h"
 #include "sftp-common.h"
 #include "sftp-client.h"
+
+__RCSID("$MirOS: src/usr.bin/ssh/sftp.c,v 1.15 2007/01/25 16:18:37 tg Exp $");
 
 /* File to read commands from */
 FILE* infile;

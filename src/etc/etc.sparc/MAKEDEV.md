@@ -1,4 +1,6 @@
 vers(__file__,
+	{-$MirOS: src/etc/etc.i386/MAKEDEV.md,v 1.8 2005/10/21 12:54:30 tg Exp $-})dnl
+vers(__file__,
 	{-$OpenBSD: MAKEDEV.md,v 1.28 2005/07/17 12:23:14 miod Exp $-},
 etc.MACHINE)dnl
 dnl
@@ -46,7 +48,7 @@ _mkdev(s64_czs, cua[a-z], {-u=${i#cua*}
 	M cua$u c major_s64_czs_c Add($n, 128) 660 dialer uucp-})dnl
 __devitem(presto, presto*, Prestoserve NVRAM memory)dnl
 disk_q(presto)dnl
-__devitem(apm, apm, Power management device, tctrl)dnl
+dnl #notyet#__devitem(apm, apm, Power management device, tctrl)dnl
 dnl
 dnl *** MAKEDEV itself
 dnl
@@ -72,7 +74,7 @@ _DEV(st, 18, 11)
 _TITLE(term)
 _DEV(s64_czs, 12)
 _DEV(s64_tzs, 12)
-_DEV(com, 36)
+dnl #notyet#_DEV(com, 36)
 _DEV(mag, 100)
 _DEV(spif, 102)
 _TITLE(pty)
@@ -91,7 +93,7 @@ _DEV(wsmux, 81)
 _TITLE(point)
 _DEV(wsmouse, 80)
 _TITLE(spec)
-_DEV(apm, 30)
+dnl #notyet#_DEV(apm, 30)
 _DEV(au, 69)
 _DEV(bpf, 105)
 _DEV(fdesc, 24)
@@ -99,12 +101,10 @@ _DEV(lkm, 112)
 _DEV(oppr)
 _DEV(pf, 59)
 _DEV(rnd, 119)
-_DEV(ses, 124)
 _DEV(ss, 121)
 _DEV(systrace, 50)
 _DEV(tun, 111)
 _DEV(uk, 120)
-_DEV(xfs, 51)
 dnl
 divert(__mddivert)dnl
 dnl
@@ -122,10 +122,8 @@ dnl *** some sparc-specific targets
 dnl
 twrget(all, s64_tzs, tty, a, b, c, d)dnl
 twrget(all, s64_czs, cua, a, b, c, d)dnl
-target(all, ses, 0)dnl
 target(all, ch, 0)dnl
 target(all, ss, 0, 1)dnl
-target(all, xfs, 0)dnl
 twrget(all, flo, fd, 0, 0B, 0C, 0D, 0E, 0F, 0G, 0H)dnl
 twrget(all, flo, fd, 1, 1B, 1C, 1D, 1E, 1F, 1G, 1H)dnl
 target(all, pty, 0)dnl

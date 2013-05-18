@@ -33,18 +33,11 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-static char copyright[] =
-"@(#) Copyright (c) 1989, 1993\n\
-	The Regents of the University of California.  All rights reserved.\n";
-#endif /* not lint */
-
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)cut.c	8.3 (Berkeley) 5/4/95";
-#endif
-static char rcsid[] = "$OpenBSD: cut.c,v 1.11 2003/06/10 22:20:45 deraadt Exp $";
-#endif /* not lint */
+#include <sys/cdefs.h>
+__COPYRIGHT("@(#) Copyright (c) 1989, 1993\n\
+	The Regents of the University of California.  All rights reserved.\n");
+__SCCSID("@(#)cut.c	8.3 (Berkeley) 5/4/95");
+__RCSID("$MirOS$");
 
 #include <ctype.h>
 #include <err.h>
@@ -74,7 +67,9 @@ main(int argc, char *argv[])
 	void (*fcn)(FILE *, char *);
 	int ch;
 
+#ifndef __MirBSD__
 	setlocale (LC_ALL, "");
+#endif
 
 	dchar = '\t';			/* default delimiter is \t */
 

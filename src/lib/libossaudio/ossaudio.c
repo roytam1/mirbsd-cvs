@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: ossaudio.c,v 1.7 2005/01/19 18:35:04 jason Exp $	*/
 /*	$NetBSD: ossaudio.c,v 1.14 2001/05/10 01:53:48 augustss Exp $	*/
 
@@ -50,6 +51,8 @@
 #include <sys/audioio.h>
 #include <sys/stat.h>
 #include <errno.h>
+
+__RCSID("$MirOS$");
 
 #include "soundcard.h"
 #undef ioctl
@@ -524,7 +527,7 @@ getdevinfo(int fd)
 	mixer_devinfo_t mi;
 	int i, j, e;
 	static struct {
-		char *name;
+		const char *name;
 		int code;
 	} *dp, devs[] = {
 		{ AudioNmicrophone,	SOUND_MIXER_MIC },
@@ -661,7 +664,7 @@ mixer_ioctl(int fd, unsigned long com, void *argp)
 		strncpy(omi->name, adev.name, sizeof omi->name);
 		return 0;
 	case SOUND_MIXER_READ_RECSRC:
-		if (di->source == -1)
+		if (di->source == (u_long)-1)
 			return EINVAL;
 		mc.dev = di->source;
 		if (di->caps & SOUND_CAP_EXCL_INPUT) {
@@ -696,7 +699,7 @@ mixer_ioctl(int fd, unsigned long com, void *argp)
 		break;
 	case SOUND_MIXER_WRITE_RECSRC:
 	case SOUND_MIXER_WRITE_R_RECSRC:
-		if (di->source == -1)
+		if (di->source == (u_long)-1)
 			return EINVAL;
 		mc.dev = di->source;
 		idat = INTARG;
@@ -788,7 +791,7 @@ static void
 setblocksize(int fd, struct audio_info *info)
 {
 	struct audio_info set;
-	int s;
+	u_int s;
 
 	if (info->blocksize & (info->blocksize-1)) {
 		for(s = 32; s < info->blocksize; s <<= 1)

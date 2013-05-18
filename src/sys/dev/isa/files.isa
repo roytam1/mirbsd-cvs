@@ -1,3 +1,4 @@
+#	$MirOS$
 #	$OpenBSD: files.isa,v 1.86 2004/01/05 17:27:30 markus Exp $
 #	$NetBSD: files.isa,v 1.21 1996/05/16 03:45:55 mycroft Exp $
 #
@@ -9,10 +10,12 @@
 # devices:
 #	mcd, scd, wd, wt
 
+# note: do not alter the order of the elements below, they are
+# sorted by ordinal, not by locator name! (thanks miod@openbsd)
 device	isa {[port = -1], [size = 0],
 	     [iomem = -1], [iosiz = 0],
 	     [irq = -1], [drq = -1],
-	     [drq2 = -1]}
+	     [drq2 = -1], [irq2 = -1]}
 attach	isa at isabus
 file	dev/isa/isa.c			isa needs-flag
 
@@ -369,6 +372,19 @@ attach	spkr at pcppi
 file	dev/isa/spkr.c		spkr	needs-flag
 attach	midi at pcppi with midi_pcppi: midisyn
 file	dev/isa/midi_pcppi.c    midi_pcppi
+
+# ISDN devices
+attach	isic at isa with isic_isa
+file	dev/isa/isic_isa.c		isic_isa
+attach	daic at isa with daic_isa
+file	dev/isa/daic_isa.c		daic_isa
+
+file	dev/isa/isic_isa_tel_s08.c	isic_isa
+file	dev/isa/isic_isa_tel_s016.c	isic_isa
+file	dev/isa/isic_isa_tel_s0163.c	isic_isa
+file	dev/isa/isic_isa_avm_a1.c	isic_isa
+file	dev/isa/isic_isa_usr_sti.c	isic_isa
+file	dev/isa/isic_isa_itk_ix1.c	isic_isa
 
 # 8255A-based PC parallel ports
 attach	lpt at isa with lpt_isa

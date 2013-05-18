@@ -35,10 +35,10 @@
 #include <limits.h>
 #include "local.h"
 
-#if defined(APIWARN)
+__RCSID("$MirOS: src/lib/libc/stdio/vsprintf.c,v 1.4 2005/09/22 20:13:05 tg Exp $");
+
 __warn_references(vsprintf,
-    "warning: vsprintf() is often misused, please use vsnprintf()");
-#endif
+    "vsprintf() is often misused, consider using vsnprintf()");
 
 int
 vsprintf(char *str, const char *fmt, _BSD_VA_LIST_ ap)

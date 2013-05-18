@@ -1,3 +1,4 @@
+/**	$MirOS: src/sys/arch/i386/stand/libsa/pxe.c,v 1.2 2005/03/06 21:27:07 tg Exp $	*/
 /*	$OpenBSD: pxe.c,v 1.3 2005/03/13 22:07:23 tom Exp $ */
 /*	$NetBSD: pxe.c,v 1.5 2003/03/11 18:29:00 drochner Exp $	*/
 
@@ -161,7 +162,7 @@ pxereadudp(struct iodesc *d, void *pkt, size_t len, time_t tleft)
 	uh = (struct udphdr *)pkt - 1;
 	ip = (struct ip *)uh - 1;
 
-	bzero(ur, sizeof(*ur));
+	memset(ur, 0, sizeof(*ur));
 
 	ur->dest_ip = d->myip.s_addr;
 	ur->d_port = d->myport;
@@ -214,7 +215,7 @@ pxe_netif_open()
 	}
 	/* BI_ADD(&bi_netif, BTINFO_NETIF, sizeof(bi_netif)); */
 
-	bzero(uo, sizeof(*uo));
+	memset(uo, 0, sizeof(*uo));
 
 	uo->src_ip = bootplayer.yip;
 
@@ -226,7 +227,7 @@ pxe_netif_open()
 		return -1;
 	}
 
-	bcopy(bootplayer.CAddr, desc.myea, ETHER_ADDR_LEN);
+	memmove(desc.myea, bootplayer.CAddr, ETHER_ADDR_LEN);
 
 	/*
 	 * Since the PXE BIOS has already done DHCP, make sure we
@@ -419,7 +420,7 @@ pxe_init(int quiet)
 	/*
 	 * Get the cached info from the server's Discovery reply packet.
 	 */
-	bzero(gci, sizeof(*gci));
+	memset(gci, 0, sizeof(*gci));
 	gci->PacketType = PXENV_PACKET_TYPE_CACHED_REPLY;
 	pxe_call(PXENV_GET_CACHED_INFO);
 
@@ -429,12 +430,12 @@ pxe_init(int quiet)
 		return 1;
 	}
 
-	memcpy(&bootplayer,
+	memmove(&bootplayer,
 	    SEGOFF2FLAT(gci->Buffer.segment, gci->Buffer.offset),
 	    gci->BufferSize);
 
-	bcopy(&bootplayer.yip, &myip.s_addr, sizeof(myip.s_addr));
-	bcopy(&bootplayer.sip, &servip.s_addr, sizeof(servip.s_addr));
+	memmove(&myip.s_addr, &bootplayer.yip, sizeof(myip.s_addr));
+	memmove(&servip.s_addr, &bootplayer.sip, sizeof(servip.s_addr));
 
         /* Compute our "natural" netmask. */
 	if (IN_CLASSA(myip.s_addr))
@@ -465,7 +466,7 @@ pxeinfo(void)
 	/*
 	 * Get network interface information.
 	 */
-	bzero(gnt, sizeof(*gnt));
+	memset(gnt, 0, sizeof(*gnt));
 	pxe_call(PXENV_UNDI_GET_NIC_TYPE);
 
 	if (gnt->Status != PXENV_STATUS_SUCCESS) {

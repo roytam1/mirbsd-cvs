@@ -1,3 +1,4 @@
+/* $MirOS: src/sys/dev/wscons/wsdisplay_compat_usl.c,v 1.2 2005/03/06 21:27:59 tg Exp $ */
 /* $OpenBSD: wsdisplay_compat_usl.c,v 1.18 2006/10/16 15:51:26 tom Exp $ */
 /* $NetBSD: wsdisplay_compat_usl.c,v 1.12 2000/03/23 07:01:47 thorpej Exp $ */
 
@@ -431,21 +432,6 @@ wsdisplay_usl_ioctl2(sc, scr, cmd, data, flag, p)
 			return (EPERM);
 		/* FALLTHRU */
 	    case KDDISABIO:
-#if defined(COMPAT_FREEBSD)
-		{
-		struct trapframe *fp = (struct trapframe *)p->p_md.md_regs;
-		extern struct emul emul_freebsd_aout;
-		extern struct emul emul_freebsd_elf;
-
-		if (p->p_emul == &emul_freebsd_aout ||
-		    p->p_emul == &emul_freebsd_elf) {
-			if (cmd == KDENABIO)
-				fp->tf_eflags |= PSL_IOPL;
-			else
-				fp->tf_eflags &= ~PSL_IOPL;
-			}
-		}
-#endif
 		return (0);
 #else
 	    case KDENABIO:

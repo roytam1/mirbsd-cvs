@@ -34,14 +34,12 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <sys/types.h>
+#include <sys/param.h>
 #include <sys/time.h>
 #include <sys/queue.h>
 #include <sys/resource.h>
-#include <sys/types.h>
 #include <sys/socket.h>
 #include <sys/un.h>
-#include <sys/param.h>
 
 #include <openssl/evp.h>
 #include <openssl/md5.h>
@@ -65,6 +63,8 @@
 #include "compat.h"
 #include "log.h"
 #include "misc.h"
+
+__RCSID("$MirOS: src/usr.bin/ssh/ssh-agent.c,v 1.12 2007/09/13 13:52:54 tg Exp $");
 
 #ifdef SMARTCARD
 #include "scard.h"
@@ -297,7 +297,6 @@ process_sign_request2(SocketEntry *e)
 {
 	u_char *blob, *data, *signature = NULL;
 	u_int blen, dlen, slen = 0;
-	extern int datafellows;
 	int ok = -1, flags;
 	Buffer msg;
 	Key *key;
@@ -976,7 +975,7 @@ cleanup_socket(void)
 		rmdir(socket_dir);
 }
 
-void
+__dead void
 cleanup_exit(int i)
 {
 	cleanup_socket();
@@ -984,8 +983,8 @@ cleanup_exit(int i)
 }
 
 /*ARGSUSED*/
-static void
-cleanup_handler(int sig)
+static __dead void
+cleanup_handler(int sig __attribute__((unused)))
 {
 	cleanup_socket();
 	_exit(2);
@@ -1001,7 +1000,7 @@ check_parent_exists(void)
 	}
 }
 
-static void
+static __dead void
 usage(void)
 {
 	fprintf(stderr, "usage: %s [options] [command [arg ...]]\n",
@@ -1022,12 +1021,11 @@ main(int ac, char **av)
 	int c_flag = 0, d_flag = 0, k_flag = 0, s_flag = 0;
 	int sock, fd, ch, result, saved_errno;
 	u_int nalloc;
-	char *shell, *format, *pidstr, *agentsocket = NULL;
+	char *shell, *pidstr, *agentsocket = NULL;
+	const char *format;
 	fd_set *readsetp = NULL, *writesetp = NULL;
 	struct sockaddr_un sunaddr;
 	struct rlimit rlim;
-	extern int optind;
-	extern char *optarg;
 	pid_t pid;
 	char pidstrbuf[1 + 3 * sizeof pid];
 	struct timeval *tvp = NULL;

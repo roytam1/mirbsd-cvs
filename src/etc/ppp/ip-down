@@ -1,0 +1,6 @@
+#!/bin/mksh
+# $Id$
+# $MirOS: src/etc/ppp/ip-down,v 1.1.7.1 2005/03/06 16:33:39 tg Exp $
+
+# This script is called after your ppp(8) or pppd(8)
+# connection has gone down.

@@ -1,19 +1,14 @@
-#	$OpenBSD: Makefile,v 1.40 2007/03/18 15:37:06 mickey Exp $
+# $MirOS: src/usr.bin/make/Makefile,v 1.16 2006/08/27 00:39:07 tg Exp $
+# $OpenBSD: Makefile,v 1.40 2007/03/18 15:37:06 mickey Exp $
 
-PROG=	make
-CFLAGS+= -I${.OBJDIR} -I${.CURDIR}
-HOSTCFLAGS+= -I${.OBJDIR} -I${.CURDIR}
-CDIAGFLAGS=-Wall -W -Wno-char-subscripts -Wstrict-prototypes -pedantic \
-	-Wmissing-prototypes
+.include <bsd.own.mk>
 
-CDEFS+=-DUSE_TIMESPEC
-CDEFS+=-DHAS_BOOL_H
-CDEFS+=-DHAS_PATHS_H
-CDEFS+=-DHAS_EXTENDED_GETCWD
-#CDEFS+=-DHAS_STATS
-
-CFLAGS+=${CDEFS}
-HOSTCFLAGS+=${CDEFS}
+PROG=		make
+CDIAGFLAGS+=	-Wall -W -Wno-char-subscripts -Wstrict-prototypes -pedantic \
+		-Wmissing-prototypes -Werror -Wno-cast-qual
+#CPPFLAGS+=	-DHAS_STATS	# Throw out statistics after running
+CPPFLAGS+=	-DMACHINE=\"${MACHINE}\" -DMACHINE_ARCH=\"${MACHINE_ARCH}\"
+CPPFLAGS+=	-I. -I${.CURDIR}
 
 SRCS=	arch.c buf.c cmd_exec.c compat.c cond.c dir.c error.c for.c \
 	init.c job.c lowparse.c main.c make.c memory.c parse.c \
@@ -24,42 +19,53 @@ SRCS+=	lstAddNew.c lstAppend.c lstConcat.c lstConcatDestroy.c \
 	lstInsert.c lstMember.c lstRemove.c lstReplace.c lstSucc.c
 .PATH:	${.CURDIR}/lst.lib
 
+.ifdef MAKE_BOOTSTRAP
+MKFEATURES?=	-D_PATH_DEFSYSPATH=\"/usr/share/mk\"
+CPPFLAGS+=	-DMACHINE_OS=\"${MACHINE_OS}\" -DMAKE_BOOTSTRAP
+.else
+MKFEATURES?=	-DUSE_TIMESPEC
+.endif
+CPPFLAGS+=	${MKFEATURES} -D_PATH_MIRBSDKSH=\"${MKSH}\" -DIN_MIRMAKE
 
-CLEANFILES+=generate hashconsts.h generate.o regress.o check
+.if !exists(${MKSH})
+.BEGIN:
+	@echo 'You know, $${MKSH} (${MKSH}) should exist!'
+	@exit 1
+.endif
 
-CLEANFILES+=${LIBOBJS} libohash.a
-CLEANFILES+= varhashconsts.h condhashconsts.h generate.o generate
+make.1: ${.CURDIR}/make.1
+	sed -e 's#@@MKSH@@#${MKSH}#g' <$> >$@
+
+CLEANFILES+=	${LIBOBJS} check condhashconsts.h generate.o generate \
+		hashconsts.h libohash.a regress.o varhashconsts.h
+.if ${.OBJDIR} != ${.CURDIR}
+CLEANFILES+=	make.1
+.endif
 
 beforedepend: varhashconsts.h condhashconsts.h
 # may need tweaking if you add variable synonyms or change the hash function
-MAGICVARSLOTS=77
-MAGICCONDSLOTS=65
+MAGICVARSLOTS=	82
+MAGICCONDSLOTS=	65
 
 varhashconsts.h: generate
-	${.OBJDIR}/generate 1 ${MAGICVARSLOTS} >${.TARGET}
+	${.OBJDIR}/generate 1 ${MAGICVARSLOTS} >$@
 
 condhashconsts.h: generate
-	${.OBJDIR}/generate 2 ${MAGICCONDSLOTS} >${.TARGET}
+	${.OBJDIR}/generate 2 ${MAGICCONDSLOTS} >$@
 
-generate: generate.c stats.c memory.c
-	${HOSTCC} ${LDSTATIC} -o ${.TARGET} ${HOSTCFLAGS} ${.ALLSRC} ${LDADD}
+generate: generate.c stats.c memory.c ${OHASH_SRCS}
+	${HOSTCC} ${LDSTATIC} -o $@ ${HOSTCFLAGS} ${CPPFLAGS} $> ${LDADD}
 
 check: regress.o str.o memory.o buf.o
-	${CC} -o ${.TARGET} ${CFLAGS} ${.ALLSRC} ${LDADD}
+	${CC} -o $@ ${CFLAGS} $> ${LDADD}
 
 regress: check
-	${.OBJDIR}/check 
-
-# kludge for people who forget to make depend
-var.o: varhashconsts.h
-cond.o: condhashconsts.h
-var.ln: varhashconsts.h
-cond.ln: condhashconsts.h
+	${.OBJDIR}/check
 
 .if make(install)
 SUBDIR+= PSD.doc
 .endif
 
-.PHONY:		regress
+.PHONY: regress
 
 .include <bsd.prog.mk>

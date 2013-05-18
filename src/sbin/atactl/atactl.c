@@ -1,3 +1,4 @@
+/**	$MirOS: src/sbin/atactl/atactl.c,v 1.3 2005/04/15 17:14:34 tg Exp $	*/
 /*	$OpenBSD: atactl.c,v 1.34 2004/09/16 04:39:35 deraadt Exp $	*/
 /*	$NetBSD: atactl.c,v 1.4 1999/02/24 18:49:14 jwise Exp $	*/
 
@@ -60,6 +61,8 @@
 
 #include "atasec.h"
 #include "atasmart.h"
+
+__RCSID("$MirOS: src/sbin/atactl/atactl.c,v 1.3 2005/04/15 17:14:34 tg Exp $");
 
 struct command {
 	const char *cmd_name;
@@ -161,7 +164,7 @@ struct bitinfo ata_caps[] = {
 	{ ATA_CAP_STBY, "ATA standby timer values" },
 	{ WDC_CAP_IORDY, "IORDY operation" },
 	{ WDC_CAP_IORDY_DSBL, "IORDY disabling" },
-	{ NULL, NULL },
+	{ 0, NULL },
 };
 
 struct bitinfo ata_vers[] = {
@@ -179,7 +182,7 @@ struct bitinfo ata_vers[] = {
 	{ WDC_VER_ATA12, "ATA-12" },
 	{ WDC_VER_ATA13, "ATA-13" },
 	{ WDC_VER_ATA14, "ATA-14" },
-	{ NULL, NULL },
+	{ 0, NULL },
 };
 
 struct bitinfo ata_cmd_set1[] = {
@@ -197,7 +200,7 @@ struct bitinfo ata_cmd_set1[] = {
 	{ WDC_CMD1_REMOV, "Removable Media feature set" },
 	{ WDC_CMD1_SEC, "Security Mode feature set" },
 	{ WDC_CMD1_SMART, "SMART feature set" },
-	{ NULL, NULL },
+	{ 0, NULL },
 };
 
 struct bitinfo ata_cmd_set2[] = {
@@ -214,14 +217,14 @@ struct bitinfo ata_cmd_set2[] = {
 	{ ATA_CMD2_CFA, "CFA feature set" },
 	{ ATA_CMD2_RWQ, "READ/WRITE DMA QUEUED commands" },
 	{ WDC_CMD2_DM, "DOWNLOAD MICROCODE command" },
-	{ NULL, NULL },
+	{ 0, NULL },
 };
 
 struct bitinfo ata_cmd_ext[] = {
 	{ ATAPI_CMDE_MSER, "Media serial number" },
 	{ ATAPI_CMDE_TEST, "SMART self-test" },
 	{ ATAPI_CMDE_SLOG, "SMART error logging" },
-	{ NULL, NULL },
+	{ 0, NULL },
 };
 
 /*
@@ -320,6 +323,17 @@ struct valinfo ibm_attr_names[] = {
 	{ 198, "Off-line Scan Uncorrectable Sector Count" },
 	{ 199, "Ultra DMA CRC Error Count" },
 	{ 0, NULL },
+};
+
+struct bitinfo ata_sec_st[] = {
+	{ WDC_SEC_SUPP,		"supported" },
+	{ WDC_SEC_EN,		"enabled" },
+	{ WDC_SEC_LOCKED,	"locked" },
+	{ WDC_SEC_FROZEN,	"frozen" },
+	{ WDC_SEC_EXP,		"expired" },
+	{ WDC_SEC_ESE_SUPP,	"enhanced erase support" },
+	{ WDC_SEC_LEV_MAX,	"maximum level" },
+	{ 0,			NULL },
 };
 
 #define MAKEWORD(b1, b2) \
@@ -424,7 +438,7 @@ void
 print_bitinfo(const char *f, u_int bits, struct bitinfo *binfo)
 {
 
-	for (; binfo->bitmask != NULL; binfo++)
+	for (; binfo->bitmask != 0; binfo++)
 		if (bits & binfo->bitmask)
 			printf(f, binfo->string);
 }
@@ -831,11 +845,16 @@ device_identify(int argc, char *argv[])
 		printf("\n");
 	}
 
+	if ((inqbuf->atap_cmd_set1 & WDC_CMD1_SEC) || (inqbuf->atap_sec_st))
+		printf("Device security status:\n");
+
 	if ((inqbuf->atap_cmd_set1 & WDC_CMD1_SEC) &&
 	    inqbuf->atap_mpasswd_rev != 0 &&
 	    inqbuf->atap_mpasswd_rev != 0xffff)
-		printf("Master password revision code 0x%04x\n",
+		printf("\tMaster password revision code 0x%04x\n",
 		    inqbuf->atap_mpasswd_rev);
+
+	print_bitinfo("\t%s\n", inqbuf->atap_sec_st, ata_sec_st);
 
 	if (inqbuf->atap_cmd_set1 != 0 && inqbuf->atap_cmd_set1 != 0xffff &&
 	    inqbuf->atap_cmd_set2 != 0 && inqbuf->atap_cmd_set2 != 0xffff) {

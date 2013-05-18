@@ -31,6 +31,8 @@
 #include "canohost.h"
 #include "misc.h"
 
+__RCSID("$MirOS: src/usr.bin/ssh/canohost.c,v 1.4 2006/09/20 21:40:57 tg Exp $");
+
 static void check_ip_options(int, char *);
 
 /*
@@ -192,7 +194,7 @@ get_canonical_hostname(int use_dns)
 	if (packet_connection_is_on_socket())
 		host = get_remote_hostname(packet_get_connection_in(), use_dns);
 	else
-		host = "UNKNOWN";
+		host = (char *)"UNKNOWN";
 
 	if (use_dns)
 		canonical_host_name = host;

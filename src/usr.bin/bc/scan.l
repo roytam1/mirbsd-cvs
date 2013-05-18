@@ -17,19 +17,18 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#ifndef lint
-static const char rcsid[] = "$OpenBSD: scan.l,v 1.18 2005/04/13 06:36:03 otto Exp $";
-#endif /* not lint */
-
 #include <err.h>
 #include <signal.h>
 #include <stdbool.h>
+#include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 
 #include "extern.h"
 #include "pathnames.h"
-#include "y.tab.h"
+#include "bc.h"
+
+__RCSID("$MirOS: src/usr.bin/bc/scan.l,v 1.2 2006/09/21 02:20:31 tg Exp $");
 
 int		lineno;
 
@@ -281,4 +280,3 @@ yywrap(void)
 	}
 	return (1);
 }
-

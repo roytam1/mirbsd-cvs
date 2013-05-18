@@ -2,6 +2,7 @@
 /*	$NetBSD: options.c,v 1.6 1996/03/26 23:54:18 mrg Exp $	*/
 
 /*-
+ * Copyright (c) 2005, 2006, 2007 Thorsten Glaser <tg@66h.42h.de>
  * Copyright (c) 1992 Keith Muller.
  * Copyright (c) 1992, 1993
  *	The Regents of the University of California.  All rights reserved.
@@ -34,21 +35,15 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-#if 0
-static const char sccsid[] = "@(#)options.c	8.2 (Berkeley) 4/18/94";
-#else
-static const char rcsid[] = "$OpenBSD: options.c,v 1.67 2007/02/24 09:50:55 jmc Exp $";
-#endif
-#endif /* not lint */
-
-#include <sys/types.h>
+#include <sys/param.h>
 #include <sys/time.h>
 #include <sys/stat.h>
+#ifndef __INTERIX
 #include <sys/mtio.h>
-#include <sys/param.h>
+#endif
 #include <stdio.h>
 #include <string.h>
+#include <err.h>
 #include <errno.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -59,6 +54,13 @@ static const char rcsid[] = "$OpenBSD: options.c,v 1.67 2007/02/24 09:50:55 jmc 
 #include "cpio.h"
 #include "tar.h"
 #include "extern.h"
+
+__SCCSID("@(#)options.c	8.2 (Berkeley) 4/18/94");
+__RCSID("$MirOS: src/bin/pax/options.c,v 1.24 2007/02/17 04:52:41 tg Exp $");
+
+#ifdef __GLIBC__
+char *fgetln(FILE *, size_t *);
+#endif
 
 /*
  * Routines which handle command line options
@@ -74,11 +76,16 @@ static int c_frmt(const void *, const void *);
 static off_t str_offt(char *);
 static char *getline(FILE *fp);
 static void pax_options(int, char **);
-static void pax_usage(void);
+static void pax_usage(void) __attribute__((noreturn));
+static void tar_set_action(int);
 static void tar_options(int, char **);
-static void tar_usage(void);
+static void tar_usage(void) __attribute__((noreturn));
+static void cpio_set_action(int);
 static void cpio_options(int, char **);
-static void cpio_usage(void);
+static void cpio_usage(void) __attribute__((noreturn));
+int mkpath(char *);
+
+static void process_M(const char *, void (*)(void));
 
 /* errors from getline */
 #define GETLINE_FILE_CORRUPT 1
@@ -109,39 +116,61 @@ FSUB fsub[] = {
 	cpio_rd, cpio_endrd, cpio_stwr, cpio_wr, cpio_endwr, cpio_trail,
 	rd_wrfile, wr_rdfile, bad_opt},
 
-/* 2: SVR4 HEX CPIO */
+/* 2: OLD OCTAL CHARACTER CPIO, UID/GID CLEARED (ANONYMISED) */
+	{"dist", 512, sizeof(HD_CPIO), 1, 0, 0, 1, cpio_id, cpio_strd,
+	cpio_rd, cpio_endrd, dist_stwr, cpio_wr, cpio_endwr, cpio_trail,
+	rd_wrfile, wr_rdfile, bad_opt},
+
+/* 3: SVR4 HEX CPIO */
 	{"sv4cpio", 5120, sizeof(HD_VCPIO), 1, 0, 0, 1, vcpio_id, cpio_strd,
 	vcpio_rd, vcpio_endrd, cpio_stwr, vcpio_wr, cpio_endwr, cpio_trail,
 	rd_wrfile, wr_rdfile, bad_opt},
 
-/* 3: SVR4 HEX CPIO WITH CRC */
+/* 4: SVR4 HEX CPIO WITH CRC */
 	{"sv4crc", 5120, sizeof(HD_VCPIO), 1, 0, 0, 1, crc_id, crc_strd,
 	vcpio_rd, vcpio_endrd, crc_stwr, vcpio_wr, cpio_endwr, cpio_trail,
 	rd_wrfile, wr_rdfile, bad_opt},
 
-/* 4: OLD TAR */
+/* 5: OLD TAR */
 	{"tar", 10240, BLKMULT, 0, 1, BLKMULT, 0, tar_id, no_op,
 	tar_rd, tar_endrd, no_op, tar_wr, tar_endwr, tar_trail,
 	rd_wrfile, wr_rdfile, tar_opt},
 
-/* 5: POSIX USTAR */
+/* 6: POSIX USTAR */
 	{"ustar", 10240, BLKMULT, 0, 1, BLKMULT, 0, ustar_id, ustar_strd,
 	ustar_rd, tar_endrd, ustar_stwr, ustar_wr, tar_endwr, tar_trail,
+	rd_wrfile, wr_rdfile, bad_opt},
+
+/* 7: SVR4 HEX CPIO WITH CRC, UID/GID/MTIME CLEARED (NORMALISED) */
+	{"v4norm", 512, sizeof(HD_VCPIO), 1, 0, 0, 1, crc_id, crc_strd,
+	vcpio_rd, vcpio_endrd, v4norm_stwr, vcpio_wr, cpio_endwr, cpio_trail,
+	rd_wrfile, wr_rdfile, bad_opt},
+
+/* 8: SVR4 HEX CPIO WITH CRC, UID/GID CLEARED (ANONYMISED) */
+	{"v4root", 512, sizeof(HD_VCPIO), 1, 0, 0, 1, crc_id, crc_strd,
+	vcpio_rd, vcpio_endrd, v4root_stwr, vcpio_wr, cpio_endwr, cpio_trail,
 	rd_wrfile, wr_rdfile, bad_opt},
 };
 #define	F_OCPIO	0	/* format when called as cpio -6 */
 #define	F_ACPIO	1	/* format when called as cpio -c */
-#define	F_CPIO	3	/* format when called as cpio */
-#define F_OTAR	4	/* format when called as tar -o */
-#define F_TAR	5	/* format when called as tar */
-#define DEFLT	5	/* default write format from list above */
+#define	F_NCPIO	3	/* format when called as tar -R */
+#define	F_CPIO	4	/* format when called as cpio or tar -S */
+#define F_OTAR	5	/* format when called as tar -o */
+#define F_TAR	6	/* format when called as tar */
+#define DEFLT	6	/* default write format from list above */
 
 /*
  * ford is the archive search order used by get_arc() to determine what kind
  * of archive we are dealing with. This helps to properly id archive formats
  * some formats may be subsets of others....
  */
-int ford[] = {5, 4, 3, 2, 1, 0, -1 };
+int ford[] = {6, 5, 4, 3, 1, 0, -1 };
+
+/* normalise archives */
+int anonarch = 0;
+
+/* extract to standard output */
+int to_stdout = 0;
 
 /*
  * Do we have -C anywhere?
@@ -190,7 +219,7 @@ static void
 pax_options(int argc, char **argv)
 {
 	int c;
-	int i;
+	size_t i;
 	unsigned int flg = 0;
 	unsigned int bflg = 0;
 	char *pt;
@@ -199,7 +228,7 @@ pax_options(int argc, char **argv)
 	/*
 	 * process option flags
 	 */
-	while ((c=getopt(argc,argv,"ab:cdf:iklno:p:rs:tuvwx:zB:DE:G:HLOPT:U:XYZ0"))
+	while ((c=getopt(argc,argv,"ab:cdf:iklno:p:rs:tuvwx:zB:DE:G:HLM:OPT:U:XYZ0"))
 	    != -1) {
 		switch (c) {
 		case 'a':
@@ -452,6 +481,12 @@ pax_options(int argc, char **argv)
 			Lflag = 1;
 			flg |= CLF;
 			break;
+		case 'M':
+			/*
+			 * MirOS extension: archive normaliser
+			 */
+			process_M(optarg, pax_usage);
+			break;
 		case 'O':
 			/*
 			 * Force one volume.  Non standard option.
@@ -599,6 +634,14 @@ pax_options(int argc, char **argv)
  */
 
 static void
+tar_set_action(int op)
+{
+	if (act != ERROR && act != op)
+		tar_usage();
+	act = op;
+}
+
+static void
 tar_options(int argc, char **argv)
 {
 	int c;
@@ -621,7 +664,7 @@ tar_options(int argc, char **argv)
 	 * process option flags
 	 */
 	while ((c = getoldopt(argc, argv,
-	    "b:cef:hmopqruts:vwxzBC:HI:LOPXZ014578")) != -1) {
+	    "b:cef:hmopqruts:vwxzBC:HI:LM:OPRSXZ014578")) != -1) {
 		switch (c) {
 		case 'b':
 			/*
@@ -637,7 +680,7 @@ tar_options(int argc, char **argv)
 			/*
 			 * create an archive
 			 */
-			act = ARCHIVE;
+			tar_set_action(ARCHIVE);
 			break;
 		case 'e':
 			/*
@@ -674,6 +717,7 @@ tar_options(int argc, char **argv)
 			break;
 		case 'O':
 			Oflag = 1;
+			to_stdout = 2;
 			break;
 		case 'o':
 			Oflag = 2;
@@ -696,7 +740,15 @@ tar_options(int argc, char **argv)
 			/*
 			 * append to the archive
 			 */
-			act = APPND;
+			tar_set_action(APPND);
+			break;
+		case 'R':
+			Oflag = 3;
+			anonarch = ANON_INODES | ANON_HARDLINKS;
+			break;
+		case 'S':
+			Oflag = 4;
+			anonarch = ANON_INODES | ANON_HARDLINKS;
 			break;
 		case 's':
 			/*
@@ -711,7 +763,7 @@ tar_options(int argc, char **argv)
 			/*
 			 * list contents of the tape
 			 */
-			act = LIST;
+			tar_set_action(LIST);
 			break;
 		case 'v':
 			/*
@@ -730,7 +782,7 @@ tar_options(int argc, char **argv)
 			 * extract an archive, preserving mode,
 			 * and mtime if possible.
 			 */
-			act = EXTRACT;
+			tar_set_action(EXTRACT);
 			pmtime = 1;
 			break;
 		case 'z':
@@ -773,6 +825,9 @@ tar_options(int argc, char **argv)
 			 * follow symlinks
 			 */
 			Lflag = 1;
+			break;
+		case 'M':
+			process_M(optarg, tar_usage);
 			break;
 		case 'P':
 			/*
@@ -818,6 +873,10 @@ tar_options(int argc, char **argv)
 	argc -= optind;
 	argv += optind;
 
+	/* Tar requires an action. */
+	if (act == ERROR)
+		tar_usage();
+
 	/* Traditional tar behaviour (pax uses stderr unless in list mode) */
 	if (fstdin == 1 && act == ARCHIVE)
 		listf = stderr;
@@ -832,12 +891,14 @@ tar_options(int argc, char **argv)
 	 * process the args as they are interpreted by the operation mode
 	 */
 	switch (act) {
-	case LIST:
 	case EXTRACT:
+		if (to_stdout == 2)
+			to_stdout = 1;
+	case LIST:
 	default:
 		{
 			int sawpat = 0;
-			char *file, *dir;
+			char *file, *dir = NULL;
 
 			while (nincfiles || *argv != NULL) {
 				/*
@@ -901,10 +962,28 @@ tar_options(int argc, char **argv)
 		break;
 	case ARCHIVE:
 	case APPND:
-		frmt = &(fsub[Oflag ? F_OTAR : F_TAR]);
-
-		if (Oflag == 2 && opt_add("write_opt=nodir") < 0)
+		switch(Oflag) {
+		    case 0:
+			frmt = &(fsub[F_TAR]);
+			break;
+		    case 1:
+			frmt = &(fsub[F_OTAR]);
+			break;
+		    case 2:
+			frmt = &(fsub[F_OTAR]);
+			if (opt_add("write_opt=nodir") < 0)
+				tar_usage();
+			break;
+		    case 3:
+			frmt = &(fsub[F_NCPIO]);
+			break;
+		    case 4:
+			frmt = &(fsub[F_CPIO]);
+			break;
+		    default:
 			tar_usage();
+			break;
+		}
 
 		if (chdname != NULL) {	/* initial chdir() */
 			if (ftree_add(chdname, 1) < 0)
@@ -912,7 +991,7 @@ tar_options(int argc, char **argv)
 		}
 
 		while (nincfiles || *argv != NULL) {
-			char *file, *dir;
+			char *file, *dir = NULL;
 
 			/*
 			 * If we queued up any include files, pull them in
@@ -974,18 +1053,19 @@ tar_options(int argc, char **argv)
 		maxflt = 0;
 		break;
 	}
+	if (to_stdout != 1)
+		to_stdout = 0;
 	if (!fstdin && ((arcname == NULL) || (*arcname == '\0'))) {
 		arcname = getenv("TAPE");
+#ifdef _PATH_DEFTAPE
 		if ((arcname == NULL) || (*arcname == '\0'))
 			arcname = _PATH_DEFTAPE;
+#endif
 	}
 }
 
-int mkpath(char *);
-
 int
-mkpath(path)
-	char *path;
+mkpath(char *path)
 {
 	struct stat sb;
 	char *slash;
@@ -1016,6 +1096,20 @@ mkpath(path)
 
 	return (0);
 }
+
+static void
+cpio_set_action(int op)
+{
+	if ((act == APPND && op == ARCHIVE) || (act == ARCHIVE && op == APPND))
+		act = APPND;
+	else if ((act == LIST && op == EXTRACT) || (act == EXTRACT && op == LIST))
+		act = LIST;
+	else if (act != ERROR && act != op)
+		cpio_usage();
+	else
+		act = op;
+}
+
 /*
  * cpio_options()
  *	look at the user specified flags. set globals as required and check if
@@ -1025,7 +1119,8 @@ mkpath(path)
 static void
 cpio_options(int argc, char **argv)
 {
-	int c, i;
+	int c;
+	size_t i;
 	char *str;
 	FSUB tmp;
 	FILE *fp;
@@ -1036,9 +1131,8 @@ cpio_options(int argc, char **argv)
 	pmtime = 0;
 	arcname = NULL;
 	dflag = 1;
-	act = -1;
 	nodirs = 1;
-	while ((c=getopt(argc,argv,"abcdfiklmoprstuvzABC:E:F:H:I:LO:SZ6")) != -1)
+	while ((c=getopt(argc,argv,"abcdfiklmoprstuvzABC:E:F:H:I:LM:O:SZ6")) != -1)
 		switch (c) {
 			case 'a':
 				/*
@@ -1073,7 +1167,7 @@ cpio_options(int argc, char **argv)
 				/*
 				 * restore an archive
 				 */
-				act = EXTRACT;
+				cpio_set_action(EXTRACT);
 				break;
 			case 'k':
 				break;
@@ -1093,14 +1187,14 @@ cpio_options(int argc, char **argv)
 				/*
 				 * create an archive
 				 */
-				act = ARCHIVE;
+				cpio_set_action(ARCHIVE);
 				frmt = &(fsub[F_CPIO]);
 				break;
 			case 'p':
 				/*
 				 * copy-pass mode
 				 */
-				act = COPY;
+				cpio_set_action(COPY);
 				break;
 			case 'r':
 				/*
@@ -1117,7 +1211,7 @@ cpio_options(int argc, char **argv)
 				/*
 				 * list contents of archive
 				 */
-				act = LIST;
+				cpio_set_action(LIST);
 				listf = stdout;
 				break;
 			case 'u':
@@ -1142,7 +1236,7 @@ cpio_options(int argc, char **argv)
 				/*
 				 * append mode
 				 */
-				act = APPND;
+				cpio_set_action(APPND);
 				break;
 			case 'B':
 				/*
@@ -1192,7 +1286,17 @@ cpio_options(int argc, char **argv)
 				/*
 				 * specify an archive format on write
 				 */
-				tmp.name = optarg;
+				if (!strcmp(optarg, "bin")) {
+					tmp.name = "bcpio";
+				} else if (!strcmp(optarg, "crc")) {
+					tmp.name = "sv4crc";
+				} else if (!strcmp(optarg, "newc")) {
+					tmp.name = "sv4cpio";
+				} else if (!strcmp(optarg, "odc")) {
+					tmp.name = "cpio";
+				} else {
+					tmp.name = optarg;
+				}
 				if ((frmt = (FSUB *)bsearch((void *)&tmp, (void *)fsub,
 				    sizeof(fsub)/sizeof(FSUB), sizeof(FSUB), c_frmt)) != NULL)
 					break;
@@ -1208,6 +1312,9 @@ cpio_options(int argc, char **argv)
 				 * follow symbolic links
 				 */
 				Lflag = 1;
+				break;
+			case 'M':
+				process_M(optarg, cpio_usage);
 				break;
 			case 'S':
 				/*
@@ -1306,7 +1413,7 @@ printflg(unsigned int flg)
 static int
 c_frmt(const void *a, const void *b)
 {
-	return(strcmp(((FSUB *)a)->name, ((FSUB *)b)->name));
+	return(strcmp(((const FSUB *)a)->name, ((const FSUB *)b)->name));
 }
 
 /*
@@ -1513,7 +1620,7 @@ getline(FILE *f)
 	temp[len-1] = 0;
 	return(temp);
 }
-			
+
 /*
  * no_op()
  *	for those option functions where the archive format has nothing to do.
@@ -1542,7 +1649,7 @@ pax_usage(void)
 	    "\t  [-o options] [-p string] [-s replstr] [-T range]\n"
 	    "\t  [-U user] [pattern ...]\n"
 	    "       pax -w [-0adHiLOPtuvXz] [-B bytes] [-b blocksize] [-f archive]\n"
-	    "\t  [-G group] [-o options] [-s replstr]\n"
+	    "\t  [-G group] [-M flag] [-o options] [-s replstr]\n"
 	    "\t  [-T range] [-U user] [-x format] [file ...]\n"
 	    "       pax -rw [-0DdHikLlnOPtuvXYZ] [-G group] [-p string] [-s replstr]\n"
 	    "\t  [-T range] [-U user] [file ...] directory\n",
@@ -1559,10 +1666,10 @@ void
 tar_usage(void)
 {
 	(void)fputs(
-	    "usage: tar {crtux}[014578befHhLmOoPpqsvwXZz]\n"
+	    "usage: tar {crtux}[014578befHhLmOoPpqRSsvwXZz]\n"
 	    "\t  [blocking-factor | archive | replstr] [-C directory] [-I file]\n"
 	    "\t  [file ...]\n"
-	    "       tar {-crtux} [-014578eHhLmOoPpqvwXZz] [-b blocking-factor]\n"
+	    "       tar {-crtux} [-014578eHhLmOoPpqRSvwXZz] [-b blocking-factor] [-M flag]\n"
 	    "\t  [-C directory] [-f archive] [-I file] [-s replstr] [file ...]\n",
 	    stderr);
 	exit(1);
@@ -1577,9 +1684,79 @@ void
 cpio_usage(void)
 {
 	(void)fputs("usage: cpio -o [-AaBcLvZz] [-C bytes] [-F archive] [-H format]\n", stderr);
-	(void)fputs("               [-O archive] < name-list [> archive]\n", stderr);
+	(void)fputs("               [-M flag] [-O archive] <name-list [>archive]\n", stderr);
 	(void)fputs("       cpio -i [-6BbcdfmrSstuvZz] [-C bytes] [-E file] [-F archive]\n", stderr);
-	(void)fputs("               [-H format] [-I archive] [pattern...] [< archive]\n", stderr);
-	(void)fputs("       cpio -p [-adLlmuv] destination-directory < name-list\n", stderr);
+	(void)fputs("               [-H format] [-I archive] [pattern...] [<archive]\n", stderr);
+	(void)fputs("       cpio -p [-adLlmuv] destination-directory <name-list\n", stderr);
 	exit(1);
+}
+
+void
+anonarch_init(void)
+{
+	if (anonarch & ANON_VERBOSE) {
+		anonarch &= ~ANON_VERBOSE;
+		paxwarn(0, "debug: -M 0x%08X -x %s", anonarch, frmt->name);
+	}
+}
+
+static void
+process_M(const char *arg, void (*call_usage)(void))
+{
+	int j, k = 0;
+
+	if ((arg[0] >= '0') && (arg[0] <= '9')) {
+#ifdef __OpenBSD__
+		const char *s;
+		int64_t i = strtonum(arg, 0,
+		    ANON_MAXVAL, &s);
+		if (s)
+			errx(1, "%s M value: %s", s,
+			    arg);
+#else
+		char *ep;
+		long long i = strtoll(arg, &ep, 0);
+		if ((ep == arg) || (*ep != '\0') ||
+		    (i < 0) || (i > ANON_MAXVAL))
+			errx(1, "impossible M value:"
+			    " %s", arg);
+#endif
+		anonarch = i;
+		return;
+	}
+
+	if (!strncmp(arg, "no-", 3)) {
+		j = 0;
+		arg += 3;
+	} else
+		j = 1;
+	if (!strncmp(arg, "uid", 3) ||
+	    !strncmp(arg, "gid", 3)) {
+		k = ANON_UIDGID;
+	} else if (!strncmp(arg, "ino", 3)) {
+		k = ANON_INODES;
+	} else if (!strncmp(arg, "mtim", 4)) {
+		k = ANON_MTIME;
+	} else if (!strncmp(arg, "link", 4)) {
+		k = ANON_HARDLINKS;
+	} else if (!strncmp(arg, "norm", 4)) {
+		k = ANON_UIDGID | ANON_INODES
+		    | ANON_MTIME | ANON_HARDLINKS;
+	} else if (!strncmp(arg, "root", 4)) {
+		k = ANON_UIDGID | ANON_INODES;
+	} else if (!strncmp(arg, "dist", 4)) {
+		k = ANON_UIDGID | ANON_INODES
+		    | ANON_HARDLINKS;
+	} else if (!strncmp(arg, "set", 3)) {
+		k = ANON_INODES | ANON_HARDLINKS;
+	} else if (!strncmp(arg, "v", 1)) {
+		k = ANON_VERBOSE;
+	} else if (!strncmp(arg, "debug", 5)) {
+		k = ANON_DEBUG;
+	} else
+		call_usage();
+	if (j)
+		anonarch |= k;
+	else
+		anonarch &= ~k;
 }

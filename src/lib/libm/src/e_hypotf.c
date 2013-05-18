@@ -8,13 +8,15 @@
  *
  * Developed at SunPro, a Sun Microsystems, Inc. business.
  * Permission to use, copy, modify, and distribute this
- * software is freely granted, provided that this notice 
+ * software is freely granted, provided that this notice
  * is preserved.
  * ====================================================
  */
 
+#include <sys/cdefs.h>
 #if defined(LIBM_SCCS) && !defined(lint)
-static char rcsid[] = "$NetBSD: e_hypotf.c,v 1.5 1995/05/12 04:57:30 jtc Exp $";
+__RCSID("$MirOS$");
+__RCSID("$NetBSD: e_hypotf.c,v 1.8 2002/05/26 22:01:50 wiz Exp $");
 #endif
 
 #include "math.h"
@@ -48,7 +50,7 @@ __ieee754_hypotf(float x, float y)
 	   SET_FLOAT_WORD(b,hb);
 	}
 	if(hb < 0x26800000) {	/* b < 2**-50 */
-	    if(hb <= 0x007fffff) {	/* subnormal b or 0 */	
+	    if(hb <= 0x007fffff) {	/* subnormal b or 0 */
 	        if(hb==0) return a;
 		SET_FLOAT_WORD(t1,0x3f000000);	/* t1=2^126 */
 		b *= t1;

@@ -1,6 +1,9 @@
+/**	$MirOS: src/usr.sbin/ntpd/util.c,v 1.2 2005/03/13 19:17:10 tg Exp $ */
 /*	$OpenBSD: util.c,v 1.10 2004/12/08 15:47:38 mickey Exp $ */
 
 /*
+ * Copyright (c) 2004, 2007
+ *	Thorsten "mirabilos" Glaser <tg@66h.42h.de>
  * Copyright (c) 2004 Alexander Guy <alexander.guy@andern.org>
  *
  * Permission to use, copy, modify, and distribute this software for any
@@ -16,20 +19,21 @@
  * OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#include <sys/time.h>
+#include <sys/types.h>
+#include <sys/taitime.h>
 #include <limits.h>
 
 #include "ntpd.h"
 
+__RCSID("$MirOS: src/usr.sbin/ntpd/util.c,v 1.2 2005/03/13 19:17:10 tg Exp $");
+
 double
 gettime(void)
 {
-	struct timeval	tv;
+	tai64na_t t;
 
-	if (gettimeofday(&tv, NULL) == -1)
-		fatal("gettimeofday");
-
-	return (tv.tv_sec + JAN_1970 + 1.0e-6 * tv.tv_usec);
+	taina_time(&t);
+	return (1.0E-09 * t.nano + tai2utc(t.secs) + JAN_1970);
 }
 
 

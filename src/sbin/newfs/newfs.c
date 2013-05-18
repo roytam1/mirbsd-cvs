@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: newfs.c,v 1.50 2004/08/12 07:53:50 otto Exp $	*/
 /*	$NetBSD: newfs.c,v 1.20 1996/05/16 07:13:03 thorpej Exp $	*/
 
@@ -31,24 +32,15 @@
  */
 
 #ifndef lint
-static char copyright[] =
+static const char copyright[] =
 "@(#) Copyright (c) 1983, 1989, 1993, 1994\n\
 	The Regents of the University of California.  All rights reserved.\n";
-#endif /* not lint */
-
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)newfs.c	8.8 (Berkeley) 4/18/94";
-#else
-static char rcsid[] = "$OpenBSD: newfs.c,v 1.50 2004/08/12 07:53:50 otto Exp $";
-#endif
 #endif /* not lint */
 
 /*
  * newfs: friendly front end to mkfs
  */
 #include <sys/param.h>
-#include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/ioctl.h>
 #include <sys/disklabel.h>
@@ -76,6 +68,9 @@ static char rcsid[] = "$OpenBSD: newfs.c,v 1.50 2004/08/12 07:53:50 otto Exp $";
 
 #include "mntopts.h"
 #include "pathnames.h"
+
+__SCCSID("@(#)newfs.c	8.8 (Berkeley) 4/18/94");
+__RCSID("$MirOS$");
 
 struct mntopt mopts[] = {
 	MOPT_STDOPTS,
@@ -106,7 +101,7 @@ u_short	dkcksum(struct disklabel *);
  * Cylinder groups may have up to many cylinders. The actual
  * number used depends upon how much information can be stored
  * on a single cylinder. The default is to use as many as
- * possible.
+ * possible; the old default was 16 (OpenBSD) and 32 (MirBSD).
  */
 #define	DESCPG		65536	/* desired fs_cpg */
 
@@ -206,7 +201,7 @@ main(int argc, char *argv[])
 	struct statfs *mp;
 	struct rlimit rl;
 	int fsi = -1, fso, len, n, ncyls, maxpartitions;
-	char *cp, *s1, *s2, *special, *opstring;
+	char *cp = NULL, *s1, *s2, *special, *opstring;
 #ifdef MFS
 	char mountfromname[BUFSIZ];
 	char *pop = NULL;
@@ -215,9 +210,9 @@ main(int argc, char *argv[])
 	struct stat mountpoint;
 	int status;
 #endif
-	uid_t mfsuid;
-	gid_t mfsgid;
-	mode_t mfsmode;
+	uid_t mfsuid = 0;
+	gid_t mfsgid = 0;
+	mode_t mfsmode = 0;
 	char *fstype = NULL;
 	char **saveargv = argv;
 	int ffs = 1;
@@ -839,7 +834,7 @@ struct fsoptions {
 	{ "-u sectors/track", 0 },
 	{ "-x spare sectors per cylinder", 0 },
 	{ "-z tracks/cylinder", 0 },
-	{ NULL, NULL }
+	{ NULL, 0 }
 };
 
 void

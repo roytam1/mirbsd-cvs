@@ -58,6 +58,9 @@
 #include "event-internal.h"
 #include "log.h"
 
+__RCSID("$MirOS: src/lib/libevent/event.c,v 1.2 2007/05/17 16:48:20 tg Exp $\t"
+    _EVENT_H_);
+
 #ifdef HAVE_EVENT_PORTS
 extern const struct eventop evportops;
 #endif
@@ -178,7 +181,7 @@ event_init(void)
 	int i;
 
 	if ((current_base = calloc(1, sizeof(struct event_base))) == NULL)
-		event_err(1, "%s: calloc");
+		event_err(1, "%s: calloc", __func__);
 
 	event_sigcb = NULL;
 	event_gotsig = 0;
@@ -338,7 +341,8 @@ event_base_dispatch(struct event_base *event_base)
 }
 
 static void
-event_loopexit_cb(int fd, short what, void *arg)
+event_loopexit_cb(int fd __attribute__((unused)),
+    short what __attribute__((unused)), void *arg)
 {
 	struct event_base *base = arg;
 	base->event_gotterm = 1;
@@ -848,7 +852,9 @@ event_queue_insert(struct event_base *base, struct event *ev, int queue)
 		TAILQ_INSERT_TAIL(&signalqueue, ev, ev_signal_next);
 		break;
 	case EVLIST_TIMEOUT: {
+#ifndef NDEBUG
 		struct event *tmp = RB_INSERT(event_tree, &base->timetree, ev);
+#endif
 		assert(tmp == NULL);
 		break;
 	}

@@ -60,6 +60,8 @@
 #include "dhcpd.h"
 #include "privsep.h"
 
+__RCSID("$MirOS$");
+
 #define	CLIENT_PATH "PATH=/usr/bin:/usr/sbin:/bin:/sbin"
 
 time_t cur_time;
@@ -673,9 +675,9 @@ bind_lease(void)
 	/* Set up a timeout to start the renewal process. */
 	add_timeout(client->active->renewal, state_bound);
 
-	note("bound to %s -- renewal in %d seconds.",
+	note("bound to %s -- renewal in %ld seconds.",
 	    piaddr(client->active->address),
-	    client->active->renewal - cur_time);
+	    (long)(client->active->renewal - cur_time));
 	client->state = S_BOUND;
 	reinitialize_interface();
 	go_daemon();
@@ -1004,9 +1006,9 @@ again:
 		client->packet.secs = htons(65535);
 	client->secs = client->packet.secs;
 
-	note("DHCPDISCOVER on %s to %s port %d interval %d",
+	note("DHCPDISCOVER on %s to %s port %d interval %ld",
 	    ifi->name, inet_ntoa(sockaddr_broadcast.sin_addr),
-	    ntohs(sockaddr_broadcast.sin_port), client->interval);
+	    ntohs(sockaddr_broadcast.sin_port), (long)client->interval);
 
 	/* Send out a packet. */
 	send_packet(inaddr_any, &sockaddr_broadcast, NULL);
@@ -1054,9 +1056,9 @@ state_panic(void)
 				if (cur_time <
 				    client->active->renewal) {
 					client->state = S_BOUND;
-					note("bound: renewal in %d seconds.",
-					    client->active->renewal -
-					    cur_time);
+					note("bound: renewal in %ld seconds.",
+					    (long)(client->active->renewal -
+					    cur_time));
 					add_timeout(client->active->renewal,
 					    state_bound);
 				} else {
@@ -1533,15 +1535,15 @@ write_client_lease(struct client_lease *lease, int rewrite)
 
 	t = gmtime(&lease->renewal);
 	fprintf(leaseFile, "  renew %d %d/%d/%d %02d:%02d:%02d;\n",
-	    t->tm_wday, t->tm_year + 1900, t->tm_mon + 1, t->tm_mday,
+	    t->tm_wday, (int)t->tm_year + 1900, t->tm_mon + 1, t->tm_mday,
 	    t->tm_hour, t->tm_min, t->tm_sec);
 	t = gmtime(&lease->rebind);
 	fprintf(leaseFile, "  rebind %d %d/%d/%d %02d:%02d:%02d;\n",
-	    t->tm_wday, t->tm_year + 1900, t->tm_mon + 1, t->tm_mday,
+	    t->tm_wday, (int)t->tm_year + 1900, t->tm_mon + 1, t->tm_mday,
 	    t->tm_hour, t->tm_min, t->tm_sec);
 	t = gmtime(&lease->expiry);
 	fprintf(leaseFile, "  expire %d %d/%d/%d %02d:%02d:%02d;\n",
-	    t->tm_wday, t->tm_year + 1900, t->tm_mon + 1, t->tm_mday,
+	    t->tm_wday, (int)t->tm_year + 1900, t->tm_mon + 1, t->tm_mday,
 	    t->tm_hour, t->tm_min, t->tm_sec);
 	fprintf(leaseFile, "}\n");
 	fflush(leaseFile);

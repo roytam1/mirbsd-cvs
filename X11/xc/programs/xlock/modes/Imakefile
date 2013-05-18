@@ -1,6 +1,7 @@
 #ifndef XCOMM
 #define XCOMM /**/#
 #endif
+XCOMM $MirOS: X11/xc/programs/xlock/modes/Imakefile,v 1.2 2005/03/19 16:13:20 tg Exp $
 XCOMM @(#)Sub Imakefile	xlockmore
 XCOMM
 
@@ -137,8 +138,10 @@ INVERTOBJS = $(DOG)i_figureeight$(O)$(S)\
 $(DOG)i_linkage$(OG)i_sphere$(OG)i_spline$(O)$(S)\
 $(DOG)i_threejet$(OG)i_threejetvec$(O)$(S)\
 $(DOG)i_twojet$(OG)i_twojetvec$(O)
+#ifndef MirBSDArchitecture
 XLOCKDEPCPPGLOBJS = $(INVERTOBJS)
 XLOCKMULTCPPGLOBJS = $(DOG)invert$(O)
+#endif
 #if defined(TtfLibrary) && defined(GlttLibrary) && defined(Unstable)
 XLOCKUNSTABLETEXTGLOBJS = $(DOG)text3d$(O)
 #endif
@@ -329,7 +332,7 @@ eyes$(O) : eyes$(C) eyes.xbm eyes2.xbm
 life$(O) : life$(C) life.xbm life2.xbm
 life1d$(O) : life1d$(C) life1d.xbm
 pacman$(O) : pacman$(C) ghost.xbm
-# Do not need xpm files if not using them but not worth figuring out
+XCOMM Do not need xpm files if not using them but not worth figuring out
 flag$(O) : flag$(C) flag.xbm flag.xpm
 image$(O) : image$(C) image.xbm image.xpm
 maze$(O) : maze$(C) maze.xbm maze.xpm

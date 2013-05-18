@@ -5,16 +5,17 @@
  *
  * Developed at SunPro, a Sun Microsystems, Inc. business.
  * Permission to use, copy, modify, and distribute this
- * software is freely granted, provided that this notice 
+ * software is freely granted, provided that this notice
  * is preserved.
  * ====================================================
  */
 
+#include <sys/cdefs.h>
 #if defined(LIBM_SCCS) && !defined(lint)
-static char rcsid[] = "$NetBSD: w_exp.c,v 1.6 1995/05/10 20:48:51 jtc Exp $";
+__RCSID("$NetBSD: w_exp.c,v 1.9 2002/05/26 22:02:00 wiz Exp $");
 #endif
 
-/* 
+/*
  * wrapper exp(x)
  */
 
@@ -39,7 +40,7 @@ exp(double x)		/* wrapper exp */
 	        return __kernel_standard(x,x,6); /* exp overflow */
 	    else if(x<u_threshold)
 	        return __kernel_standard(x,x,7); /* exp underflow */
-	} 
+	}
 	return z;
 #endif
 }

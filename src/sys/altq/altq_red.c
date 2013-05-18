@@ -1,4 +1,4 @@
-/*	$OpenBSD: altq_red.c,v 1.12 2005/10/17 08:43:35 henning Exp $	*/
+/*	$OpenBSD: altq_red.c,v 1.11 2003/05/12 00:50:12 henning Exp $	*/
 /*	$KAME: altq_red.c,v 1.10 2002/04/03 05:38:51 kjc Exp $	*/
 
 /*
@@ -420,28 +420,39 @@ int
 mark_ecn(struct mbuf *m, struct altq_pktattr *pktattr, int flags)
 {
 	struct mbuf	*m0;
-	struct pf_mtag	*t;
+	struct m_tag	*t;
+	struct altq_tag	*at;
+	void		*hdr;
+	int		 af;
 
-	if ((t = pf_find_mtag(m)) == NULL)
+	t = m_tag_find(m, PACKET_TAG_PF_QID, NULL);
+	if (t == NULL)
+		return (0);
+	at = (struct altq_tag *)(t + 1);
+
+	if (at == NULL)
 		return (0);
 
-	if (t->af != AF_INET && t->af != AF_INET6)
+	af = at->af;
+	hdr = at->hdr;
+
+	if (af != AF_INET && af != AF_INET6)
 		return (0);
 
 	/* verify that pattr_hdr is within the mbuf data */
 	for (m0 = m; m0 != NULL; m0 = m0->m_next)
-		if (((caddr_t)(t->hdr) >= m0->m_data) &&
-		    ((caddr_t)(t->hdr) < m0->m_data + m0->m_len))
+		if (((caddr_t)hdr >= m0->m_data) &&
+		    ((caddr_t)hdr < m0->m_data + m0->m_len))
 			break;
 	if (m0 == NULL) {
 		/* ick, tag info is stale */
 		return (0);
 	}
 
-	switch (t->af) {
+	switch (af) {
 	case AF_INET:
 		if (flags & REDF_ECN4) {
-			struct ip *ip = t->hdr;
+			struct ip *ip = hdr;
 			u_int8_t otos;
 			int sum;
 
@@ -474,7 +485,7 @@ mark_ecn(struct mbuf *m, struct altq_pktattr *pktattr, int flags)
 #ifdef INET6
 	case AF_INET6:
 		if (flags & REDF_ECN6) {
-			struct ip6_hdr *ip6 = t->hdr;
+			struct ip6_hdr *ip6 = hdr;
 			u_int32_t flowlabel;
 
 			flowlabel = ntohl(ip6->ip6_flow);

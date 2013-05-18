@@ -1,3 +1,4 @@
+/**	$MirOS: src/lib/libpcap/nametoaddr.c,v 1.3 2005/10/21 11:02:51 tg Exp $ */
 /*	$OpenBSD: nametoaddr.c,v 1.13 2006/01/11 07:31:46 jaredy Exp $	*/
 
 /*
@@ -25,7 +26,6 @@
  */
 
 #include <sys/param.h>
-#include <sys/types.h>				/* concession to AIX */
 #include <sys/socket.h>
 #include <sys/time.h>
 

@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: siopvar_common.h,v 1.18 2003/11/16 20:30:06 avsm Exp $ */
 /*	$NetBSD: siopvar_common.h,v 1.22 2002/10/23 02:32:36 christos Exp $ */
 
@@ -38,10 +39,12 @@
 #endif
 
 /* tables used by SCRIPT */
+#pragma pack(1)
 typedef struct scr_table {
 	u_int32_t count;
 	u_int32_t addr;
-} scr_table_t __packed;
+} scr_table_t;
+#pragma pack(0)
 
 /* Number of scatter/gather entries */
 /* XXX Ensure alignment of siop_xfer's. */

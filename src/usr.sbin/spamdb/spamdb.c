@@ -1,3 +1,4 @@
+/**	$MirOS: src/usr.sbin/spamdb/spamdb.c,v 1.5 2007/02/17 03:28:30 tg Exp $ */
 /*	$OpenBSD: spamdb.c,v 1.22 2007/02/27 16:22:11 otto Exp $	*/
 
 /*
@@ -32,6 +33,8 @@
 #include <errno.h>
 
 #include "grey.h"
+
+__RCSID("$MirOS: src/usr.sbin/spamdb/spamdb.c,v 1.5 2007/02/17 03:28:30 tg Exp $");
 
 /* things we may add/delete from the db */
 #define WHITE 0
@@ -197,14 +200,15 @@ dblist(DB *db)
 			/* this is a non-greylist entry */
 			switch (gd.pcount) {
 			case -1: /* spamtrap hit, with expiry time */
-				printf("TRAPPED|%s|%d\n", a, gd.expire);
+				printf("TRAPPED|%s|%lld\n", a, (int64_t)gd.expire);
 				break;
 			case -2: /* spamtrap address */
 				printf("SPAMTRAP|%s\n", a);
 				break;
 			default: /* whitelist */
-				printf("WHITE|%s|||%d|%d|%d|%d|%d\n", a,
-				    gd.first, gd.pass, gd.expire, gd.bcount,
+				printf("WHITE|%s|||%lld|%lld|%lld|%d|%d\n", a,
+				    (int64_t)gd.first, (int64_t)gd.pass,
+				    (int64_t)gd.expire, gd.bcount,
 				    gd.pcount);
 				break;
 			}
@@ -228,16 +232,18 @@ dblist(DB *db)
 				 * with an empty HELO field instead 
 				 * of erroring out.
 				 */			  
-				printf("GREY|%s|%s|%s|%s|%d|%d|%d|%d|%d\n",
-				    a, "", helo, from, gd.first, gd.pass,
-				    gd.expire, gd.bcount, gd.pcount);
+				printf("GREY|%s|%s|%s|%s|%lld|%lld|%lld|%d|%d\n",
+				    a, "", helo, from, (int64_t)gd.first,
+				    (int64_t)gd.pass, (int64_t)gd.expire,
+				    gd.bcount, gd.pcount);
 			
 			} else {
 				*to = '\0';
 				to++;
-				printf("GREY|%s|%s|%s|%s|%d|%d|%d|%d|%d\n",
-				    a, helo, from, to, gd.first, gd.pass,
-				    gd.expire, gd.bcount, gd.pcount);
+				printf("GREY|%s|%s|%s|%s|%lld|%lld|%lld|%d|%d\n",
+				    a, helo, from, to, (int64_t)gd.first,
+				    (int64_t)gd.pass, (int64_t)gd.expire,
+				    gd.bcount, gd.pcount);
 			}
 		}
 		free(a);

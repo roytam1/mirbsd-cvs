@@ -1,8 +1,7 @@
+/**	$MirOS: src/lib/libc/net/res_query.c,v 1.3 2005/07/09 13:23:32 tg Exp $	*/
 /*	$OpenBSD: res_query.c,v 1.24 2005/08/06 20:30:04 espie Exp $	*/
 
 /*
- * ++Copyright++ 1988, 1993
- * -
  * Copyright (c) 1988, 1993
  *    The Regents of the University of California.  All rights reserved.
  * 
@@ -51,7 +50,6 @@
  * --Copyright--
  */
 
-#include <sys/types.h>
 #include <sys/param.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
@@ -67,6 +65,8 @@
 #include <unistd.h>
 
 #include "thread_private.h"
+
+__RCSID("$MirOS: src/lib/libc/net/res_query.c,v 1.3 2005/07/09 13:23:32 tg Exp $");
 
 #if PACKETSZ > 1024
 #define MAXPACKET	PACKETSZ
@@ -339,7 +339,7 @@ res_querydomain(const char *name,
 		 */
 		n = strlen(name) - 1;
 		if (n != (0 - 1) && name[n] == '.' && n < sizeof(nbuf) - 1) {
-			bcopy(name, nbuf, n);
+			memmove(nbuf, name, n);
 			nbuf[n] = '\0';
 		} else
 			longname = name;
@@ -374,7 +374,7 @@ hostalias(const char *name)
 			continue;
 		(void)memcpy(buf, cp1, len);
 		buf[len] = '\0';
-		
+
 		for (cp1 = buf; *cp1 && !isspace(*cp1); ++cp1)
 			;
 		if (!*cp1)

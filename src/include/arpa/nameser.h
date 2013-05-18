@@ -1,11 +1,10 @@
+/**	$MirOS: src/include/arpa/nameser.h,v 1.3 2006/12/06 13:08:56 tg Exp $ */
 /*	$OpenBSD: nameser.h,v 1.10 2004/01/22 21:48:02 espie Exp $	*/
 
 /*
- * ++Copyright++ 1983, 1989, 1993
- * -
  * Copyright (c) 1983, 1989, 1993
  *    The Regents of the University of California.  All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met:
@@ -17,7 +16,7 @@
  * 3. Neither the name of the University nor the names of its contributors
  *    may be used to endorse or promote products derived from this software
  *    without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS ``AS IS'' AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -31,14 +30,14 @@
  * SUCH DAMAGE.
  * -
  * Portions Copyright (c) 1993 by Digital Equipment Corporation.
- * 
+ *
  * Permission to use, copy, modify, and distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies, and that
  * the name of Digital Equipment Corporation not be used in advertising or
  * publicity pertaining to distribution of the document or software without
  * specific, written prior permission.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS" AND DIGITAL EQUIPMENT CORP. DISCLAIMS ALL
  * WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING ALL IMPLIED WARRANTIES
  * OF MERCHANTABILITY AND FITNESS.   IN NO EVENT SHALL DIGITAL EQUIPMENT
@@ -70,7 +69,6 @@
  * DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER ARISING
  * OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE, EVEN
  * IF IBM IS APPRISED OF THE POSSIBILITY OF SUCH DAMAGES.
- * --Copyright--
  */
 
 /*
@@ -241,7 +239,7 @@
 
 #define  KEYFLAG_RESERVED_BITMASK ( KEYFLAG_RESERVED3 | \
 				    KEYFLAG_RESERVED4 | \
-				    KEYFLAG_RESERVED10| KEYFLAG_RESERVED11) 
+				    KEYFLAG_RESERVED10| KEYFLAG_RESERVED11)
 
 /* The Algorithm field of the KEY and SIG RR's is an integer, {1..254} */
 #define	ALGORITHM_MD5RSA	1	/* MD5 with RSA */
@@ -370,23 +368,23 @@ extern	u_int32_t	_getlong(const unsigned char *);
  * These macros demonstrate the property of C whereby it can be
  * portable or it can be elegant but rarely both.
  */
-#define GETSHORT(s, cp) { \
-	unsigned char *t_cp = (unsigned char *)(cp); \
+#define GETSHORT(s, cp) do { \
+	const unsigned char *t_cp = (const unsigned char *)(cp); \
 	(s) = ((u_int16_t)t_cp[0] << 8) \
 	    | ((u_int16_t)t_cp[1]) \
 	    ; \
 	(cp) += INT16SZ; \
-}
+} while (0)
 
-#define GETLONG(l, cp) { \
-	unsigned char *t_cp = (unsigned char *)(cp); \
+#define GETLONG(l, cp) do { \
+	const unsigned char *t_cp = (const unsigned char *)(cp); \
 	(l) = ((u_int32_t)t_cp[0] << 24) \
 	    | ((u_int32_t)t_cp[1] << 16) \
 	    | ((u_int32_t)t_cp[2] << 8) \
 	    | ((u_int32_t)t_cp[3]) \
 	    ; \
 	(cp) += INT32SZ; \
-}
+} while (0)
 
 #define PUTSHORT(s, cp) { \
 	u_int16_t t_s = (u_int16_t)(s); \

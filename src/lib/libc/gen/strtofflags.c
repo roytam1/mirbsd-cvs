@@ -38,7 +38,7 @@
 #include <string.h>
 
 static const struct {
-	char *name;
+	const char *name;
 	u_int32_t flag;
 	int invert;
 } mapping[] = {
@@ -78,9 +78,10 @@ char *
 fflagstostr(u_int32_t flags)
 {
 	char *string;
-	char *sp, *dp;
+	const char *sp;
+	char *dp;
 	u_int32_t setflags;
-	int i;
+	size_t i;
 
 	if ((string = (char *)malloc(nmappings * (longestflaglen + 1))) == NULL)
 		return (NULL);
@@ -110,7 +111,7 @@ int
 strtofflags(char **stringp, u_int32_t *setp, u_int32_t *clrp)
 {
 	char *string, *p;
-	int i;
+	size_t i;
 
 	if (setp)
 		*setp = 0;

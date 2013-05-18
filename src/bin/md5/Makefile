@@ -1,15 +1,16 @@
-#	$OpenBSD: Makefile,v 1.10 2005/05/24 21:57:47 millert Exp $
+# $MirOS: src/bin/md5/Makefile,v 1.11 2007/05/07 15:46:23 tg Exp $
+# $OpenBSD: Makefile,v 1.10 2005/05/24 21:57:47 millert Exp $
 
-PROG=	md5
-SRCS=	crc.c md5.c
+PROG=	cksum
 MAN=	cksum.1 md5.1 sha1.1 rmd160.1
-LINKS=	${BINDIR}/md5 ${BINDIR}/sha1 \
-	${BINDIR}/md5 ${BINDIR}/rmd160 \
-	${BINDIR}/md5 ${BINDIR}/cksum \
-	${BINDIR}/md5 ${BINDIR}/sum
+LINKS=	${BINDIR}/cksum ${BINDIR}/sha1 \
+	${BINDIR}/cksum ${BINDIR}/rmd160 \
+	${BINDIR}/cksum ${BINDIR}/md5 \
+	${BINDIR}/cksum ${BINDIR}/sum
 MLINKS= cksum.1 sum.1
 
-CPPFLAGS+= -I${.CURDIR}
-COPTS+=	-Wall -Wconversion -Wmissing-prototypes
+.if exists(${.SYSMK}/libmirmake.a)
+LDADD+=	-L${.SYSMK} -lmirmake
+.endif
 
 .include <bsd.prog.mk>

@@ -1,3 +1,4 @@
+/**	$MirOS: src/lib/libc/hash/helper.c,v 1.4 2005/09/22 20:09:06 tg Exp $ */
 /*	$OpenBSD: helper.c,v 1.8 2005/08/08 08:05:35 espie Exp $	*/
 
 /*
@@ -21,13 +22,19 @@
 
 #include <hashinc>
 
+__RCSID("$MirOS: src/lib/libc/hash/helper.c,v 1.4 2005/09/22 20:09:06 tg Exp $ helper for HASH hash");
+
 /* ARGSUSED */
 char *
 HASHEnd(HASH_CTX *ctx, char *buf)
 {
 	int i;
 	u_int8_t digest[HASH_DIGEST_LENGTH];
+#ifdef HASH_DIGEST_UPPERCASE
+	static const char hex[] = "0123456789ABCDEF";
+#else
 	static const char hex[] = "0123456789abcdef";
+#endif
 
 	if (buf == NULL && (buf = malloc(HASH_DIGEST_STRING_LENGTH)) == NULL)
 		return (NULL);
@@ -62,10 +69,11 @@ HASHFileChunk(const char *filename, char *buf, off_t off, off_t len)
 		}
 		len = sb.st_size;
 	}
-	if (off > 0 && lseek(fd, off, SEEK_SET) < 0)
+	if ((len < 0) || (off > 0 && lseek(fd, off, SEEK_SET) < 0))
 		return (NULL);
 
-	while ((nr = read(fd, buffer, MIN(sizeof(buffer), len))) > 0) {
+	while ((nr = read(fd, buffer,
+	    (size_t)(len ? MIN(BUFSIZ, len) : BUFSIZ))) > 0) {
 		HASHUpdate(&ctx, buffer, (size_t)nr);
 		if (len > 0 && (len -= nr) == 0)
 			break;

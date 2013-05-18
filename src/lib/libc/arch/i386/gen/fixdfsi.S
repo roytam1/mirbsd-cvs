@@ -33,6 +33,8 @@
 
 #include <machine/asm.h>
 
+	.text
+
 ENTRY(__fixdfsi)
 	fldl	4(%esp)
 	fistpl	4(%esp)

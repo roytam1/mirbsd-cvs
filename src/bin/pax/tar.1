@@ -1,3 +1,4 @@
+.\"	$MirOS: src/bin/pax/tar.1,v 1.8 2006/07/21 17:34:59 tg Exp $
 .\"	$OpenBSD: tar.1,v 1.48 2007/05/31 19:19:15 jmc Exp $
 .\"
 .\" Copyright (c) 1996 SigmaSoft, Th. Lockert
@@ -25,16 +26,29 @@
 .\"
 .\"	$OpenBSD: tar.1,v 1.48 2007/05/31 19:19:15 jmc Exp $
 .\"
-.Dd $Mdocdate$
+.Dd October 23, 2007
 .Dt TAR 1
-.Os
+.Os MirBSD
+.\" for portability
+.de Mx
+.nr cF \\n(.f
+.nr cZ \\n(.s
+.ds aa \&\f\\n(cF\s\\n(cZ
+.if \\n(aC==0 \{\
+.	if \\n(.$==0 \&MirBSD\\*(aa
+.\}
+.if \\n(.$==1 \{\
+.	if "\\$1"."  \&MirBSD\\$1\\*(aa
+.	if "\\$1","  \&MirBSD\\$1\\*(aa
+.\}
+..
 .Sh NAME
 .Nm tar
 .Nd tape archiver
 .Sh SYNOPSIS
 .Nm tar
 .Sm off
-.No { Cm crtux No } Op Cm 014578befHhLmOoPpqsvwXZz
+.No { Cm crtux No } Op Cm 014578befHhLmOoPRSpqsvwXZz
 .Sm on
 .Bk -words
 .Op Ar blocking-factor | archive | replstr
@@ -45,11 +59,12 @@
 .Pp
 .Nm tar
 .No { Ns Fl crtux Ns }
-.Op Fl 014578eHhLmOoPpqvwXZz
+.Op Fl 014578eHhLmOoPpqRSvwXZz
 .Op Fl b Ar blocking-factor
 .Op Fl C Ar directory
 .Op Fl f Ar archive
 .Op Fl I Ar file
+.Op Fl M Ar flag
 .Op Fl s Ar replstr
 .Op Ar file ...
 .Sh DESCRIPTION
@@ -162,10 +177,40 @@ archive or extract from the given file, one per line.
 Synonym for the
 .Fl h
 option.
+.It Fl M Ar flag
+Configure the archive normaliser.
+.Ar flag
+is either a number or a string, optionally prefixed with
+.Dq no-
+to turn it off.
+See
+.Xr cpio 1
+for a comprehensive list and compatibility notes.
+.Pp
+.Bl -tag -width xxxxxx -compact
+.It Ar inodes
+0x0001: Serialise inodes, zero device info.
+.It Ar links
+0x0002: Store content of hard links only once.
+.It Ar mtime
+0x0004: Zero out the file modification time.
+.It Ar uidgid
+0x0008: Set owner to 0:0 (root:wheel).
+.El
+.Pp
+This option is only implemented for the cpio, sv4cpio,
+sv4crc, and ustar file format writing routines.
+For the ustar format, the
+.Ar inodes
+and
+.Ar links
+specifiers are ignored.
 .It Fl m
 Do not preserve modification time.
 .It Fl O
-Write old-style (non-POSIX) archives.
+If reading, extract files to standard output.
+.br
+If writing, write old-style (non-POSIX) archives.
 .It Fl o
 Don't write directory information that the older (V7) style
 .Nm
@@ -195,6 +240,14 @@ No more than one archive member is matched for each
 .Ar file .
 When members of type directory are matched, the file hierarchy rooted at that
 directory is also matched.
+.It Fl R
+Write SysVR4 CPIO files instead of tar or POSIX ustar files.
+Serialise inode numbers, zero out device information.
+The file content of hard links is stored only once.
+.It Fl S
+Write SysVR4 CPIO files with CRC instead of tar or POSIX ustar files.
+Serialise inode numbers, zero out device information.
+The file content of hard links is stored only once.
 .It Fl s Ar replstr
 Modify the archive member names according to the substitution expression
 .Ar replstr ,
@@ -381,3 +434,10 @@ The
 flag is not portable to other versions of
 .Nm
 where it may have a different meaning.
+The
+.Fl R ,
+.Fl S ,
+and
+.Fl M
+options are extensions specific to
+.Mx .

@@ -63,7 +63,7 @@ main(int argc, char *argv[])
 	int ch, newl, skip, i;
 	char *p;
 	struct msgbuf cur;
-	char *memf, *nlistf, *bufdata;
+	char *memf, *nlistf, *bufdata = NULL;
 	char buf[5];
 
 	memf = nlistf = NULL;

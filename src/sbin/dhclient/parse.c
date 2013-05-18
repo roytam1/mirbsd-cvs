@@ -43,6 +43,8 @@
 #include "dhcpd.h"
 #include "dhctoken.h"
 
+__RCSID("$MirOS: src/sbin/dhclient/parse.c,v 1.4 2006/09/20 20:03:32 tg Exp $");
+
 /*
  * Skip to the semicolon ending the current statement.   If we encounter
  * braces, the matching closing brace terminates the statement.   If we
@@ -192,6 +194,7 @@ parse_lease_time(FILE *cfile, time_t *timep)
 {
 	char *val;
 	int token;
+	uint32_t tmp = 0;
 
 	token = next_token(&val, cfile);
 	if (token != TOK_NUMBER) {
@@ -199,9 +202,9 @@ parse_lease_time(FILE *cfile, time_t *timep)
 		skip_to_semi(cfile);
 		return;
 	}
-	convert_num((unsigned char *)timep, val, 10, 32);
+	convert_num((unsigned char *)&tmp, val, 10, 32);
 	/* Unswap the number - convert_num returns stuff in NBO. */
-	*timep = ntohl(*timep);	/* XXX */
+	*timep = ntohl(tmp);
 
 	parse_semi(cfile);
 }

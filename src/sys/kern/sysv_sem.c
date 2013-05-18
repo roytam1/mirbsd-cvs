@@ -423,25 +423,23 @@ sys_semget(struct proc *p, void *v, register_t *retval)
 	if (key != IPC_PRIVATE) {
 		for (semid = 0, semaptr = NULL; semid < seminfo.semmni; semid++) {
 			if ((semaptr = sema[semid]) != NULL &&
-			    semaptr->sem_perm.key == key)
-				break;
-		}
-		if (semaptr != NULL) {
-			DPRINTF(("found public key\n"));
-			if ((error = ipcperm(cred, &semaptr->sem_perm,
-			    semflg & 0700)))
-				goto error;
-			if (nsems > 0 && semaptr->sem_nsems < nsems) {
-				DPRINTF(("too small\n"));
-				error = EINVAL;
-				goto error;
+			    semaptr->sem_perm.key == key) {
+				DPRINTF(("found public key\n"));
+				if ((error = ipcperm(cred, &semaptr->sem_perm,
+				    semflg & 0700)))
+					goto error;
+				if (nsems > 0 && semaptr->sem_nsems < nsems) {
+					DPRINTF(("too small\n"));
+					error = EINVAL;
+					goto error;
+				}
+				if ((semflg & IPC_CREAT) && (semflg & IPC_EXCL)) {
+					DPRINTF(("not exclusive\n"));
+					error = EEXIST;
+					goto error;
+				}
+				goto found;
 			}
-			if ((semflg & IPC_CREAT) && (semflg & IPC_EXCL)) {
-				DPRINTF(("not exclusive\n"));
-				error = EEXIST;
-				goto error;
-			}
-			goto found;
 		}
 	}
 

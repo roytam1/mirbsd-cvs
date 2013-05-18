@@ -1,9 +1,10 @@
-#	$OpenBSD: Makefile,v 1.8 2003/02/20 20:38:08 millert Exp $
+# $MirOS$
+# $OpenBSD: Makefile,v 1.8 2003/02/20 20:38:08 millert Exp $
 
 PROG=	at
 SRCS=	at.c misc.c parsetime.c
 CRONDIR=${.CURDIR}/../../usr.sbin/cron
-CFLAGS+=-I${CRONDIR} -DDEBUGGING=0
+CPPFLAGS+=-I${CRONDIR} -DDEBUGGING=0
 MAN=	at.1 atrm.1 atq.1
 LINKS=	${BINDIR}/at ${BINDIR}/atq \
 	${BINDIR}/at ${BINDIR}/atrm \

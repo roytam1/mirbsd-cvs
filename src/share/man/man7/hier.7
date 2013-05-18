@@ -1,3 +1,4 @@
+.\"	$MirOS: src/share/man/man7/hier.7,v 1.2 2005/03/06 19:38:44 tg Exp $
 .\"	$OpenBSD: hier.7,v 1.58 2005/07/14 19:22:20 jmc Exp $
 .\"	$NetBSD: hier.7,v 1.7 1994/11/30 19:07:10 jtc Exp $
 .\"
@@ -78,17 +79,8 @@ Base directory for alternate areas searched first when system call
 emulation is in effect (see
 .Xr sysctl 8
 and the system compat pages:
-.Xr compat_aout 8 ,
-.Xr compat_bsdos 8 ,
-.Xr compat_freebsd 8 ,
-.Xr compat_hpux 8 ,
-.Xr compat_ibcs2 8 ,
-.Xr compat_linux 8 ,
-.Xr compat_osf1 8 ,
-.Xr compat_sunos 8 ,
-.Xr compat_svr4 8 ,
-and
-.Xr compat_ultrix 8 ) .
+.Xr compat_linux 8
+.Xr compat_openbsd 8 ) .
 .It /etc/
 System configuration files and scripts.
 .Pp
@@ -98,11 +90,6 @@ Local timezone information (see
 .Xr ctime 3 ) .
 .It X11/
 Configuration files for the X11 window system.
-.It afs/
-AFS configuration files.
-.It amd/
-Contains map files for
-.Xr amd 8 .
 .It authpf/
 Configuration files for the authenticating gateway user shell (see
 .Xr authpf 8 ) .
@@ -119,9 +106,6 @@ Scripts for the hotplug daemon,
 .It isakmpd/
 Configuration files for
 .Xr isakmpd 8 .
-.It kerberosV/
-Configuration files for the Kerberos version V subsystem (see
-.Xr kerberos 8 ) .
 .It mail/
 .Xr sendmail 8
 configuration files (including
@@ -231,13 +215,8 @@ C include files for the kernel debugger (see
 .Xr ddb 4 ) .
 .It dev/
 Device-specific C include files.
-.It g++/
-Include files for the GNU C++ compiler.
 .It isofs/
 C include files for the ISO standard file systems (currently only cd9660).
-.It kerberosV/
-C include files for the KerberosV authentication subsystem (see
-.Xr kerberos 8 ) .
 .It libmilter/
 C include files for the
 .Xr sendmail 8
@@ -266,8 +245,6 @@ C include files for the IPX protocol.
 C include files for native mode ATM access.
 .It nfs/
 C include files for NFS (Network File System).
-.It objc/
-C include files for GNU Objective-C.
 .It openssl/
 C include files for the OpenSSL library (see
 .Xr ssl 8 ) .
@@ -290,8 +267,6 @@ System C include files (kernel data structures).
 C include files for UFS (the U-word File System).
 .It uvm/
 C include files for the virtual memory interface.
-.It xfs/
-C include files for the XFS file system.
 .El
 .Pp
 .It lib/
@@ -423,8 +398,6 @@ User's Supplementary Documents (USD).
 .Pp
 .It games/
 ASCII text files used by various games.
-.It groff_font/
-GNU troff shared fonts.
 .It info/
 Texinfo source files.
 .It ipsec/
@@ -432,8 +405,6 @@ IPsec example files.
 .It lkm/
 Example source code implementing several lkm module types (see
 .Xr lkm 4 ) .
-.It locale/
-Locales for multi-language support.
 .It man/
 Manual pages.
 .Pp
@@ -487,8 +458,6 @@ Templates for
 .Xr make
 (see
 .Xr make 1 ) .
-.It nls/
-National Language Support (NLS) catalogs.
 .It pf/
 Sample configuration files for
 .Xr pf 4 .
@@ -536,19 +505,12 @@ Source for files under GPL or other restrictive licenses.
 .It include/
 Source for files in
 .Pa /usr/include .
-.It kerberosV/
-Source for Kerberos version V.
 .It lib/
 Source for files in
 .Pa /usr/lib .
 .It libexec/
 Source for files in
 .Pa /usr/libexec .
-.It lkm/
-Source for files in
-.Pa /usr/lkm .
-.It regress/
-Regress framework.
 .It sbin/
 Source for files in
 .Pa /sbin .
@@ -619,9 +581,6 @@ Miscellaneous system log files.
 .It wtmp
 Login/logout log (see
 .Xr wtmp 5 ) .
-.It rdist/
-Log files for
-.Xr rdist 1 .
 .El
 .Pp
 .It mail/
@@ -629,9 +588,6 @@ User mailbox files.
 .It msgs/
 Database for
 .Xr msgs 1 .
-.It named/
-Chroot directory for
-.Xr named 8 .
 .It quotas/
 Filesystem quota information files.
 .It run/
@@ -687,10 +643,6 @@ Temporary files that are kept between system reboots.
 .It www/
 ServerRoot point for
 .Xr httpd 8 .
-.It yp/
-Files for the
-.Xr yp 8
-subsystem.
 .El
 .El
 .Sh SEE ALSO

@@ -23,8 +23,7 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
-#include <sys/types.h>
+#include <sys/param.h>
 #include <sys/stat.h>
 
 #include <pwd.h>
@@ -46,11 +45,10 @@
 #include "uidswap.h"
 #include "auth-options.h"
 #include "canohost.h"
-#ifdef GSSAPI
-#include "ssh-gss.h"
-#endif
 #include "monitor_wrap.h"
 #include "misc.h"
+
+__RCSID("$MirOS$");
 
 /* import */
 extern ServerOptions options;
@@ -193,7 +191,7 @@ user_key_allowed2(struct passwd *pw, Key *key, char *file)
 		restore_uid();
 		return 0;
 	}
-	/* Open the file containing the authorized keys. */
+	/* Open the file containing the authorised keys. */
 	f = fopen(file, "r");
 	if (!f) {
 		/* Restore the privileged uid. */
@@ -260,21 +258,21 @@ user_key_allowed2(struct passwd *pw, Key *key, char *file)
 	return found_key;
 }
 
-/* check whether given key is in .ssh/authorized_keys* */
+/* check whether given key is in .etc/ssh/authorised_keys* */
 int
 user_key_allowed(struct passwd *pw, Key *key)
 {
 	int success;
 	char *file;
 
-	file = authorized_keys_file(pw);
+	file = authorised_keys_file(pw);
 	success = user_key_allowed2(pw, key, file);
 	xfree(file);
 	if (success)
 		return success;
 
 	/* try suffix "2" for backward compat, too */
-	file = authorized_keys_file2(pw);
+	file = authorised_keys_file2(pw);
 	success = user_key_allowed2(pw, key, file);
 	xfree(file);
 	return success;

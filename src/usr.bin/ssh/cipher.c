@@ -46,6 +46,8 @@
 #include "log.h"
 #include "cipher.h"
 
+__RCSID("$MirOS$");
+
 extern const EVP_CIPHER *evp_ssh1_bf(void);
 extern const EVP_CIPHER *evp_ssh1_3des(void);
 extern void ssh1_3des_iv(EVP_CIPHER_CTX *, int, u_char *, int);
@@ -53,7 +55,7 @@ extern const EVP_CIPHER *evp_aes_128_ctr(void);
 extern void ssh_aes_ctr_iv(EVP_CIPHER_CTX *, int, u_char *, u_int);
 
 struct Cipher {
-	char	*name;
+	const char *name;
 	int	number;		/* for ssh1 only */
 	u_int	block_size;
 	u_int	key_len;
@@ -180,7 +182,7 @@ cipher_number(const char *name)
 	return -1;
 }
 
-char *
+const char *
 cipher_name(int id)
 {
 	Cipher *c = cipher_by_number(id);
@@ -196,6 +198,12 @@ cipher_init(CipherContext *cc, Cipher *cipher,
 	const EVP_CIPHER *type;
 	int klen;
 	u_char *junk, *discard;
+
+	arc4random_push(((intptr_t)cc ^ (intptr_t)cipher) + do_encrypt);
+	if (key && keylen)
+		arc4random_pushb(key, keylen);
+	if (iv && ivlen)
+		arc4random_pushb(iv, ivlen);
 
 	if (cipher->number == SSH_CIPHER_DES) {
 		if (dowarn) {

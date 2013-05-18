@@ -1,3 +1,4 @@
+/**	$MirOS: src/sbin/fdisk/user.c,v 1.3 2005/04/29 18:34:55 tg Exp $	*/
 /*	$OpenBSD: user.c,v 1.23 2006/07/27 04:06:13 ray Exp $	*/
 
 /*
@@ -25,23 +26,24 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include <sys/types.h>
+#include <sys/fcntl.h>
+#include <sys/stat.h>
+#include <sys/disklabel.h>
+#include <machine/param.h>
 #include <err.h>
 #include <errno.h>
 #include <util.h>
 #include <stdio.h>
 #include <unistd.h>
 #include <string.h>
-#include <sys/fcntl.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <sys/disklabel.h>
-#include <machine/param.h>
 #include "user.h"
 #include "disk.h"
 #include "misc.h"
 #include "mbr.h"
 #include "cmd.h"
 
+__RCSID("$MirOS: src/sbin/fdisk/user.c,v 1.3 2005/04/29 18:34:55 tg Exp $");
 
 /* Our command table */
 static cmd_table_t cmd_table[] = {
@@ -51,8 +53,10 @@ static cmd_table_t cmd_table[] = {
 	{"setpid", Xsetpid,	"Set the identifier of a given table entry"},
 	{"disk",   Xdisk,	"Edit current drive stats"},
 	{"edit",   Xedit,	"Edit given table entry"},
-	{"flag",   Xflag,	"Flag given table entry as bootable"},
-	{"update", Xupdate,	"Update machine code in loaded MBR"},
+	{"flag",   Xflag,	"Flag given table entry as active"},
+	{"fdef",   Xfdef,	"Flag as default (dangerous)"},
+	{"update", Xupdate,	"Update machine boot code in loaded MBR"},
+	{"umin",   Xumin,	"Update small portion of boot code only"},
 	{"select", Xselect,	"Select extended partition table entry MBR"},
 	{"swap",   Xswap,	"Swap two partition entries"},
 	{"print",  Xprint,	"Print loaded MBR partition table"},
@@ -212,7 +216,8 @@ USER_print_disk(disk_t *disk)
 		/* Print out extended partitions too */
 		for (offset = i = 0; i < 4; i++)
 			if (mbr.part[i].id == DOSPTYP_EXTEND ||
-			    mbr.part[i].id == DOSPTYP_EXTENDL) {
+			    mbr.part[i].id == DOSPTYP_EXTENDL ||
+			    mbr.part[i].id == DOSPTYP_EXTENDLX) {
 				offset = mbr.part[i].bs;
 				if (firstoff == 0)
 					firstoff = offset;
@@ -221,4 +226,3 @@ USER_print_disk(disk_t *disk)
 
 	return (DISK_close(fd));
 }
-

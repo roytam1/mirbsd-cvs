@@ -1,4 +1,5 @@
-/* *	$OpenBSD: indent_codes.h,v 1.4 2003/06/12 01:07:27 deraadt Exp $*/
+/**	$MirOS$ */
+/**	$OpenBSD: indent_codes.h,v 1.4 2003/06/12 01:07:27 deraadt Exp $*/
 /*
  * Copyright (c) 1985 Sun Microsystems, Inc.
  * Copyright (c) 1980, 1993
@@ -33,6 +34,9 @@
  *	from: @(#)indent_codes.h	8.1 (Berkeley) 6/6/93
  */
 
+#ifndef	_INDENT_CODES_H
+#define	_INDENT_CODES_H
+
 #define newline		1
 #define lparen		2
 #define rparen		3
@@ -65,3 +69,5 @@
 #define ifhead		30
 #define elsehead	31
 #define period		32
+
+#endif

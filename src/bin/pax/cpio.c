@@ -1,7 +1,9 @@
+/**	$MirOS: src/bin/pax/cpio.c,v 1.11 2007/02/17 04:52:40 tg Exp $ */
 /*	$OpenBSD: cpio.c,v 1.17 2004/04/16 22:50:23 deraadt Exp $	*/
 /*	$NetBSD: cpio.c,v 1.5 1995/03/21 09:07:13 cgd Exp $	*/
 
 /*-
+ * Copyright (c) 2005 Thorsten Glaser <tg@66h.42h.de>
  * Copyright (c) 1992 Keith Muller.
  * Copyright (c) 1992, 1993
  *	The Regents of the University of California.  All rights reserved.
@@ -34,18 +36,9 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-#if 0
-static const char sccsid[] = "@(#)cpio.c	8.1 (Berkeley) 5/31/93";
-#else
-static const char rcsid[] = "$OpenBSD: cpio.c,v 1.17 2004/04/16 22:50:23 deraadt Exp $";
-#endif
-#endif /* not lint */
-
-#include <sys/types.h>
+#include <sys/param.h>
 #include <sys/time.h>
 #include <sys/stat.h>
-#include <sys/param.h>
 #include <string.h>
 #include <stdio.h>
 #include <unistd.h>
@@ -53,6 +46,10 @@ static const char rcsid[] = "$OpenBSD: cpio.c,v 1.17 2004/04/16 22:50:23 deraadt
 #include "pax.h"
 #include "cpio.h"
 #include "extern.h"
+#include "options.h"
+
+__SCCSID("@(#)cpio.c	8.1 (Berkeley) 5/31/93");
+__RCSID("$MirOS: src/bin/pax/cpio.c,v 1.11 2007/02/17 04:52:40 tg Exp $");
 
 static int rd_nm(ARCHD *, int);
 static int rd_ln_nm(ARCHD *);
@@ -92,7 +89,9 @@ cpio_strd(void)
  */
 
 int
-cpio_trail(ARCHD *arcn, char *notused, int notused2, int *notused3)
+cpio_trail(ARCHD *arcn, char *notused __attribute__((unused)),
+    int notused2 __attribute__((unused)),
+    int *notused3 __attribute__((unused)))
 {
 	/*
 	 * look for trailer id in file we are about to process
@@ -187,7 +186,7 @@ rd_nm(ARCHD *arcn, int nsz)
 	/*
 	 * do not even try bogus values
 	 */
-	if ((nsz == 0) || (nsz > sizeof(arcn->name))) {
+	if ((nsz == 0) || ((size_t)nsz > sizeof(arcn->name))) {
 		paxwarn(1, "Cpio file name length %d is out of range", nsz);
 		return(-1);
 	}
@@ -218,12 +217,12 @@ rd_ln_nm(ARCHD *arcn)
 	 * check the length specified for bogus values
 	 */
 	if ((arcn->sb.st_size == 0) ||
-	    (arcn->sb.st_size >= sizeof(arcn->ln_name))) {
+	    ((size_t)arcn->sb.st_size >= sizeof(arcn->ln_name))) {
 #		ifdef LONG_OFF_T
 		paxwarn(1, "Cpio link name length is invalid: %lu",
 		    arcn->sb.st_size);
 #		else
-		paxwarn(1, "Cpio link name length is invalid: %qu",
+		paxwarn(1, "Cpio link name length is invalid: %llu",
 		    arcn->sb.st_size);
 #		endif
 		return(-1);
@@ -265,7 +264,7 @@ rd_ln_nm(ARCHD *arcn)
 int
 cpio_id(char *blk, int size)
 {
-	if ((size < sizeof(HD_CPIO)) ||
+	if (((size_t)size < sizeof(HD_CPIO)) ||
 	    (strncmp(blk, AMAGIC, sizeof(AMAGIC) - 1) != 0))
 		return(-1);
 	return(0);
@@ -371,7 +370,17 @@ cpio_endrd(void)
 int
 cpio_stwr(void)
 {
+	if ((anonarch & ANON_INODES) && flnk_start())
+		return (-1);
 	return(dev_start());
+}
+
+int
+dist_stwr(void)
+{
+	anonarch &= ANON_DEBUG | ANON_VERBOSE;
+	anonarch |= ANON_UIDGID | ANON_INODES | ANON_HARDLINKS;
+	return(cpio_stwr());
 }
 
 /*
@@ -390,6 +399,11 @@ cpio_wr(ARCHD *arcn)
 	int nsz;
 	char hdblk[sizeof(HD_CPIO)];
 
+	u_long t_uid, t_gid, t_mtime, t_dev;
+	ino_t t_ino;
+
+	anonarch_init();
+
 	/*
 	 * check and repair truncated device and inode fields in the header
 	 */
@@ -401,6 +415,21 @@ cpio_wr(ARCHD *arcn)
 	hd = (HD_CPIO *)hdblk;
 	if ((arcn->type != PAX_BLK) && (arcn->type != PAX_CHR))
 		arcn->sb.st_rdev = 0;
+
+	t_uid   = (anonarch & ANON_UIDGID) ? 0UL : (u_long)arcn->sb.st_uid;
+	t_gid   = (anonarch & ANON_UIDGID) ? 0UL : (u_long)arcn->sb.st_gid;
+	t_mtime = (anonarch & ANON_MTIME) ? 0UL : (u_long)arcn->sb.st_mtime;
+	t_ino   = (anonarch & ANON_INODES) ? (ino_t)chk_flnk(arcn) :
+	    arcn->sb.st_ino;
+	t_dev   = (anonarch & ANON_INODES) ? 0UL : (u_long)arcn->sb.st_dev;
+	if (!cpio_trail(arcn, NULL, 0, NULL))
+		t_ino = 0UL;
+	if (t_ino == (ino_t)-1) {
+		paxwarn(1, "Invalid inode number for file %s", arcn->org_name);
+		return (1);
+	}
+	if (!(anonarch & ANON_HARDLINKS))
+		arcn->type &= ~PAX_LINKOR;
 
 	switch (arcn->type) {
 	case PAX_CTG:
@@ -439,25 +468,31 @@ cpio_wr(ARCHD *arcn)
 		break;
 	}
 
+	if (anonarch & ANON_DEBUG)
+		paxwarn(0, "writing dev %lX inode %10lX mode %8lo user %ld:%ld"
+		    "\n\tnlink %3ld mtime %08lX name '%s'", t_dev,
+		    (u_long)t_ino, (u_long)arcn->sb.st_mode, t_uid, t_gid,
+		    (u_long)arcn->sb.st_nlink, t_mtime, arcn->name);
+
 	/*
 	 * copy the values to the header using octal ascii
 	 */
 	if (ul_asc((u_long)MAGIC, hd->c_magic, sizeof(hd->c_magic), OCT) ||
-	    ul_asc((u_long)arcn->sb.st_dev, hd->c_dev, sizeof(hd->c_dev),
+	    ul_asc(t_dev, hd->c_dev, sizeof(hd->c_dev),
 		OCT) ||
-	    ul_asc((u_long)arcn->sb.st_ino, hd->c_ino, sizeof(hd->c_ino),
+	    ul_asc((u_long)t_ino, hd->c_ino, sizeof(hd->c_ino),
 		OCT) ||
 	    ul_asc((u_long)arcn->sb.st_mode, hd->c_mode, sizeof(hd->c_mode),
 		OCT) ||
-	    ul_asc((u_long)arcn->sb.st_uid, hd->c_uid, sizeof(hd->c_uid),
+	    ul_asc(t_uid, hd->c_uid, sizeof(hd->c_uid),
 		OCT) ||
-	    ul_asc((u_long)arcn->sb.st_gid, hd->c_gid, sizeof(hd->c_gid),
+	    ul_asc(t_gid, hd->c_gid, sizeof(hd->c_gid),
 		OCT) ||
 	    ul_asc((u_long)arcn->sb.st_nlink, hd->c_nlink, sizeof(hd->c_nlink),
 		 OCT) ||
 	    ul_asc((u_long)arcn->sb.st_rdev, hd->c_rdev, sizeof(hd->c_rdev),
 		OCT) ||
-	    ul_asc((u_long)arcn->sb.st_mtime,hd->c_mtime,sizeof(hd->c_mtime),
+	    ul_asc(t_mtime,hd->c_mtime,sizeof(hd->c_mtime),
 		OCT) ||
 	    ul_asc((u_long)nsz, hd->c_namesize, sizeof(hd->c_namesize), OCT))
 		goto out;
@@ -478,6 +513,10 @@ cpio_wr(ARCHD *arcn)
 	if ((arcn->type == PAX_CTG) || (arcn->type == PAX_REG) ||
 	    (arcn->type == PAX_HRG))
 		return(0);
+	if (arcn->type & PAX_LINKOR) {
+		arcn->type &= ~PAX_LINKOR;
+		return (1);
+	}
 	if (arcn->type != PAX_SLK)
 		return(1);
 
@@ -516,7 +555,7 @@ cpio_wr(ARCHD *arcn)
 int
 vcpio_id(char *blk, int size)
 {
-	if ((size < sizeof(HD_VCPIO)) ||
+	if (((size_t)size < sizeof(HD_VCPIO)) ||
 	    (strncmp(blk, AVMAGIC, sizeof(AVMAGIC) - 1) != 0))
 		return(-1);
 	return(0);
@@ -533,7 +572,7 @@ vcpio_id(char *blk, int size)
 int
 crc_id(char *blk, int size)
 {
-	if ((size < sizeof(HD_VCPIO)) ||
+	if (((size_t)size < sizeof(HD_VCPIO)) ||
 	    (strncmp(blk, AVCMAGIC, sizeof(AVCMAGIC) - 1) != 0))
 		return(-1);
 	return(0);
@@ -605,8 +644,8 @@ vcpio_rd(ARCHD *arcn, char *buf)
 	devmajor = (dev_t)asc_ul(hd->c_maj, sizeof(hd->c_maj), HEX);
 	devminor = (dev_t)asc_ul(hd->c_min, sizeof(hd->c_min), HEX);
 	arcn->sb.st_dev = TODEV(devmajor, devminor);
-	devmajor = (dev_t)asc_ul(hd->c_rmaj, sizeof(hd->c_maj), HEX);
-	devminor = (dev_t)asc_ul(hd->c_rmin, sizeof(hd->c_min), HEX);
+	devmajor = (dev_t)asc_ul(hd->c_rmaj, sizeof(hd->c_rmaj), HEX);
+	devminor = (dev_t)asc_ul(hd->c_rmin, sizeof(hd->c_rmin), HEX);
 	arcn->sb.st_rdev = TODEV(devmajor, devminor);
 	arcn->crc = asc_ul(hd->c_chksum, sizeof(hd->c_chksum), HEX);
 
@@ -678,7 +717,25 @@ int
 crc_stwr(void)
 {
 	docrc = 1;
+	if ((anonarch & ANON_INODES) && flnk_start())
+		return (-1);
 	return(dev_start());
+}
+
+int
+v4root_stwr(void)
+{
+	anonarch &= ANON_DEBUG | ANON_VERBOSE;
+	anonarch |= ANON_UIDGID | ANON_INODES;
+	return (crc_stwr());
+}
+
+int
+v4norm_stwr(void)
+{
+	anonarch &= ANON_DEBUG | ANON_VERBOSE;
+	anonarch |= ANON_UIDGID | ANON_INODES | ANON_MTIME | ANON_HARDLINKS;
+	return (crc_stwr());
 }
 
 /*
@@ -696,6 +753,11 @@ vcpio_wr(ARCHD *arcn)
 	HD_VCPIO *hd;
 	unsigned int nsz;
 	char hdblk[sizeof(HD_VCPIO)];
+
+	u_long t_uid, t_gid, t_mtime, t_major, t_minor;
+	ino_t t_ino;
+
+	anonarch_init();
 
 	/*
 	 * check and repair truncated device and inode fields in the cpio
@@ -724,6 +786,22 @@ vcpio_wr(ARCHD *arcn)
 		    ul_asc((u_long)0L, hd->c_chksum, sizeof(hd->c_chksum),HEX))
 			goto out;
 	}
+
+	t_uid   = (anonarch & ANON_UIDGID) ? 0UL : (u_long)arcn->sb.st_uid;
+	t_gid   = (anonarch & ANON_UIDGID) ? 0UL : (u_long)arcn->sb.st_gid;
+	t_mtime = (anonarch & ANON_MTIME) ? 0UL : (u_long)arcn->sb.st_mtime;
+	t_ino   = (anonarch & ANON_INODES) ? (ino_t)chk_flnk(arcn) :
+	    arcn->sb.st_ino;
+	t_major = (anonarch & ANON_INODES) ? 0UL : (u_long)MAJOR(arcn->sb.st_dev);
+	t_minor = (anonarch & ANON_INODES) ? 0UL : (u_long)MINOR(arcn->sb.st_dev);
+	if (!cpio_trail(arcn, NULL, 0, NULL))
+		t_ino = 0UL;
+	if (t_ino == (ino_t)-1) {
+		paxwarn(1, "Invalid inode number for file %s", arcn->org_name);
+		return (1);
+	}
+	if (!(anonarch & ANON_HARDLINKS))
+		arcn->type &= ~PAX_LINKOR;
 
 	switch (arcn->type) {
 	case PAX_CTG:
@@ -767,29 +845,35 @@ vcpio_wr(ARCHD *arcn)
 		break;
 	}
 
+	if (anonarch & ANON_DEBUG)
+		paxwarn(0, "writing dev %lX:%lx inode %10lX mode %8lo user %ld:%ld"
+		    "\n\tnlink %3ld mtime %08lX name '%s'", t_major, t_minor,
+		    (u_long)t_ino, (u_long)arcn->sb.st_mode, t_uid, t_gid,
+		    (u_long)arcn->sb.st_nlink, t_mtime, arcn->name);
+
 	/*
 	 * set the other fields in the header
 	 */
-	if (ul_asc((u_long)arcn->sb.st_ino, hd->c_ino, sizeof(hd->c_ino),
+	if (ul_asc((u_long)t_ino, hd->c_ino, sizeof(hd->c_ino),
 		HEX) ||
 	    ul_asc((u_long)arcn->sb.st_mode, hd->c_mode, sizeof(hd->c_mode),
 		HEX) ||
-	    ul_asc((u_long)arcn->sb.st_uid, hd->c_uid, sizeof(hd->c_uid),
+	    ul_asc(t_uid, hd->c_uid, sizeof(hd->c_uid),
 		HEX) ||
-	    ul_asc((u_long)arcn->sb.st_gid, hd->c_gid, sizeof(hd->c_gid),
+	    ul_asc(t_gid, hd->c_gid, sizeof(hd->c_gid),
 		HEX) ||
-	    ul_asc((u_long)arcn->sb.st_mtime, hd->c_mtime, sizeof(hd->c_mtime),
+	    ul_asc(t_mtime, hd->c_mtime, sizeof(hd->c_mtime),
 		HEX) ||
 	    ul_asc((u_long)arcn->sb.st_nlink, hd->c_nlink, sizeof(hd->c_nlink),
 		HEX) ||
-	    ul_asc((u_long)MAJOR(arcn->sb.st_dev),hd->c_maj, sizeof(hd->c_maj),
-		HEX) ||
-	    ul_asc((u_long)MINOR(arcn->sb.st_dev),hd->c_min, sizeof(hd->c_min),
-		HEX) ||
-	    ul_asc((u_long)MAJOR(arcn->sb.st_rdev),hd->c_rmaj,sizeof(hd->c_maj),
-		HEX) ||
-	    ul_asc((u_long)MINOR(arcn->sb.st_rdev),hd->c_rmin,sizeof(hd->c_min),
-		HEX) ||
+	    /* device major:minor of the device the file resides on */
+	    ul_asc(t_major, hd->c_maj, sizeof(hd->c_maj), HEX) ||
+	    ul_asc(t_minor, hd->c_min, sizeof(hd->c_min), HEX) ||
+	    /* device major:minor of the file if it's a device node */
+	    ul_asc((u_long)MAJOR(arcn->sb.st_rdev), hd->c_rmaj,
+		sizeof(hd->c_rmaj), HEX) ||
+	    ul_asc((u_long)MINOR(arcn->sb.st_rdev), hd->c_rmin,
+		sizeof(hd->c_rmin), HEX) ||
 	    ul_asc((u_long)nsz, hd->c_namesize, sizeof(hd->c_namesize), HEX))
 		goto out;
 
@@ -809,6 +893,14 @@ vcpio_wr(ARCHD *arcn)
 	if ((arcn->type == PAX_CTG) || (arcn->type == PAX_REG) ||
 	    (arcn->type == PAX_HRG))
 		return(0);
+
+	/*
+	 * if we are a detected hard link, we're done too, but no data written
+	 */
+	if (arcn->type & PAX_LINKOR) {
+		arcn->type &= ~PAX_LINKOR;
+		return (1);
+	}
 
 	/*
 	 * if we are not a link, tell the caller we are done, go to next file
@@ -850,7 +942,7 @@ vcpio_wr(ARCHD *arcn)
 int
 bcpio_id(char *blk, int size)
 {
-	if (size < sizeof(HD_BCPIO))
+	if ((size_t)size < sizeof(HD_BCPIO))
 		return(-1);
 
 	/*

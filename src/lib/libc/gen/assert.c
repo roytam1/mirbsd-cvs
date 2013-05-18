@@ -33,7 +33,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void
+__dead void
 __assert(const char *file, int line, const char *failedexpr)
 {
 	(void)fprintf(stderr,
@@ -43,7 +43,7 @@ __assert(const char *file, int line, const char *failedexpr)
 	/* NOTREACHED */
 }
 
-void
+__dead void
 __assert2(const char *file, int line, const char *func, const char *failedexpr)
 {
 	(void)fprintf(stderr,

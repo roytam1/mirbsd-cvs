@@ -33,6 +33,8 @@
 
 #include <machine/asm.h>
 
+	.text
+
 /*
  * modf(value, iptr): return fractional part of value, and stores the
  * integral part into iptr (a pointer to double).

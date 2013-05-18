@@ -8,16 +8,17 @@
  *
  * Developed at SunPro, a Sun Microsystems, Inc. business.
  * Permission to use, copy, modify, and distribute this
- * software is freely granted, provided that this notice 
+ * software is freely granted, provided that this notice
  * is preserved.
  * ====================================================
  */
 
+#include <sys/cdefs.h>
 #if defined(LIBM_SCCS) && !defined(lint)
-static char rcsid[] = "$NetBSD: w_coshf.c,v 1.3 1995/05/10 20:48:49 jtc Exp $";
+__RCSID("$NetBSD: w_coshf.c,v 1.6 2002/05/26 22:02:00 wiz Exp $");
 #endif
 
-/* 
+/*
  * wrapper coshf(x)
  */
 
@@ -33,7 +34,7 @@ coshf(float x)		/* wrapper coshf */
 	float z;
 	z = __ieee754_coshf(x);
 	if(_LIB_VERSION == _IEEE_ || isnanf(x)) return z;
-	if(fabsf(x)>(float)8.9415985107e+01) {	
+	if(fabsf(x)>(float)8.9415985107e+01) {
 		/* cosh overflow */
 	        return (float)__kernel_standard((double)x,(double)x,105);
 	} else

@@ -1,3 +1,5 @@
+/**	$MirOS: src/sys/sys/device.h,v 1.2 2005/03/06 21:28:33 tg Exp $	*/
+/*	$NetBSD: device.h,v 1.64 2002/11/24 17:33:43 thorpej Exp $ */
 /*	$OpenBSD: device.h,v 1.29 2004/11/23 19:08:55 miod Exp $	*/
 /*	$NetBSD: device.h,v 1.15 1996/04/09 20:55:24 cgd Exp $	*/
 
@@ -39,6 +41,39 @@
  * SUCH DAMAGE.
  *
  *	@(#)device.h	8.2 (Berkeley) 2/17/94
+ */
+/*
+ * Copyright (c) 1996, 2000 Christopher G. Demetriou
+ * All rights reserved.
+ * 
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ * 3. All advertising materials mentioning features or use of this software
+ *    must display the following acknowledgement:
+ *          This product includes software developed for the
+ *          NetBSD Project.  See http://www.netbsd.org/ for
+ *          information about NetBSD.
+ * 4. The name of the author may not be used to endorse or promote products
+ *    derived from this software without specific prior written permission.
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * 
+ * --(license Id: LICENSE.proto,v 1.1 2000/06/13 21:40:26 cgd Exp )--
  */
 
 #ifndef _SYS_DEVICE_H_
@@ -142,6 +177,15 @@ struct cfattach {
 	int	(*ca_activate)(struct device *, enum devact);
 	void    (*ca_zeroref)(struct device *);
 };
+
+#define	CFATTACH_DECL(name, ddsize, matfn, attfn, detfn, actfn)		\
+struct cfattach __CONCAT(name,_ca) = {					\
+	(size_t)ddsize,							\
+	(cfmatch_t)matfn,						\
+	(void (*)(struct device *, struct device *, void *))attfn,	\
+	(int (*)(struct device *, int))detfn,				\
+	(int (*)(struct device *, enum devact))actfn,			\
+}
 
 /* Flags given to config_detach(), and the ca_detach function. */
 #define	DETACH_FORCE	0x01		/* force detachment; hardware gone */

@@ -17,7 +17,7 @@
  */
 
 #include <sys/param.h>
-#include <sys/stdint.h>
+#include <stdint.h>
 #include <sys/file.h>
 #include <sys/wait.h>
 #include <sys/socket.h>
@@ -34,6 +34,7 @@
 #include <errno.h>
 #include <getopt.h>
 #include <pwd.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -48,6 +49,8 @@
 #include "sdl.h"
 #include "grey.h"
 #include "sync.h"
+
+__RCSID("$MirOS: src/libexec/spamd/sync.c,v 1.2 2007/03/09 13:05:09 tg Exp $");
 
 extern struct syslog_data sdata;
 extern int debug;
@@ -345,8 +348,8 @@ sync_recv(void)
 			if (greylist) {
 				/* send this info to the greylister */
 				fprintf(grey, "WHITE:%s:", inet_ntoa(ip));
-				fprintf(grey, "%s:%u\n",
-				    inet_ntoa(addr.sin_addr), expire);
+				fprintf(grey, "%s:%llu\n",
+				    inet_ntoa(addr.sin_addr), (uint64_t)expire);
 				fflush(grey);
 			}
 			break;
@@ -366,8 +369,8 @@ sync_recv(void)
 			if (greylist) {
 				/* send this info to the greylister */
 				fprintf(grey, "TRAP:%s:", inet_ntoa(ip));
-				fprintf(grey, "%s:%u\n",
-				    inet_ntoa(addr.sin_addr), expire);
+				fprintf(grey, "%s:%llu\n",
+				    inet_ntoa(addr.sin_addr), (uint64_t)expire);
 				fflush(grey);
 			}
 			break;

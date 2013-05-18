@@ -821,7 +821,7 @@ mode_edit(int fd, int page, int edit, int argc, char *argv[])
 
 		/* Eliminate block descriptors:
 		 */
-		bcopy((char *)mph, ((char *)mh) + sizeof(*mh),
+		memmove(((char *)mh) + sizeof(*mh), (char *)mph,
 		sizeof(*mph) + mph->page_length);
 
 		mh->bdl = 0;

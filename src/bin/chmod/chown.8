@@ -1,3 +1,4 @@
+.\"	$MirOS$
 .\"	$OpenBSD: chown.8,v 1.7 2005/03/16 20:31:08 jmc Exp $
 .\"
 .\" Copyright (c) 1990, 1991, 1993, 1994
@@ -29,7 +30,7 @@
 .\"
 .\"     from: @(#)chown.8	8.3 (Berkeley) 3/31/94
 .\"
-.Dd January 25, 1997
+.Dd May 20, 2007
 .Dt CHOWN 8
 .Os
 .Sh NAME
@@ -50,8 +51,7 @@
 .Fl R
 .Op Fl H | L | P
 .Oc
-.Op Fl f
-.Op Fl h
+.Op Fl fh
 .Ar :group
 .Ar file Op Ar ...
 .Sh DESCRIPTION
@@ -141,6 +141,7 @@ utility exits 0 on success or >0 if an error occurred.
 .Xr chgrp 1 ,
 .Xr find 1 ,
 .Xr chown 2 ,
+.Xr lchown 2 ,
 .Xr fts 3 ,
 .Xr symlink 7
 .Sh STANDARDS

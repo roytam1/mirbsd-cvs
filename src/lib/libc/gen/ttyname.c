@@ -123,7 +123,8 @@ __ttyname_r_basic(int fd, char *buf, size_t len)
 
 /* ARGSUSED */
 static int
-oldttyname(int fd, struct stat *sb, char *buf, size_t len)
+oldttyname(int fd __attribute__((unused)), struct stat *sb, char *buf,
+    size_t len)
 {
 	struct dirent *dirp;
 	DIR *dp;

@@ -27,7 +27,7 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 #ifndef _EVENT_H_
-#define _EVENT_H_
+#define _EVENT_H_	"$MirOS: src/lib/libevent/event.h,v 1.4 2007/05/17 16:48:21 tg Exp $"
 
 #ifdef __cplusplus
 extern "C" {
@@ -134,7 +134,7 @@ TAILQ_HEAD (evkeyvalq, evkeyval);
 #endif /* _EVENT_DEFINED_RBENTRY */
 
 struct eventop {
-	char *name;
+	const char *name;
 	void *(*init)(void);
 	int (*add)(void *, struct event *);
 	int (*del)(void *, struct event *);
@@ -281,8 +281,10 @@ int evbuffer_add(struct evbuffer *, const void *, size_t);
 int evbuffer_remove(struct evbuffer *, void *, size_t);
 char *evbuffer_readline(struct evbuffer *);
 int evbuffer_add_buffer(struct evbuffer *, struct evbuffer *);
-int evbuffer_add_printf(struct evbuffer *, const char *fmt, ...);
-int evbuffer_add_vprintf(struct evbuffer *, const char *fmt, va_list ap);
+int evbuffer_add_printf(struct evbuffer *, const char *fmt, ...)
+    __attribute__((format (printf, 2, 3)));
+int evbuffer_add_vprintf(struct evbuffer *, const char *fmt, va_list ap)
+    __attribute__((format (printf, 2, 0)));
 void evbuffer_drain(struct evbuffer *, size_t);
 int evbuffer_write(struct evbuffer *, int);
 int evbuffer_read(struct evbuffer *, int, int);

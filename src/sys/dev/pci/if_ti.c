@@ -612,7 +612,7 @@ int ti_alloc_jumbo_mem(sc)
 	}
 	if (bus_dmamem_map(sc->sc_dmatag, &seg, rseg, TI_JMEM, &kva,
 	    BUS_DMA_NOWAIT)) {
-		printf("%s: can't map dma buffers (%d bytes)\n",
+		printf("%s: can't map dma buffers (%ld bytes)\n",
 		    sc->sc_dv.dv_xname, TI_JMEM);
 		bus_dmamem_free(sc->sc_dmatag, &seg, rseg);
 		return (ENOBUFS);
@@ -1666,7 +1666,7 @@ ti_attach(parent, self, aux)
 	if (bus_dmamem_map(sc->sc_dmatag, &seg, rseg,
 	    sizeof(struct ti_ring_data), &kva, BUS_DMA_NOWAIT)) {
 		printf("%s: can't map dma buffers (%d bytes)\n",
-		       sc->sc_dv.dv_xname, sizeof(struct ti_ring_data));
+		       sc->sc_dv.dv_xname, (int)sizeof(struct ti_ring_data));
 		bus_dmamem_free(sc->sc_dmatag, &seg, rseg);
 		goto fail;
 	}

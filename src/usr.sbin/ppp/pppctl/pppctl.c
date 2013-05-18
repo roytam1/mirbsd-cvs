@@ -224,7 +224,7 @@ int
 main(int argc, char **argv)
 {
     struct sockaddr_un ifsun;
-    int n, arg, fd, len, verbose, save_errno, hide1, hide1off, hide2;
+    int n, arg, fd = -1, len, verbose, save_errno, hide1, hide1off, hide2;
     unsigned TimeoutVal;
     char *DoneWord = "x", *next, *start;
     struct sigaction act, oact;

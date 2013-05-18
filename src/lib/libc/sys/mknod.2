@@ -1,3 +1,4 @@
+.\"	$MirOS$
 .\"	$OpenBSD: mknod.2,v 1.11 2003/06/02 20:18:39 millert Exp $
 .\"	$NetBSD: mknod.2,v 1.6 1995/02/27 12:34:33 cgd Exp $
 .\"
@@ -119,6 +120,9 @@ points outside the process's allocated address space.
 The process is running within an alternate root directory, as
 created by
 .Xr chroot 2 .
+This value is only returned if the currently running kernel has the
+following option set:
+.Cd option HARD_CHROOT
 .El
 .Sh SEE ALSO
 .Xr chmod 2 ,

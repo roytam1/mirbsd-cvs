@@ -47,7 +47,7 @@ md5crypt(const char *pw, const char *salt)
 	 * This string is magic for this algorithm.  Having
 	 * it this way, we can get get better later on
 	 */
-	static unsigned char	*magic = (unsigned char *)"$1$";
+	static const unsigned char *magic = (const unsigned char *)"$1$";
 
 	static char     passwd[120], *p;
 	static const unsigned char *sp,*ep;
@@ -101,7 +101,7 @@ md5crypt(const char *pw, const char *salt)
 		    MD5Update(&ctx, (const unsigned char *)pw, 1);
 
 	/* Now make the output string */
-	snprintf(passwd, sizeof(passwd), "%s%.*s$", (char *)magic,
+	snprintf(passwd, sizeof(passwd), "%s%.*s$", magic,
 	    sl, (const char *)sp);
 
 	MD5Final(final,&ctx);

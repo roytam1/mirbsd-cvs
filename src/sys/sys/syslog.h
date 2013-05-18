@@ -198,14 +198,15 @@ void	openlog(const char *, int, int);
 int	setlogmask(int);
 void	syslog(int, const char *, ...)
     __attribute__((__format__(__syslog__,2,3)));
-void	vsyslog(int, const char *, _BSD_VA_LIST_);
+void	vsyslog(int, const char *, _BSD_VA_LIST_)
+    __attribute__((__format__(__syslog__,2,0)));
 void	closelog_r(struct syslog_data *);
 void	openlog_r(const char *, int, int, struct syslog_data *);
 int	setlogmask_r(int, struct syslog_data *);
 void	syslog_r(int, struct syslog_data *, const char *, ...)
-     __attribute__((__format__(__syslog__,3,4)));
+    __attribute__((__format__(__syslog__,3,4)));
 void	vsyslog_r(int, struct syslog_data *, const char *, 
-     _BSD_VA_LIST_);
+    _BSD_VA_LIST_) __attribute__((__format__(__syslog__,3,0)));
 __END_DECLS
 
 #else /* !_KERNEL */

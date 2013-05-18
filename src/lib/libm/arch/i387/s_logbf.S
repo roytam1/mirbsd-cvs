@@ -1,13 +1,18 @@
-/*	$OpenBSD: s_logbf.S,v 1.3 2005/08/02 11:17:31 espie Exp $ */
 /*
- * Written by J.T. Conklin <jtc@netbsd.org>.
+ * Written by J.T. Conklin <jtc@NetBSD.org>.
  * Public domain.
  */
 
 #include <machine/asm.h>
 
+#include "abi.h"
+
+RCSID("$NetBSD: s_logbf.S,v 1.5 2003/07/26 19:25:02 salo Exp $")
+
 ENTRY(logbf)
-	flds	4(%esp)
+	XMM_ONE_ARG_FLOAT_PROLOGUE
+	flds	ARG_FLOAT_ONE
 	fxtract
 	fstp	%st
+	XMM_FLOAT_EPILOGUE
 	ret

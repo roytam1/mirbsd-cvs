@@ -1,3 +1,4 @@
+.\"	$MirOS: src/bin/ls/ls.1,v 1.2 2005/03/06 18:55:21 tg Exp $
 .\"	$OpenBSD: ls.1,v 1.45 2005/06/15 17:47:17 millert Exp $
 .\"	$NetBSD: ls.1,v 1.14 1995/12/05 02:44:01 jtc Exp $
 .\"
@@ -41,7 +42,7 @@
 .Nd list directory contents
 .Sh SYNOPSIS
 .Nm ls
-.Op Fl 1AaCcdFfghikLlmnopqRrSsTtux
+.Op Fl 1AaCcdFfgikLlmnopqRrSsTtux
 .Op Ar file ...
 .Sh DESCRIPTION
 For each operand that names a
@@ -113,11 +114,6 @@ Output is not sorted.
 .It Fl g
 Does nothing; kept for compatibility with older versions of
 .Nm ls .
-.It Fl h
-When used with a long format
-option, use unit suffixes: Byte, Kilobyte, Megabyte, Gigabyte, Terabyte,
-Petabyte, and Exabyte in order to reduce the number of digits to four or fewer
-using powers of 2 for sizes (K=1024, M=1048576, etc.).
 .It Fl i
 For each file, print its inode number.
 .It Fl k
@@ -139,7 +135,9 @@ writes the name of the link itself and not the file referenced by the link.
 List in long format (see below).
 A total sum of all file
 sizes is output on a line before the long listing.
-Output is one entry per line.
+Output is one entry per line, in blocks (see the
+.Fl s
+option for the block size unit).
 .It Fl m
 Stream output format; list files across the page, separated by commas.
 .It Fl n
@@ -169,6 +167,8 @@ Sort by size, largest file first.
 .It Fl s
 Display the number of file system blocks actually used by each file,
 where partial units are rounded up to the next integer value.
+A total sum for all the file
+sizes is output on a line before the listing.
 Blocks are 512 bytes unless overridden by the
 .Fl k
 flag or

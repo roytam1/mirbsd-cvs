@@ -1,3 +1,4 @@
+.\"	$MirOS$
 .\"	$OpenBSD: bc,v 1.9 2004/07/09 10:23:05 jmc Exp $
 .\"
 .\" Copyright (C) Caldera International Inc.  2001-2002.
@@ -136,7 +137,7 @@ Division by zero produces an error
 comment.
 .PP
 Any term in an expression may be prefixed by a minus sign to
-indicate that it is to be negated (the `unary' minus sign).
+indicate that it is to be negated (the 'unary' minus sign).
 The expression
 .DS
 .ft B
@@ -204,8 +205,8 @@ produce the printed result
 .SH
 Bases
 .PP
-There are special internal quantities, called `ibase' and `obase'.
-The contents of `ibase', initially set to 10,
+There are special internal quantities, called 'ibase' and 'obase'.
+The contents of 'ibase', initially set to 10,
 determines the base used for interpreting numbers read in.
 For example, the lines
 .DS
@@ -248,7 +249,7 @@ permitted but useless.
 No mechanism has been provided for the input of arbitrary
 numbers in bases less than 1 and greater than 16.
 .PP
-The contents of `obase', initially set to 10, are used as the base for output
+The contents of 'obase', initially set to 10, are used as the base for output
 numbers.  The lines
 .DS
 .ft B
@@ -265,7 +266,7 @@ will produce the output line
 which is to be interpreted as a 3-digit hexadecimal number.
 Very large output bases are permitted, and they are sometimes useful.
 For example, large numbers can be output in groups of five digits
-by setting `obase' to 100000.
+by setting 'obase' to 100000.
 Strange (i.e. 1, 0, or negative) output bases are
 handled appropriately.
 .PP
@@ -278,14 +279,14 @@ Non-decimal output conversion of
 a one hundred digit number takes about
 three seconds.
 .PP
-It is best to remember that `ibase' and `obase' have no effect
+It is best to remember that 'ibase' and 'obase' have no effect
 whatever on the course of internal computation or
 on the evaluation of expressions, but only affect input and
 output conversion, respectively.
 .SH
 Scaling
 .PP
-A third special internal quantity called `scale' is
+A third special internal quantity called 'scale' is
 used to determine the scale of calculated
 quantities.
 Numbers may have
@@ -309,15 +310,15 @@ less than the maximum of the two scales of the operands,
 never more than the sum of the scales of the operands
 and, subject to those two restrictions,
 the scale of the result is set equal to the contents of the internal
-quantity `scale'.
+quantity 'scale'.
 The scale of a quotient is the contents of the internal
-quantity `scale'.  The scale of a remainder is
+quantity 'scale'.  The scale of a remainder is
 the sum of the scales of the quotient and the divisor.
 The result of an exponentiation is scaled as if
 the implied multiplications were performed.
 An exponent must be an integer.
 The scale of a square root is set to the maximum of the scale
-of the argument and the contents of `scale'.
+of the argument and the contents of 'scale'.
 .PP
 All of the internal operations are actually carried out in terms
 of integers, with digits being discarded when necessary.
@@ -325,10 +326,10 @@ In every case where digits are discarded, truncation and
 not rounding is performed.
 .PP
 The contents of
-`scale' must be no greater than
+'scale' must be no greater than
 4294967294 and no less than 0.  It is initially set to 0.
 .PP
-The internal quantities `scale', `ibase', and `obase' can be
+The internal quantities 'scale', 'ibase', and 'obase' can be
 used in expressions just like other variables.
 The line
 .DS
@@ -336,17 +337,17 @@ The line
 scale = scale + 1
 .ft P
 .DE
-increases the value of `scale' by one, and the line
+increases the value of 'scale' by one, and the line
 .DS
 .ft B
 scale
 .ft P
 .DE
-causes the current value of `scale' to be printed.
+causes the current value of 'scale' to be printed.
 .PP
-The value of `scale' retains its meaning as a
+The value of 'scale' retains its meaning as a
 number of decimal digits to be retained in internal
-computation even when `ibase' or `obase' are not equal to 10.
+computation even when 'ibase' or 'obase' are not equal to 10.
 The internal computations (which are still conducted in decimal,
 regardless of the bases) are performed to the specified number
 of decimal digits, never hexadecimal or octal or any
@@ -389,7 +390,7 @@ by a statement of the form
 auto x,y,z
 .ft P
 .DE
-There can be only one `auto' statement in a function and it must
+There can be only one 'auto' statement in a function and it must
 be the first statement in the definition.
 These automatic variables are allocated space and initialized
 to zero on entry to the function and thrown away on return.  The
@@ -454,7 +455,7 @@ permitted.  The names of arrays are permitted to
 collide with the names of simple variables and function names.
 Any fractional
 part of a subscript is discarded before use.
-Subscripts must be greater than or equal to zero and 
+Subscripts must be greater than or equal to zero and
 less than or equal to 2047.
 .PP
 Subscripted variables may be freely used in expressions, in
@@ -478,7 +479,7 @@ in any other contexts.
 .SH
 Control Statements
 .PP
-The `if', the `while', and the `for' statements
+The 'if', the 'while', and the 'for' statements
 may be used to alter the flow within programs or to cause iteration.
 The range of each of them is a statement or
 a compound statement consisting of a collection of
@@ -509,35 +510,35 @@ x>y
 .ft P
 .DE
 where  two expressions are related by one of the six relational
-operators `<', `>', `<=', `>=', `==', or `!='.
-The relation `=='
-stands for `equal to' and `!=' stands for `not equal to'.
+operators '<', '>', '<=', '>=', '==', or '!='.
+The relation '=='
+stands for 'equal to' and '!=' stands for 'not equal to'.
 The meaning of the remaining relational operators is
 clear.
 .PP
-BEWARE of using `=' instead of `==' in a relational.  Unfortunately,
+BEWARE of using '=' instead of '==' in a relational.  Unfortunately,
 both of them are legal, so you will not get a diagnostic
-message, but `=' really will not do a comparison.
+message, but '=' really will not do a comparison.
 .PP
-The `if' statement causes execution of its range
+The 'if' statement causes execution of its range
 if and only if the relation is true.
 Then control passes to the next statement in sequence.
-If an `else' branch is present, the statements in this branch are
+If an 'else' branch is present, the statements in this branch are
 executed if the relation is false.
-The `else' keyword is a non-portable extension.
+The 'else' keyword is a non-portable extension.
 .PP
-The `while' statement causes execution of its range
+The 'while' statement causes execution of its range
 repeatedly as long as the relation
 is true.  The relation is tested before each execution
 of its range and if the relation
 is false, control passes to the next statement beyond the range
 of the while.
 .PP
-The `for' statement begins
-by executing `expression1'.  Then the relation is tested
-and, if true, the statements in the range of the `for' are executed.
-Then `expression2' is executed.  The relation is tested, and so on.
-The typical use of the `for' statement is for a controlled iteration,
+The 'for' statement begins
+by executing 'expression1'.  Then the relation is tested
+and, if true, the statements in the range of the 'for' are executed.
+Then 'expression2' is executed.  The relation is tested, and so on.
+The typical use of the 'for' statement is for a controlled iteration,
 as in the statement
 .DS
 .ft B
@@ -663,11 +664,11 @@ may happen.
 .SH
 Three Important Things
 .PP
-1.  To exit a BC program, type `quit'.
+1.  To exit a BC program, type 'quit'.
 .PP
 2. There is a comment convention identical to that of C and
-of PL/I.  Comments begin with `/*' and end with `*/'.
-As a non-portable extension, comments may also start with a `#' and end with
+of PL/I.  Comments begin with '/*' and end with '*/'.
+As a non-portable extension, comments may also start with a '#' and end with
 a newline.
 The newline is not part of the comment.
 .PP
@@ -679,9 +680,9 @@ bc \-l
 .ft P
 .DE
 This command will load a set of library functions
-which, at the time of writing, consists of sine (named `s'),
-cosine (`c'), arctangent (`a'), natural logarithm (`l'),
-exponential (`e') and Bessel functions of integer order (`j(n,x)').  Doubtless more functions will be added
+which, at the time of writing, consists of sine (named 's'),
+cosine ('c'), arctangent ('a'), natural logarithm ('l'),
+exponential ('e') and Bessel functions of integer order ('j(n,x)').  Doubtless more functions will be added
 in time.
 The library sets the scale to 20.  You can reset it to something
 else if you like.
@@ -1028,7 +1029,7 @@ to the named expression on the left.
 \fInamed-expression\fP ^= \fIexpression\fP
 .PP
 The result of the above expressions is equivalent
-to ``named expression = named expression OP expression'',
+to "named expression = named expression OP expression",
 where OP is the operator after the = sign.
 .NH 1
 Relations
@@ -1053,7 +1054,7 @@ Storage classes
 .PP
 There are only two storage classes in BC, global and automatic
 (local).
-Only identifiers that are to be local to a function need be 
+Only identifiers that are to be local to a function need be
 declared with the \fBauto\fP command.
 The arguments to a function
 are local to the function.
@@ -1061,7 +1062,7 @@ All other identifiers are assumed to be global
 and available to all functions.
 All identifiers, global and local, have initial values
 of zero.
-Identifiers declared as \fBauto\fP are allocated on entry to the function 
+Identifiers declared as \fBauto\fP are allocated on entry to the function
 and released on returning from the function.
 They therefore do not retain values between function calls.
 \fBauto\fP arrays are specified by the array name followed by empty square brackets.
@@ -1069,7 +1070,7 @@ They therefore do not retain values between function calls.
 Automatic variables in BC do not work in exactly the same way
 as in either C or PL/I.  On entry to a function, the old values of
 the names that appear as parameters and as automatic
-variables are pushed onto a stack.  
+variables are pushed onto a stack.
 Until return is made from the function, reference to these
 names refers only to the new values.
 .NH 1
@@ -1199,28 +1200,28 @@ Print
 .PP
 The \fBprint\fR statement takes a list of comma-separated expressions.
 Each expression in the list is evaluated and the computed
-value is printed and assigned to the variable `last'.
+value is printed and assigned to the variable 'last'.
 No trailing newline is printed.
 The expression may also be a string enclosed in double quotes.
 Within these strings the following escape sequences may be used:
-\ea 
+'\ea'
 for bell (alert),
-`\eb'
+'\eb'
 for backspace,
-`\ef'
+'\ef'
 for formfeed,
-`\en'
-for newline,   
-`\er'
+'\en'
+for newline,
+'\er'
 for carriage return,
-`\et'
-`for tab,
-`\eq'
+'\et'
+for tab,
+'\eq'
 for double quote and
-`\e\e'
+'\e\e'
 for backslash.
 Any other character following a backslash will be ignored.
-Strings will not be assigned to `last'.
+Strings will not be assigned to 'last'.
 The \fBprint\fR statement is a non-portable extension.
 .NH 2
 Quit
@@ -1229,7 +1230,7 @@ The \fBquit\fR statement stops execution of a BC program and returns
 control to UNIX when it is first encountered.
 Because it is not treated as an executable statement,
 it cannot be used
-in a function definition or in an 
+in a function definition or in an
 .ft B
 if, for,
 .ft

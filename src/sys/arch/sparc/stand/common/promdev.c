@@ -46,6 +46,8 @@
 
 #include <sparc/stand/common/promdev.h>
 
+void bzero(void *, size_t);
+
 /* u_long	_randseed = 1; */
 
 
@@ -67,6 +69,10 @@ int	getprop(int, char *, void *, int);
 char	*getpropstring(int, char *);
 
 static void	prom0_fake(void);
+
+int net_open(struct promdata *);
+int net_close(struct promdata *);
+int getticks(void);
 
 extern struct filesystem file_system_nfs[];
 extern struct filesystem file_system_cd9660[];
@@ -101,13 +107,18 @@ static int	saveecho;
 void
 prom_init()
 {
-	register char	*ap, *cp, *dp;
+	register char *cp, *dp;
+#ifndef BOOTXX
+	register char *ap;
+#endif
 
 	if (cputyp == CPU_SUN4)
 		prom0_fake();
 
 	if (promvec->pv_romvec_vers >= 2) {
+#ifndef BOOTXX
 		static char filestore[16];
+#endif
 
 		prom_bootdevice = *promvec->pv_v2bootargs.v2_bootpath;
 
@@ -166,7 +177,7 @@ devopen(f, fname, file)
 	const char *fname;
 	char **file;
 {
-	int	error = 0, fd;
+	int	error = 0, fd = 0;
 	struct	promdata *pd;
 
 	pd = (struct promdata *)alloc(sizeof *pd);
@@ -764,7 +775,7 @@ static struct mapinfo {
 	{ MAP_VME32A16D, PG_VME16, 0 },
 	{ MAP_VME32A32D, PG_VME32, 0 },
 };
-static prom_mapinfo_cnt = sizeof(prom_mapinfo) / sizeof(prom_mapinfo[0]);
+static size_t prom_mapinfo_cnt = sizeof(prom_mapinfo) / sizeof(prom_mapinfo[0]);
 
 /* The virtual address we will use for PROM device mappings. */
 static u_long prom_devmap = MONSHORTSEG;

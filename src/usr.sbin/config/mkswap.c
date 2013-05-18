@@ -81,7 +81,8 @@ mkdevstr(dev_t d)
 static int
 mkoneswap(struct config *cf)
 {
-	char fname[200], *mountroot;
+	char fname[200];
+	const char *mountroot;
 	struct nvlist *nv;
 	FILE *fp;
 

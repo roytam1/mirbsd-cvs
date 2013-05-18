@@ -34,8 +34,9 @@
 .\" (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 .\" THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .\"
+.\" $MirOS: src/usr.bin/ssh/sshd_config.5,v 1.22 2007/09/13 13:52:56 tg Exp $
 .\" $OpenBSD: sshd_config.5,v 1.83 2008/02/11 07:58:28 jmc Exp $
-.Dd $Mdocdate: February 11 2008 $
+.Dd $Mdocdate: March 2 2008 $
 .Dt SSHD_CONFIG 5
 .Os
 .Sh NAME
@@ -143,21 +144,31 @@ See
 in
 .Xr ssh_config 5
 for more information on patterns.
-.It Cm AuthorizedKeysFile
+.It Cm AuthorisedKeysFile
 Specifies the file that contains the public keys that can be used
 for user authentication.
-.Cm AuthorizedKeysFile
+.Cm AuthorisedKeysFile
 may contain tokens of the form %T which are substituted during connection
 setup.
 The following tokens are defined: %% is replaced by a literal '%',
 %h is replaced by the home directory of the user being authenticated, and
 %u is replaced by the username of that user.
 After expansion,
-.Cm AuthorizedKeysFile
+.Cm AuthorisedKeysFile
 is taken to be an absolute path or one relative to the user's home
 directory.
 The default is
-.Dq .ssh/authorized_keys .
+.Dq .etc/ssh/authorised_keys .
+.It Cm AuthorisedKeysFile2
+Only used for backward compatibility with stock
+.Ox
+OpenSSH.
+This option is deprecated.
+The default is
+.Dq .ssh/authorized_keys
+if
+.Cm AuthorisedKeysFile
+if unset, its value otherwise.
 .It Cm Banner
 The contents of the specified file are sent to the remote user before
 authentication is allowed.
@@ -231,9 +242,9 @@ and
 .Dq cast128-cbc .
 The default is:
 .Bd -literal -offset 3n
-aes128-cbc,3des-cbc,blowfish-cbc,cast128-cbc,arcfour128,
-arcfour256,arcfour,aes192-cbc,aes256-cbc,aes128-ctr,
-aes192-ctr,aes256-ctr
+aes128-cbc,blowfish-cbc,arcfour256,cast128-cbc,
+aes256-cbc,rijndael-cbc@lysator.liu.se,aes256-ctr,aes192-cbc,
+aes192-ctr,arcfour128,arcfour,aes128-ctr,3des-cbc
 .Ed
 .It Cm ClientAliveCountMax
 Sets the number of client alive messages (see below) which may be
@@ -358,17 +369,6 @@ to force remote port forwardings to bind to the wildcard address, or
 to allow the client to select the address to which the forwarding is bound.
 The default is
 .Dq no .
-.It Cm GSSAPIAuthentication
-Specifies whether user authentication based on GSSAPI is allowed.
-The default is
-.Dq no .
-Note that this option applies to protocol version 2 only.
-.It Cm GSSAPICleanupCredentials
-Specifies whether to automatically destroy the user's credentials cache
-on logout.
-The default is
-.Dq yes .
-Note that this option applies to protocol version 2 only.
 .It Cm HostbasedAuthentication
 Specifies whether rhosts or /etc/hosts.equiv authentication together
 with successful public key client host authentication is allowed
@@ -398,13 +398,16 @@ The default is
 .It Cm HostKey
 Specifies a file containing a private host key
 used by SSH.
-The default is
+The default (if they are all commented out) is
 .Pa /etc/ssh/ssh_host_key
 for protocol version 1, and
 .Pa /etc/ssh/ssh_host_rsa_key
 and
 .Pa /etc/ssh/ssh_host_dsa_key
 for protocol version 2.
+Starting with
+.Mx 8 ,
+the shipped version only checks for the RSAv2 key.
 Note that
 .Xr sshd 8
 will refuse to use a file if it is group/world-accessible.
@@ -435,38 +438,13 @@ The default is
 Specifies whether
 .Xr sshd 8
 should ignore the user's
-.Pa ~/.ssh/known_hosts
+.Pa ~/.etc/ssh/known_hosts
 during
 .Cm RhostsRSAAuthentication
 or
 .Cm HostbasedAuthentication .
 The default is
 .Dq no .
-.It Cm KerberosAuthentication
-Specifies whether the password provided by the user for
-.Cm PasswordAuthentication
-will be validated through the Kerberos KDC.
-To use this option, the server needs a
-Kerberos servtab which allows the verification of the KDC's identity.
-The default is
-.Dq no .
-.It Cm KerberosGetAFSToken
-If AFS is active and the user has a Kerberos 5 TGT, attempt to acquire
-an AFS token before accessing the user's home directory.
-The default is
-.Dq no .
-.It Cm KerberosOrLocalPasswd
-If password authentication through Kerberos fails then
-the password will be validated via any additional local mechanism
-such as
-.Pa /etc/passwd .
-The default is
-.Dq yes .
-.It Cm KerberosTicketCleanup
-Specifies whether to automatically destroy the user's ticket cache
-file on logout.
-The default is
-.Dq yes .
 .It Cm KeyRegenerationInterval
 In protocol version 1, the ephemeral server key is automatically regenerated
 after this many seconds (if it has been used).
@@ -535,8 +513,8 @@ for data integrity protection.
 Multiple algorithms must be comma-separated.
 The default is:
 .Bd -literal -offset indent
-hmac-md5,hmac-sha1,umac-64@openssh.com,
-hmac-ripemd160,hmac-sha1-96,hmac-md5-96
+umac-64@openssh.com,hmac-ripemd160,hmac-ripemd160@openssh.com,
+hmac-sha1,hmac-md5,hmac-sha1-96,hmac-md5-96
 .Ed
 .It Cm Match
 Introduces a conditional block.
@@ -561,12 +539,14 @@ keyword.
 Available keywords are
 .Cm AllowTcpForwarding ,
 .Cm Banner ,
+.Cm ChrootDirectory ,
 .Cm ForceCommand ,
 .Cm GatewayPorts ,
 .Cm GSSApiAuthentication ,
 .Cm KbdInteractiveAuthentication ,
 .Cm KerberosAuthentication ,
 .Cm PasswordAuthentication ,
+.Cm PermitEmptyPasswords ,
 .Cm PermitOpen ,
 .Cm PermitRootLogin ,
 .Cm RhostsRSAAuthentication ,
@@ -651,7 +631,7 @@ The argument must be
 or
 .Dq no .
 The default is
-.Dq yes .
+.Dq no .
 .Pp
 If this option is set to
 .Dq without-password ,
@@ -689,13 +669,15 @@ and
 .Dq ethernet .
 The default is
 .Dq no .
+Use of this option is discouraged in favour of OpenVPN until
+datagram transport is added.
 .It Cm PermitUserEnvironment
 Specifies whether
-.Pa ~/.ssh/environment
+.Pa ~/.etc/ssh/environment
 and
 .Cm environment=
 options in
-.Pa ~/.ssh/authorized_keys
+.Pa ~/.etc/ssh/authorised_keys
 are processed by
 .Xr sshd 8 .
 The default is
@@ -801,6 +783,7 @@ This may simplify configurations using
 to force a different filesystem root on clients.
 .Pp
 By default no subsystems are defined.
+The default configuration file enables the SFTP daemon.
 Note that this option applies to protocol version 2 only.
 .It Cm SyslogFacility
 Gives the facility code that is used when logging messages from
@@ -990,6 +973,8 @@ This file should be writable by root only, but it is recommended
 .El
 .Sh SEE ALSO
 .Xr sshd 8
+.Pp
+.Pa http://sites.inka.de/sites/bigred/devel/tcp-tcp.html
 .Sh AUTHORS
 OpenSSH is a derivative of the original and free
 ssh 1.2.12 release by Tatu Ylonen.

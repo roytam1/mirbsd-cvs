@@ -1,3 +1,4 @@
+/**	$MirOS: src/sys/netinet/tcp_output.c,v 1.4 2006/01/31 10:09:44 tg Exp $ */
 /*	$OpenBSD: tcp_output.c,v 1.79 2005/06/30 08:51:31 markus Exp $	*/
 /*	$NetBSD: tcp_output.c,v 1.16 1997/06/03 16:17:09 kml Exp $	*/
 
@@ -68,6 +69,26 @@
  * Research Laboratory (NRL).
  */
 
+/*
+ * Additional improvements
+ * copyright (c) 2005, 2006 by Marco Munari <mar.develops allerta.it>
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ * 3. Neither the name of allerta nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific prior written permission.
+ *
+ * SOURCE CODE PROVIDED ``AS IS'' WITHOUT WARRANTIES, BUT WITH HAPPY FUN
+ *                                                    AND A SORT OF LOVE.
+ */
+
 #include <sys/param.h>
 #include <sys/systm.h>
 #include <sys/mbuf.h>
@@ -114,6 +135,7 @@ extern struct mbuf *m_copypack();
 #ifdef TCP_SACK
 extern int tcprexmtthresh;
 #endif
+int stdbsdtcp=1;
 
 #ifdef TCP_SACK
 #ifdef TCP_SACK_DEBUG
@@ -148,17 +170,16 @@ tcp_sack_output(struct tcpcb *tp)
 		return (NULL);
 	p = tp->snd_holes;
 	while (p) {
-#ifndef TCP_FACK
-		if (p->dups >= tcprexmtthresh && SEQ_LT(p->rxmit, p->end)) {
-#else
 		/* In FACK, if p->dups is less than tcprexmtthresh, but
 		 * snd_fack advances more than tcprextmtthresh * tp->t_maxseg,
 		 * tcp_input() will try fast retransmit. This forces output.
 		 */
-		if ((p->dups >= tcprexmtthresh ||
-		     tp->t_dupacks == tcprexmtthresh) &&
-		    SEQ_LT(p->rxmit, p->end)) {
+		if ((p->dups >= tcprexmtthresh
+#ifdef TCP_FACK
+		    || tp->t_dupacks == tcprexmtthresh
 #endif /* TCP_FACK */
+		    ) && SEQ_LT(p->rxmit, p->end)) {
+
 			if (SEQ_LT(p->rxmit, tp->snd_una)) {/* old SACK hole */
 				p = p->next;
 				continue;
@@ -218,16 +239,18 @@ tcp_output(tp)
 	struct tcpcb *tp;
 {
 	struct socket *so = tp->t_inpcb->inp_socket;
-	long len, win, txmaxseg;
-	int off, flags, error;
+	long len = 0, win, txmaxseg;
+	int off, flags, error = 0;
 	struct mbuf *m;
 	struct tcphdr *th;
 	u_char opt[MAX_TCPOPTLEN];
 	unsigned int optlen, hdrlen, packetlen;
 	int idle, sendalot = 0;
+	int tstmp_cond;		/* cache a complex condition now used twice */
 #ifdef TCP_SACK
+	int tsack_cond = 0;
 	int i, sack_rxmit = 0;
-	struct sackhole *p;
+	struct sackhole *p = NULL;
 #endif
 #if defined(TCP_SACK)
 	int maxburst = TCP_MAXBURST;
@@ -541,6 +564,11 @@ send:
 		return (EPFNOSUPPORT);
 	}
 
+	tstmp_cond = ((tp->t_flags & (TF_REQ_TSTMP|TF_NOOPT)) == TF_REQ_TSTMP &&
+		       (flags & TH_RST) == 0 &&
+		       ((flags & (TH_SYN|TH_ACK)) == TH_SYN ||
+			(tp->t_flags & TF_RCVD_TSTMP)));
+
 	if (flags & TH_SYN) {
 		tp->snd_nxt = tp->iss;
 		if ((tp->t_flags & TF_NOOPT) == 0) {
@@ -563,9 +591,13 @@ send:
 			 */
 			if (tp->sack_enable && ((flags & TH_ACK) == 0 ||
 			    (tp->t_flags & TF_SACK_PERMIT))) {
-				*((u_int32_t *) (opt + optlen)) =
-				    htonl(TCPOPT_SACK_PERMIT_HDR);
-				optlen += 4;
+				if (stdbsdtcp || !tstmp_cond) {
+					*((u_int32_t *) (opt + optlen)) =
+					    htonl(TCPOPT_SACK_PERMIT_HDR);
+					optlen += 4;
+				} else
+					/* sack will be packed in timestamp */
+					tsack_cond = 1;
 			}
 #endif
 
@@ -587,16 +619,26 @@ send:
 	 * wants to use timestamps (TF_REQ_TSTMP is set) or both our side
 	 * and our peer have sent timestamps in our SYN's.
 	 */
-	if ((tp->t_flags & (TF_REQ_TSTMP|TF_NOOPT)) == TF_REQ_TSTMP &&
-	     (flags & TH_RST) == 0 &&
-	    ((flags & (TH_SYN|TH_ACK)) == TH_SYN ||
-	     (tp->t_flags & TF_RCVD_TSTMP))) {
+	if (tstmp_cond) {
 		u_int32_t *lp = (u_int32_t *)(opt + optlen);
 
+		*lp = htonl(TCPOPT_TSTAMP_HDR);
 		/* Form timestamp option as shown in appendix A of RFC 1323. */
-		*lp++ = htonl(TCPOPT_TSTAMP_HDR);
-		*lp++ = htonl(tcp_now);
-		*lp   = htonl(tp->ts_recent);
+#ifdef TCP_SACK
+		/* if needed sackOK as before but not just done */
+		if (tsack_cond) {
+#if 1
+			*(u_int16_t*)lp = htons(TCPOPT_SACK_PERMITTED << 8 |
+			    TCPOLEN_SACK_PERMITTED);
+#else	/* two similar ways, I prefer the first (above) -- MunARi */
+			*lp &= htonl(0x0000ffff);
+			*lp |= htonl(TCPOPT_SACK_PERMITTED << 24 |
+			    TCPOLEN_SACK_PERMITTED << 16);
+#endif
+		}
+#endif
+		*++lp = htonl(tcp_now);
+		*++lp = htonl(tp->ts_recent);
 		optlen += TCPOLEN_TSTAMP_APPA;
 	}
 
@@ -966,7 +1008,7 @@ send:
 				ip6pseudo.ip6ph_nxt = IPPROTO_TCP;
 				ip6pseudo.ip6ph_len =
 				    htonl(sizeof(struct tcphdr) + len + optlen);
- 
+
 				MD5Update(&ctx, (char *)&ip6pseudo,
 				    sizeof(ip6pseudo));
 			}
@@ -1207,10 +1249,10 @@ out:
 
 		return (error);
 	}
-	
+
 	if (packetlen > tp->t_pmtud_mtu_sent)
 		tp->t_pmtud_mtu_sent = packetlen;
-	
+
 	tcpstat.tcps_sndtotal++;
 	if (tp->t_flags & TF_DELACK)
 		tcpstat.tcps_delack++;

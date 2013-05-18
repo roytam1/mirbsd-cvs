@@ -1,3 +1,4 @@
+/**	$MirOS: src/sys/arch/i386/stand/libsa/time.c,v 1.2 2005/03/06 21:27:07 tg Exp $ */
 /*	$OpenBSD: time.c,v 1.16 2004/08/17 15:11:31 tom Exp $	*/
 
 /*
@@ -34,7 +35,8 @@
 #include "libsa.h"
 #include "biosdev.h"
 
-#define isleap(y) ((((y) % 4) == 0 && ((y) % 100) != 0) || ((y) % 400) == 0)
+#define isleap(y) (((((y) % 4) == 0)   && (((y) % 100) != 0)) \
+		|| ((((y) % 400) == 0) && (((y) % 4000) != 0)))
 
 /*
  * Convert from bcd (packed) to int

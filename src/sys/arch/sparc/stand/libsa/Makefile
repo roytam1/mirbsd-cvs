@@ -1,16 +1,27 @@
-#	$OpenBSD: Makefile,v 1.3 2004/07/13 21:03:39 marc Exp $
+# $MirOS: src/sys/arch/sparc/stand/libsa/Makefile,v 1.3 2006/06/16 21:52:53 tg Exp $
+# $OpenBSD: Makefile,v 1.3 2004/07/13 21:03:39 marc Exp $
+
+.include "${.CURDIR}/../Makefile.inc"
 
 LIB=	sa
 
 .PATH:	${.CURDIR}/../../../../lib/libsa
 
-CFLAGS= -O2 -D__INTERNAL_LIBSA_CREAD -Derrno=errno \
-	-I${.CURDIR} -I${.CURDIR}/../include -I${.CURDIR}/../.. \
-	-I${.CURDIR}/../../.. -I${.CURDIR}/../../../.. \
-	-I${.CURDIR}/../../../../lib/libsa
+S=		${.CURDIR}/../../../..
+SADIR=		${.CURDIR}/..
+DIR_SA=		$S/lib/libsa
+DIR_KERN=	$S/lib/libkern
+CPPFLAGS+=	-I${S} -I${S}/stand/boot -I${S}/lib -I${BSDSRCDIR}/lib/libz
+CPPFLAGS+=	-D__INTERNAL_LIBSA_CREAD #-DCOMPAT_UFS
+DEBUGLIBS=	No
+KERNSTAND=	#defined
+SMALL=		#defined
+
+.include "${KERNBASE}/c/Makefile.inc"
+.include "${KERNBASE}/z/Makefile.adler32"
 
 # stand routines
-SRCS=	alloc.c exit.c exec.c getfile.c gets.c globals.c \
+SRCS+=	alloc.c exit.c exec.c getfile.c gets.c globals.c \
 	memcmp.c memcpy.c memset.c printf.c snprintf.c strerror.c strncpy.c
 
 # io routines
@@ -28,8 +39,7 @@ SRCS+=	ufs.c nfs.c cd9660.c
 
 ${OBJS}:	${.CURDIR}/../Makefile.inc
 
-NOPROFILE=
-NOPIC=
+NOPIC=	yes
 
 install:
 

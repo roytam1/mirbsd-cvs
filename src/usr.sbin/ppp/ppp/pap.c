@@ -74,6 +74,8 @@
 #include "cbcp.h"
 #include "datalink.h"
 
+__RCSID("$MirOS$");
+
 static const char * const papcodes[] = {
   "???", "REQUEST", "SUCCESS", "FAILURE"
 };
@@ -85,7 +87,7 @@ pap_Req(struct authinfo *authp)
   struct bundle *bundle = authp->physical->dl->bundle;
   struct fsmheader lh;
   struct mbuf *bp;
-  u_char *cp;
+  u_char *cp, *tmp;
   int namelen, keylen, plen;
 
   namelen = strlen(bundle->cfg.auth.name);
@@ -99,7 +101,8 @@ pap_Req(struct authinfo *authp)
   lh.id = authp->id;
   lh.length = htons(plen + sizeof(struct fsmheader));
   bp = m_get(plen + sizeof(struct fsmheader), MB_PAPOUT);
-  memcpy(MBUF_CTOP(bp), &lh, sizeof(struct fsmheader));
+  if ((tmp = MBUF_CTOP(bp)) != NULL)
+    memcpy(tmp, &lh, sizeof(struct fsmheader));
   cp = MBUF_CTOP(bp) + sizeof(struct fsmheader);
   *cp++ = namelen;
   memcpy(cp, bundle->cfg.auth.name, namelen);
@@ -115,7 +118,7 @@ SendPapCode(struct authinfo *authp, int code, const char *message)
 {
   struct fsmheader lh;
   struct mbuf *bp;
-  u_char *cp;
+  u_char *cp, *tmp;
   int plen, mlen;
 
   lh.code = code;
@@ -124,7 +127,8 @@ SendPapCode(struct authinfo *authp, int code, const char *message)
   plen = mlen + 1;
   lh.length = htons(plen + sizeof(struct fsmheader));
   bp = m_get(plen + sizeof(struct fsmheader), MB_PAPOUT);
-  memcpy(MBUF_CTOP(bp), &lh, sizeof(struct fsmheader));
+  if ((tmp = MBUF_CTOP(bp)) != NULL)
+    memcpy(tmp, &lh, sizeof(struct fsmheader));
   cp = MBUF_CTOP(bp) + sizeof(struct fsmheader);
   /*
    * If our message is longer than 255 bytes, truncate the length to

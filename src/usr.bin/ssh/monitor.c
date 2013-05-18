@@ -25,11 +25,10 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <sys/types.h>
+#include <sys/param.h>
 #include <sys/wait.h>
 #include <sys/socket.h>
 #include <sys/tree.h>
-#include <sys/param.h>
 
 #include <openssl/dh.h>
 
@@ -63,18 +62,13 @@
 #include "servconf.h"
 #include "monitor.h"
 #include "monitor_mm.h"
-#ifdef GSSAPI
-#include "ssh-gss.h"
-#endif
 #include "monitor_wrap.h"
 #include "monitor_fdpass.h"
 #include "misc.h"
 #include "compat.h"
 #include "ssh2.h"
 
-#ifdef GSSAPI
-static Gssctxt *gsscontext = NULL;
-#endif
+__RCSID("$MirOS: src/usr.bin/ssh/monitor.c,v 1.11 2007/09/13 13:52:53 tg Exp $");
 
 /* Imports */
 extern ServerOptions options;
@@ -134,13 +128,6 @@ int mm_answer_rsa_response(int, Buffer *);
 int mm_answer_sesskey(int, Buffer *);
 int mm_answer_sessid(int, Buffer *);
 
-#ifdef GSSAPI
-int mm_answer_gss_setup_ctx(int, Buffer *);
-int mm_answer_gss_accept_ctx(int, Buffer *);
-int mm_answer_gss_userok(int, Buffer *);
-int mm_answer_gss_checkmic(int, Buffer *);
-#endif
-
 static Authctxt *authctxt;
 static BIGNUM *ssh1_challenge = NULL;	/* used for ssh1 rsa auth */
 
@@ -177,16 +164,12 @@ struct mon_table mon_dispatch_proto20[] = {
     {MONITOR_REQ_AUTHSERV, MON_ONCE, mm_answer_authserv},
     {MONITOR_REQ_AUTH2_READ_BANNER, MON_ONCE, mm_answer_auth2_read_banner},
     {MONITOR_REQ_AUTHPASSWORD, MON_AUTH, mm_answer_authpassword},
+#ifdef BSD_AUTH
     {MONITOR_REQ_BSDAUTHQUERY, MON_ISAUTH, mm_answer_bsdauthquery},
     {MONITOR_REQ_BSDAUTHRESPOND, MON_AUTH, mm_answer_bsdauthrespond},
+#endif
     {MONITOR_REQ_KEYALLOWED, MON_ISAUTH, mm_answer_keyallowed},
     {MONITOR_REQ_KEYVERIFY, MON_AUTH, mm_answer_keyverify},
-#ifdef GSSAPI
-    {MONITOR_REQ_GSSSETUP, MON_ISAUTH, mm_answer_gss_setup_ctx},
-    {MONITOR_REQ_GSSSTEP, MON_ISAUTH, mm_answer_gss_accept_ctx},
-    {MONITOR_REQ_GSSUSEROK, MON_AUTH, mm_answer_gss_userok},
-    {MONITOR_REQ_GSSCHECKMIC, MON_ISAUTH, mm_answer_gss_checkmic},
-#endif
     {0, 0, NULL}
 };
 
@@ -208,8 +191,10 @@ struct mon_table mon_dispatch_proto15[] = {
     {MONITOR_REQ_KEYALLOWED, MON_ISAUTH|MON_ALOG, mm_answer_keyallowed},
     {MONITOR_REQ_RSACHALLENGE, MON_ONCE, mm_answer_rsa_challenge},
     {MONITOR_REQ_RSARESPONSE, MON_ONCE|MON_AUTHDECIDE, mm_answer_rsa_response},
+#ifdef BSD_AUTH
     {MONITOR_REQ_BSDAUTHQUERY, MON_ISAUTH, mm_answer_bsdauthquery},
     {MONITOR_REQ_BSDAUTHRESPOND, MON_AUTH, mm_answer_bsdauthrespond},
+#endif
     {0, 0, NULL}
 };
 
@@ -641,6 +626,7 @@ mm_answer_authpassword(int sock, Buffer *m)
 	return (authenticated);
 }
 
+#ifdef BSD_AUTH
 int
 mm_answer_bsdauthquery(int sock, Buffer *m)
 {
@@ -697,6 +683,7 @@ mm_answer_bsdauthrespond(int sock, Buffer *m)
 
 	return (authok != 0);
 }
+#endif
 
 
 static void
@@ -1533,107 +1520,3 @@ monitor_reinit(struct monitor *mon)
 	mon->m_recvfd = pair[0];
 	mon->m_sendfd = pair[1];
 }
-
-#ifdef GSSAPI
-int
-mm_answer_gss_setup_ctx(int sock, Buffer *m)
-{
-	gss_OID_desc goid;
-	OM_uint32 major;
-	u_int len;
-
-	goid.elements = buffer_get_string(m, &len);
-	goid.length = len;
-
-	major = ssh_gssapi_server_ctx(&gsscontext, &goid);
-
-	xfree(goid.elements);
-
-	buffer_clear(m);
-	buffer_put_int(m, major);
-
-	mm_request_send(sock, MONITOR_ANS_GSSSETUP, m);
-
-	/* Now we have a context, enable the step */
-	monitor_permit(mon_dispatch, MONITOR_REQ_GSSSTEP, 1);
-
-	return (0);
-}
-
-int
-mm_answer_gss_accept_ctx(int sock, Buffer *m)
-{
-	gss_buffer_desc in;
-	gss_buffer_desc out = GSS_C_EMPTY_BUFFER;
-	OM_uint32 major, minor;
-	OM_uint32 flags = 0; /* GSI needs this */
-	u_int len;
-
-	in.value = buffer_get_string(m, &len);
-	in.length = len;
-	major = ssh_gssapi_accept_ctx(gsscontext, &in, &out, &flags);
-	xfree(in.value);
-
-	buffer_clear(m);
-	buffer_put_int(m, major);
-	buffer_put_string(m, out.value, out.length);
-	buffer_put_int(m, flags);
-	mm_request_send(sock, MONITOR_ANS_GSSSTEP, m);
-
-	gss_release_buffer(&minor, &out);
-
-	if (major == GSS_S_COMPLETE) {
-		monitor_permit(mon_dispatch, MONITOR_REQ_GSSSTEP, 0);
-		monitor_permit(mon_dispatch, MONITOR_REQ_GSSUSEROK, 1);
-		monitor_permit(mon_dispatch, MONITOR_REQ_GSSCHECKMIC, 1);
-	}
-	return (0);
-}
-
-int
-mm_answer_gss_checkmic(int sock, Buffer *m)
-{
-	gss_buffer_desc gssbuf, mic;
-	OM_uint32 ret;
-	u_int len;
-
-	gssbuf.value = buffer_get_string(m, &len);
-	gssbuf.length = len;
-	mic.value = buffer_get_string(m, &len);
-	mic.length = len;
-
-	ret = ssh_gssapi_checkmic(gsscontext, &gssbuf, &mic);
-
-	xfree(gssbuf.value);
-	xfree(mic.value);
-
-	buffer_clear(m);
-	buffer_put_int(m, ret);
-
-	mm_request_send(sock, MONITOR_ANS_GSSCHECKMIC, m);
-
-	if (!GSS_ERROR(ret))
-		monitor_permit(mon_dispatch, MONITOR_REQ_GSSUSEROK, 1);
-
-	return (0);
-}
-
-int
-mm_answer_gss_userok(int sock, Buffer *m)
-{
-	int authenticated;
-
-	authenticated = authctxt->valid && ssh_gssapi_userok(authctxt->user);
-
-	buffer_clear(m);
-	buffer_put_int(m, authenticated);
-
-	debug3("%s: sending result %d", __func__, authenticated);
-	mm_request_send(sock, MONITOR_ANS_GSSUSEROK, m);
-
-	auth_method = "gssapi-with-mic";
-
-	/* Monitor loop will terminate if authenticated */
-	return (authenticated);
-}
-#endif /* GSSAPI */

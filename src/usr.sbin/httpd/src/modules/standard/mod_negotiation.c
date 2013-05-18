@@ -547,7 +547,7 @@ static void parse_negotiate_header(request_rec *r, negotiation_state *neg)
         if (strcmp(tok, "trans") == 0 ||
             strcmp(tok, "vlist") == 0 ||
             strcmp(tok, "guess-small") == 0 ||
-            ap_isdigit(tok[0]) ||
+            isdigit((unsigned char)tok[0]) ||
             strcmp(tok, "*") == 0) {
 
             /* The user agent supports transparent negotiation */
@@ -2193,7 +2193,7 @@ static void set_neg_headers(request_rec *r, negotiation_state *neg,
         *((const char **) ap_push_array(arr)) = "\" ";
 
         qstr = (char *) ap_palloc(r->pool, 6);
-        ap_snprintf(qstr, 6, "%1.3f", variant->source_quality);
+        snprintf(qstr, 6, "%1.3f", variant->source_quality);
 
         /* Strip trailing zeros (saves those valuable network bytes) */
         if (qstr[4] == '0') {
@@ -2249,7 +2249,7 @@ static void set_neg_headers(request_rec *r, negotiation_state *neg,
             && (len = (long)find_content_length(neg, variant)) != 0) {
 
             lenstr = (char *) ap_palloc(r->pool, 22);
-            ap_snprintf(lenstr, 22, "%ld", len);
+            snprintf(lenstr, 22, "%ld", len);
             *((const char **) ap_push_array(arr)) = " {length ";
             *((const char **) ap_push_array(arr)) = lenstr;
             *((const char **) ap_push_array(arr)) = "}";

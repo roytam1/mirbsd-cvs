@@ -12,13 +12,13 @@
  * called by a name other than "ssh" or "Secure Shell".
  */
 
-#include <sys/types.h>
+#include <sys/param.h>
 #include <sys/stat.h>
 #include <sys/socket.h>
-#include <sys/param.h>
 
 #include <openssl/evp.h>
 #include <openssl/pem.h>
+#include <openssl/err.h>
 
 #include <errno.h>
 #include <fcntl.h>
@@ -44,6 +44,8 @@
 #ifdef SMARTCARD
 #include "scard.h"
 #endif
+
+__RCSID("$MirOS: src/usr.bin/ssh/ssh-keygen.c,v 1.18 2007/09/13 13:52:55 tg Exp $");
 
 /* Number of bits in the RSA/DSA key.  This value can be set on the command line. */
 #define DEFAULT_BITS		2048
@@ -94,7 +96,11 @@ int convert_from_ssh2 = 0;
 int print_public = 0;
 int print_generic = 0;
 
-char *key_type_name = NULL;
+/* Dump public key file in format used by the OpenSSL tool */
+int convert_to_ossl = 0;
+int convert_from_ossl = 0;
+
+const char *key_type_name = NULL;
 
 /* argv0 */
 extern char *__progname;
@@ -109,12 +115,12 @@ static void
 ask_filename(struct passwd *pw, const char *prompt)
 {
 	char buf[1024];
-	char *name = NULL;
+	const char *name = NULL;
 
 	if (key_type_name == NULL)
 		name = _PATH_SSH_CLIENT_ID_RSA;
 	else {
-		switch (key_type_from_name(key_type_name)) {
+		switch (key_type_from_name((char *)key_type_name)) {
 		case KEY_RSA1:
 			name = _PATH_SSH_CLIENT_IDENTITY;
 			break;
@@ -203,6 +209,35 @@ do_convert_to_ssh2(struct passwd *pw)
 	key_free(k);
 	xfree(blob);
 	exit(0);
+}
+
+static void
+do_convert_to_ossl(struct passwd *pw)
+{
+	Key *k;
+	struct stat st;
+	int rv;
+
+	if (!have_identity)
+		ask_filename(pw, "Enter file in which the key is");
+	if (stat(identity_file, &st) < 0) {
+		perror(identity_file);
+		exit(1);
+	}
+	if ((k = key_load_public(identity_file, NULL)) == NULL) {
+		if ((k = load_identity(identity_file)) == NULL) {
+			fprintf(stderr, "load failed\n");
+			exit(1);
+		}
+	}
+	if (k->type == KEY_RSA1) {
+		fprintf(stderr, "version 1 keys are not supported\n");
+		exit(1);
+	}
+	if ((rv = !PEM_write_RSA_PUBKEY(stdout, k->rsa)))
+		fprintf(stderr, "error during key conversion\n");
+	key_free(k);
+	exit(rv);
 }
 
 static void
@@ -421,6 +456,58 @@ do_convert_from_ssh2(struct passwd *pw)
 	exit(0);
 }
 
+static __dead void
+do_convert_from_ossl(struct passwd *pw)
+{
+	Key *k;
+	struct stat st;
+	FILE *fp;
+	X509 *x;
+
+	if (!have_identity)
+		ask_filename(pw, "Enter file in which the key is");
+	if (stat(identity_file, &st) < 0) {
+		perror(identity_file);
+		exit(1);
+	}
+	fp = fopen(identity_file, "r");
+	if (fp == NULL) {
+		perror(identity_file);
+		exit(1);
+	}
+	k = key_new_private(KEY_RSA);
+	if (k != NULL) {
+		RSA_free(k->rsa);
+		k->rsa = NULL;
+		x = PEM_read_X509(fp, NULL, NULL, NULL);
+		if (x != NULL) {
+			EVP_PKEY *pkey;
+			if ((pkey = X509_get_pubkey(x)) != NULL)
+				k->rsa = pkey->pkey.rsa;
+		}
+		if (k->rsa == NULL) {
+			rewind(fp);
+			k->rsa = PEM_read_RSA_PUBKEY(fp, NULL, NULL, NULL);
+		}
+	}
+	if (k == NULL || k->rsa == NULL) {
+		unsigned long e;
+		ERR_load_crypto_strings();
+		while ((e = ERR_get_error()))
+			fprintf(stderr, "%s\n", ERR_error_string(e, NULL));
+		fprintf(stderr, "decode blob failed.\n");
+		exit(1);
+	}
+	if (!key_write(k, stdout)) {
+		fprintf(stderr, "key write failed");
+		exit(1);
+	}
+	key_free(k);
+	fprintf(stdout, "\n");
+	fclose(fp);
+	exit(0);
+}
+
 static void
 do_print_public(struct passwd *pw)
 {
@@ -491,7 +578,7 @@ do_download(struct passwd *pw, const char *sc_reader_id)
 }
 #endif /* SMARTCARD */
 
-static void
+static __dead void
 do_fingerprint(struct passwd *pw)
 {
 	FILE *f;
@@ -600,7 +687,7 @@ print_host(FILE *f, const char *name, Key *public, int hash)
 	fprintf(f, "\n");
 }
 
-static void
+static __dead void
 do_known_hosts(struct passwd *pw, const char *name)
 {
 	FILE *in, *out = stdout;
@@ -788,7 +875,7 @@ do_known_hosts(struct passwd *pw, const char *name)
  * Perform changing a passphrase.  The argument is the passwd structure
  * for the current user.
  */
-static void
+static __dead void
 do_change_passphrase(struct passwd *pw)
 {
 	char *comment;
@@ -901,7 +988,7 @@ do_print_resource_record(struct passwd *pw, char *fname, char *hname)
 /*
  * Change the comment of a private key file.
  */
-static void
+static __dead void
 do_change_comment(struct passwd *pw)
 {
 	char new_comment[1024], *comment, *passphrase;
@@ -994,7 +1081,7 @@ do_change_comment(struct passwd *pw)
 	exit(0);
 }
 
-static void
+static __dead void
 usage(void)
 {
 	fprintf(stderr, "usage: %s [options]\n", __progname);
@@ -1007,12 +1094,14 @@ usage(void)
 #ifdef SMARTCARD
 	fprintf(stderr, "  -D reader   Download public key from smartcard.\n");
 #endif /* SMARTCARD */
+	fprintf(stderr, "  -E          Convert OpenSSH to OpenSSL public key file.\n");
 	fprintf(stderr, "  -e          Convert OpenSSH to RFC 4716 key file.\n");
 	fprintf(stderr, "  -F hostname Find hostname in known hosts file.\n");
 	fprintf(stderr, "  -f filename Filename of the key file.\n");
 	fprintf(stderr, "  -G file     Generate candidates for DH-GEX moduli.\n");
 	fprintf(stderr, "  -g          Use generic DNS resource record format.\n");
 	fprintf(stderr, "  -H          Hash names in known_hosts file.\n");
+	fprintf(stderr, "  -I          Convert OpenSSL to OpenSSH public key file.\n");
 	fprintf(stderr, "  -i          Convert RFC 4716 to OpenSSH key file.\n");
 	fprintf(stderr, "  -l          Show fingerprint of key file.\n");
 	fprintf(stderr, "  -M memory   Amount of memory (MB) to use for generating DH-GEX moduli.\n");
@@ -1055,9 +1144,6 @@ main(int argc, char **argv)
 	FILE *f;
 	const char *errstr;
 
-	extern int optind;
-	extern char *optarg;
-
 	/* Ensure that fds 0, 1 and 2 are open or directed to /dev/null */
 	sanitise_stdfd();
 
@@ -1076,7 +1162,7 @@ main(int argc, char **argv)
 	}
 
 	while ((opt = getopt(argc, argv,
-	    "degiqpclBHvxXyF:b:f:t:U:D:P:N:C:r:g:R:T:G:M:S:a:W:")) != -1) {
+	    "a:Bb:cC:dD:EeF:f:G:gHIilM:N:pP:qR:r:S:T:t:U:vW:Xxy")) != -1) {
 		switch (opt) {
 		case 'b':
 			bits = (u_int32_t)strtonum(optarg, 768, 32768, &errstr);
@@ -1137,6 +1223,12 @@ main(int argc, char **argv)
 		case 'X':
 			/* import key */
 			convert_from_ssh2 = 1;
+			break;
+		case 'E':
+			convert_to_ossl = 1;
+			break;
+		case 'I':
+			convert_from_ossl = 1;
 			break;
 		case 'y':
 			print_public = 1;
@@ -1230,6 +1322,10 @@ main(int argc, char **argv)
 		do_convert_to_ssh2(pw);
 	if (convert_from_ssh2)
 		do_convert_from_ssh2(pw);
+	if (convert_to_ossl)
+		do_convert_to_ossl(pw);
+	if (convert_from_ossl)
+		do_convert_from_ossl(pw);
 	if (print_public)
 		do_print_public(pw);
 	if (rr_hostname != NULL) {
@@ -1309,7 +1405,7 @@ main(int argc, char **argv)
 	if (key_type_name == NULL)
 		key_type_name = "rsa";
 
-	type = key_type_from_name(key_type_name);
+	type = key_type_from_name((char *)key_type_name);
 	if (type == KEY_UNSPEC) {
 		fprintf(stderr, "unknown key type %s\n", key_type_name);
 		exit(1);
@@ -1330,7 +1426,7 @@ main(int argc, char **argv)
 	if (!have_identity)
 		ask_filename(pw, "Enter file in which to save the key");
 
-	/* Create ~/.ssh directory if it doesn't already exist. */
+	/* Create ~/.etc/ssh directory if it doesn't already exist. */
 	snprintf(dotsshdir, sizeof dotsshdir, "%s/%s", pw->pw_dir, _PATH_SSH_USER_DIR);
 	if (strstr(identity_file, dotsshdir) != NULL &&
 	    stat(dotsshdir, &st) < 0) {

@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: login_cap.c,v 1.24 2004/09/16 06:24:41 deraadt Exp $	*/
 
 /*
@@ -66,6 +67,7 @@
 #include <syslog.h>
 #include <unistd.h>
 
+__RCSID("$MirOS$");
 
 static	char *_authtypes[] = { LOGIN_DEFSTYLE, 0 };
 static	char *expandstr(const char *, const struct passwd *, int);
@@ -487,6 +489,7 @@ static struct {
 	char *	name;
 } r_list[] = {
 	{ RLIMIT_CPU,		CTIME, "cputime", },
+	{ RLIMIT_TIME,		CTIME, "time", },
 	{ RLIMIT_FSIZE,		CSIZE, "filesize", },
 	{ RLIMIT_DATA,		CSIZE, "datasize", },
 	{ RLIMIT_STACK,		CSIZE, "stacksize", },

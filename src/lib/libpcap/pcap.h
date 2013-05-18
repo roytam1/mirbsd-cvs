@@ -59,6 +59,10 @@ typedef	int bpf_int32;
 typedef	u_int bpf_u_int32;
 #endif
 
+#ifndef DLT_IEEE802_11_RADIO
+#define DLT_IEEE802_11_RADIO 255 /* notyet */
+#endif
+
 typedef struct pcap pcap_t;
 typedef struct pcap_if pcap_if_t;
 typedef struct pcap_addr pcap_addr_t;

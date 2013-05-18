@@ -1,3 +1,5 @@
+/* $MirOS: src/lib/libz/inflate.h,v 1.2 2005/03/14 21:58:17 tg Exp $ */
+/* $OpenBSD: inffast.h,v 1.4 2003/12/16 22:33:02 henning Exp $	*/
 /* inflate.h -- internal inflate state definition
  * Copyright (C) 1995-2004 Mark Adler
  * For conditions of distribution and use, see copyright notice in zlib.h
@@ -113,3 +115,15 @@ struct inflate_state {
     unsigned short work[288];   /* work area for code table building */
     code codes[ENOUGH];         /* space for code tables */
 };
+
+/* inffast.h -- header to use inffast.c
+ * Copyright (C) 1995-2003 Mark Adler
+ * For conditions of distribution and use, see copyright notice in zlib.h
+ */
+
+/* WARNING: this file should *not* be used by applications. It is
+   part of the implementation of the compression library and is
+   subject to change. Applications should only use zlib.h.
+ */
+
+void inflate_fast OF((z_streamp strm, unsigned start));

@@ -167,7 +167,7 @@ ip6_output(m0, opt, ro, flags, im6o, ifpp)
 	struct m_tag *mtag;
 	union sockaddr_union sdst;
 	struct tdb_ident *tdbi;
-	u_int32_t sspi;
+	u_int32_t sspi = 0;
 	struct inpcb *inp;
 	struct tdb *tdb;
 	int s;
@@ -221,7 +221,7 @@ ip6_output(m0, opt, ro, flags, im6o, ifpp)
 #ifdef DIAGNOSTIC
 		if (mtag->m_tag_len != sizeof (struct tdb_ident))
 			panic("ip6_output: tag of length %d (should be %d",
-			    mtag->m_tag_len, sizeof (struct tdb_ident));
+			    mtag->m_tag_len, (int)sizeof (struct tdb_ident));
 #endif
 		tdbi = (struct tdb_ident *)(mtag + 1);
 		tdb = gettdb(tdbi->spi, &tdbi->dst, tdbi->proto);

@@ -1,3 +1,4 @@
+/**	$MirOS: src/sys/net/if_spppsubr.c,v 1.9 2007/05/29 10:23:07 tg Exp $ */
 /*	$OpenBSD: if_spppsubr.c,v 1.34 2005/06/08 06:55:33 henning Exp $	*/
 /*
  * Synchronous PPP/Cisco link level subroutines.
@@ -74,6 +75,7 @@
 #if defined (__FreeBSD__) || defined(__OpenBSD_) || defined(__NetBSD__)
 #include <machine/random.h>
 #endif
+#include <dev/rndvar.h>
 #if defined (__NetBSD__) || defined (__OpenBSD__)
 #include <machine/cpu.h> /* XXX for softnet */
 #endif
@@ -115,6 +117,15 @@
 #define LOOPALIVECNT     		3	/* loopback detection tries */
 #define MAXALIVECNT    			3	/* max. missed alive packets */
 #define	NORECV_TIME			15	/* before we get worried */
+
+/*XXX*/
+static void
+getmicrouptime(struct timeval *tv)
+{
+	tv->tv_sec = time.tv_sec - boottime.tv_sec;
+	tv->tv_usec = 0;
+}
+/*XXX*/
 
 /*
  * Interface flags that can be set in an ifconfig command.
@@ -1116,11 +1127,7 @@ sppp_cisco_input(struct sppp *sp, struct mbuf *m)
 			++sp->pp_loopcnt;
 
 			/* Generate new local sequence number */
-#if defined (__FreeBSD__) || defined (__NetBSD__) || defined(__OpenBSD__)
 			sp->pp_seq = arc4random();
-#else
-			sp->pp_seq ^= time.tv_sec ^ time.tv_usec;
-#endif
 			break;
 		}
 		sp->pp_loopcnt = 0;
@@ -1266,7 +1273,7 @@ sppp_cp_input(const struct cp *cp, struct sppp *sp, struct mbuf *m)
 {
 	STDDCL;
 	struct lcp_header *h;
-	int len = m->m_pkthdr.len;
+	int printlen, len = m->m_pkthdr.len;
 	int rv;
 	u_char *p;
 
@@ -1279,13 +1286,16 @@ sppp_cp_input(const struct cp *cp, struct sppp *sp, struct mbuf *m)
 	}
 	h = mtod (m, struct lcp_header*);
 	if (debug) {
+		printlen = ntohs(h->len);
 		log(LOG_DEBUG,
 		    SPP_FMT "%s input(%s): <%s id=0x%x len=%d",
 		    SPP_ARGS(ifp), cp->name,
 		    sppp_state_name(sp->state[cp->protoidx]),
-		    sppp_cp_type_name (h->type), h->ident, ntohs (h->len));
-		if (len > 4)
-			sppp_print_bytes ((u_char*) (h+1), len-4);
+		    sppp_cp_type_name(h->type), h->ident, printlen);
+		if (len < printlen)
+			printlen = len;
+		if (printlen > 4)
+			sppp_print_bytes((u_char *)(h + 1), printlen - 4);
 		addlog(">\n");
 	}
 	if (len > ntohs (h->len))
@@ -1312,6 +1322,9 @@ sppp_cp_input(const struct cp *cp, struct sppp *sp, struct mbuf *m)
 			return;
 		}
 		rv = (cp->RCR)(sp, h, len);
+		/* silently drop illegal packets */
+		if (rv < 0)
+			return;
 		switch (sp->state[cp->protoidx]) {
 		case STATE_OPENED:
 			sppp_cp_change_state(cp, sp, rv?
@@ -2017,7 +2030,11 @@ sppp_lcp_RCR(struct sppp *sp, struct lcp_header *h, int len)
 
 	/* pass 1: check for things that need to be rejected */
 	p = (void*) (h+1);
-	for (rlen=0; len>1 && p[1]; len-=p[1], p+=p[1]) {
+	for (rlen = 0; len > 1; len -= p[1], p += p[1]) {
+		if (p[1] < 2 || p[1] > len) {
+			free(buf, M_TEMP);
+			return (-1);
+		}
 		if (debug)
 			addlog("%s ", sppp_lcp_opt_name(*p));
 		switch (*p) {
@@ -2093,6 +2110,17 @@ sppp_lcp_RCR(struct sppp *sp, struct lcp_header *h, int len)
 	p = (void*) (h+1);
 	len = origlen;
 	for (rlen=0; len>1 && p[1]; len-=p[1], p+=p[1]) {
+		/* Sanity check option length */
+		if (p[1] > len) {
+			/*
+			 * Malicious option - drop imediately.
+			 * XXX Maybe we should just RXJ it?
+			 */
+			addlog("%s: received malicious LCP option 0x%02x, "
+			    "length 0x%02x, (len: 0x%02x) dropping.\n", ifp->if_xname,
+			    p[0], p[1], len);
+			goto drop;
+		}
 		if (debug)
 			addlog("%s ", sppp_lcp_opt_name(*p));
 		switch (*p) {
@@ -2194,6 +2222,10 @@ sppp_lcp_RCR(struct sppp *sp, struct lcp_header *h, int len)
  end:
 	free(buf, M_TEMP);
 	return (rlen == 0);
+
+ drop:
+	free(buf, M_TEMP);
+	return (-1);
 }
 
 /*
@@ -2204,19 +2236,18 @@ HIDE void
 sppp_lcp_RCN_rej(struct sppp *sp, struct lcp_header *h, int len)
 {
 	STDDCL;
-	u_char *buf, *p;
+	u_char *p;
 
 	len -= 4;
-	buf = malloc (len, M_TEMP, M_NOWAIT);
-	if (!buf)
-		return;
 
 	if (debug)
 		log(LOG_DEBUG, SPP_FMT "lcp rej opts: ",
 		    SPP_ARGS(ifp));
 
 	p = (void*) (h+1);
-	for (; len > 1 && p[1]; len -= p[1], p += p[1]) {
+	for (; len > 1; len -= p[1], p += p[1]) {
+		if (p[1] < 2 || p[1] > len)
+			return;
 		if (debug)
 			addlog("%s ", sppp_lcp_opt_name(*p));
 		switch (*p) {
@@ -2255,8 +2286,6 @@ sppp_lcp_RCN_rej(struct sppp *sp, struct lcp_header *h, int len)
 	}
 	if (debug)
 		addlog("\n");
-	free (buf, M_TEMP);
-	return;
 }
 
 /*
@@ -2267,20 +2296,19 @@ HIDE void
 sppp_lcp_RCN_nak(struct sppp *sp, struct lcp_header *h, int len)
 {
 	STDDCL;
-	u_char *buf, *p;
+	u_char *p;
 	u_long magic;
 
 	len -= 4;
-	buf = malloc (len, M_TEMP, M_NOWAIT);
-	if (!buf)
-		return;
 
 	if (debug)
 		log(LOG_DEBUG, SPP_FMT "lcp nak opts: ",
 		    SPP_ARGS(ifp));
 
 	p = (void*) (h+1);
-	for (; len > 1 && p[1]; len -= p[1], p += p[1]) {
+	for (; len > 1; len -= p[1], p += p[1]) {
+		if (p[1] < 2 || p[1] > len)
+			return;
 		if (debug)
 			addlog("%s ", sppp_lcp_opt_name(*p));
 		switch (*p) {
@@ -2335,8 +2363,6 @@ sppp_lcp_RCN_nak(struct sppp *sp, struct lcp_header *h, int len)
 	}
 	if (debug)
 		addlog("\n");
-	free (buf, M_TEMP);
-	return;
 }
 
 HIDE void
@@ -2462,11 +2488,7 @@ sppp_lcp_scr(struct sppp *sp)
 
 	if (sp->lcp.opts & (1 << LCP_OPT_MAGIC)) {
 		if (! sp->lcp.magic)
-#if defined (__FreeBSD__) || defined(__NetBSD__) || defined(__OpenBSD__)
 			sp->lcp.magic = arc4random();
-#else
-			sp->lcp.magic = time.tv_sec + time.tv_usec;
-#endif
 		opt[i++] = LCP_OPT_MAGIC;
 		opt[i++] = 6;
 		opt[i++] = sp->lcp.magic >> 24;
@@ -2637,7 +2659,11 @@ sppp_ipcp_RCR(struct sppp *sp, struct lcp_header *h, int len)
 		log(LOG_DEBUG, SPP_FMT "ipcp parse opts: ",
 		    SPP_ARGS(ifp));
 	p = (void*) (h+1);
-	for (rlen=0; len>1 && p[1]; len-=p[1], p+=p[1]) {
+	for (rlen = 0; len > 1; len -= p[1], p += p[1]) {
+		if (p[1] < 2 || p[1] > len) {
+			free(buf, M_TEMP);
+			return (-1);
+		}
 		if (debug)
 			addlog("%s ", sppp_ipcp_opt_name(*p));
 		switch (*p) {
@@ -2784,21 +2810,20 @@ sppp_ipcp_RCR(struct sppp *sp, struct lcp_header *h, int len)
 HIDE void
 sppp_ipcp_RCN_rej(struct sppp *sp, struct lcp_header *h, int len)
 {
-	u_char *buf, *p;
+	u_char *p;
 	struct ifnet *ifp = &sp->pp_if;
 	int debug = ifp->if_flags & IFF_DEBUG;
 
 	len -= 4;
-	buf = malloc (len, M_TEMP, M_NOWAIT);
-	if (!buf)
-		return;
 
 	if (debug)
 		log(LOG_DEBUG, SPP_FMT "ipcp rej opts: ",
 		    SPP_ARGS(ifp));
 
 	p = (void*) (h+1);
-	for (; len > 1 && p[1]; len -= p[1], p += p[1]) {
+	for (; len > 1; len -= p[1], p += p[1]) {
+		if (p[1] < 2 || p[1] > len)
+			return;
 		if (debug)
 			addlog("%s ", sppp_ipcp_opt_name(*p));
 		switch (*p) {
@@ -2818,8 +2843,6 @@ sppp_ipcp_RCN_rej(struct sppp *sp, struct lcp_header *h, int len)
 	}
 	if (debug)
 		addlog("\n");
-	free (buf, M_TEMP);
-	return;
 }
 
 /*
@@ -2829,22 +2852,21 @@ sppp_ipcp_RCN_rej(struct sppp *sp, struct lcp_header *h, int len)
 HIDE void
 sppp_ipcp_RCN_nak(struct sppp *sp, struct lcp_header *h, int len)
 {
-	u_char *buf, *p;
+	u_char *p;
 	struct ifnet *ifp = &sp->pp_if;
 	int debug = ifp->if_flags & IFF_DEBUG;
 	u_long wantaddr;
 
 	len -= 4;
-	buf = malloc (len, M_TEMP, M_NOWAIT);
-	if (!buf)
-		return;
 
 	if (debug)
 		log(LOG_DEBUG, SPP_FMT "ipcp nak opts: ",
 		    SPP_ARGS(ifp));
 
 	p = (void*) (h+1);
-	for (; len > 1 && p[1]; len -= p[1], p += p[1]) {
+	for (; len > 1; len -= p[1], p += p[1]) {
+		if (p[1] < 2 || p[1] > len)
+			return;
 		if (debug)
 			addlog("%s ", sppp_ipcp_opt_name(*p));
 		switch (*p) {
@@ -2885,8 +2907,6 @@ sppp_ipcp_RCN_nak(struct sppp *sp, struct lcp_header *h, int len)
 	}
 	if (debug)
 		addlog("\n");
-	free (buf, M_TEMP);
-	return;
 }
 
 HIDE void
@@ -3891,7 +3911,7 @@ sppp_keepalive(void *dummy)
 			if_down (ifp);
 			sppp_qflush (&sp->pp_cpq);
 			if (! (sp->pp_flags & PP_CISCO)) {
-				printf (SPP_FMT "LCP keepalive timeout",
+				printf (SPP_FMT "LCP keepalive timeout\n",
 				    SPP_ARGS(ifp));
 				sp->pp_alivecnt = 0;
 
@@ -4010,8 +4030,14 @@ sppp_set_ip_addr(struct sppp *sp, u_long src)
 	}
 
 	if (ifa && si) {
+		int error, debug = ifp->if_flags & IFF_DEBUG;
 		si->sin_addr.s_addr = htonl(src);
 		dohooks(ifp->if_addrhooks, 0);
+		error = in_ifinit(ifp, ifatoia(ifa), si, 1);
+		if (debug && error){
+			log(LOG_DEBUG, SPP_FMT "sppp_set_ip_addrs: in_ifinit "
+				"failed, error=%d\n", SPP_ARGS(ifp), error);
+		}
 	}
 }
 

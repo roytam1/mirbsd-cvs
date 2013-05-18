@@ -8,5 +8,6 @@ LDADD=	-lz
 DPADD=	${LIBZ}
 
 CFLAGS+= -Wall -Wstrict-prototypes
+CPPFLAGS+= -DZCONST=const
 
 .include <bsd.prog.mk>

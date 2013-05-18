@@ -52,11 +52,12 @@
 #include "config.h"
 #include "sem.h"
 
+__RCSID("$MirOS: src/usr.sbin/config/gram.y,v 1.2 2007/02/19 03:03:29 tg Exp $");
+
 #define	FORMAT(n) ((n) > -10 && (n) < 10 ? "%d" : "0x%x")
 
 #define	stop(s)	error(s), exit(1)
 
-int	include(const char *, int);
 void	yyerror(const char *);
 int	yylex(void);
 
@@ -251,7 +252,7 @@ atname:
 	ROOT				{ $$ = NULL; };
 
 devbase:
-	WORD				{ $$ = getdevbase((char *)$1); };
+	WORD				{ $$ = getdevbase($1); };
 
 devattach_opt:
 	WITH WORD			{ $$ = getdevattach($2); } |

@@ -1,3 +1,4 @@
+/**	$MirOS$	*/
 /*	$OpenBSD: wicontrol.c,v 1.48 2004/03/18 16:16:11 millert Exp $	*/
 
 /*
@@ -35,7 +36,6 @@
  */
 
 #include <sys/types.h>
-#include <sys/cdefs.h>
 #include <sys/param.h>
 #include <sys/socket.h>
 #include <sys/ioctl.h>
@@ -190,7 +190,7 @@ wi_setstr(char *iface, int code, char *str)
 	wreq.wi_type = code;
 	wreq.wi_len = 18;
 	wreq.wi_val[0] = htole16(strlen(str));
-	bcopy(str, (char *)&wreq.wi_val[1], strlen(str));
+	memmove((char *)&wreq.wi_val[1], str, strlen(str));
 
 	wi_setval(iface, &wreq);
 }
@@ -204,7 +204,7 @@ wi_setbytes(char *iface, int code, char *bytes, int len)
 
 	wreq.wi_type = code;
 	wreq.wi_len = (len / 2) + 1;
-	bcopy(bytes, (char *)&wreq.wi_val[0], len);
+	memmove((char *)&wreq.wi_val[0], bytes, len);
 
 	wi_setval(iface, &wreq);
 }
@@ -271,7 +271,7 @@ wi_str2key(char *s, struct wi_key *k)
 		k->wi_keylen = htole16(n);
 	} else {
 		/* No, just copy it in. */
-		bcopy(s, k->wi_keydat, strlen(s));
+		memmove(k->wi_keydat, s, strlen(s));
 		k->wi_keylen = htole16(strlen(s));
 	}
 }
@@ -600,7 +600,7 @@ struct wi_table wi_table[] = {
 	{ WI_RID_CNF_ENH_SECURITY, WI_WORDS, "Enhanced Security mode:\t\t\t" },
 	{ WI_RID_PRISM2, WI_WORDS, "Intersil Prism2-based card:\t\t" },
 	{ WI_RID_STA_IDENTITY, WI_CARDINFO, "Card info:\t\t\t\t" },
-	{ 0, NULL }
+	{ 0, 0, NULL }
 };
 
 struct wi_table wi_crypt_table[] = {
@@ -610,7 +610,7 @@ struct wi_table wi_crypt_table[] = {
 	  "Authentication type \n(1=OpenSys, 2=Shared Key):\t\t" },
 	{ WI_RID_TX_CRYPT_KEY, WI_WORDS, "TX encryption key:\t\t\t" },
 	{ WI_RID_DEFLT_CRYPT_KEYS, WI_KEYSTRUCT, "Encryption keys:\t\t\t" },
-	{ 0, NULL }
+	{ 0, 0, NULL }
 };
 
 void

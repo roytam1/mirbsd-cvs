@@ -1,4 +1,5 @@
-#	$OpenBSD: Makefile,v 1.27 2007/03/26 18:43:18 deraadt Exp $
+# $MirOS: src/lib/libevent/Makefile,v 1.7 2007/05/17 16:51:31 tg Exp $
+# $OpenBSD: Makefile,v 1.27 2007/03/26 18:43:18 deraadt Exp $
 
 LIB=	event
 WANTLINT=
@@ -37,7 +38,8 @@ MLINKS=	event.3 event_init.3 event.3 event_dispatch.3 event.3 event_loop.3 \
 	evdns.3 evdns_search_add.3 evdns.3 evdns_search_ndots_set.3 \
 	evdns.3 evdns_set_log_fn.3
 
-CFLAGS+= -I${.CURDIR} -DNDEBUG \
+CPPFLAGS+= -I${.CURDIR} \
+	-DNDEBUG \
 	-DDNS_USE_ARC4RANDOM_FOR_ID \
 	-DHAVE_CLOCK_GETTIME \
 	-DHAVE_CLOCK_MONOTONIC \
@@ -55,26 +57,19 @@ CFLAGS+= -I${.CURDIR} -DNDEBUG \
 	-DHAVE_SYS_IOCTL_H \
 	-DHAVE_SYS_TIME_H \
 	-DHAVE_UNISTD_H \
-	-DHAVE_UNISTD_H \
 	-DHAVE_VASPRINTF \
 	-DHAVE_WORKING_KQUEUE
 
-CDIAGFLAGS=	-Wall
-#CDIAGFLAGS+=	-Werror
-CDIAGFLAGS+=	-Wstrict-prototypes
-CDIAGFLAGS+=	-Wmissing-prototypes
-CDIAGFLAGS+=	-Wmissing-declarations
-CDIAGFLAGS+=	-Wshadow
-CDIAGFLAGS+=	-Wpointer-arith
-CDIAGFLAGS+=	-Wcast-qual
-CDIAGFLAGS+=	-Wsign-compare
-CDIAGFLAGS+=	-Wcast-align
-CDIAGFLAGS+=	-Wbad-function-cast
-
-includes:
-	@cd ${.CURDIR}; for i in ${HDRS}; do \
-	  cmp -s $$i ${DESTDIR}/usr/include/$$i || \
-	  ${INSTALL} ${INSTALL_COPY} -m 444 -o $(BINOWN) -g $(BINGRP) $$i \
-	  ${DESTDIR}/usr/include; done
+.include <bsd.own.mk>
+COPTS+=		-Wall
+COPTS+=		-Wstrict-prototypes
+COPTS+=		-Wmissing-prototypes
+COPTS+=		-Wmissing-declarations
+COPTS+=		-Wshadow
+COPTS+=		-Wpointer-arith
+COPTS+=		-Wcast-qual
+COPTS+=		-Wsign-compare
+COPTS+=		-Wcast-align
+COPTS+=		-Wbad-function-cast
 
 .include <bsd.lib.mk>

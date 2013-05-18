@@ -1,3 +1,4 @@
+/**	$MirOS: src/lib/libc/gen/setmode.c,v 1.8 2007/03/04 03:47:14 tg Exp $ */
 /*	$OpenBSD: setmode.c,v 1.17 2005/08/08 08:05:34 espie Exp $	*/
 /*	$NetBSD: setmode.c,v 1.15 1997/02/07 22:21:06 christos Exp $	*/
 
@@ -33,6 +34,15 @@
  * SUCH DAMAGE.
  */
 
+#if defined(HAVE_CONFIG_H) && (HAVE_CONFIG_H != 0)
+/* usually when packaged with third-party software */
+#ifdef CONFIG_H_FILENAME
+#include CONFIG_H_FILENAME
+#else
+#include "config.h"
+#endif
+#endif
+
 #include <sys/types.h>
 #include <sys/stat.h>
 
@@ -44,6 +54,15 @@
 
 #ifdef SETMODE_DEBUG
 #include <stdio.h>
+#endif
+
+__SCCSID("@(#)setmode.c	8.2 (Berkeley) 3/25/94");
+__RCSID("$MirOS: src/lib/libc/gen/setmode.c,v 1.8 2007/03/04 03:47:14 tg Exp $");
+
+/* for mksh */
+#ifdef ksh_isdigit
+#undef isdigit
+#define isdigit ksh_isdigit
 #endif
 
 #define	SET_LEN	6		/* initial # of bitcmd struct to malloc */
@@ -61,7 +80,7 @@ typedef struct bitcmd {
 #define	CMD2_OBITS	0x08
 #define	CMD2_UBITS	0x10
 
-static BITCMD	*addcmd(BITCMD *, int, int, int, u_int);
+static BITCMD	*addcmd(BITCMD *, int, int, int, unsigned);
 static void	 compress_mode(BITCMD *);
 #ifdef SETMODE_DEBUG
 static void	 dumpmode(BITCMD *);
@@ -99,7 +118,8 @@ getmode(const void *bbox, mode_t omode)
 
 		case 'o':
 			value = newmode & S_IRWXO;
-common:			if (set->cmd2 & CMD2_CLR) {
+ common:
+			if (set->cmd2 & CMD2_CLR) {
 				clrval =
 				    (set->cmd2 & CMD2_SET) ?  S_IRWXO : value;
 				if (set->cmd2 & CMD2_UBITS)
@@ -164,10 +184,10 @@ setmode(const char *p)
 	int perm, who;
 	char op, *ep;
 	BITCMD *set, *saveset, *endset;
-	sigset_t sigset, sigoset;
+	sigset_t signset, sigoset;
 	mode_t mask;
-	int equalopdone, permXbits, setlen;
-	u_long perml;
+	int equalopdone = 0, permXbits, setlen;
+	unsigned long perml;
 
 	if (!*p)
 		return (NULL);
@@ -178,15 +198,15 @@ setmode(const char *p)
 	 * the caller is opening files inside a signal handler, protect them
 	 * as best we can.
 	 */
-	sigfillset(&sigset);
-	(void)sigprocmask(SIG_BLOCK, &sigset, &sigoset);
+	sigfillset(&signset);
+	(void)sigprocmask(SIG_BLOCK, &signset, &sigoset);
 	(void)umask(mask = umask(0));
 	mask = ~mask;
 	(void)sigprocmask(SIG_SETMASK, &sigoset, NULL);
 
 	setlen = SET_LEN + 2;
-	
-	if ((set = malloc((u_int)(sizeof(BITCMD) * setlen))) == NULL)
+
+	if ((set = calloc(sizeof(BITCMD), setlen)) == NULL)
 		return (NULL);
 	saveset = set;
 	endset = set + (setlen - 2);
@@ -195,7 +215,7 @@ setmode(const char *p)
 	 * If an absolute number, get it and return; disallow non-octal digits
 	 * or illegal bits.
 	 */
-	if (isdigit(*p)) {
+	if (isdigit((unsigned char)*p)) {
 		perml = strtoul(p, &ep, 8);
 		/* The test on perml will also catch overflow. */
 		if (*ep != '\0' || (perml & ~(STANDARD_BITS|S_ISTXT))) {
@@ -234,7 +254,8 @@ setmode(const char *p)
 			}
 		}
 
-getop:		if ((op = *p++) != '+' && op != '-' && op != '=') {
+ getop:
+		if ((op = *p++) != '+' && op != '-' && op != '=') {
 			free(saveset);
 			return (NULL);
 		}
@@ -314,7 +335,8 @@ getop:		if ((op = *p++) != '+' && op != '-' && op != '=') {
 			}
 		}
 
-apply:		if (!*p)
+ apply:
+		if (!*p)
 			break;
 		if (*p != ',')
 			goto getop;
@@ -334,7 +356,7 @@ apply:		if (!*p)
 }
 
 static BITCMD *
-addcmd(BITCMD *set, int op, int who, int oparg, u_int mask)
+addcmd(BITCMD *set, int op, int who, int oparg, unsigned mask)
 {
 	switch (op) {
 	case '=':
@@ -348,7 +370,7 @@ addcmd(BITCMD *set, int op, int who, int oparg, u_int mask)
 	case '-':
 	case 'X':
 		set->cmd = op;
-		set->bits = (who ? who : mask) & oparg;
+		set->bits = (who ? who : (int)mask) & oparg;
 		break;
 
 	case 'u':
@@ -364,7 +386,7 @@ addcmd(BITCMD *set, int op, int who, int oparg, u_int mask)
 			set->cmd2 = CMD2_UBITS | CMD2_GBITS | CMD2_OBITS;
 			set->bits = mask;
 		}
-	
+
 		if (oparg == '+')
 			set->cmd2 |= CMD2_SET;
 		else if (oparg == '-')

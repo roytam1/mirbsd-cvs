@@ -1,24 +1,25 @@
-#	$OpenBSD: Makefile,v 1.26 2005/01/12 18:15:46 millert Exp $
+# $MirOS: src/gnu/usr.sbin/sendmail/sendmail/Makefile,v 1.4 2005/10/21 10:46:30 tg Exp $
+# $OpenBSD: Makefile,v 1.26 2005/01/12 18:15:46 millert Exp $
 
 PROG=	sendmail
 
 .include <bsd.own.mk>
+SENDMAIL_WANT_SASL?=	No
+LOCALBASE?=		/usr/mpkg
 
-WANT_LIBWRAP=1
 WANT_LIBSM=1
 WANT_LIBSMUTIL=1
 
 # For TLS/SSL support
-ENVDEF+= -DSTARTTLS
-LDADD+= -lssl -lcrypto
-DPADD=	${LIBSSL} ${LIBCRYPTO}
+ENVDEF+=	-DSTARTTLS
+LDADD+=		-lssl -lcrypto
+DPADD=		${LIBSSL} ${LIBCRYPTO}
 
-# To build with SASL support define WANT_SMTPAUTH in /etc/mk.conf (unsupported)
-.if defined(WANT_SMTPAUTH)
-ENVDEF+= -DSASL
-CFLAGS+= -I/usr/local/include/sasl
-LDADD+= -lsasl2
-LDFLAGS+=-L/usr/local/lib
+.if ${SENDMAIL_WANT_SASL:L} == "yes"
+ENVDEF+=	-DSASL=2
+LDADD+=		-lsasl2
+CPPFLAGS+=	-I${LOCALBASE}/include
+LDFLAGS+=	-L${LOCALBASE}/lib
 .endif
 
 # Compile with milter support.
@@ -65,6 +66,4 @@ afterinstall:
 	${INSTALL} ${INSTALL_COPY} -o ${BINOWN} -g ${BINGRP} \
 	    -m 444  ${.CURDIR}/TUNING ${DESTDIR}${SHAREDIR}/sendmail/TUNING ; \
 
-
-.include "../../Makefile.inc"
 .include <bsd.prog.mk>

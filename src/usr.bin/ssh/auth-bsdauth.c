@@ -25,16 +25,16 @@
 
 #include <sys/types.h>
 
+#ifdef BSD_AUTH
 #include "xmalloc.h"
 #include "key.h"
 #include "hostfile.h"
 #include "auth.h"
 #include "log.h"
 #include "buffer.h"
-#ifdef GSSAPI
-#include "ssh-gss.h"
-#endif
 #include "monitor_wrap.h"
+
+__RCSID("$MirOS: src/usr.bin/ssh/auth-bsdauth.c,v 1.4 2006/09/20 21:40:55 tg Exp $");
 
 static void *
 bsdauth_init_ctx(Authctxt *authctxt)
@@ -63,7 +63,7 @@ bsdauth_query(void *ctx, char **name, char **infotxt,
 		debug3("bsdauth_query: style %s",
 		    authctxt->style ? authctxt->style : "<default>");
 		authctxt->as = auth_userchallenge(authctxt->user,
-		    authctxt->style, "auth-ssh", &challenge);
+		    authctxt->style, (char *)"auth-ssh", &challenge);
 		if (authctxt->as == NULL)
 			challenge = NULL;
 		debug2("bsdauth_query: <%s>", challenge ? challenge : "empty");
@@ -130,3 +130,4 @@ KbdintDevice mm_bsdauth_device = {
 	mm_bsdauth_respond,
 	bsdauth_free_ctx
 };
+#endif

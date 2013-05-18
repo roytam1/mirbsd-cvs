@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: tree.h,v 1.9 2004/11/24 18:10:42 tdeval Exp $	*/
 /*
  * Copyright 2002 Niels Provos <provos@citi.umich.edu>
@@ -83,7 +84,7 @@ struct {								\
 	SPLAY_RIGHT(tmp, field) = (head)->sph_root;			\
 	(head)->sph_root = tmp;						\
 } while (0)
-	
+
 #define SPLAY_ROTATE_LEFT(head, tmp, field) do {			\
 	SPLAY_RIGHT((head)->sph_root, field) = SPLAY_LEFT(tmp, field);	\
 	SPLAY_LEFT(tmp, field) = (head)->sph_root;			\
@@ -348,8 +349,9 @@ struct {								\
 	RB_LEFT(tmp, field) = (elm);					\
 	RB_PARENT(elm, field) = (tmp);					\
 	RB_AUGMENT(tmp);						\
-	if ((RB_PARENT(tmp, field)))					\
+	if ((RB_PARENT(tmp, field))) {					\
 		RB_AUGMENT(RB_PARENT(tmp, field));			\
+	}								\
 } while (0)
 
 #define RB_ROTATE_RIGHT(head, elm, tmp, field) do {			\
@@ -368,8 +370,9 @@ struct {								\
 	RB_RIGHT(tmp, field) = (elm);					\
 	RB_PARENT(elm, field) = (tmp);					\
 	RB_AUGMENT(tmp);						\
-	if ((RB_PARENT(tmp, field)))					\
+	if ((RB_PARENT(tmp, field))) {					\
 		RB_AUGMENT(RB_PARENT(tmp, field));			\
+	}								\
 } while (0)
 
 /* Generates prototypes and inline functions */

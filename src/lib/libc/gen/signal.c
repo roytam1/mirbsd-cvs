@@ -36,6 +36,8 @@
 
 sigset_t __sigintr;		/* shared with siginterrupt */
 
+sig_t _signal(int, sig_t);
+
 sig_t
 _signal(int s, sig_t a)
 {

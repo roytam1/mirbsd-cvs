@@ -232,8 +232,24 @@ gif_output(ifp, m, dst, rt)
 	m->m_flags &= ~(M_BCAST|M_MCAST);
 
 #if NBPFILTER > 0
-	if (ifp->if_bpf)
-		bpf_mtap_af(ifp->if_bpf, dst->sa_family, m);
+	if (ifp->if_bpf) {
+		/*
+		 * We need to prepend the address family as
+		 * a four byte field.  Cons up a dummy header
+		 * to pacify bpf.  This is safe because bpf
+		 * will only read from the mbuf (i.e., it won't
+		 * try to free it or keep a pointer a to it).
+		 */
+		struct mbuf m0;
+		u_int32_t af = dst->sa_family;
+
+		m0.m_flags = 0;
+		m0.m_next = m;
+		m0.m_len = 4;
+		m0.m_data = (char *)&af;
+		
+		bpf_mtap(ifp->if_bpf, &m0);
+	}
 #endif
 	ifp->if_opackets++;	
 	ifp->if_obytes += m->m_pkthdr.len;

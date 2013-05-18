@@ -1,3 +1,4 @@
+/**	$MirOS: src/include/unistd.h,v 1.5 2005/11/21 19:42:08 tg Exp $ */
 /*	$OpenBSD: unistd.h,v 1.53 2005/05/27 17:45:56 millert Exp $ */
 /*	$NetBSD: unistd.h,v 1.26.4.1 1996/05/28 02:31:51 mrg Exp $	*/
 
@@ -46,8 +47,10 @@
 #ifndef NULL
 #ifdef 	__GNUG__
 #define	NULL	__null
+#elif defined(lint)
+#define	NULL	0
 #else
-#define	NULL	0L
+#define	NULL	((void *)((__PTRDIFF_TYPE__)0UL))
 #endif
 #endif
 
@@ -63,11 +66,10 @@ size_t	 confstr(int, char *, size_t)
 char	*cuserid(char *);
 int	 dup(int);
 int	 dup2(int, int);
-int	 execl(const char *, const char *, ...) 
+int	 execl(const char *, const char *, ...)
 	    __attribute__((sentinel));
-int	 execle(const char *, const char *, ...) 
-	    __attribute__((sentinel));
-int	 execlp(const char *, const char *, ...) 
+int	 execle(const char *, const char *, ...);
+int	 execlp(const char *, const char *, ...)
 	    __attribute__((sentinel));
 int	 execv(const char *, char * const *);
 int	 execve(const char *, char * const *, char * const *);
@@ -130,7 +132,7 @@ ssize_t  pwrite(int, const void *, size_t, off_t);
 #endif
 
 int	 acct(const char *);
-char	*brk(const char *);
+int	 brk(void *);
 int	 chroot(const char *);
 #if !defined(_XOPEN_SOURCE)
 int	 closefrom(int);
@@ -188,7 +190,7 @@ int	 rresvport(int *);
 int	 rresvport_af(int *, int);
 int	 ruserok(const char *, int, const char *, const char *);
 int	 quotactl(const char *, int, int, char *);
-char	*sbrk(int);
+void	*sbrk(intptr_t);
 
 #if !defined(_XOPEN_SOURCE)
 int	 select(int, fd_set *, fd_set *, fd_set *, struct timeval *);

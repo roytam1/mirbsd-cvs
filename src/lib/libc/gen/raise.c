@@ -28,8 +28,11 @@
  * SUCH DAMAGE.
  */
 
+#include <sys/cdefs.h>
 #include <signal.h>
 #include <unistd.h>
+
+__RCSID("$MirOS: src/lib/libc/gen/raise.c,v 1.2 2005/03/06 20:28:40 tg Exp $");
 
 int
 raise(int s)

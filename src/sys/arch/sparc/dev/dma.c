@@ -502,7 +502,7 @@ espdmaintr(sc)
 {
 	struct ncr53c9x_softc *nsc = &sc->sc_esp->sc_ncr53c9x;
 	int trans, resid;
-	u_long csr;
+	unsigned csr;
 	csr = DMACSR(sc);
 
 	NCR_DMA(("%s: intr: addr %p, csr %b\n", sc->sc_dev.dv_xname,
@@ -618,7 +618,7 @@ int
 ledmaintr(sc)
 	struct dma_softc *sc;
 {
-	u_long csr;
+	unsigned csr;
 
 	csr = DMACSR(sc);
 

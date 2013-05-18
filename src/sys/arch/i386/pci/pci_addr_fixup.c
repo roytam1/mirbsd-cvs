@@ -131,8 +131,9 @@ pci_addr_fixup(sc, pc, maxbus)
 		start = PCIADDR_ISAMEM_RESERVE;
 	sc->mem_alloc_start = (start + 0x100000 + 1) & ~(0x100000 - 1);
 	sc->port_alloc_start = PCIADDR_ISAPORT_RESERVE;
-	PCIBIOS_PRINTV((" Physical memory end: 0x%08x\n PCI memory mapped I/O "
-	    "space start: 0x%08x\n", avail_end, sc->mem_alloc_start));
+	PCIBIOS_PRINTV((" Physical memory end: 0x%08lx\n PCI memory mapped I/O "
+	    "space start: 0x%08lx\n", (unsigned long) avail_end,
+	    (unsigned long) sc->mem_alloc_start));
 
 	if (sc->nbogus == 0)
 		return; /* no need to fixup */
@@ -308,11 +309,11 @@ pciaddr_do_resource_allocate(sc, pc, tag, mapreg, ex, type, addr, size)
 
 	if (pciaddr_ioaddr(pci_conf_read(pc, tag, mapreg)) != *addr) {
 		pci_conf_write(pc, tag, mapreg, 0); /* clear */
-		printf("fixup failed. (new address=%#x)\n", *addr);
+		printf("fixup failed. (new address=%#lx)\n", *addr);
 		return (1);
 	}
 	if (!pcibios_flags & PCIBIOS_VERBOSE)
-		printf("new address 0x%08x\n", *addr);
+		printf("new address 0x%08lx\n", *addr);
 
 	return (0);
 }

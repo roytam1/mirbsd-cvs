@@ -1,3 +1,4 @@
+/**	$MirOS: src/usr.sbin/cron/do_command.c,v 1.2 2005/03/13 19:16:19 tg Exp $ */
 /*	$OpenBSD: do_command.c,v 1.29 2004/06/17 22:11:55 millert Exp $	*/
 
 /* Copyright 1988,1990,1993,1994 by Paul Vixie
@@ -21,11 +22,9 @@
  * OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#if !defined(lint) && !defined(LINT)
-static char const rcsid[] = "$OpenBSD: do_command.c,v 1.29 2004/06/17 22:11:55 millert Exp $";
-#endif
-
 #include "cron.h"
+
+__RCSID("$MirOS$");
 
 static void		child_process(entry *, user *);
 
@@ -511,7 +510,7 @@ safe_p(const char *usernm, const char *s) {
 
 	for (t = s, first = 1; (ch = *t++) != '\0'; first = 0) {
 		if (isascii(ch) && isprint(ch) &&
-		    (isalnum(ch) || ch == '_' ||
+		    (isalnum(ch) || (first && (ch == '_')) ||
 		    (!first && strchr(safe_delim, ch))))
 			continue;
 		log_it(usernm, getpid(), "UNSAFE", s);

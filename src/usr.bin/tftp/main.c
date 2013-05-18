@@ -211,7 +211,7 @@ setpeer(int argc, char *argv[])
 			return;
 		}
 		peeraddr.sin_family = host->h_addrtype;
-		bcopy(host->h_addr, &peeraddr.sin_addr, host->h_length);
+		memmove(&peeraddr.sin_addr, host->h_addr, host->h_length);
 		(void) strlcpy(hostname, host->h_name, sizeof hostname);
 	}
 	port = sp->s_port;
@@ -337,7 +337,7 @@ put(int argc, char *argv[])
 			warnx("%s: %s", cp, hstrerror(h_errno));
 			return;
 		}
-		bcopy(hp->h_addr, (caddr_t)&peeraddr.sin_addr, hp->h_length);
+		memmove((caddr_t)&peeraddr.sin_addr, hp->h_addr, hp->h_length);
 		peeraddr.sin_family = hp->h_addrtype;
 		connected = 1;
 		port = sp->s_port;
@@ -433,7 +433,7 @@ get(int argc, char *argv[])
 				warnx("%s: %s", argv[n], hstrerror(h_errno));
 				continue;
 			}
-			bcopy(hp->h_addr, (caddr_t)&peeraddr.sin_addr,
+			memmove((caddr_t)&peeraddr.sin_addr, hp->h_addr,
 			    hp->h_length);
 			peeraddr.sin_family = hp->h_addrtype;
 			connected = 1;

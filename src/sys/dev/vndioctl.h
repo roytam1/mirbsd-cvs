@@ -1,3 +1,4 @@
+/**	$MirOS: src/sys/dev/vndioctl.h,v 1.2 2005/03/06 21:27:35 tg Exp $	*/
 /*	$OpenBSD: vndioctl.h,v 1.6 2004/06/20 18:03:03 pedro Exp $	*/
 /*	$NetBSD: vndioctl.h,v 1.5 1995/01/25 04:46:30 cgd Exp $	*/
 
@@ -52,6 +53,8 @@ struct vnd_ioctl {
 	off_t	vnd_size;	/* (returned) size of disk */
 	u_char	*vnd_key;
 	int	vnd_keylen;
+	u_int32_t vnd_options;	/* mount options (for configure) */
+#define	VNDIOC_OPT_RDONLY  1	/* don't write to the underlying file */
 };
 
 /*

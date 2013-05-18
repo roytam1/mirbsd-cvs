@@ -1,3 +1,4 @@
+.\" $MirOS: src/usr.sbin/openssl/openssl.1,v 1.6 2006/09/20 20:38:15 tg Exp $
 .\" $OpenBSD: openssl.1,v 1.56 2006/06/27 14:23:52 jmc Exp $
 .\" ====================================================================
 .\" Copyright (c) 1998-2002 The OpenSSL Project.  All rights reserved.
@@ -164,6 +165,20 @@ SSL/TLS Client and Server Tests
 .It
 Handling of S/MIME signed or encrypted mail
 .El
+.Pp
+The
+.Nm
+program has actually two manual pages under
+.Mx .
+This one,
+.Xr openssl 1 ,
+is actually static content and not updated automatically.
+The
+.Xr openssltool 1
+manual page may look not so good, but provides a good and always
+up-to date description of the
+.Nm
+synopsis, subcommands and options.
 .Sh COMMAND SUMMARY
 The
 .Nm
@@ -223,7 +238,10 @@ or
 .Cm no- Ns Ar XXX
 itself.
 .Sh STANDARD COMMANDS
-.Bl -tag -width "asn1parse"
+.Bl -tag -width "asn1octetstream"
+.It Cm asn1octetstream
+Provides encryption in PEM format, as used by
+.Xr vnconfig 8 .
 .It Cm asn1parse
 Parse an ASN.1 sequence.
 .It Cm ca
@@ -431,6 +449,74 @@ This can be used to send the data via a pipe for example.
 .It Ar stdin
 Read the password from standard input.
 .El
+.\"
+.\" ASN1OCTETSTREAM
+.\"
+.Sh ASN1OCTETSTREAM
+.Nm openssl asn1octetstream
+.Bk -words
+.Op Fl in Ar file
+.Op Fl passin Ar arg
+.Op Fl out Ar file
+.Op Fl passout Ar arg
+.Op Fl e
+.Op Fl d
+.Op Fl Ar algo
+.Ek
+.Pp
+The
+.Nm asn1octetstream
+command encapsulates arbitrary binary data in ASN.1 octet strings
+and stores them, optionally (usually) encrypted, in PEM format.
+It also handles conversion of the PEM encoding, such as changing
+the passphrase and crypto type.
+.Pp
+The options are as follows:
+.Bl -tag -width "Xpassout XXX"
+.It Fl Ar algo
+If writing PEM output, write it in a symmetrically encrypted
+manner, with
+.Ar algo
+as cryptographic algorithm.
+This option is highly recommended.
+See the
+.Nm list-cipher-commands
+command for a list of valid ciphers.
+.It Fl d
+Instead of writing a PEM encoded ASN.1 octet string to the
+output stream, write the binary data content of it.
+.It Fl e
+Instead of expecting a PEM encoded ASN.1 octet string on the
+input stream, read arbitrary binary data (up to 2 GiB - 1 Byte)
+and encapsulate it into an ASN.1 octet stream for further processing.
+.It Fl in Ar file
+This specifies the input file to read, or standard input if not used.
+.It Fl out Ar file
+This specifies the output file to write, or standard output if not used.
+.It Fl passin Ar arg
+The input file password source.
+For more information about the format of
+.Ar arg ,
+see the
+.Sx PASS PHRASE ARGUMENTS
+section above.
+.It Fl passout Ar arg
+The output file password source.
+For more information about the format of
+.Ar arg ,
+see the
+.Sx PASS PHRASE ARGUMENTS
+section above.
+.El
+.Sh ASN.1 OCTET STRING NOTES
+The PEM encapsulation format uses the header and footer lines:
+.Bd -unfilled -offset indent
+-----BEGIN ASN1 OCTET STRING-----
+-----END ASN1 OCTET STRING-----
+.Ed
+.Pp
+This format is a MirBSD extension.
+The MirOS Project hopes this will some day be integrated into stock OpenSSL.
 .\"
 .\" ASN1PARSE
 .\"
@@ -2667,6 +2753,12 @@ des-ede3-ofb       Three key triple DES EDE in OFB mode
 desx-cbc           DESX algorithm
 desx               Alias for desx-cbc
 
+idea-cbc           IDEA algorithm in CBC mode
+idea               same as idea-cbc (see below)
+idea-cfb           IDEA in CFB mode
+idea-ecb           IDEA in ECB mode
+idea-ofb           IDEA in OFB mode
+
 rc2-cbc            128-bit RC2 in CBC mode
 rc2                Alias for rc2-cbc
 rc2-cfb            128-bit RC2 in CFB mode
@@ -2676,7 +2768,14 @@ rc2-64-cbc         64-bit RC2 in CBC mode
 rc2-40-cbc         40-bit RC2 in CBC mode
 
 rc4                128-bit RC4
+rc4-64             64-bit RC4
 rc4-40             40-bit RC4
+
+rc5-cbc            RC5 cipher in CBC mode
+rc5                Alias for rc5-cbc
+rc5-cfb            RC5 cipher in CBC mode
+rc5-ecb            RC5 cipher in CBC mode
+rc5-ofb            RC5 cipher in CBC mode
 .Ed
 .Sh ENC EXAMPLES
 Just base64 encode a binary file:
@@ -2716,6 +2815,12 @@ The
 program only supports a fixed number of algorithms with certain parameters.
 Therefore it is not possible to use RC2 with a 76-bit key
 or RC4 with an 84-bit key with this program.
+.Pp
+To use the 
+.Ar idea
+algorithm, you need to obtain a patent licence, cf\. e\.g\.
+.Pa http://www.mediacrypt.com/_contents/10_idea/102040_li_nc.asp
+or the site map, but it might not always be disabled by default.
 .\"
 .\" ERRSTR
 .\"
@@ -5578,9 +5683,13 @@ Send the protocol-specific message(s) to switch to TLS for communication.
 .Ar protocol
 is a keyword for the intended protocol.
 Currently, the only supported keywords are
+.Qq esmtp ,
 .Qq smtp
 and
 .Qq pop3 .
+The
+.Qq esmtp
+sends an EHLO before attempting to start TLS.
 .It Fl state
 Prints out the SSL session states.
 .It Fl verify Ar depth
@@ -7837,7 +7946,7 @@ Dump any field whose OID is not recognised by
 Escape the
 .Qq special
 characters required by RFC 2253 in a field that is
-.Dq \& ,+"\*(Lt\*(Gt; .
+.Dq \&\ \&,+"\*(Lt\*(Gt\&; .
 Additionally,
 .Sq #
 is escaped at the beginning of a string
@@ -8326,9 +8435,11 @@ certificates.
 .Xr ssl 3 ,
 .Xr des_modes 7 ,
 .Xr httpd 8 ,
+.Xr openssltool 8 ,
 .Xr sendmail 8 ,
 .Xr ssl 8 ,
-.Xr starttls 8
+.Xr starttls 8 ,
+.Xr vnconfig 8
 .Pp
 .Rs
 .%T The SSL Protocol
@@ -8394,3 +8505,12 @@ the
 pseudo-commands were added in
 .Nm OpenSSL
 0.9.5a.
+.Pp
+The
+.Xr openssl 1
+manual page appeared in
+.Ox 3.3 ,
+after that what is now the
+.Xr openssltool 1
+manual page got rejected - but eventually made its way into
+.Mx .

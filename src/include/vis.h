@@ -1,8 +1,10 @@
+/**	$MirOS$ */
 /*	$OpenBSD: vis.h,v 1.11 2005/08/09 19:38:31 millert Exp $	*/
-/*	$NetBSD: vis.h,v 1.4 1994/10/26 00:56:41 cgd Exp $	*/
+/*	$NetBSD: vis.h,v 1.16 2005/09/13 01:44:32 christos Exp $	*/
 
 /*-
- * Copyright (c) 1990 The Regents of the University of California.
+ * Copyright (c) 1990, 1993
+ *	The Regents of the University of California.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,7 +31,7 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  *
- *	@(#)vis.h	5.9 (Berkeley) 4/3/91
+ *	@(#)vis.h	8.1 (Berkeley) 6/2/93
  */
 
 #ifndef _VIS_H_
@@ -55,6 +57,7 @@
  * other
  */
 #define	VIS_NOSLASH	0x40	/* inhibit printing '\' */
+#define	VIS_HTTPSTYLE	0x80	/* http-style escape % HEX HEX */
 #define	VIS_GLOB	0x100	/* encode glob(3) magics and '#' */
 
 /*
@@ -75,16 +78,23 @@
 
 __BEGIN_DECLS
 char	*vis(char *, int, int, int);
+char	*svis(char *, int, int, int, const char *);
 int	strvis(char *, const char *, int);
+int	strsvis(char *, const char *, int, const char *);
 int	strnvis(char *, const char *, size_t, int)
+		__attribute__ ((__bounded__(__string__,1,3)));
+int	strnsvis(char *, const char *, size_t, int, const char *)
 		__attribute__ ((__bounded__(__string__,1,3)));
 int	strvisx(char *, const char *, size_t, int)
 		__attribute__ ((__bounded__(__string__,1,3)));
+int	strsvisx(char *, const char *, size_t, int, const char *)
+		__attribute__ ((__bounded__(__string__,1,3)));
 int	strunvis(char *, const char *);
+int	strunvisx(char *, const char *, int)
+		__attribute__ ((__bounded__(__string__,1,3)));
 int	unvis(char *, char, int *, int);
 ssize_t strnunvis(char *, const char *, size_t)
 		__attribute__ ((__bounded__(__string__,1,3)));
-
 __END_DECLS
 
 #endif /* !_VIS_H_ */

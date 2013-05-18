@@ -34,27 +34,31 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-#if 0
-static const char sccsid[] = "@(#)gen_subs.c	8.1 (Berkeley) 5/31/93";
-#else
-static const char rcsid[] = "$OpenBSD: gen_subs.c,v 1.19 2007/04/04 21:55:10 millert Exp $";
-#endif
-#endif /* not lint */
-
-#include <sys/types.h>
+#include <sys/param.h>
 #include <sys/time.h>
 #include <sys/stat.h>
-#include <sys/param.h>
 #include <stdio.h>
 #include <tzfile.h>
+#ifdef __INTERIX
+#include <utmpx.h>
+#else
 #include <utmp.h>
+#endif
 #include <unistd.h>
 #include <stdlib.h>
 #include <string.h>
+#ifndef __GLIBC__
 #include <vis.h>
+#endif
 #include "pax.h"
 #include "extern.h"
+
+__SCCSID("@(#)gen_subs.c	8.1 (Berkeley) 5/31/93");
+__RCSID("$MirOS: src/bin/pax/gen_subs.c,v 1.7 2007/02/17 04:52:40 tg Exp $");
+
+#ifdef __GLIBC__
+void strmode(mode_t, char *);
+#endif
 
 /*
  * a collection of general purpose subroutines used by pax
@@ -122,7 +126,8 @@ ls_list(ARCHD *arcn, time_t now, FILE *fp)
 	 */
 	if (strftime(f_date,DATELEN,timefrmt,localtime(&(sbp->st_mtime))) == 0)
 		f_date[0] = '\0';
-	(void)fprintf(fp, "%s%2u %-*.*s %-*.*s ", f_mode, sbp->st_nlink,
+	(void)fprintf(fp, "%s%2u %-*.*s %-*.*s ", f_mode,
+		(unsigned)sbp->st_nlink,
 		NAME_WIDTH, UT_NAMESIZE, name_uid(sbp->st_uid, 1),
 		NAME_WIDTH, UT_NAMESIZE, name_gid(sbp->st_gid, 1));
 
@@ -130,17 +135,13 @@ ls_list(ARCHD *arcn, time_t now, FILE *fp)
 	 * print device id's for devices, or sizes for other nodes
 	 */
 	if ((arcn->type == PAX_CHR) || (arcn->type == PAX_BLK))
-#		ifdef LONG_OFF_T
-		(void)fprintf(fp, "%4u,%4u ", MAJOR(sbp->st_rdev),
-#		else
 		(void)fprintf(fp, "%4lu,%4lu ", (unsigned long)MAJOR(sbp->st_rdev),
-#		endif
 		    (unsigned long)MINOR(sbp->st_rdev));
 	else {
 #		ifdef LONG_OFF_T
 		(void)fprintf(fp, "%9lu ", sbp->st_size);
 #		else
-		(void)fprintf(fp, "%9qu ", sbp->st_size);
+		(void)fprintf(fp, "%9llu ", sbp->st_size);
 #		endif
 	}
 
@@ -199,6 +200,7 @@ ls_tty(ARCHD *arcn)
 void
 safe_print(const char *str, FILE *fp)
 {
+#ifndef __GLIBC__
 	char visbuf[5];
 	const char *cp;
 
@@ -210,9 +212,9 @@ safe_print(const char *str, FILE *fp)
 			(void)vis(visbuf, cp[0], VIS_CSTYLE, cp[1]);
 			(void)fputs(visbuf, fp);
 		}
-	} else {
+	} else
+#endif
 		(void)fputs(str, fp);
-	}
 }
 
 /*

@@ -52,15 +52,15 @@ file	dev/sbus/cs4231.c		audiocs
 attach	isp at sbus with isp_sbus
 file	dev/sbus/isp_sbus.c		isp_sbus
 
-device	bwtwo: wsemuldisplaydev, rasops1, wsemul_sun
+device	bwtwo: wsemuldisplaydev, rasops1
 attach	bwtwo at sbus
 file	dev/sbus/bwtwo.c		bwtwo
 
-device	cgsix: wsemuldisplaydev, rasops8, wsemul_sun
+device	cgsix: wsemuldisplaydev, rasops8
 attach	cgsix at sbus
 file	dev/sbus/cgsix.c		cgsix
 
-device	cgthree: wsemuldisplaydev, rasops8, wsemul_sun
+device	cgthree: wsemuldisplaydev, rasops8
 attach	cgthree at sbus
 file	dev/sbus/cgthree.c		cgthree
 

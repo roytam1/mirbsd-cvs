@@ -1,3 +1,4 @@
+/**	$MirOS: src/sys/arch/i386/i386/conf.c,v 1.4 2005/08/02 11:59:04 tg Exp $ */
 /*	$OpenBSD: conf.c,v 1.111 2005/07/31 06:39:07 dlg Exp $	*/
 /*	$NetBSD: conf.c,v 1.75 1996/05/03 19:40:20 christos Exp $	*/
 
@@ -127,6 +128,41 @@ int	nblkdev = sizeof(bdevsw) / sizeof(bdevsw[0]);
 	(dev_type_mmap((*))) enodev, 0 }
 
 
+/*********** ISDN4BSD ADDON ***********/
+/* open, close, ioctl */
+#define cdev_isdnctl_init(c,n) { \
+	dev_init(c,n,open), dev_init(c,n,close), (dev_type_read((*))) enodev, \
+	(dev_type_write((*))) enodev, dev_init(c,n,ioctl), \
+	(dev_type_stop((*))) enodev, 0, seltrue, \
+	(dev_type_mmap((*))) enodev }
+
+/* open, close, read, write */
+#define	cdev_isdnbchan_init(c,n) { \
+	dev_init(c,n,open), dev_init(c,n,close), dev_init(c,n,read), \
+	dev_init(c,n,write), dev_init(c,n,ioctl), (dev_type_stop((*))) enodev, \
+	0, dev_init(c,n,poll), (dev_type_mmap((*))) enodev }
+
+/* open, close, read, write */
+#define	cdev_isdntel_init(c,n) { \
+	dev_init(c,n,open), dev_init(c,n,close), dev_init(c,n,read), \
+	dev_init(c,n,write), (dev_type_ioctl((*))) enodev, (dev_type_stop((*))) enodev, \
+	0, (dev_type_poll((*))) enodev, (dev_type_mmap((*))) enodev, D_TTY }
+
+/* open, close, read, ioctl */
+#define cdev_isdntrc_init(c,n) { \
+	dev_init(c,n,open), dev_init(c,n,close), dev_init(c,n,read), \
+	(dev_type_write((*))) enodev, dev_init(c,n,ioctl), \
+ 	(dev_type_stop((*))) enodev, 0, (dev_type_poll((*))) enodev, \
+	(dev_type_mmap((*))) enodev }
+
+/* open, close, read, poll, ioctl */
+#define cdev_isdn_init(c,n) { \
+	dev_init(c,n,open), dev_init(c,n,close), dev_init(c,n,read), \
+	(dev_type_write((*))) enodev, dev_init(c,n,ioctl), \
+	(dev_type_stop((*))) enodev, 0, (dev_type_poll((*))) enodev, \
+	(dev_type_mmap((*))) enodev }
+
+
 #define	mmread	mmrw
 #define	mmwrite	mmrw
 cdev_decl(mm);
@@ -150,14 +186,6 @@ cdev_decl(pcmcia);
 #endif
 #include "spkr.h"
 cdev_decl(spkr);
-#if 0 /* old (non-wsmouse) drivers */
-#include "mms.h"
-cdev_decl(mms);
-#include "lms.h"
-cdev_decl(lms);
-#include "opms.h"
-cdev_decl(pms);
-#endif
 #include "cy.h"
 cdev_decl(cy);
 cdev_decl(mcd);
@@ -171,10 +199,6 @@ cdev_decl(music);
 #include "pctr.h"
 #include "bios.h"
 #include "iop.h"
-#ifdef XFS
-#include <xfs/nxfs.h>
-cdev_decl(xfs_dev);
-#endif
 #include "bktr.h"
 #include "wdt.h"
 cdev_decl(wdt);
@@ -190,6 +214,17 @@ cdev_decl(wdt);
 cdev_decl(cztty);
 #include "radio.h"
 #include "gpr.h"
+cdev_decl(radio);
+#include "isdn.h"
+cdev_decl(isdn);
+#include "isdnctl.h"
+cdev_decl(isdnctl);
+#include "isdnbchan.h"
+cdev_decl(isdnbchan);
+#include "isdntrc.h"
+cdev_decl(isdntrc);
+#include "isdntel.h"
+cdev_decl(isdntel);
 
 /* XXX -- this needs to be supported by config(8)! */
 #if (NCOM > 0) && (NPCCOM > 0)
@@ -262,11 +297,7 @@ struct cdevsw	cdevsw[] =
 	cdev_bpftun_init(NTUN,tun),	/* 40: network tunnel */
 	cdev_disk_init(NVND,vnd),	/* 41: vnode disk driver */
 	cdev_audio_init(NAUDIO,audio),	/* 42: generic audio I/O */
-#ifdef COMPAT_SVR4
-	cdev_svr4_net_init(1,svr4_net),	/* 43: svr4 net pseudo-device */
-#else
 	cdev_notdef(),			/* 43 */
-#endif
 	cdev_notdef(),			/* 44 */
 	cdev_random_init(1,random),	/* 45: random data source */
 	cdev_ocis_init(NPCTR,pctr),	/* 46: pentium performance counters */
@@ -274,22 +305,16 @@ struct cdevsw	cdevsw[] =
 	cdev_ocis_init(NBIOS,bios),	/* 48: onboard BIOS PROM */
 	cdev_bktr_init(NBKTR,bktr),     /* 49: Bt848 video capture device */
 	cdev_ksyms_init(NKSYMS,ksyms),	/* 50: Kernel symbols device */
-#ifdef XFS
-	cdev_xfs_init(NXFS,xfs_dev),	/* 51: xfs communication device */
-#else
 	cdev_notdef(),			/* 51 */
-#endif
 	cdev_midi_init(NMIDI,midi),	/* 52: MIDI I/O */
 	cdev_midi_init(NSEQUENCER,sequencer),	/* 53: sequencer I/O */
 	cdev_disk_init(NRAID,raid),	/* 54: RAIDframe disk driver */
 	cdev_wdt_init(NWDT,wdt),	/* 55: WDT50x watchdog timer */
-	/* The following slots are reserved for isdn4bsd. */
-	cdev_notdef(),			/* 56: i4b main device */
-	cdev_notdef(),			/* 57: i4b control device */
-	cdev_notdef(),			/* 58: i4b raw b-channel access */
-	cdev_notdef(),			/* 59: i4b trace device */
-	cdev_notdef(),			/* 60: i4b phone device */
-	/* End of reserved slots for isdn4bsd. */
+	cdev_isdn_init(NISDN, isdn),               /* 56: isdn main device */
+	cdev_isdnctl_init(NISDNCTL, isdnctl),      /* 57: isdn control device */
+	cdev_isdnbchan_init(NISDNBCHAN, isdnbchan),   /* 58: isdn raw b-channel access */
+	cdev_isdntrc_init(NISDNTRC, isdntrc),      /* 59: isdn trace device */
+	cdev_isdntel_init(NISDNTEL, isdntel),      /* 60: isdn phone device */
 	cdev_usb_init(NUSB,usb),	/* 61: USB controller */
 	cdev_usbdev_init(NUHID,uhid),	/* 62: USB generic HID */
 	cdev_usbdev_init(NUGEN,ugen),	/* 63: USB generic driver */
@@ -315,7 +340,8 @@ struct cdevsw	cdevsw[] =
 	cdev_systrace_init(NSYSTRACE,systrace),	/* 78: system call tracing */
  	cdev_oci_init(NBIO,bio),	/* 79: ioctl tunnel */
 	cdev_ch_init(NGPR,gpr),		/* 80: GPR400 SmartCard reader */
-	cdev_ptm_init(NPTY,ptm),	/* 81: pseudo-tty ptm device */
+	cdev_notdef(),			/* 81: hotplug(4) */
+	cdev_ptm_init(NPTY,ptm),	/* 82: pseudo-tty ptm device */
 };
 int	nchrdev = sizeof(cdevsw) / sizeof(cdevsw[0]);
 

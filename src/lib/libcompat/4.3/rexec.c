@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /*
  * Copyright (c) 1980, 1993
  *	The Regents of the University of California.  All rights reserved.
@@ -72,7 +73,7 @@ retry:
 	sin.sin_family = hp->h_addrtype;
 	sin.sin_len = sizeof(sin);
 	sin.sin_port = rport;
-	bcopy(hp->h_addr, (char *)&sin.sin_addr, (size_t)hp->h_length);
+	memmove((char *)&sin.sin_addr, hp->h_addr, (size_t)hp->h_length);
 	if (connect(s, (struct sockaddr *)&sin, sizeof(sin)) < 0) {
 		if (errno == ECONNREFUSED && timo <= 16) {
 			(void) close(s);

@@ -30,20 +30,6 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-static char copyright[] =
-"@(#) Copyright (c) 1980, 1986, 1993\n\
-	The Regents of the University of California.  All rights reserved.\n";
-#endif /* not lint */
-
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)reboot.c	8.1 (Berkeley) 6/5/93";
-#else
-static char rcsid[] = "$OpenBSD: reboot.c,v 1.26 2004/07/09 18:49:57 deraadt Exp $";
-#endif
-#endif /* not lint */
-
 #include <sys/types.h>
 #include <sys/reboot.h>
 #include <sys/fcntl.h>
@@ -62,8 +48,14 @@ static char rcsid[] = "$OpenBSD: reboot.c,v 1.26 2004/07/09 18:49:57 deraadt Exp
 #include <paths.h>
 #include <util.h>
 
-void	usage(void);
-extern char *__progname;
+__COPYRIGHT("@(#) Copyright (c) 1980, 1986, 1993\n\
+	The Regents of the University of California.  All rights reserved.\n");
+__SCCSID("@(#)reboot.c	8.1 (Berkeley) 6/5/93");
+__RCSID("$OpenBSD: reboot.c,v 1.26 2004/07/09 18:49:57 deraadt Exp $");
+__RCSID("$MirOS$");
+
+void usage(void) __dead;
+extern const char *__progname;
 
 int	dohalt;
 
@@ -75,7 +67,10 @@ main(int argc, char *argv[])
 	int i;
 	struct passwd *pw;
 	int ch, howto, lflag, nflag, pflag, qflag;
-	char *p, *user;
+	const char *p, *user;
+
+	if (chdir("/"))
+		warn("chdir(\"/\")");
 
 	p = __progname;
 

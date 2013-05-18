@@ -30,19 +30,6 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-static char copyright[] =
-"@(#) Copyright (c) 1983, 1993\n\
-	The Regents of the University of California.  All rights reserved.\n";
-#endif /* not lint */
-
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)logger.c	8.1 (Berkeley) 6/6/93";
-#endif
-static char rcsid[] = "$OpenBSD: logger.c,v 1.7 2003/06/10 22:20:47 deraadt Exp $";
-#endif /* not lint */
-
 #include <errno.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -52,6 +39,11 @@ static char rcsid[] = "$OpenBSD: logger.c,v 1.7 2003/06/10 22:20:47 deraadt Exp 
 
 #define	SYSLOG_NAMES
 #include <syslog.h>
+
+__COPYRIGHT("@(#) Copyright (c) 1983, 1993\n\
+	The Regents of the University of California.  All rights reserved.\n");
+__SCCSID("@(#)logger.c	8.1 (Berkeley) 6/6/93");
+__RCSID("$MirOS$");
 
 int	decode(char *, CODE *);
 int	pencode(char *);
@@ -67,7 +59,7 @@ int
 main(int argc, char *argv[])
 {
 	int ch, logflags, pri;
-	char *tag, buf[1024];
+	char *tag, buf[512 + 1];
 
 	tag = NULL;
 	pri = LOG_NOTICE;
@@ -120,7 +112,7 @@ main(int argc, char *argv[])
 			else {
 				if (p != buf)
 					*p++ = ' ';
-				bcopy(*argv++, p, len);
+				memmove(p, *argv++, len);
 				*(p += len) = '\0';
 			}
 		}

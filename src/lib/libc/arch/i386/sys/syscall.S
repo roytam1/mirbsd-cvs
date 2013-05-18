@@ -33,6 +33,8 @@
 
 #include "SYS.h"
 
+	.text
+
 SYSENTRY(syscall)
 	pop	%ecx	/* rta */
 	pop	%eax	/* syscall number */

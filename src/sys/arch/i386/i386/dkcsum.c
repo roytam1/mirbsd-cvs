@@ -1,7 +1,9 @@
+/**	$MirOS: src/sys/arch/i386/i386/dkcsum.c,v 1.5 2006/05/26 13:40:57 tg Exp $ */
 /*	$OpenBSD: dkcsum.c,v 1.19 2005/08/01 16:46:55 krw Exp $	*/
 
 /*-
  * Copyright (c) 1997 Niklas Hallqvist.  All rights reserved.
+ * Copyright (c) 2004, 2005 Thorsten Glaser.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -39,10 +41,10 @@
 #include <sys/reboot.h>
 #include <sys/stat.h>
 #include <sys/systm.h>
+#include <dev/rndvar.h>
+#include <zlib.h>
 
 #include <machine/biosvar.h>
-
-#include <lib/libz/zlib.h>
 
 #define	b_cylin	b_resid
 
@@ -143,17 +145,22 @@ dkcsumattach(void)
 		/* Find the BIOS device */
 		hit = 0;
 		for (bdi = bios_diskinfo; bdi->bios_number != -1; bdi++) {
-			/* Skip non-harddrives */
-			if (!(bdi->bios_number & 0x80))
+			rnd_addpool_add((bdi->bios_number * bdi->flags)
+			    ^ (int)bdi);
+			/* Skip non-harddrives and bootable CD-ROMs */
+			if ((!(bdi->bios_number & 0x80)) ||
+			    (bdi->flags & BDI_ELTORITO))
 				continue;
 			if (bdi->checksum != csum)
 				continue;
 			picked = hit || (bdi->flags & BDI_PICKED);
 			if (!picked)
 				hit = bdi;
-			printf("dkcsum: %s matches BIOS drive %#x%s\n",
+			else
+				rnd_addpool_add(bdi->bios_number + csum);
+			printf("dkcsum: %s matches BIOS drive %#x%s (%08X)\n",
 			    dv->dv_xname, bdi->bios_number,
-			    (picked ? " IGNORED" : ""));
+			    (picked ? " IGNORED" : ""), bdi->checksum);
 		}
 
 		/*
@@ -161,6 +168,7 @@ dkcsumattach(void)
 		 * than the BIOS can, so this case is pretty normal.
 		 */
 		if (!hit) {
+			rnd_addpool_add(csum);
 #ifdef DEBUG
 			printf("dkcsum: %s has no matching BIOS drive\n",
 			    dv->dv_xname);

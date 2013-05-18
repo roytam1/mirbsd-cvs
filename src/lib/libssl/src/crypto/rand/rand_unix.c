@@ -56,7 +56,7 @@
  * [including the GNU Public Licence.]
  */
 /* ====================================================================
- * Copyright (c) 1998-2000 The OpenSSL Project.  All rights reserved.
+ * Copyright (c) 1998-2006 The OpenSSL Project.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -124,14 +124,40 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <time.h>
+#if defined(OPENSSL_SYS_LINUX) /* should actually be available virtually everywhere */
+# include <poll.h>
+#endif
+#include <limits.h>
+#ifndef FD_SETSIZE
+# define FD_SETSIZE (8*sizeof(fd_set))
+#endif
+
+#ifdef __MirBSD__
+#include <sys/param.h>
+#include <sys/sysctl.h>
+
+__RCSID("$MirOS$");
+#endif
 
 #ifdef __OpenBSD__
 int RAND_poll(void)
 {
-	u_int32_t rnd = 0, i;
+	u_int32_t rnd = 0;
+	size_t i = 0;
 	unsigned char buf[ENTROPY_NEEDED];
 
-	for (i = 0; i < sizeof(buf); i++) {
+#ifdef __MirBSD__
+	int mib[2];
+
+	rnd = arc4random_pushb(buf, sizeof (buf));
+	RAND_add((u_char *)&rnd, sizeof (rnd), 31.2);
+	mib[0] = CTL_KERN;
+	mib[1] = KERN_ARND;
+	i = sizeof (buf);
+	if (sysctl(mib, 2, buf, &i, NULL, 0) < 0)
+		i = 0;
+#endif
+	for ( ; i < sizeof(buf); i++) {
 		if (i % 4 == 0)
 			rnd = arc4random();
 		buf[i] = rnd;
@@ -142,7 +168,7 @@ int RAND_poll(void)
 
 	return 1;
 }
-#else
+#else /* !defined(__OpenBSD__) */
 int RAND_poll(void)
 {
 	unsigned long l;
@@ -182,10 +208,8 @@ int RAND_poll(void)
 #endif
 			)) >= 0)
 			{
-			struct timeval t = { 0, 10*1000 }; /* Spend 10ms on
-							      each file. */
+			int usec = 10*1000; /* spend 10ms on each file */
 			int r,j;
-			fd_set fset;
 			struct stat *st=&randomstats[i];
 
 			/* Avoid using same input... Used to be O_NOFOLLOW
@@ -201,35 +225,75 @@ int RAND_poll(void)
 
 			do
 				{
-				FD_ZERO(&fset);
-				FD_SET(fd, &fset);
-				r = -1;
+				int try_read = 0;
 
-				if (select(fd+1,&fset,NULL,NULL,&t) < 0)
-					t.tv_usec=0;
-				else if (FD_ISSET(fd, &fset))
+#if defined(OPENSSL_SYS_LINUX)
+				/* use poll() */
+				struct pollfd pset;
+				
+				pset.fd = fd;
+				pset.events = POLLIN;
+				pset.revents = 0;
+
+				if (poll(&pset, 1, usec / 1000) < 0)
+					usec = 0;
+				else
+					try_read = (pset.revents & POLLIN) != 0;
+
+#else
+				/* use select() */
+				fd_set fset;
+				struct timeval t;
+				
+				t.tv_sec = 0;
+				t.tv_usec = usec;
+
+				if (FD_SETSIZE > 0 && fd >= FD_SETSIZE)
 					{
-					r=read(fd,(unsigned char *)tmpbuf+n,
-					       ENTROPY_NEEDED-n);
+					/* can't use select, so just try to read once anyway */
+					try_read = 1;
+					}
+				else
+					{
+					FD_ZERO(&fset);
+					FD_SET(fd, &fset);
+					
+					if (select(fd+1,&fset,NULL,NULL,&t) >= 0)
+						{
+						usec = t.tv_usec;
+						if (FD_ISSET(fd, &fset))
+							try_read = 1;
+						}
+					else
+						usec = 0;
+					}
+#endif
+				
+				if (try_read)
+					{
+					r = read(fd,(unsigned char *)tmpbuf+n, ENTROPY_NEEDED-n);
 					if (r > 0)
 						n += r;
 					}
-
-				/* Some Unixen will update t, some
-				   won't.  For those who won't, give
-				   up here, otherwise, we will do
+				else
+					r = -1;
+				
+				/* Some Unixen will update t in select(), some
+				   won't.  For those who won't, or if we
+				   didn't use select() in the first place,
+				   give up here, otherwise, we will do
 				   this once again for the remaining
 				   time. */
-				if (t.tv_usec == 10*1000)
-					t.tv_usec=0;
+				if (usec == 10*1000)
+					usec = 0;
 				}
-			while ((r > 0 || (errno == EINTR || errno == EAGAIN))
-				&& t.tv_usec != 0 && n < ENTROPY_NEEDED);
+			while ((r > 0 ||
+			       (errno == EINTR || errno == EAGAIN)) && usec != 0 && n < ENTROPY_NEEDED);
 
 			close(fd);
 			}
 		}
-#endif
+#endif /* defined(DEVRANDOM) */
 
 #ifdef DEVRANDOM_EGD
 	/* Use an EGD socket to read entropy from an EGD or PRNGD entropy
@@ -244,7 +308,7 @@ int RAND_poll(void)
 		if (r > 0)
 			n += r;
 		}
-#endif
+#endif /* defined(DEVRANDOM_EGD) */
 
 #if defined(DEVRANDOM) || defined(DEVRANDOM_EGD)
 	if (n > 0)
@@ -270,12 +334,13 @@ int RAND_poll(void)
 #endif
 }
 
-#endif
-#endif
+#endif /* defined(__OpenBSD__) */
+#endif /* !(defined(OPENSSL_SYS_WINDOWS) || defined(OPENSSL_SYS_WIN32) || defined(OPENSSL_SYS_VMS) || defined(OPENSSL_SYS_OS2) || defined(OPENSSL_SYS_VXWORKS) */
+
 
 #if defined(OPENSSL_SYS_VXWORKS)
 int RAND_poll(void)
-{
-    return 0;
-}
+	{
+	return 0;
+	}
 #endif

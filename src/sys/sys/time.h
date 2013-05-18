@@ -1,3 +1,4 @@
+/**	$MirOS: src/sys/sys/time.h,v 1.3 2007/02/07 20:43:28 tg Exp $ */
 /*	$OpenBSD: time.h,v 1.17 2003/08/14 05:34:47 kevlo Exp $	*/
 /*	$NetBSD: time.h,v 1.18 1996/04/23 10:29:33 mycroft Exp $	*/
 
@@ -42,7 +43,7 @@
  * and used in other calls.
  */
 struct timeval {
-	long	tv_sec;		/* seconds */
+	time_t	tv_sec;		/* seconds */
 	long	tv_usec;	/* and microseconds */
 };
 
@@ -187,6 +188,7 @@ int	clock_getres(clockid_t, struct timespec *);
 int	clock_gettime(clockid_t, struct timespec *);
 int	clock_settime(clockid_t, const struct timespec *);
 int	futimes(int, const struct timeval *);
+int	lutimes(const char *, const struct timeval *);
 int	getitimer(int, struct itimerval *);
 int	gettimeofday(struct timeval *, struct timezone *);
 int	setitimer(int, const struct itimerval *, struct itimerval *);

@@ -3131,7 +3131,7 @@ int unit, level;
 		(sc->txslot[slot].cur - sc->txslot[slot].start)/4);
 	printf("mbsize=%d, bfree=%d\n", sc->txslot[slot].mbsize,
 		sc->txslot[slot].bfree);
-        printf("txhw: base_address=0x%x, size=%d, read=%d, descstart=%d\n",
+        printf("txhw: base_address=0x%lx, size=%d, read=%d, descstart=%d\n",
 	  MIDX_BASE(EN_READ(sc, MIDX_PLACE(slot))), 
 	  MIDX_SZ(EN_READ(sc, MIDX_PLACE(slot))),
 	  EN_READ(sc, MIDX_READPTR(slot)), EN_READ(sc, MIDX_DESCSTART(slot)));

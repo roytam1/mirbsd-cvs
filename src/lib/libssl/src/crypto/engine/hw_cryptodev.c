@@ -32,11 +32,14 @@
 
 #if (defined(__unix__) || defined(unix)) && !defined(USG)
 #include <sys/param.h>
-# if (OpenBSD >= 200112) || ((__FreeBSD_version >= 470101 && __FreeBSD_version < 500000) || __FreeBSD_version >= 500041)
+# if defined(MirBSD) || (OpenBSD >= 200112) || ((__FreeBSD_version >= 470101 && __FreeBSD_version < 500000) || __FreeBSD_version >= 500041)
 # define HAVE_CRYPTODEV
 # endif
-# if (OpenBSD >= 200110)
+# if defined(MirBSD) || (OpenBSD >= 200110)
 # define HAVE_SYSLOG_R
+# ifndef C3_HAS_AES
+# define C3_HAS_AES 1
+# endif
 # endif
 #endif
 
@@ -693,8 +696,9 @@ xcrypt_cipher(EVP_CIPHER_CTX *ctx, unsigned char *out,
 
 	viac3_xcrypt_cbc(cw, usein, useout, ctx->cipher_data,  inl / 16, ivp);
 
-	if (ISUNALIGNED(out)) {
-		bcopy(spare, out, inl);
+	if (ISUNALIGNED(in) || ISUNALIGNED(out)) {
+		if (ISUNALIGNED(out))
+			bcopy(spare, out, inl);
 		free(spare);
 	}
 
@@ -758,6 +762,9 @@ check_viac3aes(void)
 	if (value == 0)
 		return (0);
 
+#ifndef C3_HAS_AES
+#define C3_HAS_AES 1
+#endif
 	if (value & C3_HAS_AES) {
 		cryptodev_aes_128_cbc.init = xcrypt_init_key;
 		cryptodev_aes_128_cbc.do_cipher = xcrypt_cipher;

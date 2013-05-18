@@ -1,7 +1,8 @@
+.\"	$MirOS: src/bin/rm/rm.1,v 1.2 2008/03/02 19:45:04 tg Exp $
+.\"	$NetBSD: rm.1,v 1.24 2006/09/02 23:28:32 wiz Exp $
 .\"	$OpenBSD: rm.1,v 1.25 2005/06/14 19:15:35 millert Exp $
-.\"	$NetBSD: rm.1,v 1.8 1995/07/25 19:37:30 jtc Exp $
 .\"
-.\" Copyright (c) 1990, 1993, 1994
+.\" Copyright (c) 1990, 1993, 1994, 2003
 .\"	The Regents of the University of California.  All rights reserved.
 .\"
 .\" This code is derived from software contributed to Berkeley by
@@ -33,17 +34,17 @@
 .\"
 .\"	@(#)rm.1	8.5 (Berkeley) 12/5/94
 .\"
-.Dd December 5, 1994
+.Dd $Mdocdate: March 2 2008 $
 .Dt RM 1
 .Os
 .Sh NAME
 .Nm rm
 .Nd remove directory entries
 .Sh SYNOPSIS
-.Nm rm
+.Nm
 .Op Fl f | Fl i
-.Op Fl dPRr
-.Ar file Op Ar ...
+.Op Fl dPRrv
+.Ar
 .Sh DESCRIPTION
 The
 .Nm
@@ -79,13 +80,29 @@ options.
 .It Fl P
 Overwrite regular files before deleting them.
 Files are overwritten three times, first with the byte pattern
-.Li 0xff ,
+.Li 0xAA ,
 then
-.Li 0x00 ,
-and then
-.Li 0xff
-again, before they are deleted.
+.Li 0x55 ,
+and then with random data, before they are deleted.
+Some care is taken to ensure that the data are actually written to
+disk, but this cannot be guaranteed, even on traditional filesystems;
+on log-structured filesystems or if any block-journaling scheme is
+in use, this option is completely useless.
+If the file cannot be
+overwritten, it will not be removed.
+.Pp
 Files with multiple links will not be overwritten.
+If the
+.Fl f
+option is given, they will still be removed,
+otherwise, they will remain untouched.
+.Pp
+Entries are renamed to the basename
+.Dq Li .rm.XXXXXXXX
+.Pq where So X Sc are generated randomly
+within the same parent directory before removing,
+if the length of the generated total pathname will not overflow the buffer.
+This prevents recovery of (almost) all basenames as well.
 .It Fl R
 Attempt to remove the file hierarchy rooted in each file argument.
 The
@@ -104,6 +121,10 @@ that directory is skipped.
 .It Fl r
 Equivalent to
 .Fl R .
+.It Fl v
+Cause
+.Nm
+to be verbose, showing files as they are processed.
 .El
 .Pp
 The
@@ -129,7 +150,7 @@ option was specified and all of the existing files or file hierarchies were
 removed.
 If an error occurs,
 .Nm
-exits with a value >0.
+exits with a value \*(Gt0.
 .Sh EXAMPLES
 Recursively remove all files contained within the
 .Pa foobar
@@ -137,17 +158,28 @@ directory hierarchy:
 .Pp
 .Dl $ rm -rf foobar
 .Pp
-Either of these commands will remove the file
-.Pa -f :
-.Bd -literal -offset indent
-$ rm -- -f
-$ rm ./-f
-.Ed
+.Nm
+uses
+.Xr getopt 3
+standard argument processing.
+Removing filenames that begin with a dash
+.Pq e.g., Ar -file
+in the current directory which might otherwise be taken as option flags to
+.Nm
+can be accomplished as follows:
+.Pp
+.Ic "rm -- -file"
+.Pp
+or
+.Pp
+.Ic "rm ./-file"
 .Sh SEE ALSO
 .Xr rmdir 1 ,
-.\" .Xr undelete 2 ,
+.\".Xr undelete 2 ,
 .Xr unlink 2 ,
+.Xr arc4random 3 ,
 .Xr fts 3 ,
+.Xr getopt 3 ,
 .Xr symlink 7
 .Sh STANDARDS
 The
@@ -187,16 +219,50 @@ This follows the historical
 behavior of
 .Nm
 with respect to directories.
+.Pp
+The
+.Fl v
+option is an extension.
+.Pp
+The
+.Fl P
+option attempts to conform to U.S. DoD 5220-22.M, "National Industrial
+Security Program Operating Manual" ("NISPOM") as updated by Change
+2 and the July 23, 2003 "Clearing & Sanitization Matrix".
+However, unlike earlier revisions of NISPOM, the 2003 matrix imposes
+requirements which make it clear that the standard does not and
+can not apply to the erasure of individual files, in particular
+requirements relating to spare sector management for an entire
+magnetic disk.
+.Em Because these requirements are not met, the
+.Fl P
+.Em option does not conform to the standard .
 .Sh HISTORY
 An
 .Nm
 command appeared in
 .At v1 .
+.Pp
+Modification of the
+.Fl P
+option to overwrite with random content and rename entries
+to random filenames before removal appeared in
+.Mx 10 .
 .Sh BUGS
 The
 .Fl P
 option assumes that the underlying file system is a fixed-block file
 system.
-UFS is a fixed-block file system; LFS is not.
+FFS is a fixed-block file system, LFS is not.
 In addition, only regular files are overwritten, other types of files
 are not.
+Recent research indicates that as many as 35 overwrite passes with
+carefully chosen data patterns may be necessary to actually prevent
+recovery of data from a magnetic disk.
+Thus the
+.Fl P
+option is likely both insufficient for its design purpose and far
+too costly for default operation.
+However, it will at least prevent the recovery of data from FFS
+volumes with
+.Xr fsdb 8 .

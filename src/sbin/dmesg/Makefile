@@ -2,8 +2,8 @@
 
 PROG=	dmesg
 MAN=	dmesg.8
-LDADD=	-lkvm
-DPADD=	${LIBKVM}
+LDADD=	-lkvm -lz
+DPADD=	${LIBKVM} ${LIBZ}
 CFLAGS+=-Wall
 
 .include <bsd.prog.mk>

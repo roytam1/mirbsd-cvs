@@ -1,7 +1,6 @@
-#	$OpenBSD: Makefile,v 1.2 1999/06/17 20:42:30 deraadt Exp $
-#	$NetBSD: Makefile,v 1.13 1996/12/18 16:54:57 christos Exp $
-
-COPTS+=-Os
+# $MirOS: src/distrib/special/pppd/Makefile,v 1.2 2005/03/06 18:58:13 tg Exp $
+# $OpenBSD: Makefile,v 1.2 1999/06/17 20:42:30 deraadt Exp $
+# $NetBSD: Makefile,v 1.13 1996/12/18 16:54:57 christos Exp $
 
 PROG=	pppd
 SRCS=	auth.c cbcp.c ccp.c chap.c chap_ms.c demand.c fsm.c ipcp.c \
@@ -14,6 +13,6 @@ BINOWN=	root
 
 LDADD=	-lutil
 DPADD=	${LIBUTIL}
-CFLAGS+= -I. -DHAVE_PATHS_H
+CPPFLAGS+= -I. -DHAVE_PATHS_H -DSMALL
 
 .include <bsd.prog.mk>

@@ -206,8 +206,8 @@ struct icmp {
 
 #ifdef _KERNEL
 struct mbuf *
-	icmp_do_error(struct mbuf *, int, int, n_long, int);
-void	icmp_error(struct mbuf *, int, int, n_long, int);
+	icmp_do_error(struct mbuf *, int, int, n_long, struct ifnet *);
+void	icmp_error(struct mbuf *, int, int, n_long, struct ifnet *);
 void	icmp_input(struct mbuf *, ...);
 void	icmp_init(void);
 void	icmp_reflect(struct mbuf *);

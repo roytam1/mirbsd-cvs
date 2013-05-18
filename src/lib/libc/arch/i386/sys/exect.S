@@ -34,6 +34,8 @@
 #include "SYS.h"
 #include <machine/psl.h>
 
+	.text
+
 ENTRY(exect)
 	movl	$(SYS_execve),%eax
 	pushf

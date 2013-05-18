@@ -1403,9 +1403,9 @@ pool_print_pagelist(struct pool_pagelist *pl, int (*pr)(const char *, ...))
 #endif
 
 	LIST_FOREACH(ph, pl, ph_pagelist) {
-		(*pr)("\t\tpage %p, nmissing %d, time %lu,%lu\n",
+		(*pr)("\t\tpage %p, nmissing %d, time %lld,%lu\n",
 		    ph->ph_page, ph->ph_nmissing,
-		    (u_long)ph->ph_time.tv_sec,
+		    (int64_t)ph->ph_time.tv_sec,
 		    (u_long)ph->ph_time.tv_usec);
 #ifdef DIAGNOSTIC
 		TAILQ_FOREACH(pi, &ph->ph_itemlist, pi_list) {

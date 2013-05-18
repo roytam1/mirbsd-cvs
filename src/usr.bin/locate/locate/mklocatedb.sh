@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/mksh
 #
 #	$OpenBSD: mklocatedb.sh,v 1.12 2003/06/29 21:59:28 millert Exp $
 #

@@ -1,3 +1,4 @@
+/**	$MirOS: src/sys/sys/systm.h,v 1.4 2007/03/02 03:13:29 tg Exp $ */
 /*	$OpenBSD: systm.h,v 1.60 2004/01/05 00:16:56 espie Exp $	*/
 /*	$NetBSD: systm.h,v 1.50 1996/06/09 04:55:09 briggs Exp $	*/
 
@@ -72,10 +73,12 @@
  */
 extern int securelevel;		/* system security level */
 extern const char *panicstr;	/* panic message */
-extern const char version[];		/* system version */
+extern void (*panic_hook)(void); /* for resetting video */
+extern const char version[];	/* system version */
 extern const char copyright[];	/* system copyright */
 extern const char ostype[];
 extern const char osversion[];
+extern const char ospatchlevel[];
 extern const char osrelease[];
 extern int cold;		/* cold start flag initialized in locore */
 
@@ -97,6 +100,13 @@ extern struct vnode *rootvp;	/* vnode equivalent to above */
 
 extern dev_t swapdev;		/* swapping device */
 extern struct vnode *swapdev_vp;/* vnode equivalent to above */
+
+/*
+ * fill the below with adler32 - it's statically initialised, and our
+ * adler32() will feed into the pool automatically if the rng is ini-
+ * tialised, else the rng attacher will; cf. kern_time.c for example.
+ */
+extern uint32_t rnd_bootpool;	/* 4-byte entropy for adler32() users */
 
 struct proc;
 
@@ -272,10 +282,6 @@ void	cpu_startup(void);
 void	cpu_configure(void);
 extern void (*md_diskconf)(void);
 
-
-#ifdef GPROF
-void	kmstartup(void);
-#endif
 
 int nfs_mountroot(void);
 int dk_mountroot(void);

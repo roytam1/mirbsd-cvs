@@ -16,14 +16,12 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#ifndef lint
-static const char rcsid[] = "$OpenBSD: getcap.c,v 1.1 2005/02/19 22:15:41 millert Exp $";
-#endif /* not lint */
-
 #include <err.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+__RCSID("$MirOS$");
 
 enum captype {
 	boolean,
@@ -163,7 +161,8 @@ lookup_cap(char *buf, char *cap, enum captype type, int useprefix)
 		if (cp != NULL) {
 			if ((endp = strchr(cp, ':')) != NULL)
 				printf("%.*s%s%.*s\n", prefixlen, buf,
-				    useprefix ? ": " : "", endp - cp, cp);
+				    useprefix ? ": " : "",
+				    (int)(endp - cp), cp);
 			else
 				printf("%.*s%s%s\n", prefixlen, buf,
 				    useprefix ? ": " : "", cp);

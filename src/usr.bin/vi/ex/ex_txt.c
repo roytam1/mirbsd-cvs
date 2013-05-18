@@ -11,10 +11,6 @@
 
 #include "config.h"
 
-#ifndef lint
-static const char sccsid[] = "@(#)ex_txt.c	10.17 (Berkeley) 10/10/96";
-#endif /* not lint */
-
 #include <sys/types.h>
 #include <sys/queue.h>
 
@@ -26,6 +22,11 @@ static const char sccsid[] = "@(#)ex_txt.c	10.17 (Berkeley) 10/10/96";
 #include <string.h>
 
 #include "../common/common.h"
+#define IN_EX
+#include "vi_extern.h"
+
+__SCCSID("@(#)ex_txt.c	10.17 (Berkeley) 10/10/96");
+__RCSID("$MirOS$");
 
 /*
  * !!!

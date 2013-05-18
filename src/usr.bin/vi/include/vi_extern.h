@@ -1,5 +1,6 @@
 /*	$OpenBSD: vi_extern.h,v 1.8 2002/02/17 19:42:34 millert Exp $	*/
 
+#ifndef IN_EX
 int cs_init(SCR *, VCS *);
 int cs_next(SCR *, VCS *);
 int cs_fspace(SCR *, VCS *);
@@ -86,7 +87,9 @@ int v_status(SCR *, VICMD *);
 int v_tcmd(SCR *, VICMD *, ARG_CHAR_T, u_int);
 int v_txt(SCR *, VICMD *, MARK *,
    const char *, size_t, ARG_CHAR_T, recno_t, u_long, u_int32_t);
+#endif
 int v_txt_auto(SCR *, recno_t, TEXT *, size_t, TEXT *);
+#ifndef IN_EX
 int v_ulcase(SCR *, VICMD *);
 int v_mulcase(SCR *, VICMD *);
 int v_Undo(SCR *, VICMD *);
@@ -142,3 +145,4 @@ int vs_fg(SCR *, SCR **, CHAR_T *, int);
 int vs_bg(SCR *);
 int vs_swap(SCR *, SCR **, char *);
 int vs_resize(SCR *, long, adj_t);
+#endif

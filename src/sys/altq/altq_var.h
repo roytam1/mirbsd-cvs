@@ -1,5 +1,7 @@
+/**	$MirOS$	*/
 /*	$OpenBSD: altq_var.h,v 1.14 2004/04/27 02:56:20 kjc Exp $	*/
 /*	$KAME: altq_var.h,v 1.8 2001/02/09 09:44:41 kjc Exp $	*/
+/*	$NetBSD: callout.h,v 1.19 2003/09/25 10:44:11 scw Exp $	*/
 
 /*
  * Copyright (C) 1998-2000
@@ -86,7 +88,7 @@ struct callout {
 					 timeout_set(&(c)->c_to, (f), (a)); \
 				     timeout_add(&(c)->c_to, (t)); } while (0)
 #define	CALLOUT_STOP(c)		timeout_del(&(c)->c_to)
-#define	CALLOUT_INITIALIZER	{ { { NULL }, NULL, NULL, 0, 0 } }
+#define	CALLOUT_INITIALIZER	{ { { {NULL}, {NULL} }, NULL, NULL, 0, 0 } }
 
 typedef void (timeout_t)(void *);
 

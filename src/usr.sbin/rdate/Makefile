@@ -1,11 +1,14 @@
-#	$OpenBSD: Makefile,v 1.7 2003/11/20 23:23:09 avsm Exp $
+# $MirOS: src/usr.sbin/rdate/Makefile,v 1.7 2007/07/05 22:32:25 tg Exp $
 
 PROG=	rdate
-SRCS=	rdate.c rfc868time.c ntp.c ntpleaps.c
-CFLAGS+=-Wall
+SRCS=	ntp.c rdate.c rfc868time.c
+MAN=	rdate.8
+
+.ifdef SMALL
+CPPFLAGS+= -DNO_UTIL -DSMALL
+.else
 DPADD+= ${LIBUTIL}
 LDADD+= -lutil
-
-MAN=	rdate.8
+.endif
 
 .include <bsd.prog.mk>

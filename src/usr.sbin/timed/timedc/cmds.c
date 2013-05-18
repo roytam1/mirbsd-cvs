@@ -29,14 +29,6 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-static char sccsid[] = "@(#)cmds.c	5.1 (Berkeley) 5/11/93";
-#endif /* not lint */
-
-#ifdef sgi
-#ident "$Revision$"
-#endif
-
 #include "timedc.h"
 #include <sys/file.h>
 
@@ -49,6 +41,9 @@ static char sccsid[] = "@(#)cmds.c	5.1 (Berkeley) 5/11/93";
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+
+__SCCSID("@(#)cmds.c	5.1 (Berkeley) 5/11/93");
+__RCSID("$MirOS: src/usr.sbin/timed/timedc/cmds.c,v 1.3 2006/09/21 21:48:43 tg Exp $");
 
 #define TSPTYPES
 #include <protocols/timed.h>
@@ -223,7 +218,7 @@ clockdiff(int argc, char *argv[])
 		siginterrupt(SIGINT, 0);
 
 		server.sin_family = hp->h_addrtype;
-		bcopy(hp->h_addr, &server.sin_addr.s_addr, hp->h_length);
+		memmove(&server.sin_addr.s_addr, hp->h_addr, hp->h_length);
 		for (avg_cnt = 0, avg = 0; avg_cnt < 16; avg_cnt++) {
 			measure_status = measure(10000, 100, *argv, &server, 1);
 			if (measure_status != GOOD)
@@ -253,7 +248,7 @@ clockdiff(int argc, char *argv[])
 		 */
 		if (dayaddr.sin_port != 0) {
 			dayaddr.sin_family = hp->h_addrtype;
-			bcopy(hp->h_addr, &dayaddr.sin_addr.s_addr,
+			memmove(&dayaddr.sin_addr.s_addr, hp->h_addr,
 			    hp->h_length);
 			avg = daydiff(*argv);
 			if (avg > SECDAY) {
@@ -325,7 +320,7 @@ msite(int argc, char *argv[])
 			continue;
 		}
 
-		bcopy(hp->h_addr, &dest.sin_addr.s_addr, hp->h_length);
+		memmove(&dest.sin_addr.s_addr, hp->h_addr, hp->h_length);
 		(void)strlcpy(msg.tsp_name, myname, sizeof msg.tsp_name);
 		msg.tsp_type = TSP_MSITE;
 		msg.tsp_vers = TSPVERSION;
@@ -363,7 +358,7 @@ msite(int argc, char *argv[])
 
 			if (cc < sizeof(struct tsp)) {
 				fprintf(stderr,
-				    "short packet (%u/%u bytes) from %s\n",
+				    "short packet (%u/%zu bytes) from %s\n",
 				    cc, sizeof(struct tsp),
 				    inet_ntoa(from.sin_addr));
 				continue;
@@ -445,7 +440,7 @@ testing(int argc, char *argv[])
 		memset(&sin, 0, sizeof sin);
 		sin.sin_port = srvp->s_port;
 		sin.sin_family = hp->h_addrtype;
-		bcopy(hp->h_addr, &sin.sin_addr.s_addr, hp->h_length);
+		memmove(&sin.sin_addr.s_addr, hp->h_addr, hp->h_length);
 
 		msg.tsp_type = TSP_TEST;
 		msg.tsp_vers = TSPVERSION;
@@ -501,7 +496,7 @@ tracing(int argc, char *argv[])
 	if (hp == NULL && errno == EINTR && gotintr)
 		goto bail;
 
-	bcopy(hp->h_addr, &dest.sin_addr.s_addr, hp->h_length);
+	memmove(&dest.sin_addr.s_addr, hp->h_addr, hp->h_length);
 
 	if (strcmp(argv[1], "on") == 0) {
 		msg.tsp_type = TSP_TRACEON;
@@ -539,7 +534,7 @@ tracing(int argc, char *argv[])
 		}
 		siginterrupt(SIGINT, 0);
 		if (cc < sizeof(struct tsp)) {
-			fprintf(stderr, "short packet (%u/%u bytes) from %s\n",
+			fprintf(stderr, "short packet (%u/%zu bytes) from %s\n",
 			    cc, sizeof(struct tsp), inet_ntoa(from.sin_addr));
 			goto bail;
 		}

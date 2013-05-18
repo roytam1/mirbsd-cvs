@@ -1,45 +1,46 @@
-/*
- * $OpenBSD: readlink.c,v 1.19 2003/06/10 22:20:50 deraadt Exp $
+/* $MirOS: src/usr.bin/readlink/readlink.c,v 1.4 2005/12/17 05:46:29 tg Exp $ */
+
+/*-
+ * Copyright (c) 2005
+ *	Thorsten "mirabile" Glaser <tg@MirBSD.org>
  *
- * Copyright (c) 1997
- *	Kenneth Stailey (hereinafter referred to as the author)
+ * Licensee is hereby permitted to deal in this work without restric-
+ * tion, including unlimited rights to use, publicly perform, modify,
+ * merge, distribute, sell, give away or sublicence, provided all co-
+ * pyright notices above, these terms and the disclaimer are retained
+ * in all redistributions or reproduced in accompanying documentation
+ * or other materials provided with binary redistributions.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. The name of the author may not be used to endorse or promote products
- *    derived from this software without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
- * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
- * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
- * IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
- * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
- * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
- * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
- * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
- * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
+ * express, or implied, to the maximum extent permitted by applicable
+ * law, without malicious intent or gross negligence; in no event may
+ * licensor, an author or contributor be held liable for any indirect
+ * or other damage, or direct damage except proven a consequence of a
+ * direct error of said person and intended use of this work, loss or
+ * other issues arising in any way out of its use, even if advised of
+ * the possibility of such damage or existence of a nontrivial bug.
  */
 
-#include <limits.h>
+#include <err.h>
 #include <errno.h>
+#include <getopt.h>
+#include <limits.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 
+__RCSID("$MirOS: src/usr.bin/readlink/readlink.c,v 1.4 2005/12/17 05:46:29 tg Exp $");
+
+int main(int, char **);
+__dead void usage(void);
+
 int
 main(int argc, char *argv[])
 {
 	char buf[PATH_MAX];
-	int n, ch, nflag = 0, fflag = 0;
-	extern int optind;
+	int ch, nflag = 0, fflag = 0;
+	size_t i;
 
 	while ((ch = getopt(argc, argv, "fn")) != -1)
 		switch (ch) {
@@ -50,36 +51,36 @@ main(int argc, char *argv[])
 			nflag = 1;
 			break;
 		default:
-			(void)fprintf(stderr,
-			    "usage: readlink [-n] [-f] symlink\n");
-			exit(1);
+			usage();
 		}
 	argc -= optind;
 	argv += optind;
 
-	if (argc != 1) {
-		fprintf(stderr, "usage: readlink [-n] [-f] symlink\n");
-		exit(1);
+	if (argc != 1)
+		usage();
+
+	if ((i = strlen(argv[0])) > (PATH_MAX - 1))
+		errx(1, "filename too long, max %d", PATH_MAX - 1);
+
+	if (fflag) {
+		if (realpath(argv[0], buf) == NULL)
+			err(1, "realpath");
+	} else {
+		i = readlink(argv[0], buf, sizeof (buf) - 1);
+		if ((ssize_t)i < 0)
+			err(1, "readlink");
+		buf[i] = '\0';
 	}
 
-	n = strlen(argv[0]);
-	if (n > PATH_MAX - 1) {
-		fprintf(stderr,
-			"readlink: filename longer than PATH_MAX-1 (%d)\n",
-			PATH_MAX - 1);
-		exit(1);
-	}
+	printf("%s%s", buf, nflag ? "" : "\n");
+	return (0);
+}
 
-	if (fflag)
-		realpath(argv[0], buf);
-	else {
-		if ((n = readlink(argv[0], buf, sizeof buf-1)) < 0)
-			exit(1);
-		buf[n] = '\0';
-	}
+__dead void
+usage(void)
+{
+	extern const char *__progname;
 
-	printf("%s", buf);
-	if (!nflag)
-		putchar('\n');
-	exit(0);
+	fprintf(stderr, "usage: %s [-fn] pathname\n", __progname);
+	exit(1);
 }

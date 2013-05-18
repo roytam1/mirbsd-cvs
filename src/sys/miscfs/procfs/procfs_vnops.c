@@ -745,7 +745,7 @@ procfs_lookup(v)
 	struct vnode *dvp = ap->a_dvp;
 	char *pname = cnp->cn_nameptr;
 	struct proc *curp = curproc;
-	struct proc_target *pt;
+	struct proc_target *pt = NULL;
 	struct vnode *fvp;
 	pid_t pid;
 	struct pfsnode *pfs;

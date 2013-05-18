@@ -54,6 +54,10 @@
 
 #include <sparc/stand/common/promdev.h>
 
+void prom_getether(int, u_char *);
+int getticks(void);
+void bzero(void *, size_t);
+
 static struct netif netif_prom;
 
 #ifdef NETIF_DEBUG
@@ -78,7 +82,6 @@ netif_open(machdep_hint)
 {
 	struct promdata *pd = machdep_hint;
 	struct iodesc *io;
-	int fd, error;
 
 	/* find a free socket */
 	io = sockets;

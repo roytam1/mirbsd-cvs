@@ -2,7 +2,7 @@
 /*
  * Copyright (c) Christos Zoulas 2003.
  * All Rights Reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met:
@@ -14,7 +14,7 @@
  *    documentation and/or other materials provided with the distribution.
  * 3. The name of the author may not be used to endorse or promote products
  *    derived from this software without specific prior written permission.
- *  
+ *
  * THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS ``AS IS'' AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -30,6 +30,7 @@
 #include "file.h"
 
 #ifdef BUILTIN_ELF
+#include <sys/cdefs.h>
 #include <string.h>
 #include <ctype.h>
 #include <stdlib.h>
@@ -39,14 +40,13 @@
 
 #include "readelf.h"
 
-#ifndef lint
-FILE_RCSID("@(#)$Id$")
-#endif
+__RCSID("$MirOS: src/usr.bin/file/readelf.c,v 1.6 2007/07/10 14:22:36 tg Exp $");
 
 #ifdef	ELFCORE
 private int dophn_core(struct magic_set *, int, int, int, off_t, int, size_t);
 #endif
 private int dophn_exec(struct magic_set *, int, int, int, off_t, int, size_t);
+private int dophn_noexec(struct magic_set *, int, int, int, off_t, int, size_t);
 private int doshn(struct magic_set *, int, int, int, off_t, int, size_t);
 private size_t donote(struct magic_set *, unsigned char *, size_t, size_t, int,
     int, size_t);
@@ -70,7 +70,7 @@ getu16(int swap, uint16_t value)
 
 		retval.c[0] = tmpval.c[1];
 		retval.c[1] = tmpval.c[0];
-		
+
 		return retval.ui;
 	} else
 		return value;
@@ -91,7 +91,7 @@ getu32(int swap, uint32_t value)
 		retval.c[1] = tmpval.c[2];
 		retval.c[2] = tmpval.c[1];
 		retval.c[3] = tmpval.c[0];
-		
+
 		return retval.ui;
 	} else
 		return value;
@@ -116,7 +116,7 @@ getu64(int swap, uint64_t value)
 		retval.c[5] = tmpval.c[2];
 		retval.c[6] = tmpval.c[1];
 		retval.c[7] = tmpval.c[0];
-		
+
 		return retval.ui;
 	} else
 		return value;
@@ -346,13 +346,56 @@ donote(struct magic_set *ms, unsigned char *nbuf, size_t offset, size_t size,
 			if (file_printf(ms, "Solaris") == -1)
 				return size;
 			break;
+		case GNU_OS_KFREEBSD:
+			if (file_printf(ms, "kFreeBSD") == -1)
+				return size;
+			break;
+		case GNU_OS_KNETBSD:
+			if (file_printf(ms, "kNetBSD") == -1)
+				return size;
+			break;
+		case GNU_OS_SYLLABLE:
+			if (file_printf(ms, "Syllable") == -1)
+				return size;
+			break;
 		default:
 			if (file_printf(ms, "<unknown>") == -1)
-				return size; 
+				return size;
 		}
 		if (file_printf(ms, " %d.%d.%d", getu32(swap, desc[1]),
 		    getu32(swap, desc[2]), getu32(swap, desc[3])) == -1)
 			return size;
+		return size;
+	}
+
+	if (nh_type == NT_MIRBSD_VERSION &&
+	    ((namesz == 7 && strcmp((char *)&nbuf[noff], "MirBSD") == 0) ||
+	    (namesz > NT_MIROS_STRTLEN && strncmp((char *)&nbuf[noff],
+	    NT_MIROS_STRTEST, NT_MIROS_STRTLEN) == 0))) {
+		const char *tmp = (char *)&nbuf[noff];
+		uint32_t desc;
+
+		if (strcmp((char *)&nbuf[noff], "MirBSD") == 0)
+			tmp = "MirOS BSD";
+		if (file_printf(ms, ", for %s", tmp) == -1)
+			return size;
+
+		/* look for version of note */
+		(void)memcpy(&desc, &nbuf[doff], sizeof(desc));
+		desc = getu32(swap, desc);
+		if (!desc)
+			return size;	/* first version */
+
+		/* any newer version */
+		if ((desc & 0xFF) == 0xFF) {
+			if (file_printf(ms, ", wrong endianness") == -1)
+				return size;
+			desc = getu32(1, desc);
+		}
+		if (file_printf(ms, ", crti version %02X", desc & 0xFF) == -1)
+			return size;	/* newer version */
+
+		/* can't parse that yet, because it's unspecified */
 		return size;
 	}
 
@@ -464,7 +507,7 @@ donote(struct magic_set *ms, unsigned char *nbuf, size_t offset, size_t size,
 	if ((namesz == 4 && strncmp((char *)&nbuf[noff], "CORE", 4) == 0) ||
 	    (namesz == 5 && strcmp((char *)&nbuf[noff], "CORE") == 0)) {
 		os_style = OS_STYLE_SVR4;
-	} 
+	}
 
 	if ((namesz == 8 && strcmp((char *)&nbuf[noff], "FreeBSD") == 0)) {
 		os_style = OS_STYLE_FREEBSD;
@@ -489,7 +532,7 @@ donote(struct magic_set *ms, unsigned char *nbuf, size_t offset, size_t size,
 		 */
 		if (file_printf(ms, ", from '%.31s'", &nbuf[doff + 0x7c]) == -1)
 			return size;
-		
+
 		/*
 		 * Extract the signal number.  It is at
 		 * offset 0x08.
@@ -656,7 +699,7 @@ dophn_exec(struct magic_set *ms, int class, int swap, int fd, off_t off,
 			break;
 		case PT_NOTE:
 			if ((align = ph_align) & 0x80000000) {
-				if (file_printf(ms, 
+				if (file_printf(ms,
 				    ", invalid note alignment 0x%lx",
 				    (unsigned long)align) == -1)
 					return -1;
@@ -696,6 +739,86 @@ dophn_exec(struct magic_set *ms, int class, int swap, int fd, off_t off,
 	if (file_printf(ms, ", %s linked%s", linking_style, shared_libraries)
 	    == -1)
 	    return -1;
+	return 0;
+}
+
+private int
+dophn_noexec(struct magic_set *ms, int class, int swap, int fd, off_t off,
+    int num, size_t size)
+{
+	Elf32_Phdr ph32;
+	Elf64_Phdr ph64;
+	const char *whatisthis = "dynamic link library";
+	unsigned char nbuf[BUFSIZ];
+	int bufsize;
+	size_t offset, align;
+	off_t savedoffset;
+
+	if (size != ph_size) {
+		if (file_printf(ms, ", corrupted program header size") == -1)
+		    return -1;
+		return 0;
+	}
+	if (lseek(fd, off, SEEK_SET) == (off_t)-1) {
+		file_badseek(ms);
+		return -1;
+	}
+
+  	for ( ; num; num--) {
+  		if (read(fd, ph_addr, ph_size) == -1) {
+  			file_badread(ms);
+			return -1;
+		}
+		if ((savedoffset = lseek(fd, (off_t)0, SEEK_CUR)) == (off_t)-1) {
+  			file_badseek(ms);
+			return -1;
+		}
+
+		switch (ph_type) {
+		case PT_INTERP:
+			whatisthis = "position independent executable";
+			break;
+		case PT_NOTE:
+			if ((align = ph_align) & 0x80000000) {
+				if (file_printf(ms,
+				    ", invalid note alignment 0x%lx",
+				    (unsigned long)align) == -1)
+					return -1;
+				align = 4;
+			}
+			/*
+			 * This is a PT_NOTE section; loop through all the notes
+			 * in the section.
+			 */
+			if (lseek(fd, (off_t) ph_offset, SEEK_SET)
+			    == (off_t)-1) {
+				file_badseek(ms);
+				return -1;
+			}
+			bufsize = read(fd, nbuf, sizeof(nbuf));
+			if (bufsize == -1) {
+				file_badread(ms);
+				return -1;
+			}
+			offset = 0;
+			for (;;) {
+				if (offset >= (size_t)bufsize)
+					break;
+				offset = donote(ms, nbuf, offset,
+				    (size_t)bufsize, class, swap, align);
+				if (offset == 0)
+					break;
+			}
+			if (lseek(fd, savedoffset + offset, SEEK_SET)
+			    == (off_t)-1) {
+				file_badseek(ms);
+				return -1;
+			}
+			break;
+		}
+	}
+	if (file_printf(ms, ", %s", whatisthis) == -1)
+		return -1;
 	return 0;
 }
 
@@ -745,7 +868,7 @@ file_tryelf(struct magic_set *ms, int fd, const unsigned char *buf,
 #ifdef ELFCORE
 			if (dophn_core(ms, class, swap, fd,
 			    (off_t)getu32(swap, elfhdr.e_phoff),
-			    getu16(swap, elfhdr.e_phnum), 
+			    getu16(swap, elfhdr.e_phnum),
 			    (size_t)getu16(swap, elfhdr.e_phentsize)) == -1)
 				return -1;
 #else
@@ -755,7 +878,14 @@ file_tryelf(struct magic_set *ms, int fd, const unsigned char *buf,
 			if (getu16(swap, elfhdr.e_type) == ET_EXEC) {
 				if (dophn_exec(ms, class, swap,
 				    fd, (off_t)getu32(swap, elfhdr.e_phoff),
-				    getu16(swap, elfhdr.e_phnum), 
+				    getu16(swap, elfhdr.e_phnum),
+				    (size_t)getu16(swap, elfhdr.e_phentsize))
+				    == -1)
+					return -1;
+			} else if (getu16(swap, elfhdr.e_type) == ET_DYN) {
+				if (dophn_noexec(ms, class, swap,
+				    fd, (off_t)getu32(swap, elfhdr.e_phoff),
+				    getu16(swap, elfhdr.e_phnum),
 				    (size_t)getu16(swap, elfhdr.e_phentsize))
 				    == -1)
 					return -1;
@@ -787,7 +917,7 @@ file_tryelf(struct magic_set *ms, int fd, const unsigned char *buf,
 #else
 			    (off_t)getu64(swap, elfhdr.e_phoff),
 #endif
-			    getu16(swap, elfhdr.e_phnum), 
+			    getu16(swap, elfhdr.e_phnum),
 			    (size_t)getu16(swap, elfhdr.e_phentsize)) == -1)
 				return -1;
 #else
@@ -801,7 +931,7 @@ file_tryelf(struct magic_set *ms, int fd, const unsigned char *buf,
 #else
 				    (off_t)getu64(swap, elfhdr.e_phoff),
 #endif
-				    getu16(swap, elfhdr.e_phnum), 
+				    getu16(swap, elfhdr.e_phnum),
 				    (size_t)getu16(swap, elfhdr.e_phentsize))
 				    == -1)
 					return -1;

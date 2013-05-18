@@ -1,3 +1,4 @@
+/**	$MirOS: src/usr.sbin/dhcpd/dispatch.c,v 1.3 2005/04/17 04:24:15 tg Exp $ */
 /*	$OpenBSD: dispatch.c,v 1.21 2006/05/30 23:43:46 ckuethe Exp $ */
 
 /*
@@ -138,7 +139,7 @@ discover_interfaces(void)
 			struct iaddr addr;
 
 			/* Get a pointer to the address... */
-			bcopy(ifa->ifa_addr, &foo, sizeof(foo));
+			memmove(&foo, ifa->ifa_addr, sizeof(foo));
 
 			/* We don't want the loopback interface. */
 			if (foo.sin_addr.s_addr == htonl (INADDR_LOOPBACK))

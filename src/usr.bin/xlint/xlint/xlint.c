@@ -1,3 +1,4 @@
+/**	$MirOS: src/usr.bin/xlint/xlint/xlint.c,v 1.3 2006/07/03 14:45:59 tg Exp $ */
 /*	$OpenBSD: xlint.c,v 1.16 2004/05/11 02:08:07 millert Exp $	*/
 /*	$NetBSD: xlint.c,v 1.3 1995/10/23 14:29:30 jpo Exp $	*/
 
@@ -32,10 +33,6 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef lint
-static char rcsid[] = "$OpenBSD: xlint.c,v 1.16 2004/05/11 02:08:07 millert Exp $";
-#endif
-
 #include <sys/param.h>
 #include <sys/wait.h>
 #include <sys/stat.h>
@@ -52,6 +49,8 @@ static char rcsid[] = "$OpenBSD: xlint.c,v 1.16 2004/05/11 02:08:07 millert Exp 
 
 #include "lint.h"
 #include "pathnames.h"
+
+__RCSID("$MirOS: src/usr.bin/xlint/xlint/xlint.c,v 1.3 2006/07/03 14:45:59 tg Exp $");
 
 /* directory for temporary files */
 static	const	char *tmpdir;
@@ -146,7 +145,7 @@ appstrg(lstp, s)
 	lst[i] = s;
 	lst[i + 1] = NULL;
 	*lstp = lst;
-}	
+}
 
 static void
 appcstrg(lstp, s)
@@ -335,7 +334,12 @@ main(argc, argv)
 #endif
 	appcstrg(&cppflags, "-C");
 	appcstrg(&cppflags, "-Wcomment");
+#ifdef	__OpenBSD__
 	appcstrg(&cppflags, "-D__OpenBSD__");
+#endif
+#ifdef	__MirBSD__
+	appcstrg(&cppflags, "-D__MirBSD__");
+#endif
 	appcstrg(&cppflags, "-Dlint");		/* XXX don't def. with -s */
 	appdef(&cppflags, "lint");
 	appdef(&cppflags, "unix");
@@ -353,7 +357,7 @@ main(argc, argv)
 		appstrg(&lcppflgs, concat2("-D", MACHINE_ARCH));
 	}
 #endif
-	
+
 	appcstrg(&deflibs, "c");
 
 	if (signal(SIGHUP, terminate) == SIG_IGN)
@@ -561,7 +565,7 @@ fname(name, last)
 		len = strlen(bn) + (bn == suff ? 4 : 2);
 		ofn = xmalloc(len);
 		(void)snprintf(ofn, len, "%.*s",
-		    bn == suff ? strlen(bn) : (suff - 1) - bn, bn);
+		    (int)(bn == suff ? strlen(bn) : (suff - 1) - bn), bn);
 		(void)strlcat(ofn, ".ln", len);
 	} else {
 		len = strlen(tmpdir) + sizeof ("lint1.XXXXXXXXXX");
@@ -579,9 +583,7 @@ fname(name, last)
 
 	/* run cpp */
 
-	len = strlen(PATH_LIBEXEC) + sizeof ("/cpp");
-	path = xmalloc(len);
-	(void)snprintf(path, len, "%s/cpp", PATH_LIBEXEC);
+	path = strdup("/usr/bin/cpp");
 
 	appcstrg(&args, path);
 	applst(&args, cppflags);
@@ -729,7 +731,7 @@ lint2()
 	len = strlen(PATH_LIBEXEC) + sizeof ("/lint2");
 	path = xmalloc(len);
 	(void)snprintf(path, len, "%s/lint2", PATH_LIBEXEC);
-	
+
 	appcstrg(&args, path);
 	applst(&args, l2flags);
 	applst(&args, l2libs);
@@ -780,4 +782,3 @@ cat(srcs, dest)
 	(void)close(ofd);
 	free(buf);
 }
-

@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: if_wireg.h,v 1.34 2004/03/02 21:59:29 millert Exp $	*/
 
 /*
@@ -372,7 +373,7 @@ struct wi_ltv_str {
 		s.wi_len = (l / 2) + 2;				\
 		s.wi_type = recno;				\
 		s.wi_str[0] = htole16(str.i_len);		\
-		bcopy(str.i_nwid, &s.wi_str[1], str.i_len);	\
+		memmove(&s.wi_str[1], str.i_nwid, str.i_len);	\
 		wi_write_record(sc, (struct wi_ltv_gen *)&s);	\
 	} while (0)
 

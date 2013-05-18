@@ -1,21 +1,35 @@
-#	$OpenBSD: Makefile.inc,v 1.12 2004/07/13 21:03:38 marc Exp $
-#	$NetBSD: Makefile.inc,v 1.5 1996/02/01 22:33:01 mycroft Exp $
+# $MirOS: src/sys/arch/sparc/stand/Makefile.inc,v 1.6 2007/01/26 19:33:12 tg Exp $
+# $OpenBSD: Makefile.inc,v 1.12 2004/07/13 21:03:38 marc Exp $
+# $NetBSD: Makefile.inc,v 1.5 1996/02/01 22:33:01 mycroft Exp $
 
-BINDIR=	/usr/mdec
+.ifndef MODSRC_SYS_ARCH_SPARC_STAND_MAKEFILE_INC
+MODSRC_SYS_ARCH_SPARC_STAND_MAKEFILE_INC=1
 
-RELOC_TEST=	0x340000
-RELOC_SUN4=	0x240000
-RELOC_SUN4C=	0x380000
-RELOC_SUN4M=	0x440000
+BINDIR=		/usr/mdec
 
-# Note: a `RELOC' value of 0x380000 seems to work on most machines
-RELOC?=		${RELOC_TEST}
-RELOC2!=	perl -e 'printf "0x%x", ${RELOC_TEST} + 0x40000'
+.include <bsd.own.mk>
+.include "../Makefile.reloc"
 
-CFLAGS+=	-fno-stack-protector
+KERNBASE?=	$S/../kern
+COPTS+=		-Wall -Werror -fno-stack-protector -ffreestanding \
+		-fno-zero-initialized-in-bss
+.if ${COPTS:M-O*:N-Os}
+COPTS+=		-Os
+.endif
+.if !${COPTS:M-Os}
+COPTS+=		-Os
+.endif
+SACFLAGS=	-D_STANDALONE
+CPPFLAGS+=	-I${S} -I${SADIR}/libsa -I. -Dmemmove=memcpy -D_STANDALONE \
+		-I${.CURDIR} -Derrno=errno -I${KERNBASE}/include \
+		-DSTANDALONE -DRELOC=${RELOC} -DSUN4 -DSUN4C -DSUN_BOOTPARAMS
 
-DEFS=		-DSTANDALONE -DRELOC=${RELOC} -DSUN4 -DSUN4C -DSUN_BOOTPARAMS
-DEFS+=		-Derrno=errno
+CLEANFILES+=	machine
+
+.if !make(libdep) && !make(sadep) && !make(salibdir) && !make(kernlibdir) && !make(obj)
+.BEGIN:
+	@([ X$(S) = X -o -h machine ] || ln -s $(S)/arch/sparc/include machine)
+.endif
 
 ### Figure out what to use for libkern
 LIBKERNDIR=		${.CURDIR}/../libkern
@@ -55,3 +69,5 @@ LIBZOBJDIR=		${LIBZDIR}
 .endif
 
 LIBZ=			${LIBZOBJDIR}/libz.a
+
+.endif

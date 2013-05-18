@@ -537,7 +537,7 @@ tryagain:
 			} while (error == EWOULDBLOCK);
 			if (!error && auio.uio_resid > 0) {
 			    log(LOG_INFO,
-				 "short receive (%d/%d) from nfs server %s\n",
+				 "short receive (%ld/%ld) from nfs server %s\n",
 				 sizeof(u_int32_t) - auio.uio_resid,
 				 sizeof(u_int32_t),
 				 rep->r_nmp->nm_mountp->mnt_stat.f_mntfromname);
@@ -568,7 +568,7 @@ tryagain:
 				 error == ERESTART);
 			if (!error && auio.uio_resid > 0) {
 			    log(LOG_INFO,
-				"short receive (%d/%d) from nfs server %s\n",
+				"short receive (%ld/%d) from nfs server %s\n",
 				len - auio.uio_resid, len,
 				rep->r_nmp->nm_mountp->mnt_stat.f_mntfromname);
 			    error = EPIPE;

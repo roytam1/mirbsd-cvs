@@ -57,6 +57,8 @@
 #include "event.h"
 #include "log.h"
 
+__RCSID("$MirOS: src/lib/libevent/kqueue.c,v 1.5 2007/05/17 16:48:21 tg Exp $");
+
 #define EVLIST_X_KQINKERNEL	0x1000
 
 #define NEVENT		64
@@ -135,7 +137,7 @@ kq_init(void)
 	 */
 	if (kevent(kq,
 		kqueueop->changes, 1, kqueueop->events, NEVENT, NULL) != 1 ||
-	    kqueueop->events[0].ident != -1 ||
+	    kqueueop->events[0].ident != (u_int)-1 ||
 	    kqueueop->events[0].flags != EV_ERROR) {
 		event_warn("%s: detected broken kqueue; not using.", __func__);
 		free(kqueueop->changes);
@@ -149,7 +151,8 @@ kq_init(void)
 }
 
 int
-kq_recalc(struct event_base *base, void *arg, int max)
+kq_recalc(struct event_base *base __attribute__((unused)),
+    void *arg __attribute__((unused)), int max __attribute__((unused)))
 {
 	return (0);
 }
@@ -200,13 +203,14 @@ kq_insert(struct kqop *kqop, struct kevent *kev)
 }
 
 static void
-kq_sighandler(int sig)
+kq_sighandler(int sig __attribute__((unused)))
 {
 	/* Do nothing here */
 }
 
 int
-kq_dispatch(struct event_base *base, void *arg, struct timeval *tv)
+kq_dispatch(struct event_base *base __attribute__((unused)),
+    void *arg, struct timeval *tv)
 {
 	struct kqop *kqop = arg;
 	struct kevent *changes = kqop->changes;

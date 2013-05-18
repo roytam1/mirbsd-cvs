@@ -1,3 +1,4 @@
+.\"	$MirOS: src/usr.bin/nc/nc.1,v 1.4 2005/05/19 22:57:39 tg Exp $
 .\"     $OpenBSD: nc.1,v 1.40 2005/07/17 19:18:47 jmc Exp $
 .\"
 .\" Copyright (c) 1996 David Sacerdote
@@ -25,7 +26,7 @@
 .\" (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 .\" THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .\"
-.Dd June 25, 2001
+.Dd November 7, 2004
 .Dt NC 1
 .Os
 .Sh NAME
@@ -34,7 +35,7 @@
 .Sh SYNOPSIS
 .Nm nc
 .Bk -words
-.Op Fl 46DdhklnrStUuvz
+.Op Fl 46DdhIklnrStUuvz
 .Op Fl i Ar interval
 .Op Fl p Ar source_port
 .Op Fl s Ar source_ip_address
@@ -99,6 +100,21 @@ Do not attempt to read from stdin.
 Prints out
 .Nm
 help.
+.It Fl I
+After connecting, prepend the numeric IP address and port of the peer
+as below, followed by a single space, to the output:
+.Bl -tag -offset 4n -width IPv6: -compact
+.It Sy IPv4 :
+.Li [ip.ad.dr.ess]:port
+.It Sy IPv6 :
+.Li [ip:add::r:e:s:s]:port
+.El
+It is an error to use this option in conjunction with the
+.Fl v ,
+.Fl x ,
+or
+.Fl z
+options.
 .It Fl i Ar interval
 Specifies a delay time interval between lines of text sent and received.
 Also causes a delay time between connections to multiple ports.
@@ -174,7 +190,7 @@ will listen forever for a connection, with or without the
 .Fl w
 flag.
 The default is no timeout.
-.It Fl X Ar proxy_version
+.It Fl X Ar proxy_protocol
 Requests that
 .Nm
 should use the specified protocol when talking to the proxy server.
@@ -377,6 +393,14 @@ directive in
 for more information.
 .Pp
 .Dl $ nc -x10.2.3.4:8080 -Xconnect host.example.com 42
+.Pp
+An
+.Xr ssh_config 5
+line to
+.Xr ssh 1
+through an HTTP proxy at host.example.com, port 8080:
+.Pp
+.Dl ProxyCommand /usr/bin/nc -X connect -x host.example.com:8080 %h %p
 .Sh SEE ALSO
 .Xr cat 1 ,
 .Xr ssh 1

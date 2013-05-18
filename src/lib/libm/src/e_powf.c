@@ -8,19 +8,21 @@
  *
  * Developed at SunPro, a Sun Microsystems, Inc. business.
  * Permission to use, copy, modify, and distribute this
- * software is freely granted, provided that this notice 
+ * software is freely granted, provided that this notice
  * is preserved.
  * ====================================================
  */
 
+#include <sys/cdefs.h>
 #if defined(LIBM_SCCS) && !defined(lint)
-static char rcsid[] = "$NetBSD: e_powf.c,v 1.6 1995/05/12 04:57:35 jtc Exp $";
+__RCSID("$MirOS$");
+__RCSID("$NetBSD: e_powf.c,v 1.12 2006/03/19 20:46:25 christos Exp $");
 #endif
 
 #include "math.h"
 #include "math_private.h"
 
-static const volatile float huge = 1.0e+30, tiny = 1.0e-30;
+static const float huge = 1.0e+30, tiny = 1.0e-30;
 
 static const float
 bp[] = {1.0, 1.5,},
@@ -66,12 +68,12 @@ __ieee754_powf(float x, float y)
 	ix = hx&0x7fffffff;  iy = hy&0x7fffffff;
 
     /* y==zero: x**0 = 1 */
-	if(iy==0) return one; 	
+	if(iy==0) return one;
 
     /* +-NaN return x+y */
 	if(ix > 0x7f800000 ||
 	   iy > 0x7f800000)
-		return x+y;	
+		return x+y;
 
     /* determine if y is an odd int when x < 0
      * yisint = 0	... y is not an integer
@@ -79,14 +81,14 @@ __ieee754_powf(float x, float y)
      * yisint = 2	... y is an even int
      */
 	yisint  = 0;
-	if(hx<0) {	
+	if(hx<0) {
 	    if(iy>=0x4b800000) yisint = 2; /* even integer y */
 	    else if(iy>=0x3f800000) {
 		k = (iy>>23)-0x7f;	   /* exponent */
 		j = iy>>(23-k);
 		if((j<<(23-k))==iy) yisint = 2-(j&1);
-	    }		
-	} 
+	    }
+	}
 
     /* special value of y */
 	if (iy==0x7f800000) {	/* y is +-inf */
@@ -96,14 +98,14 @@ __ieee754_powf(float x, float y)
 	        return (hy>=0)? y: zero;
 	    else			/* (|x|<1)**-,+inf = inf,0 */
 	        return (hy<0)?-y: zero;
-	} 
+	}
 	if(iy==0x3f800000) {	/* y is  +-1 */
 	    if(hy<0) return one/x; else return x;
 	}
 	if(hy==0x40000000) return x*x; /* y is  2 */
 	if(hy==0x3f000000) {	/* y is  0.5 */
 	    if(hx>=0)	/* x >= +0 */
-	    return __ieee754_sqrtf(x);	
+	    return __ieee754_sqrtf(x);
 	}
 
 	ax   = fabsf(x);
@@ -114,12 +116,12 @@ __ieee754_powf(float x, float y)
 	    if(hx<0) {
 		if(((ix-0x3f800000)|yisint)==0) {
 		    z = (z-z)/(z-z); /* (-1)**non-int is NaN */
-		} else if(yisint==1) 
+		} else if(yisint==1)
 		    z = -z;		/* (x<0)**odd = -(|x|**odd) */
 	    }
 	    return z;
 	}
-    
+
     /* (x<0)**(non-int) is NaN */
 	if(((((u_int32_t)hx>>31)-1)|yisint)==0) return (x-x)/(x-x);
 
@@ -128,9 +130,9 @@ __ieee754_powf(float x, float y)
 	/* over/underflow if x is not close to one */
 	    if(ix<0x3f7ffff8) return (hy<0)? huge*huge:tiny*tiny;
 	    if(ix>0x3f800007) return (hy>0)? huge*huge:tiny*tiny;
-	/* now |1-x| is tiny <= 2**-20, suffice to compute 
+	/* now |1-x| is tiny <= 2**-20, suffice to compute
 	   log(x) by x-x^2/2+x^3/3-x^4/4 */
-	    t = x-1;		/* t has 20 trailing zeros */
+	    t = ax-one;		/* t has 20 trailing zeros */
 	    w = (t*t)*((float)0.5-t*((float)0.333333333333-t*(float)0.25));
 	    u = ivln2_h*t;	/* ivln2_h has 16 sig. bits */
 	    v = t*ivln2_l-w*ivln2;
@@ -207,11 +209,11 @@ __ieee754_powf(float x, float y)
 	else if (j==0x43000000) {			/* if z == 128 */
 	    if(p_l+ovt>z-p_h) return s*huge*huge;	/* overflow */
 	}
-	else if ((j&0x7fffffff)>0x43160000)		/* z <= -150 */
-	    return s*tiny*tiny;				/* underflow */
-	else if (j==0xc3160000){			/* z == -150 */
+	else if ((uint32_t)j==0xc3160000){		/* z == -150 */
 	    if(p_l<=z-p_h) return s*tiny*tiny;		/* underflow */
 	}
+	else if ((j&0x7fffffff)>0x43160000)		/* z <= -150 */
+	    return s*tiny*tiny;				/* underflow */
     /*
      * compute 2**(p_h+p_l)
      */
@@ -225,7 +227,7 @@ __ieee754_powf(float x, float y)
 	    n = ((n&0x007fffff)|0x00800000)>>(23-k);
 	    if(j<0) n = -n;
 	    p_h -= t;
-	} 
+	}
 	t = p_l+p_h;
 	GET_FLOAT_WORD(is,t);
 	SET_FLOAT_WORD(t,is&0xfffff000);

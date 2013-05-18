@@ -1,3 +1,4 @@
+/* $MirOS: src/sys/dev/wscons/wsdisplay.c,v 1.6 2007/02/06 20:54:50 tg Exp $ */
 /* $OpenBSD: wsdisplay.c,v 1.75 2007/01/07 13:28:04 miod Exp $ */
 /* $NetBSD: wsdisplay.c,v 1.82 2005/02/27 00:27:52 perry Exp $ */
 
@@ -34,7 +35,7 @@
 #ifndef	SMALL_KERNEL
 #define WSMOUSED_SUPPORT
 #define	BURNER_SUPPORT
-#define	SCROLLBACK_SUPPORT
+#define	WSDISPLAY_SCROLLBACK_SUPPORT
 #endif
 
 #include <sys/param.h>
@@ -1295,7 +1296,20 @@ wsdisplay_cfg_ioctl(struct wsdisplay_softc *sc, u_long cmd, caddr_t data,
 		return (0);
 
 	case WSDISPLAYIO_DELFONT:
-		return (EINVAL);
+		if (!sc->sc_accessops->delete_font)
+			return (EINVAL);
+		if (d->index <= 0 || d->index >= WSDISPLAY_MAXFONT)
+			return (EINVAL);
+
+		error =
+		  (*sc->sc_accessops->delete_font)(sc->sc_accesscookie, 0, d->index);
+		if (error)
+			return (error);
+
+		free(sc->sc_fonts[d->index].data, M_DEVBUF);
+		sc->sc_fonts[d->index].data = NULL;
+		sc->sc_fonts[d->index].name[0] = '\0';
+		return 0;
 #undef d
 
 #if NWSKBD > 0
@@ -1824,12 +1838,12 @@ wsdisplay_switch(struct device *dev, int no, int waitok)
 	if (!(scr->scr_flags & SCR_GRAPHICS) &&
 	    (sc->sc_scr[no]->scr_flags & SCR_GRAPHICS)) {
 		/* switching from a text console to a graphic console */
-	
+
 		/* remote a potential wsmoused(8) selection */
 		mouse_remove(sc);
 		wsmoused_release(sc);
 	}
-	
+
 	if ((scr->scr_flags & SCR_GRAPHICS) &&
 	    !(sc->sc_scr[no]->scr_flags & SCR_GRAPHICS)) {
 		/* switching from a graphic console to a text console */
@@ -2117,7 +2131,7 @@ wsdisplay_switchtoconsole()
 	}
 }
 
-#ifdef SCROLLBACK_SUPPORT
+#ifdef WSDISPLAY_SCROLLBACK_SUPPORT
 void
 wsscrollback(void *arg, int op)
 {
@@ -2307,7 +2321,7 @@ button_event(int button, int clicks)
 int
 ctrl_event(u_int type, int value, struct wsdisplay_softc *ws_sc, struct proc *p)
 {
-	int i, error;
+	int i, error = 0;
 
 	if (type == WSCONS_EVENT_WSMOUSED_ON) {
 		if (!ws_sc->sc_accessops->getchar)
@@ -2404,7 +2418,7 @@ inverse_char(unsigned short pos)
 {
 	struct wsscreen_internal *dconf;
 	struct wsdisplay_charcell cell;
-	int fg, bg, ul;
+	int fg, bg;
 	int flags;
 	int tmp;
 	long attr;
@@ -2413,25 +2427,29 @@ inverse_char(unsigned short pos)
 
 	GETCHAR(pos, &cell);
 
+	/*
+	 * flags can be at most
+	 * WSATTR_UNDERLINE | WSATTR_REVERSE | WSATTR_HILIT
+	 * if WSSCREEN_WSCOLORS then no WSATTR_REVERSE
+	 */
 	(*dconf->emulops->unpack_attr)(dconf->emulcookie, cell.attr, &fg,
-	    &bg, &ul);
+	    &bg, &flags);
 
 	/*
 	 * Display the mouse cursor as a color inverted cell whenever
 	 * possible. If this is not possible, ask for the video reverse
 	 * attribute.
 	 */
-	flags = 0;
 	if (dconf->scrdata->capabilities & WSSCREEN_WSCOLORS) {
 		flags |= WSATTR_WSCOLORS;
 		tmp = fg;
 		fg = bg;
 		bg = tmp;
 	} else if (dconf->scrdata->capabilities & WSSCREEN_REVERSE) {
-		flags |= WSATTR_REVERSE;
+		flags ^= WSATTR_REVERSE;
 	}
-	if ((*dconf->emulops->alloc_attr)(dconf->emulcookie, fg, bg, flags |
-	    (ul ? WSATTR_UNDERLINE : 0), &attr) == 0) {
+	if ((*dconf->emulops->alloc_attr)(dconf->emulcookie, fg, bg, flags,
+	    &attr) == 0) {
 		cell.attr = attr;
 		PUTCHAR(pos, cell.uc, cell.attr);
 	}
@@ -3271,10 +3289,10 @@ wsmoused_release(struct wsdisplay_softc *sc)
 		}
 
 		/* inject event to notify wsmoused(8) to close mouse device */
-		if (wsms_dev != NULL) 
+		if (wsms_dev != NULL)
 			wsmouse_input(wsms_dev, 0, 0, 0, 0,
 				      WSMOUSE_INPUT_WSMOUSED_CLOSE);
-		
+
 	}
 #endif /* NWSMOUSE > 0 */
 }

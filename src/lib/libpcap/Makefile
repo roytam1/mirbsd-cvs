@@ -1,8 +1,9 @@
-#	$OpenBSD: Makefile,v 1.19 2006/09/18 18:18:17 jmc Exp $
-#	$NetBSD: Makefile,v 1.3 1996/05/10 21:54:24 cgd Exp $
+# $MirOS: src/lib/libpcap/Makefile,v 1.5 2007/04/28 00:12:44 tg Exp $
+# $OpenBSD: Makefile,v 1.19 2006/09/18 18:18:17 jmc Exp $
+# $NetBSD: Makefile,v 1.3 1996/05/10 21:54:24 cgd Exp $
 
+SHLIB_VERSION?=	6.0
 LIB=	pcap
-WANTLINT=
 MAN=	pcap.3
 MLINKS=	pcap.3 pcap_open_live.3 pcap.3 pcap_open_offline.3 \
         pcap.3 pcap_dump_open.3 pcap.3 pcap_lookupdev.3 pcap.3 \
@@ -30,7 +31,9 @@ DEFS=	-DHAVE_SYS_IOCCOM_H -DHAVE_SYS_SOCKIO_H -DHAVE_ETHER_HOSTTON \
 	-DHAVE_STRERROR -DHAVE_SOCKADDR_SA_LEN -DLBL_ALIGN -DHAVE_IFADDRS_H \
 	-DINET6
 
-CFLAGS+=-I. -I${.CURDIR} -Dyylval=pcap_yylval ${DEFS}
+CPPFLAGS+=	-I. -Dyylval=pcap_yylval ${DEFS}
+YFLAGS=		-d -ppcap_yy
+LFLAGS=		-Ppcap_yy
 
 HDRS=	pcap.h pcap-int.h pcap-namedb.h
 SRCS=	pcap.c inet.c gencode.c optimize.c nametoaddr.c etherent.c \
@@ -38,26 +41,10 @@ SRCS=	pcap.c inet.c gencode.c optimize.c nametoaddr.c etherent.c \
 	pcap-bpf.c version.c fad-getad.c
 .PATH:	${.CURDIR}/../../sys/net
 
-CLEANFILES+= grammar.c scanner.c grammar.tab.h version.c
-
-grammar.c: grammar.y
-	${YACC.y} -ppcap_yy -b ${.TARGET:R} ${.ALLSRC}
-	mv ${.TARGET:R}.tab.c ${.TARGET}
-
-scanner.c: scanner.l grammar.c
-	${LEX.l} -Ppcap_yy -o${.TARGET} ${.CURDIR}/scanner.l
+CLEANFILES+=	version.c
 
 version.c: ${.CURDIR}/VERSION
 	@rm -f $@
-	sed 's/.*/char pcap_version[] = "&";/' ${.CURDIR}/VERSION > $@
-
-includes:
-	@cd ${.CURDIR}; for i in $(HDRS); do \
-	    j="cmp -s $$i ${DESTDIR}/usr/include/$$i || \
-		${INSTALL} ${INSTALL_COPY} -o ${BINOWN} -g ${BINGRP} -m 444 $$i \
-		${DESTDIR}/usr/include"; \
-	    echo $$j; \
-	    eval "$$j"; \
-	done
+	sed 's/.*/char pcap_version[] = "&";/' ${.CURDIR}/VERSION >$@
 
 .include <bsd.lib.mk>

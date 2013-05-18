@@ -1,3 +1,4 @@
+/**	$MirOS: src/bin/pax/pax.h,v 1.5 2007/01/17 16:25:40 tg Exp $ */
 /*	$OpenBSD: pax.h,v 1.17 2005/11/09 19:59:06 otto Exp $	*/
 /*	$NetBSD: pax.h,v 1.3 1995/03/21 09:07:41 cgd Exp $	*/
 
@@ -54,12 +55,12 @@
 /*
  * Pax modes of operation
  */
+#define ERROR		-1	/* nothing selected */
 #define	LIST		0	/* List the file in an archive */
 #define	EXTRACT		1	/* extract the files in an archive */
 #define ARCHIVE		2	/* write a new archive */
 #define APPND		3	/* append to the end of an archive */
 #define	COPY		4	/* copy files to destination dir */
-#define DEFOP		LIST	/* if no flags default is to LIST */
 
 /*
  * Device type of the current archive volume
@@ -125,6 +126,7 @@ typedef struct {
 #define PAX_CTG		10		/* high performance file */
 #define PAX_GLL		11		/* GNU long symlink */
 #define PAX_GLF		12		/* GNU long file */
+#define PAX_LINKOR	0x80000000	/* hard link detection OR */
 } ARCHD;
 
 /*
@@ -138,7 +140,7 @@ typedef struct {
  * dependent routines pass pointers to ARCHD structure (described below).
  */
 typedef struct {
-	char *name;		/* name of format, this is the name the user */
+	const char *name;	/* name of format, this is the name the user */
 				/* gives to -x option to select it. */
 	int bsz;		/* default block size. used when the user */
 				/* does not specify a blocksize for writing */
@@ -231,9 +233,16 @@ typedef struct oplist {
 #ifndef MIN
 #define	MIN(a,b) (((a)<(b))?(a):(b))
 #endif
+#ifdef __INTERIX
+#include <sys/mkdev.h>
+#endif
 #define MAJOR(x)	major(x)
 #define MINOR(x)	minor(x)
+#ifdef __INTERIX
+#define	TODEV(x, y)	mkdev((x), (y))
+#else
 #define TODEV(x, y)	makedev((x), (y))
+#endif
 
 /*
  * General Defines

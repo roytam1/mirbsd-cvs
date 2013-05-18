@@ -1,3 +1,4 @@
+/**	$MirOS: src/lib/libc/gen/ctermid.c,v 1.2 2005/03/06 20:28:40 tg Exp $ */
 /*	$OpenBSD: ctermid.c,v 1.6 2005/08/08 08:05:33 espie Exp $ */
 /*-
  * Copyright (c) 1990, 1993
@@ -38,7 +39,7 @@ ctermid(char *s)
 	static char def[] = _PATH_TTY;
 
 	if (s) {
-		bcopy(def, s, sizeof(_PATH_TTY));
+		memmove(s, def, sizeof(_PATH_TTY));
 		return(s);
 	}
 	return(def);

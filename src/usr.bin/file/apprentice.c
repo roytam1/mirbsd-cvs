@@ -41,13 +41,9 @@
 #include <fcntl.h>
 #include <sys/stat.h>
 #include <sys/param.h>
-#ifdef QUICK
 #include <sys/mman.h>
-#endif
 
-#ifndef	lint
-FILE_RCSID("@(#)$Id$")
-#endif	/* lint */
+__RCSID("$MirOS$");
 
 #define	EATAB {while (isascii((unsigned char) *l) && \
 		      isspace((unsigned char) *l))  ++l;}
@@ -992,7 +988,7 @@ apprentice_map(struct magic_set *ms, struct magic **magicp, uint32_t *nmagicp,
 		file_oomem(ms);
 		goto error;
 	}
-	if (read(fd, mm, (size_t)st.st_size) != (size_t)st.st_size) {
+	if (read(fd, mm, (size_t)st.st_size) != (ssize_t)st.st_size) {
 		file_badread(ms);
 		goto error;
 	}
@@ -1004,7 +1000,7 @@ apprentice_map(struct magic_set *ms, struct magic **magicp, uint32_t *nmagicp,
 	ptr = (uint32_t *)(void *)*magicp;
 	if (*ptr != MAGICNO) {
 		if (swap4(*ptr) != MAGICNO) {
-			file_error(ms, 0, "bad magic in `%s'");
+			file_error(ms, 0, "bad magic in `%s'", fn);
 			goto error;
 		}
 		needsbyteswap = 1;

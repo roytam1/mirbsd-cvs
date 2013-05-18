@@ -100,7 +100,7 @@ xmalloc(size_t siz)
 	void *p = malloc(siz);
 	if (p)
 		return (p);
-	syslog(LOG_ALERT, "malloc: failed to get %ld bytes", siz);
+	syslog(LOG_ALERT, "malloc: failed to get %ld bytes", (long)siz);
 	exit(1);
 }
 
@@ -152,7 +152,7 @@ palloc(char *cline, int lno)
 	key = strdup(cline);
 	if (key == NULL) {
 		syslog(LOG_ALERT, "malloc: failed to get %ld bytes",
-		    strlen(cline));
+		    (long)strlen(cline));
 		exit(1);
 	}
 	for (s = key; s != NULL; ) {
@@ -177,7 +177,7 @@ palloc(char *cline, int lno)
 	p->p_args = strdup(cline);
 	if (p->p_args == NULL) {
 		syslog(LOG_ALERT, "malloc: failed to get %ld bytes",
-		    strlen(cline));
+		    (long)strlen(cline));
 		exit(1);
 	}
 	ap = p->p_argv;

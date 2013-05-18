@@ -1,5 +1,7 @@
+/* $MirOS: src/usr.bin/nc/netcat.c,v 1.5 2005/11/23 20:38:22 tg Exp $ */
 /* $OpenBSD: netcat.c,v 1.81 2005/05/28 16:57:48 marius Exp $ */
 /*
+ * Copyright (c) 2004 Thorsten "mirabile" Glaser <tg@66h.42h.de>
  * Copyright (c) 2001 Eric Jackson <ericj@monkey.org>
  *
  * Redistribution and use in source and binary forms, with or without
@@ -52,6 +54,11 @@
 #include <fcntl.h>
 #include "atomicio.h"
 
+__RCSID("$MirOS: src/usr.bin/nc/netcat.c,v 1.5 2005/11/23 20:38:22 tg Exp $");
+
+#undef BUFSIZ
+#define BUFSIZ 4096
+
 #ifndef SUN_LEN
 #define SUN_LEN(su) \
 	(sizeof(*(su)) - sizeof((su)->sun_path) + strlen((su)->sun_path))
@@ -76,6 +83,7 @@ int	vflag;					/* Verbosity */
 int	xflag;					/* Socks proxy */
 int	zflag;					/* Port Scan Flag */
 int	Dflag;					/* sodebug */
+int	Iflag;					/* Prefix peer IP */
 int	Sflag;					/* TCP MD5 signature option */
 
 int timeout = -1;
@@ -93,8 +101,9 @@ int	socks_connect(const char *, const char *, struct addrinfo, const char *, con
 int	udptest(int);
 int	unix_connect(char *);
 int	unix_listen(char *);
-int     set_common_sockopts(int);
+void    set_common_sockopts(int);
 void	usage(int);
+void	prepend_peer(const struct sockaddr *);
 
 int
 main(int argc, char *argv[])
@@ -118,7 +127,7 @@ main(int argc, char *argv[])
 	sv = NULL;
 
 	while ((ch = getopt(argc, argv,
-	    "46Ddhi:jklnp:rSs:tUuvw:X:x:z")) != -1) {
+	    "46DdhIi:jklnp:rSs:tUuvw:X:x:z")) != -1) {
 		switch (ch) {
 		case '4':
 			family = AF_INET;
@@ -199,6 +208,9 @@ main(int argc, char *argv[])
 		case 'D':
 			Dflag = 1;
 			break;
+		case 'I':
+			Iflag = 1;
+			break;
 		case 'S':
 			Sflag = 1;
 			break;
@@ -234,6 +246,8 @@ main(int argc, char *argv[])
 		errx(1, "cannot use -z and -l");
 	if (!lflag && kflag)
 		errx(1, "must use -l with -k");
+	if (Iflag && (vflag || xflag || zflag))
+		errx(1, "cannot use -I with -vxz");
 
 	/* Initialize addrinfo structure. */
 	if (family != AF_UNIX) {
@@ -291,28 +305,30 @@ main(int argc, char *argv[])
 			 * to wait for a caller, then use the regular
 			 * functions to talk to the caller.
 			 */
+			len = sizeof(cliaddr);
+			memset(&cliaddr, 0, len);
 			if (uflag) {
 				int rv, plen;
 				char buf[8192];
-				struct sockaddr_storage z;
 
-				len = sizeof(z);
 				plen = jflag ? 8192 : 1024;
 				rv = recvfrom(s, buf, plen, MSG_PEEK,
-				    (struct sockaddr *)&z, &len);
+				    (struct sockaddr *)&cliaddr, &len);
 				if (rv < 0)
 					err(1, "recvfrom");
 
-				rv = connect(s, (struct sockaddr *)&z, len);
+				rv = connect(s, (struct sockaddr *)&cliaddr,
+				    len);
 				if (rv < 0)
 					err(1, "connect");
 
 				connfd = s;
 			} else {
-				len = sizeof(cliaddr);
 				connfd = accept(s, (struct sockaddr *)&cliaddr,
 				    &len);
 			}
+			if (Iflag)
+				prepend_peer((struct sockaddr *)&cliaddr);
 
 			readwrite(connfd);
 			close(connfd);
@@ -511,6 +527,9 @@ remote_connect(const char *host, const char *port, struct addrinfo hints)
 		s = -1;
 	} while ((res0 = res0->ai_next) != NULL);
 
+	if (Iflag && res0)
+		prepend_peer(res0->ai_addr);
+
 	freeaddrinfo(res);
 
 	return (s);
@@ -616,7 +635,7 @@ readwrite(int nfd)
 			} else {
 				if (tflag)
 					atelnet(nfd, buf, n);
-				if (atomicio(vwrite, lfd, buf, n) != n)
+				if ((int)atomicio(vwrite, lfd, buf, n) != n)
 					return;
 			}
 		}
@@ -629,7 +648,7 @@ readwrite(int nfd)
 				pfd[1].fd = -1;
 				pfd[1].events = 0;
 			} else {
-				if (atomicio(vwrite, nfd, buf, n) != n)
+				if ((int)atomicio(vwrite, nfd, buf, n) != n)
 					return;
 			}
 		}
@@ -752,7 +771,7 @@ udptest(int s)
 	return (ret);
 }
 
-int
+void
 set_common_sockopts(int s)
 {
 	int x = 1;
@@ -784,11 +803,13 @@ help(void)
 	\t-D		Enable the debug socket option\n\
 	\t-d		Detach from stdin\n\
 	\t-h		This help text\n\
+	\t-I		Prepend peer's IP and port to output\n\
 	\t-i secs\t	Delay interval for lines sent, ports scanned\n\
 	\t-k		Keep inbound sockets open for multiple connects\n\
 	\t-l		Listen mode, for inbound connects\n\
 	\t-n		Suppress name/port resolutions\n\
-	\t-p port\t	Specify local port for remote connects\n\
+	\t-p port\t	Specify local port for remote connects\n");
+	fprintf(stderr, "\
 	\t-r		Randomize remote ports\n\
 	\t-S		Enable the TCP MD5 signature option\n\
 	\t-s addr\t	Local source address\n\
@@ -807,9 +828,24 @@ help(void)
 void
 usage(int ret)
 {
-	fprintf(stderr, "usage: nc [-46DdhklnrStUuvz] [-i interval] [-p source_port]\n");
+	fprintf(stderr, "usage: nc [-46DdhIklnrStUuvz] [-i interval] [-p source_port]\n");
 	fprintf(stderr, "\t  [-s source_ip_address] [-w timeout] [-X proxy_version]\n");
 	fprintf(stderr, "\t  [-x proxy_address[:port]] [hostname] [port[s]]\n");
 	if (ret)
 		exit(1);
+}
+
+void
+prepend_peer(const struct sockaddr *sa)
+{
+	char host[NI_MAXHOST], port[NI_MAXSERV];
+
+	if (getnameinfo(sa, SA_LEN(sa), host, NI_MAXHOST,
+	    port, NI_MAXSERV, NI_NUMERICHOST | NI_NUMERICSERV)) {
+		errx(1, "could not get numeric hostname");
+		/* NOTREACHED */
+	}
+
+	printf("[%s]:%s ", host, port);
+	fflush(stdout);
 }

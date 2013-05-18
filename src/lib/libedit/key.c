@@ -1,4 +1,3 @@
-/*	$OpenBSD: key.c,v 1.9 2003/11/25 20:12:38 otto Exp $	*/
 /*	$NetBSD: key.c,v 1.15 2003/10/18 23:48:42 christos Exp $	*/
 
 /*-
@@ -38,7 +37,7 @@
 #if 0
 static char sccsid[] = "@(#)key.c	8.1 (Berkeley) 6/4/93";
 #else
-static const char rcsid[] = "$OpenBSD: key.c,v 1.9 2003/11/25 20:12:38 otto Exp $";
+__RCSID("$NetBSD: key.c,v 1.15 2003/10/18 23:48:42 christos Exp $");
 #endif
 #endif /* not lint && not SCCSID */
 

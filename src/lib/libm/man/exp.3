@@ -1,5 +1,3 @@
-.\"	$OpenBSD: exp.3,v 1.16 2003/06/02 20:18:41 millert Exp $
-.\"
 .\" Copyright (c) 1985, 1991 Regents of the University of California.
 .\" All rights reserved.
 .\"
@@ -28,8 +26,9 @@
 .\" SUCH DAMAGE.
 .\"
 .\"     from: @(#)exp.3	6.12 (Berkeley) 7/31/91
+.\"	$NetBSD: exp.3,v 1.23 2005/07/21 12:58:22 wiz Exp $
 .\"
-.Dd July 31, 1991
+.Dd July 21, 2005
 .Dt EXP 3
 .Os
 .Sh NAME
@@ -39,6 +38,8 @@
 .Nm expm1f ,
 .Nm log ,
 .Nm logf ,
+.Nm log2 ,
+.Nm log2f ,
 .Nm log10 ,
 .Nm log10f ,
 .Nm log1p ,
@@ -46,8 +47,10 @@
 .Nm pow ,
 .Nm powf
 .Nd exponential, logarithm, power functions
+.Sh LIBRARY
+.Lb libm
 .Sh SYNOPSIS
-.Fd #include <math.h>
+.In math.h
 .Ft double
 .Fn exp "double x"
 .Ft float
@@ -60,6 +63,10 @@
 .Fn log "double x"
 .Ft float
 .Fn logf "float x"
+.Ft double
+.Fn log2 "double x"
+.Ft float
+.Fn log2f "float x"
 .Ft double
 .Fn log10 "double x"
 .Ft float
@@ -77,59 +84,44 @@ The
 .Fn exp
 function computes the exponential value of the given argument
 .Fa x .
-The
-.Fn expf
-function is a single precision version of
-.Fn exp .
 .Pp
 The
 .Fn expm1
 function computes the value exp(x)\-1 accurately even for tiny argument
 .Fa x .
-The
-.Fn expm1f
-function is a single precision version of
-.Fn expm1 .
 .Pp
 The
 .Fn log
 function computes the value of the natural logarithm of argument
 .Fa x .
-The
-.Fn logf
-function is a single precision version of
-.Fn log .
 .Pp
 The
 .Fn log10
 function computes the value of the logarithm of argument
 .Fa x
 to base 10.
-The
-.Fn log10f
-function is a single precision version of
-.Fn log10 .
 .Pp
 The
 .Fn log1p
 function computes
 the value of log(1+x) accurately even for tiny argument
 .Fa x .
+.Pp
 The
-.Fn log1pf
-function is a single precision version of
-.Fn log1p .
+.Fn log2
+and the
+.Fn log2f
+functions compute the value of the logarithm of argument
+.Fa x
+to base 2.
 .Pp
 The
 .Fn pow
-function computes the value of
+computes the value
+of
 .Ar x
 to the exponent
 .Ar y .
-The
-.Fn powf
-function is a single precision version of
-.Fn pow .
 .Sh RETURN VALUES
 These functions will return the appropriate computation unless an error
 occurs or an argument is out of range.
@@ -144,14 +136,12 @@ set the global variable
 to
 .Er ERANGE
 and cause a reserved operand fault on a
-.Tn VAX
-or
-.Tn Tahoe .
+.Tn VAX .
 The function
 .Fn pow x y
 checks to see if
 .Fa x
-< 0 and
+\*(Lt 0 and
 .Fa y
 is not an integer, in the event this is true,
 the global variable
@@ -160,25 +150,21 @@ is set to
 .Er EDOM
 and on the
 .Tn VAX
-and
-.Tn Tahoe
 generate a reserved operand fault.
 On a
-.Tn VAX
-and
-.Tn Tahoe ,
+.Tn VAX ,
 .Va errno
 is set to
 .Er EDOM
 and the reserved operand is returned
 by log unless
 .Fa x
-> 0, by
+\*(Gt 0, by
 .Fn log1p
 unless
 .Fa x
-> \-1.
-.Sh ERRORS (due to Roundoff etc.)
+\*(Gt \-1.
+.Sh ERRORS
 exp(x), log(x), expm1(x) and log1p(x) are accurate to within
 an
 .Em ulp ,
@@ -258,18 +244,20 @@ and
 operand on a
 .Tn VAX ) .
 Previous implementations of pow may
-have defined x**0 to be undefined in some or all of these cases.
+have defined x**0 to be undefined in some or all of these
+cases.
 Here are reasons for returning x**0 = 1 always:
 .Bl -enum -width indent
 .It
 Any program that already tests whether x is zero (or
 infinite or \*(Na) before computing x**0 cannot care
 whether 0**0 = 1 or not.
-Any program that depends upon 0**0 to be invalid is dubious anyway since that
+Any program that depends
+upon 0**0 to be invalid is dubious anyway since that
 expression's meaning and, if invalid, its consequences
 vary from one computer system to another.
 .It
-Some Algebra texts (e.g., Sigler's) define x**0 = 1 for
+Some Algebra texts (e.g. Sigler's) define x**0 = 1 for
 all x, including x = 0.
 This is compatible with the convention that accepts a[0]
 as the value of polynomial
@@ -288,7 +276,7 @@ If x(z) and y(z) are
 .Em any
 functions analytic (expandable
 in power series) in z around z = 0, and if there
-x(0) = y(0) = 0, then x(z)**y(z) \(-> 1 as z \(-> 0.
+x(0) = y(0) = 0, then x(z)**y(z) \(-\*(Gt 1 as z \(-\*(Gt 0.
 .Ed
 .It
 If 0**0 = 1, then
@@ -300,8 +288,16 @@ then \*(Na**0 = 1 too because x**0 = 1 for all finite
 and infinite x, i.e., independently of x.
 .El
 .Sh SEE ALSO
-.Xr infnan 3 ,
 .Xr math 3
+.Sh STANDARDS
+The
+.Fn exp ,
+.Fn log ,
+.Fn log10
+and
+.Fn pow
+functions conform to
+.St -ansiC .
 .Sh HISTORY
 A
 .Fn exp ,

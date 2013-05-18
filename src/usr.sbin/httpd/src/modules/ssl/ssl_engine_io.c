@@ -475,14 +475,14 @@ static void ssl_io_data_dump(server_rec *srvr, const char *s, long len)
     ssl_log(srvr, SSL_LOG_DEBUG|SSL_NO_TIMESTAMP|SSL_NO_LEVELID,
             "+-------------------------------------------------------------------------+");
     for(i = 0 ; i< rows; i++) {
-        ap_snprintf(tmp, sizeof(tmp), "| %04x: ", i * DUMP_WIDTH);
+        snprintf(tmp, sizeof(tmp), "| %04x: ", i * DUMP_WIDTH);
         ap_cpystrn(buf, tmp, sizeof(buf));
         for (j = 0; j < DUMP_WIDTH; j++) {
             if (((i * DUMP_WIDTH) + j) >= len)
                 ap_cpystrn(buf+strlen(buf), "   ", sizeof(buf)-strlen(buf));
             else {
                 ch = ((unsigned char)*((char *)(s) + i * DUMP_WIDTH + j)) & 0xff;
-                ap_snprintf(tmp, sizeof(tmp), "%02x%c", ch , j==7 ? '-' : ' ');
+                snprintf(tmp, sizeof(tmp), "%02x%c", ch , j==7 ? '-' : ' ');
                 ap_cpystrn(buf+strlen(buf), tmp, sizeof(buf)-strlen(buf));
             }
         }
@@ -492,7 +492,7 @@ static void ssl_io_data_dump(server_rec *srvr, const char *s, long len)
                 ap_cpystrn(buf+strlen(buf), " ", sizeof(buf)-strlen(buf));
             else {
                 ch = ((unsigned char)*((char *)(s) + i * DUMP_WIDTH + j)) & 0xff;
-                ap_snprintf(tmp, sizeof(tmp), "%c", ((ch >= ' ') && (ch <= '~')) ? ch : '.');
+                snprintf(tmp, sizeof(tmp), "%c", ((ch >= ' ') && (ch <= '~')) ? ch : '.');
                 ap_cpystrn(buf+strlen(buf), tmp, sizeof(buf)-strlen(buf));
             }
         }

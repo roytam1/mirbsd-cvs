@@ -1,3 +1,4 @@
+/**	$MirOS: src/libexec/spamd/spamd.c,v 1.8 2007/03/09 13:05:09 tg Exp $ */
 /*	$OpenBSD: spamd.c,v 1.102 2007/04/13 22:05:43 beck Exp $	*/
 
 /*
@@ -45,6 +46,8 @@
 
 extern int server_lookup(struct sockaddr *, struct sockaddr *,
     struct sockaddr *);
+
+__RCSID("$MirOS: src/libexec/spamd/spamd.c,v 1.8 2007/03/09 13:05:09 tg Exp $");
 
 struct con {
 	int fd;
@@ -618,12 +621,10 @@ initcon(struct con *cp, int fd, struct sockaddr *sa)
 	cp->blacklists = NULL;
 	free(cp->lists);
 	cp->lists = NULL;
-	bzero(cp, sizeof(struct con));
+	memset(cp, 0, sizeof(struct con));
 	if (grow_obuf(cp, 0) == NULL)
 		err(1, "malloc");
 	cp->fd = fd;
-	if (sa->sa_len > sizeof(cp->ss))
-		errx(1, "sockaddr size");
 	if (sa->sa_family != AF_INET)
 		errx(1, "not supported yet");
 	memcpy(&cp->ss, sa, sa->sa_len);
@@ -1094,8 +1095,13 @@ main(int argc, char *argv[])
 			greylist = 0;
 			break;
 		case 'G':
-			if (sscanf(optarg, "%d:%d:%d", &passtime, &greyexp,
-			    &whiteexp) != 3)
+#ifdef _BSD_TIME_T_IS_64_BIT
+			if (sscanf(optarg, "%lld:%lld:%lld", &passtime,
+			    &greyexp, &whiteexp) != 3)
+#else
+			if (sscanf(optarg, "%d:%d:%d", &passtime,
+			    &greyexp, &whiteexp) != 3)
+#endif
 				usage();
 			/* convert to seconds from minutes */
 			passtime *= 60;

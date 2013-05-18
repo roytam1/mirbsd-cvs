@@ -1,3 +1,4 @@
+/**	$MirOS: src/usr.bin/make/cond.c,v 1.3 2005/11/17 20:58:17 tg Exp $ */
 /*	$OpenPackages$ */
 /*	$OpenBSD: cond.c,v 1.33 2007/03/20 03:50:39 tedu Exp $	*/
 /*	$NetBSD: cond.c,v 1.7 1996/11/06 17:59:02 christos Exp $	*/
@@ -60,6 +61,7 @@
 #include "lst.h"
 #include "ohash.h"
 
+__RCSID("$MirOS$");
 
 /* The parsing of conditional expressions is based on this grammar:
  *	E -> F || E
@@ -191,7 +193,7 @@ find_cond(const char *p)
  *-----------------------------------------------------------------------
  */
 static bool
-CondGetArg(const char **linePtr, struct Name *arg, const char *func, 
+CondGetArg(const char **linePtr, struct Name *arg, const char *func,
     bool parens) /* true if arg should be bounded by parens */
 {
     const char	  	*cp;
@@ -871,7 +873,7 @@ CondE(bool doEval)
     return l;
 }
 
-/* Evaluate conditional in line.  
+/* Evaluate conditional in line.
  * returns COND_SKIP, COND_PARSE, COND_INVALID, COND_ISFOR, COND_ISINCLUDE,
  * COND_ISUNDEF.
  * A conditional line looks like this:
@@ -903,70 +905,70 @@ Cond_Eval(const char *line)
     k = ohash_interval(line, &end);
     switch(k % MAGICSLOTS2) {
     case K_COND_IF % MAGICSLOTS2:
-	if (k == K_COND_IF && len == strlen(COND_IF) && 
+	if (k == K_COND_IF && len == strlen(COND_IF) &&
 	    strncmp(line, COND_IF, len) == 0) {
 	    ifp = ifs + COND_IF_INDEX;
 	} else
 	    return COND_INVALID;
 	break;
     case K_COND_IFDEF % MAGICSLOTS2:
-	if (k == K_COND_IFDEF && len == strlen(COND_IFDEF) && 
+	if (k == K_COND_IFDEF && len == strlen(COND_IFDEF) &&
 	    strncmp(line, COND_IFDEF, len) == 0) {
 	    ifp = ifs + COND_IFDEF_INDEX;
 	} else
 	    return COND_INVALID;
 	break;
     case K_COND_IFNDEF % MAGICSLOTS2:
-	if (k == K_COND_IFNDEF && len == strlen(COND_IFNDEF) && 
+	if (k == K_COND_IFNDEF && len == strlen(COND_IFNDEF) &&
 	    strncmp(line, COND_IFNDEF, len) == 0) {
 	    ifp = ifs + COND_IFNDEF_INDEX;
 	} else
 	    return COND_INVALID;
 	break;
     case K_COND_IFMAKE % MAGICSLOTS2:
-	if (k == K_COND_IFMAKE && len == strlen(COND_IFMAKE) && 
+	if (k == K_COND_IFMAKE && len == strlen(COND_IFMAKE) &&
 	    strncmp(line, COND_IFMAKE, len) == 0) {
 	    ifp = ifs + COND_IFMAKE_INDEX;
 	} else
 	    return COND_INVALID;
 	break;
     case K_COND_IFNMAKE % MAGICSLOTS2:
-	if (k == K_COND_IFNMAKE && len == strlen(COND_IFNMAKE) && 
+	if (k == K_COND_IFNMAKE && len == strlen(COND_IFNMAKE) &&
 	    strncmp(line, COND_IFNMAKE, len) == 0) {
 	    ifp = ifs + COND_IFNMAKE_INDEX;
 	} else
 	    return COND_INVALID;
 	break;
     case K_COND_ELIF % MAGICSLOTS2:
-	if (k == K_COND_ELIF && len == strlen(COND_ELIF) && 
+	if (k == K_COND_ELIF && len == strlen(COND_ELIF) &&
 	    strncmp(line, COND_ELIF, len) == 0) {
 	    ifp = ifs + COND_ELIF_INDEX;
 	} else
 	    return COND_INVALID;
 	break;
     case K_COND_ELIFDEF % MAGICSLOTS2:
-	if (k == K_COND_ELIFDEF && len == strlen(COND_ELIFDEF) && 
+	if (k == K_COND_ELIFDEF && len == strlen(COND_ELIFDEF) &&
 	    strncmp(line, COND_ELIFDEF, len) == 0) {
 	    ifp = ifs + COND_ELIFDEF_INDEX;
 	} else
 	    return COND_INVALID;
 	break;
     case K_COND_ELIFNDEF % MAGICSLOTS2:
-	if (k == K_COND_ELIFNDEF && len == strlen(COND_ELIFNDEF) && 
+	if (k == K_COND_ELIFNDEF && len == strlen(COND_ELIFNDEF) &&
 	    strncmp(line, COND_ELIFNDEF, len) == 0) {
 	    ifp = ifs + COND_ELIFNDEF_INDEX;
 	} else
 	    return COND_INVALID;
 	break;
     case K_COND_ELIFMAKE % MAGICSLOTS2:
-	if (k == K_COND_ELIFMAKE && len == strlen(COND_ELIFMAKE) && 
+	if (k == K_COND_ELIFMAKE && len == strlen(COND_ELIFMAKE) &&
 	    strncmp(line, COND_ELIFMAKE, len) == 0) {
 	    ifp = ifs + COND_ELIFMAKE_INDEX;
 	} else
 	    return COND_INVALID;
 	break;
     case K_COND_ELIFNMAKE % MAGICSLOTS2:
-	if (k == K_COND_ELIFNMAKE && len == strlen(COND_ELIFNMAKE) && 
+	if (k == K_COND_ELIFNMAKE && len == strlen(COND_ELIFNMAKE) &&
 	    strncmp(line, COND_ELIFNMAKE, len) == 0) {
 	    ifp = ifs + COND_ELIFNMAKE_INDEX;
 	} else
@@ -975,7 +977,7 @@ Cond_Eval(const char *line)
     case K_COND_ELSE % MAGICSLOTS2:
 	/* valid conditional whose value is the inverse
 	 * of the previous if we parsed.  */
-	if (k == K_COND_ELSE && len == strlen(COND_ELSE) && 
+	if (k == K_COND_ELSE && len == strlen(COND_ELSE) &&
 	    strncmp(line, COND_ELSE, len) == 0) {
 	    if (condTop == MAXIF) {
 		Parse_Error(level, "if-less else");
@@ -989,7 +991,7 @@ Cond_Eval(const char *line)
 	    return COND_INVALID;
 	break;
     case K_COND_ENDIF % MAGICSLOTS2:
-	if (k == K_COND_ENDIF && len == strlen(COND_ENDIF) && 
+	if (k == K_COND_ENDIF && len == strlen(COND_ENDIF) &&
 	    strncmp(line, COND_ENDIF, len) == 0) {
 	/* End of a conditional section. If skipIfLevel is non-zero, that
 	 * conditional was skipped, so lines following it should also be
@@ -1030,6 +1032,18 @@ Cond_Eval(const char *line)
     	if (k == K_COND_INCLUDE && len == strlen(COND_INCLUDE) &&
 	    strncmp(line, COND_INCLUDE, len) == 0)
 	    return COND_ISINCLUDE;
+	else
+	    return COND_INVALID;
+    case K_COND_UERR % MAGICSLOTS2:
+    	if (k == K_COND_UERR && len == strlen(COND_UERR) &&
+	    strncmp(line, COND_UERR, len) == 0)
+	    return COND_ISUERR;
+	else
+	    return COND_INVALID;
+    case K_COND_TRACE % MAGICSLOTS2:
+    	if (k == K_COND_TRACE && len == strlen(COND_TRACE) &&
+	    strncmp(line, COND_TRACE, len) == 0)
+	    return COND_ISTRACE;
 	else
 	    return COND_INVALID;
     default:
@@ -1090,7 +1104,7 @@ Cond_Eval(const char *line)
 		break;
 	}
     }
-    
+
     if (!ifp->isElse)
 	condTop -= 1;
     else if (skipIfLevel != 0 || condStack[condTop].value) {
@@ -1124,7 +1138,7 @@ Cond_End(void)
     int i;
 
     if (condTop != MAXIF) {
-	Parse_Error(PARSE_FATAL, "%s%d open conditional%s", 
+	Parse_Error(PARSE_FATAL, "%s%d open conditional%s",
 	    condTop == 0 ? "at least ": "", MAXIF-condTop,
 	    MAXIF-condTop == 1 ? "" : "s");
 	for (i = MAXIF-1; i >= condTop; i--) {

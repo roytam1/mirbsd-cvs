@@ -1,59 +1,28 @@
-#	$OpenBSD: Makefile,v 1.38 2005/04/01 16:00:09 deraadt Exp $
-
-PROG=	disklabel
-SRCS=	disklabel.c dkcksum.c editor.c manual.c
-DPADD=	${LIBUTIL}
-LDADD=	-lutil
-MAN=	disklabel.8 disklabel.5
-
-
-CLEANFILES+=manual.c
+# $MirOS: src/sbin/disklabel/Makefile,v 1.8 2006/09/22 15:44:31 tg Exp $
+# $OpenBSD: Makefile,v 1.38 2005/04/01 16:00:09 deraadt Exp $
 
 .include <bsd.own.mk>
 
-.ifdef NOMAN
-manual.c:
-	(echo 'const char manpage[] = {'; \
-	echo 'no manual' | gzip -9c | hexdump -ve '"0x" 1/1 "%02x,"'; \
-	echo '};'; echo 'const int manpage_sz = sizeof(manpage);') > manual.c
+PROG=		disklabel
+SRCS=		disklabel.c dkcksum.c editor.c manpage.S
+DPADD+=		${LIBUTIL}
+LDADD+=		-lutil
+MAN=		disklabel.8 disklabel.5
+COPTS+=		-Wall
+
+.if !defined(NOMAN) || ${NOMAN:L} == "no"
+manpage.o: disklabel.cat8
 .else
-manual.c:	disklabel.cat8
-	(echo 'const char manpage[] = {'; \
-	cat disklabel.cat8 | gzip -9c | hexdump -ve '"0x" 1/1 "%02x,"'; \
-	echo '};'; echo 'const int manpage_sz = sizeof(manpage);') > manual.c
+AFLAGS_manpage.o+= -DNOMAN
 .endif
 
-.if (${MACHINE} == "alpha")
-CFLAGS+= -DSEEALSO="\"fdisk(8), installboot(8)\""
+.if ${MACHINE_ARCH} == "i386"
+CPPFLAGS+=	-DNUMBOOT=2 -DDOSLABEL
+CPPFLAGS+=	-DSEEALSO="\"fdisk(8), installboot(8)\""
 .endif
 
-.if (${MACHINE} == "cats") || (${MACHINE} == "zaurus")
-CFLAGS+= -DSEEALSO="\"fdisk(8)\""
-.endif
-
-.if (${MACHINE} == "i386") || (${MACHINE} == "amd64")
-CFLAGS+= -DNUMBOOT=2 -DDOSLABEL
-CFLAGS+= -DSEEALSO="\"fdisk(8), installboot(8)\""
-.endif
-
-
-.if (${MACHINE} == "hp300") || (${MACHINE} == "vax") || \
-    (${MACHINE} == "hppa") || (${MACHINE} == "hppa64")
-CFLAGS+= -DNUMBOOT=1
-.endif
-
-.if (${MACHINE} == "sun3") || (${MACHINE} == "sparc") || \
-    (${MACHINE} == "sparc64")
-CFLAGS+= -DSEEALSO="\"installboot(8)\"" -DCYLCHECK -DAAT0
-.endif
-
-.if (${MACHINE} == "mvme68k") || (${MACHINE} == "mvme88k")
-CFLAGS+= -DSEEALSO="\"installboot(8)\""
-.endif
-
-.if (${MACHINE} == "macppc")
-CFLAGS+= -DDOSLABEL
-CFLAGS+= -DSEEALSO="\"fdisk(8)\""
+.if ${MACHINE_ARCH} == "sparc"
+CPPFLAGS+=	-DSEEALSO="\"installboot(8)\"" -DCYLCHECK -DAAT0
 .endif
 
 .include <bsd.prog.mk>

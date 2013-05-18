@@ -273,16 +273,16 @@ static void log_error_core(const char *file, int line, int level,
     }
 
     if (logf) {
-	len = ap_snprintf(errstr, sizeof(errstr), "[%s] ", ap_get_time());
+	len = snprintf(errstr, sizeof(errstr), "[%s] ", ap_get_time());
     } else {
 	len = 0;
     }
 
-    len += ap_snprintf(errstr + len, sizeof(errstr) - len,
+    len += snprintf(errstr + len, sizeof(errstr) - len,
 	    "[%s] ", priorities[level & APLOG_LEVELMASK].t_name);
 
     if (file && (level & APLOG_LEVELMASK) == APLOG_DEBUG) {
-	len += ap_snprintf(errstr + len, sizeof(errstr) - len,
+	len += snprintf(errstr + len, sizeof(errstr) - len,
 		"%s(%d): ", file, line);
     }
     if (r) {
@@ -291,13 +291,13 @@ static void log_error_core(const char *file, int line, int level,
 	 * quad is the most secure, which is why I'm implementing it
 	 * first. -djg
 	 */
-	len += ap_snprintf(errstr + len, sizeof(errstr) - len,
+	len += snprintf(errstr + len, sizeof(errstr) - len,
 		"[client %s] ", r->connection->remote_ip);
     }
     if (!(level & APLOG_NOERRNO)
 	&& (save_errno != 0)
 	) {
-	len += ap_snprintf(errstr + len, sizeof(errstr) - len,
+	len += snprintf(errstr + len, sizeof(errstr) - len,
 		"(%d)%s: ", save_errno, strerror(save_errno));
     }
 

@@ -59,7 +59,6 @@
 #include "ccd.h"
 #include "raid.h"
 #include "ch.h"
-#include "ses.h"
 #include "ss.h"
 #include "uk.h"
 #include "sd.h"
@@ -86,10 +85,6 @@
 #include "wsmouse.h"
 #include "wsmux.h"
 
-#ifdef XFS
-#include <xfs/nxfs.h>
-cdev_decl(xfs_dev);
-#endif
 #include "ksyms.h"
 
 struct bdevsw	bdevsw[] =
@@ -173,7 +168,7 @@ struct cdevsw	cdevsw[] =
 	cdev_notdef(),			/* 40 */
 	cdev_notdef(),			/* 41 */
 	cdev_disk_init(NXD,xd),		/* 42: SMD disk */
-	cdev_svr4_net_init(NSVR4_NET,svr4_net),	/* 43: svr4 net pseudo-device */
+	cdev_notdef(),			/* 43: svr4 net pseudo-device */
 	cdev_notdef(),			/* 44 */
 	cdev_notdef(),			/* 45 */
 	cdev_notdef(),			/* 46 */
@@ -181,11 +176,7 @@ struct cdevsw	cdevsw[] =
 	cdev_notdef(),			/* 48 */
 	cdev_notdef(),			/* 49 */
 	cdev_systrace_init(NSYSTRACE,systrace),	/* 50 system call tracing */
-#ifdef XFS
-	cdev_xfs_init(NXFS,xfs_dev),	/* 51: xfs communication device */
-#else
 	cdev_notdef(),			/* 51 */
-#endif
 	cdev_notdef(),			/* 52 */
 	cdev_notdef(),			/* 53 */
 	cdev_disk_init(NFD,fd),		/* 54: floppy disk */
@@ -259,7 +250,7 @@ struct cdevsw	cdevsw[] =
 	cdev_ss_init(NSS,ss),           /* 121: SCSI scanner */
 	cdev_ksyms_init(NKSYMS,ksyms),	/* 122: Kernel symbols device */
 	cdev_disk_init(NRAID,raid),     /* 123: RAIDframe disk driver */
-	cdev_ses_init(NSES,ses),	/* 124: SCSI SES or SAF-TE device */
+	cdev_notdef(),			/* 124: ses */
 	cdev_ptm_init(NPTY,ptm),	/* 125: pseudo-tty ptm device */
 };
 int	nchrdev = sizeof(cdevsw) / sizeof(cdevsw[0]);

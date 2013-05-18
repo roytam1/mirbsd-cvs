@@ -124,7 +124,7 @@ static int ap_read(BUFF *fb, void *buf, int nbyte)
     
 	if (!ap_hook_call("ap::buff::read", &rv, fb, buf, nbyte))
 	rv = read(fb->fd_in, buf, nbyte);
-    
+
     return rv;
 }
 
@@ -153,7 +153,7 @@ static ap_inline int buff_write(BUFF *fb, const void *buf, int nbyte)
     if (fb->filter_callback != NULL) {
         fb->filter_callback(fb, buf, nbyte);
     }
-   
+
     rv = ap_write(fb, buf, nbyte);
     return rv;
 }
@@ -306,12 +306,12 @@ static void end_chunk(BUFF *fb)
     }
 
     /* we know this will fit because of how we wrote it in start_chunk() */
-    i = ap_snprintf((char *) &fb->outbase[fb->outchunk], CHUNK_HEADER_SIZE,
+    i = snprintf((char *) &fb->outbase[fb->outchunk], CHUNK_HEADER_SIZE,
 		"%x", fb->outcnt - fb->outchunk - CHUNK_HEADER_SIZE);
 
     /* we may have to tack some trailing spaces onto the number we just wrote
      * in case it was smaller than our estimated size.  We've also written
-     * a \0 into the buffer with ap_snprintf so we might have to put a
+     * a \0 into the buffer with snprintf so we might have to put a
      * \r back in.
      */
     strp = &fb->outbase[fb->outchunk + i];
@@ -740,7 +740,7 @@ static int write_it_all(BUFF *fb, const void *buf, int nbyte)
 static int writev_it_all(BUFF *fb, struct iovec *vec, int nvec)
 {
     int i, rv;
-    
+
     if (fb->filter_callback != NULL) {
         for (i = 0; i < nvec; i++) {
             fb->filter_callback(fb, vec[i].iov_base, vec[i].iov_len);
@@ -830,7 +830,7 @@ static int bcwrite(BUFF *fb, const void *buf, int nbyte)
     }
 
     vec[0].iov_base = chunksize;
-    vec[0].iov_len = ap_snprintf(chunksize, sizeof(chunksize), "%x" CRLF,
+    vec[0].iov_len = snprintf(chunksize, sizeof(chunksize), "%x" CRLF,
 				 nbyte);
     vec[1].iov_base = (void *) buf;	/* cast is to avoid const warning */
     vec[1].iov_len = nbyte;
@@ -863,7 +863,7 @@ static int large_write(BUFF *fb, const void *buf, int nbyte)
     }
     if (fb->flags & B_CHUNK) {
 	vec[nvec].iov_base = chunksize;
-	vec[nvec].iov_len = ap_snprintf(chunksize, sizeof(chunksize),
+	vec[nvec].iov_len = snprintf(chunksize, sizeof(chunksize),
 					"%x" CRLF, nbyte);
 	++nvec;
 	vec[nvec].iov_base = (void *) buf;
@@ -1224,4 +1224,3 @@ API_EXPORT(int) ap_vbprintf(BUFF *fb, const char *fmt, va_list ap)
     }
     return res;
 }
- 

@@ -33,6 +33,8 @@
 #include "telnet_locl.h"
 #include <err.h>
 
+__RCSID("$MirOS$");
+
 #if	defined(IPPROTO_IP) && defined(IP_TOS)
 int tos = -1;
 #endif	/* defined(IPPROTO_IP) && defined(IP_TOS) */
@@ -55,7 +57,6 @@ static char saveline[256];
 static int margc;
 static char *margv[20];
 
-#if	defined(SKEY)
 #include <sys/wait.h>
 #define PATH_SKEY	"/usr/bin/skey"
     int
@@ -84,7 +85,6 @@ skey_calc(argc, argv)
 		return (0);
 	}
 }
-#endif
    	
 
 
@@ -1105,13 +1105,13 @@ dolmmode(bit, on)
 }
 
     int
-tn_setmode(bit)
+tn_setmode(int bit)
 {
     return dolmmode(bit, 1);
 }
 
     int
-tn_clearmode(bit)
+tn_clearmode(int bit)
 {
     return dolmmode(bit, 0);
 }
@@ -1802,8 +1802,7 @@ env_list()
 }
 
 	unsigned char *
-env_default(init, welldefined)
-	int init;
+env_default(int init, int welldefined)
 {
 	static struct env_lst *nep = NULL;
 
@@ -2521,9 +2520,7 @@ static char
         encrypthelp[] = "turn on (off) encryption ('encrypt ?' for more)",
 #endif
 	zhelp[] =	"suspend telnet",
-#ifdef SKEY
 	skeyhelp[] =	"compute response to s/key challenge",
-#endif
 	shellhelp[] =	"invoke a subshell",
 	envhelp[] =	"change environment variables ('environ ?' for more)",
 	modestring[] = "try to enter line or character mode ('mode ?' for more)";
@@ -2561,9 +2558,7 @@ static Command cmdtab[] = {
 #endif
 	{ "environ",	envhelp,	env_cmd,	0 },
 	{ "?",		helphelp,	help,		0 },
-#if	defined(SKEY)
 	{ "skey",	skeyhelp,	skey_calc,	0 },
-#endif		
 	{ 0,		0,		0,		0 }
 };
 

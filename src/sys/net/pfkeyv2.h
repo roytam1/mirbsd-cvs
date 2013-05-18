@@ -1,4 +1,4 @@
-/* $OpenBSD: pfkeyv2.h,v 1.55 2005/05/27 15:29:55 hshoexer Exp $ */
+/* $OpenBSD: pfkeyv2.h,v 1.50 2004/01/27 09:27:17 markus Exp $ */
 /*
  *	@(#)COPYRIGHT	1.1 (NRL) January 1998
  * 
@@ -64,8 +64,7 @@
 #define SADB_X_DELFLOW     13
 #define SADB_X_GRPSPIS     14
 #define SADB_X_ASKPOLICY   15
-#define SADB_X_SPDDUMP     16
-#define SADB_MAX           16
+#define SADB_MAX           15
 
 struct sadb_msg {
 	uint8_t sadb_msg_version;
@@ -253,8 +252,7 @@ struct sadb_x_udpencap {
 #define SADB_X_EXT_REMOTE_AUTH        29
 #define SADB_X_EXT_SUPPORTED_COMP     30
 #define SADB_X_EXT_UDPENCAP           31
-#define SADB_X_EXT_LIFETIME_LASTUSE   32
-#define SADB_EXT_MAX                  32
+#define SADB_EXT_MAX                  31
 
 /* Fix pfkeyv2.c struct pfkeyv2_socket if SATYPE_MAX > 31 */
 #define SADB_SATYPE_UNSPEC		 0
@@ -300,7 +298,6 @@ struct sadb_x_udpencap {
 #define SADB_X_EALG_RC4       10
 #define SADB_EALG_NULL        11
 #define SADB_X_EALG_AES       12
-#define SADB_X_EALG_AESCTR    13
 #define SADB_X_EALG_SKIPJACK  249
 #define SADB_EALG_MAX         249
 
@@ -333,7 +330,6 @@ struct sadb_x_udpencap {
 #define PFKEYV2_LIFETIME_HARD      0
 #define PFKEYV2_LIFETIME_SOFT      1
 #define PFKEYV2_LIFETIME_CURRENT   2
-#define PFKEYV2_LIFETIME_LASTUSE   3
 
 #define PFKEYV2_IDENTITY_SRC       0
 #define PFKEYV2_IDENTITY_DST       1
@@ -388,7 +384,6 @@ struct pfkey_version
 	int (*create)(struct socket *socket);
 	int (*release)(struct socket *socket);
 	int (*send)(struct socket *socket, void *message, int len);
-	int (*sysctl)(int *, u_int, void *, size_t *, void *, size_t);
 };
 
 struct pfkeyv2_socket
@@ -418,20 +413,14 @@ int pfkey_unregister(struct pfkey_version *version);
 int pfkey_sendup(struct socket *socket, struct mbuf *packet, int more);
 
 int pfkeyv2_create(struct socket *);
-int pfkeyv2_get(struct tdb *, void **, void **, int *);
+int pfkeyv2_get(struct tdb *, void **, void **);
 int pfkeyv2_policy(struct ipsec_acquire *, void **, void **);
 int pfkeyv2_release(struct socket *);
 int pfkeyv2_send(struct socket *, void *, int);
 int pfkeyv2_sendmessage(void **, int, struct socket *, u_int8_t, int);
-int pfkeyv2_dump_policy(struct ipsec_policy *, void **, void **, int *);
 int pfkeyv2_dump_walker(struct tdb *, void *, int);
 int pfkeyv2_flush_walker(struct tdb *, void *, int);
 int pfkeyv2_get_proto_alg(u_int8_t, u_int8_t *, int *);
-int pfkeyv2_sysctl(int *, u_int, void *, size_t *, void *, size_t);
-int pfkeyv2_sysctl_walker(struct tdb *, void *, int);
-int pfkeyv2_ipo_walk(int (*)(struct ipsec_policy *, void *), void *);
-int pfkeyv2_sysctl_dump(void *);
-int pfkeyv2_sysctl_policydumper(struct ipsec_policy *, void *);
 
 int pfdatatopacket(void *, int, struct mbuf **);
 
@@ -440,8 +429,6 @@ void export_identity(void **, struct tdb *, int);
 void export_lifetime(void **, struct tdb *, int);
 void export_credentials(void **, struct tdb *, int);
 void export_sa(void **, struct tdb *);
-void export_flow(void **, u_int8_t, struct sockaddr_encap *,
-    struct sockaddr_encap *, void **);
 void export_key(void **, struct tdb *, int);
 void export_auth(void **, struct tdb *, int);
 void export_udpencap(void **, struct tdb *);

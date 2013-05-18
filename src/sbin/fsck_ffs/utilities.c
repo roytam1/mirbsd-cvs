@@ -30,17 +30,8 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)utilities.c	8.1 (Berkeley) 6/5/93";
-#else
-static const char rcsid[] = "$OpenBSD: utilities.c,v 1.31 2007/02/13 20:37:07 otto Exp $";
-#endif
-#endif /* not lint */
-
 #include <sys/param.h>
 #include <sys/time.h>
-#include <sys/types.h>
 #include <sys/uio.h>
 #include <ufs/ufs/dinode.h>
 #include <ufs/ufs/dir.h>
@@ -58,6 +49,9 @@ static const char rcsid[] = "$OpenBSD: utilities.c,v 1.31 2007/02/13 20:37:07 ot
 #include "fsutil.h"
 #include "fsck.h"
 #include "extern.h"
+
+__SCCSID("@(#)utilities.c	8.1 (Berkeley) 6/5/93");
+__RCSID("$MirOS: src/sbin/fsck_ffs/utilities.c,v 1.2 2005/03/06 19:49:56 tg Exp $");
 
 long	diskreads, totalreads;	/* Disk cache statistics */
 
@@ -261,8 +255,19 @@ ckfini(int markclean)
 		sigprocmask(SIG_SETMASK, &oset, NULL);
 		return;
 	}
-	sblock.fs_flags &= ~FS_FLAGS_UPDATED; /* Force update on next mount */
+#ifdef	__MirBSD__
+	{
+		int i = fsmodified;
+		sblock.fs_firstfield = arc4random();
+		sblock.fs_unused_1 = arc4random();
+		sbdirty();
+#endif
+	sblock.fs_flags &= ~(0x80); /* XXX for openbsd compat */
 	flush(fswritefd, &sblk);
+#ifdef	__MirBSD__
+		fsmodified = i;
+	}
+#endif
 	if (havesb && sblk.b_bno != SBOFF / dev_bsize &&
 	    !preen && reply("UPDATE STANDARD SUPERBLOCK")) {
 		sblk.b_bno = SBOFF / dev_bsize;

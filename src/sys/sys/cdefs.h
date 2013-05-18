@@ -1,7 +1,10 @@
+/**	$MirOS: src/sys/sys/cdefs.h,v 1.16 2007/05/18 00:47:58 tg Exp $ */
 /*	$OpenBSD: cdefs.h,v 1.18 2005/05/27 21:28:12 millert Exp $	*/
 /*	$NetBSD: cdefs.h,v 1.16 1996/04/03 20:46:39 christos Exp $	*/
 
-/*
+/*-
+ * Copyright (c) 2005, 2006
+ *	Thorsten "mirabilos" Glaser <tg@MirBSD.org>
  * Copyright (c) 1991, 1993
  *	The Regents of the University of California.  All rights reserved.
  *
@@ -35,8 +38,12 @@
  *	@(#)cdefs.h	8.7 (Berkeley) 1/21/94
  */
 
-#ifndef	_CDEFS_H_
-#define	_CDEFS_H_
+#ifndef _CDEFS_H_
+#define _CDEFS_H_
+
+#ifdef __KPRINTF_ATTRIBUTE__
+#undef __KPRINTF_ATTRIBUTE__
+#endif
 
 #include <machine/cdefs.h>
 
@@ -51,6 +58,9 @@
 /*
  * Macro to test if we're using a specific version of gcc or later.
  */
+#ifdef lint
+#undef __GNUC__
+#endif
 #ifdef __GNUC__
 #define __GNUC_PREREQ__(ma, mi) \
 	((__GNUC__ > (ma)) || (__GNUC__ == (ma) && __GNUC_MINOR__ >= (mi)))
@@ -73,13 +83,11 @@
 #define	__const		const		/* define reserved names to standard */
 #define	__signed	signed
 #define	__volatile	volatile
-#if defined(__cplusplus)
-#define	__inline	inline		/* convert to C++ keyword */
-#else
-#if !defined(__GNUC__) && !defined(lint)
+#if defined(__cplusplus) || defined(__PCC__)
+#define	__inline	inline		/* convert to C++/C99 keyword */
+#elif !defined(__GNUC__) && !defined(lint)
 #define	__inline			/* delete GCC keyword */
-#endif /* !__GNUC__ && !lint */
-#endif /* !__cplusplus */
+#endif
 
 #else	/* !(__STDC__ || __cplusplus) */
 #define	__P(protos)	()		/* traditional C preprocessor */
@@ -114,15 +122,15 @@
  * GCC >= 2.5 uses the __attribute__((attrs)) style.  All of these
  * work for GNU C++ (modulo a slight glitch in the C++ grammar in
  * the distribution version of 2.5.5).
+ * For GCC 3, the ANSI parser seems to be able to cope with attributes.
  */
-
 #if !__GNUC_PREREQ__(2, 5)
-#define	__attribute__(x)	/* delete __attribute__ if non-gcc or gcc1 */
+#define	__attribute__(x)	/* delete __attribute__ if no or old gcc */
 #if defined(__GNUC__) && !defined(__STRICT_ANSI__)
 #define	__dead		__volatile
 #define	__pure		__const
 #endif
-#elif !defined(__STRICT_ANSI__)
+#elif __GNUC_PREREQ__(3, 4) || !defined(__STRICT_ANSI__)
 #define __dead		__attribute__((__noreturn__))
 #define __pure		__attribute__((__const__))
 #endif
@@ -142,20 +150,23 @@
  *
  *	* Generally, __predict_false() error condition checks (unless
  *	  you have some _strong_ reason to do otherwise, in which case
- *	  document it), and/or __predict_true() `no-error' condition
+ *	  document it), and/or __predict_true() 'no-error' condition
  *	  checks, assuming you want to optimize for the no-error case.
  *
  *	* Other than that, if you don't know the likelihood of a test
- *	  succeeding from empirical or other `hard' evidence, don't
+ *	  succeeding from empirical or other 'hard' evidence, don't
  *	  make predictions.
  *
- *	* These are meant to be used in places that are run `a lot'.
+ *	* These are meant to be used in places that are run 'a lot'.
  *	  It is wasteful to make predictions in code that is run
  *	  seldomly (e.g. at subsystem initialization time) as the
  *	  basic block reordering that this affects can often generate
  *	  larger code.
  */
-#if __GNUC_PREREQ__(2, 96)
+#if defined(lint)
+#define __predict_true(exp)	(exp)
+#define __predict_false(exp)	(exp)
+#elif __GNUC_PREREQ__(2, 96)
 #define __predict_true(exp)	__builtin_expect(((exp) != 0), 1)
 #define __predict_false(exp)	__builtin_expect(((exp) != 0), 0)
 #else
@@ -169,14 +180,72 @@
 #define	__pure
 #endif
 
-#if __GNUC_PREREQ__(2, 7)
-#define	__packed	__attribute__((__packed__))
-#elif defined(lint)
+#ifdef __ELF__
+#define __weak_extern(sym)	__asm__(".weak " #sym);
+#endif
+
+#if __GNUC__ >= 3
+#define	__packed		__attribute__((packed))
+#elif __GNUC_PREREQ__(2, 7)
+#define	__packed		__attribute__((__packed__))
+#elif defined(lint) || /* for now */ defined(__PCC__)
 #define	__packed
 #endif
 
 #if !__GNUC_PREREQ__(2, 8)
 #define	__extension__
+#endif
+
+#ifdef lint
+#define __func__		"__func__"
+#define __restrict__
+#define __unused
+#else
+#define __unused		__attribute__((unused))
+#endif
+
+#if defined(__ELF__) && defined(__GNUC__)
+#define __IDSTRING(prefix, string)				\
+	__asm__(".section .comment"				\
+	"\n	.ascii	\"@(\"\"#)" #prefix ": \""		\
+	"\n	.asciz	\"" string "\""				\
+	"\n	.previous")
+#else
+#define __IDSTRING_CONCAT(l,p)		__LINTED__ ## l ## _ ## p
+#define __IDSTRING_EXPAND(l,p)		__IDSTRING_CONCAT(l,p)
+#define __IDSTRING(prefix, string)				\
+	static const char __IDSTRING_EXPAND(__LINE__,prefix) []	\
+	    __attribute__((used)) = "@(""#)" #prefix ": " string
+#endif
+#define __COPYRIGHT(x)		__IDSTRING(copyright,x)
+#define __KERNEL_RCSID(n,x)	__IDSTRING(rcsid_ ## n,x)
+#define __RCSID(x)		__IDSTRING(rcsid,x)
+#define __SCCSID(x)		__IDSTRING(sccsid,x)
+
+#ifndef _DIAGASSERT
+#define _DIAGASSERT(x)		/* nothing */
+#endif
+
+#ifdef __ELF__
+#define _C_LABEL_STRING(x)	x
+#else
+#define _C_LABEL_STRING(x)	"_"x
+#endif
+
+#ifdef __NEED_NETBSD_COMPAT	/* one of the worst */
+#ifdef __GNUC__
+#define __UNCONST(x) __extension__({	\
+	union {				\
+		const void *cptr;	\
+		void *vptr;		\
+	} __UC_v;			\
+					\
+	__UC_v.cptr = (x);		\
+	(__UC_v.vptr);			\
+})
+#else
+#define __UNCONST(a)		((void *)(unsigned long)(const void *)(a))
+#endif
 #endif
 
 /*
@@ -294,9 +363,20 @@
  * by any standards.  We expose these when one of the POSIX or XPG
  * macros is not defined or if the user explicitly asks for them.
  */
-#if !defined(_OPENBSD_SOURCE) && \
+#if !defined(_OPENBSD_SOURCE) && !defined(_NETBSD_SOURCE) && \
    (defined(_ANSI_SOURCE) || defined(__XPG_VISIBLE) || defined(__POSIX_VISIBLE))
 # define __OPENBSD_VISIBLE	0
+#endif
+
+/*
+ * _ALL_SOURCE and _GNU_SOURCE enable everything
+ */
+#if defined(_ALL_SOURCE) || defined(_GNU_SOURCE)
+# undef __POSIX_VISIBLE
+# undef __XPG_VISIBLE
+# undef __ISO_C_VISIBLE
+# undef __OPENBSD_VISIBLE
+/* no #define, cf. default values below */
 #endif
 
 /*

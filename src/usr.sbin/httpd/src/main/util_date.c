@@ -106,7 +106,7 @@ API_EXPORT(int) ap_checkmask(const char *data, const char *mask)
 		return 0;
 	    break;
 	case '#':
-	    if (!ap_isdigit(d))
+	    if (!isdigit((unsigned char)d))
 		return 0;
 	    break;
 	case '&':
@@ -114,7 +114,7 @@ API_EXPORT(int) ap_checkmask(const char *data, const char *mask)
 		return 0;
 	    break;
 	case '~':
-	    if ((d != ' ') && !ap_isdigit(d))
+	    if ((d != ' ') && !isdigit((unsigned char)d))
 		return 0;
 	    break;
 	default:

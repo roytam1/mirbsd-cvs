@@ -1,8 +1,10 @@
-#	$OpenBSD: Makefile,v 1.28 2004/07/13 21:09:48 millert Exp $
-#	$NetBSD: Makefile,v 1.8 1996/05/16 07:03:28 thorpej Exp $
+# $MirOS: src/lib/libutil/Makefile,v 1.4 2007/05/17 18:38:35 tg Exp $
+# $OpenBSD: Makefile,v 1.28 2004/07/13 21:09:48 millert Exp $
+# $NetBSD: Makefile,v 1.8 1996/05/16 07:03:28 thorpej Exp $
 
-LIB=	util
-CFLAGS+=-DLIBC_SCCS
+SHLIB_VERSION?=	14.0
+LIB=		util
+CPPFLAGS+=	-DLIBC_SCCS
 
 HDRS=	util.h
 SRCS=	check_expire.c getmaxpartitions.c getrawpartition.c login.c \
@@ -33,14 +35,5 @@ MLINKS+=uucplock.3 uu_unlock.3
 MLINKS+=uucplock.3 uu_lockerr.3
 MLINKS+=uucplock.3 uu_lock_txfr.3
 MLINKS+=fmt_scaled.3 scan_scaled.3
-
-includes:
-	@cd ${.CURDIR}; for i in $(HDRS); do \
-	    j="cmp -s $$i ${DESTDIR}/usr/include/$$i || \
-		${INSTALL} ${INSTALL_COPY} -o ${BINOWN} -g ${BINGRP} -m 444 $$i \
-		${DESTDIR}/usr/include"; \
-	    echo $$j; \
-	    eval "$$j"; \
-	done
 
 .include <bsd.lib.mk>

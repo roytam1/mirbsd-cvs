@@ -1,9 +1,14 @@
+/**	$MirOS: src/usr.bin/file/file.c,v 1.5 2007/07/10 14:10:14 tg Exp $ */
+/*	$OpenBSD: LEGAL.NOTICE,v 1.6 2003/06/13 18:31:14 deraadt Exp $	*/
 /*	$OpenBSD: file.c,v 1.17 2007/02/19 13:02:08 tom Exp $ */
 /*
  * Copyright (c) Ian F. Darwin 1986-1995.
  * Software written by Ian F. Darwin and others;
- * maintained 1995-present by Christos Zoulas and others.
- * 
+ * maintained 1994-present by Christos Zoulas and others.
+ *
+ * This software is not subject to any export provision of the United States
+ * Department of Commerce, and may be exported to any country or planet.
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met:
@@ -72,10 +77,7 @@
 
 #include "patchlevel.h"
 
-#ifndef	lint
-FILE_RCSID("@(#)$Id$")
-#endif	/* lint */
-
+__RCSID("$MirOS: src/usr.bin/file/file.c,v 1.5 2007/07/10 14:10:14 tg Exp $");
 
 #ifdef S_IFLNK
 #define SYMLINKFLAG "L"
@@ -97,14 +99,14 @@ private int 		/* Global command-line options 		*/
 
 private const char *magicfile = 0;	/* where the magic is	*/
 private const char *default_magicfile = MAGIC;
-private char *separator = ":";	/* Default field separator	*/
+private const char *separator = ":";	/* Default field separator	*/
 
 private char *progname;		/* used throughout 		*/
 
 private struct magic_set *magic;
 
 private void unwrap(char *);
-private void usage(void);
+private void usage(void) __dead;
 #ifdef HAVE_GETOPT_LONG
 private void help(void);
 #endif
@@ -159,8 +161,10 @@ main(int argc, char *argv[])
 	};
 #endif
 
+#ifndef __MirBSD__
 #ifdef LC_CTYPE
 	setlocale(LC_CTYPE, ""); /* makes islower etc work for other langs */
+#endif
 #endif
 
 #ifdef __EMX__
@@ -182,7 +186,7 @@ main(int argc, char *argv[])
 			if ((usermagic = malloc(len)) != NULL) {
 				(void)strlcpy(usermagic, home, len);
 				(void)strlcat(usermagic, "/.magic", len);
-				if (stat(usermagic, &sb)<0) 
+				if (stat(usermagic, &sb)<0)
 					free(usermagic);
 				else
 					magicfile = usermagic;
@@ -323,7 +327,7 @@ load(const char *m, int flags)
 		(void)fprintf(stderr, "%s: %s\n", progname, strerror(errno));
 		exit(1);
 	}
-	if (magic_load(magic, magicfile) == -1) {
+	if (magic_load(magic, m) == -1) {
 		(void)fprintf(stderr, "%s: %s\n",
 		    progname, magic_error(magic));
 		exit(1);

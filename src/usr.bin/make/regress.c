@@ -1,4 +1,4 @@
-/* $OpenPackages$ */
+/* $MirOS$ */
 /* $OpenBSD: regress.c,v 1.5 2004/04/07 13:11:36 espie Exp $ */
 
 /*
@@ -30,6 +30,7 @@
 
 /* regression tests */
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include "defines.h"
 #include "str.h"

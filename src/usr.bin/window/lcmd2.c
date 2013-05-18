@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: lcmd2.c,v 1.9 2003/08/01 22:01:37 david Exp $	*/
 /*	$NetBSD: lcmd2.c,v 1.7 1995/09/29 00:44:04 cgd Exp $	*/
 
@@ -33,14 +34,6 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)lcmd2.c	8.1 (Berkeley) 6/6/93";
-#else
-static char rcsid[] = "$OpenBSD: lcmd2.c,v 1.9 2003/08/01 22:01:37 david Exp $";
-#endif
-#endif /* not lint */
-
 #include "defs.h"
 #include "string.h"
 #include "value.h"
@@ -51,6 +44,9 @@ static char rcsid[] = "$OpenBSD: lcmd2.c,v 1.9 2003/08/01 22:01:37 david Exp $";
 #include <sys/resource.h>
 #include <stdio.h>
 #include <string.h>
+
+__SCCSID("@(#)lcmd2.c	8.1 (Berkeley) 6/6/93");
+__RCSID("$MirOS$");
 
 /*ARGSUSED*/
 l_iostat(v, a)
@@ -159,7 +155,7 @@ struct timeval *t;
 
 	if (t->tv_sec > 60*60) {
 		(void) snprintf(p, buf + sizeof buf - p,
-			"%ld:", t->tv_sec / (60*60));
+			"%lld:", (int64_t)t->tv_sec / (60*60));
 		while (*p++)
 			;
 		p--;
@@ -168,7 +164,7 @@ struct timeval *t;
 	}
 	if (t->tv_sec > 60) {
 		(void) snprintf(p, buf + sizeof buf - p,
-			fill ? "%02ld:" : "%ld:", t->tv_sec / 60);
+			fill ? "%02lld:" : "%lld:", (int64_t)t->tv_sec / 60);
 		while (*p++)
 			;
 		p--;
@@ -176,8 +172,8 @@ struct timeval *t;
 		fill++;
 	}
 	(void) snprintf(p, buf + sizeof buf - p,
-		fill ? "%02ld.%02d" : "%ld.%02ld",
-		t->tv_sec, t->tv_usec / 10000);
+		fill ? "%02lld.%02ld" : "%lld.%02ld",
+		(int64_t)t->tv_sec, (long)t->tv_usec / 10000L);
 	return buf;
 }
 

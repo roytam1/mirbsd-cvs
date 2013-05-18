@@ -8,19 +8,24 @@
  *
  * Developed at SunPro, a Sun Microsystems, Inc. business.
  * Permission to use, copy, modify, and distribute this
- * software is freely granted, provided that this notice 
+ * software is freely granted, provided that this notice
  * is preserved.
  * ====================================================
  */
 
+#include <sys/cdefs.h>
 #if defined(LIBM_SCCS) && !defined(lint)
-static char rcsid[] = "$NetBSD: e_jnf.c,v 1.5 1995/05/10 20:45:37 jtc Exp $";
+__RCSID("$MirOS$");
+__RCSID("$NetBSD: e_jnf.c,v 1.9 2002/05/26 22:01:50 wiz Exp $");
 #endif
 
 #include "math.h"
 #include "math_private.h"
 
 static const float
+#if 0
+invsqrtpi=  5.6418961287e-01, /* 0x3f106ebb */
+#endif
 two   =  2.0000000000e+00, /* 0x40000000 */
 one   =  1.0000000000e+00; /* 0x3F800000 */
 
@@ -40,7 +45,7 @@ __ieee754_jnf(int n, float x)
 	ix = 0x7fffffff&hx;
     /* if J(n,NaN) is NaN */
 	if(ix>0x7f800000) return x+x;
-	if(n<0){		
+	if(n<0){
 		n = -n;
 		x = -x;
 		hx ^= 0x80000000;
@@ -51,7 +56,7 @@ __ieee754_jnf(int n, float x)
 	x = fabsf(x);
 	if(ix==0||ix>=0x7f800000) 	/* if x is 0 or inf */
 	    b = zero;
-	else if((float)n<=x) {   
+	else if((float)n<=x) {
 		/* Safe to use J(n+1,x)=2n/x *J(n,x)-J(n-1,x) */
 	    a = __ieee754_j0f(x);
 	    b = __ieee754_j1f(x);
@@ -62,7 +67,7 @@ __ieee754_jnf(int n, float x)
 	    }
 	} else {
 	    if(ix<0x30800000) {	/* x < 2**-29 */
-    /* x is tiny, return the first Taylor expansion of J(n,x) 
+    /* x is tiny, return the first Taylor expansion of J(n,x)
      * J(n,x) = 1/n!*(x/2)^n  - ...
      */
 		if(n>33)	/* underflow */
@@ -77,14 +82,14 @@ __ieee754_jnf(int n, float x)
 		}
 	    } else {
 		/* use backward recurrence */
-		/* 			x      x^2      x^2       
+		/* 			x      x^2      x^2
 		 *  J(n,x)/J(n-1,x) =  ----   ------   ------   .....
 		 *			2n  - 2(n+1) - 2(n+2)
 		 *
-		 * 			1      1        1       
+		 * 			1      1        1
 		 *  (for large x)   =  ----  ------   ------   .....
 		 *			2n   2(n+1)   2(n+2)
-		 *			-- - ------ - ------ - 
+		 *			-- - ------ - ------ -
 		 *			 x     x         x
 		 *
 		 * Let w = 2n/x and h=2/x, then the above quotient
@@ -100,9 +105,9 @@ __ieee754_jnf(int n, float x)
 		 * To determine how many terms needed, let
 		 * Q(0) = w, Q(1) = w(w+h) - 1,
 		 * Q(k) = (w+k*h)*Q(k-1) - Q(k-2),
-		 * When Q(k) > 1e4	good for single 
-		 * When Q(k) > 1e9	good for double 
-		 * When Q(k) > 1e17	good for quadruple 
+		 * When Q(k) > 1e4	good for single
+		 * When Q(k) > 1e9	good for double
+		 * When Q(k) > 1e17	good for quadruple
 		 */
 	    /* determine k */
 		float t,v;
@@ -124,7 +129,7 @@ __ieee754_jnf(int n, float x)
 		 *  single 8.8722839355e+01
 		 *  double 7.09782712893383973096e+02
 		 *  long double 1.1356523406294143949491931077970765006170e+04
-		 *  then recurrent value may overflow and the result is 
+		 *  then recurrent value may overflow and the result is
 		 *  likely underflow to zero
 		 */
 		tmp = n;
@@ -160,7 +165,7 @@ __ieee754_jnf(int n, float x)
 }
 
 float
-__ieee754_ynf(int n, float x) 
+__ieee754_ynf(int n, float x)
 {
 	int32_t i,hx,ix,ib;
 	int32_t sign;
@@ -185,7 +190,7 @@ __ieee754_ynf(int n, float x)
 	b = __ieee754_y1f(x);
 	/* quit if b is -inf */
 	GET_FLOAT_WORD(ib,b);
-	for(i=1;i<n&&ib!=0xff800000;i++){ 
+	for(i=1;i<n&&(unsigned)ib!=0xff800000;i++){
 	    temp = b;
 	    b = ((float)(i+i)/x)*b - a;
 	    GET_FLOAT_WORD(ib,b);

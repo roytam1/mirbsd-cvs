@@ -1,3 +1,4 @@
+/* $MirOS: src/sys/dev/raidframe/rf_openbsdkintf.c,v 1.4 2006/04/06 21:19:18 tg Exp $ */
 /* $OpenBSD: rf_openbsdkintf.c,v 1.31 2005/12/08 05:53:45 tedu Exp $	*/
 /* $NetBSD: rf_netbsdkintf.c,v 1.109 2001/07/27 03:30:07 oster Exp $	*/
 
@@ -390,10 +391,10 @@ raidattach(int num)
 		raidPtrs[i] = NULL;
 	rc = rf_BootRaidframe();
 	if (rc == 0)
-		printf("Kernelized RAIDframe activated\n");
+		printf("Kernelised RAIDframe activated\n");
 	else
 	        panic("Serious error booting RAID !!!");
-	
+
 	/*
 	 * Put together some datastructures like the CCD device does...
 	 * This lets us lock the device and what-not when it gets opened.
@@ -485,6 +486,7 @@ raidattach(int num)
 void
 rf_buildroothack(void *arg)
 {
+	extern int rootdev_override;
 	RF_ConfigSet_t *config_sets = arg;
 	RF_ConfigSet_t *cset;
 	RF_ConfigSet_t *next_cset;
@@ -539,12 +541,24 @@ rf_buildroothack(void *arg)
 			majdev = findblkmajor(&raidrootdev[rootID]);
 			if (majdev < 0)
 				boothowto |= RB_ASKNAME;
-			else {
+			else if ((rootdev == NODEV) /* config bsd generic */
+			    || (major(rootdev) == majdev) /* root on raid */
+			    ) {
+				extern char root_devname[];
+
 				rootdev = MAKEDISKDEV(majdev,rootID,0);
 				boothowto |= RB_DFLTROOT;
+				snprintf(root_devname, 16, "raid%da", rootID);
+			} else if (rootdev_override) {
+				printf("raidframe: eligible root device raid%da ignored (rootdev set via UKC)\n", rootID);
+			} else {
+				/* Found a RAID, but e.g. RAMDISK kernel */
+				printf("raidframe: Found eligible root device, but this is not a generic kernel.\nraidframe: Please choose a root device.\nPossible answer: rd0a (if you booted a ramdisk)\n");
+				boothowto |= RB_ASKNAME;
 			}
-		} else if (num_root > 1) {
+		} else if ((num_root > 1) && !rootdev_override) {
 			/* We can't guess... Require the user to answer... */
+			printf("raidframe: Found more than one eligible root device.\nraidframe: Please choose a root device.\nPossible answers: [rsw]d0a raid[0-9]a\n");
 			boothowto |= RB_ASKNAME;
 		}
 	}
@@ -575,7 +589,7 @@ rf_shutdown_hook(RF_ThreadArg_t arg)
 
 	pool_destroy(&rs->sc_cbufpool);
 
-	/* It's no longer initialized... */
+	/* It's no longer initialised... */
 	rs->sc_flags &= ~RAIDF_INITED;
 
 	/* config_detach the device. */
@@ -902,7 +916,7 @@ raidioctl(dev_t dev, u_long cmd, caddr_t data, int flag, struct proc *p)
 			return (EBADF);
 	}
 
-	/* Must be initialized for these... */
+	/* Must be initialised for these... */
 	switch (cmd) {
 	case DIOCGDINFO:
 	case DIOCSDINFO:
@@ -1056,7 +1070,7 @@ raidioctl(dev_t dev, u_long cmd, caddr_t data, int flag, struct proc *p)
 
 			pool_destroy(&rs->sc_cbufpool);
 
-			/* It's no longer initialized... */
+			/* It's no longer initialised... */
 			rs->sc_flags &= ~RAIDF_INITED;
 
 			/* config_detach the device. */
@@ -3222,7 +3236,7 @@ rf_create_configuration(RF_AutoConfig_t *ac, RF_Config_t *config,
 	}
 
 	for(i=0;i<RF_MAXDBGV;i++) {
-		config->debugVars[i][0] = NULL;
+		config->debugVars[i][0] = 0;
 	}
 
 #ifdef	RAID_DEBUG_ALL

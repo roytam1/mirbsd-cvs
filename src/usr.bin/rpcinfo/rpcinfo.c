@@ -502,7 +502,7 @@ pmapdump(int argc, char **argv)
 		bzero((char *)&server_addr, sizeof server_addr);
 		server_addr.sin_family = AF_INET;
 		if ((hp = gethostbyname("localhost")) != NULL)
-			bcopy(hp->h_addr, (caddr_t)&server_addr.sin_addr,
+			memmove((caddr_t)&server_addr.sin_addr, hp->h_addr,
 			    hp->h_length);
 		else
 			(void) inet_aton("0.0.0.0", &server_addr.sin_addr);
@@ -699,7 +699,7 @@ get_inet_address(struct sockaddr_in *addr, char *host)
 			    host);
 			exit(1);
 		}
-		bcopy(hp->h_addr, (char *)&addr->sin_addr, hp->h_length);
+		memmove((char *)&addr->sin_addr, hp->h_addr, hp->h_length);
 	}
 	addr->sin_family = AF_INET;
 }

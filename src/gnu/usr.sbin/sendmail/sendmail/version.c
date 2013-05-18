@@ -15,4 +15,4 @@
 
 SM_RCSID("@(#)$Sendmail: version.c,v 8.191 2007/04/03 21:21:18 ca Exp $")
 
-char	Version[] = "8.14.1";
+char	Version[] = "8.14.2";

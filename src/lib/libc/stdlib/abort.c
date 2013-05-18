@@ -31,6 +31,7 @@
 #include <signal.h>
 #include <stdlib.h>
 #include <unistd.h>
+#define _LIBC_IN_ABORT
 #include "thread_private.h"
 #include "atexit.h"
 

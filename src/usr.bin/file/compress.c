@@ -48,13 +48,11 @@
 #endif
 #undef HAVE_LIBZ
 #ifdef HAVE_LIBZ
+#define ZCONST const
 #include <zlib.h>
 #endif
 
-#ifndef lint
-FILE_RCSID("@(#)$Id$")
-#endif
-
+__RCSID("$MirOS$");
 
 private struct {
 	const char *magic;
@@ -96,7 +94,7 @@ file_zmagic(struct magic_set *ms, const unsigned char *buf, size_t nbytes)
 	if ((ms->flags & MAGIC_COMPRESS) == 0)
 		return 0;
 
-	for (i = 0; i < ncompr; i++) {
+	for (i = 0; i < (size_t)ncompr; i++) {
 		if (nbytes < compr[i].maglen)
 			continue;
 		if (memcmp(buf, compr[i].magic, compr[i].maglen) == 0 &&
@@ -342,8 +340,15 @@ uncompressbuf(struct magic_set *ms, size_t method, const unsigned char *old,
 		if (compr[method].silent)
 			(void) close(2);
 
-		execvp(compr[method].argv[0],
-		       (char *const *)compr[method].argv);
+		{
+			union mksh_ccphack {
+				char **rw;
+				const char * const *ro;
+			} cargs;
+
+			cargs.ro = compr[method].argv;
+			execvp(compr[method].argv[0], cargs.rw);
+		}
 		exit(1);
 		/*NOTREACHED*/
 	case -1:
@@ -357,7 +362,7 @@ uncompressbuf(struct magic_set *ms, size_t method, const unsigned char *old,
 		switch (fork()) {
 		case 0: /* child */
 			(void)close(fdout[0]);
-			if (swrite(fdin[1], old, n) != n)
+			if ((size_t)swrite(fdin[1], old, n) != n)
 				exit(1);
 			exit(0);
 			/*NOTREACHED*/

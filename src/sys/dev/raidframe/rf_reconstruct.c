@@ -907,11 +907,11 @@ rf_ContinueReconstructFailedDisk(RF_RaidReconDesc_t *reconDesc)
 		    " was %ld us (%ld.%06ld).\n", (int) elpsd.tv_sec,
 		    (int) elpsd.tv_usec, raidPtr->accumXorTimeUs, xor_s,
 		    xor_resid_us);
-		printf("  (start time %d sec %d usec, end time %d sec %d"
+		printf("  (start time %lld sec %d usec, end time %lld sec %d"
 		    " usec)\n",
-		    (int) raidPtr->reconControl[row]->starttime.tv_sec,
+		    (int64_t) raidPtr->reconControl[row]->starttime.tv_sec,
 		    (int) raidPtr->reconControl[row]->starttime.tv_usec,
-		    (int) etime.tv_sec, (int) etime.tv_usec);
+		    (int64_t) etime.tv_sec, (int) etime.tv_usec);
 
 #if	RF_RECON_STATS > 0
 		printf("Total head-sep stall count was %d.\n",

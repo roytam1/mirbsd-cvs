@@ -8,19 +8,20 @@
  *
  * Developed at SunPro, a Sun Microsystems, Inc. business.
  * Permission to use, copy, modify, and distribute this
- * software is freely granted, provided that this notice 
+ * software is freely granted, provided that this notice
  * is preserved.
  * ====================================================
  */
 
+#include <sys/cdefs.h>
 #if defined(LIBM_SCCS) && !defined(lint)
-static char rcsid[] = "$NetBSD: k_sinf.c,v 1.4 1995/05/10 20:46:33 jtc Exp $";
+__RCSID("$NetBSD: k_sinf.c,v 1.7 2002/05/26 22:01:53 wiz Exp $");
 #endif
 
 #include "math.h"
 #include "math_private.h"
 
-static const float 
+static const float
 half =  5.0000000000e-01,/* 0x3f000000 */
 S1  = -1.6666667163e-01, /* 0xbe2aaaab */
 S2  =  8.3333337680e-03, /* 0x3c088889 */

@@ -43,6 +43,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdarg.h>
+#include <unistd.h>
 
 #include "packet.h"
 #include "buffer.h"
@@ -53,6 +54,8 @@
 #include "auth.h"
 #include "auth-options.h"
 
+__RCSID("$MirOS: src/usr.bin/ssh/auth-passwd.c,v 1.8 2007/09/02 18:53:12 tg Exp $");
+
 extern Buffer loginmsg;
 extern ServerOptions options;
 int sys_auth_passwd(Authctxt *, const char *);
@@ -62,6 +65,7 @@ extern login_cap_t *lc;
 #define DAY		(24L * 60 * 60) /* 1 day in seconds */
 #define TWO_WEEKS	(2L * 7 * DAY)	/* 2 weeks in seconds */
 
+#ifdef BSD_AUTH
 static void
 disable_forwarding(void)
 {
@@ -69,6 +73,7 @@ disable_forwarding(void)
 	no_agent_forwarding_flag = 1;
 	no_x11_forwarding_flag = 1;
 }
+#endif
 
 /*
  * Tries to authenticate the user using password.  Returns true if
@@ -84,17 +89,10 @@ auth_password(Authctxt *authctxt, const char *password)
 		ok = 0;
 	if (*password == '\0' && options.permit_empty_passwd == 0)
 		return 0;
-#ifdef KRB5
-	if (options.kerberos_authentication == 1) {
-		int ret = auth_krb5_password(authctxt, password);
-		if (ret == 1 || ret == 0)
-			return ret && ok;
-		/* Fall back to ordinary passwd authentication. */
-	}
-#endif
 	return (sys_auth_passwd(authctxt, password) && ok);
 }
 
+#ifdef BSD_AUTH
 static void
 warn_expiry(Authctxt *authctxt, auth_session_t *as)
 {
@@ -106,10 +104,10 @@ warn_expiry(Authctxt *authctxt, auth_session_t *as)
 	pwtimeleft = auth_check_change(as);
 	actimeleft = auth_check_expire(as);
 	if (authctxt->valid) {
-		pwwarntime = login_getcaptime(lc, "password-warn", TWO_WEEKS,
-		    TWO_WEEKS);
-		acwarntime = login_getcaptime(lc, "expire-warn", TWO_WEEKS,
-		    TWO_WEEKS);
+		pwwarntime = login_getcaptime(lc, (char *)"password-warn",
+		    TWO_WEEKS, TWO_WEEKS);
+		acwarntime = login_getcaptime(lc, (char *)"expire-warn",
+		    TWO_WEEKS, TWO_WEEKS);
 	}
 	if (pwtimeleft != 0 && pwtimeleft < pwwarntime) {
 		daysleft = pwtimeleft / DAY + 1;
@@ -134,7 +132,7 @@ sys_auth_passwd(Authctxt *authctxt, const char *password)
 	auth_session_t *as;
 	static int expire_checked = 0;
 
-	as = auth_usercheck(pw->pw_name, authctxt->style, "auth-ssh",
+	as = auth_usercheck(pw->pw_name, authctxt->style, (char *)"auth-ssh",
 	    (char *)password);
 	if (as == NULL)
 		return (0);
@@ -151,3 +149,26 @@ sys_auth_passwd(Authctxt *authctxt, const char *password)
 		return (auth_close(as));
 	}
 }
+#else
+int
+sys_auth_passwd(Authctxt *authctxt, const char *password)
+{
+	struct passwd *pw = authctxt->pw;
+	char *encrypted_password;
+
+	/* Check for users with no password. */
+	if (strcmp(password, "") == 0 && strcmp(pw->pw_passwd, "") == 0)
+		return (1);
+
+	/* Encrypt the candidate password using the proper salt. */
+	encrypted_password = crypt(password,
+	    (pw->pw_passwd[0] && pw->pw_passwd[1]) ?
+	    pw->pw_passwd : "xx");
+
+	/*
+	 * Authentication is accepted if the encrypted passwords
+	 * are identical.
+	 */
+	return (strcmp(encrypted_password, pw->pw_passwd) == 0);
+}
+#endif

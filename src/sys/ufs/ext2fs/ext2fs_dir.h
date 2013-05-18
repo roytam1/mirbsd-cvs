@@ -138,7 +138,7 @@ inot2ext2dt(type)
    (( 8 + len + 3) &~ 3)
 
 /*
- * Template for manipulating directories.  Should use struct direct's,
+ * Template for manipulating directories.  Should use struct directs,
  * but the name field is EXT2FS_MAXNAMLEN - 1, and this just won't do.
  */
 struct ext2fs_dirtemplate {

@@ -1,3 +1,4 @@
+/**	$MirOS: src/lib/libc/string/bzero.c,v 1.4 2005/04/29 18:34:50 tg Exp $ */
 /*	$OpenBSD: bzero.c,v 1.7 2005/08/08 08:05:37 espie Exp $	*/
 
 /*
@@ -31,6 +32,7 @@
 
 #if !defined(_KERNEL) && !defined(_STANDALONE)
 #include <string.h>
+__RCSID("$MirOS: src/lib/libc/string/bzero.c,v 1.4 2005/04/29 18:34:50 tg Exp $");
 #else
 #include <lib/libkern/libkern.h>
 #endif

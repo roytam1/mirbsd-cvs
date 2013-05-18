@@ -1,3 +1,4 @@
+.\"	$MirOS: src/usr.bin/ssh/ssh-add.1,v 1.4 2005/04/26 15:21:50 tg Exp $
 .\"	$OpenBSD: ssh-add.1,v 1.46 2007/06/12 13:41:03 jmc Exp $
 .\"
 .\"  -*- nroff -*-
@@ -37,7 +38,7 @@
 .\" (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 .\" THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .\"
-.Dd $Mdocdate: May 31 2007 $
+.Dd $Mdocdate: June 16 2007 $
 .Dt SSH-ADD 1
 .Os
 .Sh NAME
@@ -57,10 +58,10 @@
 adds RSA or DSA identities to the authentication agent,
 .Xr ssh-agent 1 .
 When run without arguments, it adds the files
-.Pa ~/.ssh/id_rsa ,
-.Pa ~/.ssh/id_dsa
+.Pa ~/.etc/ssh/id_rsa ,
+.Pa ~/.etc/ssh/id_dsa
 and
-.Pa ~/.ssh/identity .
+.Pa ~/.etc/ssh/identity .
 Alternative file names can be given on the command line.
 If any file requires a passphrase,
 .Nm
@@ -153,11 +154,11 @@ agent.
 .El
 .Sh FILES
 .Bl -tag -width Ds
-.It Pa ~/.ssh/identity
+.It Pa ~/.etc/ssh/identity
 Contains the protocol version 1 RSA authentication identity of the user.
-.It Pa ~/.ssh/id_dsa
+.It Pa ~/.etc/ssh/id_dsa
 Contains the protocol version 2 DSA authentication identity of the user.
-.It Pa ~/.ssh/id_rsa
+.It Pa ~/.etc/ssh/id_rsa
 Contains the protocol version 2 RSA authentication identity of the user.
 .El
 .Pp

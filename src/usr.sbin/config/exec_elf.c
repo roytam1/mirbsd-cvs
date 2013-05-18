@@ -24,10 +24,6 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef LINT
-static char rcsid[] = "$OpenBSD: exec_elf.c,v 1.10 2004/01/04 18:30:05 deraadt Exp $";
-#endif
-
 #include <err.h>
 #include <errno.h>
 #include <fcntl.h>
@@ -41,6 +37,8 @@ static char rcsid[] = "$OpenBSD: exec_elf.c,v 1.10 2004/01/04 18:30:05 deraadt E
 
 #include "ukc.h"
 #include "config.h"
+
+__RCSID("$MirOS$");
 
 caddr_t		ptr, rest, pre;
 Elf_Ehdr	elf_ex;

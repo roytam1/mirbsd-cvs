@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: ldasm.S,v 1.10 2006/05/03 16:10:52 drahn Exp $ */
 
 /*
@@ -27,6 +28,7 @@
  *
  */
 
+#define	__CONCAT(x,y)	x ## y
 
 #define DL_DATA_SIZE	(16*4)
 #include <sys/syscall.h>
@@ -186,4 +188,3 @@ _dl_bind_start:
 
 	leal    4(%esp),%esp		# Discard reloff, do not change eflags
 	ret
-

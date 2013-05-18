@@ -41,9 +41,8 @@
 #include <ctype.h>
 #include <stdlib.h>
 #include <db.h>
-#ifdef YP
-#include <rpcsvc/ypclnt.h>
-#endif
+
+__RCSID("$MirOS: src/lib/libc/gen/getnetgrent.c,v 1.2 2005/03/06 20:28:40 tg Exp $");
 
 #define _NG_STAR(s)	(((s) == NULL || *(s) == '\0') ? _ngstar : s)
 #define _NG_EMPTY(s)	((s) == NULL ? "" : s)
@@ -243,11 +242,6 @@ badhost:
 static int
 lookup(const char *ypdom, char *name, char **line, int bywhat)
 {
-#ifdef YP
-	int	i;
-	char	*map = NULL;
-#endif
-
 	if (_ng_db) {
 		DBT	 key, data;
 		size_t	 len = strlen(name) + 2;
@@ -276,27 +270,6 @@ lookup(const char *ypdom, char *name, char **line, int bywhat)
 		}
 		free(ks);
 	}
-#ifdef YP
-	if (ypdom) {
-		switch (bywhat) {
-		case _NG_KEYBYNAME:
-			map = "netgroup";
-			break;
-
-		case _NG_KEYBYUSER:
-			map = "netgroup.byuser";
-			break;
-
-		case _NG_KEYBYHOST:
-			map = "netgroup.byhost";
-			break;
-		}
-
-
-		if (yp_match(ypdom, map, name, strlen(name), line, &i) == 0)
-			return 1;
-	}
-#endif
 
 	return 0;
 }
@@ -602,9 +575,6 @@ void
 setnetgrent(const char *ng)
 {
 	struct stringlist	*sl = _ng_sl_init();
-#ifdef YP
-	char			*line;
-#endif
 	char			*ng_copy, *ypdom = NULL;
 
 	/* Cleanup any previous storage */
@@ -614,16 +584,6 @@ setnetgrent(const char *ng)
 	if (_ng_db == NULL)
 		_ng_db = dbopen(_PATH_NETGROUP_DB, O_RDONLY, 0, DB_HASH, NULL);
 
-#ifdef YP
-	/*
-	 * We use yp if there is a "+" in the netgroup file, or if there is
-	 * no netgroup file at all
-	 */
-	if (_ng_db == NULL || lookup(NULL, "+", &line, _NG_KEYBYNAME) == 0)
-		yp_get_default_domain(&ypdom);
-	else
-		free(line);
-#endif
 	ng_copy = strdup(ng);
 	if (ng_copy == NULL)
 		_err(1, _ngoomem);
@@ -653,28 +613,11 @@ int
 innetgr(const char *grp, const char *host, const char *user, const char *domain)
 {
 	char	*ypdom = NULL, *grpdup;
-#ifdef YP
-	char	*line = NULL;
-#endif
 	int	 found;
 	struct stringlist *sl;
 
 	if (_ng_db == NULL)
 		_ng_db = dbopen(_PATH_NETGROUP_DB, O_RDONLY, 0, DB_HASH, NULL);
-
-#ifdef YP
-	/*
-	 * We use yp if there is a "+" in the netgroup file, or if there is
-	 * no netgroup file at all
-	 */
-	if (_ng_db == NULL)
-		yp_get_default_domain(&ypdom);
-	else if (lookup(NULL, "+", &line, _NG_KEYBYNAME) == 0)
-		yp_get_default_domain(&ypdom);
-
-	if (line)
-		free(line);
-#endif
 
 	/* Try the fast lookup first */
 	if (host != NULL && user == NULL) {

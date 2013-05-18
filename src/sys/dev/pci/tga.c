@@ -1260,7 +1260,7 @@ tga_putchar(c, row, col, uc, attr)
 	struct rasops_info *ri = c;
 	struct tga_devconfig *dc = ri->ri_hw;
 	int fs, height, width;
-	int fg, bg, ul;
+	int fg, bg, ulflag;
 	u_char *fr;
 	int32_t *rp;
 
@@ -1277,7 +1277,7 @@ tga_putchar(c, row, col, uc, attr)
 	 * The rasops code has already expanded the color entry to 32 bits
 	 * for us, even for 8-bit displays, so we don't have to do anything.
 	 */
-	ri->ri_ops.unpack_attr(c, attr, &fg, &bg, &ul);
+	ri->ri_ops.unpack_attr(c, attr, &fg, &bg, &ulflag);
 	TGAWREG(dc, TGA_REG_GFGR, ri->ri_devcmap[fg]);
 	TGAWREG(dc, TGA_REG_GBGR, ri->ri_devcmap[bg]);
 	
@@ -1306,7 +1306,7 @@ tga_putchar(c, row, col, uc, attr)
 	}
 
 	/* Do underline */
-	if (ul) {
+	if (ulflag & WSATTR_UNDERLINE) {
 		rp = (int32_t *)((caddr_t)rp - (ri->ri_stride << 1));
 		*rp = 0xffffffff;
 	}

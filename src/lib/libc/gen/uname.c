@@ -31,6 +31,9 @@
 #include <sys/param.h>
 #include <sys/sysctl.h>
 #include <sys/utsname.h>
+#include <string.h>
+
+__RCSID("$MirOS: src/lib/libc/gen/uname.c,v 1.5 2007/05/17 14:24:43 tg Exp $");
 
 int
 uname(struct utsname *name)

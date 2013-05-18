@@ -28,6 +28,8 @@
 #include "sftp-common.h"
 #include "sftp-client.h"
 
+__RCSID("$MirOS$");
+
 int remote_glob(struct sftp_conn *, const char *, int,
     int (*)(const char *, int), glob_t *);
 

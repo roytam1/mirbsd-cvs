@@ -7,7 +7,7 @@ MAN=	ccdconfig.8
 #BINGRP= kmem
 #BINMODE=2555
 
-DPADD=	${LIBKVM} ${LIBUTIL}
-LDADD=	-lkvm -lutil
+DPADD=	${LIBKVM} ${LIBUTIL} ${LIBZ}
+LDADD=	-lkvm -lutil -lz
 
 .include <bsd.prog.mk>

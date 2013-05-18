@@ -95,7 +95,9 @@ VAR var[] = {
 	{"comm", "", "ucomm"},
 	{"command", "COMMAND", NULL, COMM|LJUST|USER, command, 16},
 	{"cpu", "CPU", NULL, 0, pvar, 3, 0, POFF(p_estcpu), UINT32, "d"},
+#if 0
 	{"cpuid", "CPUID", NULL, 0, pvar, 8, 0, POFF(p_cpuid), UINT64, "lld"},
+#endif
 	{"cputime", "", "time"},
 	{"dsiz", "DSIZ", NULL, 0, dsize, 4},
 	{"emul", "EMUL", NULL, LJUST, emulname, EMULNAMELEN},

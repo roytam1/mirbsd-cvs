@@ -1,3 +1,4 @@
+/**	$MirOS: src/sys/arch/i386/i386/bios.c,v 1.2 2005/03/06 21:26:57 tg Exp $ */
 /*	$OpenBSD: bios.c,v 1.54 2004/01/29 01:36:13 tom Exp $	*/
 
 /*
@@ -166,7 +167,7 @@ biosattach(parent, self, aux)
 
 			bios32_entry.segment = GSEL(GCODE_SEL, SEL_KPL);
 			bios32_entry.offset = (u_int32_t)ISA_HOLE_VADDR(h->entry);
-			printf(", BIOS32 rev. %d @ 0x%lx", h->rev, h->entry);
+			printf(", BIOS32 rev. %d @ 0x%x", h->rev, h->entry);
 			break;
 		}
 	}
@@ -582,4 +583,3 @@ bios_getdiskinfo(dev)
 	else
 		return pdi;
 }
-

@@ -17,7 +17,7 @@
 #include <sys/socket.h>
 
 #include <openssl/bn.h>
-#include <openssl/md5.h>
+#include <md5.h>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -44,6 +44,8 @@
 #include "canohost.h"
 #include "hostfile.h"
 #include "auth.h"
+
+__RCSID("$MirOS: src/usr.bin/ssh/sshconnect1.c,v 1.8 2006/09/20 21:41:07 tg Exp $");
 
 /* Session id for the current session. */
 u_char session_id[16];
@@ -176,10 +178,10 @@ respond_to_rsa_challenge(BIGNUM * challenge, RSA * prv)
 
 	memset(buf, 0, sizeof(buf));
 	BN_bn2bin(challenge, buf + sizeof(buf) - len);
-	MD5_Init(&md);
-	MD5_Update(&md, buf, 32);
-	MD5_Update(&md, session_id, 16);
-	MD5_Final(response, &md);
+	MD5Init(&md);
+	MD5Update(&md, buf, 32);
+	MD5Update(&md, session_id, 16);
+	MD5Final(response, &md);
 
 	debug("Sending response to host key RSA challenge.");
 
@@ -480,7 +482,7 @@ ssh_kex(char *host, struct sockaddr *hostaddr)
 	BIGNUM *key;
 	Key *host_key, *server_key;
 	int bits, rbits;
-	int ssh_cipher_default = SSH_CIPHER_3DES;
+	int ssh_cipher_default = SSH_CIPHER_BLOWFISH;
 	u_char session_key[SSH_SESSION_KEY_LENGTH];
 	u_char cookie[8];
 	u_int supported_ciphers;

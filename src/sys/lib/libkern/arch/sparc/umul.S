@@ -1,6 +1,4 @@
-/*	$OpenBSD: umul.S,v 1.5 2003/06/02 23:28:09 millert Exp $	*/
-/*	$NetBSD: umul.S,v 1.2 1994/10/26 06:40:10 cgd Exp $	*/
-
+/* $OpenBSD: umul.S,v 1.6 2005/08/07 16:40:15 espie Exp $ */
 /*
  * Copyright (c) 1992, 1993
  *	The Regents of the University of California.  All rights reserved.
@@ -32,16 +30,7 @@
  * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
- *
- * Header: umul.s,v 1.4 92/06/25 13:24:05 torek Exp
  */
-
-#if defined(LIBC_SCCS) && !defined(lint)
-#ifdef notdef
-	.asciz "@(#)umul.s	8.1 (Berkeley) 6/4/93"
-#endif
-	.asciz "$OpenBSD: umul.S,v 1.5 2003/06/02 23:28:09 millert Exp $"
-#endif /* LIBC_SCCS and not lint */
 
 /*
  * Unsigned multiply.  Returns %o0 * %o1 in %o1%o0 (i.e., %o1 holds the
@@ -60,6 +49,11 @@
  */
 
 #include "DEFS.h"
+#ifndef STRONG_SPARC
+.weak .umul
+#else
+FUNC(__umul)
+#endif
 FUNC(.umul)
 	or	%o0, %o1, %o4
 	mov	%o0, %y		! multiplier -> Y
@@ -144,7 +138,7 @@ FUNC(.umul)
 	add	%o4, %o0, %o4	! %o4 += %o0 (add y to upper half)
 1:	rd	%y, %o0		! get lower half of product
 	retl
-	addcc	%o4, %g0, %o1	! put upper half in place and set Z for %o1==0
+	 addcc	%o4, %g0, %o1	! put upper half in place and set Z for %o1==0
 
 Lmul_shortway:
 	/*
@@ -186,4 +180,4 @@ Lmul_shortway:
 	srl	%o5, 20, %o5	! shift low bits right 20
 	or	%o5, %o0, %o0
 	retl
-	addcc	%g0, %g0, %o1	! %o1 = zero, and set Z
+	 addcc	%g0, %g0, %o1	! %o1 = zero, and set Z

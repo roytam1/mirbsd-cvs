@@ -1,3 +1,4 @@
+/**	$MirOS: src/sys/sys/types.h,v 1.7 2006/11/04 03:58:38 tg Exp $ */
 /*	$OpenBSD: types.h,v 1.26 2004/07/13 21:04:29 millert Exp $	*/
 /*	$NetBSD: types.h,v 1.29 1996/11/15 22:48:25 jtc Exp $	*/
 
@@ -45,6 +46,19 @@
 
 #include <machine/ansi.h>
 #include <machine/endian.h>
+
+#ifdef __NEED_NETBSD_COMPAT
+typedef int8_t		__int8_t;
+typedef int16_t		__int16_t;
+typedef int32_t		__int32_t;
+typedef int64_t		__int64_t;
+typedef uint8_t		__uint8_t;
+typedef uint16_t	__uint16_t;
+typedef uint32_t	__uint32_t;
+typedef uint64_t	__uint64_t;
+typedef intptr_t	__intptr_t;
+typedef uintptr_t	__uintptr_t;
+#endif
 
 #if !defined(_POSIX_SOURCE) && !defined(_XOPEN_SOURCE)
 typedef	unsigned char	u_char;
@@ -99,15 +113,15 @@ typedef	_BSD_CLOCK_T_	clock_t;
 #undef	_BSD_CLOCK_T_
 #endif
 
-#ifdef	_BSD_SIZE_T_
-typedef	_BSD_SIZE_T_	size_t;
-#undef	_BSD_SIZE_T_
+#if !defined(_GCC_SIZE_T)
+#define	_GCC_SIZE_T
+typedef	__SIZE_TYPE__	size_t;
 #endif
 
-#ifdef	_BSD_SSIZE_T_
-typedef	_BSD_SSIZE_T_	ssize_t;
-#undef	_BSD_SSIZE_T_
-#endif
+/* e-eeeevil kludge, but apparently works */
+#define unsigned	signed
+typedef	__SIZE_TYPE__	ssize_t;
+#undef unsigned
 
 #ifdef	_BSD_TIME_T_
 typedef	_BSD_TIME_T_	time_t;
@@ -179,13 +193,8 @@ typedef	struct fd_set {
 #define	FD_SET(n, p)	((p)->fds_bits[(n)/NFDBITS] |= (1 << ((n) % NFDBITS)))
 #define	FD_CLR(n, p)	((p)->fds_bits[(n)/NFDBITS] &= ~(1 << ((n) % NFDBITS)))
 #define	FD_ISSET(n, p)	((p)->fds_bits[(n)/NFDBITS] & (1 << ((n) % NFDBITS)))
-#ifdef _KERNEL
-#define	FD_COPY(f, t)	bcopy(f, t, sizeof(*(f)))
-#define	FD_ZERO(p)	bzero(p, sizeof(*(p)))
-#else
 #define	FD_COPY(f, t)	memcpy(t, f, sizeof(*(f)))
 #define	FD_ZERO(p)	memset(p, 0, sizeof(*(p)))
-#endif
 
 #if defined(__STDC__) && defined(_KERNEL)
 /*

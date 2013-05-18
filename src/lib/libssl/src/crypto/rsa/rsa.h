@@ -154,10 +154,16 @@ struct rsa_st
 	BN_BLINDING *blinding;
 	};
 
-#define OPENSSL_RSA_MAX_MODULUS_BITS	16384
+#ifndef OPENSSL_RSA_MAX_MODULUS_BITS
+# define OPENSSL_RSA_MAX_MODULUS_BITS	16384
+#endif
 
-#define OPENSSL_RSA_SMALL_MODULUS_BITS	3072
-#define OPENSSL_RSA_MAX_PUBEXP_BITS	64 /* exponent limit enforced for "small" modulus only */
+#ifndef OPENSSL_RSA_SMALL_MODULUS_BITS
+# define OPENSSL_RSA_SMALL_MODULUS_BITS	3072
+#endif
+#ifndef OPENSSL_RSA_MAX_PUBEXP_BITS
+# define OPENSSL_RSA_MAX_PUBEXP_BITS	64
+#endif
 
 #define RSA_3	0x3L
 #define RSA_F4	0x10001L

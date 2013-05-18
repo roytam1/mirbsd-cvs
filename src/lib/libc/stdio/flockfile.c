@@ -23,19 +23,19 @@ WEAK_ALIAS(ftrylockfile);
 WEAK_ALIAS(funlockfile);
 
 void
-WEAK_NAME(flockfile)(FILE * fp)
+WEAK_NAME(flockfile)(FILE * fp __attribute__((unused)))
 {
 }
 
 
 int
-WEAK_NAME(ftrylockfile)(FILE *fp)
+WEAK_NAME(ftrylockfile)(FILE *fp __attribute__((unused)))
 {
 
 	return 0;
 }
 
 void
-WEAK_NAME(funlockfile)(FILE * fp)
+WEAK_NAME(funlockfile)(FILE * fp __attribute__((unused)))
 {
 }

@@ -39,13 +39,15 @@
 #include "mac.h"
 #include "misc.h"
 
+__RCSID("$MirOS: src/usr.bin/ssh/mac.c,v 1.5 2007/06/16 15:41:50 tg Exp $");
+
 #include "umac.h"
 
 #define SSH_EVP		1	/* OpenSSL EVP-based MAC */
 #define SSH_UMAC	2	/* UMAC (not integrated with OpenSSL) */
 
 struct {
-	char		*name;
+	const char	*name;
 	int		type;
 	const EVP_MD *	(*mdfunc)(void);
 	int		truncatebits;	/* truncate digest if != 0 */
@@ -124,7 +126,7 @@ mac_compute(Mac *mac, u_int32_t seqno, u_char *data, int datalen)
 	u_char b[4], nonce[8];
 
 	if (mac->mac_len > sizeof(m))
-		fatal("mac_compute: mac too long %u %lu",
+		fatal("mac_compute: mac too long %u %zu",
 		    mac->mac_len, sizeof(m));
 
 	switch (mac->type) {

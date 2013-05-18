@@ -115,7 +115,7 @@
 #include "kssl_lcl.h"
 #include <openssl/md5.h>
 
-const char *ssl3_version_str="SSLv3" OPENSSL_VERSION_PTEXT;
+const char ssl3_version_str[]="SSLv3" OPENSSL_VERSION_PTEXT;
 
 #define SSL3_NUM_CIPHERS	(sizeof(ssl3_ciphers)/sizeof(SSL_CIPHER))
 
@@ -557,7 +557,7 @@ OPENSSL_GLOBAL SSL_CIPHER ssl3_ciphers[]={
 	SSL_kKRB5|SSL_aKRB5|  SSL_3DES|SSL_SHA1  |SSL_SSLV3,
 	SSL_NOT_EXP|SSL_HIGH|SSL_FIPS,
 	0,
-	112,
+	168,
 	168,
 	SSL_ALL_CIPHERS,
 	SSL_ALL_STRENGTHS,
@@ -613,7 +613,7 @@ OPENSSL_GLOBAL SSL_CIPHER ssl3_ciphers[]={
 	SSL_kKRB5|SSL_aKRB5|  SSL_3DES|SSL_MD5   |SSL_SSLV3,
 	SSL_NOT_EXP|SSL_HIGH,
 	0,
-	112,
+	168,
 	168,
 	SSL_ALL_CIPHERS,
 	SSL_ALL_STRENGTHS,
@@ -683,7 +683,7 @@ OPENSSL_GLOBAL SSL_CIPHER ssl3_ciphers[]={
 	SSL_kKRB5|SSL_aKRB5|  SSL_RC4|SSL_SHA1   |SSL_SSLV3,
 	SSL_EXPORT|SSL_EXP40,
 	0,
-	128,
+	40,
 	128,
 	SSL_ALL_CIPHERS,
 	SSL_ALL_STRENGTHS,
@@ -725,7 +725,7 @@ OPENSSL_GLOBAL SSL_CIPHER ssl3_ciphers[]={
 	SSL_kKRB5|SSL_aKRB5|  SSL_RC4|SSL_MD5    |SSL_SSLV3,
 	SSL_EXPORT|SSL_EXP40,
 	0,
-	128,
+	40,
 	128,
 	SSL_ALL_CIPHERS,
 	SSL_ALL_STRENGTHS,
@@ -734,7 +734,8 @@ OPENSSL_GLOBAL SSL_CIPHER ssl3_ciphers[]={
 
 
 #if TLS1_ALLOW_EXPERIMENTAL_CIPHERSUITES
-	/* New TLS Export CipherSuites */
+	/* New TLS Export CipherSuites from expired ID */
+#if 0
 	/* Cipher 60 */
 	    {
 	    1,
@@ -761,6 +762,7 @@ OPENSSL_GLOBAL SSL_CIPHER ssl3_ciphers[]={
 	    SSL_ALL_CIPHERS,
 	    SSL_ALL_STRENGTHS,
 	    },
+#endif
 	/* Cipher 62 */
 	    {
 	    1,

@@ -1,6 +1,8 @@
 /*	$OpenBSD: ntpd.c,v 1.40 2005/09/06 21:27:10 wvdputte Exp $ */
 
-/*
+/*-
+ * Copyright (c) 2004, 2005, 2007
+ *	Thorsten "mirabilos" Glaser <tg@66h.42h.de>
  * Copyright (c) 2003, 2004 Henning Brauer <henning@openbsd.org>
  *
  * Permission to use, copy, modify, and distribute this software for any
@@ -18,6 +20,7 @@
 
 #include <sys/types.h>
 #include <sys/socket.h>
+#include <sys/taitime.h>
 #include <sys/wait.h>
 #include <netinet/in.h>
 #include <errno.h>
@@ -32,11 +35,14 @@
 
 #include "ntpd.h"
 
+__RCSID("$MirOS: src/usr.sbin/ntpd/ntpd.c,v 1.15 2007/07/31 20:32:47 tg Exp $");
+
 void		sighdlr(int);
 __dead void	usage(void);
 int		main(int, char *[]);
 int		check_child(pid_t, const char *);
 int		dispatch_imsg(struct ntpd_conf *);
+void		reset_adjtime(void);
 int		ntpd_adjtime(double);
 void		ntpd_settime(double);
 
@@ -62,12 +68,12 @@ sighdlr(int sig)
 	}
 }
 
-__dead void
+void
 usage(void)
 {
-	extern char *__progname;
+	extern const char *__progname;
 
-	fprintf(stderr, "usage: %s [-dSs] [-f file]\n", __progname);
+	fprintf(stderr, "usage: %s [-dSst] [-f file]\n", __progname);
 	exit(1);
 }
 
@@ -91,7 +97,7 @@ main(int argc, char *argv[])
 	log_init(1);		/* log to stderr until daemonized */
 	res_init();		/* XXX */
 
-	while ((ch = getopt(argc, argv, "df:sS")) != -1) {
+	while ((ch = getopt(argc, argv, "df:sSt")) != -1) {
 		switch (ch) {
 		case 'd':
 			conf.debug = 1;
@@ -104,6 +110,9 @@ main(int argc, char *argv[])
 			break;
 		case 'S':
 			conf.settime = 0;
+			break;
+		case 't':
+			conf.trace++;
 			break;
 		default:
 			usage();
@@ -125,6 +134,7 @@ main(int argc, char *argv[])
 	}
 	endpwent();
 
+	reset_adjtime();
 	if (!conf.settime) {
 		log_init(conf.debug);
 		if (!conf.debug)
@@ -136,6 +146,7 @@ main(int argc, char *argv[])
 	if (socketpair(AF_UNIX, SOCK_STREAM, PF_UNSPEC, pipe_chld) == -1)
 		fatal("socketpair");
 
+	signal(SIGCHLD, sighdlr);
 	/* fork child process */
 	chld_pid = ntp_main(pipe_chld, &conf);
 
@@ -143,7 +154,6 @@ main(int argc, char *argv[])
 
 	signal(SIGTERM, sighdlr);
 	signal(SIGINT, sighdlr);
-	signal(SIGCHLD, sighdlr);
 	signal(SIGHUP, sighdlr);
 
 	close(pipe_chld[1]);
@@ -218,7 +228,7 @@ int
 check_child(pid_t pid, const char *pname)
 {
 	int	 status, sig;
-	char 	*signame;
+	const char *signame;
 
 	if (waitpid(pid, &status, WNOHANG) > 0) {
 		if (WIFEXITED(status)) {
@@ -292,7 +302,8 @@ dispatch_imsg(struct ntpd_conf *conf)
 			if (name[imsg.hdr.len] != '\0' ||
 			    strlen(name) != imsg.hdr.len)
 				fatalx("invalid IMSG_HOST_DNS received");
-			cnt = host_dns(name, &hn);
+			if ((cnt = host_dns(name, &hn)) == -1)
+				break;
 			buf = imsg_create(ibuf, IMSG_HOST_DNS,
 			    imsg.hdr.peerid, 0,
 			    cnt * sizeof(struct sockaddr_storage));
@@ -312,20 +323,33 @@ dispatch_imsg(struct ntpd_conf *conf)
 	return (0);
 }
 
+void
+reset_adjtime(void)
+{
+	struct timeval	tv;
+
+	tv.tv_sec = 0;
+	tv.tv_usec = 0;
+	if (adjtime(&tv, NULL) == -1)
+		log_warn("reset adjtime failed");
+}
+
 int
 ntpd_adjtime(double d)
 {
 	struct timeval	tv, olddelta;
-	int		synced = 0;
+	double		o;
+	int		synced = 0, rv;
 	static int	firstadj = 1;
 
-	if (d >= (double)LOG_NEGLIGEE / 1000 ||
-	    d <= -1 * (double)LOG_NEGLIGEE / 1000)
-		log_info("adjusting local clock by %fs", d);
-	else
-		log_debug("adjusting local clock by %fs", d);
 	d_to_tv(d, &tv);
-	if (adjtime(&tv, &olddelta) == -1)
+	rv = adjtime(&tv, &olddelta);
+	o = (double)olddelta.tv_sec + (double)olddelta.tv_usec / 1000000.;
+	if (d >= LOG_NEGLIGEE / 1000. || d <= LOG_NEGLIGEE / -1000.)
+		log_info("adjusting local clock by %fs, old drift %fs", d, o);
+	else
+		log_debug("adjusting local clock by %fs, old drift %fs", d, o);
+	if (rv == -1)
 		log_warn("adjtime failed");
 	else if (!firstadj && olddelta.tv_sec == 0 && olddelta.tv_usec == 0)
 		synced = 1;
@@ -336,29 +360,27 @@ ntpd_adjtime(double d)
 void
 ntpd_settime(double d)
 {
-	struct timeval	tv, curtime;
+	struct timeval	curtime;
 	char		buf[80];
-	time_t		tval;
+	tai64na_t	t;
 
 	/* if the offset is small, don't call settimeofday */
 	if (d < SETTIME_MIN_OFFSET && d > -SETTIME_MIN_OFFSET)
 		return;
 
-	if (gettimeofday(&curtime, NULL) == -1) {
-		log_warn("gettimeofday");
-		return;
-	}
-	d_to_tv(d, &tv);
-	curtime.tv_usec += tv.tv_usec + 1000000;
-	curtime.tv_sec += tv.tv_sec - 1 + (curtime.tv_usec / 1000000);
+	d_to_tv(d, &curtime);
+	taina_time(&t);
+	curtime.tv_usec += t.nano / 1000 + /* borrow */ 1000000;
+	curtime.tv_sec = tai2timet(utc2tai(tai2utc(t.secs)
+	    + curtime.tv_sec - /* pay */ 1
+	    + (curtime.tv_usec / 1000000)));
 	curtime.tv_usec %= 1000000;
 
 	if (settimeofday(&curtime, NULL) == -1) {
 		log_warn("settimeofday");
 		return;
 	}
-	tval = curtime.tv_sec;
-	strftime(buf, sizeof(buf), "%a %b %e %H:%M:%S %Z %Y",
-	    localtime(&tval));
+	strftime(buf, sizeof (buf), "%a %b %e %H:%M:%S %Z %Y",
+	    localtime(&curtime.tv_sec));
 	log_info("set local clock to %s (offset %fs)", buf, d);
 }

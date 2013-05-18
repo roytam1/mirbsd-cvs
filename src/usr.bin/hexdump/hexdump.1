@@ -1,3 +1,4 @@
+.\"	$MirOS$
 .\"	$OpenBSD: hexdump.1,v 1.14 2003/06/03 02:56:09 millert Exp $
 .\"	$NetBSD: hexdump.1,v 1.14 2001/12/07 14:46:24 bjh21 Exp $
 .\"
@@ -34,11 +35,12 @@
 .Dt HEXDUMP 1
 .Os
 .Sh NAME
-.Nm hexdump
+.Nm hexdump ,
+.Nm hd
 .Nd ascii, decimal, hexadecimal, octal dump
 .Sh SYNOPSIS
 .Nm hexdump
-.Op Fl bcCdovx
+.Op Fl bcCHdovx
 .Bk -words
 .Op Fl e Ar format_string
 .Ek
@@ -75,7 +77,7 @@ data per line.
 .Em Canonical hex+ASCII display .
 Display the input offset in hexadecimal, followed by sixteen
 space-separated, two column, hexadecimal bytes, followed by the
-same sixteen bytes in %_p format enclosed in ``|'' characters.
+same sixteen bytes in %_p format enclosed in "|" characters.
 .It Fl d
 .Em Two-byte decimal display .
 Display the input offset in hexadecimal, followed by eight
@@ -88,6 +90,18 @@ Specify a file that contains one or more newline separated format strings.
 Empty lines and lines whose first non-blank character is a hash mark
 .Pq Ql #
 are ignored.
+.It Fl H
+.Em DOS compatible hex+ASCII display .
+Display the input offset in hexadecimal, followed by sixteen
+hexadecimal bytes, separated by spaces with a dash dividing
+them into half, followed by the same sixteen bytes in %_p
+format, enclosed in pipe ("|") characters.
+Hexadecimal digits are displayed upper-case by default.
+.Pp
+It is recommended to replace pipe characters by spaces
+instead of just deleting them, if that is desired for
+maximum DOS DEBUG compatibility, since pipe characters
+can be found embedded in the ASCII stream.
 .It Fl n Ar length
 Interpret only
 .Ar length
@@ -174,7 +188,7 @@ to disambiguate them.
 Any whitespace before or after the slash is ignored.
 .Pp
 The format is required and must be surrounded by double quote
-.Pq \&"\& \&"
+.Pq \&"\&\ \&"
 marks.
 It is interpreted as a fprintf-style format string (see
 .Xr fprintf 3 ) ,
@@ -220,17 +234,22 @@ described in the C standard are supported:
 .Nm
 also supports the following additional conversion strings:
 .Bl -tag -width Fl
-.It Cm \&_a Ns Op Cm dox
+.It Cm \&_a Ns Op Cm doxX
 Display the input offset, cumulative across input files, of the
 next byte to be displayed.
 The appended characters
 .Cm d ,
-.Cm o ,
+.Cm o
 and
 .Cm x
 specify the display base
 as decimal, octal or hexadecimal respectively.
-.It Cm \&_A Ns Op Cm dox
+Appending the character
+.Cm X
+specifies upper-case instead of lower-case
+hexadecimal digits and was introduced in
+.Mx 2 .
+.It Cm \&_A Ns Op Cm doxX
 Identical to the
 .Cm \&_a
 conversion string except that it is only performed
@@ -328,7 +347,12 @@ removed, and referencing a NULL string.
 If no format strings are specified, the default display is equivalent
 to specifying the
 .Fl x
-option.
+option if the executable was called by
+.Nm hexdump ,
+and to
+.Fl H ,
+if the executable was called
+.Nm hd .
 .Pp
 .Nm
 exits 0 on success and >0 if an error occurred.
@@ -344,6 +368,14 @@ Implement the \-x option:
 .Bd -literal -offset indent
 "%07.7_Ax\en"
 "%07.7_ax  " 8/2 "%04x " "\en"
+.Ed
+.Pp
+Implement the \-H option, introduced in
+.Mx 6 :
+.Bd -literal -offset indent
+"%08.8_aX  " 8/1 "%02X " " - " 8/1 "%02X "
+"  |" "%_p"
+"|\en"
 .Ed
 .Sh SEE ALSO
 .Xr od 1

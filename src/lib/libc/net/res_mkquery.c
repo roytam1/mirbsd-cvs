@@ -1,8 +1,7 @@
+/**	$MirOS: src/lib/libc/net/res_mkquery.c,v 1.3 2005/07/09 13:23:32 tg Exp $	*/
 /*	$OpenBSD: res_mkquery.c,v 1.17 2005/08/06 20:30:04 espie Exp $	*/
 
 /*
- * ++Copyright++ 1985, 1993
- * -
  * Copyright (c) 1985, 1993
  *    The Regents of the University of California.  All rights reserved.
  * 
@@ -51,7 +50,6 @@
  * --Copyright--
  */
 
-#include <sys/types.h>
 #include <sys/param.h>
 #include <netinet/in.h>
 #include <arpa/nameser.h>
@@ -62,6 +60,8 @@
 #include <string.h>
 
 #include "thread_private.h"
+
+__RCSID("$MirOS: src/lib/libc/net/res_mkquery.c,v 1.3 2005/07/09 13:23:32 tg Exp $");
 
 /*
  * Form all types of queries.
@@ -104,7 +104,7 @@ res_mkquery(int op,
 
 	if ((buf == NULL) || (buflen < HFIXEDSZ))
 		return (-1);
-	bzero(buf, HFIXEDSZ);
+	memset(buf, 0, HFIXEDSZ);
 	hp = (HEADER *) buf;
 	_resp->id = res_randomid();
 	hp->id = htons(_resp->id);
@@ -173,7 +173,7 @@ res_mkquery(int op,
 		__putshort(datalen, cp);
 		cp += INT16SZ;
 		if (datalen) {
-			bcopy(data, cp, datalen);
+			memmove(cp, data, datalen);
 			cp += datalen;
 		}
 		hp->ancount = htons(1);

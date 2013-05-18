@@ -1,3 +1,4 @@
+/**	$MirOS: src/lib/libc/sys/stack_protector.c,v 1.5 2005/09/22 20:48:50 tg Exp $ */
 /*	$OpenBSD: stack_protector.c,v 1.10 2006/03/31 05:34:44 deraadt Exp $	*/
 
 /*
@@ -34,17 +35,30 @@
 #include <syslog.h>
 #include <unistd.h>
 
+__RCSID("$MirOS: src/lib/libc/sys/stack_protector.c,v 1.5 2006/09/22 20:48:50 tg Exp $");
+
+#if defined(__SSP_ALL__) && !defined(__IN_MKDEP) && !defined(lint)
+ #error "You must compile this file with -fno-stack-protector-all"
+#endif
+
+#ifdef lint
+#define	CONSTRUCTOR
+#else
+#define	CONSTRUCTOR	static
+#endif
+
 extern int __sysctl(int *, u_int, void *, size_t *, void *, size_t);
 
 long __guard[8] = {0, 0, 0, 0, 0, 0, 0, 0};
-static void __guard_setup(void) __attribute__ ((constructor));
-void __stack_smash_handler(char func[], int damaged __attribute__((unused)));
+CONSTRUCTOR void __guard_setup(void) __attribute__((constructor));
+__dead void __stack_smash_handler(char func[], int damaged);
 
-static void
+CONSTRUCTOR void
 __guard_setup(void)
 {
 	int mib[2];
 	size_t len;
+	unsigned char *guard = (void *)__guard;
 
 	if (__guard[0] != 0)
 		return;
@@ -54,18 +68,18 @@ __guard_setup(void)
 
 	len = sizeof(__guard);
 	if (__sysctl(mib, 2, __guard, &len, NULL, 0) == -1 ||
-	    len != sizeof(__guard)) {
+	    (len != sizeof(__guard)) || (__guard[0] == 0)) {
 		/* If sysctl was unsuccessful, use the "terminator canary". */
-		((unsigned char *)__guard)[0] = 0;
-		((unsigned char *)__guard)[1] = 0;
-		((unsigned char *)__guard)[2] = '\n';
-		((unsigned char *)__guard)[3] = 255;
+		guard[0] = 0;
+		guard[1] = 0;
+		guard[2] = '\n';
+		guard[3] = 255;
 	}
 }
 
-/*ARGSUSED*/
+/* ARGSUSED1 */
 void
-__stack_smash_handler(char func[], int damaged)
+__stack_smash_handler(char func[], __unused int damaged)
 {
 	struct syslog_data sdata = SYSLOG_DATA_INIT;
 	const char message[] = "stack overflow in function %s";
@@ -80,7 +94,7 @@ __stack_smash_handler(char func[], int damaged)
 	/* This may fail on a chroot jail... */
 	syslog_r(LOG_CRIT, &sdata, message, func);
 
-	bzero(&sa, sizeof(struct sigaction));
+	memset(&sa, 0, sizeof(struct sigaction));
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = 0;
 	sa.sa_handler = SIG_DFL;

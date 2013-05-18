@@ -1,4 +1,5 @@
-/*	$OpenBSD: adwlib.c,v 1.19 2004/01/09 21:32:23 brad Exp $ */
+/* $MirOS$ */
+/* $OpenBSD: adwlib.c,v 1.19 2004/01/09 21:32:23 brad Exp $ */
 /* $NetBSD: adwlib.c,v 1.20 2000/07/04 04:17:03 itojun Exp $        */
 
 /*
@@ -42,7 +43,7 @@
  */
 /*
  * advansys.c - Linux Host Driver for AdvanSys SCSI Adapters
- * 
+ *
  * Copyright (c) 1995-2000 Advanced System Products, Inc.
  * All Rights Reserved.
  *
@@ -1731,7 +1732,7 @@ ADW_SCSI_REQ_Q	*scsiq;
 	/*
 	 * Beginning of CRITICAL SECTION: ASSUME splbio() in effect
 	 */
-	
+
 	ccb = adw_ccb_phys_kv(sc, scsiq->ccb_ptr);
 
 	/*
@@ -1819,7 +1820,7 @@ ADW_SCSI_REQ_Q	*scsiq;
 	/*
 	 * End of CRITICAL SECTION: Must be protected within splbio/splx pair
 	 */
-	
+
 	return ADW_SUCCESS;
 }
 
@@ -2085,8 +2086,10 @@ ADW_SOFTC	*sc;
 		free_carrp = sc->irq_sp;
 		sc->irq_sp = ADW_CARRIER_VADDR(sc, ADW_GET_CARRP(irq_next_pa));
 
-		free_carrp->next_ba = (sc->carr_freelist == NULL)? NULL
-					: sc->carr_freelist->carr_ba;
+		if (sc->carr_freelist == NULL)
+			free_carrp->next_ba = (u_int32_t)NULL;
+		  else	free_carrp->next_ba = sc->carr_freelist->carr_ba;
+		/* microcode requirement :( */
 		sc->carr_freelist = free_carrp;
 		sc->carr_pending_cnt--;
 
@@ -2404,4 +2407,3 @@ u_int32_t	n;
 
 	DELAY(n);
 }
-

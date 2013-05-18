@@ -35,7 +35,7 @@
 #include <string.h>
 #include <tzfile.h>
 
-char *_tztab(int, int);
+const char *_tztab(int, int);
 
 /*
  * timezone --
@@ -63,13 +63,15 @@ timezone(int zone, int dst)
 		}
 		return(beg);
 	}
-	return(_tztab(zone,dst));	/* default: table or created zone */
+	/* default: table or created zone */
+	strlcpy(czone,_tztab(zone,dst),sizeof (czone));
+	return(czone);
 }
 
 static struct zone {
 	int	offset;
-	char	*stdzone;
-	char	*dlzone;
+	const char *stdzone;
+	const char *dlzone;
 } zonetab[] = {
 	{ -1*60,    "MET",	"MET DST"} ,	/* Middle European */
 	{ -2*60,    "EET",	"EET DST"} ,	/* Eastern European */
@@ -86,7 +88,7 @@ static struct zone {
 	{ -10*60,   "EST",	"EST" },	/* Aust: Eastern */
 	{ -10*60+30,"CST",	"CST" },	/* Aust: Central */
 	{ -8*60,    "WST",	0 },		/* Aust: Western */
-	{ -1 }
+	{ -1,	    NULL,	NULL }
 };
 
 /*
@@ -96,7 +98,7 @@ static struct zone {
  *	aren't in place in /etc.  DO NOT USE THIS ROUTINE OUTSIDE OF THE
  *	STANDARD LIBRARY.
  */
-char *
+const char *
 _tztab(int zone, int dst)
 {
 	struct zone	*zp;

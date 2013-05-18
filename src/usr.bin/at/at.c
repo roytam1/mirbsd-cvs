@@ -41,9 +41,7 @@
 #define ALARMC 10		/* Number of seconds to wait for timeout */
 #define TIMESIZE 50		/* Size of buffer passed to strftime() */
 
-#ifndef lint
-static const char rcsid[] = "$OpenBSD: at.c,v 1.43 2005/06/23 14:39:35 jmc Exp $";
-#endif
+__RCSID("$MirOS$");
 
 /* Variables to remove from the job's environment. */
 char *no_export[] =
@@ -194,7 +192,9 @@ writefile(const char *cwd, time_t runtimer, char queue)
 	mode_t cmask;
 	extern char **environ;
 
+#ifndef __MirBSD__
 	(void)setlocale(LC_TIME, "");
+#endif
 
 	/*
 	 * Install the signal handler for SIGINT; terminate after removing the

@@ -1,11 +1,9 @@
-#	$OpenBSD: Makefile,v 1.6 2000/07/19 19:29:16 mickey Exp $
+# $MirOS: src/usr.bin/xinstall/Makefile,v 1.2 2005/06/02 22:45:53 tg Exp $
 
 PROG=	xinstall
-SRCS=	xinstall.c
 MAN=	install.1
 
-realinstall:
-	${INSTALL} ${INSTALL_COPY} ${INSTALL_STRIP} -o ${BINOWN} -g ${BINGRP} \
-	    -m ${BINMODE} ${PROG} ${DESTDIR}${BINDIR}/install
+afterinstall:
+	cd ${DESTDIR}${BINDIR} && mv ${PROG} install
 
 .include <bsd.prog.mk>

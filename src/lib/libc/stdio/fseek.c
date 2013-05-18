@@ -210,7 +210,7 @@ fseeko(FILE *fp, off_t offset, int whence)
 	fp->_flags &= ~__SEOF;
 	n = target - curoff;
 	if (n) {
-		if (__srefill(fp) || fp->_r < n)
+		if (__srefill(fp) || (size_t)fp->_r < n)
 			goto dumb;
 		fp->_p += n;
 		fp->_r -= n;

@@ -30,12 +30,6 @@
  * SUCH DAMAGE.
  */
 
-#if !defined(lint)
-static char sccsid[] = "@(#)trace.c	8.1 (Berkeley) 6/5/93";
-#else
-static char rcsid[] = "$OpenBSD: trace.c,v 1.15 2005/04/12 15:26:47 cloder Exp $";
-#endif
-
 #define	RIPCMDS
 #include "defs.h"
 #include "pathnames.h"
@@ -43,6 +37,8 @@ static char rcsid[] = "$OpenBSD: trace.c,v 1.15 2005/04/12 15:26:47 cloder Exp $
 #include <sys/signal.h>
 #include <fcntl.h>
 
+__SCCSID("@(#)trace.c	8.1 (Berkeley) 6/5/93");
+__RCSID("$MirOS: src/sbin/routed/trace.c,v 1.4 2006/09/21 02:10:54 tg Exp $");
 
 #ifdef sgi
 /* use *stat64 for files on large filesystems */
@@ -97,7 +93,7 @@ ts(time_t secs)
 #ifdef sgi
 	(void)cftime(s, "%T", &secs);
 #else
-	bcopy(ctime(&secs)+11, s, 8);
+	memmove(s, ctime(&secs)+11, 8);
 	s[8] = '\0';
 #endif
 	return s;
@@ -526,7 +522,7 @@ trace_upslot(struct rt_entry *rt, struct rt_spare *rts, naddr gate,
 
 	lastlog();
 	if (rts->rts_gate != RIP_DEFAULT) {
-		(void)fprintf(ftrace, "Chg #%d %-35s ",
+		(void)fprintf(ftrace, "Chg #%td %-35s ",
 			      rts - rt->rt_spares,
 			      trace_pair(rt->rt_dst, rt->rt_mask,
 					 naddr_ntoa(rts->rts_gate)));
@@ -556,7 +552,7 @@ trace_upslot(struct rt_entry *rt, struct rt_spare *rts, naddr gate,
 			      new_time != rts->rts_time ? ts(new_time) : "");
 
 	} else {
-		(void)fprintf(ftrace, "Add #%d %-35s ",
+		(void)fprintf(ftrace, "Add #%td %-35s ",
 			      rts - rt->rt_spares,
 			      trace_pair(rt->rt_dst, rt->rt_mask,
 					 naddr_ntoa(gate)));
@@ -662,7 +658,7 @@ trace_change(struct rt_entry *rt,
 		      AGE_RT(rt->rt_state, rt->rt_ifp) ? ts(rt->rt_time) : "");
 
 	(void)fprintf(ftrace, "%*s %19s%-16s ",
-		      strlen(label), "", "",
+		      (int)strlen(label), "", "",
 		      rt->rt_gate != gate ? naddr_ntoa(gate) : "");
 	if (rt->rt_metric != metric)
 		(void)fprintf(ftrace, "metric=%-2d ", metric);

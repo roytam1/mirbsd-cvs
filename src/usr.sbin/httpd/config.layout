@@ -1,11 +1,13 @@
+# $MirOS$
+#
 ##
 ##  config.layout -- APACI Pre-defined Installation Path Layouts
 ##
 ##  Hints:
 ##  - layouts can be loaded with APACI's --with-layout=ID option
 ##  - when no --with-layout option is given, the default layout is `Apache'
-##  - a trailing plus character (`+') on paths is replaced with a 
-##    `/<target>' suffix where <target> is the the argument from 
+##  - a trailing plus character (`+') on paths is replaced with a
+##    `/<target>' suffix where <target> is the the argument from
 ##    option --target (defaults to `httpd').
 ##
 
@@ -134,7 +136,7 @@
     runtimedir:    $localstatedir/run
     logfiledir:    $localstatedir/log/httpd
     proxycachedir: $localstatedir/cache/httpd
-</Layout>     
+</Layout>
 
 #   According to the /opt filesystem conventions
 <Layout opt>
@@ -304,3 +306,23 @@
     proxycachedir: $localstatedir/cache/apache
 </Layout>
 
+#   MirOS Layout
+<Layout MirOS>
+    prefix:        /var/www
+    exec_prefix:   /usr
+    bindir:        $exec_prefix/bin
+    sbindir:       $exec_prefix/sbin
+    libexecdir:    $exec_prefix/libexec/httpd/modules
+    mandir:        $exec_prefix/share/man
+    sysconfdir:    $prefix/conf
+    datadir:       $prefix
+    iconsdir:      $prefix/icons
+    htdocsdir:     $prefix/htdocs
+    manualdir:     $htdocsdir/manual
+    cgidir:        $prefix/cgi-bin
+    includedir:    $exec_prefix/libexec/httpd/include
+    localstatedir: $prefix
+    runtimedir:    $prefix/logs
+    logfiledir:    $prefix/logs
+    proxycachedir: $prefix/proxy
+</Layout>

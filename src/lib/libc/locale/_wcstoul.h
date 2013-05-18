@@ -91,7 +91,7 @@ FUNCNAME(const wchar_t *nptr, wchar_t **endptr, int base)
 	cutlim = (int)(MAX_VALUE % (uint_type)base);
 	for (acc = 0, any = 0;; wc = (wchar_t) *s++) {
 		i = wctoint(wc);
-		if (i == (wint_t)-1)
+		if (i == -1)
 			break;
 		if (i >= base)
 			break;

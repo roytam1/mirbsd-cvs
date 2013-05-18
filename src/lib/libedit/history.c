@@ -1,5 +1,6 @@
+/**	$MirOS: src/lib/libedit/history.c,v 1.2 2005/04/19 15:16:14 tg Exp $ */
+/*	$NetBSD: history.c,v 1.28 2004/11/27 18:31:45 christos Exp $	*/
 /*	$OpenBSD: history.c,v 1.13 2004/08/23 18:31:25 otto Exp $	*/
-/*	$NetBSD: history.c,v 1.25 2003/10/18 23:48:42 christos Exp $	*/
 
 /*-
  * Copyright (c) 1992, 1993
@@ -34,13 +35,6 @@
  */
 
 #include "config.h"
-#if !defined(lint) && !defined(SCCSID)
-#if 0
-static char sccsid[] = "@(#)history.c	8.1 (Berkeley) 6/4/93";
-#else
-static const char rcsid[] = "$OpenBSD: history.c,v 1.13 2004/08/23 18:31:25 otto Exp $";
-#endif
-#endif /* not lint && not SCCSID */
 
 /*
  * hist.c: History access functions
@@ -58,6 +52,9 @@ static const char rcsid[] = "$OpenBSD: history.c,v 1.13 2004/08/23 18:31:25 otto
 static const char hist_cookie[] = "_HiStOrY_V2_\n";
 
 #include "histedit.h"
+
+__SCCSID("@(#)history.c	8.1 (Berkeley) 6/4/93");
+__RCSID("$MirOS: src/lib/libedit/history.c,v 1.2 2005/04/19 15:16:14 tg Exp $");
 
 typedef int (*history_gfun_t)(ptr_t, HistEvent *);
 typedef int (*history_efun_t)(ptr_t, HistEvent *, const char *);
@@ -182,13 +179,13 @@ static const char *const he_errlist[] = {
 	"bad parameters"
 };
 /* error codes */
-#define	_HE_OK                   0
+#define	_HE_OK			 0
 #define	_HE_UNKNOWN		 1
-#define	_HE_MALLOC_FAILED        2
-#define	_HE_FIRST_NOTFOUND       3
-#define	_HE_LAST_NOTFOUND        4
-#define	_HE_EMPTY_LIST           5
-#define	_HE_END_REACHED          6
+#define	_HE_MALLOC_FAILED	 2
+#define	_HE_FIRST_NOTFOUND	 3
+#define	_HE_LAST_NOTFOUND	 4
+#define	_HE_EMPTY_LIST		 5
+#define	_HE_END_REACHED		 6
 #define	_HE_START_REACHED	 7
 #define	_HE_CURR_INVALID	 8
 #define	_HE_NOT_FOUND		 9
@@ -247,19 +244,18 @@ history_def_next(ptr_t p, HistEvent *ev)
 {
 	history_t *h = (history_t *) p;
 
-	if (h->cursor != &h->list)
-		h->cursor = h->cursor->next;
-	else {
+	if (h->cursor == &h->list) {
 		he_seterrev(ev, _HE_EMPTY_LIST);
 		return (-1);
 	}
 
-	if (h->cursor != &h->list)
-		*ev = h->cursor->ev;
-	else {
+	if (h->cursor->next == &h->list) {
 		he_seterrev(ev, _HE_END_REACHED);
 		return (-1);
 	}
+
+	h->cursor = h->cursor->next;
+	*ev = h->cursor->ev;
 
 	return (0);
 }
@@ -273,20 +269,19 @@ history_def_prev(ptr_t p, HistEvent *ev)
 {
 	history_t *h = (history_t *) p;
 
-	if (h->cursor != &h->list)
-		h->cursor = h->cursor->prev;
-	else {
+	if (h->cursor == &h->list) {
 		he_seterrev(ev,
 		    (h->cur > 0) ? _HE_END_REACHED : _HE_EMPTY_LIST);
 		return (-1);
 	}
 
-	if (h->cursor != &h->list)
-		*ev = h->cursor->ev;
-	else {
+	if (h->cursor->prev == &h->list) {
 		he_seterrev(ev, _HE_START_REACHED);
 		return (-1);
 	}
+
+	h->cursor = h->cursor->prev;
+	*ev = h->cursor->ev;
 
 	return (0);
 }
@@ -372,7 +367,7 @@ history_def_add(ptr_t p, HistEvent *ev, const char *str)
  */
 /* ARGSUSED */
 private void
-history_def_delete(history_t *h, 
+history_def_delete(history_t *h,
 		   HistEvent *ev __attribute__((__unused__)), hentry_t *hp)
 {
 	HistEventPrivate *evp = (void *)&hp->ev;
@@ -425,15 +420,15 @@ history_def_enter(ptr_t p, HistEvent *ev, const char *str)
 
 	if ((h->flags & H_UNIQUE) != 0 && h->list.next != &h->list &&
 	    strcmp(h->list.next->ev.str, str) == 0)
-	    return (0); 
+	    return (0);
 
 	if (history_def_insert(h, ev, str) == -1)
 		return (-1);	/* error, keep error message */
 
 	/*
-         * Always keep at least one entry.
-         * This way we don't have to check for the empty list.
-         */
+	 * Always keep at least one entry.
+	 * This way we don't have to check for the empty list.
+	 */
 	while (h->cur > h->max && h->cur > 0)
 		history_def_delete(h, ev, h->list.prev);
 
@@ -551,7 +546,7 @@ history_setsize(History *h, HistEvent *ev, int num)
 
 
 /* history_getsize():
- *      Get number of events currently in history
+ *	Get number of events currently in history
  */
 private int
 history_getsize(History *h, HistEvent *ev)
@@ -685,7 +680,7 @@ history_load(History *h, const char *fname)
 		}
 		if (sz > max_size) {
 			char *nptr;
-			max_size = (sz + 1023) & ~1023;
+			max_size = (sz + 1024) & ~1023;
 			nptr = h_realloc(ptr, max_size);
 			if (nptr == NULL) {
 				i = -1;

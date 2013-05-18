@@ -1,3 +1,4 @@
+/**	$MirOS: src/bin/pax/extern.h,v 1.9 2007/02/17 04:52:40 tg Exp $ */
 /*	$OpenBSD: extern.h,v 1.32 2006/11/17 08:38:04 otto Exp $	*/
 /*	$NetBSD: extern.h,v 1.5 1996/03/26 23:54:16 mrg Exp $	*/
 
@@ -41,6 +42,9 @@
  */
 
 #include <sys/cdefs.h>
+#if defined(__GLIBC__)
+#include <time.h>
+#endif
 
 /*
  * ar_io.c
@@ -104,10 +108,10 @@ int uidtb_start(void);
 int gidtb_start(void);
 int usrtb_start(void);
 int grptb_start(void);
-char * name_uid(uid_t, int);
-char * name_gid(gid_t, int);
-int uid_name(char *, uid_t *);
-int gid_name(char *, gid_t *);
+const char *name_uid(uid_t, int);
+const char *name_gid(gid_t, int);
+int uid_name(const char *, uid_t *);
+int gid_name(const char *, gid_t *);
 
 /*
  * cpio.c
@@ -119,6 +123,7 @@ int cpio_id(char *, int);
 int cpio_rd(ARCHD *, char *);
 off_t cpio_endrd(void);
 int cpio_stwr(void);
+int dist_stwr(void);
 int cpio_wr(ARCHD *);
 int vcpio_id(char *, int);
 int crc_id(char *, int);
@@ -126,6 +131,8 @@ int crc_strd(void);
 int vcpio_rd(ARCHD *, char *);
 off_t vcpio_endrd(void);
 int crc_stwr(void);
+int v4root_stwr(void);
+int v4norm_stwr(void);
 int vcpio_wr(ARCHD *);
 int bcpio_id(char *, int);
 int bcpio_rd(ARCHD *, char *);
@@ -145,7 +152,6 @@ int node_creat(ARCHD *);
 int unlnk_exist(char *, int);
 int chk_path(char *, uid_t, gid_t);
 void set_ftime(char *fnm, time_t mtime, time_t atime, int frc);
-void fset_ftime(char *fnm, int, time_t mtime, time_t atime, int frc);
 int set_ids(char *, uid_t, gid_t);
 int fset_ids(char *, int, uid_t, gid_t);
 int set_lids(char *, uid_t, gid_t);
@@ -239,14 +245,13 @@ extern int exit_val;
 extern int docrc;
 extern char *dirptr;
 extern char *ltmfrmt;
-extern char *argv0;
+extern const char *argv0;
 extern FILE *listf;
 extern char *tempfile;
 extern char *tempbase;
 extern int havechd;
 
 int main(int, char **);
-void sig_cleanup(int);
 
 /*
  * sel_subs.c
@@ -278,7 +283,9 @@ int get_atdir(dev_t, ino_t, time_t *, time_t *);
 int dir_start(void);
 void add_dir(char *, struct stat *, int);
 void proc_dir(void);
-u_int st_hash(char *, int, int);
+u_int st_hash(const char *, int, int);
+int flnk_start(void);
+int chk_flnk(ARCHD *);
 
 /*
  * tar.c
@@ -301,7 +308,10 @@ int ustar_wr(ARCHD *);
  * tty_subs.c
  */
 int tty_init(void);
-void tty_prnt(const char *, ...);
+void tty_prnt(const char *, ...)
+    __attribute__((format (printf, 1, 2)));
 int tty_read(char *, int);
-void paxwarn(int, const char *, ...);
-void syswarn(int, int, const char *, ...);
+void paxwarn(int, const char *, ...)
+    __attribute__((format (printf, 2, 3)));
+void syswarn(int, int, const char *, ...)
+    __attribute__((format (printf, 3, 4)));

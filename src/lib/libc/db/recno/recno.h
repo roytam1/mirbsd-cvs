@@ -31,7 +31,11 @@
  *	@(#)recno.h	8.1 (Berkeley) 6/4/93
  */
 
+#ifndef _RECNO_H
+#define _RECNO_H
+
 enum SRCHOP { SDELETE, SINSERT, SEARCH};	/* Rec_search operation. */
 
 #include "../btree/btree.h"
 #include "extern.h"
+#endif

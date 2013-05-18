@@ -1,4 +1,4 @@
-.\"	$OpenBSD: isinf.3,v 1.11 2003/06/02 20:18:34 millert Exp $
+.\"	$NetBSD: isinf.3,v 1.12 2004/03/04 23:47:56 wiz Exp $
 .\"
 .\" Copyright (c) 1991, 1993
 .\"	The Regents of the University of California.  All rights reserved.
@@ -27,56 +27,58 @@
 .\" OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 .\" SUCH DAMAGE.
 .\"
-.Dd January 29, 1994
+.\"     @(#)isinf.3	8.2 (Berkeley) 1/29/94
+.\"
+.Dd March 5, 2004
 .Dt ISINF 3
 .Os
 .Sh NAME
-.Nm isinf ,
-.Nm isinff ,
-.Nm isnan ,
-.Nm isnanf
-.Nd test for infinity or not-a-number
+.Nm isinf
+.Nd test for infinity
+.Sh LIBRARY
+.Lb libc
 .Sh SYNOPSIS
-.Fd #include <math.h>
+.In math.h
 .Ft int
-.Fn isinf "double n"
-.Ft int
-.Fn isinff "float n"
-.Ft int
-.Fn isnan "double n"
-.Ft int
-.Fn isnanf "float n"
+.Fn isinf "real-floating x"
 .Sh DESCRIPTION
 The
 .Fn isinf
-function returns 1 if the number
-.Fa n
-is \*(If, otherwise 0.
+macro determines whether its argument
+.Fa x
+is an infinity (positive or negative).
+An argument represented in a format wider than its semantic type is
+converted to its semantic type first.
+The determination is then based on the type of the argument.
+.Ss IEEE 754
+It is determined whether the value of
+.Fa x
+is an infinity.
+.Ss VAX
+Infinities are not supported.
+.Sh RETURN VALUES
 The
-.Fn isinff
-function is a single precision version of
-.Fn isinf .
-.Pp
-The
-.Fn isnan
-function returns 1 if the number
-.Fa n
-is
-.Dq not-a-number ,
-otherwise 0.
-The
-.Fn isnanf
-function is a single precision version of
-.Fn isnan .
+.Fn isinf
+macro returns a non-zero value if the value of
+.Fa x
+is an infinity.
+Otherwise 0 is returned.
 .Sh SEE ALSO
-.Xr math 3
+.Xr fpclassify 3 ,
+.Xr isfinite 3 ,
+.Xr isinff 3 ,
+.Xr isnan 3 ,
+.Xr isnanf 3 ,
+.Xr isnormal 3 ,
+.Xr math 3 ,
+.Xr signbit 3
 .Rs
 .%T "IEEE Standard for Binary Floating-Point Arithmetic"
 .%Q ANSI
 .%R Std 754-1985
 .Re
-.Sh BUGS
-.Tn VAX
-floating point does not have distinguished values
-for either infinity or not-a-number.
-These routines always return 0 on that architecture.
+.Sh STANDARDS
+The
+.Fn isinf
+macro conforms to
+.St -isoC-99 .

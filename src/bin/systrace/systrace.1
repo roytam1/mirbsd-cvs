@@ -267,7 +267,7 @@ system call.
 Policy entries may contain an appended predicate.
 Predicates have the following format:
 .Bd -literal -offset 3n
-", if" {"user", "group"} {"=", "!=", "\*[Lt]", "\*[Gt]" } {number, string}
+", if" {"user", "group"} {"=", "!=", "\*(Lt", "\*(Gt" } {number, string}
 .Ed
 .Pp
 A rule is added to the configured policy only if its predicate
@@ -324,7 +324,7 @@ system calls).
 systrace device
 .It Pa /etc/systrace
 global systrace policies
-.It Pa $HOME/.systrace
+.It Pa $HOME/.etc/systrace
 user specified policies, one per binary, with slashes in the full pathname
 replaced by the underscore character.
 .El

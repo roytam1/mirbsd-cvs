@@ -1,3 +1,4 @@
+/**	$MirOS: src/sys/dev/usb/usb_port.h,v 1.3 2005/07/04 01:06:34 tg Exp $ */
 /*	$OpenBSD: usb_port.h,v 1.58 2005/06/17 23:50:33 deraadt Exp $ */
 /*	$NetBSD: usb_port.h,v 1.62 2003/02/15 18:33:30 augustss Exp $	*/
 /*	$FreeBSD: src/sys/dev/usb/usb_port.h,v 1.21 1999/11/17 22:33:47 n_hibma Exp $	*/
@@ -255,20 +256,12 @@ typedef struct proc *usb_proc_ptr;
 #define UHIDBUSCF_REPORTID		0
 #define UHIDBUSCF_REPORTID_DEFAULT	-1
 
-#define bswap32(x)		swap32(x)
-#define bswap16(x)		swap16(x)
-
 #define mstohz(ms) ((ms) * hz / 1000)
 
 /*
  * The UHCI/OHCI controllers are little endian, so on big endian machines
  * the data stored in memory needs to be swapped.
  */
-
-#if defined(letoh32)
-#define le32toh(x) letoh32(x)
-#define le16toh(x) letoh16(x)
-#endif
 
 #define sel_klist si_note
 
@@ -532,4 +525,3 @@ __CONCAT(dname,_detach)(device_t self)
 #endif /* __FreeBSD__ */
 
 #endif /* _USB_PORT_H */
-

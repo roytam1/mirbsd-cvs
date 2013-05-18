@@ -55,7 +55,6 @@ struct wsemul_ops {
 };
 
 extern const struct wsemul_ops wsemul_dumb_ops;
-extern const struct wsemul_ops wsemul_sun_ops;
 extern const struct wsemul_ops wsemul_vt100_ops;
 
 const struct wsemul_ops *wsemul_pick(const char *);

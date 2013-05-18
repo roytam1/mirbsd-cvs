@@ -1,3 +1,4 @@
+.\"	$MirOS$
 .\"	$OpenBSD: connect.2,v 1.19 2004/10/05 11:19:41 henning Exp $
 .\"	$NetBSD: connect.2,v 1.8 1995/10/12 15:40:48 jtc Exp $
 .\"
@@ -131,6 +132,10 @@ to check for error conditions.
 The socket is non-blocking
 and a previous connection attempt
 has not yet been completed.
+.It Bq Er EPERM
+If TCP MD5SIG is being used and we don't get a properly authenticated
+session up, for example if the peer is not configured for TCP MD5SIG
+or the keys don't match.
 .El
 .Pp
 The following errors are specific to connecting names in the UNIX domain.

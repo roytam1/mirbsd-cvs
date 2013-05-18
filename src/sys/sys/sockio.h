@@ -1,4 +1,5 @@
-/*	$OpenBSD: sockio.h,v 1.35 2005/06/12 00:41:33 henning Exp $	*/
+/*	$OpenBSD: sockio.h,v 1.24 2003/12/08 09:09:03 markus Exp $	*/
+/*	$OpenBSD: sockio.h,v 1.34 2005/05/26 22:37:35 henning Exp $	*/
 /*	$NetBSD: sockio.h,v 1.5 1995/08/23 00:40:47 thorpej Exp $	*/
 
 /*-
@@ -67,7 +68,6 @@
 #define	SIOCDIFADDR	 _IOW('i', 25, struct ifreq)	/* delete IF addr */
 #define	SIOCAIFADDR	 _IOW('i', 26, struct ifaliasreq)/* add/chg IF alias */
 #define	SIOCGIFDATA	_IOWR('i', 27, struct ifreq)	/* get if_data */
-#define	SIOCSIFLLADDR	_IOW('i', 31, struct ifreq)	/* set link level addr */
 
 /* KAME IPv6 */
 /* SIOCAIFALIAS? */
@@ -86,7 +86,7 @@
 #define	SIOCSIFGENERIC	 _IOW('i', 57, struct ifreq)	/* generic IF set op */
 #define	SIOCGIFGENERIC	_IOWR('i', 58, struct ifreq)	/* generic IF get op */
 
-#define SIOCSIFPHYADDR   _IOW('i', 70, struct ifaliasreq) /* set gif address */
+#define SIOCSIFPHYADDR   _IOW('i', 70, struct ifaliasreq) /* set gif addres */
 #define	SIOCGIFPSRCADDR	_IOWR('i', 71, struct ifreq)	/* get gif psrc addr */
 #define	SIOCGIFPDSTADDR	_IOWR('i', 72, struct ifreq)	/* get gif pdst addr */
 #define	SIOCDIFPHYADDR	 _IOW('i', 73, struct ifreq)	/* delete gif addrs */
@@ -140,16 +140,5 @@
 #define	SIOCIFCREATE	 _IOW('i', 122, struct ifreq)	/* create clone if */
 #define	SIOCIFDESTROY	 _IOW('i', 121, struct ifreq)	/* destroy clone if */
 #define	SIOCIFGCLONERS	_IOWR('i', 120, struct if_clonereq) /* get cloners */
-
-#define	SIOCAIFGROUP	_IOW('i', 135, struct ifgroupreq) /* add an ifgroup */
-#define	SIOCGIFGROUP   _IOWR('i', 136, struct ifgroupreq) /* get ifgroups */
-#define	SIOCDIFGROUP    _IOW('i', 137, struct ifgroupreq) /* delete ifgroup */
-#define	SIOCGIFGMEMB   _IOWR('i', 138, struct ifgroupreq) /* get members */
-
-#define	SIOCSIFDESCR	 _IOW('i', 128, struct ifreq)	/* set ifnet descr */
-#define	SIOCGIFDESCR	_IOWR('i', 129, struct ifreq)	/* get ifnet descr */
-
-#define	SIOCSETPFSYNC	_IOW('i', 247, struct ifreq)
-#define	SIOCGETPFSYNC	_IOWR('i', 248, struct ifreq)
 
 #endif /* !_SYS_SOCKIO_H_ */

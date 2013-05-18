@@ -61,13 +61,9 @@
 #include <string.h>
 #include <syslog.h>
 #include <stdlib.h>
-#ifdef YP
-#include <rpc/rpc.h>
-#include <rpcsvc/yp.h>
-#include <rpcsvc/ypclnt.h>
-#include "ypinternal.h"
-#endif
 #include "thread_private.h"
+
+__RCSID("$MirOS: src/lib/libc/net/gethostnamadr.c,v 1.6 2005/09/22 20:40:02 tg Exp $");
 
 #define MULTI_PTRS_ARE_ALIASES 1	/* XXX - experimental */
 
@@ -75,10 +71,6 @@
 #define	MAXADDRS	35
 
 static char *h_addr_ptrs[MAXADDRS + 1];
-
-#ifdef YP
-static char *__ypdomain;
-#endif
 
 static struct hostent host;
 static char *host_aliases[MAXALIASES];
@@ -388,7 +380,7 @@ getanswer(const querybuf *answer, int anslen, const char *qname, int qtype)
 				cp += n;
 				continue;
 			}
-			bcopy(cp, *hap++ = bp, n);
+			memmove(*hap++ = bp, cp, n);
 			bp += n;
 			cp += n;
 			break;
@@ -563,7 +555,7 @@ gethostbyname2(const char *name, int af)
 				h_errno = NETDB_SUCCESS;
 				return (&host);
 			}
-			if (!isdigit(*cp) && *cp != '.') 
+			if (!isdigit(*cp) && *cp != '.')
 				break;
 		}
 	if ((isxdigit(name[0]) && strchr(name, ':') != NULL) ||
@@ -593,24 +585,17 @@ gethostbyname2(const char *name, int af)
 				h_errno = NETDB_SUCCESS;
 				return (&host);
 			}
-			if (!isxdigit(*cp) && *cp != ':' && *cp != '.') 
+			if (!isxdigit(*cp) && *cp != ':' && *cp != '.')
 				break;
 		}
 
-	bcopy(_resp->lookups, lookups, sizeof lookups);
+	memmove(lookups, _resp->lookups, sizeof lookups);
 	if (lookups[0] == '\0')
 		strlcpy(lookups, "bf", sizeof lookups);
 
 	hp = (struct hostent *)NULL;
 	for (i = 0; i < MAXDNSLUS && hp == NULL && lookups[i]; i++) {
 		switch (lookups[i]) {
-#ifdef YP
-		case 'y':
-			/* YP only supports AF_INET. */
-			if (af == AF_INET)
-				hp = _yp_gethtbyname(name);
-			break;
-#endif
 		case 'b':
 			buf = malloc(sizeof(*buf));
 			if (buf == NULL)
@@ -648,7 +633,6 @@ gethostbyaddr(const void *addr, socklen_t len, int af)
 	char lookups[MAXDNSLUS];
 	struct hostent *res;
 	extern struct hostent *_gethtbyaddr(const void *, socklen_t, int);
-	extern struct hostent *_yp_gethtbyaddr(const void *);
 	
 	if (_res_init(0) == -1) {
 		res = _gethtbyaddr(addr, len, af);
@@ -709,20 +693,13 @@ gethostbyaddr(const void *addr, socklen_t len, int af)
 		break;
 	}
 
-	bcopy(_resp->lookups, lookups, sizeof lookups);
+	memmove(lookups, _resp->lookups, sizeof lookups);
 	if (lookups[0] == '\0')
 		strlcpy(lookups, "bf", sizeof lookups);
 
 	hp = (struct hostent *)NULL;
 	for (i = 0; i < MAXDNSLUS && hp == NULL && lookups[i]; i++) {
 		switch (lookups[i]) {
-#ifdef YP
-		case 'y':
-			/* YP only supports AF_INET. */
-			if (af == AF_INET)
-				hp = _yp_gethtbyaddr(uaddr);
-			break;
-#endif
 		case 'b':
 			buf = malloc(sizeof(*buf));
 			if (!buf)
@@ -744,7 +721,7 @@ gethostbyaddr(const void *addr, socklen_t len, int af)
 			free(buf);
 			hp->h_addrtype = af;
 			hp->h_length = len;
-			bcopy(uaddr, host_addr, len);
+			memmove(host_addr, uaddr, len);
 			h_addr_ptrs[0] = (char *)host_addr;
 			h_addr_ptrs[1] = NULL;
 			if (af == AF_INET && (_resp->options & RES_USE_INET6)) {
@@ -870,7 +847,7 @@ _gethtbyname2(const char *name, int af)
 {
 	struct hostent *p;
 	char **cp;
-	
+
 	_sethtent(0);
 	while ((p = _gethtent())) {
 		if (p->h_addrtype != af)
@@ -897,139 +874,11 @@ _gethtbyaddr(const void *addr, socklen_t len, int af)
 	_sethtent(0);
 	while ((p = _gethtent()))
 		if (p->h_addrtype == af && p->h_length == len &&
-		    !bcmp(p->h_addr, addr, len))
+		    !memcmp(p->h_addr, addr, len))
 			break;
 	_endhtent();
 	return (p);
 }
-
-#ifdef YP
-struct hostent *
-_yphostent(char *line)
-{
-	static struct in_addr host_addrs[MAXADDRS];
-	char *p = line;
-	char *cp, **q;
-	char **hap;
-	struct in_addr *buf;
-	int more;
-
-	host.h_name = NULL;
-	host.h_addr_list = h_addr_ptrs;
-	host.h_length = INADDRSZ;
-	host.h_addrtype = AF_INET;
-	hap = h_addr_ptrs;
-	buf = host_addrs;
-	q = host.h_aliases = host_aliases;
-
-nextline:
-	/* check for host_addrs overflow */
-	if (buf >= &host_addrs[sizeof(host_addrs) / sizeof(host_addrs[0])])
-		goto done;
-
-	more = 0;
-	cp = strpbrk(p, " \t");
-	if (cp == NULL)
-		goto done;
-	*cp++ = '\0';
-
-	*hap++ = (char *)buf;
-	(void) inet_aton(p, buf++);
-
-	while (*cp == ' ' || *cp == '\t')
-		cp++;
-	p = cp;
-	cp = strpbrk(p, " \t\n");
-	if (cp != NULL) {
-		if (*cp == '\n')
-			more = 1;
-		*cp++ = '\0';
-	}
-	if (!host.h_name)
-		host.h_name = p;
-	else if (strcmp(host.h_name, p)==0)
-		;
-	else if (q < &host_aliases[MAXALIASES - 1])
-		*q++ = p;
-	p = cp;
-	if (more)
-		goto nextline;
-
-	while (cp && *cp) {
-		if (*cp == ' ' || *cp == '\t') {
-			cp++;
-			continue;
-		}
-		if (*cp == '\n') {
-			cp++;
-			goto nextline;
-		}
-		if (q < &host_aliases[MAXALIASES - 1])
-			*q++ = cp;
-		cp = strpbrk(cp, " \t");
-		if (cp != NULL)
-			*cp++ = '\0';
-	}
-done:
-	if (host.h_name == NULL)
-		return (NULL);
-	*q = NULL;
-	*hap = NULL;
-	return (&host);
-}
-
-struct hostent *
-_yp_gethtbyaddr(const void *addr)
-{
-	struct hostent *hp = NULL;
-	const u_char *uaddr = (const u_char *)addr;
-	static char *__ypcurrent;
-	int __ypcurrentlen, r;
-	char name[sizeof("xxx.xxx.xxx.xxx")];
-	
-	if (!__ypdomain) {
-		if (_yp_check(&__ypdomain) == 0)
-			return (hp);
-	}
-	snprintf(name, sizeof name, "%u.%u.%u.%u", (uaddr[0] & 0xff),
-	    (uaddr[1] & 0xff), (uaddr[2] & 0xff), (uaddr[3] & 0xff));
-	if (__ypcurrent)
-		free(__ypcurrent);
-	__ypcurrent = NULL;
-	r = yp_match(__ypdomain, "hosts.byaddr", name,
-		strlen(name), &__ypcurrent, &__ypcurrentlen);
-	if (r==0)
-		hp = _yphostent(__ypcurrent);
-	if (hp==NULL)
-		h_errno = HOST_NOT_FOUND;
-	return (hp);
-}
-
-struct hostent *
-_yp_gethtbyname(const char *name)
-{
-	struct hostent *hp = (struct hostent *)NULL;
-	static char *__ypcurrent;
-	int __ypcurrentlen, r;
-
-	if (strlen(name) >= MAXHOSTNAMELEN)
-		return (NULL);
-	if (!__ypdomain) {
-		if (_yp_check(&__ypdomain) == 0)
-			return (hp);
-	}
-	if (__ypcurrent)
-		free(__ypcurrent);
-	__ypcurrent = NULL;
-	r = yp_match(__ypdomain, "hosts.byname", name,
-		strlen(name), &__ypcurrent, &__ypcurrentlen);
-	if (r == 0)
-		hp = _yphostent(__ypcurrent);
-	if (hp == NULL)
-		h_errno = HOST_NOT_FOUND;
-	return (hp);
-}
-#endif
 
 static void
 map_v4v6_address(const char *src, char *dst)
@@ -1039,14 +888,14 @@ map_v4v6_address(const char *src, char *dst)
 	int i;
 
 	/* Stash a temporary copy so our caller can update in place. */
-	bcopy(src, tmp, INADDRSZ);
+	memmove(tmp, src, INADDRSZ);
 	/* Mark this ipv6 addr as a mapped ipv4. */
 	for (i = 0; i < 10; i++)
 		*p++ = 0x00;
 	*p++ = 0xff;
 	*p++ = 0xff;
 	/* Retrieve the saved copy and we're done. */
-	bcopy(tmp, (void*)p, INADDRSZ);
+	memmove((void*)p, tmp, INADDRSZ);
 }
 
 static void
@@ -1094,8 +943,8 @@ addrsort(char **ap, int num)
 	p = ap;
 	for (i = 0; i < num; i++, p++) {
 		for (j = 0 ; (unsigned)j < _resp->nsort; j++)
-			if (_resp->sort_list[j].addr.s_addr == 
-			    (((struct in_addr *)(*p))->s_addr & 
+			if (_resp->sort_list[j].addr.s_addr ==
+			    (((struct in_addr *)(*p))->s_addr &
 			    _resp->sort_list[j].mask))
 				break;
 		aval[i] = j;

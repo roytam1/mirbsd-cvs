@@ -371,13 +371,26 @@ vlan_input(eh, m)
 	m->m_pkthdr.len -= EVL_ENCAPLEN;
 
 #if NBPFILTER > 0
-	if (ifv->ifv_if.if_bpf)
-		bpf_mtap_hdr(ifv->ifv_if.if_bpf, (char *)eh, ETHER_HDR_LEN, m);
+	if (ifv->ifv_if.if_bpf) {
+		/*
+		 * Do the usual BPF fakery.  Note that we don't support
+		 * promiscuous mode here, since it would require the
+		 * drivers to know about VLANs and we're not ready for
+		 * that yet.
+		 */
+		struct mbuf m0;
+
+		m0.m_flags = 0;
+		m0.m_next = m;
+		m0.m_len = sizeof(struct ether_header);
+		m0.m_data = (char *)eh;
+		bpf_mtap(ifv->ifv_if.if_bpf, &m0);
+	}
 #endif
 	ifv->ifv_if.if_ipackets++;
 	ether_input(&ifv->ifv_if, eh, m);
 
-	return (0);
+	return 0;
 }
 
 int

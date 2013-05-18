@@ -1,3 +1,4 @@
+/**	$MirOS: src/bin/pax/pax.c,v 1.6 2007/01/23 11:55:54 tg Exp $ */
 /*	$OpenBSD: pax.c,v 1.28 2005/08/04 10:02:44 mpf Exp $	*/
 /*	$NetBSD: pax.c,v 1.5 1996/03/26 23:54:20 mrg Exp $	*/
 
@@ -34,28 +35,13 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-static const char copyright[] =
-"@(#) Copyright (c) 1992, 1993\n\
-	The Regents of the University of California.  All rights reserved.\n";
-#endif /* not lint */
-
-#ifndef lint
-#if 0
-static const char sccsid[] = "@(#)pax.c	8.2 (Berkeley) 4/18/94";
-#else
-static const char rcsid[] = "$OpenBSD: pax.c,v 1.28 2005/08/04 10:02:44 mpf Exp $";
-#endif
-#endif /* not lint */
-
-#include <stdio.h>
-#include <sys/types.h>
 #include <sys/param.h>
 #include <sys/stat.h>
 #include <sys/time.h>
 #include <sys/resource.h>
 #include <signal.h>
 #include <unistd.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
@@ -64,7 +50,14 @@ static const char rcsid[] = "$OpenBSD: pax.c,v 1.28 2005/08/04 10:02:44 mpf Exp 
 #include <paths.h>
 #include "pax.h"
 #include "extern.h"
+
+__COPYRIGHT("@(#) Copyright (c) 1992, 1993\n\
+	The Regents of the University of California.  All rights reserved.\n");
+__SCCSID("@(#)pax.c	8.2 (Berkeley) 4/18/94");
+__RCSID("$MirOS: src/bin/pax/pax.c,v 1.6 2007/01/23 11:55:54 tg Exp $");
+
 static int gen_init(void);
+static void sig_cleanup(int) __attribute__((noreturn));
 
 /*
  * PAX main routines, general globals and some simple start up routines
@@ -73,7 +66,7 @@ static int gen_init(void);
 /*
  * Variables that can be accessed by any routine within pax
  */
-int	act = DEFOP;		/* read/write/append/copy */
+int	act = ERROR;		/* read/write/append/copy */
 FSUB	*frmt = NULL;		/* archive format type */
 int	cflag;			/* match all EXCEPT pattern/file */
 int	cwdfd;			/* starting cwd */
@@ -103,9 +96,9 @@ int	exit_val;		/* exit value */
 int	docrc;			/* check/create file crc */
 char	*dirptr;		/* destination dir in a copy */
 char	*ltmfrmt;		/* -v locale time format (if any) */
-char	*argv0;			/* root of argv[0] */
+const char *argv0;		/* root of argv[0] */
 sigset_t s_mask;		/* signal mask for cleanup critical sect */
-FILE	*listf = stderr;	/* file pointer to print file list to */
+FILE	*listf;			/* fp to print file list to (default stderr) */
 char	*tempfile;		/* tempfile to use for mkstemp(3) */
 char	*tempbase;		/* basename of tempfile to use for mkstemp(3) */
 
@@ -232,7 +225,7 @@ char	*tempbase;		/* basename of tempfile to use for mkstemp(3) */
 int
 main(int argc, char **argv)
 {
-	char *tmpdir;
+	const char *tmpdir;
 	size_t tdlen;
 
 	/*
@@ -262,6 +255,8 @@ main(int argc, char **argv)
 	tempbase = tempfile + tdlen;
 	*tempbase++ = '/';
 
+	listf = stderr;
+
 	/*
 	 * parse options, determine operational mode, general init
 	 */
@@ -288,6 +283,7 @@ main(int argc, char **argv)
 		copy();
 		break;
 	default:
+		act = LIST;	/* for ar_io.c &c. */
 	case LIST:
 		list();
 		break;
@@ -304,7 +300,7 @@ main(int argc, char **argv)
  *	never....
  */
 
-void
+static void
 sig_cleanup(int which_sig)
 {
 	/* XXX signal races */
@@ -369,10 +365,12 @@ gen_init(void)
 	/*
 	 * not really needed, but doesn't hurt
 	 */
+#ifdef RLIMIT_RSS
 	if (getrlimit(RLIMIT_RSS , &reslimit) == 0){
 		reslimit.rlim_cur = reslimit.rlim_max;
 		(void)setrlimit(RLIMIT_RSS , &reslimit);
 	}
+#endif
 
 	/*
 	 * Handle posix locale

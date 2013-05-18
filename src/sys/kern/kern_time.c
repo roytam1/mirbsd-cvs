@@ -1,3 +1,4 @@
+/**	$MirOS: src/sys/kern/kern_time.c,v 1.4 2006/10/17 20:48:48 tg Exp $ */
 /*	$OpenBSD: kern_time.c,v 1.39 2004/02/15 02:34:14 tedu Exp $	*/
 /*	$NetBSD: kern_time.c,v 1.20 1996/02/18 11:57:06 fvdl Exp $	*/
 
@@ -48,7 +49,7 @@
 int	settime(struct timeval *);
 void	itimerround(struct timeval *);
 
-/* 
+/*
  * Time of day and interval timer support.
  *
  * These routines provide the kernel entry points to get and set
@@ -65,6 +66,10 @@ settime(struct timeval *tv)
 	struct timeval delta;
 	int s;
 
+	/* push both old and new time into the low-entropy pool */
+	rnd_bootpool = adler32(adler32(rnd_bootpool, (const void *)&time,
+	    sizeof (time)), (const void *)tv, sizeof (struct timeval));
+
 	/*
 	 * Don't allow the time to be set forward so far it will wrap
 	 * and become negative, thus allowing an attacker to bypass
@@ -73,13 +78,18 @@ settime(struct timeval *tv)
 	 * the time past the cutoff, it will take a very long time
 	 * to get to the wrap point.
 	 *
-	 * XXX: we check against INT_MAX since on 64-bit
-	 *	platforms, sizeof(int) != sizeof(long) and
-	 *	time_t is 32 bits even when atv.tv_sec is 64 bits.
+	 * XXX: we check against LLONG_MAX since our time_t
+	 *	is 64 bits.
 	 */
-	if (tv->tv_sec > INT_MAX - 365*24*60*60) {
-		printf("denied attempt to set clock forward to %ld\n",
-		    tv->tv_sec);
+#if defined(_BSD_TIME_T_IS_64_BIT)
+	if (tv->tv_sec > LLONG_MAX - 365*24*60*60) {
+#elif defined(_BSD_TIME_T_IS_INT)
+	if (tv->tv_sec > LONG_MAX - 365*24*60*60) {
+#else
+# error How long _is_ time_t now, then?
+#endif
+		printf("denied attempt to set clock forward to %lld\n",
+		    (long long)tv->tv_sec);
 		return (EPERM);
 	}
 	/*
@@ -89,8 +99,8 @@ settime(struct timeval *tv)
 	 * setting arbitrary time stamps on files.
 	 */
 	if (securelevel > 1 && timercmp(tv, &time, <)) {
-		printf("denied attempt to set clock back %ld seconds\n",
-		    time.tv_sec - tv->tv_sec);
+		printf("denied attempt to set clock back %lld seconds\n",
+		    (int64_t)(time.tv_sec - tv->tv_sec));
 		return (EPERM);
 	}
 
@@ -270,7 +280,7 @@ sys_nanosleep(p, v, retval)
 
 		TIMEVAL_TO_TIMESPEC(&atv, &rmt);
 		error = copyout((void *)&rmt, (void *)SCARG(uap,rmtp),
-		    sizeof(rmt));		
+		    sizeof(rmt));
 		if (error)
 			return (error);
 	}
@@ -361,6 +371,10 @@ sys_adjtime(p, v, retval)
 	if ((error = copyin((void *)SCARG(uap, delta), (void *)&atv,
 	    sizeof(struct timeval))))
 		return (error);
+
+	/* push both old time and adjustment into the low-entropy pool */
+	rnd_bootpool = adler32(adler32(rnd_bootpool, (const void *)&time,
+	    sizeof (time)), (const void *)&atv, sizeof (struct timeval));
 
 	/*
 	 * Compute the total correction and the rate at which to apply it.
@@ -633,7 +647,7 @@ ratecheck(lasttime, mininterval)
 	struct timeval tv, delta;
 	int s, rv = 0;
 
-	s = splclock(); 
+	s = splclock();
 	tv = mono_time;
 	splx(s);
 
@@ -664,7 +678,7 @@ ppsratecheck(lasttime, curpps, maxpps)
 	struct timeval tv, delta;
 	int s, rv;
 
-	s = splclock(); 
+	s = splclock();
 	tv = mono_time;
 	splx(s);
 

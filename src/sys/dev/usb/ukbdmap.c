@@ -1,4 +1,4 @@
-/*	$OpenBSD: ukbdmap.c,v 1.22 2005/05/23 21:33:43 miod Exp $	*/
+/*	$OpenBSD$	*/
 
 /*
  * THIS FILE IS AUTOMAGICALLY GENERATED.  DO NOT EDIT.

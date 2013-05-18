@@ -1,3 +1,5 @@
+/* $MirOS: src/usr.sbin/httpd/src/modules/proxy/proxy_ftp.c,v 1.4 2005/04/19 14:37:54 tg Exp $ */
+
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
@@ -62,6 +64,7 @@
 #include "http_main.h"
 #include "http_log.h"
 #include "http_core.h"
+#include "sa_len.h"
 
 #define AUTODETECT_PWD
 
@@ -168,7 +171,7 @@ int ap_proxy_ftp_canon(request_rec *r, char *url)
 /* now, rebuild URL */
 
     if (port != DEFAULT_FTP_PORT)
-        ap_snprintf(sport, sizeof(sport), ":%d", port);
+        snprintf(sport, sizeof(sport), ":%d", port);
     else
         sport[0] = '\0';
 
@@ -194,8 +197,10 @@ static int ftp_getrc(BUFF *ctrl)
     if (len == -1)
         return -1;
 /* check format */
-    if (len < 5 || !ap_isdigit(linebuff[0]) || !ap_isdigit(linebuff[1]) ||
-     !ap_isdigit(linebuff[2]) || (linebuff[3] != ' ' && linebuff[3] != '-'))
+    if (len < 5 || !isdigit((unsigned char)linebuff[0]) ||
+        !isdigit((unsigned char)linebuff[1]) ||
+        !isdigit((unsigned char)linebuff[2]) ||
+        (linebuff[3] != ' ' && linebuff[3] != '-'))
         status = 0;
     else
         status = 100 * linebuff[0] + 10 * linebuff[1] + linebuff[2] - 111 * '0';
@@ -234,8 +239,10 @@ static int ftp_getrc_msg(BUFF *ctrl, char *msgbuf, int msglen)
     len = ap_bgets(linebuff, sizeof linebuff, ctrl);
     if (len == -1)
         return -1;
-    if (len < 5 || !ap_isdigit(linebuff[0]) || !ap_isdigit(linebuff[1]) ||
-     !ap_isdigit(linebuff[2]) || (linebuff[3] != ' ' && linebuff[3] != '-'))
+    if (len < 5 || !isdigit((unsigned char)linebuff[0]) ||
+        !isdigit((unsigned char)linebuff[1]) ||
+        !isdigit((unsigned char)linebuff[2]) ||
+        (linebuff[3] != ' ' && linebuff[3] != '-'))
         status = 0;
     else
         status = 100 * linebuff[0] + 10 * linebuff[1] + linebuff[2] - 111 * '0';
@@ -308,7 +315,7 @@ static long int send_dir(BUFF *data, request_rec *r, cache_req *c, char *cwd)
         path[n - 1] = '\0';
 
     /* print "ftp://host/" */
-    n = ap_snprintf(buf, buf_size, DOCTYPE_HTML_3_2
+    n = snprintf(buf, buf_size, DOCTYPE_HTML_3_2
                     "<html><head><title>%s%s%s</title>\n"
                     "<base href=\"%s%s%s\"></head>\n"
                     "<body><h2>Directory of "
@@ -331,7 +338,7 @@ static long int send_dir(BUFF *data, request_rec *r, cache_req *c, char *cwd)
         else
             ++reldir;
         /* print "path/" component */
-        ap_snprintf(buf, buf_size, "<a href=\"%s%s/\">%s</a>/",
+        snprintf(buf, buf_size, "<a href=\"%s%s/\">%s</a>/",
                     basedir,
                     ap_escape_uri(p, path),
                     ap_escape_html(p, reldir));
@@ -344,10 +351,10 @@ static long int send_dir(BUFF *data, request_rec *r, cache_req *c, char *cwd)
     /* If the caller has determined the current directory, and it differs */
     /* from what the client requested, then show the real name */
     if (cwd == NULL || strncmp(cwd, path, strlen(cwd)) == 0) {
-        ap_snprintf(buf, buf_size, "</h2>\n<hr /><pre>");
+        snprintf(buf, buf_size, "</h2>\n<hr /><pre>");
     }
     else {
-        ap_snprintf(buf, buf_size, "</h2>\n(%s)\n<hr /><pre>",
+        snprintf(buf, buf_size, "</h2>\n(%s)\n<hr /><pre>",
                     ap_escape_html(p, cwd));
     }
     total_bytes_sent += ap_proxy_bputs2(buf, con->client, c);
@@ -380,7 +387,7 @@ static long int send_dir(BUFF *data, request_rec *r, cache_req *c, char *cwd)
             if (filename != buf)
                 *(filename++) = '\0';
             *(link_ptr++) = '\0';
-            ap_snprintf(buf2, buf_size, "%s <a href=\"%s\">%s %s</a>\n",
+            snprintf(buf2, buf_size, "%s <a href=\"%s\">%s %s</a>\n",
                         ap_escape_html(p, buf),
                         ap_escape_uri(p, filename),
                         ap_escape_html(p, filename),
@@ -389,8 +396,9 @@ static long int send_dir(BUFF *data, request_rec *r, cache_req *c, char *cwd)
             n = strlen(buf);
         }
         /* Handle unix style or DOS style directory  */
-        else if (buf[0] == 'd' || buf[0] == '-' || buf[0] == 'l' || ap_isdigit(buf[0])) {
-            if (ap_isdigit(buf[0])) {   /* handle DOS dir */
+        else if (buf[0] == 'd' || buf[0] == '-' || buf[0] == 'l' ||
+            isdigit((unsigned char)buf[0])) {
+            if (isdigit((unsigned char)buf[0])) {   /* handle DOS dir */
                 searchptr = strchr(buf, '<');
                 if (searchptr != NULL)
                     *searchptr = '[';
@@ -415,12 +423,12 @@ static long int send_dir(BUFF *data, request_rec *r, cache_req *c, char *cwd)
 
             /* Special handling for '.' and '..': append slash to link */
             if (!strcmp(filename, ".") || !strcmp(filename, "..") || buf[0] == 'd') {
-                ap_snprintf(buf2, buf_size, "%s <a href=\"%s/\">%s</a>\n",
+                snprintf(buf2, buf_size, "%s <a href=\"%s/\">%s</a>\n",
                          ap_escape_html(p, buf), ap_escape_uri(p, filename),
                             ap_escape_html(p, filename));
             }
             else {
-                ap_snprintf(buf2, buf_size, "%s <a href=\"%s\">%s</a>\n",
+                snprintf(buf2, buf_size, "%s <a href=\"%s\">%s</a>\n",
                             ap_escape_html(p, buf),
                             ap_escape_uri(p, filename),
                             ap_escape_html(p, filename));
@@ -553,11 +561,12 @@ int ap_proxy_ftp_handler(request_rec *r, cache_req *c, char *url)
     char *user = NULL;
 /*    char *account = NULL; how to supply an account in a URL? */
     const char *password = NULL;
-    const char *err;
     int destport, i, j, len, rc, nocache = 0;
     int csd = 0, sock = -1, dsock = -1;
-    struct sockaddr_in server;
-    struct hostent server_hp;
+    struct sockaddr_storage server;
+    struct addrinfo hints, *res, *res0;
+    char portbuf[10];
+    int error;
     struct in_addr destaddr;
     table *resp_hdrs;
     BUFF *ctrl = NULL;
@@ -580,10 +589,17 @@ int ap_proxy_ftp_handler(request_rec *r, cache_req *c, char *url)
     unsigned int presult, h0, h1, h2, h3, p0, p1;
     unsigned int paddr;
     unsigned short pport;
-    struct sockaddr_in data_addr;
+    struct sockaddr_storage data_addr;
+    struct sockaddr_in *sin;
     int pasvmode = 0;
     char pasv[64];
     char *pstr;
+
+/* stuff for LPSV/EPSV */
+    unsigned int paf, holen, ho[16], polen, po[2];
+    struct sockaddr_in6 *sin6;
+    int lpsvmode = 0;
+    char *cmd;
 
 /* stuff for responses */
     char resp[MAX_STRING_LEN];
@@ -617,13 +633,13 @@ int ap_proxy_ftp_handler(request_rec *r, cache_req *c, char *url)
     strp2 = strchr(desthost, ':');
     if (strp2 != NULL) {
         *(strp2++) = '\0';
-        if (ap_isdigit(*strp2)) {
+        if (isdigit((unsigned char)*strp2)) {
             destport = atoi(strp2);
             destportstr = strp2;
         }
     }
     path = strchr(urlptr, '/')+1;
-    
+
     /*
      * The "Authorization:" header must be checked first. We allow the user
      * to "override" the URL-coded user [ & password ] in the Browsers'
@@ -678,19 +694,22 @@ int ap_proxy_ftp_handler(request_rec *r, cache_req *c, char *url)
     if (parms != NULL)
         *(parms++) = '\0';
 
-    memset(&server, 0, sizeof(struct sockaddr_in));
-    server.sin_family = AF_INET;
-    server.sin_port = htons((unsigned short)destport);
-    err = ap_proxy_host2addr(desthost, &server_hp);
-    if (err != NULL)
-        return ap_proxyerror(r, HTTP_INTERNAL_SERVER_ERROR, err);
-
-    sock = ap_psocket_ex(p, PF_INET, SOCK_STREAM, IPPROTO_TCP, 1);
-    if (sock == -1) {
-        ap_log_rerror(APLOG_MARK, APLOG_ERR, r,
-                      "proxy: error creating socket");
-        return HTTP_INTERNAL_SERVER_ERROR;
+    snprintf(portbuf, sizeof(portbuf), "%d", destport);
+    memset(&hints, 0, sizeof(hints));
+    hints.ai_family = PF_UNSPEC;
+    hints.ai_socktype = SOCK_STREAM;
+    error = getaddrinfo(desthost, portbuf, &hints, &res0);
+    if (error) {
+       return ap_proxyerror(r, HTTP_INTERNAL_SERVER_ERROR,
+           gai_strerror(error));
     }
+
+    i = -1;
+    for (res = res0; res; res = res->ai_next) {
+       sock = ap_psocket_ex(p, res->ai_family, res->ai_socktype,
+           res->ai_protocol, 1);
+       if (sock == -1)
+           continue;
 
     if (conf->recv_buffer_size > 0
         && setsockopt(sock, SOL_SOCKET, SO_RCVBUF,
@@ -705,18 +724,18 @@ int ap_proxy_ftp_handler(request_rec *r, cache_req *c, char *url)
         ap_log_rerror(APLOG_MARK, APLOG_ERR, r,
          "proxy: error setting reuseaddr option: setsockopt(SO_REUSEADDR)");
         ap_pclosesocket(p, sock);
+            freeaddrinfo(res0);
         return HTTP_INTERNAL_SERVER_ERROR;
     }
 
-    j = 0;
-    while (server_hp.h_addr_list[j] != NULL) {
-        memcpy(&server.sin_addr, server_hp.h_addr_list[j],
-               sizeof(struct in_addr));
-        i = ap_proxy_doconnect(sock, &server, r);
-        if (i == 0)
+        i = ap_proxy_doconnect(sock, res->ai_addr, r);
+        if (i == 0){
+            memcpy(&server, res->ai_addr, res->ai_addrlen);
             break;
-        j++;
+        }
+        ap_pclosesocket(p, sock);
     }
+    freeaddrinfo(res0);
     if (i == -1) {
         return ftp_cleanup_and_return(r, ctrl, data, sock, dsock,
                       ap_proxyerror(r, HTTP_BAD_GATEWAY, ap_pstrcat(r->pool,
@@ -926,7 +945,7 @@ int ap_proxy_ftp_handler(request_rec *r, cache_req *c, char *url)
     }
 
 /* try to set up PASV data connection first */
-    dsock = ap_psocket_ex(p, PF_INET, SOCK_STREAM, IPPROTO_TCP, 1);
+    dsock = ap_psocket_ex(p, server.ss_family, SOCK_STREAM, IPPROTO_TCP, 1);
     if (dsock == -1) {
         return ftp_cleanup_and_return(r, ctrl, data, sock, dsock,
                                 ap_proxyerror(r, HTTP_INTERNAL_SERVER_ERROR,
@@ -941,11 +960,21 @@ int ap_proxy_ftp_handler(request_rec *r, cache_req *c, char *url)
         }
     }
 
-    ap_bputs("PASV" CRLF, ctrl);
+lpsvagain:
+    if (server.ss_family == AF_INET)
+      cmd = "PASV";
+    else if (lpsvmode)
+      cmd = "LPSV";
+    else
+      cmd = "EPSV";
+    ap_bputs(cmd, ctrl);
+    ap_bputs(CRLF, ctrl);
     ap_bflush(ctrl);
-    ap_log_error(APLOG_MARK, APLOG_DEBUG | APLOG_NOERRNO, r->server, "FTP: PASV command issued");
+    ap_log_error(APLOG_MARK, APLOG_DEBUG | APLOG_NOERRNO, r->server, "FTP: passive command issued");
 /* possible results: 227, 421, 500, 501, 502, 530 */
     /* 227 Entering Passive Mode (h1,h2,h3,h4,p1,p2). */
+    /* 228 Entering Long Passive Mode (...). */
+    /* 229 Entering Extended Passive Mode (...). */
     /* 421 Service not available, closing control connection. */
     /* 500 Syntax error, command unrecognized. */
     /* 501 Syntax error in parameters or arguments. */
@@ -956,7 +985,7 @@ int ap_proxy_ftp_handler(request_rec *r, cache_req *c, char *url)
     if (i == -1 || i == 421) {
         return ftp_cleanup_and_return(r, ctrl, data, sock, dsock,
                                 ap_proxyerror(r, HTTP_INTERNAL_SERVER_ERROR,
-                               "proxy: PASV: control connection is toast"));
+                               "proxy: passive: control connection is toast"));
     }
     else {
         pasv[i - 1] = '\0';
@@ -984,10 +1013,14 @@ int ap_proxy_ftp_handler(request_rec *r, cache_req *c, char *url)
             pport = (p1 << 8) + p0;
             ap_log_error(APLOG_MARK, APLOG_DEBUG | APLOG_NOERRNO, r->server, "FTP: contacting host %d.%d.%d.%d:%d",
                          h3, h2, h1, h0, pport);
-            data_addr.sin_family = AF_INET;
-            data_addr.sin_addr.s_addr = htonl(paddr);
-            data_addr.sin_port = htons(pport);
-            i = ap_proxy_doconnect(dsock, &data_addr, r);
+            sin = (struct sockaddr_in *)&data_addr;
+            sin->sin_family = AF_INET;
+#ifdef SIN6_LEN
+            sin->sin_len = sizeof(*sin);
+#endif
+            sin->sin_addr.s_addr = htonl(paddr);
+            sin->sin_port = htons(pport);
+            i = ap_proxy_doconnect(dsock, (struct sockaddr *)&data_addr, r);
 
             if (i == -1) {
                 return ftp_cleanup_and_return(r, ctrl, data, sock, dsock,
@@ -997,6 +1030,64 @@ int ap_proxy_ftp_handler(request_rec *r, cache_req *c, char *url)
                                                    strerror(errno), NULL)));
             }
             pasvmode = 1;
+	} else if (presult == 228 && pstr != NULL
+		&& sscanf(pstr,
+"%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u",
+		    &paf, &holen, &ho[0], &ho[1], &ho[2], &ho[3],
+		    &ho[4], &ho[5], &ho[6], &ho[7], &ho[8], &ho[9], &ho[10], &ho[11],
+		    &ho[12], &ho[13], &ho[14], &ho[15], &polen, &po[0], &po[1]) == 21
+		&& paf == 6 && holen == 16 && polen == 2) {
+	    int i;
+	    sin6 = (struct sockaddr_in6 *)&data_addr;
+	    sin6->sin6_family = AF_INET6;
+#ifdef SIN6_LEN
+	    sin6->sin6_len = sizeof(*sin6);
+#endif
+	    for (i = 0; i < 16; i++)
+		sin6->sin6_addr.s6_addr[i] = ho[i] & 0xff;
+	    sin6->sin6_port = htons(((po[0] & 0xff) << 8) | (po[1] & 0xff));
+	    i = ap_proxy_doconnect(dsock, (struct sockaddr *)&data_addr, r);
+
+	    if (i == -1) {
+		ap_kill_timeout(r);
+		return ap_proxyerror(r, HTTP_BAD_GATEWAY,
+				     ap_pstrcat(r->pool,
+						"Could not connect to remote machine: ",
+						strerror(errno), NULL));
+	    }
+ 	    pasvmode = 1;
+	} else if (presult == 229 && pstr != NULL
+		&& pstr[0] == pstr[1] && pstr[0] == pstr[2]
+		&& pstr[0] == pstr[strlen(pstr) - 1]) {
+	    /* expect "|||port|" */
+#ifndef SIN6_LEN
+	    memcpy(&data_addr, &server, SA_LEN((struct sockaddr *)&server));
+#else
+	    memcpy(&data_addr, &server, server.ss_len);
+#endif
+	    switch (data_addr.ss_family) {
+	    case AF_INET:
+		sin = (struct sockaddr_in *)&data_addr;
+		sin->sin_port = htons(atoi(pstr + 3));
+		break;
+	    case AF_INET6:
+		sin6 = (struct sockaddr_in6 *)&data_addr;
+		sin6->sin6_port = htons(atoi(pstr + 3));
+		break;
+	    }
+	    i = ap_proxy_doconnect(dsock, (struct sockaddr *)&data_addr, r);
+
+	    if (i == -1) {
+		ap_kill_timeout(r);
+		return ap_proxyerror(r, HTTP_BAD_GATEWAY,
+				     ap_pstrcat(r->pool,
+						"Could not connect to remote machine: ",
+						strerror(errno), NULL));
+	    }
+	    pasvmode = 1;
+	} else if (!lpsvmode && strcmp(cmd, "EPSV") == 0) {
+	    lpsvmode = 1;
+	    goto lpsvagain;
         }
         else {
             ap_pclosesocket(p, dsock);  /* and try the regular way */
@@ -1005,14 +1096,14 @@ int ap_proxy_ftp_handler(request_rec *r, cache_req *c, char *url)
     }
 
     if (!pasvmode) {            /* set up data connection */
-        clen = sizeof(struct sockaddr_in);
+	clen = sizeof(server);
         if (getsockname(sock, (struct sockaddr *)&server, &clen) < 0) {
             return ftp_cleanup_and_return(r, ctrl, data, sock, dsock,
                                 ap_proxyerror(r, HTTP_INTERNAL_SERVER_ERROR,
                                     "proxy: error getting socket address"));
         }
 
-        dsock = ap_psocket_ex(p, PF_INET, SOCK_STREAM, IPPROTO_TCP, 1);
+	dsock = ap_psocket_ex(p, server.ss_family, SOCK_STREAM, IPPROTO_TCP, 1);
         if (dsock == -1) {
             return ftp_cleanup_and_return(r, ctrl, data, sock, dsock,
                                 ap_proxyerror(r, HTTP_INTERNAL_SERVER_ERROR,
@@ -1026,13 +1117,28 @@ int ap_proxy_ftp_handler(request_rec *r, cache_req *c, char *url)
                                   "proxy: error setting reuseaddr option"));
         }
 
-        if (bind(dsock, (struct sockaddr *)&server,
-                 sizeof(struct sockaddr_in)) == -1) {
+#ifndef SIN6_LEN
+	if (bind(dsock, (struct sockaddr *) &server, SA_LEN((struct sockaddr *)&server)) == -1)
+#else
+	if (bind(dsock, (struct sockaddr *) &server, server.ss_len) == -1)
+#endif
+	{
+	    char hostnamebuf[MAXHOSTNAMELEN], portnamebuf[MAXHOSTNAMELEN];
+
+	    getnameinfo((struct sockaddr *)&server,
+#ifndef SIN6_LEN
+		    SA_LEN((struct sockaddr *)&server),
+#else
+		    server.ss_len,
+#endif
+		hostnamebuf, sizeof(hostnamebuf),
+		portnamebuf, sizeof(portnamebuf),
+		NI_NUMERICHOST | NI_NUMERICSERV);
 
             return ftp_cleanup_and_return(r, ctrl, data, sock, dsock,
                                 ap_proxyerror(r, HTTP_INTERNAL_SERVER_ERROR,
-             ap_psprintf(p, "proxy: error binding to ftp data socket %s:%d",
-                         inet_ntoa(server.sin_addr), server.sin_port)));
+             ap_psprintf(p, "proxy: error binding to ftp data socket %s:%s",
+                         hostnamebuf, portnamebuf)));
         }
         listen(dsock, 2);       /* only need a short queue */
     }
@@ -1087,7 +1193,7 @@ int ap_proxy_ftp_handler(request_rec *r, cache_req *c, char *url)
                 len = 0;
             }
             else if (i == 213) {/* Size command ok */
-                for (j = 0; j < sizeof resp && ap_isdigit(resp[j]); j++);
+                for (j = 0; j < sizeof resp && isdigit((unsigned char)resp[j]); j++);
                 resp[j] = '\0';
                 if (resp[0] != '\0')
                     size = ap_pstrdup(p, resp);
@@ -1279,7 +1385,7 @@ int ap_proxy_ftp_handler(request_rec *r, cache_req *c, char *url)
 
     if (!pasvmode) {            /* wait for connection */
         ap_hard_timeout("proxy ftp data connect", r);
-        clen = sizeof(struct sockaddr_in);
+        clen = sizeof(server);
         do
             csd = accept(dsock, (struct sockaddr *)&server, &clen);
         while (csd == -1 && errno == EINTR);

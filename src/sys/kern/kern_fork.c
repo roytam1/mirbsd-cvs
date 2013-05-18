@@ -1,7 +1,10 @@
+/**	$MirOS: src/sys/kern/kern_fork.c,v 1.4 2005/07/04 05:11:59 tg Exp $	*/
 /*	$OpenBSD: kern_fork.c,v 1.73 2004/11/23 19:08:55 miod Exp $	*/
 /*	$NetBSD: kern_fork.c,v 1.29 1996/02/09 18:59:34 christos Exp $	*/
 
 /*
+ * Copyright (c) 2004 Thorsten Glaser
+ * Copyright (c) 2003 Ted Unangst
  * Copyright (c) 1982, 1986, 1989, 1991, 1993
  *	The Regents of the University of California.  All rights reserved.
  * (c) UNIX System Laboratories, Inc.
@@ -83,8 +86,8 @@ sys_fork(struct proc *p, void *v, register_t *retval)
 int
 sys_vfork(struct proc *p, void *v, register_t *retval)
 {
-	return (fork1(p, SIGCHLD, FORK_VFORK|FORK_PPWAIT, NULL, 0, NULL,
-	    NULL, retval, NULL));
+	return (fork1(p, SIGCHLD, (FORK_SHAREVM | FORK_VFORK | FORK_PPWAIT),
+	    NULL, 0, NULL, NULL, retval, NULL));
 }
 
 int

@@ -30,19 +30,11 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-static char copyright[] =
-"@(#) Copyright (c) 1983, 1992, 1993\n\
-	The Regents of the University of California.  All rights reserved.\n";
-#endif /* not lint */
-
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)mkdir.c	8.2 (Berkeley) 1/25/94";
-#else
-static char rcsid[] = "$OpenBSD: mkdir.c,v 1.17 2004/07/01 18:25:47 otto Exp $";
-#endif
-#endif /* not lint */
+#include <sys/cdefs.h>
+__COPYRIGHT("@(#) Copyright (c) 1983, 1992, 1993\n\
+	The Regents of the University of California.  All rights reserved.\n");
+__SCCSID("@(#)mkdir.c	8.2 (Berkeley) 1/25/94");
+__RCSID("$MirOS$");
 
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -67,7 +59,9 @@ main(int argc, char *argv[])
 	void *set;
 	mode_t mode, dir_mode;
 
+#ifndef __MirBSD__
 	setlocale(LC_ALL, "");
+#endif
 
 	/*
 	 * The default file mode is a=rwx (0777) with selected permissions

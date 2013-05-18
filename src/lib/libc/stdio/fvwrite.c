@@ -103,7 +103,7 @@ __sfvwrite(FILE *fp, struct __suio *uio)
 		do {
 			GETIOV(;);
 			if ((fp->_flags & (__SALC | __SSTR)) ==
-			    (__SALC | __SSTR) && fp->_w < len) {
+			    (__SALC | __SSTR) && (size_t)fp->_w < len) {
 				size_t blen = fp->_p - fp->_bf._base;
 				unsigned char *_base;
 				int _size;
@@ -112,7 +112,7 @@ __sfvwrite(FILE *fp, struct __suio *uio)
 				_size = fp->_bf._size;
 				do {
 					_size = (_size << 1) + 1;
-				} while (_size < blen + len);
+				} while ((size_t)_size < blen + len);
 				_base = realloc(fp->_bf._base, _size + 1);
 				if (_base == NULL)
 					goto err;
@@ -123,20 +123,20 @@ __sfvwrite(FILE *fp, struct __suio *uio)
 			}
 			w = fp->_w;
 			if (fp->_flags & __SSTR) {
-				if (len < w)
+				if (len < (size_t)w)
 					w = len;
 				COPY(w);	/* copy MIN(fp->_w,len), */
 				fp->_w -= w;
 				fp->_p += w;
 				w = len;	/* but pretend copied all */
-			} else if (fp->_p > fp->_bf._base && len > w) {
+			} else if (fp->_p > fp->_bf._base && len > (size_t)w) {
 				/* fill and flush */
 				COPY(w);
 				/* fp->_w -= w; */ /* unneeded */
 				fp->_p += w;
 				if (fflush(fp))
 					goto err;
-			} else if (len >= (w = fp->_bf._size)) {
+			} else if (len >= (size_t)(w = fp->_bf._size)) {
 				/* write directly */
 				w = (*fp->_write)(fp->_cookie, p, w);
 				if (w <= 0)
@@ -165,10 +165,10 @@ __sfvwrite(FILE *fp, struct __suio *uio)
 			GETIOV(nlknown = 0);
 			if (!nlknown) {
 				nl = memchr((void *)p, '\n', len);
-				nldist = nl ? nl + 1 - p : len + 1;
+				nldist = nl ? (size_t)(nl + 1 - p) : len + 1;
 				nlknown = 1;
 			}
-			s = MIN(len, nldist);
+			s = MIN(len, (size_t)nldist);
 			w = fp->_w + fp->_bf._size;
 			if (fp->_p > fp->_bf._base && s > w) {
 				COPY(w);
