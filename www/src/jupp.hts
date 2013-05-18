@@ -1,11 +1,11 @@
-# $MirOS: www/src/jupp.hts,v 1.30 2011/10/05 20:22:26 tg Exp $
+# $MirOS: www/src/jupp.hts,v 1.31 2011/10/05 21:41:25 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/juppp "jupp – Programmer’s Editor"
 mws_setheadline jupp – the Editor which sucks less
-mws_putheader '$MirOS: www/src/jupp.hts,v 1.30 2011/10/05 20:22:26 tg Exp $'
+mws_putheader '$MirOS: www/src/jupp.hts,v 1.31 2011/10/05 21:41:25 tg Exp $'
 mws_content <<'EOF'
 <p>The current version is <em>joe-2.8jupp2</em> for MS-DOS® compatible systems,
  and <em>joe-3.1jupp18</em> for Unix/GNU compatible systems. This page is
@@ -146,6 +146,23 @@ $ $SUDO make install</pre>
 <h2 id="bins">Binaries</h2>
 <p>These pre-compiled binaries are currently available:</p><ul>
  <li>jupp 3.x for Unix:<ul>
+  <li>JOE 3.1jupp18 for Windows® (cygwin stand-alone compiled; 80486;
+   comes with its own copy of cygwin1.dll and a setup.inf file for easy
+   installation), self-extracting LHarc archive, right-click on the inf
+   file for your platform (setup64.inf to install 32-bit jupp on 64-bit
+   (AMD64) NT, setup32.inf for 32-bit Windows) and select _I_nstall.
+   You may have to acknowledge a warning for a missing digital signature.
+   Edit <tt>C:\WINDOWS\SYSTEM32\JOE\JUPP32RC</tt> to disable the syntax
+   highlighting. Delete <tt>C:\WINDOWS\SYSTEM32\CYGWIN1.DLL</tt> (64-bit:
+   <tt>C:\WINDOWS\CYGWIN1.DLL</tt>) if you use Cygwin in parallel and
+   <em>before</em> installing it. Download and checksums:<ul>
+    <li><a href="https://www.mirbsd.org/MirOS/dist/jupp/JWIN31I.EXE">https://www.mirbsd.org/MirOS/dist/jupp/JWIN31I.EXE</a></li>
+    <li><a href="http://pub.allbsd.org/MirOS/dist/jupp/JWIN31I.EXE">http://pub.allbsd.org/MirOS/dist/jupp/JWIN31I.EXE</a></li>
+    <li>RMD160 (JWIN31I.EXE) = 8db482da8f3ae0cffa406f3c12d24a50ca4471fd</li>
+    <li>TIGER (JWIN31I.EXE) = fc2c242230ff986264f049b7e4fd3da1122c278f9fee98a8</li>
+    <li>2367163520 974176 /MirOS/dist/jupp/JWIN31I.EXE</li>
+    <li>MD5 (JWIN31I.EXE) = 0340564e19a9b5fe41830a820f6ac790</li>
+  </ul></li>
   <li>JOE 3.1jupp14 for Windows® (cygwin stand-alone compiled;
    comes with its own copy of cygwin1.dll and a setup.inf file for easy
    installation), self-extracting LHarc archive, right-click on the inf
