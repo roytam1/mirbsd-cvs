@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/install.i386,v 1.3 2007/06/15 23:46:48 tg Exp $
+# $MirOS: src/distrib/common/install.i386,v 1.4 2007/06/30 02:40:53 tg Exp $
 # $OpenBSD: install.md,v 1.28 2005/04/02 14:34:46 krw Exp $
 #
 #
@@ -65,7 +65,7 @@ md_prep_fdisk() {
 	typeset _disk=$1
 
 	ask_yn "Do you want to use *all* of $_disk for MirBSD?"
-	if [[ $resp == y ]]; then
+	if [[ $resp = y ]]; then
 		echo -n "Putting all of $_disk into an active MirBSD MBR partition (type 27)..."
 		fdisk -ef /.nex ${_disk} <<__EOT >/dev/null
 r

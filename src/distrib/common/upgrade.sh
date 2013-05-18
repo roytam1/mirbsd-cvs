@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/common/upgrade.sh,v 1.4 2007/03/10 04:13:12 tg Exp $
+# $MirOS: src/distrib/common/upgrade.sh,v 1.5 2007/06/22 20:06:58 tg Exp $
 # $OpenBSD: upgrade.sh,v 1.61 2005/04/02 14:27:08 krw Exp $
 # $NetBSD: upgrade.sh,v 1.2.4.5 1996/08/27 18:15:08 gwr Exp $
 #
@@ -86,7 +86,7 @@ done
 hostname $(</tmp/myname)
 
 ask_yn "Enable network using configuration stored on root filesystem?" yes
-[[ $resp == y ]] && enable_network
+[[ $resp = y ]] && enable_network
 
 # Offer the user the opportunity to tweak, repair, or create the network
 # configuration by hand.

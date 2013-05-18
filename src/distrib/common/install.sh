@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/common/install.sh,v 1.11 2007/06/30 02:20:53 tg Exp $
+# $MirOS: src/distrib/common/install.sh,v 1.12 2007/06/30 02:57:49 tg Exp $
 # $OpenBSD: install.sh,v 1.152 2005/04/21 21:41:33 krw Exp $
 # $NetBSD: install.sh,v 1.5.2.8 1996/08/27 18:15:05 gwr Exp $
 #
@@ -103,7 +103,7 @@ if [ ! -f /etc/fstab ]; then
 			# Force the user to think and type in a disk name by
 			# making 'done' the default choice.
 			ask_which "disk" "do you wish to initialise" "$_DKDEVS" done "No more disks to initialise"
-			[[ $resp == done ]] && break
+			[[ $resp = done ]] && break
 		fi
 
 		DISK=$resp
@@ -124,10 +124,10 @@ if [ ! -f /etc/fstab ]; then
 			_pp=${DISK}${_dev%:}
 			_ps=$_size
 
-			if [[ $_pp == $ROOTDEV ]]; then
+			if [[ $_pp = $ROOTDEV ]]; then
 				echo "$ROOTDEV /" >$FILESYSTEMS
 				continue
-			elif [[ $_pp == $SWAPDEV || $_type == swap ]]; then
+			elif [[ $_pp = $SWAPDEV || $_type = swap ]]; then
 				echo "$_pp" >>$SWAPLIST
 				continue
 			elif [[ $_type != *BSD ]]; then
@@ -140,13 +140,13 @@ if [ ! -f /etc/fstab ]; then
 			# Set _mount_points[$_i].
 			if [[ -f /tmp/fstab.$DISK ]]; then
 				while read _pp _mp _rest; do
-					[[ $_pp == "/dev/${_partitions[$_i]}" ]] || continue
+					[[ $_pp = "/dev/${_partitions[$_i]}" ]] || continue
 					# Ignore mount points that have already been specified.
 					[[ -n $(grep " $_mp\$" $FILESYSTEMS) ]] && break
 					isin $_mp ${_mount_points[*]} && break
 					# Ignore '/' for any partition but ROOTDEV. Check just
 					# in case ROOTDEV isn't first partition processed.
-					[[ $_mp == '/' ]] && break
+					[[ $_mp = '/' ]] && break
 					# Otherwise, record user specified mount point.
 					_mount_points[$_i]=$_mp
 				done </tmp/fstab.$DISK
@@ -154,7 +154,7 @@ if [ ! -f /etc/fstab ]; then
 			: $(( _i += 1 ))
 		done </tmp/disklabel.$DISK
 
-		if [[ $DISK == $ROOTDISK && -z $(grep "^$ROOTDEV /$" $FILESYSTEMS) ]]; then
+		if [[ $DISK = $ROOTDISK && -z $(grep "^$ROOTDEV /$" $FILESYSTEMS) ]]; then
 			echo "ERROR: No root partition ($ROOTDEV)."
 			DISK=
 			continue
@@ -187,7 +187,7 @@ if [ ! -f /etc/fstab ]; then
 					_j=0
 					for _pp in ${_partitions[*]} ""; do
 						if [[ $_i -ne $_j ]]; then
-							[[ $resp == ${_mount_points[$_j]} ]] && break
+							[[ $resp = ${_mount_points[$_j]} ]] && break
 						fi
 						: $(( _j += 1 ))
 					done
@@ -227,7 +227,7 @@ The next step *DESTROYS* all existing data on these partitions!
 __EOT
 
 	ask_yn "Are you really sure that you're ready to proceed?"
-	[[ $resp == n ]] && { echo "Ok, try again later." ; exit ; }
+	[[ $resp = n ]] && { echo "Ok, try again later." ; exit ; }
 
 	# Read $FILESYSTEMS, creating a new filesystem on each listed
 	# partition and saving the partition and mount point information
@@ -236,7 +236,7 @@ __EOT
 	unset _partitions _mount_points
 	while read _pp _mp; do
 		_OPT=
-		[[ $_mp == / ]] && _OPT=$MDROOTFSOPT
+		[[ $_mp = / ]] && _OPT=$MDROOTFSOPT
 		newfs -q $_OPT /dev/r$_pp
 
 		_partitions[$_i]=$_pp
@@ -277,7 +277,7 @@ __EOT
 				# can contain suid programs. In the case of
 				# /usr/libexec, give blanket permission for
 				# subdirectories.
-				if [[ $_mp == / ]]; then
+				if [[ $_mp = / ]]; then
 					# / can hold devices and suid programs.
 					echo " 1 1"
 				else
@@ -302,7 +302,7 @@ __EOT
 
 	# Append all non-default swap devices to fstab.
 	while read _dev; do
-		[[ $_dev == $SWAPDEV ]] || \
+		[[ $_dev = $SWAPDEV ]] || \
 			echo "/dev/$_dev none swap sw 0 0" >>/tmp/fstab
 	done <$SWAPLIST
 
@@ -354,7 +354,7 @@ if [[ -f /etc/ssh/ssh_host_rsa_key ]]; then
 	manual_net_cfg
 else
 	ask_yn "Configure the network?" yes
-	[[ $resp == y ]] && donetconfig
+	[[ $resp = y ]] && donetconfig
 fi
 
 install_sets
@@ -449,7 +449,7 @@ done )
     print keyboard.encoding=$(</tmp/kbdtype) >>/mnt/etc/wsconsctl.conf
 
 # Amend target fstab by kernfs (BSD) / sysfs (Linux) and procfs (both)
-[[ $MODE == install ]] && cat >>/mnt/etc/fstab <<__EOF
+[[ $MODE = install ]] && cat >>/mnt/etc/fstab <<__EOF
 kern /kern kernfs rw,noauto 0 0
 proc /proc procfs rw,linux 0 0
 __EOF

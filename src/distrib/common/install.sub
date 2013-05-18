@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/install.sub,v 1.20 2007/07/31 22:17:27 tg Exp $
+# $MirOS: src/distrib/common/install.sub,v 1.21 2007/08/24 14:38:38 tg Exp $
 # $OpenBSD: install.sub,v 1.388 2005/07/02 00:55:48 uwe Exp $
 # $NetBSD: install.sub,v 1.5.2.8 1996/09/02 23:25:02 pk Exp $
 #
@@ -167,7 +167,7 @@ __EOT
 	esac
 
 	ask_yn "$_q"
-	if [[ $resp == n ]]; then
+	if [[ $resp = n ]]; then
 		cat <<__EOT
 
 Enter 'halt -p' or 'reboot' at the prompt to gracefully exit MirBSD.
@@ -204,7 +204,7 @@ get_serialdev() {
 
 get_drive() {
 	ask_which "$1" "contains the $MODE media" "$2"
-	[[ $resp == done ]] && return 1
+	[[ $resp = done ]] && return 1
 	makedev $resp || return 1
 	return 0
 }
@@ -224,7 +224,7 @@ get_partition() {
 
 	ask_which "$_drive partition" "has the $MODE sets" \
 		 "$(sed -e 's/^\(.\).*/\1/' /tmp/parts.$_drive)"
-	[[ $resp == done ]] && return 1
+	[[ $resp = done ]] && return 1
 
 	_part=$resp
 	_fst=$(sed -ne "/^$_part /s///p" /tmp/parts.$_drive)
@@ -358,7 +358,7 @@ isin() {
 
 	shift
 	for _b; do
-		[[ $_a == $_b ]] && return 0
+		[[ $_a = $_b ]] && return 0
 	done
 	return 1
 }
@@ -429,7 +429,7 @@ edit_tmp_file() {
 	typeset _file=$1
 
 	ask_yn "Edit $_file with $EDITOR?"
-	[[ $resp == y ]] && $EDITOR /tmp/$_file
+	[[ $resp = y ]] && $EDITOR /tmp/$_file
 }
 
 # Offer to shell out for manual network configuration, and do so if
@@ -437,7 +437,7 @@ edit_tmp_file() {
 manual_net_cfg() {
 	ask_yn "Do you want to do any manual network configuration?"
 
-	[[ $resp == y ]] && { echo "Type 'exit' to return to $MODE."; sh; }
+	[[ $resp = y ]] && { echo "Type 'exit' to return to $MODE."; sh; }
 
 	# the network is now up…
 	( exec >/dev/wrandom
@@ -558,7 +558,7 @@ configure_ifs() {
 	while :; do
 		ask_which "interface" "do you wish to initialise" "$_IFDEVS" \
 			"" "No more interfaces to initialise"
-		[[ $resp == done ]] && break
+		[[ $resp = done ]] && break
 
 		_ifs=$resp
 		_hn=/tmp/hostname.$_ifs
@@ -648,7 +648,7 @@ __EOT
 
 	set -- $(v4_info $_ifs)
 
-	if [[ $1 == UP && -n $2 ]]; then
+	if [[ $1 = UP && -n $2 ]]; then
 		# Move configuration files to where they will be copied to the
 		# installed system. Overwrites configuration information from
 		# last successful dhcp attempt.
@@ -726,7 +726,7 @@ v6_config() {
 	addhostent "$_addr" "$_name"
 
 	v6_defroute $_ifs
-	[[ $resp == none ]] && return
+	[[ $resp = none ]] && return
 	route -n add -inet6 default "$resp" || return
 	echo "!route -qn add -inet6 default $resp" >>$_hn
 }
@@ -742,7 +742,7 @@ v4_defroute() {
 
 	while :; do
 		ask_until "$_prompt" "$_dr"
-		[[ $resp == @(none|dhcp) ]] && break
+		[[ $resp = @(none|dhcp) ]] && break
 		route delete -inet default >/dev/null 2>&1
 		route -n add -inet default "$resp" && {
 			echo "route -n add -inet default $resp" \
@@ -1043,13 +1043,13 @@ install_url() {
 	ask "HTTP/FTP proxy URL? (e.g. 'http://proxy:8080', or 'none')" \
 	    "${ftp_proxy:-none}"
 	unset ftp_proxy http_proxy
-	[[ $resp == none ]] || export ftp_proxy=$resp http_proxy=$resp
+	[[ $resp = none ]] || export ftp_proxy=$resp http_proxy=$resp
 
 	rm -f $SERVERLIST
 #	ask_yn "Display the list of known $_url_type servers?" "${_get_server_list:-yes}"
 #	_get_server_list=$resp
 	_get_server_list=n
-#	if [[ $_get_server_list == y ]]; then
+#	if [[ $_get_server_list = y ]]; then
 #		# ftp.openbsd.org == 129.128.5.191 and will remain at
 #		# that address for the forseeable future.
 #		echo -n "Getting the list from 129.128.5.191 (ftp.openbsd.org)..."
@@ -1096,7 +1096,7 @@ install_url() {
 	# Some older servers lie about their support for passive mode ftp, so
 	# ask the user if it worth trying passive mode to the chosen server.
 	# Irrelevant if using a proxy.
-	if [[ $_url_type == ftp && -z $ftp_proxy ]]; then
+	if [[ $_url_type = ftp && -z $ftp_proxy ]]; then
 		case $_ftp_active in
 		-A)	resp=no ;;
 		*)	resp=yes ;;
@@ -1104,7 +1104,7 @@ install_url() {
 
 		unset _ftp_active
 		ask_yn "Does the server support passive mode ftp?" $resp
-		[[ $resp == n ]] && _ftp_active=-A
+		[[ $resp = n ]] && _ftp_active=-A
 	fi
 
 	# Get server directory
@@ -1112,7 +1112,7 @@ install_url() {
 	ask_until "Server directory?" "${resp:-$SETDIR}"
 	eval _${_url_type}_server_dir=$resp
 
-	if [[ $_url_type == ftp ]]; then
+	if [[ $_url_type = ftp ]]; then
 		# Get login name, setting IFS to nothing so trailing or
 		# embedded blanks are preserved!
 		_oifs=$IFS
@@ -1134,7 +1134,7 @@ install_url() {
 
 	# Build up the base url since it is so nasty...
 	_url_base=$_url_type://
-	if [[ $_url_type == ftp && $_ftp_server_login != anonymous ]]; then
+	if [[ $_url_type = ftp && $_ftp_server_login != anonymous ]]; then
 		_url_base=$_url_base$(encode_for_url "$_ftp_server_login"):$(encode_for_url "$_passwd")@
 	fi
 	eval _url_base=$_url_base\$_${_url_type}_server_ip/\$_${_url_type}_server_dir
@@ -1143,7 +1143,7 @@ install_url() {
 	ifconfig lo0 127.0.0.1
 
 	# Get list of files from the server.
-	if [[ $_url_type == ftp && -z $ftp_proxy ]]; then
+	if [[ $_url_type = ftp && -z $ftp_proxy ]]; then
 		_file_list=$(ftp_list_files "$_ftp_server_ip" "$_ftp_server_login" "$_passwd" "$_ftp_server_dir")
 		ftp_error "Login failed." "$_file_list" && return
 		ftp_error "No such file or directory." "$_file_list" && return
@@ -1161,7 +1161,7 @@ install_mounted_fs() {
 
 	while :; do
 		ask_until "Pathname to the sets? (or 'done')" "$SETDIR"
-		[[ $resp == done ]] && return
+		[[ $resp = done ]] && return
 		# Accept a valid /mnt2 or /mnt relative path.
 		[[ -d /mnt2/$resp ]] && { _dir=/mnt2/$resp ; break ; }
 		[[ -d /mnt/$resp ]] && { _dir=/mnt/$resp ; break ; }
@@ -1199,7 +1199,7 @@ install_disk() {
 	typeset _drive _dev _fstype _fsopts
 
 	ask_yn "Is the disk partition already mounted?"
-	if [[ $resp == n ]]; then
+	if [[ $resp = n ]]; then
 		get_drive "disk" "$DKDEVS" || return
 		_drive=$resp
 
@@ -1207,7 +1207,7 @@ install_disk() {
 		set -- $resp
 		_dev=/dev/$_drive$1
 		[[ -n $2 ]] && _fstype="-t $2"
-		[[ $_fstype == $MDFSTYPE ]] && _fsopts=$MDFSOPTS
+		[[ $_fstype = $MDFSTYPE ]] && _fsopts=$MDFSOPTS
 
 		if [[ -z $(mount | grep "^$_dev") ]]; then
 			mount $_fstype -o ro,$_fsopts $_dev /mnt2 || return
@@ -1229,7 +1229,7 @@ install_nfs() {
 
 	# Determine use of TCP
 	ask_yn "Use TCP transport? (requires TCP-capable NFS server)" yes
-	[[ $resp == y ]] && _tcp=-T
+	[[ $resp = y ]] && _tcp=-T
 
 	# Mount the server
 	mount_nfs $_tcp -o ro $NFS_ADDR:$NFS_PATH /mnt2 || return
@@ -1256,8 +1256,8 @@ install_tape() {
 	# Extract the desired files.
 	while :; do
 		ask_until "Skip how many files? (or 'done')" 0
-		[[ $resp == done ]] && return
-		[[ $resp == +([0-9]) ]] || continue
+		[[ $resp = done ]] && return
+		[[ $resp = +([0-9]) ]] || continue
 		(($resp < 0)) && continue
 
 		if (($resp > 0)); then
@@ -1271,13 +1271,13 @@ install_tape() {
 
 		unset _z
 		ask_yn "Is the file gzipped?" yes
-		[[ $resp == y ]] && _z=z
+		[[ $resp = y ]] && _z=z
 
 		# Get the blocksize to use. If the file isn't gzipped then
 		# default to the 20 x 512 = 10,240 byte tar default.
-		[[ $_z == z ]] || _bs=10240
+		[[ $_z = z ]] || _bs=10240
 		ask_until "Blocksize for this file?" "${_bs:-8k}"
-		[[ $resp == done ]] && return
+		[[ $resp = done ]] && return
 		_bs=$resp
 
 		dd if=$TAPE bs=$_bs | tar ${_z}xvphf - -C /mnt || return
@@ -1304,7 +1304,7 @@ set_timezone() {
 
 		ask "What timezone are you in? ('?' for list)" "$TZ"
 
-		if [[ $resp == ? ]]; then
+		if [[ $resp = ? ]]; then
 			ls -F ${_zonepath}
 			continue;
 		fi
@@ -1340,7 +1340,7 @@ sane_install() {
 	for _s in $SANESETS; do
 		isin $_s $DEFAULTSETS || continue
 		ask_yn "'$_s' was not installed.\nAre you *SURE* your $MODE is complete without '$_s'?"
-		[[ $resp == n ]] && _m="$_m $_s"
+		[[ $resp = n ]] && _m="$_m $_s"
 	done
 
 	[[ -n $_m ]] && return 1
@@ -1398,15 +1398,15 @@ munge_fstab() {
 
 	while read _dev _mp _fstype _opt _rest; do
 		# Drop irrelevant lines and filesystems.
-		[[ $_dev == \#* || \
-		    $_fstype == nfs || \
-		    $_fstype == mfs || \
+		[[ $_dev = \#* || \
+		    $_fstype = nfs || \
+		    $_fstype = mfs || \
 		    ! -f /sbin/mount_$_fstype || \
-		    $_opt == *noauto* || \
-		    $_opt == *xx* ]] && continue
+		    $_opt = *noauto* || \
+		    $_opt = *xx* ]] && continue
 
 		# Mount non-ffs filesystems read only.
-		[[ $_fstype == ffs ]] || _opt=$(echo $_opt | sed -e 's/rw/ro/')
+		[[ $_fstype = ffs ]] || _opt=$(echo $_opt | sed -e 's/rw/ro/')
 
 		# Write fs entry in fstab.
 		# 1) prepend '/mnt' to the mount point.
@@ -1506,7 +1506,7 @@ donetconfig() {
 		mv /tmp/resolv.conf.shadow /tmp/resolv.conf
 		# Get nameserver address(es). Store as a blank separated list.
 		for _n in $(grep '^nameserver ' /tmp/resolv.conf); do
-			[[ $_n == nameserver ]] || _ns="$_ns$_n "
+			[[ $_n = nameserver ]] || _ns="$_ns$_n "
 		done
 		# Zap trailing space in _ns.
 		set -- $_ns
@@ -1531,7 +1531,7 @@ donetconfig() {
 			echo "nameserver $_ns" >>/tmp/resolv.conf
 		done
 		ask_yn "Use the nameserver now?" yes
-		[[ $resp == y ]] && cp /tmp/resolv.conf /tmp/resolv.conf.shadow
+		[[ $resp = y ]] && cp /tmp/resolv.conf /tmp/resolv.conf.shadow
 	fi
 
 	# Get/Confirm an IPv4 default route if an IPv4 address was configured.
@@ -1543,13 +1543,13 @@ donetconfig() {
 
 questions() {
 	ask_yn "Start sshd(8) by default?" yes
-	if [[ $resp == n ]]; then
+	if [[ $resp = n ]]; then
 		echo "sshd_flags=NO		# disabled during install" \
 		    >>/mnt/etc/rc.conf.local
 	fi
 
 	ask_yn "Start ntpd(8) by default?" yes
-	if [[ $resp == y ]]; then
+	if [[ $resp = y ]]; then
 		echo "ntpd_flags=-s		# enabled during install" \
 		    >>/mnt/etc/rc.conf.local
 	fi
@@ -1562,7 +1562,7 @@ questions() {
 	echo 'The information is tied to an anonymous key and not employed'
 	echo 'to collect any personal data about MirOS users.'
 	ask_yn 'Do you want to *disable* sending hardware information?'
-	if [[ $resp == y ]]; then
+	if [[ $resp = y ]]; then
 		echo "bsdstats_flags=		# disabled during install" \
 		    >>/mnt/etc/rc.conf.local
 	fi
@@ -1572,7 +1572,7 @@ questions() {
 		echo 'If you respond negatively, you must enable it later in'
 		echo '/etc/sysctl.conf in order to be able to run XFree86(R).'
 		ask_yn "Do you expect to run the X Window System?"
-		if [[ $resp == y ]]; then
+		if [[ $resp = y ]]; then
 			sed -e "/^#\(machdep\.allowaperture=${MDXAPERTURE}\)/s//\1	/" \
 			    /mnt/etc/sysctl.conf >/tmp/sysctl.conf
 			cp /tmp/sysctl.conf /mnt/etc/sysctl.conf
@@ -1591,9 +1591,9 @@ questions() {
 
 	[[ -z $SERIALDEV ]] && return
 	ask_yn "Change the default console to $SERIALDEV?"
-	[[ $resp == n ]] && return
+	[[ $resp = n ]] && return
 	ask_which "speed" "should $SERIALDEV use" "9600 19200 38400 57600 115200"
-	[[ $resp == done ]] && return
+	[[ $resp = done ]] && return
 	echo "set tty $SERIALDEV\nstty $SERIALDEV $resp" >>/mnt/boot.cfg
 }
 
@@ -1609,7 +1609,7 @@ finish_up() {
 		# is a small chance the device does not exist on the ramdisk
 		# and will thus not get mounted.
 		while read _dev _mp _fstype _rest; do
-			[[ $_fstype == swap ]] && \
+			[[ $_fstype = swap ]] && \
 			    /mnt/sbin/swapctl -a $_dev >/dev/null 2>&1
 		done </mnt/etc/fstab
 	fi
@@ -1716,7 +1716,7 @@ THESETS="bsd bsd.rd $MDSETS"
 DEFAULTSETS="bsd"
 for _set in base etc gnu dev ada xbase xetc unfree pkgutl ports source \
     xfree pkgsrc site; do
-	[[ $MODE == upgrade && $_set == ?(x)etc ]] && continue
+	[[ $MODE = upgrade && $_set = ?(x)etc ]] && continue
 	THESETS="$THESETS ${_set}${VERSION}.ngz"
 	isin $_set base etc gnu dev && \
 	    DEFAULTSETS="$DEFAULTSETS ${_set}${VERSION}.ngz"
@@ -1738,7 +1738,7 @@ umount -v /mnt 1>/dev/null 2>&1
 welcome
 
 # Get ROOTDISK, ROOTDEV and SWAPDEV.
-if [[ $MODE == install && ! -f /etc/fstab ]]; then
+if [[ $MODE = install && ! -f /etc/fstab ]]; then
 	cat <<__EOT
 
 You will now initialise the disk(s) that MirBSD will use. To enable all
@@ -1752,7 +1752,7 @@ set -- $DKDEVS
 [[ $# -gt 1 ]] && _defdsk=done
 
 ask_which "disk" "is the root disk" "$DKDEVS" "$_defdsk"
-[[ $resp == done ]] && exit
+[[ $resp = done ]] && exit
 makedev $resp || exit
 
 ROOTDISK=$resp
