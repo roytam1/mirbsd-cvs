@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: contrib/gnu/aux/install-sh,v 1.8 2005/09/13 10:42:27 tg Exp $
+# $MirOS: contrib/gnu/aux/install-sh,v 1.9 2005/12/17 05:46:10 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -65,7 +65,7 @@ elif [[ -n $KSH_VERSION ]]; then
 fi
 
 if [ -z "$p" ]; then
-	echo "Shell not supported; go to http://mirbsd.mirsolutions.de/?mksh"
+	echo "Shell not supported; go to http://www.66h.42h.de/?mksh"
 	exit 1
 fi
 

@@ -1,5 +1,5 @@
 <?php
-/* $MirOS: www/index.php,v 1.14 2005/10/03 23:36:22 tg Exp $ */
+/* $MirOS: www/index.php,v 1.15 2005/12/06 13:37:53 tg Exp $ */
 /*-
  * The MirOS Project - Webpages
  * Copyrighted material; read LICENCE for terms of use.
@@ -73,7 +73,7 @@
     <input type="hidden" name="forid" value="1" />
     <input type="hidden" name="ie" value="UTF-8" />
     <input type="hidden" name="oe" value="UTF-8" />
-    <input type="hidden" name="cof" value="GALT:#FFAA00;GL:1;DIV:#0033FF;VLC:FFAA00;AH:center;BGC:000000;LBGC:333333;ALC:FFFFFF;LC:FFFFFF;T:CCCCCC;GFNT:8888DD;GIMP:33FF33;LH:92;LW:98;L:http://mirbsd.mirsolutions.de/pics/logosmw.png;S:http://mirbsd.org/;LP:1;FORID:1;" />
+    <input type="hidden" name="cof" value="GALT:#FFAA00;GL:1;DIV:#0033FF;VLC:FFAA00;AH:center;BGC:000000;LBGC:333333;ALC:FFFFFF;LC:FFFFFF;T:CCCCCC;GFNT:8888DD;GIMP:33FF33;LH:92;LW:98;L:http://www.66h.42h.de/pics/logosmw.png;S:http://mirbsd.org/;LP:1;FORID:1;" />
     <input type="hidden" name="safe" value="off" />
     <input type="hidden" name="num" value="100" />
    </td></tr>

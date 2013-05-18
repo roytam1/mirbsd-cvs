@@ -621,7 +621,7 @@ ht-0.7.4-0|editors/ht||file editor/viewer/analyzer for executables (uses X11) (u
 ht-0.7.4-0-no_x11|editors/ht,no_x11||file editor/viewer/analyzer for executables (uses GNU Make)|http:/hte.sourceforge.net/|editors/ht/pkg/DESCR|The MirPorts mailing list <miros-discuss@MirBSD.org>|editors||:devel/gmake||any|y|y|y|y
 jed-0.99.16-0|editors/jed||text editor (uses X11)|http://space.mit.edu/~davis/jed/|editors/jed/pkg/DESCR|The MirPorts mailing list <miros-discuss@MirBSD.org>|editors|slang.14::devel/libslang|||any|y|y|y|y
 jed-0.99.16-0-no_x11|editors/jed,no_x11||text editor|http://space.mit.edu/~davis/jed/|editors/jed/pkg/DESCR|The MirPorts mailing list <miros-discuss@MirBSD.org>|editors|slang.14::devel/libslang|||any|y|y|y|y
-joe-3.1jupp5-0|editors/joe||Joe's Own Editor|http://mirbsd.mirsolutions.de/?jupp|editors/joe/pkg/DESCR|Thorsten Glaser <tg@mirbsd.de>|editors||||any|y|y|y|y
+joe-3.1jupp5-0|editors/joe||Joe's Own Editor|http://www.66h.42h.de/?jupp|editors/joe/pkg/DESCR|Thorsten Glaser <tg@mirbsd.de>|editors||||any|y|y|y|y
 jove-4.16-0|editors/jove||Jonathan's Own Version of Emacs||editors/jove/pkg/DESCR|The MirPorts mailing list <miros-discuss@MirBSD.org>|editors||||any|n|y|n|y
 kxmleditor-0.7.2-0|editors/kxmleditor||XML editor for KDE (uses C++) (uses X11) (uses GNU Make)|http://kxmleditor.sourceforge.net/|editors/kxmleditor/pkg/DESCR|The MirPorts mailing list <miros-discuss@MirBSD.org>|editors x11 x11/kde|kdecore.4,DCOP,kdefx,kdesu,kdeui,kio,kparts::x11/kde/libs3 lib/qt3/qt-mt.3::x11/qt3|:devel/autoconf/2.59 :devel/gmake :devel/metaauto||any|y|y|y|y
 nano-1.2.3-0|editors/nano||small, easy to use editor|http://www.nano-editor.org/|editors/nano/pkg/DESCR|The MirPorts mailing list <miros-discuss@MirBSD.org>|editors|iconv.2::converters/libiconv intl.1:gettext->=0.10.38:devel/gettext|:devel/autoconf/2.59 :devel/metaauto gettext->=0.10.38:devel/gettext|gettext->=0.10.38:devel/gettext libiconv-*:converters/libiconv|any|y|y|y|y
@@ -738,7 +738,7 @@ xmess-0.56.2-0-x11|emulators/xmame,-mess,x11||emulates game consoles and old hom
 zsnes-1.42-1|emulators/zsnes||Super Nintendo emulator for x86 (uses C++) (uses X11)|http://www.zsnes.com/|emulators/zsnes/pkg/DESCR|The MirPorts mailing list <miros-discuss@MirBSD.org>|emulators games|SDL.:sdl-*-!no_x11:devel/sdl png.2::graphics/png|:devel/autoconf/2.59 :devel/automake/1.9 :devel/metaauto :lang/nasm||OpenBSD:*:i386 MirBSD:*:i386|y|y|y|y
 cksum-20051116-0|essentials/cksum||MirOS cksum(1)|http://wiki.mirbsd.de/MirCksum|essentials/cksum/pkg/DESCR|Thorsten Glaser <tg@66h.42h.de>|essentials||||any|y|y|y|y
 patch-20051110-1|essentials/patch||MirOS patch(1)||essentials/patch/pkg/DESCR|Thorsten Glaser <tg@66h.42h.de>|essentials||||any|y|y|y|y
-pkgtools-20051230-0|essentials/pkgtools||MirPorts Framework package tools|http://mirbsd.mirsolutions.de/?ports|essentials/pkgtools/pkg/DESCR|Benny Siegert <bsiegert@mirbsd.org>|essentials infrastructure||||any|y|y|y|y
+pkgtools-20051230-0|essentials/pkgtools||MirPorts Framework package tools|http://www.66h.42h.de/?ports|essentials/pkgtools/pkg/DESCR|Benny Siegert <bsiegert@mirbsd.org>|essentials infrastructure||||any|y|y|y|y
 mirsort-20050418-0|essentials/sort||MirOS sort(1)|http://mirbsd.de/|essentials/sort/pkg/DESCR|Benny Siegert <bsiegert@gmx.de>|essentials||||any|y|y|y|y
 texinfo-4.8-0|essentials/texinfo||GNU's man page successor|http://www.gnu.org/software/texinfo/|essentials/texinfo/pkg/DESCR|The MirPorts mailing list <miros-discuss@MirBSD.org>|textproc||||any|y|y|y|y
 abuse-2.0-0|games/abuse||full color 320x200 arcade quality platform shooter (uses C++) (uses X11) (uses GNU Make)|http://www.crack.com/games/abuse/|games/abuse/pkg/DESCR|The MirPorts mailing list <miros-discuss@MirBSD.org>|games x11||:devel/gmake||any|n|n|n|n
@@ -1994,7 +1994,7 @@ zebedee-2.4.1-0|security/zebedee||portable, encrypted, compressed tunnel|http://
 bash-2.05b-0|shells/bash||GNU Bourne Again Shell (broken)|http://cnswww.cns.cwru.edu/~chet/bash/bashtop.html|shells/bash/pkg/DESCR|The MirPorts mailing list <miros-discuss@MirBSD.org>|shells||||any|y|y|y|y
 bash-2.05b-0-static|shells/bash,static||GNU Bourne Again Shell (broken)|http://cnswww.cns.cwru.edu/~chet/bash/bashtop.html|shells/bash/pkg/DESCR|The MirPorts mailing list <miros-discuss@MirBSD.org>|shells||||any|y|y|y|y
 es-0.9b1-0|shells/es||extensible shell, derived from plan9's rc||shells/es/pkg/DESCR|The MirPorts mailing list <miros-discuss@MirBSD.org>|shells||||any|y|y|y|y
-mksh-26-0|shells/mksh||MirBSD Korn Shell|http://mirbsd.mirsolutions.de/?mksh|shells/mksh/pkg/DESCR|The MirPorts mailing list <miros-discuss@MirBSD.org>|shells||||any|y|y|y|y
+mksh-26-0|shells/mksh||MirBSD Korn Shell|http://www.66h.42h.de/?mksh|shells/mksh/pkg/DESCR|The MirPorts mailing list <miros-discuss@MirBSD.org>|shells||||any|y|y|y|y
 sash-3.6-0|shells/sash||stand-alone shell with built-in commands|http://www.canb.auug.org.au/~dbell/|shells/sash/pkg/DESCR|The MirPorts mailing list <miros-discuss@MirBSD.org>|shells||||any|y|y|y|y
 scsh-0.6.2-0|shells/scsh||Unix shell embedded in Scheme|http://www.scsh.net/|shells/scsh/pkg/DESCR|The MirPorts mailing list <miros-discuss@MirBSD.org>|lang shells||||any|y|y|y|y
 tcsh-6.13.00-0|shells/tcsh||C shell with file name completion and command line editing|http://www.tcsh.org|shells/tcsh/pkg/DESCR|Stephen Paskaluk <sap@66h.42h.de>|shells||||any|y|y|y|y

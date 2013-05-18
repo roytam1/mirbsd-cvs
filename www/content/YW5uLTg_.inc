@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/YW5uLTg_.inc,v 1.4 2005/12/29 17:57:33 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/YW5uLTg_.inc,v 1.5 2006/01/09 18:26:32 tg Exp $</small>
 
 <p style="font-size:smaller; text-align:right;">Codename: WTF we have a release?</p>
 
@@ -44,9 +44,9 @@
  under different licences. You can find an overview in the directory
  <tt>/usr/share/doc/legal/</tt>, especially in the file <tt>1stREAD</tt>.
  Most of the information regarding the base system is available as an <a
- href="https://mirbsd.mirsolutions.de:445/r8man/man7/BSD-Licence.htm">HTML
+ href="http://www.66h.42h.de/r8man/man7/BSD-Licence.htm">HTML
  document</a> online as well. The remaining documents can be found at <a
- href="https://mirbsd.mirsolutions.de:445/cvs.cgi/src/share/doc/legal/?only_with_tag=MIRBSD_8">the
+ href="http://cvs.mirbsd.de/src/share/doc/legal/?only_with_tag=MIRBSD_8">the
  CVSweb</a> for the release as well prior to installation. The required
  advertising clauses are reprinted below as well. All trademarks belong
  to their respective owners, which are not listed here because they change
@@ -134,8 +134,8 @@
  download specific files from the CD or do a network installation.</p>
 
 <p>The location of the downloads is usually <tt><a
- href="https://mirbsd.mirsolutions.de:445/MirOS/ISOs/">/MirOS/ISOs/</a></tt>
- or <tt><a href="https://mirbsd.mirsolutions.de:445/MirOS/v8/">/MirOS/v8/</a>
+ href="http://www.66h.42h.de/MirOS/ISOs/">/MirOS/ISOs/</a></tt>
+ or <tt><a href="http://www.66h.42h.de/MirOS/v8/">/MirOS/v8/</a>
  (equalling /MirOS/v8.1/ for the #8semel release)</tt>; the links here are
  adjusted to the main mirror.</p>
 
@@ -155,7 +155,7 @@
  a <tt>bsd.rd</tt> to the disc and make it bootable, then to continue the
  installation with the GENERIC ramdisk kernel.</p>
 
-<p>Please read <a href="https://mirbsd.mirsolutions.de:445/r8man/man7/install.i386.htm">the
+<p>Please read <a href="http://www.66h.42h.de/r8man/man7/install.i386.htm">the
  extensive documentation</a> on the installation process for a walk-through.
  Further information might also be acquired by reading the documentation
  on <a href="http://www.openbsd.org/">the OpenBSD website</a>.</p>

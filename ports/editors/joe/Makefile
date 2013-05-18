@@ -1,10 +1,10 @@
-# $MirOS: ports/editors/joe/Makefile,v 1.3 2005/09/12 21:35:40 tg Exp $
+# $MirOS: ports/editors/joe/Makefile,v 1.4 2005/12/22 20:33:11 tg Exp $
 
 COMMENT=		"Joe's Own Editor"
 CATEGORIES=		editors
 DISTNAME=		joe-3.1jupp5
 EXTRACT_SUFX=		.cpio.gz
-HOMEPAGE=		http://mirbsd.mirsolutions.de/?jupp
+HOMEPAGE=		http://www.66h.42h.de/?jupp
 RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.de>
 MASTER_SITES=		${_MASTER_SITE_MIRBSD:distfiles/=dist/jupp/}
 

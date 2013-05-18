@@ -1,11 +1,11 @@
-$MirOS$
+$MirOS: src/share/doc/legal/1stREAD,v 1.1.7.1 2005/03/06 16:17:43 tg Exp $
 
 LICENCE OVERVIEW
 ----------------
 
 This is /usr/share/doc/legal/1stREAD, available online under
-<http://mirbsd.bsdadvocacy.org/cvs.cgi/src/share/doc/legal/>
-or any other CVSweb enabled mirror.
+http://cvs.mirbsd.de/src/share/doc/legal/ or any other MirOS
+CVSweb enabled mirror.
 
 This file's purpose is to give a complete overview about the
 various files that in their totalness describe the terms and

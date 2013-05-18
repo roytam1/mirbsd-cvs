@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: ports/Setup.sh,v 1.19 2005/12/17 05:46:17 tg Exp $
+# $MirOS: ports/Setup.sh,v 1.20 2005/12/18 16:36:25 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -48,7 +48,7 @@ case x$1 in
 	*)	shift ;;
 esac
 if test x"$mirror" = x; then
-	mirror=http://mirbsd.mirsolutions.de/MirOS/dist/
+	mirror=http://www.66h.42h.de/MirOS/dist/
 fi
 export mirror
 

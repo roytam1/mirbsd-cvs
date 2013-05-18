@@ -1,4 +1,4 @@
-$MirOS: src/share/doc/legal/LICENCE-GNU,v 1.2 2005/08/26 22:41:32 tg Exp $
+$MirOS: src/share/doc/legal/LICENCE-GNU,v 1.3 2005/12/03 23:26:19 tg Exp $
 
 Readme for GNU software on MirOS
 ================================
@@ -101,17 +101,18 @@ anonymous rsync access:
 	password: anoncvs (attention: server in USA)
 
 cvsweb access with http:
+	http://cvs.mirbsd.de/	(general)
 	http://cvsweb.allbsd.org/cvsweb.cgi/?cvsroot=mirbsd
 	http://cvsweb.allbsd.org/cvsweb.cgi/?cvsroot=mirbsd-old
-	https://mirbsd.mirsolutions.de:445/cvs.cgi/?cvsroot=miros	(/cvs)
-	https://mirbsd.mirsolutions.de:445/cvs.cgi/?cvsroot=mirbsd	(/ocvs)
-	https://mirbsd.mirsolutions.de:445/cvs.cgi/?cvsroot=temp	(/ncvs)
+	https://www.66h.42h.de/cvs.cgi/?cvsroot=miros	(/cvs)
+	https://www.66h.42h.de/cvs.cgi/?cvsroot=mirbsd	(/ocvs)
+	https://www.66h.42h.de/cvs.cgi/?cvsroot=temp	(/ncvs)
 
 direct access to changelog files:
-	https://mirbsd.mirsolutions.de:445/clogs/
-	https://mirbsd.mirsolutions.de:445/clogs/			(/cvs)
-	https://mirbsd.mirsolutions.de:445/clogs/old/ChangeLog*		(/ocvs)
-	https://mirbsd.mirsolutions.de:445/clogs/old/NewChangeLog*	(/ncvs)
+	https://www.66h.42h.de/clogs/
+	https://www.66h.42h.de/clogs/			(/cvs)
+	https://www.66h.42h.de/clogs/old/ChangeLog*	(/ocvs)
+	https://www.66h.42h.de/clogs/old/NewChangeLog*	(/ncvs)
 
 access to files' changelogs from upstream:
 	http://www.openbsd.org/

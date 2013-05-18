@@ -1,4 +1,4 @@
-$MirOS$
+$MirOS: gcc/README,v 1.1 2005/03/25 18:28:48 tg Exp $
 
 This is the GCC module as contributed along with the
 MirOS operating system (see http://mirbsd.de/ for this
@@ -33,7 +33,7 @@ In any case, you can retrieve the original and current
 modified versions of the documentation from the MirOS CVSweb,
 and the original versions from the GCC CVSweb.
 The MirOS CVSweb can be found on the MirOS Project's homepage,
-for example at http://mirbsd.mirsolutions.de/cvs.cgi/gcc/
+for example at http://cvs.mirbsd.de/gcc/
 
 GNU and MirOS licences can be found in /usr/share/doc/legal/
 after installation.

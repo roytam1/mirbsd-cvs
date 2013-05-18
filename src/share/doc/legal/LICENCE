@@ -1,11 +1,11 @@
-$MirOS: src/share/doc/legal/LICENCE,v 1.6 2005/12/04 16:11:43 tg Exp $
+$MirOS: src/share/doc/legal/LICENCE,v 1.7 2006/01/01 05:40:49 tg Exp $
 
 MirOS base system and BSD - TOU
 -------------------------------
 
 This is /usr/share/doc/legal/LICENCE, available online at
-http://mirbsd.mirsolutios.de/cvs.cgi/src/share/doc/legal/
-or any other CVSweb enabled mirror.
+http://cvs.mirbsd.de/src/share/doc/legal/ or a CVSweb en-
+abled mirror.
 
 This file contains the terms and conditions which MirOS base
 and MirOS BSD are covered under.

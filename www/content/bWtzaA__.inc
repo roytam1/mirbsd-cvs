@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.15 2005/12/06 13:37:53 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.16 2005/12/06 18:12:48 tg Exp $</small>
 
 <h1>mksh R26</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
@@ -147,7 +147,7 @@
 <h2 id="fetch">Getting The Source</h2>
 
 <p>The current version is <a
- href="https://mirbsd.mirsolutions.de:445/MirOS/dist/mir/mksh/mksh-R26.cpio.gz">http://mirbsd.mirsolutions.de/MirOS/dist/mir/mksh/mksh-R26.cpio.gz</a></p>
+ href="http://www.66h.42h.de/MirOS/dist/mir/mksh/mksh-R26.cpio.gz">http://www.66h.42h.de/MirOS/dist/mir/mksh/mksh-R26.cpio.gz</a></p>
 <ul>
  <li>Please use gzsig(1) to verify the integrity of the distfile instead!</li>
  <li>RMD160 (mksh-R26.cpio.gz) = dddd3535971afab51ea11cc5276d1c4fbba7b9a4</li>
@@ -303,8 +303,8 @@
 
 <p>Tab Completion is enabled by default.
  You might want to have a look at <a
- href="http://mirbsd.mirsolutions.de/cvs.cgi/contrib/samples/etc_profile">http://mirbsd.mirsolutions.de/cvs.cgi/contrib/samples/etc_profile</a>
- (or its origin <a href="http://mirbsd.mirsolutions.de/cvs.cgi/src/etc/profile">http://mirbsd.mirsolutions.de/cvs.cgi/src/etc/profile</a>)
+ href="http://cvs.mirbsd.de/contrib/samples/etc_profile">http://cvs.mirbsd.de/contrib/samples/etc_profile</a>
+ (or its origin <a href="http://cvs.mirbsd.de/src/etc/profile">http://cvs.mirbsd.de/src/etc/profile</a>)
  for an even better pre-configured mksh environment.</p>
 <p>This especially comes handy for people used to the
  GNU bash, which want their CWD, user/hostname etc.

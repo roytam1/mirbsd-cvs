@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: contrib/code/Snippets/tinyirc.c,v 1.1.7.1 2005/02/05 02:36:15 tg Exp $ */
 
 /* Configuration options */
 static char *DEFAULTSERVER = "217.160.142.142";
@@ -37,7 +37,7 @@ static char *DEFAULTSERVER = "217.160.142.142";
    Please do not forget to donate to the OpenBSD project
    at http://www.OpenBSD.org/ - the daemons will thank you.
    While you're at it, visit the MirBSD project pages
-   at http://mirbsd.de/ or http://mirbsd.bsdadvocacy.org/
+   at http://mirbsd.de/ or http://mirbsd.org/
 
    Missing features:
     * KNF - man 9 style
@@ -84,7 +84,7 @@ static char *DEFAULTSERVER = "217.160.142.142";
 #define __RCSID(x)	static const char _rcsid[] = (x)
 #endif
 
-__RCSID("$MirOS: contrib/code/Snippets/tinyirc.c,v 1.1.15.1 2004/12/19 14:25:08 tg Exp $");
+__RCSID("$MirOS: contrib/code/Snippets/tinyirc.c,v 1.1.7.1 2005/02/05 02:36:15 tg Exp $");
 
 struct dlist {
     char name[64];

@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/b2xkZXI_.inc,v 1.16 2005/12/27 23:27:07 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/b2xkZXI_.inc,v 1.17 2005/12/29 17:48:56 tg Exp $</small>
 <h1>Older News and Weblogs</h1>
 <h3>Old News</h3>
 <p><a href="#newsend">Skip to News bottom</a></p><ul>
@@ -62,7 +62,7 @@
 	Also, the etherkiller.de mirror disappeared, and the tamu.edu was,
 	IIRC, taken offline some time ago. This means, at the moment there
 	is only one, central, place to retrieve MirOS BSD (in Germany): <a
-	href="https://mirbsd.mirsolutions.de:445/">mirbsd.mirsolutions.de</a><br />
+	href="http://www.66h.42h.de/">mirbsd.mirsolutions.de</a><br />
 	There has been some further work ongoing related to both the ports
 	stuff (infrastructure fixes and port updates) and libc (it builds,
 	but this is only a small step towards both I18N and unbreaking the

@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/anVwcA__.inc,v 1.3 2005/10/03 23:05:47 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/anVwcA__.inc,v 1.4 2005/12/06 13:37:53 tg Exp $</small>
 <h1>jupp &ndash; the Editor</h1>
 <p>
  The current version is <em>joe-3.1jupp4</em>.
@@ -34,7 +34,7 @@
 
 <p>General<br />
  Please see the CVSweb at <a
-  href="https://mirbsd.mirsolutions.de:445/cvs.cgi/contrib/code/jupp/?cvsroot=miros">https://mirbsd.mirsolutions.de:445/cvs.cgi/contrib/code/jupp/?cvsroot=miros</a>
+  href="http://cvs.mirbsd.de/contrib/code/jupp/">http://cvs.mirbsd.de/contrib/code/jupp/</a>
  for more details.
 </p>
 
@@ -52,7 +52,7 @@
 
 <h3>Download</h3>
 <ul>
- <li><a href="https://mirbsd.mirsolutions.de:445/MirOS/dist/jupp/joe-3.1jupp4.cpio.gz">https://mirbsd.mirsolutions.de:445/MirOS/dist/jupp/joe-3.1jupp4.cpio.gz</a></li>
+ <li><a href="http://www.66h.42h.de/MirOS/dist/jupp/joe-3.1jupp4.cpio.gz">http://www.66h.42h.de/MirOS/dist/jupp/joe-3.1jupp4.cpio.gz</a></li>
 </ul>
 
 <p>Check the sums!</p>

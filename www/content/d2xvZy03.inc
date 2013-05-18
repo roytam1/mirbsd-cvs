@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.74 2005/10/03 23:39:56 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.75 2005/12/06 13:37:53 tg Exp $</small>
 <h1>MirBSD &ndash; RELEASE TIME!!! Stable Services for Commercial Customers</h1>
 <h3>News <small><a href="#eof">bottom</a></small></h3>
 <h6>Note: all these entries are from tg@ up to November 3rd, when the
@@ -1446,7 +1446,7 @@
  the outside world has noticed &quot;us&quot;. Nice. I'm trying to get <a
  href="http://wiki.mirbsd.de/MirbsdKsh">mksh</a> through the OSI first now.
  kettenis@ said he'll start with the paperwork. thor, our dedicated, is a new
- <a href="https://mirbsd.mirsolutions.de:445/">mirror</a> now (also SSL-less,
+ <a href="http://www.66h.42h.de/">mirror</a> now (also SSL-less,
  but I won't advocate <em>not</em> to use TLS).</p>
 <p>02.11.2004 by tg@<br />At work, I tried to build a snapshot, so that our
  friend &lt;Kabelaffe&gt; can install that on his fileserver. In the progress,

@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.93 2006/01/01 03:29:57 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.94 2006/01/10 20:58:20 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -1340,7 +1340,7 @@ ${WRKPKG}/PLIST${SUBPACKAGE}: ${PLIST} ${WRKPKG}/depends${SUBPACKAGE}
 	    "ftp=${PERMIT_PACKAGE_FTP:L:S/"/\"/g}" \
 	    >$@.tmp
 	echo "@comment" \
-	    "portdir=http://mirbsd.mirsolutions.de/cvs.cgi/ports/${PKGPATH}/" \
+	    "portdir=http://cvs.mirbsd.de/ports/${PKGPATH}/" \
 	    >>$@.tmp
 	sort -u <${WRKPKG}/depends${SUBPACKAGE} >>$@.tmp
 .if ${NO_SHARED_LIBS:L} == "yes"

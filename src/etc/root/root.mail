@@ -1,5 +1,5 @@
 From mirabile@do-not-reply.66h.42h.de Thu May 26 21:49:31 2005 +0000
-X-RCSId: $MirOS: src/etc/root/root.mail,v 1.4 2005/05/26 21:52:34 tg Exp $
+X-RCSId: $MirOS: src/etc/root/root.mail,v 1.5 2005/12/20 08:45:14 tg Exp $
 Date: Thu, 26 May 2005 21:49:30 +0000 (UTC)
 From: MirOS Project <mirabile@do-not-reply.mirbsd.org>
 To: root
@@ -54,7 +54,7 @@ the Freeforge network, Channel #mirbsd (for example on the
 server irc.66h.42h.de:6667 or 6666, or 6668 with SSL).
 
 To install the MirPorts Framework, please follow the setup
-instructions on http://mirbsd.mirsolutions.de/?ports, but
+instructions on http://www.66h.42h.de/?ports, but
 we try to stay backwards-compatible enough to enable you to:
 $ cd /usr/ports
 $ make setup

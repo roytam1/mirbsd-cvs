@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/b3ZlcnZpZXc_.inc,v 1.10 2005/12/23 22:51:05 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/b3ZlcnZpZXc_.inc,v 1.11 2005/12/29 17:57:34 tg Exp $</small>
 <h1>Quick Overview &ndash; All in one page</h1>
 
 <h2>Status</h2><p>
@@ -23,7 +23,7 @@
    (rsyncd only)</li>
   <li>_anoncvs@thor.66h.42h.de:/cvs (empty pw) (IPv6 enabled)
    (anoncvs and anonrsync)</li>
-  <li>_anoncvs@mirsolutions.de:/cvs (empty pw)
+  <li>_anoncvs@mirbsd.org:/cvs (empty pw)
    (anoncvs and anonrsync)</li>
   <li>_anoncvs@herc.66h.42h.de:/cvs (port 57; private) (IPv6 enabled)
    (anoncvs and anonrsync)</li>
@@ -36,19 +36,23 @@
  </ul></li>
  <li>CVSweb<ul>
   <li><a href="http://cvsweb.allbsd.org/cvsweb.cgi/?cvsroot=mirbsd">http://cvsweb.allbsd.org/cvsweb.cgi/?cvsroot=mirbsd</a></li>
+  <li><a href="http://cvs.mirbsd.de/">http://cvs.mirbsd.de/</a> (should always work)</li>
   <li><a href="https://mirbsd.mirsolutions.de:445/cvs.cgi/">http://mirbsd.mirsolutions.de/cvs.cgi/</a></li>
  </ul></li>
  <li>Release<ul>
+  <li><a href="http://f.scarywater.net/miros/BSD-8semel-full--i386-source.ISO.torrent">ISO (BitTorrent)</a> #8semel (i386)</li>
+  <li><a href="http://www.66h.42h.de/MirOS/v8.1/i386/">Direct Download</a> #8semel (i386)</li>
+  <li>(no #8semel/sparc released, please use MirOS #7 instead)</li>
   <li><a href="http://f.scarywater.net/miros/BSD-7quater-full.iso.torrent">ISO (BitTorrent)</a> #7quater (i386, sparc)</li>
-  <li><a href="https://mirbsd.mirsolutions.de:445/MirOS/v7.5/bsd/i386/">Direct Download</a> #7quinquies (i386)</li>
-  <li><a href="https://mirbsd.mirsolutions.de:445/MirOS/v7.4/bsd/sparc/">Direct Download</a> #7quater (sparc) + updates</li>
+  <li><a href="http://www.66h.42h.de/MirOS/v7.5/bsd/i386/">Direct Download</a> #7quinquies (i386)</li>
+  <li><a href="http://www.66h.42h.de/MirOS/v7.4/bsd/sparc/">Direct Download</a> #7quater (sparc) + updates</li>
  </ul></li>
  <li>Snapshots<ul>
   <li><a href="http://f.scarywater.net/miros/">Please use our BitTorrent tracker</a> to download</li>
-  <li><a href="https://mirbsd.mirsolutions.de:445/MirOS/current/i386-20051207/">MirOS BSD #8/i386, 2005-12-07</a> (complete)</li>
+  <li><a href="http://www.66h.42h.de/MirOS/current/i386-20051207/">MirOS BSD #8/i386, 2005-12-07</a> (complete)</li>
  </ul></li>
  <li>Website<ul>
-  <li><a href="https://mirbsd.mirsolutions.de:445/">http://mirbsd.mirsolutions.de/</a></li>
+  <li><a href="http://www.66h.42h.de/">http://www.66h.42h.de/</a></li>
  </ul></li>
 </ul>
 

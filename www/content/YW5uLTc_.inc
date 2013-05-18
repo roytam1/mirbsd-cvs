@@ -12,7 +12,7 @@ BSD #7quater.</p>
   <dt>Home page</dt>
   <dd><a href="http://mirbsd.de">http://mirbsd.de</a></dd>
   <dt>Download</dt>
-  <dd><a href="http://mirbsd.mirsolutions.de/MirOS/v7/bsd/">http://mirbsd.mirsolutions.de/MirOS/v7/bsd/</a></dd>
+  <dd><a href="http://www.66h.42h.de/MirOS/v7/bsd/">http://www.66h.42h.de/MirOS/v7/bsd/</a></dd>
 </dl>
 
 <p>The MD5 and SHA1 checksum files have been signed with PGP. You are
@@ -281,7 +281,7 @@ to <tt>ksh</tt> - using tcsh or GNU bash is not officially supported.</p>
 <p>Please read the full stuff at <a href="/?about">About MirOS</a>.</p>
 
 <pre>
-# $MirOS: www/content/YW5uLTc_.inc,v 1.6 2005/12/06 18:12:48 tg Exp $
+# $MirOS: www/content/YW5uLTc_.inc,v 1.7 2005/12/14 23:43:03 tg Exp $
 # $OpenBSD: COPYRIGHT,v 1.2 2001/01/29 02:11:07 niklas Exp $
 # @(#)COPYRIGHT	5.1 (Berkeley) 7/1/91
 
@@ -339,7 +339,7 @@ vered by individual licence clauses. Most of these licences are re-
 produced below; for an additional overview of separated, but inclu-
 ded, third-party software, please refer to either of
  * /usr/share/legal/LICENCE
- * https://mirbsd.mirsolutions.de:445/cvs.cgi/src/share/doc/LICENCE?cvsroot=mirbsd
+ * http://www.66h.42h.de/cvs.cgi/src/share/doc/LICENCE?cvsroot=mirbsd
 You are required to read, understand and accept the listed licences
 before using the third-party software (such as Apache, Sendmail and
 the GNU toolchain).
