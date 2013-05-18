@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/nspr/Makefile,v 1.6 2010/02/02 20:36:19 bsiegert Exp $
+# $MirOS: ports/devel/nspr/Makefile,v 1.7 2010/03/14 19:08:54 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2004/01/29 21:57:53 pvalchev Exp $
 # $FreeBSD: /repoman/r/pcvs/ports/devel/nspr/Makefile,v 1.13 2003/12/13 21:30:19 peter Exp $
 
@@ -6,7 +6,7 @@ ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:*
 
 COMMENT=		Netscape Portable Runtime
 VERSION=		4.8.2
-DASH_VER=		1
+DASH_VER=		2
 DISTNAME=		nspr-${VERSION}
 CATEGORIES=		devel
 HOMEPAGE=		http://www.mozilla.org/projects/nspr/index.html
@@ -37,7 +37,7 @@ do-install:
 	${INSTALL_DATA_DIR} ${PREFIX}/include/nspr
 	cd ${WRKSRC}/dist/include && tar cfL - . | \
 		(cd ${PREFIX}/include && tar -xf -)
-	cd ${WRKSRC}/dist/lib && tar cf - . | \
+	cd ${WRKSRC}/dist/lib && tar cfL - . | \
 		(cd ${PREFIX}/lib && tar -xf -)
 	${INSTALL_SCRIPT} ${WRKSRC}/config/nspr-config ${PREFIX}/bin
 
