@@ -84,13 +84,17 @@ description:
 	Check some things in the LEGACY KSH
 category: shell:legacy-yes
 stdin:
-	(set -o emacs); echo 1 = $? .
-	(set -o vi); echo 2 = $? .
+	set +o emacs
+	set +o vi
+	[[ "$(set +o) -o" = *"-o emacs -o"* ]] && echo 1=emacs
+	[[ "$(set +o) -o" = *"-o vi -o"* ]] && echo 1=vi
+	set -o emacs
+	set -o vi
+	[[ "$(set +o) -o" = *"-o emacs -o"* ]] && echo 2=emacs
+	[[ "$(set +o) -o" = *"-o vi -o"* ]] && echo 2=vi
 expected-stdout:
-	1 = 1 .
-	2 = 1 .
-expected-stderr-pattern:
-	/set: emacs: bad option\n.*set: vi: bad option/
+	2=emacs
+	2=vi
 ---
 name: selftest-direct-builtin-call
 description:
