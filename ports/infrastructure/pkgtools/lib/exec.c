@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/lib/exec.c,v 1.3 2006/08/24 20:18:15 bsiegert Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/lib/exec.c,v 1.4 2007/03/30 23:20:11 bsiegert Exp $ */
 /*	$OpenBSD: exec.c,v 1.8 2003/09/05 19:40:42 tedu Exp $	*/
 
 /*
@@ -24,7 +24,7 @@
 #include <pwd.h>
 #include "lib.h"
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/exec.c,v 1.3 2006/08/24 20:18:15 bsiegert Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/exec.c,v 1.4 2007/03/30 23:20:11 bsiegert Exp $");
 
 #ifdef AS_USER
 static bool PrivsDropped = false;
@@ -90,7 +90,7 @@ piperead(const char *command)
 	}
 	len = strlen(buf);
 	if (len > 0 && buf[len - 1] == '\n')
-		buf[len--] = '\0';
+		buf[--len] = '\0';
 	if (pclose(stream) == -1) {
 		pwarn("Failed to close pipe to '%s'", command);
 	}
