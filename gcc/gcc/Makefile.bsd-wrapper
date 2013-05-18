@@ -1,4 +1,4 @@
-# $MirOS: gcc/gcc/Makefile.bsd-wrapper,v 1.42 2006/06/17 18:35:46 tg Exp $
+# $MirOS: gcc/gcc/Makefile.bsd-wrapper,v 1.43 2006/06/22 11:11:52 tg Exp $
 
 .include <bsd.own.mk>
 .include "${GNUSYSTEM_AUX_DIR}/locations.mk"
@@ -95,8 +95,9 @@ CFARGS+=	--prefix=${GCC_PREFIX} --libexecdir=${GCC_PREFIX}/lib \
 		--enable-stack-protector --disable-sjlj-exceptions \
 		--with-local-prefix=${GCC_PREFIX} --disable-nls \
 		--with-gxx-include-dir=${GCC_PREFIX}/include/gxx ${__LANGS}
-.ifndef _CROSSBUILD
+.if (${CROSS_MODE:L} == "yes") && !defined(_CROSSBUILD)
 # required if build != (host == target), for the chained auto-build.h call
+# breaks if build == host == target *sigh*
 CFARGS+=	--target=${GCCTARGET}
 .endif
 .if !defined(NO_THREADS) || ${NO_THREADS:L} == "no"
