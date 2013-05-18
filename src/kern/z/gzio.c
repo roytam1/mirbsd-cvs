@@ -11,7 +11,7 @@
 
 #include "zutil.h"
 
-zRCSID("$MirOS: src/kern/z/gzio.c,v 1.2 2007/02/06 20:12:39 tg Exp $")
+zRCSID("$MirOS: src/kern/z/gzio.c,v 1.3 2008/08/01 13:46:09 tg Exp $")
 
 #ifdef NO_DEFLATE       /* for compatibility with old definition */
 #  define NO_GZCOMPRESS
@@ -55,6 +55,7 @@ static int const gz_magic[2] = {0x1f, 0x8b}; /* gzip magic header */
 #define COMMENT      0x10 /* bit 4 set: file comment present */
 #define RESERVED     0xE0 /* bits 5..7: reserved */
 
+#include "gzio.h"
 
 local gzFile gz_open      OF((const char *path, const char *mode, int  fd));
 local int do_flush        OF((gzFile file, int flush));
@@ -81,10 +82,11 @@ local gzFile gz_open (path, mode, fd)
     int err;
     int level = Z_DEFAULT_COMPRESSION; /* compression level */
     int strategy = Z_DEFAULT_STRATEGY; /* compression strategy */
-    char *p = (char*)mode;
+    ZCONST char *p = (ZCONST char*)mode;
     gz_stream *s;
     char fmode[80]; /* copy of mode, without the compression level */
     char *m = fmode;
+    size_t len;
 
     if (!path || !mode) return Z_NULL;
 
@@ -107,11 +109,12 @@ local gzFile gz_open (path, mode, fd)
     s->msg = NULL;
     s->transparent = 0;
 
-    s->path = (char*)ALLOC(strlen(path)+1);
+    len = strlen(path) + 1;
+    s->path = (char*)ALLOC(len);
     if (s->path == NULL) {
         return destroy(s), (gzFile)Z_NULL;
     }
-    strcpy(s->path, path); /* do this early for debugging */
+    memcpy(s->path, path, len); /* do this early for debugging */
 
     s->mode = '\0';
     do {
@@ -206,7 +209,7 @@ gzFile ZEXPORT gzdopen (fd, mode)
     char name[46];      /* allow for up to 128-bit integers */
 
     if (fd < 0) return (gzFile)Z_NULL;
-    sprintf(name, "<fd:%d>", fd); /* for debugging */
+    snprintf(name, sizeof (name), "<fd:%d>", fd); /* for debugging */
 
     return gz_open (name, mode, fd);
 }
@@ -239,7 +242,7 @@ int ZEXPORT gzsetparams (file, level, strategy)
 /* ===========================================================================
      Read a byte from a gz_stream; update next_in and avail_in. Return EOF
    for end of file.
-   IN assertion: the stream s has been sucessfully opened for reading.
+   IN assertion: the stream s has been successfully opened for reading.
 */
 local int get_byte(s)
     gz_stream *s;
@@ -264,7 +267,7 @@ local int get_byte(s)
     mode to transparent if the gzip magic header is not present; set s->err
     to Z_DATA_ERROR if the magic header is present but the rest of the header
     is incorrect.
-    IN assertion: the stream s has already been created sucessfully;
+    IN assertion: the stream s has already been created successfully;
        s->stream.avail_in is zero for the first time, but may be non-zero
        for concatenated .gz files.
 */
@@ -548,7 +551,7 @@ int ZEXPORT gzwrite (file, buf, len)
 
     if (s == NULL || s->mode != 'w') return Z_STREAM_ERROR;
 
-    s->stream.next_in = (Bytef*)buf;
+    s->stream.next_in = (ZCONST Bytef*)buf;
     s->stream.avail_in = len;
 
     while (s->stream.avail_in != 0) {
@@ -587,7 +590,7 @@ int ZEXPORTVA gzprintf (gzFile file, const char *format, /* args */ ...)
 {
     char buf[Z_PRINTF_BUFSIZE];
     va_list va;
-    int len;
+    size_t len;
 
     buf[sizeof(buf) - 1] = 0;
     va_start(va, format);
@@ -611,9 +614,9 @@ int ZEXPORTVA gzprintf (gzFile file, const char *format, /* args */ ...)
     va_end(va);
 #  endif
 #endif
-    if (len <= 0 || len >= (int)sizeof(buf) || buf[sizeof(buf) - 1] != 0)
+    if (len <= 0 || len >= sizeof(buf) || buf[sizeof(buf) - 1] != 0)
         return 0;
-    return gzwrite(file, buf, (unsigned)len);
+    return gzwrite(file, buf, len);
 }
 #else /* not ANSI C */
 
@@ -677,7 +680,7 @@ int ZEXPORT gzputs(file, s)
     gzFile file;
     const char *s;
 {
-    return gzwrite(file, (char*)s, (unsigned)strlen(s));
+    return gzwrite(file, (ZCONST char*)s, strlen(s));
 }
 
 
@@ -971,8 +974,9 @@ const char * ZEXPORT gzerror (file, errnum)
     gzFile file;
     int *errnum;
 {
-    char *m;
+    ZCONST char *m;
     gz_stream *s = (gz_stream*)file;
+    size_t len1, len2;
 
     if (s == NULL) {
         *errnum = Z_STREAM_ERROR;
@@ -981,16 +985,19 @@ const char * ZEXPORT gzerror (file, errnum)
     *errnum = s->z_err;
     if (*errnum == Z_OK) return (const char*)"";
 
-    m = (char*)(*errnum == Z_ERRNO ? zstrerror(errno) : s->stream.msg);
+    m = (ZCONST char*)(*errnum == Z_ERRNO ? zstrerror(errno) : s->stream.msg);
 
-    if (m == NULL || *m == '\0') m = (char*)ERR_MSG(s->z_err);
+    if (m == NULL || *m == '\0') m = (ZCONST char*)ERR_MSG(s->z_err);
 
     TRYFREE(s->msg);
-    s->msg = (char*)ALLOC(strlen(s->path) + strlen(m) + 3);
+
+    len1 = strlen(s->path);
+    len2 = strlen(m);
+    s->msg = (char*)ALLOC(len1 + len2 + 3);
     if (s->msg == Z_NULL) return (const char*)ERR_MSG(Z_MEM_ERROR);
-    strcpy(s->msg, s->path);
-    strcat(s->msg, ": ");
-    strcat(s->msg, m);
+    memcpy(s->msg, s->path, len1);
+    memcpy(s->msg + len1, ": ", 2);
+    memcpy(s->msg + len1 + 2, m, len2 + 1);
     return (const char*)s->msg;
 }
 

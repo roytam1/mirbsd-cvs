@@ -7,7 +7,7 @@
 
 #include "zutil.h"
 
-zRCSID("$MirOS$")
+zRCSID("$MirOS: src/kern/z/compress.c,v 1.2 2008/08/01 13:46:08 tg Exp $")
 
 /* ===========================================================================
      Compresses the source buffer into the destination buffer. The level
@@ -30,7 +30,7 @@ int ZEXPORT compress2 (dest, destLen, source, sourceLen, level)
     z_stream stream;
     int err;
 
-    stream.next_in = (Bytef*)source;
+    stream.next_in = (ZCONST Bytef*)source;
     stream.avail_in = (uInt)sourceLen;
 #ifdef MAXSEG_64K
     /* Check for source > 64K on 16-bit machine: */

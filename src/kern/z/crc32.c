@@ -28,7 +28,7 @@
 
 #include "zutil.h"      /* for STDC and FAR definitions */
 
-zRCSID("$MirOS$")
+zRCSID("$MirOS: src/kern/z/crc32.c,v 1.2 2008/08/01 13:46:08 tg Exp $")
 
 #define local static
 
@@ -108,7 +108,8 @@ local void make_crc_table OF((void));
 local void make_crc_table()
 {
     unsigned long c;
-    int n, k;
+    size_t n;
+    int k;
     unsigned long poly;                 /* polynomial exclusive-or pattern */
     /* terms of polynomial defining this crc (except x^32): */
     static volatile int first = 1;      /* flag to limit concurrent making */
@@ -249,6 +250,7 @@ unsigned long ZEXPORT crc32(crc, buf, len)
     if (len) do {
         DO1;
     } while (--len);
+    zADDRND(crc);
     return crc ^ 0xffffffffUL;
 }
 
@@ -290,6 +292,7 @@ local unsigned long crc32_little(crc, buf, len)
     if (len) do {
         c = crc_table[0][(c ^ *buf++) & 0xff] ^ (c >> 8);
     } while (--len);
+    zADDRND(c);
     c = ~c;
     return (unsigned long)c;
 }
@@ -332,6 +335,7 @@ local unsigned long crc32_big(crc, buf, len)
     if (len) do {
         c = crc_table[4][(c >> 24) ^ *buf++] ^ (c << 8);
     } while (--len);
+    zADDRND(c);
     c = ~c;
     return (unsigned long)(REV(c));
 }
@@ -379,6 +383,8 @@ uLong ZEXPORT crc32_combine(crc1, crc2, len2)
     unsigned long even[GF2_DIM];    /* even-power-of-two zeros operator */
     unsigned long odd[GF2_DIM];     /* odd-power-of-two zeros operator */
 
+    zADDRND(crc2);
+    zADDRND(crc1);
     /* degenerate case */
     if (len2 == 0)
         return crc1;
@@ -421,5 +427,6 @@ uLong ZEXPORT crc32_combine(crc1, crc2, len2)
 
     /* return combined crc */
     crc1 ^= crc2;
+    zADDRND(crc1);
     return crc1;
 }

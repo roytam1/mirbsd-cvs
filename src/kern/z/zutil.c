@@ -7,7 +7,7 @@
 
 #include "zutil.h"
 
-zRCSID("$MirOS$")
+zRCSID("$MirOS: src/kern/z/zutil.c,v 1.2 2008/08/01 13:46:10 tg Exp $")
 
 #ifndef NO_DUMMY_DECL
 struct internal_state      {int dummy;}; /* for buggy compilers */
@@ -289,6 +289,11 @@ void  zcfree (voidpf opaque, voidpf ptr)
 #endif /* M_I86 */
 
 #endif /* SYS16BIT */
+
+
+#if defined(_KERNEL) || defined(_STANDALONE)
+#define MY_ZCALLOC /* provided by freestanding run-time environment */
+#endif
 
 
 #ifndef MY_ZCALLOC /* Any system without a special alloc function */

@@ -15,7 +15,7 @@
 #include "inflate.h"
 #include "inffast.h"
 
-zRCSID("$MirOS$")
+zRCSID("$MirOS: src/kern/z/infback.c,v 1.2 2008/08/01 13:46:09 tg Exp $")
 
 /* function prototypes */
 local void fixedtables OF((struct inflate_state FAR *state));
@@ -166,7 +166,7 @@ struct inflate_state FAR *state;
     do { \
         PULL(); \
         have--; \
-        hold += (unsigned long)(*next++) << bits; \
+        hold += (ZCONST unsigned long)(*next++) << bits; \
         bits += 8; \
     } while (0)
 
@@ -248,7 +248,7 @@ out_func out;
 void FAR *out_desc;
 {
     struct inflate_state FAR *state;
-    unsigned char FAR *next;    /* next input */
+    ZCONST unsigned char FAR *next;    /* next input */
     unsigned char FAR *put;     /* next output */
     unsigned have, left;        /* available input and output */
     unsigned long hold;         /* bit buffer */
@@ -310,7 +310,7 @@ void FAR *out_desc;
                 state->mode = TABLE;
                 break;
             case 3:
-                strm->msg = (char *)"invalid block type";
+                zSETSMSG("invalid block type");
                 state->mode = BAD;
             }
             DROPBITS(2);
@@ -321,7 +321,7 @@ void FAR *out_desc;
             BYTEBITS();                         /* go to byte boundary */
             NEEDBITS(32);
             if ((hold & 0xffff) != ((hold >> 16) ^ 0xffff)) {
-                strm->msg = (char *)"invalid stored block lengths";
+                zSETSMSG("invalid stored block lengths");
                 state->mode = BAD;
                 break;
             }
@@ -359,7 +359,7 @@ void FAR *out_desc;
             DROPBITS(4);
 #ifndef PKZIP_BUG_WORKAROUND
             if (state->nlen > 286 || state->ndist > 30) {
-                strm->msg = (char *)"too many length or distance symbols";
+                zSETSMSG("too many length or distance symbols");
                 state->mode = BAD;
                 break;
             }
@@ -381,7 +381,7 @@ void FAR *out_desc;
             ret = inflate_table(CODES, state->lens, 19, &(state->next),
                                 &(state->lenbits), state->work);
             if (ret) {
-                strm->msg = (char *)"invalid code lengths set";
+                zSETSMSG("invalid code lengths set");
                 state->mode = BAD;
                 break;
             }
@@ -405,7 +405,7 @@ void FAR *out_desc;
                         NEEDBITS(this.bits + 2);
                         DROPBITS(this.bits);
                         if (state->have == 0) {
-                            strm->msg = (char *)"invalid bit length repeat";
+                            zSETSMSG("invalid bit length repeat");
                             state->mode = BAD;
                             break;
                         }
@@ -428,7 +428,7 @@ void FAR *out_desc;
                         DROPBITS(7);
                     }
                     if (state->have + copy > state->nlen + state->ndist) {
-                        strm->msg = (char *)"invalid bit length repeat";
+                        zSETSMSG("invalid bit length repeat");
                         state->mode = BAD;
                         break;
                     }
@@ -447,7 +447,7 @@ void FAR *out_desc;
             ret = inflate_table(LENS, state->lens, state->nlen, &(state->next),
                                 &(state->lenbits), state->work);
             if (ret) {
-                strm->msg = (char *)"invalid literal/lengths set";
+                zSETSMSG("invalid literal/lengths set");
                 state->mode = BAD;
                 break;
             }
@@ -456,7 +456,7 @@ void FAR *out_desc;
             ret = inflate_table(DISTS, state->lens + state->nlen, state->ndist,
                             &(state->next), &(state->distbits), state->work);
             if (ret) {
-                strm->msg = (char *)"invalid distances set";
+                zSETSMSG("invalid distances set");
                 state->mode = BAD;
                 break;
             }
@@ -464,6 +464,7 @@ void FAR *out_desc;
             state->mode = LEN;
 
         case LEN:
+#ifndef SLOW
             /* use inflate_fast() if we have enough input and output */
             if (have >= 6 && left >= 258) {
                 RESTORE();
@@ -473,6 +474,7 @@ void FAR *out_desc;
                 LOAD();
                 break;
             }
+#endif
 
             /* get a literal, length, or end-of-block code */
             for (;;) {
@@ -514,7 +516,7 @@ void FAR *out_desc;
 
             /* invalid code */
             if (this.op & 64) {
-                strm->msg = (char *)"invalid literal/length code";
+                zSETSMSG("invalid literal/length code");
                 state->mode = BAD;
                 break;
             }
@@ -546,7 +548,7 @@ void FAR *out_desc;
             }
             DROPBITS(this.bits);
             if (this.op & 64) {
-                strm->msg = (char *)"invalid distance code";
+                zSETSMSG("invalid distance code");
                 state->mode = BAD;
                 break;
             }
@@ -561,7 +563,7 @@ void FAR *out_desc;
             }
             if (state->offset > state->wsize - (state->whave < state->wsize ?
                                                 left : 0)) {
-                strm->msg = (char *)"invalid distance too far back";
+                zSETSMSG("invalid distance too far back");
                 state->mode = BAD;
                 break;
             }

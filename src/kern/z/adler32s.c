@@ -34,9 +34,7 @@
 #include <limits.h>
 #endif
 
-zRCSID("$MirOS: src/kern/z/adler32s.c,v 1.6 2008/04/06 16:57:37 tg Exp $")
-
-unsigned long adler32(unsigned long, const unsigned char *, unsigned);
+zRCSID("$MirOS: src/kern/z/adler32s.c,v 1.7 2008/08/01 13:46:08 tg Exp $")
 
 #define BASE	65521	/* largest prime smaller than 65536 */
 #define NMAX	5552	/* largest n: 255n(n+1)/2 + (n+1)(BASE-1) <= 2^32-1 */

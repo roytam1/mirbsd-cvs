@@ -85,7 +85,7 @@
 #include "inflate.h"
 #include "inffast.h"
 
-zRCSID("$MirOS$")
+zRCSID("$MirOS: src/kern/z/inflate.c,v 1.2 2008/08/01 13:46:10 tg Exp $")
 
 #ifdef MAKEFIXED
 #  ifndef BUILDFIXED
@@ -99,7 +99,7 @@ local int updatewindow OF((z_streamp strm, unsigned out));
 #ifdef BUILDFIXED
    void makefixed OF((void));
 #endif
-local unsigned syncsearch OF((unsigned FAR *have, unsigned char FAR *buf,
+local unsigned syncsearch OF((unsigned FAR *have, ZCONST unsigned char FAR *buf,
                               unsigned len));
 
 int ZEXPORT inflateReset(strm)
@@ -558,7 +558,7 @@ z_streamp strm;
 int flush;
 {
     struct inflate_state FAR *state;
-    unsigned char FAR *next;    /* next input */
+    ZCONST unsigned char FAR *next;    /* next input */
     unsigned char FAR *put;     /* next output */
     unsigned have, left;        /* available input and output */
     unsigned long hold;         /* bit buffer */
@@ -610,19 +610,19 @@ int flush;
             if (
 #endif
                 ((BITS(8) << 8) + (hold >> 8)) % 31) {
-                strm->msg = (char *)"incorrect header check";
+                zSETSMSG("incorrect header check");
                 state->mode = BAD;
                 break;
             }
             if (BITS(4) != Z_DEFLATED) {
-                strm->msg = (char *)"unknown compression method";
+                zSETSMSG("unknown compression method");
                 state->mode = BAD;
                 break;
             }
             DROPBITS(4);
             len = BITS(4) + 8;
             if (len > state->wbits) {
-                strm->msg = (char *)"invalid window size";
+                zSETSMSG("invalid window size");
                 state->mode = BAD;
                 break;
             }
@@ -637,12 +637,12 @@ int flush;
             NEEDBITS(16);
             state->flags = (int)(hold);
             if ((state->flags & 0xff) != Z_DEFLATED) {
-                strm->msg = (char *)"unknown compression method";
+                zSETSMSG("unknown compression method");
                 state->mode = BAD;
                 break;
             }
             if (state->flags & 0xe000) {
-                strm->msg = (char *)"unknown header flags set";
+                zSETSMSG("unknown header flags set");
                 state->mode = BAD;
                 break;
             }
@@ -746,7 +746,7 @@ int flush;
             if (state->flags & 0x0200) {
                 NEEDBITS(16);
                 if (hold != (state->check & 0xffff)) {
-                    strm->msg = (char *)"header crc mismatch";
+                    zSETSMSG("header crc mismatch");
                     state->mode = BAD;
                     break;
                 }
@@ -801,7 +801,7 @@ int flush;
                 state->mode = TABLE;
                 break;
             case 3:
-                strm->msg = (char *)"invalid block type";
+                zSETSMSG("invalid block type");
                 state->mode = BAD;
             }
             DROPBITS(2);
@@ -810,7 +810,7 @@ int flush;
             BYTEBITS();                         /* go to byte boundary */
             NEEDBITS(32);
             if ((hold & 0xffff) != ((hold >> 16) ^ 0xffff)) {
-                strm->msg = (char *)"invalid stored block lengths";
+                zSETSMSG("invalid stored block lengths");
                 state->mode = BAD;
                 break;
             }
@@ -846,7 +846,7 @@ int flush;
             DROPBITS(4);
 #ifndef PKZIP_BUG_WORKAROUND
             if (state->nlen > 286 || state->ndist > 30) {
-                strm->msg = (char *)"too many length or distance symbols";
+                zSETSMSG("too many length or distance symbols");
                 state->mode = BAD;
                 break;
             }
@@ -868,7 +868,7 @@ int flush;
             ret = inflate_table(CODES, state->lens, 19, &(state->next),
                                 &(state->lenbits), state->work);
             if (ret) {
-                strm->msg = (char *)"invalid code lengths set";
+                zSETSMSG("invalid code lengths set");
                 state->mode = BAD;
                 break;
             }
@@ -892,7 +892,7 @@ int flush;
                         NEEDBITS(this.bits + 2);
                         DROPBITS(this.bits);
                         if (state->have == 0) {
-                            strm->msg = (char *)"invalid bit length repeat";
+                            zSETSMSG("invalid bit length repeat");
                             state->mode = BAD;
                             break;
                         }
@@ -915,7 +915,7 @@ int flush;
                         DROPBITS(7);
                     }
                     if (state->have + copy > state->nlen + state->ndist) {
-                        strm->msg = (char *)"invalid bit length repeat";
+                        zSETSMSG("invalid bit length repeat");
                         state->mode = BAD;
                         break;
                     }
@@ -934,7 +934,7 @@ int flush;
             ret = inflate_table(LENS, state->lens, state->nlen, &(state->next),
                                 &(state->lenbits), state->work);
             if (ret) {
-                strm->msg = (char *)"invalid literal/lengths set";
+                zSETSMSG("invalid literal/lengths set");
                 state->mode = BAD;
                 break;
             }
@@ -943,19 +943,21 @@ int flush;
             ret = inflate_table(DISTS, state->lens + state->nlen, state->ndist,
                             &(state->next), &(state->distbits), state->work);
             if (ret) {
-                strm->msg = (char *)"invalid distances set";
+                zSETSMSG("invalid distances set");
                 state->mode = BAD;
                 break;
             }
             Tracev((stderr, "inflate:       codes ok\n"));
             state->mode = LEN;
         case LEN:
+#ifndef SLOW
             if (have >= 6 && left >= 258) {
                 RESTORE();
                 inflate_fast(strm, out);
                 LOAD();
                 break;
             }
+#endif
             for (;;) {
                 this = state->lencode[BITS(state->lenbits)];
                 if ((unsigned)(this.bits) <= bits) break;
@@ -986,7 +988,7 @@ int flush;
                 break;
             }
             if (this.op & 64) {
-                strm->msg = (char *)"invalid literal/length code";
+                zSETSMSG("invalid literal/length code");
                 state->mode = BAD;
                 break;
             }
@@ -1018,7 +1020,7 @@ int flush;
             }
             DROPBITS(this.bits);
             if (this.op & 64) {
-                strm->msg = (char *)"invalid distance code";
+                zSETSMSG("invalid distance code");
                 state->mode = BAD;
                 break;
             }
@@ -1033,13 +1035,13 @@ int flush;
             }
 #ifdef INFLATE_STRICT
             if (state->offset > state->dmax) {
-                strm->msg = (char *)"invalid distance too far back";
+                zSETSMSG("invalid distance too far back");
                 state->mode = BAD;
                 break;
             }
 #endif
             if (state->offset > state->whave + out - left) {
-                strm->msg = (char *)"invalid distance too far back";
+                zSETSMSG("invalid distance too far back");
                 state->mode = BAD;
                 break;
             }
@@ -1091,7 +1093,7 @@ int flush;
                      state->flags ? hold :
 #endif
                      REVERSE(hold)) != state->check) {
-                    strm->msg = (char *)"incorrect data check";
+                    zSETSMSG("incorrect data check");
                     state->mode = BAD;
                     break;
                 }
@@ -1104,7 +1106,7 @@ int flush;
             if (state->wrap && state->flags) {
                 NEEDBITS(32);
                 if (hold != (state->total & 0xffffffffUL)) {
-                    strm->msg = (char *)"incorrect length check";
+                    zSETSMSG("incorrect length check");
                     state->mode = BAD;
                     break;
                 }
@@ -1240,7 +1242,7 @@ gz_headerp head;
  */
 local unsigned syncsearch(have, buf, len)
 unsigned FAR *have;
-unsigned char FAR *buf;
+ZCONST unsigned char FAR *buf;
 unsigned len;
 {
     unsigned got;

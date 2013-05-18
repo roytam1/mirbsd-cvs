@@ -8,7 +8,7 @@
 #include "inflate.h"
 #include "inffast.h"
 
-zRCSID("$MirOS$")
+zRCSID("$MirOS: src/kern/z/inffast.c,v 1.2 2008/08/01 13:46:09 tg Exp $")
 
 #ifndef ASMINF
 
@@ -71,8 +71,8 @@ z_streamp strm;
 unsigned start;         /* inflate()'s starting value for strm->avail_out */
 {
     struct inflate_state FAR *state;
-    unsigned char FAR *in;      /* local strm->next_in */
-    unsigned char FAR *last;    /* while in < last, enough input available */
+    ZCONST unsigned char FAR *in;      /* local strm->next_in */
+    ZCONST unsigned char FAR *last;    /* while in < last, enough input available */
     unsigned char FAR *out;     /* local strm->next_out */
     unsigned char FAR *beg;     /* inflate()'s initial strm->next_out */
     unsigned char FAR *end;     /* while out < end, enough space available */
@@ -81,7 +81,7 @@ unsigned start;         /* inflate()'s starting value for strm->avail_out */
 #endif
     unsigned wsize;             /* window size or zero if not using window */
     unsigned whave;             /* valid bytes in the window */
-    unsigned write;             /* window write index */
+    unsigned writei;            /* window write index */
     unsigned char FAR *window;  /* allocated sliding window, if wsize != 0 */
     unsigned long hold;         /* local strm->hold */
     unsigned bits;              /* local strm->bits */
@@ -108,7 +108,7 @@ unsigned start;         /* inflate()'s starting value for strm->avail_out */
 #endif
     wsize = state->wsize;
     whave = state->whave;
-    write = state->write;
+    writei = state->write;
     window = state->window;
     hold = state->hold;
     bits = state->bits;
@@ -177,7 +177,7 @@ unsigned start;         /* inflate()'s starting value for strm->avail_out */
                 dist += (unsigned)hold & ((1U << op) - 1);
 #ifdef INFLATE_STRICT
                 if (dist > dmax) {
-                    strm->msg = (char *)"invalid distance too far back";
+                    zSETSMSG("invalid distance too far back");
                     state->mode = BAD;
                     break;
                 }
@@ -189,12 +189,12 @@ unsigned start;         /* inflate()'s starting value for strm->avail_out */
                 if (dist > op) {                /* see if copy from window */
                     op = dist - op;             /* distance back in window */
                     if (op > whave) {
-                        strm->msg = (char *)"invalid distance too far back";
+                        zSETSMSG("invalid distance too far back");
                         state->mode = BAD;
                         break;
                     }
                     from = window - OFF;
-                    if (write == 0) {           /* very common case */
+                    if (writei == 0) {           /* very common case */
                         from += wsize - op;
                         if (op < len) {         /* some from window */
                             len -= op;
@@ -204,17 +204,17 @@ unsigned start;         /* inflate()'s starting value for strm->avail_out */
                             from = out - dist;  /* rest from output */
                         }
                     }
-                    else if (write < op) {      /* wrap around window */
-                        from += wsize + write - op;
-                        op -= write;
+                    else if (writei < op) {      /* wrap around window */
+                        from += wsize + writei - op;
+                        op -= writei;
                         if (op < len) {         /* some from end of window */
                             len -= op;
                             do {
                                 PUP(out) = PUP(from);
                             } while (--op);
                             from = window - OFF;
-                            if (write < len) {  /* some from start of window */
-                                op = write;
+                            if (writei < len) {  /* some from start of window */
+                                op = writei;
                                 len -= op;
                                 do {
                                     PUP(out) = PUP(from);
@@ -224,7 +224,7 @@ unsigned start;         /* inflate()'s starting value for strm->avail_out */
                         }
                     }
                     else {                      /* contiguous in window */
-                        from += write - op;
+                        from += writei - op;
                         if (op < len) {         /* some from window */
                             len -= op;
                             do {
@@ -265,7 +265,7 @@ unsigned start;         /* inflate()'s starting value for strm->avail_out */
                 goto dodist;
             }
             else {
-                strm->msg = (char *)"invalid distance code";
+                zSETSMSG("invalid distance code");
                 state->mode = BAD;
                 break;
             }
@@ -280,7 +280,7 @@ unsigned start;         /* inflate()'s starting value for strm->avail_out */
             break;
         }
         else {
-            strm->msg = (char *)"invalid literal/length code";
+            zSETSMSG("invalid literal/length code");
             state->mode = BAD;
             break;
         }

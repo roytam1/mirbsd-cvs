@@ -1,6 +1,19 @@
-# $MirOS: src/lib/libz/Makefile.gen,v 1.5 2007/04/17 22:10:58 tg Exp $
+# $MirOS: src/kern/z/Makefile.inc,v 1.2 2007/08/14 20:52:57 tg Exp $
 
-zlib_depends: crc32.h inffixed.h trees.h
+.include "${KERNBASE}/Makefile.inc"
+
+.PATH: ${KERNBASE}/z
+
+ZLIB_GENHDRS=	crc32.h inffixed.h trees.h
+ZLIB_CLEANFLS=	${ZLIB_GENHDRS} {mk_crc32,mk_inffixed,mk_trees}*
+ZLIB_SRCS=	adler32cb.c compress.c crc32.c deflate.c gzio.c infback.c \
+		inffast.c inflate.c inftrees.c trees.c uncompr.c zutil.c
+ZLIB_OBJS=	${ZLIB_SRCS:S/.c$/.o/}
+HOSTCC?=	${CC}
+HOSTCFLAGS?=	${CFLAGS}
+HOSTLDFLAGS?=	${LDFLAGS}
+CPPFLAGS+=	-I${KERNBASE}/z -I.
+HOSTCPPFLAGS?=	${CPPFLAGS}
 
 crc32.h: mk_crc32
 	./mk_crc32
@@ -36,7 +49,7 @@ mk_inffixed.c: crc32.h
 	print '}' >>$@
 
 mk_inffixed: mk_inffixed.c inflate.c \
-    adler32.c crc32.c inffast.c inftrees.c zutil.c
+    adler32s.c crc32.c inffast.c inftrees.c zutil.c
 	${HOSTCC} ${LDSTATIC} ${HOSTCFLAGS} ${HOSTCPPFLAGS} \
 	    ${HOSTLDFLAGS} -DMAKEFIXED -DZLIB_NO_ADLERPUSH $> -o $@
 

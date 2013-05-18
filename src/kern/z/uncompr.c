@@ -7,7 +7,7 @@
 
 #include "zutil.h"
 
-zRCSID("$MirOS$")
+zRCSID("$MirOS: src/kern/z/uncompr.c,v 1.2 2008/08/01 13:46:10 tg Exp $")
 
 /* ===========================================================================
      Decompresses the source buffer into the destination buffer.  sourceLen is
@@ -33,7 +33,7 @@ int ZEXPORT uncompress (dest, destLen, source, sourceLen)
     z_stream stream;
     int err;
 
-    stream.next_in = (Bytef*)source;
+    stream.next_in = (ZCONST Bytef*)source;
     stream.avail_in = (uInt)sourceLen;
     /* Check for source > 64K on 16-bit machine: */
     if ((uLong)stream.avail_in != sourceLen) return Z_BUF_ERROR;
