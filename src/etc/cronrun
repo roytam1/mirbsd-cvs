@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/etc/cronrun,v 1.1 2007/06/16 22:36:48 tg Exp $
+# $MirOS: src/etc/cronrun,v 1.2 2007/06/16 22:57:29 tg Exp $
 #-
 # Copyright (c) 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -22,6 +22,15 @@
 export PATH=/bin:/usr/bin:/sbin:/usr/sbin
 cd /
 umask 077
+exec >&-
+exec 2>&-
+
+function die {
+	typeset -i rv=$1
+	shift
+	print "$@" | logger -t cronrun
+	exit $rv
+}
 
 do_log=0
 nolock=0
@@ -29,25 +38,19 @@ while getopts ":ln" ch; do
 	case $ch {
 	(l)	do_log=1 ;;
 	(n)	nolock=1 ;;
-	(*)	print "cronrun: invalid option/argument ($ch, $OPTARG)"
-		exit 1
-		;;
+	(*)	die 1 "invalid option/argument ($ch, $OPTARG)" ;;
 	}
 done
 shift $((OPTIND - 1))
 
 jobname=$1
-if [[ ! -s /etc/$jobname ]]; then
-	print "cronrun: cannot run '$jobname', file does not exist"
-	exit 1
-fi
+[[ -s /etc/$jobname ]] || die 1 "cannot run '$jobname', file does not exist"
 
-[[ $nolock = 1 ]] || if [[ -e /var/run/cron.maintenance ]]; then
-	print "cronrun: not running '$jobname'," \
-	    "'$(</var/run/cron.maintenance)' already running"
-	exit 0
+if [[ $nolock = 0 ]]; then
+	[[ -e /var/run/cron.maintenance ]] && die 0 "not running" \
+	    "'$jobname', '$(</var/run/cron.maintenance)' already running"
+	print -nr -- "$jobname" >/var/run/cron.maintenance
 fi
-[[ $nolock = 1 ]] || print -nr -- "$jobname" >/var/run/cron.maintenance
 
 if [[ $do_log = 1 ]]; then
 	nice mksh "/etc/$jobname" 2>&1 | \
