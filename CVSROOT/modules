@@ -1,4 +1,4 @@
-# $MirOS: CVSROOT/modules,v 1.15 2006/08/24 13:18:11 tg Exp $
+# $MirOS: CVSROOT/modules,v 1.16 2006/08/24 14:13:39 tg Exp $
 # from $OpenBSD: modules,v 1.17 1998/07/12 04:44:24 todd Exp $
 #-
 # Three different line formats are valid:
@@ -29,8 +29,6 @@
 # spread out over the entire source repository.
 
 # Shortcut
-jupp		contrib/code/jupp
-mksh		src/bin/mksh
 x11		-a X11
 
 # Collective for nroff(8) and friends
@@ -53,3 +51,10 @@ miniports	-a ports/Makefile ports/Setup.sh \
 # All of contrib needed for building a baselive cd image
 basedep		-a contrib/code/Snippets/tinyirc.c \
 		   contrib/code/jupp
+
+# Ported projects
+jupp		contrib/code/jupp
+mksh		src/bin/mksh
+
+# Hosted projects
+fwcf		contrib/hosted/fwcf
