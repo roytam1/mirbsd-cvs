@@ -148,8 +148,7 @@ etc-files:
 	${INSTALL} -c -o root -g wheel -m 440 ../usr.bin/sudo/sudoers \
 	    ${DESTDIR}/etc/sudoers
 	cd ${DESTDIR}/etc/ssl/certs && ${SHELL} ${.CURDIR}/ssl.certs.shar && \
-	    chown ${BINOWN}:${CONFGRP} * && chmod 444 * && \
-	    pax -rw -l -pe . ${DESTDIR}/var/www/etc/ssl/certs/
+	    chown ${BINOWN}:${CONFGRP} * && chmod 444 *
 	${INSTALL} -c -o ${BINOWN} -g ${CONFGRP} -m 644 spamd.conf \
 	    ${DESTDIR}/etc/mail/
 	${INSTALL} -c -o ${BINOWN} -g ${CONFGRP} -m 644 ssh_known_hosts \

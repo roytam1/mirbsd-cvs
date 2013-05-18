@@ -1499,23 +1499,6 @@ modules.sample	uname=root gname=daemon mode=755
 # ./var/www/conf
 ..
 
-# ./var/www/etc
-etc		uname=root gname=daemon mode=755
-
-# ./var/www/etc/ssl
-ssl		uname=root gname=daemon mode=755
-
-# ./var/www/etc/ssl/certs
-certs		uname=root gname=daemon mode=755
-# ./var/www/etc/ssl/certs
-..
-
-# ./var/www/etc/ssl
-..
-
-# ./var/www/etc
-..
-
 # ./var/www/htdocs
 htdocs		uname=root gname=daemon mode=755
 

@@ -3325,9 +3325,6 @@
 ./var/www/conf
 ./var/www/conf/modules
 ./var/www/conf/modules.sample
-./var/www/etc
-./var/www/etc/ssl
-./var/www/etc/ssl/certs
 ./var/www/htdocs
 ./var/www/htdocs/manual
 ./var/www/htdocs/manual/howto
