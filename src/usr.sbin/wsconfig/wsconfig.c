@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.sbin/wsconfig/wsconfig.c,v 1.12 2007/03/04 20:00:51 tg Exp $ */
+/* $MirOS: src/share/misc/licence.template,v 1.20 2006/12/11 21:04:56 tg Rel $ */
 
 /*-
  * Copyright (c) 2006, 2007
@@ -35,7 +35,9 @@
 #include <termios.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: src/usr.sbin/wsconfig/wsconfig.c,v 1.12 2007/03/04 20:00:51 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/wsconfig/wsconfig.c,v 1.14 2007/04/17 23:41:01 tg Exp $");
+__RCSID("$miros: ports/sysutils/chkuterm/dist/chkuterm.c,v 1.10 2007/04/17 23:41:01 tg Exp $");
+__RCSID("$miros: ports/misc/screen/patches/patch-screen_c,v 1.11 2007/04/17 23:41:02 tg Exp $");
 
 #define DEFDEV	"/dev/ttyCcfg"
 
@@ -74,7 +76,7 @@ main(int argc, char **argv)
 #endif
 {
 	const char *wsdev, *est;
-	char buf[64];
+	char ch;
 	int wsfd, c, rv = 0;
 	int action = 0, nr = 0;
 	struct termios tio, otio;
@@ -83,6 +85,7 @@ main(int argc, char **argv)
 #ifndef SMALL
 	struct wsdisplay_font f;
 	int q = 0;
+	FILE *wsf;
 
 	wsdev = DEFDEV;
 	while ((c = getopt(argc, argv, "f:I:o:qSs:U")) != -1)
@@ -155,6 +158,7 @@ main(int argc, char **argv)
 	else
 		if ((wsfd = open(wsdev, O_RDWR, 0)) < 0)
 			err(2, "open %s", wsdev);
+	wsf = fdopen(wsfd, "rb+");
 
 #ifndef SMALL
 	switch (action) {
@@ -242,17 +246,26 @@ main(int argc, char **argv)
 		tv.tv_usec = 0;
 		if (select(wsfd + 1, &fds, NULL, NULL, &tv) <= 0)
 			goto noin;
-		nr = read(wsfd, buf, sizeof (buf));
+		nr = read(wsfd, &ch, 1);
 		rv = /* unknown */ 1;
-		if (nr > 5 && buf[0] == 033 && buf[1] == '[') {
-			c = 2;
-			while (c < (nr - 2))
-				if (buf[c++] == ';')
+		if (wsf != NULL && nr == 1 && ch == 033) {
+			unsigned zeile, spalte;
+
+			if (fscanf(wsf, "[%u;%u", &zeile, &spalte) == 2)
+				switch (spalte) {
+				case 1:	/* EUC-JP, EUC-KR kterm */
+				case 5:	/* Shift-JIS kterm */
 					break;
-		if (buf[c - 1] == ';' &&
-		    (buf[c] == '3' || buf[c] == '4') &&
-		    !isdigit(buf[c + 1]))
-			rv = buf[c] == '4' ? /* latin1 */ 2 : /* utf-8 */ 0;
+				case 3:	/* UTF-8 xterm, screen */
+					rv = 0;
+					break;
+				case 4:	/* ISO-8859-1 xterm, screen */
+					rv = 2;
+					break;
+				default:
+					rv = 0x1000 | spalte;
+					break;
+				}
 		}
  noin:
 		write(wsfd, "\r      \r", 8);
@@ -262,6 +275,12 @@ main(int argc, char **argv)
 		if (tcsetattr(wsfd, TCSANOW, &otio))
 			err(3, "tcsetattr");
 #ifndef SMALL
+		if (rv & 0x1000) {
+			/* unknown charset */
+			if (!q)
+				printf("# unknown column %d\n", rv & 0xFFF);
+			rv = 1;
+		}
 		if (!q)
 			printf("LC_CTYPE=%s; export LC_CTYPE\n",
 			    rv == 0 ? "en_US.UTF-8" : "C");
@@ -273,7 +292,10 @@ main(int argc, char **argv)
 	}
 #endif
 
-	close(wsfd);
+	if (wsf == NULL)
+		close(wsfd);
+	else
+		fclose(wsf);
 	return (rv);
 }
 
