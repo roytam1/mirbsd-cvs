@@ -1,5 +1,5 @@
-$MirOS: ports/devel/cvs/patches/patch-lib_getdate_c,v 1.1 2006/10/02 05:59:15 tg Exp $
---- lib/getdate.c.orig	Sat Mar 10 23:14:20 2007
+$MirOS: ports/devel/cvs/patches/patch-lib_getdate_c,v 1.2 2007/03/10 23:53:48 tg Exp $
+--- lib/getdate.c.orig	Mon May 23 17:44:08 2005
 +++ lib/getdate.c	Sat Mar 10 23:20:58 2007
 @@ -1,8 +1,10 @@
 -/* A Bison parser, made by GNU Bison 1.875c.  */
@@ -117,7 +117,7 @@ $MirOS: ports/devel/cvs/patches/patch-lib_getdate_c,v 1.1 2006/10/02 05:59:15 tg
  # define ATTRIBUTE_UNUSED __attribute__ ((__unused__))
  #endif
  
-+__RCSID("$MirOS: src/gnu/usr.bin/cvs/lib/getdate.y,v 1.6.2.3 2007/03/10 23:18:15 tg Exp $");
++__RCSID("$MirOS: ports/devel/cvs/patches/patch-lib_getdate_c,v 1.2 2007/03/10 23:53:48 tg Exp $");
 +__RCSID("$miros: src/gnu/usr.bin/cvs/lib/getdate.y,v 1.6.2.3 2007/03/10 23:18:15 tg Exp $");
 +
  /* Shift A right by B bits portably, by dividing A by 2**B and

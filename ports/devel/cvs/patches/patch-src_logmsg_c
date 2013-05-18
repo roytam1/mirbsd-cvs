@@ -1,26 +1,11 @@
-$MirOS: ports/devel/cvs/patches/patch-src_logmsg_c,v 1.3 2007/03/10 23:53:50 tg Exp $
+$MirOS$
 --- src/logmsg.c.orig	Sun Sep  4 00:27:22 2005
-+++ src/logmsg.c	Sat Oct  4 23:09:47 2008
-@@ -1,12 +1,12 @@
- /*
-- * Copyright (C) 1986-2005 The Free Software Foundation, Inc.
-+ * Copyright (C) 1986-2006 The Free Software Foundation, Inc.
-  *
-  * Portions Copyright (C) 1998-2005 Derek Price, Ximbiot <http://ximbiot.com>,
-  *                                  and others.
-  *
-  * Portions Copyright (C) 1992, Brian Berliner and Jeff Polk
-  * Portions Copyright (C) 1989-1992, Brian Berliner
-- * 
-+ *
-  * You may distribute under the terms of the GNU General Public License as
-  * specified in the README file that comes with the CVS source distribution.
-  */
++++ src/logmsg.c	Wed Sep 15 19:36:15 2010
 @@ -15,6 +15,8 @@
  #include "cvs.h"
  #include "getline.h"
  
-+__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_logmsg_c,v 1.3 2007/03/10 23:53:50 tg Exp $");
++__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_logmsg_c,v 1.4 2008/10/04 23:13:23 tg Exp $");
 +
  static int find_type (Node * p, void *closure);
  static int fmt_proc (Node * p, void *closure);
@@ -34,15 +19,6 @@ $MirOS: ports/devel/cvs/patches/patch-src_logmsg_c,v 1.3 2007/03/10 23:53:50 tg 
  struct verifymsg_proc_data
  {
      /* The name of the temp file storing the log message to be verified.  This
-@@ -181,7 +185,7 @@ fmt_proc (Node *p, void *closure)
-  * Builds a temporary file using setup_tmpfile() and invokes the user's
-  * editor on the file.  The header garbage in the resultant file is then
-  * stripped and the log message is stored in the "message" argument.
-- * 
-+ *
-  * If REPOSITORY is non-NULL, process rcsinfo for that repository; if it
-  * is NULL, use the CVSADM_TEMPLATE file instead.  REPOSITORY should be
-  * NULL when running in client mode.
 @@ -201,6 +205,7 @@ do_editor (const char *dir, char **messa
      char *fname;
      struct stat pre_stbuf, post_stbuf;
@@ -134,7 +110,20 @@ $MirOS: ports/devel/cvs/patches/patch-src_logmsg_c,v 1.3 2007/03/10 23:53:50 tg 
  
      /* canonicalize emply messages */
      if (*messagep != NULL &&
-@@ -361,9 +383,11 @@ do_editor (const char *dir, char **messa
+@@ -349,7 +371,11 @@ do_editor (const char *dir, char **messa
+ 	*messagep = NULL;
+     }
+ 
+-    if (pre_stbuf.st_mtime == post_stbuf.st_mtime || *messagep == NULL)
++    if (pre_stbuf.st_mtime == post_stbuf.st_mtime || 
++        *messagep == NULL ||
++        (*messagep)[0] == '\0' ||
++        strcmp (*messagep, "\n") == 0 ||
++        strcmp (*messagep, "\n\n") == 0)
+     {
+ 	for (;;)
+ 	{
+@@ -361,9 +387,11 @@ do_editor (const char *dir, char **messa
  	    if (line_length < 0)
  	    {
  		error (0, errno, "cannot read from stdin");
@@ -148,7 +137,7 @@ $MirOS: ports/devel/cvs/patches/patch-src_logmsg_c,v 1.3 2007/03/10 23:53:50 tg 
  		error (1, 0, "aborting");
  	    }
  	    else if (line_length == 0
-@@ -371,8 +395,10 @@ do_editor (const char *dir, char **messa
+@@ -371,8 +399,10 @@ do_editor (const char *dir, char **messa
  		break;
  	    if (*line == 'a' || *line == 'A')
  		{
@@ -161,7 +150,7 @@ $MirOS: ports/devel/cvs/patches/patch-src_logmsg_c,v 1.3 2007/03/10 23:53:50 tg 
  		    error (1, 0, "aborted by user");
  		}
  	    if (*line == 'e' || *line == 'E')
-@@ -387,14 +413,13 @@ do_editor (const char *dir, char **messa
+@@ -387,9 +417,8 @@ do_editor (const char *dir, char **messa
      }
      if (line)
  	free (line);
@@ -172,16 +161,8 @@ $MirOS: ports/devel/cvs/patches/patch-src_logmsg_c,v 1.3 2007/03/10 23:53:50 tg 
 +    goto again;
  }
  
--/* Runs the user-defined verification script as part of the commit or import 
--   process.  This verification is meant to be run whether or not the user 
--   included the -m attribute.  unlike the do_editor function, this is 
-+/* Runs the user-defined verification script as part of the commit or import
-+   process.  This verification is meant to be run whether or not the user
-+   included the -m attribute.  unlike the do_editor function, this is
-    independant of the running of an editor for getting a message.
-  */
- void
-@@ -785,6 +810,7 @@ logfile_write (const char *repository, c
+ /* Runs the user-defined verification script as part of the commit or import 
+@@ -785,6 +814,7 @@ logfile_write (const char *repository, c
         `%s' is left as an exercise for the reader. */
  
      /* %c = cvs_cmd_name
@@ -189,7 +170,7 @@ $MirOS: ports/devel/cvs/patches/patch-src_logmsg_c,v 1.3 2007/03/10 23:53:50 tg 
       * %p = shortrepos
       * %r = repository
       * %{sVv} = file name, old revision (precommit), new revision (postcommit)
-@@ -800,6 +826,7 @@ logfile_write (const char *repository, c
+@@ -800,6 +830,7 @@ logfile_write (const char *repository, c
  #endif /* SUPPORT_OLD_INFO_FMT_STRINGS */
  	                      filter,
  	                      "c", "s", cvs_cmd_name,
@@ -197,7 +178,7 @@ $MirOS: ports/devel/cvs/patches/patch-src_logmsg_c,v 1.3 2007/03/10 23:53:50 tg 
  #ifdef SERVER_SUPPORT
  	                      "R", "s", referrer ? referrer->original : "NONE",
  #endif /* SERVER_SUPPORT */
-@@ -922,6 +949,7 @@ verifymsg_proc (const char *repository, 
+@@ -922,6 +953,7 @@ verifymsg_proc (const char *repository, 
  #endif /* SUPPORT_OLD_INFO_FMT_STRINGS */
                                         script,
  				       "c", "s", cvs_cmd_name,
@@ -205,7 +186,7 @@ $MirOS: ports/devel/cvs/patches/patch-src_logmsg_c,v 1.3 2007/03/10 23:53:50 tg 
  #ifdef SERVER_SUPPORT
  				       "R", "s", referrer
  				       ? referrer->original : "NONE",
-@@ -974,4 +1002,21 @@ verifymsg_proc (const char *repository, 
+@@ -974,4 +1006,21 @@ verifymsg_proc (const char *repository, 
       */
      return abs (run_exec (RUN_TTY, RUN_TTY, RUN_TTY,
  			  RUN_NORMAL | RUN_SIGIGNORE));

@@ -1,16 +1,61 @@
-$MirOS: ports/devel/cvs/patches/patch-src_root_c,v 1.1 2006/10/02 05:59:18 tg Exp $
---- src/root.c.orig	Sat Mar 10 23:14:20 2007
-+++ src/root.c	Sat Mar 10 23:14:14 2007
+$MirOS$
+--- src/root.c.orig	Sun Sep 25 00:38:07 2005
++++ src/root.c	Wed Sep 15 19:36:15 2010
 @@ -18,6 +18,8 @@
  #include <assert.h>
  #include "getline.h"
  
-+__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/root.c,v 1.5 2005/12/16 16:09:46 tg Exp $");
++__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_root_c,v 1.2 2007/03/10 23:53:50 tg Exp $");
 +
  /* Printable names for things in the current_parsed_root->method enum variable.
     Watch out if the enum is changed in cvs.h! */
  
-@@ -635,7 +637,7 @@ parse_cvsroot (const char *root_in)
+@@ -293,6 +295,12 @@ root_allow_free (void)
+     dellist (&root_allow);
+ }
+ 
++int
++root_allow_used (void)
++{
++    return (root_allow != NULL);
++}
++
+ bool
+ root_allow_ok (const char *arg)
+ {
+@@ -535,6 +543,12 @@ parse_cvsroot (const char *root_in)
+ 	    method = "";
+ #endif /* defined (CLIENT_SUPPORT) || defined (SERVER_SUPPORT) */
+ 
++    if (NULL == method)
++	{
++	    error (0, 0, "Missing method in CVSROOT.");
++	    goto error_exit;
++	}
++
+ 	/* Now we have an access method -- see if it's valid. */
+ 
+ 	if (!strcasecmp (method, "local"))
+@@ -547,6 +561,18 @@ parse_cvsroot (const char *root_in)
+ 	    newroot->method = gserver_method;
+ 	else if (!strcasecmp (method, "server"))
+ 	    newroot->method = server_method;
++	else if (strncmp (method, "ext=", 4) == 0)
++	{
++	    const char *rsh = method + 4;
++	    setenv ("CVS_RSH", rsh, 1); /* This is a hack, but simplifies */
++	    newroot->method = ext_method;
++	}
++	else if (strncmp (method, "extssh", 6) == 0)
++	{
++	    const char *rsh = method + 3;
++	    setenv ("CVS_RSH", rsh, 1); /* This is a hack, but simplifies */
++	    newroot->method = ext_method;
++	}
+ 	else if (!strcasecmp (method, "ext"))
+ 	    newroot->method = ext_method;
+ 	else if (!strcasecmp (method, "fork"))
+@@ -635,7 +661,7 @@ parse_cvsroot (const char *root_in)
      newroot->isremote = (newroot->method != local_method);
  
  #if defined (CLIENT_SUPPORT) || defined (SERVER_SUPPORT)

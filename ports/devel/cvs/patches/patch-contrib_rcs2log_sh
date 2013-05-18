@@ -1,7 +1,13 @@
 $MirOS$
 --- contrib/rcs2log.sh.orig	Tue Jul 12 14:12:33 2005
-+++ contrib/rcs2log.sh	Mon Oct  2 04:40:36 2006
-@@ -199,7 +199,7 @@ month_data='
++++ contrib/rcs2log.sh	Wed Sep 15 19:36:14 2010
+@@ -1,4 +1,5 @@
+ #! /bin/sh
++# $MirOS$
+ 
+ # Copyright (C) 1995-2005 The Free Software Foundation, Inc.
+ 
+@@ -199,7 +200,7 @@ month_data='
  	m[9]="Oct"; m[10]="Nov"; m[11]="Dec"
  '
  
@@ -10,3 +16,12 @@ $MirOS$
  test -n "$logdir" || exit
  llogout=$logdir/l
  trap exit 1 2 13 15
+@@ -632,7 +633,7 @@ $AWK '
+ # Sort the log entries, first by date+time (in reverse order),
+ # then by author, then by log entry, and finally by file name and revision
+ # (just in case).
+-sort -t"$SOH" +2 -4r +4 +0 |
++sort -t"$SOH" -k 3,4r -k 5 -k 1 |
+ 
+ # Finally, reformat the sorted log entries.
+ $AWK -F"$SOH" '

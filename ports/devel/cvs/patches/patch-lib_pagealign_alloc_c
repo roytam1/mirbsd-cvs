@@ -1,7 +1,7 @@
-$MirOS: ports/devel/cvs/patches/patch-lib_pagealign_alloc_c,v 1.1 2006/10/02 05:59:16 tg Exp $
---- lib/pagealign_alloc.c.orig	Sat Mar 10 23:14:20 2007
-+++ lib/pagealign_alloc.c	Sat Mar 10 23:14:14 2007
-@@ -44,6 +44,10 @@
+$MirOS$
+--- lib/pagealign_alloc.c.orig	Tue Jul 12 15:39:13 2005
++++ lib/pagealign_alloc.c	Wed Sep 15 19:51:42 2010
+@@ -44,6 +44,12 @@
  #include "xalloc.h"
  #include "gettext.h"
  
@@ -9,10 +9,12 @@ $MirOS: ports/devel/cvs/patches/patch-lib_pagealign_alloc_c,v 1.1 2006/10/02 05:
 +#include <stdio.h>
 +#endif
 +
++__RCSID("$MirOS$");
++
  #define _(str) gettext (str)
  
  #if HAVE_MMAP
-@@ -132,6 +136,7 @@ pagealign_alloc (size_t size)
+@@ -132,6 +138,7 @@ pagealign_alloc (size_t size)
    const int fd = -1;
    const int flags = MAP_ANONYMOUS | MAP_PRIVATE;
  # else /* !HAVE_MAP_ANONYMOUS */
@@ -20,7 +22,7 @@ $MirOS: ports/devel/cvs/patches/patch-lib_pagealign_alloc_c,v 1.1 2006/10/02 05:
    static int fd = -1;  /* Only open /dev/zero once in order to avoid limiting
  			  the amount of memory we may allocate based on the
  			  number of open file descriptors.  */
-@@ -140,7 +145,20 @@ pagealign_alloc (size_t size)
+@@ -140,7 +147,20 @@ pagealign_alloc (size_t size)
      {
        fd = open ("/dev/zero", O_RDONLY, 0666);
        if (fd < 0)

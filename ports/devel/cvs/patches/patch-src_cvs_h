@@ -1,16 +1,13 @@
-$MirOS: ports/devel/cvs/patches/patch-src_cvs_h,v 1.1 2007/02/01 23:29:35 tg Exp $
---- src/cvs.h.orig	Sat Mar 10 23:14:20 2007
-+++ src/cvs.h	Sat Mar 10 23:14:14 2007
-@@ -150,7 +150,7 @@ char *strerror (int);
-    CVSADM to avoid creating a new reserved directory name which users cannot
-    use, but is a separate #define because if anyone changes it (which I don't
-    recommend), one needs to deal with old, unconverted, repositories.
--   
+$MirOS$
+--- src/cvs.h.orig	Sun Oct  2 15:16:58 2005
++++ src/cvs.h	Wed Sep 15 19:36:15 2010
+@@ -1,3 +1,5 @@
++/* $MirOS$ */
 +
-    See fileattr.h for details about file attributes, the only thing stored
-    in CVSREP currently.  */
- #define CVSREP "CVS"
-@@ -365,6 +365,7 @@ typedef enum direnter_type Dtype;
+ /*
+  * Copyright (C) 1986-2005 The Free Software Foundation, Inc.
+  *
+@@ -365,6 +367,7 @@ typedef enum direnter_type Dtype;
  
  extern const char *program_name, *program_path, *cvs_cmd_name;
  extern char *Editor;
@@ -18,16 +15,7 @@ $MirOS: ports/devel/cvs/patches/patch-src_cvs_h,v 1.1 2007/02/01 23:29:35 tg Exp
  extern int cvsadmin_root;
  extern char *CurDir;
  extern int really_quiet, quiet;
-@@ -610,7 +611,7 @@ void rename_file (const char *from, cons
-    in the working directory).  The result is placed in *PARGC and *PARGV;
-    the *PARGV array itself and all the strings it contains are newly
-    malloc'd.  It is OK to call it with PARGC == &ARGC or PARGV == &ARGV.  */
--void expand_wild (int argc, char **argv, 
-+void expand_wild (int argc, char **argv,
-                   int *pargc, char ***pargv);
- 
- /* exithandle.c */
-@@ -629,6 +630,7 @@ void Update_Logfile (const char *reposit
+@@ -629,6 +632,7 @@ void Update_Logfile (const char *reposit
                       FILE *xlogfp, List *xchanges);
  void do_editor (const char *dir, char **messagep,
                  const char *repository, List *changes);

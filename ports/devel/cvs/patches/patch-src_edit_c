@@ -1,7 +1,16 @@
 $MirOS$
 --- src/edit.c.orig	Thu Sep 15 01:49:55 2005
-+++ src/edit.c	Mon Oct  2 04:40:37 2006
-@@ -828,6 +828,7 @@ notify_proc (const char *repository, con
++++ src/edit.c	Wed Sep 15 19:36:15 2010
+@@ -17,6 +17,8 @@
+ #include "edit.h"
+ #include "fileattr.h"
+ 
++__RCSID("$MirOS$");
++
+ static int watch_onoff (int, char **);
+ 
+ static bool check_edited = false;
+@@ -828,6 +830,7 @@ notify_proc (const char *repository, con
  #endif /* SUPPORT_OLD_INFO_FMT_STRINGS */
  			      filter,
  			      "c", "s", cvs_cmd_name,

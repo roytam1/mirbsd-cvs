@@ -1,11 +1,11 @@
-$MirOS: ports/devel/cvs/patches/patch-src_history_c,v 1.1 2006/10/02 05:59:16 tg Exp $
---- src/history.c.orig	Sat Mar 10 23:14:20 2007
-+++ src/history.c	Sat Mar 10 23:14:14 2007
+$MirOS$
+--- src/history.c.orig	Sun Sep  4 02:41:06 2005
++++ src/history.c	Wed Sep 15 19:36:15 2010
 @@ -191,6 +191,8 @@
  #include "history.h"
  #include "save-cwd.h"
  
-+__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/history.c,v 1.5 2005/12/05 23:07:55 tg Exp $");
++__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_history_c,v 1.2 2007/03/10 23:53:49 tg Exp $");
 +
  static struct hrec
  {
@@ -19,13 +19,12 @@ $MirOS: ports/devel/cvs/patches/patch-src_history_c,v 1.1 2006/10/02 05:59:16 tg
  
      if (config->HistoryLogPath)
      {
-@@ -1561,7 +1563,8 @@ report_hrecs (void)
+@@ -1561,7 +1563,7 @@ report_hrecs (void)
  	    tm = localtime (&(lr->date));
  
  	(void) printf ("%c %04d-%02d-%02d %02d:%02d %s %-*s", ty,
 -		  tm->tm_year+1900, tm->tm_mon + 1, tm->tm_mday, tm->tm_hour,
-+		  (int)tm->tm_year+1900, tm->tm_mon + 1, tm->tm_mday,
-+		  tm->tm_hour,
++		  (int)(tm->tm_year+1900), tm->tm_mon + 1, tm->tm_mday, tm->tm_hour,
  		  tm->tm_min, tz_name, user_len, lr->user);
  
  	workdir = xmalloc (strlen (lr->dir) + strlen (lr->end) + 10);

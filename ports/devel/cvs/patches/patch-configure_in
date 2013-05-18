@@ -1,18 +1,24 @@
 $MirOS$
 --- configure.in.orig	Mon Oct  3 13:34:23 2005
-+++ configure.in	Mon Oct  2 05:23:26 2006
-@@ -15,8 +15,8 @@ but WITHOUT ANY WARRANTY; without even t
++++ configure.in	Wed Sep 15 20:25:49 2010
+@@ -1,3 +1,5 @@
++dnl $MirOS$
++dnl
+ dnl configure.in for cvs
+ 
+ AC_COPYRIGHT(
+@@ -15,8 +17,8 @@ but WITHOUT ANY WARRANTY; without even t
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  GNU General Public License for more details.])
  
 -AC_INIT([Concurrent Versions System (CVS)],[1.12.13],
 -	[bug-cvs@nongnu.org],[cvs])
 +AC_INIT([Concurrent Versions System (CVS)],[1.12.13-MirPorts-QQ],
-+	[miros-discuss@mirbsd.de],[cvs])
++	[miros-discuss@mirbsd.org],[cvs])
  AC_CONFIG_SRCDIR(src/cvs.h)
  AC_CONFIG_AUX_DIR(build-aux)
  AM_INIT_AUTOMAKE([gnu 1.9.2 dist-bzip2 no-define])
-@@ -110,7 +110,7 @@ dnl
+@@ -110,7 +112,7 @@ dnl
  dnl Yeah, put the value in a variable add it to the substitution list
  dnl then have configure create sanity.sh from sanity.sh.in...
  glocs="$PATH:/usr/local/bin:/usr/contrib/bin:/usr/gnu/bin:/local/bin:/local/gnu/bin:/gnu/bin"
@@ -21,3 +27,11 @@ $MirOS$
  AC_PATH_PROG(PS2PDF, ps2pdf, $missing_dir/missing ps2pdf)
  AC_PATH_PROG(TEXI2DVI, texi2dvi, $missing_dir/missing texi2dvi)
  
+@@ -180,6 +182,7 @@ AC_CHECK_MEMBERS([struct stat.st_blksize
+ AC_CHECK_MEMBERS([struct stat.st_rdev])
+ 
+ AC_FUNC_FSEEKO
++AC_CHECK_FUNC(fseeko)
+ if test $ac_cv_func_fseeko = no; then
+     AC_LIBOBJ(fseeko)
+     AC_LIBOBJ(ftello)

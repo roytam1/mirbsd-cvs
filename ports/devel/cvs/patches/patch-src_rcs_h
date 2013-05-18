@@ -1,7 +1,13 @@
 $MirOS$
---- src/rcs.h.orig	Sat Mar 10 22:47:56 2007
-+++ src/rcs.h	Sat Mar 10 22:44:17 2007
-@@ -33,7 +33,7 @@
+--- src/rcs.h.orig	Thu Mar 17 22:36:02 2005
++++ src/rcs.h	Wed Sep 15 19:36:15 2010
+@@ -1,3 +1,5 @@
++/* $MirOS$ */
++
+ /*
+  * Copyright (C) 1986-2005 The Free Software Foundation, Inc.
+  *
+@@ -33,7 +35,7 @@
     CVS) will put this into RCS files.  Considered obsolete.  */
  #define RCSDEAD		"dead"
  

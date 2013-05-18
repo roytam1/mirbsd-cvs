@@ -1,9 +1,11 @@
-# $MirOS: ports/devel/cvs/Makefile,v 1.10 2009/08/16 17:16:47 tg Exp $
+# $MirOS: ports/devel/cvs/Makefile,v 1.11 2009/09/06 11:51:00 tg Exp $
+
+IGNORE=wip
 
 COMMENT=		Concurrent Versions System
 CATEGORIES=		devel essentials
 VSN=			1.12.13
-DASH_VER=		7		# in sync with MirOS-0AAA rev.
+DASH_VER=		8		# not yet in sync with MirOS-0AAC rev.
 HOMEPAGE=		http://www.nongnu.org/cvs/
 RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.org>
 
@@ -36,17 +38,21 @@ CONFIGURE_ARGS+=	--disable-nls \
 			--with-cvs-admin-group=_cvsadmin
 # cought by systrace, tries to write to ${LOCALBASE}/lib as check
 CONFIGURE_ENV+=		ac_cv_sys_long_file_names=yes
+# hardcoded paths
+CONFIGURE_ENV+=		ac_cv_path_CSH=${LOCALBASE:Q}/bin/csh
+CONFIGURE_ENV+=		ac_cv_path_PS2PDF=false
 
 pre-configure:
 	print '%g/\(MirPorts-\)QQ/s//\1${DASH_VER}/g\nwq' | \
 	    ed -s ${WRKSRC}/configure
 
 post-install:
-	cd ${WRKSRC} && ${INSTALL_DATA} AUTHORS BUGS FAQ MINOR-BUGS NEWS \
-	    PROJECTS README TODO doc/RCSFILES doc/cvs-paper.* doc/cvs.pdf \
-	    doc/cvsclient.pdf doc/writeproxy.rtf ${PREFIX}/share/cvs/
+	cd ${WRKSRC} && ${INSTALL_DATA} AUTHORS BUGS DEVEL-CVS FAQ HACKING \
+	    MINOR-BUGS NEWS PROJECTS README TODO doc/HACKING.DOCS \
+	    doc/RCSFILES doc/*.ms doc/*.pdf doc/*.rtf ${PREFIX}/share/cvs/
 	cd ${WRKSRC}/contrib && ${INSTALL_DATA} cvs_acls.html cvshelp.man \
-	    descend.man descend.sh rcs2sccs.sh ${PREFIX}/share/cvs/contrib/
+	    descend.man descend.sh rcs2sccs.sh sandbox_status.man \
+	    ${PREFIX}/share/cvs/contrib/
 	${INSTALL_MAN} ${WRKSRC}/contrib/rcs2log.1 ${PREFIX}/man/man1/
 
 .include <bsd.port.mk>

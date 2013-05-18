@@ -1,0 +1,26 @@
+$MirOS$
+--- src/client.c.orig	Sun Oct  2 15:16:58 2005
++++ src/client.c	Wed Sep 15 19:36:15 2010
+@@ -20,6 +20,8 @@
+ #include "buffer.h"
+ #include "save-cwd.h"
+ 
++__RCSID("$MirOS$");
++
+ #ifdef CLIENT_SUPPORT
+ 
+ # include "log-buffer.h"
+@@ -4533,10 +4535,9 @@ warning: ignoring -k options due to serv
+ 	/* File no longer exists.  Don't do anything, missing files
+ 	   just happen.  */
+     }
+-    else if (!vers->ts_rcs || args->force
+-	     || strcmp (vers->ts_conflict
+-		        ? vers->ts_conflict : vers->ts_rcs, vers->ts_user)
+-	     || (vers->ts_conflict && !strcmp (cvs_cmd_name, "diff")))
++    else if (vers->ts_rcs == NULL
++             || args->force
++             || strcmp (vers->ts_user, vers->ts_rcs) != 0)
+     {
+ 	if (args->no_contents
+ 	    && supported_request ("Is-modified"))

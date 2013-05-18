@@ -1,0 +1,44 @@
+$MirOS$
+--- src/cvsrc.c.orig	Wed Mar 16 15:51:52 2005
++++ src/cvsrc.c	Wed Sep 15 19:36:15 2010
+@@ -17,6 +17,8 @@
+ #include "cvs.h"
+ #include "getline.h"
+ 
++__RCSID("$MirOS$");
++
+ /* this file is to be found in the user's home directory */
+ 
+ #ifndef	CVSRC_FILENAME
+@@ -41,6 +43,7 @@ read_cvsrc (int *argc, char ***argv, con
+     size_t line_chars_allocated;
+ 
+     char *optstart;
++    int white_len;
+ 
+     int command_len;
+     int found = 0;
+@@ -96,9 +99,12 @@ read_cvsrc (int *argc, char ***argv, con
+ 	if (line[0] == '#')
+ 	    continue;
+ 
++    for (white_len=0; isspace(line[white_len]); white_len++)
++        ;
++
+ 	/* stop if we match the current command */
+-	if (!strncmp (line, cmdname, command_len)
+-	    && isspace ((unsigned char) *(line + command_len)))
++	if (!strncmp (line + white_len, cmdname, command_len)
++	    && isspace ((unsigned char) *(line + white_len + command_len)))
+ 	{
+ 	    found = 1;
+ 	    break;
+@@ -120,7 +126,7 @@ read_cvsrc (int *argc, char ***argv, con
+     if (found)
+     {
+ 	/* skip over command in the options line */
+-	for (optstart = strtok (line + command_len, "\t \n");
++	for (optstart = strtok (line + white_len + command_len, "\t \n");
+ 	     optstart;
+ 	     optstart = strtok (NULL, "\t \n"))
+ 	{

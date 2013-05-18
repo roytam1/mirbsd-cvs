@@ -1,11 +1,11 @@
-$MirOS: ports/devel/cvs/patches/patch-src_mkmodules_c,v 1.2 2007/03/10 23:53:50 tg Exp $
+$MirOS$
 --- src/mkmodules.c.orig	Tue May 24 20:58:39 2005
-+++ src/mkmodules.c	Wed Jun  6 13:44:11 2007
++++ src/mkmodules.c	Wed Sep 15 19:36:15 2010
 @@ -15,6 +15,8 @@
  #include "history.h"
  #include "save-cwd.h"
  
-+__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_mkmodules_c,v 1.2 2007/03/10 23:53:50 tg Exp $");
++__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_mkmodules_c,v 1.3 2007/06/06 13:46:44 tg Exp $");
 +
  #ifndef DBLKSIZ
  #define	DBLKSIZ	4096			/* since GNU ndbm doesn't define it */

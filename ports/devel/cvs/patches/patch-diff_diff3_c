@@ -1,11 +1,11 @@
-$MirOS: ports/devel/cvs/patches/patch-diff_diff3_c,v 1.1 2006/10/02 05:59:15 tg Exp $
---- diff/diff3.c.orig	Sat Mar 10 23:14:20 2007
+$MirOS: ports/devel/cvs/patches/patch-diff_diff3_c,v 1.2 2007/03/10 23:53:47 tg Exp $
+--- diff/diff3.c.orig	Sat Oct  9 15:51:30 2004
 +++ diff/diff3.c	Sat Mar 10 23:14:14 2007
 @@ -22,6 +22,8 @@
  #include "getopt.h"
  #include "diffrun.h"
  
-+__RCSID("$MirOS: src/gnu/usr.bin/cvs/diff/diff3.c,v 1.2 2005/03/13 15:50:31 tg Exp $");
++__RCSID("$MirOS: ports/devel/cvs/patches/patch-diff_diff3_c,v 1.2 2007/03/10 23:53:47 tg Exp $");
 +
  /* diff3.c has a real initialize_main function. */
  #ifdef initialize_main

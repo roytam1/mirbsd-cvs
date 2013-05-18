@@ -1,11 +1,11 @@
-$MirOS: ports/devel/cvs/patches/patch-src_commit_c,v 1.2 2007/02/01 23:29:35 tg Exp $
---- src/commit.c.orig	Sat Mar 10 23:14:20 2007
-+++ src/commit.c	Sat Mar 10 23:14:14 2007
+$MirOS$
+--- src/commit.c.orig	Thu Sep 22 18:19:50 2005
++++ src/commit.c	Wed Sep 15 19:36:15 2010
 @@ -25,6 +25,8 @@
  #include "fileattr.h"
  #include "hardlink.h"
  
-+__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/commit.c,v 1.7 2007/02/01 23:24:27 tg Exp $");
++__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_commit_c,v 1.3 2007/03/10 23:53:49 tg Exp $");
 +
  static Dtype check_direntproc (void *callerdat, const char *dir,
                                 const char *repos, const char *update_dir,
@@ -68,7 +68,7 @@ $MirOS: ports/devel/cvs/patches/patch-src_commit_c,v 1.2 2007/02/01 23:29:35 tg 
  #ifdef SERVER_SUPPORT
  			      "R", "s", referrer ? referrer->original : "NONE",
  #endif /* SERVER_SUPPORT */
-@@ -2255,12 +2235,13 @@ checkaddfile (const char *file, const ch
+@@ -2255,9 +2235,10 @@ checkaddfile (const char *file, const ch
  		   this was added into the log message. */
  		t = time (NULL);
  		ct = gmtime (&t);
@@ -80,8 +80,4 @@ $MirOS: ports/devel/cvs/patches/patch-src_commit_c,v 1.2 2007/02/01 23:29:35 tg 
 +				  + (ct->tm_year < 100 ? 0 : 1900),
  				 ct->tm_mon + 1, ct->tm_mday,
  				 ct->tm_hour, ct->tm_min, ct->tm_sec);
--			 
-+
- 		/* commit a dead revision. */
- 		revnum = RCS_whatbranch (rcs, tag);
- 		retcode = RCS_checkin (rcs, NULL, NULL, tmp, revnum, headtime,
+ 			 

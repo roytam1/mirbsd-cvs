@@ -1,11 +1,11 @@
-$MirOS: ports/devel/cvs/patches/patch-src_rcs_c,v 1.4 2008/03/02 20:35:18 tg Exp $
+$MirOS$
 --- src/rcs.c.orig	Wed Sep 28 15:25:37 2005
-+++ src/rcs.c	Sun Sep  6 11:31:07 2009
++++ src/rcs.c	Wed Sep 15 19:51:42 2010
 @@ -33,6 +33,8 @@
  # endif
  #endif
  
-+__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/rcs.c,v 1.9 2009/09/05 18:33:40 tg Exp $");
++__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_rcs_c,v 1.5 2009/09/06 11:51:01 tg Exp $");
 +
  /* The RCS -k options, and a set of enums that must match the array.
     These come first so that we can use enum kflag in function
@@ -136,6 +136,23 @@ $MirOS: ports/devel/cvs/patches/patch-src_rcs_c,v 1.4 2008/03/02 20:35:18 tg Exp
  /* Escape the characters in a string so that it can be included in an
     RCS value.  */
  static char *
+@@ -3680,13 +3720,13 @@ expand_keywords (RCSNode *rcs, RCSVers *
+ 	srch_len -= (srch_next + 1) - srch;
+ 	srch = srch_next + 1;
+ 
+-	/* Look for the first non alphabetic character after the '$'.  */
++	/* Look for the first non alphanumeric character after the '$'.  */
+ 	send = srch + srch_len;
+ 	for (s = srch; s < send; s++)
+-	    if (! isalpha ((unsigned char) *s))
++	    if (! isalnum ((unsigned char) *s))
+ 		break;
+ 
+-	/* If the first non alphabetic character is not '$' or ':',
++	/* If the first non alphanumeric character is not '$' or ':',
+            then this is not an RCS keyword.  */
+ 	if (s == send || (*s != '$' && *s != ':'))
+ 	    continue;
 @@ -3741,6 +3781,11 @@ expand_keywords (RCSNode *rcs, RCSVers *
  		free_value = 1;
  		break;

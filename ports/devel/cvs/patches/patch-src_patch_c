@@ -1,11 +1,11 @@
-$MirOS: ports/devel/cvs/patches/patch-src_patch_c,v 1.1 2007/03/10 23:53:50 tg Exp $
+$MirOS$
 --- src/patch.c.orig	Fri Sep 23 02:02:42 2005
-+++ src/patch.c	Thu Sep 13 14:04:27 2007
++++ src/patch.c	Wed Sep 15 20:00:52 2010
 @@ -20,6 +20,8 @@
  #include "cvs.h"
  #include "getline.h"
  
-+__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/patch.c,v 1.2 2007/02/16 19:41:59 tg Exp $");
++__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_patch_c,v 1.2 2007/09/13 14:12:53 tg Exp $");
 +
  static RETSIGTYPE patch_cleanup (int);
  static Dtype patch_dirproc (void *callerdat, const char *dir,
@@ -22,7 +22,7 @@ $MirOS: ports/devel/cvs/patches/patch-src_patch_c,v 1.1 2007/03/10 23:53:50 tg E
      "\t-R\tProcess directories recursively.\n",
      "\t-c\tContext diffs (default)\n",
 -    "\t-u\tUnidiff format.\n",
-+    "\t-u\tUnidiff format (-p like diff).\n",
++    "\t-u\tUnidiff format (-p works the same as in diff).\n",
      "\t-s\tShort patch - one liner per file.\n",
      "\t-t\tTop two diffs - last change made to the file.\n",
      "\t-V vers\tUse RCS Version \"vers\" for keyword expansion.\n",

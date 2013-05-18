@@ -1,0 +1,14 @@
+$MirOS$
+--- MINOR-BUGS.orig	Tue Dec  2 22:14:45 1997
++++ MINOR-BUGS	Wed Sep 15 20:11:23 2010
+@@ -59,3 +59,10 @@ particular reason to think the bug is fi
+   belong under the "checkout" function?  Perhaps it is more logically
+   grouped with the "history" function or we should create a new "info"
+   function?
++
++
++Note that it is the opinion of the MirBSD founder that the CVSROOT
++environment variable ought to *never* be set at all. This prevents
++a lot of trouble. Almost all CVS tutorials are perceived bogus.
++
++$MirOS$

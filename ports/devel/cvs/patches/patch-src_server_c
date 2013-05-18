@@ -1,7 +1,31 @@
 $MirOS$
 --- src/server.c.orig	Wed Sep 28 15:25:37 2005
-+++ src/server.c	Mon Oct  2 04:40:37 2006
-@@ -2350,6 +2350,7 @@ prepost_proxy_proc (const char *reposito
++++ src/server.c	Wed Sep 15 20:50:30 2010
+@@ -20,6 +20,8 @@
+ #include "getline.h"
+ #include "getnline.h"
+ 
++__RCSID("$MirOS$");
++
+ int server_active = 0;
+ 
+ #if defined (SERVER_SUPPORT) || defined (CLIENT_SUPPORT)
+@@ -799,6 +801,14 @@ serve_root (char *arg)
+ 	return;
+     }
+ 
++    if (root_allow_used() && !root_allow_ok(arg))
++    {
++	if (alloc_pending (80 + strlen (arg)))
++	    sprintf (pending_error_text,
++		     "E Bad root %s", arg);
++	return;
++    }
++
+     /* Set original_parsed_root here, not because it can be changed in the
+      * client Redirect sense, but so we don't have to switch in code that
+      * runs in both modes to decide which to print.
+@@ -2350,6 +2360,7 @@ prepost_proxy_proc (const char *reposito
      bool *pre = closure;
  
      /* %c = cvs_cmd_name
@@ -9,7 +33,7 @@ $MirOS$
       * %p = shortrepos
       * %r = repository
       */
-@@ -2367,6 +2368,7 @@ prepost_proxy_proc (const char *reposito
+@@ -2367,6 +2378,7 @@ prepost_proxy_proc (const char *reposito
  # endif /* SUPPORT_OLD_INFO_FMT_STRINGS */
  	                      filter,
  	                      "c", "s", cvs_cmd_name,

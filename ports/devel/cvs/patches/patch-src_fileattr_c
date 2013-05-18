@@ -1,7 +1,16 @@
 $MirOS$
 --- src/fileattr.c.orig	Thu Mar 17 22:40:44 2005
-+++ src/fileattr.c	Mon Oct  2 04:40:37 2006
-@@ -514,6 +514,7 @@ postwatch_proc (const char *repository, 
++++ src/fileattr.c	Wed Sep 15 19:36:15 2010
+@@ -14,6 +14,8 @@
+ #include "getline.h"
+ #include "fileattr.h"
+ 
++__RCSID("$MirOS$");
++
+ static void fileattr_read (void);
+ static int writeattr_proc (Node *, void *);
+ 
+@@ -514,6 +516,7 @@ postwatch_proc (const char *repository, 
      TRACE (TRACE_FUNCTION, "postwatch_proc (%s, %s)", repository, filter);
  
      /* %c = command name
@@ -9,7 +18,7 @@ $MirOS$
       * %p = shortrepos
       * %r = repository
       */
-@@ -528,6 +529,7 @@ postwatch_proc (const char *repository, 
+@@ -528,6 +531,7 @@ postwatch_proc (const char *repository, 
  #endif /* SUPPORT_OLD_INFO_FMT_STRINGS */
  	                      filter,
  	                      "c", "s", cvs_cmd_name,

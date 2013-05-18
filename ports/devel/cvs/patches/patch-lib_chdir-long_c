@@ -1,0 +1,29 @@
+$MirOS$
+--- lib/chdir-long.c.orig	Mon Sep 19 21:11:56 2005
++++ lib/chdir-long.c	Wed Sep 15 19:36:14 2010
+@@ -35,13 +35,13 @@
+ #include "memrchr.h"
+ #include "openat.h"
+ 
++__RCSID("$MirOS$");
++
+ #ifndef O_DIRECTORY
+ # define O_DIRECTORY 0
+ #endif
+ 
+-#ifndef PATH_MAX
+-# error "compile this file only if your system defines PATH_MAX"
+-#endif
++#ifdef PATH_MAX
+ 
+ struct cd_buf
+ {
+@@ -268,6 +268,8 @@ main (int argc, char *argv[])
+   exit (EXIT_SUCCESS);
+ }
+ #endif
++
++#endif /* PATH_MAX */
+ 
+ /*
+ Local Variables:

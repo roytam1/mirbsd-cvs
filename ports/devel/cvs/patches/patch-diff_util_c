@@ -1,7 +1,16 @@
 $MirOS$
 --- diff/util.c.orig	Sun Feb  2 19:52:16 2003
-+++ diff/util.c	Mon Oct  2 04:40:36 2006
-@@ -235,7 +235,7 @@ begin_output ()
++++ diff/util.c	Wed Sep 15 19:36:14 2010
+@@ -17,6 +17,8 @@ GNU General Public License for more deta
+ 
+ #include "diff.h"
+ 
++__RCSID("$MirOS$");
++
+ #if __STDC__
+ #include <stdarg.h>
+ #else
+@@ -235,7 +237,7 @@ begin_output ()
  	      close (pipes[0]);
  	    }
  

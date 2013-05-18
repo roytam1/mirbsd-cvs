@@ -1,7 +1,16 @@
 $MirOS$
 --- src/admin.c.orig	Sun Sep  4 00:27:22 2005
-+++ src/admin.c	Mon Oct  2 04:40:37 2006
-@@ -147,6 +147,7 @@ postadmin_proc (const char *repository, 
++++ src/admin.c	Wed Sep 15 19:36:15 2010
+@@ -19,6 +19,8 @@
+ #include <grp.h>
+ #endif
+ 
++__RCSID("$MirOS$");
++
+ static Dtype admin_dirproc (void *callerdat, const char *dir,
+                             const char *repos, const char *update_dir,
+                             List *entries);
+@@ -147,6 +149,7 @@ postadmin_proc (const char *repository, 
      TRACE (TRACE_FUNCTION, "postadmin_proc (%s, %s)", repository, filter);
  
      /* %c = cvs_cmd_name
@@ -9,7 +18,7 @@ $MirOS$
       * %R = referrer
       * %p = shortrepos
       * %r = repository
-@@ -162,6 +163,7 @@ postadmin_proc (const char *repository, 
+@@ -162,6 +165,7 @@ postadmin_proc (const char *repository, 
  #endif /* SUPPORT_OLD_INFO_FMT_STRINGS */
  	                      filter,
  	                      "c", "s", cvs_cmd_name,

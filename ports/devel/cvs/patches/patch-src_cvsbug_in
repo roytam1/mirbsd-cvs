@@ -1,0 +1,27 @@
+$MirOS$
+--- src/cvsbug.in.orig	Tue Feb 25 21:31:11 2003
++++ src/cvsbug.in	Wed Sep 15 19:36:15 2010
+@@ -1,4 +1,6 @@
+ #! /bin/sh
++# $MirOS$
++#
+ # Submit a problem report to a GNATS site.
+ # Copyright (C) 1993 Free Software Foundation, Inc.
+ # Contributed by Brendan Kehoe (brendan@cygnus.com), based on a
+@@ -109,14 +111,14 @@ elif [ -f /bin/domainname ]; then
+     /usr/bin/ypcat passwd 2>/dev/null | cat - /etc/passwd | grep "^$LOGNAME:" |
+       cut -f5 -d':' | sed -e 's/,.*//' > $TEMP
+     ORIGINATOR="`cat $TEMP`"
+-    rm -f $TEMP
++    > $TEMP
+   fi
+ fi
+ 
+ if [ "$ORIGINATOR" = "" ]; then
+   grep "^$LOGNAME:" /etc/passwd | cut -f5 -d':' | sed -e 's/,.*//' > $TEMP
+   ORIGINATOR="`cat $TEMP`"
+-  rm -f $TEMP
++  > $TEMP
+ fi
+ 
+ if [ -n "$ORGANIZATION" ]; then

@@ -1,7 +1,16 @@
 $MirOS$
 --- lib/getdelim.c.orig	Mon Sep 19 21:11:58 2005
-+++ lib/getdelim.c	Mon Oct  2 06:08:41 2006
-@@ -48,7 +48,6 @@ getdelim (char **lineptr, size_t *n, int
++++ lib/getdelim.c	Wed Sep 15 19:36:15 2010
+@@ -28,6 +28,8 @@
+ 
+ #include "getdelim.h"
+ 
++__RCSID("$MirOS$");
++
+ #if !HAVE_FLOCKFILE
+ # undef flockfile
+ # define flockfile(x) ((void) 0)
+@@ -48,7 +50,6 @@ getdelim (char **lineptr, size_t *n, int
  {
    int result = 0;
    ssize_t cur_len = 0;
@@ -9,7 +18,7 @@ $MirOS$
  
    if (lineptr == NULL || n == NULL || fp == NULL)
      {
-@@ -71,7 +70,6 @@ getdelim (char **lineptr, size_t *n, int
+@@ -71,7 +72,6 @@ getdelim (char **lineptr, size_t *n, int
  
    for (;;)
      {

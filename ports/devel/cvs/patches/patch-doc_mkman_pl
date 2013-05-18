@@ -1,0 +1,23 @@
+$MirOS$
+--- doc/mkman.pl.orig	Fri Apr 15 13:58:54 2005
++++ doc/mkman.pl	Wed Sep 15 19:36:14 2010
+@@ -1,4 +1,5 @@
+ #! @PERL@
++# $MirOS$
+ #
+ # Generate a man page from sections of a Texinfo manual.
+ #
+@@ -72,8 +73,12 @@ sub do_keyword
+ {
+ 	my ($file, $parent, $keyword, $content) = @_;
+ 
++	return "node \`$content\\(aq in the CVS manual"
++		if $keyword =~ /^ref$/;
++	return "See node \`$content\\(aq in the CVS manual"
++		if $keyword =~ /^xref$/;
+ 	return "see node \`$content\\(aq in the CVS manual"
+-		if $keyword =~ /^(p?x)?ref$/;
++		if $keyword =~ /^pxref$/;
+ 	return "\\fP\\fP$content"
+ 		if $keyword =~ /^splitrcskeyword$/;
+ 

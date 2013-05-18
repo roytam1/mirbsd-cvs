@@ -1,4 +1,4 @@
-@comment $MirOS: ports/devel/cvs/pkg/PLIST,v 1.1 2006/10/02 05:59:19 tg Exp $
+@comment $MirOS: ports/devel/cvs/PLIST,v 1.1 2009/09/06 11:51:00 tg Exp $
 @unexec install-info --delete --info-dir=%D/info %D/info/cvs.info
 @unexec install-info --delete --info-dir=%D/info %D/info/cvsclient.info
 bin/cvs
@@ -12,7 +12,10 @@ man/man5/cvs.5
 man/man8/cvsbug.8
 share/cvs/AUTHORS
 share/cvs/BUGS
+share/cvs/DEVEL-CVS
 share/cvs/FAQ
+share/cvs/HACKING
+share/cvs/HACKING.DOCS
 share/cvs/MINOR-BUGS
 share/cvs/NEWS
 share/cvs/PROJECTS
@@ -42,6 +45,7 @@ share/cvs/contrib/rcs2log
 share/cvs/contrib/rcs2sccs.sh
 share/cvs/contrib/rcslock
 share/cvs/contrib/sandbox_status
+share/cvs/contrib/sandbox_status.man
 share/cvs/contrib/sccs2rcs
 share/cvs/contrib/validate_repo
 share/cvs/cvs-paper.ms
