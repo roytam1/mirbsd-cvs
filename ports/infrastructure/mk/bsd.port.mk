@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.222 2008/10/12 13:56:07 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.223 2008/10/12 13:57:01 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -993,20 +993,23 @@ EXTRACT_CASES+=		\
 .endif
 
 EXTRACT_CASES+=		\
-    *.tar.gz | *.t.gz | *.tgz | *.cpio.gz | *.cgz | *.mcz)		\
+    *.tar.gz | *.tar.[Zz] | *.t.gz | *.tgz | *.taz |			\
+    *.cpio.gz | *.cpio.[Zz] | *.cgz | *.ngz | *.mcz)			\
 	${GZIP_CMD} -dc ${FULLDISTDIR}/$$archive | ${TAR} xf - ;;	\
     *.tar | *.cpio)							\
 	${TAR} xf ${FULLDISTDIR}/$$archive ;;				\
-    *.shar.gz | *.shar.Z | *.sh.gz | *.sh.Z)				\
+    *.shar.gz | *.shar.[Zz] | *.sh.gz | *.sh.[Zz])			\
 	${GZIP_CMD} -dc ${FULLDISTDIR}/$$archive |			\
 	    ${_PERL_FIX_SHAR} | ${SH} ;;				\
     *.shar | *.sh | *.shr)						\
 	${_PERL_FIX_SHAR} ${FULLDISTDIR}/$$archive | ${SH} ;;		\
-    *.gz)								\
+    *.gz | *.[Zz])							\
 	${GZIP_CMD} -dc ${FULLDISTDIR}/$$archive			\
 	    >$$(basename $$archive .gz) ;;				\
     *.jar | *.pdf | *.txi)						\
 	cp ${FULLDISTDIR}/$$archive ${WRKDIR}/ ;;			\
+    *.uu.gz | *.uu.[Zz])						\
+	${GZIP_CMD} -dc ${FULLDISTDIR}/$$archive | uudecode ;;		\
     *.uu)								\
 	uudecode ${FULLDISTDIR}/$$archive ;;				\
     *)									\
