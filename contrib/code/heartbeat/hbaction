@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/heartbeat/hbaction,v 1.1 2006/03/20 00:16:53 tg Exp $
+# $MirOS: contrib/code/heartbeat/hbaction,v 1.2 2006/03/20 00:23:31 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -82,7 +82,8 @@ while read line; do
 		set -A foo -- $line
 		let mycookie=${foo[1]}
 		if (( mycookie )); then
-			print GOTCOOKIE $mycookie
+			print -n ACTION GOTCOOKIE $mycookie \
+			    | nc -4nuw0 127.0.0.1 3740
 		else
 			do_quit
 		fi

@@ -254,18 +254,10 @@ while read s; do
 done <"$conf"
 
 # start the action script manager
-eval "PATH=$PATH:. hbaction 2>/dev/null |&"
-print -rp "INITCOOKIE $thecookie"
-read -p cookie
-if [[ $cookie = "GOTCOOKIE $thecookie" ]]; then
-	exec 3<&p; exec 3<&-
-	let action_fd=freefd++
-	eval "exec ${action_fd}>&p"
-else
-	exec 3<&p; exec 3<&-
-	exec 3>&p; exec 3>&-
-	let action_fd=0
-fi
+eval "PATH=$PATH:. hbaction >/dev/null 2>&1 |&"
+exec 3<&p; exec 3<&-
+let action_fd=freefd++
+eval "exec ${action_fd}>&p"
 
 # start the subprocesses, one per user
 let i=anum
@@ -278,7 +270,6 @@ while (( i > 0 )); do
 
 	# initialise backend to DOWN state
 	print -rp "INIT ${auser[i]} ${apass[i]}"
-	print -rp "SETCOOKIE $thecookie"
 	astat[i]=DOWN
 
 	# allocate free filedescriptor and decouple
@@ -311,6 +302,9 @@ if [[ "$NETIP $NETIN" != "[127.0.0.1]:3741 $cookie" ]]; then
 	cleanup 2
 fi
 
+# initialise the cookie (action manager)
+tell $action_fd INIT $thecookie
+
 # main loop
 while : ; do
 	# read input from the network
@@ -328,6 +322,14 @@ while : ; do
 					cookie="$cookie ${line[i++]}"
 				done
 				tell $action_fd CALL ${cookie# }
+			fi
+			;;
+		GOTCOOKIE)
+			if [[ ${line[2]} = $thecookie ]]; then
+				let i=anum
+				while (( i > 0 )); do
+					tell ${afd[--i]} SETCOOKIE $thecookie
+				done
 			fi
 			;;
 		}
