@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/cmd_i386.c,v 1.17 2009/01/02 02:13:21 tg Exp $	*/
+/**	$MirOS: src/sys/arch/i386/stand/libsa/cmd_i386.c,v 1.18 2009/01/02 04:58:41 tg Exp $	*/
 /*	$OpenBSD: cmd_i386.c,v 1.29 2006/09/18 21:14:15 mpf Exp $	*/
 
 /*
@@ -301,7 +301,7 @@ Xmdexec(void)
 		sz = 65520;
 	} else if (!strcmp(cmd.argv[1], "grub")) {
 		type = 2;
-		sz = 131040;
+		sz = 163840;
 	} else
 		goto synerr;
 
