@@ -1,5 +1,5 @@
 #!/usr/bin/env mksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.124 2008/10/12 18:45:21 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.125 2008/10/13 20:14:22 tg Exp $
 #-
 # Copyright (c) 2006, 2008
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -152,7 +152,7 @@ esac
 
 export CC=${CC:-gcc}
 export COPTS="${CFLAGS:--O2 -fno-strict-aliasing}"
-export CPPFLAGS="$CPPFLAGS -D_MIRMAKE_DEFNS -isystem $d_build/F -include $d_build/F/mirmake.h"
+export CPPFLAGS="$CPPFLAGS -D_MIRMAKE_DEFNS -isystem $d_build/F -isystem $d_build/F/ni -include $d_build/F/mirmake.h"
 export CFLAGS="$COPTS $CPPFLAGS"
 eval export "NROFF=\"${NROFF:-nroff}\""
 
@@ -185,7 +185,7 @@ if ! gnuos=$($SHELL $top/dist/contrib/gnu/config/config.guess); then
 fi
 
 rm -rf $d_build
-mkdir -p $d_build/mk $d_build/F
+mkdir -p $d_build/mk $d_build/F/ni
 
 sed_exp="-e 's#@@machine@@#${new_machin}#g' \
 	 -e 's#@@march@@#${new_macarc}#g' \
@@ -210,8 +210,9 @@ cp $d_src/lib/libc/stdlib/getopt_long.c $d_src/kern/c/strlfun.c \
     $d_src/include/*.h $d_src/usr.bin/mkdep/mkdep.sh $d_build/
 cp $d_src/share/mk/*.mk $d_build/mk/
 cp $d_src/include/{getopt,adler32,md4,md5,rmd160,sfv,sha1,sha2,suma,tiger,whirlpool}.h \
-    $d_script/../contrib/mirmake.h $d_src/kern/include/libckern.h $d_build/F/
-ed -s $d_build/F/libckern.h <<-'EOF'
+    $d_script/../contrib/mirmake.h $d_build/F/
+cp $d_src/kern/include/libckern.h $d_build/F/ni/
+ed -s $d_build/F/ni/libckern.h <<-'EOF'
 	/defined.*_WCHAR_H_/,/endif.*_WCHAR_H_/d
 	i
 		#ifndef restrict
