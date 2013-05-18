@@ -1097,7 +1097,7 @@ Title: mksh on… platforms
 ----
 Date: 17.07.2008 21:43
 Author: tg@
-Title: mksh – The iShell [updated]
+Title: mksh – The iShell [updated 2 times]
 
 <h3><a href="@@RELPATH@@mksh.htm">mksh</a> – The iShell</h3>
 <p style="margin-bottom:0px;">Try this:</p>
@@ -1134,7 +1134,7 @@ Title: mksh – The iShell [updated]
 <p>In the meanwhile, gecko2@ has found the geocaches I placed.</p>
 <p><strong>Update 18.07.2008 12:42</strong> – we have a fat binary with
  five architectures (amd64 arm i386 powerpc ppc64) now. This is the <a
- href="https://eurynome.mirbsd.org/pub/fat-mksh.gz">iShell</a>, indeed.</p>
+ href="https://eurynome.mirbsd.org/pub/iShell.tgz">iShell</a>, indeed.</p>
 ----
 Date: 19.07.2008 22:17
 Author: tg@
@@ -1154,4 +1154,32 @@ Title: plans for the immediate future
  the second release of -stable; Benny will have to work some on the branch
  prior to its tagging (I’ll concentrate on -current), especially because
  we want to use X11 (and gcc) from HEAD, since these are not branched.</p>
+----
+Date: 20.07.2008 18:27:42
+Author: tg@
+Title: mksh – The iShell, Episode Ⅱ
+
+<h3><a href="@@RELPATH@@mksh.htm">mksh</a> – The iShell</h3>
+<p>Thanks to help from people in the various IRC channels, and gecko2@
+ jailbreaking his iPhone 3G (not G3…), I was able to run (albeit not
+ test – there is no Perl for the iPhone yet) two mksh(1) binaries on
+ it: a normal one and a fat binary (aka universal binary – this one,
+ containing code for 5 (five) architectures, can truly be called an
+ universal binary ☺).</p>
+<p>I packaged the modified build script, an extra ldid binary (built
+ for OSX86) provided by <em>someone else</em>, and the output of the
+ build process, together with a readme, as a gzsig(1)ned <a
+ href="https://eurynome.mirbsd.org/pub/iShell.tgz">tarball</a> on our
+ server again – note that the cryptographic signature is only for time
+ stamping (and download integrity checking) and does <strong>not</strong>
+ imply any warranties, especially for the third-party software involved.</p>
+<p>While here, we would be pleased if the reader supports our <a
+ href="@@RELPATH@@permalinks/wlog-10_e20080714-tg.htm">proposal</a> and
+ requests Apple to include <a href="@@RELPATH@@mksh.htm">mksh</a> in the
+ default installations. We would also be pleased if the mksh-iPhone binary
+ were to make it into one of the Cydia repositories, contact us via <a
+ href="@@RELPATH@@irc.htm">IRC</a> or mailing lists for assistance.</p>
+<p>If someone were to package Perl 5.8 or so, that’d be great too.</p>
+<p>To the readers from ##iphone-hackers on the one and #iphone-dev on
+ the other IRC network: *waves a friendly hello*</p>
 ----
