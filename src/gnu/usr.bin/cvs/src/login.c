@@ -15,7 +15,7 @@
 #include "cvs.h"
 #include "getline.h"
 
-__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_login_c,v 1.1 2010/09/15 20:57:01 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/login.c,v 1.5 2010/09/19 19:43:05 tg Exp $");
 
 /* There seems to be very little agreement on which system header
    getpass is declared in.  With a lot of fancy autoconfiscation,
@@ -321,10 +321,9 @@ internal error: can only call password_entry_operation with pserver method");
     fp = CVS_FOPEN (passfile, "r");
     if (fp == NULL)
     {
-    if (errno == ENOENT)
-        error (0, 0, "CVS password file %s does not exist - creating a new file", passfile);
-    else
-        error (0, errno, "warning: failed to open %s for reading", passfile);
+      if (errno != ENOENT) {
+	error (0, errno, "warning: failed to open %s for reading", passfile);
+      }
 	goto process;
     }
 
