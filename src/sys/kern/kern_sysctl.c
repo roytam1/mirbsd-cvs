@@ -1,11 +1,11 @@
-/**	$MirOS: src/sys/kern/kern_sysctl.c,v 1.9 2006/08/19 11:04:01 tg Exp $ */
+/**	$MirOS: src/sys/kern/kern_sysctl.c,v 1.10 2006/08/23 12:24:44 tg Exp $ */
 /*	$NetBSD: kern_sysctl.c,v 1.146 2003/09/28 13:24:48 dsl Exp $	*/
 /*	$OpenBSD: kern_sysctl.c,v 1.126 2005/06/04 05:10:40 tedu Exp $	*/
 /*	$NetBSD: kern_sysctl.c,v 1.17 1996/05/20 17:49:05 mrg Exp $	*/
 
 /*-
- * Copyright (c) 2006
- *	Thorsten Glaser <tg@mirbsd.de>
+ * Copyright (c) 2006, 2007
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.de>
  * Copyright (c) 1982, 1986, 1989, 1993
  *	The Regents of the University of California.  All rights reserved.
  *
@@ -99,7 +99,7 @@ extern struct nchstats nchstats;
 extern int nselcoll, fscale;
 extern struct disklist_head disklist;
 extern fixpt_t ccpu;
-extern  long numvnodes;
+extern long numvnodes;
 
 extern void nmbclust_update(void);
 
@@ -125,6 +125,8 @@ struct lock sysctl_lock, sysctl_disklock;
 #if defined(KMEMSTATS) || defined(DIAGNOSTIC) || defined(FFS_SOFTUPDATES)
 struct lock sysctl_kmemlock;
 #endif
+
+const char machine_arch[] = MACHINE_ARCH;
 
 void sysctl_init_values(void);
 
@@ -686,6 +688,8 @@ hw_sysctl(name, namelen, oldp, oldlenp, newp, newlen, p)
 			return (do_cpu_setperf(perflevel));
 		else
 			return (0);
+	case HW_MACHINE_ARCH:
+		return (sysctl_rdstring(oldp, oldlenp, newp, machine_arch));
 	default:
 		return (EOPNOTSUPP);
 	}

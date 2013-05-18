@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/sys/sysctl.h,v 1.3 2006/08/23 12:24:45 tg Exp $ */
+/**	$MirOS: src/sys/sys/sysctl.h,v 1.4 2006/10/17 20:48:53 tg Exp $ */
 /*	$NetBSD: sysctl.h,v 1.99 2003/09/28 13:02:19 dsl Exp $	*/
 /*	$OpenBSD: sysctl.h,v 1.77 2004/04/19 22:52:33 tedu Exp $	*/
 /*	$NetBSD: sysctl.h,v 1.16 1996/04/09 20:55:36 cgd Exp $	*/
@@ -531,7 +531,8 @@ struct kinfo_proc2 {
 #define	HW_SENSORS	11		/* node: hardware monitors */
 #define	HW_CPUSPEED	12		/* get CPU frequency */
 #define	HW_SETPERF	13		/* set CPU performance % */
-#define	HW_MAXID	14		/* number of valid hw ids */
+#define	HW_MACHINE_ARCH	14		/* string: machine architecture */
+#define	HW_MAXID	15		/* number of valid hw ids */
 
 #define	CTL_HW_NAMES { \
 	{ 0, 0 }, \
@@ -548,6 +549,7 @@ struct kinfo_proc2 {
 	{ "sensors", CTLTYPE_NODE}, \
 	{ "cpuspeed", CTLTYPE_INT }, \
 	{ "setperf", CTLTYPE_INT }, \
+	{ "machine_arch", CTLTYPE_STRING }, \
 }
 
 /*
