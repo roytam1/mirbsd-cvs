@@ -1,4 +1,4 @@
-# $MirOS: ports/security/gpgme/Makefile,v 1.7 2007/02/22 22:57:56 tg Exp $
+# $MirOS: ports/security/gpgme/Makefile,v 1.8 2007/03/20 18:28:25 tg Exp $
 # $OpenBSD: Makefile,v 1.10 2003/05/27 14:16:48 couderc Exp $
 
 COMMENT=		GnuPG Made Easy
@@ -7,7 +7,7 @@ CATEGORIES=     	security devel
 HOMEPAGE=		http://www.gnupg.org/related_software/gpgme/
 
 # GPL
-PERMIT_PACKAGE_CDROM=	Yes
+PERMIT_PACKAGE_CDROM=	dependency security/gnupg is not allowed for CDROM
 PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
@@ -19,6 +19,7 @@ MASTER_SITES=		ftp://ftp.gnupg.org/gcrypt/gpgme/ \
 			ftp://pgp.iijlab.net/pub/pgp/gpgme/ \
 			ftp://ring.aist.go.jp/pub/net/gnupg/gpgme/
 
+USE_CXX=		Yes # depends on libusb, which uses CXX
 CONFIGURE_STYLE=	autogen
 AUTOCONF_NEW=		Yes
 AUTOMAKE_VERSION=	1.9
