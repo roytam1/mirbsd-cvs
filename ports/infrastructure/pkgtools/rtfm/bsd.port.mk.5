@@ -1,4 +1,4 @@
-.\" $MirOS: ports/infrastructure/pkgtools/rtfm/bsd.port.mk.5,v 1.24 2008/11/01 22:57:23 tg Exp $
+.\" $MirOS: ports/infrastructure/pkgtools/rtfm/bsd.port.mk.5,v 1.25 2008/11/02 04:32:24 tg Exp $
 .\" $OpenBSD: bsd.port.mk.5,v 1.134 2004/02/18 13:39:02 xsa Exp $
 .\"
 .\" Copyright (c) 2007, 2008 Thorsten Glaser
@@ -63,7 +63,7 @@
 .\" with -mandoc, it might implement .Mx itself, but we want to
 .\" use our own definition. And .Dd must come *first*, always.
 .\"
-.Dd $Mdocdate: November 1 2008 $
+.Dd $Mdocdate: November 2 2008 $
 .\"
 .\" Implement .Mx (MirBSD)
 .\"
@@ -1030,7 +1030,7 @@ Indicates that the port, using
 magic, will properly fake installation into ${WRKINST}, to be packaged
 and properly installed from the package.
 Set to
-.Sq No
+.Sq No\&
 in very rare cases, and during port creation.
 .It Ev FAKE_FLAGS
 Flags passed to ${MAKE_PROGRAM} on fake invocation.
@@ -1225,6 +1225,40 @@ for user configuration.
 .It Ev MASTER_SITES0 , ... , MASTER_SITES9
 Supplementary locations from which distribution files and patchfiles are
 retrieved.
+.It Ev MCZ_FETCH
+For _CVS_DISTF operation, i.e. if one of
+.Ev CVS_DISTREPO
+or
+.Ev SVN_DISTPATH
+is set, control the way how these
+VCS distfiles are fetched.
+This variable affects all distfiles, i.e.\&
+.Ev _CVS_DISTF , _CVS_DISTF0 , ... , _CVS_DISTF9 .
+.Pp
+Possible values are:
+.Bl -tag -width lzma
+.It Va No\&
+Directly fetch from the VCS and compress using
+.Xr mpczar 1 .
+.Pp
+This is the default.
+.It Va Yes
+Fetch from the appropriate MASTER_SITES, which
+is initialised to default to ${_MASTER_SITE_MIRBSD}.
+.It Va LZMA
+Append the suffix
+.Dq .lzma
+to the
+.Ev _CVS_DISTF ,
+and fetch it from the appropriate MASTER_SITES, which
+is initialised to default to ${_MASTER_SITE_MIRBSD}.
+.Pp
+Note that the distfile has to be recompressed manually
+by the master site administrator, and due to use of a
+different compressor than the
+.Pa mpczar.z
+helper, it is not guaranteed to be reproducible.
+.El
 .It Ev MESSAGE
 File recorded in the package and displayed during installation.
 Defaults to ${PKGDIR}/MESSAGE if this file exists.

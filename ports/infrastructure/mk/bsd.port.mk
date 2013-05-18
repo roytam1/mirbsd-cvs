@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.232 2008/11/02 03:51:16 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.233 2008/11/02 14:49:36 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -284,6 +284,7 @@ ERRORS+=		"Subpackage ${SUBPACKAGE} does not exist."
 # Support architecture and flavour dependent packing lists
 SED_PLIST?=
 
+MCZ_FETCH?=		No
 .for _i in - 0 1 2 3 4 5 6 7 8 9
 .  if defined(SVN_DISTPATH${_i:S/-//}) && !empty(SVN_DISTPATH${_i:S/-//})
 SVN_DISTDIR${_i:S/-//}?=${SVN_DISTPATH${_i:S/-//}:T}
@@ -291,6 +292,16 @@ SVN_DISTDIR${_i:S/-//}?=${SVN_DISTPATH${_i:S/-//}:T}
 SVN_DISTFILE${_i:S/-//}=${SVN_DISTDIR${_i:S/-//}:T}
 .    endif
 SVN_DISTREV${_i:S/-//}?=1
+.    if ${MCZ_FETCH:L} != "no"
+MASTER_SITES${_i:S/-//}?=${_MASTER_SITE_MIRBSD}
+.    endif
+.  elif defined(CVS_DISTREPO${_i:S/-//}) && !empty(CVS_DISTREPO${_i:S/-//})
+.    if ${MCZ_FETCH:L} != "no"
+MASTER_SITES${_i:S/-//}?=${_MASTER_SITE_MIRBSD}
+.    endif
+.  else
+.    undef SVN_DISTPATH${_i:S/-//}
+,    undef CVS_DISTREPO${_i:S/-//}
 .  endif
 .endfor
 
@@ -298,11 +309,10 @@ DASH_VER?=		0
 .if defined(DIST_NAME) && defined(DIST_DATE)
 PKGNAME?=		${DIST_NAME}-${DIST_DATE}-${DASH_VER}
 WRKDIST?=		${WRKDIR}/${DIST_NAME}
-.elif defined(CVS_DISTREPO) && !empty(CVS_DISTREPO)
+.elif defined(CVS_DISTREPO)
 PKGNAME?=		${_CVS_DISTF:R}-${DASH_VER}
 WRKDIST?=		${WRKDIR}/${CVS_DISTMODS}
-MASTER_SITES?=		${_MASTER_SITE_MIRBSD}
-.elif defined(SVN_DISTPATH) && !empty(SVN_DISTPATH)
+.elif defined(SVN_DISTPATH)
 PKGNAME?=		${SVN_DISTFILE}-${SVN_DISTREV}-${DASH_VER}
 WRKDIST?=		${WRKDIR}/${SVN_DISTDIR}
 .else
@@ -844,7 +854,8 @@ _CDROM_OVERRIDE=	:
 
 _CVS_FDEP=
 .for _i in - 0 1 2 3 4 5 6 7 8 9
-.  if defined(CVS_DISTREPO${_i:S/-//}) && !empty(CVS_DISTREPO${_i:S/-//})
+.  undef _CVS_DISTF${_i:S/-//}
+.  if defined(CVS_DISTREPO${_i:S/-//})
 CVS_DISTFILE${_i:S/-//}?=${CVS_DISTMODS${_i:S/-//}}
 _CVS_DISTF${_i:S/-//}=	${CVS_DISTFILE${_i:S/-//}}-
 .    if defined(CVS_DISTTAGS${_i:S/-//})
@@ -870,7 +881,7 @@ _CVS_FETCH${_i:S/-//}=	${MKSH} ${PORTSDIR}/infrastructure/scripts/mkmcz \
 			    '${CVS_DISTTAGS${_i:S/-//}}' \
 			    ${CVS_DISTMODS${_i:S/-//}:Q}
 _CVS_FDEP+=		mpczar
-.  elif defined(SVN_DISTPATH${_i:S/-//}) && !empty(SVN_DISTPATH${_i:S/-//})
+.  elif defined(SVN_DISTPATH${_i:S/-//})
 _CVS_DISTF${_i:S/-//}=	${SVN_DISTFILE${_i:S/-//}}-r${SVN_DISTREV${_i:S/-//}}.mcz
 _CVS_FETCH${_i:S/-//}=	${MKSH} ${PORTSDIR}/infrastructure/scripts/mkmcz \
 			    ${_MKMCZ_OPTS} -s \
@@ -880,18 +891,25 @@ _CVS_FETCH${_i:S/-//}=	${MKSH} ${PORTSDIR}/infrastructure/scripts/mkmcz \
 			    ${SVN_DISTDIR${_i:S/-//}:Q}
 _CVS_FDEP+=		mpczar svn
 .  endif
+.  if defined(_CVS_DISTF${_i:S/-//}) && (${MCZ_FETCH:L} == "lzma")
+_CVS_DISTF${_i:S/-//}:=	${_CVS_DISTF${_i:S/-//}}.lzma
+.  endif
 .endfor
 
 DIST_SOURCE?=		distfile
 .if ${_CVS_FDEP:Mmpczar}
+.  if ${MCZ_FETCH:L} == "no"
 FETCH_DEPENDS+=		:mpczar->=20081101:archivers/mpczar
+.  endif
 DIST_SOURCE=		distfile
 .  if defined(_CVS_DISTF)
 DISTFILES=
 .  endif
 .endif
 .if ${_CVS_FDEP:Msvn}
+.  if ${MCZ_FETCH:L} == "no"
 FETCH_DEPENDS+=		:subversion-*:devel/subversion
+.  endif
 .endif
 .if ${DIST_SOURCE:L} == "port"
 DIST_SOURCEDIR?=	${.CURDIR}/dist
@@ -1009,7 +1027,7 @@ EXTRACT_CASES+=		\
 .if ${_USE_LZMA:L} != "no"
 BUILD_DEPENDS+=		:lzma-*:archivers/lzma
 EXTRACT_CASES+=		\
-    *.tar.lzma | *.tlz | *.cpio.lzma | *.clz)				\
+    *.tar.lzma | *.tlz | *.cpio.lzma | *.clz | *.mcz.lzma)		\
 	lzma -dc ${FULLDISTDIR}/$$archive | ${TAR} xf - ;;		\
     *.lzma)								\
 	lzma -dc ${FULLDISTDIR}/$$archive >$$(basename $$archive .lzma) ;;
@@ -1096,7 +1114,8 @@ SCRIPTS_ENV+=		BATCH=yes
 .endif
 
 FETCH_MANUALLY?=	No
-.if defined(_CVS_DISTF) || (${FETCH_MANUALLY:L} != "no")
+.if (defined(_CVS_DISTF) && (${MCZ_FETCH:L} == "no")) || \
+    (${FETCH_MANUALLY:L} != "no")
 _ALLFILES_PRESENT=	Yes
 .  for _F in ${ALLFILES:S@^@${FULLDISTDIR}/@}
 .    if !exists(${_F})
@@ -2413,8 +2432,9 @@ fetch-all:
 # In the second loop, go over ALLFILES, but ignore
 # these for which there is already a target.
 
-.for _i in - 0 1 2 3 4 5 6 7 8 9
-.  if defined(_CVS_FETCH${_i:S/-//}) && ${REFETCH} != "true"
+.if ${MCZ_FETCH:L} == "no"
+.  for _i in - 0 1 2 3 4 5 6 7 8 9
+.    if defined(_CVS_FETCH${_i:S/-//}) && ${REFETCH} != "true"
 ${FULLDISTDIR}/${_CVS_DISTF${_i:S/-//}}:
 	@if [[ ! -w ${FULLDISTDIR} ]]; then \
 		print -u2 'Error: some subdirectory of ${DISTDIR}' \
@@ -2441,8 +2461,9 @@ ${FULLDISTDIR}/${_CVS_DISTF${_i:S/-//}}:
 			${ECHO_MSG} ">> No size recorded for ${FULLDISTDIR}/${_CVS_DISTF${_i:S/-//}}"; \
 		fi; \
 	}
-.  endif
-.endfor
+.    endif
+.  endfor
+.endif
 .for _F in ${ALLFILES:S@^@${FULLDISTDIR}/@}
 .  if !target(${_F})
 ${_F}:
