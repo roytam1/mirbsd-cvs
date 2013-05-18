@@ -1,4 +1,4 @@
-rcsid_parser='$MirOS: www/mk/parser,v 1.21 2011/07/25 09:33:53 tg Exp $'
+rcsid_parser='$MirOS: www/mk/parser,v 1.22 2012/07/15 14:16:44 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -201,7 +201,6 @@ elif (( parser_usedate )); then
 	  done | sort -nbk1,1 -k2,2 ) |&
 	state=0
 	while read -p MJD SEC TZO entry; do
-		#print -u2 "D: read MJD=$MJD SEC=$SEC TZO=$TZO e=$entry"
 		ei_indir[state++]=$entry
 	done
 else
@@ -210,7 +209,6 @@ else
 	  done | sort -nbk1,1 -k2,2 -k3,3 -k4,4 -k5,5 -k6,6 ) |&
 	state=0
 	while read -p y m d H M S entry; do
-		#print -u2 "D: read y=$y m=$m d=$d H=$H M=$M S=$S e=$entry"
 		ei_indir[state++]=$entry
 	done
 fi
