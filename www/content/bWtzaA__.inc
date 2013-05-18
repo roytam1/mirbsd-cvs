@@ -1,5 +1,5 @@
 <!-- PageID: mksh -->
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.68 2006/11/21 21:55:58 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.69 2006/11/23 22:35:44 tg Exp $</small>
 
 <h1>mksh(1) R28</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
@@ -485,7 +485,8 @@
  Gockel, but called "mirbsdksh" (not mksh) there. Thanks to morfic
  (Daniel Goller), Sourcemage (SMGL) has an mksh spell, originally
  crafted by yours truly, debugged and fixed together. FreeWRT also
- comes with mksh. Ubuntu, Nexenta OS, and other Debian derivates
+ comes with mksh. Ubuntu, <a href="http://www.gnusolaris.org/">Nexenta OS</a>,
+ <a href="http://grml.org/">grml</a>, and other Debian derivates
  probably have it as well. <a href="http://dev-loki.blogspot.com/">Pascal
  &quot;loki&quot; Bleser</a> of <a href="http://planet.fosdem.org/">FOSDEM</a>
  fame has packaged mksh for SuSE GNU/Linux (<a
