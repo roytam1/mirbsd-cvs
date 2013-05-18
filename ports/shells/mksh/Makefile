@@ -1,8 +1,8 @@
-# $MirOS: ports/shells/mksh/Makefile,v 1.26 2007/05/26 22:38:28 tg Exp $
+# $MirOS: ports/shells/mksh/Makefile,v 1.27 2007/07/09 19:30:25 tg Exp $
 
 COMMENT=		MirBSD Korn Shell
-DISTNAME=		mksh-R29g
-PKGNAME=		mksh-29.7-${DASH_VER}
+DISTNAME=		mksh-R30
+PKGNAME=		mksh-30.1-${DASH_VER}
 #DISTNAME=		mksh_28.9.20070218
 #PKGNAME=		${DISTNAME:S/_/-/}-${DASH_VER}
 CATEGORIES=		shells
@@ -14,24 +14,17 @@ PERMIT_DISTFILES_FTP=	Yes
 PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes
 
-FLAVORS=		static
-FLAVOR?=
-
 MASTER_SITES=		${_MASTER_SITE_MIRBSD:distfiles/=dist/mir/mksh/}
 EXTRACT_SUFX=		.cpio.gz
 WRKDIST=		${WRKDIR}/mksh
 #MASTER_SITES=		http://users.unixforge.de/~tglaser/
 #WRKDIST=		${WRKDIR}/${DISTNAME:S/_/-/}
 
-.if !${FLAVOR:L:Mstatic}
-BF+=			-d
-.endif
-
 BSH?=			/bin/sh
 
 do-build:
 	cd ${WRKBUILD} && ${SETENV} ${MAKE_ENV} NROFF=${NROFF:C/ *$//:Q} \
-	    SHELL=${BSH:Q} ${BSH} ${WRKSRC}/Build.sh ${BF}
+	    SHELL=${BSH:Q} ${BSH} ${WRKSRC}/Build.sh -Q
 
 do-install:
 	${INSTALL_DATA_DIR} ${PREFIX}/share/examples/mksh
