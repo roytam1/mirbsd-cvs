@@ -1,4 +1,4 @@
-# $MirOS: contrib/code/libhaible/Makefile,v 1.11 2006/05/30 13:07:43 tg Exp $
+# $MirOS: contrib/code/libhaible/Makefile,v 1.12 2006/05/30 13:16:50 tg Exp $
 
 LIB=	haible
 NOPIC=	Yes	# for now
@@ -64,8 +64,8 @@ beforedepend: ${GENERATED}
 
 # reachover for libc
 LIBCSRCDIR?=	${BSDSRCDIR}/lib/libc
-.PATH: ${LIBCSRCDIR}/string
-MAN+=		wcstok.3
+#.PATH: ${LIBCSRCDIR}/string
+#MAN+=		wcstok.3	# already in libc
 .PATH: ${LIBCSRCDIR}/locale
 MAN+=		iswctype.3 towctrans.3 wctrans.3 wctype.3
 # not yet
