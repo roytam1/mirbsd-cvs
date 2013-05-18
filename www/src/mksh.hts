@@ -1,4 +1,4 @@
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.109 2008/04/22 12:01:07 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.110 2008/04/22 19:45:34 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -693,7 +693,7 @@ mws_content <<'EOF'
 <ul>
  <li style="list-style:none;">– tests by the project, using Makefile –</li>
  <li>MirOS #10-current (i386 gcc3.4.6)</li>
- <li>MirOS #10-current (i386 pcc20080420)</li>
+ <li>MirOS #10-current (i386 pcc-20080502-MirPorts-0)</li>
  <li>MirOS #10-current (sparc gcc3.4.6)</li>
  <li style="list-style:none;">– tests by the project, using Build.sh –</li>
  <li>MirOS #10-current (i386 gcc3.4.6)</li>
@@ -704,6 +704,7 @@ mws_content <<'EOF'
  <li>DragonFly 1.9-DEVELOPMENT Feb 17, 2007 (i386 gcc3.4.6)</li>
  <li>FreeBSD 6.2-RELEASE (i386 gcc3.4.6-20060305)</li>
  <li>MidnightBSD 0.2-CURRENT (i386 gcc3.4.6-20060305)</li>
+ <li>MidnightBSD 0.1.1-RELEASE (sparc64 gcc3.4.4-20050518)</li>
  <li>NetBSD 3.0_STABLE (i386 gcc3.3.3_nb3_20040520)</li>
  <li>OpenBSD 4.3-beta GENERIC#201 (zaurus gcc3.3.5)</li>
  <li>Debian GNU/kFreeBSD 4.0 sid 6.2-1-686 (i386 gcc1:3.3.6-15)</li>
@@ -928,6 +929,7 @@ mws_content <<'EOF'
   for inclusion shall be accepted if they’re agreed to match this licence</li>
  <li>Simplify <tt>dot.mkshrc</tt> sample file: licence is merged into the main
   copyright file; AT&amp;T ksh93 compatibility was improved</li>
+ <li>Fix a display problem regarding fullwidth characters (e.g. CJK)</li>
 </ul>
 <p id="r33d">mksh R33d is a quick security-update with these changes:</p><ul>
  <li>Move a portability define from <tt>sh.h</tt> to the <tt>setmode.c</tt>
