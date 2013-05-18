@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/lib/plist.c,v 1.6 2006/09/24 20:40:48 tg Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/lib/plist.c,v 1.7 2006/11/19 22:34:07 tg Exp $ */
 /*	$OpenBSD: plist.c,v 1.17 2003/08/21 20:24:57 espie Exp $	*/
 
 /*
@@ -26,7 +26,7 @@
 #include <md5.h>
 #include "rcdb.h"
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/plist.c,v 1.6 2006/09/24 20:40:48 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/plist.c,v 1.7 2006/11/19 22:34:07 tg Exp $");
 
 #define NULLMD5 "d41d8cd98f00b204e9800998ecf8427e"
 
@@ -345,7 +345,7 @@ write_plist(package_t *pkg, FILE *fp)
  * run it too in cases of failure.
  */
 int
-delete_package(bool keep_files, bool nukedirs, bool remove_config,
+delete_package(bool keep_files, bool nukedirs, rm_cfg_t remove_config,
     bool check_md5, package_t *pkg)
 {
     plist_t *p, *pp;
@@ -441,7 +441,7 @@ delete_package(bool keep_files, bool nukedirs, bool remove_config,
 	    	break;
 	    if (!p->name)
 	    	break;
-	    delete_extra(toabs(p->name, Where), false);
+	    delete_extra(p, Where, remove_config, false);
 	    break;
 	case PLIST_DIR_RM:
 	    last_file = p->name;
@@ -468,7 +468,7 @@ delete_package(bool keep_files, bool nukedirs, bool remove_config,
 		    p->name[--len] = '\0';
 		    fail = fail | process_dirrm(p, keep_files, &usedb, ourdb, Where);
 		} else
-		    delete_extra(toabs(p->name, Where), true);
+		    delete_extra(p, Where, remove_config, true);
 	    }
 	}
     }
@@ -600,11 +600,17 @@ delete_hierarchy(char *dir, bool ign_err, bool nukedirs)
  * after the files.
  */
 void
-delete_extra(const char *fname, bool dir)
+delete_extra(plist_t *p, const char *Where, const rm_cfg_t remove_config, bool dir)
 {
+    char *fname;
+    char *cp, buf[LegibleChecksumLen];
     size_t len;
     bool b;
 
+    if (!p || !Where || !remove_config)
+	return;
+
+    fname = toabs(p->name, Where);
     len = strlen(fname);
     if (len == 0) {
 	pwarnx("empty extra filename");
@@ -616,7 +622,7 @@ delete_extra(const char *fname, bool dir)
 
     b = isdir(fname);
     if (dir) {
-	if (b) {
+	if (b && remove_config == RMCFG_ALL) {
 	    if (Verbose)
 		printf("Delete extra directory %s\n", fname);
 	    if (!Fake && rmdir(fname) == -1)
@@ -630,6 +636,18 @@ delete_extra(const char *fname, bool dir)
 	if (b) {
 	    pwarnx("extra file %s is a directory", fname);
 	} else {
+	    if (remove_config == RMCFG_UNCHANGED
+		    && p->prev->type == PLIST_COMMENT
+		    && !strncmp(p->prev->name, "MD5:", 4)
+		    && (cp = MD5File(fname, buf)) != NULL) {
+		/* Mismatch? */
+		if (strcmp(cp, p->prev->name + 4)) {
+		    if (Verbose)
+			printf("Extra file %s was changed -- not removing it\n", fname);
+		    return;
+		}
+	    }
+		
 	    if (Verbose)
 		printf("Delete extra file %s\n", fname);
 	    if (!Fake && unlink(fname) == -1)

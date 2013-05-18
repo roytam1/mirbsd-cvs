@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.17 2006/12/26 15:37:26 bsiegert Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.18 2006/12/28 17:40:35 bsiegert Exp $ */
 /* $OpenBSD: perform.c,v 1.32 2003/08/21 20:24:56 espie Exp $	*/
 
 /*
@@ -29,7 +29,7 @@
 #include <signal.h>
 #include <errno.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.17 2006/12/26 15:37:26 bsiegert Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.18 2006/12/28 17:40:35 bsiegert Exp $");
 
 static int pkg_do(char *);
 static int sanity_check(char *);
@@ -474,7 +474,7 @@ pkg_do(char *pkg)
  fail:
     /* Nuke the whole (installed) show, XXX but don't clean directories */
     if (!Fake)
-	delete_package(false, false, false, false, &Plist);
+	delete_package(false, false, RMCFG_NONE, false, &Plist);
 
  success:
     /* delete the packing list contents */

@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/lib/lib.h,v 1.11 2006/11/19 12:33:53 tg Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/lib/lib.h,v 1.12 2006/11/19 22:16:36 bsiegert Exp $ */
 /*	$OpenBSD: lib.h,v 1.14 2003/08/21 20:24:57 espie Exp $	*/
 
 /*
@@ -115,6 +115,13 @@ typedef enum ld_type_t {
 	LD_DYLD
 } ld_type_t;
 
+/* remove configuration on pkg_delete? */
+typedef enum rm_cfg_t {
+	RMCFG_NONE = 0,
+	RMCFG_ALL,
+	RMCFG_UNCHANGED
+} rm_cfg_t;
+
 /* this structure describes a packing list entry */
 typedef struct plist_t {
 	struct plist_t	*prev;		/* previous entry */
@@ -214,9 +221,9 @@ void		delete_plist(package_t *pkg, bool all, pl_ent_t type, char *name);
 void		write_plist(package_t *, FILE *);
 void		read_plist(package_t *, FILE *);
 int		plist_cmd(char *, char **);
-int		delete_package(bool, bool, bool, bool, package_t *);
+int		delete_package(bool, bool, rm_cfg_t, bool, package_t *);
 int		process_dirrm(plist_t *, bool, int *, RCDB *, const char *);
-void		delete_extra(const char *, bool);
+void		delete_extra(plist_t *, const char *, const rm_cfg_t, bool);
 
 /* For all */
 int		pkg_perform(char **);

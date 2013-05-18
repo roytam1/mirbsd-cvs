@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/delete/main.c,v 1.4 2005/11/19 02:05:28 bsiegert Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/delete/main.c,v 1.5 2005/12/16 12:05:35 tg Exp $ */
 /*	$OpenBSD: main.c,v 1.12 2003/08/21 20:24:56 espie Exp $	*/
 
 /*
@@ -24,14 +24,14 @@
 #include "lib.h"
 #include "delete.h"
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/delete/main.c,v 1.4 2005/11/19 02:05:28 bsiegert Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/delete/main.c,v 1.5 2005/12/16 12:05:35 tg Exp $");
 
-static char Options[] = "cDdfhnp:qUv";
+static char Options[] = "CcDdfhnp:qUv";
 
 char	*Prefix		= NULL;
 bool	NoDeInstall	= false;
 bool	CleanDirs	= false;
-bool	CleanConf	= false;
+rm_cfg_t CleanConf	= RMCFG_NONE;
 bool	CheckMD5	= true;
 bool	KeepFiles	= false;
 
@@ -75,8 +75,12 @@ main(int argc, char **argv)
 	    CheckMD5 = false;
 	    break;
 
+	case 'C':
+	    CleanConf = RMCFG_UNCHANGED;
+	    break;
+
 	case 'c':
-	    CleanConf = true;
+	    CleanConf = RMCFG_ALL;
 	    break;
 
 	case 'U':
@@ -118,6 +122,6 @@ main(int argc, char **argv)
 static __dead void
 usage(void)
 {
-    fprintf(stderr, "usage: pkg_delete [-cvDdhnfq] [-p prefix] pkg-name ...\n");
+    fprintf(stderr, "usage: pkg_delete [-CcvDdhnfq] [-p prefix] pkg-name ...\n");
     exit(1);
 }
