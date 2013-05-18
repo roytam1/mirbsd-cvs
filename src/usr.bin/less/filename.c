@@ -37,7 +37,7 @@
 #include <signal.h>
 #endif
 
-__RCSID("$MirOS: src/usr.bin/less/filename.c,v 1.2 2005/03/13 18:33:06 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/less/filename.c,v 1.3 2005/11/23 17:36:20 tg Exp $");
 
 #if HAVE_STAT
 #include <sys/stat.h>
@@ -678,7 +678,8 @@ lglob(filename)
 	/*
 	 * Overwrite the final trailing space with a null terminator.
 	 */
-	*--p = '\0';
+	if (gfilename[0] != '\0' && gfilename[strlen(gfilename) - 1] == ' ')
+		gfilename[strlen(gfilename) - 1] = '\0';
 	GLOB_LIST_DONE(list);
 }
 #else
