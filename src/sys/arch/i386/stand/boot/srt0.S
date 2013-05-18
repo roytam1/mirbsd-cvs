@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.23 2009/01/01 19:13:32 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.24 2009/01/01 22:23:24 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008
@@ -206,9 +206,8 @@ Ldxok:	push	dx
 	popfd
 	UD(1)			/** A: flags set */
 	mov	ax,di
-	and	ax,0x000F	/* test for alignment */
+	test	al,0x0F		/* test for alignment */
 Lirrf:	jnz	Lirrf		/* forever loop */
-	mov	ax,di
 	shr	ax,4
 	mov	cx,cs
 	add	ax,cx		/* ax:0000 is now _start+0x50 */
