@@ -1,7 +1,8 @@
-# $MirOS: ports/print/ghostscript/esp/Makefile,v 1.9 2006/12/20 15:34:16 tg Exp $
+# $MirOS: ports/print/ghostscript/esp/Makefile,v 1.10 2007/03/19 16:21:03 bsiegert Exp $
 
 COMMENT=		ESP Ghostscript, a PostScript interpreter
 VERSION=		8.15.4
+DASH_VER=		1
 DISTNAME=		espgs-${VERSION}-source
 PKGNAME=		ghostscript-${VERSION}-${DASH_VER}-esp
 CATEGORIES=		print
@@ -24,8 +25,8 @@ MASTER_SITES+=		ftp://ftp.fisek.com.tr/pub/ghostscript/${VERSION}/
 EXTRACT_SUFX=		.tar.bz2
 WRKDIST=		${WRKDIR}/${DISTNAME:S/-source//}
 
-LIB_DEPENDS=		jpeg.62::graphics/jpeg \
-			tiff.35::graphics/tiff
+LIB_DEPENDS=		jpeg::graphics/jpeg \
+			tiff::graphics/tiff
 RUN_DEPENDS=		:gs-fonts-std-*:print/ghostscript/fonts-std
 MODULES+=		graphics/png converters/libiconv devel/pkgconfig
 
