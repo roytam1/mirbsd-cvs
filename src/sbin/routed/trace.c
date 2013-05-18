@@ -38,7 +38,7 @@
 #include <fcntl.h>
 
 __SCCSID("@(#)trace.c	8.1 (Berkeley) 6/5/93");
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/sbin/routed/trace.c,v 1.4 2006/09/21 02:10:54 tg Exp $");
 
 #ifdef sgi
 /* use *stat64 for files on large filesystems */
@@ -522,7 +522,7 @@ trace_upslot(struct rt_entry *rt, struct rt_spare *rts, naddr gate,
 
 	lastlog();
 	if (rts->rts_gate != RIP_DEFAULT) {
-		(void)fprintf(ftrace, "Chg #%ld %-35s ",
+		(void)fprintf(ftrace, "Chg #%td %-35s ",
 			      rts - rt->rt_spares,
 			      trace_pair(rt->rt_dst, rt->rt_mask,
 					 naddr_ntoa(rts->rts_gate)));
@@ -552,7 +552,7 @@ trace_upslot(struct rt_entry *rt, struct rt_spare *rts, naddr gate,
 			      new_time != rts->rts_time ? ts(new_time) : "");
 
 	} else {
-		(void)fprintf(ftrace, "Add #%ld %-35s ",
+		(void)fprintf(ftrace, "Add #%td %-35s ",
 			      rts - rt->rt_spares,
 			      trace_pair(rt->rt_dst, rt->rt_mask,
 					 naddr_ntoa(gate)));
