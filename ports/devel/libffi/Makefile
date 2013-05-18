@@ -1,13 +1,10 @@
-# $MirOS: ports/devel/libffi/Makefile,v 1.2 2008/12/06 13:48:26 tg Exp $
+# $MirOS: ports/devel/libffi/Makefile,v 1.3 2008/12/07 18:57:51 tg Exp $
 
 COMMENT=		foreign function calling interface library
 CATEGORIES=		devel
-MCZ_FETCH=		Yes
-CVS_DISTREPO=		${_MIROS_ANONCVS}
-CVS_DISTDATE=		2008/08/08
-CVS_DISTMODS=		gcc/libffi gcc/config/accross.m4
-CVS_DISTFILE=		libffi
 RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.de>
+DISTNAME=		libffi-3.0.8
+MASTER_SITES=		ftp://sourceware.org/pub/libffi/
 
 # Historic Permission Clause
 PERMIT_DISTFILES_CDROM=	Yes
@@ -15,14 +12,16 @@ PERMIT_DISTFILES_FTP=	Yes
 PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes
 
-WRKDIST=		${WRKDIR}/gcc/libffi
+MODULES+=		devel/pkgconfig
+REGRESS_DEPENDS+=	::devel/dejagnu
+
+#WRKDIST=		${WRKDIR}/gcc/libffi
 CONFIGURE_STYLE=	autogen
 AUTOMAKE_VERSION=	1.9
 AUTOCONF_NEW=		Yes
-MAKE_FLAGS+=		'libffi_la_OBJECTS=$$(libffi_la_SOURCES:T:R:=.lo)'
-EXTRA_XAKE_FLAGS+=	toolexeclibdir='$$(libdir)'
 
-post-extract:
-	print '/libtool.m4/d\nwq' | ed -s ${WRKSRC}/acinclude.m4
+CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
+CONFIGURE_ARGS+=	CCASFLAGS=-D_ASM_SOURCE
+
 
 .include <bsd.port.mk>
