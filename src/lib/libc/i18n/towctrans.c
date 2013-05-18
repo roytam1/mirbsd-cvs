@@ -1,7 +1,5 @@
-/* $MirOS: src/share/misc/licence.template,v 1.20 2006/12/11 21:04:56 tg Rel $ */
-
 /*-
- * Copyright (c) 2006
+ * Copyright (c) 2006, 2007
  *	Thorsten Glaser <tg@mirbsd.de>
  *
  * Provided that these terms and disclaimer and all copyright notices
@@ -27,7 +25,7 @@
 #include <wctype.h>
 #include <errno.h>
 
-__RCSID("$MirOS: src/lib/libc/i18n/towctrans.c,v 1.3 2007/02/02 19:28:34 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/towctrans.c,v 1.4 2007/02/02 21:06:21 tg Exp $");
 
 wint_t
 towctrans(wint_t wc, wctrans_t charmap)
@@ -40,5 +38,5 @@ towctrans(wint_t wc, wctrans_t charmap)
 		return (wc);
 	}
 
-	return (wc + charmap[wc >> 8][wc & 0xFF]);
+	return ((wc + charmap[wc >> 8][wc & 0xFF]) & 0xFFFF);
 }
