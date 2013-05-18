@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.134 2006/10/13 17:09:19 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.135 2006/10/17 21:15:41 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -428,9 +428,6 @@ PORTPATH?=		${WRKDIR}/bin:${_PORTPATH}
 CPPFLAGS+=		-idirafter ${LOCALBASE}/include
 .if ${USE_X11:L} == "yes"
 CPPFLAGS+=		-idirafter ${X11BASE}/include
-.endif
-.if defined(DEBUGLIBS) && ${DEBUGLIBS:L} != "no"
-CFLAGS+=		-g1
 .endif
 CFLAGS+=		${COPTS} ${CPPFLAGS}
 CXXFLAGS+=		${CXXOPTS} ${CPPFLAGS}
