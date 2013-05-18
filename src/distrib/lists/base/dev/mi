@@ -1439,6 +1439,7 @@
 ./usr/include/sys/signal.h
 ./usr/include/sys/signalvar.h
 ./usr/include/sys/simplelock.h
+./usr/include/sys/slibkern.h
 ./usr/include/sys/socket.h
 ./usr/include/sys/socketvar.h
 ./usr/include/sys/sockio.h
@@ -1480,6 +1481,8 @@
 ./usr/include/sys/vnode_if.h
 ./usr/include/sys/wait.h
 ./usr/include/sysexits.h
+./usr/include/syskern
+./usr/include/syskern/libckern.h
 ./usr/include/syslog.h
 ./usr/include/tar.h
 ./usr/include/term.h
@@ -1586,6 +1589,8 @@
 ./usr/lib/libkvm.a
 ./usr/lib/libl.a
 ./usr/lib/libm.a
+./usr/lib/libmdsup.a
+./usr/lib/libmdsup_pic.a
 ./usr/lib/libmenu.a
 ./usr/lib/libmenuw.a
 ./usr/lib/libmilter.a

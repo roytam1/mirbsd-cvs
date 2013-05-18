@@ -2723,6 +2723,7 @@
 ./usr/share/mk/bsd.doc.mk
 ./usr/share/mk/bsd.lib.mk
 ./usr/share/mk/bsd.lkm.mk
+./usr/share/mk/bsd.lt.mk
 ./usr/share/mk/bsd.man.mk
 ./usr/share/mk/bsd.obj.mk
 ./usr/share/mk/bsd.own.mk
