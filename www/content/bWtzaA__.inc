@@ -1,5 +1,5 @@
 <!-- PageID: mksh -->
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.79 2007/01/17 02:10:54 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.80 2007/01/18 21:02:33 tg Exp $</small>
 
 <h1>mksh(1) R28</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
@@ -482,9 +482,13 @@
  <li>install -c -o root -g bin -m 444 mksh.cat1 /usr/share/man/cat1/mksh.0</li>
  <li>install -c -o root -g bin -m 644 dot.mkshrc /etc/skel/.mkshrc</li>
 </ul>
+<p>On inferiour operating systems, such as OpenBSD, you might need a <a
+ href="/cvs.cgi/contrib/code/Snippets/setlocale.c?rev=HEAD">different
+ setlocale() implementation</a> than the one provided with the system
+ for proper unicode auto-detection/initialisation support.</p>
 <p style="margin-bottom:0px;">Attention: NetBSD 1.6.1/pmax (for example
  on a DECstation 5000/260) does not come with a <em>stdbool.h</em> &ndash;
- simply write one yourself:</p>
+ simply write one yourself (not required for mksh R29 and up):</p>
 <div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;">
  <pre>
 	typedef int bool;
