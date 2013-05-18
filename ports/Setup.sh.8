@@ -1,7 +1,9 @@
-.\" $MirOS: ports/Setup.sh.8,v 1.14 2006/06/25 00:54:20 tg Exp $
+.\" $MirOS: src/share/misc/licence.template,v 1.14 2006/08/09 19:35:23 tg Rel $
 .\"-
-.\" Copyright (c) 2005
-.\"	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+.\" Copyright (c) 2005, 2006
+.\"	Thorsten Glaser <tg@mirbsd.de>
+.\" Derived from work Copyright (c) 1991
+.\"	The Regents of the University of California.
 .\"
 .\" Licensee is hereby permitted to deal in this work without restric-
 .\" tion, including unlimited rights to use, publicly perform, modify,
@@ -10,8 +12,8 @@
 .\" in all redistributions or reproduced in accompanying documentation
 .\" or other materials provided with binary redistributions.
 .\"
-.\" All advertising materials mentioning features or use of this soft-
-.\" ware must display the following acknowledgement:
+.\" Advertising materials mentioning features or use of this work must
+.\" display the following acknowledgement:
 .\"	This product includes material provided by Thorsten Glaser.
 .\"
 .\" Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
@@ -21,9 +23,42 @@
 .\" or other damage, or direct damage except proven a consequence of a
 .\" direct error of said person and intended use of this work, loss or
 .\" other issues arising in any way out of its use, even if advised of
-.\" the possibility of such damage or existence of a nontrivial bug.
+.\" the possibility of such damage or existence of a defect.
 .\"-
-.Dd November 15, 2005
+.\" First, stuff for compatibility
+.\"
+.\" NS Mx macro - MirOS BSD
+.de Mx
+.nr cF \\n(.f
+.nr cZ \\n(.s
+.ds aa \&\f\\n(cF\s\\n(cZ
+.if \\n(aC==0 \{\
+.	ie \\n(.$==0 \&MirOS\\*(aa
+.	el .aV \\$1 \\$2 \\$3 \\$4 \\$5 \\$6 \\$7 \\$8 \\$9
+.\}
+.if \\n(aC>\\n(aP \{\
+.	nr aP \\n(aP+1
+.	ie \\n(C\\n(aP==2 \{\
+.		nr xX 0
+.		nr xX 1+\\*(A\\n(aP
+.		as b1 \&MirOS\ \&
+.		if \\n(xX>0 .as b1 #
+.		as b1 \&\\*(A\\n(aP\\*(aa
+.		rr xX
+.		ie \\n(aC>\\n(aP \{\
+.			nr aP \\n(aP+1
+.			nR
+.		\}
+.		el .aZ
+.	\}
+.	el \{\
+.		as b1 \&MirOS\\*(aa
+.		nR
+.	\}
+.\}
+..
+.\" Now, the manual page
+.Dd August 16, 2006
 .Dt SETUP.SH 8
 .Os MirPorts\ Framework
 .Sh NAME
@@ -67,7 +102,7 @@ Set this to the C compiler used.
 .Pp
 Default value: mgcc, gcc (probed), cc (last resort)
 .It DISTDIR
-Path to store downloaded cpio-balls.
+Path to store downloaded cpio-balls (and tarballs and other distfiles).
 .Pp
 Default value: ${PORTSDIR}/Distfiles
 .It INFOPATH
@@ -109,6 +144,9 @@ If unset, MirOS nrcon (from
 nroff) is used if found.
 .Pp
 Default value: /usr/bin/env nroff -Tascii
+.Pp
+Suggested value for operating systems with GNU groff:
+.Li /path/to/nroff -c -Tlatin1
 .It OPENNT_ROOT
 If set, Interix operating system type is assumed.
 .It OVERRIDE_MKSH
@@ -262,6 +300,8 @@ System-wide
 configuration, usually included if found.
 .It Pa /etc/mk.conf
 Legacy system-wide configuration, included if found.
+Useful on
+.Ox .
 .It Pa ${LOCALBASE}/db/SetEnv.csh
 Sourcing this
 .Xr csh 1
@@ -331,7 +371,7 @@ Port location:
 .Pa shells/mksh
 .Pp
 The
-.Os MirBSD
+.Mx
 Korn Shell is always installed if it's not found or too old.
 Currently, at least R26 (2005/11/22) is required.
 A manual page is attempted to be installed into
@@ -346,7 +386,7 @@ Port location:
 .Pa devel/mirmake
 .Pp
 The
-.Os MirBSD
+.Mx
 version of
 .Xr make 1
 is installed if the system
@@ -365,7 +405,7 @@ If no
 or
 .Pa ${LOCALBASE}/bin/nroff
 is found (usually the case only on Interix), the
-.Os MirBSD
+.Mx
 version of
 .At
 .Xr nroff 1
@@ -416,7 +456,8 @@ Port location:
 .Pa essentials/cksum
 .Pp
 This port is needed on Interix and Darwin, and optional on
-OpenBSD, to verify file checksums.
+.Ox ,
+to verify file checksums.
 .Ss GNU TEXINFO
 Port location:
 .Pa essentials/texinfo
@@ -442,7 +483,9 @@ Install the MirPorts Framework natively on MirOS-current:
 $ sudo sh /usr/ports/Setup.sh
 .Ed
 .Pp
-Install the MirPorts Framework as a user on a shell on an OpenBSD box:
+Install the MirPorts Framework as a user on a shell on an
+.Ox
+box:
 .Bd -literal
 % cd
 % mkdir -p .etc/bin .etc/pkg
@@ -492,7 +535,10 @@ was written by
 The MirPorts Framework is maintained by
 .Aq miros-discuss@MirBSD.org .
 The package tools have been taken over from
-FreeBSD and OpenBSD and are now maintained by
+.Fx
+and
+.Ox
+and are now maintained by
 .An Benny Siegert Aq bsiegert@66h.42h.de .
 .Sh CAVEATS
 Be careful with passing environment variables to
@@ -515,7 +561,7 @@ any manual pages being installed during bootstrapping.
 .Sh BUGS
 Probably many.
 Report them to
-.Aq miros-discuss@MirBSD.org .
+.Aq miros-discuss@mirbsd.org .
 There are so many possible scenarios and corner cases, as well
 as incompatibilities, so that some breakage might always occur.
 .Pp
