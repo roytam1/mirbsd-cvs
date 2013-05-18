@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/usr.sbin/adduser/adduser,v 1.7 2008/06/25 11:53:39 tg Exp $
+# $MirOS: src/usr.sbin/adduser/adduser,v 1.8 2008/06/25 12:04:30 tg Exp $
 #-
 # Copyright (c) 2006, 2007, 2008
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -132,6 +132,12 @@ while :; do
 			continue 2
 		done </etc/passwd
 		uname=$resp
+		# lazy assistance
+		while IFS=: read uexist pw gid rest; do
+			[[ $uexist = $uname ]] || continue
+			print "Found group $uname at GID $gid"
+			break
+		done </etc/group
 		break
 	done
 	while :; do
