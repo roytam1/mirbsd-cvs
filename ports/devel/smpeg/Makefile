@@ -1,12 +1,13 @@
-# $MirOS: ports/devel/smpeg/Makefile,v 1.8 2006/03/23 23:09:40 tg Exp $
+# $MirOS: ports/devel/smpeg/Makefile,v 1.9 2006/09/14 00:08:56 tg Exp $
 # $OpenBSD: Makefile,v 1.16 2003/12/29 13:45:30 espie Exp $
 
-COMMENT=			mpeg video player library with sound support
+COMMENT=		mpeg video player library with sound support
 DISTNAME=		smpeg-0.4.4
-PKGNAME=		${DISTNAME}-2
+PKGNAME=		${DISTNAME}-3
 CATEGORIES=		devel graphics
 HOMEPAGE=       	http://www.lokigames.com/development/smpeg.php3
 
+# LGPL
 PERMIT_PACKAGE_CDROM=   Yes
 PERMIT_PACKAGE_FTP=     Yes
 PERMIT_DISTFILES_CDROM= Yes
@@ -16,14 +17,14 @@ MASTER_SITES=	ftp://ftp.lokigames.com/pub/open-source/smpeg/ \
 		ftp://sunsite.auc.dk/pub/os/linux/loki/open-source/smpeg/ \
 		ftp://snuffleupagus.animearchive.org/loki/open-source/smpeg/
 
-LIB_DEPENDS=		gtk,gdk::x11/gtk+1 \
-			SDL::devel/sdl
+LIB_DEPENDS+=		SDL::devel/sdl
 USE_X11=		Yes
 USE_CXX=		Yes
 
 CONFIGURE_STYLE=	autogen no-autoheader
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED} \
-			--disable-opengl-player
+			--disable-libtool-lock \
+			--disable-gtk-player
 
 post-install:
 	${INSTALL_MAN} ${FILESDIR}/smpeg.3 ${PREFIX}/man/man3/
