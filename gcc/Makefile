@@ -1,4 +1,4 @@
-# $MirOS: gcc/Makefile,v 1.16 2006/03/01 13:55:45 tg Exp $
+# $MirOS: gcc/Makefile,v 1.17 2006/03/01 14:05:15 tg Exp $
 
 .include <bsd.own.mk>
 .include "${GNUSYSTEM_AUX_DIR}/locations.mk"
@@ -48,9 +48,15 @@ ${_i}: ${_STFILE_SUB}
 .for _i in ${INSTALL_TGTS}
 ${_i}:
 .  if ${GCC_NATIVE:L} == "yes"
+.    ifdef _CROSSBUILD
+	d="${DESTDIR}${GCC_PREFIX}"; cd $${d:-/}; [[ -n $$d ]] || d="/:/*"; \
+	    env WRITEDIR="$$d" NOWRITEDIR="${SUBOBJDIR}" ${EXTRA_ENV} \
+	    ${SUDO} ${SHELL} ${BSDSRCDIR}/scripts/systrace.mk ${BSDMAKE}
+.    else
 	d="${DESTDIR}"; cd $${d:-/}; [[ -n $$d ]] || d="/:/*"; \
 	    env WRITEDIR="$$d" NOWRITEDIR="${SUBOBJDIR}" ${EXTRA_ENV} \
 	    ${SUDO} ${SHELL} ${BSDSRCDIR}/scripts/systrace.mk ${BSDMAKE}
+.    endif
 .  endif
 	cd ${.CURDIR} && ${EXTRA_ENV} exec \
 	    ${_STCMD_DEST} ${BSDMAKE} -f Makefile.sub $@
