@@ -1,4 +1,4 @@
-.\" $MirOS: src/share/tmac/tmac.an.old,v 1.1.7.1 2005/03/06 16:33:41 tg Exp $
+.\" $MirOS: src/share/tmac/tmac.an.old,v 1.2 2005/12/22 00:34:35 tg Exp $
 .\"
 .\" Copyright (c) 1979, 1980, 1981, 1986, 1988, 1990, 1991, 1992
 .\"     The Regents of the University of California.
@@ -104,6 +104,9 @@
 .de DT
 .ta .5i 1i 1.5i 2i 2.5i 3i 3.5i 4i 4.5i 5i 5.5i 6i 6.5i
 ..
+.de HY
+.hy 14
+..
 .	# set type font and size
 .de }f
 .ps 10
@@ -161,6 +164,12 @@
 .ll \\n(LLu
 ..
 .em }K
+.de }P
+.nr )P \\n%+1-\\np
+.if \\nq .tm \\n(.F \\n()P \\np
+.bp
+.if \\nq .nr p \\n%
+..
 .	# set title and heading
 .de TH
 .PD
@@ -194,6 +203,10 @@
 .	el .ds ]W \\$4
 .\}
 ..
+.de HR
+.ie '\\$2'' \\$4\fL\\$1\fP\\$3
+.el \\$4\\$2\\$3
+..
 .	# section heading
 .de SH
 .ss 12
@@ -226,6 +239,33 @@
 .}E
 .nr )I .5i
 .ns
+..
+.de SM
+.nh
+.ps\\n()S-1
+.if!\\$1 \&\\$1
+.if!\\$2 \&\\$2
+.if!\\$3 \&\\$3
+.if!\\$4 \&\\$4
+.if!\\$5 \&\\$5
+.if!\\$6 \&\\$6
+.if!\\$1 .ps \\n()S
+.if\\$1 .it 1 }N
+.HY
+..
+.deL
+.nh
+.it 1 }N
+.ift \{.ie!\\$1 \%\&\f5\\$1 \\$2 \\$3 \\$4 \\$5 \\$6
+.el .ft5 \}
+.ifn \{.ft5
+.if!\\$1 \{.ie\\$2 `\\$1'
+.el .ie\\$3 `\\$1 \\$2'
+.el .ie\\$4 `\\$1 \\$2 \\$3'
+.el .ie\\$5 `\\$1 \\$2 \\$3 \\$4'
+.el .ie\\$6 `\\$1 \\$2 \\$3 \\$4 \\$5'
+.el `\\$1 \\$2 \\$3 \\$4 \\$5 \\$6'\}\}
+.HY
 ..
 .	# italic
 .de I
@@ -269,6 +309,38 @@
 ..
 .de BI
 .}S 3 2 \& "\\$1" "\\$2" "\\$3" "\\$4" "\\$5" "\\$6"
+..
+.de LR
+.nh
+.ift \%\&\f5\\$1\f1\\$2
+.ifn \%`\\$1'\\$2
+.HY
+..
+.de RL
+.nh
+.ift \%\&\f1\\$1\\f5\\$2\\f1\\$3
+.ifn \%\\$1`\\$2'\\$3
+.HY
+..
+.de EX
+.ift .ft5
+.nf
+..
+.de EE
+.ft1
+.fi
+..
+.de}p
+.sp\\n(PDu
+.ne1.1v
+.}E
+.nr )I .5i
+.nr)I \\n()Mu
+.ns
+..
+.deTF
+.IP "" "\w'\f5\\$1\ \ \fP'u"
+.PD0
 ..
 .	# make special case of shift out of italic
 .de }S
@@ -387,3 +459,64 @@
 .ds S \s10
 .hy 14
 .if "\*(.T"va" .po -0.4i
+'''\"	.2C begin 2-column display, by diversion
+'''\"   CC=amount of text that will fit on page
+'''\"	CL=1 multicolumn in effect, else 0
+'''\"	CI saved indent
+'''\"	CB contains diverted text
+.de 2C
+.ne 2
+.nf
+.nr CC \\n(.t/1v*2v
+.nr CI \\n(IN
+.nr IN 0
+.di CB
+.nr CL 1
+.}E
+.dt \\n(CCu C1
+..
+'''\"	.1C return to 1-column
+.de 1C
+.nr CL 0
+.C1
+.fi
+..
+'''\"	end of diversion, at end of page or return to 1-column
+'''\"	CC=pos of nominal column end
+.de C1
+.dt
+\!.C3
+.di
+.if \\n(dn \{.nr CC \\n(dnu/2u+\\n(nlu
+.wh \\n(CCu C2
+.mk
+.nf
+.nr IN \\n(CIu
+.}E
+.CB \}
+..
+'''\"	end of first column retrieved from diversion
+'''\"	CC=pos of actual column end
+.de C2
+.wh \\n(CCu
+.mk CC
+.po +(\\n(LLu/2u)u
+.rt
+.if \\n(dn>1v .ns
+..
+'''\"	end of second column
+.de C3
+.br
+.po -(\\n(LLu/2u)u
+.if \\n(CC>\\n(nl .sp |\\n(CCu
+.ne 2
+..
+.dePM
+.if\\$1 .nr !K 0
+.if\w\\$1 \{\
+.ie\\$1P .nr !K 1
+.el.ie \\$1BP .nr !K 3
+.el.ie \\$1BR .nr !K 4
+.el.nr !K 2 \}
+.if\\n(!K .wh -(\\n(:mu+5v) )G
+..
