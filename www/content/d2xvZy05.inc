@@ -1,5 +1,5 @@
 <!-- PageID: wlog-9 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.6 2006/07/02 22:23:37 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.7 2006/07/03 01:46:29 tg Exp $</small>
 <h1>MirBSD &ndash; WTF is Verpeilungsfaktor?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -117,6 +117,44 @@
   issue with gcc bloat, er gcc 3, anyway) to differ between platforms at
   all. They're small enough to not slow down by more than a few hours or
   so of build time ;-)</p>
+</div>
+
+<div class="wlentry">
+ <h3 id="e20060703">03.07.2006 by tg@</h3>
+ <p>I thought it would be a good day, fixing lots of sparc and MI stuff,
+  hacking on mksh(1), hacking on myBB for a friend, hacking on FreeWRT's
+  mksh (making it cleaner) and the profile, maybe Debian mksh update and
+  add sample ~/.mkshrc &ndash; the sparc is doing fine &ndash; but SOL I
+  am&#8230; the internet connection went away.</p>
+ <p style="margin-bottom:0px;">What do you think about the following</p>
+ <div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;">
+  <pre>
+	tg@demo:~ $ cat x.pas ; gpc x.pas ; ./a.out ; file a.out ; ldd a.out ; dmesg | fgrep cpu ; uname -a
+	program Hallo;
+	begin
+	  writeln('Hello, World!');
+	end.
+	Hello, World!
+	a.out: ELF 32-bit MSB executable, SPARC, version 1, for MirOS BSD, dynamically linked (uses shared libs), not stripped
+	a.out:
+		Start    End      Type Open Ref GrpRef Name
+		00000000 00000000 exe  1    0   0      a.out
+		1725c000 17899000 rlib 0    1   0      /usr/lib/libgpc.so.2.1
+		23735000 23d57000 rlib 0    1   0      /usr/lib/libm.so.5.0
+		16b9b000 1725c000 rlib 0    1   0      /usr/lib/libc.so.38.4
+		21750000 21750000 rtld 0    1   0      /usr/libexec/ld.so
+	cpu0 at mainbus0: TMS390Z50 v0 or TMS390Z55 @ 75 MHz, on-chip FPU
+	cpu0: physical 20K instruction (64 b/l), 16K data (32 b/l), 1024K external (32 b/l) cache enabled
+	MirBSD demo.66h.42h.de 9 Kv#9s81-stable-20060627 GENERIC#92 sparc
+  </pre>
+ </div><p style="margin-top:0px;">(ciruZ thinks it is pretty cool ;)</p>
+ <p>Okay, there's not much more to do except letting the sparc compile a
+  full system during the night and installing that, as well as rsynching
+  the repo to my laptop. I hope I'll soon be at the point where I can do
+  the HDD swapping and get rid of sucky NFS.</p>
+ <p>I have a mosquito lamp now &ndash; UV light and a high-voltage thing
+  killing them. But they're flying away from that and around in the room
+  as if it were disgusting them. *sigh*</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
