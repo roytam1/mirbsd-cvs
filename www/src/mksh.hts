@@ -2,7 +2,7 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.144 2008/07/11 18:32:52 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.145 2008/07/11 19:51:24 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R35</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -732,6 +732,7 @@ mws_content <<'EOF'
  <li style="list-style:none;">– tests by the project, using Build.sh –</li>
  <li>MirOS #10-current (i386 pcc-20080709)</li>
  <li>MirOS #10-current (i386 SUNcc5.9 Linux_i386 2007/05/03, GNU ld 2.13.90.0.2 20020802)</li>
+ <li>MirOS #7-stable (sparc gcc2.95.3-078E)</li>
  <li>DragonFly 1.9-DEVELOPMENT Feb 17, 2007 (i386 gcc3.4.6)</li>
  <li>FreeBSD 6.2-RELEASE (i386 gcc3.4.6-20060305)</li>
  <li>MidnightBSD 0.2-CURRENT (i386 gcc3.4.6-20060305)</li>
@@ -796,7 +797,6 @@ mws_content <<'EOF'
 <h3 id="regress_dev">Development Versions</h3>
 <ul>
  <li style="list-style:none;">– tests by the project, using Build.sh –</li>
- <li>MirOS #7-stable (sparc gcc2.95.3-078E)</li>
  <li>BSDi BSD/OS 3.1 #4 M300-043 (i386 gcc2.7.2.1)</li>
  <li>BSDi BSD/OS 3.1 #4 M300-043 (i386 gcc1.42)</li>
  <li>MidnightBSD 0.1.1-RELEASE (sparc64 gcc3.4.4-20050518)</li>
@@ -962,6 +962,9 @@ mws_content <<'EOF'
   limits in a single invocation from oksh (thanks millert) -->
  <li>IRIX also has no UTF-8 locale at all, confirmed by Elias Pipping</li>
  <li>Fix regression test suite for MKSH_SMALL</li>
+ <li>Bring in latest changes from oksh (OpenBSD ksh, not DeliLinux crap)</li>
+ <li>Fix abuse and unsafe use of str_save() and str_nsave()</li>
+ <li>Optimise the implementations of str_save() and str_nsave()</li>
 </ul>
 <p id="r35">mksh R35 comes with helluva changes:</p><ul>
   <li>Simplify and refactor the ulimit builtin, partially from oksh</li>
