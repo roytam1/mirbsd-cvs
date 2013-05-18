@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/baselive/Makefile,v 1.8 2006/10/02 22:38:13 tg Exp $
+# $MirOS: src/distrib/baselive/Makefile,v 1.9 2006/10/13 19:18:02 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -51,7 +51,7 @@ it:
 unpack: unpack-mi unpack-md
 
 unpack-mi:
-	test ! -e ${TMPMOUNT} || (cd ${TOPDIR}/common; ${MAKE} unconfig)
+	test ! -e ${TMPMOUNT} || (cd ${.CURDIR}; ${MAKE} unconfig)
 	${SUDO} rm -rf ${WRKDIR}
 	mkdir -p ${WRKDIR}/v${OSrev}
 .for _i in base dev etc gnu xbase xetc
@@ -65,8 +65,7 @@ unpack-mi:
 unpack-md:
 
 ${IMAGE}:
-	test ! -e ${TMPMOUNT} || (cd ${TOPDIR}/common; ${MAKE} unconfig)
-	${SUDO} rm -rf ${TMPMOUNT}
+	test ! -e ${TMPMOUNT} || (cd ${.CURDIR}; ${MAKE} unconfig)
 	${SUDO} mkdir -p ${TMPMOUNT}
 	${SUDO} cp ${WRKDIR}/dev/MAKEDEV ${TMPMOUNT}/
 	cd ${TMPMOUNT} && ${SUDO} ${MKSH} MAKEDEV all
@@ -152,7 +151,7 @@ cdrom-generate:
 
 cdrom-finish:
 
-clean cleandir cleannobsd: cleanworkdir tstumnt
+clean cleandir cleannobsd: cleanworkdir unconfig
 	-rm -f ${CDROM} bsd{,.gz,.tmp} mkisofs.log ${IMAGE}
 	-rm -rf tempdir
 
@@ -164,8 +163,12 @@ tstmnt:
 	${SUDO} vnconfig svnd0 ${CDROM}
 	${SUDO} mount_cd9660 /dev/svnd0a ${TMPMOUNT}
 
-tstumnt:
-	test ! -e ${TMPMOUNT} || (cd ${TOPDIR}/common; ${MAKE} unconfig)
+tstumnt: unconfig
+
+unconfig:
+	-${SUDO} umount -f ${VND_DEV}
+	-${SUDO} vnconfig -u ${VND}
+	-${SUDO} rm -rf ${TMPMOUNT}
 
 .include <bsd.obj.mk>
 .include <bsd.subdir.mk>
