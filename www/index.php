@@ -1,5 +1,5 @@
 <?php
-/* $MirOS: www/index.php,v 1.25 2006/08/11 00:54:16 tg Exp $ */
+/* $MirOS: www/index.php,v 1.26 2007/03/04 06:18:15 tg Exp $ */
 /*-
  * The MirOS Project - Webpages
  * Copyrighted material; read LICENCE for terms of use.
@@ -17,7 +17,7 @@
 		$rq = "main";
 		$qs = "";
 	}
-	if (is_readable("content/".mybase64($rq).".override") {
+	if (is_readable("content/".mybase64($rq).".override")) {
 		header('Content-Type: text/html');
 		$fn = file_get_contents("content/".mybase64($rq).".override");
 		readfile(rtrim($fn));
