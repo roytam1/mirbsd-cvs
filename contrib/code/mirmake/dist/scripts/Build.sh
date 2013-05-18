@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.106 2008/03/14 14:37:38 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.107 2008/03/14 14:51:41 tg Exp $
 #-
 # Copyright (c) 2006, 2008
 #	Thorsten “mirabilos” Glaser <tg@mirbsd.de>
@@ -458,7 +458,7 @@ CPPFLAGS="$CPPFLAGS -I$d_src/include" \
     ${d_build}/bmake -m ${d_build}/mk NOMAN=yes NOOBJ=yes || exit 1
 cd $top
 cat >>Install.sh <<EOF
-\$i -c -s \$ug -m 555 ${d_build}/xinstall/install \$DESTDIR${dt_bin}/binstall
+\$i -c -s \$ug -m 555 ${d_build}/xinstall/xinstall \$DESTDIR${dt_bin}/binstall
 EOF
 if [[ $is_catman = 1 ]]; then
 	cd $d_build/xinstall
