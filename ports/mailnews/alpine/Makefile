@@ -1,4 +1,6 @@
-# $MirOS$
+# $MirOS: ports/mailnews/alpine/Makefile,v 1.3 2008/05/07 22:28:39 tg Exp $
+
+ONLY_FOR_PLATFORM=	Darwin:*:*
 
 COMMENT=		programme for Internet News and eMail, curses interface
 COMMENT-web=		programme for Internet News and eMail, web interface
