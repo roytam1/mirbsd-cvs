@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.244 2009/10/10 18:02:55 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.245 2009/10/18 18:33:57 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -5204,4 +5204,41 @@ Tag: mksh
  implementations, proxies; kwalletcli; keystash) are lacking too, and the <a
  href="http://grml.org/">Grml</a> project is also expecting code from me.
  Sorry. I am, after all, human too…</p>
+----
+Title: My stance on GNU and its Coding Style
+Date: 28.10.2009 12:33
+Author: tg@
+Tag: mksh rant
+
+<p>The GNU Project is famous for its coding style – Linus Torvalds even
+ suggests to print them out, but not read them; burning them is a great
+ symbolic gesture. Legibility issues aside (Linus’ own are interestingly
+ similar to style(9) aka KNF, the BSD coding styles), why is that so?</p>
+<p><a href="@@RELPATH@@mksh.htm">mksh</a>-current (R40+) now supports
+ pathnames in arbitrary lengths on Debian GNU/Hurd (I think; I only could
+ test on <tt>gnubber.bddebian.org</tt> that it compiles, seeing that all
+ existing installations set sysconf(_PC_PATH_MAX) to 1024 to be consistent
+ with POSIX <tt>PATH_MAX</tt>) by using some glibc-only functions. This
+ is because Hurd does not have <tt>PATH_MAX</tt> (some older systems also
+ don’t have it, but there, we just define it to POSIX 1024 and good is).
+ Now, why? Simple: because the GNU coding style says to have “no arbitrary
+ limits” in your code.</p>
+<p>I would like to call that ridiculous, but it’s actually dangerous:
+ if you are on a 32-bit machine and have a pathname of 512 MiB, you’re
+ in danger of freezing your system or at least crashing mksh, even if
+ you have the full 4 GiB worth of RAM, due to the amount of copying and
+ carrying around pathnames. This is a security relevant issue, in my
+ eyes.<br />Now on to the ridicule part: This is Open Source, people!
+ Change the limit (as it’s a – only one – constant in a header file)
+ and recompile everything! Simple as that! The BSDs do it all the time!
+ In GNU, it’s even simpler because you <strong>force</strong> developers,
+ redistributors and some users to actually give up freedom and require
+ them to put the source code alongside. Now, why doesn’t anybody see this?
+ I can’t be the only one, can I? (I actually think that changeable limits
+ would suffice the horrid GNU coding style, but find myself reluctant to
+ read it again due to its sheer size – similar to their licences…)</p>
+<p>On an unrelated note, I hope to have a bi-arch ISO format snapshot on
+ BitTorrent by end of the month. Mika is also trying to put a new <a
+ href="http://grml.org/">Grml</a> release out by then, of course with
+ an up-to-date <tt>MirOS bsd4grml</tt> ☺</p>
 ----
