@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.86 2008/05/03 00:22:03 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.87 2008/05/31 15:11:43 bsiegert Exp $
 #-
 # Copyright (c) 2005, 2008
 #	Thorsten “mirabilos” Glaser <tg@mirbsd.de>
@@ -763,7 +763,7 @@ fi
 
 # Check if we need to install cksum
 [[ $isdarwin$isinterix$ismnbsd = *yes* ]] && \
-    if ! pkg_info mircksum >/dev/null 2>&1; then
+    if ! pkg_info cksum >/dev/null 2>&1; then
 	cd $portsdir/essentials/cksum
 	set -e
 	mmake install
