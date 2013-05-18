@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/Makefile.sparc-mr,v 1.3 2006/08/19 11:46:07 tg Exp $
+# $MirOS: src/distrib/common/Makefile.sparc-mr,v 1.4 2006/08/19 14:52:54 tg Exp $
 
 RAWLABEL=
 
@@ -13,8 +13,8 @@ IMAGE_PREP=	${SUDO} ${DESTDIR}/usr/mdec/installboot -v \
 
 KERNEL_BUILD=	No
 KERNEL_BSDRD=	No
-FLOPPY=		No
-CDROM=		No
+FLOPPY=		no
+CDROM=		no
 
 INST_FILES=	${IMAGE}
 

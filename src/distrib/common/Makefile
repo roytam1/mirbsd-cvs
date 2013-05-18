@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/Makefile,v 1.12 2006/08/19 15:22:47 tg Exp $
+# $MirOS: src/distrib/common/Makefile,v 1.13 2006/08/19 18:32:01 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -82,6 +82,7 @@ _RD_KERNELS+=	bsd.rd.net
 
 ALL_TGTS=	${IMAGE} ${_RD_KERNELS} ${FLOPPY:S/^no$//} ${CDROM:S/^no$//}
 INST_FILES?=	${_RD_KERNELS} ${FLOPPY:S/^no$//} ${CDROM:S/^no$//}
+_RD_TARGETS?=	${_RD_KERNELS} ${FLOPPY:S/^no$//} ${CDROM:S/^no$//}
 
 all: ${ALL_TGTS}
 
@@ -94,11 +95,11 @@ install:
 unconfig:
 	-${SUDO} umount -f ${VND_DEV}
 	-${SUDO} vnconfig -u ${VND}
-	-${SUDO} rm -rf ${TMPMOUNT} ${WRKDIR} ${IMAGE} ${FLOPPY}
+	-${SUDO} rm -rf ${TMPMOUNT} ${WRKDIR} ${IMAGE}
 
 cleannobsd: unconfig
 	rm -f *core ${CBIN} ${CBIN}.mk ${CBIN}.cache ${CBIN}.conf ${IMAGE} \
-	    ${RDSETROOT} *.c *.o *.lo bsd.{uc,st} ${_RD_KERNELS} mkisofs.log
+	    ${RDSETROOT} *.c *.o *.lo bsd.{uc,st} ${_RD_TARGETS} mkisofs.log
 
 clean cleandir: cleannobsd
 	rm -f bsd

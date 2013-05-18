@@ -1,4 +1,7 @@
-# $MirOS: src/distrib/common/listend.i386,v 1.2 2006/08/18 20:48:46 tg Exp $
+# $MirOS: src/distrib/common/listend.i386,v 1.3 2006/08/19 11:49:05 tg Exp $
+
+# we want the disklabel without manual page
+CRUNCHSPECIAL disklabel	srcdir distrib/special/dl-noman
 
 # extra programmes
 LINK	instbin					sbin/fdisk
