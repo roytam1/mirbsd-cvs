@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: fetch.c,v 1.55 2005/07/18 02:55:59 fgsch Exp $	*/
 /*	$NetBSD: fetch.c,v 1.14 1997/08/18 10:20:20 lukem Exp $	*/
 
@@ -65,7 +66,7 @@
 
 #include "ftp_var.h"
 
-__RCSID("$MirOS: src/usr.bin/ftp/fetch.c,v 1.3 2005/04/29 18:35:08 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ftp/fetch.c,v 1.4 2005/11/23 17:36:14 tg Exp $");
 
 static int	url_get(const char *, const char *, const char *);
 void		aborthttp(int);
@@ -137,8 +138,7 @@ url_get(const char *origline, const char *proxyenv, const char *outfile)
 		if (EMPTYSTRING(path)) {
 			if (isftpurl)
 				goto noftpautologin;
-			warnx("Invalid URL (no file after host): %s", origline);
-			goto cleanup_url_get;
+			path = "/";
 		}
 	}
 
@@ -153,6 +153,9 @@ url_get(const char *origline, const char *proxyenv, const char *outfile)
 		warnx("Invalid URL (no file after directory): %s", origline);
 		goto cleanup_url_get;
 	}
+
+	if (!strcmp(savefile, "/"))
+		savefile = strdup(host);
 
 	if (proxyenv != NULL) {				/* use proxy */
 		proxy = strdup(proxyenv);
