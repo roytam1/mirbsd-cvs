@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.own.mk,v 1.39 2006/09/25 15:22:30 tg Exp $
+# $MirOS: src/share/mk/bsd.own.mk,v 1.40 2006/09/29 21:42:33 tg Exp $
 # $OpenBSD: bsd.own.mk,v 1.92 2005/01/18 00:28:42 mickey Exp $
 # $NetBSD: bsd.own.mk,v 1.24 1996/04/13 02:08:09 thorpej Exp $
 
@@ -108,11 +108,6 @@ INSTALL_STRIP?=
 # This may be changed for _single filesystem_ configurations (such as
 # routers and other embedded systems); normal systems should leave it alone!
 STATIC?=	-static
-
-# Define SYS_INCLUDE to indicate whether you want symbolic links to the system
-# source (''symlinks''), or a separate copy (''copies''); (latter useful
-# in environments where it's not possible to keep /sys publicly readable)
-SYS_INCLUDE?=	copies
 
 #.if ${MACHINE_ARCH} == "sparc"
 #NOPIC=		yes

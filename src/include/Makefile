@@ -1,4 +1,4 @@
-# $MirOS: src/include/Makefile,v 1.15 2006/06/09 01:23:35 tg Exp $
+# $MirOS: src/include/Makefile,v 1.16 2006/09/17 19:28:58 tg Exp $
 # $OpenBSD: Makefile,v 1.135 2005/07/10 06:53:44 grange Exp $
 # $NetBSD: Makefile,v 1.59 1996/05/15 21:36:43 jtc Exp $
 # @(#)Makefile	5.45.1.1 (Berkeley) 5/6/91
@@ -44,8 +44,6 @@ PRDIRS=	../lib/librpcsvc ../lib/libssl/crypto
 
 NOOBJ=	yes
 
-# Change SYS_INCLUDE in bsd.own.mk to "symlinks" if you don't want copies
-
 prereq:
 	@for i in ${PRDIRS}; do \
 		echo preparing in ${.CURDIR}/$$i; \
@@ -89,7 +87,7 @@ includes:
 	find ${DESTDIR}/usr/include -type f | xargs chmod a=r
 	find ${DESTDIR}/usr/include -type d | xargs chmod u=rwx,go=rx
 
-copies:
+includes:
 	@echo copies: ${LDIRS}
 	@for i in ${LDIRS}; do \
 		rm -rf ${DESTDIR}/usr/include/$$i && \
@@ -116,22 +114,5 @@ copies:
 	fi
 	ln -sf ${MACHINE} ${DESTDIR}/usr/include/machine
 
-symlinks:
-	@echo symlinks: ${LDIRS}
-	@for i in ${LDIRS}; do \
-		rm -rf ${DESTDIR}/usr/include/$$i && \
-		ln -s /sys/$$i ${DESTDIR}/usr/include/$$i; \
-	done
-	cd ${DESTDIR}/usr/include && rm -rf ${MACHINE} ${MACHINE_ARCH} machine
-	ln -s /sys/arch/${MACHINE}/include ${DESTDIR}/usr/include/${MACHINE}
-	if test ${MACHINE} != ${MACHINE_ARCH} -a \
-	    -d ../sys/arch/${MACHINE_ARCH}/include ; then \
-		ln -s /sys/arch/${MACHINE_ARCH}/include \
-		    ${DESTDIR}/usr/include/${MACHINE_ARCH} ; \
-	fi
-	ln -sf ${MACHINE} ${DESTDIR}/usr/include/machine
-
-includes: ${SYS_INCLUDE}
-
-.PHONY: prereq includes copies symlink
+.PHONY: prereq includes
 .include <bsd.prog.mk>
