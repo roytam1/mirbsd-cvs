@@ -1,13 +1,16 @@
-$OpenBSD: patch-codegen_pygtk-codegen-2_0_in,v 1.1.1.1 2004/02/16 21:12:50 xsa Exp $
---- codegen/pygtk-codegen-2.0.in.orig	2001-07-03 04:41:29.000000000 +0200
-+++ codegen/pygtk-codegen-2.0.in	2004-02-16 23:19:21.000000000 +0100
-@@ -1,7 +1,7 @@
+$OpenBSD: patch-codegen_pygtk-codegen-2_0_in,v 1.4 2006/06/27 19:14:01 naddy Exp $
+--- codegen/pygtk-codegen-2.0.in.orig	Tue Jun 20 20:52:05 2006
++++ codegen/pygtk-codegen-2.0.in	Tue Jun 20 20:52:41 2006
+@@ -1,9 +1,9 @@
  #!/bin/sh
  
--prefix=@prefix@
+ prefix=@prefix@
+-datarootdir=@datarootdir@
 -datadir=@datadir@
-+prefix=%%PREFIX%%
-+datadir=${prefix}/share
- codegendir=${datadir}/pygtk/2.0/codegen
+-codegendir=${datadir}/pygtk/2.0/codegen
++exec_prefix=@exec_prefix@
++libdir=@libdir@
++codegendir=${libdir}/pygtk/2.0/codegen
  
  PYTHONPATH=$codegendir
+ export PYTHONPATH
