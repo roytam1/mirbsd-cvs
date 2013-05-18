@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/tools/mkprepbs.sh,v 1.1 2007/10/20 22:24:42 tg Exp $
+# $MirOS: src/distrib/tools/mkprepbs.sh,v 1.2 2007/10/20 22:27:19 tg Exp $
 #-
 # Copyright (c) 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -27,7 +27,7 @@
 # Arguments: $1 = chain ELF object; $2 = binary chain, linked
 # Output: shell script to stdout
 
-rcsid='$MirOS: src/distrib/tools/mkprepbs.sh,v 1.1 2007/10/20 22:24:42 tg Exp $'
+rcsid='$MirOS: src/distrib/tools/mkprepbs.sh,v 1.2 2007/10/20 22:27:19 tg Exp $'
 
 function die {
 	rv=$1; shift
@@ -99,6 +99,7 @@ if (( chainsec < 0 )); then
 fi
 
 # fill the block table
+(( thecode[ofs_sector] = chainsec + 1 ))
 while (( curptr < 126 )); do
 	(( thecode[curptr++] = RANDOM & 0xFF ))
 done
