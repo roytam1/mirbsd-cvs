@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/miscfs/kernfs/kernfs_vnops.c,v 1.2 2005/03/06 21:28:11 tg Exp $ */
+/**	$MirOS: src/sys/miscfs/kernfs/kernfs_vnops.c,v 1.3 2005/07/04 00:10:44 tg Exp $ */
 /*	$OpenBSD: kernfs_vnops.c,v 1.42 2004/11/18 17:12:33 millert Exp $	*/
 /*	$NetBSD: kernfs_vnops.c,v 1.43 1996/03/16 23:52:47 christos Exp $	*/
 
@@ -72,10 +72,6 @@ static int	osrev = MirBSD;
 static int	ncpus = 1;
 extern char machine[], cpu_model[];
 
-#ifdef IPSEC
-extern int ipsp_kern(int, char **, int);
-#endif
-
 const struct kern_target kern_targets[] = {
 /* NOTE: The name must be less than UIO_MX-16 chars in length */
 #define N(s) sizeof(s)-1, s
@@ -107,9 +103,6 @@ const struct kern_target kern_targets[] = {
      { DT_REG, N("time"),      0,            KTT_TIME,     VREG, READ_MODE  },
      { DT_REG, N("usermem"),   0,            KTT_USERMEM,  VREG, READ_MODE  },
      { DT_REG, N("version"),   (void*)version,KTT_STRING,  VREG, READ_MODE  },
-#ifdef IPSEC
-     { DT_REG, N("ipsec"),     0,            KTT_IPSECSPI, VREG, READ_MODE  },
-#endif
 #undef N
 };
 static const int nkern_targets = sizeof(kern_targets) / sizeof(kern_targets[0]);
@@ -430,10 +423,6 @@ kernfs_xread(kt, off, bufp, len)
 		snprintf(*bufp, len, "%u\n", ctob(physmem));
 		break;
 
-#ifdef IPSEC
-	case KTT_IPSECSPI:
-		return(ipsp_kern(off, bufp, len));
-#endif
 	default:
 		return (0);
 	}

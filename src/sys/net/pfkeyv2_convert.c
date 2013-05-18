@@ -280,7 +280,7 @@ import_lifetime(struct tdb *tdb, struct sadb_lifetime *sadb_lifetime, int type)
 	if (!sadb_lifetime)
 		return;
 
-	getmicrotime(&tv);
+	tv = time;
 
 	switch (type) {
 	case PFKEYV2_LIFETIME_HARD:
