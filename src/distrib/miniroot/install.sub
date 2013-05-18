@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/miniroot/install.sub,v 1.20 2006/01/11 20:42:12 tg Exp $
+# $MirOS: src/distrib/miniroot/install.sub,v 1.21 2006/03/16 13:41:57 tg Exp $
 # $OpenBSD: install.sub,v 1.388 2005/07/02 00:55:48 uwe Exp $
 # $NetBSD: install.sub,v 1.5.2.8 1996/09/02 23:25:02 pk Exp $
 #
@@ -1511,6 +1511,7 @@ donetconfig() {
 
 	edit_tmp_file hosts
 	manual_net_cfg
+	[[ -x /usr/sbin/ntpd ]] && /usr/sbin/ntpd -s
 }
 
 questions() {
