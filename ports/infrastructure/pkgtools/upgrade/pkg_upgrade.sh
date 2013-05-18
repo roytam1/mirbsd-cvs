@@ -1,5 +1,5 @@
 #!/usr/bin/env mksh
-# $MirOS: ports/infrastructure/pkgtools/upgrade/pkg_upgrade.sh,v 1.10 2005/12/18 16:36:43 tg Exp $
+# $MirOS: ports/infrastructure/pkgtools/upgrade/pkg_upgrade.sh,v 1.11 2006/01/17 22:52:29 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -51,7 +51,7 @@ shift $((OPTIND - 1))
 
 PKG_DBDIR=@@dbdir@@/pkg
 if [[ ! -d $PKG_DBDIR ]] ; then
-	echo "$me: package database directory does not exist" >&2
+	print -u2 "$me: package database directory does not exist"
 	exit 1
 fi
 
@@ -87,11 +87,11 @@ if [[ $? -eq 0 || -z "$OLDPKGS" ]]; then
 	exec pkg_add $1
 fi
 
-if echo $OLDPKGS | grep -q ' ' ; then
-	echo "$me: Multiple previous versions of this package are installed."
-	echo "This is not supported in this version."
-	echo "The packages in question are:"
-	echo "$OLDPKGS"
+if [[ $OLDPKGS = *\ * ]]; then
+	print -u2 "$me: multiple previous versions of this package are"
+	print -u2 "installed. This is not supported in this version."
+	print -u2 "The packages in question are:"
+	print -u2 "$OLDPKGS"
 	exit 1
 fi
 
@@ -99,7 +99,7 @@ fi
 NEWPKG=${1##*/}
 [[ $OLDPKGS = ${NEWPKG%.+([a-zA-Z])} && $force = 0 ]] && exit 0
 
-echo "pkg_upgrade: will remove $OLDPKGS in favour of $1"
+print -u2 "$me: will remove $OLDPKGS in favour of $1"
 
 if [[ -f $PKG_DBDIR/$OLDPKGS/+REQUIRED_BY ]] ; then
 	mv -f $PKG_DBDIR/$OLDPKGS/+REQUIRED_BY $TMPDIR
