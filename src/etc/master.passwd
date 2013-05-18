@@ -65,7 +65,7 @@ _silcd:*:512:512::0:0:MirPorts -- net/silc-server:/nonexistent:/sbin/nologin
 _vsftpd:*:513:513::0:0:MirPorts -- net/vsftpd:/nonexistent:/sbin/nologin
 _scanlogd:*:514:514::0:0:MirPorts -- security/scanlogd:/nonexistent:/sbin/nologin
 _squid:*:515:515::0:0:MirPorts -- www/squid:/nonexistent:/sbin/nologin
-_privoxy:*:516:516::0:0:MirPorts -- www/privoxyy:/nonexistent:/sbin/nologin
+_privoxy:*:516:516::0:0:MirPorts -- www/privoxy:/nonexistent:/sbin/nologin
 _wnn:*:517:517::0:0:MirPorts -- japanese/Wnn:/nonexistent:/sbin/nologin
 _dovecot:*:518:518::0:0:MirPorts -- mail/dovecot:/nonexistent:/sbin/nologin
 _news:*:519:519::0:0:MirPorts -- news/leafnode:/nonexistent:/sbin/nologin
