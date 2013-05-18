@@ -2,7 +2,7 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.180 2008/10/28 12:00:44 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.181 2008/10/28 14:32:35 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R36</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -328,6 +328,11 @@ mws_content <<'EOF'
 
 <h5 id="oe_mpp">Compiler: MIPSpro</h5>
 <p>Support for SGI’s MIPSpro compiler on IRIX appeared in mksh R33b.</p>
+
+<h5 id="oe_nwcc">Compiler: nwcc</h5>
+<p>Support for nwcc appeared in mksh R36b, although the compiler itself
+ is still slightly broken. It has worked for a while without explicit
+ <tt>Build.sh</tt> support, though.</p>
 
 <h5 id="oe_pcc">Compiler: PCC (BSD)</h5>
 <p>Support for the Caldera/SCO UNIX® based, BSD-licenced portable C compiler
@@ -1010,6 +1015,7 @@ mws_content <<'EOF'
   and, implicitly, BeOS (not finished yet)</li>
  <li>[tg] Remove all uses of the statements-as-expressions feature by
   rewriting the source code accordingly and optimising some parts</li>
+ <li>[tg] Recognise nwcc (Nils Weller’s C compiler) in <tt>Build.sh</tt></li>
 </ul>
 <p id="r36">mksh R36 features the following changes:</p><ul>
  <li>Fix <tt>Build.sh</tt> invocation without ‘-r’, 10x Elias Pipping</li>
