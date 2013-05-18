@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.90 2006/11/07 00:18:57 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.91 2006/11/07 00:38:17 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -248,6 +248,8 @@ if ! $OLDMAKE -f Makefile.boot bmake CC="$CC" MACHINE="${new_machin}" \
 	exit 1
 fi
 
+[[ -e ${d_build}/bmake ]] || exit 1
+
 # Build the paper
 cd $d_build
 pic <PSD.doc/tutorial.ms >PSD12.make.ms.tbl 2>/dev/null \
@@ -397,7 +399,7 @@ rm -rf $d_build/tsort
 cd $d_src/usr.bin; find tsort | cpio -pdlu $d_build
 cd $d_build/tsort
 ${d_build}/bmake -m ${d_build}/mk NOMAN=yes NOOBJ=yes \
-    INCS="-I $d_build" LIBS="$d_build/ohash/libohash.a $add_fgetln"
+    INCS="-I $d_build" LIBS="$d_build/ohash/libohash.a $add_fgetln" || exit 1
 export PATH=${d_build}/tsort:$PATH
 cd $top
 cat >>Install.sh <<EOF
@@ -427,7 +429,7 @@ if [[ $new_machos = Interix ]]; then
 	cd $d_src/usr.bin; find xinstall | cpio -pdlu $d_build
 	cd $d_build/xinstall
 	CPPFLAGS="$CPPFLAGS -I$d_src/include" \
-	    ${d_build}/bmake -m ${d_build}/mk NOMAN=yes NOOBJ=yes
+	    ${d_build}/bmake -m ${d_build}/mk NOMAN=yes NOOBJ=yes || exit 1
 	cd $top
 	cat >>Install.sh <<EOF
 \$i -c -s \$ug -m 555 ${d_build}/xinstall/xinstall \$DESTDIR${dt_bin}/
@@ -478,7 +480,8 @@ cp  $d_src/lib/libc/hash/{md4,md5,rmd160,sha1,sha2,tiger}.c \
 SRCS="${add_fgetln%.[co]}.c $add_strlfun $add_arcfour" \
     ${d_build}/bmake -m ${d_build}/mk -f $d_script/Makefile.lib NOOBJ=yes clean
 SRCS="${add_fgetln%.[co]}.c $add_strlfun $add_arcfour" \
-    ${d_build}/bmake -m ${d_build}/mk -f $d_script/Makefile.lib NOOBJ=yes
+    ${d_build}/bmake -m ${d_build}/mk -f $d_script/Makefile.lib NOOBJ=yes || \
+    exit 1
 cd $top
 if [[ -s $d_build/libmirmake/libmirmake.a ]]; then
 	cat >>Install.sh <<EOF
