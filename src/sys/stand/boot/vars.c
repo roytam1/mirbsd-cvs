@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: vars.c,v 1.11 2004/01/29 00:54:08 tom Exp $	*/
 
 /*
@@ -113,8 +114,21 @@ Ximage(void)
 {
 	if (cmd.argc != 2)
 		printf("%s\n", cmd.image);
-	else
-		strlcpy(cmd.image, cmd.argv[1], sizeof(cmd.image));
+	else {
+		char *dp = cmd.image, *ep = dp + sizeof (cmd.image) - 1;
+		const char *sp = cmd.argv[1];
+
+		while (*sp && dp < ep)
+			if (*sp != '@')
+				*dp++ = *sp++;
+			else {
+				strlcpy(dp, MACHINE,
+				    sizeof (cmd.image) - (dp - cmd.image));
+				while (*dp)
+					++dp;
+			}
+		*dp = '\0';
+	}
 	return 0;
 }
 
