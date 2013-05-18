@@ -1,4 +1,4 @@
-# $MirOS: src/etc/Makefile,v 1.33 2007/04/16 18:54:37 tg Exp $
+# $MirOS: src/etc/Makefile,v 1.34 2007/04/29 20:23:09 tg Exp $
 # $OpenBSD: Makefile,v 1.226 2005/05/26 23:06:06 mcbride Exp $
 
 TZDIR=		/usr/share/zoneinfo
@@ -87,8 +87,6 @@ etc-files:
 	${INSTALL} -c -o root -g wheel -m 600 root.profile ${DESTDIR}/.profile
 	cd ${DESTDIR}/root; rm -f .profile; ln ${DESTDIR}/.profile
 	cd skel; \
-		${INSTALL} -c -o root -g wheel -m 644 ssh.known_hosts \
-		    ${DESTDIR}/etc/ssh/ssh_known_hosts; \
 		${INSTALL} -c -o root -g wheel -m 644 calendar \
 		    ${DESTDIR}/etc/skel/.etc/calendar/calendar; \
 		${INSTALL} -c -o root -g wheel -m 644 dot.Xresources \
@@ -168,6 +166,8 @@ etc-files:
 	    chown ${BINOWN}:${CONFGRP} * && chmod 444 *
 	${INSTALL} -c -o ${BINOWN} -g ${CONFGRP} -m 644 spamd.conf \
 	    ${DESTDIR}/etc/mail/
+	${INSTALL} -c -o ${BINOWN} -g ${CONFGRP} -m 644 ssh_known_hosts \
+	    ${DESTDIR}/etc/ssh/
 .endif # destdir
 
 snap_md:
@@ -247,7 +247,7 @@ install-generated:
 DHSIZE=	1024 1536 2048 3072 4096
 update-moduli:
 	{ \
-		echo '# $$MirOS: src/etc/Makefile,v 1.33 2007/04/16 18:54:37 tg Exp $$'; \
+		echo '# $$MirOS: src/etc/Makefile,v 1.34 2007/04/29 20:23:09 tg Exp $$'; \
 		echo '# Time Type Tests Tries Size Generator Modulus'; \
 		for i in ${DHSIZE}; do \
 			ssh-keygen -b $$i -G /dev/stdout; \
