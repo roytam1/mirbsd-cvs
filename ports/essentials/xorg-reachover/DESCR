@@ -1,4 +1,0 @@
-Some reachover pkg-config files to allow ports to find
-their X11 on MidnightBSD with x.org from mports without
-having to set X11BASE to /usr/local (which has *very*
-unfortunate side effects) or installing XFree86® there.
