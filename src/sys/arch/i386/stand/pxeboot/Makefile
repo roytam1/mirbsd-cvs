@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/stand/pxeboot/Makefile,v 1.9 2008/08/01 15:43:46 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/pxeboot/Makefile,v 1.10 2009/01/10 11:58:01 tg Exp $
 # $OpenBSD: Makefile,v 1.3 2007/11/25 18:25:32 deraadt Exp $
 
 .include "${.CURDIR}/../Makefile.inc"
@@ -22,11 +22,10 @@ MAN=		pxeboot.8
 PROG=		pxeboot
 LD?=		ld
 SIZE?=		size
-LDFLAGS+=	-nostdlib -Bstatic
 INSTALL_STRIP=
 
-LDFLAGS+=	-Ttext $(M_LINKADDR) -N -x -noinhibit-exec
-CLEANFILES+=	ld.out
+LDFLAGS+=	${BOOTLDFLAGS}
+CLEANFILES+=	${PROG}.{elf,nm,tmp} ld.out
 CLEANFILES+=	crt0.o
 SRCS=		srt0.S
 
@@ -38,14 +37,19 @@ DPADD+=		${DLIBSA}
 .PATH:	${S}/stand/boot
 
 ${PROG}: $(OBJS) $(DPADD)
-	$(LD) $(LDFLAGS) -o ${PROG} $(OBJS) $(LDADD) 2>&1 | tee ld.out
+	$(LD) $(LDFLAGS) $(OBJS) --start-group $(LDADD) --end-group \
+	    -o ${PROG}.elf 2>&1 | tee ld.out
 	@if fgrep 'undefined reference' ld.out; then \
 		echo "*** Attention: undefined references found!"; \
+		rm -f $@; \
 		exit 1; \
-	  else exit 0; fi
-	@$(SIZE) ${PROG}
-	strip --strip-all -R .comment ${PROG}
-	objcopy -O binary ${PROG}
+	fi
+	objcopy -x ${PROG}.elf ${PROG}.tmp
+	nm ${PROG}.tmp >${PROG}.nm
+	@$(SIZE) ${PROG}.elf
+	strip --strip-all -R .comment ${PROG}.tmp
+	objcopy -O binary ${PROG}.tmp ${PROG}
+	@-rm -f ${PROG}.tmp
 
 .else
 NOPROG=	yes

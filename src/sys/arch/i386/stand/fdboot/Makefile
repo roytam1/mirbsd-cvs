@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/stand/fdboot/Makefile,v 1.8 2009/01/02 16:38:37 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/fdboot/Makefile,v 1.9 2009/01/10 13:28:10 tg Exp $
 
 #BOOTSELECT_HOOK=yes
 CPPFLAGS+=	-DSMALL_BOOT
@@ -17,7 +17,7 @@ ${PROG}:	strerr.o
 .PATH: ${.CURDIR}/../libsa
 LIBSA_FLAGS=	-I${.CURDIR}/../libsa -I${S}/stand/boot -I${S}/lib \
 		-D__INTERNAL_LIBSA_CREAD \
-		-DHEAP_LIMIT=0x90000
+		-DHEAP_LIMIT=${HEAP_LIMIT}
 SRCS+=		biosdev.c cmd_i386.c debug.c dev_i386.c diskprobe.c gidt.S
 ${PROG}:	biosdev.o cmd_i386.o debug.o dev_i386.o diskprobe.o gidt.o
 CFLAGS_biosdev.o+=	${LIBSA_FLAGS}

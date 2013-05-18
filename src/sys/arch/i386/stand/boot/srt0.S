@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.44 2009/01/10 12:12:19 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.45 2009/01/10 13:24:46 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009
@@ -25,7 +25,7 @@
  * - setting up a known environment, with no knowledge about current
  *   CPU state (except that we are in real mode and DL is the BIOS
  *   boot device)
- * - relocate ourselves to a known sane location (0x4012:0x0000)
+ * - relocate ourselves to a known sane location (4000:0000h)
  * - checking if we're called from an El Torito bootable CD-ROM via
  *   the BIOS, or from a PBR, or from within MS-DOS, and take
  *   appropiate set-up action
@@ -310,7 +310,7 @@ LnoCD:
 	.code32
 Lpmode:	mov	eax,0x10
 	mov	ss,ax
-	mov	esp,0x0000FFFC
+	mov	esp,0x0003FFFC
 	mov	es,ax
 	mov	ds,ax
 	mov	fs,ax

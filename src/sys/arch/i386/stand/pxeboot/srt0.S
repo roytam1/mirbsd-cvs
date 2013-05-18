@@ -29,7 +29,7 @@
 #include <machine/asm.h>
 #include <assym.h>
 
-#define BOOTSTACK 0xfffc
+#define BOOTSTACK 0x3FFFC
 
 	.globl	_C_LABEL(end)
 	.globl	_C_LABEL(edata)
@@ -54,8 +54,8 @@ _start:
 
 	/*
 	 * We are loaded by the PXE loader at location 0x7C00.  Like
-	 * the standard /boot, we are linked to run at 0x40120 (load
-	 * address 0x40000), so we relocate to there.
+	 * the standard /boot, we are linked to run at 0x40000, so
+	 * we relocate to there.
 	 *
 	 * From 0x7C00 to 0x40000 is 0x38400 (230400) bytes, so don't
 	 * have to worry about an overlapping copy until pxeboot is
@@ -93,11 +93,11 @@ _start:
 
 relocated:
 	/*
-	 * In 16-bit mode, we have segment registers == 0x4012, and
+	 * In 16-bit mode, we have segment registers == 0x4000, and
 	 * offsets work from here, with offset(_start) == 0.
 	 *
 	 * In 32-bit mode, we have a flat memory model, where
-	 * offset(_start) == 0x40120.  This is how we're linked.
+	 * offset(_start) == 0x40000.  This is how we're linked.
 	 *
 	 * Now transition to protected mode.
 	 *

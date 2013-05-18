@@ -1,4 +1,4 @@
-.\"	$MirOS: src/sys/arch/i386/stand/boot/boot.8,v 1.13 2009/01/02 16:08:54 tg Exp $
+.\"	$MirOS: src/sys/arch/i386/stand/boot/boot.8,v 1.14 2009/01/02 16:18:20 tg Exp $
 .\"	$OpenBSD: boot.8,v 1.47 2007/05/31 19:20:03 jmc Exp $
 .\"
 .\" Copyright (c) 2002-2009 Thorsten Glaser
@@ -112,7 +112,7 @@ If called from
 .Nm bootxx ,
 save the BIOS drive number (but not, yet, the partition info).
 .It
-Relocate ourselves to \fB0x4012:0x0000\fR.
+Relocate ourselves to \fB0x4000:0x0000\fR.
 Probe the BIOS boot drive for El Torito (No Emulation) extensions, and
 do another few checks and preparations in Real Mode.
 Optionally, display a menu included at compile time.

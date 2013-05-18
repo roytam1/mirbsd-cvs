@@ -1,7 +1,8 @@
-/*	$MirOS: src/sys/arch/i386/stand/libsa/gidt.S,v 1.16 2009/01/10 12:32:52 tg Exp $ */
+/*	$MirOS: src/sys/arch/i386/stand/libsa/gidt.S,v 1.17 2009/01/10 12:39:08 tg Exp $ */
 /*	$OpenBSD: gidt.S,v 1.32 2006/12/26 19:30:44 tom Exp $	*/
 
 /*
+ * Copyright (c) 2008, 2009 Thorsten Glaser
  * Copyright (c) 1997 Michael Shalayeff
  * All rights reserved.
  *
@@ -359,7 +360,7 @@ ENTRY(bootbuf)
 
 	/*-
 	 * Now the machine status is as follows:
-	 * - CS = DS = ES = 4012h = (SA_LINKADDR >> 4)
+	 * - CS = DS = ES = 4000h = (SA_LINKSEG)
 	 * - SS:SP = 0000:06FCh
 	 * - EFLAGS = 0
 	 * - ESI = linear address of source buffer (must be para aligned)
