@@ -61,7 +61,7 @@
 #include <tiger.h>
 #include <whirlpool.h>
 
-__RCSID("$MirOS: src/bin/md5/cksum.c,v 1.2 2007/05/07 15:50:39 tg Exp $");
+__RCSID("$MirOS: src/bin/md5/cksum.c,v 1.3 2007/05/07 16:15:55 tg Exp $");
 
 #define MAX_DIGEST_LEN			128
 
@@ -321,7 +321,7 @@ struct hash_functions {
 __dead void usage(void);
 void digest_file(const char *, struct hash_functions **, int, int);
 int digest_filelist(const char *, struct hash_functions *);
-void digest_string(char *, struct hash_functions **);
+void digest_string(char *, struct hash_functions **, int);
 void digest_test(struct hash_functions **);
 void digest_time(struct hash_functions **);
 
@@ -401,7 +401,7 @@ main(int argc, char **argv)
 
 	/* Most arguments are mutually exclusive */
 	fl = pflag + tflag + xflag + cflag + (input_string != NULL) +
-	    bflag - (bflag & pflag);
+	    bflag - (bflag & (pflag || input_string != NULL));
 	if (fl > 1 || (fl && argc && cflag == 0 && bflag == 0))
 		usage();
 	if (cflag != 0 && hashes[1] != NULL)
@@ -424,7 +424,7 @@ main(int argc, char **argv)
 	else if (xflag)
 		digest_test(hashes);
 	else if (input_string)
-		digest_string(input_string, hashes);
+		digest_string(input_string, hashes, bflag);
 	else if (cflag) {
 		if (argc == 0)
 			error = digest_filelist("-", hashes[0]);
@@ -441,7 +441,7 @@ main(int argc, char **argv)
 }
 
 void
-digest_string(char *string, struct hash_functions **hashes)
+digest_string(char *string, struct hash_functions **hashes, int dobin)
 {
 	struct hash_functions *hf;
 	char digest[MAX_DIGEST_LEN + 1];
@@ -454,7 +454,10 @@ digest_string(char *string, struct hash_functions **hashes)
 		    (unsigned int)strlen(string));
 		(void)hf->end(&context, digest);
 		cksum_addpool(digest);
-		hf->printstr(hf->name, string, digest);
+		if (dobin)
+			hf->printbin(digest);
+		else
+			hf->printstr(hf->name, string, digest);
 	}
 }
 
@@ -788,8 +791,8 @@ digest_test(struct hash_functions **hashes)
 void
 usage(void)
 {
-	fprintf(stderr, "usage: %s [-[b]p | -t | -x | -c [checklist ...] | "
-	    "-s string | [-b] file ...]\n", __progname);
+	fprintf(stderr, "usage: %s [-[b]p | -t | -x | -c [cklst ...] | "
+	    "-[b]s string | [-b] file ...]\n", __progname);
 	if (strcmp(__progname, "cksum") == 0)
 		fprintf(stderr, "             [-a algorithms]] [-o 1 | 2]\n");
 

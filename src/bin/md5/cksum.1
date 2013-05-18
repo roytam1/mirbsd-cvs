@@ -1,4 +1,4 @@
-.\"	$MirOS: src/bin/md5/cksum.1,v 1.15 2007/05/07 15:21:14 tg Exp $
+.\"	$MirOS: src/bin/md5/cksum.1,v 1.16 2007/07/04 01:30:40 tg Exp $
 .\"	$OpenBSD: cksum.1,v 1.5 2005/03/07 23:41:53 jmc Exp $
 .\"
 .\" Copyright (c) 2006, 2007
@@ -35,7 +35,7 @@
 .\"
 .\"	@(#)cksum.1	8.2 (Berkeley) 4/28/95
 .\"
-.Dd May 7, 2007
+.Dd July 7, 2007
 .Dt CKSUM 1
 .Os
 .Sh NAME
@@ -45,14 +45,17 @@
 .Sh SYNOPSIS
 .Nm cksum
 .Bk -words
+.Op Fl b
 .Oo
-.Oo Fl b Oc
-.Fl p | t | x |
-.Fl c Oo Ar checklist ... Oc |
-.Fl s Ar string |
-.Oo Fl b Oc
+.Fl p | s Ar string |
 .Ar file ...
 .Oc
+.Op Fl a Ar algorithms
+.Op Fl o Ar 1 | 2
+.Ek
+.Nm cksum
+.Bk -words
+.Fl t | x
 .Op Fl a Ar algorithms
 .Op Fl o Ar 1 | 2
 .Ek
