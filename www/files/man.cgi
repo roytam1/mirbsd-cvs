@@ -1,5 +1,5 @@
 #!/usr/bin/perl -T
-my $rcsid = '$MirOS: www/files/man.cgi,v 1.3 2012/05/21 22:13:03 tg Exp $';
+my $rcsid = '$MirOS: www/files/man.cgi,v 1.4 2012/05/26 15:22:05 tg Exp $';
 #-
 # Copyright © 2012
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -267,6 +267,9 @@ if ($gotmatch) {
 	$output .= "<h2 id=\"direct\">Matching manual page</h2>\n<div " .
 	    "class=\"manbody\" style=\"padding:6px; line-height:100%;\">\n\n";
 	my $state = 0;
+	my $matchparentdir = dirname(dirname($match));
+	# drop next line once roff2htm,v 1.74 was used globally
+	my $matchdir = dirname($match);
 	foreach my $line (<MATCHPAGE>) {
 		chomp($line);
 		if ($state == 0) {
@@ -288,6 +291,9 @@ if ($gotmatch) {
 				next;
 			}
 			$line =~ s/(<\/?)h1\b/$1h6/g;
+			$line =~ s# href="\.\./# href="$matchparentdir/#g;
+			# drop next line once roff2htm,v 1.74 was used globally
+			$line =~ s# href="([^/"]+)"# href="$matchdir/$1"#g;
 			$output .= $line . "\n";
 		}
 		if ($state == 2) {
