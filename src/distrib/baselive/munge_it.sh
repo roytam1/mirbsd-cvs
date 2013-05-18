@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/baselive/munge_it.sh,v 1.13 2006/10/29 16:49:21 tg Exp $
+# $MirOS: src/distrib/baselive/munge_it.sh,v 1.14 2006/10/29 17:02:54 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -73,7 +73,7 @@ ed -s etc/ntpd.conf <<-'EOMD'
 EOMD
 ed -s etc/rc <<-'EOMD'
 	1i
-		# $MirOS: src/distrib/baselive/munge_it.sh,v 1.13 2006/10/29 16:49:21 tg Exp $
+		# $MirOS: src/distrib/baselive/munge_it.sh,v 1.14 2006/10/29 17:02:54 tg Exp $
 	.
 	/shutdown request/ka
 	/^fi/a
@@ -247,7 +247,7 @@ mv usr/X11R6/lib/X11/fonts usr/X11R6/lib/fonts
 find dev/.root etc tmp usr/X11R6/lib/X11 var | sort | \
     cpio -oC512 -Hsv4crc -Mset | gzip -n9 >stand/fsrw.dat
 rm -rf dev/.root usr/X11R6/lib/X11 var sys
-mkdir -p usr/X11R6/lib/X11 usr/mpkg usr/ports var
-chown 0:0 var
+mkdir -p emul usr/X11R6/lib/X11 usr/mpkg usr/ports var
+chown 0:0 emul var
 
 exit 0
