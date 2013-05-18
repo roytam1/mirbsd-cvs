@@ -1,9 +1,9 @@
-# $MirOS: ports/aqua/AquaTerm/Makefile,v 1.2 2006/09/14 00:06:46 tg Exp $
+# $MirOS: ports/aqua/AquaTerm/Makefile,v 1.3 2006/12/20 15:30:33 tg Exp $
 
 ONLY_FOR_PLATFORM=	Darwin:*:*
 COMMENT=		Mac OS X graphics terminal
 
-VERSION=		1.0.0
+VERSION=		1.0.1
 DISTNAME=		aquaterm_src.${VERSION}
 PKGNAME=		AquaTerm-${VERSION}-${DASH_VER}
 CATEGORIES=		aqua
@@ -37,7 +37,9 @@ do-build:
 do-install:
 	cd ${WRKSRC:Q}/aquaterm && ${XCODEBUILD} install DSTROOT=${DESTDIR:Q}
 	${INSTALL_DATA_DIR} ${PREFIX}/include/aquaterm
-	cd ${PREFIX}/include/aquaterm && ln -s ../../${FRAMEWORK}/Headers/*.h .
+.for h in AQTAdapter.h aquaterm.h
+	cd ${PREFIX}/include/aquaterm && ln -s ../../${FRAMEWORK}/Headers/$h .
+.endfor
 	cd ${PREFIX}/lib && ln -s ../${FRAMEWORK}/AquaTerm libaquaterm.A.dylib \
 		&& ln -s libaquaterm.A.dylib libaquaterm.dylib
 

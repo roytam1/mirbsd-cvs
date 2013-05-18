@@ -1,4 +1,4 @@
-@comment $MirOS$
+@comment $MirOS: ports/aqua/AquaTerm/pkg/PLIST,v 1.1 2006/07/16 12:01:06 bsiegert Exp $
 Applications/AquaTerm.app/Contents/Info.plist
 Applications/AquaTerm.app/Contents/MacOS/AquaTerm
 Applications/AquaTerm.app/Contents/PkgInfo
@@ -30,6 +30,7 @@ Frameworks/AquaTerm.framework/Resources
 Frameworks/AquaTerm.framework/Versions/A/AquaTerm
 Frameworks/AquaTerm.framework/Versions/A/Headers/AQTAdapter.h
 Frameworks/AquaTerm.framework/Versions/A/Headers/aquaterm.h
+Frameworks/AquaTerm.framework/Versions/A/Resources/AquaTerm.framework-Info.plist
 Frameworks/AquaTerm.framework/Versions/A/Resources/Info.plist
 Frameworks/AquaTerm.framework/Versions/Current
 include/aquaterm/AQTAdapter.h
