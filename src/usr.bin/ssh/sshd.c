@@ -42,7 +42,7 @@
  */
 
 #include "includes.h"
-RCSID("$OpenBSD: sshd.c,v 1.317 2005/10/30 08:52:18 djm Exp $");
+RCSID("$MirOS: sshd.c,v 1.317 2005/10/30 08:52:18 djm Exp $");
 
 #include <openssl/dh.h>
 #include <openssl/bn.h>

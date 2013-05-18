@@ -37,7 +37,7 @@
  */
 
 #include "includes.h"
-RCSID("$MirBSD: packet.c,v 1.120 2005/10/30 08:52:17 djm Exp $");
+RCSID("$MirOS: packet.c,v 1.120 2005/10/30 08:52:17 djm Exp $");
 
 #include <sys/queue.h>
 
@@ -146,6 +146,9 @@ struct packet {
 	Buffer payload;
 };
 TAILQ_HEAD(, packet) outgoing;
+
+/* MirOS extension */
+static void packet_consume_ignoremsg(void);
 
 /*
  * Sets the descriptors used for communication.  Disables encryption until
@@ -1158,6 +1161,7 @@ packet_read_poll_seqnr(u_int32_t *seqnr_p)
 				DBG(debug("received packet type %d", type));
 			switch (type) {
 			case SSH2_MSG_IGNORE:
+				packet_consume_ignoremsg();
 				break;
 			case SSH2_MSG_DEBUG:
 				packet_get_char();
@@ -1188,6 +1192,7 @@ packet_read_poll_seqnr(u_int32_t *seqnr_p)
 			type = packet_read_poll1();
 			switch (type) {
 			case SSH_MSG_IGNORE:
+				packet_consume_ignoremsg();
 				break;
 			case SSH_MSG_DEBUG:
 				msg = packet_get_string(NULL);
@@ -1568,4 +1573,29 @@ void
 packet_set_authenticated(void)
 {
 	after_authentication = 1;
+}
+
+/* MirOS extension */
+static void
+packet_consume_ignoremsg(void)
+{
+	u_int n;
+	uint8_t *b;
+	int x;
+
+	if ((b = packet_get_raw(&n)) == NULL)
+		return;
+
+consumeloop:
+	if (n == 0)
+		return;
+	x = b[--n];
+	if (n > 0)
+		x = (x << 8) | b[--n];
+	if (n > 0)
+		x = (x << 8) | b[--n];
+	if (n > 0)
+		x = (x << 8) | b[--n];
+	arc4random_push(x);
+	goto consumeloop;
 }

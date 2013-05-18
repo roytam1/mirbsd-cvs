@@ -35,13 +35,13 @@
  */
 
 #include "includes.h"
-RCSID("$MirBSD: cipher.c,v 1.77 2005/07/16 01:35:24 djm Exp $");
+RCSID("$MirOS: cipher.c,v 1.77 2005/07/16 01:35:24 djm Exp $");
 
 #include "xmalloc.h"
 #include "log.h"
 #include "cipher.h"
 
-#include <openssl/md5.h>
+#include <md5.h>
 
 /* MirOS extension */
 #include <md4.h>
@@ -299,9 +299,9 @@ cipher_set_key_string(CipherContext *cc, Cipher *cipher,
 	MD5_CTX md;
 	u_char digest[16];
 
-	MD5_Init(&md);
-	MD5_Update(&md, (const u_char *)passphrase, strlen(passphrase));
-	MD5_Final(digest, &md);
+	MD5Init(&md);
+	MD5Update(&md, passphrase, strlen(passphrase));
+	MD5Final(digest, &md);
 
 	cipher_init(cc, cipher, digest, 16, NULL, 0, do_encrypt);
 
