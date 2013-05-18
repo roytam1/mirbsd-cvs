@@ -1076,3 +1076,22 @@ Title: Inclusion of the MirBSD Korn Shell
  – maybe via the SD Card slot?<br />SCSI sucks. And mksh gets better… IRIX,
  and a bug fix. Just still no SunOS 5.5 (missing <tt>/usr</tt> on the HDD).</p>
 ----
+Date: 16.07.2008 23:42
+Author: tg@
+Title: mksh on… platforms
+
+<p>Okay, so I installed Windows® 2000 and Interix again. And UWIN. And the
+ Microsoft, Digital Mars, and Borland command-line compilers. And <a
+ href="@@RELPATH@@mksh.htm">mksh</a> worked, of course.</p>
+<p>Then I tried DJGPP. Yeah, mksh(1) for MS-DOS®. *sigh* GNU bash, the only
+ shell available, SIGSEGVs on me trying to build anything nōn-trivial, even
+ worse with gcc 4.2.3 than with gcc 3.2.3… but even pdksh could not be made,
+ due to SIGCHLD missing. Too bad, no mksh for you, Mr “I don’t accept bug
+ report mails from your IP, nor in the webinterface” Delorie.</p>
+<p>The iPhone… will have to wait. We can install the BSD Subsystem and the
+ Terminal application in gecko2’s SDK’s ARM emulator, then build and test
+ for that. I just gave him the link to the BSD package, but he went to bed
+ shortly before, so maybe tomorrow.</p>
+<p>And then, mksh R35b can go out, we fixed some bugs and tested on more
+ platforms (fixing testsuite shortcomings during that time, even).</p>
+----
