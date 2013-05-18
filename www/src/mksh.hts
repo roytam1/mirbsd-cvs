@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.374 2011/01/30 02:20:22 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.375 2011/02/03 16:00:37 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1115,8 +1115,9 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Add KSHEGID, KSHGID, KSHUID variables (idea from Richard K.)</li>
  <li>[tg] Option -d to read specifies a delimiter, like ksh93 (10x Dave)</li>
  <li>[tg] Extension ${foo@#} expands to hash of $foo (mksh specific)</li>
- <li>[tg] Emacs prev-hist-word now resets the counter if other functions
-  were called in between (Debian Closes: #603801)</li>
+ <li>[tg, Jörg-Volker Peetz] Emacs prev-hist-word resets the counter if other
+  editing commands were run in between; repeat calling works, even together
+  with arguments, now; arguments are 0-based (Debian Closes: #603801)</li>
  <li>[tg] Introduce MKSH_NOPROSPECTOFWORK which implies MKSH_UNEMPLOYED
   and additionally disables job signals, sigprocmask(2), etc.</li>
  <li>[tg] POSIX: <tt>trap 'echo foo' UNKNOWN</tt> is not a syntax error</li>
@@ -1125,6 +1126,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
   GNU OS), we must also <tt>set -o utf8-mode</tt> to match it</li>
  <li>[tg] Don’t append a space after tab-completing a parameter
   substitution that doesn’t contain a glob/extglob (LP: #710539)</li>
+ <li>[tg] Fix mis-sign comparision and potential truncation error</li>
 </ul>
 <p id="r39c">mksh R39c is an important minor bugfix release:</p><ul>
  <li>[tg] Build system, code, docs and testsuite cleanup, also style(9)</li>
