@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.14 2006/08/09 19:35:23 tg Rel $ */
+/* $MirOS: contrib/code/mirmake/dist/contrib/arc4random.c,v 1.1 2006/08/26 16:45:26 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -29,7 +29,7 @@
 #include <time.h>
 #include <unistd.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: contrib/code/mirmake/dist/contrib/arc4random.c,v 1.1 2006/08/26 16:45:26 tg Exp $");
 
 void
 arc4random_push(int n)
@@ -197,6 +197,12 @@ arc4_stir(struct arc4_stream *as)
 	uint32_t rnd[9];
 #define RND_READ_BYTES 32
 #endif
+
+	/*
+	 * TODO: spawn entropy gathering dæmon here,
+	 * especially for systems with malfunctioning
+	 * /dev/urandom such as Interix
+	 */
 
 	rnd[0] = (uint32_t)getpid() * (uint32_t)getppid();
 
