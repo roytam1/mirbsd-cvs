@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.204 2009/07/03 19:27:44 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.205 2009/07/06 19:32:49 bsiegert Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -4182,7 +4182,7 @@ Author: tg@
 <p>And the Ⅱ U+2161 ROMAN NUMERAL TWO is missing… ☹</p>
 ----
 Author: bsiegert@
-Date: 27.06.2009 08:17
+Date: 07.07.2009 10:02
 Title: Carbon 2009, Biarritz, France
 
 <p>I spent the past week in Biarritz for the <em>Carbon 2009</em>
