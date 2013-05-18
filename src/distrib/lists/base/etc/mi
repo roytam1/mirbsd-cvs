@@ -290,7 +290,7 @@
 ./etc/sysctl.conf
 ./etc/syslog.conf
 ./etc/systrace/usr_sbin_lpd
-./etc/ttys
+./etc/ttys.dist
 ./etc/weekly
 ./etc/wsconsctl.conf
 ./var/anoncvs/anoncvs/.hushlogin
