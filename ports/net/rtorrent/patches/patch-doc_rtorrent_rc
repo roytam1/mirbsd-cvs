@@ -1,6 +1,6 @@
-$MirOS$
---- doc/rtorrent.rc.orig	Tue Feb  7 15:39:29 2006
-+++ doc/rtorrent.rc	Tue Feb  7 15:39:33 2006
+$MirOS: ports/net/rtorrent/patches/patch-doc_rtorrent_rc,v 1.1 2006/02/07 15:42:52 tg Exp $
+--- doc/rtorrent.rc.orig	Fri Sep 29 11:56:12 2006
++++ doc/rtorrent.rc	Fri Oct  6 18:15:55 2006
 @@ -1,5 +1,5 @@
  # This is an example resource file for rTorrent. Copy to
 -# ~/.rtorrent.rc and enable/modify the options as needed. Remember to
@@ -8,3 +8,24 @@ $MirOS$
  # uncomment the options you wish to enable.
  
  # Maximum and minimum number of peers to connect to per torrent.
+@@ -24,6 +24,8 @@
+ # of rtorrent using the same session directory. Perhaps using a
+ # relative path?
+ #session = ./session
++# Suggested to use this:
++#session = /home/foo/.etc/rtorrent.session
+ 
+ # Watch a directory for new torrents, and stop those that have been
+ # deleted.
+@@ -82,6 +84,11 @@
+ # before forcing. Overworked systems might need lower values to get a
+ # decent hash checking rate.
+ #hash_max_tries = 10
++
++# http://libtorrent.rakshasa.no/ticket/14 - Hashing slow on OpenBSD
++hash_read_ahead = 4
++hash_interval = 10
++hash_max_tries = 2
+ 
+ # Max number of files to keep open simultaniously.
+ #max_open_files = 128

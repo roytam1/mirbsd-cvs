@@ -1,8 +1,8 @@
-# $MirOS: ports/net/rtorrent/Makefile,v 1.2 2006/03/18 18:26:37 tg Exp $
+# $MirOS: ports/net/rtorrent/Makefile,v 1.3 2006/09/14 00:12:15 tg Exp $
 
 CATEGORIES=		net
-COMMENT=			BitTorrent ncurses client
-DISTNAME=		rtorrent-0.4.5
+COMMENT=		BitTorrent ncurses client
+DISTNAME=		rtorrent-0.6.3
 HOMEPAGE=		http://libtorrent.rakshasa.no/
 MASTER_SITES=		${HOMEPAGE}downloads/
 
@@ -15,13 +15,16 @@ PERMIT_PACKAGE_FTP=	Yes
 DESCR=			${PORTSDIR}/net/libtorrent/pkg/DESCR
 
 MODULES+=		devel/pkgconfig
-LIB_DEPENDS+=		torrent:libtorrent->=0.8.5:net/libtorrent
-LIB_DEPENDS+=		curl::net/curl
+LIB_DEPENDS+=		torrent:libtorrent->=0.10.3:net/libtorrent
+LIB_DEPENDS+=		curl:curl->=7.12.0:net/curl
 
 USE_CXX=		Yes
-CONFIGURE_STYLE=	autoconf
+CONFIGURE_STYLE=	autogen
 AUTOCONF_NEW=		Yes
+AUTOMAKE_VERSION=	1.9
 CONFIGURE_ARGS+=	--disable-debug \
+			--enable-ipv6 \
+			--disable-libtool-lock \
 			--disable-dependency-tracking
 
 SAMPLEDIR=		${PREFIX}/share/examples/rtorrent

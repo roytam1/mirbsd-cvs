@@ -1,14 +1,24 @@
-$MirOS: ports/net/rtorrent/patches/patch-src_main_cc,v 1.1 2006/02/07 15:42:52 tg Exp $
---- src/main.cc.orig	Mon Feb 13 16:46:57 2006
-+++ src/main.cc	Sat Mar 18 18:19:03 2006
-@@ -161,8 +161,8 @@ main(int argc, char** argv) {
-     control->core()->initialize_first();
+$MirOS: ports/net/rtorrent/patches/patch-src_main_cc,v 1.2 2006/03/18 18:26:37 tg Exp $
+--- src/main.cc.orig	Fri Sep 29 11:56:18 2006
++++ src/main.cc	Fri Oct  6 16:38:45 2006
+@@ -221,9 +221,9 @@ main(int argc, char** argv) {
+     //    control->variable()->process_command("schedule = scheduler,10,10,download_scheduler=");
  
-     // Move env and go through "try_import".
--    if (!control->variables()->process_file("~/.rtorrent.rc"))
--      control->core()->get_log_important().push_front("Could not load \"~/.rtorrent.rc\".");
-+    if (!control->variables()->process_file("~/.etc/rtorrent.rc"))
-+      control->core()->get_log_important().push_front("Could not load \"~/.etc/rtorrent.rc\".");
+     if (OptionParser::has_flag('n', argc, argv))
+-      control->core()->push_log("Ignoring ~/.rtorrent.rc.");
++      control->core()->push_log("Ignoring ~/.etc/rtorrent.rc.");
+     else
+-      control->variable()->process_command("try_import = ~/.rtorrent.rc");
++      control->variable()->process_command("try_import = ~/.etc/rtorrent.rc");
  
      int firstArg = parse_options(control, argc, argv);
  
+@@ -310,7 +310,7 @@ print_help() {
+   std::cout << std::endl;
+   std::cout << "Usage: rtorrent [OPTIONS]... [FILE]... [URL]..." << std::endl;
+   std::cout << "  -h                Display this very helpful text" << std::endl;
+-  std::cout << "  -n                Don't try to load ~/.rtorrent.rc on startup" << std::endl;
++  std::cout << "  -n                Don't try to load ~/.etc/rtorrent.rc on startup" << std::endl;
+   std::cout << "  -b <a.b.c.d>      Bind the listening socket to this IP" << std::endl;
+   std::cout << "  -i <a.b.c.d>      Change the IP that is sent to the tracker" << std::endl;
+   std::cout << "  -p <int>-<int>    Set port range for incoming connections" << std::endl;

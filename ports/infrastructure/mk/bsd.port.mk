@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.130 2006/09/17 20:17:33 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.131 2006/09/22 00:09:18 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -442,6 +442,8 @@ CFLAGS+=		${CDIAGFLAGS}
 CXXFLAGS+=		${CXXDIAGFLAGS}
 .  endif
 .endif
+# cf. http://libtorrent.rakshasa.no/wiki/LibTorrentKnownIssues#Badcodeproducedwith-fomit-frame-pointer
+CXXFLAGS+=		-fno-omit-frame-pointer
 LDFLAGS+=		-Wl,--library-after=${LOCALBASE}/lib ${LDSTATIC}
 
 NO_CXX?=		No	# inhibit use of C++ ports
