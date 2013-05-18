@@ -1,9 +1,9 @@
-$MirOS: ports/misc/screen/patches/patch-etc_etcscreenrc,v 1.14 2011/10/12 20:09:59 tg Exp $
+$MirOS: ports/misc/screen/patches/patch-etc_etcscreenrc,v 1.15 2011/10/24 19:57:56 tg Exp $
 --- etc/etcscreenrc.orig	Fri Dec  5 13:45:51 2003
-+++ etc/etcscreenrc	Mon Oct 24 19:52:59 2011
++++ etc/etcscreenrc	Sat May 18 01:27:06 2013
 @@ -1,20 +1,21 @@
 +# $MirSecuCron$
-+# $MirOS: ports/misc/screen/patches/patch-etc_etcscreenrc,v 1.14 2011/10/12 20:09:59 tg Exp $
++# $MirOS: ports/misc/screen/patches/patch-etc_etcscreenrc,v 1.15 2011/10/24 19:57:56 tg Exp $
  #
  # This is an example for the global screenrc file.
 -# You may want to install this file as /usr/local/etc/screenrc.
@@ -68,7 +68,7 @@ $MirOS: ports/misc/screen/patches/patch-etc_etcscreenrc,v 1.14 2011/10/12 20:09:
  
  #
  # Do not use xterms alternate window buffer. 
-@@ -81,14 +89,38 @@ terminfo hp700 'Z0=\E[?3h:Z1=\E[?3l:hs:t
+@@ -81,14 +89,52 @@ terminfo hp700 'Z0=\E[?3h:Z1=\E[?3l:hs:t
  termcap wy75-42 nx:xo:Z0=\E[?3h\E[31h:Z1=\E[?3l\E[31h
  terminfo wy75-42 nx:xo:Z0=\E[?3h\E[31h:Z1=\E[?3l\E[31h
  
@@ -85,6 +85,20 @@ $MirOS: ports/misc/screen/patches/patch-etc_etcscreenrc,v 1.14 2011/10/12 20:09:
  bind O login off
  bind } history
  
++# press <escapechar>+-+[0-9] to jump to windows 10..19
++bind -c dashkey - select -
++bind -c dashkey 0 select 10
++bind -c dashkey 1 select 11
++bind -c dashkey 2 select 12
++bind -c dashkey 3 select 13
++bind -c dashkey 4 select 14
++bind -c dashkey 5 select 15
++bind -c dashkey 6 select 16
++bind -c dashkey 7 select 17
++bind -c dashkey 8 select 18
++bind -c dashkey 9 select 19
++bind - command -c dashkey
++
 +# press <escapechar>+u to enter hexadecimal Unicode codepoint or octet
 +# a) screen-4.0.3-MirPorts-14 and up (automatic mode)
 +bind u digraph '`?'
