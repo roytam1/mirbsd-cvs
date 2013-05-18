@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.268 2009/12/27 19:07:34 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.269 2009/12/27 19:58:50 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -5762,6 +5762,7 @@ Date: 26.12.2009 17:14
 Title: 26C3, day 0 and 1
 Author: bsiegert@
 Date: 27.12.2009 17:40
+Tag: event
 
 <p>I finally have a wristband for 26C3. The wristband is what is
  controlled on the entrance. I had preordered the ticket and paid by
