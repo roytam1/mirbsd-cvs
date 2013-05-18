@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/distrib/i386/generic/Makefile.kernel,v 1.1 2006/02/14 20:47:53 tg Exp $
 
 bsd:
 	mkdir -p build/${RAMDISK}

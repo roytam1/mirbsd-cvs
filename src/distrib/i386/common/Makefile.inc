@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/common/Makefile.inc,v 1.16 2006/05/15 19:20:14 tg Exp $
+# $MirOS: src/distrib/i386/common/Makefile.inc,v 1.17 2006/05/15 20:47:03 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.15 2004/11/25 22:02:08 deraadt Exp $
 
 .ifndef _MODSRC_DISTRIB_I386_COMMON_MAKEFILE_INC
@@ -99,7 +99,7 @@ ${DO_BSDRD_NAME}: ${DO_BSDRD_UC}
 	gzip -n9 <${DO_BSDRD_UC} >${DO_BSDRD_NAME}
 
 .ifndef KERNEL_LOCAL_BUILD
-.  include "${.CURDIR}/../generic/Makefile.kernel"
+.  include "${.CURDIR}/../../Makefile.kernel"
 .endif
 
 ${IMAGE}: ${CBIN} rd_setup do_files rd_teardown

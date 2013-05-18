@@ -2,7 +2,7 @@
 
 RAMDISK=	GENERIC
 SYSDIR=		${.CURDIR}/../../../sys
-SYSSUBDIR=	${SYSDIR}/arch/i386
+SYSSUBDIR=	${SYSDIR}/arch/sparc
 KERNDIR=	${SYSSUBDIR}/compile/${RAMDISK}
 MAKE_CLEAN?=	${MAKE} clean
 

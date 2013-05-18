@@ -1,14 +1,16 @@
-# $MirOS: src/distrib/sparc/Makefile,v 1.2 2005/03/06 18:58:05 tg Exp $
+# $MirOS: src/distrib/sparc/Makefile,v 1.3 2005/12/04 17:11:04 tg Exp $
 
 .include <bsd.own.mk>
 
 REL_NO_KERNEL?=	No
 .if ${REL_NO_KERNEL:L} != "yes"
+REL_NO_GENERIC?=No
 REL_NO_RAMDISK?=No
 REL_NO_MINIROOT?=No
 REL_NO_FLOPPY?=	No
 REL_NO_AUTOISO?=No
 .else
+REL_NO_GENERIC=	Yes
 REL_NO_RAMDISK=	Yes
 REL_NO_MINIROOT=Yes
 REL_NO_FLOPPY=	Yes
@@ -26,6 +28,10 @@ _DESCEND=	no
 .endif
 
 SUBDIR=
+
+.if ${_DESCEND} == "yes" || ${REL_NO_GENERIC:L} != "yes"
+SUBDIR+=	generic
+.endif
 
 .if ${_DESCEND} == "yes" || ${REL_NO_RAMDISK:L} != "yes"
 SUBDIR+=	../ramdisk
