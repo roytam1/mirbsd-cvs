@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/conf/RAMDISK,v 1.1 2006/07/24 01:11:27 tg Exp $
+# $MirOS: src/sys/arch/i386/conf/RAMDISK,v 1.2 2006/07/24 01:12:36 tg Exp $
 # _MirOS: src/sys/arch/i386/conf/GENERIC,v 1.29 2006/07/06 13:32:07 tg Exp $
 
 machine		i386			# arch, used by config; REQUIRED
@@ -26,7 +26,7 @@ option		NO_PROPOLICE		# remove stack protector
 option		BOOT_CONFIG		# add support for boot -c
 option		TIMEZONE=0		# time zone to adjust RTC time by
 option		DST=0			# daylight saving time used by RTC
-option		MINIROOTSIZE=3072	# size of ramdisk array
+option		MINIROOTSIZE=3584	# size of ramdisk array
 option		RAMDISK_HOOKS		# allow using initrd
 
 #option		CRYPTO			# Cryptographic framework

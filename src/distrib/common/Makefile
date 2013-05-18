@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/Makefile,v 1.4 2006/08/18 20:48:46 tg Exp $
+# $MirOS: src/distrib/common/Makefile,v 1.5 2006/08/18 21:08:02 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -40,7 +40,7 @@ LISTS?=		${TOPDIR}/common/listbeg.${MACHCONF} ${TOPDIR}/common/list \
 		${TOPDIR}/common/listend.${MACHCONF}
 MTREE?=		${TOPDIR}/common/mtree.conf
 IMAGE?=		ramdisk${OSrev}.fs
-IMAGESIZE?=	8192
+IMAGESIZE?=	3584
 IMAGEOPTS?=	minfree=0,optimization=space,bsize=4096,fsize=512,density=3072
 IMAGETYPE?=	rdroot
 IMAGE_PREP?=	@:

@@ -1,5 +1,6 @@
-# $MirOS: src/distrib/common/Makefile.i386-big,v 1.1 2006/08/17 19:34:13 tg Exp $
+# $MirOS: src/distrib/common/Makefile.i386-big,v 1.2 2006/08/18 20:48:46 tg Exp $
 
+IMAGESIZE=	8192
 IMAGETYPE=	ipldisc
 
 KERNEL_BUILD=	no

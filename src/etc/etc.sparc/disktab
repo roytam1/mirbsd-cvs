@@ -1,43 +1,51 @@
-# $MirOS: src/etc/etc.sparc/disktab,v 1.3 2006/07/05 16:34:04 tg Exp $
+# $MirOS: src/etc/etc.i386/disktab,v 1.4 2005/12/04 23:14:40 tg Exp $
+# $OpenBSD: disktab,v 1.18 2005/02/07 06:08:10 david Exp $
 # $OpenBSD: disktab,v 1.21 2003/03/01 00:46:24 miod Exp $
-#
 #	@(#)disktab	5.5 (Berkeley) 2/27/91
-#
+
 # Disk geometry and partition layout tables.
 # Key:
-#	ty	type of disk
+#	dt	controller type
+#	sf	supports bad144-style bad sector forwarding
+#	ty	type of disk (fixed, removable, simulated)
+#	d[0-4]	drive-type-dependent parameters
+#	se	sector size, DEV_BSIZE default
 #	ns	#sectors/track
 #	nt	#tracks/cylinder
 #	nc	#cylinders/disk
+#	sc	#sectors/cylinder, ns*nt default
+#	su	#sectors/unit, sc*nc default
 #	rm	rpm, 3600 default
-#	se	sector size, 512 default
-#	sf	supports bad144-style bad sector forwarding
-#	so	partition offsets in sectors
+#	sk	sector skew per track, default 0
+#	cs	sector skew per cylinder, default 0
+#	hs	headswitch time, default 0
+#	ts	one-cylinder seek time, default 0
+#	il	sector interleave (n:1), 1 default
+#	bs	boot block size, default BBSIZE
+#	sb	superblock size, default SBSIZE
+#	o[a-p]	partition offsets in sectors
 #	p[a-p]	partition sizes in sectors
 #	b[a-p]	partition block sizes in bytes
 #	f[a-p]	partition fragment sizes in bytes
-#
+#	t[a-p]	partition types (filesystem, swap, etc)
 
-miniroot:\
-	:ty=winchester:se#512:nt#2:rm#300:ns#64:nc#96:\
-	:ts=3500:\
-	:pa#12288:oa#0:ba#8192:fa#1024:ta=4.2BSD:\
-	:pb#0:ob#0:\
-	:pc#12288:oc#0:
-
-rdroot:\
+rdroot|ramdisk miniroot image for boot floppy:\
 	:ty=ramdisk:se#512:nt#8:rm#300:ns#32:nc#14:\
-	:pa#3584:oa#0:ta=4.2BSD:ba#8192:fa#1024:\
+	:pa#3584:oa#0:ta=4.2BSD:ba#4096:fa#512:\
 	:pc#3584:oc#0:
 
-floppy|floppy3|3in|3.5in High Density Floppy:\
+miniroot|on-disc miniroot image for installation:\
+	:ty=winchester:se#512:nt#2:rm#300:ns#64:nc#96:ts=3500:\
+	:pa#12288:oa#0:ta=4.2BSD:ba#4096:fa#512:\
+	:pc#12288:oc#0:
+
+floppy|floppy3|3in|floppy1440|3.5in High Density Floppy, 1440 KiB:\
 	:dt=floppy:ty=floppy:se#512:nt#2:rm#300:ns#18:nc#80:\
-	:pa#2880:oa#0:ba#4096:fa#512:ta=4.2BSD:\
-	:pb#2880:ob#0:\
+	:pa#2880:oa#0:ta=4.2BSD:ba#4096:fa#512:\
 	:pc#2880:oc#0:
 
 # test if not having an 'a' works?
-fakecdrom|Fake image for Bootable CDROM:\
+fakecdrom|fake image for bootable CD-ROM:\
 	:ty=winchester:se#512:nt#1:rm#350:ns#640:nc#2048:\
 	:pa#1310720:oa#0:ba#8192:fa#1024:ta=4.2BSD:\
 	:pb#1310720:ob#0:bb#8192:fb#1024:tb=4.2BSD:\
