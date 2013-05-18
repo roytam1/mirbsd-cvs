@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/scripts/xbuild-env.sh,v 1.6 2006/03/01 13:28:34 tg Exp $
+# $MirOS: src/scripts/xbuild-env.sh,v 1.7 2006/03/01 13:32:42 tg Exp $
 #-
 # Copyright (c) 2004, 2005, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -83,7 +83,10 @@ set -x
 
 mkdir -p $CROSSDIR/usr/$TARGET/bin
 ( cd $CROSSDIR/usr/$TARGET; ln -sf ../include .; ln -sf ../lib . )
-( cd $BSDSRCDIR; DESTDIR=$CROSSDIR make distrib-dirs )
+sed -e 's/[ug]name=[a-z]*//g' \
+    -e '/^.set/s/   / uname='$BINOWN' gname='$BINGRP' /' \
+    <$BSDSRCDIR/etc/mtree/4.4BSD.dist \
+    | mtree -qde -p $CROSSDIR -U
 
 print -r -- "$MACHINE" >$CROSSDIR/T_MACHINE
 print -r -- "$MARCH" >$CROSSDIR/T_MACHINE_ARCH
