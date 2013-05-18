@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.14 2006/08/09 19:35:23 tg Rel $ */
+/* $MirOS: src/lib/libc/hash/tiger.c,v 1.1 2006/09/17 19:28:58 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -22,12 +22,14 @@
  */
 
 #include <sys/param.h>
+#ifndef _LIBMIRMAKE
 #include <sys/endian.h>
+#endif
 #include <stdlib.h>
 #include <string.h>
 #include <tiger.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libc/hash/tiger.c,v 1.1 2006/09/17 19:28:58 tg Exp $");
 
 void
 TIGERInit(TIGER_CTX *ctx)
