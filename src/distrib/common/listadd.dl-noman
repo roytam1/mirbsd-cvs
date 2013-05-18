@@ -1,4 +1,0 @@
-# $MirOS$
-
-# we want the disklabel without manual page
-CRUNCHSPECIAL disklabel	srcdir distrib/special/dl-noman
