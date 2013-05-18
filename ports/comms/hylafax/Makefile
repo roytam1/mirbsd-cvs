@@ -1,15 +1,14 @@
-# $MirOS: ports/comms/hylafax/Makefile,v 1.4 2007/03/31 22:01:55 tg Exp $
+# $MirOS: ports/comms/hylafax/Makefile,v 1.5 2008/03/09 17:22:27 tg Exp $
 # $OpenBSD: Makefile,v 1.41 2003/11/11 22:24:19 todd Exp $
+
+BROKEN=			uses old C++ API
 
 COMMENT=		send/receive faxes and share modems
 DISTNAME=		hylafax-4.1.5
-DASH_VER=		1
+DASH_VER=		2
 CATEGORIES=		comms
 
-FLAVOURS=		a4
-FLAVOUR?=		a4
 HOMEPAGE=		http://www.HylaFAX.org/
-
 MASTER_SITES=		ftp://ftp.hylafax.org/source/
 
 # License: BSD
@@ -31,14 +30,12 @@ CONFIGURE_ARGS =	--nointeractive
 CONFIGURE_ARGS+=	--with-CC="${CC}"
 CONFIGURE_ARGS+=	--with-CXX="${CXX}"
 CONFIGURE_ARGS+=        --with-INSTALL=""
+CONFIGURE_ARGS+=	--with-PAGESIZE=A4
 
 CONFIGURE_ENV+=		CCOMPILER="${CC}" CXXCOMPILER="${CXX}" \
 			GCOPTS="${CFLAGS}" GCXXOPTS="${CXXFLAGS}" \
 			PREFIX="${PREFIX}" LOCALBASE="${LOCALBASE}"
 
-.if ${FLAVOUR:L} == "a4"
-CONFIGURE_ARGS+=	--with-PAGESIZE=A4
-.endif
 
 FAKE_FLAGS=	ROOT=${WRKINST} ${DESTDIRNAME}=${WRKINST}
 
@@ -46,6 +43,10 @@ SUID_EXES=	${PREFIX}/sbin/faxgetty ${PREFIX}/sbin/faxq \
 		${PREFIX}/bin/faxrm ${PREFIX}/bin/faxalter
 
 NO_SYSTRACE=	"test -d '' succeeds"
+
+post-extract:
+	cd ${PORTSDIR}/infrastructure/db && install -c -m 555 config.guess \
+		config.sub ${WRKSRC}
 
 post-install:
 	@chown uucp:dialer ${SUID_EXES}
