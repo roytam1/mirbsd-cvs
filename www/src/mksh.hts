@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.297 2009/11/02 18:47:08 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.298 2009/11/09 23:43:01 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1056,6 +1056,7 @@ mws_content <<'EOF'
  <li>[tg] Fix print_columns() issue with displaying items where characters
   had differing number of octets and columns, and the off-by-one which had
   hidden this problem with 2-octet 1-column and 3-octet 2-column chars</li>
+ <li>[tg] Beautify the manpage in both AT&amp;T nroff and GNU groff</li>
 </ul>
 <p id="r39">mksh R39 evolved into these through various means:</p><ul>
  <li>[tg] Shut up a bogus gcc warning during configuration process</li>
