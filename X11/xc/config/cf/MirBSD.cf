@@ -1,4 +1,4 @@
-XCOMM platform:	$MirOS: X11/xc/config/cf/MirBSD.cf,v 1.21 2007/08/24 14:31:51 tg Exp $
+XCOMM platform:	$MirOS: X11/xc/config/cf/MirBSD.cf,v 1.22 2007/09/02 16:53:34 tg Exp $
 XCOMM platform:	$OpenBSD: OpenBSD.cf,v 1.140 2004/10/10 14:47:28 matthieu Exp $
 XCOMM platform:	$XFree86: xc/config/cf/OpenBSD.cf,v 3.79 2003/01/12 17:03:23 herrb Exp $
 
@@ -57,8 +57,7 @@ XCOMM operating system:  OSName (OSMajorVersion./**/OSMinorVersion./**/OSTeenyVe
 #define	MirBSDWlEnd		/**/
 #endif
 
-#ifdef	Ports
-
+#ifdef Ports
 #define	BinDir			${LOCALBASE}/bin
 #define	LibDir			${LOCALBASE}/lib/X11
 #define	UsrLibDir		${LOCALBASE}/lib
@@ -71,7 +70,6 @@ XCOMM operating system:  OSName (OSMajorVersion./**/OSMinorVersion./**/OSTeenyVe
 #define	ImakeCmd		imake -DPorts
 #define	DocDir			${LOCALBASE}/share/doc
 #define	BuildHtmlManPages	NO
-
 #define	LdPreLib		MirBSDWlBegin -L/usr/X11R6/lib -L${LOCALBASE}/lib
 #else
 # if !defined(UseInstalled)
@@ -164,6 +162,7 @@ XCOMM operating system:  OSName (OSMajorVersion./**/OSMinorVersion./**/OSTeenyVe
 #define	StandardCppDefines	$(CPPFLAGS)
 #define	PreProcessCmd   	CppCmd
 #define	PreIncDir		DefaultGccIncludeDir
+#define	DependFlags		-D__IN_MKDEP
 
 #define	ModuleCcCmd		${CC}
 
