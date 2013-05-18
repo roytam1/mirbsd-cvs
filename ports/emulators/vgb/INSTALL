@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS$
+# $MirOS: ports/emulators/vgb/pkg/INSTALL,v 1.1.7.1 2005/03/18 15:45:58 tg Exp $
 #
 # Pre/post-installation setup
 
