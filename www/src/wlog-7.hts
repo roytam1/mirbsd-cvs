@@ -3,7 +3,7 @@
 
 mws_setname legacy/wlog-7 "MirBSD Weblog"
 mws_setheadline MirBSD – RELEASE TIME!!! Stable Services for Commercial Customers
-mws_putheader '$MirOS: www/src/wlog-7.hts,v 1.4 2009/06/21 11:01:28 tg Exp $'
+mws_putheader '$MirOS: www/src/wlog-7.hts,v 1.5 2009/07/19 15:34:45 tg Exp $'
 mws_content <<'EOF'
 <h3>News <small><a href="#eof">bottom</a></small></h3>
 <h6>Note: all these entries are from tg@ up to November 3rd, when the
@@ -2065,7 +2065,7 @@ mws_content <<'EOF'
  personally in the end. I don't understand what was unclear in my previous
  message: pay me or I won't port ISDN to OpenBSD. The behaviour or whining
  (rather) of yours is like demanding of an OpenBSD developer to port SMP to MirOS, and
- it's not a bad comparision because in the meanwhile, <em>many</em> things
+ it's not a bad comparison because in the meanwhile, <em>many</em> things
  have changed in MirOS, with regard to OpenBSD. I think BSDforen.de really
  is a bunch of immature adults behaving worse than kids and deserving more
  a DDoS than a "fuck-off {in,out} on $all_interfaces" &ndash; not that I'd

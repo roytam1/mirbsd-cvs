@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.421 2011/07/28 16:30:51 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.422 2011/08/01 15:44:56 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -14,7 +14,7 @@ mws_content <<'EOF'
  <li><a href="#upgrade">Upgrade</a> your packages from older mksh</li>
  <li><a href="#getcvs">Development version</a></li>
  <li>Inclusion in <a href="#otheros">operating systems</a></li>
- <li><a href="mksh_old.htm#contrib">comparision</a> with other shells</li>
+ <li><a href="mksh_old.htm#contrib">comparison</a> with other shells</li>
  <li><a href="mksh_bld.htm">Testsuite Results</a> (regression tests)</li>
  <li><a href="mksh_old.htm#vsn">on version numbers</a> – for packagers</li>
  <li><a href="#plans">future plans</a> (<a href="mksh_old.htm#plans">older
