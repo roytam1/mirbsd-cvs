@@ -13,3 +13,6 @@ vironment variable set thusly.
 
 Other programmes must be configured to set the cer-
 tificate store to ${PREFIX}/share/ca-certificates/
+
+Java™ programmes can use the “keystore.jks” file in
+the very same directory: -storepass ‘changeit’

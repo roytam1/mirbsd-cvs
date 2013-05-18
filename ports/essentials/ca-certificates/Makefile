@@ -1,12 +1,12 @@
-# $MirOS: ports/essentials/ca-certificates/Makefile,v 1.2 2008/04/05 18:12:44 tg Exp $
+# $MirOS: ports/essentials/ca-certificates/Makefile,v 1.3 2008/08/26 19:16:43 tg Exp $
 
 COMMENT=		X.509 CA certificate collection
 CATEGORIES=		essentials security
 CVS_DISTREPO=		${_MIROS_ANONCVS}
-CVS_DISTDATE=		2008/08/26
+CVS_DISTDATE=		2008/11/14
 CVS_DISTMODS=		src/etc/ssl.certs.shar
 CVS_DISTFILE=		ca-certificates
-RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.de>
+RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.org>
 HOMEPAGE=		http://MirBSD.de/
 
 # copyright law not applicable
@@ -25,6 +25,7 @@ do-build:
 do-install:
 	${INSTALL_DATA_DIR} ${PREFIX}/share/ca-certificates
 	${INSTALL_DATA} ${WRKSRC}/{-VERSION,*.+([0-9])} \
+	    ${.CURDIR}/keystore.jks \
 	    ${PREFIX}/share/ca-certificates/
 
 .include <bsd.port.mk>
