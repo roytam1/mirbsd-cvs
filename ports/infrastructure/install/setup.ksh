@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.54 2006/03/19 20:31:47 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.55 2006/03/19 21:34:21 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -582,17 +582,16 @@ elif [[ $(cd $localbase/db/pkg && echo pkgtools-*) != "pkgtools-*" ]]; then
 	print -u2 Error: upgrade pkgtools via ports.
 	exit 1
 else
-	cd $portsdir/infrastructure/pkgtools
+	mkdir $T/pkgtools
+	cd $T/pkgtools
+	lndir $portsdir/infrastructure/pkgtools
 	export LOCALBASE=$localbase PORTSDIR=$portsdir
 	set -e
-	mmake cleandir
 	mmake obj
-	mmake cleandir
 	mmake depend
 	mmake PORTABLE=Yes BINOWN="$myuid"
 	mmake install
 	set +e
-	rm -rf {add,create,delete,info,lib,pkg,rtfm,upgrade}/obj
 	unset LOCALBASE
 	cd $T
 	# Fake package installation
