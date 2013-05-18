@@ -1,8 +1,8 @@
-/**	$MirOS: src/usr.sbin/ntpd/ntpd.h,v 1.18 2009/05/07 19:09:37 tg Exp $ */
+/**	$MirOS: src/usr.sbin/ntpd/ntpd.h,v 1.19 2009/12/24 11:40:38 tg Exp $ */
 /*	$OpenBSD: ntpd.h,v 1.70 2006/06/04 18:58:13 otto Exp $ */
 
 /*
- * Copyright (c) 2007, 2008, 2009 Thorsten Glaser <tg@mirbsd.org>
+ * Copyright (c) 2007, 2008, 2009, 2011 Thorsten Glaser <tg@mirbsd.org>
  * Copyright (c) 2003, 2004 Henning Brauer <henning@openbsd.org>
  *
  * Permission to use, copy, modify, and distribute this software for any
@@ -88,11 +88,11 @@
  * is a VM or another low-resolution device, and the other end has
  * a HPET or similar, chances are that most replies have negative
  * delays. For this reason, MirBSD OpenNTPD 2009-12-24 ignores delays
- * below DELAY_NEGLIGEE which defaults to 1 ms (to accomodate systems
- * without sub-millisecond precision); set to 0 to revert to the pre-
- * vious behaviour.
+ * below DELAY_NEGLIGEE which defaults to 10 ms (keep it over 1 ms to
+ * accomodate systems without sub-millisecond precision), as most sy-
+ * stems use 100 Hz ticks; set to 0 to revert to the previous behaviour.
  */
-#define DELAY_NEGLIGEE	(-0.001)	/* minimum xfer delay accepted */
+#define DELAY_NEGLIGEE	(-0.010)	/* minimum xfer delay accepted */
 
 
 enum client_state {
