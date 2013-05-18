@@ -1,11 +1,11 @@
-# $MirOS: src/etc/root/dot.profile,v 1.3 2005/07/23 14:24:23 tg Exp $
+# $MirOS: src/etc/root/dot.profile,v 1.4 2005/07/23 15:00:35 tg Exp $
 # $OpenBSD: dot.profile,v 1.5 2005/03/30 21:18:33 millert Exp $
 #
 # sh/ksh/mksh/bash initialisation
 
 if [ -z "$USER_ID" ]; then
 	# Do this only if /etc/profile has _not_ yet run!
-	PATH=/sbin:/usr/sbin:/bin:/usr/bin:/usr/X11R6/bin:/usr/local/sbin:/usr/local/bin
+	PATH=/sbin:/usr/sbin:/bin:/usr/bin:/usr/X11R6/bin:/usr/local/sbin:/usr/local/bin:/usr/mpkg/bin:/usr/mpkg/sbin
 	export PATH
 	: ${HOME='/root'}
 	export HOME

@@ -1,4 +1,4 @@
-# $MirOS: src/etc/profile,v 1.7 2005/07/26 17:40:38 tg Exp $
+# $MirOS: src/etc/profile,v 1.8 2005/07/31 13:46:09 tg Exp $
 
 umask 022
 [ -z "$KSH_VERSION" ] && alias print='echo -e'
@@ -27,13 +27,13 @@ USER_ID=
 [ -x /usr/bin/id ] && USER_ID="$(ulimit -c 0; /usr/bin/id -u 2>/dev/null)"
 [ -z "$USER_ID" ] && USER_ID=0
 if [ -z "$USER" ]; then
-	PATH=/sbin:/bin:/usr/sbin:/usr/bin:/root/.etc/bin:/usr/local/bin
+	PATH=/sbin:/bin:/usr/sbin:/usr/bin:/root/.etc/bin:/usr/local/bin:/usr/mpkg/bin
 	PS1='SINGLE:${PWD} # '
 	unset COLORTERM
 elif [ $USER_ID -eq 0 ]; then
-	PATH=/root/.etc/bin:/usr/sbin:/sbin:/usr/bin:/bin:/usr/X11R6/bin:/usr/local/bin
+	PATH=/root/.etc/bin:/usr/sbin:/sbin:/usr/bin:/bin:/usr/X11R6/bin:/usr/local/bin:/usr/mpkg/bin
 else
-	PATH=~/.etc/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11R6/bin:/usr/local/bin:/usr/games
+	PATH=~/.etc/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11R6/bin:/usr/local/bin:/usr/mpkg/bin:/usr/games
 	PSX='$ '
 fi
 export PATH

@@ -1,10 +1,10 @@
 #!/bin/mksh
-# $MirOS: src/etc/daily,v 1.5 2005/04/29 18:58:14 tg Exp $
+# $MirOS: src/etc/daily,v 1.6 2005/07/07 13:39:22 tg Exp $
 # $OpenBSD: daily,v 1.50 2005/03/17 18:16:52 millert Exp $
 # From: @(#)daily	8.2 (Berkeley) 1/25/94
 
 export TZ=UTC
-PATH=/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin
+PATH=/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin:/usr/mpkg/bin
 bak=/var/backups
 
 sysctl -n kern.version
@@ -119,7 +119,7 @@ ls -lao /var/tmp/
 echo ""
 echo "Checking subsystem status:"
 
-if [ -d /service -a -x /usr/local/bin/svstat ]; then
+if [ -d /service -a -x /usr/mpkg/bin/svstat ]; then
 	echo ""
 	echo "supervise:"
 	svstat /service/*

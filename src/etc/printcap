@@ -1,5 +1,5 @@
 # $Id$
-# $MirOS: src/etc/printcap,v 1.3 2005/07/07 13:39:22 tg Exp $
+# $MirOS: src/etc/printcap,v 1.4 2005/07/24 15:45:28 tg Exp $
 # $OpenBSD: printcap,v 1.4 2003/03/28 21:32:30 jmc Exp $
 
 #lp|local line printer:\
@@ -19,7 +19,7 @@
 #-- These are the required files for the MP3 and PDF printers:
 #sed 's/^X//' >/usr/local/libexec/mp3print << 'END-of-/usr/local/libexec/mp3print'
 #X#!/bin/mksh
-#X/usr/local/bin/mpg123 --aggressive - >/dev/null 2>&1
+#X/usr/mpkg/bin/mpg123 --aggressive - >/dev/null 2>&1
 #END-of-/usr/local/libexec/mp3print
 #sed 's/^X//' >/usr/local/libexec/pdfprint << 'END-of-/usr/local/libexec/pdfprint'
 #X#!/bin/mksh
@@ -32,7 +32,7 @@
 #X	FNAME="$(basename "$2").pdf"
 #Xfi
 #X
-#X/usr/local/bin/ps2pdf13 -sPAPERSIZE=a4 "$2" - \
+#X/usr/mpkg/bin/ps2pdf14 -sPAPERSIZE=a4 "$2" - \
 #X    | grep -e '^$' -e '^[^%]' -e '^%[^%]' -e '^%%EOF' \
 #X    | uuencode "${FNAME}" \
 #X    | mailx -s "printed file ${FNAME} from ${3:-CIFS}" ${1}
