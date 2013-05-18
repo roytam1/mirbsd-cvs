@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $ */
+/* $MirOS: contrib/code/jupp/compat.c,v 1.1 2012/06/07 22:16:09 tg Exp $ */
 
 /*-
  * Copyright © 2004, 2005, 2006, 2007, 2011, 2012
@@ -29,6 +29,7 @@
 #include "config.h"
 #include "types.h"
 
+#undef __RCSID
 #define __RCSID(x)	/* nothing, in jupp */
 
 #undef L_strlcat
