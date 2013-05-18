@@ -1,4 +1,4 @@
-/* $MirOS: src/gnu/usr.bin/lynx/src/LYReadCFG.c,v 1.2 2005/03/27 22:42:37 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/lynx/src/LYReadCFG.c,v 1.3 2005/10/21 21:42:36 tg Exp $ */
 
 #ifndef NO_RULES
 #include <HTRules.h>
@@ -1259,6 +1259,9 @@ static Config_Type Config_Table [] =
      PARSE_SET(RC_COLLAPSE_BR_TAGS,     LYCollapseBRs),
 #ifdef USE_COLOR_TABLE
      PARSE_FUN(RC_COLOR,                color_fun),
+#endif
+#ifdef USE_COLOR_STYLE
+     PARSE_STR(RC_COLOR_STYLE,          lynx_lss_file),
 #endif
      PARSE_PRG(RC_COMPRESS_PATH,        ppCOMPRESS),
      PARSE_PRG(RC_COPY_PATH,            ppCOPY),

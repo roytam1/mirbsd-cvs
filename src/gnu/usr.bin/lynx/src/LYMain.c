@@ -1,4 +1,4 @@
-/* $MirOS: src/gnu/usr.bin/lynx/src/LYMain.c,v 1.7 2005/12/19 23:57:05 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/lynx/src/LYMain.c,v 1.8 2006/06/02 19:32:54 tg Exp $ */
 
 #include <HTUtils.h>
 #include <HTTP.h>
@@ -1520,9 +1520,10 @@ int main(int argc,
     /*
      * If the lynx-style file is not available, inform the user and exit.
      */
-    if (!LYCanReadFile(lynx_lss_file)) {
+    if (!isEmpty(lynx_lss_file) && !LYCanReadFile(lynx_lss_file)) {
 	fprintf(stderr, gettext("\nLynx file %s is not available.\n\n"),
 		lynx_lss_file);
+	exit_immediately(EXIT_FAILURE);
     } else {
 	style_readFromFile(lynx_lss_file);
     }

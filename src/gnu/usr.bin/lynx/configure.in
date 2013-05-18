@@ -1,4 +1,4 @@
-dnl $MirOS: src/gnu/usr.bin/lynx/configure.in,v 1.8 2006/02/01 14:42:27 tg Exp $
+dnl $MirOS: src/gnu/usr.bin/lynx/configure.in,v 1.9 2006/06/02 19:32:50 tg Exp $
 dnl
 dnl Process this file with autoconf to produce a configure script.
 dnl written jan/1997
@@ -359,6 +359,7 @@ fi
 fi
 
 CF_XOPEN_SOURCE(600,199506L)
+CF_SIGWINCH
 
 dnl Collect tests for compiler options into one place
 if test -n "$TRY_CFLAGS" ; then
@@ -464,15 +465,19 @@ slang)
 	;;
 esac
 
-dnl Get the actual value for $libdir, which we will compile into Lynx as part of
-dnl the config pathnames.
-eval cf_libdir=$libdir
-cf_libdir=`echo $cf_libdir | sed -e s%'^NONE/'%$prefix/% -e s%'^NONE/'%$ac_default_prefix/%`
+AC_MSG_CHECKING(for the default configuration-file)
 
-AC_MSG_CHECKING(for location of config-file)
-LYNX_CFG_FILE=$cf_libdir/lynx.cfg
-AC_DEFINE_UNQUOTED(LYNX_CFG_FILE,"$LYNX_CFG_FILE")
+CF_WITH_PATH(cfg-file,
+[  --with-cfg-file{=path}  specify the default configuration file
+                         ],
+LYNX_CFG_FILE,
+LIBDIR/lynx.cfg,
+$libdir/lynx.cfg)
+
 AC_MSG_RESULT($LYNX_CFG_FILE)
+
+test "$LYNX_CFG_FILE" = no && LYNX_CFG_FILE=
+AC_DEFINE_UNQUOTED(LYNX_CFG_FILE,"$LYNX_CFG_FILE")
 
 dnl --------------------------------------------------------------------------
 dnl Check for subsets of compiled-in tables.
@@ -695,9 +700,9 @@ fi
 
 AC_MSG_CHECKING(if color-style code should be used)
 CF_ARG_ENABLE(color-style,
-[  --enable-color-style    use optional/experimental color style (ncurses/curses)],
+[  --disable-color-style   use color style (ncurses/curses)],
 	[use_color_style=$enableval],
-	[use_color_style=no])
+	[use_color_style=yes])
 
 case $use_color_style in
 no)
@@ -709,9 +714,19 @@ no)
 	AC_MSG_RESULT(yes)
 
 	AC_MSG_CHECKING(for location of style-sheet file)
-	LYNX_LSS_FILE=$cf_libdir/lynx.lss
-	AC_DEFINE_UNQUOTED(LYNX_LSS_FILE,"$LYNX_LSS_FILE")
+
+CF_WITH_PATH(lss-file,
+[  --with-lss-file{=path}  specify the default style-sheet file
+                         ],
+LYNX_LSS_FILE,
+LIBDIR/lynx.lss,
+$libdir/lynx.lss)
+
 	AC_MSG_RESULT($LYNX_LSS_FILE)
+
+	test "$LYNX_LSS_FILE" = no && LYNX_LSS_FILE=
+	AC_DEFINE_UNQUOTED(LYNX_LSS_FILE,"$LYNX_LSS_FILE")
+
 	INSTALL_LSS=install-lss
 	;;
 esac
