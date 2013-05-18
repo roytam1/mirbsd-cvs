@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.360 2011/08/26 20:35:34 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.361 2011/08/27 19:34:55 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -8457,4 +8457,20 @@ Tag: debian event geocache
  but overall the second day was quite relaxed. Ah, and Benny is a
  Doctor in Germany now as well.</p>
 <p>On Monday, I slept quite a bit ☺</p>
+----
+Date: 01.09.2011 21:36
+Author: tg@
+Title: Subversion for Dummies (or visitors of the #cvs IRC channel)
+Tag: debian fun rant
+
+<p>Oh well – someone came into the <tt>#cvs</tt> channel on <a
+ href="@@RELPATH@@irc.htm">IRC</a> without a clue, again. I’ve
+ made a nice picture to show “the competition” (rival, whatever)
+ to newbies (<em>warning</em>, sarcasm ahead)…</p><!-- RSS stop -->
+<p><img src="@@RELPATH@@pics/wlog/svn43cvs.jpg"
+ alt="Subversion (svn, Suckwürstchen) for Dummies – or #cvs
+ channel visitors • branches tags trunk" /></p>
+<p>SCNR.</p>
+<p>But trying to “cvs co” a websvn repository view… honestly!</p>
+<p>Yes, I’m biased. And known to be proud of the things I use.</p>
 ----
