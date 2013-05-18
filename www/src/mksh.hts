@@ -3,7 +3,7 @@
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.225 2009/04/16 14:29:29 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.226 2009/04/21 10:07:23 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R37c</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -964,6 +964,16 @@ mws_content <<'EOF'
 <li>read with timeout like ksh93</li>
 <li>read -e like ksh93</li>
 <li>maybe associative arrays? meh, rather the bloat… naah</li>
+<li>Fix <a href="https://bugzilla.redhat.com/show_bug.cgi?id=496791">RedHat
+ BZ#496791</a> without breaking things like<pre>
+	echo $(typeset -i10 x=16#20; echo $x)
+	echo $(typeset -Uui16 x=16#$(id -u)
+	)
+	echo $(c=1; d=1
+	typeset -Uui16 a=36#foo; c=2
+	typeset -Uui16 b=36 #foo; d=2
+	echo $a $b $c $d)
+ </pre> etc.</li>
 </ul>
 
 <h2 id="clog">Recent Changes</h2>
