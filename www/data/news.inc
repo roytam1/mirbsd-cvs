@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/news.inc,v 1.127 2009/11/01 16:48:22 tg Exp $
+RCSID: $MirOS: www/data/news.inc,v 1.128 2009/11/02 18:58:21 tg Exp $
 Title: Older news from the MirOS Project
 Date: 01.03.2006
 
@@ -1759,7 +1759,8 @@ Picture3: Allerheiligen 2009-11-01
 <pre>Gee...  I don’t know what “hallowe’en” means…</pre>
 <p>Does this match what you’re thinking? Well, there <em>is</em> a new
  MirOS snapshot, with several components, (as usual) out on <a
- href="@@RELPATH@@bt.htm#s91031">BitTorrent</a>.</p>
+ href="@@RELPATH@@bt.htm#s91031">BitTorrent</a>. It was also distributed on
+ CDs at OpenRheinRuhr 2009, and will be (by formorer) at 26C3 in Berlin.</p>
 <p>This is the combination of an ISO 9660 filesystem image with the
  “Samhain” edition of MirBSD and the “Hello, Wien!” edition of <a
  href="http://grml.org/2009/10/31/">grml GNU/Linux</a>, Triforce (as
@@ -1815,6 +1816,9 @@ Picture3: Allerheiligen 2009-11-01
  update this file from the <tt>etc10.ngz</tt> set manually to cvs(1) <a
  href="@@ABSPATH@@/cvs.cgi/src/etc/rc.diff?r1=1.105;r2=1.107">revision
  1.107</a> if you are running a spamfilter scenario. Our apologies.</p>
+<p><strong>Update</strong> 08.11. – Append the following line:
+ <tt>CHARACTER_SET:utf-8</tt> to <tt>/etc/lynx.cfg</tt> or re-enable
+ locale-based charset setting.</p>
 <h3 class="revbox">@!PICTURE3!@</h3>
 <p>Once this release is done, I will create a cpio-with-crc-ball of the
  CVS repository again, for initial extraction purposes, to speed up an

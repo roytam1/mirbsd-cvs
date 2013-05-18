@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.251 2009/11/03 20:45:28 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.252 2009/11/06 19:24:55 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -5364,4 +5364,40 @@ Tag: bug event security snapshot
  efficient, C dæmon doing so (but without the hacks to keep cprng(8) within
  one memory page to cease swapping). Still, it’s great!</p><!-- RSS stop -->
 <p>bsiegert@ will be offline for a week.</p>
+----
+Title: got home
+Author: tg@
+Date: 08.11.2009 19:43
+Tag: bug event snapshot
+
+<p><a href="@@RELPATH@@permalinks/news_e20091031-tg.htm">The snapshot</a>
+ has another bug I discovered after converting my laptop to a showcase:
+ lynx(1) charset defaults, after disabling auto-detection, to the wrong
+ one (the news item has been updated, again).</p>
+<p>I came back from <a href="http://www.openrheinruhr.de/">OpenRheinRuhr</a>,
+ and (apparently in contrast to many others) liked it, save for the (a)social
+ event, which some organisers admit hasn't been what was promised to them. My
+ hotel was actually some kind of <span xml:lang="de_DE-1901">Vereinshaus</a>
+ and Billard club, so I had to eat supper (after fleeing the Casino, I had
+ wanted to eat with some others deciding to split/fork, but formorer couldn't
+ decide, so I walked the 3km, but didn't find anything appealing on the way,
+ since I walked towards the outside of the city) in a smokey bar. So 2007,
+ that. But I watched some kind of Billard competition during that, the meal
+ was good and much, and the beer good and rather affordable. (I even took a
+ <span xml:lang="de_DE-1901">Krug</span> to my room with me to flee smoke.)
+ Breakfast was included, the quality much more than I had expected at that
+ price (I paid almost twice that in Basel, where I didn't even have a private
+ loo adjourning the room, much less a proper bathroom with douche). The city,
+ despite confusing it with other <span xml:lang="de_DE-1901">Ruhrpott</span>
+ cities beginning with <b>BO</b>, was nice and quiet (although the visitor
+ count suggests that it was too remote, I rather prefer this to the usual
+ rush and street mob, and it was still lively).</p>
+<p>I think you'll find more coverage, photographies (hopefully not of me,
+ as I wore a pullover forbidding it) and opinions on the 'net soonish, even
+ dissing if I may harbour a guess (not without reason, from what I've been
+ told privately), and, as I still have a headache (as usual...) I refrain
+ from writing more. The MirBSD<tt>^H^H^H</tt>GRML CDs will be distributed
+ at 26C3 by formorer from the Grml team <i>*grins</i> and I wonder if the
+ celebrities equipeed with a MirCD or MirUSB stick, like Werner Koch, will
+ make good use of it ;-)</p>
 ----
