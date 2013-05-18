@@ -1,6 +1,6 @@
-# $MirOS: src/distrib/common/functions,v 1.3 2010/08/26 12:07:40 tg Exp $
+# $MirOS: src/distrib/common/functions,v 1.4 2011/02/18 23:06:03 tg Exp $
 #-
-# Copyright (c) 2008, 2010, 2011
+# Copyright (c) 2008, 2010, 2011, 2012
 #	Thorsten Glaser <tg@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
@@ -68,7 +68,7 @@ _ntp() {
 		print -r " $x"
 	fi
 	if [[ -x /usr/sbin/ntpd ]]; then
-		print -n Starting ntpd, this may take up to a minute...
+		print -n Starting NTP daemon...
 		/usr/sbin/ntpd
 		print done
 	fi
