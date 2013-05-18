@@ -1,5 +1,5 @@
 <!-- PageID: wlog-8 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.68 2006/04/13 01:33:53 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.69 2006/04/19 19:01:17 tg Exp $</small>
 <h1>MirBSD &ndash; WTF, We Have a Release!?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -1205,6 +1205,53 @@ celebrate this event, rotate the wlog and start a new one.</p>
  <p>I've prepared today what will be the Setup/Live CD tomorrow (the one
   which will be distributed at LinuxTag).</p>
  <p>Benny has been alive today!</p>
+</div>
+
+<div class="wlentry">
+ <h3 id="e20060508">08.05.2006 by tg@</h3>
+ <p>At the moment, I am developing on my trustworthy SPARCstation 20 (to
+  which a <tt>digital</tt> <i>VT420</i> is attached as console because a
+  monitor would be too heavy for me to lift it) since my laptop is fried
+  again (PSU, already for a while, and the TFT inverter, for which I try
+  to get a replacement). After somehow getting GNU screen to honour flow
+  control, it's really not too bad, and I've gotten used to it. Besides,
+  amber rocks!</p>
+ <p>I don't get any help from people when I post requests to the mailing
+  lists. For example: fdialog, the live CD, python, discussion requests,
+  like the gcc language stuff, Xen, motd, spamd, IRC, EXEC_ECOFF support
+  and bugs, infrastructure/scripts/out-of-date, "mmake clean is broken",
+  "/cvs/CVSROOT/*.sh", Bruno Haible, and some more bug stuff. That's why
+  I am developing merely for myself at the moment. MirOS #9's release is
+  depending on a criterium (merged in current stable version of OpenBSD,
+  at the time of releasing), but I probably won't release it without the
+  wide char functions working and the SPARC port revived. Furthermore, I
+  am diving into MS-DOS&reg; coding&#8230; you've been warned.</p>
+ <p>Expect a new version of <a href="/?mksh">mksh</a> to be released RSN
+  (like, in a few days). Most important new feature: <tt>~/.mkshrc</tt>,
+  by request of a <a href="http://debian.cante.net/">Debian</a> user who
+  also prodded me to enhance the manual page mksh(1) &ndash; it includes
+  the latest fixes by OpenBSD too though. I also cvs admin -b'd portable
+  mksh's extensions (four files) into -rHEAD so that people can test any
+  mksh extension development directly (without the Attic).</p>
+ <p>Do not expect the website to change much, or be updated (probably as
+  calendars don't get updated by anyone *sigh*). I will work a little on
+  improving stuff found during more extensive testing of the live CD and
+  portable mksh in the next days and then look where my current interest
+  is tending towards. Watch source-ch^W^Wmiros-changes@ for info. It may
+  look as if it has turned back into MirBSD.</p>
+ <p>Stability issues on the server still have not been sorted out, and I
+  am out of ideas. But we can't easily do without, either.</p>
+ <p>Finally, a word: while it may be hidden from the mainstream, and its
+  activity not be reflected on the web site, mailing lists, freshmeat, a
+  trade fair, symlink, OSnews, D&aelig;monnews, allbsd, undeadly, etc. I
+  don't see it sinking into oblivion. But I am going to focus on, merely
+  (until I get responses like the recent mksh discussion), developing on
+  what I think is needed. This may include a framebuffer device and/or X
+  server/module for a 20+ year old graphics card. I'm, also, looking for
+  employment and would kind of like to &quot;bring in&quot; MirOS, but I
+  don't think that's going to happen. At least not now &ndash; even some
+  finnish person who can't even program sprintf(3) made a job out of it.
+  (He didn't discover the bug in that function for years, either.)</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
