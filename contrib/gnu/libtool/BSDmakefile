@@ -1,4 +1,4 @@
-# $MirOS: contrib/gnu/libtool/BSDmakefile,v 1.9 2006/06/29 22:17:25 tg Exp $
+# $MirOS: contrib/gnu/libtool/BSDmakefile,v 1.10 2007/05/07 17:23:05 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -20,7 +20,7 @@ do-it:
 	done
 	touch NEWS README AUTHORS ChangeLog ltmain.sh libtoolize
 	cp libtool.m4 acinclude.m4
-	( export AUTOCONF_VERSION=2.60 AUTOMAKE_VERSION=1.9; \
+	( export AUTOCONF_VERSION=2.61 AUTOMAKE_VERSION=1.9; \
 	  aclocal --acdir=$$(aclocal --print-ac-dir); \
 	  automake --gnu --add-missing --copy; \
 	  autoconf )
