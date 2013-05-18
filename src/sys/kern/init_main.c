@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/kern/init_main.c,v 1.22 2008/11/08 23:04:21 tg Exp $ */
+/**	$MirOS: src/sys/kern/init_main.c,v 1.23 2009/01/02 05:16:32 tg Exp $ */
 /*	$OpenBSD: init_main.c,v 1.120 2004/11/23 19:08:55 miod Exp $	*/
 /*	$NetBSD: init_main.c,v 1.84.4.1 1996/06/02 09:08:06 mrg Exp $	*/
 /*	$OpenBSD: kern_xxx.c,v 1.9 2003/08/15 20:32:18 tedu Exp $	*/
@@ -101,6 +101,8 @@
 #if defined(NFSSERVER) || defined(NFSCLIENT)
 extern void nfs_init(void);
 #endif
+
+extern void rnd_shutdown(void);
 
 /* used by kernfs */
 const char	copyright[] =
@@ -712,6 +714,7 @@ sys_reboot(struct proc *p, void *v, register_t *retval)
 
 	if ((error = suser(p, 0)) != 0)
 		return (error);
+	rnd_shutdown();
 	boot(SCARG(uap, opt));
 	return (0);
 }

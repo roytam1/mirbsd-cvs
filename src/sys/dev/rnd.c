@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/rnd.c,v 1.49 2009/01/21 19:46:53 tg Exp $ */
+/**	$MirOS: src/sys/dev/rnd.c,v 1.50 2009/01/29 17:53:29 tg Exp $ */
 /*	$OpenBSD: rnd.c,v 1.78 2005/07/07 00:11:24 djm Exp $	*/
 
 /*
@@ -505,6 +505,7 @@ void arc4_reinit(void *v);
 static void arc4maybeinit(void);
 static void rnd_addpool_reinit(void *);
 static void arc4_depool(void *);
+void rnd_shutdown(void);
 
 /* Arcfour random stream generator.  This code is derived from section
  * 17.1 of Applied Cryptography, second edition, which describes a
@@ -1409,4 +1410,16 @@ arc4_addrandom(register const uint8_t *buf, size_t len)
 		arc4random_state.s[arc4random_state.j] = si;
 	}
 	arc4random_state.j = arc4random_state.i;
+}
+
+void
+rnd_shutdown(void)
+{
+	int s;
+
+	s = splhigh();
+	arc4_addrandom((void *)rnd_addpool_buf,
+	    rnd_addpool_size * sizeof (uint32_t));
+	arc4_reinit(NULL);
+	splx(s);
 }
