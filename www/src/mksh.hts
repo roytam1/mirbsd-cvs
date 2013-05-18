@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.310 2010/01/19 14:35:45 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.311 2010/01/25 19:10:22 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -214,7 +214,7 @@ mws_content <<'EOF'
 <li><tt>-j</tt> – parallel build (mksh R31d and up)</li>
 <li><tt>-llvm[=…]</tt> – compile to bytecode; option arguments (or, if none
  given, ‘-std-compile-opts’) are passed to LLVM opt (mksh R36b and up)</li>
-<li><tt>-M</tt> – instead of compiling, create <tt>Makefrag.inc</tt> (R40+)</li>
+<li><tt>-M</tt> – instead of compiling, create <tt>Makefrag.inc</tt> (R39b+)</li>
 <li><tt>-Q</tt> – be (only) a little less verbose</li>
 <li><tt>-r</tt> – don’t try to build a pre-formatted version
  of the manual page using nroff(1) if found – <em>recommended</em></li>
@@ -258,7 +258,7 @@ mws_content <<'EOF'
 <li><tt>-DMKSH_ASSUME_UTF8</tt> – do not use setlocale(3) or
  nl_langinfo(CODESET); assume the terminal is always in UTF-8 mode</li>
 <li><tt>-DMKSH_BINSHREDUCED</tt> – include code to automatically “set -o
- posix” (mksh R40+: “set -o sh”) to reduce functionality if called as
+ posix” (mksh R39b+: “set -o sh”) to reduce functionality if called as
  <tt>sh</tt> or <tt>-sh</tt></li>
 <li><tt>-DMKSH_CLS_STRING</tt> – the string to send to the terminal to clear
  the window (default: <tt>"\033[;H\033[J"</tt>)</li>
@@ -267,14 +267,14 @@ mws_content <<'EOF'
 <li><tt>-DMKSH_MIDNIGHTBSD01ASH_COMPAT</tt> – parse “--” on the shell command
  line like MidnightBSD 0.1 <tt>/bin/sh</tt> (different from all other shells);
  <em>requires</em> <tt>-DMKSH_BINSHREDUCED</tt> or “-o posix” (R38+) / “-o sh”
- (R40+)</li>
+ (R39b+)</li>
 <li><tt>-DMKSH_NOPWNAM</tt> – omit getpwnam(3) calls (<tt>~foo/</tt> expansion)
  in order to not pull in the nsswitch or PAM libraries</li>
 <li><tt>-DMKSH_NOVI</tt> – omit the Vi command line editing mode, which is
- orphaned anyway, yet functional (mksh below R40)</li>
+ orphaned anyway, yet functional (mksh below R39b)</li>
 <li><tt>-DMKSH_NO_LIMITS</tt> – don’t compile the ulimit code (R38c+)</li>
-<li><tt>-DMKSH_S_NOVI=0</tt> – do not omit the Vi editing mode (R40+)</li>
-<li><tt>-DMKSH_S_NOVI=1</tt> – omit the Vi command line editing mode</li>
+<li><tt>-DMKSH_S_NOVI=0</tt> – do not omit the Vi editing mode (R39b+)</li>
+<li><tt>-DMKSH_S_NOVI=1</tt> – omit the Vi command line editing mode (" ")</li>
 <li><tt>-DMKSH_UNEMPLOYED</tt> – compile without job control (R37b+)</li>
 <li><tt>-DUSE_REALLOC_MALLOC=0</tt> – if <tt>realloc(NULL, n)</tt> is not
  equivalent to <tt>malloc(n)</tt> (n &gt; 0) as ANSI C89 prescribes</li>
@@ -293,10 +293,10 @@ mws_content <<'EOF'
  disable the mknod(2), realpath(3)[mksh R39 and below] and revoke(2) externs (to re-enable these,
  follow the above schema); (not overridable) implies traditional/conservative
  filedescriptor usage, MKSH_NOPWNAM; omits shebang checking in scripts, the Vi
- command line editing mode (mksh R40 and up can re-enable it by defining
+ command line editing mode (mksh R39b and up can re-enable it by defining
  <tt>-DMKSH_S_NOVI=0</tt>), certain verbose error messages, the entire ‘-T’
  command line option, the fancy <tt>$RANDOM</tt> handling; replaces inlines
- with separate functions for size over speed optimisation, etc. (In R40 and
+ with separate functions for size over speed optimisation, etc. (In R39b and
  up, it disables a whole lot more things than in earlier versions.)</p>
 
 <h4 id="oespec">Operating Environment specific notes</h4>
@@ -349,7 +349,7 @@ mws_content <<'EOF'
  on IA64, only the LP64 model can be used; mksh used to segfault in the ILP32
  module (or rather, the system libraries did, I think), so it was default.
  PA-RISC too works fine, so this compiler is a primary choice.</p>
-<p>In mksh R40 and up, you must set <tt>CFLAGS='+O2 +DD64'</tt> on IA64 to get
+<p>In mksh R39b and up, you must set <tt>CFLAGS='+O2 +DD64'</tt> on IA64 to get
  the same behaviour as previous versions; the 32-bit mode is now the default.
  The HP-UX bundled compiler <tt>/usr/ccs/bin/cc</tt> works as well as HP aCC,
  except of course that it does not optimise. (GCC and C99 extensions aren’t
@@ -444,7 +444,18 @@ mws_content <<'EOF'
 <p>Supported with OpenADK (static eglibc) and NDK (although the build
  process is currently not feasible with an Android.mk file but possible
  if the CPPFLAGS and signames.inc are pregenerated; sys_signame[] has
- been pushed upstream and is currently under evaluation).</p>
+ been pushed upstream and is currently under evaluation). Integration
+ into the SDK and hence Android proper, as <tt>/bin/sh</tt>, is also
+ pushed into Gerrit and under evaluation.</p>
+
+<h5 id="oe_iphone">Platform: iPhone</h5>
+<p>This is just <a href="#oe_osx">Mac OSX</a>, compile (natively, or
+ cross via the SDK) and copy.</p>
+
+<h5 id="oe_maemo">Platform: Maemo</h5>
+<p>This is like Debian, and packaging is available via the Garage and
+ the Extras repository. Helpers (for GUI integration and actual on
+ device testing) seeked.</p>
 
 <h5 id="oe_diet">Toolchain: dietlibc</h5>
 <p>Fefe’s dietlibc works in mksh R34, although his opinion towards certain
@@ -487,7 +498,7 @@ mws_content <<'EOF'
 <h5 id="oe_hurd">OS: GNU/Hurd</h5>
 <p>This operating system is supported (on i386) since R29 but not well
  tested. mksh is part of Debian GNU/Hurd, so it is expected to work.</p>
-<p>Starting with mksh R40, there is no arbitrary limit on pathnames any
+<p>Starting with mksh R39b, there is no arbitrary limit on pathnames any
  more, as the operating system requires. (However, there are still other
  inherent limits in mksh, such as that of an interactive input line.)</p>
 
@@ -1068,16 +1079,25 @@ mws_content <<'EOF'
  <li>[tg] Apply errno save/restore related fix from (sync with) oksh</li>
  <li>[tg] Build.sh: output message when switching from autoconfiguration to
   building / output generation (requested by Matt “lewellyn” Lewandowsky);
-  use “conftest.c” ipv “scn.c” (to please ccache)</li>
+  use “conftest.c” ipv “scn.c” (to please ccache); check for “-xipo” with
+  SUNWcc (suggested by lewellyn as well)</li>
  <li>[tg] Allow “unset foo[*]” (keep attributes) and “typeset foo[*]” (for
   forward-compatibility; in R39b it’s the same as “typeset foo”)</li>
  <li>[tg] When persistent history is enabled (but not MKSH_SMALL) and used,
   intertwine the shells concurrently accessing $HISTFILE better ⇒ sync on
   empty or duplicate line as well (requested by Maximilian “mxey” Gaß)</li>
-
-<li>	#XXX
-[tg] Rename <tt>set -o posix</tt> (kludge) to <tt>set -o sh</tt></li>
-
+ <li>[tg] Split off “set ±o posix” and “set ±o sh” again, to be somewhat
+  more compatible to various old or vendor versions of pdksh and mksh:<ul>
+   <li>MKSH_BINSHREDUCED sets FSH but not FPOSIX</li>
+   <li>MKSH_MIDNIGHTBSD01ASH_COMPAT depends on FSH but not FPOSIX</li>
+   <li>The <tt>echo</tt> built-in behaves the same for FPOSIX and FSH</li>
+   <li>File descriptors &gt; 2 are not closed for both FPOSIX and FSH</li>
+   <li>Both “set -o posix” and “set -o sh” call “set +o braceexpand”</li>
+   <li>In contrast to R39 and below, the errorlevel of “set -- $(getopt ab:c
+    "$@")” is now the same in ksh and FPOSIX mode (0) and only FSH will use
+    the errorlevel of <tt>getopt</tt> (used to be the other way round)</li>
+  </ul></li>
+ <li>[tg] Document some more shortcomings in the mksh(1) manual page</li>
 </ul>
 <p id="r39">mksh R39 evolved into these through various means:</p><ul>
  <li>[tg] Shut up a bogus gcc warning during configuration process</li>
