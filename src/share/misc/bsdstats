@@ -1,4 +1,4 @@
-# $MirOS: src/share/misc/bsdstats,v 1.29 2007/05/15 19:12:28 tg Exp $
+# $MirOS: src/share/misc/bsdstats,v 1.30 2007/05/15 19:56:52 tg Exp $
 # $FreeBSD: ports/sysutils/bsdstats/files/300.statistics,v 1.38 2006/12/05 13:49:45 scrappy Exp $
 #-
 # Copyright (c) 2007
@@ -139,7 +139,7 @@ function report_ports {
 	qs="token=$stats_key&key=$stats_token$qs"
 	qs="POST $path HTTP/1.0
 Host: $host
-User-Agent: bsdstats \$MirOS: src/share/misc/bsdstats,v 1.29 2007/05/15 19:12:28 tg Exp $
+User-Agent: bsdstats \$MirOS: src/share/misc/bsdstats,v 1.30 2007/05/15 19:56:52 tg Exp $
 Connection: close
 Content-Type: application/x-www-form-urlencoded
 Content-Length: ${#qs}
@@ -312,6 +312,14 @@ if (( $(timet2date $stats_report_time +%Y%m) < $(timet2date $now +%Y%m) )); then
 			for flavour in $flavours; do
 				name=$name,$flavour
 			done
+			qs="$qs:$(uri_escape "$name")"
+		done
+		# look for Debian installed software
+		(whence -p dpkg-query >&- 2>&- && \
+		    dpkg-query -Wf '${Section}\t${Package}\t${Version}\n') |&
+		while IFS='	' read -pr section name ver; do
+			qs="$qs&port[]=$(uri_escape "$section")"
+			name="$name-$(print -nr -- "$ver" | tr - _)"
 			qs="$qs:$(uri_escape "$name")"
 		done
 		# send info about any found binary packages now at once
