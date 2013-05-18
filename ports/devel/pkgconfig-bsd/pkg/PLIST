@@ -1,6 +1,0 @@
-@comment $MirOS: ports/devel/pkgconfig-bsd/pkg/PLIST,v 1.1 2007/02/23 20:14:08 bsiegert Exp $
-bin/pkg-config
-${P5ARCH}/OpenBSD/PkgConfig.pm
-man/cat1/pkg-config.0
-@dirrm ${P5ARCH}/OpenBSD
-@dirrm ${P5ARCH}

@@ -1,8 +1,0 @@
-@comment $MirOS$
-libexec/pcsc/drivers/ifd-egate.bundle/Contents/BSD/libifd_egate.so
-libexec/pcsc/drivers/ifd-egate.bundle/Contents/Info.plist
-@dirrm libexec/pcsc/drivers/ifd-egate.bundle/Contents/BSD
-@dirrm libexec/pcsc/drivers/ifd-egate.bundle/Contents
-@dirrm libexec/pcsc/drivers/ifd-egate.bundle
-@dirrm libexec/pcsc/drivers
-@dirrm libexec/pcsc

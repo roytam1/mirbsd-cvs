@@ -1,7 +1,0 @@
-@comment $OpenBSD: PLIST,v 1.5 2003/02/02 04:02:09 pvalchev Exp $
-bin/nap
-bin/napping
-man/man1/nap.1
-share/doc/nap/README
-share/doc/nap/userguide.html
-@dirrm share/doc/nap

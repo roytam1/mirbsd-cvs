@@ -1,5 +1,0 @@
-@comment $MirOS$
-@comment $OpenBSD: PLIST,v 1.5 2003/04/05 22:24:36 margarida Exp $
-include/SDL/SDL_ttf.h
-lib/libSDL_ttf.la
-@dirrm include/SDL
