@@ -18,7 +18,7 @@
 #include <assert.h>
 #include "getline.h"
 
-__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/root.c,v 1.8 2010/09/19 19:43:10 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/root.c,v 1.9 2011/06/11 00:24:05 tg Exp $");
 
 /* Printable names for things in the current_parsed_root->method enum variable.
    Watch out if the enum is changed in cvs.h! */
@@ -854,8 +854,8 @@ parse_cvsroot (const char *root_in)
 	break;
     case server_method:
     case ext_method:
-    case extssh_method:
 	no_port = 1;
+    case extssh_method:
 	/* no_password already set */
 	check_hostname = 1;
 	break;
@@ -899,8 +899,8 @@ parse_cvsroot (const char *root_in)
     if (no_port && newroot->port)
     {
         error (0, 0,
-"CVSROOT port specification is only valid for gserver, kserver,");
-        error (0, 0, "and pserver connection methods.");
+"CVSROOT port specification is only valid for extssh,");
+        error (0, 0, "gserver, kserver and pserver connection methods.");
         goto error_exit;
     }
 #endif /* defined(CLIENT_SUPPORT) || defined (SERVER_SUPPORT) */

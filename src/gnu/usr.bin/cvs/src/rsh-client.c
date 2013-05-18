@@ -15,7 +15,7 @@
 #include "cvs.h"
 #include "buffer.h"
 
-__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_rsh-client_c,v 1.2 2010/09/15 20:57:03 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/rsh-client.c,v 1.4 2010/09/19 19:43:10 tg Exp $");
 
 #ifdef CLIENT_SUPPORT
 
@@ -55,9 +55,10 @@ start_rsh_server (cvsroot_t *root, struct buffer **to_server_p,
     char *cvs_server = (root->cvs_server != NULL
 			? root->cvs_server : getenv ("CVS_SERVER"));
     int i = 0;
-    /* This needs to fit "rsh", "-b", "-l", "USER", "host",
+    /* This needs to fit "rsh", "-b", "-l", "USER", "-p", port, "host",
        "cmd (w/ args)", and NULL.  We leave some room to grow. */
-    char *rsh_argv[10];
+    char *rsh_argv[16];
+    char argvport[16];
 
     if (!cvs_rsh)
 	/* People sometimes suggest or assume that this should default
@@ -99,8 +100,17 @@ start_rsh_server (cvsroot_t *root, struct buffer **to_server_p,
 	rsh_argv[i++] = root->username;
     }
 
+    if (root->method == extssh_method && root->port)
+    {
+	snprintf(argvport, sizeof(argvport), "%d", root->port);
+	rsh_argv[i++] = "-p";
+	rsh_argv[i++] = argvport;
+    }
+
     rsh_argv[i++] = root->hostname;
     rsh_argv[i++] = cvs_server;
+    if (readonlyfs)
+	rsh_argv[i++] = "-R";
     rsh_argv[i++] = "server";
 
     /* Mark the end of the arg list. */
@@ -159,7 +169,8 @@ start_rsh_server (cvsroot_t *root, struct buffer **to_server_p,
     command = Xasprintf ("%s%s server", cvs_server, readonlyfs ? " -R" : "");
 
     {
-        char *argv[10];
+	char argvport[16];
+        char *argv[16];
 	char **p = argv;
 
 	*p++ = cvs_rsh;
@@ -171,6 +182,13 @@ start_rsh_server (cvsroot_t *root, struct buffer **to_server_p,
 	{
 	    *p++ = "-l";
 	    *p++ = root->username;
+	}
+
+	if (root->method == extssh_method && root->port)
+	{
+		snprintf(argvport, sizeof(argvport), "%d", root->port);
+		*p++ = "-p";
+		*p++ = argvport;
 	}
 
 	*p++ = root->hostname;
