@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.20 2006/12/11 21:04:56 tg Rel $ */
+/* $MirOS: src/kern/c/i386/strlen.S,v 1.1 2007/02/07 02:29:33 tg Exp $ */
 
 /*-
  * Copyright (c) 2007
@@ -24,7 +24,7 @@
 
 	.intel_syntax noprefix
 	.section .comment
-	.asciz	"$MirOS$"
+	.asciz	"$MirOS: src/kern/c/i386/strlen.S,v 1.1 2007/02/07 02:29:33 tg Exp $"
 	.text
 
 #ifdef WIDEC
@@ -37,8 +37,7 @@ ENTRY(strlen)
 	push	edi
 	mov	edi,[esp+8]
 	xor	eax,eax			/* al (WIDEC: ax) = NUL */
-	xor	ecx,ecx
-	dec	ecx
+	lea	ecx,[eax-1]		/* ecx := -1 */
 	repne
 #ifdef WIDEC
 	scasw
