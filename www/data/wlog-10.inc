@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.403 2012/12/01 21:30:05 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.404 2012/12/02 17:32:37 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -9334,6 +9334,7 @@ Tag: golang
 Date: 01.12.2012 21:24
 Author: tg@
 Title: Proposed extensions to the JSON specification
+Tag: debian
 
 <p>The following proposal extends the JSON specification, with the idea
  of using JSON as an information interchange format, rather than just a
@@ -9407,4 +9408,82 @@ Title: Proposed extensions to the JSON specification
  characters: “"€"” is a valid JSON text. Still possible to peek at four
  octets and determine the encoding by ordering the tests; updated my <a
  href="@@ABSPATH@@/cvs.cgi/contrib/hosted/tg/code/MirJSON/json.txt?rev=HEAD">notes</a>.</p>
+----
+Date: 07.12.2012 22:40
+Author: tg@
+Title: Collision resolution in open addressing hashtables
+Tag: debian
+
+<p>Before we begin, everyone should read up on hashtables and what open
+ addressing / closed hashing is. The context is lines 111‥190 of <a
+ href="http://hg.python.org/cpython/file/026b9f5dd97f/Objects/dictobject.c">Python’s
+ Objects/dictobject.c as of today</a> (so we get the line numbers straight).
+ My questions on this are:</p>
+<p class="boxhead">① Why is the shift on perturb done after its first use?
+ In my experiments (using 32-bit width everywhere), for the pathological
+ case of an 8-element (i = 3) table with three entries 0, 0x40000000 and
+ 0x800000000, the “second round” yields 1 for all three, so it cannot have
+ to do with the upper bits. My lookup looks like:</p><div class="boxtext">
+ <pre>
+	mask = 2ⁱ - 1;
+	j = perturb = hash(key);
+	goto find_first_slot;
+
+	 find_next_slot:
+	j = (j &lt;&lt; 2) + j + perturb + 1;
+	perturb &gt;&gt;= PERTURB_SHIFT;
+	/* FALLTHROUGH */
+
+	 find_first_slot:
+	entry = table[j &amp; mask];
+	if (!match(entry)) goto find_next_empty_slot;
+ </pre>
+</div><p class="boxfoot">This means that my first check is always the bare
+ hash (so “only do it if needed” is no reason) and, since I’m using gotos,
+ I could just move the <tt>perturb &gt;&gt;= PERTURB_SHIFT;</tt> line before
+ the line recalculating the next <tt>j</tt> to use. This seems to make more
+ sense, even in the face of Python. (I actually looked at the Python file’s
+ comments again today because I thought to use a different resolution, but
+ they have a good rationale for using the multiplication by 5.)</p>
+<p>② Why can’t we just use <tt>i</tt> as the <tt>PERTURB_SHIFT</tt>? Sure,
+ this changes a shift-right by a constant, which can possibly be encoded
+ as immediate value in assembly (unless you’re on a pre-80186, which can
+ only do <tt>SHR AX,1</tt> and <tt>SHR AX,CL</tt> but not <tt>SHR AX,4</tt>,
+ but that’s outside of <a href="@@RELPATH@@mksh.htm">mksh</a>’s scope) into
+ a right-shift by a variable, but <tt>i</tt> is already known, and I think
+ the behaviour is better (it wouldn’t eat any bits; assume the same 8-entry
+ hashtable and pathologic keys 0, 8 and 16). Again: who do I think I am to
+ go against the wisdom of the Python people, who seem to have shed more
+ thought on this than everyone else I saw, asked, read about (including <a
+ href="http://pics.nase-bohren.de/jimmywales-begging.jpg">Spammipedia</a>).
+ That’s why I’m asking here. <span style="font-size:small;">On that reference:
+ I don’t support spammers or people nagging for donations or premium accounts,
+ like Xing and Groundspeak/Geocaching.COM, at all. In fact, I urge others to
+ do the same, so it really hurts them; it may be their business model, but not
+ if they spam me. Besides, OpenCaching.DE exists.</span></p>
+<p>Please drop your thoughts on <a href="@@RELPATH@@irc.htm">Freenode</a>,
+ e.g. by <tt>/msg MemoServ send mirabilos <i>your text here</i></tt> or per
+ eMail to the domains debian, freewrt or mirbsd, which are organisations, with
+ the localpart <tt>tg</tt>. Or just contact me as usual, if you’re already
+ acquainted. Or lookup 0xE99007E0. Thanks in advance! (Especially, Python
+ Developers’ thoughts are welcome.)</p>
+<p>Another thing to think of: to avoid things like CVE-2011-4815, I’ll XOR
+ the actual hash with a random, one per hashtable (changed on resize) value.
+ When using the hashtable as storage backend for (potentially sparse) indexed
+ arrays, my keys are 32-bit integers, too. I’m thinking of skipping that
+ randomisation there: an attacker probably cannot decide the keys, only the
+ values, for code that writes into indexed arrays (as opposed to associative
+ arrays, where integer keys are just interpreted as strings and hashed and
+ then randomised). Right? (The code in question is used in a less general
+ fashion than Python’s, namely, a (Unix) shell.)</p>
+<p>PS: Sorting algorithm with as few comparisons as possible (we’re talking
+ array of strings here: cheap swaps), decent performance and memory usage.
+ I’m thinking Merge Sort. Maybe Tree Sort, but then I shouldn’t use a hash
+ table, and on the other hand, I don’t always need a list of keys (with the
+ reason the associative array keys need to be sorted being CVE-2011-4815,
+ so the secret XOR value is never exposed, among other reasons), and it’s
+ harder on the allocator, whereas Merge Sort is easy, alloc-wise: I need to
+ return a newly allocated array anyway. It’s mostly but not only for making
+ a sorted list of array keys, but all use cases have unique strings and no
+ need for a stable sort, or in-place for that matter.</p>
 ----
