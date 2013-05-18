@@ -1,10 +1,10 @@
-# $MirOS: www/src/mksh_old.hts,v 1.5 2007/10/14 14:07:39 tg Exp $
+# $MirOS: www/src/mksh_old.hts,v 1.6 2008/02/29 13:30:55 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh/old "mksh – old versions"
-mws_putheader '$MirOS: www/src/mksh_old.hts,v 1.5 2007/10/14 14:07:39 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh_old.hts,v 1.6 2008/02/29 13:30:55 tg Exp $'
 mws_content <<'EOF'
 <h1><a href="mksh.htm">mksh</a> – old versions</h1>
 <p>This page lists information about mksh R29 and earlier.</p>
@@ -273,7 +273,7 @@ mws_content <<'EOF'
 <p>Please use mksh R29f because of below modifications:</p><ul>
  <li>Fix detection of function prototypes (data declaractions were ok)</li>
  <li>Fix a regression introduced in R29e regarding the scroll bar</li>
- <li>Recommendation on <a href="#vsn">version numbering</a> changed;
+ <li>Recommendation on <a href="@@RELPATH@@mksh.htm#vsn">version numbering</a> changed;
   suffixes b, c, … match .2, .3, … like alphabetical numbering order</li>
 </ul>
 <p>Dedicated to David Ramsey and Coverity, mksh R29e unveils:</p><ul>
@@ -414,7 +414,7 @@ mws_content <<'EOF'
  <li>Change the eaccess() code to not use setreuid(2) and friends, like
   OpenBSD ksh and apparently pdksh. I'm not too sure about the implications,
   except that they only affect setuid shell scripts.</li>
- <li>Use setresuid(2) and friends, and setgroups(3) and &lt;grp.h&gt; instead
+ <li>Use setresuid(2) and friends, and setgroups(2) and &lt;grp.h&gt; instead
   of seteuid(2), setuid(2) etc. on operating systems that support them</li>
  <li>Work around (i.e. remove) all but two <tt>-Wcast-qual</tt> issues</li>
  <li>Work around a bug in the GNU implementation of the Berkeley mdoc macros

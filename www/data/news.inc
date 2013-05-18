@@ -639,5 +639,5 @@ Date: 01.03.2008
  's/foo.*bar/baz/g')</tt> with <tt>x=${x//foo*bar/baz}</tt> ☺</p>
 <p>Note: the distfile is not here yet, it’ll take a while to be released.
  Once it’s uploaded, the <a href="@@RELPATH@@mksh.htm">mksh homepage</a>
- will be updated with appropriate information.</p>
+ will be updated with appropriate information. UPDATE: It’s out now.</p>
 ----
