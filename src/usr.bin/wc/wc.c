@@ -33,7 +33,7 @@
 __COPYRIGHT("@(#) Copyright (c) 1980, 1987, 1991, 1993\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)wc.c	8.2 (Berkeley) 5/2/95");
-__RCSID("$MirOS: src/usr.bin/wc/wc.c,v 1.2 2007/07/05 23:09:45 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/wc/wc.c,v 1.3 2009/05/31 15:27:49 tg Exp $");
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -51,7 +51,7 @@ int	doline, doword, dochar;
 int 	rval;
 extern char *__progname;
 
-void	print_counts(int64_t, int64_t, int64_t, char *);
+void	print_counts(int64_t, int64_t, int64_t, const char *);
 void	cnt(char *);
 
 int
@@ -231,7 +231,7 @@ cnt(char *file)
 }
 
 void
-print_counts(int64_t lines, int64_t words, int64_t chars, char *name)
+print_counts(int64_t lines, int64_t words, int64_t chars, const char *name)
 {
 
 	if (doline)
