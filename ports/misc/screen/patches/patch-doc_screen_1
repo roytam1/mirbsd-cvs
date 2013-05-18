@@ -1,7 +1,7 @@
-$MirOS: ports/misc/screen/patches/patch-doc_screen_1,v 1.2 2005/12/22 01:12:01 tg Exp $
+$MirOS: ports/misc/screen/patches/patch-doc_screen_1,v 1.3 2006/10/31 03:40:12 tg Exp $
 $OpenBSD: patch-doc_screen_1,v 1.4 2003/09/26 23:50:55 brad Exp $
 --- doc/screen.1.orig	Fri Dec  5 13:51:35 2003
-+++ doc/screen.1	Tue Oct 31 03:29:56 2006
++++ doc/screen.1	Sun Feb 11 01:18:48 2007
 @@ -64,28 +64,19 @@ exits.
  Everything you type is sent to the program running in the current window.
  The only exception to this is the one keystroke that is used to initiate
@@ -605,7 +605,18 @@ $OpenBSD: patch-doc_screen_1,v 1.4 2003/09/26 23:50:55 brad Exp $
  The option \*Q-n\*U may be used to suppress the line feed.
  See also \*Qsleep\*U.
  Echo is also useful for online checking of environment variables.
-@@ -1702,7 +1693,7 @@ Set the command character to \fIx\fP and
+@@ -1684,7 +1675,9 @@ how to interpret the input/output. The f
+ sets the encoding of the current window. Each window can emulate
+ a different encoding. The optional second parameter overwrites
+ the encoding of the connected terminal. It should never be
+-needed as screen uses the locale setting to detect the encoding.
++needed as screen uses the locale setting
++as well as a special mechanism to determine a UTF-8 or ISO-8859-1 terminal
++to detect the encoding.
+ There is also a way to select a terminal encoding depending on
+ the terminal type by using the \*QKJ\*U termcap entry.
+ 
+@@ -1702,7 +1695,7 @@ Set the command character to \fIx\fP and
  command character (by triggering the \*Qmeta\*U command) to \fIy\fP (similar
  to the \-e option).
  Each argument is either a single character, a two-character sequence
@@ -614,7 +625,7 @@ $OpenBSD: patch-doc_screen_1,v 1.4 2003/09/26 23:50:55 brad Exp $
  number (specifying the ASCII code of the character), or a backslash followed
  by a second character, such as \*Q\e^\*U or \*Q\e\e\*U.
  The default is \*Q^Aa\*U.
-@@ -1864,7 +1855,7 @@ scrollback buffer.
+@@ -1864,7 +1857,7 @@ scrollback buffer.
  .PP
  If set to "on", 
  .I screen
@@ -623,7 +634,7 @@ $OpenBSD: patch-doc_screen_1,v 1.4 2003/09/26 23:50:55 brad Exp $
  otherwise these files are overwritten each time.
  Default is `off'.
  .sp
-@@ -1965,7 +1956,7 @@ For example csh has the command \*Q!!\*U
+@@ -1965,7 +1958,7 @@ For example csh has the command \*Q!!\*U
  .I Screen
  allows you to have a primitive way of re-calling \*Qthe command that
  started ...\*U: You just type the first letter of that command, then hit
@@ -632,7 +643,7 @@ $OpenBSD: patch-doc_screen_1,v 1.4 2003/09/26 23:50:55 brad Exp $
  .I screen
  tries to find a previous line that matches with the `prompt character' 
  to the left of the cursor. This line is pasted into this window's input queue.
-@@ -2056,9 +2047,9 @@ switches to the previously displayed win
+@@ -2056,9 +2049,9 @@ switches to the previously displayed win
  Note:
  .I Emacs
  users should keep this command in mind, when killing a line.
@@ -644,7 +655,7 @@ $OpenBSD: patch-doc_screen_1,v 1.4 2003/09/26 23:50:55 brad Exp $
  .sp
  .ne 3
  .B lastmsg
-@@ -2125,7 +2116,7 @@ This controls if the window is `logged i
+@@ -2125,7 +2118,7 @@ This controls if the window is `logged i
  When no parameter is given, the login state of the window is toggled.
  Additionally to that toggle, it is convenient having a `log in' and a `log out'
  key. E.\|g. `bind I login on' and `bind O login off' will map these
@@ -653,7 +664,7 @@ $OpenBSD: patch-doc_screen_1,v 1.4 2003/09/26 23:50:55 brad Exp $
  The default setting (in config.h.in) should be \*Qon\*U for a 
  .I screen
  that runs under suid-root.
-@@ -2187,7 +2178,7 @@ See also \*Qbindkey\*U.
+@@ -2187,7 +2180,7 @@ See also \*Qbindkey\*U.
  This is a method of changing the keymap used for copy/history mode.
  The string is made up of \fIoldchar\fP=\fInewchar\fP pairs which are
  separated by `:'. Example: The string \*QB=^B:F=^F\*U will change the 
@@ -662,7 +673,7 @@ $OpenBSD: patch-doc_screen_1,v 1.4 2003/09/26 23:50:55 brad Exp $
  This happens to be the default binding for `B' and `F'.
  The command \*Qmarkkeys h=^B:l=^F:$=^E\*U would set the mode for an emacs-style
  binding.
-@@ -2207,7 +2198,7 @@ already existing windows. The number may
+@@ -2207,7 +2200,7 @@ already existing windows. The number may
  .ne 3
  .B meta
  .PP
@@ -671,7 +682,7 @@ $OpenBSD: patch-doc_screen_1,v 1.4 2003/09/26 23:50:55 brad Exp $
  .sp
  .ne 3
  .BR "monitor " [ on | off ]
-@@ -2436,9 +2427,9 @@ keyboard. This command can be used to bi
+@@ -2436,9 +2429,9 @@ keyboard. This command can be used to bi
  .PP
  Kill all windows and terminate
  .IR screen .
@@ -683,7 +694,7 @@ $OpenBSD: patch-doc_screen_1,v 1.4 2003/09/26 23:50:55 brad Exp $
  Use the empty bind command (as in \*Qbind '^\e'\*U) to remove a key binding.
  .sp
  .ne 3
-@@ -2470,8 +2461,8 @@ the 
+@@ -2470,8 +2463,8 @@ the 
  window (using register p, where a copy remains):
  .PP
  .nf
@@ -694,7 +705,7 @@ $OpenBSD: patch-doc_screen_1,v 1.4 2003/09/26 23:50:55 brad Exp $
  .fi
  .sp
  .ne 3
-@@ -2571,7 +2562,7 @@ See also chapter \*QWINDOW TYPES\*U.
+@@ -2571,7 +2564,7 @@ See also chapter \*QWINDOW TYPES\*U.
  .PP
  Set the size of the scrollback buffer for the current windows to \fInum\fP 
  lines. The default scrollback is 100 lines.
@@ -703,7 +714,7 @@ $OpenBSD: patch-doc_screen_1,v 1.4 2003/09/26 23:50:55 brad Exp $
  current setting.
  .sp
  .ne 3
-@@ -2632,7 +2623,7 @@ a '-' character, the shell will be start
+@@ -2632,7 +2625,7 @@ a '-' character, the shell will be start
  .B "shelltitle \fItitle\fP"
  .PP
  Set the title for all shells created during startup or by
@@ -712,7 +723,7 @@ $OpenBSD: patch-doc_screen_1,v 1.4 2003/09/26 23:50:55 brad Exp $
  For details about what a title is, see the discussion
  entitled \*QTITLES (naming windows)\*U.
  .sp
-@@ -2664,7 +2655,7 @@ It may be used to give users a chance to
+@@ -2664,7 +2657,7 @@ It may be used to give users a chance to
  .B "slowpaste \fImsec\fP"
  .PP
  Define the speed at which text is inserted into the current window by the 
@@ -721,7 +732,7 @@ $OpenBSD: patch-doc_screen_1,v 1.4 2003/09/26 23:50:55 brad Exp $
  If the slowpaste value is nonzero text is written character by character.
  .I screen
  will make a pause of \fImsec\fP milliseconds after each single character write 
-@@ -3445,9 +3436,9 @@ pause the output of the current window.
+@@ -3445,9 +3438,9 @@ pause the output of the current window.
  You can still send these characters to the current program, but you must use
  the appropriate two-character
  .I screen
@@ -734,7 +745,7 @@ $OpenBSD: patch-doc_screen_1,v 1.4 2003/09/26 23:50:55 brad Exp $
  that intercepts these characters.
  .PP
  Each window has an initial flow-control value set with either the
-@@ -3455,7 +3446,7 @@ Each window has an initial flow-control 
+@@ -3455,7 +3448,7 @@ Each window has an initial flow-control 
  option or the \*Qdefflow\*U .screenrc command. Per default the windows
  are set to automatic flow-switching.
  It can then be toggled between the three states 'fixed on', 'fixed off'
@@ -743,7 +754,7 @@ $OpenBSD: patch-doc_screen_1,v 1.4 2003/09/26 23:50:55 brad Exp $
  .PP
  The automatic flow-switching mode deals with
  flow control using the TIOCPKT mode (like \*Qrlogin\*U does). If
-@@ -3467,7 +3458,7 @@ keypad \- when it is enabled, flow-contr
+@@ -3467,7 +3460,7 @@ keypad \- when it is enabled, flow-contr
  Of course, you can still manipulate flow-control manually when needed.
  .PP
  If you're running with flow-control enabled and find that pressing the
@@ -752,7 +763,7 @@ $OpenBSD: patch-doc_screen_1,v 1.4 2003/09/26 23:50:55 brad Exp $
  6-8 lines have scrolled by, try running
  .I screen
  with the \*Qinterrupt\*U
-@@ -3482,21 +3473,21 @@ One disadvantage is that the virtual ter
+@@ -3482,21 +3475,21 @@ One disadvantage is that the virtual ter
  non-flushed version of the output, which in rare cases can cause
  minor inaccuracies in the output.
  For example, if you switch screens and return, or update the screen
@@ -777,7 +788,7 @@ $OpenBSD: patch-doc_screen_1,v 1.4 2003/09/26 23:50:55 brad Exp $
  the title commands.
  Normally the name displayed is the actual command name of the program
  created in the window.
-@@ -3510,7 +3501,7 @@ a \*Qscreen\*U command and thus can have
+@@ -3510,7 +3503,7 @@ a \*Qscreen\*U command and thus can have
  .B \-t
  option.
  Interactively, there is the title-string escape-sequence
@@ -786,7 +797,7 @@ $OpenBSD: patch-doc_screen_1,v 1.4 2003/09/26 23:50:55 brad Exp $
  The former can be output from an application to control the window's name
  under software control, and the latter will prompt for a name when typed.
  You can also bind pre-defined names to keys with the \*Qtitle\*U command
-@@ -3574,7 +3565,7 @@ running, and revert to \*Qcsh\*U upon co
+@@ -3574,7 +3567,7 @@ running, and revert to \*Qcsh\*U upon co
  bind R screen -t '% |root:' su
  .PP
  Having this command in your .screenrc would bind the key
@@ -795,7 +806,7 @@ $OpenBSD: patch-doc_screen_1,v 1.4 2003/09/26 23:50:55 brad Exp $
  auto-title name of \*Qroot:\*U.
  For this auto-title to work, the screen could look something
  like this:
-@@ -3596,10 +3587,10 @@ of the command, and revert to simply \*Q
+@@ -3596,10 +3589,10 @@ of the command, and revert to simply \*Q
  .fi
  .sp
  The first binding doesn't have any arguments, so it would prompt you
@@ -809,7 +820,7 @@ $OpenBSD: patch-doc_screen_1,v 1.4 2003/09/26 23:50:55 brad Exp $
  .PP
  One thing to keep in mind when adding a null title-escape-sequence to
  your prompt is that some shells (like the csh) count all the non-control
-@@ -4416,12 +4407,12 @@ Examples in the 
+@@ -4416,12 +4409,12 @@ Examples in the 
  .I screen
  distribution package for private and global initialization files.
  .IP $SYSSCREENRC 
@@ -824,7 +835,7 @@ $OpenBSD: patch-doc_screen_1,v 1.4 2003/09/26 23:50:55 brad Exp $
  .IP $SCREENDIR/S-<login>
  .IP /local/screens/S-<login>
  Socket directories (default)
-@@ -4442,7 +4433,7 @@ Output log files created by the log func
+@@ -4442,7 +4435,7 @@ Output log files created by the log func
  or
  .IP /etc/termcap
  Terminal capability databases
@@ -833,7 +844,7 @@ $OpenBSD: patch-doc_screen_1,v 1.4 2003/09/26 23:50:55 brad Exp $
  Login records
  .IP $LOCKPRG
  Program that locks a terminal.
-@@ -4555,9 +4546,9 @@ does not make use of hardware tabs.
+@@ -4555,9 +4548,9 @@ does not make use of hardware tabs.
  must be installed as set-uid with owner root on most systems in order
  to be able to correctly change the owner of the tty device file for
  each window.

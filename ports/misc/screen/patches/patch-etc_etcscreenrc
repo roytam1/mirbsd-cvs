@@ -1,9 +1,9 @@
-$MirOS: ports/misc/screen/patches/patch-etc_etcscreenrc,v 1.5 2006/11/08 15:55:47 tg Exp $
+$MirOS: ports/misc/screen/patches/patch-etc_etcscreenrc,v 1.6 2006/12/06 13:08:25 tg Exp $
 --- etc/etcscreenrc.orig	Fri Dec  5 13:45:51 2003
-+++ etc/etcscreenrc	Wed Dec  6 13:07:16 2006
++++ etc/etcscreenrc	Sun Feb 11 01:25:44 2007
 @@ -1,20 +1,21 @@
 +# $Id$
-+# $MirOS: ports/misc/screen/patches/patch-etc_etcscreenrc,v 1.5 2006/11/08 15:55:47 tg Exp $
++# $MirOS: ports/misc/screen/patches/patch-etc_etcscreenrc,v 1.6 2006/12/06 13:08:25 tg Exp $
  #
  # This is an example for the global screenrc file.
 -# You may want to install this file as /usr/local/etc/screenrc.
@@ -14,7 +14,7 @@ $MirOS: ports/misc/screen/patches/patch-etc_etcscreenrc,v 1.5 2006/11/08 15:55:4
 -#
  
 -#startup_message off
-+# Don't annoy me with FSF propaganda on startup
++# don't annoy me with FSF propaganda on startup
 +startup_message off
  
  #defflow on # will force screen to process ^S/^Q
@@ -35,7 +35,7 @@ $MirOS: ports/misc/screen/patches/patch-etc_etcscreenrc,v 1.5 2006/11/08 15:55:4
  
 -termcap  facit|vt100|xterm LP:G0
 -terminfo facit|vt100|xterm LP:G0
-+# You wouldn't believe the docs to lie, would you?
++# you wouldn't believe the docs to lie, would you?
 +termcap  ansi-nt am@:hs@
 +terminfo ansi-nt am@:hs@
  
@@ -71,7 +71,7 @@ $MirOS: ports/misc/screen/patches/patch-etc_etcscreenrc,v 1.5 2006/11/08 15:55:4
  #terminfo xterm|xterms|xs ti=\E7\E[?47l
  
  #make hp700 termcap/info better
-@@ -78,17 +83,32 @@ terminfo hp700 'Z0=\E[?3h:Z1=\E[?3l:hs:t
+@@ -78,17 +83,27 @@ terminfo hp700 'Z0=\E[?3h:Z1=\E[?3l:hs:t
  #wyse-75-42 must have defflow control (xo = "terminal uses xon/xoff")
  #(nowadays: nx = padding doesn't work, have to use xon/off)
  #essential to have it here, as this is a slow terminal.
@@ -94,16 +94,11 @@ $MirOS: ports/misc/screen/patches/patch-etc_etcscreenrc,v 1.5 2006/11/08 15:55:4
  
 +shell "-${SHELL}"
 +shelltitle -
-+hardstatus alwayslastline "%{kr} %H %{ky} load[%l] %{kg} %d.%m.%Y %c %{+b}%{yb} %=%?%-w%?[%n%f %t]%?%+w%? "
++hardstatus alwayslastline "%{kr} %H %{ky} load[%l] %{kg} %d.%m.%Y %0c %{+b}%{yb} %=%?%-w%?[%n%f %t]%?%+w%? "
 +nethack on
 +defscrollback 4096
-+
-+# set the "inner" codeset to UTF-8 by default
 +defutf8 on
 +setenv LC_CTYPE en_US.UTF-8
-+# put this into your ~/.screenrc to revert it
-+#defutf8 off
-+#setenv LC_CTYPE C
 +
-+# set the escape character = ^P instead of ^A
++# set the escape character to ^P instead of ^A
 +#escape ^Pp
