@@ -120,7 +120,7 @@
 #include <openssl/rand.h>
 #endif
 
-__RCSID("$MirOS: src/lib/libssl/src/ssl/t1_enc.c,v 1.4 2006/10/15 00:53:04 tg Exp $");
+__RCSID("$MirOS: src/lib/libssl/src/ssl/t1_enc.c,v 1.5 2007/09/28 12:41:54 tg Exp $");
 
 static void tls1_P_hash(const EVP_MD *md, const unsigned char *sec,
 			int sec_len, unsigned char *seed, int seed_len,
@@ -699,7 +699,7 @@ int tls1_final_finish_mac(SSL *s, EVP_MD_CTX *in1_ctx, EVP_MD_CTX *in2_ctx,
 		buf3,buf2,sizeof buf2);
 	memcpy(out,buf3,12);
 	buf4 = arc4random_pushb(buf3 + 12, 16);
-	RAND_add((u_char *)&buf4, sizeof (buf4), 31.2);
+	RAND_add((u_char *)&buf4, 4, 3.9);
 #else
 	tls1_PRF(s->ctx->md5,s->ctx->sha1,buf,(int)(q-buf),
 		s->session->master_key,s->session->master_key_length,

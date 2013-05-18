@@ -136,7 +136,7 @@
 #include <sys/param.h>
 #include <sys/sysctl.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libssl/src/crypto/rand/rand_unix.c,v 1.3 2007/09/28 12:41:53 tg Exp $");
 #endif
 
 #ifdef __OpenBSD__
@@ -150,7 +150,7 @@ int RAND_poll(void)
 	int mib[2];
 
 	rnd = arc4random_pushb(buf, sizeof (buf));
-	RAND_add((u_char *)&rnd, sizeof (rnd), 31.2);
+	RAND_add((u_char *)&rnd, 4, 3.9);
 	mib[0] = CTL_KERN;
 	mib[1] = KERN_ARND;
 	i = sizeof (buf);

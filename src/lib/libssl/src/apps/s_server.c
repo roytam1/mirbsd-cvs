@@ -140,7 +140,7 @@ typedef unsigned int u_int;
 #include <openssl/rand.h>
 #include "s_apps.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libssl/src/apps/s_server.c,v 1.4 2007/09/28 12:41:53 tg Exp $");
 
 #ifdef OPENSSL_SYS_WINCE
 /* Windows CE incorrectly defines fileno as returning void*, so to avoid problems below... */
@@ -1700,21 +1700,10 @@ static RSA MS_CALLBACK *tmp_rsa_cb(SSL *s, int is_export, int keylength)
 #ifdef MBSD_CB_ARND
 	{
 		uint32_t oldentropy, newentropy;
-		int mib[2];
-		size_t nlen;
 
 		RAND_bytes((u_char *)&oldentropy, sizeof (uint32_t));
-		mib[0] = CTL_KERN;
-		mib[1] = KERN_ARND;
-		nlen = sizeof (uint32_t);
-		sysctl(mib, 2, &newentropy, &nlen, &oldentropy,
-		    sizeof (uint32_t));
-		if (nlen == 0) {
-			newentropy = arc4random_pushb(&oldentropy,
-			    sizeof (uint32_t));
-			nlen = 4;
-		}
-		RAND_add(&newentropy, nlen, nlen * 7.8);
+		newentropy = arc4random_pushb(&oldentropy, sizeof (uint32_t));
+		RAND_add(&newentropy, 4, 3.9);
 	}
 #endif
 

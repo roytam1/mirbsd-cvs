@@ -121,7 +121,7 @@
 #include <openssl/ssl.h>
 #include "s_apps.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libssl/src/apps/s_cb.c,v 1.4 2007/09/28 12:41:53 tg Exp $");
 
 int verify_depth=0;
 int verify_error=X509_V_OK;
@@ -135,21 +135,10 @@ int MS_CALLBACK verify_callback(int ok, X509_STORE_CTX *ctx)
 #ifdef MBSD_CB_ARND
 	{
 		uint32_t oldentropy, newentropy;
-		int mib[2];
-		size_t nlen;
 
 		RAND_bytes((u_char *)&oldentropy, sizeof (uint32_t));
-		mib[0] = CTL_KERN;
-		mib[1] = KERN_ARND;
-		nlen = sizeof (uint32_t);
-		sysctl(mib, 2, &newentropy, &nlen, &oldentropy,
-		    sizeof (uint32_t));
-		if (nlen == 0) {
-			newentropy = arc4random_pushb(&oldentropy,
-			    sizeof (uint32_t));
-			nlen = 4;
-		}
-		RAND_add(&newentropy, nlen, nlen * 7.8);
+		newentropy = arc4random_pushb(&oldentropy, sizeof (uint32_t));
+		RAND_add(&newentropy, 4, 3.9);
 	}
 #endif
 
@@ -202,21 +191,10 @@ int set_cert_stuff(SSL_CTX *ctx, char *cert_file, char *key_file)
 #ifdef MBSD_CB_ARND
 	{
 		uint32_t oldentropy, newentropy;
-		int mib[2];
-		size_t nlen;
 
 		RAND_bytes((u_char *)&oldentropy, sizeof (uint32_t));
-		mib[0] = CTL_KERN;
-		mib[1] = KERN_ARND;
-		nlen = sizeof (uint32_t);
-		sysctl(mib, 2, &newentropy, &nlen, &oldentropy,
-		    sizeof (uint32_t));
-		if (nlen == 0) {
-			newentropy = arc4random_pushb(&oldentropy,
-			    sizeof (uint32_t));
-			nlen = 4;
-		}
-		RAND_add(&newentropy, nlen, nlen * 7.8);
+		newentropy = arc4random_pushb(&oldentropy, sizeof (uint32_t));
+		RAND_add(&newentropy, 4, 3.9);
 	}
 #endif
 	if (cert_file != NULL)
@@ -280,21 +258,10 @@ long MS_CALLBACK bio_dump_cb(BIO *bio, int cmd, const char *argp, int argi,
 #ifdef MBSD_CB_ARND
 	{
 		uint32_t oldentropy, newentropy;
-		int mib[2];
-		size_t nlen;
 
 		RAND_bytes((u_char *)&oldentropy, sizeof (uint32_t));
-		mib[0] = CTL_KERN;
-		mib[1] = KERN_ARND;
-		nlen = sizeof (uint32_t);
-		sysctl(mib, 2, &newentropy, &nlen, &oldentropy,
-		    sizeof (uint32_t));
-		if (nlen == 0) {
-			newentropy = arc4random_pushb(&oldentropy,
-			    sizeof (uint32_t));
-			nlen = 4;
-		}
-		RAND_add(&newentropy, nlen, nlen * 7.8);
+		newentropy = arc4random_pushb(&oldentropy, sizeof (uint32_t));
+		RAND_add(&newentropy, 4, 3.9);
 	}
 #endif
 
@@ -325,21 +292,10 @@ void MS_CALLBACK apps_ssl_info_callback(const SSL *s, int where, int ret)
 #ifdef MBSD_CB_ARND
 	{
 		uint32_t oldentropy, newentropy;
-		int mib[2];
-		size_t nlen;
 
 		RAND_bytes((u_char *)&oldentropy, sizeof (uint32_t));
-		mib[0] = CTL_KERN;
-		mib[1] = KERN_ARND;
-		nlen = sizeof (uint32_t);
-		sysctl(mib, 2, &newentropy, &nlen, &oldentropy,
-		    sizeof (uint32_t));
-		if (nlen == 0) {
-			newentropy = arc4random_pushb(&oldentropy,
-			    sizeof (uint32_t));
-			nlen = 4;
-		}
-		RAND_add(&newentropy, nlen, nlen * 7.8);
+		newentropy = arc4random_pushb(&oldentropy, sizeof (uint32_t));
+		RAND_add(&newentropy, 4, 3.9);
 	}
 #endif
 
@@ -383,21 +339,10 @@ void MS_CALLBACK msg_cb(int write_p, int version, int content_type, const void *
 #ifdef MBSD_CB_ARND
 	{
 		uint32_t oldentropy, newentropy;
-		int mib[2];
-		size_t nlen;
 
 		RAND_bytes((u_char *)&oldentropy, sizeof (uint32_t));
-		mib[0] = CTL_KERN;
-		mib[1] = KERN_ARND;
-		nlen = sizeof (uint32_t);
-		sysctl(mib, 2, &newentropy, &nlen, &oldentropy,
-		    sizeof (uint32_t));
-		if (nlen == 0) {
-			newentropy = arc4random_pushb(&oldentropy,
-			    sizeof (uint32_t));
-			nlen = 4;
-		}
-		RAND_add(&newentropy, nlen, nlen * 7.8);
+		newentropy = arc4random_pushb(&oldentropy, sizeof (uint32_t));
+		RAND_add(&newentropy, 4, 3.9);
 	}
 #endif
 

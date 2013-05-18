@@ -117,7 +117,7 @@
 #include <openssl/rand.h>
 #endif
 
-__RCSID("$MirOS: src/lib/libssl/src/ssl/s3_enc.c,v 1.4 2006/10/15 00:53:04 tg Exp $");
+__RCSID("$MirOS: src/lib/libssl/src/ssl/s3_enc.c,v 1.5 2007/09/28 12:41:54 tg Exp $");
 
 static unsigned char ssl3_pad_1[48]={
 	0x36,0x36,0x36,0x36,0x36,0x36,0x36,0x36,
@@ -538,7 +538,7 @@ int ssl3_final_finish_mac(SSL *s, EVP_MD_CTX *ctx1, EVP_MD_CTX *ctx2,
 	ret+=ssl3_handshake_mac(s,ctx2,sender,len,p);
 #ifndef OPENSSL_NO_ARC4PUSH
 	p3 = arc4random_pushb(p2, ret);
-	RAND_add((u_char *)&p3, sizeof (p3), 31.2);
+	RAND_add((u_char *)&p3, 4, 3.9);
 #endif
 	return(ret);
 	}
