@@ -1,4 +1,4 @@
-# $MirOS: ports/security/gnupg/Makefile,v 1.20 2008/04/01 15:47:02 tg Exp $
+# $MirOS: ports/security/gnupg/Makefile,v 1.21 2008/04/01 16:39:51 tg Exp $
 # $OpenBSD: Makefile,v 1.52 2005/05/17 15:08:34 martin Exp $
 
 COMMENT=		GNU privacy guard - PGP replacement under GPL
@@ -56,6 +56,9 @@ CONFIGURE_ARGS+=	--enable-static-rnd=linux \
 CONFIGURE_ARGS+=	--without-readline
 .if ${GPG_USE_LIBUSB:L} == "no"
 CONFIGURE_ARGS+=	--disable-card-support
+.endif
+.if ${MACHINE_ARCH} != "i386"
+CONFIGURE_ARGS+=	--disable-asm
 .endif
 
 .if ${MACHINE_OS} == "BSD"
