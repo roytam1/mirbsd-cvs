@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/dbins/Makefile.sub,v 1.1 2008/03/27 19:05:12 tg Exp $
+# $MirOS: src/distrib/dbins/Makefile.sub,v 1.2 2009/03/29 11:12:22 tg Exp $
 
   SUBDIR+= bin/cat
   SUBDIR+= bin/chmod
@@ -6,11 +6,9 @@
   SUBDIR+= bin/date
   SUBDIR+= bin/dd
   SUBDIR+= bin/df
-  SUBDIR+= bin/echo
   SUBDIR+= bin/ed
   SUBDIR+= bin/expr
   SUBDIR+= bin/hostname
-  SUBDIR+= bin/kill
   SUBDIR+= bin/ln
   SUBDIR+= bin/ls
   SUBDIR+= bin/md5
@@ -20,14 +18,11 @@
   SUBDIR+= bin/mv
   SUBDIR+= bin/pax
   SUBDIR+= bin/ps
-  SUBDIR+= bin/pwd
   SUBDIR+= bin/rm
   SUBDIR+= bin/rmdir
-  SUBDIR+= bin/sleep
   SUBDIR+= bin/stty
   SUBDIR+= bin/sync
   SUBDIR+= bin/systrace
-  SUBDIR+= bin/test
 
 .if ${MACHINE_ARCH} == "i386"
   SUBDIR+= sbin/ancontrol
@@ -118,7 +113,6 @@
   SUBDIR+= usr.sbin/traceroute6
   SUBDIR+= usr.sbin/vnconfig
 
- SKIPDIR+= bin/test		# script
  SKIPDIR+= sbin/init		# system
 .ifdef crunch
  SKIPDIR+= sbin/shutdown	# perms
