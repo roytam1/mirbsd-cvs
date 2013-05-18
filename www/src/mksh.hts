@@ -2,7 +2,7 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.208 2009/03/15 19:09:58 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.209 2009/03/22 18:50:49 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R36b</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -1092,7 +1092,7 @@ mws_content <<'EOF'
  <li>[tg] Replace the memory allocator by something equally simple
   and homegrown but optimised for use with mksh and free checking</li>
  <li>[tg] Import a couple of minor fixes (e.g. spelling) from oksh</li>
- <li>[tg] Fix problems with "set -e" for real; from oksh</li>
+ <li>[tg] Fix problems with "set -e" for real; from oksh, Closes: #518359</li>
  <li>[tg] In "set -o posix" mode, have limited echo(1) to improve
   standards compliance; the exact feature set is open for discussion,
   e.g. with pkgsrc® people; for now, only <tt>-n</tt> as first arg</li>
