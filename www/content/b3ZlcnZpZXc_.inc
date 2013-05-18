@@ -1,5 +1,5 @@
 <!-- PageID: overview -->
-<small class="rcsid">$MirOS: www/content/b3ZlcnZpZXc_.inc,v 1.16 2006/02/15 13:20:35 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/b3ZlcnZpZXc_.inc,v 1.17 2006/02/26 12:22:24 tg Exp $</small>
 <h1>Quick Overview &ndash; All in one page</h1>
 
 <h2>Status</h2><p>
@@ -23,7 +23,7 @@
  <li>AnonCVS and AnonRSYNC<ul>
   <li>rsync://rsync.allbsd.org/mirbsd-cvs/ (empty pw) (IPv6 enabled)
    (rsyncd only)</li>
-  <li>_anoncvs@thor.66h.42h.de:/cvs (empty pw) (IPv6 enabled)
+  <li>_anoncvs@anoncvs.66h.42h.de:/cvs (empty pw) <!-- (IPv6 enabled) -->
    (anoncvs and anonrsync)</li>
   <!-- li>_anoncvs@mirbsd.org:/cvs (empty pw)
    (anoncvs and anonrsync)</li -->
@@ -31,10 +31,10 @@
    (anoncvs and anonrsync)</li>
   <li>rsync://rsync.allbsd.org/mirbsd-old-cvs/ (empty pw) (IPv6 enabled)
    (rsyncd only)</li>
-  <li>_anoncvs@thor.66h.42h.de:/ncvs (empty pw) (IPv6 enabled)
+<!--  <li>_anoncvs@thor.66h.42h.de:/ncvs (empty pw) (IPv6 enabled)
    (anoncvs and anonrsync)</li>
   <li>_anoncvs@thor.66h.42h.de:/ocvs (empty pw) (IPv6 enabled)
-   (anoncvs and anonrsync)</li>
+   (anoncvs and anonrsync)</li> -->
  </ul></li>
  <li>CVSweb<ul>
   <li><a href="http://cvsweb.allbsd.org/cvsweb.cgi/?cvsroot=mirbsd">http://cvsweb.allbsd.org/cvsweb.cgi/?cvsroot=mirbsd</a></li>

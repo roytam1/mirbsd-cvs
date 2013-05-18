@@ -1,7 +1,14 @@
 <!-- PageID: news -->
-<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.59 2006/02/26 12:22:25 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.60 2006/03/01 21:40:10 tg Exp $</small>
 
 <h1>Current MirOS News</h1><ul>
+
+<li>19.03.2006<br />We've added a new server to the Freeforge IRC network,
+	<tt>maou.66h.42h.de</tt> Port 6668 (SSL), 6667 and 6666 (non-SSL).
+	You can either directly connect to that server or the round-robin,
+	<tt>irc.66h.42h.de</tt> (or <tt>irc4.66h.42h.de</tt> for IPv4-only
+	connections). We sit on channel <tt>#mirbsd</tt> and <tt>#bsd</tt>
+	like before.</li>
 
 <li>01.03.2006<br />Again success building a cross-compiler to i386 Debian
 	GNU/Linux from MirOS (tested with printf(1) because GNU libc is an
