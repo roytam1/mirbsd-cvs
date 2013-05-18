@@ -23,7 +23,7 @@
 
 #include "sh.h"
 
-__RCSID("$MirOS: src/bin/mksh/eval.c,v 1.117 2012/04/22 21:50:31 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/eval.c,v 1.118 2012/05/04 22:05:00 tg Exp $");
 
 /*
  * string expansion
@@ -789,6 +789,7 @@ expand(const char *cp,	/* input word */
 		case XARGSEP:
 			type = XARG;
 			quote = 1;
+			/* FALLTHROUGH */
 		case XARG:
 			if ((c = *x.str++) == '\0') {
 				/*
