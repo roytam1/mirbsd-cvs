@@ -4161,8 +4161,7 @@ vi_cmd(int argcnt, const char *cmd)
 
 				/* lookup letter in alias list... */
 				alias[1] = cmd[1];
-				ap = ktsearch(&aliases, alias, hash(alias),
-				    NULL);
+				ap = ktsearch(&aliases, alias, hash(alias));
 				if (!cmd[1] || !ap || !(ap->flag & ISSET))
 					return (-1);
 				/* check if this is a recursive call... */

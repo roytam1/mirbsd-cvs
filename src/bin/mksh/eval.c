@@ -1425,7 +1425,7 @@ homedir(char *name)
 {
 	struct tbl *ap;
 
-	ap = ktenter(&homedirs, name, hash(name), NULL);
+	ap = ktenter(&homedirs, name, hash(name));
 	if (!(ap->flag & ISSET)) {
 		struct passwd *pw;
 

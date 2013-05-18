@@ -743,7 +743,7 @@ initkeywords(void)
 	    /* must be 80% of 2^n (currently 20 keywords) */ 32);
 	for (tt = tokentab; tt->name; tt++) {
 		if (tt->reserved) {
-			p = ktenter(&keywords, tt->name, hash(tt->name), NULL);
+			p = ktenter(&keywords, tt->name, hash(tt->name));
 			p->flag |= DEFINED|ISSET;
 			p->type = CKEYWD;
 			p->val.i = tt->val;
