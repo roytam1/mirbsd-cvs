@@ -4,7 +4,7 @@
 mws_setname pkgsrc "pkgsrc on MirOS"
 mws_subdir 0
 mws_setheadline pkgsrc on MirOS
-mws_putheader '$MirOS: www/src/pkgsrc.hts,v 1.6 2012/04/24 18:00:52 bsiegert Exp $'
+mws_putheader '$MirOS: www/src/pkgsrc.hts,v 1.7 2013/04/13 15:13:36 bsiegert Exp $'
 mws_content <<'EOF'
 <p>pkgsrc is a “ports tree” developed by the NetBSD project and portable
  to several other operating systems. Support for MirOS has existed since
@@ -50,43 +50,38 @@ mws_content <<'EOF'
   <tt>ftp
   ftp://ftp.netbsd.org/pub/pkgsrc/packages/MirBSD/i386/10uB0_2013Q1/bootstrap.tar.gz</tt></li>
  <li>Extract the file:<br />
-  <tt>cd / ; tar xvpzf /path/to/bootstrap.tar.gz</tt></li>
- <li>Set the PATH to include /usr/pkg <i>before</i> any MirPorts
-  directories. The reason is that the package tools have the same names,
-  and using e.g. pkg_add(1) from MirPorts to install a pkgsrc package
-  will not work. For example, to replace MirPorts by pkgsrc in your
-  path, run:<br />
-  <tt>export PATH=$(echo $PATH|sed s,mpkg,pkg,g)</tt></li>
- <li>Set the path to the binary packages:<br />
-  <tt>export
-  PKG_PATH="ftp://ftp.netbsd.org/pub/pkgsrc/packages/MirBSD/i386/10uB0_2013Q1/All/"</tt></li>
- <li>Now you can easily install additional packages, for example:<br />
-  <tt>pkg_add python27</tt></li>
+  <tt>cd / ; sudo tar xvpzf /path/to/bootstrap.tar.gz</tt></li>
+ <li>Set the PATH:<br />
+  <tt>export PATH=/usr/pkg/bin:/usr/pkg/sbin:$PATH</tt><br />
+  (Add this line to your .profile to make the change permanent.)</li>
+ <li>Update the package list for pkgin, the binary package manager:<br />
+  <tt>pkgin update</tt>
+ <li>Install the desired package(s), for example:<br />
+  <tt>pkgin install python27</tt></li>
 </ol>
 
 <p>More information can be found in
  <a href="http://www.netbsd.org/docs/pkgsrc/using.html#using-pkg">Section
- 4.1 of the pkgsrc guide</a>.</p>
+ 4.1 of the pkgsrc guide</a>. More information on using pkgin for binary
+ packages can be found on
+ <a href="http://pkgin.net/">pkgin.net</a>.</p>
 
 <h2>Installation from source</h2>
 
 <ol>
- <li>Make sure there are no mentions of MirPorts in your current
-  environment. Most importantly, remove /usr/mpkg/bin and /usr/mpkg/sbin
-  from your PATH. This is needed when building or installing packages;
-  the reason is that the package tools from MirPorts and pkgsrc have the
-  same name but are incompatible with each other.</li>
  <li>Check out pkgsrc, for example to /usr/pkgsrc:<br />
-  <tt>cvs -qd anoncvs@anoncvs.netbsd.org:/cvsroot co -P pkgsrc</tt></li>
+  <tt>cd /usr ; cvs -qd anoncvs@anoncvs.netbsd.org:/cvsroot co -P pkgsrc</tt>
+ </li>
+ <li>As above, prepend the pkgsrc directories to the PATH:
+  <tt>export PATH=/usr/pkg/bin:/usr/pkg/sbin:$PATH</tt></li>
  <li>Bootstrap pkgsrc. In this example, we install (using sudo) into
   /usr/pkg. The dbdir should be inside the prefix to avoid conflicts
   with MirPorts.<br />
   <tt>cd bootstrap</tt><br />
   <tt>./bootstrap --prefix /usr/pkg --pkgdbdir /usr/pkg/db</tt></li>
- <li>Add /usr/pkg/bin and /usr/pkg/sbin to your path:<br />
-  <tt>export PATH=/usr/pkg/bin:${PATH}:/usr/pkg/sbin</tt></li>
  <li>pkgsrc can be configured by editing the /usr/pkg/etc/mk.conf file.
-  See the <a href="http://www.netbsd.org/docs/pkgsrc/">pkgsrc Guide</a>
+  See the
+  <a href="http://www.netbsd.org/docs/pkgsrc/configuring.html">pkgsrc Guide</a>
   for details.</li>
  <li>To build and install a package, use the bmake command. For example,
   to install Perl:<br />
