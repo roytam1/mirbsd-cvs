@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/sys/errno.h,v 1.4 2005/07/25 17:58:06 tg Exp $ */
+/**	$MirOS: src/sys/sys/errno.h,v 1.5 2005/12/19 22:49:50 tg Exp $ */
 /*	$OpenBSD: errno.h,v 1.14 2005/06/17 21:48:03 espie Exp $	*/
 /*	$NetBSD: errno.h,v 1.10 1996/01/20 01:33:53 jtc Exp $	*/
 
@@ -177,7 +177,6 @@ __END_DECLS
 #endif /* _POSIX_SOURCE */
 
 #define	ENOLCK		77		/* No locks available */
-#define	ENOCOFFEE	78		/* Programmer needs more coffee */
 #define	ENOSYS		78		/* Function not implemented */
 
 #ifndef _POSIX_SOURCE
@@ -187,7 +186,8 @@ __END_DECLS
 #define	EIPSEC		82		/* IPsec processing failure */
 #define	ENOATTR		83		/* Attribute not found */
 #define	EILSEQ		84		/* Illegal byte sequence */
-#define	ELAST		84		/* Must be equal largest errno */
+#define	ENOCOFFEE	85		/* Programmer needs more coffee */
+#define	ELAST		85		/* Must be equal largest errno */
 #endif /* _POSIX_SOURCE */
 
 #ifdef _KERNEL

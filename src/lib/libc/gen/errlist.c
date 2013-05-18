@@ -29,7 +29,7 @@
  */
 
 #include <sys/cdefs.h>
-__RCSID("$MirOS: src/lib/libc/gen/errlist.c,v 1.2 2005/03/06 20:28:40 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/gen/errlist.c,v 1.3 2005/09/22 20:39:59 tg Exp $");
 
 #ifdef lint
 char *
@@ -133,13 +133,13 @@ const char *const
 	"Bad procedure for program",		/* 76 - EPROCUNAVAIL */
 
 	"No locks available",			/* 77 - ENOLCK */
-/*	"Function not implemented", */		/* 78 - ENOSYS */
-	"Need more coffee",			/* 78 - ENOCOFFEE */
+	"Function not implemented",		/* 78 - ENOSYS */
 	"Inappropriate file type or format",	/* 79 - EFTYPE */
 	"Authentication error",			/* 80 - EAUTH */
 	"Need authenticator",			/* 81 - ENEEDAUTH */
 	"IPsec processing failure",		/* 82 - EIPSEC */
 	"Attribute not found",			/* 83 - ENOATTR */
 	"Illegal byte sequence",		/* 84 - EILSEQ */
+	"Need more coffee",			/* 85 - ENOCOFFEE */
 };
 int _sys_nerr = { sizeof _sys_errlist/sizeof _sys_errlist[0] };
