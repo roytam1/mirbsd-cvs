@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.cfwrap.mk,v 1.14 2006/06/17 20:08:08 tg Exp $
+# $MirOS: src/share/mk/bsd.cfwrap.mk,v 1.15 2006/09/25 22:09:21 tg Exp $
 
 .if !defined(BSD_CFWRAP_MK)
 BSD_CFWRAP_MK=1
@@ -47,12 +47,6 @@ FSFOBJDIR!=	readlink -nf ${.OBJDIR}
 FSFMARGS+=	-f ${FSFMAKEFILE}
 .endif
 
-.if ${DEBUGLIBS:L} == "yes"
-FSFCFLAGS+=	-g1 -fno-omit-frame-pointer
-FSFCXXFLAGS+=	-g1 -fno-omit-frame-pointer
-FSFHOSTCFLAGS+=	-g1 -fno-omit-frame-pointer
-.endif
-
 HOSTCFLAGS?=	${CFLAGS} ${COPTS}
 
 FSFCFLAGS+=	${CFLAGS} ${COPTS}
@@ -65,13 +59,19 @@ FSFCXXFLAGS+=	-Werror-maybe-reset
 FSFHOSTCFLAGS+=	-Werror-maybe-reset
 .endif
 
+.if ${DEBUGLIBS:L} == "yes"
+FSFCFLAGS+=	-g1 -fno-omit-frame-pointer
+FSFCXXFLAGS+=	-g1 -fno-omit-frame-pointer
+FSFHOSTCFLAGS+=	-g1 -fno-omit-frame-pointer
+.endif
+
 .if !defined(CFWRAP_NO_CCOM)
-XVARS+=	CC=${CC:C/ *$//:Q} CFLAGS=${FSFCFLAGS:C/ *$//:Q} CPP=${CPP:Q}
+XVARS+=	CC=${CC:M*:Q} CFLAGS=${FSFCFLAGS:M*:Q} CPP=${CPP:Q}
 .  if !defined(CFWRAP_NO_CXXCOM)
-XVARS+=	CXX=${CXX:C/ *$//:Q} CXXFLAGS=${FSFCXXFLAGS:C/ *$//:Q}
+XVARS+=	CXX=${CXX:M*:Q} CXXFLAGS=${FSFCXXFLAGS:M*:Q}
 .  endif
-XVARS+=	HOSTCFLAGS=${FSFHOSTCFLAGS:C/ *$//:Q} CC_FOR_BUILD=${HOSTCC:C/ *$//:Q}
-XVARS+=	CFLAGS_FOR_BUILD=${FSFHOSTCFLAGS:C/ *$//:Q}
+XVARS+=	HOSTCFLAGS=${FSFHOSTCFLAGS:M*:Q} CC_FOR_BUILD=${HOSTCC:M*:Q}
+XVARS+=	CFLAGS_FOR_BUILD=${FSFHOSTCFLAGS:M*:Q}
 .endif
 
 XARGS+=	INSTALL_PROGRAM=${INSTALL_PROGRAM:Q} INSTALL_DATA=${INSTALL_DATA:Q} \
