@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.86 2006/11/17 13:17:41 tg Exp $
+# $MirOS: src/Makefile,v 1.87 2006/12/20 15:49:32 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -231,7 +231,24 @@ _do-dist:
 	@echo not building the baselive CD image.
 .endif
 	@echo ============================================================
+.ifdef NFS_DIST
+	@for dir in ${BSDOBJDIR} ${BSDRELDIR}; do \
+		if [[ -d $$dir ]]; then \
+			${SUDO} rm -rf $$dir/{*,.*}; \
+		elif [[ -e $$dir ]]; then \
+			print "Warning: '$$dir' not a directory!"; \
+			print "The build might fail due to strange"; \
+			print "mount combinations, symlinks, etc."; \
+			print "and '$$dir' cannot be cleaned either!"; \
+		else \
+			print "Warning: '$$dir' non-existant; if you"; \
+			print "intend an NFS dist you should better"; \
+			print "mount something there before starting!"; \
+		fi; \
+	done
+.else
 	${SUDO} rm -rf ${BSDOBJDIR} ${BSDRELDIR}
+.endif
 	cd ${.CURDIR} && exec ${MAKE} distrib-dirs DESTDIR=
 	${SUDO} install -d -o 0 -g 0 -m ${DIRMODE} ${BSDRELDIR}/{base,rel,x11}
 	cd ${.CURDIR} && exec ${MAKE} b-r
