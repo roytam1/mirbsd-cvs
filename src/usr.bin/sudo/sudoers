@@ -1,4 +1,4 @@
-# $MirOS: src/usr.bin/sudo/sudoers,v 1.3 2005/12/18 01:55:45 tg Exp $
+# $MirOS: src/usr.bin/sudo/sudoers,v 1.4 2006/01/11 20:48:06 tg Exp $
 # sudoers file.
 #
 # This file MUST be edited with the 'visudo' command as root.
@@ -13,16 +13,15 @@
 # Defaults specification
 Defaults:root	!syslog
 Defaults:daemon	!syslog
-Defaults:@ROOT@	passwd_timeout=0
+Defaults:%wheel	passwd_timeout=0
 
 # Runas alias specification
 
 # User privilege specification
 root		ALL=(ALL)	ALL
-@ROOT@		ALL=(ALL)	ALL
 
 # Uncomment to allow people in group wheel to run all commands
-# %wheel	ALL=(ALL)	ALL
+%wheel		ALL=(ALL)	ALL
 
 # Same thing without a password
 # %wheel	ALL=(ALL)	NOPASSWD: ALL
