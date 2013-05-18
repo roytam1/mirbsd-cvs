@@ -1,4 +1,4 @@
-# $MirOS: src/kern/c/Makefile.inc,v 1.1 2007/02/05 20:16:04 tg Exp $
+# $MirOS: src/kern/c/Makefile.inc,v 1.2 2007/02/05 23:48:00 tg Exp $
 
 # imports:
 # ifdef(KERNSTAND)	-> bootloader, no kernel/libc only stuff
@@ -16,3 +16,13 @@
 .PATH: ${KERNBASE}/c
 
 # …
+
+.for _z _q _s in ${UNIFDEF_SRCS}
+SRCS+=		${_z}
+CLEANFILES+=	${_z}
+
+${_z}: ${_q}
+	-unifdef ${_s:S/,/ /g} $> >$@
+
+beforedepend: ${_z}
+.endfor
