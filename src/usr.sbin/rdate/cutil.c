@@ -1,5 +1,5 @@
 /*-
- * Copyright (c) 2010, 2011
+ * Copyright (c) 2010, 2011, 2012
  *	Thorsten Glaser <tg@mirbsd.org>
  *
  * Provided that these terms and disclaimer and all copyright notices
@@ -40,7 +40,7 @@
 #include "ntpd.h"
 #endif
 
-__RCSID("$MirOS: src/usr.sbin/rdate/cutil.c,v 1.1 2010/07/03 18:33:57 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/rdate/cutil.c,v 1.2 2011/11/21 20:49:38 tg Exp $");
 
 const char *
 log_sockaddr(struct sockaddr *sa)
@@ -63,6 +63,9 @@ log_sockaddr(struct sockaddr *sa)
 #define portfmtstr	"]:%u"
 	buf[0] = '[';
 #endif
+
+	if (sa == NULL || sa == (void *)(ptrdiff_t)(sizeof(void *)))
+		return ("(not set)");
 
 	if (getnameinfo(sa, SA_LEN(sa), gnibuf, NI_MAXHOST, NULL, 0,
 	    NI_NUMERICHOST))
