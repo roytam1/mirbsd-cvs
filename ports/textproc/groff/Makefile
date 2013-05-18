@@ -1,4 +1,4 @@
-# $MirOS: ports/textproc/groff/Makefile,v 1.6 2007/04/29 23:53:06 tg Exp $
+# $MirOS: ports/textproc/groff/Makefile,v 1.7 2008/03/09 17:23:35 tg Exp $
 
 # probably easy to add others, but packing list is different
 ONLY_FOR_PLATFORM=		MirBSD:*:* Interix:*:*
@@ -7,10 +7,9 @@ COMMENT=			GNU troff compatible typesetter
 COMMENT-docs=			documentation for groff
 CATEGORIES=			textproc
 VERSION=			1.19.2
-PL=				2
+DASH_VER=			3
 DISTNAME=			groff-${VERSION}
-PKGNAME=			groff-${VERSION}-${PL}
-PKGNAME-docs=			groff-docs-${VERSION}-${PL}
+PKGNAME-docs=			groff-docs-${VERSION}-${DASH_VER}
 HOMEPAGE=			http://www.gnu.org/software/groff/
 RESPONSIBLE=			Thorsten Glaser <tg@mirbsd.de>
 MASTER_SITES=			${MASTER_SITE_GNU:=groff/}
@@ -74,6 +73,10 @@ post-install:
 	    -e 's!tbl!g&!g' \
 	    -e 's!\.gtbl!.tbl!' \
 	    >${PREFIX}/share/groff/man.conf
+	cd ${PREFIX}/share/groff && \
+	    sed -e 's!gnroff!& -Tascii!g' man.conf >man_7bit.conf && \
+	    sed -e 's!gnroff!& -Tlatin1!g' man.conf >man_ltn1.conf && \
+	    sed -e 's!gnroff!& -Tutf8!g' man.conf >man_utf8.conf
 	cd ${FILESDIR} && ${INSTALL_DATA} an.tmac andoc.tmac gan.tmac \
 	    ${PREFIX}/lib/groff/site-tmac/
 	cd ${PREFIX}/share/groff/${VERSION}/tmac && ln -f doc.tmac gdoc.tmac

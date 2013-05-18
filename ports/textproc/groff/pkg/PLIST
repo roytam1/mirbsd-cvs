@@ -1,4 +1,4 @@
-@comment $MirOS: ports/textproc/groff/pkg/PLIST,v 1.1 2006/08/10 23:01:33 tg Exp $
+@comment $MirOS: ports/textproc/groff/pkg/PLIST,v 1.2 2007/04/29 23:53:07 tg Exp $
 !%%no_x11%%
 bin/gdiffmk
 bin/geqn
@@ -120,6 +120,9 @@ share/groff/${VERSION}/tmac/tty.tmac
 share/groff/${VERSION}/tmac/unicode.tmac
 share/groff/${VERSION}/tmac/www.tmac
 share/groff/man.conf
+share/groff/man_7bit.conf
+share/groff/man_ltn1.conf
+share/groff/man_utf8.conf
 share/groff/site-tmac/man.local
 share/groff/site-tmac/mdoc.local
 @dirrm share/groff/site-tmac
