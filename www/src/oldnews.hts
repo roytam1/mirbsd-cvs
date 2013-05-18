@@ -3,11 +3,11 @@
 
 mws_setname oldnews "Old News and Weblog"
 mws_subdir 0
-mws_putheader '$MirOS: www/src/oldnews.hts,v 1.1 2008/03/14 21:13:10 tg Exp $'
+mws_putheader '$MirOS: www/src/oldnews.hts,v 1.2 2008/03/24 20:02:40 tg Exp $'
 mws_content <<'EOF'
 <h1>Older News and Weblogs</h1>
 
-<h2>Old Weblog</h2><ul>
+<h2 id="owlog">Old Weblog</h2><ul>
 <li><a href="/?wlog-0">From the beginning to December 2002</a> after
  the first BSD-mirabile snapshot ever (derived from OpenBSD-current-mirabile)
  has been uploaded to the world wide web</li>
@@ -46,7 +46,7 @@ mws_content <<'EOF'
  href="wlog-10.htm">weblog past MirOS BSD #10</a> starting
  mid-March 2008.</p>
 
-<h2>Old News</h2>
+<h2 id="onews">Old News</h2>
 <p><a href="#newsend">Skip to News bottom</a></p><ul>
 
 <li>More <a href="news.htm">recent MirOS oldnews</a></li>

@@ -1,4 +1,4 @@
-# $MirOS: www/src/main.hts,v 1.9 2008/05/29 16:01:08 bsiegert Exp $
+# $MirOS: www/src/main.hts,v 1.10 2008/06/03 18:05:10 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -6,7 +6,7 @@
 mws_setname main "Welcome at The MirOS Project"
 mws_setrss "news.rss"
 mws_subdir 0
-mws_putheader '$MirOS: www/src/main.hts,v 1.9 2008/05/29 16:01:08 bsiegert Exp $'
+mws_putheader '$MirOS: www/src/main.hts,v 1.10 2008/06/03 18:05:10 tg Exp $'
 mws_content <<'EOF'
 <h1>Welcome to the MirOS Project!</h1>
 
@@ -31,8 +31,6 @@ mws_content <<'EOF'
 
 <h2>News</h2>
 
-<p>Read <a href="news.htm">even older news</a>.</p>
-
 <p>All announcements from the MirOS team are <a
  href="/cvs.cgi/src/share/doc/README?rev=HEAD">cryptographically signed</a>
  using gzsig(1) in order to prevent abuse of our name and provide integrity
@@ -40,5 +38,9 @@ mws_content <<'EOF'
 EOF
 #DEPEND OBJ:news.cut
 . "${DST}/news.cut"
+mws_content <<'EOF'
+
+<hr /><p>Read <a href="news.htm">older news</a>.</p>
+EOF
 mws_putfooter
 exit 0
