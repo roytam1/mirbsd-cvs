@@ -1,4 +1,4 @@
-# $MirOS: src/etc/Makefile,v 1.41 2008/05/07 12:16:12 tg Exp $
+# $MirOS: src/etc/Makefile,v 1.42 2008/06/27 21:03:59 tg Exp $
 # $OpenBSD: Makefile,v 1.226 2005/05/26 23:06:06 mcbride Exp $
 
 TZDIR=		/usr/share/zoneinfo
@@ -12,7 +12,7 @@ BINOWN=	root
 BIN1=	anacron ccd.conf changelist cronrun daily dhclient.conf dhcpd.conf \
 	dhcpd.interfaces etc.${MACHINE}/disktab exports \
 	ftpchroot ftpusers gettytab group hosts hosts.lpd \
-	inetd.conf locate.rc login.conf \
+	locate.rc login.conf \
 	mailer.conf man.conf moduli monthly motd mrouted.conf \
 	myname netstart networks newsyslog.conf ntpd.conf \
 	pf.os phones printcap profile protocols rbootd.conf \
@@ -48,7 +48,6 @@ etc-files:
 .else
 etc-files:
 	${INSTALL} -c -o ${BINOWN} -g ${CONFGRP} -m 644 ${BIN1} ${DESTDIR}/etc/
-	chmod 640 ${DESTDIR}/etc/inetd.conf
 	cat fbtab.head etc.${MACHINE}/fbtab fbtab.tail >${DESTDIR}/etc/fbtab
 	${SHELL} ${.CURDIR}/ttys.pty ${MACHINE} >${DESTDIR}/etc/ttys.dist
 .  for _i in ${BINMD}
@@ -67,6 +66,7 @@ etc-files:
 	${INSTALL} -c -o root -g wheel -m 600 crontab ${DESTDIR}/var/cron/tabs/root
 	${INSTALL} -c -o root -g wheel -m 600 master.passwd ${DESTDIR}/etc/
 	pwd_mkdb -p -d ${DESTDIR}/etc /etc/master.passwd
+	${INSTALL} -c -o root -g ${CONFGRP} -m 640 inetd.conf ${DESTDIR}/etc/
 	${INSTALL} -c -o root -g wheel -m 640 pf.conf ${DESTDIR}/etc/
 	${INSTALL} -c -o ${BINOWN} -g ${BINGRP} -m 555 \
 	    etc.${MACHINE}/MAKEDEV ${DESTDIR}/dev/
@@ -229,7 +229,7 @@ install-generated:
 DHSIZE=	1024 1536 2048 3072 4096
 update-moduli:
 	{ \
-		echo '# $$MirOS: src/etc/Makefile,v 1.41 2008/05/07 12:16:12 tg Exp $$'; \
+		echo '# $$MirOS: src/etc/Makefile,v 1.42 2008/06/27 21:03:59 tg Exp $$'; \
 		echo '# Time Type Tests Tries Size Generator Modulus'; \
 		for i in ${DHSIZE}; do \
 			ssh-keygen -b $$i -G /dev/stdout; \
