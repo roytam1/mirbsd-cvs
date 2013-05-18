@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.185 2009/04/22 17:10:19 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.186 2009/04/22 17:17:17 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -3885,11 +3885,22 @@ Title: perl and HTML entities
 <div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;">
  <pre>
 <em>tg@bleu:~ $</em> echo 'xyzz�€y' | perl -C -pe \
-    's/([\x{7f}-\x{ffff}])/"&#".unpack("U",$1).";"/eg'
-<em>xyzz&#65533;&#8364;y</em>
+    's/([\x{7f}-\x{ffff}])/"&amp;#".unpack("U",$1).";"/eg'
+<em>xyzz&amp;#65533;&amp;#8364;y</em>
 <em>tg@bleu:~ $</em> echo 'xyzz�€y' | perl -C -pe \
-    's/([\x{7f}-\x{ffff}])/sprintf "&#x%X;",unpack("U",$1)/eg'
-<em>xyzz&#xFFFD;&#x20AC;y</em>
+    's/([\x{7f}-\x{ffff}])/sprintf "&amp;#x%X;",unpack("U",$1)/eg'
+<em>xyzz&amp;#xFFFD;&amp;#x20AC;y</em>
  </pre>
 </div><p style="margin-top:0px;">Just hacked it for Natureshadow.</p>
+----
+Date: 22.04.2009 17:26
+Author: tg@
+Title: perl and quoted-printable
+
+<p style="margin-bottom:0px;">While here anyway…</p>
+<div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;">
+ <pre>
+<em>$</em> perl -pe 's/=(\n|[a-fA-F0-9]{2})/$1 eq "\n" ? "" : pack("C",hex($1))/eg'
+ </pre>
+</div><p style="margin-top:0px;">Needed it once for SyGroup.</p>
 ----
