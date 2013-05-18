@@ -3,7 +3,13 @@
 IMAGESIZE=	8192
 IMAGETYPE=	ipldisc
 
+LISTS=		${TOPDIR}/common/listbeg.i386-big ${TOPDIR}/common/list \
+		${TOPDIR}/common/listend.i386-big \
+		${TOPDIR}/common/listadd.autosshd
+
 KERNEL_BUILD=	no
+# uncompressed bsd.rd, so that people can change the rootpw easily
+BSDRD_COMPR=	cat
 #		(17,0) = rd0a
 RAMDISK_PREP=	print 'rootdev 17 0\nquit' | config -ef $@
 
@@ -12,8 +18,11 @@ CDROM_OPTS+=	bootimage=i386\;eltorito.loo
 CDROM_OPTS+=	no-emul-boot
 
 .if defined(SERIALSPEED)
-CDROM?=		cdrom${SERIALSPEED}.iso
+CDROM?=		cdsshd${SERIALSPEED}.iso
 .endif
+CDROM?=		cdsshd${OSrev}.iso
+
+INST_FILES=	${CDROM}
 
 bsd: ${BSDOBJDIR}/distrib/generic/bsd
 	cp -f $> $@
@@ -25,6 +34,9 @@ cdrom-mdcopy:
 	    -e 's/@SPEED@/${SERIALSPEED}/g' \
 	    ${TOPDIR}/tools/boot.cfg.serial >${WRKDIR}/boot.cfg
 .endif
+	print ',g/@TEXT@/ka\\\n-1r' \
+	    '${TOPDIR}/common/boot.cfg.sshd\\\n'\''ad\nwq' | \
+	    ed -s ${WRKDIR}/boot.cfg
 	dd if=/dev/arandom bs=2048 count=1 of=eltorito.loo
 
 cdrom-mdboot:

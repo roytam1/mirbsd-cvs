@@ -1,8 +1,8 @@
-# $MirOS: src/distrib/common/dot.profile,v 1.55 2009/11/12 22:24:39 tg Exp $
+# $MirOS: src/distrib/common/dot.profile,v 1.56 2009/11/15 12:54:30 tg Exp $
 # $OpenBSD: dot.profile,v 1.4 2002/09/13 21:38:47 deraadt Exp $
 # $NetBSD: dot.profile,v 1.1 1995/12/18 22:54:43 pk Exp $
 #
-# Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009
+# Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010
 #	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
 # Copyright (c) 1995 Jason R. Thorpe
 # Copyright (c) 1994 Christopher G. Demetriou
@@ -66,6 +66,31 @@ sshd() {
 		ssh-keygen -lf /etc/ssh/ssh_host_rsa_key
 		/usr/sbin/sshd "$@"
 	fi
+}
+
+do_netcfg() {
+	local bpf=0 cwd=$(pwd) nic pwhash rootpw='miros'
+	: this is extra space to facilitate easy editing of the ISO
+	echo Setting up the loopback interface
+	ifconfig lo0 inet 127.0.0.1 up
+	sysctl -w net.inet6.ip6.accept_rtadv=1
+	cd /dev
+	for nic in $(ifconfig -l); do
+		[[ $nic = @(lo|plip)+([0-9]) ]] && continue
+		echo Setting up interface $nic
+		ifconfig $nic up
+		(rtsol $nic 2>&1 &) 2>&-
+		mksh MAKEDEV bpf$((bpf++))
+		dhclient $nic
+	done
+	cd "$cwd"
+	echo Configuring the ssh daemon
+	pwhash=$(encrypt -b 8 -- "$rootpw")
+	print "/^root/s^root:[^:]*:root:${pwhash}:\nwq" | \
+	    ed -s /etc/master.passwd
+	pwd_mkdb -p /etc/master.passwd
+	sshd
+	echo "All done, you can log in now (root/$rootpw)"
 }
 
 alias l='/bin/ls -F'
@@ -132,7 +157,7 @@ This work is provided "AS IS" and WITHOUT WARRANTY of any kind.\n'
 
 	# Installing or upgrading?
 	_forceloop=
-	while [[ $_forceloop != [IiUuSs]* ]]; do
+	while [[ $_forceloop != [IiUuSsN]* ]]; do
 		print -n '(I)nstall'
 		[ -f upgrade ] && print -n ', (U)pgrade'
 		print -n ' or (S)hell? '
@@ -142,6 +167,7 @@ This work is provided "AS IS" and WITHOUT WARRANTY of any kind.\n'
 		([Uu]*)	/upgrade ;;
 		}
 	done
+	[[ $_forceloop = N ]] && do_netcfg
 	unset _forceloop
 else
 	stty newcrt werase ^W intr ^C kill ^U erase ^? status ^T

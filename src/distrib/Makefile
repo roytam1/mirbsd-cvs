@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/Makefile,v 1.12 2007/08/12 21:17:57 tg Exp $
+# $MirOS: src/distrib/Makefile,v 1.13 2008/07/12 22:06:12 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -27,10 +27,18 @@ SUBDIR=
 .if ${_DESCEND} == "Yes" || ${REL_NO_RAMDISK:L} == "no"
   SUBDIR+=		common
   SUBDIR+=		common/extra
+.  if ${_DESCEND} == "Yes" || ${MACHINE} == "i386"
+  SUBDIR+=		common/autosshd
+.  endif
+.  if ${_DESCEND} == "Yes"
+  SUBDIR+=		common/grml
+  SUBDIR+=		common/netboot.me
+.  endif
 .endif
 
 .if ${_DESCEND} == "Yes"
   SUBDIR+=		baselive
+  SUBDIR+=		tools
 .endif
 
 cleannobsd: _SUBDIRUSE

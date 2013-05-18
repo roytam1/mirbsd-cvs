@@ -1,11 +1,11 @@
-# $MirOS: src/distrib/common/Makefile.i386,v 1.4 2008/07/12 23:10:17 tg Exp $
+# $MirOS: src/distrib/common/Makefile.i386,v 1.6 2009/08/15 18:26:26 tg Exp $
 
 BOOT=		${BSDOBJDIR}/sys/arch/i386/stand/fdboot/boot
 IMAGESIZE=	2816
 
 .if defined(SERIALSPEED)
 FLOPPY?=	floppy${SERIALSPEED}.fs
-FLOPPY_BOOTCFG=	sed 's/@/${SERIALSPEED}/g' \
+FLOPPY_BOOTCFG=	sed 's/@SPEED@/${SERIALSPEED}/g' \
 		    ${TOPDIR}/tools/boot.cfg.serial >${WRKDIR}/boot.cfg
 .endif
 

@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/listend.i386-big,v 1.36 2009/09/23 15:57:15 tg Exp $
+# $MirOS: src/distrib/common/listend.i386-big,v 1.37 2009/11/05 22:48:00 tg Exp $
 
 # extra programmes
 LINK	instbin					bin/mt
@@ -21,6 +21,7 @@ LINK	instbin					sbin/raidctl
 LINK	instbin					sbin/restore
 LINK	instbin					sbin/scsi
 LINK	instbin					sbin/wicontrol
+LINK	instbin					usr/bin/encrypt
 LINK	instbin					usr/bin/find
 LINK	instbin					usr/bin/gzsig
 LINK	instbin					usr/bin/less usr/bin/more

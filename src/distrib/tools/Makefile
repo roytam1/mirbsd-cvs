@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/tools/Makefile,v 1.39 2009/08/15 18:30:09 tg Exp $
+# $MirOS: src/distrib/tools/Makefile,v 1.40 2010/01/06 18:52:24 tg Exp $
 
 all: sundsklbl
 
@@ -71,7 +71,7 @@ makecdimage: .PHONY
 .if defined(SERIALSPEED)
 	sed \
 	    -e 's!^boot .*$$!boot /v${OSrev}/i386/bsd.rd!' \
-	    -e 's/@/${SERIALSPEED}/g' \
+	    -e 's/@SPEED@/${SERIALSPEED}/g' \
 	    ${.CURDIR}/boot.cfg.serial >cddir/boot.cfg
 .else
 	cp ${.CURDIR}/../common/boot.cfg.i386 cddir/boot.cfg

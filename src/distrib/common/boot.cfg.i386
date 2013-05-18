@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/boot.cfg.i386,v 1.9 2009/01/17 12:21:01 tg Exp $
+# $MirOS: src/distrib/common/boot.cfg.i386,v 1.10 2010/01/06 18:52:21 tg Exp $
 #
 set image /v10/i386/bsd.rd
 set timeout 12
@@ -11,3 +11,4 @@ echo To boot the MirOS installation system, from which you can
 echo install, upgrade, back up, or manually repair a MirOS sy-
 echo stem, wait twelve seconds or enter the command 'boot'.
 echo
+#@TEXT@

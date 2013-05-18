@@ -23,6 +23,11 @@ whether you want to proceed to the traditional bootloader, run the Live CD
 or directly start the Setup programme. Note: formal release ISOs are never
 Live CDs because of their multi-architecture capabilities.
 
+The 'cdsshd*.iso' images automatically (try to) configure IPv4 (with DHCP)
+and IPv6 (by sending Router Solicitations) on all interfaces, set the root
+password, and generate a key and run sshd (look for 'rootpw' in the ISO to
+change the password). They are new in 2010.
+
 For further information on how to set up MirOS, visit the website and read
 the installation instructions at the following URIs:
 	http://www.mirbsd.org/man7/install.i386
@@ -197,4 +202,4 @@ code is available at http://www.mirbsd.org/ and its mirrors; further
 information can be found at /usr/share/doc/legal/ as well.
 
 ________________________________________________________________________
-$MirOS: src/distrib/common/00-README,v 1.14 2009/01/17 12:32:30 tg Exp $
+$MirOS: src/distrib/common/00-README,v 1.15 2010/01/06 18:52:21 tg Exp $

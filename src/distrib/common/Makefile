@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/Makefile,v 1.47 2009/08/15 18:24:42 tg Exp $
+# $MirOS: src/distrib/common/Makefile,v 1.48 2010/01/06 18:52:21 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -53,6 +53,7 @@ IMAGE_PREP?=	@:
 RAMDISK?=	RAMDISK
 KERNEL_BUILD?=	Yes
 KERNEL_BSDRD?=	Yes
+BSDRD_COMPR?=	gzip -vn9
 AOUT_BSDRD?=	No
 RAMDISK_PREP?=	@:
 
@@ -162,13 +163,13 @@ ${IMAGE}: ${CBIN}
 
 bsd.uc: bsd ${IMAGE} ${RDSETROOT}
 	-rm -f $@
-	gzip -d <bsd >$@
+	gzip -fd <bsd >$@
 	${RAMDISK_PREP}
 	${REALOBJDIR}/${RDSETROOT} $@ <${IMAGE}
 
 bsd.rd: bsd.uc
 	-rm -f $@
-	gzip -vn9 <$> >$@
+	${BSDRD_COMPR} <$> >$@
 
 bsd.st: bsd.uc
 	cp -f $> $@

@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/common/upgrade.sh,v 1.8 2009/12/28 17:00:19 tg Exp $
+# $MirOS: src/distrib/common/upgrade.sh,v 1.9 2009/12/28 17:26:58 tg Exp $
 # $OpenBSD: upgrade.sh,v 1.61 2005/04/02 14:27:08 krw Exp $
 # $NetBSD: upgrade.sh,v 1.2.4.5 1996/08/27 18:15:08 gwr Exp $
 #
@@ -85,8 +85,14 @@ for _file in fstab hosts myname; do
 done
 hostname $(</tmp/myname)
 
-ask_yn "Enable network using configuration stored on root filesystem?" yes
-[[ $resp = y ]] && enable_network
+if [[ -f /etc/ssh/ssh_host_rsa_key ]]; then
+	echo "Since sshd(8) is running, I assume you already have" \
+	    "set up the network."
+	echo 'I will *not* offer to use the configuration from the root fs!'
+else
+	ask_yn "Enable network using configuration stored on root filesystem?" yes
+	[[ $resp = y ]] && enable_network
+fi
 
 # Offer the user the opportunity to tweak, repair, or create the network
 # configuration by hand.

@@ -1,0 +1,4 @@
+# $MirOS$
+
+# enable automatic network+sshd configuration
+SPECIAL	print '/_forceloop=/s/=/=N/\nwq' | ed -s .profile
