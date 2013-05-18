@@ -1,4 +1,4 @@
-/* $MirOS: src/gnu/usr.bin/lynx/WWW/Library/Implementation/HTTP.c,v 1.2 2005/03/27 22:42:33 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/lynx/WWW/Library/Implementation/HTTP.c,v 1.3 2005/10/21 21:42:34 tg Exp $ */
 
 /*	HyperText Tranfer Protocol	- Client implementation		HTTP.c
  *	==========================
@@ -623,6 +623,11 @@ static int HTLoadHTTP(const char *arg,
 
 	X509_NAME_oneline(X509_get_subject_name(SSL_get_peer_certificate(handle)),
 			  ssl_dn, sizeof(ssl_dn));
+#if 0
+/* XXX fix for multiple /CN= in this */
+HTSprintf0(&msg, "SSL DN is '%s'", ssl_dn);
+HTForcedPrompt(ssl_noprompt, msg, YES);
+#endif
 	if ((cert_host = strstr(ssl_dn, "/CN=")) == NULL) {
 	    HTSprintf0(&msg,
 		       gettext("SSL error:Can't find common name in certificate-Continue?"));
@@ -640,7 +645,11 @@ static int HTLoadHTTP(const char *arg,
 	    ssl_host = HTParse(url, "", PARSE_HOST);
 	    if ((p = strchr(ssl_host, ':')) != NULL)
 		*p = '\0';
-	    if (strcasecomp_asterisk(ssl_host, cert_host)) {
+	    p = NULL;
+	    StrAllocCopy(p, "www.");
+	    StrAllocCat(p, cert_host);
+	    if (strcasecomp_asterisk(ssl_host, cert_host)
+	     && strcasecomp_asterisk(ssl_host, p)) {
 		HTSprintf0(&msg,
 			   gettext("SSL error:host(%s)!=cert(%s)-Continue?"),
 			   ssl_host,
