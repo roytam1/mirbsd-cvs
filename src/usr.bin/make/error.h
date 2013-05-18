@@ -42,11 +42,18 @@
  *				errors which occurred, as passed to it, and
  *				exiting.
  */
-extern void Error(char *, ...);
-extern void Fatal(char *, ...);
-extern void Punt(char *, ...);
-extern void DieHorribly(void);
-extern void Finish(int);
+extern void Error(const char *, ...)
+    __attribute__((__format__ (printf, 1, 2)));
+extern void Fatal(const char *, ...)
+    __attribute__((noreturn))
+    __attribute__((__format__ (printf, 1, 2)));
+extern void Punt(const char *, ...)
+    __attribute__((noreturn))
+    __attribute__((__format__ (printf, 1, 2)));
+extern void DieHorribly(void)
+    __attribute__((noreturn));
+extern void Finish(int)
+    __attribute__((noreturn));
 
 /*
  * Error levels for parsing. PARSE_FATAL means the process cannot continue
@@ -55,6 +62,7 @@ extern void Finish(int);
  */
 #define PARSE_WARNING	2
 #define PARSE_FATAL	1
-extern void Parse_Error(int, const char *, ...);
+extern void Parse_Error(int, const char *, ...)
+    __attribute__((__format__ (printf, 2, 3)));
 extern int fatal_errors;
 #endif

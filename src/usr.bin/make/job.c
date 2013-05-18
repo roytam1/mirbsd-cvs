@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.bin/make/job.c,v 1.2 2005/02/23 20:36:53 tg Exp $ */
+/**	$MirOS: src/usr.bin/make/job.c,v 1.3 2005/08/20 12:54:49 tg Exp $ */
 /*	$OpenPackages$ */
 /*	$OpenBSD: job.c,v 1.59 2005/04/13 02:33:08 deraadt Exp $	*/
 /*	$NetBSD: job.c,v 1.16 1996/11/06 17:59:08 christos Exp $	*/
@@ -126,7 +126,7 @@
 #include "timestamp.h"
 #include "main.h"
 
-__RCSID("$MirOS: src/usr.bin/make/job.c,v 1.2 2005/02/23 20:36:53 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/make/job.c,v 1.3 2005/08/20 12:54:49 tg Exp $");
 
 /* From MirBSD: src/sys/sys/types.h,v 1.2 2004/06/13 20:56:51 tg Exp $ */
 #ifndef howmany
@@ -1203,7 +1203,7 @@ Job_Touch(GNode *gn,		/* the node of the file to touch */
 bool
 Job_CheckCommands(GNode *gn, 		/* The target whose commands need
 				     	 * verifying */
-    void (*abortProc)(char *, ...)) 	/* Function to abort with message */
+    void (*abortProc)(const char *, ...)) /* Function to abort with message */
 {
     if (OP_NOP(gn->type) && Lst_IsEmpty(&gn->commands) &&
 	(gn->type & OP_LIB) == 0) {

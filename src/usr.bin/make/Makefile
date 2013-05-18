@@ -1,4 +1,4 @@
-# $MirOS: src/usr.bin/make/Makefile,v 1.3 2005/03/06 22:28:37 tg Exp $
+# $MirOS: src/usr.bin/make/Makefile,v 1.4 2005/09/01 23:48:20 tg Exp $
 # $OpenBSD: Makefile,v 1.38 2004/01/28 02:50:28 espie Exp $
 
 .include <bsd.own.mk>
@@ -6,9 +6,8 @@
 PROG=		make
 CPPFLAGS+=	-I.
 CDIAGFLAGS=	-Wall -W -Wno-char-subscripts -Wstrict-prototypes -pedantic \
-		-Wmissing-prototypes -Werror
+		-Wmissing-prototypes -Werror -Wno-cast-qual
 CPPFLAGS+=	-DUSE_TIMESPEC -D_PATH_MIRBSDKSH=\"${MKSH}\"
-CPPFLAGS+=	-DHAS_BOOL_H -DHAS_PATHS_H -DHAS_EXTENDED_GETCWD
 #CPPFLAGS+=	-DHAS_STATS	# Throw out statistics after running
 CPPFLAGS+=	-DMACHINE=\"${MACHINE}\" -DMACHINE_ARCH=\"${MACHINE_ARCH}\"
 

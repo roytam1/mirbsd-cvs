@@ -109,6 +109,10 @@
 # endif
 #endif
 
+#ifdef __OpenBSD__
+#define HAS_EXTENDED_GETCWD
+#endif
+
 #ifdef HAS_EXTENDED_GETCWD
 #define dogetcwd()	getcwd(NULL, 0)
 #else

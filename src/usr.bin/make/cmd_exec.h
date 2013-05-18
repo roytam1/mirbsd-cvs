@@ -33,6 +33,6 @@
  *	a string. If an error occurs, Cmd_Exec returns an empty string,
  *	and err is filled with the reason for the command failure.
  *	The output result should always be freed by the caller.  */
-extern char *Cmd_Exec(const char *, char **);
+extern char *Cmd_Exec(const char *, const char **);
 
 #endif

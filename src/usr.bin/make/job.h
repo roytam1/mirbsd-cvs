@@ -48,7 +48,7 @@
 
 extern void Job_Touch(GNode *, bool);
 extern bool Job_CheckCommands(GNode *,
-	void (*abortProc )(char *, ...));
+	void (*abortProc )(const char *, ...));
 extern void Job_CatchChildren(bool);
 extern void Job_CatchOutput(void);
 extern void Job_Make(GNode *);

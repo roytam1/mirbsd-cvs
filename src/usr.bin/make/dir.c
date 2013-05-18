@@ -303,7 +303,7 @@ free_hash(struct ohash *h)
 void
 Dir_Init(void)
 {
-    char *dotname = ".";
+    const char *dotname = ".";
 
     Static_Lst_Init(dirSearchPath);
     ohash_init(&openDirectories, 4, &dir_info);

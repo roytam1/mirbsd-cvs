@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.bin/make/cmd_exec.c,v 1.2 2005/02/23 20:36:53 tg Exp $ */
+/**	$MirOS: src/usr.bin/make/cmd_exec.c,v 1.3 2005/07/07 13:39:52 tg Exp $ */
 /*	$OpenPackages$ */
 /*	$OpenBSD: cmd_exec.c,v 1.5 2004/04/07 13:11:35 espie Exp $ */
 /*
@@ -38,10 +38,10 @@
 #include "memory.h"
 #include "pathnames.h"
 
-__RCSID("$MirOS: src/usr.bin/make/cmd_exec.c,v 1.2 2005/02/23 20:36:53 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/make/cmd_exec.c,v 1.3 2005/07/07 13:39:52 tg Exp $");
 
 char *
-Cmd_Exec(const char *cmd, char **err)
+Cmd_Exec(const char *cmd, const char **err)
 {
     char	*args[4];	/* Args for invoking the shell */
     int 	fds[2]; 	/* Pipe streams */
@@ -58,8 +58,8 @@ Cmd_Exec(const char *cmd, char **err)
     *err = NULL;
 
     /* Set up arguments for the shell. */
-    args[0] = "mksh";
-    args[1] = "-c";
+    args[0] = (char *)"mksh";
+    args[1] = (char *)"-c";
     args[2] = (char *)cmd;
     args[3] = NULL;
 

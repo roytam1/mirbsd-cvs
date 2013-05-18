@@ -1,7 +1,7 @@
 #ifndef DEFINES_H
 #define DEFINES_H
 
-/**	$MirOS$ */
+/**	$MirOS: src/usr.bin/make/defines.h,v 1.2 2005/02/23 20:36:53 tg Exp $ */
 /*	$OpenPackages$ */
 /*	$OpenBSD: defines.h,v 1.2 2002/02/19 19:39:38 millert Exp $ */
 
@@ -29,6 +29,10 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
+#ifdef __OpenBSD__
+#define HAS_STDBOOL_H
+#endif
 
 #ifdef HAS_STDBOOL_H
 # include <stdbool.h>

@@ -39,14 +39,15 @@
 #include "lowparse.h"
 
 int	    fatal_errors = 0;
-static void ParseVErrorInternal(const char *, unsigned long, int, const char *, va_list);
+static void ParseVErrorInternal(const char *, unsigned long, int,
+    const char *, va_list) __attribute__((format (printf, 4, 0)));
 /*-
  * Error --
  *	Print an error message given its format.
  */
 /* VARARGS */
 void
-Error(char *fmt, ...)
+Error(const char *fmt, ...)
 {
 	va_list ap;
 
@@ -66,7 +67,7 @@ Error(char *fmt, ...)
  */
 /* VARARGS */
 void
-Fatal(char *fmt, ...)
+Fatal(const char *fmt, ...)
 {
 	va_list ap;
 
@@ -92,7 +93,7 @@ Fatal(char *fmt, ...)
  */
 /* VARARGS */
 void
-Punt(char *fmt, ...)
+Punt(const char *fmt, ...)
 {
 	va_list ap;
 

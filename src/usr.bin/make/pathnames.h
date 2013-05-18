@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/usr.bin/make/pathnames.h,v 1.2 2005/02/23 20:36:54 tg Exp $ */
 /*	$OpenPackages$ */
 /*	$OpenBSD: pathnames.h,v 1.10 2003/06/03 02:56:12 millert Exp $	*/
 /*	$NetBSD: pathnames.h,v 1.6 1996/11/06 17:59:21 christos Exp $	*/
@@ -33,6 +33,10 @@
  *
  *	from: @(#)pathnames.h	5.2 (Berkeley) 6/1/90
  */
+
+#ifdef __OpenBSD__
+#define HAS_PATH_H
+#endif
 
 #ifdef HAS_PATH_H
 # include <paths.h>
