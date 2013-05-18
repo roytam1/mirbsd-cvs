@@ -1,5 +1,5 @@
 #!/usr/bin/env mksh
-# $MirOS: src/libexec/randshuffle/randshuffle,v 1.20 2007/08/07 22:18:47 tg Exp $
+# $MirOS: src/libexec/randshuffle/randshuffle,v 1.21 2008/07/30 19:36:06 tg Exp $
 #-
 # Copyright (c) 2006, 2007, 2008
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -48,7 +48,7 @@ sleep $((RANDOM % 120 + 30))
  sysctl -a; ps -akwwx -o "$(ps -L)"; ps -aexwwo pid,args; ps -axwwo pid,args; \
  date) 2>&1 | cksum -ba sha256 >/dev/wrandom
 sleep $((RANDOM % 9 + 9))
-cat "${files[@]}" >/dev/urandom 2>&1
+cat "${files[@]}" >/dev/urandom 2>/dev/wrandom
 sleep $((RANDOM % 9 + 9))
 umask 077
 for file in "${files[@]}"; do
@@ -64,6 +64,7 @@ done >/dev/wrandom 2>&1
 sleep $((RANDOM % 3 + 2))
 print -n $what $$ $((RANDOM << 15 | RANDOM)) $SECONDS | \
     cksum -ba suma >/dev/wrandom
-sleep $((RANDOM % 1))
+sleep $((RANDOM % 1 + 1))
 print "notice: $what random seed rotated! $((RANDOM & 255))" | logger
+print -n $RANDOM >/dev/wrandom
 exit 0
