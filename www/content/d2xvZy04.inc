@@ -1,5 +1,5 @@
 <!-- PageID: wlog-8 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.31 2006/02/01 00:17:44 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.32 2006/02/01 02:17:00 tg Exp $</small>
 <h1>MirBSD &ndash; WTF, We Have a Release!?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -375,6 +375,16 @@ celebrate this event, rotate the wlog and start a new one.</p>
  <p>I somehow expect iconv(3) and nl_langinfo(3) CODESET support to have
   some impact on something... but nothing until now. Wait to see whether
   we rename libcitrus_iconv to libiconv (selection via -L works).</p>
+</div>
+
+<div class="wlentry">
+ <h3 id="e20060201">01.02.2006 by tg@</h3>   
+ <p>I've been working on libiconv integration into MirPorts today which,
+  the way I did it, also benefits Darwin. I also hacked a bit on varouus
+  iconv(3)-using ports including centericq, and changed the linuxulator,
+  respectively the porting framework, so that opera runs better.</p>
+ <p>Should I really go to the exam tomorrow? Chances are I get 40% while
+  to pass you need to have more than 50%.</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
