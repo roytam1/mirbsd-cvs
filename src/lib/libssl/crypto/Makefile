@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libssl/crypto/Makefile,v 1.14 2006/09/20 20:14:05 tg Exp $
+# $MirOS: src/lib/libssl/crypto/Makefile,v 1.15 2006/09/20 20:38:14 tg Exp $
 # $OpenBSD: Makefile,v 1.45 2006/06/27 05:07:47 djm Exp $
 
 .include <bsd.own.mk>
@@ -106,7 +106,7 @@ SRCS+=	x509_def.c x509_obj.c x509_trs.c x509cset.c x509type.c by_file.c
 SRCS+=	x509_att.c x509_err.c x509_r2x.c x509_txt.c x509name.c x_all.c
 SRCS+=	x509_cmp.c x509_ext.c x509_req.c x509_v3.c x509rset.c
 SRCS+=	v3_akey.c v3_alt.c v3_bcons.c v3_bitst.c v3_conf.c v3_cpols.c
-SRCS+=	v3_crld.c v3_enum.c v3_extku.c v3_genn.c v3_ia5.c v3_int.c
+SRCS+=	v3_crld.c v3_enum.c v3_extku.c v3_genn.c v3_hex.c v3_ia5.c v3_int.c
 SRCS+=	v3_lib.c v3_pku.c v3_prn.c v3_skey.c v3_sxnet.c v3_utl.c
 SRCS+=	v3err.c v3_info.c v3_purp.c v3_ocsp.c v3_akeya.c v3_pci.c v3_pcia.c
 SRCS+=	conf_err.c conf_lib.c conf_def.c conf_api.c conf_mod.c conf_mall.c

@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libssl/src/apps/pkcs12.c,v 1.2 2005/03/06 20:29:27 tg Exp $ */
+/* $MirOS: src/lib/libssl/src/apps/pkcs12.c,v 1.3 2005/04/29 13:52:27 tg Exp $ */
 
 /* pkcs12.c */
 #if !defined(OPENSSL_NO_DES) && !defined(OPENSSL_NO_SHA1)
@@ -875,10 +875,12 @@ int alg_print (BIO *x, X509_ALGOR *alg)
 	unsigned char *p;
 	p = alg->parameter->value.sequence->data;
 	pbe = d2i_PBEPARAM (NULL, &p, alg->parameter->value.sequence->length);
+	if (!pbe)
+		return 1;
 	BIO_printf (bio_err, "%s, Iteration %ld\n",
 	OBJ_nid2ln(OBJ_obj2nid(alg->algorithm)), ASN1_INTEGER_get(pbe->iter));
 	PBEPARAM_free (pbe);
-	return 0;
+	return 1;
 }
 
 /* Load all certificates from a given file */
