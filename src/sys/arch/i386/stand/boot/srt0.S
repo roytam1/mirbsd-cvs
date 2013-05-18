@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.39 2009/01/02 16:38:36 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.40 2009/01/02 20:52:28 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009
@@ -149,8 +149,8 @@ Linit:	pop	di
 	jb	Llxok		/* 32h: PXELINUX (no drive in DL) */
 	inc	di
 	or	ch,ch
-	jz	Llxdx		/* no HDD emulation */
-	inc	di
+	jz	Llxdx		/* El Torito no emulation */
+	inc	di		/* El Torito FDD/HDD emulation */
 Llxdx:	pop	ax		/* we have a drive in DL */
 	push	dx
 	or	di,di
@@ -169,12 +169,10 @@ Llxok:	push	di
 	xor	dx,dx		/* clean up everything */
 	int	0x22
 	pop	cx
-	jcxz	Lnolx		/* HDD */
+	cmp	cl,2
+	jne	Lnolz		/* HDD or El Torito no emulation */
 	push	cs
 	pop	ds
-	inc	byte ptr ds:[0x0151]
-	dec	cx
-	jcxz	Lnolx		/* CD, no emulation mode */
 	mov	ax,0x4B00	/* BIOS: terminate emulation */
 	mov	dl,0x7F		/* ... on all drives */
 	mov	si,0x0150+Ltblk-_rval
