@@ -1,5 +1,5 @@
 #!/usr/bin/env perl
-# $MirOS: ports/net/sirc/dist/dsircp,v 1.26 2010/03/30 21:03:06 tg Exp $
+# $MirOS: ports/net/sirc/dist/dsircp,v 1.27 2010/05/14 20:35:49 tg Exp $
 #-
 # dsircp: dumb-mode small irc client in perl
 # by orabidoo <roger.espel.llima@pobox.com>
@@ -7,7 +7,7 @@
 # Copyright (C) 1995-1997 Roger Espel Llima
 # Copyright (c) 2002-2003 Hubert Feyrer
 # Copyright (c) Phil Stracchino
-# Copyright (c) 2001-2010 Thorsten Glaser
+# Copyright (c) 2001-2011 Thorsten Glaser
 #
 # This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
 # the utmost extent permitted by applicable law, neither express nor
@@ -2150,7 +2150,7 @@ while (1) {
     } elsif ($cmd eq 'PRIVMSG') {
       &yetonearg;
       $msgchannel = $newarg;
-      &strip_idmsg;
+      &strip_idmsg if $has_identifymsg;
       if ($args =~ /^\001([^\001]*)\001$/ && $set{'CTCP'} ne 'none') {
 	&ctcp($newarg, $1);
       } elsif (!$printchan && &eq($newarg, $talkchannel)) {
@@ -2169,7 +2169,7 @@ while (1) {
       }
     } elsif ($cmd eq 'NOTICE') {
       &yetonearg;
-      &strip_idmsg;
+      &strip_idmsg if $has_identifymsg;
       if ($args =~ /^\001([^\001]*)\001$/) {
 	&ctcpreply($newarg, $1);
       } elsif ($newarg =~ /^[\#\&\+]/) {
