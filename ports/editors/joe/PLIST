@@ -1,11 +1,10 @@
-@comment $MirOS: ports/editors/joe/pkg/PLIST,v 1.4 2007/05/28 14:06:53 tg Exp $
+@comment $MirOS: ports/editors/joe/PLIST,v 1.1 2008/08/25 14:02:30 tg Exp $
 bin/jmacs
 bin/joe
 bin/jpico
 bin/jstar
 bin/jupp
 bin/rjoe
-@comment bin/termidx
 man/man1/jmacs.1
 man/man1/joe.1
 man/man1/jpico.1
