@@ -1,8 +1,8 @@
-# $MirOS: ports/net/rsync/Makefile,v 1.18 2008/11/29 17:03:48 tg Exp $
+# $MirOS: ports/net/rsync/Makefile,v 1.19 2008/12/30 03:01:32 tg Exp $
 # $OpenBSD: Makefile,v 1.41 2004/05/11 13:39:17 naddy Exp $
 
 COMMENT=		mirroring/synchronisation over low bandwidth links
-VERSION=		3.0.5
+VERSION=		3.0.6
 CATEGORIES=		net
 HOMEPAGE=		http://rsync.samba.org/
 RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.org>
@@ -36,6 +36,7 @@ CONFIGURE_ARGS+=	--with-included-popt \
 CONFIGURE_ENV+=		ac_cv_header_iconv_h=no
 CONFIGURE_ARGS+=	--disable-debug \
 			--disable-iconv \
+			--disable-iconv-open \
 			--disable-locale
 LDSTATIC=		-static
 PLIST=			${PKGDIR}/PLIST-static
