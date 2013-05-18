@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/news.inc,v 1.99 2009/01/29 17:54:40 tg Exp $
+RCSID: $MirOS: www/data/news.inc,v 1.100 2009/01/31 22:22:40 tg Exp $
 Title: Older news from the MirOS Project
 Date: 01.03.2006
 
@@ -1355,4 +1355,71 @@ Tag: bug snapshot
 <p><strong>Update</strong> 31.01: <a href="@@RELPATH@@permalinks/wlog-10_e20090131-tg.htm">tg@
  has hacked a workaround</a> &ndash; reporting this bug to Parallels is
  still recommended though.</p>
+----
+Title: FOSDEM 2009 ISO erratum: i386 does not boot after HDD installation
+Date: 08.02.2009 21:07
+Author: tg@
+Tag: bug event snapshot
+
+<p>Due to bug-hiding circumstances, this problem was only identified
+ during FOSDEM Sunday afternoon. The first stage boot loader would
+ overwrite itself trying to load the second stage boot loader, due to
+ them sharing the same 16-bit (64 KiB) segment after the workaround
+ for the <a href="permalinks/news_e20090126-tg.htm">Parallels bug</a>.
+ installboot(8/i386) would pass the sectors covered by filesystem
+ blocks, which amounts up to multiples of 8 or 16 KiB, even though
+ the last block was not entirely filled. Fix is to do bounds checking
+ in the assembly code at boot time.</p>
+<p>An <a href="@@ABSPATH@@/MirOS/current/i386/fixes10.ngz">updated
+ <tt>fixes</tt> dist set</a> is available for people doing a network
+ installation anyway, or to extract later with<br />
+ <tt>$ cd /</tt><br />
+ <tt>$ sudo tar xzphvvf <em>/path/to/</em>fixes10.ngz</tt></p>
+<p style="margin-bottom:0px;">If you do a CD installation, you have
+ to do the following steps:</p>
+<div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;">
+ <pre>
+Location of sets? (cd disk ftp http shttp nfs or 'done') [cd] <strong>shttp</strong>
+HTTP/FTP proxy URL? (e.g. 'http://proxy:8080', or 'none') [none] <em>«Enter»</em>
+Server? (IP address, hostname or 'done') <strong>www.mirbsd.org</strong>
+Server directory? [v10/i386] <strong>MirOS/current/i386</strong>
+
+<em>…</em>
+
+Set name? (or 'done') [bsd] <strong>fix*</strong>
+
+        [ ] bsd
+        [ ] bsd.rd
+        [ ] base10.ngz
+        [ ] etc10.ngz
+        [ ] gnu10.ngz
+        [ ] dev10.ngz
+        [ ] ada10.ngz
+        [ ] xbase10.ngz
+        [ ] xetc10.ngz
+        [ ] xsrv10.ngz
+        [ ] unfree10.ngz
+        [ ] pkgutl10.ngz
+        [ ] ports10.ngz
+        [X] fixes10.ngz
+        [ ] site10.ngz
+Set name? (or 'done') [bsd] <strong>done</strong>
+Ready to install sets? [yes] <em>«Enter»</em>
+ </pre>
+</div><p style="margin-top:0px;">This sequence will add the fixes
+ set from network after finishing a disc installation, before the
+ installboot(8/i386) part is run. Of course, you can substitute
+ <strong>shttp</strong> with <strong>http</strong> too or specify
+ a proxy to use.</p>
+<p>If you have already installed, follow the above mentioned tar
+ command to unpack the <tt>fixes</tt> set (in <tt>/mnt</tt> if
+ you are still in the installer), then use the command:<br />
+ <tt>$ sudo /usr/mdec/installboot -v /boot /usr/mdec/bootxx wd0</tt><br />
+ <tt># /mnt/usr/mdec/installboot -v /mnt/boot /mnt/usr/mdec/bootxx sd0</tt>
+ <br />(<em>wd0</em> or <em>sd0</em> depending on which is your root
+ disc; the second line is for within the installer)</p>
+<p>My (tg@) sincerest apologies for this bug, which was introduced during
+ the Parallels Desktop BIOS bug workaround’s creation. Remember, if you
+ already have an (unbootable) installation, you can do all this by booting
+ from the CD again (into the installer/rescue kernel).</p>
 ----
