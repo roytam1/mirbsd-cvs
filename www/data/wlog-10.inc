@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.242 2009/09/25 20:06:19 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.243 2009/10/02 17:50:06 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -5131,7 +5131,7 @@ Author: tg@
 <p>Please do report any bugs (possibly with patches) again ☺ Things
  still look great in Lynx, so I̲ am content in any case…</p>
 ----
-Title: mkshdroid, brother of the iShell
+Title: mkshdroid, brother of the iShell [updated]
 Date: 02.10.2009 17:38
 Author: tg@
 Tag: mksh
@@ -5150,9 +5150,9 @@ Tag: mksh
  Bionic patch of today I did in my "lunch break" and has no copyright claim
  from my employer) we'll submit <a href="@@RELPATH@@mksh.htm">mksh</a> for
  inclusion somewhere, as this would be the first <em>really</em> usable
- shell. For this reason, I have uploaded a binary (gunzip(1) first) at
- <a href="https://www.mirbsd.org/MirOS/dist/mir/mksh/ports/mksh-20090929-android15.gz">ports/mksh-20090929-android15.gz</a>
- (MD5 <tt>f92ab0becb62b2f4020be42290a91fc0</tt>) which you can place in, for
+ shell. For this reason, I have uploaded a binary (gunzip(1) first) at <a
+ href="https://www.mirbsd.org/MirOS/dist/mir/mksh/ports/mksh-39.9.20090929-android15.tgz">ports/mksh-39.9.20090929-android15.tgz</a>
+ (MD5 <tt>64ee103453d65e947f2beb1aeb6450d2</tt>) which you can place in, for
  instance, <tt>/data/mksh</tt> then put a (modified, as the ls(1) and id(1)
  and possibly other utilities are more than reduced) <tt>dot.mkshrc</tt> from
  the source (<a href="@@ABSPATH@@/cvs.cgi/mksh/dot.mkshrc?rev=1.49">CVSweb</a>)
@@ -5160,6 +5160,7 @@ Tag: mksh
  responsible for some cursor keys etc. not working, as Android and mksh(1) do
  both fine in that regard) with <tt># HOME=/data /data/mksh</tt> in the shell.
  I may post an Android specific patch for <tt>dot.mkshrc</tt> some day.</p>
+<p><strong>Update</strong> 10.10. – .gz → .tgz and Cygwin binary now too!</p>
 <!-- RSS stop --><p>On a side note, <a href="http://www.tarent.com/">my
  employer</a> is still looking for Java&trade; developers in Bonn or Berlin.
  The actual advertisement is on Xing; look and submit an application if you
