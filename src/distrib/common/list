@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/list,v 1.1 2006/08/17 19:34:15 tg Exp $
+# $MirOS: src/distrib/common/list,v 1.2 2006/08/18 20:32:37 tg Exp $
 
 # standard tools in the crunched binary
 COPY	${OBJDIR}/instbin			instbin
@@ -70,16 +70,16 @@ SYMLINK	/tmp/disktab.shadow			etc/disktab
 SYMLINK	/tmp/fstab.shadow			etc/fstab
 COPY	${DESTDIR}/etc/group			etc/group
 SYMLINK	/tmp/hosts				etc/hosts
-COPY	${TOPDIR}/miniroot/protocols		etc/protocols
+COPY	${TOPDIR}/common/protocols		etc/protocols
 SYMLINK	/tmp/resolv.conf.shadow			etc/resolv.conf
-COPY	${TOPDIR}/miniroot/services		etc/services
-COPY	${TOPDIR}/miniroot/shells		etc/shells
+COPY	${TOPDIR}/common/services		etc/services
+COPY	${TOPDIR}/common/shells		etc/shells
 COPY	${DESTDIR}/etc/spwd.db			etc/spwd.db
 
 # install stuff
-SCRIPT	${TOPDIR}/miniroot/dot.profile		.profile
-SCRIPT	${TOPDIR}/miniroot/install.sh		install
-SCRIPT	${TOPDIR}/miniroot/install.sub		install.sub
+SCRIPT	${TOPDIR}/common/dot.profile		.profile
+SCRIPT	${TOPDIR}/common/install.sh		install
+SCRIPT	${TOPDIR}/common/install.sub		install.sub
 SPECIAL	chmod 755 install
 
 # misc stuff

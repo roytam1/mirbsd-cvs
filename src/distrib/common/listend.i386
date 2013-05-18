@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/ramdisk/listend.i386,v 1.4 2006/08/17 14:09:22 tg Exp $
+# $MirOS: src/distrib/common/listend.i386,v 1.1 2006/08/17 19:34:15 tg Exp $
 
 # extra programmes
 LINK	instbin					sbin/fdisk
@@ -13,7 +13,7 @@ TERMCAP	vt100,vt220,wsvt25,dumb,wsvtg		usr/share/misc/termcap
 
 # install stuff
 SCRIPT	${TOPDIR}/common/install.i386		install.md
-#SCRIPT	${TOPDIR}/miniroot/upgrade.sh		upgrade
+#SCRIPT	${TOPDIR}/common/upgrade.sh		upgrade
 SPECIAL	chmod 755 install.md #upgrade
 
 # kernel PPPD

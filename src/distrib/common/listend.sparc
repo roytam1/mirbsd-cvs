@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/ramdisk/listend.sparc,v 1.2 2006/08/17 14:09:22 tg Exp $
+# $MirOS: src/distrib/common/listend.sparc,v 1.1 2006/08/17 19:34:16 tg Exp $
 
 # extra programmes
 LINK	instbin					bin/mt
@@ -12,7 +12,7 @@ TERMCAP	vt100,vt220,wsvt25,dumb,sun		usr/share/misc/termcap
 
 # install stuff
 SCRIPT	${TOPDIR}/common/install.sparc		install.md
-#SCRIPT	${TOPDIR}/miniroot/upgrade.sh		upgrade
+#SCRIPT	${TOPDIR}/common/upgrade.sh		upgrade
 SPECIAL	chmod 755 install.md #upgrade
 
 # in case NFS doesn't fit

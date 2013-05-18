@@ -1,7 +1,6 @@
-# $MirOS: src/distrib/ramdisk/listhdr.sparc,v 1.1 2006/08/17 12:53:11 tg Exp $
+# $MirOS: src/distrib/common/listbeg.sparc,v 1.1 2006/08/17 19:34:15 tg Exp $
 
-SRCDIRS	distrib/ramtools distrib/special
+SRCDIRS	distrib/special sys/arch/sparc/stand
 SRCDIRS	bin sbin usr.bin usr.sbin libexec
-SRCDIRS	sys/arch/sparc/stand
 
 LIBS	-lutil -locurses -lm -lz

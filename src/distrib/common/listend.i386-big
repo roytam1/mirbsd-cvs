@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/listend.i386-big,v 1.2 2006/08/17 20:13:26 tg Exp $
+# $MirOS: src/distrib/common/listend.i386-big,v 1.3 2006/08/18 20:32:37 tg Exp $
 
 # adjust for SRCDIRS omission (for when we want full tools)
 CRUNCHSPECIAL init	srcdir distrib/special/init
@@ -72,7 +72,7 @@ SPECIAL	sed 's!.server ntp.example.invalid!server ntp.mirbsd.org!' <${DESTDIR}/e
 
 # install stuff
 SCRIPT	${TOPDIR}/common/install.i386		install.md
-SCRIPT	${TOPDIR}/miniroot/upgrade.sh		upgrade
+SCRIPT	${TOPDIR}/common/upgrade.sh		upgrade
 SPECIAL	chmod 755 install.md upgrade
 
 # SSH requirements

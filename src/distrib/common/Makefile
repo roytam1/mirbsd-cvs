@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/ramdisk/Makefile,v 1.16 2006/08/17 14:09:22 tg Exp $
+# $MirOS: src/distrib/common/Makefile,v 1.3 2006/08/17 14:17:46 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -34,19 +34,20 @@ STRIP?=		strip
 STRIP_CBIN?=	--strip-all -R .comment -R .eh_frame
 STRIP_KERNEL?=	--strip-all -R .comment -R .eh_frame
 
-# crunched binary and ramdisk
+# crunched binary and ramdisk (miniroot filesystem)
 CBIN?=		instbin
 LISTS?=		${TOPDIR}/common/listbeg.${MACHCONF} ${TOPDIR}/common/list \
 		${TOPDIR}/common/listend.${MACHCONF}
-MTREE?=		${TOPDIR}/miniroot/mtree.conf
+MTREE?=		${TOPDIR}/common/mtree.conf
 IMAGE?=		ramdisk${OSrev}.fs
 IMAGESIZE?=	8192
 IMAGEOPTS?=	minfree=0,optimization=space,bsize=4096,fsize=512,density=3072
 IMAGETYPE?=	rdroot
 
-# kernel
+# kernel (build one, create bsd.rd)
 RAMDISK?=	RAMDISK
 KERNEL_BUILD?=	Yes
+KERNEL_BSDRD?=	Yes
 AOUT_BSDRD?=	No
 RAMDISK_PREP?=	@:
 
@@ -70,12 +71,14 @@ CDROM_MDOPTS?=
 
 #---
 
+.if ${KERNEL_BSDRD:L} == "yes"
 _RD_KERNELS=	bsd.rd
-.if ${AOUT_BSDRD:L} != "no"
+.  if ${AOUT_BSDRD:L} != "no"
 _RD_KERNELS+=	bsd.rd.net
+.  endif
 .endif
 
-ALL_TGTS=	${_RD_KERNELS} ${FLOPPY:S/^no$//} ${CDROM:S/^no$//}
+ALL_TGTS=	${IMAGE} ${_RD_KERNELS} ${FLOPPY:S/^no$//} ${CDROM:S/^no$//}
 INST_FILES?=	${_RD_KERNELS} ${FLOPPY:S/^no$//} ${CDROM:S/^no$//}
 
 all: ${ALL_TGTS}
@@ -92,7 +95,7 @@ unconfig:
 	-${SUDO} rm -rf ${TMPMOUNT} ${IMAGE} ${FLOPPY}
 
 cleannobsd: unconfig
-	rm -f *core ${CBIN} ${CBIN}.mk ${CBIN}.cache ${CBIN}.conf \
+	rm -f *core ${CBIN} ${CBIN}.mk ${CBIN}.cache ${CBIN}.conf ${IMAGE} \
 	    ${RDSETROOT} *.c *.o *.lo bsd.{uc,st} ${_RD_KERNELS} mkisofs.log
 	rm -rf workdir
 
@@ -106,7 +109,7 @@ ${RDSETROOT}: ${TOPDIR}/common/${RDSETROOT}.c
 	${HOSTCC} ${HOSTCFLAGS} -DDEBUG -o $@ $>
 
 ${CBIN}.conf: ${LISTS}
-	awk -f ${TOPDIR}/miniroot/makeconf.awk CBIN=${CBIN} ${LISTS} >$@
+	awk -f ${TOPDIR}/common/makeconf.awk CBIN=${CBIN} ${LISTS} >$@
 
 ${CBIN}.mk ${CBIN}.cache ${CBIN}.c: ${CBIN}.conf
 	crunchgen ${CRUNCHGENOPTS} -D ${TOPDIR}/.. -L ${DESTDIR}/usr/lib \
@@ -122,7 +125,7 @@ ${IMAGE}: ${CBIN}
 	${SUDO} mtree -def ${MTREE} -p ${TMPMOUNT}/ -u
 	OBJDIR=${REALOBJDIR:Q} TARGDIR=${TMPMOUNT:Q} TOPDIR=${TOPDIR:Q} \
 	    DESTDIR=${DESTDIR:Q} BSDOBJDIR=${BSDOBJDIR:Q} \
-	    ${SUDO} ${SHELL} ${TOPDIR}/miniroot/runlist.sh ${LISTS}
+	    ${SUDO} ${SHELL} ${TOPDIR}/common/runlist.sh ${LISTS}
 	${SUDO} rm ${TMPMOUNT}/${CBIN}
 	${SUDO} makefs -s ${IMAGESIZE}b -o ${IMAGEOPTS} ${IMAGE} ${TMPMOUNT}
 	${SUDO} vnconfig -v -c ${VND} ${IMAGE}
@@ -179,11 +182,11 @@ ${CDROM}: cdrom-prepare cdrom-mdcopy cdrom-generate cdrom-mdboot
 cdrom-prepare: bsd.rd
 	-rm -rf workdir
 	mkdir -p workdir/{etc,v${OSrev}/${MACHINE}}
-	@if [[ -e ${TOPDIR}/common/contrib ]]; then \
+	@if [[ -e ${TOPDIR}/contrib ]]; then \
 		echo Integrating contrib dir; \
 		mkdir workdir/contrib; \
 		cd workdir/contrib; \
-		lndir ${TOPDIR}/common/contrib; \
+		lndir ${TOPDIR}/contrib; \
 	fi
 	cp ${BOOT} workdir/etc/boot.ldr
 	cp ${TOPDIR}/common/boot.cfg.${MACHINE} workdir/etc/boot.cfg

@@ -161,5 +161,5 @@ Some of the supplied software is covered by GNU licences. The source
 code is available at http://www.mirbsd.org/ and its mirrors; further
 information can be found at /usr/share/doc/legal/ as well.
 
-__________________________________________________________________________
-$MirOS: src/distrib/ramdisk/00-README,v 1.1 2006/07/26 22:36:24 tg Exp $
+_______________________________________________________________________
+$MirOS: src/distrib/common/00-README,v 1.1 2006/08/17 19:34:13 tg Exp $

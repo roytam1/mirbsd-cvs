@@ -1,6 +1,5 @@
-# $MirOS: src/distrib/ramdisk/Makefile.i386-big,v 1.2 2006/07/24 00:52:41 tg Exp $
+# $MirOS: src/distrib/common/Makefile.i386-big,v 1.1 2006/08/17 19:34:13 tg Exp $
 
-MTREE=		${TOPDIR}/miniroot/mtree.conf
 IMAGETYPE=	ipldisc
 
 KERNEL_BUILD=	no
@@ -10,8 +9,6 @@ RAMDISK_PREP=	print 'rootdev 17 0\nquit' | config -ef ${DO_BSDRD_UC}
 FLOPPY=		no
 CDROM_MDOPTS=	-b etc/boot.iso -c etc/boot.cat \
 		-no-emul-boot -boot-load-size 4 -boot-info-table
-
-INST_FILES=	${FLOPPY}
 
 bsd: ${REALOBJDIR}/../generic/bsd
 	cp -f $> $@
