@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/share/misc/licence.template,v 1.14 2006/08/09 19:35:23 tg Rel $
+# $MirOS: src/libexec/randshuffle/randshuffle,v 1.13 2006/10/07 03:37:10 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -38,6 +38,7 @@ umask 077
     count=3 ) >/var/db/host.random 2>/dev/prandom
 chown 0:0 /var/db/host.random
 chmod 0600 /var/db/host.random
+sleep $((RANDOM % 3 + 3))
 print "notice: system random seed rotated! $((RANDOM & 255))" | logger
 sleep $((RANDOM % 9 + 9))
 ( TZ=UTC date; print $RANDOM $SECONDS ) 2>&1 | cksum -ba suma >/dev/prandom

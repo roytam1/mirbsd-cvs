@@ -1,4 +1,4 @@
-/* $MirOS: src/bin/md5/adler32.c,v 1.3 2006/06/09 08:46:43 tg Exp $ */
+/* $MirOS: src/bin/md5/adler32.c,v 1.4 2006/06/09 09:53:14 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -68,5 +68,7 @@ cksum_addpool(const char *s __attribute__((unused)))
 	arc4random_push((int)x);
 #elif defined(ZLIB_HAS_ADLERPUSH)
 	adler32(arc4random(), (const uint8_t *)s, strlen(s));
+#else
+	arc4random_push(adler32(arc4random(), (const uint8_t *)s, strlen(s)));
 #endif
 }
