@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.cfwrap.mk,v 1.10 2006/06/09 17:23:17 tg Exp $
+# $MirOS: src/share/mk/bsd.cfwrap.mk,v 1.11 2006/06/16 22:40:07 tg Exp $
 
 .if !defined(BSD_CFWRAP_MK)
 BSD_CFWRAP_MK=1
@@ -70,7 +70,8 @@ XVARS+=	CC=${CC:C/ *$//:Q} CFLAGS=${FSFCFLAGS:C/ *$//:Q} CPP=${CPP:Q}
 .  if !defined(CFWRAP_NO_CXXCOM)
 XVARS+=	CXX=${CXX:C/ *$//:Q} CXXFLAGS=${FSFCXXFLAGS:C/ *$//:Q}
 .  endif
-XVARS+=	HOSTCFLAGS=${FSFHOSTCFLAGS:C/ *$//:Q}
+XVARS+=	HOSTCFLAGS=${FSFHOSTCFLAGS:C/ *$//:Q} CC_FOR_BUILD=${HOSTCC:C/ *$//:Q}
+XVARS+=	CFLAGS_FOR_BUILD=${FSFHOSTCFLAGS:C/ *$//:Q}
 .endif
 
 XARGS+=	INSTALL_PROGRAM=${INSTALL_PROGRAM:Q} INSTALL_DATA=${INSTALL_DATA:Q} \
