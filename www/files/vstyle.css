@@ -1,4 +1,4 @@
-/* $MirOS: www/files/vstyle.css,v 1.6 2008/02/22 21:58:37 tg Exp $ */
+/* $MirOS: www/files/vstyle.css,v 1.7 2008/02/28 19:18:33 tg Exp $ */
 /*-
  * The MirOS Project - Webpages
  * Copyrighted material; read LICENCE for terms of use.
@@ -80,6 +80,19 @@ h1 {
 	line-height: 1.2em;
 	color: #FFFFFF;
 	z-index:2;
+}
+
+h1 a {
+	color: #FFFFFF;
+	border: none;
+}
+
+h1 a:hover {
+	color: #FFFFFF;
+}
+
+h1 a:visited {
+	border: none;
 }
 
 ul.lv1 {
