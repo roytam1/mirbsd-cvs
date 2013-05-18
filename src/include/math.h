@@ -1,4 +1,4 @@
-/**	$MirOS: src/include/math.h,v 1.7 2006/11/03 18:10:40 tg Exp $ */
+/**	$MirOS: src/include/math.h,v 1.8 2008/11/10 21:09:12 tg Exp $ */
 /*	$OpenBSD: math.h,v 1.14 2006/07/12 07:26:07 brad Exp $	*/
 /*	$NetBSD: math.h,v 1.44 2006/03/25 16:41:11 xtraeme Exp $	*/
 
@@ -18,7 +18,7 @@
  */
 
 #ifndef _MATH_H_
-#define _MATH_H_ "$MirOS: src/include/math.h,v 1.7 2006/11/03 18:10:40 tg Exp $"
+#define _MATH_H_ "$MirOS: src/include/math.h,v 1.8 2008/11/10 21:09:12 tg Exp $"
 
 #include <sys/cdefs.h>
 #ifdef __NetBSD__
@@ -74,7 +74,7 @@ extern const union __double_u __infinity;
     ((__STDC_VERSION__ - 0) >= 199901L) || \
     ((_POSIX_C_SOURCE - 0) >= 200112L) || \
     ((_XOPEN_SOURCE  - 0) >= 600) || \
-    defined(_ISOC99_SOURCE) || defined(_NETBSD_SOURCE)
+    defined(_ISOC99_SOURCE) || defined(_NETBSD_SOURCE) || __OPENBSD_VISIBLE
 /* 7.12#3 HUGE_VAL, HUGELF, HUGE_VALL */
 extern const union __float_u __infinityf;
 #define	HUGE_VALF	__infinityf.__val
@@ -262,7 +262,7 @@ double	scalb(double, double);
     ((__STDC_VERSION__ - 0) >= 199901L) || \
     ((_POSIX_C_SOURCE - 0) >= 200112L) || \
     ((_XOPEN_SOURCE  - 0) >= 600) || \
-    defined(_ISOC99_SOURCE) || defined(_NETBSD_SOURCE)
+    defined(_ISOC99_SOURCE) || defined(_NETBSD_SOURCE) || __OPENBSD_VISIBLE
 /* 7.12.3.1 int fpclassify(real-floating x) */
 #define	fpclassify(__x)	__fpmacro_unary_floating(fpclassify, __x)
 
@@ -366,7 +366,7 @@ float	nextafterf(float, float);
     !defined(_XOPEN_SOURCE) || \
     ((__STDC_VERSION__ - 0) >= 199901L) || \
     ((_POSIX_C_SOURCE - 0) >= 200112L) || \
-    defined(_ISOC99_SOURCE) || defined(_NETBSD_SOURCE)
+    defined(_ISOC99_SOURCE) || defined(_NETBSD_SOURCE) || __OPENBSD_VISIBLE
 /* 7.12.3.3 int isinf(real-floating x) */
 #ifdef __isinf
 #define	isinf(__x)	__isinf(__x)
@@ -382,7 +382,7 @@ float	nextafterf(float, float);
 #endif
 #endif /* !_ANSI_SOURCE && ... */
 
-#if defined(_NETBSD_SOURCE)
+#if defined(_NETBSD_SOURCE) || __OPENBSD_VISIBLE
 #ifndef __cplusplus
 int	matherr(struct exception *);
 #endif
@@ -408,7 +408,7 @@ double	drem(double, double);
 
 #endif /* _NETBSD_SOURCE */
 
-#if defined(_NETBSD_SOURCE) || defined(_REENTRANT)
+#if defined(_NETBSD_SOURCE) || defined(_REENTRANT) || __OPENBSD_VISIBLE
 /*
  * Reentrant version of gamma & lgamma; passes signgam back by reference
  * as the second argument; user must allocate space for signgam.
@@ -418,7 +418,7 @@ double	lgamma_r(double, int *);
 #endif /* _NETBSD_SOURCE || _REENTRANT */
 
 
-#if defined(_NETBSD_SOURCE)
+#if defined(_NETBSD_SOURCE) || __OPENBSD_VISIBLE
 
 /* float versions of ANSI/POSIX functions */
 
@@ -449,7 +449,7 @@ float	cabsf(/* struct complex { float r; float i; } */);
 float	dremf(float, float);
 #endif /* _NETBSD_SOURCE */
 
-#if defined(_NETBSD_SOURCE) || defined(_REENTRANT)
+#if defined(_NETBSD_SOURCE) || defined(_REENTRANT) || __OPENBSD_VISIBLE
 /*
  * Float versions of reentrant version of gamma & lgamma; passes
  * signgam back by reference as the second argument; user must
