@@ -102,7 +102,7 @@
 #define __SCCSID(x)	__IDSTRING(sccsid,x)
 
 #ifdef EXTERN
-__RCSID("$MirOS: src/bin/mksh/sh.h,v 1.283 2009/03/22 18:28:35 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/sh.h,v 1.284 2009/03/22 18:50:43 tg Exp $");
 #endif
 #define MKSH_VERSION "R37 2009/03/22"
 
@@ -398,8 +398,8 @@ char *ucstrstr(char *, const char *);
 /*
  * simple grouping allocator
  */
-typedef struct {
-	void *ent;		/* entry pointer, must be first */
+typedef struct lalloc {
+	struct lalloc *next;
 } Area;
 
 EXTERN Area aperm;		/* permanent object space */
