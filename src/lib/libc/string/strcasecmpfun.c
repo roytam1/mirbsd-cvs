@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.20 2006/12/11 21:04:56 tg Rel $ */
+/* $MirOS: src/lib/libc/string/strcasecmpfun.c,v 1.5 2007/02/02 17:43:55 tg Exp $ */
 
 /*-
  * Copyright (c) 2006, 2007
@@ -24,17 +24,20 @@
  * of said person's immediate fault when using the work as intended.
  */
 
-#if defined(WCSNCASECMP)
-#define CMP	4
-#elif defined(WCSCASECMP)
-#define CMP	3
-#elif defined(STRNCASECMP)
-#define CMP	2
-#else
-#define CMP	1
+#undef c_size
+#undef c_wide
+#ifdef WCSNCASECMP
+#define c_size
+#define c_wide
+#endif
+#ifdef WCSCASECMP
+#define c_wide
+#endif
+#ifdef STRNCASECMP
+#define c_size
 #endif
 
-#if CMP > 2
+#ifdef c_wide
 #include <wctype.h>
 #define CHAR		wchar_t
 #define	LC(x)		L ## x
@@ -49,9 +52,9 @@
 #define	x_tolower	tolower
 #endif
 
-__RCSID("$MirOS: src/lib/libc/string/strcasecmpfun.c,v 1.4 2006/11/21 03:16:01 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/string/strcasecmpfun.c,v 1.5 2007/02/02 17:43:55 tg Exp $");
 
-#if CMP & 1
+#ifndef c_size
 int
 strcasecmp(const CHAR *s1, const CHAR *s2)
 {
@@ -62,9 +65,7 @@ strcasecmp(const CHAR *s1, const CHAR *s2)
 			s2++;
 	return (x_tolower(*s1) - x_tolower(*s2));
 }
-#endif
-
-#if !(CMP & 1)
+#else
 int
 strncasecmp(const CHAR *s1, const CHAR *s2, size_t n)
 {

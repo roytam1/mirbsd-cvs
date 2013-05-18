@@ -1,127 +1,99 @@
-/*	$OpenBSD: bcopy.c,v 1.5 2005/08/08 08:05:37 espie Exp $ */
 /*-
- * Copyright (c) 1990 The Regents of the University of California.
- * All rights reserved.
+ * Copyright (c) 2007
+ *	Thorsten Glaser <tg@mirbsd.de>
  *
- * This code is derived from software contributed to Berkeley by
- * Chris Torek.
+ * Provided that these terms and disclaimer and all copyright notices
+ * are retained or reproduced in an accompanying document, permission
+ * is granted to deal in this work without restriction, including un-
+ * limited rights to use, publicly perform, distribute, sell, modify,
+ * merge, give away, or sublicence.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the University nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
- *    without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS ``AS IS'' AND
- * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE
- * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
- * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
- * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
- * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
- * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
- * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
- * SUCH DAMAGE.
+ * This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
+ * the utmost extent permitted by applicable law, neither express nor
+ * implied; without malicious intent or gross negligence. In no event
+ * may a licensor, author or contributor be held liable for indirect,
+ * direct, other damage, loss, or other issues arising in any way out
+ * of dealing in the work, even if advised of the possibility of such
+ * damage or existence of a defect, except proven that it results out
+ * of said person's immediate fault when using the work as intended.
  */
 
+#include <stdint.h>
 #include <string.h>
 
-__RCSID("$MirOS: src/lib/libc/string/bcopy.c,v 1.6 2005/04/29 20:55:41 tg Exp $");
+__RCSID("$MirOS$");
 
-/*
- * sizeof(word) MUST BE A POWER OF TWO
- * SO THAT wmask BELOW IS ALL ONES
- */
-typedef	long word;		/* "word" used for optimal copy speed */
+/* this is the basic copy data type, should be fastest */
+typedef unsigned long mword;
 
-#define	wsize	sizeof(word)
-#define	wmask	(wsize - 1)
+#define mbytes	sizeof (mword)
+#define mmask	(mbytes - 1)
 
-/*
- * Copy a block of memory, handling overlap.
- * This is the routine that actually implements
- * (the portable versions of) bcopy, memcpy, and memmove.
- */
-#if defined(MEMCOPY)
+#ifdef MEMCOPY
+#define MEMMOVE
+#define memmove	memcpy
+#endif
+
+#ifdef MEMMOVE
 void *
-memcpy(void *dst0, const void *src0, size_t length)
-#elif defined(MEMMOVE)
-void *
-memmove(void *dst0, const void *src0, size_t length)
+memmove(void *dst, const void *src, size_t len)
 #else
 void
-bcopy(const void *src0, void *dst0, size_t length)
+bcopy(const void *src, void *dst, size_t len)
 #endif
 {
-	char *dst = dst0;
-	const char *src = src0;
-	size_t t;
+	const uint8_t *s = src;
+	uint8_t *d = dst;
+	size_t n;
+	intptr_t cp;
 
-	if (length == 0 || dst == src)		/* nothing to do */
+	if (len == 0 || dst == src)
 		goto done;
 
-	/*
-	 * Macros: loop-t-times; and loop-t-times, t>0
-	 */
-#define	TLOOP(s) if (t) TLOOP1(s)
-#define	TLOOP1(s) do { s; } while (--t)
-
-	if ((unsigned long)dst < (unsigned long)src) {
-		/*
-		 * Copy forward.
-		 */
-		t = (long)src;	/* only need low bits */
-		if ((t | (long)dst) & wmask) {
-			/*
-			 * Try to align operands.  This cannot be done
-			 * unless the low bits match.
-			 */
-			if ((t ^ (long)dst) & wmask || length < wsize)
-				t = length;
-			else
-				t = wsize - (t & wmask);
-			length -= t;
-			TLOOP1(*dst++ = *src++);
+	if ((intptr_t)dst < (intptr_t)src) {
+		/* copy forward */
+		if ((((cp = (intptr_t)s) | (intptr_t)d) & mmask) &&
+		    (((cp ^ (intptr_t)d) & mmask) == 0) && len >= mbytes) {
+			/* low bits match: first align then copy entire words */
+			n = mbytes - (cp & mmask);
+			len -= n;
+			while (n--)
+				*d++ = *s++;
+			n = len / mbytes;
+			len &= mmask;
+			while (n--) {
+				*(mword *)d = *(const mword *)s;
+				s += mbytes;
+				d += mbytes;
+			}
 		}
-		/*
-		 * Copy whole words, then mop up any trailing bytes.
-		 */
-		t = length / wsize;
-		TLOOP(*(word *)dst = *(word *)src; src += wsize; dst += wsize);
-		t = length & wmask;
-		TLOOP(*dst++ = *src++);
+		while (len--)
+			*d++ = *s++;
 	} else {
-		/*
-		 * Copy backwards.  Otherwise essentially the same.
-		 * Alignment works as before, except that it takes
-		 * (t&wmask) bytes to align, not wsize-(t&wmask).
-		 */
-		src += length;
-		dst += length;
-		t = (long)src;
-		if ((t | (long)dst) & wmask) {
-			if ((t ^ (long)dst) & wmask || length <= wsize)
-				t = length;
-			else
-				t &= wmask;
-			length -= t;
-			TLOOP1(*--dst = *--src);
+		/* copy backward */
+		s += len;
+		d += len;
+		if ((((cp = (intptr_t)s) | (intptr_t)d) & mmask) &&
+		    (((cp ^ (intptr_t)d) & mmask) == 0) && len >= mbytes) {
+			/* low bits match: first align then copy entire words */
+			n = cp & mmask;
+			len -= n;
+			while (n--)
+				*--d = *--s;
+			n = len / mbytes;
+			len &= mmask;
+			while (n--) {
+				s -= mbytes;
+				d -= mbytes;
+				*(mword *)d = *(const mword *)s;
+			}
 		}
-		t = length / wsize;
-		TLOOP(src -= wsize; dst -= wsize; *(word *)dst = *(word *)src);
-		t = length & wmask;
-		TLOOP(*--dst = *--src);
+		while (len--)
+			*--d = *--s;
 	}
-done:
-#if defined(MEMCOPY) || defined(MEMMOVE)
-	return (dst0);
+ done:
+#ifdef MEMMOVE
+	return (dst);
 #else
 	return;
 #endif
