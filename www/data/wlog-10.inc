@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.120 2008/12/25 18:36:30 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.121 2008/12/27 22:21:52 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -2366,4 +2366,20 @@ Author: tg@
 <p>More deep changes are however still postponed until OpenBSD
  is merged better.</p>
 <p>I also fixed makefs(8) again ☺</p>
+----
+Date: 28.12.2008 20:54
+Author: tg@
+Title: light bulbs
+
+<p>Yesternight, not only my server crashed in the softupdates
+ code again (*sigh* two RAID 1 rebuilds and a lot of fsck(8)),
+ but also one of these energy saving light bulbs (13W). This
+ proves that they do not have a longer lifetime than regular
+ bulbs.</p>
+<p>I oppose the planned ban of regular light bulbs, because,
+ although almost(!) all of mine are energy saving ones, some
+ of the propaganda apparently is wrong, plus they are not good
+ in situations where the light switch is used very often, or
+ when the light is only on for very short amounts, such as in
+ the entrance area of an appartement (say 1½ m²).</p>
 ----

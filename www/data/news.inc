@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/news.inc,v 1.92 2008/12/10 18:40:16 tg Exp $
+RCSID: $MirOS: www/data/news.inc,v 1.93 2008/12/26 17:00:13 tg Exp $
 Title: Older news from the MirOS Project
 Date: 01.03.2006
 
@@ -1225,4 +1225,38 @@ Title: HEADS-UP for MirOS-current
  for use with <em>pcc</em>(!) instead.</p>
 <p>Expect a new i386 snapshot some time soon; sparc snapshots are planned
  more for the long term but could be compiled on request (ETA one week).</p>
+----
+Date: 28.12.2008 20:45
+Author: tg@
+Title: Cool i386 bootloader changes
+
+<p>The second-stage boot(8/i386) loader has gained several interesting new
+ features:</p><ul>
+<li>When called as DOS .com programme, it defaults to DL=80h because no
+ actual drive is passed from the BIOS</li>
+<li>When named <tt>boot.com</tt> it can be run as SYSLINUX (ISOLINUX,
+ PXELINUX, EXTLINUX) module and boot any OpenBSD/i386 and MirBSD/i386
+ kernels from local filesystems supported</li>
+<li>In addition to 4.2FFS and ISO 9660, the code to support the FAT12,
+ FAT16, and FAT28 filesystems works and is enabled now, for both booting
+ and the “ls” command</li>
+<li>If a hard disc has no type 27h partition, the disklabel is searched
+ using the superfloppy approach (i.e., LBA sector #1)</li>
+<li>If no disklabel can be found, one is spoofed with a somewhat
+ reasonable ‘c’ slice, the four MBR primary partitions as slices ‘d’,
+ ‘e’, ‘f’ and ‘g’, and an ‘a’ slice spanning either the partition passed
+ from <tt>DS:SI</tt> via SYSLINUX, the first non-empty MBR partition, or
+ the entire disc</li>
+<li>The new command “cat” allows you to display files from within the
+ bootloader, lest they be accessible</li>
+<li>The new command “machine label [hd0a]” dumps the disklabel</li>
+<li>You can place more than one command on the same input line, because
+ ‘`’ now acts the same as ‘\n’ in the command parser; this is useful for
+ instance if the serial console is not accessible from the boot loader,
+ but required for the kernel, and using a <tt>boot.cfg</tt> is no option</li>
+</ul>
+<p>The <tt>/usr/mdec/mbrldr</tt>, <tt>/usr/mdec/mbrmgr</tt> and the MBR
+ built in fdisk(8/i386) have been upgraded to pass the partition data
+ in <tt>DS:SI</tt> (or junk if reading from FDD or whole HDD)</p>
+<p>*smile* Now we just need to make our bootloader multiboot-compliant…</p>
 ----
