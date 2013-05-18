@@ -1,5 +1,5 @@
-#!/bin/mksh
-# $MirOS: src/distrib/baselive/mklocatedb.sh,v 1.8 2008/07/07 13:57:13 tg Exp $
+#!/usr/bin/env mksh
+# $MirOS: src/distrib/baselive/mklocatedb.sh,v 1.9 2008/10/05 16:26:16 tg Exp $
 #-
 # Copyright (c) 2006, 2007
 #	Thorsten Glaser <tg@mirbsd.de>

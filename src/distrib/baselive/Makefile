@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/baselive/Makefile,v 1.34 2008/07/22 22:36:05 tg Exp $
+# $MirOS: src/distrib/baselive/Makefile,v 1.35 2008/10/05 16:26:16 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -6,11 +6,19 @@
 REALOBJDIR!=	realpath ${.OBJDIR}
 TOPDIR?=	${.CURDIR}/..
 
+DUALIVE?=	No
+BATCH?=		No
+
 .MAIN: all
 
-.if exists(${.CURDIR}/Makefile.${MACHINE})
-.  include "${.CURDIR}/Makefile.${MACHINE}"
+KERNEL_PREP=	print 'rootdev 6 0\nquit' | config -ef bsd.tmp
+.if exists(${REALOBJDIR}/../../sys/arch/i386/stand/liveboot/boot)
+BOOT=		${REALOBJDIR}/../../sys/arch/i386/stand/liveboot/boot
 .endif
+CDROM_OPTS+=	bootimage=i386\;b_torito.ldr
+CDROM_OPTS+=	no-emul-boot
+
+CHAINSECTOR?=	24
 
 # temporary mounts
 WRKDIR=		${REALOBJDIR}/tmpdata
@@ -30,42 +38,51 @@ IMAGETYPE?=	ipldisc
 IMAGE_PREP?=	@:
 KERNEL_PREP?=	@:
 
-INSTALLBOOT?=	${DESTDIR}/usr/mdec/installboot
-BOOT?=		${DESTDIR}/usr/mdec/boot
-BOOTXX?=	${DESTDIR}/usr/mdec/bootxx
+BOOT?=		${WRKDIR}/v${OSrev}/i386/boot
 
 CDROM?=		livecd${OSrev}.iso
-CDROM_MDOPTS?=
-
-BATCH?=		No
+.if ${DUALIVE:L} != "no"
+CDROM_PAD?=	16 * 32
+.endif
+CDROM_PAD?=	1
+CDROM_OPTS+=	applicationid=NetBSD_makefs
+.if ${DUALIVE:L} != "no"
+CDROM_OPTS+=	label=MirOS~v${OSrev}~BSD~DuaLive~CD
+.else
+CDROM_OPTS+=	label=MirOS~v${OSrev}~BSD/i386~Live~CD
+.endif
+CDROM_OPTS+=	preparer=MirBSD_and_its_contributors
+CDROM_OPTS+=	publisher=Copyright_\<c\>_2002=2008_The_MirOS_Project
+CDROM_OPTS+=	rockridge
+.if ${DUALIVE:L} != "no"
+CDROM_OPTS+=	volumeid=$$(uname -sl | tr -- '- \#' :_):DuaLive
+.else
+CDROM_OPTS+=	volumeid=$$(uname -slm | tr -- '- \#' :_):BaseLive
+.endif
+#CDROM_OPTS+=	v=1
 
 all install:
 
 do-cdrom: unpack addcontrib prepimg nukefiles makeimg
 
-.if !target(it)
-it:
-	@print -u2 The baselive cd infrastructure is not ready yet.
-	@print -u2 Please try again later.
-	@touch ${CDROM}
-.endif
+it: do-cdrom
 
-unpack: unpack-mi unpack-md
-
-unpack-mi:
+unpack:
 	test ! -e ${TMPMOUNT} || (cd ${.CURDIR}; ${MAKE} unconfig)
 	${SUDO} rm -rf ${WRKDIR}
-	mkdir -p ${WRKDIR}/v${OSrev}/${MACHINE}
+	mkdir -p ${WRKDIR}/v${OSrev}/i386
 .for _i in base dev etc gnu xbase xetc xsrv
 	cd ${WRKDIR} && ${SUDO} tar xzphf ${BSDRELDIR}/rel/${_i}${OSrev}.ngz
 .endfor
-	cd ${WRKDIR}/v${OSrev}/${MACHINE} && lndir ${BSDRELDIR}/rel
+	cd ${BSDRELDIR}/rel && pax -rw . ${WRKDIR}/v${OSrev}/i386/
+.if ${DUALIVE:L} != "no"
+	cd ${DUALIVE} && pax -rw sparc ${WRKDIR}/v${OSrev}/
+.endif
 	${SUDO} chown -R 0:0 ${WRKDIR}/v${OSrev}
 	cp ${TOPDIR}/common/{00-README,01-3RDPTY} ${WRKDIR}/
-	cat ${TOPDIR}/common/boot.cfg.${MACHINE} ${.CURDIR}/boot.cfg.tail | \
+	cat ${TOPDIR}/common/boot.cfg.i386 ${.CURDIR}/boot.cfg.tail | \
 	    sudo dd of=${WRKDIR}/boot.cfg
-
-unpack-md:
+	${SUDO} cp ${.CURDIR}/i386/boot.* ${WRKDIR}/
 
 ${IMAGE}:
 	test ! -e ${TMPMOUNT} || (cd ${.CURDIR}; ${MAKE} unconfig)
@@ -112,7 +129,7 @@ addcontrib:
 	    ${WRKDIR}/etc/skel/.Xmodmap
 
 prepimg:
-	cd ${WRKDIR} && MACHINE=${MACHINE} \
+	cd ${WRKDIR} && MACHINE=i386 \
 	    ${SUDO} ${MKSH} ${.CURDIR}/munge_it.sh
 
 bsd.gz: bsd ${IMAGE}
@@ -121,6 +138,9 @@ bsd.gz: bsd ${IMAGE}
 	${KERNEL_PREP}
 	${RDSETROOT} bsd.tmp <${IMAGE}
 	gzip -n9 <bsd.tmp >$@
+
+bsd: ${BSDOBJDIR}/distrib/generic/bsd
+	cp -f $> $@
 
 nukefiles:
 	cd ${WRKDIR} && ${SUDO} rm -rf etc/X11 usr/{local/lib/X11,releng} \
@@ -136,12 +156,30 @@ nukefiles:
 	done
 .endif
 
-makeimg: cdrom-prepare cdrom-mdcopy cdrom-generate cdrom-mdboot cdrom-finish
+makeimg: cdrom-prepare cdrom-generate
 
 cdrom-prepare: bsd.gz
 	${SUDO} dd if=bsd.gz obs=2048 conv=osync of=${WRKDIR}/bsd
+.if ${DUALIVE:L} != "no"
+	${SUDO} cp ${DUALIVE}/sparc/boot ${WRKDIR}/b_sparc.ldr
+	# fix path to default kernel file in second-stage boot loader
+	set -A sect_text -- $$(objdump -wh --target=a.out-sunos-big \
+	    ${WRKDIR}/b_sparc.ldr | fgrep .text); \
+	(( fofs_text = 0x$${sect_text[5]} )); \
+	nm --target=a.out-sunos-big ${WRKDIR}/b_sparc.ldr |& \
+	while read -p adr typ sym; do \
+		[[ $$sym = @(___defkernel|_start) ]] || continue; \
+		eval typeset -i10 sym$$sym=0x\$$adr; \
+	done; \
+	typeset -Uui10 ofs; \
+	(( ofs = sym___defkernel - sym_start + fofs_text )); \
+	print -n v${OSrev}/sparc/bsd.rd\\0 | \
+	    ${SUDO} dd of=${WRKDIR}/b_sparc.ldr bs=1 seek=$$ofs conv=notrunc
+	${SUDO} strip --target=a.out-sunos-big ${WRKDIR}/b_sparc.ldr
+.endif
 	cd ${WRKDIR}; \
-	    ${SUDO} cp ${BOOT} boot.ldr; \
+	    ${SUDO} cp ${BOOT} b_i386.ldr; \
+	    ${SUDO} dd if=/dev/arandom bs=2048 count=1 of=b_torito.ldr; \
 	    ${SUDO} rm -f CKSUM*; \
 	    while IFS= read -r line; do \
 		if [[ $$line = *" = "+([0-9a-fA-F]) ]]; then \
@@ -150,22 +188,16 @@ cdrom-prepare: bsd.gz
 			two=$${line#+([0-9]) +([0-9]) }; \
 		fi; \
 		one=$${line%%$$two}; \
-		print -r "$${one}v${OSrev}/${MACHINE}/$$two"; \
-	    done <v${OSrev}/${MACHINE}/CKSUM >CKSUM; \
-	    ${SUDO} touch boot.cat; \
-	    cksum -a cksum -a rmd160 -a tiger 0* bsd boot.* stand/* >>CKSUM
-	-${SUDO} rm -f ${WRKDIR}/boot.cat ${CDROM}
+		print -r "$${one}v${OSrev}/i386/$$two"; \
+	    done <v${OSrev}/i386/CKSUM >CKSUM; \
+	    cksum -a cksum -a rmd160 -a tiger 0* bsd b_* stand/* >>CKSUM
+	-${SUDO} rm -f ${CDROM}*
 
 cdrom-generate:
 .if ${BATCH:L} != "yes"
 	@print WRKDIR is \"${WRKDIR:Q}\"
 	@print Build coordination: press RETURN to continue...; read dummy
 .endif
-	cd ${WRKDIR}; if [[ -e loot ]]; then \
-		${SUDO} chown $$(id -u) loot; \
-		chmod u+w loot; \
-		perl -pi -e 's/bsd/lsd/g; s/B(SD|(?i)oot)/L$$1/g' loot; \
-	fi
 	cd ${WRKDIR}; \
 	    sort -k3 |& exec 3>&p; exec 4<&p; \
 	    sort |& exec 5>&p; exec 6<&p; \
@@ -183,19 +215,33 @@ cdrom-generate:
 	    ${SUDO} chmod 444 0?-* NONFREE.TXT CKSUM.gz ?oot* ?sd*; \
 	    ${SUDO} chown 0:0 .; ${SUDO} chmod 555 .; \
 	    ${SUDO} ${MKSH} ${.CURDIR}/mklocatedb.sh ${REALOBJDIR}/${IMAGE}
-	${SUDO} mkisofs -R -f -L -d -D -N -v -v ${CDROM_MDOPTS} \
-	    -P 'The MirOS Project and its contributors' \
-	    -p 'Copyright © 2007-2008 Thorsten Glaser' \
-	    -V 'MirOS #${OSrev} BSD/${MACHINE} Live CD' \
-	    -volset "$$(uname -slm) Live" -sysid "MirOSBSD" \
-	    -pad -o ${CDROM} ${WRKDIR} 2>&1 | tee mkisofs.log
-	${SUDO} chown $$(id -u) ${CDROM} ${WRKDIR}
+	${SUDO} makefs -t cd9660 -o "$$(print -r -- ${CDROM_OPTS} | \
+	    tr ' ~' ', ')" ${CDROM}~ ${WRKDIR}
+	${SUDO} chown $$(id -u) ${WRKDIR}
 	${SUDO} chmod 755 ${WRKDIR}
-
-cdrom-finish:
+	dd if=${CDROM}~ of=${CDROM} obs=$$((${CDROM_PAD} * 512)) conv=osync
+	${SUDO} rm -f ${CDROM}~
+	getextent_cd9660 -f ${CDROM} b_i386.ldr | \
+	    ${MKSH} ${WRKDIR}/v${OSrev}/i386/bootxx.sh -B 11 | \
+	    dd of=${CDROM} conv=notrunc bs=2048 seek=$$(getextent_cd9660 \
+	    -f ${CDROM} -b '$$BootImage$$') 2>/dev/null
+.if ${DUALIVE:L} == "no"
+	getextent_cd9660 -f ${CDROM} b_i386.ldr | \
+	    ${MKSH} ${WRKDIR}/v${OSrev}/i386/bootxx.sh -S 2 | \
+	    dd of=${CDROM} conv=notrunc bs=512 2>/dev/null
+.else
+	getextent_cd9660 -f ${CDROM} b_i386.ldr | \
+	    ${MKSH} ${WRKDIR}/v${OSrev}/i386/bootxx.sh -S 2 | \
+	    dd of=${CDROM} conv=notrunc bs=512 seek=${CHAINSECTOR} 2>/dev/null
+	getextent_cd9660 -f ${CDROM} b_sparc.ldr | \
+	    ${MKSH} ${WRKDIR}/v${OSrev}/sparc/bootxx.sh \
+	    -g $$(($$(stat -f %z ${CDROM}) / (512 * 32 * 16))):16:32 \
+	    -0 ${CHAINSECTOR} -S 2 | \
+	    dd of=${CDROM} conv=notrunc 2>/dev/null
+.endif
 
 clean cleandir cleannobsd: cleanworkdir unconfig
-	-rm -f ${CDROM} bsd{,.gz,.tmp} mkisofs.log ${IMAGE}
+	-rm -f ${CDROM}* bsd{,.gz,.tmp} mkisofs.log ${IMAGE}
 	-rm -rf tempdir
 
 cleanworkdir:

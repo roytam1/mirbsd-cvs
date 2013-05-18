@@ -1,6 +1,6 @@
-# $MirOS: src/distrib/baselive/rc.netselect.common,v 1.15 2008/07/07 13:57:13 tg Exp $
+# $MirOS: src/distrib/baselive/rc.netselect.common,v 1.16 2008/09/06 15:07:51 tg Exp $
 #-
-# Copyright (c) 2006, 2007
+# Copyright (c) 2006, 2007, 2008
 #	Thorsten Glaser <tg@mirbsd.de>
 #
 # Provided that these terms and disclaimer and all copyright notices
@@ -40,7 +40,7 @@ function get_kbdtype {
 				.
 				wq
 			EOF
-			mv /home/live/.Xmodmap /home/live/.Xmodmap~
+			mv /home/live/.Xmodmap /home/live/.Xmodmap.dist
 			[[ $resp = *.nodead ]] && \
 			    ed -s /etc/X11/XF86Config <<-EOF
 				%g/Xkb.*nodead/s/^#//
@@ -56,10 +56,9 @@ function get_kbdtype {
 		fi
 		[[ $resp = \? ]] || continue
 		print Available keyboard mappings:
-		typeset -iR3 i=0
-		while (( i < ${#layouts[*]} )); do
+		typeset -iR3 i=-1
+		while (( ++i < ${#layouts[*]} )); do
 			print "$i) ${layouts[i]}"
-			let i++
 		done | rs
 	done
 }
@@ -93,12 +92,11 @@ function get_passwd {
 
 function set_hostname {
 	typeset -Uui36 rndval=$(date +%s)
-	typeset -i8 x
+	typeset -i1 x=RANDOM
 	rndpfx=${rndval#36#}
 	set -o arc4random
 	RANDOM=$(dd if=/dev/prandom bs=4 count=1 2>&- | hexdump -e '1/4 "%08u"')
-	x=$((RANDOM & 255))
-	print -n "\0${x#8#}" >/dev/arandom
+	print -nr "${x#1#}" >/dev/arandom
 	RANDOM=$(dd if=/dev/arandom bs=4 count=1 2>&- | hexdump -e '1/4 "%08u"')
 	while (( ${#rndpfx} < 36 )); do
 		typeset -Uui36 'rndval=( (RANDOM << 15 | RANDOM) % 60466176)'

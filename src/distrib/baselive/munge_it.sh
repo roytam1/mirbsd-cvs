@@ -1,5 +1,5 @@
-#!/bin/mksh
-# $MirOS: src/distrib/baselive/munge_it.sh,v 1.37 2008/07/22 19:48:47 tg Exp $
+#!/usr/bin/env mksh
+# $MirOS: src/distrib/baselive/munge_it.sh,v 1.38 2008/10/05 16:26:16 tg Exp $
 #-
 # Copyright (c) 2006, 2007, 2008
 #	Thorsten “mirabilos” Glaser <tg@mirbsd.de>
@@ -78,7 +78,7 @@ ed -s etc/ntpd.conf <<-'EOMD'
 EOMD
 ed -s etc/rc <<-'EOMD'
 	1i
-		# $MirOS: src/distrib/baselive/munge_it.sh,v 1.37 2008/07/22 19:48:47 tg Exp $
+		# $MirOS: src/distrib/baselive/munge_it.sh,v 1.38 2008/10/05 16:26:16 tg Exp $
 	.
 	/cprng.*pr16/d
 	i
@@ -129,7 +129,8 @@ ed -s etc/rc <<-'EOMD'
 			s/\$/%24/g
 			s/,/%2c/g
 			s/ /%20/g
-		    ')>,seed=$RANDOM" >/dev/wrandom 2>&1)
+		    ')>,seed=$(dd if=/dev/arandom bs=57 count=1 2>&- | \
+		    b64encode -r - | tr '+=/' '._-')" >/dev/wrandom 2>&1)
 	.
 	/openssl genrsa/s/4096/1024/
 	wq
@@ -159,10 +160,7 @@ EOMD
 	wq
 EOMD
 cp etc/ttys.dist etc/ttys
-ed -s usr/bin/ftp <<-'EOMD'
-	%g/MirOS ftp(1)/s//MirOS LiveCD/
-	wq
-EOMD
+perl -p -i -e 's/MirOS ftp.1./MirOS LiveCD/' usr/bin/ftp usr/dbin/ftp
 ed -s var/cron/tabs/root <<-'EOMD'
 	/anacron/s/^/#/
 	/daily/s/^/#/
