@@ -1,8 +1,8 @@
-# $MirOS: ports/misc/mc/Makefile,v 1.15 2006/10/28 22:35:47 tg Exp $
+# $MirOS: ports/misc/mc/Makefile,v 1.16 2007/02/22 22:57:53 tg Exp $
 
 COMMENT=		free Norton Commander clone with many useful features
 DISTNAME=		mc-4.6.1
-PKGNAME=		${DISTNAME}-6
+DASH_VER=		7
 CATEGORIES=		misc
 HOMEPAGE=		http://www.ibiblio.org/mc/
 MASTER_SITES=		http://www.ibiblio.org/pub/Linux/utils/file/managers/mc/

@@ -1,15 +1,15 @@
-$MirOS: ports/misc/mc/patches/patch-lib_mc_menu,v 1.7 2006/02/21 15:12:13 tg Exp $
+$MirOS: ports/misc/mc/patches/patch-lib_mc_menu,v 1.8 2006/10/02 23:39:58 tg Exp $
 --- lib/mc.menu.orig	Tue Aug 17 08:30:54 2004
-+++ lib/mc.menu	Mon Oct  2 23:39:36 2006
++++ lib/mc.menu	Thu Mar  1 23:48:04 2007
 @@ -1,5 +1,42 @@
  shell_patterns=0
 += t r
 +c       Diff current file to CVS
-+	cvs -Rq diff -pdu %f 2>&1 | less
++	cvs -Rq diff -dupa %f 2>&1 | less
 +
 += t r
 +C       Diff current file to baseline CVS
-+	cvs -Rq diff -pdur1.1.1 %f 2>&1 | less
++	cvs -Rq diff -dupar1.1.1 %f 2>&1 | less
 +
 += t r
 +e       Edit current revision diff against baserev
@@ -24,7 +24,7 @@ $MirOS: ports/misc/mc/patches/patch-lib_mc_menu,v 1.7 2006/02/21 15:12:13 tg Exp
 +
 ++ t r & ! t t
 +u       Diff file against opposite
-+	diff -pdu %f %D/%F 2>&1 | less
++	diff -dupa %f %D/%F 2>&1 | less
 +
 += t d
 +U       Diff dir against opposite
