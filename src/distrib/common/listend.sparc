@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/listend.sparc,v 1.15 2007/08/12 21:17:58 tg Exp $
+# $MirOS: src/distrib/common/listend.sparc,v 1.16 2007/08/28 23:00:21 tg Exp $
 
 # extra programmes
 LINK	instbin					bin/mt
@@ -15,6 +15,3 @@ SPECIAL	cd dev; ./MAKEDEV ramdisk
 # install stuff
 SCRIPT	${TOPDIR}/common/install.sparc		install.md
 SPECIAL	chmod 755 install.md
-
-# in case NFS doesn't fit
-#REMOVE	sbin/mount_nfs
