@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/jupp/types.h,v 1.3 2006/11/11 01:51:20 tg Exp $ */
+/* $MirOS: contrib/code/jupp/types.h,v 1.4 2006/12/11 23:54:50 tg Exp $ */
 
 /*-
  * This file is part of JUPP, a variant of Joe's Own Editor.
@@ -149,6 +149,7 @@ struct options {
 	MACRO	*msnew;		/* Macro to execute before saving new files */
 	MACRO	*msold;		/* Macro to execute before saving existing files */
 	int	vispace;	/* Set to make spaces visible */
+	int	hex;		/* Hex edit mode */
 };
 
 struct macro {

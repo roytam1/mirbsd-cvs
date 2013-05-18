@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/jupp/pw.c,v 1.3 2008/05/13 13:08:24 tg Exp $ */
+/* $MirOS: contrib/code/jupp/pw.c,v 1.4 2008/07/28 00:12:06 tg Exp $ */
 /*
  *	Prompt windows
  *	Copyright
@@ -182,7 +182,7 @@ static int abortpw(BW *b)
 	}
 }
 
-static WATOM watompw = {
+WATOM watompw = {
 	US "prompt",
 	disppw,
 	bwfllw,
