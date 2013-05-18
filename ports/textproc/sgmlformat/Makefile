@@ -1,13 +1,7 @@
-# New ports collection makefile for:	sgmlformat
-# Version required:	1.6
-# Date created:		July 16, 1997
-# Whom:			jfieber
-#
-# $FreeBSD: Makefile,v 1.9 1998/02/21 21:59:37 jfieber Exp $
+# $MirOS$
 # $OpenBSD: Makefile,v 1.14 2003/11/15 15:12:55 sturm Exp $
-#
 
-COMMENT=			generate groff/HTML from linuxdoc/docbook SGML documents
+COMMENT=	generate groff/HTML from linuxdoc/docbook SGML documents
 
 DISTNAME=	sgmlformat-1.7
 CATEGORIES=	textproc print
@@ -15,8 +9,8 @@ MASTER_SITES=	http://fallout.campusview.indiana.edu/ports/distfiles/
 
 
 # License: BSD, badly worded
-PERMIT_PACKAGE_CDROM=	Yes
-PERMIT_PACKAGE_FTP=	Yes
+PERMIT_PACKAGE_CDROM=	dependency textproc/linuxdoc is not allowed for CDROM
+PERMIT_PACKAGE_FTP=	dependency textproc/linuxdoc is not allowed for FTP
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
