@@ -1,4 +1,4 @@
-$MirOS: src/share/doc/legal/1stREAD,v 1.2 2006/01/13 03:49:33 tg Exp $
+$MirOS: src/share/doc/legal/1stREAD,v 1.3 2006/02/01 21:41:12 tg Exp $
 
 LICENCE OVERVIEW
 ----------------
@@ -27,17 +27,19 @@ licencing repository.
 	A file compiled from the various, mostly historic
 	but still applying, licence terms the BSD-based
 	MirOS is covered by in parts. None of these terms
-	cover all of MirOS, but only some parts.
+	cover all of MirOS, but only some parts. They also
+	describe the Berkeley history and our contributors.
 
 /usr/share/doc/legal/LICENCE-GNU
 	Description of special "rules" for the src/gnu/
 	realm of the MirOS source tree, as well as the
-	"gnuXX.ngz" distribution set.
+	"gnuXX.ngz" distribution set, and the split-out
+	"devXX.ngz" distribution set and gcc/ in CVS.
 
 /usr/share/doc/legal/COPYING-1
 	A true and verbatim copy of the GNU General
 	Public License, Version 1, as it covers parts
-	of MirOS' gnu realm.
+	of MirOS' gnu realm and contrib/code/jupp.
 
 /usr/share/doc/legal/COPYING-2
 	The GNU General Public License, Version 2.
@@ -60,10 +62,11 @@ licencing repository.
 	The MirOS Licence Template is the preferred boiler-
 	plate to be put on new files.
 
-/usr/share/misc/license.template
+/usr/src/share/misc/license.template
 	The OpenBSD/ISC license template is an acceptable
 	OSI approved licence with weaker phrasing and a
 	disclaimer not optimal for protection under EU law.
+	Thusly it is no longer installed by default.
 
 
 To the best of our ("our" as in, The MirOS Project, as defi-
