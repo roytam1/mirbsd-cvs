@@ -1,4 +1,4 @@
-# $MirOS: ports/converters/libiconv/libiconv.port.mk,v 1.4 2006/02/20 19:04:15 tg Exp $
+# $MirOS: ports/converters/libiconv/libiconv.port.mk,v 1.6 2006/03/05 22:56:23 tg Exp $
 # $OpenBSD: iconv.port.mk,v 1.4 2001/11/27 17:44:04 brad Exp $
 
 # This is equivalent to USE_MOTIF.
@@ -40,6 +40,9 @@ USE_ICONV=	port
 LIB_DEPENDS+=	giconv::converters/libiconv
 RUN_DEPENDS+=	:libiconv->=1.9.1-4:converters/libiconv
 ICONV_PREFIX=	${LOCALBASE}/giconv
+CONFIGURE_ENV+=	ICONV_PREFIX=${ICONV_PREFIX:Q}
+LDFLAGS+=	-L${ICONV_PREFIX:Q}/lib -Wl,-rpath,${ICONV_PREFIX:Q}/lib
+CPPFLAGS+=	-I${ICONV_PREFIX:Q}/include
 .elif ${USE_ICONV:L} == "base"
 ICONV_PREFIX=	/usr
 .else

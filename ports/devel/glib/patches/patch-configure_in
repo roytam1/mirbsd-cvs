@@ -1,0 +1,13 @@
+$MirOS$
+--- configure.in.orig	Tue Mar 14 19:55:55 2006
++++ configure.in	Tue Mar 14 20:00:24 2006
+@@ -457,6 +457,9 @@ if test x$with_libiconv != xno ; then
+   *) ICONV_LIBS="-liconv" ;;
+   esac
+ fi
++if test "x$ICONV_PREFIX" != "x" ; then
++  ICONV_LIBS="-L$ICONV_PREFIX/lib -Wl,-rpath,$ICONV_PREFIX/lib $ICONV_LIBS"
++fi
+ AC_SUBST(ICONV_LIBS)
+ 
+ case $with_libiconv in
