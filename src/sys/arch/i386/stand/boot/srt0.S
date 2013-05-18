@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.21 2008/12/31 16:38:36 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.22 2009/01/01 17:46:19 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008
@@ -187,7 +187,7 @@ Llxok:	push	di
 	jcxz	Lnolx		/* CD, no emulation mode */
 	mov	ax,0x4B00	/* BIOS: terminate emulation */
 	mov	dl,0x7F		/* ... on all drives */
-	mov	si,offset Ltblk
+	mov	si,0x0150+Ltblk-_rval
 	int	0x13
 Lnolx:	pop	dx
 	pop	di
@@ -234,7 +234,12 @@ LdoRel:	UD(4)			/** D: doing reloc */
 	rep	movsb
 LisRel:	UD(5)			/** E: done reloc, or not needed */
 	cld
-	jmp	SA_LOADSEG,offset Lstart
+	/* relocation truncation workaround */
+	mov	ax,SA_LOADSEG
+	push	ax
+	mov	eax,offset Lstart - SA_LOADADDR
+	push	ax
+	lret
 
 #if 0 /* ndef SMALL_BOOT */
 /*
@@ -264,7 +269,8 @@ Lstart:	UD(6)			/** F: jump successful */
 	mov	ax,cs
 	mov	ds,ax
 	mov	es,ax
-	mov	[Lbdev],dl
+	mov	ebx,offset Lbdev - SA_LOADADDR
+	mov	[bx],dl
 #ifdef	EXTRALOUD
 	call	L..e1
 	.asciz	"00 at DL\r\n"
@@ -285,7 +291,8 @@ L..e1:	mov	al,dl
 #ifdef SMALL_BOOT
 	jmp	LpreFD /* L..12 */
 #else
-	mov	eax,[_rval]
+	mov	ebx,offset _rval - SA_LOADADDR
+	mov	eax,[bx]
 	mov	al,0		/* partp (patched in) doesn't matter */
 	cmp	eax,0x6A6D4F00
 #if 1
@@ -293,7 +300,8 @@ L..e1:	mov	al,dl
 	xor	eax,eax
 	dec	eax
 	mov	al,dl
-	mov	[_C_LABEL(tori_bootflag)],eax
+	mov	ebx,offset _C_LABEL(tori_bootflag) - SA_LOADADDR
+	mov	[bx],eax
 	jmp	LpreFD
 #else
 	jne	LfCD
@@ -543,8 +551,10 @@ LpreFD:	/* prepare booting */
 #endif
 	UD(14)			/** N: preparing 32-bit */
 	xor	edx,edx
-	mov	dl,[Lbdev]	/* carry this over to VPAM */
-	mov	dh,[_rval]
+	mov	ebx,offset Lbdev - SA_LOADADDR
+	mov	dl,[bx]		/* carry this over to VPAM */
+	mov	ebx,offset _rval - SA_LOADADDR
+	mov	dh,[bx]
 #ifdef BOOTSELECT_HOOK
 	pop	esi
 #endif
