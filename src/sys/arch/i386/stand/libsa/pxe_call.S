@@ -45,6 +45,9 @@
 
 #include "gidt.h"
 
+	.globl	prot_to_real
+	.globl	real_to_prot
+
 ENTRY(pxecall_bangpxe)
 	.code32
 	pushl	%ebp
@@ -60,6 +63,7 @@ ENTRY(pxecall_bangpxe)
 	pushw	_C_LABEL(pxe_command_buf_off)
 	pushw	%bx
 
+	cli
 	call	prot_to_real			/* Enter real mode */
 	.code16
 
@@ -106,6 +110,7 @@ ENTRY(pxecall_pxenv)
 	movl	$_C_LABEL(pxe_command_buf), %edi
 	subl	$SA_LINKADDR, %edi
 
+	cli
 	call	prot_to_real			/* Enter real mode */
 	.code16
 
@@ -116,6 +121,7 @@ _C_LABEL(pxenv_off) = . - 4
 	.globl	_C_LABEL(pxenv_seg)
 _C_LABEL(pxenv_seg) = . - 2
 
+	cli
 	call	real_to_prot			/* Leave real mode */
 	.code32
 
@@ -125,8 +131,5 @@ _C_LABEL(pxenv_seg) = . - 2
 	popl	%ebx
 	popl	%ebp
 	ret
-
-	.globl	prot_to_real
-	.globl	real_to_prot
 
 	.end

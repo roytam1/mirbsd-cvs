@@ -1,4 +1,4 @@
-/*	$MirOS: src/sys/arch/i386/stand/libsa/gidt.S,v 1.14 2009/01/10 12:12:19 tg Exp $ */
+/*	$MirOS: src/sys/arch/i386/stand/libsa/gidt.S,v 1.15 2009/01/10 12:20:57 tg Exp $ */
 /*	$OpenBSD: gidt.S,v 1.32 2006/12/26 19:30:44 tom Exp $	*/
 
 /*
@@ -433,7 +433,7 @@ Ltcend:	pop	si		/* offset Ltcbeg */
  * Switch from protected mode to real mode.
  * Registers trashed: EAX 
  * CS = DS = ES = SA_LINKSEG
- * SS = 0000 (SP preserved)
+ * SS:SP = old flat:ESP
  */
 	.code32
 	.globl	prot_to_real
@@ -454,11 +454,16 @@ Lp2r32:	.code16
 	mov	cr0,eax
 	/* switch to 16 bit data size */
 	data32 ljmp SA_LINKSEG,offset Lp2r16 - SA_LINKADDR
-Lp2r16:	mov	ax,cs
+Lp2r16:	mov	eax,esp
+	rol	eax,16
+	shl	ax,12
+	mov	ss,ax
+	xor	ax,ax
+	rol	eax,16
+	mov	esp,eax
+	mov	ax,cs
 	mov	ds,ax
 	mov	es,ax
-	xor	ax,ax
-	mov	ss,ax
 	/* load real mode IDT */
 	data32 addr32 lidt (offset Idtr_real - SA_LINKADDR)
 	ret
@@ -467,11 +472,17 @@ Lp2r16:	mov	ax,cs
  * Switch from real mode to protected mode.
  * Registers trashed: EAX 
  * CS = S32TEXT
- * DS = ES = SS = S32DATA (ESP preserved)
+ * DS = ES = SS = S32DATA
+ * ESP = flat, old (SS<<4)|SP
  */
 	.code16
 	.globl	real_to_prot
 real_to_prot:
+	xor	eax,eax
+	mov	ax,ss
+	shl	eax,4
+	add	ax,sp
+	mov	esp,eax
 	mov	ax,SA_LINKSEG
 	mov	ds,ax
 	data32 addr32 lgdt (offset Gdtr - SA_LINKADDR)
