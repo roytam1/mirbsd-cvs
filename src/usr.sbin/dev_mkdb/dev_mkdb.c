@@ -1,4 +1,4 @@
-/*	$OpenBSD: dev_mkdb.c,v 1.9 2003/06/02 23:36:52 millert Exp $	*/
+/*	$OpenBSD: dev_mkdb.c,v 1.10 2005/04/04 09:03:07 deraadt Exp $	*/
 
 /*-
  * Copyright (c) 1990, 1993
@@ -48,8 +48,6 @@ static char rcsid[] = "$Id$";
 #include <err.h>
 #include <errno.h>
 #include <fcntl.h>
-#include <kvm.h>
-#include <nlist.h>
 #include <paths.h>
 #include <stdio.h>
 #include <stdlib.h>

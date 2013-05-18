@@ -1,5 +1,5 @@
-/* $MirOS$ */
-/* $OpenBSD: wsfontload.c,v 1.6 2003/04/19 23:50:06 millert Exp $ */
+/* $MirOS: src/usr.sbin/wsfontload/wsfontload.c,v 1.2 2005/03/13 19:17:39 tg Exp $ */
+/* $OpenBSD: wsfontload.c,v 1.10 2005/05/27 05:03:47 millert Exp $ */
 /* $NetBSD: wsfontload.c,v 1.2 2000/01/05 18:46:43 ad Exp $ */
 
 /*
@@ -35,7 +35,9 @@
  */
 
 #include <sys/types.h>
+#include <sys/time.h>
 #include <sys/ioctl.h>
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <fcntl.h>
@@ -45,7 +47,7 @@
 
 #include <dev/wscons/wsconsio.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.sbin/wsfontload/wsfontload.c,v 1.2 2005/03/13 19:17:39 tg Exp $");
 
 #define DEFDEV		"/dev/ttyCcfg"
 #define DEFWIDTH	8
@@ -59,16 +61,15 @@ static void usage(void);
 static int getencoding(char *);
 
 static void
-usage()
+usage(void)
 {
 	extern char *__progname;
 
 	(void)fprintf(stderr,
-		"usage: %s [-f file] -l\n"
-		"       %s [-f file] -d slot\n"
-		"       %s [-B] [-b] [-e encoding] [-f file] [-h height] [-N name]\n"
-		"       %*s [-w width] [fontfile]\n",
-	    __progname, __progname, __progname, (int)strlen(__progname), "");
+	    "usage: %s [-Bbl] [-e encoding] [-f file] [-h height] [-N name]\n"
+	    "       %*s [-w width] [fontfile]\n"
+	    "       %s [-f file] -d slot\n",
+	    __progname, (int)strlen(__progname), "", __progname);
 	exit(1);
 }
 
@@ -85,9 +86,7 @@ struct {
 };
 
 int
-main(argc, argv)
-	int argc;
-	char **argv;
+main(int argc, char *argv[])
 {
 	char *wsdev, *p;
 	struct wsdisplay_font f;
@@ -233,8 +232,7 @@ main(argc, argv)
 }
 
 static int
-getencoding(name)
-	char *name;
+getencoding(char *name)
 {
 	int i;
 

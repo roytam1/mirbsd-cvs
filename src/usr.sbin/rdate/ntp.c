@@ -51,7 +51,7 @@
 
 #include "ntpleaps.h"
 
-__RCSID("$MirOS: src/usr.sbin/rdate/ntp.c,v 1.2 2005/03/13 19:17:21 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/rdate/ntp.c,v 1.3 2005/10/27 11:58:39 tg Exp $");
 
 /*
  * NTP definitions.  Note that these assume 8-bit bytes - sigh.  There
@@ -115,7 +115,7 @@ void	unpack_ntp(struct ntp_data *, u_char *);
 double	current_time(double);
 void	create_timeval(double, struct timeval *, struct timeval *);
 
-#ifdef DEBUG
+#if DEBUG
 void	print_packet(const struct ntp_data *);
 #endif
 
@@ -127,7 +127,7 @@ ntp_client(const char *hostname, int family, struct timeval *new,
 {
 	struct addrinfo hints, *res0, *res;
 	double offset, error;
-	int accepted = 0, ret, s, ierror;
+	int accept = 0, ret, s, ierror;
 
 	memset(&hints, 0, sizeof(hints));
 	hints.ai_family = family;
@@ -158,7 +158,7 @@ ntp_client(const char *hostname, int family, struct timeval *new,
 			continue;
 		}
 
-		accepted++;
+		accept++;
 		break;
 	}
 	freeaddrinfo(res0);
@@ -167,7 +167,7 @@ ntp_client(const char *hostname, int family, struct timeval *new,
 	fprintf(stderr, "Correction: %.6f +/- %.6f\n", offset, error);
 #endif
 
-	if (accepted < 1)
+	if (accept < 1)
 		errx(1, "Unable to get a reasonable time estimate");
 
 	create_timeval(offset, new, adjust);

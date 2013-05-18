@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: procmap.c,v 1.16 2004/04/01 23:17:11 tdeval Exp $ */
+/**	$MirOS: src/usr.sbin/procmap/procmap.c,v 1.2 2005/03/13 19:17:19 tg Exp $ */
+/*	$OpenBSD: procmap.c,v 1.20 2005/05/26 05:22:15 pedro Exp $ */
 /*	$NetBSD: pmap.c,v 1.1 2002/09/01 20:32:44 atatat Exp $ */
 
 /*
@@ -207,6 +207,7 @@ main(int argc, char *argv[])
 	struct kinfo_proc *kproc;
 	/* struct proc proc; */
 	char *kmem, *kernel;
+	gid_t gid;
 
 	pid = -1;
 	verbose = debug = 0;
@@ -250,7 +251,7 @@ main(int argc, char *argv[])
 			break;
 		case 'r':
 		case 'x':
-			errx(1, "-%c option not implemented, sorry", optopt);
+			errx(1, "-%c option not implemented, sorry", ch);
 			/*NOTREACHED*/
 		case '?':
 		default:
@@ -262,10 +263,10 @@ main(int argc, char *argv[])
 	 * Discard setgid privileges if not the running kernel so that bad
 	 * guys can't print interesting stuff from kernel memory.
 	 */
-	if (kernel != NULL || kmem != NULL) {
-		setegid(getgid());
-		setgid(getgid());
-	}
+	gid = getgid();
+	if (kernel != NULL || kmem != NULL)
+		if (setresgid(gid, gid, gid) == -1)
+			err(1, "setresgid");
 
 	argc -= optind;
 	argv += optind;
@@ -281,8 +282,9 @@ main(int argc, char *argv[])
 	/* start by opening libkvm */
 	kd = kvm_openfiles(kernel, kmem, NULL, O_RDONLY, errbuf);
 
-	setegid(getgid());
-	setgid(getgid());
+	if (kernel == NULL && kmem == NULL)
+		if (setresgid(gid, gid, gid) == -1)
+			err(1, "setresgid");
 
 	if (kd == NULL)
 		errx(1, "%s", errbuf);
@@ -638,12 +640,9 @@ dump_vm_map_entry(kvm_t *kd, struct kbit *vmspace,
 		case VT_LOFS:
 		case VT_FDESC:
 		case VT_PORTAL:
-		case VT_NULL:
-		case VT_UMAP:
 		case VT_KERNFS:
 		case VT_PROCFS:
 		case VT_AFS:
-		case VT_UNION:
 		case VT_ADOSFS:
 		default:
 			break;
@@ -971,14 +970,11 @@ usage(void)
 static pid_t
 strtopid(const char *str)
 {
-	unsigned long pid;
-	char *endptr;
+	pid_t pid;
 
 	errno = 0;
-	pid = strtoul(str, &endptr, 10);
-	if (str[0] == '\0' || *endptr != '\0')
-		usage();
-	if (errno == ERANGE && pid == ULONG_MAX)
+	pid = (pid_t)strtonum(str, 0, INT_MAX, NULL);
+	if (errno != 0)
 		usage();
 	return (pid);
 }

@@ -1,4 +1,4 @@
-/*	$OpenBSD: pppoe.c,v 1.14 2004/05/14 17:53:51 canacar Exp $	*/
+/*	$OpenBSD: pppoe.c,v 1.16 2005/05/03 05:44:35 djm Exp $	*/
 
 /*
  * Copyright (c) 2000 Network Security Technologies, Inc. http://www.netsec.net
@@ -229,7 +229,7 @@ setup_rfilter(struct bpf_insn *insns, struct ether_addr *ea, int server_mode)
 		idx++;
 	}
 
-	/* make sure packet is destined to our addres */
+	/* make sure packet is destined to our address */
 	insns[idx].code = BPF_LD | BPF_W | BPF_ABS;
 	insns[idx].k = insns[idx].jt = insns[idx].jf = 0;
 	idx++;
@@ -529,18 +529,10 @@ drop_privs(struct passwd *pw, int server_mode)
 
 	if (setgroups(ng, groups))
 		err(EX_OSERR, "setgroups");
-
-	if (setegid(pw->pw_gid))
-		err(EX_OSERR, "setegid");
-
-	if (setgid(pw->pw_gid))
-		err(EX_OSERR, "setgid");
-
-	if (seteuid(pw->pw_uid))
-		err(EX_OSERR, "seteuid");
-
-	if (setuid(pw->pw_uid))
-		err(EX_OSERR, "setuid");
+	if (setresgid(pw->pw_gid, pw->pw_gid, pw->pw_gid))
+		err(EX_OSERR, "setresgid");
+	if (setresuid(pw->pw_uid, pw->pw_uid, pw->pw_uid))
+		err(EX_OSERR, "setresuid");
 
 	endpwent();
 }

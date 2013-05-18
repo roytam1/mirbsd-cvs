@@ -1,4 +1,4 @@
-# $MirOS: src/usr.sbin/Makefile,v 1.7 2005/08/02 11:36:03 tg Exp $
+# $MirOS: src/usr.sbin/Makefile,v 1.8 2005/12/04 14:27:05 tg Exp $
 # $OpenBSD: Makefile,v 1.110 2004/05/04 23:27:21 deraadt Exp $
 
 .include <bsd.own.mk>
@@ -102,9 +102,13 @@
   SUBDIR+= vipw
   SUBDIR+= vnconfig
   SUBDIR+= wsconscfg
+.if ${MACHINE_ARCH} == "i386"
   SUBDIR+= wsfontload
+.endif
   SUBDIR+= wsmoused
+.if ${MACHINE_ARCH} == "i386"
   SUBDIR+= wssetfont
+.endif
   SUBDIR+= zdump
   SUBDIR+= zic
 

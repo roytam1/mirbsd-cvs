@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: rbootd.c,v 1.20 2004/05/01 00:39:22 deraadt Exp $	*/
+/**	$MirOS: src/usr.sbin/rbootd/rbootd.c,v 1.2 2005/03/13 19:17:20 tg Exp $ */
+/*	$OpenBSD: rbootd.c,v 1.21 2005/05/03 01:01:14 djm Exp $	*/
 /*	$NetBSD: rbootd.c,v 1.5 1995/10/06 05:12:17 thorpej Exp $	*/
 
 /*
@@ -52,7 +52,7 @@ static char copyright[] =
 
 #ifndef lint
 /*static char sccsid[] = "@(#)rbootd.c	8.1 (Berkeley) 6/4/93";*/
-static char rcsid[] = "$OpenBSD: rbootd.c,v 1.20 2004/05/01 00:39:22 deraadt Exp $";
+static char rcsid[] = "$OpenBSD: rbootd.c,v 1.21 2005/05/03 01:01:14 djm Exp $";
 #endif /* not lint */
 
 #include <sys/param.h>
@@ -203,8 +203,8 @@ main(int argc, char *argv[])
 		exit(1);
 	}
 	if (setgroups(1, &pw->pw_gid) ||
-	    setegid(pw->pw_gid) || setgid(pw->pw_gid) ||
-	    seteuid(pw->pw_uid) || setuid(pw->pw_uid)) {
+	    setresgid(pw->pw_gid, pw->pw_gid, pw->pw_gid) ||
+	    setresuid(pw->pw_uid, pw->pw_uid, pw->pw_uid)) {
 		syslog(LOG_CRIT, "can't drop privileges: %m");
 		exit(1);
 	}

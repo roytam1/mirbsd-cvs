@@ -24,7 +24,7 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  *
- *	$OpenBSD: nat_cmd.c,v 1.23 2003/04/07 23:58:53 deraadt Exp $
+ *	$OpenBSD: nat_cmd.c,v 1.25 2005/07/17 19:13:25 brad Exp $
  */
 
 #include <sys/param.h>
@@ -37,6 +37,7 @@
 #include <sys/socket.h>
 #include <sys/un.h>
 
+#include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -518,11 +519,17 @@ nat_LayerPull(struct bundle *bundle, struct link *l, struct mbuf *bp,
 
     case PKT_ALIAS_UNRESOLVED_FRAGMENT:
       /* Save the data for later */
-      fptr = malloc(bp->m_len);
-      bp = mbuf_Read(bp, fptr, bp->m_len);
-      PacketAliasSaveFragment(fptr);
-      log_Printf(LogDEBUG, "Store another frag (%lu) - now %d\n",
-                 (unsigned long)((struct ip *)fptr)->ip_id, ++gfrags);
+      if ((fptr = malloc(bp->m_len)) == NULL) {
+	log_Printf(LogWARN, "nat_LayerPull: Dropped unresolved fragment -"
+		   " out of memory!\n");
+	m_freem(bp);
+	bp = NULL;
+      } else {
+	bp = mbuf_Read(bp, fptr, bp->m_len);
+	PacketAliasSaveFragment(fptr);
+	log_Printf(LogDEBUG, "Store another frag (%lu) - now %d\n",
+		   (unsigned long)((struct ip *)fptr)->ip_id, ++gfrags);
+      }
       break;
 
     case PKT_ALIAS_FOUND_HEADER_FRAGMENT:

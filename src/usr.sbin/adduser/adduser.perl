@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 #
-#	$OpenBSD: adduser.perl,v 1.47 2003/06/17 00:58:30 jsyn Exp $
+#	$OpenBSD: adduser.perl,v 1.49 2005/03/30 22:12:38 millert Exp $
 #
 # Copyright (c) 1995-1996 Wolfram Schneider <wosch@FreeBSD.org>. Berlin.
 # All rights reserved.
@@ -91,7 +91,7 @@ sub variables {
     $etc_login_conf = "/etc/login.conf";
     @pwd_mkdb = ("pwd_mkdb", "-p");	# program for building passwd database
     $encryptionmethod = "auto";
-    $rcsid = '$OpenBSD: adduser.perl,v 1.47 2003/06/17 00:58:30 jsyn Exp $';
+    $rcsid = '$OpenBSD: adduser.perl,v 1.49 2005/03/30 22:12:38 millert Exp $';
 
     # List of directories where shells located
     @path = ('/bin', '/usr/bin', '/usr/local/bin');
@@ -148,21 +148,11 @@ sub variables {
 }
 
 sub login_conf_read {
-     local($cont);
-
-     print "Reading $etc_login_conf\n" if $verbose;
-     open(S, $etc_login_conf) || die "$etc_login_conf: $!\n";
-
-     $cont = 0;
-     while(<S>) {
+     foreach (`getcap -f $etc_login_conf -a -s localcipher`) {
 	chomp;
-	s/^\s*//;
-        next if m/^(#|$)/;
-	if (!$cont && /^([^:]+):/) {
-	    push(@login_classes, split(/\|/, $1));
-	}
-	$cont = /\\$/;
-    }
+	s/:.*//;
+	push(@login_classes, $_);
+     }
 }
 
 # read shell database, see also: shells(5)
@@ -185,6 +175,7 @@ sub shells_read {
 	    }
 	}
     }
+    close(S);
 
     push(@list, "/sbin/nologin");
     &shell_pref_add("nologin");

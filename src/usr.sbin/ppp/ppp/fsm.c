@@ -25,7 +25,7 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  *
- * $OpenBSD: fsm.c,v 1.23 2002/06/15 08:02:41 brian Exp $
+ * $OpenBSD: fsm.c,v 1.24 2005/07/17 20:24:45 brad Exp $
  */
 
 #include <sys/param.h>
@@ -68,7 +68,7 @@
 #include "physical.h"
 #include "proto.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.sbin/ppp/ppp/fsm.c,v 1.2 2005/03/13 19:17:14 tg Exp $");
 
 static void FsmSendConfigReq(struct fsm *);
 static void FsmSendTerminateReq(struct fsm *);
@@ -561,7 +561,7 @@ FsmRecvConfigReq(struct fsm *fp, struct fsmheader *lhp, struct mbuf *bp)
        */
     (*fp->fn->LayerStart)(fp);
     (*fp->parent->LayerStart)(fp->parent->object, fp);
-    /* Fall through */
+    /* FALLTHROUGH */
 
   case ST_OPENED:
     if (ackaction)

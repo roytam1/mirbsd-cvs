@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: traceroute6.c,v 1.37 2004/01/25 03:25:49 deraadt Exp $	*/
+/**	$MirOS: src/usr.sbin/traceroute6/traceroute6.c,v 1.2 2005/03/13 19:17:34 tg Exp $ */
+/*	$OpenBSD: traceroute6.c,v 1.39 2005/05/03 01:01:14 djm Exp $	*/
 /*	$KAME: traceroute6.c,v 1.63 2002/10/24 12:53:25 itojun Exp $	*/
 
 /*
@@ -365,6 +365,7 @@ main(int argc, char *argv[])
 	u_long probe, hops, lport;
 	struct hostent *hp;
 	size_t size;
+	uid_t uid;
 
 	/*
 	 * Receive ICMP
@@ -375,8 +376,9 @@ main(int argc, char *argv[])
 	}
 
 	/* revoke privs */
-	seteuid(getuid());
-	setuid(getuid());
+	uid = getuid();
+	if (setresuid(uid, uid, uid) == -1)
+		err(1, "setresuid");
 
 	size = sizeof(i);
 	(void) sysctl(mib, sizeof(mib)/sizeof(mib[0]), &i, &size, NULL, 0);
@@ -907,9 +909,7 @@ main(int argc, char *argv[])
 }
 
 int
-wait_for_reply(sock, mhdr)
-	int sock;
-	struct msghdr *mhdr;
+wait_for_reply(int sock, struct msghdr *mhdr)
 {
 #ifdef HAVE_POLL
 	struct pollfd pfd[1];

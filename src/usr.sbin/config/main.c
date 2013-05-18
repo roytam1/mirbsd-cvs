@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: main.c,v 1.36 2004/01/04 18:30:05 deraadt Exp $	*/
+/**	$MirOS: src/usr.sbin/config/main.c,v 1.2 2005/03/13 19:16:18 tg Exp $ */
+/*	$OpenBSD: main.c,v 1.37 2005/04/28 22:28:00 deraadt Exp $	*/
 /*	$NetBSD: main.c,v 1.22 1997/02/02 21:12:33 thorpej Exp $	*/
 
 /*
@@ -59,7 +59,7 @@ static char copyright[] =
 #include <unistd.h>
 #include "config.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.sbin/config/main.c,v 1.2 2005/03/13 19:16:18 tg Exp $");
 
 int	firstfile(const char *);
 int	yyparse(void);
@@ -85,6 +85,8 @@ static void optiondelta(void);
 FILE *getfp(void);
 
 int	madedir = 0;
+
+int	verbose;
 
 void
 usage(void)
@@ -121,6 +123,8 @@ main(int argc, char *argv[])
 
 		case 'e':
 			eflag = 1;
+			if (!isatty(STDIN_FILENO))
+				verbose = 1;
 			break;
 
 		case 'g':
@@ -157,7 +161,6 @@ main(int argc, char *argv[])
 			srcdir = optarg;
 			break;
 
-		case '?':
 		default:
 			usage();
 		}

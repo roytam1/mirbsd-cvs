@@ -25,7 +25,7 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  *
- * $OpenBSD: async.c,v 1.12 2004/11/16 14:47:02 brad Exp $
+ * $OpenBSD: async.c,v 1.13 2005/07/17 20:24:45 brad Exp $
  */
 
 #include <sys/types.h>
@@ -50,7 +50,7 @@
 #include "descriptor.h"
 #include "physical.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.sbin/ppp/ppp/async.c,v 1.2 2005/03/13 19:17:13 tg Exp $");
 
 #define MODE_HUNT 0x01
 #define MODE_ESC  0x02
@@ -167,7 +167,7 @@ async_Decode(struct async *async, u_char c)
       async->mode |= MODE_ESC;
       break;
     }
-    /* Fall into ... */
+    /* FALLTHROUGH */
   default:
     if (async->length >= HDLCSIZE) {
       /* packet is too large, discard it */

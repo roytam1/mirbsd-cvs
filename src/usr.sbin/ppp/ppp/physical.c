@@ -16,8 +16,8 @@
  * IMPLIED WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED
  * WARRANTIES OF MERCHANTIBILITY AND FITNESS FOR A PARTICULAR PURPOSE.
  *
- *  $MirOS$
- *  $OpenBSD: physical.c,v 1.36 2002/06/15 08:02:01 brian Exp $
+ *  $MirOS: src/usr.sbin/ppp/ppp/physical.c,v 1.2 2005/03/13 19:17:16 tg Exp $
+ *  $OpenBSD: physical.c,v 1.40 2005/07/17 20:10:53 brad Exp $
  *
  */
 
@@ -31,11 +31,13 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <paths.h>
+#include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/tty.h>	/* TIOCOUTQ */
 #include <sys/uio.h>
+#include <sysexits.h>
 #include <time.h>
 #include <unistd.h>
 #include <utmp.h>
@@ -86,6 +88,7 @@
 #include "prompt.h"
 #include "chat.h"
 #include "auth.h"
+#include "main.h"
 #include "chap.h"
 #include "cbcp.h"
 #include "datalink.h"
@@ -426,8 +429,8 @@ physical_DescriptorWrite(struct fdescriptor *d, struct bundle *bundle,
       if (errno == EAGAIN)
         result = 1;
       else if (errno != ENOBUFS) {
-	log_Printf(LogPHASE, "%s: write (%d): %s\n", p->link.name,
-                   p->fd, strerror(errno));
+	log_Printf(LogPHASE, "%s: write (fd %d, len %d): %s\n", p->link.name,
+                   p->fd, p->out->m_len, strerror(errno));
         datalink_Down(p->dl, CLOSE_NORMAL);
       }
     }
@@ -443,16 +446,25 @@ physical_ShowStatus(struct cmdargs const *arg)
   struct physical *p = arg->cx->physical;
   struct cd *cd;
   const char *dev;
-  int n;
+  int n, slot;
 
   prompt_Printf(arg->prompt, "Name: %s\n", p->link.name);
   prompt_Printf(arg->prompt, " State:           ");
   if (p->fd < 0)
     prompt_Printf(arg->prompt, "closed\n");
-  else if (p->handler && p->handler->openinfo)
-    prompt_Printf(arg->prompt, "open (%s)\n", (*p->handler->openinfo)(p));
-  else
-    prompt_Printf(arg->prompt, "open\n");
+  else {
+    slot = physical_Slot(p);
+    if (p->handler && p->handler->openinfo) {
+      if (slot == -1)
+        prompt_Printf(arg->prompt, "open (%s)\n", (*p->handler->openinfo)(p));
+      else
+        prompt_Printf(arg->prompt, "open (%s, port %d)\n",
+                      (*p->handler->openinfo)(p), slot);
+    } else if (slot == -1)
+      prompt_Printf(arg->prompt, "open\n");
+    else
+      prompt_Printf(arg->prompt, "open (port %d)\n", slot);
+  }
 
   prompt_Printf(arg->prompt, " Device:          %s",
                 *p->name.full ?  p->name.full :
@@ -724,7 +736,10 @@ physical2iov(struct physical *p, struct iovec *iov, int *niov, int maxiov,
     if (h && h->device2iov)
       (*h->device2iov)(h, iov, niov, maxiov, auxfd, nauxfd);
     else {
-      iov[*niov].iov_base = malloc(sz);
+      if ((iov[*niov].iov_base = malloc(sz)) == NULL) {
+	log_Printf(LogALERT, "physical2iov: Out of memory (%d bytes)\n", sz);
+	AbortProgram(EX_OSERR);
+      }
       if (h)
         memcpy(iov[*niov].iov_base, h, sizeof *h);
       iov[*niov].iov_len = sz;
