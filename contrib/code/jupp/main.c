@@ -1,6 +1,6 @@
-/* $MirOS: contrib/code/jupp/main.c,v 1.14 2011/07/16 22:01:28 tg Exp $ */
+/* $MirOS: contrib/code/jupp/main.c,v 1.15 2011/10/04 22:25:52 tg Exp $ */
 
-#define JUPP_IS_COPYRIGHT_C_BY "2011 mirabilos"
+#define JUPP_IS_COPYRIGHT_C_BY "2012 mirabilos"
 
 /*
  *	Editor startup and main edit loop
