@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-9.inc,v 1.97 2008/11/11 01:53:58 tg Exp $
+RCSID: $MirOS: www/data/wlog-9.inc,v 1.98 2008/12/04 19:10:34 tg Exp $
 Date: 25.06.2006
 Author: tg@
 
@@ -127,8 +127,8 @@ Author: tg@
   mksh (making it cleaner) and the profile, maybe Debian mksh update and
   add sample ~/.mkshrc &ndash; the sparc is doing fine &ndash; but SOL I
   am&#8230; the internet connection went away.</p>
- <p style="margin-bottom:0px;">What do you think about the following</p>
- <div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;">
+ <p class="boxhead">What do you think about the following</p>
+ <div class="boxtext">
   <pre>
 	tg@demo:~ $ cat x.pas ; gpc x.pas ; ./a.out ; file a.out ; ldd a.out ; dmesg | fgrep cpu ; uname -a
 	program Hallo;
@@ -148,7 +148,7 @@ Author: tg@
 	cpu0: physical 20K instruction (64 b/l), 16K data (32 b/l), 1024K external (32 b/l) cache enabled
 	MirBSD demo.mirbsd.org 9 Kv#9s81-stable-20060627 GENERIC#92 sparc
   </pre>
- </div><p style="margin-top:0px;">(ciruZ thinks it is pretty cool ;)</p>
+ </div><p class="boxfoot">(ciruZ thinks it is pretty cool ;)</p>
  <p>Okay, there's not much more to do except letting the sparc compile a
   full system during the night and installing that, as well as rsynching
   the repo to my laptop. I hope I'll soon be at the point where I can do
@@ -1768,8 +1768,8 @@ Author: tg@
  nuggets, because it’s easier (also for Ewe and Jewel) to have the classes
  from external libraries unpacked in the tree.</p>
 <p>GNU ed sucks – it is less BSD ed(1) compatible in more recent versions…
- I bet they’ll be using GPLv3 next – and GFDL for the <span style="text-decoration:line-through;">man</span>
- er… <span style="text-decoration:line-through;">texinfo</span> pages (now what, GNU software doesn’t use manual
+ I bet they’ll be using GPLv3 next – and GFDL for the <span class="texts">man</span>
+ er… <span class="texts">texinfo</span> pages (now what, GNU software doesn’t use manual
  pages any more, and almost no GNU/Linux distribution has texinfo).</p>
 <p>I would have listened to the grml talk at MoeLUG tonight, but nobody of
  my mates with cars wanted to go. Too bad, I really liked the Altbier.</p>

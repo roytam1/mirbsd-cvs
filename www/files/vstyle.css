@@ -268,3 +268,25 @@ td {
 tt {
 	white-space:nowrap;
 }
+
+.texts {
+	text-decoration:line-through;
+}
+
+.textu {
+	text-decoration:underline;
+}
+
+.boxhead {
+	margin-bottom:0px;
+}
+
+.boxtext {
+	border:4px ridge blue;
+	margin:0px 24px 0px 24px;
+	padding:12px;
+}
+
+.boxfoot {
+	margin-top:0px;
+}

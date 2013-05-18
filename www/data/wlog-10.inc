@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.236 2009/09/10 18:54:27 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.237 2009/09/13 17:03:49 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -614,8 +614,8 @@ Title: more creative uses for ttftot42
  the MirOS CI/CD), and starting from when I first saw it, I hated anything
  remotely looking like the Courier font, so I guess this means that the
  PDF version of mksh’s online manpage will soon have a new look.</p>
-<p style="margin-bottom:0px;">On an unrelated note:</p>
-<div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;">
+<p class="boxhead">On an unrelated note:</p>
+<div class="boxtext">
  <pre>
 	Apr 21 20:09:06 herc ppp[28555]: tun0: LCP: deflink: RecvTerminateReq(206) state = Opened
 	Apr 21 20:09:06 herc ppp[28555]: tun0: LCP: deflink: LayerDown
@@ -625,7 +625,7 @@ Title: more creative uses for ttftot42
 	Apr 21 20:09:06 herc ppp[28555]: tun0: CCP: deflink: State change Closed --> Initial
 	Apr 21 20:09:06 herc ppp[28555]: tun0: Phase: deflink: open -> lcp
  </pre>
-</div><p style="margin-top:0px;">(not using pppoe(4), to enable debugging)</p>
+</div><p class="boxfoot">(not using pppoe(4), to enable debugging)</p>
 <p>For me, this very much looks like my ISP doesn’t like my nose or something
  and wants the ADSL (ppp(8)+pppoe(8)) session to terminate.</p>
 <p>Another unrelated side note: MirOS <tt>ports/math/boinc</tt> definitively
@@ -936,8 +936,8 @@ Title: Configuring name-based apache vhosts with SSL and IPv6…
  not use the <tt>_default_</tt> vhost in any form, it silently won’t work.</p>
 <p>You might want to place directory information in the vhost configuration
  file instead of in the main configuration file.</p>
-<p style="margin-bottom:0px;">Part of <tt>httpd.conf</tt> is:</p>
-<div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;">
+<p class="boxhead">Part of <tt>httpd.conf</tt> is:</p>
+<div class="boxtext">
  <pre>
 	ServerAdmin «mail address for the server itself»
 	ServerName «main FQDN»
@@ -973,7 +973,7 @@ Title: Configuring name-based apache vhosts with SSL and IPv6…
 
 	&lt;/IfDefine&gt;
  </pre>
-</div><p style="margin-top:0px;">(using documentation addresses)</p>
+</div><p class="boxfoot">(using documentation addresses)</p>
 <p>Make sure every vhost <em>except</em> the default one sets ServerName
  (and ServerAdmin if it differs), and DocumentRoot etc. as usual. The
  default vhost does <em>not need</em> to set ServerName, but the line<br />
@@ -1111,8 +1111,8 @@ Title: mksh – The iShell [updated 2 times]
 Tag: geocache mksh
 
 <h3><a href="@@RELPATH@@mksh.htm">mksh</a> – The iShell</h3>
-<p style="margin-bottom:0px;">Try this:</p>
-<div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;"><pre>
+<p class="boxhead">Try this:</p>
+<div class="boxtext"><pre>
 	$ cvs -d _anoncvs@anoncvs.mirbsd.org:/cvs co -PA mksh
 	$ cd mksh
 	$ cat &gt;iBuild.sh &lt;&lt;-'EOF'
@@ -1131,7 +1131,7 @@ Tag: geocache mksh
 	EOF
 	$ mksh iBuild.sh mksh Build.sh -r
 	$ file mksh
-</pre></div><p style="margin-top:0px;">Mach-O executable arm</p>
+</pre></div><p class="boxfoot">Mach-O executable arm</p>
 <p>Of course, you need the iPhone 2.0 SDK on your Mac for this (and,
  presumably, an installed native mksh… otherwise just change the above
  instructions a little.</p>
@@ -2139,14 +2139,14 @@ Author: tg@
 Title: pcc and Win32
 Tag: pcc snippet unicode
 
-<p style="margin-bottom:0px;">I think I’m quite finished with the Unicode
+<p class="boxhead">I think I’m quite finished with the Unicode
  stuff. You can now do really weird things like this:</p>
-<div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;">
+<div class="boxtext">
  <pre>void
 今日は(const struct person *$kunde)
 {
         printf("Γεια σου %ls!", $kunde->имя);
-}</pre></div><p style="margin-top:0px;">ISO C99 permits it.</p>
+}</pre></div><p class="boxfoot">ISO C99 permits it.</p>
 <p>On the other hand, pcc on Win32 appears broken, cannot be compiled
  either natively (e.g. due to use of “long long” and other bogus things
  which may be C99 but not MS-C90) nor cross from GNU/Cygwin32 (because
@@ -2456,12 +2456,12 @@ Tag: event
  flyers and CDs at first, then bogus (who had them) got really ill.</p>
 <p>We all somehow are, at the moment. Get better, everyone. (replaced
  couldn’t get to the BSD@Wien pre-christmas party either…)</p>
-<p style="margin-bottom:0px;">cnuke@ pointed me to a nice IRC quote:</p>
-<div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;"><pre>
+<p class="boxhead">cnuke@ pointed me to a nice IRC quote:</p>
+<div class="boxtext"><pre>
 17:57 &lt; jtsn&gt; Der 25C3 ist lustig. Deutsche Vortragende brechen sich vor deutschen Zuhörern auf Englisch einen ab. ;-)
 18:01 &lt; jtsn&gt; Adolfs Werk war sehr nachhaltig. ;-)
 18:01 &lt; jtsn&gt; Das gab's nichtmal in der DDR, das<i>[sic!]</i> Deutsche mit Deutschen auf Russisch reden. ;-)
-</pre></div><p style="margin-top:0px;">This’ll be my <tt>~/.etc/sig</tt> for
+</pre></div><p class="boxfoot">This’ll be my <tt>~/.etc/sig</tt> for
  a while… it does hold some truth. *looks at this wlog*</p>
 <p>Benny is still alive, yet a little offline, hacking on perl stuff for
  MirPorts. Good riddance.</p>
@@ -2690,11 +2690,11 @@ Tag: grml snippet
 <hr />
 <p><a href="http://www.outflux.net/blog/archives/2009/01/13/etoomanycerts/">A
  Debian person</a> wonders about sendmail… but the answer is relatively easy.
-</p><p style="margin-bottom:0px;">Snippet from the config:</p>
-<div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;"><pre>
+</p><p class="boxhead">Snippet from the config:</p>
+<div class="boxtext"><pre>
 O CACertPath=/etc/ssl/certs
 O CACertFile=/etc/ssl/deflt-ca.cer
-</pre></div><p style="margin-top:0px;">Here, <tt>CACertPath</tt> is the name of a
+</pre></div><p class="boxfoot">Here, <tt>CACertPath</tt> is the name of a
  <em>directory</em> containing files named <i>xxxxxxxx.y</i> where <i>x</i>
  is the hash of the certificate and <i>y</i> is a number starting at 0 that
  is used to avoid collision if two CA certificates have the same hash. They
@@ -3662,20 +3662,20 @@ Title: [rant] FreeBSD® sucks!
 Date: 29.03.2009 22:28
 Tag: bug mksh snippet
 
-<p style="margin-bottom:0px;">How about this:</p>
-<div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;"><pre>
+<p class="boxhead">How about this:</p>
+<div class="boxtext"><pre>
 	tg@herc:~ $ /bin/sh -c 'echo "0=($0) 1=($1) 2=($2) 3=($3)"' -- a "b c"
 	0=(--) 1=(a) 2=(b c) 3=()
 	tg@herc:~ $ nbsh -c 'echo "0=($0) 1=($1) 2=($2) 3=($3)"' -- a "b c"
 	0=(--) 1=(a) 2=(b c) 3=()
-</pre></div><p style="margin-top:0px;">Heck, not just NetBSD® ash, and almost
+</pre></div><p class="boxfoot">Heck, not just NetBSD® ash, and almost
  any shell Debian can dig out (bash pdksh ksh93 zsh dash posh) behaves
  the same as mksh.</p>
-<p style="margin-bottom:0px;">MidnightBSD (DragonFly and FreeBSD too):</p>
-<div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;"><pre>
+<p class="boxhead">MidnightBSD (DragonFly and FreeBSD too):</p>
+<div class="boxtext"><pre>
 	tg@mnbsd:~ $ /bin/sh -c 'echo "0=($0) 1=($1) 2=($2) 3=($3)"' -- a "b c"
 	0=(a) 1=(b c) 2=() 3=()
-</pre></div><p style="margin-top:0px;">And the best thing of all: I am to "fix"
+</pre></div><p class="boxfoot">And the best thing of all: I am to "fix"
  this in mksh, as the old FreeBSD® ash is documented to have that weird
  behaviour. (Well, there's always <tt>-DMKSH_BINSHREDUCED</tt>...)</p>
 <p>This is not a fault of MidnightBSD (except they could fix mports to
@@ -3881,25 +3881,25 @@ Author: tg@
 Title: perl and HTML entities
 Tag: snippet
 
-<p style="margin-bottom:0px;">I don’t even know perl(1), I just can RTFM…</p>
-<div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;"><pre>
+<p class="boxhead">I don’t even know perl(1), I just can RTFM…</p>
+<div class="boxtext"><pre>
 <em>tg@bleu:~ $</em> echo 'xyzz�€y' | perl -C -pe \
     's/([\x{7f}-\x{ffff}])/"&amp;#".unpack("U",$1).";"/eg'
 <em>xyzz&amp;#65533;&amp;#8364;y</em>
 <em>tg@bleu:~ $</em> echo 'xyzz�€y' | perl -C -pe \
     's/([\x{7f}-\x{ffff}])/sprintf "&amp;#x%X;",unpack("U",$1)/eg'
 <em>xyzz&amp;#xFFFD;&amp;#x20AC;y</em>
-</pre></div><p style="margin-top:0px;">Just hacked it for Natureshadow.</p>
+</pre></div><p class="boxfoot">Just hacked it for Natureshadow.</p>
 ----
 Date: 22.04.2009 17:26
 Author: tg@
 Title: perl and quoted-printable
 Tag: snippet
 
-<p style="margin-bottom:0px;">While here anyway…</p>
-<div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;"><pre>
+<p class="boxhead">While here anyway…</p>
+<div class="boxtext"><pre>
 <em>$</em> perl -pe 's/=(\n|[a-fA-F0-9]{2})/$1 eq "\n" ? "" : pack("C",hex($1))/eg'
-</pre></div><p style="margin-top:0px;">Needed it once for SyGroup.</p>
+</pre></div><p class="boxfoot">Needed it once for SyGroup.</p>
 ----
 Date: 23.04.2009 18:14
 Author: tg@
@@ -3974,8 +3974,8 @@ Tag: grml
  loaded that way because <tt>bootxx</tt> is limited to 65280 bytes of
  second stage loader &ndash; mostly because the bootloader itself is,
  too, and this enabled me to squeeze out a few more bytes there.)</p>
-<p style="margin-bottom:0px;">To say it with Mika Prokop himself:</p>
-<div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;"><pre>
+<p class="boxhead">To say it with Mika Prokop himself:</p>
+<div class="boxtext"><pre>
 23:22⎜«mikap:#grml» mirabilos: und dein bootloader ist geil :)
 23:29⎜«mikap:#grml» und ich finds saugeil dass ich ein bsd zum booten mit
      ⎜  grml hab, das muss ich dann gleich mal auf usb-stick installieren
@@ -4002,7 +4002,7 @@ Tag: grml
 &lt;mirabilos:#grml&gt; i386 boot (from cd, hdd, usb, compactflash, sd) into either
    live or install mode + sparc boot (voa OpenBOOT) into install mode
 &lt;mika:#grml&gt; mirabilos: pfuh *verbeuge_again* :)
-</pre></div><p style="margin-top:0px;" xml:lang="de">Ich glaube, Mika mag meinen
+</pre></div><p class="boxfoot" xml:lang="de">Ich glaube, Mika mag meinen
  Bootloader ;)</p>
 <p>For simplicity, getextent_cd9660(1) will also be added to the grml-live
  ISO build process, as its output is easier to parse than J&#xFFFD;rg's
@@ -4019,13 +4019,13 @@ Title: GNU GRUB2 and BSD – state of affairs
  MirOS #10, bsd4grml 2009.05rc1.</p>
 <p>It appears that the kernel gets a page fault trying to access its own
  <tt>.bss</tt> – but I didn’t really look into it. Any takers?</p>
-<p style="margin-bottom:0px;">This is bad, I wanted to add this…</p>
-<div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;"><pre>
+<p class="boxhead">This is bad, I wanted to add this…</p>
+<div class="boxtext"><pre>
 menuentry "bsd4grml from harddisk (ISO = grml_2009.05-rc1.iso)" {
         loopback        loop (hd0,1)/grml/grml_2009.05-rc1.iso
         openbsd         (loop)/boot/addons/bsd4grml/bsd.rd
 }
-</pre></div><p style="margin-top:0px;">… to the solution using GRUB2 for <a
+</pre></div><p class="boxfoot">… to the solution using GRUB2 for <a
  href="http://michael-prokop.at/blog/2009/05/25/boot-an-iso-via-grub2/">ISO
  loopback boot</a>, which <a href="http://blog.zugschlus.de/archives/825-grml-als-eigenes-Rescuesystem.html"
  xml:lang="de">Zugschlus</a> brought into practical use.</p>
@@ -4103,11 +4103,11 @@ Tag: grml
  use the manifold-boot™ technology from The MirOS Project – development
  builds have already done so for a couple of days – starting at 2009.08
  (the next scheduled formal release).</p>
-<p style="margin-bottom:0px;">This basically means you will be able to</p>
-<div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;"><pre>
+<p class="boxhead">This basically means you will be able to</p>
+<div class="boxtext"><pre>
 # dd if=grml-daily.iso of=/dev/sda [bs=…]
 # dd if=/dev/cdrom of=/dev/sda [bs=…]
-</pre></div><p style="margin-top:0px;">to create a bootable USB stick (or a
+</pre></div><p class="boxfoot">to create a bootable USB stick (or a
  Live HDD, CF/SD/MMC card, etc). MirOS CDs have been using this since
  approximately October 2007. Support for loading GNU GRUB2 instead of
  boot(8/i386) was a dozen-line patch adding some ifdefs to our source
@@ -4456,13 +4456,13 @@ Tag: mksh
  and miros-discuss mailing lists as well as the Debian bug tracker), for
  “set -u” (<tt>-o nounset</tt>). This, as well as the “stop () {…}” fix,
  <strong>must</strong> be tested extensively.</p>
-<p style="margin-bottom:0px;">Therefore I urge all of you to</p>
-<div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;"><pre>
+<p class="boxhead">Therefore I urge all of you to</p>
+<div class="boxtext"><pre>
  % CVS_RSH=ssh; export CVS_RSH
  % cvs -d :ext:_anoncvs@anoncvs.mirbsd.org:/cvs co -PA mksh
  % cd mksh
  % (sh Build.sh -r &amp;&amp; ./test.sh -v) 2&gt;&amp;1 | tee log
-</pre></div><p style="margin-top:0px;">and possibly send me the log. See <a
+</pre></div><p class="boxfoot">and possibly send me the log. See <a
  href="@@RELPATH@@permalinks/wlog-10_e20081013-tg.htm">an earlier post</a>
  for more information about testing mksh(1) snapshots, as well.</p>
 <p>Tests for better standards compliance and bugs, especially in corner
@@ -4562,13 +4562,13 @@ Tag: rant
   Aber auch wir finden’s „toll“, daß ein MySQL-Server via /etc/init.d ｐｌｕｓ
   einer pro eingeloggter KDE4-Luser gestartet wird.)</li>
 </ul>
-<p style="margin-bottom:0px;">Zu Datenbank vs. Datengrab hatten wir ja:</p>
-<div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;"><pre>
+<p class="boxhead">Zu Datenbank vs. Datengrab hatten wir ja:</p>
+<div class="boxtext"><pre>
  “mysql is about as much database as ms access” – “MSSQL at least descends
  from a database” “it's a rebranded SyBase” “MySQL however was born from a
  flatfile and went downhill from there” – “at least jetDB doesn’t claim to
  be a database”	-- myself, Tonnerre and psychoschlumpf in #nosec
-</pre></div><p style="margin-top:0px;">Kleine Randbemerkung: mediawiki_*.deb
+</pre></div><p class="boxfoot">Kleine Randbemerkung: mediawiki_*.deb
  dependet auch auf MySQL… obschon das FusionForge-Paket es für PostgreSQL
  konfiguriert und das so auch ganz gut tut. Echt ’ne Krankheit…</p>
 ----
@@ -4801,12 +4801,12 @@ Tag: bug event hardware rant snapshot
  possession).</p>
 <p>qemu is getting better at emulating a sparc, but we still cannot go
  to user space. ☹</p>
-<hr style="width: 66%" />
+<hr style="width:66%" />
 <p>If someone is really interested in getting MirOS working on boxen
  compatible to the SheevaPlug (ARM 1.2 GHz), despite our rather old gcc
  and binutils, <em>please</em> contact us. I’d drop sparc support over
  it once working.</p>
-<hr style="width: 66%" />
+<hr style="width:66%" />
 <p>See you all kissing the <a href="http://www.froscon.org/">blue
  frog</a>, but remember, don’t kiss a porc. You can read the <a
  href="@@ABSPATH@@/MirOS/PR/advertisement.pdf">advertisement</a> or
@@ -4819,8 +4819,8 @@ Date: 16.08.2009 15:48
 Author: tg@
 Tag: hardware
 
-<p style="margin-bottom:0px;">The subject line says it all…</p>
-<div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;"><pre>
+<p class="boxhead">The subject line says it all…</p>
+<div class="boxtext"><pre>
 tg@ss5:~ $ uname -a
 MirBSD ss5.mirbsd.org 10 Kv#10uAA-20090810 GENERIC#146 sparc
 tg@ss5:~ $ dmesg
@@ -4846,7 +4846,7 @@ tg@ss5:~ $ top
 […]
 Memory: Real: 17M/26M act/tot  Free: 1444K  Swap: 2640K/133M used/tot
 […]
-</pre></div><p style="margin-top:0px;">It may only be a SPARCstation 5,
+</pre></div><p class="boxfoot">It may only be a SPARCstation 5,
  with a rather fast CPU though (the SS20en only have 125 MHz and 150 MHz
  ROSS CPUs), with a small, slow and lout hard disc and <em>very</em> few
  RAM, but hey, it installs, the cgsix(4/sparc) scrolls quickly (as the
@@ -4906,12 +4906,12 @@ Tag: news snapshot
  escape, and which isn’t compatible with most graphics cards, but
  if ^B is pressed quickly enough, there will be a usable <a
  href="http://www.netboot.me/help#chainload">command line</a>.</p>
-<p style="margin-bottom:0px;">An experimental MirOS bsd4me bootable
+<p class="boxhead">An experimental MirOS bsd4me bootable
  image is available as well:</p>
-<div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;"><pre>
+<div class="boxtext"><pre>
 gPXE&gt; <b>autoboot</b>
 gPXE&gt; <b>chain http://netboot.me/2032</b>
-</pre></div><p style="margin-top:0px;">This will be loaded via plain,
+</pre></div><p class="boxfoot">This will be loaded via plain,
  unencrypted HTTP from our main webserver. It’s the usual &lt;5 MiB
  Mini-ISO for the i386 architecture and contains a full installer,
  as well as e3 and tinyirc known from MirOS bsd4grml. Source code of
@@ -5026,7 +5026,7 @@ Tag: mksh snippet
  translation. These will <em>not</em> be minimalistic (I can do quite
  some things), but focus on containing no control characters or other
  things not easily cut-and-past'able. Made more readable, too.</p>
-<p style="margin-bottom:0px;">Small note: <em>all</em> mksh examples assume
+<p class="boxhead">Small note: <em>all</em> mksh examples assume
  the following "setup code" in front of the PS1=... line. Yes, PS1 is set
  twice (makes the code more readable and perform better). Most of this is
  from the mksh(1) manpage or <tt>dot.mkshrc</tt> and relatively portable,
@@ -5034,7 +5034,7 @@ Tag: mksh snippet
  however, use some rather recent mksh features; if there's real interest
  in making it work with, say, Debian etch mksh R28, eMail me. Note: that
  → character is a literal Tab (the "[→·]" Tab-Space occurs often).</p>
-<div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;"><pre>
+<div class="boxtext"><pre>
 	ca=$(print -n '\001'); ce=$(print -n '\033'); cm=$(print -n '\r')
 	: ${HOSTNAME:=$(ulimit -c 0; hostname -s 2&gt;&amp;-)}
 	[[ $HOSTNAME = @(localhost|*([→ ])) ]] &amp;&amp; \
@@ -5048,13 +5048,13 @@ Tag: mksh snippet
 		[[ $p = ?(*/) ]] || d=${d/#$p/~}
 		print -nr -- "$d"
 	}
-</pre></div><p style="margin-top:0px;">If you do not need exactly the effect
+</pre></div><p class="boxfoot">If you do not need exactly the effect
  of "\w" (tilde unexpansion), use <tt>$PWD</tt> ipv <tt>$(twd)</tt> below.
  Note that $USER and $HOSTNAME are usually evaluated only once; escape them
  if you need it evaluated every time.</p>
 <ol>
  <li>Show Happy face upon successful execution
-<div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;"><pre>
+<div class="boxtext"><pre>
 bash$ PS1="\`if [ \$? = 0 ]; then echo \[\e[33m\]^_^\[\e[0m\]; else echo \[\e[31m\]O_O\[\e[0m\]; fi\`[\u@\h:\w]\$ "
 mksh$ PS1="$ca$cm"'$(if (( $? )); then
 	print "'"$ca$ce[31m$caO_O$ca$ce[0m$ca"'"
@@ -5063,7 +5063,7 @@ else
 fi)'"[$USER@$HOSTNAME:\$(twd)]$PS1 "
 </pre></div>
  <br />I do think Unicode makes things more fun though:
-<div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;"><pre>
+<div class="boxtext"><pre>
 mksh$ PS1="$ca$cm$ca$ce["'$(if (( $? )); then
 	print "'"31m$ca☹"'"
 else

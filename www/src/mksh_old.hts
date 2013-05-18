@@ -1,11 +1,11 @@
-# $MirOS: www/src/mksh_old.hts,v 1.22 2009/08/01 22:44:24 tg Exp $
+# $MirOS: www/src/mksh_old.hts,v 1.23 2009/08/15 14:18:01 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh/old "mksh – old versions"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh_old.hts,v 1.22 2009/08/01 22:44:24 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh_old.hts,v 1.23 2009/08/15 14:18:01 tg Exp $'
 mws_content <<'EOF'
 <h2><a href="mksh.htm">mksh</a> – old versions</h2>
 
@@ -341,16 +341,16 @@ mws_content <<'EOF'
   <li>Sourcemage GNU/Linux (amd64) &ndash; via test grimoire: not tried</li>
   <li>generic pkgsrc&reg; &ndash; not tested; ONLY_FOR_PLATFORMS not honoured</li>
  </ul></li>
- <li><p style="margin-bottom:0px;">Attention: NetBSD 1.6.1/pmax (for example
+ <li><p class="boxhead">Attention: NetBSD 1.6.1/pmax (for example
    on a DECstation 5000/260) does not come with a <em>stdbool.h</em> &ndash;
    simply write one yourself (not required for mksh R29 and up):</p>
-  <div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;">
+  <div class="boxtext">
    <pre>
 	typedef int bool;
 	#define true 1
 	#define false 0
    </pre>
-  </div><p style="margin-top:0px;">This is pretty simple but enough for mksh.</p>
+  </div><p class="boxfoot">This is pretty simple but enough for mksh.</p>
  </li>
  <li>mksh R28&szlig;<ul>
   <li>NetBSD 1.6.1 (pmax)</li>

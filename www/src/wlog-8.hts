@@ -3,7 +3,7 @@
 
 mws_setname legacy/wlog-8 "MirBSD Weblog"
 mws_setheadline MirBSD – WTF, We Have a Release!?
-mws_putheader '$MirOS: www/src/wlog-8.hts,v 1.2 2008/11/08 22:24:39 tg Exp $'
+mws_putheader '$MirOS: www/src/wlog-8.hts,v 1.3 2009/06/21 11:01:29 tg Exp $'
 mws_content <<'EOF'
 <p><small><a href="#eof">bottom</a> or <a href="@@RELPATH@@older.htm">older</a>
  editions</small></p>
@@ -582,9 +582,9 @@ celebrate this event, rotate the wlog and start a new one.</p>
 
 <div class="wlentry">
  <h3 id="e20060301">01.03.2006 by tg@</h3>
- <p style="margin-bottom:0px;">I really ought to make a new page, out of
+ <p class="boxhead">I really ought to make a new page, out of
  the following, called <tt>/?features</tt>...</p>
- <div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;">
+ <div class="boxtext">
  <!-- begin -->
 	<h2 id="diffmir">Differences to MirOS #7</h2>
 
@@ -671,7 +671,7 @@ celebrate this event, rotate the wlog and start a new one.</p>
 	<li>Many more ports which are not in OpenBSD for political reasons</li>
 	</ul>
  <!-- end; --></div>
- <p style="margin-top:0px;">... and more.</p>
+ <p class="boxfoot">... and more.</p>
  <p>Built a cross-compiler to i386-gnu-linux-gnu with Debian GNU/Linux's
   libs and headers. Built printf(1) - all other tools I attempted didn't
   work: sh(1) mksh(1) date(1) id(1) and maybe more. GCC also builds okay
@@ -949,8 +949,8 @@ celebrate this event, rotate the wlog and start a new one.</p>
   to make 8l output work and maybe we can use our libc if converted from
   ar(1) to iar format. Later, we can add ELF to 8l.</p>
  <p>Funny people on IRC. No, really. Why should Unicode die?</p>
- <p style="margin-bottom:0px;">On ICB, Theo's been an arsehole again</p>
- <div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;">
+ <p class="boxhead">On ICB, Theo's been an arsehole again</p>
+ <div class="boxtext">
   <pre>
 	/group hackers
 	[=Status=] You are now in group hackers
@@ -964,7 +964,7 @@ celebrate this event, rotate the wlog and start a new one.</p>
 	okay, I just wanted to be nice and tell you
 	/quit
   </pre>
- </div><p style="margin-top:0px;">... what do I do? Nothing.</p>
+ </div><p class="boxfoot">... what do I do? Nothing.</p>
  <p>The only positive thing is that, despite the rain, it's been a nice,
   quite interesting, day in various regards. Too bad I'm still awake and
   probably won't make it in time tomorrow either...</p>
@@ -991,8 +991,8 @@ celebrate this event, rotate the wlog and start a new one.</p>
   Theo won't do it, see above...) so it's probably only going to be used
   as an alternative compiler for those who dare. Security checks (format
   string warnings, __attribute__ stuff etc.) are done with gcc.</p>
- <p style="margin-bottom:0px;">Oh, I forgot... the INT 80h API sucks</p>
- <div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;">
+ <p class="boxhead">Oh, I forgot... the INT 80h API sucks</p>
+ <div class="boxtext">
   <pre>
 	#include &lt;sys/syscall.h&gt;
 		.intel_syntax noprefix
@@ -1031,7 +1031,7 @@ celebrate this event, rotate the wlog and start a new one.</p>
 		int	0x80
 		ret
   </pre>
- </div><p style="margin-top:0px;">... anyway, this works - provided that
+ </div><p class="boxfoot">... anyway, this works - provided that
   the ELF contains <tt>.section .note.miros.ident,"a",@progbits</tt>, or
   you make an OLF out of it (which binutils and gdb can't use). Speaking
   of suckage. (suckage.netbsd.ch by Tonnerre is down tho.)</p>
@@ -1069,9 +1069,9 @@ celebrate this event, rotate the wlog and start a new one.</p>
   important thing related to studies, for he explained me some of _that_
   bunch of problems recently (and I don't know either how he can manage;
   that's one of the reasons I stopped studying altogether).</p>
- <p style="margin-bottom:0px;">From the category &quot;useless patches I
+ <p class="boxhead">From the category &quot;useless patches I
   designed and took me some time&#8230;</p>
- <div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;">
+ <div class="boxtext">
   <pre>
 	H4sIAAAAAAACA6VXa1PjxhL9bP+KXie7kbGELb8AAwlk2ZtQxeItINlKEcolS2NbhaxRjcYG35v9
 	7/f0jPxiIUslrkUrjXpOd58+0zM6TyPx2KM4zXWQJEMp9W5YPv73v/LV+2saxYnoUT2c5/VchfV8
@@ -1111,7 +1111,7 @@ celebrate this event, rotate the wlog and start a new one.</p>
 	+E3RQJc08pgZWEpnreLlPYuVV+z6aXUKMnnaLcIegVSQFZuQoTZMkKRFtqNK4AszJadRtNllu3hz
 	PTi/fv/rlZMPd3M9wFc1FkghXssmc3KJk3Bg1B+E+HosNo0nev4/Dg3uDVITAAA=
   </pre>
- </div><p style="margin-top:0px;">(yeah, base64 gzip'd)</p>
+ </div><p class="boxfoot">(yeah, base64 gzip'd)</p>
  <p>I should be working even more on the Live CD but that's it for today
   (after realising that the above patch is not useful unless /boot gains
   ISO 9660 filesystem reading support. (Also it seems to not work.)</p>
@@ -1448,10 +1448,10 @@ celebrate this event, rotate the wlog and start a new one.</p>
   home for emergency hunger cases ;) and had bought a lot of beer 2 days
   ago because yesterday was national holiday anyway. I might have diner,
   no idea with whom though, in the city later.</p>
- <p style="margin-bottom:0px;">On the western frontier&#8230; I've built
+ <p class="boxhead">On the western frontier&#8230; I've built
   myself a sparc kernel which does now boot (some delay(9) calls added),
   but doesn't cleanly execute any binary, save the following one:</p>
- <div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;">
+ <div class="boxtext">
   <pre>
 	#include &lt;fcntl.h&gt;
 	#include &lt;stdio.h&gt;
@@ -1481,7 +1481,7 @@ celebrate this event, rotate the wlog and start a new one.</p>
 		return 0;
 	}
   </pre>
- </div><p style="margin-top:0px;">This includes finding and fixing a few
+ </div><p class="boxfoot">This includes finding and fixing a few
   bugs in libc, building and installing csu, building and installing the
   static libc stuff, first, though. And I only get this line: &quot;This
   is the console!&quot; (Afterwards, I end up in ddb(4) which is sort of

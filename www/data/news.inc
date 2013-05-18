@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/news.inc,v 1.121 2009/09/07 17:28:15 tg Exp $
+RCSID: $MirOS: www/data/news.inc,v 1.122 2009/09/08 17:04:57 tg Exp $
 Title: Older news from the MirOS Project
 Date: 01.03.2006
 
@@ -1375,9 +1375,9 @@ Tag: bug event snapshot
  installation anyway, or to extract later with<br />
  <tt>$ cd /</tt><br />
  <tt>$ sudo tar xzphvvf <em>/path/to/</em>fixes10.ngz</tt></p>
-<p style="margin-bottom:0px;">If you do a CD installation, you have
+<p class="boxhead">If you do a CD installation, you have
  to do the following steps:</p>
-<div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;">
+<div class="boxtext">
  <pre>
 Location of sets? (cd disk ftp http shttp nfs or 'done') [done] <strong>shttp</strong>
 HTTP/FTP proxy URL? (e.g. 'http://proxy:8080', or 'none') [none] <em>«Enter»</em>
@@ -1393,7 +1393,7 @@ Set name? (or 'done') […] <strong>*</strong>
 Set name? (or 'done') […] <strong>done</strong>
 Ready to install sets? [yes] <em>«Enter»</em>
  </pre>
-</div><p style="margin-top:0px;">This sequence will add the fixes
+</div><p class="boxfoot">This sequence will add the fixes
  set from network after finishing a disc installation, before the
  installboot(8/i386) part is run. Of course, you can substitute
  <strong>shttp</strong> with <strong>http</strong> too or specify
@@ -1555,7 +1555,7 @@ Tag: bug
  reverted (backed out) due to regressions wrt. 128 byte inode
  filesystems.</p>
 <p><strong>MirOS #8, #9, #10, #10-current:</strong> It is advised
- to <span style="text-decoration:underline;">refrain from using the
+ to <span class="textu">refrain from using the
  <tt>ext2fs</tt> filesystem</span>, especially in read-write mode,
  because symlink code is broken. The filesystem, and all processes
  accessing it, become unresponsive (hang in D state) upon creation

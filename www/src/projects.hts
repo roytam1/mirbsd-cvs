@@ -1,11 +1,11 @@
-# $MirOS: www/src/projects.hts,v 1.5 2008/09/17 21:12:29 tg Exp $
+# $MirOS: www/src/projects.hts,v 1.6 2009/06/21 11:01:26 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname projects "Project Ideas"
 mws_setheadline Project Ideas
-mws_putheader '$MirOS: www/src/projects.hts,v 1.5 2008/09/17 21:12:29 tg Exp $'
+mws_putheader '$MirOS: www/src/projects.hts,v 1.6 2009/06/21 11:01:26 tg Exp $'
 mws_content <<'EOF'
 <p>The following project ideas can be submitted to the MirOS Project
  by everybody who feels like having the necessary skills.
@@ -26,8 +26,8 @@ mws_content <<'EOF'
  for a licence for ditroff, start hacking on it instead (tg@ has got the
  sources, they just lack a licence and copyright marker).</p>
 
-<p style="margin-bottom:0px;">The first bug you should look at is even exposed when using -O1:</p>
-<div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;">
+<p class="boxhead">The first bug you should look at is even exposed when using -O1:</p>
+<div class="boxtext">
 	On a side note: does anyone who is experienced in C
 	and gdb (I'm not familiar with the latter...) want to
 	fix the bugs in src/usr.bin/oldroff/nroff/ which make
@@ -45,7 +45,7 @@ or, depending on the line length,
 	with -O2/-Os instead of -O1 (-funit-at-a-time also exhibits
 	the bug, but this time I'm convinced it's a bug in nroff).
 </div>
-<p style="margin-top:0px;">(from an eMail)</p>
+<p class="boxfoot">(from an eMail)</p>
 
 <p>Estimated effort: Time - medium; Skill - low</p>
 
