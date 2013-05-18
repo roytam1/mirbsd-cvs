@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.438 2011/12/29 00:07:08 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.439 2011/12/31 02:25:19 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -373,15 +373,14 @@ mws_content <<'EOF'
 <h5 class="cr" id="oe_nwcc"><img width="244" height="64" alt="[nwcc logo]"
  class="fr" src="@@RELPATH@@pics/logos/nwcc.png" />Compiler: nwcc</h5>
 <p>Support for nwcc appeared in mksh R36b; it is recommended to use
- nwcc 0.8.1 with mksh R39c or newer.</p>
+ nwcc 0.8.1 with mksh R39c or newer. The stack protector is currently
+ disabled because it introduces errors.</p>
 
 <h5 class="cr" id="oe_pcc">Compiler: PCC (BSD)</h5>
 <p>Support for the Caldera/SCO UNIX® based, BSD-licenced portable C compiler
  in the <a href="http://pcc.ludd.ltu.se/">ragge version</a> has been added
  with mksh R31d. Versions from end of April 2008 onwards are known to work
  reliably, even with -O enabled.</p>
-<p>The compiler itself rarely works on GNU/Linux or Darwin due to GNUisms,
- assembler problems, etc. though.</p>
 
 <h5 class="cr" id="oe_sun">Compiler: SUNpro</h5>
 <p>Support for the <a href="http://developers.sun.com/sunstudio/">SUN Studio
@@ -424,8 +423,8 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <h5 class="cr" id="oe_tcc"><img width="100" height="60" alt="[tcc logo]"
  class="fr" src="@@RELPATH@@pics/logos/tcc.png" />Compiler: tcc (Tiny C)</h5>
 <p>Support for Fabrice Bellard’s tcc appeared in mksh R31, although its
- unability to do ‘-E’ in older versions gave us some headache, and glibc
- currently makes it impossible to link the final executable or run it.</p>
+ unability to do ‘-E’ in older versions gave us some headache. The bounds
+ checker is currently disabled as it causes segfaults.</p>
 
 <h5 class="cr" id="oe_t15">Compiler: TenDRA (maybe Ten15 too)</h5>
 <p>Support for TenDRA appeared in mksh R31 and appears to be solid; mksh
@@ -1013,6 +1012,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Use <tt>$'…'</tt> for non-ASCII parameters for re-entry printing</li>
  <li>[tg] Use sane spelling of “read-only” consistently</li>
  <li>[tg] Improve tree <tt>-DDEBUG</tt> functions (internal/developer use)</li>
+ <li>[tg] Fix regression in re-entry printing single-char strings</li><!-- nuke that on release/upload -->
 </ul>
 <p>Changes in the current (unreleased) stable branch:</p><ul>
  <li>[tg, Jilles Tjoelker] skip readonly check in unevaluated ternary twig</li>
@@ -1026,6 +1026,14 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Fix some gc-sections, GCC and Clang/scan-build warnings/issues</li>
  <li>[tg, 28C3] dot.mkshrc hash functions: partially address LP: #909818</li>
  <li>[tg] Only compile divmod(0x80000000, -1) code in when not unneeded</li>
+<li style="list-style:none;">not yet MFC’d but will be:</li>
+ <li>[tg, RT] Move mirtoconf checks and <tt>INCLUDES_ONLY</tt> parts of
+  <tt>sh.h</tt> around to ensure prerequisites are always available</li>
+ <li>[tg, RT] Pass mksh.exe to testsuite, if such thing is generated</li>
+ <li>[tg] Imply -DMKSH_ASSUME_UTF8=0 on MSYS; optimise checks</li>
+ <li>[tg, Jb_boin] Fix regression introduced in R35b by jaredy’s security
+  patch where TTIME trashed a non-TCOM string argument (e.g. in TFOR)</li>
+ <li>[tg] Better support for tcc; fix GCCism that accidentally crept in</li>
 </ul>
 <p id="r40d">mksh R40d is a must-have bugfix update:</p><ul>
  <li>[tg] New <tt>test.sh</tt> ‘-f’ option (same as ‘-C fastbox’)</li>
@@ -1295,7 +1303,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <li>make arrays use hashtables internally ipv linear linked lists</li>
 <li>associative, multidimensional arrays</li>
 <li>Build with more platforms’ native tools or other compilers
- – ACK, kencc, ICC/UWIN, egcs/UWIN, tcc</li>
+ – ACK, kencc, ICC/UWIN, egcs/UWIN</li>
 <li>Build and actually work on more platforms – DJGPP, PW32,
  Plan 9, Syllable – debug these</li>
 <li>Bugfix for suspending <tt>a &amp;&amp; b</tt> chain</li>
