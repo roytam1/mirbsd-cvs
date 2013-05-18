@@ -6,7 +6,7 @@
 #include <grp.h>
 #endif
 
-__RCSID("$MirOS: src/bin/mksh/misc.c,v 1.68 2008/02/27 01:00:09 tg Exp $\t"
+__RCSID("$MirOS: src/bin/mksh/misc.c,v 1.69 2008/03/23 22:09:58 tg Exp $\t"
 	MKSH_SH_H_ID);
 
 #undef USE_CHVT
@@ -1380,9 +1380,9 @@ chvt(const char *fn)
 		errorf("chvt: setsid failed");
 	if ((fn != dv + 1) && ioctl(fd, TIOCSCTTY, NULL) == -1)
 		errorf("chvt: TIOCSCTTY failed");
-	dup2(fd, 0);
-	dup2(fd, 1);
-	dup2(fd, 2);
+	ksh_dup2(fd, 0, false);
+	ksh_dup2(fd, 1, false);
+	ksh_dup2(fd, 2, false);
 	if (fd > 2)
 		close(fd);
 }
