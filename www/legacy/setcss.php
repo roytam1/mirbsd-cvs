@@ -1,5 +1,5 @@
 <?php
-/* $MirOS$ */
+/* $MirOS: www/legacy/setcss.php,v 1.1 2007/06/09 23:23:41 tg Exp $ */
 /*-
  * The MirOS Project - Webpages
  * Copyrighted material; read LICENCE for terms of use.

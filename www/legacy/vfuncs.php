@@ -1,5 +1,5 @@
 <?php
-/* $MirOS: www/vfuncs.php,v 1.3 2005/03/15 17:13:04 tg Exp $ */
+/* $MirOS: www/legacy/vfuncs.php,v 1.1 2007/06/09 23:23:41 tg Exp $ */
 /*-
  * The MirOS Project - Webpages
  * Copyrighted material; read LICENCE for terms of use.

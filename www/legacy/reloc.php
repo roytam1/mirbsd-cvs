@@ -1,5 +1,5 @@
 <?php
-/* $MirOS: www/reloc.php,v 1.1 2006/03/30 12:50:26 tg Exp $ */
+/* $MirOS: www/legacy/reloc.php,v 1.1 2007/06/09 23:23:41 tg Exp $ */
 /*-
  * The MirOS Project - Webpages
  * Copyrighted material; read LICENCE for terms of use.

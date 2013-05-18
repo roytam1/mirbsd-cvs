@@ -1,5 +1,5 @@
 <?php
-/* $MirOS: www/index.php,v 1.26 2007/03/04 06:18:15 tg Exp $ */
+/* $MirOS: www/files/index.php,v 1.3 2007/06/03 22:39:54 tg Exp $ */
 /*-
  * The MirOS Project - Webpages
  * Copyrighted material; read LICENCE for terms of use.
@@ -17,6 +17,44 @@
 		$rq = "main";
 		$qs = "";
 	}
+	/* --- begin www3 hooks --- */
+	$i = 0;
+	$flag = false;	/* don't accept zero-length strings */
+	while ($i < strlen($rq)) {
+		$c = ord($rq[$i]);
+		$i++;
+		if (($c == 0x2D) || ($c == 0x5F) ||
+		    (($c >= 0x30) && ($c <= 0x39)) ||
+		    (($c >= 0x41) && ($c <= 0x5A)) ||
+		    (($c >= 0x61) && ($c <= 0x7A))) {
+			$flag = true;
+			continue;
+		}
+		$flag = false;
+		break;
+	}
+	if ($flag) {
+		$fhtm = is_readable($rq . ".htm");
+		$fphp = is_readable($rq . ".php");
+		if (!empty($_SERVER["HTTPS"]))
+			$svr = "https";
+		else
+			$svr = "http";
+		$svr .= "://" . $_SERVER['HTTP_HOST'];
+		if ($fphp)
+			$fn = $svr . "/" . $rq . ".php";
+		else if ($fhtm)
+			$fn = $svr . "/" . $rq . ".htm";
+		else
+			$fn = false;
+		if ($fn !== false) {
+			header("Status: 301 Moved Permanently", true, 301);
+			header("Location: " . $fn, true);
+			echo "Please go to " . $fn . " instead!";
+			exit;
+		}
+	}
+	/* --- end www3 hooks --- */
 	if (is_readable("content/".mybase64($rq).".override")) {
 		header('Content-Type: text/html');
 		$fn = file_get_contents("content/".mybase64($rq).".override");

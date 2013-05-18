@@ -1,10 +1,10 @@
-/* $MirOS: www/vskonq.css,v 1.6 2005/03/22 19:12:16 tg Exp $ */
+/* $MirOS: www/files/vstyle.css,v 1.6 2007/06/04 10:05:09 tg Exp $ */
 /*-
  * The MirOS Project - Webpages
  * Copyrighted material; read LICENCE for terms of use.
  *-
  * This is the master stylesheet for the new-style MirOS homepage.
- * Credits to Jupp cnuke Söntgen <cnuke@66h.42h.de> for his feedback.
+ * Credits to Jupp cnuke SÃ¶ntgen <cnuke@66h.42h.de> for his feedback.
  */
 
 body {
@@ -14,8 +14,8 @@ body {
 }
 
 body,p,.content {
-	color:#BFBFBF;
-	font-family:Times,"Times New Roman",serif;
+	color:#FFFFFF;
+	font-family:Verdana,sans-serif;
 	font-size:12pt;
 }
 
@@ -23,33 +23,35 @@ body,p,.content {
 	background-color:#585858;
 	color:#000000;
 	font-size:4pt;
-	font-family:fixed,Terminal,monospace; }
+	font-family:fixed,FreeMono,Unifont,Terminal,UnifontRegular,monospace;
+}
 
 .legalbig {
 	background-color:#585858;
 	color:#000000;
 	font-size:7pt;
-	font-family:fixed,Terminal,monospace; }
+	font-family:fixed,FreeMono,Unifont,Terminal,UnifontRegular,monospace;
+}
 
 tt,pre {
-	font-family:fixed,vga,Fixedsys,Terminal,monospace;
+	font-family:fixed,vga,Fixedsys,FreeMono,Unifont,Terminal,UnifontRegular,monospace;
 	font-size:14px;
 }
 
 tt {
 	white-space:nowrap;
-	color:#989898;
+	color:#CCCCCC;
 }
 
 a {
 	text-decoration:none;
-	color:#ffaa00;
+	color:#FFAA00;
 }
 
 a:hover {
 	text-decoration:underline;
 	background-color:#333333;
-	color:#ffaa00;
+	color:#FFAA00;
 }
 
 strong {
@@ -58,24 +60,23 @@ strong {
 
 strong:hover {
 	text-decoration:none;
-	color:#FFFFFF;
+	color:#DFDFDF;
 }
 
 .footer {
-	position:fixed;
-		bottom:3px; left:3px;
-		width:412px; height:16px;
+	position:absolute;
+		left: 0px; right:0px;
 	padding:7px;
-	margin-bottom:3px;
-	border:inset;
+	margin-top:18px;
 	background-color:#444444;
 	font-size:10pt;
+	border-top:inset;
 }
 
 .heading {
 	position:absolute; overflow:hidden;
-		top:2px; left:204px;
-		width:1000px; height:90px;
+		top:2px; left:188px;
+		right:2px; height:96px;
 	padding:3px;
 	background-color:#444444;
 	font-family:monospace;
@@ -85,21 +86,19 @@ strong:hover {
 .index {
 	position:absolute;
 		top:2px; left:2px;
-		width:200px;
-	margin-bottom:62px;
+		width:184px;
 	background-color:#333333;
 }
 
 .content {
-	position:absolute;
-		top:94px; left:204px;
+	margin-top:100px; margin-left:188px;
 	padding-left:2px;
-	margin-bottom:64px;
+	min-height:224px;
 }
 
 .hdrflf {
 	position:absolute;
-		top:-16px; left:76px;
+		top:-16px; left:60px;
 		width:436px; height:88px;
 	font-family:monospace;
 	font-size:10px;
@@ -108,14 +107,14 @@ strong:hover {
 
 .hdrlnks {
 	position:absolute;
-		top:4px; left:2px;
+		top:7px; left:2px;
 		width:98px; height:92px;
 	z-index:1;
 }
 
 .hdrrhts {
 	position:absolute;
-		top:4px; left:500px;
+		top:4px; left:484px;
 		width:85px; height:92px;
 	z-index:2;
 }
@@ -131,7 +130,7 @@ ul.lv2 {
 }
 
 .greyed {
-	color:#666666;
+	color:#BFBFBF;
 }
 
 .rcsid {
@@ -151,11 +150,31 @@ ul.lv2 {
 }
 
 div.wlentry {
-	border-bottom: 2px solid #333333;
 	padding-top: 9px;
 	margin: 0px;
 }
 
-div.wlentry h3 {
+h2.wlentrya {
+	padding-bottom: 3px;
+	border-bottom: 2px solid #666;
+	font-weight: normal;
+	font-size: 150%;
+}
+
+h2.wlentryb {
+	font-weight: normal;
+	font-size: 150%;
+}
+
+.wlsubtitle {
+	padding-bottom: 3px;
+	border-bottom: 2px solid #666;
+	font-weight: bold;
+	color: #BFBFBF;
+}
+
+.linkbot {
+	padding-top: 18px;
+	border-top: 2px solid #666;
 	margin: 0px;
 }

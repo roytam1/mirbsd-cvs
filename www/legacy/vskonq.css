@@ -1,37 +1,55 @@
-/* $MirOS: www/vsmini.css,v 1.10 2005/12/27 18:59:37 bsiegert Exp $ */
+/* $MirOS: www/legacy/vskonq.css,v 1.1 2007/06/09 23:23:42 tg Exp $ */
 /*-
  * The MirOS Project - Webpages
  * Copyrighted material; read LICENCE for terms of use.
  *-
  * This is the master stylesheet for the new-style MirOS homepage.
  * Credits to Jupp cnuke Söntgen <cnuke@66h.42h.de> for his feedback.
- *
- * Stylesheet variant: bare (no colours defined), mini (no fonts either)
  */
 
 body {
 	max-width:100%;
+	background-color:#444444;
 	padding:2px;
 }
 
+body,p,.content {
+	color:#BFBFBF;
+	font-family:Times,"Times New Roman",serif;
+	font-size:12pt;
+}
+
 .legalese {
+	background-color:#585858;
+	color:#000000;
 	font-size:4pt;
 	font-family:fixed,Terminal,monospace; }
 
 .legalbig {
+	background-color:#585858;
+	color:#000000;
 	font-size:7pt;
 	font-family:fixed,Terminal,monospace; }
 
+tt,pre {
+	font-family:fixed,vga,Fixedsys,Terminal,monospace;
+	font-size:14px;
+}
+
 tt {
 	white-space:nowrap;
+	color:#989898;
 }
 
 a {
 	text-decoration:none;
+	color:#ffaa00;
 }
 
 a:hover {
 	text-decoration:underline;
+	background-color:#333333;
+	color:#ffaa00;
 }
 
 strong {
@@ -40,22 +58,26 @@ strong {
 
 strong:hover {
 	text-decoration:none;
+	color:#FFFFFF;
 }
 
 .footer {
-	position:absolute;
-		left: 0px; right:0px;
+	position:fixed;
+		bottom:3px; left:3px;
+		width:412px; height:16px;
 	padding:7px;
-	margin-top:3px;
+	margin-bottom:3px;
+	border:inset;
+	background-color:#444444;
 	font-size:10pt;
-	border-top:inset;
 }
 
 .heading {
 	position:absolute; overflow:hidden;
 		top:2px; left:204px;
-		right:2px; height:96px;
+		width:1000px; height:90px;
 	padding:3px;
+	background-color:#444444;
 	font-family:monospace;
 	font-size:12px;
 }
@@ -64,12 +86,15 @@ strong:hover {
 	position:absolute;
 		top:2px; left:2px;
 		width:200px;
+	margin-bottom:62px;
+	background-color:#333333;
 }
 
 .content {
-	margin-top:100px; margin-left:204px;
+	position:absolute;
+		top:94px; left:204px;
 	padding-left:2px;
-	min-height:224px;
+	margin-bottom:64px;
 }
 
 .hdrflf {
@@ -83,7 +108,7 @@ strong:hover {
 
 .hdrlnks {
 	position:absolute;
-		top:7px; left:2px;
+		top:4px; left:2px;
 		width:98px; height:92px;
 	z-index:1;
 }
@@ -106,10 +131,17 @@ ul.lv2 {
 }
 
 .greyed {
+	color:#666666;
+}
+
+.rcsid {
+	white-space:nowrap;
+	color:#666666;
+	font-size:7px;
 }
 
 .erecta {
-	font-weight:bold;
+	font-size:13pt;
 }
 
 .admin {
@@ -119,7 +151,7 @@ ul.lv2 {
 }
 
 div.wlentry {
-	border-bottom: 2px solid #999999;
+	border-bottom: 2px solid #333333;
 	padding-top: 9px;
 	margin: 0px;
 }

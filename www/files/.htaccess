@@ -1,0 +1,40 @@
+# $MirOS: www/files/.htaccess,v 1.4 2007/06/08 23:04:15 tg Exp $
+
+Options ExecCGI Indexes SymLinksIfOwnerMatch
+IndexOptions -FancyIndexing
+AddHandler cgi-script .cgi
+
+# redirections
+RedirectMatch 301 ^(/man[0-9].*$) /cman$1
+RedirectMatch 301 ^(/manINFO.*$) /cman$1
+RedirectMatch 301 ^(/manPAPERS.*$) /cman$1
+RedirectMatch 301 ^(/manPSD.*$) /cman$1
+RedirectMatch 301 ^(/manSMM.*$) /cman$1
+RedirectMatch 301 ^(/manUSD.*$) /cman$1
+
+# file types
+AddType 'text/html; charset=utf-8' htm
+AddType 'text/html' html
+AddType 'application/octet-stream' bz2 dsc fs rd ISO iso gz cgz ngz tgz Z
+AddType 'text/plain; charset=cp437' asc
+AddType 'text/plain; charset=utf-8' txt
+AddType 'application/x-x509-ca-cert' cer
+
+# forced text files
+<Files LICENCE>
+  ForceType text/plain
+</Files>
+
+<Files ISC-Licence>
+  ForceType text/plain
+</Files>
+
+<Files MirOS-Licence>
+  ForceType text/plain
+</Files>
+
+# "hidden" files
+<Files cvsweb.conf>
+  Order deny,allow
+  Deny from all
+</Files>

@@ -1,5 +1,5 @@
 <?php
-/* $MirOS: www/vbegin.php,v 1.5 2005/12/18 16:36:54 tg Exp $ */
+/* $MirOS: www/legacy/vbegin.php,v 1.1 2007/06/09 23:23:41 tg Exp $ */
 /*-
  * The MirOS Project - Webpages
  * Copyrighted material; read LICENCE for terms of use.
