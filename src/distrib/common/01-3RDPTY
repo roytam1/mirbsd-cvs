@@ -12,6 +12,10 @@ this distribution. The freely (i.e. BSD/MIT or similar) licenced
 parts of the operating system need not have corresponding source
 version in the repository for "special edition" media.
 
+Source is also available as "source<n>.ngz" (and "xfree<n>.ngz")
+with formal releases, and CVS tarballs are distributed from time
+to time as well.
+
 
 MirPorts
 --------
@@ -62,4 +66,4 @@ um, in which case use and distribution in Germany and Belgium is
 a required criterium).
 
 _______________________________________________________________________
-$MirOS$
+$MirOS: src/distrib/common/01-3RDPTY,v 1.1 2006/12/20 17:58:29 tg Exp $
