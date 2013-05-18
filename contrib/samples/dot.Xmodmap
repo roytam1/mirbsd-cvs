@@ -1,4 +1,4 @@
-! $MirOS: contrib/samples/dot.Xmodmap,v 1.22 2008/11/08 22:56:50 tg Exp $
+! $MirOS: contrib/samples/dot.Xmodmap,v 1.23 2010/04/04 10:35:51 tg Exp $
 !-
 ! Copyright © 2004, 2007, 2008, 2010
 !	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
@@ -25,6 +25,8 @@
 ! too). Emulating Meta with Mode_switch helps with X11 applications.
 ! All ISO-8859-1 code points are directly typable on a 101-key board
 ! and most directly typable code points are a part of codepage 1252.
+!
+! This file is m̲o̲s̲t̲l̲y̲ documented in kbd-xf86 in this directory.
 !
 ! Diversions from pristine XFree86(R) and Windows(R) 2000 US layout:
 ! • The Alt_L key generates Meta_L	(adds 0x80 to latin1 code)

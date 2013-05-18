@@ -1,4 +1,5 @@
-$MirOS: contrib/samples/kbd-layout,v 1.2 2007/03/30 23:23:25 tg Exp $
+$MirOS: contrib/samples/kbd-layout,v 1.3 2007/04/03 12:46:29 tg Exp $
+‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾
 
 ╭────────────────────────────────────────┬────────────────────────────────────────╮
 │`  1  2  3  4  5  6  7  8  9  0  -  =  ␈│~  !  @  #  $  %  ^  &  *  (  )  _  +  ␈│
@@ -15,3 +16,9 @@ $MirOS: contrib/samples/kbd-layout,v 1.2 2007/03/30 23:23:25 tg Exp $
 See the following implementations © Th.Glaser:
 • http://cvs.mirbsd.de/contrib/samples/dot.Xmodmap		XFree86®
 • http://cvs.mirbsd.de/contrib/code/Snippets/KBDmir2U.exe	NT4 & up
+
+The XFree86® variant and the NT® variant differ from each other slightly,
+such as in the location of the Meta key (and Mode_switch which makes Meta
+for X applications), and further extensions beyond set-the-8th-bit Meta.
+
+kbd-xf86 in this directory graphically (UTF-8 in ANSI colour) the former.
