@@ -5443,6 +5443,7 @@
 ./usr/share/man/cat3/cbreak.0
 ./usr/share/man/cat3/cbrt.0
 ./usr/share/man/cat3/cbrtf.0
+./usr/share/man/cat3/cdblockedread.0
 ./usr/share/man/cat3/ceil.0
 ./usr/share/man/cat3/ceilf.0
 ./usr/share/man/cat3/cfgetispeed.0
