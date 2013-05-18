@@ -1343,7 +1343,7 @@ struct ioword {
 #define DOTEMP	BIT(8)		/* dito: in word part of ${..[%#=?]..} */
 #define DOVACHECK BIT(9)	/* var assign check (for typeset, set, etc) */
 #define DOMARKDIRS BIT(10)	/* force markdirs behaviour */
-#define DOKEEPQUOTE BIT(11)	/* internal use by globbing code */
+#define DOKEEPQCHAR BIT(11)	/* internal use by globbing code */
 
 /*
  * The arguments of [[ .. ]] expressions are kept in t->args[] and flags
@@ -1635,6 +1635,7 @@ char *evalonestr(const char *cp, int);
 char *debunk(char *, const char *, size_t);
 void expand(const char *, XPtrV *, int);
 int glob_str(char *, XPtrV *, bool);
+char *tilde(char *);
 /* exec.c */
 int execute(struct op * volatile, volatile int, volatile int * volatile);
 int shcomexec(const char **);
