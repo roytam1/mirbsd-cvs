@@ -411,6 +411,7 @@
 ./usr/include/i386/cputypes.h
 ./usr/include/i386/db_machdep.h
 ./usr/include/i386/disklabel.h
+./usr/include/i386/ecoff_machdep.h
 ./usr/include/i386/endian.h
 ./usr/include/i386/exec.h
 ./usr/include/i386/float.h
