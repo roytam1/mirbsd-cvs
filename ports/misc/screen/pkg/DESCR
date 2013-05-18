@@ -7,6 +7,6 @@ multiple character sets). There is a scrollback history buffer for each
 virtual terminal and a copy-and-paste mechanism that allows moving text
 regions between windows.
 
-Flavors:
+Flavours:
 	static - Build with statically linked binaries.
 	shm - export screen as shared memory, useful for brltty.

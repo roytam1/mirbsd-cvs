@@ -1,9 +1,9 @@
-$MirOS: ports/misc/screen/patches/patch-etc_etcscreenrc,v 1.1.7.1 2005/03/18 15:58:21 tg Exp $
+$MirOS: ports/misc/screen/patches/patch-etc_etcscreenrc,v 1.2 2005/12/17 00:23:31 tg Exp $
 --- etc/etcscreenrc.orig	Fri Dec  5 13:45:51 2003
-+++ etc/etcscreenrc	Sat Dec 17 00:09:49 2005
-@@ -1,12 +1,14 @@
++++ etc/etcscreenrc	Sun Apr 23 09:44:19 2006
+@@ -1,20 +1,22 @@
 +# $Id$
-+# $MirOS: ports/misc/screen/patches/patch-etc_etcscreenrc,v 1.1.7.1 2005/03/18 15:58:21 tg Exp $
++# $MirOS: ports/misc/screen/patches/patch-etc_etcscreenrc,v 1.2 2005/12/17 00:23:31 tg Exp $
  #
  # This is an example for the global screenrc file.
 -# You may want to install this file as /usr/local/etc/screenrc.
@@ -19,7 +19,8 @@ $MirOS: ports/misc/screen/patches/patch-etc_etcscreenrc,v 1.1.7.1 2005/03/18 15:
  
  #defflow on # will force screen to process ^S/^Q
  
-@@ -14,7 +16,7 @@ deflogin on
+-deflogin on
++deflogin off
  #autodetach off
  
  vbell on
