@@ -1,4 +1,4 @@
-/*	$MirOS: src/sys/arch/i386/stand/libsa/gidt.S,v 1.21 2009/01/11 20:35:21 tg Exp $ */
+/*	$MirOS: src/sys/arch/i386/stand/libsa/gidt.S,v 1.22 2009/01/11 22:27:17 tg Exp $ */
 /*	$OpenBSD: gidt.S,v 1.32 2006/12/26 19:30:44 tom Exp $	*/
 
 /*
@@ -286,15 +286,15 @@ EMUh:
 	mov	ds,ax
 	pop	eax
 
+	sti
 	int	0
 	LemuNR = . - 1
+	cli
 
 	pushfd
 	push	eax
 	xor	eax,eax
 	mov	ax,es
-	push	eax
-	mov	ax,ds
 	push	eax
 
 	call	real_to_prot
@@ -308,8 +308,6 @@ EMUh:
 	mov	[BIOS_regs + BIOSR_DI],edi
 	pop	eax
 	mov	[BIOS_regs + BIOSR_ES],eax
-	pop	eax
-	mov	[BIOS_regs + BIOSR_DS],eax
 	pop	eax
 	mov	[BIOS_regs + BIOSR_AX],eax
 
