@@ -33,7 +33,7 @@
 .\"
 .\"	@(#)setlocale.3	8.1 (Berkeley) 6/9/93
 .\"
-.Dd June 9, 1993
+.Dd November 21, 2006
 .Dt SETLOCALE 3
 .Os
 .Sh NAME
@@ -79,9 +79,15 @@ Set a locale for the
 functions.
 This controls recognition of upper and lower case,
 alphabetic or non-alphabetic characters, and so on.
-The real work is done by the
-.Fn setrunelocale
-function.
+.Pp
+In the current implementation, one additional locale
+is supported in this category, namely
+.Dv en_US.UTF-8 ,
+which is selected if the locale string matches
+.Dq UTF-8
+or
+.Dq utf8 ,
+case-insensitively.
 .It Dv LC_MONETARY
 Set a locale for formatting monetary values;
 this affects the
@@ -263,17 +269,6 @@ which may be altered by later calls to
 .Fn setlocale
 or
 .Fn localeconv .
-.\" .Sh FILES							XXX
-.\" .Bl -tag -width /usr/share/locale/locale/category -compact	XXX
-.\" .It Pa $PATH_LOCALE/\fIlocale\fP/\fIcategory\fP		XXX
-.\" .It Pa /usr/share/locale/\fIlocale\fP/\fIcategory\fP	XXX
-.\" locale file for the locale \fIlocale\fP			XXX
-.\" and the category \fIcategory\fP.				XXX
-.\" .El
-.Sh SEE ALSO
-.Xr mklocale 1 ,
-.Xr strcoll 3 ,
-.Xr strxfrm 3
 .Sh STANDARDS
 The
 .Fn setlocale
