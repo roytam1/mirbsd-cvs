@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.278 2009/09/23 18:32:55 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.279 2009/09/23 19:12:02 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -267,9 +267,11 @@ mws_content <<'EOF'
  <em>requires</em> <tt>-DMKSH_BINSHREDUCED</tt> or “-o posix” (R38+)</li>
 <li><tt>-DMKSH_NOPWNAM</tt> – omit getpwnam(3) calls (<tt>~foo/</tt> expansion)
  in order to not pull in the nsswitch or PAM libraries</li>
-<li><tt>-DMKSH_NOVI</tt> – omit the vi command line editing mode (which is
- orphaned anyway, yet functional)</li>
+<li><tt>-DMKSH_NOVI</tt> – omit the Vi command line editing mode, which is
+ orphaned anyway, yet functional (mksh below R40)</li>
 <li><tt>-DMKSH_NO_LIMITS</tt> – don’t compile the ulimit code (R38c+)</li>
+<li><tt>-DMKSH_S_NOVI=0</tt> – do not omit the Vi editing mode (R40+)</li>
+<li><tt>-DMKSH_S_NOVI=1</tt> – omit the Vi command line editing mode</li>
 <li><tt>-DMKSH_UNEMPLOYED</tt> – compile without job control (R37b+)</li>
 <li><tt>-DUSE_REALLOC_MALLOC=0</tt> – if <tt>realloc(NULL, n)</tt> is not
  equivalent to <tt>malloc(n)</tt> (n &gt; 0) as ANSI C89 prescribes</li>
@@ -288,9 +290,11 @@ mws_content <<'EOF'
  disable the mknod(2), realpath(3)[mksh R39 and below] and revoke(2) externs (to re-enable these,
  follow the above schema); (not overridable) implies traditional/conservative
  filedescriptor usage, MKSH_NOPWNAM; omits shebang checking in scripts, the Vi
- command line editing mode, certain verbose error messages, the entire ‘-T’
+ command line editing mode (mksh R40 and up can re-enable it by defining
+ <tt>-DMKSH_S_NOVI=0</tt>), certain verbose error messages, the entire ‘-T’
  command line option, the fancy <tt>$RANDOM</tt> handling; replaces inlines
- with separate functions for size over speed optimisation, etc.</p>
+ with separate functions for size over speed optimisation, etc. (In R40 and
+ up, it disables a whole lot more things than in earlier versions.)</p>
 
 <h4 id="oespec">Operating Environment specific notes</h4>
 
@@ -982,6 +986,7 @@ mws_content <<'EOF'
   bind key macros, and other extensions, from MKSH_SMALL to help floppies</li>
  <li>[tg] Make forking and subshells less expensive wrt. random state</li>
  <li>[tg] Build flags and source code fixes for / caught by SUNWcc</li>
+ <li>[tg] Make undef/def MKSH_NOVI into 0/1 MKSH_S_NOVI build flag</li>
 </ul>
 <p id="r39">mksh R39 evolved into these through various means:</p><ul>
  <li>[tg] Shut up a bogus gcc warning during configuration process</li>
