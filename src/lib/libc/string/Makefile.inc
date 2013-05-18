@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libc/string/Makefile.inc,v 1.9 2006/06/02 02:29:56 tg Exp $
+# $MirOS: src/lib/libc/string/Makefile.inc,v 1.10 2006/06/02 12:58:53 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.17 2005/05/26 12:56:01 otto Exp $
 
 # string sources
@@ -48,7 +48,7 @@ SRCS+=		bcmp.c
 CLEANFILES+=	bcmp.c
 
 bcmp.c: memcmp.c
-	unifdef -DBCMP $> >$@
+	-unifdef -DBCMP $> >$@
 .else
 LOBJS+=		bcmp.ln
 
@@ -63,7 +63,7 @@ SRCS+=		memmove.c
 CLEANFILES+=	memmove.c
 
 memmove.c: bcopy.c
-	unifdef -DMEMMOVE -UMEMCOPY $> >$@
+	-unifdef -DMEMMOVE -UMEMCOPY $> >$@
 .else
 LOBJS+=		memmove.ln
 
@@ -80,7 +80,7 @@ SRCS+=		memcpy.c
 CLEANFILES+=	memcpy.c
 
 memcpy.c: bcopy.c
-	unifdef -UMEMMOVE -DMEMCOPY $> >$@
+	-unifdef -UMEMMOVE -DMEMCOPY $> >$@
 .else
 LOBJS+=		memcpy.ln
 
@@ -95,7 +95,7 @@ SRCS+=		strchr.c
 CLEANFILES+=	strchr.c
 
 strchr.c: index.c
-	unifdef -DSTRCHR $> >$@
+	-unifdef -DSTRCHR $> >$@
 .else
 LOBJS+=		strchr.ln
 
@@ -110,7 +110,7 @@ SRCS+=		strrchr.c
 CLEANFILES+=	strrchr.c
 
 strrchr.c: rindex.c
-	unifdef -DSTRRCHR $> >$@
+	-unifdef -DSTRRCHR $> >$@
 .else
 LOBJS+=		strrchr.ln
 
