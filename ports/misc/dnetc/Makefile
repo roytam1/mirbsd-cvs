@@ -1,3 +1,4 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.7 2003/12/12 14:45:08 lebel Exp $
 
 COMMENT=			official distributed.net client
@@ -6,16 +7,18 @@ COMMENT=			official distributed.net client
 A=			m68k
 V=			2.9005
 SV=			483
-.endif
-.if ${MACHINE_ARCH:L} == "i386"
+.elif ${MACHINE_ARCH:L} == "i386"
 A=			x86-elf
 V=			2.9007
 SV=			486
-.endif
-.if ${MACHINE_ARCH:L} == "sparc"
+.elif ${MACHINE_ARCH:L} == "sparc"
 A=			sparc-aout
 V=			2.9002
 SV=			479
+.else
+A=
+V=			0
+SV=			0
 .endif
 
 PKGNAME=		dnetc-${V}.${SV}-0
@@ -29,6 +32,7 @@ MASTER_SITES=		http://http.distributed.net/pub/dcti/v${V}/
 
 
 ONLY_FOR_PLATFORM=	*:*:i386 *:*:sparc *:*:m68k
+EMUL=			openbsd
 
 PERMIT_PACKAGE_CDROM=	No
 PERMIT_PACKAGE_FTP=	No
