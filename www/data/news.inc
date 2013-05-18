@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/news.inc,v 1.93 2008/12/26 17:00:13 tg Exp $
+RCSID: $MirOS: www/data/news.inc,v 1.94 2008/12/28 20:56:46 tg Exp $
 Title: Older news from the MirOS Project
 Date: 01.03.2006
 
@@ -1259,4 +1259,38 @@ Title: Cool i386 bootloader changes
  built in fdisk(8/i386) have been upgraded to pass the partition data
  in <tt>DS:SI</tt> (or junk if reading from FDD or whole HDD)</p>
 <p>*smile* Now we just need to make our bootloader multiboot-compliant…</p>
+----
+Date: 08.01.2009 21:33
+Author: tg@
+Tag: security
+
+<p>MirOS-current has security fixes for xterm (CVE-2006-7236, CVE-2008-2383)
+ and OpenSSL (CVE-2008-5077) and updating from CVS is recommended.</p>
+----
+Date: 08.01.2009 21:25
+Author: tg@
+Title: New allegiances for mksh &#38; Co.
+Tag: mksh snapshot
+
+<p><a href="@@RELPATH@@mksh.htm">mksh</a> formed new allegiances: the
+ <a href="http://beastiebox.sourceforge.net/">Beastiebox Project</a>
+ (10x <a href="http://www.feyrer.de/NetBSD/blog.html/nb_20081229_2302.html">hubertf@TNF</a>
+ for mentioning) has added mksh(1) today, and the latest project of
+ CcSsNET, <a href="http://os.ccssr.net/">CcSsLIVE</a>, will include
+ it soonish as well. Nicely, he already links to MirBSD, for he sits
+ in our <a href="@@RELPATH@@irc.htm">IRC</a> channel usually and is
+ one of the sparc users.</p>
+<p>The next version of <a href="http://grml.org/">grml GNU/Linux</a>
+ might very well come not just with mksh(1) (except grml-small), but
+ also with <tt>bootbsd.com</tt> née boot(8/i386) and <tt>bsd.rd</tt>
+ (a slightly “tuned” version with added <tt>e3</tt> editor and sans
+ the Install/Upgrade/Shell prompt). On the contrary, I’m toying with
+ the idea of adding a <tt>ports/sysutils/pxegrub</tt> for local boot
+ along with a slightly tuned (add <a href="@@RELPATH@@mksh.htm">mksh</a>
+ at the very least) on the DuaLive ISOs if I find we have the space.
+ We’ll have to work out something, licence and GPL-source-requirement
+ wise, but we’re positive this would work out well. Considering just
+ <em>how</em> good of a rescue system our <tt>bsd.rd</tt> kernel is,
+ already, and what added benefit a minimal pretty standard Live Linux
+ may provide.</p>
 ----
