@@ -27,7 +27,7 @@
 
 #include "ntpd.h"
 
-__RCSID("$MirOS: src/usr.sbin/ntpd/client.c,v 1.16 2009/05/07 19:09:36 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/ntpd/client.c,v 1.17 2009/05/16 11:52:31 tg Exp $");
 
 #ifdef DDEBUG
 #define log_reply	log_info
@@ -139,8 +139,20 @@ client_query(struct ntp_peer *p)
 		struct sockaddr *sa = (struct sockaddr *)&p->addr->ss;
 
 		if ((p->query->fd = socket(p->addr->ss.ss_family, SOCK_DGRAM,
-		    0)) == -1)
+		    0)) == -1) {
+
+		   if (errno == EAFNOSUPPORT) {
+		      log_warn("client_query socket");
+		      client_nextaddr(p);
+		      set_next(p, error_interval());
+		      return (-1);
+		   }
+		   else
+		   {
 			fatal("client_query socket");
+		   }
+                }
+
 		if (connect(p->query->fd, sa, SA_LEN(sa)) == -1) {
 			if (errno == ECONNREFUSED || errno == ENETUNREACH ||
 			    errno == EHOSTUNREACH) {
