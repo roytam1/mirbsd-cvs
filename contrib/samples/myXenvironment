@@ -30,7 +30,7 @@ The file ~/.etc/bin/xtm referred in said file is this one:
 
 ---- cutting here may damage your screen surface -----
 #!/bin/mksh
-# $MirOS: contrib/samples/myXenvironment,v 1.9 2006/02/02 21:51:47 tg Exp $
+# $MirOS: contrib/samples/myXenvironment,v 1.10 2006/10/16 20:59:36 tg Exp $
 unset LANG LC_ALL
 export LC_CTYPE=C
 if [[ $1 = vga ]]; then
@@ -62,7 +62,8 @@ else
 	    -fn -xos4-terminus-medium-r-normal--16-160-72-72-c-80-iso8859-1 \
 	    "$@"
 fi
-exec /usr/X11R6/bin/xterm -class UXTerm -title uxTerm -u8 -geom 113x42+1+1 "$@"
+export LC_CTYPE=en_US.UTF-8
+exec /usr/X11R6/bin/xterm -class UXTerm -title uxTerm -u8 -geom 113x35+1+1 "$@"
 ---- cutting here may damage your screen surface -----
 
 When I want to have two windows open the same time, e.g.
