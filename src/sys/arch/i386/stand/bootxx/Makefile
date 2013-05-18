@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/stand/bootxx/Makefile,v 1.8 2009/06/07 10:44:16 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/bootxx/Makefile,v 1.10 2009/06/07 13:07:46 tg Exp $
 
 PROG=		bootxx
 SRCS+=		bootxx.S
@@ -13,12 +13,12 @@ all: ${PROG} bxinst
 ${PROG}: ${OBJS} ${DPADD}
 	${LD} ${LDFLAGS} -o $@~ ${OBJS} ${LDADD}
 	@size $@~
-	objcopy -x $@~ $@
+	objcopy -x -R .comment $@~ $@
 
 disasm: ${.CURDIR}/disasm
 
 bxinst: ${.CURDIR}/mkbxinst.sh ${PROG}
-	${MKSH} ${.CURDIR}/mkbxinst.sh ${PROG} >$@
+	${MKSH} ${.CURDIR}/mkbxinst.sh ${PROG}~ >$@
 
 ${.CURDIR}/disasm: ${PROG}
 	objdump -dS -Mintel,i8086 ${PROG}~ >$@

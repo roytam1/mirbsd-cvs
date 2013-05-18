@@ -1,5 +1,5 @@
 #!/bin/mksh
-rcsid='$MirOS: src/sys/arch/i386/stand/bootxx/mkbxinst.sh,v 1.21 2009/06/29 16:41:13 tg Exp $'
+rcsid='$MirOS: src/sys/arch/i386/stand/bootxx/mkbxinst.sh,v 1.22 2009/06/29 19:48:37 tg Exp $'
 #-
 # Copyright (c) 2007, 2008, 2009
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -38,6 +38,9 @@ while read -p adr typ sym; do
 done
 
 T=$(mktemp /tmp/bxinst.XXXXXXXXXX) || die 255 Cannot create temporary file
+objcopy --set-section-flags .comment=alloc,contents,load,data \
+    -O binary -j .comment $1 $T
+rcsidS=$(<$T)
 objcopy -O binary $1 $T
 thecode=$(dd if=$T bs=1 count=$((sym_bktbl - sym__start)) 2>/dev/null | \
     hexdump -ve '1/1 "0x%02X "')
@@ -46,6 +49,7 @@ rm -f $T
 print '#!/usr/bin/env mksh'
 print "# $rcsid"
 print "# \$miros:${rcsid#*:}"
+print "# \$miros:${rcsidS#*:}"
 cat <<'EOF'
 #-
 # Copyright (c) 2007, 2008, 2009

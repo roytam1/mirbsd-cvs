@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/bootxx/bootxx.S,v 1.21 2009/06/07 13:07:46 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/bootxx/bootxx.S,v 1.22 2009/06/29 20:01:45 tg Exp $ */
 
 /*-
  * Copyright (c) 2009
@@ -21,6 +21,9 @@
  */
 
 	.intel_syntax noprefix
+	.section .comment
+	.asciz	"$MirOS: src/sys/arch/i386/stand/bootxx/bootxx.S,v 1.22 2009/06/29 20:01:45 tg Exp $"
+
 	.code16
 	.text
 
