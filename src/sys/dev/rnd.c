@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/rnd.c,v 1.40 2008/06/13 14:00:04 tg Exp $ */
+/**	$MirOS: src/sys/dev/rnd.c,v 1.41 2008/07/08 13:20:04 tg Exp $ */
 /*	$OpenBSD: rnd.c,v 1.78 2005/07/07 00:11:24 djm Exp $	*/
 
 /*
@@ -610,9 +610,8 @@ arc4_stir(void)
 static void
 arc4maybeinit(void)
 {
-	if (!arc4random_initialised) {
-		if (rnd_attached)
-			timeout_add(&arc4_timeout, arc4random_seedfreq);
+	if (!arc4random_initialised && rnd_attached) {
+		timeout_add(&arc4_timeout, arc4random_seedfreq);
 		arc4random_initialised++;
 		arc4_stir();
 	}
