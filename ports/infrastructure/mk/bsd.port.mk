@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.243 2008/11/11 20:41:05 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.244 2008/11/29 14:35:27 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -3329,6 +3329,13 @@ cleandir:
 delete-package:
 	@cd ${.CURDIR} && exec ${MAKE} CLEANDEPENDS=No clean=package
 
+homepage:
+.ifdef HOMEPAGE
+	$${BROWSER:-lynx} ${HOMEPAGE:Q}
+.else
+	@echo This port has not defined a HOMEPAGE.
+.endif
+
 reinstall:
 	@cd ${.CURDIR} && exec ${MAKE} clean='install force'
 	@cd ${.CURDIR} && DEPENDS_TARGET=${DEPENDS_TARGET} exec ${MAKE} install
@@ -3391,7 +3398,7 @@ _upgrade:
 	fake fetch fetch-all \
 	fetch-makefile for-all-depends for-build-depends \
 	for-run-depends full-all-depends full-build-depends \
-	full-run-depends homepage-links install install-binpkg \
+	full-run-depends homepage homepage-links install install-binpkg \
 	lib-depends lib-depends-check lib-depends-list \
 	link-categories makesum manpages-check \
 	package patch \
