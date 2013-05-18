@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.421 2013/04/13 15:13:32 bsiegert Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.422 2013/04/26 22:25:34 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -9958,12 +9958,14 @@ Tag: debian mksh news
 <p>The <a href="@@RELPATH@@mksh.htm">MirBSD Korn Shell</a> R45 has been
  released today, and R44 has been named the new stable/bugfix-only series.
  (That’s version 45.1, not 0.45, dear Homebrew/MacOSX packagers.)</p>
-<p>Packagers rejoice: the -DMKSH_GCC55009 dance is no longer needed, and
- even the run-time check for integer division is gone. Why? Because I
- realised one cannot use signed integers in C, at all, and rewrote the
- mksh arithmetics code to use unsigned integers only. Special thanks to
- the people from musl libc and, to some lesser amount, Natureshadow for
- providing me with ideas what to replace some functionality with.</p>
+<p>Packagers rejoice: the <tt>-DMKSH_GCC55009</tt> dance is no longer needed,
+ and even the run-time check for integer division is gone. Why? Because I
+ realised one cannot use signed integers in C, at all, and rewrote the mksh(1)
+ arithmetics code to use unsigned integers only. Special thanks to the people
+ from <a href="http://www.musl-libc.org/">musl libc</a> and, to some lesser
+ amount, Natureshadow for providing me with ideas what algorithms to replace
+ some functionality with (signed shell arithmetic is, of course, still usable,
+ it is just emulated using unsigned C integers now).</p>
 <p class="boxhead">The following entertainment…</p><div class="boxtext">
  <pre>
 	tg@blau:~ $ echo foo &gt;/bar\ baz
