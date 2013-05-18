@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/boot/conf.c,v 1.6 2006/05/15 20:47:05 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/boot/conf.c,v 1.7 2006/08/19 14:20:28 tg Exp $ */
 /*	$OpenBSD: conf.c,v 1.32 2005/05/03 13:18:05 tom Exp $	*/
 
 /*
@@ -51,7 +51,7 @@ int	debug = 1;
 void (*sa_cleanup)(void) = (void *)0UL;
 
 void (*i386_probe1[])(void) = {
-	ps2probe, gateA20on, debug_init, cninit,
+	ps2probe, gateA20on, /* debug_init, */ cninit,
 	apmprobe, pciprobe, /* smpprobe, */ memprobe
 };
 void (*i386_probe2[])(void) = {

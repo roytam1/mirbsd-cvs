@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/pxeboot/conf.c,v 1.4 2005/05/05 00:34:29 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/pxeboot/conf.c,v 1.5 2005/11/23 21:55:21 tg Exp $ */
 /*	$OpenBSD: conf.c,v 1.7 2005/05/03 13:18:05 tom Exp $	*/
 
 /*
@@ -57,7 +57,7 @@ void (*sa_cleanup)(void) = pxe_shutdown;
 
 
 void (*i386_probe1[])(void) = {
-	ps2probe, gateA20on, debug_init, cninit, apmprobe,
+	ps2probe, gateA20on, /* debug_init, */ cninit, apmprobe,
 	pciprobe, /* smpprobe, */ pxeprobe, memprobe
 };
 void (*i386_probe2[])(void) = {
