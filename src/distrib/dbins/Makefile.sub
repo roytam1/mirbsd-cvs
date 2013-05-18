@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/distrib/dbins/Makefile.sub,v 1.1 2008/03/27 19:05:12 tg Exp $
 
   SUBDIR+= bin/cat
   SUBDIR+= bin/chmod
@@ -120,11 +120,13 @@
 
  SKIPDIR+= bin/test		# script
  SKIPDIR+= sbin/init		# system
+.ifdef crunch
  SKIPDIR+= sbin/shutdown	# perms
  SKIPDIR+= sbin/ping		# suid
  SKIPDIR+= sbin/ping6		# suid
  SKIPDIR+= usr.sbin/traceroute	# suid
  SKIPDIR+= usr.sbin/traceroute6	# suid
+.endif
 
 ___display_makevars:: _SUBDIRUSE
 
