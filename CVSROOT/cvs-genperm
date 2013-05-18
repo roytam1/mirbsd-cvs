@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: CVSROOT/cvs-genperm,v 1.16 2005/12/22 01:15:13 tg Exp $
+# $MirOS: CVSROOT/cvs-genperm,v 1.17 2005/12/22 01:16:25 tg Exp $
 #-
 # Copyright (c) 2003, 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@mirbsd.de>
@@ -67,6 +67,7 @@ N=$(mktemp "${CVSROOT}/genperm.log.XXXXXXXXXX") || {
 	print -ru2 "Error: could not make temporary file!"
 	exit 1
 }
+chmod 640 "$N"
 
 print -- "------------------------------------------------------------"
 date
