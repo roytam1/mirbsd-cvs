@@ -1,3 +1,7 @@
-MD5 (bsdiff-4.1.tar.gz) = bf69ae7c185ea1a9863c8b40251fbc3a
-RMD160 (bsdiff-4.1.tar.gz) = 0f2076db87b8bfd1b685c81a6f0e823cb3de7aa8
-SHA1 (bsdiff-4.1.tar.gz) = 0c24b121916704069f23199da0689b3e49b77796
+$MirOS$
+
+MD5 (bsdiff-4.3.tar.gz) = e6d812394f0e0ecc8d5df255aa1db22a
+RMD160 (bsdiff-4.3.tar.gz) = 27bb255b5dd5aa56d3a076dac9ca76d238a79a04
+SHA1 (bsdiff-4.3.tar.gz) = 0c0a89d604fc55ef2b5e69cd18372b2972edd8b8
+SIZE (bsdiff-4.3.tar.gz) = 5740
+TIGER (bsdiff-4.3.tar.gz) = 3ec75ad9ba429e810723a418852e43dba684c83818c51f8d
