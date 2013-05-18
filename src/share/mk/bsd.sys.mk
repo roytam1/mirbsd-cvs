@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.sys.mk,v 1.2 2005/02/14 18:57:46 tg Exp $
+# $MirOS: src/share/mk/bsd.sys.mk,v 1.3 2005/03/06 21:48:06 tg Exp $
 # $OpenBSD: bsd.sys.mk,v 1.8 2000/07/06 23:12:41 millert Exp $
 # $NetBSD: bsd.sys.mk,v 1.2 1995/12/13 01:25:07 cgd Exp $
 
@@ -10,6 +10,7 @@ BSD_SYS_MK=1
 
 .  if !defined(EXPERIMENTAL)
 CFLAGS+=	-Werror
+COMPILE.c:=	/usr/bin/env GCC_HONOUR_COPTS=2 ${COMPILE.c}
 .  endif
 
 .  if defined(DESTDIR)
