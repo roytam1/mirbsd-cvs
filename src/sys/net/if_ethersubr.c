@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/net/if_ethersubr.c,v 1.4 2005/12/19 22:22:10 tg Exp $ */
+/**	$MirOS: src/sys/net/if_ethersubr.c,v 1.5 2005/12/20 19:41:26 tg Exp $ */
 /*	$OpenBSD: if_ethersubr.c,v 1.81 2004/11/28 23:39:45 canacar Exp $	*/
 /*	$NetBSD: if_ethersubr.c,v 1.19 1996/05/07 02:40:30 thorpej Exp $	*/
 
@@ -758,6 +758,15 @@ void
 ether_ifattach(ifp)
 	struct ifnet *ifp;
 {
+	/* MAC addresses also add to the random pool (think live CDs) */
+	add_true_randomness((int)(time.tv_sec & 0xFF000000) |
+	    (((struct arpcom *)ifp)->ac_enaddr[0] << 16) |
+	    (((struct arpcom *)ifp)->ac_enaddr[1] << 8) |
+	    (((struct arpcom *)ifp)->ac_enaddr[2]));
+	add_true_randomness((int)(time.tv_sec & 0xFF000000) |
+	    (((struct arpcom *)ifp)->ac_enaddr[3] << 16) |
+	    (((struct arpcom *)ifp)->ac_enaddr[4] << 8) |
+	    (((struct arpcom *)ifp)->ac_enaddr[5]));
 
 	/*
 	 * Any interface which provides a MAC address which is obviously
