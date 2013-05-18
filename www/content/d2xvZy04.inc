@@ -1,5 +1,5 @@
 <!-- PageID: wlog-8 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.77 2006/06/09 20:34:50 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.78 2006/06/11 02:21:26 tg Exp $</small>
 <h1>MirBSD &ndash; WTF, We Have a Release!?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -1383,6 +1383,17 @@ celebrate this event, rotate the wlog and start a new one.</p>
   in the hope I didn't do anything wrong, to test that.</p>
  <p>Oh, the surprises are unveiled I guess. I've just cross-built a (not
   yet tested) GENERIC for sparc. More surprises to come.</p>
+</div>
+
+<div class="wlentry">
+ <h3 id="e20060611">11.06.2006 by tg@</h3>
+ <p>I had some initial <a href="https://www.freewrt.org/">FreeWRT</a> ci
+  with wbx@ today and better would ask gmane and marc guys for archives,
+  before it's too late.</p>
+ <p>I built a sparc bsd.net kernel (with elf2aout(1) on i386!) but can't
+  netboot it... it's been too long since I did that (&gt;2 years).</p>
+ <p>I had four Altbier (beer) and some Julishka and Krushkovac today, so
+  I'm not really coherent... but it tastes delicious!</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
