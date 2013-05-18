@@ -1,10 +1,10 @@
-/* $MirOS: src/usr.bin/oldroff/nroff/n10.c,v 1.4 2007/01/22 17:40:08 tg Exp $ */
+/* $MirOS: src/usr.bin/oldroff/nroff/n10.c,v 1.5 2008/11/08 23:04:41 tg Exp $ */
 
 /*-
  * Copyright (c) 1979, 1980, 1981, 1986, 1988, 1990, 1991, 1992
  *     The Regents of the University of California.
  * Copyright (C) Caldera International Inc.  2001-2002.
- * Copyright (c) 2003, 2004, 2005
+ * Copyright (c) 2003, 2004, 2005, 2011
  *	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
  * All rights reserved.
  *
@@ -53,7 +53,7 @@ extern
 #include "pathnames.h"
 
 __SCCSID("@(#)n10.c	4.6 (Berkeley) 4/18/91");
-__RCSID("$MirOS: src/usr.bin/oldroff/nroff/n10.c,v 1.4 2007/01/22 17:40:08 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/oldroff/nroff/n10.c,v 1.5 2008/11/08 23:04:41 tg Exp $");
 
 /*
 nroff10.c
@@ -210,6 +210,7 @@ ptout1()
 			 * simulate bold font as overstrike if no t.bdon
 			 */
 			if (xfont == 2 && !(*t.bdon & 0377) &&
+			    (*codep != '\b') &&
 			    (!eightbit || eightbit == 0363)) {
 				oput(*codep);
 				oput('\b');
