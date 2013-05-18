@@ -1,5 +1,5 @@
 <!-- PageID: mksh -->
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.52 2006/09/03 21:30:45 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.53 2006/09/04 00:41:58 tg Exp $</small>
 
 <h1>mksh(1) R28</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
@@ -436,37 +436,37 @@
 
 <h2 id="regress">Official Testing</h2>
 
-<p>The MirOS Project has tested mksh on the following operating systems:</p>
+<p>The MirOS Project has tested mksh on the following operating systems,
+ asked people to test, and hunted mksh down in these packaging systems:</p>
 <ul>
  <li>mksh R28<ul>
   <li>MirOS BSD #9-stable (i386)</li>
-  <li>Solaris 8 (sun4u)</li>
+  <li>MirOS BSD #7-stable (sparc)</li>
+  <li>Solaris 8 (sun4u) SUNW,Ultra-60</li>
   <li>NetBSD 3.0_STABLE (i386)</li>
   <li>DragonFly BSD 1.3-Preview (i386)</li>
   <li>Debian GNU/Linux 3.1-testing 2.6.16-2-686 (i386)</li>
   <li>Debian GNU/Linux 3.1-testing 2.6.17-2-vserver-s390x (s390x)</li>
-  <li>Darwin Mac OSX 8.7.0 (powerpc)</li>
+  <li>Debian GNU/Linux 3.1-stable 2.4.27-2-k7 (i386)</li>
+  <li>Darwin 8.7.0 Mac OSX 10.4 (powerpc)</li>
+  <li>CYGWIN_NT-5.0 1.5.19(0.150/4/2) 2006-01-20 13:28 (i386) &ndash; testsuite not run</li>
+  <li>Interix SFU 3.5 (Windows&reg; 2000 Pro) SP-8.0.1969.1 (i386) &ndash; testsuite not run</li>
   <li>NetBSD 3.0 (mac68k) &ndash; tested by Jonathan "ciruZ" Schleifer</li>
-  <li>FreeWRT GNU/Linux SVN 2.4-BRCM (mipsel) &ndash; part of FreeWRT:
-   builds, not tested</li>
+  <li>Darwin 8.7.1 Mac OSX 10.4 (i386) &ndash; tested by Angelo Laub</li>
+  <li>Solaris 8 (sun4m) SUNW,SPARCstation-5 &ndash; tested by Angelo Laub</li>
+  <li>FreeWRT GNU/Linux SVN 2.4-BRCM (mipsel) &ndash; part of FreeWRT: testsuite not run</li>
+  <li>FreeBSD (unknown) &ndash; part of FreeBSD Ports: not tried</li>
+  <li>Gentoo GNU/Linux (i386 powerpc) &ndash; part of Portage: not tried</li>
  </ul></li>
  <li>mksh R28&szlig;<ul>
   <li>NetBSD 1.6.1 (pmax)</li>
-  <li>Debian GNU/Linux 3.1-stable (i386)</li>
-  <li>Mac OSX Tiger (powerpc) &ndash; tested by Angelo Laub</li>
    <!-- missing:
   <li>MirOS BSD #9-stable (sparc)</li>
-  <li>MirOS BSD #7-stable (sparc)</li>
   <li>Debian GNU/Linux 3.1-testing (i386, S/390) &ndash; debianised</li>
   <li>CRUX GNU/Linux (i386) &ndash; not tested, via Han Boetes</li>
   <li>Solaris 10 (?) &ndash; tested by Tonnerre Lombard</li>
-  <li>FreeBSD &ndash; not tested, via FreeBSD Ports Tree</li>
   <li>pkgsrc</li>
   <li>OpenBSD</li>
-  <li>Gentoo GNU/Linux (i386, ppc) &ndash; not tested, via portage</li>
-  <li>Interix/SFU 3.5 (Windows&reg; 2000)</li>
-  <li>GNU/Cygwin 1.15.9-4 (Windows&reg; 2000)</li>
-  <li>Mac OSX Tiger (i386) &ndash; tested by Angelo Laub</li>
   <li>Mac OSX Panther (powerpc) &ndash; not tested, via Fink</li>
   <li>Plan 9 POSIX Environment</li>
    -->
@@ -487,6 +487,7 @@
   <li>CRUX GNU/Linux (i386): works (package by Han Boetes who even uses mksh
    as /bin/sh and tells everyone to ditch bash)</li>
   <li>Available under FreeBSD as ports/shells/mksh</li>
+  <li>Ubuntu GNU/Linux (amd64 i386 powerpc): part of &quot;edgy universe&quot;</li>
  </ul></li>
  <li>mksh R27d<ul>
   <li>There is a DragonFly pkgsrc in
@@ -520,6 +521,8 @@
   <li>DragonFly BSD: Portable mksh builds; the test suite succeeds.</li>
   <li>Mac OSX Tiger: The testsuite works, and it can be used to play around.
    Apple does not install the tools needed for a static build.</li>
+  <li>Nexenta OS (i386): part of &quot;elatte&quot; GNU/Solaris</li>
+  <li>Ubuntu GNU/Linux (amd64 i386 powerpc): part of &quot;dapper universe&quot;</li>
  </ul></li>
  <li>mksh R24<ul>
   <li>Mac OSX Panther: I don't see a difference to Tiger.</li>
