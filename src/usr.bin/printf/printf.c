@@ -60,7 +60,7 @@
 __COPYRIGHT("Copyright (c) 1989 The Regents of the University of California.\n\
 All rights reserved.\n");
 __SCCSID("@(#)printf.c	5.9 (Berkeley) 6/1/90");
-__RCSID("$MirOS: src/usr.bin/printf/printf.c,v 1.11 2009/09/19 22:26:55 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/printf/printf.c,v 1.12 2009/12/12 22:27:13 tg Exp $");
 
 static int print_escape_str(const char *);
 static int print_escape(const char *);
@@ -488,6 +488,10 @@ getstr(void)
 	return(*gargv++);
 }
 
+#ifndef vstrchr
+#define vstrchr	strchr
+#endif
+
 static int
 getinteger(void)
 {
@@ -495,7 +499,7 @@ getinteger(void)
 	if (!*gargv)
 		return(0);
 
-	if (strchr(number, **gargv))
+	if (vstrchr(number, **gargv))
 		return(atoi(*gargv++));
 
 	return 0;
