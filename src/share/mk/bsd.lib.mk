@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.lib.mk,v 1.65 2007/06/12 11:52:11 tg Exp $
+# $MirOS: src/share/mk/bsd.lib.mk,v 1.66 2007/06/26 18:32:42 tg Exp $
 # $OpenBSD: bsd.lib.mk,v 1.43 2004/09/20 18:52:38 espie Exp $
 # $NetBSD: bsd.lib.mk,v 1.67 1996/01/17 20:39:26 mycroft Exp $
 # @(#)bsd.lib.mk	5.26 (Berkeley) 5/2/91
@@ -253,7 +253,7 @@ realinstall:
 	${INSTALL} ${INSTALL_COPY} -o ${LIBOWN} -g ${LIBGRP} -m 600 \
 	    ${SHLIB_SONAME} ${DESTDIR}${LIBDIR}/${SHLIB_SONAME}~
 .    if !defined(MKC_DEBG) || ${MKC_DEBG:L} == "no"
-	strip ${_SODISCARD} ${DESTDIR}${LIBDIR}/${SHLIB_SONAME}~
+	${STRIP} ${_SODISCARD} ${DESTDIR}${LIBDIR}/${SHLIB_SONAME}~
 .    endif
 	cd ${DESTDIR}${LIBDIR} && \
 	    chmod ${LIBMODE} ${SHLIB_SONAME}~ && \

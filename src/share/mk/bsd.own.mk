@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.own.mk,v 1.49 2007/06/07 17:22:38 tg Exp $
+# $MirOS: src/share/mk/bsd.own.mk,v 1.50 2007/06/26 19:04:04 tg Exp $
 # $OpenBSD: bsd.own.mk,v 1.92 2005/01/18 00:28:42 mickey Exp $
 # $NetBSD: bsd.own.mk,v 1.24 1996/04/13 02:08:09 thorpej Exp $
 
@@ -98,8 +98,10 @@ LKMMODE?=	${NONBINMODE}
 INSTALL_COPY?=	-c
 .ifndef DEBUG
 INSTALL_STRIP?=	-s
+STRIP?=		strip
 .endif
 INSTALL_STRIP?=
+STRIP?=		:
 
 # This may be changed for _single filesystem_ configurations (such as
 # routers and other embedded systems); normal systems should leave it alone!
