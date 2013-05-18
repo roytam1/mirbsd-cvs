@@ -1,5 +1,5 @@
 <!-- PageID: mksh -->
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.103 2007/05/13 19:34:26 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.104 2007/05/21 20:11:15 tg Exp $</small>
 
 <h1>mksh(1) R29</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
@@ -88,6 +88,8 @@
   by Jupp “cnuke” Söntgen) – not public, not finished yet</li>
  <li>No longer build a statically linked shell by default; do not try,
   do not provide any means; user has to use LDFLAGS instead.</li>
+</ul>
+<p>Dedicated to David Ramsey and Coverity, mksh R29e unveils:</p><ul>
  <li>Don't poll in strcasestr(3) if setlocale(3) isn't used</li>
  <li>Remove some redundant or unused functions</li>
  <li>Fix a horizontal scrolling on tabcomplete bug, reported by David
@@ -104,6 +106,7 @@
  <li>Fix a scrollbar mis-display on delete bug, reported by David Ramsey</li>
  <li>Fix a scrollbar mis-display on insertion bug, discovered while
   fixing the above bug</li>
+ <li>Correct displaying of scrollbar on delete, with help from dramsey</li>
 </ul>
 <p>Portability improvements in mksh R29d contain:</p><ul>
  <li>Unbreak testsuite on Mac OSX (whose brain-dead file system does
@@ -596,14 +599,14 @@
 <h2 id="fetch">Getting The Source</h2>
 
 <p>The current version is:</p><ul>
- <li><a href="http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R29d.cpio.gz">http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R29d.cpio.gz</a></li>
- <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R29d.cpio.gz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R29d.cpio.gz</a></li>
+ <li><a href="http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R29e.cpio.gz">http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R29e.cpio.gz</a></li>
+ <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R29e.cpio.gz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R29e.cpio.gz</a></li>
  <li>Please use gzsig(1) to verify the integrity of the distfile instead!
   Hashes are only so you know which distfile you want.</li>
- <li>RMD160 (mksh-R29d.cpio.gz) = 5c68799fad511330fd3bc29053143a9db800ebf2</li>
- <li>TIGER (mksh-R29d.cpio.gz) = 54ea05fee4c3bcf993a5ff646c8d7505508d22be8997de40</li>
- <li>2298384882 240690 /MirOS/dist/mir/mksh/mksh-R29d.cpio.gz</li>
- <li>MD5 (mksh-R29d.cpio.gz) = 90d997b72395c053afcacbf07122fa1a</li>
+ <li>RMD160 (mksh-R29e.cpio.gz) = d334382380ae088bc007d7b536e3c7a899298921</li>
+ <li>TIGER (mksh-R29e.cpio.gz) = b6940244d484d0cef7a3545a38fe642ddc2ba124a6a80118</li>
+ <li>2662077023 240688 /MirOS/dist/mir/mksh/mksh-R29e.cpio.gz</li>
+ <li>MD5 (mksh-R29e.cpio.gz) = b682e4b0e868dcec1262dd3e050bb56b</li>
 </ul>
 
 <h2>Installation</h2>
@@ -618,14 +621,14 @@
  please note that most of them, seen on Mozilla&reg; and
  its derivates as well as Microsoft&reg; Internet Explorer,
  have a bug where the file is saved correctly
- as <em>mksh-R29d.cpio.gz</em> but already decompressed.</p>
+ as <em>mksh-R29e.cpio.gz</em> but already decompressed.</p>
 
 <h3 id="extract">Unpacking</h3>
-<p>On decent systems, you can just use <tt>tar xzf mksh-R29d.cpio.gz</tt>
+<p>On decent systems, you can just use <tt>tar xzf mksh-R29e.cpio.gz</tt>
  to extract the file. On quite damaged systems such as basically everything
  which is not MirOS or anything else with <a href="/?MirCpio">MirCpio</a>
  (paxmirabilis) or some other kind of paxtar, use <tt>gzip -dc
- mksh-R29d.cpio.gz | cpio -mid</tt> or <tt>gzip -dc mksh-R29d.cpio.gz |
+ mksh-R29e.cpio.gz | cpio -mid</tt> or <tt>gzip -dc mksh-R29e.cpio.gz |
  pax -r</tt> instead.</p>
 <p>Of course, skip the gzip stage (use cat) or the 'z' flag
  if your browser already decompressed the file.</p>

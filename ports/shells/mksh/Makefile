@@ -1,8 +1,8 @@
-# $MirOS: ports/shells/mksh/Makefile,v 1.23 2007/04/30 20:02:10 tg Exp $
+# $MirOS: ports/shells/mksh/Makefile,v 1.24 2007/04/30 21:16:28 tg Exp $
 
 COMMENT=		MirBSD Korn Shell
-DISTNAME=		mksh-R29d
-PKGNAME=		mksh-29.3-${DASH_VER}
+DISTNAME=		mksh-R29e
+PKGNAME=		mksh-29.4-${DASH_VER}
 #DISTNAME=		mksh_28.9.20070218
 #PKGNAME=		${DISTNAME:S/_/-/}-${DASH_VER}
 CATEGORIES=		shells
