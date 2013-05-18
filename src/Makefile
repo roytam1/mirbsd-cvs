@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.117 2007/10/18 18:42:08 tg Exp $
+# $MirOS: src/Makefile,v 1.118 2007/10/18 19:40:26 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -143,7 +143,7 @@ do-htman:
 	cp ${BSDOBJDIR}/share/doc/legal/LICENCE-BSD.0 \
 	    ${BSDOBJDIR}/htman/man/cat7/BSD-Licence.0
 	BSDOBJDIR=${BSDOBJDIR:Q} BSDSRCDIR=${BSDSRCDIR:Q} \
-	    ${_STCMD_HTMAN} ${SHELL} ${.CURDIR}/scripts/genhtman.sh
+	    ${SHELL} ${.CURDIR}/scripts/genhtman.sh
 	. ${.CURDIR}/scripts/roff2htm; output_htaccess >${BSDOBJDIR}/htman/H
 	-rm -f ${BSDOBJDIR}/htman/.policy.mk
 	${SUDO} mkdir -p ${BSDRELDIR}/htman/man{DOCS,INFO}
