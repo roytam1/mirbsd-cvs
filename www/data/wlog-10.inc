@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.265 2009/12/26 16:35:49 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.266 2009/12/26 17:14:31 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -5758,4 +5758,40 @@ Date: 26.12.2009 17:14
 <p>So this is basically positive press to show another Linux-i386 blob
  that works as-is on MirBSD/i386 with compat_linux(8) – thanks! Others
  make this much more difficult.</p>
+----
+Title: 26C3, day 0 and 1
+Author: bsiegert@
+Date: 27.12.2009 17:40
+
+<p>I finally have a wristband for 26C3. The wristband is what is
+ controlled on the entrance. I had preordered the ticket and paid by
+ bank transfer, and the receipt with the barcode only arrived on
+ december 25. In earlier years, you came on the 26th, crashed in the
+ hackcenter, and at some point, when there were only ten people in the
+ queue at the cash desk, you got your ticket easily.</p>
+
+<p>Well, this year, things were a little different. First, there was a
+ semi-public ticket presale. What's more, rumors about a very limited
+ number of tickets were floating around. And finally, while the cash
+ desk was said to open at 2000, the software was not ready by then (!)
+ and the opening was deferred to 2130. The "fast line" cash desk for
+ people with presale tickets was only opened around midnight, when I had
+ already given up hope and joined the <em>huge</em> queue of several
+ hundred desperate hackers. (Thanks, btw, to ScottyTM for pointing out
+ that the "fast line" had been opened.) Finally, I was told that my
+ ticket "did not exist in the system", that I was an evil cracker for
+ trying to enter with a fake ticket, and that I should check back on the
+ 27th. Great.</p>
+
+<p>The end was happy and somewhat anticlimactic: I checked back this
+ morning, there was no queue, and my presale ticket was accepted without
+ any problem. Most of the talks I saw today were about network
+ neutrality, censorship and related topics. I found the <a
+ href="http://events.ccc.de/congress/2009/Fahrplan/events/3501.en.html">talk
+ by J&eacute;r&eacute;my Zimmermann</a> from <a
+ href="http://www.laquadrature.net/"><i>La Quadrature du Net</i></a>
+ especially interesting. Part of the talk was an introduction to
+ lobbying: calling your EuroParl representative, sending e-mails and
+ insisting on your point "raises the political cost of certain
+ decisions".</p>
 ----
