@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/gnu.port.mk,v 1.40 2008/03/14 21:56:22 tg Exp $
+# $MirOS: ports/infrastructure/mk/gnu.port.mk,v 1.41 2008/03/15 17:38:07 bsiegert Exp $
 # $OpenBSD: gnu.port.mk,v 1.19 2004/06/06 11:49:08 espie Exp $
 
 AUTOCONF_NEW?=		No
@@ -40,9 +40,11 @@ MODGNU_AUTOMAKE_DEPS=	::devel/metaauto \
 			:automake-${AUTOMAKE_VERSION}*:devel/automake/${AUTOMAKE_VERSION}
 MODGNU_AUTOCONF_DEPS=	::devel/metaauto
 .if ${AUTOCONF_VERSION} == "2.13"
-MODGNU_AUTOCONF_DEPS+=	:autoconf->=2.13-20070223,<2.14:devel/autoconf/2.13
+MODGNU_AUTOCONF_DEPS+=	:autoconf->=2.13-20080405,<2.14:devel/autoconf/2.13
 .elif ${AUTOCONF_VERSION} == "2.60"
 MODGNU_AUTOCONF_DEPS+=	:autoconf->=2.60-3,<2.61:devel/autoconf/2.60
+.elif ${AUTOCONF_VERSION} == "2.61"
+MODGNU_AUTOCONF_DEPS+=	:autoconf->=2.61-1,<2.62:devel/autoconf/2.61
 .else
 MODGNU_AUTOCONF_DEPS+=	:autoconf-${AUTOCONF_VERSION}*:devel/autoconf/${AUTOCONF_VERSION}
 .endif
@@ -126,6 +128,10 @@ _MODGNU_loop=	rm -f ${MODGNU_NUKES}; ( cd ${PORTSDIR}/infrastructure/db/; \
 
 # 2. update Libtool to MirLibtool
 .if ${MODGNU_MIRLIBTOOL:L} != "no"
+.  if (${AUTOCONF_VERSION} != "2.13") && (${AUTOCONF_VERSION} != "2.61")
+_MODGNU_loop+=	print "Warning: MirLibtool might fail in $$d due to use" \
+		    "of autoconf-${AUTOCONF_VERSION}!";
+.  endif
 _MODGNU_loop+=	print "Updating to MirLibtool in $$d"; touch $$F; \
 		${MKSH} ${PORTSDIR}/infrastructure/scripts/u2mirlibtool \
 		    ${PATCHORIG} $$ACAUX;
