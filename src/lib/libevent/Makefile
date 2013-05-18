@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libevent/Makefile,v 1.5 2007/02/05 16:42:30 tg Exp $
+# $MirOS: src/lib/libevent/Makefile,v 1.6 2007/05/17 16:40:56 tg Exp $
 # $OpenBSD: Makefile,v 1.27 2007/03/26 18:43:18 deraadt Exp $
 
 LIB=	event
@@ -73,9 +73,10 @@ COPTS+=		-Wcast-align
 COPTS+=		-Wbad-function-cast
 
 includes:
-	@cd ${.CURDIR}; for i in ${HDRS}; do \
-	  cmp -s $$i ${DESTDIR}/usr/include/$$i || \
-	  ${INSTALL} ${INSTALL_COPY} -m 444 -o $(BINOWN) -g $(BINGRP) $$i \
-	  ${DESTDIR}/usr/include; done
+.for _i in ${HDRS}
+	cd ${.CURDIR} && cmp -s ${_i} ${DESTDIR}/usr/include/${_i} || \
+	    ${INSTALL} ${INSTALL_COPY} -o ${BINOWN} -g ${BINGRP} \
+	    -m ${NONBINMODE} ${_i} ${DESTDIR}/usr/include/
+.endfor
 
 .include <bsd.lib.mk>
