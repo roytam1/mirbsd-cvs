@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/include/mir18n.h,v 1.9 2006/11/01 18:31:11 tg Exp $ */
+/* $MirOS: src/lib/libc/include/mir18n.h,v 1.10 2006/11/01 20:23:30 tg Exp $ */
 
 #ifndef _LIBC_MIR18N_H
 #define _LIBC_MIR18N_H
@@ -13,7 +13,7 @@
  *	functions, such as btowc(3), wctob(3), ...
  * 2: ISO-8859-1 aka latin1
  */
-#define MIR18N_C_CSET	2
+#define MIR18N_C_CSET	1
 
 
 /* not configurable */
