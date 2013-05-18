@@ -1,7 +1,8 @@
-! $MirOS: contrib/samples/dot.Xresources,v 1.8 2009/01/05 13:09:17 tg Exp $
+! $MirSecuCron$
+! $MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $
 !-
-! Copyright (c) 2003, 2004, 2005, 2006, 2007
-!	Thorsten "mirabilos" Glaser <tg@mirbsd.de>
+! Copyright (c) 2003, 2004, 2005, 2006, 2007, 2009
+!	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
 !
 ! Provided that these terms and disclaimer and all copyright notices
 ! are retained or reproduced in an accompanying document, permission
@@ -36,7 +37,8 @@ XTerm*VT100*color0:		black
 XTerm*VT100*color1:		red3
 XTerm*VT100*color2:		green3
 XTerm*VT100*color3:		yellow3
-XTerm*VT100*color4:		blue3
+!XTerm*VT100*color4:		blue3
+XTerm*VT100*color4:		rgb:11/11/EE
 XTerm*VT100*color5:		magenta3
 XTerm*VT100*color6:		cyan3
 XTerm*VT100*color7:		gray90
@@ -44,7 +46,8 @@ XTerm*VT100*color8:		gray30
 XTerm*VT100*color9:		red
 XTerm*VT100*color10:		green
 XTerm*VT100*color11:		yellow
-XTerm*VT100*color12:		blue
+!XTerm*VT100*color12:		blue
+XTerm*VT100*color12:		rgb:5C/5C/FF
 XTerm*VT100*color13:		magenta
 XTerm*VT100*color14:		cyan
 XTerm*VT100*color15:		white
@@ -113,7 +116,8 @@ TXTerm*VT100*color0:		black
 TXTerm*VT100*color1:		red3
 TXTerm*VT100*color2:		green3
 TXTerm*VT100*color3:		yellow3
-TXTerm*VT100*color4:		blue3
+!TXTerm*VT100*color4:		blue3
+TXTerm*VT100*color4:		rgb:11/11/EE
 TXTerm*VT100*color5:		magenta3
 TXTerm*VT100*color6:		cyan3
 TXTerm*VT100*color7:		gray90
@@ -121,7 +125,8 @@ TXTerm*VT100*color8:		gray30
 TXTerm*VT100*color9:		red
 TXTerm*VT100*color10:		green
 TXTerm*VT100*color11:		yellow
-TXTerm*VT100*color12:		blue
+!TXTerm*VT100*color12:		blue
+TXTerm*VT100*color12:		rgb:5C/5C/FF
 TXTerm*VT100*color13:		magenta
 TXTerm*VT100*color14:		cyan
 TXTerm*VT100*color15:		white
@@ -163,7 +168,8 @@ VXTerm*VT100*color0:		black
 VXTerm*VT100*color1:		red3
 VXTerm*VT100*color2:		green3
 VXTerm*VT100*color3:		yellow3
-VXTerm*VT100*color4:		blue3
+!VXTerm*VT100*color4:		blue3
+VXTerm*VT100*color4:		rgb:11/11/EE
 VXTerm*VT100*color5:		magenta3
 VXTerm*VT100*color6:		cyan3
 VXTerm*VT100*color7:		gray90
@@ -171,7 +177,8 @@ VXTerm*VT100*color8:		gray30
 VXTerm*VT100*color9:		red
 VXTerm*VT100*color10:		green
 VXTerm*VT100*color11:		yellow
-VXTerm*VT100*color12:		blue
+!VXTerm*VT100*color12:		blue
+VXTerm*VT100*color12:		rgb:5C/5C/FF
 VXTerm*VT100*color13:		magenta
 VXTerm*VT100*color14:		cyan
 VXTerm*VT100*color15:		white
@@ -195,7 +202,8 @@ UXTerm*VT100*color0:		black
 UXTerm*VT100*color1:		red3
 UXTerm*VT100*color2:		green3
 UXTerm*VT100*color3:		yellow3
-UXTerm*VT100*color4:		blue3
+!UXTerm*VT100*color4:		blue3
+UXTerm*VT100*color4:		rgb:11/11/EE
 UXTerm*VT100*color5:		magenta3
 UXTerm*VT100*color6:		cyan3
 UXTerm*VT100*color7:		gray90
@@ -203,7 +211,8 @@ UXTerm*VT100*color8:		gray30
 UXTerm*VT100*color9:		red
 UXTerm*VT100*color10:		green
 UXTerm*VT100*color11:		yellow
-UXTerm*VT100*color12:		blue
+!UXTerm*VT100*color12:		blue
+UXTerm*VT100*color12:		rgb:5C/5C/FF
 UXTerm*VT100*color13:		magenta
 UXTerm*VT100*color14:		cyan
 UXTerm*VT100*color15:		white
@@ -242,7 +251,8 @@ KTerm*VT100*color0:		black
 KTerm*VT100*color1:		red3
 KTerm*VT100*color2:		green3
 KTerm*VT100*color3:		yellow3
-KTerm*VT100*color4:		blue3
+!KTerm*VT100*color4:		blue3
+KTerm*VT100*color4:		rgb:11/11/EE
 KTerm*VT100*color5:		magenta3
 KTerm*VT100*color6:		cyan3
 KTerm*VT100*color7:		gray90
@@ -250,7 +260,8 @@ KTerm*VT100*color8:		gray30
 KTerm*VT100*color9:		red
 KTerm*VT100*color10:		green
 KTerm*VT100*color11:		yellow
-KTerm*VT100*color12:		blue
+!KTerm*VT100*color12:		blue
+KTerm*VT100*color12:		rgb:5C/5C/FF
 KTerm*VT100*color13:		magenta
 KTerm*VT100*color14:		cyan
 KTerm*VT100*color15:		white
