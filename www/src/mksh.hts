@@ -1,4 +1,4 @@
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.108 2008/04/20 21:58:50 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.109 2008/04/22 12:01:07 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -892,12 +892,9 @@ mws_content <<'EOF'
  <li>Port to <a href="http://www.syllable.org/">Syllable</a> (much
   improved; support now en par with Plan 9’s, thanks to Anthony Morphett
   &lt;awmorp@gmail.com&gt; – maybe the rest is a kernel bug?)</li>
- <li>Import the GNU bash- and zsh-style ability to get and set multiple
-  limits in a single invocation from oksh (thanks millert)
-  <strong>NOTE: backed out due to problems!</strong> We need to find a way
-  to allow <tt>ulimit -dS 262144</tt> even with the change first. That is
-  a pretty common idiom, and R34 will continue to support it, even if it’s
-  shipping without this change then. (But we retained all the goodies.)</li>
+ <!-- li>Import the GNU bash- and zsh-style ability to get and set multiple
+  limits in a single invocation from oksh (thanks millert) -->
+  <li>Simplify and refactor the ulimit builtin, partially from oksh</li>
  <li>Some style cleanup; use appropriate integer types</li>
  <li>Fix a bug in table (e.g. kill -l, tab completion) display: the width
   of non-ASCII characters is now honoured in the utf8-hack mode</li>
@@ -929,6 +926,8 @@ mws_content <<'EOF'
   prefer if people remember the OpenHAL vs ath5k incident and that they cannot
   simply change licencing of existing code; patches sent to the MirOS Project
   for inclusion shall be accepted if they’re agreed to match this licence</li>
+ <li>Simplify <tt>dot.mkshrc</tt> sample file: licence is merged into the main
+  copyright file; AT&amp;T ksh93 compatibility was improved</li>
 </ul>
 <p id="r33d">mksh R33d is a quick security-update with these changes:</p><ul>
  <li>Move a portability define from <tt>sh.h</tt> to the <tt>setmode.c</tt>
