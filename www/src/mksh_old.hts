@@ -1,11 +1,11 @@
-# $MirOS: www/src/mksh_old.hts,v 1.29 2010/03/11 15:27:35 tg Exp $
+# $MirOS: www/src/mksh_old.hts,v 1.30 2010/06/24 18:08:35 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh/old "mksh – old versions"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh_old.hts,v 1.29 2010/03/11 15:27:35 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh_old.hts,v 1.30 2010/06/24 18:08:35 tg Exp $'
 mws_content <<'EOF'
 <h2><a href="mksh.htm">mksh</a> – old versions</h2>
 
@@ -1224,6 +1224,10 @@ mws_content <<'EOF'
 <p>Patching mksh’s code to look for ed in ANY other location is a MUST NOT.</p>
 
 <h2 id="plans">Future Plans</h2><ul>
+<li>Implement <tt>read -A</tt> (from ksh93), <tt>read -a</tt> (dump octets
+ or wide characters, depending on <tt>set ±U</tt>, into an array which is
+ its (only) argument, from stdin as if using hd(1), <tt>read -d</tt> (with
+ delimiter the first octet of the OPTARG, NUL if empty) from ksh93</li>
 <li>bash-style multiline command line editing, as an option (the current
  horizontally scrolled one is finally (with R28) bug-free even with
  multiline and very long prompts optionally with embedded newlines,
