@@ -1,4 +1,4 @@
-/**	$MirOS: src/bin/md5/md5.c,v 1.9 2006/05/25 12:33:09 tg Exp $ */
+/**	$MirOS: src/bin/md5/md5.c,v 1.10 2006/05/26 11:55:16 tg Exp $ */
 /*	$OpenBSD: md5.c,v 1.32 2004/12/29 17:32:44 millert Exp $	*/
 
 /*
@@ -41,7 +41,7 @@
 #include "adler32.h"
 #include "suma.h"
 
-__RCSID("$MirOS: src/bin/md5/md5.c,v 1.9 2006/05/25 12:33:09 tg Exp $");
+__RCSID("$MirOS: src/bin/md5/md5.c,v 1.10 2006/05/26 11:55:16 tg Exp $");
 
 #define MAX_DIGEST_LEN	128
 
@@ -578,7 +578,7 @@ digest_time(struct hash_functions **hashes)
 	struct hash_functions *hf;
 	struct timeval start, stop, res;
 	union ANY_CTX context;
-	u_int i;
+	unsigned i;
 	u_char data[TEST_BLOCK_LEN];
 	char digest[MAX_DIGEST_LEN + 1];
 	double elapsed;

@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.7 2006/04/09 22:08:49 tg Rel $ */
+/* $MirOS: src/bin/md5/suma-mi.c,v 1.5 2006/05/25 12:56:58 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -39,7 +39,7 @@ SUMA_Init(SUMA_CTX *ctx)
 }
 
 void
-SUMA_Update(SUMA_CTX *ctx, const u_int8_t *data, size_t len)
+SUMA_Update(SUMA_CTX *ctx, const uint8_t *data, size_t len)
 {
 	size_t cnt;
 	uint32_t crc, eax;

@@ -1,4 +1,4 @@
-/* $MirOS: src/bin/md5/suma-x86.S,v 1.3 2005/11/16 17:08:47 tg Exp $ */
+/* $MirOS: src/bin/md5/suma-x86.S,v 1.4 2005/12/17 05:46:05 tg Exp $ */
 
 /*-
  * Copyright (c) 2005
@@ -33,7 +33,7 @@
 
 	.intel_syntax noprefix
 	.section .comment
-	.asciz	"$MirOS: src/bin/md5/suma-x86.S,v 1.3 2005/11/16 17:08:47 tg Exp $"
+	.asciz	"$MirOS: src/bin/md5/suma-x86.S,v 1.4 2005/12/17 05:46:05 tg Exp $"
 	.text
 
 
@@ -62,7 +62,7 @@ _C(SUMA_Init):
 	ret
 
 
-/* void SUMA_Update(SUMA_CTX *ctx, const u_int8_t *data, size_t len) */
+/* void SUMA_Update(SUMA_CTX *ctx, const uint8_t *data, size_t len) */
 	.globl	_C(SUMA_Update)
 _C(SUMA_Update):
 	push	ebp
