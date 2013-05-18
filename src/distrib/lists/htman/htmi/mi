@@ -3181,8 +3181,6 @@
 ./man3/bufferevent_write_buffer.htm
 ./man3/byteorder.htm
 ./man3/bzero.htm
-./man3/cabs.htm
-./man3/cabsf.htm
 ./man3/calloc.htm
 ./man3/callrpc.htm
 ./man3/can_change_color.htm
@@ -3249,6 +3247,7 @@
 ./man3/confstr.htm
 ./man3/copysign.htm
 ./man3/copysignf.htm
+./man3/copysignl.htm
 ./man3/copywin.htm
 ./man3/cos.htm
 ./man3/cosf.htm
@@ -3556,15 +3555,19 @@
 ./man3/execvp.htm
 ./man3/exit.htm
 ./man3/exp.htm
+./man3/exp2.htm
+./man3/exp2f.htm
 ./man3/expf.htm
 ./man3/expm1.htm
 ./man3/expm1f.htm
-./man3/exporttai.htm
 ./man3/f.htm
 ./man3/fabs.htm
 ./man3/fabsf.htm
 ./man3/fclose.htm
 ./man3/fcvt.htm
+./man3/fdim.htm
+./man3/fdimf.htm
+./man3/fdiml.htm
 ./man3/fdopen.htm
 ./man3/feof.htm
 ./man3/ferror.htm
@@ -3605,6 +3608,12 @@
 ./man3/floor.htm
 ./man3/floorf.htm
 ./man3/flushinp.htm
+./man3/fmax.htm
+./man3/fmaxf.htm
+./man3/fmaxl.htm
+./man3/fmin.htm
+./man3/fminf.htm
+./man3/fminl.htm
 ./man3/fmod.htm
 ./man3/fmodf.htm
 ./man3/fmt_scaled.htm
@@ -4410,7 +4419,6 @@
 ./man3/iconv_open.htm
 ./man3/idcok.htm
 ./man3/idlok.htm
-./man3/ieee.htm
 ./man3/ieee_test.htm
 ./man3/if_freenameindex.htm
 ./man3/if_indextoname.htm
@@ -4418,8 +4426,8 @@
 ./man3/if_nametoindex.htm
 ./man3/ilogb.htm
 ./man3/ilogbf.htm
+./man3/ilogbl.htm
 ./man3/immedok.htm
-./man3/importtai.htm
 ./man3/in_wch.htm
 ./man3/in_wchnstr.htm
 ./man3/in_wchstr.htm
@@ -4662,6 +4670,7 @@
 ./man3/log2f.htm
 ./man3/logb.htm
 ./man3/logbf.htm
+./man3/logbl.htm
 ./man3/logf.htm
 ./man3/login.htm
 ./man3/login_cap.htm
@@ -4748,9 +4757,7 @@
 ./man3/mitem_userptr.htm
 ./man3/mitem_value.htm
 ./man3/mitem_visible.htm
-./man3/mjd2tai.htm
 ./man3/mjd2timet.htm
-./man3/mjd2tm.htm
 ./man3/mjd_explode.htm
 ./man3/mjd_implode.htm
 ./man3/mkdtemp.htm
@@ -4880,7 +4887,9 @@
 ./man3/newwin.htm
 ./man3/nextafter.htm
 ./man3/nextafterf.htm
+./man3/nextafterl.htm
 ./man3/nextkey.htm
+./man3/nexttoward.htm
 ./man3/nftw.htm
 ./man3/nice.htm
 ./man3/nl.htm
@@ -4994,7 +5003,6 @@
 ./man3/popen.htm
 ./man3/pos_form_cursor.htm
 ./man3/pos_menu_cursor.htm
-./man3/posix2time.htm
 ./man3/posix2timet.htm
 ./man3/post_form.htm
 ./man3/post_menu.htm
@@ -5154,6 +5162,8 @@
 ./man3/remainderf.htm
 ./man3/remove.htm
 ./man3/remque.htm
+./man3/remquo.htm
+./man3/remquof.htm
 ./man3/replace_panel.htm
 ./man3/res_init.htm
 ./man3/res_mkquery.htm
@@ -5191,6 +5201,7 @@
 ./man3/scalbf.htm
 ./man3/scalbn.htm
 ./man3/scalbnf.htm
+./man3/scalbnl.htm
 ./man3/scale_form.htm
 ./man3/scale_menu.htm
 ./man3/scan_scaled.htm
@@ -5503,14 +5514,6 @@
 ./man3/syslog.htm
 ./man3/syslog_r.htm
 ./man3/system.htm
-./man3/tai2mjd.htm
-./man3/tai2timet.htm
-./man3/tai2utc.htm
-./man3/tai_isleap.htm
-./man3/tai_leaps.htm
-./man3/tai_time.htm
-./man3/taina_time.htm
-./man3/taitime.htm
 ./man3/tan.htm
 ./man3/tanf.htm
 ./man3/tanh.htm
@@ -5542,7 +5545,6 @@
 ./man3/tigetnum.htm
 ./man3/tigetstr.htm
 ./man3/time.htm
-./man3/time2posix.htm
 ./man3/timegm.htm
 ./man3/timelocal.htm
 ./man3/timeout.htm
@@ -5554,10 +5556,8 @@
 ./man3/times.htm
 ./man3/timet2mjd.htm
 ./man3/timet2posix.htm
-./man3/timet2tai.htm
 ./man3/timet2tm.htm
 ./man3/timezone.htm
-./man3/tm2mjd.htm
 ./man3/tm2timet.htm
 ./man3/tmpfile.htm
 ./man3/tmpnam.htm
@@ -5614,7 +5614,6 @@
 ./man3/use_extended_names.htm
 ./man3/user_from_uid.htm
 ./man3/usleep.htm
-./man3/utc2tai.htm
 ./man3/utime.htm
 ./man3/uu_lock.htm
 ./man3/uu_lock_txfr.htm

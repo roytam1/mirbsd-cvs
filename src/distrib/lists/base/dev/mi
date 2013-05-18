@@ -431,6 +431,7 @@
 ./usr/include/dev/pci/hifn7751var.h
 ./usr/include/dev/pci/i82365_pcivar.h
 ./usr/include/dev/pci/ichreg.h
+./usr/include/dev/pci/if_alcreg.h
 ./usr/include/dev/pci/if_bcereg.h
 ./usr/include/dev/pci/if_bgereg.h
 ./usr/include/dev/pci/if_devar.h
@@ -5437,8 +5438,6 @@
 ./usr/share/man/cat3/bufferevent_write_buffer.0
 ./usr/share/man/cat3/byteorder.0
 ./usr/share/man/cat3/bzero.0
-./usr/share/man/cat3/cabs.0
-./usr/share/man/cat3/cabsf.0
 ./usr/share/man/cat3/calloc.0
 ./usr/share/man/cat3/callrpc.0
 ./usr/share/man/cat3/can_change_color.0
@@ -5505,6 +5504,7 @@
 ./usr/share/man/cat3/confstr.0
 ./usr/share/man/cat3/copysign.0
 ./usr/share/man/cat3/copysignf.0
+./usr/share/man/cat3/copysignl.0
 ./usr/share/man/cat3/copywin.0
 ./usr/share/man/cat3/cos.0
 ./usr/share/man/cat3/cosf.0
@@ -5812,15 +5812,19 @@
 ./usr/share/man/cat3/execvp.0
 ./usr/share/man/cat3/exit.0
 ./usr/share/man/cat3/exp.0
+./usr/share/man/cat3/exp2.0
+./usr/share/man/cat3/exp2f.0
 ./usr/share/man/cat3/expf.0
 ./usr/share/man/cat3/expm1.0
 ./usr/share/man/cat3/expm1f.0
-./usr/share/man/cat3/exporttai.0
 ./usr/share/man/cat3/f.0
 ./usr/share/man/cat3/fabs.0
 ./usr/share/man/cat3/fabsf.0
 ./usr/share/man/cat3/fclose.0
 ./usr/share/man/cat3/fcvt.0
+./usr/share/man/cat3/fdim.0
+./usr/share/man/cat3/fdimf.0
+./usr/share/man/cat3/fdiml.0
 ./usr/share/man/cat3/fdopen.0
 ./usr/share/man/cat3/feof.0
 ./usr/share/man/cat3/ferror.0
@@ -5861,6 +5865,12 @@
 ./usr/share/man/cat3/floor.0
 ./usr/share/man/cat3/floorf.0
 ./usr/share/man/cat3/flushinp.0
+./usr/share/man/cat3/fmax.0
+./usr/share/man/cat3/fmaxf.0
+./usr/share/man/cat3/fmaxl.0
+./usr/share/man/cat3/fmin.0
+./usr/share/man/cat3/fminf.0
+./usr/share/man/cat3/fminl.0
 ./usr/share/man/cat3/fmod.0
 ./usr/share/man/cat3/fmodf.0
 ./usr/share/man/cat3/fmt_scaled.0
@@ -6146,7 +6156,6 @@
 ./usr/share/man/cat3/iconv_open.0
 ./usr/share/man/cat3/idcok.0
 ./usr/share/man/cat3/idlok.0
-./usr/share/man/cat3/ieee.0
 ./usr/share/man/cat3/ieee_test.0
 ./usr/share/man/cat3/if_freenameindex.0
 ./usr/share/man/cat3/if_indextoname.0
@@ -6154,8 +6163,8 @@
 ./usr/share/man/cat3/if_nametoindex.0
 ./usr/share/man/cat3/ilogb.0
 ./usr/share/man/cat3/ilogbf.0
+./usr/share/man/cat3/ilogbl.0
 ./usr/share/man/cat3/immedok.0
-./usr/share/man/cat3/importtai.0
 ./usr/share/man/cat3/in_wch.0
 ./usr/share/man/cat3/in_wchnstr.0
 ./usr/share/man/cat3/in_wchstr.0
@@ -6398,6 +6407,7 @@
 ./usr/share/man/cat3/log2f.0
 ./usr/share/man/cat3/logb.0
 ./usr/share/man/cat3/logbf.0
+./usr/share/man/cat3/logbl.0
 ./usr/share/man/cat3/logf.0
 ./usr/share/man/cat3/login.0
 ./usr/share/man/cat3/login_cap.0
@@ -6484,9 +6494,7 @@
 ./usr/share/man/cat3/mitem_userptr.0
 ./usr/share/man/cat3/mitem_value.0
 ./usr/share/man/cat3/mitem_visible.0
-./usr/share/man/cat3/mjd2tai.0
 ./usr/share/man/cat3/mjd2timet.0
-./usr/share/man/cat3/mjd2tm.0
 ./usr/share/man/cat3/mjd_explode.0
 ./usr/share/man/cat3/mjd_implode.0
 ./usr/share/man/cat3/mkdtemp.0
@@ -6616,7 +6624,9 @@
 ./usr/share/man/cat3/newwin.0
 ./usr/share/man/cat3/nextafter.0
 ./usr/share/man/cat3/nextafterf.0
+./usr/share/man/cat3/nextafterl.0
 ./usr/share/man/cat3/nextkey.0
+./usr/share/man/cat3/nexttoward.0
 ./usr/share/man/cat3/nftw.0
 ./usr/share/man/cat3/nice.0
 ./usr/share/man/cat3/nl.0
@@ -6730,7 +6740,6 @@
 ./usr/share/man/cat3/popen.0
 ./usr/share/man/cat3/pos_form_cursor.0
 ./usr/share/man/cat3/pos_menu_cursor.0
-./usr/share/man/cat3/posix2time.0
 ./usr/share/man/cat3/posix2timet.0
 ./usr/share/man/cat3/post_form.0
 ./usr/share/man/cat3/post_menu.0
@@ -6880,6 +6889,8 @@
 ./usr/share/man/cat3/remainderf.0
 ./usr/share/man/cat3/remove.0
 ./usr/share/man/cat3/remque.0
+./usr/share/man/cat3/remquo.0
+./usr/share/man/cat3/remquof.0
 ./usr/share/man/cat3/replace_panel.0
 ./usr/share/man/cat3/res_init.0
 ./usr/share/man/cat3/res_mkquery.0
@@ -6917,6 +6928,7 @@
 ./usr/share/man/cat3/scalbf.0
 ./usr/share/man/cat3/scalbn.0
 ./usr/share/man/cat3/scalbnf.0
+./usr/share/man/cat3/scalbnl.0
 ./usr/share/man/cat3/scale_form.0
 ./usr/share/man/cat3/scale_menu.0
 ./usr/share/man/cat3/scan_scaled.0
@@ -7229,14 +7241,6 @@
 ./usr/share/man/cat3/syslog.0
 ./usr/share/man/cat3/syslog_r.0
 ./usr/share/man/cat3/system.0
-./usr/share/man/cat3/tai2mjd.0
-./usr/share/man/cat3/tai2timet.0
-./usr/share/man/cat3/tai2utc.0
-./usr/share/man/cat3/tai_isleap.0
-./usr/share/man/cat3/tai_leaps.0
-./usr/share/man/cat3/tai_time.0
-./usr/share/man/cat3/taina_time.0
-./usr/share/man/cat3/taitime.0
 ./usr/share/man/cat3/tan.0
 ./usr/share/man/cat3/tanf.0
 ./usr/share/man/cat3/tanh.0
@@ -7268,7 +7272,6 @@
 ./usr/share/man/cat3/tigetnum.0
 ./usr/share/man/cat3/tigetstr.0
 ./usr/share/man/cat3/time.0
-./usr/share/man/cat3/time2posix.0
 ./usr/share/man/cat3/timegm.0
 ./usr/share/man/cat3/timelocal.0
 ./usr/share/man/cat3/timeout.0
@@ -7280,10 +7283,8 @@
 ./usr/share/man/cat3/times.0
 ./usr/share/man/cat3/timet2mjd.0
 ./usr/share/man/cat3/timet2posix.0
-./usr/share/man/cat3/timet2tai.0
 ./usr/share/man/cat3/timet2tm.0
 ./usr/share/man/cat3/timezone.0
-./usr/share/man/cat3/tm2mjd.0
 ./usr/share/man/cat3/tm2timet.0
 ./usr/share/man/cat3/tmpfile.0
 ./usr/share/man/cat3/tmpnam.0
@@ -7340,7 +7341,6 @@
 ./usr/share/man/cat3/use_extended_names.0
 ./usr/share/man/cat3/user_from_uid.0
 ./usr/share/man/cat3/usleep.0
-./usr/share/man/cat3/utc2tai.0
 ./usr/share/man/cat3/utime.0
 ./usr/share/man/cat3/uu_lock.0
 ./usr/share/man/cat3/uu_lock_txfr.0
