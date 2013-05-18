@@ -1,5 +1,7 @@
-# $MirOS$
+# $MirOS: ports/x11/gnome/yelp/Makefile,v 1.4 2007/04/18 20:05:09 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.6 2004/02/22 05:33:55 marcm Exp $
+
+BROKEN=			very old, new version needs mozilla devel package
 
 COMMENT=		GNOME help browser
 
