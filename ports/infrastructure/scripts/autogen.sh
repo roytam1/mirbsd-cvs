@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/share/misc/licence.template,v 1.6 2006/01/24 22:24:02 tg Rel $
+# $MirOS: ports/infrastructure/scripts/autogen.sh,v 1.1 2006/02/05 17:16:40 tg Exp $
 #-
 # Copyright (c) 2004, 2005, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -43,7 +43,7 @@ done
 
 set -e
 set -x
-aclocal ${ACLOCAL_FLAGS:--I .}
+aclocal -I . $ACLOCAL_FLAGS
 f=configure.ac
 [[ ! -e $f ]] && f=configure.in
 if fgrep -q -e AC_CONFIG_HEADER -e AM_CONFIG_HEADER $f; then
