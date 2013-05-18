@@ -1,5 +1,5 @@
 <!-- PageID: mksh -->
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.54 2006/09/07 14:31:13 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.55 2006/09/09 15:24:45 tg Exp $</small>
 
 <h1>mksh(1) R28</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
@@ -459,12 +459,12 @@
   <li>FreeWRT GNU/Linux SVN 2.4-BRCM (mipsel) &ndash; part of FreeWRT: testsuite not run</li>
   <li>FreeBSD (unknown) &ndash; part of FreeBSD Ports: not tried</li>
   <li>Gentoo GNU/Linux (i386 powerpc) &ndash; part of Portage: not tried</li>
+  <li>CRUX GNU/Linux (i386) &ndash; via Han Boetes' repository: not tested</li>
  </ul></li>
  <li>mksh R28&szlig;<ul>
   <li>NetBSD 1.6.1 (pmax)</li>
    <!-- missing:
   <li>MirOS BSD #9-stable (sparc)</li>
-  <li>CRUX GNU/Linux (i386) &ndash; not tested, via Han Boetes</li>
   <li>Solaris 10 (?) &ndash; tested by Tonnerre Lombard</li>
   <li>pkgsrc</li>
   <li>Mac OSX Panther (powerpc) &ndash; not tested, via Fink</li>
