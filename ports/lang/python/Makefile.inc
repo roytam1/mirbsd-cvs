@@ -1,4 +1,4 @@
-# $MirOS: ports/lang/python/Makefile.inc,v 1.10 2007/07/19 22:10:20 tg Exp $
+# $MirOS: ports/lang/python/Makefile.inc,v 1.11 2007/07/19 22:13:07 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.32 2005/06/06 20:47:04 alek Exp $
 
 .include <mirports.sys.mk>
@@ -152,20 +152,26 @@ LIB_DEPENDS+=		gmp::devel/gmp
 LIB_DEPENDS+=		gmp::devel/gmp
 .endif
 
+.if ${OStype} == "MirBSD"
+MODPY_LOCAL_EXPAT=	# nothing, it’s in base since MirOS #8
+.else
+MODPY_LOCAL_EXPAT=	expat.4.0:expat->=1.95.6:textproc/expat
+.endif
+
 .if empty(FLAVOR:L:Mno_expat) && ${VERSION} == "2.3"
 SETUP_LOCAL+=		Setup.expat
 .  if !defined(NO_SHARED_LIBS) || ${NO_SHARED_LIBS:U} != YES
 .    if !defined(PACKAGING)
-LIB_DEPENDS+=		expat.4.0:expat->=1.95.6:textproc/expat
+LIB_DEPENDS+=		${MODPY_LOCAL_EXPAT}
 .    endif
 MULTI_PACKAGES+= 	-expat
 .  else
-LIB_DEPENDS+=		expat.4.0:expat->=1.95.6:textproc/expat
+LIB_DEPENDS+=		${MODPY_LOCAL_EXPAT}
 .  endif
 .endif
 
 .if defined(PACKAGING) && ${SUBPACKAGE} == "-expat"
-LIB_DEPENDS+=		expat.4.0:expat->=1.95.6:textproc/expat
+LIB_DEPENDS+=		${MODPY_LOCAL_EXPAT}
 .endif
 
 # Strip off no_xxx flavors from the package name if we are not
