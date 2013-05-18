@@ -2038,3 +2038,36 @@ Author: tg@
  That means some more coding (where the assembly part is the easier half…)
  and possibly testing. But it’ll rock.</p>
 ----
+Author: bsiegert@
+Date: 14.09.2007
+
+<p>Writing a diploma thesis is really a job where you can see how the
+ UNIX style is superior to what Windows users are used to. Using (in my
+ case) LaTeX and a Revision Control System (Subversion here), you enjoy
+ lots of benefits: I can give the source code to someone for revision,
+ tag the version I gave out, check in what I get back and merge. Compare
+ this to using Word (eek) or OpenOffice.org: you can track changes, but
+ if you work on the document in the meantime, it is not so easy to merge
+ changes from two sources.</p>
+
+<p>Add the fact that the result so far looks absolutely gorgeous, with
+ nice margins, well-placed images and a great text font (I love
+ Palatino). And the LaTeX way of doing automatic numbering and links
+ worked perfectly when I decided in the middle to restructure what I
+ already had. Managing my references with BibTeX, especially with <a
+ href="http://bibdesk.sourceforge.net/">BibDesk</a> as a Mac&nbsp;OS
+ front-end, is also a pleasure.</p>
+
+<p>We had a discussion on IRC (#mirbsd, of course) about Revision
+ Control Systems, triggered by tg@ whining about Subversion again. Let
+ me just say that we have different opinions on this topic.</p>
+
+<p>Apparently, GNU arch is more or less dead, many people are jumping on
+ the git bandwagon. bzr (sp?) and Mercurial (hg) are also popular
+ choices but seen less usable. I will definitely port svk though. They
+ promise the good parts from Subversion without the overhead of
+ libsvn_wc. "In fact, one of the motivations for writing svk was to get
+ rid of that Spaghetti code." Sounds interesting. Working copies are
+ smaller, checkouts are faster, mirroring is easier, they claim. Let's
+ see.</p>
+----
