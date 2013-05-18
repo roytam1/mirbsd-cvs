@@ -23,7 +23,7 @@
  * of said person's immediate fault when using the work as intended.
  */
 
-#define	EXTERN
+#define EXTERN
 #include "sh.h"
 
 #if HAVE_LANGINFO_CODESET
@@ -33,7 +33,7 @@
 #include <locale.h>
 #endif
 
-__RCSID("$MirOS: src/bin/mksh/main.c,v 1.195 2011/07/06 22:21:57 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/main.c,v 1.196 2011/07/16 17:08:19 tg Exp $");
 
 extern char **environ;
 

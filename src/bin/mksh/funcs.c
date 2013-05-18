@@ -38,7 +38,7 @@
 #endif
 #endif
 
-__RCSID("$MirOS: src/bin/mksh/funcs.c,v 1.193 2011/07/05 20:12:18 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/funcs.c,v 1.194 2011/07/20 23:47:28 tg Exp $");
 
 #if HAVE_KILLPG
 /*
@@ -53,11 +53,11 @@ __RCSID("$MirOS: src/bin/mksh/funcs.c,v 1.193 2011/07/05 20:12:18 tg Exp $");
 
 /* XXX conditions correct? */
 #if !defined(RLIM_INFINITY) && !defined(MKSH_NO_LIMITS)
-#define MKSH_NO_LIMITS
+#define MKSH_NO_LIMITS	1
 #endif
 
 #ifdef MKSH_NO_LIMITS
-#define c_ulimit c_true
+#define c_ulimit	c_true
 #endif
 
 #if defined(ANDROID)
