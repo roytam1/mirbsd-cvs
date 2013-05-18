@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.416 2013/02/20 14:04:19 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.417 2013/02/23 20:28:43 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -9809,4 +9809,14 @@ Tag: personal
  try to persuade my employer to send me to CLT 2013 next month… just,
  don’t deadline me right now. I’m not taking a VACation either (though
  I probably should, had I money).</p>
+----
+Date: 04.03.2013 18:55
+Author: tg@
+Title: Himbeerichüechli!
+Tag: twitxr
+
+<p><a href="@@RELPATH@@pics/wlog/Himbeerquarkschnitte.JPG"><img
+ src="@@RELPATH@@pics/wlog/Himbeerquarkschnitte.jpg"
+ alt="Himbeerquarkschnitte" /></a> <i>*winkt Ventilator*</i></p>
+<p>Natürlich mit MirKaffee (enthält Milch, Kakao, Kaffee, Rohrzucker)!</p>
 ----
