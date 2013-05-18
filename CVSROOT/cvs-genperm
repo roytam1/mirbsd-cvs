@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: CVSROOT/cvs-genperm,v 1.15 2005/12/20 00:30:57 tg Exp $
+# $MirOS: CVSROOT/cvs-genperm,v 1.16 2005/12/22 01:15:13 tg Exp $
 #-
 # Copyright (c) 2003, 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@mirbsd.de>
@@ -78,7 +78,7 @@ touch CVSROOT/{history,val-tags} Logs/{ChangeLog,idcache}
 mkdir -p .tmp
 
 let cnt=42
-find "$CVSROOT$fr" | while IFS= read pname; do
+find "$CVSROOT"$fr | while IFS= read pname; do
 	name="${pname#${CVSROOT}/}"
 	[[ -z $name || $name = @(.|..|.tmp) ]] && continue
 	if (( cnt > 0 )); then
