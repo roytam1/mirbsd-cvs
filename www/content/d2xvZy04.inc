@@ -1,5 +1,5 @@
 <!-- PageID: wlog-8 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.83 2006/06/16 18:56:27 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.84 2006/06/16 19:14:21 tg Exp $</small>
 <h1>MirBSD &ndash; WTF, We Have a Release!?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -1487,6 +1487,12 @@ celebrate this event, rotate the wlog and start a new one.</p>
   the public first though, afterwards I might tend to the pending issues
   (such as gzio support for config(8) and sparc userland). And of course
   the status report eMail.</p>
+ <p>Fun. I built (almost) the entire system with the cross compiler, and
+  I wonder whether it works at all or what works. Discovered a few bugs,
+  mostly Makefiles, in between &ndash; explains why macppc did not work.
+  I could probably build lynx(1), mkisofs(8) and rcs(8) and its friends,
+  but that's not worth the effort, and they can easily be made natively.
+  Still, almost all non-GNU tools are built now.</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
