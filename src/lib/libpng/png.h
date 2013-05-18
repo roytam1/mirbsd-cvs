@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libpng/png.h,v 1.4 2006/06/09 00:34:46 tg Exp $ */
+/* $MirOS: src/lib/libpng/png.h,v 1.5 2006/06/29 17:14:23 tg Exp $ */
 
 /* png.h - header file for MirOS in-tree PNG library
  *
@@ -12,21 +12,19 @@
  * the Licensor being the MirOS Project and Thorsten Glaser as leader,
  * with the following copyright holders:
  *
- * Copyright (c) 2004 Thorsten Glaser, The MirOS Project
- * Copyright (c) 2004, 2006 Glenn Randers-Pehrson
- * Copyright (c) 2000-2002 Glenn Randers-Pehrson
- * Copyright (c) 1998, 1999, 2000 Glenn Randers-Pehrson
+ * Copyright (c) 2004-2007 Thorsten Glaser, The MirOS Project
+ * Copyright (c) 1998-2007 Glenn Randers-Pehrson
  * Copyright (c) 1996, 1997 Andreas Dilger
  * Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.
  *
- * Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
- * express, or implied, to the maximum extent permitted by applicable
- * law, without malicious intent or gross negligence; in no event may
- * licensor, an author or contributor be held liable for any indirect
- * or other damage, or direct damage except proven a consequence of a
- * direct error of said person and intended use of this work, loss or
- * other issues arising in any way out of its use, even if advised of
- * the possibility of such damage or existence of a nontrivial bug.
+ * This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
+ * the utmost extent permitted by applicable law, neither express nor
+ * implied; without malicious intent or gross negligence. In no event
+ * may a licensor, author or contributor be held liable for indirect,
+ * direct, other damage, loss, or other issues arising in any way out
+ * of dealing in the work, even if advised of the possibility of such
+ * damage or existence of a defect, except proven that it results out
+ * of said person's immediate fault when using the work as intended.
  *
  * For the purposes of this copyright and license, "Contributing Authors"
  * is defined as the following set of individuals:
@@ -116,9 +114,9 @@
  */
 
 /* Version information for png.h - this should match the version in png.c */
-#define PNG_LIBPNG_VER_STRING "1.2.12-MirOS"
+#define PNG_LIBPNG_VER_STRING "1.2.18-MirOS"
 #define PNG_HEADER_VERSION_STRING \
-   " libpng version 1.2.12-MirOS - June 27, 2006 (header)\n"
+   " libpng version 1.2.18-MirOS - May 15, 2007 (header)\n"
 
 #define PNG_LIBPNG_VER_SONUM   0
 #define PNG_LIBPNG_VER_DLLNUM  13
@@ -126,7 +124,7 @@
 /* These should match the first 3 components of PNG_LIBPNG_VER_STRING: */
 #define PNG_LIBPNG_VER_MAJOR   1
 #define PNG_LIBPNG_VER_MINOR   2
-#define PNG_LIBPNG_VER_RELEASE 12
+#define PNG_LIBPNG_VER_RELEASE 18
 /* This should match the numeric part of the final component of
  * PNG_LIBPNG_VER_STRING, omitting any leading zero: */
 
@@ -154,7 +152,7 @@
  * Versions 0.7 through 1.0.0 were in the range 0 to 100 here (only
  * version 1.0.0 was mis-numbered 100 instead of 10000).  From
  * version 1.0.1 it's    xxyyzz, where x=major, y=minor, z=release */
-#define PNG_LIBPNG_VER 10212 /* 1.2.12 */
+#define PNG_LIBPNG_VER 10218 /* 1.2.18 */
 
 #ifndef PNG_VERSION_INFO_ONLY
 /* include the compression library's header */
@@ -1121,10 +1119,14 @@ struct png_struct_def
 #endif
 
 /* New members added in libpng-1.2.0 */
-#if !defined(PNG_1_0_X) && defined(PNG_ASSEMBLER_CODE_SUPPORTED)
+#if defined(PNG_ASSEMBLER_CODE_SUPPORTED)
+#  if !defined(PNG_1_0_X)
+#    if defined(PNG_MMX_CODE_SUPPORTED)
    png_byte     mmx_bitdepth_threshold;
    png_uint_32  mmx_rowbytes_threshold;
+#    endif
    png_uint_32  asm_flags;
+#  endif
 #endif
 
 /* New members added in libpng-1.0.2 but first enabled by default in 1.2.0 */
@@ -1154,13 +1156,18 @@ struct png_struct_def
    png_uint_32 user_height_max;
 #endif
 
+/* New member added in libpng-1.0.25 and 1.2.17 */
+#if defined(PNG_UNKNOWN_CHUNKS_SUPPORTED)
+   /* storage for unknown chunk that the library doesn't recognize. */
+   png_unknown_chunk unknown_chunk;
+#endif
 };
 
 
 /* This triggers a compiler error in png.c, if png.c and png.h
  * do not agree upon the version number.
  */
-typedef png_structp version_1_2_12;
+typedef png_structp version_1_2_18;
 
 typedef png_struct FAR * FAR * png_structpp;
 
@@ -2156,7 +2163,7 @@ extern PNG_EXPORT(void,png_set_sCAL_s) PNGARG((png_structp png_ptr,
    handling or default unknown chunk handling is not desired.  Any chunks not
    listed will be handled in the default manner.  The IHDR and IEND chunks
    must not be listed.
-      keep = 0: follow default behavour
+      keep = 0: follow default behaviour
            = 1: do not keep
            = 2: keep only if safe-to-copy
            = 3: keep even if unsafe-to-copy
@@ -2266,6 +2273,7 @@ extern PNG_EXPORT(png_uint_32,png_permit_mng_features) PNGARG((png_structp
 
 /* Added to version 1.2.0 */
 #if defined(PNG_ASSEMBLER_CODE_SUPPORTED)
+#if defined(PNG_MMX_CODE_SUPPORTED)
 #define PNG_ASM_FLAG_MMX_SUPPORT_COMPILED  0x01  /* not user-settable */
 #define PNG_ASM_FLAG_MMX_SUPPORT_IN_CPU    0x02  /* not user-settable */
 #define PNG_ASM_FLAG_MMX_READ_COMBINE_ROW  0x04
@@ -2291,6 +2299,7 @@ extern PNG_EXPORT(png_uint_32,png_permit_mng_features) PNGARG((png_structp
 
 #define PNG_SELECT_READ   1
 #define PNG_SELECT_WRITE  2
+#endif /* PNG_MMX_CODE_SUPPORTED */
 
 #if !defined(PNG_1_0_X)
 /* pngget.c */
@@ -2323,11 +2332,11 @@ extern PNG_EXPORT(void,png_set_mmx_thresholds)
    png_uint_32 mmx_rowbytes_threshold));
 
 #endif /* PNG_1_0_X */
-#endif /* PNG_ASSEMBLER_CODE_SUPPORTED */
 
 #if !defined(PNG_1_0_X)
 /* png.c, pnggccrd.c, or pngvcrd.c */
 extern PNG_EXPORT(int,png_mmx_support) PNGARG((void));
+#endif /* PNG_ASSEMBLER_CODE_SUPPORTED */
 
 /* Strip the prepended error numbers ("#nnn ") from error and warning
  * messages before passing them to the error or warning handler. */
@@ -2435,16 +2444,21 @@ extern PNG_EXPORT(void,png_save_uint_16)
  * be found in the files where the functions are located.
  */
 
-#if defined(PNG_INTERNAL)
 
-/* Various modes of operation.  Note that after an init, mode is set to
- * zero automatically when the structure is created.
+/* Various modes of operation, that are visible to applications because
+ * they are used for unknown chunk location.
  */
 #define PNG_HAVE_IHDR               0x01
 #define PNG_HAVE_PLTE               0x02
 #define PNG_HAVE_IDAT               0x04
 #define PNG_AFTER_IDAT              0x08 /* Have complete zlib datastream */
 #define PNG_HAVE_IEND               0x10
+
+#if defined(PNG_INTERNAL)
+
+/* More modes of operation.  Note that after an init, mode is set to
+ * zero automatically when the structure is created.
+ */
 #define PNG_HAVE_gAMA               0x20
 #define PNG_HAVE_cHRM               0x40
 #define PNG_HAVE_sRGB               0x80
@@ -3229,8 +3243,10 @@ PNG_EXTERN void png_do_write_intrapixel PNGARG((png_row_infop row_info,
 #endif
 
 #if defined(PNG_ASSEMBLER_CODE_SUPPORTED)
+#if defined(PNG_MMX_CODE_SUPPORTED)
 /* png.c */ /* PRIVATE */
 PNG_EXTERN void png_init_mmx_flags PNGARG((png_structp png_ptr));
+#endif
 #endif
 
 #if defined(PNG_INCH_CONVERSIONS) && defined(PNG_FLOATING_POINT_SUPPORTED)

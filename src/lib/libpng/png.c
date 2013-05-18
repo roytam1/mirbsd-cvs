@@ -1,11 +1,11 @@
 #include <sys/cdefs.h>
-__RCSID("$MirOS: src/lib/libpng/png.c,v 1.5 2006/06/09 00:34:46 tg Exp $");
+__RCSID("$MirOS: src/lib/libpng/png.c,v 1.6 2006/06/29 17:14:23 tg Exp $");
 
 /* png.c - location for general purpose libpng functions
  *
- * Last changed in libpng 1.2.9 April 14, 2006
+ * Last changed in libpng 1.2.17 May 15, 2007
  * For conditions of distribution and use, see copyright notice in png.h
- * Copyright (c) 1998-2006 Glenn Randers-Pehrson
+ * Copyright (c) 1998-2007 Glenn Randers-Pehrson
  * (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
  * (Version 0.88 Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.)
  */
@@ -15,7 +15,7 @@ __RCSID("$MirOS: src/lib/libpng/png.c,v 1.5 2006/06/09 00:34:46 tg Exp $");
 #include "png.h"
 
 /* Generate a compiler error if there is an old png.h in the search path. */
-typedef version_1_2_12 Your_png_h_is_not_version_1_2_12;
+typedef version_1_2_18 Your_png_h_is_not_version_1_2_18;
 
 /* Version information for C files.  This had better match the version
  * string defined in png.h.  */
@@ -70,7 +70,7 @@ const int png_pass_ystart[] = {0, 0, 4, 0, 2, 0, 1};
 const int png_pass_yinc[] = {8, 8, 8, 4, 4, 2, 2};
 
 /* width of interlace block (used in assembler routines only) */
-#ifdef PNG_HAVE_ASSEMBLER_COMBINE_ROW
+#ifdef PNG_HAVE_MMX_COMBINE_ROW
 const int png_pass_width[] = {8, 4, 4, 2, 2, 1, 1};
 #endif
 
@@ -99,6 +99,7 @@ const int png_pass_dsp_mask[]
 void PNGAPI
 png_set_sig_bytes(png_structp png_ptr, int num_bytes)
 {
+   if(png_ptr == NULL) return;
    png_debug(1, "in png_set_sig_bytes\n");
    if (num_bytes > 8)
       png_error(png_ptr, "Too many bytes for PNG signature.");
@@ -155,13 +156,14 @@ voidpf /* private */
 png_zalloc(voidpf png_ptr, uInt items, uInt size)
 {
    png_voidp ptr;
-   png_structp p=png_ptr;
+   png_structp p=(png_structp)png_ptr;
    png_uint_32 save_flags=p->flags;
    png_uint_32 num_bytes;
 
+   if(png_ptr == NULL) return (NULL);
    if (items > PNG_UINT_32_MAX/size)
    {
-     png_warning (png_ptr, "Potential overflow in png_zalloc()");
+     png_warning (p, "Potential overflow in png_zalloc()");
      return (NULL);
    }
    num_bytes = (png_uint_32)items * size;
@@ -268,6 +270,7 @@ void PNGAPI
 png_destroy_info_struct(png_structp png_ptr, png_infopp info_ptr_ptr)
 {
    png_infop info_ptr = NULL;
+   if(png_ptr == NULL) return;
 
    png_debug(1, "in png_destroy_info_struct\n");
    if (info_ptr_ptr != NULL)
@@ -305,6 +308,8 @@ void PNGAPI
 png_info_init_3(png_infopp ptr_ptr, png_size_t png_info_struct_size)
 {
    png_infop info_ptr = *ptr_ptr;
+
+   if(info_ptr == NULL) return;
 
    png_debug(1, "in png_info_init_3\n");
 
@@ -487,6 +492,11 @@ if (mask & PNG_FREE_SPLT)
 #endif
 
 #if defined(PNG_UNKNOWN_CHUNKS_SUPPORTED)
+  if(png_ptr->unknown_chunk.data)
+  {
+    png_free(png_ptr, png_ptr->unknown_chunk.data);
+    png_ptr->unknown_chunk.data = NULL;
+  }
 #ifdef PNG_FREE_ME_SUPPORTED
 if ((mask & PNG_FREE_UNKN) & info_ptr->free_me)
 #else
@@ -613,6 +623,7 @@ png_info_destroy(png_structp png_ptr, png_infop info_ptr)
 png_voidp PNGAPI
 png_get_io_ptr(png_structp png_ptr)
 {
+   if(png_ptr == NULL) return (NULL);
    return (png_ptr->io_ptr);
 }
 
@@ -628,6 +639,7 @@ void PNGAPI
 png_init_io(png_structp png_ptr, png_FILE_p fp)
 {
    png_debug(1, "in png_init_io\n");
+   if(png_ptr == NULL) return;
    png_ptr->io_ptr = (png_voidp)fp;
 }
 #endif
@@ -643,6 +655,7 @@ png_convert_to_rfc1123(png_structp png_ptr, png_timep ptime)
         {"Jan", "Feb", "Mar", "Apr", "May", "Jun",
          "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
 
+   if(png_ptr == NULL) return (NULL);
    if (png_ptr->time_buffer == NULL)
    {
       png_ptr->time_buffer = (png_charp)png_malloc(png_ptr, (png_uint_32)(29*
@@ -695,9 +708,9 @@ png_charp PNGAPI
 png_get_copyright(png_structp png_ptr)
 {
    if (&png_ptr != NULL)  /* silence compiler warning about unused png_ptr */
-   return ((png_charp) "\n libpng version 1.2.12-MirOS - June 27, 2006\n\
-   Copyright (c) 2004-2006 The MirOS Project - http://mirbsd.de/\n\
-   Copyright (c) 1998-2006 Glenn Randers-Pehrson\n\
+   return ((png_charp) "\n libpng version 1.2.18-MirOS - May 15, 2007\n\
+   Copyright (c) 2004-2007 The MirOS Project - http://mirbsd.de/\n\
+   Copyright (c) 1998-2007 Glenn Randers-Pehrson\n\
    Copyright (c) 1996-1997 Andreas Dilger\n\
    Copyright (c) 1995-1996 Guy Eric Schalnat, Group 42, Inc.\n");
    return ((png_charp) "");
@@ -760,6 +773,7 @@ png_handle_as_unknown(png_structp png_ptr, png_bytep chunk_name)
 int PNGAPI
 png_reset_zstream(png_structp png_ptr)
 {
+   if (png_ptr == NULL) return Z_STREAM_ERROR;
    return (inflateReset(&png_ptr->zstream));
 }
 #endif /* defined(PNG_READ_SUPPORTED) || defined(PNG_WRITE_SUPPORTED) */
@@ -773,15 +787,18 @@ png_access_version_number(void)
 }
 
 
-#if defined(PNG_READ_SUPPORTED)
+#if defined(PNG_READ_SUPPORTED) /*&& defined(PNG_ASSEMBLER_CODE_SUPPORTED)*/
 #if !defined(PNG_1_0_X)
 /* this function was added to libpng 1.2.0 */
+#if !defined(PNG_USE_PNGGCCRD) && \
+    !(defined(PNG_MMX_CODE_SUPPORTED) && defined(PNG_USE_PNGVCRD))
 int PNGAPI
 png_mmx_support(void)
 {
     return -1;
 }
-#endif /* PNG_1_0_X */
+#endif
+#endif /* PNG_1_0_X  && PNG_ASSEMBLER_CODE_SUPPORTED */
 #endif /* PNG_READ_SUPPORTED */
 
 #if defined(PNG_READ_SUPPORTED) || defined(PNG_WRITE_SUPPORTED)
