@@ -1,4 +1,4 @@
-/* $MirOS: src/include/wchar.h,v 1.30 2008/11/22 14:00:49 tg Exp $ */
+/* $MirOS: src/include/wchar.h,v 1.31 2008/12/27 20:10:06 tg Exp $ */
 
 /*-
  * Copyright (c) 2007, 2008
@@ -32,6 +32,12 @@
 #include <stddef.h>
 #include <stdio.h>
 #include <time.h>
+
+/* ISO/IEC 9899:1999/Cor.3:2007(E) */
+#ifdef __STDC_MB_MIGHT_NEQ_WC__
+/* we really need wchar_t values to be proper Unicode */
+#error You are crazy. Go away.
+#endif
 
 #ifndef __IN_MKDEP
 /* makedepend may not define the constants we are checking for */
