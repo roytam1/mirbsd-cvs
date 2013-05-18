@@ -1,7 +1,7 @@
 ! $MirSecuCron$
-! $MirOS: src/etc/skel/dot.Xresources,v 1.16 2010/01/31 00:36:38 tg Exp $
+! $MirOS: src/etc/skel/dot.Xresources,v 1.17 2010/01/31 12:14:37 tg Exp $
 !-
-! Copyright © 2003, 2006, 2007, 2009, 2010
+! Copyright © 2003, 2006, 2007, 2009, 2010, 2011
 !	Thorsten Glaser <tg@mirbsd.org>
 !
 ! Provided that these terms and disclaimer and all copyright notices
@@ -50,7 +50,7 @@ XTerm*VT100*color4:		rgb:11/11/EE
 XTerm*VT100*color5:		magenta3
 XTerm*VT100*color6:		cyan3
 XTerm*VT100*color7:		gray90
-XTerm*VT100*color8:		gray30
+XTerm*VT100*color8:		gray40
 XTerm*VT100*color9:		red
 XTerm*VT100*color10:		green
 XTerm*VT100*color11:		yellow
@@ -98,7 +98,7 @@ UXTerm*VT100*color4:		rgb:11/11/EE
 UXTerm*VT100*color5:		magenta3
 UXTerm*VT100*color6:		cyan3
 UXTerm*VT100*color7:		gray90
-UXTerm*VT100*color8:		gray30
+UXTerm*VT100*color8:		gray40
 UXTerm*VT100*color9:		red
 UXTerm*VT100*color10:		green
 UXTerm*VT100*color11:		yellow
