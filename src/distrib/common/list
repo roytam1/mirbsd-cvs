@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/list,v 1.24 2008/12/18 17:20:33 tg Exp $
+# $MirOS: src/distrib/common/list,v 1.25 2008/12/27 00:27:00 tg Exp $
 
 # standard tools in the crunched binary
 COPY	${OBJDIR}/instbin			instbin
@@ -72,7 +72,7 @@ SPECIAL	chmod 755 sbin/dhclient-script
 SCRIPT	${DESTDIR}/etc/disktab			etc/disktab.shadow
 SYMLINK	/tmp/disktab.shadow			etc/disktab
 SYMLINK	/tmp/fstab.shadow			etc/fstab
-COPY	${DESTDIR}/etc/group			etc/group
+COPY	${TOPDIR}/common/group			etc/group
 SYMLINK	/tmp/hosts				etc/hosts
 COPY	${TOPDIR}/common/protocols		etc/protocols
 SYMLINK	/tmp/resolv.conf.shadow			etc/resolv.conf
