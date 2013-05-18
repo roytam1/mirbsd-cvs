@@ -1,8 +1,8 @@
-# $MirOS: ports/x11/terminus-font/Makefile,v 1.2 2005/12/16 10:31:47 tg Exp $
+# $MirOS: ports/x11/terminus-font/Makefile,v 1.3 2006/09/14 00:15:39 tg Exp $
 # $OpenBSD: Makefile,v 1.7 2004/01/30 17:04:48 lebel Exp $
 
-COMMENT=			fixed width fonts especially for long hacking sessions
-DISTNAME=		terminus-font-4.16
+COMMENT=		fixed width fonts especially for long hacking sessions
+DISTNAME=		terminus-font-4.20
 CATEGORIES=		x11
 HOMEPAGE=		http://www.is-vn.bg/hamster/jimmy-en.html
 
@@ -28,6 +28,7 @@ do-install:
 	${INSTALL_DATA_DIR} ${FONTDIR}
 	${INSTALL_DATA} ${WRKSRC}/*.pcf.gz ${FONTDIR}/
 	cd ${FONTDIR} && ${X11BASE}/bin/mkfontdir; \
-	    sed -e 's/.pcf.gz//' fonts.dir | fgrep terminus >fonts.alias
+	    fgrep terminus fonts.dir | sed -e 's/.pcf.gz//' \
+	    -e 's/^ter-/terminus-/' >fonts.alias
 
 .include <bsd.port.mk>

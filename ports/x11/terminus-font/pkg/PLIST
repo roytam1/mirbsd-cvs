@@ -1,4 +1,4 @@
-@comment $MirOS$
+@comment $MirOS: ports/x11/terminus-font/pkg/PLIST,v 1.2 2005/12/16 10:31:47 tg Exp $
 @comment $OpenBSD: PLIST,v 1.3 2003/11/02 23:21:56 naddy Exp $
 lib/X11/fonts/terminus/fonts.alias
 lib/X11/fonts/terminus/fonts.dir
@@ -161,3 +161,4 @@ lib/X11/fonts/terminus/ter-x32n.pcf.gz
 @dirrm lib/X11/fonts/terminus
 @exec echo "Add %B to your font path"
 @exec echo "e.g., with xset fp+ %B; xset fp rehash"
+@dirrm lib/X11/fonts
