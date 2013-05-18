@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/kern/init_main.c,v 1.19 2008/02/24 12:47:19 tg Exp $ */
+/**	$MirOS: src/sys/kern/init_main.c,v 1.20 2008/04/09 05:45:42 tg Exp $ */
 /*	$OpenBSD: init_main.c,v 1.120 2004/11/23 19:08:55 miod Exp $	*/
 /*	$NetBSD: init_main.c,v 1.84.4.1 1996/06/02 09:08:06 mrg Exp $	*/
 /*	$OpenBSD: kern_xxx.c,v 1.9 2003/08/15 20:32:18 tedu Exp $	*/
@@ -364,7 +364,7 @@ main(/* XXX should go away */ void *framep)
 	for (pdev = pdevinit; pdev->pdev_attach != NULL; pdev++)
 		if (pdev->pdev_count > 0)
 			(*pdev->pdev_attach)(pdev->pdev_count);
-	rnd_bootpool += ticks;
+	rnd_bootpool_add(&ticks, sizeof (ticks));
 
 #ifdef	CRYPTO
 	swcr_init();
@@ -492,8 +492,6 @@ main(/* XXX should go away */ void *framep)
 	}
 #endif
 
-	add_true_randomness(rnd_bootpool);
-	rnd_bootpool = rnd_bootpool_done = 1;
 	srandom(arc4random());
 	randompid = 1;
 

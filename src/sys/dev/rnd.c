@@ -426,12 +426,13 @@ int filt_rndwrite(struct knote *kn, long hint);
 struct filterops rndwrite_filtops =
 	{ 1, NULL, filt_rndwdetach, filt_rndwrite};
 
-uint32_t rnd_addpool_buf[rnd_addpool_size], rnd_bootpool = 1 /* adler32 */;
+uint32_t rnd_addpool_buf[rnd_addpool_size];
 int rnd_addpool_num = 0, rnd_addpool_allow = 1;
+static int rnd_addpool_ptr;
 static int rnd_attached;
 static int arc4random_initialised;
 struct rndstats rndstats;
-int arc4random_seedfreq = 0, rnd_bootpool_done = 0;
+int arc4random_seedfreq = 0;
 
 /* from sys/conf/newvers.sh */
 extern unsigned char initial_entropy[16];
@@ -683,9 +684,7 @@ randomattach(void)
 		arc4random_seedfreq = 10 * 60 * hz;
 
 	++rnd_attached;
-	timeout_add(&rnd_addpool_timeout, hz << 5);
-	/* this one is enqueued in init_main.c */
-	rnd_bootpool ^= random() << 8;
+
 	/* this one is generated from newvers.sh */
 	add_true_randomness(initial_entropy[0] << 24 |
 	    initial_entropy[1] << 16 |
@@ -702,6 +701,8 @@ randomattach(void)
 	/* prevent leaks through drivers, LKMs, etc. */
 	bzero(initial_entropy, 16);
 	initial_entropy_ptr = 0;
+
+	timeout_add(&rnd_addpool_timeout, hz);
 }
 
 int
@@ -1295,26 +1296,22 @@ randomioctl(dev_t dev, u_long cmd, caddr_t data, int flag, struct proc *p)
 static void
 rnd_addpool_reinit(void *v)
 {
-	register int i;
 	register uint32_t j;
 
 	if (!rnd_attached)
 		return;
 
 	if (!rnd_addpool_allow) {
-		/* reschedule to try again in eight minutes if disabled */
-		timeout_add(&rnd_addpool_timeout, hz << 9);
+		/* reschedule to try again in ~four minutes if disabled */
+		timeout_add(&rnd_addpool_timeout, hz << 8);
 		return;
 	}
 
-	/* add this user-space and untrusted bucket to random pool */
-	for (i = 0; i < rnd_addpool_size; ++i)
-		if ((j = rnd_addpool_buf[i]))	/* don't add all zeroes */
-			if (++j)		/* don't add all ones */
-				enqueue_randomness(RND_SRC_POOL,
-				    j - (random() & 1));
-	bzero(rnd_addpool_buf, sizeof (rnd_addpool_buf));
+	j = rnd_addpool_buf[rnd_addpool_ptr];
+	rnd_addpool_buf[rnd_addpool_ptr] = 0;
+	rnd_addpool_ptr = (rnd_addpool_ptr + 1) % rnd_addpool_size;
+	if (j && ++j)	/* don't add all zeroes or all ones */
+		enqueue_randomness(RND_SRC_POOL, j - (random() & 1));
 
-	/* re-schedule this routine in about 32..40 seconds (randomised) */
-	timeout_add(&rnd_addpool_timeout, (hz << 5) + (random() % (hz << 3)));
+	timeout_add(&rnd_addpool_timeout, (hz >> 1) + (random() % hz));
 }
