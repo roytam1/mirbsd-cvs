@@ -1,4 +1,4 @@
-/* $MirOS: www/files/vstyle.css,v 1.15 2009/06/22 12:02:25 tg Exp $ */
+/* $MirOS: www/files/vstyle.css,v 1.18 2009/09/25 18:25:19 tg Exp $ */
 
 /*-
  * The MirOS Project - Webpages
@@ -109,8 +109,8 @@ a:visited {
 
 .footer {
 	clear:both;
-	padding:2px;
-	margin-top:14px;
+	padding:2px 2px 0px 2px;
+	margin:14px 0px 0px 0px;
 	font-size:10pt;
 	border-top:2px solid #333333;
 }
@@ -138,7 +138,7 @@ img {
 .index {
 	float:left;
 	margin:112px 0px 0px 0px;
-	padding:0px 0px 0px 0px;
+	padding:0px;
 	width:184px;
 }
 
@@ -231,6 +231,7 @@ h2 a {
 	font-weight:bold;
 	color:#777777;
 	display:inline;
+	white-space:nowrap;
 }
 
 .wlsubtitle:before {
@@ -284,7 +285,7 @@ tt {
 .boxtext {
 	border:4px ridge blue;
 	margin:0px 24px 0px 24px;
-	padding:12px;
+	padding:2px 12px 2px 12px;
 }
 
 .boxfoot {
