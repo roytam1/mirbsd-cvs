@@ -1,5 +1,5 @@
-#!/bin/mksh
-# $MirOS$
+#!/usr/bin/env mksh
+# $MirOS: src/gnu/usr.bin/lynx/samples/oldlynx,v 1.2 2006/09/20 22:25:25 tg Exp $
 
 T=$(mktemp ${TMPDIR:-/tmp}/lynx.cfg.XXXXXXXXXX) || {
 	print -u2 Fatal: cannot create temporary file!

@@ -5367,8 +5367,7 @@ char *LYTildeExpand(char **pathname,
     if (LYIsTilde(temp[0])) {
 
 	CTRACE((tfp, "LYTildeExpand %s\n", *pathname));
-	if (LYIsPathSep(temp[1])
-	    && temp[2] != '\0') {
+	if (LYIsPathSep(temp[1])) {
 	    char *first = NULL;
 	    char *second = NULL;
 
