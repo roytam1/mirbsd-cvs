@@ -1,8 +1,9 @@
-# $MirOS: ports/audio/libmad/Makefile,v 1.1.7.1 2005/03/18 15:42:56 tg Exp $
+# $MirOS: ports/audio/libmad/Makefile,v 1.2 2006/02/09 09:35:36 tg Exp $
 # $OpenBSD: Makefile,v 1.3 2004/02/21 02:32:20 naddy Exp $
 
 COMMENT=	"high-quality MPEG audio decoder"
 DISTNAME=	libmad-0.15.1b
+PKGNAME=	${DISTNAME}-1
 CATEGORIES=	audio
 HOMEPAGE=	http://mad.sourceforge.net/
 
