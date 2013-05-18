@@ -1,4 +1,4 @@
-.\" $MirOS: src/share/tmac/tmac.doc.old,v 1.1.7.1 2005/03/06 16:33:41 tg Exp $
+.\" $MirOS: src/share/tmac/tmac.doc.old,v 1.2 2007/01/27 04:42:19 tg Exp $
 .\"
 .\" Copyright (c) 1990 The Regents of the University of California.
 .\" All rights reserved.
@@ -38,7 +38,7 @@
 .ds aD \fI
 .\"	Argument Reference Style
 .ds aR \f(CO
-.\"	Interactive Comand Modifier (flag)
+.\"	Interactive Command Modifier (flag)
 .ds cM \f(CB
 .\"	Emphasis (in the English sense - usually italics)
 .ds eM \fI
