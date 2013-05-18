@@ -20,7 +20,7 @@
 #include "buffer.h"
 #include "save-cwd.h"
 
-__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_client_c,v 1.3 2010/09/18 22:35:09 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/client.c,v 1.3 2010/09/19 19:43:01 tg Exp $");
 
 #ifdef CLIENT_SUPPORT
 
@@ -3903,8 +3903,12 @@ open_connection_to_server (cvsroot_t *root, struct buffer **to_server_p,
 	case ext_method:
 #ifdef NO_EXT_METHOD
 	    error (0, 0, ":ext: method not supported by this port of CVS");
+	    if (0)
+	case extssh_method:
+		error (0, 0, ":extssh: method not supported by this port of CVS");
 	    error (1, 0, "try :server: instead");
 #else /* ! NO_EXT_METHOD */
+	case extssh_method:
 	    start_rsh_server (root, to_server_p,
                               from_server_p);
 #endif /* NO_EXT_METHOD */

@@ -18,7 +18,7 @@
 #include <assert.h>
 #include "getline.h"
 
-__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_root_c,v 1.3 2010/09/15 20:57:02 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/root.c,v 1.8 2010/09/19 19:43:10 tg Exp $");
 
 /* Printable names for things in the current_parsed_root->method enum variable.
    Watch out if the enum is changed in cvs.h! */
@@ -563,15 +563,13 @@ parse_cvsroot (const char *root_in)
 	    newroot->method = server_method;
 	else if (strncmp (method, "ext=", 4) == 0)
 	{
-	    const char *rsh = method + 4;
-	    setenv ("CVS_RSH", rsh, 1); /* This is a hack, but simplifies */
+	    newroot->cvs_rsh = xstrdup(method + 4);
 	    newroot->method = ext_method;
 	}
-	else if (strncmp (method, "extssh", 6) == 0)
+	else if (!strcasecmp (method, "extssh"))
 	{
-	    const char *rsh = method + 3;
-	    setenv ("CVS_RSH", rsh, 1); /* This is a hack, but simplifies */
-	    newroot->method = ext_method;
+	    newroot->cvs_rsh = xstrdup("ssh");
+	    newroot->method = extssh_method;
 	}
 	else if (!strcasecmp (method, "ext"))
 	    newroot->method = ext_method;
@@ -623,13 +621,15 @@ parse_cvsroot (const char *root_in)
 	    else if (!strcasecmp (p, "CVS_RSH"))
 	    {
 		/* override CVS_RSH environment variable */
-		if (newroot->method == ext_method)
-		    newroot->cvs_rsh = xstrdup (q);
+		if (newroot->method == ext_method
+		    || newroot->method == extssh_method)
+		newroot->cvs_rsh = xstrdup (q);
 	    }
 	    else if (!strcasecmp (p, "CVS_SERVER"))
 	    {
 		/* override CVS_SERVER environment variable */
 		if (newroot->method == ext_method
+		    || newroot->method == extssh_method
 		    || newroot->method == fork_method)
 		    newroot->cvs_server = xstrdup (q);
 	    }
@@ -661,7 +661,8 @@ parse_cvsroot (const char *root_in)
     newroot->isremote = (newroot->method != local_method);
 
 #if defined (CLIENT_SUPPORT) || defined (SERVER_SUPPORT)
-    if (readonlyfs && newroot->isremote && (newroot->method != ext_method))
+    if (readonlyfs && newroot->isremote && (newroot->method != ext_method)
+	&& (newroot->method != extssh_method))
 	error (1, 0,
 "Read-only repository feature unavailable with remote roots (cvsroot = %s)",
 	       cvsroot_copy);
@@ -853,6 +854,7 @@ parse_cvsroot (const char *root_in)
 	break;
     case server_method:
     case ext_method:
+    case extssh_method:
 	no_port = 1;
 	/* no_password already set */
 	check_hostname = 1;

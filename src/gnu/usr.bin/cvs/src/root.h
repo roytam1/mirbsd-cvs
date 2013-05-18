@@ -1,4 +1,4 @@
-/* $MirOS: ports/devel/cvs/patches/patch-src_root_h,v 1.1 2010/09/15 20:57:02 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/cvs/src/root.h,v 1.3 2010/09/19 19:43:10 tg Exp $ */
 
 /*
  * Copyright (C) 1986-2005 The Free Software Foundation, Inc.
@@ -24,6 +24,7 @@ typedef enum {
     kserver_method,
     gserver_method,
     ext_method,
+    extssh_method,
     fork_method
 } CVSmethod;
 extern const char method_names[][16];	/* change this in root.c if you change
