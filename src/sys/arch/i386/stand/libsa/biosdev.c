@@ -674,6 +674,9 @@ disk_trylabel(struct diskinfo *dip)
 			if (dip->disklabel.d_partitions[0].p_fstype ==
 			    FS_MANUAL)
 				continue;
+			/* a GUID Partition Table cannot become 'a' slice */
+			if (mbr->dmbr_parts[i].dp_typ == 0xEE)
+				continue;
 			/* 'a' partition covering the first partition */
 			dip->disklabel.d_partitions[0].p_offset =
 			    mbr->dmbr_parts[i].dp_start;
