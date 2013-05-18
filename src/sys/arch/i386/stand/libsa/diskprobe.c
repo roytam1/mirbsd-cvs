@@ -1,9 +1,9 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/diskprobe.c,v 1.18 2009/01/11 14:59:51 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/libsa/diskprobe.c,v 1.19 2009/02/01 14:38:41 tg Exp $ */
 /*	$OpenBSD: diskprobe.c,v 1.29 2007/06/18 22:11:20 krw Exp $	*/
 
 /*
  * Copyright (c) 1997 Tobias Weingartner
- * Copyright (c) 2002, 2003, 2009
+ * Copyright (c) 2002, 2003, 2009, 2012
  *	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
  * All rights reserved.
  *
@@ -123,10 +123,9 @@ hardprobe(void)
 static void
 hardprobe_one(int i)
 {
-	static int cddv = 0;
+	static unsigned int cddv = 0, ide = 0, scsi = 0;
 	struct diskinfo *dip;
 	u_int bsdunit, type;
-	u_int scsi = 0, ide = 0;
 
 	dip = alloc(sizeof(struct diskinfo));
 	bzero(dip, sizeof(*dip));
