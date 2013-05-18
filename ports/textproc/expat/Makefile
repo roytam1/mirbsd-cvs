@@ -1,4 +1,4 @@
-# $MirOS: ports/textproc/expat/Makefile,v 1.3 2006/09/14 00:14:03 tg Exp $
+# $MirOS: ports/textproc/expat/Makefile,v 1.4 2008/04/07 18:56:22 tg Exp $
 # $OpenBSD: Makefile,v 1.20 2003/10/19 22:37:21 brad Exp $
 # $FreeBSD: Makefile,v 1.2 1999/08/31 02:09:14 peter Exp $
 
@@ -6,8 +6,7 @@ COMMENT=		XML 1.0 parser written in C
 DISTNAME=		expat-2.0.0
 DASH_VER=		1
 CATEGORIES=		textproc
-#MASTER_SITES=		${MASTER_SITE_SOURCEFORGE:=expat/}
-MASTER_SITES=		${MASTER_SITE_FREEBSD} # temporary location, sf has problems
+MASTER_SITES=		${MASTER_SITE_SOURCEFORGE:=expat/}
 HOMEPAGE=		http://expat.sourceforge.net/
 
 # BSD
