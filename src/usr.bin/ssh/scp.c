@@ -1,4 +1,4 @@
-/* $OpenBSD: scp.c,v 1.155 2006/08/03 03:34:42 deraadt Exp $ */
+/* $OpenBSD: scp.c,v 1.156 2007/01/22 13:06:21 djm Exp $ */
 /*
  * scp - secure remote copy.  This is basically patched BSD rcp which
  * uses ssh to do the data transfer (instead of using rcmd).
@@ -97,7 +97,7 @@
 #include "misc.h"
 #include "progressmeter.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/ssh/scp.c,v 1.11 2006/09/20 21:41:01 tg Exp $");
 
 int do_cmd(char *host, char *remuser, char *cmd, int *fdin, int *fdout);
 
@@ -368,7 +368,7 @@ main(int argc, char **argv)
 	if ((pwd = getpwuid(userid = getuid())) == NULL)
 		fatal("unknown user %u", (u_int) userid);
 
-	if (!isatty(STDERR_FILENO))
+	if (!isatty(STDOUT_FILENO))
 		showprogress = 0;
 
 	remin = STDIN_FILENO;

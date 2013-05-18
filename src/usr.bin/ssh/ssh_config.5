@@ -34,8 +34,8 @@
 .\" (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 .\" THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .\"
-.\" $MirOS: src/usr.bin/ssh/ssh_config.5,v 1.14 2006/07/23 14:19:28 tg Exp $
-.\" $OpenBSD: ssh_config.5,v 1.97 2006/07/27 08:00:50 jmc Exp $
+.\" $MirOS: src/usr.bin/ssh/ssh_config.5,v 1.15 2006/09/20 21:41:06 tg Exp $
+.\" $OpenBSD: ssh_config.5,v 1.98 2007/01/10 13:23:22 jmc Exp $
 .Dd September 25, 1999
 .Dt SSH_CONFIG 5
 .Os
@@ -43,10 +43,8 @@
 .Nm ssh_config
 .Nd OpenSSH SSH client configuration files
 .Sh SYNOPSIS
-.Bl -tag -width Ds -compact
-.It Pa ~/.etc/ssh/config
-.It Pa /etc/ssh/ssh_config
-.El
+.Nm ~/.etc/ssh/config
+.Nm /etc/ssh/ssh_config
 .Sh DESCRIPTION
 .Xr ssh 1
 obtains configuration data from the following sources in

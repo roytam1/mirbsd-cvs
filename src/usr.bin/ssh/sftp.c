@@ -1,4 +1,4 @@
-/* $OpenBSD: sftp.c,v 1.94 2006/11/23 01:35:11 ray Exp $ */
+/* $OpenBSD: sftp.c,v 1.96 2007/01/03 04:09:15 stevesk Exp $ */
 /*
  * Copyright (c) 2001-2004 Damien Miller <djm@openbsd.org>
  *
@@ -42,7 +42,7 @@
 #include "sftp-common.h"
 #include "sftp-client.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/sftp.c,v 1.13 2006/10/02 23:26:01 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/sftp.c,v 1.14 2006/12/11 20:22:09 tg Exp $");
 
 /* File to read commands from */
 FILE* infile;
@@ -155,6 +155,7 @@ static const struct CMD cmds[] = {
 
 int interactive_loop(int fd_in, int fd_out, char *file1, char *file2);
 
+/* ARGSUSED */
 static void
 killchild(int signo)
 {
@@ -166,6 +167,7 @@ killchild(int signo)
 	_exit(1);
 }
 
+/* ARGSUSED */
 static void
 cmd_interrupt(int signo)
 {
@@ -1529,7 +1531,7 @@ main(int argc, char **argv)
 				fprintf(stderr, "Missing username\n");
 				usage();
 			}
-			addargs(&args, "-l%s",userhost);
+			addargs(&args, "-l%s", userhost);
 		}
 
 		if ((cp = colon(host)) != NULL) {

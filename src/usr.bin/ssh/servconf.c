@@ -1,4 +1,4 @@
-/* $OpenBSD: servconf.c,v 1.165 2006/08/14 12:40:25 dtucker Exp $ */
+/* $OpenBSD: servconf.c,v 1.167 2006/12/14 10:01:14 dtucker Exp $ */
 /*
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
  *                    All rights reserved
@@ -38,7 +38,7 @@
 #include "channels.h"
 #include "groupaccess.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/servconf.c,v 1.13 2006/09/21 21:48:58 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/servconf.c,v 1.14 2006/09/21 21:54:43 tg Exp $");
 
 static void add_listen_addr(ServerOptions *, char *, u_short);
 static void add_one_listen_addr(ServerOptions *, char *, u_short);
@@ -1125,13 +1125,16 @@ parse_flag:
 		if (!arg || *arg == '\0')
 			fatal("%s line %d: missing PermitOpen specification",
 			    filename, linenum);
+		n = options->num_permitted_opens;	/* modified later */
 		if (strcmp(arg, "any") == 0) {
-			if (*activep) {
+			if (*activep && n == -1) {
 				channel_clear_adm_permitted_opens();
 				options->num_permitted_opens = 0;
 			}
 			break;
 		}
+		if (*activep && n == -1)
+			channel_clear_adm_permitted_opens();
 		for (; arg != NULL && *arg != '\0'; arg = strdelim(&cp)) {
 			p = hpdelim(&arg);
 			if (p == NULL)
@@ -1141,11 +1144,9 @@ parse_flag:
 			if (arg == NULL || (port = a2port(arg)) == 0)
 				fatal("%s line %d: bad port number in "
 				    "PermitOpen", filename, linenum);
-			if (*activep && options->num_permitted_opens == -1) {
-				channel_clear_adm_permitted_opens();
+			if (*activep && n == -1)
 				options->num_permitted_opens =
 				    channel_add_adm_permitted_opens(p, port);
-			}
 		}
 		break;
 

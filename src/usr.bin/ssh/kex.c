@@ -1,4 +1,4 @@
-/* $OpenBSD: kex.c,v 1.76 2006/08/03 03:34:42 deraadt Exp $ */
+/* $OpenBSD: kex.c,v 1.77 2007/01/21 01:41:54 stevesk Exp $ */
 /*
  * Copyright (c) 2000, 2001 Markus Friedl.  All rights reserved.
  *
@@ -46,7 +46,7 @@
 #include "dispatch.h"
 #include "monitor.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/ssh/kex.c,v 1.4 2006/09/20 21:40:59 tg Exp $");
 
 #define KEX_COOKIE_LEN	16
 
@@ -544,7 +544,7 @@ dump_digest(char *msg, u_char *digest, int len)
 	u_int i;
 
 	fprintf(stderr, "%s\n", msg);
-	for (i = 0; i< len; i++) {
+	for (i = 0; i < len; i++) {
 		fprintf(stderr, "%02x", digest[i]);
 		if (i%32 == 31)
 			fprintf(stderr, "\n");
