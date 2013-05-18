@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/libexec/ld.so/dlfcn.c,v 1.7 2006/08/30 03:46:12 tg Exp $ */
 /*	$OpenBSD: dlfcn.c,v 1.73 2006/05/08 20:34:36 deraadt Exp $ */
 
 /*
@@ -39,7 +39,7 @@
 #include "archdep.h"
 #include "resolve.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/libexec/ld.so/dlfcn.c,v 1.7 2006/08/30 03:46:12 tg Exp $");
 
 int _dl_errno;
 
@@ -57,7 +57,7 @@ dlopen(const char *libname, int flags)
 		return RTLD_DEFAULT;
 
 	if ((flags & RTLD_TRACE) == RTLD_TRACE)
-		_dl_traceld = "true";
+		_dl_traceld = true;
 
 	DL_DEB(("dlopen: loading: %s\n", libname));
 
@@ -355,20 +355,14 @@ _dl_show_objects(void)
 	elf_object_t *object;
 	char *objtypename;
 	int outputfd;
-	char *pad;
 
 	object = _dl_objects;
-	if (_dl_traceld)
-		outputfd = STDOUT_FILENO;
-	else
-		outputfd = STDERR_FILENO;
+	outputfd = _dl_traceld ? STDOUT_FILENO : STDERR_FILENO;
 
 	if (sizeof(long) == 8)
-		pad = "        ";
+		_dl_fdprintf(outputfd, "\tStart            End              Type Open Ref GrpRef Name\n");
 	else
-		pad = "";
-	_dl_fdprintf(outputfd, "\tStart   %s End     %s Type Open Ref GrpRef Name\n",
-	    pad, pad);
+		_dl_fdprintf(outputfd, "\tStart    End      Type Open Ref GrpRef Name\n");
 
 	while (object) {
 		switch (object->obj_type) {

@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: loader.c,v 1.103 2006/05/08 20:37:01 deraadt Exp $ */
 
 /*
@@ -44,7 +45,7 @@
 #include "stdlib.h"
 #include "dl_prebind.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/libexec/ld.so/loader.c,v 1.6 2006/06/30 18:11:00 tg Exp $");
 
 /*
  * Local decls.
@@ -64,7 +65,7 @@ int  _dl_pagesz;
 char *_dl_libpath;
 char *_dl_preload;
 char *_dl_bindnow;
-char *_dl_traceld;
+bool _dl_traceld;
 char *_dl_debug;
 char *_dl_showmap;
 char *_dl_norandom;
@@ -205,7 +206,7 @@ _dl_setup_env(char **envp)
 	_dl_libpath = _dl_getenv("LD_LIBRARY_PATH", envp);
 	_dl_preload = _dl_getenv("LD_PRELOAD", envp);
 	_dl_bindnow = _dl_getenv("LD_BIND_NOW", envp);
-	_dl_traceld = _dl_getenv("LD_TRACE_LOADED_OBJECTS", envp);
+	_dl_traceld = _dl_getenv("LD_TRACE_LOADED_OBJECTS", envp) != NULL;
 	_dl_debug = _dl_getenv("LD_DEBUG", envp);
 	_dl_norandom = _dl_getenv("LD_NORANDOM", envp);
 	_dl_noprebind = _dl_getenv("LD_NOPREBIND", envp);
@@ -455,9 +456,7 @@ _dl_boot(const char **argv, char **envp, const long loff, long *dl_data)
 	 */
 
 	_dl_prebind_pre_resolve();
-	failed = 0;
-	if (_dl_traceld == NULL)
-		failed = _dl_rtld(_dl_objects);
+	failed = _dl_traceld ? 0 : _dl_rtld(_dl_objects);
 
 	_dl_prebind_post_resolve();
 
