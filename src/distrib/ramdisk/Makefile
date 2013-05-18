@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/ramdisk/Makefile,v 1.6 2006/07/04 23:11:45 tg Exp $
+# $MirOS: src/distrib/ramdisk/Makefile,v 1.7 2006/07/05 21:39:50 tg Exp $
 # $OpenBSD: Makefile,v 1.26 2004/02/28 04:53:30 jolan Exp $
 
 CBIN=		instbin
@@ -38,7 +38,7 @@ UTILS?=		${.CURDIR}/../miniroot
 STRIP?=		strip
 
 LISTS=		${.CURDIR}/list ${ARCHDIR}/list
-MTREE=		${UTILS}/mtree.conf
+MTREE=		${UTILS}/mtree.conf.small
 
 XNAME?=		floppy
 FS?=		${XNAME}${OSrev}.fs
