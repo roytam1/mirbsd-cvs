@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/rndvar.h,v 1.16 2008/07/12 16:15:15 tg Exp $ */
+/**	$MirOS: src/sys/dev/rndvar.h,v 1.17 2008/07/26 19:40:51 tg Exp $ */
 /*	$OpenBSD: rndvar.h,v 1.19 2003/11/03 18:24:28 tedu Exp $	*/
 
 /*
@@ -34,8 +34,12 @@
 #ifndef __RNDVAR_H__
 #define __RNDVAR_H__
 
+#ifndef POOLWORDS
 #define POOLWORDS 1024	/* Power of 2 - note that this is 32-bit words */
+#endif
+#ifndef rnd_addpool_size
 #define	rnd_addpool_size 32 /* 32-bit words; don't change */
+#endif
 
 #ifndef _ASM_SOURCE
 
