@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/gnu.port.mk,v 1.26 2006/11/20 21:20:07 tg Exp $
+# $MirOS: ports/infrastructure/mk/gnu.port.mk,v 1.27 2006/11/24 01:57:47 tg Exp $
 # $OpenBSD: gnu.port.mk,v 1.19 2004/06/06 11:49:08 espie Exp $
 
 AUTOCONF_NEW?=		No
@@ -90,6 +90,8 @@ CONFIGURE_ARGS+=	--mandir=${_DESTPFX}${PREFIX:Q}/man
 CONFIGURE_ARGS+=	--localedir=${_DESTPFX}${PREFIX:Q}/share/locale
 CONFIGURE_ARGS+=	--docdir=${_DESTPFX}${PREFIX:Q}/share/doc/\$${PACKAGE}
 .  endif
+CONFIGURE_ARGS+=	--disable-libtool-lock
+CONFIGURE_ARGS+=	--disable-dependency-tracking
 .endif
 
 # Files
