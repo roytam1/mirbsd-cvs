@@ -1,4 +1,4 @@
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.104 2008/04/11 20:21:32 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.105 2008/04/12 00:30:20 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -487,6 +487,10 @@ mws_content <<'EOF'
  formatting time.</p>
 
 <h2 id="upgrade">For packagers: Upgrades</h2>
+<p><strong>Note:</strong> This is <em>not</em> <a href="#clog">the
+ ChangeLog</a>, these are the packager-visible upgrade notes regarding
+ changes in the build system (<tt>Build.sh</tt> and friends, compiler
+ support, packaging conventions, bad examples, etc).</p>
 <p>No changes in mksh R33c except for Ultrix support. None in R33d.</p>
 <p>In mksh R33b, much more compilers are detected, even if not all of
  them are supported. The OE (OS and CC/LD) versions are now dumped too.
