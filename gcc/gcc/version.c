@@ -1,4 +1,4 @@
-/* $MirOS: gcc/gcc/version.c,v 1.50 2008/12/26 16:01:19 tg Exp $ */
+/* $MirOS: gcc/gcc/version.c,v 1.51 2009/01/03 14:31:21 tg Exp $ */
 
 #include "version.h"
 
@@ -7,7 +7,7 @@
    please modify this string to indicate that, e.g. by putting your
    organization's name in parentheses at the end of the string.  */
 
-const char version_string[] = "3.4.6 (propolice; gpc; MirOS 0AA5)";
+const char version_string[] = "3.4.6 (propolice; gpc; MirOS 0AA6)";
 
 /* This is the location of the online document giving instructions for
    reporting bugs.  If you distribute a modified version of GCC,
@@ -20,4 +20,10 @@ const char version_string[] = "3.4.6 (propolice; gpc; MirOS 0AA5)";
 const char bug_report_url[] = "<URL:http://www.gnu-pascal.de/todo.html>";
 #else
 const char bug_report_url[] = "<URL:http://mirbsd.de/>";
+#endif
+
+/* This is for mbsd_bug (binutils-and-gcc cross build package) */
+#ifdef MBSD_BUG
+/* get this from libmirmake or similar */
+#include "md5.c"
 #endif
