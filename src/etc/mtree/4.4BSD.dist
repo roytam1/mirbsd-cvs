@@ -1,4 +1,4 @@
-# $MirOS: src/etc/mtree/4.4BSD.dist,v 1.25 2007/07/05 22:18:13 tg Exp $
+# $MirOS: src/etc/mtree/4.4BSD.dist,v 1.26 2008/03/25 21:36:18 tg Exp $
 # $OpenBSD: 4.4BSD.dist,v 1.186 2007/05/23 07:28:15 hshoexer Exp $
 
 /set type=dir uname=root gname=wheel mode=0755
@@ -232,28 +232,6 @@ mnt
 # ./proc
 proc		uname=root mode=0555
 # ./proc
-..
-
-# ./root
-root		mode=0700
-
-# ./root/.etc
-.etc		uname=root mode=0700
-
-# ./root/.etc/bin
-bin		uname=root mode=0700
-# ./root/.etc/bin
-..
-
-# ./root/.etc/ssh
-ssh		uname=root mode=0700
-# ./root/.etc/ssh
-..
-
-# ./root/.etc
-..
-
-# ./root
 ..
 
 # ./sbin

@@ -1,4 +1,4 @@
-# $MirOS: src/etc/mtree/special,v 1.16 2006/10/28 21:43:04 tg Exp $
+# $MirOS: src/etc/mtree/special,v 1.17 2007/03/09 13:05:12 tg Exp $
 # $OpenBSD: special,v 1.74 2007/02/28 01:37:15 david Exp $
 # $NetBSD: special,v 1.4 1996/05/08 21:30:18 pk Exp $
 # @(#)special	8.2 (Berkeley) 1/23/94
@@ -115,13 +115,6 @@ weekly.local	type=file mode=0644 uname=root gname=wheel optional
 uucp		type=dir mode=0755 uname=root gname=wheel optional ignore
 ..	#uucp
 ..	#etc
-
-root		type=dir mode=0700 uname=root gname=wheel
-.cshrc		type=file mode=0644 uname=root gname=wheel optional
-.login		type=file mode=0644 uname=root gname=wheel optional
-.profile	type=file mode=0600 uname=root gname=wheel optional
-.rhosts		type=file mode=0600 uname=root gname=wheel optional
-..	#root
 
 sbin		type=dir mode=0755 uname=root gname=wheel ignore
 ..	#sbin
