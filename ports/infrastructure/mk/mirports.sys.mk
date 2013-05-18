@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.53 2008/10/13 21:22:54 tg Exp $
+# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.55 2009/12/04 22:54:01 tg Exp $
 #-
 # Copyright (c) 2005, 2006, 2008
 #	Thorsten “mirabilos” Glaser <tg@mirbsd.de>
@@ -150,6 +150,7 @@ CKSUM_CMD?=		/bin/cksum
 _STAT_SIZE=		#defined
 .  endif
 OScompat?=		3.5
+_CCLD=			mgcc
 .endif
 
 #--- End of OS Dependencies
@@ -157,6 +158,7 @@ OScompat?=		3.5
 SHELL=			${MKSH}		# missing ? not an oversight
 
 # this is supposed to be alphabetically sorted
+_CCLD?=			gcc
 _MIRPORTS_ADDRESS=	<miros-discuss@MirBSD.org>
 _MIROS_ANONCVS=		_anoncvs@anoncvs.mirbsd.org:/cvs
 ARCH?=			${MACHINE_ARCH}
