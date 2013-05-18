@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/liveboot/hook.S,v 1.23 2009/01/17 12:04:26 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/liveboot/hook.S,v 1.24 2009/01/17 12:18:24 tg Exp $ */
 
 /*-
  * Copyright (c) 2006, 2007, 2009
@@ -189,10 +189,22 @@ Lhooks:	mov	ah,2
 	cmp	ecx,ebp
 	jbe	Lhooks
 Lhook0:	/* clear screen */
+#if 0
 	mov	ax,7
 	int	0x10
 	mov	ax,3
 	int	0x10
+#else
+	push	es
+	mov	ax,0xB000
+	mov	es,ax
+	cld
+	xor	di,di
+	mov	ax,0x0720
+	mov	cx,0x8000
+	rep	stosw
+	pop	es
+#endif
 	/* print banner */
 	LOCATE(20,0)
 	OUTS(lbl_widmung,4)
