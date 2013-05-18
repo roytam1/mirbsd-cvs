@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.84 2006/11/17 01:52:21 tg Exp $
+# $MirOS: src/Makefile,v 1.85 2006/11/17 12:37:04 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -111,6 +111,10 @@ do-htman:
 	cd ${BSDRELDIR}/${_set}/usr/${_dir}/man && \
 	    find * -type f | cpio -pdlu ${BSDOBJDIR}/htman/man
 .endfor
+	cd ${BSDOBJDIR}/htman && tar xzf \
+	    ${BSDRELDIR}/rel/ports${OSrev}.ngz usr/ports/Setup.sh.8 && \
+	    ${NROFF} -mdoc usr/ports/Setup.sh.8 \
+	    >${BSDOBJDIR}/htman/man/cat8/Setup.sh.0
 	cd ${BSDOBJDIR}/htman && tar xzf \
 	    ${BSDRELDIR}/rel/pkgutl${OSrev}.ngz usr/mpkg/man/cat?/*.0
 	cd ${BSDOBJDIR}/htman/usr/mpkg/man && \
