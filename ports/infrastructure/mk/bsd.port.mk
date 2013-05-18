@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.180 2007/05/27 14:12:00 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.181 2007/05/28 16:14:18 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -2260,7 +2260,9 @@ ${FULLDISTDIR}/${_CVS_DISTF${_i:S/-//}}:
 		PATH=${_PORTPATH} ${_CVS_FETCH${_i:S/-//}}; \
 		file=${@:S@^${DISTDIR}/@@}; \
 		ck=$$(cd ${DISTDIR} && ${_size_fragment}); \
-		if grep -qe "^$$ck\$$" \
+		if [[ ! -s ${CHECKSUM_FILE}; then \
+			${ECHO_MSG} ">> No checksum file for ${FULLDISTDIR}/${_CVS_DISTF${_i:S/-//}}"; \
+		elif grep -qe "^$$ck\$$" \
 		    -e "^Size$${ck#SIZE} bytes\$$" \
 		    ${CHECKSUM_FILE}; then \
 			${ECHO_MSG} ">> Size matches for ${FULLDISTDIR}/${_CVS_DISTF${_i:S/-//}}"; \
