@@ -1,6 +1,6 @@
 mws_setname subprojects/kwalletcli "kwalletcli – CLI for the KDE Wallet"
 mws_setheadline CLI for the KDE Wallet
-mws_putheader '$MirOS: www/src/kwalletcli.hts,v 1.24 2011/04/09 23:14:00 tg Exp $'
+mws_putheader '$MirOS: www/src/kwalletcli.hts,v 1.25 2011/06/03 14:02:34 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Content</h2>
 EOF
@@ -100,7 +100,7 @@ mws_content <<'EOF'
  version is required) contributed to the Gajim source code (dual-licenced
  under the same licence as Gajim (GPLv3 only), as well as the same licence
  (MirOS) as kwalletcli). The binding was originally written by the author
- of kwalletcli, sponsored by tarent GmbH, as well.</p><ul>
+ of kwalletcli as well.</p><ul>
 <li><a href="http://trac.gajim.org/ticket/5153">initial submission</a></li>
 <li><a href="http://trac.gajim.org/browser/src/common/kwalletbinding.py">the
  code</a> (maintained inside the Gajim repository, as most prominent user of
@@ -141,9 +141,6 @@ mws_content <<'EOF'
  storing Jabber passwords in the KDE Wallet in an encrypted manner,
  since version 0.13 (committed after some discussion; Gajim already
  supported gnome-keyring though).</p>
-<p><a href="https://www.tarent.de/">tarent GmbH</a>, which sponsored
- development of kwalletcli, has been using it to make the live of its
- employees on their GNU/Linux desktops easier, since mid-2009.</p>
 
 <h2 id="clog">ChangeLog</h2>
 <!--

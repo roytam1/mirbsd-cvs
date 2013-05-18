@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.342 2011/07/17 00:40:15 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.344 2011/07/25 09:30:51 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -2743,7 +2743,7 @@ O CACertFile=/etc/ssl/deflt-ca.cer
  our HR lead (who got my old monitor in exchange for her 15" LCD).</p>
 <p>Inactive MirOS Developer and FreeWRT Founder wbx@ (Waldemar Brodkorb) has
  also helped with setting up WDS and procuring some Asus WL-500gP routers,
- so we will also be using FreeWRT Embedded GNU/Linux at tarent.</p>
+ so we will also be using FreeWRT Embedded GNU/Linux.</p>
 <p>Nathan Laredo (GNU member and author of tinyirc) and I have reached a
  consensus (compromise?) which enables me to include it on the special grml
  edition of our <tt>bsd.rd</tt> kernel (rescue system mode). That and e3
@@ -2908,7 +2908,7 @@ Tag: event
 <p style="font-size:big;">Who’s not? ☺</p>
 <p>My boss approached me just this morning… looks as if gecko2@ and I can
  use the bigger company car from here, expense paid, and take the other
- two employees who are going to Bruxelles with us. I’m in the process of
+ two who are going to Bruxelles with us. I’m in the process of
  organising them a hotel now though – maybe bsiegert@ the francophile can
  help with that. gecko2@ is going for a youth hostel though, as usual, as
  he has a membership anyway. Benny and I are already hotel’d.</p>
@@ -2931,24 +2931,6 @@ Title: Sponsor for FOSDEM
 Date: 21.01.2009 20:02
 Tag: event
 
-<p>My employer, <a href="https://www.tarent.de/">tarent Gesellschaft
- für Software-Entwicklung und IT-Beratung mbH</a>, is sponsoring the
- entirety of the attending MirOS Project representatives – which are
- bsiegert@ and gecko2@ as well as me – for FOSDEM, covering the Bonn
- to Bruxelles travel of gecko2@ and me (and two colleagues, where <a
- href="http://rschuster.blogs.evolvis.org/2008/12/21/serving-cross-compiled-openjdk-with-icedtea/">one
- of them</a> had already been mentioned before I entered the company
- ☺) and hotel costs of all three of us. Thank you!</p>
-<p><img width="341" height="71" alt="Logo der tarent GmbH (FrOSCon)"
- src="http://www.froscon.de/uploads/pics/tarent-logo.jpg" /></p>
-<p>tarent GmbH develops IT solutions and supports open source and <a
- href="http://evolvis.org/">evolvis</a> hosts almost three dozen OSS
- projects, mostly written in Java™, for various fields of endeavour.
- The <a href="http://wiki.evolvis.org/freedroidz/index.php/LinuxTag_2008">Freedroidz</a>
- robots are well known on the “house” events. Jalimo is a Java™ 2 SE
- platform targetting mobile devices. And this is just the beginning.
- We are also internally using a lot of open source projects’ work; I
- already mentioned the FreeWRT, MirBSD and OpenBSD boxen…</p>
 <hr />
 <p>Sponsors make it possible for us to attend popular events, paying
  for travel and accomodation (we do not necessarily require a hotel,
@@ -2995,8 +2977,7 @@ Title: miscellany
  not been feeling all that well for days.</p>
 <p>On building a cross-compiler package: I wish I could bring myself to
  get it done by FOSDEM, maybe Robert Schuster would help baking the JDK.
- I just don’t see me doing it during working hours, however much tarent
- endorses OSS work, because they’re already helping with FOSDEM…</p>
+</p>
 <p>Anyway, I’d better stop concocting some text here, and instead bring
  the mock-<tt>tear</tt> installation into working state and get it to
  start rsynching, cvs(1) co(1)ing, and compiling…</p>
@@ -3198,9 +3179,8 @@ Title: FOSDEM Tag 0
 Tag: event
 
 <p>Gestern, Freitag Abend, war der Tag 0 der FOSDEM. Natürlich waren
- wir – die anderen beiden tarentler Fabian Köster und der Vortragende <a
- href="http://rschuster.blogs.evolvis.org/2008/12/21/serving-cross-compiled-openjdk-with-icedtea/">Robert
- Schuster</a>, gecko2@ und ich – beim Beer Event, später auch mit
+ wir – Fabian Köster und der Vortragende Robert
+ Schuster, gecko2@ und ich – beim Beer Event, später auch mit
  bsiegert@. Das Bier war lecker, allerdings habe ich zwar nicht zu
  viel aber wohl zu varietätenreich getrunken, sodaß es mir in der
  Nacht nicht so wirklich gut ging und ich noch Bauchschmerzen habe.
@@ -3237,12 +3217,8 @@ Tag: event
 
 <p>Alle englischen Flyer weg, alle CDs heute Vormittag weg. Die
  (alten) deutschen sowie die französischen Flyer gehen okay, aber
- die Mengen und Verhältnisse sind echt nicht planbar. Die Flyer
- von der tarent (<a href="https://wiki.evolvis.org/jalimo/index.php/Main_Page">Jalimo</a>
- und <a href="https://wiki.evolvis.org/freedroidz/index.php/Main_Page">Freedroidz</a>)
- gehen auch okay weg, aber die Baumwolltaschen waren schneller weg.
- Die Roboter haben aber das ein oder andere "Oooh!" oder reinen
- Wiedererkennungswert gehabt.</p>
+ die Mengen und Verhältnisse sind echt nicht planbar.
+</p>
 <p>Die Vorträge sind okay, aber leider für mich nichts dabei zum
  rausziehen. Pläne schmieden geht aber.</p>
 <p><a href="@@RELPATH@@mksh.htm">mksh</a> hingegen ist mehr als
@@ -4236,11 +4212,8 @@ Title: hot
 Date: 03.07.2009 19:21
 Author: tg@
 
-<p>About 30°C in the bureau don't make working easy. At least, <a
- href="https://www.tarent.de/">my employer</a> saw the need and
- bought ventilators for every office room which did not yet have
- one. Within approximately three hours after being told of the
- need. <em>Nice!</em> It was still too hot to work, and <tt>apt</tt>
+<p>About 30°C in the bureau don't make working easy.
+ It was still too hot to work, and <tt>apt</tt>
  is a buggy pile of... whatever. Maybe I should search for my own
  ventilator, so it doesn't get that hot at home. I actually was ill
  again yesterday due to the heat (and it got worse instead of better
@@ -4305,8 +4278,8 @@ Tag: mksh
  in question, the Debian developer who created the original patch which
  addressed the scenario except for a corner case (interestingly, as the
  world is small, discovered in a Debian(!) init script from a package
- maintained by aforementioned formorer, on a DomU running Lenny at <a
- href="https://www.tarent.de/">work</a> - don't underestimate the effect
+ maintained by aforementioned formorer, on a DomU running Lenny
+ - don't underestimate the effect
  of synergy) but would really like to talk to some of the OpenBSD devs
  about it; they mostly know what they're doing, even if I worked on ksh
  for longer than most of them, many eyes do help, and most of the time
@@ -4341,7 +4314,7 @@ Date: 08.07.2009 15:54
 Author: tg@
 
 <p>I have developed <tt>kwalletcli</tt>, a command-line interface to the
- KDE Wallet, for <a href="https://www.tarent.de/">tarent GmbH</a>, and
+ KDE Wallet and
  would like public feedback, before releasing an 1.00 version, both on <a
  href="@@ABSPATH@@/cvs.cgi/contrib/hosted/tg/code/kwalletcli/">the source
  code</a> and <a href="https://eurynome.mirbsd.org/debs/dists/hardy/wtf/pkgs/kwalletcli/kwalletcli_0.94-1.dsc">an
@@ -4368,7 +4341,7 @@ Author: tg@
  <li>OSI certified Open Source™ Software under a free, very unrestrictive, <a
   href="@@ABSPATH@@/MirOS-Licence">licence</a></li>
 </ul>
-<p>Any <a href="mailto:t.glaser@tarent.de">feedback</a> welcome!</p>
+<p>Any feedback welcome! Direct it to the miros-discuss mailing list.</p>
 <p><strong>Update</strong> 09.07. – version 0.90 -> 0.91-1<br />I also crafted
  a <a href="http://trac.gajim.org/ticket/5153">patch for gajim to use
  kwalletcli</a>, let's see if it gets in. More to follow.</p>
@@ -5146,9 +5119,7 @@ Tag: mksh
  to have <tt>sys_signame[]</tt> like real BSDs, so that we could simply
  hard-code the appropriate CFLAGS and CPPFLAGS and let the NDK compile the
  mksh source *.c files (signames.inc would no longer be needed).</p>
-<p>Maybe (especially once our company is also cleared for contribution; the
- Bionic patch of today I did in my "lunch break" and has no copyright claim
- from my employer) we'll submit <a href="@@RELPATH@@mksh.htm">mksh</a> for
+<p>Maybe we'll submit <a href="@@RELPATH@@mksh.htm">mksh</a> for
  inclusion somewhere, as this would be the first <em>really</em> usable
  shell. For this reason, I have uploaded a binary (gunzip(1) first) at <a
  href="https://www.mirbsd.org/MirOS/dist/mir/mksh/ports/mksh-39.9.20090929-android15.tgz">ports/mksh-39.9.20090929-android15.tgz</a>
@@ -5161,14 +5132,6 @@ Tag: mksh
  both fine in that regard) with <tt># HOME=/data /data/mksh</tt> in the shell.
  I may post an Android specific patch for <tt>dot.mkshrc</tt> some day.</p>
 <p><strong>Update</strong> 10.10. – .gz → .tgz and Cygwin binary now too!</p>
-<!-- RSS stop --><p>On a side note, <a href="https://www.tarent.de/">my
- employer</a> is still looking for Java&trade; developers in Bonn or Berlin.
- The actual advertisement is on Xing; look and submit an application if you
- can find yourself there (knowing German is an <strong>important</strong>
- bonus); if it will not work out at the moment, we may file it for later
- perusal if desired. These are the cool guys that let me wreck havo^W^Wfix
- *buntu at work with mksh, MirSirc and Lynx and let CeKay play with Android
- and the student workers with Lego robots.</p>
 ----
 Title: more mksh (Android and others), new jupp, …
 Date: 18.10.2009 18:33
@@ -5500,7 +5463,7 @@ Tag: debian
  <a href="http://www.fosdem.org/">next one</a> is so close to the UK they
  probably will be there by themselves.)</p>
 <p>I must admit I also have the context switching problem (but hey, that’s
- what you get for being a sysadmin, and <a href="https://www.tarent.de/">our</a>
+ what you get for being a sysadmin, and our
  <a href="http://www.gepa3.de/shop/index.php">coffee</a> (GEPA, <span
  xml:lang="de_DE-1901">ganze Bohne, im Eimer, fair gehandelt</span>),
  even if not <a href="@@RELPATH@@anargeek.htm@koffie">Café Libertad</a>,
@@ -5525,16 +5488,15 @@ Tag: android debian mksh
 <p>I wonder if I could take over Mæmo as well... *grins*</p>
 <p>On unrelated side notes, I'm trying to get the "debian" tagged entries
  aggregated on Plänet Debian, and I'm &ndash; again &ndash; in the NM
- process trying to become a DD, with slightly different goals this time,
- and also as a liaison between my employer and the project. (But I'd also
+ process trying to become a DD, with slightly different goals this time.
+ (But I'd also
  like these porting machines... 'sides, there's still an mksh+dietlibc on
  hppa bug open...)</p>
 <p>I also got HP-UX back at HP PvP (not player versus player though ;) for
  mksh(1) porting/testing. Sadly, Itanic only, no humppa machines.</p>
 <p>In case someone ever needs it, a collection of scripts called <a
  href="https://evolvis.org/projects/bw2mw/">BitWeaver → MediaWiki</a>
- does exactly that and has been released under GNU GPLv2 (only) courtesy
- of <a href="https://www.tarent.de/">my employer</a>. Cheers!</p>
+ does exactly that and has been released under GNU GPLv2 (only). Cheers!</p>
 ----
 Title: Happy Benzday!
 Author: tg@
@@ -5672,7 +5634,7 @@ Tag: rant
 Language: de_DE-1901
 
 <p>SWB. Stehen, Warten, Beten.</p><!-- RSS stop -->
-<p>Am Dienstag Abend waren <a href="https://www.tarent.de/">wir</a> mit <a
+<p>Am Dienstag Abend waren wir mit <a
  href="http://www.gnurandal.com/">Roland</a> in der Bonner Innenstadt.
  Hiernach wollte ich gerne nach Hause fahren, aber die StadtWerke Bonn
  machten mir, wie so oft, einen Strich durch die Rechnung.</p>
@@ -6142,11 +6104,8 @@ Tag: debian event
  meeting</a> which will be described more later by Roland on <a
  href="http://www.planetforge.org/planet/">Plänet Forge</a>. Please <a
  href="http://www.ohloh.net/p/fusionforge">tell Ohlol if you use it</a>,
- for more visibility. My employer will also provide hosting for FOSS
- projects, but we'll need to formalise the hosting conditions first,
- plus <a href="http://www.ohloh.net/p/evolvis">Evolvis</a> currently
- runs FusionForge 4.5 (aka "Debian GForge") but we're in the process
- of upgrading to a 4.8-plus-backports-and-patches, then 5.0 soon.</p>
+ for more visibility.
+</p>
 <p>There is a new inter-forge mailing list as well, see the <a
  href="http://lists.planetforge.org/cgi-bin/mailman/listinfo/discussions">info
  page</a>. People from Coclico and the various *forges may want to
@@ -6449,8 +6408,7 @@ Date: 03.04.2010 17:27
  longer than a lifetime, so I get to pick my things ;-)</p>
 <p>There will not be a MirBSD booth at LinuxTag in Berlin. If I’m
  going (even that’s not sure), I join a shared AllBSD booth, which
- seems to not happen, or I’ll distribute CDs at the tarent booth,
- if I am allowed to… bsiegert@ will be at some conference for his
+ seems to not happen, or… bsiegert@ will be at some conference for his
  Chemistry stuff again, and it’s too far for gecko2@ to attend, so
  I would’ve been alone anyway. At FrOSCon, though, we’ll be sure to
  happen (I’m even trying to cobble together a FreeWRT booth again,
@@ -7828,8 +7786,6 @@ Tag: debian event
  src="http://kitenet.net/~joey/blog/pics/debconf11_banner.png" />
  to what used to be Yugoslawia when I was there the last time,
  although in the Poreč region of Istria, Hrvatska.</p>
-<p>Thanks to my <a href="https://www.tarent.de/">my boss</a>
- who’s sending me there.</p>
 ----
 Date: 11.07.2011 20:37
 Author: tg@
