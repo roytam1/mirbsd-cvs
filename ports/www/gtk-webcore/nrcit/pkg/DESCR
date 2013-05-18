@@ -1,9 +1,0 @@
-Gtk+ WebCore is a Linux/Gtk+ port of Apple Computer Inc.'s WebCore KHTML
-html rendering engine including a web component. A reference browser
-implementation is included in the project. Gtk+ WebCore is a standards
-compliant (X)HTML rendering engine, javascript interpreter and an
-embeddable web component. The purpose of the web component is to be a
-light-weight, easy-to-compile and embed, open source rendering
-component. 
-
-This package contains the embeddable browser component.

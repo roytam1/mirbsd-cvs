@@ -1,5 +1,0 @@
-@comment $MirOS$
-@comment $OpenBSD: PFRAG.shared,v 1.1.1.1 2003/05/11 08:24:29 cannings Exp $
-@lib lib/libXg.so.0.0
-@lib lib/libframe.so.0.0
-@lib lib/libplan9c.so.0.0

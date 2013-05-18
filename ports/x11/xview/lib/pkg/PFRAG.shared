@@ -1,6 +1,0 @@
-@comment $MirOS$
-@comment $OpenBSD: PFRAG.shared,v 1.2 2000/07/04 02:17:56 krw Exp $
-@lib lib/libolgx.so
-@lib lib/libolgx.so.3.2
-@lib lib/libxview.so.3.2
-@lib lib/libxview.so

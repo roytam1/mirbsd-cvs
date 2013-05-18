@@ -1,9 +1,0 @@
-@comment $MirOS$
-@pkgcfl pine-*
-bin/alpine
-man/man1/alpine.1
-share/doc/alpine/NOTICE
-share/doc/alpine/README
-share/doc/alpine/brochure.txt
-share/doc/alpine/tech-notes.txt
-@dirrm share/doc/alpine
