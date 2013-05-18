@@ -1085,7 +1085,7 @@ j_waitj(Job *j,
 		sigprocmask(SIG_SETMASK, &sm_default, &omask);
 		pause();
 		/* note that handlers may run here so they need to know */
-		sigprocmask(SIG_SETMASK, &qmask, NULL);
+		sigprocmask(SIG_SETMASK, &omask, NULL);
 #else
 		sigsuspend(&sm_default);
 #endif
