@@ -1,11 +1,10 @@
---- demos/Makefile.in.orig	Wed Dec  1 18:32:13 2004
-+++ demos/Makefile.in	Wed Dec  1 18:32:39 2004
-@@ -227,7 +227,7 @@
- canvas_demo_LDADD = $(LDADD)
- canvas_demo_DEPENDENCIES = \
- 	$(top_builddir)/libgnomecanvas/libgnomecanvas-2.la
--canvas_demo_LDFLAGS =
+--- demos/Makefile.in.orig	Mon Mar 13 12:12:54 2006
++++ demos/Makefile.in	Thu Jun 21 19:05:04 2007
+@@ -57,6 +57,7 @@ am__DEPENDENCIES_1 =
+ canvas_demo_DEPENDENCIES =  \
+ 	$(top_builddir)/libgnomecanvas/libgnomecanvas-2.la \
+ 	$(am__DEPENDENCIES_1)
 +canvas_demo_LDFLAGS = @LIBGNOMECANVAS_LIBS@
- 
- DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)
+ DEFAULT_INCLUDES = -I. -I$(srcdir) -I$(top_builddir)
  depcomp = $(SHELL) $(top_srcdir)/depcomp
+ am__depfiles_maybe = depfiles

@@ -1,14 +1,13 @@
-# $MirOS: ports/x11/gnome/libgnomecanvas/Makefile,v 1.6 2006/02/09 11:15:44 tg Exp $
+# $MirOS: ports/x11/gnome/libgnomecanvas/Makefile,v 1.7 2006/09/14 00:15:19 tg Exp $
 # $OpenBSD: Makefile,v 1.10 2004/12/27 18:57:58 sturm Exp $
 
-COMMENT=			graphics library for GNOME
+COMMENT=		graphics library for GNOME
 
-DISTNAME=		libgnomecanvas-2.12.0
-PKGNAME=		${DISTNAME}-0
+DISTNAME=		libgnomecanvas-2.14.0
 CATEGORIES=		x11 x11/gnome
 
 HOMEPAGE=		http://www.gnome.org
-MASTER_SITES=		${MASTER_SITE_GNOME:=sources/libgnomecanvas/2.12/}
+MASTER_SITES=		${MASTER_SITE_GNOME:=sources/libgnomecanvas/2.14/}
 EXTRACT_SUFX=           .tar.bz2
 
 # LGPL
