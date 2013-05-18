@@ -1,4 +1,4 @@
-# $MirOS: ports/Makefile,v 1.10 2005/12/06 19:19:11 tg Exp $
+# $MirOS: ports/Makefile,v 1.11 2005/12/17 05:46:17 tg Exp $
 # $OpenBSD: Makefile,v 1.43 2003/12/15 17:56:40 espie Exp $
 # $FreeBSD: Makefile,v 1.36 1997/10/04 15:54:31 jkh Exp $
 #-
@@ -85,7 +85,7 @@ print-licences: ${.CURDIR}/INDEX
 search:	${.CURDIR}/INDEX
 .if !defined(key) && !defined(name)
 	@echo "The search target requires a keyword or name parameter,"
-	@echo "e.g.: \"make search key=somekeyword\" \"make search name=somename\""
+	@echo "e.g.: \"mmake search key=somekeyword\" \"mmake search name=somename\""
 .else
 . if defined(key)
 	@egrep -i -- "${key}" ${.CURDIR}/INDEX | awk -F\| '{ printf("Port:\t%s\nPath:\t%s\nInfo:\t%s\nMaint:\t%s\nIndex:\t%s\nL-deps:\t%s\nB-deps:\t%s\nR-deps:\t%s\nArchs:\t%s\n\n", $$1, $$2, $$4, $$6, $$7, $$8, $$9, $$10, $$11); }'
@@ -128,7 +128,7 @@ portupgrade: index
 
 # Yes, this does hardcode /bin/sh and that's correct.
 setup: Setup.sh
-	@echo 'Use "make nfo" to generate documentation!'
+	@echo 'Use "mmake nfo" to generate documentation!'
 	@sleep 3
 	if [[ ! -e ${.CURDIR}/Distfiles ]]; then \
 		${SUDO} mkdir -m 0775 Distfiles; \
