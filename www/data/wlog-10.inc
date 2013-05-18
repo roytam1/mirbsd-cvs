@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.136 2009/01/06 19:59:13 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.137 2009/01/12 21:35:48 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -2664,4 +2664,81 @@ Title: bootloader… good so far
 <p>I plan on bringing out a new snapshot any time soon, now that this works
  and security stuff is in, although Lynx might get updated again first. And
  I still write HTML source code in <em>Blocksatz</em>… old dasr habit.</p>
+----
+Date: 14.01.2009 07:30
+Author: tg@
+Title: NetBSD® _also_ switches to 64 bit time_t; sendmail and SSL/TLS certificates; danGerOOus uGLy web2.0 Email; random musings [updated]
+
+<p>We got reminded that NetBSD® switched to a 64 bit <tt>time_t</tt> by <a
+ href="http://www.feyrer.de/NetBSD/bx/blosxom.cgi/nb_20090114_0121.html">Hubert
+ Feyrer</a> <strong>as well</strong>. However, one should mention that MirOS
+ BSD has been using this since past the MirOS #7 release, i.e. for more than
+ four years. Including fixing format string bugs (i386 is not LP64 so a long
+ doesn’t contain a time_t) in a plethora of ports. Some kernel parts however
+ are Y2100 but not (yet) Y2200 safe (such as 4.2FFS aka UFS1).</p>
+<p>Still nice to see others <em>do</em> follow our lead ;-) *wink*</p>
+<hr />
+<p><a href="http://www.outflux.net/blog/archives/2009/01/13/etoomanycerts/">A
+ Debian person</a> wonders about sendmail… but the answer is relatively easy.
+</p><p style="margin-bottom:0px;">Snippet from the config:</p>
+<div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;">
+ <pre>
+O CACertPath=/etc/ssl/certs
+O CACertFile=/etc/ssl/deflt-ca.cer
+ </pre>
+</div><p style="margin-top:0px;">Here, <tt>CACertPath</tt> is the name of a
+ <em>directory</em> containing files named <i>xxxxxxxx.y</i> where <i>x</i>
+ is the hash of the certificate and <i>y</i> is a number starting at 0 that
+ is used to avoid collision if two CA certificates have the same hash. They
+ are used for <strong>peer certificate verification</strong> alone.<br />
+ <tt>CACertFile</tt>, on the other hand, contains the certificates that are
+ <strong>sent to the SSL peer</strong>, in a <em>single file</em>, but
+ <strong>excluding our own one</strong>. For instance, it would contain TWO
+ certificates in my case (CAcert.org Root CA Certificate, plus CAcert.org
+ Class 3 Intermediate CA Certificate), once they switch to the new roots;
+ I’m currently still using an older Class 1 one which needs only one there.
+ I hope this clears things up. However, sendmail(8) on Debian <em>is</em>
+ not funny (I succeeded with it only once I disabled <em>all</em> of their
+ scripts, including the sysvinit one, and scp(1)ing <tt>sendmail.cf</tt>
+ from my MirBSD system…).</p>
+<hr />
+<p>Looking at <a href="http://www.klein2.de/?p=48">someone using Google
+ Mail for all of his traffic</a>, I can only stress again that Google is
+ just plain evil. Especially the company offer. I mean, they can do anything
+ with the stored data. They make deletion hard (BTDT, when I cancelled
+ <strong>all</strong> of my Google accounts), and you never know if they
+ don’t use anything of yours despite that. (And they owe me US$ ~130.)</p>
+<hr />
+<p>Meh. No “Hello Planet Debian, I’m now a DM (not DD)” post for me. But I
+ still work on the “wtf” repository from time to time. I need a package for
+ our rdate(8), compress(1), and the <a href="@@RELPATH@@mksh.htm">mksh</a>
+ one could need updates.</p>
+<p>Our company’s new MXens will run OpenBSD and MirBSD, respectively, with
+ pf(4), spamd(8), sendmail(8), mksh(1), <tt>ports/mailnews/bmf</tt>, and
+ OpenLDAP interconnection (slave slurping Univention UCS)… hard but nice.
+ No SASL, it sucks (the UCS does that for the MUAs, and smarthosts off to
+ our sendmail(8) plus spamlogd(8) instead). TLS Certificate Authentification
+ is just so much more nice… or IP based, both are Xen DomU on the same box,
+ the two BSDs (one offsite though) via HVM (replace Realtek with e1000).</p>
+<p>Sometimes, OpenBSD does nice things: /var/backups/pkglist I will take.</p>
+<p>VMware Server 2 is okay (MirBSD works fine) but the WUI is most annoying.
+ And it eats lots of RAM. But hey, YGWYPF. And it’s better than no MirBSD
+ (entropy collection rulez!!!!11!1einself), plus, the host has all the stuff
+ needed (or can apt-get it), including jupp_3.1.10-1, mksh_36.2-1ubuntu1
+ (from my “wtf” repo), satanic-wallpapers_666.4 (oO). The latter only on my
+ workstation though, not the other vmws2 box, and only for the looks.</p>
+<p>I switched my 22" (or so, dunno) widescreen reflexive TFT LCD with a 17"
+ nōn-wide one that does 1280x1024 (we have a 15" one, but it has the same
+ native resolution, so I took the one with bigger pixels as I do <em>not</em>
+ run any LCDs in anything scaled instead of the native resolution). Now I at
+ least see everything happening on my display ☺ and got brownie points with
+ our HR lead (who got my old monitor in exchange for her 15" LCD).</p>
+<p>Inactive MirOS Developer and FreeWRT Founder wbx@ (Waldemar Brodkorb) has
+ also helped with setting up WDS and procuring some Asus WL-500gP routers,
+ so we will also be using FreeWRT Embedded GNU/Linux at tarent.</p>
+<p>Nathan Laredo (GNU member and author of tinyirc) and I have reached a
+ consensus (compromise?) which enables me to include it on the special grml
+ edition of our <tt>bsd.rd</tt> kernel (rescue system mode). That and e3
+ will make it; the bootloader needs macros (for calling grub), but that’s
+ it probably. And I’ll try to get a MirGRML too. Maybe for FOSDEM.</p>
 ----
