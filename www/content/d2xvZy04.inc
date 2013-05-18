@@ -1,5 +1,5 @@
 <!-- PageID: wlog-8 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.65 2006/04/08 00:29:23 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.66 2006/04/09 22:28:36 tg Exp $</small>
 <h1>MirBSD &ndash; WTF, We Have a Release!?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -1155,6 +1155,15 @@ celebrate this event, rotate the wlog and start a new one.</p>
   rdate(8) call doesn't hurt either. (Too bad there's no way to send any
   entropy back with an NTP answer packet &ndash; at least I did not find
   a way to&#8230;</p>
+</div>
+
+<div class="wlentry">
+ <h3 id="e20060411">11.04.2006 by tg@</h3>
+ <p>The live CD's completed, uploaded at BitTorrent, I organised some <a
+  href="http://bsdnews.com/view_story.php3?story_id=5698">press coverage
+  at D&aelig;monnews</a> (and hope the word spreads). I fleshed out bugs
+  (at least these I could find) and shrinked the size again.</p>
+ <p>Benny is in Dresden, GDR, by the way.</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
