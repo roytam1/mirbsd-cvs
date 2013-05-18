@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.34 2006/04/29 21:40:09 tg Exp $
+# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.35 2006/05/01 18:44:49 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -77,7 +77,7 @@ ed -s etc/ntpd.conf <<-'EOF'
 EOF
 ed -s etc/rc <<-'EOF'
 	1i
-		# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.34 2006/04/29 21:40:09 tg Exp $
+		# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.35 2006/05/01 18:44:49 tg Exp $
 	.
 	/shutdown request/ka
 	/^fi/a
@@ -141,6 +141,7 @@ ed -s etc/sudoers <<-'EOF'
 	wq
 EOF
 ed -s etc/sysctl.conf <<-'EOF'
+	/accept_rtadv/s/^.//
 	/^.ddb.console/s/^.//
 	/^.kern.seminfo.semmni/s/^.//
 	/^.kern.seminfo.semmns/s/^.//
