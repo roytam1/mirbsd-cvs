@@ -1,15 +1,12 @@
-# $MirOS: src/bin/md5/Makefile,v 1.7 2006/07/30 23:39:47 tg Exp $
+# $MirOS: src/bin/md5/Makefile,v 1.8 2006/09/17 19:28:57 tg Exp $
 # $OpenBSD: Makefile,v 1.10 2005/05/24 21:57:47 millert Exp $
 
 PROG=		cksum
-SRCS=		adler32.c crc.c md5.c sfv.c suma.c
+SRCS=		crc.c md5.c sfv.c suma.c
 .if ${MACHINE_ARCH} == "i386"
-SRCS+=		ad32-x86.S suma-x86.S
-CPPFLAGS+=	-DUSE_ASM
+SRCS+=		suma-x86.S
 .else
 SRCS+=		suma-mi.c
-DPADD+=		${LIBZ}
-LDADD+=		-lz
 .endif
 
 MAN=	cksum.1 md5.1 sha1.1 rmd160.1
@@ -21,11 +18,17 @@ MLINKS= cksum.1 sum.1
 
 .include <bsd.own.mk>
 
-COPTS+=	-Wall -Wconversion -Wmissing-prototypes
+COPTS+=		-Wall -Wconversion -Wmissing-prototypes
 
 .if ${OStype} != "MirBSD"
 CPPFLAGS+=	-D_MIRMAKE_DEFNS
 LDADD+=		-L${.SYSMK} -lmirmake
+DPADD+=		${LIBZ}
+LDADD+=		-lz
+.else
+SMALL=		#defined
+KERNBASE?=	${BSDSRCDIR}/kern
+.  include "${KERNBASE}/z/Makefile.adler32"
 .endif
 
 .include <bsd.prog.mk>

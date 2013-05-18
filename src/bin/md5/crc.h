@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/bin/md5/crc.h,v 1.2 2006/09/17 19:28:57 tg Exp $ */
 /*	$OpenBSD: crc.h,v 1.1 2004/05/02 17:53:29 millert Exp $	*/
 
 /*
@@ -49,6 +49,11 @@ typedef struct SFVContext {
 	uint32_t crc;
 } SFV_CTX;
 
+#define	ADLER32_DIGEST_LENGTH		4
+#define	ADLER32_DIGEST_STRING_LENGTH	(ADLER32_DIGEST_LENGTH * 2 + 1)
+
+typedef uint32_t ADLER32_CTX;
+
 void	 CKSUM_Init(CKSUM_CTX *);
 void	 CKSUM_Update(CKSUM_CTX *, const u_int8_t *, size_t);
 void	 CKSUM_Final(CKSUM_CTX *);
@@ -71,3 +76,11 @@ void	 SFV_Init(SFV_CTX *);
 void	 SFV_Update(SFV_CTX *, const uint8_t *, size_t);
 void	 SFV_Final(SFV_CTX *);
 char    *SFV_End(SFV_CTX *, char *);
+
+void	 ADLER32_Init(ADLER32_CTX *);
+void	 ADLER32_Update(ADLER32_CTX *, const uint8_t *, size_t)
+	    __attribute__((__bounded__(__string__,2,3)));
+char	*ADLER32_End(ADLER32_CTX *, char *)
+	    __attribute__((__bounded__(__minbytes__,2,ADLER32_DIGEST_STRING_LENGTH)));
+
+void	 cksum_addpool(const char *) __attribute__((__nonnull__(1)));

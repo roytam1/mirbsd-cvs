@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/bin/md5/crc.c,v 1.2 2005/11/16 17:08:46 tg Exp $ */
 /*	$OpenBSD: crc.c,v 1.2 2004/05/10 19:48:07 deraadt Exp $	*/
 
 /*
@@ -8,13 +8,23 @@
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
  *
- * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
- * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
- * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
- * ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
- * WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
- * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
- * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ * Copyright (c) 2006, 2007
+ *	Thorsten Glaser <tg@mirbsd.de>
+ *
+ * Provided that these terms and disclaimer and all copyright notices
+ * are retained or reproduced in an accompanying document, permission
+ * is granted to deal in this work without restriction, including un-
+ * limited rights to use, publicly perform, distribute, sell, modify,
+ * merge, give away, or sublicence.
+ *
+ * This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
+ * the utmost extent permitted by applicable law, neither express nor
+ * implied; without malicious intent or gross negligence. In no event
+ * may a licensor, author or contributor be held liable for indirect,
+ * direct, other damage, loss, or other issues arising in any way out
+ * of dealing in the work, even if advised of the possibility of such
+ * damage or existence of a defect, except proven that it results out
+ * of said person's immediate fault when using the work as intended.
  */
 
 #include <sys/types.h>
@@ -22,12 +32,14 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <zlib.h>
 
 #include "crc.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/bin/md5/crc.c,v 1.2 2005/11/16 17:08:46 tg Exp $");
 
 /*
  * Table-driven version of the following polynomial from POSIX 1003.2:
@@ -222,4 +234,42 @@ SYSVSUM_End(SYSVSUM_CTX *ctx, char *outstr)
 	}
 
 	return (outstr);
+}
+
+void
+ADLER32_Init(ADLER32_CTX *ctx)
+{
+	if (ctx != NULL)
+		*ctx = 1;
+	/*	*ctx = adler32(0, NULL, 0); */
+}
+
+void
+ADLER32_Update(ADLER32_CTX *ctx, const uint8_t *buf, size_t len)
+{
+	if (ctx == NULL)
+		return;
+
+	*ctx = adler32(*ctx, buf, len);
+}
+
+char *
+ADLER32_End(ADLER32_CTX *ctx, char *res)
+{
+	if (res)
+		snprintf(res, ADLER32_DIGEST_STRING_LENGTH, "%08X", *ctx);
+	else if (asprintf(&res, "%08X", *ctx) == -1)
+		res = NULL;
+
+	return (res);
+}
+
+void
+cksum_addpool(const char *s __attribute__((unused)))
+{
+#ifdef ZLIB_HAS_ADLERPUSH
+	adler32(arc4random(), (const uint8_t *)s, strlen(s));
+#else
+	arc4random_push(adler32(arc4random(), (const uint8_t *)s, strlen(s)));
+#endif
 }

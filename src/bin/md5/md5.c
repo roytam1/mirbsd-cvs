@@ -1,4 +1,4 @@
-/**	$MirOS: src/bin/md5/md5.c,v 1.14 2006/09/17 19:28:57 tg Exp $ */
+/**	$MirOS: src/bin/md5/md5.c,v 1.15 2006/09/17 20:05:15 tg Exp $ */
 /*	$OpenBSD: md5.c,v 1.32 2004/12/29 17:32:44 millert Exp $	*/
 
 /*
@@ -38,11 +38,10 @@
 #include <sha1.h>
 #include <sha2.h>
 #include <tiger.h>
-#include "adler32.h"
 #include "crc.h"
 #include "suma.h"
 
-__RCSID("$MirOS: src/bin/md5/md5.c,v 1.14 2006/09/17 19:28:57 tg Exp $");
+__RCSID("$MirOS: src/bin/md5/md5.c,v 1.15 2006/09/17 20:05:15 tg Exp $");
 
 #define MAX_DIGEST_LEN	128
 
