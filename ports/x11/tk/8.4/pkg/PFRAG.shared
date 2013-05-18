@@ -1,4 +1,0 @@
-@comment $MirOS: ports/x11/tk/8.4/pkg/PFRAG.shared,v 1.1.7.1 2005/03/18 16:00:55 tg Exp $
-@comment $OpenBSD: PFRAG.shared,v 1.2 2004/05/20 21:25:46 miod Exp $
-lib/tk8.4/pkgIndex.tcl
-@lib lib/libtk84.so.1.0
