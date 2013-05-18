@@ -1,4 +1,4 @@
-# $MirOS: src/usr.sbin/openssl/Makefile,v 1.7 2006/06/30 23:18:06 tg Exp $
+# $MirOS: src/usr.sbin/openssl/Makefile,v 1.8 2006/07/09 00:01:31 tg Exp $
 # $OpenBSD: Makefile,v 1.17 2005/04/29 05:42:55 djm Exp $
 
 PROG=		openssl
@@ -11,18 +11,12 @@ SSLEAYDIST=	lib/libssl/src
 SSLEAY_SRC_TOP=	${BSDSRCDIR}/${SSLEAYDIST}
 SSLEAY_SRC=	${SSLEAY_SRC_TOP}/apps
 
-.if ${MACHINE_ARCH} == "i386"
-CPPFLAGS+=	-DL_ENDIAN
-.elif ${MACHINE_ARCH} == "sparc"
-CPPFLAGS+=	-DB_ENDIAN
-.else
-.BEGIN:
-	@echo No endianness defined.
-	@exit 1
-.endif
-
-CPPFLAGS+=	-DMONOLITH -DOPENSSL_NO_IDEA -DTERMIOS -DANSI_SOURCE
+CPPFLAGS+=	-DMONOLITH -DTERMIOS -DANSI_SOURCE
 CPPFLAGS+=	-I${SSLEAY_SRC_TOP} -I${SSLEAY_SRC}
+
+.if ${MKC_USAP:L} == "yes"
+CPPFLAGS+=	-DOPENSSL_NO_RC5 -DOPENSSL_NO_MDC2 -DOPENSSL_NO_IDEA
+.endif
 
 SRCS=	verify.c asn1pars.c req.c dgst.c dh.c enc.c passwd.c gendh.c errstr.c \
 	pkcs7.c crl2p7.c crl.c ca.c \

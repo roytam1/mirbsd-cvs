@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /* crypto/md32_common.h */
 /* ====================================================================
  * Copyright (c) 1999-2002 The OpenSSL Project.  All rights reserved.
@@ -290,6 +292,19 @@
 
 #ifndef ROTATE
 #define ROTATE(a,n)     (((a)<<(n))|(((a)&0xffffffff)>>(32-(n))))
+#endif
+
+#ifdef __OpenBSD__
+#include <sys/endian.h>
+#undef B_ENDIAN
+#undef L_ENDIAN
+#ifndef __LP64__
+#if BYTE_ORDER == BIG_ENDIAN
+#define B_ENDIAN
+#elif BYTE_ORDER == LITTLE_ENDIAN
+#define L_ENDIAN
+#endif
+#endif
 #endif
 
 /*

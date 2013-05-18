@@ -268,4 +268,8 @@ The B<enc> program only supports a fixed number of algorithms with
 certain parameters. So if, for example, you want to use RC2 with a
 76 bit key or RC4 with an 84 bit key you can't use this program.
 
+To use the B<idea> algorithm, you need to obtain a patent licence,
+cf. e.g. B<http://www.mediacrypt.com/_contents/10_idea/102040_li_nc.asp>
+or the site map, but it might not always be disabled by default.
+
 =cut

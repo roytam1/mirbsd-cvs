@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libssl/crypto/Makefile,v 1.13 2006/06/17 22:11:32 tg Exp $
+# $MirOS: src/lib/libssl/crypto/Makefile,v 1.14 2006/09/20 20:14:05 tg Exp $
 # $OpenBSD: Makefile,v 1.45 2006/06/27 05:07:47 djm Exp $
 
 .include <bsd.own.mk>
@@ -9,19 +9,18 @@ LIB=		crypto
 SSLEAYDIST=	src
 SSL_SRC=	${.CURDIR}/../${SSLEAYDIST}
 LCRYPTO_SRC=	${SSL_SRC}/crypto
-FIPS_SRC=	${SSL_SRC}/fips
 
 .if ${NOPIC:L} == "no"
 CPPFLAGS+= -DDSO_DLFCN -DHAVE_DLFCN_H
 .endif
-CPPFLAGS+= -DOPENSSL_NO_IDEA -DTERMIOS -DANSI_SOURCE -DNO_ERR -DOPENSSL_NO_ASM
+CPPFLAGS+= -DTERMIOS -DANSI_SOURCE -DNO_ERR -DOPENSSL_NO_ASM
 CPPFLAGS+= -DOPENSSL_NO_KRB5 -DNO_WINDOWS_BRAINDEATH
 CPPFLAGS+= -DOPENSSL_NO_HW_CSWIFT -DOPENSSL_NO_HW_NCIPHER -DOPENSSL_NO_HW_ATALLA
 CPPFLAGS+= -DOPENSSL_NO_HW_NURON -DOPENSSL_NO_HW_UBSEC -DOPENSSL_NO_HW_AEP
 CPPFLAGS+= -DOPENSSL_NO_HW_SUREWARE -DOPENSSL_NO_HW_4758_CCA
 CPPFLAGS+= -I${.CURDIR}/../${SSLEAYDIST} -I${LCRYPTO_SRC} -I.
 .if ${MKC_USAP:L} == "yes"
-CPPFLAGS+= -DOPENSSL_NO_RC5 -DOPENSSL_NO_MDC2
+CPPFLAGS+= -DOPENSSL_NO_RC5 -DOPENSSL_NO_MDC2 -DOPENSSL_NO_IDEA
 .endif
 SRCS+=	o_time.c
 SRCS+=	cryptlib.c ex_data.c cpt_err.c mem.c mem_dbg.c mem_clr.c
@@ -64,7 +63,7 @@ SRCS+=	rsa_eay.c rsa_gen.c rsa_lib.c rsa_sign.c
 SRCS+=	rsa_saos.c rsa_err.c rsa_pk1.c rsa_ssl.c
 SRCS+=	rsa_none.c rsa_chk.c rsa_oaep.c rsa_null.c rsa_asn1.c
 SRCS+=	rsa_pss.c rsa_x931.c
-SRCS+=	dsa_gen.c dsa_key.c dsa_lib.c dsa_vrf.c 	
+SRCS+=	dsa_gen.c dsa_key.c dsa_lib.c dsa_vrf.c
 SRCS+=	dsa_sign.c dsa_err.c dsa_asn1.c dsa_ossl.c
 SRCS+=	dh_gen.c dh_key.c dh_lib.c dh_check.c dh_err.c dh_asn1.c
 SRCS+=	buffer.c buf_err.c
@@ -133,16 +132,6 @@ SRCS+=	ocsp_cl.c ocsp_ext.c ocsp_lib.c ocsp_srv.c
 SRCS+=	ec_cvt.c ec_lib.c ecp_mont.c ecp_recp.c
 SRCS+=	ec_err.c ec_mult.c ecp_nist.c ecp_smpl.c
 
-# Only used when -DOPENSSL_FIPS is set
-#SRCS+=	fips.c fips_err_wrapper.c
-#SRCS+=	fips_aes_core.c fips_aes_selftest.c
-#SRCS+=	fips_des_enc.c fips_des_selftest.c fips_set_key.c
-#SRCS+=	fips_dh_check.c fips_dh_gen.c fips_dh_key.c
-#SRCS+=	fips_dsa_ossl.c fips_dsa_gen.c fips_dsa_selftest.c
-#SRCS+=	fips_rand.c
-#SRCS+=	fips_rsa_eay.c fips_rsa_gen.c fips_rsa_selftest.c
-#SRCS+=	fips_sha1dgst.c fips_sha1_selftest.c
-
 .PATH:	${LCRYPTO_SRC}/md2 ${LCRYPTO_SRC}/md5 ${LCRYPTO_SRC}/sha \
 	${LCRYPTO_SRC}/mdc2 ${LCRYPTO_SRC}/hmac ${LCRYPTO_SRC}/ripemd \
 	${LCRYPTO_SRC}/des ${LCRYPTO_SRC}/rc2 ${LCRYPTO_SRC}/rc4 \
@@ -158,9 +147,7 @@ SRCS+=	ec_err.c ec_mult.c ecp_nist.c ecp_smpl.c
 	${LCRYPTO_SRC}/engine ${LCRYPTO_SRC}/dso ${LCRYPTO_SRC}/ui \
 	${LCRYPTO_SRC}/ocsp ${LCRYPTO_SRC}/ec ${LCRYPTO_SRC}/aes \
 	${LCRYPTO_SRC} ${LCRYPTO_SRC}/acss ${.CURDIR}/arch/${MACHINE_ARCH} \
-	${LCRYPTO_SRC}/bn/asm ${FIPS_SRC} ${FIPS_SRC}/aes ${FIPS_SRC}/des \
-	${FIPS_SRC}/dh ${FIPS_SRC}/dsa ${FIPS_SRC}/rand ${FIPS_SRC}/rsa \
-	${FIPS_SRC}/sha1
+	${LCRYPTO_SRC}/bn/asm
 
 HDRS=\
 	crypto/acss/acss.h \
@@ -220,8 +207,8 @@ HDRS=\
 	crypto/x509/x509_vfy.h \
 	crypto/x509v3/x509v3.h \
 	e_os2.h \
-	fips/fips.h \
-	fips/rand/fips_rand.h
+	${.CURDIR}/fips.h \
+	${.CURDIR}/fips_rand.h
 
 HDRS_GEN=\
 	${.CURDIR}/arch/${MACHINE_ARCH}/opensslconf.h \

@@ -1,4 +1,4 @@
-.\" $MirOS$
+.\" $MirOS: src/usr.sbin/openssl/openssl.1,v 1.5 2006/07/09 00:28:39 tg Exp $
 .\" $OpenBSD: openssl.1,v 1.51 2005/04/29 09:31:05 jmc Exp $
 .\" ====================================================================
 .\" Copyright (c) 1998-2002 The OpenSSL Project.  All rights reserved.
@@ -2753,6 +2753,12 @@ des-ede3-ofb       Three key triple DES EDE in OFB mode
 desx-cbc           DESX algorithm
 desx               Alias for desx-cbc
 
+idea-cbc           IDEA algorithm in CBC mode
+idea               same as idea-cbc (see below)
+idea-cfb           IDEA in CFB mode
+idea-ecb           IDEA in ECB mode
+idea-ofb           IDEA in OFB mode
+
 rc2-cbc            128-bit RC2 in CBC mode
 rc2                Alias for rc2-cbc
 rc2-cfb            128-bit RC2 in CBC mode
@@ -2762,7 +2768,14 @@ rc2-64-cbc         64-bit RC2 in CBC mode
 rc2-40-cbc         40-bit RC2 in CBC mode
 
 rc4                128-bit RC4
+rc4-64             64-bit RC4
 rc4-40             40-bit RC4
+
+rc5-cbc            RC5 cipher in CBC mode
+rc5                Alias for rc5-cbc
+rc5-cfb            RC5 cipher in CBC mode
+rc5-ecb            RC5 cipher in CBC mode
+rc5-ofb            RC5 cipher in CBC mode
 .Ed
 .Sh ENC EXAMPLES
 Just base64 encode a binary file:
@@ -2802,6 +2815,12 @@ The
 program only supports a fixed number of algorithms with certain parameters.
 Therefore it is not possible to use RC2 with a 76-bit key
 or RC4 with an 84-bit key with this program.
+.Pp
+To use the 
+.Ar idea
+algorithm, you need to obtain a patent licence, cf\. e\.g\.
+.Pa http://www.mediacrypt.com/_contents/10_idea/102040_li_nc.asp
+or the site map, but it might not always be disabled by default.
 .\"
 .\" ERRSTR
 .\"
