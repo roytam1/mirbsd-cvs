@@ -1,4 +1,4 @@
-/*	$OpenBSD: cl_main.c,v 1.14 2003/07/18 23:11:43 david Exp $	*/
+/*	$OpenBSD: cl_main.c,v 1.20 2009/10/27 23:59:47 deraadt Exp $	*/
 
 /*-
  * Copyright (c) 1993, 1994
@@ -10,10 +10,6 @@
  */
 
 #include "config.h"
-
-#ifndef lint
-static const char sccsid[] = "@(#)cl_main.c	10.36 (Berkeley) 10/14/96";
-#endif /* not lint */
 
 #include <sys/types.h>
 #include <sys/queue.h>
@@ -55,16 +51,18 @@ static void	   term_init(char *, char *);
  *	This is the main loop for the standalone curses editor.
  */
 int
-main(argc, argv)
-	int argc;
-	char *argv[];
+main(int argc, char *argv[])
 {
 	static int reenter;
 	CL_PRIVATE *clp;
 	GS *gp;
 	size_t rows, cols;
 	int rval;
-	char *ip_arg, **p_av, **t_av, *ttype;
+	char *ttype;
+#ifdef RUNNING_IP
+	char *ip_arg;
+	char **p_av, **t_av;
+#endif
 
 	/* If loaded at 0 and jumping through a NULL pointer, stop. */
 	if (reenter++)
@@ -112,8 +110,6 @@ main(argc, argv)
 	 */
 	if (ip_arg != NULL)
 		exit (ip_main(argc, argv, gp, ip_arg));
-#else
-	ip_arg = argv[0];
 #endif
 		
 	/* Create and initialize the CL_PRIVATE structure. */
@@ -198,7 +194,6 @@ static GS *
 gs_init(name)
 	char *name;
 {
-	CL_PRIVATE *clp;
 	GS *gp;
 	char *p;
 

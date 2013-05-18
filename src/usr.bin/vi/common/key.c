@@ -1,5 +1,4 @@
-/**	$MirOS: src/usr.bin/vi/common/key.c,v 1.2 2005/03/13 18:33:55 tg Exp $ */
-/*	$OpenBSD: key.c,v 1.6 2002/02/16 21:27:57 millert Exp $	*/
+/*	$OpenBSD: key.c,v 1.10 2009/10/27 23:59:47 deraadt Exp $	*/
 
 /*-
  * Copyright (c) 1991, 1993, 1994
@@ -29,8 +28,7 @@
 #include "common.h"
 #include "../vi/vi.h"
 
-__SCCSID("@(#)key.c	10.33 (Berkeley) 9/24/96");
-__RCSID("$MirOS: src/usr.bin/vi/common/key.c,v 1.2 2005/03/13 18:33:55 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/vi/common/key.c,v 1.3 2007/07/05 23:09:44 tg Exp $");
 
 static int	v_event_append(SCR *, EVENT *);
 static int	v_event_grow(SCR *, int);
@@ -105,7 +103,7 @@ int
 v_key_init(sp)
 	SCR *sp;
 {
-	int ch;
+	u_int ch;
 	GS *gp;
 	KEYLIST *kp;
 	int cnt;
@@ -436,10 +434,10 @@ v_event_append(sp, argp)
 
 /* Remove events from the queue. */
 #define	QREM(len) {							\
-	if ((gp->i_cnt -= len) == 0)					\
+	if ((gp->i_cnt -= (len)) == 0)					\
 		gp->i_next = 0;						\
 	else								\
-		gp->i_next += len;					\
+		gp->i_next += (len);					\
 }
 
 /*
@@ -609,10 +607,10 @@ append:			if (v_event_append(sp, argp))
 	 */
 	if (LF_ISSET(EC_INTERRUPT | EC_TIMEOUT))
 		return (0);
-
+	 
 newmap:	evp = &gp->i_event[gp->i_next];
 
-	/*
+	/* 
 	 * If the next event in the queue isn't a character event, return
 	 * it, we're done.
 	 */
@@ -621,7 +619,7 @@ newmap:	evp = &gp->i_event[gp->i_next];
 		QREM(1);
 		return (0);
 	}
-
+	
 	/*
 	 * If the key isn't mappable because:
 	 *
@@ -634,7 +632,7 @@ newmap:	evp = &gp->i_event[gp->i_next];
 	 */
 	if (istimeout || F_ISSET(&evp->e_ch, CH_NOMAP) ||
 	    !LF_ISSET(EC_MAPCOMMAND | EC_MAPINPUT) ||
-	    evp->e_c < MAX_BIT_SEQ && !bit_test(gp->seqb, evp->e_c))
+	    (evp->e_c < MAX_BIT_SEQ && !bit_test(gp->seqb, evp->e_c)))
 		goto nomap;
 
 	/* Search the map. */
@@ -755,9 +753,9 @@ v_sync(sp, flags)
 	GS *gp;
 
 	gp = sp->gp;
-	for (sp = gp->dq.cqh_first; sp != (void *)&gp->dq; sp = sp->q.cqe_next)
+	CIRCLEQ_FOREACH(sp, &gp->dq, q)
 		rcv_sync(sp, flags);
-	for (sp = gp->hq.cqh_first; sp != (void *)&gp->hq; sp = sp->q.cqe_next)
+	CIRCLEQ_FOREACH(sp, &gp->hq, q)
 		rcv_sync(sp, flags);
 }
 

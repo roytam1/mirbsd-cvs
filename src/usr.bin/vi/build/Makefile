@@ -1,4 +1,4 @@
-# $MirOS: src/usr.bin/vi/build/Makefile,v 1.3 2008/12/29 23:54:06 tg Exp $
+# $MirOS: src/usr.bin/vi/build/Makefile,v 1.4 2008/12/31 20:07:51 tg Exp $
 # $OpenBSD: Makefile,v 1.16 2004/01/25 23:22:10 mickey Exp $
 # @(#)Makefile.in	8.75 (Berkeley) 10/23/96
 
@@ -15,7 +15,7 @@ CPPFLAGS+=	-I${.CURDIR} -I${.CURDIR}/../include
 PERLINTERP?=	No
 USE_OCURSES?=	No
 
-.if ${USE_OCURSES:L} == "yes"
+.if ${USE_OCURSES:L} != "yes"
 # Modern curses (ncurses)
 LDADD+=		-lcurses
 DPADD+=		${LIBCURSES}

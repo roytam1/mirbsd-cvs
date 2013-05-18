@@ -1,4 +1,4 @@
-/*	$OpenBSD: cl_screen.c,v 1.15 2005/04/21 09:00:25 otto Exp $	*/
+/*	$OpenBSD: cl_screen.c,v 1.19 2009/10/27 23:59:47 deraadt Exp $	*/
 
 /*-
  * Copyright (c) 1993, 1994
@@ -10,10 +10,6 @@
  */
 
 #include "config.h"
-
-#ifndef lint
-static const char sccsid[] = "@(#)cl_screen.c	10.49 (Berkeley) 9/24/96";
-#endif /* not lint */
 
 #include <sys/types.h>
 #include <sys/queue.h>
@@ -66,8 +62,8 @@ cl_screen(sp, flags)
 	}
 	
 	/* See if we're already in the right mode. */
-	if (LF_ISSET(SC_EX) && F_ISSET(sp, SC_SCR_EX) ||
-	    LF_ISSET(SC_VI) && F_ISSET(sp, SC_SCR_VI))
+	if ((LF_ISSET(SC_EX) && F_ISSET(sp, SC_SCR_EX)) ||
+	    (LF_ISSET(SC_VI) && F_ISSET(sp, SC_SCR_VI)))
 		return (0);
 
 	/*
@@ -95,7 +91,7 @@ cl_screen(sp, flags)
 	if (F_ISSET(sp, SC_SCR_VI)) {
 		F_CLR(sp, SC_SCR_VI);
 
-		if (sp->q.cqe_next != (void *)&gp->dq) {
+		if (CIRCLEQ_NEXT(sp, q) != CIRCLEQ_END(&gp->dq)) {
 			(void)move(RLNO(sp, sp->rows), 0);
 			clrtobot();
 		}
@@ -187,10 +183,8 @@ cl_vi_init(sp)
 	SCR *sp;
 {
 	CL_PRIVATE *clp;
-	GS *gp;
 	char *o_cols, *o_lines, *o_term, *ttype;
 
-	gp = sp->gp;
 	clp = CLP(sp);
 
 	/* If already initialized, just set the terminal modes. */

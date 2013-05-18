@@ -1,12 +1,9 @@
-/**	$MirOS$ */
+/**	$MirOS: src/usr.bin/vi/build/config.h,v 1.2 2005/03/13 18:33:54 tg Exp $ */
 /*	$OpenBSD: config.h,v 1.8 2000/11/17 05:22:59 millert Exp $	*/
 
 #include <sys/cdefs.h>
 #ifndef	__RCSID
 #define	__RCSID(x)	static const char _rcsid[] = (x)
-#endif
-#ifndef	__SCCSID
-#define	__SCCSID(x)	static const char _sccsid[] = (x)
 #endif
 
 /* config.h.  Generated automatically by configure.  */

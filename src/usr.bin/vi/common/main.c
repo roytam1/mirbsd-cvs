@@ -1,4 +1,4 @@
-/*	$OpenBSD: main.c,v 1.10 2003/04/17 02:22:56 itojun Exp $	*/
+/*	$OpenBSD: main.c,v 1.19 2009/10/27 23:59:47 deraadt Exp $	*/
 
 /*-
  * Copyright (c) 1992, 1993, 1994
@@ -10,18 +10,6 @@
  */
 
 #include "config.h"
-
-#ifndef lint
-static const char copyright[] =
-"@(#) Copyright (c) 1992, 1993, 1994\n\
-	The Regents of the University of California.  All rights reserved.\n\
-@(#) Copyright (c) 1992, 1993, 1994, 1995, 1996\n\
-	Keith Bostic.  All rights reserved.\n";
-#endif /* not lint */
-
-#ifndef lint
-static const char sccsid[] = "@(#)main.c	10.48 (Berkeley) 10/11/96";
-#endif /* not lint */
 
 #include <sys/types.h>
 #include <sys/queue.h>
@@ -44,7 +32,9 @@ static const char sccsid[] = "@(#)main.c	10.48 (Berkeley) 10/11/96";
 #include "perl_extern.h"
 #endif
 
+#ifdef DEBUG
 static void	 attach(GS *);
+#endif
 static void	 v_estr(char *, int, char *);
 static int	 v_obsolete(char *, char *[]);
 
@@ -70,6 +60,18 @@ editor(gp, argc, argv)
 	u_int flags;
 	int ch, flagchk, lflag, secure, startup, readonly, rval, silent;
 	char *tag_f, *wsizearg, path[256];
+
+	static const char *optstr[3] = {
+#ifdef DEBUG
+		"c:D:FlRrSsT:t:vw:",
+		"c:D:eFlRrST:t:w:",
+		"c:D:eFlrST:t:w:"
+#else
+		"c:FlRrSst:vw:",
+		"c:eFlRrSt:w:",
+		"c:eFlrSt:w:"
+#endif
+	};
 
 	/* Initialize the busy routine, if not defined by the screen. */
 	if (gp->scr_busy == NULL)
@@ -118,11 +120,15 @@ editor(gp, argc, argv)
 	/* Set the file snapshot flag. */
 	F_SET(gp, G_SNAPSHOT);
 
-#ifdef DEBUG
-	while ((ch = getopt(argc, argv, "c:D:eFlRrSsT:t:vw:")) != -1)
-#else
-	while ((ch = getopt(argc, argv, "c:eFlRrSst:vw:")) != -1)
-#endif
+	pmode = MODE_EX;
+	if (!strcmp(gp->progname, "ex"))
+		pmode = MODE_EX;
+	else if (!strcmp(gp->progname, "vi"))
+		pmode = MODE_VI;
+	else if (!strcmp(gp->progname, "view"))
+		pmode = MODE_VIEW;
+
+	while ((ch = getopt(argc, argv, optstr[pmode])) != -1)
 		switch (ch) {
 		case 'c':		/* Run the command. */
 			/*
@@ -147,7 +153,7 @@ editor(gp, argc, argv)
 				break;
 			default:
 				v_estr(gp->progname, 0,
-				    "usage: -D requires s or w argument.");
+				    "-D requires s or w argument.");
 				return (1);
 			}
 			break;
@@ -406,8 +412,8 @@ editor(gp, argc, argv)
 			if (v_event_get(sp, &ev, 0, 0))
 				goto err;
 			if (ev.e_event == E_INTERRUPT ||
-			    ev.e_event == E_CHARACTER &&
-			    (ev.e_value == K_CR || ev.e_value == K_NL))
+			    (ev.e_event == E_CHARACTER &&
+			    (ev.e_value == K_CR || ev.e_value == K_NL)))
 				break;
 			(void)gp->scr_bell(sp);
 		}
@@ -453,9 +459,9 @@ v_end(gp)
 		(void)file_end(gp->ccl_sp, NULL, 1);
 		(void)screen_end(gp->ccl_sp);
 	}
-	while ((sp = gp->dq.cqh_first) != (void *)&gp->dq)
+	while ((sp = CIRCLEQ_FIRST(&gp->dq)) != CIRCLEQ_END(&gp->dq))
 		(void)screen_end(sp);
-	while ((sp = gp->hq.cqh_first) != (void *)&gp->hq)
+	while ((sp = CIRCLEQ_FIRST(&gp->hq)) != CIRCLEQ_END(&gp->hq))
 		(void)screen_end(sp);
 
 #ifdef HAVE_PERL_INTERP
@@ -465,7 +471,7 @@ v_end(gp)
 #if defined(DEBUG) || defined(PURIFY) || defined(LIBRARY)
 	{ FREF *frp;
 		/* Free FREF's. */
-		while ((frp = gp->frefq.cqh_first) != (FREF *)&gp->frefq) {
+		while ((frp = CIRCLEQ_FIRST(&gp->frefq)) != CIRCLEQ_END(&gp->frefq)) {
 			CIRCLEQ_REMOVE(&gp->frefq, frp, q);
 			if (frp->name != NULL)
 				free(frp->name);
@@ -502,7 +508,7 @@ v_end(gp)
 	 * it's possible that the user is sourcing a file that exits from the
 	 * editor).
 	 */
-	while ((mp = gp->msgq.lh_first) != NULL) {
+	while ((mp = LIST_FIRST(&gp->msgq)) != NULL) {
 		(void)fprintf(stderr, "%s%.*s",
 		    mp->mtype == M_ERR ? "ex/vi: " : "", (int)mp->len, mp->buf);
 		LIST_REMOVE(mp, q);
@@ -565,7 +571,7 @@ v_obsolete(name, argv)
 				argv[0][1] = 'c';
 				(void)strlcpy(argv[0] + 2, p + 1, len);
 			}
-		} else if (argv[0][0] == '-')
+		} else if (argv[0][0] == '-') {
 			if (argv[0][1] == '\0') {
 				argv[0] = strdup("-s");
 				if (argv[0] == NULL) {
@@ -577,6 +583,7 @@ nomem:					v_estr(name, errno, NULL);
 				    argv[0][1] == 't' || argv[0][1] == 'w') &&
 				    argv[0][2] == '\0')
 					++argv;
+		}
 	return (0);
 }
 

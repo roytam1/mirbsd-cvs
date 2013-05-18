@@ -1,4 +1,4 @@
-/*	$OpenBSD: msg.c,v 1.14 2003/04/25 23:44:08 deraadt Exp $	*/
+/*	$OpenBSD: msg.c,v 1.18 2009/10/27 23:59:47 deraadt Exp $	*/
 
 /*-
  * Copyright (c) 1991, 1993, 1994
@@ -11,10 +11,8 @@
 
 #include "config.h"
 
-__SCCSID("@(#)msg.c	10.48 (Berkeley) 9/15/96");
-__RCSID("$MirOS$");
-
 #include <sys/param.h>
+#include <sys/types.h>		/* XXX: param.h may not have included types.h */
 #include <sys/queue.h>
 #include <sys/stat.h>
 #include <sys/time.h>
@@ -53,11 +51,16 @@ msgq(SCR *sp, mtype_t mt, const char *fmt, ...)
 	} str[__NL_ARGMAX];
 #endif
 	static int reenter;		/* STATIC: Re-entrancy check. */
-	CHAR_T ch;
 	GS *gp;
-	size_t blen, cnt1, cnt2, len, mlen, nlen, soff;
-	const char *p, *t, *u;
-	char *bp, *mp, *rbp, *s_rbp;
+	size_t blen, len, mlen, nlen;
+	const char *p;
+	char *bp, *mp;
+#ifndef NL_ARGMAX
+	size_t cnt1, cnt2, soff;
+	CHAR_T ch;
+	const char *t, *u;
+	char *rbp, *s_rbp;
+#endif
         va_list ap;
 
 	/*
@@ -195,7 +198,7 @@ retry:		FREE_SPACE(sp, bp, blen);
 				++p;
 			continue;
 		}
-		for (u = p; *++p != '\0' && isdigit(*p););
+		for (u = p; isdigit(*++p););
 		if (*p != '$')
 			continue;
 
@@ -257,9 +260,10 @@ retry:		FREE_SPACE(sp, bp, blen);
 			}
 	*s_rbp = '\0';
 	fmt = rbp;
-#endif
 
-format:	/* Format the arguments into the string. */
+format:
+#endif
+	/* Format the arguments into the string. */
         va_start(ap, fmt);
 	len = vsnprintf(mp, REM, fmt, ap);
 	va_end(ap);
@@ -330,7 +334,7 @@ nofmt:	mp += len;
 		(void)fprintf(stderr, "%.*s", (int)mlen, bp);
 
 	/* Cleanup. */
-ret:	FREE_SPACE(sp, bp, blen);
+	FREE_SPACE(sp, bp, blen);
 alloc_err:
 	reenter = 0;
 }
@@ -455,8 +459,7 @@ mod_rpt(sp)
 				*p++ = ' ';
 				tlen += 2;
 			}
-			len = snprintf(p, MAXNUM, "%lu ",
-			    (unsigned long)(sp->rptlines[cnt]));
+			len = snprintf(p, MAXNUM, "%u ", sp->rptlines[cnt]);
 			p += len;
 			tlen += len;
 			t = msg_cat(sp,
@@ -500,7 +503,6 @@ msgq_status(sp, lno, flags)
 	recno_t lno;
 	u_int flags;
 {
-	static int poisoned;
 	recno_t last;
 	size_t blen, len;
 	int cnt, needsep;
@@ -683,8 +685,8 @@ msg_open(sp, file)
 	char *p, *t, buf[MAXPATHLEN];
 
 	if ((p = strrchr(file, '/')) != NULL && p[1] == '\0' &&
-	    ((t = getenv("LC_MESSAGES")) != NULL && t[0] != '\0' ||
-	    (t = getenv("LANG")) != NULL && t[0] != '\0')) {
+	    (((t = getenv("LC_MESSAGES")) != NULL && t[0] != '\0') ||
+	    ((t = getenv("LANG")) != NULL && t[0] != '\0'))) {
 		(void)snprintf(buf, sizeof(buf), "%s%s", file, t);
 		p = buf;
 	} else

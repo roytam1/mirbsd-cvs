@@ -1,4 +1,4 @@
-/*	$OpenBSD: cl_funcs.c,v 1.10 2003/07/18 23:11:43 david Exp $	*/
+/*	$OpenBSD: cl_funcs.c,v 1.14 2009/10/27 23:59:47 deraadt Exp $	*/
 
 /*-
  * Copyright (c) 1993, 1994
@@ -10,10 +10,6 @@
  */
 
 #include "config.h"
-
-#ifndef lint
-static const char sccsid[] = "@(#)cl_funcs.c	10.50 (Berkeley) 9/24/96";
-#endif /* not lint */
 
 #include <sys/types.h>
 #include <sys/queue.h>
@@ -48,11 +44,8 @@ cl_addstr(sp, str, len)
 	const char *str;
 	size_t len;
 {
-	CL_PRIVATE *clp;
 	size_t oldy, oldx;
 	int iv;
-
-	clp = CLP(sp);
 
 	/*
 	 * If ex isn't in control, it's the last line of the screen and
@@ -283,11 +276,11 @@ int
 cl_deleteln(sp)
 	SCR *sp;
 {
+#ifndef mvchgat
 	CHAR_T ch;
-	CL_PRIVATE *clp;
-	size_t col, lno, spcnt, oldy, oldx;
-
-	clp = CLP(sp);
+	size_t col, lno, spcnt;
+#endif
+	size_t oldy, oldx;
 
 	/*
 	 * This clause is required because the curses screen uses reverse
@@ -563,11 +556,9 @@ cl_suspend(sp, allowedp)
 {
 	struct termios t;
 	CL_PRIVATE *clp;
-	GS *gp;
 	size_t oldy, oldx;
 	int changed;
 
-	gp = sp->gp;
 	clp = CLP(sp);
 	*allowedp = 1;
 
@@ -695,11 +686,20 @@ cl_suspend(sp, allowedp)
 void
 cl_usage()
 {
-#define	USAGE "\
-usage: ex [-eFRrSsv] [-c command] [-t tag] [-w size] [file ...]\n\
-usage: vi [-eFlRrSv] [-c command] [-t tag] [-w size] [file ...]\n"
-	(void)fprintf(stderr, "%s", USAGE);
-#undef	USAGE
+	switch (pmode) {
+	case MODE_EX:
+		(void)fprintf(stderr, "usage: "
+		    "ex [-FRrSsv] [-c cmd] [-t tag] [-w size] [file ...]\n");
+		break;
+	case MODE_VI:
+		(void)fprintf(stderr, "usage: "
+		    "vi [-eFRrS] [-c cmd] [-t tag] [-w size] [file ...]\n");
+		break;
+	case MODE_VIEW:
+		(void)fprintf(stderr, "usage: "
+		    "view [-eFrS] [-c cmd] [-t tag] [-w size] [file ...]\n");
+		break;
+	}
 }
 
 #ifdef DEBUG
