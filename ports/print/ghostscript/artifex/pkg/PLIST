@@ -1,6 +1,5 @@
-@comment $MirOS: ports/print/ghostscript/afpl/pkg/PLIST,v 1.3 2005/12/29 20:04:59 tg Exp $
+@comment $MirOS: ports/print/ghostscript/artifex/pkg/PLIST,v 1.1 2006/06/15 18:34:48 tg Exp $
 @comment $OpenBSD: PLIST,v 1.3 2004/05/23 18:51:59 sturm Exp $
-%%gtk%%
 bin/bdftops
 bin/dumphint
 bin/dvipdf
@@ -32,21 +31,6 @@ bin/ps2ps
 bin/pv.sh
 bin/unix-lpr.sh
 bin/wftopfa
-@comment man/de/man1/dvipdf.1
-@comment man/de/man1/eps2eps.1
-@comment man/de/man1/font2c.1
-@comment man/de/man1/gsnd.1
-@comment man/de/man1/pdf2dsc.1
-@comment man/de/man1/pdf2ps.1
-@comment man/de/man1/pdfopt.1
-@comment man/de/man1/printafm.1
-@comment man/de/man1/ps2ascii.1
-@comment man/de/man1/ps2pdf.1
-@comment man/de/man1/ps2pdf12.1
-@comment man/de/man1/ps2pdf13.1
-@comment man/de/man1/ps2pdf14.1
-@comment man/de/man1/ps2ps.1
-@comment man/de/man1/wftopfa.1
 man/man1/dvipdf.1
 man/man1/eps2eps.1
 man/man1/font2c.1
@@ -603,5 +587,3 @@ share/ghostscript/${VERSION}/lib/zeroline.ps
 @dirrm share/ghostscript/${VERSION}/Resource
 @dirrm share/ghostscript/${VERSION}
 @dirrm share/ghostscript
-@comment @dirrm man/de/man1
-@comment @dirrm man/de

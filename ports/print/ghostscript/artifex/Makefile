@@ -1,7 +1,7 @@
-# $MirOS: ports/print/ghostscript/artifex/Makefile,v 1.1 2006/06/15 18:34:47 tg Exp $
+# $MirOS: ports/print/ghostscript/artifex/Makefile,v 1.2 2006/09/14 00:12:41 tg Exp $
 # $OpenBSD: Makefile,v 1.20 2004/05/23 18:51:59 sturm Exp $
 
-COMMENT=			AFPL PostScript interpreter
+COMMENT=		GPL'd PostScript interpreter
 VERSION=		8.54
 DISTNAME=		ghostscript-${VERSION}-gpl
 PKGNAME=		ghostscript-${VERSION}-0
@@ -85,31 +85,14 @@ $$(DD)t4693d8.dev $$(DD)tek4696.dev $$(DD)uniprint.dev \
 $$(DD)dfaxhigh.dev $$(DD)dfaxlow.dev $$(DD)cif.dev \
 $$(DD)sgirgb.dev $$(DD)ps2write.dev'
 
+.include <mirports.sys.mk>
 
-MAKE_FLAGS=		${BASE_FLAGS} prefix=${PREFIX}
-CFLAGS+=		-DSYS_TYPES_HAS_STDINT_TYPES
+EXTRA_MAKE_FLAGS=	${BASE_FLAGS} prefix=${PREFIX}
+CPPFLAGS+=		-DSYS_TYPES_HAS_STDINT_TYPES -DA4
 ALL_TARGET=		all
 INSTALL_TARGET=		install
-
-FLAVORS=		A4 gtk
-FLAVOR?=		A4
-
-.if ${FLAVOR:U:MA4}
-CFLAGS+=		-DA4
-.endif
-
-.if ${FLAVOR:L:Mgtk}
-LIB_DEPENDS+=		gtk.1::x11/gtk+1
-ALL_TARGET+=		so
-INSTALL_TARGET+=	soinstall
-NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
-.else
-end_install=
-.endif
-
 NO_REGRESS=		Yes
-
-FAKE_FLAGS=		${BASE_FLAGS} prefix=${WRKINST}${PREFIX}
+EXTRA_FAKE_FLAGS=	${BASE_FLAGS} prefix=${WRKINST}${PREFIX}
 
 post-extract:
 	ln -s ${WRKDIR}/${JPEGDIR}/jpeg* ${WRKDIST}/jpeg
@@ -125,8 +108,9 @@ pre-build:
 	mkdir -p ${WRKDIST}/sobin
 
 post-install:
-	chmod 600 ${PREFIX}/bin/gs && strip ${PREFIX}/bin/gs
-	chmod ${BINMODE} ${PREFIX}/bin/gs
+	mv ${PREFIX}/bin/gs ${PREFIX}/bin/gs.tmp
+	${INSTALL_PROGRAM} ${PREFIX}/bin/gs.tmp ${PREFIX}/bin/gs
+	rm -f ${PREFIX}/bin/gs.tmp
 	cd ${PREFIX}/man/man1 && \
 		ln -sf ps2ps.1 eps2eps.1 && \
 		ln -sf gslp.1 gsbj.1 && \
@@ -136,10 +120,6 @@ post-install:
 		ln -sf ps2pdf.1 ps2pdf12.1 && \
 		ln -sf ps2pdf.1 ps2pdf13.1 && \
 		ln -sf ps2pdf.1 ps2pdf14.1
-	cd ${PREFIX}/man/de/man1 && \
-		ln -sf ps2pdf.1 ps2pdf12.1 && \
-		ln -sf ps2pdf.1 ps2pdf13.1 && \
-		ln -sf ps2pdf.1 ps2pdf14.1 && \
-		ln -sf ps2ps.1 eps2eps.1
+	rm -rf ${PREFIX}/man/de
 
 .include <bsd.port.mk>
