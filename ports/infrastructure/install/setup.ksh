@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.95 2009/10/04 15:27:19 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.96 2009/10/17 21:51:42 tg Exp $
 #-
 # Copyright (c) 2005, 2008
 #	Thorsten “mirabilos” Glaser <tg@mirbsd.de>
@@ -710,7 +710,7 @@ else
 		mkdir -p $T/pkgtools
 		cd $T/pkgtools
 		lndir $portsdir/infrastructure/pkgtools
-		f_ver=20090829	# hardcoded here, update manually and seldom
+		f_ver=20091227	# hardcoded here, update manually and seldom
 		app=-opt_t
 	fi
 	export LOCALBASE=$localbase PORTSDIR=$portsdir
