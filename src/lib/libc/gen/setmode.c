@@ -1,4 +1,4 @@
-/**	$MirOS: src/lib/libc/gen/setmode.c,v 1.2 2005/03/06 20:28:41 tg Exp $ */
+/**	$MirOS: src/lib/libc/gen/setmode.c,v 1.3 2005/09/22 20:40:00 tg Exp $ */
 /*	$OpenBSD: setmode.c,v 1.17 2005/08/08 08:05:34 espie Exp $	*/
 /*	$NetBSD: setmode.c,v 1.15 1997/02/07 22:21:06 christos Exp $	*/
 
@@ -48,7 +48,7 @@
 #endif
 
 __SCCSID("@(#)setmode.c	8.2 (Berkeley) 3/25/94");
-__RCSID("$MirOS: src/lib/libc/gen/setmode.c,v 1.2 2005/03/06 20:28:41 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/gen/setmode.c,v 1.3 2005/09/22 20:40:00 tg Exp $");
 
 #define	SET_LEN	6		/* initial # of bitcmd struct to malloc */
 #define	SET_LEN_INCR 4		/* # of bitcmd structs to add as needed */
@@ -352,7 +352,7 @@ addcmd(BITCMD *set, int op, int who, int oparg, u_int mask)
 	case '-':
 	case 'X':
 		set->cmd = op;
-		set->bits = (who ? who : mask) & oparg;
+		set->bits = (who ? who : (int)mask) & oparg;
 		break;
 
 	case 'u':
