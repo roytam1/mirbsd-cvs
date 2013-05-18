@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/miniroot/dot.profile,v 1.15 2006/07/05 20:50:51 tg Exp $
+# $MirOS: src/distrib/miniroot/dot.profile,v 1.16 2006/08/16 18:46:14 tg Exp $
 # $OpenBSD: dot.profile,v 1.4 2002/09/13 21:38:47 deraadt Exp $
 # $NetBSD: dot.profile,v 1.1 1995/12/18 22:54:43 pk Exp $
 #

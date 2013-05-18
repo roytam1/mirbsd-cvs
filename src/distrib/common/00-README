@@ -162,4 +162,4 @@ code is available at http://www.mirbsd.org/ and its mirrors; further
 information can be found at /usr/share/doc/legal/ as well.
 
 __________________________________________________________________________
-$MirOS: src/distrib/i386/iso/00-README,v 1.15 2006/07/05 04:52:35 tg Exp $
+$MirOS: src/distrib/ramdisk/00-README,v 1.1 2006/07/26 22:36:24 tg Exp $

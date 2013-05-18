@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/distrib/ramdisk/list,v 1.7 2006/08/17 13:49:42 tg Exp $
 
 # standard tools in the crunched binary
 COPY	${OBJDIR}/instbin			instbin

@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/distrib/miniroot/list2sh.awk,v 1.2 2006/07/24 00:24:01 tg Exp $
 # $OpenBSD: list2sh.awk,v 1.12 2002/11/28 03:06:30 deraadt Exp $
 # $NetBSD: list2sh.awk,v 1.2 1996/05/04 15:45:31 pk Exp $
 

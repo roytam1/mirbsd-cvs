@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/iso/boot.cfg,v 1.11 2006/07/05 04:51:23 tg Exp $
+# $MirOS: src/distrib/ramdisk/boot.cfg.i386,v 1.1 2006/07/26 22:00:52 tg Exp $
 #-
 # Note this file is processed in the IBM-CP437 charset!
 #

@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/distrib/ramdisk/listhdr.i386,v 1.1 2006/08/17 12:53:11 tg Exp $
 
 SRCDIRS	distrib/ramtools distrib/special
 SRCDIRS	bin sbin usr.bin usr.sbin libexec

@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/miniroot/install.sub,v 1.23 2006/06/16 15:57:52 tg Exp $
+# $MirOS: src/distrib/miniroot/install.sub,v 1.24 2006/08/17 14:00:29 tg Exp $
 # $OpenBSD: install.sub,v 1.388 2005/07/02 00:55:48 uwe Exp $
 # $NetBSD: install.sub,v 1.5.2.8 1996/09/02 23:25:02 pk Exp $
 #

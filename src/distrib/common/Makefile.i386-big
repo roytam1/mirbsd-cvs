@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/ramdisk/Makefile.i386-big,v 1.1 2006/07/24 00:24:02 tg Exp $
+# $MirOS: src/distrib/ramdisk/Makefile.i386-big,v 1.2 2006/07/24 00:52:41 tg Exp $
 
 MTREE=		${TOPDIR}/miniroot/mtree.conf
 IMAGETYPE=	ipldisc

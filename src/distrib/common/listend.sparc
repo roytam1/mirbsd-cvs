@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/ramdisk/listend.sparc,v 1.1 2006/08/17 13:49:43 tg Exp $
+# $MirOS: src/distrib/ramdisk/listend.sparc,v 1.2 2006/08/17 14:09:22 tg Exp $
 
 # extra programmes
 LINK	instbin					bin/mt

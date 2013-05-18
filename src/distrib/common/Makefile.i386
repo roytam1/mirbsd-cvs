@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/ramdisk/Makefile.i386,v 1.2 2006/07/24 00:52:41 tg Exp $
+# $MirOS: src/distrib/ramdisk/Makefile.i386,v 1.3 2006/07/24 01:12:36 tg Exp $
 
 IMAGESIZE=	3072
 

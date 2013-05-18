@@ -1,4 +1,4 @@
-#	$MirOS: src/distrib/miniroot/makeconf.awk,v 1.2 2005/03/06 18:58:04 tg Exp $
+#	$MirOS: src/distrib/miniroot/makeconf.awk,v 1.3 2006/05/26 19:19:57 tg Exp $
 #	$OpenBSD: makeconf.awk,v 1.14 2003/12/16 22:41:40 henning Exp $
 #	$NetBSD: makeconf.awk,v 1.3 1996/05/04 15:45:32 pk Exp $
 
