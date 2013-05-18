@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.248 2009/06/21 11:01:25 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.249 2009/06/21 11:35:08 tg Exp $'
 mws_content <<'EOF'
 <h2>mksh(1) R38c</h2>
 
@@ -282,9 +282,12 @@ mws_content <<'EOF'
 <h5 id="oe_ack">Compiler: ACK</h5>
 <p>Support for <a href="http://www.cs.vu.nl/ack/">ACK on Minix 3</a> has
  been added in mksh R37c with a workaround a known ACK bug (the "const"
- bug); it is now perfectly usable. Support for <a
+ bug); it is now perfectly usable.</p>
+<p>Support for <a
  href="http://tack.sourceforge.net/">other ACK versions</a> or targets can
- be user-contributed.</p>
+ be user-contributed. It currently lacks a sane frontend supporting things
+ like "cc -E" (<tt>ack -E</tt> is ignored), at the least, and does not yet
+ process system headers like &lt;sys/types.h&gt;.</p>
 
 <h5 id="oe_bcc">Compiler: Borland C++ Builder</h5>
 <p>This compiler is somewhat supported in mksh R30 with UWIN’s cc wrapper.
@@ -936,6 +939,7 @@ mws_content <<'EOF'
  <li>Fabrice Bellard’s tcc in combination with GNU libc often fails linking
   with an error message like this:<br /><tt>/usr/lib/libc_nonshared.a:
   '__i686.get_pc_thunk.bx' defined twice</tt> (eg. Debian lenny tcc0.9.24-1)</li>
+ <li>tack.sf.net (ACK 6.0pre3) on GNU/Linux needs... lots of work</li>
  <li>klibc (klcc) on GNU/Linux needs a few patches to work</li>
  <li>mksh works on Plan 9, but does not return after executing a non-builtin
   command. Syllable Desktop exhibits the same behaviour.</li>
