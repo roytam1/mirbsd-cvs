@@ -1,4 +1,4 @@
-# $MirOS: www/mk/htsconv,v 1.21 2008/03/22 23:44:45 tg Exp $
+# $MirOS: www/mk/htsconv,v 1.22 2008/03/27 21:46:33 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -30,11 +30,13 @@ function mws_subdir {
 
 function mws_putheader {
 	local rcsid=$1
+	local tmpl_pre
 #DEPEND mk/tmpl.pre
-	mws__content <"$TOP"/mk/tmpl.pre
+	tmpl_pre=$(<"$TOP"/mk/tmpl.pre)
+	mws__content <<<"${tmpl_pre/@@TITLE@@/$mws__pagename}"
 	mws__header="<p class=\"rcsdiv\">Generated <!-- $mws__difftag --> on"
 	mws__header="$mws__header <span class=\"rcsid\">$(TZ=UTC date +'%F %T')</span>"
-	mws__header="$mws__header"' by <span class="rcsid">$MirOS: www/mk/htsconv,v 1.21 2008/03/22 23:44:45 tg Exp $</span>'
+	mws__header="$mws__header"' by <span class="rcsid">$MirOS: www/mk/htsconv,v 1.22 2008/03/27 21:46:33 tg Exp $</span>'
 	[[ -n $rcsid ]] && mws__header="$mws__header from <span class=\"rcsid\">$rcsid</span>"
 	mws__header="$mws__header</p>"
 }
