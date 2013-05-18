@@ -1,7 +1,0 @@
-bsd/certdata.txt usr/share/ca-bundle
-bsd/keystore.gcj usr/share/ca-bundle
-bsd/keystore.jks usr/share/ca-bundle
-generated/ca-certificates.crt usr/share/ca-bundle
-generated/ksslcalist usr/share/ca-bundle
-generated/pem/* usr/share/ca-bundle/certs
-sbin/update-ca-certificates usr/sbin
