@@ -1,7 +1,9 @@
 #!@SHELL@
-# $MirOS: ports/www/opera/files/opera.sh,v 1.13 2008/10/05 16:10:06 tg Exp $
+# $MirOS: ports/www/opera/files/opera.sh,v 1.14 2009/05/25 11:03:17 tg Exp $
 
 ulimit -c 0
+ulimit -dS $(ulimit -dH)
+ulimit -nS $(ulimit -nH)
 
 cfg=$HOME/.opera/opera6.ini
 [[ -e $cfg ]] && if ! fgrep -q "Synchronous DNS Lookup=1" $cfg; then
