@@ -1,10 +1,10 @@
-# $MirOS: www/src/mksh.hts,v 1.30 2007/07/24 21:54:49 tg Exp $
+# $MirOS: www/src/mksh.hts,v 1.31 2007/07/26 10:23:15 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.30 2007/07/24 21:54:49 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.31 2007/07/26 10:23:15 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R29</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -40,7 +40,8 @@ mws_content <<'EOF'
  architecture- or glibc-specific bugs. Thanks to Julian “yofuh” Wiesener for
  just another account on a Sun E420 on Solaris 11β. Thanks to someone who
  prefers to stay anonymous due to tons of red tape for providing access to an
- AIX 5.3 system with gcc and xlC installed.</p>
+ AIX 5.3 system with gcc and xlC installed. Thanks to gnubber's admin providing
+ shell access to a Debian GNU/HURD system.</p>
 <p>What is mksh(1)? – Short answer: The MirBSD Korn Shell. Okay, but what
  exactly does it do, or why another shell? These questions will be answered
  <a href="#contrib">below</a> for the people interested. Right now, you only
@@ -537,6 +538,7 @@ mws_content <<'EOF'
   <li>Debian GNU/kFreeBSD 4.0 sid 6.2-1-686 (i386 gcc4.0.3-7)</li>
   <li>Debian GNU/kFreeBSD 4.0 sid 6.2-1-686 (i386 gcc4.1.2-12)</li>
   <li>Debian GNU/kFreeBSD 4.0 sid 6.2-1-686 (i386 gcc4.2-20070609-1)</li>
+  <li>Debian GNU 4.0 sid GNU-Mach/1.3.99 Hurd/0.3 (i386 gcc4.1.2-7)</li>
   <li>DragonFly 1.9-DEVELOPMENT Feb 20, 2007 (i386 gcc3.4.6)</li>
   <li>NetBSD 3.0_STABLE (i386 gcc3.3.3)</li>
   <li>OpenBSD 4.1-current GENERIC#1241 May 17, 2007 (sparc64 gcc3.3.5)</li>
