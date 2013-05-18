@@ -1,7 +1,7 @@
-# $MirOS: src/gnu/usr.bin/binutils/Makefile,v 1.4 2006/06/16 23:34:33 tg Exp $
+# $MirOS: src/gnu/usr.bin/binutils/Makefile,v 1.5 2006/06/29 17:39:43 tg Exp $
 
   # libraries
-  SUBDIR+= libiberty
+# SUBDIR+= libiberty	# now pulled from src/lib/Makefile
   SUBDIR+= bfd
   SUBDIR+= opcodes
 

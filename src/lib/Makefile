@@ -1,4 +1,4 @@
-# $MirOS: src/lib/Makefile,v 1.6 2006/01/31 19:28:58 tg Exp $
+# $MirOS: src/lib/Makefile,v 1.7 2006/06/08 23:57:35 tg Exp $
 # $OpenBSD: Makefile,v 1.49 2003/05/14 01:46:51 hin Exp $
 # $NetBSD: Makefile,v 1.20.4.1 1996/06/14 17:22:38 cgd Exp $
 
@@ -37,5 +37,6 @@
   SUBDIR+= libutil
   SUBDIR+= liby
   SUBDIR+= libz
+  SUBDIR+= ../gnu/usr.bin/binutils/libiberty
 
 .include <bsd.subdir.mk>
