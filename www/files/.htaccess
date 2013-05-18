@@ -1,4 +1,4 @@
-# $MirOS: www/files/.htaccess,v 1.11 2012/03/03 18:30:35 tg Exp $
+# $MirOS: www/files/.htaccess,v 1.12 2012/05/15 21:31:39 tg Exp $
 
 Options ExecCGI Indexes FollowSymLinks
 IndexOptions -FancyIndexing
@@ -7,24 +7,24 @@ DirectoryIndex main.htm
 
 # redirections for HTML documentation
 RedirectMatch 301 ^/cman(/*)$ /htman/i386/
-RedirectMatch 301 ^/cman/man([1-9]|DOCS|INFO|PAPERS|PSD|SMM|USD)(/*)$ /htman/i386/man$1/
+RedirectMatch 301 ^/cman/man([1-9]|3p|DOCS|INFO|PAPERS|PSD|SMM|USD)(/*)$ /htman/i386/man$1/
 RedirectMatch 301 ^/cman/(.*\.html*$) /htman/i386/$1
 RedirectMatch 301 ^/cman/(.*$) /htman/i386/$1.htm
 RedirectMatch 301 ^/man(/*)$ /htman/i386/
 RedirectMatch 301 ^/man(i386|sparc)(/*)$ /htman/$1/
-RedirectMatch 301 ^/man(i386|sparc)/man([1-9]|DOCS|INFO|PAPERS|PSD|SMM|USD)(/*)$ /htman/$1/man$2/
-RedirectMatch 301 ^/man(i386|sparc)/(.*)\.([1-9]|PAPERS|PSD|SMM|USD)$ /htman/$1/man$3/$2.htm
+RedirectMatch 301 ^/man(i386|sparc)/man([1-9]|3p|DOCS|INFO|PAPERS|PSD|SMM|USD)(/*)$ /htman/$1/man$2/
+RedirectMatch 301 ^/man(i386|sparc)/(.*)\.([1-9]|3p|PAPERS|PSD|SMM|USD)$ /htman/$1/man$3/$2.htm
 RedirectMatch 301 ^/man(i386|sparc)/(.*)\.(INFO|info)$ /htman/$1/manINFO/$2.html
 RedirectMatch 301 ^/man(i386|sparc)/man(.*\.htm$) /htman/$1/man$2
 RedirectMatch 301 ^/man(i386|sparc)/man(.*$) /htman/$1/man$2.htm
 RedirectMatch 301 ^/man(i386|sparc)/(.*\.htm$) /htman/$1/man$2
 RedirectMatch 301 ^/man(i386|sparc)/(.*$) /htman/$1/man$2.htm
-RedirectMatch 301 ^/man([1-9]|DOCS|INFO|PAPERS|PSD|SMM|USD)(/*)$ /htman/i386/man$1/
-RedirectMatch 301 ^/man([1-9]|DOCS|INFO|PAPERS|PSD|SMM|USD)/(.*\.html*$) /htman/i386/man$1/$2
-RedirectMatch 301 ^/man([1-9]|PAPERS|PSD|SMM|USD)/(.*$) /htman/i386/man$1/$2.htm
+RedirectMatch 301 ^/man([1-9]|3p|DOCS|INFO|PAPERS|PSD|SMM|USD)(/*)$ /htman/i386/man$1/
+RedirectMatch 301 ^/man([1-9]|3p|DOCS|INFO|PAPERS|PSD|SMM|USD)/(.*\.html*$) /htman/i386/man$1/$2
+RedirectMatch 301 ^/man([1-9]|3p|PAPERS|PSD|SMM|USD)/(.*$) /htman/i386/man$1/$2.htm
 RedirectMatch 301 ^/man(info|INFO)/(.*$) /htman/i386/manINFO/$2.html
 RedirectMatch 301 ^/man(docs|DOCS)/(.*$) /htman/i386/manDOCS/$2
-RedirectMatch 301 ^/man/(.*)\.([1-9]|PAPERS|PSD|SMM|USD)$ /htman/i386/man$2/$1.htm
+RedirectMatch 301 ^/man/(.*)\.([1-9]|3p|PAPERS|PSD|SMM|USD)$ /htman/i386/man$2/$1.htm
 RedirectMatch 301 ^/man/(.*)\.(INFO|info)$ /htman/i386/manINFO/$1.html
 
 # redirects for legacy links (mod_alias cannot inspect query strings)
