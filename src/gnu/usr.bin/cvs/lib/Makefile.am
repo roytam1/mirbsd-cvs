@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.bin/cvs/lib/Makefile.am,v 1.5 2005/12/05 22:44:35 tg Exp $
+# $MirOS: src/gnu/usr.bin/cvs/lib/Makefile.am,v 1.6 2010/09/16 20:55:57 tg Exp $
 ## Process this file with automake to produce Makefile.in
 # Makefile for library files used by GNU CVS.
 #
@@ -172,20 +172,6 @@ libcvs_a_SOURCES += getnline.h getnline.c
 libcvs_a_SOURCES += gettext.h
 
 ## end   gnulib module gettext-h
-
-## begin gnulib module glob
-
-BUILT_SOURCES += $(GLOB_H)
-
-# We need the following in order to create an <getopt.h> when the system
-# doesn't have one that works with the given compiler.
-all-local $(libcvs_a_OBJECTS): $(GLOB_H)
-glob.h: glob_.h
-	cp $(srcdir)/glob_.h $@-t
-	mv $@-t $@
-MOSTLYCLEANFILES += glob.h glob.h-t
-
-## end   gnulib module glob.c
 
 ## begin gnulib module mbuiter
 
