@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/baselive/munge_it.sh,v 1.20 2007/03/26 17:57:06 tg Exp $
+# $MirOS: src/distrib/baselive/munge_it.sh,v 1.21 2007/05/25 23:08:56 tg Exp $
 #-
 # Copyright (c) 2006, 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -72,7 +72,7 @@ ed -s etc/ntpd.conf <<-'EOMD'
 EOMD
 ed -s etc/rc <<-'EOMD'
 	1i
-		# $MirOS: src/distrib/baselive/munge_it.sh,v 1.20 2007/03/26 17:57:06 tg Exp $
+		# $MirOS: src/distrib/baselive/munge_it.sh,v 1.21 2007/05/25 23:08:56 tg Exp $
 	.
 	/shutdown request/ka
 	/^fi/a
@@ -261,7 +261,13 @@ install -c -o root -g bin -m 555 \
 
 (cd dev; mksh ./MAKEDEV std rd0a)
 pwd_mkdb -pd $(readlink -nf etc) master.passwd
-dd if=/dev/arandom count=4 of=var/db/host.random
+( ( dd if=/dev/prandom bs=64 count=7; \
+    dd if=/dev/arandom bs=64 count=56; \
+    dd if=/dev/urandom bs=64 count=1; \
+  ) 2>/dev/wrandom | dd of=var/db/host.random; \
+    chown 0:0 var/db/host.random; \
+    chmod 600 var/db/host.random) \
+    >/dev/wrandom 2>&1
 
 mv root dev/.root
 rm -rf usr/X11R6/lib/X11/fonts/{100dpi,OTF,Speedo,Type1,cyrillic,local}

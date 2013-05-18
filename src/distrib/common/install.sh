@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/common/install.sh,v 1.5 2007/02/19 23:04:11 tg Exp $
+# $MirOS: src/distrib/common/install.sh,v 1.7 2007/03/11 01:04:49 tg Exp $
 # $OpenBSD: install.sh,v 1.152 2005/04/21 21:41:33 krw Exp $
 # $NetBSD: install.sh,v 1.5.2.8 1996/08/27 18:15:05 gwr Exp $
 #
@@ -490,8 +490,13 @@ EOF
 /mnt/usr/sbin/chroot /mnt usr/bin/newaliases
 
 echo -n "done.\nGenerating initial host.random file..."
-dd if=/dev/arandom of=/mnt/var/db/host.random bs=1024 count=16 >/dev/null 2>&1
-chmod 600 /mnt/var/db/host.random
+( ( dd if=/dev/prandom bs=64 count=1; \
+    dd if=/dev/arandom bs=64 count=8; \
+    dd if=/dev/urandom bs=64 count=55; \
+  ) 2>/dev/wrandom | dd of=/mnt/var/db/host.random; \
+    chown 0:0 /mnt/var/db/host.random; \
+    chmod 600 /mnt/var/db/host.random) \
+    >/dev/wrandom 2>&1
 echo "done."
 
 # Perform final steps common to both an install and an upgrade.

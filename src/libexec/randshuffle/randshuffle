@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/share/misc/licence.template,v 1.20 2006/12/11 21:04:56 tg Rel $
+# $MirOS: src/libexec/randshuffle/randshuffle,v 1.17 2007/03/01 22:59:48 tg Exp $
 #-
 # Copyright (c) 2006, 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -33,10 +33,13 @@ cat /var/db/host.random >/dev/urandom 2>&1
 sleep $((RANDOM % 9 + 9))
 rm -f /var/db/host.random
 umask 077
-( dd if=/dev/prandom count=1; dd if=/dev/arandom count=4; dd if=/dev/urandom \
-    count=3 ) >/var/db/host.random 2>/dev/wrandom
-chown 0:0 /var/db/host.random
-chmod 0600 /var/db/host.random
+( ( dd if=/dev/prandom bs=64 count=1; \
+    dd if=/dev/arandom bs=64 count=31; \
+    dd if=/dev/urandom bs=64 count=32; \
+  ) 2>/dev/wrandom | dd of=/var/db/host.random; \
+    chown 0:0 /var/db/host.random; \
+    chmod 600 /var/db/host.random) \
+    >/dev/wrandom 2>&1
 sleep $((RANDOM % 3 + 3))
 print "notice: system random seed rotated! $((RANDOM & 255))" | logger
 sleep $((RANDOM % 9 + 9))

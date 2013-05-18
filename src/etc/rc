@@ -1,4 +1,4 @@
-# $MirOS: src/etc/rc,v 1.64 2007/04/17 20:04:06 tg Exp $
+# $MirOS: src/etc/rc,v 1.65 2007/05/29 08:19:29 tg Exp $
 # $OpenBSD: rc,v 1.277 2006/01/12 21:54:15 deraadt Exp $
 #-
 # System startup script run by init on autoboot or after single-user.
@@ -145,9 +145,10 @@ trap : 3	# shouldn't be needed
 if [[ $1 = shutdown ]]; then
 	[[ -x /usr/sbin/wsconfig ]] && /usr/sbin/wsconfig -s 1
 	echo Received shutdown request.
-	dd if=/dev/arandom of=/var/db/host.random bs=1024 count=8 \
-	    >/dev/wrandom 2>&1 && chmod 600 /var/db/host.random \
-	    >/dev/wrandom 2>&1 && if [[ -f /etc/rc.shutdown ]]; then
+	(dd if=/dev/arandom count=2; dd if=/dev/urandom count=8) \
+	    2>/dev/wrandom | dd of=/var/db/host.random >/dev/wrandom 2>&1 && \
+	    chmod 600 /var/db/host.random >/dev/wrandom 2>&1 && \
+	    if [[ -f /etc/rc.shutdown ]]; then
 		echo /etc/rc.shutdown in progress...
 		. /etc/rc.shutdown
 		echo /etc/rc.shutdown complete.
@@ -374,8 +375,8 @@ done
 # one through /dev/arandom; else reset seed file anyway so that
 # if a shutdown-less reboot occurs the next seed is not a repeat
 cat /var/db/host.random >/dev/arandom 2>&1
-dd if=/dev/arandom of=/var/db/host.random bs=1024 count=8 >/dev/wrandom 2>&1
-chmod 600 /var/db/host.random >/dev/wrandom 2>&1
+( (dd if=/dev/arandom count=5; dd if=/dev/urandom count=3) 2>/dev/wrandom | \
+  dd of=/var/db/host.random; chmod 600 /var/db/host.random) >/dev/wrandom 2>&1
 
 # clean up left-over files
 rm -f /etc/nologin
