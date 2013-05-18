@@ -1,7 +1,8 @@
-# $MirOS: X11/extras/bdfctool/Makefile,v 1.3 2012/08/18 15:16:16 tg Exp $
+# $MirOS: X11/extras/bdfctool/Makefile,v 1.4 2012/08/23 17:30:06 tg Exp $
 
 PROG=		bdfctool
 SRCS=		${PROG}.sh
+INSTALL_STRIP=	#no
 
 CLEANFILES+=	testfont.bdf testfont.tmp testfont.tsq testfont.tst
 
