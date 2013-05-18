@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/common/Makefile.inc,v 1.5 2005/07/24 16:44:13 tg Exp $
+# $MirOS: src/distrib/i386/common/Makefile.inc,v 1.6 2006/01/15 23:46:37 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.15 2004/11/25 22:02:08 deraadt Exp $
 
 .ifndef _MODSRC_DISTRIB_I386_COMMON_MAKEFILE_INC
@@ -42,6 +42,7 @@ CFLAGS+=	${CDIAGFLAGS} ${COPTS}
 SYSDIR=		${.CURDIR}/../../../sys
 SYSSUBDIR=	${SYSDIR}/arch/i386
 KERNDIR=	${SYSSUBDIR}/compile/${RAMDISK}
+MAKE_CLEAN?=	${MAKE} clean
 
 DO_FLOPPY?=	Yes
 DO_BSDRD_NAME?=	bsd.rd
@@ -93,7 +94,7 @@ bsd:
 	    || cat ${KERNDIR}/version >build/${RAMDISK}/version
 	( cd build/${RAMDISK}; config -s ${SYSDIR} -b . \
 	    ${SYSSUBDIR}/conf/${RAMDISK} \
-	    && ${MAKE} clean && ${MAKE} depend && exec ${MAKE} bsd )
+	    && ${MAKE_CLEAN} && ${MAKE} depend && exec ${MAKE} bsd )
 	mv build/${RAMDISK}/bsd .
 	-[[ ! -e ${KERNDIR} ]] \
 	    || if ! cat build/${RAMDISK}/version >${KERNDIR}/version; then \

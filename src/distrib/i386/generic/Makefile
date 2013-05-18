@@ -1,9 +1,10 @@
-# $MirOS: src/distrib/i386/generic/Makefile,v 1.2 2005/03/29 17:54:46 tg Exp $
+# $MirOS: src/distrib/i386/generic/Makefile,v 1.3 2005/07/01 11:51:43 tg Exp $
 
 RAMDISK=	GENERIC
 SYSDIR=		${.CURDIR}/../../../sys
 SYSSUBDIR=	${SYSDIR}/arch/i386
 KERNDIR=	${SYSSUBDIR}/compile/${RAMDISK}
+MAKE_CLEAN?=	${MAKE} clean
 
 all:	bsd
 
@@ -16,7 +17,7 @@ bsd:
 	    || cat ${KERNDIR}/version >build/${RAMDISK}/version
 	( cd build/${RAMDISK}; config -s ${SYSDIR} -b . \
 	    ${SYSSUBDIR}/conf/${RAMDISK} \
-	    && ${MAKE} clean && ${MAKE} depend && exec ${MAKE} bsd )
+	    && ${MAKE_CLEAN} && ${MAKE} depend && exec ${MAKE} bsd )
 	mv build/${RAMDISK}/bsd .
 	-[[ ! -e ${KERNDIR} ]] \
 	    || if ! cat build/${RAMDISK}/version >${KERNDIR}/version; then \
