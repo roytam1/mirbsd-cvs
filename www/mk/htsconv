@@ -1,4 +1,4 @@
-# $MirOS: www/mk/htsconv,v 1.23 2008/06/03 18:04:54 tg Exp $
+rcsid_htsconv='$MirOS: www/mk/htsconv,v 1.24 2008/07/24 12:06:15 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -6,7 +6,7 @@
 mws__pagename=
 mws__header=
 mws__rss=
-mws__difftag=MBSD_HTSCONV_GENDATE_TAG_20470
+mws__difftag=MBSD_HTSCONV_GENDATE_TAG_224
 unset mws__abspath
 unset mws__relpath
 
@@ -35,14 +35,67 @@ function mws_subdir {
 
 function mws_putheader {
 	local rcsid=$1
-	local tmpl_pre
-#DEPEND mk/tmpl.pre
-	tmpl_pre=$(<"$TOP"/mk/tmpl.pre)
-	mws__content <<<"${tmpl_pre/@@TITLE@@/$mws__pagename}"
+	mws__content <<-EOF
+		<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+		 "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+		<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"><head>
+		 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		 <meta name="MSSmartTagsPreventParsing" content="TRUE" />
+		 <link rel="stylesheet" type="text/css" href="@@RELPATH@@vstyle.css" />
+		 <meta name="author" content="Thorsten Glaser" />
+		 <meta name="copyright" content="All rights reserved. Redistribution except for scientific and educational uses strictly prohibited. Unmodified redistribution with no endorsement permitted." />
+		 <meta name="owner" content="The MirOS Project and The MirPorts Framework" />
+		 <meta name="licence" content="see the source files in CVSWEB for details" />
+		 <title>MirOS: $mws__pagename</title>
+		 <meta name="robots" content="index, follow" />@@RSS@@
+		 <!--
+		  This is copyrighted material. For the full licence text, see the file
+		  LICENCE in the current directory. In no event may text from this page
+		  be simply copied into another work covered by an unfree (or otherwise
+		  mismatching) licence, such as the GNU Free Documentation License.
+		 -->
+		</head><body>
+		<div class="index">
+		 <ul class="lv1">
+		<li><a href="@@RELPATH@@main.htm">Main</a><ul class="lv2">
+		<li><a href="@@RELPATH@@wlog-10.htm">Weblog</a> for #10</li>
+		<li><a href="@@RELPATH@@news.htm">Old News</a> &amp;
+		 <a href="@@RELPATH@@oldnews.htm#owlog">WLog</a></li>
+		</ul></li>
+		<li><a href="@@RELPATH@@about.htm">About</a></li>
+		<!-- these are not in a usable state
+		<li><a href="/?docs">Documentation</a></li>
+		<li><a href="/?faq">FAQ</a></li>
+		-->
+		<li class="spacer"><a href="@@RELPATH@@getting.htm">Download</a></li>
+		<li><a href="@@RELPATH@@rss.htm">RSS &amp; Lists</a></li>
+		<li><a href="@@RELPATH@@irc.htm">IRC</a></li>
+		<li><a href="@@RELPATH@@projects.htm">Project Ideas</a></li>
+		<li><a href="@@RELPATH@@danke.htm">Donate</a></li>
+		<li>Manpages<ul class="lv2">
+		<li><a href="@@RELPATH@@htman/i386/">i386</a></li>
+		<li><a href="@@RELPATH@@htman/sparc/">sparc</a></li>
+		</ul></li>
+		<li><a href="@@RELPATH@@ports.htm">MirPorts</a> Framework</li>
+		<li>Subprojects<ul class="lv2">
+		<li><a href="@@RELPATH@@jupp.htm">jupp</a> Editor</li>
+		<li><a href="@@RELPATH@@mksh.htm">mksh</a> Shell</li>
+		</ul></li>
+		 </ul>
+		</div>
+		<div class="content">
+	EOF
 	mws__header="<p class=\"rcsdiv\">Generated <!-- $mws__difftag --> on"
 	mws__header="$mws__header <span class=\"rcsid\">$(TZ=UTC date +'%F %T')</span>"
-	mws__header="$mws__header"' by <span class="rcsid">$MirOS: www/mk/htsconv,v 1.23 2008/06/03 18:04:54 tg Exp $</span>'
-	[[ -n $rcsid ]] && mws__header="$mws__header from <span class=\"rcsid\">$rcsid</span>"
+	mws__header="$mws__header by <span class=\"rcsid\">$rcsid_htsconv</span>"
+	for x in "$rcsid_parser" "$rcsid_inc2htm" "$rcsid_inc2rss"; do
+		[[ -n $x ]] || continue
+		mws__header="$mws__header and <span class=\"rcsid\">$x</span>"
+	done
+	for x in "$rcsid_parsed" "$rcsid"; do
+		[[ -n $x ]] || continue
+		mws__header="$mws__header from <span class=\"rcsid\">$x</span>"
+	done
 	mws__header="$mws__header</p>"
 }
 
@@ -69,8 +122,20 @@ function mws_moveifchange {
 }
 
 function mws_putfooter {
-#DEPEND mk/tmpl.post
-	mws_content <"$TOP"/mk/tmpl.post
+	mws_content <<-'EOF'
+		</div>
+		<div class="heading">
+		 <a href="@@RELPATH@@main.htm"><img class="hdrlnks"
+		  src="@@RELPATH@@pics/logo-grey.png" alt="MirOS Logo" /></a>
+		</div>
+		<div class="footer"><p>• <a
+		 href="http://validator.w3.org/check/referer">Valid HTML!</a> • <a
+		 href="mailto:miros-discuss@mirbsd.org">eMail</a> contact to the
+		 MirOS Project •</p>
+		 @@HEADER@@
+		</div>
+		</body></html>
+	EOF
 }
 
 function mws_content {

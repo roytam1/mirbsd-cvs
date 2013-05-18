@@ -1,4 +1,4 @@
-# $MirOS: www/mk/inc2htm,v 1.9 2008/04/12 21:23:27 tg Exp $
+rcsid_inc2htm='$MirOS: www/mk/inc2htm,v 1.10 2008/05/03 01:34:21 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -64,6 +64,7 @@ function mclose {
 	mws_putfooter >>$1~
 	mws_moveifchange $1~ $1
 }
+
 
 #rm -f ${name}.{cut,htm} ${name}_*.htm permalinks/${name}_*.htm
 (( cutoff )) && cat >${name}.cut~ <<-EOF
