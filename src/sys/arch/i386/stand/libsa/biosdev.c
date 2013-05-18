@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/biosdev.c,v 1.32 2009/01/11 13:43:47 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/libsa/biosdev.c,v 1.33 2009/01/11 13:58:07 tg Exp $ */
 /*	$OpenBSD: biosdev.c,v 1.74 2008/06/25 15:32:18 reyk Exp $	*/
 
 /*
@@ -46,33 +46,12 @@
 const char *biosdisk_err(u_int);
 int biosdisk_errno(u_int);
 
-static __inline int CHS_rw_real (int, int, int, int, int, int, void *);
-static __inline int CHS_rw (int, int, int, int, int, int, void *);
-static __inline int EDD_rw (int, int, u_int64_t, u_int32_t, void *);
-static __inline int real_io(int, bios_diskinfo_t *, daddr_t, int, void *);
-
 extern int biosdev_lbaprobe(int drive);
+extern int biosdev_CHS(int ah, int dev, int cyl, int head, int sec, int nsec);
+extern int biosdev_LBA(int ah, int dev, u_int blk_lo, u_int blk_hi, int nsec);
 
 extern int debug;
 int i386_flag_oldbios = 0;
-
-#if 0
-struct biosdisk {
-	bios_diskinfo_t *bios_info;
-	dev_t	bsddev;
-	struct disklabel disklabel;
-};
-#endif
-
-struct EDD_CB {
-	u_int8_t  edd_len;	/* size of packet */
-	u_int8_t  edd_res1;	/* reserved */
-	u_int8_t  edd_nblk;	/* # of blocks to transfer */
-	u_int8_t  edd_res2;	/* reserved */
-	u_int16_t edd_off;	/* address of buffer (offset) */
-	u_int16_t edd_seg;	/* address of buffer (segment) */
-	u_int64_t edd_daddr;	/* starting block */
-};
 
 /*
  * reset disk system
@@ -174,185 +153,89 @@ bios_getdiskinfo(int dev, bios_diskinfo_t *pdi)
 }
 
 /*
- * Read/Write a block from given place using the BIOS.
- */
-static __inline int
-CHS_rw(int rw, int dev, int cyl, int head, int sect, int nsect, void *buf)
-{
-	int rv = 0;
-
-	if (!i386_flag_oldbios)
-		return CHS_rw_real(rw, dev, cyl, head, sect, nsect, buf);
-
-	while (!rv && nsect) {
-		rv = CHS_rw_real(rw, dev, cyl, head, sect, 1, buf);
-		++sect;
-		--nsect;
-		buf += 512;
-	}
-	return rv;
-}
-
-/*
- * Do the actual (sector-wise or multi-block) BIOS disc I/O in CHS mode.
- */
-static __inline int
-CHS_rw_real(int rw, int dev, int cyl, int head, int sect, int nsect, void *buf)
-{
-	int rv;
-
-	rw = rw == F_READ ? 2 : 3;
-	BIOS_regs.biosr_es = (u_int32_t)buf >> 4;
-	__asm __volatile ("movb %b7, %h1\n\t"
-	    "movb %b6, %%dh\n\t"
-	    "andl $0xf, %4\n\t"
-	    /* cylinder; the highest 2 bits of cyl is in %cl */
-	    "xchgb %%ch, %%cl\n\t"
-	    "rorb  $2, %%cl\n\t"
-	    "orb %b5, %%cl\n\t"
-	    "inc %%cx\n\t"
-	    DOINT(0x13) "\n\t"
-	    "setc %b0"
-	    : "=a" (rv)
-	    : "0" (nsect), "d" (dev), "c" (cyl),
-	      "b" (buf), "m" (sect), "m" (head),
-	      "m" (rw)
-	    : "cc", "memory");
-
-	return ((rv & 0xff)? rv >> 8 : 0);
-}
-
-static __inline int
-EDD_rw(int rw, int dev, u_int64_t daddr, u_int32_t nblk, void *buf)
-{
-	int rv;
-	volatile static struct EDD_CB cb;
-
-	/* Zero out reserved stuff */
-	cb.edd_res1 = 0;
-	cb.edd_res2 = 0;
-
-	/* Fill in parameters */
-	cb.edd_len = sizeof(cb);
-	cb.edd_nblk = nblk;
-	cb.edd_seg = ((u_int32_t)buf >> 4) & 0xffff;
-	cb.edd_off = (u_int32_t)buf & 0xf;
-	cb.edd_daddr = daddr;
-
-	/* if offset/segment are zero, punt */
-	if (!cb.edd_seg && !cb.edd_off)
-		return 1;
-
-	/* Call extended read/write (with disk packet) */
-	BIOS_regs.biosr_ds = (u_int32_t)&cb >> 4;
-	__asm __volatile (DOINT(0x13) "; setc %b0" : "=a" (rv)
-	    : "0" ((rw == F_READ)? 0x4200: 0x4300),
-	      "d" (dev), "S" ((int) (&cb) & 0xf) : "%ecx", "cc");
-	return ((rv & 0xff)? rv >> 8 : 0);
-}
-
-/*
  * Read given sector, handling retry/errors/etc.
  */
 int
 biosd_io(int rw, bios_diskinfo_t *bd, daddr_t off, int nsect, void *buf)
 {
-	int n, rv;
+	int rv, n, ssh, i;
+	volatile int c, h, s; /* fsck gcc, uninitialised it is not */
+
+	/* we do all I/O in 512 byte sectors, the El Torito BIOS doesn't */
+	ssh = bd->flags & BDI_EL_TORITO ? 2 : 0;	/* sector shift */
 
  loop:
-	n = MIN(nsect, 4096/DEV_BSIZE);	/* nsect to try this iteration */
+	n = i386_flag_oldbios ? 1 << ssh : MIN(nsect, 4096/512);
+	if (!(bd->flags & BDI_LBA)) {
+		btochs(off >> ssh, c, h, s, bd->bios_heads, bd->bios_sectors);
+		if (s + n >= bd->bios_sectors)
+			n = ssh ? 1 << ssh : bd->bios_sectors - s;
+	}
 	if (buf && rw != F_READ)
-		memcpy(bounce_buf, buf, n * DEV_BSIZE);
-	if ((rv = real_io(rw, bd, off, n, bounce_buf)))
-		return (rv);
-	if (buf && rw == F_READ)
-		memcpy(buf, bounce_buf, n * DEV_BSIZE);
-	if ((nsect -= n)) {
-		if (!buf) {
-#ifndef SMALL_BOOT
-			printf("panic: cannot loop biosd_io on bounce_buf\n");
-#endif
-			return (0);
-		}
-		buf += n * DEV_BSIZE;
-		off += n;
-		goto loop;
-	}
-	return (0);
-}
-
-static __inline int
-real_io(int rw, bios_diskinfo_t *bd, daddr_t off, int nsect, void *buf)
-{
-	int dev = bd->bios_number;
-	int j, error;
-
-	if (bd->flags & BDI_EL_TORITO) {
-		/*
-		 * sys/lib/libsa/cd9600.c converts 2,048-byte CD sectors
-		 * to DEV_BSIZE blocks before calling the device strategy
-		 * routine.  However, the El Torito spec says that the
-		 * BIOS will work in 2,048-byte sectors.  So shift back.
-		 */
-		off >>= (ISO_DEFAULT_BLOCK_SHIFT - DEV_BSHIFT);
-		nsect >>= (ISO_DEFAULT_BLOCK_SHIFT - DEV_BSHIFT);
-	}
-
-	/* Try to do operation up to 5 times */
-	for (error = 1, j = 5; j-- && error; ) {
-		/* CHS or LBA access? */
+		memcpy(bounce_buf, buf, n * 512);
+	/* try operation up to 5 times */
+	rv = 1;
+	i = 5;
+	while (rv && i--) {
 		if (bd->flags & BDI_LBA) {
-			error = EDD_rw(rw, dev, off, nsect, buf);
+#if 0
+			printf(" trying biosdev_LBA(%X, %X, %d, %d, %d)",
+			    rw == F_READ ? 0x42 : 0x43, bd->bios_number,
+			    (int)((off >> ssh) & 0xFFFFFFFF),
+			    (int)(sizeof (daddr_t) > 4 ?
+			    (off >> ssh) >> 32 : 0), n >> ssh);
+#endif
+			rv = biosdev_LBA(rw == F_READ ? 0x42 : 0x43,
+			    bd->bios_number, (off >> ssh) & 0xFFFFFFFF,
+			    sizeof (daddr_t) > 4 ? (off >> ssh) >> 32 : 0,
+			    n >> ssh);
 		} else {
-			int cyl, head, sect;
-			size_t i, n;
-			char *p = buf;
-
-			/* Handle track boundaries */
-			for (error = i = 0; error == 0 && i < nsect;
-			    i += n, off += n, p += n * DEV_BSIZE) {
-
-				btochs(off, cyl, head, sect, bd->bios_heads,
-				    bd->bios_sectors);
-
-				if ((sect + (nsect - i)) >= bd->bios_sectors)
-					n = bd->bios_sectors - sect;
-				else
-					n = nsect - i;
-
-				error = CHS_rw(rw, dev, cyl, head, sect, n, p);
-
-				/* ECC corrected */
-				if (error == 0x11)
-					error = 0;
-			}
+#if 0
+			printf(" trying biosdev_CHS(%X, %X, %d, %d, %d, %d)",
+			    rw == F_READ ? 0x02 : 0x03, bd->bios_number,
+			    c, h, s, n >> ssh);
+#endif
+			rv = biosdev_CHS(rw == F_READ ? 0x02 : 0x03,
+			    bd->bios_number, c, h, s, n >> ssh);
 		}
-		switch (error) {
-		case 0x00:	/* No errors */
+/*		printf(" => %X\n", rv);	*/
+		switch (rv) {
 		case 0x11:	/* ECC corrected */
-			error = 0;
+			rv = 0;
+		case 0x00:	/* no errors */
 			break;
-
-		default:	/* All other errors */
+		default:	/* all other errors */
 #ifdef BIOS_DEBUG
 			if (debug)
-				printf("\nBIOS error 0x%x (%s)\n",
-				    error, biosdisk_err(error));
+				printf("\nBIOS error 0x%X (%s)\n",
+				    rv, biosdisk_err(rv));
 #endif
-			biosdreset(dev);
+			biosdreset(bd->bios_number);
 			break;
 		}
 	}
-
 #ifdef BIOS_DEBUG
 	if (debug) {
-		if (error != 0)
-			printf("=0x%x(%s)", error, biosdisk_err(error));
+		if (rv != 0)
+			printf("=0x%x(%s)", rv, biosdisk_err(rv));
 		putchar('\n');
 	}
 #endif
-
-	return error;
+	if (rv)
+		return (rv);
+	if (buf && rw == F_READ)
+		memcpy(buf, bounce_buf, n * 512);
+	if ((nsect -= n) == 0)
+		return (0);
+	if (!buf) {
+#ifndef SMALL_BOOT
+		printf("panic: cannot loop biosd_io on bounce_buf\n");
+#endif
+		return (0);
+	}
+	buf += n * 512;
+	off += n;
+	goto loop;
 }
 
 /*

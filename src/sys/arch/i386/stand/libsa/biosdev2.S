@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/libsa/biosdev2.S,v 1.2 2009/01/10 23:43:08 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/libsa/biosdev2.S,v 1.3 2009/01/11 13:43:47 tg Exp $ */
 
 /*-
  * Copyright (c) 2009
@@ -37,6 +37,7 @@
  * 10 = is a CD-ROM in El Torito "no emulation" mode
  */
 	.globl	biosdev_lbaprobe
+	.code32
 biosdev_lbaprobe:
 	push	ebp
 	mov	ebp,esp
@@ -95,3 +96,76 @@ LnoLBA:	call	real_to_prot
 	shr	eax,8
 	pop	ebp
 	ret
+
+/* int biosdev_CHS(int ah, int dev, int cyl, int head, int sec, int nsec); */
+/* ebp + …         +8      +12      +16      +20       +24      +28 */
+	.globl	biosdev_CHS
+	.code32
+biosdev_CHS:
+	push	ebp
+	mov	ebp,esp
+	push	ebx
+	push	esi
+	push	edi
+	mov	ecx,[ebp+16]
+	xchg	ch,cl
+	shl	cl,6
+	or	cl,[ebp+24]
+	inc	ecx
+	mov	dh,[ebp+20]
+	mov	dl,[ebp+12]
+	mov	bh,[ebp+8]
+	mov	bl,[ebp+28]
+	call	prot_to_real
+	.code16
+	mov	ax,bx
+	mov	bx,0x3000
+	mov	es,bx
+	xor	bx,bx
+	push	bx
+biosdev_io:
+	int	0x13
+	pop	bx
+	jnc	1f
+	mov	bl,ah
+1:	call	real_to_prot
+	.code32
+	xor	eax,eax
+	mov	al,bl
+	pop	edi
+	pop	esi
+	pop	ebx
+	pop	ebp
+	ret
+
+/* int biosdev_LBA(int ah, int dev, u_int blk_lo, u_int blk_hi, int nsec); */
+/* ebp + …         +8      +12      +16           +20           +24 */
+	.globl	biosdev_LBA
+	.code32
+biosdev_LBA:
+	push	ebp
+	mov	ebp,esp
+	push	ebx
+	push	esi
+	push	edi
+	mov	edi,offset biosdev_lba_buf
+	mov	eax,[ebp+24]
+	shl	eax,16
+	mov	al,16
+	stosd
+	mov	eax,0x30000000
+	stosd
+	lea	esi,[ebp+16]
+	movsd
+	movsd
+	mov	edx,[ebp+12]
+	mov	dh,[ebp+8]
+	xor	ebx,ebx
+	mov	esi,offset biosdev_lba_buf - 0x30000
+	call	prot_to_real
+	.code16
+	push	bx
+	mov	bx,0x3000
+	mov	ds,bx
+	mov	ah,dh
+	jmp	biosdev_io

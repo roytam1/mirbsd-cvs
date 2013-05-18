@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.56 2009/01/11 14:47:37 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.57 2009/01/11 14:50:26 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009
@@ -412,3 +412,7 @@ cmd_buf:
 	pxe_command_buf = bounce_buf + 4096
 	.globl	pxe_command_buf
 	.size	pxe_command_buf, 256
+
+	biosdev_lba_buf = pxe_command_buf + 256
+	.globl	biosdev_lba_buf
+	.size	biosdev_lba_buf, 16
