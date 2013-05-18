@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.70 2008/08/08 21:31:18 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.71 2008/08/16 22:26:03 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -1398,4 +1398,39 @@ Title: X11, etc.
  don’t think that’s worth it, even if unicode <em>is</em> big.</p>
 <p>As a new “standard”, we’ll <tt>#define</tt> all functions we introduce
  to themselves, like arc4random_pushk(3), to rid autohell.</p>
+----
+Date: 24.08.2008 10:28
+Author: bsiegert@
+Title: pkg-config woes, FrOSCon
+
+<p>In my recent entry, I already talked a bit about pkg-config and its
+ framework support. It turns out that there is another problem. The
+ <tt>--libs</tt> parameter can be "split" into its parts by using
+ <tt>--libs-only-L</tt>, <tt>--libs-only-l</tt>, and
+ <tt>--libs-only-other</tt>. The LyX configure script, however, did not
+ care about the latter, only the first two. Which brings me to the mail
+ I wrote to the pkg-config mailing list:</p>
+
+<p>"Hi,</p>
+
+<p>"while compiling LyX/Mac the other day, I came across a problem in the way
+ frameworks are handled. On Mac OS, frameworks are a different way to pack a
+ library together with its headers. Framework-related options are put in
+ --libs-only-other, while the configure script was only checking for
+ --libs-only-l and --libs-only-L. While I agree that this is broken behavior,
+ it brings me to my question:</p>
+
+<p>"The way I see it, -Fpath (framework search path) is equivalent to -Lpath for
+ libraries. Thus, -F should maybe be included in the output of "pkg-config
+ --libs-only-L". The same thing goes for the "-framework name" linker option,
+ which is more or less the same thing as "-lname", namely linking against a
+ certain library/framework. Thus, the -framework option (with argument)
+ should be added to the output of --libs-only-l.</p>
+
+<p>"Opinions?"</p>
+ 
+<p>In other news, FrOSCon has it second and last day today. I am
+ currently in the train on the way. The party ("social event") yesterday
+ was quite good, even though the weather was not as good as last
+ year&mdash;it was cold and humid.</p>
 ----
