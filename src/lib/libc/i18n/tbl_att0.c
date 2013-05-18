@@ -1,11 +1,11 @@
-/* $MirOS: src/lib/libc/i18n/tbl_att0.c,v 1.1 2006/11/01 19:49:33 tg Exp $ */
+/* $MirOS: src/lib/libc/i18n/tbl_att0.c,v 1.2 2007/02/07 17:28:58 tg Exp $ */
 
 #include <wchar.h>
 
 #define mir18n_attributes
 #include "mir18n.h"
 
-__RCSID("$MirOS: src/lib/libc/i18n/tbl_att0.c,v 1.1 2006/11/01 19:49:33 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/tbl_att0.c,v 1.2 2007/02/07 17:28:58 tg Exp $");
 
 /* generated automatically from UnicodeData-5.0.0d10.txt (BMP) */
 
@@ -233,7 +233,7 @@ const unsigned char __C_attribute_table_pg[256] = {
 	/* 0x00dc */ upper | alpha | print | graph | alnum,
 	/* 0x00dd */ upper | alpha | print | graph | alnum,
 	/* 0x00de */ upper | alpha | print | graph | alnum,
-	/* 0x00df */ alpha | print | graph | alnum,
+	/* 0x00df */ lower | alpha | print | graph | alnum,
 	/* 0x00e0 */ lower | alpha | print | graph | alnum,
 	/* 0x00e1 */ lower | alpha | print | graph | alnum,
 	/* 0x00e2 */ lower | alpha | print | graph | alnum,
