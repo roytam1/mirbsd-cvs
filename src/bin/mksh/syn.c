@@ -2,7 +2,7 @@
 
 #include "sh.h"
 
-__RCSID("$MirOS: src/bin/mksh/syn.c,v 1.22 2008/06/28 22:51:56 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/syn.c,v 1.23 2008/07/12 16:56:40 tg Exp $");
 
 struct nesting_state {
 	int start_token;	/* token than began nesting (eg, FOR) */
@@ -411,6 +411,11 @@ get_command(int cf)
 	case TIME:
 		syniocf &= ~(KEYWORD|ALIAS);
 		t = pipeline(0);
+		if (t) {
+			t->str = alloc(2, ATEMP);
+			t->str[0] = 0;	/* TF_* flags */
+			t->str[1] = '\0';
+		}
 		t = block(TTIME, t, NOBLOCK, NOWORDS);
 		break;
 
