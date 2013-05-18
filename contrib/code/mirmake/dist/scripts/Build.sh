@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.91 2006/11/07 00:38:17 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.92 2006/12/28 17:32:52 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -333,6 +333,10 @@ else
 \$i -c \$ug -m 444 ${d_build}/lorder.cat1 \$DESTDIR${dt_man}/lorder.0
 EOF
 fi
+mkdir ${d_build}/lorder
+cp $d_src/usr.bin/lorder/lorder.sh ${d_build}/lorder/lorder
+chmod 555 ${d_build}/lorder/lorder
+export PATH=${d_build}/lorder:$PATH
 # build make documentation
 if [[ -e $d_build/PSD12.make.txt ]]; then
 	cat >>Install.sh <<EOF
