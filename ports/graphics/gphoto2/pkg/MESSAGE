@@ -1,7 +1,0 @@
-+-----------------------------------------------------------
-| This port needs procfs mounted on /proc with the 'linux'
-| compatibility option set for proper operation.
-| The OpenBSD team advises to not mount procfs during normal
-| system operation for security reasons; procfs is mounted
-| on MirOS by default.
-+-----------------------------------------------------------

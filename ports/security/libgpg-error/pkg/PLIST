@@ -1,7 +1,0 @@
-@comment $MirOS$
-bin/gpg-error
-bin/gpg-error-config
-include/gpg-error.h
-lib/libgpg-error.la
-share/aclocal/gpg-error.m4
-@dirrm share/aclocal
