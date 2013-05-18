@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.59 2006/07/01 00:46:50 tg Exp $
+# $MirOS: src/Makefile,v 1.60 2006/07/01 00:48:20 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -252,6 +252,7 @@ _do-dist:
 .endfor
 	@echo "============================================================"
 .ifndef BATCH
+	@date
 	@read a?'Press Return to continue...'
 .endif
 	@date
