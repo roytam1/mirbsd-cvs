@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.93 2007/06/19 19:21:20 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.94 2007/10/25 16:01:21 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -83,6 +83,8 @@ dt_bin=$new_prefix/bin
 dt_man=$new_prefix/${new_manpth}1
 dt_mk=$new_prefix/share/${new_exenam}
 
+export HAVE_GETOPT=no
+
 if [[ $new_manpth = *@(cat)* ]]; then
 	is_catman=1
 else
@@ -118,6 +120,7 @@ Darwin)
 	_obfm=Mach-O
 	_rtld=dyld
 	CPPFLAGS="$CPPFLAGS -DHAVE_STRLCPY -DHAVE_STRLCAT"
+	HAVE_GETOPT=yes
 	;;
 *Interix)
 	_obfm=PE
@@ -207,11 +210,15 @@ sed_exp="-e 's#@@machine@@#${new_machin}#g' \
 # Copy sources
 (cd $d_src/usr.bin/make; find . | cpio -pdlu $d_build)
 (cd $d_src/lib/libc; find ohash | cpio -pdlu $d_build)
-cp $d_src/lib/libc/stdlib/getopt_long.c $d_src/lib/libc/string/strlfun.c \
+cp $d_src/lib/libc/string/strlfun.c \
     $d_src/include/*.h $d_src/usr.bin/mkdep/mkdep.sh $d_build/
 cp $d_src/share/mk/*.mk $d_build/mk/
-cp $d_src/include/{getopt,md4,md5,rmd160,sha1,sha2,tiger}.h \
+cp $d_src/include/{md4,md5,rmd160,sha1,sha2,tiger}.h \
     $d_script/../contrib/mirmake.h $d_build/F/
+if [[ "x$HAVE_GETOPT" != "xyes" ]]; then
+	cp  $d_src/lib/libc/stdlib/getopt_long.c $d_build/
+	cp $d_src/include/getopt.h $d_build/F/
+fi
 
 # Patch sources
 for ps in make.1 mk/{bsd.own.mk,bsd.prog.mk,bsd.sys.mk,sys.mk} mkdep.sh; do
@@ -240,10 +247,14 @@ ed -s $d_build/mk/bsd.own.mk <<-EOF
 EOF
 
 # Build bmake
+getopt_long_o=getopt_long.o
+if [[ "x$HAVE_GETOPT" = xyes ]]; then
+	getopt_long_o=
+fi
 cd $d_build
 if ! $OLDMAKE -f Makefile.boot bmake CC="$CC" MACHINE="${new_machin}" \
     MACHINE_ARCH="${new_macarc}" MACHINE_OS="${new_machos}" \
-    MKSH="${new_mirksh}"; then
+    MKSH="${new_mirksh}" getopt_long_o="${getopt_long_o}"; then
 	echo "Error: build failure" >&2
 	exit 1
 fi
@@ -479,12 +490,15 @@ sed -e 's/hashinc/sha2.h/g' -e 's/HASH_\{0,1\}/SHA512_/g' \
 sed -e 's/hashinc/tiger.h/g' -e 's/HASH/TIGER/g' \
     $d_src/lib/libc/hash/helper.c >tigerhl.c
 cp  $d_src/lib/libc/hash/{md4,md5,rmd160,sha1,sha2,tiger}.c \
-    $d_src/lib/libc/stdlib/{getopt_long,strtoll}.c \
+    $d_src/lib/libc/stdlib/strtoll.c \
     $d_src/lib/libc/stdio/{{,v}asprintf,mktemp}.c .
+if [[ "x$HAVE_GETOPT" != xyes ]]; then
+	cp $d_src/lib/libc/stdlib/getopt_long.c .
+fi
 SRCS="${add_fgetln%.[co]}.c $add_strlfun $add_arcfour" \
     ${d_build}/bmake -m ${d_build}/mk -f $d_script/Makefile.lib NOOBJ=yes clean
 SRCS="${add_fgetln%.[co]}.c $add_strlfun $add_arcfour" \
-    ${d_build}/bmake -m ${d_build}/mk -f $d_script/Makefile.lib NOOBJ=yes || \
+    ${d_build}/bmake -m ${d_build}/mk -f $d_script/Makefile.lib NOOBJ=yes HAVE_GETOPT="$HAVE_GETOPT" || \
     exit 1
 cd $top
 if [[ -s $d_build/libmirmake/libmirmake.a ]]; then
