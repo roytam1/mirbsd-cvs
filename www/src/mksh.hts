@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.512 2013/04/26 22:39:14 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.513 2013/04/27 19:22:42 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -24,7 +24,7 @@ mws_content <<'EOF'
  <li>information about <a href="mksh_old.htm">old versions</a></li>
 </ul>
 
-<h2>mksh(1) R45</h2>
+<h2>mksh(1) R46</h2>
 
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
  implementation of the Korn Shell programming language and a successor to the
@@ -45,8 +45,8 @@ mws_content <<'EOF'
  href="@@ABSPATH@@/TaC-mksh.txt">full licence terms</a> overview.</p>
 
 <h2 class="cr" id="prefetch">Introduction</h2>
-<p>The current version of mksh is <strong>mksh R45</strong> from
- <em>26 April 2013</em>.<br />In the oldstable bugfixing-only series, the
+<p>The current version of mksh is <strong>mksh R46</strong> from
+ <em>2 May 2013</em>.<br />In the oldstable bugfixing-only series, the
  current version is <em>mksh R44</em> from <em>5 March 2013</em>.</p>
 <p>Thanks to “Der Verein <a href="http://www.trash.net/verein/">trash.net</a>”
  for sponsoring access to a Solaris 8 box. Thanks to Julian “yofuh” Wiesener
@@ -179,8 +179,8 @@ mws_content <<'EOF'
  <em>as well as</em> the hashes and/or checksums below, so you’re sure the
  content is intact and the version number on the archive is correct.</p>
 <h3 id="mirrors">Known Mirrors</h3><ul>
- <li><a href="https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R45.tgz">https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R45.tgz</a></li>
- <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R45.tgz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R45.tgz</a></li>
+ <li><a href="https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R46.tgz">https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R46.tgz</a></li>
+ <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R46.tgz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R46.tgz</a></li>
  <li><a href="https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R44.tgz">https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R44.tgz</a></li>
  <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R44.tgz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R44.tgz</a></li>
 </ul>
@@ -201,7 +201,7 @@ mws_content <<'EOF'
 
 <h3 id="decomp">Decompression</h3>
 <p>We’re using gzip(1)-compressed POSIX us<!-- -->tar(1) distfiles nowadays,
- so a simple <tt>tar xzf mksh-R45.tgz</tt> will work.</p>
+ so a simple <tt>tar xzf mksh-R46.tgz</tt> will work.</p>
 
 <h3 id="vendorpatching">Patching</h3>
 <p>If you’re a packager/vendor and need to patch mksh and deviate from the
@@ -809,6 +809,8 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <!--
 <p id="pcur"><i>current</i>: <i>(unfinished…)</i></p>
 -->
+<p id="p46">R46: New <tt>-DMKSH_BINSHPOSIX</tt> to complement the older
+ <tt>-DMKSH_BINSHREDUCED</tt>. Some lksh stuff is now integrated.</p>
 <p id="p45">R45: Neither <tt>-DMKSH_GCC55009</tt> nor HAVE_SILENT_IDIVWRAPV
  nor <tt>-Wno-overflow</tt> are used any more; mksh employs unsigned integer
  arithmetic now and emulates signed integer arithmetics with defined wraparound
@@ -1096,6 +1098,13 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <!--
 <p id="ccur"><i>current</i>: … <i>(unfinished…)</i></p>
 -->
+<p id="c46">R46: Compatibility behaviour (mksh with -o posix, mksh with -o sh,
+ mksh with -o posix -o sh, lksh, lksh with -o posix) changed again slightly.
+ For both, -o posix re-enables parsing leading digit-zero numbers as octal,
+ even though you should know better. You <em>can</em> now set both sh and posix
+ but have to do it with the same command; your distributor can pre-enable both,
+ or just one, for /bin/sh. The manpages for mksh and lksh document the delta
+ better now and point out why you should not rely on POSIX long arithmetic.</p>
 <p id="c45">R45: mksh in compatibility modes (posix, sh, lksh) no longer
  parses the <tt>&amp;&gt;</tt> GNU bash I/O redirection (it breaks previously
  valid scripts). “set -x” output changed. Enjoy the new <tt>dot.mkshrc</tt>
@@ -1168,13 +1177,16 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <p><a href="mksh_old.htm#caveat">older entries</a></p>
 
 <h2 id="clog">Recent Changes</h2>
+<!--
 <p>Changes in the current (unreleased) development version:</p><ul>
+-->
  <!-- li>Begin porting mksh to the <a href="http://9fans.net/">Plan 9</a>
   ANSI’n’POSIX Environment (not finished)</li -->
  <!-- li>Port to <a href="http://www.syllable.org/">Syllable Desktop</a>
   (not finished, but maybe the rest is a kernel bug?)</li -->
  <!-- li>Import the GNU bash- and zsh-style ability to get and set multiple
   limits in a single invocation from oksh (thanks millert) -->
+<p id="r46">R46 delivers these changes:</p><ul>
  <li>[tg] <tt>dot.mkshrc</tt>: prevent lksh from running it</li>
  <li>[tg] Add the lksh manual page to the mksh distribution</li>
  <li>[tg] Make both lksh and mksh interpret numbers with a leading digit
@@ -1184,6 +1196,15 @@ exec /usr/bin/ld "${args[@]}"</pre>
   “set -o posix” and who need longs to lksh) and elaborate on the horrors of
   ISO C Undefined Behaviour which is allowed to delete all your data</li>
  <li>[tg] Unbreak “set -o” (list flags) in lksh on LP64 machines</li>
+ <li>[tg] Implement Emacs mode PgUp as Vi insert mode Cur↑ for Yofuh</li>
+ <li>[tg] Allow setting both “set -o sh” and “set -o posix”, if done in
+  the same command; shuffle around compatibility levels (mksh/lksh, with
+  -o sh, with -o posix) again; permit a /bin/sh to set either or both</li>
+ <li>[tg] Sync lksh manual page with the exact code ifdefs</li>
+ <li>[tg] Change more use of signed integer to use unsigned instead</li>
+ <li>[tg] Implement “set -o pipefail” like AT&amp;T ksh93 and GNU bash do</li>
+ <li>[tg] <tt>dot.mkshrc</tt>: provide hd(1) in Pure mksh™ for fallback</li>
+ <li>[tg] Implement VALSUBs (value substitutions): <tt>${|REPLY=foo;}</tt></li>
 </ul>
 <p id="r45">R45 comes with this bag of changes:</p><ul>
  <li>[tg] Make “set -x” print the commands run in escaped form</li>
@@ -1688,13 +1709,8 @@ exec /usr/bin/ld "${args[@]}"</pre>
  64-bit arithmetics, possibly using a long typeset flag and something
  similar to <tt>$((#x))</tt> for unsigned arithmetics</li>
 <li>arbitrary-precision arithmetics?</li>
-<li><tt>set -o pipefail</tt> (catch like Debian #703800)</li>
 <li><tt>$&amp;</tt> in/after replacements, possibly as array?
  maybe not with that name, see the <tt>&amp;&gt;</tt> disaster.</li>
-<li>something like <tt>${ …;}</tt> except without changing stdout,
- and with a special variable (<tt>REPLY</tt>) being the result,
- i.e. that what is interpolated from running this expression, with
- the variable being reset to "" on starting it (VALSUB)</li>
 <li>something like <tt>${${foo#bar}%baz}</tt> like other shells do?</li>
 <li>some sort of mktemp(1) builtin; the functionality is already
  mostly there, but we keep it open already in C and don’t do dirs,
@@ -1702,6 +1718,9 @@ exec /usr/bin/ld "${args[@]}"</pre>
  file-based locking builtin)</li>
 <li><tt>exec</tt> with arg parsing, <tt>-c</tt> like ksh93 (keeping
  <tt>l_assign</tt> stuff exported!), <tt>-a</tt></li>
+<li>The <tt>DEBUG</tt> trap (although GNU bash also has a RETURN
+ trap, and both bash and ksh93 write <em>lots</em> about this, so
+ careful design is required before attempting this)</li>
 </ul>
 EOF
 mws_putfooter
