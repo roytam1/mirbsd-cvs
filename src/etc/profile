@@ -1,5 +1,5 @@
 # $MirSecuCron$
-# $MirOS$
+# $MirOS: src/etc/profile,v 1.64 2009/09/06 15:08:00 tg Exp $
 
 PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/bin:/usr/mpkg/bin
 umask 022
@@ -49,6 +49,16 @@ elif [ -n "$BASH_VERSION" ]; then
 	fi
 	[[ -n $NOCOLOURPROMPT ]] && PS1='bash:\u@\h:\w \$ '
 	_shellok=1
+elif [ -n "$ZSH_VERSION" ]; then
+	PS1='%n@%m:%~ %# '
+	if [[ -n $NOCOLOURPROMPT ]]; then
+		PS1='zsh:'$PS1
+		RPS1='%(?..%?)'
+	else
+		PS1='%B%F{4}zsh!%f%b'$PS1
+		RPS1='%(?..%B%F{1}%?%f%b)'
+	fi
+	_shellok=1
 fi
 XDG_CACHE_HOME=$HOME/.etc/xdg/cache
 XDG_CONFIG_HOME=$HOME/.etc/xdg/config
@@ -58,7 +68,7 @@ export PAGER PS1 TERM XDG_CACHE_HOME XDG_CONFIG_HOME XDG_DATA_HOME
 unset HISTFILE NOCOLOURPROMPT x
 test -n "$_shellok" || return 0
 unset _shellok
-[[ -n $KSH_VERSION ]] && alias cls='print -n \\033c'
+[[ -n $KSH_VERSION$ZSH_VERSION ]] && alias cls='print -n \\033c'
 # convenience aliases and functions:
 [[ -x /emul/linux/bin/bash ]] && alias lx='/emul/linux/bin/bash --login'
 function bye {
@@ -90,4 +100,4 @@ if [ -O /var/run/ssh-agent/$USER_ID ]; then
 	unset _dir
 fi
 
-: $MirOS: src/etc/profile,v 1.63 2009/07/18 14:09:04 tg Exp $
+: $MirOS: src/etc/profile,v 1.64 2009/09/06 15:08:00 tg Exp $
