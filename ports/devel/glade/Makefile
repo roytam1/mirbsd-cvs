@@ -1,8 +1,10 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.15 2003/07/12 06:27:12 marcm Exp $
 
-COMMENT=			free user interface builder for GTK+ and GNOME
+COMMENT=		free user interface builder for GTK+ and GNOME
 
 DISTNAME=		glade-0.6.4
+DASH_VER=		1
 CATEGORIES=		devel
 
 HOMEPAGE=		http://glade.gnome.org/
@@ -17,9 +19,6 @@ RUN_DEPENDS=		:automake->=1.4:devel/automake \
 			::devel/metaauto \
 			:scrollkeeper->=0.3.12:textproc/scrollkeeper
 
-FLAVORS=		gnome
-FLAVOR?=
-
 # GPL
 PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes
@@ -29,13 +28,6 @@ PERMIT_DISTFILES_FTP=	Yes
 USE_X11=		Yes
 CONFIGURE_STYLE= 	gnu
 CONFIGURE_ARGS+= 	--without-bonobo
-
-.if ${FLAVOR:L:Mgnome}
-BROKEN=			GNOME 1 has been removed
-LIB_DEPENDS+=		gnome.36,art_lgpl.4,gnomesupport.0,gnomeui.46::x11/gnome/libs
-USE_CXX=		Yes
-.else
 CONFIGURE_ARGS+=	--disable-gnome
-.endif
 
 .include <bsd.port.mk>
