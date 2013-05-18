@@ -1,4 +1,4 @@
-# $MirOS: ports/print/cups/Makefile,v 1.11 2006/11/08 18:25:43 bsiegert Exp $
+# $MirOS: ports/print/cups/Makefile,v 1.12 2006/12/20 15:31:38 tg Exp $
 
 COMMENT=		Common Unix Printing System
 
@@ -18,6 +18,7 @@ PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
 MASTER_SITES=		ftp://ftp.easysw.com/pub/cups/${VERSION}/ \
+			ftp://ftp.funet.fi/pub/mirrors/ftp.easysw.com/pub/cups/${VERSION}/ \
 			ftp://ftp2.easysw.com/pub/cups/${VERSION}/
 			
 EXTRACT_SUFX=		.tar.bz2
