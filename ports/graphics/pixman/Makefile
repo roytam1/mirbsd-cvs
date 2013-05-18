@@ -1,8 +1,8 @@
-# $MirOS: ports/graphics/libpixman/Makefile,v 1.2 2006/02/09 11:11:50 tg Exp $
+# $MirOS: ports/graphics/libpixman/Makefile,v 1.3 2006/09/14 00:09:59 tg Exp $
 
-COMMENT=			pixel manipulation library
+COMMENT=		pixel manipulation library
 
-DISTNAME=		libpixman-0.1.5
+DISTNAME=		pixman-0.11.8
 CATEGORIES=		graphics
 
 HOMEPAGE=		http://cairographics.org/introduction
@@ -13,7 +13,7 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM= Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-MASTER_SITES=		http://cairographics.org/snapshots/
+MASTER_SITES=		http://cairographics.org/releases/
 
 MODULES+=		devel/pkgconfig
 
