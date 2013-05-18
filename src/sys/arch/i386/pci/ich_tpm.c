@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $ */
+/* $MirOS: src/sys/arch/i386/pci/ich_tpm.c,v 1.1 2009/02/16 21:21:02 tg Exp $ */
 
 /*-
  * Copyright (c) 2009
@@ -104,5 +104,5 @@ void ichpcib_attach_tpm(struct device *parent, struct device *self,
 	bzero(&cf, sizeof (cf));
 	cf.cf_attach = &ich_tpm_ca;
 	cf.cf_driver = &tpm_cd;
-	config_attach(NULL, &cf, &ta, NULL);
+	config_attach(self, &cf, &ta, NULL);
 }
