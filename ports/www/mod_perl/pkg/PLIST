@@ -1,5 +1,6 @@
+@comment $MirOS$
 @comment $OpenBSD: PLIST,v 1.14 2004/04/23 15:27:56 peter Exp $
-lib/mod_perl.so
+lib/mod_perl${P5DLEXT}
 ${P5ARCH}/Apache.pm
 ${P5ARCH}/Apache/Connection.pm
 ${P5ARCH}/Apache/Constants.pm
@@ -34,14 +35,15 @@ ${P5ARCH}/Apache/Symdump.pm
 ${P5ARCH}/Apache/Table.pm
 ${P5ARCH}/Apache/URI.pm
 ${P5ARCH}/Apache/Util.pm
+${P5ARCH}/Apache/fork.pm
 ${P5ARCH}/Apache/httpd_conf.pm
 ${P5ARCH}/Apache/src.pm
 ${P5ARCH}/Apache/testold.pm
 ${P5ARCH}/Bundle/Apache.pm
 ${P5ARCH}/auto/Apache/Leak/Leak.bs
-${P5ARCH}/auto/Apache/Leak/Leak.so
+${P5ARCH}/auto/Apache/Leak/Leak${P5DLEXT}
 ${P5ARCH}/auto/Apache/Symbol/Symbol.bs
-${P5ARCH}/auto/Apache/Symbol/Symbol.so
+${P5ARCH}/auto/Apache/Symbol/Symbol${P5DLEXT}
 ${P5ARCH}/auto/Apache/include/ap_config_auto.h
 ${P5ARCH}/auto/Apache/include/modules/perl/apache_inc.h
 ${P5ARCH}/auto/Apache/include/modules/perl/mod_perl.h
@@ -50,7 +52,6 @@ ${P5ARCH}/auto/Apache/include/modules/perl/mod_perl_xs.h
 ${P5ARCH}/auto/Apache/include/modules/perl/perl_PL.h
 ${P5ARCH}/auto/Apache/mod_perl.exp
 ${P5ARCH}/auto/Apache/typemap
-@comment ${P5ARCH}/auto/mod_perl/.packlist
 ${P5ARCH}/cgi_to_mod_perl.pod
 ${P5ARCH}/mod_perl.pm
 ${P5ARCH}/mod_perl.pod
@@ -60,48 +61,47 @@ ${P5ARCH}/mod_perl_hooks.pm.PL
 ${P5ARCH}/mod_perl_method_handlers.pod
 ${P5ARCH}/mod_perl_traps.pod
 ${P5ARCH}/mod_perl_tuning.pod
-man/man3/Apache.3p
-man/man3/Apache::Constants.3p
-man/man3/Apache::Debug.3p
-man/man3/Apache::ExtUtils.3p
-man/man3/Apache::FakeRequest.3p
-man/man3/Apache::File.3p
-man/man3/Apache::Include.3p
-man/man3/Apache::Leak.3p
-man/man3/Apache::Log.3p
-man/man3/Apache::MyConfig.3p
-man/man3/Apache::Options.3p
-man/man3/Apache::PerlRun.3p
-man/man3/Apache::PerlRunXS.3p
-man/man3/Apache::PerlSections.3p
-man/man3/Apache::RedirectLogFix.3p
-man/man3/Apache::Registry.3p
-man/man3/Apache::RegistryLoader.3p
-man/man3/Apache::Resource.3p
-man/man3/Apache::SIG.3p
-man/man3/Apache::SizeLimit.3p
-man/man3/Apache::StatINC.3p
-man/man3/Apache::Status.3p
-man/man3/Apache::Symbol.3p
-man/man3/Apache::Symdump.3p
-man/man3/Apache::Table.3p
-man/man3/Apache::URI.3p
-man/man3/Apache::Util.3p
-man/man3/Apache::httpd_conf.3p
-man/man3/Apache::src.3p
-man/man3/Apache::testold.3p
-man/man3/Bundle::Apache.3p
-man/man3/cgi_to_mod_perl.3p
-man/man3/mod_perl.3p
-man/man3/mod_perl_cvs.3p
-man/man3/mod_perl_method_handlers.3p
-man/man3/mod_perl_traps.3p
-man/man3/mod_perl_tuning.3p
+man/man3/Apache${P5MAN3EXT}
+man/man3/Apache::Constants${P5MAN3EXT}
+man/man3/Apache::Debug${P5MAN3EXT}
+man/man3/Apache::ExtUtils${P5MAN3EXT}
+man/man3/Apache::FakeRequest${P5MAN3EXT}
+man/man3/Apache::File${P5MAN3EXT}
+man/man3/Apache::Include${P5MAN3EXT}
+man/man3/Apache::Leak${P5MAN3EXT}
+man/man3/Apache::Log${P5MAN3EXT}
+man/man3/Apache::MyConfig${P5MAN3EXT}
+man/man3/Apache::Options${P5MAN3EXT}
+man/man3/Apache::PerlRun${P5MAN3EXT}
+man/man3/Apache::PerlRunXS${P5MAN3EXT}
+man/man3/Apache::PerlSections${P5MAN3EXT}
+man/man3/Apache::RedirectLogFix${P5MAN3EXT}
+man/man3/Apache::Registry${P5MAN3EXT}
+man/man3/Apache::RegistryLoader${P5MAN3EXT}
+man/man3/Apache::Resource${P5MAN3EXT}
+man/man3/Apache::SIG${P5MAN3EXT}
+man/man3/Apache::SizeLimit${P5MAN3EXT}
+man/man3/Apache::StatINC${P5MAN3EXT}
+man/man3/Apache::Status${P5MAN3EXT}
+man/man3/Apache::Symbol${P5MAN3EXT}
+man/man3/Apache::Symdump${P5MAN3EXT}
+man/man3/Apache::Table${P5MAN3EXT}
+man/man3/Apache::URI${P5MAN3EXT}
+man/man3/Apache::Util${P5MAN3EXT}
+man/man3/Apache::fork${P5MAN3EXT}
+man/man3/Apache::httpd_conf${P5MAN3EXT}
+man/man3/Apache::src${P5MAN3EXT}
+man/man3/Apache::testold${P5MAN3EXT}
+man/man3/Bundle::Apache${P5MAN3EXT}
+man/man3/cgi_to_mod_perl${P5MAN3EXT}
+man/man3/mod_perl${P5MAN3EXT}
+man/man3/mod_perl_cvs${P5MAN3EXT}
+man/man3/mod_perl_method_handlers${P5MAN3EXT}
+man/man3/mod_perl_traps${P5MAN3EXT}
+man/man3/mod_perl_tuning${P5MAN3EXT}
 sbin/mod_perl-enable
 share/doc/mod_perl/mod_perl.html
 @dirrm share/doc/mod_perl
-@comment @dirrm man/man3
-@dirrm ${P5ARCH}/auto/mod_perl
 @dirrm ${P5ARCH}/auto/Apache/include/modules/perl
 @dirrm ${P5ARCH}/auto/Apache/include/modules
 @dirrm ${P5ARCH}/auto/Apache/include
