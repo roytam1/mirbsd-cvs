@@ -1,4 +1,4 @@
-# $MirOS: src/etc/rc,v 1.55 2006/10/08 00:24:42 tg Exp $
+# $MirOS: src/etc/rc,v 1.56 2007/01/18 23:55:00 tg Exp $
 # $OpenBSD: rc,v 1.277 2006/01/12 21:54:15 deraadt Exp $
 #-
 # System startup script run by init on autoboot or after single-user.
@@ -160,8 +160,8 @@ if [[ $1 = shutdown ]]; then
 	[[ -x /usr/sbin/wsconfig ]] && /usr/sbin/wsconfig -s 1
 	echo Received shutdown request.
 	dd if=/dev/arandom of=/var/db/host.random bs=1024 count=8 \
-	    >/dev/prandom 2>&1 && chmod 600 /var/db/host.random \
-	    >/dev/prandom 2>&1 && if [[ -f /etc/rc.shutdown ]]; then
+	    >/dev/wrandom 2>&1 && chmod 600 /var/db/host.random \
+	    >/dev/wrandom 2>&1 && if [[ -f /etc/rc.shutdown ]]; then
 		echo /etc/rc.shutdown in progress...
 		. /etc/rc.shutdown
 		echo /etc/rc.shutdown complete.
@@ -382,14 +382,14 @@ while (( i < ${#_mp[*]} )); do
 done
 
 # on sparc, use the nvram to provide some additional entropy
-[[ -x /usr/sbin/eeprom ]] && eeprom 2>&1 | cksum -ba sha512 >/dev/prandom
+[[ -x /usr/sbin/eeprom ]] && eeprom 2>&1 | cksum -ba sha512 >/dev/wrandom
 
 # read old random seed; if there's no /var/db/host.random, make
 # one through /dev/arandom; else reset seed file anyway so that
 # if a shutdown-less reboot occurs the next seed is not a repeat
 cat /var/db/host.random >/dev/arandom 2>&1
-dd if=/dev/arandom of=/var/db/host.random bs=1024 count=8 >/dev/prandom 2>&1
-chmod 600 /var/db/host.random >/dev/prandom 2>&1
+dd if=/dev/arandom of=/var/db/host.random bs=1024 count=8 >/dev/wrandom 2>&1
+chmod 600 /var/db/host.random >/dev/wrandom 2>&1
 
 # clean up left-over files
 rm -f /etc/nologin
@@ -399,7 +399,7 @@ rm -rf /var/{run,authpf}/*
 install -c -m 664 -g utmp /dev/null /var/run/utmp
 
 # save a copy of the boot messages
-dmesg | tee /var/run/dmesg.boot | cksum -ba rmd160 >/dev/prandom
+dmesg | tee /var/run/dmesg.boot | cksum -ba rmd160 >/dev/wrandom
 
 echo starting system logger
 rm -f /dev/log
@@ -589,7 +589,7 @@ if [[ ! -f /etc/ssl/private/default.key \
 	rm -f /etc/ssl/{def{ault,lt-ca}.cer,private/default.key}
 	# XXX 6000-8000 is recommended... choose 4096 to be nice to old boxen
 	if openssl genrsa -out /etc/ssl/private/default.key 4096 \
-	    >/dev/prandom 2>&1; then
+	    >/dev/wrandom 2>&1; then
 		chmod 600 /etc/ssl/private/default.key
 		openssl req -batch -new -subj "/CN=$(hostname)/" \
 		    -key /etc/ssl/private/default.key \
@@ -744,7 +744,7 @@ mixerctl_conf
 # Only if it exists and is an unused ram disc array.
 # Compare approximately like the kernel does, except
 # we checksum the first 2 pages instead of a memcmp.
-dev=$(dd if=/dev/rrd0c count=16 2>/dev/prandom | cksum -a adler32)
+dev=$(dd if=/dev/rrd0c count=16 2>/dev/wrandom | cksum -a adler32)
 [[ $dev = 1B32098C ]] && swapctl -ap0 /dev/rd0c
 
 if [[ $sshagent_autostart != NO ]]; then

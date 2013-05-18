@@ -1,4 +1,4 @@
-# $MirOS: src/etc/crontab,v 1.13 2006/11/24 03:03:50 tg Exp $
+# $MirOS: src/etc/crontab,v 1.14 2006/11/25 01:45:29 tg Exp $
 # $OpenBSD: crontab,v 1.12 2003/03/10 01:05:28 deraadt Exp $
 #
 # /var/cron/tabs/root - root's crontab
@@ -25,8 +25,8 @@ HOME=/var/log
 #
 # update random seed every three hours to disc; add hardware sensors to pool
 57	*/3	*	*	*	/usr/bin/nice -n -19 /usr/libexec/randshuffle
-14,44	*	*	*	*	/bin/sleep $(/usr/bin/jot -r 1 30 90); /sbin/sysctl -a 2>&1 | /bin/cksum -ba rmd160 -a md4 >/dev/prandom
+14,44	*	*	*	*	/bin/sleep $(/usr/bin/jot -r 1 30 90); /sbin/sysctl -a 2>&1 | /bin/cksum -ba rmd160 -a md4 >/dev/wrandom
 #
 # pull random bytes from the 'net (useful for headless servers, but insecure)
-#9	*/5	*	*	*	/bin/sleep $(/usr/bin/jot -r 1 60 900); /usr/bin/ftp -r 120 -Vo - http://www.randomnumbers.info/cgibin/wqrng.cgi?amount=42\&limit=999 2>&1 | /bin/cksum -ba sha512 >/dev/prandom
-#31	*/7	*	*	*	/bin/sleep $(/usr/bin/jot -r 1 60 900); /usr/bin/ftp -r 120 -mvo /dev/arandom http://fourmilab.ch/cgi-bin/uncgi/Hotbits?nbytes=64\&fmt=bin 2>&1 | /bin/cksum -ba suma >/dev/prandom
+#9	*/5	*	*	*	/bin/sleep $(/usr/bin/jot -r 1 60 900); /usr/bin/ftp -r 120 -Vo - http://www.randomnumbers.info/cgibin/wqrng.cgi?amount=42\&limit=999 2>&1 | /bin/cksum -ba sha512 >/dev/wrandom
+#31	*/7	*	*	*	/bin/sleep $(/usr/bin/jot -r 1 60 900); /usr/bin/ftp -r 120 -mvo /dev/arandom http://fourmilab.ch/cgi-bin/uncgi/Hotbits?nbytes=64\&fmt=bin 2>&1 | /bin/cksum -ba suma >/dev/wrandom

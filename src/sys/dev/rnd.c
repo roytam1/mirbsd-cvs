@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/rnd.c,v 1.25 2006/10/03 20:23:56 tg Exp $ */
+/**	$MirOS: src/sys/dev/rnd.c,v 1.26 2006/10/08 00:24:43 tg Exp $ */
 /*	$OpenBSD: rnd.c,v 1.78 2005/07/07 00:11:24 djm Exp $	*/
 
 /*
@@ -171,7 +171,7 @@
  * The pool is sized at 32 (rnd_addpool_size) uint32_ts FOR A REASON!
  *
  * This function can be disabled using the "kern.pushrand" sysctl.
- * The buffer can be filled with writes to /dev/prandom unless the
+ * The buffer can be filled with writes to /dev/wrandom unless the
  * sysctl has the value 0 (zero).
  *
  * Ensuring unpredictability at system startup
