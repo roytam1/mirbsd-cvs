@@ -689,3 +689,33 @@ Title: be careful what you wish for…
  secure links (https) in my wlog entries, so Planet Symlink doesn’t get
  them now (as it pulls via RSS), but you can look at it on the wlog.</p>
 ----
+Date: 04.05.2008 00:10
+Author: tg@
+Title: MirEwe on MirDarwin?
+
+<p>On an unrelated note, <a href="@@RELPATH@@mksh.htm">mksh</a> needs
+ people running the current development version, to prevent mishaps like
+ the one with the fullwidth characters causing wrong text output. To do
+ that, use AnonCVS like this:<br /><tt>% env CVS_RSH=ssh cvs -qz3 -d
+ anoncvs@anoncvs.mirbsd.org:/cvs co -PA mksh</tt><br />Then, as usual,
+ <tt>cd mksh &amp;&amp; (sh Build.sh &amp;&amp; ./test.sh -v) 2>&amp;1
+ | tee log.txt</tt> to build and test it. Then, especially if it fails,
+ <a href="http://nopaste.snit.ch:8001/">send</a> the logs to me.</p>
+<p><a href="http://www.ewesoft.com/M2.htm">Ewe</a> is an embedded VM for
+ some Java™ 1.1 compatible stuff. I had to fork it to use it on MirBSD
+ and to be able to fix it. So well. It now builds on gecko2@’s Macbook.
+ Using MirMake, of course *g* It’s even usable… which means that he can
+ now use <a href="http://www.cachewolf.de/">CacheWolf</a> and his laptop
+ to go geocaching.</p><!-- RSS stop -->
+<p>Speaking of geocaching: more stats bragging… although a little different
+ this time:<br />
+ <img src="https://flyingfish.freewrt.org/fwrtcommitstats/mirabilos.png"
+  alt="mirabilos’ commit stats" /><br />
+ <img src="https://flyingfish.freewrt.org/fwrtcommitstats/pfeffer.png"
+  alt="Dr. Pfeffer’s commit stats" /><br />
+ <img src="http://img.geocaching.com/stats/img.aspx?txt=Mac+Fanboy&amp;uid=d57c5767-047b-4aff-a00a-784356b94e9e"
+  alt="gecko2@’s founds and hides" /><br />
+ Although only the first two are CacheWolf committers…</p>
+<p>Ah, damnit. It freezes the usbserial (Prolific) driver when accessing
+ the serial port. Well, Apple… they don’t even use GNU as(1) either.</p>
+----
