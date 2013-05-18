@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.448 2012/04/06 15:42:17 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.449 2012/04/07 00:10:10 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -842,7 +842,8 @@ exec /usr/bin/ld "${args[@]}"</pre>
  src="@@RELPATH@@pics/logos/gentoo.png" /><a
  href="http://www.gentoo.org/">Gentoo GNU/Linux</a> has an mksh <a
  href="http://sources.gentoo.org/viewcvs.py/gentoo-x86/app-shells/mksh/">ebuild</a>
- created by <a href="http://www.hboeck.de/">Hanno Böck</a>.</li>
+ created by <a href="http://www.hboeck.de/">Hanno Böck</a> and kept up
+ to date by bonsaikitten.</li>
 <li class="cr"><img class="fr" width="64" height="64" alt="[Fedora logo]"
  src="@@RELPATH@@pics/logos/fedora.png" /><a
  href="http://fedoraproject.org/">Fedora</a> GNU/Linux 14, 15 and 16,
