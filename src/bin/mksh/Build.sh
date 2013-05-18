@@ -1587,10 +1587,11 @@ ac_test '!' revoke_decl revoke 1 'if revoke() does not need to be declared' <<-'
 	long revoke(void);		/* this clashes if defined before */
 	int main(void) { return ((int)revoke()); }
 EOF
-ac_test sys_siglist_decl sys_siglist 1 'if sys_siglist[] does not need to be declared' <<-'EOF'
+ac_test '!' sys_siglist_decl sys_siglist 1 'if sys_siglist[] does not need to be declared' <<-'EOF'
 	#define MKSH_INCLUDES_ONLY
 	#include "sh.h"
-	int main(void) { return (sys_siglist[0][0]); }
+	extern int sys_siglist[5][5][5][5][5];	/* this clashes happily */
+	int main(void) { return (sys_siglist[0][0][0][0][0]); }
 EOF
 CC=$save_CC; LDFLAGS=$save_LDFLAGS; LIBS=$save_LIBS
 
