@@ -1,6 +1,8 @@
-.\" $MirOS: ports/infrastructure/pkgtools/rtfm/bsd.port.mk.5,v 1.11 2006/12/20 15:29:48 tg Exp $
+.\" $MirOS: ports/infrastructure/pkgtools/rtfm/bsd.port.mk.5,v 1.12 2006/12/30 21:13:46 tg Exp $
 .\" $OpenBSD: bsd.port.mk.5,v 1.134 2004/02/18 13:39:02 xsa Exp $
 .\"
+.\" Copyright (c) 2007 Thorsten Glaser
+.\" Copyright (c) 2006 Benny Siegert
 .\" Copyright (c) 2000 Marc Espie
 .\"
 .\" All rights reserved.
@@ -25,7 +27,7 @@
 .\" (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 .\" THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .\"
-.Dd November 17, 2006
+.Dd January 1, 2007
 .Dt BSD.PORT.MK 5
 .Os
 .Sh NAME
@@ -758,6 +760,55 @@ User settings.
 Supplementary options appended to ${CFLAGS} for building.
 Since most ports ignore the COPTS convention, they are actually told to use
 ${CFLAGS} ${COPTS} as CFLAGS.
+.It Ev CVS_DIST*
+Enables an operation mode where the distfile is
+fetched from CVS.
+The following variables can be set by the user:
+.Bl -tag -width CVS_DISTDATE
+.It Ev CVS_DISTDATE
+The value of the
+.Fl D
+option to cvs checkout.
+Optional, but either this or
+.Ev CVS_DISTTAGS
+must be specified.
+.It Ev CVS_DISTFILE
+The file name prefix.
+Optional (derived from
+.Ev CVS_DISTMODS ) ,
+unless more than one module is checked out.
+.It Ev CVS_DISTMODS
+Module(s) to check out, separated by whitespace.
+.It Ev CVS_DISTREPO
+Repository to check out from, i.e. the value of the
+.Fl d
+option to cvs.
+.It Ev CVS_DISTTAGS
+The value of the
+.Fl r
+option to cvs checkout.
+Optional, but either this or
+.Ev CVS_DISTDATE
+must be specified.
+.El
+.Pp
+Full documentation for this modus operandi is not yet
+specified within the scope of this manual page (see
+the notes at the bottom of its source code for details),
+but you will get a variable
+.Ev _CVS_DISTF${_i}
+defining the filename in the following scheme:
+.Li basename[-dateext][-tagext].mcz
+.Pp
+.Ev WRKDIST
+is set automatically to ${WRKDIR}/${CVS_DISTMODS}
+if unset, so take care.
+.Ev PKGNAME
+defaults to ${_CVS_DISTF:R}-${DASH_VER}
+which works in most cases as well.
+Other ports have different sensible values, e.g. libtool
+uses libtool-1.5.23a.${CVS_DISTDATE:S!/!!g}-${DASH_VER}
+because it pulls from the branch-1-5 tag.
 .It Ev CXXDIAGFLAGS
 Flags appended to
 .Ev CXXFLAGS
@@ -776,6 +827,9 @@ of ${PKGNAME} without any flavour or subpackage extensions.
 This replaces the former
 .Dq package patchlevel .
 Default is 0.
+.Pp
+The default may rise to 1 in the future, so packagers
+can use -0 patchlevels for their own, local, testing.
 .It Ev DEF_UMASK
 Correct value of umask for the port to build and package correctly.
 Tested against the actual umask at
