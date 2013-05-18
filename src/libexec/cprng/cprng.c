@@ -37,9 +37,10 @@
 #include <sys/ioctl.h>
 #include <fcntl.h>
 #include <signal.h>
+#include <stdint.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: src/libexec/cprng/cprng.c,v 1.4 2007/07/09 07:37:08 tg Exp $");
+__RCSID("$MirOS: src/libexec/cprng/cprng.c,v 1.5 2007/07/09 22:53:37 tg Exp $");
 
 volatile sig_atomic_t glocke;
 useconds_t littlesleep = 2000;
