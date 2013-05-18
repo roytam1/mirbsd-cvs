@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/mpczar/mpczar/mpczar.sh,v 1.10 2008/05/03 01:09:29 tg Exp $
+# $MirOS: contrib/code/mpczar/mpczar/mpczar.sh,v 1.11 2008/10/05 16:26:14 tg Exp $
 #-
 # Copyright (c) 2005, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -19,8 +19,7 @@
 # damage or existence of a defect, except proven that it results out
 # of said person's immediate fault when using the work as intended.
 
-function usage
-{
+function usage {
 	print -u2 "Usage: mpczar [-Cv] [-I ignore]... [-r dir]... [-o outfile] [file...]"
 	exit 1
 }
@@ -38,14 +37,13 @@ outf=-
 rv=0
 fmt=sv4crc
 
-helper=$(realpath $(dirname "$me")/../libexec/mpczar.z)
+helper=$(realpath "$(dirname "$me")/../libexec/mpczar.z")
 if [[ ! -x $helper ]]; then
 	print -u2 Cannot find helper, aborting...
 	exit 1
 fi
 
-function whattopack
-{
+function whattopack {
 	let i=0
 	while (( i < nf )); do
 		print -r -- "${files[i++]}"
@@ -53,13 +51,12 @@ function whattopack
 	(( nd > 0 )) && find "${dirs[@]}" -type f
 }
 
-function whattoignore
-{
-	sed 's!^[\./]*!!' | if [[ ${ignore[0]} = -v ]]; then
+function whattoignore {
+	if [[ ${ignore[0]} = -v ]]; then
 		fgrep "${ignore[@]}" | sort
 	else
 		sort
-	fi
+	fi | sed 's!^\(\./\)*!!'
 }
 
 while getopts "CI:o:r:v" c; do
@@ -89,11 +86,11 @@ done
 
 (( (nf == 0) && (nd == 0) )) && usage
 
-[[ $outf != - && $outf != *@(.mcz) ]] && outf=${outf}.mcz
+[[ $outf != - && $outf != *.mcz ]] && outf=$outf.mcz
 
 ( whattopack | whattoignore | cpio $v -oC512 -H$fmt -M0x0F ) |&
 exec 3<&p
-$helper "$outf" <&3 || rv=2
+"$helper" "$outf" <&3 || rv=2
 wait % || rv=1
 [[ $rv = 0 || $outf = - ]] || rm -f "$outf"
 exit $rv
