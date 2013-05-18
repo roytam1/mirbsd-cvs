@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/dot.profile,v 1.48 2009/01/26 09:04:08 tg Exp $
+# $MirOS: src/distrib/common/dot.profile,v 1.49 2009/02/22 19:13:24 tg Exp $
 # $OpenBSD: dot.profile,v 1.4 2002/09/13 21:38:47 deraadt Exp $
 # $NetBSD: dot.profile,v 1.1 1995/12/18 22:54:43 pk Exp $
 #
@@ -79,7 +79,7 @@ rootdisk=/dev/${rootdisk:-rd0a}
 if [ ! -f /.profile.done ]; then
 	# first of all, we need a /tmp - use all memory minus 4 MiB
 	integer avmem=$(sysctl -n hw.usermem)
-	(( avmem = avmem > 536870912 ? 1048576 : avmem / 512 - 8192 ))
+	(( avmem = avmem > 321634304 ? 620000 : avmem / 512 - 8192 ))
 	(( avmem < 144 )) || mount_mfs -s $avmem swap /tmp
 	unset avmem
 
