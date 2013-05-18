@@ -1,7 +1,7 @@
-.\"	$MirOS: src/share/tmac/mdoc/doc-common,v 1.9 2006/06/25 02:23:40 tg Exp $
+.\"	$MirOS: src/share/tmac/mdoc/doc-common,v 1.10 2006/08/10 23:35:03 tg Exp $
 .\"	$OpenBSD: doc-common,v 1.44 2005/04/02 17:16:03 jmc Exp $
 .\"
-.\" Copyright (c) 2003, 2004
+.\" Copyright (c) 2003, 2004, 2006
 .\"	Thorsten "mirabile" Glaser <tg@66h.42h.de>
 .\" Copyright (c) 1991
 .\"	The Regents of the University of California.
@@ -176,12 +176,14 @@
 .	if "\\$3"amiga"   .as vT \ (Amiga)
 .	if "\\$3"arc"     .as vT \ (ARC)
 .	if "\\$3"arm32"   .as vT \ (Arm32)
+.	if "\\$3"armish"  .as vT \ (ARMISH)
 .	if "\\$3"atari"   .as vT \ (Atari)
+.	if "\\$3"aviion"  .as vT \ (AViiON)
 .	if "\\$3"cats"    .as vT \ (Cats)
 .	if "\\$3"hp300"   .as vT \ (HP300)
 .	if "\\$3"hppa"    .as vT \ (HPPA)
-.	if "\\$3"i386"    .as vT \ (i386)
 .	if "\\$3"hppa64"  .as vT \ (HPPA64)
+.	if "\\$3"i386"    .as vT \ (i386)
 .	if "\\$3"luna88k" .as vT \ (Luna88K)
 .	if "\\$3"mac68k"  .as vT \ (Mac68K)
 .	if "\\$3"macppc"  .as vT \ (MacPPC)
