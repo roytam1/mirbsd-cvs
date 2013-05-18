@@ -1,4 +1,4 @@
-# $MirOS: src/scripts/roff2htm,v 1.56 2008/02/24 12:47:18 tg Exp $
+# $MirOS: src/scripts/roff2htm,v 1.57 2008/12/09 22:04:51 tg Exp $
 # $ekkoBSD: catman2html.sh,v 1.2 2004/03/07 03:02:53 stephen Exp $
 #-
 # Copyright (c) 2004, 2005, 2006, 2007
@@ -60,6 +60,7 @@ unset i
 # initialise globals
 roff2htm_gendate=$(date +"%F %T")		# current time
 set -A roff2htm_inodecache			# inode cache (empty)
+roff2htm_machine=$(uname -m)			# i386, sparc
 
 function do_convert {
 	typeset -i ws=0
@@ -136,6 +137,7 @@ function output_header {
  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
  <title>RTFM '$1\($2')</title>
  <meta name="robots" content="index, follow" />
+ <link rel="canonical" href="https://www.mirbsd.org/man'$roff2htm_machine/$1.$2'" />
 </head><body>
 <h1>MirOS Manual: <a href="../man'$2/$1'.htm">'$1\($2')</a></h1>'
 }
@@ -143,7 +145,7 @@ function output_header {
 function output_footer {
 	print '<hr /><p style="font-size:xx-small;">Generated on' \
 	    $roff2htm_gendate 'by
- <tt>$MirOS: src/scripts/roff2htm,v 1.56 2008/02/24 12:47:18 tg Exp $</tt></p>
+ <tt>$MirOS: src/scripts/roff2htm,v 1.57 2008/12/09 22:04:51 tg Exp $</tt></p>
 <p>These manual pages are <a href="../man7/BSD-Licence.htm">copyrighted</a>
  by their respective writers; their source is available at our <a
  href="http://cvs.mirbsd.de/">CVSweb</a>, AnonCVS, and other mirrors.
