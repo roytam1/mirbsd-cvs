@@ -88,7 +88,7 @@ _subdir_fragment= \
 			while read flavour; do \
 				f=$$([[ -z $$flavour ]] || echo "$$flavour" \
 				    | sed -e 's/ /,/g'); \
-				tmp_toset="$$toset FLAVOR=\"$$flavour\" "; \
+				tmp_toset="$$toset FLAVOR=\"$$flavour\""; \
 				eval $${echo_msg} "===\> $$dir,$$f"; \
 				if ! eval $$tmp_toset ${MAKE} $$target; then \
 					${REPORT_PROBLEM}; \
