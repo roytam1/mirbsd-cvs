@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: gcc/libstdc++-v3/autogen.sh,v 1.9 2005/12/17 05:46:12 tg Exp $
+# $MirOS: gcc/libstdc++-v3/autogen.sh,v 1.10 2005/12/20 22:19:31 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -25,7 +25,7 @@
 # the possibility of such damage or existence of a nontrivial bug.
 
 if [[ -z $AUTOCONF_VERSION ]]; then
-	AUTOCONF_VERSION=2.59
+	AUTOCONF_VERSION=2.60
 	print Warning: AUTOCONF_VERSION unset!
 fi
 
