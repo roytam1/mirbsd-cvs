@@ -2062,6 +2062,7 @@ description:
 # breaks on Cygwin 1.7 (files are now UTF-16 or something)
 # breaks on QNX 6.4.1 (says RT)
 category: !os:cygwin,!os:darwin,!os:msys,!os:nto
+need-pass: no
 file-setup: file 644 "aÂc"
 stdin:
 	echo a[Á-Ú]*
