@@ -1,4 +1,7 @@
-# $MirOS: ports/essentials/cksum/Makefile,v 1.16 2006/09/14 00:09:16 tg Exp $
+# $MirOS: ports/essentials/cksum/Makefile,v 1.17 2006/10/13 17:09:20 tg Exp $
+
+# missing htole64() macros
+NOT_FOR_PLATFORM+=	Darwin:*:*
 
 COMMENT=		MirOS cksum(1) with multiple hash algorithms
 CATEGORIES=		essentials
