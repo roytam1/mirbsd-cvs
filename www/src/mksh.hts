@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.351 2010/08/06 13:54:43 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.352 2010/08/06 14:02:47 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1044,6 +1044,12 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Fix window size not being checked during runtime of external
   programmes by not relying on SIGWINCH so much but instead checking
   before every interactive editing of a command line</li>
+ <li>[tg] Improve mksh(1) manpage coverage, remove mentions of not-mksh</li>
+ <li>[tg] Use wcwidth() from system on MirBSD</li>
+ <li>[tg] u_int32_t is no longer needed (only for OpenBSD’s pre-ISO-C99
+  arc4random API, which we no longer call), so don’t provide it from
+  <tt>Build.sh</tt> any longer</li>
+ <li>[tg, tonnerre] Scan for <tt>uint8_t</tt> and provide if not found</li>
 </ul>
 <p id="r39c">mksh R39c is an important minor bugfix release:</p><ul>
  <li>[tg] Build system, code, docs and testsuite cleanup, also style(9)</li>
