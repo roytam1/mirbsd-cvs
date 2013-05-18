@@ -1,5 +1,3 @@
-/* $MirOS: src/kern/z/adler32_i386.S,v 1.9 2008/07/06 16:38:34 tg Exp $ */
-
 /*-
  * Copyright (c) 2006, 2007, 2008
  *	Thorsten Glaser <tg@mirbsd.de>
@@ -11,10 +9,6 @@
  * is granted to deal in this work without restriction, including un-
  * limited rights to use, publicly perform, distribute, sell, modify,
  * merge, give away, or sublicence.
- *
- * Advertising materials mentioning features or use of this work must
- * display the following acknowledgement:
- *	This product includes material provided by Thorsten Glaser.
  *
  * This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
  * the utmost extent permitted by applicable law, neither express nor
@@ -37,7 +31,7 @@
 #include <dev/rndvar.h>
 #endif
 
-RCSID("$MirOS: src/kern/z/adler32_i386.S,v 1.9 2008/07/06 16:38:34 tg Exp $")
+RCSID("$MirOS: src/kern/z/adler32_i386.S,v 1.10 2008/07/06 16:44:45 tg Exp $")
 
 #define BASE	65521	/* largest prime smaller than 65536 */
 #define NMAX	5552	/* largest n: 255n(n+1)/2 + (n+1)(BASE-1) <= 2^32-1 */

@@ -1,4 +1,5 @@
-/* $MirOS: src/kern/include/zlib.h,v 1.6 2007/04/17 22:10:59 tg Exp $ */
+/* $MirOS: src/kern/include/zlib.h,v 1.7 2007/05/08 21:16:18 tg Exp $ */
+
 /* zlib.h -- interface of the 'zlib' general purpose compression library
   version 1.2.3, July 18th, 2005
 

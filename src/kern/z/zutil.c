@@ -7,6 +7,8 @@
 
 #include "zutil.h"
 
+zRCSID("$MirOS$")
+
 #ifndef NO_DUMMY_DECL
 struct internal_state      {int dummy;}; /* for buggy compilers */
 #endif

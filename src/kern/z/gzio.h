@@ -1,4 +1,5 @@
-/* $MirOS$ */
+/* $MirOS: src/kern/z/gzio.h,v 1.1 2007/02/06 20:12:39 tg Exp $ */
+
 /* gzio.c -- IO on .gz files
  * Copyright (C) 1995-2005 Jean-loup Gailly.
  * For conditions of distribution and use, see copyright notice in zlib.h

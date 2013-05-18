@@ -15,6 +15,8 @@
 #include "inflate.h"
 #include "inffast.h"
 
+zRCSID("$MirOS$")
+
 /* function prototypes */
 local void fixedtables OF((struct inflate_state FAR *state));
 

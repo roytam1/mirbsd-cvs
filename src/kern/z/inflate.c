@@ -85,6 +85,8 @@
 #include "inflate.h"
 #include "inffast.h"
 
+zRCSID("$MirOS$")
+
 #ifdef MAKEFIXED
 #  ifndef BUILDFIXED
 #    define BUILDFIXED

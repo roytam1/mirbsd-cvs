@@ -6,6 +6,8 @@
 #include "zutil.h"
 #include "inftrees.h"
 
+zRCSID("$MirOS$")
+
 #define MAXBITS 15
 
 const char inflate_copyright[] =

@@ -35,6 +35,8 @@
 
 #include "deflate.h"
 
+zRCSID("$MirOS$")
+
 #ifdef DEBUG
 #  include <ctype.h>
 #endif

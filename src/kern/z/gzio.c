@@ -11,7 +11,7 @@
 
 #include "zutil.h"
 
-__RCSID("$MirOS$");
+zRCSID("$MirOS: src/kern/z/gzio.c,v 1.2 2007/02/06 20:12:39 tg Exp $")
 
 #ifdef NO_DEFLATE       /* for compatibility with old definition */
 #  define NO_GZCOMPRESS

@@ -28,6 +28,8 @@
 
 #include "zutil.h"      /* for STDC and FAR definitions */
 
+zRCSID("$MirOS$")
+
 #define local static
 
 /* Find a four-byte integer type for crc32_little() and crc32_big(). */

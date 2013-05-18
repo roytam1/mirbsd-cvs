@@ -1,4 +1,5 @@
-/* $MirOS: src/kern/include/zconf.h,v 1.2 2007/02/06 20:21:48 tg Exp $ */
+/* $MirOS: src/kern/include/zconf.h,v 1.3 2007/05/08 21:16:18 tg Exp $ */
+
 /* zconf.h -- configuration of the zlib compression library
  * Copyright (c) 2006-2007 Thorsten Glaser.
  * Copyright (C) 1995-2005 Jean-loup Gailly.

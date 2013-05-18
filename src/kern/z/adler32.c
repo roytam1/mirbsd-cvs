@@ -5,10 +5,9 @@
 
 /* @(#) $Id$ */
 
-#define ZLIB_INTERNAL
-#include "zlib.h"
+#include "zutil.h"
 
-__RCSID("$MirOS: src/kern/z/adler32.c,v 1.2 2007/02/06 20:29:45 tg Exp $");
+zRCSID("$MirOS: src/kern/z/adler32.c,v 1.3 2007/04/17 21:56:10 tg Exp $")
 
 #if !defined(L_adler32) && !defined(L_adler32_combine)
 #error usage error, tell tg@ to fix this

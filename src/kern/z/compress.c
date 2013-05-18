@@ -5,8 +5,9 @@
 
 /* @(#) $Id$ */
 
-#define ZLIB_INTERNAL
-#include "zlib.h"
+#include "zutil.h"
+
+zRCSID("$MirOS$")
 
 /* ===========================================================================
      Compresses the source buffer into the destination buffer. The level

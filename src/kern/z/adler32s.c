@@ -1,5 +1,3 @@
-/* $MirOS: src/kern/z/adler32s.c,v 1.5 2007/05/07 16:15:57 tg Exp $ */
-
 /*-
  * Copyright (c) 2006, 2008
  *	Thorsten Glaser <tg@mirbsd.de>
@@ -11,10 +9,6 @@
  * is granted to deal in this work without restriction, including un-
  * limited rights to use, publicly perform, distribute, sell, modify,
  * merge, give away, or sublicence.
- *
- * Advertising materials mentioning features or use of this work must
- * display the following acknowledgement:
- *	This product includes material provided by Thorsten Glaser.
  *
  * This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
  * the utmost extent permitted by applicable law, neither express nor
@@ -32,31 +26,15 @@
  *	src/kern/z/adler32_i386.S
  */
 
-#ifdef _STANDALONE
-#define zADDRND(x)	/* nothing */
-#define zRCSID(x)	/* nothing, we can't guarantee it's defined */
-#include <limits.h>
-#else
-#include <sys/param.h>
+#include "zutil.h"
+
 #ifdef _KERNEL
-#include <sys/kernel.h>
 #include <sys/limits.h>
-#include <dev/rndvar.h>
-#define zADDRND(x)	rnd_addpool_add((uint32_t)(x) ^ (uint32_t)time.tv_sec)
-#define zRCSID(x)	__RCSID(x);
 #else
 #include <limits.h>
-#include <stdlib.h>
-#define zADDRND(x)	__extension__({				\
-	uint32_t zADDRND_x = ((uint32_t)(x));			\
-								\
-	arc4random_pushk(&zADDRND_x, sizeof (zADDRND_x));	\
-})
-#define zRCSID(x)	__RCSID(x);
-#endif
 #endif
 
-zRCSID("$MirOS: src/kern/z/adler32s.c,v 1.5 2007/05/07 16:15:57 tg Exp $")
+zRCSID("$MirOS: src/kern/z/adler32s.c,v 1.6 2008/04/06 16:57:37 tg Exp $")
 
 unsigned long adler32(unsigned long, const unsigned char *, unsigned);
 
