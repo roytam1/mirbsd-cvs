@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/sys/netinet/tcp_output.c,v 1.4 2006/01/31 10:09:44 tg Exp $ */
 /*	$OpenBSD: tcp_output.c,v 1.79 2005/06/30 08:51:31 markus Exp $	*/
 /*	$NetBSD: tcp_output.c,v 1.16 1997/06/03 16:17:09 kml Exp $	*/
 
@@ -637,7 +637,7 @@ send:
 #endif
 		}
 #endif
-		*++lp = htonl(tcp_now + tp->ts_modulate);
+		*++lp = htonl(tcp_now);
 		*++lp = htonl(tp->ts_recent);
 		optlen += TCPOLEN_TSTAMP_APPA;
 	}
