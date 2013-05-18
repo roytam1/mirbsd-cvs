@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/rnd.c,v 1.10 2006/04/11 00:23:41 tg Exp $ */
+/**	$MirOS: src/sys/dev/rnd.c,v 1.11 2006/04/11 00:29:51 tg Exp $ */
 /*	$OpenBSD: rnd.c,v 1.78 2005/07/07 00:11:24 djm Exp $	*/
 
 /*
@@ -1246,7 +1246,8 @@ rnd_addpool_reinit(void *v)
 {
 	extern int hz;
 	register int i = rnd_addpool_num;
-	int delay = hz << 7;
+	/* empty about once every minute by default */
+	int delay = hz << 6;
 
 	if (!rnd_addpool_allow || !rnd_attached) {
 		/* reschedule in four and a bit minutes, it's off anyway */
@@ -1254,9 +1255,9 @@ rnd_addpool_reinit(void *v)
 		return;
 	}
 
-	delay |= arc4random() & 15;
+	delay += (arc4random() & 15) - 8; /* randomise re-schedule interval */
 
-	/* add cksum-pool to random pool about once every 2.x minutes */
+	/* add this user-space and untrusted bucket to random pool */
 	if (!i)
 		i = rnd_addpool_size;
 	while ((--i != rnd_addpool_num) && (rnd_addpool_buf[i])) {
@@ -1267,5 +1268,6 @@ rnd_addpool_reinit(void *v)
 	}
 	rnd_addpool_num = i;
 
+	/* re-schedule this routine */
 	timeout_add(&rnd_addpool_timeout, delay);
 }
