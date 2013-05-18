@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/etc/rc,v 1.16 2006/01/31 09:49:22 tg Exp $
 # $OpenBSD: rc,v 1.277 2006/01/12 21:54:15 deraadt Exp $
 #-
 # System startup script run by init on autoboot or after single-user.
@@ -183,7 +183,7 @@ export PATH=/sbin:/bin:/usr/sbin:/usr/bin
 
 if [[ $1 = shutdown ]]; then
 	echo Received shutdown request.
-	dd if=/dev/urandom of=/var/db/host.random bs=1024 count=64 \
+	dd if=/dev/urandom of=/var/db/host.random bs=1024 count=8 \
 	    >/dev/null 2>&1 && chmod 600 /var/db/host.random \
 	    >/dev/null 2>&1 && if [[ -f /etc/rc.shutdown ]]; then
 		echo /etc/rc.shutdown in progress...
@@ -431,7 +431,7 @@ done
 # one through /dev/urandom; else reset seed file anyway so that
 # if a shutdown-less reboot occurs the next seed is not a repeat
 cat /var/db/host.random >/dev/arandom 2>&1
-dd if=/dev/urandom of=/var/db/host.random bs=1024 count=64 \
+dd if=/dev/urandom of=/var/db/host.random bs=1024 count=8 \
     >/dev/null 2>&1
 chmod 600 /var/db/host.random >/dev/null 2>&1
 

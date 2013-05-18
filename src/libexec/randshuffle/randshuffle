@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/libexec/randshuffle/randshuffle,v 1.4 2005/12/17 05:46:17 tg Exp $
+# $MirOS: src/libexec/randshuffle/randshuffle,v 1.5 2006/01/13 03:06:15 tg Exp $
 #-
 # Copyright (c) 2003, 2004, 2005, 2006
 #	Thorsten "mirabile" Glaser <tg@mirbsd.de>
@@ -36,14 +36,14 @@ trap 'rm -f $R $S; exit 0' 0
 trap 'rm -f $R $S; trap - EXIT; exit 1' 1 2 3 13 15
 
 dd if=/dev/prandom of=$R bs=160 count=1 >/dev/null 2>&1 || exit 1
-dd if=/dev/arandom of=$S bs=160 count=96 >/dev/null 2>&1 || exit 1
+dd if=/dev/arandom of=$S bs=160 count=16 >/dev/null 2>&1 || exit 1
 SUMS="$(rmd160 $R $S) $RANDOM $((ps ax|wc -l) 2>&1) $PPID $SECONDS $$"
 RANDOM=$(print -r -- "$SUMS" | cksum -o 1 | while read a b; do print $a; done)
 cat $S >>$R
 sync
 dd if=/dev/prandom of=$S bs=160 count=1 >/dev/null 2>&1 || exit 1
 cat $S >>$R
-dd if=/dev/urandom of=$S bs=160 count=96 >/dev/null 2>&1 || exit 1
+dd if=/dev/urandom of=$S bs=160 count=32 >/dev/null 2>&1 || exit 1
 cat $S >>$R
 cat /var/db/host.random >/dev/arandom
 dd if=/dev/arandom of=$S bs=160 count=1 >/dev/null 2>&1 || {
@@ -71,3 +71,4 @@ dd if=/dev/urandom of=$S bs=160 count=1 >/dev/null 2>&1 || {
 print -r -- "$SUMS" >>$S
 cat $R $S >/dev/arandom
 print "notice: system random seed rotated!" | logger
+print -n $RANDOM >/dev/prandom
