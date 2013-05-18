@@ -1,4 +1,4 @@
-/* $MirOS: src/include/ctype.h,v 1.2 2006/11/01 19:49:32 tg Exp $ */
+/* $MirOS: src/include/ctype.h,v 1.3 2006/11/02 00:07:06 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -68,19 +68,10 @@ int	toascii(int);
 
 #if !defined(_ANSI_LIBRARY) && !defined(lint)
 
-#ifdef __GNUC__
-#define __CTYPE_IMPL(ch,t) __extension__({			\
-	unsigned c = (ch);					\
-	(c > 255) ? 0 :						\
-	 ((__C_attribute_table_pg[c] & (_ctp_ ## t & 0xFF)) &&	\
-	 !(__C_attribute_table_pg[c] & (_ctp_ ## t >> 8)));	\
-})
-#else
-#define __CTYPE_IMPL(c,t)						\
-	(((((int)(c)) < 0) || (((int)(c)) > 255)) ? 0 :			\
-	 ((__C_attribute_table_pg[((int)(c))] & (_ctp_ ## t & 0xFF)) &&	\
-	 !(__C_attribute_table_pg[((int)(c))] & (_ctp_ ## t >> 8))))
-#endif
+#define __CTYPE_IMPL(c,t)						     \
+	((((unsigned)(c)) > 255) ? 0 :					     \
+	 ((__C_attribute_table_pg[((unsigned)(c))] & (_ctp_ ## t & 0xFF)) && \
+	 !(__C_attribute_table_pg[((unsigned)(c))] & (_ctp_ ## t >> 8))))
 
 #define isalnum(c)	__CTYPE_IMPL((c),alnum)
 #define isalpha(c)	__CTYPE_IMPL((c),alpha)
