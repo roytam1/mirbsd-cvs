@@ -1,11 +1,11 @@
-# $MirOS: www/src/mksh_bld.hts,v 1.5 2010/08/15 01:10:52 tg Exp $
+# $MirOS: www/src/mksh_bld.hts,v 1.6 2010/08/15 13:00:16 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh/build "mksh – build/regression tests"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh_bld.hts,v 1.5 2010/08/15 01:10:52 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh_bld.hts,v 1.6 2010/08/15 13:00:16 tg Exp $'
 mws_content <<'EOF'
 <p>Jump to <a href="#regress_fail">known failures</a></p>
 <h2><a href="mksh.htm">mksh</a> – builds and regression tests</h2>
@@ -16,69 +16,33 @@ mws_content <<'EOF'
 <ul>
 <li style="list-style:none;">– tests by the project, using Makefile –</li>
  <li>MirOS #10-current (i386 gcc3.4.6)</li>
- <li>MirOS #10-current (sparc gcc3.4.6)</li>
+ <li>MirOS #10-current (sparc gcc3.4.6) [pre-R40]</li>
 <li style="list-style:none;">– tests by the project, using Build.sh –</li>
  <li>MirOS #10-current (i386 gcc3.4.6)</li>
- <li>MirOS #10-current (i386 clang58935mp0 llvm58935mp0)</li>
- <li>MirOS #10-current (i386 clang58935mp0 opt+llc+llvm58935mp0)</li>
- <li>MirOS #10-current (i386 llvmgcc4.2.1-Apple_5627mp2 llvm58935mp0)</li>
- <li>MirOS #10-current (i386 llvmgcc4.2.1-Apple_5627mp2 opt+llc+llvm58935mp0)</li>
- <li>MirOS #10-current (i386 nwcc0.8.1)</li>
- <li>MirOS #10-current (i386 pcc20081028-MirPorts-1)</li>
- <li>MirOS #10-current (i386 pcc20090522-cvs)</li>
+ <li>MirOS #10-current (i386 clang90573mp0 llvm90573mp0)</li>
+ <li>MirOS #10-current (i386 clang90573mp0 opt+llc+llvm90573mp0)</li>
+ <li>MirOS #10-current (i386 pcc1.0.999-20110422-MirPorts-0)</li>
+ <li>MirOS #10-current (i386 pcc20110612-cvs)</li>
  <li>MirOS #10-current (i386 SUNWcc5.10 Linux_i386 2009/06/03, GNU ld version 050707 20050707)</li>
- <li>MirOS #7-stable (sparc gcc2.95.3-078E)</li>
- <li>BSDi BSD/OS 3.1 #4 M300-043 (i386 gcc2.7.2.1)</li>
- <li>BSDi BSD/OS 3.1 #4 M300-043 (i386 gcc1.42)</li>
- <li>MidnightBSD 0.2.1-RELEASE-p2 (i386 pcc20081028-MirPorts-0)</li>
- <li>MidnightBSD 0.3-CURRENT (i386 gcc4.2.1-20070719)</li>
- <li>MidnightBSD 0.3-CURRENT (i386 gcc3.4.6-20080430)</li>
- <li>NetBSD 3.0_STABLE (i386 gcc3.3.3_nb3_20040520)</li>
- <li>OpenBSD 4.3 GENERIC#207 (zaurus gcc3.3.5)</li>
- <li>AIX 5.3 (powerpc gcc4.0.0_powerpc-ibm-aix5.1.0.0, LD 1.65 04/06/2005)</li>
- <li>AIX 5.3 32-bit (powerpc xlC9.0 070428, LD 1.65 04/06/2005)</li>
- <li>AIX 5.3 64-bit (powerpc xlC9.0 070428, LD 1.65 04/06/2005)</li>
+ <li>MidnightBSD 0.4-CURRENT (i386 gcc4.4.7-20110503)</li>
+ <li>MidnightBSD 0.4-CURRENT (i386 gcc4.2.1-20070719)</li>
+ <li>AIX 5.3 (powerpc xlC7.0 ld1.65.2.6 (2/24/09)) by cnuke@ (Jupp Söntgen)</li>
  <li>DEC OSF/1 X2.0-8 (Rev. 155) (mips cc3.0 ucode ld3.0) <em>without</em> testsuite check</li>
  <li>DEC ULTRIX 4.5 0 RISC (mips cc3.0 ucode ld3.0)</li>
  <li>HP Tru64 OSF/1 V5.1B 2650 (alpha Compaq C V6.5-011 Rev. 2650)</li>
  <li>HP Tru64 OSF/1 V5.1B 2650 (alpha gcc2.97-tru64-010710 alphaev56)</li>
- <li>HP-UX 11i v3 B.11.31 U ia64 (IA64 aCC B3910B A.06.15 [May 16 2007], ld B.12.49.02 92453-07) (64-bit)</li>
- <li>HP-UX 11i v3 B.11.31 U ia64 (IA64 aCC B3910B A.06.15 [May 16 2007], ld B.12.49.02 92453-07) (32-bit)</li>
- <li>HP-UX 11i v3 B.11.31 U ia64 (IA64 ccs B3910B A.06.12 [Oct 11 2006], ld B.12.49.02 92453-07) (32-bit)</li>
- <li>Mac OSX Snow Leopard 10.6.2 (10C540) Darwin 10.2.0 (amd64 gcc4.2.1-Apple_5646_dot_1)</li>
- <li>Mac OSX Snow Leopard 10.6.2 (10C540) Darwin 10.2.0 (i386 gcc4.0.1-Apple_5493)</li>
- <li>Mac OSX Leopard 10.5.5 (9F33) Darwin 9.5.0 (amd64 gcc4.0.1-Apple_5484)</li>
- <li>Mac OSX Leopard 10.5.5 (9F33) Darwin 9.5.0 (i386 llvmgcc4.2.1-Apple_5555-LLVM_2039)</li>
- <li>Mac OSX Leopard 10.5.4 (9E17) Darwin 9.4.0 (i386 gcc4.0.1-Apple_5480)</li>
- <li>Mac OSX Leopard 10.5.4 (9E17) Darwin 9.4.0 (i386 gcc4.2.1-Apple_5558)</li>
- <li>Mac OSX Leopard Server 10.5.4 (9E17) Darwin 9.4.0 (macppc gcc3.3-20030304-Apple_1823)</li>
- <li>Mac OSX Leopard Server 10.5.4 (9E17) Darwin 9.4.0 (macppc gcc4.0.1-Apple_5465)</li>
- <li>Mac OSX Leopard Server 10.5.4 (9E17) Darwin 9.4.0 (macppc cross-llvmgcc4.2.1-Apple_5555-LLVM_2039)</li>
- <li>Max OSX iPhoneOS 2.0 (N82AP) Darwin 9.3.1 (arm cross-gcc4.0.1-Apple_5484 Apple SDK)</li>
- <li>Max OSX iPhoneOS 2.0 (N82AP) Darwin 9.3.1 (arm llvmgcc4.2.1-Apple_5555 Saurik iphone-gcc 4.2-20080604-1-8)</li>
- <li>Solaris 10 Generic_137111-08 sun4u (sparc gcc3.4.6)</li>
- <li>Solaris 10 Generic_137111-08 sun4u (sparc64 gcc3.4.6)</li>
- <li>Solaris 10 Generic_137111-08 sun4u (sparc:V8+ SUNWcc5.9 124867-08 2008/10/07, ld 5.10-1.489)</li>
- <li>Solaris 10 Generic_137111-08 sun4u (sparc64 SUNWcc5.9 124867-08 2008/10/07, ld 5.10-1.489)</li>
+ <li>HP-UX 11i v3 B.11.31 U ia64 (IA64 aCC B3910B A.06.20 [May 13 2008], ld B.12.51 92453-07)</li>
  <li>Solaris 8 Generic_117350-61 sun4u (sparc gcc3.4.3)</li>
  <li>Solaris 8 Generic_117350-61 sun4u (sparc64 gcc3.4.3)</li>
- <li>Cygwin_NT-5.0 1.5.25(0.156/4/2) 2008-06-11 19:34 i586 win2kSP2 (i386 gcc3.4.4)</li>
- <li>Debian GNU sid GNU-Mach 1.3.99/Hurd-0.3 i686-AT386 (i386 gcc4.3.3-12)</li>
- <li>Android-3 GNU/Linux 1.5 (emulator) ARMv5TE Thumb (arm-eabi gcc4.2.1 +bionic) <em>without</em> testsuite check</li>
- <li>CentOS GNU/Linux 5.2 2.6.18-92.1.18.el5xen (amd64 gcc4.1.2-44)</li>
- <li>Debian GNU/Linux sid 2.6.18-6-686 (i386 gcc4.5.0-r155979 gcc-snapshot_20100117-1) <em>but <tt>-combine</tt> is _still_ broken again *sigh…*</em></li>
- <li>Debian GNU/Linux sid 2.6.18-6-686 (i386 gcc4.4.3-1)</li>
- <li>Debian GNU/Linux sid 2.6.18-6-686 (i386 nwcc0.7.9)</li>
- <li>Debian GNU/Linux sid 2.6.18-6-686 (i386 TenDRA-4.1.2-18)</li>
- <li>Debian GNU/Linux 5.0 lenny 2.6.18-6-686 (i386 gcc4.1.2-25)</li>
- <li>Debian GNU/Linux 5.0 lenny 2.6.18-6-686 (i386 gcc4.3.2-1.1)</li>
- <li>Debian GNU/Linux 4.0 etch 2.6.18-6-686 (i386 gcc1:3.3.6-15)</li>
- <li>Debian GNU/Linux 4.0 etch 2.6.18-6-686 (i386 gcc4.1.1-21)</li>
- <li>ecce!GNU/Linux 1.00 2.0.38a (i386 libc5 gcc2.7.2.3) <em>with</em> HAVE_SETLOCALE_CTYPE=0 (libc5)</li>
- <li>AIX 5.2 (powerpc xlC7.0) by cnuke@ (Jupp Söntgen)</li>
- <li>Zenwalk GNU/Linux 2.6.25.4 (i386 gcc4.2.3) by Olivier Duchateau</li>
+ <li>Cygwin_NT-5.0 1.5.25(0.156/4/2) 2008-06-11 19:34 i586 win2kSP2 (i386 gcc3.4.4) [pre-R40]</li>
+ <li>Debian GNU/Linux sid 2.6.32-5-xen-amd64 (amd64 gcc4.7.0-r174470 gcc-snapshot_20110531-1)</li>
+ <li>Debian GNU/Linux sid 2.6.18-6-686 (i386 TenDRA-4.1.2-19)</li>
+ <li>ecce!GNU/Linux 1.00 2.0.38a (i386 libc5 gcc2.7.2.3)</li>
+ <li>Minix 3.1.9 (i386 ACK)</li>
+ <li>Minix 3.1.9 (i386 gcc4.4.3)</li>
 <li style="list-style:none;">– other build system integration –</li>
  <li>See the <a href="#otheros">Inclusion</a> section for general information</li>
+ <li>• not up to date below this point •</li>
  <li>Debian GNU/Linux sid 2.6.18-6-686 (i386 gcc4.3.3-15 +eglibc2.9-23) <em>via Debian package</em></li>
  <li>Debian GNU/Linux sid 2.6.18-6-686 (i386 gcc4.3.3-15 +dietlibc0.31-1.2) <em>via Debian package</em></li>
  <li>Debian GNU/Linux sid 2.6.18-6-686 (i386 gcc4.3.3-15 +klibc1.5.15-2~tg+1) <em>via Debian package</em></li>
@@ -145,15 +109,56 @@ mws_content <<'EOF'
 <!--
 <li style="list-style:none;">– tests by third parties (packagers) –</li>
 -->
+<li style="list-style:none;">– before R40 -</li>
+ <li>MirOS #10-current (i386 llvmgcc4.2.1-Apple_5627mp2 llvm58935mp0)</li>
+ <li>MirOS #10-current (i386 llvmgcc4.2.1-Apple_5627mp2 opt+llc+llvm58935mp0)</li>
+ <li>MirOS #10-current (i386 nwcc0.8.1)</li>
+ <li>MirOS #7-stable (sparc gcc2.95.3-078E)</li>
+ <li>MidnightBSD 0.3-CURRENT (i386 gcc3.4.6-20080430)</li>
+ <li>MidnightBSD 0.2.1-RELEASE-p2 (i386 pcc20081028-MirPorts-0)</li>
+ <li>NetBSD 3.0_STABLE (i386 gcc3.3.3_nb3_20040520)</li>
+ <li>OpenBSD 4.3 GENERIC#207 (zaurus gcc3.3.5)</li>
+ <li>BSDi BSD/OS 3.1 #4 M300-043 (i386 gcc2.7.2.1)</li>
+ <li>BSDi BSD/OS 3.1 #4 M300-043 (i386 gcc1.42)</li>
+ <li>AIX 5.3 (powerpc gcc4.0.0_powerpc-ibm-aix5.1.0.0, LD 1.65 04/06/2005)</li>
+ <li>AIX 5.3 32-bit (powerpc xlC9.0 070428, LD 1.65 04/06/2005)</li>
+ <li>AIX 5.3 64-bit (powerpc xlC9.0 070428, LD 1.65 04/06/2005)</li>
+ <li>AIX 5.2 (powerpc xlC7.0) by cnuke@ (Jupp Söntgen)</li>
+ <li>HP-UX 11i v3 B.11.31 U ia64 (IA64 aCC B3910B A.06.15 [May 16 2007], ld B.12.49.02 92453-07) (64-bit)</li>
+ <li>HP-UX 11i v3 B.11.31 U ia64 (IA64 aCC B3910B A.06.15 [May 16 2007], ld B.12.49.02 92453-07) (32-bit)</li>
+ <li>HP-UX 11i v3 B.11.31 U ia64 (IA64 ccs B3910B A.06.12 [Oct 11 2006], ld B.12.49.02 92453-07) (32-bit)</li>
+ <li>Mac OSX Snow Leopard 10.6.2 (10C540) Darwin 10.2.0 (amd64 gcc4.2.1-Apple_5646_dot_1)</li>
+ <li>Mac OSX Snow Leopard 10.6.2 (10C540) Darwin 10.2.0 (i386 gcc4.0.1-Apple_5493)</li>
+ <li>Mac OSX Leopard 10.5.5 (9F33) Darwin 9.5.0 (amd64 gcc4.0.1-Apple_5484)</li>
+ <li>Mac OSX Leopard 10.5.5 (9F33) Darwin 9.5.0 (i386 llvmgcc4.2.1-Apple_5555-LLVM_2039)</li>
+ <li>Mac OSX Leopard 10.5.4 (9E17) Darwin 9.4.0 (i386 gcc4.0.1-Apple_5480)</li>
+ <li>Mac OSX Leopard 10.5.4 (9E17) Darwin 9.4.0 (i386 gcc4.2.1-Apple_5558)</li>
+ <li>Mac OSX Leopard Server 10.5.4 (9E17) Darwin 9.4.0 (macppc gcc3.3-20030304-Apple_1823)</li>
+ <li>Mac OSX Leopard Server 10.5.4 (9E17) Darwin 9.4.0 (macppc gcc4.0.1-Apple_5465)</li>
+ <li>Mac OSX Leopard Server 10.5.4 (9E17) Darwin 9.4.0 (macppc cross-llvmgcc4.2.1-Apple_5555-LLVM_2039)</li>
+ <li>Max OSX iPhoneOS 2.0 (N82AP) Darwin 9.3.1 (arm cross-gcc4.0.1-Apple_5484 Apple SDK)</li>
+ <li>Max OSX iPhoneOS 2.0 (N82AP) Darwin 9.3.1 (arm llvmgcc4.2.1-Apple_5555 Saurik iphone-gcc 4.2-20080604-1-8)</li>
+ <li>Solaris 10 Generic_137111-08 sun4u (sparc gcc3.4.6)</li>
+ <li>Solaris 10 Generic_137111-08 sun4u (sparc64 gcc3.4.6)</li>
+ <li>Solaris 10 Generic_137111-08 sun4u (sparc:V8+ SUNWcc5.9 124867-08 2008/10/07, ld 5.10-1.489)</li>
+ <li>Solaris 10 Generic_137111-08 sun4u (sparc64 SUNWcc5.9 124867-08 2008/10/07, ld 5.10-1.489)</li>
+ <li>Debian GNU sid GNU-Mach 1.3.99/Hurd-0.3 i686-AT386 (i386 gcc4.3.3-12)</li>
+ <li>Android-3 GNU/Linux 1.5 (emulator) ARMv5TE Thumb (arm-eabi gcc4.2.1 +bionic) <em>without</em> testsuite check</li>
+ <li>CentOS GNU/Linux 5.2 2.6.18-92.1.18.el5xen (amd64 gcc4.1.2-44)</li>
+ <li>Debian GNU/Linux sid 2.6.18-6-686 (i386 nwcc0.7.9)</li>
+ <li>Debian GNU/Linux 5.0 lenny 2.6.18-6-686 (i386 gcc4.1.2-25)</li>
+ <li>Debian GNU/Linux 5.0 lenny 2.6.18-6-686 (i386 gcc4.3.2-1.1)</li>
+ <li>Debian GNU/Linux 4.0 etch 2.6.18-6-686 (i386 gcc1:3.3.6-15)</li>
+ <li>Debian GNU/Linux 4.0 etch 2.6.18-6-686 (i386 gcc4.1.1-21)</li>
+ <li>Zenwalk GNU/Linux 2.6.25.4 (i386 gcc4.2.3) by Olivier Duchateau</li>
 <li style="list-style:none;">– even older versions –</li>
  <li>MidnightBSD (amd64, sparc64) gcc</li>
- <li>HP-UX 11i (hppa, IA64) gcc, aCC</li>
+ <li>HP-UX 11i (hppa) gcc, aCC</li>
  <li>QNX gcc</li>
  <li>Interix 3.5 (i386 win2k), 6 (i386 Vista) gcc, msc</li>
  <li>UWIN-NT (i386) dmc, msc</li>
  <li>GNU/Linux (alpha, amd64, i386, macppc, s390) gcc, TenDRA, icc,
   llvm-gcc4.2, dietlibc, glibc, µClibc</li>
- <li>Minix 3 ACK, gcc</li>
  <li>IRIX MIPSpro, gcc (by Elias Pipping)</li>
 </ul>
 <ul>
@@ -477,7 +482,8 @@ mws_content <<'EOF'
  <li>mksh works on Plan 9, but does not return after executing a non-builtin
   command. Syllable Desktop exhibits the same behaviour.</li>
  <li>mksh R39 gets gcc 2.97-tru64-010710 on OSF/1 V5.1B to segfault in cc1.
-  Use Compaq C instead, if this happens for you as well.</li>
+  Use Compaq C instead, if this happens for you as well. (R40 works.)</li>
+ <li>mksh R40 lets ash 0.2 on Linux 2.0 segfault, use bash instead.</li>
 </ul>
 EOF
 mws_putfooter

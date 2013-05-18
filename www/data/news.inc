@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/news.inc,v 1.142 2011/02/12 23:14:44 tg Exp $
+RCSID: $MirOS: www/data/news.inc,v 1.143 2011/03/11 17:58:35 bsiegert Exp $
 Title: Older news from the MirOS Project
 Date: 01.03.2006
 
@@ -1958,4 +1958,16 @@ Tag: pkgsrc
 <p>bsiegert@ now has direct commit access to the pkgsrc repository, with
  a mandate to improve the MirBSD support in pkgsrc. This should lead to
  pkgsrc becoming a viable alternative and/or complement to MirPorts.</p>
+----
+Title: mksh R40 released
+Date: 12.06.2011 18:12
+Author: tg@
+Tag: mksh
+
+<p>The <a href="@@RELPATH@@mksh.htm#r39c">MirBSD Korn Shell R40</a> has
+ finally been released. This is a must-upgrade, a major everything version.
+ See the <a href="@@RELPATH@@mksh.htm#r40">changelog</a> for now, until <a
+ href="@@RELPATH@@mksh.htm#c40">caveats</a> are filled in, due to the sheer
+ amount of changes. The diff between the last and the new release is more
+ than half of the last release’s size, after all – it’s been 15½ months.</p>
 ----
