@@ -1,5 +1,5 @@
 /*-
- * Copyright (c) 2008
+ * Copyright (c) 2008, 2009
  *	Thorsten Glaser <tg@mirbsd.org>
  *
  * Provided that these terms and disclaimer and all copyright notices
@@ -20,22 +20,29 @@
 
 #include <machine/asm.h>
 
-RCSID("$MirOS: src/kern/c/i386/memset.S,v 1.1 2008/08/01 18:09:20 tg Exp $")
+RCSID("$MirOS: src/kern/c/i386/memset.S,v 1.2 2008/08/03 21:02:02 tg Exp $")
 
 	.intel_syntax noprefix
 	.text
 
+ENTRY(bzero)
+	push	edi
+	mov	edx,16[esp]
+	xor	eax,eax
+	jmp	1f
+
 ENTRY(memset)
 	push	edi
-	mov	edi,8[esp]
-	movzx	eax,byte ptr 12[esp]
 	mov	edx,16[esp]
-	push	edi
 
+	movzx	eax,byte ptr 12[esp]
 	mov	ah,al
 	mov	cx,ax
 	shl	eax,16
 	mov	ax,cx
+
+1:	mov	edi,8[esp]
+	push	edi
 	cld
 
 	/* do not align for short strings */

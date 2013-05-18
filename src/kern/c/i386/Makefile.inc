@@ -1,4 +1,4 @@
-# $MirOS: src/kern/c/i386/Makefile.inc,v 1.8 2008/10/16 13:15:16 tg Exp $
+# $MirOS: src/kern/c/i386/Makefile.inc,v 1.9 2008/12/27 21:29:31 tg Exp $
 
 XSRCS+=		htonl.S htons.S
 LSRCS+=		htonl.c htons.c ntohl.c ntohs.c
@@ -13,6 +13,6 @@ UIF_LSRCS+=	mempcpy.c memcpy.c -DL_mempcpy
 
 XSRCS+=		divsi3.S udivsi3.S
 
-XSRCS+=		bzero.S ffs.S memchr.S memcmp.S memcpy.S memset.S strcmp.S
+XSRCS+=		ffs.S memchr.S memcmp.S memcpy.S memset.S strcmp.S
 LSRCS+=		memchr.c memcmp.c memset.c strcmp.c
 LSRCS+=		Lbzero.c Lffs.c
