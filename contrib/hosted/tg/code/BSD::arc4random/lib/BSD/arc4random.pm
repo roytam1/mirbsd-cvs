@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/tg/code/BSD::arc4random/lib/BSD/arc4random.pm,v 1.6 2009/10/18 15:21:56 tg Exp $
+# $MirOS: contrib/hosted/tg/code/BSD::arc4random/lib/BSD/arc4random.pm,v 1.7 2009/11/22 20:04:07 tg Exp $
 #-
 # Copyright (c) 2008, 2009
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -29,7 +29,7 @@ BEGIN {
 	require Exporter;
 	require DynaLoader;
 	use vars qw($VERSION @ISA @EXPORT @EXPORT_OK %EXPORT_TAGS);
-	$VERSION = "1.42";
+	$VERSION = "1.43";
 	@ISA = qw(Exporter DynaLoader);
 	@EXPORT = qw();
 	@EXPORT_OK = qw(
@@ -279,6 +279,8 @@ returns an unsigned 32-bit integer random value from it.
 This function first pushes the I<pbuf> argument to the kernel if possible,
 then returns an unsigned 32-bit integer random value from the kernel.
 
+This function is deprecated. Use B<arc4random_pushb> instead.
+
 =item B<arc4random_stir>()
 
 This procedure attempts to retrieve new entropy from the kernel and add
@@ -344,6 +346,8 @@ Perl's L<rand> and L<srand> functions via L<perlfunc> and L<perlfaq4>.
 The B<randex.pl> plugin for Irssi, implementing the MirOS RANDEX
 protocol (entropy exchange over IRC), with CVSweb at:
 L<http://cvs.mirbsd.de/ports/net/irssi/files/randex.pl>
+
+L<https://www.mirbsd.org/a4rp5bsd.htm> when it's done being written.
 
 =head1 COPYRIGHT AND LICENSE
 
