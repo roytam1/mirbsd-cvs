@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.29 2009/12/18 22:27:08 bsiegert Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.29.2.1 2009/12/23 15:41:46 bsiegert Exp $ */
 /* $OpenBSD: perform.c,v 1.32 2003/08/21 20:24:56 espie Exp $	*/
 
 /*
@@ -25,16 +25,25 @@
 #include "add.h"
 
 #include <sys/wait.h>
+#include <assert.h>
 #include <ctype.h>
 #include <signal.h>
 #include <errno.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.29 2009/12/18 22:27:08 bsiegert Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.29.2.1 2009/12/23 15:41:46 bsiegert Exp $");
+
+struct dependency {
+	char *pkgname;
+	char *libspec;
+	char *pattern;
+	char *defaultpkg;
+};
 
 static int pkg_do(char *);
 static int sanity_check(char *);
 static int install_dep_local(char *, char *);
 static int install_dep_ftp(char *, char *);
+static void parse_dependency(struct dependency *, pl_ent_t, char *);
 #if 1
 #define register_dep_ register_dep
 #else
@@ -71,6 +80,26 @@ pkg_perform(char **pkgs)
 
 static package_t Plist;
 static char *Home;
+
+/* parse a string parameter str for a @newdep or @libdep command and return
+ * its fields in dep.
+ */
+static void
+parse_dependency(struct dependency *dep, pl_ent_t type, char *str)
+{
+	assert(dep != NULL);
+	assert(str != NULL);
+	
+	/* @newdep pkgname:pattern:defaultpkg */
+	/* @libdep pkgame:libspec:pattern:defaultpkg */
+	
+	dep->pkgname = strsep(&str, ":");
+	if (type == PLIST_LIBDEP)
+		dep->libspec = strsep(&str, ":");
+	dep->pattern = strsep(&str, ":");
+	dep->defaultpkg = str;
+}
+
 
 /* called to see if pkg is already installed as some other version */
 /* note found version in "note" */
@@ -142,7 +171,7 @@ pkg_do(char *pkg)
 	    }
 	    where_to = Home;
 	    strlcpy(pkg_fullname, pkg, sizeof(pkg_fullname));
-	    system(solve_deps);
+	    /*system(solve_deps);*/
 	    cfile = fopen(CONTENTS_FNAME, "r");
 	    if (!cfile) {
 		pwarnx(
@@ -180,7 +209,7 @@ pkg_do(char *pkg)
 		pkg_fullname);
 		goto bomb;
 	    }
-	    system(solve_deps);
+	    /*system(solve_deps);*/
 	    cfile = fopen(CONTENTS_FNAME, "r");
 	    if (!cfile) {
 		pwarnx(
@@ -308,30 +337,39 @@ pkg_do(char *pkg)
     /* Now check the packing list for dependencies */
     for (p = Plist.head; p ; p = p->next) {
 	char insttst[FILENAME_MAX];
+	struct dependency dep;
 
-	if (p->type != PLIST_PKGDEP)
+	memset(&dep, 0, sizeof (dep));
+	switch (p->type) {
+	case PLIST_PKGDEP:
+	    dep.pkgname = PkgName;
+	    dep.pattern = p->name;
+	    break;
+	case PLIST_NEWDEP:
+	case PLIST_LIBDEP:
+	    parse_dependency(&dep, p->type, p->name);
+	    break;
+	default:
 	    continue;
-	if (Verbose)
-	    printf("Package '%s' depends on '%s'\n", PkgName, p->name);
-	if (!findmatchingname(dbdir, p->name, check_if_installed, insttst, sizeof(insttst))) {
+	}
+	diag("Package '%s' depends on '%s'\n", dep.pkgname, dep.pattern);
+	if (match_libspec(dep.libspec, getenv(PKG_PREFIX_VNAME), LD_DYLD)
+		&& findmatchingname(dbdir, dep.pattern, check_if_installed, insttst, sizeof(insttst))) {
+	    diag(" - '%s' already installed\n", insttst);
+	    register_dep(pkg, insttst);
+	} else {
 	    if (!Fake) {
 		if (!isURL(pkg) && !getenv("PKG_ADD_BASE"))
-		    code += install_dep_local(pkg, p->name);
+		    code += install_dep_local(pkg, dep.pattern);
 		else
-		    code += install_dep_ftp(pkg, p->name);
+		    code += install_dep_ftp(pkg, dep.pattern);
 	    } else {
-		if (Verbose)
-		    printf("and was not found%s\n", Force ? " (proceeding anyway)" : "");
-		else
-		    printf("Package dependency '%s' for '%s' not found%s\n", p->name, pkg,
-			   Force ? " (proceeding anyway)" : "!");
+		printf("Package dependency '%s' for '%s' not found%s\n",
+			dep.pattern, dep.pkgname,
+			Force ? " (proceeding anyway)" : "!");
 		if (!Force)
 		    ++code;
 	    }
-	} else {
-	    if (Verbose)
-		printf(" - '%s' already installed\n", insttst);
-	    register_dep(pkg, insttst);
 	}
     }
 
@@ -485,32 +523,38 @@ pkg_do(char *pkg)
 static int
 install_dep_local(char *base, char *pattern)
 {
-    char *cp;
+    char *pkg_filename;
     char path[FILENAME_MAX];
 
     snprintf(path, sizeof(path), "%s/%s", Home, ensure_tgz(pattern));
     if (fexists(path))
-	cp = path;
-    else
-	cp = fileFindByPath(base, pattern);
-    if (cp) {
-	if (Verbose)
-	    printf("Loading it from '%s'\n", cp);
-	if (xsystem(false, "pkg_add %s%s %s%s",
+	pkg_filename = path;
+    else {
+	strlcpy(path, pattern, sizeof (path));
+	/* tiff-*, for example, also matches tiff-cxx. If the -* suffix
+	 * is cut off here, fileFindByPath will add ->=0.
+         */	 
+	if (path && !strcmp(path + strlen(path) - 2, "-*"))
+	    path[strlen(path) - 2] = '\0';
+	pkg_filename = fileFindByPath(dirname(base), path);
+    }
+    if (pkg_filename) {
+	diag("Loading dependency from '%s'\n", pkg_filename);
+	if (xsystem(false, "pkg_add %s%s %s'%s'",
 		     Prefix ? "-p " : "",
 		     Prefix ? Prefix : "",
-		     Verbose ? "-v " : "", cp)) {
+		     Verbose ? "-v " : "", pkg_filename)) {
 	    pwarnx("autoload of dependency '%s' failed%s",
-		cp, Force ? " (proceeding anyway)" : "!");
+		pkg_filename, Force ? " (proceeding anyway)" : "!");
 	    if (!Force)
 		return 1;
 	}
-	register_dep(base, cp);
+	register_dep(base, pkg_filename);
     } else {
 	pwarnx("add of dependency '%s' failed%s",
 		pattern, Force ? " (proceeding anyway)" : "!");
-	     if (!Force)
-		 return 1;
+	if (!Force)
+	    return 1;
     }
     return 0;
 }
