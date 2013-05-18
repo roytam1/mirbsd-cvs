@@ -1,5 +1,5 @@
-# $MirOS: src/sys/arch/i386/conf/RAMDISK,v 1.14 2008/07/12 23:10:17 tg Exp $
-# $miros: src/sys/arch/i386/conf/GENERIC,v 1.36 2008/07/13 20:05:35 tg Exp $
+# $MirOS: src/sys/arch/i386/conf/RAMDISK,v 1.15 2008/07/13 23:57:36 tg Exp $
+# $miros: src/sys/arch/i386/conf/GENERIC,v 1.42 2009/02/16 21:21:01 tg Exp $
 
 machine		i386			# arch, used by config; REQUIRED
 
@@ -106,14 +106,26 @@ pseudo-device	loop			# network loopback
 #pseudo-device	tun			# network tunneling over tty
 #pseudo-device	vlan 			# IEEE 802.1Q VLAN
 
-#--- end of machine independent config
+# tuning options, potentally dangerous to enable/change *at all*, be warned
+#option		POOLWORDS=1024		# size of entropy pool (power of two)
+#option		NVNODE=32768			# raise static alloced bufsiz
+#option		MAXDSIZ="(1536 * 1048576)"	# bump max data sz to 1.5 GiB
+#option		BUFCACHEPERCENT=7		# default: 5% of total RAM sz
 
 maxusers	4			# estimated number of users
+
+# Generic swap; second partition of root disk or network.
+config		bsd	root on rd0a
+
+#--- end of machine independent config
 
 # CPU classes, at least one is required
 option		I486_CPU
 option		I586_CPU
 #option		I686_CPU
+
+#option		CYRIX_CACHE_WORKS	# enable Cyrix 486DLC cache
+#option		CYRIX_CACHE_REALLY_WORKS
 
 #option		USER_PCICONF		# user-space PCI configuration
 #option		VM86			# Virtual 8086 emulation
@@ -130,11 +142,10 @@ option		DUMMY_NOPS		# speed hack; recommended
 option		PLIP			# Ethernet over parallel port
 #option		NTFS			# NT file system (experimental)
 
-config		bsd	root on rd0a
-
 mainbus0 at root
 
 #powernowhack0 at mainbus0 flags 0x0000	# flags = override ID, 0xFFF to disable
+#tpm0	at mainbus0
 bios0	at mainbus0 flags 0x0000	# 0x1=don't probe BIOS32, 0x2=PCIBIOS
 #apm0	at bios0 flags 0x0000		# flags 0x0101 to force protocol version 1.1
 pcibios0 at bios0 flags 0x0000		# use 0x30 for a total verbose
