@@ -1021,6 +1021,7 @@
 ./usr/X11R6/include/freetype2/freetype/ftbitmap.h
 ./usr/X11R6/include/freetype2/freetype/ftcache.h
 ./usr/X11R6/include/freetype2/freetype/ftchapters.h
+./usr/X11R6/include/freetype2/freetype/ftcid.h
 ./usr/X11R6/include/freetype2/freetype/fterrdef.h
 ./usr/X11R6/include/freetype2/freetype/fterrors.h
 ./usr/X11R6/include/freetype2/freetype/ftgasp.h
@@ -1636,7 +1637,7 @@
 ./usr/X11R6/lib/libfontenc.a
 ./usr/X11R6/lib/libfontenc.so.1.0
 ./usr/X11R6/lib/libfreetype.a
-./usr/X11R6/lib/libfreetype.so.11.1
+./usr/X11R6/lib/libfreetype.so.11.2
 ./usr/X11R6/lib/liboldX.a
 ./usr/X11R6/lib/liboldX.so.6.0
 ./usr/X11R6/lib/libpsres.a
