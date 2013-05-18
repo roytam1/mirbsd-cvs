@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/sys/arch/i386/stand/bootxx/mkbxinst.sh,v 1.6 2008/08/05 17:57:08 tg Exp $
+rcsid='$MirOS: src/sys/arch/i386/stand/bootxx/mkbxinst.sh,v 1.7 2008/10/20 23:15:38 tg Exp $'
 #-
 # Copyright (c) 2007, 2008
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -26,8 +26,6 @@
 # Create a self-installing bootxx for i386.
 # Arguments: $1 = ELF bootxx, linked
 # Output: shell script to stdout
-
-rcsid='$MirOS: src/sys/arch/i386/stand/bootxx/mkbxinst.sh,v 1.6 2008/08/05 17:57:08 tg Exp $'
 
 function die {
 	rv=$1; shift
@@ -88,6 +86,7 @@ print typeset -i begptr=$((sym_blktbl - sym__start))
 print typeset -i ofs_magic=$((sym_magicofs - sym__start))
 print typeset -i ofs_secsiz=$((sym_secsizofs - sym__start))
 cat <<'EOF'
+typeset -Uui8 thecode
 
 typeset -Uui16 curptr=begptr
 typeset -i wnum=0 wofs=0 wrec=0
@@ -235,7 +234,6 @@ fi
 # create the output string
 ostr=
 curptr=0
-typeset -Uui8 thecode
 while (( curptr < 512 )); do
 	ostr=$ostr\\0${thecode[curptr++]#8#}
 done
