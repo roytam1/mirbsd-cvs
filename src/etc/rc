@@ -1,5 +1,5 @@
 # $MirSecuCron$
-# $MirOS: src/etc/rc,v 1.105 2009/09/12 14:32:53 tg Exp $
+# $MirOS: src/etc/rc,v 1.106 2009/11/02 16:13:23 tg Exp $
 # $OpenBSD: rc,v 1.277 2006/01/12 21:54:15 deraadt Exp $
 #-
 # System startup script run by init on autoboot or after single-user.
@@ -463,10 +463,7 @@ fi
 syslogd $syslogd_flags
 
 [[ $pf != NO && $pflogd_flags != NO ]] && \
-    if ifconfig pflog0 >/dev/null 2>&1; then
-	ifconfig pflog0 up
-	pflogd $pflogd_flags
-fi
+    ifconfig pflog0 up && pflogd $pflogd_flags
 
 # $isakmpd_flags is imported from /etc/rc.conf;
 # If $isakmpd_flags == NO, isakmpd isn't run.
