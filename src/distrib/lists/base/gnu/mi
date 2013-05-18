@@ -20,7 +20,6 @@
 ./usr/bin/lynx
 ./usr/bin/makeinfo
 ./usr/bin/merge
-./usr/bin/mkisofs
 ./usr/bin/oldlynx
 ./usr/bin/perl
 ./usr/bin/perl5.8.8
@@ -1756,7 +1755,6 @@
 ./usr/share/man/cat8/mailq.0
 ./usr/share/man/cat8/mailstats.0
 ./usr/share/man/cat8/makemap.0
-./usr/share/man/cat8/mkisofs.0
 ./usr/share/man/cat8/newaliases.0
 ./usr/share/man/cat8/sendmail.0
 ./usr/share/man/cat8/smrsh.0

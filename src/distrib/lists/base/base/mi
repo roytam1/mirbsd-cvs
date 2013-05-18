@@ -590,7 +590,7 @@
 ./usr/lib/i18n/libmapper_serial.so.5.0
 ./usr/lib/i18n/libmapper_std.so.5.0
 ./usr/lib/i18n/libmapper_zone.so.5.0
-./usr/lib/libc.so.41.2
+./usr/lib/libc.so.41.3
 ./usr/lib/libcrypto.so.14.1
 ./usr/lib/libcurses.so.14.0
 ./usr/lib/libdes.so.11.0
@@ -809,6 +809,7 @@
 ./usr/sbin/edquota
 ./usr/sbin/faithd
 ./usr/sbin/fdformat
+./usr/sbin/getextent_cd9660
 ./usr/sbin/httpd
 ./usr/sbin/ifwatchd
 ./usr/sbin/inetd
@@ -1749,6 +1750,7 @@
 ./usr/share/man/cat1/ftp.0
 ./usr/share/man/cat1/getcap.0
 ./usr/share/man/cat1/getconf.0
+./usr/share/man/cat1/getextent_cd9660.0
 ./usr/share/man/cat1/getopt.0
 ./usr/share/man/cat1/grep.0
 ./usr/share/man/cat1/groups.0

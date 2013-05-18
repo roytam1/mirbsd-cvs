@@ -130,6 +130,7 @@
 ./man1/getcap.htm
 ./man1/getconf.htm
 ./man1/getconfig.htm
+./man1/getextent_cd9660.htm
 ./man1/getopt.htm
 ./man1/glxgears.htm
 ./man1/glxinfo.htm
@@ -4695,6 +4696,7 @@
 ./man3/mbrtowc.htm
 ./man3/mbsinit.htm
 ./man3/mbsnrtowcs.htm
+./man3/mbsnrtowcsvis.htm
 ./man3/mbsrtowcs.htm
 ./man3/mbstowcs.htm
 ./man3/mbtowc.htm
@@ -4914,6 +4916,7 @@
 ./man3/openpty.htm
 ./man3/optu16to8.htm
 ./man3/optu8to16.htm
+./man3/optu8to16vis.htm
 ./man3/ossaudio.htm
 ./man3/otermcap.htm
 ./man3/overlay.htm
@@ -6742,7 +6745,6 @@
 ./man8/map-mbone.htm
 ./man8/memconfig.htm
 ./man8/mfs.htm
-./man8/mkisofs.htm
 ./man8/mknod.htm
 ./man8/modload.htm
 ./man8/modstat.htm
