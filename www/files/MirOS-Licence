@@ -30,18 +30,26 @@ added to MirBSD. It has been drafted as universally usable equivalent
 of the “historic permission notice”⁽²⁾ adapted to Europen law because
 in some (droit d’auteur) countries authors cannot disclaim all liabi‐
 lities. Compliance to OSD⁽³⁾ 1.9 and DFSG⁽⁴⁾ 1.1 is ensured and GPLv2
-compatibility is asserted unless advertising clauses are used.
+compatibility is asserted unless advertising clauses are used. OKD⁽⁵⁾
+1.0 conformance is certified, the OKFN list⁽⁶⁾ includes it. The MirOS
+Licence also qualifies as both a Free Software⁽7⁾ and Free Documenta-
+tion⁽⁸⁾ licence by the FSF.
 
-We believe you are not liable for code inserted which is intellectual
+We believe you are not liable for work inserted which is intellectual
 property of third parties, if you were not aware of the fact, act ap‐
-propriately as soon as you become aware of a problem and seek an ami‐
-cable solution for all parties.
+propriately as soon as you become aware of that problem, seek an ami-
+cable solution for all parties, and never knowingly distribute a work
+without being authorised to do so by its licensors.
 
 R̲E̲F̲E̲R̲E̲N̲C̲E̲S̲:̲
 ① also at http://mirbsd.de/MirOS-Licence
 ② http://www.opensource.org/licenses/historical.php
 ③ http://www.opensource.org/docs/osd
 ④ http://www.debian.org/social_contract#guidelines
+⑤ http://www.opendefinition.org/1.0
+⑥ http://www.opendefinition.org/licenses
+⑦ http://www.gnu.org/philosophy/free-sw.html
+⑧ http://www.gnu.org/philosophy/free-doc.html
 
 ⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼
-$MirOS: src/share/misc/licence.template,v 1.24 2008/04/22 11:43:31 tg Rel $
+$MirOS: src/share/misc/licence.template,v 1.26 2008/07/07 13:28:40 tg Rel $
