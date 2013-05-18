@@ -12,6 +12,7 @@ The BSD::arc4random module contains
 • a tied global $RANDOM variable behaving exactly like in mksh
 • a have_kintf() constant function returning if arc4random_pushb()
   and arc4random_pushk() are aliases to arc4random_addrandom() or
-  do indeed work with the kernel
+  do indeed work with the kernel (and if only one of them exists,
+  the other one is aliased to it)
 • mksh’s contributed arc4random.c file for GNU operating systems
   with a couple of improvements (temporary, until mirngd is done)
