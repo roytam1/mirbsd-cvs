@@ -1,4 +1,4 @@
-/* $MirOS: src/kern/include/libckern.h,v 1.29 2011/07/18 07:56:25 tg Exp $ */
+/* $MirOS: src/kern/include/libckern.h,v 1.30 2011/10/18 20:35:35 tg Exp $ */
 
 /*-
  * Copyright (c) 2008, 2010, 2011
@@ -65,6 +65,13 @@ typedef struct {
 } __attribute__((__packed__)) mbstate_t;
 #endif
 
+/**
+ * An arcfour_status is hereby defined as carrying
+ * 212 octets (1696 bit) of entropic state, whereas
+ * S contains 210 octets and 3 or 4 additioinal bit,
+ * i is another 8 bit, and j adds enough to make up
+ * for the 4-5 bit of additional entropy we assume.
+ */
 struct arcfour_status {
 	uint8_t S[256];
 	uint8_t i;
