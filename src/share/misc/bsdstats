@@ -1,4 +1,4 @@
-# $MirOS: src/share/misc/bsdstats,v 1.49 2007/05/22 19:34:37 tg Exp $
+# $MirOS: src/share/misc/bsdstats,v 1.50 2007/05/26 22:21:27 tg Exp $
 # $FreeBSD: ports/sysutils/bsdstats/files/300.statistics,v 1.38 2006/12/05 13:49:45 scrappy Exp $
 #-
 # Copyright (c) 2007
@@ -90,7 +90,7 @@ function uri_escape {
 	'
 }
 
-rcsid_code='$MirOS: src/share/misc/bsdstats,v 1.49 2007/05/22 19:34:37 tg Exp $'
+rcsid_code='$MirOS: src/share/misc/bsdstats,v 1.50 2007/05/26 22:21:27 tg Exp $'
 uname_code=$(uri_escape "$(uname -a | tr -d '\012\015')$stats_sysadd")
 
 if [[ $(uname -M 2>&1) = *MirBSD* ]]; then
@@ -206,7 +206,7 @@ function doports_pkgsrc {
 
 function doports_fbsd {
 	(find "$1" -name +CONTENTS -print0 2>/dev/null | \
-	    xargs -0 grep -a '^@comment ORIGIN' "" | \
+	    xargs -0 grep -a '^@comment ORIGIN' "" 2>&- | \
 	    sed 's!^[^:]*/\([^/:]*\)/+CONTENTS:.*ORIGIN:\([^/]*\).*$!\1:\2!' | \
 	    sort) |&
 	while IFS=: read -pr name dir; do
@@ -217,7 +217,7 @@ function doports_fbsd {
 function doports_openmir {
 	t=$2
 	(find "$1" -name +CONTENTS -print0 2>/dev/null | \
-	    xargs -0 grep -a '^@comment.*subdir=' "" | \
+	    xargs -0 grep -a '^@comment.*subdir=' "" 2>&- | \
 	    sed 's!^[^:]*/\([^/:]*\)/+CONTENTS:.*subdir=\([^, ]*\).*$!\1:\2!' | \
 	    sort) |&
 	while IFS=: read -pr name dir; do
