@@ -331,3 +331,19 @@ Date: 01.08.2007
  on making any further changes to the codebase save bugfixes and maybe some
  more changes to ports.</p>
 ----
+Title: mksh integrated into MidnightBSD
+Date: 18.08.2007
+
+<p>After <a href="@@RELPATH@@permalinks/news_e20070716-nn.htm">FreeWRT</a>,
+ <a href="http://www.midnightbsd.org/">MidnightBSD</a>, a FreeBSD-based
+ operating system, has adopted <a href="@@RELPATH@@mksh.htm">mksh</a> as its
+ default Korn shell, that is, <tt>/bin/mksh</tt> and <tt>/bin/ksh</tt> (but
+ not as <tt>/bin/sh</tt>). While the current <a
+ href="http://www.midnightbsd.org/cgi-bin/cvsweb.cgi/src/bin/mksh/">state
+ of integration</a> uses mksh R30, the upcoming R31 release with features
+ requested by MidnightBSD developers will be integrated soon.</p>
+<p>We would like to thank the developers of MidnightBSD for considering this
+ and congratulate their users to gain a usable-by-default shell. We would
+ also like to encourage other operating system developers to follow this
+ example and integrate mksh (or, like OpenSolaris, AT&amp;T ksh93).</p>
+----

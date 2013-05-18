@@ -1,10 +1,10 @@
-# $MirOS: www/src/mksh.hts,v 1.44 2007/08/18 00:30:32 tg Exp $
+# $MirOS: www/src/mksh.hts,v 1.45 2007/08/18 01:26:14 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.44 2007/08/18 00:30:32 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.45 2007/08/18 01:26:14 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R30</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -452,7 +452,9 @@ mws_content <<'EOF'
  but there's no mksh PBI (yet?).</li>
 <li><a href="http://www.midnightbsd.org/">MidnightBSD</a> uses <a
  href="http://cvsweb.midnightbsd.org/mports/shells/mksh/">mports</a>, a
- derivate of FreeBSD® ports. Naturally, they deliver mksh as well.</li>
+ derivate of FreeBSD® ports. Naturally, they deliver mksh as well.
+ MidnightBSD 0.2-CURRENT from 18th August 2007 onwards has mksh as both
+ <tt>/bin/mksh</tt> and <tt>/bin/ksh</tt>.</li>
 <li><a href="http://www.pkgsrc.org/">NetBSD® pkgsrc®</a> (native also on recent
  DragonFly BSD; available for many other operating systems as well) has a <a
  href="http://cvsweb.netbsd.org/bsdweb.cgi/pkgsrc/shells/mksh/">package</a>
