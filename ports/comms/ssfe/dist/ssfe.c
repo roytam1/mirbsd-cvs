@@ -51,7 +51,11 @@
 #include <sys/select.h>
 #endif
 
-__RCSID("$MirOS: ports/comms/ssfe/dist/ssfe.c,v 1.3 2005/09/01 19:38:02 tg Exp $");
+#ifndef __RCSID
+#define	__RCSID(x)	static const char __rcsid[] __attribute__((used)) = (x)
+#endif
+
+__RCSID("$MirOS: ports/comms/ssfe/dist/ssfe.c,v 1.4 2005/12/18 16:36:28 tg Exp $");
 
 #define BUF_SIZE 4096
 #define MAX_COLS 4096
