@@ -1455,3 +1455,26 @@ Title: SPARC is dead, long live SPARC!
  not only make these trips with us but also lend it to one of us if he has
  no time but we want to go. That's the benefit of a small company.</p>
 ----
+----
+Date: 09.08.2007
+Author: tg@
+
+<p>There are interesting things to be found in anybody's source tree. This
+ time, it is Schily again. Well, it could be cleaned up, and arc4random(3)
+ got improved as well, except I <em>still</em> think it should have a kind
+ of timer for smaller entropy adds (⅛ of the arc4 key size).</p>
+<p>On the other hand SPARC looks rock solid now, I could even build a gnat
+ (GCC's Ada part) today. Let's hope we'll have a snapshot in 2-3 days, and
+ maybe MirOS #10/sparc will be in #10semel this time.</p>
+<p>The website… some things are difficult to do until you go to the toilet
+ and come back with a great idea. Put back mtimes on the pages.</p>
+<p>At work, I hacked some major C code for FreeWRT today, namely in the <a
+ href="https://www.freewrt.org/svn/branches/common-nfo/tools/nfotiser/">nfotiser</a>
+ (and <a href="https://www.freewrt.org/svn/branches/common-nfo/tools/sqlite/nfohelpr.h">here</a>).
+ That's a complicated programme, difficult to do even for me (mostly since
+ it grows high-level stuff, data structures, and not only close-to-machine
+ stuff, especially the SQL stuff), but it turns out to become fun once you
+ get into “hacking mode”.</p>
+<p>Tonight's after-work event is <a href="http://luusa.org/">LUUSA</a> (at
+ the <a href="http://netzladen.org/">Netzladen</a>) again.</p>
+----
