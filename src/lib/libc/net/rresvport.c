@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/net/rresvport.c,v 1.2 2005/03/06 20:28:43 tg Exp $ */
+/* $MirOS: src/lib/libc/net/rresvport.c,v 1.3 2005/07/09 13:23:33 tg Exp $ */
 /*
  * Copyright (c) 1995, 1996, 1998 Theo de Raadt.  All rights reserved.
  * Copyright (c) 1983, 1993, 1994
@@ -29,10 +29,6 @@
  * SUCH DAMAGE.
  */
 
-#if 0
-static char *rcsid = "$OpenBSD: rresvport.c,v 1.7 2005/03/25 13:24:12 otto Exp $";
-#endif /* LIBC_SCCS and not lint */
-
 #include <sys/param.h>
 #include <sys/socket.h>
 #include <sys/stat.h>
@@ -53,7 +49,7 @@ static char *rcsid = "$OpenBSD: rresvport.c,v 1.7 2005/03/25 13:24:12 otto Exp $
 #include <stdlib.h>
 #include <netgroup.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libc/net/rresvport.c,v 1.3 2005/07/09 13:23:33 tg Exp $");
 
 int
 rresvport(int *alport)

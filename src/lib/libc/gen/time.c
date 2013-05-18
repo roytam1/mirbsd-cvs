@@ -1,3 +1,4 @@
+/*	$OpenBSD: time.c,v 1.5 2005/08/08 08:05:34 espie Exp $ */
 /*
  * Copyright (c) 1983, 1993
  *	The Regents of the University of California.  All rights reserved.
@@ -30,7 +31,7 @@
 #include <sys/types.h>
 #include <sys/time.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libc/gen/time.c,v 1.2 2005/03/06 20:28:41 tg Exp $");
 
 time_t
 time(time_t *t)

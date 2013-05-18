@@ -1,5 +1,5 @@
-# $MirOS$
-# $OpenBSD: Makefile.inc,v 1.36 2004/02/01 17:53:59 deraadt Exp $
+# $MirOS: src/lib/libc/gen/Makefile.inc,v 1.2 2005/03/06 20:28:39 tg Exp $
+# $OpenBSD: Makefile.inc,v 1.37 2005/02/01 15:12:28 millert Exp $
 
 # gen sources
 .PATH: ${LIBCSRCDIR}/arch/${MACHINE_ARCH}/gen ${LIBCSRCDIR}/gen
@@ -7,7 +7,7 @@
 SRCS+=  alarm.c assert.c auth_subr.c authenticate.c \
         basename.c clock.c closedir.c confstr.c ctermid.c ctype_.c \
         daemon.c devname.c dirname.c disklabel.c elf_hash.c err.c \
-        errx.c errlist.c errno.c exec.c fnmatch.c fstab.c ftok.c \
+        errx.c errlist.c errno.c exec.c fnmatch.c frexp.c fstab.c ftok.c \
         fts.c ftw.c getbsize.c getcap.c getcwd.c getdomainname.c \
         getgrent.c getgrouplist.c gethostname.c getloadavg.c \
         getlogin.c getmntinfo.c getnetgrent.c getpagesize.c getpwent.c \

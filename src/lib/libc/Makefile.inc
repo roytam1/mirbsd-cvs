@@ -1,5 +1,5 @@
-# $MirOS: src/lib/libc/Makefile.inc,v 1.3 2005/04/17 01:42:54 tg Exp $
-# $OpenBSD: Makefile.inc,v 1.9 2004/04/28 16:56:49 millert Exp $
+# $MirOS: src/lib/libc/Makefile.inc,v 1.4 2005/07/01 13:51:24 tg Exp $
+# $OpenBSD: Makefile.inc,v 1.11 2005/06/17 20:37:31 drahn Exp $
 
 .ifndef LIBCSRCDIR
 all:

@@ -1,3 +1,4 @@
+/*	$OpenBSD: unvis.c,v 1.12 2005/08/08 08:05:34 espie Exp $ */
 /*-
  * Copyright (c) 1989, 1993
  *	The Regents of the University of California.  All rights reserved.
@@ -27,15 +28,11 @@
  * SUCH DAMAGE.
  */
 
-#if 0
-static char rcsid[] = "$OpenBSD: unvis.c,v 1.10 2004/10/17 20:25:31 otto Exp $";
-#endif /* LIBC_SCCS and not lint */
-
 #include <sys/types.h>
 #include <ctype.h>
 #include <vis.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libc/gen/unvis.c,v 1.2 2005/03/06 20:28:41 tg Exp $");
 
 /*
  * decode driven by state machine
@@ -215,7 +212,7 @@ unvis(char *cp, char c, int *astate, int flag)
 int
 strunvis(char *dst, const char *src)
 {
-	register char c;
+	char c;
 	char *start = dst;
 	int state = 0;
 

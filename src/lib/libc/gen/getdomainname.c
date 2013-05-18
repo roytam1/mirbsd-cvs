@@ -1,3 +1,4 @@
+/*	$OpenBSD: getdomainname.c,v 1.7 2005/08/08 08:05:34 espie Exp $ */
 /*
  * Copyright (c) 1989, 1993
  *	The Regents of the University of California.  All rights reserved.
@@ -27,9 +28,11 @@
  * SUCH DAMAGE.
  */
 
+#include <sys/param.h>
+#include <sys/sysctl.h>
 #include <unistd.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libc/gen/getdomainname.c,v 1.2 2005/03/06 20:28:40 tg Exp $");
 
 int
 getdomainname(char *name, size_t namelen)

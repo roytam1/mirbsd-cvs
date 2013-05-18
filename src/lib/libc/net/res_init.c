@@ -1,5 +1,5 @@
-/**	$MirOS: src/lib/libc/net/res_init.c,v 1.2 2005/03/06 20:28:42 tg Exp $	*/
-/*	$OpenBSD: res_init.c,v 1.32 2005/03/30 02:58:28 tedu Exp $	*/
+/**	$MirOS: src/lib/libc/net/res_init.c,v 1.3 2005/07/09 13:23:32 tg Exp $	*/
+/*	$OpenBSD: res_init.c,v 1.33 2005/08/06 20:30:04 espie Exp $	*/
 
 /*
  * Copyright (c) 1985, 1989, 1993
@@ -52,12 +52,6 @@
 #define INET6
 #endif
 
-#if 0
-static char sccsid[] = "@(#)res_init.c	8.1 (Berkeley) 6/7/93";
-static char rcsid[] = "$From: res_init.c,v 8.7 1996/09/28 06:51:07 vixie Exp $";
-static char rcsid[] = "$OpenBSD: res_init.c,v 1.32 2005/03/30 02:58:28 tedu Exp $";
-#endif /* LIBC_SCCS and not lint */
-
 #include <sys/param.h>
 #include <sys/socket.h>
 #include <sys/time.h>
@@ -78,7 +72,7 @@ static char rcsid[] = "$OpenBSD: res_init.c,v 1.32 2005/03/30 02:58:28 tedu Exp 
 
 #include "thread_private.h"
 
-__RCSID("$MirOS: src/lib/libc/net/res_init.c,v 1.2 2005/03/06 20:28:42 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/net/res_init.c,v 1.3 2005/07/09 13:23:32 tg Exp $");
 
 /*-------------------------------------- info about "sortlist" --------------
  * Marc Majka		1994/04/16

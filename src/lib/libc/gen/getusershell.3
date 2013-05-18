@@ -1,5 +1,5 @@
-.\" $MirOS$
-.\" $OpenBSD: getusershell.3,v 1.10 2003/06/02 20:18:34 millert Exp $
+.\"	$MirOS: src/lib/libc/gen/getusershell.3,v 1.2 2005/07/07 13:39:31 tg Exp $
+.\"	$OpenBSD: getusershell.3,v 1.12 2005/07/22 03:16:58 jaredy Exp $
 .\"
 .\" Copyright (c) 1985, 1991, 1993
 .\"	The Regents of the University of California.  All rights reserved.
@@ -55,7 +55,8 @@ If
 is unreadable or does not exist,
 .Fn getusershell
 behaves as if only
-.Pa /bin/sh
+.Pa /bin/sh ,
+.Pa /bin/csh
 and
 .Pa /bin/mksh
 were listed in the file.
@@ -75,7 +76,7 @@ closes it.
 .Sh DIAGNOSTICS
 The routine
 .Fn getusershell
-returns a null pointer
+returns a null pointer on
 .Dv EOF .
 .Sh SEE ALSO
 .Xr shells 5

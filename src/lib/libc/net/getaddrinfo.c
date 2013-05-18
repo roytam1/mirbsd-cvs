@@ -1,5 +1,5 @@
-/**	$MirOS: src/lib/libc/net/getaddrinfo.c,v 1.2 2005/03/06 20:28:42 tg Exp $	*/
-/*	$OpenBSD: getaddrinfo.c,v 1.52 2005/03/30 02:58:28 tedu Exp $	*/
+/**	$MirOS: src/lib/libc/net/getaddrinfo.c,v 1.3 2005/07/09 13:23:31 tg Exp $	*/
+/*	$OpenBSD: getaddrinfo.c,v 1.53 2005/07/18 14:38:39 jmc Exp $	*/
 /*	$KAME: getaddrinfo.c,v 1.31 2000/08/31 17:36:43 itojun Exp $	*/
 
 /*
@@ -413,7 +413,7 @@ getaddrinfo(const char *hostname, const char *servname,
 
 	/*
 	 * XXX
-	 * If numreic representation of AF1 can be interpreted as FQDN
+	 * If numeric representation of AF1 can be interpreted as FQDN
 	 * representation of AF2, we need to think again about the code below.
 	 */
 	if (sentinel.ai_next)

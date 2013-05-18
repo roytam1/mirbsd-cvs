@@ -1,3 +1,4 @@
+/*	$OpenBSD: scandir.c,v 1.10 2005/08/08 08:05:34 espie Exp $ */
 /*
  * Copyright (c) 1983, 1993
  *	The Regents of the University of California.  All rights reserved.
@@ -27,8 +28,6 @@
  * SUCH DAMAGE.
  */
 
-/* $OpenBSD: scandir.c,v 1.9 2004/05/18 02:05:52 jfb Exp $ */
-
 /*
  * Scan the directory dirname calling select to make a list of selected
  * directory entries then sort using qsort and compare routine dcomp.
@@ -44,7 +43,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libc/gen/scandir.c,v 1.2 2005/03/06 20:28:40 tg Exp $");
 
 /*
  * The DIRSIZ macro is the minimum record length which will hold the directory

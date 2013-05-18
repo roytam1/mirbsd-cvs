@@ -1,3 +1,4 @@
+/*	$OpenBSD: uname.c,v 1.8 2005/08/08 08:05:34 espie Exp $ */
 /*-
  * Copyright (c) 1994
  *	The Regents of the University of California.  All rights reserved.
@@ -27,15 +28,11 @@
  * SUCH DAMAGE.
  */
 
-#if 0
-static char rcsid[] = "$OpenBSD: uname.c,v 1.7 2004/05/18 02:05:52 jfb Exp $";
-#endif /* LIBC_SCCS and not lint */
-
 #include <sys/param.h>
 #include <sys/sysctl.h>
 #include <sys/utsname.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libc/gen/uname.c,v 1.2 2005/03/06 20:28:41 tg Exp $");
 
 int
 uname(struct utsname *name)

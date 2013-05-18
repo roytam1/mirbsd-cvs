@@ -1,4 +1,5 @@
-/* $MirOS$ */
+/**	$MirOS: src/lib/libc/gen/getpwent.c,v 1.2 2005/03/06 20:28:40 tg Exp $ */
+/*	$OpenBSD: getpwent.c,v 1.34 2005/08/08 08:05:34 espie Exp $ */
 /*
  * Copyright (c) 1988, 1993
  *	The Regents of the University of California.  All rights reserved.
@@ -29,10 +30,6 @@
  * SUCH DAMAGE.
  */
 
-#if 0
-static char rcsid[] = "$OpenBSD: getpwent.c,v 1.32 2004/05/18 02:05:52 jfb Exp $";
-#endif /* LIBC_SCCS and not lint */
-
 #include <sys/param.h>
 #include <fcntl.h>
 #include <db.h>
@@ -45,7 +42,7 @@ static char rcsid[] = "$OpenBSD: getpwent.c,v 1.32 2004/05/18 02:05:52 jfb Exp $
 #include <limits.h>
 #include <netgroup.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libc/gen/getpwent.c,v 1.2 2005/03/06 20:28:40 tg Exp $");
 
 static struct passwd _pw_passwd;	/* password structure */
 static DB *_pw_db;			/* password database */
@@ -169,7 +166,7 @@ __initdb(void)
 static int
 __hashpw(DBT *key)
 {
-	register char *p, *t;
+	char *p, *t;
 	static u_int max;
 	static char *line;
 	DBT data;

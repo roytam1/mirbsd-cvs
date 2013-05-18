@@ -1,11 +1,8 @@
-#include <sys/cdefs.h>
-__RCSID("$MirOS$");
-
+/*	$OpenBSD: errno.c,v 1.5 2005/08/08 08:05:34 espie Exp $ */
 /* PUBLIC DOMAIN: No Rights Reserved.   Marco S Hyman <marc@snafu.org> */
 
-#if 0
-static char rcsid[] = "$OpenBSD: errno.c,v 1.4 2004/07/17 20:38:43 marc Exp $";
-#endif /* LIBC_SCCS and not lint */
+#include <sys/cdefs.h>
+__RCSID("$MirOS: src/lib/libc/gen/errno.c,v 1.2 2005/03/06 20:28:40 tg Exp $");
 
 #include <errno.h>
 #undef errno

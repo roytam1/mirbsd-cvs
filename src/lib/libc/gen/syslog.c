@@ -1,3 +1,4 @@
+/*	$OpenBSD: syslog.c,v 1.28 2005/08/08 08:05:34 espie Exp $ */
 /*
  * Copyright (c) 1983, 1988, 1993
  *	The Regents of the University of California.  All rights reserved.
@@ -27,10 +28,6 @@
  * SUCH DAMAGE.
  */
 
-#if 0
-static char rcsid[] = "$OpenBSD: syslog.c,v 1.26 2004/05/18 02:05:52 jfb Exp $";
-#endif /* LIBC_SCCS and not lint */
-
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <sys/syslog.h>
@@ -47,7 +44,7 @@ static char rcsid[] = "$OpenBSD: syslog.c,v 1.26 2004/05/18 02:05:52 jfb Exp $";
 #include <unistd.h>
 #include <stdarg.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libc/gen/syslog.c,v 1.2 2005/03/06 20:28:41 tg Exp $");
 
 static struct syslog_data sdata = SYSLOG_DATA_INIT;
 
@@ -206,6 +203,8 @@ vsyslog_r(int pri, struct syslog_data *data, const char *fmt, va_list ap)
 				prlen = snprintf(t, fmt_left, "Error %d",
 				    saved_errno);
 			}
+			if (prlen < 0)
+				prlen = 0;
 			if (prlen >= fmt_left)
 				prlen = fmt_left - 1;
 			t += prlen;

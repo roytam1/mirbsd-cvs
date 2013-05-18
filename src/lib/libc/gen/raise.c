@@ -1,3 +1,4 @@
+/*	$OpenBSD: raise.c,v 1.5 2005/08/08 08:05:34 espie Exp $ */
 /*-
  * Copyright (c) 1990, 1993
  *	The Regents of the University of California.  All rights reserved.
@@ -27,15 +28,11 @@
  * SUCH DAMAGE.
  */
 
-#if defined(LIBC_SCCS) && !defined(lint)
-/* $OpenBSD: raise.c,v 1.4 2004/05/18 02:05:52 jfb Exp $ */
-#endif /* LIBC_SCCS and not lint */
-
 #include <sys/cdefs.h>
 #include <signal.h>
 #include <unistd.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libc/gen/raise.c,v 1.2 2005/03/06 20:28:40 tg Exp $");
 
 int
 raise(int s)

@@ -1,5 +1,5 @@
-/**	$MirOS: src/lib/libc/net/getnetnamadr.c,v 1.2 2005/03/06 20:28:42 tg Exp $	*/
-/*	$OpenBSD: getnetnamadr.c,v 1.25 2005/03/30 02:58:28 tedu Exp $	*/
+/**	$MirOS: src/lib/libc/net/getnetnamadr.c,v 1.3 2005/07/09 13:23:31 tg Exp $	*/
+/*	$OpenBSD: getnetnamadr.c,v 1.26 2005/08/06 20:30:03 espie Exp $	*/
 
 /*
  * Copyright (c) 1997, Jason Downs.  All rights reserved.
@@ -61,13 +61,6 @@
  * SUCH DAMAGE.
  */
 
-#if 0
-static char sccsid[] = "@(#)getnetbyaddr.c	8.1 (Berkeley) 6/4/93";
-static char sccsid_[] = "from getnetnamadr.c	1.4 (Coimbra) 93/06/03";
-static char rcsid[] = "$From: getnetnamadr.c,v 8.7 1996/08/05 08:31:35 vixie Exp $";
-static char rcsid[] = "$OpenBSD: getnetnamadr.c,v 1.25 2005/03/30 02:58:28 tedu Exp $";
-#endif /* LIBC_SCCS and not lint */
-
 #include <sys/param.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -84,7 +77,7 @@ static char rcsid[] = "$OpenBSD: getnetnamadr.c,v 1.25 2005/03/30 02:58:28 tedu 
 
 #include "thread_private.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libc/net/getnetnamadr.c,v 1.3 2005/07/09 13:23:31 tg Exp $");
 
 extern int h_errno;
 

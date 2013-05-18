@@ -1,3 +1,4 @@
+/*	$OpenBSD: getusershell.c,v 1.8 2005/08/08 08:05:34 espie Exp $ */
 /*
  * Copyright (c) 1985, 1993
  *	The Regents of the University of California.  All rights reserved.
@@ -27,10 +28,6 @@
  * SUCH DAMAGE.
  */
 
-#if 0
-static char rcsid[] = "$OpenBSD: getusershell.c,v 1.5 2004/05/18 02:05:52 jfb Exp $";
-#endif /* LIBC_SCCS and not lint */
-
 #include <sys/param.h>
 #include <sys/file.h>
 #include <sys/stat.h>
@@ -40,7 +37,7 @@ static char rcsid[] = "$OpenBSD: getusershell.c,v 1.5 2004/05/18 02:05:52 jfb Ex
 #include <unistd.h>
 #include <paths.h>
 
-__RCSID("$MirOS: src/lib/libc/gen/getusershell.c,v 1.2 2005/04/19 20:13:43 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/gen/getusershell.c,v 1.3 2005/07/07 13:39:31 tg Exp $");
 
 /*
  * Local shells should NOT be added here.  They should be added in
@@ -90,8 +87,8 @@ setusershell(void)
 static char **
 initshells(void)
 {
-	register char **sp, *cp;
-	register FILE *fp;
+	char **sp, *cp;
+	FILE *fp;
 	struct stat statb;
 
 	if (shells != NULL)

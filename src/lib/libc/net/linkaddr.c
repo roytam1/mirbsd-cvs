@@ -1,4 +1,5 @@
-/* $MirOS: src/lib/libc/net/linkaddr.c,v 1.2 2005/03/06 20:28:42 tg Exp $ */
+/**	$MirOS: src/lib/libc/net/linkaddr.c,v 1.3 2005/07/09 13:23:32 tg Exp $ */
+/*	$OpenBSD: linkaddr.c,v 1.5 2005/08/06 20:30:03 espie Exp $ */
 /*-
  * Copyright (c) 1990, 1993
  *	The Regents of the University of California.  All rights reserved.
@@ -28,16 +29,12 @@
  * SUCH DAMAGE.
  */
 
-#if 0
-static char rcsid[] = "$OpenBSD: linkaddr.c,v 1.4 2005/03/25 13:24:12 otto Exp $";
-#endif /* LIBC_SCCS and not lint */
-
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <net/if_dl.h>
 #include <string.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libc/net/linkaddr.c,v 1.3 2005/07/09 13:23:32 tg Exp $");
 
 /* States*/
 #define NAMING	0

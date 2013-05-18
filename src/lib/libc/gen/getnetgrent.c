@@ -1,4 +1,4 @@
-/*	$OpenBSD: getnetgrent.c,v 1.15 2004/05/18 02:05:52 jfb Exp $	*/
+/*	$OpenBSD: getnetgrent.c,v 1.17 2005/08/08 08:05:34 espie Exp $	*/
 
 /*
  * Copyright (c) 1994 Christos Zoulas
@@ -31,10 +31,6 @@
  * SUCH DAMAGE.
  */
 
-#if 0
-static char *rcsid = "$OpenBSD: getnetgrent.c,v 1.15 2004/05/18 02:05:52 jfb Exp $";
-#endif /* LIBC_SCCS and not lint */
-
 #include <sys/types.h>
 #include <stdio.h>
 #define _NETGROUP_PRIVATE
@@ -46,7 +42,7 @@ static char *rcsid = "$OpenBSD: getnetgrent.c,v 1.15 2004/05/18 02:05:52 jfb Exp
 #include <stdlib.h>
 #include <db.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libc/gen/getnetgrent.c,v 1.2 2005/03/06 20:28:40 tg Exp $");
 
 #define _NG_STAR(s)	(((s) == NULL || *(s) == '\0') ? _ngstar : s)
 #define _NG_EMPTY(s)	((s) == NULL ? "" : s)
@@ -340,8 +336,8 @@ addgroup(char *ypdom, struct stringlist *sl, char *grp)
 #endif
 	/* check for cycles */
 	if (_ng_sl_find(sl, grp) != NULL) {
-		free(grp);
 		_warnx("netgroup: Cycle in group `%s'", grp);
+		free(grp);
 		return;
 	}
 	_ng_sl_add(sl, grp);
@@ -418,8 +414,8 @@ in_find(char *ypdom, struct stringlist *sl, char *grp, const char *host,
 #endif
 	/* check for cycles */
 	if (_ng_sl_find(sl, grp) != NULL) {
-		free(grp);
 		_warnx("netgroup: Cycle in group `%s'", grp);
+		free(grp);
 		return 0;
 	}
 	_ng_sl_add(sl, grp);

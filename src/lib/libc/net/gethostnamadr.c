@@ -1,3 +1,4 @@
+/*	$OpenBSD: gethostnamadr.c,v 1.68 2005/08/06 20:30:03 espie Exp $ */
 /*-
  * Copyright (c) 1985, 1988, 1993
  *	The Regents of the University of California.  All rights reserved.
@@ -47,10 +48,6 @@
  * --Copyright--
  */
 
-#if 0
-static const char rcsid[] = "$OpenBSD: gethostnamadr.c,v 1.63 2005/06/08 18:32:34 millert Exp $";
-#endif /* LIBC_SCCS and not lint */
-
 #include <sys/param.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -66,7 +63,7 @@ static const char rcsid[] = "$OpenBSD: gethostnamadr.c,v 1.63 2005/06/08 18:32:3
 #include <stdlib.h>
 #include "thread_private.h"
 
-__RCSID("$MirOS: src/lib/libc/net/gethostnamadr.c,v 1.4 2005/07/09 12:59:05 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/net/gethostnamadr.c,v 1.5 2005/07/09 13:23:31 tg Exp $");
 
 #define MULTI_PTRS_ARE_ALIASES 1	/* XXX - experimental */
 
@@ -763,7 +760,7 @@ _endhtent(void)
 	}
 }
 
-struct hostent *
+static struct hostent *
 _gethtent(void)
 {
 	struct __res_state *_resp = _THREAD_PRIVATE(_res, _res, &_res);
@@ -809,9 +806,9 @@ _gethtent(void)
 		goto again;
 	}
 	/* if this is not something we're looking for, skip it. */
-	if (host.h_addrtype != af)
+	if (host.h_addrtype != AF_UNSPEC && host.h_addrtype != af)
 		goto again;
-	if (host.h_length != len)
+	if (host.h_length != 0 && host.h_length != len)
 		goto again;
 	h_addr_ptrs[0] = (char *)host_addr;
 	h_addr_ptrs[1] = NULL;
@@ -846,21 +843,6 @@ _gethtent(void)
 }
 
 struct hostent *
-_gethtbyname(const char *name)
-{
-	struct __res_state *_resp = _THREAD_PRIVATE(_res, _res, &_res);
-	struct hostent *hp;
-	extern struct hostent *_gethtbyname2(const char *, int);
-
-	if (_resp->options & RES_USE_INET6) {
-		hp = _gethtbyname2(name, AF_INET6);
-		if (hp)
-			return (hp);
-	}
-	return (_gethtbyname2(name, AF_INET));
-}
-
-struct hostent *
 _gethtbyname2(const char *name, int af)
 {
 	struct hostent *p;
@@ -891,7 +873,8 @@ _gethtbyaddr(const void *addr, socklen_t len, int af)
 
 	_sethtent(0);
 	while ((p = _gethtent()))
-		if (p->h_addrtype == af && !memcmp(p->h_addr, addr, len))
+		if (p->h_addrtype == af && p->h_length == len &&
+		    !bcmp(p->h_addr, addr, len))
 			break;
 	_endhtent();
 	return (p);
@@ -942,6 +925,8 @@ map_v4v6_hostent(struct hostent *hp, char **bpp, char *ep)
 struct hostent *
 gethostent(void)
 {
+	host.h_addrtype = AF_UNSPEC;
+	host.h_length = 0;
 	return (_gethtent());
 }
 

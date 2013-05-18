@@ -1,5 +1,5 @@
-/**	$MirOS: src/lib/libc/net/res_send.c,v 1.2 2005/03/06 20:28:43 tg Exp $ */
-/*	$OpenBSD: res_send.c,v 1.18 2005/03/30 02:58:28 tedu Exp $	*/
+/**	$MirOS: src/lib/libc/net/res_send.c,v 1.3 2005/07/09 13:23:32 tg Exp $ */
+/*	$OpenBSD: res_send.c,v 1.19 2005/08/06 20:30:04 espie Exp $	*/
 
 /*
  * Copyright (c) 1985, 1989, 1993
@@ -54,12 +54,6 @@
 #define INET6
 #endif
 
-#if 0
-static char sccsid[] = "@(#)res_send.c	8.1 (Berkeley) 6/4/93";
-static char rcsid[] = "$From: res_send.c,v 8.12 1996/10/08 04:51:06 vixie Exp $";
-static char rcsid[] = "$OpenBSD: res_send.c,v 1.18 2005/03/30 02:58:28 tedu Exp $";
-#endif /* LIBC_SCCS and not lint */
-
 	/* change this to "0"
 	 * if you talk to a lot
 	 * of multi-homed SunOS
@@ -89,7 +83,7 @@ static char rcsid[] = "$OpenBSD: res_send.c,v 1.18 2005/03/30 02:58:28 tedu Exp 
 
 #include "thread_private.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libc/net/res_send.c,v 1.3 2005/07/09 13:23:32 tg Exp $");
 
 static int s = -1;	/* socket used for communications */
 static int connected = 0;	/* is the socket connected */

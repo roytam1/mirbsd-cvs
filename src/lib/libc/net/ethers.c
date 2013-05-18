@@ -1,5 +1,5 @@
-/**	$MirOS: src/lib/libc/net/ethers.c,v 1.2 2005/03/06 20:28:42 tg Exp $	*/
-/*	$OpenBSD: ethers.c,v 1.19 2005/03/28 06:19:58 tedu Exp $	*/
+/**	$MirOS: src/lib/libc/net/ethers.c,v 1.3 2005/07/09 13:23:31 tg Exp $	*/
+/*	$OpenBSD: ethers.c,v 1.20 2005/08/06 20:30:03 espie Exp $	*/
 
 /*
  * Copyright (c) 1998 Todd C. Miller <Todd.Miller@courtesan.com>
@@ -36,7 +36,7 @@
 #include <string.h>
 #include <ctype.h>
 
-__RCSID("$MirOS: src/lib/libc/net/ethers.c,v 1.2 2005/03/06 20:28:42 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/net/ethers.c,v 1.3 2005/07/09 13:23:31 tg Exp $");
 
 #ifndef _PATH_ETHERS
 #define _PATH_ETHERS	"/etc/ethers"

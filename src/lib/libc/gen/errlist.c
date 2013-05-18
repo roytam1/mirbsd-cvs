@@ -1,3 +1,4 @@
+/*	$OpenBSD: errlist.c,v 1.9 2005/08/08 08:05:33 espie Exp $ */
 /*
  * Copyright (c) 1982, 1985, 1993
  *	The Regents of the University of California.  All rights reserved.
@@ -27,12 +28,8 @@
  * SUCH DAMAGE.
  */
 
-#if 0
-static char *rcsid = "$OpenBSD: errlist.c,v 1.7 2003/06/02 20:18:34 millert Exp $";
-#endif /* LIBC_SCCS and not lint */
-
 #include <sys/cdefs.h>
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libc/gen/errlist.c,v 1.2 2005/03/06 20:28:40 tg Exp $");
 
 #ifdef lint
 char *
@@ -143,5 +140,6 @@ const char *const
 	"Need authenticator",			/* 81 - ENEEDAUTH */
 	"IPsec processing failure",		/* 82 - EIPSEC */
 	"Attribute not found",			/* 83 - ENOATTR */
+	"Illegal byte sequence",		/* 84 - EILSEQ */
 };
 int _sys_nerr = { sizeof _sys_errlist/sizeof _sys_errlist[0] };

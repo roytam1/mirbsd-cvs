@@ -1,3 +1,4 @@
+/*	$OpenBSD: getgrent.c,v 1.23 2005/08/08 08:05:34 espie Exp $ */
 /*
  * Copyright (c) 1989, 1993
  *	The Regents of the University of California.  All rights reserved.
@@ -28,10 +29,6 @@
  * SUCH DAMAGE.
  */
 
-#if 0
-static char rcsid[] = "$OpenBSD: getgrent.c,v 1.21 2004/06/07 21:11:23 marc Exp $";
-#endif /* LIBC_SCCS and not lint */
-
 #include <sys/param.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -40,7 +37,7 @@ static char rcsid[] = "$OpenBSD: getgrent.c,v 1.21 2004/06/07 21:11:23 marc Exp 
 #include <errno.h>
 #include "thread_private.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libc/gen/getgrent.c,v 1.2 2005/03/06 20:28:40 tg Exp $");
 
 /* This global storage is locked for the non-rentrant functions */
 _THREAD_PRIVATE_KEY(gr_storage);
@@ -226,7 +223,7 @@ static int
 grscan(int search, gid_t gid, const char *name, struct group *p_gr,
     struct group_storage *gs)
 {
-	register char *cp, **m;
+	char *cp, **m;
 	char *bp, *endp;
 	u_long ul;
 	char **members;

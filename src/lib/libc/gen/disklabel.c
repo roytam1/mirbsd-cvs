@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/lib/libc/gen/disklabel.c,v 1.2 2005/03/06 20:28:40 tg Exp $ */
 /*
  * Copyright (c) 1983, 1987, 1993
  *	The Regents of the University of California.  All rights reserved.
@@ -28,10 +28,6 @@
  * SUCH DAMAGE.
  */
 
-#if defined(LIBC_SCCS) && !defined(lint)
-static const char rcsid[] = "$OpenBSD: disklabel.c,v 1.9 2003/06/11 21:03:10 deraadt Exp $";
-#endif /* LIBC_SCCS and not lint */
-
 #include <sys/param.h>
 #define DKTYPENAMES
 #include <sys/disklabel.h>
@@ -51,11 +47,11 @@ struct disklabel *
 getdiskbyname(const char *name)
 {
 	static struct	disklabel disk;
-	register struct	disklabel *dp = &disk;
-	register struct partition *pp;
+	struct	disklabel *dp = &disk;
+	struct partition *pp;
 	char	*buf;
 	char  	*db_array[2] = { _PATH_DISKTAB, 0 };
-	char	*cp, *cq;	/* can't be register */
+	char	*cp, *cq;
 	char	p, max, psize[3], pbsize[3],
 		pfsize[3], poffset[3], ptype[3];
 	u_int32_t *dx;
@@ -157,7 +153,7 @@ getdiskbyname(const char *name)
 static int
 gettype(char *t, char **names)
 {
-	register char **nm;
+	char **nm;
 
 	for (nm = names; *nm; nm++)
 		if (strcasecmp(t, *nm) == 0)

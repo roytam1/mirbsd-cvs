@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: setmode.c,v 1.15 2004/07/02 13:58:06 otto Exp $	*/
+/**	$MirOS: src/lib/libc/gen/setmode.c,v 1.2 2005/03/06 20:28:41 tg Exp $ */
+/*	$OpenBSD: setmode.c,v 1.17 2005/08/08 08:05:34 espie Exp $	*/
 /*	$NetBSD: setmode.c,v 1.15 1997/02/07 22:21:06 christos Exp $	*/
 
 /*
@@ -48,7 +48,7 @@
 #endif
 
 __SCCSID("@(#)setmode.c	8.2 (Berkeley) 3/25/94");
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libc/gen/setmode.c,v 1.2 2005/03/06 20:28:41 tg Exp $");
 
 #define	SET_LEN	6		/* initial # of bitcmd struct to malloc */
 #define	SET_LEN_INCR 4		/* # of bitcmd structs to add as needed */
@@ -203,8 +203,8 @@ setmode(const char *p)
 		perml = strtoul(p, &ep, 8);
 		/* The test on perml will also catch overflow. */
 		if (*ep != '\0' || (perml & ~(STANDARD_BITS|S_ISTXT))) {
-			errno = ERANGE;
 			free(saveset);
+			errno = ERANGE;
 			return (NULL);
 		}
 		perm = (mode_t)perml;
