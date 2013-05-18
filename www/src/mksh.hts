@@ -1,10 +1,10 @@
-# $MirOS: www/src/mksh.hts,v 1.31 2007/07/26 10:23:15 tg Exp $
+# $MirOS: www/src/mksh.hts,v 1.32 2007/07/26 13:23:53 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.31 2007/07/26 10:23:15 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.32 2007/07/26 13:23:53 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R29</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -602,8 +602,7 @@ mws_content <<'EOF'
   ANSI'n'POSIX Environment (not finished)</li>
  <li>Plan porting mksh to <a href="http://www.minix3.org/">Minix 3</a>
   (not finished yet)</li>
- <li>Begin work on building on Solaris with Sun's compiler (contributed
-  by Jupp “cnuke” Söntgen) – not public, not finished yet</li>
+ <li>Build on Solaris, Linux and MirBSD with Sun's C compiler</li>
  <li>No longer build a statically linked shell by default; do not try,
   do not provide any means; user has to use LDFLAGS instead.</li>
  <li>Remove some probably dead mirtoconf checks</li>
@@ -612,9 +611,6 @@ mws_content <<'EOF'
   because the bug seems to only appear for functions that also exist as
   a builtin (which was declared with the nonnull attribute)</li>
  <li>Fix a long-standing typo, 10x moritz@obsd</li>
- <li>Make mksh compilable with SUNpro 12 (inside compat_linux(8)) for
-  real, both targetting a Linux binary – Total failed: 12 (11 unexpected) –
-  and a native MirOS BSD binary – which works more than just fine…</li>
  <li>Prefer more common signal names (SIGCHLD) over uncommon ones (SIGCLD)</li>
  <li>Quieten gcc and support SUNpro 5.8 on Solaris 10 on sparc64</li>
  <li>Optimise signal handling and detection; enable compilers whose
