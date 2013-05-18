@@ -1,4 +1,4 @@
-.\"	$MirOS: src/share/man/man8/afterboot.8,v 1.6 2006/01/13 03:49:34 tg Exp $
+.\"	$MirOS: src/share/man/man8/afterboot.8,v 1.7 2006/03/19 21:23:18 tg Exp $
 .\"	$OpenBSD: afterboot.8,v 1.110 2005/07/14 21:12:17 jmc Exp $
 .\"
 .\" Copyright (c) 1997 Marshall M. Midden
@@ -30,7 +30,7 @@
 .\" (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 .\" THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .\"
-.Dd October 20, 1997
+.Dd April 19, 2006
 .Dt AFTERBOOT 8
 \!\" Originally created by Marshall M. Midden -- 1997-10-20, m4@umn.edu
 .Os
@@ -107,6 +107,7 @@ file first and generate the keys using
 for RSA Version 1 (old), and
 .Dl # /usr/bin/ssh-keygen \-q \-t dsa \-f /etc/ssh/ssh_host_dsa_key \-N \'\'
 for DSA Version 2 (extremely slow).
+These are however both totally insecure.
 .Pp
 Upon successful login on the console, you may see the message
 .Dq Don't login as root, use su .
