@@ -1,15 +1,14 @@
-# $MirOS: ports/essentials/pkgtools/Makefile,v 1.16 2006/03/19 20:13:02 tg Exp $
+# $MirOS: ports/essentials/pkgtools/Makefile,v 1.15 2006/03/19 19:49:56 tg Exp $
 
 COMMENT=		"MirPorts Framework package tools"
 CATEGORIES=		essentials infrastructure
 CVS_DISTREPO=		_anoncvs@anoncvs.66h.42h.de:/cvs
-# When updating the port, you MUST update the file
-# ports/infrastructure/pkgtools/VERSION to match this!
-CVS_DISTDATE=		2006/02/21
+CVS_DISTDATE=		2006/03/19 22:00
 CVS_DISTMODS=		ports/infrastructure/pkgtools
 CVS_DISTFILE=		pkgtools
 PKGNAME=		${_CVS_DISTF:R}-0
-RESPONSIBLE=		Benny Siegert <bsiegert@mirbsd.org>
+# well it's Benny Siegert <bsiegert@> for the package tools themselves
+RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.de>
 HOMEPAGE=		http://mirbsd.de/ports
 
 # 2-clause UCB-style
