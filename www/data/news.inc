@@ -449,3 +449,12 @@ Date: 07.09.2007
  <a href="@@RELPATH@@mksh.htm#clog">ChangeLog</a> for details.</p>
 <p>This release is dedicated to Bob “maradong” Hentges, Symlink Lëtzebuerg.</p>
 ----
+Title: mksh R31b released
+Date: 09.09.2007
+
+<p><a href="@@RELPATH@@mksh.htm">mksh R31b</a> has been released; read the
+ <a href="@@RELPATH@@mksh.htm#clog">ChangeLog</a> for details. This quick
+ follow-up release is because it fixes several important bugs etc.</p>
+<p>OSF/1 support thanks to the <a href="http://www.icewm.org/">IceWM</a>
+ coffee pot maintainer, Josef “Jupp” Schugt.</p>
+----
