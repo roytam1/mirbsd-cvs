@@ -24,7 +24,7 @@
 
 #include <wchar.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libc/i18n/optu8to16vis.c,v 1.1 2008/08/17 00:19:08 tg Exp $");
 
 static wchar_t vistable[128] = {
 	0x20AC, 0x278A, 0x201A, 0x0192, 0x201E, 0x2026, 0x2020, 0x2021,
@@ -56,7 +56,7 @@ optu8to16vis(wchar_t * restrict pwc, const char * restrict src, size_t n,
 		ps = &internal_mbstate;
 
 	rv = optu8to16(pwc, src, n, ps);
-	if (pwc && (*pwc & 0xEF80) == 0xEF80)
+	if (pwc && iswoctet(*pwc))
 		*pwc = vistable[*pwc & 0x7F];
 	return (rv);
 }

@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libc/i18n/Makefile.inc,v 1.28 2008/08/01 23:24:02 tg Exp $
+# $MirOS: src/lib/libc/i18n/Makefile.inc,v 1.29 2008/08/17 00:19:08 tg Exp $
 
 .PATH: ${LIBCSRCDIR}/i18n
 .PATH: ${LIBCSRCDIR}/locale
@@ -82,6 +82,7 @@ CFLAGS_wcstoull.o+=	-Wno-cast-qual
 MAN+=	btowc.3
 MAN+=	iswalnum.3
 MAN+=	iswctype.3
+MAN+=	iswoctet.3
 MAN+=	mblen.3
 MAN+=	mbrlen.3
 MAN+=	mbrtowc.3

@@ -1,4 +1,4 @@
-.\" $MirOS: src/lib/libc/locale/optu8to16.3,v 1.3 2008/08/05 22:28:11 tg Exp $
+.\" $MirOS: src/lib/libc/locale/optu8to16.3,v 1.4 2008/08/17 00:19:08 tg Exp $
 .\"-
 .\" Copyright (c) 2008
 .\"	Thorsten Glaser <tg@mirbsd.org>
@@ -20,7 +20,7 @@
 .\"
 .\" The author reserves the right to steward the OPTU encoding forms.
 .\"-
-.Dd $Mdocdate: August 5 2008 $
+.Dd $Mdocdate: August 17 2008 $
 .Dt OPTU8TO16 3
 .Os MirOS
 .Sh NAME
@@ -160,6 +160,7 @@ to indicate an invalid or uninitialised mbstate_t object is theoretically
 possible, neither this nor other processing errors should ever happen with
 the current implementaton.
 .Sh SEE ALSO
+.Xr iswoctet 3 ,
 .Xr mbrtowc 3 ,
 .Xr optu16to8 3
 .Sh STANDARDS

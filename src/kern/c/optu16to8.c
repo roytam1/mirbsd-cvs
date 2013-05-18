@@ -27,7 +27,7 @@
 #include <errno.h>
 #endif
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/kern/c/optu16to8.c,v 1.1 2008/08/01 23:24:01 tg Exp $");
 
 #ifdef _KERN_HOSTED
 static size_t _optu16to8(uint8_t * restrict, wchar_t, mbstate_t * restrict);
@@ -83,7 +83,7 @@ _optu16to8(uint8_t * restrict s, wchar_t wc, mbstate_t * restrict ps)
 		errno = EILSEQ;
 #endif
 		return ((size_t)(-1));
-	} else if (__predict_true(wc < 0x80 || (wc & 0xFF80) == 0xEF80)) {
+	} else if (__predict_true(wc < 0x80 || iswoctet(wc))) {
 		/* count is already 0 */
 		*s++ = wc & 0xFF;
 	} else if (wc < 0x0800) {

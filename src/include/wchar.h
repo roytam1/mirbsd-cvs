@@ -1,4 +1,4 @@
-/* $MirOS: src/include/wchar.h,v 1.24 2008/08/17 00:19:07 tg Exp $ */
+/* $MirOS: src/include/wchar.h,v 1.25 2008/11/22 08:48:58 tg Exp $ */
 
 /*-
  * Copyright (c) 2007, 2008
@@ -213,6 +213,10 @@ __END_DECLS
 #define getwchar()	getwc(stdin)
 #define putwc(wc, f)	fputwc((wc), (f))
 #define putwchar(wc)	putwc((wc), stdout)
+
+#if __OPENBSD_VISIBLE
+#define iswoctet(wc)	(((wchar_t)(wc) & 0xFF80) == 0xEF80)
+#endif
 
 #ifdef __GNUC__
 #define btowc(c)	__extension__({			\
