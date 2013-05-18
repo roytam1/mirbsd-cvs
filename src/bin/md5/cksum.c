@@ -57,7 +57,7 @@
 #include <tiger.h>
 #include <whirlpool.h>
 
-__RCSID("$MirOS: src/bin/md5/cksum.c,v 1.7 2009/05/17 14:09:25 tg Exp $");
+__RCSID("$MirOS: src/bin/md5/cksum.c,v 1.8 2009/06/26 21:52:20 tg Exp $");
 
 #define MAX_DIGEST_LEN			128
 
@@ -86,6 +86,7 @@ typedef struct SYSVSUMContext {
 } SYSVSUM_CTX;
 
 typedef uint32_t CDB_CTX;
+typedef uint32_t OAAT_CTX;
 typedef uint64_t SIZE_CTX;
 
 union ANY_CTX {
@@ -106,6 +107,7 @@ union ANY_CTX {
 	WHIRLPOOL_CTX whirlpool;
 	SIZE_CTX size;
 	CDB_CTX cdb;
+	OAAT_CTX oaat;
 };
 
 void digest_print(const char *, const char *, const char *);
@@ -131,6 +133,11 @@ void CKSUM_Final(CKSUM_CTX *);
 char *CKSUM_End(CKSUM_CTX *, char *);
 char *CKSUM_Data(const u_int8_t *, size_t, char *);
 
+void OAAT_Init(OAAT_CTX *);
+void OAAT_Update(OAAT_CTX *, const uint8_t *, size_t);
+void OAAT_Final(OAAT_CTX *);
+char *OAAT_End(OAAT_CTX *, char *);
+
 void SUM_Init(SUM_CTX *);
 void SUM_Update(SUM_CTX *, const u_int8_t *, size_t);
 void SUM_Final(SUM_CTX *);
@@ -143,7 +150,7 @@ void SYSVSUM_Final(SYSVSUM_CTX *);
 char *SYSVSUM_End(SYSVSUM_CTX *, char *);
 char *SYSVSUM_Data(const u_int8_t *, size_t, char *);
 
-#define NHASHES	17
+#define NHASHES	18
 struct hash_functions {
 	const char *name;
 	size_t digestlen;
@@ -202,6 +209,16 @@ struct hash_functions {
 		(void (*)(void *))CDB_Init,
 		(void (*)(void *, const unsigned char *, unsigned int))CDB_Update,
 		(char *(*)(void *, char *))CDB_End,
+		digest_printbin_stringle,
+		digest_print,
+		digest_print_string
+	}, {
+		"OAAT",
+		8,
+		NULL,
+		(void (*)(void *))OAAT_Init,
+		(void (*)(void *, const unsigned char *, unsigned int))OAAT_Update,
+		(char *(*)(void *, char *))OAAT_End,
 		digest_printbin_stringle,
 		digest_print,
 		digest_print_string
@@ -618,10 +635,10 @@ digest_filelist(const char *file, struct hash_functions *defhash)
 		return(1);
 	}
 
-	if (defhash < &functions[8])
+	if (defhash < &functions[9])
 		/*
 		 * no GNU format for cksum, sum, sysvsum, adler32,
-		 * cdb, suma, sfv, size
+		 * cdb, oaat, suma, sfv, size
 		 */
 		defhash = NULL;
 
@@ -942,6 +959,52 @@ CDB_Update(CDB_CTX *ctx, const uint8_t *buf, size_t n)
 char *
 CDB_End(CDB_CTX *ctx, char *digest)
 {
+	if (digest == NULL) {
+		if (asprintf(&digest, "%08X", *ctx) == -1)
+			return (NULL);
+	} else
+		snprintf(digest, 17, "%08X", *ctx);
+
+	return (digest);
+}
+
+void
+OAAT_Init(OAAT_CTX *ctx)
+{
+	*ctx = 0;
+}
+
+void
+OAAT_Update(OAAT_CTX *ctx, const uint8_t *buf, size_t n)
+{
+	register uint32_t h;
+
+	h = *ctx;
+	while (n--) {
+		h += *buf++;
+		h += h << 10;
+		h ^= h >> 6;
+	}
+	*ctx = h;
+}
+
+void
+OAAT_Final(OAAT_CTX *ctx)
+{
+	register uint32_t h;
+
+	h = *ctx;
+	h += h << 3;
+	h ^= h >> 11;
+	h += h << 15;
+	*ctx = h;
+}
+
+char *
+OAAT_End(OAAT_CTX *ctx, char *digest)
+{
+	OAAT_Final(ctx);
+
 	if (digest == NULL) {
 		if (asprintf(&digest, "%08X", *ctx) == -1)
 			return (NULL);
