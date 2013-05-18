@@ -1,6 +1,7 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.12 2004/02/02 18:02:22 sturm Exp $
 
-COMMENT=			icons mainly for use in Window Maker
+COMMENT=		icons mainly for use in Window Maker
 
 DISTNAME=		wmicons-1.0
 CATEGORIES=		graphics x11 x11/windowmaker
@@ -18,12 +19,10 @@ DISTFILES=		DWiconpack1.tar.gz DWiconpack2.tar.gz IconFest-1.2.tgz \
 
 DIST_SUBDIR=		wmicons
 
-RUN_DEPENDS=		:windowmaker-*:x11/windowmaker
+#RUN_DEPENDS=		:windowmaker-*:x11/windowmaker
 
 NO_REGRESS=		Yes
-
 NO_BUILD=		Yes
-
 PKG_ARCH=		*
 
 WMICONDIR=		${PREFIX}/share/WindowMaker/Pixmaps
