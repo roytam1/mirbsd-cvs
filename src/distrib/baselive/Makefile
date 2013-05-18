@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/baselive/Makefile,v 1.19 2007/06/07 02:40:36 tg Exp $
+# $MirOS: src/distrib/baselive/Makefile,v 1.20 2007/06/08 11:40:20 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -88,11 +88,11 @@ ${IMAGE}:
 
 addcontrib:
 	@if [[ ! -s ${BSDSRCDIR}/contrib/code/jupp/jupprc ]]; then \
-		print -u2 Aborted: your checkout not complete; \
+		print -u2 Aborted: your checkout is not complete; \
 		exit 1; \
 	fi
 	@if [[ ! -s ${BSDSRCDIR}/contrib/code/Snippets/tinyirc.c ]]; then \
-		print -u2 Aborted: your checkout not complete; \
+		print -u2 Aborted: your checkout is not complete; \
 		exit 1; \
 	fi
 	mkdir -p tempdir

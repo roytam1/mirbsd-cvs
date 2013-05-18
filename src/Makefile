@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.106 2007/06/09 18:49:39 tg Exp $
+# $MirOS: src/Makefile,v 1.107 2007/06/16 21:13:55 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -271,6 +271,10 @@ dist:
 	    ${SUDO} cp ${.CURDIR}/Build.log ${BSDRELDIR}/rel/
 
 _DISTS=		base
+.if !exists(${BSDSRCDIR}/contrib/code/Snippets/tinyirc.c) || \
+    !exists(${BSDSRCDIR}/contrib/code/jupp/jupprc)
+NO_LIVECD=	incomplete
+.endif
 .ifdef QUICK_DIST2
 QUICK_DIST=	implied
 NO_LIVECD=	implied
@@ -337,6 +341,9 @@ _do-dist:
 .ifdef NO_LIVECD
 .  ifndef QUICK_DIST
 	@echo QUICK dist-build mode active:
+.  endif
+.  if ${NO_LIVECD} == "incomplete"
+	@echo Your checkout is not complete:
 .  endif
 	@echo not building the baselive CD image.
 .endif
