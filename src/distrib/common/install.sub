@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/install.sub,v 1.12 2007/05/18 07:27:02 tg Exp $
+# $MirOS: src/distrib/common/install.sub,v 1.13 2007/05/24 07:53:01 tg Exp $
 # $OpenBSD: install.sub,v 1.388 2005/07/02 00:55:48 uwe Exp $
 # $NetBSD: install.sub,v 1.5.2.8 1996/09/02 23:25:02 pk Exp $
 #
@@ -1028,7 +1028,7 @@ ftp_error() {
 
 # Get several parameters from the user, and xfer
 # files from the server.
-# $1 = url type (ftp or http)
+# $1 = url type (ftp, http or https)
 # Note:	_ftp_server_ip, _ftp_server_dir, _ftp_server_login,
 #	and _ftp_active must be global.
 install_url() {
@@ -1345,7 +1345,7 @@ sane_install() {
 # user selects from that location. Repeat as many times as the user
 # needs to get all desired sets.
 install_sets() {
-	local _d=disk _locs="disk ftp http"
+	local _d=disk _locs="disk ftp http shttp"
 
 	[[ -n $CDDEVS ]] && { _locs="cd $_locs" ; _d=cd ; }
 	[[ -x /sbin/mount_nfs ]] && _locs="$_locs nfs"
@@ -1364,6 +1364,7 @@ install_sets() {
 		f*|F*)	isin "ftp" $_locs && install_url ftp ;;
 		h*|H*)	isin "http" $_locs && install_url http ;;
 		n*|N*)	isin "nfs" $_locs && install_nfs ;;
+		s*|S*)	isin "http" $_locs && install_url https ;;
 		t*|T*)	isin "tape" $_locs && install_tape ;;
 		esac
 	done
