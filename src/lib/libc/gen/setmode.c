@@ -1,4 +1,4 @@
-/**	$MirOS: src/lib/libc/gen/setmode.c,v 1.4 2006/01/29 20:59:09 tg Exp $ */
+/**	$MirOS: src/lib/libc/gen/setmode.c,v 1.5 2006/07/03 12:13:52 tg Exp $ */
 /*	$OpenBSD: setmode.c,v 1.17 2005/08/08 08:05:34 espie Exp $	*/
 /*	$NetBSD: setmode.c,v 1.15 1997/02/07 22:21:06 christos Exp $	*/
 
@@ -34,6 +34,15 @@
  * SUCH DAMAGE.
  */
 
+#if defined(HAVE_CONFIG_H) && (HAVE_CONFIG_H != 0)
+/* usually when packaged with third-party software */
+#ifdef CONFIG_H_FILENAME
+#include CONFIG_H_FILENAME
+#else
+#include "config.h"
+#endif
+#endif
+
 #include <sys/types.h>
 #include <sys/stat.h>
 
@@ -48,7 +57,7 @@
 #endif
 
 __SCCSID("@(#)setmode.c	8.2 (Berkeley) 3/25/94");
-__RCSID("$MirOS: src/lib/libc/gen/setmode.c,v 1.4 2006/01/29 20:59:09 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/gen/setmode.c,v 1.5 2006/07/03 12:13:52 tg Exp $");
 
 #define	SET_LEN	6		/* initial # of bitcmd struct to malloc */
 #define	SET_LEN_INCR 4		/* # of bitcmd structs to add as needed */
@@ -103,7 +112,8 @@ getmode(const void *bbox, mode_t omode)
 
 		case 'o':
 			value = newmode & S_IRWXO;
-common:			if (set->cmd2 & CMD2_CLR) {
+ common:
+			if (set->cmd2 & CMD2_CLR) {
 				clrval =
 				    (set->cmd2 & CMD2_SET) ?  S_IRWXO : value;
 				if (set->cmd2 & CMD2_UBITS)
@@ -238,7 +248,8 @@ setmode(const char *p)
 			}
 		}
 
-getop:		if ((op = *p++) != '+' && op != '-' && op != '=') {
+ getop:
+		if ((op = *p++) != '+' && op != '-' && op != '=') {
 			free(saveset);
 			return (NULL);
 		}
@@ -318,7 +329,8 @@ getop:		if ((op = *p++) != '+' && op != '-' && op != '=') {
 			}
 		}
 
-apply:		if (!*p)
+ apply:
+		if (!*p)
 			break;
 		if (*p != ',')
 			goto getop;
