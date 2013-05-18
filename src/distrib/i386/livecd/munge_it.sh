@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.35 2006/05/01 18:44:49 tg Exp $
+# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.36 2006/05/08 18:58:34 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -77,7 +77,7 @@ ed -s etc/ntpd.conf <<-'EOF'
 EOF
 ed -s etc/rc <<-'EOF'
 	1i
-		# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.35 2006/05/01 18:44:49 tg Exp $
+		# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.36 2006/05/08 18:58:34 tg Exp $
 	.
 	/shutdown request/ka
 	/^fi/a
@@ -112,6 +112,8 @@ ed -s etc/rc <<-'EOF'
 		sleep 1
 		cp -r etc/skel home/live
 		chown -R 32762:32762 home/live
+		[[ -s /stand/locate.database ]] && \
+		    cp /stand/locate.database /var/db/locate.database
 	.
 	/load arp tables/i
 		if [[ -e /tmp/try_rnd ]]; then

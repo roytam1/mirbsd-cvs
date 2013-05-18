@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/livecd/Makefile,v 1.35 2006/04/27 08:31:38 tg Exp $
+# $MirOS: src/distrib/i386/livecd/Makefile,v 1.36 2006/05/08 19:16:35 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -98,7 +98,7 @@ nukefiles:
 	-strip -s $$(find workdir/usr/lib -name \*.so.\*)
 	-strip -g $$(find workdir/usr/lib -name \*.a)
 
-makeimg: bsd.gz
+makeimg: bsd.gz mr.fs
 	${SUDO} dd if=bsd.gz obs=2048 conv=osync of=workdir/bsd
 	${SUDO} dd if=${BSDOBJDIR}/sys/arch/i386/stand/liveboot/boot \
 	    obs=2048 conv=osync of=workdir/v${OSrev}/i386/boot.liv
@@ -115,6 +115,7 @@ makeimg: bsd.gz
 	# pad for gzsig(1) application later on
 	dd if=/dev/zero count=2 >>workdir/RMD160.gz
 	-rm -f ${CDROM}
+	cd workdir && ${SUDO} ${MKSH} ${.CURDIR}/mklocatedb.sh ${.CURDIR}/mr.fs
 	touch ${CDROM}
 	${SUDO} mkisofs -R -L -d -D -N -v -v -f \
 	    -b v${OSrev}/i386/boot.iso -c boot.cat -p "Thorsten Glaser" \
