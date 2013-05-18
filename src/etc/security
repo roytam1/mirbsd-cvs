@@ -1,6 +1,6 @@
 #!/bin/mksh
 # $Id$
-# $MirOS: src/etc/security,v 1.18 2009/02/09 12:39:42 tg Exp $
+# $MirOS: src/etc/security,v 1.19 2009/03/29 13:04:16 tg Exp $
 # $OpenBSD: security,v 1.71 2005/02/22 10:50:55 otto Exp $
 # from: @(#)security	8.1 (Berkeley) 6/9/93
 
@@ -45,9 +45,10 @@ function fback {
 	[[ -n $bf ]] || bf=$(sed 's/^\///;s/\//_/g' <<<"$fn")
 	[[ -n $ft ]] || ft=$fn
 
-	wd="$(pwd)"
+	wd=$(pwd)
 	cd /var/backups
 
+	# migration for special cases
 	if [[ $o = md5 ]]; then
 		cf=$DIR/_md5
 		md5 <"$fn" >$cf
@@ -59,7 +60,7 @@ function fback {
 	fi
 
 	if [[ ! -x /usr/bin/co ]]; then
-		# Do it without RCS tools
+		# back things up without RCS tools
 		if [[ ! -e $bf.current ]] || ! cmp -s "$cf" "$bf.current"; then
 			[[ -e $bf.current ]] && \
 			    cp -p "$bf.current" "$bf.backup"
@@ -78,25 +79,31 @@ function fback {
 		return
 	fi
 
+	# migration for RCS/foo,x (-x,v/) to RCS/foo (-x)
+	[[ -e RCS/$bf,v ]] && mv -f RCS/$bf,v RCS/$bf
+
+	# migration for non-RCS to RCS schema
 	if [[ -e $bf.backup ]]; then
-		[[ -e RCS/$bf,v ]] && co -M -T -l "$bf" >>rcs.log 2>&1
+		[[ -e RCS/$bf ]] && co -x -M -T -l "$bf" >>rcs.log 2>&1
 		fd=$(stat -f '%Sm' -t '%Y/%m/%d %H:%M:%S' "$bf.backup")
 		fo=$(stat -f '%Su' "$bf.backup")
 		mv -f "$bf.backup" "$bf"
-		ci -M -T -u -d"$fd" -t-"automatic backup for $fn" -w"$fo" \
+		ci -x -M -T -u -d"$fd" -t-"automatic backup for $fn" -w"$fo" \
 		    -sAncient -f -m"legacy backup $fn" "$bf" >>rcs.log 2>&1
 	fi
 	if [[ -e $bf.current ]]; then
-		[[ -e RCS/$bf,v ]] && co -M -T -l "$bf" >>rcs.log 2>&1
+		[[ -e RCS/$bf ]] && co -x -M -T -l "$bf" >>rcs.log 2>&1
 		fd=$(stat -f '%Sm' -t '%Y/%m/%d %H:%M:%S' "$bf.current")
 		fo=$(stat -f '%Su' "$bf.current")
 		mv -f "$bf.current" "$bf"
-		ci -M -T -u -d"$fd" -t-"automatic backup for $fn" -w"$fo" \
+		ci -x -M -T -u -d"$fd" -t-"automatic backup for $fn" -w"$fo" \
 		    -sLegacy -f -m"legacy current $fn" "$bf" >>rcs.log 2>&1
 	fi
 	rm -f "$bf.backup" "$bf.current"
+
+	# back things up using RCS tools
 	if [[ ! -e $bf ]] || ! cmp -s "$cf" "$bf"; then
-		[[ -e RCS/$bf,v ]] && co -M -T -l "$bf" >>rcs.log 2>&1
+		[[ -e RCS/$bf ]] && co -x -M -T -l "$bf" >>rcs.log 2>&1
 		rm -f "$bf"
 		cp -p "$cf" "$bf"
 		fd=$(stat -f '%Sm' -t '%Y/%m/%d %H:%M:%S' "$fn")
@@ -104,16 +111,16 @@ function fback {
 		fa=$(stat -f '%u:%g' "$fn")
 		fp=$(stat -f '%Mp%Lp' "$fn")
 		[[ $o = nodiff ]] || _diffhdr "$ft"
-		[[ $o = nodiff ]] || if [[ -e RCS/$bf,v ]]; then
-			rcsdiff -q -u -p /var/backups/"$bf"
+		[[ $o = nodiff ]] || if [[ -e RCS/$bf ]]; then
+			rcsdiff -x -q -u -p /var/backups/"$bf"
 		else
 			diff -u /dev/null /var/backups/"$bf"
 		fi
-		ci -M -T -u -d"$fd" -t-"automatic backup for $fn" -w"$fo" \
+		ci -x -M -T -u -d"$fd" -t-"automatic backup for $fn" -w"$fo" \
 		    -sBackup -m"$(date) backup for $fn" "$bf" >>rcs.log 2>&1
 		cp -p "$bf" "$cf"
-		chown 0:0 "$bf" "RCS/$bf,v"
-		chmod 0400 "$bf" "RCS/$bf,v"
+		chown 0:0 "$bf" "RCS/$bf"
+		chmod 0400 "$bf" "RCS/$bf"
 		chown $fa "$cf"
 		chmod $fp "$cf"
 	fi
