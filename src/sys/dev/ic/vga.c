@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/dev/ic/vga.c,v 1.3 2006/10/17 23:16:45 tg Exp $ */
+/* $MirOS: src/sys/dev/ic/vga.c,v 1.4 2007/02/06 21:36:08 tg Exp $ */
 /* $OpenBSD: vga.c,v 1.42 2006/11/29 19:11:15 miod Exp $ */
 /* $NetBSD: vga.c,v 1.28.2.1 2000/06/30 16:27:47 simonb Exp $ */
 
@@ -136,9 +136,15 @@ static const unsigned char fgansitopc[] = {
 #else
 	FG_BLACK, FG_RED, FG_GREEN, FG_BROWN, FG_BLUE,
 	FG_MAGENTA, FG_CYAN, FG_LIGHTGREY
+#endif
 }, bgansitopc[] = {
+#ifdef __alpha__
+	BG_BLACK, BG_BLUE, BG_GREEN, BG_CYAN, BG_RED,
+	BG_MAGENTA, BG_BROWN, BG_LIGHTGREY
+#else
 	BG_BLACK, BG_RED, BG_GREEN, BG_BROWN, BG_BLUE,
 	BG_MAGENTA, BG_CYAN, BG_LIGHTGREY
+#endif
 };
 
 /*
@@ -965,7 +971,7 @@ vga_scrollback(v, cookie, lines)
 			p = st;
 		scr->pcs.visibleoffset = (p + ul) % we;
 	}
-
+	
 	/* update visible position */
 	vga_6845_write(vh, startadrh, scr->pcs.visibleoffset >> 9);
 	vga_6845_write(vh, startadrl, scr->pcs.visibleoffset >> 1);
