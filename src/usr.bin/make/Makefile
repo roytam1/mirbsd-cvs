@@ -1,4 +1,4 @@
-# $MirOS: src/usr.bin/make/Makefile,v 1.7 2005/11/24 13:26:56 tg Exp $
+# $MirOS: src/usr.bin/make/Makefile,v 1.8 2005/11/24 13:32:07 tg Exp $
 # $OpenBSD: Makefile,v 1.38 2004/01/28 02:50:28 espie Exp $
 
 .include <bsd.own.mk>
@@ -30,8 +30,6 @@ SRCS+=		ohash_create_entry.c ohash_delete.c ohash_do.c \
 MKFEATURES?=	-DUSE_TIMESPEC
 .endif
 CPPFLAGS+=	${MKFEATURES} -D_PATH_MIRBSDKSH=\"${MKSH}\"
-
-CFLAGS_fgetln.o=-Wno-redundant-decls
 
 .if !exists(${MKSH})
 .BEGIN:
