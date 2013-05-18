@@ -1,4 +1,4 @@
-# $MirOS: src/scripts/roff2htm,v 1.61 2011/09/13 18:36:31 tg Exp $
+# $MirOS: src/scripts/roff2htm,v 1.62 2011/09/14 17:31:59 tg Exp $
 # $ekkoBSD: catman2html.sh,v 1.2 2004/03/07 03:02:53 stephen Exp $
 #-
 # Copyright (c) 2004, 2005, 2006, 2007, 2011
@@ -141,41 +141,24 @@ function output_header {
 	/* <![CDATA[ */
 	body {
 		background-color:#000000;
-		color:#AAAAAA;
+		color:#666666;
 		font-family:serif;
-		line-height:112%;
 	}
-	.manpage a {
-		color:#3FFF3F;
+	a {
+		color:inherit;
 		text-decoration:none;
-		border-bottom:1px dashed #3FFF3F;
+		border-bottom:1px dashed;
 	}
-	.manpage a:visited {
-		color:#3FFF3F;
+	a:visited {
 		text-decoration:none;
-		border-bottom:1px dotted #3FFF3F;
+		border-bottom:1px dotted;
 	}
-	.manpage a:hover {
-		color:#3FFF3F;
+	a:hover {
 		text-decoration:none;
-		border-bottom:1px solid #3FFF3F;
-	}
-	.footer a {
-		color:#3F3FFF;
-		text-decoration:none;
-		border-bottom:1px dashed #3F3FFF;
-	}
-	.footer a:visited {
-		color:#3F3FFF;
-		text-decoration:none;
-		border-bottom:1px dotted #3F3FFF;
-	}
-	.footer a:hover {
-		color:#3F3FFF;
-		text-decoration:none;
-		border-bottom:1px solid #3F3FFF;
+		border-bottom:1px double;
 	}
 	pre {
+		line-height:112%;
 		color:#FFBF00;
 	}
 	b {
@@ -193,7 +176,7 @@ function output_header {
 		border-bottom:1px solid #FFEF00;
 	}
 	h1 {
-		color:#5FFF5F;
+		color:#FFEF00;
 		font-size:xx-large;
 		font-family:serif;
 	}
@@ -210,14 +193,13 @@ function output_header {
 	/* ]]> */
  </style>
 </head><body>
-<div class="manpage">
 <h1>MirOS Manual: <a href="../man'$2/$1'.htm">'$1\($2')</a></h1>'
 }
 
 function output_footer {
-	print '</div><hr /><div class="footer"><p
- style="font-size:xx-small;">Generated on' $roff2htm_gendate 'by
- <tt>$MirOS: src/scripts/roff2htm,v 1.61 2011/09/13 18:36:31 tg Exp $</tt></p>
+	print '
+<hr /><p style="font-size:xx-small;">Generated on' $roff2htm_gendate 'by
+ <tt>$MirOS: src/scripts/roff2htm,v 1.62 2011/09/14 17:31:59 tg Exp $</tt></p>
 <p>These manual pages and other documentation are <a
  href="../man7/BSD-Licence.htm">copyrighted</a> by their respective writers;
  their source is available at our <a href="http://cvs.mirbsd.de/">CVSweb</a>,
@@ -227,7 +209,7 @@ function output_footer {
  provided by Thorsten Glaser.</span></p>
 <p style="font-size:x-small;">This manual page’s HTML representation
  is supposed to be <a href="http://validator.w3.org/check/referer">valid
- XHTML/1.1</a>; if not, please send a bug report – diffs preferred.</p></div>
+ XHTML/1.1</a>; if not, please send a bug report – diffs preferred.</p>
 </body></html>'
 }
 
