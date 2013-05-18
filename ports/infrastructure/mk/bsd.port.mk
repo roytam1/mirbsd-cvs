@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.234 2008/11/02 17:26:05 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.235 2008/11/02 17:29:28 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -301,7 +301,7 @@ MASTER_SITES${_i:N-}?=	${_MASTER_SITE_MIRBSD}
 .    endif
 .  else
 .    undef SVN_DISTPATH${_i:N-}
-,    undef CVS_DISTREPO${_i:N-}
+.    undef CVS_DISTREPO${_i:N-}
 .  endif
 .endfor
 
