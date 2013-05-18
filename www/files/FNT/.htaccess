@@ -1,0 +1,6 @@
+# $MirOS$
+
+<IfModule mod_expires.c>
+	ExpiresActive On
+	ExpiresDefault M31557168
+</IfModule>

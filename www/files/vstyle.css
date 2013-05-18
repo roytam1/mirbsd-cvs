@@ -1,4 +1,4 @@
-/* $MirOS: www/files/vstyle.css,v 1.34 2011/09/04 11:43:25 tg Exp $ */
+/* $MirOS: www/files/vstyle.css,v 1.35 2011/09/13 18:13:05 tg Exp $ */
 
 /*-
  * The MirOS Project - Webpages
@@ -10,60 +10,124 @@
  * Fonts (let’s just hope the URI is relative to the CSS file…)
  */
 
+/* Define Gentium -> Gentium R + I, Gentium Basic B + BI */
+
 @font-face {
 	font-family:"Gentium";
 	font-style:normal;
 	font-weight:normal;
-	src:url(FNT/GenR102.eot);
+	src:url("FNT/GenR102.eot");
 	src:local("Gentium Regular"),
 	    local("Gentium"),
 	    local("Gentium Basic Regular"),
 	    local("Gentium Basic"),
 	    local("Gentium Book Basic Regular"),
 	    local("Gentium Book Basic"),
-	    url(FNT/GenR102.ttf) format("truetype");
+	    url("FNT/GenR102.eot?#iefix") format("embedded-opentype"),
+	    url("FNT/GenR102.ttf") format("truetype");
 }
 
 @font-face {
 	font-family:"Gentium";
 	font-style:italic;
 	font-weight:normal;
-	src:url(FNT/GenI102.eot);
+	src:url("FNT/GenI102.eot");
 	src:local("Gentium Italic"),
 	    local("Gentium"),
 	    local("Gentium Basic Italic"),
 	    local("Gentium Basic"),
 	    local("Gentium Book Basic Italic"),
 	    local("Gentium Book Basic"),
-	    url(FNT/GenI102.ttf) format("truetype");
+	    url("FNT/GenI102.eot?#iefix") format("embedded-opentype"),
+	    url("FNT/GenI102.ttf") format("truetype");
+}
+
+@font-face {
+	font-family:"Gentium";
+	font-style:normal;
+	font-weight:bold;
+	src:url("FNT/GenBasB.eot");
+	src:local("Gentium Bold"),
+	    local("Gentium Basic Bold"),
+	    local("Gentium Basic"),
+	    local("Gentium Book Basic Bold"),
+	    local("Gentium Book Basic"),
+	    url("FNT/GenBasB.eot?#iefix") format("embedded-opentype"),
+	    url("FNT/GenBasB.ttf") format("truetype");
+}
+
+@font-face {
+	font-family:"Gentium";
+	font-style:italic;
+	font-weight:bold;
+	src:url("FNT/GenBasBI.eot");
+	src:local("Gentium Bold Italic"),
+	    local("Gentium Basic Bold Italic"),
+	    local("Gentium Basic"),
+	    local("Gentium Book Basic Bold Italic"),
+	    local("Gentium Book Basic"),
+	    url("FNT/GenBasBI.eot?#iefix") format("embedded-opentype"),
+	    url("FNT/GenBasBI.ttf") format("truetype");
+}
+
+/* Define Gentium Basic -> Gentium R + I, Gentium Basic B + BI */
+
+@font-face {
+	font-family:"Gentium Basic";
+	font-style:normal;
+	font-weight:normal;
+	src:url("FNT/GenR102.eot");
+	src:local("Gentium Regular"),
+	    local("Gentium"),
+	    local("Gentium Basic Regular"),
+	    local("Gentium Basic"),
+	    local("Gentium Book Basic Regular"),
+	    local("Gentium Book Basic"),
+	    url("FNT/GenR102.eot?#iefix") format("embedded-opentype"),
+	    url("FNT/GenR102.ttf") format("truetype");
+}
+
+@font-face {
+	font-family:"Gentium Basic";
+	font-style:italic;
+	font-weight:normal;
+	src:url("FNT/GenI102.eot");
+	src:local("Gentium Italic"),
+	    local("Gentium"),
+	    local("Gentium Basic Italic"),
+	    local("Gentium Basic"),
+	    local("Gentium Book Basic Italic"),
+	    local("Gentium Book Basic"),
+	    url("FNT/GenI102.eot?#iefix") format("embedded-opentype"),
+	    url("FNT/GenI102.ttf") format("truetype");
 }
 
 @font-face {
 	font-family:"Gentium Basic";
 	font-style:normal;
 	font-weight:bold;
-	src:url(FNT/GenBasB.eot);
+	src:url("FNT/GenBasB.eot");
 	src:local("Gentium Bold"),
-	    local("Gentium"),
 	    local("Gentium Basic Bold"),
 	    local("Gentium Basic"),
 	    local("Gentium Book Basic Bold"),
 	    local("Gentium Book Basic"),
-	    url(FNT/GenBasB.ttf) format("truetype");
+	    url("FNT/GenBasB.eot?#iefix") format("embedded-opentype"),
+	    url("FNT/GenBasB.ttf") format("truetype");
 }
 
 @font-face {
 	font-family:"Gentium Basic";
 	font-style:italic;
 	font-weight:bold;
-	src:url(FNT/GenBasBI.eot);
+	src:url("FNT/GenBasBI.eot");
 	src:local("Gentium Bold Italic"),
-	    local("Gentium"),
 	    local("Gentium Basic Bold Italic"),
 	    local("Gentium Basic"),
 	    local("Gentium Book Basic Bold Italic"),
 	    local("Gentium Book Basic"),
-	    url(FNT/GenBasBI.ttf) format("truetype");
+	    url("FNT/GenBasBI.eot?#iefix") format("embedded-opentype"),
+	    url("FNT/GenBasBI.ttf") format("truetype");
 }
 
 
