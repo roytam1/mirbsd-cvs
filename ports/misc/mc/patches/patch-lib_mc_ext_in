@@ -1,6 +1,6 @@
-$MirOS: ports/misc/mc/patches/patch-lib_mc_ext_in,v 1.9 2008/09/17 20:06:59 tg Exp $
+$MirOS: ports/misc/mc/patches/patch-lib_mc_ext_in,v 1.10 2008/10/16 18:42:19 tg Exp $
 --- lib/mc.ext.in.orig	Sat Jul 23 16:50:53 2005
-+++ lib/mc.ext.in	Thu Oct 16 18:39:48 2008
++++ lib/mc.ext.in	Thu Oct 16 18:47:32 2008
 @@ -106,8 +106,44 @@
  
  ### Archives ###
@@ -10,17 +10,17 @@ $MirOS: ports/misc/mc/patches/patch-lib_mc_ext_in,v 1.9 2008/09/17 20:06:59 tg E
 +## CPIO
 +
 +# .cgz (LZW/UCB or zlib/deflate compressed)
-+shell/.cgz
++regex/\.c(pio\.g?[Zz]|gz)$
 +	Open=%cd %p#ucpio
 +	View=%view{ascii} gzip -dc %f 2>/dev/null | cpio -itv 2>/dev/null
 +
 +# .cbz (bzip2 compressed)
-+shell/.cbz
++regex/\.c(pio\.bz2|bz)$
 +	Open=%cd %p#ucpio
 +	View=%view{ascii} bzip2 -dc %f 2>/dev/null | cpio -itv 2>/dev/null
 +
 +# .clz (LZMA compressed)
-+shell/.clz
++regex/\.c(pio\.lzma|lz)$
 +	Open=%cd %p#ucpio
 +	View=%view{ascii} lzma -dc %f 2>/dev/null | cpio -itv 2>/dev/null
 +
@@ -76,7 +76,22 @@ $MirOS: ports/misc/mc/patches/patch-lib_mc_ext_in,v 1.9 2008/09/17 20:06:59 tg E
  type/^LHa\ .*archive
  	Open=%cd %p#ulha
  	View=%view{ascii} lha l %f
-@@ -191,13 +237,20 @@ regex/\.(rpm|spm)$
+@@ -155,14 +201,6 @@ regex/\.[rR]([aA][rR]|[0-9][0-9])$
+ 	View=%view{ascii} rar v -c- %f
+ 
+ # cpio
+-shell/.cpio.Z
+-	Open=%cd %p#ucpio
+-	View=%view{ascii} gzip -dc '%f' | cpio -itv 2>/dev/null
+-
+-shell/.cpio.gz
+-	Open=%cd %p#ucpio
+-	View=%view{ascii} gzip -dc '%f' | cpio -itv 2>/dev/null
+-
+ shell/.cpio
+ 	Open=%cd %p#ucpio
+ 	View=%view{ascii} cpio -itv <'%f' 2>/dev/null
+@@ -191,13 +229,20 @@ regex/\.(rpm|spm)$
  	Open=%cd %p#rpm
  	View=%view{ascii} if rpm --nosignature --version >/dev/null 2>&1; then RPM="rpm --nosignature" ; else RPM="rpm" ; fi ; $RPM -qivlp --scripts %f
  
@@ -101,7 +116,7 @@ $MirOS: ports/misc/mc/patches/patch-lib_mc_ext_in,v 1.9 2008/09/17 20:06:59 tg E
  	Open=%cd %p#iso9660
  	View=%view{ascii} isoinfo -l -i %f
  
-@@ -251,7 +304,7 @@ shell/.info
+@@ -251,7 +296,7 @@ shell/.info
  regex/\.(so|so\.[0-9\.]*)$
  	View=%view{ascii} file %f && nm %f
  
@@ -110,7 +125,7 @@ $MirOS: ports/misc/mc/patches/patch-lib_mc_ext_in,v 1.9 2008/09/17 20:06:59 tg E
  	Open=case %d/%f in */log/*|*/logs/*) cat %f ;; *) nroff @MAN_FLAGS@ @MANDOC@ %f ;; esac | %var{PAGER:more}
  	View=%view{ascii,nroff} case %d/%f in */log/*|*/logs/*) cat %f ;; *) nroff @MAN_FLAGS@ @MANDOC@ %f ;; esac
  
-@@ -271,19 +324,23 @@ shell/.ms
+@@ -271,19 +316,23 @@ shell/.ms
  	View=%view{ascii,nroff} nroff @MAN_FLAGS@ -ms %f
  
  # Manual page - compressed
@@ -137,7 +152,7 @@ $MirOS: ports/misc/mc/patches/patch-lib_mc_ext_in,v 1.9 2008/09/17 20:06:59 tg E
  ### Images ###
  
  type/^GIF
-@@ -417,7 +474,7 @@ type/^PDF
+@@ -417,7 +466,7 @@ type/^PDF
  
  # html
  regex/\.([hH][tT][mM][lL]?)$
@@ -146,7 +161,7 @@ $MirOS: ports/misc/mc/patches/patch-lib_mc_ext_in,v 1.9 2008/09/17 20:06:59 tg E
  	View=%view{ascii} lynx -dump -force_html %f
  
  # StarOffice 5.2
-@@ -526,6 +583,11 @@ type/^bzip
+@@ -526,6 +575,11 @@ type/^bzip
  type/^compress
  	Open=gzip -dc %f | %var{PAGER:more}
  	View=%view{ascii} gzip -dc %f 2>/dev/null
