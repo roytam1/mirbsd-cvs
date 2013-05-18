@@ -1,4 +1,4 @@
-# $MirOS: src/sys/conf/Makefile.inc,v 1.37 2011/11/20 04:57:14 tg Exp $
+# $MirOS: src/sys/conf/Makefile.inc,v 1.38 2011/11/20 23:40:12 tg Exp $
 #-
 # Copyright (c) 2005, 2006, 2007, 2008
 #	Thorsten "mirabilos" Glaser <tg@mirbsd.de>
@@ -44,7 +44,7 @@ COPTS+=		-Os
 COPTS+=		-Os
 .endif
 CFLAGS=		${DEBUG} ${CDIAGFLAGS} ${CMACHFLAGS} -std=gnu99 \
-		${COPTS:S/-g//:C/-g[0-9]//} ${PIPE} ${CSYS}
+		${COPTS:C/-g[0-9]//:S/-g//} ${PIPE} ${CSYS}
 AFLAGS=		-x assembler-with-cpp -traditional-cpp -D_LOCORE
 STRIPFLAGS=	-g -X -x -R .comment
 
