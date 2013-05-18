@@ -1,5 +1,5 @@
 <!-- PageID: mksh -->
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.82 2007/02/16 20:55:18 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.83 2007/02/18 23:16:30 tg Exp $</small>
 
 <h1>mksh(1) R28</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
@@ -594,12 +594,14 @@
  asked people to test, and hunted mksh down in these packaging systems:</p>
 <ul>
  <li>mksh-2007-02-18<ul>
-  <li>MirOS #9uAC (i386), as part of base system, as part of installer,
-   run with stand-alone Build.sh</li>
-  <li>Debian 4.0-experimental (i386), autobuilder via Debian rules</li>
-  <li>Debian 4.0-testing (i386, 2.6.16-2-686), manually via Debian rules)</li>
-  <li>Solaris 8 (sun4u), both -m32 and -m64 via Build.sh</li>
-  <li>FreeWRT GNU/Linux trunk (mipsel), via ADK</li>
+  <li>MirOS #9uAC (i386, gcc 3.4.6+SSP), as part of base system, as part
+   of installer, run with stand-alone Build.sh</li>
+  <li>Debian 4.0-experimental (i386, kfreebsd-amd64, kfreebsd-i386),
+   gcc 4.1.1-21 (4.1.2-prerelease), autobuilder via Debian rules</li>
+  <li>Debian 4.0-testing (i386, 2.6.16-2-686, gcc 4.1.1-21), manually via
+   Debian rules)</li>
+  <li>Solaris 8 (sun4u), both -m32 and -m64 (gcc 3.4.3) via Build.sh</li>
+  <li>FreeWRT GNU/Linux trunk (mipsel, gcc 3.4.4), via ADK</li>
  </ul></li>
  <li>mksh-current<ul>
   <li>OpenSolaris Build 47</li>
