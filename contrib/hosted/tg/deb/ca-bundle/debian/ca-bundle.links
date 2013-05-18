@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/tg/deb/ca-bundle/debian/ca-bundle.links,v 1.2 2009/11/23 14:21:29 tg Exp $
+# $MirOS: contrib/hosted/tg/deb/ca-bundle/debian/ca-bundle.links,v 1.3 2009/12/11 11:01:26 tg Exp $
 #-
 etc/ssl/certs/java/cacerts etc/ia32-java-1.5.0-sun/security/cacerts
 etc/ssl/certs/java/cacerts etc/ia32-java-6-sun/security/cacerts
@@ -15,14 +15,17 @@ etc/ssl/certs/java/cacerts usr/lib/jvm/ia32-java-1.5.0-sun-1.5.0.16/jre/lib/secu
 etc/ssl/certs/java/cacerts usr/lib/jvm/ia32-java-1.5.0-sun-1.5.0.17/jre/lib/security/cacerts
 etc/ssl/certs/java/cacerts usr/lib/jvm/ia32-java-1.5.0-sun-1.5.0.18/jre/lib/security/cacerts
 etc/ssl/certs/java/cacerts usr/lib/jvm/ia32-java-1.5.0-sun-1.5.0.19/jre/lib/security/cacerts
+etc/ssl/certs/java/cacerts usr/lib/jvm/ia32-java-1.5.0-sun-1.5.0.22/jre/lib/security/cacerts
 etc/ssl/certs/java/cacerts usr/lib/jvm/ia32-java-6-sun-1.6.0.06/jre/lib/security/cacerts
 etc/ssl/certs/java/cacerts usr/lib/jvm/ia32-java-6-sun-1.6.0.10/jre/lib/security/cacerts
 etc/ssl/certs/java/cacerts usr/lib/jvm/ia32-java-6-sun-1.6.0.12/jre/lib/security/cacerts
 etc/ssl/certs/java/cacerts usr/lib/jvm/ia32-java-6-sun-1.6.0.13/jre/lib/security/cacerts
 etc/ssl/certs/java/cacerts usr/lib/jvm/ia32-java-6-sun-1.6.0.14/jre/lib/security/cacerts
+etc/ssl/certs/java/cacerts usr/lib/jvm/ia32-java-6-sun-1.6.0.22/jre/lib/security/cacerts
 etc/ssl/certs/java/cacerts usr/lib/jvm/java-1.5.0-gcj-4.2-1.5.0.0/jre/lib/security/cacerts
 etc/ssl/certs/java/cacerts usr/lib/jvm/java-1.5.0-gcj-4.3-1.5.0.0/jre/lib/security/cacerts
 etc/ssl/certs/java/cacerts usr/lib/jvm/java-1.5.0-gcj-4.4/jre/lib/cacerts
+etc/ssl/certs/java/cacerts usr/lib/jvm/java-1.5.0-gcj-4.5/jre/lib/cacerts
 etc/ssl/certs/java/cacerts usr/lib/jvm/java-1.5.0-sun-1.5.0.06/jre/lib/security/cacerts
 etc/ssl/certs/java/cacerts usr/lib/jvm/java-1.5.0-sun-1.5.0.14/jre/lib/security/cacerts
 etc/ssl/certs/java/cacerts usr/lib/jvm/java-1.5.0-sun-1.5.0.15/jre/lib/security/cacerts
@@ -30,6 +33,7 @@ etc/ssl/certs/java/cacerts usr/lib/jvm/java-1.5.0-sun-1.5.0.16/jre/lib/security/
 etc/ssl/certs/java/cacerts usr/lib/jvm/java-1.5.0-sun-1.5.0.17/jre/lib/security/cacerts
 etc/ssl/certs/java/cacerts usr/lib/jvm/java-1.5.0-sun-1.5.0.18/jre/lib/security/cacerts
 etc/ssl/certs/java/cacerts usr/lib/jvm/java-1.5.0-sun-1.5.0.19/jre/lib/security/cacerts
+etc/ssl/certs/java/cacerts usr/lib/jvm/java-1.5.0-sun-1.5.0.22/jre/lib/security/cacerts
 etc/ssl/certs/java/cacerts usr/lib/jvm/java-6-cacao/jre/lib/security/cacerts
 etc/ssl/certs/java/cacerts usr/lib/jvm/java-6-openjdk/jre/lib/security/cacerts
 etc/ssl/certs/java/cacerts usr/lib/jvm/java-6-sun-1.6.0.06/jre/lib/security/cacerts
@@ -37,6 +41,8 @@ etc/ssl/certs/java/cacerts usr/lib/jvm/java-6-sun-1.6.0.10/jre/lib/security/cace
 etc/ssl/certs/java/cacerts usr/lib/jvm/java-6-sun-1.6.0.12/jre/lib/security/cacerts
 etc/ssl/certs/java/cacerts usr/lib/jvm/java-6-sun-1.6.0.13/jre/lib/security/cacerts
 etc/ssl/certs/java/cacerts usr/lib/jvm/java-6-sun-1.6.0.14/jre/lib/security/cacerts
+etc/ssl/certs/java/cacerts usr/lib/jvm/java-6-sun-1.6.0.22/jre/lib/security/cacerts
+etc/ssl/certs/java/cacerts usr/share/jxplorer/security/cacerts
 usr/share/ca-bundle/ca-certificates.crt etc/apache/ssl.crt/ca-bundle.crt
 usr/share/ca-bundle/ca-certificates.crt opt/kde3/share/apps/kssl/ca-bundle.crt
 usr/share/ca-bundle/ca-certificates.crt usr/lib/kde4/share/kde4/apps/kssl/ca-bundle.crt

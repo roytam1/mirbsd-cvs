@@ -1,8 +1,11 @@
-ca-bundle (20100723+1) xunstable; urgency=low
+ca-bundle (20101212) unstable; urgency=low
 
   * Update MirBSD source pointer
+  * Bump Standards-Version to 3.9.1.0 (no changes)
+  * Update files list for squeeze, sid, maverick, natty packages
+  * Rebuild against latest MirBSD sources
 
- -- Thorsten Glaser <tg@mirbsd.de>  Fri, 23 Jul 2010 08:33:07 +0001
+ -- Thorsten Glaser <tg@mirbsd.de>  Mon, 13 Dec 2010 09:37:49 +0000
 
 ca-bundle (20100723) unstable; urgency=low
 
