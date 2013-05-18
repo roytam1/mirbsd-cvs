@@ -464,7 +464,7 @@
 ./usr/lib/i18n/libmapper_serial.so.5.0
 ./usr/lib/i18n/libmapper_std.so.5.0
 ./usr/lib/i18n/libmapper_zone.so.5.0
-./usr/lib/libc.so.41.9
+./usr/lib/libc.so.41.10
 ./usr/lib/libcrypto.so.14.1
 ./usr/lib/libcurses.so.14.1
 ./usr/lib/libdes.so.11.0
@@ -2726,6 +2726,7 @@
 ./usr/share/zoneinfo/Africa/Gaborone
 ./usr/share/zoneinfo/Africa/Harare
 ./usr/share/zoneinfo/Africa/Johannesburg
+./usr/share/zoneinfo/Africa/Juba
 ./usr/share/zoneinfo/Africa/Kampala
 ./usr/share/zoneinfo/Africa/Khartoum
 ./usr/share/zoneinfo/Africa/Kigali
@@ -2778,6 +2779,7 @@
 ./usr/share/zoneinfo/America/Atikokan
 ./usr/share/zoneinfo/America/Atka
 ./usr/share/zoneinfo/America/Bahia
+./usr/share/zoneinfo/America/Bahia_Banderas
 ./usr/share/zoneinfo/America/Barbados
 ./usr/share/zoneinfo/America/Belem
 ./usr/share/zoneinfo/America/Belize
@@ -2843,19 +2845,23 @@
 ./usr/share/zoneinfo/America/Kentucky/Louisville
 ./usr/share/zoneinfo/America/Kentucky/Monticello
 ./usr/share/zoneinfo/America/Knox_IN
+./usr/share/zoneinfo/America/Kralendijk
 ./usr/share/zoneinfo/America/La_Paz
 ./usr/share/zoneinfo/America/Lima
 ./usr/share/zoneinfo/America/Los_Angeles
 ./usr/share/zoneinfo/America/Louisville
+./usr/share/zoneinfo/America/Lower_Princes
 ./usr/share/zoneinfo/America/Maceio
 ./usr/share/zoneinfo/America/Managua
 ./usr/share/zoneinfo/America/Manaus
 ./usr/share/zoneinfo/America/Marigot
 ./usr/share/zoneinfo/America/Martinique
+./usr/share/zoneinfo/America/Matamoros
 ./usr/share/zoneinfo/America/Mazatlan
 ./usr/share/zoneinfo/America/Mendoza
 ./usr/share/zoneinfo/America/Menominee
 ./usr/share/zoneinfo/America/Merida
+./usr/share/zoneinfo/America/Metlakatla
 ./usr/share/zoneinfo/America/Mexico_City
 ./usr/share/zoneinfo/America/Miquelon
 ./usr/share/zoneinfo/America/Moncton
@@ -2869,8 +2875,10 @@
 ./usr/share/zoneinfo/America/Nome
 ./usr/share/zoneinfo/America/Noronha
 ./usr/share/zoneinfo/America/North_Dakota
+./usr/share/zoneinfo/America/North_Dakota/Beulah
 ./usr/share/zoneinfo/America/North_Dakota/Center
 ./usr/share/zoneinfo/America/North_Dakota/New_Salem
+./usr/share/zoneinfo/America/Ojinaga
 ./usr/share/zoneinfo/America/Panama
 ./usr/share/zoneinfo/America/Pangnirtung
 ./usr/share/zoneinfo/America/Paramaribo
@@ -2887,12 +2895,14 @@
 ./usr/share/zoneinfo/America/Resolute
 ./usr/share/zoneinfo/America/Rio_Branco
 ./usr/share/zoneinfo/America/Rosario
+./usr/share/zoneinfo/America/Santa_Isabel
 ./usr/share/zoneinfo/America/Santarem
 ./usr/share/zoneinfo/America/Santiago
 ./usr/share/zoneinfo/America/Santo_Domingo
 ./usr/share/zoneinfo/America/Sao_Paulo
 ./usr/share/zoneinfo/America/Scoresbysund
 ./usr/share/zoneinfo/America/Shiprock
+./usr/share/zoneinfo/America/Sitka
 ./usr/share/zoneinfo/America/St_Barthelemy
 ./usr/share/zoneinfo/America/St_Johns
 ./usr/share/zoneinfo/America/St_Kitts
@@ -2916,6 +2926,7 @@
 ./usr/share/zoneinfo/Antarctica/Casey
 ./usr/share/zoneinfo/Antarctica/Davis
 ./usr/share/zoneinfo/Antarctica/DumontDUrville
+./usr/share/zoneinfo/Antarctica/Macquarie
 ./usr/share/zoneinfo/Antarctica/Mawson
 ./usr/share/zoneinfo/Antarctica/McMurdo
 ./usr/share/zoneinfo/Antarctica/Palmer
@@ -2954,6 +2965,7 @@
 ./usr/share/zoneinfo/Asia/Dushanbe
 ./usr/share/zoneinfo/Asia/Gaza
 ./usr/share/zoneinfo/Asia/Harbin
+./usr/share/zoneinfo/Asia/Hebron
 ./usr/share/zoneinfo/Asia/Ho_Chi_Minh
 ./usr/share/zoneinfo/Asia/Hong_Kong
 ./usr/share/zoneinfo/Asia/Hovd
@@ -2980,6 +2992,7 @@
 ./usr/share/zoneinfo/Asia/Manila
 ./usr/share/zoneinfo/Asia/Muscat
 ./usr/share/zoneinfo/Asia/Nicosia
+./usr/share/zoneinfo/Asia/Novokuznetsk
 ./usr/share/zoneinfo/Asia/Novosibirsk
 ./usr/share/zoneinfo/Asia/Omsk
 ./usr/share/zoneinfo/Asia/Oral
@@ -3223,6 +3236,7 @@
 ./usr/share/zoneinfo/Pacific/Apia
 ./usr/share/zoneinfo/Pacific/Auckland
 ./usr/share/zoneinfo/Pacific/Chatham
+./usr/share/zoneinfo/Pacific/Chuuk
 ./usr/share/zoneinfo/Pacific/Easter
 ./usr/share/zoneinfo/Pacific/Efate
 ./usr/share/zoneinfo/Pacific/Enderbury
@@ -3248,6 +3262,7 @@
 ./usr/share/zoneinfo/Pacific/Pago_Pago
 ./usr/share/zoneinfo/Pacific/Palau
 ./usr/share/zoneinfo/Pacific/Pitcairn
+./usr/share/zoneinfo/Pacific/Pohnpei
 ./usr/share/zoneinfo/Pacific/Ponape
 ./usr/share/zoneinfo/Pacific/Port_Moresby
 ./usr/share/zoneinfo/Pacific/Rarotonga

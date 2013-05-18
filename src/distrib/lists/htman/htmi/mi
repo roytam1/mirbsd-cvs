@@ -4738,6 +4738,9 @@
 ./man3/menu_win.htm
 ./man3/mergesort.htm
 ./man3/meta.htm
+./man3/mirtime.htm
+./man3/mirtime_getleaps.htm
+./man3/mirtime_isleap.htm
 ./man3/mitem_current.htm
 ./man3/mitem_name.htm
 ./man3/mitem_new.htm
@@ -4746,7 +4749,10 @@
 ./man3/mitem_value.htm
 ./man3/mitem_visible.htm
 ./man3/mjd2tai.htm
+./man3/mjd2timet.htm
 ./man3/mjd2tm.htm
+./man3/mjd_explode.htm
+./man3/mjd_implode.htm
 ./man3/mkdtemp.htm
 ./man3/mkstemp.htm
 ./man3/mkstemps.htm
@@ -4989,6 +4995,7 @@
 ./man3/pos_form_cursor.htm
 ./man3/pos_menu_cursor.htm
 ./man3/posix2time.htm
+./man3/posix2timet.htm
 ./man3/post_form.htm
 ./man3/post_menu.htm
 ./man3/pow.htm
@@ -5545,9 +5552,13 @@
 ./man3/timerisset.htm
 ./man3/timersub.htm
 ./man3/times.htm
+./man3/timet2mjd.htm
+./man3/timet2posix.htm
 ./man3/timet2tai.htm
+./man3/timet2tm.htm
 ./man3/timezone.htm
 ./man3/tm2mjd.htm
+./man3/tm2timet.htm
 ./man3/tmpfile.htm
 ./man3/tmpnam.htm
 ./man3/toascii.htm

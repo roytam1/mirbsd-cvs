@@ -67,7 +67,6 @@
 ./usr/include/crypto/deflate.h
 ./usr/include/crypto/des.h
 ./usr/include/crypto/des_locl.h
-./usr/include/crypto/md5.h
 ./usr/include/crypto/podd.h
 ./usr/include/crypto/randimpl.h
 ./usr/include/crypto/rijndael.h
@@ -1278,6 +1277,8 @@
 ./usr/include/sysexits.h
 ./usr/include/syskern
 ./usr/include/syskern/libckern.h
+./usr/include/syskern/md5.h
+./usr/include/syskern/mirtime.h
 ./usr/include/syskern/nzat.h
 ./usr/include/syslog.h
 ./usr/include/tar.h
@@ -6473,6 +6474,9 @@
 ./usr/share/man/cat3/menu_win.0
 ./usr/share/man/cat3/mergesort.0
 ./usr/share/man/cat3/meta.0
+./usr/share/man/cat3/mirtime.0
+./usr/share/man/cat3/mirtime_getleaps.0
+./usr/share/man/cat3/mirtime_isleap.0
 ./usr/share/man/cat3/mitem_current.0
 ./usr/share/man/cat3/mitem_name.0
 ./usr/share/man/cat3/mitem_new.0
@@ -6481,7 +6485,10 @@
 ./usr/share/man/cat3/mitem_value.0
 ./usr/share/man/cat3/mitem_visible.0
 ./usr/share/man/cat3/mjd2tai.0
+./usr/share/man/cat3/mjd2timet.0
 ./usr/share/man/cat3/mjd2tm.0
+./usr/share/man/cat3/mjd_explode.0
+./usr/share/man/cat3/mjd_implode.0
 ./usr/share/man/cat3/mkdtemp.0
 ./usr/share/man/cat3/mkstemp.0
 ./usr/share/man/cat3/mkstemps.0
@@ -6724,6 +6731,7 @@
 ./usr/share/man/cat3/pos_form_cursor.0
 ./usr/share/man/cat3/pos_menu_cursor.0
 ./usr/share/man/cat3/posix2time.0
+./usr/share/man/cat3/posix2timet.0
 ./usr/share/man/cat3/post_form.0
 ./usr/share/man/cat3/post_menu.0
 ./usr/share/man/cat3/pow.0
@@ -7270,9 +7278,13 @@
 ./usr/share/man/cat3/timerisset.0
 ./usr/share/man/cat3/timersub.0
 ./usr/share/man/cat3/times.0
+./usr/share/man/cat3/timet2mjd.0
+./usr/share/man/cat3/timet2posix.0
 ./usr/share/man/cat3/timet2tai.0
+./usr/share/man/cat3/timet2tm.0
 ./usr/share/man/cat3/timezone.0
 ./usr/share/man/cat3/tm2mjd.0
+./usr/share/man/cat3/tm2timet.0
 ./usr/share/man/cat3/tmpfile.0
 ./usr/share/man/cat3/tmpnam.0
 ./usr/share/man/cat3/toascii.0
