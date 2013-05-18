@@ -13,9 +13,11 @@ a default database first.  In the following example we install a database
 in /var/postgresql/data with a dba account 'postgres' and md5 authentication.
 We will be prompted for a password to protect the dba account:
 
-       $ sudo -u _postgresql mkdir /var/postgresql/data
-       $ sudo -u _postgresql initdb -D /var/postgresql/data \
-             -U postgres -A md5 -W
+	$ sudo mkdir /var/postgresql
+	$ sudo chown _postgresql:_postgresql /var/postgresql
+	$ sudo -u _postgresql mkdir /var/postgresql/data
+	$ sudo -u _postgresql initdb -D /var/postgresql/data \
+	    -U postgres -A md5 -W
 
 It is strongly advised that you do not work with the postgres dba account
 other than creating more users and/or databases or for administrative task.
@@ -25,6 +27,7 @@ accessed by programs/users that have the right to do so.
 Please consult the PostgreSQL website for more information, especially when
 you are upgrading an existing database installation.
 
+
 Auto Start and Stop
 
 To start PostgreSQL at boot and shut it down when the system shuts down,
@@ -32,7 +35,7 @@ add the following lines to /etc/rc.local and /etc/rc.shutdown, respectively:
 
 /etc/rc.local:
 
-if [ -x !!PREFIX!!/bin/pg_ctl ]; then
+if [[ $postgresql = YES && -x !!PREFIX!!/bin/pg_ctl ]]; then
 	echo -n ' postgresql'
 	su -l _postgresql -c "nohup !!PREFIX!!/bin/pg_ctl start \
 	    -D /var/postgresql/data -l /var/postgresql/logfile \
@@ -43,9 +46,13 @@ fi
 
 if [ -f /var/postgresql/data/postmaster.pid ]; then
 	su -l _postgresql -c "!!PREFIX!!/bin/pg_ctl stop -m fast \
-	     -D /var/postgresql/data"
+	    -D /var/postgresql/data"
 	rm -f /var/postgresql/data/postmaster.pid
 fi
+
+Finally, add postgresql=YES to /etc/rc.conf.local to start it
+automatically on next reboot.
+
 
 Network Connections and Tuning
 
@@ -98,6 +105,7 @@ For more than about 250 connections, these numbers should be
 increased. Please report any changes and experiences to the package
 maintainers so that we can update this file for future versions.
 
+
 Kerberos authentication (MirPorts on OpenBSD only)
 
 By default the postgresql server requires it's own krb5.keytab file.  It
@@ -110,11 +118,3 @@ To generate the keytab:
 	# mkdir /etc/postgresql
 	# ktutil -k /etc/postgresql/krb5.keytab get postgres/server.domain
 	# chown _postgresql:_postgresql /etc/postgresql/krb5.keytab
-
-Clients/Frontends
-
-Many applications can use the PostgreSQL database right away.  To faciliate
-administration of a PostgreSQL database, two clients are notable:
-
-www/phppgadmin		A web based user interface that uses PHP5
-databases/pgadmin3	A graphical user interface that uses wxWidgets
