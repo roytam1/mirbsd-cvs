@@ -1,4 +1,7 @@
-MD5 (atk-1.10.1.tar.bz2) = 29df8fe9016083e7eaf129bdd65d8402
-RMD160 (atk-1.10.1.tar.bz2) = 272dbc974120c6cf7e62bf67dc7507e0a639dc41
-SHA1 (atk-1.10.1.tar.bz2) = 7fa7a181d59334a23d7c694facc4aefeb8b7f4e4
-SIZE (atk-1.10.1.tar.bz2) = 492436
+$MirOS$
+
+MD5 (atk-1.12.4.tar.gz) = 4ad19e050bf9b96bd83c1cc690d37633
+RMD160 (atk-1.12.4.tar.gz) = 7cb18b393452028e0feafff298d96550144d8b74
+SHA1 (atk-1.12.4.tar.gz) = 600c6cd212c57db9012b6e84eb7efcf5c396f836
+SIZE (atk-1.12.4.tar.gz) = 886924
+TIGER (atk-1.12.4.tar.gz) = c83309034ce21a4ae4b2cd1a255a1f598551dde9b1515894
