@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.lib.mk,v 1.30 2005/12/15 01:28:37 tg Exp $
+# $MirOS: src/share/mk/bsd.lib.mk,v 1.31 2005/12/16 21:48:45 tg Exp $
 # $OpenBSD: bsd.lib.mk,v 1.43 2004/09/20 18:52:38 espie Exp $
 # $NetBSD: bsd.lib.mk,v 1.67 1996/01/17 20:39:26 mycroft Exp $
 # @(#)bsd.lib.mk	5.26 (Berkeley) 5/2/91
@@ -88,7 +88,7 @@ LINK.shlib?=	${LINKER} ${CFLAGS} ${SHLIB_FLAGS} -shared \
 	    "${.IMPSRC} -o $@"
 	@${COMPILE.c} ${CFLAGS_${.TARGET:C/\.(g|s)o$/.o/}} \
 	    ${.IMPSRC} -o $@.o
-	@${LD} -X -r $@.o -o $@
+	@${LD} ${_DISCARD} -r $@.o -o $@
 	@rm -f $@.o
 
 .c.so .m.so:
@@ -96,7 +96,7 @@ LINK.shlib?=	${LINKER} ${CFLAGS} ${SHLIB_FLAGS} -shared \
 	    "-DPIC ${PICFLAG} ${.IMPSRC} -o $@"
 	@${COMPILE.c} ${CFLAGS_${.TARGET:C/\.(g|s)o$/.o/}} \
 	    -DPIC ${PICFLAG} ${.IMPSRC} -o $@.o
-	@${LD} -X -r $@.o -o $@
+	@${LD} ${_DISCARD} -r $@.o -o $@
 	@rm -f $@.o
 
 .c.ln:
@@ -107,7 +107,7 @@ LINK.shlib?=	${LINKER} ${CFLAGS} ${SHLIB_FLAGS} -shared \
 	    "${.IMPSRC} -o $@"
 	@${COMPILE.cc}  ${CXXFLAGS_${.TARGET:C/\.(g|s)o$/.o/}} \
 	    ${.IMPSRC} -o $@.o
-	@${LD} -X -r $@.o -o $@
+	@${LD} ${_DISCARD} -r $@.o -o $@
 	@rm -f $@.o
 
 .cc.so .cxx.so:
@@ -115,7 +115,7 @@ LINK.shlib?=	${LINKER} ${CFLAGS} ${SHLIB_FLAGS} -shared \
 	    "-DPIC ${PICFLAG} ${.IMPSRC} -o $@"
 	@${COMPILE.cc}  ${CXXFLAGS_${.TARGET:C/\.(g|s)o$/.o/}} \
 	    -DPIC ${PICFLAG} ${.IMPSRC} -o $@.o
-	@${LD} -X -r $@.o -o $@
+	@${LD} ${_DISCARD} -r $@.o -o $@
 	@rm -f $@.o
 
 .S.o .s.o:
@@ -123,7 +123,7 @@ LINK.shlib?=	${LINKER} ${CFLAGS} ${SHLIB_FLAGS} -shared \
 	    "${AS} -o $@"
 	@${CPP} ${CPPFLAGS} ${CFLAGS:M-[ID]*} ${AINC} ${.IMPSRC} | \
 	    ${AS} -o $@.o
-	@${LD} -X -r $@.o -o $@
+	@${LD} ${_DISCARD} -r $@.o -o $@
 	@rm -f $@.o
 
 .S.so .s.so:
@@ -131,7 +131,7 @@ LINK.shlib?=	${LINKER} ${CFLAGS} ${SHLIB_FLAGS} -shared \
 	    "${AS} ${ASPICFLAG} -o $@"
 	@${CPP} -DPIC ${CPPFLAGS} ${CFLAGS:M-[ID]*} ${AINC} ${.IMPSRC} | \
 	    ${AS} ${ASPICFLAG} -o $@.o
-	@${LD} -X -r $@.o -o $@
+	@${LD} ${_DISCARD} -r $@.o -o $@
 	@rm -f $@.o
 
 .if ${WARNINGS:L} == "yes"
@@ -143,6 +143,9 @@ CXXFLAGS+=	${CXXOPTS}
 
 .if ${DEBUGLIBS:L} == "yes"
 DEBUG?=		-g1
+_DISCARD=	-X
+.else
+_DISCARD=	-x
 .endif
 
 _LIBS=		lib${LIB}.a
