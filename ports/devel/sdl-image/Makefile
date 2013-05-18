@@ -1,9 +1,9 @@
-# $MirOS: ports/devel/sdl-image/Makefile,v 1.7 2006/09/14 00:08:53 tg Exp $
+# $MirOS: ports/devel/sdl-image/Makefile,v 1.8 2006/11/03 22:01:59 tg Exp $
 # $OpenBSD: Makefile,v 1.14 2003/05/12 08:23:46 jolan Exp $
 
 COMMENT=		SDL image library
 DISTNAME=		SDL_image-1.2.3
-PKGNAME=		${DISTNAME:L:S/_/-/}-1
+PKGNAME=		${DISTNAME:L:S/_/-/}-2
 CATEGORIES=		devel graphics
 MASTER_SITES=		http://www.libsdl.org/projects/SDL_image/release/
 HOMEPAGE=		http://www.libsdl.org/projects/SDL_image/
@@ -14,7 +14,7 @@ PERMIT_PACKAGE_FTP=     Yes
 PERMIT_DISTFILES_CDROM= Yes
 PERMIT_DISTFILES_FTP=   Yes
 
-LIB_DEPENDS=		SDL.::devel/sdl \
+LIB_DEPENDS+=		SDL.::devel/sdl \
 			tiff.35::graphics/tiff \
 			jpeg.62.::graphics/jpeg
 MODULES+=		graphics/png

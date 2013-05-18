@@ -1,16 +1,18 @@
-$MirOS: ports/devel/p5-SDL/patches/patch-Makefile_netbsd,v 1.1 2005/06/24 17:24:07 tg Exp $
---- Makefile.netbsd.orig	Wed Aug 28 03:27:48 2002
-+++ Makefile.netbsd	Sat Jun 24 17:59:13 2006
-@@ -15,7 +15,7 @@ use vars qw/ $sdl_cflags $sdl_libs @dirs
+$MirOS: ports/devel/p5-SDL/patches/patch-Makefile_netbsd,v 1.2 2006/06/24 17:43:34 bsiegert Exp $
+--- Makefile.netbsd.orig	Wed Aug 28 01:27:48 2002
++++ Makefile.netbsd	Fri Nov  3 23:01:19 2006
+@@ -13,24 +13,23 @@ use vars qw/ $sdl_cflags $sdl_libs @dirs
+ # Configuration detection of NetBSD Unix
+ #
  
- chomp ($sdl_cflags = "-I/usr/X11R6/include " . `sdl-config --cflags`);
+-chomp ($sdl_cflags = "-I/usr/X11R6/include " . `sdl-config --cflags`);
++chomp ($sdl_cflags = `sdl-config --cflags`);
  chomp ($sdl_libs = `sdl-config --libs`);
 -$sdl_libs =~ s/-Wl,-rpath,(\/usr\/pkg)*\/lib//g;	# -rpath is obsolete, 
-+$sdl_libs =~ s/-Wl,-rpath,(\/usr\/local)*\/lib//g;	# -rpath is obsolete, 
- 							# use -R instead
+-							# use -R instead
  
  #
-@@ -23,9 +23,14 @@ $sdl_libs =~ s/-Wl,-rpath,(\/usr\/pkg)*\
+ # Search paths
  #
  
  @dirs=(
@@ -18,13 +20,15 @@ $MirOS: ports/devel/p5-SDL/patches/patch-Makefile_netbsd,v 1.1 2005/06/24 17:24:
 -	'/usr/pkg/include/SDL', 
 -	'/usr/pkg/include/smpeg',
 +	'/usr/include',
-+	'/usr/local/include',
-+	'/usr/local/include/png', 
-+	'/usr/local/include/SDL', 
-+	'/usr/local/include/smpeg',
 +	$ENV{'PREFIX'} . '/include',
-+	$ENV{'PREFIX'} . '/include/SDL',
++	$ENV{'PREFIX'} . '/include/SDL', 
 +	$ENV{'PREFIX'} . '/include/smpeg',
  	'/usr/X11R6/include',
  	'/usr/X11R6/include/GL', 
  );
+ 
+-$inc_flags = $ENV{'DEBUG'} . ' ' . $ENV{'CFLAGS'};
++$inc_flags = $ENV{'DEBUG'} . ' ' . $ENV{'CPPFLAGS'};
+ 
+ #
+ # Registed extensions

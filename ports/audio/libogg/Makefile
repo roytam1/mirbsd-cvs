@@ -1,7 +1,7 @@
-# $MirOS: ports/audio/libogg/Makefile,v 1.4 2006/02/09 09:35:37 tg Exp $
+# $MirOS: ports/audio/libogg/Makefile,v 1.5 2006/09/14 00:07:04 tg Exp $
 # $OpenBSD: Makefile,v 1.13 2003/12/14 00:52:21 naddy Exp $
 
-COMMENT=			Ogg bitstream library
+COMMENT=		Ogg bitstream (container file format) library
 DISTNAME=		libogg-1.1.3
 CATEGORIES=    		audio
 HOMEPAGE=		http://www.xiph.org/ogg/
@@ -18,6 +18,9 @@ MODULES+=		devel/pkgconfig
 CONFIGURE_STYLE=	autogen
 AUTOCONF_NEW=		Yes
 AUTOMAKE_VERSION=	1.9
-CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
+CONFIGURE_ARGS+=	${CONFIGURE_SHARED} \
+			--enable-static \
+			--disable-dependency-tracking \
+			--disable-libtool-lock
 
 .include <bsd.port.mk>
