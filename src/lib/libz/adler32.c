@@ -1,4 +1,4 @@
-/**	$MirOS: src/lib/libz/adler32.c,v 1.6 2006/06/12 22:04:15 tg Exp $ */
+/**	$MirOS: src/lib/libz/adler32.c,v 1.7 2006/08/19 12:59:52 tg Exp $ */
 /*	$OpenBSD: adler32.c,v 1.6 2005/07/20 15:56:40 millert Exp $	*/
 /* adler32.c -- compute the Adler-32 checksum of a data stream
  * Copyright (C) 1995-2004 Mark Adler
@@ -23,10 +23,10 @@
 #elif defined(ZLIB_NO_ADLERPUSH)
 #define zADDRND(x)	/* nothing */
 #else
-#define zADDRND(x)	arc4random_push((x) ^ (uint32_t)time(NULL))
+#define zADDRND(x)	arc4random_push(x)
 #endif
 
-zRCSID("$MirOS: src/lib/libz/adler32.c,v 1.6 2006/06/12 22:04:15 tg Exp $")
+zRCSID("$MirOS: src/lib/libz/adler32.c,v 1.7 2006/08/19 12:59:52 tg Exp $")
 
 #define BASE 65521UL    /* largest prime smaller than 65536 */
 #define NMAX 5552
