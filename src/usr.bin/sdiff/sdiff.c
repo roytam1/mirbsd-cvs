@@ -27,6 +27,8 @@
 #include "common.h"
 #include "extern.h"
 
+__RCSID("$MirOS$");
+
 #define WIDTH 130
 /*
  * Each column must be at least one character wide, plus three
@@ -157,8 +159,10 @@ main(int argc, char **argv)
 	size_t diffargc = 0, wflag = WIDTH;
 	int ch, fd[2], status;
 	pid_t pid;
-	char **diffargv, *diffprog = "diff", *filename1, *filename2,
+	char *filename1, *filename2,
 	    *tmp1, *tmp2, *s1, *s2;
+	const char *diffprog = "diff";
+	const char **diffargv;
 
 	/*
 	 * Process diff flags.
@@ -299,7 +303,15 @@ main(int argc, char **argv)
 		/* Free unused descriptor. */
 		close(fd[1]);
 
-		execvp(diffprog, diffargv);
+		{
+			union {
+				const char **c;
+				char **uc;
+			} argvec;
+			/* this API sucks */
+			argvec.c = diffargv;
+			execv(diffprog, argvec.uc);
+		}
 		err(2, "could not execute diff: %s", diffprog);
 	case -1:
 		err(2, "could not fork");
@@ -495,7 +507,7 @@ QUIT:
  * Takes into account that tabs can take multiple columns.
  */
 static void
-println(const char *s1, const char div, const char *s2)
+println(const char *s1, const char divc, const char *s2)
 {
 	size_t col;
 
@@ -508,7 +520,7 @@ println(const char *s1, const char div, const char *s2)
 	}
 
 	/* Only print left column. */
-	if (div == ' ' && !s2) {
+	if (divc == ' ' && !s2) {
 		putchar('\n');
 		return;
 	}
@@ -522,10 +534,10 @@ println(const char *s1, const char div, const char *s2)
 	 * need to add the space for padding.
 	 */
 	if (!s2) {
-		printf(" %c\n", div);
+		printf(" %c\n", divc);
 		return;
 	}
-	printf(" %c ", div);
+	printf(" %c ", divc);
 	col += 3;
 
 	/* Skip angle bracket and space. */
@@ -746,14 +758,14 @@ parsecmd(FILE *diffpipe, FILE *file1, FILE *file2)
  * Queues up a diff line.
  */
 static void
-enqueue(char *left, char div, char *right)
+enqueue(char *left, char divc, char *right)
 {
 	struct diffline *diffp;
 
 	if (!(diffp = malloc(sizeof(struct diffline))))
 		err(2, "enqueue");
 	diffp->left = left;
-	diffp->div = div;
+	diffp->div = divc;
 	diffp->right = right;
 	SIMPLEQ_INSERT_TAIL(&diffhead, diffp, diffentries);
 }

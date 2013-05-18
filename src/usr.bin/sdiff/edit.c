@@ -21,6 +21,8 @@
 #include "common.h"
 #include "extern.h"
 
+__RCSID("$MirOS$");
+
 int editit(const char *);
 
 /*
@@ -29,7 +31,8 @@ int editit(const char *);
 int
 editit(const char *pathname)
 {
-	char *argp[] = {"sh", "-c", NULL, NULL}, *ed, *p;
+	const char *argp[] = {"sh", "-c", NULL, NULL}, *ed;
+	char *p;
 	sig_t sighup, sigint, sigquit;
 	pid_t pid;
 	int st;
@@ -62,7 +65,13 @@ editit(const char *pathname)
 		return (-1);
 	}
 	if (pid == 0) {
-		execv(_PATH_BSHELL, argp);
+		union {
+			const char **c;
+			char **uc;
+		} argvec;
+		/* this API sucks */
+		argvec.c = argp;
+		execv(_PATH_BSHELL, argvec.uc);
 		_exit(127);
 	}
 	free(p);
@@ -154,7 +163,7 @@ RIGHT:
 
 		len = strlen(text);
 		if ((nwritten = write(fd, text, len)) == -1 ||
-		    nwritten != len) {
+		    (size_t)nwritten != len) {
 			warn("error writing to temp file");
 			cleanup(filename);
 		}

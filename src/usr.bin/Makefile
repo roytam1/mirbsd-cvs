@@ -1,4 +1,4 @@
-# $MirOS: src/usr.bin/Makefile,v 1.13 2006/11/01 23:27:01 tg Exp $
+# $MirOS: src/usr.bin/Makefile,v 1.14 2007/02/18 03:51:52 tg Exp $
 # $OpenBSD: Makefile,v 1.90 2004/05/02 17:55:09 millert Exp $
 
 .include <bsd.own.mk>
@@ -124,6 +124,7 @@
   SUBDIR+= rwall
   SUBDIR+= rwho
   SUBDIR+= script
+  SUBDIR+= sdiff
   SUBDIR+= sectok
   SUBDIR+= sed
   SUBDIR+= shar
