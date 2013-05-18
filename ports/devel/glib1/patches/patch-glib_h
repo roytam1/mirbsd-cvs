@@ -1,6 +1,6 @@
-$MirOS$
---- glib.h.orig	Tue Feb 27 03:44:16 2001
-+++ glib.h	Sun Jan 23 21:49:22 2005
+$MirOS: ports/devel/glib1/patches/patch-glib_h,v 1.1.7.1 2005/03/18 15:44:37 tg Exp $
+--- glib.h.orig	2001-02-27 04:44:38.000000000 +0100
++++ glib.h	2009-07-07 20:09:47.000000000 +0200
 @@ -27,6 +27,8 @@
  #ifndef __G_LIB_H__
  #define __G_LIB_H__
@@ -39,7 +39,28 @@ $MirOS$
  
  #undef	ABS
  #define ABS(a)	   (((a) < 0) ? -(a) : (a))
-@@ -272,7 +280,7 @@ extern "C" {
+@@ -202,20 +210,11 @@ extern "C" {
+ #  endif
+ #endif
+ #ifndef G_INLINE_FUNC
+-#  ifdef __GNUC__
+-#    ifdef __OPTIMIZE__
+-#      define G_INLINE_FUNC extern inline
+-#    else
+-#      undef G_CAN_INLINE
+-#      define G_INLINE_FUNC extern
+-#    endif
+-#  else /* !__GNUC__ */
+ #    ifdef G_CAN_INLINE
+ #      define G_INLINE_FUNC static inline
+ #    else
+ #      define G_INLINE_FUNC extern
+ #    endif
+-#  endif /* !__GNUC__ */
+ #endif /* !G_INLINE_FUNC */
+ 
+ 
+@@ -272,7 +271,7 @@ extern "C" {
  /* Wrap the gcc __PRETTY_FUNCTION__ and __FUNCTION__ variables with
   * macros, so we can refer to them as strings unconditionally.
   */
