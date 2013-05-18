@@ -1,6 +1,7 @@
-# $MirOS: ports/x11/xfce4/plugins/Makefile.inc,v 1.5 2007/05/07 19:47:25 bsiegert Exp $
+# $MirOS: ports/x11/xfce4/plugins/Makefile.inc,v 1.6 2008/07/28 19:57:31 bsiegert Exp $
 
 V?=		4.0.5
+DASH_VER?=	1
 CATEGORIES?=	x11 x11/xfce4 x11/xfce4-plugins
 DIST_SUBDIR?=		xfce4
 
@@ -22,17 +23,18 @@ PERMIT_PACKAGE_FTP?=	Yes
 
 USE_X11=	Yes
 
-DBH=	dbh.1.0::databases/dbh
-GTK2=	gdk_pixbuf-2.0.0.14,gdk-x11-2.0.0.14,gtk-x11-2.0.0.14::x11/gtk+
-GTHREAD=gthread-2.0.0.11::devel/glib
-GUI=	xfcegui4.1.6::x11/xfce4/libraries/libxfcegui4
-MCS=	xfce4mcs-client.1.1,xfce4mcs-manager.1.1::x11/xfce4/libraries/libxfce4mcs
+DBH=	dbh::databases/dbh
+GTK2=	gdk_pixbuf-2.0.0.0,gdk-x11-2.0.0.0,gtk-x11-2.0.0.0::x11/gtk+
+GTHREAD=gthread-2.0.0.0::devel/glib
+GUI=	xfcegui4::x11/xfce4/libraries/libxfcegui4
+MCS=	xfce4mcs-client,xfce4mcs-manager::x11/xfce4/libraries/libxfce4mcs
 PANEL=	:xfce4-panel-*:x11/xfce4/desktop/xfce4-panel
 STARTUP=startup-notification-1.0.0::devel/startup-notification
-XML2=	xml2.2.6::textproc/libxml
+XML2=	xml2::textproc/libxml
 
 BUILD_DEPENDS?=	${PANEL}
 RUN_DEPENDS?=	${PANEL}
 
 CONFIGURE_STYLE?=	autoconf
+MODULES+=		devel/pkgconfig
 AUTOCONF_NEW?=		Yes
