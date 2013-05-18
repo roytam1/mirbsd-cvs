@@ -1,7 +1,7 @@
-# $MirOS: ports/mailnews/pan/Makefile,v 1.5 2006/06/03 16:02:40 bsiegert Exp $
+# $MirOS: ports/mailnews/pan/Makefile,v 1.6 2006/09/14 00:10:44 tg Exp $
 # $OpenBSD: Makefile,v 1.13 2004/04/02 19:07:05 sturm Exp $
 
-COMMENT=			powerful Gtk+2 newsreader
+COMMENT=	powerful Gtk+2 newsreader
 
 VER=		0.14.2
 DISTNAME=	pan-${VER}
@@ -18,7 +18,6 @@ MODULES+=	devel/pkgconfig
 
 HOMEPAGE=	http://pan.rebelbase.com/
 
-
 MODULES=	devel/gettext
 
 # GPL
@@ -29,6 +28,8 @@ PERMIT_DISTFILES_FTP=	Yes
 
 CONFIGURE_STYLE=gnu
 CONFIGURE_ARGS+=--disable-gtkspell
+USE_X11=	Yes
+USE_CXX=	Yes # depends on gnet, which uses CXX
 
 post-install:
 	${INSTALL_DATA_DIR} ${PREFIX}/share/doc/pan
