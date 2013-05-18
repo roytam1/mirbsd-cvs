@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/sys.mk,v 1.100 2007/04/17 22:13:54 tg Exp $
+# $MirOS: src/share/mk/sys.mk,v 1.101 2007/04/18 19:56:24 tg Exp $
 # $OpenBSD: sys.mk,v 1.45 2005/03/07 00:06:00 deraadt Exp $
 # $NetBSD: sys.mk,v 1.27 1996/04/10 05:47:19 mycroft Exp $
 # @(#)sys.mk	5.11 (Berkeley) 3/13/91
@@ -29,7 +29,7 @@ OSNAME!=	uname -s
 OSname=		${OSNAME:L}
 OStriplet?=	${MACHINE_ARCH}-ecce-${OSname}${OSrev}
 _MIRMAKE_EXE=	/usr/bin/make
-_MIRMAKE_VER=	20070418
+_MIRMAKE_VER=	20070427
 
 .SUFFIXES:	.out .a .ln .o .s .S .c .m .cc .cxx .y .l .i .h .sh .m4
 .LIBS:		.a
@@ -160,29 +160,28 @@ CTAGS?=		/usr/bin/ctags
 
 # Lex
 .l:
-	${LEX.l} ${.IMPSRC}
-	${LINK.c} -o ${.TARGET} lex.yy.c ${LDLIBS} -ll
-	rm -f lex.yy.c
+	${LEX.l} -o${.TARGET:R}.yy.c ${.IMPSRC}
+	${LINK.c} -o ${.TARGET} ${.TARGET:R}.yy.c ${LDLIBS} -ll
+	rm -f ${.TARGET:R}.yy.c
 .l.c:
-	${LEX.l} ${.IMPSRC}
-	mv lex.yy.c ${.TARGET}
+	${LEX.l} -o${.TARGET} ${.IMPSRC}
 .l.o:
-	${LEX.l} ${.IMPSRC}
-	${COMPILE.c} ${CFLAGS_${.TARGET}:M*} -o ${.TARGET} lex.yy.c
-	rm -f lex.yy.c
+	${LEX.l} -o${.TARGET:R}.yy.c ${.IMPSRC}
+	${COMPILE.c} ${CFLAGS_${.TARGET}:M*} -o ${.TARGET} ${.TARGET:R}.yy.c
+	rm -f ${.TARGET:R}.yy.c
 
 # Yacc
 .y:
-	${YACC.y} ${.IMPSRC}
-	${LINK.c} -o ${.TARGET} y.tab.c ${LDLIBS}
-	rm -f y.tab.c
+	${YACC.y} -b ${.TARGET:R} ${.IMPSRC}
+	${LINK.c} -o ${.TARGET} ${.TARGET:R}.tab.c ${LDLIBS}
+	rm -f ${.TARGET:R}.tab.c
 .y.c:
-	${YACC.y} ${.IMPSRC}
-	mv y.tab.c ${.TARGET}
+	${YACC.y} -b ${.TARGET:R} ${.IMPSRC}
+	mv ${.TARGET:R}.tab.c ${.TARGET}
 .y.o:
-	${YACC.y} ${.IMPSRC}
-	${COMPILE.c} ${CFLAGS_${.TARGET}:M*} -o ${.TARGET} y.tab.c
-	rm -f y.tab.c
+	${YACC.y} -b ${.TARGET:R} ${.IMPSRC}
+	${COMPILE.c} ${CFLAGS_${.TARGET}:M*} -o ${.TARGET} ${.TARGET:R}.tab.c
+	rm -f ${.TARGET:R}.tab.c
 
 # Shell
 .sh:
