@@ -1,3 +1,0 @@
-@comment $OpenBSD: PLIST,v 1.1.1.1 2001/02/28 23:57:34 naddy Exp $
-bin/nslint
-man/man8/nslint.8

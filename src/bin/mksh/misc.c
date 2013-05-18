@@ -29,7 +29,7 @@
 #include <grp.h>
 #endif
 
-__RCSID("$MirOS: src/bin/mksh/misc.c,v 1.168 2011/06/12 15:37:08 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/misc.c,v 1.166 2011/05/29 02:18:53 tg Exp $");
 
 /* type bits for unsigned char */
 unsigned char chtypes[UCHAR_MAX + 1];
@@ -356,6 +356,14 @@ parse_args(const char **argv,
 				break;
 			}
 			i = option(go.optarg);
+#ifndef MKSH_NO_DEPRECATED_WARNING
+			if ((enum sh_flag)i == FARC4RANDOM) {
+				warningf(true, "Do not use set ±o arc4random,"
+				    " it will be removed in the next version"
+				    " of mksh!");
+				return (0);
+			}
+#endif
 			if ((i != (size_t)-1) && set == Flag(i))
 				/*
 				 * Don't check the context if the flag
@@ -1867,9 +1875,9 @@ chvt(const char *fn)
 	{
 		register uint32_t h;
 
-		NZATInit(h);
-		NZATUpdateMem(h, &rndsetupstate, sizeof(rndsetupstate));
-		NZAATFinish(h);
+		oaat1_init_impl(h);
+		oaat1_addmem_impl(h, &rndsetupstate, sizeof(rndsetupstate));
+		oaat1_fini_impl(h);
 		rndset((long)h);
 	}
 	chvt_reinit();

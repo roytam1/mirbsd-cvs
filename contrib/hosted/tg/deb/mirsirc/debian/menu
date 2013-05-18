@@ -1,6 +1,0 @@
-# $MirOS: contrib/hosted/tg/deb/mksh/debian/mksh.menu,v 1.4 2009/08/01 17:51:01 tg Exp $
-#-
-?package(mirsirc):needs="text" \
-  section="Applications/Network/Communication" \
-  title="sirc" longtitle="MirPorts sirc" \
-  command="/usr/bin/sirc"
