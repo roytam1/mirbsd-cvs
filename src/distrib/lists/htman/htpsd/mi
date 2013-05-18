@@ -1500,6 +1500,7 @@
 ./man3/bstring.htm
 ./man3/btoa8.htm
 ./man3/btoe.htm
+./man3/btowc.htm
 ./man3/btree.htm
 ./man3/bufferevent_disable.htm
 ./man3/bufferevent_enable.htm
@@ -2532,7 +2533,9 @@
 ./man3/gzdopen.htm
 ./man3/gzeof.htm
 ./man3/gzerror.htm
+./man3/gzfdopen.htm
 ./man3/gzflush.htm
+./man3/gzfopen.htm
 ./man3/gzgetc.htm
 ./man3/gzgets.htm
 ./man3/gzopen.htm
@@ -2599,6 +2602,9 @@
 ./man3/i2d_RSAPrivateKey.htm
 ./man3/i2d_RSAPublicKey.htm
 ./man3/i2d_SSL_SESSION.htm
+./man3/iconv.htm
+./man3/iconv_close.htm
+./man3/iconv_open.htm
 ./man3/idcok.htm
 ./man3/idlok.htm
 ./man3/ieee.htm
@@ -2829,6 +2835,7 @@
 ./man3/link_ntoa.htm
 ./man3/llabs.htm
 ./man3/loadCDKSwindowInformation.htm
+./man3/localeconv.htm
 ./man3/localtime.htm
 ./man3/localtime_r.htm
 ./man3/lockf.htm
@@ -2864,6 +2871,7 @@
 ./man3/malloc.htm
 ./man3/math.htm
 ./man3/mathf.htm
+./man3/mbrtowc.htm
 ./man3/mcprint.htm
 ./man3/md4.htm
 ./man3/md5.htm
@@ -3046,6 +3054,7 @@
 ./man3/nftw.htm
 ./man3/nice.htm
 ./man3/nl.htm
+./man3/nl_langinfo.htm
 ./man3/nlist.htm
 ./man3/nocbreak.htm
 ./man3/nodelay.htm
@@ -3763,6 +3772,7 @@
 ./man3/setjmp.htm
 ./man3/setkey.htm
 ./man3/setlinebuf.htm
+./man3/setlocale.htm
 ./man3/setlogmask.htm
 ./man3/setlogmask_r.htm
 ./man3/setmode.htm
@@ -4119,6 +4129,7 @@
 ./man3/wclrtobot.htm
 ./man3/wclrtoeol.htm
 ./man3/wcolor_set.htm
+./man3/wcrtomb.htm
 ./man3/wcscat.htm
 ./man3/wcschr.htm
 ./man3/wcscmp.htm
@@ -4135,6 +4146,7 @@
 ./man3/wcsspn.htm
 ./man3/wcsstr.htm
 ./man3/wcstok.htm
+./man3/wctob.htm
 ./man3/wcursyncup.htm
 ./man3/wdelch.htm
 ./man3/wdeleteln.htm
