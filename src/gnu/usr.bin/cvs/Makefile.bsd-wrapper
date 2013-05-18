@@ -1,7 +1,7 @@
-# $MirOS: src/gnu/usr.bin/cvs/Makefile.bsd-wrapper,v 1.10 2007/05/08 21:52:53 tg Exp $
+# $MirOS: src/gnu/usr.bin/cvs/Makefile.bsd-wrapper,v 1.11 2007/06/06 13:46:45 tg Exp $
 # $OpenBSD: Makefile.bsd-wrapper,v 1.44 2004/01/02 09:01:24 millert Exp $
 
-# MirOS patchlevel – in sync with MirPorts-2 rev.
+# MirOS patchlevel – in sync with MirPorts-3 rev.
 FSFMARGS+=	MIROS_BASE_EXTRA_CFLAGS=-D\'PACKAGE_STRINGADD=\"-0A18\"\'
 
 # ATTN: see below
