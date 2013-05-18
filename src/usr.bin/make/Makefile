@@ -1,4 +1,4 @@
-# $MirOS: src/usr.bin/make/Makefile,v 1.6 2005/11/24 12:49:37 tg Exp $
+# $MirOS: src/usr.bin/make/Makefile,v 1.7 2005/11/24 13:26:56 tg Exp $
 # $OpenBSD: Makefile,v 1.38 2004/01/28 02:50:28 espie Exp $
 
 .include <bsd.own.mk>
@@ -20,12 +20,11 @@ SRCS+=	lstAddNew.c lstAppend.c lstConcat.c lstConcatDestroy.c \
 
 .ifdef MAKE_BOOTSTRAP
 MKFEATURES?=	-DHAS_STDBOOL_H -D_PATH_DEFSYSPATH=\"/usr/share/mk\"
-SRCS_FGETLN?=	fgetln.c
 CPPFLAGS+=	-Iohash -DMACHINE_OS=\"${MACHINE_OS}\" -DMAKE_BOOTSTRAP
 SRCS+=		ohash_create_entry.c ohash_delete.c ohash_do.c \
 		ohash_entries.c ohash_enum.c ohash_init.c ohash_interval.c \
 		ohash_lookup_interval.c ohash_lookup_memory.c \
-		ohash_qlookup.c ohash_qlookupi.c ${SRCS_FGETLN}
+		ohash_qlookup.c ohash_qlookupi.c
 .PATH:		${.CURDIR}/ohash
 .else
 MKFEATURES?=	-DUSE_TIMESPEC
