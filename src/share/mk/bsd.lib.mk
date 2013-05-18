@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.lib.mk,v 1.33 2005/12/16 22:04:17 tg Exp $
+# $MirOS: src/share/mk/bsd.lib.mk,v 1.34 2005/12/29 23:16:09 tg Exp $
 # $OpenBSD: bsd.lib.mk,v 1.43 2004/09/20 18:52:38 espie Exp $
 # $NetBSD: bsd.lib.mk,v 1.67 1996/01/17 20:39:26 mycroft Exp $
 # @(#)bsd.lib.mk	5.26 (Berkeley) 5/2/91
@@ -44,8 +44,8 @@ SHLIB_FLAGS?=	-Wl,--image-base,$$((RANDOM % 0x1000 / 4 * 0x40000 + 0x40000000))
 SHLIB_FLAGS?=	${PICFLAG}
 .  endif
 SHLIB_FLAGS+=	${LDFLAGS}
-.  if ${OBJECT_FMT} != "Mach-O"
-SHLIB_FLAGS+=	-Wl,-rpath,${LIBDIR}
+.  if (${OBJECT_FMT} == "ELF") || (${OBJECT_FMT} == "PE")
+SHLIB_FLAGS+=	-Wl,-rpath,${LIBDIR} -Wl,-rpath-link,${DESTDIR}${LIBDIR}
 .  endif
 .endif
 SHLIB_LINKS?=
