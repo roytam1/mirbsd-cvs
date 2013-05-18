@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.151 2009/02/01 00:45:42 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.152 2009/02/01 14:48:43 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -3119,4 +3119,25 @@ Tag: bug event mksh snapshot
  El Torito merge.</p>
 <p>mksh has funny behaviour with <tt>${foo/@(%)/x}</tt> failing – only
  in Unicode mode though.</p>
+----
+Author: tg@
+Title: MirGRML and FOSDEM DuaLive™ Triforce™ CDs
+Date: 03.02.2009 00:54
+Tag: bug event security snapshot
+
+<p>Uh-oh, 03.02. already. I <em>think</em>, after the switch to GRUB 2
+ and another couple of bootlooter fixes, that we’re there yet. Funnily
+ I only noticed how BSD cannot access labelled disks when the device’s
+ sector size mismatches the one in the label. <strong>There is also an
+ embarassing (for upstream) local DoS exploit</strong> possibility, by
+ setting a sector size of 0, the kernel traps division by zero. Thanks
+ for all the blowfish, yeah.</p>
+<p><a href="https://eurynome.mirbsd.org/~tg/pub/mirgrml200901.sum">The
+ checksum file</a> for MirGRML 2009.01 (experimental, but probably, by
+ now, complete). You’ll probably figure out the ISO link.</p>
+<p>The full MirOS CD should be done soonish as well. Just have to test
+ it, then I can go to bed. Wish me luck.</p>
+<p>GNU grub-legacy cannot access ISO 9660 on devices with sector sizes
+ other than 2048 bytes… and, according to mika, has other quirks, with
+ recent mke2fs’ inode defaults making it hiccup. Heh.</p>
 ----
