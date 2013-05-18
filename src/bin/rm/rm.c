@@ -1,4 +1,4 @@
-/* $MirOS: src/bin/rm/rm.c,v 1.4 2008/03/02 20:08:56 tg Exp $ */
+/* $MirOS: src/bin/rm/rm.c,v 1.5 2008/03/02 20:20:45 tg Exp $ */
 /* $NetBSD: rm.c,v 1.46 2007/06/24 17:59:31 christos Exp $ */
 /* $OpenBSD: rm.c,v 1.18 2005/06/14 19:15:35 millert Exp $ */
 
@@ -36,7 +36,7 @@ __COPYRIGHT("@(#) Copyright (c) 1990, 1993, 1994\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)rm.c	8.8 (Berkeley) 4/27/95");
 __RCSID("$NetBSD: rm.c,v 1.46 2007/06/24 17:59:31 christos Exp $");
-__RCSID("$MirOS: src/bin/rm/rm.c,v 1.4 2008/03/02 20:08:56 tg Exp $");
+__RCSID("$MirOS: src/bin/rm/rm.c,v 1.5 2008/03/02 20:20:45 tg Exp $");
 
 #include <sys/param.h>
 #include <sys/stat.h>
@@ -504,6 +504,11 @@ rm_overwrite(char *file, struct stat *sbp)
 	 * write; the "or" in the standard allows this.
 	 */
 
+	if (buf != NULL) {
+		free(buf);
+		buf = NULL;
+	}
+
 	if (close(fd) == -1) {
 		fd = -1;
 		goto err;
@@ -512,6 +517,8 @@ rm_overwrite(char *file, struct stat *sbp)
 	return (0);
 
 err:	eval = 1;
+	if (buf != NULL)
+		free(buf);
 	warn("%s", file);
 	if (fd != -1)
 		close(fd);
