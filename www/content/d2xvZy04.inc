@@ -1,5 +1,5 @@
 <!-- PageID: wlog-8 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.37 2006/02/14 21:00:10 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.38 2006/02/15 13:20:35 tg Exp $</small>
 <h1>MirBSD &ndash; WTF, We Have a Release!?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -465,6 +465,20 @@ celebrate this event, rotate the wlog and start a new one.</p>
   ports are a mess.</p>
  <p>No idea how I can tell Benny by different means... we've got a place
   to stay in Leuven &ndash; 2 developers, 2 Trittbrettfahrer.</p>
+</div>
+
+<div class="wlentry">
+ <h3 id="e20060220">20.02.2006 by tg@</h3>
+ <p>I've been outside a lot, but under-the-hood FOSDEM planning coninues
+  and we'll probably have CDs with yet another new snapshot, and I ought
+  to bring the MirShirts with me as well.</p>
+ <p>Hacked a little on vnconfig(8) (in preparation for the key file hack
+  inspired by GeNUA's Marcus Popp) and ssh(1), sshd(8) (in order to make
+  them exchange randomness with the peer (via our own arc4random_push(3)
+  interface so it's strictly optional).</p>
+ <p>Also added a workaround to lynx(1) to improve handling of the broken
+  CAcert.org website. Fix comes later.</p>
+ <p>bsiegert@ actually phoned me today, meaning he still lives...</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
