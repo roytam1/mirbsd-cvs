@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/tools/i386_chain.S,v 1.7 2007/10/20 22:05:13 tg Exp $
+# $MirOS: src/distrib/tools/mkprepbs.sh,v 1.1 2007/10/20 22:24:42 tg Exp $
 #-
 # Copyright (c) 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -27,7 +27,7 @@
 # Arguments: $1 = chain ELF object; $2 = binary chain, linked
 # Output: shell script to stdout
 
-rcsid='$MirOS: src/sys/arch/i386/stand/bootxx/mkbxinst.sh,v 1.2 2007/10/20 21:59:02 tg Exp $'
+rcsid='$MirOS: src/distrib/tools/mkprepbs.sh,v 1.1 2007/10/20 22:24:42 tg Exp $'
 
 function die {
 	rv=$1; shift
@@ -72,6 +72,7 @@ cat <<'EOF'
 # of said person's immediate fault when using the work as intended.
 #-
 # Self-installing i386 boot block chain loader for MirOS BSD
+# Appends stdin to stdout.
 
 EOF
 print set -A thecode $thecode
@@ -125,6 +126,6 @@ done
 # $ dd if=<sparc cdrom with disklabel applied> bs=1 skip=128 | \
 #   hexdump -ve '1/1 "\\0%o"' | sed -e 's/\\00\\/\\0\\/g' -e 's/\\00\\/\\0\\/g'
 print -n "$ostr\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\01\0136\010\0\0\0\0\0\0\0\0\01\010\0\0\0\0\01\02\0200\0\0\0\0\0\0\0\0\0\024\0\0\0\0\0\0\0\024\0\0\0\0\0\0\0\024\0\0\0\0\0\0\0\024\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0332\0276\0125\0252"
-exit 0
+exec cat
 EOF
 exit 0
