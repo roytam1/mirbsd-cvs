@@ -1,11 +1,11 @@
-/**	$MirOS: src/sys/dev/rnd.c,v 1.3 2005/07/04 00:10:41 tg Exp $ */
+/**	$MirOS: src/sys/dev/rnd.c,v 1.4 2005/07/07 14:01:59 tg Exp $ */
 /*	$OpenBSD: rnd.c,v 1.78 2005/07/07 00:11:24 djm Exp $	*/
 
 /*
  * rnd.c -- A strong random number generator
  *
- * Copyright (c) 2000, 2002, 2003, 2004, 2005
- *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+ * Copyright (c) 2000, 2002, 2003, 2004, 2005, 2006
+ *	Thorsten "mirabilos" Glaser <tg@mirbsd.de>
  * Copyright (c) 1996, 1997, 2000-2002 Michael Shalayeff.
  * Copyright Theodore Ts'o, 1994, 1995, 1996, 1997, 1998, 1999.
  * All rights reserved.
@@ -191,7 +191,7 @@
  *	# Carry a random seed from start-up to start-up
  *	# Load and then save 512 bytes, which is the size of the entropy pool
  *	if [ -f /etc/random-seed ]; then
- *		cat /etc/random-seed >/dev/urandom
+ *		cat /etc/random-seed >/dev/arandom
  *	fi
  *	dd if=/dev/urandom of=/etc/random-seed count=1
  *
@@ -255,6 +255,7 @@
 #include <sys/sysctl.h>
 #include <sys/timeout.h>
 #include <sys/poll.h>
+#include <sys/kernel.h>
 
 #include <crypto/md5.h>
 
@@ -492,7 +493,7 @@ void extract_entropy(register u_int8_t *, int);
 static u_int8_t arc4_getbyte(void);
 void arc4_stir(void);
 void arc4_reinit(void *v);
-void arc4maybeinit(void);
+static void arc4maybeinit(void);
 
 /* Arcfour random stream generator.  This code is derived from section
  * 17.1 of Applied Cryptography, second edition, which describes a
@@ -576,7 +577,7 @@ arc4_stir(void)
 		arc4_getbyte();
 }
 
-void
+static void
 arc4maybeinit(void)
 {
 	extern int hz;
@@ -617,8 +618,8 @@ prnd_reinit(void *v)
 	extern int hz;
 	extern volatile int ticks;
 
-	/* seed the PRNG about once every 4-and-a-bit minutes */
-	srandom(rnd_attached ? arc4random() : (random() ^ (ticks * hz)));
+	/* re-seed the PRNG about once every 4-and-a-bit minutes */
+	srandom(rnd_attached ? arc4random() : (ticks ^ time.tv_sec));
 	timeout_add(&prnd_timeout, hz << 8);
 }
 
@@ -650,6 +651,8 @@ randomattach(void)
 	timeout_set(&prnd_timeout, prnd_reinit, NULL);
 	timeout_set(&rnd_addpool_timeout, rnd_addpool_reinit, NULL);
 
+	prnd_reinit(NULL);
+
 	random_state.add_ptr = 0;
 	random_state.entropy_count = 0;
 	rnd_states[RND_SRC_TIMER].dont_count_entropy = 1;
@@ -662,7 +665,6 @@ randomattach(void)
 	for (i = 0; i < 256; i++)
 		arc4random_state.s[i] = i;
 	arc4_reinit(NULL);
-	prnd_reinit(NULL);
 	rnd_addpool_reinit(NULL);
 
 	++rnd_attached;
