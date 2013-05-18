@@ -12,8 +12,10 @@ LINK	instbin					usr/bin/more usr/bin/less
 
 # these don't fit
 REMOVE	bin/sync
+REMOVE	sbin/ping6
 REMOVE	sbin/restore
 REMOVE	sbin/scsi
+REMOVE	usr/bin/find
 
 # devices stuff
 SPECIAL	cd dev; ./MAKEDEV ramdisk
