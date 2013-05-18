@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.lib.mk,v 1.25 2005/10/20 12:47:06 tg Exp $
+# $MirOS: src/share/mk/bsd.lib.mk,v 1.26 2005/10/26 17:51:27 tg Exp $
 # $OpenBSD: bsd.lib.mk,v 1.43 2004/09/20 18:52:38 espie Exp $
 # $NetBSD: bsd.lib.mk,v 1.67 1996/01/17 20:39:26 mycroft Exp $
 # @(#)bsd.lib.mk	5.26 (Berkeley) 5/2/91
@@ -47,11 +47,11 @@ SHLIB_FLAGS+=	${LDFLAGS}
 .endif
 SHLIB_LINKS?=
 
-.  if !empty(SRCS:M*.C) || !empty(SRCS:M*.cc) || !empty(SRCS:M*.cxx)
+.if !empty(SRCS:M*.C) || !empty(SRCS:M*.cc) || !empty(SRCS:M*.cxx)
 LINKER?=	${CXX}
-.  else
+.else
 LINKER?=	${CC}
-.  endif
+.endif
 
 .if defined(SHLIB_SONAME) && empty(SHLIB_SONAME)
 .  undef SHLIB_SONAME
