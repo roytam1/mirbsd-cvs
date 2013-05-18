@@ -1,5 +1,5 @@
 ! $MirSecuCron$
-! $MirOS: contrib/samples/dot.Xresources,v 1.20 2011/10/24 20:03:05 tg Exp $
+! $MirOS: contrib/samples/dot.Xresources,v 1.21 2012/07/04 13:51:30 tg Exp $
 !-
 ! Copyright © 2003, 2004, 2005, 2006, 2007, 2009, 2010, 2011, 2012
 !	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
@@ -22,20 +22,10 @@
 ! Xresources file for xterm, xterm with terminus, xterm with vga,
 ! kterm, netscape with mouse wheel, and whatever else pleases you.
 
-! TODO: think about this (breaks mouse copying between screen tabs):
-!	!! Do NOT use cut buffers in xterm. They are evil and obsolete.
-!	*VT100*translations: #override \n\
-!	    ~Shift~Ctrl<Btn2Up>: insert-selection(PRIMARY) \n\
-!	    Shift~Ctrl<Btn2Up>:  insert-selection(CLIPBOARD) \n\
-!	    <BtnUp>:select-end(PRIMARY)
-
-! TODO: use cursorUnderLine (xterm #237 and up)
-! TODO: use allowBoldFonts (xterm #270 and up)
-
 !--- generic XTerm settings ---
 XTerm*VT100*loginShell:		true
+XTerm*keepSelection:		true
 XTerm*ScrollBar:		false
-XTerm*pointerMode:		0
 XTerm*SaveLines:		4096
 XTerm*eightBitInput:		true
 XTerm*eightBitOutput:		true
@@ -45,6 +35,9 @@ XTerm*ptyInitialErase:		true
 XTerm*VT100*background:		black
 XTerm*VT100*foreground:		lightgrey
 XTerm*termName:			xterm-xfree86
+XTerm*pointerMode:		0
+XTerm*cursorBlink:		true
+XTerm*cursorUnderLine:		true
 XTerm*cursorColor:		rgb:FF/BF/00
 XTerm*VT100*colorMode:		true
 XTerm*VT100*colorBDMode:	true
@@ -52,6 +45,7 @@ XTerm*VT100*colorBLMode:	false
 XTerm*VT100*colorULMode:	false
 XTerm*VT100*boldColors:		true
 XTerm*VT100*boldMode:		false
+XTerm*allowBoldFonts:		false
 XTerm*VT100*dynamicColors:	true
 XTerm*VT100*utf8:		1
 XTerm*VT100*color0:		black
@@ -89,8 +83,8 @@ XTerm*visualBell:		true
 
 !--- generic amber/black UXTerm settings ---
 AXTerm*VT100*loginShell:	true
+AXTerm*keepSelection:		true
 AXTerm*ScrollBar:		false
-AXTerm*pointerMode:		0
 AXTerm*SaveLines:		4096
 AXTerm*eightBitInput:		true
 AXTerm*eightBitOutput:		true
@@ -100,6 +94,9 @@ AXTerm*ptyInitialErase:		true
 AXTerm*VT100*background:	black
 AXTerm*VT100*foreground:	rgb:FF/BF/00
 AXTerm*termName:		xterm-xfree86
+AXTerm*pointerMode:		0
+AXTerm*cursorBlink:		true
+AXTerm*cursorUnderLine:		true
 AXTerm*cursorColor:		white
 AXTerm*VT100*colorMode:		true
 AXTerm*VT100*colorBDMode:	true
@@ -107,6 +104,7 @@ AXTerm*VT100*colorBLMode:	false
 AXTerm*VT100*colorULMode:	false
 AXTerm*VT100*boldColors:	true
 AXTerm*VT100*boldMode:		false
+AXTerm*allowBoldFonts:		false
 AXTerm*VT100*dynamicColors:	true
 AXTerm*VT100*utf8:		1
 AXTerm*VT100*color0:		black
@@ -146,8 +144,8 @@ AXTerm*visualBell:		true
 
 !--- generic black/white XTerm settings ---
 BXTerm*VT100*loginShell:	true
+BXTerm*keepSelection:		true
 BXTerm*ScrollBar:		false
-BXTerm*pointerMode:		0
 BXTerm*SaveLines:		4096
 BXTerm*eightBitInput:		true
 BXTerm*eightBitOutput:		true
@@ -157,6 +155,9 @@ BXTerm*ptyInitialErase:		true
 BXTerm*VT100*background:	white
 BXTerm*VT100*foreground:	black
 BXTerm*termName:		xterm-r6
+BXTerm*pointerMode:		0
+BXTerm*cursorBlink:		true
+BXTerm*cursorUnderLine:		true
 BXTerm*cursorColor:		rgb:FF/BF/00
 BXTerm*VT100*colorMode:		false
 BXTerm*VT100*colorBDMode:	false
@@ -164,6 +165,7 @@ BXTerm*VT100*colorBLMode:	false
 BXTerm*VT100*colorULMode:	false
 BXTerm*VT100*boldColors:	false
 BXTerm*VT100*boldMode:		true
+BXTerm*allowBoldFonts:		false
 BXTerm*VT100*dynamicColors:	false
 BXTerm*VT100*utf8:		1
 BXTerm*fontMenu*background:	AntiqueWhite
@@ -182,8 +184,8 @@ BXTerm*visualBell:		true
 
 !--- Terminus font modifications ---
 TXTerm*VT100*loginShell:	true
+TXTerm*keepSelection:		true
 TXTerm*ScrollBar:		false
-TXTerm*pointerMode:		0
 TXTerm*SaveLines:		4096
 TXTerm*eightBitInput:		true
 TXTerm*eightBitOutput:		true
@@ -193,6 +195,9 @@ TXTerm*ptyInitialErase:		true
 TXTerm*VT100*background:	black
 TXTerm*VT100*foreground:	lightgrey
 TXTerm*termName:		xterm-xfree86
+TXTerm*pointerMode:		0
+TXTerm*cursorBlink:		true
+TXTerm*cursorUnderLine:		true
 TXTerm*cursorColor:		rgb:FF/BF/00
 TXTerm*VT100*colorMode:		true
 TXTerm*VT100*colorBDMode:	true
@@ -200,6 +205,7 @@ TXTerm*VT100*colorBLMode:	false
 TXTerm*VT100*colorULMode:	false
 TXTerm*VT100*boldColors:	true
 TXTerm*VT100*boldMode:		false
+TXTerm*allowBoldFonts:		false
 TXTerm*VT100*dynamicColors:	true
 TXTerm*VT100*utf8:		1
 TXTerm*VT100*color0:		black
@@ -240,8 +246,8 @@ TXTerm*visualBell:		true
 
 !--- an XTerm with vga font ---
 VXTerm*VT100*loginShell:	true
+VXTerm*keepSelection:		true
 VXTerm*ScrollBar:		false
-VXTerm*pointerMode:		0
 VXTerm*SaveLines:		4096
 VXTerm*eightBitInput:		true
 VXTerm*eightBitOutput:		true
@@ -251,6 +257,9 @@ VXTerm*ptyInitialErase:		true
 VXTerm*VT100*background:	black
 VXTerm*VT100*foreground:	lightgrey
 VXTerm*termName:		xterm-xfree86
+VXTerm*pointerMode:		0
+VXTerm*cursorBlink:		true
+VXTerm*cursorUnderLine:		true
 VXTerm*cursorColor:		rgb:FF/BF/00
 VXTerm*VT100*colorMode:		true
 VXTerm*VT100*colorBDMode:	true
@@ -258,6 +267,7 @@ VXTerm*VT100*colorBLMode:	false
 VXTerm*VT100*colorULMode:	false
 VXTerm*VT100*boldColors:	true
 VXTerm*VT100*boldMode:		false
+VXTerm*allowBoldFonts:		false
 VXTerm*VT100*dynamicColors:	true
 VXTerm*VT100*utf8:		0
 VXTerm*VT100*color0:		black
@@ -299,8 +309,8 @@ VXTerm*VT100*geometry:		80x25
 
 !--- generic utf-8 XTerm settings ---
 UXTerm*VT100*loginShell:	true
+UXTerm*keepSelection:		true
 UXTerm*ScrollBar:		false
-UXTerm*pointerMode:		0
 UXTerm*SaveLines:		4096
 UXTerm*eightBitInput:		true
 UXTerm*eightBitOutput:		true
@@ -310,6 +320,9 @@ UXTerm*ptyInitialErase:		true
 UXTerm*VT100*background:	black
 UXTerm*VT100*foreground:	lightgrey
 UXTerm*termName:		xterm-xfree86
+UXTerm*pointerMode:		0
+UXTerm*cursorBlink:		true
+UXTerm*cursorUnderLine:		true
 UXTerm*cursorColor:		rgb:FF/BF/00
 UXTerm*VT100*colorMode:		true
 UXTerm*VT100*colorBDMode:	true
@@ -317,6 +330,7 @@ UXTerm*VT100*colorBLMode:	false
 UXTerm*VT100*colorULMode:	false
 UXTerm*VT100*boldColors:	true
 UXTerm*VT100*boldMode:		false
+UXTerm*allowBoldFonts:		false
 UXTerm*VT100*dynamicColors:	true
 UXTerm*VT100*utf8:		1
 UXTerm*VT100*color0:		black
@@ -359,8 +373,8 @@ UXTerm*visualBell:		true
 
 !--- euc-jp kterm settings ---
 KTerm*VT100*loginShell:		true
+KTerm*keepSelection:		true
 KTerm*ScrollBar:		false
-KTerm*pointerMode:		0
 KTerm*SaveLines:		4096
 KTerm*eightBitInput:		true
 KTerm*eightBitOutput:		true
@@ -370,6 +384,9 @@ KTerm*ptyInitialErase:		true
 KTerm*VT100*background:		black
 KTerm*VT100*foreground:		lightgrey
 KTerm*termName:			kterm
+KTerm*pointerMode:		0
+KTerm*cursorBlink:		true
+KTerm*cursorUnderLine:		true
 KTerm*cursorColor:		rgb:FF/BF/00
 KTerm*VT100*colorMode:		true
 KTerm*VT100*colorBDMode:	true
@@ -377,6 +394,7 @@ KTerm*VT100*colorBLMode:	false
 KTerm*VT100*colorULMode:	false
 KTerm*VT100*boldColors:		true
 KTerm*VT100*boldMode:		false
+KTerm*allowBoldFonts:		false
 KTerm*VT100*dynamicColors:	true
 KTerm*VT100*utf8:		0
 KTerm*VT100*color0:		black
@@ -411,6 +429,12 @@ TXTerm*charClass:		33:33,35:35,37:37,38:38,43:43,44:44,45:45,46:46,47:47,58:58,6
 VXTerm*charClass:		33:33,35:35,37:37,38:38,43:43,44:44,45:45,46:46,47:47,58:58,61:61,62:62,63:63,64:64,95:48,126:126
 UXTerm*charClass:		33:33,35:35,37:37,38:38,43:43,44:44,45:45,46:46,47:47,58:58,61:61,62:62,63:63,64:64,95:48,126:126
 KTerm*charClass:		33:33,35:35,37:37,38:38,43:43,44:44,45:45,46:46,47:47,58:58,61:61,62:62,63:63,64:64,95:48,126:126
+
+! Do NOT use cut buffers in xterm. They are evil and obsolete.
+*VT100*translations: #override \n\
+    ~Shift~Ctrl<Btn2Up>: insert-selection(PRIMARY) \n\
+    Shift~Ctrl<Btn2Up>:  insert-selection(CLIPBOARD) \n\
+    <BtnUp>:select-end(PRIMARY)
 
 !--- kinput2 japanese input method editor ---
 Kinput2*conversionEngine:	canna
