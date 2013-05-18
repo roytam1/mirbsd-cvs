@@ -1,9 +1,9 @@
-# $MirOS: src/distrib/common/dot.profile,v 1.6 2006/10/17 21:21:03 tg Exp $
+# $MirOS: src/distrib/common/dot.profile,v 1.7 2007/02/02 16:45:09 tg Exp $
 # $OpenBSD: dot.profile,v 1.4 2002/09/13 21:38:47 deraadt Exp $
 # $NetBSD: dot.profile,v 1.1 1995/12/18 22:54:43 pk Exp $
 #
-# Copyright (c) 2003, 2004, 2005, 2006
-#	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+# Copyright (c) 2003, 2004, 2005, 2006, 2007
+#	Thorsten "mirabilos" Glaser <tg@66h.42h.de>
 # Copyright (c) 1995 Jason R. Thorpe
 # Copyright (c) 1994 Christopher G. Demetriou
 # All rights reserved.
@@ -52,6 +52,15 @@ sshd() {
 
 export PATH=/sbin:/bin:/usr/bin:/usr/sbin:/
 umask 022
+
+if [[ -z $NEED_UNICODE ]]; then
+	chkuterm; NEED_UNICODE=$?	# 0 = UTF-8; >0 = ISO-8859-1
+	if [[ $NEED_UNICODE -ne 0 ]]; then
+		export NEED_UNICODE	# don't try this twice
+		exec script -lns	# latin1, no typescript, login shell
+	fi
+fi
+unset NEED_UNICODE
 
 alias ls='/bin/ls -F'
 alias la='ls -a '
