@@ -1,5 +1,15 @@
+#if 0
+
+PROG=		ucdconv
+NOMAN=		Yes
+
+.include <bsd.prog.mk>
+
+.if "0" == "1"
+#endif
+
 /* Copyright (C) 1999-2001 Free Software Foundation, Inc.
-   Copyright (c) 2006-2008 The MirOS Project
+   Copyright (c) 2006-2010 The MirOS Project
 
    The GNU UTF-8 Library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Library General Public License as
@@ -22,6 +32,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <wchar.h>
+
+__RCSID("$MirOS$");
 
 struct unicode_attribute {
   const char* name;           /* Character name */
@@ -206,7 +218,7 @@ static unsigned int titlecase (unsigned int ch)
 }
 
 /* Create toupper.h, used by libutf8. */
-void output_toupper_table (void)
+static void output_toupper_table (void)
 {
   int pages[0x100];
   int p, p1, p2, i1, i2;
@@ -265,7 +277,7 @@ void output_toupper_table (void)
   }
 }
 
-void output_totitle_table (void)
+static void output_totitle_table (void)
 {
   int pages[0x100];
   int p, p1, p2, i1, i2;
@@ -326,7 +338,7 @@ void output_totitle_table (void)
 }
 
 /* Create tolower.h, used by libutf8. */
-void output_tolower_table (void)
+static void output_tolower_table (void)
 {
   int pages[0x100];
   int p, p1, p2, i1, i2;
@@ -399,7 +411,7 @@ void output_tolower_table (void)
 #define alnum 2048
 
 /* Create attribute.h, used by libutf8. */
-void output_attribute_table (void)
+static void output_attribute_table (void)
 {
   int table[0x10000];
   int pages[0x100];
@@ -496,10 +508,10 @@ void output_attribute_table (void)
       else
 	fprintf(f, "const unsigned char __C_attribute_table_pg[256] = {\n");
       for (i = 0; i < 0x100; i++) {
-        unsigned int ch = 256*p + i;
-        int attributes = table[ch];
+        unsigned int ch_ = 256*p + i;
+        int attributes = table[ch_];
         int next = 0;
-        fprintf(f, "\t/* 0x%04X */ ", ch);
+        fprintf(f, "\t/* 0x%04X */ ", ch_);
         if (attributes & upper) {
           if (next) fprintf(f, " | ");
           fprintf(f, "upper");
@@ -606,3 +618,7 @@ int main (int argc, char* argv[])
 
   return 0;
 }
+
+#if 0
+.endif
+#endif
