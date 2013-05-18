@@ -1,5 +1,5 @@
 #!/bin/mksh
-rcsid='$MirOS: src/sys/arch/sparc/stand/bootxx/mkbxinst.sh,v 1.16 2009/02/02 23:39:02 tg Exp $'
+rcsid='$MirOS: src/sys/arch/sparc/stand/bootxx/mkbxinst.sh,v 1.17 2009/02/02 23:59:50 tg Exp $'
 #-
 # Copyright (c) 2007, 2008, 2009
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -88,7 +88,7 @@ typeset -i pbs_ofs_sector=43 pbs_curptr=66
 
 function pbs_output {
 	typeset ostr=
-	typeset -i psz
+	typeset -i psz cylno
 
 	# fill the block table
 	(( pbs_thecode[pbs_ofs_sector] = $1 + 1 ))
@@ -120,7 +120,7 @@ function pbs_output {
 	(( pbs_thecode[439] = g_code[2] & 0xFF ))
 	# sectors per drive
 	(( psz = g_code[0] * g_code[1] * g_code[2] ))
-	# partitions
+	# sparc partitions
 	print -u2 geometry is $psz sectors in ${g_code[0]} cylinders, \
 	    ${g_code[1]} heads, ${g_code[2]} sectors per track
 	(( pbs_thecode[448] = pbs_thecode[456] = pbs_thecode[464] = \
@@ -131,6 +131,18 @@ function pbs_output {
 	    pbs_thecode[474] = (psz >> 8) & 0xFF ))
 	(( pbs_thecode[451] = pbs_thecode[459] = pbs_thecode[467] = \
 	    pbs_thecode[475] = psz & 0xFF ))
+	# i386 partition
+	pbs_thecode[478]=0x80
+	pbs_thecode[480]=1
+	pbs_thecode[482]=0x96
+	(( pbs_thecode[483] = g_code[1] - 1 ))
+	(( cylno = g_code[0] > 1024 ? 1023 : g_code[0] - 1 ))
+	(( pbs_thecode[484] = g_code[2] | ((cylno & 0x0300) >> 2) ))
+	(( pbs_thecode[485] = cylno & 0x00FF ))
+	(( pbs_thecode[490] = psz & 0xFF ))
+	(( pbs_thecode[491] = (psz >> 8) & 0xFF ))
+	(( pbs_thecode[492] = (psz >> 16) & 0xFF ))
+	(( pbs_thecode[493] = (psz >> 24) & 0xFF ))
 	# magic
 	pbs_thecode[508]=0xDA
 	pbs_thecode[509]=0xBE
@@ -202,7 +214,7 @@ Default scale=0, geometry: 2048 cyls 1 head 640 secs, suggest secno=24'
 done
 shift $((OPTIND - 1))
 
-# output chain sector including Sun disklabel, if desired
+# if desired, output chain sector (MBR) including partition and Sun disklabel
 (( chainsec >= 0 )) && pbs_output $chainsec
 
 # zero-initialise the block array
