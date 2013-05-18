@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.376 2011/02/09 13:12:47 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.377 2011/02/09 15:07:59 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1127,6 +1127,8 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Don’t append a space after tab-completing a parameter
   substitution that doesn’t contain a glob/extglob (LP: #710539)</li>
  <li>[tg] Limit history file size to 1 GiB for sanity</li>
+ <li>[tg] Add <tt>smores</tt>, a more(1)-like pager, as shell function
+  to <tt>dot.mkshrc</tt> (not control character safe but tty aware)</li>
 </ul>
 <p id="r39c">mksh R39c is an important minor bugfix release:</p><ul>
  <li>[tg] Build system, code, docs and testsuite cleanup, also style(9)</li>
@@ -1374,8 +1376,11 @@ exec /usr/bin/ld "${args[@]}"</pre>
  a stat(1) builtin? (For hashes by file.) Maybe make a builtin
  that expands <tt>struct stat</tt> into an associative array?</li>
 <li>Add read with timeout, sleep as builtin, fractional timeouts.
- I’m leaning towards ualarm(3) instead of select(2) at the moment…
- need to find out how to do this portably…</li>
+ Using ualarm(3) or alarm(3), setitimer(2), etc. is just a hassle,
+ so the ugly huge select(2) it is, and functionality that needs it
+ (i.e. read with timeout, the sleep builtin) will only conditionally
+ be available/compiled, depending on its existence ☹</li>
+<li>The c_read() builtin will probably need a <em>full</em> rewrite.</li>
 <li>Implement <tt>+=</tt> for at least arrays, if not scalar variables.
  Consider changing <tt>=(…)</tt>, and maybe <tt>set -A</tt> (if ksh93
  matches), to not unset the array, but merely empty it (<tt>unset A[*]</tt>),
