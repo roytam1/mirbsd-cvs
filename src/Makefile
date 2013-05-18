@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.116 2007/10/16 22:24:36 tg Exp $
+# $MirOS: src/Makefile,v 1.117 2007/10/18 18:42:08 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -128,7 +128,7 @@ do-htman:
 	cd ${BSDOBJDIR}/htman && tar xzf \
 	    ${BSDRELDIR}/rel/pkgutl${OSrev}.ngz usr/mpkg/man/cat?/*.0
 	cd ${BSDOBJDIR}/htman/usr/mpkg/man && \
-	    find * -type f | cpio -pdlu ${BSDOBJDIR}/htman/man
+	    find * -type f -o -type l | cpio -pdlu ${BSDOBJDIR}/htman/man
 .for _doc in papers psd smm usd
 	mkdir -p ${BSDOBJDIR}/htman/papers/${_doc}
 	cd ${BSDOBJDIR}/htman/papers/${_doc} && \
@@ -148,9 +148,9 @@ do-htman:
 	-rm -f ${BSDOBJDIR}/htman/.policy.mk
 	${SUDO} mkdir -p ${BSDRELDIR}/htman/man{DOCS,INFO}
 	cd ${BSDOBJDIR}/htman/htm && \
-	    find man* -type f | ${SUDO} cpio -pdlu ${BSDRELDIR}/htman/
+	    find * -type f -o -type l | ${SUDO} cpio -pdlu ${BSDRELDIR}/htman/
 	cd ${BSDOBJDIR}/htman/texinfo && \
-	    find *.html | ${SUDO} cpio -pdlu ${BSDRELDIR}/htman/manINFO/
+	    ${SUDO} pax -rw *.html ${BSDRELDIR}/htman/manINFO/
 	cd ${BSDRELDIR}/base/usr/share/doc/html && \
 	    ${SUDO} pax -rw * ${BSDRELDIR}/htman/manDOCS/
 	cd ${BSDRELDIR}/htman/manDOCS && ${SUDO} rm -f \
