@@ -1,5 +1,3 @@
-/* $MirOS: src/gnu/usr.bin/lynx/src/LYStrings.c,v 1.5 2006/09/13 19:18:37 tg Exp $ */
-
 #include <HTUtils.h>
 #include <HTCJK.h>
 #include <UCAux.h>
@@ -905,7 +903,7 @@ static SLKeyMap_List_Type *Keymap_List;
 #endif
 
 typedef struct {
-    char *string;	/* XXX should be const */
+    const char *string;
     int value;
 } Keysym_String_List;
 /* *INDENT-OFF* */

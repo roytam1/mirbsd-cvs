@@ -1,5 +1,3 @@
-/* $MirOS$ */
-
 /*                                                   String handling for libwww
                                          STRINGS
                                              

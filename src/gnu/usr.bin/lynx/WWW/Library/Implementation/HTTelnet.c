@@ -35,6 +35,10 @@
 #include <LYClean.h>
 #include <LYLeaks.h>
 
+#ifdef __GNUC__
+static void do_system(char *) __attribute__((unused));
+#endif
+
 static void do_system(char *command)
 {
     if (!isEmpty(command)) {
@@ -484,8 +488,6 @@ static int remote_session(char *acc_method, char *host)
     }
 #endif /* !TELNET_DONE */
     return HT_NO_DATA;
-    /* shut up gcc */
-    do_system(NULL);
 }
 
 /*	"Load a document" -- establishes a session

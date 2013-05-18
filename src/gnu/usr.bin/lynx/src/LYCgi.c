@@ -1,5 +1,3 @@
-/* $MirOS: src/gnu/usr.bin/lynx/src/LYCgi.c,v 1.3 2005/12/19 23:57:05 tg Exp $ */
-
 /*                   Lynx CGI support                              LYCgi.c
  *                   ================
  *
@@ -185,10 +183,10 @@ static BOOL can_exec_cgi(const char *linktext, const char *linkargs)
 }
 #endif /* LYNXCGI_LINKS */
 
-static int LYLoadCGI(const char *arg GCC_UNUSED,
-		     HTParentAnchor *anAnchor GCC_UNUSED,
-		     HTFormat format_out GCC_UNUSED,
-		     HTStream *sink GCC_UNUSED)
+static int LYLoadCGI(const char *arg,
+		     HTParentAnchor *anAnchor,
+		     HTFormat format_out,
+		     HTStream *sink)
 {
     int status = 0;
 
