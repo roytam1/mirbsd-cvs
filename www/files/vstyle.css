@@ -1,4 +1,4 @@
-/* $MirOS: www/files/vstyle.css,v 1.32 2011/02/18 22:37:30 tg Exp $ */
+/* $MirOS: www/files/vstyle.css,v 1.33 2011/03/21 16:18:47 tg Exp $ */
 
 /*-
  * The MirOS Project - Webpages
@@ -298,6 +298,10 @@ h5 {
 .linkbot {
 	padding:18px 0px 14px 0px;
 	border-top:2px solid #666666;
+}
+
+.mirbsdwebsitehidefromnonrss {
+	display:none;
 }
 
 /* put stuff into nice boxes */
