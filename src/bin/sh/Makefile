@@ -1,7 +1,8 @@
-# $MirOS: src/bin/sh/Makefile,v 1.5 2005/07/23 20:07:45 tg Exp $
+# $MirOS: src/bin/sh/Makefile,v 1.6 2005/07/23 20:33:21 tg Exp $
 # $NetBSD: Makefile,v 1.80 2005/06/26 19:10:49 christos Exp $
 
-PROG=		sh
+PROG=		nbsh
+MAN=		nbsh.1
 SRCS=		alias.c arith.y arith_lex.l builtins.c cd.c echo.c error.c \
 		eval.c exec.c expand.c init.c input.c jobs.c kill.c main.c \
 		memalloc.c miscbltin.c mystring.c nodes.c options.c output.c \
@@ -11,6 +12,10 @@ LFLAGS=		-8
 CLEANFILES+=	arith.c arith.h arith_lex.c
 DPADD+=		${LIBL}
 LDADD+=		-ll
+
+CLEANFILES+=	nbsh.1
+LINKS+=		${BINDIR}/nbsh ${BINDIR}/sh
+MLINKS+=	nbsh.1 sh.1
 
 CFLAGS_arith_lex.o= -Wno-old-style-definition -Wno-missing-noreturn
 
@@ -23,5 +28,8 @@ arith.c arith.h: arith.y
 	mv y.tab.h arith.h
 
 .depend: arith.c arith_lex.c
+
+nbsh.1: sh.1
+	cp $> $@
 
 .include <bsd.prog.mk>

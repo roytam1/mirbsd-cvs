@@ -24,6 +24,7 @@
 ./bin/mksh
 ./bin/mt
 ./bin/mv
+./bin/nbsh
 ./bin/pax
 ./bin/ps
 ./bin/pwd
@@ -1688,6 +1689,7 @@
 ./usr/share/man/cat1/mt.0
 ./usr/share/man/cat1/mv.0
 ./usr/share/man/cat1/nawk.0
+./usr/share/man/cat1/nbsh.0
 ./usr/share/man/cat1/nc.0
 ./usr/share/man/cat1/neqn.0
 ./usr/share/man/cat1/netstat.0
