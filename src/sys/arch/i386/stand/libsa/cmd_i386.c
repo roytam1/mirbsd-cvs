@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/cmd_i386.c,v 1.7 2008/12/28 18:10:09 tg Exp $	*/
+/**	$MirOS: src/sys/arch/i386/stand/libsa/cmd_i386.c,v 1.8 2008/12/28 18:18:04 tg Exp $	*/
 /*	$OpenBSD: cmd_i386.c,v 1.29 2006/09/18 21:14:15 mpf Exp $	*/
 
 /*
@@ -111,7 +111,7 @@ Xlabel(void)
 			break;
 	}
 	if (!dip) {
-		printf("Device for %c%d%c not found\n", dname[0], dname[2]);
+		printf("Device for %cd%c not found\n", dname[0], dname[2]);
 		return (0);
 	}
 	printf("Disklabel for device %x (%cd%c): ", d, dname[0], dname[2]);
