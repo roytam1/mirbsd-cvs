@@ -1,10 +1,10 @@
-$MirOS: ports/devel/cvs/patches/patch-src_sanity_sh,v 1.1 2010/09/18 22:35:09 tg Exp $
+$MirOS: ports/devel/cvs/patches/patch-src_sanity_sh,v 1.2 2010/09/18 23:52:27 tg Exp $
 --- src/sanity.sh.orig	Thu Sep 22 20:33:44 2005
-+++ src/sanity.sh	Sat Sep 18 23:48:35 2010
++++ src/sanity.sh	Sun Sep 19 17:15:50 2010
 @@ -1,5 +1,9 @@
  #! /bin/sh
  :
-+# $MirOS$
++# $MirOS: ports/devel/cvs/patches/patch-src_sanity_sh,v 1.2 2010/09/18 23:52:27 tg Exp $
 +#
 +# set DISABLE_ANY_RSH=1 to skip rsh and ssh calls
 +#
@@ -23,6 +23,15 @@ $MirOS: ports/devel/cvs/patches/patch-src_sanity_sh,v 1.1 2010/09/18 22:35:09 tg
    host=${remotehost-"`hostname`"}
    result=`$1 $host 'echo test'`
    rc=$?
+@@ -1313,7 +1322,7 @@ verify_tmp_empty ()
+   if $remote && $LS $TMPDIR/cvs-serv* >/dev/null 2>&1; then
+     # A true value means ls found files/directories with these names.
+     # Give the server some time to finish, then retry.
+-    sleep 1
++    sleep 2
+     if $LS $TMPDIR/cvs-serv* >/dev/null 2>&1; then
+       warn "$1" "Found cvs-serv* directories in $TMPDIR."
+       # The above will exit if $skipfail
 @@ -1503,6 +1512,9 @@ run_filter ()
  # lack \|).
  dotest ()
@@ -94,6 +103,15 @@ $MirOS: ports/devel/cvs/patches/patch-src_sanity_sh,v 1.1 2010/09/18 22:35:09 tg
  # Now hide the primary root behind a secondary if requested.
  if $proxy; then
      # Save the primary root.
+@@ -2726,7 +2764,7 @@ case "\$dir" in
+ esac # \$dir
+ 
+ # Avoid timestamp comparison issues with rsync.
+-sleep 1
++sleep 2
+ EOF
+     chmod a+x $TESTDIR/sync-secondary
+ 
 @@ -2781,6 +2819,19 @@ cp -Rp $CVSROOT_DIRNAME/CVSROOT $TESTDIR
  ###
  dotest init-2 "$testcvs init"
@@ -147,6 +165,24 @@ $MirOS: ports/devel/cvs/patches/patch-src_sanity_sh,v 1.1 2010/09/18 22:35:09 tg
  ${CPROG} \[admin aborted\]: specify ${CPROG} -H admin for usage information"
  	  cd ..
  	  rmdir 1
+@@ -4907,14 +4960,14 @@ $output_dead"
+ 
+ 	  # try and list a file before it's created, during an old revision, in
+ 	  # a period when it was dead and in the future
+-	  time_prebirth=`date '+%Y-%m-%d %H:%M:%S'` ; sleep 1
++	  time_prebirth=`date '+%Y-%m-%d %H:%M:%S'` ; sleep 2
+ 	  touch dated
+ 	  dotest ls-D-init-1 "$testcvs -Q add dated"
+ 	  dotest ls-D-init-2 "$testcvs -Q ci -mm dated"
+-	  time_newborn=`date '+%Y-%m-%d %H:%M:%S'` ; sleep 1
++	  time_newborn=`date '+%Y-%m-%d %H:%M:%S'` ; sleep 2
+ 	  echo mm >> dated
+ 	  dotest ls-D-init-2 "$testcvs -Q ci -mm dated"
+-	  time_predeath=`date '+%Y-%m-%d %H:%M:%S'` ; sleep 1
++	  time_predeath=`date '+%Y-%m-%d %H:%M:%S'` ; sleep 2
+ 	  rm dated
+ 	  dotest ls-D-init-3 "$testcvs -Q rm dated"
+ 	  dotest ls-D-init-4 "$testcvs -Q ci -mm dated"
 @@ -4963,7 +5016,7 @@ $SPROG commit: Rebuilding administrative
  	    CVSROOT=":pserver;proxy=localhost;proxyport=8080:localhost/dev/null"
  	    dotest parseroot-3r "$testcvs -d'$CVSROOT' logout" \
@@ -156,18 +192,91 @@ $MirOS: ports/devel/cvs/patches/patch-src_sanity_sh,v 1.1 2010/09/18 22:35:09 tg
  $CPROG logout: Entry not found."
  	    CVSROOT=":pserver;proxyport=8080:localhost/dev/null"
  	    dotest_fail parseroot-4r "$testcvs -d'$CVSROOT' logout" \
-@@ -9757,7 +9810,9 @@ No conflicts created by this import"
+@@ -8052,7 +8105,7 @@ T file2"
+ T file2"
+ 	  # Avoid timestamp granularity bugs (FIXME: CVS should be
+ 	  # doing the sleep, right?).
+-	  sleep 1
++	  sleep 2
+ 	  echo myedit >>file1
+ 	  dotest tagc-6a "${testcvs} rm -f file2" \
+ "${SPROG} remove: scheduling .file2. for removal
+@@ -9757,8 +9810,20 @@ No conflicts created by this import"
  N import-quirks-4/file1
  N import-quirks-4/file2
  N import-quirks-4/file3
 -No conflicts created by this import"
 +No conflicts created by this import
 +cvs import: warning: you are using an even vendor branch, which can
-+lead to problems: '1.1.2'.  Use for example: '1.1.3' or '1.1.5'."
++lead to problems: '1.1.2'.  Use for example: '1.1.3' or '1.1.5'." \
++"
  
++N import-quirks-4/file1
++N import-quirks-4/file2
++N import-quirks-4/file3
++No conflicts created by this import
++cvs import: warning: you are using an even vendor branch, which can
++cvs import: warning: you are using an even vendor branch, which can
++lead to problems: '1.1.2'.  Use for example: '1.1.3' or '1.1.5'.
++lead to problems: '1.1.2'.  Use for example: '1.1.3' or '1.1.5'."
++
  	  dokeep
  	  cd ..
-@@ -15741,6 +15796,7 @@ description:
+ 	  rm -r import-quirks
+@@ -9785,14 +9850,18 @@ No conflicts created by this import"
+ 	  # Create the module.
+ 	  dotest import-after-initial-1 \
+ 	    "$testcvs -Q import -m. $module X Y" ''
++	  sync >/dev/null 2>&1
+ 
+ 	  file=m
+ 	  # Check it out and add a file.
+ 	  dotest import-after-initial-2 "$testcvs -Q co $module" ''
++	  sync >/dev/null 2>&1
+ 	  cd $module
+ 	  echo original > $file
+ 	  dotest import-after-initial-3 "${testcvs} -Q add $file" ""
++	  sync >/dev/null 2>&1
+ 	  dotest import-after-initial-4 "$testcvs -Q ci -m. $file"
++	  sync >/dev/null 2>&1
+ 
+ 	  # Delay a little so the following import isn't done in the same
+ 	  # second as the preceding commit.
+@@ -9803,12 +9872,14 @@ No conflicts created by this import"
+ 	  mkdir sub
+ 	  cd sub
+ 	  echo newer-via-import > $file
++	  sync >/dev/null 2>&1
+ 	  dotest import-after-initial-5 \
+ 	    "$testcvs -Q import -m. $module X Y2" ''
++	  sync >/dev/null 2>&1
+ 	  cd ..
+ 
+ 	  # Sleep a second so we're sure to be after the second of the import.
+-	  sleep 1
++	  sleep 2
+ 
+ 	  dotest import-after-initial-6 \
+ 	    "$testcvs -Q update -p -D now $file" 'original'
+@@ -13291,7 +13362,7 @@ U CVSROOT/verifymsg"
+ 	  for i in checkout export tag; do
+ 	    cat >> ${CVSROOT_DIRNAME}/$i.sh <<EOF
+ #! $TESTSHELL
+-sleep 1
++sleep 2
+ echo "$i script invoked in \`pwd\`"
+ echo "args: \$@"
+ EOF
+@@ -15686,7 +15757,7 @@ VERS: 1\.[0-9]*
+ 	  # can see the "CVS:" lines.
+ 	  cat >${TESTDIR}/editme <<EOF
+ #!${TESTSHELL}
+-sleep 1
++sleep 2
+ sed <\$1 -e 's/^/x/' >${TESTDIR}/edit.new
+ mv ${TESTDIR}/edit.new \$1
+ exit 0
+@@ -15741,6 +15812,7 @@ description:
  revision 1\.1
  date: ${ISO8601DATE};  author: ${username};  state: Exp;  commitid: ${commitid};
  branches:  1\.1\.2;
@@ -175,7 +284,7 @@ $MirOS: ports/devel/cvs/patches/patch-src_sanity_sh,v 1.1 2010/09/18 22:35:09 tg
  xCVS: ----------------------------------------------------------------------
  xCVS: Enter Log.  Lines beginning with .CVS:. are removed automatically
  xCVS:
-@@ -15752,6 +15808,7 @@ xCVS: ----------------------------------
+@@ -15752,6 +15824,7 @@ xCVS: ----------------------------------
  ----------------------------
  revision 1\.1\.2\.1
  date: ${ISO8601DATE};  author: ${username};  state: Exp;  lines: ${PLUS}1 -0;  commitid: ${commitid};
@@ -183,7 +292,7 @@ $MirOS: ports/devel/cvs/patches/patch-src_sanity_sh,v 1.1 2010/09/18 22:35:09 tg
  xCVS: ----------------------------------------------------------------------
  xCVS: Enter Log.  Lines beginning with .CVS:. are removed automatically
  xCVS:
-@@ -15779,6 +15836,7 @@ description:
+@@ -15779,6 +15852,7 @@ description:
  revision 1\.1
  date: ${ISO8601DATE};  author: ${username};  state: Exp;  commitid: ${commitid};
  branches:  1\.1\.2;
@@ -191,7 +300,7 @@ $MirOS: ports/devel/cvs/patches/patch-src_sanity_sh,v 1.1 2010/09/18 22:35:09 tg
  xCVS: ----------------------------------------------------------------------
  xCVS: Enter Log.  Lines beginning with .CVS:. are removed automatically
  xCVS:
-@@ -15790,6 +15848,7 @@ xCVS: ----------------------------------
+@@ -15790,6 +15864,7 @@ xCVS: ----------------------------------
  ----------------------------
  revision 1\.1\.2\.1
  date: ${ISO8601DATE};  author: ${username};  state: Exp;  lines: ${PLUS}1 -0;  commitid: ${commitid};
@@ -199,7 +308,7 @@ $MirOS: ports/devel/cvs/patches/patch-src_sanity_sh,v 1.1 2010/09/18 22:35:09 tg
  xCVS: ----------------------------------------------------------------------
  xCVS: Enter Log.  Lines beginning with .CVS:. are removed automatically
  xCVS:
-@@ -15811,6 +15870,7 @@ description:
+@@ -15811,6 +15886,7 @@ description:
  revision 1\.1
  date: ${ISO8601DATE};  author: ${username};  state: Exp;  commitid: ${commitid};
  branches:  1\.1\.2;
@@ -207,7 +316,7 @@ $MirOS: ports/devel/cvs/patches/patch-src_sanity_sh,v 1.1 2010/09/18 22:35:09 tg
  xCVS: ----------------------------------------------------------------------
  xCVS: Enter Log.  Lines beginning with .CVS:. are removed automatically
  xCVS:
-@@ -15822,6 +15882,7 @@ xCVS: ----------------------------------
+@@ -15822,6 +15898,7 @@ xCVS: ----------------------------------
  ----------------------------
  revision 1\.1\.2\.1
  date: ${ISO8601DATE};  author: ${username};  state: Exp;  lines: ${PLUS}1 -0;  commitid: ${commitid};
@@ -215,7 +324,70 @@ $MirOS: ports/devel/cvs/patches/patch-src_sanity_sh,v 1.1 2010/09/18 22:35:09 tg
  xCVS: ----------------------------------------------------------------------
  xCVS: Enter Log.  Lines beginning with .CVS:. are removed automatically
  xCVS:
-@@ -23538,6 +23599,13 @@ C3b235f50|kingdon|<remote>|ccvs/emx|1.3|
+@@ -15836,7 +15913,7 @@ xCVS: ----------------------------------
+ 	  # Test CVS's response to an unchanged log message
+ 	  cat >${TESTDIR}/editme <<EOF
+ #!${TESTSHELL}
+-sleep 1
++sleep 2
+ exit 0
+ EOF
+ 	  chmod +x ${TESTDIR}/editme
+@@ -15849,7 +15926,7 @@ Action: (continue) ${CPROG} \[commit abo
+ 	  # Test CVS's response to an empty log message
+ 	  cat >${TESTDIR}/editme <<EOF
+ #!${TESTSHELL}
+-sleep 1
++sleep 2
+ cat /dev/null >\$1
+ exit 0
+ EOF
+@@ -15863,7 +15940,7 @@ Action: (continue) ${CPROG} \[commit abo
+ 	  # Test CVS's response to a log message with one blank line
+ 	  cat >${TESTDIR}/editme <<EOF
+ #!${TESTSHELL}
+-sleep 1
++sleep 2
+ echo >\$1
+ exit 0
+ EOF
+@@ -15877,7 +15954,7 @@ Action: (continue) ${CPROG} \[commit abo
+ 	  # Test CVS's response to a log message with only comments
+ 	  cat >${TESTDIR}/editme <<EOF
+ #!${TESTSHELL}
+-sleep 1
++sleep 2
+ cat \$1 >${TESTDIR}/edit.new
+ mv ${TESTDIR}/edit.new \$1
+ exit 0
+@@ -15905,7 +15982,7 @@ EOF
+ 	  cd ../first-dir
+ 	  cat >${TESTDIR}/editme <<EOF
+ #!${TESTSHELL}
+-sleep 1
++sleep 2
+ cp /dev/null \$1
+ exit 1
+ EOF
+@@ -19180,7 +19257,7 @@ elif sed 1q < \$1 | grep '^BugId:[ ]*new
+     exit 0
+ else
+     echo "No BugId found."
+-    sleep 1
++    sleep 2
+     exit 1
+ fi
+ EOF
+@@ -20043,7 +20120,7 @@ $SPROG commit: Rebuilding administrative
+ new revision: 1\.[0-9]*; previous revision: 1\.[0-9]*
+ $SPROG commit: Rebuilding administrative file database"
+ 
+-	    sleep 1
++	    sleep 2
+ 	    echo '# noop' >> config
+ 	    dotest config-7 "$testcvs -q ci -mlog-commit" \
+ "$CVSROOT_DIRNAME/CVSROOT/config,v  <--  config
+@@ -23538,6 +23615,13 @@ C3b235f50|kingdon|<remote>|ccvs/emx|1.3|
  M3b23af50|kingdon|~/work/*0|ccvs/doc|1.281|cvs.texinfo
  EOF
  
@@ -229,7 +401,7 @@ $MirOS: ports/devel/cvs/patches/patch-src_sanity_sh,v 1.1 2010/09/18 22:35:09 tg
  	  dotest history-1 "${testcvs} history -e -a" \
  "O 1997-06-04 19:48 ${PLUS}0000 anonymous ccvs     =ccvs= <remote>/\*
  O 1997-06-05 14:00 ${PLUS}0000 anonymous ccvs     =src=  <remote>/\*
-@@ -23602,6 +23670,12 @@ O 1997-06-06 08:12 ${PLUS}0000 kingdon  
+@@ -23602,6 +23686,12 @@ O 1997-06-06 08:12 ${PLUS}0000 kingdon  
  "O 1997-06-04 19:48 ${PLUS}0000 anonymous ccvs =ccvs= <remote>/\*
  O 1997-06-05 14:00 ${PLUS}0000 anonymous ccvs =src=  <remote>/\*
  O 1997-06-06 08:12 ${PLUS}0000 kingdon   ccvs =ccvs= <remote>/\*"
@@ -242,7 +414,7 @@ $MirOS: ports/devel/cvs/patches/patch-src_sanity_sh,v 1.1 2010/09/18 22:35:09 tg
  	  ;;
  
  
-@@ -24852,7 +24926,7 @@ xx Second log line
+@@ -24852,7 +24942,7 @@ xx Second log line
  xx"
  
  	  cd ../CVSROOT
@@ -251,3 +423,102 @@ $MirOS: ports/devel/cvs/patches/patch-src_sanity_sh,v 1.1 2010/09/18 22:35:09 tg
  	  dotest keywordlog-35 "$testcvs -Q ci -mset-MaxCommentLeaderLength"
  
  	  cd ../first-dir
+@@ -31033,6 +31123,8 @@ noop
+ EOF
+ 	    echo THIS-CONFIG-OPTION-IS-BAD=XXX >$TESTDIR/newconfig
+ 	    dotest_fail server-20 "$testcvs server -c $TESTDIR/newconfig" \
++"Usage: cvs server
++Normally invoked by a cvs client on a remote machine." \
+ "E $SPROG \[server aborted\]: Invalid path to config file specified: \`$TESTDIR/newconfig'" <<EOF
+ Root $TESTDIR/crerepos
+ Directory .
+@@ -31041,6 +31133,8 @@ noop
+ EOF
+ 	    dotest_fail server-21 \
+ "$testcvs server -c /etc/cvs/this-shouldnt-exist" \
++"Usage: cvs server
++Normally invoked by a cvs client on a remote machine." \
+ "E $SPROG \[server aborted\]: Failed to resolve path: \`/etc/cvs/this-shouldnt-exist': No such file or directory" <<EOF
+ Root $TESTDIR/crerepos
+ Directory .
+@@ -31301,7 +31395,7 @@ EOF
+ 	  #
+ 	  # Incidentally, I can reproduce this behavior with Linux 2.4.20 and
+ 	  # Bash 2.05 or Bash 2.05b.
+-	  sleep 1
++	  sleep 2
+ 	  dotest_fail client-10 "$testcvs update" \
+ "$CPROG update: Server attempted to update a file via an invalid pathname:
+ $CPROG \[update aborted\]: \`$HOME/.bashrc'\."
+@@ -31322,7 +31416,7 @@ echo "echo 'gotcha!'"
+ echo "ok"
+ cat >/dev/null
+ EOF
+-	  sleep 1
++	  sleep 2
+ 	  dotest_fail client-11 "$testcvs update" \
+ "$CPROG \[update aborted\]: patch original file \./\.bashrc does not exist"
+ 
+@@ -31342,7 +31436,7 @@ echo "echo 'gotcha!'"
+ echo "ok"
+ cat >/dev/null
+ EOF
+-	  sleep 1
++	  sleep 2
+ 	  dotest_fail client-12 "$testcvs update" \
+ "$CPROG update: Server attempted to update a file via an invalid pathname:
+ $CPROG \[update aborted\]: \`\.\./\.\./home/.bashrc'\."
+@@ -31362,7 +31456,7 @@ echo "echo 'gotcha!'"
+ echo "ok"
+ cat >/dev/null
+ EOF
+-	  sleep 1
++	  sleep 2
+ 	  dotest_fail client-13 "$testcvs update" \
+ "$CPROG update: Server attempted to update a file via an invalid pathname:
+ $CPROG \[update aborted\]: \`$HOME/.bashrc'\."
+@@ -31382,7 +31476,7 @@ echo "echo 'gotcha!'"
+ echo "ok"
+ cat >/dev/null
+ EOF
+-	  sleep 1
++	  sleep 2
+ 	  dotest_fail client-14 "$testcvs update" \
+ "$CPROG update: Server attempted to update a file via an invalid pathname:
+ $CPROG \[update aborted\]: \`\.\./\.\./home/.bashrc'\."
+@@ -31402,7 +31496,7 @@ echo "echo 'gotcha!'"
+ echo "ok"
+ cat >/dev/null
+ EOF
+-	  sleep 1
++	  sleep 2
+ 	  dotest_fail client-15 "$testcvs update" \
+ "$CPROG update: Server attempted to update a file via an invalid pathname:
+ $CPROG \[update aborted\]: \`$HOME/.bashrc'\."
+@@ -31422,7 +31516,7 @@ echo "echo 'gotcha!'"
+ echo "ok"
+ cat >/dev/null
+ EOF
+-	  sleep 1
++	  sleep 2
+ 	  dotest_fail client-16 "$testcvs update" \
+ "$CPROG update: Server attempted to update a file via an invalid pathname:
+ $CPROG \[update aborted\]: \`\.\./\.\./home/.bashrc'\."
+@@ -31446,7 +31540,7 @@ echo "$HOME/innocuous"
+ echo "ok"
+ cat >/dev/null
+ EOF
+-	  sleep 1
++	  sleep 2
+ 	  dotest_fail client-18 "$testcvs update" \
+ "$CPROG \[update aborted\]: protocol error: Copy-file tried to specify directory"
+ 
+@@ -31467,7 +31561,7 @@ echo "Redirect $CVSROOT"
+ cat >/dev/null
+ EOF
+ 	  echo newstuff >file1
+-	  sleep 1
++	  sleep 2
+ 	  dotest_fail client-20 "$testcvs ci" \
+ "$CPROG commit: Examining \.
+ $CPROG \[commit aborted\]: \`Redirect' loop detected\.  Server misconfiguration$QUESTION"

@@ -1,18 +1,18 @@
-$MirOS: ports/devel/cvs/patches/patch-src_server_c,v 1.2 2010/09/15 20:57:03 tg Exp $
+$MirOS: ports/devel/cvs/patches/patch-src_server_c,v 1.3 2010/09/15 23:41:21 tg Exp $
 --- src/server.c.orig	Wed Sep 28 15:25:37 2005
-+++ src/server.c	Wed Sep 15 23:33:02 2010
++++ src/server.c	Sun Sep 19 14:38:03 2010
 @@ -20,6 +20,8 @@
  #include "getline.h"
  #include "getnline.h"
  
-+__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_server_c,v 1.2 2010/09/15 20:57:03 tg Exp $");
++__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_server_c,v 1.3 2010/09/15 23:41:21 tg Exp $");
 +
  int server_active = 0;
  
  #if defined (SERVER_SUPPORT) || defined (CLIENT_SUPPORT)
-@@ -799,6 +801,14 @@ serve_root (char *arg)
- 	return;
+@@ -823,6 +825,14 @@ E Protocol error: Root says \"%s\" but p
      }
+ # endif
  
 +    if (root_allow_used() && !root_allow_ok(arg))
 +    {
@@ -22,9 +22,9 @@ $MirOS: ports/devel/cvs/patches/patch-src_server_c,v 1.2 2010/09/15 20:57:03 tg 
 +	return;
 +    }
 +
-     /* Set original_parsed_root here, not because it can be changed in the
-      * client Redirect sense, but so we don't have to switch in code that
-      * runs in both modes to decide which to print.
+     /* For pserver, this will already have happened, and the call will do
+        nothing.  But for rsh, we need to do it now.  */
+     config = get_root_allow_config (current_parsed_root->directory,
 @@ -2350,6 +2360,7 @@ prepost_proxy_proc (const char *reposito
      bool *pre = closure;
  
@@ -41,7 +41,30 @@ $MirOS: ports/devel/cvs/patches/patch-src_server_c,v 1.2 2010/09/15 20:57:03 tg 
  	                      "R", "s", referrer ? referrer->original : "NONE",
  	                      "p", "s", ".",
  	                      "r", "s", current_parsed_root->directory,
-@@ -6887,7 +6899,7 @@ cleanup:
+@@ -6271,8 +6283,12 @@ size_t MaxProxyBufferSize = (size_t)(8 *
+ 
+ static const char *const server_usage[] =
+ {
++#ifdef ALLOW_CONFIG_OVERRIDE
+     "Usage: %s %s [-c config-file]\n",
+     "\t-c config-file\tPath to an alternative CVS config file.\n",
++#else
++    "Usage: %s %s\n",
++#endif
+     "Normally invoked by a cvs client on a remote machine.\n",
+     NULL
+ };
+@@ -6289,8 +6305,8 @@ parseServerOptions (int argc, char **arg
+     {
+ 	switch (c)
+ 	{
+-#ifdef ALLOW_CONFIG_OVERRIDE
+ 	    case 'c':
++#ifdef ALLOW_CONFIG_OVERRIDE
+ 		if (gConfigPath) free (gConfigPath);
+ 		gConfigPath = xstrdup (optarg);
+ 		break;
+@@ -6887,7 +6903,7 @@ cleanup:
  static int
  check_pam_password (char **username, char *password)
  {
@@ -50,7 +73,7 @@ $MirOS: ports/devel/cvs/patches/patch-src_server_c,v 1.2 2010/09/15 20:57:03 tg 
      struct pam_conv conv = { cvs_pam_conv, 0 };
      char *pam_stage = "start";
  
-@@ -6930,7 +6942,7 @@ check_pam_password (char **username, cha
+@@ -6930,7 +6946,7 @@ check_pam_password (char **username, cha
  
      return retval == PAM_SUCCESS;       /* indicate success */
  }
@@ -59,7 +82,7 @@ $MirOS: ports/devel/cvs/patches/patch-src_server_c,v 1.2 2010/09/15 20:57:03 tg 
  
  static int
  check_system_password (char *username, char *password)
-@@ -6996,6 +7008,7 @@ error 0 %s: no such user\n", username);
+@@ -6996,6 +7012,7 @@ error 0 %s: no such user\n", username);
  #endif
      return 1;
  }
