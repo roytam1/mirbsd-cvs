@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.bin/cap_mkdb/cap_mkdb.c,v 1.5 2006/10/30 23:52:28 tg Exp $ */
+/**	$MirOS: src/usr.bin/cap_mkdb/cap_mkdb.c,v 1.6 2006/10/31 01:57:05 tg Exp $ */
 /*	$OpenBSD: cap_mkdb.c,v 1.13 2003/09/26 21:25:34 tedu Exp $	*/
 /*	$NetBSD: cap_mkdb.c,v 1.5 1995/09/02 05:47:12 jtc Exp $	*/
 
@@ -51,7 +51,7 @@
 __COPYRIGHT("@(#) Copyright (c) 1992, 1993\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)cap_mkdb.c	8.2 (Berkeley) 4/27/95");
-__RCSID("$MirOS: src/usr.bin/cap_mkdb/cap_mkdb.c,v 1.5 2006/10/30 23:52:28 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/cap_mkdb/cap_mkdb.c,v 1.6 2006/10/31 01:57:05 tg Exp $");
 
 void	 db_build(char **);
 void	 dounlink(void);
@@ -65,18 +65,20 @@ bool commentfld = false;
 char *capname, buf[8 * 1024];
 
 #ifdef DEBUG
-#define DB_TYPE DB_RECNO
-RECNOINFO openinfo = {
-	0,		/* flags */
-	2048 * 1024,	/* cachesize */
-	4096,		/* psize */
-	0,		/* lorder */
-	0,		/* reclen */
-	'\n',		/* bval */
-	NULL		/* bfname */
+static int debug_put(const struct __db *, DBT *, const DBT *, unsigned int);
+static FILE *capdbpf;
+static DB capdbps = {
+	DB_RECNO,
+	NULL,
+	NULL,
+	NULL,
+	debug_put,
+	NULL,
+	NULL,
+	NULL,
+	NULL
 };
 #else
-#define DB_TYPE DB_HASH
 HASHINFO openinfo = {
 	4096,		/* bsize */
 	16,		/* ffactor */
@@ -132,8 +134,13 @@ main(int argc, char *argv[])
 	(void)snprintf(buf, sizeof(buf), "%s.db", capname ? capname : *argv);
 	if ((capname = strdup(buf)) == NULL)
 		err(1, NULL);
+#ifdef DEBUG
+	capdbp = &capdbps;
+	if ((capdbpf = fopen(capname, "wb+")) == NULL)
+#else
 	if ((capdbp = dbopen(capname, O_CREAT | O_TRUNC | O_RDWR,
-	    DEFFILEMODE, DB_TYPE, &openinfo)) == NULL)
+	    DEFFILEMODE, DB_HASH, &openinfo)) == NULL)
+#endif
 		err(1, "%s", buf);
 
 	if (atexit(dounlink))
@@ -141,7 +148,11 @@ main(int argc, char *argv[])
 
 	db_build(argv);
 
+#ifdef DEBUG
+	if (fclose(capdbpf))
+#else
 	if (capdbp->close(capdbp) < 0)
+#endif
 		err(1, "%s", capname);
 	capname = NULL;
 	exit(0);
@@ -333,3 +344,26 @@ usage(void)
 	    "usage: cap_mkdb [-civ] [-f outfile] file1 [file2 ...]\n");
 	exit(1);
 }
+
+#ifdef DEBUG
+static int
+debug_put(const struct __db *tmp1 __unused, DBT *key, const DBT *data,
+    unsigned int tmp2 __unused)
+{
+	char *ob, *bp;
+	size_t len;
+
+	len = key->size + data->size + 2;
+	if ((ob = malloc(len)) == NULL)
+		err(1, "malloc");
+	memmove(ob, key->data, key->size);
+	bp = ob + key->size;
+	*bp++ = '\t';
+	memmove(bp, data->data, data->size);
+	bp += data->size;
+	*bp = '\n';
+
+	fwrite(ob, len, 1, capdbpf);
+	return (0);
+}
+#endif
