@@ -1,5 +1,5 @@
 <!-- PageID: overview -->
-<small class="rcsid">$MirOS: www/content/b3ZlcnZpZXc_.inc,v 1.20 2006/04/19 19:01:16 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/b3ZlcnZpZXc_.inc,v 1.21 2006/05/08 20:52:16 tg Exp $</small>
 <h1>Quick Overview &ndash; All in one page</h1>
 
 <h2>Maintenance</h2>
@@ -100,8 +100,8 @@
  snapshots were signed. These are the keys used (most recent first):</p><ul>
  <li>tg@ <a href="http://blackhole.pca.dfn.de:11371/pks/lookup?op=vindex&amp;fingerprint=on&amp;search=0x5CE51C3D">0x5CE51C3D</a> (no longer in use)</li>
  <li>bsiegert@ <a href="http://blackhole.pca.dfn.de:11371/pks/lookup?op=vindex&amp;fingerprint=on&amp;search=0xC246B025">0xC246B025</a></li>
- <li>tg@ <a href="http://blackhole.pca.dfn.de:11371/pks/lookup?op=vindex&amp;fingerprint=on&amp;search=0x68ED2381">0x68ED2381 (no longer in use)</li>
- <li>tg@ <a href="http://blackhole.pca.dfn.de:11371/pks/lookup?op=vindex&amp;fingerprint=on&amp;search=0xD7967B31">0xD7967B31 (no longer in use)</li>
- <li>tg@ <a href="http://blackhole.pca.dfn.de:11371/pks/lookup?op=vindex&amp;fingerprint=on&amp;search=0x8F1F22ED">0x8F1F22ED (no longer in use)</li>
+ <li>tg@ <a href="http://blackhole.pca.dfn.de:11371/pks/lookup?op=vindex&amp;fingerprint=on&amp;search=0x68ED2381">0x68ED2381</a> (no longer in use)</li>
+ <li>tg@ <a href="http://blackhole.pca.dfn.de:11371/pks/lookup?op=vindex&amp;fingerprint=on&amp;search=0xD7967B31">0xD7967B31</a> (no longer in use)</li>
+ <li>tg@ <a href="http://blackhole.pca.dfn.de:11371/pks/lookup?op=vindex&amp;fingerprint=on&amp;search=0x8F1F22ED">0x8F1F22ED</a> (no longer in use)</li>
 </ul>
 <p>Note that <tt>tg@</tt> does not use PGP at all any more.</p>
