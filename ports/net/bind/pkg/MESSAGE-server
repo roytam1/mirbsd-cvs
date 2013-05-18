@@ -1,7 +1,0 @@
-+---------------
-| To have BIND automatically start at system startup, insert the fragment
-| from PREFIX/share/examples/bind9/rc.local.frag into /etc/rc.local and
-| add the following line to /etc/rc.conf.local:
-| 
-| 	syslogd_flags="-a /var/named/dev/log"
-+---------------

@@ -1,3 +1,0 @@
-@comment $MirOS$
-@comment $OpenBSD: PFRAG.shared,v 1.5 2003/04/04 02:18:00 margarida Exp $
-@lib lib/libSDL_net.so.0.5
