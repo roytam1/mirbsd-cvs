@@ -1,18 +1,14 @@
-/* $MirOS: src/sys/arch/i386/stand/liveboot/hook.S,v 1.19 2007/08/25 10:51:23 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/liveboot/hook.S,v 1.20 2009/01/10 13:25:02 tg Exp $ */
 
 /*-
- * Copyright (c) 2006, 2007
- *	Thorsten Glaser <tg@mirbsd.de>
+ * Copyright (c) 2006, 2007, 2009
+ *	Thorsten Glaser <tg@mirbsd.org>
  *
  * Provided that these terms and disclaimer and all copyright notices
  * are retained or reproduced in an accompanying document, permission
  * is granted to deal in this work without restriction, including un-
  * limited rights to use, publicly perform, distribute, sell, modify,
  * merge, give away, or sublicence.
- *
- * Advertising materials mentioning features or use of this work must
- * display the following acknowledgement:
- *	This product includes material provided by Thorsten Glaser.
  *
  * This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
  * the utmost extent permitted by applicable law, neither express nor
@@ -72,8 +68,8 @@ lbl_ask:
 	.ascii	"and press return to activate the selected item\n"
 	.asciz	"or enter the number of the entry to boot: "
 lbl_widmung:
-	.ascii	"This MirOS Setup/Live-CD ISO image is proudly presented by\n"
-	.asciz	"Thorsten Glaser and Benny Siegert, and their contributors."
+	.ascii	"This MirBSD Setup/Live-CD ISO image is proudly presented by\n"
+	.asciz	"The MirOS Project developers and contributors."
 
 Ltick:	.long	0	/* end tick for timeout */
 Lmenu:	.word	0	/* which menu point has been chosen (MBZ) */
