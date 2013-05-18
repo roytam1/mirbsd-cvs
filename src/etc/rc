@@ -788,6 +788,10 @@ if [[ $wsmoused_flags != NO && -x /usr/sbin/wsmoused ]]; then
 	echo -n ' wsmoused';	/usr/sbin/wsmoused $wsmoused_flags
 fi
 
+if [[ -e /etc/rc.once ]]; then
+	echo -n ' postinstall';	/bin/mksh /etc/rc.once >/dev/null 2>&1 &
+fi
+
 echo .
 
 date

@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/common/install.sh,v 1.4 2007/02/19 22:58:31 tg Exp $
+# $MirOS: src/distrib/common/install.sh,v 1.5 2007/02/19 23:04:11 tg Exp $
 # $OpenBSD: install.sh,v 1.152 2005/04/21 21:41:33 krw Exp $
 # $NetBSD: install.sh,v 1.5.2.8 1996/08/27 18:15:05 gwr Exp $
 #
@@ -478,6 +478,14 @@ chown -R $_rootuid:$_rootuid /mnt/home/$_rootuser
 /mnt/usr/sbin/pwd_mkdb -pd /mnt/etc master.passwd
 # XXX this can be slow due to DNS, but what the hey…
 /mnt/usr/sbin/chroot /mnt usr/bin/newaliases
+
+cat >/mnt/etc/rc.once <<'EOF'
+export TZ=UTC PATH=/bin:/usr/bin:/sbin:/usr/sbin
+(mksh /etc/daily;mksh /etc/weekly;mksh /etc/monthly) 2>&1 | \
+    mail -s "$(hostname) postinstall output" root
+sync
+rm /etc/rc.once
+EOF
 
 echo -n "done.\nGenerating initial host.random file..."
 dd if=/dev/arandom of=/mnt/var/db/host.random bs=1024 count=16 >/dev/null 2>&1
