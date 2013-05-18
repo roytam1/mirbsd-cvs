@@ -1,6 +1,6 @@
-.\" $MirOS: src/lib/libc/locale/optu8to16.3,v 1.4 2008/08/17 00:19:08 tg Exp $
+.\" $MirOS: src/lib/libc/locale/optu8to16.3,v 1.5 2008/11/22 09:02:34 tg Exp $
 .\"-
-.\" Copyright (c) 2008
+.\" Copyright (c) 2008, 2010
 .\"	Thorsten Glaser <tg@mirbsd.org>
 .\"
 .\" Provided that these terms and disclaimer and all copyright notices
@@ -20,7 +20,7 @@
 .\"
 .\" The author reserves the right to steward the OPTU encoding forms.
 .\"-
-.Dd $Mdocdate: August 17 2008 $
+.Dd $Mdocdate: November 22 2008 $
 .Dt OPTU8TO16 3
 .Os MirOS
 .Sh NAME
@@ -35,6 +35,7 @@
 .Ft size_t
 .Fn optu8to16vis "wchar_t * restrict pwc" "const char * restrict s" \
 "size_t n" "mbstate_t * restrict ps"
+/* deprecated */
 .Sh DESCRIPTION
 The
 .Fn optu8to16
@@ -164,6 +165,11 @@ the current implementaton.
 .Xr mbrtowc 3 ,
 .Xr optu16to8 3
 .Sh STANDARDS
+At present,
+.Mx
+is limited to the Unicode BMP (Basic Multilingual Plane), thus
+OPTU\-8 is limited to the common subset of CESU\-8 and UTF\-8.
+.Pp
 The
 .Fn optu16to8
 and
@@ -201,12 +207,25 @@ used to check for their presence.
 .Sh HISTORY
 The
 .Nm
-and
-.Nm optu8to16vis
-functions first appeared in
+function first appeared in
 .Mx 11 .
 .Sh AUTHORS
 .An Thorsten Glaser Aq tg@mirbsd.de
 wrote the entire internationalisation implementation in
 .Mx .
 He is also the steward for the OPTU encoding.
+.Sh CAVEATS
+On a system whose wide character type is only 16 bits wide, as opposed
+to 31 bits of ISO 10646, the OPTU encoder and decoder are permitted to
+not de- and recompose any surrogates encountered and pass them through
+as if they were regular wide characters with no special function.
+Since
+.Mx
+is such a system, the reference implementation does not care about
+UTF\-16 surrogates posing as OPTU\-16 characters at all; a planes-aware
+Unicode application is required to handle surrogates by itself.
+For compatibility purposes,
+.Nm
+should always be assumed to not treat surrogates specially; applications
+.Em must
+ensure to not produce invalid surrogates unless limited to the BMP.
