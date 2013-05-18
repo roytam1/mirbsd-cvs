@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/libhaible/mbsrtowcs.c,v 1.3 2006/05/30 21:36:44 tg Exp $ */
+/* $MirOS: contrib/code/libhaible/mbsrtowcs.c,v 1.4 2006/05/30 21:38:38 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -21,13 +21,18 @@
  */
 
 #include <wchar.h>
+#include <errno.h>
 
-__RCSID("$MirOS: contrib/code/libhaible/mbsrtowcs.c,v 1.3 2006/05/30 21:36:44 tg Exp $");
+#include "mir18n.h"
+
+__RCSID("$MirOS: contrib/code/libhaible/mbsrtowcs.c,v 1.4 2006/05/30 21:38:38 tg Exp $");
 
 size_t
-mbsrtowcs(wchar_t *__restrict__ dest, const char **__restrict__ srcp,
+mbsrtowcs(wchar_t *__restrict__ dest, const char **__restrict__ srcps,
     size_t len, mbstate_t *__restrict__ ps)
 {
+	const unsigned char **__restrict__ srcp =
+	    (const unsigned char **__restrict__) srcps;
 	static mbstate_t internal;
 	const unsigned char *src;
 	size_t cnt = 0, count;
