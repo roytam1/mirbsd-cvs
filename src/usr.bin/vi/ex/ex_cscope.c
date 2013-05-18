@@ -11,12 +11,7 @@
 
 #include "config.h"
 
-#ifndef lint
-static const char sccsid[] = "@(#)ex_cscope.c	10.13 (Berkeley) 9/15/96";
-#endif /* not lint */
-
 #include <sys/param.h>
-#include <sys/types.h>		/* XXX: param.h may not have included types.h */
 #include <sys/queue.h>
 #include <sys/stat.h>
 #include <sys/time.h>
@@ -37,6 +32,9 @@ static const char sccsid[] = "@(#)ex_cscope.c	10.13 (Berkeley) 9/15/96";
 #include "../common/common.h"
 #include "pathnames.h"
 #include "tag.h"
+
+__SCCSID("@(#)ex_cscope.c	10.13 (Berkeley) 9/15/96");
+__RCSID("$MirOS$");
 
 #define	CSCOPE_DBFILE		"cscope.out"
 #define	CSCOPE_PATHS		"cscope.tpath"
@@ -495,7 +493,7 @@ cscope_find(sp, cmdp, pattern)
 		 * search cscope command character and a leading space
 		 * there.)
 		 */
-		(void)fprintf(csc->to_fp, "%d%s\n", search, tqp->tag + 2);
+		(void)fprintf(csc->to_fp, "%ld%s\n", search, tqp->tag + 2);
 		(void)fflush(csc->to_fp);
 
 		/* Read the output. */

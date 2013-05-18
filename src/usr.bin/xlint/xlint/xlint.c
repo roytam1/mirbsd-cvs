@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.bin/xlint/xlint/xlint.c,v 1.2 2005/03/13 18:34:11 tg Exp $ */
+/**	$MirOS: src/usr.bin/xlint/xlint/xlint.c,v 1.3 2006/07/03 14:45:59 tg Exp $ */
 /*	$OpenBSD: xlint.c,v 1.16 2004/05/11 02:08:07 millert Exp $	*/
 /*	$NetBSD: xlint.c,v 1.3 1995/10/23 14:29:30 jpo Exp $	*/
 
@@ -50,7 +50,7 @@
 #include "lint.h"
 #include "pathnames.h"
 
-__RCSID("$MirOS: src/usr.bin/xlint/xlint/xlint.c,v 1.2 2005/03/13 18:34:11 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/xlint/xlint/xlint.c,v 1.3 2006/07/03 14:45:59 tg Exp $");
 
 /* directory for temporary files */
 static	const	char *tmpdir;
@@ -145,7 +145,7 @@ appstrg(lstp, s)
 	lst[i] = s;
 	lst[i + 1] = NULL;
 	*lstp = lst;
-}	
+}
 
 static void
 appcstrg(lstp, s)
@@ -357,7 +357,7 @@ main(argc, argv)
 		appstrg(&lcppflgs, concat2("-D", MACHINE_ARCH));
 	}
 #endif
-	
+
 	appcstrg(&deflibs, "c");
 
 	if (signal(SIGHUP, terminate) == SIG_IGN)
@@ -565,7 +565,7 @@ fname(name, last)
 		len = strlen(bn) + (bn == suff ? 4 : 2);
 		ofn = xmalloc(len);
 		(void)snprintf(ofn, len, "%.*s",
-		    bn == suff ? strlen(bn) : (suff - 1) - bn, bn);
+		    (int)(bn == suff ? strlen(bn) : (suff - 1) - bn), bn);
 		(void)strlcat(ofn, ".ln", len);
 	} else {
 		len = strlen(tmpdir) + sizeof ("lint1.XXXXXXXXXX");
@@ -731,7 +731,7 @@ lint2()
 	len = strlen(PATH_LIBEXEC) + sizeof ("/lint2");
 	path = xmalloc(len);
 	(void)snprintf(path, len, "%s/lint2", PATH_LIBEXEC);
-	
+
 	appcstrg(&args, path);
 	applst(&args, l2flags);
 	applst(&args, l2libs);

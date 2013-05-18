@@ -29,14 +29,6 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-#if 0
-static char sccsid[] = "from: @(#)nlist.c	8.1 (Berkeley) 6/6/93";
-#else
-static const char rcsid[] = "$OpenBSD: nlist.c,v 1.35 2003/09/25 16:52:11 deraadt Exp $";
-#endif
-#endif /* not lint */
-
 #include <sys/param.h>
 
 #include <a.out.h>
@@ -66,6 +58,9 @@ static const char rcsid[] = "$OpenBSD: nlist.c,v 1.35 2003/09/25 16:52:11 deraad
 #ifdef _NLIST_DO_ECOFF
 #include <sys/exec_ecoff.h>
 #endif
+
+__SCCSID("@(#)nlist.c	8.1 (Berkeley) 6/6/93");
+__RCSID("$MirOS$");
 
 typedef struct nlist NLIST;
 #define	_strx	n_un.n_strx
@@ -320,7 +315,7 @@ __elf_knlist(int fd, DB *db, int ksyms)
 
 	sh = (Elf_Shdr *)malloc(sizeof(Elf_Shdr) * eh.e_shnum);
 	if (sh == NULL)
-		errx(1, "cannot allocate %d bytes for symbol header",
+		errx(1, "cannot allocate %ld bytes for symbol header",
 		    sizeof(Elf_Shdr) * eh.e_shnum);
 
 	if (fseek (fp, eh.e_shoff, SEEK_SET) < 0) {

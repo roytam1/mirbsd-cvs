@@ -29,11 +29,10 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-static char sccsid[] = "@(#)networkdelta.c	5.1 (Berkeley) 5/11/93";
-#endif /* not lint */
-
 #include "globals.h"
+
+__SCCSID("@(#)networkdelta.c	5.1 (Berkeley) 5/11/93");
+__RCSID("$MirOS$");
 
 static long median(float, float*, long*, long*, unsigned int);
 
@@ -135,7 +134,7 @@ networkdelta(void)
 	}
 
 	if (trace)
-		fprintf(fd, "median of %d values starting at %ld is ",
+		fprintf(fd, "median of %ld values starting at %ld is ",
 		        xp-&x[0], med);
 	return median(med, &eps, &x[0], xp, 1);
 }

@@ -1,21 +1,22 @@
 /*
- * Copyright (c) 1992, Brian Berliner and Jeff Polk
- * Copyright (c) 1989-1992, Brian Berliner
- * Copyright (c) 2004, Derek R. Price and Ximbiot <http://ximbiot.com>
- * Copyright (c) 1989-2004 The Free Software Foundation <http://gnu.org>
+ * Copyright (C) 1986-2005 The Free Software Foundation, Inc.
  *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2, or (at your option)
- * any later version.
+ * Portions Copyright (C) 1998-2005 Derek Price, Ximbiot <http://ximbiot.com>,
+ *                                  and others.
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * Portions Copyright (C) 1992, Brian Berliner and Jeff Polk
+ * Portions Copyright (C) 1989-1992, Brian Berliner
+ * 
+ * You may distribute under the terms of the GNU General Public License as
+ * specified in the README file that comes with the CVS source distribution.
+ * 
+ * Various useful functions for the CVS support code.
  */
 
 #include "cvs.h"
+
+#include "canonicalize.h"
+#include "canon-host.h"
 #include "getline.h"
 #include "vasprintf.h"
 #include "vasnprintf.h"
@@ -25,10 +26,7 @@
 # include <wchar.h>
 #endif
 
-#if !defined HAVE_NANOSLEEP && !defined HAVE_USLEEP && defined HAVE_SELECT
-  /* use select as a workaround */
-# include "xselect.h"
-#endif /* !defined HAVE_NANOSLEEP && !defined HAVE_USLEEP && defined HAVE_SELECT */
+
 
 extern char *getlogin (void);
 
@@ -184,15 +182,15 @@ line2argv (int *pargc, char ***argv, char *line, char *sepchars)
 
     /* Small for testing.  */
     argv_allocated = 1;
-    *argv = (char **) xmalloc (argv_allocated * sizeof (**argv));
+    *argv = xnmalloc (argv_allocated, sizeof (**argv));
 
     *pargc = 0;
-    for (cp = strtok (line, sepchars); cp; cp = strtok ((char *) NULL, sepchars))
+    for (cp = strtok (line, sepchars); cp; cp = strtok (NULL, sepchars))
     {
 	if (*pargc == argv_allocated)
 	{
 	    argv_allocated *= 2;
-	    *argv = xrealloc (*argv, argv_allocated * sizeof (**argv));
+	    *argv = xnrealloc (*argv, argv_allocated, sizeof (**argv));
 	}
 	(*argv)[*pargc] = xstrdup (cp);
 	(*pargc)++;
@@ -326,10 +324,7 @@ getcaller (void)
     }
     if ((pw = (struct passwd *) getpwuid (uid)) == NULL)
     {
-	char uidname[20];
-
-	(void) sprintf (uidname, "uid%lu", (unsigned long) uid);
-	cache = xstrdup (uidname);
+	cache = Xasprintf ("uid%lu", (unsigned long) uid);
 	return cache;
     }
     cache = xstrdup (pw->pw_name);
@@ -340,16 +335,17 @@ getcaller (void)
 
 
 #ifdef lint
-#ifndef __GNUC__
+# ifndef __GNUC__
 /* ARGSUSED */
-time_t
-get_date( char *date, struct timeb *now )
+bool
+get_date (struct timespec *result, char const *p, struct timespec const *now)
 {
-    time_t foo = 0;
+    result->tv_sec = 0;
+    result->tv_nsec = 0;
 
-    return foo;
+    return false;
 }
-#endif
+# endif
 #endif
 
 
@@ -574,57 +570,6 @@ make_message_rcsvalid (const char *message)
 
 
 
-/*
- * file_has_conflict
- *
- * This function compares the timestamp of a file with ts_conflict set
- * to the timestamp on the actual file and returns TRUE or FALSE based
- * on the results.
- *
- * This function does not check for actual markers in the file and
- * file_has_markers() function should be called when that is interesting.
- *
- * ASSUMPTIONS
- *  The ts_conflict field is not NULL.
- *
- * RETURNS
- *  TRUE	ts_conflict matches the current timestamp.
- *  FALSE	The ts_conflict field does not match the file's
- *		timestamp.
- */
-int
-file_has_conflict (const struct file_info *finfo, const char *ts_conflict)
-{
-    char *filestamp;
-    int retcode;
-
-    /* If ts_conflict is NULL, there was no merge since the last
-     * commit and there can be no conflict.
-     */
-    assert (ts_conflict);
-
-    /*
-     * If the timestamp has changed and no
-     * conflict indicators are found, it isn't a
-     * conflict any more.
-     */
-
-#ifdef SERVER_SUPPORT
-    if (server_active)
-	retcode = ts_conflict[0] == '=' && ts_conflict[1] == '\0';
-    else 
-#endif /* SERVER_SUPPORT */
-    {
-	filestamp = time_stamp (finfo->file);
-	retcode = !strcmp (ts_conflict, filestamp);
-	free (filestamp);
-    }
-
-    return retcode;
-}
-
-
-
 /* Does the file FINFO contain conflict markers?  The whole concept
    of looking at the contents of the file to figure out whether there are
    unresolved conflicts is kind of bogus (people do want to manage files
@@ -694,13 +639,13 @@ get_file (const char *name, const char *fullname, const char *mode, char **buf,
 	   be of arbitrary size, so I think we better do all that
 	   extra allocation.  */
 
-	if (CVS_STAT (name, &s) < 0)
+	if (stat (name, &s) < 0)
 	    error (1, errno, "can't stat %s", fullname);
 
 	/* Convert from signed to unsigned.  */
 	filesize = s.st_size;
 
-	e = open_file (name, mode);
+	e = xfopen (name, mode);
     }
 
     if (*buf == NULL || *bufsize <= filesize)
@@ -776,7 +721,7 @@ resolve_symlink (char **filename)
 	   expedient hack seems to be looking at HAVE_READLINK.  */
 	char *newname = Xreadlink (*filename, rsize);
 	
-	if (isabsolute (newname))
+	if (ISABSOLUTE (newname))
 	{
 	    free (*filename);
 	    *filename = newname;
@@ -809,21 +754,8 @@ resolve_symlink (char **filename)
 char *
 backup_file (const char *filename, const char *suffix)
 {
-    char *backup_name;
-
-    if (suffix == NULL)
-    {
-        backup_name = xmalloc (sizeof (BAKPREFIX) + strlen (filename) + 1);
-        sprintf (backup_name, "%s%s", BAKPREFIX, filename);
-    }
-    else
-    {
-        backup_name = xmalloc (sizeof (BAKPREFIX)
-                               + strlen (filename)
-                               + strlen (suffix)
-                               + 2);  /* one for dot, one for trailing '\0' */
-        sprintf (backup_name, "%s%s.%s", BAKPREFIX, filename, suffix);
-    }
+    char *backup_name = Xasprintf ("%s%s%s%s", BAKPREFIX, filename,
+				   suffix ? "." : "", suffix ? suffix : "");
 
     if (isfile (filename))
         copy_file (filename, backup_name);
@@ -946,14 +878,9 @@ char *
 cmdlinequote (char quotes, char *s)
 {
     char *quoted = cmdlineescape (quotes, s);
-    char *buf = xmalloc(strlen(quoted)+3);
+    char *buf = Xasprintf ("%c%s%c", quotes, quoted, quotes);
 
-    buf[0] = quotes;
-    buf[1] = '\0';
-    strcat (buf, quoted);
     free (quoted);
-    buf[strlen(buf)+1] = '\0';
-    buf[strlen(buf)] = quotes;
     return buf;
 }
 
@@ -1072,13 +999,13 @@ cmdlineescape (char quotes, char *s)
  * EXAMPLE
  *    (ignoring oldway variable and srepos since those are only around while we
  *    SUPPORT_OLD_INFO_FMT_STRINGS)
- *    format_cmdline( "/cvsroot/CVSROOT/mytaginfoproc %t %o %{sVv}",
+ *    format_cmdline ("/cvsroot/CVSROOT/mytaginfoproc %t %o %{sVv}",
  *                    "t", "s", "newtag",
  *                    "o", "s", "mov",
  *                    "xG", "ld", longintwhichwontbeusedthispass,
  *                    "sVv", ",", tlist, pretag_list_to_args_proc,
- *                      (void *) mydata,
- *                    (char *)NULL);
+ *                    (void *) mydata,
+ *                    (char *) NULL);
  *
  *    would generate the following command line, assuming two files in tlist,
  *    file1 & file2, each with old versions 1.1 and new version 1.1.2.3:
@@ -1358,7 +1285,7 @@ format_cmdline (const char *format, ...)
 	    		dellist(&pflist);
 	    		free(b);
 			error (1, 0,
-"internal error:  unknown integer arg size (%d)",
+"internal error:  unknown integer arg size (%ld)",
                                length);
 			break;
 		}
@@ -1401,7 +1328,7 @@ format_cmdline (const char *format, ...)
 	    		dellist(&pflist);
 	    		free(b);
 			error (1, 0,
-"internal error:  unknown floating point arg size (%d)",
+"internal error:  unknown floating point arg size (%ld)",
                                length);
 			break;
 		}
@@ -1854,43 +1781,6 @@ format_cmdline (const char *format, ...)
 
 
 
-/* Return true iff FILENAME is absolute.
-   Trivial under Unix, but more complicated under other systems.  */
-bool
-isabsolute (filename)
-    const char *filename;
-{
-    return ISABSOLUTE (filename);
-}
-
-
-
-/*
- * void cvs_trace(int level, const char *fmt, ...)
- *
- * Print tracing information to stderr on request.  Levels are implemented
- * as with CVSNT.
- */
-void cvs_trace (int level, const char *fmt, ...)
-{
-    if (trace >= level)
-    {
-	va_list va;
-
-	va_start (va, fmt);
-#ifdef SERVER_SUPPORT
-	fprintf (stderr,"%c -> ",server_active?'S':' ');
-#else /* ! SERVER_SUPPORT */
-	fprintf (stderr,"  -> ");
-#endif
-	vfprintf (stderr, fmt, va);
-	fprintf (stderr,"\n");
-	va_end (va);
-    }
-}
-
-
-
 /* Like xstrdup (), but can handle a NULL argument.
  */
 char *
@@ -1983,4 +1873,131 @@ readBool (const char *infopath, const char *option, const char *p, bool *val)
     error (0, 0, "%s: unrecognized value `%s' for `%s'",
 	   infopath, p, option);
     return false;
+}
+
+
+
+/*
+ * Open a file, exiting with a message on error.
+ *
+ * INPUTS
+ *   name	The name of the file to open.
+ *   mode	Mode to open file in, as POSIX fopen().
+ *
+ * NOTES
+ *   If you want to handle errors, just call fopen (NAME, MODE).
+ *
+ * RETURNS
+ *   The new FILE pointer.
+ */
+FILE *
+xfopen (const char *name, const char *mode)
+{
+    FILE *fp;
+
+    if (!(fp = fopen (name, mode)))
+	error (1, errno, "cannot open %s", name);
+    return fp;
+}
+
+
+
+/* char *
+ * xcanonicalize_file_name (const char *path)
+ *
+ * Like canonicalize_file_name(), but exit on error.
+ *
+ * INPUTS
+ *  path	The original path.
+ *
+ * RETURNS
+ *  The path with any symbolic links, `.'s, or `..'s, expanded.
+ *
+ * ERRORS
+ *  This function exits with a fatal error if it fails to read the link for
+ *  any reason.
+ */
+char *
+xcanonicalize_file_name (const char *path)
+{
+    char *hardpath = canonicalize_file_name (path);
+    if (!hardpath)
+	error (1, errno, "Failed to resolve path: `%s'", path);
+    return hardpath;
+}
+
+
+
+/* Declared in main.c.  */
+extern char *server_hostname;
+
+/* Return true if OTHERHOST resolves to this host in the DNS.
+ *
+ * GLOBALS
+ *   server_hostname	The name of this host, as determined by the call to
+ *			xgethostname() in main().
+ *
+ * RETURNS
+ *   true	If OTHERHOST equals or resolves to HOSTNAME.
+ *   false	Otherwise.
+ */
+bool
+isThisHost (const char *otherhost)
+{
+    char *fqdno;
+    char *fqdns;
+    bool retval;
+
+    /* As an optimization, check the literal strings before looking up
+     * OTHERHOST in the DNS.
+     */
+    if (!strcasecmp (server_hostname, otherhost))
+	return true;
+
+    fqdno = canon_host (otherhost);
+    if (!fqdno)
+	error (1, 0, "Name lookup failed for `%s': %s",
+	       otherhost, ch_strerror ());
+    fqdns = canon_host (server_hostname);
+    if (!fqdns)
+	error (1, 0, "Name lookup failed for `%s': %s",
+	       server_hostname, ch_strerror ());
+
+    retval = !strcasecmp (fqdns, fqdno);
+
+    free (fqdno);
+    free (fqdns);
+    return retval;
+}
+
+
+
+/* Return true if two paths match, resolving symlinks.
+ */
+bool
+isSamePath (const char *path1_in, const char *path2_in)
+{
+    char *p1, *p2;
+    bool same;
+
+    if (!strcmp (path1_in, path2_in))
+	return true;
+
+    /* Path didn't match, but try to resolve any links that may be
+     * present.
+     */
+    if (!isdir (path1_in) || !isdir (path2_in))
+	/* To be resolvable, paths must exist on this server.  */
+	return false;
+
+    p1 = xcanonicalize_file_name (path1_in);
+    p2 = xcanonicalize_file_name (path2_in);
+    if (strcmp (p1, p2))
+	same = false;
+    else
+	same = true;
+
+    free (p1);
+    free (p2);
+    return same;
 }

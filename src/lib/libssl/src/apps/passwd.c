@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libssl/src/apps/passwd.c,v 1.2 2005/03/06 20:29:27 tg Exp $ */
+/* $MirOS: src/lib/libssl/src/apps/passwd.c,v 1.3 2005/10/21 11:02:55 tg Exp $ */
 
 /* apps/passwd.c */
 
@@ -24,6 +24,7 @@
 # include <openssl/md5.h>
 #endif
 
+__RCSID("$MirOS$");
 
 #undef PROG
 #define PROG passwd_main
@@ -475,7 +476,7 @@ static int do_passwd(int passed_salt, char **salt_p, char **salt_malloc_p,
 	if ((strlen(passwd) > pw_maxlen))
 		{
 		if (!quiet)
-			BIO_printf(bio_err, "Warning: truncating password to %u characters\n", pw_maxlen);
+			BIO_printf(bio_err, "Warning: truncating password to %lu characters\n", pw_maxlen);
 		passwd[pw_maxlen] = 0;
 		}
 	assert(strlen(passwd) <= pw_maxlen);

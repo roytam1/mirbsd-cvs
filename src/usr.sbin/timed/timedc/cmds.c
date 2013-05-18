@@ -29,14 +29,6 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-static char sccsid[] = "@(#)cmds.c	5.1 (Berkeley) 5/11/93";
-#endif /* not lint */
-
-#ifdef sgi
-#ident "$Revision$"
-#endif
-
 #include "timedc.h"
 #include <sys/file.h>
 
@@ -49,6 +41,9 @@ static char sccsid[] = "@(#)cmds.c	5.1 (Berkeley) 5/11/93";
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+
+__SCCSID("@(#)cmds.c	5.1 (Berkeley) 5/11/93");
+__RCSID("$MirOS$");
 
 #define TSPTYPES
 #include <protocols/timed.h>
@@ -363,7 +358,7 @@ msite(int argc, char *argv[])
 
 			if (cc < sizeof(struct tsp)) {
 				fprintf(stderr,
-				    "short packet (%u/%u bytes) from %s\n",
+				    "short packet (%u/%lu bytes) from %s\n",
 				    cc, sizeof(struct tsp),
 				    inet_ntoa(from.sin_addr));
 				continue;
@@ -539,7 +534,7 @@ tracing(int argc, char *argv[])
 		}
 		siginterrupt(SIGINT, 0);
 		if (cc < sizeof(struct tsp)) {
-			fprintf(stderr, "short packet (%u/%u bytes) from %s\n",
+			fprintf(stderr, "short packet (%u/%lu bytes) from %s\n",
 			    cc, sizeof(struct tsp), inet_ntoa(from.sin_addr));
 			goto bail;
 		}

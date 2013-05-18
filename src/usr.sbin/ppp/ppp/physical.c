@@ -16,7 +16,7 @@
  * IMPLIED WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED
  * WARRANTIES OF MERCHANTIBILITY AND FITNESS FOR A PARTICULAR PURPOSE.
  *
- *  $MirOS: src/usr.sbin/ppp/ppp/physical.c,v 1.2 2005/03/13 19:17:16 tg Exp $
+ *  $MirOS: src/usr.sbin/ppp/ppp/physical.c,v 1.3 2005/12/04 15:02:27 tg Exp $
  *  $OpenBSD: physical.c,v 1.40 2005/07/17 20:10:53 brad Exp $
  *
  */
@@ -107,6 +107,8 @@
 #include "atm.h"
 #endif
 #include "tcpmss.h"
+
+__RCSID("$MirOS$");
 
 #define PPPOTCPLINE "ppp"
 
@@ -429,7 +431,7 @@ physical_DescriptorWrite(struct fdescriptor *d, struct bundle *bundle,
       if (errno == EAGAIN)
         result = 1;
       else if (errno != ENOBUFS) {
-	log_Printf(LogPHASE, "%s: write (fd %d, len %d): %s\n", p->link.name,
+	log_Printf(LogPHASE, "%s: write (fd %d, len %ld): %s\n", p->link.name,
                    p->fd, p->out->m_len, strerror(errno));
         datalink_Down(p->dl, CLOSE_NORMAL);
       }

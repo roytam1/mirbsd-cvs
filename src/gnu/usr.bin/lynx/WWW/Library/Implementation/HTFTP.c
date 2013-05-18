@@ -130,7 +130,7 @@ typedef struct _connection {
 #elif defined(SYS_HPUX)
 #  if defined(_XOPEN_SOURCE_EXTENDED) && defined(SO_PROTOTYPE)
 #    define LY_SOCKLEN socklen_t
-#  else	/* HPUX 10.20, etc. */
+#  else				/* HPUX 10.20, etc. */
 #    define LY_SOCKLEN int
 #  endif
 #elif defined(SYS_TRU64)
@@ -1278,11 +1278,7 @@ static int get_listen_socket(void)
 	    /* Cast to generic sockaddr */
 			   sizeof(soc_address)
 #ifndef SHORTENED_RBIND
-#ifdef INET6
-			   socks_bind_remoteAddr
-#else
 			   ,socks_bind_remoteAddr
-#endif /* INET6 */
 #endif /* !SHORTENED_RBIND */
 		);
 	else
@@ -2692,7 +2688,7 @@ static int read_directory(HTParentAnchor *parent,
      * directory listings if LONG_LIST was defined on compilation, but we could
      * someday set up an equivalent listing for Unix ftp servers.  - FM
      */
-    need_parent_link = HTDirTitles(target, parent, tildeIsTop);
+    need_parent_link = HTDirTitles(target, parent, format_out, tildeIsTop);
 
     data_read_pointer = data_write_pointer = data_buffer;
 
@@ -2945,6 +2941,7 @@ static int read_directory(HTParentAnchor *parent,
 	    }
 	}
 	END(HTML_PRE);
+	END(HTML_BODY);
 	FREE_TARGET;
 	HTBTreeAndObject_free(bt);
     }
@@ -3441,13 +3438,13 @@ int HTFTPLoad(const char *name,
 			if (*cp1 != '\0') {
 			    strcpy(filename, cp1);
 			    CTRACE((tfp, "HTFTP: Filename '%s'\n", filename));
-			    HTSprintf0(&vmsname, "%.*s[%s]", cp1 - cp, cp, filename);
+			    HTSprintf0(&vmsname, "%.*s[%s]", (int)(cp1 - cp), cp, filename);
 			    status = send_cwd(vmsname);
 			    if (status != 2) {
-				HTSprintf(&vmsname, "%.*s[000000]", cp1 - cp, cp);
+				HTSprintf(&vmsname, "%.*s[000000]", (int)(cp1 - cp), cp);
 				status = send_cwd(vmsname);
 				if (status != 2) {
-				    HTSprintf(&vmsname, "%.*s", cp1 - cp, cp);
+				    HTSprintf(&vmsname, "%.*s", (int)(cp1 - cp), cp);
 				    status = send_cwd(vmsname);
 				    if (status != 2) {
 					FREE(fname);
@@ -3552,7 +3549,7 @@ int HTFTPLoad(const char *name,
 		    (cp1 - cp) > 1) {
 		    char *tmp = 0;
 
-		    HTSprintf0(&tmp, "[.%.*s]", cp1 - cp - 1, cp + 1);
+		    HTSprintf0(&tmp, "[.%.*s]", (int)(cp1 - cp - 1), cp + 1);
 
 		    CTRACE((tfp, "change path '%s'\n", tmp));
 		    while ((cp2 = strrchr(tmp, '/')) != NULL)

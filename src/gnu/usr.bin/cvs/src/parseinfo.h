@@ -18,6 +18,9 @@ struct config
     bool top_level_admin;
     char *lock_dir;
     char *logHistory;
+    char *HistoryLogPath;
+    char *HistorySearchPath;
+    char *TmpDir;
 
     /* Should the logmsg be re-read during the do_verify phase?
      * RereadLogAfterVerify=no|stat|yes
@@ -45,15 +48,20 @@ struct config
 #ifdef SUPPORT_OLD_INFO_FMT_STRINGS
     bool UseNewInfoFmtStrings;
 #endif /* SUPPORT_OLD_INFO_FMT_STRINGS */
-#ifdef PROXY_SUPPORT
     cvsroot_t *PrimaryServer;
+#ifdef PROXY_SUPPORT
     size_t MaxProxyBufferSize;
 #endif /* PROXY_SUPPORT */
+#ifdef SERVER_SUPPORT
+    unsigned MinCompressionLevel;
+    unsigned MaxCompressionLevel;
+#endif /* SERVER_SUPPORT */
 #ifdef PRESERVE_PERMISSIONS_SUPPORT
     bool preserve_perms;
 #endif /* PRESERVE_PERMISSIONS_SUPPORT */
 };
 
-struct config *parse_config (const char *);
+bool parse_error (const char *, unsigned int);
+struct config *parse_config (const char *, const char *);
 void free_config (struct config *data);
 #endif /* !PARSEINFO_H */

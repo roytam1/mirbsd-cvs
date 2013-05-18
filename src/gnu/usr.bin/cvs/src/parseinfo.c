@@ -1,4 +1,4 @@
-/* $MirOS: src/gnu/usr.bin/cvs/src/parseinfo.c,v 1.4 2005/04/19 22:23:09 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/cvs/src/parseinfo.c,v 1.5 2005/12/05 22:12:48 tg Exp $ */
 
 /*
  * Copyright (C) 1986-2005 The Free Software Foundation, Inc.
@@ -252,7 +252,7 @@ readSizeT (const char *infopath, const char *option, const char *p,
 		       infopath, option, p[strlen(p)]);
 		return false;
 	}
-	TRACE (TRACE_DATA, "readSizeT(): Found factor %u for %s",
+	TRACE (TRACE_DATA, "readSizeT(): Found factor %lu for %s",
 	       factor, option);
     }
 
@@ -276,9 +276,9 @@ readSizeT (const char *infopath, const char *option, const char *p,
 	/* Don't return an error, just max out.  */
 	num = SIZE_MAX;
 
-    TRACE (TRACE_DATA, "readSizeT(): read number %u for %s", num, option);
+    TRACE (TRACE_DATA, "readSizeT(): read number %lu for %s", num, option);
     *val = xtimes (strtoul (p, NULL, 10), factor);
-    TRACE (TRACE_DATA, "readSizeT(): returnning %u for %s", *val, option);
+    TRACE (TRACE_DATA, "readSizeT(): returnning %lu for %s", *val, option);
     return true;
 }
 
@@ -394,6 +394,9 @@ parse_config (const char *cvsroot, const char *path)
      */
     bool processing = true;
     bool processed = true;
+#ifdef SERVER_SUPPORT
+    size_t dummy_sizet;
+#endif
 
     TRACE (TRACE_FUNCTION, "parse_config (%s)", cvsroot);
 
@@ -691,12 +694,14 @@ parse_config (const char *cvsroot, const char *path)
 	    readBool (infopath, "UseArchiveCommentLeader", p,
 		      &retval->UseArchiveCommentLeader);
 #ifdef SERVER_SUPPORT
-	else if (!strcmp (line, "MinCompressionLevel"))
-	    readSizeT (infopath, "MinCompressionLevel", p,
-		       &retval->MinCompressionLevel);
-	else if (!strcmp (line, "MaxCompressionLevel"))
-	    readSizeT (infopath, "MaxCompressionLevel", p,
-		       &retval->MaxCompressionLevel);
+	else if (!strcmp (line, "MinCompressionLevel")) {
+	    readSizeT (infopath, "MinCompressionLevel", p, &dummy_sizet);
+	    retval->MinCompressionLevel = dummy_sizet;
+	}
+	else if (!strcmp (line, "MaxCompressionLevel")) {
+	    readSizeT (infopath, "MaxCompressionLevel", p, &dummy_sizet);
+	    retval->MaxCompressionLevel = dummy_sizet;
+	}
 #endif /* SERVER_SUPPORT */
 #if !defined(LOCK_COMPATIBILITY) || !defined(SUPPORT_OLD_INFO_FMT_STRINGS)
 	else if ((!strcmp (line, "tag")) || (!strcmp (line, "umask"))

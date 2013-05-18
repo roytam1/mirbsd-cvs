@@ -6,7 +6,7 @@
 #include <HTAlert.h>
 
 #ifdef __MINGW32__
-int kbhit(void);
+int kbhit(void);		/* FIXME: use conio.h */
 
 #ifdef UNIX
 #undef UNIX
@@ -958,7 +958,7 @@ static int find_cached_style(int cur,
 	 * change saved at just the right position, we look at preceding
 	 * positions in the same line until we find one.
 	 */
-	if (LYP >= 0 && LYP < CACHEH && LXP >= 0 && LXP < CACHEW) {
+	if (CACHE_VALIDATE_YX(LYP, LXP)) {
 	    CTRACE2(TRACE_STYLE,
 		    (tfp, "STYLE.highlight.off: cached style @(%d,%d): ",
 		     LYP, LXP));
@@ -970,7 +970,7 @@ static int find_cached_style(int cur,
 			    s = cached_styles[LYP][x];
 			    cached_styles[LYP][LXP] = s;
 			}
-			CTRACE((tfp, "found %d, x_offset=%d.\n",
+			CTRACE((tfp, "found %u, x_offset=%d.\n",
 				cached_styles[LYP][x], (int) x - LXP));
 			break;
 		    }
@@ -1029,8 +1029,19 @@ void LYhighlight(int flag,
      * know, such bugs have been squashed, but if they should reappear, this
      * works around them.  -FM
      */
-    if (cur < 0)
+    if (cur < 0) {
+	CTRACE((tfp, "LYhighlight cur %d (bug workaround)\n", cur));
 	cur = 0;
+    }
+
+    CTRACE((tfp, "LYhighlight %s %d [%d]:%s\n",
+	    (flag
+	     ? "on"
+	     : "off"),
+	    cur,
+	    links[cur].anchor_number,
+	    NONNULL(target)));
+
 #if defined(TEXTFIELDS_MAY_NEED_ACTIVATION) && defined(INACTIVE_INPUT_STYLE_VH)
     if (flag == OFF)
 	textinput_redrawn = FALSE;
@@ -1060,7 +1071,7 @@ void LYhighlight(int flag,
 
 	if (links[cur].type == WWW_FORM_LINK_TYPE) {
 	    int len;
-	    int avail_space = (LYcolLimit - LXP);
+	    int avail_space = (LYcolLimit - LXP) + (LYcolLimit * (LYlines - LYP));
 	    const char *text = LYGetHiliteStr(cur, 0);
 
 	    if (avail_space > links[cur].l_form->size)
@@ -1069,11 +1080,12 @@ void LYhighlight(int flag,
 		avail_space = (int) sizeof(buffer) - 1;
 
 	    LYstrncpy(buffer, NonNull(text), avail_space);
-	    LYaddstr(buffer);
-
 	    len = strlen(buffer);
-	    for (; len < links[cur].l_form->size && len < avail_space; len++)
-		LYaddch('_');
+	    while (len < avail_space) {
+		buffer[len++] = '_';
+	    }
+	    buffer[len] = 0;
+	    LYaddstr(buffer);
 
 #ifdef USE_COLOR_STYLE
 	} else if (flag == OFF) {
@@ -1246,6 +1258,19 @@ char *strip_trailing_slash(char *dirname)
 }
 
 /*
+ * Remove most blanks, but restore one trailing blank to make prompts nicer.
+ */
+static void remove_most_blanks(char *buffer)
+{
+    int length = strlen(buffer);
+    BOOL trailing = (length != 0) && (buffer[length - 1] == ' ');
+
+    LYReduceBlanks(buffer);
+    if (trailing)
+	strcat(buffer, " ");
+}
+
+/*
  * Display (or hide) the status line.
  */
 BOOLEAN mustshow = FALSE;
@@ -1255,6 +1280,7 @@ void statusline(const char *text)
     char buffer[MAX_LINE];
     unsigned char *temp = NULL;
     int max_length, len, i, j;
+    int at_lineno;
     unsigned char k;
     char *p;
     char text_buff[MAX_LINE];
@@ -1323,7 +1349,7 @@ void statusline(const char *text)
 	/*
 	 * Deal with any newlines or tabs in the string.  - FM
 	 */
-	LYReduceBlanks((char *) temp);
+	remove_most_blanks((char *) temp);
 
 	/*
 	 * Handle the Kanji, making sure the text is not longer than the
@@ -1349,7 +1375,7 @@ void statusline(const char *text)
 	/*
 	 * Deal with any newlines or tabs in the string.  - FM
 	 */
-	LYReduceBlanks(text_buff);
+	remove_most_blanks(text_buff);
 #ifdef WIDEC_CURSES
 	len = strlen(text_buff);
 	if (len >= (int) (sizeof(buffer) - 1))
@@ -1382,15 +1408,16 @@ void statusline(const char *text)
      */
     if (LYStatusLine >= 0) {
 	if (LYStatusLine < LYlines - 1) {
-	    LYmove(LYStatusLine, 0);
+	    at_lineno = LYStatusLine;
 	} else {
-	    LYmove(LYlines - 1, 0);
+	    at_lineno = LYlines - 1;
 	}
     } else if (user_mode == NOVICE_MODE) {
-	LYmove(LYlines - 3, 0);
+	at_lineno = LYlines - 3;
     } else {
-	LYmove(LYlines - 1, 0);
+	at_lineno = LYlines - 1;
     }
+    LYmove(at_lineno, 0);
     LYclrtoeol();
 
     if (non_empty(buffer)) {
@@ -1419,18 +1446,22 @@ void statusline(const char *text)
 #else
 	/* draw the status bar in the STATUS style */
 	{
-	    int a = (strncmp(buffer, ALERT_FORMAT, ALERT_PREFIX_LEN)
-		     || !hashStyles[s_alert].name)
-	    ? s_status
-	    : s_alert;
+	    int y, x;
+	    int a = ((strncmp(buffer, ALERT_FORMAT, ALERT_PREFIX_LEN)
+		      || !hashStyles[s_alert].name)
+		     ? s_status
+		     : s_alert);
 
 	    LynxChangeStyle(a, STACK_ON);
 	    LYaddstr(buffer);
 	    wbkgdset(LYwin,
 		     ((lynx_has_color && LYShowColor >= SHOW_COLOR_ON)
-		      ? hashStyles[a].color
+		      ? (chtype) hashStyles[a].color
 		      : A_NORMAL) | ' ');
-	    LYclrtoeol();
+	    LYGetYX(y, x);
+	    if (y == at_lineno) {
+		LYclrtoeol();
+	    }
 	    if (!(lynx_has_color && LYShowColor >= SHOW_COLOR_ON))
 		wbkgdset(LYwin, A_NORMAL | ' ');
 	    else if (s_normal != NOSTYLE)
@@ -1476,9 +1507,10 @@ void noviceline(int more_flag GCC_UNUSED)
 	return;
 
     LYmove(LYlines - 2, 0);
-    /* lynx_stop_reverse(); */
     LYclrtoeol();
     LYaddstr(NOVICE_LINE_ONE);
+
+    LYmove(LYlines - 1, 0);
     LYclrtoeol();
 #if defined(DIRED_SUPPORT ) && defined(OK_OVERRIDE)
     if (lynx_edit_mode && !no_dired_support)
@@ -1495,7 +1527,70 @@ void noviceline(int more_flag GCC_UNUSED)
     return;
 }
 
-#if defined(NSL_FORK) || defined(MISC_EXP)
+#if defined(MISC_EXP) || defined(TTY_DEVICE) || defined(HAVE_TTYNAME)
+/*
+ * If the standard input is not a tty, and Lynx is really reading from the
+ * standard input, attempt to reopen it, pointing to a real tty.  Normally
+ * this would happen if the user pipes data to Lynx and wants to run
+ * interactively after that.
+ *
+ * Returns:
+ *     1  if successfully reopened
+ *    -1  if we cannot reopen
+ *     0  if we do not have to reopen
+ */
+int LYReopenInput(void)
+{
+    int result = 0;
+    int fd;
+
+    if ((fd = fileno(stdin)) == 0
+	&& !isatty(fd)
+	&& LYConsoleInputFD(FALSE) == fd) {
+	char *term_name = NULL;
+	int new_fd = -1;
+
+#ifdef HAVE_TTYNAME
+	if (isatty(fileno(stdout)) &&
+	    (term_name = ttyname(fileno(stdout))) != NULL)
+	    new_fd = open(term_name, O_RDONLY);
+
+	if (new_fd == -1 &&
+	    isatty(fileno(stderr)) &&
+	    (term_name = ttyname(fileno(stderr))) != NULL)
+	    new_fd = open(term_name, O_RDONLY);
+#endif
+
+#ifdef HAVE_CTERMID
+	if (new_fd == -1 &&
+	    (term_name = ctermid(NULL)) != NULL)
+	    new_fd = open(term_name, O_RDONLY);
+#endif
+
+#ifdef TTY_DEVICE
+	if (new_fd == -1)
+	    new_fd = open(term_name = TTY_DEVICE, O_RDONLY);
+#endif
+
+	CTRACE((tfp, "LYReopenInput open(%s) returned %d.\n", term_name, new_fd));
+	if (new_fd >= 0) {
+	    FILE *frp;
+
+	    close(new_fd);
+	    frp = freopen(term_name, "r", stdin);
+	    CTRACE((tfp,
+		    "LYReopenInput freopen(%s,\"r\",stdin) returned %p, stdin is now %p with fd %d.\n",
+		    term_name, frp, stdin, fileno(stdin)));
+	    result = 1;
+	} else {
+	    result = -1;
+	}
+    }
+    return result;
+}
+#endif
+
+#if defined(NSL_FORK) || defined(MISC_EXP) || defined (TTY_DEVICE) || defined(HAVE_TTYNAME)
 /*
  * Returns the file descriptor from which keyboard input is expected, or INVSOC
  * (-1) if not available.  If need_selectable is true, returns non-INVSOC fd
@@ -1593,13 +1688,6 @@ int HTCheckForInterrupt(void)
     int c;
     int cmd;
 
-#ifndef VMS			/* UNIX stuff: */
-#if !defined(USE_SLANG)
-    struct timeval socket_timeout;
-    int ret = 0;
-    fd_set readfds;
-#endif /* !USE_SLANG */
-
     if (fake_zap > 0) {
 	fake_zap--;
 	CTRACE((tfp, "\r *** Got simulated 'Z' ***\n"));
@@ -1612,7 +1700,13 @@ int HTCheckForInterrupt(void)
     if (DontCheck())
 	return ((int) FALSE);
 
+#ifndef VMS			/* UNIX stuff: */
+
 #if !defined(_WINDOWS) || defined(__MINGW32__)
+
+    /*
+     * First, check if there is a character.
+     */
 #ifdef USE_SLANG
     /** No keystroke was entered
 	Note that this isn't taking possible SOCKSification
@@ -1620,59 +1714,58 @@ int HTCheckForInterrupt(void)
 	slang library's select() when SOCKSified. - FM **/
 #ifdef DJGPP_KEYHANDLER
     if (0 == _bios_keybrd(_NKEYBRD_READY))
+	return (FALSE);
 #else
     if (0 == SLang_input_pending(0))
-#endif /* DJGPP_KEYHANDLER */
 	return (FALSE);
+#endif /* DJGPP_KEYHANDLER */
 
 #else /* Unix curses: */
+    {
+	struct timeval socket_timeout;
+	int ret = 0;
+	fd_set readfds;
 
-    socket_timeout.tv_sec = 0;
-    socket_timeout.tv_usec = 0;
-    FD_ZERO(&readfds);
-    FD_SET(0, &readfds);
+	socket_timeout.tv_sec = 0;
+	socket_timeout.tv_usec = 0;
+	FD_ZERO(&readfds);
+	FD_SET(0, &readfds);
 #ifdef SOCKS
-    if (socks_flag)
-	ret = Rselect(1, &readfds, NULL, NULL, &socket_timeout);
-    else
+	if (socks_flag)
+	    ret = Rselect(1, &readfds, NULL, NULL, &socket_timeout);
+	else
 #endif /* SOCKS */
-	ret = select(1, &readfds, NULL, NULL, &socket_timeout);
+	    ret = select(1, &readfds, NULL, NULL, &socket_timeout);
 
-    /** Suspended? **/
-    if ((ret == -1) && (SOCKET_ERRNO == EINTR))
-	return ((int) FALSE);
+	/** Suspended? **/
+	if ((ret == -1) && (SOCKET_ERRNO == EINTR))
+	    return ((int) FALSE);
 
-    /** No keystroke was entered? **/
-    if (!FD_ISSET(0, &readfds))
-	return ((int) FALSE);
+	/** No keystroke was entered? **/
+	if (!FD_ISSET(0, &readfds))
+	    return ((int) FALSE);
+    }
 #endif /* USE_SLANG */
+
 #endif /* !_WINDOWS */
 
+    /*
+     * Now, read the character.
+     */
 #if defined(PDCURSES)
     nodelay(LYwin, TRUE);
-#endif /* PDCURSES */
-    /*
-     * 'c' contains whatever character we're able to read from keyboard
-     */
     c = LYgetch();
-#if defined(PDCURSES)
     nodelay(LYwin, FALSE);
-#endif /* PDCURSES */
+#elif defined(USE_SLANG) && defined(_WINDOWS)
+    if (!SLang_input_pending(0))
+	return ((int) FALSE);
+    c = LYgetch();
+#else
+    c = LYgetch();
+#endif
 
 #else /* VMS: */
     extern int typeahead(void);
-
-    if (fake_zap > 0) {
-	fake_zap--;
-	CTRACE((tfp, "\r *** Got simulated 'Z' ***\n"));
-	CTRACE_FLUSH(tfp);
-	CTRACE_SLEEP(AlertSecs);
-	return ((int) TRUE);
-    }
-
-    /** Curses or slang setup was not invoked **/
-    if (DontCheck())
-	return ((int) FALSE);
 
     /** Control-C or Control-Y and a 'N'o reply to exit query **/
     if (HadVMSInterrupt) {
@@ -1680,9 +1773,6 @@ int HTCheckForInterrupt(void)
 	return ((int) TRUE);
     }
 
-    /*
-     * 'c' contains whatever character we're able to read from keyboard
-     */
     c = typeahead();
 
 #endif /* !VMS */
@@ -1691,7 +1781,7 @@ int HTCheckForInterrupt(void)
      * 'c' contains whatever character we're able to read from keyboard
      */
 
-	/** Keyboard 'Z' or 'z', or Control-G or Control-C **/
+    /** Keyboard 'Z' or 'z', or Control-G or Control-C **/
     if (LYCharIsINTERRUPT(c))
 	return ((int) TRUE);
 
@@ -2629,8 +2719,10 @@ BOOLEAN LYCanReadFile(const char *filename)
 {
     FILE *fp;
 
-    if ((fp = fopen(filename, "r")) != 0) {
-	return LYCloseInput(fp);
+    if (!isEmpty(filename)) {
+	if ((fp = fopen(filename, "r")) != 0) {
+	    return LYCloseInput(fp);
+	}
     }
     return FALSE;
 }
@@ -3279,22 +3371,24 @@ static int fmt_tempname(char *result,
      * support long filenames.
      */
     counter = MAX_TEMPNAME;
-    while (names_used < MAX_TEMPNAME) {
+    if (names_used < MAX_TEMPNAME) {
 	counter = (unsigned) (((float) MAX_TEMPNAME * lynx_rand()) /
 			      LYNX_RAND_MAX + 1);
-	counter %= SIZE_TEMPNAME;	/* just in case... */
 	/*
 	 * Avoid reusing a temporary name, since there are places in the code
 	 * which can refer to a temporary filename even after it has been
 	 * closed and removed from the filesystem.
 	 */
-	offset = counter / BITS_PER_CHAR;
-	mask = 1 << (counter % BITS_PER_CHAR);
-	if ((used_tempname[offset] & mask) == 0) {
-	    names_used++;
-	    used_tempname[offset] |= mask;
-	    break;
-	}
+	do {
+	    counter %= MAX_TEMPNAME;
+	    offset = counter / BITS_PER_CHAR;
+	    mask = 1 << (counter % BITS_PER_CHAR);
+	    if ((used_tempname[offset] & mask) == 0) {
+		names_used++;
+		used_tempname[offset] |= mask;
+		break;
+	    }
+	} while ((used_tempname[offset] & mask) == 0);
     }
     if (names_used >= MAX_TEMPNAME)
 	HTAlert(gettext("Too many tempfiles"));
@@ -3601,7 +3695,7 @@ void parse_restrictions(const char *s)
 	    }
 	}
 	if (!found) {
-	    printf("%s: %.*s\n", gettext("unknown restriction"), p - word, word);
+	    printf("%s: %.*s\n", gettext("unknown restriction"), (int)(p - word), word);
 	    exit_immediately(EXIT_FAILURE);
 	}
 	if (*p)
@@ -4364,9 +4458,9 @@ BOOLEAN LYExpandHostForURL(char **AllocatedString,
 			   char *prefix_list,
 			   char *suffix_list)
 {
-    char DomainPrefix[80];
+    char *DomainPrefix = NULL;
     const char *StartP, *EndP;
-    char DomainSuffix[80];
+    char *DomainSuffix = NULL;
     const char *StartS, *EndS;
     char *Str = NULL, *StrColon = NULL, *MsgStr = NULL;
     char *Host = NULL, *HostColon = NULL, *host = NULL;
@@ -4424,8 +4518,7 @@ BOOLEAN LYExpandHostForURL(char **AllocatedString,
     if ((StrColon = strrchr(Str, ':')) != NULL &&
 	isdigit(UCH(StrColon[1]))) {
 	if (StrColon == Str) {
-	    FREE(Str);
-	    return GotHost;
+	    goto cleanup;
 	}
 	*StrColon = '\0';
     }
@@ -4467,10 +4560,7 @@ BOOLEAN LYExpandHostForURL(char **AllocatedString,
 	 * Return success.  - FM
 	 */
 	GotHost = TRUE;
-	FREE(host);
-	FREE(Str);
-	FREE(MsgStr);
-	return GotHost;
+	goto cleanup;
     } else if (LYCursesON && (lynx_nsl_status == HT_INTERRUPTED)) {
 	/*
 	 * Give the user chance to interrupt lookup cycles.  - KW & FM
@@ -4482,10 +4572,7 @@ BOOLEAN LYExpandHostForURL(char **AllocatedString,
 	/*
 	 * Return failure.  - FM
 	 */
-	FREE(host);
-	FREE(Str);
-	FREE(MsgStr);
-	return FALSE;
+	goto cleanup;
     }
 
     /*
@@ -4520,7 +4607,8 @@ BOOLEAN LYExpandHostForURL(char **AllocatedString,
     while (*EndP && !WHITE(*EndP) && *EndP != ',') {
 	EndP++;			/* Find separator */
     }
-    LYstrncpy(DomainPrefix, StartP, (EndP - StartP));
+    StrAllocCopy(DomainPrefix, StartP);
+    DomainPrefix[EndP - StartP] = '\0';
 
     /*
      * Test each prefix with each suffix.  - FM
@@ -4540,7 +4628,8 @@ BOOLEAN LYExpandHostForURL(char **AllocatedString,
 	while (*EndS && !WHITE(*EndS) && *EndS != ',') {
 	    EndS++;		/* Find separator */
 	}
-	LYstrncpy(DomainSuffix, StartS, (EndS - StartS));
+	StrAllocCopy(DomainSuffix, StartS);
+	DomainSuffix[EndS - StartS] = '\0';
 
 	/*
 	 * Create domain names and do DNS tests.  - FM
@@ -4578,11 +4667,7 @@ BOOLEAN LYExpandHostForURL(char **AllocatedString,
 		    CTRACE((tfp,
 			    "LYExpandHostForURL: Interrupted while '%s' failed to resolve.\n",
 			    host));
-		    FREE(Str);
-		    FREE(MsgStr);
-		    FREE(Host);
-		    FREE(host);
-		    return FALSE;	/* We didn't find a valid name. */
+		    goto cleanup;	/* We didn't find a valid name. */
 		}
 
 		/*
@@ -4650,6 +4735,9 @@ BOOLEAN LYExpandHostForURL(char **AllocatedString,
     /*
      * Clean up and return the last test result.  - FM
      */
+  cleanup:
+    FREE(DomainPrefix);
+    FREE(DomainSuffix);
     FREE(Str);
     FREE(MsgStr);
     FREE(Host);
@@ -7212,6 +7300,8 @@ const char *LYSysShell(void)
     if (shell) {
 	if (access(shell, 0) != 0)
 	    shell = LYGetEnv("COMSPEC");
+    } else {
+	shell = LYGetEnv("COMSPEC");
     }
     if (shell == NULL) {
 	if (system_is_NT)
@@ -7430,7 +7520,7 @@ static int clip_grab(void)
     if (!cmd)
 	return 0;
 
-    paste_handle = popen(cmd, "rt");
+    paste_handle = popen(cmd, TXT_R);
     if (!paste_handle)
 	return 0;
     return 1;
@@ -7476,7 +7566,7 @@ int put_clip(const char *s)
     if (!cmd)
 	return -1;
 
-    fh = popen(cmd, "wt");
+    fh = popen(cmd, TXT_W);
     if (!fh)
 	return -1;
     res = fwrite(s, 1, l, fh);

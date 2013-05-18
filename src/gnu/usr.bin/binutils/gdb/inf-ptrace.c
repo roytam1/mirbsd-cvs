@@ -561,6 +561,13 @@ inf_ptrace_target (void)
    where a particular register is stored.  */
 static CORE_ADDR (*inf_ptrace_register_u_offset)(int);
 
+/* Address a GCC warning.  */
+#ifdef __MirBSD__
+#define PTRACE_XCAST (void *)(ptrdiff_t)
+#else
+#define PTRACE_XCAST /* nothing */
+#endif
+
 /* Fetch register REGNUM from the inferior.  */
 
 static void
@@ -588,7 +595,7 @@ inf_ptrace_fetch_register (int regnum)
   for (i = 0; i < size / sizeof (PTRACE_TYPE_RET); i++)
     {
       errno = 0;
-      buf[i] = ptrace (PT_READ_U, pid, (PTRACE_TYPE_ARG3) addr, 0);
+      buf[i] = ptrace (PT_READ_U, pid, (PTRACE_TYPE_ARG3) PTRACE_XCAST addr, 0);
       if (errno != 0)
 	error (_("Couldn't read register %s (#%d): %s."), REGISTER_NAME (regnum),
 	       regnum, safe_strerror (errno));
@@ -639,7 +646,7 @@ inf_ptrace_store_register (int regnum)
   for (i = 0; i < size / sizeof (PTRACE_TYPE_RET); i++)
     {
       errno = 0;
-      ptrace (PT_WRITE_U, pid, (PTRACE_TYPE_ARG3) addr, buf[i]);
+      ptrace (PT_WRITE_U, pid, (PTRACE_TYPE_ARG3) PTRACE_XCAST addr, buf[i]);
       if (errno != 0)
 	error (_("Couldn't write register %s (#%d): %s."), REGISTER_NAME (regnum),
 	       regnum, safe_strerror (errno));

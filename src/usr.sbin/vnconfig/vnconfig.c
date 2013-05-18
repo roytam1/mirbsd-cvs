@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/vnconfig/vnconfig.c,v 1.11 2006/03/27 19:30:35 tg Exp $ */
+/**	$MirOS: src/usr.sbin/vnconfig/vnconfig.c,v 1.12 2006/05/15 19:12:05 tg Exp $ */
 /*	$OpenBSD: vnconfig.c,v 1.16 2004/09/14 22:35:51 deraadt Exp $	*/
 /*
  * Copyright (c) 2006 Thorsten Glaser
@@ -63,7 +63,7 @@
 #include <openssl/pem.h>
 #endif
 
-__RCSID("$MirOS: src/usr.sbin/vnconfig/vnconfig.c,v 1.11 2006/03/27 19:30:35 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/vnconfig/vnconfig.c,v 1.12 2006/05/15 19:12:05 tg Exp $");
 
 #define DEFAULT_VND	"vnd0"
 
@@ -312,8 +312,8 @@ make_key(const char *algo, FILE *fp, const char *key2)
 		if (strlen(key2) < kbuflen)
 			kbuflen = strlen(key2);
 		else
-			fprintf(stderr, "WARNING: truncating from %d to"
-			    " %d characters!\n", strlen(key2), kbuflen);
+			fprintf(stderr, "WARNING: truncating from %ld to"
+			    " %ld characters!\n", strlen(key2), kbuflen);
 		memcpy(kbuf, key2, kbuflen);
 		fprintf(stderr, "WARNING: not using random bits as key!\n");
 	} else for (i = 0; i < KBUF_ELEM; ++i)
