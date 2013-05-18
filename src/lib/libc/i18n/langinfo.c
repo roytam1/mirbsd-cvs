@@ -1,8 +1,8 @@
-/* $MirOS: src/lib/libc/i18n/langinfo.c,v 1.4 2005/09/30 22:15:08 tg Exp $ */
+/* $MirOS: src/share/misc/licence.template,v 1.6 2006/01/24 22:24:02 tg Rel $ */
 
 /*-
- * Copyright (c) 2003, 2004, 2005
- *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+ * Copyright (c) 2003, 2004, 2005, 2006
+ *	Thorsten Glaser <tg@mirbsd.de>
  * Derived from work placed into the public domain by
  *	J.T. Conklin <jtc@netbsd.org>
  *
@@ -12,6 +12,10 @@
  * pyright notices above, these terms and the disclaimer are retained
  * in all redistributions or reproduced in accompanying documentation
  * or other materials provided with binary redistributions.
+ *
+ * All advertising materials mentioning features or use of this soft-
+ * ware must display the following acknowledgement:
+ *	This product includes material provided by Thorsten Glaser.
  *
  * Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
  * express, or implied, to the maximum extent permitted by applicable
@@ -32,7 +36,7 @@
 #include <locale.h>
 #include <nl_types.h>
 
-__RCSID("$MirOS: src/lib/libc/i18n/langinfo.c,v 1.4 2005/09/30 22:15:08 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/langinfo.c,v 1.5 2005/12/17 05:46:14 tg Exp $");
 
 /* fake locale support */
 
@@ -72,6 +76,8 @@ __weak_nl_langinfo(nl_item item)
 	const char *s;
 
 	switch (item) {
+	  case CODESET:
+		s = __locale_is_utf8 ? "UTF-8" : "ISO_646.irv:1991";
 	  case D_T_FMT:
 		s = _DefaultTimeLocale.d_t_fmt;
 		break;
