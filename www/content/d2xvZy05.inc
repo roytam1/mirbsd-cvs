@@ -1,5 +1,5 @@
 <!-- PageID: wlog-9 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.55 2006/10/28 20:43:25 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.56 2006/10/29 03:17:50 tg Exp $</small>
 <h1>MirBSD &ndash; WTF is Verpeilungsfaktor?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -978,7 +978,7 @@ plot [150:200] 	"bs06.4Kmin.txt" using 1:3 with lines title "exc{\350}s en chlor
   by reading a sector from the disc whether it's El Torito or not, so we
   won't need mkisofs(8)' -boot-info-table option any more and can use an
   unified bootloader for Live-CD and Live-HDD ;-) boots. That one could,
-  then, also make use of MBR partitions &ndash, for example so we have a
+  then, also make use of MBR partitions &ndash; for example so we have a
   "boot hd0a:/bsd" as usual, "boot hd0,3:/bsd" for MBR partition (that's
   the only way to boot off a FAT partition if the disklabel doesn't have
   a slice for that filesystem), "boot hd0,2,0:/bsd" for extended ones. A
