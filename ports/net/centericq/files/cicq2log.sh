@@ -1,5 +1,5 @@
 #!/usr/bin/env mksh
-# $MirOS: ports/net/centericq/files/cicq2log.sh,v 1.1 2007/02/08 19:35:00 tg Exp $
+# $MirOS: ports/net/centericq/files/cicq2log.sh,v 1.2 2007/03/03 20:44:33 tg Exp $
 #-
 # Copyright (c) 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -83,7 +83,7 @@ while IFS= read $pipe -r line; do
 		lbuf=
 		;;
 	(4)	if [[ $line = '' ]]; then
-			print -r -- $lbuf
+			print -r -- "$lbuf"
 			status=0
 		elif [[ -z $lbuf ]]; then
 			lbuf="$(date -r $ts +%H:%M:%S)$sep$d$line"
@@ -93,5 +93,5 @@ while IFS= read $pipe -r line; do
 		;;
 	}
 done
-print -r -- $lbuf
+print -r -- "$lbuf"
 exit 0
