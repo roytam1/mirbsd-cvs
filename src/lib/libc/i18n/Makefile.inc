@@ -1,5 +1,8 @@
-# $MirOS$
+# $MirOS: src/lib/libc/i18n/Makefile.inc,v 1.1 2005/09/22 21:21:09 tg Exp $
 
 .PATH: ${LIBCSRCDIR}/i18n
 
-SRCS+=	catalogues.c charsets.c langinfo.c
+SRCS+=	btowc.c
+SRCS+=	catalogues.c
+SRCS+=	charsets.c
+SRCS+=	langinfo.c
