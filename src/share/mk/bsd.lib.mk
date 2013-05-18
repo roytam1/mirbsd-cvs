@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.lib.mk,v 1.60 2007/06/07 17:08:16 tg Exp $
+# $MirOS: src/share/mk/bsd.lib.mk,v 1.61 2007/06/07 17:18:18 tg Exp $
 # $OpenBSD: bsd.lib.mk,v 1.43 2004/09/20 18:52:38 espie Exp $
 # $NetBSD: bsd.lib.mk,v 1.67 1996/01/17 20:39:26 mycroft Exp $
 # @(#)bsd.lib.mk	5.26 (Berkeley) 5/2/91
@@ -100,7 +100,7 @@ LINK.shlib?=	${LINKER} ${CFLAGS:M*} ${SHLIB_FLAGS} -shared \
 	@rm -f $@.o
 
 .c.so .m.so:
-	${COMPILE.c} ${CFLAGS_${.TARGET:.so=.o}:M*} -DPIC ${PICFLAG} ${.IMPSRC}
+	${COMPILE.c} ${CFLAGS_${.TARGET:.so=.o}:M*} -DPIC ${PICFLAG} -o $@ $<
 
 .c.ln:
 	${LINT} ${LINTFLAGS} ${CFLAGS:M-[IDU]*} ${CPPFLAGS:M-[IDU]*} -i ${.IMPSRC}
@@ -114,7 +114,7 @@ LINK.shlib?=	${LINKER} ${CFLAGS:M*} ${SHLIB_FLAGS} -shared \
 	@rm -f $@.o
 
 .cc.so .cxx.so:
-	${COMPILE.cc} ${CXXFLAGS_${.TARGET:.so=.o}:M*} -DPIC ${PICFLAG} $<
+	${COMPILE.cc} ${CXXFLAGS_${.TARGET:.so=.o}:M*} -DPIC ${PICFLAG} -o $@ $<
 
 .S.o .s.o:
 	@echo ${COMPILE.S:Q} ${AFLAGS_${.TARGET:C/\.(g|s)o$/.o/}:M*:Q} \
@@ -126,7 +126,7 @@ LINK.shlib?=	${LINKER} ${CFLAGS:M*} ${SHLIB_FLAGS} -shared \
 
 .S.so .s.so:
 	${COMPILE.S} ${AFLAGS_${.TARGET:.so=.o}:M*} -DPIC \
-	    ${ASPICFLAG:S/^/-Wa,/} ${CFLAGS:M-[ID]*} ${AINC} ${.IMPSRC}
+	    ${ASPICFLAG:S/^/-Wa,/} ${CFLAGS:M-[ID]*} ${AINC} -o $@ $<
 
 .if ${WARNINGS:L} == "yes"
 CFLAGS+=	${CDIAGFLAGS}
