@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/common/install.sh,v 1.1 2006/08/17 19:34:14 tg Exp $
+# $MirOS: src/distrib/common/install.sh,v 1.2 2007/01/05 17:31:06 tg Exp $
 # $OpenBSD: install.sh,v 1.152 2005/04/21 21:41:33 krw Exp $
 # $NetBSD: install.sh,v 1.5.2.8 1996/08/27 18:15:05 gwr Exp $
 #
@@ -337,8 +337,15 @@ cat >/tmp/hosts <<__EOT
 127.0.0.1 $(hostname -s)
 __EOT
 
-ask_yn "Configure the network?" yes
-[[ $resp == y ]] && donetconfig
+if [[ -f /etc/ssh/ssh_host_rsa_key ]]; then
+	echo "Since sshd(8) is running, I assume you already have" \
+	    "set up the network."
+	manual_net_cfg
+	/usr/sbin/ntpd -s
+else
+	ask_yn "Configure the network?" yes
+	[[ $resp == y ]] && donetconfig
+fi
 
 install_sets
 
