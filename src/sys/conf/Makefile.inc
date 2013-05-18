@@ -1,4 +1,4 @@
-# $MirOS: src/sys/conf/Makefile.inc,v 1.22 2007/02/06 21:04:10 tg Exp $
+# $MirOS: src/sys/conf/Makefile.inc,v 1.23 2007/02/06 23:10:00 tg Exp $
 #-
 # Copyright (c) 2005, 2006, 2007
 #	Thorsten "mirabilos" Glaser <tg@mirbsd.de>
@@ -47,7 +47,7 @@ COPTS+=		-Os
 CFLAGS=		${DEBUG} ${CDIAGFLAGS} ${CMACHFLAGS} \
 		${COPTS:S/-g//:C/-g[0-9]//} ${PIPE} ${CSYS}
 AFLAGS=		-x assembler-with-cpp -traditional-cpp -D_LOCORE
-STRIPFLAGS=	-g -X -x
+STRIPFLAGS=	-g -X -x -R .comment
 
 # load lines for config "xxx" will be emitted as:
 # xxx: ${SYSTEM_DEP} swapxxx.o
@@ -69,6 +69,8 @@ SYSTEM_LD_TAIL+=; \
 		echo ${STRIP} ${STRIPFLAGS} $@; ${STRIP} ${STRIPFLAGS} $@
 .else
 LINKFLAGS+=	-x
+SYSTEM_LD_TAIL+=; \
+		objcopy -R .comment $@
 .endif
 
 SYSTEM_LD_TAIL+=; \
