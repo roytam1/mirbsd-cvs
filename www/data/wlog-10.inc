@@ -1183,3 +1183,21 @@ Title: mksh – The iShell, Episode Ⅱ
 <p>To the readers from ##iphone-hackers on the one and #iphone-dev on
  the other IRC network: *waves a friendly hello*</p>
 ----
+Date: 22.07.2008 20:54
+Author: tg@
+Title: MirEwe requiescas in pacem
+
+<p>Since <a href="http://www.cachewolf.de/">CacheWolf</a> was the only
+ use case, I decided to remove MirEwe from the repository entirely, as
+ CacheWolf will be rewritten to use the Eve VM, inevitably.</p>
+<p>Not only have I removed a last source tarball (distfile) of <a
+ href="/MirOS/dist/hosted/other/ewe-1.49mb4.tar.gz">Lunix Ewe 1.49mb4</a>,
+ with <tt>CompileEwe.zip</tt>, <tt>JavaEwe.zip</tt>, and <tt>ewe.jar</a>
+ pregenerated, but the comma-v rcsfile(5)s are also archived in a <a
+ href="/MirOS/dist/hosted/other/ewe-rcsfiles.cgz">gzipped sv4crc</a> file,
+ gzsig(1)ned, as usual.</p>
+<p>And, also as usual, one more unrelated thing: <tt>config(8) -ef /bsd</tt>
+ should not only be able to handle gzip(1)ped kernels, but also personalise
+ them by rewriting the <tt>initial_entropy</tt> array. TODO. The snapshot,
+ dualive ISO 9660 image, is almost complete and will be uploaded later.</p>
+----
