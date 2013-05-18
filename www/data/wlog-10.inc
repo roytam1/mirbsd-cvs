@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.79 2008/09/17 22:02:41 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.80 2008/09/20 19:27:10 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -1665,4 +1665,46 @@ Author: tg@
 <p>I just use <a href="@@RELPATH@@wlog.htm">…/wlog.htm</a> as my “blog”
  URI now if someone asks, <strong>even though this is <em>not</em> a
  blog</strong>. Symlinks rock.</p>
+----
+Date: 05.10.2008 00:47
+Author: tg@
+Subject: I agree with RMS
+
+<p>This may come shocking to you, but, yes, I indeed agree with <a
+ href="http://www.stallman.org/">Richard M. “FSF” Stallman</a>. While
+ I respect him quite a lot, similar to Bill Gates, I usually do not.
+ But this time, there’s something which makes me, wholeheartedly:</p>
+<p>At Chaostreff on Tuesday I learned that RMS protests against <a
+ href="http://blogs.computerworld.com/rms_hates_cloud_computing_says_you_should_too">cloud
+ computing</a> (via OSnews). I actually had to learn this new term
+ first, but after I did, I can only join the fun, despite so many
+ voices against it. It’s really bad having few people control a lot
+ of users, and everybody using it without a second thought¹². The
+ Terms of Service³ on these “Web 2.0” thingies, as I called them for
+ myself until now, are usually quite problematic as well. You should
+ not trust everybody, even without being paranoid.</p>
+<p>① Yeah, I know I’m still using Google’s search engine and Maps
+ service. But that’s a voluntary choice, plus there is no (usable)
+ alternative, so I’ve got no way around it due to my requirements.
+ However, I do not have a Google account.</p>
+<p>② Interestingly enough, Benny said on the phone that he agrees
+ with me on this one, despite using a GMail account. Pardon, for my
+ German readers (this wlog entry was drafted in Switzerland), that’s
+ Google Mail, just to make this clear.</p>
+<p>③ Ever tried to take back information, cancel an account, get rid
+ of their spam, read through the EULA, get someone to change things
+ which suck, get some knowledgeable support person, etc.?</p>
+<p>Of course, RMS’ arguments are also all valid. While I do not like
+ the “sort of communistic” licencing approach of the FSF, and how
+ they use the GNU FDL to restrict people while claiming that really
+ all information should be free (I wouldn’t want that either, but
+ that’s mostly for personal reasons or privacy), I’m positive that
+ we should think twice about the code we use and the data we give.</p>
+<p>I still am amazed at why people use so many kludgy web browser
+ applications in favour of local applications. We should probably
+ improve the situation regarding local backups… BoxBackup has an
+ interesting approach, encrypting them. And, gosh, someone wrote
+ a cloud shell… using $favourite_name (SOAP, XML, XMLRPC, AJAX, insert
+ whatever disgusting technology is used at the moment) instead of Unix
+ IPC via Pipes to connect “applications”. Gah! *shudder*</p>
 ----
