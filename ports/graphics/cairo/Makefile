@@ -1,8 +1,8 @@
-# $MirOS: ports/graphics/cairo/Makefile,v 1.12 2008/03/15 20:27:21 bsiegert Exp $
+# $MirOS: ports/graphics/cairo/Makefile,v 1.13 2008/12/07 17:09:27 bsiegert Exp $
 
 COMMENT=		vector graphics library
 
-DISTNAME=		cairo-1.6.4
+DISTNAME=		cairo-1.8.8
 DASH_VER=		0
 CATEGORIES=		graphics
 
@@ -25,13 +25,16 @@ MODULES+=		graphics/png
 
 USE_X11=		Yes
 
-CONFIGURE_STYLE=	autoconf
+CONFIGURE_STYLE=	autogen
+AUTOMAKE_VERSION=	1.9
 AUTOCONF_NEW=		Yes
 
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
 CONFIGURE_ARGS+=	--enable-static
 CONFIGURE_ARGS+=	--enable-pdf=yes
-# enabling those introduces a circular dependency
-CONFIGURE_ARGS+=	--enable-svg=no
+CONFIGURE_ARGS+=	--enable-svg=yes
+
+pre-patch:
+	rm -f ${WRKSRC}/build/lt*
 
 .include <bsd.port.mk>

@@ -1,7 +1,7 @@
 $MirOS$
 
-MD5 (cairo-1.6.4.tar.gz) = a198d509f9e3a35b78de8bb02174ebb9
-RMD160 (cairo-1.6.4.tar.gz) = ccae736a40d985b72bda7c2f0a98a0838020658e
-SHA1 (cairo-1.6.4.tar.gz) = 9d990fe39a125ceb07221623c237cd7015855d5c
-SIZE (cairo-1.6.4.tar.gz) = 5042623
-TIGER (cairo-1.6.4.tar.gz) = af3bcebafa7f8c9554a7aef343f554fe854f65e93aef6821
+MD5 (cairo-1.8.8.tar.gz) = d3e1a1035ae563812d4dd44a74fb0dd0
+RMD160 (cairo-1.8.8.tar.gz) = 78af536ebaaffc608114b626b22fc9a20cff3750
+SHA1 (cairo-1.8.8.tar.gz) = e4b8b219427d1ca3dc95f5f44914dce1ae0c3766
+SIZE (cairo-1.8.8.tar.gz) = 6646082
+TIGER (cairo-1.8.8.tar.gz) = dde2d23a95ad7fd6f42b911b08bf2fea839d15ced513662a

@@ -1,0 +1,30 @@
+$MirOS$
+--- configure.ac.orig	2009-07-17 16:54:30.000000000 +0200
++++ configure.ac	2009-07-17 16:54:13.000000000 +0200
+@@ -161,7 +161,7 @@ CAIRO_ENABLE_FUNCTIONS(png, PNG, yes, [
+   AC_ARG_VAR([png_REQUIRES], [module name for libpng to search for using pkg-config])
+   if test "x$png_REQUIRES" = x; then
+     # libpng13 is GnuWin32's libpng-1.2.8 :-(
+-    for l in libpng12 libpng13 libpng10 ; do
++    for l in libpng libpng12 libpng13 libpng10 ; do
+       if $PKG_CONFIG --exists $l ; then
+         png_REQUIRES=$l
+         use_png=yes
+@@ -175,7 +175,16 @@ CAIRO_ENABLE_FUNCTIONS(png, PNG, yes, [
+   if test "x$use_png" = "xyes" ; then 
+     PKG_CHECK_MODULES(png, $png_REQUIRES, , AC_MSG_RESULT(no))
+   else
+-    AC_MSG_WARN([Could not find libpng in the pkg-config search path])
++    AC_CHECK_LIB(png, png_read_info,
++      [AC_CHECK_HEADER(libpng/png.h,
++	[use_png=yes; PNG_CFLAGS='-I${PREFIX}/include/libpng'],
++	[AC_CHECK_HEADER(png.h,
++	  [use_png=yes; PNG_CFLAGS=],
++	  use_png=no)])],
++      AC_MSG_WARN(PNG library not found), -lz -lm)
++    if test "x$use_png" = xyes; then
++      png_LIBS='-lpng -lz -lm'
++    fi
+   fi    
+ ])
+ 
