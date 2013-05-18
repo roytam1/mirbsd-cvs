@@ -63,7 +63,7 @@ vq() {
 rmf() {
 	for _f in "$@"; do
 		case $_f in
-		Build.sh|check.pl|check.t|dot.mkshrc|*.c|*.h|mksh.1) ;;
+		Build.sh|check.pl|check.t|dot.mkshrc|*.c|*.h|lksh.1|mksh.1) ;;
 		*) rm -f "$_f" ;;
 		esac
 	done
@@ -458,7 +458,7 @@ oswarn=
 ccpc=-Wc,
 ccpl=-Wl,
 tsts=
-ccpr='|| for _f in ${tcfn}*; do case $_f in Build.sh|check.pl|check.t|dot.mkshrc|*.c|*.h|mksh.1) ;; *) rm -f "$_f" ;; esac; done'
+ccpr='|| for _f in ${tcfn}*; do case $_f in Build.sh|check.pl|check.t|dot.mkshrc|*.c|*.h|lksh.1|mksh.1) ;; *) rm -f "$_f" ;; esac; done'
 
 # Evil hack
 if test x"$TARGET_OS" = x"Android"; then
@@ -2268,8 +2268,10 @@ test 1 = $eq && e=:
 $e
 $e Installing the shell:
 $e "# $i -c -s -o root -g bin -m 555 $tfn /bin/$tfn"
-$e "# grep -x /bin/$tfn /etc/shells >/dev/null || echo /bin/$tfn >>/etc/shells"
-$e "# $i -c -o root -g bin -m 444 dot.mkshrc /usr/share/doc/mksh/examples/"
+if test $legacy = 0; then
+	$e "# grep -x /bin/$tfn /etc/shells >/dev/null || echo /bin/$tfn >>/etc/shells"
+	$e "# $i -c -o root -g bin -m 444 dot.mkshrc /usr/share/doc/mksh/examples/"
+fi
 $e
 $e Installing the manual:
 if test -f $tfn.cat1; then
@@ -2277,7 +2279,7 @@ if test -f $tfn.cat1; then
 	    "/usr/share/man/cat1/$tfn.0"
 	$e or
 fi
-$e "# $i -c -o root -g bin -m 444 mksh.1 /usr/share/man/man1/$tfn.1"
+$e "# $i -c -o root -g bin -m 444 $tfn.1 /usr/share/man/man1/$tfn.1"
 $e
 $e Run the regression test suite: ./test.sh
 $e Please also read the sample file dot.mkshrc and the fine manual.
