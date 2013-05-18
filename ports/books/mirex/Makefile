@@ -1,9 +1,9 @@
-# $MirOS: ports/books/mirex/Makefile,v 1.15 2007/04/03 22:10:57 tg Exp $
+# $MirOS: ports/books/mirex/Makefile,v 1.16 2007/10/03 17:49:15 tg Exp $
 
 COMMENT=		MirOS sample files, keys and information
 CATEGORIES=		books
 CVS_DISTREPO=		${_MIROS_ANONCVS}
-CVS_DISTDATE=		2007/10/03
+CVS_DISTDATE=		2008/03/04
 CVS_DISTMODS=		contrib/samples src/share/doc/README src/share/misc
 CVS_DISTFILE=		mirex
 RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.de>
@@ -21,10 +21,11 @@ KEYS=			1 2
 
 # sync with src/distrib/common/listend.i386-big
 post-build:
-	tail -3 <${WRKDIR}/src/share/doc/README | grep '^key ' | \
+	saveIFS=$$IFS; \
+	    tail -3 <${WRKDIR}/src/share/doc/README | grep '^key ' | \
 	    while IFS="	" read keynr keyfile; do \
-		IFS=" :"; set -A keyno $$keynr; IFS=; \
-		print $$keyfile >${WRKBUILD}/gzsigkey.$${keyno[1]}; \
+		IFS=" :"; set -A keyno -- $$keynr; IFS=$$saveIFS; \
+		print -r -- $$keyfile >${WRKBUILD}/gzsigkey.$${keyno[1]}; \
 	done
 
 pre-install:
