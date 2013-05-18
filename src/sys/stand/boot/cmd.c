@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/stand/boot/cmd.c,v 1.21 2009/01/14 22:17:19 tg Exp $	*/
+/**	$MirOS: src/sys/stand/boot/cmd.c,v 1.22 2009/01/14 22:22:43 tg Exp $	*/
 /*	$OpenBSD: cmd.c,v 1.59 2007/04/27 10:08:34 tom Exp $	*/
 
 /*
@@ -577,7 +577,7 @@ qualify(char *name)
 		if (*p == ':')
 			break;
 	if (*p == ':')
-		memcpy(cmd.path, name, strlen(name));
+		memcpy(cmd.path, name, strlen(name) + 1);
 	else
 		snprintf(cmd.path, sizeof cmd.path, "%s:%s",
 		    cmd.bootdev, name);
