@@ -1,9 +1,12 @@
-# $MirOS: ports/infrastructure/mk/perl.port.mk,v 1.7 2006/11/24 01:15:08 tg Exp $
+# $MirOS: ports/infrastructure/mk/perl.port.mk,v 1.8 2007/10/04 16:52:45 bsiegert Exp $
 # $OpenBSD: perl.port.mk,v 1.9 2004/06/08 20:28:19 sturm Exp $
 # Based on bsd.port.mk, originally by Jordan K. Hubbard.
 
+.ifndef MODPERL_ARCH
+.  include "${PORTSDIR}/infrastructure/mk/p5.port.mk"
+.endif
+
 MODPERL_BUILD?=	Build
-MODPERL_ARCH!=	/usr/bin/perl -e 'use Config; print $$Config{archname}, "\n";'
 
 MODPERL_PRE=	${MODPERL_DESTDIR}${PREFIX}
 MODPERL_MANPRE=	${MODPERL_PRE}/man/man
@@ -69,4 +72,4 @@ do-install:
 P5MAN3EXT!=	/usr/bin/perl -e 'use Config; print ".".$$Config{man3ext};'
 P5DLEXT!=	/usr/bin/perl -e 'use Config; print ".".$$Config{dlext};'
 
-SUBST_VARS+=	P5ARCH P5SITE P5MAN3EXT P5DLEXT
+SUBST_VARS+=	P5SITE P5MAN3EXT P5DLEXT

@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.47 2008/03/14 15:25:22 tg Exp $
+# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.48 2008/03/14 15:33:53 tg Exp $
 #-
 # Copyright (c) 2005, 2006, 2008
 #	Thorsten “mirabilos” Glaser <tg@mirbsd.de>
@@ -73,7 +73,6 @@ UNZIP=			/usr/bin/unzip
 BZIP2=			/usr/bin/bzip2
 CHOWN=			/usr/sbin/chown
 M4?=			/usr/bin/gm4
-P5ARCH=			${P5SITE}/darwin-thread-multi-2level
 .endif
 
 #---
@@ -85,7 +84,6 @@ LDFLAGS+=		-Wl,--library-after=/usr/local/lib/bind
 LDADD+=			-lbind -ldb
 
 NO_SYSTRACE=		not on Interix
-P5ARCH=			${P5SITE}/x86-interix-thread-multi
 UNZIP=			/usr/contrib/bin/unzip
 CHOWN=			/bin/chown
 _MAKE_COOKIE=		/bin/touch
