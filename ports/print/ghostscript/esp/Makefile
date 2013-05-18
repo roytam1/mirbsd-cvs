@@ -1,7 +1,7 @@
-# $MirOS: ports/print/ghostscript/esp/Makefile,v 1.8 2006/12/20 15:31:51 tg Exp $
+# $MirOS: ports/print/ghostscript/esp/Makefile,v 1.9 2006/12/20 15:34:16 tg Exp $
 
 COMMENT=		ESP Ghostscript, a PostScript interpreter
-VERSION=		8.15.3
+VERSION=		8.15.4
 DISTNAME=		espgs-${VERSION}-source
 PKGNAME=		ghostscript-${VERSION}-${DASH_VER}-esp
 CATEGORIES=		print
@@ -14,12 +14,12 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-MASTER_SITES=		ftp://ftp.easysw.com/pub/ghostscript/${VERSION}/ \
-			ftp://ftp2.easysw.com/pub/ghostscript/${VERSION}/ \
-			ftp://ftp.funet.fi/pub/mirrors/ftp.easysw.com/pub/ghostscript/${VERSION}/  \
-			ftp://ftp.mpg.goe.ni.schule.de/pub/internet/printing/ghostscript/${VERSION}/  \
-			ftp://ftp.ntua.gr/pub/gnu/ghostscript/${VERSION}/  \
-			ftp://ftp.fisek.com.tr/pub/ghostscript/${VERSION}/ 
+MASTER_SITES+=		ftp://ftp.easysw.com/pub/ghostscript/${VERSION}/
+MASTER_SITES+=		ftp://ftp2.easysw.com/pub/ghostscript/${VERSION}/
+MASTER_SITES+=		ftp://ftp.funet.fi/pub/mirrors/ftp.easysw.com/pub/ghostscript/${VERSION}/ 
+MASTER_SITES+=		ftp://ftp.mpg.goe.ni.schule.de/pub/internet/printing/ghostscript/${VERSION}/ 
+MASTER_SITES+=		ftp://ftp.ntua.gr/pub/gnu/ghostscript/${VERSION}/ 
+MASTER_SITES+=		ftp://ftp.fisek.com.tr/pub/ghostscript/${VERSION}/ 
 
 EXTRACT_SUFX=		.tar.bz2
 WRKDIST=		${WRKDIR}/${DISTNAME:S/-source//}
