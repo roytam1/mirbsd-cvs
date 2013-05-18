@@ -1,4 +1,4 @@
-@comment $MirOS$
+@comment $MirOS: ports/archivers/xz/PLIST,v 1.1 2010/11/20 16:56:05 bsiegert Exp $
 @comment $OpenBSD: PLIST,v 1.2 2010/11/08 20:11:13 naddy Exp $
 @pkgcfl lzma-*
 bin/lzcat
@@ -41,21 +41,21 @@ include/lzma/version.h
 include/lzma/vli.h
 lib/liblzma.la
 lib/pkgconfig/liblzma.pc
-man/man1/lzcat.1
+man/man1/lzcat.1tbl
 man/man1/lzcmp.1
 man/man1/lzdiff.1
 man/man1/lzegrep.1
 man/man1/lzfgrep.1
 man/man1/lzgrep.1
 man/man1/lzless.1
-man/man1/lzma.1
+man/man1/lzma.1tbl
 man/man1/lzmadec.1
 man/man1/lzmainfo.1
 man/man1/lzmore.1
-man/man1/unlzma.1
-man/man1/unxz.1
-man/man1/xz.1
-man/man1/xzcat.1
+man/man1/unlzma.1tbl
+man/man1/unxz.1tbl
+man/man1/xz.1tbl
+man/man1/xzcat.1tbl
 man/man1/xzcmp.1
 man/man1/xzdec.1
 man/man1/xzdiff.1
@@ -66,7 +66,7 @@ man/man1/xzless.1
 man/man1/xzmore.1
 share/doc/xz/AUTHORS
 share/doc/xz/COPYING
-share/doc/xz/COPYING.GPLv2
+@comment share/doc/xz/COPYING.GPLv2
 share/doc/xz/NEWS
 share/doc/xz/README
 share/doc/xz/THANKS
@@ -75,16 +75,6 @@ share/doc/xz/faq.txt
 share/doc/xz/history.txt
 share/doc/xz/lzma-file-format.txt
 share/doc/xz/xz-file-format.txt
-share/locale/cs/LC_MESSAGES/xz.mo
-share/locale/de/LC_MESSAGES/xz.mo
-share/locale/it/LC_MESSAGES/xz.mo
-@dirrm share/locale/it/LC_MESSAGES
-@dirrm share/locale/it
-@dirrm share/locale/de/LC_MESSAGES
-@dirrm share/locale/de
-@dirrm share/locale/cs/LC_MESSAGES
-@dirrm share/locale/cs
-@dirrm share/locale
 @dirrm share/doc/xz
 @dirrm lib/pkgconfig
 @dirrm include/lzma
