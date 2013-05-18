@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.401 2012/12/01 20:43:35 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.402 2012/12/01 21:25:53 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -9366,7 +9366,11 @@ Title: Proposed extensions to the JSON specification
 <p>For my third proposal, I’d like to agree that implementations should
  impose a nesting depth limit that may be user-defined, and in the face
  of which, cyclic checking may be ignored by an encoder. I emit nesting
- depth overflows as literalnull, but it may also throw an error.</p>
+ depth overflows as literalnull; might also throw an error. Since I was
+ asked, the common “standard” value is to restrict nesting depth is 32,
+ unless the user specified one. (I also saw 8, but 32 WFM pretty well.)
+ Most seem to use it even if it may seem low at first. Only specialised
+ applications probably need more, and they can always pass a value.</p>
 <p>For my forth proposal, backslash-escape U+007F‥U+009F always. It may
  upset humans, editors, databases, etc. (This paragraph is newly added,
  after some <a href="@@RELPATH@@irc.htm">IRC</a> discussion.)</p>
