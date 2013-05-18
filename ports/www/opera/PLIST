@@ -1,5 +1,4 @@
-@comment $MirOS: ports/www/opera/PLIST,v 1.1.2.2 2008/06/13 00:40:01 tg Exp $
-@comment $OpenBSD: PLIST,v 1.26 2008/06/12 19:04:11 sturm Exp $
+@comment $MirOS$
 @unexec rm -f %D/share/opera/styles/browser.css
 @unexec rm -f %D/share/opera/styles/user.css
 bin/opera
@@ -20,6 +19,7 @@ share/opera/ini/filehandler.ini
 share/opera/ini/font.ini
 share/opera/ini/mailproviders.xml
 share/opera/ini/pluginpath.ini
+share/opera/ini/speeddial_default.ini
 share/opera/ini/standard_keyboard.ini
 share/opera/ini/standard_keyboard_compat.ini
 share/opera/ini/standard_menu.ini
@@ -70,6 +70,10 @@ share/opera/locale/es-LA/espanol-america_latina.lng
 share/opera/locale/es-LA/license.txt
 share/opera/locale/es-LA/opera6.adr
 share/opera/locale/es-LA/search.ini
+share/opera/locale/et/eesti.lng
+share/opera/locale/et/license.txt
+share/opera/locale/et/opera6.adr
+share/opera/locale/et/search.ini
 share/opera/locale/fi/license.txt
 share/opera/locale/fi/opera6.adr
 share/opera/locale/fi/search.ini
@@ -98,6 +102,10 @@ share/opera/locale/hu/hungarian.lng
 share/opera/locale/hu/license.txt
 share/opera/locale/hu/opera6.adr
 share/opera/locale/hu/search.ini
+share/opera/locale/id/indonesian.lng
+share/opera/locale/id/license.txt
+share/opera/locale/id/opera6.adr
+share/opera/locale/id/search.ini
 share/opera/locale/it/italiano.lng
 share/opera/locale/it/license.txt
 share/opera/locale/it/opera6.adr
@@ -118,7 +126,7 @@ share/opera/locale/lt/license.txt
 share/opera/locale/lt/lithuanian.lng
 share/opera/locale/lt/opera6.adr
 share/opera/locale/lt/search.ini
-share/opera/locale/lux950beta1.lng
+share/opera/locale/lux960final.lng
 share/opera/locale/mk/license.txt
 share/opera/locale/mk/macedonian.lng
 share/opera/locale/mk/opera6.adr
@@ -155,10 +163,22 @@ share/opera/locale/sv/license.txt
 share/opera/locale/sv/opera6.adr
 share/opera/locale/sv/search.ini
 share/opera/locale/sv/svenska.lng
+share/opera/locale/ta/license.txt
+share/opera/locale/ta/opera6.adr
+share/opera/locale/ta/search.ini
+share/opera/locale/ta/tamil.lng
+share/opera/locale/te/license.txt
+share/opera/locale/te/opera6.adr
+share/opera/locale/te/search.ini
+share/opera/locale/te/telugu.lng
 share/opera/locale/tr/license.txt
 share/opera/locale/tr/opera6.adr
 share/opera/locale/tr/search.ini
 share/opera/locale/tr/turkce.lng
+share/opera/locale/uk/license.txt
+share/opera/locale/uk/opera6.adr
+share/opera/locale/uk/search.ini
+share/opera/locale/uk/ukrainian.lng
 share/opera/locale/zh-cn/chinese_simp.lng
 share/opera/locale/zh-cn/license.txt
 share/opera/locale/zh-cn/opera6.adr
@@ -169,7 +189,7 @@ share/opera/locale/zh-tw/opera6.adr
 share/opera/locale/zh-tw/search.ini
 share/opera/opera6.adr
 share/opera/search.ini
-share/opera/skin/Minimalist%20Native.zip
+share/opera/skin/Minimalist Native.zip
 share/opera/skin/standard_skin.zip
 share/opera/skin/windows_skin.zip
 share/opera/styles/about.css
@@ -220,6 +240,7 @@ share/opera/styles/user/structuretables.css
 share/opera/styles/user/tablelayout.css
 share/opera/styles/user/toc.css
 share/opera/styles/warning.css
+share/opera/styles/webfeeds.html
 share/opera/styles/wml.css
 share/opera/svg-mo.dat
 share/opera/svg-mobd.dat
@@ -235,7 +256,10 @@ share/opera/svg-sebd.dat
 @dirrm share/opera/plugins
 @dirrm share/opera/locale/zh-tw
 @dirrm share/opera/locale/zh-cn
+@dirrm share/opera/locale/uk
 @dirrm share/opera/locale/tr
+@dirrm share/opera/locale/te
+@dirrm share/opera/locale/ta
 @dirrm share/opera/locale/sv
 @dirrm share/opera/locale/ru
 @dirrm share/opera/locale/pt-BR
@@ -250,6 +274,7 @@ share/opera/svg-sebd.dat
 @dirrm share/opera/locale/ka
 @dirrm share/opera/locale/ja
 @dirrm share/opera/locale/it
+@dirrm share/opera/locale/id
 @dirrm share/opera/locale/hu
 @dirrm share/opera/locale/hr
 @dirrm share/opera/locale/hi
@@ -257,6 +282,7 @@ share/opera/svg-sebd.dat
 @dirrm share/opera/locale/fr-CA
 @dirrm share/opera/locale/fr
 @dirrm share/opera/locale/fi
+@dirrm share/opera/locale/et
 @dirrm share/opera/locale/es-LA
 @dirrm share/opera/locale/es-ES
 @dirrm share/opera/locale/en-GB
