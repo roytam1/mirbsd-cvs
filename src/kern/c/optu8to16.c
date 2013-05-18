@@ -1,5 +1,5 @@
 /*-
- * Copyright (c) 2008
+ * Copyright (c) 2008, 2009
  *	Thorsten Glaser <tg@mirbsd.org>
  *
  * Provided that these terms and disclaimer and all copyright notices
@@ -22,7 +22,7 @@
 
 #include <libckern.h>
 
-__RCSID("$MirOS: src/kern/c/optu8to16.c,v 1.1 2008/08/01 23:24:01 tg Exp $");
+__RCSID("$MirOS: src/kern/c/optu8to16.c,v 1.2 2008/08/02 00:10:01 tg Exp $");
 
 size_t
 optu8to16(wchar_t * restrict pwc, const char * restrict src, size_t n,
@@ -88,10 +88,12 @@ optu8to16(wchar_t * restrict pwc, const char * restrict src, size_t n,
 		/*
 		 * check for invalid CESU-8 encoding: not a trail byte (ASCII,
 		 * lead byte, or outside BMP lead), non-minimalistic encoding,
+		 * reserved OPTU encoding range (XXX shouldnt EINVAL mbrtowc),
 		 * or value larger than WCHAR_MAX (U+FFFD = EF BF BD)
 		 */
 		if (__predict_false((((c = *s++) & 0xC0) != 0x80) ||
 		    (count == 2 && wc == 0 && c < 0xA0) ||
+		    (count == 2 && wc == 0xE000 && c > 0xBD) ||
 		    (count == 1 && wc == 0xFFC0 && c > 0xBD))) {
 			/* reject current octet, dismiss former octet */
 			s--;
