@@ -1,4 +1,4 @@
-@comment $MirOS$
+@comment $MirOS: ports/shells/zsh/PLIST,v 1.1 2009/09/06 16:31:09 tg Exp $
 @comment $OpenBSD: PLIST,v 1.27 2009/06/03 14:35:48 pea Exp $
 @unexec install-info --delete --info-dir=%D/info %D/info/zsh.info
 bin/zsh
@@ -21,8 +21,8 @@ man/man1/zshroadmap.1
 man/man1/zshtcpsys.1
 man/man1/zshzftpsys.1
 man/man1/zshzle.1
-@sample ${SYSCONFDIR}/zprofile
 share/examples/zsh/zprofile
+@sample ${SYSCONFDIR}/zprofile
 share/zsh/${VSN}/functions/_a2ps
 share/zsh/${VSN}/functions/_a2utils
 share/zsh/${VSN}/functions/_aap
