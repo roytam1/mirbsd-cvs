@@ -31,7 +31,9 @@
 
 #include <sys/param.h>
 #include <sys/socket.h>
+#if defined(MirBSD) && (MirBSD> 0x09AC)
 #include <sys/taitime.h>
+#endif
 #include <sys/time.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
@@ -52,7 +54,7 @@
 
 #include "rdate.h"
 
-__RCSID("$MirOS: src/usr.sbin/rdate/ntp.c,v 1.13 2007/08/10 23:43:14 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/rdate/ntp.c,v 1.14 2007/08/10 23:52:24 tg Exp $");
 
 /*
  * NTP definitions.  Note that these assume 8-bit bytes - sigh.  There
