@@ -1,4 +1,4 @@
-/*	$MirOS: src/sys/arch/i386/stand/libsa/gidt.S,v 1.27 2009/01/12 21:02:14 tg Exp $ */
+/*	$MirOS: src/sys/arch/i386/stand/libsa/gidt.S,v 1.28 2009/02/02 15:59:55 tg Exp $ */
 /*	$OpenBSD: gidt.S,v 1.32 2006/12/26 19:30:44 tom Exp $	*/
 
 /*
@@ -350,14 +350,14 @@ ENTRY(bootbuf)
 	/* set up flags, real mode stack */
 	xor	eax,eax
 	mov	ss,ax
-	mov	esp,0x000006FC
+	mov	esp,0x000006F0
 	push	eax
 	popf
 
 	/*-
 	 * Now the machine status is as follows:
 	 * - CS = DS = ES = 4000h = (SA_LINKSEG)
-	 * - SS:SP = 0000:06FCh
+	 * - SS:SP = 0000:06F0h (to make room for !PXE ptr)
 	 * - EFLAGS = 0
 	 * - ESI = linear address of source buffer (must be para aligned)
 	 * - ECX = source buffer size (up to 64 KiB)
@@ -378,6 +378,10 @@ ENTRY(bootbuf)
 	shr	eax,16
 	push	ax		/* future CS */
 	push	di		/* future IP */
+	mov	eax,ds:[8]
+	push	eax		/* !PXE structure RM address */
+	mov	eax,ds:[12]
+	push	eax		/* PXENV+ structure RM address */
 	push	edx		/* future DL (drive) */
 	push	ecx		/* source buffer size */
 	shr	esi,4
@@ -421,7 +425,12 @@ Ltcseg:	rep	movsb
 Ltcrun:	xor	ax,ax
 	mov	ds,ax
 	mov	si,0x0600
-	pop	edx
+	pop	edx		/* drive */
+	pop	bx		/* PXENV+ offset */
+	pop	es		/* PXENV+ segment */
+	pop	edi		/* !PXE */
+	mov	bp,sp
+	mov	[bp+8],edi
 	lret			/* future CS:IP on stack */
 Ltcend:	pop	si		/* offset Ltcbeg */
 	mov	cx,offset Ltcend - offset Ltcbeg
