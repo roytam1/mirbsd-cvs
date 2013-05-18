@@ -32,6 +32,8 @@
 .Dd February 23, 2007
 .Dt MATH 3
 .Os
+.ds If Infinity
+.if t .ds If \(if
 .Sh NAME
 .Nm math
 .Nd introduction to mathematical library functions
@@ -41,7 +43,7 @@
 .In math.h
 .Sh DESCRIPTION
 These functions constitute the C
-.Lb libm .
+.Nm libm .
 Declarations for these functions may be obtained from the include file
 .In math.h .
 .\" The Fortran math library is described in ``man 3f intro''.
@@ -134,16 +136,8 @@ in which incidents like
 the following had been reported:
 .Bd -literal -offset indent
 sqrt(\-1.0) = 0.0 and log(\-1.0) = \-1.7e38.
-.br
 cos(1.0e\-11) \*(Gt cos(0.0) \*(Gt 1.0.
-.br
-pow(x,1.0)
-.if n \
-!=
-.if t \
-\(!=
-x when x = 2.0, 3.0, 4.0, ..., 9.0.
-.br
+pow(x,1.0) \(!= x when x = 2.0, 3.0, 4.0, ..., 9.0.
 pow(\-1.0,1.0e10) trapped on Integer Overflow.
 sqrt(1.0e30) and sqrt(1.0e\-30) were very slow.
 .Ed
@@ -171,31 +165,26 @@ Binary.
 .It Precision :
 56 significant bits, roughly like 17 significant decimals.
 If x and x' are consecutive positive D_floating\-point
-numbers (they differ by 1 \*(up), then
-.br
-1.3e\-17 \*(Lt 0.5**56 \*(Lt (x'\-x)/x \*(Le 0.5**55 \*(Lt 2.8e\-17.
-.RE
-.nf
-.ta \w'Range:'u+1n +\w'Underflow threshold'u+1n +\w'= 2.0**127'u+1n
-Range:	Overflow threshold	= 2.0**127	= 1.7e38.
-	Underflow threshold	= 0.5**128	= 2.9e\-39.
-	NOTE:  THIS RANGE IS COMPARATIVELY NARROW.
-.ta
-.fi
-.RS
+numbers (they differ by 1
+.Dv ULP ) ,
+then
+.Dl 1.3e\-17 \*(Lt 0.5**56 \*(Lt (x'\-x)/x \*(Le 0.5**55 \*(Lt 2.8e\-17.
+.It Range :
+.Bl -column "Underflow thresholdX" "2.0**127X"
+.It Overflow threshold	= 2.0**127	= 1.7e38.
+.It Underflow threshold	= 0.5**128	= 2.9e\-39.
+.El
+.Em NOTE: THIS RANGE IS COMPARATIVELY NARROW.
+.Pp
 Overflow customarily stops computation.
 Underflow is customarily flushed quietly to zero.
 .Em CAUTION :
 It is possible to have x
 \(!=
-y and yet
-x\-y = 0 because of underflow.
+y and yet x\-y = 0 because of underflow.
 Similarly x \*(Gt y \*(Gt 0 cannot prevent either x\(**y = 0
-or  y/x = 0 from happening without warning.
-.RE
-.RE
-Zero is represented ambiguously.
-.RS
+or y/x = 0 from happening without warning.
+.It Zero is represented ambiguously :
 Although 2**55 different representations of zero are accepted by
 the hardware, only the obvious representation is ever produced.
 There is no \-0 on a VAX.
@@ -264,13 +253,11 @@ This standard is on its way to becoming more widely adopted
 than any other design for computer arithmetic.
 VLSI chips that conform to some version of that standard have been
 produced by a host of manufacturers, among them ...
-.nf
-.ta 0.5i +\w'Intel i8070, i80287'u+6n
-	Intel i8087, i80287	National Semiconductor  32081
-	Motorola 68881	Weitek WTL-1032, ... , -1165
-	Zilog Z8070	Western Electric (AT\*(AmT) WE32106.
-.ta
-.fi
+.Bl -column "Intel i8070, i80287XX"
+.It Intel i8087, i80287	National Semiconductor  32081
+.It 68881	Weitek WTL-1032, ... , -1165
+.It Zilog Z8070	Western Electric (AT\*(AmT) WE32106.
+.El
 Other implementations range from software, done thoroughly
 in the Apple Macintosh, through VLSI in the Hewlett\-Packard
 9000 series, to the ELXSI 6400 running ECL at 3 Megaflops.
@@ -322,21 +309,19 @@ Binary.
 .It Precision :
 53 significant bits, roughly like 16 significant decimals.
 If x and x' are consecutive positive Double\-Precision
-numbers (they differ by 1 \*(up), then
-.br
-1.1e\-16 \*(Lt 0.5**53 \*(Lt (x'\-x)/x \*(Le 0.5**52 \*(Lt 2.3e\-16.
-.RE
-.nf
-.ta \w'Range:'u+1n +\w'Underflow threshold'u+1n +\w'= 2.0**1024'u+1n
-Range:	Overflow threshold	= 2.0**1024	= 1.8e308
-	Underflow threshold	= 0.5**1022	= 2.2e\-308
-.ta
-.fi
-.RS
-Overflow goes by default to a signed
-.If "" .
-.br
-Underflow is \fIGradual,\fR rounding to the nearest
+numbers (they differ by 1
+.Dv ULP ) ,
+then
+.Dl 1.1e\-16 \*(Lt 0.5**53 \*(Lt (x'\-x)/x \*(Le 0.5**52 \*(Lt 2.3e\-16.
+.It Range :
+.Bl -column "Underflow thresholdX" "2.0**1024X"
+.It Overflow threshold	= 2.0**1024	= 1.8e308
+.It Underflow threshold	= 0.5**1022	= 2.2e\-308
+.El
+Overflow goes by default to a signed \*(If.
+Underflow is
+.Sy Gradual ,
+rounding to the nearest
 integer multiple of 0.5**1074 = 4.9e\-324.
 .It Zero is represented ambiguously as +0 or \-0:
 Its sign transforms correctly through multiplication or
@@ -367,19 +352,19 @@ invalid operations that produce \*(Na.
 .It Reserved operands :
 there are 2**53\-2 of them, all
 called \*(Na (Not A Number).
-Some, called Signaling \*[Na]s, trap any floating\-point operation
+Some, called Signaling \*(Nas, trap any floating\-point operation
 performed upon them; they are used to mark missing
 or uninitialized values, or nonexistent elements of arrays.
-The rest are Quiet \*[Na]s; they are
+The rest are Quiet \*(Nas; they are
 the default results of Invalid Operations, and
 propagate through subsequent arithmetic operations.
 If x
 \(!=
-x then x is \*(nn; every other predicate
-(x \*(Gt y, x = y, x \*(Lt y, ...) is FALSE if \*(nn is involved.
-.br
-NOTE: Trichotomy is violated by \*(nn.
-.RS
+x then x is \*(Na; every other predicate
+(x \*(Gt y, x = y, x \*(Lt y, ...) is FALSE if \*(Na is involved.
+.Pp
+.Em NOTE :
+Trichotomy is violated by \*(Na.
 Besides being FALSE, predicates that entail ordered
 comparison, rather than mere (in)equality,
 signal Invalid Operation when \*(Na is involved.
@@ -415,7 +400,7 @@ listed below in declining order of probable importance.
 .It Sy Exception Ta Sy Default Result
 .It Invalid Operation	\*(Na, or FALSE
 .It Overflow	\(+-\(if
-.It Divide by Zero	\(+-\(if \}
+.It Divide by Zero	\(+-\(if
 .It Underflow	Gradual Underflow
 .It Inexact	Rounded value
 .El
