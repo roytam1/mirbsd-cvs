@@ -1,4 +1,4 @@
-# $MirOS: ports/emulators/debian/Makefile,v 1.6 2006/10/14 23:39:36 tg Exp $
+# $MirOS: ports/emulators/debian/Makefile,v 1.7 2007/05/12 13:34:31 bsiegert Exp $
 
 ONLY_FOR_PLATFORM=	MirBSD:*:i386 OpenBSD:*:i386
 
@@ -6,7 +6,7 @@ COMMENT=		Debian GNU/Linux shared libraries
 EMUL=			linux
 CATEGORIES=		emulators
 DISTNAME=		debian-libs-3.1
-DASH_VER=		4
+DASH_VER=		5
 RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.de>
 RUN_DEPENDS+=		:linux-common-*:emulators/linux-common
 
@@ -30,14 +30,14 @@ DISTFILES=		libc6_2.3.2.ds1-22sarge6_i386.deb:0 \
 			libexpat1_1.95.8-3_i386.deb:1 \
 			libfontconfig1_2.3.1-2_i386.deb:2 \
 			libfreetype6_2.1.7-6_i386.deb:3 \
-			libice6_4.3.0.dfsg.1-14sarge3_i386.deb:4 \
-			libsm6_4.3.0.dfsg.1-14sarge3_i386.deb:4 \
-			libx11-6_4.3.0.dfsg.1-14sarge3_i386.deb:4 \
-			libxext6_4.3.0.dfsg.1-14sarge3_i386.deb:4 \
-			libxft1_4.3.0.dfsg.1-14sarge3_i386.deb:4 \
-			libxpm4_4.3.0.dfsg.1-14sarge3_i386.deb:4 \
-			libxt6_4.3.0.dfsg.1-14sarge3_i386.deb:4 \
-			xlibs_4.3.0.dfsg.1-14sarge3_all.deb:4 \
+			libice6_4.3.0.dfsg.1-14sarge5_i386.deb:4 \
+			libsm6_4.3.0.dfsg.1-14sarge5_i386.deb:4 \
+			libx11-6_4.3.0.dfsg.1-14sarge5_i386.deb:4 \
+			libxext6_4.3.0.dfsg.1-14sarge5_i386.deb:4 \
+			libxft1_4.3.0.dfsg.1-14sarge5_i386.deb:4 \
+			libxpm4_4.3.0.dfsg.1-14sarge5_i386.deb:4 \
+			libxt6_4.3.0.dfsg.1-14sarge5_i386.deb:4 \
+			xlibs_4.3.0.dfsg.1-14sarge5_all.deb:4 \
 			zlib1g_1.2.2-4.sarge.2_i386.deb:5 \
 			libxrender1_0.8.3-7_i386.deb:6 \
 			libstdc++5_3.3.5-13_i386.deb:7
