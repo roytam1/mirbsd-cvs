@@ -1,4 +1,4 @@
-rcsid_inc2htm='$MirOS: www/mk/inc2htm,v 1.23 2009/02/16 21:42:11 tg Exp $'
+rcsid_inc2htm='$MirOS: www/mk/inc2htm,v 1.24 2009/06/21 11:01:20 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -118,7 +118,13 @@ integer ent
 while (( entryp >= 0 )); do
 	ent=${ei_indir[entryp]}
 	eid=$(uri_escape "${e_id[ent]}")
-	if [[ -z $nopermalinks ]]; then
+	do_permalink=1
+	for f in "${nopermalinks[@]}"; do
+		[[ $f = ${ei_srcf[ent]} ]] || continue
+		do_permalink=0
+		break
+	done
+	if (( do_permalink )); then
 		fe=permalinks/${ei_srcf[ent]}_${eid}.htm
 		print -r -- "$fe"
 		mws_push
