@@ -1,14 +1,15 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.1.1.1 2004/05/10 17:46:55 naddy Exp $
 
-COMMENT=			smart return-value object
+COMMENT=	smart return-value object
 
-DISTNAME=	Class-ReturnValue-0.52
-PKGNAME=	p5-${DISTNAME}-0
+DISTNAME=	Class-ReturnValue-0.55
+PKGNAME=	p5-${DISTNAME}-${DASH_VER}
 CATEGORIES=	devel perl5
 
 HOMEPAGE=	http://search.cpan.org/dist/Class-ReturnValue/
 
-BUILD_DEPENDS=	:p5-Devel-StackTrace-*:devel/p5-Devel-StackTrace
+B_R_DEPENDS=	::devel/p5-Devel-StackTrace
 
 # Artistic License
 PERMIT_PACKAGE_CDROM=	Yes
