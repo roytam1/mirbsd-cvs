@@ -1,5 +1,5 @@
 <?php
-// $MirOS: www/mk/ttf2png,v 1.4 2009/06/21 15:36:02 tg Exp $
+// $MirOS: www/mk/ttf2png,v 1.5 2009/06/22 11:01:00 tg Exp $
 
 /*-
  * Copyright (c) 2009
@@ -34,7 +34,7 @@ if ($gd["FreeType Support"] == false)
  * endif */
 
 
-$font = "/usr/mpkg/lib/X11/fonts/ttf-sil-gentium/GenI102.ttf";
+$font = "/usr/src/www/files/FNT/GenI102.ttf";
 $fontsize = 30;
 $text = "EINVAL";
 
