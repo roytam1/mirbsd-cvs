@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.143 2006/11/08 16:51:22 bsiegert Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.144 2006/11/14 02:31:17 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -1163,9 +1163,12 @@ _lib_depends_fragment= \
 
 _FULL_PACKAGE_NAME?=	No
 
+BUILD_DEPENDS+=		${B_R_DEPENDS}
+RUN_DEPENDS+=		${B_R_DEPENDS}
 .for _DEP in build run lib regress fetch
 _DEP${_DEP}_COOKIES=
-.  if defined(${_DEP:U}_DEPENDS) && ${NO_DEPENDS:L} == "no"
+.  if defined(${_DEP:U}_DEPENDS) && !empty(${_DEP:U}_DEPENDS) && \
+    ${NO_DEPENDS:L} == "no"
 .    for _i in ${${_DEP:U}_DEPENDS}
 _DEP${_DEP}_COOKIES+=	${WRKDIR}/.${_DEP}${_i:C,[|:./<=>*],-,g}
 .    endfor
@@ -1245,7 +1248,7 @@ _FMN+=			${PKGPATH}/${FULLPKGNAME${_S}}
 
 # Internal variables, used by dependencies targets
 # Only keep pkg:dir spec
-.if defined(LIB_DEPENDS) && ${NO_SHARED_LIBS:L} != "yes"
+.if defined(LIB_DEPENDS) && !empty(LIB_DEPENDS) && ${NO_SHARED_LIBS:L} != "yes"
 _ALWAYS_DEP2=		${LIB_DEPENDS:C/^[^:]*:([^:]*:[^:]*).*$/\1/}
 _ALWAYS_DEP=		${_ALWAYS_DEP2:C/[^:]*://}
 .else
@@ -1253,7 +1256,7 @@ _ALWAYS_DEP2=
 _ALWAYS_DEP=
 .endif
 
-.if defined(RUN_DEPENDS)
+.if defined(RUN_DEPENDS) && !empty(RUN_DEPENDS)
 _RUN_DEP2=		${RUN_DEPENDS:C/^[^:]*:([^:]*:[^:]*).*$/\1/}
 _RUN_DEP=		${_RUN_DEP2:C/[^:]*://}
 .else
@@ -1261,7 +1264,7 @@ _RUN_DEP2=
 _RUN_DEP=
 .endif
 
-.if defined(BUILD_DEPENDS)
+.if defined(BUILD_DEPENDS) && !empty(BUILD_DEPENDS)
 _BUILD_DEP2=		${BUILD_DEPENDS:C/^[^:]*:([^:]*:[^:]*).*$/\1/}
 _BUILD_DEP=		${_BUILD_DEP2:C/[^:]*://}
 .else
@@ -1269,7 +1272,7 @@ _BUILD_DEP2=
 _BUILD_DEP=
 .endif
 
-.if defined(FETCH_DEPENDS)
+.if defined(FETCH_DEPENDS) && !empty(FETCH_DEPENDS)
 _FETCH_DEP2=		${FETCH_DEPENDS:C/^[^:]*:([^:]*:[^:]*).*$/\1/}
 _FETCH_DEP=		${_FETCH_DEP2:C/[^:]*://}
 .else
@@ -1504,7 +1507,8 @@ _print-packagename:
 .endif
 
 .for _DEP in build run lib regress fetch
-.  if defined(${_DEP:U}_DEPENDS) && ${NO_DEPENDS:L} == "no"
+.  if defined(${_DEP:U}_DEPENDS) && !empty(${_DEP:U}_DEPENDS) && \
+    ${NO_DEPENDS:L} == "no"
 .    for _i in ${${_DEP:U}_DEPENDS}
 ${WRKDIR}/.${_DEP}${_i:C,[|:./<=>*],-,g}: ${_WRKDIR_COOKIE}
 	@unset PACKAGING DEPENDS_TARGET FLAVOR SUBPACKAGE \
@@ -1857,8 +1861,6 @@ ${_EXTRACT_COOKIE}: ${_WRKDIR_COOKIE} ${_SYSTRACE_COOKIE}
 		IFS=:; set -A y -- $$x; \
 		print -u2 "LIB_DEPENDS+=\\t\\t$${y[0]}::$${y[2]}"; \
 		print -u2 "B_R_DEPENDS+=\\t\\t:$${y[1]}:$${y[2]}"; \
-		print -u2 'BUILD_DEPENDS+=\t\t$${B_R_DEPENDS}'; \
-		print -u2 'RUN_DEPENDS+=\t\t$${B_R_DEPENDS}'; \
 		print -u2; \
 		touch ${WRKDIR}/.lib_kludge_hit; \
 	fi
@@ -2810,7 +2812,7 @@ _recurse-lib-depends-check:
 		fi; \
 	}
 .endfor
-.for _i in  ${RUN_DEPENDS}
+.for _i in ${RUN_DEPENDS}
 	@unset FLAVOR SUBPACKAGE  || true; \
 	echo ${_i:Q} | { \
 		IFS=:; read dep pkg dir target; \

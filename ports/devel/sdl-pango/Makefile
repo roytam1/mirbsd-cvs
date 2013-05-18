@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/sdl-pango/Makefile,v 1.3 2006/11/03 23:44:15 tg Exp $
+# $MirOS: ports/devel/sdl-pango/Makefile,v 1.4 2006/11/04 00:36:55 tg Exp $
 
 COMMENT=		SDL Pango fonts library
 DISTNAME=		SDL_Pango-0.1.2
@@ -22,8 +22,6 @@ B_R_DEPENDS+=		:sdl->=1.2.4:devel/sdl
 # XXX this STINKS, we'd better not give any shlib version
 LIB_DEPENDS+=		pango-1.0.0.0,pangoft2-1.0.0.0::devel/pango
 B_R_DEPENDS+=		:pango->=1.2.0:devel/pango
-BUILD_DEPENDS+=		${B_R_DEPENDS}
-RUN_DEPENDS+=		${B_R_DEPENDS}
 
 CONFIGURE_STYLE=	autoconf no-autoheader
 AUTOCONF_NEW=		Yes
