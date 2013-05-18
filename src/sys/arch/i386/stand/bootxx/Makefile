@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/stand/bootxx/Makefile,v 1.15 2009/06/29 20:34:59 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/bootxx/Makefile,v 1.16 2009/06/29 20:50:59 tg Exp $
 
 PROG=		bootxx
 SRCS+=		bootxx.S
@@ -7,7 +7,7 @@ INSTALL_STRIP=	# empty
 LDFLAGS=	-nostdlib -Ttext 0xFE00 -N -Bstatic -e _start
 CPPFLAGS+=	${DEBUGFLAGS}
 CLEANFILES+=	${PROG}~ ${.CURDIR}/disasm bxinst \
-		bootgrub.mksh bootgrubfat.mksh
+		bootgrub.mksh bootgrubfat.mksh bootilnx.mksh
 
 all: ${PROG} bxinst
 
@@ -32,12 +32,18 @@ CPPFLAGS+=	-USA_LINKSEG -DSA_LINKSEG=0x0800 -DBOOT_GRUB
 .  if ${BOOT_TYPE:L} == "grubfat"
 CPPFLAGS+=	-DBPB_SPACE
 .  endif
+LOADER_NAME=	GNU GRUB2 on i386-pc
+.elif (${BOOT_TYPE:L} == "ilnx")
+CPPFLAGS+=	-USA_LINKSEG -DSA_LINKSEG=0x07C0 -DBOOT_ISOLINUX
+LOADER_NAME=	ISOLINUX
+.endif
 
+.if (${BOOT_TYPE:L} != "bsd")
 all: boot${BOOT_TYPE:L}.mksh
 
 boot${BOOT_TYPE:L}.mksh: bxinst
 	sed \
 	    -e 's/\$$Mir''OS.*\$$/$$I''d$$/' \
-	    -e '/^. Self-inst/s!MirOS BSD/i386!GNU GRUB2 on i386-pc!' \
+	    -e '/^. Self-inst/s!MirOS BSD/i386!${LOADER_NAME}!' \
 	    $> >$@
 .endif

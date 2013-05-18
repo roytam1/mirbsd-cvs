@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/bootxx/bootxx.S,v 1.24 2009/06/29 20:26:10 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/bootxx/bootxx.S,v 1.25 2009/06/29 20:50:59 tg Exp $ */
 
 /*-
  * Copyright (c) 2009
@@ -22,9 +22,11 @@
 
 	.intel_syntax noprefix
 	.section .comment
-	.ascii	"$MirOS: src/sys/arch/i386/stand/bootxx/bootxx.S,v 1.24 2009/06/29 20:26:10 tg Exp $"
-#ifdef BOOT_GRUB
+	.ascii	"$MirOS: src/sys/arch/i386/stand/bootxx/bootxx.S,v 1.25 2009/06/29 20:50:59 tg Exp $"
+#if defined(BOOT_GRUB)
 	.ascii	" +t:GRUB"
+#elif defined(BOOT_ISOLINUX)
+	.ascii	" +t:ILNX"
 #else
 	.ascii	" +t:MBSD"
 #endif
@@ -57,8 +59,12 @@ Linit:	xor	ecx,ecx
 	mov	sp,0x7BFC
 	push	ecx
 	popfd
+#ifdef BOOT_ISOLINUX
+	push	es		/* $PnP header */
+	push	di
+#endif
 	mov	es,cx
-#ifdef BOOT_GRUB
+#if defined(BOOT_GRUB) || defined(BOOT_ISOLINUX)
 	mov	si,0x7C00	/* 0000:_start pre-reloc */
 #else
 	mov	di,0x7C00	/* DS:SI is set by BIOS! */
@@ -115,6 +121,10 @@ Ldrv:	.byte	0x80		/* must be at partp + 1 */
 
 Lload:	.word	LsLBA
 
+#ifdef BOOT_ISOLINUX
+Lpnp:	.long	0
+#endif
+
 	/* output NUL-terminated string from ds:si */
 Lotxt0:	mov	ah,0x0E
 	mov	bx,7
@@ -135,6 +145,10 @@ Lbarf:	call	Lotxt
 
 Lmain:	sti
 	mov	[Ldrv],dl
+#ifdef BOOT_ISOLINUX
+	pop	eax		/* $PnP header */
+	mov	[Lpnp],eax
+#endif
 	mov	si,offset Lemsg
 	cmp	dl,0x80
 	jb	Lbarf		/* floppy: only try CHS */
@@ -242,7 +256,32 @@ L...1:	add	bh,ah		/* add the 512 bytes */
 	/* FALLTHROUGH */
 
 Ldone:	/* check bootloader magic */
-#ifndef BOOT_GRUB
+#if defined(BOOT_GRUB)
+	/* no magic */
+#elif defined(BOOT_ISOLINUX)
+	xor	ecx,ecx
+	push	ecx		/* partition offset (qword) */
+	push	ecx		/* partition offset (qword) */
+	mov	eax,[Lpnp]
+	push	eax		/* ES, DI */
+	mov	ax,[Ldrv]
+	push	ax		/* DX */
+	mov	ax,[geomh]
+	push	ax		/* # of heads */
+	mov	ax,[geoms]
+	push	ax		/* # of sectors per track */
+	xor	bx,bx
+	mov	ax,[Lload]
+	cmp	ax,offset LsCHS	/* so-called CBIOS */
+	je	Lilx1
+	inc	bx		/* so-called EBIOS */
+Lilx1:	push	bx		/* ebios flag */
+	push	cx		/* target CS */
+	mov	eax,ds:[0x40]	/* location of magic in ISOLINUX.BIN */
+	mov	si,offset Lmmsg
+	cmp	eax,0x7078C0FB	/* magic */
+	jne	Lbarf
+#else
 	xor	eax,eax
 	push	ax		/* return address */
 	mov	ax,[partp]
@@ -253,18 +292,22 @@ Ldone:	/* check bootloader magic */
 #endif
 	mov	si,offset Lbmsg
 	call	Lotxt
-#ifndef BOOT_GRUB
-	mov	si,offset _start
-	ret
-#else
+#if defined(BOOT_GRUB) || defined(BOOT_ISOLINUX)
+#if defined(BOOT_GRUB)
 	xor	edx,edx
 	push	dx		/* initial CS */
 	dec	edx		/* EDX := FFFFFFFF */
 	mov	dl,[Ldrv]	/* boot BIOS drive number */
 	mov	ax,0x8200
+#elif defined(BOOT_ISOLINUX)
+	mov	ax,0x7C44
+#endif
 	push	ax		/* initial IP */
 	cli			/* be nice to a GNU every once in a while */
 	lret
+#else
+	mov	si,offset _start
+	ret
 #endif
 
 	/* obtain drive geometry */
