@@ -1,8 +1,8 @@
-# $MirOS: src/distrib/common/dot.profile,v 1.22 2007/09/28 22:54:07 tg Exp $
+# $MirOS: src/distrib/common/dot.profile,v 1.23 2008/02/24 14:47:56 tg Exp $
 # $OpenBSD: dot.profile,v 1.4 2002/09/13 21:38:47 deraadt Exp $
 # $NetBSD: dot.profile,v 1.1 1995/12/18 22:54:43 pk Exp $
 #
-# Copyright (c) 2003, 2004, 2005, 2006, 2007
+# Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008
 #	Thorsten “mirabilos” Glaser <tg@66h.42h.de>
 # Copyright (c) 1995 Jason R. Thorpe
 # Copyright (c) 1994 Christopher G. Demetriou
@@ -41,7 +41,8 @@ sshd() {
 	if [[ ! -f /etc/ssh/ssh_host_rsa_key ]]; then
 		echo -n "ssh-keygen: generating new RSA host key... "
 		(ulimit -T 60; exec /usr/bin/ftp -mvo /dev/arandom \
-		    https://call.mirbsd.org/rn.cgi?bsdrdskg) >/dev/wrandom 2>&1
+		    https://call.mirbsd.org/rn.cgi?bsdrdskg,seed=$RANDOM) \
+		    >/dev/wrandom 2>&1
 		if /usr/bin/ssh-keygen -q -t rsa \
 		    -f /etc/ssh/ssh_host_rsa_key -N ''; then
 			echo done.

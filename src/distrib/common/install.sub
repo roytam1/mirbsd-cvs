@@ -1,9 +1,9 @@
-# $MirOS: src/distrib/common/install.sub,v 1.23 2007/08/28 23:00:20 tg Exp $
+# $MirOS: src/distrib/common/install.sub,v 1.24 2007/09/28 22:54:07 tg Exp $
 # $OpenBSD: install.sub,v 1.388 2005/07/02 00:55:48 uwe Exp $
 # $NetBSD: install.sub,v 1.5.2.8 1996/09/02 23:25:02 pk Exp $
 #
-# Copyright (c) 2003, 2004, 2005
-#	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+# Copyright (c) 2003, 2004, 2005, 2008
+#	Thorsten “mirabilos” Glaser <tg@66h.42h.de>
 # Copyright (c) 1997-2005 Todd Miller, Theo de Raadt, Ken Westerback
 # All rights reserved.
 #
@@ -447,7 +447,8 @@ manual_net_cfg() {
 	  else
 		pf=http
 	  fi
-	  ftp -mvo /dev/arandom $pf://call.mirbsd.org/rn.cgi?bsdrdnet
+	  ftp -mvo /dev/arandom \
+	    $pf://call.mirbsd.org/rn.cgi?bsdrdnet,seed=$RANDOM
 	  date
 	) &
 	if [[ -x /usr/sbin/ntpd ]]; then
