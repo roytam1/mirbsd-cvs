@@ -661,12 +661,12 @@ Title: be careful what you wish for…
 <p>… as you could get it. This is because gecko2@ asked for some more cvs
  commit eMail “spam” ☺</p>
 <p>While on the spam topic: do <strong>not</strong> send an eMail to one of
- the following addresses: <a href="mailto:junk@mirbsd.org">junk@mirbsd.org</a>
- <a href="mailto:junk@66h.42h.de">junk@66h.42h.de</a> or <a
+ the following addresses: <a href="mailto:junk@mirbsd.org">junk@mirbsd.org</a>,
+ <a href="mailto:junk@66h.42h.de">junk@66h.42h.de</a>, or <a
  href="mailto:junk@mirbsd.de">junk@mirbsd.de</a>, or, again, <a
- href="mailto:junk@mirbsd.org">&lt;junk@mirbsd.org&gt;</a> <a
- href="mailto:junk@66h.42h.de">junk@66h.42h.de&gt;</a> <a
- href="mailto:junk@mirbsd.de">junk@mirbsd.de&gt;</a> (greytrapping)</p>
+ href="mailto:junk@mirbsd.org">&lt;junk@mirbsd.org&gt;</a>, <a
+ href="mailto:junk@66h.42h.de">&lt;junk@66h.42h.de&gt;</a>, or <a
+ href="mailto:junk@mirbsd.de">&lt;junk@mirbsd.de&gt;</a> (greytrapping)</p>
 <p>Luckily, my internet uplink has been stable for more than 4⅓ days now,
  after repeated phoning (an 0800 number then) and resetting the NTBBA.</p>
 <p>Some more statistics:</p><!-- RSS stop -->
