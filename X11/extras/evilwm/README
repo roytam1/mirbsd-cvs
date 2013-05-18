@@ -1,4 +1,4 @@
-$MirOS: X11/extras/evilwm/README,v 1.2 2005/03/19 13:30:07 tg Exp $
+$MirOS: X11/extras/evilwm/README,v 1.3 2005/07/07 18:27:13 tg Exp $
 
 evilwm 1.0 by Ciaran Anscomb <evilwm@6809.org.uk>
 
@@ -101,6 +101,13 @@ http://www.red-bean.com/~decklin/aewm/
 
 
 LICENCE
+
+mirvilwm is Copyright (c) 2004, 2005, 2006
+	Thorsten Glaser <tg@mirbsd.de>
+
+mirvilwm is distributed under the MirOS Licence, as shown in events.c.
+Additionally, the evilwm licence applies, because it is a derivate.
+
 
 evilwm 1.0
 Copyright (C) 1999-2005 Ciaran Anscomb <evilwm@6809.org.uk>

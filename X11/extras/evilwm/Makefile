@@ -1,4 +1,4 @@
-# $MirOS: X11/extras/evilwm/Makefile,v 1.2 2005/03/19 13:30:07 tg Exp $
+# $MirOS: X11/extras/evilwm/Makefile,v 1.3 2005/07/07 18:27:13 tg Exp $
 
 PROG=		evilwm
 MAN=		evilwm.1
@@ -38,5 +38,7 @@ CPPFLAGS+=	-DSNAP
 #CPPFLAGS+=	-DSANITY		# active sanity checks
 #CPPFLAGS+=	-DDEBUG			# miscellaneous debugging
 #CPPFLAGS+=	-DXDEBUG		# show some X calls
+
+CFLAGS_misc.o+=	-Wno-cast-qual
 
 .include <bsd.prog.mk>

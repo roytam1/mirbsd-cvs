@@ -28,8 +28,7 @@ void spawn(const char *const cmd[]) {
 		wait(NULL);
 }
 
-void handle_signal(int signo) {
-	(void)signo;  /* unused */
+void handle_signal(int signo __attribute__((unused))) {
 	int i;
 	/* SIGCHLD check no longer necessary */
 	/* Quit Nicely */
@@ -46,8 +45,7 @@ void handle_signal(int signo) {
 	exit(0);
 }
 
-int handle_xerror(Display *dsply, XErrorEvent *e) {
-	(void)dsply;  /* unused */
+int handle_xerror(Display *dsply __attribute__((unused)), XErrorEvent *e) {
 	Client *c = find_client(e->resourceid);
 
 	/* If this error actually occurred while setting up the new
@@ -78,9 +76,7 @@ int handle_xerror(Display *dsply, XErrorEvent *e) {
 	return 0;
 }
 
-int ignore_xerror(Display *dsply, XErrorEvent *e) {
-	(void)dsply;  /* unused */
-	(void)e;  /* unused unless debugging */
+int ignore_xerror(Display *dsply __attribute__((unused)), XErrorEvent *e __attribute__((unused))) {
 	LOG_DEBUG("ignore_xerror() caught an XErrorEvent: %d\n", e->error_code);
 	return 0;
 }

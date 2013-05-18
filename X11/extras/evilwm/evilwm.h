@@ -1,4 +1,8 @@
+/* $MirOS$ */
+
+#include <X11/X.h>
 #include <X11/Xlib.h>
+#include <X11/Xmd.h>
 #include <X11/Xutil.h>
 #include <X11/keysym.h>
 #ifdef SHAPE
@@ -10,10 +14,9 @@
 
 #include "keymap.h"
 
-#ifdef VWM
-#ifdef VDESK
-#define VDESK_BOTH 1
-#endif
+/* sanity on options */
+#if defined(INFOBANNER_MOVERESIZE) && !defined(INFOBANNER)
+# define INFOBANNER
 #endif
 
 /* default settings */
@@ -24,7 +27,6 @@
 #define DEF_BW		1
 #define DEF_FC		"blue"
 #define SPACE		3
-#define MINSIZE		15
 #ifdef DEBIAN
 #define DEF_TERM	"x-terminal-emulator"
 #else
@@ -32,9 +34,6 @@
 #endif
 
 /* readability stuff */
-#ifdef SHAPE
-#include <X11/extensions/shape.h>
-#endif
 
 #define STICKY 0	/* Desktop number for sticky clients */
 #define KEY_TO_VDESK( key ) ( ( key ) - XK_1 + 1 )
@@ -78,10 +77,8 @@
 	}
 #define setmouse(w, x, y) \
 	XWarpPointer(dpy, None, w, 0, 0, 0, 0, x, y)
-#define gravitate(c) \
-	change_gravity(c, 1)
-#define ungravitate(c) \
-	change_gravity(c, -1)
+#define gravitate(c) gravitate_client(c, 1)
+#define ungravitate(c) gravitate_client(c, -1)
 
 /* screen structure */
 
@@ -113,36 +110,47 @@ struct Client {
 #ifdef COLOURMAP
 	Colormap	cmap;
 #endif
-	XSizeHints	*size;
 	int		ignore_unmap;
 
 	int		x, y, width, height;
-	int		oldx, oldy, oldw, oldh;  /* used when maximising */
 	int		border;
+	int		oldx, oldy, oldw, oldh;  /* used when maximising */
+
+	int		min_width, min_height;
+	int		max_width, max_height;
+	int		width_inc, height_inc;
+	int		base_width, base_height;
+	int		win_gravity;
+	int		old_border;
 #ifdef VWM
 	int		vdesk;
 #endif /* def VWM */
 };
 
+typedef struct Application Application;
+struct Application {
+	char *res_name;
+	char *res_class;
+	int geometry_mask;
+	int x, y;
+	unsigned int width, height;
+#ifdef VWM
+	int vdesk;
+#endif
+	Application *next;
+};
+
 /* declarations for global variables in main.c */
 
 extern Display		*dpy;
-/* extern int		screen;
-extern Window		root;
-extern GC		invert_gc;
-#ifdef VWM
-extern XColor		fg, bg, fc;
-#else
-extern XColor		fg, bg;
-#endif
-*/
 extern int		num_screens;
 extern ScreenInfo	*screens;
 extern ScreenInfo	*current_screen;
 extern Client		*current;
-extern Window		initialising;
+extern volatile Window	initialising;
 extern XFontStruct	*font;
 extern Client		*head_client;
+extern Application	*head_app;
 extern Atom		xa_wm_state;
 extern Atom		xa_wm_change_state;
 extern Atom		xa_wm_protos;
@@ -154,7 +162,7 @@ extern const char	*opt_display;
 extern const char	*opt_font;
 extern const char	*opt_fg;
 extern const char	*opt_bg;
-extern const char	**opt_term;
+extern const char	*opt_term[3];
 extern int		opt_bw;
 #ifdef VWM
 extern const char	*opt_fc;
@@ -171,12 +179,14 @@ extern int		quitting;
 extern Atom		mwm_hints;
 #endif
 extern unsigned int numlockmask;
+extern unsigned int grabmask2;
 
 /* client.c */
 
 Client *find_client(Window w);
 int wm_state(Client *c);
-void change_gravity(Client *c, int multiplier);
+void gravitate_client(Client *c, int sign);
+void select_client(Client *c);
 void remove_client(Client *c);
 void send_config(Client *c);
 void send_wm_delete(Client *c);
@@ -186,75 +196,42 @@ void client_update_current(Client *c, Client *newcurrent);
 
 /* events.c */
 
-void handle_key_event(XKeyEvent *e);
-void handle_button_event(XButtonEvent *e);
-/* static void handle_client_message(XClientMessageEvent *e); */
-#ifdef COLOURMAP
-void handle_colormap_change(XColormapEvent *e);
-#endif
-void handle_configure_request(XConfigureRequestEvent *e);
-void handle_enter_event(XCrossingEvent *e);
-void handle_leave_event(XCrossingEvent *e);
-void handle_map_request(XMapRequestEvent *e);
-void handle_property_change(XPropertyEvent *e);
-void handle_unmap_event(XUnmapEvent *e);
-#ifdef SHAPE
-void handle_shape_event(XShapeEvent *e);
-#endif
+__dead void event_main_loop(void);
 
 /* main.c */
 
 int main(int argc, char *argv[]);
 void scan_windows(void);
-void setup_display(void);
-
-/* misc.c */
-#ifdef SANITY
-void sanity_check(void);
-#endif
-#ifdef VDESK_BOTH
-void spawn_vdesk(int todesk, Client *c);
-#endif
 
 /* void do_event_loop(void); */
 int handle_xerror(Display *dsply, XErrorEvent *e);
 int ignore_xerror(Display *dsply, XErrorEvent *e);
 void dump_clients(void);
 void spawn(const char *const cmd[]);
-void handle_signal(int signo);
+__dead void handle_signal(int signo);
 #ifdef DEBUG
 void show_event(XEvent e);
 #endif
 
 /* new.c */
 
-void init_position(Client *c);
 void make_new_client(Window w, ScreenInfo *s);
-void reparent(Client *c);
+CARD32 get_wm_normal_hints(Client *c);
 
 /* screen.c */
 
 void drag(Client *c);
-void draw_outline(Client *c);
 void get_mouse_position(int *x, int *y, Window root);
-void move(Client *c, int set);
+void moveresize(Client *c);
 void recalculate_sweep(Client *c, int x1, int y1, int x2, int y2);
-void resize(Client *c, int set);
 void maximise_vert(Client *c);
 void maximise_horiz(Client *c);
 void show_info(Client *c, KeySym key);
 void sweep(Client *c);
-void unhide(Client *c, int raise);
+void unhide(Client *c, int raise_win);
 void next(void);
 #ifdef VWM
 void hide(Client *c);
 void switch_vdesk(int v);
-#else
-# ifdef VDESK
- void hide(Client *c);
-# endif
 #endif /* def VWM */
-#ifdef VDESK
-void handle_client_message(XClientMessageEvent *e);
-#endif
 ScreenInfo *find_screen(Window root);

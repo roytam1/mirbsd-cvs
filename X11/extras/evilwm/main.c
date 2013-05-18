@@ -129,7 +129,7 @@ int main(int argc, char *argv[]) {
 			grabmask2 = parse_modifiers(argv[i]);
 #ifdef STDIO
 		} else if (!strcmp(argv[i], "-V")) {
-			LOG_INFO("evilwm version " VERSION " $MirOS: X11/extras/evilwm/main.c,v 1.4 2005/07/14 18:42:17 tg Exp $\n");
+			LOG_INFO("evilwm version " VERSION " $MirOS: X11/extras/evilwm/main.c,v 1.5 2005/11/22 22:35:35 tg Exp $\n");
 			exit(0);
 #endif
 		} else {
@@ -189,6 +189,7 @@ static void setup_display(void) {
 	};
 	/* used in scanning windows (XQueryTree) */
 	unsigned int i, j, nwins;
+	int k;
 	Window dw1, dw2, *wins;
 	XWindowAttributes winattr;
 
@@ -247,7 +248,7 @@ static void setup_display(void) {
 
 	/* SHAPE extension? */
 #ifdef SHAPE
-	have_shape = XShapeQueryExtension(dpy, &shape_event, &i);
+	have_shape = XShapeQueryExtension(dpy, &shape_event, &k);
 #endif
 
 	/* now set up each screen in turn */

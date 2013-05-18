@@ -1,8 +1,8 @@
-/* $MirOS: X11/extras/evilwm/events.c,v 1.4 2005/11/22 22:35:34 tg Exp $ */
+/* $MirOS: src/share/misc/licence.template,v 1.14 2006/08/09 19:35:23 tg Rel $ */
 
 /*-
- * Copyright (c) 2004, 2005
- *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+ * Copyright (c) 2004, 2005, 2006
+ *	Thorsten Glaser <tg@mirbsd.de>
  *
  * Licensee is hereby permitted to deal in this work without restric-
  * tion, including unlimited rights to use, publicly perform, modify,
@@ -18,7 +18,7 @@
  * or other damage, or direct damage except proven a consequence of a
  * direct error of said person and intended use of this work, loss or
  * other issues arising in any way out of its use, even if advised of
- * the possibility of such damage or existence of a nontrivial bug.
+ * the possibility of such damage or existence of a defect.
  */
 
 /* evilwm - Minimalist Window Manager for X
