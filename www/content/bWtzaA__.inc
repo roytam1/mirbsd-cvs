@@ -1,5 +1,5 @@
 <!-- PageID: mksh -->
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.46 2006/08/12 21:02:23 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.47 2006/08/12 21:22:02 tg Exp $</small>
 
 <h1>mksh(1) R27e</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
@@ -422,6 +422,7 @@
   <li>DragonFly BSD 1.3-Preview (i386)</li>
   <li>NetBSD 3.0_STABLE (i386)</li>
   <li>Solaris 8 (sun4u)</li>
+  <li>Mac OSX Tiger (powerpc) &ndash; tested by Angelo Laub</li>
    <!-- missing:
   <li>MirOS BSD #9-stable (sparc)</li>
   <li>MirOS BSD #7-stable (sparc)</li>
@@ -435,8 +436,7 @@
   <li>Gentoo GNU/Linux (i386, ppc) &ndash; not tested, via portage</li>
   <li>Interix/SFU 3.5 (Windows&reg; 2000)</li>
   <li>GNU/Cygwin 1.15.9-4 (Windows&reg; 2000)</li>
-  <li>Mac OSX Tiger (i386)</li>
-  <li>Mac OSX Tiger (powerpc)</li>
+  <li>Mac OSX Tiger (i386) &ndash; tested by Angelo Laub</li>
   <li>Mac OSX Panther (powerpc) &ndash; not tested, via Fink</li>
   <li>Plan 9 POSIX Environment</li>
    -->
