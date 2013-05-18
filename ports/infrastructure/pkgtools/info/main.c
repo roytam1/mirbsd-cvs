@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/info/main.c,v 1.1.7.1 2005/03/18 15:47:16 tg Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/info/main.c,v 1.2 2006/12/09 17:34:38 bsiegert Exp $ */
 /*	$OpenBSD: main.c,v 1.15 2003/07/04 17:31:19 avsm Exp $	*/
 
 /*
@@ -24,7 +24,7 @@
 #include "lib.h"
 #include "info.h"
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/info/main.c,v 1.1.7.1 2005/03/18 15:47:16 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/info/main.c,v 1.2 2006/12/09 17:34:38 bsiegert Exp $");
 
 static char Options[] = "acDde:fIikLl:mPpqRrsvh";
 
@@ -43,6 +43,8 @@ main(int argc, char **argv)
 {
     int ch;
     char **pkgs, **start;
+
+    cfg_read_config(NULL); /* for fileFindByPath */
 
     pkgs = start = argv;
     while ((ch = getopt(argc, argv, Options)) != -1)

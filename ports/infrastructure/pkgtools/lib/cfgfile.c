@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/lib/cfgfile.c,v 1.1.2.5 2009/12/26 22:21:15 bsiegert Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/lib/cfgfile.c,v 1.1.2.6 2009/12/28 14:33:09 bsiegert Exp $ */
 
 /*-
  * Copyright (c) 2009
@@ -36,7 +36,7 @@
 #endif
 #define DEFAULT_CFGFILE SYSCONFDIR "/pkgtools/pkgtools.conf"
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/cfgfile.c,v 1.1.2.5 2009/12/26 22:21:15 bsiegert Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/cfgfile.c,v 1.1.2.6 2009/12/28 14:33:09 bsiegert Exp $");
 
 SLIST_HEAD(cfg_varlist, cfg_var);
 struct cfg_var {
@@ -387,4 +387,39 @@ cfg_add_source(unsigned long priority, bool remote, const char *source)
 			}
 		}
 	}
+}
+
+/* delete a source from the list by giving its name. Returns true if the
+ * source was in the list, false otherwise.
+ */
+bool
+cfg_remove_source(const char *source)
+{
+	struct cfg_source *sp, *sp_temp;
+
+	if (!source)
+		return NULL;
+
+	LIST_FOREACH_SAFE(sp, &Sources, entries, sp_temp) {
+		if (!strcmp(source, sp->source)) {
+			LIST_REMOVE(sp, entries);
+			free(sp->source);
+			free(sp);
+			return true;
+		}
+	}
+
+	return false;
+}
+
+/* Returns a static pointer to the existing source list */
+const struct cfg_sourcelist *
+cfg_get_sourcelist(void)
+{
+	if (LIST_EMPTY(&Sources)) {
+		/* fill in a minimal default */
+		cfg_add_source(0L, false, ".");
+	}
+
+	return &Sources;
 }

@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/lib/lib.h,v 1.28.2.3 2009/12/26 22:21:16 bsiegert Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/lib/lib.h,v 1.28.2.4 2009/12/28 14:33:10 bsiegert Exp $ */
 /*	$OpenBSD: lib.h,v 1.14 2003/08/21 20:24:57 espie Exp $	*/
 
 /*
@@ -296,5 +296,7 @@ void		cfg_dump_vars(void);
 char*		cfg_expand_vars(char*, size_t);
 const char*	cfg_get_pager(void);
 void		cfg_add_source(unsigned long, bool, const char*);
+bool		cfg_remove_source(const char*);
+const struct cfg_sourcelist* cfg_get_sourcelist(void);
 
 #endif /* _INST_LIB_LIB_H_ */

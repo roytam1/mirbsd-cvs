@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/lib/file.c,v 1.24 2009/11/29 13:36:53 bsiegert Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/lib/file.c,v 1.25 2009/12/11 22:16:13 bsiegert Exp $ */
 /* $OpenBSD: file.c,v 1.26 2003/08/21 20:24:57 espie Exp $	*/
 
 /*
@@ -33,7 +33,7 @@
 #include <libgen.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/file.c,v 1.24 2009/11/29 13:36:53 bsiegert Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/file.c,v 1.25 2009/12/11 22:16:13 bsiegert Exp $");
 
 /* valid file extensions for packages, in order of priority
    (highest to lowest)
@@ -504,29 +504,39 @@ char *
 fileFindByPath(char *base, char *fname)
 {
 	static char tmp[FILENAME_MAX];
-	char *pkg_path;
+	bool found = false;
+	const struct cfg_sourcelist *srcs;
+	struct cfg_source *sp;
 
-	if (pkg_existing(".", fname, tmp, sizeof (tmp)))
-		return tmp;
-	if (base && pkg_existing(dirname(base), fname, tmp, sizeof (tmp)))
-		return tmp;
+	srcs = cfg_get_sourcelist();
 
-	pkg_path = getenv("PKG_PATH");
-	/* Check for ftp://... paths */
-	if (isURL(pkg_path)) {
-		/* FIXME need to probe all extensions here, too */
-		snprintf(tmp, sizeof(tmp), "%s/%s", pkg_path,
-				ensure_tgz(fname));
-		return tmp;
+	if (base)
+		cfg_add_source(1L, isURL(base), base);
+
+	/* there used to be a hard-coded check for the "." directory here.
+	 * This is now controlled by the sourcelist from the config file.
+	 * If you did not put "." there, then there is nothing we can do
+	 * for you.
+	 */ 
+
+	LIST_FOREACH(sp, srcs, entries) {
+		if (sp->remote) {
+			snprintf(tmp, sizeof(tmp), "%s/%s", sp->source,
+					ensure_tgz(fname));
+			/* FIXME needs to be implemented */
+			found = true;
+			break;
+		} else {
+			if (pkg_existing(sp->source, fname, tmp, sizeof(tmp))) {
+				found = true;
+				break;
+			}
+		}
 	}
-	while (pkg_path) {
-		char *cp = strsep(&pkg_path, ":");
-
-		if (pkg_existing(cp, fname, tmp, sizeof (tmp)))
-			return tmp;
-	}
-
-	return NULL;
+	
+	if (base)
+		cfg_remove_source(base);
+	return found ? tmp : NULL;
 }
 
 char *

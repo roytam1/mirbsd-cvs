@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/add/main.c,v 1.6 2009/11/29 17:02:42 bsiegert Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/add/main.c,v 1.6.2.1 2009/12/23 15:41:46 bsiegert Exp $ */
 /* $OpenBSD: main.c,v 1.18 2003/08/06 20:46:36 millert Exp $	*/
 
 /*
@@ -25,7 +25,7 @@
 #include "lib.h"
 #include "add.h"
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/add/main.c,v 1.6 2009/11/29 17:02:42 bsiegert Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/add/main.c,v 1.6.2.1 2009/12/23 15:41:46 bsiegert Exp $");
 
 static char Options[] = "d:fhIMNnp:qRSt:v";
 
@@ -55,7 +55,7 @@ main(int argc, char **argv)
     int ch, error;
     char *cp;
 
-    cfg_read_config();
+    cfg_read_config(NULL);
     Pager = cfg_get_pager();
     while ((ch = getopt(argc, argv, Options)) != -1) {
 	switch(ch) {
