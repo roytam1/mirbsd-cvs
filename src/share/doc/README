@@ -1,4 +1,4 @@
-# $MirOS: src/share/doc/README,v 1.4 2005/07/24 13:07:56 tg Exp $
+# $MirOS: src/share/doc/README,v 1.5 2006/01/31 16:27:24 tg Exp $
 # $OpenBSD: README,v 1.4 2004/07/29 10:50:02 jmc Exp $
 #-
 #  Copyright (c) 2005 Thorsten Glaser <tg@MirBSD.org>
@@ -60,6 +60,11 @@ Additional information
 
 This is also the place for known cryptographic information. We use gzsig(1)
 to sign our distfiles; the keys shown below are used for this purpose only.
-Please do not use them in any other way, such as SSH logins.
+Please do not use them in any other way, such as SSH authorised_keys files,
+or encrypted eMail.
+
+Key 1 was active from the very beginning and will cease to be used in 2006.
+Key 2 will be used from mid-2006 onwards.
 
 key 1:	ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAoEAy5akQiuw0znRhMD0djgQ7BiUPahG1QHJb9ZNApd6D5OnV98FO8Ofbfm4CF1Cvwr+IPnyKyPglQnaFgHF3LVynKMYSupKXnd0JrBR79TBmIVImBnIaTPcApRdWZEbMW5IdYhrWFHKlzk4vDxBXdcVE6QfiemWsYqkiuoJvLTLHXq7WUCQ5z7KuQetMnnP2bswV8SZuYy0IvzQRBVJbiTQzBvsHfyZUERLBZvjtPE9jTaLdTOkKvCuhuTzQAMmG8aYFt9S0p1K20eCCgWvJ5vu3ir875yBrtVPl2VzdFdo7Wv3kg1HOV+Sy7dQ2bIJ52mV8CnHI1W+ZMEjzQ64m75wH/AGsVb35E0sPJzFNCGj//8/kyKxRR1I0DSDOb+iE48twOrBRrUF5+ApwocqVdIa//Cbe1ArjzrEhwaKY0SitPcFwbVV8XadtsHXfdM5QnFwTsNobk2w+XLt9I5yL/SdE1NVVXBsAN1nejzDo8XTheD6o/m5O29WO3MSS7jt1PCYItVjN4ONK/Ztaa+zQcNK9itMy2tEJ1R/gI+AipOQi0JaHHAjcdYKxDbbJpurJAHvtLvKiJNqNUJPGpqCSfL8YqmDwf3Gs1SntRjgZNeOpAdiHl2qUewcB2vujROmLTQgxJ2HJTK8hKr+2nkZdEMkYYQ/wDtsGYohokU1GOGTjdr5d2vXW8MAWaF5UQDXQzPCT4RGjDLfvod4SM+GHn8t2eDJH8uHvUPU6AXcohM30zw/h9FPf18q7Oo0srwFpc0qjvwDxl9lgilsfaL23K2V5YFeTkO1llxnRdsTmSZ7UMsugBFu5bjGEL4hC/Sml0oH9F8hiV50fXWetsQvNB637Q== Thorsten "mirabile" Glaser <tg@MirBSD.org> SIGN
+key 2:	ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAEAQDAezwU2y/8Wc6rQcqqcAq17khQOijUcUih2SHt2CumxbblbTy0uJq5VFeVdo2Au2ynSlq8/EmsNMh7gMqUOo46F/+wx249Hcr2iUVuhzsDtKrKqcY4+cGA1ytGxnHdot9jl6NDsdyyMXp7dE6SmMhXfb2M7NMtNryQeQmpNytU//dKw8dNYGizIrkHxxQOM1Uhbec7blJBn1GhDmcI6Hfc1QtZBSW9qnpjAE4xAe6RXksXyA72DnxOAJJj0bv5zBCIJSPGUWuHpgkV8JUsezumRV52ejgqkJn6Pa5MGFN3tNGp99meMJlNJTFZ0q0mRrDH/pQQTg40qHjMHUSM/8ilqpkOJ5fkP7DwOCCrPgMj3GvCUXWnW1joI54lKMyaFdiO53QsyqbOjuTB2xBlc/oO8eKKIEP2Woo/WzGyModa7DePdYklWHUYF1AI70dd3SrntzB6UR8itkBsXn+oUWWwixNsbUX1Ud1UtkpNLn34zFBQ6IiFgEO6LinycgYpVJ7yeavt0ti74E6ACuYTHrKVSKm4cGwiqFlxg+gGgrtlDG0n8530XVmtEYcb8m0T/MFf0QW52ZAp6JXqkrDKrJzSfIMSQ85bPOu3ZJ9T8Q56TgdEqMzhIZzpQGrXygfMBA/NpvuAs8mzL9lqYgmDxUj5FSHO7kg3gWgJ9gmtH1yjxxDjezhaJvWiQ2cNnyTSdjM1l7PyeZ1TU08ZefcJ12z63qYwAKL2gfEwsi6gZKqWp3b9i0axyvN3zeQA5AnUujHboeWE47Xy/8OWTcMfhU95/nunc+KSH449HaYNpR22vEtkJRKhoopanlCu1CfyCQV9W/97OqZBHBLlhC8FOdSf1Jg0Yg8aPG77s7XVbfRBC5JTCUCck3Ym/zzcVCmc+4mn8hA+zCzEYNpkfptHvND4oZ9CCkQZuI/YuAqPVqjhmOcYpgTvwVefSVTAy5HqKPkYwoX/EmZwV+jZhSprEJdEg1uinTJxKvVcvHkvNsi/0z+EvOalkGdl+oYKA04rNfq9FGE19iHHa7RwIQxnIc905CBTzH9zBUqWivU11v/sdPklx86oanavt5W7Yaq7Ksirh4GpeVMGS1i51Otml2JihmGeRpuzn+ERpYodRCMopCGkJHZqDjbB6K884EH4GJ3CQWi0OD/1rd84GQZKg++CvJdeO2rzqdYeEJLU/CpQSz7xo8mzGQCa4Pl26df2W/RA/wCnmcOz//dALG30rFHYBt+MEIACXdBz+QQBRQf0ycOjjrFfWMRqFVv9ACEZ16faXiB6t+bLzhvFWgRA+fC/3wa9qmjgF2zISnZ4hsbnQDmfcuJs1WqeYpluYzgGng3MBxEG7L5cz2xwU98XSVEn Thorsten Glaser <signcode@mirbsd.de>
