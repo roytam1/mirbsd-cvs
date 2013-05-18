@@ -1370,6 +1370,9 @@ ac_ifcpp 'ifdef MKSH_CONSERVATIVE_FDS' isset_MKSH_CONSERVATIVE_FDS '' \
 #ac_ifcpp 'ifdef MKSH_DISABLE_DEPRECATED' isset_MKSH_DISABLE_DEPRECATED '' \
 #    "if deprecated features are to be omitted" && \
 #    check_categories="$check_categories nodeprecated"
+ac_ifcpp 'ifdef MKSH_DISABLE_EXPERIMENTAL' isset_MKSH_DISABLE_EXPERIMENTAL '' \
+    "if experimental features are to be omitted" && \
+    check_categories="$check_categories noexperimental"
 
 #
 # Environment: headers

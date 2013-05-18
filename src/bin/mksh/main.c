@@ -1377,7 +1377,7 @@ void
 restfd(int fd, int ofd)
 {
 	if (fd == 2)
-		shf_flush(&shf_iob[fd]);
+		shf_flush(&shf_iob[/* fd */ 2]);
 	if (ofd < 0)
 		/* original fd closed */
 		close(fd);
@@ -1590,6 +1590,18 @@ maketemp(Area *ap, Temp_type type, struct temp **tlist)
 			--cp[len];
 		/* do another cycle */
 	}
+
+#ifndef MKSH_DISABLE_EXPERIMENTAL
+	if (type == TT_FUNSUB) {
+		int nfd;
+
+		/* map us high and mark as close-on-exec */
+		if ((nfd = savefd(i)) != i) {
+			close(i);
+			i = nfd;
+		}
+	}
+#endif
 
 	/* shf_fdopen cannot fail, so no fd leak */
 	tp->shf = shf_fdopen(i, SHF_WR, NULL);
