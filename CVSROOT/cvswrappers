@@ -1,4 +1,4 @@
-# $MirOS: CVSROOT/cvswrappers,v 1.7 2008/04/10 16:55:36 tg Exp $
+# $MirOS: CVSROOT/cvswrappers,v 1.8 2008/04/10 17:25:03 tg Exp $
 #-
 # This file affects handling of files based on their names.
 #
@@ -44,6 +44,8 @@
 *.dll -k 'b'
 *.DYLIB -k 'b'
 *.dylib -k 'b'
+*.EOT -k 'b'
+*.eot -k 'b'
 *.EPS -k 'b'
 *.eps -k 'b'
 *.EWE -k 'b'
