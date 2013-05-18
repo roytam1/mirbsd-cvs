@@ -1,25 +1,25 @@
 #!/usr/bin/env mksh
-# $MirOS: ports/infrastructure/pkgtools/upgrade/pkg_upgrade.sh,v 1.19 2006/08/22 20:50:49 bsiegert Exp $
+# $MirOS: ports/infrastructure/pkgtools/upgrade/pkg_upgrade.sh,v 1.20 2006/09/20 22:24:49 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
 # Copyright (c) 2005
 #	Benny Siegert <bsiegert@66h.42h.de>
 #
-# Licensee is hereby permitted to deal in this work without restric-
-# tion, including unlimited rights to use, publicly perform, modify,
-# merge, distribute, sell, give away or sublicence, provided all co-
-# pyright notices above, these terms and the disclaimer are retained
-# in all redistributions or reproduced in accompanying documentation
-# or other materials provided with binary redistributions.
+# Provided that these terms and disclaimer and all copyright notices
+# are retained or reproduced in an accompanying document, permission
+# is granted to deal in this work without restriction, including un-
+# limited rights to use, publicly perform, distribute, sell, modify,
+# merge, give away, or sublicence.
 #
-# Licensor hereby provides this work "AS IS" and WITHOUT WARRANTY of
-# any kind, expressed or implied, to the maximum extent permitted by
-# applicable law, but with the warranty of being written without ma-
-# licious intent or gross negligence; in no event shall licensor, an
-# author or contributor be held liable for any damage, direct, indi-
-# rect or other, however caused, arising in any way out of the usage
-# of this work, even if advised of the possibility of such damage.
+# This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
+# the utmost extent permitted by applicable law, neither express nor
+# implied; without malicious intent or gross negligence. In no event
+# may a licensor, author or contributor be held liable for indirect,
+# direct, other damage, loss, or other issues arising in any way out
+# of dealing in the work, even if advised of the possibility of such
+# damage or existence of a defect, except proven that it results out
+# of said person's immediate fault when using the work as intended.
 #-
 # wrapper for pkg_add to upgrade packages
 # This is only a "rapid prototype", the final implementation might
@@ -180,9 +180,11 @@ NEWPKG=${1##*/}
 
 print -u2 "$me: will remove $OLDPKGS in favour of ${1##*/}"
 
-if [[ -f $PKG_DBDIR/$OLDPKGS/+REQUIRED_BY ]] ; then
-	mv -f $PKG_DBDIR/$OLDPKGS/+REQUIRED_BY $TMPDIR
-fi
+# save forward and reverse dependency information
+for f in +DEPENDS +REQUIRED_BY; do
+	[[ -f $PKG_DBDIR/$OLDPKGS/$f ]] && \
+	    mv -f $PKG_DBDIR/$OLDPKGS/$f $TMPDIR/
+done
 
 fd=
 fa=
@@ -213,6 +215,56 @@ else
 	pkg_delete $fd $OLDPKGS && pkg_add $fa "$npkg"
 fi
 
+# forward dependency information of old package
+# only remove old information here; new information was
+# already entered into */+REQUIRED_BY by the pkg_add above
+[[ -f $TMPDIR/+DEPENDS ]] && while read package; do
+	if [[ -e $PKG_DBDIR/$package/+REQUIRED_BY ]]; then
+		if grep "^$OLDPKGS\$" $PKG_DBDIR/$package/+REQUIRED_BY \
+		    >/dev/null 2>&1; then
+			print "/^$OLDPKGS\$/d\nwq" | ed -s \
+			    $PKG_DBDIR/$package/+REQUIRED_BY
+			# this line will die once this code is tested
+			# in production for a while...
+			print -u2 "Debug: dependency of $OLDPKGS on" \
+			    "$package successfully removed"
+		else
+			print -u2 "Notice: $OLDPKGS was not registered" \
+			    "as dependency of $package"
+		fi
+	else
+		print -u2 "Notice: Dependency $package of $OLDPKGS" \
+		    "was not found there (backward)"
+	fi
+done <$TMPDIR/+DEPENDS
+
+# backward dependency information of forward dependencies of old package
+[[ -f $TMPDIR/+REQUIRED_BY ]] && while read package; do
+	if [[ -e $PKG_DBDIR/$package/+DEPENDS ]]; then
+		# remove old version of this package from there
+		if grep "^$OLDPKGS\$" $PKG_DBDIR/$package/+DEPENDS \
+		    >/dev/null 2>&1; then
+			print "/^$OLDPKGS\$/d\nwq" | ed -s \
+			    $PKG_DBDIR/$package/+DEPENDS
+			# this line will die once this code is tested
+			# in production for a while...
+			print -u2 "Debug: dependency of $package on" \
+			    "$OLDPKGS successfully removed"
+		else
+			print -u2 "Notice: $package was not registered" \
+			    "as dependency of $OLDPKGS"
+		fi
+		# and add new version (at the bottom, but that's irrelevant)
+		print -r -- "$PKGNAME" >>$PKG_DBDIR/$package/+DEPENDS
+		print -u2 "Debug: dependency of $package on" \
+		    "$PKGNAME successfully added"
+	else
+		print -u2 "Notice: Dependency of $package on $OLDPKGS" \
+		    "was not found there (forward)"
+	fi
+done <$TMPDIR/+REQUIRED_BY
+
+# backward dependency information: same for old and new package
 if [[ -f $TMPDIR/+REQUIRED_BY && -d $PKG_DBDIR/$PKGNAME ]] ; then
 	mv $TMPDIR/+REQUIRED_BY $PKG_DBDIR/$PKGNAME
 fi
