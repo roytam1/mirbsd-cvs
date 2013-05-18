@@ -1,4 +1,4 @@
-# $MirOS: ports/net/centericq/Makefile,v 1.21 2006/09/14 00:11:35 tg Exp $
+# $MirOS: ports/net/centericq/Makefile,v 1.22 2006/09/17 21:42:44 tg Exp $
 # $OpenBSD: Makefile,v 1.24 2004/02/03 08:37:55 brad Exp $
 
 # bus error on start
@@ -8,7 +8,7 @@ COMMENT=		curses-based multiprotocol IM client implementation
 DISTNAME=		centericq-${V}
 PKGNAME=		${DISTNAME}-${PL}
 V=			4.21.0
-PL=			5
+PL=			6
 CATEGORIES=		net
 PATCHFILES=		centericq-${V}.msn.patch:0
 PATCH_DIST_STRIP=	-p1
@@ -42,9 +42,11 @@ USE_CXX=		Yes
 
 CONFIGURE_STYLE=	autoconf no-autoheader
 AUTOCONF_NEW=		Yes
-CONFIGURE_ARGS+=	--with-openssl \
-			--with-libjpeg \
-			--disable-nls
+CONFIGURE_ARGS+=	--disable-dependency-tracking \
+			--disable-nls \
+			--without-fribidi \
+			--with-openssl \
+			--with-libjpeg
 CPPFLAGS+=		-DPORT_VERSION=\"${V}-${PL}\"
 
 .if ${FLAVOR:L:Mno_msn}
