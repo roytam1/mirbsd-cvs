@@ -1,9 +1,0 @@
-@comment $MirOS$
-${P5SITE}/File/chdir.pm
-@comment ${P5ARCH}/auto/File/chdir/.packlist
-man/man3/File::chdir${P5MAN3EXT}
-@comment @dirrm ${P5ARCH}/auto/File/chdir
-@comment @dirrm ${P5ARCH}/auto/File
-@comment @dirrm ${P5ARCH}/auto
-@comment @dirrm ${P5ARCH}
-@dirrm ${P5SITE}/File
