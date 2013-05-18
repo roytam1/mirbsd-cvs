@@ -1,4 +1,4 @@
-;	$MirOS: src/sys/kern/syscalls.master,v 1.7 2005/11/21 19:55:53 tg Exp $
+;	$MirOS: src/sys/kern/syscalls.master,v 1.8 2006/01/09 18:34:16 tg Exp $
 ;	$OpenBSD: syscalls.master,v 1.76 2004/07/15 14:35:34 deraadt Exp $
 ;	$NetBSD: syscalls.master,v 1.32 1996/04/23 10:24:21 mycroft Exp $
 ;	@(#)syscalls.master	8.2 (Berkeley) 1/13/94
@@ -103,7 +103,6 @@
 32	STD		{ int sys_getsockname(int fdes, struct sockaddr *asa, \
 			    socklen_t *alen); }
 33	STD		{ int sys_access(const char *path, int flags); }
-34	STD		{ int sys_chflags(const char *path, u_int flags); }
 35	STD		{ int sys_fchflags(int fd, u_int flags); }
 36	STD		{ void sys_sync(void); }
 37	STD		{ int sys_kill(int pid, int signum); }
@@ -600,3 +599,7 @@
 #else
 298	UNIMPL		msgctl
 #endif
+299	STD		{ int sys_lchmod(const char *path, mode_t mode); }
+300	STD		{ int sys_lchflags(const char *path, u_int flags); }
+301	STD		{ int sys_lutimes(const char *path, \
+			    const struct timeval *tptr); }

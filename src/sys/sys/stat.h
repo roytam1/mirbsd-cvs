@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/sys/stat.h,v 1.2 2005/03/06 21:28:34 tg Exp $ */
+/**	$MirOS: src/sys/sys/stat.h,v 1.3 2005/07/07 14:39:27 tg Exp $ */
 /*	$OpenBSD: stat.h,v 1.15 2005/06/18 18:09:43 millert Exp $	*/
 /*	$NetBSD: stat.h,v 1.20 1996/05/16 22:17:49 cgd Exp $	*/
 
@@ -187,7 +187,9 @@ mode_t	umask(mode_t);
 #ifndef _POSIX_SOURCE
 int	chflags(const char *, unsigned int);
 int	fchflags(int, unsigned int);
+int	lchflags(const char *, unsigned int);
 int	fchmod(int, mode_t);
+int	lchmod(const char *, mode_t);
 int	lstat(const char *, struct stat *);
 int	isfdtype(int, int);
 #endif

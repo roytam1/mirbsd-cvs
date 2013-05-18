@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/kern/vfs_syscalls.c,v 1.6 2006/01/22 01:29:47 tg Exp $ */
+/**	$MirOS: src/sys/kern/vfs_syscalls.c,v 1.7 2006/10/17 20:48:48 tg Exp $ */
 /*	$OpenBSD: vfs_syscalls.c,v 1.125 2005/06/17 20:39:14 millert Exp $	*/
 /*	$NetBSD: vfs_syscalls.c,v 1.71 1996/04/23 10:29:02 mycroft Exp $	*/
 
@@ -1801,6 +1801,50 @@ out:
 }
 
 /*
+ * Change flags of a file given a path name, without following links.
+ */
+/* ARGSUSED */
+int
+sys_lchflags(struct proc *p, void *v, register_t *retval)
+{
+	struct sys_lchflags_args /* {
+		syscallarg(const char *) path;
+		syscallarg(u_int) flags;
+	} */ *uap = v;
+	struct vnode *vp;
+	struct vattr vattr;
+	int error;
+	struct nameidata nd;
+
+	NDINIT(&nd, LOOKUP, NOFOLLOW, UIO_USERSPACE, SCARG(uap, path), p);
+	if ((error = namei(&nd)) != 0)
+		return (error);
+	vp = nd.ni_vp;
+	VOP_LEASE(vp, p, p->p_ucred, LEASE_WRITE);
+	vn_lock(vp, LK_EXCLUSIVE | LK_RETRY, p);
+	if (vp->v_mount->mnt_flag & MNT_RDONLY)
+		error = EROFS;
+	else if (SCARG(uap, flags) == VNOVAL)
+		error = EINVAL;
+	else {
+		if (suser(p, 0)) {
+			if ((error = VOP_GETATTR(vp, &vattr, p->p_ucred, p)) != 0)
+				goto out;
+			if (vattr.va_type == VCHR || vattr.va_type == VBLK) {
+				error = EINVAL;
+				goto out;
+			}
+		}
+		VATTR_NULL(&vattr);
+		vattr.va_flags = SCARG(uap, flags);
+		error = VOP_SETATTR(vp, &vattr, p->p_ucred, p);
+	}
+out:
+	vput(vp);
+	return (error);
+}
+
+/*
  * Change flags of a file given a file descriptor.
  */
 /* ARGSUSED */
@@ -1871,6 +1915,42 @@ sys_chmod(p, v, retval)
 		return (EINVAL);
 
 	NDINIT(&nd, LOOKUP, FOLLOW, UIO_USERSPACE, SCARG(uap, path), p);
+	if ((error = namei(&nd)) != 0)
+		return (error);
+	vp = nd.ni_vp;
+	VOP_LEASE(vp, p, p->p_ucred, LEASE_WRITE);
+	vn_lock(vp, LK_EXCLUSIVE | LK_RETRY, p);
+	if (vp->v_mount->mnt_flag & MNT_RDONLY)
+		error = EROFS;
+	else {
+		VATTR_NULL(&vattr);
+		vattr.va_mode = SCARG(uap, mode) & ALLPERMS;
+		error = VOP_SETATTR(vp, &vattr, p->p_ucred, p);
+	}
+	vput(vp);
+	return (error);
+}
+
+/*
+ * Change mode of a file given path name, without following links.
+ */
+/* ARGSUSED */
+int
+sys_lchmod(struct proc *p, void *v, register_t *retval)
+{
+	struct sys_lchmod_args /* {
+		syscallarg(const char *) path;
+		syscallarg(mode_t) mode;
+	} */ *uap = v;
+	struct vnode *vp;
+	struct vattr vattr;
+	int error;
+	struct nameidata nd;
+
+	if (SCARG(uap, mode) & ~(S_IFMT | ALLPERMS))
+		return (EINVAL);
+
+	NDINIT(&nd, LOOKUP, NOFOLLOW, UIO_USERSPACE, SCARG(uap, path), p);
 	if ((error = namei(&nd)) != 0)
 		return (error);
 	vp = nd.ni_vp;
@@ -2136,6 +2216,57 @@ sys_utimes(p, v, retval)
 	return (error);
 }
 
+/*
+ * Set the access and modification times given a path name, without following links.
+ */
+/* ARGSUSED */
+int
+sys_lutimes(struct proc *p, void *v, register_t *retval)
+{
+	struct sys_lutimes_args /* {
+		syscallarg(const char *) path;
+		syscallarg(const struct timeval *) tptr;
+	} */ *uap = v;
+	struct vnode *vp;
+	struct timeval tv[2];
+	struct vattr vattr;
+	int error;
+	struct nameidata nd;
+
+	VATTR_NULL(&vattr);
+	if (SCARG(uap, tptr) == NULL) {
+		microtime(&tv[0]);
+		tv[1] = tv[0];
+		vattr.va_vaflags |= VA_UTIMES_NULL;
+	} else {
+		error = copyin(SCARG(uap, tptr), tv,
+		    sizeof(tv));
+		if (error)
+			return (error);
+		/* XXX workaround timeval matching the VFS constant VNOVAL */
+		if (tv[0].tv_sec == VNOVAL)
+			tv[0].tv_sec = VNOVAL - 1;
+		if (tv[1].tv_sec == VNOVAL)
+			tv[1].tv_sec = VNOVAL - 1;
+	}
+	NDINIT(&nd, LOOKUP, NOFOLLOW, UIO_USERSPACE, SCARG(uap, path), p);
+	if ((error = namei(&nd)) != 0)
+		return (error);
+	vp = nd.ni_vp;
+	VOP_LEASE(vp, p, p->p_ucred, LEASE_WRITE);
+	vn_lock(vp, LK_EXCLUSIVE | LK_RETRY, p);
+	if (vp->v_mount->mnt_flag & MNT_RDONLY)
+		error = EROFS;
+	else {
+		vattr.va_atime.tv_sec = tv[0].tv_sec;
+		vattr.va_atime.tv_nsec = tv[0].tv_usec * 1000;
+		vattr.va_mtime.tv_sec = tv[1].tv_sec;
+		vattr.va_mtime.tv_nsec = tv[1].tv_usec * 1000;
+		error = VOP_SETATTR(vp, &vattr, p->p_ucred, p);
+	}
+	vput(vp);
+	return (error);
+}
 
 /*
  * Set the access and modification times given a file descriptor.
