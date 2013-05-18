@@ -1,4 +1,4 @@
-# $MirOS: src/etc/rc,v 1.79 2008/03/20 21:13:28 tg Exp $
+# $MirOS: src/etc/rc,v 1.80 2008/03/27 13:48:27 tg Exp $
 # $OpenBSD: rc,v 1.277 2006/01/12 21:54:15 deraadt Exp $
 #-
 # System startup script run by init on autoboot or after single-user.
@@ -17,11 +17,10 @@ cd /
 # strip comments (and leading/trailing whitespace if IFS is set) from
 # any file(s) given as argument, or stdin if none, and spew to stdout
 function stripcom {
-	cat "$@" | while read _line; do
-		set -o noglob
+	cat "$@" | { set -o noglob; while read _line; do
 		_line=${_line%%#*}
 		[[ -n $_line ]] && print -r -- $_line
-	done
+	done; }
 }
 
 # Update resource limits when sysctl changes
