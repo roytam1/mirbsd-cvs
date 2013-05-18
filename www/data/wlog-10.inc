@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.298 2010/07/11 12:20:03 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.299 2010/07/12 20:48:26 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -6744,9 +6744,8 @@ tg@frozenfish:~ $ ./a.out
 tg@frozenfish:~ $ ./a.out
 0x80c86a8 0x80c86b8 0xb77d2008 0xbfcc0260 0xbfcc0254
 tg@frozenfish:~ $ ./a.out
-0x80c86a8 0x80c86b8 0xb77c1008 0xbfbe2120 0xbfbe2114
-tg@frozenfish:~ $ uname -a
-Linux frozenfish 2.6.18-6-686 #1 SMP Fri Feb 19 23:40:03 UTC 2010 i686 GNU/Linux</pre>
+0x80c86a8 0x80c86b8 0xb77c1008 0xbfbe2120 0xbfbe2114</pre>
+<p>uname: <tt>Linux frozenfish 2.6.18-6-686 #1 SMP Fri Feb 19 23:40:03 UTC 2010 i686 GNU/Linux</tt></p>
 
 <h3>Solaris 8/sparc64</h3>
 <pre>tg@stinky:~ $ gcc -static x.c
@@ -6767,10 +6766,7 @@ tg@stinky:~ $ ./a.out
 20950 20f50 21060 ffbefb3c ffbefae4</pre>
 
 <h3>MidnightBSD/amd64</h3>
-<pre>mirabilos@stargazer:~ $ uname -a
-MidnightBSD stargazer.midnightbsd.org 0.3-CURRENT MidnightBSD 0.3-CURRENT #1: Thu May 27
-22:13:45 EDT 2010     root@stargazer.midnightbsd.org:/usr/obj/usr/src/sys/GENERIC  amd64
-mirabilos@stargazer:~ $ gcc -static x.c
+<pre>mirabilos@stargazer:~ $ gcc -static x.c
 x.c: In function 'foo':
 x.c:27: warning: function returns address of local variable
 x.c: In function 'bar':
@@ -6781,9 +6777,11 @@ mirabilos@stargazer:~ $ ./a.out
 0x800603080 0x800605040 0x800700000 0x7fffffffe63c 0x7fffffffe63c
 mirabilos@stargazer:~ $ ./a.out
 0x800603080 0x800605040 0x800700000 0x7fffffffe62c 0x7fffffffe62c</pre>
+<p>uname: <tt>MidnightBSD stargazer.midnightbsd.org 0.3-CURRENT MidnightBSD 0.3-CURRENT #1: Thu May 27
+22:13:45 EDT 2010     root@stargazer.midnightbsd.org:/usr/obj/usr/src/sys/GENERIC  amd64</tt></p>
 
 <h3>Debian sid/mipsel</h3>
-<p>(QEMU, thanks to Aurélien! approx. 7 months old Debian unstable)</p>
+<p>(QEMU, thanks to Aurélien! Debian unstable from approx. Jan 2010)</p>
 <pre>root@debian-mipsel:~ # gcc-4.4 -static x.c
 x.c: In function 'foo':
 x.c:27: warning: function returns address of local variable
@@ -6796,9 +6794,8 @@ root@debian-mipsel:~ # ./a.out
 root@debian-mipsel:~ # ./a.out
 0x4aa740 0x4aa750 0x2aaa8008 0x7fb68238 0x7fb68228
 root@debian-mipsel:~ # ./a.out
-0x4aa740 0x4aa750 0x2aaa8008 0x7fc586c8 0x7fc586b8
-root@debian-mipsel:~ # uname -a
-Linux debian-mipsel 2.6.32-trunk-4kc-malta #1 Mon Jan 11 03:45:08 UTC 2010 mips GNU/Linux</pre>
+0x4aa740 0x4aa750 0x2aaa8008 0x7fc586c8 0x7fc586b8</pre>
+<p>uname: <tt>Linux debian-mipsel 2.6.32-trunk-4kc-malta #1 Mon Jan 11 03:45:08 UTC 2010 mips GNU/Linux</tt></p>
 
 <h3>Gentoo GNU/Linux on amd64</h3>
 <p>gcc-4.4.4, glibc-2.11.2-r0, 2.6.35-rc4 x86_64</p>
