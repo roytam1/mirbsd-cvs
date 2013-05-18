@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/lib/file.c,v 1.12 2006/11/19 22:16:36 bsiegert Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/lib/file.c,v 1.13 2006/11/19 22:34:07 tg Exp $ */
 /* $OpenBSD: file.c,v 1.26 2003/08/21 20:24:57 espie Exp $	*/
 
 /*
@@ -33,7 +33,7 @@
 #include <libgen.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/file.c,v 1.12 2006/11/19 22:16:36 bsiegert Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/file.c,v 1.13 2006/11/19 22:34:07 tg Exp $");
 
 /* Try to find the log dir for an incomplete package specification.
  * Used in pkg_info and pkg_delete. Returns the number of matches,
@@ -288,6 +288,8 @@ isURL(const char *fname)
     if (!strncmp(fname, "ftp://", 6))
 	return true;
     if (!strncmp(fname, "http://", 7))
+	return true;
+    if (!strncmp(fname, "https://", 7))
 	return true;
     return false;
 }
