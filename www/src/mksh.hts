@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.254 2009/07/07 20:37:02 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.255 2009/07/18 16:13:17 tg Exp $'
 mws_content <<'EOF'
 <h2>mksh(1) R38c</h2>
 
@@ -395,7 +395,7 @@ mws_content <<'EOF'
 <h5 id="oe_tcc">Compiler: tcc (Tiny C)</h5>
 <p>Support for Fabrice Bellard’s tcc appeared in mksh R31, although its
  unability to do ‘-E’ in older versions gave us some headache, and glibc
- currently makes it impossible to link the final executable.</p>
+ currently makes it impossible to link the final executable or run it.</p>
 
 <h5 id="oe_t15">Compiler: TenDRA (maybe Ten15 too)</h5>
 <p>Support for TenDRA appeared in mksh R31 and appears to be solid; mksh
@@ -789,9 +789,13 @@ mws_content <<'EOF'
 <h3 id="regress_dev">Development Versions post release</h3>
 <ul>
  <li style="list-style:none;">– tests by the project, using Build.sh –</li>
- <li>Debian GNU/Linux sid 2.6.26-1-xen-amd64 (amd64 gcc4.5.0-r147610 gcc-snapshot_20090516-1) <em>but <tt>-combine</tt> is broken again *sigh…*</em></li>
+ <li>Debian GNU/Linux sid 2.6.18-6-686 (i386 gcc4.5.0-r148747 gcc-snapshot_20090620-1) <em>but <tt>-combine</tt> is broken again *sigh…*</em></li>
+ <li>Debian GNU/Linux sid 2.6.18-6-686 (i386 gcc4.4.0-11)</li>
  <li>Debian GNU/Linux sid 2.6.18-6-686 (i386 nwcc0.7.9)</li>
  <li style="list-style:none;">– other build system integration –</li>
+ <li>Debian GNU/Linux sid 2.6.18-6-686 (i386 gcc4.3.3-14 +eglibc2.9-20) <em>via Debian package</em></li>
+ <li>Debian GNU/Linux sid 2.6.18-6-686 (i386 gcc4.3.3-14 +dietlibc0.31-1.2) <em>via Debian package</em></li>
+ <li>Debian GNU/Linux sid 2.6.18-6-686 (i386 gcc4.3.3-14 +klibc1.5.15-2~tg+1) <em>via Debian package</em></li>
 </ul>
 <h3 id="regress_rel">Current Release</h3>
 <ul>
@@ -939,6 +943,8 @@ mws_content <<'EOF'
  <li>Fabrice Bellard’s tcc in combination with GNU libc often fails linking
   with an error message like this:<br /><tt>/usr/lib/libc_nonshared.a:
   '__i686.get_pc_thunk.bx' defined twice</tt> (eg. Debian lenny tcc0.9.24-1)</li>
+ <li>Fabrice Bellard’s tcc in combination with GNU libc may link but the
+  resulting executable segfaults at startup (eg. Debian sid tcc0.9.24-1)</li>
  <li>tack.sf.net (ACK 6.0pre3) on GNU/Linux needs... lots of work</li>
  <li>klibc (klcc) on GNU/Linux needs a few patches to work</li>
  <li>mksh works on Plan 9, but does not return after executing a non-builtin
@@ -1038,6 +1044,7 @@ mws_content <<'EOF'
  <li>[tg] Aligh “set -o nounset” / “set -u” behaviour with future POSIX
   standard, as discussed with GNU bash maintainers, David Korn from AT&amp;T
   ksh93, and The Open Group; prompted by use of it in Debian, cf. #522255</li>
+ <li>[tg] Build system is now more reliable wrt. passed CPPFLAGS</li>
 </ul>
 <p id="r38c">mksh R38c contains the following fixes:</p><ul>
  <li>[tg] Fix regression tests on OSes insisting on a shebang (Cygwin)</li>
