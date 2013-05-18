@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.111 2007/08/19 12:16:20 tg Exp $
+# $MirOS: src/Makefile,v 1.112 2007/08/24 14:12:17 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -137,7 +137,7 @@ do-htman:
 	mkdir -p ${BSDOBJDIR}/htman/texinfo
 	cd ${BSDOBJDIR} && env WRITEDIR=${BSDOBJDIR:Q} \
 	    ${SHELL} ${BSDSRCDIR}/scripts/systrace.mk ${MAKE} ${SHELL}
-	cd ${.CURDIR} && ${_STFILE_OBJ} ${MAKE} do-htinfo
+	cd ${.CURDIR} && ${_STCMD_OBJ} ${MAKE} do-htinfo
 	-rm -f ${BSDOBJDIR}/.policy.mk
 	cp ${BSDOBJDIR}/share/doc/legal/LICENCE-BSD.0 \
 	    ${BSDOBJDIR}/htman/man/cat7/BSD-Licence.0
