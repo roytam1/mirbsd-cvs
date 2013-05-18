@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.18 2006/04/10 21:51:52 tg Exp $
+# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.19 2006/04/11 18:52:21 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -64,7 +64,7 @@ ed -s etc/ntpd.conf <<-'EOF'
 EOF
 ed -s etc/rc <<-'EOF'
 	1i
-		# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.18 2006/04/10 21:51:52 tg Exp $
+		# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.19 2006/04/11 18:52:21 tg Exp $
 	.
 	/shutdown request/ka
 	/^fi/a
@@ -82,7 +82,7 @@ ed -s etc/rc <<-'EOF'
 			mount_mfs -s ${2:-300000} swap /$1
 		}
 		print -n 'creating memory filesystems...'
-		do_mfsmount etc 40960
+		do_mfsmount etc 20480
 		do_mfsmount tmp 600000
 		do_mfsmount usr/X11R6/lib/X11 20480
 		do_mfsmount var
