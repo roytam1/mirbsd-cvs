@@ -1781,7 +1781,7 @@ mksh_cfg= NSIG
 	# GNU sed 2.03 segfaults when optimising this to sed -n
 	NSIG=`vq "$CPP $CFLAGS $CPPFLAGS $NOWARN conftest.c" | \
 	    grep '^mksh_cfg *=[	 ]*[0-9x ()+-]*.*$' | \
-	    sed 's/^mksh_cfg *=[	 ]*\([0-9x ()+-]*\).*$/\1/'`
+	    sed 's/^mksh_cfg *=[	 ]*\([0-9x ()+-][0-9x	 ()+-]*\).*$/\1/'`
 	case $NSIG in
 	*[\ \(\)+-]*) NSIG=`"$AWK" "BEGIN { print $NSIG }"` ;;
 	esac
