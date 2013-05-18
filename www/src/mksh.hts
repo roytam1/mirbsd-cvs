@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.473 2012/10/21 22:08:51 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.474 2012/10/22 16:38:33 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1160,12 +1160,6 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Implement <tt>${foo@Q}</tt> like <tt>${foo:Q}</tt> in make(1)</li>
  <li>[tg] Remove some unused code; more int → bool conversion</li>
  <li>[tg] Fix using here documents in COMSUB etc. (LP: #1030581)</li>
- <li>[tg] Implement ksh93 feature <tt>${ foo;}</tt>, then remove it again,
-  because jilles found issues with large-ish output and running into pipe
-  buffer limits because there’s no concurrent reading process; this feature
-  will (can) not come back until that is solved, and tg does not know how
-  it could (no parallel programming possible, and doing it from signal(3)
-  handlers is a recipe for disasters)…</li><!-- nuke on upload -->
  <li>[tg] Fix ulimit builtin usage to match what limits we actually know</li>
  <li>[tg] Allow overriding /etc location, experts only (LP: #1039713)</li>
  <li>[tg] Update to Unicode 6.1.0</li>
@@ -1185,8 +1179,11 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[Andrew Kudryashov] Manpage, Website: point out correct mailing list</li>
  <li>[tg, Andrew Kudryashov] Fix <tt>~/nonexistant</tt> tab completion</li>
  <li>[tg] Optimise sh -c “[^]\t\n"-$&amp;-*;-?[\\`|]*” to exec, inspired by
-  Jilles Tjoelker (<em>experimental</em>, not as good as it could be)</li>
+  Jilles Tjoelker (<tt>-DMKSH_DISABLE_EXPERIMENTAL</tt> to ostracise)</li>
  <li>[tg] Fix <tt>$?</tt> inside <tt>eval</tt> (RedHat BZ#865121)</li>
+ <li>[tg] Implement ksh93 feature <tt>${ foo;}</tt> (second attempt, exclude
+  with <tt>-DMKSH_DISABLE_EXPERIMENTAL</tt>, using tempfiles this time),
+  but do not use it in <tt>dot.mkshrc</tt> yet (until stable)</li><!-- nuke this line on release -->
 </ul>
 <p>Changes in the current (unreleased) stable branch:</p><ul>
  <li>[tg] Fix a bug in the manual page</li>
