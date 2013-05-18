@@ -1,6 +1,6 @@
 /* An ircII-like split-screen front end
-   Copyright (c) 2006
-  	Thorsten "mirabile" Glaser <tg@mirbsd.de>
+   Copyright (c) 2006, 2007
+  	Thorsten "mirabilos" Glaser <tg@mirbsd.de>
    Copyright (C) 1995 Roger Espel Llima
 
    Started: 17 Feb 95 by orabidoo <roger.espel.llima@ens.fr>
@@ -15,17 +15,17 @@
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
-   the Free Software Foundation. See the file
-   /usr/share/doc/legal/COPYING-2 for details.
+   the Free Software Foundation. See /usr/share/doc/legal/COPYING-2 for
+   details.
 
-   Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
-   express, or implied, to the maximum extent permitted by applicable
-   law, without malicious intent or gross negligence; in no event may
-   licensor, an author or contributor be held liable for any indirect
-   or other damage, or direct damage except proven a consequence of a
-   direct error of said person and intended use of this work, loss or
-   other issues arising in any way out of its use, even if advised of
-   the possibility of such damage or existence of a nontrivial bug.
+   This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
+   the utmost extent permitted by applicable law, neither express nor
+   implied; without malicious intent or gross negligence. In no event
+   may a licensor, author or contributor be held liable for indirect,
+   direct, other damage, loss, or other issues arising in any way out
+   of dealing in the work, even if advised of the possibility of such
+   damage or existence of a defect, except proven that it results out
+   of said person's immediate fault when using the work as intended.
 */
 
 #include <sys/types.h>
@@ -41,10 +41,10 @@
 
 #ifdef USE_SGTTY
 #include <sgtty.h>
-#elif defined(USE_TERM)
-#include <term.h>
-#else
+#elif defined(USE_TERMIOS)
 #include <termios.h>
+#else
+#include <term.h>
 #endif
 
 #include <sys/ioctl.h>
@@ -57,7 +57,7 @@
 #define	__RCSID(x)	static const char __rcsid[] __attribute__((used)) = (x)
 #endif
 
-__RCSID("$MirOS: ports/comms/ssfe/dist/ssfe.c,v 1.7 2006/01/01 21:54:25 tg Exp $");
+__RCSID("$MirOS: ports/comms/ssfe/dist/ssfe.c,v 1.8 2006/01/24 22:05:06 tg Exp $");
 
 #define BUF_SIZE 4096
 #define MAX_COLS 4096
@@ -130,7 +130,7 @@ int ansi_cs = 0;
 fd_set ready, result;
 extern int errno;
 
-#ifndef USE_TERM
+#if defined(USE_SGTTY) || defined(USE_TERMIOS)
 #ifdef __GNUC__
 extern unsigned char *tgoto(unsigned char *cm, int col, int line);
 #else
@@ -461,7 +461,7 @@ void doprotcommand() {
   }
 }
 
-void Newline() {
+void Newline(const char *ob) {
   unsigned char t;
   hold_Lines++;
   if (hold_mode && hold_Lines>Lines-4) {
@@ -484,6 +484,7 @@ void Newline() {
     normal();
     winscroll();
     gotoxy(Cols-1, wherey);
+    if (ob) write(1, ob, strlen(ob));
     if (bold) setbold();
     if (under) setunder();
     if (inv) setinv();
@@ -499,13 +500,12 @@ int rc; {
 #endif
 
   unsigned char t, *r, *lwr, *lww, dtsc[255];
-  int lwrc, lwbold = 0, lwunder = 0, lwinv = 0, lwx, dts;
+  int lwrc, lwbold = 0, lwunder = 0, lwinv = 0, lwx;
 
   if ((readbuf[2] == ':') && (readbuf[5] > 0x7E)) {
     int i = 5, j;
     memset(dtsc, 0, sizeof (dtsc));
-    strlcpy(dtsc, "\r\n     ", sizeof (dtsc));
-    j = strlen(dtsc);
+    j = strlcpy(dtsc, "\r\n     ", sizeof (dtsc));
     dtsc[j++] = readbuf[i++];
     if (readbuf[i-1] >= 0xC0)
       while ((readbuf[i] < 0xC0) && (readbuf[i] > 0x7F) &&
@@ -523,8 +523,7 @@ int rc; {
     cursorwhere=0;
   }
   if (donl) {
-    Newline();
-    write(1, "\r\n", 2);
+    Newline("\r\n");
     normal();
     wherex=0;
     bold=inv=under=lwbold=lwinv=lwunder=0;
@@ -553,7 +552,6 @@ int rc; {
   lwr=r=readbuf;
   lwrc=rc;
   lwx=wherex;
-  dts = strlen(dtsc) + 1;
   while(rc-->0) {
     t=(*r++);
     if (t=='\r') continue;
@@ -566,8 +564,7 @@ int rc; {
 	rc++; r--;
       }
       write(1, writebuf, w-writebuf);
-      Newline();
-      write(1, dtsc, dts);
+      Newline(dtsc);
       w=writebuf;
       lwr=r; lww=w; lwrc=rc;
       lwbold=bold; lwinv=inv; lwunder=under;
@@ -577,8 +574,7 @@ int rc; {
     }
     if (t=='\n') {
       if (w!=writebuf) write(1, writebuf, w-writebuf);
-      Newline();
-      write(1, "\r\n", 2);
+      Newline("\r\n");
       normal();
       w=writebuf;
       lwr=r; lww=w; lwrc=rc;
@@ -1073,7 +1069,7 @@ unsigned char t; {
   } else if (t==22 && !quote) { /* ^v */
     quote++;
     return;
-#ifdef CONTROL_W
+#ifndef NO_CONTROL_W
   } else if (t==23 && !quote) { /* ^w */
     fullscroll();
     normal();

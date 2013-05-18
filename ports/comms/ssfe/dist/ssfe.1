@@ -11,7 +11,7 @@ screen interface for it.  The bottom line of the screen is the input
 line, which you can edit using emacs-like keys; above that is the
 status bar, and the scrolling area with the program's output.
 .PP
-You can configure 
+You can configure
 .B ssfe
 to reprint or not your own input lines, to use prompts, and to do word-wrap
 on the program's output.
@@ -35,7 +35,7 @@ Same as -cooked, but also interprets Ctrl-B, Ctrl-V and Ctrl-_ with the
 IRC convention (toggles for bold, inverse, underlined, respectively).
 .TP
 .BR "-hold"
-Sets hold-mode.  In hold mode, 
+Sets hold-mode.  In hold mode,
 .B ssfe
 will stop after each screenful, and wait for the user to hit TAB.
 .TP
@@ -44,7 +44,7 @@ In cooked or IRC mode, enables beeps.  When beeps are disabled, the
 character Ctrl-G is displayed as an inverse-video G.
 .TP
 .BR "-flow"
-Enables flow-control with ^S and ^Q.  
+Enables flow-control with ^S and ^Q.
 .B ssfe
 normally disables those, but some terminals require them to operate properly.
 .TP
@@ -58,12 +58,12 @@ Sets a prompt for the user input line.  The default prompt is none, or
 .SH ARGUMENTS
 .TP
 .BR "program [options]"
-Names the program that 
+Names the program that
 .B ssfe
 should run.
 
 .SH KEYS
-.B ssfe 
+.B ssfe
 understands these keys (^ means Control):
 .TP
 .BR "^\e"
@@ -117,7 +117,7 @@ With sirc, switch to the next channel you're on.
 .TP
 .BR "^u"
 Erase command-line.
-.TP 
+.TP
 .BR "^v"
 Insert the next character literally, even if it's a ^something.
 .TP
@@ -146,7 +146,7 @@ Suspend ssfe and sirc and go back to the unix prompt - you come back with 'fg'.
 .IX Header "BASELINE PROTOCOL"
 The baseline ssfe protocol, as implemented in the June 7, 1997 version of ssfe.c,
 implements the following escapes, which must start at the beginning of a line,
-be preceeded by string \*(L"`#ssfe#\*(R", and terminate with a newline. Unrecognized
+be preceeded by string \*(L"`#ssfe#\*(R", and terminate with a newline. Unrecognised
 escapes should be ignored. Commands may not be longer than 512 bytes in
 length.
 .IP "i" 4
@@ -223,7 +223,7 @@ the file /usr/share/doc/legal/COPYING-2 for details.
 
 .SH ENVIRONMENT VARIABLES
 .TP
-.BR TERM 
+.BR TERM
 sets the terminal type.  The terminal needs to be able to set a scrolling
 zone for ssfe to work.
 
@@ -232,4 +232,5 @@ None known, please report to the author.
 
 .SH AUTHOR
 .B sirc
-was written by Roger Espel Llima <roger.espel.llima@pobox.com>. 
+was written by Roger Espel Llima <roger.espel.llima@pobox.com>
+and enhanced and fixed by Thorsten Glaser <tg@mirbsd.de>.

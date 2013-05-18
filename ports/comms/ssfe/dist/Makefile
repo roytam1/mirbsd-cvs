@@ -1,8 +1,7 @@
-# $MirOS: ports/net/sirc/files/Makefile,v 1.1.7.1 2005/03/18 15:49:06 tg Exp $
+# $MirOS: ports/comms/ssfe/dist/Makefile,v 1.1 2005/09/01 19:34:29 tg Exp $
 
 PROG=		ssfe
 LDADD+=		-ltermcap
 DPADD+=		${LIBTERMCAP}
-CPPFLAGS+=	-DCONTROL_W -DUSE_TERM
 
 .include <bsd.prog.mk>
