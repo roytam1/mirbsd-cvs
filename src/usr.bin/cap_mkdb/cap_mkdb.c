@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.bin/cap_mkdb/cap_mkdb.c,v 1.7 2006/10/31 02:14:42 tg Exp $ */
+/**	$MirOS: src/usr.bin/cap_mkdb/cap_mkdb.c,v 1.8 2006/10/31 02:52:38 tg Exp $ */
 /*	$OpenBSD: cap_mkdb.c,v 1.13 2003/09/26 21:25:34 tedu Exp $	*/
 /*	$NetBSD: cap_mkdb.c,v 1.5 1995/09/02 05:47:12 jtc Exp $	*/
 
@@ -51,7 +51,7 @@
 __COPYRIGHT("@(#) Copyright (c) 1992, 1993\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)cap_mkdb.c	8.2 (Berkeley) 4/27/95");
-__RCSID("$MirOS: src/usr.bin/cap_mkdb/cap_mkdb.c,v 1.7 2006/10/31 02:14:42 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/cap_mkdb/cap_mkdb.c,v 1.8 2006/10/31 02:52:38 tg Exp $");
 
 void	 db_build(char **);
 void	 dounlink(void);
@@ -252,7 +252,14 @@ db_build(char **ifiles)
 				*t++ = *c++;
 				if (*c == '\0')
 					break;
-				*t++ = *c++;
+				if (info && ((c[-1] == '\\') && (*c == ':'))) {
+					/* must be escaped */
+					*t++ = '0';
+					*t++ = '7';
+					*t++ = '2';
+					c++;
+				} else
+					*t++ = *c++;
 			}
 			/* we have an unescaped character */
 			if (*c == (info ? ',' : ':')) {
