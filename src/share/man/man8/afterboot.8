@@ -1,4 +1,4 @@
-.\"	$MirOS: src/share/man/man8/afterboot.8,v 1.8 2006/04/19 18:40:04 tg Exp $
+.\"	$MirOS: src/share/man/man8/afterboot.8,v 1.9 2006/04/19 18:41:35 tg Exp $
 .\"	$OpenBSD: afterboot.8,v 1.110 2005/07/14 21:12:17 jmc Exp $
 .\"
 .\" Copyright (c) 1997 Marshall M. Midden
@@ -388,7 +388,7 @@ To keep any custom message intact, ensure that you leave two blank lines
 at the top, or your message will be overwritten.
 .Ss Add new users
 Add users.
-There is an
+There is no
 .Xr adduser 8
 script.
 You may use
@@ -873,9 +873,7 @@ ukc>
 Additionally, you can permanently save the changes made with UKC during
 boot time in the kernel image.
 .Sh SEE ALSO
-.Xr adduser 8 ,
 .Xr aliases 5 ,
-.Xr amd 8 ,
 .Xr bootpd 8 ,
 .Xr bootptab 5 ,
 .Xr ccd 4 ,
@@ -892,7 +890,6 @@ boot time in the kernel image.
 .Xr dhcp 8 ,
 .Xr dhcpd 8 ,
 .Xr dmesg 8 ,
-.Xr domainname 1 ,
 .Xr fstat 1 ,
 .Xr hostname 1 ,
 .Xr ls 1 ,
@@ -908,7 +905,6 @@ boot time in the kernel image.
 .Xr ccd 4 ,
 .Xr aliases 5 ,
 .Xr crontab 5 ,
-.Xr defaultdomain 5 ,
 .Xr dhcpd.conf 5 ,
 .Xr exports 5 ,
 .Xr fbtab 5 ,
@@ -928,8 +924,6 @@ boot time in the kernel image.
 .Xr hostname 7 ,
 .Xr packages 7 ,
 .Xr ports 7 ,
-.Xr adduser 8 ,
-.Xr amd 8 ,
 .Xr ccdconfig 8 ,
 .Xr chown 8 ,
 .Xr config 8 ,
@@ -969,3 +963,5 @@ boot time in the kernel image.
 .Sh HISTORY
 This document first appeared in
 .Ox 2.2 .
+.Sh BUGS
+This document is totally out of date.
