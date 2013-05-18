@@ -3,7 +3,7 @@
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.218 2009/04/07 20:39:58 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.219 2009/04/07 22:38:00 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R37c</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -754,55 +754,51 @@ mws_content <<'EOF'
 <h2 id="regress">Official Testing</h2>
 <p>The MirOS Project has tested mksh on the following operating systems,
  asked people to test, and hunted mksh down in these packaging systems:</p>
+<!--
 <h3 id="regress_dev">Development Versions post release</h3>
 <ul>
  <li style="list-style:none;">– tests by the project, using Build.sh –</li>
- <li>BSDi BSD/OS 3.1 #4 M300-043 (i386 gcc2.7.2.1)</li>
- <li>BSDi BSD/OS 3.1 #4 M300-043 (i386 gcc1.42)</li>
  <li style="list-style:none;">– other build system integration –</li>
- <li>Fedora GNU/Linux Core 10 2.6.27.9-159.fc10.x86_64 (amd64 gcc4.4.0-0.23)</li>
 </ul>
+-->
 <h3 id="regress_rel">Current Release</h3>
 <ul>
- <li style="list-style:none;">– tests by the project, using Makefile –</li>
+<li style="list-style:none;">– tests by the project, using Makefile –</li>
  <li>MirOS #10-current (i386 gcc3.4.6)</li>
  <li>MirOS #10-current (sparc gcc3.4.6)</li>
- <li style="list-style:none;">– tests by the project, using Build.sh –</li>
+<li style="list-style:none;">– tests by the project, using Build.sh –</li>
  <li>MirOS #10-current (i386 clang58935mp0 llvm58935mp0)</li>
  <li>MirOS #10-current (i386 clang58935mp0 opt+llc+llvm58935mp0)</li>
- <li>MirOS #10-current (i386 llvmgcc4.2.1-Apple_5627 llvm58935mp0)</li>
- <li>MirOS #10-current (i386 llvmgcc4.2.1-Apple_5627 opt+llc+llvm58935mp0)</li>
- <li>MirOS #10-current (i386 pcc20081028)</li>
- <li>MirOS #10-current (i386 pcc20081028-MirPorts-0)</li>
+ <li>MirOS #10-current (i386 llvmgcc4.2.1-Apple_5627mp2 llvm58935mp0)</li>
+ <li>MirOS #10-current (i386 llvmgcc4.2.1-Apple_5627mp2 opt+llc+llvm58935mp0)</li>
+ <li>MirOS #10-current (i386 pcc20081028-MirPorts-1)</li>
  <li>MirOS #10-current (i386 SUNWcc5.9 Linux_i386 2007/05/03, GNU ld 2.13.90.0.2 20020802)</li>
+ <li>BSDi BSD/OS 3.1 #4 M300-043 (i386 gcc2.7.2.1)</li>
+ <li>BSDi BSD/OS 3.1 #4 M300-043 (i386 gcc1.42)</li>
  <li>DragonFly 1.9-DEVELOPMENT Feb 17, 2007 (i386 gcc3.4.6)</li>
- <li>MidnightBSD 0.2.1-RELEASE-p2 (i386 pcc20081028-MirPorts-0)</li>
- <li>NetBSD 3.0_STABLE (i386 gcc3.3.3_nb3_20040520)</li>
- <li>OpenBSD 4.3 GENERIC#207 (zaurus gcc3.3.5)</li>
- <li>AIX 5.3 (powerpc gcc4.0.0_powerpc-ibm-aix5.1.0.0, LD 1.65 04/06/2005)</li>
- <li>AIX 5.3 32-bit (powerpc xlC9.0 070428, LD 1.65 04/06/2005)</li>
- <li>AIX 5.3 64-bit (powerpc xlC9.0 070428, LD 1.65 04/06/2005)</li>
+ <li>MidnightBSD 0.3-CURRENT (i386 gcc3.4.6-20080430)</li>
  <li>DEC OSF/1 X2.0-8 (Rev. 155) (mips cc3.0 ucode ld3.0) <em>without</em> testsuite check</li>
  <li>DEC ULTRIX 4.5 0 RISC (mips cc3.0 ucode ld3.0)</li>
  <li>HP Tru64 OSF/1 V5.1B 2650 (alpha Compaq C V6.5-011 Rev. 2650)</li>
  <li>HP Tru64 OSF/1 V5.1B 2650 (alpha gcc2.97-tru64-010710 alphaev56)</li>
- <li>Mac OSX Leopard 10.5.5 (9F33) Darwin 9.5.0 (amd64 gcc4.0.1-Apple_5484)</li>
- <li>Mac OSX Leopard 10.5.5 (9F33) Darwin 9.5.0 (i386 llvmgcc4.2.1-Apple_5555-LLVM_2039)</li>
  <li>Solaris 8 Generic_117350-41 sun4u (sparc gcc3.4.3)</li>
  <li>Solaris 8 Generic_117350-41 sun4u (sparc64 gcc3.4.3)</li>
- <li>Solaris 10 Generic_137111-02 sun4u (sparc gcc3.4.6) + arc4random.c</li>
- <li>Solaris 10 Generic_137111-02 sun4u (sparc64 gcc3.4.6)</li>
- <li>Solaris 10 Generic_137111-02 sun4u (sparc:V8+ SUNWcc5.9 124867-08 2008/10/07, ld 5.10-1.489)</li>
- <li>Solaris 10 Generic_137111-02 sun4u (sparc64 SUNWcc5.9 124867-08 2008/10/07, ld 5.10-1.489) + arc4random.c</li>
- <li>QNX 6.3.2 2006/03/16-14:19:50EST (i386 gcc2.95.3)</li>
+ <li>Solaris 10 Generic_137111-08 sun4u (sparc gcc3.4.6)</li>
+ <li>Solaris 10 Generic_137111-08 sun4u (sparc64 gcc3.4.6)</li>
+ <li>Solaris 10 Generic_137111-08 sun4u (sparc:V8+ SUNWcc5.9 124867-08 2008/10/07, ld 5.10-1.489)</li>
+ <li>Solaris 10 Generic_137111-08 sun4u (sparc64 SUNWcc5.9 124867-08 2008/10/07, ld 5.10-1.489)</li>
  <li>Cygwin_NT-5.0 1.5.25(0.156/4/2) 2008-04-17 12:11 i586 win2kSP2 (i386 gcc3.4.4)</li>
- <li>Cygwin_NT-5.0 1.5.25(0.156/4/2) 2008-04-17 12:11 i586 win2kSP2 (i386 gcc3.4.4) + arc4random.c</li>
- <li>Debian GNU 4.0 sid GNU-Mach 1.3.99/Hurd-0.3 i686-AT386 (i386 gcc4.3.1-7)</li>
- <li>Debian GNU/Linux 5.0 lenny 2.6.18-4-686 (i386 gcc4.3.2-1)</li>
+ <li>Debian GNU 5.0 sid GNU-Mach 1.3.99/Hurd-0.3 i686-AT386 (i386 gcc4.3.1-7)</li>
+ <li>CentOS GNU/Linux 5.2 2.6.18-92.1.18.el5xen (amd64 gcc4.1.2-44)</li>
+ <li>Debian GNU/Linux 4.0 etch 2.6.18-6-686 (i386 gcc1:3.3.6-15)</li>
+ <li>Debian GNU/Linux 4.0 etch 2.6.18-6-686 (i386 gcc4.1.1-21)</li>
+ <li>Debian GNU/Linux 4.0 lenny 2.6.18-6-686 (i386 gcc4.1.2-25)</li>
+ <li>Debian GNU/Linux 4.0 lenny 2.6.18-6-686 (i386 gcc4.3.2-1.1)</li>
+ <li>Debian GNU/Linux 4.0 lenny 2.6.18-6-686 (i386 TenDRA-4.1.2-18)</li>
  <li>ecce!GNU/Linux 1.00 2.0.38a (i386 libc5 gcc2.7.2.3) <em>except</em> locale support</li>
- <li style="list-style:none;">– tests by third parties (Build.sh) –</li>
- <li>Zenwalk GNU/Linux 2.6.25.4 (i386 gcc4.2.3) by Olivier Duchateau</li>
- <li style="list-style:none;">– other build system integration –</li>
+ <li>Minix 3 3.1.4~r4203? (i386 ACK)</li>
+ <li>Minix 3 3.1.4~r4203? (i386 gcc)</li>
+<li style="list-style:none;">– other build system integration –</li>
  <li>See the <a href="#otheros">Inclusion</a> section for general information</li>
  <li>Debian GNU/Linux 4.0 etch 2.6.18-4-686 (i386 gcc4.1.1-21) <em>via OBS SRPM package</em></li>
  <li>Fedora GNU/Linux Core 8 2.6.18-92.1.10.el5 (i386 gcc4.1.2-33) <em>by x86-7 buildd via Koji/EPEL packager</em></li>
@@ -839,24 +835,18 @@ mws_content <<'EOF'
 </ul>
 <h3 id="regress_old">Older Versions</h3>
 <ul>
- <li style="list-style:none;">– tests by the project, using Build.sh –</li>
+<li style="list-style:none;">– tests by the project, using Build.sh –</li>
  <li>MirOS #7-stable (sparc gcc2.95.3-078E)</li>
+ <li>MirOS #10-current (i386 pcc20081028)</li>
  <li>FreeBSD 6.2-RELEASE (i386 gcc3.4.6-20060305)</li>
- <li>MidnightBSD 0.1.1-RELEASE (sparc64 gcc3.4.4-20050518)</li>
- <li>MidnightBSD 0.2-CURRENT (i386 gcc3.4.6-20060305)</li>
- <li>Debian GNU/kFreeBSD 4.0 sid 6.2-1-686 (i386 gcc1:3.3.6-15)</li>
- <li>Debian GNU/kFreeBSD 4.0 sid 6.2-1-686 (i386 gcc3.4.6-6)</li>
- <li>Debian GNU/kFreeBSD 4.0 sid 6.2-1-686 (i386 gcc4.0.3-7)</li>
- <li>Debian GNU/kFreeBSD 4.0 sid 6.2-1-686 (i386 gcc4.1.2-19)</li>
- <li>Debian GNU/kFreeBSD 4.0 sid 6.2-1-686 (i386 gcc4.2.3-2)</li>
- <li>Debian GNU/kFreeBSD 4.0 sid 6.2-1-686 (i386 gcc4.3-20080227-1)</li>
- <li>Debian GNU/kFreeBSD 4.0 sid 6.2-1-686 (i386 gcc4.3-20080227-1) + arc4random.c</li>
- <li>HP-UX 11i 11.11 B.11.11 U PA-RISC 9000/800 (hppa aCC HP92453-01, ld B.11.60 070209) <em>without</em> testsuite check</li>
- <li>HP-UX 11i 11.11 B.11.11 U PA-RISC 9000/800 (hppa gcc3.4.2 hppa2.0w) <em>without</em> testsuite check</li>
- <li>HP-UX 11i v2 B.11.23 U ia64 (IA64 aCC B3910B A.06.10 [Mar 22 2006], ld 92453-07 B.12.45)</li>
- <li>HP-UX 11i v2 B.11.23 U ia64 (IA64 gcc3.4.3)</li>
- <li>HP-UX 11i v3 B.11.31 U PA-RISC 9000/800 (hppa aCC HP92453-01, ld B.11.60 070209)</li>
- <li>HP-UX 11i v3 B.11.31 U ia64 (IA64 aCC B3910B A.06.14 [Feb 22 2007], ld 92453-07 B.12.43)</li>
+ <li>MidnightBSD 0.2.1-RELEASE-p2 (i386 pcc20081028-MirPorts-0)</li>
+ <li>NetBSD 3.0_STABLE (i386 gcc3.3.3_nb3_20040520)</li>
+ <li>OpenBSD 4.3 GENERIC#207 (zaurus gcc3.3.5)</li>
+ <li>AIX 5.3 (powerpc gcc4.0.0_powerpc-ibm-aix5.1.0.0, LD 1.65 04/06/2005)</li>
+ <li>AIX 5.3 32-bit (powerpc xlC9.0 070428, LD 1.65 04/06/2005)</li>
+ <li>AIX 5.3 64-bit (powerpc xlC9.0 070428, LD 1.65 04/06/2005)</li>
+ <li>Mac OSX Leopard 10.5.5 (9F33) Darwin 9.5.0 (amd64 gcc4.0.1-Apple_5484)</li>
+ <li>Mac OSX Leopard 10.5.5 (9F33) Darwin 9.5.0 (i386 llvmgcc4.2.1-Apple_5555-LLVM_2039)</li>
  <li>Mac OSX Leopard 10.5.4 (9E17) Darwin 9.4.0 (i386 gcc4.0.1-Apple_5480)</li>
  <li>Mac OSX Leopard 10.5.4 (9E17) Darwin 9.4.0 (i386 gcc4.2.1-Apple_5558)</li>
  <li>Mac OSX Leopard Server 10.5.4 (9E17) Darwin 9.4.0 (macppc gcc3.3-20030304-Apple_1823)</li>
@@ -864,89 +854,25 @@ mws_content <<'EOF'
  <li>Mac OSX Leopard Server 10.5.4 (9E17) Darwin 9.4.0 (macppc cross-llvmgcc4.2.1-Apple_5555-LLVM_2039)</li>
  <li>Max OSX iPhoneOS 2.0 (N82AP) Darwin 9.3.1 (arm cross-gcc4.0.1-Apple_5484 Apple SDK)</li>
  <li>Max OSX iPhoneOS 2.0 (N82AP) Darwin 9.3.1 (arm llvmgcc4.2.1-Apple_5555 Saurik iphone-gcc 4.2-20080604-1-8)</li>
- <li>Interix 3.5 SP-8.0.1969.1 (i386 gcc3.3 win2k)</li>
- <li>Interix 3.5 SP-8.0.1969.1 (i386 msc CL.EXE 13.00.9466 (standard), LINK.EXE 7.00.9466)</li>
- <li>Interix 3.5 SP-8.0.1969.1 (i386 msc CL.EXE 14.00.50727.42 (optimising), LINK.EXE 8.00.50727.42)</li>
- <li>Interix 6 10.0.6030.0 (i386 gcc3.3 mistda) <em>without</em> testsuite check</li>
- <li>Interix 6 10.0.6030.0 (i386 msc CL.EXE 13.00.9466 (standard), LINK.EXE 7.00.9466) <em>without</em> testsuite check</li>
- <li>UWIN-NT 4.1.0/5.0 2195 2006-02-14 (i386 dmc DMC.EXE 8.42n, LINK.EXE OPTLINK 7.50B1)</li>
- <li>UWIN-NT 4.1.0/5.0 2195 2006-02-14 (i386 msc CL.EXE 13.00.9466, LINK.EXE 7.00.9466)</li>
- <li>Debian GNU 4.0 sid GNU-Mach 1.3.99/Hurd-0.3 i686-AT386 (i386 gcc3.4.6-5)</li>
- <li>Debian GNU 4.0 sid GNU-Mach 1.3.99/Hurd-0.3 i686-AT386 (i386 gcc4.0.4-1)</li>
- <li>Debian GNU 4.0 sid GNU-Mach 1.3.99/Hurd-0.3 i686-AT386 (i386 gcc4.1.2-23)</li>
- <li>Debian GNU 4.0 sid GNU-Mach 1.3.99/Hurd-0.3 i686-AT386 (i386 gcc4.2.4-3)</li>
- <li>Debian GNU 4.0 sid GNU-Mach 1.3.99/Hurd-0.3 i686-AT386 (i386 gcc4.3.1-5) + arc4random.c</li>
- <li>Ångström GNU/Linux spitz 2.6.20.6 PREEMPT (armv5tel glibc2.5 gcc4.1.2)</li>
- <li>Debian GNU/Linux 4.0 etch 2.6.18-4-686 (i386 gcc1:3.3.6-15)</li>
- <li>Debian GNU/Linux 4.0 etch 2.6.18-4-686 (i386 gcc4.1.1-21)</li>
- <li>Debian GNU/Linux 4.0 etch 2.6.18-4-686 (i386 dietlibc-0.30-4 gcc4.1.1-21)</li>
- <li>Debian GNU/Linux 4.0 etch 2.6.18-4-686 (i386 TenDRA-4.1.2)</li>
- <li>Debian GNU/Linux 4.0 etch 2.6.18-5-alpha-generic (alpha gcc1:3.3.6-15)</li>
- <li>Debian GNU/Linux 4.0 etch 2.6.18-5-alpha-generic (alpha gcc4.1.1-21)</li>
- <li>Debian GNU/Linux 4.0 etch 2.6.18-6-mckinley (IA64 gcc4.1.1-21)</li>
- <li>Debian GNU/Linux 4.0 testing 2.6.24-1-686 (i386 gcc3.4.6-7)</li>
- <li>Debian GNU/Linux 4.0 testing 2.6.24-1-686 (i386 gcc4.1.2-23)</li>
- <li>Debian GNU/Linux 4.0 testing 2.6.24-1-686 (i386 gcc4.2.4-2+b1)</li>
- <li>Debian GNU/Linux 4.0 testing 2.6.24-1-686 (i386 gcc4.3.1-2)</li>
- <li>Debian GNU/Linux 4.0 testing 2.6.25-2-686 (i386 llvmgcc4.2.1-Apple_5555 llvm52845)</li>
- <li>Debian GNU/Linux 4.0 sid 2.6.18-6-vserver-s390x (S/390 gcc4.3.1-2)</li>
- <li>Debian GNU/Linux 4.0 sid 2.6.22-2-powerpc (macppc gcc4.2.2-3)</li>
- <li>Mandriva GNU/Linux CS 2006.0 2.6.12-22mdksmp (i386 gcc4.0.1-5mdk)</li>
- <li>Oracle Enterprise GNU/Linux 4 2.6.9-42.0.0.0.1.ELsmp (amd64 gcc3.4.6-3.1 Red Hat)</li>
- <li>Red Hat GNU/Linux RHEL5 2.6.18-8.1.6.el5 (amd64 gcc4.1.1-52)</li>
- <li>SuSE GNU/Linux SLES10 2.6.16.27-0.9-smp (amd64 gcc4.1.0)</li>
- <li>SuSE GNU/Linux SLES10 2.6.16.27-0.9-default (IA64 icc9.1.046-20070111)</li>
- <li>SuSE GNU/Linux SLES10 2.6.16.27-0.9-default (IA64 gcc4.1.0)</li>
- <li style="list-style:none;">– tests by the project, using ports –</li>
- <li>MirOS #10-current (i386 gcc3.4.6) via MirOS SRPM</li>
- <li>MirOS #10-current (i386 gcc3.4.6) via MirPorts Framework</li>
- <li>OpenBSD 4.3 GENERIC#207 (zaurus gcc3.3.5) via MirOS OpenBSD-Port</li>
- <li>Debian GNU/Linux 4.0 etch 2.6.18-4-686 (i386 gcc4.1.1-21) via MirOS SRPM</li>
- <li>Debian GNU/Linux 4.0 testing 2.6.25-2-686 (i386 gcc4.3.1-2) libc6-2.7-10 + dietlibc-0.31-1 + libbsd-0.0-3) via MirOS Debian package</li>
- <li style="list-style:none;">– tests by third parties (Build.sh) –</li>
- <li>MidnightBSD 0.1.1-RELEASE (amd64 gcc3.4.4-20050518) by Lucas Holt</li>
+ <li>QNX 6.3.2 2006/03/16-14:19:50EST (i386 gcc2.95.3)</li>
+<li style="list-style:none;">– tests by third parties (Build.sh) –</li>
  <li>AIX 5.2 (powerpc xlC7.0) by Jupp Söntgen</li>
- <li>HP OSF/1 V4.0F 1229 (alpha DEC C V5.9-005) by Jupp Schugt</li>
- <li>HP OSF/1 V4.0F 1229 (alpha gcc2.8.1 alpha-dec-osf4.0d) by Jupp Schugt</li>
  <li>SGI IRIX64 6.5 (mips:R10K mipspro7.4.4m) by Elias Pipping</li>
  <li>SGI IRIX64 6.5 (mips:R10K gcc3.4.1) by Elias Pipping</li>
- <li>GNU/Linux (amd64 nwcc) by «skppo_:#MidnightBSD»</li>
- <li style="list-style:none;">– other build system integration –</li>
+ <li>Zenwalk GNU/Linux 2.6.25.4 (i386 gcc4.2.3) by Olivier Duchateau</li>
+<!--
+<li style="list-style:none;">– other build system integration –</li>
  <li>See the <a href="#otheros">Inclusion</a> section for general information</li>
- <li>Debian GNU/kFreeBSD 4.0 sid 7.0-1-586 (i386 gcc4.3.0-2) <em>via MirOS provided Debian package</em></li>
- <li>Debian GNU/kFreeBSD 4.0 sid 7.0-1-586 (i386 gcc4.3.0-2) <em>via MirOS provided SRPM package</em></li>
- <li>Debian GNU/Linux 4.0 etch 2.6.18-4-k7 (i386 gcc4.1.1-21) <em>via MirOS provided Debian package</em></li>
- <li>Debian GNU/Linux 4.0 etch 2.6.18-4-k7 (i386 gcc4.1.1-21) <em>via MirOS provided SRPM package</em></li>
- <li>Debian GNU/Linux 4.0 testing 2.6.22-3-686 (i386 gcc4.2.3-1) <em>via MirOS provided Debian package</em></li>
- <li>Red Hat FC8 2.6.23.15-137.fc8 (i386 gcc4.1.2-33) <em>via MirOS provided SRPM package</em></li>
- <li>Red Hat FC8 2.6.23.15-137.fc8 (amd64 gcc4.1.2-33) <em>via MirOS provided SRPM package</em></li>
- <li style="list-style:none;">– tests by third parties (packagers) –</li>
- <li>Debian GNU/kFreeBSD 6.3-1-686 (i386 gcc4.3.0-2) <em>by ganymede1 buildd via Debian’s package</em></li>
- <li>Debian GNU/kFreeBSD 6.3-1-amd64-k8 (amd64 gcc4.3.0-2) <em>by ganymede2 buildd via Debian’s package</em></li>
- <li>Mac OSX Leopard 10.5.2 Darwin 9.2.0 (i386 gcc4.0.1 Apple Inc. build 5465) <em>by gecko2 via Fink package</em></li>
- <li>Debian GNU GNU-Mach 1.3.99/Hurd-0.3 i686-AT386 (i386 gcc4.2.2-4) <em>by beethoven buildd via Debian’s package</em></li>
- <li>Debian GNU/Linux 2.6.18-4-alpha-generic (alpha gcc4.2.3-3) <em>by goetz buildd via Debian’s package</em></li>
- <li>Debian GNU/Linux 2.6.22-3-vserver-amd64 (amd64 gcc4.2.3-3) <em>by excelsior buildd via Debian’s package</em></li>
- <li>Debian GNU/Linux 2.6.18sam armv4l (arm gcc4.3.0-1) <em>by grieg buildd via Debian’s package</em></li>
- <li>Debian GNU/Linux 2.6.24-1-iop32x armv5tel (armel gcc4.3.0-2) <em>by arcadelt buildd via Debian’s package</em></li>
- <li>Debian GNU/Linux 2.6.22-14-hppa64 (hppa gcc4.2.3-2) <em>by bld-3 buildd via Debian’s package</em></li>
- <li>Debian GNU/Linux 2.6.24.1 (i386 gcc4.2.3-2) <em>by ninsei buildd via Debian’s package</em></li>
- <li>Debian GNU/Linux 2.6.18-dsa-mckinley (IA64 gcc4.3.0-2) <em>by mundy buildd via Debian’s package</em></li>
- <li>Debian GNU/Linux 2.6.24-1-mac (mac68k gcc4.2.3-2) <em>by zeus buildd via Debian’s package</em></li>
- <li>Debian GNU/Linux 2.6.25-rc3-00000-g84d8498-dirty (mips gcc4.3.0-2) <em>by mayr buildd via Debian’s package</em></li>
- <li>Debian GNU/Linux 2.6.24.1 (mipsel gcc4.3.0-2) <em>by rem buildd via Debian’s package</em></li>
- <li>Debian GNU/Linux 2.6.8-powerpc-smp (macppc gcc4.3.0-2) <em>by voltaire buildd via Debian’s package</em></li>
- <li>Debian GNU/Linux 2.6.18-5-s390x (S/390 gcc4.3.0-2) <em>by debian-31 buildd via Debian’s package</em></li>
- <li>Debian GNU/Linux 2.6.23.16 (sparc64,V8 gcc4.3.0-2) <em>by lebrun buildd via Debian’s package</em></li>
- <li>Fedora GNU/Linux Core 7 2.6.18-53.1.6.el5 (macppc64 gcc4.1.2-27 Red Hat) <em>by ppc3 buildd via Koji/EPEL packager</em></li>
- <li>Fedora GNU/Linux Core 7 2.6.18-53.1.6.el5xen (i386 gcc4.1.2-27 Red Hat) <em>by xenbuilder4 buildd via Koji/EPEL packager</em></li>
- <li>Fedora GNU/Linux Core 7 2.6.18-53.1.6.el5xen (amd64 gcc4.1.2-27 Red Hat) <em>by xenbuilder2 buildd via Koji/EPEL packager</em></li>
- <li>Fedora GNU/Linux Core 7 2.6.18-53.1.6.el5 (macppc gcc4.1.2-27 Red Hat) <em>by ppc4 buildd via Koji/EPEL packager</em></li>
- <li>Fedora GNU/Linux Extras 6 2.6.16.46-0.7-xen (i386 gcc4.1.1-30 Red Hat) <em>by build13 buildd via the openSUSE Build Service</em></li>
- <li>SuSE GNU/Linux 10.1 2.6.16.46-0.7-xen (i386 gcc4.1.0 SuSE) <em>by build02 buildd via the openSUSE Build Service</em></li>
- <li>SuSE GNU/Linux 10.1 2.6.16.46-0.7-xen (amd64 gcc4.1.0 SuSE) <em>by build10 buildd via the openSUSE Build Service</em></li>
- <li style="list-style:none;">– even older versions –</li>
+<li style="list-style:none;">– tests by third parties (packagers) –</li>
+-->
+<li style="list-style:none;">– even older versions –</li>
  <li>See <a href="mksh_old.htm#regress">the old-mksh site</a></li>
+ <li>MidnightBSD (amd64, sparc64) gcc</li>
+ <li>HP-UX 11i (hppa, IA64) gcc, aCC</li>
+ <li>Interix 3.5 (i386 win2k), 6 (i386 Vista) gcc, msc</li>
+ <li>UWIN-NT (i386) dmc, msc</li>
+ <li>GNU/Linux (alpha, amd64, i386, macppc, s390) gcc, TenDRA, icc,
+  llvm-gcc4.2, nwcc, dietlibc, glibc, µClibc</li>
 </ul>
 <h3 id="regress_fail">Known to FAIL Build or Test</h3>
 <ul>
@@ -954,7 +880,8 @@ mws_content <<'EOF'
   does not really work except a few basic commands</li>
  <li>Fabrice Bellard’s tcc in combination with GNU libc often fails linking
   with an error message like this:<br /><tt>/usr/lib/libc_nonshared.a:
-  '__i686.get_pc_thunk.bx' defined twice</tt> (eg. Debian etch tcc0.9.23)</li>
+  '__i686.get_pc_thunk.bx' defined twice</tt> (eg. Debian lenny tcc0.9.24-1)</li>
+ <li>klibc (klcc) on GNU/Linux needs a few patches to work</li>
  <li>mksh works on Plan 9, but does not return after executing a non-builtin
   command. Syllable Desktop exhibits the same behaviour.</li>
 </ul>
