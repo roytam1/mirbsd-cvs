@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.own.mk,v 1.22 2005/08/28 19:39:01 tg Exp $
+# $MirOS: src/share/mk/bsd.own.mk,v 1.23 2005/09/12 21:53:12 tg Exp $
 # $OpenBSD: bsd.own.mk,v 1.92 2005/01/18 00:28:42 mickey Exp $
 # $NetBSD: bsd.own.mk,v 1.24 1996/04/13 02:08:09 thorpej Exp $
 
@@ -44,7 +44,7 @@ CFLAGS+=	-Wall -Wextra -Wunused -Wdeclaration-after-statement -Wundef \
 # Set to yes to add CDIAGFLAGS to CFLAGS
 WARNINGS?=		No
 # Set to yes to build debugging versions of shared libraries and programmes
-DEBUGLIBS?=		No
+DEBUGLIBS?=		Yes
 DEBUGPROGS?=		No
 # Set to yes for a stricter patent policy (USA and OpenBSD only)
 MKC_USAP?=		No
