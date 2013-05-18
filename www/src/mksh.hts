@@ -1,4 +1,4 @@
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.83 2008/03/04 00:45:02 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.84 2008/03/04 22:55:45 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -757,6 +757,12 @@ mws_content <<'EOF'
 <li>Test ourselves on more platforms – OSF/1, Tru64, Ultrix</li>
 <li>Build with more platforms’ native tools or other compilers
  – ACK, kencc, ICC/UWIN, egcs/UWIN, tcc</li>
+<li>Maybe handle base-0 and base-1 “integers” as octets and unicode
+ characters, respectively: <tt>typeset -Uui16 x=0#A y=1#€; print $x
+ $y</tt> könnte dann <tt>16#41 16#20AC</tt> ausgeben (quasi wie die
+ <tt>asc()</tt> Funktion von BASIC), und – vice versa – <tt>typeset
+ -Uui0 x=0x40; typeset -Uui1 y=0x263A; print $x $y</tt> würde dann
+ <tt>0#@ 1#☺</tt> ausgeben. Currently, bases 2‥36 are valid.</li>
 </ul>
 
 <h2 id="clog">Recent Changes</h2>
