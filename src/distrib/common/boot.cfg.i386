@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/boot.cfg.i386,v 1.1 2006/08/17 19:34:13 tg Exp $
+# $MirOS: src/distrib/common/boot.cfg.i386,v 1.2 2006/09/24 17:48:32 tg Exp $
 #-
 # Note this file is processed in the IBM-CP437 charset!
 #
@@ -6,7 +6,7 @@ set image /v9/i386/bsd.rd
 set timeout 12
 echo
 echo =================================================================
-echo # MirOS BSD #9-current (i386) | (c) 2002-2006 The MirOS Project #
+echo # MirOS BSD #9-current (i386) | (c) 2002-2007 The MirOS Project #
 echo =================================================================
 echo
 echo To boot the MirOS installation system, from which you can
