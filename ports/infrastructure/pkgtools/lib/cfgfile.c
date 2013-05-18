@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/lib/cfgfile.c,v 1.1.2.8 2009/12/29 22:24:55 bsiegert Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/lib/cfgfile.c,v 1.1.2.9 2009/12/30 14:41:16 bsiegert Exp $ */
 
 /*-
  * Copyright (c) 2009
@@ -34,9 +34,10 @@
 #ifndef SYSCONFDIR
 # define SYSCONFDIR "/etc"
 #endif
-#define DEFAULT_CFGFILE SYSCONFDIR "/pkgtools/pkgtools.conf"
+#define CFGDIR SYSCONFDIR "/pkgtools/"
+#define DEFAULT_CFGFILE CFGDIR "pkgtools.conf"
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/cfgfile.c,v 1.1.2.8 2009/12/29 22:24:55 bsiegert Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/cfgfile.c,v 1.1.2.9 2009/12/30 14:41:16 bsiegert Exp $");
 
 SLIST_HEAD(cfg_varlist, cfg_var);
 struct cfg_var {
@@ -221,6 +222,22 @@ cfg_dump_vars(void)
 		printf("%s = %s\n", var->key, var->val);
 }
 
+/* Dump name and value of _one_ variable to stdout. Used in regression tests.
+ */
+void
+cfg_dump_var(const char *varname)
+{
+	struct cfg_var *var;
+	
+	SLIST_FOREACH(var, &Vars, entries) {
+		if (!strcmp(varname, var->key)) {
+			printf("%s = %s\n", var->key, var->val);
+			return;
+		}
+	}
+	printf("%s is undefined\n", varname);
+}
+
 /* Replace all occurrences of "$$" with a single dollar sign, and all
  * variables of the form ${FOO} or $(FOO) with their respective contents.
  * Returns dynamically allocated storage which has to be freed by the caller.
@@ -332,10 +349,8 @@ cfg_dump_sources(void)
 {
 	struct cfg_source *sp;
 
-	if (LIST_EMPTY(&Sources)) {
-		printf("Source list empty!\n");
+	if (LIST_EMPTY(&Sources))
 		return;
-	}
 
 	LIST_FOREACH(sp, &Sources, entries)
 		printf("Source %lu\t%s%s\n", sp->priority, sp->source,
@@ -435,3 +450,5 @@ cfg_get_sourcelist(void)
 
 	return &Sources;
 }
+
+
