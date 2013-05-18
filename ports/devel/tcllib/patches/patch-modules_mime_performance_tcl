@@ -1,9 +1,0 @@
-$OpenBSD: patch-modules_mime_performance_tcl,v 1.2 2003/12/27 23:23:51 jose Exp $
---- modules/mime/performance.tcl.orig	Sun Dec 21 10:56:59 2003
-+++ modules/mime/performance.tcl	Sun Dec 21 10:57:03 2003
-@@ -1,4 +1,4 @@
--#!/usr/bin/tclsh
-+#!/usr/bin/tclsh8.4
- 
- #package require mime
- source ./mime.tcl 

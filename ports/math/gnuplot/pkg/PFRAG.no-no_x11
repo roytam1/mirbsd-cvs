@@ -1,6 +1,0 @@
-@comment $MirOS: ports/math/gnuplot/pkg/PFRAG.no-no_x11,v 1.1.7.1 2005/03/18 15:50:05 tg Exp $
-@comment $OpenBSD: PFRAG.no-no_x11,v 1.1 2000/09/22 21:27:30 brad Exp $
-lib/X11/app-defaults/Gnuplot.app-defaults
-libexec/gnuplot/4.2/gnuplot_x11
-@dirrm libexec/gnuplot/4.2
-@dirrm libexec/gnuplot

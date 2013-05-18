@@ -1,4 +1,0 @@
-@comment $MirOS$
-${P5SITE}/Class/ISA.pm
-man/man3/Class::ISA${P5MAN3EXT}
-@dirrm ${P5SITE}/Class
