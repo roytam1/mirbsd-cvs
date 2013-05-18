@@ -1,15 +1,16 @@
-# $MirOS: src/distrib/i386/livecd/Makefile,v 1.14 2006/04/06 22:05:35 tg Exp $
+# $MirOS: src/distrib/i386/livecd/Makefile,v 1.15 2006/04/06 22:08:12 tg Exp $
 
 .include <bsd.own.mk>
 
 CDROM?=		livecd${OSrev}.iso
 REALOBJDIR!=	readlink -nf ${.OBJDIR}
+HOSTCFLAGS?=	${CFLAGS} ${COPTS}
 
 all install:
 
 it: ${CDROM}
 
-${CDROM}: unpack addcontrib prepimg nukefiles makeimg
+${CDROM}: unpack gendev addcontrib prepimg nukefiles makeimg
 
 unpack:
 	mkdir -p workdir
@@ -17,6 +18,21 @@ unpack:
 .for _i in base dev etc gnu
 	cd workdir && ${SUDO} tar xzphf ${BSDRELDIR}/rel/${_i}${OSrev}.ngz
 .endfor
+
+gendev: mr.fs
+
+mr.fs:
+	dd if=/dev/zero of=mr.fs bs=512 count=8192
+	${SUDO} vnconfig -v -c svnd0 mr.fs
+	${SUDO} disklabel -w -r svnd0 ipldisc
+	${SUDO} newfs -m 0 -o space -c 16 -i 1024 /dev/rsvnd0a
+	mkdir -p tmpmnt
+	${SUDO} mount /dev/svnd0a tmpmnt
+	${SUDO} cp workdir/dev/MAKEDEV tmpmnt/
+	cd tmpmnt && ${SUDO} ${MKSH} ./MAKEDEV all
+	@df -i tmpmnt
+	-${SUDO} umount tmpmnt
+	-${SUDO} vnconfig -u svnd0
 
 addcontrib:
 	mkdir -p tempdir/jupp
@@ -40,10 +56,11 @@ addcontrib:
 prepimg:
 	cd workdir && ${SUDO} mksh ${.CURDIR}/munge_it.sh
 
-bsd.gz: ${REALOBJDIR}/../generic/bsd
+bsd.gz: ${REALOBJDIR}/../generic/bsd mr.fs rdsetroot
 	-rm -f bsd bsd.gz
 	gzip -d <${REALOBJDIR}/../generic/bsd >bsd
 	print 'rootdev 6 0\nquit' | config -ef bsd	# (6,0) = cd0a
+	./rdsetroot bsd <mr.fs
 	gzip -n9 bsd
 
 nukefiles:
@@ -62,10 +79,17 @@ makeimg: bsd.gz
 	    -no-emul-boot -boot-load-size 4 -boot-info-table \
 	    -pad -o ${CDROM} workdir
 
-.PHONY: addcontrib it makeimg nukefiles prepimg unpack
+rdsetroot:	${.CURDIR}/../../common/elfrdsetroot.c
+	${HOSTCC} ${HOSTCFLAGS} -DDEBUG -o $@ ${.ALLSRC}
+
+unconfig:
+	-${SUDO} umount -f /dev/svnd0a
+	-${SUDO} vnconfig -u svnd0
+
+.PHONY: addcontrib gendev it makeimg nukefiles prepimg unconfig unpack
 
 clean cleandir cleannobsd:
-	-${SUDO} rm -rf ${CDROM} bsd bsd.gz tempdir workdir
+	-${SUDO} rm -rf ${CDROM} bsd{,.gz} mr.fs tempdir tmpmnt workdir
 
 .include <bsd.obj.mk>
 .include <bsd.subdir.mk>

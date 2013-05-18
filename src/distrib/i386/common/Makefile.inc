@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/common/Makefile.inc,v 1.10 2006/02/24 01:30:39 tg Exp $
+# $MirOS: src/distrib/i386/common/Makefile.inc,v 1.11 2006/04/06 11:07:29 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.15 2004/11/25 22:02:08 deraadt Exp $
 
 .ifndef _MODSRC_DISTRIB_I386_COMMON_MAKEFILE_INC
@@ -74,8 +74,8 @@ ${FS}:	bsd.gz
 	cp ${REALIMAGE} ${FS}
 	rm ${REALIMAGE}
 
-DISKTYPE?=       ipldisc
-NBLKS?=          8192
+DISKTYPE?=	ipldisc
+NBLKS?=		8192
 # minfree, opt, b/i  trks, sects, cpg
 NEWFSARGS=	-m 0 -o space -c 16 -i 3072
 
@@ -117,7 +117,7 @@ rdsetroot:	${TOP}/../common/elfrdsetroot.c
 	${HOSTCC} ${HOSTCFLAGS} -DDEBUG -o $@ ${TOP}/../common/elfrdsetroot.c
 
 unconfig:
-	-${SUDO} umount -f ${MOUNT_POINT}
+	-${SUDO} umount -f ${VND_DEV}
 	-${SUDO} vnconfig -u ${VND}
 
 .PRECIOUS:	${IMAGE}

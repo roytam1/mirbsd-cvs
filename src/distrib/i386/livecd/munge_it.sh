@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.9 2006/04/06 00:25:48 tg Exp $
+# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.10 2006/04/06 00:53:20 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -63,7 +63,12 @@ ed -s etc/ntpd.conf <<-'EOF'
 EOF
 ed -s etc/rc <<-'EOF'
 	1i
-		# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.9 2006/04/06 00:25:48 tg Exp $
+		# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.10 2006/04/06 00:53:20 tg Exp $
+	.
+	/shutdown request/ka
+	/^fi/a
+
+		mount /dev/rd0a /dev
 	.
 	/^rm.*fastboot$/a
 
@@ -73,23 +78,19 @@ ed -s etc/rc <<-'EOF'
 			mount_mfs -s ${2:-300000} swap /$1
 		}
 		print -n 'initialising memory filesystems...'
-		do_mfsmount dev 15000
-		do_mfsmount etc 150000
-		do_mfsmount root
+		do_mfsmount etc 60000
 		do_mfsmount tmp 600000
 		do_mfsmount var
 		sleep 2
+		print -n ' (extracting)'
 		cpio -mid </home/fsrw.cpio
 		sleep 1
 		do_mfsmount home
-		print ' done'
-		print -n 'creating device nodes (takes a long time)...'
-		(cd /dev; mksh ./MAKEDEV all)
-		print done
-		sleep 1
+		print '... done'
 		cp -r etc/skel home/live
 		chown -R 32762:32762 home/live
 	.
+	/rd0c/d
 	/openssl genrsa/s/4096/1024/
 	wq
 EOF
@@ -137,13 +138,16 @@ false && install -c -o root -g staff -m 644 $myplace/XF86Config etc/X11/XF86Conf
 install -c -o root -g staff -m 644 $myplace/fstab etc/fstab
 install -c -o root -g staff -m 644 $myplace/rc.netselect etc/rc.netselect
 
-(cd dev; mksh ./MAKEDEV std)
+(cd dev; mksh ./MAKEDEV std rd0a)
 pwd_mkdb -pd $(readlink -nf etc) master.passwd
 dd if=/dev/urandom bs=4096 count=1 of=var/db/host.random
 
+mv root dev/.root
+ln -s dev/.root root
+
 # tmp because of perms
-find dev etc root tmp var | sort | cpio -oC512 -Hsv4crc -Mset >home/fsrw.cpio
-rm -rf root var
-mkdir root var
+find dev/.root etc tmp var | sort | cpio -oC512 -Hsv4crc -Mset >home/fsrw.cpio
+rm -rf dev/.root var
+mkdir var
 
 exit 0
