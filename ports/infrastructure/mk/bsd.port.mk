@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.238 2008/11/10 01:43:57 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.239 2008/11/10 01:59:21 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -404,6 +404,9 @@ LDFLAGS+=		${LDSTATIC} -Wl,--library-after=${LOCALBASE}/lib
 LDFLAGS+=		-Wl,-rpath -Wl,${LOCALBASE}/lib
 .endif
 
+_DEFCOPTS_pcc?=		-O
+_DEFCOPTS_llvm?=	-O2 -fno-strict-aliasing -fwrapv -std=gnu99
+
 NO_CXX?=		No	# inhibit use of C++ ports
 .if ${USE_CXX:L} == "yes"
 .  if ${NO_CXX:L} == "yes"
@@ -426,10 +429,14 @@ USE_COMPILER?=		system
 .if ${USE_COMPILER:L} == "pcc"
 BUILD_DEPENDS+=		:pcc-*:lang/pcc
 USE_CCACHE:=		No
-_DEFCOPTS_pcc?=		-O
 _DEFCOPTS:=		${_DEFCOPTS_pcc}
 _ORIG_CC:=		pcc
 _ORIG_CXX:=		false
+.elif ${USE_COMPILER:L} == "llvm"
+BUILD_DEPENDS+=		:llvm-gcc*:lang/llvm-gcc
+_DEFCOPTS:=		${_DEFCOPTS_llvm}
+_ORIG_CC:=		llvm-gcc
+_ORIG_CXX:=		llvm-g++
 .endif
 _USE_CC:=		${_ORIG_CC}
 _USE_CXX:=		${_ORIG_CXX}
