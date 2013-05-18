@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.subdir.mk,v 1.12 2008/06/12 19:50:55 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.subdir.mk,v 1.13 2008/10/16 19:35:55 tg Exp $
 # $OpenBSD: bsd.port.subdir.mk,v 1.64 2004/04/07 13:06:33 espie Exp $
 # $FreeBSD: bsd.port.subdir.mk,v 1.20 1997/08/22 11:16:15 asami Exp $
 #
@@ -55,8 +55,8 @@ REPORT_PROBLEM?=exit 1
 .ifdef SUBONLY
 SUBDIR=		${SUBONLY}
 .elifndef _MANUAL_SUBDIR
-_SUBDIR!=	cd ${.CURDIR} && echo */Makefile \
-		    | sed -e 's!/Makefile!!g' | sort -R' '
+_SUBDIR!=	cd ${.CURDIR} && echo */Makefile | \
+		    sed -e 's!/Makefile!!g' | sort -R' '
 .  if ${_SUBDIR:N\*}
 SUBDIR+=	${_SUBDIR}
 .  endif
@@ -89,8 +89,8 @@ _subdir_fragment= \
 		set +e; \
 		if [[ $$d != *,* && -r bulklist ]]; then \
 			while read flavour; do \
-				f=$$([[ -z $$flavour ]] || echo "$$flavour" \
-				    | sed -e 's/ /,/g'); \
+				f=$$([[ -z $$flavour ]] || \
+				    sed -e 's/ /,/g' <<<"$$flavour"); \
 				tmp_toset="$$toset FLAVOUR=\"$$flavour\""; \
 				eval $${echo_msg} "===\> $$dir,$$f"; \
 				if ! eval $$tmp_toset ${MAKE} $$target; then \
@@ -105,18 +105,15 @@ _subdir_fragment= \
 		fi; \
 	done; set -e
 
-.for __target in all fetch fetch-all package fake extract cleandir configure \
-		 build describe distclean deinstall install \
-		 reinstall checksum show fetch-makefile \
-		 link-categories unlink-categories regress lib-depends-check \
-		 homepage-links manpages-check relevant-checks
-
+.for __target in all build checksum cleandir configure \
+    deinstall describe distclean extract fake fetch fetch-all fetch-makefile \
+    homepage-links install lib-depends-check link-categories manpages-check \
+    package regress reinstall relevant-checks show unlink-categories
 ${__target}:
 	@${_subdir_fragment}
 .endfor
 
 .for __target in all-dir-depends build-dir-depends run-dir-depends
-
 ${__target}:
 	@${_depfile_fragment}; echo_msg=:; ${_subdir_fragment}
 .endfor
@@ -173,10 +170,9 @@ README.html:
 _print-packagename:
 	@echo "README"
 
-.PHONY: all fetch fetch-all package fake extract configure \
-	build describe distclean deinstall install \
-	reinstall checksum show fetch-makefile \
-	link-categories unlink-categories regress lib-depends-check \
-	homepage-links manpages-check relevant-checks \
-	all-dir-depends build-dir-depends run-dir-depends \
-	clean cleandir readmes _print-packagename
+.PHONY: _print-packagename all all-dir-depends build build-dir-depends \
+    checksum clean cleandir configure deinstall describe distclean \
+    extract fake fetch fetch-all fetch-makefile homepage-links install \
+    lib-depends-check link-categories manpages-check package \
+    readmes regress reinstall relevant-checks run-dir-depends show \
+    unlink-categories
