@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/tools/Makefile,v 1.22 2008/08/06 00:28:37 tg Exp $
+# $MirOS: src/distrib/tools/Makefile,v 1.23 2008/10/21 01:21:50 tg Exp $
 
 all: sundsklbl
 
@@ -18,7 +18,7 @@ depend:
 prereq:
 
 clean: .PHONY
-	-rm -f i386_chain sundsklbl *.o eltorito.loo ${CDROM}
+	-rm -f i386_chain sundsklbl *.o eltorito.loo ${CDROM}*
 	-rm -rf cddir
 
 cleandir: .PHONY clean
@@ -41,7 +41,7 @@ CDROM_OPTS+=	volumeid=$$(uname -sl | tr -- '- \#' :_):i386\;sparc:Setup
 #CDROM_OPTS+=	v=1
 
 makecdimage: .PHONY
-	-rm -rf cddir ${CDROM}
+	-rm -rf cddir ${CDROM}*
 	mkdir -p cddir/v${OSrev}/{i386,sparc}
 	for arch in i386 sparc; do \
 		for file in ${DSTTOPDIR}/$$arch/{*boot*,bsd.rd,*mbr*}; do \
@@ -55,7 +55,9 @@ makecdimage: .PHONY
 	ln cddir/v${OSrev}/sparc/bsd.rd cddir/bsd		# for idiots
 	cp ${.CURDIR}/../common/00-README ${.CURDIR}/boot.cfg cddir/
 	makefs -t cd9660 -o "$$(print -r -- ${CDROM_OPTS} | tr ' ~' ', ')" \
-	    ${CDROM} cddir
+	    ${CDROM}~ cddir
+	# pad for a geometry of 8 heads, 16 sectors per track
+	dd if=${CDROM}~ of=${CDROM} obs=$$(8*16*512) conv=osync
 	getextent_cd9660 -f ${CDROM} b_i386.ldr | \
 	    ${MKSH} ${BSDSRCDIR}/usr.sbin/installboot/bxinst.i386 -B 11 | \
 	    dd of=${CDROM} conv=notrunc bs=2048 seek=$$(getextent_cd9660 \
@@ -65,6 +67,7 @@ makecdimage: .PHONY
 	    dd of=${CDROM} conv=notrunc bs=512 seek=${CHAINSECTOR} 2>/dev/null
 	getextent_cd9660 -f ${CDROM} b_sparc.ldr | \
 	    ${MKSH} ${BSDSRCDIR}/usr.sbin/installboot/bxinst.sparc \
+	    -g $$(($$(stat -f %z ${CDROM}) / (512 * 16 * 8))):8:16 \
 	    -0 ${CHAINSECTOR} -S 2 | \
 	    dd of=${CDROM} conv=notrunc 2>/dev/null
 

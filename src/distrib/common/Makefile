@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/Makefile,v 1.33 2008/08/06 00:28:37 tg Exp $
+# $MirOS: src/distrib/common/Makefile,v 1.34 2008/10/05 16:26:16 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -73,6 +73,7 @@ BOOTSH?=	${DESTDIR}/usr/mdec/bootxx.sh
 
 # compact disc image (set to no to disable)
 CDROM?=		cdrom${OSrev}.iso
+CDROM_PAD?=	1
 CDROM_OPTS+=	applicationid=NetBSD_makefs
 CDROM_OPTS+=	label=MirOS~v${OSrev}~BSD/${MACHINE}~boot-only~CD
 CDROM_OPTS+=	preparer=MirBSD_and_its_contributors
@@ -217,8 +218,9 @@ cdrom-prepare: bsd.rd
 cdrom-generate:
 	chmod -R u+w ${WRKDIR}
 	makefs -t cd9660 -o "$$(print -r -- ${CDROM_OPTS} | tr ' ~' ', ')" \
-	    ${CDROM} ${WRKDIR}
-	-rm -rf ${WRKDIR}
+	    ${CDROM}~ ${WRKDIR}
+	dd if=${CDROM}~ of=${CDROM} obs=$$(${CDROM_PAD}*512) conv=osync
+	-rm -rf ${WRKDIR} ${CDROM}~
 
 .include <bsd.obj.mk>
 .include <bsd.subdir.mk>
