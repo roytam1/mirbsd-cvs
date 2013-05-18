@@ -1,4 +1,4 @@
-# $MirOS: www/src/main.hts,v 1.10 2008/06/03 18:05:10 tg Exp $
+# $MirOS: www/src/main.hts,v 1.11 2008/07/10 22:13:48 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -6,7 +6,7 @@
 mws_setname main "Welcome at The MirOS Project"
 mws_setrss "news.rss"
 mws_subdir 0
-mws_putheader '$MirOS: www/src/main.hts,v 1.10 2008/06/03 18:05:10 tg Exp $'
+mws_putheader '$MirOS: www/src/main.hts,v 1.11 2008/07/10 22:13:48 tg Exp $'
 mws_content <<'EOF'
 <h1>Welcome to the MirOS Project!</h1>
 
@@ -27,7 +27,7 @@ mws_content <<'EOF'
  tool; and some more.</p>
 
 <p>If you want to know more about these programs, visit the <a
- href="/?about">About MirOS</a> page.</p>
+ href="@@RELPATH@@about.htm">About MirOS</a> page.</p>
 
 <h2>News</h2>
 

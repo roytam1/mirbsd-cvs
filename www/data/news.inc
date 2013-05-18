@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/news.inc,v 1.76 2008/07/24 12:34:47 tg Exp $
+RCSID: $MirOS: www/data/news.inc,v 1.78 2008/08/29 07:37:57 tg Exp $
 Title: Older news from the MirOS Project
 Date: 01.03.2006
 
@@ -14,11 +14,11 @@ Date: 27.03.2006
 Title: MirOS #9 released
 Date: 01.04.2006
 
-<p><a href="@@ABSPATH@@/?ann-9">MirOS #9</a> is available via our <a
+<p><a href="@@RELPATH@@ann-9.htm">MirOS #9</a> is available via our <a
  href="http://f.scarywater.net/miros/">BitTorrent tracker</a>. There is
  also an <a href="@@RELPATH@@MirOS/v9/">HTTP(S)</a> download/netinstall
  option.</p>
-<p>Please read the <a href="@@ABSPATH@@/?errata">errata</a>.</p>
+<p>Please read the <a href="@@RELPATH@@errata8.htm">errata</a>.</p>
 ----
 Title: New web server
 Date: 05.07.2006
@@ -842,7 +842,7 @@ Author: tg@
 
 <p>Our anoncvs mirror has changed its ssh host keys due to a Debian-specific
  problem (it's hosted on a machine running Debian GNU/Linux courtesy of
- gecko2@). The new keys are: [Update: <a href="@@ABSPATH@@/?overview">moved</a>]</p>
+ gecko2@). The new keys are: [Update: <a href="@@RELPATH@@overview.htm">moved</a>]</p>
 <p>Please copy these into <tt>/etc/ssh/ssh_known_hosts</tt> or
  <tt>~/.etc/ssh/known_hosts</tt>, overriding the existing keys for the
  same IPs or host names.</p>
@@ -901,14 +901,14 @@ Date: 09.07.2008 18:20
   <li><tt>anoncvs@anoncvs6.mirbsd.org</tt> (public, IPv6 only)</li>
  </ul></li>
  <li>hephaistos (unixforge.de), Germany, ssh, rsync + cvs: <ul>
-  <li>‣ sshd(8) <a href="@@ABSPATH@@/?overview#ssh_host">host keys</a></li>
+  <li>‣ sshd(8) <a href="@@RELPATH@@overview.htm#ssh_host">host keys</a></li>
   <li>offering: <tt>/MirOS</tt> <tt>/Pkgs</tt> <tt>/cvs</tt></li>
   <li><tt>anoncvs@1.anoncvs.mirbsd.org</tt> (public, IPv4 + IPv6)</li>
   <li><tt>anoncvs@1.anoncvs4.mirbsd.org</tt> (public, IPv4 only)</li>
   <li><tt>anoncvs@1.anoncvs6.mirbsd.org</tt> (public, IPv6 only)</li>
  </ul></li>
  <li>eurynome (VMware instance), Germany, ssh, rsync + cvs: <ul>
-  <li>‣ sshd(8) <a href="@@ABSPATH@@/?overview#ssh_host">host key</a></li>
+  <li>‣ sshd(8) <a href="@@RELPATH@@overview.htm#ssh_host">host key</a></li>
   <li>offering: <tt>/MirOS</tt> <tt>/Pkgs</tt> <tt>/cvs</tt> (<tt>/Distfiles</tt> <tt>/www</tt> not yet)</li>
   <li><tt>anoncvs@2.anoncvs.mirbsd.org</tt> (public, IPv4 + IPv6)</li>
   <li><tt>anoncvs@2.anoncvs4.mirbsd.org</tt> (public, IPv4 only)</li>

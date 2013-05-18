@@ -1,4 +1,4 @@
-rcsid_htsconv='$MirOS: www/mk/htsconv,v 1.26 2008/07/25 16:44:19 tg Exp $'
+rcsid_htsconv='$MirOS: www/mk/htsconv,v 1.27 2008/09/09 18:00:27 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -65,8 +65,8 @@ function mws_putheader {
 		</ul></li>
 		<li><a href="@@RELPATH@@about.htm">About</a></li>
 		<!-- these are not in a usable state
-		<li><a href="/?docs">Documentation</a></li>
-		<li><a href="/?faq">FAQ</a></li>
+		<li><a href="@@RELPATH@@docs.htm">Documentation</a></li>
+		<li><a href="@@RELPATH@@faq.htm">FAQ</a></li>
 		-->
 		<li class="spacer"><a href="@@RELPATH@@getting.htm">Download</a></li>
 		<li><a href="@@RELPATH@@rss.htm">RSS &amp; Lists</a></li>

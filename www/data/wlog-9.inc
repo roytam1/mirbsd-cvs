@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-9.inc,v 1.93 2008/07/24 12:34:48 tg Exp $
+RCSID: $MirOS: www/data/wlog-9.inc,v 1.94 2008/08/16 22:19:14 tg Exp $
 Date: 25.06.2006
 Author: tg@
 
@@ -495,7 +495,7 @@ Author: tg@
   as developer by his own request, fixed *roff macros (new MirNroff cpio
   distfile for Interix might be required soon), enhanced and fixed docs,
   helped FreeWRT people (website/server is down, we know), etc.</p>
- <p><a href="@@ABSPATH@@/?licence">/?licence</a> is now up to date again, and links
+ <p><a href="@@ABSPATH@@/MirOS-Licence">Licence</a> is now up to date again, and links
   are actually links.</p>
  <p>Sendmail 8.13.8 is out, but not a high-priority update.</p>
 
@@ -836,7 +836,7 @@ Author: tg@
   use a dedicated directory tree.</p>
  <p>GNU End: gcc miscompiles not only C++ but also C code with a certain
   option <tt>-fomit-frame-pointer</tt> &ndash; cought by my favourite <a
-  href="@@ABSPATH@@/?jupp">text editor</a>.</p>
+  href="@@RELPATH@@jupp.htm">text editor</a>.</p>
  <p>Money End: At last, I get some state money (by far not enough), more
   might come, but I'd prefer a job. OTOH they'll pay for new teeth, more
   than they had paid if I were employed. But the pain's the same.</p>
@@ -1253,7 +1253,7 @@ Title: SPARC port updates
  me to hack much on it, I've got a dayjob requiring full attention and
  hacking skills (mostly embedded GNU/Linux for mips, though, but luckily
  most shell scripting I do is in <a href="@@RELPATH@@mksh.htm">mksh</a>,
- and I can use <a href="@@ABSPATH@@/?jupp">jupp</a>; no BSD make there though).</p>
+ and I can use <a href="@@RELPATH@@jupp.htm">jupp</a>; no BSD make there though).</p>
 ----
 Date: 15.06.2007
 Title: I'm bored so lemme write something here…

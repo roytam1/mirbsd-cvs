@@ -1,4 +1,4 @@
-# $MirOS: www/Makefile,v 1.28 2008/05/29 16:01:07 bsiegert Exp $
+# $MirOS: www/Makefile,v 1.29 2008/06/28 20:42:44 bsiegert Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -20,6 +20,7 @@ BSDSRCDIR?=/nonexistant
 U_ENV+=		TOP=${TOP:Q} DST=${DST:Q} MKSH=${MKSH:Q} SHELL=${MKSH:Q}
 
 SRCS+=		about.hts
+SRCS+=		anargeek.hts
 SRCS+=		ann-10.hts
 SRCS+=		bt.hts
 SRCS+=		clog11.hts
@@ -36,6 +37,14 @@ SRCS+=		ports.hts
 SRCS+=		projects.hts
 SRCS+=		rss.hts
 WLOGS=		9 10
+
+# legacy content
+SRCS+=		ann-7.hts ann-8.hts anoncvs.hts bsd-intro.hts clog-2004.hts \
+		clog-2005.hts clog-2006.hts cvsweb.hts docs.hts errata8.hts \
+		faq.es.hts faq.hts fornow.hts history.hts ipv6-sixxs.hts \
+		isdn.hts mail.hts mirrors.hts mirwarum.hts overview.hts
+SRCS+=		wlog-0.hts wlog-1.hts wlog-2.hts wlog-3.hts wlog-4.hts \
+		wlog-5.hts wlog-6.hts wlog-7.hts wlog-8.hts
 
 INCSRCS+=	news
 news.cut: stamp_htm_news
@@ -104,7 +113,6 @@ _reinstall:
 .for _i in ${GENSRCS}
 	pax -rw -pe -dv $$(<${_i}) dst/
 .endfor
-	cd ${TOP} && pax -rw -pe -v content ${DST}/dst/		# legacy
 	cd ${TOP}/files && pax -rw -pe -v . ${DST}/dst/
 	cd ${TOP} && pax -rw -pe -v pics ${DST}/dst/
 	cd dst && \

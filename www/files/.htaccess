@@ -1,8 +1,9 @@
-# $MirOS: www/files/.htaccess,v 1.4 2007/10/08 12:00:41 tg Exp $
+# $MirOS: www/files/.htaccess,v 1.5 2008/03/24 19:59:48 tg Exp $
 
 Options ExecCGI Indexes SymLinksIfOwnerMatch
 IndexOptions -FancyIndexing
 AddHandler cgi-script .cgi
+DirectoryIndex main.htm
 
 # redirections for HTML documentation
 RedirectMatch 301 ^/cman(/*)$ /htman/i386/
@@ -25,6 +26,11 @@ RedirectMatch 301 ^/man(info|INFO)/(.*$) /htman/i386/manINFO/$2.html
 RedirectMatch 301 ^/man(docs|DOCS)/(.*$) /htman/i386/manDOCS/$2
 RedirectMatch 301 ^/man/(.*)\.([1-9]|PAPERS|PSD|SMM|USD)$ /htman/i386/man$2/$1.htm
 RedirectMatch 301 ^/man/(.*)\.(INFO|info)$ /htman/i386/manINFO/$1.html
+
+# redirects for legacy links (mod_alias cannot inspect query strings)
+RewriteEngine On
+RewriteCond %{QUERY_STRING} ^([^/]+)$
+RewriteRule ^(index.php)?$ /%1.htm? [R=301,L]
 
 # file types
 AddType 'text/html; charset=utf-8' htm

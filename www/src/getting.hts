@@ -1,10 +1,10 @@
-# $MirOS: www/src/getting.hts,v 1.15 2008/07/09 18:38:42 tg Exp $
+# $MirOS: www/src/getting.hts,v 1.16 2008/08/19 18:56:27 bsiegert Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname getting "Get MirOS!"
-mws_putheader '$MirOS: www/src/getting.hts,v 1.15 2008/07/09 18:38:42 tg Exp $'
+mws_putheader '$MirOS: www/src/getting.hts,v 1.16 2008/08/19 18:56:27 bsiegert Exp $'
 mws_content <<'EOF'
 <h1>Get MirOS!</h1>
 
@@ -80,7 +80,7 @@ mws_content <<'EOF'
    <a href="http://f.scarywater.net/miros/">via BitTorrent</a></p></td>
  </tr><tr>
   <td><p><b>MirOS #8semel (stable, i386)</b></p>
-   <p>Released 23.12.2005 (<a href="/?ann-8">Release
+   <p>Released 23.12.2005 (<a href="@@RELPATH@@ann-8.htm">Release
     announcement</a>).</p></td>
   <td><p><a href="/MirOS/v8/i386/">via HTTP</a> &ndash;
    <a href="http://f.scarywater.net/miros/">via BitTorrent</a></p></td>

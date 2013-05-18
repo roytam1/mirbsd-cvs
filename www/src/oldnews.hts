@@ -3,34 +3,34 @@
 
 mws_setname oldnews "Old News and Weblog"
 mws_subdir 0
-mws_putheader '$MirOS: www/src/oldnews.hts,v 1.3 2008/07/10 22:13:48 tg Exp $'
+mws_putheader '$MirOS: www/src/oldnews.hts,v 1.4 2008/07/11 15:23:10 tg Exp $'
 mws_content <<'EOF'
 <h1>Older News and Weblogs</h1>
 
 <h2 id="owlog">Old Weblog</h2><ul>
-<li><a href="/?wlog-0">From the beginning to December 2002</a> after
+<li><a href="@@RELPATH@@wlog-0.htm">From the beginning to December 2002</a> after
  the first BSD-mirabile snapshot ever (derived from OpenBSD-current-mirabile)
  has been uploaded to the world wide web</li>
-<li><a href="/?wlog-1">From December 2002 to January 2003</a>
+<li><a href="@@RELPATH@@wlog-1.htm">From December 2002 to January 2003</a>
  starting with release of MirBSD Snapshot #1</li>
-<li><a href="/?wlog-2">February of 2002</a>, starting with release
+<li><a href="@@RELPATH@@wlog-2.htm">February of 2002</a>, starting with release
  of <a>MirBSD Snapshot #2 RC4=RELEASE</a>, a
  fully static a.out system with exec-ELF capability. Ending with a
  working, self-hosted, ELF system.</li>
-<li><a href="/?wlog-3">From March 2003 to mid of April 2003</a> starting
+<li><a href="@@RELPATH@@wlog-3.htm">From March 2003 to mid of April 2003</a> starting
  with release of <a>MirBSD/i386 Snapshot #3</a>.</li>
-<li><a href="/?wlog-4">From Easter 2003 to Pentecost 2003</a> starting with
+<li><a href="@@RELPATH@@wlog-4.htm">From Easter 2003 to Pentecost 2003</a> starting with
  preparations to release (CVS Tag: MIRBSD_4) <a>MirBSD#4</a></li>
-<li><a href="/?wlog-5">From mid-June 2003 to LinuxTag 2003</a> starting with
+<li><a href="@@RELPATH@@wlog-5.htm">From mid-June 2003 to LinuxTag 2003</a> starting with
  the greatest release ever (CVS Tag: MIRBSD_5) of the
  <b>MirBSD #5</b> (interim) codebase. Read the archived [a
  href="/historic/ann-5.htm"] release announcement for details.</li>
-<li><a href="/?wlog-6">From LinuxTag 2003 to Autumn 2003</a> starting with
+<li><a href="@@RELPATH@@wlog-6.htm">From LinuxTag 2003 to Autumn 2003</a> starting with
  the internal completion of the <tt>LinuxTag Special Edition</tt> of
  MirBSD, only available for visitors at the cost of 10 Euro.</li>
-<li><a href="/?wlog-7">From Autumn 2003 to 22C3 (2005)</a> the seemingly
+<li><a href="@@RELPATH@@wlog-7.htm">From Autumn 2003 to 22C3 (2005)</a> the seemingly
  endless weblog during the lifetime of the #7 release.</li>
-<li><a href="/?wlog-8">Starting at 22C3 to FrOSCon 2006</a>, the life
+<li><a href="@@RELPATH@@wlog-8.htm">Starting at 22C3 to FrOSCon 2006</a>, the life
  of MirOS #8 ended exactly half a year (plus two days to recover) after
  its surprising, impressive, release.</li>
 <li><a href="wlog-9.htm">Starting at FrOSCon 2006 to mid of
@@ -133,7 +133,7 @@ mws_content <<'EOF'
 	the first payment was about to be issued (accumulated some 100 USD
 	in over 10 months), and do not react on my enquiring eMail at all.
 	This just sucks, and they do owe me that money.<br />Check out the
-	<a href="/?wlog-8">web log</a> too, it's a bit more active than in
+	<a href="@@RELPATH@@wlog-8.htm">web log</a> too, it's a bit more active than in
 	the past (not much though).<br />MirSirc has been updated in ports
 	relative to the public preview, use that. A new <tt>/cvs</tt> cpio
 	ball will be published quite soon, too.</li>
@@ -155,7 +155,7 @@ mws_content <<'EOF'
 	off each other. After waking up we were like, "WTF we had released
 	a <tt>MirOS XP</tt>?" and cleaned up with explanations.</li>
 
-<li>29.12.2005<br /><a href="/?ann-8">Public MirOS #8 Release Announcement
+<li>29.12.2005<br /><a href="@@RELPATH@@ann-8.htm">Public MirOS #8 Release Announcement
 	(HTML version)</a> crafted.<br />MirPorts now contains a provision
 	for properly locating X11 application defaults.<br />MirOS Project
 	will attend <a href="http://www.froscon.org/">FROSCON</a>, sponsor
@@ -328,7 +328,7 @@ mws_content <<'EOF'
 <li>20.04.2005<br />
 	We're closer to solving that X/GLX problem, thanks to David Dawes,
 	who is tracking it down to threads at the moment. The promised new
-	<a href="/?clog-2005#snap0420">snapshot</a> is available as usual,
+	<a href="@@RELPATH@@clog-2005.htm#snap0420">snapshot</a> is available as usual,
 	via the BitTorrent tracker. Direct downloads should work soon too.
 	Please report functional installs but especially failures, to help
 	making MirOS #8 the best release ever.</li>
@@ -451,7 +451,7 @@ mws_content <<'EOF'
 	our work on ncvs I and leads to opening ncvs II back at herc.</li>
 
 <li>07.01.2005<br />
-	Benny has formally released <a href="/?ann-7">#7quinquies</a> for
+	Benny has formally released <a href="@@RELPATH@@ann-7.htm">#7quinquies</a> for
 	the i386 platform (build sparc from #7-stable source after having
 	installed #7quater) and Thorsten fixed up the MirOS BSD kernel to
 	build with gcc 3.4 and merged much more code into ncvs.</li>
@@ -473,7 +473,7 @@ mws_content <<'EOF'
 	Firefox&trade; and probably also Sun's native Java&trade;.</li>
 
 <li>30.11.2004<br />
-	The <a href="/?clog-2004#snap1129">new snapshot</a> is up via the
+	The <a href="@@RELPATH@@clog-2004.htm#snap1129">new snapshot</a> is up via the
 	<a href="http://f.scarywater.net/miros/">BitTorrent tracker</a>.
 	Today you will get excellent download rates, tomorrow we will have
 	to reduce the upstream for cost reasons. It will appear on direct
@@ -492,9 +492,9 @@ mws_content <<'EOF'
 	is out, you all test it. I mean it.</li>
 
 <li>21.11.2004<br />
-	A <a href="/?clog-2004#snap1121">new snapshot</a> has been released
+	A <a href="@@RELPATH@@clog-2004.htm#snap1121">new snapshot</a> has been released
 	via <a href="http://f.scarywater.net/miros/">BitTorrent</a> and <a
-	href="/?getting">direct download</a>. New features: fixed Linux and
+	href="@@RELPATH@@getting.htm">direct download</a>. New features: fixed Linux and
 	newly written OpenBSD 3.6-current emulation; lots of bug fixes. This
 	snapshot is a &quot;known good&quot; state of MirOS #8-beta; we will
 	start porting cvs-1.12 and gcc-3.4 now that this snapshot is released.
@@ -616,7 +616,7 @@ mws_content <<'EOF'
 	href="http://f.scarywater.net/miros/">BitTorrent</a>; please do
 	not forget to check the PGP signatures on the files. Also, we
 	have prepared a new seed for people wishing to rsync our CVS,
-	see the <a href="/?anoncvs">appropriate page</a> (bottom). The <a
+	see the <a href="@@RELPATH@@anoncvs.htm">appropriate page</a> (bottom). The <a
 	href="/cman/">online manual pages</a> have been updated to reflect
 	the current state of the art.<br />We're awaiting your <a
 	href="mailto:miros-discuss@66h.42h.de">reports</a> on how you
@@ -635,7 +635,7 @@ mws_content <<'EOF'
 	href="/man7/">7</a> <a href="/man8/">8</a> <a href="/man9/">9</a>.
 	The Perl manual pages are not online due to their uselessness, and
 	search and apropos functions will probably be implemented later.<br />
-	Some time ago, a user has written an <a href="/?isdn">ISDN 4 MirOS
+	Some time ago, a user has written an <a href="@@RELPATH@@isdn.htm">ISDN 4 MirOS
 	Howto</a> which was not yet linked.</li>
 
 <li>09.08.2004<br />
@@ -696,7 +696,7 @@ mws_content <<'EOF'
 	LinuxTag is over, and there are two CD ISOs available for download
 	via <a href="http://f.scarywater.net/miros/">BitTorrent</a>. The
 	MirOS #7quater CD works with the MirPorts snapshot it comes with,
-	but for current ports it needs <a href="/?ports">updating</a>. If
+	but for current ports it needs <a href="@@RELPATH@@ports.htm">updating</a>. If
 	you want to upgrade to -current, please notice that you cannot
 	execute old OpenBSD or MirOS BSD binaries, and probably no Linux,
 	FreeBSD or BSD/OS binaries either <b>yet</b>. Also, the file
@@ -722,7 +722,7 @@ mws_content <<'EOF'
 	will be published via <a href="http://f.scarywater.net/miros/">BT</a>
 	a couple of days after. The binary distribution sets can be
 	downloaded now, as well as an update from MirOS #7ter.<br />
-	MirPorts have been restructured, please read <a href="/?ports">the
+	MirPorts have been restructured, please read <a href="@@RELPATH@@ports.htm">the
 	instructions</a> <strong>before</strong> upgrading!</li>
 
 <li>05.06.2004<br />
@@ -760,7 +760,7 @@ mws_content <<'EOF'
 	the download with more than 4 KiB/sec yet, if you are interested
 	in helping to seed, please contact us.) - It appears that using
 	BitTorrent is a success, but not many people are downloading; that's
-	why we have opened a <a href="/?errata">page about issues with prior
+	why we have opened a <a href="@@RELPATH@@errata8.htm">page about issues with prior
 	releases and snapshots</a> so you _know_ why to update.<br />
 	<em>Addendum:</em> there's a binary fixup package available at
 	the BitTorrent page, too. Please install.<br />
@@ -778,7 +778,7 @@ mws_content <<'EOF'
 	Georgina O Economou from the XFree86 project reminds us to announce
 	that XFree86 4.4.0 is included in MirOS-current (snapshots will be
 	available soon), and to improve this site's readability by providing
-	<a href="/?style">different style sheets</a> for selection.</li>
+	<a href="@@RELPATH@@style.htm">different style sheets</a> for selection.</li>
 
 <li>19.03.2004<br />
 	Benny Siegert has MFCd the latest OpenBSD errata into MirOS-stable
@@ -790,7 +790,7 @@ mws_content <<'EOF'
 	There is a new snapshot <a href="/MirOS/current/i386/">available</a>,
 	i386 only; Slashdot didn't want the story. <strong>AnonCVS is
 	<b>not</b> working at the moment</strong>, the mirror's root will
-	fix it soon. <a href="/?ports">Ports</a> are being fixed.<br />
+	fix it soon. <a href="@@RELPATH@@ports.htm">Ports</a> are being fixed.<br />
 	Press coverage of the new snapshot, including discussion, is at <a
 	href="http://www.symlink.ch/article.pl?sid=04/03/13/1729213&amp;mode=nested">Symlink
 	(german)</a> and <a href="http://bsdnews.com/view_story.php3?story_id=4454">daily
@@ -944,9 +944,9 @@ mws_content <<'EOF'
  href="main.htm">start page</a> (for hot items).</p>
 
 <h2>Old ChangeLog</h2><ul>
-<li><a href="/?clog-2004">Snapshots released 2004</a></li>
-<li><a href="/?clog-2005">Snapshots released 2005</a></li>
-<li><a href="/?clog-2006">Snapshots released 2006</a></li>
+<li><a href="@@RELPATH@@clog-2004.htm">Snapshots released 2004</a></li>
+<li><a href="@@RELPATH@@clog-2005.htm">Snapshots released 2005</a></li>
+<li><a href="@@RELPATH@@clog-2006.htm">Snapshots released 2006</a></li>
 </ul><p>Featuring a compact yet detailled list of changes between the
  snapshots uploaded &ndash; both for developers and users. A stripped
  down version (for user view) is being used for putting info into

@@ -3,7 +3,7 @@
 
 mws_setname donations "Donations"
 mws_subdir 0
-mws_putheader '$MirOS: www/src/danke.hts,v 1.4 2008/06/28 21:03:58 tg Exp $'
+mws_putheader '$MirOS: www/src/danke.hts,v 1.5 2008/07/12 19:54:24 tg Exp $'
 mws_content <<'EOF'
 <h1>Donating to the MirOS Project</h1>
 <h2>Considering to donate?</h2>
@@ -35,7 +35,7 @@ mws_content <<'EOF'
  expenses, food at the exhibitions, hardware (please don't ask us to
  support other architectures than sparc32, i386, maybe amd64, possibly
  macppc/socppc or some arm/mips embedded stuff!).
- <!-- We've started to collect a <a href="/?want">wanted hardware</a> list,
+ <!-- We've started to collect a <a href="@@RELPATH@@want.htm">wanted hardware</a> list,
  which is horridly out of date though. --></p>
 
 <h2>Offline donations</h2>
