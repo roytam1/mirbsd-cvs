@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/dot.profile,v 1.25 2008/03/10 15:40:57 tg Exp $
+# $MirOS: src/distrib/common/dot.profile,v 1.26 2008/03/15 21:12:59 tg Exp $
 # $OpenBSD: dot.profile,v 1.4 2002/09/13 21:38:47 deraadt Exp $
 # $NetBSD: dot.profile,v 1.1 1995/12/18 22:54:43 pk Exp $
 #
@@ -39,15 +39,15 @@ sshd() {
 		return 1
 	fi
 	if [[ ! -f /etc/ssh/ssh_host_rsa_key ]]; then
-		echo -n "ssh-keygen: generating new RSA host key... "
+		print -n "ssh-keygen: generating new RSA host key... "
 		(ulimit -T 60; exec /usr/bin/ftp -mvo /dev/arandom \
 		    https://call.mirbsd.org/rn.cgi?bsdrdskg,seed=$RANDOM) \
 		    >/dev/wrandom 2>&1
 		if /usr/bin/ssh-keygen -q -t rsa \
 		    -f /etc/ssh/ssh_host_rsa_key -N ''; then
-			echo done.
-		  else
-			echo failed.
+			print done.
+		else
+			print failed.
 			rm -f /etc/ssh/ssh_host_rsa_key
 		fi
 	fi
@@ -57,13 +57,13 @@ sshd() {
 	fi
 }
 
-export PATH=/sbin:/bin:/usr/bin:/usr/sbin:/ PS1='$PWD # '
+export PATH=/sbin:/bin:/usr/bin:/usr/sbin:/ PS1='$PWD # ' HOME=/
 umask 022
 ulimit -c 0
 
 if [[ -z $NEED_UNICODE ]]; then
 	chkuterm; NEED_UNICODE=$?	# 0 = UTF-8; >0 = ISO-8859-1
-	if [[ $NEED_UNICODE -ne 0 ]]; then
+	if (( NEED_UNICODE )); then
 		export NEED_UNICODE	# don't try this twice
 		exec script -lns	# latin1, no typescript, login shell
 	fi
@@ -93,7 +93,7 @@ if [ ! -f /.profile.done ]; then
 	     -asuma -atiger -armd160 -aadler32 >/dev/wrandom) &)
 
 	# say hello and legalese
-	echo '
+	print '
 Welcome to MirOS #10-current!
 
 Welcome to the MirOS BSD operating system installer.  This work is
@@ -106,7 +106,7 @@ This work is provided "AS IS" and WITHOUT WARRANTY of any kind.\n'
 	mount -u $rootdisk / || mount -fuw /dev/rd0a /
 
 	# set up some sane defaults
-	echo 'erase ^?, werase ^W, kill ^U, intr ^C, status ^T'
+	print 'erase ^?, werase ^W, kill ^U, intr ^C, status ^T'
 	stty newcrt werase ^W intr ^C kill ^U erase ^? status ^T
 
 	# Extract and save one boot's worth of dmesg
@@ -130,17 +130,17 @@ This work is provided "AS IS" and WITHOUT WARRANTY of any kind.\n'
 	# Installing or upgrading?
 	_forceloop=
 	while [[ -z $_forceloop ]]; do
-		echo -n '(I)nstall'
-		[ -f upgrade ] && echo -n ', (U)pgrade'
-		echo -n ' or (S)hell? '
+		print -n '(I)nstall'
+		[ -f upgrade ] && print -n ', (U)pgrade'
+		print -n ' or (S)hell? '
 		read _forceloop
 		case $_forceloop {
-		[Ii]*)	/install
+		([Ii]*)	/install
 			;;
-		[Uu]*)	/upgrade
+		([Uu]*)	/upgrade
 			;;
-		[Ss]*)	;;
-		*)	_forceloop=
+		([Ss]*)	;;
+		(*)	_forceloop=
 			;;
 		}
 	done
