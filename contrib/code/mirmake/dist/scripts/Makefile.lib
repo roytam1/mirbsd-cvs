@@ -1,12 +1,10 @@
-# $MirOS: contrib/code/mirmake/dist/scripts/Makefile.lib,v 1.11 2005/11/24 19:30:05 tg Exp $
-
-XXX add arc4random
+# $MirOS: contrib/code/mirmake/dist/scripts/Makefile.lib,v 1.15 2006/10/13 12:44:42 tg Exp $
 
 LIB=		mirmake
-SRCS=		md4.c md5.c rmd160.c sha1.c sha2.c \
+SRCS+=		md4.c md5.c rmd160.c sha1.c sha2.c \
 		md4hl.c md5hl.c rmd160hl.c sha1hl.c \
 		sha256hl.c sha384hl.c sha512hl.c \
-		getopt_long.c ${EXTRA_SRCS}
+		getopt_long.c
 
 NOPIC=		yes
 CPPFLAGS+=	-D_LIBMIRMAKE

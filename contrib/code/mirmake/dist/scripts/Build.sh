@@ -1,6 +1,5 @@
-XXX wir haben immer stdbool.h, via Copy.sh
 #!/bin/mksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.85 2006/08/27 01:06:10 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.86 2006/10/13 12:44:42 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -38,6 +37,7 @@ function testfunc {
 		.include <bsd.prog.mk>
 	EOF
 	cat >$d_build/testfunc/testfunc.c <<-EOF
+		#include <sys/param.h>
 		$3
 		$1;
 		int main() {
@@ -330,7 +330,7 @@ if [[ -e $d_build/PSD12.make.txt ]]; then
 EOF
 fi
 
-# check for fgetln, strlcpy/strlcat, stdbool.h
+# check for fgetln, strlcpy/strlcat, arc4random, arc4random_pushb
 add_fgetln=
 if testfunc 'char *fgetln(FILE *, size_t *)' 'fgetln(stdin, &x)' \
     '#include <stdio.h>' 'size_t x;'; then
@@ -341,10 +341,14 @@ if testfunc 'size_t strlcpy(char *, const char *, size_t)' \
     'strlcpy(dst, src, 1)' '' 'char src[3] = "Hi", dst[3];'; then
 	add_strlfun=strlfun.c
 fi
-stdboolh=
-if ! testfunc 'void exit(int)' 'exit(t == false)' \
-    '#include <stdbool.h>' 'bool t = true;'; then
-	stdboolh=-DHAS_STDBOOL_H
+add_arcfour=
+if testfunc 'int arc4random_pushb(const void *, size_t)' \
+    'return arc4random_pushb(main, 1)'; then
+	add_arcfour=arc4random.c
+	if ! testfunc 'int arc4random(void)' \
+	    'return arc4random()'; then
+		CPPFLAGS="$CPPFLAGS -D_ARC4RANDOM_WRAP"
+	fi
 fi
 
 # build readlink
@@ -457,10 +461,10 @@ cp  $d_src/lib/libc/hash/{md4,md5,rmd160,sha1,sha2}.c \
     $d_src/lib/libc/string/strlfun.c \
     $d_src/lib/libc/stdlib/{getopt_long,strtoll}.c \
     $d_src/lib/libc/stdio/{{,v}asprintf,mktemp}.c .
-${d_build}/bmake -m ${d_build}/mk -f $d_script/Makefile.lib NOOBJ=yes \
-    EXTRA_SRCS="${add_fgetln%.[co]}.c $add_strlfun" clean
-${d_build}/bmake -m ${d_build}/mk -f $d_script/Makefile.lib NOOBJ=yes \
-    EXTRA_SRCS="${add_fgetln%.[co]}.c $add_strlfun"
+SRCS="${add_fgetln%.[co]}.c $add_strlfun $add_arcfour" \
+    ${d_build}/bmake -m ${d_build}/mk -f $d_script/Makefile.lib NOOBJ=yes clean
+SRCS="${add_fgetln%.[co]}.c $add_strlfun $add_arcfour" \
+    ${d_build}/bmake -m ${d_build}/mk -f $d_script/Makefile.lib NOOBJ=yes
 cd $top
 if [[ -s $d_build/libmirmake/libmirmake.a ]]; then
 	cat >>Install.sh <<EOF
@@ -472,16 +476,15 @@ fi
 
 # re-build bmake
 cd ${d_build}
-mkf="$stdboolh -D_PATH_DEFSYSPATH=\\\"${dt_mk}\\\""
 ${d_build}/bmake -m ${d_build}/mk NOMAN=yes NOOBJ=yes \
-    MAKE_BOOTSTRAP=Yes MKFEATURES="$mkf" \
+    MAKE_BOOTSTRAP=Yes MKFEATURES=-D_PATH_DEFSYSPATH=\\\"${dt_mk}\\\" \
     LIBS=$d_build/libmirmake/libmirmake.a clean
 ${d_build}/bmake -m ${d_build}/mk NOMAN=yes NOOBJ=yes \
-    MAKE_BOOTSTRAP=Yes MKFEATURES="$mkf" \
+    MAKE_BOOTSTRAP=Yes MKFEATURES=-D_PATH_DEFSYSPATH=\\\"${dt_mk}\\\" \
     MKDEP_SH="${new_mirksh} ${d_build}/mkdep.sh" \
     LIBS=$d_build/libmirmake/libmirmake.a depend
 ${d_build}/bmake -m ${d_build}/mk NOMAN=yes NOOBJ=yes \
-    MAKE_BOOTSTRAP=Yes MKFEATURES="$mkf" \
+    MAKE_BOOTSTRAP=Yes MKFEATURES=-D_PATH_DEFSYSPATH=\\\"${dt_mk}\\\" \
     LIBS=$d_build/libmirmake/libmirmake.a make
 
 chmod 555 $top/Install.sh
