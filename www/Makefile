@@ -1,4 +1,4 @@
-# $MirOS: www/Makefile,v 1.34 2008/10/05 16:26:20 tg Exp $
+# $MirOS: www/Makefile,v 1.35 2008/11/08 15:37:42 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -55,6 +55,9 @@ CLEANFILES+=	news.cut
 all:
 install: site.tgz
 
+STRFTM_MAKE=	cd ${.CURDIR:Q} && ${MAKE} -f ${.SYSMK}/bsd.prog.mk NOMAN=Yes \
+		    VPATH=${.CURDIR:Q}/mk PROG=strftm LDSTATIC=-static
+
 OBJS+=		${SRCS:M*.hts:S/hts$/htm~/}
 CLEANFILES+=	${SRCS:M*.hts:S/hts$/htm~/}
 
@@ -66,17 +69,19 @@ GENSRCS+=	stamp_htm_${_i} stamp_rss_${_i}
 
 stamp_htm_${_i}: ${DEPS_mk_inc2htm} \
     ${TOP}/data/${_i}.inc ${TOP}/data/${_i}.cfg
-	${U_ENV} ${MKSH} ${TOP}/mk/inc2htm ${_i} >$@
+	${U_ENV} ${MKSH} ${TOP}/mk/inc2htm ${_i} >$@ || (rm -f $@; exit 1)
 
-stamp_rss_${_i}: ${DEPS_mk_inc2rss} \
+stamp_rss_${_i}: ${DEPS_mk_inc2rss} strftm \
     ${TOP}/data/${_i}.inc ${TOP}/data/${_i}.cfg
-	${U_ENV} ${MKSH} ${TOP}/mk/inc2rss ${_i} >$@
+	${U_ENV} PATH=.:$$PATH ${MKSH} ${TOP}/mk/inc2rss ${_i} >$@ || \
+	    (rm -f $@; exit 1)
 .endfor
 DEPSRCS+=	mk/inc2htm mk/inc2rss
 OBJS+=		${GENSRCS}
 CLEANFILES+=	${GENSRCS}
 
 clean:
+	-${STRFTM_MAKE} clean
 .for _i in ${GENSRCS}
 	-rm -rf $$(<${_i})
 .endfor
@@ -92,6 +97,9 @@ deinstall:
 reinstall: deinstall .WAIT install
 
 all: ${OBJS}
+
+strftm: mk/strftm.c
+	${STRFTM_MAKE} $@
 
 site.tgz: _reinstall
 	find dst | sort | sed -e '/^dst$$/d' -e 's,^dst/,,' | \
@@ -150,6 +158,8 @@ rs-eurynome:
 depend: .depend
 
 .depend: ${TOP}/mk/mkdepend ${DEPSRCS}
+	-rm -f $@
+	${STRFTM_MAKE} depend
 	${U_ENV} ${MKSH} ${TOP}/mk/mkdepend ${DEPSRCS}
 
 lazy: .PHONY

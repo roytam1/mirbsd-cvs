@@ -1,4 +1,4 @@
-# $MirOS: www/mk/mkdepend,v 1.1 2007/06/09 23:29:54 tg Exp $
+# $MirOS: www/mk/mkdepend,v 1.2 2008/03/27 21:46:34 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -57,6 +57,6 @@ for file in *; do
 done >"$DST/.depend.tmp"
 cd "$DST"
 cat .depend.tmp2 >>.depend.tmp
-rm -rf .dep .depend.tmp2
-mv .depend.tmp .depend
+cat .depend.tmp >>.depend
+rm -rf .dep .depend.tmp{,2}
 exit 0

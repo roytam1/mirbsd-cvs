@@ -1,4 +1,4 @@
-rcsid_parser='$MirOS: www/mk/parser,v 1.6 2008/09/17 21:21:39 tg Exp $'
+rcsid_parser='$MirOS: www/mk/parser,v 1.7 2008/09/17 21:52:07 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -65,7 +65,8 @@ while IFS= read -r line; do
 			typeset -i -Z4 e_tmpy=10#0${e_tmp[2]}
 			e_date[entry]=$e_tmpd.$e_tmpm.$e_tmpy
 			# make sure there are no leading zeroes
-			e_time[entry]=$((10#0${e_tmp[5]})),$((10#0${e_tmp[4]})),$((10#0${e_tmp[3]})),$((e_tmpd)),$((e_tmpm - 1)),$((e_tmpy - 1900))
+			e_time[entry]="$((e_tmpy)) $((e_tmpm)) $((e_tmpd)) \
+			    $((10#0${e_tmp[3]})) $((10#0${e_tmp[4]})) $((10#0${e_tmp[5]}))"
 		fi
 	else
 		e_body[entry]=${e_body[entry]}${e_body[entry]+$nl}$line
