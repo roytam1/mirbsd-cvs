@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/gnu.port.mk,v 1.43 2008/05/07 21:19:26 tg Exp $
+# $MirOS: ports/infrastructure/mk/gnu.port.mk,v 1.44 2008/05/07 22:48:01 tg Exp $
 # $OpenBSD: gnu.port.mk,v 1.19 2004/06/06 11:49:08 espie Exp $
 
 AUTOCONF_NEW?=		No
@@ -18,7 +18,8 @@ MODGNU_COPIES?=		compile config-ml.in config.guess \
 			reloc-ldflags ylwrap ${MODGNU_EXTRA_COPIES}
 
 PATCH_CHECK_ONLY?=	No
-MODGNU_configure=	${MODSIMPLE_configure}; \
+MODGNU_configure=	rm -f ${WRKCONF:Q}/config.cache; \
+			${MODSIMPLE_configure}; \
 			[[ ! -e ${WRKCONF}/config.log ]] || fgrep -A 1 \
 			    'previous declaration' ${WRKCONF}/config.log | \
 			    fgrep -v -e '$$? = ' -e ': In function ' \
@@ -88,6 +89,7 @@ _DESTPFX=		'$${${DESTDIRNAME}}'
 .  else
 _DESTPFX=
 .  endif
+CONFIGURE_ARGS+=	--cache-file=${WRKCONF:Q}/config.cache
 CONFIGURE_ARGS+=	--prefix=${_DESTPFX}${PREFIX:Q}
 .  if empty(CONFIGURE_STYLE:L:Mold)
 CONFIGURE_ARGS+=	--sysconfdir=${_DESTPFX}${SYSCONFDIR:Q}
