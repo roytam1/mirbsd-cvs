@@ -1,5 +1,5 @@
-/* $MirOS: src/sys/dev/ic/vga.c,v 1.6 2007/02/06 21:41:16 tg Exp $ */
-/* $OpenBSD: vga.c,v 1.42 2006/11/29 19:11:15 miod Exp $ */
+/* $MirOS: src/sys/dev/ic/vga.c,v 1.7 2007/02/07 05:06:23 tg Exp $ */
+/* $OpenBSD: vga.c,v 1.44 2007/02/06 22:03:23 miod Exp $ */
 /* $NetBSD: vga.c,v 1.28.2.1 2000/06/30 16:27:47 simonb Exp $ */
 
 /*
@@ -626,23 +626,26 @@ vga_ioctl(v, cmd, data, flag, p)
 	case WSDISPLAYIO_GTYPE:
 		*(int *)data = vc->vc_type;
 		/* XXX should get detailed hardware information here */
-		return 0;
+		break;
+
+	case WSDISPLAYIO_GVIDEO:
+	case WSDISPLAYIO_SVIDEO:
+		break;
 
 	case WSDISPLAYIO_GINFO:
 	case WSDISPLAYIO_GETCMAP:
 	case WSDISPLAYIO_PUTCMAP:
-	case WSDISPLAYIO_GVIDEO:
-	case WSDISPLAYIO_SVIDEO:
 	case WSDISPLAYIO_GCURPOS:
 	case WSDISPLAYIO_SCURPOS:
 	case WSDISPLAYIO_GCURMAX:
 	case WSDISPLAYIO_GCURSOR:
 	case WSDISPLAYIO_SCURSOR:
+	default:
 		/* NONE of these operations are by the generic VGA driver. */
 		return ENOTTY;
 	}
 
-	return -1;
+	return (0);
 }
 
 paddr_t
@@ -1005,7 +1008,7 @@ vga_alloc_attr(id, fg, bg, flags, attrp)
 			*attrp = fgansitopc[fg & 7] | bgansitopc[bg & 7];
 		else
 			*attrp = 7;
-		if (flags & WSATTR_HILIT)
+		if ((flags & WSATTR_HILIT) || (fg & 8) || (bg & 8))
 			*attrp += 8;
 	}
 	if (flags & WSATTR_BLINK)
@@ -1078,8 +1081,6 @@ vga_copyrows(id, srcrow, dstrow, nrows)
 					nrows * ncols);
 				scr->vga_rollover = scr->pcs.dispoffset;
 				scr->pcs.dispoffset = scr->mindispoffset;
-				memt = memt;
-				memh = memh;
 			}
 			scr->pcs.visibleoffset = scr->pcs.dispoffset;
 			vga_6845_write(&scr->cfg->hdl, startadrh,
