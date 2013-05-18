@@ -1,6 +1,9 @@
-# $MirOS: ports/devel/mirmake/Makefile,v 1.17 2006/10/13 16:55:31 tg Exp $
+# $MirOS: ports/devel/mirmake/Makefile,v 1.18 2006/10/13 19:20:39 tg Exp $
 #-
 # This port should contain no patches.
+
+# temporary, until update
+ONLY_FOR_PLATFORM+=	OpenBSD:*:* MirBSD:*:*
 
 COMMENT=		portable MirOS make(1) variant
 DISTNAME=		mirmake-20061013
