@@ -1,5 +1,5 @@
 <!-- PageID: wlog-8 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.35 2006/02/02 20:54:41 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.36 2006/02/10 00:44:02 tg Exp $</small>
 <h1>MirBSD &ndash; WTF, We Have a Release!?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -442,6 +442,21 @@ celebrate this event, rotate the wlog and start a new one.</p>
  <p>That's all, folks. If I got more feedback I'd write more, besides, I
   don't even know which topics are of interest to you.</p>
  <p>homsn (Daniel Hommel) has packaged mksh(1) for Arch GNU/Linux!</p>
+</div>
+
+<div class="wlentry">
+ <h3 id="e20060214">14.02.2006 by tg@</h3>
+ <p>Benny is in Japan now &ndash; nice, eh? I think I'd better get a new
+  snapshot built and &#39764;&#29579; installed before it's too late for
+  merging the old server. I've played a bit with the build system though
+  (some stuff I always wanted to re-do, if we weren't going for syspkgs,
+  there was more work in that area).</p>
+ <p>At the moment, no lectures at university, I'm sleeping too long (and
+  too much probably) and not getting anything productive done. I already
+  am waiting for FOSDEM but probably can't go to CLT.</p>
+ <p>Ports are in a rather questionable state, I'm prepared having to fix
+  everything on maou prior to installing. Someone ought to continue bulk
+  build and break work.</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
