@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libz/Makefile.gen,v 1.1 2005/12/06 00:46:17 tg Exp $
+# $MirOS: src/lib/libz/Makefile.gen,v 1.2 2006/06/11 01:19:19 tg Exp $
 
 crc32.h: mk_crc32
 	./mk_crc32
@@ -34,7 +34,7 @@ mk_inffixed.c: crc32.h
 mk_inffixed: mk_inffixed.c inflate.c \
     adler32.c crc32.c inffast.c inftrees.c zutil.c
 	${HOSTCC} ${LDSTATIC} ${HOSTCFLAGS} ${HOSTCPPFLAGS} \
-	    ${HOSTLDFLAGS} -DMAKEFIXED $> -o $@
+	    ${HOSTLDFLAGS} -DMAKEFIXED -DZLIB_NO_ADLERPUSH $> -o $@
 
 mk_trees.c:
 	print '#include "deflate.h"' >$@
