@@ -1,9 +1,10 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.12 2004/02/23 05:06:40 ish Exp $
 
-COMMENT=			PostgreSQL database adapter for Python
+COMMENT=	PostgreSQL database adapter for Python
 VERSION=	1.1.4
 DISTNAME=	psycopg-${VERSION}
-PKGNAME=	py-psycopg-${VERSION}-0
+PKGNAME=	py-psycopg-${VERSION}-${DASH_VER}
 CATEGORIES=	databases
 MASTER_SITES=	http://initd.org/pub/software/psycopg/
 HOMEPAGE=	http://initd.org/software/psycopg
@@ -12,9 +13,6 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
-
-FLAVORS=	zope
-FLAVOR?=
 
 USE_CXX=	Yes
 
@@ -25,10 +23,6 @@ LIB_DEPENDS+=	pq.2::databases/postgresql
 RUN_DEPENDS+=	:python-${PYTHON_VER}*:lang/python/${PYTHON_VER} \
 		:py-mxDateTime->=2.0.0-py${PYTHON_VER}:devel/py-mxDateTime,py${PYTHON_VER}
 BUILD_DEPENDS+=	${RUN_DEPENDS}
-
-.if ${FLAVOR:L:Mzope}
-RUN_DEPENDS+=	:zope-*:www/zope
-.endif
 
 CONFIGURE_STYLE=gnu
 CONFIGURE_ARGS=	--with-python=python${PYTHON_VER}		\
