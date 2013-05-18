@@ -1,11 +1,11 @@
-# $MirOS: www/src/jupp.hts,v 1.15 2009/08/02 19:40:13 tg Exp $
+# $MirOS: www/src/jupp.hts,v 1.16 2009/08/08 14:24:19 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/juppp "jupp – Programmer’s Editor"
 mws_setheadline jupp – the Editor which sucks less
-mws_putheader '$MirOS: www/src/jupp.hts,v 1.15 2009/08/02 19:40:13 tg Exp $'
+mws_putheader '$MirOS: www/src/jupp.hts,v 1.16 2009/08/08 14:24:19 tg Exp $'
 mws_content <<'EOF'
 <p>The current version is <em>joe-2.8jupp1</em> for MS-DOS® compatible systems,
  and <em>joe-3.1jupp11</em> for Unix/GNU compatible systems. This page is
@@ -131,6 +131,12 @@ $ $SUDO make install</pre>
    Find there the subdirectory most closely matching your GNU/Linux
    distribution and proceed to the binaries. The SRPMs (source RPM in
    the <tt>*/src/</tt> subdirectories) should be all the same.</li>
+ <li>Debian packages are available at <a
+  href="https://eurynome.mirbsd.org/debs/debidx.htm">The MirDebian
+  “WTF.deb” repository</a>. Called <tt>jupp</tt>, these do not conflict
+  with an installed <tt>joe</tt> package from the distribution, which
+  may be more recent (but lack jupprc and our bugfixes); the jupp mode is
+  the only one published, but the other rc files are still included.</li>
  </ul></li>
  <li>jupp 2.x for DOS:<ul>
   <li>JOE 2.8jupp1 (released 20090718) for MS-DOS® (16-bit executable;
