@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/baselive/Makefile,v 1.15 2007/01/30 22:42:05 tg Exp $
+# $MirOS: src/distrib/baselive/Makefile,v 1.16 2007/02/20 00:26:35 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -135,20 +135,36 @@ cdrom-prepare: bsd.gz
 	${SUDO} dd if=bsd.gz obs=2048 conv=osync of=${WRKDIR}/bsd
 	cd ${WRKDIR}; \
 	    ${SUDO} cp ${BOOT} boot.ldr; \
-	    ${SUDO} rm -f RMD160*; \
-	    sed 's!RMD160 (!&v${OSrev}/${MACHINE}/!' \
-	    <v${OSrev}/${MACHINE}/RMD160 >RMD160; \
+	    ${SUDO} rm -f CKSUM*; \
+	    while IFS= read -r line; do \
+		if [[ $$line = *" = "+([0-9a-fA-F]) ]]; then \
+			two=$${line#+([A-Z0-9]) \(}; \
+		else \
+			two=$${line#+([0-9]) +([0-9]) }; \
+		fi; \
+		one=$${line%%$$two}; \
+		print -r "$${one}v${OSrev}/${MACHINE}/$$two"; \
+	    done <v${OSrev}/${MACHINE}/CKSUM >CKSUM; \
 	    ${SUDO} touch boot.cat; \
-	    rmd160 0* bsd boot.* stand/* >>RMD160
+	    cksum -a cksum -a rmd160 -a tiger 0* bsd boot.* stand/* >>CKSUM
 	-${SUDO} rm -f ${WRKDIR}/boot.cat ${CDROM}
 
 cdrom-generate:
 	cd ${WRKDIR}; \
-	    sort -uo RMD160 RMD160; \
-	    gzip -n9 RMD160; \
-	    dd if=/dev/zero count=2 >>RMD160.gz; \
-	    ${SUDO} chown 0:0 00-README RMD160.gz boot* bsd*; \
-	    ${SUDO} chmod 444 00-README RMD160.gz boot* bsd*; \
+	    sort -k3 |& exec 3>&p; exec 4<&p; \
+	    sort |& exec 5>&p; exec 6<&p; \
+	    while IFS= read -r line; do \
+		if [[ $$line = *" = "+([0-9a-fA-F]) ]]; then \
+			print -ru5 "$$line"; \
+		else \
+			print -ru3 "$$line"; \
+		fi; \
+	    done <CKSUM; rm -f CKSUM; \
+	    exec 3>&-; exec 5>&-; \
+	    (cat <&4; cat <&6) | gzip -n9 >CKSUM.gz; \
+	    dd if=/dev/zero bs=256 count=5 >>CKSUM.gz; \
+	    ${SUDO} chown 0:0 00-README CKSUM.gz boot* bsd*; \
+	    ${SUDO} chmod 444 00-README CKSUM.gz boot* bsd*; \
 	    ${SUDO} chown 0:0 .; ${SUDO} chmod 555 .; \
 	    ${SUDO} ${MKSH} ${.CURDIR}/mklocatedb.sh ${REALOBJDIR}/${IMAGE}
 	${SUDO} mkisofs -R -f -L -d -D -N -v -v ${CDROM_MDOPTS} \

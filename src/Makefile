@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.95 2007/02/05 17:50:28 tg Exp $
+# $MirOS: src/Makefile,v 1.96 2007/02/08 21:13:33 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -366,18 +366,25 @@ _do-dist:
 	    ${SUDO} ${SHELL} ${BSDSRCDIR}/scripts/tarsets make ${OSrev}
 .endfor
 	-cd ${BSDRELDIR}/rel; \
-	    ${SUDO} rm -f CKSUM* RMD160* index.txt; \
+	    ${SUDO} rm -f CKSUM* index.txt; \
 	    ( \
 		/bin/ls -d1 !(index.txt*); \
 		echo CKSUM; \
-		echo RMD160.gz; \
-		echo RMD160; \
+		echo CKSUM.gz; \
 		echo index.txt; \
 	    ) | ${SUDO} sort -uo index.txt; \
-	    cksum -a cksum -a rmd160 !(@(CKSUM|RMD160)*) | \
-	    ${SUDO} tee CKSUM~ | fgrep RMD160 | ${SUDO} sort -uo RMD160; \
-	    fgrep -v RMD160 CKSUM~ | ${SUDO} sort -k3 -uo CKSUM; \
-	    ${SUDO} rm -f CKSUM~; \
+	    sort -k3 |& exec 3>&p; exec 4<&p; \
+	    sort |& exec 5>&p; exec 6<&p; \
+	    cksum -a cksum -a rmd160 -a tiger !(CKSUM*) | \
+	    while IFS= read -r line; do \
+		if [[ $$line = *" = "+([0-9a-fA-F]) ]]; then \
+			print -ru5 "$$line"; \
+		else \
+			print -ru3 "$$line"; \
+		fi; \
+	    done; \
+	    exec 3>&-; exec 5>&-; \
+	    (cat <&4; cat <&6) | ${SUDO} dd of=CKSUM 2>/dev/null; \
 	    ${SUDO} chmod 755 $$(find . -type d); \
 	    ${SUDO} chmod 444 $$(find . -type f); \
 	    ${SUDO} chown -R 0:0 .
