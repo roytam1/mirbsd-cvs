@@ -1,5 +1,5 @@
 <!-- PageID: mirrors -->
-<small class="rcsid">$MirOS: www/content/bWlycm9ycw__.inc,v 1.8 2006/01/24 22:31:44 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWlycm9ycw__.inc,v 1.9 2006/01/27 00:14:29 tg Exp $</small>
 <h1>MirOS mirrors</h1>
 
 <h2>Kinds of mirrors</h2>
@@ -32,7 +32,7 @@
 </ul>
 
 <h3>anonCVS</h3>
-<p>_anoncvs@thor.66h.42h.de:/cvs</p>
+<p>_anoncvs@anoncvs.66h.42h.de:/cvs</p>
 
 <h3>anonRSYNC</h3>
 <p>click <a href="/?anoncvs">...</a> for more info until some lazy bum
