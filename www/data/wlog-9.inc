@@ -2802,5 +2802,38 @@ Author: tg@
 <p>Note: new kernels and old <tt>/sbin/sysctl</tt> and
  <tt>/usr/bin/uname</tt>, and vice versa, will not have the
  <tt>kern.ospatchlevel</tt> entry, which is required to build
- XFree86® and/or imake(1) with MirOS.</p>
+ XFree86® and/or imake(1) with MirOS.</p
+----
+Author: bsiegert@
+Date: 06.03.2008
+
+<p>Now that tg@ is back, MirOS has certainly regained its momentum.
+ Great work, it is good to have a developer like him.</p>
+
+<p>For the last six months, we always distributed the same snapshot on
+ exhibitions. I am almost ashamed to admit that the CDs we had at <a
+ href="http://www.fosdem.org/2008/">FOSDEM 2008</a> were burned from the
+ <a href="http://www.froscon.org/">FROSCON 2007</a> ISO image that I had
+ lying around on the showcase box, schaaf.mirbsd.org. So my radical
+ proposal was: the code we have has had a lot of testing already and has
+ shown no show-stopper bugs (except on the new Intel Macs, but that is
+ another story). So: let's release what we have and call it MirOS
+ #10.</p>
+ 
+<p>However, we urgently needed to apply some security fixes first. My
+ task was X. I managed to update the included freetype to 2.3.5, which
+ contains many security-relevant bugfixes and is recommended for all
+ users. Alas, many places under <tt>xc/</tt> have to be touched for it
+ to integrate well. I also applied the X.org patch from OpenBSD
+ 4.2-stable. I had to do the applying by hand as there seemed to be some
+ coding style changes from XFree86 to X.org but the code itself seems to
+ have been mostly unchanged since 1987 or so. Some of it does not even
+ have ANSI prototypes (in XFree86 at least).</p>
+
+<p>Some ports have also been updated, mostly security fixes. My build
+ machine is now MirOS in Parallels on a MacBook Pro. I have
+ <tt>aqua/qt4-mac</tt> in my tree but it does not install quite right
+ yet. A new, unified Ghostscript port is also in the pipeline. However,
+ convincing the build system to <em>only</em> use the system zlib proves
+ difficult.</p>
 ----
