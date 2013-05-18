@@ -1,10 +1,10 @@
-# $MirOS: www/src/mksh.hts,v 1.12 2007/06/30 22:23:24 tg Exp $
+# $MirOS: www/src/mksh.hts,v 1.13 2007/06/30 22:26:08 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.12 2007/06/30 22:23:24 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.13 2007/06/30 22:26:08 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R29</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -217,19 +217,27 @@ mws_content <<'EOF'
  in how the optimiser works; it is possible to work around their trading off
  reliability for benchmark-only speed increases, but because mksh developers
  do not use gcc 4.x this will have to be user-contributed.</p>
+<p>Since mksh uses ProPolice, the Stack-Smashing Protector, some GCC versions'
+ compilates require additional shared libaraies.</p>
+
+<h5 id="oe_icc">Compiler: Intel C/C++/Fortran</h5>
+<p>ICC emulates GCC quite well (too well for my taste), is fully supported in
+ mksh R30 and above on several platforms, but spits out <strong>lots</strong>
+ (and I <em>mean</em> huge ugly lots) of bogus warnings during compile. We're
+ not going to work around these; let Intel fix their compiler instead.</p>
+<p>mksh enables the ICC stack protector option automaticaly. Compilates
+ usually require the Intel shared libraries to be around.</p>
 
 <h5 id="oe_hpc">Compiler: HP C/aC++</h5>
 <p>HP's C compiler (/usr/bin/cc on HP-UX) is supported in mksh R30 and above;
  on IA64, only the LP64 model can be used; mksh segfaults in the ILP32 module
- (or rather, the system libraries do, I think), so it is default.</p>
+ (or rather, the system libraries do, I think), so it is default. PA-RISC too
+ works fine.</p>
 
 <h5 id="oe_sun">Compiler: SUNpro</h5>
 <p>Support for the <a href="http://developer.sun.com/sunstudio">SUN Studio
- 12</a> compiler appeared in mksh R30; other versions
- might be supported as well. More testing needed.</p>
-<p>The C Præprocessor of SUNpro is not able to generate a list of signal names
- if the operating system does not provide them; “kill -l” output will look
- weird on, for example, GNU/Linux.</p>
+ 12</a> compiler (cc 5.9) as well as cc 5.8 appeared in mksh R30; other
+ versions might be supported as well. More testing needed.</p>
 
 <h5 id="oe_aix">OS: AIX</h5>
 <p>AIX support is experimental and almost untested.</p>
@@ -237,7 +245,8 @@ mws_content <<'EOF'
  using libcrypt. If passing custom LIBS, don't forget <tt>-lcrypt</tt>.</p>
 
 <h5 id="oe_hurd">OS: GNU/HURD</h5>
-<p>This operating system is supported but not well tested.</p>
+<p>This operating system is supported (on i386) since R29 but not well
+ tested. mksh is part of Debian GNU/HURD, so it is expected to work.</p>
 
 <h5 id="oe_linux">OS: GNU/Linux</h5>
 <p>While POSIX does not apply to “GNU's Not Unix”, the <a
@@ -248,14 +257,16 @@ mws_content <<'EOF'
 <p>We didn't test dietlibc yet, but uClibc works; libc5 on 2.0.36 too.</p>
 
 <h5 id="oe_hpux">OS: HP-UX</h5>
-<p>HP-UX support is experimental and not well tested.</p>
-<p>Users might have to play around with stty(1).</p>
-<p>If passing custom CFLAGS, don't forget <tt>-mlp64</tt> on Itanium.</p>
+<p>Support for HP-UX with GCC appeared in mksh R29 and works with HP's C
+ compiler and is no longer experimental in mksh R39. Please use stty(1) to
+ make the terminal sanely usable.</p>
+<p>If passing custom CFLAGS, don't forget <tt>-mlp64</tt> (GCC) or
+ <tt>+DD64</tt> on Itanium.</p>
 
 <h5 id="oe_interix">OS: Interix</h5>
 <p>If passing custom LIBS, don't forget to add <tt>-lcrypt</tt> or any other
  library providing arc4random(3).</p>
-<p>mksh can replace /bin/ksh</p>
+<p>mksh can replace /bin/ksh without any problems.</p>
 
 <h5 id="oe_minix">OS: Minix</h5>
 <p>Minix 3 is not supported yet – we were able to create an executable, but
@@ -277,8 +288,13 @@ mws_content <<'EOF'
  base installation. Use a different setlocale library function like <a
  href="/cvs.cgi/contrib/code/Snippets/setlocale.c?rev=HEAD">this one</a>
  and pass its filename as $LIBS to <tt>Build.sh</tt>.</p>
+<p>mksh can replace /bin/ksh without any problems.</p>
 
 <h5 id="oe_solaris">OS: Solaris</h5>
+<p>Solaris is full supported since “forever” with gcc, and since mksh R30
+ with Sun's C compiler. Both 32-bit and 64-bit modes work; 64-bit mode is
+ not enabled by default by <tt>Build.sh</tt>, you must do that manually by
+ passing CFLAGS of <tt>-O2 -m64</tt> or <tt>-xO2 -xarch=generic64</tt>.</p>
 <p>Tonnerre LOMBARD reports it's not possible to use mksh as login shell
  with the graphical login manager on some OpenSolaris beta version.</p>
 <p>Solaris does not come with Berkeley mdoc macros for nroff, so using
