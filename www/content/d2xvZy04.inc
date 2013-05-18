@@ -1,5 +1,5 @@
 <!-- PageID: wlog-8 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.72 2006/05/28 01:58:17 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.73 2006/05/28 20:18:07 tg Exp $</small>
 <h1>MirBSD &ndash; WTF, We Have a Release!?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -1321,7 +1321,9 @@ celebrate this event, rotate the wlog and start a new one.</p>
   I am now a full FreeWRT developer as well. Just wanted to tell you, so
   you don't worry &ndash; I won't lessen working on MirOS. Rather, I may
   be able to impregnate the GNU-dominated world of embedded systems with
-  a little BSD spirit.</p>
+  a little BSD spirit. The reasons for him leaving have been outlined <a
+  href="http://www.openbsd-geek.de/archives/224-An-open-letter-to-the-OpenWrt-community.html">in
+  his blog</a> as well.</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
