@@ -1,5 +1,5 @@
 <?php
-/* $MirOS: www/files/index.php,v 1.9 2008/05/03 02:20:26 tg Exp $ */
+/* $MirOS: www/files/index.php,v 1.10 2008/05/03 02:26:29 tg Exp $ */
 /*-
  * The MirOS Project - Webpages
  * Copyrighted material; read LICENCE for terms of use.
@@ -103,7 +103,7 @@ function get_include_contents($filename) {
  <meta name="copyright" content="All rights reserved. Redistribution except for scientific and educational uses strictly prohibited." />
  <meta name="owner" content="The MirOS Project and The MirPorts Framework" />
  <meta name="licence" content="see the source files in CVSWEB for details" />
- <!-- $MirOS: www/mk/tmpl.pre,v 1.14 2008/03/14 21:13:09 tg Exp $ -->
+ <!-- $MirOS: www/files/index.php,v 1.10 2008/05/03 02:26:29 tg Exp $ -->
  <title>MirOS/MirPorts: a wonderful operating system for a world of peace</title>
  <meta name="robots" content="index, follow" />
  <!--
@@ -160,9 +160,8 @@ function get_include_contents($filename) {
   src="pics/logo-grey.png" alt="MirOS Logo" /></a>
 </div>
 <div class="footer"><p>• <a
- href="http://mirbsd.de/impressum">Impressum</a> • <a
  href="http://validator.w3.org/check/referer">Valid HTML!</a> • <a
- href="mailto:miros-discuss@66h.42h.de">E-Mail</a> contact to the
+ href="mailto:miros-discuss@mirbsd.org">eMail</a> contact to the
  MirOS Project •</p>
 <p class="rcsdiv">Generated using the old, abandoned CMS</p>
 </div>
