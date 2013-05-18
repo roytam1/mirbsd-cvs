@@ -1,4 +1,4 @@
-! $MirOS: contrib/samples/dot.Xmodmap.xapps,v 1.2 2006/01/26 22:50:42 tg Exp $
+! $MirOS: contrib/samples/dot.Xmodmap.xapps,v 1.3 2006/01/26 22:54:41 tg Exp $
 !-
 ! Copyright (c) 2006
 !	Thorsten Glaser <tg@mirbsd.de>
@@ -24,15 +24,15 @@
 ! the possibility of such damage or existence of a nontrivial bug.
 !-
 ! Advanced .Xmodmap file with US-based layout plus Meta and Compose,
-! for 105-key PC keyboards (usable with 101/102/104-key or laptop as
-! well). Emulating Meta with ModeSwitch helps with X11 applications.
+! for 105-key PC keyboards (usable with 102-key or laptop keyboards,
+! too). Emulating Meta with Mode_switch helps with X11 applications.
 !
 ! Diversions from US layout:
-! * The Alt_L key generates Meta_L
-! * The Win_L key generates Alt_L
-! * The < > | key generates Mode_switch
+! * The Alt_L key generates Meta_L	(adds 0x80 to latin1 code)
+! * The Win_L key generates Alt_L	(e.g. for window managers)
+! * The < > | key generates Mode_switch	(emulates Meta for X apps)
 ! * The Win_R key generates Meta_R
-! * The Win_M key generates Compose
+! * The Win_M key generates Compose	(also for Unicode compose)
 ! * The CapsLock key generates Euro, Trademark, Ellipsis and CheckedBox
 
 keycode	0x09 =	Escape		Escape		U009B		U009B
@@ -113,8 +113,8 @@ keycode	0x53 =	KP_Left		KP_4
 keycode	0x54 =	KP_Begin	KP_5
 keycode	0x55 =	KP_Right	KP_6
 
-keycode	0x32 =	Shift_L
-keycode	0x5E =	Mode_switch
+keycode	0x32 =	Shift_L		Shift_L
+keycode	0x5E =	Mode_switch	Mode_switch
 keycode	0x34 =	z		Z		U00FA		U00DA
 keycode	0x35 =	x		X		U00F8		U00D8
 keycode	0x36 =	c		C		U00E3		U00C3
@@ -125,21 +125,21 @@ keycode	0x3A =	m		M		U00ED		U00CD
 keycode	0x3B =	comma		less		U00AC		U00BC
 keycode	0x3C =	period		greater		U00AE		U00BE
 keycode	0x3D =	slash		question	U00AF		U00BF
-keycode	0x3E =	Shift_R
+keycode	0x3E =	Shift_R		Shift_R
 keycode	0x62 =	Up
 keycode	0x57 =	KP_End		KP_1
 keycode	0x58 =	KP_Down		KP_2
 keycode	0x59 =	KP_Next		KP_3
 keycode	0x6C =	KP_Enter	Return
 
-keycode	0x25 =	Control_L
-keycode	0x73 =	Alt_L
-keycode	0x40 =	Meta_L
+keycode	0x25 =	Control_L	Control_L
+keycode	0x73 =	Alt_L		Alt_L
+keycode	0x40 =	Meta_L		Meta_L
 keycode	0x41 =	space		space		U00A0		U00A0
-keycode	0x71 =	Alt_R
-keycode	0x74 =	Meta_R
-keycode	0x75 =	Multi_key
-keycode	0x6D =	Control_R
+keycode	0x71 =	Alt_R		Alt_R
+keycode	0x74 =	Meta_R		Meta_R
+keycode	0x75 =	Multi_key	Multi_key
+keycode	0x6D =	Control_R	Control_R
 keycode	0x64 =	Left
 keycode	0x68 =	Down
 keycode	0x66 =	Right
