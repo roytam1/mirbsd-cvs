@@ -1,4 +1,4 @@
-/**	$MirOS: src/lib/libc/crypt/arc4random.c,v 1.7 2006/08/19 02:03:08 tg Exp $ */
+/**	$MirOS: src/lib/libc/crypt/arc4random.c,v 1.8 2007/01/15 02:19:25 tg Exp $ */
 /*	$OpenBSD: arc4random.c,v 1.14 2005/06/06 14:57:59 kjell Exp $	*/
 
 /*
@@ -40,13 +40,13 @@
 
 #include <sys/param.h>
 #include <sys/sysctl.h>
+#include <sys/taitime.h>
 #include <fcntl.h>
 #include <stdlib.h>
 #include <string.h>
-#include <time.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: src/lib/libc/crypt/arc4random.c,v 1.7 2006/08/19 02:03:08 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/crypt/arc4random.c,v 1.8 2007/01/15 02:19:25 tg Exp $");
 
 #ifdef __GNUC__
 #define inline __inline
