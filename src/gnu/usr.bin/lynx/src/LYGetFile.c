@@ -1,4 +1,4 @@
-/* $LynxId: LYGetFile.c,v 1.77 2007/05/20 23:28:43 Thorsten.Glaser Exp $ */
+/* $LynxId: LYGetFile.c,v 1.79 2009/04/12 17:24:06 tom Exp $ */
 #include <HTUtils.h>
 #include <HTTP.h>
 #include <HTAnchor.h>		/* Anchor class */
@@ -182,7 +182,7 @@ int getfile(DocInfo *doc, int *target)
      * Check to see if this is a universal document ID that lib WWW wants to
      * handle.
      *
-     * Some special URL's we handle ourselves.  :)
+     * Some special URLs we handle ourselves.  :)
      */
     if ((url_type = is_url(doc->address)) != 0) {
 	if (LYValidate && !LYPermitURL) {
@@ -192,6 +192,9 @@ int getfile(DocInfo *doc, int *target)
 		  url_type == LYNXKEYMAP_URL_TYPE ||
 		  url_type == LYNXIMGMAP_URL_TYPE ||
 		  url_type == LYNXCOOKIE_URL_TYPE ||
+#ifdef USE_CACHEJAR
+		  url_type == LYNXCACHE_URL_TYPE ||
+#endif
 		  url_type == LYNXMESSAGES_URL_TYPE ||
 		  (url_type == LYNXOPTIONS_URL_TYPE &&
 		   WWWDoc.post_data) ||
@@ -225,6 +228,9 @@ int getfile(DocInfo *doc, int *target)
 		  url_type == LYNXKEYMAP_URL_TYPE ||
 		  url_type == LYNXIMGMAP_URL_TYPE ||
 		  url_type == LYNXCOOKIE_URL_TYPE ||
+#ifdef USE_CACHEJAR
+		  url_type == LYNXCACHE_URL_TYPE ||
+#endif
 		  url_type == LYNXPRINT_URL_TYPE ||
 		  url_type == LYNXOPTIONS_URL_TYPE ||
 		  url_type == LYNXCFG_URL_TYPE ||
@@ -560,6 +566,9 @@ int getfile(DocInfo *doc, int *target)
 		   url_type != LYNXIMGMAP_URL_TYPE &&
 		   url_type != LYNXCOOKIE_URL_TYPE &&
 		   url_type != LYNXMESSAGES_URL_TYPE &&
+#ifdef USE_CACHEJAR
+		   url_type != LYNXCACHE_URL_TYPE &&
+#endif
 		   url_type != LYNXCGI_URL_TYPE &&
 		   !(url_type == NEWS_URL_TYPE &&
 		     strncmp(doc->address, "news://", 7)) &&
@@ -840,6 +849,9 @@ int getfile(DocInfo *doc, int *target)
 		     url_type == LYNXCOMPILE_OPTS_URL_TYPE ||
 		     url_type == LYNXHIST_URL_TYPE ||
 		     url_type == LYNXCOOKIE_URL_TYPE ||
+#ifdef USE_CACHEJAR
+		     url_type == LYNXCACHE_URL_TYPE ||
+#endif
 		     url_type == LYNXMESSAGES_URL_TYPE ||
 		     (LYValidate &&
 		      url_type != HTTP_URL_TYPE &&
@@ -930,7 +942,7 @@ int getfile(DocInfo *doc, int *target)
 		    LYFreePostData(doc);
 		}
 		/*
-		 * Go to top to check for URL's which get special handling
+		 * Go to top to check for URLs which get special handling
 		 * and/or security checks in Lynx.  - FM
 		 */
 		goto Try_Redirected_URL;
@@ -945,7 +957,7 @@ int getfile(DocInfo *doc, int *target)
 	    lynx_mode = NORMAL_LYNX_MODE;
 
 	    /*
-	     * Some URL's don't actually return a document; compare
+	     * Some URLs don't actually return a document; compare
 	     * doc->address with the document that is actually loaded and
 	     * return NULLFILE if not loaded.  If www_search_result is not -1
 	     * then this is a reference to a named anchor within the same
@@ -1253,7 +1265,7 @@ static struct trust always_trusted_exec_default =
 };
 static struct trust trusted_cgi_default =
 {
-    "", "", CGI_PATH, NULL
+    "none", "", CGI_PATH, NULL
 };
 
 static struct trust *trusted_exec = &trusted_exec_default;

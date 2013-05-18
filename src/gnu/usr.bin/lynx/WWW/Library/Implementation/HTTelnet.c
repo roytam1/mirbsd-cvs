@@ -75,7 +75,7 @@ static int remote_session(char *acc_method, char *host)
      * Modified to allow for odd chars in a username only if exists.
      * 05-28-94 Lynx 2-3-1 Garrett Arch Blythe
      */
-    /* prevent telnet://hostname;rm -rf *  URL's (VERY BAD)
+    /* prevent telnet://hostname;rm -rf *  URLs (VERY BAD)
      *  *cp=0;        // terminate at any ;,<,>,`,|,",' or space or return
      * or tab to prevent security hole
      */

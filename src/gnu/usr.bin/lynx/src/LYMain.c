@@ -2964,7 +2964,7 @@ within userdefs.h." },
 #endif
 	{ "file_url", "\
 disallow using G)oto, served links or bookmarks for\n\
-file: URL's" },
+file: URLs" },
 	{ "goto", "disable the 'g' (goto) command" },
 #if !defined(HAVE_UTMP) || defined(VMS) /* not selective */
 	{ "inside_ftp", "\

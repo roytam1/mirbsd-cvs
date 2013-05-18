@@ -938,7 +938,7 @@ the contents of an /etc/organization file, if present).
 .TP
 .B NNTPSERVER
 If set, this variable specifies the default NNTP server that will be used
-for \fBUSENET\fR news reading and posting with \fILynx\fR, via news: URL's.
+for \fBUSENET\fR news reading and posting with \fILynx\fR, via news: URLs.
 .TP
 .B ORGANIZATION
 This variable, if set, provides the string used in the \fBOrganization:\fR
