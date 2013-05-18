@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.221 2008/10/12 13:53:12 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.222 2008/10/12 13:56:07 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -932,9 +932,6 @@ _IGNOREFILES=		${IGNOREFILES}
 EXTRACT_ONLY?=		${_DISTFILES}
 
 # okay, time for some guess work
-.if !empty(EXTRACT_ONLY:M*.zip)
-_USE_ZIP?=		Yes
-.endif
 .if !empty(EXTRACT_ONLY:M*.bz2) || \
     !empty(EXTRACT_ONLY:M*.tbz) || !empty(EXTRACT_ONLY:M*.cbz) || \
     (defined(PATCHFILES) && !empty(_PATCHFILES:M*.bz2))
@@ -947,22 +944,20 @@ _USE_LHARC?=		Yes
     !empty(EXTRACT_ONLY:M*.tlz) || !empty(EXTRACT_ONLY:M*.clz)
 _USE_LZMA?=		Yes
 .endif
-_USE_ZIP?=		No
+.if !empty(EXTRACT_ONLY:M*.zip)
+_USE_ZIP?=		Yes
+.endif
 _USE_BZIP2?=		No
 _USE_LHARC?=		No
 _USE_LZMA?=		No
+_USE_ZIP?=		No
 
 EXTRACT_CASES?=
 
 _PERL_FIX_SHAR?=	perl -ne 'print if $$s || ($$s = m:^\#(\!\s*/bin/sh\s*| This is a shell archive):)'
 
 # XXX note that we DON'T set EXTRACT_SUFX.
-.if ${_USE_ZIP:L} != "no"
-BUILD_DEPENDS+=		:unzip-*:archivers/unzip
-EXTRACT_CASES+=		\
-    *.zip) \
-	${UNZIP} -q ${FULLDISTDIR}/$$archive -d ${WRKDIR} ;;
-.endif
+
 .if ${_USE_BZIP2:L} != "no"
 BUILD_DEPENDS+=		:bzip2-*:archivers/bzip2
 EXTRACT_CASES+=		\
@@ -972,12 +967,14 @@ EXTRACT_CASES+=		\
 	${BZIP2} -dc ${FULLDISTDIR}/$$archive				\
 	    >$$(basename $$archive .bz2) ;;				\
 .endif
+
 .if ${_USE_LHARC:L} != "no"
 BUILD_DEPENDS+=		:lha-*:archivers/lha
 EXTRACT_CASES+=		\
     *.[Ll][Zz][Hh] | *.[Ll][Hh][Aa]) \
 	lha xw=${WRKDIR}/${DISTNAME} ${FULLDISTDIR}/$$archive ;;
 .endif
+
 .if ${_USE_LZMA:L} != "no"
 BUILD_DEPENDS+=		:lzma-*:archivers/lzma
 EXTRACT_CASES+=		\
@@ -987,6 +984,14 @@ EXTRACT_CASES+=		\
 	lzma -dc ${FULLDISTDIR}/$$archive				\
 	    >$$(basename $$archive .lzma) ;;				\
 .endif
+
+.if ${_USE_ZIP:L} != "no"
+BUILD_DEPENDS+=		:unzip-*:archivers/unzip
+EXTRACT_CASES+=		\
+    *.zip) \
+	${UNZIP} -q ${FULLDISTDIR}/$$archive -d ${WRKDIR} ;;
+.endif
+
 EXTRACT_CASES+=		\
     *.tar.gz | *.t.gz | *.tgz | *.cpio.gz | *.cgz | *.mcz)		\
 	${GZIP_CMD} -dc ${FULLDISTDIR}/$$archive | ${TAR} xf - ;;	\
@@ -1006,6 +1011,7 @@ EXTRACT_CASES+=		\
 	uudecode ${FULLDISTDIR}/$$archive ;;				\
     *)									\
 	${GZIP_CMD} -dc ${FULLDISTDIR}/$$archive | ${TAR} xf - ;;
+
 
 PATCH_CASES?=
 .if ${_USE_BZIP2:L} != "no"
