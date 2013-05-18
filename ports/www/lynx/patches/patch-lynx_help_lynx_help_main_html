@@ -1,7 +1,10 @@
 $MirOS$
---- lynx_help/lynx_help_main.html.orig	Mon Oct 11 00:29:24 2004
-+++ lynx_help/lynx_help_main.html	Thu Aug 10 18:32:17 2006
-@@ -22,6 +22,10 @@
+
+	we install these, so link to them
+
+--- lynx_help/lynx_help_main.html.orig	Thu May 17 22:52:59 2007
++++ lynx_help/lynx_help_main.html	Sun May 20 11:32:03 2007
+@@ -23,6 +23,10 @@
   -- credits, copyright etc
  <li><a href="lynx-dev.html">About Lynx-Dev</a>
   -- the developers &amp; how to contact them

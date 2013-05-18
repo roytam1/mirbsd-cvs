@@ -1,0 +1,15 @@
+$MirOS$
+
+	cf. Message-ID: <Pine.BSM.4.64L.0705201013380.8619@odem.66h.42h.de>
+	and the following thread
+
+--- src/LYGetFile.c.orig	Mon Nov 13 01:29:10 2006
++++ src/LYGetFile.c	Sun May 20 11:17:22 2007
+@@ -780,6 +780,7 @@ int getfile(DocInfo *doc, int *target)
+ 	     * relative elements.  - FM
+ 	     */
+ 	    LYTildeExpand(&(doc->address), TRUE);
++	    WWWDoc.address = doc->address;
+ 	}
+ 	CTRACE_SLEEP(MessageSecs);
+ 	user_message(WWW_WAIT_MESSAGE, doc->address);

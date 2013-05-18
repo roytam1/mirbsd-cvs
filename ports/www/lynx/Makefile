@@ -1,6 +1,4 @@
-# $MirOS: ports/www/lynx/Makefile,v 1.13 2006/11/16 22:25:00 tg Exp $
-
-BROKEN=			porting in progress
+# $MirOS: ports/www/lynx/Makefile,v 1.14 2007/05/19 22:44:24 tg Exp $
 
 COMMENT=		standard text-mode world wide web browser
 CATEGORIES=		www essentials
@@ -27,36 +25,73 @@ FLAVOR?=		wide
 
 WRKDIST=		${WRKDIR}/lynx2-8-7
 MAKE_FILE=		makefile
+CPPFLAGS+=		-DLYNX_VERSION=\"${VERSION}-MirPorts-${DASH_VER}\"
 INSTALL_TARGET=		install-full
 NO_REGRESS=		Yes
 
 MODULES+=		converters/libiconv
 CONFIGURE_STYLE=	gnu
-CONFIGURE_ARGS+=	--with-ssl --with-zlib --enable-japanese-utf8 \
-			--enable-addrlist-page --enable-charset-choice \
-			--enable-color-style --disable-full-paths \
-			--enable-warnings --enable-internal-links \
-			--enable-kbd-layout --enable-ipv6 \
-			--enable-nested-tables --disable-nls \
-			--enable-nsl-fork --disable-scrollbar --enable-cjk \
-			--enable-underlines --enable-vertrace --without-bzlib
+CONFIGURE_ARGS+=	--enable-vertrace \
+			--enable-warnings \
+			--disable-nls \
+			--disable-full-paths \
+			--with-ssl=/usr \
+			--without-gnutls \
+			--without-socks \
+			--without-socks5 \
+			--with-screen=ncursesw \
+			--enable-widec \
+			--enable-addrlist-page \
+			--enable-charset-choice \
+			--enable-cjk \
+			--enable-japanese-utf8 \
+			--enable-color-style \
+			--disable-default-colors \
+			--disable-htmlized-cfg \
+			--enable-ipv6 \
+			--enable-kbd-layout \
+			--enable-locale-charset \
+			--enable-nested-tables \
+			--disable-scrollbar \
+			--enable-justify-elts \
+			--enable-internal-links \
+			--enable-nsl-fork \
+			--enable-underlines \
+			--without-bzlib \
+			--with-zlib \
+			--without-x
+# do not hardcode paths; do not scan for ports stuff
+CONFIGURE_ENV+=		ac_cv_path_TELNET=telnet \
+			ac_cv_path_TN3270=tn3270 \
+			ac_cv_path_RLOGIN=rlogin \
+			ac_cv_path_MV=mv \
+			ac_cv_path_GZIP=gzip \
+			ac_cv_path_UNCOMPRESS=gunzip \
+			ac_cv_path_UNZIP=unzip \
+			ac_cv_path_BZIP2=bzip2 \
+			ac_cv_path_TAR=tar \
+			ac_cv_path_COMPRESS=compress \
+			ac_cv_path_RM=rm \
+			ac_cv_path_UUDECODE=uudecode \
+			ac_cv_path_ZCAT=zcat \
+			ac_cv_path_ZIP=zip
+
 .if ${MACHINE_OS} == "Interix"
 CONFIGURE_ARGS+=	--disable-ipv6
 .endif
+
 .if ${FLAVOR:Mwide}
 MODULES+=		devel/libncursesw
-CONFIGURE_ARGS+=	--with-screen=ncursesw \
-			--enable-widec
 .else
-CONFIGURE_ARGS+=	--with-screen=ncurses
+CONFIGURE_ARGS+=	--with-screen=ncurses \
+			--disable-widec
 .endif
-CPPFLAGS+=		-DLYNX_VERSION=\"${VERSION}-MirPorts-${DASH_VER}\"
 
 post-install:
-	XXX redo this
 	${INSTALL_SCRIPT} ${WRKSRC}/samples/oldlynx ${PREFIX}/bin/
-	mv -f ${WRKINST}${SYSCONFDIR}/lynx.{cfg,lss} \
-	    ${PREFIX}/share/lynx_doc/samples/
-	-rm -rf ${WRKINST}${SYSCONFDIR}
 
 .include <bsd.port.mk>
+
+# fix up paths, must come after gnu module
+EXTRA_FAKE_FLAGS+=	SYSCONFDIR=${WRKINST:Q}${TRUEPREFIX:Q}/share/examples/lynx
+CONFIGURE_ARGS+=	--datadir=${PREFIX:Q}/share/doc/lynx
