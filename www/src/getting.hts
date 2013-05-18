@@ -1,10 +1,10 @@
-# $MirOS: www/src/getting.hts,v 1.14 2008/07/05 22:16:15 tg Exp $
+# $MirOS: www/src/getting.hts,v 1.15 2008/07/09 18:38:42 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname getting "Get MirOS!"
-mws_putheader '$MirOS: www/src/getting.hts,v 1.14 2008/07/05 22:16:15 tg Exp $'
+mws_putheader '$MirOS: www/src/getting.hts,v 1.15 2008/07/09 18:38:42 tg Exp $'
 mws_content <<'EOF'
 <h1>Get MirOS!</h1>
 
@@ -39,7 +39,8 @@ mws_content <<'EOF'
 <h2>Downloads</h2>
 
 <p>Please verify the gzsig(1) signature of the checksums and the integrity of
- all checksummed files!</p>
+ all checksummed files! See the install.i386(7) manpage for details about the
+ installation process.</p>
 
 <p>The preferred download method is BitTorrent, as it means lower bandwidth
  costs for us. You will find all downloads on <a
@@ -52,21 +53,20 @@ mws_content <<'EOF'
   <th>Download</th>
  </tr><tr>
   <td><p><b>MirOS #10semel (stable, i386 + sparc)</b></p>
-   <p>Contains the CVS repository and a few binary packages.</p>
+   <p>Contains the CVS repository and some binary packages.</p>
    <p>Released 16.03.2008 (<a href="ann-10.htm">Release
     announcement</a>).</p></td>
   <td>
    <p>use the <a href="f/MirBSD-10semel.metalink">Metalink</a> file</p>
    <p>via HTTP: ISO @ <a
-    href="http://www.mirbsd.org/MirOS/ISOs/MIR80316.ISO">Germany 1 (IPv4/IPv6)</a> / <a
-    href="http://miros.unixforge.de/MirOS/ISOs/MIR80316.ISO">Germany 1 (IPv4 only)</a> / <a
-    href="http://server.leveldown.de/~nezza/MIR80316.ISO">Germany 2 (IPv4 only)</a> / <a
-    href="http://pub.allbsd.org/MirOS/ISOs/MIR80316.ISO">Japan (IPv4/IPv6)</a> – <a
-    href="/MirOS/v10/">NetInstall directory</a> – <a
-    href="/MirOS/v10/cdrom10.iso">NetInstall ISO</a> / <a
+    href="http://www.mirbsd.org/MirOS/ISOs/MIR80316.ISO">Germany (IPv4/IPv6)</a> / <a
+    href="http://miros.unixforge.de/MirOS/ISOs/MIR80316.ISO">Germany (IPv4 only)</a> / <a
+    href="http://pub.allbsd.org/MirOS/ISOs/MIR80316.ISO">Japan (IPv4/IPv6)</a><br />
+    <a href="/MirOS/v10/">NetInstall directory</a><br />
+    <a href="/MirOS/v10/cdrom10.iso">NetInstall ISO</a> / <a
     href="/MirOS/v10/cdrom10-9600,8n1.iso">serial console @9600,8N1</a> / <a
-    href="/MirOS/v10/cdrom10-57600,8n1.iso">serial console @57600,8N1</a> – <a
-    href="http://f.scarywater.net/miros/">via BitTorrent</a></p>
+    href="/MirOS/v10/cdrom10-57600,8n1.iso">serial console @57600,8N1</a></p>
+   <p><a href="http://f.scarywater.net/miros/">via BitTorrent</a></p>
    <p>Netinstall: go to one of the mirrors listed below and pull from
     the <tt>/MirOS/v10/{i386,sparc}/</tt> directory.</p>
    <p>Please see <a href="permalinks/news_e20080320-nn.htm#hashes">this
@@ -96,12 +96,16 @@ mws_content <<'EOF'
  </tr>
 </table>
 
-<p>Mirrors for netinstall:</p><ul>
+<h2>Mirrors for netinstall</h2>
+
+<ul>
  <li><a href="http://www.mirbsd.org/MirOS/">http://www.mirbsd.org/MirOS/</a>…</li>
  <li><a href="http://pub.allbsd.org/MirOS/">http://pub.allbsd.org/MirOS/</a>…</li>
  <li><a href="http://miros.unixforge.de/MirOS/">http://miros.unixforge.de/MirOS/</a>…</li>
  <li><a href="/MirOS/">local mirror</a> (if exists)</li>
-</ul><p>For netinstall, first get the CD image (<tt>cdrom10.iso</tt>, usually
+</ul>
+
+<p>For netinstall, first get the CD image (<tt>cdrom10.iso</tt>, usually
  about 4-5 MiB large) or a (net)bootable kernel (i386: <tt>pxeboot</tt> plus
  <tt>bsd.rd</tt>, sparc: either <tt>bsd.rd.net</tt> or <tt>boot</tt>, which
  replaces OpenBSD’s <tt>boot.net</tt>, and <tt>bsd.rd</tt>), or, if you have
@@ -109,8 +113,9 @@ mws_content <<'EOF'
  as set location, and use the FQDN as server name and the full path without
  the leading slash as path to the sets. Example: for the main mirror, the
  server name is <tt>www.mirbsd.org</tt>, and the path to the sets for an i386
- installation is <tt>MirOS/curret/i386</tt> (without a leading or trailing
+ installation is <tt>MirOS/current/i386</tt> (without a leading or trailing
  slash), for installing development snapshots.</p>
+
 <p>You can also download these files (e.g. with <tt>wget -r -np</tt>) and
  then use a local mirror, or even copy them to the destination system first.
  (Note that you should take care that the filesystem with the sets on it is
