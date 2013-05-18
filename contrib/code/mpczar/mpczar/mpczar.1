@@ -1,7 +1,7 @@
-.\" $MirOS: contrib/code/mpczar/mpczar/mpczar.1,v 1.5 2006/01/13 03:49:29 tg Exp $
+.\" $MirOS: src/share/misc/licence.template,v 1.14 2006/08/09 19:35:23 tg Rel $
 .\"-
-.\" Copyright (c) 2005
-.\"	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+.\" Copyright (c) 2005, 2006
+.\"	Thorsten Glaser <tg@mirbsd.de>
 .\"
 .\" Licensee is hereby permitted to deal in this work without restric-
 .\" tion, including unlimited rights to use, publicly perform, modify,
@@ -10,8 +10,8 @@
 .\" in all redistributions or reproduced in accompanying documentation
 .\" or other materials provided with binary redistributions.
 .\"
-.\" All advertising materials mentioning features or use of this soft-
-.\" ware must display the following acknowledgement:
+.\" Advertising materials mentioning features or use of this work must
+.\" display the following acknowledgement:
 .\"	This product includes material provided by Thorsten Glaser.
 .\"
 .\" Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
@@ -21,9 +21,9 @@
 .\" or other damage, or direct damage except proven a consequence of a
 .\" direct error of said person and intended use of this work, loss or
 .\" other issues arising in any way out of its use, even if advised of
-.\" the possibility of such damage or existence of a nontrivial bug.
+.\" the possibility of such damage or existence of a defect.
 .\"-
-.Dd November 16, 2005
+.Dd November 19, 2006
 .Dt MPCZAR 1
 .Os MirPorts\ Framework
 .Sh NAME
@@ -31,7 +31,7 @@
 .Nd generate compressed normalised file archive
 .Sh SYNOPSIS
 .Nm
-.Op Fl v
+.Op Fl Cv
 .Op Fl o Ar outfile
 .Op Fl I Ar ignore ...
 .Op Fl r Ar directory ...
@@ -47,8 +47,7 @@ specified, removes all
 .Ar ignore
 entries found, sorts the list, creates a
 .Xr cpio 1
-archive in the
-.Em v4norm
+archive in a normalised
 format, compresses them using a helper programme
 and writes the file to
 .Ar outfile Ns .mcz
@@ -62,6 +61,15 @@ about ownership, inodes and modification times is discarded.
 .Pp
 The options are as follows:
 .Bl -tag -width "-r directory"
+.It Fl C
+Create an old-style portable
+.Em cpio
+archive instead of an
+.Em sv4crc
+.Pq default
+archive.
+Use this option only for distfiles which also must be usable
+on systems that do not have MirOS cpio.
 .It Fl I Ar ignore
 Add
 .Ar ignore
@@ -107,6 +115,8 @@ failed, 2 if compression failed, and 0 on success.
 .Xr compress 1 ,
 .Xr cpio 1 ,
 .Xr fgrep 1 ,
+.Xr uncompress 1 ,
+.Xr zcat 1 ,
 .Xr zopen 3
 .Sh AUTHORS
 .Nm

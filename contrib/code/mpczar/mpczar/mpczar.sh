@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/share/misc/licence.template,v 1.8 2006/06/16 23:03:39 tg Rel $
+# $MirOS: src/share/misc/licence.template,v 1.14 2006/08/09 19:35:23 tg Rel $
 #-
 # Copyright (c) 2005, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -11,8 +11,8 @@
 # in all redistributions or reproduced in accompanying documentation
 # or other materials provided with binary redistributions.
 #
-# All advertising materials mentioning features or use of this soft-
-# ware must display the following acknowledgement:
+# Advertising materials mentioning features or use of this work must
+# display the following acknowledgement:
 #	This product includes material provided by Thorsten Glaser.
 #
 # Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
@@ -22,11 +22,11 @@
 # or other damage, or direct damage except proven a consequence of a
 # direct error of said person and intended use of this work, loss or
 # other issues arising in any way out of its use, even if advised of
-# the possibility of such damage or existence of a nontrivial bug.
+# the possibility of such damage or existence of a defect.
 
 function usage
 {
-	print -u2 "Usage: mpczar [-v] [-I ignore]... [-r dir]... [-o outfile] [file...]"
+	print -u2 "Usage: mpczar [-Cv] [-I ignore]... [-r dir]... [-o outfile] [file...]"
 	exit 1
 }
 
@@ -41,6 +41,7 @@ v=
 me=$0
 outf=-
 rv=0
+fmt=sv4crc
 
 helper=$(readlink -nf $(dirname "$me")/../libexec/mpczar.z)
 if [[ ! -x $helper ]]; then
@@ -66,8 +67,10 @@ function whattoignore
 	fi
 }
 
-while getopts "I:o:r:v" c; do
+while getopts "CI:o:r:v" c; do
 	case $c {
+	(C)	fmt=cpio
+		;;
 	(I)	(( ni == 1 )) && ignore[0]=-v
 		ignore[ni++]=-e
 		ignore[ni++]=$OPTARG
@@ -93,7 +96,7 @@ done
 
 [[ $outf != - && $outf != *@(.mcz) ]] && outf=${outf}.mcz
 
-( whattopack | whattoignore | cpio $v -oC512 -Hsv4crc -M0x0F ) |&
+( whattopack | whattoignore | cpio $v -oC512 -H$fmt -M0x0F ) |&
 exec 3<&p
 $helper "$outf" <&3 || rv=2
 wait % || rv=1
