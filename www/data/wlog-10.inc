@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.179 2009/04/05 16:10:49 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.180 2009/04/08 18:38:30 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -3725,4 +3725,30 @@ Tag: bug debian mksh
  præfixed with a BOM. Whatever.</p>
 <p>Maybe I can now finally go back to working on MirBSD instead? :D<br />
  After all, we want a new snapshot (for NetInstall, at least).</p>
+----
+Date: 11.04.2009 18:23
+Author: tg@
+Title: Building a snapshot; herc on HGC again
+Tag: hardware snapshot
+
+<p><a href="@@RELPATH@@permalinks/news_e20090411-tg.htm">Today’s snapshot</a>
+ has been built cleanly again, after quite some time without one. Also, a
+ CVS snapshot was packaged, again, after a very long time. This allowed me,
+ although I didn’t quite plan for it yesternight, to move <tt>herc</tt> back
+ to the P-233MMX hardware with the Hercules Graphics Card. Its pckbc(4) is
+ still broken, and the ukbd(4) doesn’t attach – but works fine with the BIOS
+ or on <tt>bleu</tt>. Damn early USB controllers; I know it’s cheap crap.</p>
+<p><tt>demo</tt>’s building too, maybe I do a combined ISO. I also created a
+ new <a href="http://grml.org/">bsd4grml</a> to go with it.</p>
+<p>Now I can basically order another 8-plug SCSI U320 LVD cable (or wait for
+ the one I ordered six weeks ago… NOT) and move everything to <tt>tear</tt>…
+ ok I’ve been telling that for one year and a half. But it <em>is</em> time.
+ Just hard to buy these cables… on the bright side, it’s much more quiet in
+ here now, even with the SPARCstation 20 running. Sometimes, its serial port
+ even works, so venerable <tt>nwt</tt> now plays console.</p>
+<p>Benny said he’ll probably be going to do a ports bulk build with the new
+ snapshot. Let’s cross fingers and hope for the best.</p>
+<p>Note that the <a href="@@RELPATH@@permalinks/news_e20090208-tg.htm">FOSDEM
+ ISO problems</a> posting was updated with a new path to <tt>fixes10.ngz</tt>
+ since a new snapshot got uploaded.</p>
 ----

@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/news.inc,v 1.107 2009/04/05 15:55:16 tg Exp $
+RCSID: $MirOS: www/data/news.inc,v 1.108 2009/04/07 22:37:58 tg Exp $
 Title: Older news from the MirOS Project
 Date: 01.03.2006
 
@@ -1365,12 +1365,12 @@ Tag: bug event snapshot
  during FOSDEM Sunday afternoon. The first stage boot loader would
  overwrite itself trying to load the second stage boot loader, due to
  them sharing the same 16-bit (64 KiB) segment after the workaround
- for the <a href="permalinks/news_e20090126-tg.htm">Parallels bug</a>.
+ for the <a href="@@RELPATH@@permalinks/news_e20090126-tg.htm">Parallels bug</a>.
  installboot(8/i386) would pass the sectors covered by filesystem
  blocks, which amounts up to multiples of 8 or 16 KiB, even though
  the last block was not entirely filled. Fix is to do bounds checking
  in the assembly code at boot time.</p>
-<p>An <a href="@@ABSPATH@@/MirOS/current/i386/fixes10.ngz">updated
+<p>An <a href="@@ABSPATH@@/MirOS/current/older/i386/fixes10.ngz">updated
  <tt>fixes</tt> dist set</a> is available for people doing a network
  installation anyway, or to extract later with<br />
  <tt>$ cd /</tt><br />
@@ -1422,6 +1422,8 @@ Ready to install sets? [yes] <em>«Enter»</em>
  the Parallels Desktop BIOS bug workaround’s creation. Remember, if you
  already have an (unbootable) installation, you can do all this by booting
  from the CD again (into the installer/rescue kernel).</p>
+<p><strong>Update</strong> 11.04: changed link to <tt>fixes10.ngz</tt> to
+ new location, now that a new snapshot is up.</p>
 ----
 Title: MirOS-current (post FOSDEM) heads-up
 Date: 09.02.2009 11:42
@@ -1527,4 +1529,19 @@ Tag: mksh
  unwilling to, this ceases our use of said site's services. Please use <a
  href="@@RELPATH@@tag_mksh.rss">https://www.mirbsd.org/tag_mksh.rss</a>
  to keep informed about things related to the MirBSD Korn Shell.</p>
+----
+Date: 11.04.2009 18:23
+Author: tg@
+Title: New snapshot (CVS, i386) available via NetInstall
+Tag: snapshot
+
+<p>The <a href="@@ABSPATH@@/MirOS/current/i386/">i386 NetInstall</a>
+ directory has got a new snapshot of MirOS-current, built today from
+ the <a href="@@ABSPATH@@/MirOS/CVS/cvsrepo-20090410.cgz">sources of
+ 20090410</a>.</p>
+<p>Expect a new snapshot for the sparc architecture next weekend.</p>
+<p>The <a href="@@ABSPATH@@/MirOS/current/older/i386/fixes10.ngz">updated
+ bootloader</a> (<tt>fixes10.ngz</tt>) for the problem with the <a
+ href="@@RELPATH@@permalinks/news_e20090208-tg.htm">FOSDEM snapshot</a>
+ has <a href="@@ABSPATH@@/MirOS/current/older/i386/">moved</a>.</p>
 ----
