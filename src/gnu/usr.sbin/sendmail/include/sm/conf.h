@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1998-2010 Sendmail, Inc. and its suppliers.
+ * Copyright (c) 1998-2011 Sendmail, Inc. and its suppliers.
  *	All rights reserved.
  * Copyright (c) 1983, 1995-1997 Eric P. Allman.  All rights reserved.
  * Copyright (c) 1988, 1993
@@ -10,7 +10,7 @@
  * the sendmail distribution.
  *
  *
- *	$MirOS: src/gnu/usr.sbin/sendmail/include/sm/conf.h,v 1.4 2008/05/07 13:15:19 tg Exp $
+ *	$MirOS: src/gnu/usr.sbin/sendmail/include/sm/conf.h,v 1.5 2010/12/19 17:18:06 tg Exp $
  *	$Id$
  */
 
@@ -382,6 +382,12 @@ typedef int		pid_t;
 #   ifndef __svr4__
 #    define __svr4__		/* use all System V Release 4 defines below */
 #   endif /* ! __svr4__ */
+#   if SOLARIS >= 21100
+#    include <paths.h>
+#   endif /* SOLARIS >= 21100 */
+#   ifndef _PATH_VARRUN
+#    define _PATH_VARRUN	"/var/run/"
+#   endif /* _PATH_VARRUN */
 #   define GIDSET_T	gid_t
 #   define USE_SA_SIGACTION	1	/* use sa_sigaction field */
 #   define BROKEN_PTHREAD_SLEEP	1	/* sleep after pthread_create() fails */
@@ -444,7 +450,7 @@ typedef int		pid_t;
 #   endif /* SOLARIS >= 20700 || (SOLARIS < 10000 && SOLARIS >= 207) */
 #   if SOLARIS >= 20800 || (SOLARIS < 10000 && SOLARIS >= 208)
 #    undef _PATH_SENDMAILPID	/* tmpfs /var/run added in 2.8 */
-#    define _PATH_SENDMAILPID	"/var/run/sendmail.pid"
+#    define _PATH_SENDMAILPID	_PATH_VARRUN "sendmail.pid"
 #    ifndef SMRSH_CMDDIR
 #     define SMRSH_CMDDIR	"/var/adm/sm.bin"
 #    endif /* ! SMRSH_CMDDIR */
@@ -462,6 +468,8 @@ typedef int		pid_t;
 #   if SOLARIS >= 21100 || (SOLARIS < 10000 && SOLARIS >= 211)
 #    define GETLDAPALIASBYNAME_VERSION 2	/* changed in S11 */
 #    define HAVE_NANOSLEEP	1	/* moved from librt to libc in S11 */
+#    define SOCKADDR_LEN_T	socklen_t	/* arg#3 to accept, getsockname */
+#    define SOCKOPT_LEN_T	socklen_t	/* arg#5 to getsockopt */
 #   endif /* SOLARIS >= 21100 || (SOLARIS < 10000 && SOLARIS >= 211) */
 #   ifndef HASGETUSERSHELL
 #    define HASGETUSERSHELL 0	/* getusershell(3) causes core dumps pre-2.7 */

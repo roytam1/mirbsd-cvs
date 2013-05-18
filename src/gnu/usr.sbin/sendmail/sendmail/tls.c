@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000-2006, 2008, 2009 Sendmail, Inc. and its suppliers.
+ * Copyright (c) 2000-2006, 2008, 2009, 2011 Sendmail, Inc. and its suppliers.
  *	All rights reserved.
  *
  * By using this file, you agree to the terms and conditions set
@@ -10,7 +10,7 @@
 
 #include <sendmail.h>
 
-SM_RCSID("$MirOS$")
+SM_RCSID("$MirOS: src/gnu/usr.sbin/sendmail/sendmail/tls.c,v 1.3 2010/12/19 17:18:35 tg Exp $")
 SM_RCSID("@(#)$Id$")
 
 #if STARTTLS
@@ -1172,7 +1172,7 @@ tls_get_info(ssl, srv, host, mac, certreq)
 	MACROS_T *mac;
 	bool certreq;
 {
-	SSL_CIPHER *c;
+	const SSL_CIPHER *c;
 	int b, r;
 	long verifyok;
 	char *s, *who;
@@ -1217,12 +1217,14 @@ tls_get_info(ssl, srv, host, mac, certreq)
 		macdefine(mac, A_TEMP, macid("{cert_issuer}"),
 			 xtextify(buf, "<>\")"));
 
+# define LL_BADCERT	8
+
 #define CHECK_X509_NAME(which)	\
 	do {	\
 		if (r == -1)	\
 		{		\
 			sm_strlcpy(buf, "BadCertificateUnknown", sizeof(buf)); \
-			if (LogLevel > 7)	\
+			if (LogLevel > LL_BADCERT)	\
 				sm_syslog(LOG_INFO, NOQID,	\
 					"STARTTLS=%s, relay=%.100s, field=%s, status=failed to extract CN",	\
 					who,	\

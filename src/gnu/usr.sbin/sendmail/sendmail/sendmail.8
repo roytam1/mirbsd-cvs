@@ -1,4 +1,4 @@
-.\"	$MirOS$
+.\"	$MirOS: src/gnu/usr.sbin/sendmail/sendmail/sendmail.8,v 1.7 2010/12/19 17:54:18 tg Exp $
 .\"	$OpenBSD: sendmail.8,v 1.33 2010/10/18 14:42:16 jmc Exp $
 .\"
 .\" Copyright (c) 1998-2003 Sendmail, Inc. and its suppliers.
@@ -214,7 +214,9 @@ the victim of an aliasing loop.
 If not specified,
 ``Received:'' lines in the message are counted.
 .It Fl i
-Ignore dots alone on lines by themselves in incoming messages.
+Do not strip a leading dot from lines in incoming messages,
+and do not treat a dot on a line by itself
+as the end of an incoming message.
 This should be set if you are reading data from a file.
 .It Fl L Ar tag
 Set the identifier used in syslog messages to the supplied

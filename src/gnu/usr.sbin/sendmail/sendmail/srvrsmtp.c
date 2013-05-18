@@ -17,7 +17,7 @@
 # include <libmilter/mfdef.h>
 #endif /* MILTER */
 
-SM_RCSID("$MirOS: src/gnu/usr.sbin/sendmail/sendmail/srvrsmtp.c,v 1.11 2008/05/07 13:15:29 tg Exp $")
+SM_RCSID("$MirOS: src/gnu/usr.sbin/sendmail/sendmail/srvrsmtp.c,v 1.12 2010/12/19 17:18:34 tg Exp $")
 SM_RCSID("@(#)$Id$")
 
 #include <sm/time.h>
@@ -908,15 +908,6 @@ smtp(nullserver, d_flags, e)
 #endif /* SASL */
 
 #if STARTTLS
-# if USE_OPENSSL_ENGINE
-	if (tls_ok_srv && bitset(SRV_OFFER_TLS, features) &&
-	    !SSL_set_engine(NULL))
-	{
-		sm_syslog(LOG_ERR, NOQID,
-			  "STARTTLS=server, SSL_set_engine=failed");
-		tls_ok_srv = false;
-	}
-# endif /* USE_OPENSSL_ENGINE */
 
 
 	set_tls_rd_tmo(TimeOuts.to_nextcommand);
@@ -1835,6 +1826,21 @@ smtp(nullserver, d_flags, e)
 				break;
 			}
   starttls:
+# if USE_OPENSSL_ENGINE
+			if (!SSLEngineInitialized)
+			{
+				if (!SSL_set_engine(NULL))
+				{
+					sm_syslog(LOG_ERR, NOQID,
+						  "STARTTLS=server, SSL_set_engine=failed");
+					tls_ok_srv = false;
+					message("454 4.3.3 TLS not available right now");
+					break;
+				}
+				else
+					SSLEngineInitialized = true;
+			}
+# endif /* USE_OPENSSL_ENGINE */
 # if TLS_NO_RSA
 			/*
 			**  XXX do we need a temp key ?

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1998-2006, 2008, 2009 Sendmail, Inc. and its suppliers.
+ * Copyright (c) 1998-2006, 2008, 2009, 2011 Sendmail, Inc. and its suppliers.
  *	All rights reserved.
  * Copyright (c) 1983, 1995-1997 Eric P. Allman.  All rights reserved.
  * Copyright (c) 1988, 1993
@@ -303,6 +303,9 @@ main(argc, argv, envp)
 	SubmitMode = SUBMIT_UNKNOWN;
 #if _FFR_LOCAL_DAEMON
 	LocalDaemon = false;
+# if NETINET6
+	V6LoopbackAddrFound = false;
+# endif /* NETINET6 */
 #endif /* _FFR_LOCAL_DAEMON */
 #if XDEBUG
 	checkfd012("after openlog");
@@ -3189,7 +3192,7 @@ sigpipe(sig)
 **	may resend a message.
 **
 **	Parameters:
-**		none.
+**		sig -- incoming signal.
 **
 **	Returns:
 **		none.
@@ -3200,8 +3203,6 @@ sigpipe(sig)
 **	NOTE:	THIS CAN BE CALLED FROM A SIGNAL HANDLER.  DO NOT ADD
 **		ANYTHING TO THIS ROUTINE UNLESS YOU KNOW WHAT YOU ARE
 **		DOING.
-**
-**		XXX: More work is needed for this signal handler.
 */
 
 /* ARGSUSED */
@@ -3216,38 +3217,34 @@ intsig(sig)
 	errno = save_errno;
 	CHECK_CRITICAL(sig);
 	sm_allsignals(true);
+	IntSig = true;
 
-	if (sig != 0 && LogLevel > 79)
-		sm_syslog(LOG_DEBUG, CurEnv->e_id, "interrupt");
 	FileName = NULL;
 
 	/* Clean-up on aborted stdin message submission */
-	if (CurEnv->e_id != NULL &&
-	    (OpMode == MD_SMTP ||
+	if  (OpMode == MD_SMTP ||
 	     OpMode == MD_DELIVER ||
-	     OpMode == MD_ARPAFTP))
+	     OpMode == MD_ARPAFTP)
 	{
-		register ADDRESS *q;
+		if (CurEnv->e_id != NULL)
+		{
+			char *fn;
 
-		/* don't return an error indication */
-		CurEnv->e_to = NULL;
-		CurEnv->e_flags &= ~EF_FATALERRS;
-		CurEnv->e_flags |= EF_CLRQUEUE;
-
-		/*
-		**  Spin through the addresses and
-		**  mark them dead to prevent bounces
-		*/
-
-		for (q = CurEnv->e_sendqueue; q != NULL; q = q->q_next)
-			q->q_state = QS_DONTSEND;
-
-		drop = true;
+			fn = queuename(CurEnv, DATAFL_LETTER);
+			if (fn != NULL)
+				(void) unlink(fn);
+			fn = queuename(CurEnv, ANYQFL_LETTER);
+			if (fn != NULL)
+				(void) unlink(fn);
+		}
+		_exit(EX_OK);
+		/* NOTREACHED */
 	}
-	else if (OpMode != MD_TEST)
-	{
+
+	if (sig != 0 && LogLevel > 79)
+		sm_syslog(LOG_DEBUG, CurEnv->e_id, "interrupt");
+	if (OpMode != MD_TEST)
 		unlockqueue(CurEnv);
-	}
 
 	finis(drop, false, EX_OK);
 	/* NOTREACHED */

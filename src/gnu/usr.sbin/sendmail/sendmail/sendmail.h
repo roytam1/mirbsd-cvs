@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1998-2010 Sendmail, Inc. and its suppliers.
+ * Copyright (c) 1998-2011 Sendmail, Inc. and its suppliers.
  *	All rights reserved.
  * Copyright (c) 1983, 1995-1997 Eric P. Allman.  All rights reserved.
  * Copyright (c) 1988, 1993
@@ -1273,11 +1273,15 @@ MAP
 #define MF_OPENBOGUS	0x00800000	/* open failed, don't call map_close */
 #define MF_CLOSING	0x01000000	/* map is being closed */
 
-#define DYNOPENMAP(map) if (!bitset(MF_OPEN, (map)->map_mflags)) \
-	{	\
-		if (!openmap(map))	\
-			return NULL;	\
-	}
+#define DYNOPENMAP(map) \
+	do		\
+	{		\
+		if (!bitset(MF_OPEN, (map)->map_mflags)) \
+		{	\
+			if (!openmap(map))	\
+				return NULL;	\
+		}	\
+	} while (0)
 
 
 /* indices for map_actions */
@@ -1596,8 +1600,19 @@ extern void	stabapply __P((void (*)(STAB *, int), int));
 
 #if _FFR_LOCAL_DAEMON
 EXTERN bool	LocalDaemon;
+# if NETINET6
+EXTERN bool	V6LoopbackAddrFound;	/* found an IPv6 loopback address */
+#  define SETV6LOOPBACKADDRFOUND(sa)	\
+	do	\
+	{	\
+		if (isloopback(sa))	\
+			V6LoopbackAddrFound = true;	\
+	} while (0)
+# endif /* NETINET6 */
 #else /* _FFR_LOCAL_DAEMON */
 # define LocalDaemon	false
+# define V6LoopbackAddrFound	false
+# define SETV6LOOPBACKADDRFOUND(sa)
 #endif /* _FFR_LOCAL_DAEMON */
 
 /* Note: see also include/sendmail/pathnames.h: GET_CLIENT_CF */
@@ -2128,7 +2143,11 @@ extern void	inittimeouts __P((char *, bool));
 */
 
 /* macros for debugging flags */
-#define tTd(flag, level)	(tTdvect[flag] >= (unsigned char)level)
+#if NOT_SENDMAIL
+# define tTd(flag, level)	(tTdvect[flag] >= (unsigned char)level)
+#else
+# define tTd(flag, level)	(tTdvect[flag] >= (unsigned char)level && !IntSig)
+#endif
 #define tTdlevel(flag)		(tTdvect[flag])
 
 /* variables */
@@ -2151,22 +2170,26 @@ extern unsigned char	tTdvect[100];	/* trace vector */
 */
 
 /* set exit status */
-#define setstat(s)	{ \
-				if (ExitStat == EX_OK || ExitStat == EX_TEMPFAIL) \
-					ExitStat = s; \
-			}
+#define setstat(s)	\
+	do		\
+	{		\
+		if (ExitStat == EX_OK || ExitStat == EX_TEMPFAIL) \
+			ExitStat = s; \
+	} while (0)
 
 
 #define STRUCTCOPY(s, d)	d = s
 
 /* free a pointer if it isn't NULL and set it to NULL */
 #define SM_FREE_CLR(p)	\
-			if ((p) != NULL) \
-			{ \
-				sm_free(p); \
-				(p) = NULL; \
-			} \
-			else
+	do		\
+	{		\
+		if ((p) != NULL) \
+		{ \
+			sm_free(p); \
+			(p) = NULL; \
+		} \
+	} while (0)
 
 /*
 **  Update a permanent string variable with a new value.
@@ -2400,6 +2423,7 @@ EXTERN char	*RunAsUserName;	/* user to become for bulk of run */
 EXTERN char	*SafeFileEnv;	/* chroot location for file delivery */
 EXTERN char	*ServiceSwitchFile;	/* backup service switch */
 EXTERN char	*volatile ShutdownRequest;/* a sendmail shutdown has been requested */
+EXTERN bool	volatile IntSig;
 EXTERN char	*SmtpGreeting;	/* SMTP greeting message (old $e macro) */
 EXTERN char	*SmtpPhase;	/* current phase in SMTP processing */
 EXTERN char	SmtpError[MAXLINE];	/* save failure error messages */
@@ -2427,6 +2451,9 @@ extern const SM_EXC_TYPE_T EtypeQuickAbort; /* type of a QuickAbort exception */
 
 
 EXTERN int ConnectionRateWindowSize;
+#if STARTTLS && USE_OPENSSL_ENGINE
+EXTERN bool	SSLEngineInitialized;
+#endif /* STARTTLS && USE_OPENSSL_ENGINE */
 
 /*
 **  Declarations of useful functions
