@@ -1,11 +1,11 @@
-# $MirOS: www/src/mksh_old.hts,v 1.21 2009/07/30 19:11:48 tg Exp $
+# $MirOS: www/src/mksh_old.hts,v 1.22 2009/08/01 22:44:24 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh/old "mksh – old versions"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh_old.hts,v 1.21 2009/07/30 19:11:48 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh_old.hts,v 1.22 2009/08/01 22:44:24 tg Exp $'
 mws_content <<'EOF'
 <h2><a href="mksh.htm">mksh</a> – old versions</h2>
 
@@ -106,7 +106,7 @@ mws_content <<'EOF'
  and pdksh) differs from that of other shells, so you might want to
  use a construct like<br /><tt>case $KSH_VERSION in<br />
  *MIRBSD\ KSH*) export HISTFILE=~/.mksh-history ;;<br />
- *PD\ KDH*MirOS*) export HISTFILE=~/.oldmksh-history ;;<br />
+ *PD\ KSH*MirOS*) export HISTFILE=~/.oldmksh-history ;;<br />
  *PD\ KSH*) export HISTFILE=~/.pdoroksh-history ;;<br />
  ?*) export HISTFILE=~/.ksh-history ;;<br />
  *) export HISTFILE=~/.nonksh-history ;;<br />
