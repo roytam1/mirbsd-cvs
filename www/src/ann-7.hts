@@ -3,7 +3,7 @@
 
 mws_setname legacy/ann-7 "MirOS Legacy Content"
 mws_setheadline 'MirOS #7quinquies'
-mws_putheader '$MirOS: www/src/ann-7.hts,v 1.2 2008/11/08 22:24:36 tg Exp $'
+mws_putheader '$MirOS: www/src/ann-7.hts,v 1.3 2009/06/21 11:01:21 tg Exp $'
 mws_content <<'EOF'
 <p>The MirOS Team is proud to announce the immediate release of MirOS BSD
 #quinquies. This release is the fifth in the stable #7 branch. It is a
@@ -42,8 +42,7 @@ Thorsten Glaser, Benny Siegert</i></p>
     </li>
   <li><b>Security fixes.</b><br />
     This release contains all errata until the end of December 2004. For an
-    exact list, see the 
-    <a href="http://wiki.mirbsd.de/SevenQuaterUpdates">MirWiki:SevenQuaterUpdates</a>
+    exact list, see the MirWiki:SevenQuaterUpdates
     page.</li>
   <li><b>Kernel and driver fixes.</b><br />
     All the non-security errata that have been applied to OpenBSD 3.4-stable
@@ -286,7 +285,7 @@ to <tt>ksh</tt> - using tcsh or GNU bash is not officially supported.</p>
 <p>Please read the full stuff at <a href="@@RELPATH@@about.htm">About MirOS</a>.</p>
 
 <pre>
-# $MirOS: www/src/ann-7.hts,v 1.2 2008/11/08 22:24:36 tg Exp $
+# $MirOS: www/src/ann-7.hts,v 1.3 2009/06/21 11:01:21 tg Exp $
 # $OpenBSD: COPYRIGHT,v 1.2 2001/01/29 02:11:07 niklas Exp $
 # @(#)COPYRIGHT	5.1 (Berkeley) 7/1/91
 

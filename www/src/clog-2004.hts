@@ -3,7 +3,7 @@
 
 mws_setname legacy/clog-2004 "MirOS Legacy Content"
 mws_setheadline 2004 snapshots of MirOS-current
-mws_putheader '$MirOS: www/src/clog-2004.hts,v 1.1 2008/09/17 21:12:22 tg Exp $'
+mws_putheader '$MirOS: www/src/clog-2004.hts,v 1.2 2009/06/21 11:01:22 tg Exp $'
 mws_content <<'EOF'
 <h3>Infos &ndash; <a href="#eof">bottom</a></h3>
 
@@ -65,7 +65,7 @@ mws_content <<'EOF'
   applications to the level of OpenBSD-current in order to gain
   a few updates and a lot of bug fixes</li>
  <li>Clean up ksh code (as well released <a
-  href="http://wiki.mirbsd.de/MirbsdKsh">externally</a>); add
+  href="@@RELPATH@@mksh.htm">externally</a>); add
   support to spawn ksh on a different TTY</li>
  <li>rewrite some code in a better ksh dialect</li>
  <li>sync in-tree httpd against Apache&trade; 1.3.33</li>

@@ -4,7 +4,7 @@
 mws_setname oldnews "Old News and Weblog"
 mws_subdir 0
 mws_setheadline Older News and Weblogs
-mws_putheader '$MirOS: www/src/oldnews.hts,v 1.6 2008/11/08 22:24:38 tg Exp $'
+mws_putheader '$MirOS: www/src/oldnews.hts,v 1.7 2009/06/21 11:01:26 tg Exp $'
 mws_content <<'EOF'
 <h2 id="owlog">Old Weblog</h2><ul>
 <li><a href="@@RELPATH@@wlog-0.htm">From the beginning to December 2002</a> after
@@ -258,7 +258,7 @@ mws_content <<'EOF'
 	need to be updated.</li>
 
 <li>09.08.2005<br />
-	The <a href="http://wiki.mirbsd.de/">MirWiki</a> is read-only, for
+	The [link] MirWiki is read-only, for
 	a transition phase. The content will be merged into the main page,
 	as time permits. After that, it will be shut down entirely.</li>
 
@@ -282,7 +282,7 @@ mws_content <<'EOF'
 	website (www module); this is due to lack of interest.</li>
 
 <li>26.05.2005<br />
-	<a href="http://wiki.mirbsd.de/MirbsdKsh">mksh</a> R22 is formally
+	<a href="@@RELPATH@@mksh.htm">mksh</a> R22 is formally
 	released; this is the latest version of our portable shell sources
 	which we consider stable.<br />Most in-tree issues for the release
 	have settled down; there is still some work to do in the upgrading
@@ -503,10 +503,9 @@ mws_content <<'EOF'
 
 <li>12.11.2004<br />
 	After a week full of work, the website has been restructured. New
-	versions of <a href="http://wiki.mirbsd.de/MirbsdKsh">mksh</a> (a
-	temporary beta version), <a
-	href="http://wiki.mirbsd.de/MirMake">make</a> (still experimental,
-	but much better) and <a href="http://wiki.mirbsd.de/JuppEditor">joe
+	versions of <a href="@@RELPATH@@mksh.htm">mksh</a> (a
+	temporary beta version), make(1) (still experimental,
+	but much better) and <a href="@@RELPATH@@jupp.htm">joe
 	(jupp)</a> (new) have been released; refer to the individual pages
 	for a complete list of changes to these. The hbSuite performs very
 	stable.</li>
@@ -647,8 +646,8 @@ mws_content <<'EOF'
 
 <li>05.08.2004<br />
 	Since this page is intended for &quot;official press releases&quot;,
-	sort of at least, there's a new news page up in the Wiki, the <a
-	href="http://wiki.mirbsd.de/MirNews">collaborative MirNews</a>
+	sort of at least, there's a new news page up in the Wiki, the
+	[link] collaborative MirNews
 	page.<br />Besides that, we're currently discussing the future of
 	MirPorts w.r.t. OpenBSD Ports, and fixing some minor bugs. The
 	libpng contained within the -current base system has been updated
@@ -731,7 +730,7 @@ mws_content <<'EOF'
 	HEAD branch - please refrain from using it for a little while.</li>
 
 <li>15.05.2004<br />
-	The <a href="http://wiki.mirbsd.de/HomePage">MirWiki</a> has gone
+	The [link] MirWiki has gone
 	live; please enjoy! It's modeled after the <a
 	href="http://wiki.koeln.ccc.de/">CVier</a> using UseMod.<br />
 	anonCVS and anonRSYNC at mirbsd.bsdadvocacy.org are working.</li>

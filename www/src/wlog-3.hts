@@ -3,9 +3,9 @@
 
 mws_setname legacy/wlog-3 "MirBSD Weblog"
 mws_setheadline MirBSD – Next to Perfection
-mws_putheader '$MirOS: www/src/wlog-3.hts,v 1.2 2009/06/21 11:01:27 tg Exp $'
+mws_putheader '$MirOS: www/src/wlog-3.hts,v 1.3 2009/07/19 11:28:31 tg Exp $'
 mws_content <<'EOF'
-<p><img src="@@RELPATH@@pics/logo-mirbsd.png" width="240" height="60" alt="Logo" /></p>
+<p><small>[ old MirBSD™ logo ]</small></p>
 <p>This is an archived weblog of the development leading to <a
  href="@@RELPATH@@main.htm">MirOS</a>. All entries are courtesy of tg@ and historic.</p>
 <h3>News <small><a href="#eof">bottom</a></small></h3>

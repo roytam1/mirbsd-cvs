@@ -3,7 +3,7 @@
 
 mws_setname legacy/wlog-7 "MirBSD Weblog"
 mws_setheadline MirBSD – RELEASE TIME!!! Stable Services for Commercial Customers
-mws_putheader '$MirOS: www/src/wlog-7.hts,v 1.3 2008/11/11 01:54:08 tg Exp $'
+mws_putheader '$MirOS: www/src/wlog-7.hts,v 1.4 2009/06/21 11:01:28 tg Exp $'
 mws_content <<'EOF'
 <h3>News <small><a href="#eof">bottom</a></small></h3>
 <h6>Note: all these entries are from tg@ up to November 3rd, when the
@@ -908,7 +908,7 @@ mws_content <<'EOF'
  Also mailx(1) works with empty $SHELL now, and mpg123 compiles without
  warnings. Some more YP tools died. We got licence clarifications from
  the gentium font creator, and clarified our own licence; this triggered
- enabling the <a href="http://wiki.mirbsd.de/">MirWiki</a> after all.
+ enabling the [link] MirWiki after all.
  Maybe, anonRSYNC already works again; and we're at gmane.org now.</p>
 <p>19.05.2004 by tg@<br />Yes I know I should merge that import, but
  hey, at least we've got a secured-again cvs now. (No need to hurry to
@@ -933,7 +933,7 @@ mws_content <<'EOF'
  bored of coding and hanging around in the Netzladen, and some people
  say cooking is the same thing as doing chemistry ;)<br />I've finally
  started to merge over some of the OpenBSD stuff, and found just that
- my <a href="http://wiki.mirbsd.de/MirAbile/ToDo">TODO</a> is increasing
+ my TODO is increasing
  instead of decreasing &ndash; for example, I'll have to rewrite the installer
  (I've got to do it anyways, but now's the time, because if I didn't, I
  had to do major changes in the existing code anyways). We've discovered
@@ -967,7 +967,7 @@ mws_content <<'EOF'
  ports). We've got a MirOS PT_NOTE ELF section scheme now, and the
  kernel and file(1) already recognize it for BSD and even Linux. I've
  revived the old usr.bin/learn programme and released <a
- href="http://wiki.mirbsd.de/MirbsdKsh">mirbsdksh-1.10</a>; also,
+ href="@@RELPATH@@mksh.htm">mirbsdksh-1.10</a>; also,
  another licence discussion happened, with cool feedback from the <a
  href="http://www.ekkoBSD.org/">ekkoBSD</a> people. The kernel should
  have shrunk a bit by now, at least the ramdisk kernel, by leaving out
@@ -1449,7 +1449,7 @@ mws_content <<'EOF'
  interested in SSP, and &ndash; although it must be designed differently, for
  tree-ssa and other changes &ndash; it will probably be in stock gcc 4.1, so
  the outside world has noticed &quot;us&quot;. Nice. I'm trying to get <a
- href="http://wiki.mirbsd.de/MirbsdKsh">mksh</a> through the OSI first now.
+ href="@@RELPATH@@mksh.htm">mksh</a> through the OSI first now.
  kettenis@ said he'll start with the paperwork. thor, our dedicated, is a new
  <a href="https://www.mirbsd.org/">mirror</a> now (also SSL-less,
  but I won't advocate <em>not</em> to use TLS).</p>
@@ -1499,7 +1499,7 @@ mws_content <<'EOF'
  though. For me, fighting EU patent and IP laws is more important.</p>
 <p>05.11.2004 by tg@<br />Sort of a small update. I've been in Netzladen.org
  again and held a spontaneous presentation/talk about the editors ed(1) and &ndash; my favourite &ndash; <a
- href="http://wiki.mirbsd.de/JuppEditor">jupp</a>, mentioning that I'm faster
+ href="@@RELPATH@@jupp.htm">jupp</a>, mentioning that I'm faster
  using ed(1) than vi(1), how vi(1) came to be and how vim and emacs failed,
  how to remove whitespace at end of line, etc. After the talk, we had great
  jugoslawic food (Cevapcici, Pleskavica, Steak etc.) and I drove home by
@@ -1524,8 +1524,8 @@ mws_content <<'EOF'
 <p>07.11.2004 by bsiegert@<br />
  Begin merging OpenBSD ports in a private Subversion repository. This shall
  hopefully reduce "transition times" when MirPorts is broken after an import.
- Some small changes at the pkgtools, and a new <a 
- href="http://wiki.mirbsd.de/BennySiegert">list of ideas</a> which should be
+ Some small changes at the pkgtools, and a new [link] list of ideas
+ which should be
  implemented. The usual small port updates and fixes.<br />
  I was eating out with a friend today at the <i>Flam's</i>. They have great
  Alsatian <a href="http://www.flams.fr/frame/flam.html">Flammekueche</a>, but
@@ -1727,7 +1727,7 @@ mws_content <<'EOF'
  accounts I used and updated some licences on the way, and also polished
  &lt;sys.mk&gt; a bit. compat_openbsd(8) now uses kern.emul_uname sysctl,
  a full sysctl number translation is still missing. <a
- href="http://wiki.mirbsd.de/MirbsdKsh">mksh v1.17</a> is out. I've nuked
+ href="@@RELPATH@@mksh.htm">mksh v1.17</a> is out. I've nuked
  csh, added a GNU libreadline port (the first to banish the GFDL'd docs
  from being redistributed violating the licence, and adding _gplwarn.c
  to the port being built) and had python pull it. diff, libz and libXpm
@@ -1777,7 +1777,7 @@ mws_content <<'EOF'
  first unsubscribed some usenet newsgroups and IRC channels, then made the
  entire /usr/src/games/ a port (ports/games/bsdgames) and nuked it and a lot
  of other stuff. Then I started rebuilding, to look if anything broke. Some
- OpenBSD updates went in, and <a href="http://wiki.mirbsd.de/MirbsdKsh">mksh
+ OpenBSD updates went in, and <a href="@@RELPATH@@mksh.htm">mksh
  R18</a> was released.</p>
 <p>10.12.2004 by tg@<br />Backport some security (UFS, FFS) and bug (KSH)
  fixes from OpenBSD. Fix the bsdgames port. Fix mksh build on Interix. Fix
@@ -2217,7 +2217,7 @@ mws_content <<'EOF'
  I have holidays (sort of) this week and the next one, so finally, I can spare
  some time for MirOS. There were some updates I have been wanting to do for a
  long time, e.g. WindowMaker and dillo-0.8.4. The
- <a href="http://wiki.mirbsd.de/PkgTools">pkgtools</a> have had two real
+ [link] pkgtools have had two real
  showstoppers fixed: <tt>@sample dir/</tt> works now. With this command, you
  can create a directory (e.g. in /etc) during installation of a package which
  will be deleted on deinstallation if it is empty. This one and the variant
@@ -2229,7 +2229,7 @@ mws_content <<'EOF'
  MirOS #7quinquies (the #7-stable branch) has had its first security update,
  consisting of a base system tarball and a kernel update. All #7 users are
  encouraged to install this. Get all the info at
- <a href="http://wiki.mirbsd.de/SevenQuinquiesUpdates">MirWiki:SevenQuinquiesUpdates</a>.
+ MirWiki:SevenQuinquiesUpdates.
  <br />
  Some security updates: exim and mailman. There are still some OPSAs unfixed,
  but it is getting better. My next big project is bringing GNOME 2.8 to
@@ -2360,7 +2360,7 @@ mws_content <<'EOF'
  for me when my guests started smoking after his guests did so, while I've
  still not fully recovered from the flu I had over the weekend (tobacco is
  a REAL pita to my lungs).<br />Today I've made, out of being bored, first
- steps (<a href="http://wiki.mirbsd.de/MirMake">MirMake</a>, MirPorts' own
+ steps ([link] MirMake, MirPorts' own
  infrastructure and OSdep parts) towards running it on Darwin. I hope that
  there's at least a smallish userbase which is willing to help, and shared
  libraries work with a bit of sed magic in PFRAG.shared, to happen in make
@@ -2836,7 +2836,7 @@ mws_content <<'EOF'
  Tuesday, I don't need to work tomorrow (it's the final exam), so I can be
  here long and drink heavily with wbx@ while fixing some ports, leading to
  discovering more flaws in base. I've also made an OpenWRT package for our
- beloved <a href="http://wiki.mirbsd.de/MirbsdKsh">ksh(1)</a> although wbx
+ beloved <a href="@@RELPATH@@mksh.htm">ksh</a> ( 1 )   although wbx
  is mentioned as maintainer &ndash; since I don't use it, I can't maintain
  it appropriately. Fun work, though. And it clearly shows me just how much
  superior MirPorts really is.</p>
