@@ -1,7 +1,7 @@
 #ifndef DEFINES_H
 #define DEFINES_H
 
-/**	$MirOS: src/usr.bin/make/defines.h,v 1.4 2005/11/24 13:20:32 tg Exp $ */
+/**	$MirOS: src/usr.bin/make/defines.h,v 1.5 2005/12/20 11:22:55 tg Exp $ */
 /*	$OpenBSD: defines.h,v 1.2 2002/02/19 19:39:38 millert Exp $ */
 
 /*
@@ -29,19 +29,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifdef __OpenBSD__
-#ifndef HAS_STDBOOL_H
-#define HAS_STDBOOL_H
-#endif
-#endif
-
-#ifdef HAS_STDBOOL_H
-# include <stdbool.h>
-#else
-typedef int bool;
-# define false 0
-# define true 1
-#endif
+#include <stdbool.h>
 
 /* define common types in an opaque way */
 struct GNode_;
