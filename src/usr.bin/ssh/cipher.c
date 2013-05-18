@@ -46,7 +46,7 @@
 #include "log.h"
 #include "cipher.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/ssh/cipher.c,v 1.9 2006/09/20 21:40:57 tg Exp $");
 
 extern const EVP_CIPHER *evp_ssh1_bf(void);
 extern const EVP_CIPHER *evp_ssh1_3des(void);
@@ -199,11 +199,31 @@ cipher_init(CipherContext *cc, Cipher *cipher,
 	int klen;
 	u_char *junk, *discard;
 
-	arc4random_push(((intptr_t)cc ^ (intptr_t)cipher) + do_encrypt);
+	u_char *pushbuf, *pushbufptr;
+	size_t pushbuflen;
+
+	pushbuflen = 2 * sizeof (void *) + 1;
 	if (key && keylen)
-		arc4random_pushb(key, keylen);
+		pushbuflen += keylen;
 	if (iv && ivlen)
-		arc4random_pushb(iv, ivlen);
+		pushbuflen += ivlen;
+
+	pushbufptr = pushbuf = xmalloc(pushbuflen);
+	memcpy(pushbufptr, &cc, sizeof (void *));
+	pushbufptr += sizeof (void *);
+	memcpy(pushbufptr, &cipher, sizeof (void *));
+	pushbufptr += sizeof (void *);
+	*pushbufptr++ = do_encrypt;
+	if (key && keylen) {
+		memcpy(pushbufptr, key, keylen);
+		pushbufptr += keylen;
+	}
+	if (iv && ivlen) {
+		memcpy(pushbufptr, iv, ivlen);
+		pushbufptr += ivlen;
+	}
+	arc4random_pushb(pushbuf, pushbuflen);
+	xfree(pushbuf);
 
 	if (cipher->number == SSH_CIPHER_DES) {
 		if (dowarn) {
