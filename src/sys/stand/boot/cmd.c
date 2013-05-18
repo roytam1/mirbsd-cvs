@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/stand/boot/cmd.c,v 1.17 2009/01/10 19:23:15 tg Exp $	*/
+/**	$MirOS: src/sys/stand/boot/cmd.c,v 1.18 2009/01/11 22:52:34 tg Exp $	*/
 /*	$OpenBSD: cmd.c,v 1.59 2007/04/27 10:08:34 tom Exp $	*/
 
 /*
@@ -455,7 +455,7 @@ Xls(void)
 {
 	struct stat sb;
 	char *p;
-	int fd;
+	int fd, nlin = 0;
 
 	if (stat(qualify((cmd.argv[1]? cmd.argv[1]: "/.")), &sb) < 0) {
 		printf("stat(%s): %s\n", cmd.path, strerror(errno));
@@ -478,12 +478,19 @@ Xls(void)
 		*p = '\0';
 
 		while(readdir(fd, p) >= 0) {
+			if (++nlin >= 23) {
+				printf("%s\n", "-- more --");
+				if ((cngetc() | 0x20) == 'q')
+					goto out;
+				nlin = 0;
+			}
 			if (stat(cmd.path, &sb) < 0)
 				printf("stat(%s): %s\n", cmd.path,
 				       strerror(errno));
 			else
 				ls(p, &sb);
 		}
+ out:
 		closedir (fd);
 	}
 	return 0;
@@ -589,7 +596,7 @@ Xcat(void)
 			if (++nlin < 23)
 				continue;
 			abuf[i] = 0;
-			printf("%s\n-- more --", cp);
+			printf("%s\n%s", cp, "-- more --");
 			if ((cngetc() | 0x20) == 'q')
 				goto out;
 			putchar('\n');
