@@ -1,4 +1,4 @@
-# $MirOS: src/etc/rc,v 1.12 2005/10/27 12:59:24 tg Exp $
+# $MirOS: src/etc/rc,v 1.13 2005/12/04 14:40:45 tg Exp $
 # $OpenBSD: rc,v 1.276 2005/11/30 16:04:33 tom Exp $
 #-
 # System startup script run by init on autoboot or after single-user.
@@ -599,16 +599,6 @@ if [[ -x /usr/libexec/vi.recover && -d /var/tmp/vi.recover ]]; then
 	echo preserving editor files;	/usr/libexec/vi.recover
 fi
 
-if [[ ! -f /etc/ssh/ssh_host_rsa_key ]]; then
-	echo -n "ssh-keygen: generating new RSA host key... "
-	if /usr/bin/ssh-keygen -q -t rsa -f /etc/ssh/ssh_host_rsa_key \
-	    -N ''; then
-		echo done.
-	else
-		echo failed.
-	fi
-fi
-
 # Copy over /dev/{null,zero} into anoncvs chroot, it needs it
 [[ -d /var/anoncvs/anoncvs && -s /var/anoncvs/anoncvssh \
     && ! ( -c /var/anoncvs/anoncvs/dev/null \
@@ -621,8 +611,8 @@ if [[ ! -f /etc/ssl/private/default.key \
     || ! -f /etc/ssl/deflt-ca.cer ]]; then
 	echo -n "openssl: generating new host RSA key... "
 	rm -f /etc/ssl/{def{ault,lt-ca}.cer,private/default.key}
-	# XXX 1024 is *weak*, even 2048 is less than minimum
-	if /usr/sbin/openssl genrsa -out /etc/ssl/private/default.key 1024 \
+	# XXX 6000-8000 is recommended... choose 4096 to be nice to old boxen
+	if /usr/sbin/openssl genrsa -out /etc/ssl/private/default.key 4096 \
 	    >/dev/null 2>&1; then
 		chmod 600 /etc/ssl/private/default.key
 		/usr/sbin/openssl req -batch -new -subj "/CN=$(hostname)/" \
@@ -635,18 +625,13 @@ if [[ ! -f /etc/ssl/private/default.key \
 		echo failed.
 	fi
 fi
-
-if [[ ! -f /etc/isakmpd/private/local.key ]]; then
-	echo -n "openssl: generating new isakmpd RSA key... "
-	if /usr/sbin/openssl genrsa -out /etc/isakmpd/private/local.key 1024 \
-	    >/dev/null 2>&1; then
-		chmod 600 /etc/isakmpd/private/local.key
-		/usr/sbin/openssl rsa -out /etc/isakmpd/private/local.pub \
-		    -in /etc/isakmpd/private/local.key -pubout >/dev/null 2>&1
-		echo done.
-	else
-		echo failed.
-	fi
+if [[ ! -f /etc/ssh/ssh_host_rsa_key ]]; then
+	echo -n "ssh-keygen: installing host RSA key... "
+	ln /etc/ssl/private/default.key /etc/ssh/ssh_host_rsa_key || \
+	    cp /etc/ssl/private/default.key /etc/ssh/ssh_host_rsa_key
+	print $(/usr/bin-ssh-keygen -yf /etc/ssh/ssh_host_rsa_key) \
+	    $(hostname) host key >/etc/ssh/ssh_host_rsa_key.pub
+	echo done.
 fi
 
 echo -n starting network daemons:
