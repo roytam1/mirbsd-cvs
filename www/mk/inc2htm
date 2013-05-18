@@ -1,4 +1,4 @@
-# $MirOS: www/mk/inc2htm,v 1.8 2008/04/12 21:15:58 tg Exp $
+# $MirOS: www/mk/inc2htm,v 1.9 2008/04/12 21:23:27 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -38,7 +38,7 @@ function output {
 		<div class="wltitle">
 		<h2 class="wlentry" id="${e_id[ent]}"><a href="${efe}">${title}</a></h2>
 		${subtitle}</div>
-		${e_body[ent]}
+		${e_body[ent]/'<!-- RSS stop -->'}
 		</div>
 	EOF
 }

@@ -1,4 +1,4 @@
-# $MirOS: www/mk/inc2rss,v 1.8 2008/04/29 21:36:31 tg Exp $
+# $MirOS: www/mk/inc2rss,v 1.9 2008/04/29 21:45:46 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -66,8 +66,8 @@ function rss_output {
 		print "<author>${e_author[ent]}</author>\n"
 	fi
 	print "<description>"
-	print -r -- "${e_body[ent]%%@(<!-- RSS stop -->)*}" | \
-	    mws_content | sed -e 's,<,\&lt;,g'
+	mws_content <<<"${e_body[ent]%%@(<!-- RSS stop -->)*}" | \
+	    sed -e 's,<,\&lt;,g'
 	cat <<-EOF
 		</description>
 		</item>
