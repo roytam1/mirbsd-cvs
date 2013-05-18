@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/httpd/src/main/http_protocol.c,v 1.10 2008/07/10 14:23:54 tg Exp $ */
+/**	$MirOS: src/usr.sbin/httpd/src/main/http_protocol.c,v 1.11 2008/11/08 23:32:30 tg Exp $ */
 /*	$OpenBSD: http_protocol.c,v 1.32 2008/01/24 11:56:29 krw Exp $ */
 /* ====================================================================
  * The Apache Software License, Version 1.1
@@ -81,7 +81,7 @@
 #include "util_md5.h"           /* For digestAuth */
 #include "ap_sha1.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.sbin/httpd/src/main/http_protocol.c,v 1.11 2008/11/08 23:32:30 tg Exp $");
 
 #define SET_BYTES_SENT(r) \
   do { if (r->sent_bodyct) \
@@ -1292,6 +1292,8 @@ API_EXPORT(request_rec *) ap_read_request(conn_rec *conn)
 
 API_EXPORT(void) ap_set_sub_req_protocol(request_rec *rnew, const request_rec *r)
 {
+    const char *ccp;
+
     rnew->the_request     = r->the_request;  /* Keep original request-line */
 
     rnew->assbackwards    = 1;   /* Don't send headers from this. */
@@ -1314,6 +1316,9 @@ API_EXPORT(void) ap_set_sub_req_protocol(request_rec *rnew, const request_rec *r
     rnew->read_body       = REQUEST_NO_BODY;
 
     rnew->main = (request_rec *) r;
+
+    if ((ccp = ap_table_get(r->notes, "address-family")) != NULL)
+	ap_table_setn(rnew->notes, "address-family", ccp);
 
     rnew->ctx = r->ctx;
 
