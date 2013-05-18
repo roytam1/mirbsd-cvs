@@ -1192,7 +1192,7 @@ Title: MirEwe requiescas in pacem
  CacheWolf will be rewritten to use the Eve VM, inevitably.</p>
 <p>Not only have I removed a last source tarball (distfile) of <a
  href="/MirOS/dist/hosted/other/ewe-1.49mb4.tar.gz">Lunix Ewe 1.49mb4</a>,
- with <tt>CompileEwe.zip</tt>, <tt>JavaEwe.zip</tt>, and <tt>ewe.jar</a>
+ with <tt>CompileEwe.zip</tt>, <tt>JavaEwe.zip</tt>, and <tt>ewe.jar</tt>
  pregenerated, but the comma-v rcsfile(5)s are also archived in a <a
  href="/MirOS/dist/hosted/other/ewe-rcsfiles.cgz">gzipped sv4crc</a> file,
  gzsig(1)ned, as usual.</p>
