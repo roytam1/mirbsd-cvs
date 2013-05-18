@@ -1,9 +1,9 @@
-# $MirOS: ports/mailnews/fetchmail/Makefile,v 1.5 2006/10/06 14:44:42 tg Exp $
+# $MirOS: ports/mailnews/fetchmail/Makefile,v 1.6 2007/02/22 22:57:52 tg Exp $
 # $OpenBSD: Makefile,v 1.104 2005/10/27 21:58:51 bernd Exp $
 
 COMMENT=		mail retrieval utility for POP2, POP3, IMAP, and more
-DISTNAME=		fetchmail-6.3.4
-CATEGORIES=		mail
+DISTNAME=		fetchmail-6.3.8
+CATEGORIES=		mailnews
 MASTER_SITES=		http://download.berlios.de/fetchmail/ \
 			http://download2.berlios.de/fetchmail/
 EXTRACT_SUFX=		.tar.bz2
