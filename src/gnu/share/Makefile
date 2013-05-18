@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/share/Makefile,v 1.2 2005/02/11 14:34:10 tg Exp $
+# $MirOS: src/gnu/share/Makefile,v 1.3 2008/05/03 19:13:50 tg Exp $
 
 .MAIN: all
 
@@ -12,8 +12,7 @@ all:
 
 .if defined(GNU_AUX_CONTRIB_DIR) && !empty(GNU_AUX_CONTRIB_DIR)
 
-IGNORES= \
-	texinfo.tex
+IGNORES=
 
 .  if exists(${GNU_AUX_CONTRIB_DIR}/gnu/aux/update.mk)
 .    include "${GNU_AUX_CONTRIB_DIR}/gnu/aux/update.mk"

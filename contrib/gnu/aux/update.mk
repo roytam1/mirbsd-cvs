@@ -1,4 +1,4 @@
-# $MirOS: contrib/gnu/aux/update.mk,v 1.4 2006/10/18 23:43:04 tg Exp $
+# $MirOS: contrib/gnu/aux/update.mk,v 1.5 2007/01/08 17:39:46 tg Exp $
 
 ONLY?=
 SOURCES=
@@ -18,6 +18,7 @@ PIDBDIR=	$${PORTSDIR:-/usr/ports}${.CURDIR:S/${PORTSDIR}//}
 #	gettext/autoconf-lib-link/m4/lib-link.m4
 #	gettext/autoconf-lib-link/m4/lib-prefix.m4
 # removed:
+#	automake/lib/texinfo.tex
 #	libtool/libtoolize
 
 
@@ -27,7 +28,6 @@ POSSIBLE_SOURCES+=					\
 	automake/lib/depcomp				\
 	automake/lib/mdate-sh				\
 	automake/lib/missing				\
-	automake/lib/texinfo.tex			\
 	automake/lib/ylwrap				\
 	aux/install-sh					\
 	aux/mkinstalldirs				\
