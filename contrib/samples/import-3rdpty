@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/samples/import-3rdpty,v 1.18 2007/05/20 09:29:26 tg Exp $
+# $MirOS: contrib/samples/import-3rdpty,v 1.19 2007/05/20 09:32:39 tg Exp $
 #-
 # Copyright (c) 2004, 2005, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -23,7 +23,7 @@
 # damage or existence of a defect, except proven that it results out
 # of said person's immediate fault when using the work as intended.
 
-print -ru2 -- '========= $MirOS: contrib/samples/import-3rdpty,v 1.18 2007/05/20 09:29:26 tg Exp $ ========='
+print -ru2 -- '========= $MirOS: contrib/samples/import-3rdpty,v 1.19 2007/05/20 09:32:39 tg Exp $ ========='
 
 ignlist=0
 force=0
@@ -711,6 +711,7 @@ openbsd)
 		lib/libssl/crypto/arch/mips \
 		lib/libssl/crypto/arch/mips64 \
 		lib/libssl/crypto/arch/powerpc \
+		lib/libssl/crypto/arch/sh \
 		lib/libssl/crypto/arch/sparc64 \
 		lib/libssl/crypto/arch/vax \
 		lib/libssl/src/CHANGES \
