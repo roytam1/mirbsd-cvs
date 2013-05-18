@@ -1,4 +1,4 @@
-# $MirOS: src/share/misc/bsdstats,v 1.10 2006/10/04 00:15:04 tg Exp $
+# $MirOS: src/share/misc/bsdstats,v 1.11 2006/10/04 07:59:37 tg Exp $
 # $FreeBSD: /repoman/r/pcvs/ports/sysutils/bsdstats/files/300.statistics,v 1.30 2006/10/02 12:07:30 scrappy Exp $
 
 rpt='http://rpt.bsdstats.org/scripts/'
@@ -22,7 +22,7 @@ if [[ -z $stats_token || -z $stats_key ]]; then
 	stats_key=$(uri_escape $(openssl rand -base64 32))
 	uri="getid.php?key=$stats_key"
 	res=$(sleep $((RANDOM % 99 + 21)); /usr/bin/ftp -Vo - "$rpt$uri" 2>&-)
-	print -r "firstrun $uri -> ${res:-ERROR}"
+	print -r "firstrun $uri -> ${res:-ERROR}" | logger -t bsdstats
 	stats_token=$(uri_escape $(eval $res; print -nr -- "$KEY"))
 	stats_token_time=$(date +%s)
 fi
@@ -63,19 +63,19 @@ if (( stats_report_time <= (now - (14 * 86400) + 7200) )); then
 	fi
 	uri="enable_token.php?key=$stats_key&token=$stats_token"
 	res=$(sleep $((RANDOM % 99 + 21)); /usr/bin/ftp -Vo - "$rpt$uri" 2>&-)
-	print -r "init $uri -> ${res:-ERROR}"
+	print -r "init $uri -> ${res:-ERROR}" | logger -t bsdstats
 	uri="report_system.php?token=$stats_key&key=$stats_token&rel=$(uri_escape $version)&arch=$(uname -m)&opsys=$(uname -s)"
 	res=$(sleep $((RANDOM % 99 + 21)); /usr/bin/ftp -Vo - "$rpt$uri" 2>&-)
-	print -r "system report $uri -> ${res:-ERROR}"
+	print -r "system report $uri -> ${res:-ERROR}" | logger -t bsdstats
 	[[ $res = *OK* ]] || ok=0
 	cpu=$(sysctl -n hw.model)
 	uri="report_cpu.php?token=$stats_key&key=$stats_token&cpus=1&vendor=$(print -r -- "$cpu" | cut -d' ' -f1)&cpu_type=$(uri_escape $(print -r -- "$cpu" | cut -d' ' -f2-))"
 	res=$(sleep $((RANDOM % 99 + 21)); /usr/bin/ftp -Vo - "$rpt$uri" 2>&-)
-	print -r "cpu report $uri -> ${res:-ERROR}"
+	print -r "cpu report $uri -> ${res:-ERROR}" | logger -t bsdstats
 	[[ $res = *OK* ]] || ok=0
 	uri="disable_token.php?key=$stats_key&token=$stats_token"
 	res=$(sleep $((RANDOM % 99 + 21)); /usr/bin/ftp -Vo - "$rpt$uri" 2>&-)
-	print -r "done $uri -> ${res:-ERROR}"
+	print -r "done $uri -> ${res:-ERROR}" | logger -t bsdstats
 	(( ok )) && stats_report_time=$(date +%s)
 fi
 install -c -o root -g staff -m 640 /dev/null /var/db/bsdstats.new
@@ -84,5 +84,5 @@ print "stats_token=$stats_token" >>/var/db/bsdstats.new
 print "stats_token_time=$stats_token_time" >>/var/db/bsdstats.new
 print "stats_report_time=$stats_report_time" >>/var/db/bsdstats.new
 mv -f /var/db/bsdstats.new /var/db/bsdstats
-(( ok )) || print some failures occured
+(( ok )) || print some failures occured, check /var/log/messages, tag bsdstats
 print "done, used token from $stats_token_time ($(date -r $stats_token_time))"
