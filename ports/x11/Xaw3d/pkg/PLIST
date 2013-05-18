@@ -1,3 +1,4 @@
+@comment $MirOS$
 @comment $OpenBSD: PLIST,v 1.6 2000/06/14 17:16:29 brad Exp $
 include/X11/Xaw3d/AllWidgets.h
 include/X11/Xaw3d/AsciiSink.h
@@ -75,7 +76,8 @@ include/X11/Xaw3d/ViewportP.h
 include/X11/Xaw3d/XawImP.h
 include/X11/Xaw3d/XawInit.h
 lib/libXaw3d.a
-%%SHARED%%
 share/doc/Xaw3d/README.XAW3D
-@dirrm include/X11/Xaw3d
+%%SHARED%%
 @dirrm share/doc/Xaw3d
+@dirrm include/X11/Xaw3d
+@dirrm include/X11
