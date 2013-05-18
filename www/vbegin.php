@@ -1,5 +1,5 @@
 <?php
-/* $MirOS: www/vbegin.php,v 1.4 2005/03/22 20:08:31 tg Exp $ */
+/* $MirOS: www/vbegin.php,v 1.5 2005/12/18 16:36:54 tg Exp $ */
 /*-
  * The MirOS Project - Webpages
  * Copyrighted material; read LICENCE for terms of use.
@@ -124,8 +124,7 @@
  // XXX? header("Pragma: no-cache");
 
  // Send HTML headers our way
- echo "<?xml version=\"1.0\"?>\r\n";		// no BOM yet, says W3C
- //echo "﻿<?xml version=\"1.0\"?>\r\n";
+ echo "<?xml version=\"1.0\"?>\r\n";
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD <?php echo "${tg_htt0}"; ?>//EN"
  "http://www.w3.org/TR/<?php echo "${tg_htt1}"; ?>.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"<?php
