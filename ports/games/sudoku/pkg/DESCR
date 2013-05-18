@@ -1,6 +1,0 @@
-Sudoku has taken the world by storm, but there is a definite lack of
-console based sudoku games! So here is a candidate - written for Minix,
-and ported to general Unix systems and Microsoft Windows. All source
-code is available, and has been released into the public domain.
-
-This program features a character-based (curses) interface.

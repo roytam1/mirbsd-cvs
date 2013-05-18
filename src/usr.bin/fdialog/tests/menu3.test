@@ -1,7 +1,0 @@
-${FDIALOG} menu "this is my menu" \
-	item "item 1" \
-	item "item 2" descr "description2" \
-	item "item 3" ival "50" \
-	item "item 4" ival "ival for item 4" \
-5 25 \
-ptitle "This is my title"

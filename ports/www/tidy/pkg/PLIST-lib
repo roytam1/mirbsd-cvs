@@ -1,8 +1,0 @@
-@comment $MirOS$
-include/buffio.h
-include/fileio.h
-include/platform.h
-include/tidy.h
-include/tidyenum.h
-lib/libtidy.a
-lib/libtidy.la
