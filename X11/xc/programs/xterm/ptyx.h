@@ -1,4 +1,4 @@
-/* $MirOS: X11/xc/programs/xterm/ptyx.h,v 1.2 2005/04/29 14:12:47 tg Exp $ */
+/* $MirOS: X11/xc/programs/xterm/ptyx.h,v 1.4 2006/07/02 00:54:52 tg Exp $ */
 /* $XTermId: ptyx.h,v 1.357 2005/01/12 21:47:55 tom Exp $ */
 
 /*
@@ -1300,6 +1300,7 @@ typedef struct {
 	Boolean		visualbell;	/* visual bell mode		*/
 	Boolean		poponbell;	/* pop on bell mode		*/
 	Boolean		allowSendEvents;/* SendEvent mode		*/
+	Boolean		allowFontOps;	/* FontOps mode			*/
 	Boolean		allowWindowOps;	/* WindowOps mode		*/
 	Boolean		awaitInput;	/* select-timeout mode		*/
 	Boolean		grabbedKbd;	/* keyboard is grabbed		*/

@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /* $XTermId: charproc.c,v 1.550 2005/02/05 00:25:54 tom Exp $ */
 
 /*
@@ -401,7 +402,8 @@ static XtActionsRec actionsList[] = {
 static XtResource resources[] =
 {
     Bres(XtNallowSendEvents, XtCAllowSendEvents, screen.allowSendEvents, False),
-    Bres(XtNallowWindowOps, XtCAllowWindowOps, screen.allowWindowOps, True),
+    Bres(XtNallowFontOps, XtCAllowFontOps, screen.allowFontOps, Falsee),
+    Bres(XtNallowWindowOps, XtCAllowWindowOps, screen.allowWindowOps, False),
     Bres(XtNalwaysHighlight, XtCAlwaysHighlight, screen.always_highlight, False),
     Bres(XtNappcursorDefault, XtCAppcursorDefault, misc.appcursorDefault, False),
     Bres(XtNappkeypadDefault, XtCAppkeypadDefault, misc.appkeypadDefault, False),
@@ -2044,28 +2046,38 @@ doparsing(unsigned c, struct ParseState *sp)
 		break;
 	    case 15:
 		/* printer status */
-		reply.a_param[count++] = 13;	/* implement printer */
+		if (screen->terminal_id >= 200) {	/* VT220 */
+		    reply.a_param[count++] = 13;	/* implement printer */
+		}
 		break;
 	    case 25:
 		/* UDK status */
-		reply.a_param[count++] = 20;	/* UDK always unlocked */
+		if (screen->terminal_id >= 200) {	/* VT220 */
+		    reply.a_param[count++] = 20;	/* UDK always unlocked */
+		}
 		break;
 	    case 26:
 		/* keyboard status */
-		reply.a_param[count++] = 27;
-		reply.a_param[count++] = 1;	/* North American */
-		if (screen->terminal_id >= 400) {
-		    reply.a_param[count++] = 0;		/* ready */
-		    reply.a_param[count++] = 0;		/* LK201 */
+		if (screen->terminal_id >= 200) {	/* VT220 */
+		    reply.a_param[count++] = 27;
+		    reply.a_param[count++] = 1;		/* North American */
+		    if (screen->terminal_id >= 400) {
+			reply.a_param[count++] = 0;	/* ready */
+			reply.a_param[count++] = 0;	/* LK201 */
+		    }
 		}
 		break;
 	    case 53:
 		/* Locator status */
+		if (screen->terminal_id >= 200) {	/* VT220 */
 #if OPT_DEC_LOCATOR
-		reply.a_param[count++] = 50;	/* locator ready */
+		    reply.a_param[count++] = 50;	/* locator ready */
 #else
-		reply.a_param[count++] = 53;	/* no locator */
+		    reply.a_param[count++] = 53;	/* no locator */
 #endif
+		}
+		break;
+	    default:
 		break;
 	    }
 
@@ -5237,6 +5249,7 @@ VTInitialize(Widget wrequest,
     init_Bres(screen.backarrow_key);
     init_Bres(screen.meta_sends_esc);
     init_Bres(screen.allowSendEvents);
+    init_Bres(screen.allowFontOps);
     init_Bres(screen.allowWindowOps);
 #ifndef NO_ACTIVE_ICON
     wnew->screen.fnt_icon = request->screen.fnt_icon;

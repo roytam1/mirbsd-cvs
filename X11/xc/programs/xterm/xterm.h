@@ -311,6 +311,7 @@ extern char **environ;
 /***====================================================================***/
 
 #define XtNallowC1Printable	"allowC1Printable"
+#define XtNallowFontOps		"allowFontOps"
 #define XtNallowSendEvents	"allowSendEvents"
 #define XtNallowWindowOps	"allowWindowOps"
 #define XtNalwaysHighlight	"alwaysHighlight"
@@ -438,6 +439,7 @@ extern char **environ;
 #define XtNxmcMoveSGR		"xmcMoveSGR"
 
 #define XtCAllowC1Printable	"AllowC1Printable"
+#define XtCAllowFontOps		"AllowFontOps"
 #define XtCAllowSendEvents	"AllowSendEvents"
 #define XtCAllowWindowOps	"AllowWindowOps"
 #define XtCAlwaysHighlight	"AlwaysHighlight"

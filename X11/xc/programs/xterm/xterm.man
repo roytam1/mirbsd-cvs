@@ -1,3 +1,4 @@
+.\" $MirOS$
 .\" $XTermId: xterm.man,v 1.287 2004/11/30 00:02:18 tom Exp $
 .\" $Xorg: xterm.man,v 1.4 2001/02/09 02:06:03 xorgcvs Exp $
 .\"
@@ -1214,6 +1215,10 @@ as if they were printable characters.
 Although this corresponds to no particular standard,
 some users insist it is a VT100.
 The default is ``false.''
+.TP
+.B "allowFontOps (\fPclass\fB AllowFontOps)"
+Specifies whether control sequences that set/query the font should be allowed.
+The default is ``false.''
 .TP 8
 .B "allowSendEvents (\fPclass\fB AllowSendEvents)"
 Specifies whether or not synthetic key and button events (generated using
@@ -1226,7 +1231,7 @@ The default is ``false.''
 .B "allowWindowOps (\fPclass\fB AllowWindowOps)"
 Specifies whether extended window control sequences (as used in dtterm)
 for should be allowed.
-The default is ``true.''
+The default is ``false.''
 .TP 8
 .B "alwaysHighlight (\fPclass\fB AlwaysHighlight)"
 Specifies whether or not \fIxterm\fP should always display a highlighted

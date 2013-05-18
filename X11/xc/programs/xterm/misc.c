@@ -1567,7 +1567,8 @@ do_osc(Char * oscbuf, unsigned len GCC_UNUSED, int final)
 	break;
 
     case 3:			/* change X property */
-	ChangeXprop(buf);
+	if (screen->allowWindowOps)
+	    ChangeXprop(buf);
 	break;
 #if OPT_ISO_COLORS
     case 4:
@@ -2019,14 +2020,17 @@ do_dcs(Char * dcsbuf, size_t dcslen)
 	    } else
 		okay = False;
 
-	    unparseputc1(DCS, screen->respond);
-	    unparseputc(okay ? '1' : '0', screen->respond);
-	    unparseputc('$', screen->respond);
-	    unparseputc('r', screen->respond);
-	    if (okay)
+	    if (okay) {
+		unparseputc1(DCS, screen->respond);
+		unparseputc(okay ? '1' : '0', screen->respond);
+		unparseputc('$', screen->respond);
+		unparseputc('r', screen->respond);
 		cp = reply;
-	    unparseputs(cp, screen->respond);
-	    unparseputc1(ST, screen->respond);
+		unparseputs(cp, screen->respond);
+		unparseputc1(ST, screen->respond);
+	    } else {
+		unparseputc(CAN, screen->respond);
+	    }
 	} else {
 	    unparseputc(CAN, screen->respond);
 	}
@@ -2076,16 +2080,18 @@ do_dcs(Char * dcsbuf, size_t dcslen)
 	break;
 #endif
     default:
-	parse_ansi_params(&params, &cp);
-	switch (params.a_final) {
-	case '|':		/* DECUDK */
-	    if (params.a_param[0] == 0)
-		reset_decudk();
-	    parse_decudk(cp);
-	    break;
-	case '{':		/* DECDLD */
-	    parse_decdld(&params, cp);
-	    break;
+	if (screen->terminal_id >= 200) {	/* VT220 */
+		parse_ansi_params(&params, &cp);
+		switch (params.a_final) {
+		case '|':		/* DECUDK */
+		    if (params.a_param[0] == 0)
+			reset_decudk();
+		    parse_decudk(cp);
+		    break;
+		case '{':		/* DECDLD */
+		    parse_decdld(&params, cp);
+		    break;
+		}
 	}
 	break;
     }
