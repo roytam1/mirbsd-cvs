@@ -70,7 +70,7 @@
 #include <openssl/x509v3.h>
 #include <openssl/objects.h>
 
-__RCSID("$MirOS: src/lib/libssl/src/crypto/x509/x509_vfy.c,v 1.3 2009/11/14 14:39:44 tg Exp $");
+__RCSID("$MirOS: src/lib/libssl/src/crypto/x509/x509_vfy.c,v 1.4 2011/11/20 01:12:41 tg Exp $");
 
 static int null_callback(int ok,X509_STORE_CTX *e);
 static int check_issued(X509_STORE_CTX *ctx, X509 *x, X509 *issuer);
@@ -602,13 +602,15 @@ static int check_cert(X509_STORE_CTX *ctx)
 	}
 
 
+#ifdef notyet
 #include "blaklist.inc"
+#endif
 static int
 check_ca_blacklist(X509_STORE_CTX *ctx)
 {
 	int i, j;
 	X509 *x;
-	unsigned char curmd4[MD4_DIGEST_LENGTH];
+/*	unsigned char curmd4[MD4_DIGEST_LENGTH];*/
 
 	/* Check all certificates against the blacklist */
 	for (i = sk_X509_num(ctx->chain) - 1; i >= 0; i--) {
@@ -621,15 +623,17 @@ check_ca_blacklist(X509_STORE_CTX *ctx)
 		    strstr(x->name, "DigiNotar") ||
 		    strstr(x->name, "Digicert Sdn. Bhd."))) {
 			ctx->error = X509_V_ERR_CERT_DISTRUSTED_BY_NAME;
- mark_as_distrusted:
+/* mark_as_distrusted:*/
 			ctx->error_depth = i;
 			ctx->current_cert = x;
 			if (!ctx->verify_cb(0, ctx))
 				return (0);
 		}
+#ifdef notyet
 		/*
 		 * Match against blacklist of MD4 fingerprints
 		 */
+/* this is broken, X509_pubkey_digest() must be used */
 		X509_digest(x, EVP_md4(), curmd4, NULL);
 		j = 0;
 		while (fp_blacklist[j] != NULL) {
@@ -639,6 +643,7 @@ check_ca_blacklist(X509_STORE_CTX *ctx)
 			}
 			++j;
 		}
+#endif
 	}
 	return (1);
 }
