@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/biosdev.c,v 1.35 2009/01/11 17:14:45 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/libsa/biosdev.c,v 1.36 2009/01/11 17:18:33 tg Exp $ */
 /*	$OpenBSD: biosdev.c,v 1.74 2008/06/25 15:32:18 reyk Exp $	*/
 
 /*
@@ -162,19 +162,25 @@ bios_getdiskinfo(int dev, bios_diskinfo_t *pdi)
 int
 biosd_io(int rw, bios_diskinfo_t *bd, daddr_t off, int nsect, void *buf)
 {
-	int rv, n, ssh, i;
+	int rv, n, ssh = 0, i, spre = 0;
 	volatile int c, h, s; /* fsck gcc, uninitialised it is not */
 
-	/* we do all I/O in 512 byte sectors, the El Torito BIOS doesn't */
-	if ((ssh = bd->flags & BDI_EL_TORITO ? 2 : 0))	/* sector shift */
 #ifndef SMALL_BOOT
-		if ((off & 3) || (nsect & 3))
-			printf("panic: El Torito odd read %d@%d\n", nsect, off)
+	/* we do all I/O in 512 byte sectors, the El Torito BIOS doesn't */
+	if (bd->flags & BDI_EL_TORITO) {
+		ssh = 2;	/* sector shift */
+		/* read only part of a CD sector */
+		if (off & 3) {
+			spre = off & 3;
+			off -= spre;
+			nsect += spre;
+		}
+		/* odd nsect does not matter, we read CDs one by one */
+	}
 #endif
-		;
 
  loop:
-	n = i386_flag_oldbios ? 1 << ssh : MIN(nsect, 4096/512);
+	n = (ssh || i386_flag_oldbios) ? 1 << ssh : MIN(nsect, 4096/512);
 	if (!(bd->flags & BDI_LBA)) {
 		/* note: BDI_EL_TORITO implies BDI_LBA, d/w about ssh here */
 		btochs(off, c, h, s, bd->bios_heads, bd->bios_sectors);
@@ -182,7 +188,8 @@ biosd_io(int rw, bios_diskinfo_t *bd, daddr_t off, int nsect, void *buf)
 			n = bd->bios_sectors - s;
 	}
 	if (buf && rw != F_READ)
-		memcpy(bounce_buf, buf, n * 512);
+		memcpy(bounce_buf + spre * 512, buf,
+		    MIN(n - spre, nsect) * 512);
 	/* try operation up to 5 times */
 	rv = 1;
 	i = 5;
@@ -234,8 +241,9 @@ biosd_io(int rw, bios_diskinfo_t *bd, daddr_t off, int nsect, void *buf)
 	if (rv)
 		return (rv);
 	if (buf && rw == F_READ)
-		memcpy(buf, bounce_buf, n * 512);
-	if ((nsect -= n) == 0)
+		memcpy(buf, bounce_buf + spre * 512,
+		    MIN(n - spre, nsect) * 512);
+	if ((nsect -= n) <= 0)
 		return (0);
 	if (!buf) {
 #ifndef SMALL_BOOT
@@ -243,8 +251,9 @@ biosd_io(int rw, bios_diskinfo_t *bd, daddr_t off, int nsect, void *buf)
 #endif
 		return (0);
 	}
-	buf += n * 512;
+	buf += (n - spre) * 512;
 	off += n;
+	spre = 0;
 	goto loop;
 }
 
