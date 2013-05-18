@@ -1,28 +1,11 @@
-/**	$MirOS: src/sys/arch/i386/i386/via.c,v 1.3 2008/03/27 22:39:08 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/i386/via.c,v 1.4 2010/09/19 18:55:31 tg Exp $ */
 /*	$OpenBSD: via.c,v 1.1 2004/04/11 18:12:10 deraadt Exp $	*/
+/* + 1.2 1.7 1.8 1.13p 1.15 1.16 1.19 1.21 1.25 1.26 1.27 1.28 */
 /*	$NetBSD: machdep.c,v 1.214 1996/11/10 03:16:17 thorpej Exp $	*/
 
 /*-
- * Copyright (c) 2008
- *	Thorsten “mirabilos” Glaser <tg@mirbsd.de>
- *
- * Provided that these terms and disclaimer and all copyright notices
- * are retained or reproduced in an accompanying document, permission
- * is granted to deal in this work without restriction, including un-
- * limited rights to use, publicly perform, distribute, sell, modify,
- * merge, give away, or sublicence.
- *
- * This work is provided “AS IS” and WITHOUT WARRANTY of any kind, to
- * the utmost extent permitted by applicable law, neither express nor
- * implied; without malicious intent or gross negligence. In no event
- * may a licensor, author or contributor be held liable for indirect,
- * direct, other damage, loss, or other issues arising in any way out
- * of dealing in the work, even if advised of the possibility of such
- * damage or existence of a defect, except proven that it results out
- * of said person’s immediate fault when using the work as intended.
- */
-
-/*-
+ * Copyright (c) 2008, 2011
+ *	Thorsten Glaser <tg@mirbsd.org>
  * Copyright (c) 2003 Jason Wright
  * Copyright (c) 2003, 2004 Theo de Raadt
  * All rights reserved.
@@ -76,14 +59,15 @@
 
 #include <dev/rndvar.h>
 
-void viac3_rnd(void *);
+void	viac3_rnd(void *);
 int viac3_crypto_present;
 
+
 #ifdef CRYPTO
+
 struct viac3_session {
-	u_int32_t	ses_ekey[4*(MAXNR+1)+4] __RIJNDAEL_ALIGNED;
-	u_int32_t	ses_dkey[4*(MAXNR+1)+4] __RIJNDAEL_ALIGNED;
-	u_int8_t	ses_iv[16] __RIJNDAEL_ALIGNED;
+	u_int32_t	ses_ekey[4 * (MAXNR + 1) + 4] __RIJNDAEL_ALIGNED;
+	u_int32_t	ses_dkey[4 * (MAXNR + 1) + 4] __RIJNDAEL_ALIGNED;
 	u_int32_t	ses_cw0;
 	int		ses_klen;
 	int		ses_used;
@@ -128,20 +112,22 @@ viac3_crypto_setup(void)
 {
 	int algs[CRYPTO_ALGORITHM_MAX + 1];
 
-	if ((vc3_sc = malloc(sizeof(*vc3_sc), M_DEVBUF, M_NOWAIT)) == NULL)
+	if ((vc3_sc = malloc(sizeof(*vc3_sc), M_DEVBUF,
+	    M_NOWAIT|M_ZERO)) == NULL)
 		return;		/* YYY bitch? */
-	bzero(vc3_sc, sizeof(*vc3_sc));
 
 	bzero(algs, sizeof(algs));
 	algs[CRYPTO_AES_CBC] = CRYPTO_ALG_FLAG_SUPPORTED;
 
 	vc3_sc->sc_cid = crypto_get_driverid(0);
-	if (vc3_sc->sc_cid < 0)
+	if (vc3_sc->sc_cid < 0) {
+		free(vc3_sc, M_DEVBUF);
 		return;		/* YYY bitch? */
+	}
 
 	crypto_register(vc3_sc->sc_cid, algs, viac3_crypto_newsession,
 	    viac3_crypto_freesession, viac3_crypto_process);
-	i386_has_xcrypt = 1;
+	i386_has_xcrypt = viac3_crypto_present;
 
 	/* take over */
 	rijndael_set_key_fast = viac3_rijndael_set_key;
@@ -200,7 +186,7 @@ viac3_crypto_newsession(u_int32_t *sidp, struct cryptoini *cri)
 			if (ses == NULL)
 				return (ENOMEM);
 			bcopy(sc->sc_sessions, ses, sesn * sizeof(*ses));
-			bzero(sc->sc_sessions, sesn * sizeof(*ses));
+			explicit_bzero(sc->sc_sessions, sesn * sizeof(*ses));
 			free(sc->sc_sessions, M_DEVBUF);
 			sc->sc_sessions = ses;
 			ses = &sc->sc_sessions[sesn];
@@ -211,7 +197,6 @@ viac3_crypto_newsession(u_int32_t *sidp, struct cryptoini *cri)
 	bzero(ses, sizeof(*ses));
 	ses->ses_used = 1;
 
-	get_random_bytes(ses->ses_iv, sizeof(ses->ses_iv));
 	ses->ses_klen = cri->cri_klen;
 	ses->ses_cw0 = cw0;
 
@@ -239,7 +224,7 @@ viac3_crypto_freesession(u_int64_t tid)
 	sesn = VIAC3_SESSION(sid);
 	if (sesn >= sc->sc_nsessions)
 		return (EINVAL);
-	bzero(&sc->sc_sessions[sesn], sizeof(sc->sc_sessions[sesn]));
+	explicit_bzero(&sc->sc_sessions[sesn], sizeof(sc->sc_sessions[sesn]));
 	return (0);
 }
 
@@ -253,7 +238,7 @@ viac3_cbc(void *cw, void *src, void *dst, void *key, int rep,
 	lcr0(creg0 & ~(CR0_EM|CR0_TS));
 
 	/* ensure the key is reloaded */
-	__asm__ volatile("pushfl; popfl");
+	__asm __volatile("pushfl; popfl");
 	/* actual encryption */
 	__asm__ volatile("rep xcrypt-cbc"
 	    : "+a" (iv), "+S" (src), "+D" (dst)
@@ -273,12 +258,11 @@ viac3_crypto_process(struct cryptop *crp)
 	u_int32_t *key;
 
 	if (crp == NULL || crp->crp_callback == NULL) {
-		err = EINVAL;
-		goto out;
+		return (EINVAL);
 	}
 	crd = crp->crp_desc;
 	if (crd == NULL || crd->crd_next != NULL ||
-	    crd->crd_alg != CRYPTO_AES_CBC ||
+	    crd->crd_alg != CRYPTO_AES_CBC || 
 	    (crd->crd_len % 16) != 0) {
 		err = EINVAL;
 		goto out;
@@ -290,6 +274,10 @@ viac3_crypto_process(struct cryptop *crp)
 		goto out;
 	}
 	ses = &sc->sc_sessions[sesn];
+	if (ses->ses_used == 0) {
+		err = EINVAL;
+		goto out;
+	}
 
 	sc->op_buf = (char *)malloc(crd->crd_len, M_DEVBUF, M_NOWAIT);
 	if (sc->op_buf == NULL) {
@@ -303,7 +291,7 @@ viac3_crypto_process(struct cryptop *crp)
 		if (crd->crd_flags & CRD_F_IV_EXPLICIT)
 			bcopy(crd->crd_iv, sc->op_iv, 16);
 		else
-			bcopy(ses->ses_iv, sc->op_iv, 16);
+			arc4random_buf(sc->op_iv, 16);
 
 		if ((crd->crd_flags & CRD_F_IV_PRESENT) == 0) {
 			if (crp->crp_flags & CRYPTO_F_IMBUF)
@@ -356,22 +344,9 @@ viac3_crypto_process(struct cryptop *crp)
 	else
 		bcopy(sc->op_buf, crp->crp_buf + crd->crd_skip, crd->crd_len);
 
-	/* copy out last block for use as next session IV */
-	if (crd->crd_flags & CRD_F_ENCRYPT) {
-		if (crp->crp_flags & CRYPTO_F_IMBUF)
-			m_copydata((struct mbuf *)crp->crp_buf,
-			    crd->crd_skip + crd->crd_len - 16, 16, ses->ses_iv);
-		else if (crp->crp_flags & CRYPTO_F_IOV)
-			cuio_copydata((struct uio *)crp->crp_buf,
-			    crd->crd_skip + crd->crd_len - 16, 16, sc->op_iv);
-		else
-			bcopy(crp->crp_buf + crd->crd_skip + crd->crd_len - 16,
-			    sc->op_iv, 16);
-	}
-
 out:
 	if (sc->op_buf != NULL) {
-		bzero(sc->op_buf, crd->crd_len);
+		explicit_bzero(sc->op_buf, crd->crd_len);
 		free(sc->op_buf, M_DEVBUF);
 		sc->op_buf = NULL;
 	}
@@ -450,18 +425,16 @@ viac3_rijndael_cbc(rijndael_ctx *ctx, u_char *iv, u_char *src, u_char *dst,
 {
 	size_t len;
 
-	bzero(viac3_r_cw, sizeof (viac3_r_cw));
+	bzero(viac3_r_cw, sizeof(viac3_r_cw));
 	viac3_r_cw[0] = ctx->hwcr_info.via.cw0 |
 	    (encr ? C3_CRYPT_CWLO_ENCRYPT : C3_CRYPT_CWLO_DECRYPT);
 
-	if (iv == NULL)
-		bzero(viac3_r_iv, sizeof (viac3_r_iv));
-	else
-		memcpy(viac3_r_iv, iv, sizeof (viac3_r_iv));
+	if (iv != NULL)
+		memcpy(viac3_r_iv, iv, sizeof(viac3_r_iv));
 
 	/* use viac3_r_buf to handle a page at a time */
 	while (nblocks) {
-		len = MIN(sizeof (viac3_r_buf), nblocks * 16);
+		len = MIN(sizeof(viac3_r_buf), nblocks * 16);
 		nblocks -= len / 16;
 
 		memcpy(viac3_r_buf, src, len);
@@ -470,7 +443,7 @@ viac3_rijndael_cbc(rijndael_ctx *ctx, u_char *iv, u_char *src, u_char *dst,
 		    encr ? ctx->ek : ctx->dk, len / 16, viac3_r_iv);
 		/* adjust IV manually (sigh) */
 		memcpy(viac3_r_iv, encr ? viac3_r_buf : src,
-		    sizeof (viac3_r_iv));
+		    sizeof(viac3_r_iv));
 
 		memcpy(dst, viac3_r_buf, len);
 		src += len;
@@ -478,7 +451,10 @@ viac3_rijndael_cbc(rijndael_ctx *ctx, u_char *iv, u_char *src, u_char *dst,
 	}
 
 	if (iv != NULL)
-		memcpy(iv, viac3_r_iv, sizeof (viac3_r_iv));
+		memcpy(iv, viac3_r_iv, sizeof(viac3_r_iv));
+
+	explicit_bzero(viac3_r_iv, sizeof(viac3_r_iv));
+	explicit_bzero(viac3_r_buf, sizeof(viac3_r_buf));
 }
 
 void
@@ -553,4 +529,5 @@ viac3_rnd(void *v __unused)
 
 	timeout_add(&viac3_rnd_tmo, (hz > 100) ? (hz / 100) : 1);
 }
+
 #endif /* defined(I686_CPU) */
