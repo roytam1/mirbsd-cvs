@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.man.mk,v 1.2 2005/02/14 18:57:46 tg Exp $
+# $MirOS: src/share/mk/bsd.man.mk,v 1.3 2005/09/18 20:59:29 tg Exp $
 # $OpenBSD: bsd.man.mk,v 1.28 2004/02/08 01:19:54 espie Exp $
 # $NetBSD: bsd.man.mk,v 1.23 1996/02/10 07:49:33 jtc Exp $
 # @(#)bsd.man.mk	5.2 (Berkeley) 5/11/90
@@ -67,7 +67,8 @@ maninstall:
 .  for lnk file in ${MLINKS}
 	@l=${DESTDIR}${MANDIR}${lnk:E}/${lnk:R}.0; \
 	    t=${DESTDIR}${MANDIR}${file:E}/${file:R}.0; \
-	    echo $$t -\> $$l; rm -f $$t; ln $$l $$t || cp $$l $$t
+	    print -r -- $$t -\> $$l; rm -f $$t; \
+	    ln $$l $$t || cp $$l $$t
 .  endfor
 .endif
 

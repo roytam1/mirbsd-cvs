@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.lib.mk,v 1.70 2007/08/28 19:21:17 tg Exp $
+# $MirOS: src/share/mk/bsd.lib.mk,v 1.71 2008/04/10 13:55:55 tg Exp $
 # $OpenBSD: bsd.lib.mk,v 1.43 2004/09/20 18:52:38 espie Exp $
 # $NetBSD: bsd.lib.mk,v 1.67 1996/01/17 20:39:26 mycroft Exp $
 # @(#)bsd.lib.mk	5.26 (Berkeley) 5/2/91
@@ -93,8 +93,8 @@ LINK.shlib?=	${LINKER} ${CFLAGS:M*} ${SHLIB_FLAGS} -shared \
 .SUFFIXES:	.out .o .so .S .s .c .m .cc .C .cxx .cpp .y .l .i .ln .m4
 
 .c.o .m.o:
-	@echo ${COMPILE.c:Q} ${CFLAGS_${.TARGET:C/\.(g|s)o$/.o/}:M*:Q} \
-	    '${.IMPSRC} -o $@'
+	@print -r -- ${COMPILE.c:Q} \
+	    ${CFLAGS_${.TARGET:C/\.(g|s)o$/.o/}:M*:Q} ${.IMPSRC:Q} -o '$@'
 	@${COMPILE.c} ${CFLAGS_${.TARGET:C/\.(g|s)o$/.o/}:M*} \
 	    ${.IMPSRC} -o $@.o
 	@${LD} ${_DISCARD} -r $@.o -o $@
@@ -107,8 +107,8 @@ LINK.shlib?=	${LINKER} ${CFLAGS:M*} ${SHLIB_FLAGS} -shared \
 	${LINT} ${LINTFLAGS} ${CFLAGS:M-[IDU]*} ${CPPFLAGS:M-[IDU]*} -i ${.IMPSRC}
 
 .cc.o .C.o .cxx.o .cpp.o:
-	@echo ${COMPILE.cc:Q} ${CXXFLAGS_${.TARGET:C/\.(g|s)o$/.o/}:M*:Q} \
-	    '${.IMPSRC} -o $@'
+	@print -r -- ${COMPILE.cc:Q} \
+	    ${CXXFLAGS_${.TARGET:C/\.(g|s)o$/.o/}:M*:Q} ${.IMPSRC:Q} -o '$@'
 	@${COMPILE.cc} ${CXXFLAGS_${.TARGET:C/\.(g|s)o$/.o/}:M*} \
 	    ${.IMPSRC} -o $@.o
 	@${LD} ${_DISCARD} -r $@.o -o $@
@@ -118,8 +118,9 @@ LINK.shlib?=	${LINKER} ${CFLAGS:M*} ${SHLIB_FLAGS} -shared \
 	${COMPILE.cc} ${CXXFLAGS_${.TARGET:.so=.o}:M*} -DPIC ${PICFLAG} -o $@ $<
 
 .S.o .s.o:
-	@echo ${COMPILE.S:Q} ${AFLAGS_${.TARGET:C/\.(g|s)o$/.o/}:M*:Q} \
-	    '${CFLAGS:M-[ID]*} ${AINC} ${.IMPSRC} -o $@'
+	@print -r -- ${COMPILE.S:Q} \
+	    ${AFLAGS_${.TARGET:C/\.(g|s)o$/.o/}:M*:Q} ${CFLAGS:M-[ID]*:Q} \
+	    ${AINC} ${.IMPSRC} -o '$@'
 	@${COMPILE.S} ${AFLAGS_${.TARGET:C/\.(g|s)o$/.o/}:M*} \
 	    ${CFLAGS:M-[ID]*} ${AINC} ${.IMPSRC} -o $@.o
 	@${LD} ${_DISCARD} -r $@.o -o $@
@@ -172,7 +173,7 @@ OBJS+=		${SRCS:N*.h:R:S/$/.o/g}
 CLEANFILES+=	${SHLIB_LINKS}
 
 lib${LIB}.a:: ${OBJS}
-	@echo building standard ${LIB} library
+	@print -r building standard ${LIB} library
 	@rm -f lib${LIB}.a
 	@${AR} cq lib${LIB}.a $$(${LORDER} ${OBJS} | tsort -q)
 .if ${OBJECT_FMT} == "Mach-O"
@@ -183,7 +184,7 @@ lib${LIB}.a:: ${OBJS}
 # contains debugging information - this is actually wanted.
 SOBJS+=		${OBJS:.o=.so}
 lib${LIB}_pic.a:: ${SOBJS}
-	@echo building shared object ${LIB} library
+	@print -r building shared object ${LIB} library
 	@rm -f lib${LIB}_pic.a
 	@${AR} cq lib${LIB}_pic.a $$(${LORDER} ${SOBJS} | tsort -q)
 .if ${OBJECT_FMT} == "Mach-O"
@@ -192,9 +193,9 @@ lib${LIB}_pic.a:: ${SOBJS}
 
 ${SHLIB_SONAME}: ${CRTI} ${CRTBEGIN} ${SOBJS} ${DPADD} ${CRTEND} ${CRTN}
 .if defined(SHLIB_VERSION)
-	@echo building shared ${LIB} library \(version ${SHLIB_VERSION}\)
+	@print -r building shared ${LIB} library \(version ${SHLIB_VERSION}\)
 .else
-	@echo building shared library ${SHLIB_SONAME}
+	@print -r building shared library ${SHLIB_SONAME}
 .endif
 	@rm -f ${SHLIB_SONAME}
 	${LINK.shlib} -o $@
@@ -207,7 +208,7 @@ LOBJS+=		${LSRCS:.c=.ln} ${SRCS:M*.c:.c=.ln} \
 		${SRCS:M*.l:.l=.ln} ${SRCS:M*.y:.y=.ln}
 LLIBS?=		-lc
 llib-l${LIB}.ln: ${LOBJS}
-	@echo building llib-l${LIB}.ln
+	@print -r building llib-l${LIB}.ln
 	@rm -f llib-l${LIB}.ln
 	@${LINT} -C${LIB} ${LOBJS} ${LLIBS}
 
@@ -252,7 +253,7 @@ realinstall:
 .  endif
 .  ifdef SHLIB_SONAME
 .    if ${OBJECT_FMT} == "Mach-O"
-	@echo Relinking dynamic ${LIB} library
+	@print -r Relinking dynamic ${LIB} library
 	${LINK.shlib} -install_name ${LIBDIR}/${SHLIB_SONAME} -o ${SHLIB_SONAME}
 .    endif
 	${INSTALL} ${INSTALL_COPY} -o ${LIBOWN} -g ${LIBGRP} -m 600 \
@@ -285,7 +286,7 @@ realinstall:
 .    for lnk file in ${LINKS}
 	@l=${DESTDIR}${lnk}; \
 	 t=${DESTDIR}${file}; \
-	 echo $$t -\> $$l; \
+	 print -r -- $$t -\> $$l; \
 	 rm -f $$t; ln $$l $$t || cp $$l $$t
 .    endfor
 .  endif

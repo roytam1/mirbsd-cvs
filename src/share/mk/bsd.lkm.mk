@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.lkm.mk,v 1.7 2007/03/08 09:46:39 tg Exp $
+# $MirOS: src/share/mk/bsd.lkm.mk,v 1.8 2008/03/20 21:18:56 tg Exp $
 # $OpenBSD: bsd.lkm.mk,v 1.19 2003/05/20 22:49:13 millert Exp $
 
 .if exists(${.CURDIR}/../Makefile.inc)
@@ -60,8 +60,7 @@ ${POSTUNINSTALL}: ${.CURDIR}/${POSTUNINSTALL}
 .endif
 
 ${LKM}_init.sh: ${LKM}.ko
-	print '#!/bin/sh' >$@
-	print 'cd `dirname "$$0"`' >>$@
+	print '#!/bin/sh\ncd $$(dirname "$0")' >$@
 	print -n 'exec /sbin/modload $$* ' >>$@
 	if [[ -x ${POSTINSTALL} ]]; then \
 		print -- '-o ${LKM} -p ${POSTINSTALL} ${LKM}.ko'; \
@@ -70,8 +69,7 @@ ${LKM}_init.sh: ${LKM}.ko
 	fi >>$@
 
 ${LKM}_done.sh: ${LKM}.ko
-	print '#!/bin/sh' >$@
-	print 'cd `dirname "$$0"`' >>$@
+	print '#!/bin/sh\ncd $$(dirname "$0")' >$@
 	print 'rm -f ${LKM}' >>$@
 	print -n 'exec /sbin/modunload ' >>$@
 	if [[ -x ${POSTUNINSTALL} ]]; then \
@@ -128,7 +126,7 @@ install: maninstall _SUBDIRUSE
 		shift; \
 		t=${DESTDIR}${LKMDIR}/$$1; \
 		shift; \
-		echo $$t -\> $$l; \
+		print -r -- $$t -\> $$l; \
 		rm -f $$t; \
 		ln $$l $$t || cp $$l $$t; \
 	done; true

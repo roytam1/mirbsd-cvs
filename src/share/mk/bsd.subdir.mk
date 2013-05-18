@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.subdir.mk,v 1.5 2005/07/21 22:52:11 tg Exp $
+# $MirOS: src/share/mk/bsd.subdir.mk,v 1.6 2007/05/17 18:38:36 tg Exp $
 # $OpenBSD: bsd.subdir.mk,v 1.14 2005/02/05 10:39:50 espie Exp $
 # $NetBSD: bsd.subdir.mk,v 1.11 1996/04/04 02:05:06 jtc Exp $
 # @(#)bsd.subdir.mk	5.9 (Berkeley) 2/1/91
@@ -35,14 +35,14 @@ _SUBDIRUSE: .USE
 			subentry=$${skipdir#$$entry}; \
 			if [[ $$subentry != $$skipdir ]]; then \
 				if [[ -z $$subentry ]]; then \
-					echo "($$_nextdir_ skipped)"; \
+					print -r -- "($$_nextdir_ skipped)"; \
 					break; \
 				fi; \
 				subskipdir="$$subskipdir $${subentry#/}"; \
 			fi; \
 		done; \
 		if [[ -z $$skipdir || -n $$subentry ]]; then \
-			echo "===> $$_nextdir_"; \
+			print -r "===> $$_nextdir_"; \
 			cd ${.CURDIR}/$$_newdir_; \
 			${MAKE} SKIPDIR="$$subskipdir" $$_makefile_spec_ \
 			    _THISDIR_="$$_nextdir_" ${MAKE_FLAGS} \
@@ -60,7 +60,7 @@ ${SUBDIR}::
 	_makefile_spec_=; \
 	[[ ! -f ${.CURDIR}/$$_newdir_/Makefile.bsd-wrapper ]] \
 	    || _makefile_spec_="-f Makefile.bsd-wrapper"; \
-	echo "===> $$_newdir_"; \
+	print -r "===> $$_newdir_"; \
 	cd ${.CURDIR}/$$_newdir_; \
 	${MAKE} ${MAKE_FLAGS} $$_makefile_spec_ _THISDIR_="$$_newdir_" all
 .endif

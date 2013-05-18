@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.cfwrap.mk,v 1.18 2007/02/09 19:12:20 tg Exp $
+# $MirOS: src/share/mk/bsd.cfwrap.mk,v 1.19 2007/03/09 10:40:52 tg Exp $
 
 .if !defined(BSD_CFWRAP_MK)
 BSD_CFWRAP_MK=1
@@ -129,7 +129,7 @@ linkinstall:
 .  for lnk file in ${LINKS}
 	@l=${DESTDIR}${lnk}; \
 	 t=${DESTDIR}${file}; \
-	 echo $$t -\> $$l; \
+	 print -r -- $$t -\> $$l; \
 	 rm -f $$t; ln $$l $$t || cp $$l $$t
 .  endfor
 .endif

@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.doc.mk,v 1.2 2005/02/14 18:57:46 tg Exp $
+# $MirOS: src/share/mk/bsd.doc.mk,v 1.3 2005/02/14 19:21:20 tg Exp $
 # $OpenBSD: bsd.doc.mk,v 1.8 2001/04/03 23:00:09 espie Exp $
 # $NetBSD: bsd.doc.mk,v 1.20 1994/07/26 19:42:37 mycroft Exp $
 # @(#)bsd.doc.mk	8.1 (Berkeley) 8/14/93
@@ -17,8 +17,8 @@ FILES?=	${SRCS}
 .MAIN: all
 .  if target(paper.)
 all:
-	@echo 'Fix Makefile and replace paper.$${PRINTER} target by paper.ps'
-	@false
+	@print -ru2 Fix Makefile and replace paper.\$${PRINTER} target \
+	    by paper.ps; exit 1
 .  else
 all: paper.txt
 .  endif

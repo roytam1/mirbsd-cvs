@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.prog.mk,v 1.26 2007/04/28 00:12:46 tg Exp $
+# $MirOS: src/share/mk/bsd.prog.mk,v 1.27 2008/04/10 13:55:56 tg Exp $
 # $OpenBSD: bsd.prog.mk,v 1.44 2005/04/15 17:18:57 espie Exp $
 # $NetBSD: bsd.prog.mk,v 1.55 1996/04/08 21:19:26 jtc Exp $
 # @(#)bsd.prog.mk	5.26 (Berkeley) 6/25/91
@@ -92,7 +92,7 @@ afterinstall:
 realinstall:
 .    if defined(PROG) && !empty(PROG)
 .      if (${OBJECT_FMT} == "Mach-O") && (${LINK.prog} != "NO")
-	@echo Relinking ${PROG}
+	@print -r Relinking ${PROG}
 	${LINK.prog} -o ${PROG}
 .      endif
 	${INSTALL} ${INSTALL_COPY} ${INSTALL_STRIP} -o ${BINOWN} -g ${BINGRP} \
@@ -105,7 +105,7 @@ install: maninstall _SUBDIRUSE
 .    for lnk file in ${LINKS}
 	@l=${DESTDIR}${lnk}; \
 	 t=${DESTDIR}${file}; \
-	 echo $$t -\> $$l; \
+	 print -r -- $$t -\> $$l; \
 	 rm -f $$t; ln $$l $$t || cp $$l $$t
 .    endfor
 .  endif

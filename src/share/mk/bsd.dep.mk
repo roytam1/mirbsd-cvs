@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.dep.mk,v 1.12 2007/04/28 00:12:46 tg Exp $
+# $MirOS: src/share/mk/bsd.dep.mk,v 1.13 2008/04/10 13:55:55 tg Exp $
 # $OpenBSD: bsd.dep.mk,v 1.5 2003/08/07 11:24:03 espie Exp $
 # $NetBSD: bsd.dep.mk,v 1.12 1995/09/27 01:15:09 christos Exp $
 
@@ -13,22 +13,22 @@ depend: beforedepend .depend _SUBDIRUSE afterdepend
 .depend: ${SRCS:S/.l$/.c/:S/.y$/.c/}
 	@rm -f .depend
 	@files="${.ALLSRC:M*.s} ${.ALLSRC:M*.S}"; \
-	if [[ $$files != " " ]]; then \
-		echo ${MKDEP_SH} -a ${MKDEP} -D_ASM_SOURCE \
+	if [[ $$files != *( ) ]]; then \
+		print -r -- ${MKDEP_SH} -a ${MKDEP} -D_ASM_SOURCE \
 		    ${AFLAGS:M-[ID]*} ${CPPFLAGS} ${AINC} $$files; \
 		CC=${CC:Q} ${MKDEP_SH} -a ${MKDEP} -D_ASM_SOURCE \
 		    ${AFLAGS:M-[ID]*} ${CPPFLAGS} ${AINC} $$files; \
 	fi
 	@files="${.ALLSRC:M*.c} ${.ALLSRC:M*.m}"; \
-	if [[ $$files != " " ]]; then \
-		echo ${MKDEP_SH} -a ${MKDEP} ${CFLAGS:M-[ID]*} \
+	if [[ $$files != *( ) ]]; then \
+		print -r -- ${MKDEP_SH} -a ${MKDEP} ${CFLAGS:M-[ID]*} \
 		    ${CPPFLAGS} $$files; \
 		CC=${CC:Q} ${MKDEP_SH} -a ${MKDEP} ${CFLAGS:M-[ID]*} \
 		    ${CPPFLAGS} $$files; \
 	fi
 	@files="${.ALLSRC:M*.cc} ${.ALLSRC:M*.C} ${.ALLSRC:M*.cxx} ${.ALLSRC:M*.cpp}"; \
-	if [[ $$files != "   " ]]; then \
-		echo ${MKDEP_SH} -a ${MKDEP} ${CXXFLAGS:M-[ID]*} \
+	if [[ $$files != *( ) ]]; then \
+		print -r -- ${MKDEP_SH} -a ${MKDEP} ${CXXFLAGS:M-[ID]*} \
 		    ${CPPFLAGS} $$files; \
 		CC=${CXX:Q} ${MKDEP_SH} -a ${MKDEP} ${CXXFLAGS:M-[ID]*} \
 		    ${CPPFLAGS} $$files; \
@@ -48,7 +48,7 @@ afterdepend:
 .  if defined(SRCS)
 tags: ${SRCS} _SUBDIRUSE
 	-cd ${.CURDIR} && ${CTAGS} -f /dev/stdout ${.ALLSRC:N*.h} | \
-	    sed "s;\${.CURDIR}/;;" >tags
+	    sed 's${.CURDIR}/' >tags
 .  else
 tags:
 .  endif
