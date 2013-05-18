@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/scripts/genhtman.sh,v 1.11 2006/10/15 00:16:49 tg Exp $
+# $MirOS: src/scripts/genhtman.sh,v 1.12 2007/01/25 10:42:34 tg Exp $
 #-
 # Build the HTML format manual pages. This is part of the MirOS con-
 # tribuional and base system release process.
@@ -11,17 +11,17 @@ for s in papers psd smm usd; do
 	mkdir -p $BSDOBJDIR/htman/htm/man$u
 	output_htaccess >$BSDOBJDIR/htman/htm/man$u/.htaccess
 	[[ -e $BSDOBJDIR/htman/papers/$s/Title.txt ]] && \
-	    do_conversion Title $u \
-	    <$BSDOBJDIR/htman/papers/$s/Title.txt \
-	    >$BSDOBJDIR/htman/htm/man$u/Title.htm
+	    do_conversion_verbose Title $u \
+	    $BSDOBJDIR/htman/papers/$s/Title.txt \
+	    $BSDOBJDIR/htman/htm/man$u/Title.htm
 	[[ -e $BSDOBJDIR/htman/papers/$s/contents.txt ]] && \
-	    do_conversion Contents $u \
-	    <$BSDOBJDIR/htman/papers/$s/contents.txt \
-	    >$BSDOBJDIR/htman/htm/man$u/Contents.htm
+	    do_conversion_verbose Contents $u \
+	    $BSDOBJDIR/htman/papers/$s/contents.txt \
+	    $BSDOBJDIR/htman/htm/man$u/Contents.htm
 	for f in $BSDOBJDIR/htman/papers/$s/*/paper.txt; do
 		t="${f#$BSDOBJDIR/htman/papers/$s/}"
 		t="${t%/paper.txt}"
-		do_conversion $t $u <$f >$BSDOBJDIR/htman/htm/man$u/$t.htm
+		do_conversion_verbose $t $u $f $BSDOBJDIR/htman/htm/man$u/$t.htm
 	done
 done
 exit 0

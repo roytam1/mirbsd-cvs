@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/scripts/roff2htm,v 1.36 2007/01/22 18:03:52 tg Exp $
+# $MirOS: src/scripts/roff2htm,v 1.37 2007/01/25 10:42:34 tg Exp $
 # $ekkoBSD: catman2html.sh,v 1.2 2004/03/07 03:02:53 stephen Exp $
 #-
 # Copyright (c) 2004, 2005, 2006, 2007
@@ -139,7 +139,7 @@ output_footer()
 {
 	cat <<-EOF
 		<hr /><p style="font-size:xx-small;">Generated on ${gendate} by
-		 \$MirOS: src/scripts/roff2htm,v 1.36 2007/01/22 18:03:52 tg Exp $</p>
+		 \$MirOS: src/scripts/roff2htm,v 1.37 2007/01/25 10:42:34 tg Exp $</p>
 		<p>These manual pages are copyrighted by their respective writers; their
 		 source can be retrieved from our <a href="http://cvs.mirbsd.de/">CVSweb</a>.
 		 The rest is Copyright &copy; 2002-2007 <a href="http://www.mirbsd.org/">The
@@ -159,6 +159,14 @@ do_conversion()
 	output_footer
 }
 
+# do_conversion_verbose title section infile outfile
+do_conversion_verbose()
+{
+	print -nru2 -- $3 -\> $4
+	do_conversion $1 $2 <$3 >$4
+	print -u2
+}
+
 # convert_page /path/to/man.cat1 /targetpath
 convert_page()
 {
@@ -170,9 +178,7 @@ convert_page()
 	sect=${as%%/*}			# section
 	tn=$2/man${sect}/${page}.htm	# target file
 
-	print -nru2 -- $fn -\> $tn
-	do_conversion $page $sect <$fn >$tn
-	print -u2
+	do_conversion_verbose $page $sect $fn $tn
 }
 
 # output_htaccess >.../.htaccess
