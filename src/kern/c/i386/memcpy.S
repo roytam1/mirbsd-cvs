@@ -1,5 +1,5 @@
 /*-
- * Copyright (c) 2008
+ * Copyright (c) 2005, 2008
  *	Thorsten Glaser <tg@mirbsd.org>
  *
  * Provided that these terms and disclaimer and all copyright notices
@@ -20,36 +20,71 @@
 
 #include <machine/asm.h>
 
-RCSID("$MirOS: src/kern/c/i386/strcmp.S,v 1.1 2008/08/01 18:09:20 tg Exp $")
+RCSID("$MirOS$")
 
 	.intel_syntax noprefix
 	.text
 
-NENTRY(strcoll)
-ENTRY(strcmp)
+ENTRY(bcopy)
 	push	esi
-	mov	esi,8[esp]
-	mov	edx,12[esp]
+	push	edi
+	mov	esi,12[esp]
+	mov	edi,16[esp]
+	jmp	Lmove
+
+NENTRY(memcpy)
+ENTRY(memmove)
+	push	esi
+	push	edi
+	mov	edi,12[esp]
+	mov	esi,16[esp]
+	_ALIGN_TEXT
+Lmove:	mov	ecx,20[esp]
+	/* check for overlap / null op */
+	jecxz	Lnull
+	/* check if src == dst */
+	cmp	esi,edi
+	je	Lnull
+	push	edi
+	mov	edx,ecx
+	jb	Lbkwd	/* CF set from cmp esi,edi */
+	/* copy forwards, source > dest */
 	cld
-	xor	eax,eax
-	xor	ecx,ecx
-	dec	edx
+	/* first, whole dwords */
+	shr	ecx,2
+	rep	movsd
+	/* then, 0-3 remaining bytes */
+	mov	cl,dl
+	and	cl,3
+	rep	movsb
+	pop	eax
+Lnull:	pop	edi
+	pop	esi
+	ret
 
 	_ALIGN_TEXT
-Lloop:	inc	edx
-	lodsb
-	or	al,al
-	jz	Lend
-	cmp	[edx],al
-	jne	Lend
-	inc	edx
-	lodsb
-	or	al,al
-	jz	Lend
-	cmp	[edx],al
-	je	Lloop
-	_ALIGN_TEXT
-Lend:	mov	cl,[edx]
-	sub	eax,ecx
+Lbkwd:	/* copy backwards, source < dest */
+	std
+	/* start at the end */
+	add	esi,ecx
+	add	edi,ecx
+	/* fractional bytes first, whole dwords last */
+	and	ecx,3
+	dec	esi
+	dec	edi
+	rep	movsb
+	mov	ecx,edx
+	shr	ecx,2
+	dec	esi
+	dec	esi
+	dec	esi
+	dec	edi
+	dec	edi
+	dec	edi
+	rep	movsd
+	/* clean up */
+	pop	eax
+	pop	edi
 	pop	esi
+	cld
 	ret

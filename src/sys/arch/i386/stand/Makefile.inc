@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/stand/Makefile.inc,v 1.18 2008/08/01 23:20:18 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/Makefile.inc,v 1.19 2008/08/02 16:59:22 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.40 2007/11/26 10:26:02 deraadt Exp $
 
 .ifndef MODSRC_SYS_ARCH_I386_STAND_MAKEFILE_INC
@@ -23,7 +23,7 @@ COPTS+=		-Os
 COPTS+=		-Os
 .endif
 HOSTCPPFLAGS:=	${CPPFLAGS}
-CPPFLAGS+=	-I${S} -I${SADIR}/libsa -I. -Dmemmove=memcpy \
+CPPFLAGS+=	-I${S} -I${SADIR}/libsa -I. \
 		-I${.CURDIR} -D__BOOT_VER=${_V:Q}
 SACFLAGS=	-D_STANDALONE
 DEBUGFLAGS=
@@ -47,7 +47,6 @@ CPPFLAGS+=	-DSA_LINKADDR=${LINKADDR} -DSA_LOADADDR=${LOADADDR}
 CLEANFILES+=	machine
 
 SACFLAGS+=	-nostdinc -fno-builtin -fpack-struct
-#SACFLAGS+=	-Dmemcmp=__builtin_memcmp -Dmemset=__builtin_memset
 
 .if !make(libdep) && !make(sadep) && !make(salibdir) && !make(kernlibdir) && !make(obj)
 .BEGIN:

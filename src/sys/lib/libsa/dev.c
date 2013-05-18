@@ -45,11 +45,6 @@ nodev(void)
 	return (ENXIO);
 }
 
-void
-nullsys(void)
-{
-}
-
 /* ARGSUSED */
 int
 noioctl(struct open_file *f, u_long cmd, void *data)

@@ -20,43 +20,41 @@
 
 #include <libckern.h>
 
-__RCSID("$MirOS: src/kern/c/strcmp.c,v 1.1 2008/08/01 18:09:17 tg Exp $");
+__RCSID("$MirOS$");
 
-#ifdef WIDEC
-#define NUL L'\0'
-int
-wcscmp(const wchar_t *cp1, const wchar_t *cp2)
+void *
+memmove(void *dst, const void *src, size_t len)
 {
-#else
-#define NUL '\0'
-int
-strcmp(const char *s1, const char *s2)
-{
-	const uint8_t *cp1 = s1, *cp2 = s2;
-#endif
-	while (*cp1 == *cp2++)
-		if (*cp1++ == NUL)
-			return (0);
-	return (*cp1 - *--cp2);
+	const uint8_t *s = src;
+	uint8_t *d = dst;
+
+	if (len) {
+		if (src < dst) {
+			s += len;
+			d += len;
+			while (len--)
+				*--d = *--s;
+		} else
+			while (len--)
+				*d++ = *s++;
+	}
+	return (dst);
 }
+
+#ifndef SMALL
+void
+bcopy(const void *src, void *dst, size_t len)
+{
+	memmove(dst, src, len);
+}
+#endif
 
 #ifdef lint
-#ifdef WIDEC
 int
-wcscoll(const wchar_t *cp1, const wchar_t *cp2)
+memcpy(void *dst, const void *src, size_t len)
 {
-	return (wcscmp(cp1, cp2));
+	return (memmove(dst, src, len));
 }
 #else
-int
-strcoll(const char *s1, const char *s2)
-{
-	return (strcmp(s1, s2));
-}
-#else /* lint */
-#ifdef WIDEC
-__strong_alias(wcscoll, wcscmp);
-#else
-__strong_alias(strcoll, strcmp);
+__strong_alias(memcpy, memmove);
 #endif
-#endif /* lint */

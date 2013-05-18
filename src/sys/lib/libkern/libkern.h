@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/lib/libkern/libkern.h,v 1.5 2007/02/06 16:24:43 tg Exp $ */
+/**	$MirOS: src/sys/lib/libkern/libkern.h,v 1.6 2008/08/01 16:35:25 tg Exp $ */
 /*	$OpenBSD: libkern.h,v 1.22 2004/08/07 00:38:32 deraadt Exp $	*/
 /*	$NetBSD: libkern.h,v 1.7 1996/03/14 18:52:08 christos Exp $	*/
 
@@ -36,81 +36,7 @@
 #ifndef __LIBKERN_H__
 #define __LIBKERN_H__
 
-#include <sys/types.h>
-
-#ifndef LIBKERN_INLINE
-#define LIBKERN_INLINE	static __inline
-#define LIBKERN_BODY
-#endif
-
-
-LIBKERN_INLINE int imax(int, int);
-LIBKERN_INLINE int imin(int, int);
-LIBKERN_INLINE u_int max(u_int, u_int);
-LIBKERN_INLINE u_int min(u_int, u_int);
-LIBKERN_INLINE long lmax(long, long);
-LIBKERN_INLINE long lmin(long, long);
-LIBKERN_INLINE u_long ulmax(u_long, u_long);
-LIBKERN_INLINE u_long ulmin(u_long, u_long);
-LIBKERN_INLINE int abs(int);
-
-#ifdef LIBKERN_BODY
-LIBKERN_INLINE int
-imax(a, b)
-	int a, b;
-{
-	return (a > b ? a : b);
-}
-LIBKERN_INLINE int
-imin(a, b)
-	int a, b;
-{
-	return (a < b ? a : b);
-}
-LIBKERN_INLINE long
-lmax(a, b)
-	long a, b;
-{
-	return (a > b ? a : b);
-}
-LIBKERN_INLINE long
-lmin(a, b)
-	long a, b;
-{
-	return (a < b ? a : b);
-}
-LIBKERN_INLINE u_int
-max(a, b)
-	u_int a, b;
-{
-	return (a > b ? a : b);
-}
-LIBKERN_INLINE u_int
-min(a, b)
-	u_int a, b;
-{
-	return (a < b ? a : b);
-}
-LIBKERN_INLINE u_long
-ulmax(a, b)
-	u_long a, b;
-{
-	return (a > b ? a : b);
-}
-LIBKERN_INLINE u_long
-ulmin(a, b)
-	u_long a, b;
-{
-	return (a < b ? a : b);
-}
-
-LIBKERN_INLINE int
-abs(j)
-	int j;
-{
-	return(j < 0 ? -j : j);
-}
-#endif
+#include <libckern.h>
 
 #ifdef NDEBUG						/* tradition! */
 #define	assert(e)	((void)0)
@@ -151,19 +77,13 @@ abs(j)
 /* Prototypes for non-quad routines. */
 void	 __assert(const char *, const char *, int, const char *)
 	    __attribute__ ((__noreturn__));
-int	 bcmp(const void *, const void *, size_t);
-void	 bzero(void *, size_t);
-int	 ffs(int);
 int	 locc(int, char *, u_int);
-void	*memchr(const void *, int, size_t);
-int	 memcmp(const void *, const void *, size_t);
 u_long	 random(void);
 void	 srandom(u_long);
 int	 scanc(u_int, const u_char *, const u_char [], int);
 int	 skpc(int, size_t, u_char *);
 char	*strncpy(char *, const char *, size_t)
 		__attribute__ ((__bounded__(__string__,1,3)));
-int	 strcmp(const char *, const char *);
 int	 strncmp(const char *, const char *, size_t);
 int	 strncasecmp(const char *, const char *, size_t);
 int	 getsn(char *, int);
@@ -174,6 +94,7 @@ extern u_int8_t const __bcd2bin[], __bin2bcd[];
 #define	bcd2bin(b)	(__bcd2bin[(b)&0xff])
 #define	bin2bcd(b)	(__bin2bcd[(b)&0xff])
 
-#include <libckern.h>
+#define memcpy(d,s,n)	memmove((d), (s), (n))
+#define bcopy(s,d,n)	(void)memmove((s), (d), (n))
 
 #endif /* __LIBKERN_H__ */

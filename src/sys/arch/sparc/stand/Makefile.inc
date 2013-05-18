@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/sparc/stand/Makefile.inc,v 1.9 2008/08/01 15:47:14 tg Exp $
+# $MirOS: src/sys/arch/sparc/stand/Makefile.inc,v 1.10 2008/08/01 18:45:38 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.12 2004/07/13 21:03:38 marc Exp $
 # $NetBSD: Makefile.inc,v 1.5 1996/02/01 22:33:01 mycroft Exp $
 
@@ -22,7 +22,7 @@ COPTS+=		-Os
 .endif
 SACFLAGS=	-D_STANDALONE
 HOSTCPPFLAGS:=	${CPPFLAGS}
-CPPFLAGS+=	-I${S} -I${SADIR}/libsa -I. -Dmemmove=memcpy -D_STANDALONE \
+CPPFLAGS+=	-I${S} -I${SADIR}/libsa -I. -D_STANDALONE \
 		-I${.CURDIR} -Derrno=errno -I${KERNBASE}/include \
 		-DSTANDALONE -DRELOC=${RELOC} -DSUN4 -DSUN4C -DSUN_BOOTPARAMS
 

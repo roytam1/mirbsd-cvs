@@ -20,7 +20,7 @@
 
 #include <machine/asm.h>
 
-RCSID("$MirOS$")
+RCSID("$MirOS: src/kern/c/i386/bzero.S,v 1.1 2008/08/01 18:09:20 tg Exp $")
 
 	.intel_syntax noprefix
 	.text
@@ -50,6 +50,7 @@ ENTRY(bzero)
 	and	edx,3
 	rep	stosd
 
+	_ALIGN_TEXT
 Lrest:	/* remaining bytes */
 	mov	ecx,edx
 	rep	stosb

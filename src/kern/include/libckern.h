@@ -1,4 +1,4 @@
-/* $MirOS: src/kern/include/libckern.h,v 1.11 2008/08/01 23:24:02 tg Exp $ */
+/* $MirOS: src/kern/include/libckern.h,v 1.12 2008/08/03 00:21:26 tg Exp $ */
 
 /*-
  * Copyright (c) 2008
@@ -70,6 +70,9 @@ void __main(void);
 int bcmp(const void *, const void *, size_t)
     __attribute__((bounded (buffer, 1, 3)))
     __attribute__((bounded (buffer, 2, 3)));
+void bcopy(const void *, void *, size_t)
+    __attribute__((bounded (buffer, 1, 3)))
+    __attribute__((bounded (buffer, 2, 3)));
 void bzero(void *, size_t)
     __attribute__((bounded (buffer, 1, 2)));
 
@@ -78,6 +81,12 @@ int ffs(int);
 void *memchr(const void *, int, size_t)
     __attribute__((bounded (buffer, 1, 3)));
 int memcmp(const void *, const void *, size_t)
+    __attribute__((bounded (buffer, 1, 3)))
+    __attribute__((bounded (buffer, 2, 3)));
+void *memcpy(void *, const void *, size_t)
+    __attribute__((bounded (buffer, 1, 3)))
+    __attribute__((bounded (buffer, 2, 3)));
+void *memmove(void *, const void *, size_t)
     __attribute__((bounded (buffer, 1, 3)))
     __attribute__((bounded (buffer, 2, 3)));
 void *memset(void *, int, size_t)
@@ -168,6 +177,9 @@ __END_DECLS
 	int abs_j = (j);				\
 	(abs_j < 0 ? -abs_j : abs_j);			\
 })
+
+#define __strong_alias(alias,sym)			\
+	__asm__(".globl " __STRING(alias) "; " __STRING(alias) " = " __STRING(sym))
 
 #endif /* __GNUC__ */
 

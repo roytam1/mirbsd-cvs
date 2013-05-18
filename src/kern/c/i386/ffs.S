@@ -6,7 +6,7 @@
 
 #include <machine/asm.h>
 
-RCSID("$MirOS$")
+RCSID("$MirOS: src/kern/c/i386/ffs.S,v 1.1 2008/08/01 18:09:20 tg Exp $")
 
 	.text
 
@@ -16,6 +16,6 @@ ENTRY(ffs)
 	incl	%eax			/* bits numbered from 1, not 0 */
 	ret
 
-	.align 2
+	_ALIGN_TEXT
 L1:	xorl	%eax,%eax		/* clear result */
 	ret

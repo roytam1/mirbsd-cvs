@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/include/asm.h,v 1.8 2007/02/19 00:52:18 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/include/asm.h,v 1.9 2008/04/06 23:45:21 tg Exp $ */
 /*	$OpenBSD: asm.h,v 1.7 2003/06/02 23:27:47 millert Exp $	*/
 /*	$NetBSD: asm.h,v 1.7 1994/10/27 04:15:56 cgd Exp $	*/
 
@@ -99,7 +99,11 @@
 
 /* let kernels and others override entrypoint alignment */
 #ifndef _ALIGN_TEXT
+#ifdef SMALL
+#define _ALIGN_TEXT		/* nothing */
+#else
 #define _ALIGN_TEXT		.p2align 2, 0x90
+#endif
 #endif
 
 #define FTYPE(x)		.type x,@function

@@ -1,4 +1,4 @@
-# $MirOS: src/sys/lib/libsa/Makefile,v 1.4 2005/08/07 15:37:42 tg Exp $
+# $MirOS: src/sys/lib/libsa/Makefile,v 1.5 2008/08/01 12:39:08 tg Exp $
 # $OpenBSD: Makefile,v 1.22 2005/05/24 22:25:46 millert Exp $
 # $NetBSD: Makefile,v 1.13 1996/10/02 16:19:51 ws Exp $
 
@@ -26,8 +26,8 @@ CPPFLAGS+= -D__INTERNAL_LIBSA_CREAD
 .endif
 
 # stand routines
-SRCS+=	alloc.c exit.c exec.c getfile.c gets.c globals.c memmove.c \
-	printf.c snprintf.c strerror.c strcmp.c memset.c memcmp.c \
+SRCS+=	alloc.c exit.c exec.c getfile.c gets.c globals.c \
+	printf.c snprintf.c strerror.c \
 	strncpy.c strncmp.c strchr.c
 
 # math from libkern
@@ -63,8 +63,5 @@ NOPIC=	yes
 OBJMACHINE=
 
 install:
-
-memmove.c: memcpy.c
-	sed 's/memcpy/memmove/' <${.CURDIR}/memcpy.c >memmove.c
 
 .include <bsd.lib.mk>

@@ -1,4 +1,4 @@
-# $MirOS: src/kern/c/Makefile.inc,v 1.11 2008/08/01 18:09:16 tg Exp $
+# $MirOS: src/kern/c/Makefile.inc,v 1.12 2008/08/01 23:24:01 tg Exp $
 
 .ifndef _KERNBASE_C_MAKEFILE_INC
 _KERNBASE_C_MAKEFILE_INC=	#defined
@@ -13,7 +13,8 @@ _KERNBASE_C_MAKEFILE_INC=	#defined
 # md stuff must define sources for the following functions:
 # htonl() htons() ntohl() ntohs()
 # strlen() wcslen()
-# bzero() ffs() memchr() memcmp()=bcmp() memset() strcmp()=strcoll()
+# bzero() ffs() memchr() memcmp()=bcmp() memcpy()=bcopy()=memmove() memset()
+# strcmp()=strcoll()
 
 .include "${KERNBASE}/c/${MACHINE_ARCH}/Makefile.inc"
 

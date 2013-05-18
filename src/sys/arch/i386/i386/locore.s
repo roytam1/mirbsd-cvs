@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/i386/locore.s,v 1.7 2008/03/10 18:54:47 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/i386/locore.s,v 1.8 2008/06/13 13:58:04 tg Exp $ */
 /*	$OpenBSD: locore.s,v 1.77.2.1 2005/02/27 00:39:58 brad Exp $	*/
 /*	$NetBSD: locore.s,v 1.145 1996/05/03 19:41:19 christos Exp $	*/
 
@@ -834,63 +834,6 @@ ENTRY(kcopy)
 	popl	%edi
 	popl	%esi
 	xorl	%eax,%eax
-	ret
-
-/*
- * Emulate memcpy() by swapping the first two arguments and calling bcopy()
- */
-ALTENTRY(memmove)
-ENTRY(memcpy)
-	movl	4(%esp),%ecx
-	xchg	8(%esp),%ecx
-	movl	%ecx,4(%esp)
-	/* FALLTHRU */
-
-/*
- * bcopy(caddr_t from, caddr_t to, size_t len);
- * Copy len bytes.
- */
-ALTENTRY(ovbcopy)
-ENTRY(bcopy)
-	pushl	%esi
-	pushl	%edi
-	movl	12(%esp),%esi
-	movl	16(%esp),%edi
-	movl	20(%esp),%ecx
-	movl	%edi,%eax
-	subl	%esi,%eax
-	cmpl	%ecx,%eax		# overlapping?
-	jb	1f
-	cld				# nope, copy forward
-	shrl	$2,%ecx			# copy by 32-bit words
-	rep
-	movsl
-	movl	20(%esp),%ecx
-	andl	$3,%ecx			# any bytes left?
-	rep
-	movsb
-	popl	%edi
-	popl	%esi
-	ret
-
-	ALIGN_TEXT
-1:	addl	%ecx,%edi		# copy backward
-	addl	%ecx,%esi
-	std
-	andl	$3,%ecx			# any fractional bytes?
-	decl	%edi
-	decl	%esi
-	rep
-	movsb
-	movl	20(%esp),%ecx		# copy remainder by 32-bit words
-	shrl	$2,%ecx
-	subl	$3,%esi
-	subl	$3,%edi
-	rep
-	movsl
-	popl	%edi
-	popl	%esi
-	cld
 	ret
 
 /*****************************************************************************/

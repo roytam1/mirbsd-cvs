@@ -20,11 +20,7 @@
 
 #include <libckern.h>
 
-__RCSID("$MirOS: src/kern/c/memcmp.c,v 1.1 2008/08/01 18:09:17 tg Exp $");
-
-#ifdef L_bcmp
-#define memcmp bcmp
-#endif
+__RCSID("$MirOS: src/kern/c/memcmp.c,v 1.2 2008/08/02 15:36:48 tg Exp $");
 
 int
 memcmp(const void *b1, const void *b2, size_t len)
@@ -36,3 +32,13 @@ memcmp(const void *b1, const void *b2, size_t len)
 			return (*--cp1 - *--cp2);
 	return (0);
 }
+
+#ifdef lint
+int
+bcmp(const void *b1, const void *b2, size_t len)
+{
+	return (memcmp(b1, b2, len));
+}
+#else
+__strong_alias(bcmp, memcmp);
+#endif

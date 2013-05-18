@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/sys/systm.h,v 1.5 2007/03/02 03:56:08 tg Exp $ */
+/**	$MirOS: src/sys/sys/systm.h,v 1.6 2008/06/13 14:00:05 tg Exp $ */
 /*	$OpenBSD: systm.h,v 1.60 2004/01/05 00:16:56 espie Exp $	*/
 /*	$NetBSD: systm.h,v 1.50 1996/06/09 04:55:09 briggs Exp $	*/
 
@@ -41,6 +41,7 @@
 #ifndef __SYSTM_H__
 #define __SYSTM_H__
 
+#include <lib/libkern/libkern.h>
 #include <sys/queue.h>
 #include <sys/stdarg.h>
 
@@ -181,14 +182,11 @@ extern	int splassert_ctl;
 void	tablefull(const char *);
 
 int	kcopy(const void *, void *, size_t);
-
-void	bcopy(const void *, void *, size_t);
+#ifdef __i386__
+#define ovbcopy bcopy
+#else
 void	ovbcopy(const void *, void *, size_t);
-void	bzero(void *, size_t);
-int	bcmp(const void *, const void *, size_t);
-void	*memcpy(void *, const void *, size_t);
-void	*memmove(void *, const void *, size_t);
-void	*memset(void *, int, size_t);
+#endif
 
 int	copystr(const void *, void *, size_t, size_t *);
 int	copyinstr(const void *, void *, size_t, size_t *);
@@ -279,8 +277,6 @@ extern void (*md_diskconf)(void);
 int nfs_mountroot(void);
 int dk_mountroot(void);
 extern int (*mountroot)(void);
-
-#include <lib/libkern/libkern.h>
 
 #if defined(DDB) || defined(KGDB)
 /* debugger entry points */

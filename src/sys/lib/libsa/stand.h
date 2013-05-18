@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/lib/libsa/stand.h,v 1.9 2008/08/01 11:40:07 tg Exp $	*/
+/**	$MirOS: src/sys/lib/libsa/stand.h,v 1.10 2008/08/02 16:59:23 tg Exp $	*/
 /*	$OpenBSD: stand.h,v 1.46 2007/05/04 21:44:07 reyk Exp $	*/
 /*	$NetBSD: stand.h,v 1.18 1996/11/30 04:35:51 gwr Exp $	*/
 
@@ -36,22 +36,11 @@
 #ifndef	_SYS_LIBSA_STAND_H
 #define	_SYS_LIBSA_STAND_H
 
-#include <sys/types.h>
-#include <sys/cdefs.h>
+#include <libckern.h>
 #include <sys/stat.h>
 #include <sys/stdarg.h>
 #include "saioctl.h"
 #include "saerrno.h"
-
-#ifndef NULL
-#ifdef __GNUG__
-#define	NULL		__null
-#elif defined(lint)
-#define	NULL		0
-#else
-#define	NULL		((void *)((__PTRDIFF_TYPE__)0UL))
-#endif
-#endif
 
 struct open_file;
 
@@ -146,21 +135,11 @@ void	twiddle(void);
 void	gets(char *);
 __dead void	panic(const char *, ...) __attribute__((noreturn));
 __dead void	_rtt(void) __attribute__((noreturn));
-#define	bcopy(s1,s2,n)	((void)memcpy((s2),(s1),(n)))
-void	*memcpy(void *, const void *, size_t);
-int	memcmp(const void *, const void *, size_t);
 char	*strncpy(char *, const char *, size_t);
 int	strncmp(const char *, const char *, size_t);
-int	strcmp(const char *, const char *);
-size_t	strlen(const char *);
-size_t	 strlcpy(char *, const char *, size_t)
-		__attribute__ ((__bounded__(__string__,1,3)));
-size_t	 strlcat(char *, const char *, size_t)
-		__attribute__ ((__bounded__(__string__,1,3)));
 long	strtol(const char *, char **, int);
 long long	strtoll(const char *, char **, int);
 char	*strchr(const char *, int);
-void	*memset(void *, int, size_t);
 void	exec(char *, void *, int);
 void	exit(void);
 int	open(const char *, int);
@@ -175,17 +154,7 @@ int	readdir(int, char *);
 void	closedir(int);
 int	nodev(void);
 int	noioctl(struct open_file *, u_long, void *);
-void	nullsys(void);
 
-int	null_open(char *path, struct open_file *f);
-int	null_close(struct open_file *f);
-ssize_t	null_read(struct open_file *f, void *buf,
-			size_t size, size_t *resid);
-ssize_t	null_write(struct open_file *f, void *buf,
-			size_t size, size_t *resid);
-off_t	null_seek(struct open_file *f, off_t offset, int where);
-int	null_stat(struct open_file *f, struct stat *sb);
-int	null_readdir(struct open_file *f, char *name);
 char	*ttyname(int); /* match userland decl, but ignore !0 */
 dev_t	ttydev(char *);
 void	cninit(void);
@@ -215,6 +184,7 @@ int	devopen(struct open_file *, const char *, char **);
 void	machdep_start(char *, int, char *, char *, char *);
 time_t	getsecs(void);
 
-#include <libckern.h>
+#define memcpy(d,s,n)	memmove((d), (s), (n))
+#define bcopy(s,d,n)	(void)memmove((s), (d), (n))
 
 #endif
