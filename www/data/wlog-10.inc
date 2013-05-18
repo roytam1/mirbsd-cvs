@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.247 2009/10/30 17:05:30 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.248 2009/10/31 22:28:05 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -5263,4 +5263,35 @@ Picture0: wtf ist hallowe’en
  readers.</p>
 <p>The files <em>will</em> take some time until they are up. I do have an
  ADSL internet connection only and they’re huge.</p>
+----
+Title: GRUB sucks! • More snapshot fallout.
+Date: 01.11.2009 16:47
+Author: tg@
+Tag: bug rant snapshot
+
+<p>The GRUB2 「memtest86+」 bootmenu option in both 「wtf ist hallowe’en」
+ and Grml “Hello-Wien” does not work as-is (note that Grml uses ISOLINUX,
+ unless you either select GRUB2 from the boot menu or dd(1) it onto a USB
+ stick, CF/SD card, etc. for manifold-boot) because nobody told the Grml
+ team that it must now be booted with 「linux16」 ipv 「linux」 – fix is
+ to type ‘e’ to edit the entry, move right, type the “16” and hit ^X to
+ boot. Just great… I’ve updated <a href="@@RELPATH@@permalinks/news_e20091031-tg.htm">the
+ article</a> accordingly.</p>
+<p><a href="http://www.symlink.ch/article.pl?sid=09/11/01/156220&amp;mode=nested">We
+ are on Sümlink</a>. <a href="http://www.symlink.ch/article.pl?sid=09/10/31/196234&amp;mode=nested">Both
+ of us</a>. Sweet. Remember that this could’ve been MirOS #11-RELEASE,
+ and should be treated by everyone except us as such ☺</p>
+<p>On the bonus side, I’ve tested the <tt>netboot.me</tt> 17001 boot, as
+ well as the ISO (both file – in qemu – and CD-R on real hardware) on a
+ SPARCstation 20, Setup (i386) on a VIA C7, grml and Live (i386) on an
+ IBM X40 and in qemu… so I’d say it works. Oh, and memtest86+ on X40.</p>
+<p>Netboot instructions: boot, e.g. via “qemu -m 256 -fda netbootme.dsk”,
+ do not hit Ctrl-B, but hit the Anykey when it asks, “boot a configuration
+ directly”, type 17001 and hit Enter; wait for the “boot&gt; ” boot(8/i386)
+ prompt, type “b bsd.rd” and hit Return. Voilà! (Or, select MirOS bsd4me,
+ which loads a memdisk-ISO, either via the number 2038 or via “Live OSes”
+ → BSD → “MirOS bsd4me current” and just press Enter on the prompt. The <a
+ href="http://static.netboot.me/gpxe/netbootme.dsk">gPXE image</a> can be
+ dd(1)d onto a floppy disc.</p>
+<p>Benny finally made ports/print/ttftot42 – thanks!</p>
 ----

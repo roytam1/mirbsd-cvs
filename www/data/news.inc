@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/news.inc,v 1.125 2009/10/30 17:05:30 tg Exp $
+RCSID: $MirOS: www/data/news.inc,v 1.126 2009/10/31 22:28:05 tg Exp $
 Title: Older news from the MirOS Project
 Date: 01.03.2006
 
@@ -1764,6 +1764,10 @@ Picture3: Allerheiligen 2009-11-01
  “Samhain” edition of MirBSD and the “Hello, Wien!” edition of <a
  href="http://grml.org/2009/10/31/">grml GNU/Linux</a>, Triforce (as
  usual), and the „Allerheiligen“ CVS snapshot. And a tribute to UF.</p>
+<p><strong>Update</strong> 01.11. – This is tagged 「event」 because I
+ intend on distributing this snapshot on CDs at <a
+ href="http://openrheinruhr.de/">OpenRheinRuhr</a> next weekend, and
+ maybe Benny on bootable tapes at 26C3…</p>
 <h3 class="revbox">@!PICTURE1!@</h3>
 <p>MirGRML 2009.10 is based on grml-small 2009.10-rc3 and contains a
  couple more programmes, and, as usual, is fitted to match the rest
@@ -1773,6 +1777,16 @@ Picture3: Allerheiligen 2009-11-01
  either from our CVS or from <tt>sources.grml.org</tt>.</p>
 <p>The Steffl-and-Pumpkin background comes from Christoph Prokop, and
  was used in our desktop wallpaper with permission from Mika.</p>
+<p><strong>Update</strong> 01.11. – The GRUB2 「memtest86+」 bootmenu
+ option does not work because nobody told the Grml team that it must
+ now be booted with 「linux16」 ipv 「linux」 – fix is to type ‘e’ to
+ edit the entry, move right, type the “16” and hit ^X to boot.</p>
+<p>Note: This is “MirGRML”, a mini-Grml coming with MirBSD. There is
+ also “MirOS bsd4grml”, a mini-MirBSD coming with Grml. This should
+ clear up any possible confusion. (This snapshot contains a full MirOS
+ BSD, i386 and sparc, <em>no</em> MirOS bsd4grml, plus MirGRML, but
+ <em>no</em> Grml. The Grml 2009.10 release contains a full/medium/small
+ Grml, <em>no</em> MirGRML, plus MirOS bsd4grml (the small one).</p>
 <h3 class="revbox">@!PICTURE2!@</h3>
 <p>MirOS BSD, both i486 and sparc architectures. Most recent snapshot,
  compiled 2009-10-30, with an updated kernel for a <strong>security
