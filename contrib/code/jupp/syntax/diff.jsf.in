@@ -1,3 +1,5 @@
+# $MirOS$
+#-
 # JOE syntax highlight file for diff/patch files
 #
 # 2007-05-11 :
@@ -11,6 +13,9 @@
 #
 #   Dirk Schenkewitz <Dirk.Schenkewitz (AT) gmx.de>
 #
+
+# Context scaling: whole file
+-
 
 
 # Color definitions
