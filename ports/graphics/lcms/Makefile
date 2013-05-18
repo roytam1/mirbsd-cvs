@@ -1,7 +1,7 @@
-# $MirOS: ports/graphics/lcms/Makefile,v 1.3 2006/01/11 17:19:46 tg Exp $
+# $MirOS: ports/graphics/lcms/Makefile,v 1.4 2006/09/14 00:09:57 tg Exp $
 # $OpenBSD: Makefile,v 1.6 2004/02/03 05:15:16 brad Exp $
 
-COMMENT=			color management library
+COMMENT=		color management library
 DISTNAME=		lcms-1.15
 CATEGORIES=		graphics
 MASTER_SITES=		${MASTER_SITE_SOURCEFORGE:=lcms/}
@@ -15,7 +15,7 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-CONFIGURE_STYLE=	autoconf
+CONFIGURE_STYLE=	autoconf no-autoheader
 AUTOCONF_NEW=		Yes
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
 
