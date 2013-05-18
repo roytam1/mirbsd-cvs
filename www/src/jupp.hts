@@ -1,14 +1,14 @@
-# $MirOS: www/src/jupp.hts,v 1.32 2011/12/17 01:21:34 tg Exp $
+# $MirOS: www/src/jupp.hts,v 1.33 2012/04/06 23:03:55 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/juppp "jupp – Programmer’s Editor"
 mws_setheadline jupp – the Editor which sucks less
-mws_putheader '$MirOS: www/src/jupp.hts,v 1.32 2011/12/17 01:21:34 tg Exp $'
+mws_putheader '$MirOS: www/src/jupp.hts,v 1.33 2012/04/06 23:03:55 tg Exp $'
 mws_content <<'EOF'
 <p>The current version is <em>joe-2.8jupp2</em> for MS-DOS® compatible systems,
- and <em>joe-3.1jupp18</em> for Unix/GNU compatible systems. This page is
+ and <em>joe-3.1jupp19</em> for Unix/GNU compatible systems. This page is
  accessible under <a href="http://mirbsd.de/jupp">http://mirbsd.de/jupp</a>
  canonically.</p>
 
@@ -79,6 +79,8 @@ mws_content <<'EOF'
  <a href="@@ABSPATH@@/MirOS/dist/jupp/joe.htm">HTML manpage</a>, and you
  can use <a href="@@ABSPATH@@/cvs.cgi/jupp">CVSweb</a> to browse the source
  and documentation on-line.</p>
+<p>Note that the keybindings in the manual page reflect the joe frontend,
+ not the jupp frontend.</p>
 <p><a href="@@ABSPATH@@/cvs.cgi/ports/editors/joe/DESCR?rev=HEAD">The jupp
  package description</a> of The MirPorts Framework may aid other packagers
  in divining one. <a href="@@ABSPATH@@/cvs.cgi/jupp/jupprc">jupprc</a> is
@@ -88,8 +90,8 @@ mws_content <<'EOF'
 <h2 id="fetch">Retrieval</h2>
 <h3>Direct download</h3>
 <p>You can download jupp at least from one of the following mirrors:</p><ul>
- <li><a href="https://www.mirbsd.org/MirOS/dist/jupp/joe-3.1jupp18.cpio.gz">https://www.mirbsd.org/MirOS/dist/jupp/joe-3.1jupp18.cpio.gz</a></li>
- <li><a href="http://pub.allbsd.org/MirOS/dist/jupp/joe-3.1jupp18.cpio.gz">http://pub.allbsd.org/MirOS/dist/jupp/joe-3.1jupp18.cpio.gz</a></li>
+ <li><a href="https://www.mirbsd.org/MirOS/dist/jupp/joe-3.1jupp19.tgz">https://www.mirbsd.org/MirOS/dist/jupp/joe-3.1jupp19.tgz</a></li>
+ <li><a href="http://pub.allbsd.org/MirOS/dist/jupp/joe-3.1jupp19.tgz">http://pub.allbsd.org/MirOS/dist/jupp/joe-3.1jupp19.tgz</a></li>
  <li style="list-style:none;">↑ Unix │ DOS ↓</li>
  <li><a href="https://www.mirbsd.org/MirOS/dist/jupp/joe-2.8jupp2.cpio.gz">https://www.mirbsd.org/MirOS/dist/jupp/joe-2.8jupp2.cpio.gz</a></li>
  <li><a href="http://pub.allbsd.org/MirOS/dist/jupp/joe-2.8jupp2.cpio.gz">http://pub.allbsd.org/MirOS/dist/jupp/joe-2.8jupp2.cpio.gz</a></li>
@@ -97,11 +99,10 @@ mws_content <<'EOF'
 </ul>
 <p>Please do not forget to check the received file’s integry using both
  gzsig(1) and one of the hashes below:</p><ul>
- <li>RMD160 (joe-3.1jupp18.cpio.gz) = 05962e3099e2e53b0b2638202b8041ad0e0201d1</li>
- <li>TIGER (joe-3.1jupp18.cpio.gz) = b59d64502754fc68eb63c7a8ef3fc6636949b06c53778722</li>
- <li>4255957351 437589 /MirOS/dist/jupp/joe-3.1jupp18.cpio.gz</li>
- <li>MD5 (joe-3.1jupp18.cpio.gz) = dacab6c567d4aa8c92f1491a9764b50a</li>
- <li>TIGER (jupp_3.1.18.orig.tar.gz) = ddcb13feb9ef5ce314737f1acadab130e9fa0858d821b046</li>
+ <li>RMD160 (joe-3.1jupp19.tgz) = b9216f0a62631570997826705373ca7437645a06</li>
+ <li>TIGER (joe-3.1jupp19.tgz) = 521ae47f52bb81ee9d0023a5acbafe833ee202687ce760a2</li>
+ <li>234392234 443729 /MirOS/dist/jupp/joe-3.1jupp19.tgz</li>
+ <li>MD5 (joe-3.1jupp19.tgz) = bef6e31e35c796759765e8fced3d0610</li>
  <li style="list-style:none;">↑ Unix │ DOS ↓</li>
  <li>RMD160 (joe-2.8jupp2.cpio.gz) = a4e8b49faae7dcda377479311092d9868207fe41</li>
  <li>TIGER (joe-2.8jupp2.cpio.gz) = c3a234efde9365e3b3d28094ce6133babc9c7325d8613555</li>
@@ -111,12 +112,11 @@ mws_content <<'EOF'
 
 <h3>Unpacking</h3>
 <p>Use a command like<br />
- <tt>$ tar xzf joe-3.1jupp18.cpio.gz</tt> # paxtar, bsdtar<br />
- <tt>$ gzip -dc joe-3.1jupp18.cpio.gz | cpio -idm</tt> # any cpio<br />
- <tt>$ pax -r -z &lt;joe-3.1jupp18.cpio.gz</tt> # any POSIX® archiver<br />
- <tt>$ gzip -dc joe-3.1jupp18.cpio.gz | pax -r</tt> # on MS Windows®<br />
- <tt>$ tar xzf jupp_3.1.18.orig.tar.gz</tt> # ustarball from Debian<br />
- to extract the distfile. The DOS version requires similar commands.
+ <tt>$ tar xzf joe-3.1jupp19.tgz</tt> # paxtar, bsdtar, GNU tar, …<br />
+ <tt>$ gzip -dc joe-3.1jupp19.tgz | cpio -idm</tt> # any cpio<br />
+ <tt>$ gzip -dc joe-3.1jupp19.tgz | pax -r</tt> # any POSIX® archiver<br />
+ to extract the distfile. The DOS version requires similar commands,
+ although GNU tar will not be able to extract the <tt>.cpio.gz</tt> archive.
  Both extract into a sub-directory <tt>jupp/</tt> (not versioned).</p>
 <p>Some browsers already extract the file during downloading; skip the
  decompression stage then.</p>
@@ -142,6 +142,15 @@ $ $SUDO make install</pre>
 <p>This has been tested on: MirBSD/i386 (gcc3.4.6, pcc-20100407, SUNWcc 12.1),
  MirBSD/sparc, Minix 3 (i386) with cc (ACK), Debian (gcc4), Solaris 8 (gcc),
  Solaris 10 (SUNWcc -xO4 -xipo=2), Minix 3, …</p>
+<p>If you want to link <em>jupp</em> for Unix against a nōn-standard C library
+ such as dietlibc or klibc on Linux, use <tt>--disable-search-libs</tt> to
+ prevent accidentally picking up (possibly shared) libraries linked against
+ the system C library from the standard compiler/linker search path.</p>
+<p>Use <tt>--disable-getpwnam</tt> whenever linking statically, or creating
+ binaries for a rescue system – this omits code looking up <tt>~foo/</tt>
+ to mean the user <tt>foo</tt>’s home directory, avoiding things like NSS or
+ PAM on some OSes; on GNU libc it’s almost mandatory for static binaries.</p>
+<p>Do specify <tt>CFLAGS</tt> – autoconf defaults to “-O2 -g” otherwise…</p>
 
 <h2 id="bins">Binaries</h2>
 <p>These pre-compiled binaries are currently available:</p><ul>
@@ -240,11 +249,21 @@ $ $SUDO make install</pre>
  <li>look for <tt>${0}rc</tt> in <tt>$(dirname $0)/</tt> (somewhat
   superseded by the built-in minimal-<tt>jupprc</tt> now though…)</li>
  <li>soft line break: display as line-wrapped, but save no newlines</li>
+ <li>have an mdoc(7) page actually describing its keybindings</li>
 </ul>
 
 <h2 id="clog">ChangeLog for Unix</h2>
+<!--
 <p>[2011-10-05] Changes in the current development version:</p><ul>
+-->
+<p id="r3_1j19">[2012-06-07] Changes for joe-3.1jupp19:</p><ul>
  <li>Support ncurses tinfo split</li>
+ <li>Use glibc specific get_current_dir_name if existent and PATH_MAX
+  is undefined (as on Debian GNU/Hurd, for example) instead of a
+  fallback value of 4096 with PATH_MAX-using code</li>
+ <li>Build with dietlibc (wheezy) or klibc 2.0 now works: compatibility
+  code added; supported by the official Debian package, as well</li>
+ <li>Default syntax highlighting sync lines elevated to 120</li>
 </ul>
 <p id="r3_1j18">[2011-10-04] Changes for joe-3.1jupp18:</p><ul>
  <li>For waga</li>
