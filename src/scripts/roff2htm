@@ -1,4 +1,4 @@
-# $MirOS: src/scripts/roff2htm,v 1.45 2007/08/03 22:55:05 tg Exp $
+# $MirOS: src/scripts/roff2htm,v 1.46 2007/09/13 11:05:05 tg Rel $
 # $ekkoBSD: catman2html.sh,v 1.2 2004/03/07 03:02:53 stephen Exp $
 #-
 # Copyright (c) 2004, 2005, 2006, 2007
@@ -20,7 +20,7 @@
 # display the following acknowledgement:
 #	This product includes material provided by Thorsten Glaser.
 #
-# This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
+# This work is provided “AS IS” and WITHOUT WARRANTY of any kind, to
 # the utmost extent permitted by applicable law, neither express nor
 # implied; without malicious intent or gross negligence. In no event
 # may a licensor, author or contributor be held liable for indirect,
@@ -29,16 +29,16 @@
 # damage or existence of a defect, except proven that it results out
 # of said person's immediate fault when using the work as intended.
 #-
-# Routines for converting catman pages and nrcon'd papers to HTML.
+# Routines for converting catman pages and nrcon(1)d papers to HTML.
 # ATTENTION: this file contains embedded white-, backspace and high-
-#	     bit-on control characters! Use "jupp --asis $0" to edit
-# Note: this file contains magic and can't be edited as UTF-8 either.
+#	     bit-on control characters! Use “jupp --asis $0” to edit
+# Note: this file contains magic and can’t be edited as UTF-8 either.
 
 
-gendate=$(date +"%F %T")		# current time
+roff2htm_gendate=$(date +"%F %T")		# current time
 
 function do_convert {
-	integer ws=0
+	typeset -i ws=0
 	sed -e 's/[	 ]*$//g'					\
 	    -e '/-$/N
 {
@@ -115,15 +115,16 @@ function output_header {
 }
 
 function output_footer {
-	print '<hr /><p style="font-size:xx-small;">Generated on' $gendate 'by
- $MirOS: src/scripts/roff2htm,v 1.45 2007/08/03 22:55:05 tg Exp $</p>
+	print '<hr /><p style="font-size:xx-small;">Generated on' \
+	    $roff2htm_gendate 'by
+ <tt>$MirOS: src/scripts/roff2htm,v 1.46 2007/09/13 11:05:05 tg Rel $</tt></p>
 <p>These manual pages are <a href="../man7/BSD-Licence.htm">copyrighted</a>
  by their respective writers; their source is available at our <a
- href="http://cvs.mirbsd.de/">CVSweb</a>.
+ href="http://cvs.mirbsd.de/">CVSweb</a>, AnonCVS, and other mirrors.
  The rest is Copyright © 2002-2007 <a href="http://www.mirbsd.org/">The
- MirOS Project</a>, Germany. <i style="font-size:3pt;"><br />
+ MirOS Project</a>, Germany. <br /><i style="font-size:3pt;">
  This product includes material provided by Thorsten Glaser.</i></p>
-<p style="font-size:x-small;">This manual page'\''s HTML representation
+<p style="font-size:x-small;">This manual page’s HTML representation
  is supposed to be <a href="http://validator.w3.org/check/referer">valid
  XHTML/1.1</a>; if not, please send a bug report – diffs preferred.</p>
 </body></html>'
@@ -137,7 +138,7 @@ function do_conversion {
 
 # do_conversion_verbose title section infile outfile
 function do_conversion_verbose {
-	print -nru2 -- $3 -\> $4
+	print -nru2 -- $3 → $4
 	do_conversion $1 $2 <$3 >$4
 	print -u2
 }
@@ -155,7 +156,7 @@ function convert_page {
 	do_conversion_verbose $page $sect $fn $tn
 }
 
-# output_htaccess >.../.htaccess
+# output_htaccess >…/.htaccess
 function output_htaccess {
 	print DirectoryIndex /dev/null
 	print "AddType 'text/html; charset=utf-8' htm"
