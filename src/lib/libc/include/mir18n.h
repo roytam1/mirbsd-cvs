@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/libhaible/mir18n.h,v 1.8 2006/06/01 21:49:01 tg Exp $ */
+/* $MirOS: src/lib/libc/include/mir18n.h,v 1.4 2006/06/01 22:03:21 tg Exp $ */
 
 #ifndef _LIBC_MIR18N_H
 #define _LIBC_MIR18N_H
@@ -56,18 +56,18 @@ __END_DECLS
 #define punct	  0
 #define alnum	  0
 
-#define wctype_upper  iswmask(0, upper, 0)
-#define wctype_lower  iswmask(1, lower, 0)
+#define wctype_alnum  iswmask(11, alpha|xdigit, 0)
 #define wctype_alpha  iswmask(2, alpha, 0)
-#define wctype_digit  iswmask(3, xdigit, alpha)
-#define wctype_xdigit iswmask(4, xdigit, 0)
-#define wctype_space  iswmask(5, space, 0)
-#define wctype_print  iswmask(6, print, 0)
-#define wctype_graph  iswmask(7, print, space)
 #define wctype_blank  iswmask(8, blank, 0)
 #define wctype_cntrl  iswmask(9, cntrl, 0)
+#define wctype_digit  iswmask(3, xdigit, alpha)
+#define wctype_graph  iswmask(7, print, space)
+#define wctype_lower  iswmask(1, lower, 0)
+#define wctype_print  iswmask(6, print, 0)
 #define wctype_punct  iswmask(10, print, alpha|xdigit|space)
-#define wctype_alnum  iswmask(11, alpha|xdigit, 0)
+#define wctype_space  iswmask(5, space, 0)
+#define wctype_upper  iswmask(0, upper, 0)
+#define wctype_xdigit iswmask(4, xdigit, 0)
 
 #define attribute_table mir18n_attribute_table
 __BEGIN_DECLS
