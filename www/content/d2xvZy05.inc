@@ -1,5 +1,5 @@
 <!-- PageID: wlog-9 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.46 2006/09/21 21:59:28 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.47 2006/09/22 00:15:04 tg Exp $</small>
 <h1>MirBSD &ndash; WTF is Verpeilungsfaktor?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -726,6 +726,16 @@
   answer in that language. (Of course it's better to write English.) But
   keeping these mailing lists and the archives is work, so, please, if a
   question appears, use these, or at least IRC.</p>
+ <p>Update: looks like it's greylisting. If the 451 is received the user
+  gets a failure reply even though the message will be sent correctly ~4
+  hours later. If everyone would just be using IPv6&#8230; at this rate,
+  spammers will be using IPv6 before the rest of the world. Even the uni
+  of D&uuml;sseldorf.</p>
+ <p>make(1) needs a break-and-continue mode. Oh, and, if you change some
+  types in the compiler, make sure to re-build and install all libraries
+  before rebuilding the system, otherwise xlock might not link because a
+  symbol was missing in libstdc++ (do I need to change the shlib version
+  now? no idea, I think nm might know).</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
