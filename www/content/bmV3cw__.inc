@@ -1,7 +1,12 @@
 <!-- PageID: news -->
-<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.66 2006/04/11 09:55:19 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.67 2006/04/23 22:20:01 tg Exp $</small>
 
 <h1>Current MirOS News</h1><ul>
+
+<li>05.07.2006<br />As you see above, this page is really orphaned. We did
+	warn you. FYI, the former mirsolutions server is no longer. gecko2
+	hosts (for money&#8230;) the box behind www.mirbsd.org now. waldis
+	Zope is still operational and helps a lot.</li>
 
 <li>23.04.2006<br />There might be a service outage on mirsolutions.de and
 	mirbsd.org soonish. We will try to prepare backup NS/MX in advance
