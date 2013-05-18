@@ -1,6 +1,6 @@
-$MirOS$
+$MirOS: ports/security/stunnel/patches/patch-prototypes_h,v 1.1 2007/02/18 19:36:16 tg Exp $
 --- prototypes.h.orig	Fri Aug  1 23:42:49 2003
-+++ prototypes.h	Sun Feb 18 19:23:23 2007
++++ prototypes.h	Thu Aug  4 14:56:25 2011
 @@ -41,7 +41,8 @@ void sslerror(char *);
  /* Prototypes for client.c */
  void *client(void *);
@@ -22,3 +22,11 @@ $MirOS$
  
  /* Prototypes for sthreads.c */
  
+@@ -81,6 +84,7 @@ void pty_make_controlling_tty(int *ttyfd
+ #define OPT_REMOTE      0x20
+ #define OPT_TRANSPARENT 0x40
+ #define OPT_PTY         0x80
++#define OPT_FPASSTHROUGH 0x100
+ 
+ typedef struct {
+     char pem[STRLEN];                        /* pem (priv key/cert) filename */

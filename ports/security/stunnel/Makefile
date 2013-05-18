@@ -1,9 +1,9 @@
-# $MirOS: ports/security/stunnel/Makefile,v 1.4 2007/02/18 18:57:36 tg Exp $
+# $MirOS: ports/security/stunnel/Makefile,v 1.5 2007/02/18 19:12:36 tg Exp $
 # $OpenBSD: Makefile,v 1.22.4.2 2003/09/03 19:13:48 brad Exp $
 
 COMMENT=		SSL encryption wrapper for standard network daemons
 DISTNAME=		stunnel-3.26
-DASH_VER=		2
+DASH_VER=		3
 CATEGORIES=		security
 HOMEPAGE=		http://stunnel.mirt.net/
 
