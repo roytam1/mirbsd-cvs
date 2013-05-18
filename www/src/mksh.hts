@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.275 2009/09/19 15:19:26 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.276 2009/09/19 22:39:28 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -931,7 +931,7 @@ mws_content <<'EOF'
   and, implicitly, BeOS (not finished yet)</li>
  <li>[tg] Clean up some more strict gcc 2.95 warnings: casting errors
   (constness, signedness, type width/class) and catch possibly unaligned
-  pointer dereferences early</li>
+  pointer dereferences early; remove code/rodata redundancies</li>
  <li>[smultron] Tweak the manual page: point out the word “colour”</li>
  <li>[tg] Optimise dot.mkshrc DJB’s CDB hash implementations; add Bob
   Jenkins’ one-at-a-time hash; fix signedness in expressions; let the
@@ -964,6 +964,16 @@ mws_content <<'EOF'
  <li>[tg] Make printf(1) use “$'…'” mode if used as builtin, like ksh93</li>
  <li>[tg] Unify backslash expansion code (C style vs. print builtin mode)</li>
  <li>[tg] Support “function stop () {” bashism</li>
+ <li>[tg] Fix buffer overflows in the Win32 codepath of the contributed
+  <tt>arc4random.c</tt> file and limit the rate of expensive CryptGenRandom
+  calls if we have other (seed in registry key) entropy pools</li>
+ <li>[tg] For several items in the source code that require order to be
+  kept, provide it from multiply-included header files; sort correctly</li>
+ <li>[tg] Get rid of unneeded FMONITOR (-m) for shells without job control;
+  sync list of flags, comments and manpage with reality</li>
+ <li>[tg] If MKSH_SMALL, reduce size by removing editor functionality</li>
+ <li>[tg] Support VT100 emulator style Ctrl-CurLeft/Right keycode sequences
+  with new <tt>vt100-hack</tt> editor bind function (LP: #355883)</li>
 </ul>
 <p id="r39">mksh R39 evolved into these through various means:</p><ul>
  <li>[tg] Shut up a bogus gcc warning during configuration process</li>
