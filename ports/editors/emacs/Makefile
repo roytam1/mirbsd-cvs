@@ -1,13 +1,13 @@
-# $MirOS: ports/editors/emacs/Makefile,v 1.3 2006/02/09 11:11:30 tg Exp $
+# $MirOS: ports/editors/emacs/Makefile,v 1.4 2006/09/14 00:09:01 tg Exp $
 # $OpenBSD: Makefile,v 1.21 2004/02/04 07:39:18 sturm Exp $
 
-COMMENT=			GNU editor: extensible, customizable, self documenting
-COMMENT-el=			elisp sources for those who want to read/modify them
-COMMENT-leim=			Library of Emacs Input Methods
+COMMENT=		GNU editor: extensible, customizable, self documenting
+COMMENT-el=		elisp sources for those who want to read/modify them
+COMMENT-leim=		Library of Emacs Input Methods
 VERSION=		21.3
 DISTNAME=		emacs-${VERSION}
-FULLPKGNAME-el=		emacs-el-${VERSION}-0
-FULLPKGNAME-leim=	emacs-leim-${VERSION}-0
+FULLPKGNAME-el=		emacs-el-${VERSION}-${DASH_VER}
+FULLPKGNAME-leim=	emacs-leim-${VERSION}-${DASH_VER}
 CATEGORIES=		editors
 RESPONSIBLE=		Stephen Paskaluk <sap@66h.42h.de>
 HOMEPAGE=		http://www.gnu.org/software/emacs/
@@ -27,7 +27,11 @@ SUBPACKAGE?=
 FLAVORS=		no_x11
 FLAVOR?=
 
-GCCARCH=		${AUTOCONF_FAKEOS}
+.if ${OSname} == "mirbsd"
+GCCARCH=		${ARCH}-ecce-openbsd3.5
+.else
+GCCARCH=		${OStriplet}
+.endif
 
 USE_CXX=		Yes
 CONFIGURE_STYLE=	gnu dest
