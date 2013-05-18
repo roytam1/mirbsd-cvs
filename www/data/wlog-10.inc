@@ -391,3 +391,13 @@ Language: de
  Zeit auf Mallorca, Urlaub machen. (Hoffentlich fernab vom Kampfgebiet, äh,
  Ballermann und so.)</p>
 ----
+Date: 13.04.2008 03:10
+Author: tg
+Title: current state: annoyed
+
+<p>How can <a href="http://marc.info/?m=120805623420666">a bug like this</a>
+ be unnoticed for so long, while the two source code lines in question were
+ specifically touched and diffs reviewed by big names such as deraadt?</p>
+<p>Of course it’s me who has to fix longstanding bugs from 386BSD, VIA C3 AES
+ data corruption bugs in the OpenBSD kernel, LP64 bugs in OpenSSL, etc.</p>
+----
