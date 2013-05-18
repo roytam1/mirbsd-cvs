@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.230 2009/08/15 21:07:19 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.231 2009/08/16 15:48:15 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -4852,4 +4852,22 @@ Memory: Real: 17M/26M act/tot  Free: 1444K  Swap: 2640K/133M used/tot
  RAM, but hey, it installs, the cgsix(4/sparc) scrolls quickly (as the
  tvtwo(4/sparc) currently is unaccelerated), and builds packages like a
  charm. Yay! I even have mc (Midnight Commander) now…</p>
+----
+Title: First three issues of BSDmagazine – for free!
+Date: 19.08.2009 16:30
+Author: tg@
+Tag: news
+
+<p>Karolina Lesińska writes: “We have placed the first 3 issue of
+ BSDmagazine on our website as free downloads. The issues are:</p><ol>
+ <li>FreeBSD Ins &amp; Outs</li>
+ <li>OpenBSD in the Limelight</li>
+ <li>Explore NetBSD</li>
+</ol><p>“The link is: <a href="http://bsdmag.org/prt/view/pdf-articles.html">http://bsdmag.org/prt/view/pdf-articles.html</a>”</p>
+<p>My comment: The <a href="http://www.bsdmag.org/">BSD magazine</a> is a
+ rather interesting piece of print, which already carried a small article
+ about MirBSD. We have, I admit, been offered to write more which would get
+ published, but, I am ashamed, haven’t quite gotten around to doing so.</p>
+<!-- RSS stop --><p>Today, it's only been 29°C, and I died. What will I do
+ tomorrow, where it is supposed to climb up to 35°C over today's 32°C?</p>
 ----
