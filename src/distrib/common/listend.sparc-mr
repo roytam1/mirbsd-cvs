@@ -2,9 +2,6 @@
 
 # extra programmes
 LINK	instbin					bin/mt
-LINK	instbin					bin/sync
-LINK	instbin					sbin/restore
-LINK	instbin					sbin/scsi
 LINK	instbin					usr/bin/less usr/bin/more
 LINK	instbin					usr/sbin/eeprom
 

@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/list,v 1.7 2006/10/19 00:52:17 tg Exp $
+# $MirOS: src/distrib/common/list,v 1.8 2007/01/26 16:00:27 tg Exp $
 
 # standard tools in the crunched binary
 COPY	${OBJDIR}/instbin			instbin
@@ -20,6 +20,7 @@ LINK	instbin					bin/pax bin/cpio bin/tar
 LINK	instbin					bin/rm
 LINK	instbin					bin/sleep
 LINK	instbin					bin/stty
+LINK	instbin					bin/sync
 LINK	instbin					sbin/dhclient
 LINK	instbin					sbin/disklabel
 LINK	instbin					sbin/dmesg
@@ -35,8 +36,10 @@ LINK	instbin					sbin/newfs sbin/mount_mfs
 LINK	instbin					sbin/ping
 LINK	instbin					sbin/ping6
 LINK	instbin					sbin/reboot sbin/halt
+LINK	instbin					sbin/restore
 LINK	instbin					sbin/route
 LINK	instbin					sbin/rtsol
+LINK	instbin					sbin/scsi
 LINK	instbin					sbin/swapctl
 LINK	instbin					sbin/umount
 LINK	instbin					usr/bin/compress usr/bin/gunzip usr/bin/gzip
