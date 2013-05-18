@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/share/misc/licence.template,v 1.6 2006/01/24 22:24:02 tg Rel $
+# $MirOS: contrib/code/heartbeat/toolkit.mirdns/distribute.sh,v 1.5 2006/03/19 23:33:12 tg Exp $
 #-
 # Copyright (c) 2004, 2005, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -47,7 +47,11 @@ if [[ -z $1 ]]; then
 			exit 0
 		fi
 	done
-	exit 0
+	let rv=0
+	[[ -s Z-zones && -s Z-slaves ]] && for m in $(<Z-zones); do
+		zonenotify $m $(<Z-slaves) || rv=1
+	done
+	exit $rv
 else
 	nice scp ${2:--BCpq} -i $tinydns/id_rsa -F $tinydns/ssh_config \
 	    $tinydns/data.cdb mirdns@$1:$tinydns/data.cdb && \
