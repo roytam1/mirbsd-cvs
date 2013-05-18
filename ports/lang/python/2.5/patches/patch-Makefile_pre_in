@@ -1,7 +1,7 @@
-$MirOS: ports/lang/python/2.5/patches/patch-Makefile_pre_in,v 1.2 2008/08/03 22:06:56 tg Exp $
+$MirOS: ports/lang/python/2.5/patches/patch-Makefile_pre_in,v 1.3 2008/08/08 20:51:08 tg Exp $
 $OpenBSD: patch-Makefile_pre_in,v 1.1.1.1 2003/12/31 17:38:33 sturm Exp $
---- Makefile.pre.in.orig	Wed Dec  5 20:43:34 2007
-+++ Makefile.pre.in	Fri Aug  8 20:05:07 2008
+--- Makefile.pre.in.orig	Wed Dec  5 20:43:57 2007
++++ Makefile.pre.in	Sat Dec  6 15:28:15 2008
 @@ -347,10 +347,7 @@ platform: $(BUILDPYTHON)
  
  # Build the shared modules
@@ -65,3 +65,11 @@ $OpenBSD: patch-Makefile_pre_in,v 1.1.1.1 2003/12/31 17:38:33 sturm Exp $
  
  # Install the library
  PLATDIR=	plat-$(MACHDEP)
+@@ -844,6 +845,7 @@ libainstall:	all
+ 				$(INSTALL_DATA) $(LDLIBRARY) $(DESTDIR)$(LIBPL) ; \
+ 			else \
+ 				$(INSTALL_DATA) $(LIBRARY) $(DESTDIR)$(LIBPL)/$(LIBRARY) ; \
++				chmod u+w $(DESTDIR)$(LIBPL)/$(LIBRARY) ; \
+ 				$(RANLIB) $(DESTDIR)$(LIBPL)/$(LIBRARY) ; \
+ 			fi; \
+ 		else \

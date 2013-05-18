@@ -1,25 +1,35 @@
-$MirOS: ports/lang/python/2.5/patches/patch-configure_in,v 1.1 2008/07/15 19:18:54 bsiegert Exp $
+$MirOS: ports/lang/python/2.5/patches/patch-configure_in,v 1.2 2008/08/08 20:51:08 tg Exp $
 $OpenBSD: patch-configure_in,v 1.4 2004/05/12 22:27:24 brad Exp $
---- configure.in.orig	Wed Feb 13 19:16:54 2008
-+++ configure.in	Fri Aug  8 20:27:45 2008
-@@ -201,7 +201,7 @@ case $ac_sys_system/$ac_sys_release in
+--- configure.in.orig	Wed Feb 13 19:17:17 2008
++++ configure.in	Sat Dec  6 15:18:14 2008
+@@ -198,10 +198,15 @@ fi
+ # (which may remove their limitations).
+ dnl quadrigraphs "@<:@" and "@:>@" produce "[" and "]" in the output
+ case $ac_sys_system/$ac_sys_release in
++  # MirBSD #10 and up have _ALL_SOURCE
++  MirBSD/@<:@123456789@:>@@<:@0123456789@:>@*)
++    define_xopen_source=no	# not needed, since we define _ALL_SOURCE
++    AC_DEFINE(_ALL_SOURCE, 1, [Define on MirBSD to activate all library features])
++    ;;
    # On OpenBSD, select(2) is not available if _XOPEN_SOURCE is defined,
    # even though select is a POSIX function. Reported by J. Ribbens.
    # Reconfirmed for OpenBSD 3.3 by Zachary Hamm, for 3.4 by Jason Ish.
 -  OpenBSD/2.* | OpenBSD/3.@<:@0123456789@:>@ | OpenBSD/4.@<:@0@:>@) 
-+  OpenBSD/2.* | OpenBSD/3.@<:@0123456789@:>@ | OpenBSD/4.@<:@0@:>@ | MirBSD/*) 
++  OpenBSD/2.* | OpenBSD/3.@<:@0123456789@:>@ | OpenBSD/4.@<:@0@:>@ | MirBSD/*)
      define_xopen_source=no
      # OpenBSD undoes our definition of __BSD_VISIBLE if _XOPEN_SOURCE is
      # also defined. This can be overridden by defining _BSD_SOURCE
-@@ -1525,6 +1525,7 @@ then
+@@ -1525,6 +1530,9 @@ then
  		else
  			LDSHARED="ld -Bshareable ${LDFLAGS}"
  		fi;;
-+	MirBSD*) LDSHARED="${CC} -shared ${CCSHARED} ${LDFLAGS}";;
++	MidnightBSD* | MirBSD*)
++		LDSHARED="${CC} -shared ${CCSHARED} ${LDFLAGS}"
++		;;
  	OpenBSD*)
  		if [[ "`$CC -dM -E - </dev/null | grep __ELF__`" != "" ]]
  		then
-@@ -1572,7 +1573,7 @@ then
+@@ -1572,7 +1580,7 @@ then
  		 fi;;
  	Linux*|GNU*) CCSHARED="-fPIC";;
  	BSD/OS*/4*) CCSHARED="-fpic";;
@@ -28,7 +38,7 @@ $OpenBSD: patch-configure_in,v 1.4 2004/05/12 22:27:24 brad Exp $
  	OpenUNIX*|UnixWare*)
  		if test "$GCC" = "yes"
  		then CCSHARED="-fPIC"
-@@ -1623,7 +1624,7 @@ then
+@@ -1623,7 +1631,7 @@ then
  	OpenUNIX*|UnixWare*) LINKFORSHARED="-Wl,-Bexport";;
  	SCO_SV*) LINKFORSHARED="-Wl,-Bexport";;
  	ReliantUNIX*) LINKFORSHARED="-W1 -Blargedynsym";;
@@ -37,7 +47,7 @@ $OpenBSD: patch-configure_in,v 1.4 2004/05/12 22:27:24 brad Exp $
  		if [[ "`$CC -dM -E - </dev/null | grep __ELF__`" != "" ]]
  		then
  			LINKFORSHARED="-Wl,--export-dynamic"
-@@ -1682,9 +1683,10 @@ AC_CHECK_LIB(dld, shl_load)	# Dynamic li
+@@ -1682,9 +1690,10 @@ AC_CHECK_LIB(dld, shl_load)	# Dynamic li
  
  # only check for sem_ini if thread support is requested
  if test "$with_threads" = "yes" -o -z "$with_threads"; then
@@ -49,7 +59,7 @@ $OpenBSD: patch-configure_in,v 1.4 2004/05/12 22:27:24 brad Exp $
  fi
  
  # check if we need libintl for locale functions
-@@ -1885,8 +1887,8 @@ yes
+@@ -1885,8 +1894,8 @@ yes
      # on HP/UX, pthread.h renames pthread_create to a different symbol name.
      # So we really have to include pthread.h, and then link.
      _libs=$LIBS
@@ -60,7 +70,7 @@ $OpenBSD: patch-configure_in,v 1.4 2004/05/12 22:27:24 brad Exp $
      AC_TRY_LINK([#include <pthread.h>
  
  void * start_routine (void *arg) { exit (0); }], [
-@@ -3095,11 +3097,8 @@ fi
+@@ -3095,11 +3104,8 @@ fi
  # check where readline lives
  # save the value of LIBS so we don't actually link Python with readline
  LIBS_no_readline=$LIBS
