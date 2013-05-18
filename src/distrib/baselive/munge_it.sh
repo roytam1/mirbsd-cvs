@@ -1,5 +1,5 @@
 #!/usr/bin/env mksh
-# $MirOS: src/distrib/baselive/munge_it.sh,v 1.39 2008/10/21 21:03:33 tg Exp $
+# $MirOS: src/distrib/baselive/munge_it.sh,v 1.41 2008/10/31 22:35:09 tg Exp $
 #-
 # Copyright (c) 2006, 2007, 2008
 #	Thorsten “mirabilos” Glaser <tg@mirbsd.de>
@@ -78,7 +78,7 @@ ed -s etc/ntpd.conf <<-'EOMD'
 EOMD
 ed -s etc/rc <<-'EOMD'
 	1i
-		# $MirOS: src/distrib/baselive/munge_it.sh,v 1.39 2008/10/21 21:03:33 tg Exp $
+		# $MirOS: src/distrib/baselive/munge_it.sh,v 1.41 2008/10/31 22:35:09 tg Exp $
 	.
 	/cprng.*pr16/d
 	i
@@ -195,6 +195,15 @@ pwd_mkdb -pd $(realpath etc) master.passwd
     chown 0:0 var/db/host.random; \
     chmod 600 var/db/host.random) \
     >/dev/wrandom 2>&1
+
+for f in usr/dbin/* usr/dsbin/*; do
+	for d in bin sbin usr/bin usr/sbin; do
+		[[ -e $d/${f##*/} ]] && ln -f $f $d/${f##*/}
+	done
+done
+rm -f sbin/dbins
+
+(cd usr/libdata/ldscripts; rm !(*mbsd*))
 
 (cd usr/X11R6/lib/X11/fonts; rm -rf 100dpi OTF Speedo Type1 cyrillic local \
     misc/*-ISO8859-@(1[013456]|[2345789]).* misc/*{KOI8,JISX0201}* \

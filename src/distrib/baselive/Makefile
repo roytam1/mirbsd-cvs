@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/baselive/Makefile,v 1.38 2008/10/21 21:45:19 tg Exp $
+# $MirOS: src/distrib/baselive/Makefile,v 1.39 2008/10/30 17:47:32 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -8,6 +8,12 @@ TOPDIR?=	${.CURDIR}/..
 
 DUALIVE?=	No
 BATCH?=		No
+
+.if ${DUALIVE:L} == "no"
+STUFFDIR=	${BSDRELDIR}/rel
+.else
+STUFFDIR=	${DUALIVE}/i386
+.endif
 
 .MAIN: all
 
@@ -72,17 +78,28 @@ unpack:
 	test ! -e ${TMPMOUNT} || (cd ${.CURDIR}; ${MAKE} unconfig)
 	${SUDO} rm -rf ${WRKDIR}
 	mkdir -p ${WRKDIR}/v${OSrev}/i386
+	# ensure they are releatively upfront on the CD
+.if ${DUALIVE:L} != "no"
+	touch ${WRKDIR}/{b_i386,b_sparc}.ldr
+.else
+	touch ${WRKDIR}/b_i386.ldr
+.endif
 .for _i in base dev etc gnu xbase xetc xsrv
-	cd ${WRKDIR} && ${SUDO} tar xzphf ${BSDRELDIR}/rel/${_i}${OSrev}.ngz
+	cd ${WRKDIR} && ${SUDO} tar xzphf ${STUFFDIR}/${_i}${OSrev}.ngz
 .endfor
-	cd ${BSDRELDIR}/rel && pax -rw . ${WRKDIR}/v${OSrev}/i386/
+	cd ${STUFFDIR} && pax -rw . ${WRKDIR}/v${OSrev}/i386/
 .if ${DUALIVE:L} != "no"
 	cd ${DUALIVE} && pax -rw sparc ${WRKDIR}/v${OSrev}/
 .endif
 	${SUDO} chown -R 0:0 ${WRKDIR}/v${OSrev}
 	cp ${TOPDIR}/common/{00-README,01-3RDPTY} ${WRKDIR}/
+.if ${DUALIVE:L} != "no"
+	cat ${TOPDIR}/common/boot.cfg.i386 ${.CURDIR}/boot.cfg.dual \
+	    ${.CURDIR}/boot.cfg.tail | sudo dd of=${WRKDIR}/boot.cfg
+.else
 	cat ${TOPDIR}/common/boot.cfg.i386 ${.CURDIR}/boot.cfg.tail | \
 	    sudo dd of=${WRKDIR}/boot.cfg
+.endif
 	${SUDO} cp ${.CURDIR}/i386/boot.* ${WRKDIR}/
 
 ${IMAGE}:
@@ -140,7 +157,11 @@ bsd.gz: bsd ${IMAGE}
 	${RDSETROOT} bsd.tmp <${IMAGE}
 	gzip -n9 <bsd.tmp >$@
 
+.if ${DUALIVE:L} != "no"
+bsd: ${DUALIVE}/i386/bsd
+.else
 bsd: ${BSDOBJDIR}/distrib/generic/bsd
+.endif
 	cp -f $> $@
 
 nukefiles:
@@ -150,7 +171,15 @@ nukefiles:
 	-for name in ${WRKDIR}/usr/{,X11R6/}lib/*@(.so.*|.a); do \
 		print -n stripping $${name##*/} ...; \
 		if [[ $$name = *.a ]]; then \
-			${SUDO} strip -g $$name && print; \
+			for i in $${name%a}so*; do \
+				if [[ -e $$i ]]; then \
+					print deleted for $${i##*/}; \
+					${SUDO} rm -f $$name; \
+				else \
+					${SUDO} strip -g $$name && print; \
+				fi; \
+				break; \
+			done; \
 		else \
 			${SUDO} strip -s $$name && print; \
 		fi; \
@@ -181,6 +210,11 @@ cdrom-prepare: bsd.gz
 	cd ${WRKDIR}; \
 	    ${SUDO} cp ${BOOT} b_i386.ldr; \
 	    ${SUDO} rm -f CKSUM*; \
+	    if [[ -e v${OSrev}/i386/CKSUM ]]; then \
+		cat v${OSrev}/i386/CKSUM >CKSUM~; \
+	    else \
+		gzip -dc v${OSrev}/i386/CKSUM.gz >CKSUM~; \
+	    fi; \
 	    while IFS= read -r line; do \
 		if [[ $$line = *" = "+([0-9a-fA-F]) ]]; then \
 			two=$${line#+([A-Z0-9]) \(}; \
@@ -189,9 +223,27 @@ cdrom-prepare: bsd.gz
 		fi; \
 		one=$${line%%$$two}; \
 		print -r "$${one}v${OSrev}/i386/$$two"; \
-	    done <v${OSrev}/i386/CKSUM >CKSUM; \
+	    done <CKSUM~ >>CKSUM
+.if ${DUALIVE:L} != "no"
+	cd ${WRKDIR}; \
+	    if [[ -e v${OSrev}/sparc/CKSUM ]]; then \
+		cat v${OSrev}/sparc/CKSUM >CKSUM~; \
+	    else \
+		gzip -dc v${OSrev}/sparc/CKSUM.gz >CKSUM~; \
+	    fi; \
+	    while IFS= read -r line; do \
+		if [[ $$line = *" = "+([0-9a-fA-F]) ]]; then \
+			two=$${line#+([A-Z0-9]) \(}; \
+		else \
+			two=$${line#+([0-9]) +([0-9]) }; \
+		fi; \
+		one=$${line%%$$two}; \
+		print -r "$${one}v${OSrev}/sparc/$$two"; \
+	    done <CKSUM~ >>CKSUM
+.endif
+	cd ${WRKDIR}; \
 	    cksum -a cksum -a rmd160 -a tiger 0* bsd b_* stand/* >>CKSUM
-	-${SUDO} rm -f ${CDROM}*
+	-${SUDO} rm -f ${CDROM}* ${WRKDIR}/CKSUM~
 
 cdrom-generate:
 .if ${BATCH:L} != "yes"
@@ -220,6 +272,23 @@ cdrom-generate:
 	    print NONFREE.TXT) CKSUM.gz b_* ?oot* ?sd*; \
 	    ${SUDO} chown 0:0 .; ${SUDO} chmod 555 .; \
 	    ${SUDO} ${MKSH} ${.CURDIR}/mklocatedb.sh ${REALOBJDIR}/${IMAGE}
+	(gzip -d <${WRKDIR}/CKSUM.gz | fgrep -v stand/locate.database; \
+	    cd ${WRKDIR}; cksum -a cksum -a rmd160 -a tiger \
+	    stand/locate.database) >tempdir/CKSUM
+	cd ${WRKDIR}; \
+	    sort -k3 |& exec 3>&p; exec 4<&p; \
+	    sort |& exec 5>&p; exec 6<&p; \
+	    while IFS= read -r line; do \
+		if [[ $$line = *" = "+([0-9a-fA-F]) ]]; then \
+			print -ru5 "$$line"; \
+		else \
+			print -ru3 "$$line"; \
+		fi; \
+	    done <${REALOBJDIR}/tempdir/CKSUM; \
+	    exec 3>&-; exec 5>&-; \
+	    ( (cat <&4; cat <&6) | gzip -n9; \
+	      dd if=/dev/zero bs=256 count=5 2>&- ) | \
+	    ${SUDO} dd of=CKSUM.gz
 	dd if=/dev/arandom bs=2048 count=1 of=b_torito.ldr
 	${SUDO} makefs -t cd9660 -o "$$(print -r -- ${CDROM_OPTS} | \
 	    tr ' ~' ', ')" ${CDROM}~ ${WRKDIR}
@@ -251,7 +320,7 @@ cdrom-generate:
 .endif
 
 clean cleandir cleannobsd: cleanworkdir unconfig
-	-rm -f ${CDROM}* bsd{,.gz,.tmp} mkisofs.log ${IMAGE}
+	-rm -f ${CDROM}* bsd{,.gz,.tmp} ${IMAGE}
 	-rm -rf tempdir
 
 cleanworkdir:
