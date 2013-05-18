@@ -149,3 +149,29 @@ Author: tg@
 <p>But then, I got three SCSI HDDs from the same stone age, and each of
  them has a different connector. <em>This</em> sucks.</p>
 ----
+Date: 20.03.2008
+Author: tg@
+
+<p>I’m impressed – 1377 full downloads from the Germany 1 mirror, add to
+ that the partial downloads (<tt>wget -c</tt> or so-called “download
+ managers”), these from the Germany 2 and Japan mirrors, BitTorrent (which
+ is 36 times from myself, and a couple of dozen times from my friends, and
+ even more from the unknown peers) and you won’t think of us as irrelevant
+ any more.</p>
+<p>I’ve hacked on the crypto improvements branch again. I decided that
+ getting <tt>tear</tt> up and running would be my priority target. It
+ turned out to be a great way to hone my programming skillz as well:
+ I got a lession about pointer aliasing.</p>
+<p>Except the actual VIA C7 part, I now tested it quite well on i386-qemu
+ and sparc, where the latter took about one third the time compiling… the
+ new CPU and RAM pay off.</p>
+<p>Oh yeah, and hacking on stuff always points out unrelated bugs… such as
+ NO_GZIP=Yes for kernels not working, or &lt;bsd.lkm.mk&gt; being out of
+ date (I had to MFC that, even). And that <tt>src/kern/z</tt> needs tender
+ care – the transition is still not finished even for zlib.</p>
+<p>I hope the discussion about our charset/encoding proposal will find a
+ solution… I feel like constructing a bikeshed, as you get about that much
+ feedback there too ☺ Benny said he doesn’t grok the SUSv3 functions, like
+ mbrtowc(3), enough to follow – and I can totally understand that. Maybe a
+ Unicode guru person like Markus Kuhn can help – I asked him.</p>
+----
