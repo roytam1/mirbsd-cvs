@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/stand/mbr/Makefile.inc,v 1.2 2008/08/01 12:41:42 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/mbr/Makefile.inc,v 1.3 2009/01/31 15:50:44 tg Exp $
 
 .ifndef MODSRC_SYS_ARCH_I386_STAND_MBR_MAKEFILE_INC
 MODSRC_SYS_ARCH_I386_STAND_MBR_MAKEFILE_INC=	# defined
@@ -8,14 +8,13 @@ SRCS+=		mbr.S
 
 NOMAN=		Yes
 INSTALL_STRIP=	# empty
-LDFLAGS=	-nostdlib -Ttext 0 -N -Bstatic
+LDFLAGS=	-nostdlib -Ttext 0x0600 -N -Bstatic -e _start
 CLEANFILES+=	${PROG}.elf ${PROG}.tmp ${.CURDIR}/disasm
 
 ${PROG}: ${OBJS} ${DPADD}
 	${LD} ${LDFLAGS} -o $@.elf ${OBJS} ${LDADD}
-	@objcopy -O binary $@.elf $@.tmp
-	@dd if=${PROG}.tmp bs=1 skip=0x0600 of=$@ 2>&-
-	@size --target=binary $@
+	@size $@.elf
+	@objcopy -O binary $@.elf $@
 
 disasm: ${.CURDIR}/disasm
 

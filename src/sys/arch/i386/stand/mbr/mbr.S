@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/mbr/mbr.S,v 1.10 2009/01/31 15:50:44 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/mbr/mbr.S,v 1.11 2009/01/31 18:50:07 tg Exp $ */
 
 /*-
  * Copyright (c) 2009
@@ -21,16 +21,14 @@
  *-
  * Compile commands:
  *	$ gcc -D_ASM_SOURCE -DBOOTMANAGER -D__BOOT_VER=\"0AA6\" -c mbr.S
- *	$ ld -nostdlib -Ttext 0 -N -Bstatic -o mbrmgr.elf mbr.o
- *	$ objcopy -O binary mbrmgr.elf mbrmgr.tmp
- *	$ dd if=mbrmgr.tmp bs=1 skip=0x0600 of=mbrmgr
+ *	$ ld -nostdlib -Ttext 0x0600 -N -Bstatic -e _start -o mbrmgr.elf mbr.o
+ *	$ objcopy -O binary mbrmgr.elf mbrmgr
  */
 
 	.intel_syntax noprefix
 	.code16
 	.text
 
-	. = 0x0600
 	.globl	_start
 _start:	xor	eax,eax
 	mov	ss,ax
