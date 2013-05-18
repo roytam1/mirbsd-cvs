@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.357 2011/08/26 19:42:06 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.358 2011/08/26 20:19:16 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -8403,17 +8403,16 @@ Date: 26.08.2011 14:44
 Author: tg@
 Title: Netsplit – so let’s answer in the wlog
 Tag: debian pcli security
-Language: de-DE-1901
 
-<pre xml:lang="en">
-	14:31⎜*<b>&lt;</b>* Signoff: XTaran (*.net *.split)</pre>
-<p xml:lang="en">… doesn’t prevent me from telling him…</p>
 <pre>
+	14:31⎜*<b>&lt;</b>* Signoff: XTaran (*.net *.split)</pre>
+<p>… doesn’t prevent me from telling him…</p>
+<pre xml:lang="de-DE-1901">
 	16:39⎜&lt;mira|AO&gt; XTaran: n̲i̲e̲ n̲i̲e̲ n̲i̲e̲ n̲i̲e̲ n̲i̲e̲ n̲i̲e̲ n̲i̲e̲
 	     ⎜empfiehlt man k̶i̶l̶l̶a̶l̶l̶, i̲m̲m̲e̲r̲ nur p̲k̲i̲l̲l̲!</pre>
-<p xml:lang="en">“Now playing: Monzy — kill dash” ⇒ good idea… ☺</p>
+<p>“Now playing: Monzy — kill dash” ⇒ good idea… ☺</p>
 <hr />
-<p xml:lang="en" class="boxhead">By the way, you’re probably
+<p class="boxhead">By the way, you were probably
  looking for this…</p><div class="boxtext">
  <pre>
      -x      Require an exact match of the process name, or argument list if
