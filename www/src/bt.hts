@@ -2,7 +2,7 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname bt 'BitTorrent information'
-mws_putheader '$MirOS: www/src/bt.hts,v 1.5 2008/07/23 00:45:22 tg Exp $'
+mws_putheader '$MirOS: www/src/bt.hts,v 1.6 2008/11/07 00:49:39 tg Exp $'
 mws_content <<'EOF'
 <!-- http://www.mirbsd.org/bt.htm#id -->
 <h1>BitTorrent information</h1>
@@ -50,12 +50,18 @@ mws_content <<'EOF'
 <h4 id="r8semel">MirOS #8</h4>
 <h4 id="r7quater">#7quater</h4>
 <h3>Snapshots</h3>
+<!--
 <h4 id="s81106">2008-11-06</h4>
 <p>MirOS BSD #10-current dualive ISO 9660 image containing the full
  <tt>/MirOS/current/{i386,sparc}/</tt> 2008-10-30 snapshot (build
  logs, COM1:9600,8N1 and COM1:38400,8N1 and COM1:115200,8N1 ISO
  images, Midi-ISO plus 4 floppies for normal and three speed serial
  operation, ports snapshot, HTML manpages), but no pkgsrc® snapshot.</p>
+-->
+<p>Currently, no snapshot on BT, please use <a
+ href="@@ABSPATH@@/MirOS/current/i386/">NetInstall (i386)</a>, and
+ <a href="@@RELPATH@@irc.htm">notify</a> us if you require a sparc
+ snapshot.</p>
 EOF
 mws_putfooter
 exit 0
