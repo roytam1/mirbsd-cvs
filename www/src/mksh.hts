@@ -2,7 +2,7 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.166 2008/09/17 21:57:13 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.167 2008/09/30 17:34:24 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R35b</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -44,10 +44,11 @@ mws_content <<'EOF'
  access to the MidnightBSD server. Thanks to Waldemar “wbx” Brodkorb for
  dropping his unused Zaurus SL-C3200 to someone who can actually make use of
  it to test mksh on OpenBSD. Thanks to Andreas “gecko2” Gockel for access to
- a couple of Debian and Macintosh boxen. Thanks to Martin Zobel-Helas for an
- account on an Alpha system. Thanks to Bastian “waldi” Blank for access to an
- S/390 system and uploading mksh packages to Debian for quite some time. Also
- thanks to Otavio Salvador for uploading a couple of my Debian packages. The
+ a couple of Debian and Macintosh boxen and an iPhone 3G. Thanks to Martin
+ Zobel-Helas for an account on an Alpha system. Thanks to Bastian “waldi”
+ Blank for access to an S/390 system and uploading mksh packages to Debian
+ for quite some time. Also thanks to Otavio Salvador and Patrick “aptituz”
+ Schönfeld for uploading a couple of my Debian packages. The
  Debian GNU/k*BSD and HURD developers were quite helpful in assisting and
  testing as well. Thanks to Thomas E. “TGEN” Spanjaard for access to both a
  NetBSD and a DragonFly system. Thanks to Josef “jupp” / “penpen” Schugt for
@@ -515,6 +516,7 @@ mws_content <<'EOF'
  ChangeLog</a>, these are the packager-visible upgrade notes regarding
  changes in the build system (<tt>Build.sh</tt> and friends, compiler
  support, packaging conventions, bad examples, etc).</p>
+<p>mksh R36’s <tt>Build.sh</tt> script ‘-q’ option is gone.</p>
 <p>mksh R35b builds on some more platforms and throws less warnings,
  but the build system is almost unchanged; <tt>test.sh</tt> now shows
  the Perl binary used (honours <tt>$PERL</tt>) and its version.</p>
@@ -943,9 +945,6 @@ mws_content <<'EOF'
 <p>Patching mksh’s to look for ed in ANY other location is a MUST NOT.</p>
 
 <h2 id="plans">Future Plans</h2><ul>
-<li>when typing then moving in the history, push current (eventually even
- empty) line into history buffer first, so that, when we go down the
- history again, do not lose what was typed first; ignore dups and spaces</li>
 <li>bash-style multiline command line editing, as an option (the current
  horizontally scrolled one is finally (with R28) bug-free even with
  multiline and very long prompts optionally with embedded newlines,
@@ -999,6 +998,25 @@ mws_content <<'EOF'
  <li>If <tt>-o posix</tt> is set, do not keep file descriptors created via
   I/O redirection, as Korn Shells do, private; add regression test; Debian
   Closes: #499139; reported by Markus Schaber and Agustin Martin Domingo</li>
+ <li>Work around GNU getopt(3) violating every single standard in existence
+  regarding flag placement on the command line (test suite), from Debian</li>
+ <li>Sync internal wcwidth(3) implementation with Markus Kuhn’s latest</li>
+ <li>Optimise internal multibyte⇐⇒wide character conversion functions</li>
+ <li>Emacs editing mode: if the input line is modified (after a history
+  search) or newly typed or empty, preserve it when scrolling the history,
+  requested by many (at least: gecko2, Matthias Diener, Benny, myself)</li>
+ <li>Do not push lines beginning with an IFS character or IFS white space
+  into the history (at the <tt>PS1</tt> prompt only), for Matthias Diener</li>
+ <li>Emacs editing mode: if an Escape character ends a history search, and
+  Escape is bound to prefix-1, and the following character in prefix-1 mode
+  is a prefix-1 or prefix-2 key, do not swallow the Escape character</li>
+ <li>Emacs editing mode: new command “edit-line”, bound to <tt>^Xe</tt> by
+  default like in lynx(1), allows for interactive editing of the current
+  input line similar to Vi mode “v” command, requested by asarch in IRC</li>
+ <li><tt>Build.sh</tt>: remove the problematic ‘-q’ option</li>
+ <li>Fix internal type abuse: convert more int to bool</li>
+ <li>Ignore duplicates when pushing interactive lines into the history,
+  prodded by Matthias Diener, wanted by myself for quite a while</li>
 </ul>
 <p id="r35b">mksh R35b comes with the following bug fixes:</p><ul>
  <li>IRIX also has no UTF-8 locale at all, confirmed by Elias Pipping</li>
