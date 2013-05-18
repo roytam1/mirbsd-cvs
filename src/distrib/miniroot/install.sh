@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/miniroot/install.sh,v 1.12 2006/02/24 12:05:57 tg Exp $
+# $MirOS: src/distrib/miniroot/install.sh,v 1.13 2006/05/16 22:46:12 tg Exp $
 # $OpenBSD: install.sh,v 1.152 2005/04/21 21:41:33 krw Exp $
 # $NetBSD: install.sh,v 1.5.2.8 1996/08/27 18:15:05 gwr Exp $
 #
@@ -389,6 +389,8 @@ done
 IFS=$_oifs
 _rootline=":$_rootuid:$_rootuid:staff:0:0:$full:/home/$_rootuser:/bin/mksh"
 
+set_timezone
+
 echo -n "Saving configuration files..."
 
 # Save any leases obtained during install.
@@ -459,8 +461,6 @@ echo -n "done.\nGenerating initial host.random file..."
 dd if=/dev/urandom of=/mnt/var/db/host.random bs=1024 count=16 >/dev/null 2>&1
 chmod 600 /mnt/var/db/host.random
 echo "done."
-
-set_timezone
 
 # Perform final steps common to both an install and an upgrade.
 finish_up
