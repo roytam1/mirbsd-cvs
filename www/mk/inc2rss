@@ -1,4 +1,4 @@
-# $MirOS: www/mk/inc2rss,v 1.9 2008/04/29 21:45:46 tg Exp $
+# $MirOS: www/mk/inc2rss,v 1.10 2008/05/03 01:34:22 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -19,15 +19,17 @@ name=$1
 . "$TOP"/mk/htsconv
 
 mws__header="<!-- RSS mode -->"
+mws__abspath=http://www.mirbsd.org
 
 function rss_putheader {
-	#lastchanged=$(date -r $(stat -f "%m" "$TOP/data/$name.inc") "+%a, %d %b %Y %H:%M:%S %z")
+	#lastchanged=$(date -r $(stat -f "%m" "$TOP/data/$name.inc") "$DATE_RSS")
 	lastchanged=$(date "$DATE_RSS")
-	sed -e "
-		s@@TITLE@@$ptitle
-		s@@NAME@@$pname
-		s@@DATE@@$lastchanged
-	" < "$TOP/mk/rss-tmpl.pre"
+	sed \
+	    -e "s@@TITLE@@$ptitle" \
+	    -e "s@@NAME@@$pname" \
+	    -e "s@@URI@@$mws__abspath/$1" \
+	    -e "s@@DATE@@$lastchanged" \
+	    <"$TOP/mk/rss-tmpl.pre"
 }
 
 function rss_putfooter {
@@ -38,7 +40,7 @@ function rss_output {
 	integer ent=$1
 	eid=$2
 	rpath=$3
-	efe="${rpath}${name}_${eid}.htm#$eid"
+	efe="${mws__abspath}${rpath}${name}_${eid}.htm#$eid"
 	pubdate=$(date -r ${ei_date[ent]} "$DATE_RSS")
 	if [[ -n ${e_title[ent]} ]]; then
 		title="${e_title[ent]}"
@@ -62,28 +64,28 @@ function rss_output {
 		<link>$efe</link>
 		<guid isPermaLink="false">tag:mirbsd.org:$name:$eid</guid>
 	EOF
-	if [[ -n "${e_author[ent]}" ]]; then
-		print "<author>${e_author[ent]}</author>\n"
+	if [[ -n ${e_author[ent]} ]]; then
+		eauthor=${e_author[ent]}
+		[[ $eauthor = *@ ]] && eauthor="${eauthor}mirbsd.org"
+		[[ $eauthor = *\(*\)* ]] || eauthor="$eauthor (MirOS Developer)"
+		print "<author>${eauthor}</author>\n"
 	fi
 	print "<description>"
 	mws_content <<<"${e_body[ent]%%@(<!-- RSS stop -->)*}" | \
-	    sed -e 's,<,\&lt;,g'
-	cat <<-EOF
-		</description>
-		</item>
-	EOF
+	    sed -e 's&\&amp;g' -e 's<\&lt;g' -e 's>\&gt;g'
+	print "</description></item>"
 }
 
 print -r -- ${name}.rss
 mws_setname $whoami "$pname"
-mws_subdir 0
-rss_putheader > ${name}.rss~
+mws_subdir -
+rss_putheader "${name}.rss" >${name}.rss~
 
 integer i='entries - 1'
 integer last='entries < maxentries ? 0 : entries - maxentries'
 while (( i >= last )); do
 	eid=$(uri_escape "${e_id[i]}")
-	rss_output $i $eid "/permalinks/" >> ${name}.rss~
+	rss_output $i $eid "/permalinks/" >>${name}.rss~
 	let i--
 done
 

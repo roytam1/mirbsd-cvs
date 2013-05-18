@@ -494,7 +494,7 @@ Author: tg@
   as developer by his own request, fixed *roff macros (new MirNroff cpio
   distfile for Interix might be required soon), enhanced and fixed docs,
   helped FreeWRT people (website/server is down, we know), etc.</p>
- <p><a href="/?licence">/?licence</a> is now up to date again, and links
+ <p><a href="@@ABSPATH@@/?licence">/?licence</a> is now up to date again, and links
   are actually links.</p>
  <p>Sendmail 8.13.8 is out, but not a high-priority update.</p>
 
@@ -626,7 +626,7 @@ Author: bsiegert@
 Date: 27.08.2006
 Author: tg@
 
- <p>Okay, the <a href="/newsite/">new website is online</a>, with fixes.
+ <p>Okay, the <a href="@@ABSPATH@@/newsite/">new website is online</a>, with fixes.
   I don't think using other peoples' design is a good thing, because, if
   you don't use a design of your own which you <em>don't</em> licence to
   others freely, you aren't safe from copycats. This is a reason for the
@@ -835,7 +835,7 @@ Author: tg@
   use a dedicated directory tree.</p>
  <p>GNU End: gcc miscompiles not only C++ but also C code with a certain
   option <tt>-fomit-frame-pointer</tt> &ndash; cought by my favourite <a
-  href="/?jupp">text editor</a>.</p>
+  href="@@ABSPATH@@/?jupp">text editor</a>.</p>
  <p>Money End: At last, I get some state money (by far not enough), more
   might come, but I'd prefer a job. OTOH they'll pay for new teeth, more
   than they had paid if I were employed. But the pain's the same.</p>
@@ -1252,14 +1252,14 @@ Title: SPARC port updates
  me to hack much on it, I've got a dayjob requiring full attention and
  hacking skills (mostly embedded GNU/Linux for mips, though, but luckily
  most shell scripting I do is in <a href="@@RELPATH@@mksh.htm">mksh</a>,
- and I can use <a href="/?jupp">jupp</a>; no BSD make there though).</p>
+ and I can use <a href="@@ABSPATH@@/?jupp">jupp</a>; no BSD make there though).</p>
 ----
 Date: 15.06.2007
 Title: I'm bored so lemme write something here…
 Author: tg@
 
 <p>We now have an uppercase Eszett (ſz ligature) ẞ in the fixed-misc fonts
- and my <a href="/cvs.cgi/contrib/samples/dot.Xmodmap">keymap</a>; it maps
+ and my <a href="@@ABSPATH@@/cvs.cgi/contrib/samples/dot.Xmodmap">keymap</a>; it maps
  towlower(L'ẞ' == 0x1E9E) = L'ß' == 0x00DF, whose upper-case mapping stays
  at L"SS" though. I sent the changes in the font to Markus Kuhn, hoping he
  will integrate them in the next stock XFree86® (and that x.org crap too…)
@@ -1276,7 +1276,7 @@ Title: libnointl
 Author: tg@
 
 <p>Before I forget to write this down… today, I released a piece of code I
- call <a href="/cvs.cgi/contrib/hosted/libnointl/">libnointl</a>. This was
+ call <a href="@@ABSPATH@@/cvs.cgi/contrib/hosted/libnointl/">libnointl</a>. This was
  an original idea (and implementation¹) of mine, but I only got it because
  of swishy (Dale Anderson) who complained about his cross-compiling issues
  and troubles to me in IRC (I'm feeling the same when working for and with
@@ -2630,7 +2630,7 @@ Date: 19.02.2008
  hashes.</p>
 
 <p>mirmake-20080218 can be downloaded from <a
- href="/MirOS/dist/mir/make/">/MirOS/dist/mir/make</a> on this
+ href="@@ABSPATH@@/MirOS/dist/mir/make/">/MirOS/dist/mir/make</a> on this
  server. The file hashes are:</p>
 
 <pre>MD5 (mirmake-20080218.cpio.gz) = 5e6ecc4432b61e39e9907737d058309c

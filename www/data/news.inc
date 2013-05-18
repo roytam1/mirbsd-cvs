@@ -13,11 +13,11 @@ Date: 27.03.2006
 Title: MirOS #9 released
 Date: 01.04.2006
 
-<p><a href="/?ann-9">MirOS #9</a> is available via our <a
+<p><a href="@@ABSPATH@@/?ann-9">MirOS #9</a> is available via our <a
  href="http://f.scarywater.net/miros/">BitTorrent tracker</a>. There is
  also an <a href="@@RELPATH@@MirOS/v9/">HTTP(S)</a> download/netinstall
  option.</p>
-<p>Please read the <a href="/?errata">errata</a>.</p>
+<p>Please read the <a href="@@ABSPATH@@/?errata">errata</a>.</p>
 ----
 Title: New web server
 Date: 05.07.2006
@@ -74,7 +74,7 @@ Author: tg@
  hacking on what I had already done for the website. Mostly content today.
  The <a href="@@RELPATH@@mksh.htm">MirBSD Korn Shell</a> page got completely rewritten.
  If you find something, tell me. The theme will probably stay similar like
- the current one, not like <a href="/newsite/">Benny's</a>, but the index
+ the current one, not like <a href="@@ABSPATH@@/newsite/">Benny's</a>, but the index
  on the left will look totally different in some days. I'm only migrating
  (very) few of the old content. At the moment, “main”, “news”, “mksh” and
  “wlog-9” are converted, and the old CMS has been hacked for transparent
@@ -707,7 +707,7 @@ Date: 20.03.2008
 <p>We had about 1500 downloads of the full ISO in the last 4 days,
  which is actually making our primary mirror traffic problems.</p>
 <p>Please use <a href="http://f.scarywater.net/miros/">BitTorrent</a>
- to download the full ISO, or use <a href="/MirOS/v10/cdrom10.iso">the
+ to download the full ISO, or use <a href="@@ABSPATH@@/MirOS/v10/cdrom10.iso">the
  NetInstall ISO</a> instead.</p>
 <p>You can also switch to one of the following mirrors:</p><ul>
  <li><a href="http://pub.allbsd.org/MirOS/ISOs/MIR80316.ISO">Japan</a></li>
@@ -715,7 +715,7 @@ Date: 20.03.2008
  <li><a href="http://www.mirbsd.org/MirOS/ISOs/MIR80316.ISO">Germany 1</a></li>
 </ul>
 <p id="hashes">Due to popular request: the SFV (CRC32) of the ISO is
- 76D0638A, more hashes are <a href="/MirOS/v10/CKSUM.gz">here</a>, and
+ 76D0638A, more hashes are <a href="@@ABSPATH@@/MirOS/v10/CKSUM.gz">here</a>, and
  for these who still use the insecure MD5, 0afb38491f7557b1f7bc9ec8997ca5b4
  should matche. Note: the <tt>CKSUM.gz</tt> file hyperlinked in this
  paragraph is, of course, gzsig(1)d.</p>
@@ -751,8 +751,8 @@ Date: 27.03.2008
 Author: tg@
 
 <p>I thought these might come in handy for poor i386 users:</p><ul>
- <li><a href="/MirOS/v10/cdrom10-9600,8n1.iso">COM1:9600,8,N,1</a></li>
- <li><a href="/MirOS/v10/cdrom10-57600,8n1.iso">COM1:57600,8,N,1</a></li>
+ <li><a href="@@ABSPATH@@/MirOS/v10/cdrom10-9600,8n1.iso">COM1:9600,8,N,1</a></li>
+ <li><a href="@@ABSPATH@@/MirOS/v10/cdrom10-57600,8n1.iso">COM1:57600,8,N,1</a></li>
 </ul><p>The ISOs itself (both El Torito and Live-HD/CF boot) as well as
  the included 1440 KiB Floppy images have been adjusted to automatically
  boot from serial console. To accomodate broken BIOSes (like the one from
@@ -773,7 +773,7 @@ Author: tg@
  this is a minor update: portability fixes, support for dæmonising scripts,
  and manual page improvements.</p>
 <p>Online manual: <a href="@@RELPATH@@htman/i386/man1/mksh.htm">HTML</a>,
- <a href="/MirOS/dist/mir/mksh/mksh.pdf">PDF</a> (<a
+ <a href="@@ABSPATH@@/MirOS/dist/mir/mksh/mksh.pdf">PDF</a> (<a
  href="http://www.cl.cam.ac.uk/~mgk25/iso-paper.html">ISO A4 paper</a>, we
  don’t support Imperial units, as even the USA has converted to Metric)</p>
 <p>UPDATE 02.04.2008: <a href="@@RELPATH@@mksh.htm#r33c">mksh R33c</a> is
@@ -828,11 +828,11 @@ Author: tg@
  image (Live + Install CD, build logs, but nothing fancy) on the <a
  href="http://f.scarywater.net/miros/">usual BitTorrent tracker</a>,
  multi-tracked with a major BT site for these who pick it up there.</p>
-<p>It's also available for <a href="/MirOS/current/i386/">NetInstall</a>,
+<p>It's also available for <a href="@@ABSPATH@@/MirOS/current/i386/">NetInstall</a>,
  although you shouldn't pick up the perl CVS fix in that directory, as
  it applies to <a href="@@RELPATH@@permalinks/news_e20071126-nn.htm">a
  much older #10-beta snapshot</a>.</p>
-<p>The <a href="/MirOS/Pkgs/v10/i386/">#10/i386 binary packages</a>
+<p>The <a href="@@ABSPATH@@/MirOS/Pkgs/v10/i386/">#10/i386 binary packages</a>
  should all be installable on this snapshot, although it does come with
  more recent MirPorts Framework.</p>
 ----
@@ -842,7 +842,7 @@ Author: tg@
 
 <p>Our anoncvs mirror has changed its ssh host keys due to a Debian-specific
  problem (it's hosted on a machine running Debian GNU/Linux courtesy of
- gecko2@). The new keys are: [Update: <a href="/?overview">moved</a>]</p>
+ gecko2@). The new keys are: [Update: <a href="@@ABSPATH@@/?overview">moved</a>]</p>
 <p>Please copy these into <tt>/etc/ssh/ssh_known_hosts</tt> or
  <tt>~/.etc/ssh/known_hosts</tt>, overriding the existing keys for the
  same IPs or host names.</p>
@@ -857,7 +857,7 @@ Title: update for 2008-05-14 snapshot available
 Date: 15.05.2008 16:24
 Author: tg@
 
-<p>The <a href="/MirOS/current/i386/fixes10.ngz">fixes10.ngz</a> set, of
+<p>The <a href="@@ABSPATH@@/MirOS/current/i386/fixes10.ngz">fixes10.ngz</a> set, of
  course gzsig(1)d, contains an updated <a href="@@RELPATH@@mksh.htm">mksh</a>
  binary and <tt>dot.mkshrc</tt> as well as <tt>/.profile</tt> (root) and
  <tt>/etc/profile</tt> (user) files, which speed up logins, as well as an
@@ -901,14 +901,14 @@ Date: 09.07.2008 18:20
   <li><tt>anoncvs@anoncvs6.mirbsd.org</tt> (public, IPv6 only)</li>
  </ul></li>
  <li>hephaistos (unixforge.de), Germany, ssh, rsync + cvs: <ul>
-  <li>‣ sshd(8) <a href="/?overview#ssh_host">host keys</a></li>
+  <li>‣ sshd(8) <a href="@@ABSPATH@@/?overview#ssh_host">host keys</a></li>
   <li>offering: <tt>/MirOS</tt> <tt>/Pkgs</tt> <tt>/cvs</tt></li>
   <li><tt>anoncvs@1.anoncvs.mirbsd.org</tt> (public, IPv4 + IPv6)</li>
   <li><tt>anoncvs@1.anoncvs4.mirbsd.org</tt> (public, IPv4 only)</li>
   <li><tt>anoncvs@1.anoncvs6.mirbsd.org</tt> (public, IPv6 only)</li>
  </ul></li>
  <li>eurynome (VMware instance), Germany, ssh, rsync + cvs: <ul>
-  <li>‣ sshd(8) <a href="/?overview#ssh_host">host key</a></li>
+  <li>‣ sshd(8) <a href="@@ABSPATH@@/?overview#ssh_host">host key</a></li>
   <li>offering: <tt>/MirOS</tt> <tt>/Pkgs</tt> <tt>/cvs</tt> (<tt>/Distfiles</tt> <tt>/www</tt> not yet)</li>
   <li><tt>anoncvs@2.anoncvs.mirbsd.org</tt> (public, IPv4 + IPv6)</li>
   <li><tt>anoncvs@2.anoncvs4.mirbsd.org</tt> (public, IPv4 only)</li>
@@ -944,7 +944,7 @@ Author: tg@
  Cygwin, and various GNU/Linux systems; using gcc, pcc, SUNWcc, llvm-gcc,
  Compaq C, HP aCC, TenDRA; on a variety of hardware architectures.</p>
 <p>Online manual: <a href="@@RELPATH@@htman/i386/man1/mksh.htm">HTML</a>,
- <a href="/MirOS/dist/mir/mksh/mksh.pdf">PDF</a> (<a
+ <a href="@@ABSPATH@@/MirOS/dist/mir/mksh/mksh.pdf">PDF</a> (<a
  href="http://www.cl.cam.ac.uk/~mgk25/iso-paper.html">ISO A4 paper</a>, we
  don’t support Imperial units, as even the USA has converted to Metric)</p>
 <p><strong>Update 18.07.2008</strong> – mksh R35b is out, with major bug
@@ -960,12 +960,12 @@ Author: tg@
  a selected few binary packages and their distfiles, but nothing fancy) on
  the <a href="http://f.scarywater.net/miros/">usual BitTorrent tracker</a>,
  multi-tracked with a major BT site for these who pick it up there.</p>
-<p>It's also available for <a href="/MirOS/current/">NetInstall</a> on both
+<p>It's also available for <a href="@@ABSPATH@@/MirOS/current/">NetInstall</a> on both
  architectures. Note that <tt>/MirOS/</tt> has been cleaned up a little:
  some old NetInstall or upgrade packages are removed.</p>
-<p>The <a href="/MirOS/Pkgs/v10/i386/">#10/i386 binary packages</a> should
+<p>The <a href="@@ABSPATH@@/MirOS/Pkgs/v10/i386/">#10/i386 binary packages</a> should
  all be installable on this snapshot, although it does come with more recent
- MirPorts Framework and a couple of <a href="/MirOS/Pkgs/current/">current
+ MirPorts Framework and a couple of <a href="@@ABSPATH@@/MirOS/Pkgs/current/">current
  binary packages</a> as well.</p>
 ----
 Title: MirOS Project @ FrOSCon 2008

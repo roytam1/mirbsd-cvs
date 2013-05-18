@@ -1,4 +1,4 @@
-# $MirOS: www/mk/htsconv,v 1.22 2008/03/27 21:46:33 tg Exp $
+# $MirOS: www/mk/htsconv,v 1.23 2008/06/03 18:04:54 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -6,8 +6,9 @@
 mws__pagename=
 mws__header=
 mws__rss=
-mws__difftag=MBSD_HTSCONV_GENDATE_TAG_31702
-unset mws__relpath || true
+mws__difftag=MBSD_HTSCONV_GENDATE_TAG_20470
+unset mws__abspath
+unset mws__relpath
 
 function mws_setname {
 	mws__pagename=$2
@@ -21,6 +22,10 @@ function mws_setrss {
 }
 
 function mws_subdir {
+	if [[ $1 = - ]]; then
+		mws__relpath=$mws__abspath
+		return
+	fi
 	integer i=$1
 	mws__relpath=
 	while (( i-- )); do
@@ -36,7 +41,7 @@ function mws_putheader {
 	mws__content <<<"${tmpl_pre/@@TITLE@@/$mws__pagename}"
 	mws__header="<p class=\"rcsdiv\">Generated <!-- $mws__difftag --> on"
 	mws__header="$mws__header <span class=\"rcsid\">$(TZ=UTC date +'%F %T')</span>"
-	mws__header="$mws__header"' by <span class="rcsid">$MirOS: www/mk/htsconv,v 1.22 2008/03/27 21:46:33 tg Exp $</span>'
+	mws__header="$mws__header"' by <span class="rcsid">$MirOS: www/mk/htsconv,v 1.23 2008/06/03 18:04:54 tg Exp $</span>'
 	[[ -n $rcsid ]] && mws__header="$mws__header from <span class=\"rcsid\">$rcsid</span>"
 	mws__header="$mws__header</p>"
 }
@@ -86,6 +91,7 @@ function mws__content {
 	    -e 's\([0-9A-z][-.,0-9A-z]*\)(\([1-9]\)/[Ss][Pp][Aa][Rr][Cc])<a href="@@RELPATH@@htman/sparc/man\2/\1.htm">&</a>g' \
 	    -e 's\([0-9A-z][-.,0-9A-z]*\)(\([1-9]\)/[Ii]386)<a href="@@RELPATH@@htman/i386/man\2/\1.htm">&</a>g' \
 	    -e 's\([0-9A-z][-.,0-9A-z]*\)(\([1-9]\))<a href="@@RELPATH@@htman/i386/man\2/\1.htm">&</a>g' \
+	    -e "s@@ABSPATH@@$mws__abspathg" \
 	    -e "s@@RELPATH@@$mws__relpathg" \
 	    -e "s@@HEADER@@$mws__headerg" \
 	    -e "s@@RSS@@$mws__rssg"
