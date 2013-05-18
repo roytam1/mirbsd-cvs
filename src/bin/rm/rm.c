@@ -1,8 +1,9 @@
-/*	$OpenBSD: rm.c,v 1.18 2005/06/14 19:15:35 millert Exp $	*/
-/*	$NetBSD: rm.c,v 1.19 1995/09/07 06:48:50 jtc Exp $	*/
+/* $MirOS$ */
+/* $NetBSD: rm.c,v 1.46 2007/06/24 17:59:31 christos Exp $ */
+/* $OpenBSD: rm.c,v 1.18 2005/06/14 19:15:35 millert Exp $ */
 
 /*-
- * Copyright (c) 1990, 1993, 1994
+ * Copyright (c) 1990, 1993, 1994, 2003
  *	The Regents of the University of California.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -34,18 +35,20 @@
 __COPYRIGHT("@(#) Copyright (c) 1990, 1993, 1994\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)rm.c	8.8 (Berkeley) 4/27/95");
+__RCSID("$NetBSD: rm.c,v 1.46 2007/06/24 17:59:31 christos Exp $");
 __RCSID("$MirOS$");
 
-#include <sys/types.h>
-#include <sys/stat.h>
 #include <sys/param.h>
+#include <sys/stat.h>
 #include <sys/mount.h>
 
-#include <locale.h>
 #include <err.h>
 #include <errno.h>
 #include <fcntl.h>
 #include <fts.h>
+#include <grp.h>
+#include <locale.h>
+#include <pwd.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -53,37 +56,44 @@ __RCSID("$MirOS$");
 #include <pwd.h>
 #include <grp.h>
 
-extern char *__progname;
+extern const char *__progname;
 
-int dflag, eval, fflag, iflag, Pflag, stdin_ok;
+int dflag, eval, fflag, iflag, Pflag, stdin_ok, vflag;
 
 int	check(char *, char *, struct stat *);
 void	checkdot(char **);
 void	rm_file(char **);
 int	rm_overwrite(char *, struct stat *);
-int	pass(int, int, off_t, char *, size_t);
 void	rm_tree(char **);
-void	usage(void);
+void	usage(void) __dead;
+
+/*
+ * For the sake of the `-f' flag, check whether an error number indicates the
+ * failure of an operation due to an non-existent file, either per se (ENOENT)
+ * or because its filename argument was illegal (ENAMETOOLONG, ENOTDIR).
+ */
+#define NONEXISTENT(x) \
+    ((x) == ENOENT || (x) == ENAMETOOLONG || (x) == ENOTDIR)
 
 /*
  * rm --
- *	This rm is different from historic rm's, but is expected to match
+ *	This rm is different from historic rms, but is expected to match
  *	POSIX 1003.2 behavior.  The most visible difference is that -f
  *	has two specific effects now, ignore non-existent files and force
- * 	file removal.
+ *	file removal.
  */
 int
 main(int argc, char *argv[])
 {
 	int ch, rflag;
 
-#ifndef __MirBSD__
+#ifndef __MirBSD__	/* irrelevant, as there is only one locale */
 	setlocale(LC_ALL, "");
 #endif
 
 	Pflag = rflag = 0;
-	while ((ch = getopt(argc, argv, "dfiPRr")) != -1)
-		switch(ch) {
+	while ((ch = getopt(argc, argv, "dfiPRrv")) != -1)
+		switch (ch) {
 		case 'd':
 			dflag = 1;
 			break;
@@ -101,6 +111,9 @@ main(int argc, char *argv[])
 		case 'R':
 		case 'r':			/* Compatibility. */
 			rflag = 1;
+			break;
+		case 'v':
+			vflag = 1;
 			break;
 		default:
 			usage();
@@ -122,7 +135,8 @@ main(int argc, char *argv[])
 			rm_file(argv);
 	}
 
-	exit (eval);
+	exit(eval);
+	/* NOTREACHED */
 }
 
 void
@@ -130,8 +144,7 @@ rm_tree(char **argv)
 {
 	FTS *fts;
 	FTSENT *p;
-	int needstat;
-	int flags;
+	int flags, needstat, rval;
 
 	/*
 	 * Remove a file hierarchy.  If forcing removal (-f), or interactive
@@ -148,32 +161,37 @@ rm_tree(char **argv)
 	flags = FTS_PHYSICAL;
 	if (!needstat)
 		flags |= FTS_NOSTAT;
-	if (!(fts = fts_open(argv, flags, NULL)))
+	if (!(fts = fts_open(argv, flags,
+	    (int (*)(const FTSENT **, const FTSENT **))NULL)))
 		err(1, NULL);
 	while ((p = fts_read(fts)) != NULL) {
+
 		switch (p->fts_info) {
 		case FTS_DNR:
 			if (!fflag || p->fts_errno != ENOENT) {
-				warnx("%s: %s",
-				    p->fts_path, strerror(p->fts_errno));
+				warnx("%s: %s", p->fts_path,
+				    strerror(p->fts_errno));
 				eval = 1;
 			}
 			continue;
 		case FTS_ERR:
-			errx(1, "%s: %s", p->fts_path, strerror(p->fts_errno));
+			errx(EXIT_FAILURE, "%s: %s", p->fts_path,
+			    strerror(p->fts_errno));
+			/* NOTREACHED */
 		case FTS_NS:
 			/*
 			 * FTS_NS: assume that if can't stat the file, it
 			 * can't be unlinked.
 			 */
-			if (!needstat)
-				break;
-			if (!fflag || p->fts_errno != ENOENT) {
-				warnx("%s: %s",
-				    p->fts_path, strerror(p->fts_errno));
+			if (fflag && NONEXISTENT(p->fts_errno))
+				continue;
+			if (needstat) {
+				warnx("%s: %s", p->fts_path,
+				    strerror(p->fts_errno));
 				eval = 1;
+				continue;
 			}
-			continue;
+			break;
 		case FTS_D:
 			/* Pre-order: give user chance to skip. */
 			if (!fflag && !check(p->fts_path, p->fts_accpath,
@@ -193,6 +211,7 @@ rm_tree(char **argv)
 				continue;
 		}
 
+		rval = 0;
 		/*
 		 * If we can't read or search the directory, may still be
 		 * able to remove it.  Don't print out the un{read,search}able
@@ -201,24 +220,28 @@ rm_tree(char **argv)
 		switch (p->fts_info) {
 		case FTS_DP:
 		case FTS_DNR:
-			if (!rmdir(p->fts_accpath) ||
-			    (fflag && errno == ENOENT))
+			rval = rmdir(p->fts_accpath);
+			if (rval != 0 && fflag && errno == ENOENT)
 				continue;
 			break;
 
 		default:
-			if (Pflag)
-				if (!rm_overwrite(p->fts_accpath, NULL))
-					continue;
-			if (!unlink(p->fts_accpath) ||
-			    (fflag && errno == ENOENT))
+			if (Pflag && rm_overwrite(p->fts_accpath, NULL))
 				continue;
+			rval = unlink(p->fts_accpath);
+			if (rval != 0 && fflag && NONEXISTENT(errno))
+				continue;
+			break;
 		}
-		warn("%s", p->fts_path);
-		eval = 1;
+		if (rval != 0) {
+			warn("%s", p->fts_path);
+			eval = 1;
+		} else if (vflag)
+			(void)printf("%s\n", p->fts_path);
 	}
 	if (errno)
 		err(1, "fts_read");
+	fts_close(fts);
 }
 
 void
@@ -235,7 +258,7 @@ rm_file(char **argv)
 	while ((f = *argv++) != NULL) {
 		/* Assume if can't stat the file, can't unlink it. */
 		if (lstat(f, &sb)) {
-			if (!fflag || errno != ENOENT) {
+			if (!fflag || !NONEXISTENT(errno)) {
 				warn("%s", f);
 				eval = 1;
 			}
@@ -252,15 +275,18 @@ rm_file(char **argv)
 		else if (S_ISDIR(sb.st_mode))
 			rval = rmdir(f);
 		else {
-			if (Pflag)
-				if (!rm_overwrite(f, &sb))
+			if (Pflag) {
+				if (rm_overwrite(f, &sb))
 					continue;
+			}
 			rval = unlink(f);
 		}
-		if (rval && (!fflag || errno != ENOENT)) {
+		if (rval && (!fflag || !NONEXISTENT(errno))) {
 			warn("%s", f);
 			eval = 1;
 		}
+		if (vflag && rval == 0)
+			(void)printf("%s\n", f);
 	}
 }
 
@@ -268,22 +294,65 @@ rm_file(char **argv)
  * rm_overwrite --
  *	Overwrite the file 3 times with varying bit patterns.
  *
- * XXX
- * This is a cheap way to *really* delete files.  Note that only regular
- * files are deleted, directories (and therefore names) will remain.
+ * This is an expensive way to keep people from recovering files from your
+ * non-snapshotted FFS filesystems using fsdb(8).  Really.  No more.  Only
+ * regular files are deleted, directories (and therefore names) will remain.
  * Also, this assumes a fixed-block file system (like FFS, or a V7 or a
  * System V file system).  In a logging file system, you'll have to have
  * kernel support.
- * Returns 1 for success.
+ *
+ * A note on standards:  U.S. DoD 5220.22-M "National Industrial Security
+ * Program Operating Manual" ("NISPOM") is often cited as a reference
+ * for clearing and sanitizing magnetic media.  In fact, a matrix of
+ * "clearing" and "sanitization" methods for various media was given in
+ * Chapter 8 of the original 1995 version of NISPOM.  However, that
+ * matrix was *removed from the document* when Chapter 8 was rewritten
+ * in Change 2 to the document in 2001.  Recently, the Defense Security
+ * Service has made a revised clearing and sanitization matrix available
+ * in Microsoft Word format on the DSS web site.  The standardization
+ * status of this matrix is unclear.  Furthermore, one must be very
+ * careful when referring to this matrix: it is intended for the "clearing"
+ * prior to reuse or "sanitization" prior to disposal of *entire media*,
+ * not individual files and the only non-physically-destructive method of
+ * "sanitization" that is permitted for magnetic disks of any kind is
+ * specifically noted to be prohibited for media that have contained
+ * Top Secret data.
+ *
+ * It is impossible to actually conform to the exact procedure given in
+ * the matrix if one is overwriting a file, not an entire disk, because
+ * the procedure requires examination and comparison of the disk's defect
+ * lists.  Any program that claims to securely erase *files* while
+ * conforming to the standard, then, is not correct.  We do as much of
+ * what the standard requires as can actually be done when erasing a
+ * file, rather than an entire disk; but that does not make us conformant.
+ *
+ * Furthermore, the presence of track caches, disk and controller write
+ * caches, and so forth make it extremely difficult to ensure that data
+ * have actually been written to the disk, particularly when one tries
+ * to repeatedly overwrite the same sectors in quick succession.  We call
+ * fsync(), but controllers with nonvolatile cache, as well as IDE disks
+ * that just plain lie about the stable storage of data, will defeat this.
+ *
+ * Finally, widely respected research suggests that the given procedure
+ * is nowhere near sufficient to prevent the recovery of data using special
+ * forensic equipment and techniques that are well-known.  This is
+ * presumably one reason that the matrix requires physical media destruction,
+ * rather than any technique of the sort attempted here, for secret data.
+ *
+ * Caveat Emptor.
+ *
+ * rm_overwrite will return 0 on success.
  */
 int
 rm_overwrite(char *file, struct stat *sbp)
 {
-	struct stat sb;
 	struct statfs fsb;
 	size_t bsize;
-	int fd;
 	char *buf = NULL;
+
+	struct stat sb;
+	int fd;
+	char randchar;
 
 	fd = -1;
 	if (sbp == NULL) {
@@ -292,51 +361,121 @@ rm_overwrite(char *file, struct stat *sbp)
 		sbp = &sb;
 	}
 	if (!S_ISREG(sbp->st_mode))
-		return (1);
+		return (0);
 	if (sbp->st_nlink > 1) {
 		warnx("%s (inode %u): not overwritten due to multiple links",
 		    file, sbp->st_ino);
-		return (0);
+		/* if -f return success else failure */
+		return (fflag ? 0 : 1);
 	}
-	if ((fd = open(file, O_WRONLY, 0)) == -1)
+
+	/* flags to try to defeat hidden caching by forcing seeks */
+	if ((fd = open(file, O_RDWR|O_SYNC|O_RSYNC, 0)) == -1)
 		goto err;
+
+	/* find out optimal transfer size */
 	if (fstatfs(fd, &fsb) == -1)
 		goto err;
-	bsize = MAX(fsb.f_iosize, 1024U);
+	bsize = MAX(fsb.f_iosize, 131072U);
 	if ((buf = malloc(bsize)) == NULL)
 		err(1, "%s: malloc", file);
 
-	if (!pass(0xff, fd, sbp->st_size, buf, bsize) || fsync(fd) ||
-	    lseek(fd, (off_t)0, SEEK_SET))
-		goto err;
-	if (!pass(0x00, fd, sbp->st_size, buf, bsize) || fsync(fd) ||
-	    lseek(fd, (off_t)0, SEEK_SET))
-		goto err;
-	if (!pass(0xff, fd, sbp->st_size, buf, bsize) || fsync(fd))
-		goto err;
-	close(fd);
-	free(buf);
-	return (1);
+#define RAND_BYTES	1
+#define THIS_BYTE	0
 
-err:
-	warn("%s", file);
-	close(fd);
-	eval = 1;
-	free(buf);
-	return (0);
-}
+#define	WRITE_PASS(mode, byte, buf, bufsz) do {				\
+	off_t len;							\
+	size_t wlen, i;							\
+	u_int32_t *qbuf = (u_int32_t *)buf;				\
+									\
+	if (fsync(fd) || lseek(fd, (off_t)0, SEEK_SET))			\
+		goto err;						\
+									\
+	if (mode == THIS_BYTE)						\
+		memset(buf, byte, bufsz);				\
+	for (len = sbp->st_size; len > 0; len -= wlen) {		\
+		if (mode == RAND_BYTES) {				\
+			i = 0;						\
+			while (i < (bufsz / sizeof (u_int32_t)))	\
+				qbuf[i++] = arc4random();		\
+		}							\
+		wlen = MIN(len, bufsz);					\
+		if ((size_t)write(fd, buf, wlen) != wlen)		\
+			goto err;					\
+	}								\
+	sync();		/* another poke at hidden caches */		\
+} while (/* CONSTCOND */ 0)
 
-int
-pass(int val, int fd, off_t len, char *buf, size_t bsize)
-{
-	size_t wlen;
+#define READ_PASS(byte, buf, bufsz) do {				\
+	off_t len;							\
+	size_t rlen;							\
+	char pattern[bufsz];						\
+									\
+	if (fsync(fd) || lseek(fd, (off_t)0, SEEK_SET))			\
+		goto err;						\
+									\
+	memset(pattern, byte, bufsz);					\
+	for (len = sbp->st_size; len > 0; len -= rlen) {		\
+		rlen = MIN(len, bufsz);					\
+		if ((size_t)read(fd, buf, rlen) != rlen)		\
+			goto err;					\
+		if (memcmp(buf, pattern, rlen))				\
+			goto err;					\
+	}								\
+	sync();		/* another poke at hidden caches */		\
+} while (/* CONSTCOND */ 0)
 
-	memset(buf, val, bsize);
-	for (; len > 0; len -= wlen) {
-		wlen = len < bsize ? len : bsize;
-		if (write(fd, buf, wlen) != wlen)
-			return (0);
+	/*
+	 * DSS sanitization matrix "clear" for magnetic disks:
+	 * option 'c' "Overwrite all addressable locations with a single
+	 * character."
+	 */
+	randchar = (char)arc4random();
+	WRITE_PASS(THIS_BYTE, randchar, buf, bsize);
+
+	/*
+	 * DSS sanitization matrix "sanitize" for magnetic disks:
+	 * option 'd', sub 2 "Overwrite all addressable locations with a
+	 * character, then its complement.  Verify "complement" character
+	 * was written successfully to all addressable locations, then
+	 * overwrite all addressable locations with random characters; or
+	 * verify third overwrite of random characters."  The rest of the
+	 * text in d-sub-2 specifies requirements for overwriting spared
+	 * sectors; we cannot conform to it when erasing only a file, thus
+	 * we do not conform to the standard.
+	 */
+
+	/* 1. "a character" */
+	WRITE_PASS(THIS_BYTE, 0xAA, buf, bsize);
+
+	/* 2. "its complement" */
+	WRITE_PASS(THIS_BYTE, 0x55, buf, bsize);
+
+	/* 3. "Verify 'complement' character" */
+	READ_PASS(0x55, buf, bsize);
+
+	/* 4. "overwrite all addressable locations with random characters" */
+
+	WRITE_PASS(RAND_BYTES, 0, buf, bsize);
+
+	/*
+	 * As the file might be huge, and we note that this revision of
+	 * the matrix says "random characters", not "a random character"
+	 * as the original did, we do not verify the random-character
+	 * write; the "or" in the standard allows this.
+	 */
+
+	if (close(fd) == -1) {
+		fd = -1;
+		goto err;
 	}
+
+	return (0);
+
+err:	eval = 1;
+	warn("%s", file);
+	if (fd != -1)
+		close(fd);
 	return (1);
 }
 
@@ -348,7 +487,7 @@ check(char *path, char *name, struct stat *sp)
 
 	/* Check -i first. */
 	if (iflag)
-		(void)fprintf(stderr, "remove %s? ", path);
+		(void)fprintf(stderr, "remove '%s'? ", path);
 	else {
 		/*
 		 * If it's not a symbolic link and it's unwritable and we're
@@ -356,10 +495,17 @@ check(char *path, char *name, struct stat *sp)
 		 * because their permissions are meaningless.  Check stdin_ok
 		 * first because we may not have stat'ed the file.
 		 */
-		if (!stdin_ok || S_ISLNK(sp->st_mode) || !access(name, W_OK))
+		if (!stdin_ok || S_ISLNK(sp->st_mode) ||
+		    !(access(name, W_OK) && (errno != ETXTBSY)))
 			return (1);
 		strmode(sp->st_mode, modep);
-		(void)fprintf(stderr, "override %s%s%s/%s for %s? ",
+		if (Pflag) {
+			warnx(
+			    "%s: -P was specified but file could not"
+			    " be overwritten", path);
+			return 0;
+		}
+		(void)fprintf(stderr, "override %s%s%s:%s for '%s'? ",
 		    modep + 1, modep[9] == ' ' ? "" : " ",
 		    user_from_uid(sp->st_uid, 0),
 		    group_from_gid(sp->st_gid, 0), path);
@@ -390,7 +536,7 @@ checkdot(char **argv)
 	complained = 0;
 	for (t = argv; *t;) {
 		/* strip trailing slashes */
-		p = strrchr (*t, '\0');
+		p = strrchr(*t, '\0');
 		while (--p > *t && *p == '/')
 			*p = '\0';
 
@@ -415,6 +561,8 @@ checkdot(char **argv)
 void
 usage(void)
 {
-	(void)fprintf(stderr, "usage: %s [-dfiPRrW] file ...\n", __progname);
+	(void)fprintf(stderr, "usage: %s [-f|-i] [-dPRrv] file ...\n",
+	    __progname);
 	exit(1);
+	/* NOTREACHED */
 }
