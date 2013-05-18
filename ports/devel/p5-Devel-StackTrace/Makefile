@@ -1,9 +1,9 @@
-# $MirOS: ports/devel/p5-Devel-StackTrace/Makefile,v 1.4 2008/10/04 20:08:09 bsiegert Exp $
+# $MirOS: ports/devel/p5-Devel-StackTrace/Makefile,v 1.5 2008/10/11 22:56:12 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.5 2004/04/18 18:31:55 robert Exp $
 
 COMMENT=		stack trace and stack trace frame objects
 
-DISTNAME=		Devel-StackTrace-1.1902
+DISTNAME=		Devel-StackTrace-1.20
 PKGNAME=		p5-${DISTNAME}-${DASH_VER}
 CATEGORIES=		devel perl5
 
