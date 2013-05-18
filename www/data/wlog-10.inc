@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.118 2008/12/18 00:00:15 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.119 2008/12/24 11:53:56 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -2331,4 +2331,19 @@ Tag: event
  able to track down Benny in between some of the talks if you have
  any questions regarding MirPorts and MirOS, though.</p>
 <p>To these who do, happy celebrating!</p>
+----
+Date: 25.12.2008 18:33
+Author: tg@
+Title: MirOS @ 25C3 Updates
+Tag: event
+
+<p>Word has reached me that Benny and Przemek are both suffering from
+ illness (nothing bad, just a cold, don't worry) and thusly will not
+ be attending the congress either.</p>
+<p>As gecko2@ is currently preparing his machines, we believe he will
+ uphold our representation at the event. Please join the <a
+ href="@@RELPATH@@irc.htm">IRC channel</a> or the <a
+ href="@@RELPATH@@rss.htm#lists">mailing list</a> if you have any
+ questions.</p>
+<p>To these who do: happy celebrating!</p>
 ----
