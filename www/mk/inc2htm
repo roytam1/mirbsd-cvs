@@ -1,4 +1,4 @@
-# $MirOS: www/mk/inc2htm,v 1.5 2007/08/29 19:46:30 tg Exp $
+# $MirOS: www/mk/inc2htm,v 1.6 2007-12-28 14:56:25 bsiegert Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -61,11 +61,12 @@ function mclose {
 }
 
 #rm -f ${name}.{cut,htm} ${name}_*.htm permalinks/${name}_*.htm
-(( cutoff )) && cat >${name}.cut~ <<-'EOF'
+(( cutoff )) && cat >${name}.cut~ <<-EOF
 	: ${mws__relpath=/}
 EOF
 print -r -- ${name}_all.htm
 mws_setname $whoami "$pname – All in One Page"
+mws_setrss "${mws__relpath}${name}.rss"
 mws_subdir 0
 mws_putheader >${name}_all.htm~
 plinks="<a href=\"${name}_all.htm\">All</a> <a href=\"${name}.htm\">1</a>"
