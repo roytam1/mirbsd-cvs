@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/ufs/ffs/fs.h,v 1.3 2005/04/29 18:35:06 tg Exp $	*/
+/**	$MirOS: src/sys/ufs/ffs/fs.h,v 1.4 2006/08/18 18:05:48 tg Exp $	*/
 /*	$OpenBSD: fs.h,v 1.17 2005/03/01 13:30:50 aaron Exp $	*/
 /*	$NetBSD: fs.h,v 1.6 1995/04/12 21:21:02 mycroft Exp $	*/
 
@@ -364,7 +364,11 @@ struct cg {
 	int32_t	 cg_clustersumoff;	/* (u_int32) counts of avail clusters */
 	int32_t	 cg_clusteroff;		/* (u_int8) free cluster map */
 	int32_t	 cg_nclusterblks;	/* number of clusters this cg */
-	int32_t	 cg_sparecon[13];	/* reserved for future use */
+	int32_t	 cg_ffs2_niblk;		/* number of inode blocks this cg */
+	int32_t	 cg_initediblk;		/* last initialized inode */
+	int32_t	 cg_sparecon32[3];	/* reserved for future use */
+	int64_t	 cg_ffs2_time;		/* time last written */
+	int64_t	 cg_sparecon64[3];	/* reserved for future use */
 	u_int8_t cg_space[1];		/* space for cylinder group maps */
 /* actually longer */
 };
