@@ -1,4 +1,4 @@
-/*	$MirOS: src/sys/arch/i386/stand/libsa/gidt.S,v 1.5 2009/01/01 23:59:02 tg Exp $ */
+/*	$MirOS: src/sys/arch/i386/stand/libsa/gidt.S,v 1.6 2009/01/02 01:38:43 tg Exp $ */
 /*	$OpenBSD: gidt.S,v 1.32 2006/12/26 19:30:44 tom Exp $	*/
 
 /*
@@ -481,9 +481,8 @@ Ltcbeg:	/* temporary relocation code, copied to 0000:0610h */
 	mov	si,0x0600
 	pop	dx
 	lret			/* future CS:IP on stack */
-	Ltcsz = . - Ltcbeg
 Ltcend:	pop	si		/* offset Ltcbeg */
-	mov	cx,Ltcsz
+	mov	cx,offset Ltcend - offset Ltcbeg
 	rep	movsb
 	lret			/* temporary CS:IP (0000:0610h) on stack */
 
