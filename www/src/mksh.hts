@@ -1,10 +1,10 @@
-# $MirOS: www/src/mksh.hts,v 1.47 2007/08/19 22:07:37 tg Exp $
+# $MirOS: www/src/mksh.hts,v 1.48 2007/08/19 22:27:38 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.47 2007/08/19 22:07:37 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.48 2007/08/19 22:27:38 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R30</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -50,11 +50,11 @@ mws_content <<'EOF'
  successor to pdksh, developed as part of <a href="http://mirbsd.de/">the
  MirOS Project</a> as native bourne/POSIX/korn shell for MirOS BSD, but also
  to be readily available under other UNIX®-like operating systems.</p>
-<p>The source code for mksh is available at the MirOS Project mirrors as well
- as these of other operating system projects due to <a href="#otheros">being
- included</a> in these; however, we do not provide binaries. Find <a
- href="#build">instructions to build and install mksh</a> below, or ask your
- operating environment vendor to package and include mksh; we provide
+<p id="lic">The source code for mksh is available at the MirOS Project mirrors
+ as well as these of other operating system projects due to being <a
+ href="#otheros">included</a> in these; however, we do not provide binaries.
+ Find <a href="#build">instructions to build and install mksh</a> below, or
+ ask your operating environment vendor to package and include mksh; we provide
  assistance for this task if asked. <em>Licencing</em> permits this as long
  as due credit is given to the authors and contributors and the copyright
  notices are not removed in their entirety; modifying is allowed (but if
@@ -65,7 +65,10 @@ mws_content <<'EOF'
  available via CVSweb. pdksh originally was public domain, with a few
  exceptions, but these files are not part of mksh R21 or up. The mksh(1) author
  (mirabilos) acknowledges the contributions of these people who dedicated pdksh
- to the public, and asserts a collective copyright on the code.</p>
+ to the public, and asserts a collective copyright on the code.
+ All these licences are DFSG clean and conform to the OSD, and the MirOS
+ Licence is listed on the pages of the ifrOSS licence centre as well as
+ in the FSF/UNESCO Directory of Free Software.</p>
 <p>To compile mksh, you will need a bourne or POSIX shell (Solaris
  <tt>/bin/sh</tt> is enough, and the Z shell should work), a C compiler (at
  the moment, only the one from the <a href="http://gcc.gnu.org/">GNU Compiler
