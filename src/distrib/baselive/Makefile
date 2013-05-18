@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/baselive/Makefile,v 1.56 2009/06/29 19:43:32 tg Exp $
+# $MirOS: src/distrib/baselive/Makefile,v 1.57 2009/08/01 13:24:29 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -158,8 +158,8 @@ addcontrib:
 	fi
 	mkdir -p tempdir
 	cd tempdir; CC=${CC:Q} CFLAGS=${CFLAGS:Q}\ ${COPTS:Q}\ -Ddefutf8 \
-	    ${MKSH} ${BSDSRCDIR}/contrib/code/jupp/configure \
-	    --prefix=/usr --sysconfdir=/etc --disable-dependency-tracking && \
+	    ${MKSH} ${BSDSRCDIR}/contrib/code/jupp/configure --disable-termidx \
+	    --sysconfdir=/etc --disable-dependency-tracking --prefix=/usr && \
 	    make && ${SUDO} make install DESTDIR=${WRKDIR:Q}
 	cd tempdir; cp ${BSDSRCDIR}/contrib/code/Snippets/tinyirc.c . && \
 	    make -f tinyirc.c && ${SUDO} make -f tinyirc.c install \
