@@ -1,4 +1,4 @@
-# $MirOS: ports/textproc/expat/expat.port.mk,v 1.2 2006/05/29 21:32:24 tg Exp $
+# $MirOS: ports/textproc/expat/expat.port.mk,v 1.3 2008/04/07 18:56:22 tg Exp $
 # $OpenBSD: iconv.port.mk,v 1.4 2001/11/27 17:44:04 brad Exp $
 
 # This is equivalent to USE_MOTIF.
@@ -24,8 +24,9 @@ USE_EXPAT=	port
 .endif
 
 .if ${USE_EXPAT:L} == "port"
-LIB_DEPENDS+=	expat:expat->=2.0.0-1:textproc/expat
+LIB_DEPENDS+=	../pkgview/expat/lib/expat:expat->=2.0.0-1:textproc/expat
 EXPAT_PREFIX=	${LOCALBASE}/pkgview/expat
+CPPFLAGS+=	-I${EXPAT_PREFIX:Q}/include
 LDFLAGS+=	-Wl,-rpath,${EXPAT_PREFIX:Q}/lib -L${EXPAT_PREFIX:Q}/lib
 .elif ${USE_EXPAT:L} == "base"
 EXPAT_PREFIX=	/usr

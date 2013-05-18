@@ -1,4 +1,4 @@
-# $MirOS: ports/converters/libiconv/libiconv.port.mk,v 1.14 2008/04/07 18:47:35 tg Exp $
+# $MirOS: ports/converters/libiconv/libiconv.port.mk,v 1.15 2008/04/07 18:48:28 tg Exp $
 # $OpenBSD: iconv.port.mk,v 1.4 2001/11/27 17:44:04 brad Exp $
 
 # This is equivalent to USE_MOTIF.
@@ -39,10 +39,10 @@ USE_ICONV+=	port
 # The RUN_DEPENDS entry is to ensure libiconv is installed. This is
 # necessary so that we have charset.alias installed on static archs.
 # Typically installed in PREFIX/lib.
-LIB_DEPENDS+=	../pkgview/libiconv/lib/iconv::converters/libiconv
-RUN_DEPENDS+=	:libiconv->=1.9.1-6:converters/libiconv
+LIB_DEPENDS+=	../pkgview/libiconv/lib/iconv:libiconv->=1.9.1-6:converters/libiconv
 ICONV_PREFIX=	${LOCALBASE}/pkgview/libiconv
 CONFIGURE_ENV+=	ICONV_PREFIX=${ICONV_PREFIX:Q}
+CPPFLAGS+=	-I${ICONV_PREFIX:Q}/include
 LDFLAGS+=	-Wl,-rpath,${ICONV_PREFIX:Q}/lib -L${ICONV_PREFIX:Q}/lib
 .elif ${USE_ICONV:L:Mbase}
 ICONV_PREFIX=	/usr
