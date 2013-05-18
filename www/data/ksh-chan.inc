@@ -211,6 +211,14 @@ Link: http://plnews.org/category/Languages__Shell/
 
 Generic shell-related newsfeed.
 ----
+Title: Shell-Toolkit (shellsnippets)
+Link: https://evolvis.org/projects/shellsnippets/
+
+Loose collection of fragments of shell scripts and programmes of random
+usefulness, which may or may not work. The intent is to have a collection
+of code to aid those who learn by reading other peoples’ code by providing
+some examples of (hopefully) better than average quality.
+----
 Title: Solaris ksh93-integration project
 Link: http://www.opensolaris.org/os/project/ksh93-integration/
 
