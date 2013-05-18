@@ -1,6 +1,6 @@
-# $MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $
+# $MirOS: contrib/hosted/tg/code/BSD::arc4random/t/check.t,v 1.2 2009/09/08 16:43:02 tg Exp $
 #-
-# Copyright (c) 2008
+# Copyright (c) 2008, 2011
 #	Thorsten Glaser <tg@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
@@ -18,7 +18,7 @@
 # damage or existence of a defect, except proven that it results out
 # of said person's immediate fault when using the work as intended.
 
-print "1..12\n";
+print "1..17\n";
 
 use BSD::arc4random qw(:all);
 
@@ -69,3 +69,17 @@ print "not " if ($enta == $entb);
 print "ok 11\n";
 print "not " if (($enta == 123) && ($entb == 456));
 print "ok 12\n";
+
+# test arc4random_uniform
+$enta = arc4random_uniform(10000);
+$entb = arc4random_uniform(10000);
+print "not " unless $enta =~ /^[0-9]+$/;
+print "ok 13\n";
+print "not " unless $entb =~ /^[0-9]+$/;
+print "ok 14\n";
+print "not " if (($enta < 0) || ($enta > 9999));
+print "ok 15\n";
+print "not " if (($entb < 0) || ($entb > 9999));
+print "ok 16\n";
+print "not " if ($enta == $entb);
+print "ok 17\n";
