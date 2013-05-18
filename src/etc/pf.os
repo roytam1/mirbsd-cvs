@@ -304,6 +304,7 @@ S22:64:1:52:M*,N,N,S,N,W0:	Linux:2.2:ts:Linux 2.2 w/o timestamps
 57344:64:0:64:M*,N,N,S,N,W0,N,N,T:	OpenBSD:3.3-3.7:no-df:OpenBSD 3.3-3.7 (scrub no-df)
 
 65535:64:1:64:M*,N,N,S,N,W0,N,N,T:	OpenBSD:3.0-3.7:opera:OpenBSD 3.0-3.7 (Opera)
+16384:64:1:60:M*,N,W0,S,T:		OpenBSD:3.8:mm-obsd:OpenBSD or MirBSD (MunARi)
 
 # ----------------- Solaris -----------------
 
