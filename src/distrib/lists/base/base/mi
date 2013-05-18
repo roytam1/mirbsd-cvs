@@ -2161,6 +2161,7 @@
 ./usr/share/man/cat4/wdc.0
 ./usr/share/man/cat4/we.0
 ./usr/share/man/cat4/wi.0
+./usr/share/man/cat4/wrandom.0
 ./usr/share/man/cat4/wscons.0
 ./usr/share/man/cat4/wsdisplay.0
 ./usr/share/man/cat4/wskbd.0
