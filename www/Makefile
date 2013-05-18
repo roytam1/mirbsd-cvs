@@ -1,4 +1,4 @@
-# $MirOS: www/Makefile,v 1.79 2012/05/15 20:10:09 tg Exp $
+# $MirOS: www/Makefile,v 1.80 2012/05/15 20:18:33 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -36,6 +36,7 @@ SRCS+=		ksh-chan.hts
 SRCS+=		kwalletcli.hts
 SRCS+=		main.hts
 SRCS+=		makefs.hts
+SRCS+=		man.hts
 SRCS+=		mksh.hts mksh_bld.hts mksh_old.hts
 SRCS+=		oldnews.hts
 SRCS+=		pkgsrc.hts
@@ -157,7 +158,7 @@ _reinstall:
 	    rm -rf $$(find . -name CVS -o -name .cvsignore)
 	chgrp -R miros-cvswww dst
 	chmod -R ug=rwX,o=rX dst
-	chmod a+x dst/cvs.cgi dst/wtf.cgi
+	chmod a+x dst/cvs.cgi dst/man.cgi dst/wtf.cgi
 
 .SUFFIXES: .val .htm~ .hts
 
