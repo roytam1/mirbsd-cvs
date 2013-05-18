@@ -2,7 +2,7 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.143 2008/07/11 15:13:23 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.144 2008/07/11 18:32:52 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R35</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -961,6 +961,7 @@ mws_content <<'EOF'
  <!-- li>Import the GNU bash- and zsh-style ability to get and set multiple
   limits in a single invocation from oksh (thanks millert) -->
  <li>IRIX also has no UTF-8 locale at all, confirmed by Elias Pipping</li>
+ <li>Fix regression test suite for MKSH_SMALL</li>
 </ul>
 <p id="r35">mksh R35 comes with helluva changes:</p><ul>
   <li>Simplify and refactor the ulimit builtin, partially from oksh</li>
