@@ -1,7 +1,7 @@
 #!/bin/mksh
-rcsid='$MirOS: src/sys/arch/sparc/stand/bootxx/mkbxinst.sh,v 1.19 2009/10/03 17:38:11 tg Exp $'
+rcsid='$MirOS: src/sys/arch/sparc/stand/bootxx/mkbxinst.sh,v 1.20 2010/01/16 21:12:26 tg Exp $'
 #-
-# Copyright (c) 2007, 2008, 2009
+# Copyright (c) 2007, 2008, 2009, 2010
 #	Thorsten Glaser <tg@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
@@ -37,7 +37,7 @@ trap 'rm -f $T ; exit 1' 1 2 3 5 13 15
 
 nm --target=a.out-sunos-big $1 |&
 while read -p adr typ sym; do
-	[[ $sym = @(_block_start|_start) ]] || continue
+	[[ $sym = _@(_ustar_keep|block_start|start) ]] || continue
 	eval typeset -i10 sym$sym=0x\$adr
 done
 
@@ -49,7 +49,7 @@ set -A sect_text -- $(objdump -wh --target=a.out-sunos-big $1 | fgrep .text)
 typeset -Uui10 ofs tblsz
 (( ofs = sym_block_start - sym_start + fofs_text ))
 strip -F a.out-sunos-big -s -o $T $1
-(( $(stat -f %z $T) <= (15 * 512) )) || die bootxx too big
+(( $(stat -f %z $T) <= (15 * 512) )) || die 1 bootxx too big
 tblsz=$(dd if=$T bs=1 skip=$ofs count=4 2>/dev/null | \
     hexdump -ve '"0x" 4/1 "%02X"')
 part1=$(dd if=$T bs=1 skip=8 count=$((ofs - 8)) 2>/dev/null | \
@@ -184,6 +184,9 @@ function out_int32 {
 }
 
 EOF
+typeset -i ustar_keep=$((sym__ustar_keep - sym_start + fofs_text ))
+(( ustar_keep < 100 )) || die 1 ustar_keep is too large
+print typeset -i ustar_keep=$ustar_keep \#XXX
 print typeset -i blktblsz=$tblsz
 cat <<'EOF'
 set -A blktblent

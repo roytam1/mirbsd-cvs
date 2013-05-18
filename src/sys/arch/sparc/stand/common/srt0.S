@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/sparc/stand/common/srt0.S,v 1.5 2009/04/17 18:57:08 tg Exp $ */
+/**	$MirOS: src/sys/arch/sparc/stand/common/srt0.S,v 1.6 2010/01/16 21:12:27 tg Exp $ */
 /*	$OpenBSD: srt0.S,v 1.2 2002/08/11 12:20:43 art Exp $	*/
 /*	$NetBSD: srt0.S,v 1.5.4.2 1996/07/17 01:51:46 jtc Exp $	*/
 
@@ -80,10 +80,12 @@ start:
 _le_disklabel_start:
 	.byte	0x57, 0x45, 0x56, 0x82
 	.byte	0x00, 0x00
+_ustar_keep:
 	.byte	0x90, 0x90
 
 	/* ... and ustar header ... */
 	. = start + 0x101 - fofs_text
+	.globl	_ustar_keep
 	.globl	_ustar_magic
 _ustar_magic:
 	.asciz	"ustar"
