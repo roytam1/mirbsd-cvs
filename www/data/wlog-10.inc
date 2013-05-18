@@ -401,3 +401,41 @@ Title: current state: annoyed
 <p>Of course it’s me who has to fix longstanding bugs from 386BSD, VIA C3 AES
  data corruption bugs in the OpenBSD kernel, LP64 bugs in OpenSSL, etc.</p>
 ----
+Date: 14.04.2008 11:32
+Author: tg
+Title: my first advisory
+
+<p>XTaran mentioned that there is a Secunia advisory for mksh: <a
+ href="http://secunia.com/advisories/29803/">SA29803</a>. Wow. This would
+ then be my first one. But people really cannot read: the advisory states
+ it appies to “Secunia Product #18328: MirBSD Korn Shell 3.x” – WTF?
+ I mean, version numbering surely is difficult these days, with Linux and
+ related software often having four or more decimal points(!) in them…
+ but I reported it to them using their web site form.</p>
+<p>I don’t know why Secunia made this advisory, but I suppose the Fedora
+ person has his hands in there, as he told me yesterday that he needs an
+ advisory for marking the update as security fix in their package system.
+ I told him that this is not a lack of wanting to document, or even lack
+ of communication (skills), but that I merely don’t know how this kind of
+ issues is usually handled “out there”. I haven’t dealt with GNU/Linux
+ any more since I started using OpenBSD back then in 2.9 times, and then,
+ this procedere wasn’t widely used.</p>
+<p>Ah, speaking of OpenBSD. They are sometimes not even at fault when <a
+ href="https://www.symlink.ch/article.pl?sid=08/04/03/1650241&amp;mode=nested">a
+ bug report is mis-communicated</a>, even if some people don’t believe it. And
+ they don’t do the major/minor game either. They just still have the decimal
+ dot for hysteric raisins.</p>
+<p>Actual user feedback matters. My fork (MirEwe, just to annoy Jonathan) of
+ the <a href="http://www.ewesoft.com/EweInfo.htm">Ewe VM</a> now has a fix,
+ or rather workaround: when opening serial devices, “/dev/” was prepended to
+ the device name. Now if users enter “/dev/ttyUSB0” (leenocks) things don’t
+ work – but this is hard to debug. MirEwe now warns and does the right thing.
+ The warning is in there for portability ☺</p>
+<p>Ah, and: I could finally log my first (locationless, though) TerraCaches.
+ That makes me an active user of all known platforms. Even if it cost me an
+ entire night of re-reading a book I knew from a looong time ago. But actual
+ caches will follow, and I’m even already planning to plant some myself.</p>
+<p>Basel is getting nearer. I’m still not too happy with the option to move
+ away from here. We’ll see – at least I’m going to take a big chance when I
+ see one, and peek into how it is over there. Even if Benny is on Malle.</p>
+----
