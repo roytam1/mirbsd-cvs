@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/tools/Makefile,v 1.3 2007/10/01 21:19:52 tg Exp $
+# $MirOS: src/distrib/tools/Makefile,v 1.4 2007/10/01 21:38:20 tg Exp $
 
 all: sundsklbl
 
@@ -47,7 +47,7 @@ makecdimage: .PHONY
 	    -P 'The http://mirbsd.de/ team and its contributors' \
 	    -p 'Copyright © 2002-2007 by The MirOS Project' \
 	    -V 'MirOS #${OSrev} BSD manifold-boot CD' \
-	    -volset 'MirBSD Kv#${OSrev} i386/sparc Setup' -sysid MirOSBSD \
+	    -volset "$$(uname -sl) i386/sparc Setup" -sysid MirOSBSD \
 	    -pad -o ${CDROM} cddir 2>&1 | tee mkisofs.log
 	dd if=${.CURDIR}/dual_chain.bin of=${CDROM} conv=notrunc
 
