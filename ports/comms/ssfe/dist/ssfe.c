@@ -1,25 +1,6 @@
-/*-
- * Copyright (c) 2006
- *	Thorsten "mirabile" Glaser <tg@mirbsd.de>
- *
- * Licensee is hereby permitted to deal in this work without restric-
- * tion, including unlimited rights to use, publicly perform, modify,
- * merge, distribute, sell, give away or sublicence, provided all co-
- * pyright notices above, these terms and the disclaimer are retained
- * in all redistributions or reproduced in accompanying documentation
- * or other materials provided with binary redistributions.
- *
- * Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
- * express, or implied, to the maximum extent permitted by applicable
- * law, without malicious intent or gross negligence; in no event may
- * licensor, an author or contributor be held liable for any indirect
- * or other damage, or direct damage except proven a consequence of a
- * direct error of said person and intended use of this work, loss or
- * other issues arising in any way out of its use, even if advised of
- * the possibility of such damage or existence of a nontrivial bug.
- */
-
 /* An ircII-like split-screen front end
+   Copyright (c) 2006
+  	Thorsten "mirabile" Glaser <tg@mirbsd.de>
    Copyright (C) 1995 Roger Espel Llima
 
    Started: 17 Feb 95 by orabidoo <roger.espel.llima@ens.fr>
@@ -76,7 +57,7 @@
 #define	__RCSID(x)	static const char __rcsid[] __attribute__((used)) = (x)
 #endif
 
-__RCSID("$MirOS: ports/comms/ssfe/dist/ssfe.c,v 1.6 2006/01/01 05:22:52 tg Exp $");
+__RCSID("$MirOS: ports/comms/ssfe/dist/ssfe.c,v 1.7 2006/01/01 21:54:25 tg Exp $");
 
 #define BUF_SIZE 4096
 #define MAX_COLS 4096
@@ -605,8 +586,19 @@ int rc; {
       if (wherey<ystatus-1) wherey++;
     } else if (dispmode>1 &&
                ((t==2 && bold) || (t==22 && inv) || (t==31 && under))) {
+      if (t == 2)
+	bold = 0;
+      if (t == 22)
+	inv = 0;
+      if (t == 31)
+	under = 0;
       writecap(t_me);
-      bold=under=inv=0;
+      if (bold)
+	writecap(t_md);
+      if (inv)
+	writecap(t_mr);
+      if (under)
+	writecap(t_us);
     } else if (dispmode>1 && t==2) {
       writecap(t_md);
       bold=1;
