@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/ksh-chan.inc,v 1.8 2011/12/07 23:58:13 tg Exp $
+RCSID: $MirOS: www/data/ksh-chan.inc,v 1.9 2012/10/03 18:04:33 tg Exp $
 Title: Homepage of the original Korn Shell
 Link: http://www.kornshell.com/
 
@@ -8,6 +8,11 @@ are available. It is a modern shell with many features for
 both interactive and script use, extensible, and can be used
 as shared library. It’s also locale aware and thus Unicode
 ready on most modern operating systems.
+----
+Title: AT&amp;T Beta Downloads
+Link: http://www2.research.att.com/sw/download/beta/
+
+Beta versions of the original Korn Shell can often be found here.
 ----
 Title: Homepage of the MirBSD Korn Shell
 Link: @@RELPATH@@mksh.htm
@@ -28,11 +33,6 @@ This is the homepage of the Public Domain Korn Shell (pdksh),
 where last development happened in 1999, when the original
 Korn Shell used to be commercial/proprietary software.
 ----
-Title: AT&amp;T Beta Downloads
-Link: http://www2.research.att.com/sw/download/beta/
-
-Beta versions of the original Korn Shell can often be found here.
-----
 Title: CVSweb for OpenBSD’s ksh
 Link: http://www.openbsd.org/cgi-bin/cvsweb/src/bin/ksh/
 
@@ -42,16 +42,6 @@ It has been ported to other operating systems several times:
 <a href="http://www.delilinux.de/oksh/">oksh in DeliLinux</a>,
 <a href="http://people.freebsd.org/~tmclaugh/">OpenKSH by
  FreeBSD’s Tom McLaughlin</a>, etc.
-----
-Title: Package page for pdksh in Debian
-Link: http://packages.debian.org/sid/pdksh
-
-This is Debian’s packaging of pdksh, which includes several
-fixes from oksh and some of their own. These that were not
-bogus found their way into mksh. It spawned posh (the POsix
-SHell), which attempts to use pdksh code with Korn Shell
-features removed to provide a viable <tt>/bin/sh</tt> for
-Debian (and has since begun to take patches from mksh).
 ----
 Title: ksh88 manual page
 Link: http://uw714doc.sco.com/en/man/html.1/ksh88.1.html
