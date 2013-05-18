@@ -1,5 +1,5 @@
 #!/usr/bin/env mksh
-# $MirOS: CVSROOT/mklogci,v 1.43 2008/08/05 06:10:32 tg Exp $
+# $MirOS: CVSROOT/mklogci,v 1.44 2011/06/11 21:43:58 tg Exp $
 #-
 # Copyright (c) 2005, 2006, 2007, 2011
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -362,9 +362,9 @@ done
 
 # Strip trailing blank lines from the log message; multiple blank
 # lines are compressed into one, and leading blank lines are removed
-(( ${#log_lines[*]} )) && \
-    while [[ ${log_lines[${#log_lines[*]}-1]} = *([	 ]) ]]; do
-	unset log_lines[${#log_lines[*]}-1]
+i=${#log_lines[*]}
+while (( i )) && [[ ${log_lines[i-1]} = *([	 ]) ]]; do
+	unset log_lines[--i]
 done
 i=0
 while (( i < ${#log_lines[*]} )); do
