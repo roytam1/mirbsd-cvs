@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/stand/boot/vars.c,v 1.6 2008/12/31 16:38:35 tg Exp $ */
+/**	$MirOS: src/sys/stand/boot/vars.c,v 1.7 2009/01/14 22:14:59 tg Exp $ */
 /*	$OpenBSD: vars.c,v 1.13 2005/05/24 20:48:35 uwe Exp $	*/
 
 /*
@@ -110,8 +110,10 @@ Xdevice(void)
 {
 	if (cmd.argc != 2)
 		printf("%s\n", cmd.bootdev);
-	else
-		strlcpy(cmd.bootdev, cmd.argv[1], sizeof(cmd.bootdev));
+	else {
+		memcpy(cmd.bootdev, cmd.argv[1], BOOTDEVLEN);
+		cmd.bootdev[BOOTDEVLEN - 1] = '\0';
+	}
 	return 0;
 }
 
@@ -128,8 +130,7 @@ Ximage(void)
 			if (*sp != '@')
 				*dp++ = *sp++;
 			else {
-				strlcpy(dp, MACHINE,
-				    sizeof (cmd.image) - (dp - cmd.image));
+				memcpy(dp, MACHINE, sizeof (MACHINE));
 				while (*dp)
 					++dp;
 				++sp;

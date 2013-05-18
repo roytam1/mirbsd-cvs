@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/stand/boot/cmd.c,v 1.19 2009/01/12 18:31:58 tg Exp $	*/
+/**	$MirOS: src/sys/stand/boot/cmd.c,v 1.21 2009/01/14 22:17:19 tg Exp $	*/
 /*	$OpenBSD: cmd.c,v 1.59 2007/04/27 10:08:34 tom Exp $	*/
 
 /*
@@ -319,7 +319,7 @@ readline(char *buf, size_t n, int to)
 				break;
 
 		if (!cnischar()) {
-			strlcpy(buf, "boot", 5);
+			memcpy(buf, "boot", 5);
 			putchar('\n');
 			return strlen(buf);
 		}
@@ -577,7 +577,7 @@ qualify(char *name)
 		if (*p == ':')
 			break;
 	if (*p == ':')
-		strlcpy(cmd.path, name, sizeof(cmd.path));
+		memcpy(cmd.path, name, strlen(name));
 	else
 		snprintf(cmd.path, sizeof cmd.path, "%s:%s",
 		    cmd.bootdev, name);

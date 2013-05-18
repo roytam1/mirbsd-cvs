@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/stand/boot/boot.c,v 1.16 2009/01/11 13:09:20 tg Exp $	*/
+/**	$MirOS: src/sys/stand/boot/boot.c,v 1.17 2009/01/12 17:36:04 tg Exp $	*/
 /*	$OpenBSD: boot.c,v 1.36 2007/06/26 10:34:41 tom Exp $	*/
 
 /*
@@ -81,7 +81,7 @@ boot(dev_t bootdev)
 
 	devboot(bootdev, cmd.bootdev);
 	printf(" = %s\n", cmd.bootdev);
-	strlcpy(cmd.image, bootfile, sizeof(cmd.image));
+	memcpy(cmd.image, bootfile, strlen(bootfile) + 1);
 
 	cmd.conf = NULL;
 #ifdef IN_PXEBOOT
@@ -154,7 +154,7 @@ boot(dev_t bootdev)
 			bootfile = kernels[i = 0];
 		} else
 			bootfile = kernels[i];
-		strlcpy(cmd.image, bootfile, sizeof(cmd.image));
+		memcpy(cmd.image, bootfile, strlen(bootfile) + 1);
 		printf(" failed(%d).%s%s\n", errno,
 		    (cmd.timeout) ? " will try " : "",
 		    (cmd.timeout) ? bootfile : "");
