@@ -117,9 +117,8 @@ Author: tg@
   src="@@RELPATH@@pics/LinuxTag_2007/d-zeno.png" alt="[image]" /></a></td><td>
   Dæmonische Bilder: Przemysław (zeno, User &amp; Booth Staff) – przemek@
  </td></tr>
- <tr><td style="width:128px;"><a
-  href="@@RELPATH@@pics/LinuxTag_2007/groupies.jpg"><img
-  src="@@RELPATH@@pics/LinuxTag_2007/groupies.png" alt="[image]" /></a></td><td>
+ <tr><td style="width:128px;"><img
+  src="@@RELPATH@@pics/LinuxTag_2007/groupies.png" alt="[image]" /></td><td>
   Benny, Przemek, mira and much, whose laptop just got freshly installed…
  </td></tr>
 </table>
