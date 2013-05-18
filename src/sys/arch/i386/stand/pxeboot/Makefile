@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/stand/pxeboot/Makefile,v 1.5 2006/06/30 23:18:05 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/pxeboot/Makefile,v 1.6 2006/10/15 01:35:54 tg Exp $
 # $OpenBSD: Makefile,v 1.1 2004/03/19 13:48:19 tom Exp $
 
 .include "${.CURDIR}/../Makefile.inc"
@@ -30,8 +30,8 @@ SRCS=		srt0.S
 
 SRCS+=	boot.c cmd.c vars.c bootarg.c conf.c devopen.c net.c open.c
 
-LDADD=	${LIBSA} ${LIBZ}
-DPADD=	${LIBSA} ${LIBZ}
+LDADD+=		${LLIBSA} ${LLIBZ}
+DPADD+=		${DLIBSA} ${DLIBZ}
 
 .PATH:	${S}/stand/boot
 

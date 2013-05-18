@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/stand/boot/Makefile,v 1.10 2006/08/19 12:45:47 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/boot/Makefile,v 1.11 2006/10/15 01:35:53 tg Exp $
 
 .include "${.CURDIR}/../Makefile.inc"
 
@@ -44,8 +44,8 @@ CPPFLAGS+=	-DBOOTSELECT_HOOK
 
 CLEANFILES+=	${.CURDIR}/disasm testmkr ${PROG}.nm ld.out
 SRCS+=		boot.c bootarg.c cmd.c conf.c vars.c
-LDADD=		${LIBSA} ${LIBZ}
-DPADD=		${LIBSA} ${LIBZ}
+LDADD+=		${LLIBSA} ${LLIBZ}
+DPADD+=		${DLIBSA} ${DLIBZ}
 
 all:		${PROG}
 

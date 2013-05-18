@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/stand/Makefile.inc,v 1.10 2007/01/26 19:33:11 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/Makefile.inc,v 1.11 2007/02/08 07:42:10 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.36 2004/07/24 17:39:27 millert Exp $
 
 .ifndef MODSRC_SYS_ARCH_I386_STAND_MAKEFILE_INC
@@ -62,14 +62,18 @@ CPPFLAGS+=	-I${SADIR}/etc
 CPPFLAGS+=	-I${SADIR}/etc/${__objdir}
 .endif
 .if exists(${SADIR}/libsa/libsa.a)
-LIBSA=		${SADIR}/libsa/libsa.a
+DLIBSA=		${SADIR}/libsa/libsa.a
+LLIBSA=		-L${SADIR}/libsa -lsa
 .else
-LIBSA=		${SADIR}/libsa/${__objdir}/libsa.a
+DLIBSA=		${SADIR}/libsa/${__objdir}/libsa.a
+LLIBSA=		-L${SADIR}/libsa/${__objdir} -lsa
 .endif
 .if exists(${SADIR}/libz/libz.a)
-LIBZ=		${SADIR}/libz/libz.a
+DLIBZ=		${SADIR}/libz/libz.a
+LLIBZ=		-L${SADIR}/libz -lz
 .else
-LIBZ=		${SADIR}/libz/${__objdir}/libz.a
+DLIBZ=		${SADIR}/libz/${__objdir}/libz.a
+LLIBZ=		-L${SADIR}/libz/${__objdir} -lz
 .endif
 
 # NO_NET=no_net
