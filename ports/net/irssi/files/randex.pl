@@ -17,10 +17,11 @@
 # of said person's immediate fault when using the work as intended.
 #-
 # Irssi extension to support MirSirc's randex protocol
+# /join ##/dev/arandom on irc.mirbsd.org for talk and entropy
 
 use vars qw($VERSION %IRSSI);
 $VERSION = sprintf "%d.%02d",
-    q$MirOS: ports/net/irssi/files/randex.pl,v 1.6 2008/07/20 22:53:08 tg Exp $
+    q$MirOS: ports/net/irssi/files/randex.pl,v 1.7 2008/07/25 13:45:01 tg Exp $
     =~ m/,v (\d+)\.(\d+) /;
 %IRSSI = (
 	authors		=> 'Thorsten Glaser',
@@ -54,10 +55,10 @@ cmd_randex
 		return;
 	}
 
-	if ($data) {
+	if ($data && ($data ne "*")) {
 		$recip = $server;
 		$towho = $data;
-	} elsif ($witem && ($witem->{type} eq "QUERY")) {
+	} elsif (($witem && ($witem->{type} eq "QUERY")) || ($data eq "*")) {
 		$recip = $witem->{server};
 		$towho = $witem->{name};
 	}
