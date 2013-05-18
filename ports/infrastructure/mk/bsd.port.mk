@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.127 2006/09/09 14:14:22 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.128 2006/09/13 22:07:11 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -1392,7 +1392,7 @@ ${WRKPKG}/DESCR${SUBPACKAGE}: ${DESCR}
 	@${_SED_SUBST} <$? >$@.tmp && mv -f $@.tmp $@
 	@echo "\nMaintainer: ${RESPONSIBLE}" >>$@
 .if defined(HOMEPAGE)
-	@fgrep -q '$${HOMEPAGE}' $? || echo "\nWWW: ${HOMEPAGE}" >>$@
+	@fgrep -q '$${HOMEPAGE}' $? || echo "\nWWW: "${HOMEPAGE:Q} >>$@
 .endif
 .if !empty(FLAVORS)
 	@echo "\nFlavours available:" ${FLAVORS} >>$@
@@ -2562,7 +2562,7 @@ ${FULLPKGNAME${SUBPACKAGE}}.html:
 	@echo ${_COMMENT:Q} | ${HTMLIFY} >$@.tmp-comment
 	@echo ${FULLPKGNAME${SUBPACKAGE}} | ${HTMLIFY} >$@.tmp3
 .if defined(HOMEPAGE)
-	@echo 'See <a href="${HOMEPAGE}">${HOMEPAGE}</a> for details.' >$@.tmp4
+	@echo 'See <a href="'${HOMEPAGE:Q}'">'${HOMEPAGE:Q}'</a> for details.' >$@.tmp4
 .else
 	@echo "" >$@.tmp4
 .endif
@@ -2939,7 +2939,7 @@ unlink-categories:
 
 homepage-links:
 .if defined(HOMEPAGE)
-	@echo '<li><a href="${HOMEPAGE}">${PKGNAME}</a>'
+	@echo '<li><a href="'${HOMEPAGE:Q}'">'${PKGNAME:Q}'</a>'
 .else
 	@echo '<li>${PKGNAME}'
 .endif
