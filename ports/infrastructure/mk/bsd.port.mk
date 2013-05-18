@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.229 2008/11/01 22:57:22 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.230 2008/11/01 23:43:57 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -1316,6 +1316,7 @@ MODSIMPLE_configure=	cd ${WRKCONF} && \
 			    ${MODSIMPLE_configure_env} \
 			    ${SH} ${_CONFIGURE_SCRIPT} ${CONFIGURE_ARGS}
 
+MODSIMPLE_given_INSTALL=${INSTALL} -c -o ${BINOWN} -g ${BINGRP}
 MODSIMPLE_configure_env=REALOS=${OStype:Q} MKSH=${MKSH:Q} \
 			ac_cv_path_CC=${_PASS_CC:Q} ac_cv_path_CXX=${_PASS_CXX:Q} \
 			CC=${_PASS_CC:Q} CFLAGS="$$(print -nr -- ${CFLAGS:Q} | \
@@ -1325,9 +1326,9 @@ MODSIMPLE_configure_env=REALOS=${OStype:Q} MKSH=${MKSH:Q} \
 			    sed -e 's${CPPFLAGS:S\\\\\\g}g' \
 			    -e 's/[ 	]*$$//')" \
 			LD=${LD:Q} LDFLAGS=${LDFLAGS:Q} CPPFLAGS=${CPPFLAGS:Q} \
-			INSTALL='/usr/bin/install -c -o ${BINOWN} -g ${BINGRP}' \
-			ac_given_INSTALL='/usr/bin/install -c -o ${BINOWN} \
-			    -g ${BINGRP}' INSTALL_SCRIPT=${INSTALL_SCRIPT:Q} \
+			INSTALL=${MODSIMPLE_given_INSTALL:Q} \
+			ac_given_INSTALL=${MODSIMPLE_given_INSTALL:Q} \
+			INSTALL_SCRIPT=${INSTALL_SCRIPT:Q} \
 			INSTALL_PROGRAM=${INSTALL_PROGRAM:Q} YACC=${YACC:Q} \
 			INSTALL_MAN=${INSTALL_MAN:Q} GCC_NO_WERROR=1 \
 			INSTALL_DATA=${INSTALL_DATA:Q} ${CONFIGURE_ENV}
