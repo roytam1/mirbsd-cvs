@@ -1,4 +1,4 @@
-/*	$MirOS: src/sys/arch/i386/stand/libsa/gidt.S,v 1.8 2009/01/02 02:13:21 tg Exp $ */
+/*	$MirOS: src/sys/arch/i386/stand/libsa/gidt.S,v 1.9 2009/01/02 02:18:56 tg Exp $ */
 /*	$OpenBSD: gidt.S,v 1.32 2006/12/26 19:30:44 tom Exp $	*/
 
 /*
@@ -122,6 +122,7 @@
 	.text
 	.code32
 	.globl	_ASM_LABEL(pmm_init)
+	.globl	_ASM_LABEL(pmm_leave)
 	.globl	_C_LABEL(_rtt)
 
 ENTRY(_rtt)
@@ -504,5 +505,12 @@ Ltcend:	pop	si		/* offset Ltcbeg */
 	mov	cx,offset Ltcend - offset Ltcbeg
 	rep	movsb
 	lret			/* temporary CS:IP (0000:0610h) on stack */
+
+	.code32
+pmm_leave:
+	.att_syntax
+	prot2real
+	.intel_syntax noprefix
+	jmp	bx
 
 	.end

@@ -687,3 +687,51 @@ Lofsd:	.long	0xfeedcafe	/* just another bad magic */
 	/*
 	 * End of File. Attention, 32-bit mode!
 	 */
+
+#ifndef SMALL_BOOT
+	/*
+	 * Multiboot header and entry point
+	 */
+	.p2align 4
+Lmbhdr:	.long	0x1BADB002		/* magic */
+	.long	0x00010000		/* flags */
+	.long	-0x1BADB002-0x00010000	/* checksum */
+	/* the addresses are all bounced to 1 MiB */
+	.long	Lmbhdr - SA_LINKADDR + 0x00100000	/* header_addr */
+	.long	0x00100000				/* load_addr */
+	.long	0					/* load_end_addr */
+	.long	0					/* bss_end_addr */
+	.long	Lmbrun - SA_LINKADDR + 0x00100000	/* entry_addr */
+
+Lmbrun:	mov	edx,[ebx+12]		/* boot_device */
+	shr	edx,24
+	mov	esp,0x00028000		/* minimal stack */
+	/* relocate */
+	xor	eax,eax
+	push	eax
+	popfd
+	mov	esi,0x00100000
+	mov	edi,SA_LINKADDR
+	mov	ecx,0x4000		/* 64 KiB in dwords */
+	rep	movsd
+	mov	eax,offset Lmb2rm
+	jmp	eax
+	/* relocated */
+Lmb2rm:	lgdt	Gdtr
+	mov	ebx,offset Lmbret - SA_LINKADDR
+	call	pmm_leave		/* gidt.S */
+	.code16
+Lmbret:	mov	ax,0xB800
+	mov	gs,ax
+	mov	bx,SA_LOADSEG
+	mov	ss,bx
+	mov	esp,0xC0
+	push	dx
+	mov	ax,bx
+	add	ah,0x10
+	push	ax
+	xor	eax,eax
+	push	eax
+	popfd
+	jmp	LisRel
+#endif
