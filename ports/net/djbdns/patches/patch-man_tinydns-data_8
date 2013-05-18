@@ -1,6 +1,6 @@
-$MirOS: ports/net/djbdns/patches/patch-man_tinydns-data_8,v 1.3 2006/01/15 12:57:46 tg Exp $
+$MirOS: ports/net/djbdns/patches/patch-man_tinydns-data_8,v 1.4 2006/07/27 00:58:16 tg Exp $
 --- man/tinydns-data.8.orig	Thu Oct 23 07:47:10 2003
-+++ man/tinydns-data.8	Wed Jul 26 23:42:43 2006
++++ man/tinydns-data.8	Sat Aug 27 22:08:46 2011
 @@ -1,4 +1,4 @@
 -.TH tinydns-data 8
 +.TH tinydns-data 8 "June 13, 2003" "" "DJBDNS Operation Guide"
@@ -160,6 +160,21 @@ $MirOS: ports/net/djbdns/patches/patch-man_tinydns-data_8,v 1.3 2006/01/15 12:57
  .IR fqdn .
  .B tinydns-data
  creates a TXT record for 
+@@ -479,12 +504,12 @@ creates a TXT record for 
+ containing the string 
+ .IR s .
+ You may use octal 
+-.RI \ nnn
++.RI \e nnn
+ codes
+ to include arbitrary bytes inside 
+ .IR s ;
+ for example, 
+-.RI \ 072
++.RI \e 072
+ is a colon.
+ 
+ .RI ^ fqdn\fR:\fIp\fR:\fIttl\fR:\fItimestamp\fR:\fIlo\fR
 @@ -499,7 +524,7 @@ pointing to the domain name 
  
  .RI C fqdn\fR:\fIp\fR:\fIttl\fR:\fItimestamp\fR:\fIlo\fR
@@ -180,6 +195,15 @@ $MirOS: ports/net/djbdns/patches/patch-man_tinydns-data_8,v 1.3 2006/01/15 12:57
  
  .RI Z fqdn\fR:\fImname\fR:\fIrname\fR:\fIser\fR:\fIref\fR:\fIret\fR:\fIexp\fR:\fImin\fR:\fIttl\fR:\fItimestamp\fR:\fIlo\fR
  
+@@ -579,7 +604,7 @@ The proper format of
+ depends on 
+ .IR n .
+ You may use octal 
+-.RI \ nnn
++.RI \e nnn
+ codes
+ to include arbitrary bytes inside 
+ .IR rdata .
 @@ -704,3 +729,11 @@ if the database were rebuilt periodicall
  tinydns(8)
  
