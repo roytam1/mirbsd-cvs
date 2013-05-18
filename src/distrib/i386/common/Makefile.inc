@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/common/Makefile.inc,v 1.8 2006/02/01 19:46:46 tg Exp $
+# $MirOS: src/distrib/i386/common/Makefile.inc,v 1.9 2006/02/14 20:47:52 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.15 2004/11/25 22:02:08 deraadt Exp $
 
 .ifndef _MODSRC_DISTRIB_I386_COMMON_MAKEFILE_INC
@@ -33,11 +33,11 @@ BOOT=		${DESTDIR}/usr/mdec/boot
 FLOPPYSIZE?=	144
 FLOPPYSECS?=	18
 FLOPPYTYPE?=	floppy3
-HOSTCFLAGS?=	${CFLAGS} ${COPTS}
 .if !${COPTS:M-Os}
 COPTS+=		-Os
 .endif
 CFLAGS+=	${CDIAGFLAGS} ${COPTS}
+HOSTCFLAGS?=	${CFLAGS}
 
 SYSDIR=		${.CURDIR}/../../../sys
 SYSSUBDIR=	${SYSDIR}/arch/i386
