@@ -1,4 +1,4 @@
-@comment $MirOS: ports/www/firesomething/pkg/PLIST,v 1.6 2008/05/21 06:31:06 bsiegert Exp $
+@comment $MirOS: ports/www/firesomething/pkg/PLIST,v 1.7 2008/05/21 12:23:24 tg Exp $
 @comment $OpenBSD: PLIST,v 1.13 2005/09/24 16:19:29 bernd Exp $
 @pkgcfl mozilla-firebird-*
 @pkgcfl mozilla-firefox-*
@@ -96,6 +96,61 @@ firesomething/components/layout_base.xpt
 firesomething/components/layout_printing.xpt
 firesomething/components/layout_xul.xpt
 firesomething/components/layout_xul_tree.xpt
+firesomething/components/libaccessibility.so${SO_EXTENSION}
+firesomething/components/libappcomps.so${SO_EXTENSION}
+firesomething/components/libauth.so${SO_EXTENSION}
+firesomething/components/libautoconfig.so${SO_EXTENSION}
+firesomething/components/libbrowsercomps.so${SO_EXTENSION}
+firesomething/components/libbrowserdirprovider.so${SO_EXTENSION}
+firesomething/components/libcaps.so${SO_EXTENSION}
+firesomething/components/libchrome.so${SO_EXTENSION}
+firesomething/components/libcommandlines.so${SO_EXTENSION}
+firesomething/components/libcomposer.so${SO_EXTENSION}
+firesomething/components/libcookie.so${SO_EXTENSION}
+firesomething/components/libdocshell.so${SO_EXTENSION}
+firesomething/components/libeditor.so${SO_EXTENSION}
+firesomething/components/libembedcomponents.so${SO_EXTENSION}
+firesomething/components/libfileview.so${SO_EXTENSION}
+firesomething/components/libgfx_gtk.so${SO_EXTENSION}
+firesomething/components/libgfxps.so${SO_EXTENSION}
+firesomething/components/libgklayout.so${SO_EXTENSION}
+firesomething/components/libgkplugin.so${SO_EXTENSION}
+firesomething/components/libhtmlpars.so${SO_EXTENSION}
+firesomething/components/libi18n.so${SO_EXTENSION}
+firesomething/components/libimglib2.so${SO_EXTENSION}
+firesomething/components/libjar50.so${SO_EXTENSION}
+firesomething/components/libjsd.so${SO_EXTENSION}
+firesomething/components/libmork.so${SO_EXTENSION}
+firesomething/components/libmozfind.so${SO_EXTENSION}
+firesomething/components/libmyspell.so${SO_EXTENSION}
+firesomething/components/libnecko.so${SO_EXTENSION}
+firesomething/components/libnecko2.so${SO_EXTENSION}
+firesomething/components/libnsappshell.so${SO_EXTENSION}
+firesomething/components/liboji.so${SO_EXTENSION}
+firesomething/components/libpermissions.so${SO_EXTENSION}
+firesomething/components/libpipboot.so${SO_EXTENSION}
+firesomething/components/libpipnss.so${SO_EXTENSION}
+firesomething/components/libpippki.so${SO_EXTENSION}
+firesomething/components/libpref.so${SO_EXTENSION}
+firesomething/components/librdf.so${SO_EXTENSION}
+firesomething/components/libremoteservice.so${SO_EXTENSION}
+firesomething/components/libsearchservice.so${SO_EXTENSION}
+firesomething/components/libspellchecker.so${SO_EXTENSION}
+firesomething/components/libstoragecomps.so${SO_EXTENSION}
+firesomething/components/libsystem-pref.so${SO_EXTENSION}
+firesomething/components/libtoolkitcomps.so${SO_EXTENSION}
+firesomething/components/libtransformiix.so${SO_EXTENSION}
+firesomething/components/libtxmgr.so${SO_EXTENSION}
+firesomething/components/libuconv.so${SO_EXTENSION}
+firesomething/components/libucvmath.so${SO_EXTENSION}
+firesomething/components/libuniversalchardet.so${SO_EXTENSION}
+firesomething/components/libwebbrwsr.so${SO_EXTENSION}
+firesomething/components/libwebsrvcs.so${SO_EXTENSION}
+firesomething/components/libwidget_gtk2.so${SO_EXTENSION}
+firesomething/components/libxmlextras.so${SO_EXTENSION}
+firesomething/components/libxpcom_compat_c.so${SO_EXTENSION}
+firesomething/components/libxpconnect.so${SO_EXTENSION}
+firesomething/components/libxpinstall.so${SO_EXTENSION}
 firesomething/components/locale.xpt
 firesomething/components/lwbrk.xpt
 firesomething/components/microsummaries.xpt
@@ -2176,9 +2231,30 @@ firesomething/include/xultmpl/nsIXULSortService.h
 firesomething/include/xultmpl/nsIXULTemplateBuilder.h
 firesomething/init.d/README
 firesomething/libfreebl3.chk
+firesomething/libfreebl3.so${SO_EXTENSION}
+firesomething/libgfxpsshar.so${SO_EXTENSION}
+firesomething/libgkgfx.so${SO_EXTENSION}
+firesomething/libgtkembedmoz.so${SO_EXTENSION}
+firesomething/libgtkxtbin.so${SO_EXTENSION}
+firesomething/libjsj.so${SO_EXTENSION}
+firesomething/libmozjs.so${SO_EXTENSION}
+firesomething/libnspr4.so${SO_EXTENSION}
+firesomething/libnss3.so${SO_EXTENSION}
+firesomething/libnssckbi.so${SO_EXTENSION}
+firesomething/libplc4.so${SO_EXTENSION}
+firesomething/libplds4.so${SO_EXTENSION}
+firesomething/libsmime3.so${SO_EXTENSION}
 firesomething/libsoftokn3.chk
+firesomething/libsoftokn3.so${SO_EXTENSION}
+firesomething/libssl3.so${SO_EXTENSION}
+firesomething/libxpcom.so${SO_EXTENSION}
+firesomething/libxpcom_compat.so${SO_EXTENSION}
+firesomething/libxpcom_core.so${SO_EXTENSION}
+firesomething/libxpistub.so${SO_EXTENSION}
 firesomething/mozilla-xremote-client
 firesomething/old-homepage-default.properties
+firesomething/plugins/libnullplugin.so${SO_EXTENSION}
+firesomething/plugins/libunixprintplugin.so${SO_EXTENSION}
 firesomething/regxpcom
 firesomething/res/EditorOverride.css
 firesomething/res/arrow.gif
@@ -3441,7 +3517,6 @@ share/idl/firefox-${VER}/rdfITripleVisitor.idl
 share/idl/firefox-${VER}/xpccomponents.idl
 share/idl/firefox-${VER}/xpcexception.idl
 share/idl/firefox-${VER}/xpcjsid.idl
-%%SHARED%%
 @dirrm share/idl/firefox-${VER}
 @dirrm share/idl
 @dirrm share/aclocal
