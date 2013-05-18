@@ -1,4 +1,4 @@
-/* $OpenBSD: dh.c,v 1.44 2006/11/07 13:02:07 markus Exp $ */
+/* $OpenBSD: dh.c,v 1.45 2007/09/27 00:15:57 ray Exp $ */
 /*
  * Copyright (c) 2000 Niels Provos.  All rights reserved.
  *
@@ -37,7 +37,7 @@
 #include "log.h"
 #include "misc.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/dh.c,v 1.5 2006/09/20 21:40:58 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/dh.c,v 1.6 2006/11/09 02:42:05 tg Exp $");
 
 static int
 parse_prime(int linenum, char *line, struct dhgroup *dhg)
@@ -184,7 +184,7 @@ dh_pub_is_valid(DH *dh, BIGNUM *dh_pub)
 	BIGNUM *tmp;
 
 	if (dh_pub->neg) {
-		logit("invalid public DH value: negativ");
+		logit("invalid public DH value: negative");
 		return 0;
 	}
 	if (BN_cmp(dh_pub, BN_value_one()) != 1) {	/* pub_exp <= 1 */
@@ -192,8 +192,10 @@ dh_pub_is_valid(DH *dh, BIGNUM *dh_pub)
 		return 0;
 	}
 
-	if ((tmp = BN_new()) == NULL)
-		return (-1);
+	if ((tmp = BN_new()) == NULL) {
+		error("%s: BN_new failed", __func__);
+		return 0;
+	}
 	if (!BN_sub(tmp, dh->p, BN_value_one()) ||
 	    BN_cmp(dh_pub, tmp) != -1) {		/* pub_exp > p-2 */
 		BN_clear_free(tmp);
