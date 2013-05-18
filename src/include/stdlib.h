@@ -1,4 +1,4 @@
-/**	$MirOS: src/include/stdlib.h,v 1.8 2006/05/21 12:12:24 tg Exp $ */
+/**	$MirOS: src/include/stdlib.h,v 1.9 2006/05/30 18:09:59 tg Exp $ */
 /*	$OpenBSD: stdlib.h,v 1.34 2005/05/27 17:45:56 millert Exp $	*/
 /*	$NetBSD: stdlib.h,v 1.25 1995/12/27 21:19:08 jtc Exp $	*/
 
@@ -248,7 +248,7 @@ int	mblen(const char *, size_t);
 size_t	mbstowcs(wchar_t *__restrict__, const char *__restrict__, size_t);
 int	mbtowc(wchar_t *__restrict__, const char *__restrict__, size_t);
 size_t	wcstombs(char *__restrict__, const wchar_t *__restrict__, size_t);
-int	wctomb(char *, wchar_t);
+int	wctomb(char *, const wchar_t);
 __END_DECLS
 
 #endif /* _STDLIB_H_ */
