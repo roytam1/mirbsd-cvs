@@ -1,4 +1,4 @@
-# $MirOS: ports/lang/python/Makefile.inc,v 1.22 2009/10/13 19:10:17 bsiegert Exp $
+# $MirOS: ports/lang/python/Makefile.inc,v 1.23 2009/12/28 14:55:15 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.32 2005/06/06 20:47:04 alek Exp $
 
 .include <mirports.sys.mk>
@@ -66,6 +66,10 @@ NONIS=		\#
 SED_PLIST+=	| sed -e '/^IFNIS:/d'
 .else
 SED_PLIST+=	| sed -e '/^IFNIS:/s///'
+.endif
+
+.if ${OStype} == "Darwin"
+INSTALL_STRIP=
 .endif
 
 # Same algorithm as in configure

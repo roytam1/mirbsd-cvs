@@ -282,7 +282,6 @@ lib/python${VERSION}/plat-mac/cfmfile.pyc
 lib/python${VERSION}/plat-mac/cfmfile.pyo
 lib/python${VERSION}/plat-mac/dialogs.rsrc
 lib/python${VERSION}/plat-mac/errors.rsrc
-lib/python${VERSION}/plat-mac/errors.rsrc.df.rsrc
 lib/python${VERSION}/plat-mac/findertools.py
 lib/python${VERSION}/plat-mac/findertools.pyc
 lib/python${VERSION}/plat-mac/findertools.pyo
