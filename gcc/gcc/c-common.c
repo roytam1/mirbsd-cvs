@@ -1,4 +1,4 @@
-/* $MirOS: gcc/gcc/c-common.c,v 1.2 2005/03/25 19:28:59 tg Exp $ */
+/* $MirOS: gcc/gcc/c-common.c,v 1.3 2005/11/20 16:43:50 tg Exp $ */
 
 /* Subroutines shared by all languages that are variants of C.
    Copyright (C) 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000,
@@ -351,6 +351,10 @@ int warn_format_security;
 /* Warn about buffer size mismatches.  */
 
 int warn_bounded;
+
+/* Warn about missing field initialisers.  */
+
+int warn_missing_field_initializers = -1;
 
 /* Zero means that faster, ...NonNil variants of objc_msgSend...
    calls will be used in ObjC; passing nil receivers to such calls

@@ -1,4 +1,4 @@
-/* $MirOS: gcc/gcc/c-common.h,v 1.2 2005/03/25 19:29:00 tg Exp $ */
+/* $MirOS: gcc/gcc/c-common.h,v 1.3 2005/11/20 16:43:51 tg Exp $ */
 
 /* Definitions for c-common.c.
    Copyright (C) 1987, 1993, 1994, 1995, 1997, 1998,
@@ -534,6 +534,10 @@ extern int warn_format_security;
 /* Warn about buffer size mismatches.  */
 
 extern int warn_bounded;
+
+/* Warn about missing field initialisers.  */
+
+extern int warn_missing_field_initializers;
 
 
 /* C/ObjC language option variables.  */

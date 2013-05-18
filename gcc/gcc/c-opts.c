@@ -1,4 +1,4 @@
-/* $MirOS: gcc/gcc/c-opts.c,v 1.10 2008/10/11 18:58:53 tg Exp $ */
+/* $MirOS: gcc/gcc/c-opts.c,v 1.11 2009/12/12 19:40:41 tg Exp $ */
 
 /* C/ObjC/C++ command line option handling.
    Copyright (C) 2002, 2003, 2004, 2006 Free Software Foundation, Inc.
@@ -547,6 +547,10 @@ c_common_handle_option (size_t scode, const char *arg, int value)
 
     case OPT_Wmissing_declarations:
       warn_missing_declarations = value;
+      break;
+
+    case OPT_Wmissing_field_initializers:
+      warn_missing_field_initializers = value;
       break;
 
     case OPT_Wmissing_format_attribute:
@@ -1132,6 +1136,8 @@ c_common_post_options (const char **pfilename)
       overridden.  */
   if (warn_sign_compare == -1)
     warn_sign_compare = extra_warnings;
+  if (warn_missing_field_initializers == -1)
+    warn_missing_field_initializers = extra_warnings;
 
   /* Special format checking options don't work without -Wformat; warn if
      they are used.  */

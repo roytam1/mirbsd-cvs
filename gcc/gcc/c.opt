@@ -1,4 +1,4 @@
-; $MirOS: gcc/gcc/c.opt,v 1.6 2006/09/25 22:01:17 tg Exp $
+; $MirOS: gcc/gcc/c.opt,v 1.7 2007/05/19 01:18:28 tg Exp $
 ;
 ; Options for the C, ObjC, C++ and ObjC++ front ends.
 ; Copyright (C) 2003, 2005, 2006
@@ -292,6 +292,10 @@ Warn about possibly missing braces around initializers
 Wmissing-declarations
 C ObjC
 Warn about global functions without previous declarations
+
+Wmissing-field-initializers
+C ObjC C++ ObjC++
+Warn about missing fields in struct initializers
 
 Wmissing-format-attribute
 C ObjC C++ ObjC++
