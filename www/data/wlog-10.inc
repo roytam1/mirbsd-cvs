@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.203 2009/06/29 21:09:35 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.204 2009/07/03 19:27:44 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -4180,6 +4180,34 @@ Author: tg@
  (no idea… but trying to combine Gentium + Gentium Italic + Gentium
  Basic Bold + Gentium Basic Bold Italic into one font is hard.</p>
 <p>And the Ⅱ U+2161 ROMAN NUMERAL TWO is missing… ☹</p>
+----
+Author: bsiegert@
+Date: 27.06.2009 08:17
+Title: Carbon 2009, Biarritz, France
+
+<p>I spent the past week in Biarritz for the <em>Carbon 2009</em>
+ conference. Biarritz is located in the Basque country on the shores of
+ the Atlantic ocean. It used to be a resort for the rich ones (Napoleon,
+ for instance, had a summer residence there), and the town still has
+ that kind of feeling to it. The conference took place in the Casino,
+ right on the beachfront, and in a former Casino transformed to a
+ convention center, with a nice view over the ocean. We had only a few
+ hours of sun here and there; we did take a bath in the ocean but it was
+ quite cold.</p>
+
+<p>I did an oral presentation about the "Structure and Reactivity of
+ Carbon Nanotube/Manganese Oxide Nanocomposites", which was well
+ received, I think. There were some interesting questions, and
+ everything went well&mdash;except for the fact that the "moderator
+ monitor" in Keynote stopped responding at about the third slide. On the
+ big screen however, everything continued smoothly. Other talks were
+ very interesting, too: Kazu Suenaga from AIST in Japan showed
+ atomic-resolution electron microscopy images and even videos of
+ reactions taking place inside the microscope. Wow.</p>
+
+<p>For the people presenting posters, the situation was less rosy
+ though: all the poster sessions were in parallel to a buffet, so you
+ had to choose between eating and looking at the posters.</p>
 ----
 Title: krank ‣ ziek ‣ ill
 Date: 29.06.2009 21:04
