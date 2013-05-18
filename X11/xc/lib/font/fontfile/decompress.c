@@ -1,10 +1,11 @@
 /**	$XFree86$ */
-/**	$MirOS: src/usr.bin/compress/zopen.c,v 1.7 2006/06/15 19:13:07 tg Exp $ */
-/*	$OpenBSD: zopen.c,v 1.16 2005/06/26 18:20:26 otto Exp $	*/
+/**	$MirOS: src/usr.bin/compress/zopen.c,v 1.10 2011/10/11 19:25:29 tg Exp $ */
+/**	_MirOS: src/usr.bin/compress/zopen.c,v 1.10 2011/10/11 19:25:29 tg Exp $ */
+/*	$OpenBSD: zopen.c,v 1.17 2005/08/25 17:07:56 millert Exp $	*/
 /*	$NetBSD: zopen.c,v 1.5 1995/03/26 09:44:53 glass Exp $	*/
 
 /*-
- * Copyright (c) 2005, 2006
+ * Copyright (c) 2005, 2006, 2011
  *	Thorsten Glaser <tg@mirbsd.de>
  * Copyright (c) 1985, 1986, 1992, 1993
  *	The Regents of the University of California.  All rights reserved.
@@ -78,8 +79,11 @@
 #define	MIN(a, b)	(((a) < (b)) ? (a) : (b))
 #endif
 
-static const char __sccsid[] = "@(#)zopen.c	8.1 (Berkeley) 6/27/93";
-static const char __rcsid[] = "$MirOS: X11/xc/lib/font/fontfile/decompress.c,v 1.3 2005/12/17 05:46:05 tg Exp $";
+#ifndef __RCSID
+#define __RCSID(x)	static const char __rcsid[] = x
+#endif
+
+__RCSID("$MirOS: src/usr.bin/compress/zopen.c,v 1.10 2011/10/11 19:25:29 tg Exp $");
 
 #define	BITS		16		/* Default bits. */
 #define	HSIZE		69001		/* 95% occupancy */
@@ -112,8 +116,8 @@ struct s_zstate {
 	int zs_maxbits;			/* User settable max # bits/code. */
 	code_int zs_maxcode;		/* Maximum code, given n_bits. */
 	code_int zs_maxmaxcode;		/* Should NEVER generate this code. */
-	count_int zs_htab [HSIZE];
-	u_short zs_codetab [HSIZE];
+	count_int zs_htab[HSIZE];
+	u_short zs_codetab[HSIZE];
 	code_int zs_hsize;		/* For dynamic table sizing. */
 	code_int zs_free_ent;		/* First unused entry. */
 	/*
@@ -136,7 +140,7 @@ struct s_zstate {
 			code_int zs_ent;
 			code_int zs_hsize_reg;
 			int zs_hshift;
-		} w;			/* Write paramenters */
+		} w;			/* Write parameters */
 		struct {
 			u_char *zs_stackp, *zs_ebp;
 			int zs_finchar;
@@ -302,6 +306,15 @@ zread(BufFilePtr zsf)
 
 		/* Generate output characters in reverse order. */
 		while (zs->zs_code >= 256) {
+			/*
+			 * Bad input file may cause zs_stackp to overflow
+			 * zs_htab; check here and abort decompression,
+			 * that's better than dumping core.
+			 */
+			if (zs->zs_stackp >= (u_char *)&zs->zs_htab[HSIZE]) {
+				errno = EINVAL;
+				return (-1);
+			}
 			*zs->zs_stackp++ = tab_suffixof(zs->zs_code);
 			zs->zs_code = tab_prefixof(zs->zs_code);
 		}
@@ -439,12 +452,13 @@ BufFilePushCompressed(BufFilePtr f)
 	if ((gcode = BufFileGet(f)) == BUFFILEEOF)
 		return (0);
 
-	if ((zs = xalloc(sizeof (struct s_zstate))) == NULL)
+	if ((zs = xalloc(sizeof(struct s_zstate))) == NULL)
 		return (NULL);
+	memset(zs, '\0', sizeof(struct s_zstate));
 
 	/* max # bits/code. */
 	zs->zs_maxbits = gcode & BIT_MASK;
-	if (zs->zs_maxbits > BITS)
+	if (zs->zs_maxbits > BITS || zs->zs_maxbits < 12)
 		return (0);
 	/* Should NEVER generate this code. */
 	zs->zs_maxmaxcode = 1L << zs->zs_maxbits;
