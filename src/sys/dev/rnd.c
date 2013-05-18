@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/rnd.c,v 1.6 2006/02/23 01:28:27 tg Exp $ */
+/**	$MirOS: src/sys/dev/rnd.c,v 1.7 2006/02/23 01:29:32 tg Exp $ */
 /*	$OpenBSD: rnd.c,v 1.78 2005/07/07 00:11:24 djm Exp $	*/
 
 /*
@@ -433,7 +433,7 @@ struct rndstats rndstats;
 
 void srandom(u_long);
 void prnd_reinit(void *);
-void rnd_addpool_reinit(void *);
+static void rnd_addpool_reinit(void *);
 
 static u_int32_t roll(u_int32_t w, int i)
 {
@@ -583,14 +583,14 @@ arc4maybeinit(void)
 	extern int hz;
 
 	if (!arc4random_initialized) {
+		/* 10 minutes, per dm@'s suggestion */
+		timeout_add(&arc4_timeout, 10 * 60 * hz);
 #ifdef DIAGNOSTIC
 		if (!rnd_attached)
 			panic("arc4maybeinit: premature");
 #endif
 		arc4random_initialized++;
 		arc4_stir();
-		/* 10 minutes, per dm@'s suggestion */
-		timeout_add(&arc4_timeout, 10 * 60 * hz);
 	}
 }
 
@@ -618,9 +618,9 @@ prnd_reinit(void *v)
 	extern int hz;
 	extern volatile int ticks;
 
+	timeout_add(&prnd_timeout, hz << 8);
 	/* re-seed the PRNG about once every 4-and-a-bit minutes */
 	srandom(rnd_attached ? arc4random() : (ticks ^ time.tv_sec));
-	timeout_add(&prnd_timeout, hz << 8);
 }
 
 void
@@ -1242,13 +1242,11 @@ randomioctl(dev_t dev, u_long cmd, caddr_t data, int flag, struct proc *p)
 	return ret;
 }
 
-void
+static void
 rnd_addpool_reinit(void *v)
 {
 	extern int hz;
 	register int i = rnd_addpool_num;
-
-	timeout_del(&rnd_addpool_timeout);
 
 	if (!rnd_addpool_allow || !rnd_attached) {
 		/* reschedule in four and a bit minutes, it's off anyways */
