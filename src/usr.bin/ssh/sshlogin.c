@@ -57,17 +57,23 @@
 #include "buffer.h"
 #include "servconf.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/ssh/sshlogin.c,v 1.4 2006/09/20 21:41:08 tg Exp $");
 
 extern Buffer loginmsg;
 extern ServerOptions options;
+
+#ifdef SMALL
+#define usmall	__attribute__((unused))
+#else
+#define usmall	/* nothing */
+static time_t get_last_login_time(uid_t, const char *, char *, size_t);
 
 /*
  * Returns the time when the user last logged in.  Returns 0 if the
  * information is not available.  This must be called before record_login.
  * The host the user logged in from will be returned in buf.
  */
-time_t
+static time_t
 get_last_login_time(uid_t uid, const char *logname __attribute__((unused)),
     char *buf, size_t bufsize)
 {
@@ -134,17 +140,19 @@ store_lastlog_message(const char *user, uid_t uid)
 		buffer_append(&loginmsg, buf, strlen(buf));
 	}
 }
+#endif
 
 /*
  * Records that the user has logged in.  I wish these parts of operating
  * systems were more standardized.
  */
 void
-record_login(pid_t pid __attribute__((unused)), const char *tty,
-    const char *user, uid_t uid, const char *host,
+record_login(pid_t pid __attribute__((unused)), const char *tty usmall,
+    const char *user usmall, uid_t uid usmall, const char *host usmall,
     struct sockaddr *addr __attribute__((unused)),
     socklen_t addrlen __attribute__((unused)))
 {
+#ifndef SMALL
 	int fd;
 	struct lastlog ll;
 	const char *lastlog;
@@ -183,13 +191,16 @@ record_login(pid_t pid __attribute__((unused)), const char *tty,
 			close(fd);
 		}
 	}
+#endif
 }
 
 /* Records that the user has logged out. */
 void
-record_logout(pid_t pid __attribute__((unused)), const char *tty)
+record_logout(pid_t pid __attribute__((unused)), const char *tty usmall)
 {
+#ifndef SMALL
 	const char *line = tty + 5;	/* /dev/ttyq8 -> ttyq8 */
 	if (logout(line))
 		logwtmp(line, "", "");
+#endif
 }

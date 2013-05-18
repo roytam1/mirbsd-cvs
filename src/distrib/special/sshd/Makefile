@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/special/sshd/Makefile,v 1.3 2006/08/17 20:13:29 tg Exp $
+# $MirOS: src/distrib/special/sshd/Makefile,v 1.4 2006/09/22 12:28:56 tg Exp $
 # $OpenBSD: Makefile,v 1.64 2004/08/23 14:26:39 dtucker Exp $
 #
 # Yes, this is _without_ BSD auth.
@@ -31,3 +31,5 @@ LDADD+=	-lcrypto -lutil -lz -ldes
 
 DPADD+=	${SSHDIR}/lib/${__objdir}/libssh.a
 LDADD+=	-L${SSHDIR}/lib/${__objdir} -L${SSHDIR}/lib -lssh
+
+CPPFLAGS+= -DSMALL
