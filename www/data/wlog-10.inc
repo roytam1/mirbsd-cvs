@@ -764,3 +764,14 @@ Title: all hardware sucks, all software sucks...
 <p>Just a side question: why don't things just work every once in a while?
  And why, oh Murphy, do things go wrong the worst way possible, always?</p>
 ----
+Date: 13.05.2008
+Author: tg@
+Title: No, I won’t.
+
+<p>We have lived for 25 years with the seekdir bug, and even if it’s now on
+ slashdot this does not mean we will immediately patch it. Besides, bringing
+ that part of libc in sync with OpenBSD will involve libc and libpthread
+ shlib version major bumps, which is a bit overkill for this diff.</p>
+<p>It will go anyway with the upcoming merge of more recent OpenBSD base
+ code. There are more pressing issues. But I have looked into it.</p>
+----
