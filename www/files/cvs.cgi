@@ -46,7 +46,7 @@
 # OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 # SUCH DAMAGE.
 #
-# $MirOS: www/files/cvs.cgi,v 1.3 2009/08/15 21:07:58 tg Exp $
+# $MirOS: www/files/cvs.cgi,v 1.4 2010/07/16 19:23:26 tg Exp $
 # $FreeBSD: projects/cvsweb/cvsweb.cgi,v 1.291 2005/01/22 12:43:55 scop Exp $
 # $Id$
 # $Idaemons: /home/cvs/cvsweb/cvsweb.cgi,v 1.84 2001/10/07 20:50:10 knu Exp $
@@ -66,7 +66,7 @@ use vars qw (
   @CVSrepositories @CVSROOT %CVSROOT %CVSROOTdescr
   %MIRRORS %DEFAULTVALUE %ICONS %MTYPES
   %DIFF_COMMANDS @DIFFTYPES %DIFFTYPES @LOGSORTKEYS %LOGSORTKEYS
-  %alltags %fileinfo %tags @branchnames %nameprinted
+  %alltags %fileinfo %tags @branchnames %nameprinted %cid
   %symrev %revsym @allrevisions %date %author @revdisplayorder
   @revisions %state %difflines %log %branchpoint @revorder $keywordsubstitution
   $prcgi @prcategories $re_prcategories $prkeyword $re_prkeyword $mancgi
@@ -121,7 +121,7 @@ use constant HAS_EDIFF    => eval { require String::Ediff;  };
 
 BEGIN
 {
-  $VERSION = '3.0.5';
+  $VERSION = '3.0.5 + $MirOS$';
 
   $HTML_DOCTYPE =
     '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" ' .
@@ -2656,6 +2656,7 @@ sub readLog($;$)
   undef %state;
   undef %difflines;
   undef %log;
+  undef %cid;
   $keywordsubstitution = '';
 
   my $fh = do { local (*FH); };
@@ -2698,6 +2699,7 @@ sub readLog($;$)
   # ----------------------------
   # revision 3.7.1.1
   # date: 1995/11/29 22:15:52;  author: fenner;  state: Exp;  lines: +5 -3
+  # date: 2009/09/23 18:04:55;  author: tg;  state: Exp;  lines: +3 -1;  commitid: 1004ABA62C8171BD8E4;
   # log info
   # ----------------------------
 
@@ -2728,7 +2730,7 @@ sub readLog($;$)
     }
     $_ = <$fh>;
     if (
-      m|^date:\s+(\d+)/(\d+)/(\d+)\s+(\d+):(\d+):(\d+);\s+author:\s+(\S+);\s+state:\s+(\S+);\s+(lines:\s+([0-9\s+-]+))?|
+      m|^date:\s+(\d+)/(\d+)/(\d+)\s+(\d+):(\d+):(\d+);\s+author:\s+(\S+);\s+state:\s+(\S+);\s+(lines:\s+([0-9\s+-]+))?(;\s+commitid:\s+([^\s;]+))?|
       )
     {
       my $yr           = $1;
@@ -2737,6 +2739,7 @@ sub readLog($;$)
       $author{$rev}    = $7;
       $state{$rev}     = $8;
       $difflines{$rev} = $10;
+      $cid{$rev}       = $12;
     } else {
       fatal("500 Internal Error", 'Error parsing RCS output: %s', $_);
     }
@@ -2905,6 +2908,7 @@ sub printLog($$$;$$)
   (my $brp = $br) =~ s/\.?\d+$//;
 
   print "<a name=\"rev$_\"></a>";
+  print "<a name=\"cid", $cid{$_}, "\"></a>" if $cid{$_};
   if (defined($revsym{$_})) {
     foreach my $sym (split(", ", $revsym{$_})) {
       print '<a name="', htmlquote($sym), '"></a>';
@@ -2967,7 +2971,9 @@ sub printLog($$$;$$)
     print scalar gmtime($date{$_}), " UTC</i> (";
   }
   print readableTime(time() - $date{$_}, 1), ' ago)';
-  print ' by <i>', htmlquote($author{$_}), "</i><br />\n";
+  print ' by <i>', htmlquote($author{$_}), "</i>\n";
+  print ' - <tt>', $cid{$_}, "</tt>\n" if $cid{$_};
+  print "<br />\n";
 
   printf("Branches: %s<br />\n", link_tags($revsym{$br})) if $revsym{$br};
   printf("CVS tags: %s<br />\n", link_tags($revsym{$_}))  if $revsym{$_};
