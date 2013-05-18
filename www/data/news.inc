@@ -183,3 +183,48 @@ Date: 19.06.2007
  the EPEL repository</a> first).</p>
 <p>The Fink package manager for Mac OSX now also contains mksh R29f.</p>
 ----
+Title: Most requested compatibility feature implemented in mksh
+Date: 22.06.2007
+
+<p>Countless users have requested we do the same as AT&amp;T ksh93 and bow
+ to the “be conservative in what you send, be liberal in what you accept”
+ approach. Regarding to shell programming, this means we should support some
+ of the most widely used extensions from other shells (ksh93, bash, zsh, csh,
+ make(1)) as well.</p>
+<p>Some hours of continuous cursing later, it's done. The current development
+ version of <a href="@@RELPATH@@mksh.htm">mksh</a> R30β now supports GNU bash
+ style array initialisations – and better than they, I might add:</p><ul>
+ <li>OpenBSD ksh:<pre>
+	$ x=(a b c)
+	/bin/ksh: syntax error: `(' unexpected</pre></li>
+ <li>GNU bash:<pre>
+	$ v="d e"; x=('$a' "$v" c "(d)"); echo "${#x[*]}/${x[0]}/${x[1]}/${x[2]}/${x[3]}/"
+	4/$a/d e/c/(d)/
+	$ v="d e"; x=('$a' "$v" c (d)); echo "${#x[*]}/${x[0]}/${x[1]}/${x[2]}/${x[3]}/"
+	bash: syntax error near unexpected token `('
+	Segmentation fault
+	$ v="d e"; x=('$a' "$v" c "(d)"; echo "${#x[*]}/${x[0]}/${x[1]}/${x[2]}/${x[3]}/"
+	bash: syntax error near unexpected token `;'
+	Segmentation fault
+	$ bash -c 'v="d e"; x=('\''$a'\'' "$v" c "(d)"'
+	bash: -c: line 1: unexpected EOF while looking for matching `)'
+	Segmentation fault
+	$ bash -c 'v="d e"; x=('\''$a'\'' "$v" c "(d)"; echo "${#x[*]}/${x[0]}/${x[1]}/${x[2]}/${x[3]}/"'
+	bash: -c: line 1: syntax error near unexpected token `;'
+	bash: -c: line 1: `v="d e"; x=('$a' "$v" c "(d)"; echo "${#x[*]}/${x[0]}/${x[1]}/${x[2]}/${x[3]}/"'
+	Segmentation fault</pre></li>
+ <li>mksh:<pre>
+	$ v="d e"; x=('$a' "$v" c "(d)"); echo "${#x[*]}/${x[0]}/${x[1]}/${x[2]}/${x[3]}/"
+	4/$a/d e/c/(d)/
+	$ v="d e"; x=('$a' "$v" c (d)); echo "${#x[*]}/${x[0]}/${x[1]}/${x[2]}/${x[3]}/"
+	mksh: syntax error: '(' unexpected
+	$ mksh -c 'v="d e"; x=('\''$a'\'' "$v" c "(d)"'
+	mksh: syntax error: ')' missing
+	$ mksh -c 'v="d e"; x=('\''$a'\'' "$v" c "(d)"; echo "${#x[*]}/${x[0]}/${x[1]}/${x[2]}/${x[3]}/"'
+	mksh: syntax error: ')' missing</pre></li>
+</ul>
+<p>As you can see, we're continuing our not only tradition but also mission
+ to provide working, reliable software. (If you try interactively typing one
+ of the last two examples, mksh just waits for the closing parenthesis.)</p>
+<p>On unrelated news, bsiegert@ has continued his work on bringing the GNOME
+ ports into shape for the impending release of MirOS #10.</p>

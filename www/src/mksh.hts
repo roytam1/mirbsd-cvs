@@ -1,10 +1,10 @@
-# $MirOS: www/src/mksh.hts,v 1.5 2007/06/21 16:12:54 tg Exp $
+# $MirOS: www/src/mksh.hts,v 1.6 2007/06/22 23:21:23 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.5 2007/06/21 16:12:54 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.6 2007/06/22 23:21:23 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R29</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -628,10 +628,6 @@ mws_content <<'EOF'
 <li>A sensible website</li>
 <li>Build on more platforms</li>
 <li>Build with platforms' native tools</li>
-<li>bash-style <a
- href="http://article.gmane.org/gmane.os.miros.general/5580">array
- initialisation</a> (mapping <tt>x=(a b c)</tt> to <tt>set -A
- x -- a b c</tt>)</li>
 </ul>
 
 <h2 id="clog">Recent Changes</h2>
@@ -672,9 +668,10 @@ mws_content <<'EOF'
  <li>If FPOSIX, don't pre-define aliases (except integer and local) to benefit
   operating environments that never heard of the great Korn Shell…</li>
  <li>#if defined(MKSH_SMALL) || defined(MKSH_NOVI) disable the vi
-  editing mode.</li>
- <li>Don't try to execute ELF, a.out, COFF, gzip or MZ binaries.</li>
- <li>Can be built on HP-UX (PA-RISC and IA64) with gcc or HP C/aC++.</li>
+  editing mode</li>
+ <li>Don't try to execute ELF, a.out, COFF, gzip or MZ binaries</li>
+ <li>Can be built on HP-UX (PA-RISC and IA64) with gcc or HP C/aC++</li>
+ <li>Support <tt>x=(a b c)</tt> bash-like array initialisation</li>
 </ul>
 <p>Please use mksh R29f because of below modifications:</p><ul>
  <li>Fix detection of function prototypes (data declaractions were ok)</li>
