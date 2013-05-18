@@ -1,7 +1,7 @@
-#!/bin/mksh
-# $MirOS: src/share/misc/licence.template,v 1.24 2008/04/22 11:43:31 tg Rel $
+#!/usr/bin/env mksh
+# $MirOS: ports/infrastructure/scripts/mkmcz,v 1.11 2008/05/01 00:52:33 tg Exp $
 #-
-# Copyright (c) 2005, 2006
+# Copyright (c) 2005, 2006, 2008
 #	Thorsten Glaser <tg@mirbsd.de>
 #
 # Provided that these terms and disclaimer and all copyright notices
@@ -18,6 +18,8 @@
 # of dealing in the work, even if advised of the possibility of such
 # damage or existence of a defect, except proven that it results out
 # of said person's immediate fault when using the work as intended.
+
+unset CVSREADONLYFS
 
 if [[ $1 = -C ]]; then
 	cpio=-C
@@ -51,6 +53,7 @@ if [[ $CVS = svn ]]; then
 	CVSARGS="co --non-interactive -q $repo"
 else
 	CVSARGS="-qd $repo co -PA"
+	[[ $repo != :* ]] && export CVSREADONLYFS=1
 fi
 
 export TZ=UTC
