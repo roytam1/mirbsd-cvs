@@ -29,7 +29,7 @@
 
 #include "sh.h"
 
-__RCSID("$MirOS: src/bin/mksh/alloc.c,v 1.4 2007/03/04 03:04:23 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/alloc.c,v 1.5 2007/05/13 17:51:20 tg Exp $");
 
 struct link {
 	struct link *prev;
@@ -56,7 +56,7 @@ afreeall(Area *ap)
 }
 
 #define L2P(l)	( (void *)(((char *)(l)) + sizeof (struct link)) )
-#define P2L(p)	( (struct link *)(((char *)(p)) - sizeof (struct link)) )
+#define P2L(p)	( (struct link *)(((ptrdiff_t)(p)) - sizeof (struct link)) )
 
 void *
 alloc(size_t size, Area *ap)
