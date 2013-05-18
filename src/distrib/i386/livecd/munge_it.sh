@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.23 2006/04/11 20:20:18 tg Exp $
+# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.24 2006/04/11 21:11:09 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -64,7 +64,7 @@ ed -s etc/ntpd.conf <<-'EOF'
 EOF
 ed -s etc/rc <<-'EOF'
 	1i
-		# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.23 2006/04/11 20:20:18 tg Exp $
+		# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.24 2006/04/11 21:11:09 tg Exp $
 	.
 	/shutdown request/ka
 	/^fi/a
@@ -82,17 +82,18 @@ ed -s etc/rc <<-'EOF'
 			print -n " $1"
 			mount_mfs -s ${2:-300000} swap /$1
 		}
-		print -n 'creating memory filesystems...'
+		print -n 'initialising memory filesystems...'
 		do_mfsmount etc 20480
+		do_mfsmount home
 		do_mfsmount tmp 600000
 		do_mfsmount usr/X11R6/lib/X11 20480
 		do_mfsmount var
+		print '... done'
 		sleep 2
-		print -n ' (unpack)'
-		cpio -mid </home/fsrw.cpio
-		sleep 1
-		do_mfsmount home
+		print -n 'extracting mfs contents...'
+		cpio -mid </stand/fsrw.cpio
 		print ' done'
+		sleep 1
 		cp -r etc/skel home/live
 		chown -R 32762:32762 home/live
 	.
@@ -165,7 +166,7 @@ mv usr/X11R6/lib/X11/fonts usr/X11R6/lib/fonts
 (cd usr/X11R6/lib/X11; ln -s ../fonts)
 # tmp because of perms
 find dev/.root etc tmp usr/X11R6/lib/X11 var | sort | \
-    cpio -oC512 -Hsv4crc -Mset >home/fsrw.cpio
+    cpio -oC512 -Hsv4crc -Mset >stand/fsrw.cpio
 rm -rf dev/.root usr/X11R6/lib/X11 var sys
 mkdir -p usr/X11R6/lib/X11 var
 
