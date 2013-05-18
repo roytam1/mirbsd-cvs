@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.140 2009/03/29 11:09:14 tg Exp $
+# $MirOS: src/Makefile,v 1.141 2009/03/29 13:04:09 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -17,6 +17,7 @@ CVSROOT?=	/cvs
 ANONCVSROOT?=	_anoncvs@anoncvs.mirbsd.org:/cvs
 _SAFEPATH=	/bin:/usr/bin:/sbin:/usr/sbin:/usr/X11R6/bin
 BATCH?=		No
+TSCOMPRESS?=	Yes
 
   SUBDIR+= lib
   SUBDIR+= include
@@ -441,7 +442,7 @@ _do-dist:
 	${SUDO} ${INSTALL} -c -o root -g wheel -m 444 \
 	    ${BSDSRCDIR}/distrib/empty.ngz ${BSDRELDIR}/rel/site${OSrev}.ngz
 .for _set in ${_DISTS}
-	-cd ${BSDSRCDIR}/distrib/lists/${_set} && \
+	-cd ${BSDSRCDIR}/distrib/lists/${_set} && env doz=${TSCOMPRESS:L:Q} \
 	    DESTDIR=${BSDRELDIR:Q}/${_set} RELEASEDIR=${BSDRELDIR:Q}/rel \
 	    ${SUDO} ${SHELL} ${BSDSRCDIR}/scripts/tarsets make ${OSrev}
 .endfor

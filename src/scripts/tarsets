@@ -1,8 +1,8 @@
 #!/bin/mksh
-# $MirOS: src/scripts/tarsets,v 1.9 2007/06/16 21:12:41 tg Exp $
+# $MirOS: src/scripts/tarsets,v 1.10 2008/10/05 16:26:19 tg Exp $
 #-
-# Copyright (c) 2004, 2006, 2007
-#	Thorsten Glaser <tg@mirbsd.de>
+# Copyright (c) 2004, 2006, 2007, 2009
+#	Thorsten Glaser <tg@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
 # are retained or reproduced in an accompanying document, permission
@@ -39,6 +39,16 @@ if [[ -z $DESTDIR ]]; then
 	exit 1
 fi
 
+if [[ $doz = [Nn]?([Oo]) ]]; then
+	compressor=cat
+	extension=newc
+	zt=uncompressed
+else
+	compressor="gzip -n9"
+	extension=ngz
+	zt="gzip'd"
+fi
+
 case $1 {
 (c*)
 	T=$(mktemp /tmp/_tmp.XXXXXXXXXX) || exit 1
@@ -61,17 +71,17 @@ case $1 {
 		exit 1
 	fi
 
-	print "Generating release tarballs for MirOS #${rel}/${arch}"
+	print "Generating $zt release tarballs for MirOS #${rel}/${arch}"
 
 	cd "$DESTDIR"
 	for set in $cwd/*/mi; do
 		set=${set%/mi}
 		[[ -e $set/md.$arch ]] || continue
 		print -n "${set##*/}..."
-		tarsets "$set" -u \
-		    | sed -n 's!^\.//*!!p' \
-		    | cpio -oC512 -Hsv4cpio -Mset \
-		    | gzip -n9 >"$RELEASEDIR/${set##*/}$rel.ngz"
+		tarsets "$set" -u | \
+		    sed -n 's!^\.//*!!p' | \
+		    cpio -oC512 -Hsv4cpio -Mset | \
+		    $compressor >"$RELEASEDIR/${set##*/}$rel.$extension"
 		print done.
 	done
 	cd "$cwd"
