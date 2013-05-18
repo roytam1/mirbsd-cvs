@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.113 2007/08/25 17:48:17 tg Exp $
+# $MirOS: src/Makefile,v 1.114 2007/10/02 18:26:25 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -145,19 +145,19 @@ do-htman:
 	    ${_STCMD_HTMAN} ${SHELL} ${.CURDIR}/scripts/genhtman.sh
 	. ${.CURDIR}/scripts/roff2htm; output_htaccess >${BSDOBJDIR}/htman/H
 	-rm -f ${BSDOBJDIR}/htman/.policy.mk
-	${SUDO} mkdir -p ${BSDRELDIR}/htman/{docs,manINFO}
+	${SUDO} mkdir -p ${BSDRELDIR}/htman/man{DOCS,INFO}
 	cd ${BSDOBJDIR}/htman/htm && \
 	    find man* -type f | ${SUDO} cpio -pdlu ${BSDRELDIR}/htman/
 	cd ${BSDOBJDIR}/htman/texinfo && \
 	    find *.html | ${SUDO} cpio -pdlu ${BSDRELDIR}/htman/manINFO/
 	cd ${BSDRELDIR}/base/usr/share/doc/html && \
-	    ${SUDO} pax -rw * ${BSDRELDIR}/htman/docs/
-	cd ${BSDRELDIR}/htman/docs && ${SUDO} rm -f \
+	    ${SUDO} pax -rw * ${BSDRELDIR}/htman/manDOCS/
+	cd ${BSDRELDIR}/htman/manDOCS && ${SUDO} rm -f \
 	    $$(find . -type f -a ! -name '*.htm' -a \
 		! -name '*.html' -a ! -name '*.jpg')
 	cd ${BSDOBJDIR}/htman && \
 	    ${SUDO} cp H ${BSDRELDIR}/htman/.htaccess && \
-	    ${SUDO} cp H ${BSDRELDIR}/htman/docs/.htaccess && \
+	    ${SUDO} cp H ${BSDRELDIR}/htman/manDOCS/.htaccess && \
 	    print "AddType 'text/html; charset=iso-8859-1' html" >>H && \
 	    ${SUDO} cp H ${BSDRELDIR}/htman/manINFO/.htaccess
 	${SUDO} chown -R 0:0 ${BSDRELDIR}/htman/*
