@@ -1,6 +1,7 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.14 2004/05/18 08:45:33 xsa Exp $
 
-COMMENT=			display from/subject from incoming mails using X11
+COMMENT=	display from/subject from incoming mails using X11
 
 DISTNAME=	xlbiff-3.0
 CATEGORIES=	mail x11
@@ -14,6 +15,7 @@ PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
 CONFIGURE_STYLE=	imake
+USE_X11=		Yes
 
 NO_REGRESS=	Yes
 

@@ -1,6 +1,7 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.8 2002/10/27 00:52:43 naddy Exp $
 
-COMMENT=			extra japanese fonts, marumoji
+COMMENT=	extra japanese fonts, marumoji
 
 CATEGORIES=	japanese x11
 DIST_SUBDIR=	ja-fonts
@@ -31,6 +32,7 @@ PERMIT_PACKAGE_CDROM=	No fee
 PERMIT_PACKAGE_FTP=	Yes
 
 CONFIGURE_STYLE=	imake
+USE_X11=		Yes
 
 FONTDIR=${PREFIX}/lib/X11/fonts/ja
 

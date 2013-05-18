@@ -1,8 +1,8 @@
-# $MirOS: ports/japanese/kinput2/Makefile,v 1.2 2005/07/07 21:22:14 bsiegert Exp $
+# $MirOS: ports/japanese/kinput2/Makefile,v 1.3 2006/09/14 00:10:14 tg Exp $
 # $OpenBSD: Makefile,v 1.14 2003/08/04 13:11:48 espie Exp $
 
 COMMENT-canna=			X input method for Japanese, canna support
-COMMENT-canna-wnn=			X input method for Japanese, canna and wnn support
+COMMENT-canna-wnn=		X input method for Japanese, canna and wnn support
 COMMENT-wnn=			X input method for Japanese, wnn support
 
 DISTNAME=		kinput2-v3.1
@@ -17,6 +17,7 @@ PERMIT_DISTFILES_CDROM=	"without fee"
 PERMIT_DISTFILES_FTP=	Yes
 
 CONFIGURE_STYLE=	imake
+USE_X11=		Yes
 FLAVORS=		canna wnn
 FLAVOR?=		wnn
 
