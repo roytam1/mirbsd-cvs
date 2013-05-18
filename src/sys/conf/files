@@ -1,4 +1,4 @@
-# $MirOS: src/sys/conf/files,v 1.9 2005/07/04 03:36:09 tg Exp $
+# $MirOS: src/sys/conf/files,v 1.10 2005/12/06 01:24:49 tg Exp $
 # $OpenBSD: files,v 1.339 2005/05/26 00:33:45 pedro Exp $
 # $NetBSD: files,v 1.634 2003/09/25 15:58:14 pooka Exp $
 # @(#)files.newconf	7.5 (Berkeley) 5/10/93
@@ -649,7 +649,6 @@ file net/if_ppp.c			ppp			needs-count
 file net/ppp_tty.c			ppp
 file net/bsd-comp.c			ppp_bsdcomp
 file net/ppp-deflate.c			ppp_deflate
-#file net/zlib.c				ppp_deflate | ipsec | crypto
 file ../lib/libz/adler32.c
 file ../lib/libz/compress.c		ppp_deflate | ipsec | crypto
 file ../lib/libz/crc32.c		ppp_deflate | ipsec | crypto
