@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/biosdev.c,v 1.43 2009/08/11 10:53:35 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/libsa/biosdev.c,v 1.44 2009/08/11 13:23:59 tg Exp $ */
 /*	$OpenBSD: biosdev.c,v 1.74 2008/06/25 15:32:18 reyk Exp $	*/
 
 /*
@@ -37,6 +37,7 @@
 #include <machine/tss.h>
 #include <machine/biosvar.h>
 #include <lib/libsa/saerrno.h>
+#include <lib/libsa/ustar.h>
 #include <isofs/cd9660/iso.h>
 #include "disk.h"
 #include "debug.h"
@@ -274,6 +275,10 @@ bios_getdisklabel(bios_diskinfo_t *bd, struct disklabel *label)
 		error = biosd_io(F_READ, bd, mbrofs, 1, NULL);
 		if (error)
 			return (biosdisk_err(error));
+
+		if (!memcmp((char *)mbr + offsetof(ustar_hdr_t, magic),
+		    ustar_magic_version, sizeof(ustar_magic_version)))
+			return "found ustar magic\n";
 
 		/* check mbr signature */
 		if (mbr->dmbr_sign != DOSMBR_SIGNATURE)
@@ -550,14 +555,12 @@ int
 disk_trylabel(struct diskinfo *dip)
 {
 	const char *st = NULL;
-#ifndef SMALL_BOOT
 	bios_diskinfo_t *bd = &dip->bios_info;
 	struct dos_mbr *mbr = (struct dos_mbr *)bounce_buf;
-	int i, totsiz, maybe_sun = 0;
+	int i, totsiz;
 
 	if (dip->bios_info.flags & BDI_GOODLABEL)
 		return (0);
-#endif
 
 	if (dip->bios_info.flags & BDI_BADLABEL) {
 		st = bios_getdisklabel(&dip->bios_info, &dip->disklabel);
@@ -565,9 +568,11 @@ disk_trylabel(struct diskinfo *dip)
 			dip->bios_info.flags &= ~BDI_BADLABEL;
 	}
 
-#ifndef SMALL_BOOT
 	if (dip->bios_info.flags & BDI_BADLABEL ||
 	    !(dip->bios_info.flags & BDI_GOODLABEL)) {
+#ifndef SMALL_BOOT
+		int maybe_sun = 0;
+
 		/* create an imaginary disk label */
 
 		st = "failed to read disklabel";
@@ -583,6 +588,9 @@ disk_trylabel(struct diskinfo *dip)
 			/* read MBR */
 			i = biosd_io(F_READ, bd, DOSBBSECTOR, 1, NULL);
 			if (i)
+				goto nombr;
+			if (!memcmp((char *)mbr + offsetof(ustar_hdr_t, magic),
+			    ustar_magic_version, sizeof(ustar_magic_version)))
 				goto nombr;
 			if (mbr->dmbr_sign != DOSMBR_SIGNATURE)
 				goto nombr;
@@ -671,7 +679,56 @@ disk_trylabel(struct diskinfo *dip)
 			    mbr->dmbr_parts[i].dp_size;
 			dip->disklabel.d_partitions[0].p_fstype = FS_MANUAL;
 		}
+#else /* SMALL_BOOT */
+		/* check if ustar, if so fake a disklabel */
 
+		st = "failed to read disklabel";
+		if (bd->bios_heads == 0 || bd->bios_sectors == 0)
+			goto out;
+
+		totsiz = 2880;
+
+		i = biosd_io(F_READ, bd, DOSBBSECTOR, 1, NULL);
+		if (i)
+			goto out;
+		if (memcmp((char *)mbr + offsetof(ustar_hdr_t, magic),
+		    ustar_magic_version, sizeof(ustar_magic_version)))
+			goto out;
+
+		dip->disklabel.d_secsize = 512;
+		dip->disklabel.d_ntracks = bd->bios_heads;
+		dip->disklabel.d_nsectors = bd->bios_sectors;
+		dip->disklabel.d_secpercyl = dip->disklabel.d_ntracks *
+		    dip->disklabel.d_nsectors;
+		totsiz += dip->disklabel.d_secpercyl - 1;
+		dip->disklabel.d_ncylinders = totsiz /
+		    dip->disklabel.d_secpercyl;
+		memcpy(dip->disklabel.d_typename, "FAKE", 5);
+		dip->disklabel.d_type = DTYPE_VND;
+		strncpy(dip->disklabel.d_packname, "fictitious",
+		    sizeof (dip->disklabel.d_packname));
+		dip->disklabel.d_secperunit = dip->disklabel.d_ncylinders *
+		    dip->disklabel.d_secpercyl;
+		totsiz = dip->disklabel.d_secperunit;
+		dip->disklabel.d_rpm = 300;
+		dip->disklabel.d_interleave = 1;
+
+		dip->disklabel.d_bbsize = 8192;
+		dip->disklabel.d_sbsize = 65536;
+
+		bzero(dip->disklabel.d_partitions,
+		    sizeof (dip->disklabel.d_partitions));
+
+		/* 'a' partition covering the "whole" disk */
+		dip->disklabel.d_partitions[0].p_offset = 0;
+		dip->disklabel.d_partitions[0].p_size = totsiz;
+		dip->disklabel.d_partitions[0].p_fstype = FS_MANUAL;
+
+		/* The raw partition is special */
+		dip->disklabel.d_partitions[RAW_PART].p_offset = 0;
+		dip->disklabel.d_partitions[RAW_PART].p_size = totsiz;
+		dip->disklabel.d_partitions[RAW_PART].p_fstype = FS_UNUSED;
+#endif
 		dip->disklabel.d_npartitions = MAXPARTITIONS;
 
 		dip->disklabel.d_magic = DISKMAGIC;
@@ -685,7 +742,6 @@ disk_trylabel(struct diskinfo *dip)
  out:
 	if ((dip->bios_info.flags & BDI_BADLABEL) && st == NULL)
 		st = "*none*";
-#endif
 	if (st != NULL) {
 		printf("%s\n", st);
 		return ERDLAB;

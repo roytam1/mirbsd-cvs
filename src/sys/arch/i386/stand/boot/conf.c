@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/boot/conf.c,v 1.21 2009/10/27 13:54:27 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/boot/conf.c,v 1.23 2009/12/26 15:09:01 tg Exp $ */
 /*	$OpenBSD: conf.c,v 1.39 2008/04/19 23:20:22 weingart Exp $	*/
 
 /*
@@ -37,6 +37,9 @@
 #include <libsa.h>
 #include <lib/libsa/ufs.h>
 #include <lib/libsa/cd9660.h>
+#ifdef USE_USTARFS
+#include <lib/libsa/ustarfs.h>
+#endif
 #ifndef SMALL_BOOT
 #include <lib/libsa/fat.h>
 #include <lib/libsa/lmbmfs.h>
@@ -115,14 +118,18 @@ int nibprobes = NENTS(probe_list);
 /* filesystems applying to generic devices, not pseudodevices */
 struct fs_ops file_system[] = {
 #ifndef SMALL_BOOT
-	{ cd9660_open, cd9660_close, cd9660_read, cd9660_write, cd9660_seek,
-	  cd9660_stat, cd9660_readdir, "cd9660" },
+	{ cd9660_open,	cd9660_close,	cd9660_read,	   cd9660_write,
+	  cd9660_seek,	cd9660_stat,	cd9660_readdir,	   "cd9660" },
 #endif
-	{ ufs_open,    ufs_close,    ufs_read,    ufs_write,    ufs_seek,
-	  ufs_stat,    ufs_readdir,    "ufs" },
+	{ ufs_open,	ufs_close,	ufs_read,	   ufs_write,
+	  ufs_seek,	ufs_stat,	ufs_readdir,	   "ufs" },
 #ifndef SMALL_BOOT
-	{ fat_open,    fat_close,    fat_read,    fat_write,    fat_seek,
-	  fat_stat,    fat_readdir,    "fat" },
+	{ fat_open,	fat_close,	fat_read,	   fat_write,
+	  fat_seek,	fat_stat,	fat_readdir,	   "fat" },
+#endif
+#ifdef USE_USTARFS
+	{ ustarfs_open,	ustarfs_close,	ustarfs_read,	   ustarfs_write,
+	  ustarfs_seek,	ustarfs_stat,	ustarfs_readdir,   "ustarfs" },
 #endif
 };
 int nfsys = NENTS(file_system);

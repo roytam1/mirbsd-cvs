@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/stand/boot/Makefile,v 1.32 2009/08/30 14:16:31 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/boot/Makefile,v 1.33 2009/12/26 15:09:00 tg Exp $
 
 SMALL_BOOT?=	No
 BOOTLDR_PATH?=	${.CURDIR}
@@ -51,6 +51,8 @@ CPPFLAGS+=	-DUSE_PXE -DIN_PXEBOOT
 SRCS+=		net.c
 # comment this out if trouble
 CPPFLAGS+=	-DUSE_DOSFS -DUSE_DOSFS_LETTERS
+# comment this out if trouble
+#CPPFLAGS+=	-DUSE_USTARFS
 .else
 CPPFLAGS+=	-DSMALL_BOOT
 V=		${REAL_V}-small
@@ -82,5 +84,14 @@ testmkr: ${PROG}
 .else
 NOPROG=		Yes
 .endif
+
+BOOTXX_TAR?=	/usr/mdec/bootxx.tar
+KERNEL_TAR?=	bsd.rd
+CLEANFILES+=	boot.cfg ${KERNEL_TAR}
+testtar: .PHONY ${PROG}
+	echo 'echo Hello, Testtar!' >boot.cfg
+	tar -b 1 -M uidgid -cf - ${PROG} boot.cfg ${KERNEL_TAR} | \
+	    cat ${BOOTXX_TAR} - >$@
+	tar -tvvf $@
 
 .include <bsd.prog.mk>

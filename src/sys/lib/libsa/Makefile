@@ -1,4 +1,4 @@
-# $MirOS: src/sys/lib/libsa/Makefile,v 1.5 2008/08/01 12:39:08 tg Exp $
+# $MirOS: src/sys/lib/libsa/Makefile,v 1.6 2008/08/03 21:02:05 tg Exp $
 # $OpenBSD: Makefile,v 1.22 2005/05/24 22:25:46 millert Exp $
 # $NetBSD: Makefile,v 1.13 1996/10/02 16:19:51 ws Exp $
 
@@ -39,7 +39,7 @@ SRCS+=	close.c closeall.c dev.c disklabel.c dkcksum.c cons.c ioctl.c \
 	lseek.c open.c nullfs.c read.c stat.c fstat.c write.c readdir.c
 
 # boot filesystems
-SRCS+=	ufs.c cd9660.c fat.c
+SRCS+=	ufs.c cd9660.c fat.c ustarfs.c
 
 .if defined(SA_ZLIB)
 SRCS+=	cread.c

@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/lib/libsa/open.c,v 1.3 2009/08/11 13:24:00 tg Exp $ */
+/**	$MirOS: src/sys/lib/libsa/open.c,v 1.4 2009/08/12 13:37:31 tg Exp $ */
 /*	$OpenBSD: open.c,v 1.10 2003/08/11 06:23:09 deraadt Exp $	*/
 /*	$NetBSD: open.c,v 1.12 1996/09/30 16:01:21 ws Exp $	*/
 
@@ -67,6 +67,8 @@
 extern int debug;
 
 struct open_file files[SOPEN_MAX];
+
+const char ustar_magic_version[8] = { 'u', 's', 't', 'a', 'r', 0, '0', '0' };
 
 /*
  *	File primitives proper

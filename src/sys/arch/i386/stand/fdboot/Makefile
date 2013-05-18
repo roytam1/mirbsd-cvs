@@ -1,9 +1,10 @@
-# $MirOS: src/sys/arch/i386/stand/fdboot/Makefile,v 1.12 2009/02/01 16:16:31 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/fdboot/Makefile,v 1.13 2010/01/10 12:55:21 tg Exp $
 
 #BOOTSELECT_HOOK=yes
 BOOTLDR_PATH=	${.CURDIR}/../boot
 NOMAN=		yes
 SMALL_BOOT=	Yes
+CPPFLAGS+=	-DUSE_USTARFS
 
 # This gets installed under a different name
 realinstall:
