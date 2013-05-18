@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/miniroot/install.sub,v 1.12 2005/12/06 12:42:19 tg Exp $
+# $MirOS: src/distrib/miniroot/install.sub,v 1.13 2005/12/06 12:44:02 tg Exp $
 # $OpenBSD: install.sub,v 1.388 2005/07/02 00:55:48 uwe Exp $
 # $NetBSD: install.sub,v 1.5.2.8 1996/09/02 23:25:02 pk Exp $
 #
@@ -1631,9 +1631,6 @@ SERVERLIST=/tmp/serverlist
 for _opt in d f l m n p s; do
 	ulimit -$_opt unlimited
 done
-# Since etc${VERSION}.ngz is not in DEFAULTSETS for upgrades, it can always be
-# in SANESETS.
-SANESETS="bsd base${VERSION}.ngz etc${VERSION}.ngz"
 
 # Extract and save one boot's worth of dmesg
 dmesg | sed -ne '/^MirBSD /h;/^MirBSD /!H;${g;p;}' >/var/run/dmesg.boot
@@ -1650,15 +1647,15 @@ SERIALDEV=$(get_serialdev)
 # the contents of the other sets, not the other way around.
 THESETS="bsd bsd.rd $MDSETS"
 DEFAULTSETS="bsd"
-for _set in base etc gnu dev xbase xetc pkgutl ports source xfree site; do
+for _set in base etc gnu dev xbase xetc pkgutl ports source xfree sym site; do
 	[[ $MODE == upgrade && $_set == ?(x)etc ]] && continue
 	THESETS="$THESETS ${_set}${VERSION}.ngz"
-	isin $_set xbase xetc pkgutl ports source xfree site && continue
-	DEFAULTSETS="$DEFAULTSETS ${_set}${VERSION}.ngz"
+	isin $_set xbase xetc pkgutl ports source xfree sym site || \
+	    DEFAULTSETS="$DEFAULTSETS ${_set}${VERSION}.ngz"
 done
-# Since etc${VERSION}.tgz is not in DEFAULTSETS for upgrades, it can always be
+# Since etc${VERSION}.ngz is not in DEFAULTSETS for upgrades, it can always be
 # in SANESETS.
-SANESETS="bsd base${VERSION}.tgz etc${VERSION}.tgz"
+SANESETS="bsd base${VERSION}.ngz etc${VERSION}.ngz"
 
 # decide upon an editor
 : ${EDITOR:=ed}
