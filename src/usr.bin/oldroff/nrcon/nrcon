@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/usr.bin/oldroff/nrcon/nrcon,v 1.8 2007/01/22 15:58:12 tg Exp $
+# $MirOS: src/usr.bin/oldroff/nrcon/nrcon,v 1.9 2007/01/22 16:50:56 tg Exp $
 #-
 # Copyright (c) 2003, 2004, 2005, 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -26,11 +26,16 @@
 # Feed everything (stdin, parametres) to nroff -Tcol (though that could
 # be overridden...) and its output to col(1).
 
-if [[ $1 = -8 || $1 = -e ]]; then
-	if [[ $1 = -8 ]]; then
+if [[ $1 = -8 || $1 = -e || $1 = -u ]]; then
+	if [[ $1 = -8 || $1 = -u ]]; then
 		c=
 	else
 		c=-7
+	fi
+	if [[ $1 = -u ]]; then
+		cs=utf-8
+	else
+		cs=latin1
 	fi
 	shift
 	F=
@@ -47,7 +52,7 @@ if [[ $1 = -8 || $1 = -e ]]; then
 	    /usr/libexec/nr8pre $c | \
 	    /usr/bin/nroff -B -Tcol $P | \
 	    /usr/libexec/nr8post | \
-	    /usr/bin/iconv -f latin1 -t utf-8 | \
+	    /usr/bin/iconv -csf $cs -t utf-8 | \
 	    LC_ALL=utf-8 /usr/bin/col -x
 else
 	/usr/bin/nroff -B -Tcol "$@" | LC_ALL=C /usr/bin/col
