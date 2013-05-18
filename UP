@@ -1,6 +1,10 @@
 #!/usr/bin/env mksh
 # $Id$
 # sync MirOS CVS repo from primary anoncvs mirror
+# (or other mirrors)
+
+what=/cvs
+nani=miros-cvs
 
 if wd=$(realpath .); then
 	vd=$(realpath $(dirname $0))
@@ -13,10 +17,12 @@ cd $vd
 p=
 a=0
 sshx="--rsh=ssh -T"
-what=/cvs
 while :; do
 	if [[ $1 = -H ]]; then
 		: ${CVSROOT:=_anoncvs@herc.mirbsd.org:$what}
+		shift
+	elif [[ $1 = -J ]]; then
+		: ${CVSROOT:=rsync://rsync.allbsd.org/$nani}
 		shift
 	elif [[ $1 = -4 ]]; then
 		sshx="$sshx -4"
@@ -36,7 +42,7 @@ case $1 {
 [[ -e $HOME/.etc/anonkey.mirbsd ]] && sshx="$sshx -i $HOME/.etc/anonkey.mirbsd"
 set -x
 nice rsync -rxlztpgaHK --delete --stats --exclude=/ign/ "$sshx" $p "$@" \
-    ${CVSROOT:-_anoncvs@anoncvs.mirbsd.org:$what}/ $vd
+    ${CVSROOT:-_anoncvs@anoncvs.mirbsd.org:$what}/ $vd/
 rv=$?
 cd $wd
 if [[ $a = 1 ]]; then
