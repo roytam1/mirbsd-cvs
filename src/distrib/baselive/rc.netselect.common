@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/baselive/rc.netselect.common,v 1.6 2006/12/21 23:14:25 tg Exp $
+# $MirOS: src/distrib/baselive/rc.netselect.common,v 1.7 2007/06/15 23:46:48 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -22,12 +22,11 @@
 # damage or existence of a defect, except proven that it results out
 # of said person's immediate fault when using the work as intended.
 
-function show_info
-{
+function show_info {
 	print
 	print 'To get support, use lynx(1) with the following resources:'
 	print 'online man pages: http://www.mirbsd.org/cman/'
-	print 'interactive help: http://www.mirbsd.org/?irc'
+	print 'interactive help: irc.freenode.net #MirBSD'
 	[[ -e /NONFREE.TXT || -e /nonfree.txt ]] || return
 	print
 	print 'ATTENTION: this Live CD contains possibly non-free or'
@@ -40,8 +39,7 @@ function show_info
 	read dummy
 }
 
-function get_passwd
-{
+function get_passwd {
 	print
 	print "To login to the MirOS Live CD, a user 'live' has been added."
 	print 'Please enter a password to login with now (default: "live").'
@@ -50,8 +48,7 @@ function get_passwd
 	passwd live
 }
 
-function set_hostname
-{
+function set_hostname {
 	typeset -Uui36 rndval=$(date +%s)
 	rndpfx=${rndval#36#}
 	while (( ${#rndpfx} < 36 )); do
@@ -67,8 +64,7 @@ function set_hostname
 	print 127.0.0.1 livecd livecd.$rndpfx.invalid.mirbsd.org >>/etc/hosts
 }
 
-function get_net_ifnames
-{
+function get_net_ifnames {
 	typeset foo
 	typeset -i i
 
@@ -81,8 +77,7 @@ function get_net_ifnames
 	print ${foo[*]}
 }
 
-function ask_netconfig
-{
+function ask_netconfig {
 	set -A all_ifnames -- $(get_net_ifnames)
 	default_ifname=${all_ifnames[0]}
 	if [[ -z $default_ifname ]]; then
@@ -110,8 +105,7 @@ function ask_netconfig
 	do_netconf ${if:-none}
 }
 
-function do_netconf
-{
+function do_netconf {
 	if [[ $1 = none ]]; then
 		:
 		#XXX this is actually a bad idea, maybe the network
@@ -129,12 +123,10 @@ function do_netconf
 	fi
 }
 
-function do_before
-{
+function do_before {
 	rm -f /etc/hosts
 }
 
-function do_after
-{
+function do_after {
 	rm -f /etc/hostname.done
 }
