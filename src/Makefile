@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.137 2008/12/10 18:40:14 tg Exp $
+# $MirOS: src/Makefile,v 1.138 2009/01/24 13:39:31 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -413,6 +413,8 @@ _do-dist:
 		cd ${.CURDIR} && exec ${MAKE} do-htman; \
 	fi
 .endif
+	col -bx <${BSDRELDIR}/base/usr/share/man/cat7/install.${MACHINE}.0 \
+	    >${BSDOBJDIR}/INSTALL
 	@date
 	@echo ============================================================
 	@if [[ -e /var/tmp/.buildnotice ]]; then \
@@ -434,8 +436,8 @@ _do-dist:
 	@read a?'Press Return to continue...'
 .endif
 	@date
-	cd ${BSDRELDIR}/base/snapshot && ${SUDO} ${INSTALL} -c \
-	    -o root -g wheel -m 444 * ${BSDRELDIR}/rel/
+	${SUDO} ${INSTALL} -c -o root -g wheel -m 444 \
+	    ${BSDOBJDIR}/INSTALL ${BSDRELDIR}/base/snapshot/* ${BSDRELDIR}/rel/
 	${SUDO} ${INSTALL} -c -o root -g wheel -m 444 \
 	    ${BSDSRCDIR}/distrib/empty.ngz ${BSDRELDIR}/rel/fixes${OSrev}.ngz
 	${SUDO} ${INSTALL} -c -o root -g wheel -m 444 \
