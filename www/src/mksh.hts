@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.276 2009/09/19 22:39:28 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.277 2009/09/20 17:37:15 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -974,6 +974,11 @@ mws_content <<'EOF'
  <li>[tg] If MKSH_SMALL, reduce size by removing editor functionality</li>
  <li>[tg] Support VT100 emulator style Ctrl-CurLeft/Right keycode sequences
   with new <tt>vt100-hack</tt> editor bind function (LP: #355883)</li>
+ <li>[cnuke, tg] Remove more, like GNU bash extensions, from MKSH_SMALL</li>
+ <li>[tg] Remove more functionality, such as Emacs command line editing mode
+  bind key macros, and other extensions, from MKSH_SMALL to help floppies</li>
+ <li>[tg] Make forking and subshells less expensive wrt. random state</li>
+ <li>[tg] Build flags and source code fixes for / caught by SUNWcc</li>
 </ul>
 <p id="r39">mksh R39 evolved into these through various means:</p><ul>
  <li>[tg] Shut up a bogus gcc warning during configuration process</li>
