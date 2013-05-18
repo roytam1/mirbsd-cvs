@@ -1,4 +1,4 @@
-# $MirOS: src/etc/rc,v 1.94 2008/12/10 18:06:06 tg Exp $
+# $MirOS: src/etc/rc,v 1.95 2009/01/13 21:11:21 tg Exp $
 # $OpenBSD: rc,v 1.277 2006/01/12 21:54:15 deraadt Exp $
 #-
 # System startup script run by init on autoboot or after single-user.
@@ -206,15 +206,18 @@ done
 _fssort
 
 # Examine the filesystems whether there are IDE drives
-i=0
-[[ $softdrives_ide = NO ]] && softdrives_ide=""
-while (( i < ${#_mp[*]} )); do
-	if [[ ${_dev[i]} = /dev/wd+([0-9])[a-p] ]]; then
-		_fdev=${_dev[i]#/dev/}
-		softdrives_ide="$softdrives_ide ${_fdev%[a-p]}"
-	fi
-	let i++
-done
+if [[ $softdrives_ide = NO ]]; then
+	# auto-detect from /etc/fstab
+	softdrives_ide=
+	i=0
+	while (( i < ${#_mp[*]} )); do
+		if [[ ${_dev[i]} = /dev/wd+([0-9])[a-p] ]]; then
+			_fdev=${_dev[i]#/dev/}
+			softdrives_ide="$softdrives_ide ${_fdev%[a-p]}"
+		fi
+		let i++
+	done
+fi
 
 # Needed for softdep to work correctly (SCSI drives, too!)
 if [[ -n $softdrives_ide ]]; then
