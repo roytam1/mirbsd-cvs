@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/i386/trap.c,v 1.4 2006/09/22 13:16:59 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/i386/trap.c,v 1.5 2007/06/29 18:32:44 tg Exp $ */
 /*	$OpenBSD: trap.c,v 1.62 2004/04/15 00:22:42 tedu Exp $	*/
 /*	$NetBSD: trap.c,v 1.95 1996/05/05 06:50:02 mycroft Exp $	*/
 
@@ -53,6 +53,7 @@
 #include <sys/ktrace.h>
 #endif
 #include <sys/syscall.h>
+#include <sys/syslog.h>
 
 #include "systrace.h"
 #include <dev/systrace.h>
@@ -697,6 +698,26 @@ syscall(frame)
 		frame.tf_edx = rval[1];
 		frame.tf_eflags &= ~PSL_C;	/* carry bit */
 		break;
+
+	case ENOSYS:
+		if (p->p_pptr != NULL)
+			log(LOG_INFO, "invalid %s syscall %lu run by"
+			    " (%.32s:%d) UID(%lu) EUID(%lu), parent"
+			    " (%.32s:%d) UID(%lu) EUID(%lu)\n",
+			    p->p_emul->e_name, (unsigned long)code, p->p_comm,
+			    p->p_pid, (unsigned long)p->p_cred->p_ruid,
+			    (unsigned long)p->p_ucred->cr_uid,
+			    p->p_pptr->p_comm, p->p_pptr->p_pid,
+			    (unsigned long)p->p_pptr->p_cred->p_ruid,
+			    (unsigned long)p->p_pptr->p_ucred->cr_uid);
+		else
+			log(LOG_INFO, "invalid %s syscall %lu run by"
+			    " (%.32s:%d) UID(%lu) EUID(%lu), zombie\n",
+			    p->p_emul->e_name, (unsigned long)code, p->p_comm,
+			    p->p_pid, (unsigned long)p->p_cred->p_ruid,
+			    (unsigned long)p->p_ucred->cr_uid);
+		goto bad;
+
 	case ERESTART:
 		/*
 		 * The offset to adjust the PC by depends on whether we entered
@@ -705,9 +726,11 @@ syscall(frame)
 		 */
 		frame.tf_eip = opc - frame.tf_err;
 		break;
+
 	case EJUSTRETURN:
 		/* nothing to do */
 		break;
+
 	default:
 	bad:
 		if (p->p_emul->e_errno)

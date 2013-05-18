@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: trap.c,v 1.40 2003/05/12 04:42:58 jason Exp $	*/
 /*	$NetBSD: trap.c,v 1.58 1997/09/12 08:55:01 pk Exp $ */
 
@@ -465,7 +466,7 @@ trap(type, psr, pc, tf)
 		break;
 
 	case T_ALIGN:
-		if ((p->p_md.md_flags & MDP_FIXALIGN) != 0 && 
+		if ((p->p_md.md_flags & MDP_FIXALIGN) != 0 &&
 		    fixalign(p, tf) == 0) {
 			ADVANCE;
 			break;
@@ -754,7 +755,7 @@ kfault:
 			tf->tf_npc = onfault + 4;
 			return;
 		}
-		
+
 		sv.sival_int = v;
 		trapsignal(p, SIGSEGV, (ser & SER_WRITE) ? VM_PROT_WRITE :
 		    VM_PROT_READ, SEGV_MAPERR, sv);
@@ -1123,6 +1124,25 @@ syscall(code, tf, pc)
 		tf->tf_pc = i;
 		tf->tf_npc = i + 4;
 		break;
+
+	case ENOSYS:
+		if (p->p_pptr != NULL)
+			log(LOG_INFO, "invalid %s syscall %lu run by"
+			    " (%.32s:%d) UID(%lu) EUID(%lu), parent"
+			    " (%.32s:%d) UID(%lu) EUID(%lu)\n",
+			    p->p_emul->e_name, (unsigned long)code, p->p_comm,
+			    p->p_pid, (unsigned long)p->p_cred->p_ruid,
+			    (unsigned long)p->p_ucred->cr_uid,
+			    p->p_pptr->p_comm, p->p_pptr->p_pid,
+			    (unsigned long)p->p_pptr->p_cred->p_ruid,
+			    (unsigned long)p->p_pptr->p_ucred->cr_uid);
+		else
+			log(LOG_INFO, "invalid %s syscall %lu run by"
+			    " (%.32s:%d) UID(%lu) EUID(%lu), zombie\n",
+			    p->p_emul->e_name, (unsigned long)code, p->p_comm,
+			    p->p_pid, (unsigned long)p->p_cred->p_ruid,
+			    (unsigned long)p->p_ucred->cr_uid);
+		goto bad;
 
 	case ERESTART:
 	case EJUSTRETURN:
