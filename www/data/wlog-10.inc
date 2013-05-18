@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.266 2009/12/26 17:14:31 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.267 2009/12/27 17:45:40 bsiegert Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -5794,4 +5794,28 @@ Date: 27.12.2009 17:40
  lobbying: calling your EuroParl representative, sending e-mails and
  insisting on your point "raises the political cost of certain
  decisions".</p>
+----
+Title: speling[sic!]
+Author: tg@
+Date: 27.12.2009 19:07
+Tag: debian
+
+<p>With <a href="http://www.eyrie.org/~eagle/journal/2009-12/012.html">the
+ Lintian 2.3.0</a> saturday-after-christmas release (by the way, over here
+ if it’s done twice it’ll really become tradition) I’ve run its spelling
+ tests over all of MirOS CVS repository. The result: 293 kinds of typos in
+ 35857 souce files. (Although there are the case things too. Without them,
+ I have 51 typos in 7206 files. Asides from false positives (I used fgrep
+ <tt>-rwl</tt>[<tt>i</tt>], and <tt>-i</tt> and <tt>-w</tt> don’t play well
+ together, and <tt>-w</tt> mis-catches “GTK+” as “GTK”) I probably can’t
+ (API, source code) or won’t fix all of them though.)</p>
+<p>However, I have some rather hot asia-style food to eat right now, and
+ will need to get up early tomorrow for work, so I am not applying/fixing
+ them right now. (bsiegert@ and gecko2@ however are enjoying themselves at
+ 26C3, see their wlog entries.)</p>
+<p>Note that all of today’s fixes will not make it into the next snapshot
+ already, since it’s built (i386) and building X11 already (sparc). On the
+ other hand, the next bunch of WTF *.deb files <em>will</em> have them. I
+ also need to fix <strong>makefs</strong> upstream for Hurd… and continue
+ the T&amp;S questionnaire… *sigh*</p>
 ----
