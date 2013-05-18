@@ -1,4 +1,4 @@
-@comment $OpenBSD: PLIST,v 1.1.1.1 2004/02/03 07:19:06 ish Exp $
+@comment $MirOS$
 lib/python${MODPY_VERSION}/site-packages/Crypto/Cipher/AES.so
 lib/python${MODPY_VERSION}/site-packages/Crypto/Cipher/ARC2.so
 lib/python${MODPY_VERSION}/site-packages/Crypto/Cipher/ARC4.so
@@ -20,6 +20,7 @@ lib/python${MODPY_VERSION}/site-packages/Crypto/Hash/MD5.pyc
 lib/python${MODPY_VERSION}/site-packages/Crypto/Hash/RIPEMD.so
 lib/python${MODPY_VERSION}/site-packages/Crypto/Hash/SHA.py
 lib/python${MODPY_VERSION}/site-packages/Crypto/Hash/SHA.pyc
+lib/python${MODPY_VERSION}/site-packages/Crypto/Hash/SHA256.so
 lib/python${MODPY_VERSION}/site-packages/Crypto/Hash/__init__.py
 lib/python${MODPY_VERSION}/site-packages/Crypto/Hash/__init__.pyc
 lib/python${MODPY_VERSION}/site-packages/Crypto/Protocol/AllOrNothing.py
@@ -54,6 +55,7 @@ lib/python${MODPY_VERSION}/site-packages/Crypto/__init__.py
 lib/python${MODPY_VERSION}/site-packages/Crypto/__init__.pyc
 lib/python${MODPY_VERSION}/site-packages/Crypto/test.py
 lib/python${MODPY_VERSION}/site-packages/Crypto/test.pyc
+lib/python${MODPY_VERSION}/site-packages/pycrypto-${MODPY_EGG_VERSION}-py${MODPY_VERSION}.egg-info
 share/doc/py-crypto/README
 @dirrm share/doc/py-crypto
 @dirrm lib/python${MODPY_VERSION}/site-packages/Crypto/Util
@@ -62,3 +64,5 @@ share/doc/py-crypto/README
 @dirrm lib/python${MODPY_VERSION}/site-packages/Crypto/Hash
 @dirrm lib/python${MODPY_VERSION}/site-packages/Crypto/Cipher
 @dirrm lib/python${MODPY_VERSION}/site-packages/Crypto
+@dirrm lib/python${MODPY_VERSION}/site-packages
+@dirrm lib/python${MODPY_VERSION}
