@@ -1,8 +1,10 @@
-# $MirOS: ports/devel/autoconf/2.60/Makefile,v 1.1 2006/06/29 21:56:01 tg Exp $
+# $MirOS: ports/devel/autoconf/2.60/Makefile,v 1.2 2006/06/30 21:23:45 tg Exp $
 
 COMMENT=		automatically configure source code on many Un*x platforms
 SUFFIX=			-2.60
+PL=			1
 DISTNAME=		autoconf${SUFFIX}
+PKGNAME=		${DISTNAME}-${PL}
 CATEGORIES=		devel
 MASTER_SITES=		${MASTER_SITE_GNU:=autoconf/}
 HOMEPAGE=		http://www.gnu.org/software/autoconf/
@@ -24,5 +26,8 @@ EXTRA_FAKE_FLAGS+=	DESTDIR=${WRKINST} lispdir=
 SUBST_VARS=		SUFFIX
 
 NO_REGRESS=		Yes
+
+pre-configure:
+	print '%g/2\.60/s//&-MirPorts-${PL}/g\nwq' | ed -s ${WRKSRC}/configure
 
 .include <bsd.port.mk>

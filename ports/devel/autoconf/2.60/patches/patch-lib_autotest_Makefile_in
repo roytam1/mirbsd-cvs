@@ -1,4 +1,4 @@
-$MirOS$
+$MirOS: ports/devel/autoconf/2.60/patches/patch-lib_autotest_Makefile_in,v 1.1 2006/06/29 21:56:02 tg Exp $
 --- lib/autotest/Makefile.in.orig	Thu Jun 29 21:41:32 2006
 +++ lib/autotest/Makefile.in	Thu Jun 29 21:46:39 2006
 @@ -134,7 +134,7 @@ sysconfdir = @sysconfdir@
@@ -6,7 +6,7 @@ $MirOS$
  autotestlibdir = $(pkgdatadir)/autotest
  dist_autotestlib_DATA = autotest.m4 general.m4
 -nodist_autotestlib_DATA = autotest.m4f
-+nodist_autotestlib_DATA = # autotest.m4f
++nodist_autotestlib_DATA =
  CLEANFILES = $(nodist_autotestlib_DATA)
  TAGS_FILES = $(dist_autotestlib_DATA)
  ETAGS_ARGS = $(ETAGS_FOR_AUTOCONF)
