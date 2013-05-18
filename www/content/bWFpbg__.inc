@@ -1,5 +1,5 @@
 <!-- PageID: main -->
-<small class="rcsid">$MirOS: www/content/bWFpbg__.inc,v 1.49 2006/04/12 18:02:11 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWFpbg__.inc,v 1.50 2006/04/19 19:01:17 tg Exp $</small>
 <h1>MirBSD &nbsp; MirLinux &nbsp; MirPorts &nbsp; &mdash; &nbsp; Main Page</h1>
 <h2>Welcome to the MirOS Project!</h2>
 <p>This project is driven by a small number of people, that's why this
@@ -25,9 +25,14 @@
 <h3 style="color:red;">Latest Releases</h3>
 <p>MERCHANDISING: April 20th, 2006: The AllBSD.de project will be offering
  combined MirOS Setup/Live CDs at Linuxtag 2006.</p>
-<p>CURRENT: April 12th, 2006: #8-current snapshot available via our <a
+<p>CURRENT: April 20th, 2006: #8-current snapshot available via our <a
  href="http://f.scarywater.net/miros/">BitTorrent</a> tracker (ISO 9660,
  combined Live- and Installation CD).</p>
+<p>STABLE: April 1st, 2006: <a href="/?ann-8">MirOS #8</a> is
+ available via our <a href="http://f.scarywater.net/miros/">BitTorrent
+ tracker</a>. <small>There is also an <a
+ href="/MirOS/v8/">HTTP(S)</a> download/netinstall option.</small><br />
+ Please read the <a href="/?errata">errata</a>.</p>
 <p>CURRENT: February 15th, 2006: #8-current snapshot available for <a
  href="/MirOS/current/i386-20060215/">download</a> via the usual mirrors.</p>
 <p>PORTS: February 15th, 2006: We are in the progress of &quot;doing things
@@ -40,15 +45,11 @@
  but only MirOS #8, OpenBSD and Darwin/Mac OSX are supported; Interix support
  is not totally complete yet. <em>You must now use <tt>mmake</tt> as make(1)
  programme.</em> The existing documentation may be inaccurate in parts.</p>
-<p>STABLE: December 24th, 2005: <a href="/?ann-8">MirOS #8</a> is
- available via our <a href="http://f.scarywater.net/miros/">BitTorrent
- tracker</a>. <small>There is also an <a
- href="/MirOS/v8/">HTTP(S)</a> download/netinstall option.</small></p>
 <p>MERCHANDISING: There are still T-Shirts up for order. Contact <a
  href="mailto:tg@66h.42h.de">tg@</a> for purchase information. ONLY ONE
  WHITE "LinuxTag 2004" T-SHIRT LEFT, NO REPRINTS. BUY THIS RARITY!
  <b>Meet us at <a href="http://www.fosdem.org/">FOSDEM</a> 2006!</b></p>
-<p><a href="/MirOS/CVS/cvsrepo-20060215.cgz">CVSREPO</a>: April 12th, 2006:
+<p><a href="/MirOS/CVS/cvsrepo-20060412.cgz">CVSREPO</a>: April 12th, 2006:
  seed file (155 MiB, gzsig(1)d) for reducing the initial transfer costs.
  We'd like to offer CTM; it is available on request but nobody asked yet.</p>
 <p><a href="/MirOS/CVS/cvsroot-historic.cgz">CVSROOT</a>: January 20th, 2006:
