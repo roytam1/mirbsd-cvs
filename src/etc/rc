@@ -1,36 +1,22 @@
-# $MirOS: src/etc/rc,v 1.25 2006/07/21 16:40:30 tg Exp $
+# $MirOS: src/etc/rc,v 1.26 2006/08/09 12:46:50 tg Exp $
 # $OpenBSD: rc,v 1.277 2006/01/12 21:54:15 deraadt Exp $
 #-
 # System startup script run by init on autoboot or after single-user.
 # Output and error are redirected to console by init, and the console
 # is the controlling terminal. This is called with _PATH_BSHELL.
 
-# Force a mirbsd korn shell
-case x$KSH_VERSION in
-*MIRBSD?KSH*)
-	unset KSH_TRY
-	;;
-x)
-	if test x"$KSH_TRY" = x"1"; then
-		echo "$0: FATAL: need mirbsdksh!"
-		exit 1
-	fi
-	KSH_TRY=1
-	export KSH_TRY
-	;;
-*)
-	if test x"$KSH_TRY" = x"1"; then
-		unset KSH_TRY
-	else
-		export KSH_TRY=1
-	fi
+case $KSH_VERSION in
+*MIRBSD?KSH*) ;;
+*)	for x in /bin/mksh /bin/ksh; do
+		case $($x -c 'echo $KSH_VERSION') in
+		*MIRBSD?KSH*)
+			exec $x "$0" "$@" ;;
+		esac
+	done
+	/bin/echo "$0: FATAL: need a mirbsd korn shell!" >&2
+	exit 1
 	;;
 esac
-test x"$KSH_TRY" = x"1" && for x in mksh pdksh ksh93 ksh ksh88 ash sh; do
-	test -x /bin/$x && exec /bin/$x $0 "$@"
-done
-[[ $KSH_VERSION = @(@\(#\)MIRBSD KSH R)* ]] || \
-    echo "$0: WARNING: need mirbsdksh, not just any ksh!"
 
 # Subroutines (have to come first).
 
@@ -51,12 +37,12 @@ function stripcom
 # Update resource limits when sysctl changes
 # Usage: update_limit -X loginconf_name
 update_limit() {
-	local _fl="$1"	# ulimit flag
-	local _lc="$2"	# login.conf name
+	local _fl=$1	# ulimit flag
+	local _lc=$2	# login.conf name
 	local _new _suf
 
 	for _suf in "" -cur -max; do
-		_new=$(getcap -f /etc/login.conf -s ${_lc}${_suf} \
+		_new=$(getcap -f /etc/login.conf -s $_lc$_suf \
 		    daemon 2>/dev/null)
 		if [[ -n $_new ]]; then
 			[[ $_new = infinity ]] && _new=unlimited
@@ -110,14 +96,14 @@ mixerctl_conf()
 
 wsconsctl_conf()
 {
-	local save_IFS="$IFS"
+	local save_IFS=$IFS
 
 	test -x /sbin/wsconsctl -a -s /etc/wsconsctl.conf || return
 	# delete comments and blank lines
 	IFS="
 "
 	set -- $(stripcom /etc/wsconsctl.conf)
-	IFS="$save_IFS"
+	IFS=$save_IFS
 	while [ $# -ge 1 ] ; do
 		eval /sbin/wsconsctl -w $1
 		shift
@@ -131,23 +117,23 @@ function _fsswap
 {
 	local dev mp fstype opt rest
 
-	dev="${_dev[$1]}"
-	mp="${_mp[$1]}"
-	fstype="${_fstype[$1]}"
-	opt="${_opt[$1]}"
-	rest="${_rest[$1]}"
+	dev=${_dev[$1]}
+	mp=${_mp[$1]}
+	fstype=${_fstype[$1]}
+	opt=${_opt[$1]}
+	rest=${_rest[$1]}
 
-	_dev[$1]="${_dev[$2]}"
-	_mp[$1]="${_mp[$2]}"
-	_fstype[$1]="${_fstype[$2]}"
-	_opt[$1]="${_opt[$2]}"
-	_rest[$1]="${_rest[$2]}"
+	_dev[$1]=${_dev[$2]}
+	_mp[$1]=${_mp[$2]}
+	_fstype[$1]=${_fstype[$2]}
+	_opt[$1]=${_opt[$2]}
+	_rest[$1]=${_rest[$2]}
 
-	_dev[$2]="$dev"
-	_mp[$2]="$mp"
-	_fstype[$2]="$fstype"
-	_opt[$2]="$opt"
-	_rest[$2]="$rest"
+	_dev[$2]=$dev
+	_mp[$2]=$mp
+	_fstype[$2]=$fstype
+	_opt[$2]=$opt
+	_rest[$2]=$rest
 }
 
 function _fssort
@@ -228,11 +214,11 @@ swapctl -A -t blk
 let _fstab=0
 stripcom /etc/fstab |&
 while read -p _fdev _fmp _ffstype _fopt _frest; do
-	_dev[_fstab]="$_fdev"
-	_mp[_fstab]="$_fmp"
-	_fstype[_fstab]="$_ffstype"
-	_opt[_fstab]="${_fopt:-rw}"
-	_rest[_fstab]="$_frest"
+	_dev[_fstab]=$_fdev
+	_mp[_fstab]=$_fmp
+	_fstype[_fstab]=$_ffstype
+	_opt[_fstab]=${_fopt:-rw}
+	_rest[_fstab]=$_frest
 	let _fstab++
 done
 _fssort
@@ -242,7 +228,7 @@ let i=0
 [[ $softdrives_ide = NO ]] && softdrives_ide=""
 while [[ $i -lt $_fstab ]]; do
 	if [[ ${_dev[i]} = /dev/wd+([0-9])[a-p] ]]; then
-		_fdev="${_dev[i]#/dev/}"
+		_fdev=${_dev[i]#/dev/}
 		softdrives_ide="$softdrives_ide ${_fdev%[a-p]}"
 	fi
 	let i++
@@ -255,7 +241,7 @@ if [[ -n $softdrives_ide ]]; then
 	set -o noglob
 	for drv in $softdrives_ide; do
 		case $_flags {
-		*${drv}*)
+		*$drv*)
 			;;	# Already done
 		*)
 			echo -n " $drv"
@@ -362,7 +348,7 @@ while (( i < _fstab )); do
 done
 mount -a -t nonfs
 # root on nfs may require this
-_flags="$(mount 2>/dev/null | fgrep ' on / ' 2>/dev/null)"
+_flags=$(mount 2>/dev/null | fgrep ' on / ' 2>/dev/null)
 [[ -z $_flags || $_flags = *\(*read-only* ]] && mount -uw /
 # root is now writable
 rm -f /fastboot
@@ -422,8 +408,7 @@ fi
 let i=0
 while (( i < _fstab )); do
 	if [[ ${_mp[i]} = /@(usr|var) ]]; then
-		_flags="$(mount 2>/dev/null \
-		    | fgrep " on ${_mp[i]} " 2>/dev/null)"
+		_flags=$(mount 2>/dev/null | fgrep " on ${_mp[i]} " 2>/dev/null)
 		[[ -z $_flags ]] && mount ${_mp[i]} >/dev/null 2>&1
 	fi
 	let i++
@@ -514,7 +499,7 @@ swapctl -A -t noblk
 
 # /var/crash should be a directory or a symbolic link
 # to the crash directory if core dumps are to be saved.
-[[ -d /var/crash ]] && savecore ${savecore_flags} /var/crash
+[[ -d /var/crash ]] && savecore $savecore_flags /var/crash
 
 if [[ $check_quotas = YES ]]; then
 	echo -n 'checking quotas: '
@@ -541,7 +526,7 @@ chown root:wheel /dev/tty[pqrstuvwxyzPQRST]*
     'password file may be incorrect -- /etc/ptmp exists'
 
 echo clearing /tmp
-_flags="$(mount 2>/dev/null | fgrep " on /tmp" 2>/dev/null)"
+_flags=$(mount 2>/dev/null | fgrep " on /tmp" 2>/dev/null)
 if [[ -z $_flags ]]; then
 	# clean up as usual on small systems
 	rm -rf /tmp
@@ -572,7 +557,7 @@ fi
 [[ -f /etc/rc.securelevel ]] && . /etc/rc.securelevel
 if [[ -n $securelevel ]]; then
 	echo -n 'setting kernel security level: '
-	sysctl kern.securelevel=${securelevel}
+	sysctl kern.securelevel=$securelevel
 fi
 
 # patch /etc/motd
@@ -734,12 +719,12 @@ if [[ $inetd = YES && -s /etc/inetd.conf ]]; then
 fi
 
 if [[ $sshd_flags != NO ]]; then
-	echo -n ' sshd';		/usr/sbin/sshd ${sshd_flags};
+	echo -n ' sshd';		/usr/sbin/sshd $sshd_flags
 fi
 
 if [[ $spamd_flags != NO ]]; then
-	[[ $spamd_grey != NO ]] && spamd_flags="${spamd_flags} -g"
-	echo -n ' spamd';		eval /usr/libexec/spamd ${spamd_flags}
+	[[ $spamd_grey != NO ]] && spamd_flags="$spamd_flags -g"
+	echo -n ' spamd';		eval /usr/libexec/spamd $spamd_flags
 	/usr/libexec/spamd-setup
 	if [[ $spamd_grey != NO ]]; then
 		echo -n ' spamlogd'
@@ -804,15 +789,15 @@ if [[ $acpid_flags != NO && -x /usr/sbin/acpid ]]; then
 fi
 
 if [[ $sensorsd_flags != NO && -x /usr/sbin/sensorsd ]]; then
-	echo -n ' sensorsd';	/usr/sbin/sensorsd ${sensorsd_flags}
+	echo -n ' sensorsd';	/usr/sbin/sensorsd $sensorsd_flags
 fi
 
 if [[ $hotplugd_flags != NO && -x /usr/sbin/hotplugd ]]; then
-	echo -n ' hotplugd';	/usr/sbin/hotplugd ${hotplugd_flags}
+	echo -n ' hotplugd';	/usr/sbin/hotplugd $hotplugd_flags
 fi
 
 if [[ $watchdogd_flags != NO && -x /usr/sbin/watchdogd ]]; then
-	echo -n ' watchdogd';	/usr/sbin/watchdogd ${watchdogd_flags}
+	echo -n ' watchdogd';	/usr/sbin/watchdogd $watchdogd_flags
 fi
 
 echo -n ' cron';		cron
