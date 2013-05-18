@@ -2848,3 +2848,15 @@ Author: tg@
  system is, actually, too old… (currently I’m building i386 stuff either in
  a chroot or in a dual-boot).</p>
 ----
+Date: 09.03.2008
+Author: tg@
+
+<p>The code is almost frozen, we’re only waiting for a few updates that
+ should still go in. Benny allowed me to add the ‘u’ to the flavour
+ variables of MirPorts, after a year or so of thinking about it ☺</p>
+<p>I fought the Leopard today, but I won: we can now use our own
+ getopt(3) suite on Mac OSX 10.5 again, and some other bugs and minor
+ issues have been fixed too. Plus, all the hashes, including ADLER32,
+ SFV, SUMA, TIGER and WHIRLPOOL, now work on Darwin too (tested on both
+ i386 and macppc).</p>
+----
