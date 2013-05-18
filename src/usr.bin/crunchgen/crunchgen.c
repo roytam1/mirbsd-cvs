@@ -1,7 +1,26 @@
 /* $OpenBSD: crunchgen.c,v 1.28 2006/12/26 10:20:11 deraadt Exp $	 */
 
-/*
- * Copyright (c) 2007 Thorsten Glaser <tg@mirbsd.de>
+/*-
+ * Copyright (c) 2007
+ *	Thorsten Glaser <tg@mirbsd.de>
+ *
+ * Provided that these terms and disclaimer and all copyright notices
+ * are retained or reproduced in an accompanying document, permission
+ * is granted to deal in this work without restriction, including un-
+ * limited rights to use, publicly perform, distribute, sell, modify,
+ * merge, give away, or sublicence.
+ *
+ * This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
+ * the utmost extent permitted by applicable law, neither express nor
+ * implied; without malicious intent or gross negligence. In no event
+ * may a licensor, author or contributor be held liable for indirect,
+ * direct, other damage, loss, or other issues arising in any way out
+ * of dealing in the work, even if advised of the possibility of such
+ * damage or existence of a defect, except proven that it results out
+ * of said person's immediate fault when using the work as intended.
+ */
+
+/*-
  * Copyright (c) 1994 University of Maryland
  * All Rights Reserved.
  *
@@ -27,10 +46,7 @@
  *			   University of Maryland at College Park
  */
 
-/*
- * ========================================================================
- * crunchgen.c
- *
+/*-
  * Generates a Makefile and main C file for a crunched executable,
  * from specs given in a .conf file.
  */
@@ -44,9 +60,9 @@
 #include <string.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: src/usr.bin/crunchgen/crunchgen.c,v 1.7 2007/02/18 12:54:04 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/crunchgen/crunchgen.c,v 1.8 2007/05/24 09:56:49 tg Exp $");
 
-#define CRUNCH_VERSION	"1.3-MirOS"
+#define CRUNCH_VERSION	"2.0-MirOS"
 
 #define MAXLINELEN	16384
 #define MAXFIELDS 	 2048
@@ -107,7 +123,7 @@ int goterror = 0;
 
 const char *progname = "crunchgen";
 
-int verbose, readcache, elf_names;	/* options */
+int verbose, readcache;
 int reading_cache;
 
 static void status(const char *);
@@ -187,7 +203,6 @@ main(int argc, char *argv[])
 				usage();
 			break;
 		case 'E':
-			elf_names = 1;
 			break;
 		case 'L':
 			if (strlen(optarg) >= MAXPATHLEN)
@@ -802,8 +817,7 @@ gen_output_makefile(void)
 	for (p = progs; p != NULL; p = p->next)
 		prog_makefile_rules(outmk, p);
 
-	fprintf(outmk, "\n# ========\n");
-	fprintf(outmk, ".include <bsd.prog.mk>\n");
+	fprintf(outmk, "\n# ========\n\n.include <bsd.prog.mk>\n");
 	fclose(outmk);
 }
 
@@ -837,15 +851,15 @@ gen_output_cfile(void)
 	fputs(crunched_skel, outcf);
 
 	for (p = progs; p != NULL; p = p->next)
-		fprintf(outcf, "extern int _crunched_%s_stub(int, char **,"
+		fprintf(outcf, "extern int _crunched_%s_main(int, char **,"
 		    " char **);\n", p->ident);
 
 	fprintf(outcf, "\nstatic const struct stub entry_points[NUMS] = {\n");
 	for (p = progs; p != NULL; p = p->next) {
-		fprintf(outcf, "\t{ \"%s\", _crunched_%s_stub },\n",
+		fprintf(outcf, "\t{ \"%s\", _crunched_%s_main },\n",
 			p->name, p->ident);
 		for (s = p->links; s != NULL; s = s->next)
-			fprintf(outcf, "\t{ \"%s\", _crunched_%s_stub },\n",
+			fprintf(outcf, "\t{ \"%s\", _crunched_%s_main },\n",
 				s->str, p->ident);
 	}
 
@@ -892,37 +906,36 @@ dir_search(char *name)
 }
 
 void
-top_makefile_rules(FILE * outmk)
+top_makefile_rules(FILE *outmk)
 {
 	prog_t *p;
 	strlst_t *l;
 
-	fprintf(outmk, "\n.include <bsd.own.mk>\n");
-	fprintf(outmk, "LINK.rlo=\t$(LD) -dc -r\n");
-	fprintf(outmk, "LIBS=");
+	fprintf(outmk,
+	    ".include <bsd.own.mk>\n\n"
+	    "LINK.rlo=	${LD} -dc -r\n"
+	    "PROG=		%s\n"
+	    "NOMAN=		Yes\n"
+	    "SUBTARGETS=	",
+	    execfname);
+	for (p = progs; p != NULL; p = p->next)
+		fprintf(outmk, "%s%s", p == progs ? "" : " ", p->ident);
+	fprintf(outmk, "\nLDSTATIC?=\t-static\nLDADD+=\t\t");
 	for (l = libdirs; l != NULL; l = l->next)
-		fprintf(outmk, " -L%s", l->str);
+		fprintf(outmk, "%s-L%s", l == libdirs ? "" : " ", l->str);
 	output_strlst(outmk, libs);
 
-	fprintf(outmk, "CRUNCHED_OBJS=");
-	for (p = progs; p != NULL; p = p->next)
-		fprintf(outmk, " %s.lo", p->name);
-	fprintf(outmk, "\n");
-
-	fprintf(outmk, "SUBMAKE_TARGETS=");
-	for (p = progs; p != NULL; p = p->next)
-		fprintf(outmk, " %s_make", p->ident);
-	fprintf(outmk, "\n\n");
-
-	fprintf(outmk, "%s: %s.o $(CRUNCHED_OBJS)\n",
-	    execfname, execfname);
-	fprintf(outmk, "\t$(CC) -static $(LDFLAGS) -o $@ %s.o $(CRUNCHED_OBJS)"
-	    " -Wl,--start-group $(LIBS) -Wl,--end-group\n", execfname);
-	fprintf(outmk, "all: objs exe\nobjs: $(SUBMAKE_TARGETS)\n");
-	fprintf(outmk, "exe: %s\n", execfname);
-	fprintf(outmk, "clean:\n\trm -f %s *.lo *.o *_stub.c\n",
-	    execfname);
-	fprintf(outmk, ".PHONY: all objs exe clean $(SUBMAKE_TARGETS)\n\n");
+	fprintf(outmk, "\n"
+	    ".for _i in ${SUBTARGETS}\n"
+	    "OBJS+=		${_i}.lo\n"
+	    "CLEANFILES+=	${_i}.lo*\n\n"
+	    "objs: ${_i}_make\n\n"
+	    "${_i}.lo: ${_i}_make\n"
+	    "	rm -f $@*\n"
+	    "	${LINK.rlo} -o $@~ ${${_i}_OBJPATHS}\n"
+	    "	objcopy --redefine-sym main=_crunched_${_i}_main \\\n"
+	    "	    --keep-global-symbol=_crunched_${_i}_main $@~ $@\n"
+	    ".endfor\n");
 }
 
 void
@@ -931,30 +944,18 @@ prog_makefile_rules(FILE * outmk, prog_t * p)
 	fprintf(outmk, "\n# -------- %s\n\n", p->name);
 
 	if (p->srcdir && p->objs) {
-		fprintf(outmk, "%s_SRCDIR=%s\n", p->ident, p->srcdir);
-		fprintf(outmk, "%s_OBJS=", p->ident);
+		fprintf(outmk, "%s_SRCDIR=\t %s\n", p->ident, p->srcdir);
+		fprintf(outmk, "%s_OBJS=\t", p->ident);
 		output_strlst(outmk, p->objs);
-		fprintf(outmk, "%s_make:\n", p->ident);
-		fprintf(outmk, "\tcd $(%s_SRCDIR) && exec $(MAKE) -f %s $(%s_OBJS)\n\n",
+		fprintf(outmk, "\n%s_make:\n", p->ident);
+		fprintf(outmk, "\tcd ${%s_SRCDIR} && exec ${MAKE} -f %s ${%s_OBJS}\n\n",
 		    p->ident, p->mf_name, p->ident);
 	} else
-		fprintf(outmk, "%s_make:\n\t@echo \"** cannot make objs for %s\"\n\n",
+		fprintf(outmk, "%s_make:\n\t@echo \"*** cannot make objs for %s\"\n\n",
 		    p->ident, p->name);
 
-	fprintf(outmk, "%s_OBJPATHS=", p->ident);
+	fprintf(outmk, "%s_OBJPATHS=\t", p->ident);
 	output_strlst(outmk, p->objpaths);
-
-	fprintf(outmk, "%s_stub.c:\n", p->name);
-	fprintf(outmk, "\tprint 'int _crunched_%s_stub(int, char **, char **);"
-	    "\\nint' \\\n\t    'main(int, char **, char **);\\nint' \\\n\t    "
-	    "'\\n_crunched_%s_stub(int ac, char **av, char' \\\n\t    '**e)\\n"
-	    "{\\n\\treturn (main(ac, av, e));\\n}' >$@\n", p->ident, p->ident);
-	fprintf(outmk, "%s.lo: %s_stub.o $(%s_OBJPATHS)\n",
-	    p->name, p->name, p->ident);
-	fprintf(outmk, "\t$(LINK.rlo) -o $@ %s_stub.o $(%s_OBJPATHS)\n",
-	    p->name, p->ident);
-	fprintf(outmk, "\tobjcopy -G %s_crunched_%s_stub $@\n",
-	    elf_names ? "" : "_", p->ident);
 }
 
 void

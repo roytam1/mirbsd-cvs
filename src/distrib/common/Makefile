@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/Makefile,v 1.21 2007/05/24 20:15:57 tg Exp $
+# $MirOS: src/distrib/common/Makefile,v 1.22 2007/05/24 22:19:15 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -102,7 +102,7 @@ unconfig:
 
 cleannobsd: unconfig
 	rm -f *core ${CBIN} ${CBIN}.{cache,conf,mk,unstripped} ${IMAGE} \
-	    ${RDSETROOT} *.c *.o *.lo bsd.{uc,st} ${_RD_TARGETS} mkisofs.log
+	    ${RDSETROOT} *.c *.o *.lo* bsd.{uc,st} ${_RD_TARGETS} mkisofs.log
 
 clean cleandir: cleannobsd
 	rm -f bsd
