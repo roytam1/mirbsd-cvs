@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.24 2005/12/18 16:36:47 tg Exp $
+# $MirOS: src/Makefile,v 1.25 2005/12/21 14:55:50 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .include <bsd.own.mk>
@@ -119,12 +119,12 @@ do-htman:
 	${SUDO} chmod -R a=rX ${BSDRELDIR}/htman/*
 
 dist-q:
-	cd ${.CURDIR} && exec /usr/bin/env -i HOME=/ \
+	cd ${.CURDIR} && exec /usr/bin/env -i HOME=/ MAKEFLAGS=${MFLAGS:Q} \
 	    PATH=/bin:/usr/bin:/sbin:/usr/sbin:/usr/X11R6/bin \
 	    ${MAKE} BATCH=1 _do-dist 2>&1 | tee -a ${.CURDIR}/Build.log
 
 dist:
-	cd ${.CURDIR} && exec /usr/bin/env -i HOME=/ \
+	cd ${.CURDIR} && exec /usr/bin/env -i HOME=/ MAKEFLAGS=${MFLAGS:Q} \
 	    PATH=/bin:/usr/bin:/sbin:/usr/sbin:/usr/X11R6/bin \
 	    ${MAKE} _do-dist 2>&1 | tee -a ${.CURDIR}/Build.log
 
