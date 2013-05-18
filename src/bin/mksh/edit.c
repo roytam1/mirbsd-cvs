@@ -28,7 +28,7 @@
 
 #ifndef MKSH_NO_CMDLINE_EDITING
 
-__RCSID("$MirOS: src/bin/mksh/edit.c,v 1.243 2012/07/20 20:33:15 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/edit.c,v 1.244 2012/07/20 20:50:07 tg Exp $");
 
 /*
  * in later versions we might use libtermcap for this, but since external
@@ -1093,7 +1093,6 @@ static struct x_defbindings const x_defbindings[] = {
 #endif
 };
 
-/* want size_t, not int */
 static size_t
 x_nb2nc(size_t nb)
 {
