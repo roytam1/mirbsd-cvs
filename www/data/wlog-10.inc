@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.212 2009/07/09 17:19:35 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.213 2009/07/09 18:56:37 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -4344,7 +4344,7 @@ Author: tg@
  KDE Wallet, for <a href="http://www.tarent.com/">tarent GmbH</a>, and
  would like public feedback, before releasing an 1.00 version, both on <a
  href="@@ABSPATH@@/cvs.cgi/contrib/hosted/tg/code/kwalletcli/">the source
- code</a> and <a href="https://eurynome.mirbsd.org/debs/dists/hardy/wtf/pkgs/kwalletcli/kwalletcli_0.91-1.dsc">an
+ code</a> and <a href="https://eurynome.mirbsd.org/debs/dists/hardy/wtf/pkgs/kwalletcli/kwalletcli_0.92-1.dsc">an
  experimental Debian package</a> of it.</p>
 <p>Nice things it can do:</p><ul>
  <li>get and set password stanzas in the KWallet via CLI</li>
@@ -4372,6 +4372,8 @@ Author: tg@
 <p><strong>Update</strong> 09.07. – version 0.90 -> 0.91-1<br />I also crafted
  a <a href="http://trac.gajim.org/ticket/5153">patch for gajim to use
  kwalletcli</a>, let's see if it gets in. More to follow.</p>
+<p><strong>Update</strong> 09.07. – version 0.91-1 -> 0.92-1<br />People who
+ port this to KDE 4 (create a <tt>kwif4.cc</tt> file) welcome!</p>
 ----
 Title: mksh change announcement: support future POSIX standard
 Date: 09.07.2009 18:54
