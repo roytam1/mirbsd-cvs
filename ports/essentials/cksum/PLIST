@@ -1,4 +1,4 @@
-@comment $MirOS: ports/essentials/cksum/PLIST,v 1.2 2009/08/29 14:56:56 tg Exp $
+@comment $MirOS: ports/essentials/cksum/PLIST,v 1.3 2009/11/22 21:41:54 tg Exp $
 @option base-package
 bin/adler32
 bin/adler32sum
@@ -27,7 +27,7 @@ bin/sha384
 bin/sha384sum
 bin/sha512
 bin/sha512sum
-bin/size
+@comment bin/size
 bin/sizesum
 bin/sum
 bin/suma

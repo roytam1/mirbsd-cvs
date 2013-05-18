@@ -1,8 +1,9 @@
-# $MirOS: ports/essentials/cksum/Makefile,v 1.26 2009/08/29 14:56:56 tg Exp $
+# $MirOS: ports/essentials/cksum/Makefile,v 1.27 2009/11/22 21:41:54 tg Exp $
 
 COMMENT=		MirOS cksum(1) with multiple hash algorithms
 CATEGORIES=		essentials
 DISTNAME=		mircksum-20091122
+DASH_VER=		1
 PKGNAME=		${DISTNAME:S/^mir//}-${DASH_VER}
 EXTRACT_SUFX=		.cpio.gz
 #HOMEPAGE=		http://www.mirbsd.org/mircksum.htm
