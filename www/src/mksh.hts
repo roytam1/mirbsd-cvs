@@ -3,9 +3,9 @@
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.236 2009/05/30 00:33:43 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.237 2009/05/30 00:41:33 tg Exp $'
 mws_content <<'EOF'
-<h1>mksh(1) R38</h1>
+<h1>mksh(1) R38b</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
  implementation of the Korn Shell programming language and a successor to the
  Public Domain Korn Shell (pdksh).</p>
@@ -37,8 +37,8 @@ mws_content <<'EOF'
 </ul>
 
 <h2 id="prefetch">Introduction</h2>
-<p>The current version of mksh is <strong>mksh R38</strong> from
- <em>27 May 2009</em>.</p>
+<p>The current version of mksh is <strong>mksh R38b</strong> from
+ <em>31 May 2009</em>.</p>
 <p>Thanks to “Der Verein <a href="http://www.trash.net/verein/">trash.net</a>”
  for sponsoring access to a Solaris 8 box. Thanks to HP TestDrive, which helps
  in keeping mksh portable to several Unixes and compilers, and track down some
@@ -164,8 +164,8 @@ mws_content <<'EOF'
  extract from the CPIO distfile and is available even on a stock Microsoft®
  Windows® installation.</p>
 <h3 id="mirrors">Known Mirrors</h3><ul>
- <li><a href="https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R38.cpio.gz">https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R38.cpio.gz</a></li>
- <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R38.cpio.gz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R38.cpio.gz</a></li>
+ <li><a href="https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R38b.cpio.gz">https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R38b.cpio.gz</a></li>
+ <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R38b.cpio.gz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R38b.cpio.gz</a></li>
 </ul>
 <h3 id="hashes">Checksums and Hashes</h3><ul>
  <li>RMD160 (mksh-R38.cpio.gz) = 90f1a119ca8d6e048facab53d876600bba60c6f8</li>
@@ -184,9 +184,9 @@ mws_content <<'EOF'
 <p>The first example is using BSD paxtar (MirOS BSD, OpenBSD, NetBSD®), or
  “bsdtar” (DragonFly); the second and third use cpio(1) or pax(1) and are
  for most operating systems; the fourth is for Debian.</p><ul>
-<li>$ tar xzf mksh-R38.cpio.gz &amp;&amp; cd mksh</li>
-<li>$ gzip -dc mksh-R38.cpio.gz | cpio -mid &amp;&amp; cd mksh</li>
-<li>$ gzip -dc mksh-R38.cpio.gz | pax -r &amp;&amp; cd mksh</li>
+<li>$ tar xzf mksh-R38b.cpio.gz &amp;&amp; cd mksh</li>
+<li>$ gzip -dc mksh-R38b.cpio.gz | cpio -mid &amp;&amp; cd mksh</li>
+<li>$ gzip -dc mksh-R38b.cpio.gz | pax -r &amp;&amp; cd mksh</li>
 </ul>
 
 <h3 id="compile">Compilation</h3>
@@ -580,6 +580,7 @@ mws_content <<'EOF'
  ChangeLog</a>, these are the packager-visible upgrade notes regarding
  changes in the build system (<tt>Build.sh</tt> and friends, compiler
  support, packaging conventions, bad examples, etc).</p>
+<p>mksh R38b works on QNX 6.4 out of the box.</p>
 <p>mksh R38 offers <tt>-DMKSH_MIDNIGHTBSD01ASH_COMPAT</tt> and users
  should be warned about the “!string” line and UTF-8 mode changes.</p>
 <p>mksh R37c now honours <tt>-DMKSH_CONSERVATIVE_FDS</tt> and ACK.
@@ -997,10 +998,14 @@ mws_content <<'EOF'
   limits in a single invocation from oksh (thanks millert) -->
  <li>[ahoka] Begin porting to <a href="http://www.haiku-os.org/">Haiku</a>
   and, implicitly, BeOS (not finished yet)</li>
+</ul>
+<p id="r38b">mksh R38b fixes the following problems:</p><ul>
  <li>[André Wösten] Add __NO_EXT_QNX to avoid picking up the wrong
   waitfor() from &lt;libutil.h&gt; in (while porting to) QNX 6.4</li>
+ <li>[tg] Plug memory corruption issue introduced in R38</li>
+ <li>[tg] Amend <tt>dot.mkshrc</tt> with a base64 en-/decoder in shell</li>
 </ul>
-<p id="r38">mksh R38 comes with these changes and fixes applies:</p><ul>
+<p id="r38">mksh R38 comes with these changes and fixes applied:</p><ul>
  <li>[tg] Improve regression test output debugging</li>
  <li>[tg] Fix &lt;libutil.h&gt; prerequisites on MidnightBSD in mirtoconf</li>
  <li>[tg] Mention that RedHat BZ#496791 cannot currently be fixed in the
