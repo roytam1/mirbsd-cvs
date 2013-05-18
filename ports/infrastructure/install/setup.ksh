@@ -303,6 +303,17 @@ fi
 mkdir -p $etc
 
 
+# Install the ld(1) wrapper
+rm -f $localbase/bin/ld
+install -c -o $myuid -g $mygid -m 600 \
+    $portsdir/infrastructure/install/ld-wrapper.ksh $localbase/bin/ld
+ed -s $localbase/bin/ld <<-EOF
+	1s!/bin/mksh!$MKSH!
+	wq
+EOF
+chmod 555 $localbase/bin/ld
+
+
 # Check if we need to install mirmake
 cd $T
 cat >f <<EOF

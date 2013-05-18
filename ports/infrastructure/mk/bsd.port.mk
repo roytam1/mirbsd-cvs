@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.119 2006/07/11 14:26:38 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.120 2006/07/15 16:40:44 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -438,7 +438,7 @@ CFLAGS+=		${CDIAGFLAGS}
 CXXFLAGS+=		${CXXDIAGFLAGS}
 .  endif
 .endif
-LDFLAGS+=		-L${LOCALBASE}/lib ${LDSTATIC}
+LDFLAGS+=		-Wl,--library-after=${LOCALBASE}/lib ${LDSTATIC}
 
 NO_CXX?=		No	# inhibit use of C++ ports
 .if ${USE_CXX:L} == "yes"
@@ -1048,7 +1048,7 @@ IGNORE+=		"is not an interactive port"
 .    if !exists(${X11BASE})
 IGNORE+=		"uses X11, but ${X11BASE} not found"
 .    else
-LDFLAGS+=		-L${X11BASE}/lib
+LDFLAGS+=		-Wl,--library-after=${X11BASE}/lib
 .    endif
 .  endif
 .  if ${USE_CXX:L} == "yes" && ${NO_CXX:L} != "no"
