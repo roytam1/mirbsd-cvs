@@ -1,6 +1,6 @@
-$MirOS: ports/print/cups/patches/patch-Makedefs_in,v 1.1.7.1 2005/03/18 15:51:00 tg Exp $
---- Makedefs.in.orig	Thu Apr 27 13:40:07 2006
-+++ Makedefs.in	Mon Jun 19 20:37:40 2006
+$MirOS: ports/print/cups/patches/patch-Makedefs_in,v 1.2 2006/06/21 19:25:32 bsiegert Exp $
+--- Makedefs.in.orig	Mon May 22 00:58:48 2006
++++ Makedefs.in	Tue Jul  4 17:55:16 2006
 @@ -28,8 +28,8 @@
  
  AR		=	@AR@
@@ -31,7 +31,7 @@ $MirOS: ports/print/cups/patches/patch-Makedefs_in,v 1.1.7.1 2005/03/18 15:51:00
  
  #
  # Default user, group, and system groups for the scheduler...
-@@ -230,12 +230,11 @@ DBUSDIR		=	@DBUSDIR@
+@@ -232,12 +232,11 @@ DBUSDIR		=	@DBUSDIR@
  # Rules...
  #
  
@@ -46,7 +46,7 @@ $MirOS: ports/print/cups/patches/patch-Makedefs_in,v 1.1.7.1 2005/03/18 15:51:00
  
  .c.32.o:
  	echo Compiling 32-bit $<...
-@@ -246,8 +245,8 @@ DBUSDIR		=	@DBUSDIR@
+@@ -248,8 +247,8 @@ DBUSDIR		=	@DBUSDIR@
  	$(CC) $(ARCH64FLAGS) $(OPTIM) $(CFLAGS) -c -o $@ $<
  
  .cxx.o:

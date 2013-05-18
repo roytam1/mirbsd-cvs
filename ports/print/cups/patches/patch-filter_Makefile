@@ -1,6 +1,6 @@
-$MirOS$
---- filter/Makefile.orig	Mon Jun 19 19:42:29 2006
-+++ filter/Makefile	Mon Jun 19 19:44:06 2006
+$MirOS: ports/print/cups/patches/patch-filter_Makefile,v 1.2 2006/06/21 19:25:34 bsiegert Exp $
+--- filter/Makefile.orig	Mon May 22 00:58:48 2006
++++ filter/Makefile	Tue Jul  4 17:55:16 2006
 @@ -178,7 +178,7 @@ apihelp:
  
  formtops:	$(FORMOBJS) common.o ../cups/$(LIBCUPS)
@@ -28,7 +28,7 @@ $MirOS$
  
  
  #
-@@ -286,7 +286,7 @@ libcupsimage.a:	$(IMAGEOBJS)
+@@ -288,7 +288,7 @@ libcupsimage.a:	$(IMAGEOBJS)
  
  testimage:	testimage.o libcupsimage.a ../Makedefs
  	echo Linking $@...
@@ -37,7 +37,7 @@ $MirOS$
  		$(IMGLIBS) $(DSOLIBS) $(LIBS)
  
  
-@@ -297,7 +297,7 @@ testimage:	testimage.o libcupsimage.a ..
+@@ -299,7 +299,7 @@ testimage:	testimage.o libcupsimage.a ..
  imagetops:	imagetops.o common.o $(LIBCUPSIMAGE) \
  		../cups/$(LIBCUPS)
  	echo Linking $@...
@@ -46,7 +46,7 @@ $MirOS$
  		$(IMGLIBS) $(LIBS)
  
  
-@@ -308,7 +308,7 @@ imagetops:	imagetops.o common.o $(LIBCUP
+@@ -310,7 +310,7 @@ imagetops:	imagetops.o common.o $(LIBCUP
  imagetoraster:	imagetoraster.o common.o $(LIBCUPSIMAGE) \
  		../cups/$(LIBCUPS)
  	echo Linking $@...
@@ -55,7 +55,7 @@ $MirOS$
  		$(IMGLIBS) $(LIBS)
  
  
-@@ -318,7 +318,7 @@ imagetoraster:	imagetoraster.o common.o 
+@@ -320,7 +320,7 @@ imagetoraster:	imagetoraster.o common.o 
  
  pstops:	pstops.o common.o ../cups/$(LIBCUPS)
  	echo Linking $@...
@@ -64,7 +64,7 @@ $MirOS$
  
  
  #
-@@ -327,7 +327,7 @@ pstops:	pstops.o common.o ../cups/$(LIBC
+@@ -329,7 +329,7 @@ pstops:	pstops.o common.o ../cups/$(LIBC
  
  rastertolabel:	rastertolabel.o ../cups/$(LIBCUPS) $(LIBCUPSIMAGE)
  	echo Linking $@...
@@ -73,7 +73,7 @@ $MirOS$
  
  
  #
-@@ -336,7 +336,7 @@ rastertolabel:	rastertolabel.o ../cups/$
+@@ -338,7 +338,7 @@ rastertolabel:	rastertolabel.o ../cups/$
  
  rastertoepson:	rastertoepson.o ../cups/$(LIBCUPS) $(LIBCUPSIMAGE)
  	echo Linking $@...
@@ -82,7 +82,7 @@ $MirOS$
  
  
  #
-@@ -345,7 +345,7 @@ rastertoepson:	rastertoepson.o ../cups/$
+@@ -347,7 +347,7 @@ rastertoepson:	rastertoepson.o ../cups/$
  
  rastertohp:	rastertohp.o ../cups/$(LIBCUPS) $(LIBCUPSIMAGE)
  	echo Linking $@...
@@ -91,7 +91,7 @@ $MirOS$
  
  
  #
-@@ -354,7 +354,7 @@ rastertohp:	rastertohp.o ../cups/$(LIBCU
+@@ -356,7 +356,7 @@ rastertohp:	rastertohp.o ../cups/$(LIBCU
  
  testraster:	testraster.o raster.o
  	echo Linking $@...
@@ -100,7 +100,7 @@ $MirOS$
  
  
  #
-@@ -364,7 +364,7 @@ testraster:	testraster.o raster.o
+@@ -366,7 +366,7 @@ testraster:	testraster.o raster.o
  texttops:	texttops.o textcommon.o common.o \
  		../cups/$(LIBCUPS)
  	echo Linking $@...
