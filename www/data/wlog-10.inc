@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.157 2009/02/09 11:38:25 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.158 2009/02/09 11:58:30 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -3075,7 +3075,7 @@ Tag: bug event mksh snapshot unicode
  regular posting from my laptop). lynx-cur in sid is broken though, due
  to it using GnuTLS. Gah! Anyway, I see a sid “wtf” repo coming, and it
  was workarounded; next time I'll just do things differently.</p>
-<p>Lukas “smultron” Upton, the graphician of our partner project mnbsd,
+<p>Lukas “smultron”      , the graphician of our partner project mnbsd,
  helped a little with the label (while I'm not versed in that field, if
  I had gotten the right material to work with I could've managed it all
  alone <em>this time</em>), and all that's left now is the Live-CD part

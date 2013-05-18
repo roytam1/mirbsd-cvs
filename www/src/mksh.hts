@@ -2,7 +2,7 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.201 2009/02/01 13:31:15 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.202 2009/02/09 11:41:08 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R36b</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -1269,7 +1269,7 @@ mws_content <<'EOF'
  <li>Remove check category “pdksh” from <tt>check.t</tt> and test script</li>
  <li>Improve Darwin, OSF/1, HP aCC, SUNpro version reporting</li>
  <li>Support GNU bash “&amp;&gt;” extension, even better than they do,
-  suggested by Lukas “smultron” Upton from MidnightBSD</li>
+  suggested by Lukas “smultron” from MidnightBSD</li>
  <li>Basic support for LLVM+clang in the build system with experimental
   “ccc” compiler driver; llvm-gcc worked as-is before already</li>
  <li>Better support for contributed <tt>arc4random.c</tt> file</li>
