@@ -1,4 +1,4 @@
-# $MirOS: src/etc/Makefile,v 1.14 2005/12/16 23:40:14 tg Exp $
+# $MirOS: src/etc/Makefile,v 1.15 2005/12/24 02:33:16 tg Exp $
 # $OpenBSD: Makefile,v 1.226 2005/05/26 23:06:06 mcbride Exp $
 
 TZDIR=		/usr/share/zoneinfo
@@ -147,8 +147,6 @@ distribution-etc-root-var: distrib-dirs
 		${DESTDIR}/var/cron/at.deny
 	${INSTALL} -c -o root -g crontab -m 660 /dev/null \
 		${DESTDIR}/var/cron/cron.deny
-	${INSTALL} -c -o root -g wheel -m 600 /dev/null \
-		${DESTDIR}/var/cron/log
 	${INSTALL} -c -o root -g wheel -m 444 /dev/null \
 		${DESTDIR}/var/db/locate.database
 	${INSTALL} -c -o ${BINOWN} -g wheel -m 640 /dev/null \
@@ -304,7 +302,7 @@ install-generated:
 DHSIZE=	1024 1536 2048 3072 4096
 update-moduli:
 	{ \
-		echo '# $$MirOS: src/etc/Makefile,v 1.14 2005/12/16 23:40:14 tg Exp $$'; \
+		echo '# $$MirOS: src/etc/Makefile,v 1.15 2005/12/24 02:33:16 tg Exp $$'; \
 		echo '# Time Type Tests Tries Size Generator Modulus'; \
 		for i in ${DHSIZE}; do \
 			ssh-keygen -b $$i -G /dev/stdout; \
