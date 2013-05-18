@@ -1,4 +1,4 @@
-# $MirOS: src/sbin/Makefile,v 1.9 2006/06/09 00:46:29 tg Exp $
+# $MirOS: src/sbin/Makefile,v 1.10 2006/06/16 20:29:14 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -32,9 +32,7 @@
   SUBDIR+= iopctl
 .endif
 # SUBDIR+= ipsecctl
-.if ${CROSS_MODE:L} != "yes"
   SUBDIR+= isakmpd
-.endif
   SUBDIR+= kbd
   SUBDIR+= lmccontrol
   SUBDIR+= mknod

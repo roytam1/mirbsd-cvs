@@ -1,4 +1,4 @@
-# $MirOS: src/usr.bin/Makefile,v 1.8 2005/11/03 22:29:55 tg Exp $
+# $MirOS: src/usr.bin/Makefile,v 1.9 2006/06/08 23:57:37 tg Exp $
 # $OpenBSD: Makefile,v 1.90 2004/05/02 17:55:09 millert Exp $
 
 .include <bsd.own.mk>
@@ -122,9 +122,7 @@
   SUBDIR+= rwall
   SUBDIR+= rwho
   SUBDIR+= script
-.if ${CROSS_MODE:L} != "yes"
   SUBDIR+= sectok
-.endif
   SUBDIR+= sed
   SUBDIR+= shar
   SUBDIR+= showmount

@@ -1,4 +1,4 @@
-# $MirOS: src/usr.sbin/Makefile,v 1.13 2006/06/09 00:55:24 tg Exp $
+# $MirOS: src/usr.sbin/Makefile,v 1.14 2006/06/16 20:53:55 tg Exp $
 # $OpenBSD: Makefile,v 1.110 2004/05/04 23:27:21 deraadt Exp $
 
 .include <bsd.own.mk>
@@ -25,12 +25,12 @@
   SUBDIR+= eeprom
 .endif
   SUBDIR+= faithd
-.if ${CROSS_MODE:L} != "yes"
   SUBDIR+= fdformat
 # SUBDIR+= ftp-proxy
 # SUBDIR+= gpioctl
 # SUBDIR+= hostapd
 # SUBDIR+= hotplugd
+.if ${CROSS_MODE:L} != "yes"
   SUBDIR+= httpd
 .endif
 # SUBDIR+= ifstated

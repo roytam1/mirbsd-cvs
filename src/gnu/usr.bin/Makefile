@@ -1,4 +1,6 @@
-# $MirOS: src/gnu/usr.bin/Makefile,v 1.4 2005/03/27 22:52:43 tg Exp $
+# $MirOS: src/gnu/usr.bin/Makefile,v 1.5 2006/06/16 22:01:13 tg Exp $
+
+.include <bsd.own.mk>
 
   SUBDIR+= binutils
   SUBDIR+= cvs
