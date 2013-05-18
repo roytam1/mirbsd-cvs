@@ -857,7 +857,7 @@ wb_attach(parent, self, aux)
 	if (bus_dmamem_map(pa->pa_dmat, &seg, rseg,
 	    sizeof(struct wb_list_data), &kva, BUS_DMA_NOWAIT)) {
 		printf("%s: can't map list data, size %d\n",
-		    sc->sc_dev.dv_xname, sizeof(struct wb_list_data));
+		    sc->sc_dev.dv_xname, (int)sizeof(struct wb_list_data));
 		bus_dmamem_free(pa->pa_dmat, &seg, rseg);
 		goto fail;
 	}

@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/sys/ddb/db_examine.c,v 1.2 2005/03/06 21:27:33 tg Exp $ */
 /*	$OpenBSD: db_examine.c,v 1.11 2004/04/25 03:21:50 itojun Exp $	*/
 /*	$NetBSD: db_examine.c,v 1.11 1996/03/30 22:30:07 christos Exp $	*/
 
@@ -205,22 +205,22 @@ db_print_cmd(addr, have_addr, count, modif)
 		db_printsym((db_addr_t)addr, DB_STGY_ANY, db_printf);
 		break;
 	case 'r':
-		db_printf("%*r", sizeof(db_expr_t) * 2 * 6 / 5, (int)addr);
+		db_printf("%*r", (int)sizeof(db_expr_t) * 2 * 6 / 5, (int)addr);
 		break;
 	case 'x':
-		db_printf("%*x", sizeof(db_expr_t) * 2, (unsigned)addr);
+		db_printf("%*x", (int)sizeof(db_expr_t) * 2, (unsigned)addr);
 		break;
 	case 'z':
-		db_printf("%*z", sizeof(db_expr_t) * 2, (int)addr);
+		db_printf("%*z", (int)sizeof(db_expr_t) * 2, (int)addr);
 		break;
 	case 'd':
-		db_printf("%*d", sizeof(db_expr_t) * 2 * 6 / 5, (int)addr);
+		db_printf("%*d", (int)sizeof(db_expr_t) * 2 * 6 / 5, (int)addr);
 		break;
 	case 'u':
-		db_printf("%*u", sizeof(db_expr_t) * 2 * 6 / 5, (unsigned)addr);
+		db_printf("%*u", (int)sizeof(db_expr_t) * 2 * 6 / 5, (unsigned)addr);
 		break;
 	case 'o':
-		db_printf("%*o", sizeof(db_expr_t) * 2 * 4 / 3, (unsigned)addr);
+		db_printf("%*o", (int)sizeof(db_expr_t) * 2 * 4 / 3, (unsigned)addr);
 		break;
 	case 'c':
 		value = addr & 0xFF;

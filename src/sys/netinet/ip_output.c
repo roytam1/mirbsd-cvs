@@ -249,7 +249,7 @@ ip_output(struct mbuf *m0, ...)
 	if (mtag != NULL) {
 #ifdef DIAGNOSTIC
 		if (mtag->m_tag_len != sizeof (struct tdb_ident))
-			panic("ip_output: tag of length %d (should be %d",
+			panic("ip_output: tag of length %d (should be %ld",
 			    mtag->m_tag_len, sizeof (struct tdb_ident));
 #endif
 		tdbi = (struct tdb_ident *)(mtag + 1);

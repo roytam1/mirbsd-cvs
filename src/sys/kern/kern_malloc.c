@@ -255,7 +255,7 @@ malloc(size, type, flags)
 		vm_map_unlock(kmem_map);
 
 		if (!rv)  {
-		printf("%s %d of object %p size 0x%lx %s %s (invalid addr %p)\n",
+		printf("%s %ld of object %p size 0x%lx %s %s (invalid addr %p)\n",
 			"Data modified on freelist: word", 
 			(int32_t *)&kbp->kb_next - (int32_t *)kbp, va, size,
 			"previous type", savedtype, kbp->kb_next);
@@ -280,7 +280,7 @@ malloc(size, type, flags)
 	for (lp = (int32_t *)va; lp < end; lp++) {
 		if (*lp == WEIRD_ADDR)
 			continue;
-		printf("%s %d of object %p size 0x%lx %s %s (0x%x != 0x%x)\n",
+		printf("%s %ld of object %p size 0x%lx %s %s (0x%x != 0x%x)\n",
 			"Data modified on freelist: word", lp - (int32_t *)va,
 			va, size, "previous type", savedtype, *lp, WEIRD_ADDR);
 		break;

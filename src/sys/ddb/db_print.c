@@ -60,7 +60,7 @@ db_show_regs(addr, have_addr, count, modif)
 
 	for (regp = db_regs; regp < db_eregs; regp++) {
 	    db_read_variable(regp, &value);
-	    db_printf("%-12s%#*ln", regp->name, sizeof(long) * 3, (long)value);
+	    db_printf("%-12s%#*ln", regp->name, (int)sizeof(long) * 3, (long)value);
 	    db_find_xtrn_sym_and_offset((db_addr_t)value, &name, &offset);
 	    if (name != 0 && offset <= db_maxoff && offset != value) {
 		db_printf("\t%s", name);

@@ -2596,7 +2596,7 @@ msgin:
 		NCR_PHASE(("DATA_OUT_PHASE [%ld] ",(long)sc->sc_dleft));
 		NCRCMD(sc, NCRCMD_FLUSH);
 		size = min(sc->sc_dleft, sc->sc_maxxfer);
-		NCRDMA_SETUP(sc, &sc->sc_dp, &sc->sc_dleft,
+		NCRDMA_SETUP(sc, &sc->sc_dp, (size_t *)&sc->sc_dleft,
 			  0, &size);
 		sc->sc_prevphase = DATA_OUT_PHASE;
 		goto setup_xfer;
@@ -2605,7 +2605,7 @@ msgin:
 		if (sc->sc_rev == NCR_VARIANT_ESP100)
 			NCRCMD(sc, NCRCMD_FLUSH);
 		size = min(sc->sc_dleft, sc->sc_maxxfer);
-		NCRDMA_SETUP(sc, &sc->sc_dp, &sc->sc_dleft,
+		NCRDMA_SETUP(sc, &sc->sc_dp, (size_t *)&sc->sc_dleft,
 			  1, &size);
 		sc->sc_prevphase = DATA_IN_PHASE;
 	setup_xfer:

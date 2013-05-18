@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/i386/trap.c,v 1.2 2005/03/06 21:26:58 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/i386/trap.c,v 1.3 2005/05/05 23:11:27 tg Exp $ */
 /*	$OpenBSD: trap.c,v 1.62 2004/04/15 00:22:42 tedu Exp $	*/
 /*	$NetBSD: trap.c,v 1.95 1996/05/05 06:50:02 mycroft Exp $	*/
 
@@ -655,7 +655,7 @@ syscall(frame)
 		case 0:
 			break;
 		default:
-			panic("linux syscall with weird argument size %d",
+			panic("linux syscall with weird argument size %ld",
 			    argsize);
 			break;
 		}

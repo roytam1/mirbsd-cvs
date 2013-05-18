@@ -577,7 +577,7 @@ bge_alloc_jumbo_mem(sc)
 	}
 	if (bus_dmamem_map(sc->bge_dmatag, &seg, rseg, BGE_JMEM, &kva,
 			   BUS_DMA_NOWAIT)) {
-		printf("%s: can't map dma buffers (%d bytes)\n",
+		printf("%s: can't map dma buffers (%ld bytes)\n",
 		    sc->bge_dev.dv_xname, BGE_JMEM);
 		bus_dmamem_free(sc->bge_dmatag, &seg, rseg);
 		return (ENOBUFS);
@@ -1629,7 +1629,7 @@ bge_attach(parent, self, aux)
 			   sizeof(struct bge_ring_data), &kva,
 			   BUS_DMA_NOWAIT)) {
 		printf("%s: can't map dma buffers (%d bytes)\n",
-		    sc->bge_dev.dv_xname, sizeof(struct bge_ring_data));
+		    sc->bge_dev.dv_xname, (int)sizeof(struct bge_ring_data));
 		bus_dmamem_free(sc->bge_dmatag, &seg, rseg);
 		goto fail;
 	}

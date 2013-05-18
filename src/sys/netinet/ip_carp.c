@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/netinet/ip_carp.c,v 1.3 2005/12/19 22:22:12 tg Exp $ */
+/**	$MirOS: src/sys/netinet/ip_carp.c,v 1.4 2005/12/20 19:41:43 tg Exp $ */
 /*	$OpenBSD: ip_carp.c,v 1.52 2004/05/16 02:06:10 mcbride Exp $	*/
 
 /*
@@ -346,7 +346,7 @@ carp_input(struct mbuf *m, ...)
 	if (m->m_pkthdr.len < iplen + sizeof(*ch)) {
 		carpstats.carps_badlen++;
 		CARP_LOG("received len %d < 36",
-		    m->m_len - sizeof(struct ip));
+		    m->m_len - (int)sizeof(struct ip));
 		m_freem(m);
 		return;
 	}

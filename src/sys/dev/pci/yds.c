@@ -1358,7 +1358,7 @@ yds_trigger_output(addr, start, end, blksize, intr, arg, param)
 		    sizeof(struct play_slot_ctrl_bank) / sizeof(u_int32_t))
 			panic("%s: invalid play slot ctrldata %d %d",
 			      sc->sc_dev.dv_xname, ctrlsize,
-			      sizeof(struct play_slot_ctrl_bank));
+			      (int)sizeof(struct play_slot_ctrl_bank));
 	}
 #endif
 

@@ -153,7 +153,7 @@ ip6_forward(m, srcrt)
 #ifdef DIAGNOSTIC
 		if (mtag->m_tag_len != sizeof (struct tdb_ident))
 			panic("ip6_forward: tag of length %d (should be %d",
-			    mtag->m_tag_len, sizeof (struct tdb_ident));
+			    mtag->m_tag_len, (int)sizeof (struct tdb_ident));
 #endif
 		tdbi = (struct tdb_ident *)(mtag + 1);
 		tdb = gettdb(tdbi->spi, &tdbi->dst, tdbi->proto);

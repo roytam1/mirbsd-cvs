@@ -1811,7 +1811,7 @@ show_scsi_xs(xs)
 	printf("len(0x%x)", xs->cmdlen);
 	printf("data(%p)", xs->data);
 	printf("len(0x%x)", xs->datalen);
-	printf("res(0x%x)", xs->resid);
+	printf("res(0x%lx)", xs->resid);
 	printf("err(0x%x)", xs->error);
 	printf("bp(%p)", xs->bp);
 	show_scsi_cmd(xs);

@@ -2077,7 +2077,7 @@ tl_attach(parent, self, aux)
 	if (bus_dmamem_map(sc->sc_dmat, &seg, rseg, sizeof(struct tl_list_data),
 	    &kva, BUS_DMA_NOWAIT)) {
 		printf("%s: can't map dma buffers (%d bytes)\n",
-		    sc->sc_dev.dv_xname, sizeof(struct tl_list_data));
+		    sc->sc_dev.dv_xname, (int)sizeof(struct tl_list_data));
 		bus_dmamem_free(sc->sc_dmat, &seg, rseg);
 		return;
 	}
