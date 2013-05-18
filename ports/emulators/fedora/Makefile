@@ -1,4 +1,4 @@
-# $MirOS: ports/emulators/fedora/Makefile,v 1.2 2008/10/29 14:06:58 tg Exp $
+# $MirOS: ports/emulators/fedora/Makefile,v 1.3 2008/10/29 18:28:42 tg Exp $
 # $OpenBSD: Makefile,v 1.8 2008/06/12 16:33:21 miod Exp $
 # $OpenBSD: Makefile,v 1.3 2007/09/16 00:45:13 merdely Exp $
 # $OpenBSD: Makefile.inc,v 1.1.1.1 2006/10/17 22:33:44 sturm Exp $
@@ -80,10 +80,10 @@ PATCH_LIST=
 USE_CPIO=		mircpio
 .if ${OStype} == "MirBSD"
 .  if ${OSrev} > 10
-USE_CPIO=		/usr/dbin/cpio
+USE_CPIO=		/bin/cpio
 .  elif ${OSrev} == 10
 .    if ${OSver:E} > 161
-USE_CPIO=		/usr/dbin/cpio
+USE_CPIO=		/bin/cpio
 .    endif
 .  endif
 .endif

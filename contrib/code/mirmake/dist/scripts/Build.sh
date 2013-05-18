@@ -1,5 +1,4 @@
-#!/usr/bin/env mksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.126 2008/10/13 20:20:21 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.127 2008/12/29 20:15:14 tg Exp $
 #-
 # Copyright (c) 2006, 2008
 #	Thorsten Glaser <tg@mirbsd.de>

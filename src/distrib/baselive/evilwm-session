@@ -1,5 +1,5 @@
-#!/usr/bin/env mksh
-# $MirOS: src/distrib/baselive/evilwm-session,v 1.1 2006/08/19 01:37:50 tg Exp $
+#!/bin/mksh
+# $MirOS: src/distrib/baselive/evilwm-session,v 1.2 2008/10/21 21:03:33 tg Exp $
 
 # Start two status xterms
 /usr/X11R6/bin/xterm +sb -fg black -geom 78x10+1+637 \

@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-# $MirOS: contrib/code/mirmake/Build.sh,v 1.38 2008/10/05 16:32:50 tg Exp $
+# $MirOS: contrib/code/mirmake/Build.sh,v 1.39 2008/12/07 17:25:10 tg Exp $
 #-
 # Copyright (c) 2004, 2005, 2006, 2008
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -141,7 +141,7 @@ fi
 
 mktest=
 for f in mksh mirbsdksh ksh; do
-	for d in /usr/dbin /usr/bin /usr/local/bin /bin /sw/bin; do
+	for d in /usr/bin /usr/local/bin /bin /sw/bin; do
 		mktest="${mktest}${d}/${f} "
 	done
 done

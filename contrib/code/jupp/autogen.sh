@@ -1,5 +1,5 @@
-#!/usr/bin/env mksh
-# $MirOS: src/gnu/usr.bin/autogen.sh,v 1.14 2008/05/03 00:59:00 tg Exp $
+#!/bin/mksh
+# $MirOS: contrib/code/jupp/autogen.sh,v 1.12 2008/05/03 01:09:25 tg Exp $
 #-
 # Copyright (c) 2004, 2005, 2006, 2008
 #	Thorsten Glaser <tg@mirbsd.de>

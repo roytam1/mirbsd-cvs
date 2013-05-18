@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/common/install.sh,v 1.19 2008/11/13 03:30:55 tg Exp $
+# $MirOS: src/distrib/common/install.sh,v 1.20 2008/11/29 17:10:55 tg Exp $
 # $OpenBSD: install.sh,v 1.152 2005/04/21 21:41:33 krw Exp $
 # $NetBSD: install.sh,v 1.5.2.8 1996/08/27 18:15:05 gwr Exp $
 #
@@ -406,7 +406,7 @@ while :; do
 	fi
 done
 IFS=$_oifs
-_rootline=":$_rootuid:$_rootuid:staff:0:0:$full:/home/$_rootuser:/usr/dbin/mksh"
+_rootline=":$_rootuid:$_rootuid:staff:0:0:$full:/home/$_rootuser:/bin/mksh"
 
 set_timezone
 
@@ -477,7 +477,7 @@ chown -R $_rootuid:$_rootuid /mnt/home/$_rootuser
 /mnt/usr/sbin/pwd_mkdb -pd /mnt/etc master.passwd
 
 cat >/mnt/etc/rc.once <<-'EOF'
-	export TZ=UTC PATH=/usr/dbin:/bin:/usr/bin:/usr/dsbin:/sbin:/usr/sbin
+	export TZ=UTC PATH=/bin:/usr/bin:/sbin:/usr/sbin
 	cd /
 	# lock to prevent double-runs
 	print -n postinstall run-once >/var/run/cron.maintenance

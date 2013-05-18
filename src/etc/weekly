@@ -1,9 +1,10 @@
-#!/usr/bin/env mksh
-# $MirOS: src/etc/weekly,v 1.10 2008/03/27 13:48:27 tg Exp $
+#!/bin/mksh
+# $Id$
+# $MirOS: src/etc/weekly,v 1.11 2008/12/10 18:06:07 tg Exp $
 # $OpenBSD: weekly,v 1.14 2003/06/30 22:04:57 avsm Exp $
 
 umask 022
-export TZ=UTC PATH=/usr/dbin:/bin:/usr/bin:/usr/dsbin:/sbin:/usr/sbin:/usr/libexec:/usr/local/bin:/usr/mpkg/bin
+export TZ=UTC PATH=/bin:/usr/bin:/sbin:/usr/sbin:/usr/libexec:/usr/local/bin:/usr/mpkg/bin
 cd /
 
 print RUNTIME=$(date +%J)

@@ -5,7 +5,10 @@ PROG=	chgrp
 SRCS=	chmod.c
 MAN=	chmod.1 chgrp.1 chown.8 chflags.1
 LINKS=	${BINDIR}/${PROG} ${BINDIR}/chmod \
-	${BINDIR}/${PROG} ${BINDIR}/chown \
-	${BINDIR}/${PROG} ${BINDIR}/chflags
+	${BINDIR}/${PROG} /sbin/chown
+
+afterinstall:
+	-rm -f ${DESTDIR}/usr/bin/chflags
+	cd ${DESTDIR}/usr/bin && ln -s ../..${BINDIR}/chmod chflags
 
 .include <bsd.prog.mk>

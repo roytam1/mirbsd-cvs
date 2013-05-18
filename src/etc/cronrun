@@ -1,5 +1,6 @@
-#!/usr/bin/env mksh
-# $MirOS: src/etc/cronrun,v 1.8 2008/03/27 13:48:28 tg Exp $
+#!/bin/mksh
+# $Id$
+# $MirOS: src/etc/cronrun,v 1.9 2008/12/10 18:06:05 tg Exp $
 #-
 # Copyright (c) 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -19,7 +20,7 @@
 # damage or existence of a defect, except proven that it results out
 # of said person's immediate fault when using the work as intended.
 
-export PATH=/usr/dbin:/bin:/usr/bin:/usr/dsbin:/sbin:/usr/sbin
+export PATH=/bin:/usr/bin:/sbin:/usr/sbin
 cd /
 umask 077
 exec >/dev/null

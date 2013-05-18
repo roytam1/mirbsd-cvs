@@ -1,5 +1,5 @@
-#!/usr/bin/env mksh
-# $MirOS: src/share/misc/licence.template,v 1.24 2008/04/22 11:43:31 tg Rel $
+#!/bin/mksh
+# $MirOS: ports/infrastructure/db/uname.sed,v 1.2 2008/05/03 22:19:36 tg Exp $
 #-
 # Copyright (c) 2004, 2008
 #	Thorsten "mirabilos" Glaser <tg@mirbsd.de>

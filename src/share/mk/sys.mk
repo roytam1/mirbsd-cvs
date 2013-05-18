@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/sys.mk,v 1.145 2009/01/29 18:11:04 tg Exp $
+# $MirOS: src/share/mk/sys.mk,v 1.146 2009/03/04 16:16:33 tg Exp $
 # $OpenBSD: sys.mk,v 1.45 2005/03/07 00:06:00 deraadt Exp $
 # $NetBSD: sys.mk,v 1.27 1996/04/10 05:47:19 mycroft Exp $
 # @(#)sys.mk	5.11 (Berkeley) 3/13/91
@@ -80,7 +80,7 @@ LINT?=		lint
 LINTFLAGS?=	-chapbx
 
 # MirOS make can use MirBSD ksh extensions per definitionem
-SHELL=		/usr/dbin/mksh
+SHELL=		/bin/mksh
 MAKE?=		make
 
 YACC?=		yacc

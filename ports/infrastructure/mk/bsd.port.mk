@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.247 2009/01/03 20:45:38 bsiegert Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.248 2009/02/01 12:02:07 bsiegert Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -2238,6 +2238,7 @@ ${_CONFIGURE_COOKIE}: ${_PATCH_COOKIE}
 .  if (${OStype} == "MidnightBSD") || (${OStype} == "MirBSD")
 	sed -e 's/@@OScompat@@/${OScompat}/' \
 	    -e 's/@@OStype@@/${OStype}/' \
+	    -e 's#!/bin/mksh#!'${MKSH:Q}'' \
 	    <${PORTSDIR}/infrastructure/db/uname.sed >${WRKDIR}/bin/uname
 	chmod ${BINMODE} ${WRKDIR}/bin/uname
 .  endif

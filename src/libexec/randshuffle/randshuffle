@@ -1,5 +1,5 @@
-#!/usr/bin/env mksh
-# $MirOS: src/libexec/randshuffle/randshuffle,v 1.21 2008/07/30 19:36:06 tg Exp $
+#!/bin/mksh
+# $MirOS: src/libexec/randshuffle/randshuffle,v 1.22 2008/07/30 19:38:54 tg Exp $
 #-
 # Copyright (c) 2006, 2007, 2008
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -19,7 +19,7 @@
 # damage or existence of a defect, except proven that it results out
 # of said person's immediate fault when using the work as intended.
 
-export PATH=/usr/dbin:/bin:/usr/bin:/usr/dsbin:/sbin:/usr/sbin
+export PATH=/bin:/usr/bin:/sbin:/usr/sbin
 
 if [[ $1 = -f ]]; then
 	alias sleep=true

@@ -1,5 +1,5 @@
-#!/usr/bin/env mksh
-# $MirOS: ports/infrastructure/scripts/mkmcz,v 1.16 2008/11/01 23:17:49 tg Exp $
+#!/bin/mksh
+# $MirOS: ports/infrastructure/scripts/mkmcz,v 1.17 2008/11/02 14:49:37 tg Exp $
 #-
 # Copyright (c) 2005, 2006, 2008
 #	Thorsten Glaser <tg@mirbsd.de>

@@ -1,5 +1,5 @@
-#!/usr/bin/env mksh
-# $MirOS: src/scripts/editdiff,v 1.10 2008/03/23 15:52:32 tg Exp $
+#!/bin/mksh
+# $MirOS: src/scripts/editdiff,v 1.11 2008/05/25 20:49:57 tg Exp $
 #-
 # Copyright (c) 2004, 2006, 2007, 2008
 #	Thorsten Glaser <tg@mirbsd.de>

@@ -1,11 +1,12 @@
-# $MirOS: src/usr.sbin/pwd_mkdb/Makefile,v 1.4 2008/03/27 14:53:25 tg Exp $
+# $MirOS: src/usr.sbin/pwd_mkdb/Makefile,v 1.5 2009/01/24 13:02:11 tg Exp $
 # $OpenBSD: Makefile,v 1.8 2002/06/27 20:01:59 art Exp $
 
 PROG=		pwd_mkdb
 MAN=		pwd_mkdb.8
 LDADD+=		-lutil
 DPADD+=		${LIBUTIL}
-BINDIR?=	/usr/dsbin
+
+LDSTATIC=	-static
 
 .ifdef SMALL
 BSIZE?=		256

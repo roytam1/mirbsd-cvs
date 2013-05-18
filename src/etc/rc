@@ -1,4 +1,5 @@
-# $MirOS: src/etc/rc,v 1.96 2009/02/11 16:19:54 tg Exp $
+# $Id$
+# $MirOS: src/etc/rc,v 1.97 2009/02/22 19:13:23 tg Exp $
 # $OpenBSD: rc,v 1.277 2006/01/12 21:54:15 deraadt Exp $
 #-
 # System startup script run by init on autoboot or after single-user.
@@ -411,7 +412,7 @@ if [[ -f /sbin/ldconfig ]]; then
 	[[ -d /usr/X11R6/lib ]] && shlib_dirs="/usr/X11R6/lib $shlib_dirs"
 	[[ -d /usr/mpkg/lib ]] && shlib_dirs="/usr/mpkg/lib $shlib_dirs"
 	ldconfig $shlib_dirs
-	PATH=/usr/dsbin:/sbin:/usr/dbin:/bin:/usr/sbin:/usr/bin
+	PATH=/sbin:/bin:/usr/sbin:/usr/bin
 fi
 
 # save a copy of the boot messages

@@ -1,4 +1,4 @@
-# $MirOS: ports/www/php/core/Makefile,v 1.19 2008/05/02 12:09:21 tg Exp $
+# $MirOS: ports/www/php/core/Makefile,v 1.20 2008/05/02 15:43:06 tg Exp $
 # $OpenBSD: Makefile,v 1.12 2005/12/29 23:03:29 sturm Exp $
 
 MULTI_PACKAGES=		-pear
@@ -13,7 +13,7 @@ FULLPKGNAME-pear=	php-pear-${V}-${DASH_VER}
 SUBST_VARS+=		PHP_CONFIG_FILE PHP_CONFIG_PATH WWW_PREFIX
 PHP_VERSION=		${V}
 
-.for i in TRUEPREFIX PHP_CONFIG_FILE MODULES_DIR PHP_VERSION HTTPD_MODULE_DIR
+.for i in TRUEPREFIX PHP_CONFIG_FILE MODULES_DIR PHP_VERSION HTTPD_MODULE_DIR MKSH
 PHPXS_SUBST+=		-e 's,${i},${${i}},'
 .endfor
 

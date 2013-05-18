@@ -1,5 +1,5 @@
-#!/usr/bin/env mksh
-# $MirOS: ports/infrastructure/scripts/autogen.sh,v 1.10 2008/08/16 21:48:59 tg Exp $
+#!/bin/mksh
+# $MirOS: ports/lang/llvm/files/autogen.sh,v 1.1 2008/11/02 03:07:48 tg Exp $
 # $miros: ports/infrastructure/scripts/autogen.sh,v 1.10 2008/08/16 21:48:59 tg Exp $
 #-
 # Copyright (c) 2004, 2005, 2006, 2008

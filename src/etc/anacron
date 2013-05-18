@@ -1,5 +1,6 @@
-#!/usr/bin/env mksh
-# $MirOS: src/etc/anacron,v 1.5 2008/03/27 13:48:28 tg Exp $
+#!/bin/mksh
+# $Id$
+# $MirOS: src/etc/anacron,v 1.6 2008/12/10 18:06:05 tg Exp $
 #-
 # Copyright (c) 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -21,7 +22,7 @@
 #-
 # schedule daily/weekly/monthly cronjobs to run if we're 3 days over
 
-export PATH=/usr/dbin:/bin:/usr/bin:/usr/dsbin:/sbin:/usr/sbin
+export PATH=/bin:/usr/bin:/sbin:/usr/sbin
 cd /
 umask 077
 typeset -i minutes=15

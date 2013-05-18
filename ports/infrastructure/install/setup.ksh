@@ -1,5 +1,4 @@
-#!/usr/bin/env mksh
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.91 2008/11/29 12:15:47 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.92 2008/12/29 19:49:15 tg Exp $
 #-
 # Copyright (c) 2005, 2008
 #	Thorsten “mirabilos” Glaser <tg@mirbsd.de>

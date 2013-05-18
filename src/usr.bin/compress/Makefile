@@ -1,7 +1,5 @@
-# $MirOS: src/usr.bin/compress/Makefile,v 1.6 2008/03/27 13:41:32 tg Exp $
+# $MirOS: src/usr.bin/compress/Makefile,v 1.7 2008/03/27 14:53:24 tg Exp $
 # $OpenBSD: Makefile,v 1.20 2007/01/24 10:53:43 jmc Exp $
-
-BINDIR?=/usr/dbin
 
 PROG=	compress
 SRCS=	main.c zopen.c gzopen.c nullopen.c
@@ -18,5 +16,7 @@ MLINKS+=gzip.1 gunzip.1 gzip.1 gzcat.1
 LDADD=		-lz
 DPADD=		${LIBZ}
 CPPFLAGS+=	-DZCONST=const
+
+LDSTATIC=	-static
 
 .include <bsd.prog.mk>

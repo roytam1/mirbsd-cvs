@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.139 2009/02/01 11:11:10 tg Exp $
+# $MirOS: src/Makefile,v 1.140 2009/03/29 11:09:14 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -15,7 +15,7 @@ NO_PASCAL?=	Yes
 NOMAN?=		no
 CVSROOT?=	/cvs
 ANONCVSROOT?=	_anoncvs@anoncvs.mirbsd.org:/cvs
-_SAFEPATH=	/usr/dbin:/bin:/usr/bin:/usr/dsbin:/sbin:/usr/sbin:/usr/X11R6/bin
+_SAFEPATH=	/bin:/usr/bin:/sbin:/usr/sbin:/usr/X11R6/bin
 BATCH?=		No
 
   SUBDIR+= lib
@@ -25,8 +25,6 @@ BATCH?=		No
   SUBDIR+= sbin
   SUBDIR+= usr.bin
   SUBDIR+= usr.sbin
-# SUBDIR+= distrib/dbins
-# SUBDIR+= distrib/dbinsuid
   SUBDIR+= share
   SUBDIR+= gnu
   SUBDIR+= sys
