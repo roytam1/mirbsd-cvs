@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.371 2011/10/24 20:26:10 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.372 2011/10/29 21:09:13 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -8771,4 +8771,46 @@ Language: de-DE-1901
  Umkreissuche mal abgesehen, nur nach OC-Caches Ausschau halten.)</p>
 <p>So, dann mal Gruß nach Franken aus der Eifel. Ich werde auch den Franken,
  die ich kenne, den GAV-Button nahelegen.</p>
+----
+Date: 22.11.2011 19:10
+Author: tg@
+Title: Those small nice tools we all write
+Tag: debian mksh news pcli release
+
+<p>This is both a release announcement for the next installment of The
+ MirBSD Korn Shell, <a href="@@RELPATH@@mksh.htm#r40c">mksh R40b</a>,
+ and a follow-up to <a href="http://pusling.com/blog/?p=230">Sune’s
+ article about small tools of various degrees of usefulness</a>.</p>
+<p>I hope I don’t need to say too much about the first part; mksh(1)
+ is packaged in a gazillion of operating environments (dear Planet
+ readers, that <em>of course</em> includes Debian, which occasionally
+ gets a development snapshot; I’ll wait uploading R40c until that <a
+ href="http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=633479">two
+ month fixed gcc bug</a> will <em>finally</em> find its way into the
+ packages for armel and armhf. Ah, we’re getting Arch Linux (after
+ years) to include mksh now. (Probably because they couldn’t stand
+ the teasing that Arch Hurd included it <em>one</em> day after having
+ been told about its existence, wondering why it built without needing
+ patches on Hurd…) MSYS is a supposedly supported target now, people
+ are working on WinAPI and DJGPP in their spare time, and Cygwin and
+ Debian packagers have deprecated pdksh in favour of mksh (thanks!).
+ So, everything looking well on that front.</p>
+<p>I’ve started <a href="https://evolvis.org/projects/shellsnippets/">a
+ collection of shell snippets</a> some time ago, where most of “those
+ small things” of mine ends up. Even stuff I write at work – we’re an
+ Open Source company and can generally publish under (currently) AGPLv3
+ or (if extending existing code) that code’s licence. I chose git as
+ SCM in that FusionForge instance so that people would hopefully use it
+ and contribute to it without fear, as it’s hosted on my current money
+ source’s servers. (Can just clone it.) Feel free to register and ask
+ for membership, to extend it (only if your shell-fu is up to the task,
+ KNOPPIX-style scripts would be a bad style(9) example as the primary
+ goal of the project is to give good examples to people who learn shell
+ coding by looking at other peoples’ code).</p>
+<p>Maybe you like <a href="@@RELPATH@@jupp.htm">my editor</a>, too? At
+ OpenRheinRuhr, the Atari people sure liked it as it uses WordStar®
+ like key combinations, standardised across a lot of platforms and
+ vendors (DR DOS Editor, Turbo Pascal, Borland C++ for Windows, …)</p>
+<p>ObPromise: a posting to raise the level of <em>ferrophility</em>
+ on the Planet aggregators this wlog reaches (got pix)</p>
 ----

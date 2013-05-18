@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.428 2011/11/08 22:14:58 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.429 2011/11/19 22:21:49 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -24,7 +24,7 @@ mws_content <<'EOF'
  <li>information about <a href="mksh_old.htm">old versions</a></li>
 </ul>
 
-<h2>mksh(1) R40b</h2>
+<h2>mksh(1) R40c</h2>
 
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
  implementation of the Korn Shell programming language and a successor to the
@@ -43,11 +43,12 @@ mws_content <<'EOF'
  href="https://www.ohloh.net/p/mksh">mksh project page on ohlol</a>, a
  statistics site. mksh is <a href="https://launchpad.net/mksh">experimentally
  tracked at Launchpad</a>. Download the Logo as <a
- href="@@RELPATH@@pics/mksh.svg">SVG</a> if you want.</p>
+ href="@@RELPATH@@pics/mksh.svg">SVG</a> if you want. There’s also a <a
+ href="@@ABSPATH@@/TaC-mksh.txt">full licence terms</a> overview.</p>
 
 <h2 class="cr" id="prefetch">Introduction</h2>
-<p>The current version of mksh is <strong>mksh R40b</strong> from
- <em>16 July 2011</em>.</p>
+<p>The current version of mksh is <strong>mksh R40c</strong> from
+ <em>22 November 2011</em>.</p>
 <p>Thanks to “Der Verein <a href="http://www.trash.net/verein/">trash.net</a>”
  for sponsoring access to a Solaris 8 box. Thanks to Julian “yofuh” Wiesener
  for just another account on a Sun E420 on Solaris 11β. Thanks to someone who
@@ -79,7 +80,8 @@ mws_content <<'EOF'
  Aßmus. Thanks to André “naaina” Wösten for ssh on a QNX box. Thanks to
  Olivier Duchateau for testing on Slackware and Zenwalk GNU/Linux.
  Thanks to Winston W. for spotting musl, and thanks to maximilian attems
- and H. Peter Anvin for almost fixing klibc.
+ and H. Peter Anvin for almost fixing klibc. Thanks to RT|Chatzilla,
+ Chris “ir0nh34d” Sutcliffe, and others for Win32 platform assistance.
  (Did I miss anyone? Mail me if so. Some of these are past, anyway.)</p>
 <p>What is mksh(1)? – Short answer: The MirBSD Korn Shell. Okay, but what
  exactly does it do, or why another shell? These questions will be answered
@@ -182,14 +184,14 @@ mws_content <<'EOF'
  extract from the CPIO distfile and is available even on a stock Microsoft®
  Windows® installation (<tt>\WINNT\SYSTEM32\PAX.EXE</tt>).</p>
 <h3 id="mirrors">Known Mirrors</h3><ul>
- <li><a href="https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R40b.cpio.gz">https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R40b.cpio.gz</a></li>
- <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R40b.cpio.gz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R40b.cpio.gz</a></li>
+ <li><a href="https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R40c.cpio.gz">https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R40c.cpio.gz</a></li>
+ <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R40c.cpio.gz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R40c.cpio.gz</a></li>
 </ul>
 <h3 id="hashes">Checksums and Hashes</h3><ul>
- <li>RMD160 (mksh-R40b.cpio.gz) = 875fed27bfbb9d7ded18c2795e5bab7e26c2dcb5</li>
- <li>TIGER (mksh-R40b.cpio.gz) = 01dd6826aa39dca840ae32fbb05626d887c4da8feb8e038d</li>
- <li>3391516625 320793 /MirOS/dist/mir/mksh/mksh-R40b.cpio.gz</li>
- <li>MD5 (mksh-R40b.cpio.gz) = afb08b65272ace550ec59b26a876a7de</li>
+ <li>RMD160 (mksh-R40c.cpio.gz) = 8de17b0925a864ae723de2e3b6d6d27da89bb06f</li>
+ <li>TIGER (mksh-R40c.cpio.gz) = 93d69dea5600be4a5c37eceb6bc995bf3b2f9d2ff8f3f59f</li>
+ <li>4222136680 321859 /MirOS/dist/mir/mksh/mksh-R40c.cpio.gz</li>
+ <li>MD5 (mksh-R40c.cpio.gz) = 43a79f721091833bdab3d00fbfe54a14</li>
  <li style="list-style:none;">All official distfiles are gzsig(1)d.</li>
 </ul>
 
@@ -202,9 +204,9 @@ mws_content <<'EOF'
 <p>The first example is using BSD paxtar (MirOS BSD, OpenBSD, NetBSD®), or
  “bsdtar” (DragonFly); the second and third use cpio(1) or pax(1) and are
  for most operating systems; the fourth is for Debian.</p><ul>
-<li>$ tar xzf mksh-R40b.cpio.gz &amp;&amp; cd mksh</li>
-<li>$ gzip -dc mksh-R40b.cpio.gz | cpio -mid &amp;&amp; cd mksh</li>
-<li>$ gzip -dc mksh-R40b.cpio.gz | pax -r &amp;&amp; cd mksh</li>
+<li>$ tar xzf mksh-R40c.cpio.gz &amp;&amp; cd mksh</li>
+<li>$ gzip -dc mksh-R40c.cpio.gz | cpio -mid &amp;&amp; cd mksh</li>
+<li>$ gzip -dc mksh-R40c.cpio.gz | pax -r &amp;&amp; cd mksh</li>
 </ul>
 
 <h3 id="vendorpatching">Patching</h3>
@@ -273,8 +275,8 @@ mws_content <<'EOF'
  processor used unless <tt>-r</tt> is given</li>
 <li><tt>TARGET_OS</tt> (uname -s || uname) – the operating system to compile
  for; set this during cross compilation; valid: AIX BeOS (not yet) BSD/OS
- CYGWIN* Darwin DragonFly FreeBSD GNU (Hurd) GNU/kFreeBSD Haiku
- HP-UX Interix IRIX* Linux MidnightBSD Minix MirBSD NetBSD OpenBSD OSF1
+ CYGWIN* Darwin DJGPP (not yet) DragonFly FreeBSD GNU (Hurd) GNU/kFreeBSD
+ Haiku HP-UX Interix IRIX* Linux MidnightBSD Minix MirBSD NetBSD OpenBSD OSF1
  Plan9 (not yet) PW32* (not yet) QNX SunOS syllable (not yet) ULTRIX UWIN*</li>
 <li><tt>TARGET_OSREV</tt> (uname -r) – the operating system revision number
  for these that need it; currently: QNX (R38c+)</li>
@@ -683,7 +685,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
 
 <h5 class="cr" id="oe_plan9"><img width="50" height="64" alt="[Plan 9 mascot]"
  class="fr" src="@@RELPATH@@pics/logos/glenda.png" />OS: Plan 9</h5>
-<p><strong>Needs retesting with mksh R40</strong></p>
+<p><strong>Needs retesting with mksh R40+</strong> (port unfinished)</p>
 <p>Plan 9 is not supported yet – we were able to create an executable, but
  it did not return to the prompt after running a non-builtin command; this
  is job control issues, and patches are welcome. (Note this is for R37 and
@@ -716,7 +718,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
 
 <h5 class="cr" id="oe_syll"><img width="186" height="64" alt="[Syllable logo]"
  class="fr" src="@@RELPATH@@pics/logos/syllable.png" />OS: Syllable Desktop</h5>
-<p><strong>Needs retesting with mksh R40</strong></p>
+<p><strong>Needs retesting with mksh R40+</strong> (port unfinished)</p>
 <p>This does not yet work due to a signal passing bug in the AtheOS kernel,
  we were told by their developers. However, mksh R33 is at the same level
  of support as Plan 9 now.</p>
@@ -792,6 +794,8 @@ exec /usr/bin/ld "${args[@]}"</pre>
  changes in the build system (<tt>Build.sh</tt> and friends, compiler
  support, packaging conventions, bad examples, etc). This is also <em>not</em>
  <a href="#caveat">the users' upgrade caveat list</a>.</p>
+<p id="p40c">mksh R40c got better support for OPENSTEP, Interix, kFreeBSD,
+ MSYS, Hurd. No packaging changes worth mentioning, though.</p>
 <p id="p40b">mksh R40b changed <tt>dot.mkshrc</tt> and has a new option for
  disabling special handling the cat(1) builtin. The system and suid profile
  have moved to <tt>/system/etc/</tt> for Android. Build failures (e.g. broken
@@ -1008,6 +1012,15 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <h2 id="caveat">Users' Upgrade Caveat</h2>
 <p>This does not necessarily list new features, only these which users
  should be aware of for existing scripts.</p>
+<p id="c40c">R40c: The hack for when an interactive command begins
+ with ‘!’ to substitute that with “fc -e -” is now deprecated and
+ will be removed with R41 (or R42, we’ll see) despite objection.
+ Write ‘r ’ (letter err plus a space) instead, it’s exactly the
+ same. On the other hand, GNU bash-style array assignments are now
+ a standard feature: <tt>x=(a [3]=b); x+=(c [6]=d)</tt> now works
+ even in <tt>-DMKSH_SMALL</tt>. The <tt>-DMKSH_BINSHREDUCED</tt>
+ fix for <tt>${foo%\?}</tt> needed another fix, same for the
+ recursive parser introduced in R40.</p>
 <p id="c40b">R40b: There is a new built-in special command “global”
  which does the same as “local” except localise every parameter it
  touches; in short, it does what “typeset” would’ve been supposed
@@ -1035,10 +1048,10 @@ exec /usr/bin/ld "${args[@]}"</pre>
 
 <h2 id="clog">Recent Changes</h2>
 <p>Changes in the current (unreleased) development version:</p><ul>
- <li>Begin porting mksh to the <a href="http://9fans.net/">Plan 9</a>
-  ANSI’n’POSIX Environment (not finished)</li>
- <li>Port to <a href="http://www.syllable.org/">Syllable Desktop</a>
-  (not finished, but maybe the rest is a kernel bug?)</li>
+ <!-- li>Begin porting mksh to the <a href="http://9fans.net/">Plan 9</a>
+  ANSI’n’POSIX Environment (not finished)</li -->
+ <!-- li>Port to <a href="http://www.syllable.org/">Syllable Desktop</a>
+  (not finished, but maybe the rest is a kernel bug?)</li -->
  <!-- li>Import the GNU bash- and zsh-style ability to get and set multiple
   limits in a single invocation from oksh (thanks millert) -->
  <li>[tg] Drop “set ±o arc4random” (deprecated in R40)</li>
@@ -1048,7 +1061,8 @@ exec /usr/bin/ld "${args[@]}"</pre>
   variant <a href="@@ABSPATH@@/cvs.cgi/src/kern/include/nzat.h">NZAT</a></li>
  <li>[tg] Use <tt>$'…'</tt> for non-ASCII parameters for re-entry printing</li>
 </ul>
-<p>Changes in the current (unreleased) stable branch:</p><ul>
+<!-- p>Changes in the current (unreleased) stable branch:</p><ul -->
+<p id="r40c">mksh R40c collects stable development, mostly fixes:</p><ul>
  <li>[tg, Wouter Verhelst] Fix <tt>${foo%\?}</tt> in <tt>-o sh</tt></li>
  <li>[jonthn, Snader_LB] Fix spelling mistakes</li>
  <li>[cnuke] Fix bugs spotted during porting to OPENSTEP</li>
@@ -1067,6 +1081,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Deprecate the “command line begins with ‘!’ for fc -e -” wbx hack</li>
  <li>[tg] Promote <tt>x=(a b); x+=(c d)</tt> to a core mksh(1) feature</li>
  <li>[tg] Testsuite fixes for Hurd, MSYS; warning fixes for dietlibc</li>
+ <li>[tg] Fix R40 regression misparsing <tt>$(case x in (x) :; esac)</tt></li>
 </ul>
 <p id="r40b">mksh R40b introduces several <em>desired</em> fixes:</p><ul>
  <li>[tg] Don’t busy-loop on <tt>nameref ARY=ARY</tt> (LHS = RHS)</li>
@@ -1300,10 +1315,12 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <li>Build and actually work on more platforms – DJGPP, PW32,
  Plan 9, Syllable – debug these</li>
 <li>Bugfix for suspending <tt>a &amp;&amp; b</tt> chain</li>
-<li>echo diff &lt;(echo 1) &lt;(echo 2)</li>
+<li>echo diff &lt;(echo 1) &lt;(echo 2) <a
+ href="http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=606821">#606821</a></li>
 <li>whence -p -a foo</li>
 <li>read -e (or something): use the edit.c stuff for inputting</li>
 <li><a href="mksh_old.htm#plans">older/unrealistic plans</a></li>
+<li>… such as a better website, more clearly arranged, etc…</li>
 </ul>
 EOF
 mws_putfooter
