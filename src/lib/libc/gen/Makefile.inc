@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libc/gen/Makefile.inc,v 1.3 2005/09/22 20:39:58 tg Exp $
+# $MirOS: src/lib/libc/gen/Makefile.inc,v 1.4 2005/09/22 21:21:08 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.37 2005/02/01 15:12:28 millert Exp $
 
 # gen sources
@@ -30,6 +30,9 @@ SRCS+=	_sys_errlist.c _sys_nerr.c _sys_siglist.c
 # m-d Makefile.inc must include sources for:
 #	_setjmp() fabs() frexp() infinity isinf() ldexp() modf()
 #	setjmp() sigsetjmp()
+
+# MirOS libkvm helper tool
+SRCS+=	fnlist.c
 
 .include "${LIBCSRCDIR}/arch/${MACHINE_ARCH}/gen/Makefile.inc"
 

@@ -1,4 +1,4 @@
-/**	$MirOS: src/lib/libc/gen/fnlist.c,v 1.5 2006/01/24 20:00:43 tg Exp $ */
+/**	$MirOS: src/lib/libc/gen/fnlist.c,v 1.6 2006/01/24 20:10:29 tg Exp $ */
 /*	$OpenBSD: nlist.c,v 1.51 2005/08/08 08:05:34 espie Exp $ */
 /*
  * Copyright (c) 1989, 1993
@@ -41,7 +41,7 @@
 #include <unistd.h>
 #include <a.out.h>		/* pulls in nlist.h */
 
-__RCSID("$MirOS: src/lib/libc/gen/fnlist.c,v 1.5 2006/01/24 20:00:43 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/gen/fnlist.c,v 1.6 2006/01/24 20:10:29 tg Exp $");
 
 #ifdef _NLIST_DO_ELF
 #include <elf_abi.h>
@@ -51,6 +51,9 @@ __RCSID("$MirOS: src/lib/libc/gen/fnlist.c,v 1.5 2006/01/24 20:00:43 tg Exp $");
 int	__fnlist(FILE *, struct nlist *);
 int	__aout_fnlist(FILE *, struct nlist *);
 int	__elf_fnlist(FILE *, struct nlist *);
+#ifdef _NLIST_DO_ELF
+int	__elf_is_okay__(Elf_Ehdr *ehdr);
+#endif
 
 #define	ISLAST(p)	(p->n_un.n_name == 0 || p->n_un.n_name[0] == 0)
 
