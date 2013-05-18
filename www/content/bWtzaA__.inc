@@ -1,5 +1,5 @@
 <!-- PageID: mksh -->
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.85 2007/03/04 06:27:07 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.86 2007/03/05 00:12:26 tg Exp $</small>
 
 <h1>mksh(1) R28</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
@@ -12,6 +12,52 @@
  even if the main webserver is unreachable again.</p>
 <p>mksh is listed at <a href="http://directory.fsf.org/mksh.html">the
  FSF/UNESCO directory of Free Software</a>.</p>
+
+<h2>Due to current circumstances...</h2>
+<p>I'd like to state a few things, now that mksh has been brought
+ up on misc@openbsd.org: It's an actively developed pdksh-based
+ korn shell with <strong>all</strong> improvements from the OpenBSD
+ /bin/ksh <em>except</em> "bash-like $PS1" &ndash; but whoever
+ really needs it can patch it in himself, I prefer to convert the
+ GNU bash (bloated-again shell) prompts to Korn shell syntax though.
+ mksh R29, which has just been tagged today (March 5th), is a new
+ milestone in development &ndash; see below. The most user-visible
+ part is support for UTF-8 command line editing without the need to
+ pull in full wchar_t, iconv, locale, I18N, etc. bloat &ndash; that's
+ why it even works on non-locale-aware operating systems like OpenBSD.
+ It also features an autoconf-like build script without all the well
+ known annoyances of the GNU tools, compiles cleanly even with some
+ really crazy GCC warning options, is const-clean, and contains many
+ bug fixes over both pdksh and the OpenBSD ksh. Also, certain limits
+ have been removed, e.g. arrays can have (almost &ndash; due to the
+ size of the internal index type only 2<sup>31</sup>-1) members. It's
+ still smaller and much faster than comparable shells, and there's a
+ method to make it even smaller (run the build script with $CPPFLAGS
+ defined to some subset of -DMKSH_SMALL (as small as possible),
+ -DMKSH_ASSUME_UTF8 (don't look for setlocale(3) and nl_langinfo(CODESET)
+ but always enable the utf-8 command line editing mode), -DMKSH_NEED_MKNOD
+ (integrate mknod(1) in mksh even if compiled with -DMKSH_SMALL, e.g.
+ for the install floppy), -DMKSH_NOPWNAM (do not link in the calls to
+ getpwnam(3) so that mksh can be built statically on OSes with PAM).
+ There's also support for <tt>~/.mkshrc</tt>, which is sourced by all
+ interactive shells, login shell or not, and a sample <tt>dot.mkshrc</tt>
+ with a nice $PS1 is included. mksh(1) is licenced under the terms of
+ the MirOS licence, which is very similar to the historic permission
+ clause and the MIT licence; alloc.c and setmode.c (not needed for BSD)
+ are 2/3-clause BSD, strlcpy.c is ISC. But mksh is not Public Domain
+ (mostly because European authors cannot dedicate their work into PD
+ before they're long dead). This webpage is about to be rewritten.
+ mksh is already part of many porting systems, i.e. FreeBSD&reg; ports,
+ NetBSD&reg; pkgsrc&reg;, FreeWRT, Debian, Ubuntu, Gentoo, Crux (via
+ Han Boetes), OpenSuSE Build Service, Sourcemage, Fink, some chinese
+ GNU/Linux distribution, &#8230; and compiles under many obscure OSes,
+ e.g. Interix (SFU / Windows NT POSIX subsystem), Cygwin, Solaris,
+ GNU/HURD, GNU/kFreeBSD, all BSDs, old, modern and embedded GNU/Linux,
+ Mac OSX, and soon on Minix 3, Plan 9 and some commercial *nixes.</p>
+<p>Read the manual page &ndash; HTML: mksh(1) &ndash; PDF: <a
+ href="http://www.mirbsd.org/GBG/mksh.pdf">MirBSD Korn Shell</a></p>
+<p>If you need help converting your $PS1, join <tt>#!/bin/mksh</tt>
+ (yes, that's really the name of the channel, no kidding) on Freenode.</p>
 
 <h2>Table of Contents</h2><ul>
  <li><a href="#clog">ChangeLog</a></li>
