@@ -16,7 +16,6 @@
 ./etc/hosts
 ./etc/hosts.equiv
 ./etc/hosts.lpd
-./etc/ifstated.conf
 ./etc/inetd.conf
 ./etc/localtime
 ./etc/locate.rc
