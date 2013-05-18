@@ -5,7 +5,7 @@
 
 #include "sh.h"
 
-__RCSID("$MirOS: src/bin/mksh/edit.c,v 1.143 2008/11/12 00:27:54 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/edit.c,v 1.144 2008/11/12 00:54:46 tg Exp $");
 
 /* tty driver characters we are interested in */
 typedef struct {
@@ -2681,7 +2681,7 @@ x_init_emacs(void)
 {
 	int i, j;
 
-	AEDIT = anew();
+	AEDIT = anew(0);
 	x_nextcmd = -1;
 
 	x_tab = alloc(X_NTABS, sizeof (*x_tab), AEDIT);
