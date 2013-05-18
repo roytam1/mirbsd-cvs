@@ -47,13 +47,7 @@
 #include <syskern/libckern.h>
 #include "thread_private.h"
 
-__RCSID("$MirOS: src/lib/libc/crypt/arc4random.c,v 1.22 2009/01/21 19:41:37 tg Exp $");
-
-#ifdef __GNUC__
-#define inline __inline
-#else				/* !__GNUC__ */
-#define inline
-#endif				/* !__GNUC__ */
+__RCSID("$MirOS: src/lib/libc/crypt/arc4random.c,v 1.23 2009/11/09 21:58:39 tg Exp $");
 
 struct arc4_stream {
 	u_int8_t i;
@@ -66,7 +60,7 @@ static struct arc4_stream rs;
 static pid_t arc4_stir_pid;
 static int arc4_count;
 
-static inline u_int8_t arc4_getbyte(void);
+static uint8_t arc4_getbyte(void);
 void arc4random_atexit(void);
 
 void
@@ -92,28 +86,28 @@ arc4random_atexit(void)
 	sysctl(mib, 2, NULL, NULL, &buf, sizeof (buf));
 }
 
-static inline void
+static void
 arc4_init(void)
 {
-	int     n;
+	int n;
 
 	for (n = 0; n < 256; n++)
-		rs.s[n] = n;
+		rs.s[n] = (uint8_t)n;
 	rs.i = 0;
 	rs.j = 0;
 }
 
-static inline void
+static void
 arc4_addrandom(u_char *dat, int datlen)
 {
-	int     n;
-	u_int8_t si;
+	int n;
+	uint8_t si;
 
 	rs.i--;
 	for (n = 0; n < 256; n++) {
-		rs.i = (rs.i + 1);
+		rs.i++;
 		si = rs.s[rs.i];
-		rs.j = (rs.j + si + dat[n % datlen]);
+		rs.j = (uint8_t)(rs.j + si + dat[n % datlen]);
 		rs.s[rs.i] = rs.s[rs.j];
 		rs.s[rs.j] = si;
 	}
@@ -171,29 +165,29 @@ arc4_stir(void)
 	arc4_count = 1600000;
 }
 
-static u_int8_t
+static uint8_t
 arc4_getbyte(void)
 {
-	u_int8_t si, sj;
+	uint8_t si, sj;
 
-	rs.i = (rs.i + 1);
+	rs.i++;
 	si = rs.s[rs.i];
-	rs.j = (rs.j + si);
+	rs.j = (uint8_t)(rs.j + si);
 	sj = rs.s[rs.j];
 	rs.s[rs.i] = sj;
 	rs.s[rs.j] = si;
 	return (rs.s[(si + sj) & 0xff]);
 }
 
-static inline u_int32_t
+static uint32_t
 arc4_getword(void)
 {
-	u_int32_t val;
-	val = arc4_getbyte() << 24;
-	val |= arc4_getbyte() << 16;
-	val |= arc4_getbyte() << 8;
-	val |= arc4_getbyte();
-	return val;
+	uint32_t val;
+	val = (uint32_t)arc4_getbyte() << 24;
+	val |= (uint32_t)arc4_getbyte() << 16;
+	val |= (uint32_t)arc4_getbyte() << 8;
+	val |= (uint32_t)arc4_getbyte();
+	return (val);
 }
 
 void

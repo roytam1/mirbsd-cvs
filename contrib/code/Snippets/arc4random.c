@@ -1,5 +1,5 @@
 static const char __vcsid[] = "@(#) MirOS contributed arc4random.c (old)"
-    "\n	@(#)rcsid_master: $MirOS: contrib/code/Snippets/arc4random.c,v 1.19 2009/09/27 10:45:56 tg Exp $"
+    "\n	@(#)rcsid_master: $MirOS: contrib/code/Snippets/arc4random.c,v 1.20 2009/11/09 18:12:50 tg Exp $"
     ;
 
 /*-
@@ -116,7 +116,7 @@ static int arc4_count;
 static const char __randomdev[] = _PATH_URANDOM;
 
 static uint8_t arc4_getbyte(void);
-static void stir_finish(int);
+static void stir_finish(uint8_t);
 static void arc4_atexit(void);
 static char arc4_writeback(uint8_t *, size_t, char);
 
@@ -127,6 +127,18 @@ void arc4random_stir(void);
 #ifdef USE_MS_CRYPTOAPI
 uint32_t arc4random_pushb(const void *, size_t);
 #endif
+#endif
+
+#define NEED_UNIFORM_BUF_PROTO
+#if defined(__OpenBSD__) && defined(OpenBSD) && (OpenBSD > 200805)
+#undef NEED_UNIFORM_BUF_PROTO
+#elif defined(__MirBSD__) && defined(MirBSD) && (MirBSD > 0x0AA4)
+#undef NEED_UNIFORM_BUF_PROTO
+#endif
+
+#ifdef NEED_UNIFORM_BUF_PROTO
+u_int32_t arc4random_uniform(u_int32_t);
+void arc4random_buf(void *, size_t);
 #endif
 
 static void
@@ -248,7 +260,7 @@ arc4_stir(void)
 }
 
 static void
-stir_finish(int av)
+stir_finish(uint8_t av)
 {
 	size_t n;
 	uint8_t tb[16];
@@ -261,18 +273,17 @@ stir_finish(int av)
 	 * We discard 256 words. A long word is 4 bytes.
 	 * We also discard a randomly fuzzed amount.
 	 */
-	n = 256 * 4 + (arc4_getbyte() & 0x0FU);
-	while (av) {
-		n += (av & 0x0F);
-		av >>= 4;
-	}
+	n = 256 * 4 + (arc4_getbyte() & 0x0FU) + (av & 0xF0U);
+	av &= 0x0FU;
 	while (n--)
 		arc4_getbyte();
 	while (n < sizeof(tb))
 		tb[n++] = arc4_getbyte();
 	if (arc4_writeback(tb, sizeof(tb), 0))
 		arc4_getbyte();
-	arc4_count = 400000;
+	while (av--)
+		arc4_getbyte();
+	arc4_count = 1600000;
 }
 
 static uint8_t
@@ -322,7 +333,8 @@ arc4random_addrandom(u_char *dat, int datlen)
 u_int32_t
 arc4random(void)
 {
-	if (--arc4_count == 0 || !rs_initialized || arc4_stir_pid != getpid())
+	arc4_count -= 4;
+	if (arc4_count <= 0 || !rs_initialized || arc4_stir_pid != getpid())
 		arc4random_stir();
 	return arc4_getword();
 }
@@ -479,7 +491,6 @@ arc4random_pushb(const void *src, size_t len)
 		struct timeval tv;
 		uint32_t xbuf;
 	} idat;
-	const uint8_t *cbuf = (const uint8_t *)src;
 	uint32_t res = 1;
 
 	if (!rs_initialized) {
@@ -489,7 +500,7 @@ arc4random_pushb(const void *src, size_t len)
 
 	gettimeofday(&idat.tv, NULL);
 	for (rlen = 0; rlen < len; ++rlen)
-		idat.buf[rlen % sizeof(idat)] ^= cbuf[rlen];
+		idat.buf[rlen % sizeof(idat)] ^= ((const uint8_t *)src)[rlen];
 	rlen = MIN(sizeof(idat), MAX(sizeof(struct timeval), len));
 
 	if (arc4_writeback(&idat.buf[0], rlen, 1))
@@ -520,4 +531,73 @@ arc4_atexit(void)
 	buf.cnt = arc4_count;
 
 	arc4_writeback((uint8_t *)&buf, sizeof(buf), 0);
+}
+
+void
+arc4random_buf(void *_buf, size_t n)
+{
+	uint8_t *buf = (uint8_t *)_buf;
+
+	if (!rs_initialized || arc4_stir_pid != getpid())
+		arc4random_stir();
+	buf[0] = arc4_getbyte() % 3;
+	while (buf[0]--)
+		(void)arc4_getbyte();
+	while (n--) {
+		if (--arc4_count <= 0)
+			arc4_stir();
+		buf[n] = arc4_getbyte();
+	}
+}
+
+/*
+ * Calculate a uniformly distributed random number less than upper_bound
+ * avoiding "modulo bias".
+ *
+ * Uniformity is achieved by generating new random numbers until the one
+ * returned is outside the range [0, 2**32 % upper_bound).  This
+ * guarantees the selected random number will be inside
+ * [2**32 % upper_bound, 2**32) which maps back to [0, upper_bound)
+ * after reduction modulo upper_bound.
+ */
+u_int32_t
+arc4random_uniform(u_int32_t upper_bound)
+{
+	u_int32_t r, min;
+
+	if (upper_bound < 2)
+		return (0);
+
+#if defined(ULONG_MAX) && (ULONG_MAX > 0xffffffffUL)
+	min = 0x100000000UL % upper_bound;
+#else
+	/* Calculate (2**32 % upper_bound) avoiding 64-bit math */
+	if (upper_bound > 0x80000000)
+		min = 1 + ~upper_bound;		/* 2**32 - upper_bound */
+	else {
+		/* (2**32 - (x * 2)) % x == 2**32 % x when x <= 2**31 */
+		min = ((0xffffffff - (upper_bound * 2)) + 1) % upper_bound;
+	}
+#endif
+
+	/*
+	 * This could theoretically loop forever but each retry has
+	 * p > 0.5 (worst case, usually far better) of selecting a
+	 * number inside the range we need, so it should rarely need
+	 * to re-roll.
+	 */
+	if (!rs_initialized || arc4_stir_pid != getpid())
+		arc4random_stir();
+	if (arc4_getbyte() & 1)
+		(void)arc4_getbyte();
+	for (;;) {
+		arc4_count -= 4;
+		if (arc4_count <= 0)
+			arc4random_stir();
+		r = arc4_getword();
+		if (r >= min)
+			break;
+	}
+
+	return (r % upper_bound);
 }
