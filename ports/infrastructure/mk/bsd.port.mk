@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.149 2006/11/24 01:15:07 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.150 2006/12/11 22:59:21 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -355,11 +355,12 @@ ERRORS+=		"No flavours for this port."
 .if defined(CVS_DISTMODS) && !empty(CVS_DISTMODS)
 WRKDIST?=		${WRKDIR}/${CVS_DISTMODS}
 .endif
+DASH_VER?=		0
 .if defined(DIST_NAME) && defined(DIST_DATE)
-PKGNAME?=		${DIST_NAME}-${DIST_DATE}-0
+PKGNAME?=		${DIST_NAME}-${DIST_DATE}-${DASH_VER}
 WRKDIST?=		${WRKDIR}/${DIST_NAME}
 .else
-PKGNAME?=		${DISTNAME}-0
+PKGNAME?=		${DISTNAME}-${DASH_VER}
 .endif
 FULLPKGNAME?=		${PKGNAME}${FLAVOR_EXT}
 PKGFILE=		${PKGREPOSITORY}/${FULLPKGNAME}${PKG_SUFX}
