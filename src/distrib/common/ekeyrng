@@ -1,7 +1,7 @@
 #!/bin/mksh
-# $MirOS: src/distrib/common/ekeyrng,v 1.4 2009/11/15 12:29:35 tg Exp $
+# $MirOS: src/distrib/common/ekeyrng,v 1.5 2009/11/15 17:29:14 tg Exp $
 #-
-# Copyright (c) 2009
+# Copyright (c) 2009, 2012
 #	Thorsten Glaser <tg@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
@@ -35,6 +35,8 @@ if [[ $1 = -R && -n $2 && -c $2 ]]; then
 	mkpemquad() {
 		typeset i s
 
+		# rekey shell RNG (uses arc4random on MirBSD)
+		RANDOM=$SECONDS
 		# gather 30 bits of entropy
 		(( i = (RANDOM << 15) | RANDOM ))
 		# encode 6 bits from that, each time
