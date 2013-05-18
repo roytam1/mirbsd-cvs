@@ -1,4 +1,4 @@
-# $MirOS: ports/www/php/extensions/Makefile,v 1.18 2007/03/31 21:14:21 tg Exp $
+# $MirOS: ports/www/php/extensions/Makefile,v 1.19 2008/03/09 17:23:39 tg Exp $
 # $OpenBSD: Makefile,v 1.17 2005/12/29 23:06:28 sturm Exp $
 
 FULLPKGNAME=		php-extensions-${V}-${PV}
@@ -16,11 +16,13 @@ FLAVOUR?=
 BUILD_DEPENDS+=		${CORE_LIB_DEPENDS}
 RUN_DEPENDS+=		${CORE_DEPENDENCY}
 
-GRAPHIC_DEPENDS=	jpeg.62::graphics/jpeg \
-			png.3::graphics/png
+GRAPHIC_DEPENDS=	jpeg.62::graphics/jpeg
+MODPNG_INHIBIT=		#defined
+MODULES+=		graphics/png
+GRAPHIC_DEPENDS+=	${MODPNG_DEPENDS}
 
 GRAPHIC_CONFIG=		--with-jpeg-dir=${LOCALBASE:Q} \
-			--with-png-dir=${LOCALBASE:Q} \
+			--with-png-dir=${PNG_BASE:Q} \
 			--with-zlib-dir=/usr
 
 .include <mirports.sys.mk>
@@ -80,14 +82,13 @@ CONFIGURE_ARGS+=	--enable-dbx=shared
 
 # fam
 PSEUDO_FLAVOURS+=	no_fam
-FLAVOUR+=		no_fam		# not ported yet
 .if ${FLAVOUR:L:Mno_fam}
 CONFIGURE_ARGS+=	--disable-fam
 .else
 MULTI_PACKAGES+=	-fam
 COMMENT-fam=		filesystem alteration monitor extensions for php
-CONFIGURE_ARGS+=	--enable-fam=shared ...
-#FAM_DEPENDS=		...
+CONFIGURE_ARGS+=	--with-fam=shared,${LOCALBASE:Q}
+FAM_DEPENDS=		fam::sysutils/fam
 .endif
 
 # filepro
@@ -109,8 +110,9 @@ CONFIGURE_ARGS+=	--without-gd --without-xpm-dir --without-ttf \
 MULTI_PACKAGES+=	-gd
 COMMENT-gd=		image manipulation extensions for php
 GD_DEPENDS=		${GRAPHIC_DEPENDS} \
-			t1::devel/t1lib
-CONFIGURE_ARGS+=	--with-gd=shared ${GRAPHIC_CONFIG} \
+			t1:t1lib->=5.1.2:devel/t1lib
+CONFIGURE_ARGS+=	--with-gd=shared,${LOCALBASE:Q} \
+			${GRAPHIC_CONFIG} \
 			--with-freetype-dir=${X11BASE:Q} \
 			--enable-gd-native-ttf \
 			--with-t1lib=${LOCALBASE:Q}
@@ -249,7 +251,6 @@ CONFIGURE_ARGS+=	--enable-soap=shared
 
 # snmp
 PSEUDO_FLAVOURS+=	no_snmp
-FLAVOUR+=		no_snmp		# currently broken
 .if ${FLAVOUR:L:Mno_snmp}
 CONFIGURE_ARGS+=	--without-snmp
 .else
