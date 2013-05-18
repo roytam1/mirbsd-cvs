@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/liveboot/hook.S,v 1.4 2006/04/10 20:26:16 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/liveboot/hook.S,v 1.5 2006/04/10 20:53:54 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -32,15 +32,18 @@
 lbl_title:
 	.asciz	"MirOS #8-current Setup/Live CD"
 lbl_menus:
-	.byte	3
+	.byte	4
 	.word	lbl_menu0
 	.word	lbl_menu1
 	.word	lbl_menu2
+	.word	lbl_menu3
 lbl_menu0:
 	.asciz	"Continue to normal /boot\n"
 lbl_menu1:
 	.asciz	"Boot into the Live-CD\n"
-lbl_menu2:
+lbl_menu1:
+	.asciz	"Boot the Live-CD dd(1)d onto hard disc\n"
+lbl_menu3:
 	.asciz	"Boot the MirOS installer\n"
 lbl_ask:
 	.ascii	"\nUse the cursor up/down keys to navigate\n"
