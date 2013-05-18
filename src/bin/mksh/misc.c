@@ -30,7 +30,7 @@
 #include <grp.h>
 #endif
 
-__RCSID("$MirOS: src/bin/mksh/misc.c,v 1.198 2012/10/03 15:13:33 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/misc.c,v 1.199 2012/10/03 17:24:21 tg Exp $");
 
 #define KSH_CHVT_FLAG
 #ifdef MKSH_SMALL
@@ -494,7 +494,7 @@ getn(const char *s, int *ai)
 	rv = 1;
 
  getn_out:
-	*ai = i == 2147483648U ? -2147483648 : neg ? -(int)i : (int)i;
+	*ai = i == 2147483648U ? (int)i : neg ? -(int)i : (int)i;
 	return (rv);
 }
 
