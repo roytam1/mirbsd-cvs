@@ -1,8 +1,8 @@
-$MirOS$
+$MirOS: ports/devel/mirmake/distinfo,v 1.36 2009/08/30 18:14:08 tg Exp $
 
-3481123673 372469 mirmake-20090830.cpio.gz
-MD5 (mirmake-20090830.cpio.gz) = dd5f0ae7d3b150c2e45defabb48cacab
-RMD160 (mirmake-20090830.cpio.gz) = 2ed594d520e1f2bcdb061b373e0bfd8cfb3dd4f3
-SHA1 (mirmake-20090830.cpio.gz) = 09c3a0009d9e2d368714e52f7c572a51e1e2daa2
-SIZE (mirmake-20090830.cpio.gz) = 372469
-TIGER (mirmake-20090830.cpio.gz) = a6c0fb7fdbb85fc9b14ae394a722b51487d22c4763f600ef
+1441690492 372470 mirmake-20090830.cpio.gz
+MD5 (mirmake-20090830.cpio.gz) = 4aab31317d7f764e235036ef4db7f523
+RMD160 (mirmake-20090830.cpio.gz) = 6f2f10c63782a423bb97651082fbcab518523403
+SHA1 (mirmake-20090830.cpio.gz) = e8e644870b46c1ba8e353a773282310f5e20b122
+SIZE (mirmake-20090830.cpio.gz) = 372470
+TIGER (mirmake-20090830.cpio.gz) = 5d535f6f0750c2636fd0dac5a1c9b366b66cd554fd46a22c
