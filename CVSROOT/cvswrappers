@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: CVSROOT/cvswrappers,v 1.2 2005/02/04 23:43:43 tg Exp $
 #-
 # This file affects handling of files based on their names.
 #
@@ -44,6 +44,8 @@
 *.gif -k 'b'
 *.GZ -k 'b'
 *.gz -k 'b'
+*.ICO -k 'b'
+*.ico -k 'b'
 *.IMA -k 'b'
 *.ima -k 'b'
 *.ISO -k 'b'
