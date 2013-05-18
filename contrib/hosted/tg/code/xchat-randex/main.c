@@ -42,7 +42,7 @@
  */
 
 static const char __rcsid[] =
-    "$MirOS: contrib/hosted/tg/code/xchat-randex/main.c,v 1.11 2010/09/21 21:24:05 tg Exp $";
+    "$MirOS: contrib/hosted/tg/code/xchat-randex/main.c,v 1.12 2011/12/16 20:23:29 tg Exp $";
 
 #include <sys/types.h>
 #if defined(HAVE_STDINT_H) && HAVE_STDINT_H
@@ -87,16 +87,21 @@ extern uint32_t arc4random_pushb(const void *, size_t);
 #define RELEASE_PAPI	"pushk"
 #endif
 
-static unsigned long adler32(unsigned long, const unsigned char *, unsigned);
+#if !defined(__OpenBSD__)
 extern void arc4random_addrandom(unsigned char *, int);
+#endif
 
 static xchat_plugin *ph;
 static char buf[128];
+static struct {
+	time_t t;
+	uint32_t u;
+} g;
 
 /* The XChat Plugin API 2.0 is not const clean */
 static char randex_name[] = "randex";
 static char randex_desc[] = "MirOS RANDomness EXchange protocol support";
-static char randex_vers[] = "1.11+CVS";
+static char randex_vers[] = "1.12+CVS";
 static char null[] = "";
 
 int xchat_plugin_init(xchat_plugin *, char **, char **, char **, char *);
@@ -112,6 +117,45 @@ static int cmdfn_random(char *[], char *[], void *);
 static int do_randex(int, char *, char *, char *);
 static void entropyio(void *, size_t);
 
+
+#define NZATInit(h) do {					\
+	(h) = 0;						\
+} while (/* CONSTCOND */ 0)
+
+#define NZATUpdateByte(h,b) do {				\
+	(h) += (unsigned char)(b);				\
+	++(h);							\
+	(h) += (h) << 10;					\
+	(h) ^= (h) >> 6;					\
+} while (/* CONSTCOND */ 0)
+
+#define NZATUpdateMem(h,p,z) do {				\
+	register const unsigned char *NZATUpdateMem_p;		\
+	register size_t NZATUpdateMem_z = (z);			\
+								\
+	NZATUpdateMem_p = (const void *)(p);			\
+	while (NZATUpdateMem_z--)				\
+		NZATUpdateByte((h), *NZATUpdateMem_p++);	\
+} while (/* CONSTCOND */ 0)
+
+#define NZATUpdateString(h,s) do {				\
+	register const char *NZATUpdateString_s;		\
+	register unsigned char NZATUpdateString_c;		\
+								\
+	NZATUpdateString_s = (const void *)(s);			\
+	while ((NZATUpdateString_c = *NZATUpdateString_s++))	\
+		NZATUpdateByte((h), NZATUpdateString_c);	\
+} while (/* CONSTCOND */ 0)
+
+#define NZAATFinish(h) do {					\
+	(h) += (h) << 10;					\
+	(h) ^= (h) >> 6;					\
+	(h) += (h) << 3;					\
+	(h) ^= (h) >> 11;					\
+	(h) += (h) << 15;					\
+} while (/* CONSTCOND */ 0)
+
+
 void
 xchat_plugin_get_info(char **name, char **desc, char **vers, void **resv)
 {
@@ -120,6 +164,20 @@ xchat_plugin_get_info(char **name, char **desc, char **vers, void **resv)
 	*vers = randex_vers;
 	if (resv)
 		*resv = NULL;
+}
+
+static void
+gstring(const void *s)
+{
+	register uint32_t h;
+
+	g.t = time(NULL);
+	g.u = arc4random();
+	NZATInit(h);
+	NZATUpdateMem(h, &g.u, sizeof(g.u));
+	NZATUpdateString(h, s);
+	NZAATFinish(h);
+	g.u = h;
 }
 
 static void
@@ -134,14 +192,11 @@ int
 xchat_plugin_init(xchat_plugin *handle, char **name, char **desc,
     char **version, char *arg)
 {
-	unsigned long i;
-
 	ph = handle;
 	xchat_plugin_get_info(name, desc, version, NULL);
 
-	/* XXX use oaat ipv adler32 */
-	i = adler32(arc4random() | 1, (const void *)__rcsid, sizeof(__rcsid));
-	dopush(&i, sizeof(i));
+	gstring(__rcsid);
+	dopush((void *)&g, sizeof(g));
 
 	xchat_hook_server(ph, "RAW LINE", XCHAT_PRI_HIGHEST,
 	    hookfn_rawirc, NULL);
@@ -162,6 +217,7 @@ int
 xchat_plugin_deinit(void)
 {
 	arc4random_stir();
+	arc4random();
 
 	msg_condestruct(0);
 	return (1);
@@ -170,8 +226,6 @@ xchat_plugin_deinit(void)
 static int
 hookfn_rawirc(char *word[], char *word_eol[], void *user_data)
 {
-	unsigned long i;
-	time_t v;
 	char *src, *dst, *cmd, *rest;
 
 	if (!word[1] || !word[1][0])
@@ -213,11 +267,8 @@ hookfn_rawirc(char *word[], char *word_eol[], void *user_data)
 			return (do_randex(0, src, dst, word_eol[1]));
 	}
 
-	v = arc4random();
-	i = adler32(adler32(1, (const void *)&v, sizeof(v)),
-	    (const void *)word_eol[1], strlen(word_eol[1]));
-	v = time(NULL) ^ (time_t)i;
-	slowpush((void *)&v, sizeof(v));
+	gstring(word_eol[1]);
+	slowpush((void *)&g, sizeof(g));
 	return (XCHAT_EAT_NONE);
 }
 
@@ -286,9 +337,12 @@ cmdfn_randex(char *word[], char *word_eol[], void *user_data)
 static int
 cmdfn_randstir(char *word[], char *word_eol[], void *user_data)
 {
+	unsigned long v;
+
 	arc4random_stir();
+	v = arc4random();
 	/* goes to the current tab */
-	xchat_print(ph, "Entropy pool stirred.\n");
+	xchat_printf(ph, "Entropy pool stirred. RANDOM: 0x%08X (%lu)\n", v, v);
 	return (XCHAT_EAT_XCHAT);
 }
 
@@ -301,34 +355,6 @@ cmdfn_random(char *word[], char *word_eol[], void *user_data)
 	/* goes to the current tab */
 	xchat_printf(ph, "Random number: 0x%08X (%lu)\n", v, v);
 	return (XCHAT_EAT_XCHAT);
-}
-
-#define BASE	65521	/* largest prime smaller than 65536 */
-#define NMAX	5552	/* largest n: 255n(n+1)/2 + (n+1)(BASE-1) <= 2^32-1 */
-
-static unsigned long
-adler32(unsigned long s1, const unsigned char *bp, unsigned len)
-{
-	unsigned long s2;
-	unsigned n;
-
-	if (bp == NULL)
-		return (1UL);
-
-	s2 = (s1 >> 16) & 0xFFFFUL;
-	s1 &= 0xFFFFUL;
-
-	while (len) {
-		len -= (n = MIN(len, NMAX));
-		while (n--) {
-			s1 += *bp++;
-			s2 += s1;
-		}
-		s1 %= BASE;
-		s2 %= BASE;
-	}
-
-	return (s1 | (s2 << 16));
 }
 
 static int
@@ -372,9 +398,11 @@ do_randex(int is_req, char *rsrc, char *dst, char *line)
 static int
 cmdfn_randfile(char *word[], char *word_eol[], void *user_data)
 {
+	register uint32_t h;
 	const char *fn;
 	FILE *f;
 	size_t n;
+	uint32_t tv;
 	char pb[600];
 
 	fn = word[2];
@@ -384,20 +412,26 @@ cmdfn_randfile(char *word[], char *word_eol[], void *user_data)
 		return (XCHAT_EAT_XCHAT);
 	}
 
-	(void)arc4random();
+	g.t = time(NULL);
+	g.u = arc4random();
+	NZATInit(h);
+	NZATUpdateMem(h, &g.u, sizeof(g.u));
+	NZATUpdateString(h, fn);
 
 	if ((f = fopen(fn, "rb")) != NULL) {
 		do {
-			if ((n = fread(pb, 1, sizeof(pb), f)))
+			if ((n = fread(pb, 1, sizeof(pb), f))) {
 				slowpush((void *)pb, n);
+				tv = arc4random();
+				NZATUpdateMem(h, &tv, sizeof(tv));
+			}
 		} while (n);
 		fclose(f);
+		NZATUpdateMem(h, pb, 16);
 		(void)arc4random();
 	}
 
 	if ((f = fopen(fn, "wb")) != NULL) {
-		uint32_t tv;
-
 		for (n = 0; n < sizeof(pb); n += sizeof(tv)) {
 			tv = arc4random();
 			memcpy(pb + n, &tv, sizeof(tv));
@@ -409,6 +443,12 @@ cmdfn_randfile(char *word[], char *word_eol[], void *user_data)
 		(void)arc4random();
 	} else
 		xchat_printf(ph, "Could not open %s for writing!\n", fn);
+
+	tv = arc4random();
+	NZATUpdateMem(h, &tv, sizeof(tv));
+	NZAATFinish(h);
+	g.u = h;
+	dopush((void *)&g, sizeof(g));
 
 	memset(pb, 0, sizeof(pb));
 	return (XCHAT_EAT_XCHAT);
