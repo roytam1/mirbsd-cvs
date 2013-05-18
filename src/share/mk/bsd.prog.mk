@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.prog.mk,v 1.19 2005/12/15 01:28:38 tg Exp $
+# $MirOS: src/share/mk/bsd.prog.mk,v 1.20 2006/02/21 18:01:55 tg Exp $
 # $OpenBSD: bsd.prog.mk,v 1.44 2005/04/15 17:18:57 espie Exp $
 # $NetBSD: bsd.prog.mk,v 1.55 1996/04/08 21:19:26 jtc Exp $
 # @(#)bsd.prog.mk	5.26 (Berkeley) 6/25/91
@@ -20,7 +20,9 @@ BSD_PROG_MK=1
 CFLAGS+=	${CDIAGFLAGS}
 CXXFLAGS+=	${CXXDIAGFLAGS}
 .endif
+.if !${COPTS:M-fhonour-copts} || !${CFLAGS:M-fhonour-copts}
 CFLAGS+=	${COPTS}
+.endif
 CXXFLAGS+=	${CXXOPTS}
 
 .if defined(PROG) && !empty(PROG)

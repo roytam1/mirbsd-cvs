@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.lkm.mk,v 1.4 2005/11/17 12:05:08 tg Exp $
+# $MirOS: src/share/mk/bsd.lkm.mk,v 1.5 2005/11/17 18:30:03 tg Exp $
 # $OpenBSD: bsd.lkm.mk,v 1.19 2003/05/20 22:49:13 millert Exp $
 
 .if exists(${.CURDIR}/../Makefile.inc)
@@ -11,8 +11,13 @@
 
 .SUFFIXES: .out .o .c .cc .C .y .l .s .8 .7 .6 .5 .4 .3 .2 .1 .0
 
-CFLAGS+=	${COPTS} -ffreestanding -fno-builtin-printf -fno-builtin-log \
-		-D_KERNEL -D_LKM -I${BSDSRCDIR}/sys -I${BSDSRCDIR}/sys/arch
+.if !${COPTS:M-fhonour-copts} || !${CFLAGS:M-fhonour-copts}
+CFLAGS+=	${COPTS}
+.endif
+.if !${CPPFLAGS:M-D_LKM}
+CFLAGS+=	-ffreestanding -fno-builtin-printf -fno-builtin-log
+CPPFLAGS+=	-D_KERNEL -D_LKM -I${BSDSRCDIR}/sys -I${BSDSRCDIR}/sys/arch
+.endif
 .if ${WARNINGS:L} == "yes"
 CFLAGS+=	${CDIAGFLAGS}
 .endif

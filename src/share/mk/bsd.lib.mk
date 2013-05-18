@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.lib.mk,v 1.34 2005/12/29 23:16:09 tg Exp $
+# $MirOS: src/share/mk/bsd.lib.mk,v 1.35 2005/12/29 23:32:37 tg Exp $
 # $OpenBSD: bsd.lib.mk,v 1.43 2004/09/20 18:52:38 espie Exp $
 # $NetBSD: bsd.lib.mk,v 1.67 1996/01/17 20:39:26 mycroft Exp $
 # @(#)bsd.lib.mk	5.26 (Berkeley) 5/2/91
@@ -136,7 +136,9 @@ LINK.shlib?=	${LINKER} ${CFLAGS} ${SHLIB_FLAGS} -shared \
 CFLAGS+=	${CDIAGFLAGS}
 CXXFLAGS+=	${CXXDIAGFLAGS}
 .endif
+.if !${COPTS:M-fhonour-copts} || !${CFLAGS:M-fhonour-copts}
 CFLAGS+=	${COPTS}
+.endif
 CXXFLAGS+=	${CXXOPTS}
 
 .if ${DEBUGLIBS:L} == "yes"
