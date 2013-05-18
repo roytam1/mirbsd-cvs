@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.396 2012/08/13 20:15:55 bsiegert Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.397 2012/08/13 20:36:01 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -9242,16 +9242,15 @@ Tag: news
  <a href="http://www.OSworld.pl/">OSWorld</a>,
  a Polish news site about open source software. The interview took place
  at FOSDEM 2012. I talk about the project, about the community and about
- some of the great things when using open source. Check out the video
- below:</p>
-
-<p>[edit by tg@ to keep XHTML valid] <a
- href="http://www.youtube-nocookie.com/embed/ASi5aTRPof0">http://www.youtube-nocookie.com/embed/ASi5aTRPof0</a></p>
+ some of the great things when using open source.
+ <a href="http://youtu.be/ASi5aTRPof0">Check out the video.</a></p>
 
 <p>Read the
  <a href="http://osworld.pl/wywiad-z-benny-siegert-deweloperem-mirbsd/">original
  article (in Polish)</a>
  over at OSWorld. Thanks guys!</p>
+
+<p>(Update: Corrected the HTML. Again.</p>
 ----
 Date: 12.08.2012 22:41 +0200
 Author: bsiegert@
