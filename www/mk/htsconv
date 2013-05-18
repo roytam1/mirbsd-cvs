@@ -1,4 +1,4 @@
-rcsid_htsconv='$MirOS: www/mk/htsconv,v 1.32 2008/12/17 23:44:17 tg Exp $'
+rcsid_htsconv='$MirOS: www/mk/htsconv,v 1.33 2008/12/17 23:53:17 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -9,6 +9,8 @@ mws__rss=
 mws__difftag=MBSD_HTSCONV_GENDATE_TAG_7567
 unset mws__abspath
 unset mws__relpath
+unset mws__canonpath
+mws__canonsite=https://www.mirbsd.org
 
 function mws_setname {
 	mws__pagename=$2
@@ -33,8 +35,17 @@ function mws_subdir {
 	done
 }
 
+function mws_basepath {
+	mws__canonpath=$mws__canonsite/$1
+}
+
 function mws_putheader {
 	local rcsid=$1
+
+	if [[ -z $mws__canonpath ]]; then
+		print -u2 Internal error: mws_basepath not called!
+		exit 1
+	fi
 	mws__content <<-EOF
 		<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
 		 "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
@@ -43,6 +54,7 @@ function mws_putheader {
 		 <meta name="MSSmartTagsPreventParsing" content="TRUE" />
 		 <link rel="stylesheet" type="text/css" href="@@RELPATH@@vstyle.css" />
 		 <link rel="apple-touch-icon" href="@@RELPATH@@pics/blumenkohl.png" />
+		 <link rel="canonical" href="$mws__canonpath" />
 		 <meta name="author" content="Thorsten Glaser" />
 		 <meta name="copyright" content="All rights reserved. Redistribution except for scientific and educational uses strictly prohibited. Unmodified redistribution with no endorsement permitted." />
 		 <meta name="owner" content="The MirOS Project and The MirPorts Framework" />
