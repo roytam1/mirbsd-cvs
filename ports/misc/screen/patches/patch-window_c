@@ -1,14 +1,15 @@
+$MirOS$
 $OpenBSD: shmpatch-window_c,v 1.1 2003/11/22 00:56:58 espie Exp $
---- window.c.orig	2003-12-05 13:45:19.000000000 +0000
-+++ window.c	2004-06-11 15:40:15.000000000 +0000
-@@ -1993,6 +1993,57 @@ char *data;
+--- window.c.orig	Fri Dec  5 13:45:19 2003
++++ window.c	Sat Jan  9 18:20:54 2010
+@@ -1993,6 +1993,56 @@ char *data;
      }
  }
  
 +#ifdef IPC_EXPORT_IMAGE
 +
 +void
-+CopyWinImage( p, dest )
++CopyWinImage(p, dest)
 +struct win *p;
 +char *dest;
 +{
@@ -44,13 +45,12 @@ $OpenBSD: shmpatch-window_c,v 1.1 2003/11/22 00:56:58 espie Exp $
 +    }
 +  else
 +    {
-+      /* no window pointer */
-+      *d++ = 80;   /* scrdim x */
-+      *d++ = 1;    /* scrdim y */
-+      *d++ = 0;    /* csrpos x */
-+      *d++ = 0;    /* csrpos y */
-+      strcpy( d, "*** screen: no window pointer ***" );
-+      memset( d+strlen(d), ' ', 80);
++      d[0] = 80;	/* scrdim x */
++      d[1] = 1;	/* scrdim y */
++      d[2] = 0;	/* csrpos x */
++      d[3] = 0;	/* csrpos y */
++      memset(d + 4, ' ', 160);
++      memcpy(d + 4, "*** screen: no window pointer ***", 33);
 +    }
 +}
 +

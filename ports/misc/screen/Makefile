@@ -1,11 +1,11 @@
-# $MirOS: ports/misc/screen/Makefile,v 1.26 2009/09/09 10:33:09 tg Exp $
+# $MirOS: ports/misc/screen/Makefile,v 1.27 2009/10/03 16:20:21 tg Exp $
 # $OpenBSD: Makefile,v 1.52 2004/01/17 05:34:28 brad Exp $
 
 NOT_FOR_PLATFORM=	Interix:*:*
 
 COMMENT=		multi-screen window manager
 VERSION=		4.0.3
-DASH_VER=		12
+DASH_VER=		13
 DISTNAME=		screen-${VERSION}
 CATEGORIES=		misc
 MASTER_SITES=		http://ftp.uni-erlangen.de/pub/utilities/screen/ \
@@ -31,11 +31,11 @@ FLAVOUR?=
 
 .include <mirports.sys.mk>
 
-.if ${FLAVOUR:L} == "static"
+.if ${FLAVOUR:L:Mstatic}
 LDFLAGS+=		-static
 .endif
-.if ${FLAVOUR:L} == "shm"
-PATCH_LIST=		patch-* shmpatch-*
+.if ${FLAVOUR:L:Mshm}
+CONFIGURE_ARGS+=	--enable-shm
 .endif
 
 ALL_TARGET=		screen screen.info

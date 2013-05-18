@@ -1,8 +1,18 @@
-$MirOS$
+$MirOS: ports/misc/screen/patches/patch-fileio_c,v 1.1.7.1 2005/03/18 15:50:35 tg Exp $
 $OpenBSD: patch-fileio_c,v 1.1 2003/10/14 23:05:28 jolan Exp $
---- fileio.c.orig	2003-09-08 14:25:06.000000000 +0000
-+++ fileio.c	2004-06-11 15:39:02.000000000 +0000
-@@ -779,7 +779,7 @@ char *cmd;
+--- fileio.c.orig	Mon Sep  8 14:25:06 2003
++++ fileio.c	Sat Jan  9 17:58:43 2010
+@@ -25,9 +25,7 @@
+ #include <fcntl.h>
+ #include <sys/stat.h>
+ 
+-#ifndef SIGINT
+ # include <signal.h>
+-#endif
+ 
+ #include "config.h" 
+ #include "screen.h"
+@@ -779,7 +777,7 @@ char *cmd;
  #ifdef SIGPIPE
        signal(SIGPIPE, SIG_DFL);
  #endif
