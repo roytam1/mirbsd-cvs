@@ -1,8 +1,8 @@
-/**	$MirOS: src/usr.sbin/makefs/cd9660.h,v 1.14 2009/07/23 19:32:23 tg Exp $ */
+/**	$MirOS: src/usr.sbin/makefs/cd9660.h,v 1.15 2010/03/06 21:29:03 tg Exp $ */
 /*	$NetBSD: cd9660.h,v 1.13 2009/01/10 22:06:29 bjh21 Exp $	*/
 
 /*
- * Copyright (c) 2009 Thorsten Glaser
+ * Copyright (c) 2009, 2010 Thorsten Glaser
  * Copyright (c) 2005 Daniel Watt, Walter Deignan, Ryan Gabrys, Alan
  * Perez-Rathke and Ram Vedam.  All rights reserved.
  *
@@ -360,6 +360,11 @@ typedef struct _iso9660_disk {
 	int image_serialno;
 	LIST_HEAD(boot_catalog_entries,boot_catalog_entry) boot_entries;
 
+	char *forced_creation_date;
+	char *forced_modification_date;
+	char *forced_expiration_date;
+	char *forced_effective_date;
+
 } iso9660_disk;
 
 /******** GLOBAL VARIABLES ***********/
@@ -400,6 +405,8 @@ cd9660_DATATYPE_PROTO(time_8426, 17, time_t);
 #define cd9660_time_915(val, buf) \
 	cd9660_DATATYPE_INVOCATION(time_915, 7, val, buf)
 cd9660_DATATYPE_PROTO(time_915, 7, time_t);
+
+int	cd9660_isthisa_time_8426_utc(const char *, const char *);
 
 /*** Boot Functions ***/
 int	cd9660_write_generic_bootimage(FILE *);

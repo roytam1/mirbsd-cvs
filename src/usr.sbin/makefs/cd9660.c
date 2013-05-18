@@ -106,7 +106,7 @@
 
 #include <sys/cdefs.h>
 #if defined(__RCSID) && !defined(__lint)
-__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/cd9660.c,v 1.24 2009/06/29 18:58:54 tg Exp $");
+__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/cd9660.c,v 1.25 2010/03/06 21:29:02 tg Exp $");
 __RCSID("$NetBSD: cd9660.c,v 1.26 2009/01/16 18:02:24 pooka Exp $");
 #endif  /* !__lint */
 
@@ -258,6 +258,11 @@ cd9660_set_defaults(void)
 
 	strlcpy(diskStructure.primaryDescriptor.system_id, ISO_DEFAULT_SYSID,
 	    sizeof (diskStructure.primaryDescriptor.system_id));
+
+	diskStructure.forced_creation_date = NULL;
+	diskStructure.forced_modification_date = NULL;
+	diskStructure.forced_expiration_date = NULL;
+	diskStructure.forced_effective_date = NULL;
 
 	cd9660_defaults_set = 1;
 
@@ -455,6 +460,18 @@ cd9660_parse_opts(const char *option, fsinfo_t *fsopts __unused)
 		} else {
 			cd9660_eltorito_add_boot_option(var, val);
 		}
+	} else if (CD9660_IS_COMMAND_ARG(var, "creation-date")) {
+		if ((rv = cd9660_isthisa_time_8426_utc(val, "creation-date")))
+			diskStructure.forced_creation_date = strdup(val);
+	} else if (CD9660_IS_COMMAND_ARG(var, "modification-date")) {
+		if ((rv = cd9660_isthisa_time_8426_utc(val, "modification-date")))
+			diskStructure.forced_modification_date = strdup(val);
+	} else if (CD9660_IS_COMMAND_ARG(var, "expiration-date")) {
+		if ((rv = cd9660_isthisa_time_8426_utc(val, "expiration-date")))
+			diskStructure.forced_expiration_date = strdup(val);
+	} else if (CD9660_IS_COMMAND_ARG(var, "effective-date")) {
+		if ((rv = cd9660_isthisa_time_8426_utc(val, "effective-date")))
+			diskStructure.forced_effective_date = strdup(val);
 	} else {
 		if (val == NULL) {
 			warnx("Option `%s' doesn't contain a value", var);
@@ -707,6 +724,19 @@ cd9660_finalize_PVD(void)
 	    /* 16 "0" + one NUL */ "0000000000000000", 17);
 
 	cd9660_time_8426(tim, diskStructure.primaryDescriptor.effective_date);
+
+	if (diskStructure.forced_creation_date)
+		memcpy(diskStructure.primaryDescriptor.creation_date,
+		    diskStructure.forced_creation_date, 17);
+	if (diskStructure.forced_modification_date)
+		memcpy(diskStructure.primaryDescriptor.modification_date,
+		    diskStructure.forced_modification_date, 17);
+	if (diskStructure.forced_expiration_date)
+		memcpy(diskStructure.primaryDescriptor.expiration_date,
+		    diskStructure.forced_expiration_date, 17);
+	if (diskStructure.forced_effective_date)
+		memcpy(diskStructure.primaryDescriptor.effective_date,
+		    diskStructure.forced_effective_date, 17);
 
 	memcpy(diskStructure.primaryDescriptor.application_data,
 	    "[APPLICATION USE]--> ...", 24);

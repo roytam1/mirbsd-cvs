@@ -38,7 +38,7 @@
 #include <sys/cdefs.h>
 #if defined(__RCSID) && !defined(__lint)
 __RCSID("$NetBSD: cd9660_conversion.c,v 1.4 2007/03/14 14:11:17 christos Exp $");
-__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/cd9660/cd9660_conversion.c,v 1.6 2008/11/06 23:45:18 tg Exp $");
+__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/cd9660/cd9660_conversion.c,v 1.7 2010/03/06 21:29:06 tg Exp $");
 #endif  /* !__lint */
 
 
@@ -203,4 +203,79 @@ cd9660_time_915(time_t tim, unsigned char *buf)
 	buf[4] = t.tm_min;
 	buf[5] = t.tm_sec;
 	buf[6] = cd9660_compute_gm_offset(tim);
+}
+
+int
+cd9660_isthisa_time_8426_utc(const char *val, const char *fieldtitle)
+{
+	int i, j;
+
+	if (val == NULL || strlen(val) != 16) {
+		warnx("error: The %s requires a 16 bytes 8.4.26 time argument",
+		     fieldtitle);
+		return (0);
+	}
+
+	j = 0;
+	for (i = 0; i < 16; ++i)
+		if (val[i] < '0' || val[i] > '9') {
+			warnx("error: The %s must be composed of digits",
+			    fieldtitle);
+			return (0);
+		} else if (val[i] != '0')
+			j = 1;
+
+	if (j == 0)
+		/* 16 times '0' */
+		return (1);
+
+#define otoa(x) (val[x] - '0')
+
+	if (val[0] == '0' && val[1] == '0' && val[2] == '0' && val[3] == '0') {
+		warnx("error: The %s %s is invalid (%s)", fieldtitle,
+		    "year", "too small");
+		return (0);
+	}
+
+	i = otoa(4) * 10 + otoa(5);
+	if (i < 1 || i > 12) {
+		warnx("error: The %s %s is invalid (%s)", fieldtitle,
+		    "month", "not 1..12");
+		return (0);
+	}
+
+	i = otoa(6) * 10 + otoa(7);
+	if (i < 1 || i > 31) {
+		warnx("error: The %s %s is invalid (%s)", fieldtitle,
+		    "day", "not 1..31");
+		return (0);
+	}
+
+	i = otoa(8) * 10 + otoa(9);
+	if (i > 23) {
+		warnx("error: The %s %s is invalid (%s)", fieldtitle,
+		    "hour", "not 0..23");
+		return (0);
+	}
+
+	i = otoa(10) * 10 + otoa(11);
+	if (i > 59) {
+		warnx("error: The %s %s is invalid (%s)", fieldtitle,
+		    "minute", "not 0..59");
+		return (0);
+	}
+
+	i = otoa(12) * 10 + otoa(13);
+	if (i > 59) {
+		/* but in ECMA 119: should be 0..60 */
+		warnx("error: The %s %s is invalid (%s)", fieldtitle,
+		    "second", "not 0..59");
+		return (0);
+	}
+
+#undef otoa
+
+	/* hundredths are 00..99 alright */
+	/* offset is NUL (UTC) alright */
+	return (1);
 }

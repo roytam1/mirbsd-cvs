@@ -1,4 +1,4 @@
-.\"	$MirOS: src/usr.sbin/makefs/makefs.8,v 1.9 2010/03/06 21:29:03 tg Exp $
+.\"	$MirOS: src/usr.sbin/makefs/makefs.8,v 1.10 2010/03/06 22:27:50 tg Exp $
 .\"	$NetBSD: makefs.8,v 1.32 2009/01/20 20:47:25 bjh21 Exp $
 .\"
 .\" Copyright (c) 2001-2003 Wasabi Systems, Inc.
@@ -297,6 +297,12 @@ is one of
 .Ql macppc ,
 or
 .Ql powerpc .
+.It Sy creation\-date
+Override PVD creation date.
+.It Sy effective\-date
+Override PVD effective date.
+.It Sy expiration\-date
+Override PVD expiration date.
 .It Sy generic\-bootimage
 Load a generic boot image into the first 32K of the cd9660 image.
 .It Sy hard\-disk\-boot
@@ -311,6 +317,8 @@ Don't throw away images whose write was aborted due to an error.
 For debugging purposes.
 .It Sy label
 Label name of the image.
+.It Sy modification\-date
+Override PVD modification date.
 .It Sy no\-boot
 Boot image is not bootable.
 .It Sy no\-emul\-boot
@@ -333,6 +341,10 @@ Force uid 0, gid 0, and rationalised permission bits for RockRidge entries.
 .It Sy volumeid
 Volume set identifier of the image.
 .El
+.Pp
+Dates (to override) are in 8.4.26.1 format
+.Pq Ar YYYYmmddHHMMSS00
+and Universal Time, i.e. with zero offset from Greenwich Mean Time.
 .Sh SEE ALSO
 .Xr strsuftoll 3 ,
 .Xr installboot 8 ,
