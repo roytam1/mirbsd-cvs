@@ -1,8 +1,8 @@
-$MirOS: ports/www/links+/patches/patch-config_h_in,v 1.1.7.1 2005/03/18 15:59:38 tg Exp $
+$MirOS: ports/www/links+/patches/patch-config_h_in,v 1.2 2005/05/23 22:22:46 tg Exp $
 $OpenBSD: patch-config_h_in,v 1.1 2002/12/17 08:09:23 fgsch Exp $
---- config.h.in.orig	Thu Feb 24 16:18:48 2005
-+++ config.h.in	Mon May 23 22:12:23 2005
-@@ -378,6 +378,12 @@
+--- config.h.in.orig	Wed Sep 20 22:09:22 2006
++++ config.h.in	Thu Nov 16 22:59:43 2006
+@@ -411,6 +411,12 @@
  /* */
  #undef HAVE_CHMOD
  

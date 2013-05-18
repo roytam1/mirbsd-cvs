@@ -1,8 +1,8 @@
-$MirOS: ports/www/links+/patches/patch-x_c,v 1.1.7.1 2005/03/18 15:59:38 tg Exp $
+$MirOS: ports/www/links+/patches/patch-x_c,v 1.2 2005/05/23 22:22:47 tg Exp $
 $OpenBSD: patch-x_c,v 1.6 2003/04/07 19:30:21 fgsch Exp $
---- x.c.orig	Thu Feb 24 16:17:36 2005
-+++ x.c	Mon May 23 22:00:23 2005
-@@ -643,7 +643,24 @@ static void x_process_events(void *data)
+--- x.c.orig	Sun Apr  2 19:23:53 2006
++++ x.c	Thu Nov 16 22:59:43 2006
+@@ -644,7 +644,24 @@ static void x_process_events(void *data)
  				gd=x_find_gd(&(event.xkey.window));
  				if (!gd)break;
  				if (x_translate_key((XKeyEvent*)(&event),&k,&f))
@@ -28,7 +28,7 @@ $OpenBSD: patch-x_c,v 1.6 2003/04/07 19:30:21 fgsch Exp $
  			}
  			break;
  	
-@@ -691,7 +708,7 @@ static void x_process_events(void *data)
+@@ -692,7 +709,7 @@ static void x_process_events(void *data)
  					break;
  
  					case 2:

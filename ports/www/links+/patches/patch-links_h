@@ -1,13 +1,13 @@
-$MirOS$
+$MirOS: ports/www/links+/patches/patch-links_h,v 1.2 2005/05/23 22:22:46 tg Exp $
 $OpenBSD: patch-links_h,v 1.9 2003/11/17 22:59:32 fgsch Exp $
---- links.h.orig	Thu Feb 24 16:17:36 2005
-+++ links.h	Mon May 23 22:00:23 2005
-@@ -154,6 +154,8 @@ x #endif*/
- #define longlong long
- #endif
+--- links.h.orig	Tue Oct 10 12:21:56 2006
++++ links.h	Thu Nov 16 22:59:43 2006
+@@ -158,6 +158,8 @@ x #endif*/
+ #endif /* #if defined(HAVE_PNG_H) */
+ #endif /* #if defined(G) */
  
 +#include <inttypes.h>
 +
  #include <termios.h>
  
- #include "os_depx.h"
+ #ifdef HAVE_LONG_LONG
