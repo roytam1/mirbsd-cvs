@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/gnu/usr.bin/lynx/userdefs.h,v 1.2 2005/03/27 22:42:32 tg Exp $ */
 
 /*
  * Lynx - Hypertext navigation system
@@ -1144,7 +1144,7 @@
  * the version definition with the Project Version on checkout.  Just
  * ignore it. - kw */
 /* $Format: "#define LYNX_VERSION \"$ProjectVersion$\""$ */
-#define LYNX_VERSION "2.8.6dev.11b-MirOS"
+#define LYNX_VERSION "2.8.6dev.11i-MirOS"
 #define LYNX_WWW_HOME "http://lynx.isc.org/"
 #define LYNX_WWW_DIST "http://lynx.isc.org/current/"
 /* $Format: "#define LYNX_DATE \"$ProjectDate$\""$ */
