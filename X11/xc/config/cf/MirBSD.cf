@@ -1,4 +1,4 @@
-XCOMM platform:	$MirOS: X11/xc/config/cf/MirBSD.cf,v 1.28 2008/11/20 00:30:56 tg Exp $
+XCOMM platform:	$MirOS: X11/xc/config/cf/MirBSD.cf,v 1.29 2008/11/22 06:36:10 tg Exp $
 XCOMM platform:	$OpenBSD: OpenBSD.cf,v 1.140 2004/10/10 14:47:28 matthieu Exp $
 XCOMM platform:	$XFree86: xc/config/cf/OpenBSD.cf,v 3.79 2003/01/12 17:03:23 herrb Exp $
 
@@ -179,7 +179,7 @@ XCOMM operating system:  OSName (OSMajorVersion./**/OSMinorVersion./**/OSTeenyVe
 #define	StandardCppDefines	StandardCppOptions StandardDefines -D__STDC_HOSTED__ -D__MirBSD__ -D__OpenBSD__ -D__unix__ -D__STDC_ISO_10646__=200009L $(CPPFLAGS) -D__WCHAR_MAX__=65535U '-D__WCHAR_TYPE__=short unsigned int' '-D__WINT_TYPE__=unsigned int' CppArchitecturePCC CppELF
 #else
 #define	RawCppCmd		/usr/libexec/cpp -undef	/* Reiser CCCP */
-#define	StandardCppDefines	StandardCppOptions StandardDefines -D__STDC_HOSTED__ -D__MirBSD__ -D__OpenBSD__ -D__unix__ -D__STDC_ISO_10646__=200009L $(CPPFLAGS) -D__WCHAR_MAX__=65535U '-D__WCHAR_TYPE__=short unsigned int' '-D__WINT_TYPE__=unsigned int' CppArchitectureCCCP CppELF
+#define	StandardCppDefines	StandardCppOptions StandardDefines -DUNIXCPP -D__MirBSD__ -D__OpenBSD__ -D__unix__ -D__STDC_ISO_10646__=200009L $(CPPFLAGS) -D__WCHAR_MAX__=65535U '-D__WCHAR_TYPE__=short unsigned int' '-D__WINT_TYPE__=unsigned int' CppArchitectureCCCP CppELF
 #endif
 #define	GnuCpp			NO
 #define	CPPAsmOptions		/**/
