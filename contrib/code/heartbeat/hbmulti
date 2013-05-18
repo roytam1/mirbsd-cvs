@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/heartbeat/hbmulti,v 1.2 2006/01/28 16:37:00 tg Exp $
+# $MirOS: contrib/code/heartbeat/hbmulti,v 1.3 2006/01/28 16:42:11 tg Exp $
 #-
 # Copyright (c) 2004, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -196,7 +196,7 @@ function do_disable
 # 2: ip
 function do_heartbeat
 {
-	log beating tunnel for ${cf_user[$1]} on $2
+	log beating tunnel for ${cf_user[$1]} from $2 to ${cf_host[$1]}
 	tell $1 HEARTBEAT TUNNEL ${cf_user[$1]} $2
 }
 
