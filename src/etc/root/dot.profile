@@ -1,25 +1,37 @@
-# $MirOS: src/etc/root/dot.profile,v 1.5 2005/09/23 09:26:13 tg Exp $
-# $OpenBSD: dot.profile,v 1.5 2005/03/30 21:18:33 millert Exp $
-#
-# sh/ksh/mksh/bash initialisation
+# $MirOS$
+#-
+# initialisation for bourne shell (worst case)
 
-if [ -z "$USER_ID" ]; then
-	# Do this only if /etc/profile has _not_ yet run!
-	PATH=/sbin:/usr/sbin:/bin:/usr/bin:/usr/X11R6/bin:/usr/local/sbin:/usr/local/bin:/usr/mpkg/bin:/usr/mpkg/sbin
-	export PATH
-	: ${HOME='/root'}
-	export HOME
+# all shells; only if /etc/profile has not run (can't happen)
+if test -z "$USER_ID"; then
+	PATH=/sbin:/usr/sbin:/bin:/usr/bin
+	HOME=/
+	test -d /root && HOME=/root
+	export PATH HOME
 	umask 022
-
-	if [ -x /usr/bin/tset ]; then
-		eval $(/usr/bin/tset -sQ \?$TERM)
+	i='TERM=vt100'
+	if test -x /usr/bin/tset; then
+		i=$(ulimit -c 0; /usr/bin/tset -sQ \?$TERM)
+		TERM=vt100
 	fi
-	# End of /etc/profile replacement
+	eval $i
+	unset i COLORTERM HISTFILE
+	EDITOR=/bin/ed
+	export TERM EDITOR
 fi
 
+# all shells
+#<...> insert local stuff here
+
+# exit if sh/ash/sash
+test -n $KSH_VERSION || test -n $BASH_VERSION || return
+
+# mksh/bash only
 function Lretrocfg	# retrieve kernel config file
 {
 	$SUDO cat ${1:-/bsd} | strings -n4 | sed -n 's/^=CF=//p'
 }
+set -o emacs
+[[ -n $BASH_VERSION ]] && shopt -s extglob
 
-# Add local stuff here:
+#<...> insert local stuff here
