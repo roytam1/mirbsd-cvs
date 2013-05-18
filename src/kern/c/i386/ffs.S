@@ -6,6 +6,8 @@
 
 #include <machine/asm.h>
 
+RCSID("$MirOS$")
+
 	.text
 
 ENTRY(ffs)

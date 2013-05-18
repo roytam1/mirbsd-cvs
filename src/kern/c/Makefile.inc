@@ -1,4 +1,4 @@
-# $MirOS: src/kern/c/Makefile.inc,v 1.9 2008/08/01 16:10:52 tg Exp $
+# $MirOS: src/kern/c/Makefile.inc,v 1.10 2008/08/01 16:35:20 tg Exp $
 
 .ifndef _KERNBASE_C_MAKEFILE_INC
 _KERNBASE_C_MAKEFILE_INC=	#defined
@@ -13,6 +13,7 @@ _KERNBASE_C_MAKEFILE_INC=	#defined
 # md stuff must define sources for the following functions:
 # htonl() htons() ntohl() ntohs()
 # strlen() wcslen()
+# bzero() ffs() memchr() memcmp()=bcmp() memset() strcmp()=strcoll()
 
 .include "${KERNBASE}/c/${MACHINE_ARCH}/Makefile.inc"
 
@@ -36,15 +37,22 @@ UIF_KUSRCS+=	tai_tm2mjd.c taitime.c -DL_tm2mjd
 UNIFDEF_SRCS+=	strlcpy.c strlfun.c -DL_strlcpy
 UNIFDEF_SRCS+=	strlcat.c strlfun.c -DL_strlcat
 UNIFDEF_SRCS+=	strxfrm.c strlfun.c -DL_strxfrm
-UNIFDEF_SRCS+=	wcslcpy.c strlfun.c -DL_strlcpy,-DWIDEC
-UNIFDEF_SRCS+=	wcslcat.c strlfun.c -DL_strlcat,-DWIDEC
-UNIFDEF_SRCS+=	wcsxfrm.c strlfun.c -DL_strxfrm,-DWIDEC
+UIF_KUSRCS+=	wcslcpy.c strlfun.c -DL_strlcpy,-DWIDEC
+UIF_KUSRCS+=	wcslcat.c strlfun.c -DL_strlcat,-DWIDEC
+UIF_KUSRCS+=	wcsxfrm.c strlfun.c -DL_strxfrm,-DWIDEC
+
+UIF_KUSRCS+=	wcscmp.c strcmp.c -DWIDEC
+UIF_KUSRCS+=	wcscoll.c strcmp.c -DL_strcoll,-DWIDEC
 
 # quad support
 SRCS+=		adddi3.c anddi3.c ashldi3.c ashrdi3.c cmpdi2.c divdi3.c \
 		iordi3.c lshldi3.c lshrdi3.c moddi3.c muldi3.c negdi2.c \
 		notdi2.c qdivrem.c subdi3.c ucmpdi2.c udivdi3.c umoddi3.c \
 		xordi3.c
+
+.ifndef KERNNOGCC
+SRCS+=		__main.c
+.endif
 
 # …
 

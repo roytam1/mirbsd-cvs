@@ -1,5 +1,3 @@
-/* $MirOS: src/share/misc/licence.template,v 1.20 2006/12/11 21:04:56 tg Rel $ */
-
 /*-
  * Copyright (c) 2004, 2005, 2007
  *	Thorsten Glaser <tg@mirbsd.de>
@@ -9,10 +7,6 @@
  * is granted to deal in this work without restriction, including un-
  * limited rights to use, publicly perform, distribute, sell, modify,
  * merge, give away, or sublicence.
- *
- * Advertising materials mentioning features or use of this work must
- * display the following acknowledgement:
- *	This product includes material provided by Thorsten Glaser.
  *
  * This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
  * the utmost extent permitted by applicable law, neither express nor
@@ -32,13 +26,13 @@
 #include <stdio.h>
 #include <time.h>
 
-__RCSID("$MirOS: src/sys/lib/libkern/tai_make.c,v 1.4 2006/06/12 20:49:37 tg Exp $");
+__RCSID("$MirOS: src/sys/lib/libkern/tai_make.c,v 1.5 2007/02/07 20:43:27 tg Exp $");
 
 static const char preamble[] =
 "/* AUTOMATICALLY GENERATED - DO NOT EDIT! */\n\n"
 "#include <sys/types.h>\n"
 "#include <sys/taitime.h>\n\n"
-"__RCSID(\"From: $MirOS$\");\n\n"
+"__RCSID(\"From: $MirOS: src/sys/lib/libkern/tai_make.c,v 1.5 2007/02/07 20:43:27 tg Exp $\");\n\n"
 "static tai64_t _leaps[] = {\n";
 
 static const char epilogue[] =

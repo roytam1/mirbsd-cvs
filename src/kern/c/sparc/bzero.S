@@ -32,9 +32,11 @@
  * SUCH DAMAGE.
  */
 
-	.text
+#include <machine/asm.h>
 
-#include "DEFS.h"
+RCSID("$MirOS$")
+
+	.text
 
 /*
  * bzero(addr, len)

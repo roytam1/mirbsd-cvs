@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libc/string/Makefile.inc,v 1.20 2007/06/16 21:05:15 tg Exp $
+# $MirOS: src/lib/libc/string/Makefile.inc,v 1.21 2008/08/01 16:35:23 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.17 2005/05/26 12:56:01 otto Exp $
 
 # string sources
@@ -6,7 +6,7 @@
 
 SRCS+=	bm.c memccpy.c strcasestr.c strdup.c \
 	strerror.c strerror_r.c strmode.c strsignal.c strtok.c \
-	wcscat.c wcschr.c wcscmp.c wcscpy.c wcscspn.c \
+	wcscat.c wcschr.c wcscpy.c wcscspn.c \
 	wcsncat.c wcsncmp.c wcsncpy.c wcspbrk.c wcsrchr.c wcsspn.c \
 	wcsstr.c wcswcs.c wmemchr.c wmemcmp.c wmemcpy.c \
 	wmemmove.c wmemset.c
@@ -32,8 +32,6 @@ UNIFDEF_SRCS+=	strncasecmp.c strcasecmpfun.c -DSTRNCASECMP
 UNIFDEF_SRCS+=	wcscasecmp.c strcasecmpfun.c -DWCSCASECMP
 UNIFDEF_SRCS+=	wcsncasecmp.c strcasecmpfun.c -DWCSNCASECMP
 
-UNIFDEF_SRCS+=	strcoll.c strcmp.c -DSTRCOLL
-UNIFDEF_SRCS+=	wcscoll.c wcscmp.c -DWCSCOLL
 UNIFDEF_SRCS+=	wcswcs.c wcsstr.c -DWCSWCS
 
 SRCS+=		strndup.c
@@ -41,25 +39,14 @@ UNIFDEF_SRCS+=	wcsndup.c strndup.c -DWIDEC
 
 # machine-dependent net sources
 # m-d Makefile.inc must include sources for:
-#	bcopy() bzero() ffs() index() memchr() memcmp() memset()
-#	rindex() strcat() strcmp() strcpy() strcspn()
+#	bcopy() index()
+#	rindex() strcat() strcpy() strcspn()
 #	strncat() strncmp() strncpy() strpbrk() strsep()
 #	strspn() strstr() swav()
 # m-d Makefile.inc may include sources for:
-#	bcmp() memcpy() memmove() strchr() strrchr()
+#	memcpy() memmove() strchr() strrchr()
 
 .include "${LIBCSRCDIR}/arch/${MACHINE_ARCH}/string/Makefile.inc"
-
-# if no machine specific bcmp(3), build one out of memcmp(3).
-.ifndef _MD_BCMP
-UNIFDEF_SRCS+=	bcmp.c memcmp.c -DBCMP
-.else
-LOBJS+=		bcmp.ln
-
-bcmp.ln: memcmp.c
-	${LINT} ${LINTFLAGS} ${CFLAGS:M-[IDU]*} ${CPPFLAGS:M-[IDU]*} -i \
-	    -DBCMP -o $@ $>
-.endif
 
 # if no machine specific memmove(3), build one out of bcopy(3).
 .ifndef _MD_MEMMOVE

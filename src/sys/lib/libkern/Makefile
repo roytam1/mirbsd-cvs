@@ -1,4 +1,4 @@
-# $MirOS: src/sys/lib/libkern/Makefile,v 1.8 2007/03/02 03:13:28 tg Exp $
+# $MirOS: src/sys/lib/libkern/Makefile,v 1.9 2008/08/01 16:11:03 tg Exp $
 # $NetBSD: Makefile,v 1.31 1996/08/10 04:01:31 mycroft Exp $
 # $OpenBSD: Makefile,v 1.18 2004/11/28 07:20:25 mickey Exp $
 
@@ -29,15 +29,6 @@ SRCS+=	getsn.c srandom.c bcd.c strchr.c
 
 # Files to clean up
 CLEANFILES+= lib${LIB}.o lib${LIB}.po
-
-SRCS+=		tai_leaps.c
-CLEANFILES+=	tai_leaps.c tai_make
-
-tai_leaps.c: $S/lib/libkern/tai_make.c
-	${HOSTCC} ${HOSTCFLAGS} ${HOSTCPPFLAGS} -o tai_make $>
-	./tai_make >$@ || (rm -f $@; false)
-
-beforedepend: tai_leaps.c
 
 install:
 

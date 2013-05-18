@@ -1,4 +1,4 @@
-# $MirOS: src/sys/conf/Makefile.inc,v 1.30 2008/03/21 00:00:13 tg Exp $
+# $MirOS: src/sys/conf/Makefile.inc,v 1.31 2008/08/01 15:12:38 tg Exp $
 #-
 # Copyright (c) 2005, 2006, 2007, 2008
 #	Thorsten "mirabilos" Glaser <tg@mirbsd.de>
@@ -150,16 +150,21 @@ machdep.o: Makefile
 config_gz.o: $S/conf/config_gz.S config.gz
 	${NORMAL_S}
 
+tai_leaps.c: $S/conf/tai_make.c
+	${HOSTCC} ${HOSTCFLAGS} ${HOSTCPPFLAGS} -o tai_make $>
+	./tai_make >$@ || (rm -f $@; false)
+
 config.gz: config.txt
 	-@rm -f $@
 	gzip -n9 <$> >$@
 
 clean::
 	rm -f eddep *bsd *.unstripped tags *.[io] [a-z]*.s config.gz \
-	    [Ee]rrs linterrs makelinks genassym genassym.o assym.h
+	    [Ee]rrs linterrs makelinks genassym genassym.o assym.h \
+	    tai_make tai_leaps.c ${ZLIB_CLEANFLS}
 
 depend:: .depend
-.depend: ${SRCS} assym.h param.c ${APMINC} ${ZLIB_GENHDRS}
+.depend: ${SRCS} assym.h param.c ${APMINC} ${ZLIB_GENHDRS} tai_leaps.c
 	CC=${CC:Q} ${MKDEP} -D_ASM_SOURCE ${AFLAGS} ${CPPFLAGS} \
 	    ${_MDINC}/locore.s
 	CC=${CC:Q} ${MKDEP} -a ${CFLAGS} ${CPPFLAGS} param.c ioconf.c ${CFILES}

@@ -32,7 +32,11 @@
  * SUCH DAMAGE.
  */
 
-#include "DEFS.h"
+#include <machine/asm.h>
+
+RCSID("$MirOS$")
+
+	.text
 
 /*
  * ffs returns the number of the rightmost bit set in its argument,
