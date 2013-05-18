@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/share/misc/licence.template,v 1.6 2006/01/24 22:24:02 tg Rel $
+# $MirOS: contrib/code/heartbeat/hbaction,v 1.1 2006/03/20 00:16:53 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -36,7 +36,12 @@ myinfo=
 function make_it
 {
 	# insert your desired action here, e.g. send a NOTIFY request
-	print triggered make_it "<$myinfo>" | /usr/bin/logger -t hbaction
+	if [[ $myinfo = MirDNSv3* ]]; then
+		./make.sh all dist
+	else
+		print triggered make_it "<$myinfo>" \
+		    | /usr/bin/logger -t hbaction
+	fi
 	# end of action
 	myinfo=
 }
