@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/config/main.c,v 1.4 2005/12/19 21:57:26 tg Exp $ */
+/**	$MirOS: src/usr.sbin/config/main.c,v 1.5 2005/12/20 00:31:00 tg Exp $ */
 /*	$OpenBSD: main.c,v 1.37 2005/04/28 22:28:00 deraadt Exp $	*/
 /*	$NetBSD: main.c,v 1.22 1997/02/02 21:12:33 thorpej Exp $	*/
 
@@ -42,12 +42,6 @@
  *	from: @(#)main.c	8.1 (Berkeley) 6/6/93
  */
 
-#ifndef lint
-static char copyright[] =
-"@(#) Copyright (c) 1992, 1993\n\
-	The Regents of the University of California.  All rights reserved.\n";
-#endif /* not lint */
-
 #include <sys/param.h>
 #include <sys/stat.h>
 #include <ctype.h>
@@ -59,7 +53,9 @@ static char copyright[] =
 #include <unistd.h>
 #include "config.h"
 
-__RCSID("$MirOS: src/usr.sbin/config/main.c,v 1.4 2005/12/19 21:57:26 tg Exp $");
+__COPYRIGHT("@(#) Copyright (c) 1992, 1993\n\
+	The Regents of the University of California.  All rights reserved.\n");
+__RCSID("$MirOS: src/usr.sbin/config/main.c,v 1.5 2005/12/20 00:31:00 tg Exp $");
 
 int	firstfile(const char *);
 int	yyparse(void);
@@ -336,7 +332,7 @@ mkcfgfile(void)
 	    (cfgfp = getfp()) == NULL)
 		return (-1);
 	rewind(cfgfp);
-	fprintf(cfgh, "static const char kern_config[] __attribute__((unused)) = \"\\\n"
+	fprintf(cfgh, "static const char kern_config[] __attribute__((used)) = \"\\\n"
 		      "START CONFIG FILE\\n\\\n");
 	newline = 1;
 	while ((c = getc(cfgfp)) != EOF) {
