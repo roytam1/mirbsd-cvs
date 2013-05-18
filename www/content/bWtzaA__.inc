@@ -1,5 +1,5 @@
 <!-- PageID: mksh -->
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.40 2006/07/27 14:45:30 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.41 2006/08/01 15:02:58 tg Exp $</small>
 
 <h1>mksh(1) R27e</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
@@ -50,6 +50,28 @@
   support and textual improvements in the manual page</li>
  <li>Adjust $PS1 sizing, printing, and redrawal routines
   for mksh behaviour and single- and multiline prompts</li>
+ <li>Unbreak build process on Cygwin, fix manpage generation</li>
+ <li>For the AT&amp;T $PS1 hack (second char = CR), do not
+  output the delimiting characters any more, even if they
+  are printable &ndash; fixes platforms without non-printable
+  characters (Interix, Cygwin) and prompt size calculation</li>
+ <li>Calculate length of prompt in lines and columns-of-last-line
+  instead of using some tricks to skip the beginning of the prompt.
+  Results in correct redrawing of prompts with ANSI colour codes.</li>
+ <li>Correct displaying of prompts spanning more than one line
+  and/or with embedded newlines or carriage returns; correct
+  documentation of $PS1 and the redraw editing command</li>
+ <li>Change one of the testsuite "expected failure" tests from bug
+  to feature &ndash; it might actually be required by make(1)</li>
+ <li>Enable to bind key sequences which consist of the usual optional
+  one or two pr&aelig;fices and the control character, as well as an
+  optional trailing tilde (if the trailing character is not a tilde,
+  it's processed as usual, but processing of the editing command is
+  postponed until after the trailing character has been read)</li>
+ <li>Bind the NetBSD&reg; wscons (vt220 / wsvt25), GNU screen and
+  XFree86&reg; (xterm-xfree86) &quot;home&quot;, &quot;end&quot;
+  and &quot;delete&quot; keys to ^A, ^E and ^D, respectively, except
+  that &quot;delete&quot; does not act as logoff switch</li>
 </ul>
 <p>We recommend mksh <b>R27e</b> to be used:</p><ul>
  <li>Allow <tt>Test.sh</tt> to be passed parameters (-v)</li>
