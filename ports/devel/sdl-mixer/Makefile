@@ -1,7 +1,8 @@
-# $MirOS: ports/devel/sdl-mixer/Makefile,v 1.5 2006/01/01 03:22:55 tg Exp $
+# $MirOS: ports/devel/sdl-mixer/Makefile,v 1.6 2006/02/09 09:35:50 tg Exp $
 # $OpenBSD: Makefile,v 1.20 2003/09/25 04:17:33 jolan Exp $
 
 COMMENT=	"SDL multi-channel audio mixer library"
+# do not update to 1.2.6
 DISTNAME=	SDL_mixer-1.2.5
 PKGNAME=	${DISTNAME:L:S/_/-/}p2-0
 CATEGORIES=	devel audio
