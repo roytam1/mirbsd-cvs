@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.86 2005/12/18 16:36:40 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.87 2005/12/20 19:57:53 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -346,8 +346,6 @@ ERRORS+=		"No flavours for this port."
 .  endif
 .endif
 
-SED_PLIST+=		| (cd ${WRKINST}${PREFIX}; LOCALBASE=${LOCALBASE} perl -W ${PORTSDIR}/infrastructure/scripts/unlibtoolise || rm -f $@.tmp)
-
 .if defined(CVS_DISTMODS) && !empty(CVS_DISTMODS)
 WRKDIST?=		${WRKDIR}/${CVS_DISTMODS}
 .endif
@@ -631,6 +629,8 @@ _SED_SUBST+=		-e 's|$${${_v}}|${${_v}}|g'
 _SED_SUBST+=		-e 's,$${FLAVORS},${FLAVOR_EXT},g' -e 's,$$\\,$$,g'
 # and append it to the PLIST substitution pipeline
 SED_PLIST+=		|${_SED_SUBST}
+
+SED_PLIST+=		| (cd ${WRKINST}${PREFIX}; LOCALBASE=${LOCALBASE} perl -W ${PORTSDIR}/infrastructure/scripts/unlibtoolise || rm -f $@.tmp)
 
 # find out the most appropriate PLIST source
 .if !defined(PLIST) \
