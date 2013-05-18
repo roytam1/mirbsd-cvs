@@ -1,4 +1,4 @@
-# $MirOS: src/etc/rc,v 1.44 2006/08/18 21:55:55 tg Exp $
+# $MirOS: src/etc/rc,v 1.45 2006/08/19 00:46:39 tg Exp $
 # $OpenBSD: rc,v 1.277 2006/01/12 21:54:15 deraadt Exp $
 #-
 # System startup script run by init on autoboot or after single-user.
@@ -196,7 +196,7 @@ raidctl -P all
 
 swapctl -A -t blk
 
-# Try to find out what is our console device
+# Try to find out what is our console device (no grep yet...)
 x=
 dmesg |&
 while read -p line; do
@@ -575,38 +575,53 @@ fi
 
 print "dev $consdev ($consinfo)" | logger -t 'console information'
 if [[ $consdev != nochg ]]; then
-	print adjusting /etc/ttys
+#	print -n adjusting /etc/ttys ...
+	print -n 'adjusting /etc/ttys (to /etc/ttys.gen for now)...'
+	[[ -e /etc/ttys.gen ]] || cp /etc/ttys /etc/ttys.gen
 	x=$(uname -m)
 	if [[ $x = i386 ]]; then
 		# clean up if we don't match
-		if ! grep "^#AUTOCONS:$consdev,$speed." /etc/ttys >&- 2>&-; then
-			print dummy editing actions on /etc/ttys
-			print \\t'%g/^#AUTOCONS/d'
-			print \\t'%g/\t#AUTOADD$/d'
-			print \\t'%g/\t#AUTODEL$/s/^#*//'
-			print \\t'%g/\t#AUTODEL$/s/\t#AUTODEL$//'
+		if ! grep "^#AUTOCONS:$consdev,$speed." /etc/ttys.gen >&- 2>&-; then
+			print -n ' cleanup (i386)'
+			ed -s /etc/ttys.gen <<-EOF
+				%g/^#AUTOCONS/d
+				%g/	#AUTOADD\$/d
+				%g/	#AUTODEL\$/s/^#*//
+				%g/	#AUTODEL\$/s///
+				wq
+			EOF
 		fi
 	fi
 	# if consdev=ttyC0: wscons, no change needed
 	if [[ $consdev = ttyC0 ]]; then
+		print -n ' wscons'
 		# wscons, reset to default on sparc, no action on i386
 		if [[ $x = sparc ]]; then
-			print dummy editing actions on /etc/ttys
-			print \\t'/console.*suncons/s/^#*//'
-			print \\t'/console.*std/s/^#*/#/'
+			print -n ' (sparc)'
+			ed -s /etc/ttys.gen <<-EOF
+				/console.*suncons/s/^#*//
+				/console.*std/s/^#*/#/
+				wq
+			EOF
 		fi
 	elif [[ $consdev = *,* ]]; then
 		# serial console, disable wscons
 		speed=${consinfo%% *}
+		print -n " serial ($speed bps)"
 		if [[ $x = sparc ]]; then
 			# we just use /dev/console for both
-			print dummy editing actions on /etc/ttys
-			print \\t'/console.*suncons/s/^#*/#/'
-			print \\t'/console.*std/s/^#*//'
-			print \\t"/console.*std/s/std.[0-9]*/std.$speed/"
+			# XXX what is this ttyC0 entry?
+			print -n ' (sparc)'
+			ed -s /etc/ttys.gen <<-EOF
+				/console.*suncons/s/^#*/#/
+				/console.*std/s/^#*//
+				/console.*std/s/std.[0-9]*/std.$speed/
+				wq
+			EOF
 		fi
 		if [[ $x = i386 ]]; then
 			# keep wscons but scan for the correct tty dev
+			print -n ' (i386)'
 			td=
 			for tc in /dev/tty*; do
 				if [[ $(stat -f %Hr,%Lr $tc) = $consdev ]]; then
@@ -614,13 +629,20 @@ if [[ $consdev != nochg ]]; then
 					break
 				fi
 			done
-			[[ -n $td ]] && grep "^$td	.*std.$speed\".*	on" \
-				    /etc/ttys >&- 2>&- && td=
 			if [[ -n $td ]]; then
-				print dummy editing actions on /etc/ttys
-				print \\t"g/^$td\t/s/^.*$/#&\t#AUTODEL/'
-				print \\t"$td\t\"/usr/libexec/getty std.$speed\"\tvt100\ton  secure\t#AUTOADD"
-				print \\t"#AUTOCONS:$consdev,$speed."
+				print -n " @/dev/$td"
+				if ! grep "^$td	.*std.$speed\".*	on" \
+				    /etc/ttys.gen >&- 2>&-; then
+					print -n ' -> adding'
+					ed -s /etc/ttys.gen <<-EOF
+						%g/^$td	/s/^.*\$/#&	#AUTODEL/
+						wq
+					EOF
+					cat >>/etc/ttys.gen <<-EOF
+						$td	"/usr/libexec/getty std.$speed"	vt100	on  secure	#AUTOADD
+						#AUTOCONS:$consdev,$speed.
+					EOF
+				fi
 			fi
 		fi
 	fi
