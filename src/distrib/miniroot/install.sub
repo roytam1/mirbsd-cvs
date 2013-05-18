@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/miniroot/install.sub,v 1.18 2005/12/21 18:14:57 tg Exp $
+# $MirOS: src/distrib/miniroot/install.sub,v 1.19 2005/12/23 13:16:03 tg Exp $
 # $OpenBSD: install.sub,v 1.388 2005/07/02 00:55:48 uwe Exp $
 # $NetBSD: install.sub,v 1.5.2.8 1996/09/02 23:25:02 pk Exp $
 #
@@ -702,8 +702,8 @@ v6_config() {
 
 	v6_defroute $_ifs
 	[[ $resp == none ]] && return
-	route -n add -inet6 -host default "$resp" || return
-	echo "!route -qn add -host -inet6 default $resp" >>$_hn
+	route -n add -inet6 default "$resp" || return
+	echo "!route -qn add -inet6 default $resp" >>$_hn
 }
 
 v4_defroute() {
@@ -719,13 +719,13 @@ v4_defroute() {
 		ask_until "$_prompt" "$_dr"
 		[[ $resp == @(none|dhcp) ]] && break
 		route delete -inet default >/dev/null 2>&1
-		route -n add -inet -host default "$resp" && {
-			echo "route -n add -inet -host default $resp" \
+		route -n add -inet default "$resp" && {
+			echo "route -n add -inet default $resp" \
 			    >/tmp/hostname.local
 			break
 		}
 		# Put the old default route back. The new one did not work.
-		route -n add -inet -host default $_dr >/dev/null 2>&1
+		route -n add -inet default $_dr >/dev/null 2>&1
 	done
 }
 
