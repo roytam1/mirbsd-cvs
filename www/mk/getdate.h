@@ -1,4 +1,5 @@
-/* $MirOS: www/mk/getdate.h,v 1.1 2007/06/03 19:44:16 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/cvs/lib/getdate.h,v 1.3 2005/12/05 22:12:45 tg Exp $ */
+/* $miros: src/gnu/usr.bin/cvs/lib/getdate.h,v 1.3 2005/12/05 22:12:45 tg Exp $ */
 
 /* Parse a string into an internal time stamp.
 
@@ -22,11 +23,14 @@
 #ifndef GETDATE_H
 #define GETDATE_H
 
+#include <sys/param.h>
+
 #if HAVE_CONFIG_H
 # include <config.h>
 #endif
 
 #include <stdbool.h>
+#include <stdint.h>
 #ifndef IN_RCS
 #include "timespec.h"
 #else
