@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1998-2007 Sendmail, Inc. and its suppliers.
+ * Copyright (c) 1998-2008 Sendmail, Inc. and its suppliers.
  *	All rights reserved.
  * Copyright (c) 1983, 1995-1997 Eric P. Allman.  All rights reserved.
  * Copyright (c) 1988, 1993
@@ -13,8 +13,8 @@
 
 #include <sendmail.h>
 
-SM_RCSID("$MirOS: src/gnu/usr.sbin/sendmail/sendmail/conf.c,v 1.9 2008/03/02 21:21:56 tg Exp $")
-SM_RCSID("@(#)$Sendmail: conf.c,v 8.1128 2007/04/03 21:32:29 ca Exp $")
+SM_RCSID("$MirOS: src/gnu/usr.sbin/sendmail/sendmail/conf.c,v 1.10 2008/03/02 21:41:13 tg Exp $")
+SM_RCSID("@(#)$Sendmail: conf.c,v 8.1141 2008/04/14 02:09:35 ca Exp $")
 
 #include <sm/sendmail.h>
 #include <sendmail/pathnames.h>
@@ -6036,6 +6036,10 @@ char	*FFRCompileOptions[] =
 	/* DefaultAuthInfo doesn't really work in 8.13 anymore. */
 	"_FFR_ALLOW_SASLINFO",
 #endif /* _FFR_ALLOW_SASLINFO */
+#if _FFR_BADRCPT_SHUTDOWN
+	/* shut down connection (421) if there are too many bad RCPTs */
+	"_FFR_BADRCPT_SHUTDOWN",
+#endif /* _FFR_BADRCPT_SHUTDOWN */
 #if _FFR_BESTMX_BETTER_TRUNCATION
 	/* Better truncation of list of MX records for dns map. */
 	"_FFR_BESTMX_BETTER_TRUNCATION",
@@ -6176,6 +6180,10 @@ char	*FFRCompileOptions[] =
 	/* Ignore extensions offered in response to HELO */
 	"_FFR_IGNORE_EXT_ON_HELO",
 #endif /* _FFR_IGNORE_EXT_ON_HELO */
+#if _FFR_LOCAL_DAEMON
+	/* Local daemon mode (-bl) which only accepts loopback connections */
+	"_FFR_LOCAL_DAEMON",
+#endif /* _FFR_LOCAL_DAEMON */
 #if _FFR_MAXDATASIZE
 	/*
 	**  It is possible that a header is larger than MILTER_CHUNK_SIZE,
