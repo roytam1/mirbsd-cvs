@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.435 2011/12/11 18:27:51 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.436 2011/12/11 19:18:32 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -24,7 +24,7 @@ mws_content <<'EOF'
  <li>information about <a href="mksh_old.htm">old versions</a></li>
 </ul>
 
-<h2>mksh(1) R40c</h2>
+<h2>mksh(1) R40d</h2>
 
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
  implementation of the Korn Shell programming language and a successor to the
@@ -45,8 +45,8 @@ mws_content <<'EOF'
  href="@@ABSPATH@@/TaC-mksh.txt">full licence terms</a> overview.</p>
 
 <h2 class="cr" id="prefetch">Introduction</h2>
-<p>The current version of mksh is <strong>mksh R40c</strong> from
- <em>22 November 2011</em>.</p>
+<p>The current version of mksh is <strong>mksh R40d</strong> from
+ <em>11 December 2011</em>.</p>
 <p>Thanks to “Der Verein <a href="http://www.trash.net/verein/">trash.net</a>”
  for sponsoring access to a Solaris 8 box. Thanks to Julian “yofuh” Wiesener
  for just another account on a Sun E420 on Solaris 11β. Thanks to someone who
@@ -183,14 +183,14 @@ mws_content <<'EOF'
  extract from the CPIO distfile and is available even on a stock Microsoft®
  Windows® installation (<tt>\WINNT\SYSTEM32\PAX.EXE</tt>).</p>
 <h3 id="mirrors">Known Mirrors</h3><ul>
- <li><a href="https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R40c.cpio.gz">https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R40c.cpio.gz</a></li>
- <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R40c.cpio.gz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R40c.cpio.gz</a></li>
+ <li><a href="https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R40d.cpio.gz">https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R40d.cpio.gz</a></li>
+ <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R40d.cpio.gz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R40d.cpio.gz</a></li>
 </ul>
 <h3 id="hashes">Checksums and Hashes</h3><ul>
- <li>RMD160 (mksh-R40c.cpio.gz) = 8de17b0925a864ae723de2e3b6d6d27da89bb06f</li>
- <li>TIGER (mksh-R40c.cpio.gz) = 93d69dea5600be4a5c37eceb6bc995bf3b2f9d2ff8f3f59f</li>
- <li>4222136680 321859 /MirOS/dist/mir/mksh/mksh-R40c.cpio.gz</li>
- <li>MD5 (mksh-R40c.cpio.gz) = 43a79f721091833bdab3d00fbfe54a14</li>
+ <li>RMD160 (mksh-R40d.cpio.gz) = 431b35acc098242cf3262f41d9802839f2ce0b97</li>
+ <li>TIGER (mksh-R40d.cpio.gz) = b3c5b6a03a279ad52650ac345ce8095fc5135383e92e4b40</li>
+ <li>1091541490 326002 /MirOS/dist/mir/mksh/mksh-R40d.cpio.gz</li>
+ <li>MD5 (mksh-R40d.cpio.gz) = c6428401103367730a95b99284bf47dc</li>
  <li style="list-style:none;">All official distfiles are gzsig(1)d. with our
   <a href="/gzsigkey.cer">current signature key</a>.</li>
 </ul>
@@ -204,9 +204,9 @@ mws_content <<'EOF'
 <p>The first example is using BSD paxtar (MirOS BSD, OpenBSD, NetBSD®), or
  “bsdtar” (DragonFly); the second and third use cpio(1) or pax(1) and are
  for most operating systems; the fourth is for Debian.</p><ul>
-<li>$ tar xzf mksh-R40c.cpio.gz &amp;&amp; cd mksh</li>
-<li>$ gzip -dc mksh-R40c.cpio.gz | cpio -mid &amp;&amp; cd mksh</li>
-<li>$ gzip -dc mksh-R40c.cpio.gz | pax -r &amp;&amp; cd mksh</li>
+<li>$ tar xzf mksh-R40d.cpio.gz &amp;&amp; cd mksh</li>
+<li>$ gzip -dc mksh-R40d.cpio.gz | cpio -mid &amp;&amp; cd mksh</li>
+<li>$ gzip -dc mksh-R40d.cpio.gz | pax -r &amp;&amp; cd mksh</li>
 </ul>
 
 <h3 id="vendorpatching">Patching</h3>
@@ -231,8 +231,8 @@ mws_content <<'EOF'
 <p>The build script requires a Bourne shell (Solaris <tt>/bin/sh</tt>, the <a
  href="http://heirloom.sourceforge.net/sh.html">Heirloom sh</a>, DEC OSF/1
  V2.0 <tt>/bin/sh</tt>), Korn shell (ksh, ksh88, ksh93, pdksh, mksh, oksh,
- maybe the MKS ksh), POSIX shell (posh, <tt>/usr/xpg4/bin/sh</tt>, ash,
- dash), related shell (J�rg Schilling’s bsh or sh, the Z Shell), or a Bourne
+ maybe the MKS ksh), POSIX shell (posh, <tt>/usr/xpg4/bin/sh</tt>, ash, dash),
+ related shell (yash, J�rg Schilling’s bsh or sh, the Z Shell), or a Bourne
  or POSIX superset (such as GNU bash) to work; the ULTRIX <tt>/bin/sh</tt>
  or the C shell (csh, tcsh) or “bsh” or a scripting shell like the wish won’t.
  <br />Accepted arguments are:</p><ul>
@@ -729,6 +729,10 @@ exec /usr/bin/ld "${args[@]}"</pre>
  please note: it’s <tt>mksh</tt> or “The MirBSD Korn Shell” (“MidnightBSD
  Korn Shell” is also appropriate), but <em>never</em> <del>Mksh</del> or
  somesuch!</p>
+<p id="p40d">mksh R40d has several new options: <tt>test.sh</tt> ‘-f’ to
+ enable running tests that need a fast machine; the preprocessor flag
+ <tt>MKSH_DISABLE_DEPRECATED</tt> to disable code that is deprecated and
+ scheduled for removal in the next version; updated <tt>dot.mkshrc</tt>.</p>
 <p id="p40c">mksh R40c got better support for OPENSTEP, Interix, kFreeBSD,
  MSYS, Hurd. No packaging changes worth mentioning, though.</p>
 <p id="p40b">mksh R40b changed <tt>dot.mkshrc</tt> and has a new option for
@@ -953,6 +957,12 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <h2 id="caveat">Users' Upgrade Caveat</h2>
 <p>This does not necessarily list new features, only these which users
  should be aware of for existing scripts.</p>
+<p id="c40d">R40d: Interpreting "010" as octal number is now deprecated
+ and <em>will</em> be removed soon. You can now use “local” and “set -A”
+ together to create function-local arrays. The test(1) built-in command
+ behaves POSIX conformant. The ^O Emacs mode command now works as it used
+ to when editing the fetched lines. Arithmetic expressions have certain
+ guarantees that are detailed more explicitly in the manpage.</p>
 <p id="c40c">R40c: The hack for when an interactive command begins
  with ‘!’ to substitute that with “fc -e -” is now deprecated and
  will be removed with R41 (or R42, we’ll see) despite objection.
@@ -1002,7 +1012,10 @@ exec /usr/bin/ld "${args[@]}"</pre>
   variant <a href="@@ABSPATH@@/cvs.cgi/src/kern/include/nzat.h">NZAT</a></li>
  <li>[tg] Use <tt>$'…'</tt> for non-ASCII parameters for re-entry printing</li>
 </ul>
+<!--
 <p>Changes in the current (unreleased) stable branch:</p><ul>
+-->
+<p id="r40d">mksh R40d is a must-have bugfix update:</p><ul>
  <li>[tg] New <tt>test.sh</tt> ‘-f’ option (same as ‘-C fastbox’)</li>
  <li>[tg] Drop using <tt>set -o noglob</tt> inside pushd/popd/dirs</li>
  <li>[tg] Use += more in <tt>dot.mkshrc</tt> and keep strings shorter</li>
