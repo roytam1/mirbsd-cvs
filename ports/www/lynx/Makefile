@@ -1,13 +1,14 @@
-# $MirOS: ports/www/lynx/Makefile,v 1.27 2009/01/18 23:24:53 tg Exp $
+# $MirOS: ports/www/lynx/Makefile,v 1.28 2009/08/09 15:46:30 tg Exp $
 
 COMMENT=		standard text-mode world wide web browser
 CATEGORIES=		www essentials
-VERSION=		2.8.7rel.1
-DISTNAME=		lynx${VERSION:C/[a-z]$//}
-.if ${VERSION} != ${VERSION:C/[a-z]$//}
-PATCHFILES=		lynx${VERSION}.patch.gz:0
+VSN=			2.8.7rel.1
+DASH_VER=		1		# in sync with MirOS-0AAA rev.
+DISTNAME=		lynx${VSN:C/[a-z]$//}
+.if ${VSN} != ${VSN:C/[a-z]$//}
+PATCHFILES=		lynx${VSN}.patch.gz:0
 .endif
-PKGNAME=		lynx-${VERSION}-${DASH_VER}
+PKGNAME=		lynx-${VSN}-${DASH_VER}
 HOMEPAGE=		http://lynx.isc.org/
 RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.org>
 MASTER_SITES=		http://lynx.isc.org/current/
@@ -27,7 +28,7 @@ FLAVOUR?=		wide
 
 WRKDIST=		${WRKDIR}/lynx2-8-7
 MAKE_FILE=		makefile
-CPPFLAGS+=		-DLYNX_VERSION=\"${VERSION}-MirPorts-${DASH_VER}\"
+CPPFLAGS+=		-DLYNX_VERSION=\"${VSN}-MirPorts-${DASH_VER}\"
 INSTALL_TARGET=		install-full
 NO_REGRESS=		Yes
 
