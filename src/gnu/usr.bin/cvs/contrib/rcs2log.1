@@ -1,3 +1,4 @@
+.\" $MirOS$
 .\"
 .\" Copyright 1992, 93, 94, 95, 96, 97, 1998 Free Software Foundation, Inc.
 .\"
@@ -25,17 +26,17 @@
 .Sh SYNOPSIS
 .Nm rcs2log
 .Bk -words
+.Op Fl nRv
 .Op Fl c Ar changelog
 .Op Fl h Ar hostname
 .Op Fl i Ar indent
 .Op Fl l Ar length
-.Op Fl R
+.Op Fl L Ar file
 .Op Fl r Ar option
 .Op Fl t Ar tabwidth
 .Op Fl u Ar login<TAB>fullname<TAB>mailaddr
-.Op Fl v
-.Op Fl -help
-.Op Fl -version
+.Op Fl \-help
+.Op Fl \-version
 .Op Ar file ...
 .Ek
 .Sh DESCRIPTION
@@ -62,6 +63,14 @@ spaces (default 8).
 Try to limit log lines to
 .Ar length
 characters (default 79).
+.It Fl L Ar file
+Use rlog-format
+.Ar file
+for source of logs.
+.It Fl n
+Obsolete, use
+.Fl u
+instead (whose syntax differs).
 .It Fl R
 If no
 .Ar file Ns Li (s)
@@ -83,9 +92,9 @@ and
 .Ar mailaddr .
 .It Fl v
 Append RCS revision to file names in log lines.
-.It Fl -help
+.It Fl \-help
 Output help.
-.It Fl -version
+.It Fl \-version
 Output version number.
 .El
 .Sh SEE ALSO

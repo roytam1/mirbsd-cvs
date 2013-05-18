@@ -1,5 +1,5 @@
 #! /bin/sh
-# $MirOS: ports/devel/cvs/patches/patch-contrib_rcs2log_sh,v 1.2 2010/09/15 20:56:57 tg Exp $
+# $MirOS: src/gnu/usr.bin/cvs/contrib/rcs2log.sh,v 1.5 2010/09/19 19:42:49 tg Exp $
 
 # Copyright (C) 1995-2005 The Free Software Foundation, Inc.
 
@@ -32,6 +32,7 @@ Options:
   -i INDENT  Indent change log lines by INDENT spaces (default 8).
   -l LENGTH  Try to limit log lines to LENGTH characters (default 79).
   -L FILE  Use rlog-format FILE for source of logs.
+  -n  Obsolete, use -u instead (whose syntax differs).
   -R  If no FILEs are given and RCS is used, recurse through working directory.
   -r OPTION  Pass OPTION to subsidiary log command.
   -t TABWIDTH  Tab stops are every TABWIDTH characters (default 8).
