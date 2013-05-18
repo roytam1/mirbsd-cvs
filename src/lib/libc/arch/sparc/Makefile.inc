@@ -1,10 +1,5 @@
 #	$OpenBSD: Makefile.inc,v 1.3 1999/01/20 04:44:58 d Exp $
 
-KMINCLUDES= arch/sparc/SYS.h arch/sparc/DEFS.h
-KMSRCS=	bzero.S ffs.S strlen.S htonl.S htons.S \
-	ntohl.S ntohs.S divrem.m4 \
-	_setjmp.S mul.S saveregs.S setjmp.S umul.S
-
 # `source' files built from m4 source
 # the name `div.o' is taken for the ANSI C `div' function, hence sdiv here
 SRCS+=	rem.S sdiv.S udiv.S urem.S

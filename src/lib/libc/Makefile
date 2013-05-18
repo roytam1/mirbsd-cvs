@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libc/Makefile,v 1.25 2007/06/21 14:40:22 tg Exp $
+# $MirOS: src/lib/libc/Makefile,v 1.26 2008/04/06 16:37:30 tg Exp $
 # $OpenBSD: Makefile,v 1.23 2005/06/29 14:05:08 mickey Exp $
 #
 # All library objects contain sccsid strings by default; they may be
@@ -21,29 +21,5 @@ KERNNOGCC=		#defined
 KERNBASE?=		${.CURDIR}/../../kern
 .include "${LIBCSRCDIR}/Makefile.inc"
 .include "${KERNBASE}/c/Makefile.inc"
-
-copy-to-libkern:	copy-to-libkern-machind copy-to-libkern-machdep
-
-.if make(copy-to-libkern)
-copy-to-libkern-machind: ${KSRCS}
-	cp -p ${.ALLSRC} ${LIBKERN}
-.if defined(KINCLUDES) && !empty(KINCLUDES)
-	(cd ${.CURDIR} ; cp -p ${KINCLUDES} ${LIBKERN})
-.endif
-
-copy-to-libkern-machdep: ${KMSRCS}
-.if defined(KMSRCS) && !empty(KMSRCS)
-	cp -p ${.ALLSRC} ${LIBKERN}/arch/${MACHINE_ARCH}
-.endif
-.if defined(KMINCLUDES) && !empty(KMINCLUDES)
-	(cd ${.CURDIR} ; cp -p ${KMINCLUDES} ${LIBKERN}/arch/${MACHINE_ARCH})
-.endif
-
-rm-from-libkern:
-	for i in ${KSRCS}; do rm -f ${LIBKERN}/$$i; done
-.if defined(KMSRCS) && !empty(KMSRCS)
-	for i in ${KMSRCS}; do rm -f ${LIBKERN}/arch/${MACHINE_ARCH}/$$i; done
-.endif
-.endif
 
 .include <bsd.lib.mk>
