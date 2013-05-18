@@ -60,7 +60,7 @@ $msgchannel = '';
 $has_capab = 0; $capab_cmd = ''; $capab_response = '';
 $has_identifymsg = 0; $unverified = 1; $unverified_m = 0;
 
-$libdir=$ENV{"SIRCLIB"} || "@PREFIX@/share/sirc/";
+$libdir=$ENV{"SIRCLIB"} || "/usr/mpkg/share/sirc/";
 push(@INC, $libdir, $ENV{"HOME"}."/.etc/sirc");
 @loadpath=($ENV{"HOME"}."/.etc/sirc", $libdir, ".");
 
@@ -86,7 +86,6 @@ couldn't be found. Have you even bothered to run 'install'?\n";
     exit;
 }
 use Encode;
-use Fcntl;
 use POSIX ":sys_wait_h";
 
 &Getopts('n:s:p:u:i:l:L:H:rqQR78UC:XT');
@@ -203,7 +202,7 @@ sub newfh {
 sub REAPER {
   my $child;
   while (($child = waitpid(-1,WNOHANG)) > 0) {
-    $?;		# do something sensitive with it
+    #XXX $?;		# do something sensitive with it
   }
   # loathe sysV: it makes us not only reinstate
   # the handler, but place it after the wait
@@ -211,25 +210,29 @@ sub REAPER {
 }
 $SIG{CHLD} = \&REAPER;
 $ssl_pid = 0;
-$ssl_efd = 0;
+$ssl_efd = '';
 
 sub connect {
   $_[0]=&newfh;
   local($fh, $host, $port, $use_ssl)=@_;
-  if ($ssl_efd != 0) {
+  if ($ssl_efd ne '') {
     while (my $x = <$ssl_efd>) {
       &tell("*\cbE\cb* TLS: $x");
     }
     close($ssl_efd);
     delete $buffer{$ssl_efd};
-    $ssl_efd = 0;
+    $ssl_efd = '';
   }
   if ($ssl_pid) {
     kill TERM => $ssl_pid;
   }
   $ssl_pid = 0;
   if ($use_ssl) {
-    my $spfh = $fh, $scfh = &newfh, $spe = &newfh, $sce = &newfh, $pid;
+    my $spfh = $fh;
+    my $scfh = &newfh;
+    my $spe = &newfh;
+    my $sce = &newfh;
+    my $pid;
 
     if (!socketpair($scfh, $spfh, &AF_UNIX, &SOCK_STREAM, &PF_UNSPEC)) {
       &tell("*\cbE\cb* Cannot create a socket pair: $!");
@@ -244,14 +247,13 @@ sub connect {
     if ($pid = fork) {
       close($spfh);
       close($spe);
-      #shutdown($sce, 0);
-      open(STDIN, "<&$scfh");#, fileno($scfh));
-      open(STDOUT, ">&$scfh");#, fileno($scfh));
-      open(STDERR, ">&$sce");#, fileno($sce));
+      shutdown($sce, 0);
+      open(STDIN, "<&$scfh");
+      open(STDOUT, ">&$scfh");
+      open(STDERR, ">&$sce");
       select(STDERR); $| = 1;
       select(STDOUT); $| = 1;
-      exec "openssl s_client -";
-      exec "openssl s_client  -connect ${host}:${port}";
+      exec "openssl s_client -quiet -connect ${host}:${port}";
     }
     if (!defined $pid) {
       close($scfh);
@@ -263,18 +265,8 @@ sub connect {
     }
     close($scfh);
     close($sce);
-    #shutdown($spe, 1);
     select($spe); $|=1; select(STDOUT);
-    my $flags = fcntl($spe, F_GETFL, 0);
-    fcntl($spe, F_SETFL, $flags | O_NONBLOCK);
-    for (;;) {
-      undef $!;
-      my $line = <$spe>;
-      &tell("*\cbI\cb* TLS: $line") if defined $line;
-      &tell("*\cbE\cb* TLS Error: $!") if $!;
-      last if $!;
-    }
-    fcntl($spe, F_SETFL, $flags);
+    shutdown($spe, 1);
     $ssl_pid = $pid;
     $ssl_efd = $spe;
   } else {
@@ -342,7 +334,8 @@ sub accept {
 }
 
 sub bindtoserver {
-  my $xport = $port, $xssl = 0;
+  my $xport = $port;
+  my $xssl = 0;
 
   @channels=(); $talkchannel=''; $talkserver = ''; $use_ipv6=0;
   %mode=(); $umode=''; %limit=(); %haveops=(); %chankey=(); $away='';
@@ -365,7 +358,8 @@ sub bindtoserver {
 }
 
 sub gl {
-  if ($buffer{$_[0]} =~ /^([^\n\r]*)\r?\n\r?/) {
+  if ((defined $buffer{$_[0]}) &&
+   ($buffer{$_[0]} =~ /^([^\n\r]*)\r?\n\r?/)) {
     $buffer{$_[0]}=$';
     $_=$1."\n";
     return 1;
@@ -374,7 +368,7 @@ sub gl {
   local($buf2)='';
   if (sysread($_[0], $buf, 4096)) {
     if ($_[0] eq $S) {
-      $buf =~ s/\ca([<>])\ca/\cb\1\cb/g;
+      $buf =~ s/\ca([<>])\ca/\cb$1\cb/g;
       $buf =~ s/\cc((1[0-5]|0?[0-9])(,(1[0-5]|0?[0-9]))?)?//g;
       $buf2 .= Encode::decode("utf8", $buf, Encode::FB_QUIET);
       $buf2 .= Encode::decode("iso-8859-1", $buf, Encode::FB_QUIET);
@@ -488,11 +482,11 @@ sub print {
 		      ["\c[[1;4m","\c[[1;4;7m"]]];
 
     while ($what =~ /(\c[bv_])/) {
-      if ($1 = "\cb") {
+      if ($1 == "\cb") {
 	$is_bold = $is_bold ? 0 : 1;
-      } elsif ($1 = "\c_") {
+      } elsif ($1 == "\c_") {
 	$is_ul = $is_ul ? 0 : 1;
-      } elsif ($1 = "\cv") {
+      } elsif ($1 == "\cv") {
 	$is_rev = $is_rev ? 0 : 1;
        }
       my $code = $ansi_code->[$is_bold][$is_ul][$is_rev];
@@ -1146,14 +1140,14 @@ sub docommand {
       $port || ($port=$port0);
       if ($connected) {
 	&sl("QUIT :changing servers");
-	if ($ssl_efd != 0) {
+	if ($ssl_efd ne '') {
 	  while (my $x = <$ssl_efd>) {
 	    &tell("*\cbE\cb* TLS: $x");
 	  }
 	  close($ssl_efd);
 	  delete $buffer{$ssl_efd};
 	}
-	$ssl_efd = 0;
+	$ssl_efd = '';
 	close($S);
 	delete $buffer{$S};
       }
@@ -1457,14 +1451,14 @@ sub docommand {
     }
   } elsif ($cmd eq 'DISCONNECT' || $cmd eq 'DIS') {
     &tell("*** Disconnecting from $server");
-    if ($ssl_efd != 0) {
+    if ($ssl_efd ne '') {
       while (my $x = <$ssl_efd>) {
 	&tell("*\cbE\cb* TLS: $x");
       }
       close($ssl_efd);
       delete $buffer{$ssl_efd};
     }
-    $ssl_efd = 0;
+    $ssl_efd = '';
     close($S);
     delete $buffer{$S};
     $connected=0;
@@ -1937,9 +1931,10 @@ sub selline {
   $leftover=0;
   $rin=$rout="\0" x 32;
   foreach ($S, 'STDIN', keys(%dcnick), keys(%buf_fds)) {
+    next unless defined $buffer{$_};
     $leftover=1, return $_ if $buffer{$_} =~ /\n/;
   }
-  if ($ssl_efd != 0) {
+  if (($ssl_efd ne '') && (defined $buffer{$ssl_efd})) {
     $leftover=1, return $ssl_efd if $buffer{$ssl_efd} =~ /\n/;
   }
   foreach ('STDIN', keys(%dcnick), keys(%dcwait), keys(%dgrfh), keys(%dswait),
@@ -1947,7 +1942,7 @@ sub selline {
     vec($rin, fileno($_), 1)=1;
   }
   vec($rin, fileno($S), 1)=1 if $connected;
-  vec($rin, fileno($ssl_efd), 1)=1 if ($ssl_efd != 0);
+  vec($rin, fileno($ssl_efd), 1)=1 if ($ssl_efd ne '');
   if ($#timers<0 || $timers[0]>time+30) {
     select($rout=$rin, undef, undef, 30);
   } elsif ($timers[0]<=time) {
@@ -2369,14 +2364,14 @@ while (1) {
     eval shift (@timeactions);
     $@ =~ s/\n$//, &tell("*\cbE\cb* error in timer: $@") if $@ ne '';
   }
-  if (($ssl_efd != 0) &&
+  if (($ssl_efd ne '') &&
    (($leftover && $fh eq $ssl_efd) || vec($rout, fileno($ssl_efd), 1))) {
     &gl($ssl_efd) || next;
     if ($_ eq '') {
       &tell("*\cbE\cb* Connection to TLS stderr lost");
       close($ssl_efd);
       delete $buffer{$ssl_efd};
-      $ssl_efd = 0;
+      $ssl_efd = '';
       next;
     }
     chop;
@@ -2392,14 +2387,14 @@ while (1) {
     &gl($S) || next;
     if ($_ eq '') {
       &tell("*\cbE\cb* Connection to server lost");
-      if ($ssl_efd != 0) {
+      if ($ssl_efd ne '') {
 	while (my $x = <$ssl_efd>) {
 	  &tell("*\cbE\cb* TLS: $x");
 	}
 	close($ssl_efd);
 	delete $buffer{$ssl_efd};
       }
-      $ssl_efd = 0;
+      $ssl_efd = '';
       close($S);
       delete $buffer{$S};
       $connected=0;
@@ -2412,7 +2407,7 @@ while (1) {
     ($who, $cmd, $args)=split(/ /, $_, 3);
     $cmd =~ tr/a-z/A-Z/;
     $who =~ s/^://;
-    $args =~ s/^://;
+    $args =~ s/^:// if defined $args;
     $user=$host=$puh1=$puh2='';
     if ($who =~ /^([^!@ ]+)!([^@ ]+)@([^ ]+)$/) {
       ($who, $user, $host) = ($1, $2, $3);
