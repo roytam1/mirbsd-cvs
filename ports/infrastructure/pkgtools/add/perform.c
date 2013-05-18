@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.16 2006/12/26 15:20:58 tg Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.17 2006/12/26 15:37:26 bsiegert Exp $ */
 /* $OpenBSD: perform.c,v 1.32 2003/08/21 20:24:56 espie Exp $	*/
 
 /*
@@ -29,7 +29,7 @@
 #include <signal.h>
 #include <errno.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.16 2006/12/26 15:20:58 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.17 2006/12/26 15:37:26 bsiegert Exp $");
 
 static int pkg_do(char *);
 static int sanity_check(char *);
@@ -562,6 +562,7 @@ install_dep_ftp(char *base, char *pattern)
 	    register_dep(base, pattern);
 	}
     }
+    return 0;
 }
 
 /* add a dependent package to the internal depends list */
