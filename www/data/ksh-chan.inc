@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/ksh-chan.inc,v 1.15 2012/11/30 21:57:34 tg Exp $
+RCSID: $MirOS: www/data/ksh-chan.inc,v 1.16 2012/12/08 20:37:13 tg Exp $
 Title: Homepage of the original Korn Shell
 Link: http://www.kornshell.com/
 
@@ -87,6 +87,13 @@ Sven Mascheck also has a shell detector, with emphasis on
 shells without any version variable; mostly supports old
 Bourne-compatible shells including POSIX and Korn Shell
 and some Z Shell but no C Shell or TCL.
+----
+Title: Which shell and version do I run? Ⅲ
+Link: http://stchaz.free.fr/which_interpreter
+
+This one is a tad hilarious, as it’s got support for things like
+DOS <tt>CMD.EXE</tt> and possibly <tt>COMMAND.COM</tt>, Tcl, Perl,
+Python and whatnot. It’s a tad terse on the Korn Shell side, though.
 ----
 Title: shbot, as seen in #bash and #ksh
 Link: https://github.com/geirha/shbot
