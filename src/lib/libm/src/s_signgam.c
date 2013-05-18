@@ -2,4 +2,7 @@
 
 #include "math.h"
 #include "math_private.h"
-int signgam = 0;
+
+__RCSID("$MirOS$");
+
+int signgam /* = 0 */;
