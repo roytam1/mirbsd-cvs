@@ -26,10 +26,6 @@ __RCSID("$NetBSD: w_expf.c,v 1.7 2007/08/20 16:01:40 drochner Exp $");
 #include "math.h"
 #include "math_private.h"
 
-#ifdef __weak_alias
-__weak_alias(expf, _expf);
-#endif
-
 static const float
 o_threshold=  8.8721679688e+01,  /* 0x42b17180 */
 u_threshold= -1.0397208405e+02;  /* 0xc2cff1b5 */

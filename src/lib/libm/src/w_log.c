@@ -23,10 +23,6 @@ __RCSID("$NetBSD: w_log.c,v 1.10 2007/08/20 16:01:40 drochner Exp $");
 #include "math.h"
 #include "math_private.h"
 
-#ifdef __weak_alias
-__weak_alias(log, _log);
-#endif
-
 double
 log(double x)		/* wrapper log */
 {

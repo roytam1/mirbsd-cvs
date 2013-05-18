@@ -22,10 +22,6 @@ __RCSID("$NetBSD: s_scalbnf.c,v 1.9 2010/04/23 19:17:07 drochner Exp $");
 #include "math.h"
 #include "math_private.h"
 
-#ifdef __weak_alias
-__weak_alias(scalbnf, _scalbnf);
-#endif
-
 static const float
 two25   =  3.355443200e+07,	/* 0x4c000000 */
 twom25  =  2.9802322388e-08,	/* 0x33000000 */

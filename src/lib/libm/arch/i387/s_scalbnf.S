@@ -7,11 +7,7 @@
 
 RCSID("$NetBSD: s_scalbnf.S,v 1.8 2010/04/23 19:17:07 drochner Exp $")
 
-#ifdef WEAK_ALIAS
-WEAK_ALIAS(scalbnf,_scalbnf)
-#endif
-
-ENTRY(_scalbnf)
+ENTRY(scalbnf)
 #ifdef __x86_64__
 	movl %edi,-8(%rsp)
 	fildl -8(%rsp)

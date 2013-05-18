@@ -23,10 +23,6 @@ __RCSID("$NetBSD: w_sinh.c,v 1.10 2007/08/20 16:01:40 drochner Exp $");
 #include "math.h"
 #include "math_private.h"
 
-#ifdef __weak_alias
-__weak_alias(sinh, _sinh);
-#endif
-
 double
 sinh(double x)		/* wrapper sinh */
 {

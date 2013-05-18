@@ -23,10 +23,6 @@ __RCSID("$NetBSD: w_hypot.c,v 1.10 2007/08/10 21:20:36 drochner Exp $");
 #include "math.h"
 #include "math_private.h"
 
-#ifdef __weak_alias
-__weak_alias(hypot, _hypot);
-#endif
-
 double
 hypot(double x, double y)/* wrapper hypot */
 {

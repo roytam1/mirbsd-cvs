@@ -27,12 +27,7 @@ __RCSID("$NetBSD: s_scalbn.c,v 1.15 2011/07/26 16:10:16 joerg Exp $");
 #include "math_private.h"
 
 #ifndef __HAVE_LONG_DOUBLE
-__strong_alias(_scalbnl, _scalbn);
-__weak_alias(scalbnl, _scalbnl);
-#endif
-
-#ifdef __weak_alias
-__weak_alias(scalbn, _scalbn);
+__strong_alias(scalbnl, scalbn);
 #endif
 
 static const double

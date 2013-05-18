@@ -1,4 +1,4 @@
-#  $MirOS: src/lib/libm/Makefile,v 1.8 2008/11/10 21:09:11 tg Exp $
+#  $MirOS: src/lib/libm/Makefile,v 1.9 2011/10/18 19:46:14 bsiegert Exp $
 #  $NetBSD: Makefile,v 1.120 2011/09/17 10:51:52 jruoho Exp $
 #
 #  @(#)Makefile 5.1beta 93/09/24
@@ -45,14 +45,10 @@
 
 .include <bsd.own.mk>
 
-# XXX our cabs() is different!
-CFLAGS_w_cabs.o+=	-fno-builtin-cabs
-CFLAGS_w_cabsf.o+=	-fno-builtin-cabsf
-
 .if ${MACHINE_ARCH} == "i386"
 .PATH:	${.CURDIR}/arch/i387
 
-COMMON_SRCS+= fenv.c s_nextafterl.c s_nexttoward.c
+#COMMON_SRCS+= fenv.c s_nextafterl.c s_nexttoward.c
 ARCH_SRCS = e_acos.S e_asin.S e_atan2.S e_exp.S e_expf.S e_fmod.S e_log.S \
 	    e_logf.S e_log10.S e_log10f.S e_log2.S e_log2f.S e_remainder.S \
 	    e_remainderf.S e_scalb.S e_scalbf.S e_sqrt.S e_sqrtf.S s_atan.S \
@@ -62,10 +58,8 @@ ARCH_SRCS = e_acos.S e_asin.S e_atan2.S e_exp.S e_expf.S e_fmod.S e_log.S \
 	    s_logb.S s_logbf.S s_logbl.S \
 	    s_rint.S s_rintf.S s_scalbn.S s_scalbnf.S s_significand.S \
 	    s_significandf.S s_sin.S s_sinf.S s_tan.S s_tanf.S lrint.S
-# do not pick up the i387 asm version, it is incorrect
-s_modf.o s_modf.pico s_modf.po s_modf.d: s_modf.c
 
-SUBDIR=arch/i387
+#SUBDIR=arch/i387
 .endif
 
 .PATH:	${.CURDIR}/man
@@ -78,7 +72,7 @@ CPPFLAGS+=	-D_NETBSD_SOURCE	# XXX
 
 SHLIB_VERSION?=	6.2
 LIB=		m
-COMMON_SRCS = e_acos.c e_acosf.c e_acosh.c e_acoshf.c e_asin.c e_asinf.c \
+COMMON_SRCS+= e_acos.c e_acosf.c e_acosh.c e_acoshf.c e_asin.c e_asinf.c \
 	e_atan2.c e_atan2f.c e_atanh.c e_atanhf.c e_cosh.c e_coshf.c e_exp.c \
 	e_expf.c e_fmod.c e_fmodf.c e_hypot.c e_hypotf.c e_j0.c e_j0f.c \
 	e_j1.c e_j1f.c e_jn.c e_jnf.c e_lgamma_r.c e_lgammaf_r.c e_log.c \
@@ -114,7 +108,9 @@ COMMON_SRCS = e_acos.c e_acosf.c e_acosh.c e_acoshf.c e_asin.c e_asinf.c \
 
 .PATH:	${.CURDIR}/compat
 COMMON_SRCS+= compat_cabs.c compat_cabsf.c
-
+# XXX our compatibility cabs() is different!
+CFLAGS_compat_cabs.o+=	-fno-builtin-cabs
+CFLAGS_compat_cabsf.o+=	-fno-builtin-cabsf
 
 # NetBSD's C library supplies these functions:
 #COMMON_SRCS+=	s_fabs.c s_frexp.c s_isinf.c s_isnan.c s_ldexp.c s_modf.c
@@ -145,17 +141,17 @@ MAN+=	acos.3 acosh.3 asin.3 asinh.3 atan.3 atan2.3 atanh.3 \
 #MAN+=	frexp.3 ldexp.3 modf.3
 
 # fenv.h interface
-MAN+=	feclearexcept.3 feenableexcept.3 fegetenv.3 fegetround.3 fenv.3
-MLINKS+=feclearexcept.3 fegetexceptflag.3	\
-	feclearexcept.3 feraiseexcept.3		\
-	feclearexcept.3 fesetexceptflag.3	\
-	feclearexcept.3 fetestexcept.3
-MLINKS+=feenableexcept.3 fedisableexcept.3	\
-	feenableexcept.3 fegetexcept.3
-MLINKS+=fegetenv.3 feholdexcept.3		\
-	fegetenv.3 fesetenv.3			\
-	fegetenv.3 feupdateenv.3
-MLINKS+=fegetround.3 fesetround.3
+#MAN+=	feclearexcept.3 feenableexcept.3 fegetenv.3 fegetround.3 fenv.3
+#MLINKS+=feclearexcept.3 fegetexceptflag.3	\
+#	feclearexcept.3 feraiseexcept.3		\
+#	feclearexcept.3 fesetexceptflag.3	\
+#	feclearexcept.3 fetestexcept.3
+#MLINKS+=feenableexcept.3 fedisableexcept.3	\
+#	feenableexcept.3 fegetexcept.3
+#MLINKS+=fegetenv.3 feholdexcept.3		\
+#	fegetenv.3 fesetenv.3			\
+#	fegetenv.3 feupdateenv.3
+#MLINKS+=fegetround.3 fesetround.3
 
 MLINKS+=acos.3 acosf.3
 MLINKS+=acosh.3 acoshf.3
