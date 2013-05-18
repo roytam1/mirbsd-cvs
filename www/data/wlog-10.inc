@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.150 2009/01/31 22:22:40 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.151 2009/02/01 00:45:42 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -3104,4 +3104,19 @@ Tag: bug
  have <em>no</em> idea… (msdos is damaging long filenames, btw.)</p>
 <p>4.4OpenBSD can… oO</p>
 <p>Benny has done more work on ext2fs, maybe he’ll fix it.</p>
+----
+Author: tg@
+Title: more bugs – bootloader and mksh
+Date: 01.02.2009 14:42
+Tag: bug event mksh snapshot
+
+<p>Again. I almost have a MirGRML+bsd4grml ISO ready (exactly 72 MiB),
+ just for the fun of it, and so that people can toy with it – and test
+ the integration. But nooo, I even hacked a disklabel, yet it wouldn’t
+ access the filesystem. The “machine label” command shows what’s wrong
+ (and hints how to fix it), and I missed a corner case in disc I/O due
+ to adding two not-so-independent-from-each-other scenarios during the
+ El Torito merge.</p>
+<p>mksh has funny behaviour with <tt>${foo/@(%)/x}</tt> failing – only
+ in Unicode mode though.</p>
 ----
