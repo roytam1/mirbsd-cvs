@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.10 2006/04/07 23:25:29 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.11 2006/04/07 23:47:52 tg Exp $ */
 /*	$OpenBSD: installboot.c,v 1.47 2004/07/15 21:44:16 tom Exp $	*/
 /*	$NetBSD: installboot.c,v 1.5 1995/11/17 23:23:50 gwr Exp $ */
 
@@ -88,7 +88,7 @@
 #include <unistd.h>
 #include <util.h>
 
-__RCSID("$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.10 2006/04/07 23:25:29 tg Exp $");
+__RCSID("$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.11 2006/04/07 23:47:52 tg Exp $");
 
 extern	char *__progname;
 int	verbose, nowrite, nheads, nsectors, userspec = 0;
@@ -122,7 +122,7 @@ int biosdev;
 char		*loadprotoblocks(char *, long *);
 int		loadblocknums(char *, int, struct disklabel *);
 static void	devread(int, void *, daddr_t, size_t, char *);
-static void	usage(void);
+static __dead void usage(void);
 static int	record_block(u_int8_t *, daddr_t, u_int);
 static int	do_record(u_int8_t *, daddr_t, u_int);
 
@@ -131,11 +131,10 @@ static void
 usage(void)
 {
 	fprintf(stderr, "usage:\t%s [-n] [-v] [-s sec-per-track] "
-	    "[-h track-per-cyl] boot ldsec device\n", __progname);
-	fprintf(stderr, "\t%s [-n] [-v] -I bootstart bootend ldsec file.iso\n",
-	    __progname);
-	fprintf(stderr, "\t%s [-n] [-v] -i bootstart bootlen ldsec file.ima\n",
-	    __progname);
+	    "[-h track-per-cyl]\n", __progname);
+	fprintf(stderr, "\t    boot ldsec device\n");
+	fprintf(stderr, "\t    -I bootstart bootend ldsec device\n");
+	fprintf(stderr, "\t    -i bootstart bootlen ldsec device\n");
 	exit(1);
 }
 
@@ -248,8 +247,7 @@ main(int argc, char *argv[])
 		}
 	}
 
-	if ((isoofs && imaofs) || ((isoofs || imaofs) &&
-	    (userpt || (nsectors != -1) || (nheads != -1))))
+	if (isoofs && imaofs)
 		usage();
 
 	if (argc - optind < 3) {

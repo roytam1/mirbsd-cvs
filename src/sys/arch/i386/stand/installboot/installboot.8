@@ -1,4 +1,4 @@
-.\"	$MirOS: src/sys/arch/i386/stand/installboot/installboot.8,v 1.4 2006/04/06 11:07:31 tg Exp $
+.\"	$MirOS: src/sys/arch/i386/stand/installboot/installboot.8,v 1.5 2006/04/07 23:25:29 tg Exp $
 .\"	$OpenBSD: installboot.8,v 1.26 2003/06/06 21:45:33 jmc Exp $
 .\"
 .\" Copyright (c) 1997 Michael Shalayeff
@@ -47,6 +47,9 @@
 .Nm
 .Op Fl n
 .Op Fl v
+.Oo Fl s Ar sectors-per-track Oc
+.Oo Fl h Ar tracks-per-cyl Oc
+.Op Fl P Ar partition-type
 .Fl I Ar bootstart bootend
 .Ar ldsec
 .Ar image.iso
@@ -54,6 +57,9 @@
 .Nm
 .Op Fl n
 .Op Fl v
+.Oo Fl s Ar sectors-per-track Oc
+.Oo Fl h Ar tracks-per-cyl Oc
+.Op Fl P Ar partition-type
 .Fl i Ar bootstart bootlen
 .Ar ldsec
 .Ar disc.ima
@@ -111,7 +117,7 @@ file had better be not too fragmented for this to work.
 This option is not yet supported.
 .It Fl I
 Instead of installing the first-stage boot loader on a disc,
-write it to the beginning of an ISO 9660 image file.
+write it to the beginning (sector 0) of an ISO 9660 image file.
 The arguments
 .Ar bootstart
 and
@@ -137,7 +143,7 @@ cannot be used to boot the same image from hard disc any more.
 Use another copy of the second-stage loader.
 .It Fl i
 Instead of installing the first-stage boot loader on a disc,
-write it to the beginning of a hard disc image file.
+write it to the beginning (sector 0) of a hard disc image file.
 The arguments
 .Ar bootstart
 and
