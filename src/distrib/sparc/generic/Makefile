@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/sparc/generic/Makefile,v 1.2 2006/06/11 01:22:49 tg Exp $
+# $MirOS: src/distrib/sparc/generic/Makefile,v 1.3 2006/06/11 01:41:43 tg Exp $
 
 RAMDISK=	GENERIC
 SYSDIR=		${.CURDIR}/../../../sys
@@ -37,9 +37,18 @@ cleandir: clean
 
 clean:
 	-rm -rf build
-	rm -f bsd
+	rm -f bsd bsd.net{,.tmp}
 
 cleannobsd:
+	-rm -f bsd.net{,.tmp}
+
+bsd.net: bsd
+	-rm -f $@.tmp
+	gzip -d <bsd >$@.tmp
+	# need to strip symbols, elf2aout still has issues converting these
+	strip -s $@.tmp
+	elf2aout $@.tmp $@ -b
+	-rm -f $@.tmp
 
 .include "../../Makefile.kernel"
 .include <bsd.obj.mk>
