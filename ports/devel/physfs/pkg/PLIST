@@ -1,3 +1,0 @@
-@comment $MirOS$
-include/physfs.h
-lib/libphysfs.la
