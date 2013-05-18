@@ -3,7 +3,7 @@
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.239 2009/05/31 17:50:32 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.240 2009/05/31 19:00:35 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R38b</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -999,6 +999,8 @@ mws_content <<'EOF'
   limits in a single invocation from oksh (thanks millert) -->
  <li>[ahoka] Begin porting to <a href="http://www.haiku-os.org/">Haiku</a>
   and, implicitly, BeOS (not finished yet)</li>
+ <li>[tg] Fix regression tests on OSes insisting on a shebang (Cygwin)</li>
+ <li>[Sean Boudreau] QNX 6.4.2 ed(1) is said to have the bugs fixed</li>
 </ul>
 <p id="r38b">mksh R38b fixes the following problems:</p><ul>
  <li>[André Wösten] Add __NO_EXT_QNX to avoid picking up the wrong
