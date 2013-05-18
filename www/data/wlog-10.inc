@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.330 2011/03/21 16:18:44 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.331 2011/03/24 18:42:39 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -7639,4 +7639,48 @@ Title: Debugging PPPoE
 </div><p class="boxfoot">… still no network ☹ but at least
  I got some more information, and the L-Technicians will
  have a look at it tomorrow as well.</p>
+----
+Date: 26.03.2011 10:58
+Author: tg@
+Title: Various joys
+Tag: debian
+
+<p>I’m online again. (In case you didn’t notice, duh…) Seems as if we
+ (the Telco/ISP guy and me) just needed to look at it hard enough for
+ it to go away – first he could dial in, using my account data, which
+ I probably should change now, then herc with ppp(8) and pppoe(8) was
+ working (although at about 50 KiB/s down, he showed me 508 KiB/s – a
+ rate I had never achieved – with his WiXP), then I took my notebook,
+ which worked with pppoe(4). Now herc’s working again. (Maybe altq(9)
+ can explain the slowdown? Hm, from debian.netcologne.de I get 500 so
+ it looks okay.)<br />But eurynome isn’t, oh the joy. Luckily, gecko2
+ who administers its host system just woke up.</p>
+<p>Things we do want to see: the Telco/ISP guy accepting that I run
+ MirBSD on a P-233MMX box with Hercules graphics card and a 9″ monitor
+ with no comment other than considering its age (and that it usually
+ runs 24/7) as partial cause for the bug. Thanks, Netcologne!</p>
+<p>Things we don’t want to see:<br
+ /><tt>Mar 26 10:40:02 blau /bsd: signal 11 received by (screen:16857) UID(2999) EUID(2999), parent (screen:19111) UID(2999) EUID(2999)</tt><br
+ />“Suddenly the Dungeon collapses!! - You die...” (luckily, I get it
+ about once a year only)</p>
+<p>ObCoffeeSpices: Marrakech (Cumin, Allspice, Cumin Aroma) – though,
+ due to its relative strength compared to the others, the only coffee
+ spice I have left. And another hint: pre-warming the <a
+ href="http://bts.grml.org/grml/issue914">coffee cup</a> with hot
+ water, so it doesn’t cool down too fast with the amounts of milk I
+ put in, rocks.</p>
+<p>I just wore the Squeeze Release (FOSDEM, Spacefun) T-Shirt to the
+ bakery and got asked by a neighbour: “Oh, a Debian fan?” “Developer,
+ even” – now imagine the typical “informed interested guy” talk for a
+ conference booth of your OS of choice here. How proud he was to get
+ his wife and himself Windows®-free at home; how he likes to tinker a
+ bit (if he’s got any time left), which has become harder with Windows;
+ how his time constraints have him at OpenSuSE currently but asked how
+ squeeze is; and the usual complaints at places like $ork where they
+ have to use Windows® and MSIE (apparently you can’t centrally manage
+ Firefox, eh, good someone tells me, because that’s what we do…). Wow.
+ Anyway, it’s spring, so people, wear your shirts. (Hrm, what do I make
+ of the fact that this is my only Debian shirt – although I’m thinking
+ how to get Tartan Trousers if money were no issue – and nobody had ever
+ commented on my various BSD, FOSDEM, FrOSCon, etc. wear…)</p>
 ----
