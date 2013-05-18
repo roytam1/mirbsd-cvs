@@ -1,4 +1,4 @@
-# $MirOS: www/Makefile,v 1.41 2008/12/04 20:27:10 tg Exp $
+# $MirOS: www/Makefile,v 1.42 2008/12/04 20:31:32 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -37,6 +37,7 @@ SRCS+=		ports.hts
 SRCS+=		projects.hts
 SRCS+=		rss.hts
 SRCS+=		tags.hts
+CLEANFILES+=	tags.out
 TAGCLOUD=	mksh
 WLOGS=		9 10
 
@@ -93,7 +94,7 @@ clean:
 	-rm -f ${CLEANFILES} site.tgz *.tmp *~
 
 cleandir: clean
-	-rm -f .depend
+	-rm -f .depend ${CLEANFILES:M*~:S/~$//}
 
 deinstall:
 	-rm -rf dst site.tgz
