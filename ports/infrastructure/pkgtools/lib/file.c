@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/lib/file.c,v 1.19 2008/11/02 19:57:31 tg Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/lib/file.c,v 1.20 2008/11/11 02:50:08 tg Exp $ */
 /* $OpenBSD: file.c,v 1.26 2003/08/21 20:24:57 espie Exp $	*/
 
 /*
@@ -33,7 +33,7 @@
 #include <libgen.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/file.c,v 1.19 2008/11/02 19:57:31 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/file.c,v 1.20 2008/11/11 02:50:08 tg Exp $");
 
 /* Try to find the log dir for an incomplete package specification.
  * Used in pkg_info and pkg_delete. Returns the number of matches,
@@ -430,7 +430,7 @@ fileGetURL(char *base, char *spec)
 			if (!strcmp(cp, ".clz"))
 			    decompressor = "lzmadec";
 			else if (strchr(cp, 'z') || strchr(cp, 'Z'))
-			    decompressor = "gzip";
+			    decompressor = "gzip -fdc";
 		}
 		dup2(fileno(ftp), 0);
 		exit(xsystem(false, "%s | tar -x%spf -", decompressor,
@@ -720,15 +720,15 @@ unpack(char *pkg, const char *flist)
 		char *cp;
 		if ((cp = strrchr(pkg, '.'))) {
 			if (!strcmp(cp, ".clz"))
-				decompressor = "lzmadec <";
+				decompressor = "lzmadec";
 			else if (strchr(cp, 'z') || strchr(cp, 'Z'))
-				decompressor = "gzip -fdc ";
+				decompressor = "gzip -fdc";
 		} else
-			decompressor = "gzip -fdc ";
+			decompressor = "gzip -fdc";
 	}
 
 	if (decompressor)
-		rv = xsystem(false, "%s%s | tar -xpf - %s",
+		rv = xsystem(false, "%s <%s | tar -xpf - %s",
 		    decompressor, a1, a2);
 	else
 		rv = xsystem(false, "tar -xpf %s %s", a1, a2);

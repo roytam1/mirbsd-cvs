@@ -1,4 +1,4 @@
-.\" $MirOS: ports/infrastructure/pkgtools/rtfm/bsd.port.mk.5,v 1.27 2008/11/10 02:21:00 tg Exp $
+.\" $MirOS: ports/infrastructure/pkgtools/rtfm/bsd.port.mk.5,v 1.28 2008/11/11 02:50:09 tg Exp $
 .\" $OpenBSD: bsd.port.mk.5,v 1.134 2004/02/18 13:39:02 xsa Exp $
 .\"
 .\" Copyright (c) 2007, 2008 Thorsten Glaser
@@ -63,7 +63,7 @@
 .\" with -mandoc, it might implement .Mx itself, but we want to
 .\" use our own definition. And .Dd must come *first*, always.
 .\"
-.Dd $Mdocdate: November 10 2008 $
+.Dd $Mdocdate: November 11 2008 $
 .\"
 .\" Implement .Mx (MirBSD)
 .\"
@@ -1496,7 +1496,8 @@ Extension and format to choose for packages.
 Possible values are:
 .Bl -tag -width xcpio
 .It Pa .cgz
-sv4cpio with CRC, compressed with gzip.
+sv4cpio with CRC, compressed with
+.Xr gzip 1 .
 Default on all systems except OpenBSD.
 .It Pa .clz
 sv4cpio with CRC, compressed with lzma.
@@ -1508,7 +1509,8 @@ and ~320M datasize to create, no automatic dependency.
 .It Pa .cpio
 sv4cpio with CRC, uncompressed.
 .It Pa .tgz
-ustar, compressed with gzip.
+ustar, compressed with
+.Xr gzip 1 .
 Default on OpenBSD.
 .El
 .It Ev PKGREPOSITORY
