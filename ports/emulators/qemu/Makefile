@@ -1,4 +1,4 @@
-# $MirOS: ports/emulators/qemu/Makefile,v 1.6 2006/10/02 22:18:33 tg Exp $
+# $MirOS: ports/emulators/qemu/Makefile,v 1.7 2007/05/15 18:02:49 tg Exp $
 # $OpenBSD: Makefile,v 1.7 2005/11/05 12:11:05 todd Exp $
 
 # no success on other platforms yet
@@ -7,7 +7,7 @@ ONLY_FOR_PLATFORMS=	MirBSD:*:* \
 
 COMMENT=		fast multi-system emulator
 DISTNAME=		qemu-0.7.2
-DASH_VER=		2
+DASH_VER=		3
 CATEGORIES=		emulators
 HOMEPAGE=		http://fabrice.bellard.free.fr/qemu/
 MASTER_SITES=		${HOMEPAGE}
@@ -31,6 +31,7 @@ CONFIGURE_ARGS+=	--cc=${CC:Q} \
 			--disable-kqemu
 
 .include <mirports.sys.mk>
+
 .if ${MACHINE_ARCH} == "amd64"
 PATCH_LIST=		patch-* misc-*
 .endif
