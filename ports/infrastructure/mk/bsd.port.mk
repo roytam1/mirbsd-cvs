@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.101 2006/02/09 12:25:13 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.102 2006/02/09 13:03:04 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -561,9 +561,9 @@ _PACKAGE_COOKIES+=	${_PACKAGE_COOKIE${_s}}
 .endfor
 
 .if empty(SUBPACKAGE)
-FULLPKGPATH=		${PKGPATH}${_FLAVOR_EXT:S/-/,/g}
+FULLPKGPATH=		${PKGPATH}${FLAVOR_EXT:S/-/,/g}
 .else
-FULLPKGPATH=		${PKGPATH},${SUBPACKAGE}${_FLAVOR_EXT:S/-/,/g}
+FULLPKGPATH=		${PKGPATH},${SUBPACKAGE}${FLAVOR_EXT:S/-/,/g}
 .endif
 
 # A few aliases for *-install targets
