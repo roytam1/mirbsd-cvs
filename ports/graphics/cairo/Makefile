@@ -1,4 +1,4 @@
-# $MirOS: ports/graphics/cairo/Makefile,v 1.7 2006/09/14 00:09:48 tg Exp $
+# $MirOS: ports/graphics/cairo/Makefile,v 1.8 2006/11/02 01:55:37 tg Exp $
 
 COMMENT=		vector graphics library
 
@@ -18,10 +18,10 @@ PERMIT_DISTFILES_FTP=	Yes
 
 MASTER_SITES=		http://cairographics.org/releases/
 
-LIB_DEPENDS+=		png::graphics/png
 #LIB_DEPENDS+=		pixman::graphics/libpixman
 #LIB_DEPENDS+=		glitz::graphics/glitz
 MODULES+=		devel/pkgconfig
+MODULES+=		graphics/png
 
 USE_X11=		Yes
 
