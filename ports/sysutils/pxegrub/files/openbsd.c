@@ -1,4 +1,4 @@
-/* $MirOS: ports/sysutils/pxegrub/files/openbsd.c,v 1.1.7.1 2005/03/18 15:52:19 tg Exp $
+/* $MirOS: ports/sysutils/pxegrub/files/openbsd.c,v 1.2 2006/03/22 13:07:48 tg Exp $
  *
  * Hack to make GRUB boot OpenBSD from the network
  * Booting from the hard drive will require a slightly
@@ -30,7 +30,7 @@
  *
  *  GRUB  --  GRand Unified Bootloader
  *  Copyright (C) 1999, 2000, 2001, 2002  Free Software Foundation, Inc.
- *  Copyright (c) 2001, 2002, 2003        Cedric Berger
+ *  Copyright (c) 2001, 2002, 2003        Cédric Berger
  *  Copyright (c) 2002, 2003              Thorsten Glaser
  *
  *  This program is free software; you can redistribute it and/or modify
