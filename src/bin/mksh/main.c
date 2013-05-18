@@ -13,7 +13,7 @@
 #include <locale.h>
 #endif
 
-__RCSID("$MirOS: src/bin/mksh/main.c,v 1.71 2007/03/03 21:36:07 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/main.c,v 1.67.2.1 2007/03/03 21:37:56 tg Exp $");
 
 extern char **environ;
 
@@ -82,8 +82,9 @@ main(int argc, char *argv[])
 
 	/* make sure argv[] is sane */
 	if (!*argv) {
-		static char empty_argv0[] = "mksh",
-		    *empty_argv[] = { empty_argv0, NULL };
+		static const char *empty_argv[] = {
+			"mksh", NULL
+		};
 
 		argv = empty_argv;
 		argc = 1;
