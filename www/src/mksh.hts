@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.504 2013/03/29 17:39:43 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.505 2013/03/30 23:23:28 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1166,6 +1166,9 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] The <tt>&amp;&gt;</tt> GNU bash I/O redir is no longer parsed in
   <tt>-o posix</tt>, <tt>-o sh</tt> modes, lksh (breaks valid scripts)</li>
  <li>[tg] Implement <tt>${ …;}</tt> more efficiently (deleted-open files)</li>
+ <li>[tg] For shf, <tt>%#s</tt> (if you can get it past GCC’s printf format
+  attribute) calls print_value_quoted, ignoring field width and precision</li>
+ <li>[tg] Catch “typeset =” (regression) with better error message</li>
 </ul>
 <p id="r44">R44 contains these bugfixes:</p><ul>
  <li>[tg] "$@" always generates words; bug spotted by engla in IRC</li>
