@@ -1,4 +1,4 @@
-# $MirOS: www/Makefile,v 1.38 2008/12/04 13:45:45 tg Exp $
+# $MirOS: www/Makefile,v 1.39 2008/12/04 19:38:12 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -69,6 +69,7 @@ INCSRCS+=	${TAGCLOUD:S/^/tag_/}
 .for _i in ${INCSRCS}
 DEPSRCS+=	data/${_i}.cfg
 GENSRCS+=	stamp_htm_${_i} stamp_rss_${_i}
+CLEANFILES+=	stamp_tag_${_i}
 
 stamp_htm_${_i}: ${DEPS_mk_inc2htm} ${DEPS_data_${_i}_cfg}
 	${U_ENV} ${MKSH} ${TOP}/mk/inc2htm ${_i} >$@ || (rm -f $@; exit 1)
