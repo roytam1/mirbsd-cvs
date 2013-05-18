@@ -1,7 +1,7 @@
 $NetBSD: patch-ba,v 1.1 2005/01/25 03:30:40 tv Exp $
 
---- lib/Client.c++.orig	2005-01-24 22:29:27.000000000 -0500
-+++ lib/Client.c++
+--- lib/Client.c++.orig	Sat Jan 18 15:17:50 2003
++++ lib/Client.c++	Sat Nov 21 21:28:29 2009
 @@ -24,6 +24,7 @@
  #include <stdlib.h>
  #include <unistd.h>
@@ -10,3 +10,12 @@ $NetBSD: patch-ba,v 1.1 2005/01/25 03:30:40 tv Exp $
  #include <sys/un.h>
  #include <sys/socket.h>
  #include <rpc/rpc.h>
+@@ -264,7 +265,7 @@ Client::nextEvent(FAMEvent *fe)
+         {
+             char msg[100];
+             snprintf(msg, sizeof(msg),
+-                     "change info too long! (%d max)", sizeof(changeInfo));
++                     "change info too long! (%lu max)", (unsigned long)sizeof(changeInfo));
+             croakConnection(msg);
+             return -1;
+         }
