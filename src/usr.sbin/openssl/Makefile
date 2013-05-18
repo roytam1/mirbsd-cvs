@@ -1,4 +1,4 @@
-# $MirOS: src/usr.sbin/openssl/Makefile,v 1.6 2006/06/17 22:12:59 tg Exp $
+# $MirOS: src/usr.sbin/openssl/Makefile,v 1.7 2006/06/30 23:18:06 tg Exp $
 # $OpenBSD: Makefile,v 1.17 2005/04/29 05:42:55 djm Exp $
 
 PROG=		openssl
@@ -22,7 +22,7 @@ CPPFLAGS+=	-DB_ENDIAN
 .endif
 
 CPPFLAGS+=	-DMONOLITH -DOPENSSL_NO_IDEA -DTERMIOS -DANSI_SOURCE
-CPPFLAGS+=	-I${SSLEAY_SRC_TOP}
+CPPFLAGS+=	-I${SSLEAY_SRC_TOP} -I${SSLEAY_SRC}
 
 SRCS=	verify.c asn1pars.c req.c dgst.c dh.c enc.c passwd.c gendh.c errstr.c \
 	pkcs7.c crl2p7.c crl.c ca.c \
@@ -33,5 +33,8 @@ SRCS=	verify.c asn1pars.c req.c dgst.c dh.c enc.c passwd.c gendh.c errstr.c \
 	dhparam.c openssl.c rand.c rsautl.c engine.c ocsp.c prime.c
 
 .PATH:	${SSLEAY_SRC}
+
+CPPFLAGS+=	-DUSE_ASN1OCTETSTREAM
+SRCS+=		asn1octetstream.c
 
 .include <bsd.prog.mk>

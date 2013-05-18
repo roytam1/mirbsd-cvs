@@ -40,6 +40,9 @@ extern int prime_main(int argc,char *argv[]);
 extern int engine_main(int argc,char *argv[]);
 #endif
 extern int ocsp_main(int argc,char *argv[]);
+#ifdef USE_ASN1OCTETSTREAM
+extern int asn1octetstream_main(int argc, char *argv[]);
+#endif
 
 #define FUNC_TYPE_GENERAL	1
 #define FUNC_TYPE_MD		2
@@ -295,6 +298,9 @@ FUNCTION functions[] = {
 #endif
 #ifndef OPENSSL_NO_RC5
 	{FUNC_TYPE_CIPHER,"rc5-ofb",enc_main},
+#endif
+#ifdef USE_ASN1OCTETSTREAM
+	{FUNC_TYPE_GENERAL,"asn1octetstream",asn1octetstream_main},
 #endif
 	{0,NULL,NULL}
 	};
