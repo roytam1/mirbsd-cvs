@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.prog.mk,v 1.15 2005/10/20 12:47:06 tg Exp $
+# $MirOS: src/share/mk/bsd.prog.mk,v 1.16 2005/10/21 10:51:16 tg Exp $
 # $OpenBSD: bsd.prog.mk,v 1.44 2005/04/15 17:18:57 espie Exp $
 # $NetBSD: bsd.prog.mk,v 1.55 1996/04/08 21:19:26 jtc Exp $
 # @(#)bsd.prog.mk	5.26 (Berkeley) 6/25/91
@@ -88,13 +88,14 @@ realinstall:
 .      else
 	-rm -f ${DESTDIR}${BINDIR}/${PROG}.{dbg,tmp}
 	${INSTALL} ${INSTALL_COPY} ${INSTALL_STRIP} -o ${BINOWN} -g ${BINGRP} \
-	    -m ${BINMODE} ${PROG} ${DESTDIR}${BINDIR}/${PROG}.tmp
+	    -m 600 ${PROG} ${DESTDIR}${BINDIR}/${PROG}.tmp
 	objcopy --only-keep-debug ${PROG} \
 	    ${DESTDIR}${BINDIR}/${PROG}.dbg && cd ${DESTDIR}${BINDIR} \
 	    && objcopy --strip-debug --add-gnu-debuglink=${PROG}.dbg \
 	    ${PROG}.tmp && chmod ${SHAREMODE} ${PROG}.dbg && \
 	    chown ${BINOWN}:${BINGRP} ${PROG}.dbg && ln -f \
-	    ${PROG}.tmp ${PROG} && rm -f ${PROG}.tmp
+	    ${PROG}.tmp ${PROG} && chmod ${BINMODE} \
+	    ${PROG} && rm -f ${PROG}.tmp
 .      endif
 .    endif
 .  endif
