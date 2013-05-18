@@ -1,4 +1,4 @@
-.\"	$MirOS: src/sys/arch/i386/stand/installboot/installboot.8,v 1.16 2009/01/31 18:48:57 tg Exp $
+.\"	$MirOS: src/sys/arch/i386/stand/installboot/installboot.8,v 1.17 2009/01/31 19:09:18 tg Exp $
 .\"	$OpenBSD: installboot.8,v 1.28 2007/05/31 19:20:03 jmc Exp $
 .\"
 .\" Copyright (c) 1997 Michael Shalayeff
@@ -34,7 +34,7 @@
 .Nd installs a bootstrap on an FFS disk or partition
 .Sh SYNOPSIS
 .Nm installboot
-.Op Fl nv
+.Op Fl Anv
 .Oo Fl s Ar sectors-per-track Oc
 .Oo Fl h Ar tracks-per-cyl Oc
 .Op Fl P Ar partition-type
@@ -51,6 +51,10 @@ PBR programme uses to load the second-stage boot program.
 .Pp
 The options are as follows:
 .Bl -tag -width flag_opt
+.It Fl A
+Tell
+.Nm bootxx
+to use automatic geometry detection.
 .It Fl n
 Do not actually write anything on the disk.
 .It Fl v

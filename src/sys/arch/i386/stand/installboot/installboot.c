@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.30 2007/07/31 21:43:57 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.31 2009/01/31 18:51:19 tg Exp $ */
 /*	$OpenBSD: installboot.c,v 1.47 2004/07/15 21:44:16 tom Exp $	*/
 /*	$NetBSD: installboot.c,v 1.5 1995/11/17 23:23:50 gwr Exp $ */
 
@@ -86,7 +86,7 @@
 #include <unistd.h>
 #include <util.h>
 
-__RCSID("$MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $");
+__RCSID("$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.31 2009/01/31 18:51:19 tg Exp $");
 
 extern const char *__progname;
 int	verbose, nowrite, nheads, nsectors, userspec = 0;
@@ -132,7 +132,7 @@ static int	do_record(u_int8_t *, daddr_t, u_int);
 static void
 usage(void)
 {
-	fprintf(stderr, "usage:\t%s [-nv] [-P part] [-s sec-per-track] "
+	fprintf(stderr, "usage:\t%s [-Anv] [-P part] [-s sec-per-track] "
 	    "[-h track-per-cyl]\n", __progname);
 	fprintf(stderr, "\t    boot bootxx device\n");
 	exit(1);
@@ -193,9 +193,14 @@ main(int argc, char *argv[])
 	fprintf(stderr, "MirOS BSD installboot " __BOOT_VER "\n");
 
 	nsectors = nheads = -1;
-	while ((c = getopt(argc, argv, "1h:MnP:s:v")) != -1) {
+	while ((c = getopt(argc, argv, "1Ah:MnP:s:v")) != -1) {
 		switch (c) {
 		case '1':
+			break;
+		case 'A':
+			nheads = 0;
+			nsectors = 99;
+			userspec = 1;
 			break;
 		case 'h':
 			nheads = atoi(optarg);
@@ -377,7 +382,12 @@ main(int argc, char *argv[])
 
 	fprintf(stderr, "writing bootblock to sector %ld (0x%lX)\n",
 	    (long)startoff, (unsigned long)startoff);
-	if (verbose)
+	if (nsectors == 99) {
+		nheads = 0;
+		nsectors = 0;
+		if (verbose)
+			fprintf(stderr, "using automatic disc geometry\n");
+	} else if (verbose)
 		fprintf(stderr, "using disc geometry of %d heads, %d sectors"
 		    " per track\n", nheads, nsectors);
 	startoff *= dl.d_secsize;
@@ -625,7 +635,7 @@ loadblocknums(char *boot, int devfd, struct disklabel *dl)
 			ndb, fs->fs_bsize);
 
 	if ((dl->d_type != 0 && dl->d_type != DTYPE_FLOPPY &&
-	    dl->d_type != DTYPE_VND) || userspec ) {
+	    dl->d_type != DTYPE_VND) || (userspec && nsectors != 99)) {
 		/* adjust disklabel w/ synthetic geometry */
 		dl->d_nsectors = nsectors;
 		dl->d_secpercyl = dl->d_nsectors * nheads;
@@ -696,7 +706,7 @@ record_block(u_int8_t *bt, daddr_t blk, u_int bs)
 		 * Obey the track boundaries if possible.
 		 */
 		if (!W_num) goto flush_end;
-		if ((nheads == -1) || (nsectors == -1)) {
+		if ((nheads == -1) || (nsectors == -1) || (nsectors == 99)) {
 			retval += do_record(bt+retval, W_ofs, W_num);
 			goto flush_end;
 		}
