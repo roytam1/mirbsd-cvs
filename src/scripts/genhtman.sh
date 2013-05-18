@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $
+# $MirOS: src/scripts/genhtman.sh,v 1.18 2013/03/29 18:46:11 tg Exp $
 #-
 # Copyright © 2005, 2007, 2011, 2012, 2013
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -129,6 +129,21 @@ else
 		print '</pre>'
 		output_footer
 	} >$hr/manDOCS/sendmail.cf.htm
+	mkdir -p $hr/manINFO/gpc/{demos,images}
+	cd $BSDSRCDIR/gcc/gcc/p/demos; for x in *; do
+		[[ -f $x ]] && cp "$x" $hr/manINFO/gpc/demos/
+	done
+	cd $BSDSRCDIR/gcc/gcc/p/doc/images; for x in *; do
+		[[ $x = README ]] && continue
+		[[ -f $x ]] && cp "$x" $hr/manINFO/gpc/images/
+	done
+	cd $hr/manINFO; for x in gpc{,-*}.*; do
+		ed -s "$x" <<-'EOF'
+			,g!src="\.\./!s!!src="gpc/!g
+			,g!href="\.\./!s!!href="gpc/!g
+			wq
+		EOF
+	done
 	output_htaccess >$hr/.htaccess
 	output_htaccess >$hr/manDOCS/.htaccess
 	{
