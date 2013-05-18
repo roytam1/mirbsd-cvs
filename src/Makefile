@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.108 2007/07/09 00:24:55 tg Exp $
+# $MirOS: src/Makefile,v 1.109 2007/08/07 18:03:31 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -8,6 +8,9 @@
 .include "Makefile.inc"
 .if exists(gcc/Makefile.lang)
 .  include "gcc/Makefile.lang"
+.else
+NO_ADA?=	Yes
+NO_PASCAL?=	Yes
 .endif
 NOMAN?=		no
 CVSROOT?=	/cvs
