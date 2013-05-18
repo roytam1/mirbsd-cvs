@@ -937,7 +937,7 @@ Author: tg@
  been released; as per the <a href="@@RELPATH@@mksh.htm#r35">Changelog</a>
  this is a major update with some bugfixes, a lot of new features, and
  licence simplification (the advertising clause is gone). This version
- was not tested on AIX, BSD/OS, Interix, GNU/kFreeBSD, UWIN, the Intel
+ was not tested on AIX, BSD/OS, Interix, IRIX, GNU/kFreeBSD, UWIN, the Intel
  compiler, but we expect no regressions on these platforms either. New
  supported platforms include dietlibc, LLVM. Platforms already working
  continue to be MirOS BSD, DragonFly BSD, FreeBSD, MidnightBSD, NetBSD,
