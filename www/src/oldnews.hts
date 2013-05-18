@@ -3,7 +3,7 @@
 
 mws_setname oldnews "Old News and Weblog"
 mws_subdir 0
-mws_putheader '$MirOS: www/src/oldnews.hts,v 1.2 2008/03/24 20:02:40 tg Exp $'
+mws_putheader '$MirOS: www/src/oldnews.hts,v 1.3 2008/07/10 22:13:48 tg Exp $'
 mws_content <<'EOF'
 <h1>Older News and Weblogs</h1>
 
@@ -940,7 +940,8 @@ mws_content <<'EOF'
 	into the HEAD branch where applicable.</li>
 
 </ul><p id="newsend">For current news, please refer to the <a
- href="news_all.htm">main news page</a>.</p>
+ href="news.htm">main news page</a> and the <a
+ href="main.htm">start page</a> (for hot items).</p>
 
 <h2>Old ChangeLog</h2><ul>
 <li><a href="/?clog-2004">Snapshots released 2004</a></li>
