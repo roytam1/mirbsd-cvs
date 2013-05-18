@@ -1,4 +1,4 @@
-/* $MirOS: src/include/wchar.h,v 1.7 2006/06/01 23:00:41 tg Exp $ */
+/* $MirOS: src/include/wchar.h,v 1.8 2006/06/02 12:58:52 tg Exp $ */
 
 #ifndef	_WCHAR_H_
 #define	_WCHAR_H_
@@ -54,7 +54,6 @@ int	mbsinit(const mbstate_t *);
 size_t	mbslen(const char *);
 size_t	mbsrtowcs(wchar_t *__restrict__, const char **__restrict__, size_t,
 	    mbstate_t *__restrict__);
-int	mbswidth(const char *, size_t);
 wint_t	putwc(wchar_t, FILE *);
 wint_t	putwchar(wchar_t);
 wint_t	ungetwc(wint_t, FILE *);

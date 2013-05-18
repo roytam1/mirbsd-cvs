@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libc/i18n/Makefile.inc,v 1.18 2006/06/02 12:58:52 tg Exp $
+# $MirOS: src/lib/libc/i18n/Makefile.inc,v 1.19 2006/06/03 22:14:51 tg Exp $
 
 .PATH: ${LIBCSRCDIR}/i18n
 .PATH: ${LIBCSRCDIR}/locale
@@ -25,7 +25,6 @@ SRCS+=	mbsinit.c
 SRCS+=	mbslen.c
 SRCS+=	mbsrtowcs.c
 SRCS+=	mbstowcs.c
-SRCS+=	mbswidth.c
 SRCS+=	mbtowc.c
 SRCS+=	towctrans.c
 SRCS+=	wcrtomb.c
