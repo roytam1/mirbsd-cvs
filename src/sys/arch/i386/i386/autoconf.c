@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/i386/autoconf.c,v 1.7 2006/04/12 23:08:03 tg Exp $	*/
+/**	$MirOS: src/sys/arch/i386/i386/autoconf.c,v 1.8 2006/04/12 23:12:34 tg Exp $	*/
 /*	$OpenBSD: autoconf.c,v 1.52 2003/10/15 03:56:21 david Exp $	*/
 /*	$NetBSD: autoconf.c,v 1.20 1996/05/03 19:41:56 christos Exp $	*/
 
@@ -385,7 +385,7 @@ rootconf()
 		extern size_t rd_root_image_siz;
 		extern char rd_root_image_cmp[], rd_root_image[];
 
-		if (!strncmp(rd_root_image, rd_root_image_cmp,
+		if (!memcmp(rd_root_image, rd_root_image_cmp,
 		    rd_root_image_siz))
 			goto noask;
 		boothowto |= RB_ASKNAME;

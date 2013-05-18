@@ -1,4 +1,4 @@
-# $MirOS: src/etc/rc,v 1.22 2006/06/15 19:56:43 tg Exp $
+# $MirOS: src/etc/rc,v 1.23 2006/06/17 19:24:44 tg Exp $
 # $OpenBSD: rc,v 1.277 2006/01/12 21:54:15 deraadt Exp $
 #-
 # System startup script run by init on autoboot or after single-user.
@@ -511,7 +511,11 @@ echo .
 mount -a -t nfs
 
 swapctl -A -t noblk
-[[ $(uname -vm 2>/dev/null) = GENERIC*i386 ]] && swapctl -ap0 /dev/rd0c
+# Only if it exists and is an unused ram disc array.
+# Compare approximately like the kernel does, except
+# we checksum the first sector instead of memcmping.
+dev=$(dd if=/dev/rrd0c count=1 2>/dev/null | cksum -a adler32)
+[[ $dev = A261098C ]] && swapctl -ap0 /dev/rd0c
 
 # /var/crash should be a directory or a symbolic link
 # to the crash directory if core dumps are to be saved.
