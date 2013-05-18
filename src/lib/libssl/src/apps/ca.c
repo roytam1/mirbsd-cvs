@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libssl/src/apps/ca.c,v 1.3 2005/04/29 13:52:27 tg Exp $ */
+/* $MirOS: src/lib/libssl/src/apps/ca.c,v 1.4 2006/09/20 20:14:05 tg Exp $ */
 
 /* apps/ca.c */
 /* Copyright (C) 1995-1998 Eric Young (eay@cryptsoft.com)
@@ -834,8 +834,8 @@ bad:
 			perror(outdir);
 			goto err;
 			}
-#ifdef S_IFDIR
-		if (!(sb.st_mode & S_IFDIR))
+#ifdef S_ISDIR
+		if (!S_ISDIR(sb.st_mode))
 			{
 			BIO_printf(bio_err,"%s need to be a directory\n",outdir);
 			perror(outdir);

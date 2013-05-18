@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libssl/src/crypto/x509v3/v3_utl.c,v 1.2 2005/03/06 20:29:34 tg Exp $ */
+/* $MirOS: src/lib/libssl/src/crypto/x509v3/v3_utl.c,v 1.3 2006/09/29 21:08:32 tg Exp $ */
 
 /* v3_utl.c */
 /* Written by Dr Stephen N Henson (shenson@bigfoot.com) for the OpenSSL
@@ -65,7 +65,7 @@
 #include <openssl/conf.h>
 #include <openssl/x509v3.h>
 
-__RCSID("$MirOS: src/lib/libssl/src/crypto/x509v3/v3_utl.c,v 1.2 2005/03/06 20:29:34 tg Exp $");
+__RCSID("$MirOS: src/lib/libssl/src/crypto/x509v3/v3_utl.c,v 1.3 2006/09/29 21:08:32 tg Exp $");
 
 static char *strip_spaces(char *name);
 static int sk_strcmp(const char * const *a, const char * const *b);
@@ -345,7 +345,7 @@ static char *strip_spaces(char *name)
 	char *p, *q;
 	/* Skip over leading spaces */
 	p = name;
-	while(*p && isspace((unsigned char)*p)) p++;
+	while(isspace((unsigned char)*p)) p++;
 	if(!*p) return NULL;
 	q = p + strlen(p) - 1;
 	while((q != p) && isspace((unsigned char)*q)) q--;

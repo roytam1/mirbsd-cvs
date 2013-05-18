@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libssl/src/ssl/kssl.c,v 1.3 2005/04/29 13:52:35 tg Exp $ */
+/* $MirOS: src/lib/libssl/src/ssl/kssl.c,v 1.4 2006/09/20 20:14:22 tg Exp $ */
 /* ssl/kssl.c -*- mode: C; c-file-style: "eay" -*- */
 /* Written by Vern Staats <staatsvr@asc.hpc.mil> for the OpenSSL project 2000.
  */
@@ -928,7 +928,7 @@ kssl_err_set(KSSL_ERR *kssl_err, int reason, char *text)
 	if (kssl_err == NULL)  return;
 
 	kssl_err->reason = reason;
-	BIO_snprintf(kssl_err->text, KSSL_ERR_MAX, text);
+	BIO_snprintf(kssl_err->text, KSSL_ERR_MAX, "%s", text);
 	return;
         }
 
