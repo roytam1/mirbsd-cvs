@@ -1,3 +1,5 @@
+# $MirOS$
+#-
 Source: ca-bundle
 Origin: WTF
 Bugs: mailto:wtf@mirbsd.org
@@ -6,7 +8,7 @@ Priority: optional
 Maintainer: Thorsten Glaser <tg@mirbsd.de>
 Build-Depends: debhelper (>= 5)
 Build-Depends-Indep: openssl
-Standards-Version: 3.9.1
+Standards-Version: 3.9.2
 
 Package: ca-bundle
 Architecture: all
@@ -30,7 +32,8 @@ Description: ca-certificates and -java replacement (WTF suite, from MirBSD)
  to replace both the Debian ca-certificates and ca-certificates-java
  packages public keystores for OpenSSL, GnuTLS, Java™/JKS, as well as
  Mozilla ckbi source builds. It will also replace KDE and J2RE/J2SDK
- keystore files.
+ keystore files. This package installs hashed symlinks usable with
+ both OpenSSL 1.0.0 and OpenSSL 0.x / GnuTLS into /etc/ssl/certs.
  .
  Note that the ksslcalist format used by KDE 3 and KDE 4 is FUBAR BAD,
  as it uses the DN of a certificate as index/primary key into the cert

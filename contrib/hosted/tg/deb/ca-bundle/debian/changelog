@@ -1,3 +1,12 @@
+ca-bundle (20110424) unstable; urgency=emergency
+
+  * Add hashed symlinks for OpenSSL 1.0.0 changed subject_hash format
+  * Policy 3.9.2 (no changes), RCS Id, update package description
+  * Simplify debian/rules (remove commented-out stanzas)
+  * Refresh lintian overrides
+
+ -- Thorsten Glaser <tg@mirbsd.de>  Sun, 24 Apr 2011 17:01:39 +0000
+
 ca-bundle (20110330) unstable; urgency=low
 
   * KDE 3 uses /opt/trinity in their .deb packages now… /* */
