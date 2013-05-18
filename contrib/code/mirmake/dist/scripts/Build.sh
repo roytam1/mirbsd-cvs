@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/share/misc/licence.template,v 1.24 2008/04/22 11:43:31 tg Rel $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.117 2008/05/03 01:09:29 tg Exp $
 #-
 # Copyright (c) 2006, 2008
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -58,7 +58,6 @@ new_macarc=$6		# MACHINE_ARCH
 new_machos=$7		# MACHINE_OS
 new_mirksh=$8
 new_binids=$9
-[[ -z $OLDMAKE ]] && OLDMAKE=make
 
 if [ -z "$new_mirksh" ]; then
 	echo "Use ../../Build.sh instead!" >&2
@@ -66,6 +65,7 @@ if [ -z "$new_mirksh" ]; then
 fi
 
 export SHELL=$new_mirksh
+unset MAKE
 
 [[ -n $BASH_VERSION ]] && shopt -s extglob
 

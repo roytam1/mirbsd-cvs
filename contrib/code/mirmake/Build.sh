@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: contrib/code/mirmake/Build.sh,v 1.33 2008/05/03 01:09:28 tg Exp $
+# $MirOS: contrib/code/mirmake/Build.sh,v 1.34 2008/05/03 01:28:59 tg Exp $
 #-
 # Copyright (c) 2004, 2005, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -21,6 +21,9 @@
 #-
 # Build MirMake. (Assumes mksh or bash)
 
+LC_ALL=C
+export LC_ALL
+
 OSN=$1			# OStype
 PFX=${2:-/usr/local}	# Installation prefix (optional)
 MPT=${3:-man/cat}	# manpath (cat magic) (optional)
@@ -30,6 +33,9 @@ MAR=$6			# machine_arch (i386, powerpc) (optional)
 MOS=$7			# machine_os (BSD, Linux) (optional)
 MKS=$8			# mirbsdksh path (optional)
 BIN=$9			# binown:bingrp (optional)
+
+OLDMAKE=${MAKE-make}	# system's own make(1) binary
+export OLDMAKE		# for bootstrapping
 
 # help
 case $OSN in
