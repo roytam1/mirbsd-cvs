@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.259 2009/12/02 17:22:01 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.260 2009/12/07 20:41:28 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -5564,4 +5564,45 @@ Date: 07.12.2009 20:41
  2.00 (built for Debian Lenny and Kubuntu Hardy). A KDE 4 package (for
  Debian squeeze/sid, newer *bunti and ones with KDE4-backport) will be
  worked upon as soon as I can get into the pkg-kde Alioth group.</p>
+----
+Title: BASE – schlimmere Verbrecher als Debiltel
+Author: tg@
+Date: 11.12.2009 17:37
+Tag: rant
+Language: de_DE-1901
+
+<p>Bei VIAG Interkom einen Händivertrag (Händi, schwäbisches Fremdwort,
+ von "Jo hän di denn do koa Kabel dran?") kündigt, geht das relativ gut,
+ man bekommt nur zwei Monate später eine Rechnung über 0,00 €. Den T-D1
+ Mitarbeitervertrag (Azubi...) wird man auch gut wieder los, obschon er
+ über die Laufzeit hinweg funktioniert (wohl ein Abschiedsgeschenk des
+ Ausbildungskonzerns). Bei Debitel hingegen wird der postalische Eingang
+ der schriftlichen Kündigung um ein paar Tage verzögert, und dann hat
+ man den Vertrag noch knapp 15 Monate lang am Hals. Die Frechheit ist
+ aber BASE: die Karte funktioniert, nach meiner Kündigung gegen Anfang
+ des 2. Quartales 2008(!), immer noch. Auf Anfrage teilt man mir mit,
+ daß "leider" in ihrem System keine Kündigung ersichtlich sei, und ich
+ noch bis zum 5. Dezember 2010(!) damit leben müsse.</p>
+<p>Hoffen wir, daß Netcologne, falls ich denn den dortigen Mobilfunkteil
+ meines Kombipaketes mal loswerden will, angenehmer ist. Immerhin ist das
+ die einzige Telko, die auch mal Bestandskundenaktionen macht, mit denen
+ ich seit 2001 ununterbrochen extrem zufrieden bin, und die nur ein Mal
+ größere Störungen hatten (November 2001, wohl noch neu) und einem für
+ einen halben Monat öfters gestörten DSLs einen ganzen Monat Telephon- und
+ DSL-Grundpreis erstattet haben; die defekte Splitter und Leihmodems (NTBBA)
+ innert Stunden ohne große Fragen austauschen; die einem alle paar Jahre
+ mal <em>sowohl</em> den Grundpreis reduzieren <em>als auch</em> der DSL
+ Geschwindigkeit erhöhen...</p>
+<p>Also, Leute, kauft nicht bei BASE! (ciruZ ist mit blau.de zufrieden,
+ die sind aber Prepaid, das heißt zwar keine Knebelverträge, aber auch
+ keine unlimitierten Telephonate im Ausland, z.B. um gecko2 auf belgischen
+ Autobahnen zu helfen.) Daß es auch anders geht zeigt die Deutsche Bahn in
+ <a href="@@RELPATH@@permalinks/wlog-10_e20090204-tg-g10020.htm">einer
+ anderen Kaufempfehlung</a> (diese hier ist allerdings eher eine leicht
+ frustrierte <strong>Ver</strong>fehlung). Mein Brüderchen fand, ich sollte
+ das hier dokumentieren/ablassen; keine Bange, das hier wird nicht wie bei
+ Fefe eine Produktbashingseite werden (dafür sind einfach alle Sachen in
+ Existenz zu... kaputt, das ist mir meine Zeit nicht wert).</p>
+<p>Naja, mal die Kündigungsbestätigung aus den Altunterlagen raussuchen,
+ um deren Zusendung ich letztes Jahr gebeten hatte. Warum wohl?</p>
 ----
