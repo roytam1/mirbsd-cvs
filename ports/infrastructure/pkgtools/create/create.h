@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/create/create.h,v 1.2 2005/05/22 03:52:46 bsiegert Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/create/create.h,v 1.3 2005/12/17 02:36:26 tg Exp $ */
 /* $OpenBSD: create.h,v 1.4 2003/08/15 00:03:22 espie Exp $ */
 
 /*
@@ -36,6 +36,7 @@ extern char	*ExcludeFrom;
 extern char	*Mtree;
 extern char	*Pkgdeps;
 extern char	*Pkgcfl;
+extern char	*Emulations;
 extern char	*BaseDir;
 extern char	PlayPen[];
 extern size_t	PlayPenSize;

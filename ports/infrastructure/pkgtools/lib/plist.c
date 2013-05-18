@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/lib/plist.c,v 1.7 2006/11/19 22:34:07 tg Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/lib/plist.c,v 1.8 2007/01/19 23:11:20 bsiegert Exp $ */
 /*	$OpenBSD: plist.c,v 1.17 2003/08/21 20:24:57 espie Exp $	*/
 
 /*
@@ -26,7 +26,7 @@
 #include <md5.h>
 #include "rcdb.h"
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/plist.c,v 1.7 2006/11/19 22:34:07 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/plist.c,v 1.8 2007/01/19 23:11:20 bsiegert Exp $");
 
 #define NULLMD5 "d41d8cd98f00b204e9800998ecf8427e"
 
@@ -67,6 +67,7 @@ static cmd_t	cmdv[] = {
 	{	"shell",	PLIST_SHELL,		1	},
 	{	"endfake",	PLIST_ENDFAKE,		0	},
 	{	"ldcache",	PLIST_LDCACHE,		1	},
+	{	"emul",		PLIST_EMUL,		1	},
 	{	NULL,		-1,			0	}
 };
 
@@ -130,7 +131,8 @@ void add_plist_at(package_t *p, plist_t *after, pl_ent_t type, const char *arg)
 void add_plist_glob(package_t *pkg, plist_t *after, const char *dir, const char *pattern, bool nodups)
 {
 	glob_t pglob;
-	int fd, i;
+	int fd;
+	unsigned int i;
 
 	memset(&pglob, 0, sizeof(pglob));
 	fd = open(".", O_RDONLY, 0);

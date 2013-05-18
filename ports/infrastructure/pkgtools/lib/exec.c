@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/lib/exec.c,v 1.2 2006/02/25 15:49:55 bsiegert Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/lib/exec.c,v 1.3 2006/08/24 20:18:15 bsiegert Exp $ */
 /*	$OpenBSD: exec.c,v 1.8 2003/09/05 19:40:42 tedu Exp $	*/
 
 /*
@@ -24,7 +24,7 @@
 #include <pwd.h>
 #include "lib.h"
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/exec.c,v 1.2 2006/02/25 15:49:55 bsiegert Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/exec.c,v 1.3 2006/08/24 20:18:15 bsiegert Exp $");
 
 #ifdef AS_USER
 static bool PrivsDropped = false;
@@ -66,6 +66,35 @@ vsystem(const char *fmt, ...)
 	va_end(args);
 	free(cmd);
 	return ret;
+}
+
+/*
+ * Execute the command, read one line of output, and return it as a
+ * pointer to a static internal buffer. Read errors, eof, and exit
+ * status are ignored.
+ */
+char *
+piperead(const char *command)
+{
+	static char buf[FILENAME_MAX]; /* XXX arbitrary size */
+	int len;
+	FILE *stream;
+
+	stream = popen(command, "r");
+	buf[0] = '\0';
+	(void)fgets(buf, sizeof(buf), stream);
+	if (ferror(stream)) {
+		pwarn("Failed to read output from command '%s'", command);
+		/* buffer contents are indeterminate if an error occurred */
+		buf[0] = '\0';
+	}
+	len = strlen(buf);
+	if (len > 0 && buf[len - 1] == '\n')
+		buf[len--] = '\0';
+	if (pclose(stream) == -1) {
+		pwarn("Failed to close pipe to '%s'", command);
+	}
+	return buf;
 }
 
 /*
@@ -111,4 +140,35 @@ raise_privs(void)
 	} else if (Verbose)
 		pwarnx("raise_privs: incorrect attempt to raise privs\n");
 #endif
+}
+
+/*
+ * Determine whether the system has the given binary emulation layer.
+ * In case of an error, return false.
+ */
+bool
+have_emulation(char *emul)
+{
+	char buf[FILENAME_MAX]; /* XXX arbitrary size */
+
+	if (!emul || !emul[0])
+		return true;
+
+	/* first: are we already running the right OS? */
+	if (!strcasecmp(emul, piperead("uname -s"))) {
+		if (Verbose)
+			printf("- natively running %s\n", buf);
+		return true;
+	}
+
+	/* On BSD: is the emulation enabled? */
+	/* calling sysctl via popen encapsulates platform-specific stuff */
+	snprintf(buf, sizeof(buf), "sysctl -n kern.emul.%s 2>/dev/null",
+			emul);
+	if (!strcmp("1", piperead(buf))) {
+		if (Verbose)
+			printf("- %s emulation enabled\n", emul);
+		return true;
+	}
+	return false;
 }

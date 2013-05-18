@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/lib/lib.h,v 1.12 2006/11/19 22:16:36 bsiegert Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/lib/lib.h,v 1.13 2007/01/19 23:11:20 bsiegert Exp $ */
 /*	$OpenBSD: lib.h,v 1.14 2003/08/21 20:24:57 espie Exp $	*/
 
 /*
@@ -104,7 +104,8 @@ typedef enum pl_ent_t {
 	PLIST_LIB,
 	PLIST_SHELL,
 	PLIST_ENDFAKE,
-	PLIST_LDCACHE
+	PLIST_LDCACHE,
+	PLIST_EMUL
 } pl_ent_t;
 
 /* type of dynamic linker */
@@ -150,6 +151,7 @@ typedef int (*matchfn)(const char *found, char *data, int len);
 /* Misc */
 int		vsystem(const char *, ...)
 		    __attribute__((__format__ (printf, 1, 2)));
+char		*piperead(const char *);
 void		cleanup(int);
 char		*make_playpen(char *, size_t, size_t);
 char		*where_playpen(void);
@@ -159,6 +161,7 @@ void            save_dirs(char **c, char **p);
 void            restore_dirs(char *c, char *p);
 void		drop_privs(void);
 void		raise_privs(void);
+bool		have_emulation(char *);
 
 /* String */
 char 		*get_dash_string(char **);

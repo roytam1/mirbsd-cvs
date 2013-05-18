@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/info/show.c,v 1.3 2005/04/11 21:08:22 tg Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/info/show.c,v 1.4 2005/05/06 17:35:15 tg Exp $ */
 /* $OpenBSD: show.c,v 1.13 2003/08/21 20:24:56 espie Exp $ */
 
 /*
@@ -25,7 +25,7 @@
 #include "lib.h"
 #include "info.h"
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/info/show.c,v 1.3 2005/04/11 21:08:22 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/info/show.c,v 1.4 2005/05/06 17:35:15 tg Exp $");
 
 /* structure to define entries for the "show table" */
 typedef struct show_t {
@@ -63,6 +63,7 @@ static show_t	showv[] = {
 	{	PLIST_SHELL,	"@shell %s",	"\tShell: %s" },
 	{	PLIST_ENDFAKE,	"@endfake",	"\tEnd of fake point" },
 	{	PLIST_LDCACHE,	"@ldcache %s",	"\tShared libraries enabled: %s" },
+	{	PLIST_EMUL,	"@emul %s",	"\tNeeds binary emulation: %s" },
 	{	-1,		NULL,		 NULL }
 };
 
@@ -168,6 +169,7 @@ show_plist(const char *title, package_t *plist, pl_ent_t type)
 		case PLIST_SHELL:
 		case PLIST_ENDFAKE:
 		case PLIST_LDCACHE:
+		case PLIST_EMUL:
 			printf(Quiet ? showr->sh_quiet : showr->sh_verbose, p->name);
 			break;
 		default:

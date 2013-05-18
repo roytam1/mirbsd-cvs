@@ -1,4 +1,4 @@
-.\" $MirOS: ports/infrastructure/pkgtools/rtfm/bsd.port.mk.5,v 1.12 2006/12/30 21:13:46 tg Exp $
+.\" $MirOS: ports/infrastructure/pkgtools/rtfm/bsd.port.mk.5,v 1.13 2007/01/01 16:53:44 tg Exp $
 .\" $OpenBSD: bsd.port.mk.5,v 1.134 2004/02/18 13:39:02 xsa Exp $
 .\"
 .\" Copyright (c) 2007 Thorsten Glaser
@@ -901,6 +901,11 @@ Used to display
 .Sq ===> Configuring for foo
 and similar informative messages.
 Override to turn off, for instance.
+.It Ev EMUL
+List of binary emulations (kernel personalities) the software needs.
+Only necessary for binary-only software.
+If the necessary binary emulation is turned off or not available, the
+port is ignored.
 .It Ev ERRORS
 List of errors found while parsing the port's Makefile.
 Display the errors before making any target, and if any error starts with

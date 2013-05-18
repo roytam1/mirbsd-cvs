@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.18 2006/12/28 17:40:35 bsiegert Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.19 2007/01/19 23:11:18 bsiegert Exp $ */
 /* $OpenBSD: perform.c,v 1.32 2003/08/21 20:24:56 espie Exp $	*/
 
 /*
@@ -29,7 +29,7 @@
 #include <signal.h>
 #include <errno.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.18 2006/12/28 17:40:35 bsiegert Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.19 2007/01/19 23:11:18 bsiegert Exp $");
 
 static int pkg_do(char *);
 static int sanity_check(char *);
@@ -273,6 +273,21 @@ pkg_do(char *pkg)
     if (tmp)
 	free(tmp);
 
+    /* Do we have the right binary emulation? */
+    for (p = Plist.head; p ; p = p->next) {
+	if (p->type != PLIST_EMUL)
+	    continue;
+	if (Verbose)
+	    printf("Package '%s' needs %s binary emulation\n", PkgName, p->name);
+
+	if (!have_emulation(p->name)) {
+	    pwarnx("Package requires %s binary emulation layer, which is not enabled or not available! See the compat_%s(8) manpage for details.%s",
+		    p->name, p->name, Force ? " (continuing anyway)" : "");
+	    if (!Force)
+		goto bomb;
+	}
+    }
+    
     /* See if there are conflicting packages installed */
     for (p = Plist.head; p ; p = p->next) {
 	char insttst[FILENAME_MAX];

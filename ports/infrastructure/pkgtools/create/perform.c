@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/create/perform.c,v 1.6 2005/12/18 16:36:42 tg Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/create/perform.c,v 1.7 2006/11/19 22:16:36 bsiegert Exp $ */
 /* $OpenBSD: perform.c,v 1.17 2003/08/27 06:51:26 jolan Exp $	*/
 
 /*
@@ -33,7 +33,7 @@
 #include <signal.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/create/perform.c,v 1.6 2005/12/18 16:36:42 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/create/perform.c,v 1.7 2006/11/19 22:16:36 bsiegert Exp $");
 
 static void sanity_check(void);
 static void make_dist(char *, char *, const char *, package_t *);
@@ -87,6 +87,22 @@ pkg_perform(char **pkgs)
 	if (Verbose && !PlistOnly)
 	    printf("Using SrcDir value of %s\n", SrcDir);
 	add_plist(&plist, PLIST_SRC, SrcDir);
+    }
+
+    /* Binary emulations */
+    if (Emulations) {
+	if (Verbose && !PlistOnly)
+	    printf("Binary emulation:");
+	while (Emulations) {
+	    cp = strsep(&Emulations, " \t\n");
+	    if (*cp) {
+		add_plist(&plist, PLIST_EMUL, cp);
+		if (Verbose && !PlistOnly)
+		    printf(" %s", cp);
+	    }
+	}
+	if (Verbose && !PlistOnly)
+	    printf(".\n");
     }
 
     /* Stick the dependencies, if any, at the top */

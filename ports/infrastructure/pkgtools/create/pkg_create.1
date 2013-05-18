@@ -1,4 +1,4 @@
-.\"	$MirOS: ports/infrastructure/pkgtools/create/pkg_create.1,v 1.4 2006/10/05 15:11:41 bsiegert Exp $
+.\"	$MirOS: ports/infrastructure/pkgtools/create/pkg_create.1,v 1.5 2006/11/19 22:34:06 tg Exp $
 .\"	$OpenBSD: pkg_create.1,v 1.28 2003/08/21 20:24:56 espie Exp $
 .\"
 .\" FreeBSD install - a package for the installation and maintenance
@@ -37,6 +37,7 @@
 .Op Fl OZhv
 .Op Fl P Ar dpkgs
 .Op Fl C Ar cpkgs
+.Op Fl e Ar emulation
 .Op Fl p Ar prefix
 .Op Fl i Ar iscript
 .Op Fl k Ar dscript
@@ -143,6 +144,13 @@ and is meant as a convenient shorthand for specifying multiple
 directives in the packing list (see
 .Sx PACKING LIST DETAILS
 section below).
+.It Fl e Ar emulation
+Set the initial list of required binary emulations to
+.Ar emulation .
+This should be a whitespace separated list of emulations and is meant
+as a shorthand to specifying one or more
+.Cm @emul
+directives in the packing list.
 .It Fl p Ar prefix
 Set
 .Ar prefix
@@ -268,6 +276,13 @@ to
 That is to say that it overrides
 .Cm @cwd
 for package creation but not extraction.
+.It Cm @emul
+Binary emulation (kernel personality) the software needs.
+Only necessary for binary-only software.
+If several binary emulations are needed, each of them needs to be in
+a separate
+.Cm @emul
+command.
 .It Cm @arch , @endfake
 Ignored, only exist for the sake of compatibility.
 .It Cm @ldcache Ar value

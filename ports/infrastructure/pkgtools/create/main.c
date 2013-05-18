@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: ports/infrastructure/pkgtools/create/main.c,v 1.1.7.1 2005/03/18 15:47:16 tg Exp $ */
 /* $OpenBSD: main.c,v 1.13 2003/08/15 00:03:22 espie Exp $	*/
 
 /*
@@ -15,9 +15,9 @@
 #include "lib.h"
 #include "create.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/create/main.c,v 1.1.7.1 2005/03/18 15:47:16 tg Exp $");
 
-static char Options[] = "OZhvf:p:P:C:c:d:i:k:r:t:X:D:m:s:S:";
+static char Options[] = "OZhvf:p:P:C:e:c:d:i:k:r:t:X:D:m:s:S:";
 
 char	*Prefix		= NULL;
 char	*Comment	= NULL;
@@ -31,6 +31,7 @@ char	*Require	= NULL;
 char	*ExcludeFrom	= NULL;
 char	*Mtree		= NULL;
 char	*Pkgdeps	= NULL;
+char	*Emulations	= NULL;
 char	*Pkgcfl		= NULL;
 char	*BaseDir	= NULL;
 char	PlayPen[FILENAME_MAX];
@@ -127,8 +128,12 @@ main(int argc, char **argv)
 	    break;
 
 	case 'C':
-		Pkgcfl = optarg;
-		break;
+	    Pkgcfl = optarg;
+	    break;
+
+	case 'e':
+	    Emulations = optarg;
+	    break;
 
 	case '?':
 	default:
