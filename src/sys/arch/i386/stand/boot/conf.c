@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/boot/conf.c,v 1.5 2005/11/23 21:55:20 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/boot/conf.c,v 1.6 2006/05/15 20:47:05 tg Exp $ */
 /*	$OpenBSD: conf.c,v 1.32 2005/05/03 13:18:05 tom Exp $	*/
 
 /*
@@ -48,12 +48,7 @@
 const char version[] = __BOOT_VER;
 int	debug = 1;
 
-#ifdef FFS_ONLY
-uint32_t tori_bootflag = 0; /* to fool the diskprobe code */
-#endif
-
 void (*sa_cleanup)(void) = (void *)0UL;
-
 
 void (*i386_probe1[])(void) = {
 	ps2probe, gateA20on, debug_init, cninit,
@@ -71,23 +66,23 @@ int nibprobes = NENTS(probe_list);
 
 
 struct fs_ops file_system[] = {
-#ifndef FFS_ONLY
+#ifndef SMALL_BOOT
 	{ cd9660_open, cd9660_close, cd9660_read, cd9660_write, cd9660_seek,
 	  cd9660_stat, cd9660_readdir },
 #endif
 	{ ufs_open,    ufs_close,    ufs_read,    ufs_write,    ufs_seek,
 	  ufs_stat,    ufs_readdir    },
-#ifndef FFS_ONLY
+#ifndef SMALL_BOOT
 #ifdef notdef
 	{ fat_open,    fat_close,    fat_read,    fat_write,    fat_seek,
 	  fat_stat,    fat_readdir    },
 	{ nfs_open,    nfs_close,    nfs_read,    nfs_write,    nfs_seek,
 	  nfs_stat,    nfs_readdir    },
 #endif
-#endif
 #ifdef _TEST
 	{ null_open,   null_close,   null_read,   null_write,   null_seek,
 	  null_stat,   null_readdir   }
+#endif
 #endif
 };
 int nfsys = NENTS(file_system);
@@ -96,7 +91,7 @@ struct devsw	devsw[] = {
 #ifdef _TEST
 	{ "UNIX", unixstrategy, unixopen, unixclose, unixioctl },
 #else
-#ifndef FFS_ONLY
+#ifndef SMALL_BOOT
 	{ "TORI", toristrategy, toriopen, toriclose, toriioctl },
 #endif
 	{ "BIOS", biosstrategy, biosopen, biosclose, biosioctl },

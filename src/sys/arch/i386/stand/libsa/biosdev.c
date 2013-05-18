@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/biosdev.c,v 1.3 2005/04/29 18:34:59 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/libsa/biosdev.c,v 1.4 2005/12/04 13:22:16 tg Exp $ */
 /*	$OpenBSD: biosdev.c,v 1.69 2004/06/23 00:21:49 tom Exp $	*/
 
 /*
@@ -369,7 +369,7 @@ bios_getdisklabel(bios_diskinfo_t *bd, struct disklabel *label)
 
 	/* Sanity check */
 	if (bd->bios_heads == 0 || bd->bios_sectors == 0)
-		return "failed to read disklabel";
+		return ("failed to read disklabel");
 
 	/* MBR is a harddisk thing */
 	if (bd->bios_number & 0x80) {
@@ -438,8 +438,8 @@ loop:		error = biosd_io(F_READ, bd, mbrofs, 1, &mbr);
 	/* read disklabel */
 	error = biosd_io(F_READ, bd, off, 1, buf);
 
-	if(error)
-		return("failed to read disklabel (try again if floppy!)");
+	if (error)
+		return ("failed to read disklabel");
 
 	/* Fill in disklabel */
 	return (getdisklabel(buf, label));
@@ -569,6 +569,7 @@ biosopen(struct open_file *f, ...)
 }
 
 const u_char bidos_errs[] =
+#ifndef SMALL_BOOT
 /* ignored	"\x00" "successful completion\0" */
 		"\x01" "invalid function/parameter\0"
 		"\x02" "address mark not found\0"
@@ -602,6 +603,7 @@ const u_char bidos_errs[] =
 		"\xCC" "write fault\0"
 		"\xE0" "status register error\0"
 		"\xFF" "sense operation failed\0"
+#endif
 		"\x00" "\0";
 
 const char *

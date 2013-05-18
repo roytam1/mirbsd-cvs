@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/dev_i386.c,v 1.2 2005/03/06 21:27:06 tg Exp $	*/
+/**	$MirOS: src/sys/arch/i386/stand/libsa/dev_i386.c,v 1.3 2005/04/29 18:34:59 tg Exp $	*/
 /*	$OpenBSD: dev_i386.c,v 1.29 2004/06/23 00:21:49 tom Exp $	*/
 
 /*
@@ -99,6 +99,7 @@ devboot(dev_t bootdev, char *p)
 	*p++ = '/';
 	*p++ = 'r';
 #endif
+#ifndef SMALL_BOOT
 	if ((tori_bootflag) && (bootdev == (tori_bootflag & 0xFF))) {
 		*p++ = 'c';
 		*p++ = 'd';
@@ -108,6 +109,7 @@ devboot(dev_t bootdev, char *p)
 		printf(" (ISO 9660 device)");
 		return;
 	}
+#endif
 	if (bootdev & 0x80)
 		*p++ = 'h';
 	else

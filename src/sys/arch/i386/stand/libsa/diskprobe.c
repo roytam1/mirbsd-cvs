@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/diskprobe.c,v 1.3 2005/04/29 18:34:59 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/libsa/diskprobe.c,v 1.4 2005/07/07 12:27:27 tg Exp $ */
 /*	$OpenBSD: diskprobe.c,v 1.27 2004/06/23 00:21:49 tom Exp $	*/
 
 /*
@@ -102,6 +102,7 @@ hardprobe(void)
 	u_int bsdunit, type;
 	u_int scsi = 0, ide = 0;
 
+#ifndef SMALL_BOOT
 	/* CD-ROM */
 	if (tori_bootflag) {
 		printf(" cd0");
@@ -112,11 +113,14 @@ hardprobe(void)
 		dip->bios_info.bios_number = tori_bootflag & 0xFF;
 		TAILQ_INSERT_TAIL(&disklist, dip, list);
 	}
+#endif
 
 	/* Hard disks */
 	for (i = 0x80; i < 0x88; i++) {
+#ifndef SMALL_BOOT
 		if ((tori_bootflag) && (i == (tori_bootflag & 0xFF)))
 			continue;
+#endif
 
 		dip = alloc(sizeof(struct diskinfo));
 		memset(dip, 0, sizeof(*dip));
@@ -236,7 +240,9 @@ dump_diskinfo(void)
 {
 	struct diskinfo *dip;
 
+#ifndef SMALL_BOOT
 	printf("Disk\tBIOS#\tType\tCyls\tHeads\tSecs\tFlags\tChecksum\n");
+#endif
 	for (dip = TAILQ_FIRST(&disklist); dip; dip = TAILQ_NEXT(dip, list)) {
 		bios_diskinfo_t *bdi = &dip->bios_info;
 		int d = bdi->bios_number;

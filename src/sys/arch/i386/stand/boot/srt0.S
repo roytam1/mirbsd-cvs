@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.7 2006/04/10 20:54:46 tg Exp $ */
+/* $MirOS: src/share/misc/licence.template,v 1.14 2006/08/09 19:35:23 tg Rel $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006
@@ -11,8 +11,8 @@
  * in all redistributions or reproduced in accompanying documentation
  * or other materials provided with binary redistributions.
  *
- * All advertising materials mentioning features or use of this soft-
- * ware must display the following acknowledgement:
+ * Advertising materials mentioning features or use of this work must
+ * display the following acknowledgement:
  *	This product includes material provided by Thorsten Glaser.
  *
  * Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
@@ -22,7 +22,7 @@
  * or other damage, or direct damage except proven a consequence of a
  * direct error of said person and intended use of this work, loss or
  * other issues arising in any way out of its use, even if advised of
- * the possibility of such damage or existence of a nontrivial bug.
+ * the possibility of such damage or existence of a defect.
  *-
  * Initialisation code for second-stage or stand-alone boot loader.
  *
@@ -30,7 +30,7 @@
  * - setting up a known environment, with no knowledge about current
  *   CPU state (except that we are in real mode and DL is the BIOS
  *   boot device)
- * - relocate ourselfes to a known sane location (0x4000:0x0120)
+ * - relocate ourselves to a known sane location (0x4000:0x0120)
  * - checking if we're called from an El Torito bootable CD-ROM via
  *   the BIOS, or from a PBR, or from within MS-DOS, and take
  *   appropiate set-up action
@@ -90,8 +90,8 @@
 	.globl	_C_LABEL(edata)
 	.globl	_C_LABEL(end)
 	.globl	_ASM_LABEL(pmm_init)
-#ifndef FFS_ONLY
 	.globl	_C_LABEL(tori_bootflag)
+#ifndef SMALL_BOOT
 	.globl	_C_LABEL(tori_pblk)
 #endif
 
@@ -100,6 +100,11 @@ _start:	cli
 	. = _start + 0x08	/* "EL TORITO BOOT INFO TABLE" */
 	.long	0		/* filled in by mkisofs: */
 Lbofs:	.long	0xcafebabe	/* LBA address of boot file */
+#ifdef SMALL_BOOT
+Lbdev:	.byte	0		/* local copy of BIOS boot device */
+_C_LABEL(tori_bootflag):
+	.long	0
+#endif
 	. = _start + 0x40
 _star2:	mov	bx,SA_LOADSEG
 	mov	ss,bx
@@ -153,11 +158,11 @@ LisRel:	UD(5)			/** E: done reloc, or not needed */
 	cld
 	jmp	SA_LOADSEG,offset Lstart
 
+#ifndef SMALL_BOOT
 /*
  * Stuff which MUST NOT be placed in the .bss section
  */
 
-#ifndef FFS_ONLY
 _C_LABEL(tori_bootflag):
 	.long	0
 _C_LABEL(tori_pblk):
@@ -167,8 +172,6 @@ Lbdev:	.byte	0		/* local copy of BIOS boot device */
 Llba:	.word	0x0010		/* LBA parameter block */
 	.word	0x0001
 	.long	0,0,0
-#else
-Lbdev:	.byte	0		/* local copy of BIOS boot device */
 #endif
 
 /*
@@ -201,7 +204,7 @@ L..e1:	mov	al,dl
 	mov	[Lofsd],esi
 #endif
 
-#ifdef FFS_ONLY
+#ifdef SMALL_BOOT
 	jmp	L..12
 #else
 #ifdef	WANT_ELTORITO_CHECK
@@ -301,7 +304,7 @@ L..37a:	pop	si
 	jmp	0xF000,0xFFF0
 #endif
 L..37:	jmp	LpreCD		/* prepare boot from CD */
-#endif /* !FFS_ONLY */
+#endif /* !SMALL_BOOT */
 
 #ifdef	LOUD
 Lotxt:	lodsb
@@ -317,7 +320,7 @@ Lsrt0:	.ascii	"MirOS boot v"
 	.asciz	" srt0 initialising\r\n"
 #endif
 
-#ifndef FFS_ONLY
+#ifndef SMALL_BOOT
 LcdLDS:	pusha
 	push	eax
 	UDX(4)
@@ -412,7 +415,7 @@ L..36:	pop	si
 	pop	eax
 	mov	[4+Ltblk],eax
 	jmp	LisCD		/* and be it the devil */
-#endif /* !FFS_ONLY */
+#endif /* !SMALL_BOOT */
 
 	/* "real" floppy boot */
 L..12:	UD(12)			/** L: floppy boot */
@@ -421,7 +424,7 @@ L..12:	UD(12)			/** L: floppy boot */
 #endif
 	jmp	LpreFD
 
-#ifndef FFS_ONLY
+#ifndef SMALL_BOOT
 LpreCD:	UD(13)			/** M: cd-rom boot */
 #ifdef	LOUD
 	call	LdebCD		/* debug msgs */
@@ -467,7 +470,7 @@ LdebFD:	/* debug message for floppy/hdd boot */
 	mov	si,offset LisfdM
 	jmp	Lotxt
 
-#ifndef FFS_ONLY
+#ifndef SMALL_BOOT
 LdebCD:	/* debug message for El Torito boot */
 	mov	di,offset Liscd0
 	mov	al,[Lbdev]

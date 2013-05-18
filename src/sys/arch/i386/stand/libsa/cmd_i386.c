@@ -1,4 +1,4 @@
-/**	$MirOS$	*/
+/**	$MirOS: src/sys/arch/i386/stand/libsa/cmd_i386.c,v 1.2 2005/03/06 21:27:05 tg Exp $	*/
 /*	$OpenBSD: cmd_i386.c,v 1.28 2004/03/09 19:12:12 tom Exp $	*/
 
 /*
@@ -43,28 +43,37 @@
 extern const char version[];
 extern int i386_flag_oldbios;
 
+#ifndef SMALL_BOOT
 int Xboot(void);
 int Xdiskinfo(void);
+#endif
 int Xmemory(void);
+#ifndef SMALL_BOOT
 int Xregs(void);
 int Xturnoff(void);
+#endif
 int Xoldbios(void);
 
 /* From gidt.S */
 int bootbuf(void *, int);
 
 const struct cmd_table cmd_machine[] = {
+#ifndef SMALL_BOOT
 	{ "boot",	CMDT_CMD, Xboot },
 	{ "diskinfo",	CMDT_CMD, Xdiskinfo },
+#endif
 	{ "memory",	CMDT_CMD, Xmemory },
+#ifndef SMALL_BOOT
 #ifdef DEBUG
 	{ "regs",	CMDT_CMD, Xregs },
 #endif
 	{ "off",	CMDT_CMD, Xturnoff },
+#endif
 	{ "oldbios",	CMDT_CMD, Xoldbios },
 	{ NULL, 0 }
 };
 
+#ifndef SMALL_BOOT
 int
 Xdiskinfo(void)
 {
@@ -168,6 +177,7 @@ bad:
 #endif
 	return 0;
 }
+#endif
 
 int
 Xmemory(void)
@@ -214,14 +224,23 @@ Xmemory(void)
 int
 Xoldbios(void)
 {
+#ifndef SMALL_BOOT
 	printf("Old BIOS / Soekris helper now turned: ");
+#endif
 	if (i386_flag_oldbios) {
+#ifndef SMALL_BOOT
 		printf("OFF\n");
+#endif
 		i386_flag_oldbios = 0;
 	} else {
+#ifndef SMALL_BOOT
 		printf("ON\n");
+#endif
 		i386_flag_oldbios = 1;
 	}
+#ifdef SMALL_BOOT
+	printf("%d\n", i386_flag_oldbios);
+#endif
 
 	return 0;
 }

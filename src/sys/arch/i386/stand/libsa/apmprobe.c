@@ -1,4 +1,4 @@
-/**	$MirOS$	*/
+/**	$MirOS: src/sys/arch/i386/stand/libsa/apmprobe.c,v 1.2 2005/03/06 21:27:05 tg Exp $	*/
 /*	$OpenBSD: apmprobe.c,v 1.13 2004/03/11 17:41:23 tom Exp $	*/
 
 /*
@@ -272,19 +272,26 @@ apmturnoff(int a1, int a2)
 			f = apm_driver_version(0x0102);
 			if (f) {
 				f = apm_driver_version(0x0101);
+#ifdef DEBUG
 				if (f)
 					printf ("apmturnoff: driver_version returned %X\n", f);
 				  else	printf ("apmturnoff: 1.1 connection\n");
+#endif
 			}
 
 			f = apm_set_power_state(a1, a2);
+#ifdef DEBUG
 			printf ("apmturnoff: apm_set_power_state returned %X\n",
 				 f);
 			printf ("apmturnoff: detail=%X\n",
 				ai.apm_detail);
+#endif
 		}
-	} else
+#ifdef DEBUG
+	} else {
 		printf ("apmturnoff: apm_check returned 0\n");
+#endif
+	}
 }
 
 /*
