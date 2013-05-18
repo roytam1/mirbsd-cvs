@@ -1,5 +1,0 @@
-The SCO/386BSD/FreeBSD/MidnightBSD syscons(4) driver and the NT console
-driver of Interix do not have the ‘cs’ termcap(5) capability and thusly
-cannot run ssfe. To use ssfe, use pcvt(4), wscons, a real hardware ter-
-minal (e.g. DEC VT420) on serial console, or some other terminal emula-
-tor like xterm or GNU screen (from ports/misc/screen).

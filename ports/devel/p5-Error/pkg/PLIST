@@ -1,6 +1,0 @@
-@comment $MirOS$
-${P5SITE}/Error.pm
-${P5SITE}/Error/Simple.pm
-man/man3/Error${P5MAN3EXT}
-man/man3/Error::Simple${P5MAN3EXT}
-@dirrm ${P5SITE}/Error
