@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libpng/png.h,v 1.2 2005/03/06 20:29:15 tg Exp $ */
+/* $MirOS: src/lib/libpng/png.h,v 1.3 2006/06/09 00:30:27 tg Exp $ */
 
 /* png.h - header file for MirOS in-tree PNG library
  *
@@ -9,6 +9,7 @@
  * COPYRIGHT NOTICE, DISCLAIMER, and LICENSE:
  *
  * libpng-MirOS is distributed according to the terms set forth below,
+ * the Licensor being the MirOS Project and Thorsten Glaser as leader,
  * with the following copyright holders:
  *
  * Copyright (c) 2004 Thorsten Glaser, The MirOS Project
@@ -17,6 +18,15 @@
  * Copyright (c) 1998, 1999, 2000 Glenn Randers-Pehrson
  * Copyright (c) 1996, 1997 Andreas Dilger
  * Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.
+ *
+ * Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
+ * express, or implied, to the maximum extent permitted by applicable
+ * law, without malicious intent or gross negligence; in no event may
+ * licensor, an author or contributor be held liable for any indirect
+ * or other damage, or direct damage except proven a consequence of a
+ * direct error of said person and intended use of this work, loss or
+ * other issues arising in any way out of its use, even if advised of
+ * the possibility of such damage or existence of a nontrivial bug.
  *
  * For the purposes of this copyright and license, "Contributing Authors"
  * is defined as the following set of individuals:
@@ -54,16 +64,6 @@
  * or needs.  This library is provided with all faults, and the entire
  * risk of satisfactory quality, performance, accuracy, and effort is with
  * the user.
- *
- * In the following paragraph, Licensor is The MirOS Project:
- * Licensor hereby provides this work "AS IS" and WITHOUT WARRANTY of
- * any kind, expressed or implied, to the maximum extent permitted by
- * applicable law, but with the warranty of being written without ma-
- * licious intent or gross negligence; in no event shall licensor, an
- * author or contributor be held liable for any damage, direct, indi-
- * rect or other, however caused, arising in any way out of the usage
- * of covered work, even if advised of the possibility of such damage.
- *
  *
  * Permission is hereby granted to use, copy, modify, and distribute this
  * source code, or portions hereof, for any purpose, without fee, subject
