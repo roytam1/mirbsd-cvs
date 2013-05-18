@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.233 2008/11/02 14:49:36 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.234 2008/11/02 17:26:05 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -286,22 +286,22 @@ SED_PLIST?=
 
 MCZ_FETCH?=		No
 .for _i in - 0 1 2 3 4 5 6 7 8 9
-.  if defined(SVN_DISTPATH${_i:S/-//}) && !empty(SVN_DISTPATH${_i:S/-//})
-SVN_DISTDIR${_i:S/-//}?=${SVN_DISTPATH${_i:S/-//}:T}
-.    if !defined(SVN_DISTFILE${_i:S/-//}) || empty(SVN_DISTFILE${_i:S/-//}) 
-SVN_DISTFILE${_i:S/-//}=${SVN_DISTDIR${_i:S/-//}:T}
+.  if defined(SVN_DISTPATH${_i:N-}) && !empty(SVN_DISTPATH${_i:N-})
+SVN_DISTDIR${_i:N-}?=	${SVN_DISTPATH${_i:N-}:T}
+.    if !defined(SVN_DISTFILE${_i:N-}) || empty(SVN_DISTFILE${_i:N-}) 
+SVN_DISTFILE${_i:N-}=	${SVN_DISTDIR${_i:N-}:T}
 .    endif
-SVN_DISTREV${_i:S/-//}?=1
+SVN_DISTREV${_i:N-}?=	1
 .    if ${MCZ_FETCH:L} != "no"
-MASTER_SITES${_i:S/-//}?=${_MASTER_SITE_MIRBSD}
+MASTER_SITES${_i:N-}?=	${_MASTER_SITE_MIRBSD}
 .    endif
-.  elif defined(CVS_DISTREPO${_i:S/-//}) && !empty(CVS_DISTREPO${_i:S/-//})
+.  elif defined(CVS_DISTREPO${_i:N-}) && !empty(CVS_DISTREPO${_i:N-})
 .    if ${MCZ_FETCH:L} != "no"
-MASTER_SITES${_i:S/-//}?=${_MASTER_SITE_MIRBSD}
+MASTER_SITES${_i:N-}?=	${_MASTER_SITE_MIRBSD}
 .    endif
 .  else
-.    undef SVN_DISTPATH${_i:S/-//}
-,    undef CVS_DISTREPO${_i:S/-//}
+.    undef SVN_DISTPATH${_i:N-}
+,    undef CVS_DISTREPO${_i:N-}
 .  endif
 .endfor
 
@@ -854,45 +854,45 @@ _CDROM_OVERRIDE=	:
 
 _CVS_FDEP=
 .for _i in - 0 1 2 3 4 5 6 7 8 9
-.  undef _CVS_DISTF${_i:S/-//}
-.  if defined(CVS_DISTREPO${_i:S/-//})
-CVS_DISTFILE${_i:S/-//}?=${CVS_DISTMODS${_i:S/-//}}
-_CVS_DISTF${_i:S/-//}=	${CVS_DISTFILE${_i:S/-//}}-
-.    if defined(CVS_DISTTAGS${_i:S/-//})
-.      for _j in ${CVS_DISTTAGS${_i:S/-//}:C![^0-9a-zA-Z_-]!!g}
-_CVS_DISTF${_i:S/-//}:=	${_CVS_DISTF${_i:S/-//}}T${_j}-
+.  undef _CVS_DISTF${_i:N-}
+.  if defined(CVS_DISTREPO${_i:N-})
+CVS_DISTFILE${_i:N-}?=	${CVS_DISTMODS${_i:N-}}
+_CVS_DISTF${_i:N-}=	${CVS_DISTFILE${_i:N-}}-
+.    if defined(CVS_DISTTAGS${_i:N-})
+.      for _j in ${CVS_DISTTAGS${_i:N-}:C![^0-9a-zA-Z_-]!!g}
+_CVS_DISTF${_i:N-}:=	${_CVS_DISTF${_i:N-}}T${_j}-
 .      endfor
 .    endif
-.    if defined(CVS_DISTDATE${_i:S/-//})
-.      for _j in ${CVS_DISTDATE${_i:S/-//}:C![^0-9]!!g}
-_CVS_DISTF${_i:S/-//}:=	${_CVS_DISTF${_i:S/-//}}${_j}
+.    if defined(CVS_DISTDATE${_i:N-})
+.      for _j in ${CVS_DISTDATE${_i:N-}:C![^0-9]!!g}
+_CVS_DISTF${_i:N-}:=	${_CVS_DISTF${_i:N-}}${_j}
 .      endfor
 .    endif
-.    if defined(CVS_DISTTAGS${_i:S/-//}) || defined(CVS_DISTDATE${_i:S/-//})
-_CVS_DISTF${_i:S/-//}:=	${_CVS_DISTF${_i:S/-//}:S/-$//}.mcz
+.    if defined(CVS_DISTTAGS${_i:N-}) || defined(CVS_DISTDATE${_i:N-})
+_CVS_DISTF${_i:N-}:=	${_CVS_DISTF${_i:N-}:S/-$//}.mcz
 .    else
-ERRORS+=		"neither CVS_DISTDATE${_i:S/-//} nor CVS_DISTTAGS${_i:S/-//} defined"
+ERRORS+=		"neither CVS_DISTDATE${_i:N-} nor CVS_DISTTAGS${_i:N-} defined"
 .    endif
-_CVS_FETCH${_i:S/-//}=	${MKSH} ${PORTSDIR}/infrastructure/scripts/mkmcz \
+_CVS_FETCH${_i:N-}=	${MKSH} ${PORTSDIR}/infrastructure/scripts/mkmcz \
 			    ${_MKMCZ_OPTS} \
-			    ${FULLDISTDIR:Q}/${_CVS_DISTF${_i:S/-//}:Q} \
-			    '${CVS_DISTREPO${_i:S/-//}}' \
-			    '${CVS_DISTDATE${_i:S/-//}}' \
-			    '${CVS_DISTTAGS${_i:S/-//}}' \
-			    ${CVS_DISTMODS${_i:S/-//}:Q}
+			    ${FULLDISTDIR:Q}/${_CVS_DISTF${_i:N-}:Q} \
+			    '${CVS_DISTREPO${_i:N-}}' \
+			    '${CVS_DISTDATE${_i:N-}}' \
+			    '${CVS_DISTTAGS${_i:N-}}' \
+			    ${CVS_DISTMODS${_i:N-}:Q}
 _CVS_FDEP+=		mpczar
-.  elif defined(SVN_DISTPATH${_i:S/-//})
-_CVS_DISTF${_i:S/-//}=	${SVN_DISTFILE${_i:S/-//}}-r${SVN_DISTREV${_i:S/-//}}.mcz
-_CVS_FETCH${_i:S/-//}=	${MKSH} ${PORTSDIR}/infrastructure/scripts/mkmcz \
+.  elif defined(SVN_DISTPATH${_i:N-})
+_CVS_DISTF${_i:N-}=	${SVN_DISTFILE${_i:N-}}-r${SVN_DISTREV${_i:N-}}.mcz
+_CVS_FETCH${_i:N-}=	${MKSH} ${PORTSDIR}/infrastructure/scripts/mkmcz \
 			    ${_MKMCZ_OPTS} -s \
-			    ${FULLDISTDIR:Q}/${_CVS_DISTF${_i:S/-//}:Q} \
-			    ${SVN_DISTPATH${_i:S/-//}:Q} \
-			    ${SVN_DISTREV${_i:S/-//}:Q} \
-			    ${SVN_DISTDIR${_i:S/-//}:Q}
+			    ${FULLDISTDIR:Q}/${_CVS_DISTF${_i:N-}:Q} \
+			    ${SVN_DISTPATH${_i:N-}:Q} \
+			    ${SVN_DISTREV${_i:N-}:Q} \
+			    ${SVN_DISTDIR${_i:N-}:Q}
 _CVS_FDEP+=		mpczar svn
 .  endif
-.  if defined(_CVS_DISTF${_i:S/-//}) && (${MCZ_FETCH:L} == "lzma")
-_CVS_DISTF${_i:S/-//}:=	${_CVS_DISTF${_i:S/-//}}.lzma
+.  if defined(_CVS_DISTF${_i:N-}) && (${MCZ_FETCH:L} == "lzma")
+_CVS_DISTF${_i:N-}:=	${_CVS_DISTF${_i:N-}}.lzma
 .  endif
 .endfor
 
@@ -933,8 +933,8 @@ _EVERYTHING=		${DISTFILES}
 _DISTFILES=		${DISTFILES:C/:[0-9]$//}
 
 .for _i in - 0 1 2 3 4 5 6 7 8 9
-.  if defined(_CVS_DISTF${_i:S/-//})
-_DISTFILES+=		${_CVS_DISTF${_i:S/-//}}
+.  if defined(_CVS_DISTF${_i:N-})
+_DISTFILES+=		${_CVS_DISTF${_i:N-}}
 .  endif
 .endfor
 
@@ -2434,31 +2434,31 @@ fetch-all:
 
 .if ${MCZ_FETCH:L} == "no"
 .  for _i in - 0 1 2 3 4 5 6 7 8 9
-.    if defined(_CVS_FETCH${_i:S/-//}) && ${REFETCH} != "true"
-${FULLDISTDIR}/${_CVS_DISTF${_i:S/-//}}:
+.    if defined(_CVS_FETCH${_i:N-}) && ${REFETCH} != "true"
+${FULLDISTDIR}/${_CVS_DISTF${_i:N-}}:
 	@if [[ ! -w ${FULLDISTDIR} ]]; then \
 		print -u2 'Error: some subdirectory of ${DISTDIR}' \
 		    'is not writable for you!'; \
 		exit 1; \
 	fi
-	@[[ -e ${FULLDISTDIR}/${_CVS_DISTF${_i:S/-//}} ]] || { \
+	@[[ -e ${FULLDISTDIR}/${_CVS_DISTF${_i:N-}} ]] || { \
 		cd ${.CURDIR}; ${MAKE} fetch-depends; \
 		PATH=${_PORTPATH:Q} TMPDIR=${TMPDIR:Q} \
-		    ${_CVS_FETCH${_i:S/-//}}; \
+		    ${_CVS_FETCH${_i:N-}}; \
 		file=${@:S@^${DISTDIR}/@@}; \
 		ck=$$(cd ${DISTDIR} && ${_size_fragment}); \
 		if [[ ! -s ${CHECKSUM_FILE} ]]; then \
-			${ECHO_MSG} ">> No checksum file for ${FULLDISTDIR}/${_CVS_DISTF${_i:S/-//}}"; \
+			${ECHO_MSG} ">> No checksum file for ${FULLDISTDIR}/${_CVS_DISTF${_i:N-}}"; \
 		elif grep -qe "^$$ck\$$" \
 		    -e "^Size$${ck#SIZE} bytes\$$" \
 		    ${CHECKSUM_FILE}; then \
-			${ECHO_MSG} ">> Size matches for ${FULLDISTDIR}/${_CVS_DISTF${_i:S/-//}}"; \
+			${ECHO_MSG} ">> Size matches for ${FULLDISTDIR}/${_CVS_DISTF${_i:N-}}"; \
 		elif grep -qe "SIZE ($$file)" -e "Size ($$file)" ${CHECKSUM_FILE}; then \
-			${ECHO_MSG} ">> Size does not match for ${FULLDISTDIR}/${_CVS_DISTF${_i:S/-//}}"; \
+			${ECHO_MSG} ">> Size does not match for ${FULLDISTDIR}/${_CVS_DISTF${_i:N-}}"; \
 			${ECHO_MSG} ">> Try to refetch with mmake fetch REFETCH=true"; \
 			false; \
 		else \
-			${ECHO_MSG} ">> No size recorded for ${FULLDISTDIR}/${_CVS_DISTF${_i:S/-//}}"; \
+			${ECHO_MSG} ">> No size recorded for ${FULLDISTDIR}/${_CVS_DISTF${_i:N-}}"; \
 		fi; \
 	}
 .    endif
