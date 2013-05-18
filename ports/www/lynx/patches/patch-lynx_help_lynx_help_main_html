@@ -1,9 +1,10 @@
-$MirOS: ports/www/lynx/patches/patch-lynx_help_lynx_help_main_html,v 1.4 2009/01/18 20:22:04 tg Exp $
+$MirOS: ports/www/lynx/patches/patch-lynx_help_lynx_help_main_html,v 1.5 2009/08/09 15:46:31 tg Exp $
 
 	we install these, so link to them
+	also add ddg to search engines
 
---- lynx_help/lynx_help_main.html.orig	Thu May 17 22:52:59 2007
-+++ lynx_help/lynx_help_main.html	Sun Aug  9 15:39:05 2009
+--- lynx_help/lynx_help_main.html.orig	Wed Nov 25 10:56:24 2009
++++ lynx_help/lynx_help_main.html	Tue Jun 21 17:32:18 2011
 @@ -23,6 +23,10 @@
   -- credits, copyright etc
  <li><a href="lynx-dev.html">About Lynx-Dev</a>
@@ -15,11 +16,19 @@ $MirOS: ports/www/lynx/patches/patch-lynx_help_lynx_help_main_html,v 1.4 2009/01
  </ul>
  
  <h2>Other sources of Lynx help:</h2>
-@@ -116,5 +120,7 @@ SSL &amp; security, and more
+@@ -95,6 +99,7 @@ SSL &amp; security, and more
+ <li><a href="http://www.alltheweb.com/">AlltheWeb.com</a>
+ <li><a href="http://www.altavista.com/">AltaVista</a>
+ <li><a href="http://www.ask.com/">Ask.com</a>
++<li><a href="https://duckduckgo.com/lite/">Duck Duck Go</a>
+ <li><a href="http://www.excite.com/">Excite</a>
+ <li><a href="http://www.go.com/">GO.com</a>
+ <li><a href="http://www.google.com/">Google</a>
+@@ -116,5 +121,7 @@ SSL &amp; security, and more
  <li><a href="http://mail.yahoo.com/">Yahoo! Mail</a>
  </ul>
  
 +<hr />
-+<pre>$MirOS: src/gnu/usr.bin/lynx/lynx_help/lynx_help_main.html,v 1.5 2009/01/18 20:22:03 tg Exp $</pre>
++<pre>$MirOS: ports/www/lynx/patches/patch-lynx_help_lynx_help_main_html,v 1.5 2009/08/09 15:46:31 tg Exp $</pre>
  </body>
  </html>
