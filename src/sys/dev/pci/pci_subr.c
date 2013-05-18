@@ -143,6 +143,7 @@ const struct pci_class pci_subclass_system[] = {
 	{ "8254 timer",		PCI_SUBCLASS_SYSTEM_TIMER,		},
 	{ "RTC",		PCI_SUBCLASS_SYSTEM_RTC,		},
 	{ "PCI Hot-Plug",	PCI_SUBCLASS_SYSTEM_PCIHOTPLUG,		},
+	{ "SD Host Controller",	PCI_SUBCLASS_SYSTEM_SDHC,		},
 	{ "miscellaneous",	PCI_SUBCLASS_SYSTEM_MISC,		},
 	{ 0 },
 };

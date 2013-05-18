@@ -66,7 +66,7 @@ NR == 1 {
 	VERSION = $0
 	gsub("\\$", "", VERSION)
 
-	printf("/*\t\$OpenBSD\$\t*/\n\n") > hfile
+	printf("/*\t\$MirOS\$\t*/\n\n") > hfile
 	printf("/*\n") > hfile
 	printf(" * THIS FILE AUTOMATICALLY GENERATED.  DO NOT EDIT.\n") \
 	    > hfile

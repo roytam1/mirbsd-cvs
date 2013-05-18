@@ -189,8 +189,9 @@ struct sdmmc_attach_args {
 #define IPL_SDMMC	IPL_BIO
 #define splsdmmc()	splbio()
 
-#define SDMMC_LOCK(sc)	 lockmgr(&(sc)->sc_lock, LK_EXCLUSIVE, NULL)
-#define SDMMC_UNLOCK(sc) lockmgr(&(sc)->sc_lock, LK_RELEASE, NULL)
+#include <sys/proc.h>
+#define SDMMC_LOCK(sc)	 lockmgr(&(sc)->sc_lock, LK_EXCLUSIVE, NULL, curproc)
+#define SDMMC_UNLOCK(sc) lockmgr(&(sc)->sc_lock, LK_RELEASE, NULL, curproc)
 #define	SDMMC_ASSERT_LOCKED(sc) \
 	KASSERT(lockstatus(&((sc))->sc_lock) == LK_EXCLUSIVE)
 

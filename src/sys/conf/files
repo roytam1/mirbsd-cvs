@@ -1,4 +1,4 @@
-# $MirOS: src/sys/conf/files,v 1.13 2007/03/02 03:13:27 tg Exp $
+# $MirOS: src/sys/conf/files,v 1.14 2008/08/01 15:12:39 tg Exp $
 # $OpenBSD: files,v 1.339 2005/05/26 00:33:45 pedro Exp $
 # $NetBSD: files,v 1.634 2003/09/25 15:58:14 pooka Exp $
 # @(#)files.newconf	7.5 (Berkeley) 5/10/93
@@ -333,6 +333,7 @@ define	fwbus {[idhi=-1],[idlo=-1]}	# IEEE 1394 attachment
 define	pcmciabus { [controller = -1], [socket = -1]}	# PCMCIA attachment
 define	cbbus {[slot = -1]}		# CardBus attachment
 define	pcmciaslot {[slot = -1]}	# PCMCIA slot itself
+define	sdmmcbus {}			# SD/MMC attachment
 
 # UHCI USB controller
 device	uhci: usbus
@@ -345,6 +346,10 @@ file	dev/usb/ohci.c			ohci	needs-flag
 # EHCI USB controller
 device	ehci: usbus
 file	dev/usb/ehci.c			ehci	needs-flag
+
+# SDHC SD/MMC controller
+device	sdhc: sdmmcbus
+file	dev/sdmmc/sdhc.c		sdhc	needs-flag
 
 # radio devices, attaches to radio hardware driver
 device	radio

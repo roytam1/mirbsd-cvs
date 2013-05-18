@@ -83,7 +83,7 @@ int	sdmmc_start_xs(struct sdmmc_softc *, struct sdmmc_ccb *);
 void	sdmmc_complete_xs(void *);
 void	sdmmc_done_xs(struct sdmmc_ccb *);
 void	sdmmc_stimeout(void *);
-void	sdmmc_scsi_minphys(struct buf *, struct scsi_link *);
+void	sdmmc_scsi_minphys(struct buf *);
 
 #define DEVNAME(sc)	SDMMCDEVNAME(sc)
 
@@ -96,7 +96,6 @@ void	sdmmc_scsi_minphys(struct buf *, struct scsi_link *);
 void
 sdmmc_scsi_attach(struct sdmmc_softc *sc)
 {
-	struct sdmmc_attach_args saa;
 	struct sdmmc_scsi_softc *scbus;
 	struct sdmmc_function *sf;
 
@@ -137,10 +136,8 @@ sdmmc_scsi_attach(struct sdmmc_softc *sc)
 	scbus->sc_link.openings = 1;
 	scbus->sc_link.adapter = &scbus->sc_adapter;
 
-	bzero(&saa, sizeof(saa));
-	saa.scsi_link = &scbus->sc_link;
-
-	scbus->sc_child = config_found(&sc->sc_dev, &saa, scsiprint);
+	scbus->sc_child = config_found(&sc->sc_dev, &scbus->sc_link,
+	    scsiprint);
 	if (scbus->sc_child == NULL) {
 		printf("%s: can't attach scsibus\n", sc->sc_dev.dv_xname);
 		goto free_ccbs;
@@ -423,7 +420,7 @@ sdmmc_start_xs(struct sdmmc_softc *sc, struct sdmmc_ccb *ccb)
 		return COMPLETE;
 	}
 
-	timeout_add_msec(&xs->stimeout, xs->timeout);
+	timeout_add(&xs->stimeout, (xs->timeout * hz) / 1000);
 	sdmmc_add_task(sc, &ccb->ccb_task);
 	return SUCCESSFULLY_QUEUED;
 }
@@ -500,17 +497,10 @@ sdmmc_stimeout(void *arg)
 }
 
 void
-sdmmc_scsi_minphys(struct buf *bp, struct scsi_link *sl)
+sdmmc_scsi_minphys(struct buf *bp)
 {
-	struct sdmmc_softc *sc = sl->adapter_softc;
-	struct sdmmc_scsi_softc *scbus = sc->sc_scsibus;
-	struct sdmmc_scsi_target *tgt = &scbus->sc_tgt[sl->target];
-	struct sdmmc_function *sf = tgt->card;
-
-	/* limit to max. transfer size supported by card/host */
-	if (sc->sc_max_xfer != 0 &&
-	    bp->b_bcount > sf->csd.sector_size * sc->sc_max_xfer)
-		bp->b_bcount = sf->csd.sector_size * sc->sc_max_xfer;
-
+	/* XXX limit to max. transfer size supported by card/host? */
+	if (bp->b_bcount > DEV_BSIZE)
+		bp->b_bcount = DEV_BSIZE;
 	minphys(bp);
 }

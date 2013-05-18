@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/pci/pcireg.h,v 1.2 2005/03/06 21:27:50 tg Exp $	*/
+/**	$MirOS: src/sys/dev/pci/pcireg.h,v 1.3 2005/07/07 18:02:40 tg Exp $	*/
 /*	$NetBSD: pcireg.h,v 1.40 2003/03/25 21:56:20 thorpej Exp $	*/
 /*	$OpenBSD: pcireg.h,v 1.27 2004/11/16 00:31:02 brad Exp $	*/
 /*	$NetBSD: pcireg.h,v 1.26 2000/05/10 16:58:42 thorpej Exp $	*/
@@ -222,6 +222,7 @@ typedef u_int8_t pci_revision_t;
 #define	PCI_SUBCLASS_SYSTEM_TIMER		0x02
 #define	PCI_SUBCLASS_SYSTEM_RTC			0x03
 #define	PCI_SUBCLASS_SYSTEM_PCIHOTPLUG		0x04
+#define	PCI_SUBCLASS_SYSTEM_SDHC		0x05
 #define	PCI_SUBCLASS_SYSTEM_MISC		0x80
 
 /* 0x09 input subclasses */
