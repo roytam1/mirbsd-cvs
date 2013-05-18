@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/scripts/import-3rdpty,v 1.37 2006/01/31 14:38:00 tg Exp $
+# $MirOS: src/scripts/import-3rdpty,v 1.38 2006/05/30 20:53:11 tg Exp $
 #-
 # Copyright (c) 2004, 2005, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -24,7 +24,7 @@
 # other issues arising in any way out of its use, even if advised of
 # the possibility of such damage or existence of a nontrivial bug.
 
-print -r -- '========= $MirOS: src/scripts/import-3rdpty,v 1.37 2006/01/31 14:38:00 tg Exp $ ========='
+print -ru2 -- '========= $MirOS: src/scripts/import-3rdpty,v 1.38 2006/05/30 20:53:11 tg Exp $ ========='
 
 ignlist=0
 force=0
@@ -32,11 +32,11 @@ while getopts "fhnp" option; do
 	case $option {
 	f)	force=1
 		;;
-	h)	print Syntax:
-		print "\t$0 [-fnp] module tag"
-		print "\t$0 [-fnp] - path vendor tag"
-		print modules: binutils cdk cvs expat lynx openbsd png
-		print \\trcs texinfo -
+	h)	print -u2 Syntax:
+		print -u2 "\t$0 [-fnp] module tag"
+		print -u2 "\t$0 [-fnp] - path vendor tag"
+		print -u2 modules: binutils cdk cvs expat lynx openbsd png
+		print -u2 \\trcs texinfo -
 		exit 0
 		;;
 	n)	DO_CVS="print -- \$ cvs"
@@ -1330,50 +1330,50 @@ texinfo)
 	case $1 in
 	gcc)
 		if [[ -e gcc/gcc ]]; then
-			print 'Do you know what you are doing?'
+			print -u2 'Do you know what you are doing?'
 			pwd
 			abort=1
 		fi
 		vpath="$1" ;;
 	@(ports|contrib|testing|gcc)*)
 		if [[ -e $1 && $force != 1 ]]; then
-			print 'Do you know what you are doing?'
+			print -u2 'Do you know what you are doing?'
 			pwd
 			abort=1
 		fi
 		if [[ $force != 1 && $1 = ports* ]]; then
-			print 'Importing into ports is deprecated.'
+			print -u2 'Importing into ports is deprecated.'
 			abort=1
 		elif [[ $force != 1 && $1 = testing* ]]; then
-			print 'If so, try again with -f option.'
+			print -u2 'If so, try again with -f option.'
 			abort=1
 		fi
 		vpath="$1" ;;
 	[xX]11)
 		if [ ! -e xc ]; then
-			print 'Do you know what you are doing?'
+			print -u2 'Do you know what you are doing?'
 			pwd
 			abort=1
 		fi
 		if [[ $force != 1 ]]; then
-			print 'Before importing X, consult advice.'
+			print -u2 'Before importing X, consult advice.'
 			abort=1
 		fi
 		vpath="X11" ;;
 	@(x11|X11)*)
 		if [[ -e $1 ]]; then
-			print 'Do you know what you are doing?'
+			print -u2 'Do you know what you are doing?'
 			pwd
 			abort=1
 		fi
 		if [[ $force != 1 ]]; then
-			print 'Before importing X, consult advice.'
+			print -u2 'Before importing X, consult advice.'
 			abort=1
 		fi
 		vpath="X11${1#@(x11|X11)}" ;;
 	src*)
 		if [[ -e $1 && $force != 1 ]]; then
-			print 'Do you know what you are doing?'
+			print -u2 'Do you know what you are doing?'
 			pwd
 			abort=1
 		fi
@@ -1382,14 +1382,14 @@ texinfo)
 		elif [[ $2 != openbsd ]]; then
 			vpath="$1"
 		elif [[ $1 = src ]]; then
-			print Error: this is a different module...
+			print -u2 Error: this is a different module...
 			abort=1
 		else
 			vpath="$1"
 		fi ;;
 	*)
 		if [[ $force != 1 ]]; then
-			print Error: you do not want to import here!
+			print -u2 Error: you do not want to import here!
 			abort=1
 		fi ;;
 	esac
@@ -1397,13 +1397,13 @@ texinfo)
 	shift
 	vendor=$1
 	if [[ -z $vendor ]]; then
-		print No vendor given.
+		print -u2 No vendor given.
 		exit 1
 	fi
 	shift
 	;;
 *)
-	print Error: unknown module "'$module'"
+	print -u2 Error: unknown module "'$module'"
 	exec $0 -h
 	;;
 }
@@ -1432,7 +1432,7 @@ case $vendor {
 # dave)		B=1.1.209; V=dave	;; # Dave Steinberg
 # sap|stephen)	B=1.1.211; V=sap	;; # Stephen Paskaluk
 # tyler)	B=1.1.215; V=tyler	;; # R. Tyler Ballance
-  *)		print -r -- Error: Vendor Branch $branch non-existant.
+  *)		print -ru2 -- Error: Vendor Branch $branch non-existant.
 		exit 1			;;
 }
 
@@ -1445,11 +1445,11 @@ binutils)
 	realtag=binutils-20$tag
 	tagformat=YYMMDD
 	if [[ $(basename $(readlink -nf .)) != binutils-+([0-9]) ]]; then
-		print Error: must be in combined src directory to commit.
+		print -u2 Error: must be in combined src directory to commit.
 		exit 1
 	fi
 	if [[ ! -d gdb ]]; then
-		print Error: must be in combined src directory to commit.
+		print -u2 Error: must be in combined src directory to commit.
 		exit 1
 	fi
 	;;
@@ -1462,7 +1462,7 @@ cvs)
 	realtag=$tag
 	tagformat=cvs-1_12_1x
 	if [[ ! -e doc/RCSFILES ]]; then
-		print Error: must be in src directory to commit.
+		print -u2 Error: must be in src directory to commit.
 		exit 1
 	fi
 	;;
@@ -1476,7 +1476,7 @@ lynx)
 	realtag=$tag
 	tagformat=lynx-2_8_xdev_ya
 	if [[ ! -e LYHelp.hin ]]; then
-		print Error: must be in src directory to commit.
+		print -u2 Error: must be in src directory to commit.
 		exit 1
 	fi
 	;;
@@ -1486,7 +1486,7 @@ openbsd)
 	realtag=cvs-$tag
 	tagformat=YYYYMMDDhhmm
 	if [[ $(basename $(readlink -nf .)) != src ]]; then
-		print Error: must be in src directory to commit.
+		print -u2 Error: must be in src directory to commit.
 		exit 1
 	fi
 	;;
@@ -1511,7 +1511,7 @@ texinfo)
 }
 
 if [[ $tagerr = 1 ]]; then
-	print Error: tag is not in $tagformat format.
+	print -u2 Error: tag is not in $tagformat format.
 	exit 1
 fi
 
@@ -1529,4 +1529,4 @@ find . -type f | xargs chmod a-x
 ${DO_CVS:-cvs} -z3 -d ${CVSROOT:-/cvs} import -I ! -I CVS -I .svn \
     -b $B $vpath $V $realtag 2>&1
 
-print ========= Imported with Tag: $realtag =========
+print -u2 ========= Imported with Tag: $realtag =========
