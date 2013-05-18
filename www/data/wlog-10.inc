@@ -138,5 +138,14 @@ Author: tg@
  direct link helped. Sorry for the inconvenience at both gecko2 and our
  downloaders – but then, to the latter group: You should’ve used
  <a href="http://f.scarywater.net/miros/">BitTorrent</a> anyway.</p>
-<p>Oops. Changed the wrong link. 923 downloads…</p>
+<p>Oops. Changed the wrong link. 923 downloads… 927…</p>
+----
+Date: 19.03.2008
+Author: tg@
+
+<p>My primary SPARC build box <tt>demo</tt> now has a HyperSPARC 150 MHz
+ ROSS CPU, instead of a SuperSPARC 75 MHz, and 512 MiB RAM instead of a
+ mere 128 MiB (and with that, twice the RAM of my primary i386 box).</p>
+<p>But then, I got three SCSI HDDs from the same stone age, and each of
+ them has a different connector. <em>This</em> sucks.</p>
 ----
