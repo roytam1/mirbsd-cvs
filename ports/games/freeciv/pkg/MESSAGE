@@ -1,7 +1,0 @@
-If you get warnings like this one:
-
-	1: Could not convert text from  to UTF-8: Invalid argument
-
-on the server console under MirOS, try to start the game like this:
-
-	env LC_CTYPE=C civserver
