@@ -1,8 +1,8 @@
-# $MirOS: ports/games/bsdgames/Makefile,v 1.20 2008/12/07 18:58:00 tg Exp $
+# $MirOS: ports/games/bsdgames/Makefile,v 1.21 2009/08/16 16:26:48 tg Exp $
 
 COMMENT=		BSD base system games
 CATEGORIES=		games
-DASH_VER=		3
+DASH_VER=		4
 MCZ_FETCH=		Yes
 CVS_DISTREPO=		:ext:anoncvs@anoncvs.ca.openbsd.org:/cvs
 CVS_DISTDATE=		2007/02/22
@@ -22,6 +22,7 @@ IGNORE+=		"requires use of SUDO=sudo"
 .endif
 
 PREFIX=			/usr
+BINGRP=			games
 EXTRA_MAKE_FLAGS=	HOSTCC=${_PASS_CC:T:Q}
 EXTRA_FAKE_FLAGS=	MANDIR=${PREFIX:Q}/share/man/cat
 
