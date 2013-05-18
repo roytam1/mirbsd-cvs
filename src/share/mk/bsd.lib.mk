@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.lib.mk,v 1.71 2008/04/10 13:55:55 tg Exp $
+# $MirOS: src/share/mk/bsd.lib.mk,v 1.72 2008/04/10 14:07:45 tg Exp $
 # $OpenBSD: bsd.lib.mk,v 1.43 2004/09/20 18:52:38 espie Exp $
 # $NetBSD: bsd.lib.mk,v 1.67 1996/01/17 20:39:26 mycroft Exp $
 # @(#)bsd.lib.mk	5.26 (Berkeley) 5/2/91
@@ -68,16 +68,25 @@ _LIBS_SHARED=	No
     (defined(SHLIB_SONAME) && empty(SHLIB_SONAME))
 .  undef SHLIB_SONAME
 .  undef SHLIB_LINKS
+.elif !defined(SHLIB_VERSION) || empty(SHLIB_VERSION)
+.  error SHLIB_SONAME (${SHLIB_SONAME}) set, but SHLIB_VERSION unset
 .elif ${RTLD_TYPE} == "dyld"
 LINK.shlib?=	${LINKER} ${CFLAGS:M*} ${SHLIB_FLAGS} -dynamiclib \
 		$$(${LORDER} ${SOBJS}|tsort -q) ${LDADD} \
 		-compatibility_version ${SHLIB_VERSION} \
 		-current_version ${SHLIB_VERSION}
 .elif ${RTLD_TYPE} == "GNU"
+.  if ${SHLIB_VERSION} == "-"
+LINK.shlib?=	${LINKER} ${CFLAGS:M*} ${SHLIB_FLAGS} -shared \
+		$$(${LORDER} ${SOBJS}|tsort -q) \
+		-Wl,--start-group ${LDADD} -Wl,--end-group \
+		-Wl,-soname,lib${LIB}.so
+.  else
 LINK.shlib?=	${LINKER} ${CFLAGS:M*} ${SHLIB_FLAGS} -shared \
 		$$(${LORDER} ${SOBJS}|tsort -q) \
 		-Wl,--start-group ${LDADD} -Wl,--end-group \
 		-Wl,-soname,lib${LIB}.so.${SHLIB_VERSION:R}
+.  endif
 .else
 LINK.shlib?=	${LINKER} ${CFLAGS:M*} ${SHLIB_FLAGS} -shared \
 		$$(${LORDER} ${SOBJS}|tsort -q) \
