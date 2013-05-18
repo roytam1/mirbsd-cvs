@@ -1,3 +1,7 @@
-MD5 (IO-Zlib-1.01.tar.gz) = 914af0c54586d9e979fe03e5f1e341f0
-RMD160 (IO-Zlib-1.01.tar.gz) = ad4b031a2cb1fb6dc3caebcafa9c028d72d62887
-SHA1 (IO-Zlib-1.01.tar.gz) = d9cfcdf0db1774b2d6217438ce7bd1e00dfe8590
+$MirOS$
+
+MD5 (IO-Zlib-1.09.tar.gz) = 7e0244de33de418745584adcaad4869e
+RMD160 (IO-Zlib-1.09.tar.gz) = 97047909f79c3e55bb99299ab96a6be6867e787b
+SHA1 (IO-Zlib-1.09.tar.gz) = d7e5d740ed1de260019f2e6b8f1dc11726aaab18
+SIZE (IO-Zlib-1.09.tar.gz) = 10092
+TIGER (IO-Zlib-1.09.tar.gz) = 9f691257a0004d31c68aff755aa707629e5a35dbcdc5dc0b

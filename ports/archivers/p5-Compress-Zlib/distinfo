@@ -1,4 +1,7 @@
-MD5 (Compress-Zlib-1.41.tar.gz) = ac135b84a03e814734496777cf5e5722
-RMD160 (Compress-Zlib-1.41.tar.gz) = 78a331550e953221d6e741dc581f24a7e0c9dc5d
-SHA1 (Compress-Zlib-1.41.tar.gz) = 0a0aea0fe460956d71db0a0f571d67078ca1dc94
-SIZE (Compress-Zlib-1.41.tar.gz) = 151972
+$MirOS$
+
+MD5 (Compress-Zlib-2.015.tar.gz) = 689ba2cc399b019d0bf76a0575c32947
+RMD160 (Compress-Zlib-2.015.tar.gz) = ed09cbf3acc74a058eea007018eff832838ca40b
+SHA1 (Compress-Zlib-2.015.tar.gz) = 022daac3d0590b156dde207afdd2c374e6f70ef4
+SIZE (Compress-Zlib-2.015.tar.gz) = 64980
+TIGER (Compress-Zlib-2.015.tar.gz) = cf29c1ae8e00fa27d46e2b1342bf81195607c0180a623d70
