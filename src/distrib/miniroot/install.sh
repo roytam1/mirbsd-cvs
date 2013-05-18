@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/miniroot/install.sh,v 1.8 2005/12/18 01:55:45 tg Exp $
+# $MirOS: src/distrib/miniroot/install.sh,v 1.9 2005/12/21 17:52:13 tg Exp $
 # $OpenBSD: install.sh,v 1.152 2005/04/21 21:41:33 krw Exp $
 # $NetBSD: install.sh,v 1.5.2.8 1996/08/27 18:15:05 gwr Exp $
 #
@@ -376,7 +376,9 @@ cat <<EOF
 We will now create a user account on your system, which you can then
 use to log in and work with the system, as well as do administrative
 tasks using sudo(8). The newly created user account will be added to
-the class 'staff', and the group 'wheel' for being able to use sudo.
+the class 'staff', and the group 'wheel' for being able to use sudo,
+as well as 'wsrc' and 'staff'. You might want to add yourself to the
+groups 'operator', 'audio', etc. manually later.
 EOF
 _oifs=$IFS
 IFS=; _rootuser=; full=; _rootuid=3000
@@ -395,8 +397,8 @@ while :; do
 		print UID mismatch, must be between 1000 and 32765.
 	elif [[ $resp != $_password ]]; then
 		print Passwords do not match.
-	elif [[ $_rootuser != *([a-z]) ]]; then
-		print Username is not alphabetic.
+	elif [[ $_rootuser != @([a-z])*([a-z0-9]) ]]; then
+		print Username is not alphanumeric.
 	elif [[ $full = *:* ]]; then
 		print Full name contains a colon.
 	else
@@ -460,6 +462,8 @@ wq
 EOF
 ed -s /mnt/etc/group <<EOF
 /^wheel:/s/\$/,$_rootuser/
+/^wsrc:/s/\$/$_rootuser/
+/^staff:/s/\$/,$_rootuser/
 \$i
 $_rootuser:*:$_rootuid:
 .
