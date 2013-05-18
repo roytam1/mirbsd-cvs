@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.223 2009/07/30 20:14:22 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.224 2009/08/02 19:13:42 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -4659,4 +4659,20 @@ Tag: mksh news
 <p>An observation… mksh “print $RANDOM” on Cygwin is very slow, and the
  HKCU seed changes each time. This should be debugged, it shan’t unless
  <tt>RANDOM</tt> is being written to or 400k calls are done.</p>
+----
+Title: updates regarding the upcoming new snapshots
+Date: 10.08.2009 15:48
+Author: tg@
+Tag: bug
+
+<p>While the <a href="@@RELPATH@@permalinks/news_e20090809-tg.htm">ext2fs
+ fix</a> is good, we have a new lynx(1) version, and boot(8/i386) has
+ vastly improved, trying to fix boot_sparc(8) didn't help much, I either
+ get esp(4/sparc) problems or panic(9)s in uvm_fork(9). *sigh*</p>
+<p>This means that the FrOSCon edition will contain a brand-new i386
+ snapshot and a merely polished sparc snapshot largely based upon the
+ as-of-now current 20090425 snapshot with hand-tweaking applied.</p>
+<p>Thusly no new sparc binary packages for -current will be built.</p>
+<p>Even if I did get the hardware issues solved (or move from <tt>demo</tt>
+ to <tt>ss20</tt>, I <em>now</em> couldn't get things done in time.</p>
 ----
