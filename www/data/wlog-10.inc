@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.104 2008/11/23 17:35:51 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.105 2008/11/25 18:10:23 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -2134,4 +2134,49 @@ Title: pcc and Win32
 <p><a href="http://thread.gmane.org/gmane.comp.compilers.pcc/1220">This
  thread</a> contains the patches (three versions, until now… use today’s
  please), in case you want to help testing.</p>
+----
+Date: 26.11.2008 17:40
+Author: tg@
+Title: Laptops &ndash; IBM X40 vs MiTAC 4023
+
+<p>Today, I intended to do some hacking too, maybe on that new allocator
+ for <a href="@@RELPATH@@mksh.htm">mksh</a> again. However, I never came
+ that far.</p>
+<p>Michael "tazz" Kristensen decided he'd try MirBSD. He wanted to boot
+ from a USB stick, before he found out his computer couldn't (now what
+ a surprise, if you ask me...). Since he has a GNU/Linux and GNU grub
+ running, I'd thought we could use memdisk (from SYSLINUX) to boot off
+ the ISO as if it were a hard disc. I ended up making him a hard disc
+ image with a small FAT12 partition (just IO.SYS, MSDOS.SYS, COMMAND.COM
+ and BOOT.COM &ndash; a.k.a. <tt>/usr/mdec/boot</tt>) and a small 4.2FFS
+ MirBSD partition (just bsd.rd), which worked. However, I first needed
+ to produce a test hard disc (image) into which I could place GNU grub,
+ memdisk and the fake disc image. For that, I booted Knoppix 4.0.2, and
+ from then on (co&iuml;ncidentally or not) strange things started to
+ happen...</p>
+<p>My shiny new IBM ThinkPad X40 started to blank the screen while I was
+ typing (so it wasn't a screen saver issue). Fn-F7, waiting for half a
+ minute or so, and Fn-F7 again brought back the screen. It did not come
+ from moving, and it's not the inverter (I checked with a flashlight,
+ the TFT is really out). Anyway, it continued to work for quite a while.
+ Sadly, the intervals it would work eventually got as short as a few
+ seconds. I found out that unplugging the AC power supply helped... for
+ a while. The intervals eventually got down there as well. Cleaning the
+ fan I tried, but it does not seem like a heat issue either.<p>
+<p style="font-size:xx-large"><strong>HELP</strong>!!!</p>
+<p>I cannot simply afford another laptop. I bought this one because it
+ was popular with the OpenBSD people... while the hardware is working
+ nicely, the TFT is a tad small, the keyboard is an absolute shame,
+ and the "mouse" buttons... well, let's just not talk about any IBM
+ laptops, okay? &mdash; Nevertheless, I need it for work, development,
+ and other (private or not) things. Fuck.</p>
+<p>This wlog entry has been written on a MiTAC 4023 laptop. While it
+ only has a DSTN (or STN?) LCD, 12 MiB RAM, a Cyrix 486DLC CPU with,
+ I believe, 33 MHz, it <strong>works</strong> (despite the aged custom
+ MirBSD #8-current single-user-only mostly-crunchgen(1)d installation).</p>
+<p>Tom "nwt" Kohnen, einer der beiden Luxemburger, von denen ich viel
+ halte, wenn Du wüßtest, wie oft Dein alter Laptop, den Du für wertloser
+ als den Nike-Sticker, mit dem er beklebt ist, gehalten hast, mir schon
+ den Arsch gerettet hat... Leider bist Du nicht mehr im IRC, aber falls
+ Du dies liest, fühl Dir gedankt!</p>
 ----
