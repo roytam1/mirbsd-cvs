@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/libhaible/wctype.h,v 1.2 2006/05/23 11:26:46 tg Exp $ */
+/* $MirOS: contrib/code/libhaible/wctype.h,v 1.3 2006/05/23 11:39:37 tg Exp $ */
 
 /*-
  * Copyright (c) 2005
@@ -39,21 +39,17 @@ typedef const uint16_t * const *wctrans_t;
 __BEGIN_DECLS
 int	iswalnum(wint_t);
 int	iswalpha(wint_t);
-#ifdef notyet
 int	iswblank(wint_t);
 int	iswcntrl(wint_t);
 int	iswdigit(wint_t);
 int	iswgraph(wint_t);
-#endif
 int	iswlower(wint_t);
-#ifdef notyet
 int	iswprint(wint_t);
 int	iswpunct(wint_t);
 int	iswspace(wint_t);
-#endif
 int	iswupper(wint_t);
-#ifdef notyet
 int	iswxdigit(wint_t);
+#ifdef notyet
 int	iswctype(wint_t, wctype_t);
 #endif
 wint_t	towctrans(wint_t, wctrans_t);

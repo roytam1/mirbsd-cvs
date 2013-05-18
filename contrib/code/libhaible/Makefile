@@ -1,4 +1,4 @@
-# $MirOS: contrib/code/libhaible/Makefile,v 1.4 2006/05/30 10:41:17 tg Exp $
+# $MirOS: contrib/code/libhaible/Makefile,v 1.5 2006/05/30 10:48:54 tg Exp $
 
 LIB=	haible
 NOPIC=	Yes	# for now
@@ -8,5 +8,19 @@ SRCS+=	towctrans.c
 SRCS+=	towlower.c
 SRCS+=	towupper.c
 SRCS+=	wcwidth.c
+
+.for _wctype in alnum alpha blank cntrl digit graph lower print punct \
+    space upper xdigit
+GENERATED+=	isw${_wctype}.c
+
+isw${_wctype}.c: iswTYPE.c
+	sed 's!TYPE!${_wctype}!g' <$> >$@
+.endfor
+
+SRCS+=	${GENERATED}
+
+CLEANFILES+=	${GENERATED}
+
+beforedepend: ${GENERATED}
 
 .include <bsd.lib.mk>
