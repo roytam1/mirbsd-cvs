@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.27 2006/04/12 23:27:30 tg Exp $
+# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.28 2006/04/12 23:32:56 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -35,7 +35,7 @@ ed -s etc/X11/xdm/Xresources <<-'EOF'
 	/^Chooser.label.label:/s/CLIENTHOST/Live-CD/
 	wq
 EOF
-car >>etc/bootparams <<-'EOF'
+cat >>etc/bootparams <<-'EOF'
 	* root=172.23.42.1:/
 EOF
 cat >>etc/ethers <<-'EOF'
@@ -77,7 +77,7 @@ ed -s etc/ntpd.conf <<-'EOF'
 EOF
 ed -s etc/rc <<-'EOF'
 	1i
-		# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.27 2006/04/12 23:27:30 tg Exp $
+		# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.28 2006/04/12 23:32:56 tg Exp $
 	.
 	/shutdown request/ka
 	/^fi/a
