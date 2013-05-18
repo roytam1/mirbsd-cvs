@@ -1,4 +1,4 @@
-/* $MirOS: src/kern/include/libckern.h,v 1.14 2008/11/22 08:48:58 tg Exp $ */
+/* $MirOS: src/kern/include/libckern.h,v 1.15 2008/11/22 12:18:22 tg Exp $ */
 
 /*-
  * Copyright (c) 2008
@@ -129,6 +129,10 @@ size_t wcslcpy(wchar_t *, const wchar_t *, size_t);
 size_t wcslen(const wchar_t *);
 size_t wcsxfrm(wchar_t *, const wchar_t *, size_t);
 __END_DECLS
+
+#ifndef iswoctet
+#define iswoctet(wc)	(((wchar_t)(wc) & 0xFF80) == 0xEF80)
+#endif
 
 /* initialise/set/reset a mbstate_t to empty */
 #define mbsreset(ps) do {				\
