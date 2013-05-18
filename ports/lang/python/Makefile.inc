@@ -1,4 +1,4 @@
-# $MirOS: ports/lang/python/Makefile.inc,v 1.18 2008/08/19 18:07:29 tg Exp $
+# $MirOS: ports/lang/python/Makefile.inc,v 1.19 2008/11/08 23:03:46 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.32 2005/06/06 20:47:04 alek Exp $
 
 .include <mirports.sys.mk>
@@ -77,15 +77,15 @@ post-install:
 	${INSTALL_SCRIPT} ${WRKSRC}/Tools/scripts/pydoc \
 		${PREFIX}/bin/pydoc${VERSION}
 	if [ -f ${FILESDIR}/idle ] ; then \
-	@sed -e "s,@VERSION@,${VERSION},g" -e "s,@LOCALBASE@,${LOCALBASE},g" \
+	sed -e "s,@VERSION@,${VERSION},g" -e "s,@LOCALBASE@,${LOCALBASE},g" \
 		${FILESDIR}/idle >${WRKSRC}/idle ; \
 	${INSTALL_SCRIPT} ${WRKSRC}/idle ${PREFIX}/bin/idle${VERSION} ; \
 	fi
-	@cd ${WRKSRC}; tar -cf - Tools | (cd ${PREFIX}/lib/python${VERSION}; \
+	cd ${WRKSRC}; tar -cf - Tools | (cd ${PREFIX}/lib/python${VERSION}; \
 		tar -xf -)
 	${INSTALL_DATA} ${WRKSRC}/libpython${VERSION}.a \
 		${PREFIX}/lib/python${VERSION}/config
-	@if [ -f ${PREFIX}/lib/python${VERSION}/config/libpython${VERSION}.so.0.0 ]; then \
+	if [ -f ${PREFIX}/lib/python${VERSION}/config/libpython${VERSION}.so.0.0 ]; then \
 		cd ${PREFIX}/lib && ln -s python${VERSION}/config/libpython${VERSION}.so.0.0; \
 	fi
 	${INSTALL_DATA_DIR} ${PREFIX}/share/doc/python${VERSION}
