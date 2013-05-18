@@ -1,4 +1,7 @@
-# $MirOS: src/distrib/Makefile.kernel,v 1.3 2006/06/11 01:41:43 tg Exp $
+# $MirOS: src/distrib/Makefile.kernel,v 1.4 2006/06/11 01:53:25 tg Exp $
+
+.include <bsd.own.mk>
+CFLAGS+=	${COPTS}
 
 KCONFIG?=	config -s ${SYSDIR} -b . ${SYSSUBDIR}/conf/${RAMDISK}
 KMAKE_CLEAN?=	${MAKE} clean
