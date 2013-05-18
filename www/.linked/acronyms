@@ -638,6 +638,8 @@ CF	compact flash
 CF	confer (see)
 CFG	context-free grammar
 CFG	control-flow graph
+CFP	call for papers
+CFP	call for projects
 CFV	call for votes
 CFY	calling for you
 CG	[ccTLD] Republik Kongo
@@ -769,6 +771,7 @@ CSRF	cross-site request forgery
 CSS	Content Scrambling System
 CSS	cascading style sheets
 CSV	comma-separated values
+CTF	capture the flag
 CTM	close to metal
 CTN	can't talk now
 CTS	clear to send
@@ -3345,7 +3348,6 @@ RCL	[Kfz] Kongo-Leopoldville (veraltet)
 RCS	revision control system
 RCT	[dental] Wurzelkanalbehandlung (vulg. "Wurzelfüllung")
 RCT	[dental] root canal treatment
-RCU	read, copy, update
 RCU	read-copy-update
 RD	[Kfz:D] Kreis Rendsburg-Eckernförde
 RDF	reality distortion field
