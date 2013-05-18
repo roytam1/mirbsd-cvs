@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.65 2008/07/30 00:25:26 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.66 2008/08/02 00:19:48 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -1327,4 +1327,31 @@ Title: HEAD may be broken, but improvements coming, OPTU-8 charset
  more (nor binary files), although that definitively needs some testing.</p>
 <p>I’d just like to warn people that HEAD (MirOS-current) is a pretty
  moving target at the moment.</p>
+----
+Date: 08.08.08 22:18
+Author: bsiegert@
+Title: Improving MirPorts by porting stuff
+
+<p>I have just finished porting the aqua version of LyX (which I need
+ for @work), which is going to become <tt>aqua/lyx-mac</tt>. Version
+ 1.5.x needs Qt4, which we do not have on MirOS just yet, and the Mac
+ version installs into an application bundle, so it is a completely
+ separate port.</p>
+
+<p>First of all, I discovered TWO bugs in Qt's build system. Not only
+ are the generated .la files wrong, but the .pc files are broken, too.
+ My first bug report contained lots of detail but what finally landed in
+ their bad joke of a bug tracking system is <a
+ href="http://trolltech.com/developer/task-tracker/index_html?method=entry&id=218261">a
+ one-liner</a>. That should teach me not to write bug reports longer
+ than one line ... Seriously, WTF?</p>
+
+<p>Next, our pkg-config (both actually, pkgconfig-bsd is not better)
+ does not grok frameworks. In order to get a correct result, I had to
+ port pkg-config-0.23. It is not in the trunk yet because I was told
+ that newer versions "make bad things happen" on MirOS. What I will do
+ is try to build some stuff using this newer version of pkgconfig and
+ try to find out if it works. So, if you are feeling lucky: Install this
+ and try to build some software on MirOS.</p>
+
 ----
