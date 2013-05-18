@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.178 2009/04/05 12:19:12 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.179 2009/04/05 16:10:49 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -3704,4 +3704,25 @@ Tag: mksh
  publicly accessible version of them.</p>
 <p>By the way, <a href="@@RELPATH@@permalinks/news_e20090405-tg.htm">the
  R37b version</a> is out.</p>
+----
+Date: 08.04.2009 18:31
+Author: tg@
+Title: Not an mksh bug
+Tag: bug debian mksh
+
+<p>When <a href="@@RELPATH@@permalinks/news_e20090407-tg.htm">R37c</a>
+ was brought out, I fixed a bug on (among others) IA64. The simple
+ memory allocator added a pointer (or two, in Espie's) to the storage,
+ placed before what the user got. Of course, gcc wanted to align the
+ struct not taking this into account, failing evilly. Luckily, another
+ FTBFS was not my fault, but sigsetjmp(3) was merely broken on S/390
+ with dietlibc; waldi fixed it in the meanwhile, but I uploaded another
+ version of mksh to Debian for now whose mksh-static binary links against
+ glibc instead and added me a TODO bug.</p>
+<p>All the testsuite failures are certainly interesting though; the hppa
+ one looks like a bug in ed(1) there; as to the others, either Perl, or
+ binfmt_misc was configured to accept or drop (but not reject) shebangs
+ præfixed with a BOM. Whatever.</p>
+<p>Maybe I can now finally go back to working on MirBSD instead? :D<br />
+ After all, we want a new snapshot (for NetInstall, at least).</p>
 ----
