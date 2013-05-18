@@ -20,7 +20,7 @@
 #include "buffer.h"
 #include "save-cwd.h"
 
-__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/client.c,v 1.3 2010/09/19 19:43:01 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/client.c,v 1.4 2011/06/11 00:24:04 tg Exp $");
 
 #ifdef CLIENT_SUPPORT
 
@@ -3560,9 +3560,9 @@ connect_to_pserver (cvsroot_t *root, struct buffer **to_server_p,
          * code.
          */
 	read_line_via (from_server, to_server, &read_buf);
-	sscanf (read_buf, "%s %d", write_buf, &codenum);
+	count = sscanf (read_buf, "%*s %d", &codenum);
 
-	if ((codenum / 100) != 2)
+	if (count != 1 || (codenum / 100) != 2)
 	    error (1, 0, "proxy server %s:%d does not support http tunnelling",
 		   root->proxy_hostname, proxy_port_number);
 	free (read_buf);
