@@ -71,7 +71,7 @@
 #include "compat.h"
 #include "ssh2.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/ssh/monitor.c,v 1.6 2006/09/20 21:40:59 tg Exp $");
 
 /* Imports */
 extern ServerOptions options;
@@ -551,6 +551,9 @@ mm_answer_pwnamallow(int sock, Buffer *m)
 	buffer_put_cstring(m, pwent->pw_class);
 	buffer_put_cstring(m, pwent->pw_dir);
 	buffer_put_cstring(m, pwent->pw_shell);
+	buffer_put_string(m, &options, sizeof(options));
+	if (options.banner != NULL)
+		buffer_put_cstring(m, options.banner);
 
  out:
 	debug3("%s: sending MONITOR_ANS_PWNAM: %d", __func__, allowed);

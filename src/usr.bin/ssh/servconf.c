@@ -38,7 +38,7 @@
 #include "channels.h"
 #include "groupaccess.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/ssh/servconf.c,v 1.11 2006/09/20 21:41:02 tg Exp $");
 
 static void add_listen_addr(ServerOptions *, char *, u_short);
 static void add_one_listen_addr(ServerOptions *, char *, u_short);
@@ -288,7 +288,7 @@ static struct {
 	{ "afstokenpassing", sUnsupported, SSHCFG_GLOBAL },
 	{ "gssapiauthentication", sUnsupported, SSHCFG_GLOBAL },
 	{ "gssapicleanupcredentials", sUnsupported, SSHCFG_GLOBAL },
-	{ "passwordauthentication", sPasswordAuthentication, SSHCFG_GLOBAL },
+	{ "passwordauthentication", sPasswordAuthentication, SSHCFG_ALL },
 	{ "kbdinteractiveauthentication", sKbdInteractiveAuthentication, SSHCFG_GLOBAL },
 	{ "challengeresponseauthentication", sChallengeResponseAuthentication, SSHCFG_GLOBAL },
 	{ "skeyauthentication", sChallengeResponseAuthentication, SSHCFG_GLOBAL }, /* alias */
@@ -322,7 +322,7 @@ static struct {
 	{ "subsystem", sSubsystem, SSHCFG_GLOBAL },
 	{ "maxstartups", sMaxStartups, SSHCFG_GLOBAL },
 	{ "maxauthtries", sMaxAuthTries, SSHCFG_GLOBAL },
-	{ "banner", sBanner, SSHCFG_GLOBAL },
+	{ "banner", sBanner, SSHCFG_ALL },
 	{ "usedns", sUseDNS, SSHCFG_GLOBAL },
 	{ "verifyreversemapping", sDeprecated, SSHCFG_GLOBAL },
 	{ "reversemappingcheck", sDeprecated, SSHCFG_GLOBAL },
@@ -1219,13 +1219,28 @@ parse_server_match_config(ServerOptions *options, const char *user,
 
 	initialize_server_options(&mo);
 	parse_server_config(&mo, "reprocess config", &cfg, user, host, address);
-	copy_set_server_options(options, &mo);
+	copy_set_server_options(options, &mo, 0);
 }
 
-/* Copy any (supported) values that are set */
+/*
+ * Copy any supported values that are set.
+ *
+ * If the preauth flag is set, we do not bother copying the the string or
+ * array values that are not used pre-authentication, because any that we
+ * do use must be explictly sent in mm_getpwnamallow().
+ */
 void
-copy_set_server_options(ServerOptions *dst, ServerOptions *src)
+copy_set_server_options(ServerOptions *dst, ServerOptions *src, int preauth)
 {
+	if (src->password_authentication != -1)
+		dst->password_authentication = src->password_authentication;
+	if (src->banner != NULL) {
+		if (dst->banner != NULL)
+			xfree(dst->banner);
+		dst->banner = src->banner;
+	}
+	if (preauth)
+		return;
 	if (src->allow_tcp_forwarding != -1)
 		dst->allow_tcp_forwarding = src->allow_tcp_forwarding;
 	if (src->gateway_ports != -1)

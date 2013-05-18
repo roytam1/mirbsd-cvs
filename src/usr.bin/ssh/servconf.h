@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.bin/ssh/servconf.h,v 1.6 2006/07/23 14:19:27 tg Exp $ */
+/* $MirOS: src/usr.bin/ssh/servconf.h,v 1.7 2006/09/20 21:41:02 tg Exp $ */
 /* $OpenBSD: servconf.h,v 1.79 2006/08/14 12:40:25 dtucker Exp $ */
 
 /*
@@ -138,6 +138,6 @@ void	 parse_server_config(ServerOptions *, const char *, Buffer *,
 	     const char *, const char *, const char *);
 void	 parse_server_match_config(ServerOptions *, const char *, const char *,
 	     const char *);
-void	 copy_set_server_options(ServerOptions *, ServerOptions *);
+void	 copy_set_server_options(ServerOptions *, ServerOptions *, int);
 
 #endif				/* SERVCONF_H */
