@@ -1,5 +1,5 @@
 # $MirSecuCron$
-# $MirOS: src/etc/rc,v 1.104 2009/09/12 14:22:18 tg Exp $
+# $MirOS: src/etc/rc,v 1.105 2009/09/12 14:32:53 tg Exp $
 # $OpenBSD: rc,v 1.277 2006/01/12 21:54:15 deraadt Exp $
 #-
 # System startup script run by init on autoboot or after single-user.
@@ -462,8 +462,8 @@ if [[ -d /var/empty/. ]]; then
 fi
 syslogd $syslogd_flags
 
-if [[ $pf != NO && $pflogd_flags != NO && \
-    " $(ifconfig -l) " = *@( pflog0 )* ]]; then
+[[ $pf != NO && $pflogd_flags != NO ]] && \
+    if ifconfig pflog0 >/dev/null 2>&1; then
 	ifconfig pflog0 up
 	pflogd $pflogd_flags
 fi
