@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.294 2010/05/23 15:20:23 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.295 2010/06/17 20:06:13 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -6591,4 +6591,34 @@ Date: 17.06.2010 19:58
 <p>This wlog entry is presented you by gecko2@’s nagging… we’re
  really working though, so don’t expect many… I’m even doing the
  Debian stuff only at ork at the moment.</p>
+----
+Title: LSM/RMLL; mksh R40, R41 plans
+Author: tg@
+Date: 05.07.2010 20:54
+Tag: bug debian mksh
+
+<p>The current version of <a href="@@RELPATH@@mksh.htm#clog">mksh</a>
+ had use of arc4random(3) removed, including “set -o arc4random”, to
+ speed it up (on some architectures, a lot) – this <em>will</em> break
+ some existing scripts (such as <tt>/etc/rc</tt> *cough* on MirBSD…).
+ Hence I decided to publish the next version of mksh(1) as R40 based
+ upon current development, and defer plans for associative arrays (and
+ multidimensional arrays) for mksh R41. There’s also already the change
+ to <tt>Build.sh</tt> arguments, so this suits me quite fine.</p>
+<p>(Read: if running MirBSD, don’t upgrade mksh at the moment.) There
+ will be a new MirBSD snapshot once this is fixed, maybe a few more
+ changes to the shell for better POSuX compliance, and the recently <a
+ href="@@RELPATH@@permalinks/wlog-10_e20100522-tg.htm">mentioned</a>
+ patent on LFNs (long filename) in FAT will be taken into account with
+ a patch to msdosfs.</p>
+<p>I’ll travel to <a href="http://2010.rmll.info/">LSM/RMLL 2010</a>,
+ the Libre Software Meeting (<span xml:lang="fr">Rencontres Mondiales
+ du Logiciel Libre</span>) tomorrow until the weekend, to hack some on
+ FusionForge (this <em>is</em> worktime for me), visit XTaran, Uriel,
+ and maybe a couple of other “usual people”.</p>
+<p>Thundersday, between 10:00 UTC and 12:00 UTC, <tt>eurynome</tt> will
+ be shut down by gecko2@ due to power supply maintenance on the host
+ system data centre.</p>
+<p>We have a new mirror in the Americas, thanks a lot to Mike 'Fuzzy'
+ Partin! Benny will mention it on the webpages once it’s working.</p>
 ----
