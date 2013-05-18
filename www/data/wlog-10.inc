@@ -832,3 +832,22 @@ Title: kqemu
  I need (to mail Fefe, who blocks PTRs like foo-www-xxx-yyy-zzz.ISP), but
  rejected; Strato support is, from my past experience, hopeless.)</p>
 ----
+Date: 27.05.2008
+Author: tg@
+Title: Linuxtag 2008, Berlin, .de
+
+<p>This year's <a href="http://www.linuxtag.org/">LinuxTag</a> will not go
+ by without the BSD projects exhibiting their fine software. Of course, we
+ will attend &ndash; the usual gang (Benny and me, gecko2 and Przemek will
+ help out). New is that we'll also be distributing a couple of MidnightBSD
+ CDs and flyers I had a helping hand in creating, as they are US based and
+ won't be able to make it to Germany for this event. This all would not be
+ possible without the help of allbsd.de, again. Thanks, Daniel!</p>
+<p>The MirBSD CDs distributed contain a Live + Install CD, as usual, of an
+ unnamed #10-stable snapshot, plus a couple of packages, including Benny's
+ new firesomething port instead of opera-linux. The MidnightBSD CDs aren't
+ as big and miss the install part, but are a relatively new and especially
+ stable 0.2-CURRENT snapshot (including <a href="@@RELPATH@@mksh.htm">mksh</a>
+ of course).</p>
+<p>We'll attend Tuesday (probably late) till Saturday.</p>
+----
