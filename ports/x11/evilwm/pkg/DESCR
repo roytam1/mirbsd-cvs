@@ -11,14 +11,15 @@ managers unusable. Here is a list of features:
  * Virtual desktops (compile time option).
  * Small binary size (even with everything turned on).
 
-This port differs from the in-tree evilwm of MirOS-current in that
-it does not restore the old, pre-evilwm-0.99.14, move behaviour.
-
 Available flavours:
 
- * unpatched
-	This flavour yields a pristine evilem without MirOS
-	patches or changed functionality.
  * miros (default)
-	This flavour restores the old move behaviour, thus
-	yielding the same evilwm as contained in MirOS xbase.
+	Instead of using upstream evilwm and patching it,
+	pull mirvilwm from CVS and build that, with no
+	changes, yielding the same as in MirOS X11-base.
+ * oldmove
+	Starting with evilwm 0.99.14, the "new move
+	behaviour" is to only move a window if you move
+	it by 5 or more pixels. This can be rather
+	annoying, even if moving a window by accident.
+	This flavour reverts to the older move behaviour.
