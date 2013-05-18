@@ -1,4 +1,4 @@
-@comment $MirOS: ports/x11/gtk+/pkg/PLIST-docs,v 1.2 2005/09/25 15:45:57 bsiegert Exp $
+@comment $MirOS: ports/x11/gtk+/pkg/PLIST-docs,v 1.3 2007/01/06 16:30:20 bsiegert Exp $
 @comment $OpenBSD: PLIST-docs,v 1.11 2004/10/26 03:52:02 marcm Exp $
 share/gtk-doc/html/gdk-pixbuf/GdkPixbufLoader.html
 share/gtk-doc/html/gdk-pixbuf/apa.html
@@ -589,3 +589,8 @@ share/gtk-doc/html/gtk/toolbar.png
 share/gtk-doc/html/gtk/ui-manager.html
 share/gtk-doc/html/gtk/up.png
 share/gtk-doc/html/gtk/window.png
+@dirrm share/gtk-doc/html/gtk
+@dirrm share/gtk-doc/html/gdk-pixbuf
+@dirrm share/gtk-doc/html/gdk
+@dirrm share/gtk-doc/html
+@dirrm share/gtk-doc

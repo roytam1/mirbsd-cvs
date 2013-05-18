@@ -1,11 +1,11 @@
-# $MirOS: ports/x11/gtk+/Makefile,v 1.14 2007/09/04 20:32:29 bsiegert Exp $
+# $MirOS: ports/x11/gtk+/Makefile,v 1.15 2008/03/09 17:23:43 tg Exp $
 # $OpenBSD: Makefile,v 1.14 2004/03/30 15:48:29 sturm Exp $
 
 NOT_FOR_PLATFORM=		${NOPIC_PLATFORMS}
 COMMENT=			multi-platform graphical toolkit
 COMMENT-docs=			gtk+-2 documentation
 VERSION=			2.10.14
-DASH_VER=			0
+DASH_VER=			1
 DISTNAME=			gtk+-${VERSION}
 PKGNAME=			gtk+2-${VERSION}-${DASH_VER}
 PKGNAME-docs=			gtk+2-docs-${VERSION}-${DASH_VER}
