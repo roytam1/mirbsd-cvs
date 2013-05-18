@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/listend.i386-big,v 1.19 2007/07/05 10:17:10 tg Exp $
+# $MirOS: src/distrib/common/listend.i386-big,v 1.20 2007/07/08 15:00:30 tg Exp $
 
 # extra programmes
 LINK	instbin					bin/ps
@@ -25,6 +25,7 @@ LINK	instbin					usr/bin/gzsig
 LINK	instbin					usr/bin/less usr/bin/more
 LINK	instbin					usr/bin/passwd
 LINK	instbin					usr/bin/rpcinfo
+LINK	instbin					usr/bin/rs
 LINK	instbin					usr/bin/scp
 LINK	instbin					usr/bin/showmount
 LINK	instbin					usr/bin/ssh
