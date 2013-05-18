@@ -1,8 +1,8 @@
-# $MirOS: ports/security/tcpdump/Makefile,v 1.1 2007/07/09 19:16:32 tg Exp $
+# $MirOS: ports/security/tcpdump/Makefile,v 1.2 2008/05/25 20:56:39 tg Exp $
 
 COMMENT=		network traffic analyser
 CATEGORIES=		security sysutils
-CVS_DISTREPO=		:ext:anoncvs@anoncvs.ca.openbsd.org:/cvs
+CVS_DISTREPO=		:ext:anoncvs@anoncvs.fr.openbsd.org:/cvs
 CVS_DISTDATE=		2005/07/21 18:00
 CVS_DISTMODS=		src/usr.sbin/tcpdump src/sbin/pfctl src/sys/net
 CVS_DISTFILE=		tcpdump
