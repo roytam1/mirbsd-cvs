@@ -1,4 +1,4 @@
-/* $MirOS: src/bin/md5/suma.c,v 1.1 2005/03/16 17:19:06 tg Exp $ */
+/* $MirOS: src/bin/md5/suma.c,v 1.2 2005/12/17 05:46:05 tg Exp $ */
 
 /*-
  * Copyright (c) 2005
@@ -30,11 +30,10 @@ SUMA_End(SUMA_CTX *ctx, char *res)
 {
 	SUMA_Final(ctx);
 
-	if (res == NULL) {
-		if (asprintf(&res, "%08X", *ctx) == -1)
-			res = NULL;
-	} else
+	if (res)
 		snprintf(res, SUMA_DIGEST_STRING_LENGTH, "%08X", *ctx);
+	else if (asprintf(&res, "%08X", *ctx) == -1)
+		res = NULL;
 
-	return res;
+	return (res);
 }
