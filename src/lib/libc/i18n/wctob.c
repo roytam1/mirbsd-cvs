@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.20 2006/12/11 21:04:56 tg Rel $ */
+/* $MirOS: src/lib/libc/i18n/wctob.c,v 1.18 2007/02/02 21:06:23 tg Exp $ */
 
 /*-
  * Copyright (c) 2007
@@ -22,8 +22,9 @@
 
 #include <wchar.h>
 
-__RCSID("$MirOS: src/lib/libc/i18n/wctob.c,v 1.17 2007/02/02 19:28:34 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/wctob.c,v 1.18 2007/02/02 21:06:23 tg Exp $");
 
+#undef wctob
 int
 wctob(wint_t c)
 {
