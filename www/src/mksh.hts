@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.433 2011/11/26 18:37:01 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.434 2011/12/04 20:40:14 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1089,6 +1089,14 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg, Jilles Tjoelker] test(1) built-in behaves exactly as POSIX says</li>
  <li>[tg] Move compile-time assertions to Build.sh from misc.c#ifdef DEBUG</li>
  <li>[tg] Invocation documentation is at the bottom of Build.sh</li>
+ <li>[tg] <tt>test.sh</tt>: verbosely look for perl(1) interpreter to use</li>
+ <li>[tg] New tests for integers (base 1‥36, base unspecified, base OOB)</li>
+ <li>[tg] Correct error paths for <tt>typeset -n</tt> global state</li>
+ <li>[tg] Deprecate interpreting "010" as octal number, <em>will</em> go</li>
+ <li>[tg] Improvements re. integer handling; more explicit manpage text</li>
+ <li>[tg] Do not use <tt>caddr_t</tt> on Linux, so dietlibc stops bitching</li>
+ <li>[tg, Jilles Tjoelker] Catch division/modulo overflow 0x80000000/-1</li>
+ <li>[tg] Emacs mode ^O regression fix when the fetched lines are edited</li>
 </ul>
 <p id="r40c">mksh R40c collects stable development, mostly fixes:</p><ul>
  <li>[tg, Wouter Verhelst] Fix <tt>${foo%\?}</tt> in <tt>-o sh</tt></li>
