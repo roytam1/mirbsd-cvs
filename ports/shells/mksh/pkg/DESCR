@@ -6,6 +6,7 @@ shell good for interactive and especially script use.  It has
 UTF-8 support in the emacs command line editing mode; corres-
 ponds to OpenBSD 4.1-beta ksh (minus GNU bash-like $PS1); the
 build environment requirements are autoconfigured; throughout
-code simplification/bugfix/enhancement has been done.
+code simplification/bugfix/enhancement has been done, and the
+shell has extended compatibility to other modern shells.
 
 A sample ~/.mkshrc is included in ${PREFIX}/share/examples/mksh/
