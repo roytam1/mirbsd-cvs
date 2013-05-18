@@ -742,10 +742,15 @@ static int HTLoadHTTP(const char *arg,
 	    /* verify this CN */
 	    if (!strcasecomp_asterisk(ssl_host, cert_host)) {
 		status_sslcertcheck = 2;	/* 2 = verified peer */
-		/* I think this is cool to have in the logs --mirabilos */
+		/* I think this is cool to have in the logs -TG */
 		HTSprintf0(&msg,
 			   gettext("Verified connection to %s (cert=%s)"),
 			   ssl_host, cert_host);
+		_HTProgress(msg);
+		FREE(msg);
+		X509_NAME_oneline(X509_get_issuer_name(SSL_get_peer_certificate(handle)),
+				  ssl_dn, sizeof (ssl_dn));
+		HTSprintf0(&msg, gettext("Certificate issued by: %s"), ssl_dn);
 		_HTProgress(msg);
 		FREE(msg);
 		/* no need to continue the verification loop */
