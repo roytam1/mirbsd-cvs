@@ -1,4 +1,4 @@
-.\"	$MirOS: src/usr.bin/make/make.1,v 1.12 2008/03/14 16:37:09 tg Exp $
+.\"	$MirOS: src/usr.bin/make/make.1,v 1.13 2008/03/14 16:46:00 tg Exp $
 .\"	$OpenBSD: make.1,v 1.68 2007/05/31 19:20:13 jmc Exp $
 .\"	$OpenPackages$
 .\"	$NetBSD: make.1,v 1.18 1997/03/10 21:19:53 christos Exp $
@@ -66,7 +66,7 @@
 .\" .Dd must come before definition of .Mx, because when called
 .\" with -mandoc, it might implement .Mx itself, but we want to
 .\" use our own definition. And .Dd must come *first*, always.
-.Dd $Mdocdate$
+.Dd $Mdocdate: March 14 2008 $
 .\"
 .\" Implement .Mx (MirBSD)
 .de Mx
@@ -1385,7 +1385,9 @@ directory
 The
 .Nm
 utility is compliant with the
-.St -p1003.1-2004
+.\" .St -p1003.1-2004
+IEEE Std 1003.1-2004
+.Pq Dq Tn POSIX
 specification.
 .Pp
 The flags
