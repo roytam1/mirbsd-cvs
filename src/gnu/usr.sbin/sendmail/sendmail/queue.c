@@ -6651,8 +6651,8 @@ stop_sem(owner)
 void
 upd_qs(e, count, space, where)
 	ENVELOPE *e;
-	int count;
-	int space;
+	bool count;
+	bool space;
 	char *where;
 {
 	short fidx;
