@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libcdk/Makefile,v 1.3 2006/04/16 18:31:32 tg Exp $
+# $MirOS: src/lib/libcdk/Makefile,v 1.4 2006/04/16 18:40:52 tg Exp $
 
 SHLIB_VERSION?=	2.0
 LIB=		cdk
@@ -669,6 +669,7 @@ MLINKS=		cdk_alphalist.3 activateCDKAlphalist.3 \
 
 .PATH: ${.CURDIR}/man
 
+MAN+=		${MANTBLS:M*tbl}
 .for _i in ${MANTBLS:N*tbl}
 MAN+=		${_i}tbl
 CLEANFILES+=	${_i}tbl

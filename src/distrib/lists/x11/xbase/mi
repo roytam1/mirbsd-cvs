@@ -8095,9 +8095,6 @@
 ./usr/X11R6/man/cat7/XStandards.0
 ./usr/X11R6/man/cat7/Xsecurity.0
 ./usr/X11R6/man/whatis.db
-./usr/local
-./usr/local/lib
-./usr/local/lib/X11
 ./usr/local/lib/X11/app-defaults
 ./var/db/xdm
 ./var/db/xkb

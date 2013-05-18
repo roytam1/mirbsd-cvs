@@ -626,7 +626,6 @@
 ./usr/local/info
 ./usr/local/lib
 ./usr/local/lib/X11
-./usr/local/lib/X11/app-defaults
 ./usr/local/libdata
 ./usr/local/libdata/perl5
 ./usr/local/libdata/perl5/site_perl

@@ -1,4 +1,7 @@
 ./etc
 ./usr
+./usr/local
+./usr/local/lib
+./usr/local/lib/X11
 ./var
 ./var/db
