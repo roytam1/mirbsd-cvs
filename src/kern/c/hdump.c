@@ -21,9 +21,9 @@
 #include <sys/param.h>
 #include <libckern.h>
 
-__RCSID("$MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $");
+__RCSID("$MirOS: src/kern/c/hdump.c,v 1.1 2008/12/28 05:10:30 tg Exp $");
 
-extern void printf(const char *, ...)
+extern int printf(const char *, ...)
     __attribute__((format (printf, 1, 2)));
 
 #define nibble(value, index)	(((unsigned)(value) >> ((index) << 2)) & 0x0F)
