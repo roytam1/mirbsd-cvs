@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.318 2010/02/14 19:28:04 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.319 2010/02/23 22:11:27 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -758,6 +758,8 @@ mws_content <<'EOF'
 <li><a href="http://openwrt.org/">OpenWrt Embedded GNU/Linux Distribution</a>
  also <a href="https://dev.openwrt.org/browser/packages/utils/mksh">provides
  mksh</a> on ADSL/WLAN routers thanks to Felix “nbd” Fietkau.</li>
+<li>The <a href="http://www.android-x86.org/">Android-x86 Project</a> has
+ mksh as <tt>/bin/sh</tt> since 2010-02-25.</li>
 <li><a href="http://www.ubuntu.com/">Ubuntu GNU/Linux</a>, the <a
  href="http://grml.org/">grml</a> (and grml64) Live-CD, and other Debian
  derivates also have an mksh package; Knoppix, SIDUX, <a
