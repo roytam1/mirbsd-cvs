@@ -22,7 +22,7 @@ distclean: clean
 
 $(OBJS): Makefile
 
-$(LIB): $(OBJS)
+$(LIB) dummy: $(OBJS)
 	rm -f $@
 	ar cr $@ $(OBJS)
 	$(RANLIB) $@

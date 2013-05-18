@@ -18,7 +18,7 @@ OBJS= alloc.o buff.o \
 
 all: $(HEADERS) $(LIB)
 
-$(LIB): $(OBJS)
+$(LIB) dummy: $(OBJS)
 	rm -f $@
 	ar cr $@ $(OBJS)
 	$(RANLIB) $@

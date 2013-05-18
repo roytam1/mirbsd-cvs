@@ -12,7 +12,7 @@ all: lib
 
 lib: $(LIB)
 
-libproxy.a: $(OBJS)
+libproxy.a dummy: $(OBJS)
 	rm -f $@
 	ar cr $@ $(OBJS)
 	$(RANLIB) $@

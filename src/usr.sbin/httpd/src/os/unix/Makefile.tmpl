@@ -9,7 +9,7 @@ LIB=	libos.a
 
 all:	$(LIB)
 
-$(LIB): $(OBJS)
+$(LIB) dummy: $(OBJS)
 	rm -f $@
 	ar cr $@ $(OBJS)
 	$(RANLIB) $@

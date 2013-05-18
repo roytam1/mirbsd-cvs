@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/usr.sbin/httpd/src/modules/ssl/Makefile.tmpl,v 1.2 2005/03/13 19:16:54 tg Exp $
 #
 ##                      _             _
 ##  _ __ ___   ___   __| |    ___ ___| |  mod_ssl
@@ -132,7 +132,7 @@ all: lib
 
 lib: $(LIB)
 
-libssl.a: $(OBJS)
+libssl.a dummy: $(OBJS)
 	rm -f $@
 	ar cr $@ $(OBJS)
 	$(RANLIB) $@
