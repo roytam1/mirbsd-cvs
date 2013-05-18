@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /*	Displaying messages and getting input for Lynx Browser
  *	==========================================================
  *
@@ -140,7 +142,7 @@ const char *HTProgressUnits(int rate)
 
     if (!bunits) {
 	bunits = gettext("bytes");
-	kbunits = gettext(LYTransferName);
+	kbunits = gettext("KiB");
     }
     return ((rate == rateKB)
 #ifdef USE_READPROGRESS

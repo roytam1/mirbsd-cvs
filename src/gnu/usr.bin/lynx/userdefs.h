@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /*
  * Lynx - Hypertext navigation system
  *
@@ -10,10 +12,6 @@
  *  Section 1.  Things you MUST verify.  Unix platforms use a configure
  *		script to provide sensible default values.  If your site
  *		has special requirements, that may not be sufficient.
- *		For non-Unix platforms (e.g., VMS), there is no
- *		configure script, so the defaults here are more
- *		critical.
- *	Section 1a)  VMS specific things
  *	Section 1b)  non-VMS specific things
  *	Section 1c)  ALL Platforms
  *
@@ -47,202 +45,9 @@
  */
 
 /*******************************************************************
- * Things you must change  -  VMS specific
- *  Section 1a).
- */
-#ifdef VMS
-/**************************
- * TEMP_SPACE is where Lynx temporary cache files will be placed.
- * Temporary files are removed automatically as long as nothing
- * goes terribly wrong :)  If you include "$USER" in the definition
- * (e.g., "device:[dir.$USER]"), Lynx will replace the "$USER" with
- * the username of the account which invoked the Lynx image.  Such
- * directories should already exist, and have protections/ACLs set
- * so that only the appropriate user(s) will have read/write access.
- * On VMS, "sys$scratch:" defaults to "sys$login:" if it has not been
- * defined externally, or you can use "sys$login:" explicitly here.
- * If the path has SHELL syntax and includes a tilde (e.g, "~/lynxtmp"),
- * Lynx will replace the tilde with the full path for the user's home
- * and convert the result to VMS syntax.
- * The definition here can be overridden at run time by defining a
- * "LYNX_TEMP_SPACE" VMS logical.
- */
-#define TEMP_SPACE "sys$scratch:"
-
-/**************************
- * LYNX_CFG_FILE is the location and name of the default lynx
- * global configuration file.  It is sought and processed at
- * startup of Lynx, followed by a seek and processing of a
- * personal RC file (.lynxrc in the user's HOME directory,
- * created if the user saves values in the 'o'ptions menu).
- * You also can define the location and name of the global
- * configuration file via a VMS logical, "LYNX_CFG", which
- * will override the "LYNX_CFG_FILE" definition here.  SYS$LOGIN:
- * can be used as the device in either or both definitions if
- * you want lynx.cfg treated as a personal configuration file.
- * You also can use Unix syntax with a '~' for a subdirectory
- * of the login directory, (e.g., ~/lynx/lynx.cfg).
- * The -cfg command line switch will override these definitions.
- * You can pass the compilation default via build.com or descrip.mms.
- *
- * Note that some implementations of telnet allow passing of
- * environment variables, which might be used by unscrupulous
- * people to modify the environment in anonymous accounts.  When
- * making Lynx and Web access publicly available via anonymous
- * accounts intended to run Lynx captively, be sure the wrapper
- * uses the -cfg switch and specifies the startfile, rather than
- * relying on the LYNX_CFG, LYNX_CFG_FILE, or WWW_HOME variables.
- *
- * Note that any SUFFIX or VIEWER mappings in the configuration
- * file will be overridden by any suffix or viewer mappings
- * that are established as defaults in src/HTInit.c.  You can
- * override the src/HTInit.c defaults via the mime.types and
- * mailcap files (see the examples in the samples directory).
- */
-#ifndef LYNX_CFG_FILE
-#define LYNX_CFG_FILE "Lynx_Dir:lynx.cfg"
-#endif /* LYNX_CFG_FILE */
-
-/**************************
- * The EXTENSION_MAP file allows you to map file suffixes to
- * mime types.
- * The file locations defined here can be overridden in lynx.cfg.
- * Mappings in these global and personal files override any SUFFIX
- * definitions in lynx.cfg and built-in defaults from src/HTInit.c.
- */
-#define GLOBAL_EXTENSION_MAP "Lynx_Dir:mime.types"
-#define PERSONAL_EXTENSION_MAP "mime.types"
-
-/**************************
- * The MAILCAP file allows you to map file MIME types to
- * external viewers.
- * The file locations defined here can be overridden in lynx.cfg.
- * Mappings in these global and personal files override any VIEWER
- * definitions in lynx.cfg and built-in defaults from src/HTInit.c.
- */
-#define GLOBAL_MAILCAP "Lynx_Dir:mailcap"
-#define PERSONAL_MAILCAP ".mailcap"
-
-/**************************
- * XLOADIMAGE_COMMAND will be used as a default in src/HTInit.c
- * for viewing image content types when the DECW$DISPLAY logical
- * is set.  Make it the foreign command for your system's X image
- * viewer (commonly, "xv").  It can be anything that will handle GIF,
- * TIFF and other popular image formats.  Freeware ports of xv for
- * VMS are available in the ftp://ftp.wku.edu/vms/unsupported and
- * http://www.openvms.digital.com/cd/XV310A/ subdirectories.  You
- * must also have a "%s" for the filename.  The default defined
- * here can be overridden in lynx.cfg, or via the global or personal
- * mailcap files.
- * Make this NULL if you don't have such a viewer or don't want to
- * use any default viewers for image types.
- */
-#define XLOADIMAGE_COMMAND "xv %s"
-
-/**************************
- * SYSTEM_MAIL must be defined here to your mail sending command,
- * and SYSTEM_MAIL_FLAGS to appropriate qualifiers.  They can be
- * changed in lynx.cfg.
- *
- * The mail command will be spawned as a subprocess of lynx
- * and used to send the email, with headers specified in a
- * temporary file for PMDF.  If you define SYSTEM_MAIL to the
- * "generic" MAIL utility for VMS, headers cannot be specified
- * via a header file (and thus may not be included), and the
- * subject line will be specified by use of the /subject="SUBJECT"
- * qualifier.
- *
- * If your mailer uses another syntax, some hacking of the
- * mailform(), mailmsg() and reply_by_mail() functions in
- * LYMail.c, and printfile() function in LYPrint.c, may be
- * required.
- */
-#define SYSTEM_MAIL "PMDF SEND"
-#define SYSTEM_MAIL_FLAGS "/headers"
-/* #define SYSTEM_MAIL "MAIL"   */
-/* #define SYSTEM_MAIL_FLAGS "" */
-
-/*************************
- * Below is the argument for an sprintf command that will add
- * "IN%""ADDRESS""" to the Internet mail address given by the user.
- * It is structured for PMDF's IN%"INTERNET_ADDRESS" scheme.  The %s
- * is replaced with the address given by the user.  If you are using
- * a different Internet mail transport, change the IN appropriately
- * (e.g., to SMTP, MX, or WINS), here or in lynx.cfg.
- */
-#define MAIL_ADRS "\"IN%%\"\"%s\"\"\""
-
-/*********************************
- * On VMS, CSwing (an XTree emulation for VTxxx terminals) is intended for
- * use as the Directory/File Manager (sources, objects, or executables are
- * available from ftp://narnia.memst.edu/).  CSWING_PATH should be defined
- * here or in lynx.cfg to your foreign command for CSwing, with any
- * regulatory switches you want included.  If not defined, or defined as
- * a zero-length string ("") or "none" (case-insensitive), the support
- * will be disabled.  It will also be disabled if the -nobrowse or
- * -selective switches are used, or if the file_url restriction is set.
- *
- * When enabled, the DIRED_MENU command (normally 'f' or 'F') will invoke
- * CSwing, normally with the current default directory as an argument to
- * position the user on that node of the directory tree.  However, if the
- * current document is a local directory listing, or a local file and not
- * one of the temporary menu or list files, the associated directory will
- * be passed as an argument, to position the user on that node of the tree.
- */
-/* #define CSWING_PATH "swing" */
-
-/*********************************
- * If USE_FIXED_RECORDS is set to TRUE here and/or in lynx.cfg, Lynx will
- * convert 'd'ownloaded binary files to FIXED 512 record format before saving
- * them to disk or acting on a DOWNLOADER option.  If set to FALSE, the
- * headers of such files will indicate that they are Stream_LF with Implied
- * Carriage Control, which is incorrect, and can cause downloading software
- * to get confused and unhappy.  If you do set it FALSE, you can use the
- * FIXED512.COM command file, which is included in this distribution, to do
- * the conversion externally.
- */
-#define USE_FIXED_RECORDS	TRUE	/* convert binaries to FIXED 512 */
-
-/********************************
- * If NO_ANONYMOUS_EMAIL is defined, Lynx will not offer to insert X-From
- * and X_Personal_Name lines in the body of email messages.  On VMS, the
- * actual From and Personal Name (if defined for the account) headers always
- * are those of the account running the Lynx image.  If the account is not
- * the one to which the recipient should reply, you can indicate the alternate
- * address and personal name via the X-From and X_Personal_Name entries, but
- * the recipient must explicitly send the reply to the X_From address, rather
- * than using the VMS REPLY command (which will use the actual From address).
- *
- * This symbol constant might be defined on Unix for security reasons that
- * don't apply on VMS.  There is no security reason for defining this on VMS,
- * but if you have no anonymous accounts (i.e., the From always will point to
- * the actual user's email address, you can define it to avoid the bother of
- * X-From and X_Personal_Name offers.
- */
-/*#define NO_ANONYMOUS_EMAIL TRUE */
-
-/**************************
- * LYNX_LSS_FILE is the location and name of the default lynx
- * character style sheet file.  It is sought and processed at
- * startup of Lynx only if experimental character style code has
- * been compiled in, otherwise it will be ignored.  Note that use
- * of the character style option is _experimental_ AND _unsupported_.
- * There is no documentation other than a sample lynx.lss file in
- * the samples subdirectory.  This code probably won't even work on
- * VMS.  You can define the location and name of this file via an
- * environment variable, "lynx_lss", which will override the definition
- * here.  You can use '~' to refer to the user's home directory.  The
- * -lss command line switch will override these definitions.
- */
-#ifndef LYNX_LSS_FILE
-#define LYNX_LSS_FILE "Lynx_Dir:lynx.lss"
-#endif /* LYNX_LSS_FILE */
-
-/*******************************************************************
  * Things you must change  -  non-VMS specific
  *  Section 1b).
  */
-#else     /* non-VMS: UNIX etc. */
 
 /**************************
  * NOTE: This variable is set by the configure script; editing changes will
@@ -324,7 +129,7 @@
  * use any default viewers for image types.  Note that open is used as
  * the default for NeXT, instead of the XLOADIMAGE_COMMAND definition.
  */
-#define XLOADIMAGE_COMMAND "xli %s &"
+#define XLOADIMAGE_COMMAND "xloadimage %s &"
 
 /**************************
  * For UNIX systems, SYSTEM_MAIL and SYSTEM_MAIL_FLAGS are set by the
@@ -433,8 +238,6 @@
 #define LYNX_LSS_FILE "/usr/local/lib/lynx.lss"
 #endif /* LYNX_LSS_FILE */
 
-#endif /* VMS OR UNIX */
-
 /*************************************************************
  *  Section 1c)   Every platform must change or verify these
  *
@@ -452,7 +255,7 @@
  * Normally we expect you will connect to a remote site, e.g., the Lynx starting
  * site:
  */
-#define STARTFILE "http://lynx.isc.org/"
+/* #define STARTFILE "http://lynx.isc.org/" */
 /*
  * As an alternative, you may want to use a local URL.  A good choice for this
  * is the user's home directory:
@@ -462,6 +265,7 @@
  * you can connect to reliably.  Otherwise users will become confused and think
  * that they cannot run Lynx.
  */
+#define STARTFILE "file://localhost/~/"
 
 /*****************************
  * HELPFILE must be defined as a URL and must have a
@@ -474,8 +278,8 @@
  * http://www.subir.com/lynx/lynx_help/lynx_help_main.html
  *   This should be changed here or in lynx.cfg to the local path.
  */
-#define HELPFILE "http://www.subir.com/lynx/lynx_help/lynx_help_main.html"
-/* #define HELPFILE "file://localhost/PATH_TO/lynx_help/lynx_help_main.html" */
+/* #define HELPFILE "http://www.subir.com/lynx/lynx_help/lynx_help_main.html" */
+#define HELPFILE "file://localhost/usr/share/doc/html/lynx_help/lynx_help_main.html"
 
 /*****************************
  * DEFAULT_INDEX_FILE is the default file retrieved when the
@@ -619,10 +423,6 @@
 * DEFAULT_VIRTUAL_MEMORY_SIZE has been exceeded, as with VAXC/VAX).
 */
 #define DEFAULT_CACHE_SIZE 10
-
-#if defined(VMS) && defined(VAXC) && !defined(__DECC)
-#define DEFAULT_VIRTUAL_MEMORY_SIZE 512000
-#endif /* VMS && VAXC && !__DECC */
 
 /********************************
  * If ALWAYS_RESUBMIT_POSTS is set TRUE, Lynx always will resubmit forms
@@ -833,7 +633,7 @@
  * directory.  If it is in a subdirectory, begin it with a dot-slash
  * (e.g., ./lynx/.lynxsig).  The definition here can be changed in lynx.cfg.
  */
-#define LYNX_SIG_FILE ".lynxsig"
+#define LYNX_SIG_FILE ".etc/sig"
 
 /********************************
  * BIBP_GLOBAL_SERVER is the default global server for bibp: links, used
@@ -1123,15 +923,6 @@
  * have to worry about people trying to abuse the code. :-)
  *
  *     George Lindholm (George.Lindholm@ubc.ca)
- *
- * VMS:
- * ====
- * The lynxcgi scheme, if enabled, yields an informational message regardless
- * of the path, and use of the freeware OSU DECthreads server as a local
- * script server is recommended instead of lynxcgi URLs.  Uncomment the
- * following line to define LYNXCGI_LINKS, and when running Lynx, enter
- * lynxcgi:advice  as a G)oto URL for more information and links to the
- * OSU server distribution.
  */
 #ifndef HAVE_CONFIG_H
 /* #define LYNXCGI_LINKS */
@@ -1168,13 +959,6 @@
  * This is just the default, it can be changed in lynx.cfg.  The checks and
  * status line reports will not be performed if Lynx has been invoked with
  * the -restrictions=mail switch.
- *
- *  VMS USERS !!!
- * New mail is normally broadcast as it arrives, via "unsolicited screen
- * broadcasts", which can be "wiped" from the Lynx display via the Ctrl-W
- * command.  You may prefer to disable the broadcasts and use CHECKMAIL
- * instead (e.g., in a public account which will be used by people who
- * are ignorant about VMS).
  */
 #define CHECKMAIL	FALSE	/* report unread and new mail messages */
 
@@ -1360,7 +1144,7 @@
  * the version definition with the Project Version on checkout.  Just
  * ignore it. - kw */
 /* $Format: "#define LYNX_VERSION \"$ProjectVersion$\""$ */
-#define LYNX_VERSION "2.8.6dev.11"
+#define LYNX_VERSION "2.8.6dev.11b-MirOS"
 #define LYNX_WWW_HOME "http://lynx.isc.org/"
 #define LYNX_WWW_DIST "http://lynx.isc.org/current/"
 /* $Format: "#define LYNX_DATE \"$ProjectDate$\""$ */
@@ -1395,20 +1179,6 @@
 
 #define BIN_SUFFIX  ".bin"
 #define TEXT_SUFFIX ".txt"
-
-#ifdef VMS
-/*
-**  Use the VMS port of gzip for uncompressing both .Z and .gz files.
-*/
-#define UNCOMPRESS_PATH "gzip -d"
-#define COPY_PATH	"copy/nolog/noconf"
-#define GZIP_PATH       "gzip"
-#define BZIP2_PATH      "bzip2"
-#define TELNET_PATH     "telnet"
-#define TN3270_PATH     "tn3270"
-#define RLOGIN_PATH     "rlogin"
-
-#else
 
 #ifdef DOSPATH
 
@@ -1493,7 +1263,6 @@
 	 * environment variables (see INSTALLATION, Section II-1d).
 	 */
 #endif /* DOSPATH */
-#endif /* VMS */
 
 
 /***************************** 
@@ -1548,11 +1317,11 @@
  
 /***************************** 
  * Uncomment the following line to enable the kanji code override routine. 
- * The code can be changed by pressing ^L.  More precisely, this allows 
+ * The code can be changed by pressing shift-J.  More precisely, this allows
  * the user to override the assumption about the kanji code for the document 
  * which Lynx has made on the basis of a META tag and HTTP response. 
  */ 
-/*#define KANJI_CODE_OVERRIDE */ 
+#define KANJI_CODE_OVERRIDE
  
 
 /****************************************************************

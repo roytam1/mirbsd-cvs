@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /* global variable definitions */
 
 #ifndef LYGLOBALDEFS_H
@@ -237,7 +239,6 @@ extern "C" {
 
     extern char *LYRequestReferer;	/* Referer, may be set in getfile() */
     extern char *LYRequestTitle;	/* newdoc.title in calls to getfile() */
-    extern char *LYTransferName;	/* abbreviation for Kilobytes */
     extern char *LynxHome;
     extern char *LynxSigFile;	/* Signature file, in or off home */
     extern char *ftp_lasthost;

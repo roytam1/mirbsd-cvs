@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /*
  *  makeuctb.c, derived from conmakehash.c   - kw
  *
@@ -296,6 +298,7 @@ int main(int argc, char **argv)
     int fp0 = 0, fp1 = 0, un0, un1;
     char *p, *p1;
     char *tbuf, ch;
+    size_t plen;
 
     if (argc < 2 || argc > 5) {
 	usage();
@@ -323,11 +326,11 @@ int main(int argc, char **argv)
 	chdr = stdout;
 	hdrname = "stdout";
     } else {
-	strcpy(outname, tblname);
+	strlcpy(outname, tblname, 256);
 	hdrname = outname;
 	if ((p = strrchr(outname, '.')) == 0)
 	    p = outname + strlen(outname);
-	strcpy(p, ".h");
+	strlcpy(p, ".h", 256 - (p - outname));
     }
 
     if (chdr == 0) {
@@ -536,7 +539,8 @@ int main(int argc, char **argv)
 		continue;
 	    }
 
-	    tbuf = (char *) malloc(4 * strlen(p));
+	    plen = 4 * strlen(p);
+	    tbuf = (char *) malloc(plen);
 
 	    if (!(p1 = tbuf)) {
 		fprintf(stderr, "%s: Out of memory\n", tblname);
@@ -573,7 +577,7 @@ int main(int argc, char **argv)
 		for (ch = *(++p); (ch = *p) != '\0'; p++, p1++) {
 		    if (UCH(ch) < 32 || ch == '\\' || ch == '\"' ||
 			UCH(ch) >= 127) {
-			sprintf(p1, "\\%.3o", UCH(ch));
+			snprintf(p1, plen - (p1 - tbuf), "\\%.3o", UCH(ch));
 			p1 += 3;
 		    } else {
 			*p1 = ch;

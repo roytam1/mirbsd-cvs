@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 #ifndef NO_RULES
 #include <HTRules.h>
 #else
@@ -1457,7 +1459,6 @@ static Config_Type Config_Table [] =
      PARSE_SET(RC_SEEK_FRAG_MAP_IN_CUR, LYSeekFragMAPinCur),
      PARSE_SET(RC_SET_COOKIES,          LYSetCookies),
      PARSE_SET(RC_SHOW_CURSOR,          LYShowCursor),
-     PARSE_STR(RC_SHOW_KB_NAME,         LYTransferName),
      PARSE_ENU(RC_SHOW_KB_RATE,         LYTransferRate, tbl_transfer_rate),
      PARSE_Env(RC_SNEWS_PROXY,          0),
      PARSE_Env(RC_SNEWSPOST_PROXY,      0),

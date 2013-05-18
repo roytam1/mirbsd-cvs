@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /*	HyperText Tranfer Protocol	- Client implementation		HTTP.c
  *	==========================
  * Modified:
@@ -638,7 +640,7 @@ static int HTLoadHTTP(const char *arg,
 	    ssl_host = HTParse(url, "", PARSE_HOST);
 	    if ((p = strchr(ssl_host, ':')) != NULL)
 		*p = '\0';
-	    if (strcasecomp(ssl_host, cert_host)) {
+	    if (strcasecomp_asterisk(ssl_host, cert_host)) {
 		HTSprintf0(&msg,
 			   gettext("SSL error:host(%s)!=cert(%s)-Continue?"),
 			   ssl_host,

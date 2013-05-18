@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 #include <HTUtils.h>
 #include <HTFTP.h>
 #include <LYUtils.h>
@@ -15,7 +17,7 @@
 #ifdef FNAMES_8_3
 #define FNAME_LYNXRC "lynx.rc"
 #else
-#define FNAME_LYNXRC ".lynxrc"
+#define FNAME_LYNXRC ".etc/lynxrc"
 #endif /* FNAMES_8_3 */
 
 #define MSG_ENABLE_LYNXRC N_("Normally disabled.  See ENABLE_LYNXRC in lynx.cfg\n")
@@ -355,7 +357,7 @@ settings made here.\n\
 #ifdef USE_PERSISTENT_COOKIES
     PARSE_STR(RC_COOKIE_FILE,	        LYCookieFile, N_("\
 cookie_file specifies the file from which to read persistent cookies.\n\
-The default is ~/.lynx_cookies.\n\
+The default is ~/.etc/cookies.txt.\n\
 ")),
 #endif
     PARSE_STR(RC_COOKIE_LOOSE_INVALID_DOMAINS, LYCookieLooseCheckDomains, N_("\

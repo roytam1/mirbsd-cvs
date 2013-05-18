@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 #include <HTUtils.h>
 #include <HTTP.h>
 #include <HTParse.h>
@@ -64,7 +66,7 @@
 #define COOKIE_FILE "cookies"
 #define TRACE_FILE "LY-TRACE.LOG"
 #else
-#define COOKIE_FILE ".lynx_cookies"
+#define COOKIE_FILE ".etc/cookies.txt"
 #define TRACE_FILE "Lynx.trace"
 #endif /* FNAMES_8_3 */
 
@@ -499,7 +501,6 @@ BOOLEAN LYShowTransferRate = TRUE;
 int LYTransferRate = rateKB;
 int LYAcceptEncoding = encodingALL;
 int LYAcceptMedia = mediaOpt1;
-char *LYTransferName = NULL;
 
 char *XLoadImageCommand = NULL;	/* Default image viewer for X */
 BOOLEAN LYNoISMAPifUSEMAP = FALSE;	/* Omit ISMAP link if MAP present? */
@@ -755,7 +756,6 @@ static void free_lynx_globals(void)
     FREE(URLDomainSuffixes);
     FREE(XLoadImageCommand);
     FREE(lynx_temp_space);
-    FREE(LYTransferName);
     FREE(LYTraceLogPath);
     FREE(lynx_cfg_file);
 #if defined(USE_COLOR_STYLE)
@@ -1134,7 +1134,6 @@ int main(int argc,
     MessageSecs = SECS2Secs(MESSAGESECS);
     ReplaySecs = SECS2Secs(REPLAYSECS);
 
-    StrAllocCopy(LYTransferName, "KiB");
     StrAllocCopy(helpfile, HELPFILE);
     StrAllocCopy(startfile, STARTFILE);
     LYEscapeStartfile(&startfile);
@@ -1152,7 +1151,29 @@ int main(int argc,
     StrAllocCopy(system_mail_flags, "");
 #endif
 
-    StrAllocCopy(LYUserAgent, LYNX_NAME);
+    /*
+     * Ugly code - but StrAlloc* is a macro :(
+     */
+    StrAllocCopy(LYUserAgent, "Mozilla/5.0 (UNIX; U; ");
+#if defined(__OpenBSD__)
+    StrAllocCat(LYUserAgent, "OpenBSD");
+#elif defined(__FreeBSD__)
+    StrAllocCat(LYUserAgent, "FreeBSD");
+#elif defined(__NetBSD__)
+    StrAllocCat(LYUserAgent, "NetBSD");
+#elif defined(__Linux__)
+    StrAllocCat(LYUserAgent, "GNU/Linux");
+#elif defined(WIN32)
+    StrAllocCat(LYUserAgent, "Win32");
+#elif defined(_WINDOWS)
+    StrAllocCat(LYUserAgent, "Windows (non-32 bit)");
+#elif defined(VMS)
+    StrAllocCat(LYUserAgent, "VMS");
+#else
+    StrAllocCat(LYUserAgent, "other");
+#endif
+    StrAllocCat(LYUserAgent, "; C; compatible) ");
+    StrAllocCat(LYUserAgent, LYNX_NAME);
     StrAllocCat(LYUserAgent, "/");
     StrAllocCat(LYUserAgent, LYNX_VERSION);
     if (HTLibraryVersion) {
@@ -1162,6 +1183,24 @@ int main(int argc,
 #ifdef USE_SSL
     append_ssl_version(&LYUserAgent, "/");
 #endif /* USE_SSL */
+#ifndef __NO_MIRBSD_EXTENSION
+    StrAllocCat(LYUserAgent, " Revision/MirOS:");
+#if defined(__MirBSD__) || defined(__MirLinux__) || defined(__MirInterix__)
+    StrAllocCat(LYUserAgent, MACHINE_OS);
+    StrAllocCat(LYUserAgent,
+	" (http://MirBSD.org/)");
+#else
+    StrAllocCat(LYUserAgent,
+	"other (third party building Lynx from MirBSD source)");
+#endif
+#endif
+	/*
+	 * the reason for the following one is:
+	 * certain web backends only give Netscape, Mozilla
+	 * or MS Internet Explorer users the "real" HTML
+	 * of the page by checking the user agent
+	 */
+    StrAllocCat(LYUserAgent, " fake (MSIE 5.5)");
     StrAllocCopy(LYUserAgentDefault, LYUserAgent);
 
 #ifdef VMS
@@ -2046,10 +2085,7 @@ int main(int argc,
      * synchronized.  - FM
      */
     if (!bookmark_page || *bookmark_page == '\0') {
-	temp = NULL;
-	HTSprintf0(&temp, "lynx_bookmarks%s", HTML_SUFFIX);
-	set_default_bookmark_page(temp);
-	FREE(temp);
+	set_default_bookmark_page("./.etc/bookmark.htm");
     }
     if (!BookmarkPage || *BookmarkPage == '\0') {
 	set_default_bookmark_page(bookmark_page);

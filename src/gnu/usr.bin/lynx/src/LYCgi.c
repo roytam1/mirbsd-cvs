@@ -1,6 +1,6 @@
-/*
- * $LynxId: LYCgi.c,v 1.65 2013/01/04 09:44:59 tom Exp $
- *                   Lynx CGI support                              LYCgi.c
+/* $MirOS$ */
+
+/*                   Lynx CGI support                              LYCgi.c
  *                   ================
  *
  * Authors
@@ -49,12 +49,16 @@
 #include <LYLeaks.h>
 #include <www_wait.h>
 
+struct _HTStream {
+    HTStreamClass *isa;
+};
+
 static char **env = NULL;	/* Environment variables */
-static unsigned envc_size = 0;	/* Slots in environment array */
-static unsigned envc = 0;	/* Slots used so far */
+static int envc_size = 0;	/* Slots in environment array */
+static int envc = 0;		/* Slots used so far */
 static HTList *alloced = NULL;
 
-#if defined(LYNXCGI_LINKS) && !defined(__MINGW32__)
+#ifdef LYNXCGI_LINKS
 static char *user_agent = NULL;
 static char *server_software = NULL;
 static char *accept_language = NULL;
@@ -114,7 +118,6 @@ static void add_environment_value(const char *env_value)
 	if (env == NULL) {
 	    outofmem(__FILE__, "LYCgi");
 	}
-	assert(env != NULL);
     }
 
     env[envc++] = (char *) env_value;
@@ -148,44 +151,10 @@ static int LYLoadCGI(const char *arg,
     return -1;
 }
 #else
-#ifdef LYNXCGI_LINKS
-/*
- * Wrapper for exec_ok(), confirming with user if the link text is not visible
- * in the status line.
- */
-static BOOL can_exec_cgi(const char *linktext, const char *linkargs)
-{
-    const char *format = gettext("Do you want to execute \"%s\"?");
-    char *message = NULL;
-    char *command = NULL;
-    char *p;
-    BOOL result = TRUE;
-
-    if (!exec_ok(HTLoadedDocumentURL(), linktext, CGI_PATH)) {
-	/* exec_ok gives out msg. */
-	result = FALSE;
-    } else {
-	StrAllocCopy(command, linktext);
-	if (non_empty(linkargs)) {
-	    HTSprintf(&command, " %s", linkargs);
-	}
-	HTUnEscape(command);
-	for (p = command; *p; ++p)
-	    if (*p == '+')
-		*p = ' ';
-	HTSprintf0(&message, format, command);
-	result = HTConfirm(message);
-	FREE(message);
-	FREE(command);
-    }
-    return result;
-}
-#endif /* LYNXCGI_LINKS */
-
-static int LYLoadCGI(const char *arg,
-		     HTParentAnchor *anAnchor,
-		     HTFormat format_out,
-		     HTStream *sink)
+static int LYLoadCGI(const char *arg GCC_UNUSED,
+		     HTParentAnchor *anAnchor GCC_UNUSED,
+		     HTFormat format_out GCC_UNUSED,
+		     HTStream *sink GCC_UNUSED)
 {
     int status = 0;
 
@@ -208,7 +177,7 @@ static int LYLoadCGI(const char *arg,
 	return (status);
 
     } else {
-	if (StrNCmp(arg, "lynxcgi://localhost", 19) == 0) {
+	if (strncmp(arg, "lynxcgi://localhost", 19) == 0) {
 	    StrAllocCopy(pgm, arg + 19);
 	} else {
 	    StrAllocCopy(pgm, arg + 8);
@@ -220,7 +189,7 @@ static int LYLoadCGI(const char *arg,
     }
 
     StrAllocCopy(orig_pgm, pgm);
-    if (trimPoundSelector(pgm) != NULL) {
+    if ((cp = trimPoundSelector(pgm)) != NULL) {
 	/*
 	 * Strip a #fragment from path.  In this case any pgm_args found above
 	 * will also be bogus, since the '?' came after the '#' and is part of
@@ -314,7 +283,8 @@ static int LYLoadCGI(const char *arg,
 	       strcmp(arg, HTLoadedDocumentURL()) &&
 	       HText_AreDifferent(anAnchor, arg) &&
 	       HTUnEscape(orig_pgm) &&
-	       !can_exec_cgi(orig_pgm, "")) {
+	       !exec_ok(HTLoadedDocumentURL(), orig_pgm,
+			CGI_PATH)) {	/* exec_ok gives out msg. */
 	/*
 	 * If we have extra path info and are not just reloading the current,
 	 * check the full file path (after unescaping) now to catch forbidden
@@ -344,7 +314,8 @@ static int LYLoadCGI(const char *arg,
 	       !(reloading && anAnchor->document) &&
 	       strcmp(arg, HTLoadedDocumentURL()) &&
 	       HText_AreDifferent(anAnchor, arg) &&
-	       !can_exec_cgi(pgm, pgm_args)) {
+	       !exec_ok(HTLoadedDocumentURL(), pgm,
+			CGI_PATH)) {	/* exec_ok gives out msg. */
 	/*
 	 * If we are reloading a lynxcgi document that had already been loaded,
 	 * the various checks above should allow it even if exec_ok() would
@@ -357,7 +328,7 @@ static int LYLoadCGI(const char *arg,
 	HTFormat format_in;
 	HTStream *target = NULL;	/* Unconverted data */
 	int fd1[2], fd2[2];
-	char buf[MAX_LINE];
+	char buf[1024];
 	int pid;
 
 #ifdef HAVE_TYPE_UNIONWAIT
@@ -366,11 +337,6 @@ static int LYLoadCGI(const char *arg,
 #else
 	int wstatus;
 #endif
-
-	fd1[0] = -1;
-	fd1[1] = -1;
-	fd2[0] = -1;
-	fd2[1] = -1;
 
 	if (anAnchor->isHEAD || keep_mime_headers) {
 
@@ -430,14 +396,12 @@ static int LYLoadCGI(const char *arg,
 	    CTRACE_FLUSH(tfp);
 
 	    if ((pid = fork()) > 0) {	/* The good, */
-		ssize_t chars;
-		off_t total_chars;
+		int chars, total_chars;
 
 		close(fd2[1]);
 
 		if (anAnchor->post_data) {
-		    ssize_t written;
-		    int remaining, total_written = 0;
+		    int written, remaining, total_written = 0;
 
 		    close(fd1[0]);
 
@@ -453,7 +417,7 @@ static int LYLoadCGI(const char *arg,
 		    remaining = BStrLen(anAnchor->post_data);
 		    while ((written = write(fd1[1],
 					    BStrData(anAnchor->post_data) + total_written,
-					    (size_t) remaining)) != 0) {
+					    remaining)) != 0) {
 			if (written < 0) {
 #ifdef EINTR
 			    if (errno == EINTR)
@@ -467,9 +431,9 @@ static int LYLoadCGI(const char *arg,
 			    break;
 			}
 			CTRACE((tfp, "LYNXCGI: Wrote %d bytes of POST data.\n",
-				(int) written));
-			total_written += (int) written;
-			remaining -= (int) written;
+				written));
+			total_written += written;
+			remaining -= written;
 			if (remaining == 0)
 			    break;
 		    }
@@ -480,7 +444,7 @@ static int LYLoadCGI(const char *arg,
 		    close(fd1[1]);
 		}
 
-		HTReadProgress(total_chars = 0, (off_t) 0);
+		HTReadProgress(total_chars = 0, 0);
 		while ((chars = read(fd2[0], buf, sizeof(buf))) != 0) {
 		    if (chars < 0) {
 #ifdef EINTR
@@ -494,10 +458,9 @@ static int LYLoadCGI(const char *arg,
 			PERROR("read() of CGI output failed");
 			break;
 		    }
-		    total_chars += (int) chars;
-		    HTReadProgress(total_chars, (off_t) 0);
-		    CTRACE((tfp, "LYNXCGI: Rx: %.*s\n", (int) chars, buf));
-		    (*target->isa->put_block) (target, buf, (int) chars);
+		    HTReadProgress(total_chars += chars, 0);
+		    CTRACE((tfp, "LYNXCGI: Rx: %.*s\n", chars, buf));
+		    (*target->isa->put_block) (target, buf, chars);
 		}
 
 		if (chars < 0 && total_chars == 0) {
@@ -590,13 +553,11 @@ static int LYLoadCGI(const char *arg,
 		    }
 		}
 
-		argv = (char **) malloc((unsigned) argv_cnt * sizeof(char *));
+		argv = (char **) malloc(argv_cnt * sizeof(char *));
 
 		if (argv == NULL) {
 		    outofmem(__FILE__, "LYCgi");
 		}
-		assert(argv != NULL);
-
 		cur_argv = argv + 1;	/* For argv[0] */
 		if (pgm_args != NULL) {
 		    char *cr;
@@ -680,6 +641,7 @@ static int LYLoadCGI(const char *arg,
 	    } else {		/* and the Ugly */
 		HTAlert(CONNECT_FAILED);
 		PERROR("fork() failed");
+		status = HT_NO_DATA;
 		close(fd1[0]);
 		close(fd1[1]);
 		close(fd2[0]);
@@ -715,7 +677,7 @@ static int LYLoadCGI(const char *arg,
     PUTS(buf);
 
     HTSprintf0(&buf,
-	       "href=\"http://www.ecr6.ohio-state.edu/www/doc/serverinfo.html\"\n");
+	       "href=\"http://kcgl1.eng.ohio-state.edu/www/doc/serverinfo.html\"\n");
     PUTS(buf);
 
     HTSprintf0(&buf, ">%s</a>.\n", gettext("this link"));
@@ -736,12 +698,6 @@ static int LYLoadCGI(const char *arg,
     HTUserMsg(CGI_NOT_COMPILED);
     status = HT_NOT_LOADED;
 #endif /* LYNXCGI_LINKS */
-
-    (void) arg;
-    (void) anAnchor;
-    (void) format_out;
-    (void) sink;
-
     return (status);
 }
 #endif /* __MINGW32__ */

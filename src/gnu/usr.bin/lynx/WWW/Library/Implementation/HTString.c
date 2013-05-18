@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /*		Case-independent string comparison		HTString.c
  *
  *	Original version came with listserv implementation.
@@ -155,6 +157,37 @@ int strncasecomp(const char *a,
     return ((long) n < 0 ? 0 : cm[*us1] - cm[*--us2]);
 }
 
+int strcasecomp_asterisk(const char *a, const char *b)
+{
+	unsigned const char *cm = charmap;
+	unsigned const char *us1 = a;
+	unsigned const char *us2 = b;
+
+	if ((*a != '*') && (*b != '*'))
+		return strcasecomp(a, b);
+
+	if (*b == '*') {
+		us1 = us2;
+		us2 = a;
+	}
+
+	if (strlen(us2) < (strlen(us1) - 1))
+		return 1;
+
+	while (*++us1 != '\0')
+		;
+	while (*++us2 != '\0')
+		;
+
+	while (1) {
+		if (cm[*us1] != cm[*us2])
+			return 1;
+		if ((*--us1) == '*')
+			return 0;
+		--us2;
+	}
+}
+
 #else /* SH_EX */
 
 /*	Strings of any length
@@ -201,6 +234,36 @@ int strncasecomp(const char *a,
 	    return diff;
     }
     /*NOTREACHED */
+}
+
+int strcasecomp_asterisk(const char *a, const char *b)
+{
+	unsigned const char *us1 = a;
+	unsigned const char *us2 = b;
+
+	if ((*a != '*') && (*b != '*'))
+		return strcasecomp(a, b);
+
+	if (*b == '*') {
+		us1 = us2;
+		us2 = a;
+	}
+
+	if (strlen(us2) < (strlen(us1) - 1))
+		return 1;
+
+	while (*++us1 != '\0')
+		;
+	while (*++us2 != '\0')
+		;
+
+	while (1) {
+		if (TOLOWER(*us1) != TOLOWER(*us2))
+			return 1;
+		if ((*--us1) == '*')
+			return 0;
+		--us2;
+	}
 }
 
 #endif /* SH_EX */

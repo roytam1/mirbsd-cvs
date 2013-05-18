@@ -1,3 +1,5 @@
+dnl $MirOS$
+dnl
 dnl Process this file with autoconf to produce a configure script.
 dnl written jan/1997
 dnl by T.E.Dickey <dickey@invisible-island.net>
@@ -159,7 +161,7 @@ AC_MSG_RESULT($with_warnings)
 if test "$with_warnings" = "yes"
 then
 	CF_GCC_ATTRIBUTES
-	CF_GCC_WARNINGS
+	CF_GCC_WARNINGS(Wno-cast-qual)
 fi
 fi
 

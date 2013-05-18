@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 #include <HTUtils.h>
 #include <HTCJK.h>
 #include <UCAux.h>
@@ -873,7 +875,7 @@ static SLKeyMap_List_Type *Keymap_List;
 #endif
 
 typedef struct {
-    const char *string;
+    char *string;	/* XXX should be const */
     int value;
 } Keysym_String_List;
 /* *INDENT-OFF* */

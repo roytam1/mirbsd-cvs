@@ -484,6 +484,8 @@ static int remote_session(char *acc_method, char *host)
     }
 #endif /* !TELNET_DONE */
     return HT_NO_DATA;
+    /* shut up gcc */
+    do_system(NULL);
 }
 
 /*	"Load a document" -- establishes a session
