@@ -196,12 +196,12 @@ share/xml/docbook/catalog.xml
 @dirrm share/sgml/docbook/2.4.1
 @dirrm share/sgml/docbook
 @dirrm share/sgml
-@exec %D/bin/xmlcatalog --noout --add "delegatePublic" "-//OASIS//ENTITIES DocBook XML" "file://%D/share/xml/docbook/catalog.xml" /var/db/xmlcatalog
-@exec %D/bin/xmlcatalog --noout --add "delegatePublic" "-//OASIS//DTD DocBook XML" "file://%D/share/xml/docbook/catalog.xml" /var/db/xmlcatalog
-@exec %D/bin/xmlcatalog --noout --add "delegateSystem" "http://www.oasis-open.org/docbook/" "file://%D/share/xml/docbook/catalog.xml" /var/db/xmlcatalog
-@exec %D/bin/xmlcatalog --noout --add "delegateURI" "http://www.oasis-open.org/docbook/" "file://%D/share/xml/docbook/catalog.xml" /var/db/xmlcatalog
-@exec %D/bin/xmlcatalog --noout --add "delegatePublic" "ISO 8879:1986" "file://%D/share/xml/docbook/catalog.xml" /var/db/xmlcatalog
-@unexec xmlcatalog --noout -del "-//OASIS//ENTITIES DocBook XML" /var/db/xmlcatalog
-@unexec xmlcatalog --noout -del "-//OASIS//DTD DocBook XML" /var/db/xmlcatalog
-@unexec xmlcatalog --noout -del "http://www.oasis-open.org/docbook/" /var/db/xmlcatalog
-@unexec xmlcatalog --noout -del "ISO 8879:1986" /var/db/xmlcatalog
+@exec %D/bin/xmlcatalog --noout --add "delegatePublic" "-//OASIS//ENTITIES DocBook XML" "file://%D/share/xml/docbook/catalog.xml" %D/db/xmlcatalog
+@exec %D/bin/xmlcatalog --noout --add "delegatePublic" "-//OASIS//DTD DocBook XML" "file://%D/share/xml/docbook/catalog.xml" %D/db/xmlcatalog
+@exec %D/bin/xmlcatalog --noout --add "delegateSystem" "http://www.oasis-open.org/docbook/" "file://%D/share/xml/docbook/catalog.xml" %D/db/xmlcatalog
+@exec %D/bin/xmlcatalog --noout --add "delegateURI" "http://www.oasis-open.org/docbook/" "file://%D/share/xml/docbook/catalog.xml" %D/db/xmlcatalog
+@exec %D/bin/xmlcatalog --noout --add "delegatePublic" "ISO 8879:1986" "file://%D/share/xml/docbook/catalog.xml" %D/db/xmlcatalog
+@unexec xmlcatalog --noout -del "-//OASIS//ENTITIES DocBook XML" %D/db/xmlcatalog
+@unexec xmlcatalog --noout -del "-//OASIS//DTD DocBook XML" %D/db/xmlcatalog
+@unexec xmlcatalog --noout -del "http://www.oasis-open.org/docbook/" %D/db/xmlcatalog
+@unexec xmlcatalog --noout -del "ISO 8879:1986" %D/db/xmlcatalog

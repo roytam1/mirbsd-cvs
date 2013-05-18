@@ -1,9 +1,10 @@
 # $OpenBSD: Makefile,v 1.18 2003/06/17 16:20:04 marcm Exp $
+# $MirOS$
 
-COMMENT=			technical documentation XML/SGML definitions
+COMMENT=	technical documentation XML/SGML definitions
 
 DISTNAME=	docbook-4.2
-PKGNAME=	${DISTNAME}-1
+DASH_VER=	2
 DIST_SUBDIR=	docbook
 CATEGORIES=	textproc
 
