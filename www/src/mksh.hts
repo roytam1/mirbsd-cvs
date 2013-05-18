@@ -2,9 +2,9 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.156 2008/07/17 23:57:48 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.157 2008/07/18 13:52:02 tg Exp $'
 mws_content <<'EOF'
-<h1>mksh(1) R35</h1>
+<h1>mksh(1) R35b</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
  implementation of the Korn Shell programming language and a successor to the
  Public Domain Korn Shell (pdksh).</p>
@@ -30,8 +30,8 @@ mws_content <<'EOF'
 </ul>
 
 <h2 id="prefetch">Introduction</h2>
-<p>The current version of mksh is <strong>mksh R35</strong> from
- <em>11 July 2008</em>.</p>
+<p>The current version of mksh is <strong>mksh R35b</strong> from
+ <em>18 July 2008</em>.</p>
 <p>Thanks to “Der Verein <a href="http://www.trash.net/verein/">trash.net</a>”
  for sponsoring access to a Solaris 8 box. Thanks to HP TestDrive, which helps
  in keeping mksh portable to several Unixes and compilers, and track down some
@@ -146,8 +146,8 @@ mws_content <<'EOF'
  extract from the CPIO distfile and is available even on a stock Microsoft®
  Windows® installation.</p>
 <h3 id="mirrors">Known Mirrors</h3><ul>
- <li><a href="http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R35.cpio.gz">http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R35.cpio.gz</a></li>
- <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R35.cpio.gz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R35.cpio.gz</a></li>
+ <li><a href="http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R35b.cpio.gz">http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R35b.cpio.gz</a></li>
+ <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R35b.cpio.gz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R35b.cpio.gz</a></li>
 </ul>
 <h3 id="hashes">Checksums and Hashes</h3><ul>
  <li>RMD160 (mksh-R35b.cpio.gz) = 882cbe0d2c46b8f024288b0f594a4b219e8fbd51</li>
@@ -166,11 +166,11 @@ mws_content <<'EOF'
 <p>The first example is using BSD paxtar (MirOS BSD, OpenBSD, NetBSD®), or
  “bsdtar” (DragonFly); the second and third use cpio(1) or pax(1) and are
  for most operating systems; the fourth is for Debian.</p><ul>
-<li>$ tar xzf mksh-R35.cpio.gz &amp;&amp; cd mksh</li>
-<li>$ gzip -dc mksh-R35.cpio.gz | cpio -mid &amp;&amp; cd mksh</li>
-<li>$ gzip -dc mksh-R35.cpio.gz | pax -r &amp;&amp; cd mksh</li>
+<li>$ tar xzf mksh-R35b.cpio.gz &amp;&amp; cd mksh</li>
+<li>$ gzip -dc mksh-R35b.cpio.gz | cpio -mid &amp;&amp; cd mksh</li>
+<li>$ gzip -dc mksh-R35b.cpio.gz | pax -r &amp;&amp; cd mksh</li>
 <li style="list-style:none;">and, in exceptional cases</li>
-<li>$ tar xzf mksh_35.1.orig.tar.gz &amp;&amp; cd mksh-35.1</li>
+<li>$ tar xzf mksh_35.2.orig.tar.gz &amp;&amp; cd mksh-35.2</li>
 </ul>
 
 <h3 id="compile">Compilation</h3>
@@ -516,6 +516,9 @@ mws_content <<'EOF'
  ChangeLog</a>, these are the packager-visible upgrade notes regarding
  changes in the build system (<tt>Build.sh</tt> and friends, compiler
  support, packaging conventions, bad examples, etc).</p>
+<p>mksh R35b builds on some more platforms and throws less warnings,
+ but the build system is almost unchanged; <tt>test.sh</tt> now shows
+ the Perl binary used (honours <tt>$PERL</tt>) and its version.</p>
 <p>In mksh R35, setlocale/nl_langinfo have been disabled by default for
  some platforms. If we do not assume UTF-8, disabling lets mksh employ
  the <tt>LANG</tt> and <tt>LC_*</tt> environment variables for codeset
@@ -572,7 +575,7 @@ mws_content <<'EOF'
  GNU/kFreeBSD have an <a href="http://packages.debian.org/mksh">mksh package</a>
  maintained by the MirOS Project and uploaded (sponsored) by Bastian “waldi”
  Blank and Otavio Salvador; the debconf questions were taken from dash. The <a
- href="http://www.mirbsd.org/MirOS/dist/mir/mksh/ports/mksh_35.1-1.dsc">mksh
+ href="http://www.mirbsd.org/MirOS/dist/mir/mksh/ports/mksh_35.2-1.dsc">mksh
  Debian source package</a> is available, too.</li>
 <li><a href="http://www.gentoo.org/">Gentoo GNU/Linux</a> has an mksh <a
  href="http://sources.gentoo.org/viewcvs.py/gentoo-x86/app-shells/mksh/">ebuild</a>
@@ -594,7 +597,7 @@ mws_content <<'EOF'
  as well as as SRPM (source RPM). There used to be a repository by <a
  href="http://ftp.skynet.be/pub/suser-guru/rpm/packages/System/mksh/">loki</a>
  in the past.</li>
-<li>An <a href="http://www.mirbsd.org/MirOS/dist/mir/mksh/ports/mksh-35-1.src.rpm">inofficial
+<li>An <a href="http://www.mirbsd.org/MirOS/dist/mir/mksh/ports/mksh-35b-1.src.rpm">inofficial
  <em>portable</em> SRPM</a> (created on Debian GNU/kFreeBSD) is available
  as well. This one contains the <tt>arc4random.c</tt> support routines for
  operating systems from clueless vendors (GNU, Sun, etc).</li>
@@ -725,28 +728,14 @@ mws_content <<'EOF'
 <h2 id="regress">Official Testing</h2>
 <p>The MirOS Project has tested mksh on the following operating systems,
  asked people to test, and hunted mksh down in these packaging systems:</p>
+<!--
 <h3 id="regress_dev">Development Versions post release</h3>
 <ul>
  <li style="list-style:none;">– tests by the project, using Build.sh –</li>
- <li>MirOS #10-current (i386 pcc-20080717-MirPorts-0)</li>
- <li>BSDi BSD/OS 3.1 #4 M300-043 (i386 gcc2.7.2.1)</li>
- <li>BSDi BSD/OS 3.1 #4 M300-043 (i386 gcc1.42)</li>
- <li>MidnightBSD 0.2-CURRENT (i386 pcc-20080717-MirPorts-0)</li>
- <li>Interix 3.5 SP-8.0.1969.1 (i386 gcc3.3 win2k)</li>
- <li>Interix 3.5 SP-8.0.1969.1 (i386 msc CL.EXE 13.00.9466 (standard), LINK.EXE 7.00.9466)</li>
- <li>Interix 6 10.0.6030.0 (i386 gcc3.3 mistda) <em>without</em> testsuite check</li>
- <li>Interix 6 10.0.6030.0 (i386 msc CL.EXE 13.00.9466 (standard), LINK.EXE 7.00.9466) <em>without</em> testsuite check</li>
- <li>Debian GNU/Linux 4.0 testing 2.6.25-2-686 (i386 llvmgcc4.2.1-Apple_5555-LLVM_r52845)</li>
- <li>UWIN-NT 4.1.0/5.0 2195 2006-02-14 (i386 dmc DMC.EXE 8.42n, LINK.EXE OPTLINK 7.50B1)</li>
- <li>UWIN-NT 4.1.0/5.0 2195 2006-02-14 (i386 msc CL.EXE 13.00.9466, LINK.EXE 7.00.9466)</li>
  <li style="list-style:none;">– tests by the project, using ports –</li>
- <li>Debian GNU/Linux 4.0 testing 2.6.25-2-686 (i386 gcc4.3.1-2) libc6-2.7-10 + dietlibc-0.31-1 + libbsd-0.0-3) via MirOS Debian package</li>
  <li style="list-style:none;">– tests by third parties (Build.sh) –</li>
- <li>HP OSF/1 V4.0F 1229 (alpha DEC C V5.9-005) by Jupp Schugt</li>
- <li>HP OSF/1 V4.0F 1229 (alpha gcc2.8.1 alpha-dec-osf4.0d) by Jupp Schugt</li>
- <li>SGI IRIX64 6.5 (mips:R10K mipspro7.4.4m) by Elias Pipping</li>
- <li>SGI IRIX64 6.5 (mips:R10K gcc3.4.1) by Elias Pipping</li>
 </ul>
+-->
 <h3 id="regress_rel">Current Release</h3>
 <ul>
  <li style="list-style:none;">– tests by the project, using Makefile –</li>
@@ -754,11 +743,15 @@ mws_content <<'EOF'
  <li>MirOS #10-current (sparc gcc3.4.6)</li>
  <li style="list-style:none;">– tests by the project, using Build.sh –</li>
  <li>MirOS #10-current (i386 pcc-20080709)</li>
+ <li>MirOS #10-current (i386 pcc-20080717-MirPorts-0)</li>
  <li>MirOS #10-current (i386 SUNcc5.9 Linux_i386 2007/05/03, GNU ld 2.13.90.0.2 20020802)</li>
  <li>MirOS #7-stable (sparc gcc2.95.3-078E)</li>
+ <li>BSDi BSD/OS 3.1 #4 M300-043 (i386 gcc2.7.2.1)</li>
+ <li>BSDi BSD/OS 3.1 #4 M300-043 (i386 gcc1.42)</li>
  <li>DragonFly 1.9-DEVELOPMENT Feb 17, 2007 (i386 gcc3.4.6)</li>
  <li>FreeBSD 6.2-RELEASE (i386 gcc3.4.6-20060305)</li>
  <li>MidnightBSD 0.2-CURRENT (i386 gcc3.4.6-20060305)</li>
+ <li>MidnightBSD 0.2-CURRENT (i386 pcc-20080717-MirPorts-0)</li>
  <li>NetBSD 3.0_STABLE (i386 gcc3.3.3_nb3_20040520)</li>
  <li>OpenBSD 4.3 GENERIC#207 (zaurus gcc3.3.5)</li>
  <li>DEC ULTRIX 4.5 0 RISC (mips cc3.0 ucode9.2)</li>
@@ -781,6 +774,10 @@ mws_content <<'EOF'
  <li>Solaris 10 Generic_137111-02 sun4u (sparc:V8+ SUNcc5.9 124867-06 2008/06/10, ld 5.10-1.489)</li>
  <li>Solaris 10 Generic_137111-02 sun4u (sparc:V8+ SUNcc5.9 124867-06 2008/06/10, ld 5.10-1.489) + arc4random.c</li>
  <li>Solaris 10 Generic_137111-02 sun4u (sparc64 SUNcc5.9 124867-06 2008/06/10, ld 5.10-1.489)</li>
+ <li>Interix 3.5 SP-8.0.1969.1 (i386 gcc3.3 win2k)</li>
+ <li>Interix 3.5 SP-8.0.1969.1 (i386 msc CL.EXE 13.00.9466 (standard), LINK.EXE 7.00.9466)</li>
+ <li>Interix 6 10.0.6030.0 (i386 gcc3.3 mistda) <em>without</em> testsuite check</li>
+ <li>Interix 6 10.0.6030.0 (i386 msc CL.EXE 13.00.9466 (standard), LINK.EXE 7.00.9466) <em>without</em> testsuite check</li>
  <li>Debian GNU 4.0 sid GNU-Mach 1.3.99/Hurd-0.3 i686-AT386 (i386 gcc3.4.6-5)</li>
  <li>Debian GNU 4.0 sid GNU-Mach 1.3.99/Hurd-0.3 i686-AT386 (i386 gcc4.0.4-1)</li>
  <li>Debian GNU 4.0 sid GNU-Mach 1.3.99/Hurd-0.3 i686-AT386 (i386 gcc4.1.2-23)</li>
@@ -789,6 +786,8 @@ mws_content <<'EOF'
  <li>Debian GNU 4.0 sid GNU-Mach 1.3.99/Hurd-0.3 i686-AT386 (i386 gcc4.3.1-5) + arc4random.c</li>
  <li>Cygwin_NT-5.0 1.5.25(0.156/4/2) 2008-04-17 12:11 i586 win2kSP2 (i386 gcc3.4.4)</li>
  <li>Cygwin_NT-5.0 1.5.25(0.156/4/2) 2008-04-17 12:11 i586 win2kSP2 (i386 gcc3.4.4) + arc4random.c</li>
+ <li>UWIN-NT 4.1.0/5.0 2195 2006-02-14 (i386 dmc DMC.EXE 8.42n, LINK.EXE OPTLINK 7.50B1)</li>
+ <li>UWIN-NT 4.1.0/5.0 2195 2006-02-14 (i386 msc CL.EXE 13.00.9466, LINK.EXE 7.00.9466)</li>
  <li>Debian GNU/Linux 4.0 etch 2.6.18-6-mckinley (IA64 gcc4.1.1-21)</li>
  <li>Debian GNU/Linux 4.0 etch 2.6.18-4-686 (i386 gcc1:3.3.6-15)</li>
  <li>Debian GNU/Linux 4.0 etch 2.6.18-4-686 (i386 gcc4.1.1-21)</li>
@@ -798,6 +797,7 @@ mws_content <<'EOF'
  <li>Debian GNU/Linux 4.0 testing 2.6.24-1-686 (i386 gcc4.1.2-23)</li>
  <li>Debian GNU/Linux 4.0 testing 2.6.24-1-686 (i386 gcc4.2.4-2+b1)</li>
  <li>Debian GNU/Linux 4.0 testing 2.6.24-1-686 (i386 gcc4.3.1-2)</li>
+ <li>Debian GNU/Linux 4.0 testing 2.6.25-2-686 (i386 llvmgcc4.2.1-Apple_5555-LLVM_r52845)</li>
  <li>Debian GNU/Linux 4.0 sid 2.6.18-6-vserver-s390x (S/390 gcc4.3.1-2)</li>
  <li>ecce!GNU/Linux 1.00 2.0.38a (i386 libc5 gcc2.7.2.3) <em>except</em> locale support</li>
  <li>Mandriva GNU/Linux CS 2006.0 2.6.12-22mdksmp (i386 gcc4.0.1-5mdk)</li>
@@ -810,8 +810,13 @@ mws_content <<'EOF'
  <li>MirOS #10-current (i386 gcc3.4.6) via MirPorts Framework</li>
  <li>OpenBSD 4.3 GENERIC#207 (zaurus gcc3.3.5) via MirOS OpenBSD-Port</li>
  <li>Debian GNU/Linux 4.0 etch 2.6.18-4-686 (i386 gcc4.1.1-21) via MirOS SRPM</li>
+ <li>Debian GNU/Linux 4.0 testing 2.6.25-2-686 (i386 gcc4.3.1-2) libc6-2.7-10 + dietlibc-0.31-1 + libbsd-0.0-3) via MirOS Debian package</li>
  <li style="list-style:none;">– tests by third parties (Build.sh) –</li>
  <li>MidnightBSD 0.1.1-RELEASE (amd64 gcc3.4.4-20050518), by Lucas Holt</li>
+ <li>HP OSF/1 V4.0F 1229 (alpha DEC C V5.9-005) by Jupp Schugt</li>
+ <li>HP OSF/1 V4.0F 1229 (alpha gcc2.8.1 alpha-dec-osf4.0d) by Jupp Schugt</li>
+ <li>SGI IRIX64 6.5 (mips:R10K mipspro7.4.4m) by Elias Pipping</li>
+ <li>SGI IRIX64 6.5 (mips:R10K gcc3.4.1) by Elias Pipping</li>
 </ul>
 <h3 id="regress_dvo">Development Versions older than last release</h3>
 <ul>
@@ -971,6 +976,8 @@ mws_content <<'EOF'
   &lt;awmorp@gmail.com&gt; – maybe the rest is a kernel bug?)</li>
  <!-- li>Import the GNU bash- and zsh-style ability to get and set multiple
   limits in a single invocation from oksh (thanks millert) -->
+</ul>
+<p id="r35b">mksh R35b comes with the following bug fixes:</p><ul>
  <li>IRIX also has no UTF-8 locale at all, confirmed by Elias Pipping</li>
  <li>Fix regression test suite for MKSH_SMALL</li>
  <li>Bring in latest changes from oksh (OpenBSD ksh, not DeliLinux crap)</li>
@@ -987,6 +994,11 @@ mws_content <<'EOF'
   for Perl, do not use potentially undefined $^O, print Perl version</li>
  <li>Add &lt;sys/types.h&gt; as &lt;ulimit.h&gt; requirement (dietlibc)</li>
  <li>Work around bug in BSD/OS 3.1 /bin/ksh (PD KSH v5.2.8 96/08/19)</li>
+ <li>Add regression tests from OpenBSD’s &lt;bsd.regress.mk&gt; suite</li>
+ <li>Use better CPPFLAGS for AIX, Minix 3 (from pdksh)</li>
+ <li>Expose the “s ≠ NULL” str_[n]save_() API and use it where the string
+  can never be NULL (local stack storage), from gcc-4.2 warnings</li>
+ <li>Clean up pointer-to-integer-cast warnings in the mirtoconf process</li>
 </ul>
 <p id="r35">mksh R35 comes with helluva changes:</p><ul>
   <li>Simplify and refactor the ulimit builtin, partially from oksh</li>
