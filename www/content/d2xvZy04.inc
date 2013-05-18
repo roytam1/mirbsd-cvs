@@ -1,5 +1,5 @@
 <!-- PageID: wlog-8 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.44 2006/02/25 04:16:13 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.45 2006/02/26 00:07:33 tg Exp $</small>
 <h1>MirBSD &ndash; WTF, We Have a Release!?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -554,6 +554,8 @@ celebrate this event, rotate the wlog and start a new one.</p>
 <div class="wlentry">
  <h3 id="e20060225">25.02.2006 by tg@</h3>
  <p>FOSDEM is fun, good belgian beer, nice people, food and all.</p>
+ <p>bsiegert@ wants to go to sleep now, maybe he drunk too much (only 1!
+  bottle) of Grimbergen Optimo Bruno...</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
