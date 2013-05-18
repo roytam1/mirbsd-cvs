@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.74 2008/08/25 14:04:11 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.75 2008/08/30 12:27:13 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -1529,4 +1529,35 @@ Title: Six Years of MirBSD
  of the MidnightBSD people, which should improve some things (it already
  has opened the door for Opera-linux plugins such as AcroRead-linux).</p>
 <p>(The best browser of all is still lynx(1) though.)</p>
+----
+Date: 05.09.2008 15:04
+Author: bsiegert@
+Title: cairo regressions
+
+<p>It seems that everytime I update cairo, another annoying bug pops up.
+ This one is actually a regression: the exact same bug had been fixed in
+ cairo-0.9.3, and now they reintroduced it. It seems that their code is
+ only ever tested on GNU/Linux with all the latest libraries. Solaris
+ and BSD systems are especially likely to blow up.</p>
+
+<p>I have submitted the following text as fd.o <a
+ href="https://bugs.freedesktop.org/show_bug.cgi?id=17450">bug
+ 17450</a>. Sorry if this wlog is becoming just a dump for upstream
+ bugreports.</p>
+
+<p>"I am trying to compile cairo 1.6.4 on MirOS BSD (an OpenBSD
+ variant). The fontconfig included in the base system does not have the
+ FcFini() function. As I gathered from searching the mailing list
+ archives, this function is optional.  However, on systems without
+ FcFini(), the freetype backend is completely disabled.</p>
+
+<p>"From reading the source code, I do not think that FcFini is really
+ essential, and any calls to it are protected by <tt>#ifdef
+ HAVE_FCFINI</tt> anyway. Thus, I made a small patch for the configure
+ script to make a missing FcFini non-fatal for the freetype font
+ backend.</p>
+
+<p>"What's ironic is that this bug had already existed as <a
+ href="https://bugs.freedesktop.org/show_bug.cgi?id=3951">bug
+ 3951</a>. It was fixed in 0.9.3."</p>
 ----
