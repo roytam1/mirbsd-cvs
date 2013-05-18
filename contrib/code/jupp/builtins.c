@@ -388,7 +388,7 @@ const unsigned char * const builtins[]=
 		"save		^K S\n"
 		"save		^K ^S\n"
 		"save		^K s\n"
-		"scratch		^K -\n"
+		"scratch,\"(S) \"	^K -\n"
 		"setmark		^K 0 TO 9\n"
 		"shrinkw		^K T\n"
 		"shrinkw		^K ^T\n"
