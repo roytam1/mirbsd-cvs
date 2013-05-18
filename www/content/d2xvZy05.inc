@@ -1,5 +1,5 @@
 <!-- PageID: wlog-9 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.29 2006/08/03 14:43:08 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.30 2006/08/08 22:56:07 tg Exp $</small>
 <h1>MirBSD &ndash; WTF is Verpeilungsfaktor?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -454,6 +454,20 @@
   the world (according to MirOS docs). I did think of implementing a tag
   in the output for sticky files for him, but I don't think it's worth a
   try because stickiness can actually be useful (tracking branches).</p>
+</div>
+
+<div class="wlentry">
+ <h3 id="e20060809">09.08.2006 by tg@</h3>
+ <p>Today it was rainy, depressive, and headaches arrived. Not the best,
+  but a chance to hack something. I couldn't do much, but I improved the
+  shell again and got an old NetBSD&reg; PR (30842) finally fixed.</p>
+ <p>I also cleaned up some of the stuff in src/etc/ (especially rc which
+  should be faster and more reliable now). Works for me.</p>
+ <p>Although I'm still looking for employment I can't get myself around,
+  sending out applications etc., because of these bad circumstances like
+  the weather etc. If someone wants to pay 1000 &euro; netto (i.e. taxes
+  and so on already subtracted), or more, for a unix developer or admin,
+  please contact me.</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
