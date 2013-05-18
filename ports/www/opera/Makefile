@@ -1,16 +1,16 @@
-# $MirOS: ports/www/opera/Makefile,v 1.24 2007/10/18 21:22:33 tg Exp $
+# $MirOS: ports/www/opera/Makefile,v 1.25 2008/02/24 14:21:57 tg Exp $
 # $OpenBSD: Makefile,v 1.31 2005/11/22 21:44:22 sturm Exp $
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 EMUL=			linux
 
 COMMENT=		fast and customisable WWW browser
-VERS=			9.26
-DISTNAME=		opera-${VERS}-20080215.1-static-qt.i386-en
+VERS=			9.27
+DISTNAME=		opera-${VERS}-20080331.1-static-qt.i386-en
 PKGNAME=		opera-${VERS}-${DASH_VER}
 CATEGORIES=		www
 HOMEPAGE=		http://www.opera.com/
-WRKDIST=		${WRKDIR}/${DISTNAME}-698
+WRKDIST=		${WRKDIR}/${DISTNAME}-709
 
 # Distribution possible under special agreement;
 # sublicencing is, however, not allowed.
