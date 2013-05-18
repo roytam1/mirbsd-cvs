@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/templates/network.conf.template,v 1.19 2006/10/14 23:39:36 tg Exp $
+# $MirOS: ports/infrastructure/templates/network.conf.template,v 1.20 2007/02/15 21:44:05 tg Exp $
 # $OpenBSD: network.conf.template,v 1.107 2007/01/18 11:21:15 steven Exp $
 
 #
@@ -8,22 +8,24 @@
 
 # Default MirBSD backup site
 _MASTER_SITE_MIRBSD?=	\
-	http://www.mirbsd.org/MirOS/distfiles/
+	http://www.mirbsd.org/MirOS/distfiles/ \
+	http://pub.allbsd.org/MirOS/distfiles/ \
+	ftp://ftp.allbsd.org/pub/MirOS/distfiles/ \
 
 MASTER_SITE_MIROS=${_MASTER_SITE_MIRBSD:S/distfiles/dist/g}
 
 # Default OpenBSD backup site
 _MASTER_SITE_OPENBSD?=	\
 	ftp://ftp.openbsd.org/pub/OpenBSD/distfiles/${DIST_SUBDIR}/ \
-	ftp://ftp.usa.openbsd.org/pub/OpenBSD/distfiles/${DIST_SUBDIR}/
+	ftp://ftp.usa.openbsd.org/pub/OpenBSD/distfiles/${DIST_SUBDIR}/ \
 
 # Default FreeBSD backup site
 _MASTER_SITE_FREEBSD?=	\
-	ftp://ftp.freebsd.org/pub/FreeBSD/distfiles/${DIST_SUBDIR}/
+	ftp://ftp.freebsd.org/pub/FreeBSD/distfiles/${DIST_SUBDIR}/ \
 
 # Default NetBSD backup site
 _MASTER_SITE_NETBSD?=	\
-	ftp://ftp.netbsd.org/pub/NetBSD/packages/distfiles/${DIST_SUBDIR}/
+	ftp://ftp.netbsd.org/pub/NetBSD/packages/distfiles/${DIST_SUBDIR}/ \
 
 # Uncomment to retrieve from the MirOS sites only
 # MASTER_SITE_MIRBSD=	Yes
@@ -74,7 +76,7 @@ MASTER_SITE_GNU+=	\
 	ftp://ftp.cs.univ-paris8.fr/mirrors/ftp.gnu.org/ \
 	ftp://ftp.chg.ru/pub/gnu/ \
 	ftp://ftp.uvsq.fr/pub/gnu/ \
-  	ftp://ftp.sunet.se/pub/gnu/
+  	ftp://ftp.sunet.se/pub/gnu/ \
 
 MASTER_SITE_XCONTRIB+=	\
 	ftp://ftp.gwdg.de/pub/x11/x.org/contrib/ \
@@ -84,7 +86,7 @@ MASTER_SITE_XCONTRIB+=	\
 	ftp://ftp.uvsq.fr/pub/X11/x.org/contrib/ \
 	ftp://ftp.chg.ru/pub/X11/x.org/contrib/ \
 	ftp://ftp.duke.edu/pub/X11/contrib/ \
-	ftp://sunsite.sut.ac.jp/pub/archives/X11/contrib/
+	ftp://sunsite.sut.ac.jp/pub/archives/X11/contrib/ \
 
 MASTER_SITE_R5CONTRIB+=	\
 	${MASTER_SITE_XCONTRIB:=../R5contrib/}
@@ -111,7 +113,7 @@ MASTER_SITE_SUNSITE+=	\
 	ftp://ftp.funet.fi/pub/Linux/mirrors/metalab/ \
 	ftp://sunsite.org.uk/packages/linux/sunsite.unc-mirror/ \
 	ftp://ftp.nluug.nl/vol/4/metalab/ \
-	ftp://ftp.chg.ru/pub/Linux/sunsite/
+	ftp://ftp.chg.ru/pub/Linux/sunsite/ \
 
 MASTER_SITE_SOURCEFORGE+=	\
 	http://easynews.dl.sourceforge.net/sourceforge/ \
@@ -126,12 +128,12 @@ MASTER_SITE_SOURCEFORGE+=	\
 	http://mesh.dl.sourceforge.net/sourceforge/ \
 	http://ovh.dl.sourceforge.net/sourceforge/ \
 	http://surfnet.dl.sourceforge.net/sourceforge/ \
-	http://ufpr.dl.sourceforge.net/sourceforge/
+	http://ufpr.dl.sourceforge.net/sourceforge/ \
 
 MASTER_SITE_SOURCEFORGE_JP+=	\
 	http://osdn.dl.sourceforge.jp/ \
 	http://downloads.sourceforge.jp/ \
-	http://prdownloads.sourceforge.jp/
+	http://prdownloads.sourceforge.jp/ \
 
 MASTER_SITE_GNOME+=	\
 	ftp://ftp.acc.umu.se/pub/GNOME/	\
@@ -142,7 +144,7 @@ MASTER_SITE_GNOME+=	\
 	ftp://ftp.dataplus.se/pub/linux/gnome/ \
 	ftp://ftp.cse.buffalo.edu/pub/Gnome/ \
 	ftp://ftp.linux.org.uk/mirrors/ftp.gnome.org/ \
-	ftp://ftp.gnome.org/pub/GNOME/
+	ftp://ftp.gnome.org/pub/GNOME/ \
 
 MASTER_SITE_PERL_CPAN+=	\
 	http://www.cpan.dk/modules/by-module/ \
@@ -163,7 +165,7 @@ MASTER_SITE_PERL_CPAN+=	\
 	ftp://cpan.pop-mg.com.br/pub/CPAN/modules/by-module/ \
 	ftp://sunsite.org.uk/package/cpan/modules/by-module/ \
 	ftp://ftp.chg.ru/pub/lang/perl/CPAN/modules/by-module/ \
-	ftp://mirrors.dotsrc.org/cpan/modules/by-module/
+	ftp://mirrors.dotsrc.org/cpan/modules/by-module/ \
 
 MASTER_SITE_TEX_CTAN+=	\
 	ftp://ftp.funet.fi/pub/TeX/CTAN/ \
@@ -176,7 +178,7 @@ MASTER_SITE_TEX_CTAN+=	\
 	ftp://ftp.chg.ru/pub/TeX/CTAN/ \
 	ftp://ftp.dante.de/tex-archive/ \
 	ftp://ftp.uvsq.fr/pub/TeX/CTAN/ \
- 	ftp://ftp.sunet.se/pub/text-processing/TeX/
+ 	ftp://ftp.sunet.se/pub/text-processing/TeX/ \
 
 MASTER_SITE_KDE+=	\
 	ftp://ftp.kde.org/pub/kde/ \
@@ -189,16 +191,16 @@ MASTER_SITE_KDE+=	\
  	ftp://ftp.funet.fi/pub/mirrors/ftp.kde.org/pub/kde/ \
  	ftp://ftp.sunet.se/pub/X11/kde/ \
  	ftp://ftp.fu-berlin.de/pub/unix/X11/gui/kde/ \
-	ftp://ftp.chg.ru/pub/X11/kde/
+	ftp://ftp.chg.ru/pub/X11/kde/ \
 
 MASTER_SITE_AFTERSTEP+=	\
 	ftp://ftp.afterstep.org/ \
 	ftp://ftp.kddilabs.jp/X11/AfterStep/ \
 	ftp://ftp.chg.ru/pub/X11/windowmanagers/afterstep/ \
-	ftp://ftp.dti.ad.jp/pub/X/AfterStep/
+	ftp://ftp.dti.ad.jp/pub/X/AfterStep/ \
 
 MASTER_SITE_WINDOWMAKER+=	\
-	ftp://ftp.windowmaker.info/pub/
+	ftp://ftp.windowmaker.info/pub/ \
 
 MASTER_SITE_SOURCEWARE+=	\
 	ftp://mirrors.rcn.net/mirrors/sources.redhat.com/ \
@@ -215,7 +217,7 @@ MASTER_SITE_SOURCEWARE+=	\
 	ftp://sunsite.org.uk/Mirrors/sourceware.cygnus.com/pub/ \
 	ftp://sysg.kek.jp/cygnus/ \
 	ftp://unix.hensa.ac.uk/mirrors/sourceware.cygnus.com/pub/ \
-	ftp://www.carfield.com.hk/mirror/sources.redhat.com/
+	ftp://www.carfield.com.hk/mirror/sources.redhat.com/ \
 
 MASTER_SITE_FREEBSD_LOCAL+=	\
 	ftp://ftp.FreeBSD.org/pub/FreeBSD/ports/local-distfiles/ \
@@ -223,7 +225,7 @@ MASTER_SITE_FREEBSD_LOCAL+=	\
 	ftp://ftp.jp.FreeBSD.org/pub/FreeBSD/ports/local-distfiles/ \
 	ftp://ftp.uk.FreeBSD.org/pub/FreeBSD/ports/local-distfiles/ \
 	ftp://ftp.ru.FreeBSD.org/pub/FreeBSD/ports/local-distfiles/ \
-	ftp://ftp.nectec.or.th/pub/FreeBSD/ports/local-distfiles/
+	ftp://ftp.nectec.or.th/pub/FreeBSD/ports/local-distfiles/ \
 
 MASTER_SITE_PACKETSTORM+=	\
 	http://packetstorm.linuxsecurity.com/ \
@@ -239,14 +241,14 @@ MASTER_SITE_PACKETSTORM+=	\
 	http://packetstorm.troop218.org/ \
 	http://packetstorm.blackroute.net/ \
 	http://packetstorm.ussrback.com/ \
-	http://packetstorm.rlz.cl/
+	http://packetstorm.rlz.cl/ \
 
 MASTER_SITE_HORDE+=		\
 	ftp://ftp.horde.org/pub/ \
 	ftp://ftp.at.horde.org/mirror/horde/ \
 	ftp://ftp.es.horde.org/pub/ \
 	ftp://ftp.nl.horde.org/mirror/horde-ftp/pub/ \
-	ftp://ftp.de.horde.org/horde.org/
+	ftp://ftp.de.horde.org/horde.org/ \
 
 MASTER_SITE_APACHE+= \
 	http://apache.sunsite.ualberta.ca/ \
@@ -255,15 +257,15 @@ MASTER_SITE_APACHE+= \
 	ftp://ftp.gbnet.net/pub/apache/dist/ \
 	ftp://ftp.apache.de/mirrors/dev.apache.org/dist/ \
 	ftp://ftp.planetmirror.com/pub/apache/dist/ \
-	http://www.apache.org/dist/
+	http://www.apache.org/dist/ \
 
 MASTER_SITE_DEBIAN+= \
 	http://ftp.debian.org/pool/main/ \
 	http://ftp.de.debian.org/debian/pool/main/ \
 	http://ftp.fr.debian.org/debian/pool/main/ \
-	ftp://ftp.us.debian.org/debian/pool/main/
+	ftp://ftp.us.debian.org/debian/pool/main/ \
 
 MASTER_SITE_BERLIOS+=	\
 	http://download.berlios.de/ \
-	http://download2.berlios.de/
+	http://download2.berlios.de/ \
 
