@@ -2505,3 +2505,29 @@ Author: tg@
 <p>As usual, no data got lost (at HERC/RANT), and I held the cache in my
  hand almost immediately.</p>
 ----
+Date: 22.11.2007
+Author: bsiegert@
+
+<p>I <i>finally</i> have the time (and the possibility!) to write a wlog
+ entry. Thorsten has been absent since the end of november. The problem
+ is that many MirOS services, mostly e-mail and the CVS master, were
+ running on herc.mirbsd.org, which is located in tg's apartment. Now
+ that he is not there, herc is also down. This means that mails do not
+ work. I do not have the subscriber list for the mailing lists so I
+ cannot resurrect these.</p>
+
+<p>gecko's server aka anoncvs.mirbsd.org is the new CVS master. It is
+ running Debian GNU/Linux with an older version of CVS. Thus, I had to
+ fiddle a lot with the scripts in CVSROOT. The most obvious effect is
+ that new commits do not have commitids; they get the process group of
+ the commit process instead, which is meaningless and not unique.</p>
+
+<p>However, as said on the news page, development continues, even if
+ MirOS #10 will be pushed back even more. To follow CVS, look at the
+ changelogs or into the cvsweb. anoncvs is running great.</p>
+
+<p>There were two <b>security</b>-related commits this week: one in
+ <tt>src/usr.bin/perl</tt>, the other in <tt>ports/devel/pcre</tt>.
+ Please update those two. A binary package to replace perl in base will
+ be available RSN.</p>
+----

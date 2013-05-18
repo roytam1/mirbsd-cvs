@@ -508,3 +508,15 @@ Date: 25.10.2007
  functions in a way Debian patched their pdksh package to go. This implies
  that FSH invocations will be able to define all common aliases again.</p>
 ----
+Title: herc down, mirbsd.org mail unavailable
+Date: 22.10.2007
+
+<p>Due to a technical problem, mail service for <tt>mirbsd.org</tt> is
+ not available. tg@ is also absent but you can reach a MirOS developer
+ at <tt>bsiegert at gmail.com</tt> (replace " at " by @).</p>
+
+<p>Most notably, this means that the mailing lists, miros-discuss and
+ miros-cvs, are not working. To keep up with recent commits, look at the
+ <a href="http://www.mirbsd.org/clogs/ChangeLog">Changelog</a>. anoncvs
+ and cvsweb do work.</p>
+----
