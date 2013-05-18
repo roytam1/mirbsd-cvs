@@ -1025,9 +1025,7 @@ uslc)
 	vv '|' "$CC $CFLAGS $CPPFLAGS $LDFLAGS $NOWARN -V conftest.c $LIBS"
 	;;
 watcom)
-	echo >&2 'Warning: Watcom C Compiler detected. This compiler has not yet
-    been tested for compatibility with mksh. Continue at your
-    own risk, please report success/failure to the developers.'
+	vv '|' "$CC $CFLAGS $CPPFLAGS $LDFLAGS $NOWARN -v conftest.c $LIBS"
 	;;
 xlc)
 	vv '|' "$CC $CFLAGS $CPPFLAGS $LDFLAGS $NOWARN $LIBS -qversion"
@@ -1132,6 +1130,9 @@ elif test $ct = tendra; then
 elif test $ct = ucode; then
 	save_NOWARN=
 	DOWARN=-w2
+elif test $ct = watcom; then
+	save_NOWARN=
+	DOWARN=-Wc,-we
 else
 	test x"$save_NOWARN" = x"" && save_NOWARN=-Wno-error
 	ac_flags 0 wnoerror "$save_NOWARN"
