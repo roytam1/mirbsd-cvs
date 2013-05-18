@@ -1,4 +1,4 @@
-.\"	$MirOS: src/share/tmac/mdoc/doc,v 1.11 2006/08/10 23:35:02 tg Exp $
+.\"	$MirOS: src/share/tmac/mdoc/doc,v 1.12 2006/08/10 23:42:47 tg Exp $
 .\"	$OpenBSD: doc,v 1.15 2004/06/06 22:38:09 jmc Exp $
 .\"
 .\" Copyright (c) 2003, 2004, 2005, 2006
@@ -3487,6 +3487,7 @@ File:
 .\" NS aN register
 .nr aN 0
 .de An
+.if !\\$1-nosplit \{\
 .if \\n(nY==1 \{\
 .	ie \\n(aN==1 \{\
 .		br
@@ -3507,6 +3508,7 @@ File:
 .       nr cF \\n(.f
 .	nr cZ \\n(.s
 .       nR
+.\}
 .\}
 ..
 .\" NS Sf macro -defunct
