@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.147 2006/11/22 17:58:40 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.148 2006/11/22 18:03:20 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -470,7 +470,7 @@ PORTHOME?=		/${PKGNAME}_writes_to_HOME
 MAKE_ENV+=		HOME=${PORTHOME:Q} PATH=${PORTPATH:Q} \
 			PREFIX=${PREFIX:Q} TRUEPREFIX=${PREFIX:Q} \
 			LOCALBASE=${LOCALBASE:Q} X11BASE=${X11BASE:Q} \
-			CC=${CC:Q} CXX=${CXX:Q} CFLAGS=${CFLAGS:C/ *$//:Q} \
+			CC=${CC:Q} CXX=${CXX:Q} CFLAGS=${CFLAGS:M*:Q} \
 			LDFLAGS=${LDFLAGS:Q} ${DESTDIRNAME}= \
 			BINOWN=${BINOWN:Q} BINGRP=${BINGRP:Q} \
 			EXTRA_SYS_MK_INCLUDES=\"${PORTSDIR:Q}/infrastructure/mk/mirports.bsd.mk\"

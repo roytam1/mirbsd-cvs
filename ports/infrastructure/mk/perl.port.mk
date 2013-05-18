@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/perl.port.mk,v 1.5 2005/12/28 16:20:27 tg Exp $
+# $MirOS: ports/infrastructure/mk/perl.port.mk,v 1.6 2005/12/28 16:35:36 tg Exp $
 # $OpenBSD: perl.port.mk,v 1.9 2004/06/08 20:28:19 sturm Exp $
 # Based on bsd.port.mk, originally by Jordan K. Hubbard.
 
@@ -24,8 +24,8 @@ MODPERL_configure= cd ${MODPERL_SRC}; ${_SYSTRACE_CMD} ${SETENV} ${CONFIGURE_ENV
 	install_path=script=${MODPERL_PRE:Q}/bin ${CONFIGURE_ARGS} 
 .else
 MODPERL_configure= cd ${MODPERL_SRC}; ${_SYSTRACE_CMD} ${SETENV} ${CONFIGURE_ENV} \
-	CC=${CC:Q} CFLAGS=${CFLAGS:C/ *$//:Q} CXX=${CXX:Q} \
-	CXXFLAGS=${CXXFLAGS:C/ *$//:Q} YACC=${YACC:Q} LD=${LD:Q} \
+	CC=${CC:Q} CFLAGS=${CFLAGS:M*:Q} CXX=${CXX:Q} \
+	CXXFLAGS=${CXXFLAGS:M*:Q} YACC=${YACC:Q} LD=${LD:Q} \
 	LDFLAGS=${LDFLAGS:Q} /usr/bin/perl Makefile.PL \
      	PREFIX=${PREFIX:Q} INSTALLSITELIB=${MODPERL_SITEPRE:Q} \
 	INSTALLSITEARCH="\$${INSTALLSITELIB}/${MODPERL_ARCH}" \
