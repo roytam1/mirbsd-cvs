@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/scripts/roff2htm,v 1.42 2007/01/25 12:27:17 tg Exp $
+# $MirOS: src/scripts/roff2htm,v 1.43 2007/02/18 04:38:54 tg Exp $
 # $ekkoBSD: catman2html.sh,v 1.2 2004/03/07 03:02:53 stephen Exp $
 #-
 # Copyright (c) 2004, 2005, 2006, 2007
@@ -41,7 +41,7 @@ gendate=$(date +"%F %T")		# current time
 do_convert()
 {
 	integer ws=0
-	sed -e '/[	 ]*$//'						\
+	sed -e 's/[	 ]*$//g'					\
 	    -e '/-$/N
 {
 s/\([0-9A-z][-.,0-9A-z]*\)-\n\(  *\)\([0-9A-z][-.,0-9A-z]*([1-9][A-z]*)\)\([^ ]*\) /\1\3\4\
@@ -120,7 +120,7 @@ output_header()
 output_footer()
 {
 	print '<hr /><p style="font-size:xx-small;">Generated on' $gendate 'by
- $MirOS: src/scripts/roff2htm,v 1.42 2007/01/25 12:27:17 tg Exp $</p>
+ $MirOS: src/scripts/roff2htm,v 1.43 2007/02/18 04:38:54 tg Exp $</p>
 <p>These manual pages are copyrighted by their respective writers; their
  source is available at our <a href="http://cvs.mirbsd.de/">CVSweb</a>.
  The rest is Copyright © 2002-2007 <a href="http://www.mirbsd.org/">The
