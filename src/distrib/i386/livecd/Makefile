@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/livecd/Makefile,v 1.27 2006/04/10 21:06:26 tg Exp $
+# $MirOS: src/distrib/i386/livecd/Makefile,v 1.28 2006/04/10 23:00:04 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -21,7 +21,7 @@ unpack:
 	cd workdir/v${OSrev} && ln -s ${BSDRELDIR}/rel i386
 	cd workdir/etc; \
 	    for a in ${.CURDIR}/../iso/boot.cfg ${.CURDIR}/boot.*; do \
-		${SUDO} ln -fs $$a; \
+		${SUDO} cp $$a .; \
 	done
 
 gendev: mr.fs
@@ -70,8 +70,8 @@ bsd.gz: ${REALOBJDIR}/../generic/bsd mr.fs rdsetroot
 	gzip -n9 bsd
 
 nukefiles:
-	cd workdir/usr && ${SUDO} rm -rf \
-	    X11R6/{lib/X11/doc,man} {,share/}{doc,info,man} releng
+	cd workdir && ${SUDO} rm -rf etc/X11 usr/{local/lib/X11,releng} \
+	    usr/{,X11R6/,share/}{doc,info,man}
 
 makeimg: bsd.gz
 	${SUDO} dd if=bsd.gz obs=2048 conv=osync of=workdir/bsd
