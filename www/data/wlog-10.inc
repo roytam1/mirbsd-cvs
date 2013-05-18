@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.82 2008/10/05 12:54:04 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.83 2008/10/13 22:37:48 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -1718,7 +1718,7 @@ Title: mksh – please test release candidate
 <pre> $ CVS_RSH=ssh; export CVS_RSH
  $ cvs -d :ext:anoncvs@anoncvs.mirbsd.org:/cvs co -PA mksh
  $ cd mksh
- $ (sh Build.sh -r &amp;&amp; ./test.sh -v) 2>&1 | tee build.log</pre>
+ $ (sh Build.sh -r &amp;&amp; ./test.sh -v) 2>&amp;1 | tee build.log</pre>
 <p>Afterwards, please mail me (<tt>tg@</tt>) the <tt>build.log</tt>
  file, play around a little with mksh(1), see if it works. You can
  use a relative path to the source directory for repeated builds and
