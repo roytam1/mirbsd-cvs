@@ -1,5 +1,5 @@
 #!/bin/mksh
-rcsid='$MirOS: src/sys/arch/i386/stand/bootxx/mkbxinst.sh,v 1.25 2009/07/24 16:27:56 tg Exp $'
+rcsid='$MirOS: src/sys/arch/i386/stand/bootxx/mkbxinst.sh,v 1.26 2010/11/12 21:05:26 tg Exp $'
 #-
 # Copyright (c) 2007, 2008, 2009
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -318,10 +318,11 @@ if (( psz )); then
 	(( thecode[mbrpno++] = (pofs >> 8) & 0xFF ))
 	(( thecode[mbrpno++] = (pofs >> 16) & 0xFF ))
 	(( thecode[mbrpno++] = (pofs >> 24) & 0xFF ))
-	(( thecode[mbrpno++] = psz & 0xFF ))
-	(( thecode[mbrpno++] = (psz >> 8) & 0xFF ))
-	(( thecode[mbrpno++] = (psz >> 16) & 0xFF ))
-	(( thecode[mbrpno++] = (psz >> 24) & 0xFF ))
+	(( pssz = psz - pofs ))
+	(( thecode[mbrpno++] = pssz & 0xFF ))
+	(( thecode[mbrpno++] = (pssz >> 8) & 0xFF ))
+	(( thecode[mbrpno++] = (pssz >> 16) & 0xFF ))
+	(( thecode[mbrpno++] = (pssz >> 24) & 0xFF ))
 fi
 
 # create the output string
