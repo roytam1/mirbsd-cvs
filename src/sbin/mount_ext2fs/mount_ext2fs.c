@@ -1,4 +1,4 @@
-/**	$MirOS: src/sbin/mount_ext2fs/mount_ext2fs.c,v 1.4 2005/11/23 16:44:00 tg Exp $	*/
+/**	$MirOS: src/sbin/mount_ext2fs/mount_ext2fs.c,v 1.5 2009/04/23 18:11:35 tg Exp $	*/
 /*	$OpenBSD: mount_ext2fs.c,v 1.13 2005/04/08 20:09:36 jaredy Exp $	*/
 /*	$NetBSD: mount_ffs.c,v 1.3 1996/04/13 01:31:19 jtc Exp $	*/
 
@@ -44,7 +44,7 @@
 #include "mntopts.h"
 
 __SCCSID("@(#)mount_ufs.c	8.2 (Berkeley) 3/27/94");
-__RCSID("$MirOS: src/sbin/mount_ext2fs/mount_ext2fs.c,v 1.4 2005/11/23 16:44:00 tg Exp $");
+__RCSID("$MirOS: src/sbin/mount_ext2fs/mount_ext2fs.c,v 1.5 2009/04/23 18:11:35 tg Exp $");
 
 void	ext2fs_usage(void);
 
@@ -64,7 +64,7 @@ main(int argc, char *argv[])
 	int ch, mntflags;
 	char fs_name[MAXPATHLEN], *errcause;
 
-	mntflags = MNT_RDONLY;
+	mntflags = 0;
 	optind = optreset = 1;		/* Reset for parse of new argv. */
 	while ((ch = getopt(argc, argv, "o:")) != -1)
 		switch (ch) {

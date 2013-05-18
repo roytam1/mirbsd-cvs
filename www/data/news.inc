@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/news.inc,v 1.117 2009/06/19 18:28:32 tg Exp $
+RCSID: $MirOS: www/data/news.inc,v 1.118 2009/06/19 18:46:12 tg Exp $
 Title: Older news from the MirOS Project
 Date: 01.03.2006
 
@@ -1639,4 +1639,17 @@ Tag: event
  as they are not strictly covered by AllBSD).</p>
 <p>The next event will be <a href="http://www.froscon.de/">FrOSCon</a> in
  St. Augustin, with tg@ as well as bsiegert@ and gecko2@ as usual.</p>
+----
+Title: ext2fs support unbroken in -current
+Date: 09.08.2009 14:17
+Author: tg@
+Tag: bug
+
+<p>MirOS #10uAA addresses the mount_ext2fs(8) bug mentioned in an <a
+ href="@@RELPATH@@permalinks/news_e20090422-tg.htm">advisory</a>:
+ the symlink(7) bug was fixed by pulling up more recent code from
+ OpenBSD, and 256 byte inode support works as well (other sizes
+ may or may not work; support is only barely tested).</p>
+<p>We now also have a wake(8) utility courtesy of Marc Balmer from
+ OpenBSD, no ÆrieBSD, no NetBSD® to Wake-on-LAN other computers.</p>
 ----

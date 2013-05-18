@@ -215,10 +215,8 @@ ext2fs_getattr(v)
 	register struct vnode *vp = ap->a_vp;
 	register struct inode *ip = VTOI(vp);
 	register struct vattr *vap = ap->a_vap;
-	struct timeval tv;
 
-	getmicrotime(&tv);
-	EXT2FS_ITIMES(ip, &tv, &tv);
+	EXT2FS_ITIMES(ip, &time, &time);
 	/*
 	 * Copy from inode table
 	 */

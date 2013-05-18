@@ -170,13 +170,13 @@ ext2fs_inode_alloc(struct inode *pip, mode_t mode, struct ucred *cred,
 		panic("ext2fs_valloc: dup alloc");
 	}
 
-	bzero(ip->i_e2din, sizeof(struct ext2fs_dinode));
+	bzero(&(ip->i_e2din), sizeof(struct ext2fs_dinode));
 
 	/*
 	 * Set up a new generation number for this inode.
 	 */
-	if (++ext2gennumber < (u_long)time_second)
-		ext2gennumber = time_second;
+	if (++ext2gennumber < (u_long)time.tv_sec)
+		ext2gennumber = time.tv_sec;
 	ip->i_e2fs_gen = ext2gennumber;
 	return (0);
 noinodes:
