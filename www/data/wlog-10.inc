@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.87 2008/10/21 22:25:27 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.88 2008/10/22 21:14:46 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -1865,4 +1865,33 @@ Title: All software sucks…
  href="http://cvs.mirbsd.de/ports/www/opera/Makefile">commit message</a>.
  So we’re still stuck with Opera 9.27…</p>
 <p>I did get libpng updated, but had “fun” with that as well. So long.</p>
+----
+Date: 24.10.2008 21:42
+Author: tg@
+Title: Giving up far-away aims to achieve the nearest ones at all
+
+<p>While I could use newfs(8)+vnd(4)+mount(8) or makefs(8) with a fixed
+ block size for a live CD, or a ports version of mkisofs, or create the
+ image on Darwin, I do not think so. The next snapshot will just not be
+ a Live CD at all. Later, guys. Maybe TNF helps fixing it.</p>
+<p><a href="@@RELPATH@@mksh.htm">mksh</a> also did not have the newest
+ nifty features, such as <tt>&lt;(cmd)</tt>, applied, due to my ongoing
+ illness feeling and added headaches all of this evening. However, I did
+ finish the OSF/1 V2.0 (MIPS) port, and tomorrow there will be a proper
+ announcement of R36, including ports, source RPMs, etc.</p>
+<p>Many thanks to DEChengst from the <tt>#!/bin/mksh</tt> IRC channel
+ again for giving me access to such machines.</p>
+<p>I built LLVM+clang on Debian Lenny, just to make it crash *grin* due
+ to an internal assertion… in mksh(1)’s source code. Gah. Anyway, got
+ the problem reported. I wonder if I should remove Objective-C from the
+ base gcc since it’s not just almost but really unusable anyway (same
+ for Ada unless it can be used to build llvm-gnat-4.2). Jonathan gave
+ up on the GNU runtime for good, or so he told me.</p>
+<p>Today I also tried to get a neighbour’s fax-scan-print-copy combo
+ running. Ends up that both the <strong>new</strong> phone line he bought
+ for it was faulty (I gave him a replacement from my Attic), the AVM
+ Fritzbox has… issues, and when I finally got my own fax from anno 1985 to
+ work, and his Officejet not, we belive that either the ISDN voltage (it
+ was accidentally plugged next to the NTBA first) or, much more likely, a
+ recent thunderstorm b0rked it. So much for high-tech. My low-tech works.</p>
 ----

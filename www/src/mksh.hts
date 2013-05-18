@@ -2,7 +2,7 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.174 2008/10/24 21:23:30 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.175 2008/10/24 21:39:36 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R35b</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -1053,6 +1053,15 @@ mws_content <<'EOF'
  <li>Bring back automatic <tt>-o posix</tt> setting if the shell is invoked
   as “sh” or “-sh” (unless compiled with MKSH_SMALL), add regression test,
   change it to be only compiled in with <tt>-DMKSH_BINSHREDUCED</tt></li>
+ <li>Improve mksh(1) manual page</li>
+ <li>Add support for Digital UNIX (DEC OSF/1) V2.0 (MIPS) with DEC C and
+  ucode ld, work around a bug by conditionally using static linking</li>
+ <li>Change <tt>Build.sh</tt> slightly to accomodate for “true Bourne
+  shells” such as OSF/1 V2.0’s <tt>/bin/sh</tt> in printf(1) detection</li>
+ <li>Improve OS / compiler / linker version reporting</li>
+ <li>Optimise the code and <tt>Build.sh</tt> slightly</li>
+ <li>(<i>unrelated</i>) fix <tt>arc4random.c</tt> sample missing defns</li>
+ <li>Use the Unicode MirOS Licence template proper in <tt>copyright</tt></li>
 </ul>
 <p id="r35b">mksh R35b comes with the following bug fixes:</p><ul>
  <li>IRIX also has no UTF-8 locale at all, confirmed by Elias Pipping</li>
