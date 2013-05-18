@@ -1,4 +1,4 @@
-# $MirOS: src/lib/csu/common_elf/Makefile.inc,v 1.13 2008/12/26 16:25:51 tg Exp $
+# $MirOS: src/lib/csu/common_elf/Makefile.inc,v 1.14 2008/12/26 16:27:41 tg Exp $
 # $NetBSD: Makefile.inc,v 1.23 2003/03/19 16:54:25 ross Exp $
 
 .include "${.CURDIR}/../Makefile.inc"
@@ -71,7 +71,7 @@ gcrt0.o: crt0.c
 	@rm -f $@.o
 
 crti.o: crti.c
-	${COMPILE.c} -fPIE -o $@.o ${.IMPSRC}
+	${COMPILE.c} -g0 -fPIE -o $@.o ${.IMPSRC}
 	${LD} ${_DISCARD} -r -o $@ $@.o
 	@rm -f $@.o
 
