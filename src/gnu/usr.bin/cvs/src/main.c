@@ -28,7 +28,7 @@
 uint32_t arc4random(void);
 #endif
 
-__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/main.c,v 1.13 2011/06/11 02:56:58 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/main.c,v 1.14 2011/06/11 03:37:38 tg Exp $");
 
 const char *program_name;
 const char *program_path;
@@ -1404,7 +1404,7 @@ usage (register const char *const *cpp)
 {
     (void) fprintf (stderr, *cpp++, program_name, cvs_cmd_name);
     for (; *cpp; cpp++)
-	(void) fprintf (stderr, *cpp);
+	(void) fprintf (stderr, "%s", *cpp);
     exit (EXIT_FAILURE);
 }
 

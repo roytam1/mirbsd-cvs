@@ -22,7 +22,7 @@
 #include "getopt.h"
 #include "diffrun.h"
 
-__RCSID("$MirOS: ports/devel/cvs/patches/patch-diff_diff3_c,v 1.3 2010/09/15 20:56:57 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/diff/diff3.c,v 1.5 2010/09/19 19:42:50 tg Exp $");
 
 /* diff3.c has a real initialize_main function. */
 #ifdef initialize_main
@@ -1448,7 +1448,6 @@ output_diff3 (diff, mapping, rev_mapping)
   size_t length;
   int dontprint = 0;
   static int skew_increment[3] = { 2, 3, 1 }; /* 0==>2==>1==>3 */
-  char const *line_prefix = tab_align_flag ? "\t" : "  ";
 
   for (ptr = diff; ptr; ptr = D_NEXT (ptr))
     {
@@ -1505,7 +1504,7 @@ output_diff3 (diff, mapping, rev_mapping)
 	      line = 0;
 	      do
 		{
-		  printf_output (line_prefix);
+		  printf_output (tab_align_flag ? "\t" : "  ");
 		  cp = D_RELNUM (ptr, realfile, line);
 		  length = D_RELLEN (ptr, realfile, line);
 		  write_output (cp, length);
