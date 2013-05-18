@@ -1,4 +1,4 @@
-# $MirOS: ports/www/php/core/Makefile,v 1.15 2007/02/02 12:01:43 tg Exp $
+# $MirOS: ports/www/php/core/Makefile,v 1.16 2007/02/22 23:11:49 tg Exp $
 # $OpenBSD: Makefile,v 1.12 2005/12/29 23:03:29 sturm Exp $
 
 MULTI_PACKAGES=		-pear
@@ -8,40 +8,6 @@ COMMENT=		server-side HTML-embedded scripting language
 COMMENT-pear=		base classes for common PHP tasks
 PKGNAME=		php-core-${V}-${PV}
 FULLPKGNAME-pear=	php-pear-${V}-${PV}
-
-CONFIGURE_ARGS+=	--with-apxs=/usr/sbin/apxs \
-			--without-mysql \
-			--enable-xml \
-			--enable-wddx \
-			--enable-cli \
-			--without-gettext \
-			--enable-dio \
-			--with-pear=${PEAR_DIR:Q} \
-			--enable-bcmath \
-			--enable-session \
-			--enable-trans-sid \
-			--enable-calendar \
-			--enable-ctype \
-			--enable-ftp \
-			--enable-mbstring \
-			--with-pcre-regex \
-			--with-posix \
-			--enable-sockets \
-			--enable-sysvsem \
-			--enable-sysvshm \
-			--enable-exif \
-			--with-libedit \
-			--disable-sqlite-utf8
-
-.include <mirports.sys.mk>
-
-.if ${OStype} == "MirBSD"
-CONFIGURE_ARGS+=	--disable-yp
-.else
-CONFIGURE_ARGS+=	--enable-yp
-.endif
-
-MODULES+=		converters/libiconv
 
 # some variables to substitute
 SUBST_VARS+=		PHP_CONFIG_FILE PHP_CONFIG_PATH WWW_PREFIX
@@ -53,11 +19,10 @@ PHPXS_SUBST+=		-e 's,${i},${${i}},'
 
 .if defined(PACKAGING) && !empty(SUBPACKAGE)
 PREFIX=			${CHROOT_DIR}
-RUN_DEPENDS=		:php-core-${V}-${PV}:www/php/core
+RUN_DEPENDS=		${CORE_DEPENDENCY}
 MODULES=
 .else
-LIB_DEPENDS+=		xml2::textproc/libxml \
-			sqlite::databases/sqlite2
+LIB_DEPENDS+=		${CORE_LIB_DEPENDS}
 .endif
 
 pre-fake:

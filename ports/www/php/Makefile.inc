@@ -1,5 +1,7 @@
-# $MirOS: ports/www/php/Makefile.inc,v 1.14 2007/02/02 12:01:38 tg Exp $
+# $MirOS: ports/www/php/Makefile.inc,v 1.15 2007/02/22 23:11:48 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.1.1.1 2004/10/02 11:32:35 robert Exp $
+
+.include <mirports.sys.mk>
 
 # This port currently only works with archs supporting dynamic loading
 # and has a httpd that supports DSOs.
@@ -13,12 +15,9 @@ CATEGORIES=		www lang
 RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.de>
 HOMEPAGE=		http://www.php.net/ \
 			http://www.hardened-php.net/
-MASTER_SITES=		\
-			http://museum.php.net/php5/
-MASTER_SITES0=		\
-			http://www.hardened-php.net/
-PATCHFILES=		\
-			hardening-patch-${V}-${HV}.patch.gz:0
+MASTER_SITES=		http://museum.php.net/php5/
+MASTER_SITES0=		http://www.hardened-php.net/
+PATCHFILES=		hardening-patch-${V}-${HV}.patch.gz:0
 PATCH_DIST_STRIP=	-p1
 
 # UPGRADERS: please read BOTH the PHP and Zend licenses
@@ -55,11 +54,43 @@ CONFIGURE_ARGS+=	--enable-shared \
 			--with-libxml-dir=${LOCALBASE:Q} \
 			--with-iconv=${ICONV_PREFIX:Q} \
 			--with-sqlite=${LOCALBASE:Q} \
+			--with-libedit \
+			--without-gettext \
+			--disable-sqlite-utf8 \
+			--with-apxs=/usr/sbin/apxs \
+			--without-mysql \
+			--enable-xml \
+			--enable-wddx \
+			--enable-cli \
+			--enable-dio \
+			--with-pear=${PEAR_DIR:Q} \
+			--enable-bcmath \
+			--enable-session \
+			--enable-trans-sid \
+			--enable-calendar \
+			--enable-ctype \
+			--enable-ftp \
+			--enable-mbstring \
+			--with-pcre-regex \
+			--with-posix \
+		 	--with-openssl \
+			--with-zlib \
+			--enable-sockets \
+			--enable-sysvsem \
+			--enable-sysvshm \
+			--enable-exif \
 			--with-pic
 
-# default included extensions
-CONFIGURE_ARGS+= 	--with-openssl \
-			--with-zlib
+.if ${OStype} == "MirBSD"
+CONFIGURE_ARGS+=	--disable-yp
+.else
+CONFIGURE_ARGS+=	--enable-yp
+.endif
+
+MODULES+=		converters/libiconv
+CORE_DEPENDENCY=	:php-core-${V}-${PV}:www/php/core
+CORE_LIB_DEPENDS+=	xml2::textproc/libxml \
+			sqlite::databases/sqlite2
 
 CONFIGURE_ENV+=		TERM=vt100
 

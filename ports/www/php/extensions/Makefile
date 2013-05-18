@@ -1,4 +1,4 @@
-# $MirOS: ports/www/php/extensions/Makefile,v 1.16 2007/02/22 23:11:49 tg Exp $
+# $MirOS: ports/www/php/extensions/Makefile,v 1.17 2007/02/23 02:18:38 tg Exp $
 # $OpenBSD: Makefile,v 1.17 2005/12/29 23:06:28 sturm Exp $
 
 FULLPKGNAME=		php-extensions-${V}-${PV}
@@ -13,12 +13,8 @@ PREFIX?=		${CHROOT_DIR}
 FLAVORS=		no_x11
 FLAVOR?=
 
-MODULES+=		converters/libiconv
-RUN_DEPENDS+=		:php-core-${V}-${PV}:www/php/core
-
-CONFIGURE_ARGS+=	--with-apxs=/usr/sbin/apxs \
-			--with-iconv=${ICONV_PREFIX:Q} \
-			--disable-dom
+BUILD_DEPENDS+=		${CORE_LIB_DEPENDS}
+RUN_DEPENDS+=		${CORE_DEPENDENCY}
 
 GRAPHIC_DEPENDS=	jpeg.62::graphics/jpeg \
 			png.3::graphics/png
@@ -318,6 +314,8 @@ SUBST_VARS=		V
 LIB_DEPENDS+=		${${i:U:S/-//g}_DEPENDS}
 .  endfor
 .endif
+
+ALL_TARGET=		build-modules
 
 do-install:
 	${INSTALL_DATA_DIR} ${PREFIX}/${MODULES_SUBDIR}
