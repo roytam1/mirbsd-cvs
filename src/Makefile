@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.55 2006/06/16 21:54:08 tg Exp $
+# $MirOS: src/Makefile,v 1.56 2006/06/16 22:55:09 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -278,7 +278,7 @@ _do-dist:
 	@/bin/ls -Fl ${BSDRELDIR}/rel
 	@echo "============================================================"
 .if exists(${BSDSRCDIR}/distrib/${MACHINE}/livecd/Makefile) && \
-    !defined(QUICK_DIST)
+    !defined(QUICK_DIST) && !defined(NO_LIVECD)
 	cd ${BSDSRCDIR}/distrib/${MACHINE}/livecd && ${MAKE} it #cleanworkdir
 	@echo
 	@echo Done with MirOS Snapshot generation.
