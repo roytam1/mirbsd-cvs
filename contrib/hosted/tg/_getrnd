@@ -1,7 +1,0 @@
-#!/usr/bin/env mksh
-(( USER_ID )) && exec sudo mksh "$0" "$@"
-(/bin/sleep $(/usr/bin/jot -r 1 60 900); /usr/bin/time -l /usr/bin/ftp -Vo - http://www.randomnumbers.info/cgibin/wqrng.cgi?amount=80\&limit=1024) 2>&1 | /bin/cksum -ba sha512 -a sfv -a cdb -a suma -a rmd160 >/dev/wrandom &
-(/bin/sleep $(/usr/bin/jot -r 1 60 900); /usr/bin/time -l /usr/bin/ftp -mvo /dev/urandom https://www.fourmilab.ch/cgi-bin/Hotbits?nbytes=64\&fmt=bin) 2>&1 | /bin/cksum -ba suma >/dev/wrandom &
-(/bin/sleep $(/usr/bin/jot -r 1 60 900); /usr/bin/time -l /usr/bin/ftp -mvo /dev/urandom https://www.random.org/cgi-bin/randbyte?nbytes=64\&format=f) 2>&1 | /bin/cksum -ba suma >/dev/wrandom &
-(/bin/sleep $(/usr/bin/jot -r 1 60 900); /usr/bin/time -l /usr/bin/ftp -mvo /dev/urandom https://call.mirbsd.org/rb.cgi?$(hostname),manuell,$RANDOM,$(dd if=/dev/arandom bs=57 count=1 2>&- | b64encode -r - | tr '+=/' '._-')) 2>&1 | /bin/cksum -ba suma >/dev/wrandom &
-exit 0

@@ -1,9 +1,0 @@
-+-----------------------------------------------------------------
-| Can someone fix that smbpasswd breakage please?
-| It doesn't seem to work on MirOS BSD-current.
-| I left the port unBROKEN because it might work
-| on older MirOS, OpenBSD or Mac OSX.
-|
-| On MirOS, please use ports/net/samba2 instead,
-| even if it's not being developed any more.
-+-----------------------------------------------------------------

@@ -1,6 +1,0 @@
-# $MirOS: src/distrib/common/Makefile.i386,v 1.1 2006/08/17 19:34:13 tg Exp $
-
-BOOT=		${BSDOBJDIR}/sys/arch/i386/stand/fdboot/boot
-
-CDROM=		no
-INST_FILES=	${FLOPPY}
