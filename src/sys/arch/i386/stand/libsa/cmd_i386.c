@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/cmd_i386.c,v 1.8 2008/12/28 18:18:04 tg Exp $	*/
+/**	$MirOS: src/sys/arch/i386/stand/libsa/cmd_i386.c,v 1.9 2008/12/28 18:56:11 tg Exp $	*/
 /*	$OpenBSD: cmd_i386.c,v 1.29 2006/09/18 21:14:15 mpf Exp $	*/
 
 /*
@@ -56,7 +56,7 @@ int Xregs(void);
 int Xoldbios(void);
 
 /* From gidt.S */
-int bootbuf(void *, int);
+__dead void bootbuf(void *codebuf, uint32_t codesize, int dl, uint32_t csip);
 
 const struct cmd_table cmd_machine[] = {
 #ifndef SMALL_BOOT
@@ -144,7 +144,8 @@ Xboot(void)
 {
 	int dev, part, st;
 	bios_diskinfo_t *bd = NULL;
-	char buf[DEV_BSIZE], *dest = (void *)BOOTBIOS_ADDR;
+	char *buf;
+	uint32_t baddr;
 
 	if (cmd.argc != 2) {
 		printf("machine boot {cd,fd,hd}<0123>[abcd]\n");
@@ -175,6 +176,12 @@ Xboot(void)
 	else
 		printf("[%x]\n", dev);
 
+	/* get a paragraph-aligned buffer */
+	buf = alloc(DEV_BSIZE + 16);
+	baddr = (intptr_t)buf;
+	baddr = (baddr + 15) & ~15;
+	buf = (void *)((intptr_t)baddr);
+
 	/* Read boot sector from device */
 	bd = bios_dklookup(dev);
 	st = biosd_io(F_READ, bd, 0, 1, buf);
@@ -193,8 +200,8 @@ Xboot(void)
 	}
 
 	/* Load %dl, ljmp */
-	bcopy(buf, dest, DEV_BSIZE);
-	bootbuf(dest, dev);
+	baddr = 0x00007C00;
+	bootbuf(buf, 512, dev, baddr);
 
 bad:
 	printf("Invalid device!\n");

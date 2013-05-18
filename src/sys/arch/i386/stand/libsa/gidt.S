@@ -1,4 +1,4 @@
-/*	$MirOS: src/sys/arch/i386/stand/libsa/gidt.S,v 1.2 2009/01/01 19:45:02 tg Exp $ */
+/*	$MirOS: src/sys/arch/i386/stand/libsa/gidt.S,v 1.3 2009/01/01 19:45:38 tg Exp $ */
 /*	$OpenBSD: gidt.S,v 1.32 2006/12/26 19:30:44 tom Exp $	*/
 
 /*
@@ -415,17 +415,72 @@ intno	= . - 1
 ENTRY(bootbuf)
 	pop	%eax		/* Don't need return address */
 	pop	%esi		/* Buffer */
-	pop	%edx		/* Device */
+	pop	%ecx		/* Size */
+	pop	%edx		/* Device (and flags) */
+	pop	%edi		/* Initial CS:IP */
 	prot2real		/* Switch */
 
-	/* Set up stack */
-	cli
-	xor	%ax, %ax
-	mov	%ax, %ss
-	mov	$0xfffc, %esp
-	sti
+	.intel_syntax noprefix
 
-	/* Jump to buffer */
-	ljmp $0x0, $0x7c00
+	/* set up flags, real mode stack */
+	cli
+	xor	eax,eax
+	push	eax
+	popf
+	mov	ss,ax
+	mov	esp,0x0000FFFC
+
+	/*-
+	 * Now the machine status is as follows:
+	 * - CS = DS = ES = 4012h = (LINKADDR >> 4)
+	 * - SS:SP = 0000:FFFCh
+	 * - EFLAGS = 0
+	 * - ESI = linear address of source buffer (must be para aligned)
+	 * - ECX = source buffer size (up to 64 KiB)
+	 * - EDI = target address and initial CS:IP (FAR pointer)
+	 * - EDX = bootbuf flags, currently unused
+	 * -  DL = drive
+	 * - _C_LABEL(bios_bootpte) = future DS:SI contents (16by)
+	 * - 0000:0600h .. 0000:07FFh are available to put the boot
+	 *   partition table entry in, according to SYSLINUX docs;
+	 *   we also move certain relocation code there
+	 */
+
+	mov	eax,edi
+	shr	eax,16
+	push	ax		/* future CS */
+	push	di		/* future IP */
+	push	dx		/* future DL (drive) */
+	push	cx		/* source buffer size */
+	shr	esi,4
+	push	si		/* source buffer segment */
+	push	ax		/* future CS (ES) */
+	push	di		/* future IP (DI) */
+	xor	ecx,ecx
+	mov	es,cx
+	mov	edi,0x0600
+	mov	esi,offset _C_LABEL(bios_bootpte) - LINKADDR
+	mov	cx,4
+	rep	movsd
+	push	es		/* temporary CS */
+	push	di		/* temporary IP */
+	call	Ltcend
+Ltcbeg:	/* temporary relocation code, copied to 0000:0610h */
+	pop	di		/* future IP (DI) */
+	pop	es		/* future CS (ES) */
+	pop	ds		/* source buffer segment */
+	pop	cx		/* source buffer size */
+	xor	si,si		/* source buffer offset */
+	rep	movsb
+	xor	ax,ax
+	mov	ds,ax
+	mov	si,0x0600
+	pop	dx
+	lret			/* future CS:IP on stack */
+	Ltcsz = . - Ltcbeg
+Ltcend:	pop	si		/* offset Ltcbeg */
+	mov	cx,Ltcsz
+	rep	movsb
+	lret			/* temporary CS:IP (0000:0610h) on stack */
 
 	.end
