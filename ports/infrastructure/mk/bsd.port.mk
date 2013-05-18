@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.82 2005/12/17 03:06:07 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.83 2005/12/17 04:05:26 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -2947,6 +2947,7 @@ _upgrade_pkgs:
 	@i=0; for f in ${PKGFILE} ${_UPGRADE_PKGS}; do \
 		[[ -s $$f ]] || i=1; \
 	done; [[ $$i = 0 ]] || exec ${MAKE} ${_PACKAGE_COOKIES}
+	@${ECHO_MSG} "===>  Upgrading for ${FULLPKGNAME}${_MASTER}"
 
 _upgrade:
 	${PKG_CMD_UPGRADE} -a ${PKGFILE${SUBPACKAGE}}
