@@ -1,3 +1,4 @@
+.\" $MirOS$
 .SH "AUTHORS"
 .TP
 Dick Grune
@@ -42,7 +43,7 @@ to CVS, development of CVS, and more, see:
 .SP
 .PD 0
 .IP "" 4
-.B http://cvshome.org
+.B http://www.nongnu.org/cvs/
 .in -1i
 .SP
 .BR ci ( 1 ),
@@ -54,5 +55,6 @@ to CVS, development of CVS, and more, see:
 .BR patch ( 1 ),
 .BR rcs ( 1 ),
 .BR rcsdiff ( 1 ),
+.BR rcsintro ( 1 ),
 .BR rcsmerge ( 1 ),
 .BR rlog ( 1 ).

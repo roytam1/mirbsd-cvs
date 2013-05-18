@@ -1,4 +1,4 @@
-.\"	$MirOS: src/share/doc/psd/00.contents,v 1.2 2012/05/21 19:33:01 tg Exp $
+.\"	$MirOS: src/share/doc/psd/00.contents,v 1.3 2012/05/21 20:30:50 tg Exp $
 .\"	$OpenBSD: 00.contents,v 1.4 2004/04/09 12:10:03 jmc Exp $
 .\"
 .\" Copyright (c) 2012
@@ -182,7 +182,7 @@ compiled with minimal effort.
 RCS is a user-contributed tool for working together with other people
 without stepping on each other's toes.
 An alternative to \fIsccs\fR for controlling software changes.
-.cb "\(bu 13.rcs(PSD) \(bu \fIrcs(1)\fR"
+.cb "\(bu 13.rcs(PSD) \(bu \fIrcsintro(1)\fR"
 
 .IP
 .st "'An Introduction to the Source Code Control System''PSD:14'"
