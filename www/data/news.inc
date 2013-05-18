@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/news.inc,v 1.96 2009/01/08 21:37:55 tg Exp $
+RCSID: $MirOS: www/data/news.inc,v 1.97 2009/01/18 00:28:01 tg Exp $
 Title: Older news from the MirOS Project
 Date: 01.03.2006
 
@@ -1317,4 +1317,39 @@ Title: MirOS #10/i386 binary packages problems
 <p>We apologise about the inconvenience. If you run into any problems,
  please contact us on <a href="@@RELPATH@@irc.htm">IRC</a> or via the <a
  href="@@RELPATH@@rss.htm#lists">mailing list</a>.</p>
+----
+Title: Bug in Parallels Desktop found ⇒ no longer supported
+Date: 26.01.2009 22:35
+Author: tg@
+Tag: bug snapshot
+
+<p style="font-size:xx-large;">Benny, read below before killing me.</p>
+<p><a href="http://www.ctyme.com/intr/rb-0706.htm">AH=41h INT 13h</a>
+ is a function with which one can ask a BIOS if it supports LBA on a
+ specific drive or not. The El Torito bootable CDs only function with
+ LBA (EDD). A <a href="@@ABSPATH@@/MirOS/ISOs/LBATEST.ISO.gz">gzipped
+ LBA test ISO</a> is available for you to check your BIOS against it;
+ I had not yet come across one which does not report it correctly.</p>
+<p>Our new bootloader, instead of having separate copies for network
+ boot, CD-ROMs, floppies and hard discs, asks the BIOS what type drive
+ it is running on (both first and second stage). If we were to remove
+ the check if LBA is supported on the boot drive from the first stage
+ bootloader (the PBR, <tt>bootxx</tt>), it would no longer work on MFM
+ HDDs, floppies, etc; besides, the second stage boot(8/i386) loader is
+ still using it to distinguish CDs from hard discs.</p>
+<p>Anyway: the Parallels BIOS fails the EDD installation check and, as
+ such, does not conform to the El Torito standard. Our new bootloader
+ just happens to expose that problem – try the ISO for yourself…</p>
+<ul>
+ <li><a href="@@RELPATH@@pics/wlog/lbapdsk.png">Parallels BUGstop</a></li>
+ <li><a href="@@RELPATH@@pics/wlog/lbaqemu.png">qemu 0.7.2 DTRT</a> (for
+  once…)</li>
+</ul>
+<p>We hereby cease to support working around the brokenness in order
+ to use one unified second stage boot(8) loader per platform for both
+ local (HDD, CD) and network boot. Parallels should fix their BIOS.</p>
+<p>As <strong>workaround</strong> you can make use of the functionality
+ that MirOS ISOs can be dd(1)d to a hard disc and run from there. Just
+ enter it as an additional hard disc drive instead of CD-ROM drive. Or
+ use netboot (load b_i386.ldr and the bsd.rd kernel).</p>
 ----
