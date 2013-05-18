@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.262 2009/12/12 21:04:32 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.263 2009/12/13 16:43:37 bsiegert Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -5664,4 +5664,58 @@ Source=255,https://www.mirbsd.org/MirOS/Packages/i386/</pre>
 
 <p>These changes can be implemented in a reasonable amount of time, I
  think. Maybe during the CCC?</p>
+----
+Title: Stehen, Warten, Beten
+Author: tg@
+Date: 17.12.2009 14:52
+Tag: rant
+Language: de_DE-1901
+
+<p>SWB. Stehen, Warten, Beten.</p><!-- RSS stop -->
+<p>Am Dienstag Abend waren <a href="http://www.tarent.com/">wir</a> mit <a
+ href="http://www.gnurandal.com/">Roland</a> in der Bonner Innenstadt.
+ Hiernach wollte ich gerne nach Hause fahren, aber die StadtWerke Bonn
+ machten mir, wie so oft, einen Strich durch die Rechnung.</p>
+<p>Das ist eigentlich gar nicht so schlimm, denn wäre ich zu Fuß gegangen
+ hätte ich sicherlich nicht mehr als eine Dreiviertelstunde benötigt.
+ Aber wir haben ja das tolle Informationssystem, das uns allerdings nur
+ anzeigte: „Betriebsstörung. Unregelmäßigkeiten im Fahrplan
+ <em>möglich</em>.“</p>
+<p>Bei „möglich“ wäre ich hellhörig geworden, aber das stand schon den
+ ganzen Tag da, und morgens auf dem Weg zur Arbeit war eigentlich nichts
+ los und wurde nichts durchgesagt. Also warte ich auf die nächste Bahn.
+ Eine ganze Viertelstunde lang – anscheinend ist (gestern Abend nach der
+ Arbeit übrigens auch) <em>mal wieder</em> eine Bahn ausgefallen, ohne
+ daß dies angezeigt oder durchgesagt wurde, trotz moderner Technik. (Die
+ Deutsch Bahn schafft dies zumindest auf ihrer Webseite, und Durchsagen
+ gibts auch öfters, Anzeigetafeln sind dort ja etwas unflexibler.)</p>
+<p>Dann kam die Bahn, ich frag’ was denn los sei. „Ja, ich fahre auch
+ nur (1 Haltestelle), von da aus müssen Sie zu Fuß (2 Haltestellen)
+ laufen, da fahren wieder Bahnen, wir haben da ein Riesenloch in der
+ Straße.“ (Kurzum ein ganzer Streckenabschnitt abgeschlossen, ohne eine
+ Möglichkeit, dort weitere Verkehrsmittel reinzubringen.)</p>
+<p>Ich laufe also, frustriert, und stehe mir an der Zielhaltestelle –
+ wohlgemerkt bei Minusgraden – wieder die Füße in den Bauch. Die gerade
+ gewendet habende Bahn eine knappe Viertelstunde lang gut sichtbar für
+ uns auf dem Stumpfgleis, Lichter an, tätigkeitslos.</p>
+<p>Alles in allem habe ich annähernd eineinviertel Stunden nach Hause
+ benötigt, und das ist bei einem monatlichen <strong>reduzierten</strong>
+ Abonnementpreis von 66.50 € einfach inakzeptabel, zudem die tollen neuen
+ Anzeigetafeln intakt waren. Hätte ich das gewußt wäre ich gelaufen oder
+ hätte mir ein Taxi genommen, aber nein, die StadtWerke Bonn machen ihrem
+ Namen „Stehen, Warten, Beten“ alle Ehre. Wenn ich nicht mein Abonnement
+ <a href="@@RELPATH@@permalinks/wlog-10_e20090204-tg-g10020.htm">eh’</a>
+ schon bei der Deutschen Bahn hätte würde ich es sofort kündigen.</p>
+<p><span xml:lang="en">To add insult to injury</span>, die Anzeigetafeln
+ waren mit einem teils statischen teils durchlaufenden Text so dermaßen
+ „voll“ belegt, daß man es nicht für nötig hielt, die normalerweise dort
+ verfügbare Uhr (man sieht schön, daß alle Bahnen an den Endhaltestellen
+ immer eine Minute zu spät abfahren – aber von einem Ex-1€-Mitarbeiter
+ weiß ich ja, daß die SWB drei(!) unterschiedliche Fahrpläne haben…)
+ anzuzeigen. Dann hätte man ja entscheiden können zu laufen – insbesondere
+ wenn man informiert gewesen wäre. (Oder zumindest dann drei statt zwei
+ Haltestellen laufen und eine Bahn früher nehmen. Oder zwei, je nachdem.)
+ <br />Ich meine, für den Wasserrohrbruch zwischen Straßen- und U-Bahn
+ können die ja nix, aber informieren können hätte man mich wenigstens,
+ denn am nächsten Tage (gestern) mußte ich <em>sehr</em> früh ’raus.</p>
 ----
