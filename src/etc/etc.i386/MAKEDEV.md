@@ -1,5 +1,5 @@
 vers(__file__,
-	{-$MirOS: src/etc/etc.i386/MAKEDEV.md,v 1.8 2005/10/21 12:54:30 tg Exp $-})dnl
+	{-$MirOS: src/etc/etc.i386/MAKEDEV.md,v 1.9 2006/06/17 16:28:21 tg Exp $-})dnl
 vers(__file__,
 	{-$OpenBSD: MAKEDEV.md,v 1.32 2005/06/29 18:23:27 todd Exp $-},
 etc.MACHINE)dnl
@@ -114,7 +114,7 @@ ramdisk)
 	_recurse st0 cd0 ttyC0 random wskbd0 wskbd1 wskbd2 apm vnd0
 	;;
 rambig)
-	_recurse pty0 raid0 raid1 tun0 vnd1
+	_recurse bpf1 pty0 raid0 raid1 tun0 vnd1
 	;;
 
 _std(1, 2, 50, 4, 7)
