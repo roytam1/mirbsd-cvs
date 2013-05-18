@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.280 2010/02/05 12:48:32 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.281 2010/02/07 14:07:33 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -6194,4 +6194,37 @@ Language: de_DE-1901
  unbeschadet überstehen werde. Immerhin haben wir gut, aber zu wenig ☺
  wie immer… geschlafen.</p>
 <p>XTaran hält gerade seinen Vortrag. Dem Benz seiner war gut.</p>
+----
+Title: After FOSDEM 2010
+Author: bsiegert@
+Date: 08.02.2010 17:39
+Tag: event
+
+<p>FOSDEM was a great success. Once more, thanks to Daniel Seuffert,
+ Marius N&uuml;nnerich and the others from <a
+ href="http://www.allbsd.de/en/">the AllBSD project</a>. We distributed
+ 400 CDs with the latest snapshots, of which about 350 were distributed
+ on Saturday alone. There was a stronger demand for French flyers
+ compared to the last years; I think that more locals (i.e. Belgians)
+ attended the conference. Many of these people were only there on one of
+ the two days.</p>
+
+<p>Kudos also to the people from the Debian booth (especially Axel
+ “XTaran” Beckert) for lending us a screen for the showcase computer.
+ Due to communication problems, the others had not brought a spare
+ screen as usual, and I could not bring one on the plane.</p>
+
+<p>I held my talk about <i>Build Systems with autoconf, automake and
+ libtool</i> on Sunday at noon, with a very interested public who posed
+ some very concrete question. I conclude that there is a real need for
+ this kind of “HOWTO”. I will write a bit more on the subject of
+ autotools, in the meantime the slides are <a
+ href="http://www.slideshare.net/bsiegert/build-systems-with-autoconf-automake-and-libtool">available
+ at SlideShare</a>, where you can view the presentation online (Flash
+ required) or <a
+ href="http://www.slideshare.net/bsiegert/build-systems-with-autoconf-automake-and-libtool/download">download
+ a PDF</a>.</p>
+
+<p>Oh, and contrary to “popular” belief, the food at the Pakistani (!)
+ restaurant on Saturday was excellent :).</p>
 ----
