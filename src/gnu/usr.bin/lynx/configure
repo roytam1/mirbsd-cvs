@@ -2411,7 +2411,7 @@ then
 echo "configure:2412: checking for $CC warning options" >&5
 	cf_save_CFLAGS="$CFLAGS"
 	EXTRA_CFLAGS="-Wall"
-	for cf_opt in Wno-cast-qual \
+	for cf_opt in Wno-cast-qual Wno-cast-align \
 		wd1419 \
 		wd1682 \
 		wd1683 \
@@ -2450,7 +2450,7 @@ echo "configure:2438: checking for $CC warning options" >&5
 		Wpointer-arith \
 		Wshadow \
 		Wstrict-prototypes \
-		Wundef $cf_warn_CONST Wno-cast-qual
+		Wundef $cf_warn_CONST Wno-cast-qual Wno-cast-align
 	do
 		CFLAGS="$cf_save_CFLAGS $EXTRA_CFLAGS -$cf_opt"
 		if { (eval echo configure:2457: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
