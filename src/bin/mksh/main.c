@@ -34,7 +34,7 @@
 #include <locale.h>
 #endif
 
-__RCSID("$MirOS: src/bin/mksh/main.c,v 1.261 2013/03/29 17:33:07 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/main.c,v 1.262 2013/04/26 21:22:46 tg Exp $");
 
 extern char **environ;
 
@@ -411,7 +411,7 @@ main_init(int argc, const char *argv[], Source **sp, struct block **lp)
 			return (1);
 	}
 
-#ifdef DEBUG
+#if defined(DEBUG) && !defined(MKSH_LEGACY_MODE)
 	/* test wraparound of arithmetic types */
 	{
 		volatile long xl;
