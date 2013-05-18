@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/heartbeat/hbbackend.sample,v 1.4 2006/03/20 00:16:53 tg Exp $
+# $MirOS: contrib/code/heartbeat/hbbackend.sample,v 1.5 2006/03/20 00:22:39 tg Exp $
 #-
 # Copyright (c) 2004, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -63,7 +63,7 @@ function do_heartbeat
 
 function do_idle
 {
-	[[ $mystat = UP ]] || exit
+	[[ $mystat = UP ]] || return
 	if [[ -n $mydown ]]; then
 		kill -USR1 $mydown
 		mydown=
