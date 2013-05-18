@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.249 2009/06/21 11:35:08 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.250 2009/07/07 18:38:56 tg Exp $'
 mws_content <<'EOF'
 <h2>mksh(1) R38c</h2>
 
@@ -372,9 +372,9 @@ mws_content <<'EOF'
 <p>Support for SGI’s MIPSpro compiler on IRIX appeared in mksh R33b.</p>
 
 <h5 id="oe_nwcc">Compiler: nwcc</h5>
-<p>Support for nwcc appeared in mksh R36b, although the compiler itself
- is still slightly broken. Even if the compiler can be built and can
- build executables, it produces bogus warnings and wrong code.</p>
+<p>Support for nwcc appeared in mksh R36b. nwcc 0.7.9 can build mksh
+ post-R38c if the stack protector is disabled, although the compiler
+ still produces quite some bogus warnings.</p>
 
 <h5 id="oe_pcc">Compiler: PCC (BSD)</h5>
 <p>Support for the Caldera/SCO UNIX® based, BSD-licenced portable C compiler
@@ -791,6 +791,7 @@ mws_content <<'EOF'
 <ul>
  <li style="list-style:none;">– tests by the project, using Build.sh –</li>
  <li>Debian GNU/Linux sid 2.6.26-1-xen-amd64 (amd64 gcc4.5.0-r147610 gcc-snapshot_20090516-1) <em>but <tt>-combine</tt> is broken again *sigh…*</em></li>
+ <li>Debian GNU/Linux sid 2.6.18-6-686 (i386 nwcc0.7.9) <em>with <tt>HAVE_CAN_SSP=0</tt></em></li>
  <li style="list-style:none;">– other build system integration –</li>
 </ul>
 <h3 id="regress_rel">Current Release</h3>
@@ -825,9 +826,9 @@ mws_content <<'EOF'
  <li>CentOS GNU/Linux 5.2 2.6.18-92.1.18.el5xen (amd64 gcc4.1.2-44)</li>
  <li>Debian GNU/Linux 4.0 etch 2.6.18-6-686 (i386 gcc1:3.3.6-15)</li>
  <li>Debian GNU/Linux 4.0 etch 2.6.18-6-686 (i386 gcc4.1.1-21)</li>
- <li>Debian GNU/Linux 4.0 lenny 2.6.18-6-686 (i386 gcc4.1.2-25)</li>
- <li>Debian GNU/Linux 4.0 lenny 2.6.18-6-686 (i386 gcc4.3.2-1.1)</li>
- <li>Debian GNU/Linux 4.0 lenny 2.6.18-6-686 (i386 TenDRA-4.1.2-18)</li>
+ <li>Debian GNU/Linux 5.0 lenny 2.6.18-6-686 (i386 gcc4.1.2-25)</li>
+ <li>Debian GNU/Linux 5.0 lenny 2.6.18-6-686 (i386 gcc4.3.2-1.1)</li>
+ <li>Debian GNU/Linux 5.0 lenny 2.6.18-6-686 (i386 TenDRA-4.1.2-18)</li>
  <li>ecce!GNU/Linux 1.00 2.0.38a (i386 libc5 gcc2.7.2.3) <em>except</em> locale support</li>
  <li>Minix 3 3.1.4~r4203? (i386 ACK)</li>
  <li>Minix 3 3.1.4~r4203? (i386 gcc)</li>
