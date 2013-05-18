@@ -1,5 +1,5 @@
 #!/bin/mksh
-rcsid='$MirOS: src/sys/arch/i386/stand/bootxx/mkbxinst.sh,v 1.15 2009/02/08 20:47:48 tg Exp $'
+rcsid='$MirOS: src/sys/arch/i386/stand/bootxx/mkbxinst.sh,v 1.16 2009/06/07 11:30:23 tg Exp $'
 #-
 # Copyright (c) 2007, 2008, 2009
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -83,7 +83,7 @@ cat <<'EOF'
 typeset -Uui8 thecode
 
 typeset -Uui16 curptr=begptr
-typeset -i wnum=0 wofs=0 wrec=0
+typeset -i wnum=0 wofs=0 wrec=0 bkend=510
 
 function do_record {
 	typeset -i blk=$1 cnt=$2 n
@@ -189,14 +189,14 @@ while read firstblock lastblock junk; do
 	done
 done
 record_block 0	# just flush
-print -u2 "using $wrec blocks, $((curptr-begptr)) bytes ($((510-curptr)) free)"
+print -u2 "using $wrec blocks, $((curptr-begptr)) bytes ($((bkend-curptr)) free)"
 
 # fill the block table
-if (( curptr-- > 510 )); then
+if (( curptr-- > bkend )); then
 	print -u2 error: too many blocks
 	exit 1
 fi
-while (( ++curptr < 510 )); do
+while (( ++curptr < bkend )); do
 	(( thecode[curptr] = (curptr & 0xFCF) == 0x1C2 ? 0 : RANDOM & 0xFF ))
 	# ensure the “active” flag is never set to 0x00 or 0x80
 	if (( ((curptr + 2) & 0xFCF) == 0x01C0 )); then
