@@ -1,26 +1,25 @@
 #!@SHELL@
-# $MirOS: ports/mailnews/pine/files/pine.smime,v 1.5 2005/12/15 14:24:19 tg Exp $
+# $MirOS: ports/mailnews/pine/files/pine.smime,v 1.6 2006/09/20 22:24:50 tg Exp $
 #-
-# Copyright (c) 2003, 2004
-#	Thorsten "mirabile" Glaser <tg@mirbsd.de>
+# Copyright (c) 2003, 2004, 2008
+#	Thorsten "mirabilos" Glaser <tg@mirbsd.de>
 #
-# Licensee is hereby permitted to deal in this work without restric-
-# tion, including unlimited rights to use, publicly perform, modify,
-# merge, distribute, sell, give away or sublicence, provided all co-
-# pyright notices above, these terms and the disclaimer are retained
-# in all redistributions or reproduced in accompanying documentation
-# or other materials provided with binary redistributions.
+# Provided that these terms and disclaimer and all copyright notices
+# are retained or reproduced in an accompanying document, permission
+# is granted to deal in this work without restriction, including un-
+# limited rights to use, publicly perform, distribute, sell, modify,
+# merge, give away, or sublicence.
 #
-# Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
-# express, or implied, to the maximum extent permitted by applicable
-# law, without malicious intent or gross negligence; in no event may
-# licensor, an author or contributor be held liable for any indirect
-# or other damage, or direct damage except proven a consequence of a
-# direct error of said person and intended use of this work, loss or
-# other issues arising in any way out of its use, even if advised of
-# the possibility of such damage or existence of a defect.
+# This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
+# the utmost extent permitted by applicable law, neither express nor
+# implied; without malicious intent or gross negligence. In no event
+# may a licensor, author or contributor be held liable for indirect,
+# direct, other damage, loss, or other issues arising in any way out
+# of dealing in the work, even if advised of the possibility of such
+# damage or existence of a defect, except proven that it results out
+# of said person's immediate fault when using the work as intended.
 #-
-# S/MIME support for pine, main module
+# S/MIME and PGP/MIME support for pine, main module
 #
 # Documentation:
 # Set pine up so it uses this script as its mail submission agent
@@ -32,6 +31,8 @@
 # If you want to add e.g. your CA Certificate(s) to the signed
 # messages, as other mailers usually do, use ~/.etc/ssh/mime.ca
 # Add "X-SMIME: NO" to your pine user-defined headers to ease later use.
+# Add "X-PGPMIME: sucks" to your pine user-defined headers to enable PGP/MIME
+# for outgoing encrypted mails.
 #
 # To send a signed mail, press ^R (Rich Headers) in Composer and change
 # "X-SMIME: No" to a value not containing "NO" or "OPAQ" (case-insensitive).
@@ -56,6 +57,10 @@
 #
 # If something goes wrong, you'll find a file called ~/smime.log
 
+#XXX not for production use yet (requires gpgml script for encrypting
+#XXX inside mailer, instead of full MIME parsing)
+#XXX missing: keyid selector
+#XXX use: “gpg -k --with-colons --fixed-list-mode --with-fingerprint 「x」”
 
 R=$(mktemp /tmp/pine.smime.XXXXXXXXXX) || exit 1
 S=$(mktemp /tmp/pine.smime.XXXXXXXXXX) || { rm -f $R; exit 1; }
@@ -63,10 +68,10 @@ T=$(mktemp /tmp/pine.smime.XXXXXXXXXX) || { rm -f $R $S; exit 1; }
 trap 'rm -f $R $S $T ; exit 0' 0
 trap 'rm -f $R $S $T ; exit 1' 1 2 3 5 13 15
 
-MACH="$(uname -mslrM)" || MACH="$(uname -mslr)" || MACH="$(uname -msr)"
+MACH="$(uname -mslr 2>&-)" || MACH="$(uname -msr)"
 
 echo "Received: by S/MIME Plugin for ${MACH}; $(date)" >$R
-cat >$S
+tr -d '' >$S
 ed -s $S <<-EOF
 	1,/^$/-1W $R
 	1,/^$/d
@@ -97,4 +102,62 @@ fi
 unset QP
 cat $S $R >$T
 
-tr -d '' <$T | sed -e 's,$,,' | sendmail ${SMIMEARGS} -oem -oi -t
+grep -qi '^X-PGPMIME:.*sucks' $T && if grep -q \
+    '^-----BEGIN PGP MESSAGE-----' $T; then
+	cte=
+	inhdr=1
+	inpgp=0
+	tr -d '' <$T |&
+	print -n >$R
+	while IFS= read -pr line; do
+		if (( inpgp == 2 )); then
+			print -r -- "$line" >>$R
+			continue
+		fi
+		typeset -l lline="$line"
+
+		if (( inhdr )); then
+			if [[ $lline = @(content-transfer-encoding:)* ]]; then
+				cte=$line
+				continue
+			fi
+			[[ $lline = @(content-type:)* ]] && continue
+			if [[ -z $line ]]; then
+				inhdr=0
+				print 'Content-Type: multipart/encrypted;' \
+				    'protocol="application/pgp-encrypted";' \
+				    'boundary="PGP/MIME_sucks"'
+				print Content-Disposition: inline
+				inpgp=1
+			fi
+		fi
+		(( inpgp )) && if [[ $lline = \
+		    @(-----begin pgp message-----)* ]]; then
+			print PGP_MIME_sucks_hard
+			print
+			print -- --PGP/MIME_sucks
+			print Content-Type: application/pgp-encrypted
+			print Content-Disposition: attachment
+			print
+			print Version: 1
+			print
+			print -- --PGP/MIME_sucks
+			print Content-Type: application/octet-stream
+			print 'Content-Disposition: inline;' \
+			    'filename="msg.asc"'
+			[[ -n $cte ]] && print -r $cte
+			print
+		fi
+		print -r -- "$line"
+		(( inpgp )) && if [[ $lline = \
+		    @(-----end pgp message-----)* ]]; then
+			print
+			print -- --PGP/MIME_sucks--
+			print
+			inpgp=2
+		fi
+	done >$S
+	sed -e '/^PGP_MIME_sucks_hard/r'$R -e //d $S >$T
+fi
+
+sendmail ${SMIMEARGS} -oem -oi -t <$T
