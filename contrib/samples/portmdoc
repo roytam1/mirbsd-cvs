@@ -1,4 +1,4 @@
-.\" $MirOS: contrib/samples/portmdoc,v 1.1 2008/03/12 23:09:25 tg Exp $
+.\" $MirOS: contrib/samples/portmdoc,v 1.2 2008/03/14 16:45:59 tg Exp $
 .\"-
 .\" Try to make GNU groff and AT&T nroff more compatible
 .\" * ` generates ‘ in groff, so use \`
@@ -8,6 +8,7 @@
 .\" * ~ is size-reduced and placed atop in groff, so use \*(TI
 .\" * ^ is size-reduced and placed atop in groff, so use \*(ha
 .\" * \(en does not work in nroff, so use \*(en
+.\"
 .ie \n(.g \{\
 .	ds aq \(aq
 .	ds TI \(ti
@@ -22,6 +23,7 @@
 .\}
 .\"
 .\" Implement .Dd with the Mdocdate RCS keyword
+.\"
 .rn Dd xD
 .de Dd
 .ie \\$1$Mdocdate: \{\
@@ -33,9 +35,11 @@
 .\" .Dd must come before definition of .Mx, because when called
 .\" with -mandoc, it might implement .Mx itself, but we want to
 .\" use our own definition. And .Dd must come *first*, always.
-.Dd $Mdocdate$
+.\"
+.Dd $Mdocdate: March 14 2008 $
 .\"
 .\" Implement .Mx (MirBSD)
+.\"
 .de Mx
 .nr cF \\n(.f
 .nr cZ \\n(.s
@@ -60,3 +64,4 @@
 .	\}
 .\}
 ..
+.\"-
