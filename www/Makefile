@@ -1,4 +1,4 @@
-# $MirOS: www/Makefile,v 1.11 2007/06/09 23:23:40 tg Exp $
+# $MirOS: www/Makefile,v 1.1 2007/06/09 23:29:42 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -103,6 +103,9 @@ cp-herc: site.tgz
 
 cp-heph: site.tgz
 	ssh hephaistos 'cd Web; tar xzvpf -' <site.tgz
+
+rs-heph: site.tgz
+	rsync -rxlztpgavPHK dst/ hephaistos:Web/
 
 depend: .depend
 
