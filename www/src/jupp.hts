@@ -1,14 +1,14 @@
-# $MirOS: www/src/jupp.hts,v 1.25 2011/07/02 23:29:33 tg Exp $
+# $MirOS: www/src/jupp.hts,v 1.26 2011/07/03 00:39:37 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/juppp "jupp – Programmer’s Editor"
 mws_setheadline jupp – the Editor which sucks less
-mws_putheader '$MirOS: www/src/jupp.hts,v 1.25 2011/07/02 23:29:33 tg Exp $'
+mws_putheader '$MirOS: www/src/jupp.hts,v 1.26 2011/07/03 00:39:37 tg Exp $'
 mws_content <<'EOF'
-<p>The current version is <em>joe-2.8jupp1</em> for MS-DOS® compatible systems,
- and <em>joe-3.1jupp15</em> for Unix/GNU compatible systems. This page is
+<p>The current version is <em>joe-2.8jupp2</em> for MS-DOS® compatible systems,
+ and <em>joe-3.1jupp16</em> for Unix/GNU compatible systems. This page is
  accessible under <a href="http://mirbsd.de/jupp">http://mirbsd.de/jupp</a>
  canonically.</p>
 
@@ -50,7 +50,8 @@ mws_content <<'EOF'
  <li>compiles with -Wall -Werror (on <a href="http://mirbsd.de/">MirBSD</a>),
   and __CRAZY=Yes (MirBSD) / -Wall -Wextra, with -Werror and
   -Wno-missing-field-initializers -Wno-cast-qual -Wno-strict-prototypes
-  -Wno-missing-prototypes -Wno-missing-declarations -Wno-unused (gcc3)
+  -Wno-missing-prototypes -Wno-missing-declarations -Wno-unused-parameter
+  -Wno-old-style-definition (gcc3)
   plus -Wno-pointer-sign (gcc4); more warning fixes in preparation</li>
  <li>improved options menu</li>
  <li>visibled spaces</li>
@@ -59,6 +60,8 @@ mws_content <<'EOF'
 
 <p>Neat tricks:</p><ul>
  <li>Help: ^J – navigate with Esc+. and back with Esc+,</li>
+ <li>The last reference card of the online help system contains an
+  ascii(7) table / 8-bit character map</li>
  <li>Search for non-ASCII characters in jupp:<br />
   ^Q f \ [ ^ <i>tab</i> \ n <i>space</i> - ~ ] <i>return return</i></li>
  <li>Jump to first occurrence of word “rtn” in the files:<br />
@@ -71,38 +74,43 @@ mws_content <<'EOF'
 <h2 id="docs">Documentation</h2>
 <p>We have a <a href="@@ABSPATH@@/MirOS/dist/jupp/joe.pdf">PDF manpage</a>,
  <a href="@@ABSPATH@@/MirOS/dist/jupp/joe.htm">HTML manpage</a>, and you
- can use <a href="@@RELPATH@@cvs.cgi/jupp">CVSweb</a> to browse the source
+ can use <a href="@@ABSPATH@@/cvs.cgi/jupp">CVSweb</a> to browse the source
  and documentation on-line.</p>
+<p><a href="@@ABSPATH@@/cvs.cgi/ports/editors/joe/DESCR?rev=HEAD">The jupp
+ package description</a> of The MirPorts Framework may aid other packagers
+ in divining one. <a href="@@ABSPATH@@/cvs.cgi/jupp/jupprc">jupprc</a> is
+ available in several flavours, one for JOE 2.8 (DOS), one for JOE 3.7-2
+ (Unix), although these lack the core code patches applied in proper Jupp.</p>
 
 <h2 id="fetch">Retrieval</h2>
 <h3>Direct download</h3>
 <p>You can download jupp at least from one of the following mirrors:</p><ul>
- <li><a href="https://www.mirbsd.org/MirOS/dist/jupp/joe-3.1jupp15.cpio.gz">https://www.mirbsd.org/MirOS/dist/jupp/joe-3.1jupp15.cpio.gz</a></li>
- <li><a href="http://pub.allbsd.org/MirOS/dist/jupp/joe-3.1jupp15.cpio.gz">http://pub.allbsd.org/MirOS/dist/jupp/joe-3.1jupp15.cpio.gz</a></li>
+ <li><a href="https://www.mirbsd.org/MirOS/dist/jupp/joe-3.1jupp16.cpio.gz">https://www.mirbsd.org/MirOS/dist/jupp/joe-3.1jupp16.cpio.gz</a></li>
+ <li><a href="http://pub.allbsd.org/MirOS/dist/jupp/joe-3.1jupp16.cpio.gz">http://pub.allbsd.org/MirOS/dist/jupp/joe-3.1jupp16.cpio.gz</a></li>
  <li style="list-style:none;">↑ Unix │ DOS ↓</li>
- <li><a href="https://www.mirbsd.org/MirOS/dist/jupp/joe-2.8jupp1.cpio.gz">https://www.mirbsd.org/MirOS/dist/jupp/joe-2.8jupp1.cpio.gz</a></li>
- <li><a href="http://pub.allbsd.org/MirOS/dist/jupp/joe-2.8jupp1.cpio.gz">http://pub.allbsd.org/MirOS/dist/jupp/joe-2.8jupp1.cpio.gz</a></li>
+ <li><a href="https://www.mirbsd.org/MirOS/dist/jupp/joe-2.8jupp2.cpio.gz">https://www.mirbsd.org/MirOS/dist/jupp/joe-2.8jupp2.cpio.gz</a></li>
+ <li><a href="http://pub.allbsd.org/MirOS/dist/jupp/joe-2.8jupp2.cpio.gz">http://pub.allbsd.org/MirOS/dist/jupp/joe-2.8jupp2.cpio.gz</a></li>
  <li style="list-style:none;">All official distfiles are gzsig(1)d.</li>
 </ul>
 <p>Please do not forget to check the received file’s integry using both
  gzsig(1) and one of the hashes below:</p><ul>
- <li>RMD160 (joe-3.1jupp15.cpio.gz) = 89feb42016b33748ff1c19c647dacd3219ba4669</li>
- <li>TIGER (joe-3.1jupp15.cpio.gz) = be7f6717e253806178aa9283ed67248f9ede8c3a8b0e30e4</li>
- <li>1940536296 431981 /MirOS/dist/jupp/joe-3.1jupp15.cpio.gz</li>
- <li>MD5 (joe-3.1jupp15.cpio.gz) = 726b9c6b9c60346253044a71a57e469b</li>
+ <li>RMD160 (joe-3.1jupp16.cpio.gz) = b060dae5c998dc3d3d7183f6192b258a4cc68257</li>
+ <li>TIGER (joe-3.1jupp16.cpio.gz) = 2d5b1de0d1eef394df0669abbd07038a928beb23435a2563</li>
+ <li>4055260056 433370 /MirOS/dist/jupp/joe-3.1jupp16.cpio.gz</li>
+ <li>MD5 (joe-3.1jupp16.cpio.gz) = 1b7c37b804f95927e2993a896f2819d0</li>
  <li style="list-style:none;">↑ Unix │ DOS ↓</li>
- <li>RMD160 (joe-2.8jupp1.cpio.gz) = fb79036bc8842354041b1b4c997b3a82580b2d9c</li>
- <li>1183719912 211453 /MirOS/dist/jupp/joe-2.8jupp1.cpio.gz</li>
- <li>MD5 (joe-2.8jupp1.cpio.gz) = fb49832e003751044cff2c4482626502</li>
- <li>TIGER (joe-2.8jupp1.cpio.gz) = f11fa1ab34b345d8a6fc9ace714c1744a37b4442cff05627</li>
+ <li>RMD160 (joe-2.8jupp2.cpio.gz) = a4e8b49faae7dcda377479311092d9868207fe41</li>
+ <li>TIGER (joe-2.8jupp2.cpio.gz) = c3a234efde9365e3b3d28094ce6133babc9c7325d8613555</li>
+ <li>2959843820 212042 /MirOS/dist/jupp/joe-2.8jupp2.cpio.gz</li>
+ <li>MD5 (joe-2.8jupp2.cpio.gz) = ad1019c8a0b2d3e549e8172e5b330f98</li>
 </ul>
 
 <h3>Unpacking</h3>
 <p>Use a command like<br />
- <tt>$ tar xzf joe-3.1jupp15.cpio.gz</tt> # paxtar, bsdtar<br />
- <tt>$ gzip -dc joe-3.1jupp15.cpio.gz | cpio -mid</tt> # any cpio<br />
- <tt>$ pax -r -z &lt;joe-3.1jupp15.cpio.gz</tt> # any POSIX® archiver<br />
- <tt>$ gzip -dc joe-3.1jupp15.cpio.gz | pax -r</tt> # on MS Windows®<br />
+ <tt>$ tar xzf joe-3.1jupp16.cpio.gz</tt> # paxtar, bsdtar<br />
+ <tt>$ gzip -dc joe-3.1jupp16.cpio.gz | cpio -mid</tt> # any cpio<br />
+ <tt>$ pax -r -z &lt;joe-3.1jupp16.cpio.gz</tt> # any POSIX® archiver<br />
+ <tt>$ gzip -dc joe-3.1jupp16.cpio.gz | pax -r</tt> # on MS Windows®<br />
  to extract the distfile. The DOS version requires similar commands.
  Both extract into a sub-directory <tt>jupp/</tt> (not versioned).</p>
 <p>Some browsers already extract the file during downloading; skip the
@@ -117,7 +125,8 @@ mws_content <<'EOF'
 <p><em>jupp</em> for Unix uses GNU autotools, so a command line sequence like
  the following should be enough to build it:</p>
 <pre>$ CFLAGS='-O2 -fno-delete-null-pointer-checks -fwrapv -fno-strict-aliasing …' \
- mksh configure [--prefix=/usr --sysconfdir=/etc] --disable-dependency-tracking
+ mksh configure [--prefix=/usr --sysconfdir=/etc] --disable-dependency-tracking \
+ [--disable-getpwnam] --disable-termidx
 $ make
 $ $SUDO make install</pre>
 <p>This works with both BSD and GNU make. The original <em>joe 2.8</em> and
@@ -212,6 +221,14 @@ $ $SUDO make install</pre>
 <!--
 <p>[2009-09-20] Changes in the current development version:</p><ul>
 -->
+<p id="r3_1j16">[2011-07-18] Changes for joe-3.1jupp16:</p><ul>
+ <li>Better match for Python files for *rc (except jupprc, which had
+  this already)</li>
+ <li>Improve jupprc file; split between three versions (2.8 for DOS,
+  the packaged one for 3.1jupp and one for 3.7 without our patches)</li>
+ <li>The jupprc file now has a character map (ASCII / 8-bit table)</li>
+ <li>Clean up some compiler warnings; check for strlcpy/strlcat prototypes</li>
+</ul>
 <p id="r3_1j15">[2011-07-02] Changes for joe-3.1jupp15:</p><ul>
  <li>Update <tt>COPYING</tt> (refreshed from FSF master), <tt>strlfun.c</tt>
   (even more portable variant) from MirBSD base system; update various
@@ -353,6 +370,11 @@ $ $SUDO make install</pre>
  for details.</p>
 
 <h2 id="cdos">ChangeLog for DOS</h2>
+<p id="r2_8j2">[2011-07-16] Changes for joe-2.8jupp2:</p><ul>
+ <li>Synchronise with joe-3.1jupp16 (jupprc, COPYING)</li>
+ <li>The jupprc file now has a character map (ASCII / 8-bit table)</li>
+</ul>
+
 <p id="r2_8j1">[2009-07-18] Changes for joe-2.8jupp1:</p><ul>
  <li>Publish a version for Unix (ancient) and DOS, which is approximately
   en par with joe-3.1jupp10 for Unix (modern), considering its limited

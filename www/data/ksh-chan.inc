@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/ksh-chan.inc,v 1.2 2010/08/11 17:28:52 tg Exp $
+RCSID: $MirOS: www/data/ksh-chan.inc,v 1.3 2010/08/27 20:23:27 tg Exp $
 Title: Homepage of the original Korn Shell
 Link: http://www.kornshell.com/
 
@@ -185,4 +185,9 @@ Greg Wooledge’s Wiki ⇒ Notes on process management, such as,
 how to properly kill one. Read also other pages from the
 CategoryShell, although his KornShell page is somewhat out
 of date and doesn’t apply to mksh often.
+----
+Title: Plänet Commandline
+Link: http://planet-commandline.org/?Amber+Screen
+
+RSS/Atom aggregator with topics related to the command line.
 ----

@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.340 2011/07/12 18:11:33 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.341 2011/07/12 18:12:18 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -7949,4 +7949,87 @@ Language: de_DE-1901
  zu verpacken und ins VCS zu committen – für das Herausfinden, wann was
  auf einem Server geändert wurde, im Fehlerfall, denken wir uns gerade
  ohnehin was aus. Danke an alle, die kommentiert haben!</p>
+----
+Date: 17.07.2011 00:40
+Author: tg@
+Title: mksh R40b; joe 3.1jupp16 and 2.8jupp2 released
+Tag: debian mksh news pcli release
+
+<p><a href="@@RELPATH@@mksh.htm#r40b">mksh R40b</a> (nowadays with filled
+ in <a href="@@RELPATH@@mksh.htm#c40b">user’s caveats</a> (for R40, too!)
+ and <a href="@@RELPATH@@mksh.htm#p40b">packager’s upgrade hints</a>) has
+ just been released. This is a should-have upgrade, fixing a number of –
+ admittedly some obscure – bugs, changing things begun in R40, improving
+ upon others. Thanks to the PLD Linux guys for spotting all these errors;
+ thanks to them and phpnet.org both for adopting mksh so well.</p>
+<p>I have also fixed a bug in nroff(1) which will lead to an <em>even</em>
+ nicer looking HTML manpage mksh(1) (after the next rebuild and upload of
+ a MirBSD snapshot – scheduled RSN).</p>
+<p><a href="@@RELPATH@@jupp.htm#r3_1j16">jupp 3.1.16</a> took on the task
+ of merging Debian joe changes (aiming at an upload). I also split the
+ jupprc file into three versions (2.8 generic/DOS, 3.1+jupp and 3.7/Unix)
+ because of the differences in the baseline executables making rc files
+ partially mutually incompatible (think Insert key), annoyingly warning
+ (think syntax, hmsg), or less usable (joe’s new menu system).</p>
+<p><a href="@@RELPATH@@jupp.htm#r2_8j2">jupp 2.8.2</a> is a companion to
+ jupp 3.1.16 – mostly because of the new help window “character map” ☺</p>
+<p>Binaries for jupp should be updated RSN too.</p>
+<p>Considering Banja Luka is arriving quickly, the “r” in RSN should be
+ taken with a few grains of salt. I’ve also scheduled working on the pcc
+ Debian package for the next future; updating lynx and maybe others like
+ OpenSSH in MirBSD is also due; cvs(1) will receive more of my time, but
+ before the next Upload I’d like to fix LP#12230 once verified.</p>
+<p>Builds for Debian/m68k are also still running. I note I did in fact
+ <em>not</em> manage to make a new base image, yet (but 2.6.39 kernels
+ miss a patch, anyway, so waiting for 3.0 is ok). It’s still using gcc-4.4
+ because nobody tests gcc-4.6 and gcj-4.6 FTBFS due to SIGSEGV, but that’s
+ ok in my books. rsyslog is broken but sysklogd works.</p>
+<p>The <a href="@@RELPATH@@ksh-chan.htm">#ksh|Freenode</a> page finally
+ got a well-deserved link to Planet Commandline. Throw more my way!</p>
+<p><a href="@@ABSPATH@@/cvs.cgi/src/share/misc/acronyms">Acronyms</a> and <a
+ href="https://evolvis.org/scm/viewvc.php/evolvis/trunk/gforge_base/evolvisforge/gforge/www/js/datepicker.js?view=markup">translations</a>,
+ too. (Got Norwegian and Rumanian covered in the meantime. No idea whether any
+ RTL languages will work in that beast. But I’m young and need the money)</p>
+<p>Since I’m writing a wlog entry anyway… let me thank Gunnar for a <a
+ href="http://gwolf.org/blog/free-software-must-migrate-become-free-culture">nice
+ summary on the current Free Culture discussion</a>; my comments on Nina’s site
+ seem to be eaten, but let me support it fully, although, of course, I normally
+ use a <a href="@@ABSPATH@@/MirOS-Licence">copycenter style licence</a>, which
+ is specifically written for general works of authorship under copyright law,
+ not limited to software. I did in fact have that in mind. Maybe some people
+ will like it (it’s less than one Kibibyte long) either generally or just for
+ their everyday random musings (they can then keep CC-BY-SA for the “big works”
+ if they so desire).</p>
+<p>Wouter, grass background makes green headlines illegible. I’ve never liked,
+ and never installed manually, cups either. (Benny tells me that Apple’s new
+ version refuses to talk with a non-Apple cups, kinda defeating the whole idea
+ I think.) Port 9100 is JetDirect (probably with an HP in front and some subset
+ of ©®™ trailing) and just nice. (Being able to talk ESC/P with your printer
+ like <tt>print '\033K\x07\0\x3E\x81\x99\xA5\xA5\x81\x3E' &gt;/dev/lpa</tt> too
+ rocks though, IMHO. Yes, mine can, and I still can. /dev/lpa is BSD.)</p>
+<p class="boxhead">Kai, thanks for your vimrc lines:</p><div class="boxtext">
+ <pre>
+	:highlight TrailWhitespace ctermbg=red guibg=red
+	:match TrailWhitespace /\s\+$\| \+\ze\t/
+ </pre>
+</div><p class="boxfoot">Automatic removal is harmful, though – I just fell
+ into the trap since jupprc contains needed whitespace at EOL… but manual
+ removal (bound to ^K] in jupp) rocks. And I like that your solution uses
+ such strong a colour – vim users are the <strong>single most represented
+ offender group</strong> for actually leaving the redundant whitespace at
+ EOL there, and it should <em>hurt their eyes</em>. (Sadly there is some
+ vehement disagreement preventing them from inclusion in grml-etc-core –
+ but that’s why I re-post them here.) Ah, and jupp can of course display
+ whitespace visibly (although it uses ‘·’/‘→’, replacing the arrow with ‘¬’
+ if no UTF-8, not ‘»’), accessible with ^Ov.</p>
+<p>Steve, want to put up a checklist for sites? We can “crowdsource” the…
+ testing… to maybe get some interesting results…</p>
+<p>Some other people would get more comments if they were idling in IRC
+ (Freenode) <span style="font-size:small;">or allow comments on their blog,
+ specifically without too high an entrance barrier – OpenID is ok, but many
+ other things, and ECMAscript, are not; but I can’t really say that loud
+ because our wlog is static HTML compiled from a flat plaintext data source
+ so it doesn’t allow such either</span>. I often forget what I wanted to
+ add if I can’t get it out quickly enough (especially at work). Sowwy…</p>
+<p>Me like the cat picture postings (Amayita, Tiago, ¡Gracias!).</p>
 ----

@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.415 2011/07/07 21:15:47 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.416 2011/07/07 21:42:26 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -24,7 +24,7 @@ mws_content <<'EOF'
  <li>information about <a href="mksh_old.htm">old versions</a></li>
 </ul>
 
-<h2>mksh(1) R40</h2>
+<h2>mksh(1) R40b</h2>
 
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
  implementation of the Korn Shell programming language and a successor to the
@@ -46,8 +46,8 @@ mws_content <<'EOF'
  href="@@RELPATH@@pics/mksh.svg">SVG</a> if you want.</p>
 
 <h2 class="cr" id="prefetch">Introduction</h2>
-<p>The current version of mksh is <strong>mksh R40</strong> from
- <em>12 June 2011</em>.</p>
+<p>The current version of mksh is <strong>mksh R40b</strong> from
+ <em>16 July 2011</em>.</p>
 <p>Thanks to “Der Verein <a href="http://www.trash.net/verein/">trash.net</a>”
  for sponsoring access to a Solaris 8 box. Thanks to Julian “yofuh” Wiesener
  for just another account on a Sun E420 on Solaris 11β. Thanks to someone who
@@ -182,14 +182,14 @@ mws_content <<'EOF'
  extract from the CPIO distfile and is available even on a stock Microsoft®
  Windows® installation (<tt>\WINNT\SYSTEM32\PAX.EXE</tt>).</p>
 <h3 id="mirrors">Known Mirrors</h3><ul>
- <li><a href="https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R40.cpio.gz">https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R40.cpio.gz</a></li>
- <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R40.cpio.gz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R40.cpio.gz</a></li>
+ <li><a href="https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R40b.cpio.gz">https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R40b.cpio.gz</a></li>
+ <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R40b.cpio.gz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R40b.cpio.gz</a></li>
 </ul>
 <h3 id="hashes">Checksums and Hashes</h3><ul>
- <li>RMD160 (mksh-R40.cpio.gz) = ebe226630f7013251b41b14a0715a63ec3364a4f</li>
- <li>TIGER (mksh-R40.cpio.gz) = 2617757ec2d1eef9d75d7ab527a8c531f107245ea2d5c436</li>
- <li>1843463359 319814 /MirOS/dist/mir/mksh/mksh-R40.cpio.gz</li>
- <li>MD5 (mksh-R40.cpio.gz) = 395a6c5f39c7e2afd8f6504d90ca90bd</li>
+ <li>RMD160 (mksh-R40b.cpio.gz) = 875fed27bfbb9d7ded18c2795e5bab7e26c2dcb5</li>
+ <li>TIGER (mksh-R40b.cpio.gz) = 01dd6826aa39dca840ae32fbb05626d887c4da8feb8e038d</li>
+ <li>3391516625 320793 /MirOS/dist/mir/mksh/mksh-R40b.cpio.gz</li>
+ <li>MD5 (mksh-R40b.cpio.gz) = afb08b65272ace550ec59b26a876a7de</li>
  <li style="list-style:none;">All official distfiles are gzsig(1)d.</li>
 </ul>
 
@@ -202,10 +202,18 @@ mws_content <<'EOF'
 <p>The first example is using BSD paxtar (MirOS BSD, OpenBSD, NetBSD®), or
  “bsdtar” (DragonFly); the second and third use cpio(1) or pax(1) and are
  for most operating systems; the fourth is for Debian.</p><ul>
-<li>$ tar xzf mksh-R40.cpio.gz &amp;&amp; cd mksh</li>
-<li>$ gzip -dc mksh-R40.cpio.gz | cpio -mid &amp;&amp; cd mksh</li>
-<li>$ gzip -dc mksh-R40.cpio.gz | pax -r &amp;&amp; cd mksh</li>
+<li>$ tar xzf mksh-R40b.cpio.gz &amp;&amp; cd mksh</li>
+<li>$ gzip -dc mksh-R40b.cpio.gz | cpio -mid &amp;&amp; cd mksh</li>
+<li>$ gzip -dc mksh-R40b.cpio.gz | pax -r &amp;&amp; cd mksh</li>
 </ul>
+
+<h3 id="vendorpatching">Patching</h3>
+<p>If you’re a packager/vendor and need to patch mksh and deviate from the
+ default behaviour for that version which is indicated from $KSH_VERSION,
+ patch your shell to append a space plus a vendor-defined string (examples <a
+ href="http://cvs.pld-linux.org/cgi-bin/cvsweb.cgi/packages/mksh/mksh-distro.patch?rev=1.1">PLD</a>,
+ <a href="http://patch-tracker.debian.org/patch/misc/view/mksh/35.2-3/sh.h">Debian</a>)
+ so they can be distinguished. I think this is a reasonable request.</p>
 
 <h3 id="compile">Compilation</h3>
 <p>Now you’re in the source code directory; <tt>Build.sh</tt> does all the
@@ -307,6 +315,8 @@ mws_content <<'EOF'
 <li><tt>-DMKSH_DONT_EMIT_IDSTRING</tt> – for broken OSes (R40+)</li>
 <li><tt>-DMKSH_NOPROSPECTOFWORK</tt> – disables more than just job control,
  to use for tracking down signal handling bugs in Syllable, Plan 9 (R40+)</li>
+<li><tt>-DMKSH_NO_EXTERNAL_CAT</tt> – always run <tt>cat</tt> as builtin,
+ instead of diverting to <tt>command cat</tt> if called with flags (R40b+)</li>
 <li><tt>-DUSE_REALLOC_MALLOC=0</tt> – if <tt>realloc(NULL, n)</tt> is not
  equivalent to <tt>malloc(n)</tt> (n &gt; 0) as ANSI C89 prescribes</li>
 </ul>
@@ -782,12 +792,23 @@ exec /usr/bin/ld "${args[@]}"</pre>
  changes in the build system (<tt>Build.sh</tt> and friends, compiler
  support, packaging conventions, bad examples, etc). This is also <em>not</em>
  <a href="#caveat">the users' upgrade caveat list</a>.</p>
-<p>mksh R40 has substantially changed <tt>Build.sh</tt> options, CPPFLAGS,
- etc. and the testsuite now exits with an error code if tests fail. Please
- do review your packaging; contact us if necessary. [maybe incomplete]</p>
-<p>mksh R39c should fix a bug that could have led to accidental removal of
- the manpage when building in the source directory. AIX builds no longer
- uselessly pull in libcrypt.</p>
+<p id="p40b">mksh R40b changed <tt>dot.mkshrc</tt> and has a new option for
+ disabling special handling the cat(1) builtin. The system and suid profile
+ have moved to <tt>/system/etc/</tt> for Android. Build failures (e.g. broken
+ system includes abusing <tt>inline</tt> vs. broken GCC <tt>--combine</tt>) may
+ now be caught earlier, so <tt>Rebuild.sh</tt> may not be available yet.</p>
+<p id="p40">mksh R40 has substantially changed <tt>Build.sh</tt> options,
+ CPPFLAGS, etc. and the testsuite now exits with an error code if tests fail.
+ Please do review your packaging; contact us if necessary. Specifically for
+ embedded systems (do not do this on desktops etc.), the <tt>~/.mkshrc</tt>
+ location can be changed at compile time. Several more operating systems are
+ supported. <tt>setmode.c</tt> is gone and HAVE_MKNOD defaults to 0 now but
+ can be explicitly enabled, provided your OS has setmode(3) and getmode(3),
+ or it is provided in $LIBS. <tt>arc4random.c</tt> is no longer used, unless
+ specifically called for by <tt>-DMKSH_A4PB</tt> (e.g. on Cygwin). Upgrade
+ <tt>printf.c</tt> to the latest version if you use it. First release to
+ officially support Android; quell aliasing “stop” and “suspend” there.
+ MKSH_SMALL doesn’t imply HAVE_REVOKE=0 any longer.</p>
 <p><a href="mksh_old.htm#upgrade">older entries</a></p>
 
 <h2 id="getcvs">Download the development version via CVS</h2>
@@ -968,8 +989,8 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <li class="cr">There are probably many more, please drop us a note!</li>
 <li><a href="http://linux.softpedia.com/get/System/Shells/MirBSD-Korn-Shell-24602.shtml">Softpedia</a>
  lists mksh, just like the FSF/UNESCO directory.</li>
-<li><strong>Missing packaging:</strong> SuSE native (use OBS for now),
- MacPorts (none at all), Mandriva (use OBS; being worked on), OpenEmbedded
+<li><strong>Missing packaging:</strong> SuSE native (use OBS for now), MacPorts
+ (none at all), Mandriva/Mageia (use OBS; being worked on), OpenEmbedded
  (being worked on), iPhoneOS (compile yourself; being worked on), Knoppix and
  SIDUX (just add them), Nexenta (need a contact person), Arch native (use
  AUR), PC-BSD (use pkgsrc® or so; need a contact person for PBI), OpenSolaris
@@ -985,15 +1006,29 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <h2 id="caveat">Users' Upgrade Caveat</h2>
 <p>This does not necessarily list new features, only these which users
  should be aware of for existing scripts.</p>
+<p id="c40b">R40b: There is a new built-in special command “global”
+ which does the same as “local” except localise every parameter it
+ touches; in short, it does what “typeset” would’ve been supposed
+ to be had it not to double as “local”. Tab completion will now work
+ better. The shell handles bogus environment variable imports more
+ gracefully and doesn’t let the terminal crash hard under some corner
+ cases. ^Cing out of the built-in cat utility is possible.</p>
 <p id="c40">R40: “set ±o arc4random” is deprecated and will not exist
- in the next version any more. [a lot changed XXX fill in]</p>
-<p id="c39c">R39c: Evaluation of things like <tt>${foo:-bar}</tt> and
- <tt>"${foo+bar}"</tt> now behave standards-compliant (SUSv4) and more
- like all other shells, sans bugs. In particular, if a <tt>${}</tt>
- expression is double-quoted, the apostrophe/single quote loses its
- special meaning within, whereas it still acts as quote character if
- the expression is not double quoted. Other special characters' meanings
- have been updated to match standardised/expected behaviour.</p>
+ in the next version (R41) any more – the shell uses an LCG internally
+ which is seeded from ASLR. Several POSIX fixes may change behaviour
+ of builtins, substitutions, etc. and some differ now depending on the
+ “set ±o sh” flag. New builtin “cat” (although, if called with a flag,
+ the external cat utility is invoked) and “sleep” (if select(2) could
+ be linked). <tt>dot.mkshrc</tt> no longer exports <tt>$PS1</tt>. GNU
+ bash localised strings ($"…") are handled, but (of course❣) untranslated.
+ “foo=&lt;&lt;EOF” cat(1)lessly assigns a here document to a parameter. New
+ KSHEGID, KSHGID, KSHUID variables and PIPESTATUS array. Completely new
+ read built-in command with several new options. Parse command substitutions
+ – $(…) – recursively. HP-UX “test -H” is back, “test -t” (without the “fd”
+ argument) is gone. “set -x” is now inherited by called functions. The x+=y
+ and x+=(y z) notations for appending to variables and (!MKSH_SMALL) arrays
+ are now supported, as are “;&amp;” and “;|” (“;&amp;&amp;” !MKSH_SMALL too)
+ case fall-through without/with re-examination.</p>
 <p><a href="mksh_old.htm#caveat">older entries</a></p>
 
 <h2 id="clog">Recent Changes</h2>
@@ -1007,16 +1042,17 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Drop “set ±o arc4random” (deprecated in R40)</li>
  <li>[tg] Drop old <tt>Build.sh</tt> -long-options (deprecated in R40)</li>
  <li>[tg] Change the internal hash algorithm from Bob Jenkins’ one-at-a-time
-  to its NUL-counting, never-zero MirOS variant <a
+  to its NUL-counting, always-changing, never-zero MirOS variant <a
   href="@@ABSPATH@@/cvs.cgi/src/kern/include/nzat.h">NZAT</a> to optimise</li>
-<!-- stable branch -->
+</ul>
+<p id="r40b">mksh R40b introduces several <em>desired</em> fixes:</p><ul>
  <li>[tg] Don’t busy-loop on <tt>nameref ARY=ARY</tt> (LHS = RHS)</li>
  <li>[tg, yofuh] Tabcomplete <tt>~foo</tt> like <tt>$FOO</tt> (LP: #710539)</li>
  <li>[tg] Code cleanup, style, and minor assorted fixes</li>
  <li>[tg] Tabcomplete <tt>~foo/M↹</tt> (with slash) economically</li>
- <li>[tg] Add new experimental <tt>global</tt> builtin, doing the same
-  as <tt>local</tt> (<tt>typeset</tt>, really – but that doesn’t deserve
-  its name) does, except localising all parameters it touches</li>
+ <li>[tg] Add new <del>experimental</del> <tt>global</tt> builtin, doing
+  the same as <tt>local</tt> (<tt>typeset</tt>, really – but that doesn’t
+  deserve its name) does, except localising all parameters it touches</li>
  <li>[tg] Better error messages with non-integral environment imports</li>
  <li>[tg] <tt>$RANDOM</tt> environment import accepts any string now</li>
  <li>[tg, Lucas Holt] Add <tt>setenv</tt> cshism to <tt>dot.mkshrc</tt></li>
@@ -1026,6 +1062,10 @@ exec /usr/bin/ld "${args[@]}"</pre>
   regression introduced in mksh R37 (sorry, no regression test possible)</li>
  <li>[tg, Arkadiusz Miśkiewicz] Properly mark need-ctty regression tests</li>
  <li>[tg] MKSH_NO_EXTERNAL_CAT – Quell the external cat(1) calls magic</li>
+ <li>[tg, Arkadiusz Miśkiewicz] Yes, “echo” is not portable, document</li>
+ <li>[tg] Improve content and look of the manual page</li>
+ <li>[tg] Move /etc/{,suid_}profile to /system/etc/ on Android</li>
+ <li>[tg] Prevent more compiler warnings; catch build errors earlier</li>
 </ul>
 <p id="r40">mksh R40 is a major everything release:</p><ul>
  <li>[tg] Correct small mistakes in manpage and build script</li>
@@ -1224,21 +1264,13 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Add missing flush in rewritten read builtin for prompting</li>
  <li>[tg] Minix builds now automatically disable the ulimit builtin</li>
 </ul>
-<p id="r39c">mksh R39c is an important minor bugfix release:</p><ul>
- <li>[tg] Build system, code, docs and testsuite cleanup, also style(9)</li>
- <li>[tg] Build.sh now requires people to whitelist conftest*.c</li>
- <li>[tg] AIX builds no longer pull in libcrypt uselessly by default</li>
- <li>[tg] Parse and evaluate <tt>${parameter op word}</tt> correctly</li>
- <li>[tg] Fix possible SIGSEGV in interactive mode <tt>bind</tt> builtin due
-  to mis-optimisation of gcc combined with a bogus prototype; discovered by
-  Grml.org's Frank Terbeck (ft), thanks!</li>
- <li>[tg] Prevent Build.sh from accidentally removing <tt>mksh.1</tt></li>
-</ul>
 <p><a href="mksh_old.htm#clog">older changes</a></p>
 
 <h2 id="plans">Future Plans</h2><ul>
+<li>cache optimised extglobs (especially for ${foo/bar/baz})</li>
+<li>typed variables; using ${var@?} more (JSON!)</li>
 <li>make arrays use hashtables internally ipv linear linked lists</li>
-<li>associative arrays</li>
+<li>associative, multidimensional arrays</li>
 <li>Build with more platforms’ native tools or other compilers
  – ACK, kencc, ICC/UWIN, egcs/UWIN, tcc</li>
 <li>Build and actually work on more platforms – DJGPP, PW32,
