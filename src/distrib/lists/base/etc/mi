@@ -100,7 +100,6 @@
 ./etc/spwd.db
 ./etc/ssh/ssh_config
 ./etc/ssh/sshd_config
-./etc/ssl/certs/00869212.0
 ./etc/ssl/certs/052e396b.0
 ./etc/ssl/certs/0bb21872.0
 ./etc/ssl/certs/0c364b2d.0
