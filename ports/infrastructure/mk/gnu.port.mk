@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/gnu.port.mk,v 1.24 2006/10/17 22:17:04 tg Exp $
+# $MirOS: ports/infrastructure/mk/gnu.port.mk,v 1.25 2006/11/16 23:25:54 tg Exp $
 # $OpenBSD: gnu.port.mk,v 1.19 2004/06/06 11:49:08 espie Exp $
 
 AUTOCONF_NEW?=		No
@@ -20,7 +20,7 @@ MODGNU_COPIES?=		compile config-ml.in config.guess \
 PATCH_CHECK_ONLY?=	No
 MODGNU_configure=	${MODSIMPLE_configure}; \
 			[[ ! -e ${WRKCONF}/config.log ]] || fgrep -A 4 \
-			    "previous declaration" ${WRKCONF}/config.log
+			    "previous declaration" ${WRKCONF}/config.log || :
 REGRESS_TARGET?=	check
 AUTOCONF?=		autoconf
 AUTOUPDATE?=		autoupdate
