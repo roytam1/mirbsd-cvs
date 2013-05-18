@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.72 2006/10/14 23:28:36 tg Exp $
+# $MirOS: src/Makefile,v 1.73 2006/10/14 23:43:02 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -268,12 +268,21 @@ _do-dist:
 	    ${SUDO} ${SHELL} ${BSDSRCDIR}/scripts/tarmk ${OSrev}
 .endfor
 	-cd ${BSDRELDIR}/rel; \
-	    ${SUDO} rm -f index.txt; \
-	    ${SUDO} touch CKSUM RMD160 RMD160.gz index.txt; \
-	    /bin/ls -1 | ${SUDO} sort -uo index.txt; \
-	    ${SUDO} rm -f CKSUM RMD160 RMD160.gz; \
-	    cksum !(@(source|xfree)${OSrev}.ngz) | ${SUDO} sort -k3 -uo CKSUM; \
-	    rmd160 !(CKSUM) | ${SUDO} sort -uo RMD160
+	    ${SUDO} rm -f CKSUM* RMD160* index.txt; \
+	    ( \
+		/bin/ls -d1 !(index.txt*); \
+		echo CKSUM; \
+		echo RMD160.gz; \
+		echo RMD160; \
+		echo index.txt; \
+	    ) | ${SUDO} sort -uo index.txt; \
+	    cksum -a cksum -a rmd160 !(@(CKSUM|RMD160)*) | \
+	    ${SUDO} tee CKSUM~ | fgrep RMD160 | ${SUDO} sort -uo RMD160; \
+	    fgrep -v RMD160 CKSUM~ | ${SUDO} sort -k3 -uo CKSUM; \
+	    ${SUDO} rm -f CKSUM~; \
+	    chmod 755 $$(find . -type d); \
+	    chmod 444 $$(find . -type f); \
+	    chown -R 0:0 .
 	@echo ============================================================
 	@echo Done with MirOS Build.
 	@date
