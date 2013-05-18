@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/baselive/rc.netselect.common,v 1.18 2008/12/17 19:59:19 tg Exp $
+# $MirOS: src/distrib/baselive/rc.netselect.common,v 1.19 2010/01/06 19:11:56 tg Exp $
 #-
 # Copyright (c) 2006, 2007, 2008, 2010
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -17,47 +17,6 @@
 # of dealing in the work, even if advised of the possibility of such
 # damage or existence of a defect, except proven that it results out
 # of said person's immediate fault when using the work as intended.
-
-
-# derived from code written by Damien Miller <djm@openbsd.org>
-# published under the ISC licence
-#-
-# Calculate a uniformly distributed random number less than upper_bound
-# avoiding "modulo bias".
-#
-# Uniformity is achieved by generating new random numbers until the one
-# returned is outside the range [0, 2**32 % upper_bound).  This
-# guarantees the selected random number will be inside
-# [2**32 % upper_bound, 2**32) which maps back to [0, upper_bound)
-# after reduction modulo upper_bound.
-#
-function arc4random_uniform {
-	typeset -Ui upper_bound=$1 r min
-	set -o arc4random
-
-	if (( upper_bound < 2 )); then
-		print 0
-		return
-	fi
-
-	# Calculate (2**32 % upper_bound) avoiding 64-bit math
-	# (2**32 - x) % x == 2**32 % x when x <= 2**31
-	((# min = upper_bound > 0x80000000 ? 1 + ~upper_bound :
-	    (0xFFFFFFFF - upper_bound + 1) % upper_bound ))
-
-	# This could theoretically loop forever but each retry has
-	# p > 0.5 (worst case, usually far better) of selecting a
-	# number inside the range we need, so it should rarely need
-	# to re-roll.
-	while :; do
-		((# r = ((RANDOM & 3) << 30) | ((RANDOM & 0x7FFF) << 15) | \
-		    (RANDOM & 0x7FFF) ))
-		((# r >= min )) && break
-	done
-
-	print $((# r % upper_bound))
-}
-
 
 function get_kbdtype {
 	[[ -x /sbin/kbd ]] || return
@@ -135,12 +94,11 @@ function set_hostname {
 	typeset -Uui36 rndval=$(date +%s)
 	typeset -i1 x=RANDOM
 	rndpfx=${rndval#36#}
-	set -o arc4random
 	RANDOM=$(dd if=/dev/prandom bs=4 count=1 2>&- | hexdump -e '1/4 "%u"')
 	print -nr "${x#1#}" >/dev/arandom
 	RANDOM=$(dd if=/dev/arandom bs=4 count=1 2>&- | hexdump -e '1/4 "%u"')
 	while (( ${#rndpfx} < 36 )); do
-		rndval=$(arc4random_uniform 36#100000)
+		typeset -Uui36 'rndval=( (RANDOM << 15 | RANDOM) % 60466176)'
 		rndpfx=${rndval#36#}$rndpfx
 	done
 	rndpfx=${rndpfx: -36}

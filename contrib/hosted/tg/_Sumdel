@@ -1,7 +1,7 @@
 #!/bin/mksh
-# $MirOS: contrib/hosted/tg/_Sumdel,v 1.3 2009/06/29 16:26:35 tg Exp $
+# $MirOS: contrib/hosted/tg/_Sumdel,v 1.4 2009/08/27 18:22:20 tg Exp $
 #-
-# Copyright (c) 2007, 2009
+# Copyright (c) 2007, 2009, 2010
 #	Thorsten Glaser <tg@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
@@ -19,7 +19,6 @@
 # damage or existence of a defect, except proven that it results out
 # of said person's immediate fault when using the work as intended.
 
-set -o arc4random
 (( x = 2 + (RANDOM & 3) ))
 /bin/ls -FalR "$@"
 /bin/sleep $x

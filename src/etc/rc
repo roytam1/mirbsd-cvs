@@ -1,5 +1,5 @@
 # $MirSecuCron$
-# $MirOS: src/etc/rc,v 1.108 2009/11/10 17:35:47 tg Exp $
+# $MirOS: src/etc/rc,v 1.109 2009/11/15 12:30:22 tg Exp $
 # $OpenBSD: rc,v 1.277 2006/01/12 21:54:15 deraadt Exp $
 #-
 # System startup script run by init on autoboot or after single-user.
@@ -404,7 +404,6 @@ fi
 	sync
 
 	let RANDOM=$(dd if=/dev/arandom bs=4 count=1 2>&- | hexdump -e '"%u"')
-	set -o arc4random
 	typeset -i1 a=RANDOM b=RANDOM c=RANDOM d=RANDOM
 	print -nr -- "${a#1#}${b#1#}${c#1#}${d#1#}" >/dev/arandom
 	unset a b c d

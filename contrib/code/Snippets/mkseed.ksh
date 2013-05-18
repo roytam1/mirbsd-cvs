@@ -1,7 +1,7 @@
 #!/bin/mksh
-# $MirOS: contrib/code/Snippets/mkseed.ksh,v 1.3 2008/05/03 01:09:24 tg Exp $
+# $MirOS: contrib/code/Snippets/mkseed.ksh,v 1.4 2008/11/08 18:27:57 tg Exp $
 #-
-# Copyright (c) 2007, 2008
+# Copyright (c) 2007, 2008, 2010
 #	Thorsten Glaser <tg@mirbsd.de>
 #
 # Provided that these terms and disclaimer and all copyright notices
@@ -26,7 +26,6 @@
 # use the files created by “-o «fname»” with “openssl -rand «fname»”
 
 me=${0##*/}
-set -o arc4random
 integer i=$RANDOM
 
 function usage {
