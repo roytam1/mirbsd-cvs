@@ -1,11 +1,11 @@
-# $OpenBSD: Makefile,v 1.6 2004/02/25 22:25:11 naddy Exp $
+# $MirOS$
+# $OpenBSD: Makefile,v 1.14 2007/08/11 18:41:28 naddy Exp $
 
-COMMENT=			ls that can use color to display file attributes
+COMMENT=	ls that can use color to display file attributes
 
-DISTNAME=	ls-3.5
-PKGNAME=	color${DISTNAME}-0
+DISTNAME=	ls-4.2
+PKGNAME=	color${DISTNAME}-${DASH_VER}
 CATEGORIES=	sysutils
-
 
 # BSD
 PERMIT_PACKAGE_CDROM=	Yes
@@ -13,12 +13,13 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-MASTER_SITES=	http://grappa.unix-ag.uni-kl.de/~naddy/
+MASTER_SITES=	http://sites.inka.de/~mips/unix/distfiles/
 
 WRKDIST=	${WRKDIR}/ls
 NO_REGRESS=	Yes
 
+# copy file and substitute a string near a CVS keyword
 pre-patch:
-	cp ${WRKSRC}/ls.1 ${WRKSRC}/colorls.1
+	sed 's/^\.Dt LS/.Dt COLORLS/' ${WRKSRC}/ls.1 >${WRKSRC}/colorls.1
 
 .include <bsd.port.mk>

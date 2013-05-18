@@ -1,48 +1,44 @@
-$OpenBSD: patch-colorls_1,v 1.4 2003/08/27 00:41:51 naddy Exp $
---- colorls.1.orig	2003-08-27 02:00:19.000000000 +0200
-+++ colorls.1	2003-08-27 02:01:20.000000000 +0200
-@@ -41,9 +41,17 @@
+$OpenBSD: patch-colorls_1,v 1.10 2007/08/11 18:41:28 naddy Exp $
+--- colorls.1.orig	Sat Aug 11 20:38:04 2007
++++ colorls.1	Sat Aug 11 20:37:37 2007
+@@ -37,11 +37,11 @@
+ .Dt COLORLS 1
+ .Os
+ .Sh NAME
+-.Nm ls
++.Nm colorls
  .Nd list directory contents
  .Sh SYNOPSIS
- .Nm ls
--.Op Fl 1ACFLRSTWacdfghiklmnopqrstux
-+.Op Fl 1ACFGLRSTWacdfghiklmnopqrstux
+-.Nm ls
+-.Op Fl 1AaCcdFfghikLlmnopqRrSsTtux
++.Nm
++.Op Fl 1AaCcdFfGghikLlmnopqRrSsTtux
  .Op Ar file ...
  .Sh DESCRIPTION
-+(Note: This man page describes the color version of the program.
-+To minimize the differences from the original, the program is referred to as
-+.Nm ls
-+in this manual.
-+The new option
-+.Fl G
-+is for color display.)
-+.Pp
  For each operand that names a
- .Ar file
- of a type other than directory,
-@@ -92,6 +100,12 @@ after each socket,
- and a vertical bar
- .Pq Sq \&|
+@@ -112,6 +112,12 @@ and a vertical bar
  after each that is a FIFO.
+ .It Fl f
+ Output is not sorted.
 +.It Fl G
 +Enable colorized output.
 +This option is equivalent to defining
 +.Ev CLICOLOR
 +in the environment.
-+(See below).
- .It Fl L
- If argument is a symbolic link, list the file or directory the link references
- rather than the link itself.
-@@ -395,7 +409,7 @@ The
++(See below.)
+ .It Fl g
+ The same as
+ .Fl l ,
+@@ -414,7 +420,7 @@ The
  .Nm
- utility exits 0 on success or >0 if an error occurred.
+ utility exits 0 on success or \*(Gt0 if an error occurred.
  .Sh ENVIRONMENT
 -.Bl -tag -width BLOCKSIZE
 +.Bl -tag -width CLICOLOR_FORCE
  .It Ev BLOCKSIZE
  If the environment variable
  .Ev BLOCKSIZE
-@@ -405,6 +419,44 @@ option is not specified, the block count
+@@ -424,6 +430,44 @@ option is not specified, the block counts
  (see
  .Fl s )
  will be displayed in units of that size block.
@@ -87,7 +83,7 @@ $OpenBSD: patch-colorls_1,v 1.4 2003/08/27 00:41:51 naddy Exp $
  .It COLUMNS
  If this variable contains a string representing a
  decimal integer, it is used as the
-@@ -417,6 +469,99 @@ many pathname text columns to display
+@@ -436,6 +480,99 @@ many pathname text columns to display
  based on the width provided
  (see
  .Fl C ) .
@@ -177,7 +173,7 @@ $OpenBSD: patch-colorls_1,v 1.4 2003/08/27 00:41:51 naddy Exp $
 +.Pp
 +The default is
 +.Qq exfxcxdxbxegedabagacad ,
-+i.e. blue foreground and
++i.e., blue foreground and
 +default background for regular directories, black foreground and red
 +background for setuid executables, etc.
 +.It Ev TERM
@@ -185,9 +181,30 @@ $OpenBSD: patch-colorls_1,v 1.4 2003/08/27 00:41:51 naddy Exp $
 +.Ev CLICOLOR
 +functionality depends on a terminal type with color capabilities.
  .It Ev TZ
- The timezone to use when displaying dates.
+ The time zone to use when displaying dates.
  See
-@@ -444,6 +589,7 @@ printed first.
+@@ -445,24 +582,25 @@ for more information.
+ .Sh EXAMPLES
+ List the contents of the current working directory in long format:
+ .Pp
+-.Dl $ ls -l
++.Dl $ colorls -l
+ .Pp
+ In addition to listing the contents of the current working directory in
+ long format, show inode numbers, file flags (see
+ .Xr chflags 1 ) ,
+ and suffix each filename with a symbol representing its file type:
+ .Pp
+-.Dl $ ls -lioF
++.Dl $ colorls -lioF
+ .Pp
+ List the files in
+ .Pa /var/log ,
+ sorting the output such that the mostly recently modified entries are
+ printed first:
+ .Pp
+-.Dl $ ls -lt /var/log
++.Dl $ colorls -lt /var/log
  .Sh SEE ALSO
  .Xr chflags 1 ,
  .Xr chmod 1 ,
@@ -195,3 +212,11 @@ $OpenBSD: patch-colorls_1,v 1.4 2003/08/27 00:41:51 naddy Exp $
  .Xr symlink 7 ,
  .Xr sticky 8
  .Sh STANDARDS
+@@ -492,6 +630,6 @@ flag differs between this implementation and
+ .St -p1003.1-2004 .
+ .Sh HISTORY
+ An
+-.Nm
++.Nm ls
+ utility appeared in
+ .At v3 .
