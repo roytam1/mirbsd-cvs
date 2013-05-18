@@ -1,4 +1,4 @@
-# $MirOS: ports/graphics/tiff/Makefile,v 1.13 2006/12/20 15:31:25 tg Exp $
+# $MirOS: ports/graphics/tiff/Makefile,v 1.14 2007/02/22 22:57:51 tg Exp $
 # $OpenBSD: Makefile,v 1.29 2004/05/18 23:35:35 brad Exp $
 
 COMMENT=		library routines for working with TIFF images
@@ -10,7 +10,7 @@ DASH_VER=		1
 DISTNAME=		tiff-${V}
 PKGNAME-cxx=		tiff-cxx-${V}-${DASH_VER}
 CATEGORIES=		graphics
-MASTER_SITES=		ftp://ftp.remotesensing.org/pub/libtiff/
+MASTER_SITES=		http://dl.maptools.org/dl/libtiff/old/
 HOMEPAGE=		http://www.remotesensing.org/libtiff/
 RESPONSIBLE=		Benny Siegert <bsiegert@gmx.de>
 
