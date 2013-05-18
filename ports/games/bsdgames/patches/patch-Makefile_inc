@@ -1,9 +1,0 @@
-$MirOS$
---- Makefile.inc.orig	Thu Jan  1 00:00:00 1970
-+++ Makefile.inc	Sat Nov 19 22:52:34 2005
-@@ -1,4 +1,4 @@
- #	$OpenBSD: Makefile.inc,v 1.5 2002/05/23 18:42:59 deraadt Exp $
- 
- BINGRP?=	games
--BINDIR?=	/usr/games
-+BINDIR=		/usr/games
