@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/diskprobe.c,v 1.17 2009/01/11 13:58:07 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/libsa/diskprobe.c,v 1.18 2009/01/11 14:59:51 tg Exp $ */
 /*	$OpenBSD: diskprobe.c,v 1.29 2007/06/18 22:11:20 krw Exp $	*/
 
 /*
@@ -176,6 +176,12 @@ hardprobe_one(int i)
 		case DTYPE_ST506:
 			type = 0;
 			bsdunit = ide++;
+			dip->bios_info.flags |= BDI_GOODLABEL;
+			break;
+
+		case DTYPE_ATAPI:
+			bsdunit = dip->name[2] - '0';
+			type = 6;	/* CD-ROM */
 			dip->bios_info.flags |= BDI_GOODLABEL;
 			break;
 
