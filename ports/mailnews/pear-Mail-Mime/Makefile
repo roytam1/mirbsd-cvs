@@ -1,4 +1,4 @@
-# $MirOS: ports/mailnews/pear-Mail-Mime/Makefile,v 1.3 2005/07/07 21:23:05 bsiegert Exp $
+# $MirOS: ports/mailnews/pear-Mail-Mime/Makefile,v 1.4 2006/09/14 00:10:44 tg Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2003/04/03 10:36:22 avsm Exp $
 
 COMMENT=			classes to create and decode MIME messages in PHP
@@ -14,8 +14,8 @@ EXTRACT_SUFX=	.tgz
 MODULES=	www/php/pear
 
 # PHP License
-PERMIT_PACKAGE_CDROM=	Yes
-PERMIT_PACKAGE_FTP=	Yes
+PERMIT_PACKAGE_CDROM=	dependency www/php/core is not allowed for CDROM
+PERMIT_PACKAGE_FTP=	dependency www/php/core is not allowed for FTP
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
