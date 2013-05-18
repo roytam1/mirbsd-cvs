@@ -1,6 +1,6 @@
 /*-
- * Copyright (c) 2006, 2007
- *	Thorsten Glaser <tg@mirbsd.de>
+ * Copyright (c) 2006, 2007, 2008
+ *	Thorsten Glaser <tg@mirbsd.org>
  *
  * Provided that these terms and disclaimer and all copyright notices
  * are retained or reproduced in an accompanying document, permission
@@ -26,11 +26,9 @@
 #include "sqliteInt.h"
 #include "regexp.h"
 
-__RCSID("$MirOS: ports/databases/sqlite/files/regexp.c,v 1.5 2008/05/01 00:52:30 tg Exp $");
+__RCSID("$MirOS: ports/databases/sqlite/files/regexp.c,v 1.6 2008/08/26 12:53:58 tg Exp $");
 
 #define ERRSTR_TEXT	"REGEXP error: "
-#define ERRSTR_SIZE	14			/* strlen(ERRSTR_TEXT) */
-
 static unsigned char errstr[256];
 
 void
@@ -50,9 +48,9 @@ sqlite3_regexp_posixext_func(sqlite3_context *ctx, int ac, sqlite3_value **av)
 	if ((rv == 0) || (rv == REG_NOMATCH))
 		sqlite3_result_int(ctx, ((rv == REG_NOMATCH) ? 0 : 1));
 	else {
-		memcpy(errstr, ERRSTR_TEXT, ERRSTR_SIZE + /* NUL */ 1);
-		regerror(rv, &re, errstr + ERRSTR_SIZE,
-		    sizeof (errstr) - ERRSTR_SIZE);
+		memcpy(errstr, ERRSTR_TEXT, sizeof (ERRSTR_TEXT));
+		regerror(rv, &re, errstr + (sizeof (ERRSTR_TEXT) - 1),
+		    sizeof (errstr) - (sizeof (ERRSTR_TEXT) - 1));
 		sqlite3_result_error(ctx, errstr, -1);
 	}
 
@@ -62,6 +60,6 @@ sqlite3_regexp_posixext_func(sqlite3_context *ctx, int ac, sqlite3_value **av)
 void
 sqlite3_regexp_posixext_register(sqlite3 *db)
 {
-	sqlite3CreateFunc(db, "regexp", 2, SQLITE_UTF8, NULL,
+	sqlite3_create_function(db, "regexp", 2, SQLITE_UTF8, NULL,
 	    sqlite3_regexp_posixext_func, NULL, NULL);
 }
