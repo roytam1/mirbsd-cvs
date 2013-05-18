@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.198 2008/03/14 20:19:42 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.199 2008/04/05 21:50:13 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -1043,6 +1043,8 @@ LDFLAGS+=		-Wl,--library-after=${X11BASE}/lib
 LDFLAGS+=		-Wl,-rpath -Wl,${X11BASE}/lib
 .      endif
 .    endif
+.  else
+CONFIGURE_ENV+=		XMKMF=false
 .  endif
 .  if ${USE_CXX:L} == "yes" && ${NO_CXX:L} != "no"
 IGNORE+=		"uses C++, but ${NO_CXX}"
