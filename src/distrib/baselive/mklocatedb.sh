@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/share/misc/licence.template,v 1.20 2006/12/11 21:04:56 tg Rel $
+# $MirOS: src/distrib/baselive/mklocatedb.sh,v 1.6 2007/02/20 00:28:42 tg Exp $
 #-
 # Copyright (c) 2006, 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -47,7 +47,9 @@ rm -f $root/../locatedb.tmp $root/../locatedb.vnd
 [[ -e $root/../locatedb.tmp ]] && exit 1
 [[ -e $root/../locatedb.vnd ]] && exit 1
 set -e
+sync
 cp "$1" $root/../locatedb.vnd
+sync
 vnconfig svnd0 $root/../locatedb.vnd
 set +e
 cd $root
