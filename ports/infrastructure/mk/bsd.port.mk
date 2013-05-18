@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.76 2005/12/16 16:41:02 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.77 2005/12/16 22:04:16 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -1267,6 +1267,14 @@ _size_fragment=		print "SIZE ($$file) =" $$(wc -c <"$$file")
 ###
 ### end of variable setup. Only targets now
 ###
+
+${PORTSDIR}/infrastructure/db/fake.mtree: ${PORTSDIR}/infrastructure/templates/fake.mtree
+	cp $> $@
+	if [[ ${BINOWN} != root ]]; then \
+		print 'g/[ug]name=[a-z]*/s///g\n'"/^.set/s/   /" \
+		    "uname=${BINOWN} gname=${BINGRP} /\nwq" \
+		    | ed -s $@; \
+	fi
 
 .if ${BIN_PACKAGES:L} == "yes"
 ${_PACKAGE_COOKIE}:
