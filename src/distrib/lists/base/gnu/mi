@@ -21,6 +21,7 @@
 ./usr/bin/makeinfo
 ./usr/bin/merge
 ./usr/bin/mkisofs
+./usr/bin/oldlynx
 ./usr/bin/perl
 ./usr/bin/perl5.8.8
 ./usr/bin/perlbug
