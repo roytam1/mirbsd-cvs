@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/heartbeat/toolkit.mirdns/distribute.sh,v 1.6 2006/03/20 00:26:40 tg Exp $
+# $MirOS: contrib/code/heartbeat/toolkit.mirdns/distribute.sh,v 1.7 2006/03/20 00:37:41 tg Exp $
 #-
 # Copyright (c) 2004, 2005, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -24,7 +24,9 @@
 # other issues arising in any way out of its use, even if advised of
 # the possibility of such damage or existence of a nontrivial bug.
 #-
-# Distribute the 'data.cdb' file just made to the secondaries.
+# Distribute the zone information from ./data (generated from tdata)
+# to the djbdns secondaries (using scp) and trigger a NOTIFY request
+# for each domain handled to the axfr secondaries.
 # This script must be chmod'd +x to work.
 #
 # You need to visudo on the target machine and add a line such as:
@@ -51,7 +53,8 @@ if [[ -z $1 ]]; then
 	exit $rv
 else
 	nice scp ${2:--BCpq} -i $tinydns/id_rsa -F $tinydns/ssh_config \
-	    $tinydns/data.cdb mirdns@$1:$tinydns/data.cdb && \
+	    $tinydns/data mirdns@$1:$tinydns/data && \
 	    nice ssh -T -i $tinydns/id_rsa -F $tinydns/ssh_config \
-	    -l mirdns $1 "sudo ${tinydns%root}.etc/svc -t /service/dnscache"
+	    -l mirdns $1 "cd $tinydns; /usr/mpkg/bin/tinydns-data; \
+		sudo ${tinydns%root}.etc/svc -t /service/dnscache"
 fi
