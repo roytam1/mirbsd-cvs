@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.303 2009/12/01 19:32:44 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.304 2009/12/12 22:41:05 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1083,6 +1083,7 @@ mws_content <<'EOF'
   default; support Bundled compiler; fix double-<tt>const</tt> warning</li>
  <li>[tg] Rework <tt>__attribute__</tt> compiler capability check</li>
  <li>[tg] dot.mkshrc: Use [[ -o utf8-mode ]] instead of [[ $- = *U* ]]</li>
+ <li>[tg] Apply errno save/restore related fix from (sync with) oksh</li>
 </ul>
 <p id="r39">mksh R39 evolved into these through various means:</p><ul>
  <li>[tg] Shut up a bogus gcc warning during configuration process</li>
