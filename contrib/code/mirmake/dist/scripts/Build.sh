@@ -1,4 +1,4 @@
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.134 2009/11/28 20:07:15 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.135 2010/01/10 13:34:07 tg Exp $
 #-
 # Copyright (c) 2006, 2008
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -90,6 +90,10 @@ Darwin:*:i686)
 	new_machin=i686
 	new_macarc=i386
 	;;
+Darwin:*:[Xx]86[-_]64 | Darwin:*:[Aa][Mm][Dd]64)
+	new_machin=amd64
+	new_macarc=amd64
+	;;
 Darwin:*:*)
 	new_macarc=$(uname -p)
 	[[ $new_macarc = *86 ]] && new_machin=i686
@@ -105,7 +109,7 @@ Interix:*:*)
 *:*:[Ii][3456789Xx]86)
 	new_macarc=i386
 	;;
-*:*:[Xx]86_64 | *:*:[Aa][Mm][Dd]64)
+*:*:[Xx]86[-_]64 | *:*:[Aa][Mm][Dd]64)
 	new_macarc=amd64
 	;;
 esac
