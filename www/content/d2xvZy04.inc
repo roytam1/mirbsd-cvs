@@ -1,5 +1,5 @@
 <!-- PageID: wlog-8 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.82 2006/06/15 19:59:25 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.83 2006/06/16 18:56:27 tg Exp $</small>
 <h1>MirBSD &ndash; WTF, We Have a Release!?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -1444,7 +1444,7 @@ celebrate this event, rotate the wlog and start a new one.</p>
   home for emergency hunger cases ;) and had bought a lot of beer 2 days
   ago because yesterday was national holiday anyway. I might have diner,
   no idea with whom though, in the city later.</p>
- <p style="margin-bottom:0px;>Re. the western frontier&#8230; I've built
+ <p style="margin-bottom:0px;">On the western frontier&#8230; I've built
   myself a sparc kernel which does now boot (some delay(9) calls added),
   but doesn't cleanly execute any binary, save the following one:</p>
  <div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;">
