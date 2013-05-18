@@ -46,7 +46,7 @@
 #include <stdint.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: src/libexec/cprng/cprng.c,v 1.11 2007/09/28 19:49:43 tg Exp $");
+__RCSID("$MirOS: src/libexec/cprng/cprng.c,v 1.12 2007/09/28 20:04:13 tg Exp $");
 
 #ifndef MAYPROF
 #if defined(SIGPROF) && defined(ITIMER_PROF)
@@ -71,6 +71,7 @@ static void getent(uint8_t *, size_t)
 
 #ifdef __MirBSD__
 /* to keep us small */
+extern void _exit__(int) __dead;
 void exit(int);
 int atexit(void (*)(void));
 #endif
@@ -245,7 +246,7 @@ exit(int status)
 	close(0);
 	close(1);
 	close(2);
-	_exit(status);
+	_exit__(status);
 }
 
 int
