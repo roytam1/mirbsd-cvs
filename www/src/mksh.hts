@@ -2,7 +2,7 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.178 2008/10/25 18:40:32 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.179 2008/10/26 22:46:46 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R36</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -744,14 +744,13 @@ mws_content <<'EOF'
 <h2 id="regress">Official Testing</h2>
 <p>The MirOS Project has tested mksh on the following operating systems,
  asked people to test, and hunted mksh down in these packaging systems:</p>
-<!--
 <h3 id="regress_dev">Development Versions post release</h3>
 <ul>
  <li style="list-style:none;">– tests by the project, using Build.sh –</li>
- <li style="list-style:none;">– tests by the project, using ports –</li>
- <li style="list-style:none;">– tests by third parties (Build.sh) –</li>
+ <li>MirOS #10-current (i386 pcc20081028)</li>
+ <li>MirOS #10-current (i386 pcc20081028-MirPorts-0)</li>
+ <li>MidnightBSD 0.2.1-RELEASE-p2 (i386 pcc20081028-MirPorts-0)</li>
 </ul>
--->
 <h3 id="regress_rel">Current Release</h3>
 <ul>
  <li style="list-style:none;">– tests by the project, using Makefile –</li>
@@ -816,15 +815,12 @@ mws_content <<'EOF'
 <h3 id="regress_old">Older Versions</h3>
 <ul>
  <li style="list-style:none;">– tests by the project, using Build.sh –</li>
- <li>MirOS #10-current (i386 pcc-20080709)</li>
- <li>MirOS #10-current (i386 pcc-20080717-MirPorts-0)</li>
  <li>MirOS #7-stable (sparc gcc2.95.3-078E)</li>
  <li>BSDi BSD/OS 3.1 #4 M300-043 (i386 gcc2.7.2.1)</li>
  <li>BSDi BSD/OS 3.1 #4 M300-043 (i386 gcc1.42)</li>
  <li>FreeBSD 6.2-RELEASE (i386 gcc3.4.6-20060305)</li>
  <li>MidnightBSD 0.1.1-RELEASE (sparc64 gcc3.4.4-20050518)</li>
  <li>MidnightBSD 0.2-CURRENT (i386 gcc3.4.6-20060305)</li>
- <li>MidnightBSD 0.2-CURRENT (i386 pcc-20080717-MirPorts-0)</li>
  <li>Debian GNU/kFreeBSD 4.0 sid 6.2-1-686 (i386 gcc1:3.3.6-15)</li>
  <li>Debian GNU/kFreeBSD 4.0 sid 6.2-1-686 (i386 gcc3.4.6-6)</li>
  <li>Debian GNU/kFreeBSD 4.0 sid 6.2-1-686 (i386 gcc4.0.3-7)</li>

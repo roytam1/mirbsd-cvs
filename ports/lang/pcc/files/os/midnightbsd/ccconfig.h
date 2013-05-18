@@ -1,4 +1,4 @@
-/* $MirOS: ports/lang/pcc/files/os/midnightbsd/ccconfig.h,v 1.2 2008/05/02 19:29:53 tg Exp $ */
+/* $MirOS: ports/lang/pcc/files/os/midnightbsd/ccconfig.h,v 1.3 2008/07/17 21:17:38 tg Exp $ */
 /* $Id$ */
 /*-
  * Copyright (c) 2007, 2008
@@ -75,6 +75,11 @@
 #define STARTFILES_T		{		\
 	LIBDIR "crti.o",			\
 	LIBDIR "crtbeginT.o",			\
+	NULL					\
+}
+#define ENDFILES_T		{		\
+	LIBDIR "crtend.o",			\
+	LIBDIR "crtn.o",			\
 	NULL					\
 }
 

@@ -1,71 +1,108 @@
 $MirOS$
 
-	• support for crtbeginT.o
-	• support for -fstack-protector-all (alias to -fstack-protector)
-	• fix bogus if location for if STARTFILES_S is not defined
-	• crti.o MUST BE the first thing on the ld(1) command line, thus
-	  move startfiles before crt0file
+	• String cleanup
 
 --- cc/cc/cc.c.orig	Thu Jan  1 00:00:00 1970
-+++ cc/cc/cc.c	Thu Jul 17 21:13:06 2008
-@@ -200,6 +200,9 @@ char *endfiles[] = ENDFILES;
- char *startfiles_S[] = STARTFILES_S;
- char *endfiles_S[] = ENDFILES_S;
- #endif
-+#ifdef STARTFILES_T
-+char *startfiles_T[] = STARTFILES_T;
-+#endif
- char *cppmdadd[] = CPPMDADD;
- #ifdef LIBCLIBS
- char *libclibs[] = LIBCLIBS;
-@@ -327,6 +330,10 @@ main(int argc, char *argv[])
- 					flist[nf++] = argv[i];
- 					sspflag++;
- 				} else if (strcmp(argv[i],
-+				    "-fstack-protector-all") == 0) {
-+					flist[nf++] = argv[i];
-+					sspflag++;
-+				} else if (strcmp(argv[i],
- 				    "-fno-stack-protector") == 0) {
- 					flist[nf++] = argv[i];
- 					sspflag = 0;
-@@ -731,13 +738,26 @@ nocom:
++++ cc/cc/cc.c	Tue Oct 28 11:54:55 2008
+@@ -128,7 +128,8 @@ char	*tmp3;
+ char	*tmp4;
+ char	*outfile, *ermfile;
+ char *Bprefix(char *);
+-char *copy(char *, int),*setsuf(char *, char);
++char *copy(char *, int, size_t *);
++char *setsuf(char *, char);
+ int getsuf(char *);
+ int main(int, char *[]);
+ void error(char *, ...);
+@@ -862,8 +863,9 @@ nocom:
+ 		}
+ 		if (outfile) {
+ #ifdef MSLINKER
+-			char *s = copy("/OUT:", strlen(outfile));
+-			strcat(s, outfile);
++			size_t slen;
++			char *s = copy("/OUT:", strlen(outfile), &slen);
++			strlcat(s, outfile, slen);
+ 			av[j++] = s;
+ #else
  			av[j++] = "-o";
- 			av[j++] = outfile;
- 		}
--		if (shared) {
- #ifdef STARTFILES_S
-+		if (shared) {
- 			for (i = 0; startfiles_S[i]; i++)
- 				av[j++] = startfiles_S[i];
-+		} else
+@@ -922,12 +924,13 @@ nocom:
+ 		if (pthreads)
+ 			av[j++] = "-lpthread";
+ 		if (!nostdlib) {
++			size_t slen;
+ #ifdef MSLINKER
+-			char *s = copy("/LIBPATH:", strlen(pcclibdir));
++			char *s = copy("/LIBPATH:", strlen(pcclibdir), &slen);
+ #else
+-			char *s = copy("-L", strlen(pcclibdir));
++			char *s = copy("-L", strlen(pcclibdir), &slen);
  #endif
--		} else {
-+		{
- 			if (!nostartfiles) {
-+#ifdef STARTFILES
-+#ifdef STARTFILES_T
-+				if (Bstatic) {
-+					for (i = 0; startfiles_T[i]; i++)
-+						av[j++] = startfiles_T[i];
-+				} else
-+#endif
-+				{
-+					for (i = 0; startfiles[i]; i++)
-+						av[j++] = startfiles[i];
-+				}
-+#endif
- #ifdef CRT0FILE_PROFILE
- 				if (pgflag)
- 				{
-@@ -750,10 +770,6 @@ nocom:
- 					av[j++] = crt0file;
- #endif
- 				}
--#ifdef STARTFILES
--				for (i = 0; startfiles[i]; i++)
--					av[j++] = startfiles[i];
--#endif
- 			}
- 		}
- 		i = 0;
+-			strcat(s, pcclibdir);
++			strlcat(s, pcclibdir, slen);
+ 			av[j++] = s;
+ 			if (pgflag) {
+ 				for (i = 0; libclibs_profile[i]; i++)
+@@ -1042,6 +1045,7 @@ Bprefix(char *s)
+ {
+ 	char *suffix;
+ 	char *str;
++	size_t len;
+ 
+ 	if (Bflag == NULL || s[0] != '/')
+ 		return s;
+@@ -1050,8 +1054,8 @@ Bprefix(char *s)
+ 	if (suffix == NULL)
+ 		suffix = s;
+ 
+-	str = copy(Bflag, strlen(suffix));
+-	strcat(str, suffix);
++	str = copy(Bflag, strlen(suffix), &len);
++	strlcat(str, suffix, len);
+ 	return str;
+ }
+ 
+@@ -1073,7 +1077,7 @@ setsuf(char *s, char ch)
+ {
+ 	char *p;
+ 
+-	s = copy(basename(s), 2);
++	s = copy(basename(s), 2, NULL);
+ 	if ((p = strrchr(s, '.')) == NULL) {
+ 		p = s + strlen(s);
+ 		p[0] = '.';
+@@ -1187,13 +1191,15 @@ callsys(char *f, char *v[])
+  * Make a copy of string as, mallocing extra bytes in the string.
+  */
+ char *
+-copy(char *s, int extra)
++copy(char *s, int extra, size_t *lenptr)
+ {
+ 	int len = strlen(s)+1;
+ 	char *rv;
+ 
+ 	rv = ccmalloc(len+extra);
+ 	strlcpy(rv, s, len);
++	if (lenptr != NULL)
++		*lenptr = len + extra;
+ 	return rv;
+ }
+ 
+@@ -1225,7 +1231,7 @@ gettmp(void)
+ 		fprintf(stderr, "%s:\n", pathBuffer);
+ 		exit(8);
+ 	}
+-	return copy(tempFilename, 0);
++	return copy(tempFilename, 0, NULL);
+ }
+ 
+ #else
+@@ -1233,7 +1239,7 @@ gettmp(void)
+ char *
+ gettmp(void)
+ {
+-	char *sfn = copy("/tmp/ctm.XXXXXX", 0);
++	char *sfn = copy("/tmp/ctm.XXXXXX", 0, NULL);
+ 	int fd = -1;
+ 
+ 	if ((fd = mkstemp(sfn)) == -1) {
