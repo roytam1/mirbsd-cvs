@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/heartbeat/hbclient,v 1.4 2006/01/28 14:43:33 tg Exp $
+# $MirOS: contrib/code/heartbeat/hbclient,v 1.5 2006/01/28 16:18:59 tg Exp $
 #-
 # Copyright (c) 2004, 2006
 #	Thorsten "mirabilos" Glaser <tg@66h.42h.de>
@@ -117,6 +117,7 @@ function getip
 function setup
 {
 	# just in case...
+	ifconfig $TUNNEL down >/dev/null 2>&1; sleep 1
 	ifconfig $TUNNEL destroy >/dev/null 2>&1
 
 	# set up interface and default route
@@ -142,7 +143,9 @@ function throw
 # clean up, remove interfaces and routes
 function clean
 {
+	ifconfig $TUNNEL down
 	route -n delete -inet6 default
+	sleep 1
 	ifconfig $TUNNEL destroy
 }
 

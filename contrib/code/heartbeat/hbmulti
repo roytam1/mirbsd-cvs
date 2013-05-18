@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/heartbeat/hbmulti,v 1.3 2006/01/28 16:42:11 tg Exp $
+# $MirOS: contrib/code/heartbeat/hbmulti,v 1.4 2006/03/20 00:32:36 tg Exp $
 #-
 # Copyright (c) 2004, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -114,6 +114,7 @@ function getip
 function setup_v6tunnel
 {
 	# just in case...
+	ifconfig $TUNNEL down >/dev/null 2>&1; sleep 1
 	ifconfig $1 destroy >/dev/null 2>&1
 
 	ifconfig $1 up 2>&1
@@ -141,7 +142,9 @@ function throw_v6tunnel
 # 2: "1" if this was a default route
 function clean_v6tunnel
 {
+	ifconfig $TUNNEL down
 	[[ $2 = 1 ]] && route -n delete -inet6 default 2>&1
+	sleep 1
 	ifconfig $1 destroy 2>&1
 }
 
