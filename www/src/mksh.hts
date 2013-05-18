@@ -3,7 +3,7 @@
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.234 2009/05/27 21:30:35 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.235 2009/05/30 00:13:42 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R38</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -626,7 +626,8 @@ mws_content <<'EOF'
 <li><a href="http://www.sourcemage.org/">SMGL</a> (Sourcemage GNU/Linux) has an
  <a href="http://distro.ibiblio.org/pub/linux/distributions/sourcemage/codex/test/shell-term-fm/mksh/">mksh
  spell</a> in their grimoire, developed by the MirOS Project together with
- Daniel “morfic” Goller, updated by Thomas “sobukus” Orgis.</li>
+ Daniel “morfic” Goller, updated by Thomas “sobukus” Orgis and Vlad
+ “Stealth” Glagolev.</li>
 <li>In the <a href="https://www.freewrt.org/trac/">FreeWRT Embedded GNU/Linux
  Appliance Development Kit (meta distribution)</a>, the <a
  href="https://www.freewrt.org/svn/trunk/freewrt/package/mksh/">mksh
@@ -682,6 +683,8 @@ mws_content <<'EOF'
  packages mksh for Darwin, too.</li>
 <li>Frugalware Linux contains a broken mksh package; the build logs show
  the problem is on their side. (XXX Someone has any URL for us?)</li>
+<li>Slackware and Zenwalk GNU/Linux had once been targeted to be packaged
+ by Olivier Duchateau, but we don't know the current state (XXX)</li>
 <li>There are probably many more, please drop us a note!</li>
 <li><a href="http://linux.softpedia.com/get/System/Shells/MirBSD-Korn-Shell-24602.shtml">Softpedia</a>
  lists mksh, just like the FSF/UNESCO directory.</li>
