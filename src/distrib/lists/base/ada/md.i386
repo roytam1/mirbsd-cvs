@@ -1,9 +1,14 @@
+./usr/bin/addr2name.awk
+./usr/bin/gcj
+./usr/bin/gcjh
 ./usr/bin/gij
 ./usr/bin/grepjar
 ./usr/bin/i386-ecce-mirbsd10-gcj
 ./usr/bin/i386-ecce-mirbsd10-gcjh
 ./usr/bin/jar
+./usr/bin/jcf-dump
 ./usr/bin/jv-convert
+./usr/bin/jv-scan
 ./usr/bin/rmic
 ./usr/bin/rmiregistry
 ./usr/include/gcj
@@ -3264,6 +3269,7 @@
 ./usr/lib/security
 ./usr/lib/security/classpath.security
 ./usr/lib/security/libgcj.security
+./usr/share/info/fastjar.info
 ./usr/share/java
 ./usr/share/java/libgcj-3.4.6.jar
 ./usr/share/man/cat1/grepjar.0
