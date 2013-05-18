@@ -2,7 +2,7 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.135 2008/07/10 00:10:18 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.136 2008/07/10 21:51:39 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R33d</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -385,7 +385,8 @@ mws_content <<'EOF'
  (ex-FSSTND) does; please convince your distributor to move ed to /bin/ed if
  not already done. Manual page installation paths are not standardised in
  older distributions either.</p>
-<p>We didn’t test dietlibc yet, but uClibc works; libc5 on 2.0.36 too.</p>
+<p>Besides glibc (GNU libc), dietlibc (from Fefe), µClibc (embedded), and
+ libc5 (on Linux 2.0.38) work, but locale detection is not automatic.</p>
 <p>mksh can be used as /bin/sh on Debian and similarly strict distributions,
  which allow to use e.g. ash/dash there as well.</p>
 
@@ -1003,6 +1004,7 @@ mws_content <<'EOF'
  <li>Fix <tt>dot.mkshrc</tt> tilde replacement in both <tt>$PS1</tt> and the
   pushd/popd/dirs implementation when the home directory is empty, the root
   directory, or ends with a slash (disable replacement in that case)</li>
+ <li>Support dietlibc, force it into providing a BSDish <tt>caddr_t</tt></li>
  <li>Do not use LDFLAGS and LIBS while compiling with <tt>-c</tt></li>
  <li>Add realpath(3) builtin, to further speed up logins and chdirs</li>
  <li>Optimise the code somewhat by making use of possible assumptions</li>
@@ -1022,7 +1024,7 @@ mws_content <<'EOF'
  <li>Better support for contributed <tt>arc4random.c</tt> file</li>
  <li>Do not spin if unlink(2) fails on $HISTFILE, from Decklin Foster</li>
  <li>Dump the perl(1) <tt>$^O</tt> variable in <tt>test.sh</tt> to logs</li>
- <li>Pull in latest fixes from oksh</li>
+ <li>Pull in latest changes from oksh</li>
  <li>Allow white space between a here string indicator and the string</li>
  <li>Allow fd specifications outside the 0‥9 range for I/O redirections,
   and bounds check them to be lower than the <tt>FDBASE</tt> definition,
