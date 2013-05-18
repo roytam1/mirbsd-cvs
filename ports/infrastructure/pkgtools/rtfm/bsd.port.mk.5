@@ -1,4 +1,4 @@
-.\" $MirOS: ports/infrastructure/pkgtools/rtfm/bsd.port.mk.5,v 1.19 2008/04/05 18:27:28 tg Exp $
+.\" $MirOS: ports/infrastructure/pkgtools/rtfm/bsd.port.mk.5,v 1.20 2008/05/07 22:47:53 tg Exp $
 .\" $OpenBSD: bsd.port.mk.5,v 1.134 2004/02/18 13:39:02 xsa Exp $
 .\"
 .\" Copyright (c) 2007, 2008 Thorsten Glaser
@@ -63,7 +63,7 @@
 .\" with -mandoc, it might implement .Mx itself, but we want to
 .\" use our own definition. And .Dd must come *first*, always.
 .\"
-.Dd $Mdocdate: April 5 2008 $
+.Dd $Mdocdate: May 7 2008 $
 .\"
 .\" Implement .Mx (MirBSD)
 .\"
@@ -825,14 +825,15 @@ conventions.
 .It Ev MODGNU_RECURSE_DIRS
 If a port uses more than one
 .Cm configure
-script, set this to all other directories that contain one.
+script, set this to all directories that contain one.
 Copies
 .Pa config.guess
 to the right places; if
 .Ev CONFIGURE_STYLE
 is
 .Ar autoconf ,
-autoconf is also called in the given directories.
+autoconf is also called in the given directories,
+and so on for autogen, autoheader, MirLibtool conversion, etc.
 .It Ev COPTS
 User settings.
 Supplementary options appended to ${CFLAGS} for building.
