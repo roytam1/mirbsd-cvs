@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/stand/boot/cmd.c,v 1.15 2009/01/10 14:11:41 tg Exp $	*/
+/**	$MirOS: src/sys/stand/boot/cmd.c,v 1.16 2009/01/10 14:30:45 tg Exp $	*/
 /*	$OpenBSD: cmd.c,v 1.59 2007/04/27 10:08:34 tom Exp $	*/
 
 /*
@@ -590,7 +590,7 @@ Xcat(void)
 				continue;
 			abuf[i] = 0;
 			printf("%s\n-- more --", cp);
-			if ((getchar() | 0x20) == 'q')
+			if ((cngetc() | 0x20) == 'q')
 				goto out;
 			putchar('\n');
 			cp = abuf + i + 1;
