@@ -1,11 +1,11 @@
-$MirOS: ports/devel/cvs/patches/patch-src_mkmodules_c,v 1.4 2010/09/15 20:57:01 tg Exp $
+$MirOS: ports/devel/cvs/patches/patch-src_mkmodules_c,v 1.5 2010/09/16 00:13:45 tg Exp $
 --- src/mkmodules.c.orig	Tue May 24 20:58:39 2005
-+++ src/mkmodules.c	Thu Sep 16 00:12:19 2010
++++ src/mkmodules.c	Sat Jun 11 03:06:19 2011
 @@ -15,6 +15,8 @@
  #include "history.h"
  #include "save-cwd.h"
  
-+__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_mkmodules_c,v 1.4 2010/09/15 20:57:01 tg Exp $");
++__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_mkmodules_c,v 1.5 2010/09/16 00:13:45 tg Exp $");
 +
  #ifndef DBLKSIZ
  #define	DBLKSIZ	4096			/* since GNU ndbm doesn't define it */
@@ -107,7 +107,20 @@ $MirOS: ports/devel/cvs/patches/patch-src_mkmodules_c,v 1.4 2010/09/15 20:57:01 
  #ifdef PROXY_SUPPORT
      "#    %R = the name of the referrer, if any, otherwise the value NONE\n",
  #endif
-@@ -489,67 +501,67 @@ static const char *const modules_content
+@@ -465,11 +477,10 @@ static const char *const modules_content
+     "#	key [options] directory files...\n",
+     "#\n",
+     "# Where \"options\" are composed of:\n",
+-    "#	-i prog		Run \"prog\" on \"cvs commit\" from top-level of module.\n",
+     "#	-o prog		Run \"prog\" on \"cvs checkout\" of module.\n",
+     "#	-e prog		Run \"prog\" on \"cvs export\" of module.\n",
++    "#	-s status	Assign a status to the module.\n",
+     "#	-t prog		Run \"prog\" on \"cvs rtag\" of module.\n",
+-    "#	-u prog		Run \"prog\" on \"cvs update\" of module.\n",
+     "#	-d dir		Place module in directory \"dir\" instead of module name.\n",
+     "#	-l		Top-level directory only -- do not recurse.\n",
+     "#\n",
+@@ -489,67 +500,67 @@ static const char *const modules_content
  };
  
  static const char *const config_contents[] = {
@@ -198,7 +211,7 @@ $MirOS: ports/devel/cvs/patches/patch-src_mkmodules_c,v 1.4 2010/09/15 20:57:01 
      "# establishing one or more read-only mirrors which serve as proxies for\n",
      "# the write server in write mode or redirect the client to the primary for\n",
      "# write requests.\n",
-@@ -558,13 +570,13 @@ static const char *const config_contents
+@@ -558,13 +569,13 @@ static const char *const config_contents
      "#\n",
      "#   PrimaryServer=:fork:localhost/cvsroot\n",
      "\n",
@@ -216,7 +229,7 @@ $MirOS: ports/devel/cvs/patches/patch-src_mkmodules_c,v 1.4 2010/09/15 20:57:01 
      "#\n",
      "# High values for MaxProxyBufferSize may speed up a secondary server\n",
      "# with old hardware and a lot of available memory but can actually slow a\n",
-@@ -575,23 +587,23 @@ static const char *const config_contents
+@@ -575,23 +586,23 @@ static const char *const config_contents
      "#   MaxProxyBufferSize=1G\n",
  #endif /* PROXY_SUPPORT */
      "\n",
@@ -248,7 +261,7 @@ $MirOS: ports/devel/cvs/patches/patch-src_mkmodules_c,v 1.4 2010/09/15 20:57:01 
      "#\n",
      "# For example:\n",
      "#\n",
-@@ -816,7 +828,7 @@ mkmodules (char *dir)
+@@ -816,7 +827,7 @@ mkmodules (char *dir)
      }
  
      if (restore_cwd (&cwd))
@@ -257,7 +270,7 @@ $MirOS: ports/devel/cvs/patches/patch-src_mkmodules_c,v 1.4 2010/09/15 20:57:01 
  	       cwd.name);
      free_cwd (&cwd);
  
-@@ -878,7 +890,7 @@ checkout_file (char *file, char *temp)
+@@ -878,7 +889,7 @@ checkout_file (char *file, char *temp)
      {
  	/* Probably not necessary (?); RCS_parsercsfile already printed a
  	   message.  */
@@ -266,7 +279,7 @@ $MirOS: ports/devel/cvs/patches/patch-src_mkmodules_c,v 1.4 2010/09/15 20:57:01 
  	free (rcs);
  	return 1;
      }
-@@ -962,20 +974,22 @@ write_dbmfile( char *temp )
+@@ -962,20 +973,22 @@ write_dbmfile( char *temp )
  	    key.dptr = vp;
  	    while (*vp && !isspace ((unsigned char) *vp))
  		vp++;
@@ -292,3 +305,13 @@ $MirOS: ports/devel/cvs/patches/patch-src_mkmodules_c,v 1.4 2010/09/15 20:57:01 
  		err++;
  	    }
  	}
+@@ -1174,6 +1187,9 @@ init (int argc, char **argv)
+        non-existent parent directory is as likely to be a typo as something
+        which needs to be created.  */
+     mkdir_if_needed (current_parsed_root->directory);
++
++    if (noexec)
++	return (0);
+ 
+     adm = Xasprintf ("%s/%s", current_parsed_root->directory, CVSROOTADM);
+     mkdir_if_needed (adm);

@@ -1,11 +1,11 @@
-$MirOS: ports/devel/cvs/patches/patch-src_rcs_c,v 1.7 2010/09/18 23:14:07 tg Exp $
+$MirOS: ports/devel/cvs/patches/patch-src_rcs_c,v 1.8 2010/09/19 00:42:40 tg Exp $
 --- src/rcs.c.orig	Wed Sep 28 15:25:37 2005
-+++ src/rcs.c	Sun Sep 19 00:03:32 2010
++++ src/rcs.c	Sat Jun 11 03:06:19 2011
 @@ -33,6 +33,8 @@
  # endif
  #endif
  
-+__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_rcs_c,v 1.7 2010/09/18 23:14:07 tg Exp $");
++__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_rcs_c,v 1.8 2010/09/19 00:42:40 tg Exp $");
 +
  /* The RCS -k options, and a set of enums that must match the array.
     These come first so that we can use enum kflag in function
@@ -165,7 +165,17 @@ $MirOS: ports/devel/cvs/patches/patch-src_rcs_c,v 1.7 2010/09/18 23:14:07 tg Exp
  	    case KEYWORD_CVSHEADER:
  	    case KEYWORD_HEADER:
  	    case KEYWORD_ID:
-@@ -5081,7 +5126,7 @@ RCS_checkin (RCSNode *rcs, const char *u
+@@ -4177,6 +4222,9 @@ RCS_checkout (RCSNode *rcs, const char *
+ 	       : (sout != RUN_TTY ? sout
+ 		  : "(stdout)"))));
+ 
++    if (rev && *rev == '-')
++	++rev;
++
+     assert (rev == NULL || isdigit ((unsigned char) *rev));
+ 
+     if (noexec && !server_active && workfile != NULL)
+@@ -5081,7 +5129,7 @@ RCS_checkin (RCSNode *rcs, const char *u
  	(void) time (&modtime);
      ftm = gmtime (&modtime);
      delta->date = Xasprintf (DATEFORM,
@@ -174,7 +184,7 @@ $MirOS: ports/devel/cvs/patches/patch-src_rcs_c,v 1.7 2010/09/18 23:14:07 tg Exp
  			     ftm->tm_mon + 1, ftm->tm_mday, ftm->tm_hour,
  			     ftm->tm_min, ftm->tm_sec);
      if (flags & RCS_FLAGS_DEAD)
-@@ -7235,6 +7280,7 @@ rcs_change_text (const char *name, char 
+@@ -7235,6 +7283,7 @@ rcs_change_text (const char *name, char 
  /* Walk the deltas in RCS to get to revision VERSION.
  
     If OP is RCS_ANNOTATE, then write annotations using cvs_output.
@@ -182,7 +192,7 @@ $MirOS: ports/devel/cvs/patches/patch-src_rcs_c,v 1.7 2010/09/18 23:14:07 tg Exp
  
     If OP is RCS_FETCH, then put the contents of VERSION into a
     newly-malloc'd array and put a pointer to it in *TEXT.  Each line
-@@ -7263,6 +7309,7 @@ RCS_deltas (RCSNode *rcs, FILE *fp, stru
+@@ -7263,6 +7312,7 @@ RCS_deltas (RCSNode *rcs, FILE *fp, stru
      RCSVers *vers;
      RCSVers *prev_vers;
      RCSVers *trunk_vers;
@@ -190,7 +200,7 @@ $MirOS: ports/devel/cvs/patches/patch-src_rcs_c,v 1.7 2010/09/18 23:14:07 tg Exp
      char *next;
      int ishead, isnext, isversion, onbranch;
      Node *node;
-@@ -7285,6 +7332,7 @@ RCS_deltas (RCSNode *rcs, FILE *fp, stru
+@@ -7285,6 +7335,7 @@ RCS_deltas (RCSNode *rcs, FILE *fp, stru
      vers = NULL;
      prev_vers = NULL;
      trunk_vers = NULL;
@@ -198,7 +208,7 @@ $MirOS: ports/devel/cvs/patches/patch-src_rcs_c,v 1.7 2010/09/18 23:14:07 tg Exp
      next = NULL;
      onbranch = 0;
      foundhead = 0;
-@@ -7332,12 +7380,31 @@ RCS_deltas (RCSNode *rcs, FILE *fp, stru
+@@ -7332,12 +7383,31 @@ RCS_deltas (RCSNode *rcs, FILE *fp, stru
  	    vers = node->data;
  	    next = vers->next;
  
@@ -230,7 +240,7 @@ $MirOS: ports/devel/cvs/patches/patch-src_rcs_c,v 1.7 2010/09/18 23:14:07 tg Exp
  	}
  
  	while (1)
-@@ -7365,17 +7432,27 @@ RCS_deltas (RCSNode *rcs, FILE *fp, stru
+@@ -7365,17 +7435,27 @@ RCS_deltas (RCSNode *rcs, FILE *fp, stru
  		rcsbuf_valpolish (rcsbuf, value, 0, &vallen);
  		if (ishead)
  		{
@@ -261,7 +271,7 @@ $MirOS: ports/devel/cvs/patches/patch-src_rcs_c,v 1.7 2010/09/18 23:14:07 tg Exp
  			error (1, 0, "invalid change text in %s", rcs->print_path);
  		}
  		break;
-@@ -7391,7 +7468,9 @@ RCS_deltas (RCSNode *rcs, FILE *fp, stru
+@@ -7391,7 +7471,9 @@ RCS_deltas (RCSNode *rcs, FILE *fp, stru
  	        /* This is the version we want.  */
  		linevector_copy (&headlines, &curlines);
  		foundhead = 1;
@@ -272,7 +282,7 @@ $MirOS: ports/devel/cvs/patches/patch-src_rcs_c,v 1.7 2010/09/18 23:14:07 tg Exp
  		{
  		    /* We have found this version by tracking up a
                         branch.  Restore back to the lines we saved
-@@ -7480,6 +7559,7 @@ RCS_deltas (RCSNode *rcs, FILE *fp, stru
+@@ -7480,6 +7562,7 @@ RCS_deltas (RCSNode *rcs, FILE *fp, stru
      switch (op)
      {
  	case RCS_ANNOTATE:

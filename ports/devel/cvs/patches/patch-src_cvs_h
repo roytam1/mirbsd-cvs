@@ -1,8 +1,8 @@
-$MirOS$
+$MirOS: ports/devel/cvs/patches/patch-src_cvs_h,v 1.3 2010/09/15 20:57:00 tg Exp $
 --- src/cvs.h.orig	Sun Oct  2 15:16:58 2005
-+++ src/cvs.h	Wed Sep 15 19:36:15 2010
++++ src/cvs.h	Sat Jun 11 03:06:20 2011
 @@ -1,3 +1,5 @@
-+/* $MirOS$ */
++/* $MirOS: ports/devel/cvs/patches/patch-src_cvs_h,v 1.3 2010/09/15 20:57:00 tg Exp $ */
 +
  /*
   * Copyright (C) 1986-2005 The Free Software Foundation, Inc.
@@ -15,7 +15,16 @@ $MirOS$
  extern int cvsadmin_root;
  extern char *CurDir;
  extern int really_quiet, quiet;
-@@ -629,6 +632,7 @@ void Update_Logfile (const char *reposit
+@@ -504,6 +507,8 @@ int ls (int argc, char *argv[]);
+ int unlink_file (const char *f);
+ int unlink_file_dir (const char *f);
+ 
++int suck (int argc, char *argv[]);
++
+ /* This is the structure that the recursion processor passes to the
+    fileproc to tell it about a particular file.  */
+ struct file_info
+@@ -629,6 +634,7 @@ void Update_Logfile (const char *reposit
                       FILE *xlogfp, List *xchanges);
  void do_editor (const char *dir, char **messagep,
                  const char *repository, List *changes);

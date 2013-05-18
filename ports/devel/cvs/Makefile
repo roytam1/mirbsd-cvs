@@ -1,9 +1,9 @@
-# $MirOS: ports/devel/cvs/Makefile,v 1.17 2010/09/19 19:59:29 tg Exp $
+# $MirOS: ports/devel/cvs/Makefile,v 1.18 2011/05/06 23:17:26 tg Exp $
 
 COMMENT=		Concurrent Versions System
 CATEGORIES=		devel essentials
 VSN=			1.12.13
-DASH_VER=		10		# in sync with MirOS-0AAE.1 rev.
+DASH_VER=		11		# in sync with MirOS-0AAE.2 rev.
 HOMEPAGE=		http://www.nongnu.org/cvs/
 RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.org>
 

@@ -1,12 +1,12 @@
-$MirOS: ports/devel/cvs/patches/patch-doc_cvs_texinfo,v 1.7 2010/09/18 23:14:06 tg Exp $
+$MirOS: ports/devel/cvs/patches/patch-doc_cvs_texinfo,v 1.8 2011/05/06 23:17:27 tg Exp $
 --- doc/cvs.texinfo.orig	Fri Sep 23 02:02:31 2005
-+++ doc/cvs.texinfo	Fri May  6 22:24:36 2011
++++ doc/cvs.texinfo	Sat Jun 11 03:06:20 2011
 @@ -1,6 +1,8 @@
  \input texinfo  @c -*-texinfo-*-
  @comment Documentation for CVS.
  @setfilename cvs.info
 +@afourpaper
-+@comment $MirOS: ports/devel/cvs/patches/patch-doc_cvs_texinfo,v 1.7 2010/09/18 23:14:06 tg Exp $
++@comment $MirOS: ports/devel/cvs/patches/patch-doc_cvs_texinfo,v 1.8 2011/05/06 23:17:27 tg Exp $
  @macro copyleftnotice
  @noindent
  Copyright @copyright{} 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000,
@@ -209,7 +209,7 @@ $MirOS: ports/devel/cvs/patches/patch-doc_cvs_texinfo,v 1.7 2010/09/18 23:14:06 
 +for the Berkeley mdoc macro processing.
 +
 +@example
-+$Mdocdate: September 18 2010 $
++$Mdocdate: May 6 2011 $
 +@end example
 +
  @cindex Header keyword
@@ -266,7 +266,15 @@ $MirOS: ports/devel/cvs/patches/patch-doc_cvs_texinfo,v 1.7 2010/09/18 23:14:06 
  For example, suppose that there are two teams, the red
  team and the blue team, that are sending you sources.
  You want to import the red team's efforts to branch
-@@ -8375,6 +8404,31 @@ option to turn the display on.  So if yo
+@@ -8130,6 +8159,7 @@ reference to @sc{cvs} commands, @pxref{I
+ * rdiff::                       'patch' format diffs between releases
+ * release::                     Indicate that a directory is no longer in use
+ * server & pserver::            Act as a server for a client on stdin/stdout
++* suck::                        Download RCS ,v file raw
+ * update::                      Bring work tree in sync with repository
+ @end menu
+ 
+@@ -8375,6 +8405,31 @@ option to turn the display on.  So if yo
  @samp{-N} in the @file{~/.cvsrc} entry for @samp{log},
  you may need to use @samp{-f} to show the tag names.
  
@@ -298,7 +306,7 @@ $MirOS: ports/devel/cvs/patches/patch-doc_cvs_texinfo,v 1.7 2010/09/18 23:14:06 
  @item -H
  @itemx --help
  Display usage information about the specified @samp{cvs_command}
-@@ -8498,7 +8552,7 @@ option as in other commands.  (Other com
+@@ -8498,7 +8553,7 @@ option as in other commands.  (Other com
  which are listed with the individual commands, may have
  different behavior from one @sc{cvs} command to the other).
  
@@ -307,7 +315,7 @@ $MirOS: ports/devel/cvs/patches/patch-doc_cvs_texinfo,v 1.7 2010/09/18 23:14:06 
  many options that conflict even with these standard options.}
  
  @table @code
-@@ -8523,7 +8577,7 @@ further updates in the same directory wi
+@@ -8523,7 +8578,7 @@ further updates in the same directory wi
  slightly different way; @pxref{history options}).
  
  For a complete description of the date formats accepted by @sc{cvs},
@@ -316,7 +324,7 @@ $MirOS: ports/devel/cvs/patches/patch-doc_cvs_texinfo,v 1.7 2010/09/18 23:14:06 
  @c What other formats should we accept?  I don't want
  @c to start accepting a whole mess of non-standard
  @c new formats (there are a lot which are in wide use in
-@@ -8610,7 +8664,7 @@ give an error if you mistype a tag name.
+@@ -8610,7 +8665,7 @@ give an error if you mistype a tag name.
  @code{annotate}, @code{checkout}, @code{export},
  @code{rdiff}, @code{rtag}, and @code{update}.
  
@@ -325,7 +333,7 @@ $MirOS: ports/devel/cvs/patches/patch-doc_cvs_texinfo,v 1.7 2010/09/18 23:14:06 
  commands also have a
  @samp{-f} option, but it has a different behavior for
  those commands.  See @ref{commit options}, and
-@@ -8631,7 +8685,7 @@ The @samp{-k} option is available with t
+@@ -8631,7 +8686,7 @@ The @samp{-k} option is available with t
  @code{checkout}, @code{diff}, @code{export}, @code{import},
  @code{rdiff}, and @code{update} commands.
  
@@ -334,7 +342,7 @@ $MirOS: ports/devel/cvs/patches/patch-doc_cvs_texinfo,v 1.7 2010/09/18 23:14:06 
  overrode the @samp{-kb} indication for a binary file.  This could
  sometimes corrupt binary files.  @xref{Merging and keywords}, for
  more.}
-@@ -8660,7 +8714,7 @@ Do not run any tag program.  (A program 
+@@ -8660,7 +8715,7 @@ Do not run any tag program.  (A program 
  specified to run in the modules
  database (@pxref{modules}); this option bypasses it).
  
@@ -343,7 +351,7 @@ $MirOS: ports/devel/cvs/patches/patch-doc_cvs_texinfo,v 1.7 2010/09/18 23:14:06 
  program option, which you can specify to the left of a cvs command!}
  
  Available with the @code{checkout}, @code{commit}, @code{export},
-@@ -8688,6 +8742,7 @@ and @code{watchers}.
+@@ -8688,6 +8743,7 @@ and @code{watchers}.
  @item -r @var{tag}[:@var{date}]
  @cindex HEAD, special tag
  @cindex BASE, special tag
@@ -351,7 +359,7 @@ $MirOS: ports/devel/cvs/patches/patch-doc_cvs_texinfo,v 1.7 2010/09/18 23:14:06 
  Use the revision specified by the @var{tag} argument (and the @var{date}
  argument for the commands which accept it) instead of the
  default @dfn{head} revision.  As well as arbitrary tags defined
-@@ -8735,12 +8790,19 @@ When a command expects a specific revisi
+@@ -8735,12 +8791,19 @@ When a command expects a specific revisi
  the name of a branch is interpreted as the most recent
  revision on that branch.
  
@@ -372,7 +380,7 @@ $MirOS: ports/devel/cvs/patches/patch-doc_cvs_texinfo,v 1.7 2010/09/18 23:14:06 
  which you can specify to the left of a @sc{cvs} command!}
  
  @samp{-r @var{tag}} is available with the @code{commit} and @code{history}
-@@ -9144,7 +9206,9 @@ Changes: nothing.
+@@ -9144,7 +9207,9 @@ Changes: nothing.
  
  For each file in @var{files}, print the head revision
  of the trunk, together with information on the last
@@ -383,7 +391,7 @@ $MirOS: ports/devel/cvs/patches/patch-doc_cvs_texinfo,v 1.7 2010/09/18 23:14:06 
  
  @menu
  * annotate options::            annotate options
-@@ -9160,6 +9224,9 @@ These standard options are supported by 
+@@ -9160,6 +9225,9 @@ These standard options are supported by 
  them):
  
  @table @code
@@ -393,7 +401,7 @@ $MirOS: ports/devel/cvs/patches/patch-doc_cvs_texinfo,v 1.7 2010/09/18 23:14:06 
  @item -l
  Local directory only, no recursion.
  
-@@ -9501,8 +9568,12 @@ that the argument file contains the log 
+@@ -9501,8 +9569,12 @@ that the argument file contains the log 
  
  At @code{commit}, a unique commitid is placed in the @sc{rcs}
  file inside the repository. All files committed at once
@@ -408,7 +416,7 @@ $MirOS: ports/devel/cvs/patches/patch-doc_cvs_texinfo,v 1.7 2010/09/18 23:14:06 
  @ref{File status}.
  
  @menu
-@@ -9685,7 +9756,7 @@ compared.  If any directories are given,
+@@ -9685,7 +9757,7 @@ compared.  If any directories are given,
  under them will be compared.
  
  The exit status for diff is different than for other
@@ -417,7 +425,7 @@ $MirOS: ports/devel/cvs/patches/patch-doc_cvs_texinfo,v 1.7 2010/09/18 23:14:06 
  
  @menu
  * diff options::                diff options
-@@ -10425,7 +10496,7 @@ all possible events to a single history 
+@@ -10425,7 +10497,7 @@ all possible events to a single history 
  (@file{$CVSROOT/CVSROOT/history}) with read and write permissions for all
  users (@pxref{Creating a repository}).
  
@@ -426,7 +434,7 @@ $MirOS: ports/devel/cvs/patches/patch-doc_cvs_texinfo,v 1.7 2010/09/18 23:14:06 
  @samp{-n}, and @samp{-p} in ways that conflict with the
  normal use inside @sc{cvs} (@pxref{Common options}).}
  
-@@ -10805,7 +10876,7 @@ in local time at the client. This is typ
+@@ -10805,7 +10877,7 @@ in local time at the client. This is typ
  the @code{$TZ} environment variable, which can be set to
  govern how @code{log} displays dates.
  
@@ -435,7 +443,7 @@ $MirOS: ports/devel/cvs/patches/patch-doc_cvs_texinfo,v 1.7 2010/09/18 23:14:06 
  with the normal use inside @sc{cvs} (@pxref{Common options}).}
  
  @menu
-@@ -11282,7 +11353,7 @@ Delete your working copy of the file if 
+@@ -11282,7 +11354,7 @@ Delete your working copy of the file if 
  succeeds.  If this flag is not given your files will
  remain in your working directory.
  
@@ -444,7 +452,33 @@ $MirOS: ports/devel/cvs/patches/patch-doc_cvs_texinfo,v 1.7 2010/09/18 23:14:06 
  all directories and files recursively.  This
  has the very serious side-effect that any directory
  that you have created inside your checked-out sources,
-@@ -11669,6 +11740,10 @@ your changes}.
+@@ -11386,6 +11458,25 @@ supported beginning with @sc{cvs} releas
+ @end table
+ 
+ @c - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
++@node suck
++@appendixsec suck---Download RCS ,v file raw
++@cindex suck (subcommand)
++
++@itemize @bullet
++@item
++suck module/path
++@item
++Requires: repository
++@end itemize
++
++Locates the file module/path,v or module/pa/Attic/th,v and downloads
++it raw as RCS comma-v file.
++
++Output consists of the real pathname of the comma-v file, relative to
++the CVS repository, followed by a newline and the binary file content
++immediately thereafter.
++
++@c - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ @node update
+ @appendixsec update---Bring work tree in sync with repository
+ @cindex update (subcommand)
+@@ -11669,6 +11760,10 @@ your changes}.
  Do not read the @file{~/.cvsrc} file.  See @ref{Global
  options}.
  
@@ -455,7 +489,7 @@ $MirOS: ports/devel/cvs/patches/patch-doc_cvs_texinfo,v 1.7 2010/09/18 23:14:06 
  @item -H
  @itemx --help
  Print a help message.  See @ref{Global options}.
-@@ -11730,6 +11805,7 @@ Keywords (@pxref{Keyword list}):
+@@ -11730,6 +11825,7 @@ Keywords (@pxref{Keyword list}):
  @example
  $@splitrcskeyword{Author}: joe $
  $@splitrcskeyword{Date}: 1993/12/09 03:21:13 $
@@ -463,7 +497,7 @@ $MirOS: ports/devel/cvs/patches/patch-doc_cvs_texinfo,v 1.7 2010/09/18 23:14:06 
  $@splitrcskeyword{CVSHeader}: files/file1,v 1.1 1993/12/09 03:21:13 joe Exp harry $
  $@splitrcskeyword{Header}: /home/files/file1,v 1.1 1993/12/09 03:21:13 joe Exp harry $
  $@splitrcskeyword{Id}: file1,v 1.1 1993/12/09 03:21:13 joe Exp harry $
-@@ -11877,7 +11953,8 @@ Use head revision if tag/date not found.
+@@ -11877,7 +11973,8 @@ Use head revision if tag/date not found.
  @item -j @var{tag}[:@var{date}]
  Merge in the change specified by @var{tag}, or when @var{date} is specified
  and @var{tag} is a branch tag, the version from the branch @var{tag} as it
@@ -473,7 +507,7 @@ $MirOS: ports/devel/cvs/patches/patch-doc_cvs_texinfo,v 1.7 2010/09/18 23:14:06 
  
  @item -k @var{kflag}
  Use @var{kflag} keyword expansion.  See
-@@ -11907,7 +11984,7 @@ behavior}.
+@@ -11907,7 +12004,7 @@ behavior}.
  @item -r @var{tag}[:@var{date}]
  Checkout the revision already tagged with @var{tag} or, when @var{date} is
  specified and @var{tag} is a branch tag, the version from the branch @var{tag}
@@ -482,7 +516,7 @@ $MirOS: ports/devel/cvs/patches/patch-doc_cvs_texinfo,v 1.7 2010/09/18 23:14:06 
  
  @item -s
  Like -c, but include module status.  See @ref{checkout options}.
-@@ -12003,7 +12080,7 @@ Specify actions for temporary watch, whe
+@@ -12003,7 +12100,7 @@ Specify actions for temporary watch, whe
  @ref{Editing files}.
  
  @item -c
@@ -491,7 +525,7 @@ $MirOS: ports/devel/cvs/patches/patch-doc_cvs_texinfo,v 1.7 2010/09/18 23:14:06 
  Requires a @sc{cvs} client and server both of version 1.12.10 or greater.
  
  @item -f
-@@ -12711,7 +12788,7 @@ U first-dir/sdir/sfile
+@@ -12711,7 +12808,7 @@ U first-dir/sdir/sfile
  @item @var{mname} [ options ] @var{dir} [ @var{files}@dots{} ]
  In the simplest case, this form of module definition
  reduces to @samp{@var{mname} @var{dir}}.  This defines
@@ -500,7 +534,7 @@ $MirOS: ports/devel/cvs/patches/patch-doc_cvs_texinfo,v 1.7 2010/09/18 23:14:06 
  @var{dir} is a relative path (from @code{$CVSROOT}) to a
  directory of source in the source repository.  In this
  case, on checkout, a single directory called
-@@ -12975,7 +13052,7 @@ two versions of the files, and require t
+@@ -12975,7 +13072,7 @@ two versions of the files, and require t
  mechanisms outside @sc{cvs}, to insert any necessary
  changes.
  
@@ -509,7 +543,7 @@ $MirOS: ports/devel/cvs/patches/patch-doc_cvs_texinfo,v 1.7 2010/09/18 23:14:06 
  @sc{cvs} 1.9 or earlier - such versions of @sc{cvs} will
  copy one version of your file over the other, wiping
  out the previous contents.}
-@@ -13779,14 +13856,11 @@ In addition to the common format strings
+@@ -13779,14 +13876,11 @@ In addition to the common format strings
  @file{loginfo} supports:
  
  @table @t
@@ -525,7 +559,7 @@ $MirOS: ports/devel/cvs/patches/patch-doc_cvs_texinfo,v 1.7 2010/09/18 23:14:06 
  @item V
  old version number (pre-checkin)
  @item v
-@@ -13795,7 +13869,7 @@ new version number (post-checkin)
+@@ -13795,7 +13889,7 @@ new version number (post-checkin)
  @end table
  
  For example, some valid format strings are @samp{%%},
@@ -534,7 +568,7 @@ $MirOS: ports/devel/cvs/patches/patch-doc_cvs_texinfo,v 1.7 2010/09/18 23:14:06 
  
  @cindex loginfo (admin file), updating legacy repositories
  @cindex compatibility notes, loginfo admin file
-@@ -14442,6 +14516,7 @@ Unique Session ID of the @sc{cvs} proces
+@@ -14442,6 +14536,7 @@ Unique Session ID of the @sc{cvs} proces
  random string of printable characters of at least 16
  characters length. Users should assume that it may
  someday grow to at most 256 characters in length.
@@ -542,7 +576,7 @@ $MirOS: ports/devel/cvs/patches/patch-doc_cvs_texinfo,v 1.7 2010/09/18 23:14:06 
  @end table
  
  If you want to pass a value to the administrative files
-@@ -14613,7 +14688,7 @@ all uses of @code{cvs import} on the rep
+@@ -14613,7 +14708,7 @@ all uses of @code{cvs import} on the rep
  @cindex KeywordExpand, in CVSROOT/config
  @item KeywordExpand=@var{value}
  Specify @samp{i} followed by a list of keywords to be expanded
@@ -551,7 +585,7 @@ $MirOS: ports/devel/cvs/patches/patch-doc_cvs_texinfo,v 1.7 2010/09/18 23:14:06 
  or @samp{e} followed by a list of keywords not to be expanded
  (for example, @samp{KeywordExpand=eCVSHeader}).
  For more on keyword expansion, see @ref{Configuring keyword expansion}.
-@@ -14747,7 +14822,7 @@ that the file should be checked with the
+@@ -14747,7 +14842,7 @@ that the file should be checked with the
  @samp{stat()} function to see if it has changed (see warning below)
  before rereading.  The default value is @samp{always}.
  
@@ -560,7 +594,7 @@ $MirOS: ports/devel/cvs/patches/patch-doc_cvs_texinfo,v 1.7 2010/09/18 23:14:06 
  one extra second per directory committed.  This can be less IO and
  CPU intensive but is not recommended for use with large repositories}
  
-@@ -15614,21 +15689,21 @@ the problem, the next steps depend large
+@@ -15614,21 +15709,21 @@ the problem, the next steps depend large
  access method you are using.
  
  @table @code
@@ -585,7 +619,7 @@ $MirOS: ports/devel/cvs/patches/patch-doc_cvs_texinfo,v 1.7 2010/09/18 23:14:06 
  @item :pserver:
  Errors along the lines of "connection refused" typically indicate
  that inetd isn't even listening for connections on port 2401
-@@ -15805,6 +15880,16 @@ The list of contributors here is not com
+@@ -15805,6 +15900,16 @@ The list of contributors here is not com
  complete list of who has contributed to this manual see
  the file @file{doc/ChangeLog} in the @sc{cvs} source
  distribution.

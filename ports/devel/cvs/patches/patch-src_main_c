@@ -1,20 +1,28 @@
-$MirOS: ports/devel/cvs/patches/patch-src_main_c,v 1.8 2010/09/18 23:14:07 tg Exp $
+$MirOS: ports/devel/cvs/patches/patch-src_main_c,v 1.9 2011/05/06 23:17:28 tg Exp $
 --- src/main.c.orig	Sun Oct  2 15:16:59 2005
-+++ src/main.c	Fri May  6 21:03:03 2011
++++ src/main.c	Sat Jun 11 03:34:58 2011
 @@ -24,6 +24,12 @@
  #include "strftime.h"
  #include "xgethostname.h"
  
 +#ifdef USE_LIBBSD
-+#include <bsd/bsd.h>
++uint32_t arc4random(void);
 +#endif
 +
-+__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_main_c,v 1.8 2010/09/18 23:14:07 tg Exp $");
++__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_main_c,v 1.9 2011/05/06 23:17:28 tg Exp $");
 +
  const char *program_name;
  const char *program_path;
  const char *cvs_cmd_name;
-@@ -283,6 +289,7 @@ static const char *const opt_usage[] =
+@@ -170,6 +176,7 @@ static const struct cmd
+ #ifdef SERVER_SUPPORT
+     { "server",   NULL,       NULL,        server,    CVS_CMD_MODIFIES_REPOSITORY | CVS_CMD_USES_WORK_DIR },
+ #endif
++    { "suck",     NULL,       NULL,        suck,      0 },
+     { "status",   "st",       "stat",      cvsstatus, CVS_CMD_USES_WORK_DIR },
+     { "tag",      "ta",       "freeze",    cvstag,    CVS_CMD_MODIFIES_REPOSITORY | CVS_CMD_USES_WORK_DIR },
+     { "unedit",   NULL,       NULL,        unedit,    CVS_CMD_MODIFIES_REPOSITORY | CVS_CMD_USES_WORK_DIR },
+@@ -283,6 +290,7 @@ static const char *const opt_usage[] =
      "    -q           Cause CVS to be somewhat quiet.\n",
      "    -r           Make checked-out files read-only.\n",
      "    -w           Make checked-out files read-write (default).\n",
@@ -22,7 +30,7 @@ $MirOS: ports/devel/cvs/patches/patch-src_main_c,v 1.8 2010/09/18 23:14:07 tg Ex
      "    -n           Do not execute anything that will change the disk.\n",
      "    -t           Show trace of program execution (repeat for more\n",
      "                 verbosity) -- try with -n.\n",
-@@ -465,39 +472,7 @@ enum {COMMITID_RAW_SIZE = (sizeof(time_t
+@@ -465,39 +473,7 @@ enum {COMMITID_RAW_SIZE = (sizeof(time_t
  static char const alphabet[62] =
    "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
  
@@ -62,7 +70,7 @@ $MirOS: ports/devel/cvs/patches/patch-src_main_c,v 1.8 2010/09/18 23:14:07 tg Ex
  int
  main (int argc, char **argv)
  {
-@@ -511,7 +486,7 @@ main (int argc, char **argv)
+@@ -511,7 +487,7 @@ main (int argc, char **argv)
      int help = 0;		/* Has the user asked for help?  This
  				   lets us support the `cvs -H cmd'
  				   convention to give help for cmd. */
@@ -71,7 +79,7 @@ $MirOS: ports/devel/cvs/patches/patch-src_main_c,v 1.8 2010/09/18 23:14:07 tg Ex
      static struct option long_options[] =
      {
          {"help", 0, NULL, 'H'},
-@@ -658,6 +633,13 @@ main (int argc, char **argv)
+@@ -658,6 +634,13 @@ main (int argc, char **argv)
  	    case 'w':
  		cvswrite = 1;
  		break;
@@ -85,7 +93,7 @@ $MirOS: ports/devel/cvs/patches/patch-src_main_c,v 1.8 2010/09/18 23:14:07 tg Ex
  	    case 't':
  		trace++;
  		break;
-@@ -669,6 +651,9 @@ main (int argc, char **argv)
+@@ -669,6 +652,9 @@ main (int argc, char **argv)
  		noexec = 1;
  		logoff = 1;
  		break;
@@ -95,7 +103,7 @@ $MirOS: ports/devel/cvs/patches/patch-src_main_c,v 1.8 2010/09/18 23:14:07 tg Ex
  	    case 'v':
  		(void) fputs ("\n", stdout);
  		version (0, NULL);    
-@@ -676,6 +661,7 @@ main (int argc, char **argv)
+@@ -676,6 +662,7 @@ main (int argc, char **argv)
  		(void) fputs ("\
  Copyright (C) 2005 Free Software Foundation, Inc.\n\
  \n\
@@ -103,7 +111,7 @@ $MirOS: ports/devel/cvs/patches/patch-src_main_c,v 1.8 2010/09/18 23:14:07 tg Ex
  Senior active maintainers include Larry Jones, Derek R. Price,\n\
  and Mark D. Baushke.  Please see the AUTHORS and README files from the CVS\n\
  distribution kit for a complete list of contributors and copyrights.\n",
-@@ -764,57 +750,12 @@ distribution kit for a complete list of 
+@@ -764,57 +751,12 @@ distribution kit for a complete list of 
      if (argc < 1)
  	usage (usg);
  
@@ -156,15 +164,15 @@ $MirOS: ports/devel/cvs/patches/patch-src_main_c,v 1.8 2010/09/18 23:14:07 tg Ex
 -	convert(buf, out);
 -	global_session_id = strdup (out);
 -    }
-+    global_session_id = Xasprintf ("1%010llX%04X%04X", (uint64_t)time (NULL),
-+				   (int)(getpid() & 0xFFFF),
-+				   (int)(arc4random() & 0xFFFF));
++    global_session_id = Xasprintf("1%010llX%04X%04X",
++      (unsigned long long)time(NULL),
++      (int)(getpid() & 0xFFFF), (int)(arc4random() & 0xFFFF));
  
 -
      TRACE (TRACE_FUNCTION, "main: Session ID is %s", global_session_id);
  
      /* Look up the command name. */
-@@ -1011,7 +952,7 @@ cause intermittent sandbox corruption.")
+@@ -1011,7 +953,7 @@ cause intermittent sandbox corruption.")
  	    /* Now we've reconciled CVSROOT from the command line, the
  	       CVS/Root file, and the environment variable.  Do the
  	       last sanity checks on the variable. */
@@ -173,7 +181,7 @@ $MirOS: ports/devel/cvs/patches/patch-src_main_c,v 1.8 2010/09/18 23:14:07 tg Ex
  	    {
  		error (0, 0,
  		       "No CVSROOT specified!  Please use the `-d' option");
-@@ -1043,6 +984,11 @@ cause intermittent sandbox corruption.")
+@@ -1043,6 +985,11 @@ cause intermittent sandbox corruption.")
  
  	assert (current_parsed_root == NULL);
  
@@ -185,7 +193,7 @@ $MirOS: ports/devel/cvs/patches/patch-src_main_c,v 1.8 2010/09/18 23:14:07 tg Ex
  	/* If we're running the server, we want to execute this main
  	   loop once and only once (we won't be serving multiple roots
  	   from this connection, so there's no need to do it more than
-@@ -1244,7 +1190,7 @@ parse_tagdate (char **tag, char **date, 
+@@ -1244,7 +1191,7 @@ parse_tagdate (char **tag, char **date, 
  	if (*++p)
  	{
  	    if (*date) free (*date);
@@ -194,7 +202,7 @@ $MirOS: ports/devel/cvs/patches/patch-src_main_c,v 1.8 2010/09/18 23:14:07 tg Ex
  	}
      }
      else if (strlen (input))
-@@ -1285,7 +1231,7 @@ date_from_time_t (time_t unixtime)
+@@ -1285,7 +1232,7 @@ date_from_time_t (time_t unixtime)
  	ftm = localtime (&unixtime);
  
      (void) sprintf (date, DATEFORM,
@@ -203,7 +211,7 @@ $MirOS: ports/devel/cvs/patches/patch-src_main_c,v 1.8 2010/09/18 23:14:07 tg Ex
  		    ftm->tm_mon + 1, ftm->tm_mday, ftm->tm_hour,
  		    ftm->tm_min, ftm->tm_sec);
      ret = xstrdup (date);
-@@ -1315,8 +1261,9 @@ date_to_internet (char *dest, const char
+@@ -1315,8 +1262,9 @@ date_to_internet (char *dest, const char
  void
  date_to_tm (struct tm *dest, const char *source)
  {
@@ -214,7 +222,7 @@ $MirOS: ports/devel/cvs/patches/patch-src_main_c,v 1.8 2010/09/18 23:14:07 tg Ex
  		&dest->tm_hour, &dest->tm_min, &dest->tm_sec)
  	    != 6)
  	/* Is there a better way to handle errors here?  I made this
-@@ -1324,9 +1271,7 @@ date_to_tm (struct tm *dest, const char 
+@@ -1324,9 +1272,7 @@ date_to_tm (struct tm *dest, const char 
  	   deal with fatal errors.  */
  	error (0, 0, "internal error: bad date %s", source);
  
@@ -225,7 +233,7 @@ $MirOS: ports/devel/cvs/patches/patch-src_main_c,v 1.8 2010/09/18 23:14:07 tg Ex
      dest->tm_mon -= 1;
  }
  
-@@ -1348,10 +1293,10 @@ tm_to_internet (char *dest, const struct
+@@ -1348,10 +1294,10 @@ tm_to_internet (char *dest, const struct
        {"Jan", "Feb", "Mar", "Apr", "May", "Jun",
  	 "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
      

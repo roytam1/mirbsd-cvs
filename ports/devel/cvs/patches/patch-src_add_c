@@ -1,0 +1,12 @@
+$MirOS$
+--- src/add.c.orig	Sun Sep  4 00:41:33 2005
++++ src/add.c	Sat Jun 11 03:42:42 2011
+@@ -784,7 +784,7 @@ add_directory (struct file_info *finfo)
+     }
+ 
+     /* setup the log message */
+-    message = Xasprintf ("Directory %s added to the repository\n%s%s%s%s%s%s",
++    message = Xasprintf ("Directory %s put under version control\n%s%s%s%s%s%s",
+ 			 rcsdir,
+ 			 tag ? "--> Using per-directory sticky tag `" : "",
+ 			 tag ? tag : "", tag ? "'\n" : "",

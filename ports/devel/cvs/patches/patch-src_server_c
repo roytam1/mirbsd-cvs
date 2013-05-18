@@ -1,11 +1,11 @@
-$MirOS: ports/devel/cvs/patches/patch-src_server_c,v 1.4 2010/09/19 18:42:03 tg Exp $
+$MirOS: ports/devel/cvs/patches/patch-src_server_c,v 1.5 2011/05/06 23:17:28 tg Exp $
 --- src/server.c.orig	Wed Sep 28 15:25:37 2005
-+++ src/server.c	Fri May  6 21:03:29 2011
++++ src/server.c	Sat Jun 11 03:06:20 2011
 @@ -20,6 +20,8 @@
  #include "getline.h"
  #include "getnline.h"
  
-+__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_server_c,v 1.4 2010/09/19 18:42:03 tg Exp $");
++__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_server_c,v 1.5 2011/05/06 23:17:28 tg Exp $");
 +
  int server_active = 0;
  
@@ -50,7 +50,30 @@ $MirOS: ports/devel/cvs/patches/patch-src_server_c,v 1.4 2010/09/19 18:42:03 tg 
      {
  # ifdef PROXY_SUPPORT
  	if (reprocessing)
-@@ -6271,8 +6283,12 @@ size_t MaxProxyBufferSize = (size_t)(8 *
+@@ -4621,6 +4633,14 @@ serve_rls (char *arg)
+ 
+ 
+ static void
++serve_suck (char *arg)
++{
++  do_cvs_command ("suck", suck);
++}
++
++
++
++static void
+ serve_add (char *arg)
+ {
+     do_cvs_command ("add", add);
+@@ -5962,6 +5982,7 @@ struct request requests[] =
+   REQ_LINE("rannotate", serve_rannotate, 0),
+   REQ_LINE("noop", serve_noop, RQ_ROOTLESS),
+   REQ_LINE("version", serve_version, RQ_ROOTLESS),
++  REQ_LINE("suck", serve_suck, 0),
+   REQ_LINE(NULL, NULL, 0)
+ 
+ #undef REQ_LINE
+@@ -6271,8 +6292,12 @@ size_t MaxProxyBufferSize = (size_t)(8 *
  
  static const char *const server_usage[] =
  {
@@ -63,7 +86,7 @@ $MirOS: ports/devel/cvs/patches/patch-src_server_c,v 1.4 2010/09/19 18:42:03 tg 
      "Normally invoked by a cvs client on a remote machine.\n",
      NULL
  };
-@@ -6289,8 +6305,8 @@ parseServerOptions (int argc, char **arg
+@@ -6289,8 +6314,8 @@ parseServerOptions (int argc, char **arg
      {
  	switch (c)
  	{
@@ -73,7 +96,7 @@ $MirOS: ports/devel/cvs/patches/patch-src_server_c,v 1.4 2010/09/19 18:42:03 tg 
  		if (gConfigPath) free (gConfigPath);
  		gConfigPath = xstrdup (optarg);
  		break;
-@@ -6887,7 +6903,7 @@ cleanup:
+@@ -6887,7 +6912,7 @@ cleanup:
  static int
  check_pam_password (char **username, char *password)
  {
@@ -82,7 +105,7 @@ $MirOS: ports/devel/cvs/patches/patch-src_server_c,v 1.4 2010/09/19 18:42:03 tg 
      struct pam_conv conv = { cvs_pam_conv, 0 };
      char *pam_stage = "start";
  
-@@ -6930,7 +6946,7 @@ check_pam_password (char **username, cha
+@@ -6930,7 +6955,7 @@ check_pam_password (char **username, cha
  
      return retval == PAM_SUCCESS;       /* indicate success */
  }
@@ -91,7 +114,7 @@ $MirOS: ports/devel/cvs/patches/patch-src_server_c,v 1.4 2010/09/19 18:42:03 tg 
  
  static int
  check_system_password (char *username, char *password)
-@@ -6996,6 +7012,7 @@ error 0 %s: no such user\n", username);
+@@ -6996,6 +7021,7 @@ error 0 %s: no such user\n", username);
  #endif
      return 1;
  }
