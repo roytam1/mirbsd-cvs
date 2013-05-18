@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/install.sub,v 1.42 2008/11/23 15:18:55 tg Exp $
+# $MirOS: src/distrib/common/install.sub,v 1.43 2008/12/10 18:03:20 tg Exp $
 # $OpenBSD: install.sub,v 1.388 2005/07/02 00:55:48 uwe Exp $
 # $NetBSD: install.sub,v 1.5.2.8 1996/09/02 23:25:02 pk Exp $
 #
@@ -78,6 +78,7 @@
 #	MDCDDEVS    - '/^cd[0-9][0-9]* /s/ .*//p'    assumed if not provided
 #	MDMTDEVS    - '/^[cmsw]t[0-9][0-9]* /s/ .*//p'
 #	MDXAPERTURE - set machdep.allowaperture=value in sysctl.conf
+. /etc/functions
 . install.md
 
 set_term() {
@@ -441,29 +442,10 @@ manual_net_cfg() {
 	[[ $resp = y ]] && { echo "Type 'exit' to return to $MODE."; sh; }
 
 	# the network is now up…
-	( date
-	  if ftp -h 2>&1 | fgrep https >/dev/null 2>&1; then
-		pf=https
-	  else
-		pf=http
-	  fi
-	  ftp -mvo /dev/arandom \
-	    $pf://call.mirbsd.org/rn.cgi?"bsdrdnet,whoami=$(sysctl -n \
-	    kern.ostype)_$(sysctl -n hw.machine)_$(sysctl -n \
-	    kern.ospatchlevel)_$(sysctl -n kern.osversion),seed=$RANDOM"
-	  date
-	) >/dev/wrandom 2>&1 &
-	if [[ -x /usr/sbin/rdate ]]; then
-		print -n Adjusting the clock...
-		_x=$(rdate -nv ntp.mirbsd.org 2>&1)
-		print -r -- "$x" >/dev/wrandom
-		print -r " $x"
-	fi
-	if [[ -x /usr/sbin/ntpd ]]; then
-		print -n Starting ntpd, this may take up to a minute...
-		/usr/sbin/ntpd
-		print done
-	fi
+	pf=https
+	ftp -h 2>&1 | fgrep https >/dev/null 2>&1 || pf=http
+	_getrnd net $pf
+	_ntp
 }
 
 # log in via ftp to host $1 as user $2 with password $3

@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/list.sparc-fdd,v 1.7 2008/12/10 18:03:21 tg Exp $
+# $MirOS: src/distrib/common/list.sparc-fdd,v 1.8 2008/12/18 17:20:33 tg Exp $
 
 SRCDIRS	distrib/special sys/arch/sparc/stand
 SRCDIRS	bin sbin usr.bin usr.sbin libexec
@@ -41,6 +41,7 @@ LINK	instbin					sbin/umount
 LINK	instbin					usr/bin/compress usr/bin/gunzip usr/bin/gzip
 LINK	instbin					usr/bin/ftp
 LINK	instbin					usr/bin/grep usr/bin/egrep usr/bin/fgrep
+LINK	instbin					usr/bin/hexdump usr/bin/hd usr/bin/od
 LINK	instbin					usr/bin/mktemp
 LINK	instbin					usr/bin/more usr/bin/less
 LINK	instbin					usr/bin/nc
@@ -79,6 +80,7 @@ TERMCAP	vt100,vt220,wsvtg,wsvt25,dumb		usr/share/misc/termcap
 
 # install stuff
 SCRIPT	${TOPDIR}/common/dot.profile		.profile
+SCRIPT	${TOPDIR}/common/functions		etc/functions
 SCRIPT	${TOPDIR}/common/install.sh		install
 SCRIPT	${TOPDIR}/common/install.sub		install.sub
 SPECIAL	chmod 755 install

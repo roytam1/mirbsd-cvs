@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/dot.profile,v 1.38 2008/12/04 15:18:32 tg Exp $
+# $MirOS: src/distrib/common/dot.profile,v 1.39 2008/12/26 22:43:44 tg Exp $
 # $OpenBSD: dot.profile,v 1.4 2002/09/13 21:38:47 deraadt Exp $
 # $NetBSD: dot.profile,v 1.1 1995/12/18 22:54:43 pk Exp $
 #
@@ -39,47 +39,13 @@ umask 022
 cd /
 ulimit -c 0
 
-function uri_escape {
-	print -nr -- "$*" | sed -e '
-	    s.%.%25.g
-	    s.;.%3B.g
-	    s./.%2F.g
-	    s.?.%3F.g
-	    s.:.%3A.g
-	    s.@@.%40.g
-	    s.&.%26.g
-	    s.=.%3D.g
-	    s.+.%2B.g
-	    s.\$.%24.g
-	    s.,.%2C.g
-	    s.	.%09.g
-	    s. .%20.g
-	    s.<.%3C.g
-	    s.>.%3E.g
-	    s.#.%23.g
-	    s.".%22.g
-	    s.{.%7B.g
-	    s.}.%7D.g
-	    s.|.%7C.g
-	    s.\\.%5C.g
-	    s.\^.%5E.g
-	    s.\[.%5B.g
-	    s.\].%5D.g
-	    s.`.%60.g
-	    s.'\''.%27.g
-	'
-}
+if [[ -z $NEED_UNICODE ]]; then
+	chkuterm; export NEED_UNICODE=$?	# 0 = UTF-8; >0 = ISO-8859-1
+	(( NEED_UNICODE )) && exec script -lns	# no typescript, login shell
+fi
+unset NEED_UNICODE
 
-_getrnd() {
-	typeset url=${2:-https}://call.mirbsd.org/rn.cgi
-
-	url=${url}?bsdrd${1:-manuell}
-	url=$url,os=$(uri_escape "$(uname -a)")
-	url=$url,seed=$(dd if=/dev/arandom bs=57 count=1 2>&- | \
-	    b64encode -r - | tr '+=/' '._-')
-	(ulimit -T 60; exec ftp -mvo /dev/arandom "$url") >/dev/wrandom 2>&1
-}
-
+. /etc/functions
 sshd() {
 	if grep -q '^root:x:' /etc/master.passwd 2>/dev/null; then
 		print -u2 error: you must passwd root first
@@ -101,12 +67,6 @@ sshd() {
 		/usr/sbin/sshd "$@"
 	fi
 }
-
-if [[ -z $NEED_UNICODE ]]; then
-	chkuterm; export NEED_UNICODE=$?	# 0 = UTF-8; >0 = ISO-8859-1
-	(( NEED_UNICODE )) && exec script -lns	# no typescript, login shell
-fi
-unset NEED_UNICODE
 
 alias l='/bin/ls -F'
 alias la='l -a'

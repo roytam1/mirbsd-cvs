@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/list,v 1.23 2008/07/12 23:07:17 tg Exp $
+# $MirOS: src/distrib/common/list,v 1.24 2008/12/18 17:20:33 tg Exp $
 
 # standard tools in the crunched binary
 COPY	${OBJDIR}/instbin			instbin
@@ -85,6 +85,7 @@ TERMCAP	vt100,vt220,wsvtg,wsvt25,dumb		usr/share/misc/termcap
 
 # install stuff
 SCRIPT	${TOPDIR}/common/dot.profile		.profile
+SCRIPT	${TOPDIR}/common/functions		etc/functions
 SCRIPT	${TOPDIR}/common/install.sh		install
 SCRIPT	${TOPDIR}/common/install.sub		install.sub
 SPECIAL	chmod 755 install
