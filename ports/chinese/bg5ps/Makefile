@@ -1,6 +1,7 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.12 2003/04/19 13:30:47 espie Exp $
 
-COMMENT=			convert Big5/GB encoded files to postscript
+COMMENT=	convert Big5/GB encoded files to postscript
 
 DISTNAME=       bg5ps-1.3.0
 PKGNAME=	zh-${DISTNAME}-0
@@ -9,8 +10,8 @@ CATEGORIES=     chinese x11
 
 PERMIT_DISTFILES_CDROM= Yes
 PERMIT_DISTFILES_FTP=   Yes
-PERMIT_PACKAGE_CDROM=   Yes
-PERMIT_PACKAGE_FTP=     Yes
+PERMIT_PACKAGE_CDROM=   dependency chinese/taipeifonts is not allowed for CDROM
+PERMIT_PACKAGE_FTP=     dependency chinese/taipeifonts is not allowed for FTP
 
 MASTER_SITES=	ftp://freebsd.sinica.edu.tw/pub/keith/	\
 		ftp://ftp.shellhung.org/pub/OpenBSD/packages/chinese/bg5ps/
@@ -18,7 +19,7 @@ MASTER_SITES=	ftp://freebsd.sinica.edu.tw/pub/keith/	\
 PYTHON_VER=	2.3
 RUN_DEPENDS=	::chinese/arphicttf \
 		:python-${PYTHON_VER}*:lang/python/${PYTHON_VER}
-MODULES+=		print/freetype
+MODULES+=	print/freetype
 
 NO_REGRESS=	Yes
 
