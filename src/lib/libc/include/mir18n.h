@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/include/mir18n.h,v 1.16 2007/02/07 16:15:32 tg Exp $ */
+/* $MirOS: src/lib/libc/include/mir18n.h,v 1.17 2007/02/07 17:34:07 tg Exp $ */
 
 #ifndef _LIBC_MIR18N_H
 #define _LIBC_MIR18N_H
@@ -15,8 +15,9 @@
 /* How the 12 character attributes are encoded in 8 bits: Every attribute is
    represented by an "include bitmask" and an "exclude bitmask".
     Attribute	bit/formula		comment
-     upper	bit			implies towlower(x) != x == towupper(x)
-     lower	bit			implies towlower(x) == x != towupper(x)
+     upper	upper && !lower		implies towlower(x) != x == towupper(x)
+     lower	!upper && lower		implies towlower(x) == x != towupper(x)
+     title	upper && lower		implies towlower(x) != x != towupper(x)
      alpha	bit			superset of upper || lower
      digit	xdigit && !alpha	'0'..'9' and more
      xdigit	bit			'0'..'9','a'..'f','A'..'F' and more
@@ -54,11 +55,12 @@
 #define wctype_cntrl  iswmask(9, cntrl, 0)
 #define wctype_digit  iswmask(3, xdigit, alpha)
 #define wctype_graph  iswmask(7, print, space)
-#define wctype_lower  iswmask(1, lower, 0)
+#define wctype_lower  iswmask(1, lower, upper)
 #define wctype_print  iswmask(6, print, 0)
 #define wctype_punct  iswmask(10, print, alpha|xdigit|space)
 #define wctype_space  iswmask(5, space, 0)
-#define wctype_upper  iswmask(0, upper, 0)
+#define wctype_title  iswmask(12, upper|lower, 0)
+#define wctype_upper  iswmask(0, upper, lower)
 #define wctype_xdigit iswmask(4, xdigit, 0)
 
 #define attribute_table mir18n_attribute_table
@@ -71,6 +73,7 @@ __END_DECLS
 /* namespace definitions for the UCD tables */
 #define nop_page	mir18n_attribute_nop_page
 #define tolower_table	mir18n_caseconv_tolower
+#define totitle_table	mir18n_caseconv_totitle
 #define toupper_table	mir18n_caseconv_toupper
 
 __BEGIN_DECLS

@@ -353,10 +353,11 @@ void output_attribute_table (void)
   }
   for (ch = 0; ch < 0x10000; ch++) {
     int attributes = 0;
-    if ((uppercase(ch) == ch || titlecase(uppercase(ch)) == ch)
-        && lowercase(ch) != ch)
+    if (!strcmp(unicode_attributes[ch].category, "Lt"))
+      attributes |= upper | lower;	/* title case */
+    else if (lowercase(ch) != ch && uppercase(ch) == ch)
       attributes |= upper;
-    if (lowercase(ch) == ch && uppercase(ch) != ch)
+    else if (lowercase(ch) == ch && uppercase(ch) != ch)
       attributes |= lower;
     /* The OpenGroups's susv2/xbd/locale.html says only characters satisfying
        isupper() or islower() can have a nontrivial toupper() or tolower()

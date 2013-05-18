@@ -1,4 +1,4 @@
-/* $MirOS: src/include/ctype.h,v 1.17 2007/05/07 13:05:16 tg Exp $ */
+/* $MirOS: src/include/ctype.h,v 1.18 2008/03/22 21:10:35 tg Exp $ */
 
 /*-
  * Copyright (c) 2006, 2007, 2008
@@ -25,18 +25,19 @@
 
 #include <sys/cdefs.h>
 
-/* from src/lib/libc/include/mir18n.h,v 1.14 */
+/* from src/lib/libc/include/mir18n.h,v 1.18 */
 #define _ctp_alnum	0x000C
 #define _ctp_alpha	0x0004
 #define _ctp_blank	0x0040
 #define _ctp_cntrl	0x0080
 #define _ctp_digit	0x0408
 #define _ctp_graph	0x1020
-#define _ctp_lower	0x0002
+#define _ctp_lower	0x0102
 #define _ctp_print	0x0020
 #define _ctp_punct	0x1C20
 #define _ctp_space	0x0010
-#define _ctp_upper	0x0001
+#define _ctp_title	0x0003
+#define _ctp_upper	0x0201
 #define _ctp_xdigit	0x0008
 
 __BEGIN_DECLS
@@ -49,9 +50,11 @@ int	islower(int);
 int	isprint(int);
 int	ispunct(int);
 int	isspace(int);
+int	istitle(int);
 int	isupper(int);
 int	isxdigit(int);
 int	tolower(int);
+int	totitle(int);
 int	toupper(int);
 
 #if !defined(_ANSI_SOURCE) && !defined(_POSIX_SOURCE)
@@ -93,6 +96,7 @@ extern const unsigned char __C_attribute_table_pg[256];
 #define isprint(c)	__CTYPE_IMPL((c),print)
 #define ispunct(c)	__CTYPE_IMPL((c),punct)
 #define isspace(c)	__CTYPE_IMPL((c),space)
+#define istitle(c)	0
 #define isupper(c)	__CTYPE_IMPL((c),upper)
 #define isxdigit(c)	__CTYPE_IMPL((c),xdigit)
 
@@ -113,6 +117,7 @@ extern const unsigned char __C_attribute_table_pg[256];
 #define tolower(c)	(((c) >= 'A') && ((c) <= 'Z') ? (c) - 'A' + 'a' : (c))
 #define toupper(c)	(((c) >= 'a') && ((c) <= 'z') ? (c) - 'a' + 'A' : (c))
 #endif
+#define totitle(c)	toupper(c)
 
 #if !defined(_ANSI_SOURCE) && !defined(_POSIX_SOURCE)
 #define isascii(c)	((unsigned)(c) < 0x80)
