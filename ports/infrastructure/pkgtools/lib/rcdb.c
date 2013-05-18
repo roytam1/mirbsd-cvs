@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.24 2008/04/22 11:43:31 tg Rel $ */
+/* $MirOS: ports/infrastructure/pkgtools/lib/rcdb.c,v 1.4 2008/05/01 00:52:32 tg Exp $ */
 
 /*-
  * Copyright (c) 2004, 2005
@@ -49,7 +49,7 @@
 #define __DBINTERFACE_PRIVATE
 #include "lib.h"
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/rcdb.c,v 1.3 2005/12/17 05:46:19 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/rcdb.c,v 1.4 2008/05/01 00:52:32 tg Exp $");
 
 DBT *
 rcdb_alloc(void *item, const size_t length)
@@ -248,7 +248,7 @@ rcdb_lookup(RCDB *handle, const char *const searchkey)
 
 	if ((handle == NULL) || (searchkey == NULL)) {
 		errno = EINVAL;
-		goto bad;
+		return (recno_t)-1;
 	}
 retr:
 	rv = handle->database->seq(handle->database,
