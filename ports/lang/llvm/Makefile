@@ -1,4 +1,4 @@
-# $MirOS: ports/lang/llvm/Makefile,v 1.3 2008/11/02 17:05:38 tg Exp $
+# $MirOS: ports/lang/llvm/Makefile,v 1.4 2008/11/09 19:40:03 tg Exp $
 
 COMMENT=		Low Level Virtual Machine compiler infrastructure
 SVN_DISTREV=		58935
@@ -72,5 +72,10 @@ post-install:
 	${INSTALL_DATA_DIR} ${PREFIX}/share/doc/llvm/clang-www
 	cd ${WRKSRC}/tools/clang/www && \
 	    pax -rw . ${PREFIX}/share/doc/llvm/clang-www/
+	chmod 0600 ${PREFIX}/bin/gcc{as,ld}
+	for file in ${PREFIX}/bin/gcc{as,ld}; do \
+		print ',g'${WRKINST:Q}'s///\nwq' | ed -s $$file; \
+	done
+	chmod ${BINMODE} ${PREFIX}/bin/gcc{as,ld}
 
 .include <bsd.port.mk>
