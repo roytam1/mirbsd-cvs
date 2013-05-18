@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/liveboot/hook.S,v 1.25 2009/02/01 10:25:48 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/liveboot/hook.S,v 1.26 2009/02/01 10:44:17 tg Exp $ */
 
 /*-
  * Copyright (c) 2006, 2007, 2009
@@ -61,7 +61,11 @@ lbl_title:
 #endif
 lbl_menus:
 #if defined(FORGRML)
+#if defined(NOGRUB)
+	.byte	6
+#else
 	.byte	7
+#endif
 #elif defined(HAVE_GRML)
 	.byte	10
 #else
@@ -73,7 +77,9 @@ lbl_menus:
 	.long	lbl_menu3 - SA_LINKADDR
 	.long	lbl_menu4 - SA_LINKADDR
 	.long	lbl_menu5 - SA_LINKADDR
+#if !defined(FORGRML) || !defined(NOGRUB)
 	.long	lbl_menu6 - SA_LINKADDR
+#endif
 #ifndef FORGRML
 	.long	lbl_menu7 - SA_LINKADDR
 	.long	lbl_menu8 - SA_LINKADDR
@@ -102,11 +108,11 @@ lbl_menu8:
 lbl_menu9:
 	.asciz	"Switch to GNU GRUB for booting into grml\n"
 #endif
-#else
+#else /* FORGRML */
 lbl_menu0:
 	.asciz	"Continue to normal MirOS boot loader\n"
 lbl_menu1:
-	.asciz	"Boot the MirOS BSD rescue system ramdisk kernel\n"
+	.asciz	"Boot the MirOS bsd4grml rescue system ramdisk kernel\n"
 lbl_menu2:
 	.asciz	"Boot the rescue system, entering UKC (userconf)\n"
 lbl_menu3:
@@ -115,9 +121,11 @@ lbl_menu4:
 	.asciz	"Rescue system, serial console at COM1:38400,8N1\n"
 lbl_menu5:
 	.asciz	"Rescue system, serial console at COM1:115200,8N1\n"
+#ifndef NOGRUB
 lbl_menu6:
 	.asciz	"Chain to GNU GRUB for booting into grml.org again\n"
-#endif
+#endif /* !NOGRUB */
+#endif /* FORGRML */
 lbl_ask:
 	.ascii	"\nUse the cursor up/down keys to navigate\n"
 	.ascii	"and press return to activate the selected item\n"

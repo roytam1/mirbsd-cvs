@@ -1,16 +1,19 @@
-# $MirOS: src/sys/arch/i386/stand/liveboot/Makefile,v 1.9 2009/02/02 21:31:34 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/liveboot/Makefile,v 1.10 2009/02/23 09:44:46 tg Exp $
 
 BOOTSELECT_HOOK=yes
 BOOTLDR_PATH=	${.CURDIR}/../boot
 NOMAN=		yes
 
 BSD4GRML?=	No
-.if ${BSD4GRML:L} == "yes"
+.if ${BSD4GRML:L} != "no"
 DUALIVE=	No
 GRML=		No
 CPPFLAGS+=	-DFORGRML
 MBSD_PREFIX=	/boot/addons/bsd4grml
 NOMAN=		No
+.  if ${BSD4GRML:L} == "iso"
+CPPFLAGS+=	-DNOGRUB
+.  endif
 .endif
 
 DUALIVE?=	No
@@ -48,7 +51,7 @@ install:
 .PATH: ${BOOTLDR_PATH}
 .include "${BOOTLDR_PATH}/Makefile"
 
-.if ${BSD4GRML:L} == "yes"
+.if ${BSD4GRML:L} != "no"
 all: ldbsd.txt
 
 ldbsd.txt: __MANALL
