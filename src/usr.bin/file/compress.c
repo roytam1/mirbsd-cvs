@@ -52,7 +52,7 @@
 #include <zlib.h>
 #endif
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/file/compress.c,v 1.3 2007/07/10 14:22:36 tg Exp $");
 
 private struct {
 	const char *magic;
@@ -70,6 +70,8 @@ private struct {
 	/* the standard pack utilities do not accept standard input */
 	{ "\037\036", 2, { "gzip", "-cdq", NULL }, 0 },		/* packed */
 	{ "BZh",      3, { "bzip2", "-cd", NULL }, 1 },		/* bzip2-ed */
+	{ "LZIP",     4, { "lzip", "-cdq", NULL }, 1 },
+	{ "\3757zXZ\0",6,{ "xz", "-cd", NULL }, 1 },		/* XZ Utils */
 };
 
 private int ncompr = sizeof(compr) / sizeof(compr[0]);
