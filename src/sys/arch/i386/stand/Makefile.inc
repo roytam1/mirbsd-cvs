@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/stand/Makefile.inc,v 1.9 2006/10/15 01:35:53 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/Makefile.inc,v 1.10 2007/01/26 19:33:11 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.36 2004/07/24 17:39:27 millert Exp $
 
 .ifndef MODSRC_SYS_ARCH_I386_STAND_MAKEFILE_INC
@@ -11,6 +11,7 @@ REAL_V!=	print '\#include <sys/param.h>\nMirBSD' | ${CC} -E - \
 V?=		${REAL_V}
 _V=		\"${V}\"
 
+KERNBASE?=	$S/../kern
 COPTS+=		-fno-stack-protector -ffreestanding -Wall -Wno-packed \
 		-fno-align-loops -fno-align-jumps -fno-omit-frame-pointer \
 		-Werror ${DEBUG}
@@ -20,8 +21,8 @@ COPTS+=		-Os
 .if !${COPTS:M-Os}
 COPTS+=		-Os
 .endif
-CPPFLAGS+=	-I${S} -I${SADIR}/libsa -I. -Dmemmove=memcpy \
-		-I${.CURDIR} -D__BOOT_VER="${_V}" -Derrno=errno
+CPPFLAGS+=	-I${S} -I${SADIR}/libsa -I. -Dmemmove=memcpy -Derrno=errno \
+		-I${.CURDIR} -D__BOOT_VER="${_V}" -I${KERNBASE}/include
 SACFLAGS=	-D_STANDALONE
 DEBUGFLAGS=
 # DEBUGFLAGS+=-DDEBUG
