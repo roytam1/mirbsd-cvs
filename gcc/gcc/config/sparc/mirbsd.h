@@ -1,11 +1,11 @@
-/* $MirOS: gcc/gcc/config/sparc/mirbsd.h,v 1.3 2006/09/20 17:45:31 tg Exp $ */
+/* $MirOS: gcc/gcc/config/i386/mirbsd.h,v 1.6 2008/11/08 23:03:42 tg Exp $ */
 
 /* Definitions of target machine for GCC,
-   for sparc/ELF MirOS BSD systems.
-   Copyright (C) 2001, 2002, 2005, 2006
+   for i386/ELF MirOS BSD systems.
+   Copyright (C) 2001, 2002, 2005, 2006, 2009
    Free Software Foundation, Inc.
    Contributed by matthew green <mrg@eterna.com.au>
-   Hacked by Thorsten Glaser <tg@mirbsd.org>
+   Hacked by Thorsten “mirabilos” Glaser <tg@mirbsd.org>
 
 This file is part of GCC.
 
@@ -43,6 +43,11 @@ Boston, MA 02111-1307, USA.  */
    we don't care about compatibility with older gcc versions.  */
 #undef DEFAULT_PCC_STRUCT_RETURN
 #define DEFAULT_PCC_STRUCT_RETURN 1
+
+/* This gets defined in elfos.h, and keeps us from using
+   libraries compiled with the native cc, so undef it. */
+#undef NO_DOLLAR_IN_LABEL
+
 
 #undef TARGET_VERSION
 #define TARGET_VERSION fprintf (stderr, " (MirOS BSD/sparc)");

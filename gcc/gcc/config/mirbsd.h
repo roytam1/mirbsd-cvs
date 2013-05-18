@@ -1,4 +1,4 @@
-/* $MirOS: gcc/gcc/config/mirbsd.h,v 1.22 2009/09/12 13:52:38 tg Exp $ */
+/* $MirOS: gcc/gcc/config/mirbsd.h,v 1.23 2009/12/06 17:12:13 tg Exp $ */
 
 /* Base configuration file for all MirOS BSD targets.
    Copyright (C) 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2005, 2006, 2007,
@@ -21,6 +21,12 @@ You should have received a copy of the GNU General Public License
 along with GCC; see the file COPYING.  If not, write to
 the Free Software Foundation, 59 Temple Place - Suite 330,
 Boston, MA 02111-1307, USA.  */
+
+#include <sys/types.h>
+#include <sys/mman.h>
+#include <stdint.h>
+#include <stdio.h>
+#include <unistd.h>
 
 /* TARGET_OS_CPP_BUILTINS() common to all MirOS BSD targets.  */
 #define MIRBSD_OS_CPP_BUILTINS()			\
@@ -54,15 +60,15 @@ Boston, MA 02111-1307, USA.  */
 /* Since we use gas, stdin -> - is a good idea.  */
 #define AS_NEEDS_DASH_FOR_PIPED_INPUT
 
+
+/* Look for the include files in the system-defined places.  */
+
 /* MIRBSD_NATIVE is defined when gcc is integrated into the MirOS
    source tree so it can be configured appropriately.  The same
    applies for MIRBSD_CROSS, except it's used in cross-compiling,
    but only outside of the mbsd-bug package or other standardised
    cross-build environments that use sysroot instead, because the
    include path is *emptied* by MIRBSD_CROSS.  */
-#if defined(MIRBSD_NATIVE) || defined(MIRBSD_CROSS)
-
-/* Look for the include files in the system-defined places.  */
 
 #ifdef MIRBSD_NATIVE
 
@@ -97,8 +103,6 @@ Boston, MA 02111-1307, USA.  */
 
 #undef STANDARD_STARTFILE_PREFIX
 #define STANDARD_STARTFILE_PREFIX	"/usr/lib/"
-
-#endif /* MIRBSD_NATIVE */
 
 
 /* Provide a LIB_SPEC appropriate for MirOS BSD.  */
@@ -135,11 +139,6 @@ Boston, MA 02111-1307, USA.  */
 
 #undef TARGET_HAS_F_SETLKW
 #define TARGET_HAS_F_SETLKW
-
-/* Implicit library calls should use memcpy, not bcopy, etc.  */
-
-#undef TARGET_MEM_FUNCTIONS
-#define TARGET_MEM_FUNCTIONS 1
 
 /* Handle #pragma weak and #pragma pack.  */
 
@@ -268,7 +267,30 @@ Boston, MA 02111-1307, USA.  */
 
 /* MirOS BSD targets need to make the stack executable.  */
 
-#include "exec-stack.h"
+#undef ENABLE_EXECUTE_STACK
+#define ENABLE_EXECUTE_STACK						\
+extern void __enable_execute_stack (void *);				\
+void									\
+__enable_execute_stack (void *addr)					\
+{									\
+  static intptr_t size = 0;						\
+  static intptr_t mask;							\
+  intptr_t page = (intptr_t)addr;					\
+  size_t end = (intptr_t)addr + TRAMPOLINE_SIZE;			\
+									\
+  if (size == 0)							\
+    {									\
+      size = sysconf(_SC_PAGESIZE);					\
+      mask = ~(size - 1);						\
+    }									\
+									\
+  page &= mask;								\
+  end = (end & mask) + size - page;					\
+									\
+  if (mprotect ((char *)page, end,					\
+   PROT_READ | PROT_WRITE | PROT_EXEC) < 0)				\
+    perror ("mprotect of trampoline code");				\
+}
 
 /* Disable the use of unsafe builtin functions (strcat, strcpy), making
    them easier to be spotted in the object files.  */
@@ -353,7 +375,8 @@ Boston, MA 02111-1307, USA.  */
 	fprintf (FILE, TYPE_OPERAND_FMT, "object");			\
 	putc ('\n', FILE);						\
 	size_directive_output = 0;					\
-	if (!flag_inhibit_size_directive && DECL_SIZE (DECL)) {		\
+	if (!flag_inhibit_size_directive && (DECL) &&			\
+	    DECL_SIZE (DECL)) {						\
 		size_directive_output = 1;				\
 		fprintf (FILE, "%s", SIZE_ASM_OP);			\
 		assemble_name (FILE, NAME);				\

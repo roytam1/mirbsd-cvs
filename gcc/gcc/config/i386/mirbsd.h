@@ -1,11 +1,11 @@
-/* $MirOS: gcc/gcc/config/i386/mirbsd.h,v 1.5 2006/09/20 17:45:30 tg Exp $ */
+/* $MirOS: gcc/gcc/config/i386/mirbsd.h,v 1.6 2008/11/08 23:03:42 tg Exp $ */
 
 /* Definitions of target machine for GCC,
    for i386/ELF MirOS BSD systems.
-   Copyright (C) 2001, 2002, 2005, 2006
+   Copyright (C) 2001, 2002, 2005, 2006, 2009
    Free Software Foundation, Inc.
    Contributed by matthew green <mrg@eterna.com.au>
-   Hacked by Thorsten Glaser <tg@mirbsd.org>
+   Hacked by Thorsten “mirabilos” Glaser <tg@mirbsd.org>
 
 This file is part of GCC.
 
@@ -81,6 +81,11 @@ Boston, MA 02111-1307, USA.  */
    and returns float values in the 387.  */
 #undef TARGET_SUBTARGET_DEFAULT
 #define TARGET_SUBTARGET_DEFAULT (MASK_80387 | MASK_IEEE_FP | MASK_FLOAT_RETURNS)
+
+/* This gets defined in elfos.h, and keeps us from using
+   libraries compiled with the native cc, so undef it. */
+#undef NO_DOLLAR_IN_LABEL
+
 
 #undef TARGET_VERSION
 #define TARGET_VERSION fprintf (stderr, " (MirOS BSD/i386)");
