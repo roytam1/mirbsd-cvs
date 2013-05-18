@@ -22,7 +22,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libc/string/strndup.c,v 1.1 2007/06/15 16:00:03 tg Exp $");
 
 char *
 strndup(const char *s, size_t max)
@@ -34,5 +34,6 @@ strndup(const char *s, size_t max)
 	n = MAX(n, max) + 1;
 	if ((cp = malloc(n)) != NULL)
 		memcpy(cp, s, n);
+	cp[n - 1] = '\0';
 	return (cp);
 }
