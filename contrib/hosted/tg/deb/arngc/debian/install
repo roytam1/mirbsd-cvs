@@ -1,4 +1,0 @@
-# $MirOS: contrib/hosted/tg/deb/arngc/debian/install,v 1.1 2011/08/04 20:39:05 tg Exp $
-#-
-arngc usr/bin
-debian/lintian/arngc usr/share/lintian/overrides
