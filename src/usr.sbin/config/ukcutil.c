@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/usr.sbin/config/ukcutil.c,v 1.2 2005/03/13 19:16:18 tg Exp $ */
 /*	$OpenBSD: ukcutil.c,v 1.14 2004/01/04 18:30:05 deraadt Exp $ */
 
 /*
@@ -39,7 +39,7 @@
 #include "ukc.h"
 #include "misc.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.sbin/config/ukcutil.c,v 1.2 2005/03/13 19:16:18 tg Exp $");
 
 extern	int ukc_mod_kernel;
 
@@ -96,7 +96,7 @@ more(void)
 	cmd_t cmd;
 
 	if (cnt != -1) {
-		if (cnt == lines) {
+		if (lines && cnt == lines) {
 			printf("--- more ---");
 			fflush(stdout);
 			ask_cmd(&cmd);

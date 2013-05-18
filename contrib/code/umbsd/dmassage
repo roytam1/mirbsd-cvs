@@ -1,4 +1,5 @@
 #!/usr/bin/perl -w
+# $MirOS$
 #
 # dmassage, version 0.6
 #
@@ -33,7 +34,7 @@ use strict;
 use Getopt::Std;
 
 # Globals.
-my $GETCONF = "/bin/echo 'lines 1000\nlist' | /usr/sbin/config -e";
+my $GETCONF = "/bin/echo 'lines 0\nlist' | /usr/sbin/config -e";
 my $DMESG = "/var/run/dmesg.boot";
 my %dmesgdev;
 
