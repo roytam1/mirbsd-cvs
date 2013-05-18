@@ -1,5 +1,5 @@
 #!/usr/bin/env mksh
-# $MirOS: src/sys/arch/sparc/stand/bootxx/bxinst.sh,v 1.6 2007/10/16 22:04:18 tg Exp $
+# $MirOS: src/sys/arch/sparc/stand/bootxx/bxinst.sh,v 1.7 2007/10/16 22:18:07 tg Exp $
 #-
 # Copyright (c) 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -41,7 +41,7 @@ function out_int32 {
 
 integer blktblsz=@@TBLSZ@@
 set -A blktblent
-integer blktblnum=0 blockno numblocks i=0
+integer blktblnum=0 firstblock lastblock i=0
 
 # zero-initialise the block array
 while (( i < blktblsz )); do
