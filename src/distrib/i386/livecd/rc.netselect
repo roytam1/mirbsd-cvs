@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/livecd/rc.netselect,v 1.9 2006/04/12 23:32:56 tg Exp $
+# $MirOS: src/distrib/i386/livecd/rc.netselect,v 1.10 2006/04/12 23:57:46 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -22,6 +22,14 @@
 # direct error of said person and intended use of this work, loss or
 # other issues arising in any way out of its use, even if advised of
 # the possibility of such damage or existence of a nontrivial bug.
+
+function show_info
+{
+	print
+	print To get support, use lynx\(1\) with the following resources:
+	print online man pages: http://mirbsd.mirsolutions.de/cman/
+	print interactive help: http://mirbsd.mirsolutions.de/?irc
+}
 
 function get_passwd
 {
@@ -128,16 +136,19 @@ done
 case $i {
 (1)	# no network to configure
 	do_netconf none
+	show_info
 	get_passwd
 	set_hostname
 	;;
 (2)	# configure the network
 	ask_netconfig
+	show_info
 	get_passwd
 	set_hostname
 	;;
 (3)	# configure network and X
 	ask_netconfig
+	show_info
 	print xdm_flags= >>/etc/rc.conf.local
 	get_passwd
 	set_hostname
