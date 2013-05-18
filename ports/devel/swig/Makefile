@@ -1,7 +1,8 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.27 2003/12/27 23:23:21 jose Exp $
 
-COMMENT=			simplified wrapper and interface generator
-COMMENT-examples=			examples for swig
+COMMENT=		simplified wrapper and interface generator
+COMMENT-examples=	examples for swig
 
 VERSION=	1.3.11
 
@@ -29,6 +30,7 @@ MULTI_PACKAGES=	-examples
 WRKDIST=	${WRKDIR}/SWIG-${VERSION}
 
 USE_CXX=	Yes
+USE_X11=	Yes
 CONFIGURE_STYLE= gnu 
 CONFIGURE_ARGS+= --with-tclincl=${LOCALBASE}/include/tcl8.4 \
 		 --with-tcllib==${LOCALBASE}/lib/tcl8.4 \

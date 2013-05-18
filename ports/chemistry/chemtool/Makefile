@@ -1,4 +1,4 @@
-# $MirOS: ports/chemistry/chemtool/Makefile,v 1.6 2006/09/14 00:07:31 tg Exp $
+# $MirOS: ports/chemistry/chemtool/Makefile,v 1.7 2006/12/20 15:30:42 tg Exp $
 
 COMMENT=		drawing tool for chemical structure formulae
 
@@ -23,6 +23,7 @@ LIB_DEPENDS=		atk-1.0.0.0::devel/atk \
 			gdk-x11-2.0.0.0,gdk_pixbuf-2.0.0.0,gtk-x11-2.0.0.0::x11/gtk+
 
 USE_GMAKE=		Yes
+USE_X11=		Yes
 CONFIGURE_STYLE=	gnu
 MODULES=		devel/gettext devel/pkgconfig
 

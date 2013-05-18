@@ -1,7 +1,7 @@
 # $OpenBSD: Makefile,v 1.17 2004/02/25 02:35:15 naddy Exp $
 # $FreeBSD: ports/devel/tclcl/Makefile,v 1.4 1999/11/28 18:31:57 steve Exp $
 
-COMMENT=			Tcl/C++ interface used by ns and nam
+COMMENT=		Tcl/C++ interface used by ns and nam
 
 V=1.0b13
 DISTFILES=	tclcl-src-$V.tar.gz
@@ -21,6 +21,7 @@ MASTER_SITES=	http://www.isi.edu/nsnam/dist/
 LIB_DEPENDS=	otcl.1::lang/otcl
 
 USE_CXX=	Yes
+USE_X11=	Yes # depends on tk, which needs X11
 CONFIGURE_STYLE= gnu
 CONFIGURE_ARGS=	--with-tcl-ver=8.3 --with-tk-ver=8.3
 

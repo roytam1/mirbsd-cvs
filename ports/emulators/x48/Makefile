@@ -1,5 +1,5 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.14 2002/10/26 12:52:48 naddy Exp $
-#
 
 COMMENT=			HP48sx emulator
 
@@ -15,6 +15,7 @@ PERMIT_DISTFILES_FTP=	Yes
 MASTER_SITES=		${MASTER_SITE_SUNSITE:=system/emulators/}
 
 CONFIGURE_STYLE=	imake noman
+USE_X11=		Yes
 
 NO_REGRESS=		Yes
 

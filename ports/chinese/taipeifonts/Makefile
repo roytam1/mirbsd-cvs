@@ -1,6 +1,7 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.21 2004/02/03 07:28:12 sturm Exp $
 
-COMMENT=			extra chinese fonts
+COMMENT=	extra chinese fonts
 
 DISTNAME=       zh-fonts-taipei-1.01
 CATEGORIES=     chinese x11
@@ -12,10 +13,10 @@ MASTER_SITES=	ftp://ftp.nsysu.edu.tw/Linux/packages/chinese/fonts/taipeifont/ \
 		ftp://ftp.shellhung.org/pub/OpenBSD/packages/chinese/taipeifont/
 
 
-PERMIT_DISTFILES_CDROM= "no license"
-PERMIT_DISTFILES_FTP=   "no license"
-PERMIT_PACKAGE_CDROM=   "no license"
-PERMIT_PACKAGE_FTP=     "no license"
+PERMIT_DISTFILES_CDROM= "no licence"
+PERMIT_DISTFILES_FTP=   "no licence"
+PERMIT_PACKAGE_CDROM=   "no licence"
+PERMIT_PACKAGE_FTP=     "no licence"
 
 FONTS=		taipei16.pcf.gz taipeik20.pcf.gz taipeim20.pcf.gz \
 		taipei24.pcf.gz taipeik24.pcf.gz taipeim24.pcf.gz
@@ -27,6 +28,7 @@ PKG_ARCH=	*
 EXTRACT_ONLY=
 
 CONFIGURE_STYLE=	imake
+USE_X11=	Yes
 
 FONTDIR=	${PREFIX}/lib/X11/fonts/chinese
 

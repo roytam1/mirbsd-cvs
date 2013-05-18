@@ -1,6 +1,7 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.5 2002/09/08 12:15:04 avsm Exp $
 
-COMMENT=			convert various Microsoft formats into HTML/PNG
+COMMENT=	convert various Microsoft formats into HTML/PNG
 
 DISTNAME=	wv-0.7.2
 CATEGORIES=	converters
@@ -21,6 +22,7 @@ LIB_DEPENDS=	wmf.6,wmflite.6::graphics/libwmf \
 
 USE_GMAKE= 	Yes
 USE_CXX=	Yes
+USE_X11=	Yes
 CONFIGURE_STYLE= gnu dest
 CONFIGURE_ARGS+= ${CONFIGURE_SHARED} --enable-static
 CONFIGURE_ARGS+= --with-png=${LOCALBASE} --with-exporter \

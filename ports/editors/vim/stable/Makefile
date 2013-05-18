@@ -1,4 +1,4 @@
-# $MirOS: ports/editors/vim/stable/Makefile,v 1.11 2007/03/31 22:01:59 tg Exp $
+# $MirOS: ports/editors/vim/stable/Makefile,v 1.12 2007/04/01 01:14:29 tg Exp $
 # $OpenBSD: Makefile,v 1.93 2004/06/09 18:43:16 lebel Exp $
 
 COMMENT=		vi clone, many additional features
@@ -92,6 +92,7 @@ CONFIGURE_ARGS+=	--disable-gui \
 .elif ${FLAVOR:L:Mmotif} && \
     !${FLAVOR:L:Mgtk} && !${FLAVOR:L:Mno_x11} && !${FLAVOR:L:Mathena} && \
     !${FLAVOR:L:Mgtk2}
+USE_X11=		Yes
 CONFIGURE_ARGS+=	--enable-gui=motif \
 			--with-x \
 			--enable-fontset \
@@ -101,6 +102,7 @@ USE_MOTIF=		any
 .elif ${FLAVOR:L:Mathena} && \
     !${FLAVOR:L:Mgtk} && !${FLAVOR:L:Mno_x11} && !${FLAVOR:L:Mmotif} && \
     !${FLAVOR:L:Mgtk2}
+USE_X11=		Yes
 CONFIGURE_ARGS+=	--enable-gui=athena \
 			--with-x \
 			--enable-fontset \
@@ -108,6 +110,7 @@ CONFIGURE_ARGS+=	--enable-gui=athena \
 .elif ${FLAVOR:L:Mgtk} && \
     !${FLAVOR:L:Mmotif} && !${FLAVOR:L:Mno_x11} && !${FLAVOR:L:Mathena} && \
     !${FLAVOR:L:Mgtk2}
+USE_X11=		Yes
 LIB_DEPENDS+=		gtk.1.2,gdk.1.2::x11/gtk+1
 CONFIGURE_ARGS+=	--enable-gui=gtk \
 			--with-x \
@@ -117,6 +120,7 @@ CONFIGURE_ARGS+=	--enable-gui=gtk \
 .elif ${FLAVOR:L:Mgtk2} && \
     !${FLAVOR:L:Mmotif} && !${FLAVOR:L:Mno_x11} && !${FLAVOR:L:Mathena} && \
     !${FLAVOR:L:Mgtk}
+USE_X11=		Yes
 MODULES+=		devel/pkgconfig
 LIB_DEPENDS+=		gdk-x11-2.0.0.11,gdk_pixbuf-2.0.0.11,gtk-x11-2.0.0.11::x11/gtk+
 CONFIGURE_ARGS+=	--enable-gui=gtk2 \

@@ -1,6 +1,7 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.17 2002/10/26 00:39:14 naddy Exp $
 
-COMMENT=			simple to use text editor for X11
+COMMENT=		simple to use text editor for X11
 
 PKGNAME=		${DISTNAME:L}-0
 DISTNAME=		aXe-6.1.2
@@ -15,6 +16,7 @@ MASTER_SITES=		${MASTER_SITE_XCONTRIB:=editors/}
 EXTRACT_SUFX=		.tar.Z
 
 CONFIGURE_STYLE=	imake
+USE_X11=		Yes
 
 NO_REGRESS=		Yes
 

@@ -1,7 +1,7 @@
-# $MirOS: ports/editors/abiword/Makefile,v 1.4 2006/02/09 11:11:30 tg Exp $
+# $MirOS: ports/editors/abiword/Makefile,v 1.5 2006/09/14 00:09:00 tg Exp $
 # $OpenBSD: Makefile,v 1.32 2004/01/10 22:51:14 couderc Exp $
 
-COMMENT=			open-source, cross-platform WYSIWYG word processor
+COMMENT=		open-source, cross-platform WYSIWYG word processor
 VERSION=		2.0.12
 DISTNAME=		abiword-${VERSION}
 CATEGORIES=		editors
@@ -25,6 +25,7 @@ EXTRACT_SUFX=		.tar.bz2
 
 USE_GMAKE=		Yes
 USE_CXX=		Yes
+USE_X11=		Yes
 
 CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		Yes

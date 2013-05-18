@@ -1,6 +1,7 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.9 2004/02/03 07:28:12 sturm Exp $
 
-COMMENT=			extra chinese fonts
+COMMENT=	extra chinese fonts
 
 DISTNAME=       zh-fonts-kc-1.05
 CATEGORIES=     chinese x11
@@ -17,6 +18,7 @@ DIST_SUBDIR=    zh-kcfonts
 DISTFILES=	${FONTS}
 
 CONFIGURE_STYLE= imake
+USE_X11=	Yes
 
 EXTRACT_ONLY=
 NO_BUILD=	Yes

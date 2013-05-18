@@ -1,6 +1,7 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.12 2003/07/14 07:16:32 kevlo Exp $
 
-COMMENT=			documentation system for C, C++, IDL and Java
+COMMENT=	documentation system for C, C++, IDL and Java
 
 DISTNAME=	doc++-3.4.10
 CATEGORIES=	devel
@@ -20,6 +21,7 @@ RUN_DEPENDS=	:ghostscript-*:print/ghostscript/artifex \
 
 USE_GMAKE=	Yes
 USE_CXX=	Yes
+USE_X11=	Yes # depends on devel/t1lib, which needs X11
 CONFIGURE_STYLE= gnu
 
 MODULES=	devel/gettext
