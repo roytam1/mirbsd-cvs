@@ -1,5 +1,5 @@
 <!-- PageID: wlog-9 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.69 2007/01/05 17:49:23 bsiegert Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.70 2007/03/27 19:02:32 bsiegert Exp $</small>
 <h1>MirBSD &ndash; WTF is Verpeilungsfaktor?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -1214,4 +1214,14 @@ plot [150:200] 	"bs06.4Kmin.txt" using 1:3 with lines title "exc{\350}s en chlor
 
 <p>Update: I had to cancel the bulk build as the machine was running
  too hot.</p>
+
+<div class="wlentry">
+ <h3 id="e20070507">07.05.2007 by tg@</h3>
+ <p>Oops, I stayed out of bed for too long, again. Anyway, I had days of
+  illness and enough hacking mood to do something. NetBSD® pkgsrc® works
+  on MirOS now, and I ported over their svis(3) and OpenBSDs sdiff(1). I
+  just wonder why I always have to fix <em>their</em> bugs…</p>
+ <p>Nah, I have no intent in reviving this wlog, just ranting once.</p>
+</div>
+
 <p id="eof">Good luck, have fun, take care etc.pp</p>
