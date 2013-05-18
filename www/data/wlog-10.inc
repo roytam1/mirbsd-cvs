@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.94 2008/11/08 22:24:33 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.95 2008/11/09 02:41:06 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -1982,4 +1982,10 @@ Title: website fun
  href="https://www.mirbsd.org/permalinks/wlog-10_e20081109-tg.htm">this
  wlog entry via SSL</a> (link provided courtesy to readers using Planet
  Symlink), the information would differ.</p>
+<p>And if you <em>still</em> get warnings about an unknown certificate
+ authority, <a href="http://www.cacert.org/index.php?id=3">CAcert</a>
+ provides them for downloading into browsers such as M*zilla Firef*x
+ whose idiotic development team opposes against them. For what it’s
+ worth, unchecked SSL is still better than no SSL at all (especially
+ for entropy ☺) unless you think encrypted = authentic identify.</p>
 ----
