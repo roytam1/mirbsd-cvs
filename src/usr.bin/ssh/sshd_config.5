@@ -34,7 +34,7 @@
 .\" (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 .\" THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .\"
-.\" $MirOS: src/usr.bin/ssh/sshd_config.5,v 1.12 2006/07/23 14:19:29 tg Exp $
+.\" $MirOS: src/usr.bin/ssh/sshd_config.5,v 1.13 2006/07/23 14:23:04 tg Exp $
 .\" $OpenBSD: sshd_config.5,v 1.57 2006/03/14 16:32:48 markus Exp $
 .Dd September 25, 1999
 .Dt SSHD_CONFIG 5
@@ -162,17 +162,15 @@ directory.
 The default is
 .Dq .etc/ssh/authorised_keys .
 .It Cm AuthorisedKeysFile2
-This defaults to
-.Pa .ssh/authorized_keys
-for backward compatibility to stock
+Only used for backward compatibility with stock
 .Ox
 OpenSSH.
-It is only used as a fall-back when both
-.Cm AuthorisedKeysFile
-and
-.Cm AuthorisedKeysFile2
-are unset.
 This option is deprecated.
+The default is
+.Dq .ssh/authorized_keys
+if
+.Cm AuthorisedKeysFile
+if unset, its value otherwise.
 .It Cm Banner
 In some jurisdictions, sending a warning message before authentication
 may be relevant for getting legal protection.
