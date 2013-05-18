@@ -66,7 +66,7 @@ else
 	if [ -f "$modmap" ]; then
 	    xmodmap "$modmap"
 	fi
-	xclock -geometry 50x50-1+1 &
+	xclock -render -update 1 -geometry 50x50-1+1 &
 	xconsole -iconic &
 	xterm -geometry 80x24 &
 	sleep 1

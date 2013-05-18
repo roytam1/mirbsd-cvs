@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/baselive/dot.xsession,v 1.2 2006/08/19 01:37:50 tg Exp $
+# $MirOS: src/distrib/baselive/dot.xsession,v 1.3 2006/09/30 21:01:42 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -36,7 +36,7 @@ done
 [[ -s $HOME/.Xresources ]] && xrdb -undef -load $HOME/.Xresources
 [[ -s $HOME/.Xmodmap ]] && xmodmap $HOME/.Xmodmap
 
-xclock -geometry 50x50-1+1 &
+xclock -render -update 1 -geometry 50x50-1+1 &
 
 text=twm:0,evilwm-utf8:101,evilwm-latin1:102,failsafe:1
 failsafe='xterm -geometry 80x24-0-0'

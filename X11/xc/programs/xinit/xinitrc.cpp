@@ -1,5 +1,5 @@
 XCOMM!/bin/sh
-XCOMM $MirOS: X11/xc/programs/xinit/xinitrc.cpp,v 1.6 2006/04/05 21:57:59 tg Exp $
+XCOMM $MirOS: X11/xc/programs/xinit/xinitrc.cpp,v 1.7 2006/06/23 15:45:46 tg Exp $
 XCOMM $Xorg: xinitrc.cpp,v 1.3 2000/08/17 19:54:30 cpqbld Exp $
 
 userresources=$HOME/.Xresources
@@ -27,7 +27,7 @@ fi
 
 XCOMM start some nice programs
 
-xclock -geometry 50x50-1+1 &
+xclock -render -update 1 -geometry 50x50-1+1 &
 xconsole -iconic &
 xterm -geometry 80x24 &
 sleep 1
