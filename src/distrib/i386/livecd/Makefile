@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/livecd/Makefile,v 1.21 2006/04/07 23:29:01 tg Exp $
+# $MirOS: src/distrib/i386/livecd/Makefile,v 1.22 2006/04/07 23:30:09 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -81,6 +81,10 @@ makeimg: bsd.gz
 	    -volset "$$(uname -slm) Live" -sysid "MirOSBSD" \
 	    -no-emul-boot -boot-load-size 4 -boot-info-table \
 	    -pad -o ${CDROM} workdir 2>&1 | tee mkisofs.log
+	workdir/usr/mdec/installboot -v -I \
+	    $$(fgrep 'workdir/usr/mdec/boot' mkisofs.log | \
+		while read start end rest; do print $$start $$end; done) \
+	    workdir/usr/mdec/ldsec ${CDROM}
 
 rdsetroot:	${.CURDIR}/../../common/elfrdsetroot.c
 	${HOSTCC} ${HOSTCFLAGS} -DDEBUG -o $@ ${.ALLSRC}
