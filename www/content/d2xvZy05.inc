@@ -1,5 +1,5 @@
 <!-- PageID: wlog-9 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.4 2006/06/29 23:20:15 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.5 2006/06/30 23:30:05 tg Exp $</small>
 <h1>MirBSD &ndash; WTF is Verpeilungsfaktor?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -75,6 +75,34 @@
   href="http://www.cafe-libertad.de/">fine Met (honey wine)</a>.</p>
  <p>Benny, when are you going to commit that full-japanese wlog entry of
   yours?</p>
+</div>
+
+<div class="wlentry">
+ <h3 id="e20060702">02.07.2006 by tg@</h3>
+ <p>After backporting and fixing stuff, this is mainly unbreaking -rHEAD
+  and letting changes settle down. xterm didn't get updated (yet &ndash;
+  maybe xterm-213 works better than xterm-215, but for now we still have
+  xterm-200), half of OpenBSD's XF4 fixes were added and some of our own
+  devised (especially since neither XFree86&reg; 4.6 nor x.org trunk can
+  be built with freetype 2.2&#8230;) and things simplified. Now, I build
+  everything on i386 (in order to check for regressions) and sparc (want
+  to add a 9 GB disc drive and install a snapshot on that, to get rid of
+  NFS, but there's no snapshot yet). Also a.out debugging symbol handler
+  is back in kernel (sounds like Japanese Engrish eh?) since I fixed the
+  point of breakage.</p>
+ <p>MirOS boots just fine on a Thinkpad X41, just the Broadcom shit does
+  not like to work. I may backport that, says Benny who just moved to an
+  appartement in the Germany-France-Switzerland border region and except
+  not having a phone (tomorrow) and internet (modem) is doing fine.</p>
+ <p>Reading more code for FreeWRT&#8230; it's cruel. configure is mixing
+  build and host system up &ndash; look at libdnet, but keep a vomit bag
+  handy.<br />By the way&#8230; many people dislike subversion, like me,
+  especially after having used it for a few weeks.</p>
+ <p>Plans? What plans?</p>
+ <p>I could do an auto-livecd for sparc too. Easily. But mine is running
+  on VT420 on serial console. Also, it is slow. So spare me. (I offer to
+  still do it if users request it. Don't forget releases are <em>no</em>
+  live CDs.</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
