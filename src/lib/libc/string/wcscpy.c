@@ -31,10 +31,8 @@
 
 #include <wchar.h>
 
-#if defined(APIWARN)
 __warn_references(wcscpy,
     "wcscpy() is almost always misused, please use wcslcpy()");
-#endif
 
 wchar_t *
 wcscpy(wchar_t *s1, const wchar_t *s2)

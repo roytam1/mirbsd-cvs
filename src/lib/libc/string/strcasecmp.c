@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.14 2006/08/09 19:35:23 tg Rel $ */
+/* $MirOS: src/lib/libc/string/strcasecmp.c,v 1.3 2006/11/21 00:22:30 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -28,8 +28,9 @@
 #include <lib/libkern/libkern.h>
 #endif
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libc/string/strcasecmp.c,v 1.3 2006/11/21 00:22:30 tg Exp $");
 
+#ifndef STRNCASECMP
 int
 strcasecmp(const char *s1, const char *s2)
 {
@@ -40,6 +41,8 @@ strcasecmp(const char *s1, const char *s2)
 			s2++;
 	return (_tolower(*s1) - _tolower(*s2));
 }
+
+#else
 
 int
 strncasecmp(const char *s1, const char *s2, size_t n)
@@ -53,3 +56,4 @@ strncasecmp(const char *s1, const char *s2, size_t n)
 	}
 	return (0);
 }
+#endif
