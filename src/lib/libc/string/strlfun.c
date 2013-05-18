@@ -54,7 +54,8 @@
 extern size_t strlen(const char *);
 #endif
 
-#ifndef __RCSID
+#ifndef __IDSTRING_CONCAT
+#undef __RCSID
 #undef __IDSTRING
 #undef __IDSTRING_CONCAT
 #undef __IDSTRING_EXPAND
@@ -74,7 +75,7 @@ extern size_t strlen(const char *);
 #endif
 
 #if !defined(_KERNEL) && !defined(_STANDALONE)
-__RCSID("$MirOS: src/lib/libc/string/strlfun.c,v 1.15 2008/05/03 22:53:43 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/string/strlfun.c,v 1.16 2008/07/07 12:59:51 tg Stab $");
 #endif
 
 /* (multibyte) string functions */
