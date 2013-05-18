@@ -1,12 +1,12 @@
-# $MirOS: www/src/mksh.hts,v 1.32 2007/07/26 13:23:53 tg Exp $
+# $MirOS: www/src/mksh.hts,v 1.33 2007/07/26 19:54:50 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.32 2007/07/26 13:23:53 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.33 2007/07/26 19:54:50 tg Exp $'
 mws_content <<'EOF'
-<h1>mksh(1) R29</h1>
+<h1>mksh(1) R30</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
  implementation of the Korn Shell programming language and a successor to the
  Public Domain Korn Shell (pdksh).</p>
@@ -536,7 +536,7 @@ mws_content <<'EOF'
   <li>Debian GNU/kFreeBSD 4.0 sid 6.2-1-686 (i386 gcc1:3.3.6-15)</li>
   <li>Debian GNU/kFreeBSD 4.0 sid 6.2-1-686 (i386 gcc3.4.6-5)</li>
   <li>Debian GNU/kFreeBSD 4.0 sid 6.2-1-686 (i386 gcc4.0.3-7)</li>
-  <li>Debian GNU/kFreeBSD 4.0 sid 6.2-1-686 (i386 gcc4.1.2-12)</li>
+  <li>Debian GNU/kFreeBSD 4.0 sid 6.2-1-686 (i386 gcc4.1.2-13)</li>
   <li>Debian GNU/kFreeBSD 4.0 sid 6.2-1-686 (i386 gcc4.2-20070609-1)</li>
   <li>Debian GNU 4.0 sid GNU-Mach/1.3.99 Hurd/0.3 (i386 gcc4.1.2-7)</li>
   <li>DragonFly 1.9-DEVELOPMENT Feb 20, 2007 (i386 gcc3.4.6)</li>
@@ -602,7 +602,9 @@ mws_content <<'EOF'
   ANSI'n'POSIX Environment (not finished)</li>
  <li>Plan porting mksh to <a href="http://www.minix3.org/">Minix 3</a>
   (not finished yet)</li>
- <li>Build on Solaris, Linux and MirBSD with Sun's C compiler</li>
+</ul>
+<p>A milestone in development: mksh R30 can do this:</p><ul>
+ <li>Build on and for Solaris, Linux and MirBSD with Sun's C compiler</li>
  <li>No longer build a statically linked shell by default; do not try,
   do not provide any means; user has to use LDFLAGS instead.</li>
  <li>Remove some probably dead mirtoconf checks</li>
@@ -622,7 +624,8 @@ mws_content <<'EOF'
   well as some errno ab-/mis-use</li>
  <li>Remove support for honouring the <tt>CPP</tt> environment variable;
   <tt>$CC -E -</tt> is simply used instead in the places where <tt>$CPP</tt>
-  was used previously, because that was used in other places already</li>
+  was used previously, because that was used in other places already, and
+  to prevent it from behaving differently from the $CC used</li>
  <li>If a file called <tt>arc4random.c</tt> is lying around in the source
   directory at mirtoconf time, scan for <tt>&lt;sys/sysctl.h&gt;</tt> and
   use the file if arc4random(3) isn't found otherwise. From Debian.</li>
@@ -655,12 +658,7 @@ mws_content <<'EOF'
  <li>Fix a bug delivering ERR and EXIT pseudo-signals to traps combined
   with “set -e”, thanks Clint Pachl and Otto Moerbeek for the hint</li>
 </ul>
-<p>In mksh R29g we MFCd the following changes:</p><ul>
- <li>Some optimisations from above; no longer execute foreign objects</li>
- <li>Improvements in checking for __attribute__, multi-idstring support,
-  signals, types, arc4random.c; disable -fno-tree-vrp and -fwhole-program
-  --combine; correct large file support (still kludgy but no longer buggy)</li>
-</ul>
+<p><a href="mksh_old.htm#clog">older changes</a></p>
 EOF
 mws_putfooter
 exit 0

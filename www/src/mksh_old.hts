@@ -1,10 +1,10 @@
-# $MirOS: www/src/mksh.hts,v 1.27 2007/07/22 14:21:46 tg Exp $
+# $MirOS: www/src/mksh_old.hts,v 1.1 2007/07/23 14:39:37 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh/old "mksh – old versions"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.27 2007/07/22 14:21:46 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh_old.hts,v 1.1 2007/07/23 14:39:37 tg Exp $'
 mws_content <<'EOF'
 <h1><a href="mksh.htm">mksh</a> – old versions</h1>
 <p>This page lists information about mksh R29 and earlier.</p>
@@ -189,6 +189,12 @@ mws_content <<'EOF'
 </ul>
 
 <h2 id="clog">Recent Changes</h2>
+<p>In mksh R29g we MFCd the following changes:</p><ul>
+ <li>Some optimisations from above; no longer execute foreign objects</li>
+ <li>Improvements in checking for __attribute__, multi-idstring support,
+  signals, types, arc4random.c; disable -fno-tree-vrp and -fwhole-program
+  --combine; correct large file support (still kludgy but no longer buggy)</li>
+</ul>
 <p>Please use mksh R29f because of below modifications:</p><ul>
  <li>Fix detection of function prototypes (data declaractions were ok)</li>
  <li>Fix a regression introduced in R29e regarding the scroll bar</li>
