@@ -1,5 +1,4 @@
-# $Id$
-# $MirOS: src/etc/crontab,v 1.12 2006/10/24 10:09:49 tg Exp $
+# $MirOS: src/etc/crontab,v 1.13 2006/11/24 03:03:50 tg Exp $
 # $OpenBSD: crontab,v 1.12 2003/03/10 01:05:28 deraadt Exp $
 #
 # /var/cron/tabs/root - root's crontab
