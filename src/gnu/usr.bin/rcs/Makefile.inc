@@ -1,11 +1,11 @@
-# $MirOS: src/gnu/usr.bin/rcs/Makefile.inc,v 1.4 2005/10/21 10:46:28 tg Exp $
+# $MirOS: src/gnu/usr.bin/rcs/Makefile.inc,v 1.5 2005/12/05 22:33:23 tg Exp $
 
 .ifndef _MODSRC_GNU_USR_BIN_RCS_MAKEFILE_INC
 
 .PATH: ${.CURDIR}/../man ${.CURDIR}/../src
 
 .include <bsd.own.mk>
-COPTS+=		-Wall -Wextra -pedantic -std=c99 -U__STRICT_ANSI__
+COPTS+=		-Wall -Wextra #-pedantic -std=c99 -U__STRICT_ANSI__
 CPPFLAGS+=	-I${.CURDIR}/.. -DIN_RCS
 
 .if !defined(LIB)

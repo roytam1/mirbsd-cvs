@@ -1,4 +1,3 @@
-/* $MirOS$ */
 /*-
  * Copyright (c) 1989 The Regents of the University of California.
  * All rights reserved.
@@ -28,16 +27,6 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-char copyright[] =
-"@(#) Copyright (c) 1989 The Regents of the University of California.\n\
- All rights reserved.\n";
-#endif /* not lint */
-
-#ifndef lint
-static char sccsid[] = "@(#)mktab.c	5.2 (Berkeley) 4/18/91";
-#endif /* not lint */
-
 /*
  * mktab.c
  *
@@ -56,8 +45,15 @@ static char sccsid[] = "@(#)mktab.c	5.2 (Berkeley) 4/18/91";
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "tw.h"
 
+__COPYRIGHT("Copyright (c) 1989 The Regents of the University of California.\n\
+ All rights reserved.\n");
+__SCCSID("@(#)mktab.c	5.2 (Berkeley) 4/18/91");
+__RCSID("$MirOS$");
+
+int
 main()
 {
 	static struct fake_exec {

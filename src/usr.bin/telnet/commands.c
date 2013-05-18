@@ -33,6 +33,8 @@
 #include "telnet_locl.h"
 #include <err.h>
 
+__RCSID("$MirOS$");
+
 #if	defined(IPPROTO_IP) && defined(IP_TOS)
 int tos = -1;
 #endif	/* defined(IPPROTO_IP) && defined(IP_TOS) */
@@ -1103,13 +1105,13 @@ dolmmode(bit, on)
 }
 
     int
-tn_setmode(bit)
+tn_setmode(int bit)
 {
     return dolmmode(bit, 1);
 }
 
     int
-tn_clearmode(bit)
+tn_clearmode(int bit)
 {
     return dolmmode(bit, 0);
 }
@@ -1800,8 +1802,7 @@ env_list()
 }
 
 	unsigned char *
-env_default(init, welldefined)
-	int init;
+env_default(int init, int welldefined)
 {
 	static struct env_lst *nep = NULL;
 

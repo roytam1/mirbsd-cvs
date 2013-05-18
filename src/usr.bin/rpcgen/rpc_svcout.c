@@ -66,7 +66,6 @@ static void write_caller_func(void);
 static void write_rpc_svc_fg(char *, char *);
 static void write_msg_out(void);
 static void open_log_file(char *, char *);
-int nullproc(proc_list *proc);
 
 static void
 p_xdrfunc(char *rname, char *typename)

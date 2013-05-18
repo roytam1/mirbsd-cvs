@@ -30,20 +30,15 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-static char copyright[] =
-"@(#) Copyright (c) 1980, 1993\n\
-	The Regents of the University of California.  All rights reserved.\n";
-#endif /* not lint */
-
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)soelim.c	8.1 (Berkeley) 6/6/93";
-#endif
-static char rcsid[] = "$OpenBSD: soelim.c,v 1.7 2003/06/10 22:20:51 deraadt Exp $";
-#endif /* not lint */
-
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+__COPYRIGHT("@(#) Copyright (c) 1980, 1993\n\
+	The Regents of the University of California.  All rights reserved.\n");
+__SCCSID("@(#)soelim.c	8.1 (Berkeley) 6/6/93");
+__RCSID("$MirOS$");
+
 /*
  * soelim - a filter to process n/troff input eliminating .so's
  *

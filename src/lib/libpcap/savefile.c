@@ -45,6 +45,8 @@
 
 #include "pcap-int.h"
 
+__RCSID("$MirOS$");
+
 #define TCPDUMP_MAGIC 0xa1b2c3d4
 
 /*
@@ -395,6 +397,7 @@ pcap_dump_ftell(pcap_dumper_t *p)
 	return (ftell((FILE *)p));
 }
 
+int
 pcap_dump_flush(pcap_dumper_t *p)
 {
 

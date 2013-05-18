@@ -30,13 +30,6 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)ventel.c	8.1 (Berkeley) 6/6/93";
-#endif
-static const char rcsid[] = "$OpenBSD: ventel.c,v 1.10 2003/06/03 02:56:18 millert Exp $";
-#endif /* not lint */
-
 /*
  * Routines for calling up on a Ventel Modem
  * The Ventel is expected to be strapped for local echo (just like uucp)
@@ -44,6 +37,9 @@ static const char rcsid[] = "$OpenBSD: ventel.c,v 1.10 2003/06/03 02:56:18 mille
 #include "tip.h"
 #include <termios.h>
 #include <sys/ioctl.h>
+
+__SCCSID("@(#)ventel.c	8.1 (Berkeley) 6/6/93");
+__RCSID("$MirOS$");
 
 #define	MAXRETRY	5
 
@@ -219,7 +215,7 @@ gobble(match, response)
  * there are gory ways to simulate this.
  */
 static int
-vensync(fd)
+vensync(int fd)
 {
 	int already = 0, nread;
 	char buf[60];

@@ -18,4 +18,9 @@ MAN=	window.1
 DPADD=	${LIBCURSES}
 LDADD=	-lcurses
 
+.include <bsd.own.mk>
+
+# “Stück Scheiße” bsiegert@ (“you can quote me on that”)
+COPTS+=	-std=gnu89
+
 .include <bsd.prog.mk>

@@ -30,17 +30,13 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)cmds.c	8.1 (Berkeley) 6/6/93";
-#endif
-static const char rcsid[] = "$OpenBSD: cmds.c,v 1.21 2005/03/11 22:16:16 otto Exp $";
-#endif /* not lint */
-
 #include "tip.h"
 #include "pathnames.h"
 
 #include <vis.h>
+
+__SCCSID("@(#)cmds.c	8.1 (Berkeley) 6/6/93");
+__RCSID("$MirOS$");
 
 /*
  * tip
@@ -466,7 +462,7 @@ timeout()
  *	Identical to consh() except for where stdout goes.
  */
 void
-pipeout(c)
+pipeout(int c)
 {
 	char buf[256];
 	int status, p;

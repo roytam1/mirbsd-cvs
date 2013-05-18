@@ -21,16 +21,17 @@
 
 #include "defs.h"
 #include <stdarg.h>
+#include <err.h>
 #include <fcntl.h>
 #include <util.h>
 
-#ifndef lint
-static char rcsid[] =
-	"@(#) $Id$";
-#endif
+__RCSID("$Id$");
+__RCSID("$MirOS$");
 
 extern char *configfilename;
 char versionstring[100];
+
+void init_installvifs(void);
 
 static char dumpfilename[] = _PATH_MROUTED_DUMP;
 static char cachefilename[] = _PATH_MROUTED_CACHE;
@@ -432,7 +433,7 @@ done(int i)
 static void
 cleanup(void)
 {
-    static in_cleanup = 0;
+    static int in_cleanup = 0;
 
     if (!in_cleanup) {
 	in_cleanup++;

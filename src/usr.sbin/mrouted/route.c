@@ -12,6 +12,9 @@
 
 #include "defs.h"
 
+__RCSID("$MirOS$");
+
+int inet_valid_mask(u_int32_t);
 
 /*
  * This define statement saves a lot of space later

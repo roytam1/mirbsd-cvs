@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/mtrace/mtrace.c,v 1.2 2005/03/13 19:17:08 tg Exp $ */
+/**	$MirOS: src/usr.sbin/mtrace/mtrace.c,v 1.3 2005/12/04 15:02:25 tg Exp $ */
 /*	$OpenBSD: mtrace.c,v 1.25 2005/05/03 05:42:05 djm Exp $	*/
 /*	$NetBSD: mtrace.c,v 1.5 1995/12/10 10:57:15 mycroft Exp $	*/
 
@@ -53,6 +53,7 @@
  */
 
 #include <sys/types.h>
+#include <err.h>
 #include <netdb.h>
 #include <sys/time.h>
 #include <memory.h>
@@ -68,7 +69,7 @@
 #endif
 #include <ifaddrs.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.sbin/mtrace/mtrace.c,v 1.3 2005/12/04 15:02:25 tg Exp $");
 
 #define DEFAULT_TIMEOUT	3	/* How long to wait before retrying requests */
 #define DEFAULT_RETRIES 3	/* How many times to try */

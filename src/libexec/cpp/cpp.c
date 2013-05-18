@@ -5,13 +5,15 @@
 #endif
 
 #include <sys/param.h>
+#include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <ctype.h>
 #include <paths.h>
 
 __SCCSID("@(#)cpp.c	1.22 11/7/90");
-__RCSID("$MirOS: src/libexec/cpp/cpp.c,v 1.2 2005/03/06 19:23:59 tg Exp $");
+__RCSID("$MirOS: src/libexec/cpp/cpp.c,v 1.3 2005/07/01 12:10:16 tg Exp $");
 
 /* C command
 /* written by John F. Reiser
@@ -207,8 +209,8 @@ STATIC	struct symtab *identloc;	/* Sys 5r3 compatibility */
 STATIC	int	trulvl;
 STATIC	int	flslvl;
 
-sayline(where)
-	int where;
+int
+sayline(int where)
 {
 	if (mflag && where==START) fprintf(mout, "%s: %s\n", infile, fnames[ifno]);
 	if (pflag==0) fprintf(fout,"# %d \"%s\"\n", lineno[ifno], fnames[ifno]);
@@ -267,7 +269,8 @@ sayline(where)
 /* are available for use.
 */
 
-dump() {
+void
+dump(void) {
 /* write part of buffer which lies between  outp  and  inp .
 /* this should be a direct call to 'write', but the system slows to a crawl
 /* if it has to do an unaligned copy.  thus we buffer.  this silly loop

@@ -33,6 +33,8 @@
 #include "telnet_locl.h"
 #include <err.h>
 
+__RCSID("$MirOS$");
+
 /*
  * The following routines try to encapsulate what is system dependent
  * (at least between 4.x and dos) which is used in telnet.c.
@@ -961,8 +963,8 @@ sys_telnet_init()
  */
 
     int
-process_rings(netin, netout, netex, ttyin, ttyout, poll)
-    int poll;		/* If 0, then block until something to do */
+process_rings(int netin, int netout, int netex, int ttyin, int ttyout,
+    /* if 0, then block until something to do */ int poll)
 {
     int c;
 		/* One wants to be a bit careful about setting returnValue

@@ -1,9 +1,12 @@
 # Build wrapper for the HTTP daemon
-# $MirOS: src/usr.sbin/httpd/Makefile.bsd-wrapper,v 1.8 2006/09/20 23:45:03 tg Exp $
+# $MirOS: src/usr.sbin/httpd/Makefile.bsd-wrapper,v 1.9 2007/02/08 02:44:30 tg Exp $
 # $OpenBSD: Makefile.bsd-wrapper,v 1.59 2006/04/04 11:39:27 henning Exp $
 
 .include <bsd.own.mk>
 .include <bsd.sys.mk>
+
+# until this works with bmake and without a Configure script…
+COPTS+=			-std=gnu89
 
 #   MirOS Layout
 #<Layout MirOS>
