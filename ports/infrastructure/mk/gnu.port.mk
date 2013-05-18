@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/gnu.port.mk,v 1.46 2008/08/19 17:40:28 tg Exp $
+# $MirOS: ports/infrastructure/mk/gnu.port.mk,v 1.47 2008/08/24 13:48:19 tg Exp $
 # $OpenBSD: gnu.port.mk,v 1.19 2004/06/06 11:49:08 espie Exp $
 
 AUTOCONF_NEW?=		No
@@ -101,7 +101,7 @@ CONFIGURE_ARGS+=	--datarootdir=${_DESTPFX}${PREFIX:Q}/share
 CONFIGURE_ARGS+=	--datadir=${_DESTPFX}${PREFIX:Q}/share
 CONFIGURE_ARGS+=	--infodir=${_DESTPFX}${PREFIX:Q}/info
 CONFIGURE_ARGS+=	--mandir=${_DESTPFX}${PREFIX:Q}/man
-.  if ${AUTOCONF_VERSION:E} > 13
+.  if ${AUTOCONF_VERSION:E} > 59
 CONFIGURE_ARGS+=	--localedir=${_DESTPFX}${PREFIX:Q}/share/locale
 CONFIGURE_ARGS+=	--docdir=${_DESTPFX}${PREFIX:Q}/share/doc/\$${PACKAGE}
 .  endif
