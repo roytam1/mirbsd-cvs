@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: ext2fs_dinode.h,v 1.11 2008/11/23 23:52:35 tedu Exp $	*/
 /*	$NetBSD: ext2fs_dinode.h,v 1.6 2000/01/26 16:21:33 bouyer Exp $	*/
 
@@ -113,12 +114,13 @@ struct ext2fs_dinode {
 #define EXT2_UNRM		0x00000002	/* Undelete */
 #define EXT2_COMPR		0x00000004	/* Compress file */
 #define EXT2_SYNC		0x00000008	/* Synchronous updates */
-#define EXT2_IMMUTABLE	0x00000010	/* Immutable file */
+#define EXT2_IMMUTABLE		0x00000010	/* Immutable file */
 #define EXT2_APPEND		0x00000020	/* writes to file may only append */
 #define EXT2_NODUMP		0x00000040	/* do not dump file */
 
-/* Size of on-disk inode. */
-#define EXT2_DINODE_SIZE(s)	(s)->e2fs.e2fs_inode_size
+/* size of on-disc inode */
+#define EXT2_DINODE_SIZE(s)	\
+    (((s)->e2fs.e2fs_rev > E2FS_REV0) ? ((s)->e2fs.e2fs_inode_size) : 128)
 
 /*
  * The e2di_blocks fields may be overlaid with other information for
@@ -129,7 +131,7 @@ struct ext2fs_dinode {
  */
 
 #define e2di_rdev		e2di_blocks[0]
-#define e2di_shortlink	e2di_blocks
+#define e2di_shortlink		e2di_blocks
 
 /* e2fs needs byte swapping on big-endian systems */
 #if BYTE_ORDER == LITTLE_ENDIAN
