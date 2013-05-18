@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/sys/arch/sparc/stand/bootxx/btable.S,v 1.1 2007/10/16 20:29:33 tg Exp $ */
 /*	$OpenBSD: bootxx.c,v 1.5 2003/11/14 19:05:36 miod Exp $	*/
 
 /*-
@@ -40,7 +40,7 @@
 
 /*
  * For new-style installboot, we expect a block, concatenating the former
- * variables block_size, block_table, and block_count (in that order),
+ * variables block_count, block_size, and block_table (in that order),
  * starting at block_start
  * To retain compatibility to old-style installboot and boot loaders, we
  * also export the previous names as parts of the data structure.
@@ -49,6 +49,10 @@
 	.globl	_C_LABEL(block_start)
 block_start:
 
+/* extern int32_t block_count = MAXBLOCKNUM; */
+	.globl	_C_LABEL(block_count)
+block_count:
+	.long	MAXBLOCKNUM
 /* extern int32_t block_size = 0; */
 	.globl	_C_LABEL(block_size)
 block_size:
@@ -59,7 +63,3 @@ block_table:
 	.rept	MAXBLOCKNUM
 	.long	0
 	.endr
-/* extern int32_t block_count = MAXBLOCKNUM; */
-	.globl	_C_LABEL(block_count)
-block_count:
-	.long	MAXBLOCKNUM
