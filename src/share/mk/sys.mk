@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/sys.mk,v 1.144 2009/01/02 05:16:31 tg Exp $
+# $MirOS: src/share/mk/sys.mk,v 1.145 2009/01/29 18:11:04 tg Exp $
 # $OpenBSD: sys.mk,v 1.45 2005/03/07 00:06:00 deraadt Exp $
 # $NetBSD: sys.mk,v 1.27 1996/04/10 05:47:19 mycroft Exp $
 # @(#)sys.mk	5.11 (Berkeley) 3/13/91
@@ -29,7 +29,7 @@ OSNAME!=	uname -s
 OSname=		${OSNAME:L}
 OStriplet?=	${MACHINE_ARCH}-ecce-${OSname}${OSrev}
 _MIRMAKE_EXE=	/usr/bin/make
-_MIRMAKE_VER=	20090101
+_MIRMAKE_VER=	20090304
 
 .SUFFIXES:	.out .a .ln .o .lo .s .S .c .m .cc .C .cxx .cpp .F .f .y .l .i .h .sh .m4
 .LIBS:		.a
@@ -158,9 +158,9 @@ CTAGS?=		/usr/bin/ctags
 .cpp:
 	${LINK.cc} -o $@ ${.IMPSRC} ${LDLIBS}
 .cpp.o:
-	${COMPILE.cc} ${CXXFLAGS_${.TARGET:.i=.o}:M*} -o $@ -E ${.IMPSRC}
+	${COMPILE.cc} ${CXXFLAGS_${.TARGET:.i=.o}:M*} ${.IMPSRC}
 .cpp.i:
-	${COMPILE.cc} ${CXXFLAGS_${.TARGET:.a=.o}:M*} ${.IMPSRC}
+	${COMPILE.cc} ${CXXFLAGS_${.TARGET:.a=.o}:M*} -o $@ -E ${.IMPSRC}
 .cpp.a:
 	${COMPILE.cc} ${CXXFLAGS_${.TARGET:S/.a$/.o/}:M*} ${.IMPSRC}
 	${AR} ${ARFLAGS} $@ $*.o
