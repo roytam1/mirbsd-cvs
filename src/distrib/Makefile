@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/Makefile,v 1.9 2006/08/17 19:57:59 tg Exp $
+# $MirOS: src/distrib/Makefile,v 1.10 2006/08/17 20:13:25 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -30,7 +30,7 @@ SUBDIR=
 .endif
 
 .if ${_DESCEND} == "Yes"
-# SUBDIR+=		baselive
+  SUBDIR+=		baselive
 .endif
 
 cleannobsd: _SUBDIRUSE
