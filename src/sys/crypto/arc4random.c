@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/crypto/arc4random.c,v 1.2 2010/09/25 11:33:17 tg Exp $ */
+/* $MirOS: src/sys/crypto/arc4random.c,v 1.3 2010/10/01 16:21:16 tg Exp $ */
 
 /*-
  * Copyright © 2010
@@ -63,8 +63,7 @@ arc4random(void)
 	arc4random_count += 4;
 
 	/* skip 1‥2 output bytes randomly for whitening */
-	v = arcfour_byte(&initial_arc4random) & 1;
-	while (v--)
+	if ((arcfour_byte(&initial_arc4random) & 1))
 		(void)arcfour_byte(&initial_arc4random);
 
 	v = ((uint32_t)arcfour_byte(&initial_arc4random) << 24) |

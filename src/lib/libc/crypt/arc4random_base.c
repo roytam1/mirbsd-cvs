@@ -33,7 +33,7 @@
 #include "arc4random.h"
 #include "thread_private.h"
 
-__RCSID("$MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $");
+__RCSID("$MirOS: src/lib/libc/crypt/arc4random_base.c,v 1.1 2010/09/12 17:10:53 tg Exp $");
 
 struct arc4random_status a4state;
 
@@ -59,7 +59,8 @@ arc4random_atexit(void)
 	mib[0] = arcfour_byte(&a4state.cipher) & 3;
 	while (mib[0]--)
 		(void)arcfour_byte(&a4state.cipher);
-	memset(a4state.pool, '\0', sizeof(a4state.pool));
+	/* we want 0x00000100 each, but it’s not supposed to be used anyway */
+	bzero(a4state.pool, sizeof(a4state.pool));
 	_ARC4_UNLOCK();
 }
 
@@ -157,7 +158,7 @@ arc4random_stir_locked(pid_t mypid)
 	arcfour_ksa256(&a4state.cipher, sbuf.charbuf);
 
 	/* trash stack */
-	memset(sbuf.charbuf, '\0', sizeof(sbuf));
+	bzero(sbuf.charbuf, sizeof(sbuf));
 
 	/* discard early keystream */
 	carry += 256 * 4 + (arcfour_byte(&a4state.cipher) & 0x1F);

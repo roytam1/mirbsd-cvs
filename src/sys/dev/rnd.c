@@ -1,14 +1,11 @@
-/**	$MirOS: src/sys/dev/rnd.c,v 1.68 2010/09/25 01:29:34 tg Exp $ */
-/*	$OpenBSD: rnd.c,v 1.78 2005/07/07 00:11:24 djm Exp $	*/
+/* $MirOS: src/sys/dev/rnd.c,v 1.69 2010/09/25 14:11:46 tg Exp $ */
 
-/*
+/*-
  * rnd.c -- A strong random number generator
  *
  * Copyright (c) 2000, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010
  *	Thorsten Glaser <tg@mirbsd.org>
  * Copyright (c) 1996, 1997, 2000-2002 Michael Shalayeff.
- *
- * Version 1.89, last modified 19-Sep-99
  *
  * Copyright Theodore Ts'o, 1994, 1995, 1996, 1997, 1998, 1999.
  * All rights reserved.
@@ -44,7 +41,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-/*
+/*-
  * (now, with legal B.S. out of the way.....)
  *
  * This routine gathers environmental noise from device drivers, etc.,
@@ -327,7 +324,7 @@
 #error No primitive polynomial available for chosen POOLWORDS
 #endif
 
-/*
+/*-
  * For the purposes of better mixing, we use the CRC-32 polynomial as
  * well to make a twisted Generalized Feedback Shift Register
  *
@@ -392,7 +389,6 @@ struct rand_event {
 };
 
 struct timeout rnd_timeout;
-struct random_bucket random_state;
 struct timer_rand_state rnd_states[RND_SRC_NUM];
 struct rand_event rnd_event_space[QEVLEN];
 struct rand_event *rnd_event_head = rnd_event_space;
@@ -472,7 +468,7 @@ void extract_entropy(register u_int8_t *, int);
 void
 rndpool_init(void)
 {
-	timeout_set(&rnd_timeout, dequeue_randomness, &random_state);
+	timeout_set(&rnd_timeout, dequeue_randomness, NULL);
 
 	random_state.add_ptr = 0;
 	random_state.entropy_count = 0;
@@ -485,13 +481,9 @@ rndpool_init(void)
 }
 
 int
-randomopen(dev, flag, mode, p)
-	dev_t	dev;
-	int	flag;
-	int	mode;
-	struct proc *p;
+randomopen(dev_t dev, int flag, int mode, struct proc *p)
 {
-	return (minor (dev) < RND_NODEV) ? 0 : ENXIO;
+	return (minor(dev) < RND_NODEV ? 0 : ENXIO);
 }
 
 int
@@ -577,22 +569,18 @@ enqueue_randomness(int state, int val)
 #define time_ drop.d_time_
 #define nbits drop.d_nbits
 		struct timer_rand_state p;
-		char why;
+		char why[sizeof(val) == 4 ? 1 : -1];
 	} drop;
 
 	drop.val = val;
 	if ((drop.state = state) == RND_SRC_LPC)
 		state = RND_SRC_TRUE;
 
-	/* XXX on i386 and maybe sparc we get here before randomattach() */
+	/* we sometimes get here before randomattach() */
 	if (!rnd_attached) {
-#if 1
-		/* since we get a *lot* of information here, early */
-		drop.why = 1;
+		/* cache, since we get a *lot* of information here, early */
+		drop.why[0] = 1;
 		rnd_lopool_addh(&drop, sizeof(drop));
-#else
-		RNDEBUG(RD_ALWAYS, "rnd: premature enqueue_randomness\n");
-#endif
 		return;
 	}
 #define rndebugtmp(x) drop.state == RND_SRC_ ## x ? #x :
@@ -618,7 +606,7 @@ enqueue_randomness(int state, int val)
 	val += state << 13;
 
 	microtime(&drop.tv);
-	time_ = drop.tv.tv_usec ^ drop.tv.tv_sec;
+	time_ = drop.tv.tv_usec + (drop.tv.tv_sec << 20);
 	nbits = 0;
 
 	/*
@@ -666,13 +654,23 @@ enqueue_randomness(int state, int val)
 		if (delta & 1)
 			nbits++;
 
+#ifdef DIAGNOSTIC
+		if (nbits >= 32) {
+			/* sanity check, shouldn’t happen */
+			RNDEBUG(RD_ALWAYS, "rnd: nbits (%u) >= 32", nbits);
+			drop.why[0] = 4;
+			goto do_a_drop_with_delta;
+		}
+#endif
+
 		/*
 		 * the logic is to drop low-entropy entries,
 		 * in hope for dequeuing to be more randomfull
 		 */
 		if (rnd_qlen() > QEVSLOW && nbits < QEVSBITS) {
 			rndstats.rnd_drople++;
-			drop.why = 2;
+			drop.why[0] = 2;
+ do_a_drop_with_delta:
 			drop.delta2 = delta2;
 			drop.delta3 = delta3;
 			goto do_a_drop;
@@ -681,13 +679,14 @@ enqueue_randomness(int state, int val)
 		p->last_delta  = delta3;
 		p->last_delta2 = delta2;
 	} else if (p->max_entropy)
-		nbits = drop.state == RND_SRC_LPC ? 24 : 8 * sizeof(val) - 1;
+		/* 31 = (8 * sizeof(val) - 1) see assertion in struct{}drop */
+		nbits = drop.state == RND_SRC_LPC ? 24 : 31;
 
 	s = splhigh();
 	if ((rep = rnd_put()) == NULL) {
 		rndstats.rnd_drops++;
 		splx(s);
-		drop.why = 3;
+		drop.why[0] = 3;
  do_a_drop:
 		/* if we have a drop, put the randomfull[sic!]ness to use */
 		drop.p = *p;
@@ -715,10 +714,8 @@ enqueue_randomness(int state, int val)
 }
 
 void
-dequeue_randomness(v)
-	void *v;
+dequeue_randomness(void *v __unused)
 {
-	struct random_bucket *rs = v;
 	register struct rand_event *rep;
 	u_int32_t buf[2];
 	u_int nbits;
@@ -738,15 +735,15 @@ dequeue_randomness(v)
 		add_entropy_words(buf, 2);
 
 		rndstats.rnd_total += nbits;
-		rs->entropy_count += nbits;
-		if (rs->entropy_count > POOLBITS)
-			rs->entropy_count = POOLBITS;
+		random_state.entropy_count += nbits;
+		if (random_state.entropy_count > POOLBITS)
+			random_state.entropy_count = POOLBITS;
 
-		if (rs->asleep && rs->entropy_count > 8) {
+		if (random_state.asleep && random_state.entropy_count > 8) {
 			RNDEBUG(RD_WAIT, "rnd: wakeup[%u]{%u}\n",
-			    rs->asleep, rs->entropy_count);
-			rs->asleep--;
-			wakeup((void *)&rs->asleep);
+			    random_state.asleep, random_state.entropy_count);
+			random_state.asleep--;
+			wakeup((void *)&random_state.asleep);
 			selwakeup(&rnd_rsel);
 			KNOTE(&rnd_rsel.si_note, 0);
 		}
@@ -754,7 +751,7 @@ dequeue_randomness(v)
 		s = splhigh();
 	}
 
-	rs->tmo = 0;
+	random_state.tmo = 0;
 	splx(s);
 }
 
@@ -773,7 +770,6 @@ extract_entropy(buf, nbytes)
 	register u_int8_t *buf;
 	int	nbytes;
 {
-	struct random_bucket *rs = &random_state;
 	u_char buffer[16];
 	MD5_CTX tmp;
 	u_int i;
@@ -790,11 +786,12 @@ extract_entropy(buf, nbytes)
 		/* Hash the pool to get the output */
 		MD5Init(&tmp);
 		s = splhigh();
-		MD5Update(&tmp, (u_int8_t*)rs->pool, sizeof(rs->pool));
-		if (rs->entropy_count / 8 > i)
-			rs->entropy_count -= i * 8;
+		MD5Update(&tmp, (void *)random_state.pool,
+		    sizeof(random_state.pool));
+		if (random_state.entropy_count / 8 > i)
+			random_state.entropy_count -= i * 8;
 		else
-			rs->entropy_count = 0;
+			random_state.entropy_count = 0;
 		splx(s);
 		MD5Final(buffer, &tmp);
 
@@ -823,7 +820,7 @@ extract_entropy(buf, nbytes)
 
 	/* Wipe data from memory */
 	bzero(&tmp, sizeof(tmp));
-	bzero(&buffer, sizeof(buffer));
+	bzero(buffer, sizeof(buffer));
 }
 
 /*
@@ -917,6 +914,7 @@ randomread(dev_t dev, struct uio *uio, int ioflag)
 
 		if (rv == 0 && n > 0)
 			rv = uiomove((caddr_t)buf, n, uio);
+		/* yield here on SMP */
 	}
 
 	add_timer_randomness((u_long)dev ^ (u_long)uio ^ (u_long)buf);
@@ -1010,6 +1008,7 @@ randomwrite(dev_t dev, struct uio *uio, int flags)
 	size_t n;
 	int rv = 0;
 	uint8_t *buf;
+	int newdata = 0;
 
 	/* RND_PRND is /dev/wrandom and always writable */
 	if (minor(dev) != RND_PRND && securelevel > 1)
@@ -1042,9 +1041,10 @@ randomwrite(dev_t dev, struct uio *uio, int flags)
 			}
 			add_entropy_words((void *)buf, n / sizeof(uint32_t));
 		}
+		newdata = 1;
 	}
 
-	if (minor(dev) == RND_ARND && rv == 0)
+	if (minor(dev) == RND_ARND && newdata)
 		arc4random_reinit(NULL);
 
 	add_timer_randomness((u_long)dev ^ (u_long)uio ^ (u_long)buf);
@@ -1057,8 +1057,6 @@ randomioctl(dev_t dev, u_long cmd, caddr_t data, int flag, struct proc *p)
 {
 	int rv = 0, s;
 	u_int cnt;
-
-	add_timer_randomness((u_long)p ^ (u_long)data ^ cmd);
 
 	switch (cmd) {
 	case RNDADDRNDNESS:
@@ -1135,6 +1133,5 @@ randomioctl(dev_t dev, u_long cmd, caddr_t data, int flag, struct proc *p)
 		rv = ENOTTY;
 	}
 
-	add_timer_randomness((u_long)p ^ (u_long)data ^ cmd);
 	return (rv);
 }

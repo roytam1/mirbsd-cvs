@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/sys/crypto/randimpl.h,v 1.1 2010/09/19 18:55:34 tg Exp $ */
 
 /*#define RNDEBUG*/
 
@@ -10,7 +10,10 @@
 #include <dev/rndvar.h>
 
 /* there is actually only one of these, globally */
-extern struct random_bucket {
+#ifndef IN_RANDOM_CORE
+extern
+#endif
+  struct {
 	u_int add_ptr;
 	u_int entropy_count;
 	u_char input_rotate;
@@ -22,10 +25,10 @@ extern struct random_bucket {
 /* import from kernel */
 extern int hz;
 
-/* import from arc4random.c */
+/* import from crypto/arc4random.c */
 extern void arc4random_reinit(void *);
 
-/* import from random.c */
+/* import from crypto/randcore.c */
 extern int rnd_attached;
 
 #ifdef RNDEBUG
@@ -55,7 +58,7 @@ extern void rnd_lopool_addvq(unsigned long);
 #define rnd_lopool_addvq	rnd_lopool_addv
 #endif
 
-/* import from rndpool.c */
+/* import from dev/rnd.c */
 extern void rndpool_init(void);
 
 #endif
