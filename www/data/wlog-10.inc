@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.121 2008/12/27 22:21:52 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.122 2008/12/28 20:56:47 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -2382,4 +2382,7 @@ Title: light bulbs
  in situations where the light switch is used very often, or
  when the light is only on for very short amounts, such as in
  the entrance area of an appartement (say 1½ m²).</p>
+<p>What did I do? Meh, just some <a
+ href="@@RELPATH@@permalinks/news_e20081228-tg.htm">bootloader
+ hacking</a>.</p>
 ----
