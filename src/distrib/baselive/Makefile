@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/baselive/Makefile,v 1.44 2009/01/17 12:04:25 tg Exp $
+# $MirOS: src/distrib/baselive/Makefile,v 1.45 2009/01/17 12:18:23 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -66,7 +66,7 @@ CDROM_OPTS+=	label=MirOS~v${OSrev}~BSD~DuaLive~CD
 CDROM_OPTS+=	label=MirOS~v${OSrev}~BSD/i386~Live~CD
 .endif
 CDROM_OPTS+=	preparer=MirBSD_and_its_contributors
-CDROM_OPTS+=	publisher=Copyright_\<c\>_2002=2008_The_MirOS_Project
+CDROM_OPTS+=	publisher=Copyright_\<c\>_2002=2009_The_MirOS_Project
 CDROM_OPTS+=	rockridge
 .if ${DUALIVE:L} != "no"
 CDROM_OPTS+=	volumeid=$$(uname -sl | tr -- '- \#' :_):DuaLive

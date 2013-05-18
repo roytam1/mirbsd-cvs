@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/tools/Makefile,v 1.27 2008/10/21 19:57:37 tg Exp $
+# $MirOS: src/distrib/tools/Makefile,v 1.28 2008/10/30 17:47:34 tg Exp $
 
 all: sundsklbl
 
@@ -36,7 +36,7 @@ CDROM_OPTS+=	bootimage=i386\;eltorito.loo
 CDROM_OPTS+=	no-emul-boot
 CDROM_OPTS+=	label=MirOS~v${OSrev}~BSD~manifold-boot~CD
 CDROM_OPTS+=	preparer=MirBSD_and_its_contributors
-CDROM_OPTS+=	publisher=Copyright_\<c\>_2002=2008_The_MirOS_Project
+CDROM_OPTS+=	publisher=Copyright_\<c\>_2002=2009_The_MirOS_Project
 CDROM_OPTS+=	rockridge
 CDROM_OPTS+=	volumeid=$$(uname -sl | tr -- '- \#' :_):i386\;sparc:Setup
 #CDROM_OPTS+=	v=1
