@@ -1,6 +1,6 @@
-$MirOS: ports/misc/mc/patches/patch-src_util_c,v 1.1 2008/09/17 20:06:59 tg Exp $
+$MirOS: ports/misc/mc/patches/patch-src_util_c,v 1.2 2010/12/31 17:53:04 tg Exp $
 --- src/util.c.orig	Fri May 27 14:18:56 2005
-+++ src/util.c	Fri Dec 31 17:51:46 2010
++++ src/util.c	Fri Dec 31 17:57:09 2010
 @@ -900,10 +900,10 @@ char *get_current_wd (char *buffer, int 
   * Warning: this function moves the current file pointer */
  int get_compression_type (int fd)
@@ -20,7 +20,7 @@ $MirOS: ports/misc/mc/patches/patch-src_util_c,v 1.1 2008/09/17 20:06:59 tg Exp 
  
 +    /* xz container format */
 +    if (magic[0] == 0xFD && magic[1] == '7' && magic[2] == 'z' &&
-+	magic[3] == 'X' && magic[4] == 'Z' && magic[5] = 0x00)
++	magic[3] == 'X' && magic[4] == 'Z' && magic[5] == 0x00)
 +	return COMPRESSION_XZ;
 +
      /* PKZIP_MAGIC */
