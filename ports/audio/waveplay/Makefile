@@ -4,9 +4,9 @@
 # assumes unaligned access, no struct padding, little endian
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 
-COMMENT=			simple wav audio player
+COMMENT=		simple wav audio player
 DISTNAME=		waveplay-20010924
-PKGNAME=		${DISTNAME}-1
+DASH_VER=		2
 CATEGORIES=		audio
 MASTER_SITES=		http://sore.totto.to/~ysonoda/FreeBSD/ports/
 
