@@ -1,4 +1,4 @@
-# $MirOS: ports/www/firesomething/Makefile,v 1.30 2008/11/14 00:47:20 tg Exp $
+# $MirOS: ports/www/firesomething/Makefile,v 1.31 2008/12/05 16:26:07 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.41 2005/11/15 09:21:52 wilfried Exp $
 
 ONLY_FOR_PLATFORM=	*:*:alpha *:*:i386 *:*:sparc *:*:sparc64 *:*:amd64 *:*:powerpc
@@ -19,7 +19,7 @@ PERMIT_DISTFILES_FTP=	Yes
 .include <mirports.sys.mk>
 
 MASTER_SITES=		ftp://releases.mozilla.org/pub/mozilla.org/firefox/releases/${VER}/source/ \
-MASTER_SITES=		ftp://archive.mozilla.org/pub/mozilla.org/firefox/releases/${VER}/source/ \
+			ftp://archive.mozilla.org/pub/mozilla.org/firefox/releases/${VER}/source/ \
 			http://ftp.eu.mozilla.org/pub/mozilla.org/firefox/releases/${VER}/source/ \
 			http://ftp.mozilla.org/pub/mozilla.org/firefox/releases/${VER}/source/
 DISTFILES=		firefox-${VER}-source.tar.bz2
