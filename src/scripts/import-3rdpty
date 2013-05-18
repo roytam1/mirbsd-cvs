@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/scripts/import-3rdpty,v 1.38 2006/05/30 20:53:11 tg Exp $
+# $MirOS: src/scripts/import-3rdpty,v 1.39 2006/06/01 23:22:22 tg Exp $
 #-
 # Copyright (c) 2004, 2005, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -24,7 +24,7 @@
 # other issues arising in any way out of its use, even if advised of
 # the possibility of such damage or existence of a nontrivial bug.
 
-print -ru2 -- '========= $MirOS: src/scripts/import-3rdpty,v 1.38 2006/05/30 20:53:11 tg Exp $ ========='
+print -ru2 -- '========= $MirOS: src/scripts/import-3rdpty,v 1.39 2006/06/01 23:22:22 tg Exp $ ========='
 
 ignlist=0
 force=0
@@ -389,15 +389,18 @@ expat)
 		MANIFEST \
 		Makefile.in \
 		README \
+		amiga \
+		bcb5 \
 		configure \
 		configure.in \
+		conftools \
 		doc/expat.png \
 		doc/reference.html \
 		doc/style.css \
 		doc/valid-xhtml10.png \
 		doc/xmlwf.sgml \
+		examples \
 		expat.dsw \
-		expat_config.h.in \
 		lib/Makefile.MPW \
 		lib/expat.dsp \
 		lib/expat_static.dsp \
@@ -407,6 +410,9 @@ expat)
 		lib/libexpatw.def \
 		lib/macconfig.h \
 		lib/winconfig.h \
+		tests \
+		vms \
+		win32 \
 		xmlwf/ct.c \
 		xmlwf/readfilemap.c \
 		xmlwf/win32filemap.c \
