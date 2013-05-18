@@ -1,4 +1,4 @@
-/**	$MirOS: src/include/stdlib.h,v 1.9 2006/05/30 18:09:59 tg Exp $ */
+/**	$MirOS: src/include/stdlib.h,v 1.10 2006/05/30 19:55:53 tg Exp $ */
 /*	$OpenBSD: stdlib.h,v 1.34 2005/05/27 17:45:56 millert Exp $	*/
 /*	$NetBSD: stdlib.h,v 1.25 1995/12/27 21:19:08 jtc Exp $	*/
 
@@ -215,7 +215,7 @@ void	 srandomdev(void);
 
 int	 putenv(const char *);
 int	 setenv(const char *, const char *, int);
-void	 unsetenv(const char *);
+int	 unsetenv(const char *);
 void	 setproctitle(const char *, ...)
 	__attribute__((__format__ (__printf__, 1, 2)));
 

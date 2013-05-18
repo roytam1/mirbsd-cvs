@@ -48,7 +48,7 @@
 .Fn setenv "const char *name" "const char *value" "int overwrite"
 .Ft int
 .Fn putenv "const char *string"
-.Ft void
+.Ft int
 .Fn unsetenv "const char *name"
 .Sh DESCRIPTION
 These functions set, unset, and fetch environment variables from the host
@@ -100,9 +100,10 @@ function deletes all instances of the variable name pointed to by
 from the list.
 .Sh RETURN VALUES
 The functions
-.Fn setenv
+.Fn setenv ,
+.Fn putenv ,
 and
-.Fn putenv
+.Fn unsetenv
 return zero if successful; otherwise the global variable
 .Va errno
 is set to indicate the error and \-1 is returned.
@@ -118,6 +119,13 @@ The function
 or
 .Fn putenv
 failed because they were unable to allocate memory for the environment.
+.It Bq Er EINVAL
+The function
+.Fn unsetenv
+failed because the argument was a NULL pointer, an empty string, or
+a string containing an
+.Sq =
+character.
 .El
 .Sh SEE ALSO
 .Xr csh 1 ,
@@ -129,6 +137,11 @@ The
 .Fn getenv
 function conforms to
 .St -ansiC .
+.Pp
+The
+.Fn unsetenv
+function conforms to
+.St -susv3 .
 .Sh HISTORY
 The function
 .Fn getenv

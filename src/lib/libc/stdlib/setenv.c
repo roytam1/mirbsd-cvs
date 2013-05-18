@@ -1,4 +1,4 @@
-/**	$MirOS: src/lib/libc/stdlib/setenv.c,v 1.3 2005/09/22 20:15:31 tg Exp $ */
+/**	$MirOS: src/lib/libc/stdlib/setenv.c,v 1.4 2006/06/02 02:29:55 tg Exp $ */
 /*	$OpenBSD: setenv.c,v 1.9 2005/08/08 08:05:37 espie Exp $ */
 /*
  * Copyright (c) 1987 Regents of the University of California.
@@ -31,6 +31,8 @@
 
 #include <stdlib.h>
 #include <string.h>
+
+__RCSID("$MirOS$");
 
 char *__findenv(const char *name, int *offset);
 
@@ -92,14 +94,20 @@ setenv(const char *name, const char *value, int rewrite)
  * unsetenv(name) --
  *	Delete environmental variable "name".
  */
-void
+int
 unsetenv(const char *name)
 {
 	char **P;
 	int offset;
 
+	if ((name == NULL) || (*name == '\0') || strchr(name, '=')) {
+		errno = EINVAL;
+		return (-1);
+	}
+
 	while (__findenv(name, &offset))	/* if set multiple times */
 		for (P = &environ[offset];; ++P)
 			if (!(*P = *(P + 1)))
 				break;
+	return (0);
 }
