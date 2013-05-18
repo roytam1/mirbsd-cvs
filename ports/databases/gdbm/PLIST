@@ -1,7 +1,0 @@
-@comment $MirOS$
-@unexec install-info --delete --info-dir=%D/info %D/info/gdbm.info
-include/gdbm.h
-info/gdbm.info
-lib/libgdbm.la
-man/man3/gdbm.3
-@exec install-info --info-dir=%D/info %D/info/gdbm.info
