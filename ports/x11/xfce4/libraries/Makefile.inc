@@ -1,9 +1,9 @@
-# $MirOS: ports/x11/xfce4/libraries/Makefile.inc,v 1.3 2006/02/09 11:15:57 tg Exp $
+# $MirOS: ports/x11/xfce4/libraries/Makefile.inc,v 1.4 2007/05/07 19:47:24 bsiegert Exp $
 
 V?=		4.0.5
 CATEGORIES?=	x11 x11/xfce4 x11/xfce4/libraries
 
-MASTER_SITES?=	http://hannelore.f1.fhtw-berlin.de/mirrors/xfce4/xfce-${V}/src/
+MASTER_SITES?=	http://xfce.org/archive/xfce-${V}/src/
 DIST_SUBDIR?=	xfce4
 HOMEPAGE?=	http://xfce.org/index.php?page=overview
 
