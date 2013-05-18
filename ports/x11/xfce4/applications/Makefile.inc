@@ -1,4 +1,4 @@
-# $MirOS: ports/x11/xfce4/applications/Makefile.inc,v 1.1.7.1 2005/03/18 16:01:06 tg Exp $
+# $MirOS: ports/x11/xfce4/applications/Makefile.inc,v 1.2 2006/02/09 11:15:56 tg Exp $
 
 V?=		4.0.5
 
@@ -24,4 +24,4 @@ RUN_DEPENDS?=		:xfce-mcs-manager-*:x11/xfce4/desktop/xfce-mcs-manager
 
 CONFIGURE_STYLE?=	autoconf
 AUTOCONF_NEW?=		Yes
-USE_X11?=		Yes
+USE_X11=		Yes

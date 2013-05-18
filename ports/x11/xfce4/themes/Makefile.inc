@@ -1,4 +1,4 @@
-# $MirOS: ports/x11/xfce4/themes/Makefile.inc,v 1.2 2005/05/01 13:59:51 bsiegert Exp $
+# $MirOS: ports/x11/xfce4/themes/Makefile.inc,v 1.3 2006/02/09 11:15:58 tg Exp $
 
 V?=		4.0.5
 CATEGORIES?=	x11 x11/xfce4 x11/xfce4/themes
@@ -13,7 +13,7 @@ PERMIT_DISTFILES_FTP?=	No
 PERMIT_PACKAGE_CDROM?=	No
 PERMIT_PACKAGE_FTP?=	No
 
-USE_X11?=	Yes
+USE_X11=	Yes
 
 GTK2=	gdk_pixbuf-2.0.0.14,gdk-x11-2.0.0.14,gtk-x11-2.0.0.14::x11/gtk+
 XFDESK=	:xfdesktop-*:x11/xfce4/desktop/xfdesktop

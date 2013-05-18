@@ -1,4 +1,4 @@
-# $MirOS: ports/x11/xfce4/libraries/Makefile.inc,v 1.2 2005/05/01 13:59:50 bsiegert Exp $
+# $MirOS: ports/x11/xfce4/libraries/Makefile.inc,v 1.3 2006/02/09 11:15:57 tg Exp $
 
 V?=		4.0.5
 CATEGORIES?=	x11 x11/xfce4 x11/xfce4/libraries
@@ -17,7 +17,6 @@ PERMIT_DISTFILES_FTP?=	Yes
 PERMIT_PACKAGE_CDROM?=	Yes
 PERMIT_PACKAGE_FTP?=	Yes
 
-USE_X11?=	Yes
 MODULES+=	devel/gettext
 
 GLIB2=	glib-2.0.0.11::devel/glib

@@ -1,4 +1,4 @@
-# $MirOS: ports/x11/xfce4/plugins/Makefile.inc,v 1.3 2006/02/09 11:15:58 tg Exp $
+# $MirOS: ports/x11/xfce4/plugins/Makefile.inc,v 1.4 2006/06/03 16:02:43 bsiegert Exp $
 
 V?=		4.0.5
 CATEGORIES?=	x11 x11/xfce4 x11/xfce4-plugins
@@ -20,7 +20,7 @@ PERMIT_DISTFILES_FTP?=	Yes
 PERMIT_PACKAGE_CDROM?=	Yes
 PERMIT_PACKAGE_FTP?=	Yes
 
-USE_X11?=	Yes
+USE_X11=	Yes
 
 DBH=	dbh.1.0::databases/dbh
 GTK2=	gdk_pixbuf-2.0.0.14,gdk-x11-2.0.0.14,gtk-x11-2.0.0.14::x11/gtk+

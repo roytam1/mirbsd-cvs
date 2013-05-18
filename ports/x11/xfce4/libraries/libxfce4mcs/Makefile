@@ -6,4 +6,6 @@ DISTNAME=	libxfce4mcs-${V}
 LIB_DEPENDS=	${GLIB2} \
 		${UTIL}
 
+USE_X11=	Yes
+
 .include <bsd.port.mk>

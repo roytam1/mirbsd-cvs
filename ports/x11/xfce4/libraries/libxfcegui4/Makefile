@@ -5,5 +5,6 @@ DISTNAME=	libxfcegui4-${V}
 
 LIB_DEPENDS=	${GTK2} \
 		${UTIL}
+USE_X11=	Yes
 
 .include <bsd.port.mk>
