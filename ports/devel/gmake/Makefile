@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/gmake/Makefile,v 1.10 2006/09/14 00:08:13 tg Exp $
+# $MirOS: ports/devel/gmake/Makefile,v 1.11 2006/11/16 20:09:07 tg Exp $
 # $OpenBSD: Makefile,v 1.29 2004/04/06 03:12:19 brad Exp $
 #-
 # Must not have any dependencies, unless they are listed in CVSROOT/modules.
@@ -18,6 +18,7 @@ PERMIT_PACKAGE_FTP=	Yes
 
 CONFIGURE_STYLE=	gnu
 CONFIGURE_ARGS+=	--program-prefix="g"
+CONFIGURE_ARGS+=	--disable-dependency-tracking
 CONFIGURE_ARGS+=	--disable-nls
 .if ${MACHINE_OS} == "Darwin"
 CPPFLAGS+=		-Dstrcmpi=strcasecmp
