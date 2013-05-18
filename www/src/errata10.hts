@@ -1,4 +1,4 @@
-mws_putheader '$MirOS: www/src/errata10.hts,v 1.4 2008/03/27 21:30:07 tg Exp $'
+mws_putheader '$MirOS: www/src/errata10.hts,v 1.5 2008/03/30 20:09:07 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -53,6 +53,17 @@ mws_content <<'EOF'
  <li>RMD160 (i386/site10.ngz) = addc766151cf0c35301920822b0a107a20039b8e</li>
  <li>RMD160 (sparc/site10.ngz) = 13f724f851339c3d8b2cac89345dc63a4b64fb16</li>
 </ul>
+
+<p>Alternatively, you can use the updated locations for the <a
+ href="/MirOS/v10/updates/i386/">i386</a> or <a
+ href="/MirOS/v10/updates/sparc/">sparc</a> architectures during
+ netinstall and ensure that you have the <tt>site10.ngz</tt> set
+ selected.</p>
+
+<p>In the future, the update set will be named <tt>fixes10.ngz</tt>,
+ but to be able to select it, you must use the modified installer
+ from the <tt>updates</tt> directory (or rename it to or merge it into
+ your own <tt>site10.ngz</tt> set).</p>
 
 EOF
 mws_putfooter
