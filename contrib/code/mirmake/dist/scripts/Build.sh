@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.78 2006/08/26 22:57:01 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.79 2006/08/26 23:10:37 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -312,9 +312,9 @@ $d_build/bmake -m $d_build/mk MAKE_BOOTSTRAP=Yes \
 # Rebuild libmirmake (this time shared)
 unset LDADD
 cd $d_build/libmirmake
-$d_build/make -m $d_build/mk clean
-$d_build/make -m $d_build/mk depend
-$d_build/make -m $d_build/mk
+SRCS=$SRCS $d_build/make -m $d_build/mk clean
+SRCS=$SRCS $d_build/make -m $d_build/mk depend
+SRCS=$SRCS $d_build/make -m $d_build/mk
 
 # Build the make(1) paper and a variety of manual pages
 cd $d_build
