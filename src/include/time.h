@@ -1,4 +1,4 @@
-/**	$MirOS: src/include/time.h,v 1.5 2006/06/12 21:46:33 tg Exp $ */
+/**	$MirOS: src/include/time.h,v 1.6 2006/12/11 23:54:57 tg Exp $ */
 /*	$OpenBSD: time.h,v 1.16 2003/08/01 17:38:33 avsm Exp $	*/
 /*	$NetBSD: time.h,v 1.9 1994/10/26 00:56:35 cgd Exp $	*/
 
@@ -83,6 +83,7 @@ typedef	__SIZE_TYPE__	size_t;
 
 #define CLOCKS_PER_SEC	100
 
+#if !defined(__STRUCT_TM_DECLARED)
 struct tm {
 	int	tm_sec;		/* seconds after the minute [0-60] */
 	int	tm_min;		/* minutes after the hour [0-59] */
@@ -96,6 +97,8 @@ struct tm {
 	long	tm_gmtoff;	/* offset from UTC in seconds */
 	char	*tm_zone;	/* timezone abbreviation */
 };
+#define __STRUCT_TM_DECLARED
+#endif
 
 #if !defined(__TIMESPEC_DECLARED)
 struct timespec {
