@@ -152,7 +152,7 @@
 #endif
 
 #ifdef EXTERN
-__RCSID("$MirOS: src/bin/mksh/sh.h,v 1.611 2012/12/01 01:36:28 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/sh.h,v 1.612 2012/12/04 01:18:32 tg Exp $");
 #endif
 #define MKSH_VERSION "R41 2012/12/03"
 
@@ -651,7 +651,8 @@ enum sh_flag {
 struct sretrace_info;
 struct yyrecursive_state;
 
-extern struct sretrace_info *retrace_info;
+EXTERN struct sretrace_info *retrace_info E_INIT(NULL);
+EXTERN int subshell_nesting_type E_INIT(0);
 
 extern struct env {
 	ALLOC_ITEM alloc_INT;	/* internal, do not touch */
@@ -1797,6 +1798,7 @@ pid_t j_async(void);
 int j_stopped_running(void);
 /* lex.c */
 int yylex(int);
+void yyskiputf8bom(void);
 void yyerror(const char *, ...)
     MKSH_A_NORETURN
     MKSH_A_FORMAT(__printf__, 1, 2);
