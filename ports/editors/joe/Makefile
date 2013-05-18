@@ -1,8 +1,8 @@
-# $MirOS: ports/editors/joe/Makefile,v 1.15 2008/08/25 14:02:30 tg Exp $
+# $MirOS: ports/editors/joe/Makefile,v 1.16 2009/08/02 16:12:09 tg Exp $
 
 COMMENT=		Joe's Own Editor (including jupp)
 CATEGORIES=		editors
-DISTNAME=		joe-3.1jupp11
+DISTNAME=		joe-3.1jupp12
 HOMEPAGE=		http://mirbsd.de/jupp
 RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.org>
 

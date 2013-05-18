@@ -15,7 +15,7 @@ stallation, and all of the UNIX-integration features of vi.
 jupp is a customisation of joe which provides easy conversion
 for former PC users as well as powerfulness for programmers,
 while not doing things "automagically" (word wrap, indenting,
-highlighting, to name a few).
+highlighting, to name a few). It can even hex edit files now.
 
 This is joe-3.x-jupp<y>, a GNU GPL version 1 licenced fork
 of the current state-of-the-art JOE editor from Sourceforge,
@@ -26,4 +26,5 @@ versions of MirOS), the "jupp" flavour, not doing tab comple-
 tion in the search and replace dialogues, as well as -Wall
 -Werror fixes, numerous bug and security fixes. It also con-
 tains an extension to visibly display tabs and spaces, and
-has a cleaned up, extended and beautified options menu.
+has a cleaned up, extended and beautified options menu, and
+better charset support in general.

@@ -1,14 +1,14 @@
-# $MirOS: www/src/jupp.hts,v 1.18 2009/09/01 16:34:32 tg Exp $
+# $MirOS: www/src/jupp.hts,v 1.19 2009/09/20 17:37:15 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/juppp "jupp – Programmer’s Editor"
 mws_setheadline jupp – the Editor which sucks less
-mws_putheader '$MirOS: www/src/jupp.hts,v 1.18 2009/09/01 16:34:32 tg Exp $'
+mws_putheader '$MirOS: www/src/jupp.hts,v 1.19 2009/09/20 17:37:15 tg Exp $'
 mws_content <<'EOF'
 <p>The current version is <em>joe-2.8jupp1</em> for MS-DOS® compatible systems,
- and <em>joe-3.1jupp11</em> for Unix/GNU compatible systems. This page is
+ and <em>joe-3.1jupp12</em> for Unix/GNU compatible systems. This page is
  accessible under <a href="http://mirbsd.de/jupp">http://mirbsd.de/jupp</a>
  canonically.</p>
 
@@ -61,8 +61,8 @@ mws_content <<'EOF'
 <h2 id="fetch">Retrieval</h2>
 <h3>Direct download</h3>
 <p>You can download jupp at least from one of the following mirrors:</p><ul>
- <li><a href="https://www.mirbsd.org/MirOS/dist/jupp/joe-3.1jupp11.cpio.gz">https://www.mirbsd.org/MirOS/dist/jupp/joe-3.1jupp11.cpio.gz</a></li>
- <li><a href="http://pub.allbsd.org/MirOS/dist/jupp/joe-3.1jupp11.cpio.gz">http://pub.allbsd.org/MirOS/dist/jupp/joe-3.1jupp11.cpio.gz</a></li>
+ <li><a href="https://www.mirbsd.org/MirOS/dist/jupp/joe-3.1jupp12.cpio.gz">https://www.mirbsd.org/MirOS/dist/jupp/joe-3.1jupp12.cpio.gz</a></li>
+ <li><a href="http://pub.allbsd.org/MirOS/dist/jupp/joe-3.1jupp12.cpio.gz">http://pub.allbsd.org/MirOS/dist/jupp/joe-3.1jupp12.cpio.gz</a></li>
  <li style="list-style:none;">↑ Unix │ DOS ↓</li>
  <li><a href="https://www.mirbsd.org/MirOS/dist/jupp/joe-2.8jupp1.cpio.gz">https://www.mirbsd.org/MirOS/dist/jupp/joe-2.8jupp1.cpio.gz</a></li>
  <li><a href="http://pub.allbsd.org/MirOS/dist/jupp/joe-2.8jupp1.cpio.gz">http://pub.allbsd.org/MirOS/dist/jupp/joe-2.8jupp1.cpio.gz</a></li>
@@ -70,10 +70,10 @@ mws_content <<'EOF'
 </ul>
 <p>Please do not forget to check the received file’s integry using both
  gzsig(1) and one of the hashes below:</p><ul>
- <li>RMD160 (joe-3.1jupp11.cpio.gz) = 7ade55cb8511600b3a9d77f37bc581b2d09ab2aa</li>
- <li>TIGER (joe-3.1jupp11.cpio.gz) = b7bb4aa464b705e697ab2a52ad75fc8755a5817bfb83e09a</li>
- <li>805235529 419484 /MirOS/dist/jupp/joe-3.1jupp11.cpio.gz</li>
- <li>MD5 (joe-3.1jupp11.cpio.gz) = 1e2f21a6fdebe678b125e96806267f33</li>
+ <li>RMD160 (joe-3.1jupp12.cpio.gz) = 91d8a87138b68511b05b255634a48eec664555e9</li>
+ <li>TIGER (joe-3.1jupp12.cpio.gz) = d04e79f98f22eca30e2fd7464c23e2366bce60fdc881215c</li>
+ <li>3257471309 427648 /MirOS/dist/jupp/joe-3.1jupp12.cpio.gz</li>
+ <li>MD5 (joe-3.1jupp12.cpio.gz) = 4f11eb7ded5b43e4055e7c69000ac169</li>
  <li style="list-style:none;">↑ Unix │ DOS ↓</li>
  <li>RMD160 (joe-2.8jupp1.cpio.gz) = fb79036bc8842354041b1b4c997b3a82580b2d9c</li>
  <li>1183719912 211453 /MirOS/dist/jupp/joe-2.8jupp1.cpio.gz</li>
@@ -83,10 +83,10 @@ mws_content <<'EOF'
 
 <h3>Unpacking</h3>
 <p>Use a command like<br />
- <tt>$ tar xzf joe-3.1jupp11.cpio.gz</tt> # paxtar, bsdtar<br />
- <tt>$ gzip -dc joe-3.1jupp11.cpio.gz | cpio -mid</tt> # any cpio<br />
- <tt>$ pax -r -z &lt;joe-3.1jupp11.cpio.gz</tt> # any POSIX® archiver<br />
- <tt>$ gzip -dc joe-3.1jupp11.cpio.gz | pax -r</tt> # on MS Windows®<br />
+ <tt>$ tar xzf joe-3.1jupp12.cpio.gz</tt> # paxtar, bsdtar<br />
+ <tt>$ gzip -dc joe-3.1jupp12.cpio.gz | cpio -mid</tt> # any cpio<br />
+ <tt>$ pax -r -z &lt;joe-3.1jupp12.cpio.gz</tt> # any POSIX® archiver<br />
+ <tt>$ gzip -dc joe-3.1jupp12.cpio.gz | pax -r</tt> # on MS Windows®<br />
  to extract the distfile. The DOS version requires similar commands.
  Both extract into a sub-directory <tt>jupp/</tt> (not versioned).</p>
 <p>Some browsers already extract the file during downloading; skip the
@@ -136,7 +136,9 @@ $ $SUDO make install</pre>
   “WTF.deb” repository</a>. Called <tt>jupp</tt>, these do not conflict
   with an installed <tt>joe</tt> package from the distribution, which
   may be more recent (but lack jupprc and our bugfixes); the jupp mode is
-  the only one published, but the other rc files are still included.</li>
+  the only one published, but the other rc files are still included. The
+  <tt>joe-jupp</tt> package contains the necessary symbolic links to use
+  jupp’s other modes in favour of a separate joe package.</li>
  </ul></li>
  <li>jupp 2.x for DOS:<ul>
   <li>JOE 2.8jupp1 (released 20090718) for MS-DOS® (16-bit executable;
@@ -169,18 +171,38 @@ $ $SUDO make install</pre>
 
 <h2 id="wishlist">Wishlist</h2>
 <p>It’d be cool if jupp could…</p><ul>
- <li>look for <tt>${0}rc</tt> in <tt>$(dirname $0)/</tt></li>
- <li>use <strong>`r##</strong> in UTF-8 mode to insert raw octets in the
-  same manner as <strong>`x##</strong> does in 8-bit mode, since in UTF-8
-  mode, <strong>`x####</strong> inserts a Unicode character</li>
+ <li>look for <tt>${0}rc</tt> in <tt>$(dirname $0)/</tt> (somewhat
+  superseded by the built-in minimal-<tt>jupprc</tt> now though…)</li>
  <li>soft line break: display as line-wrapped, but save no newlines</li>
 </ul>
 
 <h2 id="clog">ChangeLog for Unix</h2>
+<!--
 <p>[2009-09-20] Changes in the current development version:</p><ul>
- <li>Fix gcc warnings caught while porting to Debian sid</li>
+</ul>
+-->
+<p id="r3_1j12">[2009-10-18] Changes for joe-3.1jupp12:</p><ul>
+ <li>Fix gcc warnings caught while porting to Debian sid, and others</li>
  <li>Use “\-” in the manual page to get dashes in groff’s UTF-8 mode</li>
  <li>login_tty(3) needs &lt;utmp.h&gt; on glibc systems; scan for it</li>
+ <li>Add support for libbsd (Debian, fd.o)</li>
+ <li>Unbreak SELinux support (still broken in joe-3.7 upstream! :þ)</li>
+ <li>Fix <tt>`x<i>##</i></tt> for 80‥FF in !UTF-8 mode</li>
+ <li>Use the inverse/underlined U+FFFD for some more occurences of
+  undisplayable (control) characters and incomplete multibyte
+  sequences; fix displaying these at end of line</li>
+ <li>Ensure C0/C1 control characters are never sent to a UTF-8
+  terminal, even from non-UTF-8 documents</li>
+ <li>Add built-in (minimal) jupprc file, for standalone EXEs</li>
+ <li>Backport hex editing mode; improve it, use uppercase</li>
+ <li>Implement <tt>`r<i>##</i></tt> in UTF-8 mode (same as
+  <tt>`x<i>##</i></tt> in non-UTF-8 mode) and <tt>`u</tt>
+  (interactive) in non-UTF-8 mode (same as <tt>`x</tt> in UTF-8 mode)</li>
+ <li>Add new Makefile variable sysconfjoesubdir=/joe (to override
+  the /joe in /etc/joe/jupprc for example)</li>
+ <li>Update config.guess and config.sub</li>
+ <li>Provide a real ANSI (cp1252) codepage</li>
+ <li>Fix build on AIX with xlC, Solaris with SUNWcc</li>
 </ul>
 <p id="r3_1j11">[2009-08-02] Changes for joe-3.1jupp11:</p><ul>
  <li>Split into two separate lines of <em>active</em> development:<ul>
