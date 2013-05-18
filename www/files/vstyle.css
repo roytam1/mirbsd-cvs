@@ -1,4 +1,4 @@
-/* $MirOS: www/files/vstyle.css,v 1.7 2008/02/28 19:18:33 tg Exp $ */
+/* $MirOS: www/files/vstyle.css,v 1.8 2008/03/24 18:20:35 tg Exp $ */
 /*-
  * The MirOS Project - Webpages
  * Copyrighted material; read LICENCE for terms of use.
@@ -63,7 +63,7 @@ img {
 .content {
 	margin-top:135px; margin-left:170px;
 	padding-left:16px;
-	min-height:280px;
+	min-height:500px;
 	border-left: 5px solid #FFFFFF;
 }
 

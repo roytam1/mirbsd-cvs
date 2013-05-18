@@ -1,4 +1,4 @@
-# $MirOS: www/src/main.hts,v 1.7 2008/03/14 21:13:10 tg Exp $
+# $MirOS: www/src/main.hts,v 1.8 2008/03/24 20:02:39 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -6,7 +6,7 @@
 mws_setname main "Welcome to the MirOS Project"
 mws_setrss "news.rss"
 mws_subdir 0
-mws_putheader '$MirOS: www/src/main.hts,v 1.7 2008/03/14 21:13:10 tg Exp $'
+mws_putheader '$MirOS: www/src/main.hts,v 1.8 2008/03/24 20:02:39 tg Exp $'
 mws_content <<'EOF'
 <h1>Welcome to the MirOS Project!</h1>
 
@@ -25,33 +25,6 @@ mws_content <<'EOF'
 
 <p>If you want to know more about these programs, visit the <a
  href="/?about">About MirOS</a> page.</p>
-
-<h2>RSS feeds</h2>
-
-<p>We offer the following RSS feeds, with links and suitable for
- copy’n’pasting directly into your favourite RSS reader (as well
- as referred to via &lt;link rel="…" …&gt; on the website):
-</p><ul>
- <li style="list-style:none;">– directly from our website –</li>
- <li>Current project news: <a
-  href="http://www.mirbsd.org/news.rss">http://www.mirbsd.org/news.rss</a></li>
- <li>Developers’ weblog (most recent): <a
-  href="http://www.mirbsd.org/wlog.rss">http://www.mirbsd.org/wlog.rss</a></li>
- <li>Developers’ weblog (post MirOS #10): <a
-  href="http://www.mirbsd.org/wlog-10.rss">http://www.mirbsd.org/wlog-10.rss</a></li>
- <li>Developers’ weblog (post MirOS #9): <a
-  href="http://www.mirbsd.org/wlog-9.rss">http://www.mirbsd.org/wlog-9.rss</a></li>
- <li style="list-style:none;">– autoconverted mailing list –</li>
- <li>General discussion mailing list – for users, developers, mksh: <a
-  href="http://rss.gmane.org/messages/complete/gmane.os.miros.general">http://rss.gmane.org/messages/complete/gmane.os.miros.general</a></li>
- <li>Source changes (CVS generated mails) – for developers: <a
-  href="http://rss.gmane.org/messages/complete/gmane.os.miros.cvs">http://rss.gmane.org/messages/complete/gmane.os.miros.cvs</a></li>
- <li>The GMane directory entries for the <a
-  href="http://dir.gmane.org/gmane.os.miros.general">discussion</a> and <a
-  href="http://dir.gmane.org/gmane.os.miros.cvs">CVS</a> mailing lists offer
-  additional RSS feed variants and other methods how to read the mailing lists.
- </li>
-</ul>
 
 <h2>News</h2>
 
