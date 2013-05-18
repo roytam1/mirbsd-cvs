@@ -1,5 +1,5 @@
 #!/usr/bin/perl
-# $MirOS: ports/net/sirc/dist/dsircp,v 1.6 2006/01/01 04:55:04 tg Exp $
+# $MirOS: ports/net/sirc/dist/dsircp,v 1.7 2006/01/01 05:36:41 tg Exp $
 #-
 # dsircp: dumb-mode small irc client in perl
 # by orabidoo <roger.espel.llima@pobox.com>
@@ -287,6 +287,7 @@ sub gl {
   local($buf2)='';
   if (sysread($_[0], $buf, 4096)) {
     if ($_[0] eq $S) {
+      $buf =~ s/\ca([<>])\ca/\cb\1\cb/g;
       $buf2 .= Encode::decode("utf8", $buf, Encode::FB_QUIET);
       $buf2 .= Encode::decode("iso-8859-1", $buf, Encode::FB_QUIET);
       $buffer{$_[0]} .= Encode::encode($set{"CHARSET"}, $buf2, 0);
