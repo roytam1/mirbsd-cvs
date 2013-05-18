@@ -1,13 +1,13 @@
 From mirabile@do-not-reply.66h.42h.de Thu May 26 21:49:31 2005 +0000
-X-RCSId: $MirOS: src/etc/root/root.mail,v 1.6 2006/01/13 03:49:30 tg Exp $
+X-RCSId: $MirOS: src/etc/root/root.mail,v 1.7 2006/03/19 21:23:17 tg Exp $
 Date: Thu, 26 May 2005 21:49:30 +0000 (UTC)
 From: MirOS Project <mirabile@do-not-reply.mirbsd.org>
 To: root
-Subject: Welcome to MirOS #8 - the innovative BSD experience!
+Subject: Welcome to MirOS #9 - the innovative BSD experience!
 
 Welcome on your newly installed MirOS system.
 
-This is the formal release of MirOS #8 BSD, GCC and X11,
+This is a development snapshot of MirOS #9-current BSD, GCC, and X11,
 with a snapshot of the current MirPorts Framework added.
 
 If you're no Unix® guru, you probably will not be reading
@@ -36,7 +36,7 @@ $ man 1 sudo
 You should read afterboot(8) for more basic instructions,
 and use lynx(1) to connect to the MirOS Project's web site
 regarding set-up instructions:
-	http://mirbsd.de/welcome
+	http://mirbsd.de/
 
 For some programmes, info(1) is the preferred documentation
 format - these are utilities from the GNU project, which are
@@ -50,8 +50,8 @@ contact the MirOS project, for example by using our public
 discussion mailing list (instructions on the website), also
 available via the GMane mailinglist-to-{news,web,RSS} service
 under "gmane.os.miros.general", or by Internet Relay Chat on
-the Freeforge network, Channel #mirbsd (for example on the
-server irc.66h.42h.de:6667 or 6666, or 6668 with SSL).
+the Freeforge network (irc.mirbsd.org:6668 with SSL, Port 6666
+without SSL), Channel #mirbsd.
 
 To install the MirPorts Framework, please follow the setup
 instructions on http://mirbsd.de/ports, but

@@ -1,4 +1,4 @@
-.\"	$MirOS: src/share/tmac/mdoc/doc-common,v 1.10 2006/08/10 23:35:03 tg Exp $
+.\"	$MirOS: src/share/tmac/mdoc/doc-common,v 1.11 2006/08/10 23:42:47 tg Exp $
 .\"	$OpenBSD: doc-common,v 1.44 2005/04/02 17:16:03 jmc Exp $
 .\"
 .\" Copyright (c) 2003, 2004, 2006
@@ -213,7 +213,7 @@
 .de Os
 .ds oS Null
 .if "\\$1"" \{\
-.	ds oS MirOS\ BSD\ #9
+.	ds oS MirOS\ BSD\ #9\-current
 .\}
 .if "\\$2"" \{\
 .	ds aa Non-Null
@@ -277,6 +277,7 @@
 .	if "\\$2"8"   .ds oS MirOS\ #8
 .	if "\\$2"9"   .ds oS MirOS\ #9
 .	if "\\$2"10"  .ds oS MirOS\ #10
+.	if "\\$2"11"  .ds oS MirOS\ #11
 .\}
 .if "\\$1"OpenBSD" \{\
 .	ds oS OpenBSD

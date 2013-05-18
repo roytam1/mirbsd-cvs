@@ -1,4 +1,4 @@
-							   MirOS BSD #9bis
+							 MirOS BSD #9-cur.
 
 Setup CD for MirOS (i386 and sparc)
 ===================================
@@ -162,4 +162,4 @@ code is available at http://www.mirbsd.org/ and its mirrors; further
 information can be found at /usr/share/doc/legal/ as well.
 
 _______________________________________________________________________
-$MirOS: src/distrib/common/00-README,v 1.1 2006/08/17 19:34:13 tg Exp $
+$MirOS: src/distrib/common/00-README,v 1.2 2006/08/18 20:48:45 tg Exp $

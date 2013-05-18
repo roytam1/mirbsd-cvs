@@ -1,5 +1,5 @@
 <!-- PageID: wlog-9 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.47 2006/09/22 00:15:04 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.48 2006/09/22 04:10:41 tg Exp $</small>
 <h1>MirBSD &ndash; WTF is Verpeilungsfaktor?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -736,6 +736,19 @@
   before rebuilding the system, otherwise xlock might not link because a
   symbol was missing in libstdc++ (do I need to change the shlib version
   now? no idea, I think nm might know).</p>
+</div>
+
+<div class="wlentry">
+ <h3 id="e20060924">24.09.2006 by tg@</h3>
+ <p>Did some serious FreeWRT hacking at wbx@' place yesterday. He showed
+  me how to roll my own Sushi and we had enough wine to get me a serious
+  hangover today.</p>
+ <p>Benny and I agreed on renaming #9bis into #10 because some seriously
+  deep changes which could not entirely be avoided. This way we can also
+  polish a little more and make one or two user-visible changes, but I'm
+  trying to not delay the release any more for that reason. Afterwards a
+  #11 will be released, with the goal &quot;sync with OpenBSD 4&quot;. I
+  also have plans for #12 which will take quite a long time.</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>

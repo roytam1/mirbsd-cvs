@@ -1,4 +1,4 @@
-.\" $MirOS: src/share/tmac/tmac.an.old,v 1.3 2006/03/31 01:54:02 tg Exp $
+.\" $MirOS: src/share/tmac/tmac.an.old,v 1.4 2006/06/11 02:34:01 tg Exp $
 .\"
 .\" Copyright (c) 1979, 1980, 1981, 1986, 1988, 1990, 1991, 1992
 .\"     The Regents of the University of California.
@@ -199,7 +199,7 @@
 .	el .ds ]W \\$4
 .\}
 .if n \{\
-.	ie "\\$4""  .ds ]W MirOS BSD #9
+.	ie "\\$4""  .ds ]W MirOS BSD #9\-current
 .	el .ds ]W \\$4
 .\}
 ..
