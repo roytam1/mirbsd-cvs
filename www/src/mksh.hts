@@ -1,4 +1,4 @@
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.82 2008/03/02 18:12:20 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.83 2008/03/04 00:45:02 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -692,8 +692,21 @@ mws_content <<'EOF'
  <li>Debian GNU/Linux 4.0 etch 2.6.18-4-k7 (i386 gcc4.1.1-21) <em>via MirOS provided Debian package</em></li>
  <li>Debian GNU/Linux 4.0 etch 2.6.18-4-k7 (i386 gcc4.1.1-21) <em>via MirOS provided SRPM package</em></li>
  <li>Debian GNU/Linux 4.0 testing 2.6.22-3-686 (i386 gcc4.2.3-1) <em>via MirOS provided Debian package</em></li>
+ <li>Red Hat FC8 2.6.23.15-137.fc8 (i386 gcc4.1.2-33) <em>via MirOS provided SRPM package</em></li>
+ <li>Red Hat FC8 2.6.23.15-137.fc8 (amd64 gcc4.1.2-33) <em>via MirOS provided SRPM package</em></li>
  <li style="list-style:none;">– tests by third parties (packagers) –</li>
+ <li>Debian GNU/kFreeBSD 6.3-1-686 (i386 gcc4.2.3-2) <em>by himalia1 buildd via Debian’s package</em></li>
+ <li>Debian GNU/kFreeBSD 6.3-1-amd64-k8 (amd64 gcc4.2.3-2) <em>by shockley buildd via Debian’s package</em></li>
  <li>Mac OSX Leopard 10.5.2 Darwin 9.2.0 (i386 gcc4.0.1 Apple Inc. build 5465) <em>by gecko2 via Fink package</em></li>
+ <li>Debian GNU/Linux 2.6.22-3-vserver-amd64 (amd64 gcc4.2.3-2) <em>by excelsior buildd via Debian’s package</em></li>
+ <li>Debian GNU/Linux 2.6.20 (armeb gcc4.2.3-1) <em>by europa buildd via Debian’s package</em></li>
+ <li>Debian GNU/Linux 2.6.23-rc8-iop32x (armel gcc4.2.3-2) <em>by ALL6500 buildd via Debian’s package</em></li>
+ <li>Debian GNU/Linux 2.6.22-14-hppa64 (hppa gcc4.2.3-2) <em>by bld-3 buildd via Debian’s package</em></li>
+ <li>Debian GNU/Linux 2.6.24.1 (i386 gcc4.2.3-2) <em>by ninsei buildd via Debian’s package</em></li>
+ <li>Debian GNU/Linux 2.6.18-dsa-mckinley (IA64 gcc4.2.3-1) <em>by mundy buildd via Debian’s package</em></li>
+ <li>Debian GNU/Linux 2.6.24-1-mac (mac68k gcc4.2.3-1) <em>by poseidon buildd via Debian’s package</em></li>
+ <li>Debian GNU/Linux 2.6.18-5-s390x (S/390 gcc4.2.3-2) <em>by debian-31 buildd via Debian’s package</em></li>
+ <li>Debian GNU/Linux 2.6.23.16 (sparc64,V8 gcc4.2.3-2) <em>by lebrun buildd via Debian’s package</em></li>
  <li style="list-style:none;">– known to <strong>FAIL</strong> building</li>
  <li>Mac OSX Leopard Server 10.5.2 Darwin 9.2.0 (macppc gcc3.3 20030304 Apple Computer, Inc. build 1823, ld64-77)</li>
  <li>Fabrice Bellard’s tcc in combination with GNU libc often fails linking</li>
