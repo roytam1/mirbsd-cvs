@@ -1,29 +1,4 @@
-/* $MirOS: src/include/wchar.h,v 1.5 2006/05/26 13:52:02 tg Exp $ */
-
-/*-
- * Copyright (c) 2005, 2006
- *	Thorsten Glaser <tg@mirbsd.de>
- *
- * Licensee is hereby permitted to deal in this work without restric-
- * tion, including unlimited rights to use, publicly perform, modify,
- * merge, distribute, sell, give away or sublicence, provided all co-
- * pyright notices above, these terms and the disclaimer are retained
- * in all redistributions or reproduced in accompanying documentation
- * or other materials provided with binary redistributions.
- *
- * All advertising materials mentioning features or use of this soft-
- * ware must display the following acknowledgement:
- *	This product includes material provided by Thorsten Glaser.
- *
- * Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
- * express, or implied, to the maximum extent permitted by applicable
- * law, without malicious intent or gross negligence; in no event may
- * licensor, an author or contributor be held liable for any indirect
- * or other damage, or direct damage except proven a consequence of a
- * direct error of said person and intended use of this work, loss or
- * other issues arising in any way out of its use, even if advised of
- * the possibility of such damage or existence of a nontrivial bug.
- */
+/* $MirOS: contrib/code/libhaible/wchar.h,v 1.16 2006/06/01 21:28:41 tg Exp $ */
 
 #ifndef	_WCHAR_H_
 #define	_WCHAR_H_
@@ -70,31 +45,79 @@ wchar_t	*fgetws(wchar_t *__restrict__, int, FILE *__restrict__);
 wint_t	fputwc(wchar_t, FILE *);
 int	fputws(const wchar_t *__restrict__, FILE *__restrict__);
 int	fwide(FILE *, int);
-#ifdef notyet
-int	fwprintf(FILE * __restrict__, const wchar_t * __restrict__, ...);
-int	fwscanf(FILE *__restrict__, const wchar_t *__restrict__, ...);
-#endif
 wint_t	getwc(FILE *);
 wint_t	getwchar(void);
-#ifdef notyet
 size_t	mbrlen(const char *__restrict__, size_t, mbstate_t *__restrict__);
-#endif
 size_t	mbrtowc(wchar_t *__restrict__, const char *__restrict__, size_t,
 	    mbstate_t *__restrict__);
 int	mbsinit(const mbstate_t *);
-#ifdef notyet
 size_t	mbsrtowcs(wchar_t *__restrict__, const char **__restrict__, size_t,
 	    mbstate_t *__restrict__);
-#endif
 wint_t	putwc(wchar_t, FILE *);
 wint_t	putwchar(wchar_t);
-#ifdef notyet
+wint_t	ungetwc(wint_t, FILE *);
+size_t	wcrtomb(char *__restrict__, wchar_t, mbstate_t *__restrict__);
+int	wcscasecmp(const wchar_t *, const wchar_t *);
+wchar_t	*wcscat(wchar_t *__restrict__, const wchar_t *__restrict__);
+wchar_t	*wcschr(const wchar_t *, wchar_t);
+int	wcscmp(const wchar_t *, const wchar_t *);
+int	wcscoll(const wchar_t *, const wchar_t *);
+wchar_t	*wcscpy(wchar_t *__restrict__, const wchar_t *__restrict__);
+size_t	wcscspn(const wchar_t *, const wchar_t *);
+wchar_t *wcsdup(const wchar_t *);
+size_t	wcslcat(wchar_t *, const wchar_t *, size_t);
+size_t	wcslcpy(wchar_t *, const wchar_t *, size_t);
+size_t	wcslen(const wchar_t *);
+int	wcsncasecmp(const wchar_t *, const wchar_t *, size_t);
+wchar_t	*wcsncat(wchar_t *__restrict__, const wchar_t *__restrict__, size_t);
+int	wcsncmp(const wchar_t *, const wchar_t *, size_t);
+wchar_t	*wcsncpy(wchar_t *__restrict__, const wchar_t *__restrict__, size_t);
+wchar_t	*wcspbrk(const wchar_t *, const wchar_t *);
+wchar_t	*wcsrchr(const wchar_t *, wchar_t);
+size_t	wcsrtombs(char *__restrict__, const wchar_t **__restrict__, size_t,
+	    mbstate_t *__restrict__);
+size_t	wcsspn(const wchar_t *, const wchar_t *);
+wchar_t	*wcsstr(const wchar_t *__restrict__, const wchar_t *__restrict__);
+double	wcstod(const wchar_t *__restrict__, wchar_t **__restrict__);
+float	wcstof(const wchar_t *__restrict__, wchar_t **__restrict__);
+#if 0
+wchar_t	*wcstok(wchar_t *__restrict__, const wchar_t *__restrict__,
+	    wchar_t **__restrict__);
+#endif
+long	wcstol(const wchar_t *__restrict__, wchar_t **__restrict__, int);
+long double wcstold(const wchar_t *__restrict__, wchar_t **__restrict__);
+#if (!defined(_POSIX_C_SOURCE) && !defined(_XOPEN_SOURCE)) || \
+    defined(_ISOC99_SOURCE) || (__STDC_VERSION__ - 0) > 199901L
+/* LONGLONG */
+long long wcstoll(const wchar_t *__restrict__, wchar_t **__restrict__, int);
+#endif
+unsigned long wcstoul(const wchar_t *__restrict__, wchar_t **__restrict__,
+	    int);
+#if (!defined(_POSIX_C_SOURCE) && !defined(_XOPEN_SOURCE)) || \
+    defined(_ISOC99_SOURCE) || (__STDC_VERSION__ - 0) > 199901L
+/* LONGLONG */
+unsigned long long wcstoull(const wchar_t *__restrict__,
+	    wchar_t **__restrict__, int);
+#endif
+wchar_t	*wcswcs(const wchar_t *, const wchar_t *);
+int	wcswidth(const wchar_t *, size_t);
+size_t	wcsxfrm(wchar_t *__restrict__, const wchar_t *__restrict__, size_t);
+int	wctob(wint_t);
+wctype_t wctype(const char *);
+int	wcwidth(wchar_t);
+wchar_t	*wmemchr(const wchar_t *, wchar_t, size_t);
+int	wmemcmp(const wchar_t *, const wchar_t *, size_t);
+wchar_t	*wmemcpy(wchar_t *__restrict__, const wchar_t *__restrict__, size_t);
+wchar_t	*wmemmove(wchar_t *, const wchar_t *, size_t);
+wchar_t	*wmemset(wchar_t *, wchar_t, size_t);
+
+/* these functions are currently not implemented in libc */
+#if 0
+int	fwprintf(FILE * __restrict__, const wchar_t * __restrict__, ...);
+int	fwscanf(FILE *__restrict__, const wchar_t *__restrict__, ...);
 int	swprintf(wchar_t * __restrict__, size_t, const wchar_t * __restrict__,
 	    ...);
 int	swscanf(const wchar_t *__restrict__, const wchar_t *__restrict__, ...);
-#endif
-wint_t	ungetwc(wint_t, FILE *);
-#ifdef notyet
 int	vfwprintf(FILE * __restrict__, const wchar_t * __restrict__,
 	    _BSD_VA_LIST_);
 int	vfwscanf(FILE *__restrict__, const wchar_t *__restrict__, _BSD_VA_LIST_);
@@ -104,77 +127,6 @@ int	vswscanf(const wchar_t *__restrict__, const wchar_t *__restrict__,
 	    _BSD_VA_LIST_);
 int	vwprintf(const wchar_t * __restrict__, _BSD_VA_LIST_);
 int	vwscanf(const wchar_t *__restrict__, _BSD_VA_LIST_);
-#endif
-size_t	wcrtomb(char *__restrict__, wchar_t, mbstate_t *__restrict__);
-wchar_t	*wcscat(wchar_t *__restrict__, const wchar_t *__restrict__);
-wchar_t	*wcschr(const wchar_t *, wchar_t);
-int	wcscmp(const wchar_t *, const wchar_t *);
-#ifdef notyet
-int	wcscoll(const wchar_t *, const wchar_t *);
-#endif
-wchar_t	*wcscpy(wchar_t *__restrict__, const wchar_t *__restrict__);
-size_t	wcscspn(const wchar_t *, const wchar_t *);
-#ifdef notyet
-size_t	wcsftime(wchar_t *__restrict__, size_t, const wchar_t *__restrict__,
-	    const struct tm *__restrict__);
-#endif
-size_t	wcslcat(wchar_t *, const wchar_t *, size_t);
-size_t	wcslcpy(wchar_t *, const wchar_t *, size_t);
-size_t	wcslen(const wchar_t *);
-wchar_t	*wcsncat(wchar_t *__restrict__, const wchar_t *__restrict__, size_t);
-int	wcsncmp(const wchar_t *, const wchar_t *, size_t);
-wchar_t	*wcsncpy(wchar_t *__restrict__, const wchar_t *__restrict__, size_t);
-wchar_t	*wcspbrk(const wchar_t *, const wchar_t *);
-wchar_t	*wcsrchr(const wchar_t *, wchar_t);
-#ifdef notyet
-size_t	wcsrtombs(char *__restrict__, const wchar_t **__restrict__, size_t,
-	    mbstate_t *__restrict__);
-#endif
-size_t	wcsspn(const wchar_t *, const wchar_t *);
-wchar_t	*wcsstr(const wchar_t *__restrict__, const wchar_t *__restrict__);
-#ifdef notyet
-double	wcstod(const wchar_t *__restrict__, wchar_t **__restrict__);
-float	wcstof(const wchar_t *__restrict__, wchar_t **__restrict__);
-wchar_t	*wcstok(wchar_t *__restrict__, const wchar_t *__restrict__,
-	    wchar_t **__restrict__);
-long	wcstol(const wchar_t *__restrict__, wchar_t **__restrict__, int);
-long double wcstold(const wchar_t *__restrict__, wchar_t **__restrict__);
-#endif
-#if (!defined(_POSIX_C_SOURCE) && !defined(_XOPEN_SOURCE)) || \
-    defined(_ISOC99_SOURCE) || (__STDC_VERSION__ - 0) > 199901L
-#ifdef notyet
-/* LONGLONG */
-long long wcstoll(const wchar_t *__restrict__, wchar_t **__restrict__, int);
-#endif /* notyet */
-#endif
-#ifdef notyet
-unsigned long wcstoul(const wchar_t *__restrict__, wchar_t **__restrict__,
-	    int);
-#endif /* notyet */
-#if (!defined(_POSIX_C_SOURCE) && !defined(_XOPEN_SOURCE)) || \
-    defined(_ISOC99_SOURCE) || (__STDC_VERSION__ - 0) > 199901L
-#ifdef notyet
-/* LONGLONG */
-unsigned long long wcstoull(const wchar_t *__restrict__,
-	    wchar_t **__restrict__, int);
-#endif /* notyet */
-#endif
-wchar_t	*wcswcs(const wchar_t *, const wchar_t *);
-#ifdef notyet
-int	wcswidth(const wchar_t *, size_t);
-size_t	wcsxfrm(wchar_t *__restrict__, const wchar_t *__restrict__, size_t);
-#endif
-int	wctob(wint_t);
-#ifdef notyet
-wctype_t wctype(const char *);
-int	wcwidth(wchar_t);
-#endif
-wchar_t	*wmemchr(const wchar_t *, wchar_t, size_t);
-int	wmemcmp(const wchar_t *, const wchar_t *, size_t);
-wchar_t	*wmemcpy(wchar_t *__restrict__, const wchar_t *__restrict__, size_t);
-wchar_t	*wmemmove(wchar_t *, const wchar_t *, size_t);
-wchar_t	*wmemset(wchar_t *, wchar_t, size_t);
-#ifdef notyet
 int	wprintf(const wchar_t * __restrict__, ...);
 int	wscanf(const wchar_t *__restrict__, ...);
 #endif

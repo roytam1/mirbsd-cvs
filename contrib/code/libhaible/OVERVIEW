@@ -1,4 +1,4 @@
-$MirOS: contrib/code/libhaible/OVERVIEW,v 1.25 2006/06/01 22:42:40 tg Exp $
+$MirOS: contrib/code/libhaible/OVERVIEW,v 1.26 2006/06/01 22:55:38 tg Exp $
 $function name		header		manpage		source location
 $ 
 $ Info: #=commented out C=libc H=libhaible G=GPL/libhaible
@@ -78,7 +78,7 @@ wcsspn			 wchar.h	C:wmemchr	string/wcsspn.c
 wcsstr			 wchar.h	C:wmemchr	string/wcsstr.c
 wcstod			 wchar.h	C:wmemchr	locale/wcstod.c
 wcstof			 wchar.h	C:wmemchr	locale/wcstod.c
-wcstok		LGPL	 wchar.h	C:wcstok	libhaible/wcstok.c
+wcstok		LGPL	+wchar.h	C:wcstok	libhaible/wcstok.c
 wcstol			 wchar.h	C:wmemchr	locale/wcstol.c
 wcstold			 wchar.h	C:wmemchr	locale/wcstod.c
 wcstoll			 wchar.h	C:wmemchr	locale/wcstoll.c

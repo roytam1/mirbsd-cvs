@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/libhaible/wchar.h,v 1.15 2006/05/31 00:56:12 tg Exp $ */
+/* $MirOS: contrib/code/libhaible/wchar.h,v 1.16 2006/06/01 21:28:41 tg Exp $ */
 
 #ifndef	_WCHAR_H_
 #define	_WCHAR_H_
@@ -109,7 +109,7 @@ wchar_t	*wmemcpy(wchar_t *__restrict__, const wchar_t *__restrict__, size_t);
 wchar_t	*wmemmove(wchar_t *, const wchar_t *, size_t);
 wchar_t	*wmemset(wchar_t *, wchar_t, size_t);
 
-/* these functions are currently not implemented */
+/* these functions are currently not implemented in libc */
 #if 0
 int	fwprintf(FILE * __restrict__, const wchar_t * __restrict__, ...);
 int	fwscanf(FILE *__restrict__, const wchar_t *__restrict__, ...);
