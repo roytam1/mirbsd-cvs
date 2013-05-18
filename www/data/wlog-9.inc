@@ -2914,4 +2914,6 @@ Author: tg@
  appliance with FreeWRT</a>, maybe I can let him hire (and pay) me for that.
  I could definitively need the money at the moment (hint hint).</p>
 <p>If not, I can always port MirPorts to MidnightBSD…</p>
+<p>… and I actually did, this will lead to some changes, even a few real
+ improvements not only for mnbsd but for mbsd too.</p>
 ----
