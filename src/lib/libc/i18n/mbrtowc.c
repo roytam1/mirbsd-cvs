@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/i18n/mbrtowc.c,v 1.9 2006/06/02 19:45:00 tg Exp $ */
+/* $MirOS: src/lib/libc/i18n/mbrtowc.c,v 1.10 2006/06/03 21:01:25 tg Exp $ */
 
 /*-
  * Copyright (c) 2005, 2006
@@ -30,7 +30,7 @@
 
 #include "mir18n.h"
 
-__RCSID("$MirOS: src/lib/libc/i18n/mbrtowc.c,v 1.9 2006/06/02 19:45:00 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/mbrtowc.c,v 1.10 2006/06/03 21:01:25 tg Exp $");
 
 size_t
 mbrtowc(wchar_t *__restrict__ pwc, const char *__restrict__ src,
@@ -38,7 +38,7 @@ mbrtowc(wchar_t *__restrict__ pwc, const char *__restrict__ src,
 {
 	static mbstate_t internal_mbstate = { 0, 0 };
 	const unsigned char *s = (const unsigned char *)src;
-	wint_t c, wc, wc_max;
+	wint_t c, wc;
 	unsigned count;
 
 	if (__predict_false(ps == NULL))
@@ -51,8 +51,6 @@ mbrtowc(wchar_t *__restrict__ pwc, const char *__restrict__ src,
 
 	if (__predict_false(!n))
 		return ((size_t)(-2));
-
-	wc_max = __locale_is_utf8 ? MIR18N_MB_MAX : MIR18N_SB_CVT;
 
 	if ((count = __locale_is_utf8 ? ps->count : 0)) {
 		wc = ps->value << 6;
