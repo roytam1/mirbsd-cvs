@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/stand/boot/vars.c,v 1.5 2008/08/01 11:25:05 tg Exp $ */
+/**	$MirOS: src/sys/stand/boot/vars.c,v 1.6 2008/12/31 16:38:35 tg Exp $ */
 /*	$OpenBSD: vars.c,v 1.13 2005/05/24 20:48:35 uwe Exp $	*/
 
 /*
@@ -41,6 +41,9 @@ static int Xdevice(void);
 #ifdef DEBUG
 static int Xdebug(void);
 #endif
+#ifndef SMALL_KERNEL
+static int Xdoboot(void);
+#endif
 static int Ximage(void);
 static int Xhowto(void);
 static int Xtty(void);
@@ -55,6 +58,9 @@ const struct cmd_table cmd_set[] = {
 	{"debug",  CMDT_VAR, Xdebug},
 #endif
 	{"device", CMDT_VAR, Xdevice},
+#ifndef SMALL_KERNEL
+	{"doboot", CMDT_VAR, Xdoboot},
+#endif
 	{"tty",    CMDT_VAR, Xtty},
 	{"image",  CMDT_VAR, Ximage},
 	{"timeout",CMDT_VAR, Xtimeout},
@@ -279,5 +285,19 @@ Xenv(void)
 	}
 
 	return 0;
+}
+#endif
+
+#ifndef SMALL_KERNEL
+static int
+Xdoboot(void)
+{
+	extern int doboot;
+
+	if (cmd.argc != 2)
+		printf("%d\n", doboot);
+	else
+		doboot = (int)strtol(cmd.argv[1], NULL, 0);
+	return (0);
 }
 #endif
