@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.10 2006/11/19 13:06:53 bsiegert Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.11 2006/11/19 13:14:29 tg Exp $ */
 /* $OpenBSD: perform.c,v 1.32 2003/08/21 20:24:56 espie Exp $	*/
 
 /*
@@ -29,7 +29,7 @@
 #include <signal.h>
 #include <errno.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.10 2006/11/19 13:06:53 bsiegert Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.11 2006/11/19 13:14:29 tg Exp $");
 
 static int pkg_do(char *);
 static int sanity_check(char *);
@@ -590,22 +590,13 @@ write_deps(void)
 {
     char filename[FILENAME_MAX];
     char *cp, *token;
-    FILE *cfile;
 
     if (!PkgDeps || !LogDir)
 	return;
 
     (void) snprintf(filename, sizeof(filename), "%s/%s", LogDir, DEPENDS_FNAME);
     drop_privs();
-    cfile = fopen(filename, "w");
-    if (!cfile) {
-	raise_privs();
-	pwarn("cannot open dependency file '%s' for writing", filename);
-	return;
-    }
-    fprintf(cfile, "%s", PkgDeps);
-    if (fclose(cfile) == EOF)
-	pwarn("cannot properly close file '%s'", filename);
+    (void)write_file(filename, "w", "%s", PkgDeps);
     raise_privs();
 
     token = PkgDeps;
@@ -617,17 +608,9 @@ write_deps(void)
 	(void) snprintf(filename, sizeof(filename), "%s/%s/%s", dbdir,
 			basename(cp), REQUIRED_BY_FNAME);
 	drop_privs();
-	cfile = fopen(filename, "a");
-	if (!cfile) {
-	    raise_privs();
-	    pwarn("can't open dependency file '%s'\n"
-		   "dependency registration is incomplete", filename);
-	} else {
-	    fprintf(cfile, "%s\n", PkgName);
-	    if (fclose(cfile) == EOF)
-		pwarn("cannot properly close file '%s'", filename);
-	    raise_privs();
-	}
+	if (write_file(filename, "a", "%s\n", PkgName))
+	    pwarnx("dependency registration is incomplete");
+	raise_privs();
     }
 
 }

@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/lib/file.c,v 1.10 2006/09/24 20:24:54 bsiegert Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/lib/file.c,v 1.11 2006/09/24 20:40:48 tg Exp $ */
 /* $OpenBSD: file.c,v 1.26 2003/08/21 20:24:57 espie Exp $	*/
 
 /*
@@ -33,7 +33,7 @@
 #include <libgen.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/file.c,v 1.10 2006/09/24 20:24:54 bsiegert Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/file.c,v 1.11 2006/09/24 20:40:48 tg Exp $");
 
 /* Try to find the log dir for an incomplete package specification.
  * Used in pkg_info and pkg_delete. Returns the number of matches,
@@ -577,27 +577,27 @@ make_preserve_name(char *try, size_t max, char *name, char *file)
     return true;
 }
 
-/* Write the contents of "str" to a file */
-void
-write_file(const char *name, const char *str)
+/* Write the contents of "str" to a file. mode is "a" or "w". */
+/* Returns 1 on failure, 0 on success */
+int
+write_file(const char *filename, const char *mode, const char *fmt, ...)
 {
-	FILE	*fp;
-	size_t	len;
+    va_list ap;
+    FILE *cfile;
 
-	if ((fp = fopen(name, "w")) == NULL) {
-		cleanup(0);
-		errx(2, "cannot fopen '%s' for writing", name);
-	}
-	len = strlen(str);
-	if (fwrite(str, 1, len, fp) != len) {
-		cleanup(0);
-		errx(2, "short fwrite on '%s', tried to write %lu bytes",
-			name, (u_long)len);
-	}
-	if (fclose(fp)) {
-		cleanup(0);
-		errx(2, "failure to fclose '%s'", name);
-	}
+    va_start(ap, fmt);
+
+    cfile = fopen(filename, mode);
+    if (!cfile) {
+	pwarn("cannot open file '%s' for writing", filename);
+	return 1;
+    }
+    vfprintf(cfile, fmt, ap);
+    if (fclose(cfile) == EOF) {
+	pwarn("cannot properly close file '%s'", filename);
+	return 1;
+    }
+    return 0;
 }
 
 void

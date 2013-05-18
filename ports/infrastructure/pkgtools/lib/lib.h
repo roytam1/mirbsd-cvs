@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/lib/lib.h,v 1.10 2006/11/13 21:49:54 bsiegert Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/lib/lib.h,v 1.11 2006/11/19 12:33:53 tg Exp $ */
 /*	$OpenBSD: lib.h,v 1.14 2003/08/21 20:24:57 espie Exp $	*/
 
 /*
@@ -185,7 +185,8 @@ char		*fileURLHost(char *, char *, int);
 char		*fileFindByPath(char *, char *);
 char		*fileGetContents(char *);
 bool		make_preserve_name(char *, size_t, char *, char *);
-void		write_file(const char *, const char *);
+int		write_file(const char *, const char *, const char *, ...)
+		    __attribute__((__format__ (printf, 3, 4)));
 void		copy_file(const char *, const char *, const char *);
 void		move_file(const char *, const char *, char *);
 void		copy_hierarchy(const char *, char *, bool);
