@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: ports/Setup.sh,v 1.42 2008/05/01 00:52:28 tg Exp $
+# $MirOS: ports/Setup.sh,v 1.43 2008/05/03 01:28:58 tg Exp $
 #-
 # Copyright (c) 2005, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -196,8 +196,8 @@ fi
 # Look if this is a sufficient mksh, search for one
 ms=false
 for s in /bin/mksh $MKSH $SHELL; do
-	# This is from MirMake; it ensures mksh R33 or higher
-	t=`$s -c 'let a=1; (( a + 1 )) 2>/dev/null && if [[ $KSH_VERSION = @(\@\(#\)MIRBSD KSH R)@(3[3-9]|[4-9][0-9]|[1-9][0-9][0-9])\ +([0-9])/+([0-9])/+([0-9])?(\ *) ]]; then echo yes; else echo no; fi' 2>/dev/null`
+	# This is from MirMake; it ensures mksh R34 or higher
+	t=`$s -c 'let a=1; (( a + 1 )) 2>/dev/null && if [[ $KSH_VERSION = @(\@\(#\)MIRBSD KSH R)@(3[4-9]|[4-9][0-9]|[1-9][0-9][0-9])\ +([0-9])/+([0-9])/+([0-9])?(\ *) ]]; then echo yes; else echo no; fi' 2>/dev/null`
 	if test x"$t" = x"yes"; then
 		ms=$s
 		break
