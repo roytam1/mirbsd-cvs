@@ -2,7 +2,7 @@
 
 #include "sh.h"
 
-__RCSID("$MirOS: src/bin/mksh/jobs.c,v 1.44 2009/02/23 16:17:44 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/jobs.c,v 1.45 2009/03/22 17:47:37 tg Exp $");
 
 /* Order important! */
 #define PRUNNING	0
@@ -128,7 +128,7 @@ j_init(int mflagset)
 	sigprocmask(SIG_SETMASK, &sm_default, NULL);
 
 	(void)sigemptyset(&sm_sigchld);
-	sigaddset(&sm_sigchld, SIGCHLD);
+	(void)sigaddset(&sm_sigchld, SIGCHLD);
 
 	setsig(&sigtraps[SIGCHLD], j_sigchld,
 	    SS_RESTORE_ORIG|SS_FORCE|SS_SHTRAP);
