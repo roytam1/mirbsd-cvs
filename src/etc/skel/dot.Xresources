@@ -1,5 +1,5 @@
 ! $MirSecuCron$
-! $MirOS: src/etc/skel/dot.Xresources,v 1.18 2011/10/12 20:02:52 tg Exp $
+! $MirOS: src/etc/skel/dot.Xresources,v 1.19 2011/10/22 21:03:33 tg Exp $
 !-
 ! Copyright © 2003, 2006, 2007, 2009, 2010, 2011
 !	Thorsten Glaser <tg@mirbsd.org>
@@ -37,7 +37,7 @@ XTerm*VT100*background:		white
 XTerm*VT100*foreground:		black
 #endif
 XTerm*termName:			xterm-xfree86
-XTerm*cursorColor:		black
+XTerm*cursorColor:		rgb:FF/BF/00
 XTerm*VT100*colorMode:		true
 XTerm*VT100*colorBDMode:	true
 XTerm*VT100*colorBLMode:	false
@@ -90,7 +90,7 @@ UXTerm*ptyInitialErase:		true
 UXTerm*VT100*background:	black
 UXTerm*VT100*foreground:	lightgrey
 UXTerm*termName:		xterm-xfree86
-UXTerm*cursorColor:		black
+UXTerm*cursorColor:		rgb:FF/BF/00
 UXTerm*VT100*colorMode:		true
 UXTerm*VT100*colorBDMode:	true
 UXTerm*VT100*colorBLMode:	false

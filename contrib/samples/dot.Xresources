@@ -1,5 +1,5 @@
 ! $MirSecuCron$
-! $MirOS: contrib/samples/dot.Xresources,v 1.18 2011/10/13 08:29:38 tg Exp $
+! $MirOS: contrib/samples/dot.Xresources,v 1.19 2011/10/22 21:03:34 tg Exp $
 !-
 ! Copyright © 2003, 2004, 2005, 2006, 2007, 2009, 2010, 2011
 !	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
@@ -30,6 +30,7 @@
 !	    <BtnUp>:select-end(PRIMARY)
 
 ! TODO: use cursorUnderLine (xterm #237 and up)
+! TODO: use allowBoldFonts (xterm #270 and up)
 
 !--- generic XTerm settings ---
 XTerm*VT100*loginShell:		true
@@ -43,7 +44,7 @@ XTerm*ptyInitialErase:		true
 XTerm*VT100*background:		black
 XTerm*VT100*foreground:		lightgrey
 XTerm*termName:			xterm-xfree86
-XTerm*cursorColor:		black
+XTerm*cursorColor:		rgb:FF/BF/00
 XTerm*VT100*colorMode:		true
 XTerm*VT100*colorBDMode:	true
 XTerm*VT100*colorBLMode:	false
@@ -153,7 +154,7 @@ BXTerm*ptyInitialErase:		true
 BXTerm*VT100*background:	white
 BXTerm*VT100*foreground:	black
 BXTerm*termName:		xterm-r6
-BXTerm*cursorColor:		black
+BXTerm*cursorColor:		rgb:FF/BF/00
 BXTerm*VT100*colorMode:		false
 BXTerm*VT100*colorBDMode:	false
 BXTerm*VT100*colorBLMode:	false
@@ -188,7 +189,7 @@ TXTerm*ptyInitialErase:		true
 TXTerm*VT100*background:	black
 TXTerm*VT100*foreground:	lightgrey
 TXTerm*termName:		xterm-xfree86
-TXTerm*cursorColor:		black
+TXTerm*cursorColor:		rgb:FF/BF/00
 TXTerm*VT100*colorMode:		true
 TXTerm*VT100*colorBDMode:	true
 TXTerm*VT100*colorBLMode:	false
@@ -245,7 +246,7 @@ VXTerm*ptyInitialErase:		true
 VXTerm*VT100*background:	black
 VXTerm*VT100*foreground:	lightgrey
 VXTerm*termName:		xterm-xfree86
-VXTerm*cursorColor:		black
+VXTerm*cursorColor:		rgb:FF/BF/00
 VXTerm*VT100*colorMode:		true
 VXTerm*VT100*colorBDMode:	true
 VXTerm*VT100*colorBLMode:	false
@@ -303,7 +304,7 @@ UXTerm*ptyInitialErase:		true
 UXTerm*VT100*background:	black
 UXTerm*VT100*foreground:	lightgrey
 UXTerm*termName:		xterm-xfree86
-UXTerm*cursorColor:		black
+UXTerm*cursorColor:		rgb:FF/BF/00
 UXTerm*VT100*colorMode:		true
 UXTerm*VT100*colorBDMode:	true
 UXTerm*VT100*colorBLMode:	false
@@ -362,7 +363,7 @@ KTerm*ptyInitialErase:		true
 KTerm*VT100*background:		black
 KTerm*VT100*foreground:		lightgrey
 KTerm*termName:			kterm
-KTerm*cursorColor:		black
+KTerm*cursorColor:		rgb:FF/BF/00
 KTerm*VT100*colorMode:		true
 KTerm*VT100*colorBDMode:	true
 KTerm*VT100*colorBLMode:	false
