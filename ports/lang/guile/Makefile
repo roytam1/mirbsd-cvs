@@ -1,4 +1,4 @@
-# $MirOS: ports/lang/guile/Makefile,v 1.6 2007/07/18 21:55:08 bsiegert Exp $
+# $MirOS: ports/lang/guile/Makefile,v 1.7 2008/05/07 22:48:29 tg Exp $
 # $OpenBSD: Makefile,v 1.20 2002/12/29 20:41:07 fgsch Exp $
 
 COMMENT=		GNU Ubiquitous Intelligent Language for Extension
@@ -32,6 +32,6 @@ post-extract:
 post-install:
 	${INSTALL_DATA_DIR} ${PREFIX}/share/aclocal
 	${INSTALL_DATA} ${WRKSRC}/guile-config/guile.m4 ${PREFIX}/share/aclocal
-	mv ${WRKINST}/1.8/ice9/* ${PREFIX}/share/guile/1.8/ice-9/
+	mv ${WRKINST}/1.8/ice-9/* ${PREFIX}/share/guile/1.8/ice-9/
 
 .include <bsd.port.mk>
