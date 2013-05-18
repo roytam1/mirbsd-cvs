@@ -1,9 +1,9 @@
-# $MirOS: ports/x11/gnome/terminal/Makefile,v 1.4 2006/09/14 00:15:21 tg Exp $
+# $MirOS: ports/x11/gnome/terminal/Makefile,v 1.5 2007/04/18 20:05:08 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.14 2004/12/15 13:57:57 alek Exp $
 
 COMMENT=		GNOME terminal
 
-DISTNAME=		gnome-terminal-2.8.2
+DISTNAME=		gnome-terminal-2.18.1
 CATEGORIES=		x11/gnome
 
 HOMEPAGE=		http://www.gnome.org/
@@ -15,7 +15,7 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-MASTER_SITES=		${MASTER_SITE_GNOME:=sources/gnome-terminal/2.8/}
+MASTER_SITES=		${MASTER_SITE_GNOME:=sources/gnome-terminal/2.18/}
 EXTRACT_SUFX=		.tar.bz2
 
 MODULES=		devel/gettext devel/pkgconfig
