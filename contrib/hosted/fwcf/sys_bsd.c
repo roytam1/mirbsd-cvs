@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.20 2006/12/11 21:04:56 tg Rel $ */
+/* $MirOS: contrib/hosted/fwcf/sys_bsd.c,v 1.4 2007/03/13 18:14:30 tg Exp $ */
 
 /*-
  * Copyright (c) 2006, 2007
@@ -27,7 +27,7 @@
 #include "defs.h"
 #include "sysdeps.h"
 
-__RCSID("$MirOS: contrib/hosted/fwcf/sys_bsd.c,v 1.3 2006/09/24 20:34:59 tg Exp $");
+__RCSID("$MirOS: contrib/hosted/fwcf/sys_bsd.c,v 1.4 2007/03/13 18:14:30 tg Exp $");
 
 void
 pull_rndata(uint8_t *buf, size_t n)
@@ -72,17 +72,20 @@ push_rndata(uint8_t *buf, size_t n)
 #endif
 #ifdef __MirBSD__
 	arc4random_pushb(buf, n);
+#elif defined(arc4random_pushk)
+	arc4random_pushk(buf, n);
 #else
 	int fd;
 	uint32_t x;
 
 	arc4random_addrandom(buf, n);
 	x = arc4random();
-	if ((fd = open("/dev/arandom", O_WRONLY)) >= 0) {
+	if (((fd = open("/dev/arandom", O_WRONLY)) >= 0) ||
+	    ((fd = open("/dev/urandom", O_WRONLY)) >= 0)) {
 		write(fd, &x, 4);
 		close(fd);
 	} else
-		warn("cannot write to /dev/arandom");
+		warn("cannot write to /dev/arandom nor /dev/urandom");
 #endif
 #ifdef RND_DEBUG
 	printf("reading %ld bytes of entropy\n", n);
