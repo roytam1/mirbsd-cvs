@@ -1,7 +1,8 @@
+@comment $MirOS$
 @comment $OpenBSD: PLIST,v 1.5 2003/12/31 13:51:32 naddy Exp $
 ${P5SITE}/Text/Autoformat.pm
 @comment ${P5ARCH}/auto/Text/Autoformat/.packlist
-man/man3/Text::Autoformat.3p
+man/man3/Text::Autoformat${P5MAN3EXT}
 share/examples/p5-Text-Autoformat/dot.emacs
 share/examples/p5-Text-Autoformat/dot.vimrc
 @dirrm share/examples/p5-Text-Autoformat
@@ -9,3 +10,4 @@ share/examples/p5-Text-Autoformat/dot.vimrc
 @comment @dirrm ${P5ARCH}/auto/Text
 @comment @dirrm ${P5ARCH}/auto
 @comment @dirrm ${P5ARCH}
+@dirrm ${P5SITE}/Text
