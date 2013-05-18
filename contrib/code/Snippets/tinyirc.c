@@ -69,7 +69,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#ifndef _USE_OLD_CURSES_
 #include <term.h>
+#endif
 #include <termios.h>
 #include <time.h>
 #include <unistd.h>
@@ -78,7 +80,7 @@
 #define	__RCSID(x)	static const char __rcsid[] __attribute__((used)) = (x)
 #endif
 
-__RCSID("$MirOS: contrib/code/Snippets/tinyirc.c,v 1.27 2008/12/20 17:29:44 tg Exp $");
+__RCSID("$MirOS: contrib/code/Snippets/tinyirc.c,v 1.29 2008/12/29 21:52:53 tg Exp $");
 
 #ifndef __dead
 #define __dead
@@ -99,12 +101,12 @@ struct dlist {
 struct dlist *object = NULL, *objlist = NULL, *newobj;
 u_short IRCPORT = DEFAULTPORT;
 #define LINELEN 512
-int sockfd, sok = 1, stdinfd, stdoutfd, histline, dumb = 0, CO, LI, column;
+int sockfd, sok = 1, stdinfd, stdoutfd, histline, dumb = 0,
+    maxcol, maxlin, column;
 char *linein, lineout[LINELEN], *history[HISTLEN], localhost[64],
 *tok_in[256], *tok_out[256], *tmp, serverdata[512], termcap[1024],
 *ptr, *term, *fromhost, IRCNAME[10], inputbuf[512], beenden = 0;
-const char *CM, *CS, *CE, *SO, *SE, *DC;
-char bp[4096];
+char bp[4096], *cap_cm, *cap_cs, *cap_ce, *cap_so, *cap_se, *cap_dc;
 #define NLASTCHAN 12
 char *lastchans[NLASTCHAN];
 int cursd = 0, curli = 0, curx = 0;
@@ -114,8 +116,7 @@ struct tm *timenow;
 static time_t idletimer, datenow, wasdate;
 static volatile sig_atomic_t sigwinch = 0;
 
-char s_co[] = "co";
-char s_li[] = "li";
+char null[] = "";
 char s_cm[] = "cm";
 char s_CM[] = "CM";
 char s_so[] = "so";
@@ -132,7 +133,11 @@ tcflag_t _res_iflg, _res_lflg;
 #define resetty() (_tty.c_iflag = _res_iflg, _tty.c_lflag = _res_lflg,\
 	(void) tcsetattr(stdinfd, TCSADRAIN, &_tty))
 
-#define	tputs_x(s) (tputs(s,0,putchar))
+#ifdef _USE_OLD_CURSES_
+#define	tputs_x		_puts
+#else
+#define	tputs_x(s)	(tputs(s, 0, putchar))
+#endif
 
 int my_stricmp(const char *, const char *);
 struct dlist *additem(char *, struct dlist *);
@@ -266,14 +271,14 @@ void updatestatus(void)
 	if (60 < (datenow = time(NULL)) - wasdate) {
 	    wasdate = datenow;
 	    timenow = localtime(&datenow);
-	    tputs_x(tgoto(CM, 0, LI - 2));
-	    tputs_x(SO);
+	    tputs_x(tgoto(cap_cm, 0, maxlin - 1));
+	    tputs_x(cap_so);
 	    n = printf("[%02d:%02d] %s on %s : %s", timenow->tm_hour,
 		timenow->tm_min, IRCNAME, object == NULL ||
 		object->name == NULL ? "*" : object->name, RELEASE_S);
-	    for (; n < CO; n++)
+	    for (; n < maxcol; n++)
 		putchar(' ');
-	    tputs_x(SE);
+	    tputs_x(cap_se);
 	}
     }
 }
@@ -498,8 +503,8 @@ int donumeric(int num)
     } else if (num == 432 || num == 433) {
 	char ch;
 	printf("*** You've chosen an invalid nick.  Choose again.");
-	tputs_x(tgoto(CM, 0, LI - 1));
-	tputs_x(CE);
+	tputs_x(tgoto(cap_cm, 0, maxlin));
+	tputs_x(cap_ce);
 	printf("New Nick? ");
 	fflush(stdout);
 	resetty();
@@ -512,8 +517,8 @@ int donumeric(int num)
 	raw();
 	snprintf(lineout, LINELEN, "NICK :%s\n", IRCNAME);
 	sendline();
-	tputs_x(tgoto(CM, 0, LI - 1));
-	tputs_x(CE);
+	tputs_x(tgoto(cap_cm, 0, maxlin));
+	tputs_x(cap_ce);
     } else {			/* all remaining numerics */
 	column = printf("%s", tok_in[1]);
 	return 3;
@@ -567,7 +572,7 @@ int wordwrapout(char *ptrx, size_t count)
     while(ptrx != NULL) {
 	if ((tmp = strchr(ptrx, ' ')) != NULL)
 	    *(tmp++) = '\0';
-	if (strlen(ptrx) < CO - count)
+	if (strlen(ptrx) < maxcol - count)
 	    count += printf(" %s", ptrx);
 	else
 	    count = printf("\n\r   %s", ptrx);
@@ -586,7 +591,7 @@ int parsedata(void)
 	return sendline();
     }
     if (!dumb)
-	tputs_x(tgoto(CM, 0, LI - 3));
+	tputs_x(tgoto(cap_cm, 0, maxlin - 2));
 
     tok_in[i = 0] = serverdata;
     tok_in[i]++;
@@ -661,7 +666,7 @@ void parseinput(void)
     tok_out[i = 0] = strtok(inputbuf," ");
     while((tok_out[++i] = strtok(NULL, " ")) != NULL);
     if (!dumb) {
-	tputs_x(tgoto(CM, 0, LI - 3));
+	tputs_x(tgoto(cap_cm, 0, maxlin - 2));
 	putchar('\n');
     }
     if (*tok_out[0] == COMMANDCHAR) {
@@ -809,8 +814,8 @@ void parseinput(void)
 
 		strlcpy(inputbuf, lineout, 384);
 		tmp = inputbuf + 384;
-		tputs_x(tgoto(CM, 0, LI - 1));
-		tputs_x(CE);
+		tputs_x(tgoto(cap_cm, 0, maxlin));
+		tputs_x(cap_ce);
 		printf("Password? ");
 		fflush(stdout);
 		while ((ch = getchar()) != '\n')
@@ -821,8 +826,8 @@ void parseinput(void)
 				*tmp++ = ch;
 		*tmp = '\0';
 		wasdate = 0;
-		tputs_x(tgoto(CM, 0, LI - 1));
-		tputs_x(CE);
+		tputs_x(tgoto(cap_cm, 0, maxlin));
+		tputs_x(cap_ce);
 		snprintf(lineout, LINELEN, inputbuf, inputbuf + 384);
 		bzero(inputbuf, sizeof (inputbuf));
 	}
@@ -850,19 +855,19 @@ void histupdate(void)
 {
     linein = history[histline];
     curx = curli = strlen(linein);
-    tputs_x(tgoto(CM, 0, LI - 1));
-    printf("%s", &linein[(curli / CO) * CO]);
-    tputs_x(CE);
+    tputs_x(tgoto(cap_cm, 0, maxlin));
+    printf("%s", &linein[(curli / maxcol) * maxcol]);
+    tputs_x(cap_ce);
 }
 
 void printpartial(int fromx)
 {
     int i;
-    tputs_x(tgoto(CM, 0, LI - 1));
-    for(i = fromx; i < fromx + CO && i < curli; i++)
+    tputs_x(tgoto(cap_cm, 0, maxlin));
+    for(i = fromx; i < fromx + maxcol && i < curli; i++)
 	putchar(linein[i]);
-    tputs_x(CE);
-    tputs_x(tgoto(CM, curx % CO, LI - 1));
+    tputs_x(cap_ce);
+    tputs_x(tgoto(cap_cm, curx % maxcol, maxlin));
 }
 
 void userinput(void)
@@ -899,10 +904,10 @@ void userinput(void)
 		lasttab = -1;
 	switch (ch) {
 	case '\1':		/* C-a */
-	    if (curx >= CO)
+	    if (curx >= maxcol)
 	        printpartial(curx = 0);
 	    else
-		tputs_x(tgoto(CM, curx = 0, LI - 1));
+		tputs_x(tgoto(cap_cm, curx = 0, maxlin));
 	    break;
 	case '\10':		/* C-h */
 	    if (curx)
@@ -916,20 +921,20 @@ void userinput(void)
 		    for (i = (--curx); i < curli; i++)
 			linein[i] = linein[i + 1];
 		curli--;
-		if (DC != NULL && curx % CO != CO - 1) {
-		    tputs_x(tgoto(CM, curx % CO, LI - 1));
-		    tputs_x(DC);
+		if (cap_dc != NULL && curx % maxcol != maxcol - 1) {
+		    tputs_x(tgoto(cap_cm, curx % maxcol, maxlin));
+		    tputs_x(cap_dc);
 		} else
-		    printpartial((curx / CO) * CO);
+		    printpartial((curx / maxcol) * maxcol);
 	    }
 	    break;
 	case '\2':		/* C-b */
 	    if (curx > 0)
 		curx--;
-	    if (curx % CO == CO - 1)
-		printpartial((curx / CO) * CO);
+	    if (curx % maxcol == maxcol - 1)
+		printpartial((curx / maxcol) * maxcol);
 	    else
-		tputs_x(tgoto(CM, curx % CO, LI - 1));
+		tputs_x(tgoto(cap_cm, curx % maxcol, maxlin));
 	    break;
 	case '\5':		/* C-e */
 	    curx = curli;
@@ -939,7 +944,7 @@ void userinput(void)
 	case '\6':		/* C-f */
 	    if (curx < curli)
 		curx++;
-	    tputs_x(tgoto(CM, curx % CO, LI - 1));
+	    tputs_x(tgoto(cap_cm, curx % maxcol, maxlin));
 	    break;
 	case '\16':		/* C-n */
 	    if ((++histline) >= HISTLEN)
@@ -956,8 +961,8 @@ void userinput(void)
 	case '\n':
 	    if (!curli)
 		return;
-	    tputs_x(tgoto(CM, 0, LI - 1));
-	    tputs_x(CE);
+	    tputs_x(tgoto(cap_cm, 0, maxlin));
+	    tputs_x(cap_ce);
 	    if (ch != '\25')
 		parseinput();
 	    if ((++histline) >= HISTLEN)
@@ -1003,15 +1008,15 @@ void userinput(void)
 		    linein[++curli] = '\0';
 		    linein[curx++] = ch;
 		    putchar(ch);
-		    tputs_x(CE);
+		    tputs_x(cap_ce);
 		} else {	/* insert somewhere in the middle */
 		    for (i = (++curli); i >= curx; i--)
 			linein[i + 1] = linein[i];
 		    linein[curx] = ch;
-		    for (i = (curx % CO); i < CO &&
-			(z = (curx / CO) * CO + i) < curli; i++)
+		    for (i = (curx % maxcol); i < maxcol &&
+			(z = (curx / maxcol) * maxcol + i) < curli; i++)
 			putchar(linein[z]);
-		    tputs_x(CE);
+		    tputs_x(cap_ce);
 		    curx++;
 		}
 	    }
@@ -1022,8 +1027,8 @@ void userinput(void)
 
 void cleanup(int sig)
 {
-    tputs_x(tgoto(CS, -1, -1));
-    tputs_x(tgoto(CM, 0, LI - 1));
+    tputs_x(tgoto(cap_cs, -1, -1));
+    tputs_x(tgoto(cap_cm, 0, maxlin));
     resetty();
     printf("\ngot signal %d\n", sig);
     exit(128 + sig);
@@ -1040,21 +1045,21 @@ dowinsz(int scrupdate)
 {
 	struct winsize ws;
 
-	CO = LI = -1;
+	maxcol = maxlin = -1;
 	if (ioctl(stdoutfd, TIOCGWINSZ, &ws) >= 0) {
-		CO = ws.ws_col - 2;
-		LI = ws.ws_row;
+		maxcol = ws.ws_col - 2;
+		maxlin = ws.ws_row - 1;
 	}
-	if (CO < 5)
-		CO = 78;
-	if (LI < 5)
-		LI = 24;
+	if (maxcol < 5)
+		maxcol = 78;
+	if (maxlin < 5)
+		maxlin = 23;
 
 	wasdate = 0;
 	if (scrupdate) {
-		tputs_x(tgoto(CS, LI - 3, 0));
+		tputs_x(tgoto(cap_cs, maxlin - 2, 0));
 		updatestatus();
-		printpartial((curx / CO) * CO);
+		printpartial((curx / maxcol) * maxcol);
 	}
 }
 
@@ -1118,17 +1123,17 @@ main(int argc, char *argv[])
 	    fprintf(stderr, "tinyirc: no termcap entry for %s\n", term);
 	    exit(1);
 	}
-	if ((CM = tgetstr(s_cm, &ptr)) == NULL)
-		CM = tgetstr(s_CM, &ptr);
-	if ((SO = tgetstr(s_so, &ptr)) == NULL)
-		SO = "";
-	if ((SE = tgetstr(s_se, &ptr)) == NULL)
-		SE = "";
-	CS = tgetstr(s_cs, &ptr);
-	CE = tgetstr(s_ce, &ptr);
-	DC = tgetstr(s_dc, &ptr);
+	if ((cap_cm = tgetstr(s_cm, &ptr)) == NULL)
+		cap_cm = tgetstr(s_CM, &ptr);
+	if ((cap_so = tgetstr(s_so, &ptr)) == NULL)
+		cap_so = null;
+	if ((cap_se = tgetstr(s_se, &ptr)) == NULL)
+		cap_se = null;
+	cap_cs = tgetstr(s_cs, &ptr);
+	cap_ce = tgetstr(s_ce, &ptr);
+	cap_dc = tgetstr(s_dc, &ptr);
 	dowinsz(0);
-	if (!CM || !CS || !CE) {
+	if (!cap_cm || !cap_cs || !cap_ce) {
 	    printf("tinyirc: sorry, no termcap cm,cs,ce: dumb mode set\n");
 	    dumb = 1;
 	}
@@ -1142,7 +1147,7 @@ main(int argc, char *argv[])
 	    signal(SIGWINCH, dowinch);
 	    savetty();
 	    raw();
-	    tputs_x(tgoto(CS, LI - 3, 0));
+	    tputs_x(tgoto(cap_cs, maxlin - 2, 0));
 	    updatestatus();
 	}
     }
@@ -1167,13 +1172,13 @@ main(int argc, char *argv[])
 	} else
 	    updatestatus();
 	if (!dumb) {
-	    tputs_x(tgoto(CM, curx % CO, LI - 1));
+	    tputs_x(tgoto(cap_cm, curx % maxcol, maxlin));
 	    fflush(stdout);
 	}
     }
     if (!dumb) {
-	tputs_x(tgoto(CS, -1, -1));
-	tputs_x(tgoto(CM, 0, LI - 1));
+	tputs_x(tgoto(cap_cs, -1, -1));
+	tputs_x(tgoto(cap_cm, 0, maxlin));
 	resetty();
     }
     exit(0);
@@ -1209,8 +1214,14 @@ pushlastchan(char *cname)
 PROG=		tinyirc
 NOMAN=		Yes
 
+.ifdef SMALL
+CPPFLAGS+=	-D_USE_OLD_CURSES_
+LDADD+=		-lotermcap
+DPADD+=		${LIBOTERMCAP}
+.else
 LDADD+=		-ltermcap
 DPADD+=		${LIBTERMCAP}
+.endif
 
 .include <bsd.prog.mk>
 #endif
