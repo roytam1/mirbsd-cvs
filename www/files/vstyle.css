@@ -1,4 +1,4 @@
-/* $MirOS: www/files/vstyle.css,v 1.14 2009/06/22 12:01:46 tg Exp $ */
+/* $MirOS: www/files/vstyle.css,v 1.15 2009/06/22 12:02:25 tg Exp $ */
 
 /*-
  * The MirOS Project - Webpages
@@ -11,66 +11,66 @@
  */
 
 @font-face {
-        font-family: Gentium;
-        font-style: normal;
-        font-weight: normal;
-        src: url(/FNT/GenR102.eot);
+        font-family:Gentium;
+        font-style:normal;
+        font-weight:normal;
+        src:url(/FNT/GenR102.eot);
 }
 
 @font-face {
-        font-family: Gentium;
-        font-style: italic;
-        font-weight: normal;
-        src: url(/FNT/GenI102.eot);
+        font-family:Gentium;
+        font-style:italic;
+        font-weight:normal;
+        src:url(/FNT/GenI102.eot);
 }
 
 @font-face {
-        font-family: Gentium;
-        font-style: normal;
-        font-weight: bold;
-        src: url(/FNT/GenBasB.eot);
+        font-family:Gentium;
+        font-style:normal;
+        font-weight:bold;
+        src:url(/FNT/GenBasB.eot);
 }
 
 @font-face {
-        font-family: Gentium;
-        font-style: italic;
-        font-weight: bold;
-        src: url(/FNT/GenBasBI.eot);
+        font-family:Gentium;
+        font-style:italic;
+        font-weight:bold;
+        src:url(/FNT/GenBasBI.eot);
 }
 
 
 @font-face {
-        font-family: Gentium;
-        font-style: normal;
-        font-weight: normal;
-        src: local(Gentium),
+        font-family:Gentium;
+        font-style:normal;
+        font-weight:normal;
+        src:local(Gentium),
             url(/FNT/GenR102.ttf) format("truetype"),
             url(/FNT/GenR102.eot) format("embedded-opentype");
 }
 
 @font-face {
-        font-family: Gentium;
-        font-style: italic;
-        font-weight: normal;
-        src: local(Gentium),
+        font-family:Gentium;
+        font-style:italic;
+        font-weight:normal;
+        src:local(Gentium),
             url(/FNT/GenI102.ttf) format("truetype"),
             url(/FNT/GenI102.eot) format("embedded-opentype");
 }
 
 @font-face {
-        font-family: Gentium;
-        font-style: normal;
-        font-weight: bold;
-        src: local(Gentium Basic),
+        font-family:Gentium;
+        font-style:normal;
+        font-weight:bold;
+        src:local(Gentium Basic),
             url(/FNT/GenBasB.ttf) format("truetype"),
             url(/FNT/GenBasB.eot) format("embedded-opentype");
 }
 
 @font-face {
-        font-family: Gentium;
-        font-style: italic;
-        font-weight: bold;
-        src: local(Gentium Basic),
+        font-family:Gentium;
+        font-style:italic;
+        font-weight:bold;
+        src:local(Gentium Basic),
             url(/FNT/GenBasBI.ttf) format("truetype"),
             url(/FNT/GenBasBI.eot) format("embedded-opentype");
 }
@@ -88,27 +88,27 @@ body {
 
 body,p,.content {
 	color:#333333;
-	font-family: Gentium, Helvetica, sans-serif;
-	line-height: 130%;
+	font-family:Gentium, Helvetica, sans-serif;
+	line-height:130%;
 }
 
 a {
-	color: #990000;
-	text-decoration: none;
-	border-bottom: 1px solid #990000;
+	color:#990000;
+	text-decoration:none;
+	border-bottom:1px solid #990000;
 }
 
 a:hover {
-	color: #000000;
+	color:#000000;
 }
 
 a:visited {
-	border-bottom: 1px dashed #990000;
+	border-bottom:1px dashed #990000;
 }
 
 .footer {
 	position:absolute;
-		left: 0px; right:0px;
+		left:0px; right:0px;
 	padding:7px;
 	margin-top:18px;
 	font-size:10pt;
@@ -119,11 +119,11 @@ a:visited {
 	position:absolute;
 		top:0px; left:0px;
 		right:0px; height:125px;
-	width: 100%;
+	width:100%;
 	padding:0px;
 	font-size:12px;
-	background: #242424;
-	border-bottom: 5px solid #FFB92A;
+	background:#242424;
+	border-bottom:5px solid #FFB92A;
 }
 
 .note {
@@ -132,7 +132,7 @@ a:visited {
 }
 
 img {
-	border: none;
+	border:none;
 }
 
 .index {
@@ -145,7 +145,7 @@ img {
 	margin-top:135px; margin-left:170px;
 	padding-left:16px;
 	min-height:500px;
-	border-left: 5px solid #FFFFFF;
+	border-left:5px solid #FFFFFF;
 }
 
 .hdrlnks {
@@ -158,22 +158,22 @@ img {
 h1 {
 	position:absolute;
 		top:30px; left:200px;
-	line-height: 1.2em;
-	color: #FFFFFF;
+	line-height:1.2em;
+	color:#FFFFFF;
 	z-index:2;
 }
 
 h1 a {
-	color: #FFFFFF;
-	border: none;
+	color:#FFFFFF;
+	border:none;
 }
 
 h1 a:hover {
-	color: #FFFFFF;
+	color:#FFFFFF;
 }
 
 h1 a:visited {
-	border: none;
+	border:none;
 }
 
 ul.lv1 {
@@ -187,7 +187,7 @@ ul.lv2 {
 }
 
 .spacer {
-	margin-bottom: 1em;
+	margin-bottom:1em;
 }
 
 .greyed {
@@ -207,62 +207,62 @@ ul.lv2 {
 }
 
 div.wlentry {
-	padding-top: 9px;
-	margin: 0px;
+	padding-top:9px;
+	margin:0px;
 }
 
 div.wltitle {
-	padding-bottom: 3px;
-	border-bottom: 2px solid #666;
+	padding-bottom:3px;
+	border-bottom:2px solid #666;
 }
 
 h2.wlentry {
-	font-weight: normal;
-	font-size: 150%;
-	display: inline;
+	font-weight:normal;
+	font-size:150%;
+	display:inline;
 }
 
 h2 a {
-	text-decoration: none;
-	border-bottom: none !important;
+	text-decoration:none;
+	border-bottom:none !important;
 }
 
 .wlsubtitle {
-	font-weight: bold;
-	color: #777777;
-	display: inline;
+	font-weight:bold;
+	color:#777777;
+	display:inline;
 }
 
 .wlsubtitle:before {
-	content: " ";
+	content:" ";
 }
 
 .wltagtitle {
-	font-weight: normal;
-	font-size: 80%;
+	font-weight:normal;
+	font-size:80%;
 }
 
 .wltagtitle:before {
-	content: " ";
+	content:" ";
 }
 
 .linkbot {
-	padding-top: 18px;
-	border-top: 2px solid #666;
-	margin: 0px;
+	padding-top:18px;
+	border-top:2px solid #666;
+	margin:0px;
 }
 
 table {
-	border-collapse: collapse;
+	border-collapse:collapse;
 }
 
 th {
-	border-top: 2px solid #FFFFFF;
-	border-bottom: 2px solid #FFFFFF;
+	border-top:2px solid #FFFFFF;
+	border-bottom:2px solid #FFFFFF;
 }
 
 td {
-	border-bottom: 2px solid #FFFFFF;
+	border-bottom:2px solid #FFFFFF;
 }
 
 tt {
