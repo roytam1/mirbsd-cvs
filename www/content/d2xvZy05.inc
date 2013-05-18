@@ -1,5 +1,5 @@
 <!-- PageID: wlog-9 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.23 2006/07/24 01:25:36 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.24 2006/07/27 01:11:07 tg Exp $</small>
 <h1>MirBSD &ndash; WTF is Verpeilungsfaktor?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -415,6 +415,15 @@
   Also he tells me to goto bed at weird early hours, and so.</p>
  <p>But the kitchen already looks more clean, and I did my job too.</p>
  <p>It's <strong>too</strong> warm a summer.</p>
+</div>
+
+<div class="wlentry">
+ <h3 id="e20060728">28.07.2006 by tg@</h3>
+ <p>More fun with FreeWRT (it sucks) and IRC (we now bridge a channel in
+  two networks, but the TCL plugin for eggdrop sucks worse, so ciruZ has
+  threatened to rewrite it (including the bot) in Ruby &ndash; so gecko2
+  can't configure it to death <em>and</em> it won't talk).</p>
+ <p>It's still fairly warm.</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
