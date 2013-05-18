@@ -1,5 +1,5 @@
-# $MirOS: src/gnu/usr.sbin/sendmail/sendmail/Makefile,v 1.5 2006/03/23 14:00:19 tg Exp $
-#	$OpenBSD: Makefile,v 1.26 2005/01/12 18:15:46 millert Exp $
+# $MirOS: src/gnu/usr.sbin/sendmail/sendmail/Makefile,v 1.6 2008/05/07 13:15:24 tg Exp $
+# $OpenBSD: Makefile,v 1.28 2008/08/20 22:19:49 dlg Exp $
 
 PROG=	sendmail
 
@@ -24,6 +24,9 @@ LDFLAGS+=	-L${LOCALBASE}/lib
 
 # Compile with milter support.
 ENVDEF+= -DMILTER
+
+# Compile with socket map support.
+ENVDEF+= -DSOCKETMAP
 
 # Since we have random PIDs we need to be careful to avoid filename collisions
 ENVDEF+= -DFAST_PID_RECYCLE

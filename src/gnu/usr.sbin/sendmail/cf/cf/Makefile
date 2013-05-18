@@ -1,5 +1,5 @@
-# $MirOS: src/gnu/usr.sbin/sendmail/cf/cf/Makefile,v 1.6 2006/10/28 20:07:01 tg Exp $
-# $OpenBSD: Makefile,v 1.22 2006/03/22 18:43:53 millert Exp $
+# $MirOS: src/gnu/usr.sbin/sendmail/cf/cf/Makefile,v 1.7 2006/10/28 21:22:27 tg Exp $
+# $OpenBSD: Makefile,v 1.24 2008/10/03 16:29:05 millert Exp $
 #
 #  Makefile for configuration files.
 #
@@ -32,16 +32,17 @@ RM=	rm -f
 	$(SED) -e 's/^/# /' ${.CURDIR}/$*.mc >>$@
 	$(CHMOD) $(ROMODE) $@
 
-ALL=	submit.cf clientproto.cf tcpproto.cf openbsd-localhost.cf \
-	openbsd-proto.cf courtesan.cf courtesan-nonet.cf openbsd-lists.cf \
-	openbsd-bulk.cf knecht.cf
+ALL=	openbsd-submit.cf clientproto.cf tcpproto.cf openbsd-localhost.cf \
+	openbsd-proto.cf
 
 FILES=	access aliases genericstable local-host-names mailertable \
 	relay-domains service.switch trusted-users virtusertable
 
 all: $(ALL)
 
-clean cleandir:
+cleandir: clean
+
+clean:
 	$(RM) $(ALL) *.core
 
 depend:
@@ -52,7 +53,7 @@ install:
 			echo "WARNING: installed missing ${DESTDIR}/etc/mail/submit.cf"; \
 			echo "You should probably rebuild ${DESTDIR}/etc/mail/sendmail.cf"; \
 			${INSTALL} ${INSTALL_COPY} -o root -g wheel -m 644 \
-			    submit.cf ${DESTDIR}/etc/mail/submit.cf; \
+			    openbsd-submit.cf ${DESTDIR}/etc/mail/submit.cf; \
 		fi; \
 		if test ! -e ${DESTDIR}/etc/mail/localhost.cf; then \
 			echo "WARNING: installed missing ${DESTDIR}/etc/mail/localhost.cf"; \
@@ -61,7 +62,7 @@ install:
 		fi; \
 	fi
 
-distribution: openbsd-proto.cf openbsd-localhost.cf submit.cf \
+distribution: openbsd-proto.cf openbsd-localhost.cf openbsd-submit.cf \
     dist-install regen-databases
 
 dist-install:
@@ -70,7 +71,7 @@ dist-install:
 	${INSTALL} ${INSTALL_COPY} -o root -g wheel -m 644 \
 	    openbsd-localhost.cf ${DESTDIR}/etc/mail/localhost.cf
 	${INSTALL} ${INSTALL_COPY} -o root -g wheel -m 644 \
-	    submit.cf ${DESTDIR}/etc/mail/submit.cf
+	    openbsd-submit.cf ${DESTDIR}/etc/mail/submit.cf
 	cd ${.CURDIR} && ${INSTALL} ${INSTALL_COPY} -o root -g wheel -m 640 \
 	    ${FILES} ${DESTDIR}/etc/mail/
 

@@ -14,7 +14,7 @@
 
 #include <sendmail.h>
 
-SM_RCSID("$MirOS: src/gnu/usr.sbin/sendmail/sendmail/map.c,v 1.5 2008/03/02 21:41:15 tg Exp $")
+SM_RCSID("$MirOS: src/gnu/usr.sbin/sendmail/sendmail/map.c,v 1.6 2008/05/07 13:15:27 tg Exp $")
 SM_RCSID("@(#)$Sendmail: map.c,v 8.699 2007/10/10 00:06:45 ca Exp $")
 
 #if LDAPMAP
@@ -1712,7 +1712,7 @@ lockdbm:
 		{
 			map->map_mflags |= MF_OPEN;
 			map->map_pid = CurrentPid;
-			if ((omode && O_ACCMODE) == O_RDWR)
+			if ((omode & O_ACCMODE) == O_RDWR)
 				map->map_mflags |= MF_WRITABLE;
 			goto lockdbm;
 		}
@@ -2367,7 +2367,7 @@ db_map_lookup(map, name, av, statp)
 		{
 			map->map_mflags |= MF_OPEN;
 			map->map_pid = CurrentPid;
-			if ((omode && O_ACCMODE) == O_RDWR)
+			if ((omode & O_ACCMODE) == O_RDWR)
 				map->map_mflags |= MF_WRITABLE;
 			db = (DB *) map->map_db2;
 			goto lockdb;
