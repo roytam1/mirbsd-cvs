@@ -1,4 +1,4 @@
-# $MirOS: www/mk/inc2htm,v 1.4 2007/08/09 19:14:55 tg Exp $
+# $MirOS: www/mk/inc2htm,v 1.5 2007/08/29 19:46:30 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -24,16 +24,16 @@ function output {
 	efe="${rpath}${name}_${eid}.htm#$eid"
 	title="${e_date[ent]}${e_author[ent]+ by }${e_author[ent]}"
 	subtitle=
-	titleclass=wlentrya
 	print '<div class="wlentry">'
 	if [[ -n ${e_title[ent]} ]]; then
 		subtitle='<p class="wlsubtitle">'"${title}</p>$nl"
 		title="${e_title[ent]}"
-		titleclass=wlentryb
 	fi
 	cat <<-EOF
-		<h2 class="${titleclass}" id="${e_id[ent]}"><a href="${efe}">${title}</a></h2>
-		${subtitle}${e_body[ent]}
+		<div class="wltitle">
+		<h2 class="wlentry" id="${e_id[ent]}"><a href="${efe}">${title}</a></h2>
+		${subtitle}</div>
+		${e_body[ent]}
 		</div>
 	EOF
 }
