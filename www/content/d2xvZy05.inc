@@ -1,5 +1,5 @@
 <!-- PageID: wlog-9 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.67 2006/11/13 23:11:23 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.68 2006/11/24 00:40:00 tg Exp $</small>
 <h1>MirBSD &ndash; WTF is Verpeilungsfaktor?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -1155,6 +1155,29 @@ plot [150:200] 	"bs06.4Kmin.txt" using 1:3 with lines title "exc{\350}s en chlor
   Windows&reg; 3.1 did do mouse-keyboard event serialisation right. When
   the system is under load and I type into an xterm and press the middle
   mouse button in between, the mouse lags. Seriously, quite a lot.</p>
+</div>
+
+<div class="wlentry">
+ <h3 id="e20070104">04.01.2007 by bsiegert@</h3>
+ <p>This wlog entry was written on the flight from Dresden to Stuttgart.
+  Flying is great: While it would take me about eight hours using
+  so-called high-speed trains, the flight is only 50 minutes!</p>
+
+ <p>So we are in 2007 now. 23c3 is over. It was fun, even if tg@ did not
+  manage to come. My security-related highlight was the talk "A not so
+  smart card", where it was shown how trivial it is to duplicate a Swiss
+  PostCard or a French Carte Bleue so that your clone will accept any PIN
+  (they called it a "yes card"). As a user of a Carte Bleue, I frankly
+  found it very unsettling. At least they don't use 384-bit RSA any more,
+  as the Swiss still do. All in all, I attended a lot of talks. I also
+  fixed a few bugs in the pkgtools and ported Gtk+ 2.10 along with
+  dependencies. There are lots of circular dependencies lurking in the
+  shadows there.</p>
+</div>
+
+<div class="wlentry">
+ <h3 id="e20070105">05.01.2007 by tg@</h3>
+ <p>Yay! Benny lives!</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
