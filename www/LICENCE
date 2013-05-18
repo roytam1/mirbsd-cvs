@@ -1,7 +1,7 @@
-# $MirOS: www/LICENCE,v 1.10 2006/08/09 16:16:17 tg Exp $
+# $MirOS: www/LICENCE,v 1.11 2006/08/09 16:28:32 tg Exp $
 #-
 # This is the website / webpages for The MirOS Project.
-# Copyright (c) 2002, 2003, 2004, 2005, 2006
+# Copyright (c) 2002, 2003, 2004, 2005, 2006, 2007
 #	The MirOS Project <miros-dev@mirbsd.org>
 #   consisting of the following developers:
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -9,12 +9,11 @@
 #   and its contributors.
 # All rights reserved.
 #
-# Licensee is hereby permitted to deal in this work without restric-
-# tion, including unlimited rights to use, publicly perform, modify,
-# merge, distribute, sell, give away or sublicence, provided all co-
-# pyright notices above, these terms and the disclaimer are retained
-# in all redistributions or reproduced in accompanying documentation
-# or other materials provided with binary redistributions.
+# Provided that these terms and disclaimer and all copyright notices
+# are retained or reproduced in an accompanying document, permission
+# is granted to deal in this work without restriction, including un-
+# limited rights to use, publicly perform, distribute, sell, modify,
+# merge, give away, or sublicence.
 #
 # Neither the name of The MirOS Project nor the names of its contri-
 # butors may be used to endorse or promote products derived from the
@@ -27,18 +26,18 @@
 # Thorsten Glasers personal homepages or the MirOS Project pages, as
 # well as the mark "MirBSD", "MirOS", "MirPorts" and any future mark
 # reserved by or for the MirOS Project, and the pictures used on the
-# pages, especially the BSD Dæmon, the Shilouette Dæmon and the logo
+# pages, especially the BSD DÃ¦mon, the Shilouette DÃ¦mon and the logo
 # of MirAbile. If licensee infringes these works or brand in any way
 # this licence automatically terminates.
 #
-# Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
-# express, or implied, to the maximum extent permitted by applicable
-# law, without malicious intent or gross negligence; in no event may
-# licensor, an author or contributor be held liable for any indirect
-# or other damage, or direct damage except proven a consequence of a
-# direct error of said person and intended use of this work, loss or
-# other issues arising in any way out of its use, even if advised of
-# the possibility of such damage or existence of a defect.
+# This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
+# the utmost extent permitted by applicable law, neither express nor
+# implied; without malicious intent or gross negligence. In no event
+# may a licensor, author or contributor be held liable for indirect,
+# direct, other damage, loss, or other issues arising in any way out
+# of dealing in the work, even if advised of the possibility of such
+# damage or existence of a defect, except proven that it results out
+# of said person's immediate fault when using the work as intended.
 #
 # This licence agreement shall be governed in all aspects by the law
 # of Germany; designated place of court is Bonn, NRW, Germany.  (Der
@@ -50,17 +49,17 @@ mirabile websites and every page which explicitly refers to it.
 
 In addition, anyone is permitted to use the "favicon.ico" file under
 the MirOS, ISC/OpenBSD, MIT, X11 or any BSD licence, as long as he's
-got permission for the Dæmon mascot from Marshall Kirk McKusick.
+got permission for the DÃ¦mon mascot from Marshall Kirk McKusick.
 
-The BSD dæmon is Copyright (c) 1988 by Marshall Kirk McKusick.
+The BSD dÃ¦mon is Copyright (c) 1988 by Marshall Kirk McKusick.
 All Rights Reserved.  Individuals may use the daemon for their
 personal use within the bounds of good taste.  When reasonably
 possible, the text shown above is to be included.
 
-The Shilouette dæmon is Copyright (c) 2003 by Rick Collette.
+The Shilouette dÃ¦mon is Copyright (c) 2003 by Rick Collette.
 The MirOS Project may freely use the (former) ekkoBSD shilouette Daemon
 Logo for MirBSD - on anything the project leader sees fit so long as it
-pertains to MirBSD in some way and you give credit for the original dæ-
+pertains to MirBSD in some way and you give credit for the original dÃ¦-
 mon to Marshall Kirk McKusick.
 
 The Hexley DarwinOS Mascot is Copyright (c) 2000 by Jon Hooper.
