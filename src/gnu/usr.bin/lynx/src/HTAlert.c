@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/gnu/usr.bin/lynx/src/HTAlert.c,v 1.2 2005/03/27 22:42:36 tg Exp $ */
 
 /*	Displaying messages and getting input for Lynx Browser
  *	==========================================================
@@ -51,6 +51,13 @@ void HTAlert(const char *Msg)
     CTRACE_FLUSH(tfp);
     _user_message(ALERT_FORMAT, Msg);
     LYstore_message2(ALERT_FORMAT, Msg);
+
+    if (dump_output_immediately && dump_to_stderr) {
+	fflush(stdout);
+	fprintf(stderr, ALERT_FORMAT, Msg);
+	fputc('\n', stderr);
+	fflush(stderr);
+    }
 
     LYSleepAlert();
 }

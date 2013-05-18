@@ -1,4 +1,4 @@
-/* $MirOS: src/gnu/usr.bin/lynx/src/LYCgi.c,v 1.2 2005/03/27 22:42:36 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/lynx/src/LYCgi.c,v 1.3 2005/12/19 23:57:05 tg Exp $ */
 
 /*                   Lynx CGI support                              LYCgi.c
  *                   ================
@@ -730,6 +730,12 @@ static int LYLoadCGI(const char *arg GCC_UNUSED,
     HTUserMsg(CGI_NOT_COMPILED);
     status = HT_NOT_LOADED;
 #endif /* LYNXCGI_LINKS */
+
+    (void) arg;
+    (void) anAnchor;
+    (void) format_out;
+    (void) sink;
+
     return (status);
 }
 #endif /* __MINGW32__ */

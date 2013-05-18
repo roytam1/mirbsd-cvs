@@ -1,4 +1,4 @@
-/* $MirOS: src/gnu/usr.bin/lynx/src/LYrcFile.h,v 1.3 2005/10/21 21:42:38 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/lynx/src/LYrcFile.h,v 1.4 2006/06/15 19:37:01 tg Exp $ */
 
 #ifndef LYRCFILE_H
 #define LYRCFILE_H
@@ -135,6 +135,7 @@
 #define RC_MULTI_BOOKMARK_SUPPORT       "multi_bookmark_support"
 #define RC_MV_PATH                      "mv_path"
 #define RC_NCR_IN_BOOKMARKS             "ncr_in_bookmarks"
+#define RC_NESTED_TABLES                "nested_tables"
 #define RC_NEWSPOST_PROXY               "newspost_proxy"
 #define RC_NEWSREPLY_PROXY              "newsreply_proxy"
 #define RC_NEWS_CHUNK_SIZE              "news_chunk_size"

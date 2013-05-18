@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/gnu/usr.bin/lynx/src/chrtrans/makeuctb.c,v 1.2 2005/03/27 22:42:39 tg Exp $ */
 
 /*
  *  makeuctb.c, derived from conmakehash.c   - kw
@@ -24,6 +24,7 @@
 #define NO_FILIO_H
 #endif
 
+#define DONT_USE_GETTEXT
 #define DONT_USE_SOCKS5
 #include <UCDefs.h>
 #include <UCkd.h>

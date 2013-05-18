@@ -1,4 +1,4 @@
-/* $MirOS: src/gnu/usr.bin/lynx/src/LYGlobalDefs.h,v 1.2 2005/03/27 22:42:36 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/lynx/src/LYGlobalDefs.h,v 1.3 2005/12/19 23:57:05 tg Exp $ */
 
 /* global variable definitions */
 
@@ -213,6 +213,7 @@ extern "C" {
     extern BOOLEAN child_lynx;	/* TRUE to exit with an arrow */
     extern BOOLEAN dump_links_only;
     extern BOOLEAN dump_output_immediately;
+    extern BOOLEAN dump_to_stderr;
     extern BOOLEAN emacs_keys;	/* TRUE to turn on emacs-like key movement */
     extern BOOLEAN error_logging;	/* TRUE to mail error messages */
     extern BOOLEAN ftp_local_passive;
