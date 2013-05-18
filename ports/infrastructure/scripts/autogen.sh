@@ -1,5 +1,5 @@
 #!/usr/bin/env mksh
-# $MirOS: ports/infrastructure/scripts/autogen.sh,v 1.7 2008/05/03 00:58:59 tg Exp $
+# $MirOS: ports/infrastructure/scripts/autogen.sh,v 1.8 2008/07/01 11:21:18 tg Exp $
 #-
 # Copyright (c) 2004, 2005, 2006, 2008
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -29,7 +29,12 @@ if [[ -z $AUTOMAKE_VERSION ]]; then
 	print -u2 Warning: AUTOMAKE_VERSION unset, using $AUTOMAKE_VERSION!
 fi
 
-: ${PORTSDIR:=/usr/ports}
+if [[ -z $PORTSDIR || ! -d $PORTSDIR/. ]]; then
+	manual_mode=1
+	PORTSDIR=/usr/ports
+else
+	manual_mode=0
+fi
 : ${GNUSYSTEM_AUX_DIR:=$PORTSDIR/infrastructure/db}
 
 export AUTOCONF_VERSION AUTOMAKE_VERSION GNUSYSTEM_AUX_DIR
@@ -71,5 +76,5 @@ if autoconf; then
 else
 	(( rv = rv ? rv : 1 ))
 fi
-rm -rf autom4te.cache $todel
+(( manual_mode )) || rm -rf autom4te.cache $todel
 exit $rv
