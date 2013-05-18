@@ -1,7 +1,4 @@
-# $MirOS: ports/essentials/cksum/Makefile,v 1.17 2006/10/13 17:09:20 tg Exp $
-
-# missing htole64() macros
-NOT_FOR_PLATFORM+=	Darwin:*:*
+# $MirOS: ports/essentials/cksum/Makefile,v 1.18 2006/11/07 00:32:03 tg Exp $
 
 COMMENT=		MirOS cksum(1) with multiple hash algorithms
 CATEGORIES=		essentials
@@ -26,7 +23,7 @@ CPPFLAGS+=		-isystem ${.SYSMK} -D_MIRMAKE_DEFNS
 MAKE_ENV+=		AFLAGS=-DUNDERSCORES
 .endif
 
-BUILD_DEPENDS+=		:mirmake->=20061013:devel/mirmake
+BUILD_DEPENDS+=		:mirmake->=20061228:devel/mirmake
 
 .include <bsd.port.mk>
 

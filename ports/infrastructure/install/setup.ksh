@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.71 2006/12/28 00:22:18 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.72 2006/12/28 01:02:32 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -338,7 +338,7 @@ all:
 	@echo \${_MIRMAKE_VER}
 EOF
 shmk=$localbase/share/mmake
-mv=20061006
+mv=20061228
 f_ver=$(make -f f all)
 f_verexist=$($localbase/bin/mmake -f f all 2>/dev/null)
 (( nopt )) || if [[ $f_ver -ge $mv ]]; then
