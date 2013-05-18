@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: glob.h,v 1.11 2010/09/24 13:32:55 djm Exp $	*/
 /*	$NetBSD: glob.h,v 1.5 1994/10/26 00:55:56 cgd Exp $	*/
 
@@ -86,6 +87,8 @@ typedef struct {
 #define	GLOB_TILDE	0x0800	/* Expand tilde names from the passwd file. */
 #define GLOB_LIMIT	0x2000	/* Limit pattern match output to ARG_MAX */
 #define	GLOB_KEEPSTAT	0x4000	/* Retain stat data for paths in gl_statv. */
+#define	GLOB_PERIOD	0x12000	/* Allow metachars to match leading periods. */
+#define	GLOB_NO_DOTDIRS	0x14000	/* Make . and .. vanish from wildcards. */
 #define GLOB_ABEND	GLOB_ABORTED /* backward compatibility */
 #endif
 

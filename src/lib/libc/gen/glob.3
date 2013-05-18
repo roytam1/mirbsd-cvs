@@ -1,4 +1,4 @@
-.\"	$MirOS: src/lib/libc/gen/glob.3,v 1.2 2010/10/08 20:06:49 tg Exp $
+.\"	$MirOS: src/lib/libc/gen/glob.3,v 1.3 2010/10/08 20:18:53 tg Exp $
 .\"	$OpenBSD: glob.3,v 1.28 2010/09/25 09:34:49 djm Exp $
 .\"
 .\" Copyright (c) 1989, 1991, 1993, 1994
@@ -278,6 +278,16 @@ This option should be set for programs that can be coerced to a denial of
 service attack via patterns that expand to a very large number of matches,
 such as a long string of
 .Ql */../*/.. .
+.It Dv GLOB_PERIOD
+Allow metacharacters to match a leading period in a filename.
+.It Dv GLOB_NO_DOTDIRS
+Hide
+.Sq Li \&.
+and
+.Sq Li \&..
+from metacharacter matches, regardless of whether
+.Dv GLOB_PERIOD
+is set and whether the pattern component begins with a literal period.
 .El
 .Pp
 If, during the search, a directory is encountered that cannot be opened

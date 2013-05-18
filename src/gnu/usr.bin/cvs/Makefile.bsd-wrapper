@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.bin/cvs/Makefile.bsd-wrapper,v 1.20 2010/09/16 20:55:47 tg Exp $
+# $MirOS: src/gnu/usr.bin/cvs/Makefile.bsd-wrapper,v 1.21 2010/09/16 21:25:21 tg Exp $
 # $OpenBSD: Makefile.bsd-wrapper,v 1.44 2004/01/02 09:01:24 millert Exp $
 
 # in sync with MirPorts-8 rev. - MirOS patchlevel tracked in configure{.in,}
@@ -30,6 +30,8 @@ CFARGS+=	--prefix=/usr \
 		--with-tmpdir=/var/tmp \
 		--with-umask=002 \
 		--with-cvs-admin-group=_cvsadmin
+# patched in base
+CFVARS+=	gl_cv_gnu_glob_interface_version_1=yes
 # cought by systrace, tries to write to ${LOCALBASE}/lib as check
 CFVARS+=	ac_cv_sys_long_file_names=yes
 # hardcoded paths

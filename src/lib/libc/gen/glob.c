@@ -54,6 +54,10 @@
  *	expand ~user/foo to the /home/dir/of/user/foo
  * GLOB_BRACE:
  *	expand {1,2}{a,b} to 1a 1b 2a 2b
+ * GLOB_PERIOD:
+ *	allow metacharacters to match leading dots in filenames.
+ * GLOB_NO_DOTDIRS:
+ *	. and .. are hidden from wildcards, even if GLOB_PERIOD is set.
  * gl_matchc:
  *	Number of matches in the current invocation of glob.
  */
@@ -66,12 +70,13 @@
 #include <errno.h>
 #include <glob.h>
 #include <pwd.h>
+#include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: src/lib/libc/gen/glob.c,v 1.4 2010/10/08 20:06:49 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/gen/glob.c,v 1.5 2010/10/08 20:18:53 tg Exp $");
 
 #define	GLOB_LIMIT_MALLOC	65536
 #define	GLOB_LIMIT_STAT		128
@@ -512,6 +517,8 @@ glob2(Char *pathbuf, Char *pathbuf_last, Char *pathend, Char *pathend_last,
 	struct stat sb;
 	Char *p, *q;
 	int anymeta;
+	Char *pend;
+	ptrdiff_t diff;
 
 	/*
 	 * Loop over pattern segments until end of pattern or until
@@ -555,7 +562,26 @@ glob2(Char *pathbuf, Char *pathbuf_last, Char *pathend, Char *pathend_last,
 			*q++ = *p++;
 		}
 
-		if (!anymeta) {		/* No expansion, do next segment. */
+		/*
+		 * No expansion, or path ends in slash-dot shash-dot-dot,
+		 * do next segment.
+		 */
+		if (pglob->gl_flags & GLOB_PERIOD) {
+			for (pend = pathend; pend > pathbuf && pend[-1] == '/';
+			    pend--)
+				continue;
+			diff = pend - pathbuf;
+		} else {
+			/* XXX: GCC */
+			diff = 0;
+			pend = pathend;
+		}
+			
+		if ((!anymeta) ||
+		    ((pglob->gl_flags & GLOB_PERIOD) &&
+		     (diff >= 1 && pend[-1] == DOT) &&
+		     (diff >= 2 && (pend[-2] == SLASH || pend[-2] == DOT)) &&
+		     (diff < 3 || pend[-3] == SLASH))) {
 			pathend = q;
 			pattern = p;
 			while (*pattern == SEP) {
@@ -626,8 +652,20 @@ glob3(Char *pathbuf, Char *pathbuf_last, Char *pathend, Char *pathend_last,
 			return GLOB_NOSPACE;
 		}
 
-		/* Initial DOT must be matched literally. */
-		if (dp->d_name[0] == DOT && *pattern != DOT)
+		/*
+		 * Initial DOT must be matched literally, unless we have
+		 * GLOB_PERIOD set.
+		 */
+		if ((pglob->gl_flags & GLOB_PERIOD) == 0)
+			if (dp->d_name[0] == DOT && *pattern != DOT)
+				continue;
+		/*
+		 * If GLOB_NO_DOTDIRS is set, . and .. vanish.
+		 */
+		if ((pglob->gl_flags & GLOB_NO_DOTDIRS) &&
+		    (dp->d_name[0] == DOT) &&
+		    ((dp->d_name[1] == EOS) ||
+		     ((dp->d_name[1] == DOT) && (dp->d_name[2] == EOS))))
 			continue;
 		dc = pathend;
 		sc = (u_char *) dp->d_name;
