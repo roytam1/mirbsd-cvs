@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.bin/cap_mkdb/cap_mkdb.c,v 1.6 2006/10/31 01:57:05 tg Exp $ */
+/**	$MirOS: src/usr.bin/cap_mkdb/cap_mkdb.c,v 1.7 2006/10/31 02:14:42 tg Exp $ */
 /*	$OpenBSD: cap_mkdb.c,v 1.13 2003/09/26 21:25:34 tedu Exp $	*/
 /*	$NetBSD: cap_mkdb.c,v 1.5 1995/09/02 05:47:12 jtc Exp $	*/
 
@@ -51,7 +51,7 @@
 __COPYRIGHT("@(#) Copyright (c) 1992, 1993\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)cap_mkdb.c	8.2 (Berkeley) 4/27/95");
-__RCSID("$MirOS: src/usr.bin/cap_mkdb/cap_mkdb.c,v 1.6 2006/10/31 01:57:05 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/cap_mkdb/cap_mkdb.c,v 1.7 2006/10/31 02:14:42 tg Exp $");
 
 void	 db_build(char **);
 void	 dounlink(void);
@@ -184,7 +184,7 @@ db_build(char **ifiles)
 	recno_t reccnt;
 	size_t len, bplen;
 	int st;
-	char *bp, *p, *t;
+	char *bp, *p, *t, *c;
 
 	cgetusedb(0);		/* disable reading of .db files in getcap(3) */
 
@@ -198,6 +198,11 @@ db_build(char **ifiles)
 		 * NULL and one extra byte.
 		 */
 		len = strlen(bp);
+		if (info)
+			/* we need to escape all colons, safe approach */
+			for (p = bp; *p; ++p)
+				if (*p == ':')
+					len += 3;
 		if (bplen <= len + 2) {
 			int newbplen = bplen + MAX(256, len + 2);
 			void *newdata;
@@ -209,7 +214,16 @@ db_build(char **ifiles)
 		}
 
 		/* Find the end of the name field. */
-		if ((p = strchr(bp, info ? ',' : ':')) == NULL) {
+		p = bp;
+		while (*p) {
+			if (*p == (info ? ',' : ':'))
+				break;
+			if ((*p == '\\') || (*p == '^'))
+				++p;
+			if (*p)
+				++p;
+		}
+		if (!*p) {
 			warnx("no name field: %.*s", (int)MIN(len, 20), bp);
 			continue;
 		}
@@ -230,51 +244,44 @@ db_build(char **ifiles)
 		}
 
 		/* Create the stored record. */
-		if (info) {
-			(void) memcpy(&((u_char *)(data.data))[1], bp, len + 1);
-			data.size = len + 2;
-			for (t = memchr((char *)data.data + 1, ',', data.size - 1);
-			     t;
-			     t = memchr(t, ',', data.size - (t - (char *)data.data)))
-				if (t++, ((t <= (char *)data.data + 2) ||
-				    (t[-2] != '\\')))
-					t[-1] = ':';
-
-			if (memchr((char *)data.data + 1, '\0', data.size - 2)) {
-				warnx("NUL in entry: %.*s", (int)MIN(len, 20), bp);
+		t = (char *)data.data + 1;
+		c = bp;
+		/* Copy capability, collapsing empty fields */
+		while (*c) {
+			while ((*c == '\\') || (*c == '^')) {
+				*t++ = *c++;
+				if (*c == '\0')
+					break;
+				*t++ = *c++;
+			}
+			/* we have an unescaped character */
+			if (*c == (info ? ',' : ':')) {
+				/* field end */
+				*t++ = ':';
+				/* skip delimiter and following white space */
+				while ((*c == (info ? ',' : ':')) ||
+				    (*c == ' ') || (*c == '\t') ||
+				    (*c == '\n') || (*c == '\r'))
+					c++;
 				continue;
 			}
-		} else {
-			char *capbeg, *capend;
-
-			t = (char *)data.data + 1;
-			/* Copy the cap name and trailing ':' */
-			len = p - bp + 1;
-			memcpy(t, bp, len);
-			t += len;
-
-			/* Copy entry, collapsing empty fields. */
-			capbeg = p + 1;
-			while (*capbeg) {
-				/* Skip empty fields. */
-				if ((len = strspn(capbeg, ": \t\n\r")))
-					capbeg += len;
-
-				/* Find the end of this cap and copy it w/ : */
-				capend = strchr(capbeg, ':');
-				if (capend)
-					len = capend - capbeg + 1;
-				else
-					len = strlen(capbeg);
-				memcpy(t, capbeg, len);
-				t += len;
-				capbeg += len;
+			/* it's a normal character */
+			if (info && (*c == ':')) {
+				/* must be escaped */
+				*t++ = '\\';
+				*t++ = '0';
+				*t++ = '7';
+				*t++ = '2';
+				c++;
+				continue;
 			}
-			*t = '\0';
-			data.size = t - (char *)data.data + 1;
+			*t++ = *c++;
 		}
+		*t++ = '\0';
+		data.size = t - (char *)data.data;
 
 		/* Store the record under the name field. */
+		/* No need for escapes 'cause the cap parser never sees this */
 		key.data = bp;
 		key.size = p - bp;
 
@@ -298,12 +305,17 @@ db_build(char **ifiles)
 #endif
 
 		/* The rest of the names reference the entire name. */
+		/* No need for escapes 'cause the cap parser never sees this */
 		((char *)(data.data))[0] = SHADOW;
 		(void) memmove(&((u_char *)(data.data))[1], key.data, key.size);
 		data.size = key.size + 1;
 
 		/* Store references for other names. */
+		/* No need for escapes either, but honour them */
 		for (p = t = bp;; ++p) {
+			/* We know we can't hit NUL, cf. warnx("no name field */
+			while ((*p == '\\') || (*p == '^'))
+				p += 2;
 			if ((p > t) && ((*p == '|') ||
 			    (!commentfld && (*p == (info ? ',' : ':'))))) {
 				key.size = p - t;

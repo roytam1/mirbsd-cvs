@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.bin/cap_mkdb/getinfo.c,v 1.2 2005/03/13 18:32:46 tg Exp $ */
+/**	$MirOS: src/usr.bin/cap_mkdb/getinfo.c,v 1.3 2006/10/31 01:57:05 tg Exp $ */
 /*	$OpenBSD: getinfo.c,v 1.7 2003/06/10 22:20:45 deraadt Exp $	*/
 
 /*-
@@ -42,7 +42,7 @@
 #include <string.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: src/usr.bin/cap_mkdb/getinfo.c,v 1.2 2005/03/13 18:32:46 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/cap_mkdb/getinfo.c,v 1.3 2006/10/31 01:57:05 tg Exp $");
 
 #define	BFRAG		1024
 #define	BSIZE		1024
@@ -89,7 +89,12 @@ igetcap(char *buf, const char *cap, int type)
 		for (;;)
 			if (*bp == '\0')
 				return (NULL);
-			else
+			else if ((*bp == '\\') || (*bp == '^')) {
+				if (*++bp == '\0')
+					return (NULL);
+				bp++;
+				continue;
+			} else
 				if (*bp++ == ',')
 					break;
 
@@ -378,7 +383,12 @@ getent(char **cap, u_int *len, char **db_array, int fd, char *name, int depth)
 			for (;;)
 				if (*s == '\0')
 					break;
-				else
+				else if ((*s == '\\') || (*s == '^')) {
+					if (*++s == '\0')
+						break;
+					s++;
+					continue;
+				} else
 					if (*s++ == ',')
 						break;
 			newilen -= s - newicap;
@@ -577,7 +587,11 @@ igetnext(char **bp, char **db_array)
 		np = nbuf;
 		for (;;) {
 			for (cp = line; *cp != '\0'; cp++) {
-				if (*cp == ',') {
+				if ((*cp == '\\') || (*cp == '^')) {
+					*np++ = *cp++;
+					if (*cp == '\0')
+						break;
+				} else if (*cp == ',') {
 					*np++ = ',';
 					done = 1;
 					break;
@@ -600,11 +614,15 @@ igetnext(char **bp, char **db_array)
 			}
 		}
 		rp = buf;
-		for(cp = nbuf; *cp; cp++)
-			if (*cp == '|' || *cp == ',')
+		for(cp = nbuf; *cp; cp++) {
+			if ((*cp == '\\') || (*cp == '^')) {
+				*rp++ = *cp++;
+				if (!*cp)
+					break;
+			} else if (*cp == '|' || *cp == ',')
 				break;
-			else
-				*rp++ = *cp;
+			*rp++ = *cp;
+		}
 
 		*rp = '\0';
 		status = getent(bp, &dummy, db_array, -1, buf, 0);
