@@ -1,4 +1,4 @@
-/* $MirOS: ports/emulators/qemu/snapshot/files/gnu-c99-math.h,v 1.1 2008/05/07 15:53:06 tg Exp $ */
+/* $MirOS: ports/emulators/qemu/files/gnu-c99-math.h,v 1.1 2008/05/11 20:35:45 tg Exp $ */
 
 #if (defined(__sun__) || defined(__OpenBSD__)) && defined(__GNUC__)
 
@@ -25,12 +25,14 @@
 #define isnormal(x)		(fabs(x) < DBL_EPSILON && !isnan(x) && !isinf(x))
 #endif
 
+#if (!defined(MirBSD) || (MirBSD < 0x0AB1))
 #define	isgreater(x, y)		((x) > (y))
 #define	isgreaterequal(x, y)	((x) >= (y))
 #define	isless(x, y)		((x) < (y))
 #define	islessequal(x, y)	((x) <= (y))
 
 #define	isunordered(x,y)	(isnan(x) || isnan(y))
+#endif
 
 #ifdef NEED_MBSD_COMPAT
 #define lrintf(x)		((long)rintf(x))
