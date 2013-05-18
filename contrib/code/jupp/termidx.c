@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: contrib/code/jupp/termidx.c,v 1.2 2008/05/13 13:08:26 tg Exp $ */
 /*
  *	Program to generate termcap index file
  *	Copyright
@@ -55,7 +55,7 @@ static void gen(unsigned char *s, FILE *fd)
 					z = y + 1;
 				} while (c && c != ':');
 				if (flg)
-					printf(" %lx\n", addr - oaddr);
+					printf(" %lX\n", addr - oaddr);
 			}
 			goto loop;
 		} else if (c == '\r')

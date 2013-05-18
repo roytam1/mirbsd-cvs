@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/jupp/charmap.c,v 1.4 2006/11/10 23:23:30 tg Exp $ */
+/* $MirOS: contrib/code/jupp/charmap.c,v 1.5 2006/11/11 01:43:43 tg Exp $ */
 /*
  *	UNICODE/ISO-10646 conversion utilities
  *	Copyright
@@ -1241,7 +1241,7 @@ struct builtin_charmap *parse_charmap(unsigned char *name,FILE *f)
 			if (b->to_uni[y+x]==-1)
 				printf("    -1, ");
 			else
-				printf("0x%4.4x, ",b->to_uni[y+x]);
+				printf("0x%4.4X, ",b->to_uni[y+x]);
 		}
 		printf("\n");
 	}
@@ -1345,8 +1345,8 @@ main(int argc,char *argv[])
 	if (!map)
 		printf("Not found\n");
 	sscanf(argv[2],"%x",&u);
-	printf("Unicode=%x\n",uni=to_uni(map,u));
-	printf("Local=%x\n",from_uni(map,uni));
+	printf("Unicode=%X\n",uni=to_uni(map,u));
+	printf("Local=%X\n",from_uni(map,uni));
 }
 #endif
 
