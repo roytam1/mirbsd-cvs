@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/etc/netstart,v 1.3 2005/07/07 13:39:22 tg Exp $
+# $MirOS: src/etc/netstart,v 1.4 2005/07/24 15:45:28 tg Exp $
 # $OpenBSD: netstart,v 1.105 2005/05/22 08:56:08 todd Exp $
 
 # Strip comments (and leading/trailing whitespace if IFS is set)
@@ -230,9 +230,8 @@ fi
 # Otherwise, process with the complete network initialization.
 
 # Since no interface is set up yet, using DNS is pointless.
-if [ ! -e /etc/resolv.conf ]; then
-	T=fail
-elif T=$(mktemp /etc/resolv.conf.XXXXXXXXXX); then
+if [[ -e /etc/resolv.conf ]]; then
+	T=/etc/resolv.conf.$RANDOM
 	mv /etc/resolv.conf $T
 	echo lookup file >/etc/resolv.conf
 else
