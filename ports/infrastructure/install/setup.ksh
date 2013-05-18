@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.80 2008/02/24 11:36:30 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.81 2008/03/12 23:43:11 tg Exp $
 #-
 # Copyright (c) 2005, 2008
 #	Thorsten “mirabilos” Glaser <tg@66h.42h.de>
@@ -323,10 +323,35 @@ else
 	run_mtree=0
 fi
 mkdir -p $etc
-if [[ $ismirbsd = no ]]; then
-	# create playpen base, so that pkg_add of paxmirabilis works
-	mkdir -p $localbase/tmp
-	export PKG_TMPDIR=$localbase/tmp
+usetmpdir=0
+if [[ -z $PKG_TMPDIR ]]; then
+	if ! f=$(mktemp /var/tmp/mirports.XXXXXXXXXX); then
+		# May be Interix without mktemp.sh
+		f=/tmp/mirports.$$$RANDOM
+		if [[ -e $f ]]; then
+			print -u2 Cannot generate temporary file.
+			exit 1
+		fi
+		print >$f
+		if [[ ! -e $f ]]; then
+			print -u2 Cannot generate temporary file.
+			exit 1
+		fi
+	fi
+	g=$localbase/bin/.tmp.$$$RANDOM
+	if ! builtin rename $f $g 2>&-; then
+		usetmpdir=1
+		export PKG_TMPDIR=$localbase/db/tmp
+		if ! mkdir -p $PKG_TMPDIR; then
+			print -u2 Cannot generate playpen base directory.
+			exit 1
+		fi
+	else
+		unset PKG_TMPDIR
+	fi
+	rm -f $f $g
+else
+	export PKG_TMPDIR
 fi
 
 
@@ -557,7 +582,10 @@ EOF
 [[ $isinterix = yes ]] && cat >>$localbase/db/SetEnv.sh <<-EOF
 	unset INCLUDE LIB
 EOF
-
+[[ $usetmpdir = 1 ]] && cat >>$localbase/db/SetEnv.sh <<-EOF
+	PKG_TMPDIR='$PKG_TMPDIR'
+	export PKG_TMPDIR
+EOF
 cat >>$localbase/db/SetEnv.sh <<-'EOF'
 	if [ -z "$SSL_CERT_DIR" -a -d $LOCALBASE/share/ca-certificates/. ]; then
 		SSL_CERT_DIR=$LOCALBASE/share/ca-certificates
@@ -597,7 +625,9 @@ EOF
 	unsetenv INCLUDE
 	unsetenv LIB
 EOF
-
+[[ $usetmpdir = 1 ]] && cat >>$localbase/db/SetEnv.csh <<-EOF
+	setenv PKG_TMPDIR '$PKG_TMPDIR'
+EOF
 cat >$localbase/db/SetEnv.csh <<-'EOF'
 	#XXX convert this to csh
 	#if [ -z "$SSL_CERT_DIR" -a -d $LOCALBASE/share/ca-certificates/. ]; then
