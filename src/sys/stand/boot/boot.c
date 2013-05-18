@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/stand/boot/boot.c,v 1.19 2009/01/31 18:48:13 tg Exp $	*/
+/**	$MirOS: src/sys/stand/boot/boot.c,v 1.20 2009/02/01 10:31:13 tg Exp $	*/
 /*	$OpenBSD: boot.c,v 1.36 2007/06/26 10:34:41 tom Exp $	*/
 
 /*
@@ -76,6 +76,9 @@ boot(dev_t bootdev)
 #if defined(IN_PXEBOOT) || !defined(SMALL_BOOT)
 	char myconf[64];
 #endif
+
+	printf("cmd_buf (%X) on entry: size=%d len=%d content='%s'\n\n\n", (unsigned)cmd_buf, sizeof(cmd_buf), strlen(cmd_buf), cmd_buf);
+	memhexdump(cmd_buf, 0, strlen(cmd_buf) + 1);
 
 	machdep();
 

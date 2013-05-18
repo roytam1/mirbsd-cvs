@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.77 2009/10/24 14:16:51 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.78 2009/10/24 14:19:36 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009
@@ -111,6 +111,9 @@ Lmbhdr:	.long	0x1BADB002		/* magic */
 	.long	Lmbrun - SA_LINKADDR + 0x00100000	/* entry_addr */
 #endif
 
+	/* pointer to ldbsd.com command line or 1 (DOS/COMBOOT PSP) */
+Largp:	.long	0
+
 Linit:
 #ifndef SMALL_BOOT
 	mov	cx,es
@@ -176,6 +179,9 @@ Linit:
 	jne	Lnocom
 	cmp	word ptr ds:[0],0x20CD
 	jne	Lnocom
+
+	/* store magic flag to Largp for using the command line */
+	inc	byte ptr ds:[ebx + offset Largp - offset _start]
 
 	push	ebp
 	push	ebx
@@ -278,6 +284,8 @@ Lnocom:	/* flags are (already) okay */
 	/* load source address (_start) normalised */
 	mov	ebx,ebp
 	shr	ebx,4
+	/* subtract 128 for DOS/COMBOOT PSP command line */
+	sub	bx,(128/16)
 	mov	ds,bx
 	mov	si,bp
 	and	si,0x000F
@@ -296,12 +304,15 @@ Lnocom:	/* flags are (already) okay */
 	mov	sp,0x3FFC
 	mov	ax,0x6000
 	push	ax
+	/* subtract 128 for DOS/COMBOOT PSP command line */
+	sub	ax,(128/16)
 	mov	es,ax
 	xor	di,di
 	mov	eax,offset LdoRel - offset _start
 	push	ax
 	push	es
 	push	di
+	/* min. 0xFF00 max. code size + 0x80 PSP cmdline */
 	mov	cx,0xFFF0
 	rep	movsb
 	pop	si
@@ -314,9 +325,11 @@ LdoRel:	mov	ax,0x3000
 	cmp	ebp,SA_LINKADDR
 	je	LisRel
 
-	mov	ax,SA_LINKSEG
+	/* subtract 128 for DOS/COMBOOT PSP command line */
+	mov	ax,(SA_LINKSEG - (128/16))
 	mov	es,ax
 	xor	di,di
+	/* same as above */
 	mov	cx,0xFFF0
 	rep	movsb
 
@@ -331,12 +344,78 @@ LisRel:	mov	ax,SA_LINKSEG
 
 	/* whew, we're relocated */
 Lstart:
+	/* check for presence of command line */
+	mov	esi,offset Largp - offset _start
+	mov	eax,[si]
+	or	eax,eax
+	jz	Lnocmd
+#ifdef BOOTSELECT_HOOK
+	xor	ebx,ebx
+#endif
+	cmp	eax,1		/* magic */
+	jne	Liscmd
+	/* we have a DOS/COMBOOT PSP, analyse it */
+	mov	ax,ds
+	push	ax
+	sub	ax,(128/16)
+	mov	ds,ax
+	xor	cx,cx
+	mov	cl,byte ptr ds:[0]
+	mov	si,1
+1:	or	cx,cx
+	jz	Lpspno
+	lodsb
+	cmp	al,0x09		/* tab */
+	je	2f
+	cmp	al,0x0D		/* CR */
+	je	2f
+	cmp	al,0x20		/* space */
+	jne	3f
+2:	dec	cx
+	jmp	1b
+3:	dec	si
+	mov	di,si
+	add	di,cx
+	dec	di
+4:	mov	al,[di]
+	cmp	al,0x09		/* tab */
+	je	5f
+	cmp	al,0x0D		/* CR */
+	je	5f
+	cmp	al,0x20		/* space */
+	jne	6f
+5:	dec	cx
+	jz	Lpspno
+	dec	di
+	jmp	4b
+6:	inc	di
+	xor	eax,eax
+	mov	[di],al		/* convert to NUL-terminated */
+	/* DS:SI now points to NUL-terminated argv (SI < 0x80) */
+	mov	ax,ds
+	shl	eax,4
+	add	ax,si
+	pop	ds
+	/* store flat pointer to NUL-terminated argv into Largp */
+	mov	esi,offset Largp - offset _start
+	mov	[si],eax
+#ifdef BOOTSELECT_HOOK
+	xor	ebx,ebx
+#endif
+	jmp	Liscmd
+
+Lpspno:	pop	ds
+	xor	eax,eax
+	mov	esi,offset Largp - offset _start
+	mov	[si],eax
+Lnocmd:	/* no command line found */
 #ifdef BOOTSELECT_HOOK
 	sti
 	.globl	Lhook
 	call	Lhook
 	mov	ebx,eax
 #endif
+Liscmd:	/* a command line was found */
 
 	call	real_to_prot
 Lsta32:	.code32
@@ -360,6 +439,18 @@ Lsta32:	.code32
 	/* store user choice */
 	mov	[hook_value],ebx
 #endif
+
+	/* store command line, if any */
+	mov	esi,[Largp]
+	or	esi,esi
+	jz	1f
+	mov	ecx,(CMD_BUFF_SIZE - 1)
+	mov	edi,offset cmd_buf
+	rep	movsb
+	/* NUL-terminate potentially too long multiboot cmdline */
+	mov	al,0
+	stosb
+1:
 
 	movzx	eax,byte ptr [i386_biosdev]
 	push	eax
@@ -398,6 +489,57 @@ Lmb2rm:	mov	edi,offset Ldrvi
 #endif
 
 	mov	eax,[ebx]
+	and	eax,(1 << 2)	/* do we have command line? */
+	jz	1f		/* nope */
+	mov	esi,[ebx+16]	/* pointer */
+	/*
+	 * annoyingly enough, the first word on the command line
+	 * is our own pathname, so we must skip it
+	 */
+4:	lodsb
+	or	al,al		/* NUL */
+	jz	1f
+	cmp	al,0x09		/* tab */
+	je	2f
+	cmp	al,0x0A		/* LF */
+	je	2f
+	cmp	al,0x0D		/* CR */
+	je	2f
+	cmp	al,0x20		/* space */
+	jne	4b
+2:	lodsb
+	or	al,al		/* NUL */
+	jz	1f
+	cmp	al,0x09		/* tab */
+	je	2b
+	cmp	al,0x0A		/* LF */
+	je	2b
+	cmp	al,0x0D		/* CR */
+	je	2b
+	cmp	al,0x20		/* space */
+	je	2b
+	dec	esi
+	mov	edi,esi
+	mov	ecx,CMD_BUFF_SIZE
+	xor	eax,eax
+	repne	scasb
+3:	dec	edi
+	mov	al,[edi]
+	cmp	al,0x09		/* tab */
+	je	3b
+	cmp	al,0x0A		/* LF */
+	je	3b
+	cmp	al,0x0D		/* CR */
+	je	3b
+	cmp	al,0x20		/* space */
+	je	3b
+
+	/* got a non-empty command line */
+	mov	byte ptr [edi+1],0
+	mov	[Largp],esi
+
+	/* got no command line */
+1:	mov	eax,[ebx]
 	and	eax,(1 << 3)	/* do we have modules? */
 	jz	Lnombm		/* nope */
 	mov	eax,[ebx+20]	/* how many? */
