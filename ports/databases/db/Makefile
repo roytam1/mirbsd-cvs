@@ -1,4 +1,4 @@
-# $MirOS: ports/databases/db/Makefile,v 1.13 2008/03/09 17:22:27 tg Exp $
+# $MirOS: ports/databases/db/Makefile,v 1.14 2008/05/07 22:47:56 tg Exp $
 
 COMMENT=		Berkeley DB, revision 4
 COMMENT-doc=		Berkeley DB documentation, revision 4
@@ -18,7 +18,7 @@ PKGNAME-cxx=		db-cxx-${VERSION}-${DASH_VER}
 CATEGORIES=		databases
 HOMEPAGE=		http://www.oracle.com/technology/software/products/berkeley-db/
 MASTER_SITES=		http://download.oracle.com/berkeley-db/
-MASTER_SITES0=		http://www.oracle.com/technology/products/berkeley-db/db/update/${VERSION:R}/
+MASTER_SITES0=		${MASTER_SITES:=patches/db/${VERSION:R}/}
 DIST_SUBDIR=		db4
 
 TCL_VERSION=		8.4
