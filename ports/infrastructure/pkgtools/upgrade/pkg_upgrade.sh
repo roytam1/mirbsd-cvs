@@ -1,5 +1,5 @@
 #!/usr/bin/env mksh
-# $MirOS: ports/infrastructure/pkgtools/upgrade/pkg_upgrade.sh,v 1.28 2007/05/14 03:58:22 tg Exp $
+# $MirOS: ports/infrastructure/pkgtools/upgrade/pkg_upgrade.sh,v 1.29 2007/07/22 19:48:01 bsiegert Exp $
 #-
 # Copyright (c) 2006, 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -190,7 +190,7 @@ fi
 # Check if we try to re-install same-version packages
 NEWPKG=${1##*/}
 if [[ $OLDPKGS = ${NEWPKG%.+([a-zA-Z])} && $force = 0 ]]; then
-	[[ $quiet = 1 ]] || print -u2 "$me: package $OLDPKGS is already installed"
+	[[ $quiet = 1 ]] || print -u2 "$me: package $OLDPKGS is already installed, ignoring"
 	exit 0
 fi
 

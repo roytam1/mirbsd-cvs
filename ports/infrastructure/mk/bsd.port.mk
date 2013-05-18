@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.184 2007/08/07 19:30:45 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.185 2007/08/11 15:44:09 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -81,7 +81,6 @@ PKG_CMD_DELETE?=	${PKG_CMDDIR}/pkg_delete -c
 PKG_CMD_INFO?=		${PKG_CMDDIR}/pkg_info
 PKG_CMD_PKG?=		${PKG_CMDDIR}/pkg
 PKG_CMD_UPGRADE?=	${PKG_CMDDIR}/pkg_upgrade
-_UPGRADE_FLAGS?=	-a
 
 .if ${MACHINE_ARCH} != ${ARCH}
 PKG_ARCH?=		${MACHINE_ARCH},${ARCH}
@@ -3110,10 +3109,13 @@ uninstall deinstall:
 	@${SUDO} ${SETENV} PATH=${PKG_CMDDIR:Q}:$$PATH \
 	    ${PKG_CMD_DELETE} ${FULLPKGNAME${SUBPACKAGE}}
 
-reupgrade:
-	exec env _UPGRADE_FLAGS="${_UPGRADE_FLAGS} -f" ${MAKE} upgrade
+upgrade:
+	@exec ${MAKE} _UPGRADE_FLAGS= _do-upgrade
 
-upgrade: _upgrade_pkgs .WAIT _upgrade ${_UPGRADE_DEPS}
+reupgrade:
+	@exec ${MAKE} _UPGRADE_FLAGS=-af _do-upgrade
+
+_do-upgrade: _upgrade_pkgs .WAIT _upgrade ${_UPGRADE_DEPS}
 
 _upgrade_pkgs:
 	@i=0; for f in ${PKGFILE} ${_UPGRADE_PKGS}; do \
