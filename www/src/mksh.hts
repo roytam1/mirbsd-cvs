@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.480 2012/11/30 21:57:34 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.481 2012/12/04 20:25:20 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -327,6 +327,10 @@ mws_content <<'EOF'
 <p>I could not get the Intel Compiler 10 for Windows® to work.</p>
 <p>mksh enables the ICC stack protector option automaticaly. Compilates
  usually require the Intel shared libraries to be around.</p>
+
+<h5 class="cr" id="oe_firm">Compiler: libFirm/cparse</h5>
+<p>libFirm with the cparse front-end is indistinguishable from GCC and
+ known to build mksh R41 just fine.</p>
 
 <h5 class="cr" id="oe_llvm"><img width="64" height="64" alt="[LLVM logo]"
  class="fr" src="@@RELPATH@@pics/logos/llvm.png" />Compiler: LLVM</h5>
@@ -1117,6 +1121,8 @@ exec /usr/bin/ld "${args[@]}"</pre>
   which they kindly aliased to _ALL_SOURCE, which is implemented now</li>
  <li>[tg] Quell some LLVM+Clang warnings; overhaul scan-build assert(3)s</li>
  <li>[tg] Fix getn and some cases of possible array bounds trespasses</li>
+ <li>[chris2, dalias, tg] Use -fno-asynchronous-unwind-tables with GCC</li>
+ <li>[tg] Fix a few warnings from libFirm/cparser (mostly -Wsign-compare)</li>
 </ul>
 <p id="r41">mksh R41 brings a number of bugfixes and new features:</p><ul>
  <li>[tg] Drop “set ±o arc4random” (deprecated in R40)</li>
@@ -1124,7 +1130,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Change the internal hash algorithm from Bob Jenkins’ one-at-a-time
   to its NUL-counting, always-changing, better-avalanching MirOS variant <a
   href="@@ABSPATH@@/cvs.cgi/src/kern/include/nzat.h">NZAAT</a> (with feedback
-  from ciruZ; aligned names and 75% fill level are reasonable)</li>
+  from ciruZ; 75% fill level is reasonable; names tbd in Mirkev/MirJSON)</li>
  <li>[tg] Use <tt>$'…'</tt> for non-ASCII parameters for re-entry printing</li>
  <li>[tg] Use sane spelling of “read-only” consistently</li>
  <li>[tg] Improve tree <tt>-DDEBUG</tt> functions (internal/developer use)</li>
