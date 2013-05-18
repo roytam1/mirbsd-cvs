@@ -1,4 +1,4 @@
-.\"	$MirOS: src/share/man/man8/boot_sparc.8,v 1.1 2007/10/21 16:17:59 tg Exp $
+.\"	$MirOS: src/share/man/man8/boot_sparc.8,v 1.2 2009/08/09 11:53:41 tg Exp $
 .\"	$OpenBSD: boot_sparc.8,v 1.12 2005/03/11 23:03:59 jmc Exp $
 .\"	$NetBSD: boot_sparc.8,v 1.4 1995/04/25 11:37:25 pk Exp $
 .\"
@@ -31,7 +31,7 @@
 .\"
 .\"     @(#)boot_sparc.8	8.2 (Berkeley) 4/19/94
 .\"
-.Dd $Mdocdate$
+.Dd $Mdocdate: August 9 2009 $
 .Dt BOOT_SPARC 8
 .Os
 .Sh NAME
@@ -180,6 +180,23 @@ as soon as the kernel console has been initialized.
 Boot the system single-user.
 The system will be booted multi-user unless this option is specified.
 .El
+.Ss Using these options
+Proper use of these options seems to be something along these lines:
+.Bd -literal
+ok \fBboot disk /bsd \-a\fR
+Boot device: /iommu/sbus/espdma@f,400000/esp@f,800000/sd@3,0
+File and args: /bsd \-a
+>> MirBSD BOOT 2.2
+device[/iommu@f,.../sd@3,0:a]: \fBjust press Enter\fR
+boot: \fB/bsd\fR
+Booting /bsd @ 0x4000
+.Ed
+.Pp
+Apparently, you merely need to acknowledge the boot device, while
+you have to re-enter the kernel name
+.Em without
+the boot flags
+.Pq here Fl a .
 .Ss Abnormal system termination
 If the system crashes, it will enter the kernel debugger,
 .Xr ddb 4 ,
