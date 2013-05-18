@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/livecd/Makefile,v 1.44 2006/05/28 20:41:18 tg Exp $
+# $MirOS: src/distrib/i386/livecd/Makefile,v 1.45 2006/05/28 21:19:18 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -77,12 +77,12 @@ addtinyirc:
 		    -PAdtinyirc contrib/code/Snippets/tinyirc.c \
 		    || rm -rf tinyirc; \
 	fi
-	@if [[ -d tempdir/tinyirc/tinyirc.c ]]; then \
+	@if [[ -s tempdir/tinyirc/tinyirc.c ]]; then \
 		targpath=$$(readlink -nf workdir); \
 		cd tempdir/tinyirc; \
 		${CC} ${CFLAGS} ${COPTS} ${CPPFLAGS} ${LDFLAGS} \
 		    ${LDSTATIC} tinyirc.c -ltermcap; \
-		install -c -s -o root -g bin -m 555 a.out \
+		${SUDO} install -c -s -o root -g bin -m 555 a.out \
 		    $$targpath/usr/bin/tinyirc; \
 	fi
 
