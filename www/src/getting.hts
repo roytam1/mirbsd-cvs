@@ -1,11 +1,11 @@
-# $MirOS: www/src/getting.hts,v 1.20 2009/01/12 21:54:42 tg Exp $
+# $MirOS: www/src/getting.hts,v 1.21 2009/06/21 11:01:24 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname getting "Get MirOS!"
 mws_setheadline Get MirOS!
-mws_putheader '$MirOS: www/src/getting.hts,v 1.20 2009/01/12 21:54:42 tg Exp $'
+mws_putheader '$MirOS: www/src/getting.hts,v 1.21 2009/06/21 11:01:24 tg Exp $'
 mws_content <<'EOF'
 <p>MirOS consists of several parts: the base system (including X11), the
  MirPorts framework, and the source tree.</p>
@@ -51,6 +51,12 @@ mws_content <<'EOF'
   <th>Release</th>
   <th>Download</th>
  </tr><tr>
+  <td><p><b>Development snapshots (current, i386 or sparc)</b></p></td>
+  <td><p><a href="/MirOS/current/">via HTTP</a> &ndash;
+   <a href="http://f.scarywater.net/miros/">via BitTorrent</a></p>
+   <p><b>Note:</b> This is the <b>recommended</b> version to install.</p>
+  </td>
+ </tr><tr>
   <td><p><b>MirOS #10semel (stable, i386 + sparc)</b></p>
    <p>Contains the CVS repository and some binary packages.</p>
    <p>Released 16.03.2008 (<a href="ann-10.htm">Release
@@ -87,10 +93,6 @@ mws_content <<'EOF'
   <td><p><b>MirOS #7quater (stable, sparc)</b></p>
    <p>Released in 2003.</p></td>
   <td><p><a href="/MirOS/v7/bsd/sparc/">via HTTP</a> &ndash;
-   <a href="http://f.scarywater.net/miros/">via BitTorrent</a></p></td>
- </tr><tr>
-  <td><p><b>Development snapshots (current, i386 or sparc)</b></p></td>
-  <td><p><a href="/MirOS/current/">via HTTP</a> &ndash;
    <a href="http://f.scarywater.net/miros/">via BitTorrent</a></p></td>
  </tr>
 </table>
