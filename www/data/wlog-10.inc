@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.100 2008/11/13 00:00:09 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.101 2008/11/17 01:23:33 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -2050,4 +2050,34 @@ Title: aalloc and COFF
  today featured plans on getting a temporary setup of fast enough machines
  for crossbuilding OpenJDK; replaced confirmed that someone had success in
  doing what I planned, although the nōn-free JDK 1.5 only. We’ll see…</p>
+----
+Date: 22.11.2008 14:22
+Author: tg@
+Title: galloc and OPTU
+
+<p>aalloc was a failure and prone to mis-type; I’ve started on galloc,
+ which is supposed to be even more type-safe and flexible, yet still
+ segfaults on me as well.</p>
+<p>In the meanwhile, to not stay bored, I enhanced the Unicode (MirOS
+ OPTU-8/OPTU-16) function suite in MirBSD and hacked an implementation
+ of Plan 9’s Rune functions – dubbed <tt>p9¾_*.c</tt> due to usage of
+ our “internationalisation like Plan 9, just on the next layer, and
+ within the confines of UNIX®” approach to internationalisation. These
+ (as well as some well-known ones like wcsrtombs(3)) should be OPTU
+ safe, and we now have a macro telling us if a wide character is part
+ of the OPTU Raw Octet codepoint range (in the CSUR PUA assignment).</p>
+<p>I’ve contacted Bruno Haible again because his libutf8 misses the
+ Unicode Title case (complementing Upper and Lower case)… I’ve got an
+ idea how to implement it but would like to double-check with him to
+ ensure nothing breaks. The Plan 9 functions need it (these two are
+ currently implemented as stubs that just throw <tt>ENOCOFFEE</tt>).</p>
+<p>The number of manual pages also raised…</p>
+<p>I built XFree86® with a (slightly beefed up) Reiser CCCP in use as
+ sole C Præprocessor now… and have yet to notice failures in operation.
+ Now we’ll have to find out what else stuff is there depending on the
+ existence of <tt>/usr/bin/cpp</tt>, possibly switching it, like the
+ &lt;sys.mk&gt; mir‌make(1) file, to <tt>${CC} -E -</tt> (which is not
+ 100% compatible, because cpp can also read from stdin without the
+ dash, whereas, with the dash, neither can read from only a file).
+ X11 etc. can be switched to <tt>/usr/libexec/cpp</tt> then.</p>
 ----
