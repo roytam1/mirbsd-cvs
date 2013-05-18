@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/sys/cdefs.h,v 1.10 2006/09/29 21:35:42 tg Exp $ */
+/**	$MirOS: src/sys/sys/cdefs.h,v 1.11 2006/09/29 21:39:22 tg Exp $ */
 /*	$OpenBSD: cdefs.h,v 1.18 2005/05/27 21:28:12 millert Exp $	*/
 /*	$NetBSD: cdefs.h,v 1.16 1996/04/03 20:46:39 christos Exp $	*/
 
@@ -215,7 +215,7 @@
 #define __IDSTRING_EXPAND(l,p)		__IDSTRING_CONCAT(l,p)
 #define __IDSTRING(prefix, string)				\
 	static const char __IDSTRING_EXPAND(__LINE__,prefix) []	\
-	    __attribute__((used)) = "@(""#)" string
+	    __attribute__((used)) = "@(""#)" #prefix ": " string
 #endif
 #define __COPYRIGHT(x)		__IDSTRING(copyright,x)
 #ifdef lint

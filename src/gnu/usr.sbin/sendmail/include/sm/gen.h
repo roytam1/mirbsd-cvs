@@ -6,7 +6,7 @@
  * forth in the LICENSE file which can be found at the top level of
  * the sendmail distribution.
  *
- *	$MirOS: src/gnu/usr.sbin/sendmail/include/sm/gen.h,v 1.3 2006/09/29 21:35:42 tg Exp $
+ *	$MirOS: src/gnu/usr.sbin/sendmail/include/sm/gen.h,v 1.4 2006/09/29 21:39:22 tg Exp $
  *	$Sendmail: gen.h,v 1.23 2003/11/04 18:51:54 ca Exp $
  */
 
@@ -31,20 +31,8 @@
 #  define SM_RCSID(str)
 #  define SM_IDSTR(id,str)
 # else
-#  if defined(__ELF__) && defined(__GNUC__)
-#   define SM_IDSTR(prefix, string)				\
-	__asm__(".section .comment"				\
-	"\n	.ascii	\"" #prefix ": \""			\
-	"\n	.asciz	\"" string "\""				\
-	"\n	.previous");
-#  else
-#   define SM_IDSTR_CONCAT(l,p)		__LINTED__ ## l ## _ ## p
-#   define SM_IDSTR_EXPAND(l,p)		SM_IDSTR_CONCAT(l,p)
-#   define SM_IDSTR(prefix, string)				\
-	static const char SM_IDSTR_EXPAND(__LINE__,prefix) []	\
-	    __attribute__((used)) = string;
-#  endif
-#  define SM_RCSID(str) SM_IDSTR(RcsId,str)
+#  define SM_RCSID(str)		__RCSID(str);
+#  define SM_IDSTR(id,str)	__IDSTRING(id,str);
 # endif /* lint */
 
 /*

@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.bin/ftp/main.c,v 1.5 2005/04/30 22:54:26 tg Exp $ */
+/**	$MirOS: src/usr.bin/ftp/main.c,v 1.6 2006/10/03 19:22:17 tg Exp $ */
 /*	$OpenBSD: main.c,v 1.61 2006/05/16 16:20:42 deraadt Exp $	*/
 /*	$NetBSD: main.c,v 1.24 1997/08/18 10:20:26 lukem Exp $	*/
 
@@ -78,9 +78,9 @@
 
 #include "ftp_var.h"
 
-__COPYRIGHT("Copyright (c) 1985, 1989, 1993, 1994\n\
+__COPYRIGHT("@(#)Copyright (c) 1985, 1989, 1993, 1994\n\
 	The Regents of the University of California.  All rights reserved.\n");
-__RCSID("$MirOS: src/usr.bin/ftp/main.c,v 1.5 2005/04/30 22:54:26 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ftp/main.c,v 1.6 2006/10/03 19:22:17 tg Exp $");
 
 int family = PF_UNSPEC;
 
