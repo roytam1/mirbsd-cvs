@@ -68,7 +68,6 @@ _dnslog:*:258:
 _freenet:*:259:
 _bnetd:*:260:
 _mldonkey:*:261:
-_mailscan:*:262:
 _cups:*:263:
 _gii:*:264:
 _icecast:*:265:

@@ -1,5 +1,5 @@
-root:*:0:0:daemon:0:0:Charlie &:/root:/bin/sh
-daemon:*:1:1::0:0:the devil himself:/root:/sbin/nologin
+root:*:0:0:daemon:0:0:Charlie &:/:/bin/sh
+daemon:*:1:1::0:0:the devil himself:/:/sbin/nologin
 operator:*:2:5::0:0:system &:/operator:/sbin/nologin
 bin:*:3:7::0:0:Binaries Commands and Source:/:/sbin/nologin
 games:*:13:13::0:0:score files:/var/games:/sbin/nologin
@@ -45,7 +45,6 @@ _dnslog:*:258:258::0:0:MirPorts -- net/djbdns logdaemon:/nonexistent:/sbin/nolog
 _freenet:*:259:259::0:0:MirPorts -- net/freenetp:/nonexistent:/sbin/nologin
 _bnetd:*:260:260::0:0:MirPorts -- games/bnetd:/nonexistent:/sbin/nologin
 _mldonkey:*:261:261::0:0:MirPorts -- net/mldonkey:/nonexistent:/sbin/nologin
-_mailscan:*:262:262::0:0:MirPorts -- ???:/nonexistent:/sbin/nologin
 _cups:*:263:263::0:0:MirPorts -- print/cups:/nonexistent:/sbin/nologin
 _gii:*:264:264::0:0:MirPorts -- net/gated:/nonexistent:/sbin/nologin
 _icecast:*:265:265::0:0:MirPorts -- net/icecast:/nonexistent:/sbin/nologin
