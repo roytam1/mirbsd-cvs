@@ -1,4 +1,4 @@
-.\"	$MirOS: src/share/man/man9/random.9,v 1.3 2006/02/21 20:40:13 tg Exp $
+.\"	$MirOS: src/share/man/man9/random.9,v 1.4 2007/02/02 16:45:13 tg Exp $
 .\"	$OpenBSD: random.9,v 1.19 2004/04/04 13:19:36 jmc Exp $
 .\"
 .\" Copyright (c) 1996,2000 Michael Shalayeff
@@ -24,7 +24,7 @@
 .\" (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 .\" THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .\"
-.Dd March 26, 1996
+.Dd $Mdocdate$
 .Dt RND 9
 .Os
 .Sh NAME
@@ -41,25 +41,37 @@
 .Ft void
 .Fn add_tty_randomness "int"
 .Ft void
-.Fn add_net_randomness "int"
-.Ft void
 .Fn add_disk_randomness "int"
 .Ft void
+.Fn add_net_randomness "int"
+.Ft void
 .Fn add_audio_randomness "int"
+.Ft void
+.Fn add_video_randomness "int"
+.Ft void
+.Fn add_imacs_randomness "int"
 .Ft void
 .Fn get_random_bytes "void *buf" "size_t nbytes"
 .Ft u_int32_t
 .Fn arc4random "void"
 .Ft void
-.Fn rnd_addpool_add "uint32_t"
+.Fn arc4random_buf "void *buf" "size_t len"
+.Ft void
+.Fn rnd_lopool_add "const void *buf" "size_t len"
+.Ft void
+.Fn rnd_lopool_addh "const void *buf" "size_t len"
+.Ft void
+.Fn rnd_lopool_addv "unsigned long"
 .Sh DESCRIPTION
 The
 .Fn add_mouse_randomness ,
 .Fn add_tty_randomness ,
 .Fn add_net_randomness ,
-.Fn add_disk_randomness
+.Fn add_disk_randomness ,
+.Fn add_audio_randomness ,
+.Fn add_video_randomness ,
 and
-.Fn add_audio_randomness
+.Fn add_imacs_randomness
 routines are used to
 supply data for the random data source device for further processing.
 The processing involves calculating inter-event time delta and measuring
@@ -86,18 +98,20 @@ device.
 will give random 32 bit numbers hashed with
 the ARC4 algorithm, which appears to be faster and less abusive
 to the entropy pool.
+.Fn arc4random_buf
+will fill a buffer with bytes from the same source.
 .Pp
-.Fn rnd_addpool_add
-is a macro that can be used to push a 32-bit chunk of data
-from unreliable random sources or userspace into the kernel.
-This macro is safe to be called at almost any situation,
-except from within
-.Fn rnd_addpool_reinit .
-The sysctl
-.Dv KERN_PUSHRAND
-can be used to disable input from this buffer which is also
-filled during writes to
-.Pa /dev/wrandom .
+.Fn rnd_lopool_add
+will add bytes from
+.Xr wrandom 4
+and other
+.Dq untrusted
+sources via two temporary pools, one using the one-at-a-time hash,
+the other using the arcfour stream cipher, into the arc4random pool.
+.Fn rnd_lopool_addh
+will hash the input into a 32-bit number first, and
+.Fn rnd_lopool_addv
+takes an integral argument instead of a buffer.
 .Sh SEE ALSO
 .Xr arc4random 3 ,
 .Xr pchb 4 ,
@@ -106,3 +120,7 @@ filled during writes to
 None of these functions should really be called during the
 .Xr autoconf 4
 process.
+Calling
+.Nm arc4random
+however is safe at any time since
+.Mx 11 .
