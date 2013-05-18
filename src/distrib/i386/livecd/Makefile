@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/livecd/Makefile,v 1.32 2006/04/19 20:03:56 tg Exp $
+# $MirOS: src/distrib/i386/livecd/Makefile,v 1.33 2006/04/19 21:27:06 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -93,7 +93,7 @@ makeimg: bsd.gz
 	dd if=/dev/zero count=2 >>workdir/RMD160.gz
 	-rm -f ${CDROM}
 	touch ${CDROM}
-	${SUDO} mkisofs -R -T -L -d -D -N -v -v -f \
+	${SUDO} mkisofs -R -L -d -D -N -v -v -f \
 	    -b v${OSrev}/i386/boot.iso -c boot.cat -p "Thorsten Glaser" \
 	    -P "The http://MirBSD.org/ team and its contributors" \
 	    -V "MirOS #${OSrev} BSD/${MACHINE} Live CD" \
