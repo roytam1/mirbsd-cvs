@@ -1,9 +1,0 @@
-@comment $MirOS$
-bin/dig
-@comment bin/host
-bin/nslookup
-bin/nsupdate
-man/man1/dig.1
-@comment man/man1/host.1
-man/man8/nslookup.8
-man/man8/nsupdate.8

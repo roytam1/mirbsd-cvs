@@ -1,5 +1,0 @@
-@comment $MirOS$
-bin/minisip
-share/minisip/minisip.glade
-share/minisip/tray_icon.png
-@dirrm share/minisip

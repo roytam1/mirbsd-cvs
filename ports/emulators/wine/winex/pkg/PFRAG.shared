@@ -1,4 +1,0 @@
-@comment $MirOS$
-@lib lib/libwine.so.1.0
-@lib lib/libwine_tsx11.so.1.0
-@lib lib/libwine_unicode.so.1.0

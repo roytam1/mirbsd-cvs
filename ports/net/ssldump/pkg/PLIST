@@ -1,3 +1,0 @@
-@comment $OpenBSD: PLIST,v 1.2 2002/09/14 08:40:52 jakob Exp $
-sbin/ssldump
-man/man1/ssldump.1

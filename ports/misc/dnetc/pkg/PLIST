@@ -1,3 +1,0 @@
-@comment $OpenBSD: PLIST,v 1.1.1.1 2001/05/06 14:36:05 lebel Exp $
-bin/dnetc
-man/man1/dnetc.1
