@@ -1,0 +1,18 @@
+$MirOS$
+--- c_stuff/lib/fb_stuff.pm.orig	Sun Oct 22 21:26:30 2006
++++ c_stuff/lib/fb_stuff.pm	Sat Nov  4 04:10:53 2006
+@@ -24,7 +24,6 @@
+ package fb_stuff;
+ 
+ use fb_c_stuff;
+-use Locale::gettext;
+ use vars qw(@ISA @EXPORT $FPATH $FLPATH $FBLEVELS $colourblind %POS_1P %POS_2P %POS_MP $BUBBLE_SIZE $ROW_SIZE
+             $PI $version);
+ @ISA = qw(Exporter);
+@@ -299,5 +298,5 @@ sub deep_copy {
+ 
+ sub t {
+     my ($fmt, @args) = @_;
+-    return sprintf(gettext($fmt), @args);
++    return sprintf($fmt, @args);
+ }

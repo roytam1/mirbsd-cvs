@@ -1,4 +1,4 @@
-# $MirOS: ports/games/frozen-bubble/Makefile,v 1.3 2006/09/14 00:09:25 tg Exp $
+# $MirOS: ports/games/frozen-bubble/Makefile,v 1.4 2006/11/04 03:09:20 tg Exp $
 # $NetBSD: Makefile,v 1.16 2005/05/22 20:08:01 jlam Exp $
 
 COMMENT=		Pop the frozen bubbles
@@ -28,8 +28,8 @@ EXTRA_XAKE_FLAGS+=	PREFIX=${PREFIX:Q}
 
 post-install:
 	cd ${PREFIX}/share; \
-	    find frozen-bubble locale -type d | xargs chmod 755; \
-	    find frozen-bubble locale -type f | xargs chmod 444; \
-	    find frozen-bubble locale | xargs chown ${BINOWN}:${BINGRP}
+	    find frozen-bubble -type d | xargs chmod 755; \
+	    find frozen-bubble -type f | xargs chmod 444; \
+	    chown -R ${BINOWN}:${BINGRP} frozen-bubble
 
 .include <bsd.port.mk>

@@ -1,6 +1,6 @@
-$MirOS$
+$MirOS: ports/games/frozen-bubble/patches/patch-server_net_c,v 1.1 2006/11/04 03:09:20 tg Exp $
 --- server/net.c.orig	Fri Oct 27 10:29:50 2006
-+++ server/net.c	Sat Nov  4 01:54:02 2006
++++ server/net.c	Sat Nov  4 04:10:32 2006
 @@ -46,6 +46,10 @@
  #include "log.h"
  #include "net.h"
