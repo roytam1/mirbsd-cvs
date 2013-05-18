@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.286 2009/10/10 18:02:59 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.287 2009/10/10 18:04:23 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1023,6 +1023,7 @@ mws_content <<'EOF'
  <li>[tg] Make 「((foo) || bar)」 and 「((foo) | (bar))」 work</li>
  <li>[tg] Fix lazy evaluation of assignments by ternary operator, #445651</li>
  <li>[tg] Work around Cygwin bugs (quirks) hindering the testsuite</li>
+ <li>[tg] In FSH mode, “echo [-n] 'foo\x40bar'” shall not be expanded</li>
 </ul>
 <p id="r39">mksh R39 evolved into these through various means:</p><ul>
  <li>[tg] Shut up a bogus gcc warning during configuration process</li>
