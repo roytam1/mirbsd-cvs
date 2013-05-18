@@ -1,4 +1,4 @@
-# $MirOS: src/usr.sbin/makefs/Makefile,v 1.20 2009/07/23 19:47:38 tg Exp $
+# $MirOS: src/usr.sbin/makefs/Makefile,v 1.21 2010/03/06 21:29:02 tg Exp $
 # $NetBSD: Makefile,v 1.25 2009/04/22 15:23:05 lukem Exp $
 
 WARNS?=	3	# XXX -Wsign-compare
@@ -34,8 +34,8 @@ MTREESRC=	${NETBSDSRCDIR}/usr.sbin/mtree
 CPPFLAGS+=	-I${.CURDIR} -I${MKNODSRC} -I${MTREESRC}
 .PATH:		${MKNODSRC} ${MTREESRC}
 
-.include "${.CURDIR}/cd9660/Makefile.inc"
-.include "${.CURDIR}/ffs/Makefile.inc"
+.include "cd9660/Makefile.inc"
+.include "ffs/Makefile.inc"
 
 .ifdef MAKEFS_PORT
 CPPFLAGS+=	-I${NETBSDSRCDIR}/sys \
