@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.496 2013/02/15 22:10:14 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.497 2013/02/17 05:40:29 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1153,10 +1153,10 @@ exec /usr/bin/ld "${args[@]}"</pre>
   (not finished, but maybe the rest is a kernel bug?)</li -->
  <!-- li>Import the GNU bash- and zsh-style ability to get and set multiple
   limits in a single invocation from oksh (thanks millert) -->
- <li>[tg] Work around SVR4 cc(1) problem spotted by RT</li>
  <li>[tg] Do not permit <tt>$'…'</tt> and <tt>$"…"</tt> in anything that
   looks like a string, as old scripts, like ncurses’, depend on behaviour
   not guaranteed by POSIX regarding unescaped dollar signs there</li>
+ <li>[dalias] Make detection of function prototypes more reliable</li>
 </ul>
 <p id="r42b">mksh R42b and <span id="r41c">R41c</span> fix regressions:</p><ul>
  <li>[tg] Correctly initialise memory (Debian #700604)</li>
