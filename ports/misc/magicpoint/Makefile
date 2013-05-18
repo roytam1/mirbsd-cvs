@@ -1,7 +1,5 @@
-# $MirOS: ports/misc/magicpoint/Makefile,v 1.4 2007/04/01 21:59:23 tg Exp $
+# $MirOS: ports/misc/magicpoint/Makefile,v 1.5 2007/05/12 23:13:30 tg Exp $
 # $OpenBSD: Makefile,v 1.32 2004/04/09 09:52:09 espie Exp $
-
-BROKEN=			weird, see commit message
 
 COMMENT=		X11-based presentation tool
 DISTNAME=		magicpoint-1.10a
@@ -27,11 +25,18 @@ MODULES=		devel/gettext
 USE_X11=		Yes
 CONFIGURE_STYLE=	autoconf gnu imake no-autoheader
 CONFIGURE_ARGS+=	--disable-vflib
-CONFIGURE_ARGS+=	--enable-freetype-charset16
+CONFIGURE_ENV+=		mplocalbase=${LOCALBASE:Q}
+EXTRA_MAKE_FLAGS+=	CCOPTIONS=
 
 .if !${FLAVOR:L:Mfreetype2}
-CONFIGURE_ARGS+=	--disable-xft2
+CONFIGURE_ARGS+=	--enable-freetype \
+			--enable-freetype-charset16 \
+			--disable-xft2
 LIB_DEPENDS+=		ttf.1::print/freetype
+.else
+CONFIGURE_ARGS+=	--disable-freetype \
+			--enable-xft2
+MODULES=		converters/libiconv
 .endif
 
 .if ${FLAVOR:L:Mno_gif}
@@ -44,52 +49,49 @@ LIB_DEPENDS+=		ungif.5::graphics/libungif
 
 NO_REGRESS=		Yes
 
+DOCS=			COPYRIGHT COPYRIGHT.jp FAQ README README.fonts \
+			README.fonts.jp README.lang README.xft RELNOTES \
+			SYNTAX TODO.jp USAGE USAGE.jp
+SAMPLES=		README README.jp cloud.jpg dad.eps dad.jpg \
+			default.mgp embed-jp.mgp embed.mgp gradation-jp.mgp \
+			gradation.mgp mgp-old1.jpg mgp-old2.jpg mgp-old3.jpg \
+			mgp.mng mgp1.jpg mgp2.jpg mgp3.jpg mgp3.xbm \
+			mgprc-sample multilingual.mgp sample-fr.mgp \
+			sample-jp.mgp sample.mgp sendmail6-jp.mgp \
+			sendmail6.mgp tutorial-jp.mgp tutorial.mgp v6-jp.mgp \
+			v6.mgp v6header.eps v6header.jpg
+EMACS=			../mgp-mode.el README mgp.el mgp.sty sample.tex
+SCRIPTS=		eqn2eps.sh mgp2html.pl mgp2latex.pl tex2eps.sh
+
 post-extract:
-	-rm -rf ${WRKSRC}/missing	# crap...
+	rm -rf ${WRKDIST}/missing	# crap directory
 
 post-configure:
-	@cd ${WRKSRC}/contrib/xmindpath && \
-	    ./configure --prefix='$${DESTDIR}'${PREFIX:Q}
+	cd ${WRKCONF}/contrib/xmindpath && \
+	    ${SETENV} ${MODSIMPLE_configure_env} ${SH} ./configure \
+	    ${CONFIGURE_ARGS} --prefix='$${DESTDIR}'${PREFIX:Q}
 
 post-build:
-	@cd ${WRKSRC}/contrib/xmindpath && ${MAKE_PROGRAM}
-	@cd ${WRKSRC}/contrib/xwintoppm && ${XMKMF}
-
-DOCS=		COPYRIGHT COPYRIGHT.jp FAQ README README.fonts README.fonts.jp \
-		README.lang SYNTAX TODO.jp USAGE USAGE.jp
-SAMPLES=	README README.jp cloud.jpg dad.eps dad.jpg default.mgp \
-		embed-jp.mgp embed.mgp gradation-jp.mgp \
-		gradation.mgp mgp-old1.jpg mgp-old2.jpg mgp-old3.jpg \
-		mgp.mng mgp1.jpg mgp2.jpg mgp3.jpg mgp3.xbm mgprc-sample \
-		multilingual.mgp sample-fr.mgp sample-jp.mgp sample.mgp \
-		sendmail6-jp.mgp sendmail6.mgp tutorial-jp.mgp tutorial.mgp \
-		v6-jp.mgp v6.mgp v6header.eps v6header.jpg
-EMACS=		README mgp.el mgp.sty sample.tex ../mgp-mode.el
-
-pre-configure:
-	cd ${WRKCONF}/contrib/xmindpath && ${_real_simple_configure_call}
+	cd ${WRKBUILD}/contrib/xmindpath && \
+	    ${SETENV} ${MAKE_ENV} ${MAKE_PROGRAM} ${MAKE_FLAGS}
 
 post-install:
-	@cd ${WRKSRC}/contrib/xmindpath && ${MAKE_PROGRAM} install
-	${INSTALL_DATA_DIR} ${PREFIX}/share/doc/mgp/sample
-	${INSTALL_DATA_DIR} ${PREFIX}/share/doc/mgp/emacs
-	@for i in $(DOCS); do \
-	   ${INSTALL_DATA} ${WRKSRC}/$$i ${PREFIX}/share/doc/mgp; \
-	done
-	@for i in $(SAMPLES); do \
-	   ${INSTALL_DATA} ${WRKSRC}/sample/$$i ${PREFIX}/share/doc/mgp/sample; \
-	done
-	@for i in $(EMACS); do \
-		 ${INSTALL_DATA} ${WRKSRC}/contrib/mgp-el/$$i \
-			 ${PREFIX}/share/doc/mgp/emacs; \
-	done
-	${INSTALL_SCRIPT} ${WRKSRC}/contrib/eqn2eps.sh \
-		 ${PREFIX}/bin/eqn2eps
-	${INSTALL_SCRIPT} ${WRKSRC}/contrib/mgp2html.pl \
-		${PREFIX}/bin/mgp2html
-	${INSTALL_SCRIPT} ${WRKSRC}/contrib/mgp2latex.pl \
-		${PREFIX}/bin/mgp2latex
-	${INSTALL_SCRIPT} ${WRKSRC}/contrib/tex2eps.sh \
-		${PREFIX}/bin/tex2eps
+	${INSTALL_DATA_DIR} ${PREFIX}/share/doc/mgp/{emacs,sample}
+.for _i in ${DOCS}
+	${INSTALL_DATA} ${WRKSRC}/${_i} ${PREFIX}/share/doc/mgp/
+.endfor
+.for _i in ${SAMPLES}
+	${INSTALL_DATA} ${WRKSRC}/sample/${_i} ${PREFIX}/share/doc/mgp/sample/
+.endfor
+.for _i in ${EMACS}
+	${INSTALL_DATA} ${WRKSRC}/contrib/mgp-el/${_i} \
+	    ${PREFIX}/share/doc/mgp/emacs/
+.endfor
+.for _i in ${SCRIPTS}
+	${INSTALL_SCRIPT} ${WRKSRC}/contrib/${_i} ${PREFIX}/bin/${_i:R}
+.endfor
+	cd ${WRKBUILD}/contrib/xmindpath && \
+	    ${INSTALL_PROGRAM} xmindpath ${PREFIX}/bin/ && \
+	    ${INSTALL_MAN} xmindpath.1 ${PREFIX}/man/man1/
 
 .include <bsd.port.mk>
