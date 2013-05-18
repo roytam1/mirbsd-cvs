@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/pkgtools/Makefile.inc,v 1.10 2005/09/19 19:35:30 tg Exp $
+# $MirOS: ports/infrastructure/pkgtools/Makefile.inc,v 1.11 2005/10/21 20:10:29 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.2 1997/09/21 11:44:03 deraadt Exp $
 
 .ifndef _MODPORTS_INFRASTRUCTURE_PKGTOOLS_MAKEFILE_INC
@@ -42,8 +42,7 @@ LDADD+=		-L${.SYSMK} -lmirmake
 LDADD+=		-ldb
 .endif
 
-PKG_USER?=	root
-.if ${PKG_USER} != "root"
+.if ${BINOWN} != "root"
 CPPFLAGS+=	-DAS_USER
 .endif
 

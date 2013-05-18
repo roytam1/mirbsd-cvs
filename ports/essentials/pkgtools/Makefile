@@ -1,4 +1,4 @@
-# $MirOS: ports/essentials/pkgtools/Makefile,v 1.6 2006/01/11 13:14:02 tg Exp $
+# $MirOS: ports/essentials/pkgtools/Makefile,v 1.7 2006/01/13 03:49:25 tg Exp $
 
 COMMENT=		"MirPorts Framework package tools"
 CATEGORIES=		essentials infrastructure
@@ -21,7 +21,7 @@ PERMIT_PACKAGE_FTP=	Yes
 
 NO_REGRESS=		Yes
 
-MAKE_ENV+=		PKG_USER=${BINOWN:Q}
+MAKE_ENV+=		BINOWN=${BINOWN:Q}
 MAKE_ENV+=		PORTSDIR=${PORTSDIR:Q}
 
 do-configure:

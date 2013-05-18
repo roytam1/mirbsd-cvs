@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.46 2005/12/28 00:28:24 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.47 2005/12/28 17:28:57 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -574,7 +574,7 @@ else
 	mmake obj
 	mmake cleandir
 	mmake depend
-	mmake PORTABLE=Yes PKG_USER="$myuid"
+	mmake PORTABLE=Yes BINOWN="$myuid"
 	mmake install
 	set +e
 	rm -rf {add,create,delete,info,lib,pkg,rtfm,upgrade}/obj
