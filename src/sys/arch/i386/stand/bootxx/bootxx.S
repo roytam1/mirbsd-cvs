@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/bootxx/bootxx.S,v 1.2 2007/02/26 02:35:04 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/bootxx/bootxx.S,v 1.3 2007/02/26 02:52:46 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2007
@@ -169,10 +169,14 @@ Lmlp1:	/* main load loop */
 	push	bx		/* and save for next round */
 	push	cx		/* save blkcnt */
 
-Lmlp2:	lodsb			/* copy over as many bytes as needed */
-	stosb
+Lmlp2:	movsb			/* copy over as many bytes as needed */
 	dec	dl
 	jne	Lmlp2
+	xor	ax,ax		/* pad with up to 7 NUL-bytes */
+	stosw
+	stosw
+	stosw
+	stosw
 
 	/*
 	 * at this point, we have the following:
