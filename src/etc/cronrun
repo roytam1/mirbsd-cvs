@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/etc/cronrun,v 1.3 2007/06/16 23:00:38 tg Exp $
+# $MirOS: src/etc/cronrun,v 1.4 2007/06/26 23:18:58 tg Exp $
 #-
 # Copyright (c) 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -59,6 +59,7 @@ else
 	nice mksh "/etc/$jobname" 2>&1 | \
 	    tee "/var/log/$jobname.out" | \
 	    mail -s "$(hostname) $jobname output" root
+	rm -f "/var/log/$jobname.out.gz"
 	gzip -n9 "/var/log/$jobname.out"
 fi
 

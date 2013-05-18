@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/etc/anacron,v 1.1 2007/06/16 22:57:29 tg Exp $
+# $MirOS: src/etc/anacron,v 1.2 2007/06/26 23:20:59 tg Exp $
 #-
 # Copyright (c) 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -43,7 +43,10 @@ function tryjob {
 	typeset job=$1
 	typeset -i days=$2
 
-	[[ -s /var/log/$job.out ]] && gzip -n9 /var/log/$job.out
+	if [[ -s /var/log/$job.out ]]; then
+		rm -f /var/log/$job.out.gz
+		gzip -n9 /var/log/$job.out
+	fi
 	if [[ -s /var/log/$job.out.gz ]]; then
 		line=$(gzip -dc /var/log/$job.out.gz | head -n 1)
 		if [[ $line = @(RUNTIME=)+([0-9]).+([0-9]) ]]; then
