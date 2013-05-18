@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.291 2010/04/03 17:48:07 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.292 2010/05/13 17:05:02 bsiegert Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -6519,4 +6519,29 @@ free Norton Commander clone with many useful features
 
 <p>The changes are not in the HEAD branch yet, I will merge them when I
  consider it "done".</p>
+----
+Title: Hello, World!
+Author: tg@
+Date: 22.05.2010 14:37
+Tag: mksh
+
+<p>Just a random status update: I’ve been too busy with the dayjob,
+ now ill for about two weeks already. There have been some minor <a
+ href="@@RELPATH@@mksh.htm">mksh</a> fixes but I’d still like to
+ catch up on the Austin ML postings before releasing R39d; Android
+ discussion is live. The base system has some issues found, but I
+ will take a while (no hacking mood, even when not ill).</p>
+<p><a href="https://eurynome.mirbsd.org/~tg/pub/qr.htm">Scan this!</a>
+ and Google’s playable logo is just weird (at least no sound in
+ Opera) but at least it’s not Fläsh. I played it but there’s no
+ second level. Tonnerre likes «Forth op de Fiets» (as a pun on
+ Ruby on Rails), which lets me remember the Forth Glockenspiel.</p>
+<p>Sorry for the lack of updates, but MirBSD is still pretty much
+ a fun project, and Benny is working on his Doctor thesis too.</p>
+<p>FWIW: <a href="http://www.golem.de/1005/75291.html">Patents</a>
+ on <a href="http://www.golem.de/1005/75277.html">software</a> are
+ <a href="http://www.golem.de/1004/74727.html">evil</a> and times
+ <a href="http://www.golem.de/0703/50844.html">are worsening</a>.
+ I suppose, if we’ll be able to continue MirBSD at all, I need to
+ disable FAT LFN support. Sucks.</p>
 ----
