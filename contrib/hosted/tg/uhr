@@ -196,7 +196,6 @@ while (( ++i < 12 )); do
 	read -p S; [[ $S = ?(-).* ]] && S=0
 	mky[i]=${S%%.*}
 done
-print -p quit
 exec 3>&p; exec 3>&-
 
 # clear framebuffer and screen
