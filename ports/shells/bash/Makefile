@@ -1,8 +1,9 @@
-# $MirOS: ports/shells/bash/Makefile,v 1.3 2006/01/03 01:53:38 tg Exp $
+# $MirOS: ports/shells/bash/Makefile,v 1.4 2006/02/09 09:36:17 tg Exp $
 # $OpenBSD: Makefile,v 1.27 2004/01/13 20:09:39 naddy Exp $
 
 COMMENT=	"GNU Bourne Again Shell"
 DISTNAME=	bash-2.05b
+PKGNAME=	${DISTNAME}-1
 CATEGORIES=	shells
 HOMEPAGE=	http://cnswww.cns.cwru.edu/~chet/bash/bashtop.html
 
@@ -23,12 +24,13 @@ PATCHFILES+=	bash205b-${i}:0
 FLAVORS=	static
 FLAVOR?=
 
-
 CONFIGURE_STYLE= gnu
 MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC} ${WRKSRC}/support
+CONFIGURE_ENV+=	ac_cv_lib_intl=no
+CONFIGURE_ENV+=	ac_cv_lib_intl_bindtextdomain=no
 
 .if ${FLAVOR:L} == "static"
-CONFIGURE_ARGS=	--enable-static-link
+CONFIGURE_ARGS+=--enable-static-link
 .endif
 
 post-install:
