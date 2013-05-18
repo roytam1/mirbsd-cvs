@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/lib/lib.h,v 1.23 2008/11/02 19:08:01 tg Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/lib/lib.h,v 1.24 2008/12/06 13:18:07 tg Exp $ */
 /*	$OpenBSD: lib.h,v 1.14 2003/08/21 20:24:57 espie Exp $	*/
 
 /*
@@ -106,7 +106,8 @@ typedef enum pl_ent_t {
 	PLIST_SHELL,
 	PLIST_ENDFAKE,
 	PLIST_LDCACHE,
-	PLIST_EMUL
+	PLIST_EMUL,
+	PLIST_NOLIB
 } pl_ent_t;
 
 /* type of dynamic linker */

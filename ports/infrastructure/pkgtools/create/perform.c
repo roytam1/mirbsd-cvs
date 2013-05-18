@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/create/perform.c,v 1.15 2008/11/02 19:23:58 tg Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/create/perform.c,v 1.16 2009/08/19 18:30:11 tg Exp $ */
 /* $OpenBSD: perform.c,v 1.17 2003/08/27 06:51:26 jolan Exp $	*/
 
 /*
@@ -32,7 +32,7 @@
 #include <signal.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/create/perform.c,v 1.15 2008/11/02 19:23:58 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/create/perform.c,v 1.16 2009/08/19 18:30:11 tg Exp $");
 
 static void sanity_check(void);
 static void make_dist(char *, char *, const char *, package_t *);
@@ -324,6 +324,7 @@ make_dist(char *homepath, char *pkg, const char *fsuffix, package_t *plist)
 	    errx(2, "too many args for tar command");
 	switch (p->type) {
 	case PLIST_LIB:
+	case PLIST_NOLIB:
 	case PLIST_FILE:
 	    if (!flist) {
 	    	int fd;

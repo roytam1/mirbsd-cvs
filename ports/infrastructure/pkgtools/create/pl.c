@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/create/pl.c,v 1.23 2008/11/02 18:19:51 tg Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/create/pl.c,v 1.24 2008/11/02 18:56:29 tg Exp $ */
 /*	$OpenBSD: pl.c,v 1.11 2003/08/15 00:03:22 espie Exp $	*/
 
 /*
@@ -29,7 +29,7 @@
 #include <md5.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/create/pl.c,v 1.23 2008/11/02 18:19:51 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/create/pl.c,v 1.24 2008/11/02 18:56:29 tg Exp $");
 
 ld_type_t LdType = LD_STATIC;
 
@@ -196,6 +196,7 @@ check_list(char *home, package_t *pkg, bool syshack)
 				break;
 			}
 			/* FALLTHROUGH */
+		case PLIST_NOLIB:
 		case PLIST_SHELL:
 		case PLIST_FILE:
 			if (!p->name)

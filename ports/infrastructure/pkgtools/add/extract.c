@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/add/extract.c,v 1.12 2006/11/19 22:34:05 tg Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/add/extract.c,v 1.13 2008/03/27 21:00:37 bsiegert Exp $ */
 /* $OpenBSD: extract.c,v 1.16 2003/07/04 17:31:19 avsm Exp $ */
 
 /*
@@ -28,7 +28,7 @@
 #include "add.h"
 #include "rcdb.h"
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/add/extract.c,v 1.12 2006/11/19 22:34:05 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/add/extract.c,v 1.13 2008/03/27 21:00:37 bsiegert Exp $");
 
 #if 0 /* defined(__OpenBSD__) && !defined(__MirBSD__) */
 /* this gets rid of the requirement to run paxmirabilis
@@ -231,6 +231,7 @@ extract_plist(const char *home, package_t *pkg)
 	    break;
 
 	case PLIST_LIB:
+	case PLIST_NOLIB:
 	case PLIST_SHELL:
 	case PLIST_FILE:
 	    if (p->name[strlen(p->name) - 1] == '/') {	/* dir/ entry */

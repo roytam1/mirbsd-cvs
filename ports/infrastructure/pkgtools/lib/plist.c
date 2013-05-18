@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/lib/plist.c,v 1.14 2008/11/02 18:56:30 tg Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/lib/plist.c,v 1.15 2008/11/02 19:57:31 tg Exp $ */
 /*	$OpenBSD: plist.c,v 1.17 2003/08/21 20:24:57 espie Exp $	*/
 
 /*
@@ -26,7 +26,7 @@
 #include <md5.h>
 #include "rcdb.h"
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/plist.c,v 1.14 2008/11/02 18:56:30 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/plist.c,v 1.15 2008/11/02 19:57:31 tg Exp $");
 
 #define NULLMD5 "d41d8cd98f00b204e9800998ecf8427e"
 
@@ -68,6 +68,7 @@ static cmd_t	cmdv[] = {
 	{	"endfake",	PLIST_ENDFAKE,		0	},
 	{	"ldcache",	PLIST_LDCACHE,		1	},
 	{	"emul",		PLIST_EMUL,		1	},
+	{	"nolib",	PLIST_NOLIB,		1	},
 	{	NULL,		-1,			0	}
 };
 
@@ -397,6 +398,7 @@ delete_package(bool keep_files, bool nukedirs, rm_cfg_t remove_config,
 	    break;
 
 	case PLIST_LIB:
+	case PLIST_NOLIB:
 	case PLIST_SHELL:
 	case PLIST_FILE:
 	    if (p->name[strlen(p->name) - 1] == '/')
