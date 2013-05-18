@@ -10,9 +10,9 @@
 
 Stamps: (for ssl.certs.shar, not for ../*)
 
-• ca-certificates_20090814
-• certdata.txt,v 1.64 = tip 1908834320d8
+• ca-certificates_20090814+nmu2
+• certdata.txt,v 1.70 = tip 1.64.2.6 = 0f28e112a6b6
 • certs.opera.com @20100722 (22-Jul-2010)
 • Opera (Browser) 10.10b1
 • MS SST: rootsupd.exe May 2010
-• Sendmail CACerts,v 8.4 (8.14.5.Alpha0)
+• Sendmail CACerts,v 8.4 (8.14.5.Beta0)
