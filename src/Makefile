@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.78 2006/11/02 02:30:39 tg Exp $
+# $MirOS: src/Makefile,v 1.79 2006/11/17 01:36:37 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -157,13 +157,17 @@ dist:
 	    PATH=/bin:/usr/bin:/sbin:/usr/sbin:/usr/X11R6/bin TZ=UTC \
 	    ${MAKE} _do-dist 2>&1 | tee -a ${.CURDIR}/Build.log
 
-.ifdef QUICK_DIST
-_DISTS=	base
+_DISTS=		base
+.ifdef QUICK_DIST2
+QUICK_DIST=	implied
 .else
-_DISTS=	base x11 htman
+_DISTS+=	x11
+.endif
+.ifndef QUICK_DIST
+_DISTS+=	htman
 .endif
 
-.ifdef QUICK_DIST
+.ifdef QUICK_DIST2
 .  include "gcc/Makefile.lang"
 .endif
 
@@ -174,7 +178,7 @@ _do-dist:
 		exit 1; \
 	fi
 	mkdir -p ${HOME}/.etc/systrace
-.ifdef QUICK_DIST
+.ifdef QUICK_DIST2
 .  if ${NO_JAVA:L} == "no"
 	@[[ -e /usr/X11R6/include/X11/X.h && -e /usr/X11R6/lib/libX11.a ]] \
 	    || { print 'To build gcc/libjava you must have X11 installed!'; \
@@ -199,14 +203,17 @@ _do-dist:
 .endif
 .ifdef QUICK_DIST
 	@echo QUICK dist-build mode active:
-	@echo not building XFree86®, ports, live CD or HTML manual pages.
+	@echo not building ports, package tools, live CD or HTML manual pages.
+.  ifdef QUICK_DIST2
+	@echo not building XFree86Â® either.
+.  endif
 .endif
 	@echo ============================================================
 	${SUDO} rm -rf ${BSDOBJDIR} ${BSDRELDIR}
 	cd ${.CURDIR} && exec ${MAKE} distrib-dirs DESTDIR=
 	${SUDO} install -d -o 0 -g 0 -m ${DIRMODE} ${BSDRELDIR}/{base,x11}
 	cd ${.CURDIR} && exec ${MAKE} b-r
-.ifndef QUICK_DIST
+.ifndef QUICK_DIST2
 	@date
 	cd ${.CURDIR}/X11 && exec ${MAKE} b-r
 .endif
@@ -216,7 +223,7 @@ _do-dist:
 	cd ${.CURDIR} && exec ${MAKE} release DESTDIR=${BSDRELDIR}/base
 	cd ${.CURDIR}/gcc && \
 	    exec ${SUDO} ${MAKE} install DESTDIR=${BSDRELDIR}/base
-.ifndef QUICK_DIST
+.ifndef QUICK_DIST2
 	cd ${.CURDIR}/X11 && \
 	    exec ${SUDO} ${MAKE} release DESTDIR=${BSDRELDIR}/x11
 .endif
