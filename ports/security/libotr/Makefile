@@ -1,14 +1,14 @@
-# $MirOS$
+# $MirOS: ports/security/libotr/Makefile,v 1.1 2008/04/03 21:28:14 tg Exp $
 # $OpenBSD: Makefile,v 1.9 2007/11/29 14:05:48 okan Exp $
 # $FreeBSD: Makefile,v 1.2 2005/04/21 14:22:54 pav Exp $
 
 COMMENT=		portable OTR Messaging Library and toolkit
-DISTNAME=		libotr-3.1.0
+DISTNAME=		libotr-3.2.0
 CATEGORIES=		security
 HOMEPAGE=		http://www.cypherpunks.ca/otr/
 MASTER_SITES=		${HOMEPAGE}
 
-# GPLv2
+# GNU GPLv2
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 PERMIT_PACKAGE_CDROM=	Yes

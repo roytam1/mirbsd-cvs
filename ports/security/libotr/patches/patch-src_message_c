@@ -1,6 +1,6 @@
-$MirOS$
---- src/message.c.orig	Thu Jul 26 16:32:53 2007
-+++ src/message.c	Thu Apr  3 21:00:42 2008
+$MirOS: ports/security/libotr/patches/patch-src_message_c,v 1.1 2008/04/03 21:28:14 tg Exp $
+--- src/message.c.orig	Tue May 27 12:35:05 2008
++++ src/message.c	Wed Jun 25 17:46:12 2008
 @@ -132,7 +132,8 @@ gcry_error_t otrl_message_sending(OtrlUs
  		    char *primary = malloc(strlen(format) +
  			    strlen(recipient) - 1);
@@ -77,7 +77,16 @@ $MirOS$
  		    if (edata->ops->display_otr_message) {
  			if (!edata->ops->display_otr_message(
  				    edata->opdata, edata->context->accountname,
-@@ -917,7 +921,8 @@ int otrl_message_receiving(OtrlUserState
+@@ -568,7 +572,7 @@ static void init_respond_smp(OtrlUserSta
+ 	    free(smpmsg);
+ 	    return;
+ 	}
+-	strcpy((char *)qsmpmsg, question);
++	memcpy((char *)qsmpmsg, question, qlen + 1);
+ 	memmove(qsmpmsg + qlen + 1, smpmsg, smpmsglen);
+ 	free(smpmsg);
+ 	smpmsg = qsmpmsg;
+@@ -943,7 +947,8 @@ int otrl_message_receiving(OtrlUserState
  		    buf = malloc(strlen(format) + strlen(context->username)
  			    - 1);  /* Remove "%s", add username + '\0' */
  		    if (buf) {
@@ -87,7 +96,7 @@ $MirOS$
  			if (ops->display_otr_message) {
  			    if (!ops->display_otr_message(opdata, accountname,
  					protocol, sender, buf)) {
-@@ -944,7 +949,9 @@ int otrl_message_receiving(OtrlUserState
+@@ -970,7 +975,9 @@ int otrl_message_receiving(OtrlUserState
  				displayaccountname : context->accountname)
  			    - 1);
  		    if (buf) {
@@ -98,7 +107,7 @@ $MirOS$
  				displayaccountname : context->accountname);
  			if (ops->inject_message) {
  			    ops->inject_message(opdata, accountname, protocol,
-@@ -974,7 +981,7 @@ int otrl_message_receiving(OtrlUserState
+@@ -1000,7 +1007,7 @@ int otrl_message_receiving(OtrlUserState
  			    "We received a malformed data message from %s.";
  			buf = malloc(strlen(format) + strlen(sender) - 1);
  			if (buf) {
@@ -107,7 +116,7 @@ $MirOS$
  			    if ((!(ops->display_otr_message) ||
  				    ops->display_otr_message(opdata,
  					accountname, protocol, sender,
-@@ -1078,7 +1085,7 @@ int otrl_message_receiving(OtrlUserState
+@@ -1128,7 +1135,7 @@ int otrl_message_receiving(OtrlUserState
  			format = "Heartbeat received from %s.\n";
  			buf = malloc(strlen(format) + strlen(sender) - 1);
  			if (buf) {
@@ -116,7 +125,7 @@ $MirOS$
  			    if (ops->log_message) {
  				ops->log_message(opdata, buf);
  			    }
-@@ -1113,7 +1120,7 @@ int otrl_message_receiving(OtrlUserState
+@@ -1163,7 +1170,7 @@ int otrl_message_receiving(OtrlUserState
  				buf = malloc(strlen(format) + strlen(sender)
  					- 1);
  				if (buf) {
@@ -125,7 +134,7 @@ $MirOS$
  				    if (ops->log_message) {
  					ops->log_message(opdata, buf);
  				    }
-@@ -1241,7 +1248,8 @@ int otrl_message_receiving(OtrlUserState
+@@ -1291,7 +1298,8 @@ int otrl_message_receiving(OtrlUserState
  			+ strlen(plainmsg) - 3);
  			/* Remove "%s%s", add username + message + '\0' */
  		if (buf) {
@@ -135,7 +144,7 @@ $MirOS$
  		    if (ops->display_otr_message) {
  			if (!ops->display_otr_message(opdata, accountname,
  				    protocol, sender, buf)) {
-@@ -1269,7 +1277,7 @@ int otrl_message_receiving(OtrlUserState
+@@ -1319,7 +1327,7 @@ int otrl_message_receiving(OtrlUserState
  		    "from %s.\n";
  		char *buf = malloc(strlen(format) + strlen(sender) - 1);
  		if (buf) {
@@ -144,7 +153,7 @@ $MirOS$
  		    ops->log_message(opdata, buf);
  		    free(buf);
  		}
-@@ -1351,7 +1359,7 @@ gcry_error_t otrl_message_fragment_and_s
+@@ -1401,7 +1409,7 @@ gcry_error_t otrl_message_fragment_and_s
  		/* Copy and return the entire given message. */
  		int l = strlen(message) + 1;
  		*returnFragment = malloc(sizeof(char)*l);

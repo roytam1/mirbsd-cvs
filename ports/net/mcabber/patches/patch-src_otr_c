@@ -1,7 +1,7 @@
-$MirOS$
---- src/otr.c.orig	Sun Jan 13 10:36:04 2008
-+++ src/otr.c	Wed Feb 27 21:54:27 2008
-@@ -188,7 +188,7 @@ static char * otr_get_dir(void)
+$MirOS: ports/net/mcabber/patches/patch-src_otr_c,v 1.1 2008/02/27 22:19:29 tg Exp $
+--- src/otr.c.orig	Thu Apr 17 19:28:39 2008
++++ src/otr.c	Wed Jun 25 17:31:17 2008
+@@ -190,7 +190,7 @@ static char * otr_get_dir(void)
      }
      return xp_conf_dir;
    } else {

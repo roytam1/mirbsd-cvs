@@ -1,13 +1,11 @@
-# $MirOS: ports/net/mcabber/Makefile,v 1.5 2008/02/27 23:16:20 tg Exp $
+# $MirOS: ports/net/mcabber/Makefile,v 1.6 2008/04/03 21:28:11 tg Exp $
 
 COMMENT=		curses-based jabber client implementation
-DISTNAME=		mcabber-0.9.6
-DASH_VER=		2
+DISTNAME=		mcabber-0.9.7
 CATEGORIES=		net
 EXTRACT_SUFX=		.tar.bz2
 HOMEPAGE=		http://www.lilotux.net/~mikael/mcabber/
 MASTER_SITES=		${HOMEPAGE}files/
-RESPONSIBLE=		Jonathan “ciruZ” Schleifer <js@webkeks.org>
 
 # GNU GPLv2
 PERMIT_DISTFILES_CDROM=	Yes
@@ -28,8 +26,11 @@ CONFIGURE_ARGS+=	--enable-gpgme \
 			--disable-nls
 
 LIB_DEPENDS+=		glib-2.0.0.800,gmodule-2.0.0.800,gobject-2.0.0.800::devel/glib \
-			otr::security/libotr \
-			gpgme::security/gpgme
+			otr:libotr->=3.1.0:security/libotr \
+			gcrypt:libgcrypt->=1.2.2:security/libgcrypt \
+			gpgme:gpgme->=1.0.0:security/gpgme
+MODULES+=		devel/pkgconfig
+MODULES+=		devel/libncursesw
 
 post-install:
 	${INSTALL_DATA_DIR} ${PREFIX}/share/doc/mcabber
