@@ -1,5 +1,5 @@
 # $Id$
-# $MirOS: src/etc/printcap,v 1.6 2008/12/10 18:06:05 tg Exp $
+# $MirOS: src/etc/printcap,v 1.7 2009/03/29 13:04:16 tg Exp $
 # $OpenBSD: printcap,v 1.4 2003/03/28 21:32:30 jmc Exp $
 
 #lp|local line printer:\
@@ -25,15 +25,15 @@
 #X#!/bin/mksh
 #X# Syntax: pdfprint user file [origin]
 #X
-#X[[ -z $1 || -z $2 ]] && exit 1
-#Xif [p $2 = - ]]; then
+#X[[ -n $1 && -n $2 ]] || exit 1
+#Xif [[ $2 = - ]]; then
 #X	FNAME=stdin.pdf
 #Xelse
-#X	FNAME="$(basename "$2").pdf"
+#X	FNAME=${2##*/}.pdf
 #Xfi
 #X
-#X/usr/mpkg/bin/ps2pdf14 -sPAPERSIZE=a4 "$2" - \
-#X    | grep -e '^$' -e '^[^%]' -e '^%[^%]' -e '^%%EOF' \
-#X    | uuencode "${FNAME}" \
-#X    | mailx -s "printed file ${FNAME} from ${3:-CIFS}" ${1}
+#X/usr/mpkg/bin/ps2pdf14 -sPAPERSIZE=a4 "$2" - | \
+#X    grep -e '^$' -e '^[^%]' -e '^%[^%]' -e '^%%EOF' | \
+#X    gzip -9 | uuencode "$FNAME.gz" | \
+#X    mailx -s "printed file '$FNAME' from ${3:-CIFS}" "$1"
 #END-of-/usr/local/libexec/pdfprint
