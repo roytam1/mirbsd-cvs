@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/emulators/wine/Makefile,v 1.3 2008/07/30 00:15:40 tg Exp $
 # $NetBSD: Makefile,v 1.147 2008/06/28 00:13:08 jmcneill Exp $
 # $NetBSD: options.mk,v 1.10 2008/06/23 16:57:08 dholland Exp $
 
@@ -38,6 +38,11 @@ LIB_DEPENDS+=		ungif::graphics/libungif
 MODULES+=		graphics/png
 
 DEVOSSAUDIO?=		/dev/audio
+.if ${RTLD_TYPE} == "dyld"
+BUNDLE_EXT=		.bundle
+.else
+BUNDLE_EXT=		.so
+.endif
 
 VMEM_WARNING=		Yes
 USE_CXX=		Yes
@@ -63,6 +68,7 @@ CPPFLAGS+=		-DDEVOSSAUDIO=\"${DEVOSSAUDIO:Q}\"
 CPPFLAGS+=		-D_MIRMAKE_H=ignore
 LDFLAGS+=		-pthread
 COPTS+=			-fno-stack-protector
+SUBST_VARS+=		BUNDLE_EXT
 REGRESS_ENV+=		HOME=${WRKDIR}/homedir
 
 post-extract:
