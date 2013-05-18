@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.subdir.mk,v 1.8 2007/01/26 20:31:54 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.subdir.mk,v 1.9 2007/04/03 22:08:30 tg Exp $
 # $OpenBSD: bsd.port.subdir.mk,v 1.64 2004/04/07 13:06:33 espie Exp $
 # $FreeBSD: bsd.port.subdir.mk,v 1.20 1997/08/22 11:16:15 asami Exp $
 #
@@ -79,6 +79,7 @@ _FULLSUBDIR:=	${_FULLSUBDIR:N$i}
 _subdir_fragment= \
 	: $${echo_msg:=${ECHO_MSG:Q}}; \
 	: $${target:=${.TARGET}}; \
+	unset SUBONLY || :; \
 	for i in ${_SKIPPED}; do \
 		eval $${echo_msg} "===\> $$i skipped"; \
 	done; \
