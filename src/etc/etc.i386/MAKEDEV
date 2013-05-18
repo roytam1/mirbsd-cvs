@@ -5,7 +5,7 @@
 # generated from:
 #
 #	OpenBSD: etc.i386/MAKEDEV.md,v 1.32 2005/06/29 18:23:27 todd Exp 
-#	MirOS: src/etc/etc.i386/MAKEDEV.md,v 1.14 2009/02/22 11:58:35 tg Exp 
+#	MirOS: src/etc/etc.i386/MAKEDEV.md,v 1.15 2009/02/22 16:29:08 tg Exp 
 #	OpenBSD: MAKEDEV.common,v 1.19 2005/06/29 18:23:26 todd Exp 
 #	MirOS: src/etc/MAKEDEV.common,v 1.10 2009/02/22 11:56:48 tg Exp 
 #	OpenBSD: MAKEDEV.mi,v 1.73 2005/02/07 06:14:18 david Exp 
@@ -250,7 +250,7 @@ ramdisk)
 	R st0 cd0 ttyC0 random wskbd0 wskbd1 wskbd2 apm vnd0
 	;;
 rambig)
-	R bpf1 pty0 raid0 raid1 tun0 vnd1
+	R bpf1 pty0 raid0 raid1 tun0 vnd1 crypto
 	;;
 
 std)
