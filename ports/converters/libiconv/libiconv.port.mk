@@ -1,4 +1,4 @@
-# $MirOS: ports/converters/libiconv/libiconv.port.mk,v 1.7 2006/03/14 22:51:57 bsiegert Exp $
+# $MirOS: ports/converters/libiconv/libiconv.port.mk,v 1.8 2006/03/19 19:19:40 tg Exp $
 # $OpenBSD: iconv.port.mk,v 1.4 2001/11/27 17:44:04 brad Exp $
 
 # This is equivalent to USE_MOTIF.
@@ -7,7 +7,9 @@ USE_ICONV?=	any
 
 .if ${USE_ICONV:L} == "any"
 .  if ${OStype} == "MirBSD"
-.    if ${OSver:R} < 8
+.    if ${NOPIC:L} != "no"
+USE_ICONV=	port
+.    elif ${OSver:R} < 8
 USE_ICONV=	port
 .    elif ${OSver:R} == 8
 .      if ${OSver:E} < 163
