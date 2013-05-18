@@ -1,4 +1,4 @@
-/* $MirOS: src/kern/z/adler32_i386.S,v 1.7 2007/05/07 16:15:57 tg Exp $ */
+/* $MirOS: src/kern/z/adler32_i386.S,v 1.9 2008/07/06 16:38:34 tg Exp $ */
 
 /*-
  * Copyright (c) 2006, 2007, 2008
@@ -37,7 +37,7 @@
 #include <dev/rndvar.h>
 #endif
 
-RCSID("$MirOS: src/kern/z/adler32_i386.S,v 1.7 2007/05/07 16:15:57 tg Exp $")
+RCSID("$MirOS: src/kern/z/adler32_i386.S,v 1.9 2008/07/06 16:38:34 tg Exp $")
 
 #define BASE	65521	/* largest prime smaller than 65536 */
 #define NMAX	5552	/* largest n: 255n(n+1)/2 + (n+1)(BASE-1) <= 2^32-1 */
@@ -103,8 +103,16 @@ ENTRY(adler32)
 .Ladrw:	mov	[rnd_addpool_num],bl
 #elif !defined(_STANDALONE)
 	push	eax			/* return value */
+#ifdef DONT_USE_PUSHK	/* for use if arc4random_pushk is not a C function */
 	push	eax			/* function argument */
 	call	_C_LABEL(arc4random_push)
+#else
+	lea	eax,[esp]		/* == function argument */
+	push	4			/* size */
+	push	eax			/* address */
+	call	_C_LABEL(arc4random_pushk)
+	pop	eax			/* dummy */
+#endif
 	pop	eax			/* dummy */
 	pop	eax			/* return value */
 #endif
