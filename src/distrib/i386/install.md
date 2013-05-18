@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/common/install.md,v 1.5 2006/07/03 23:16:18 tg Exp $
+# $MirOS: src/distrib/i386/common/install.md,v 1.6 2006/07/23 23:41:25 tg Exp $
 # $OpenBSD: install.md,v 1.28 2005/04/02 14:34:46 krw Exp $
 #
 #
