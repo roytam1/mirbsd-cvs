@@ -27,7 +27,7 @@
 
 #include "ntpd.h"
 
-__RCSID("$MirOS: src/usr.sbin/ntpd/client.c,v 1.15 2007/10/03 22:52:00 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/ntpd/client.c,v 1.16 2009/05/07 19:09:36 tg Exp $");
 
 #ifdef DDEBUG
 #define log_reply	log_info
@@ -125,6 +125,7 @@ int
 client_query(struct ntp_peer *p)
 {
 	int	tos = IPTOS_LOWDELAY;
+	int	result;
 
 	if (p->addr == NULL && client_nextaddr(p) == -1) {
 		set_next(p, error_interval());
@@ -172,9 +173,17 @@ client_query(struct ntp_peer *p)
 	p->query->msg.xmttime.fractionl = arc4random();
 	p->query->xmttime = gettime();
 
-	if (ntp_sendmsg(p->query->fd, NULL, &p->query->msg,
-	    NTP_MSGSIZE_NOAUTH, 0) == -1) {
+	if ((result = ntp_sendmsg(p->query->fd, NULL, &p->query->msg,
+	    NTP_MSGSIZE_NOAUTH, 0)) < 0) {
 		set_next(p, INTERVAL_QUERY_PATHETIC);
+		if (result == -2) {
+			/*
+			 * got EINVAL in sendto(), probably the local socket
+			 * address got invalidated -> force re-connect()
+			 */
+			close(p->query->fd);
+			p->query->fd = -1;
+		}
 		return (-1);
 	}
 

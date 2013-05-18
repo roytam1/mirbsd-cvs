@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/ntpd/ntp_msg.c,v 1.2 2005/03/13 19:17:09 tg Exp $ */
+/**	$MirOS: src/usr.sbin/ntpd/ntp_msg.c,v 1.3 2005/10/27 09:35:29 tg Exp $ */
 /*	$OpenBSD: ntp_msg.c,v 1.15 2005/09/24 00:32:03 dtucker Exp $ */
 
 /*
@@ -27,7 +27,7 @@
 #include "ntpd.h"
 #include "ntp.h"
 
-__RCSID("$MirOS: src/usr.sbin/ntpd/ntp_msg.c,v 1.2 2005/03/13 19:17:09 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/ntpd/ntp_msg.c,v 1.3 2005/10/27 09:35:29 tg Exp $");
 
 int
 ntp_getmsg(struct sockaddr *sa, char *p, ssize_t len, struct ntp_msg *msg)
@@ -101,6 +101,8 @@ ntp_sendmsg(int fd, struct sockaddr *sa, struct ntp_msg *msg, ssize_t len,
 			return (-1);
 		}
 		log_warn("sendto");
+		if (errno == EINVAL)
+			return (-2);
 		return (-1);
 	}
 
