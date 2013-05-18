@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.lib.mk,v 1.53 2007/03/10 22:18:29 tg Exp $
+# $MirOS: src/share/mk/bsd.lib.mk,v 1.54 2007/04/28 00:12:46 tg Exp $
 # $OpenBSD: bsd.lib.mk,v 1.43 2004/09/20 18:52:38 espie Exp $
 # $NetBSD: bsd.lib.mk,v 1.67 1996/01/17 20:39:26 mycroft Exp $
 # @(#)bsd.lib.mk	5.26 (Berkeley) 5/2/91
@@ -308,6 +308,21 @@ ${.CURDIR}/tags: ${SRCS}
 	    /dev/null ${.ALLSRC:M*.S} ${.ALLSRC:M*.s} | sed \
 	    "s;\([^:]*\):\([^(]*\)(\([^, )]*\)\(.*\);\3 \1 /^\2(\3\4$$/;" >>$@
 	sort -o $@ $@
+.endif
+
+.if defined(HDRS) && !target(includes)
+includes:
+	@cd ${.CURDIR}; for i in ${HDRS}; do \
+		if cmp -s "$$i" ${DESTDIR:Q}/usr/include/"$$i"; then \
+			print Header ${DESTDIR:Q}/usr/include/"$$i" \
+			    is up to date.; \
+		else \
+			print Header ${DESTDIR:Q}/usr/include/"$$i" \
+			    "<-- $$i"; \
+			${INSTALL} ${INSTALL_COPY} -o ${BINOWN} -g ${BINGRP} \
+			    -m ${NONBINMODE} "$$i" ${DESTDIR}/usr/include/; \
+		fi; \
+	done
 .endif
 
 .if ${NOMAN:L} == "no"
