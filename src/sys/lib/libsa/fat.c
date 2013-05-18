@@ -25,7 +25,7 @@
 #include <lib/libsa/stand.h>
 #include <lib/libsa/fat.h>
 
-__RCSID("$MirOS: src/sys/lib/libsa/fat.c,v 1.17 2010/01/10 19:17:15 tg Exp $");
+__RCSID("$MirOS: src/sys/lib/libsa/fat.c,v 1.18 2011/01/03 17:42:01 tg Exp $");
 
 #if BYTE_ORDER != LITTLE_ENDIAN
 #define getlew(ofs) (buf[(ofs)] + ((unsigned)buf[(ofs) + 1] << 8))
@@ -160,7 +160,7 @@ fat_open(char *path, struct open_file *f)
 		goto out;
 
 	spc = buf[13];
-	if (!spc || spc > 0x40 || spc != (1 << (ffs(spc) - 1)))
+	if (!spc || spc > 0x40 || (spc & (spc - 1)))
 		/* 0, > 0x40, or not a power of two */
 		goto out;
 	ff->bpc = spc * 512;
