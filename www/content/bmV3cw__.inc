@@ -1,7 +1,14 @@
 <!-- PageID: news -->
-<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.55 2006/02/15 13:20:35 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.56 2006/02/15 20:41:51 tg Exp $</small>
 
 <h1>Current MirOS News</h1><ul>
+
+<li>21.02.2006<br />Improvements and bug fixes in the randomness area; the
+	arc4random_add(3) function finally works as designed. PHP contains
+	SQLite2; Midnight Commander has been updated after 3 years. ssh(1)
+	was updated to OpenSSH-current and the code was cleaned up. Compat
+	ports were fixed as well as bugs in the package upgrader. Keys for
+	vnconfig(8) can now be stored in an external file.</li>
 
 <li>15.02.2006<br />There is a <a href="/MirOS/current/i386-20060215/">new
 	snapshot</a> with all the features below (attention: ssh/scp(1) is

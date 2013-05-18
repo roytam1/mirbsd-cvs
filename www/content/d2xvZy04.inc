@@ -1,5 +1,5 @@
 <!-- PageID: wlog-8 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.39 2006/02/21 03:10:18 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.40 2006/02/21 03:36:06 tg Exp $</small>
 <h1>MirBSD &ndash; WTF, We Have a Release!?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -486,6 +486,22 @@ celebrate this event, rotate the wlog and start a new one.</p>
   whether his information is correct). Makes me wonder if the version of
   that port is now correct...</p>
  <p>Forcing USE_CXX=no ports to use 'false' as ${CXX} since now.</p>
+</div>
+
+<div class="wlentry">
+ <h3 id="e20060221">21.02.2006 by tg@</h3>
+ <p>Today I just was in a hacking mood and besides updating ssh(1) wrote
+  vnconfig(8) keyfile support from scratch using PEM, fixed djb fetching
+  of distfiles, updated and fixed misc/mc for good, helped porters which
+  need iconv.m4, added SQLite2 to php-core and a little advertising (for
+  the MirPorts Framework), hacked net/openvpn the same as ssh, fixed the
+  arc4random_push(3) stuff I use for months in the kernel, so that it is
+  finally usable, did a few man pages and build improvements, even fixed
+  a lot of OpenSSH code regarding to gcc warnings.</p>
+ <p>bsiegert@ actually showed up in IRC today... did not do much though.
+  I wonder whether we'll be able to do FOSDEM like we want, since I'm in
+  the mood for everything save housework which includes washing clothes,
+  for example certain t-shirts.</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
