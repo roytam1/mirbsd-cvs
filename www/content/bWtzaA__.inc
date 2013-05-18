@@ -1,5 +1,5 @@
 <!-- PageID: mksh -->
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.95 2007/04/17 23:54:29 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.96 2007/04/18 09:41:27 tg Exp $</small>
 
 <h1>mksh(1) R29</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
@@ -39,7 +39,7 @@
  /bin/ksh <em>except</em> "bash-like $PS1" &ndash; but whoever
  really needs it can patch it in himself, I prefer to convert the
  GNU bash (bloated-again shell) prompts to Korn shell syntax though.
- mksh R29, which has just been tagged today (March 5th), is a new
+ mksh R29 <!-- , which has just been tagged today (March 5th), --> is a new
  milestone in development &ndash; see below. The most user-visible
  part is support for UTF-8 command line editing without the need to
  pull in full wchar_t, iconv, locale, I18N, etc. bloat &ndash; that's
@@ -85,6 +85,8 @@
  <li>Plan porting mksh to <a href="http://www.minix3.org/">Minix 3</a>
   (not finished yet)</li>
  <li>Plan porting to other UNIX&reg;-like systems via HP Testdrive</li>
+</ul>
+<p>Minor bugfixes in mksh R29c – you might want it:</p><ul>
  <li>Regression fix: mksh has some kind of “encoded string” format;
   use wdcopy() not str_save() to duplicate this; affects formatting of
   an error message (and below item) only though</li>
@@ -111,6 +113,7 @@
   sure that users of portable mksh also have the latest goodies</li>
  <li>When doing shebang parsing, accept not only LF and NUL but also CR as
   markers for end of the (first) line</li>
+ <li>If executing fails, tell the user what exactly failed, too</li>
 </ul>
 <p>Immediately upgrade to mksh R29b please:</p><ul>
  <li>Bugfix: display UTF-8 control characters (U+0080..U+009F, i.e.
@@ -507,6 +510,7 @@
 <li>Adding <tt>goto</tt> and <tt>label</tt> keywords/commands.</li>
 <li>Adding builtins <tt>realpath</tt>, <tt>fstat</tt>, <tt>lstat</tt>,
  <tt>traverse</tt>.</li>
+<li>for a b in …; do (like make(1) does)</li>
 <li>A sensible website</li>
 </ul>
 
@@ -546,13 +550,14 @@
 <h2 id="fetch">Getting The Source</h2>
 
 <p>The current version is:</p><ul>
- <li><a href="http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R29b.cpio.gz">http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R29b.cpio.gz</a></li>
- <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R29b.cpio.gz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R29b.cpio.gz</a></li>
+ <li><a href="http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R29c.cpio.gz">http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R29c.cpio.gz</a></li>
+ <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R29c.cpio.gz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R29c.cpio.gz</a></li>
  <li>Please use gzsig(1) to verify the integrity of the distfile instead!
   Hashes are only so you know which distfile you want.</li>
- <li>RMD160 (mksh-R29b.cpio.gz) = a329df3c012819dc5fb593dda5d9a52951bda81b</li>
- <li>1632152196 238113 /MirOS/dist/mir/mksh/mksh-R29b.cpio.gz</li>
- <li>MD5 (mksh-R29b.cpio.gz) = a21850403bd30bab461f2fc9f9b803b8</li>
+ <li>RMD160 (mksh-R29c.cpio.gz) = 47dd5107c4f8237d89de05bae6374fb86ff5f155</li>
+ <li>TIGER (mksh-R29c.cpio.gz) = 8f031cfecd2adbd8e6683a72abf1645f59165a3f7e28b450</li>
+ <li>3771424446 240022 /MirOS/dist/mir/mksh/mksh-R29c.cpio.gz</li>
+ <li>MD5 (mksh-R29c.cpio.gz) = 183957bfcbf7ca212843d6ca85be2fce</li>
 </ul>
 
 <h2>Installation</h2>
@@ -567,14 +572,14 @@
  please note that most of them, seen on Mozilla&reg; and
  its derivates as well as Microsoft&reg; Internet Explorer,
  have a bug where the file is saved correctly
- as <em>mksh-R29b.cpio.gz</em> but already decompressed.</p>
+ as <em>mksh-R29c.cpio.gz</em> but already decompressed.</p>
 
 <h3 id="extract">Unpacking</h3>
-<p>On decent systems, you can just use <tt>tar xzf mksh-R29b.cpio.gz</tt>
+<p>On decent systems, you can just use <tt>tar xzf mksh-R29c.cpio.gz</tt>
  to extract the file. On quite damaged systems such as basically everything
  which is not MirOS or anything else with <a href="/?MirCpio">MirCpio</a>
  (paxmirabilis) or some other kind of paxtar, use <tt>gzip -dc
- mksh-R29b.cpio.gz | cpio -mid</tt> or <tt>gzip -dc mksh-R29b.cpio.gz |
+ mksh-R29c.cpio.gz | cpio -mid</tt> or <tt>gzip -dc mksh-R29c.cpio.gz |
  pax -r</tt> instead.</p>
 <p>Of course, skip the gzip stage (use cat) or the 'z' flag
  if your browser already decompressed the file.</p>
@@ -696,6 +701,18 @@
 <p>The MirOS Project has tested mksh on the following operating systems,
  asked people to test, and hunted mksh down in these packaging systems:</p>
 <ul>
+ <li>mksh R29c<ul>
+  <li>MirOS #10-beta (i386 gcc3.4.6)</li>
+  <li>Solaris 8 (sun4u gcc3.4.3) both without and with -m64</li>
+  <li>DragonFly 1.9-dev (i386 gcc3.4.6)</li>
+  <li>NetBSD 3.0-stable (i386 gcc3.3.3)</li>
+  <li>Cygwin 1.5.24-2 (i386 gcc3.4.4 win2k)</li>
+  <li>Interix 3.5 (i386 gcc3.3 win2k)</li>
+  <li>OpenBSD 4.0 (sparc64 gcc3.3.5)</li>
+  <li>Debian etch (i386, ia64, amd64 gcc4.1.1-21)</li>
+  <li>FreeBSD 6.1 (i386, ia64 gcc3.4.4)</li>
+  <li>HP-UX 11i 11.11 (PA-RISC gcc3.4.2) <em>no regression test run</em></li>
+ </ul></li>
  <li>mksh R29 &ndash; release candidate<ul>
   <li>MirOS #7-stable (sparc gcc2.95), #9-current (i386 gcc3.4.6)</li>
   <li>Linux 2.0 (i386 libc5 gcc2.7.2.3), 2.4 (mipsel uClibc gcc3.4.4),
@@ -832,6 +849,9 @@
  For more ideas what one can do with <strong>mksh</strong> I recommend
  one to look at both the -rHEAD revision and the revision history of
  the files shown below.</p>
+
+<p>From <em>mksh R29c</em> onwards, the <tt>dot.mkshrc</tt> file is
+ actually used in MirOS BSD as well.</p>
 
 <h3>More (outdated) hints</h3>
 
