@@ -20,7 +20,7 @@
 
 #include <libckern.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/kern/c/memcmp.c,v 1.1 2008/08/01 18:09:17 tg Exp $");
 
 #ifdef L_bcmp
 #define memcmp bcmp
@@ -31,7 +31,7 @@ memcmp(const void *b1, const void *b2, size_t len)
 {
 	const uint8_t *cp1 = b1, *cp2 = b2;
 
-	while (n--)
+	while (len--)
 		if (*cp1++ != *cp2++)
 			return (*--cp1 - *--cp2);
 	return (0);

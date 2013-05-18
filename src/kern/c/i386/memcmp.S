@@ -20,7 +20,7 @@
 
 #include <machine/asm.h>
 
-RCSID("$MirOS$")
+RCSID("$MirOS: src/kern/c/i386/memcmp.S,v 1.1 2008/08/01 18:09:20 tg Exp $")
 
 	.intel_syntax noprefix
 	.text
@@ -32,17 +32,15 @@ ENTRY(memcmp)
 	mov	edi,12[esp]
 	mov	esi,16[esp]
 	mov	ecx,20[esp]
+	xor	eax,eax		/* also ensures ZF is set, for if ECX == 0 */
 	cld
 	repe	cmpsb
 	jne	Lnotf
-	xor	eax,eax
 	pop	edi
 	pop	esi
 	ret
-Lnotf:	xor	eax,eax
-	xor	edx,edx
-	mov	al,[edi-1]
-	mov	dl,[esi-1]
+Lnotf:	mov	al,[edi-1]
+	movzx	edx,byte ptr [esi-1]
 	sub	eax,edx
 	pop	edi
 	pop	esi

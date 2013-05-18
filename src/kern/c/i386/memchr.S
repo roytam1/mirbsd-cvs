@@ -20,18 +20,17 @@
 
 #include <machine/asm.h>
 
-RCSID("$MirOS$")
+RCSID("$MirOS: src/kern/c/i386/memchr.S,v 1.1 2008/08/01 18:09:20 tg Exp $")
 
 	.intel_syntax noprefix
 	.text
 
 ENTRY(memchr)
 	push	edi
+	mov	ecx,16[esp]
+	jecxz	Lfail
 	mov	edi,8[esp]
 	mov	eax,12[esp]
-	mov	ecx,16[esp]
-	or	ecx,ecx
-	jz	Lfail
 	cld
 	repne	scasb
 	jne	Lfail
