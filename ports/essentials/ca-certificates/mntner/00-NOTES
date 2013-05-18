@@ -7,18 +7,25 @@
 • https://certs.opera.com/
 • Opera, MSIE keybundles
 • Microsoft roots update (*.sst files)
+• Apple system roots (trusted)
 
-Stamps: (for ssl.certs.shar, not for ../*)
+Stamps:
 
-• ca-certificates_20090814+nmu2
-• certdata.txt,v 1.70 = tip 1.64.2.6 = 0f28e112a6b6
+• ca-certificates_20090814+nmu3
+• ca-certificates-java_20100412
+• certdata.txt,v 1.71 > tip 1.64.2.6 = 0f28e112a6b6
 • certs.opera.com @20100722 (22-Jul-2010)
 • Opera (Browser) 10.10b1
-• MS SST: rootsupd.exe May 2010
+• MS SST: rootsupd.exe March 2011
 • Sendmail CACerts,v 8.4 (8.14.5.Beta0)
+• Mac OSX 10.6.7
 
 EC certificates (to be removed from JKS Keystore for old keytool versions):
 * 27af790d.0
 * 5e4e69e7.0
 * 89c02a45.0
 * a7d2cf64.0
+* ccc52f49.0
+
+___________________________________________________________________________________________
+$MirOS$
