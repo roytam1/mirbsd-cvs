@@ -1,4 +1,4 @@
-# $MirOS: src/share/misc/bsdstats,v 1.37 2007/05/17 00:42:54 tg Exp $
+# $MirOS: src/share/misc/bsdstats,v 1.38 2007/05/17 02:07:19 tg Exp $
 # $FreeBSD: ports/sysutils/bsdstats/files/300.statistics,v 1.38 2006/12/05 13:49:45 scrappy Exp $
 #-
 # Copyright (c) 2007
@@ -31,13 +31,6 @@ do_bsdonly=1
 
 #-- Do not change below
 
-export TZ=UTC PATH=/bin:/usr/bin:/sbin:/usr/sbin
-for dir in /usr/mpkg /usr/pkg /usr/local /sw; do
-	for subdir in bin sbin; do
-		[[ -e $dir/$subdir ]] && PATH=$PATH:$dir/$subdir
-	done
-done
-
 stats_token=
 integer stats_token_time=0
 integer stats_report_time=0
@@ -48,6 +41,15 @@ else
 	bsdstats_flags=YES
 fi
 [[ -s /var/db/bsdstats && -O /var/db/bsdstats ]] && . /var/db/bsdstats
+
+export TZ=UTC PATH=/bin:/usr/bin:/sbin:/usr/sbin
+for dir in /usr/mpkg /usr/pkg /usr/local /sw; do
+	for subdir in bin sbin; do
+		[[ -e $dir/$subdir ]] && PATH=$PATH:$dir/$subdir
+	done
+done
+
+rcsid_code='$MirOS$'
 
 if [[ $(uname -M 2>&1) = *MirBSD* ]]; then
 	opsys=MirBSD
@@ -147,7 +149,7 @@ function report_ports {
 	qs="token=$stats_key&key=$stats_token$qs"
 	qs="POST $path HTTP/1.0
 Host: $host
-User-Agent: bsdstats \$MirOS: src/share/misc/bsdstats,v 1.37 2007/05/17 00:42:54 tg Exp $
+User-Agent: bsdstats \$MirOS: src/share/misc/bsdstats,v 1.38 2007/05/17 02:07:19 tg Exp $
 Connection: close
 Content-Type: application/x-www-form-urlencoded
 Content-Length: ${#qs}
@@ -200,6 +202,7 @@ print "last report time was: $stats_report_time" \
     "($(timet2date $stats_report_time))"
 (( stats_report_time < 1136073623 )) && stats_report_time=0
 [[ $stats_uname_code = $uname_code ]] || stats_report_time=0
+[[ $stats_rcsid_code = $rcsid_code ]] || stats_report_time=0
 (( stats_token_time < 1136073623 )) && stats_token_time=0
 (( stats_token_time > 0 )) || stats_token=
 integer ok=1
@@ -353,7 +356,8 @@ print "stats_key=$stats_key" >/var/db/bsdstats.new
 print "stats_token=$stats_token" >>/var/db/bsdstats.new
 print "stats_token_time=$stats_token_time" >>/var/db/bsdstats.new
 print "stats_report_time=$stats_report_time" >>/var/db/bsdstats.new
-print "stats_uname_code=\"$uname_code\"" >>/var/db/bsdstats.new
+print "stats_rcsid_code='$rcsid_code'" >>/var/db/bsdstats.new	# needs ''
+print "stats_uname_code=\"$uname_code\"" >>/var/db/bsdstats.new	# needs ""
 mv -f /var/db/bsdstats.new /var/db/bsdstats
 (( ok )) || print some failures occured, check /var/log/messages, tag bsdstats
 print "done, used token from $stats_token_time" \
