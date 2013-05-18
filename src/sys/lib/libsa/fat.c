@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/lib/libsa/fat.c,v 1.4 2008/09/06 22:21:04 tg Exp $ */
+/* $MirOS: src/sys/lib/libsa/fat.c,v 1.5 2008/11/08 23:04:24 tg Exp $ */
 
 /*-
  * Copyright (c) 2005
@@ -225,6 +225,10 @@ fat_open(char *path, struct open_file *f)
 				goto out;
 			}
 			cp++;
+		}
+		if (cp == path + 1 && *path == '.') {
+			path = cp;
+			continue;
 		}
 		npath = cp;
 		*cp = '\0';
@@ -462,10 +466,10 @@ search_dir(struct open_file *f, char *name)
 		if (!strcmp(fn, name)) {
 			/* found a match, follow it */
 			ff->nodecluster = getlew(20) << 16 | getlew(26);
-			if (ff->nodecluster < 2)
+			ff->nodesize = getled(28);
+			if (ff->nodecluster < 2 && ff->nodesize != 0)
 				return (ENOENT);
 			ff->nodeseekp = 0;
-			ff->nodesize = getled(28);
 			ff->nodetype = (buf[11] & 0x10) ? 1 : 2;
 			/* invalidate file data buffer */
 			ff->datasec = 0;
