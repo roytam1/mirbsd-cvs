@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/baselive/Makefile,v 1.48 2009/01/18 19:26:35 tg Exp $
+# $MirOS: src/distrib/baselive/Makefile,v 1.49 2009/02/02 10:45:58 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -69,7 +69,11 @@ CDROM_OPTS+=	preparer=MirBSD_and_its_contributors
 CDROM_OPTS+=	publisher=Copyright_\<c\>_2002=2009_The_MirOS_Project
 CDROM_OPTS+=	rockridge
 .if ${DUALIVE:L} != "no"
+.  if ${GRML:L} != "no"
+CDROM_OPTS+=	volumeid=$$(uname -sl | tr -- '- \#' :_):Triforce
+.  else
 CDROM_OPTS+=	volumeid=$$(uname -sl | tr -- '- \#' :_):DuaLive
+.  endif
 .else
 CDROM_OPTS+=	volumeid=$$(uname -slm | tr -- '- \#' :_):BaseLive
 .endif
@@ -106,6 +110,9 @@ unpack:
 	touch ${WRKDIR}/{b_i386,b_sparc}.ldr
 .else
 	touch ${WRKDIR}/b_i386.ldr
+.endif
+.if ${GRML:L} != "no"
+	mkdir -p ${WRKDIR}/boot/grml
 .endif
 .for _i in base dev etc gnu xbase xetc xsrv
 	cd ${WRKDIR} && ${SUDO} tar xzphf ${STUFFDIR}/${_i}${OSrev}.ngz
@@ -208,6 +215,8 @@ nukefiles:
 makeimg: cdrom-prepare cdrom-generate
 
 cdrom-prepare: bsd.gz
+	${SUDO} chown $$(id -u) ${WRKDIR}
+	chmod 755 ${WRKDIR}
 	${SUDO} dd if=bsd.gz obs=2048 conv=osync of=${WRKDIR}/bsd
 .if ${DUALIVE:L} != "no"
 	${SUDO} cp ${DUALIVE}/sparc/boot ${WRKDIR}/b_sparc.ldr
@@ -231,10 +240,6 @@ cdrom-prepare: bsd.gz
 	    ${MAKE} ${LIVEBOOT_FLAGS} depend && \
 	    ${MAKE} ${LIVEBOOT_FLAGS} clean && \
 	    exec ${MAKE} ${LIVEBOOT_FLAGS}
-.endif
-.if ${GRML:L} != "no"
-	${SUDO} cp /usr/mpkg/share/grub/stage2 ${WRKDIR}/grub.bin
-	${SUDO} touch ${WRKDIR}/grub.cfg
 .endif
 	cd ${WRKDIR}; \
 	    ${SUDO} cp ${BOOT} b_i386.ldr; \
@@ -296,9 +301,11 @@ cdrom-generate:
 	    (cat <&4; cat <&6) | gzip -n9 >CKSUM.gz; \
 	    dd if=/dev/zero bs=256 count=5 >>CKSUM.gz; \
 	    flst=; for f in 0?-* NONFREE.TXT CKSUM.gz b_* gzsig* ?oot* ?sd* \
-	    grub*; do [[ -e $$f ]] && flst="$$flst $$f"; done; \
+	    boot/grub/*; do [[ -e $$f ]] && flst="$$flst $$f"; done; \
 	    ${SUDO} chown 0:0 . $$flst; \
-	    ${SUDO} chmod 444 $$flst; ${SUDO} chmod 555 .; \
+	    for f in $$flst .; do if [[ -d $$f ]]; then \
+		${SUDO} chmod 555 $$f; else ${SUDO} chmod 444 $$f; fi; \
+	    done; \
 	    ${SUDO} ${MKSH} ${.CURDIR}/mklocatedb.sh ${REALOBJDIR}/${IMAGE}
 	(gzip -d <${WRKDIR}/CKSUM.gz | fgrep -v stand/locate.database; \
 	    cd ${WRKDIR}; cksum -a cksum -a rmd160 -a tiger \
