@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.sbin/sendmail/cf/cf/Makefile,v 1.9 2010/12/19 17:17:55 tg Exp $
+# $MirOS: src/gnu/usr.sbin/sendmail/cf/cf/Makefile,v 1.10 2011/07/02 15:03:05 tg Exp $
 # $OpenBSD: Makefile,v 1.24 2008/10/03 16:29:05 millert Exp $
 #
 #  Makefile for configuration files.
@@ -115,19 +115,21 @@ M4FILES=\
 	${CFDIR}/feature/allmasquerade.m4 \
 	${CFDIR}/feature/always_add_domain.m4 \
 	${CFDIR}/feature/authinfo.m4 \
+	${CFDIR}/feature/badmx.m4 \
 	${CFDIR}/feature/bestmx_is_local.m4 \
 	${CFDIR}/feature/bitdomain.m4 \
 	${CFDIR}/feature/blacklist_recipients.m4 \
-	${CFDIR}/feature/conncontrol.m4 \
+	${CFDIR}/feature/block_bad_helo.m4 \
 	${CFDIR}/feature/compat_check.m4 \
+	${CFDIR}/feature/conncontrol.m4 \
 	${CFDIR}/feature/delay_checks.m4 \
 	${CFDIR}/feature/dnsbl.m4 \
 	${CFDIR}/feature/domaintable.m4 \
 	${CFDIR}/feature/enhdnsbl.m4 \
 	${CFDIR}/feature/generics_entire_domain.m4 \
 	${CFDIR}/feature/genericstable.m4 \
+	${CFDIR}/feature/greet_pause.m4 \
 	${CFDIR}/feature/ldap_routing.m4 \
-	${CFDIR}/feature/msp.m4 \
 	${CFDIR}/feature/limited_masquerade.m4 \
 	${CFDIR}/feature/local_lmtp.m4 \
 	${CFDIR}/feature/local_no_masquerade.m4 \
@@ -137,6 +139,8 @@ M4FILES=\
 	${CFDIR}/feature/mailertable.m4 \
 	${CFDIR}/feature/masquerade_entire_domain.m4 \
 	${CFDIR}/feature/masquerade_envelope.m4 \
+	${CFDIR}/feature/msp.m4 \
+	${CFDIR}/feature/mtamark.m4 \
 	${CFDIR}/feature/no_default_msa.m4 \
 	${CFDIR}/feature/nocanonify.m4 \
 	${CFDIR}/feature/notsticky.m4 \
@@ -153,8 +157,10 @@ M4FILES=\
 	${CFDIR}/feature/relay_hosts_only.m4 \
 	${CFDIR}/feature/relay_local_from.m4 \
 	${CFDIR}/feature/relay_mail_from.m4 \
+	${CFDIR}/feature/require_rdns.m4 \
 	${CFDIR}/feature/smrsh.m4 \
 	${CFDIR}/feature/stickyhost.m4 \
+	${CFDIR}/feature/use_client_ptr.m4 \
 	${CFDIR}/feature/use_ct_file.m4 \
 	${CFDIR}/feature/use_cw_file.m4 \
 	${CFDIR}/feature/uucpdomain.m4 \
@@ -166,6 +172,7 @@ M4FILES=\
 	${CFDIR}/m4/proto.m4 \
 	${CFDIR}/m4/version.m4 \
 	${CFDIR}/mailer/cyrus.m4 \
+	${CFDIR}/mailer/cyrusv2.m4 \
 	${CFDIR}/mailer/fax.m4 \
 	${CFDIR}/mailer/local.m4 \
 	${CFDIR}/mailer/mail11.m4 \
@@ -176,12 +183,12 @@ M4FILES=\
 	${CFDIR}/mailer/smtp.m4 \
 	${CFDIR}/mailer/usenet.m4 \
 	${CFDIR}/mailer/uucp.m4 \
+	${CFDIR}/ostype/a-ux.m4 \
 	${CFDIR}/ostype/aix3.m4 \
 	${CFDIR}/ostype/aix4.m4 \
 	${CFDIR}/ostype/aix5.m4 \
 	${CFDIR}/ostype/altos.m4 \
 	${CFDIR}/ostype/amdahl-uts.m4 \
-	${CFDIR}/ostype/a-ux.m4 \
 	${CFDIR}/ostype/bsd4.3.m4 \
 	${CFDIR}/ostype/bsd4.4.m4 \
 	${CFDIR}/ostype/bsdi.m4 \
@@ -217,6 +224,7 @@ M4FILES=\
 	${CFDIR}/ostype/sco-uw-2.1.m4 \
 	${CFDIR}/ostype/sco3.2.m4 \
 	${CFDIR}/ostype/sinix.m4 \
+	${CFDIR}/ostype/solaris11.m4 \
 	${CFDIR}/ostype/solaris2.m4 \
 	${CFDIR}/ostype/solaris2.ml.m4 \
 	${CFDIR}/ostype/solaris2.pre5.m4 \
@@ -225,9 +233,12 @@ M4FILES=\
 	${CFDIR}/ostype/sunos4.1.m4 \
 	${CFDIR}/ostype/svr4.m4 \
 	${CFDIR}/ostype/ultrix4.m4 \
+	${CFDIR}/ostype/unicos.m4 \
+	${CFDIR}/ostype/unicosmk.m4 \
+	${CFDIR}/ostype/unicosmp.m4 \
 	${CFDIR}/ostype/unixware7.m4 \
 	${CFDIR}/ostype/unknown.m4 \
-	${CFDIR}/ostype/uxpds.m4
+	${CFDIR}/ostype/uxpds.m4 \
 
 $(ALL): $(M4FILES)
 
