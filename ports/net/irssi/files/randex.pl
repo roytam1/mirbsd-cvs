@@ -20,7 +20,7 @@
 
 use vars qw($VERSION %IRSSI);
 $VERSION = sprintf "%d.%02d",
-    q$MirOS: ports/net/irssi/files/randex.pl,v 1.5 2008/07/20 21:56:52 tg Exp $
+    q$MirOS: ports/net/irssi/files/randex.pl,v 1.6 2008/07/20 22:53:08 tg Exp $
     =~ m/,v (\d+)\.(\d+) /;
 %IRSSI = (
 	authors		=> 'Thorsten Glaser',
@@ -190,7 +190,9 @@ randfile_loadstore
 }
 
 my $tmo_randfile = undef;
+my $rmo_randstir = undef;
 my $g_interval;
+my $g_stirival;
 
 sub
 randfile_timeout
@@ -211,11 +213,39 @@ randfile_timeout
 }
 
 sub
+randstir_timeout
+{
+	my $status = shift;
+	my $interval = $g_stirival = Irssi::settings_get_int("arc4stir_interval");
+
+	if (!defined($interval) || $interval !~ /^[0-9]+$/) {
+		$interval = 7200;
+	}
+	Irssi::settings_set_int("arc4stir_interval", $interval);
+	if ($status == 0 && $interval > 0) {
+		arc4random_stir();
+	}
+	if (BSD::arc4random::have_kintf()) {
+		# when we can push to the kernel, periodic stirring
+		# is superfluous
+		$tmo_randstir = undef;
+		return;
+	}
+	$interval = 7200 if ($interval == 0);
+	$tmo_randstir = Irssi::timeout_add_once($interval * 1000,
+	    "randstir_timeout", 0);
+}
+
+sub
 sig_setup_changed
 {
 	if ($g_interval != Irssi::settings_get_int("rand_interval")) {
 		Irssi::timeout_remove($tmo_randfile) if defined($tmo_randfile);
 		randfile_timeout(2);
+	}
+	if ($g_stirival != Irssi::settings_get_int("arc4stir_interval")) {
+		Irssi::timeout_remove($tmo_randstir) if defined($tmo_randstir);
+		randstir_timeout(2);
 	}
 }
 
@@ -225,7 +255,12 @@ sig_quitting
 	randfile_loadstore();
 }
 
+# interval in which to re-read and re-write the randseed.bin file (seconds)
 Irssi::settings_add_int("randex", "rand_interval", 900);
+# interval in which to request new entropy from the kernel into the libc
+# pool, in seconds; ignored if we have the kernel push interface
+Irssi::settings_add_int("randex", "arc4stir_interval", 7200);
+# path to the randseed.bin file
 {
 	my $randfile = $ENV{'RANDFILE'};
 
@@ -239,6 +274,7 @@ Irssi::settings_add_int("randex", "rand_interval", 900);
 	}
 	Irssi::settings_add_str("randex", "randfile", $randfile);
 }
+# do not write to the main window unless something fatal happens
 Irssi::settings_add_bool("randex", "rand_quiet", 0);
 
 Irssi::signal_add('gui exit', \&sig_quitting);
@@ -252,7 +288,8 @@ Irssi::signal_add_last('ctcp msg version', \&process_ctcp_after);
 Irssi::print("randex.pl ${VERSION} loaded, entropy is " .
     (BSD::arc4random::have_kintf() ? "" : "not ") .
     "pushed to the kernel");
-randfile_timeout();
+randfile_timeout(1);
+randstir_timeout(1);
 Irssi::signal_add('setup changed', \&sig_setup_changed);
 
 1;
