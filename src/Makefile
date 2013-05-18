@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.102 2007/06/07 01:54:42 tg Exp $
+# $MirOS: src/Makefile,v 1.103 2007/06/07 02:11:04 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -148,11 +148,11 @@ do-htman:
 	cd ${BSDRELDIR}/htman/docs && ${SUDO} rm -f \
 	    $$(find . -type f -a ! -name '*.htm' -a \
 		! -name '*.html' -a ! -name '*.jpg')
-	${SUDO} cp ${BSDOBJDIR}/htman/H ${BSDRELDIR}/htman/.htaccess
-	${SUDO} cp ${BSDOBJDIR}/htman/H ${BSDRELDIR}/htman/manINFO/.htaccess
-	print '/htm$$/t.\ns//&l/\nwq' | \
-	    ${SUDO} ed -s ${BSDRELDIR}/htman/manINFO/.htaccess
-	${SUDO} cp ${BSDOBJDIR}/htman/H ${BSDRELDIR}/htman/docs/.htaccess
+	cd ${BSDOBJDIR}/htman && \
+	    ${SUDO} cp H ${BSDRELDIR}/htman/.htaccess && \
+	    ${SUDO} cp H ${BSDRELDIR}/htman/docs/.htaccess && \
+	    print "AddType 'text/html; charset=iso-8859-1' html" >>H && \
+	    ${SUDO} cp H ${BSDRELDIR}/htman/manINFO/.htaccess
 	${SUDO} chown -R 0:0 ${BSDRELDIR}/htman/*
 	${SUDO} chmod -R a=rX ${BSDRELDIR}/htman/*
 
@@ -162,24 +162,15 @@ do-htinfo:
 	    ${BSDSRCDIR}/gnu/usr.bin/binutils/bfd/doc/bfd.texinfo && \
 	    makeinfo --no-split --html -I ${BSDSRCDIR}/gnu/usr.bin/binutils/bfd/doc \
 	    ${BSDSRCDIR}/gnu/usr.bin/binutils/bfd/doc/bfdint.texi && \
-	    for file in bfd.html bfdint.html; do \
-		iconv -f iso-8859-1 -t utf-8 $$file \
-		    >${BSDOBJDIR}/htman/texinfo/$$file; \
-	    done
+	    cp {bfd,bfdint}.html ${BSDOBJDIR}/htman/texinfo/
 	cd ${BSDOBJDIR}/gnu/usr.bin/binutils/binutils/doc && \
 	    makeinfo --no-split --html -I ${BSDSRCDIR}/gnu/usr.bin/binutils/binutils/doc \
 	    ${BSDSRCDIR}/gnu/usr.bin/binutils/binutils/doc/binutils.texi && \
-	    for file in binutils.html; do \
-		iconv -f iso-8859-1 -t utf-8 $$file \
-		    >${BSDOBJDIR}/htman/texinfo/$$file; \
-	    done
+	    cp binutils.html ${BSDOBJDIR}/htman/texinfo/
 	cd ${BSDOBJDIR}/gnu/usr.bin/binutils/gas/doc && \
 	    makeinfo --no-split --html -I ${BSDSRCDIR}/gnu/usr.bin/binutils/gas/doc \
 	    ${BSDSRCDIR}/gnu/usr.bin/binutils/bfd/doc/as.texinfo && \
-	    for file in as.html; do \
-		iconv -f iso-8859-1 -t utf-8 $$file \
-		    >${BSDOBJDIR}/htman/texinfo/$$file; \
-	    done
+	    cp as.html ${BSDOBJDIR}/htman/texinfo/
 	cd ${BSDOBJDIR}/gnu/usr.bin/binutils/gdb/doc && \
 	    makeinfo --no-split --html \
 	    -I ${BSDSRCDIR}/gnu/usr.bin/binutils/gdb/mi \
@@ -191,10 +182,7 @@ do-htinfo:
 	    ${BSDSRCDIR}/gnu/usr.bin/binutils/gdb/doc/stabs.texinfo && \
 	    makeinfo --no-split --html -I ${BSDSRCDIR}/gnu/usr.bin/binutils/gdb/doc \
 	    ${BSDSRCDIR}/gnu/usr.bin/binutils/gdb/doc/annotate.texinfo && \
-	    for file in {gdb,gdbint,stabs,annotate}.html; do \
-		iconv -f iso-8859-1 -t utf-8 $$file \
-		    >${BSDOBJDIR}/htman/texinfo/$$file; \
-	    done
+	    cp {gdb,gdbint,stabs,annotate}.html ${BSDOBJDIR}/htman/texinfo/
 	cd ${BSDOBJDIR}/gnu/usr.bin/binutils/ld && \
 	    makeinfo --no-split --html \
 	    -I ${BSDSRCDIR}/gnu/usr.bin/binutils/ld \
@@ -204,19 +192,13 @@ do-htinfo:
 	    -I ${BSDSRCDIR}/gnu/usr.bin/binutils/ld \
 	    -I ${BSDSRCDIR}/gnu/usr.bin/binutils/bfd/doc \
 	    ${BSDSRCDIR}/gnu/usr.bin/binutils/ld/ldint.texinfo && \
-	    for file in ld.html; do \
-		iconv -f iso-8859-1 -t utf-8 $$file \
-		    >${BSDOBJDIR}/htman/texinfo/$$file; \
-	    done
+	    cp ld.html ${BSDOBJDIR}/htman/texinfo/
 	cd ${BSDOBJDIR}/gnu/usr.bin/cvs/doc && \
 	    makeinfo --no-split --html -I ${BSDSRCDIR}/gnu/usr.bin/cvs/doc \
 	    ${BSDSRCDIR}/gnu/usr.bin/cvs/doc/cvs.texinfo && \
 	    makeinfo --no-split --html \
 	    ${BSDSRCDIR}/gnu/usr.bin/cvs/doc/cvsclient.texi && \
-	    for file in cvs.html cvsclient.html; do \
-		iconv -f iso-8859-1 -t utf-8 $$file \
-		    >${BSDOBJDIR}/htman/texinfo/$$file; \
-	    done
+	    cp cvs{,client}.html ${BSDOBJDIR}/htman/texinfo/
 	cd ${BSDOBJDIR}/gcc/gcc && \
 	    makeinfo --no-split --html -I ${BSDSRCDIR}/gcc/gcc/doc/include \
 	    ${BSDSRCDIR}/gcc/gcc/doc/cpp.texi && \
@@ -226,10 +208,7 @@ do-htinfo:
 	    ${BSDSRCDIR}/gcc/gcc/doc/gccint.texi && \
 	    makeinfo --no-split --html \
 	    ${BSDSRCDIR}/gcc/gcc/doc/cppinternals.texi && \
-	    for file in {cpp,gcc,gccint,cppinternals}.html; do \
-		iconv -f iso-8859-1 -t utf-8 $$file \
-		    >${BSDOBJDIR}/htman/texinfo/$$file; \
-	    done
+	    cp {cpp,gcc,gccint,cppinternals}.html ${BSDOBJDIR}/htman/texinfo/
 .if ${NO_ADA:L} == "no"
 	cd ${BSDOBJDIR}/gcc/gcc && \
 	    makeinfo --no-split --html \
@@ -241,20 +220,11 @@ do-htinfo:
 	    makeinfo --no-split --html \
 	    -I ${BSDSRCDIR}/gcc/gcc/doc/include -I ${BSDSRCDIR}/gcc/gcc/ada \
 	    ${BSDSRCDIR}/gcc/gcc/ada/gnat-style.texi && \
-	    for file in {gnat_ugn_unw,gnat_rm,gnat-style}.html; do \
-		iconv -f iso-8859-1 -t utf-8 $$file \
-		    >${BSDOBJDIR}/htman/texinfo/$$file; \
-	    done
+	    cp gnat{_ugn_unw,_rm,-style}.html ${BSDOBJDIR}/htman/texinfo/
 .endif
 .if ${NO_PASCAL:L} == "no"
-	for file in ${BSDSRCDIR}/gcc/gpcdoc/*.html; do \
-		iconv -f iso-8859-1 -t utf-8 $$file \
-		    >${BSDOBJDIR}/htman/texinfo/$$file; \
-	done
+	cp ${BSDSRCDIR}/gcc/gpcdoc/gpc{,s,s-de}.html ${BSDOBJDIR}/htman/texinfo/
 .endif
-	cd ${BSDOBJDIR}/htman/texinfo && for file in *.html; do \
-		print '/iso-8859-1/s//utf-8/\nwq' | ed -s $$file; \
-	done
 
 base-distbuild:
 	cd ${.CURDIR} && exec ${MAKE} mksystrace-obj
