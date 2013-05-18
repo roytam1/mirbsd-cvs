@@ -1,4 +1,4 @@
-/**	$MirOS: src/sbin/modload/elf.c,v 1.3 2005/11/17 12:07:57 tg Exp $	*/
+/**	$MirOS: src/sbin/modload/elf.c,v 1.4 2005/11/23 16:43:59 tg Exp $	*/
 /*	$OpenBSD: elf.c,v 1.7 2004/12/28 09:05:18 deraadt Exp $	*/
 /*	$NetBSD: elf.c,v 1.8 2002/01/03 21:45:58 jdolecek Exp $	*/
 
@@ -55,7 +55,7 @@
 
 #include "modload.h"
 
-__RCSID("$MirOS: src/sbin/modload/elf.c,v 1.3 2005/11/17 12:07:57 tg Exp $");
+__RCSID("$MirOS: src/sbin/modload/elf.c,v 1.4 2005/11/23 16:43:59 tg Exp $");
 
 char *strtab;
 
@@ -274,7 +274,7 @@ elf_mod_sizes(int fd, size_t *modsize, int *strtablen,
 		 * XXX try to get rid of the hole before the data
 		 * section that GNU-ld likes to put there
 		 */
-		if (strcmp(s->name, ".data") == 0 && s->addr > (void *)off) {
+		if (strcmp(s->name, ".rodata") == 0 && s->addr > (void *)off) {
 			data_offset = roundup(off, s->align);
 			if (debug)
 				fprintf(stderr, ".rodata section forced to "
