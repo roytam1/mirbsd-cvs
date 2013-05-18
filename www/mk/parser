@@ -1,4 +1,4 @@
-rcsid_parser='$MirOS: www/mk/parser,v 1.14 2008/12/04 18:24:37 tg Exp $'
+rcsid_parser='$MirOS: www/mk/parser,v 1.15 2008/12/04 18:25:50 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -6,6 +6,7 @@ rcsid_parser='$MirOS: www/mk/parser,v 1.14 2008/12/04 18:24:37 tg Exp $'
 set -A e_author
 set -A e_id
 set -A ei_body
+set -A ei_indir
 set -A ei_srcf
 set -A ei_time
 
@@ -47,6 +48,7 @@ for srcf in $name; do
 			done
 			ei_srcf[entry]=$srcf
 			ids=$ids${e_id[entry]}:
+			ei_indir[entry]=$entry
 			let ++entry
 			state=2
 		elif (( state > 0 )); then

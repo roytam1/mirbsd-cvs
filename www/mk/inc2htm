@@ -1,4 +1,4 @@
-rcsid_inc2htm='$MirOS: www/mk/inc2htm,v 1.15 2008/12/04 14:14:16 tg Exp $'
+rcsid_inc2htm='$MirOS: www/mk/inc2htm,v 1.16 2008/12/04 18:20:02 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -31,9 +31,7 @@ done
 cd "$wd"
 
 function output {
-	integer ent=$1
-	eid=$2
-	rpath=$3
+	rpath=$1
 	efe="${rpath}${ei_srcf[ent]}_${eid}.htm#$eid"
 	title="${e_date[ent]% *}${e_author[ent]+ by }${e_author[ent]}"
 	subtitle=
@@ -115,10 +113,12 @@ mopen 1
 mkdir -p permalinks
 integer entryc=0
 integer entryp='entries - 1'
+integer ent
 while (( entryp >= 0 )); do
-	eid=$(uri_escape "${e_id[entryp]}")
+	ent=${ei_indir[entryp]}
+	eid=$(uri_escape "${e_id[ent]}")
 	if [[ -z $nopermalinks ]]; then
-		fe=permalinks/${ei_srcf[entryp]}_${eid}.htm
+		fe=permalinks/${ei_srcf[ent]}_${eid}.htm
 		print -r -- "$fe"
 		mws_push
 		mws_setname $whoami "$pname"
@@ -128,18 +128,18 @@ while (( entryp >= 0 )); do
 			<h1>${ptitle}</h1>
 			<p>${plinksr}
 		EOF
-		output $entryp $eid | mws_content >>$fe~
+		output | mws_content >>$fe~
 		mclose $fe
 		mws_pop
 	fi
 	if (( entryc < cutoff )); then
 		print "mws_content <<'EOF_cutoff_$name'" >>${name}.cut~
-		output $entryp $eid @@RELPATH@@permalinks/ >>${name}.cut~
+		output @@RELPATH@@permalinks/ >>${name}.cut~
 		print EOF_cutoff_$name >>${name}.cut~
 	else
-		output $entryp $eid permalinks/ | mws_content >>$fn~
+		output permalinks/ | mws_content >>$fn~
 	fi
-	output $entryp $eid permalinks/ | mws_content >>${name}_all.htm~
+	output permalinks/ | mws_content >>${name}_all.htm~
 	let entryp--
 	let entryc++
 	if (( ((entryc - cutoff) % perpage) == 0 )); then

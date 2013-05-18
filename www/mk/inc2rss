@@ -1,4 +1,4 @@
-rcsid_inc2rss='$MirOS: www/mk/inc2rss,v 1.21 2008/12/04 14:19:51 tg Exp $'
+rcsid_inc2rss='$MirOS: www/mk/inc2rss,v 1.22 2008/12/04 18:20:02 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -68,8 +68,8 @@ function rss_putfooter {
 
 function rss_output {
 	integer ent=$1
-	eid=$2
-	rpath=$3
+	rpath=$2
+	eid=$(uri_escape "${e_id[ent]}")
 	efe="${mws__abspath}${rpath}${ei_srcf[ent]}_${eid}.htm#$eid"
 	pubdate=$(strftm "$DATE_RSS" ${ei_time[ent]})
 	if [[ -n ${e_title[ent]} ]]; then
@@ -123,8 +123,7 @@ rss_putheader "${name}.rss" >${name}.rss~
 integer i='entries - 1'
 integer last='entries < maxentries ? 0 : entries - maxentries'
 while (( i >= last )); do
-	eid=$(uri_escape "${e_id[i]}")
-	rss_output $i $eid "/permalinks/" >>${name}.rss~
+	rss_output ${ei_indir[i]} "/permalinks/" >>${name}.rss~
 	let i--
 done
 
