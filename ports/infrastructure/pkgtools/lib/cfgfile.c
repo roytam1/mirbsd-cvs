@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/lib/cfgfile.c,v 1.1.2.6 2009/12/28 14:33:09 bsiegert Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/lib/cfgfile.c,v 1.1.2.7 2009/12/29 17:09:32 bsiegert Exp $ */
 
 /*-
  * Copyright (c) 2009
@@ -36,7 +36,7 @@
 #endif
 #define DEFAULT_CFGFILE SYSCONFDIR "/pkgtools/pkgtools.conf"
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/cfgfile.c,v 1.1.2.6 2009/12/28 14:33:09 bsiegert Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/cfgfile.c,v 1.1.2.7 2009/12/29 17:09:32 bsiegert Exp $");
 
 SLIST_HEAD(cfg_varlist, cfg_var);
 struct cfg_var {
@@ -154,6 +154,7 @@ cfg_read_config(const char *filename)
 	char *line;
 	size_t len, i;
 	bool line_end;
+	char *hashmark;
 
 	cfgfile = fopen(filename ? filename : DEFAULT_CFGFILE, "r");
 	if (!cfgfile) {
@@ -165,24 +166,30 @@ cfg_read_config(const char *filename)
 		line = fgetln(cfgfile, &len);
 		if (!line)
 			break;
-		if (line[len - 1] == '\n')
+		hashmark = (char *)memchr(line, '#', len);
+		if (hashmark) {
+			*hashmark = '\0';
+			len = strlen(line) + 1;
+		}
+		if ((len > 1) && line[len - 1] == '\n')
 			line[--len] = '\0';
+		while ((len > 1) && isspace(line[len - 2]))
+			line[--len - 1] = '\0';
+		while (isspace(*line)) {
+			line++; len--;
+		}
 		line_end = false;
 		for (i = 0; i < len; i++) {
 			switch (line[i]) {
 				case '\n':
-					line_end = true;
-					break;
 				case '\0':
-					line_end = true;
-					break;
-				case '#':
 					line_end = true;
 					break;
 				case '=':
 					parse_var(line, i, len);
 					line_end = true;
 					break;
+				case '\t':
 				case ' ':
 					parse_command(line, i, len);
 					line_end = true;
@@ -200,6 +207,7 @@ cfg_read_config(const char *filename)
 		return false;
 	}
 	/* otherwise assume EOF */
+	fclose(cfgfile);
 	return true;
 }
 
