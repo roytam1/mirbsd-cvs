@@ -1,9 +1,9 @@
-# $MirOS: ports/devel/pkgconfig/Makefile,v 1.4 2006/11/03 23:14:16 tg Exp $
+# $MirOS: ports/devel/pkgconfig/Makefile,v 1.5 2007/02/22 22:57:48 tg Exp $
 # $OpenBSD: Makefile,v 1.14 2004/02/01 07:20:04 marcm Exp $
 
 COMMENT=		tool for managing library compile/link flags
 DISTNAME=		pkgconfig-0.15.0
-PKGNAME=		${DISTNAME}-1
+DASH_VER=		2
 CATEGORIES=		devel
 HOMEPAGE=		http://www.freedesktop.org/software/pkgconfig/
 MASTER_SITES=		${HOMEPAGE}releases/ \
