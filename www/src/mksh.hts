@@ -2,7 +2,7 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.134 2008/07/09 21:45:14 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.135 2008/07/10 00:10:18 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R33d</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -92,7 +92,7 @@ mws_content <<'EOF'
  Apple Mac OSX; Interix (Microsoft® Services for Unix 3.5, maybe Subsystem for
  Unix Applications); GNU/Cygwin; UWIN; GNU/Linux (libc5, glibc, and uClibc
  systems are tested), Debian GNU/kFreeBSD, GNU/HURD or GNU/Linux; Sun Solaris
- (8, 9, 10, 11), OpenSolaris; some AIX; HP-UX 11i; OSF/1<br />To run the
+ (8, 9, 10, 11), OpenSolaris; AIX; HP-UX 11i; OSF/1; ULTRIX<br />To run the
  regression test suite, you will need a not too antiquated Perl with POSIX.pm
  as well as <tt><a href="#editor">/bin</a>/ed</tt> (whose installation is
  strongly suggested anyway, because it’s the standard <tt>FCEDIT</tt> history
@@ -307,6 +307,9 @@ mws_content <<'EOF'
  with <tt>/Gs-</tt> to disable the stack checks (missing support in libc
  for them, they used to be off by default) and remove <tt>/Ze</tt>.</p>
 <p>On Interix (SFU 3.5), this compiler is maturely usable and a good choice.</p>
+<p>On GNU/Cygwin, using <a href="http://interix-wgcc.sourceforge.net/">wgcc</a>
+ it <em>might</em> be possible to use this compiler. I could not test that yet,
+ though.</p>
 
 <h5 id="oe_mpp">Compiler: MIPSpro</h5>
 <p>Support for SGI’s MIPSpro compiler on IRIX appeared in mksh R33b.</p>
@@ -465,7 +468,8 @@ mws_content <<'EOF'
  GNU/Linux distribution with a different GUI. This may change though.</p>
 
 <h5 id="oe_bsu">OS: ULTRIX</h5>
-<p>Even on ULTRIX 4.5, mksh R33c works fine.</p>
+<p>Even on ULTRIX 4.5, mksh R33c works fine. The system ksh must be used
+ for running the <tt>Build.sh</tt> script, though.</p>
 <p>You however must pass the <tt>-YPOSIX</tt> option to the ucode compiler,
  as the default <tt>-YBSD</tt> profile produces a broken executable (spins
  instead of starting up), and the <tt>-YSYSTEM_FIVE</tt> profile does not
@@ -718,86 +722,89 @@ mws_content <<'EOF'
 <ul>
  <li style="list-style:none;">– tests by the project, using Makefile –</li>
  <li>MirOS #10-current (i386 gcc3.4.6)</li>
+ <li>MirOS #10-current (sparc gcc3.4.6)</li>
  <li style="list-style:none;">– tests by the project, using Build.sh –</li>
  <li>MirOS #10-current (i386 pcc-20080709)</li>
+ <li>MirOS #10-current (i386 SUNcc5.9 Linux_i386 2007/05/03, GNU ld 2.13.90.0.2 20020802)</li>
+ <li>DragonFly 1.9-DEVELOPMENT Feb 17, 2007 (i386 gcc3.4.6)</li>
+ <li>FreeBSD 6.2-RELEASE (i386 gcc3.4.6-20060305)</li>
+ <li>NetBSD 3.0_STABLE (i386 gcc3.3.3_nb3_20040520)</li>
  <li>OpenBSD 4.3 GENERIC#207 (zaurus gcc3.3.5)</li>
+ <li>MidnightBSD 0.1.1-RELEASE (amd64 gcc3.4.4-20050518)</li>
  <li>MidnightBSD 0.2-CURRENT (i386 gcc3.4.6-20060305)</li>
  <li>MidnightBSD 0.2-CURRENT (i386 pcc-20080502-MirPorts-0) + <tt>LIBS=-lgcc</tt></li>
+ <li>DEC ULTRIX 4.5 0 RISC (mips cc3.0 ucode9.2)</li>
+ <li>Mac OSX Leopard 10.5.4 (9E17) Darwin 9.4.0 (i386 gcc4.0.1-Apple_5480)</li>
+ <li>Mac OSX Leopard 10.5.4 (9E17) Darwin 9.4.0 (i386 gcc4.2.1-Apple_5558)</li>
+ <li>Mac OSX Leopard 10.5.4 (9E17) Darwin 9.4.0 (i386 llvmgcc4.2.1-Apple_5555-LLVM_2030)</li>
+ <li>Mac OSX Leopard Server 10.5.4 (9E17) Darwin 9.4.0 (macppc gcc3.3-20030304-Apple_1823)</li>
+ <li>Mac OSX Leopard Server 10.5.4 (9E17) Darwin 9.4.0 (macppc gcc4.0.1-Apple_5465)</li>
+ <li>HP Tru64 OSF1 V5.1B 2650 (alpha Compaq C V6.5-011 Rev. 2650)</li>
+ <li>HP Tru64 OSF1 V5.1B 2650 (alpha gcc2.97-tru64-010710 alphaev56)</li>
+ <li>HP-UX 11i 11.11 B.11.11 U PA-RISC 9000/800 (hppa aCC HP92453-01, ld B.11.60 070209) <em>without</em> testsuite check</li>
+ <li>HP-UX 11i 11.11 B.11.11 U PA-RISC 9000/800 (hppa gcc3.4.2 hppa2.0w) <em>without</em> testsuite check</li>
+ <li>HP-UX 11i v3 B.11.31 U PA-RISC 9000/800 (hppa aCC HP92453-01, ld B.11.60 070209)</li>
+ <li>HP-UX 11i v3 B.11.31 U ia64 (IA64 aCC B3910B A.06.14 [Feb 22 2007], ld 92453-07 B.12.43)</li>
+ <li>Solaris 8 Generic_117350-41 sun4u (sparc gcc3.4.3)</li>
+ <li>Solaris 8 Generic_117350-41 sun4u (sparc64 gcc3.4.3)</li>
+ <li>Solaris 10 Generic_137111-02 sun4u (sparc gcc3.4.6)</li>
+ <li>Solaris 10 Generic_137111-02 sun4u (sparc gcc3.4.6) + arc4random.c</li>
+ <li>Solaris 10 Generic_137111-02 sun4u (sparc64 gcc3.4.6)</li>
+ <li>Solaris 10 Generic_137111-02 sun4u (sparc:V8+ SUNcc5.9 124867-06 2008/06/10, ld 5.10-1.489)</li>
+ <li>Solaris 10 Generic_137111-02 sun4u (sparc:V8+ SUNcc5.9 124867-06 2008/06/10, ld 5.10-1.489) + arc4random.c</li>
+ <li>Solaris 10 Generic_137111-02 sun4u (sparc64 SUNcc5.9 124867-06 2008/06/10, ld 5.10-1.489)</li>
+ <li>Debian GNU 4.0 sid GNU-Mach 1.3.99/Hurd-0.3 i686-AT386 (i386 gcc3.4.6-5)</li>
+ <li>Debian GNU 4.0 sid GNU-Mach 1.3.99/Hurd-0.3 i686-AT386 (i386 gcc4.0.4-1)</li>
+ <li>Debian GNU 4.0 sid GNU-Mach 1.3.99/Hurd-0.3 i686-AT386 (i386 gcc4.1.2-23)</li>
+ <li>Debian GNU 4.0 sid GNU-Mach 1.3.99/Hurd-0.3 i686-AT386 (i386 gcc4.2.4-3)</li>
+ <li>Debian GNU 4.0 sid GNU-Mach 1.3.99/Hurd-0.3 i686-AT386 (i386 gcc4.3.1-5)</li>
+ <li>Debian GNU 4.0 sid GNU-Mach 1.3.99/Hurd-0.3 i686-AT386 (i386 gcc4.3.1-5) + arc4random.c</li>
+ <li>Cygwin_NT-5.0 1.5.25(0.156/4/2) 2008-04-17 12:11 i586 win2kSP2 (i386 gcc3.4.4)</li>
+ <li>Debian GNU/Linux 4.0 etch 2.6.18-6-mckinley (IA64 gcc4.1.1-21)</li>
+ <li>Debian GNU/Linux 4.0 etch 2.6.18-4-686 (i386 gcc1:3.3.6-15)</li>
+ <li>Debian GNU/Linux 4.0 etch 2.6.18-4-686 (i386 gcc4.1.1-21)</li>
+ <li>Debian GNU/Linux 4.0 etch 2.6.18-4-686 (i386 dietlibc-0.30-4 gcc4.1.1-21)</li>
+ <li>Debian GNU/Linux 4.0 etch 2.6.18-4-686 (i386 TenDRA-4.1.2)</li>
+ <li>Debian GNU/Linux 4.0 testing 2.6.24-1-686 (i386 gcc3.4.6-7)</li>
+ <li>Debian GNU/Linux 4.0 testing 2.6.24-1-686 (i386 gcc4.1.2-23)</li>
+ <li>Debian GNU/Linux 4.0 testing 2.6.24-1-686 (i386 gcc4.2.4-2+b1)</li>
+ <li>Debian GNU/Linux 4.0 testing 2.6.24-1-686 (i386 gcc4.3.1-2)</li>
+ <li>Debian GNU/Linux 4.0 testing 2.6.24-1-686 (i386 llvmgcc4.2.1-Apple_5555-LLVM_r52845)</li>
+ <li>Debian GNU/Linux 4.0 sid 2.6.18-6-vserver-s390x (S/390 gcc4.3.1-2)</li>
+ <li>ecce!GNU/Linux 1.00 2.0.38a (i386 libc5 gcc2.7.2.3) <em>except</em> locale support</li>
+ <li>Mandriva GNU/Linux CS 2006.0 2.6.12-22mdksmp (i386 gcc4.0.1-5mdk)</li>
+ <li>Oracle Enterprise GNU/Linux 4 2.6.9-42.0.0.0.1.ELsmp (amd64 gcc3.4.6-3.1 Red Hat)</li>
+ <li>Red Hat GNU/Linux RHEL5 2.6.18-8.1.6.el5 (amd64 gcc4.1.1-52)</li>
+ <li>SuSE GNU/Linux SLES10 2.6.16.27-0.9-smp (amd64 gcc4.1.0)</li>
+ <li>SuSE GNU/Linux SLES10 2.6.16.27-0.9-default (IA64 gcc4.1.0)</li>
 </ul>
 <h3 id="regress_dev">Development Versions</h3>
 <ul>
- <li style="list-style:none;">– tests by the project, using Makefile –</li>
- <li>MirOS #10-current (i386 gcc3.4.6)</li>
- <li>MirOS #10-current (sparc gcc3.4.6)</li>
  <li style="list-style:none;">– tests by the project, using Build.sh –</li>
- <li>MirOS #10-current (i386 gcc3.4.6)</li>
- <li>MirOS #10-current (i386 pcc-20080502-MirPorts-0)</li>
- <li>MirOS #10 RC8 (i386 SUNcc5.9 Linux_i386 2007/05/03, GNU ld 2.13.90.0.2 20020802)</li>
  <li>MirOS #7-stable (sparc gcc2.95.3-078E)</li>
  <li>BSDi BSD/OS 3.1 #4 M300-043 (i386 gcc2.7.2.1)</li>
  <li>BSDi BSD/OS 3.1 #4 M300-043 (i386 gcc1.42)</li>
- <li>DragonFly 1.9-DEVELOPMENT Feb 17, 2007 (i386 gcc3.4.6)</li>
- <li>FreeBSD 6.2-RELEASE (i386 gcc3.4.6-20060305)</li>
  <li>MidnightBSD 0.1.1-RELEASE (sparc64 gcc3.4.4-20050518)</li>
- <li>NetBSD 3.0_STABLE (i386 gcc3.3.3_nb3_20040520)</li>
  <li>Debian GNU/kFreeBSD 4.0 sid 6.2-1-686 (i386 gcc1:3.3.6-15)</li>
  <li>Debian GNU/kFreeBSD 4.0 sid 6.2-1-686 (i386 gcc3.4.6-6)</li>
  <li>Debian GNU/kFreeBSD 4.0 sid 6.2-1-686 (i386 gcc4.0.3-7)</li>
  <li>Debian GNU/kFreeBSD 4.0 sid 6.2-1-686 (i386 gcc4.1.2-19)</li>
  <li>Debian GNU/kFreeBSD 4.0 sid 6.2-1-686 (i386 gcc4.2.3-2)</li>
  <li>Debian GNU/kFreeBSD 4.0 sid 6.2-1-686 (i386 gcc4.3-20080227-1)</li>
- <li>DEC ULTRIX 4.5 0 RISC (mips cc3.0 ucode9.2)</li>
+ <li>Debian GNU/kFreeBSD 4.0 sid 6.2-1-686 (i386 gcc4.3-20080227-1) + arc4random.c</li>
  <li>AIX 5.3 (powerpc gcc4.0.0_powerpc-ibm-aix5.1.0.0, LD 1.65 04/06/2005)</li>
  <li>AIX 5.3 32-bit (powerpc xlC9.0 070428, LD 1.65 04/06/2005)</li>
  <li>AIX 5.3 64-bit (powerpc xlC9.0 070428, LD 1.65 04/06/2005)</li>
- <li>HP Tru64 OSF1 V5.1 2650 (alpha Compaq C V6.5-011 Rev. 2650)</li>
- <li>HP Tru64 OSF1 V5.1 2650 (alpha gcc2.97-tru64-010710 alphaev56)</li>
- <li>HP-UX 11i 11.11 B.11.11 U PA-RISC 9000/800 (hppa aCC HP92453-01 B.11.X.36086-36089-36092.GP, ld 92453-07 B.11.60 070209) <em>no regression test run</em></li>
  <li>HP-UX 11i v2 B.11.23 U ia64 (IA64 aCC B3910B A.06.10 [Mar 22 2006], ld 92453-07 B.12.45)</li>
  <li>HP-UX 11i v2 B.11.23 U ia64 (IA64 gcc3.4.3)</li>
- <li>HP-UX 11i v3 B.11.31 U PA-RISC 9000/800 (hppa aCC HP92453-01 B.11.X.36086-36089-36092.GP, ld 92453-07 B.11.60 070209)</li>
- <li>HP-UX 11i v3 B.11.31 U ia64 (IA64 aCC B3910B A.06.14 [Feb 22 2007], ld 92453-07 B.12.43)</li>
- <li>Mac OSX Leopard 10.5.2 Darwin 9.2.0 (i386 gcc4.0.1 Apple Inc. build 5465)</li>
- <li>Mac OSX Leopard 10.5.3 (9D34) Darwin 9.3.0 (i386 gcc4.2.1 Apple Inc. build 5558)</li>
- <li>Mac OSX Leopard 10.5.3 (9D34) Darwin 9.3.0 (i386 llvmgcc4.2.1-Apple_5555-LLVM_2030)</li>
- <li>Mac OSX Leopard Server 10.5.2 Darwin 9.2.0 (macppc gcc3.3 20030304 Apple Computer, Inc. build 1823, ld64-77)</li>
- <li>Mac OSX Leopard Server 10.5.2 Darwin 9.2.0 (macppc gcc4.0.1 Apple Inc. build 5465)</li>
- <li>Solaris 8 Generic_117350-41 (sparc,V8+ sun4u gcc3.4.3)</li>
- <li>Solaris 8 Generic_117350-41 (sparc64,V9 sun4u gcc3.4.3)</li>
- <li>Solaris 10 Generic_125100-04 (sparc,V8+ sun4u gcc3.4.6)</li>
- <li>Solaris 10 Generic_125100-04 (sparc64,V9 sun4u gcc3.4.6)</li>
- <li>Solaris 10 Generic_127111-10 (sparc,V8+ sun4u SUNcc5.9 124867-02 2007/11/27, ld 5.10-1.489)</li>
- <li>Solaris 10 Generic_125100-04 (sparc64,V9 sun4u SUNcc5.9 124867-01, ld 5.10-1.486)</li>
  <li>Interix 3.5 SP-8.0.1969.1 (i386 gcc3.3 win2k)</li>
  <li>Interix 3.5 SP-8.0.1969.1 (i386 msc CL.EXE 13.00.9466 (standard), LINK.EXE 7.00.9466)</li>
  <li>Interix 3.5 SP-8.0.1969.1 (i386 msc CL.EXE 14.00.50727.42 (optimising), LINK.EXE 8.00.50727.42)</li>
- <li>Debian GNU 4.0 sid GNU-Mach 1.3.99/Hurd-0.3 i686-AT386 (i386 gcc3.4.6-5)</li>
- <li>Debian GNU 4.0 sid GNU-Mach 1.3.99/Hurd-0.3 i686-AT386 (i386 gcc4.0.4-1)</li>
- <li>Debian GNU 4.0 sid GNU-Mach 1.3.99/Hurd-0.3 i686-AT386 (i386 gcc4.1.2-23)</li>
- <li>Debian GNU 4.0 sid GNU-Mach 1.3.99/Hurd-0.3 i686-AT386 (i386 gcc4.2.4-2)</li>
- <li>Cygwin_NT-5.0 1.5.25(0.156/4/2) 2008-04-17 12:11 i586 (i386 gcc3.4.4 win2k)</li>
  <li>Ångström GNU/Linux spitz 2.6.20.6 PREEMPT (armv5tel glibc2.5 gcc4.1.2)</li>
  <li>Debian GNU/Linux 4.0 etch 2.6.18-5-alpha-generic (alpha gcc1:3.3.6-15)</li>
  <li>Debian GNU/Linux 4.0 etch 2.6.18-5-alpha-generic (alpha gcc4.1.1-21)</li>
- <li>Debian GNU/Linux 4.0 etch 2.6.18-4-686 (i386 dietlibc-0.30-4 gcc4.1.1-21)</li>
- <li>Debian GNU/Linux 4.0 etch 2.6.18-4-k7 (i386 tcc0.9.23) <em>FAIL to link executable</em></li>
- <li>Debian GNU/Linux 4.0 etch 2.6.18-4-k7 (i386 TenDRA-4.1.2)</li>
- <li>Debian GNU/Linux 4.0 etch 2.6.18-6-mckinley (IA64 gcc4.1.1-21)</li>
- <li>Debian GNU/Linux 4.0 testing 2.6.22-3-686 (i386 gcc3.4.6-6)</li>
- <li>Debian GNU/Linux 4.0 testing 2.6.22-3-686 (i386 gcc4.1.2-18</li>
- <li>Debian GNU/Linux 4.0 testing 2.6.22-3-686 (i386 gcc4.3-20080202-1/r132072)</li>
- <li>Debian GNU/Linux 4.0 testing 2.6.24-1-686 (i386 llvmgcc4.2.1-Apple_5555-LLVM_r52845)</li>
- <li>Debian GNU/Linux 4.0 sid 2.6.18-6-vserver-s390x (S/390 gcc4.2.3-1)</li>
- <li>Debian GNU/Linux 4.0 sid 2.6.18-6-vserver-s390x (S/390 gcc4.3-20080127-1/r131882)</li>
  <li>Debian GNU/Linux 4.0 sid 2.6.22-2-powerpc (macppc gcc4.2.2-3)</li>
- <li>ecce!GNU/Linux 1.00 2.0.38a (i386 libc5 gcc2.7.2.3)</li>
- <li>SuSE GNU/Linux SLES10 2.6.16.27-0.9-default (IA64 gcc4.1.0)</li>
  <li>SuSE GNU/Linux SLES10 2.6.16.27-0.9-default (IA64 icc9.1.046-20070111)</li>
- <li style="list-style:none;">– with arc4random.c add-on –</li>
- <li>Debian GNU/kFreeBSD 4.0 sid 6.2-1-686 (i386 gcc4.3-20080227-1)</li>
- <li>Solaris 10 Generic_125100-04 (sparc sun4u gcc3.4.6)</li>
- <li>Solaris 10 Generic_125100-04 (sparc sun4u SUNcc5.9 124867-01, ld 5.10-1.486)</li>
- <li>Debian GNU 4.0 sid GNU-Mach 1.3.99/Hurd-0.3 i686-AT386 (i386 gcc4.2.2-4)</li>
  <li style="list-style:none;">– tests by third parties (Build.sh) –</li>
  <li>HP OSF/1 V4.0F 1229 (alpha DEC C V5.9-005) <em>by Jupp Schugt</em></li>
  <li>HP OSF/1 V4.0F 1229 (alpha gcc2.8.1 alpha-dec-osf4.0d) <em>by Jupp Schugt</em></li>
@@ -872,7 +879,7 @@ mws_content <<'EOF'
 <ul>
  <li>Fabrice Bellard’s tcc in combination with GNU libc often fails linking
   with an error message like this:<br /><tt>/usr/lib/libc_nonshared.a:
-  '__i686.get_pc_thunk.bx' defined twice</tt></li>
+  '__i686.get_pc_thunk.bx' defined twice</tt> (eg. Debian etch tcc0.9.23)</li>
  <li>mksh works on Plan 9, but does not return after executing a non-builtin
   command. Syllable Desktop exhibits the same behaviour.</li>
  <li>mksh does not correctly work on Minix 3 at all.</li>
@@ -982,9 +989,9 @@ mws_content <<'EOF'
   environment variables ourselves – brings UTF-8 support to poor OSes</li>
  <li>Remove some now-dead code; speed up configuration process; shrink</li>
  <li>Default to no setlocale(3) due to stubbed or missing locale support
-  on OpenBSD, GNU/Cygwin in <tt>Build.sh</tt>; a few more that are quite
-  unlikely to have a UTF-8 locale: BSD/OS, Interix, Minix, PW32, Ultrix,
-  AT&amp;T UWIN; default to always UTF-8 on Plan 9 (XXX check these)</li>
+  on GNU/Cygwin, OpenBSD, OSF/1 in <tt>Build.sh</tt>; a few more that are
+  quite unlikely to have a UTF-8 locale: BSD/OS, Interix, Minix, PW32, Ultrix,
+  AT&amp;T UWIN; default to always UTF-8 on Plan 9</li>
  <li>Fix for testsuite unexpected failure if running as root in one case</li>
  <li>Initialise all shell integer variables (<tt>OPTIND</tt>, <tt>PPID</tt>,
   <tt>RANDOM</tt>, <tt>SECONDS</tt>, <tt>TMOUT</tt>) to base 10</li>
@@ -1007,7 +1014,7 @@ mws_content <<'EOF'
  <li>Use proper <tt>ptrdiff_t</tt> casts for pointer arithmetics, inspired
   by an oksh commit from Federico Schwindt</li>
  <li>Remove check category “pdksh” from <tt>check.t</tt> and test script</li>
- <li>Improve SUNpro, Darwin, HP aCC version reporting</li>
+ <li>Improve Darwin, OSF/1, HP aCC, SUNpro version reporting</li>
  <li>Support GNU bash “&amp;&gt;” extension, even better than they do,
   suggested by Lukas “smultron” Upton from MidnightBSD</li>
  <li>Basic support for LLVM+clang in the build system with experimental
@@ -1019,7 +1026,15 @@ mws_content <<'EOF'
  <li>Allow white space between a here string indicator and the string</li>
  <li>Allow fd specifications outside the 0‥9 range for I/O redirections,
   and bounds check them to be lower than the <tt>FDBASE</tt> definition,
-  currently still 10 if MKSH_SMALL, 100 otherwise (unportable)</li>
+  currently still 10 if MKSH_SMALL, 24 otherwise (unportable)</li>
+ <li>Improve the regression test suite: for one test, we had a bizarre
+  constraint telling it won’t work on UWIN, which was based upon false
+  assumptions, but Tru64 would fail it since its cat(1) unexpectedly outputs
+  some error messages (fix by closing stderr for cat); another test would
+  unexpectedly print <em>no</em> error message on Solaris (fix by making
+  the error message optional in the perlre(1) used)</li>
+ <li>Switch back to en_US.UTF-8 for glibc, Debian can do both, Mandriva
+  fails on en_US.utf8 (XXX no libc5 auto-detection to disable it)</li>
 </ul>
 <p id="r33d">mksh R33d is a quick security-update with these changes:</p><ul>
  <li>Move a portability define from <tt>sh.h</tt> to the <tt>setmode.c</tt>
