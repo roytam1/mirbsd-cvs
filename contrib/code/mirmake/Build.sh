@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: src/share/misc/licence.template,v 1.6 2006/01/24 22:24:02 tg Rel $
+# $MirOS: contrib/code/mirmake/Build.sh,v 1.19 2006/03/19 21:08:42 tg Exp $
 #-
 # Copyright (c) 2004, 2005, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -114,7 +114,7 @@ for f in mksh mirbsdksh ksh; do
 done
 ms=NONE
 echo "Checking for mirbsdksh..."
-for s in $MKS $mktest; do
+for s in $MKS $MKSH $mktest $SHELL; do
 	echo "Trying ${s}..."
 	t="`$s -c 'let a=1; (( a + 1 )) 2>/dev/null && if [[ $KSH_VERSION = @(\@\(#\)MIRBSD KSH R)@(2[6-9]|[3-9][0-9]|[1-9][0-9][0-9])\ +([0-9])/+([0-9])/+([0-9]) ]]; then echo yes; else echo no; fi' 2>/dev/null`"
 	if [ x"$t" = x"yes" ]; then
