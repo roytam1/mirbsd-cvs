@@ -1,4 +1,4 @@
-# $MirOS: src/etc/profile,v 1.25 2006/07/06 00:43:27 tg Exp $
+# $MirOS: src/etc/profile,v 1.26 2006/07/08 19:59:57 tg Exp $
 #-
 umask 022
 [ -z "$KSH_VERSION" ] && alias print='echo -e'
@@ -43,7 +43,8 @@ EDITOR=/bin/ed
 unset HISTFILE
 HOSTNAME=$(ulimit -c 0; hostname -s 2>/dev/null)
 IRCNAME="MirOS packages a kernel, userland and the attitude"
-IRCSERVER=irc4.66h.42h.de	# irc.66h.42h.de supports IPv4 and IPv6 though
+IRCSERVER=irc4.mirbsd.org	# irc.mirbsd.org supports IPv4 and IPv6 though
+IRCPORT=6666			# irc*.mirbsd.org support SSL on port 6668 too
 OSNAME=$(ulimit -c 0; uname -s 2>/dev/null)
 OSNAME=${OSNAME:-unknown}
 PAGER=/usr/bin/less
@@ -81,8 +82,8 @@ elif [ -n "$BASH_VERSION" ]; then
 	[[ -n $NOCOLOURPROMPT || -z $COLORTERM ]] && PS1='bash:\u@\h:\w \$ '
 	_shellok=1
 fi
-export BROWSER CVSUMASK EDITOR HOME HOSTNAME IRCNAME IRCSERVER OSNAME
-export PAGER PS1 TERM USER USER_ID
+export BROWSER CVSUMASK EDITOR HOME HOSTNAME IRCNAME IRCPORT IRCSERVER
+export OSNAME PAGER PS1 TERM USER USER_ID
 unset NOCOLOURPROMPT PSX x
 alias cls='print -n \\033c'
 alias la='ls -Fa'
