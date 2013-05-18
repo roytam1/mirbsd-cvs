@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.145 2006/11/17 18:31:41 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.146 2006/11/19 13:17:27 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -2516,8 +2516,23 @@ CC_SPECS:=
 .  endif
 
 ${LOCALBASE}/db/specs: ${CC_SPECS}
-	@${CC} -dumpspecs | sed \
-	    's#/usr/bin/libtool#${LOCALBASE}/db/libtool#g' >$@
+	@if ! t=$$(mktemp /tmp/XXXXXXXXXXXX); then \
+		print -u2 Error: cannot make temporary file; \
+		exit 1; \
+	fi; \
+	if ! ${CC} -dumpspecs | sed \
+	    's#/usr/bin/libtool#${LOCALBASE}/db/libtool#g' >$$t; then \
+		print -u2 Error: cannot create specs file; \
+		rm -f $$t; \
+		exit 1; \
+	fi; \
+	if ! ${INSTALL} ${INSTALL_COPY} -o ${BINOWN} -g ${BINGRP} \
+	    -m ${NONBINMODE} $$t $@; then \
+		print -u2 Error: cannot install specs file; \
+		rm -f $$t; \
+		exit 1; \
+	fi; \
+	rm -f $$t; :
 .endif
 
 # This target generates an index entry suitable for aggregation into
