@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/ramdisk/list,v 1.4 2006/07/03 23:17:50 tg Exp $
+# $MirOS: src/distrib/ramdisk/list,v 1.5 2006/07/05 16:42:38 tg Exp $
 
 SRCDIRS distrib/ramtools distrib/special
 SRCDIRS bin sbin usr.bin usr.sbin libexec
@@ -38,9 +38,7 @@ LINK	instbin					sbin/init
 LINK	instbin					sbin/mknod
 LINK	instbin					sbin/mount
 LINK	instbin					sbin/mount_cd9660
-#LINK	instbin					sbin/mount_ext2fs
 LINK	instbin					sbin/mount_ffs
-#LINK	instbin					sbin/mount_msdos
 LINK	instbin					sbin/mount_nfs
 LINK	instbin					sbin/newfs sbin/mount_mfs
 LINK	instbin					sbin/ping
@@ -53,16 +51,13 @@ LINK	instbin					sbin/scsi
 LINK	instbin					sbin/swapctl
 LINK	instbin					sbin/umount
 LINK	instbin					usr/bin/compress usr/bin/gzip usr/bin/gunzip
-LINK	instbin					usr/bin/find
 LINK	instbin					usr/bin/ftp
 LINK	instbin					usr/bin/grep usr/bin/egrep usr/bin/fgrep
-LINK	instbin					usr/bin/hexdump usr/bin/hd usr/bin/od
-LINK	instbin					usr/bin/less usr/bin/more
 LINK	instbin					usr/bin/mktemp
+LINK	instbin					usr/bin/more usr/bin/less
 LINK	instbin					usr/bin/nc
 LINK	instbin					usr/bin/printf
 LINK	instbin					usr/bin/sed
-#LINK	instbin					usr/sbin/chroot
 LINK	instbin					usr/sbin/sysctl
 LINK	instbin					usr/sbin/vnconfig
 ARGVLINK mksh					-mksh
@@ -90,8 +85,8 @@ SCRIPT	${CURDIR}/../miniroot/dot.profile	.profile
 SCRIPT	${CURDIR}/../miniroot/install.sh	install
 SCRIPT	${CURDIR}/../miniroot/install.sub	install.sub
 SPECIAL	chmod 755 install
-SCRIPT	${CURDIR}/../miniroot/upgrade.sh	upgrade
-SPECIAL	chmod 755 upgrade
+#SCRIPT	${CURDIR}/../miniroot/upgrade.sh	upgrade
+#SPECIAL	chmod 755 upgrade
 
 # and a few bits of entropy
 SPECIAL	dd if=/dev/arandom bs=64 count=1 of=var/db/host.random
