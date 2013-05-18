@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/ramdisk/list.local,v 1.19 2006/05/17 11:33:09 tg Exp $
+# $MirOS: src/distrib/i386/ramdisk/list.local,v 1.20 2006/05/17 13:36:42 tg Exp $
 
 # extra
 
@@ -54,7 +54,6 @@ SPECIAL	cp ${DESTDIR}/etc/skel/.etc/ssh/known_hosts .etc/ssh/known_hosts
 
 # stuff
 
-LINK	instbin					bin/date
 LINK	instbin					bin/ps
 LINK	instbin					bin/sync
 LINK	instbin					sbin/ancontrol
@@ -66,17 +65,13 @@ LINK	instbin					sbin/mountd
 LINK	instbin					sbin/newfs_msdos
 LINK	instbin					sbin/nfsd
 LINK	instbin					sbin/pfctl
-LINK	instbin					sbin/ping6
 LINK	instbin					sbin/portmap
 LINK	instbin					sbin/raidctl
 LINK	instbin					sbin/restore
-LINK	instbin					sbin/rtsol
 LINK	instbin					sbin/scsi
-LINK	instbin					usr/bin/awk
 LINK	instbin					usr/bin/find
 LINK	instbin					usr/bin/gzsig
 LINK	instbin					usr/bin/less usr/bin/more
-LINK	instbin					usr/bin/mktemp
 LINK	instbin					usr/bin/passwd
 LINK	instbin					usr/bin/printf
 LINK	instbin					usr/bin/rpcinfo
