@@ -1,17 +1,50 @@
-$MirOS$
+$MirOS: ports/lang/pcc/patches/patch-Makefile_in,v 1.1 2008/10/28 12:00:46 tg Exp $
 
 	• Do *not* name targets after directories, files,
 	  etc. is a lession people OUGHT to have learned.
-	  This works around it… maybe.
+	⇒ Rewritten build system, submitted upstream.
 
---- Makefile.in.orig	Thu Jan  1 00:00:00 1970
-+++ Makefile.in	Tue Oct 28 11:55:00 2008
-@@ -28,7 +28,7 @@ distclean:
+--- Makefile.in.orig	Fri Jul 18 14:00:15 2008
++++ Makefile.in	Fri Apr 22 13:04:18 2011
+@@ -12,23 +12,25 @@ CPPFLAGS=@CPPFLAGS@
+ YACC=@YACC@
+ LEX=@LEX@
+ 
+-SUBDIR=cc
++ALL_SUBDIRS=	cc
++DIST_SUBDIRS=	$(ALL_SUBDIRS) f77
+ 
+-all: ${SUBDIR}
++all install clean:
++	@for subdir in $(ALL_SUBDIRS); do \
++		_nextdir_=$${_thisdir_+$$_thisdir_/}$$subdir; \
++		echo "===> $$_nextdir_"; \
++		(_thisdir_=$$_nextdir_; export _thisdir_; \
++		    cd $$subdir && $(MAKE) $(MFLAGS) $@); \
++		echo "<=== $$_nextdir_"; \
++	done
+ 
+-install:
+-	cd cc && ${MAKE} install
+-
+-clean:
+-	cd cc && ${MAKE} clean
+-
+ distclean:
+-	cd cc && ${MAKE} distclean
+-	cd f77 && ${MAKE} distclean
++	@for subdir in $(DIST_SUBDIRS); do \
++		_nextdir_=$${_thisdir_+$$_thisdir_/}$$subdir; \
++		echo "===> $$_nextdir_"; \
++		(_thisdir_=$$_nextdir_; export _thisdir_; \
++		    cd $$subdir && $(MAKE) $(MFLAGS) $@); \
++		echo "<=== $$_nextdir_"; \
++	done
  	/bin/rm -rf Makefile config.log stamp-h1 config.status \
- 	configure.lineno config.h autom4te.cache
- 
+-	configure.lineno config.h autom4te.cache
+-
 -${SUBDIR}: nonexistant
-+${SUBDIR}!
- 	cd $@ && $(MAKE) all $(MFLAGS)
- 
- nonexistant:
+-	cd $@ && $(MAKE) all $(MFLAGS)
+-
+-nonexistant:
++	    configure.lineno config.h autom4te.cache
