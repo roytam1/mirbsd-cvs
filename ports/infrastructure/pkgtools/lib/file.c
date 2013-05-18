@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/lib/file.c,v 1.9 2006/02/26 00:23:58 bsiegert Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/lib/file.c,v 1.10 2006/09/24 20:24:54 bsiegert Exp $ */
 /* $OpenBSD: file.c,v 1.26 2003/08/21 20:24:57 espie Exp $	*/
 
 /*
@@ -33,7 +33,7 @@
 #include <libgen.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/file.c,v 1.9 2006/02/26 00:23:58 bsiegert Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/file.c,v 1.10 2006/09/24 20:24:54 bsiegert Exp $");
 
 /* Try to find the log dir for an incomplete package specification.
  * Used in pkg_info and pkg_delete. Returns the number of matches,
@@ -591,8 +591,8 @@ write_file(const char *name, const char *str)
 	len = strlen(str);
 	if (fwrite(str, 1, len, fp) != len) {
 		cleanup(0);
-		errx(2, "short fwrite on '%s', tried to write %d bytes",
-			name, len);
+		errx(2, "short fwrite on '%s', tried to write %lu bytes",
+			name, (u_long)len);
 	}
 	if (fclose(fp)) {
 		cleanup(0);

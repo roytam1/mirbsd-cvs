@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/lib/plist.c,v 1.4 2005/11/19 02:05:29 bsiegert Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/lib/plist.c,v 1.5 2005/11/23 17:41:06 bsiegert Exp $ */
 /*	$OpenBSD: plist.c,v 1.17 2003/08/21 20:24:57 espie Exp $	*/
 
 /*
@@ -26,7 +26,7 @@
 #include <md5.h>
 #include "rcdb.h"
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/plist.c,v 1.4 2005/11/19 02:05:29 bsiegert Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/plist.c,v 1.5 2005/11/23 17:41:06 bsiegert Exp $");
 
 #define NULLMD5 "d41d8cd98f00b204e9800998ecf8427e"
 
@@ -231,7 +231,7 @@ new_plist_entry(void)
 	plist_t *ret;
 
 	if ((ret = (plist_t *)malloc(sizeof(plist_t))) == NULL) {
-		err(1, "can't allocate %d bytes", sizeof(plist_t));
+		err(1, "can't allocate %d bytes", (int)sizeof(plist_t));
 	}
 	memset(ret, 0, sizeof(plist_t));
 	return ret;
