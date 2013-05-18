@@ -1,10 +1,12 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.8 2002/12/29 20:31:40 fgsch Exp $
 
-COMMENT=			perl5 interface to GnuPG using scalars
+COMMENT=	perl5 interface to GnuPG using scalars
 
 VERSION=	0.06
+DASH_VER=	1
 DISTNAME=	GPG-${VERSION}
-PKGNAME=	p5-${DISTNAME}-0
+PKGNAME=	p5-${DISTNAME}-${DASH_VER}
 CATEGORIES=	security perl5
 MASTER_SITES=	${MASTER_SITE_PERL_CPAN:=../../authors/id/M/MI/MILES}
 
