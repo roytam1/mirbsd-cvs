@@ -2682,6 +2682,7 @@ do
     done
   done
 done
+IFS=$as_save_IFS
 lt_ac_max=0
 lt_ac_count=0
 # Add /usr/xpg4/bin/sed as it is typically found on Solaris
@@ -3077,6 +3078,10 @@ osf3* | osf4* | osf5*)
   lt_cv_deplibs_check_method=pass_all
   ;;
 
+rdos*)
+  lt_cv_deplibs_check_method=pass_all
+  ;;
+
 solaris*)
   lt_cv_deplibs_check_method=pass_all
   ;;
@@ -3181,7 +3186,7 @@ ia64-*-hpux*)
   ;;
 *-*-irix6*)
   # Find out which ABI we are using.
-  echo '#line 3184 "configure"' > conftest.$ac_ext
+  echo '#line 3189 "configure"' > conftest.$ac_ext
   if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
   (eval $ac_compile) 2>&5
   ac_status=$?
@@ -4669,7 +4674,7 @@ fi
 
 
 # Provide some information about the compiler.
-echo "$as_me:4672:" \
+echo "$as_me:4677:" \
      "checking for Fortran 77 compiler version" >&5
 ac_compiler=`set X $ac_compile; echo $2`
 { (eval echo "$as_me:$LINENO: \"$ac_compiler --version </dev/null >&5\"") >&5
@@ -5742,11 +5747,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:5745: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:5750: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:5749: \$? = $ac_status" >&5
+   echo "$as_me:5754: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings other than the usual output.
@@ -5932,6 +5937,10 @@ echo $ECHO_N "checking for $compiler option to produce PIC... $ECHO_C" >&6
       lt_prog_compiler_static='-non_shared'
       ;;
 
+    rdos*)
+      lt_prog_compiler_static='-non_shared'
+      ;;
+
     solaris*)
       lt_prog_compiler_pic='-KPIC'
       lt_prog_compiler_static='-Bstatic'
@@ -6010,11 +6019,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:6013: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:6022: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:6017: \$? = $ac_status" >&5
+   echo "$as_me:6026: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings other than the usual output.
@@ -6114,11 +6123,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:6117: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:6126: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>out/conftest.err)
    ac_status=$?
    cat out/conftest.err >&5
-   echo "$as_me:6121: \$? = $ac_status" >&5
+   echo "$as_me:6130: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s out/conftest2.$ac_objext
    then
      # The compiler can only warn and ignore the option if not recognized
@@ -6915,17 +6924,16 @@ _LT_EOF
       case $host_os in
       solaris2.[0-5] | solaris2.[0-5].*) ;;
       *)
-	# The compiler driver will combine linker options so we
-	# cannot just pass the convience library names through
-	# without $wl, iff we do not link with $LD.
-	# Luckily, gcc supports the same syntax we need for Sun Studio.
-	# Supported since Solaris 2.6 (maybe 2.5.1?)
-	case $wlarc in
-	'')
-	  whole_archive_flag_spec='-z allextract$convenience -z defaultextract' ;;
-	*)
-	  whole_archive_flag_spec='${wl}-z ${wl}allextract`for conv in $convenience\"\"; do test -n \"$conv\" && new_convenience=\"$new_convenience,$conv\"; done; $echo \"$new_convenience\"` ${wl}-z ${wl}defaultextract' ;;
-	esac ;;
+	# The compiler driver will combine and reorder linker options,
+	# but understands `-z linker_flag'.  GCC discards it without `$wl',
+	# but is careful enough not to reorder.
+ 	# Supported since Solaris 2.6 (maybe 2.5.1?)
+	if test "$GCC" = yes; then
+	  whole_archive_flag_spec='${wl}-z ${wl}allextract$convenience ${wl}-z ${wl}defaultextract'
+	else
+	  whole_archive_flag_spec='-z allextract$convenience -z defaultextract'
+	fi
+	;;
       esac
       link_all_deplibs=yes
       ;;
@@ -7367,7 +7375,7 @@ freebsd* | dragonfly*)
     shlibpath_overrides_runpath=no
     hardcode_into_libs=yes
     ;;
-  freebsd*) # from 4.6 on
+  *) # from 4.6 on, and DragonFly
     shlibpath_overrides_runpath=yes
     hardcode_into_libs=yes
     ;;
@@ -7616,6 +7624,10 @@ osf3* | osf4* | osf5*)
   shlibpath_var=LD_LIBRARY_PATH
   sys_lib_search_path_spec="/usr/shlib /usr/ccs/lib /usr/lib/cmplrs/cc /usr/lib /usr/local/lib /var/shlib"
   sys_lib_dlsearch_path_spec="$sys_lib_search_path_spec"
+  ;;
+
+rdos*)
+  dynamic_linker=no
   ;;
 
 solaris*)
@@ -8390,7 +8402,7 @@ else
   lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<EOF
-#line 8393 "configure"
+#line 8405 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -8490,7 +8502,7 @@ else
   lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<EOF
-#line 8493 "configure"
+#line 8505 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -8722,7 +8734,7 @@ if test -f "$ltmain"; then
 cfgfile="${ofile}T"
   trap "$rm \"$cfgfile\"; exit 1" 1 2 15
   $rm -f "$cfgfile"
-  echo "$as_me:8725: creating $ofile" >&5
+  echo "$as_me:8737: creating $ofile" >&5
   echo "$as_me: creating $ofile" >&6
 
   cat <<__EOF__ >> "$cfgfile"
@@ -8732,7 +8744,7 @@ cfgfile="${ofile}T"
 # Generated automatically by $PROGRAM (GNU $PACKAGE $VERSION$TIMESTAMP)
 # NOTE: Changes made to this file will be lost: look at ltmain.sh.
 #
-# Copyright (C) 1996, 1997, 1998, 1999, 2000, 2001, 2005
+# Copyright (C) 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006
 # Free Software Foundation, Inc.
 #
 # This file is part of MirLibtool, by The MirOS Project.
@@ -10167,15 +10179,10 @@ case $host_os in
 	case $host_os in
 	  solaris2.[0-5] | solaris2.[0-5].*) ;;
 	  *)
-	    # The C++ compiler is used as linker so we must use $wl
-	    # flag to pass the commands to the underlying system
-	    # linker. We must also pass each convience library through
-	    # to the system linker between allextract/defaultextract.
-	    # The C++ compiler will combine linker options so we
-	    # cannot just pass the convience library names through
-	    # without $wl.
+	    # The compiler driver will combine and reorder linker options,
+	    # but understands `-z linker_flag'.
 	    # Supported since Solaris 2.6 (maybe 2.5.1?)
-	    whole_archive_flag_spec_CXX='${wl}-z ${wl}allextract`for conv in $convenience\"\"; do test -n \"$conv\" && new_convenience=\"$new_convenience,$conv\"; done; $echo \"$new_convenience\"` ${wl}-z ${wl}defaultextract'
+	    whole_archive_flag_spec_CXX='-z allextract$convenience -z defaultextract'
 	    ;;
 	esac
 	link_all_deplibs_CXX=yes
@@ -10222,6 +10229,12 @@ case $host_os in
 	  fi
 
 	  hardcode_libdir_flag_spec_CXX='${wl}-R $wl$libdir'
+	  case $host_os in
+	  solaris2.[0-5] | solaris2.[0-5].*) ;;
+	  *)
+	    whole_archive_flag_spec_CXX='${wl}-z ${wl}allextract$convenience ${wl}-z ${wl}defaultextract'
+	    ;;
+	  esac
 	fi
 	;;
     esac
@@ -10746,11 +10759,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:10749: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:10762: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:10753: \$? = $ac_status" >&5
+   echo "$as_me:10766: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings other than the usual output.
@@ -10850,11 +10863,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:10853: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:10866: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>out/conftest.err)
    ac_status=$?
    cat out/conftest.err >&5
-   echo "$as_me:10857: \$? = $ac_status" >&5
+   echo "$as_me:10870: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s out/conftest2.$ac_objext
    then
      # The compiler can only warn and ignore the option if not recognized
@@ -11259,7 +11272,7 @@ freebsd* | dragonfly*)
     shlibpath_overrides_runpath=no
     hardcode_into_libs=yes
     ;;
-  freebsd*) # from 4.6 on
+  *) # from 4.6 on, and DragonFly
     shlibpath_overrides_runpath=yes
     hardcode_into_libs=yes
     ;;
@@ -11508,6 +11521,10 @@ osf3* | osf4* | osf5*)
   shlibpath_var=LD_LIBRARY_PATH
   sys_lib_search_path_spec="/usr/shlib /usr/ccs/lib /usr/lib/cmplrs/cc /usr/lib /usr/local/lib /var/shlib"
   sys_lib_dlsearch_path_spec="$sys_lib_search_path_spec"
+  ;;
+
+rdos*)
+  dynamic_linker=no
   ;;
 
 solaris*)
@@ -12364,6 +12381,10 @@ echo $ECHO_N "checking for $compiler option to produce PIC... $ECHO_C" >&6
       lt_prog_compiler_static_F77='-non_shared'
       ;;
 
+    rdos*)
+      lt_prog_compiler_static_F77='-non_shared'
+      ;;
+
     solaris*)
       lt_prog_compiler_pic_F77='-KPIC'
       lt_prog_compiler_static_F77='-Bstatic'
@@ -12442,11 +12463,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:12445: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:12466: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:12449: \$? = $ac_status" >&5
+   echo "$as_me:12470: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings other than the usual output.
@@ -12546,11 +12567,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:12549: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:12570: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>out/conftest.err)
    ac_status=$?
    cat out/conftest.err >&5
-   echo "$as_me:12553: \$? = $ac_status" >&5
+   echo "$as_me:12574: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s out/conftest2.$ac_objext
    then
      # The compiler can only warn and ignore the option if not recognized
@@ -13347,17 +13368,16 @@ _LT_EOF
       case $host_os in
       solaris2.[0-5] | solaris2.[0-5].*) ;;
       *)
-	# The compiler driver will combine linker options so we
-	# cannot just pass the convience library names through
-	# without $wl, iff we do not link with $LD.
-	# Luckily, gcc supports the same syntax we need for Sun Studio.
-	# Supported since Solaris 2.6 (maybe 2.5.1?)
-	case $wlarc in
-	'')
-	  whole_archive_flag_spec_F77='-z allextract$convenience -z defaultextract' ;;
-	*)
-	  whole_archive_flag_spec_F77='${wl}-z ${wl}allextract`for conv in $convenience\"\"; do test -n \"$conv\" && new_convenience=\"$new_convenience,$conv\"; done; $echo \"$new_convenience\"` ${wl}-z ${wl}defaultextract' ;;
-	esac ;;
+	# The compiler driver will combine and reorder linker options,
+	# but understands `-z linker_flag'.  GCC discards it without `$wl',
+	# but is careful enough not to reorder.
+ 	# Supported since Solaris 2.6 (maybe 2.5.1?)
+	if test "$GCC" = yes; then
+	  whole_archive_flag_spec_F77='${wl}-z ${wl}allextract$convenience ${wl}-z ${wl}defaultextract'
+	else
+	  whole_archive_flag_spec_F77='-z allextract$convenience -z defaultextract'
+	fi
+	;;
       esac
       link_all_deplibs_F77=yes
       ;;
@@ -13799,7 +13819,7 @@ freebsd* | dragonfly*)
     shlibpath_overrides_runpath=no
     hardcode_into_libs=yes
     ;;
-  freebsd*) # from 4.6 on
+  *) # from 4.6 on, and DragonFly
     shlibpath_overrides_runpath=yes
     hardcode_into_libs=yes
     ;;
@@ -14048,6 +14068,10 @@ osf3* | osf4* | osf5*)
   shlibpath_var=LD_LIBRARY_PATH
   sys_lib_search_path_spec="/usr/shlib /usr/ccs/lib /usr/lib/cmplrs/cc /usr/lib /usr/local/lib /var/shlib"
   sys_lib_dlsearch_path_spec="$sys_lib_search_path_spec"
+  ;;
+
+rdos*)
+  dynamic_linker=no
   ;;
 
 solaris*)
@@ -14704,11 +14728,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:14707: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:14731: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:14711: \$? = $ac_status" >&5
+   echo "$as_me:14735: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings other than the usual output.
@@ -14894,6 +14918,10 @@ echo $ECHO_N "checking for $compiler option to produce PIC... $ECHO_C" >&6
       lt_prog_compiler_static_GCJ='-non_shared'
       ;;
 
+    rdos*)
+      lt_prog_compiler_static_GCJ='-non_shared'
+      ;;
+
     solaris*)
       lt_prog_compiler_pic_GCJ='-KPIC'
       lt_prog_compiler_static_GCJ='-Bstatic'
@@ -14972,11 +15000,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:14975: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:15003: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:14979: \$? = $ac_status" >&5
+   echo "$as_me:15007: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings other than the usual output.
@@ -15076,11 +15104,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:15079: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:15107: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>out/conftest.err)
    ac_status=$?
    cat out/conftest.err >&5
-   echo "$as_me:15083: \$? = $ac_status" >&5
+   echo "$as_me:15111: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s out/conftest2.$ac_objext
    then
      # The compiler can only warn and ignore the option if not recognized
@@ -15877,17 +15905,16 @@ _LT_EOF
       case $host_os in
       solaris2.[0-5] | solaris2.[0-5].*) ;;
       *)
-	# The compiler driver will combine linker options so we
-	# cannot just pass the convience library names through
-	# without $wl, iff we do not link with $LD.
-	# Luckily, gcc supports the same syntax we need for Sun Studio.
-	# Supported since Solaris 2.6 (maybe 2.5.1?)
-	case $wlarc in
-	'')
-	  whole_archive_flag_spec_GCJ='-z allextract$convenience -z defaultextract' ;;
-	*)
-	  whole_archive_flag_spec_GCJ='${wl}-z ${wl}allextract`for conv in $convenience\"\"; do test -n \"$conv\" && new_convenience=\"$new_convenience,$conv\"; done; $echo \"$new_convenience\"` ${wl}-z ${wl}defaultextract' ;;
-	esac ;;
+	# The compiler driver will combine and reorder linker options,
+	# but understands `-z linker_flag'.  GCC discards it without `$wl',
+	# but is careful enough not to reorder.
+ 	# Supported since Solaris 2.6 (maybe 2.5.1?)
+	if test "$GCC" = yes; then
+	  whole_archive_flag_spec_GCJ='${wl}-z ${wl}allextract$convenience ${wl}-z ${wl}defaultextract'
+	else
+	  whole_archive_flag_spec_GCJ='-z allextract$convenience -z defaultextract'
+	fi
+	;;
       esac
       link_all_deplibs_GCJ=yes
       ;;
@@ -16329,7 +16356,7 @@ freebsd* | dragonfly*)
     shlibpath_overrides_runpath=no
     hardcode_into_libs=yes
     ;;
-  freebsd*) # from 4.6 on
+  *) # from 4.6 on, and DragonFly
     shlibpath_overrides_runpath=yes
     hardcode_into_libs=yes
     ;;
@@ -16578,6 +16605,10 @@ osf3* | osf4* | osf5*)
   shlibpath_var=LD_LIBRARY_PATH
   sys_lib_search_path_spec="/usr/shlib /usr/ccs/lib /usr/lib/cmplrs/cc /usr/lib /usr/local/lib /var/shlib"
   sys_lib_dlsearch_path_spec="$sys_lib_search_path_spec"
+  ;;
+
+rdos*)
+  dynamic_linker=no
   ;;
 
 solaris*)

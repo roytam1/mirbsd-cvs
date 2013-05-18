@@ -1,4 +1,4 @@
-# Makefile.in generated automatically by automake 1.4-p6 from Makefile.am
+# Makefile.in generated automatically by automake 1.4p6-MirPorts-5 from Makefile.am
 
 # Copyright (C) 1994, 1995-8, 1999, 2001 Free Software Foundation, Inc.
 # This Makefile.in is free software; the Free Software Foundation
@@ -245,10 +245,10 @@ maintainer-clean-noinstLTLIBRARIES:
 	$(COMPILE) -c `cygpath -w $<`
 
 .s.o:
-	$(COMPILE) -c $<
+	$(COMPILE) -c -D_ASM_SOURCE $<
 
 .S.o:
-	$(COMPILE) -c $<
+	$(COMPILE) -c -D_ASM_SOURCE $<
 
 mostlyclean-compile:
 	-rm -f *.o core *.core
@@ -265,7 +265,7 @@ maintainer-clean-compile:
 	$(LIBTOOL) --mode=compile $(COMPILE) -c $<
 
 .S.lo:
-	$(LIBTOOL) --mode=compile $(COMPILE) -c $<
+	$(LIBTOOL) --mode=compile $(COMPILE) -c -D_ASM_SOURCE $<
 
 mostlyclean-libtool:
 	-rm -f *.lo
