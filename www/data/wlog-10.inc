@@ -1097,14 +1097,15 @@ Title: mksh on… platforms
 ----
 Date: 17.07.2008 21:43
 Author: tg@
-Title: <a href="@@RELPATH@@mksh.htm">mksh</a> – The iShell
+Title: mksh – The iShell
 
+<h3><a href="@@RELPATH@@mksh.htm">mksh</a> – The iShell</h3>
 <p style="margin-bottom:0px;">Try this:</p>
 <div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;">
  <pre>
 	$ cvs -d anoncvs@anoncvs.mirbsd.org:/cvs co -PA mksh
 	$ cd mksh
-	$ cat >iBuild.sh <<-'EOF'
+	$ cat &gt;iBuild.sh &lt;&lt;-'EOF'
 		DEV=/Developer/Platforms/iPhoneOS.platform/Developer
 		SDK=${DEV}/SDKs/iPhoneOS2.0.sdk
 		CC="${DEV}/usr/bin/gcc-4.0 -arch arm"
