@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.227 2009/08/12 14:35:11 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.228 2009/08/12 14:50:31 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -4723,4 +4723,42 @@ Tag: bug snapshot
  of the snapshot again. Anyway, as soon as it’s up (probably tomorrow
  afternoon, as it has to be uploaded from here first), have fun.
  I’ll change the <a href="@@RELPATH@@irc.htm">channel</a> topic.</p>
+----
+Title: more about the FrOSCon ISO
+Date: 13.08.2009 15:00
+Author: tg@
+
+<p>I’m ill. I’ve not kissed a porc though, so I think it’s some kind
+ of the common cold. Today, the headaches are killing me; I guess that
+ when I finished the snapshot for the first time on 2009/08/11 night,
+ my body decided it could relax now and let things out. Damn. Anyway,
+ I’ll be finishing the FrOSCon DuaLive™/Triforce ISO this weekend, and
+ there will be <em>no</em> binary packages on it thusly. Better that
+ than untested or uninstallable ones. Users will, however, be able to
+ get a variety of them from our download area (large variety for i386
+ built by bsiegert@ and small variety I’ll be baking for sparc). There
+ also won’t be a new MirGRML (but the grml-FrOSCon edition ISO will
+ contain a new MirOS bsd4grml, since that was made at approximately
+ zero cost, since it “fell out” of the snapshot building anyway – and
+ had me discover the manpage bug) this time, due to lack of that.</p>
+<p>I’m hoping the headaches and other symptoms will leave me ASAP, so
+ that I can go back to work tomorrow – as today is the second day, I’d
+ need to see a doctor otherwise, which sucks even more (as it involves
+ quite some money and a 1½hr-per-direction bus+tram+train ride), and
+ it’s not <em>that</em> bad. I just cannot concentrate. – Retrospectively,
+ I think I’ve been ill last week already, considering how badly I could
+ concentrate back then (might also had to do with the huge number of
+ small things we has to take care of) and the bodily condition… (The
+ weather also has been killing me, fluctuating between 12°C and 24°C
+ at night, 18°C and 30°C at day, cold/dry, cold/raining, hot/dry and
+ hot/humid (extremely), with a few warm/humid/raining in between.)</p>
+<p>Ah, if someone didn’t get it: the netinstall area now contains the
+ i386=20090812 sparc=20090811* (tweaked) snapshot, which is what will
+ be on CD, on <tt>/MirOS/current/</tt> and everyone is invited to test
+ that – especially on sparc, the floppies (all five of them), and maybe
+ the separate five arch-specific ISOs too not just the larger combined
+ one. And there will be buttons again. (Sorry if I made nōn sequitur –
+ I <em>do</em> have a rather heavy headache right now, but just could
+ not go back to sleep two hours ago.)</p>
+<p>PS: <a href="http://www.froscon.org/">go here</a></p>
 ----
