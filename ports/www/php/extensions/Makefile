@@ -1,4 +1,4 @@
-# $MirOS: ports/www/php/extensions/Makefile,v 1.22 2008/05/02 15:41:38 tg Exp $
+# $MirOS: ports/www/php/extensions/Makefile,v 1.23 2008/05/02 15:43:07 tg Exp $
 # $OpenBSD: Makefile,v 1.17 2005/12/29 23:06:28 sturm Exp $
 
 FULLPKGNAME=		php-extensions-${V}-${DASH_VER}
@@ -17,7 +17,7 @@ BUILD_DEPENDS+=		${CORE_LIB_DEPENDS}
 RUN_DEPENDS+=		${CORE_DEPENDENCY}
 
 GRAPHIC_DEPENDS=	jpeg.62::graphics/jpeg
-MODPNG_INHIBIT=		#defined
+MODPNG_AUTODEPS=	No
 MODULES+=		graphics/png
 GRAPHIC_DEPENDS+=	${MODPNG_DEPENDS}
 

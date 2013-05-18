@@ -1,7 +1,8 @@
-# $MirOS: ports/graphics/png/png.port.mk,v 1.9 2008/04/12 20:22:14 tg Exp $
+# $MirOS: ports/graphics/png/png.port.mk,v 1.10 2008/05/02 14:52:13 tg Exp $
 
 # Valid choices: any, base, port
 USE_PNG?=		any
+MODPNG_AUTODEPS?=	Yes
 
 .if ${USE_PNG:L:Many}
 .  if ${OStype} != "MirBSD"
@@ -25,6 +26,6 @@ PNG_BASE=		/usr
 .  error USE_PNG=${USE_PNG:L} invalid
 .endif
 
-.ifndef MODPNG_INHIBIT
+.if ${MODPNG_AUTODEPS:L} == "yes"
 LIB_DEPENDS+=		${MODPNG_DEPENDS}
 .endif
