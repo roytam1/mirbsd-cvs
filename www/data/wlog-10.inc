@@ -1201,3 +1201,55 @@ Title: MirEwe requiescas in pacem
  them by rewriting the <tt>initial_entropy</tt> array. TODO. The snapshot,
  dualive ISO 9660 image, is almost complete and will be uploaded later.</p>
 ----
+Date: 23.07.2008 01:47
+Author: tg@
+Title: Trumping OpenBSD, once again ☺
+
+<p>With the latest edition of MirOS #10-current’s snapshot (read the <a
+ href="@@RELPATH@@permalinks/news_e20080722-tg.htm">announcement</a> for
+ more details), we have trumped OpenBSD once more. While being dual-arch
+ is nothing new (to them), and being runnable as Live-HDD, Live-CF-Card,
+ etc. is nothing new (to us), we haven’t yet had a dual-arch Live-CD/DVD
+ (or HDD or CF/SD/MMC/… Card or USB stick) yet. Well, only one of the two
+ architectures has Live CD capability, but we neither have baselive image
+ capability for sparc yet (though that would be possible, even if somewhat
+ kludgy) nor would it have fit on the ISO 9660 image within the boundaries
+ of a CD-R. And DVDs don’t match well with SPARCstation 20s ☻</p>
+<p>Coming to that, I recently recherched if gcc 3.4.6, which we currently
+ use as system compiler, can be used to build gcc 4.3 (with special care
+ on the Ada part). Looks like you can even use gcc 2.95 for that, lucky us.
+ This means I should somehow discover the Ada patch for gdb 6.3, which –
+ again, luckily – we use, and apply it. I had talked with Benny about the
+ compiler issue… originally I wanted to strip down the system compiler to
+ the bare minimum once a more recent gcc (and possibly, LLVM, SUNWcc, pcc,
+ etc.) are in ports and usable, but with the proposals to rewrite gcc in
+ dreaded C++, C++ API issues, licencing issues, Ada bootstrapping, etc. we
+ will probably continue to require GNU make for building the base compiler
+ (the bad part) and be able to announce we’re good for developing (the good
+ part of keeping the full-featured gcc near base). Just the Java™ part will
+ not be re-enabled in near future, as it isn’t used for bootstrapping Iced
+ Tea anyway. (It <em>can</em> be used for simple things though.)</p>
+<p>With all the friendly fire, OpenBSD bashing, etc. aside, I would like to
+ use this place to thank a few OpenBSD developers for helping me out with a
+ bug in <a href="@@RELPATH@@mksh.htm">mksh</a> as well as the issue with
+ sshd(8) on sparc (and probably i386 even if it didn’t show up) I had (which
+ even was my own fault). While you guys still don’t have an mksh port in
+ your tree, some of you are really helpful (also hi Miod) sometimes, and
+ I hope we can drink a few beer together at the next FOSDEM etc. and <a
+ href="@@RELPATH@@permalinks/news_e20080722-tg-g10001.htm">FrOSCon</a> of
+ course. (Which I hope we will also be able to use to discuss the state of
+ our X11 tree.) To Linus: while OpenBSD developers may be masturbating
+ monkeys, at least they’re able to design stable APIs, drink beer, and use
+ sane version control systems with central quality control <strong>while
+ being annoyed by humppa</strong>.</p>
+<p>The usual unrelated news: Basel, ich komme! Schon mal GRÜẞE im Voraus
+ an die Schweizer, die dies lesen.</p>
+<p>mksh side notes: some older versions of SunC 5.9 fail on <tt>({</tt>
+ stuff in acomp, use <tt>env HAVE_EXPSTMT=0</tt> to build then. <a
+ href="http://nwcc.sourceforge.net/">nwcc</a> also has issues.</p>
+<p>MirBSD side notes: We build for V8 CPUs on sparc, but still only V7 are
+ emulated by <a href="http://people.csail.mit.edu/fredette/tme/">tme</a>.
+ And while V9 CPUs in V8+ mode shouldn’t be a problem, there’s no interest
+ from the OpenBSD camp to run the sparc (not sparc64) port on sun4u or even
+ sun4v machines, so no fast build machines yet… *snief*</p>
+----
