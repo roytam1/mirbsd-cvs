@@ -1,5 +1,7 @@
-.\" $MirOS: src/share/tmac/tmac.doc.old,v 1.2 2007/01/27 04:42:19 tg Exp $
+.\" $MirOS: src/share/tmac/tmac.doc.old,v 1.3 2009/11/22 16:40:31 tg Exp $
 .\"
+.\" Copyright (c) 2009 Thorsten Glaser.
+.\" Slightly modified by jjc@jclark.com to work with groff as well.
 .\" Copyright (c) 1990 The Regents of the University of California.
 .\" All rights reserved.
 .\"
@@ -29,7 +31,13 @@
 .\"
 .\"     @(#)tmac.doc.old	5.2 (Berkeley) 3/13/91
 .\"
-.\" Assume nroff on crt's only if cR==1
+.\" Character fixes for GNU groff (like MirBSD doc/doc-groff)
+.if \n(.g \{\
+.	if \*[.T]ascii .tr \-\N'45'
+.	if \*[.T]latin1 .tr \-\N'45'
+.	if \*[.T]utf8 .tr \-\N'45'
+.\}
+.\" Assume nroff on CRTs only if cR==1
 .if n .nr cR 1
 .\"	STRING CONSTANTS
 .\" 	DITROFF
@@ -292,6 +300,14 @@
 .	ds sL `
 .	ds sR '
 .\}
+.if \n(.g \{\
+.	ds sL \(ga
+.	ds sR \(aa
+.	if \*[.T]utf8 .ds sL `
+.	if \*[.T]ps .ds sL `
+.	if \*[.T]utf8 .ds sR '
+.	if \*[.T]ps .ds sR '
+.\}
 .\" Note: The distances from the bottom or top of the page are set
 .\" in headers (macro .hK): to -1.25 for troff, and -1.167 for nroff
 .\" bottoms, and top is 0.
@@ -346,7 +362,7 @@
 .\" .	ds oS (\fIBag o' Bits\fP)
 .\}
 .if "\\$2"" \{\
-.	ds o1 Non-Null
+.	ds o1 Non\-Null
 .\}
 .if "\\$1"ATT"   \{\
 .	ds oS AT&T
@@ -369,7 +385,7 @@
 .	if "\\$2"4.3+" .ds oS 4.3+tahoe Berkeley Distribution
 .\}
 .if "\\*(oS"Null" .ds oS \\$1
-.if "\\*(o1"Non-Null" .as oS \0\\$2
+.if "\\*(o1"Non\-Null" .as oS \0\\$2
 .rm o1
 ..
 .\"
@@ -412,7 +428,7 @@
 ..
 .\"
 .\"	House Keeping Macro - Make sense of dT, cH, vT, sT, gP and dS
-.\"	TODO: Try to get else's for efficiency
+.\"	TODO: Try to get elses for efficiency
 .\"	TODO: GET RID OF .wh -1.167i (its in v7)
 .\"
 .\"
@@ -485,16 +501,16 @@
 .Pp
 ..
 .de LP
-.tm Not a -mdoc command: .LP
+.tm Not a \-mdoc command: .LP
 ..
 .de PP
-.tm Not a -mdoc command: .PP
+.tm Not a \-mdoc command: .PP
 ..
 .de pp
-.tm Not a -mdoc command: .pp
+.tm Not a \-mdoc command: .pp
 ..
 .de Co
-.tm Not a -mdoc command: .Co
+.tm Not a \-mdoc command: .Co
 ..
 .nr z. 1
 .nr z, 1
@@ -1064,6 +1080,7 @@
 .\}
 ..
 .\" macro Name test, return macro register value if true
+.if \n(.g .ig
 .de mN
 .nr mN 0
 .sW \\$1
@@ -1071,13 +1088,36 @@
 .	if \\n(\\$1 .nr mN \\n(\\$1
 .\}
 ..
+.if !\n(.g .ig
+.de mN
+.nr mN 0
+.if \A'\\$1' \{\
+.	sW \\$1
+.	if \\n(sW==2 \{\
+.		if \\n(\\$1 .nr mN \\n(\\$1
+.	\}
+.\}
+..
 .\" Punctuation test (using z registers), return 1 if true
+.if \n(.g .ig
 .de rZ
 .nr rZ 0
 .sW \\$1
 .if \\n(sW==1 \{\
 .	if \\n(z\\$1==1 \{\
 .		nr rZ 1
+.	\}
+.\}
+..
+.if !\n(.g .ig
+.de rZ
+.nr rZ 0
+.if \A'\\$1' \{\
+.	sW \\$1
+.	if \\n(sW==1 \{\
+.		if \\n(z\\$1==1 \{\
+.			nr rZ 1
+.		\}
 .	\}
 .\}
 ..
@@ -1164,7 +1204,7 @@
 .\" .tm dO:word $1: \\$1: eP \\n(eP e[\\n(eP]: \\*(e\\n(ePEE
 .		if \\n(eP==0:\\n(e\\n(eP==1 .nr eP \\n(eP+1
 .		if \\n(eZ .as e\\n(eP \& \&
-.		as e\\n(eP \&\\$1
+.		as e\\n(eP " \&\\$1
 .\" .		ds e\\n(eP \&\\$1
 .		nr eZ \\n(eZ+1
 .	\}
@@ -1445,7 +1485,7 @@
 .		ds f1 \&
 .	\}
 .	mN \\$1
-.\" Here are the args: `\\$1'  `\\$2'  `\\$3'  `\\$4'
+.\" Here are the args: “\\$1”  “\\$2”  “\\$3”  “\\$4”
 .	ie \\n(mN .\\$1 \\$2 \\$3 \\$4 \\$5 \\$6 \\$7 \\$8 \\$9
 .	el \{\
 .		as f1 \&\\$1
@@ -1649,7 +1689,7 @@
 .	ie (\\n(\\$2\\n(\\$3u-2n)<=\\n(dlu \{\&\\*(tD\\*(tP
 .	       if !\\n(tP .br
 .	\}
-.	el \\*(tD\h'|\\n(\\$2\\n(\\$3u-'\c
+.	el \\*(tD\h'|\\n(\\$2\\n(\\$3u'\c
 .	if t 'ad
 .\}
 .	ds iM
