@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/dot.profile,v 1.47 2009/01/26 09:03:18 tg Exp $
+# $MirOS: src/distrib/common/dot.profile,v 1.48 2009/01/26 09:04:08 tg Exp $
 # $OpenBSD: dot.profile,v 1.4 2002/09/13 21:38:47 deraadt Exp $
 # $NetBSD: dot.profile,v 1.1 1995/12/18 22:54:43 pk Exp $
 #
@@ -86,6 +86,7 @@ if [ ! -f /.profile.done ]; then
 	# on sparc, use the nvram to provide some additional entropy
 	# also read some stuff from the HDD etc. (doesn't matter if it breaks)
 	[[ -x /usr/libexec/cprng ]] && /usr/libexec/cprng -p
+	[[ -x /usr/libexec/tpmrng ]] && /usr/libexec/tpmrng
 	( ( (for d in {w,s,rai,c}:128, r:1,128; do b=${d#*,}; d=${d%,*}; dd \
 	     if=/dev/r${d%:*}d0c count=${d#*:} ${b:+bs=$b of=/dev/urandom}; \
 	     done; eeprom; dmesg; sysctl -a) 2>&1 | cksum -backsum -asha512 \

@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/listend.i386-big,v 1.32 2008/12/18 17:20:33 tg Exp $
+# $MirOS: src/distrib/common/listend.i386-big,v 1.33 2009/01/12 21:54:40 tg Exp $
 
 # extra programmes
 LINK	instbin					bin/ps
@@ -73,6 +73,9 @@ SPECIAL	sed 's!.server ntp.example.invalid!server ntp.mirbsd.org!' <${DESTDIR}/e
 SCRIPT	${TOPDIR}/common/install.i386		install.md
 SCRIPT	${TOPDIR}/common/upgrade.sh		upgrade
 SPECIAL	chmod 755 install.md upgrade
+
+# misc stuff
+COPY	${DESTDIR}/usr/libexec/tpmrng		usr/libexec/tpmrng
 
 # SSH requirements
 COPY	${TOPDIR}/common/login.conf		etc/login.conf

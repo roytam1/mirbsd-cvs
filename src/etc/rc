@@ -1,4 +1,4 @@
-# $MirOS: src/etc/rc,v 1.95 2009/01/13 21:11:21 tg Exp $
+# $MirOS: src/etc/rc,v 1.96 2009/02/11 16:19:54 tg Exp $
 # $OpenBSD: rc,v 1.277 2006/01/12 21:54:15 deraadt Exp $
 #-
 # System startup script run by init on autoboot or after single-user.
@@ -449,6 +449,10 @@ echo -n starting initial daemons:
 
 if [[ $cprng_flags != NO ]]; then
 	echo -n ' cprng';		/usr/libexec/cprng $cprng_flags
+fi
+
+if [[ $tpmrng_flags != NO && -x /usr/libexec/tpmrng ]]; then
+	echo -n ' tpmrng';		/usr/libexec/tpmrng $tpmrng_flags
 fi
 
 # $portmap is imported from /etc/rc.conf;
