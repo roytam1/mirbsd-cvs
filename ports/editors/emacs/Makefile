@@ -1,4 +1,4 @@
-# $MirOS: ports/editors/emacs/Makefile,v 1.8 2008/05/20 19:33:52 tg Exp $
+# $MirOS: ports/editors/emacs/Makefile,v 1.9 2008/11/08 23:03:39 tg Exp $
 # $OpenBSD: Makefile,v 1.21 2004/02/04 07:39:18 sturm Exp $
 
 COMMENT=		GNU editor: extensible, customizable, self documenting
@@ -21,7 +21,8 @@ PERMIT_DISTFILES_FTP=	Yes
 
 .include <mirports.sys.mk>
 
-MASTER_SITES=		${MASTER_SITE_GNU:=emacs/}
+#MASTER_SITES=		${MASTER_SITE_GNU:=emacs/}
+MASTER_SITES=		ftp://ftp.gnu.org/old-gnu/emacs/
 DISTFILES=		emacs-${VERSION}.tar.gz leim-${VERSION}.tar.gz
 
 MULTI_PACKAGES=		-el -leim
