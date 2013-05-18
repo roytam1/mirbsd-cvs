@@ -36,10 +36,9 @@
 #include <lib/libkern/libkern.h>
 #endif
 
-__RCSID("$MirOS: src/lib/libc/string/memcmp.c,v 1.3 2005/09/22 20:16:48 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/string/memcmp.c,v 1.4 2005/10/21 10:53:26 tg Exp $");
 
 #ifdef BCMP
-__warn_references(bcmp, "bcmp() is deprecated, consider using memcmp()");
 #define	memcmp	bcmp
 #endif
 

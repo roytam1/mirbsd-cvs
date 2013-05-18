@@ -6,8 +6,7 @@
 
 #include <machine/asm.h>
 
-RCSID("$MirOS: src/lib/libc/arch/i386/string/memcmp.S,v 1.4 2005/09/22 20:06:18 tg Exp $")
-WARN_REFERENCES(bcmp, "bcmp() is deprecated, consider using memcmp()")
+RCSID("$MirOS: src/lib/libc/arch/i386/string/memcmp.S,v 1.5 2005/10/21 10:53:23 tg Exp $")
 
 	.text
 
