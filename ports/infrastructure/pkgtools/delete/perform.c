@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/delete/perform.c,v 1.9 2006/02/26 00:42:55 bsiegert Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/delete/perform.c,v 1.10 2006/11/19 22:34:07 tg Exp $ */
 /*	$OpenBSD: perform.c,v 1.16 2003/08/21 20:24:56 espie Exp $	*/
 
 /*
@@ -29,7 +29,7 @@
 #include "delete.h"
 #include <libgen.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/delete/perform.c,v 1.9 2006/02/26 00:42:55 bsiegert Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/delete/perform.c,v 1.10 2006/11/19 22:34:07 tg Exp $");
 
 static int pkg_do(char *);
 static void sanity_check(char *);
@@ -93,9 +93,11 @@ static int
 pkg_do(char *pkg)
 {
     FILE *cfile;
-    char home[FILENAME_MAX];
+    int homefd;
+    char fbuf[FILENAME_MAX];
     plist_t *p;
     const char *dbdir;
+    char *filename;
 
     set_pkg(pkg);
     /* Reset some state */
@@ -122,18 +124,20 @@ pkg_do(char *pkg)
     }
     pkg = strdup(basename(LogDir));
 
-    if (!getcwd(home, FILENAME_MAX)) {
+    if ((homefd = open(".", O_RDONLY, 0555)) == -1) {
 	cleanup(0);
-	errx(2, "unable to get current working directory!");
+	err(2, "unable to get current working directory");
     }
     if (chdir(LogDir) == -1) {
 	pwarnx("unable to change directory to %s! deinstall failed", LogDir);
+	free(pkg);
 	return 1;
     }
     sanity_check(LogDir);
     cfile = fopen(CONTENTS_FNAME, "r");
     if (!cfile) {
 	pwarnx("unable to open '%s' file", CONTENTS_FNAME);
+	free(pkg);
 	return 1;
     }
     /* If we have a prefix, add it now */
@@ -146,8 +150,10 @@ pkg_do(char *pkg)
 		"DELETING IT WILL ALMOST CERTAINLY BREAK YOUR SYSTEM%s.",
 		pkg, Force ? "\n(but I'll delete it anyway)" :
 		".\nUse -f if you are really sure what you are doing");
-	if (!Force)
+	if (!Force) {
+	    free(pkg);
 	    return 1;
+	}
     }
     if (!isemptyfile(REQUIRED_BY_FNAME)) {
 	char buf[512];
@@ -161,12 +167,15 @@ pkg_do(char *pkg)
 	    fclose(cfile);
 	} else
 	    pwarnx("cannot open requirements file '%s'", REQUIRED_BY_FNAME);
-	if (!Force)
+	if (!Force) {
+	    free(pkg);
 	    return 1;
+	}
     }
     p = find_plist(&Plist, PLIST_CWD, NULL);
     if (!p) {
 	pwarnx("package '%s' doesn't have a prefix", pkg);
+	free(pkg);
 	return 1;
     }
 #ifndef __INTERIX
@@ -175,11 +184,13 @@ pkg_do(char *pkg)
 
 	if (statfs(p->name, &buffer) == -1) {
 	    pwarnx("package '%s' prefix (%s) does not exist", pkg, p->name);
+	    free(pkg);
 	    return 1;
 	}
 	if (buffer.f_flags & MNT_RDONLY) {
 	    pwarnx("package'%s' mount point %s is read-only", pkg,
 		buffer.f_mntonname);
+	    free(pkg);
 	    return 1;
 	}
     }
@@ -194,8 +205,10 @@ pkg_do(char *pkg)
 	if (vsystem("./%s %s DEINSTALL", REQUIRE_FNAME, pkg)) {
 	    pwarnx("package %s fails requirements %s", pkg,
 		   Force ? "" : "- not deleted");
-	    if (!Force)
+	    if (!Force) {
+		free(pkg);
 		return 1;
+	    }
 	}
     }
     if (!NoDeInstall && fexists(DEINSTALL_FNAME)) {
@@ -205,29 +218,48 @@ pkg_do(char *pkg)
 	    vsystem("chmod +x %s", DEINSTALL_FNAME);	/* make sure */
 	    if (vsystem("./%s %s DEINSTALL", DEINSTALL_FNAME, pkg)) {
 		pwarnx("deinstall script returned error status");
-		if (!Force)
+		if (!Force) {
+		    free(pkg);
 		    return 1;
+		}
 	    }
 	}
     }
-    if (chdir(home) == -1) {
+    if (fchdir(homefd) == -1) {
+	(void) close(homefd);
 	cleanup(0);
-	errx(2, "Toto! This doesn't look like Kansas anymore!");
+	err(2, "Cannot change back to former working directory");
     }
+    (void) close(homefd);
     if (!Fake) {
 	/* Some packages aren't packed right, so we need to just ignore delete_package()'s status.  Ugh! :-( */
 	if (delete_package(KeepFiles, CleanDirs, CleanConf, CheckMD5, &Plist) == -1)
 	    pwarnx(
 	"couldn't entirely delete package (perhaps the packing list is\n"
 	"incorrectly specified?)");
-	if (vsystem("%s -r %s", REMOVE_CMD, LogDir)) {
-	    pwarnx("couldn't remove log entry in %s, deinstall failed", LogDir);
-	    if (!Force)
-		return 1;
-	}
-	delete_pkg_links(dbdir, pkg);
     }
-    for (p = Plist.head; p ; p = p->next) {
+    /* Remove package dependencies */
+    filename = toabs(DEPENDS_FNAME, LogDir);
+    if (fexists(filename)) {
+	if (Verbose)
+	    printf("Dependency file found, using it for unregistering dependencies\n");
+	cfile = fopen(filename, "r");
+	if (cfile == NULL) {
+	    pwarn("couldn't open dependency file '%s'", DEPENDS_FNAME);
+	    free(pkg);
+	    return 1;
+	}
+	while (fgets(fbuf, sizeof(fbuf), cfile) != NULL) {
+	    if (fbuf[strlen(fbuf)-1] == '\n')
+		fbuf[strlen(fbuf)-1] = '\0';
+	    if (Verbose)
+		printf("Attempting to remove dependency on package '%s'\n", fbuf);
+	    drop_privs();
+	    undepend(fbuf, pkg, 0);
+	    raise_privs();
+	}
+	(void) fclose(cfile);
+    } else for (p = Plist.head; p ; p = p->next) {
 	if (p->type != PLIST_PKGDEP)
 	    continue;
 	if (Verbose)
@@ -236,6 +268,16 @@ pkg_do(char *pkg)
 	if (!Fake)
 	    findmatchingname(dbdir, p->name, undepend, pkg, 0);
 	raise_privs();
+    }
+    if (!Fake) {
+	if (vsystem("%s -r %s", REMOVE_CMD, LogDir)) {
+	    pwarnx("couldn't remove log entry in %s, deinstall failed", LogDir);
+	    if (!Force) {
+		free(pkg);
+		return 1;
+	    }
+	}
+	delete_pkg_links(dbdir, pkg);
     }
     free(pkg);
     return 0;
