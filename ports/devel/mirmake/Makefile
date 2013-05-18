@@ -1,9 +1,9 @@
-# $MirOS: ports/devel/mirmake/Makefile,v 1.8 2005/12/20 19:57:51 tg Exp $
+# $MirOS: ports/devel/mirmake/Makefile,v 1.9 2005/12/30 00:21:17 tg Exp $
 
 COMMENT=		"portable MirOS make(1) variant"
-DISTNAME=		mirmake-20051230
+DISTNAME=		mirmake-20060319
 CATEGORIES=		devel essentials
-RESPONSIBLE=		Thorsten Glaser <tg@66h.42h.de>
+RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.de>
 MASTER_SITES=		${_MASTER_SITE_MIRBSD:distfiles/=dist/mir/make/}
 EXTRACT_SUFX=		.cpio.gz
 
