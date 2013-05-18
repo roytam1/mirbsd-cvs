@@ -1,11 +1,11 @@
-# $MirOS: ports/net/djbdns/Makefile,v 1.28 2006/11/16 20:24:39 tg Exp $
+# $MirOS: ports/net/djbdns/Makefile,v 1.29 2006/11/16 21:27:41 tg Exp $
 
 COMMENT=		collection of Domain Name System server and tools
 VERSION=		1.05
 CATEGORIES=		net
 DISTNAME=		djbdns-${VERSION}
 MANVER=			20031023
-PKGNAME=		djbdns-${VERSION}-30
+PKGNAME=		djbdns-${VERSION}-31
 HOMEPAGE=		http://cr.yp.to/djbdns.html
 RESPONSIBLE=		Thorsten Glaser <tg@66h.42h.de>
 
