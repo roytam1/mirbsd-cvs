@@ -1,5 +1,5 @@
 <!-- PageID: mksh -->
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.63 2006/09/30 21:12:39 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.64 2006/11/09 00:28:36 tg Exp $</small>
 
 <h1>mksh(1) R28</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
@@ -54,6 +54,8 @@
   changes the Emacs editing mode to an experimental CESU-8 aware
   multibyte mode (not implemented using wide chars unless internally
   needed; does not require OS support)</li>
+ <li>Simplify and clean up code; try to remove or replace function calls
+  by smaller equivalents; spot a few non-fatal off-by-one errors</li>
 </ul>
 <p>Upgrading to mksh R28 with these changes is highly recommended:</p><ul>
  <li>For these who build software as root, the regression testsuite
