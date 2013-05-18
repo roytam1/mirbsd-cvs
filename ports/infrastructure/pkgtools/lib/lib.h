@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/lib/lib.h,v 1.27 2009/12/08 20:51:05 bsiegert Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/lib/lib.h,v 1.28 2009/12/11 22:16:14 bsiegert Exp $ */
 /*	$OpenBSD: lib.h,v 1.14 2003/08/21 20:24:57 espie Exp $	*/
 
 /*
@@ -279,5 +279,11 @@ int vxsystem(bool, const char *, va_list)
     __attribute__((format (printf, 2, 0)));
 int sxsystem(bool, const char *)
     __attribute__((nonnull (2)));
+
+/* configuration file */
+bool	cfg_read_config(void);
+FILE	*cfg_open(void);
+void	cfg_dump_vars(void);
+char	*cfg_expand_vars(char*, size_t);
 
 #endif /* _INST_LIB_LIB_H_ */
