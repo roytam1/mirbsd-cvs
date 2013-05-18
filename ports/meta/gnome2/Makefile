@@ -1,4 +1,4 @@
-# $MirOS: ports/meta/gnome2/Makefile,v 1.3 2006/09/14 00:11:05 tg Exp $
+# $MirOS: ports/meta/gnome2/Makefile,v 1.4 2006/11/09 18:35:52 tg Exp $
 
 COMMENT=			meta-package to install all of GNOME 2
 VERSION=		2.8.1
@@ -18,6 +18,7 @@ PERMIT_DISTFILES_FTP=   Yes
 
 NO_CHECKSUM=		Yes
 NO_BUILD=		Yes
+PLIST=			/dev/null
 PKG_ARCH=		*
 
 RUN_DEPENDS+=		::devel/gconf

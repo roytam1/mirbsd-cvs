@@ -1,4 +1,4 @@
-# $MirOS: ports/meta/cups-server/Makefile,v 1.1 2006/11/09 18:18:57 bsiegert Exp $
+# $MirOS: ports/meta/cups-server/Makefile,v 1.2 2006/11/09 18:35:52 tg Exp $
 
 COMMENT=		meta package for a CUPS server
 VERSION=		2.6
@@ -18,6 +18,7 @@ PERMIT_DISTFILES_FTP=   Yes
 
 NO_CHECKSUM=		Yes
 NO_BUILD=		Yes
+PLIST=			/dev/null
 PKG_ARCH=		*
 
 RUN_DEPENDS+=		::print/cups
