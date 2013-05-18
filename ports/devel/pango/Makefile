@@ -1,7 +1,7 @@
-# $MirOS: ports/devel/pango/Makefile,v 1.6 2006/02/09 11:11:26 tg Exp $
+# $MirOS: ports/devel/pango/Makefile,v 1.7 2006/09/14 00:08:47 tg Exp $
 # $OpenBSD: Makefile,v 1.7 2003/09/23 06:12:41 marcm Exp $
 
-COMMENT=			library for layout and rendering of text
+COMMENT=		library for layout and rendering of text
 DISTNAME=		pango-1.10.0
 PKGNAME=		${DISTNAME}-1
 CATEGORIES=		devel x11
@@ -29,6 +29,8 @@ AUTOCONF_NEW=		Yes
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
 CONFIGURE_ARGS+=	--enable-static
 CONFIGURE_ARGS+=	--without-qt
+CONFIGURE_ARGS+=	--disable-dependency-tracking \
+			--disable-libtool-lock
 
 post-install:
 	@${INSTALL_DATA_DIR} ${PREFIX}/share/examples/pango; \
