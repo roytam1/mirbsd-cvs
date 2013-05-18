@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/list,v 1.27 2008/12/28 22:40:00 tg Exp $
+# $MirOS: src/distrib/common/list,v 1.28 2010/01/17 00:35:08 tg Exp $
 
 # standard tools in the crunched binary
 COPY	${OBJDIR}/instbin			instbin
@@ -14,11 +14,10 @@ LINK	instbin					bin/ln
 LINK	instbin					bin/ls
 LINK	instbin					bin/md5 bin/cksum bin/rmd160 bin/sha1 bin/sum 
 LINK	instbin					bin/mkdir
-LINK	instbin					bin/mksh bin/sh
+LINK	instbin					bin/mksh bin/sh bin/[ bin/echo bin/false bin/kill bin/pwd bin/sleep bin/test bin/true
 LINK	instbin					bin/mv
 LINK	instbin					bin/pax bin/cpio bin/tar
 LINK	instbin					bin/rm
-LINK	instbin					bin/sleep
 LINK	instbin					bin/stty
 LINK	instbin					bin/sync
 LINK	instbin					sbin/disklabel

@@ -15,6 +15,7 @@
 ./bin/ed
 ./bin/eject
 ./bin/expr
+./bin/false
 ./bin/hostname
 ./bin/kill
 ./bin/ln
@@ -39,6 +40,7 @@
 ./bin/systrace
 ./bin/tar
 ./bin/test
+./bin/true
 ./dev
 ./dev/MAKEDEV
 ./etc
@@ -218,7 +220,6 @@
 ./usr/bin/env
 ./usr/bin/ex
 ./usr/bin/expand
-./usr/bin/false
 ./usr/bin/fgrep
 ./usr/bin/file
 ./usr/bin/file2c
@@ -391,7 +392,6 @@
 ./usr/bin/touch
 ./usr/bin/tput
 ./usr/bin/tr
-./usr/bin/true
 ./usr/bin/tset
 ./usr/bin/tsort
 ./usr/bin/tty

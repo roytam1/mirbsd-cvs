@@ -1,4 +1,4 @@
-# $MirOS: src/usr.bin/Makefile,v 1.16 2008/03/27 14:53:25 tg Exp $
+# $MirOS: src/usr.bin/Makefile,v 1.17 2008/04/07 05:16:42 tg Exp $
 # $OpenBSD: Makefile,v 1.90 2004/05/02 17:55:09 millert Exp $
 
 .include <bsd.own.mk>
@@ -41,7 +41,6 @@
   SUBDIR+= encrypt
   SUBDIR+= env
   SUBDIR+= expand
-  SUBDIR+= false
   SUBDIR+= file
   SUBDIR+= file2c
   SUBDIR+= find
@@ -158,7 +157,6 @@
   SUBDIR+= touch
   SUBDIR+= tput
   SUBDIR+= tr
-  SUBDIR+= true
   SUBDIR+= tset
   SUBDIR+= tsort
   SUBDIR+= tty
