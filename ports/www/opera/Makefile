@@ -1,16 +1,16 @@
-# $MirOS: ports/www/opera/Makefile,v 1.17 2006/09/21 14:37:31 tg Exp $
+# $MirOS: ports/www/opera/Makefile,v 1.19 2006/12/21 13:36:20 tg Exp $
 # $OpenBSD: Makefile,v 1.31 2005/11/22 21:44:22 sturm Exp $
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 EMUL=			linux
 
 COMMENT=		fast and customisable WWW browser
-VERS=			9.10
-DISTNAME=		opera-${VERS}-20061214.1-static-qt.i386-en
-PKGNAME=		opera-${VERS}-0
+VERS=			9.20
+DISTNAME=		opera-${VERS}-20070409.1-static-qt.i386-en
+PKGNAME=		opera-${VERS}-${DASH_VER}
 CATEGORIES=		www
 HOMEPAGE=		http://www.opera.com/
-WRKDIST=		${WRKDIR}/${DISTNAME}-521
+WRKDIST=		${WRKDIR}/${DISTNAME}-638
 
 # Distribution possible under special agreement;
 # sublicencing is, however, not allowed.
@@ -21,10 +21,11 @@ PERMIT_DISTFILES_FTP=	"Commercial software"
 
 EXTRACT_ONLY=		${DISTNAME}${EXTRACT_SUFX}
 DISTFILES=		${EXTRACT_ONLY} \
-			lux910final.lng:0 \
+			lux920final.lng:0 \
 			Minimalist%20Native.zip:1
-OPERA_LANG_FILES=	lux910final.lng
 OPERA_SKIN_FILES=	Minimalist%20Native.zip
+# http://opera-info.de/forum/board.php?boardid=93
+OPERA_LANG_FILES=	lux920final.lng
 
 MASTER_SITES_OPERA=	ftp://ftp.opera.com/pub/opera/ \
 			ftp://gd.tuwien.ac.at/infosys/browsers/opera/ \
