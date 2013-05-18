@@ -70,11 +70,6 @@ static void lmbmfs_check(void);
 const char version[] = __BOOT_VER;
 int debug = 1;
 
-/* bss */
-uint8_t bounce_buf[4096];
-uint8_t crc_table[1024], sa_fixed_table[2176];
-uint8_t biosdev_lba_buf[16];
-
 void (*sa_cleanup)(void) = NULL;
 
 void (*i386_probe1[])(void) = {

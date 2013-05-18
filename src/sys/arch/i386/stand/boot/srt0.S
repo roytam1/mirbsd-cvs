@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.82 2009/10/27 14:34:49 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.82.2.1 2009/10/27 15:10:50 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009
@@ -575,7 +575,7 @@ pxecall_bang:
 
 	mov	ebx,[ebp+8]
 	/* truncated by __bss_start = 3000:0000 */
-	mov	edi,offset pxe_command_buf
+	mov	edi,offset pxe_command_buf - 0x30000
 
 	call	prot_to_real
 	.code16
@@ -610,7 +610,7 @@ pxecall_plus:
 
 	mov	ebx,[ebp+8]
 	/* truncated by __bss_start = 3000:0000 */
-	mov	edi,offset pxe_command_buf
+	mov	edi,offset pxe_command_buf - 0x30000
 
 	call	prot_to_real
 	.code16
@@ -632,3 +632,25 @@ pxecall_plus:
 	pop	ebp
 	ret
 #endif
+
+	.bss
+
+	.globl	bounce_buf
+	.size	bounce_buf, 4096
+bounce_buf:
+	.space	4096
+
+	.globl	crc_table
+	.size	crc_table, 1024
+crc_table:
+	.space	1024
+
+	.globl	sa_fixed_table
+	.size	sa_fixed_table, 2176
+sa_fixed_table:
+	.space	2176
+
+	.globl	biosdev_lba_buf
+	.size	biosdev_lba_buf, 16
+biosdev_lba_buf:
+	.space	16
