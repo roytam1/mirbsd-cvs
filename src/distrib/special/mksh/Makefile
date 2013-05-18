@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/special/mksh/Makefile,v 1.38 2010/07/04 17:41:38 tg Exp $
+# $MirOS: src/distrib/special/mksh/Makefile,v 1.39 2010/08/24 15:19:55 tg Exp $
 #-
 # Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -46,7 +46,7 @@ CPPFLAGS+=	-DMKSH_ASSUME_UTF8 -DMKSH_SMALL \
 		-DHAVE_SETMODE=1 -DHAVE_SETRESUGID=1 -DHAVE_SETGROUPS=1 \
 		-DHAVE_STRCASESTR=1 -DHAVE_STRLCPY=1 -DHAVE_FLOCK_DECL=1 \
 		-DHAVE_REVOKE_DECL=1 -DHAVE_SYS_SIGLIST_DECL=1 \
-		-DHAVE_PERSISTENT_HISTORY=0
+		-DHAVE_PERSISTENT_HISTORY=0 -DIN_MKSH
 COPTS+=		-std=gnu99 -Wall -fno-inline
 
 regress: ${PROG} check.pl check.t
