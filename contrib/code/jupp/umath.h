@@ -15,5 +15,7 @@
 extern const unsigned char * volatile merr;
 double calc(BW *bw, unsigned char *s);
 int umath(BW *bw);
+int umathins(BW *bw);
+int umathres(BW *bw);
 
 #endif

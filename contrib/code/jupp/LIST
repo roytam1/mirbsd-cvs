@@ -1,4 +1,4 @@
-$MirOS: contrib/code/jupp/LIST,v 1.3 2008/05/13 16:17:42 tg Exp $
+$MirOS: contrib/code/jupp/LIST,v 1.4 2009/08/02 15:24:57 tg Exp $
 -----------------------------------------------------------------
 
 Joe commands grouped by function
@@ -180,6 +180,8 @@ Misc
 beep		Beep
 execmd		Execute a joe command
 math		Calculator
+mathins		Insert last math expression
+mathres		Insert last math result
 mode		Mode prompt
 msg		Display a message
 notmod		Clear the modified flag
