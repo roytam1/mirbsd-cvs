@@ -1,3 +1,5 @@
+# $MirOS$
+#-
 # JOE syntax highlight file for assembly language
 
 # Highlights ';' comments, C-preprocessor stuff and C-like constants.

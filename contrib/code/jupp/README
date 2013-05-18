@@ -419,3 +419,6 @@ redirected, but you don't need to do 'joe -', you should simply redirect
 joe's stdin/stdout to /dev/tty:
 
 	joe filename  </dev/tty >/dev/tty
+
+___________________________________________________________________
+$MirOS$
