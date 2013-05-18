@@ -3019,3 +3019,19 @@ Author: tg@
  aborted (gnupg can’t import keys, but decrypt them just fine – weird), but
  I’ve got enough for tomorrow.</p>
 ----
+Date: 16.03.2008
+Author: tg@
+
+<p>Sometimes it’s good to double-check. Benny has found a bug in my fix to
+ gnu.port.mk, leading to incorrect dependencies. I couldn’t get the sparc
+ floppy to boot – several NetBSD® users had the same problem, leading to <a
+ href="http://mail-index.netbsd.org/port-sparc/2001/09/05/0003.html">a
+ posting about how to clean a sparc floppy drive</a>, luckily. Note that I
+ am lazy, that’s why I just tested the floppy in my SS10 instead. This gave
+ me quite a hard shock, though.</p>
+<p>I prepared the Mini-ISO, and – new – a Midi-ISO containing the floppy
+ images as well (if extra netboot kernels were required, they would be also
+ on it, but boot.net is enough), which will take the place of cdrom10.iso on
+ the download area, while the Mini-ISO will sit on the release ISO.</p>
+<p>This means we’re now all set to release today. *crosses fingers*</p>
+----

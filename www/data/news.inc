@@ -674,3 +674,21 @@ Date: 14.03.2008
  native mports system, do not depend on it or interfere with it,
  as usual, and can be installed per user or system-wide.</p>
 ----
+Title: MirOS ξ relased
+Date: 16.03.2008
+
+<p>MirOS BSD #10 for the i386 and sparc architectures is our eleventh
+ formal major release. Grab it while you can, either via the usual <a
+ href="http://f.scarywater.net/miros/">BitTorrent tracker</a>, or use
+ the NetInstall ISO (details on the Download page).</p>
+<p>MirOS #10 focuses on Unicode support and a lot of improvements all
+ over the place. The sparc platform is now fully supported again, and
+ en par with i386 regarding the base system. MirOS thusly is almost a
+ reference implementation of a 32-bit sparc OS now that Debian killed
+ support, Gentoo wants to go that way too and the other BSDs focus on
+ sparc64; and the reference implementation of XFree86® in modern open
+ source OSes.</p>
+<p>Read the <a href="@@RELPATH@@ann-10.htm">release announcement</a>,
+ or the <a href="@@RELPATH@@clogs/">CVS ChangeLog files</a>, for more
+ information on this release.</p>
+----
