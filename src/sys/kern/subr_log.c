@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/sys/kern/subr_log.c,v 1.2 2006/05/26 12:04:59 tg Exp $ */
 /*	$OpenBSD: subr_log.c,v 1.13 2005/04/20 00:08:50 deraadt Exp $	*/
 /*	$NetBSD: subr_log.c,v 1.11 1996/03/30 22:24:44 christos Exp $	*/
 
@@ -78,12 +78,10 @@ initmsgbuf(buf, bufsize)
 	caddr_t buf;
 	size_t bufsize;
 {
-	extern uint32_t rnd_bootpool;
-	extern unsigned long adler32(unsigned long, const char *, unsigned);
 	struct msgbuf *mbp;
 	long new_bufs;
 
-	rnd_bootpool = adler32(rnd_bootpool, (void *)buf, bufsize);
+	rnd_bootpool = adler32(rnd_bootpool, (const void *)buf, bufsize);
 
 	/* Sanity-check the given size. */
 	if (bufsize < sizeof(struct msgbuf))

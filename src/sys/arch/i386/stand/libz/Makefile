@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/stand/libz/Makefile,v 1.5 2006/08/19 12:59:53 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/libz/Makefile,v 1.6 2006/10/15 01:35:54 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -12,7 +12,7 @@ CPPFLAGS+=	-DSLOW -DSMALL -DNOBYFOUR -DNO_GZIP
 CPPFLAGS+=	-DDYNAMIC_CRC_TABLE -DBUILDFIXED
 
 LIB=		z
-SRCS=		adler32.S crc32.c infback.c inffast.c inflate.c inftrees.c
+SRCS=		crc32.c infback.c inffast.c inflate.c inftrees.c
 .PATH: ${BSDSRCDIR}/lib/libz
 
 NOPIC=		Yes

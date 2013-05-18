@@ -1,4 +1,4 @@
-# $MirOS: src/sys/lib/libkern/Makefile,v 1.6 2007/02/05 23:48:03 tg Exp $
+# $MirOS: src/sys/lib/libkern/Makefile,v 1.7 2007/02/07 20:43:27 tg Exp $
 # $NetBSD: Makefile,v 1.31 1996/08/10 04:01:31 mycroft Exp $
 # $OpenBSD: Makefile,v 1.18 2004/11/28 07:20:25 mickey Exp $
 
@@ -22,6 +22,7 @@ CPPFLAGS=	-I$M ${KERNCPPFLAGS}
 .endif
 
 .include "${KERNBASE}/c/Makefile.inc"
+.include "${KERNBASE}/z/Makefile.adler32"
 
 # Quad support
 SRCS+=	adddi3.c anddi3.c ashldi3.c ashrdi3.c cmpdi2.c divdi3.c iordi3.c \

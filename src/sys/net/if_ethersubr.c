@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/net/if_ethersubr.c,v 1.7 2006/08/16 18:46:15 tg Exp $ */
+/**	$MirOS: src/sys/net/if_ethersubr.c,v 1.8 2006/10/17 20:48:49 tg Exp $ */
 /*	$OpenBSD: if_ethersubr.c,v 1.81 2004/11/28 23:39:45 canacar Exp $	*/
 /*	$NetBSD: if_ethersubr.c,v 1.19 1996/05/07 02:40:30 thorpej Exp $	*/
 
@@ -152,9 +152,6 @@ extern u_char	aarp_org_code[ 3 ];
 
 u_char etherbroadcastaddr[ETHER_ADDR_LEN] = { 0xff, 0xff, 0xff, 0xff, 0xff, 0xff };
 #define senderr(e) { error = (e); goto bad;}
-
-extern unsigned long adler32(unsigned long, const char *, unsigned);
-extern uint32_t rnd_bootpool;
 
 int
 ether_ioctl(ifp, arp, cmd, data)

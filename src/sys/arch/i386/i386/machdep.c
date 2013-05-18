@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/i386/machdep.c,v 1.13 2006/10/18 10:58:29 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/i386/machdep.c,v 1.14 2007/02/06 22:25:20 tg Exp $ */
 /*	$OpenBSD: machdep.c,v 1.310 2004/11/02 21:20:59 miod Exp $	*/
 /*	$NetBSD: machdep.c,v 1.214 1996/11/10 03:16:17 thorpej Exp $	*/
 
@@ -222,9 +222,6 @@ int	bufcachepercent = BUFCACHEPERCENT;
 
 extern int	boothowto;
 int	physmem;
-
-extern uint32_t rnd_bootpool;
-extern unsigned long adler32(unsigned long, const char *, unsigned);
 
 struct dumpmem {
 	paddr_t	start;

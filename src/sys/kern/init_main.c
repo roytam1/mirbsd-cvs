@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/kern/init_main.c,v 1.13 2006/10/08 00:24:44 tg Exp $ */
+/**	$MirOS: src/sys/kern/init_main.c,v 1.14 2006/12/31 17:03:35 tg Exp $ */
 /*	$OpenBSD: init_main.c,v 1.120 2004/11/23 19:08:55 miod Exp $	*/
 /*	$NetBSD: init_main.c,v 1.84.4.1 1996/06/02 09:08:06 mrg Exp $	*/
 /*	$OpenBSD: kern_xxx.c,v 1.9 2003/08/15 20:32:18 tedu Exp $	*/
@@ -143,8 +143,6 @@ void	init_exec(void);
 void	init_ssp(void);
 void	kqueue_init(void);
 
-extern unsigned long adler32(unsigned long, const char *, unsigned);
-
 extern char sigcode[], esigcode[];
 #ifdef	SYSCALL_DEBUG
 extern char *syscallnames[];
@@ -185,7 +183,6 @@ main(/* XXX should go away */ void *framep)
 	struct pdevinit *pdev;
 	quad_t lim;
 	int s, i;
-	extern uint32_t rnd_bootpool;
 	extern struct pdevinit pdevinit[];
 	extern void scheduler_start(void);
 	extern void disk_init(void);
