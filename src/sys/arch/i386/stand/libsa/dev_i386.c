@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/dev_i386.c,v 1.14 2009/01/11 00:32:40 tg Exp $	*/
+/**	$MirOS: src/sys/arch/i386/stand/libsa/dev_i386.c,v 1.15 2009/08/09 18:51:43 tg Exp $	*/
 /*	$OpenBSD: dev_i386.c,v 1.30 2007/06/27 20:29:37 mk Exp $	*/
 
 /*
@@ -107,7 +107,7 @@ devopen(struct open_file *f, const char *fname, char **file)
 				f->f_dev = NULL;
 #ifdef DEBUG
 			if (debug)
-				putchar('\n');
+				printf("(%s)\n", *file);
 #endif
 #ifdef USE_PXE
 			if (fs_type[i] != &netsw[0])
@@ -138,6 +138,9 @@ devopen(struct open_file *f, const char *fname, char **file)
 #endif
 		if ((rc = (*dp->dv_open)(f, file)) == 0) {
 			f->f_dev = dp;
+#ifdef DEBUG
+			printf("ok(%s)\n", *file);
+#endif
 			return 0;
 		}
 #ifdef DEBUG
