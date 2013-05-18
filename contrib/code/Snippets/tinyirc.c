@@ -31,7 +31,7 @@
 /*-
    TinyIRC - MirOS Fork
    Copyright (C) 1994 Nathan I. Laredo <laredo@gnu.org>
-   Copyright (c) 1999-2010 Thorsten Glaser <tg@mirbsd.org>
+   Copyright (c) 1999-2011 Thorsten Glaser <tg@mirbsd.org>
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License Version 1
@@ -86,7 +86,7 @@
 #define	__RCSID(x)	static const char __rcsid[] __attribute__((used)) = (x)
 #endif
 
-__RCSID("$MirOS: contrib/code/Snippets/tinyirc.c,v 1.38 2009/12/27 22:25:58 tg Exp $");
+__RCSID("$MirOS: contrib/code/Snippets/tinyirc.c,v 1.39 2010/09/21 21:24:03 tg Exp $");
 
 #ifndef __dead
 #define __dead
@@ -203,11 +203,12 @@ void arc4hashpush_(const uint8_t *buf)
 	uint32_t pv;
 
 	if (!s)
-		s = arc4random() & 0xFFFFFF00;
+		s = arc4random();
 
 	h = s;
 	while ((c = *buf++)) {
 		h += c;
+		++h;
 		h += h << 10;
 		h ^= h >> 6;
 	}

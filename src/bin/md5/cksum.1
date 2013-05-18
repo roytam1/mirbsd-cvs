@@ -1,7 +1,7 @@
-.\"	$MirOS: src/bin/md5/cksum.1,v 1.27 2009/11/17 21:28:25 tg Exp $
+.\"	$MirOS: src/bin/md5/cksum.1,v 1.28 2009/11/22 18:23:38 tg Exp $
 .\"	$OpenBSD: cksum.1,v 1.5 2005/03/07 23:41:53 jmc Exp $
 .\"
-.\" Copyright (c) 2006, 2007, 2008, 2009
+.\" Copyright (c) 2006, 2007, 2008, 2009, 2011
 .\"	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
 .\" Copyright (c) 1991, 1993
 .\"	The Regents of the University of California.  All rights reserved.
@@ -88,7 +88,7 @@
 .\" with -mandoc, it might implement .Mx itself, but we want to
 .\" use our own definition. And .Dd must come *first*, always.
 .\"
-.Dd $Mdocdate: November 17 2009 $
+.Dd $Mdocdate: November 22 2009 $
 .\"
 .\" Check which macro package we use
 .\"
@@ -266,6 +266,12 @@ hashes use 0x100 instead of 0 as initial hash value, and
 .Ar oaat1s
 also uses RFC1321-style length padding on the input string.
 In the
+.Ar nzaat
+or
+.Ar nzat
+case, this is a hash based on
+.Ar oaat .
+In the
 .Ar suma
 case, the output is a 33-bit
 .Tn CRC
@@ -295,6 +301,8 @@ Supported algorithms include
 .Ar cksum ,
 .Ar md4 ,
 .Ar md5 ,
+.Ar nzat ,
+.Ar nzaat ,
 .Ar oaat ,
 .Ar oaat1 ,
 .Ar oaat1s ,
@@ -363,6 +371,8 @@ output mode does not make any sense for many algorithms, such as
 .Ar adler32 ,
 .Ar cdb ,
 .Ar cksum ,
+.Ar nzat ,
+.Ar nzaat ,
 .Ar oaat ,
 .Ar oaat1 ,
 .Ar oaat1s ,
@@ -554,6 +564,8 @@ Do not use the
 .Ar cksum ,
 .Ar md4 ,
 .Ar md5 ,
+.Ar nzat ,
+.Ar nzaat ,
 .Ar oaat ,
 .Ar oaat1 ,
 .Ar oaat1s ,

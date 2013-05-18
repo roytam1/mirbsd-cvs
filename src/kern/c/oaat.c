@@ -26,11 +26,13 @@
  * Note that an initialisation value of 0x100 can count initial NULs,
  * but the original version uses 0 instead. (Anything is fine as long
  * as the lowest byte is 0x00 though.)
+ *
+ * This hash is deprecated in favour of the NZAAT hash.
  */
 
 #include <libckern.h>
 
-__RCSID("$MirOS: src/kern/c/oaat.c,v 1.1 2009/11/09 19:43:43 tg Exp $");
+__RCSID("$MirOS: src/kern/c/oaat.c,v 1.2 2009/11/09 21:36:37 tg Exp $");
 
 uint32_t
 OAAT0Update(register uint32_t h, register const uint8_t *s, register size_t n)

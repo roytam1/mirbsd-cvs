@@ -26,6 +26,7 @@
 #include <sys/param.h>
 #include <sys/sysctl.h>
 #include <sys/time.h>
+#include <syskern/nzat.h>
 #include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
@@ -33,7 +34,7 @@
 #include "arc4random.h"
 #include "thread_private.h"
 
-__RCSID("$MirOS: src/lib/libc/crypt/arc4random_base.c,v 1.2 2010/12/23 19:25:30 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/crypt/arc4random_base.c,v 1.3 2011/04/27 21:46:05 tg Exp $");
 
 struct arc4random_status a4state;
 
@@ -59,7 +60,6 @@ arc4random_atexit(void)
 	mib[0] = arcfour_byte(&a4state.cipher) & 3;
 	while (mib[0]--)
 		(void)arcfour_byte(&a4state.cipher);
-	/* we want 0x00000100 each, but it’s not supposed to be used anyway */
 	bzero(a4state.pool, sizeof(a4state.pool));
 	_ARC4_UNLOCK();
 }
@@ -113,7 +113,7 @@ arc4random_stir_locked(pid_t mypid)
 	if (!a4state.a4s_initialised) {
 		arcfour_init(&a4state.cipher);
 		for (n = 0; n < 32; ++n)
-			a4state.pool[n] = 0x100;
+			bzero(a4state.pool, sizeof(a4state.pool));
 	}
 	carry = arcfour_byte(&a4state.cipher);
 	arc4random_roundhash(a4state.pool, &a4state.a4s_poolptr,
@@ -131,8 +131,13 @@ arc4random_stir_locked(pid_t mypid)
 		(void)arcfour_byte(&a4state.cipher);
 	for (n = 128; n < 256; ++n)
 		sbuf.charbuf[n] = arcfour_byte(&a4state.cipher);
-	for (n = 0; n < 32; ++n)
-		sbuf.intbuf[n] = OAAT0Final(a4state.pool[n]);
+	for (n = 0; n < 32; ++n) {
+		register uint32_t h;
+
+		h = a4state.pool[n];
+		NZAATFinish(h);
+		sbuf.intbuf[n] = h;
+	}
 	n = carry & 3;
 	carry &= 0x3C;
 	while (n--)
@@ -149,10 +154,9 @@ arc4random_stir_locked(pid_t mypid)
 
 		h = a4state.pool[n];
 		a4state.pool[n] = sbuf.intbuf[32 + n] & 0xFFFFFF00;
-		h += sbuf.intbuf[32 + n] & 0x000000FF;
-		h += h << 10;
-		h ^= h >> 6;
-		sbuf.intbuf[32 + n] = OAAT0Final(h);
+		NZATUpdateByte(h, sbuf.intbuf[32 + n] & 0x000000FF);
+		NZAATFinish(h);
+		sbuf.intbuf[32 + n] = h;
 	}
 
 	arcfour_ksa256(&a4state.cipher, sbuf.charbuf);

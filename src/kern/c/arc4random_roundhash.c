@@ -19,8 +19,9 @@
  */
 
 #include <libckern.h>
+#include <nzat.h>
 
-__RCSID("$MirOS: src/kern/c/arc4random_roundhash.c,v 1.1 2010/09/12 17:10:49 tg Exp $");
+__RCSID("$MirOS: src/kern/c/arc4random_roundhash.c,v 1.2 2011/04/27 21:45:52 tg Exp $");
 
 void
 arc4random_roundhash(uint32_t pools[32], uint8_t *poolptr,
@@ -34,9 +35,7 @@ arc4random_roundhash(uint32_t pools[32], uint8_t *poolptr,
 	while (len--) {
 		pool = (pool + 1) & 31;
 		h = pools[pool];
-		h += *buf++;
-		h += h << 10;
-		h ^= h >> 6;
+		NZATUpdateByte(h, *buf++);
 		pools[pool] = h;
 	}
 	*poolptr = pool;

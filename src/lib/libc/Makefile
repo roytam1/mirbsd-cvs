@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libc/Makefile,v 1.39 2010/10/08 20:34:41 tg Exp $
+# $MirOS: src/lib/libc/Makefile,v 1.40 2010/10/08 20:52:01 tg Exp $
 # $OpenBSD: Makefile,v 1.23 2005/06/29 14:05:08 mickey Exp $
 #
 # All library objects contain sccsid strings by default; they may be
@@ -22,6 +22,8 @@ KERNISUSR=		#defined
 KERNBASE?=		${.CURDIR}/../../kern
 .include "${LIBCSRCDIR}/Makefile.inc"
 .include "${KERNBASE}/c/Makefile.inc"
+# drop with next major bump
+SRCS+=			oaat.c
 
 SRCS+=			csuhlpr.c
 

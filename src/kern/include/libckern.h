@@ -131,9 +131,9 @@ void *memset(void *, int, size_t)
     __attribute__((__bounded__ (__buffer__, 1, 3)));
 
 uint32_t OAAT0Update(register uint32_t, register const uint8_t *,
-    register size_t)
+    register size_t) __a_deprecated
     __attribute__((__bounded__ (__string__, 2, 3)));
-uint32_t OAAT0Final(register uint32_t);
+uint32_t OAAT0Final(register uint32_t) __a_deprecated;
 
 size_t optu16to8(char * __restrict__, wchar_t, mbstate_t * __restrict__)
     __attribute__((__bounded__ (__minbytes__, 1, 5)));

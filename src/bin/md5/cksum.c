@@ -59,7 +59,7 @@
 
 extern const uint8_t RFC1321_padding[64];
 
-__RCSID("$MirOS: src/bin/md5/cksum.c,v 1.12 2010/09/21 21:24:01 tg Exp $");
+__RCSID("$MirOS: src/bin/md5/cksum.c,v 1.13 2011/07/06 21:08:21 tg Exp $");
 
 #define MAX_DIGEST_LEN			128
 
@@ -78,6 +78,7 @@ typedef CKSUM_CTX SUM_CTX;
 typedef CKSUM_CTX SYSVSUM_CTX;
 
 typedef uint32_t CDB_CTX;
+typedef uint32_t NZAT_CTX;
 typedef uint64_t SIZE_CTX;
 
 typedef CKSUM_CTX OAATS_CTX;
@@ -101,6 +102,7 @@ union ANY_CTX {
 	SIZE_CTX size;
 	CDB_CTX cdb;
 	OAATS_CTX oaats;
+	NZAT_CTX nzat;
 };
 
 void digest_print(const char *, const char *, const char *);
@@ -136,6 +138,13 @@ void OAAT_Final(OAATS_CTX *);
 char *OAAT_End(OAATS_CTX *, char *);
 char *OAAT1S_End(OAATS_CTX *, char *);
 
+void NZAT_Init(NZAT_CTX *);
+void NZAT_Update(NZAT_CTX *, const uint8_t *, size_t);
+void NZAT_Final(NZAT_CTX *);
+void NZAAT_Final(NZAT_CTX *);
+char *NZAT_End(NZAT_CTX *, char *);
+char *NZAAT_End(NZAT_CTX *, char *);
+
 #define SUM_Init OAAT_Init
 void SUM_Update(SUM_CTX *, const u_int8_t *, size_t);
 void SUM_Final(SUM_CTX *);
@@ -151,7 +160,7 @@ char *SYSVSUM_Data(const u_int8_t *, size_t, char *);
 /* when adding, change lines with context matching NHASHMOD */
 
 /* NHASHMOD: total number of hash functions */
-#define NHASHES	20
+#define NHASHES	22
 struct hash_functions {
 	const char *name;
 	size_t digestlen;
@@ -210,6 +219,26 @@ struct hash_functions {
 		(void (*)(void *))CDB_Init,
 		(void (*)(void *, const unsigned char *, unsigned int))CDB_Update,
 		(char *(*)(void *, char *))CDB_End,
+		digest_printbin_stringle,
+		digest_print,
+		digest_print_string
+	}, {
+		"NZAT",
+		8,
+		NULL,
+		(void (*)(void *))NZAT_Init,
+		(void (*)(void *, const unsigned char *, unsigned int))NZAT_Update,
+		(char *(*)(void *, char *))NZAT_End,
+		digest_printbin_stringle,
+		digest_print,
+		digest_print_string
+	}, {
+		"NZAAT",
+		8,
+		NULL,
+		(void (*)(void *))NZAT_Init,
+		(void (*)(void *, const unsigned char *, unsigned int))NZAT_Update,
+		(char *(*)(void *, char *))NZAAT_End,
 		digest_printbin_stringle,
 		digest_print,
 		digest_print_string
@@ -659,10 +688,10 @@ digest_filelist(const char *file, struct hash_functions *defhash)
 	}
 
 	/* NHASHMOD: first GNU style function (and list below) */
-	if (defhash < &functions[11])
+	if (defhash < &functions[13])
 		/*
-		 * no GNU format for cksum, sum, sysvsum, adler32,
-		 * cdb, oaat, oaat1, oaat1s, suma, sfv, size
+		 * no GNU format for cksum, sum, sysvsum, adler32, cdb,
+		 * nzat, nzaat, oaat, oaat1, oaat1s, suma, sfv, size
 		 */
 		defhash = NULL;
 
@@ -1061,6 +1090,69 @@ OAAT_End(OAATS_CTX *ctx, char *digest)
 {
 	OAAT_Final(ctx);
 	return (ucase_End(&ctx->crc, digest));
+}
+
+void
+NZAT_Init(NZAT_CTX *ctx)
+{
+	*ctx = 0;
+}
+
+void
+NZAT_Update(NZAT_CTX *ctx, const uint8_t *buf, size_t n)
+{
+	register uint32_t h;
+
+	h = *ctx;
+	while (n--) {
+		h += (uint8_t)(*buf++);
+		++h;
+		h += h << 10;
+		h ^= h >> 6;
+	}
+	*ctx = h;
+}
+
+void
+NZAT_Final(NZAT_CTX *ctx)
+{
+	register uint32_t h;
+
+	h = *ctx;
+	if (h == 0) {
+		++*ctx;
+	} else {
+		h += h << 3;
+		h ^= h >> 11;
+		h += h << 15;
+		*ctx = h;
+	}
+}
+
+void
+NZAAT_Final(NZAT_CTX *ctx)
+{
+	register uint32_t h;
+
+	h = *ctx;
+	h += h << 3;
+	h ^= h >> 11;
+	h += h << 15;
+	*ctx = h;
+}
+
+char *
+NZAT_End(NZAT_CTX *ctx, char *digest)
+{
+	NZAT_Final(ctx);
+	return (ucase_End(ctx, digest));
+}
+
+char *
+NZAAT_End(NZAT_CTX *ctx, char *digest)
+{
+	NZAAT_Final(ctx);
+	return (ucase_End(ctx, digest));
 }
 
 /*

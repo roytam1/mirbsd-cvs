@@ -1278,6 +1278,7 @@
 ./usr/include/sysexits.h
 ./usr/include/syskern
 ./usr/include/syskern/libckern.h
+./usr/include/syskern/nzat.h
 ./usr/include/syslog.h
 ./usr/include/tar.h
 ./usr/include/term.h

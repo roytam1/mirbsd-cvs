@@ -1,5 +1,5 @@
 /*-
- * Copyright (c) 2009
+ * Copyright (c) 2009, 2011
  *	Thorsten Glaser <tg@mirbsd.org>
  *
  * Provided that these terms and disclaimer and all copyright notices
@@ -25,7 +25,7 @@
  */
 
 static const char __rcsid[] =
-    "$MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $";
+    "$MirOS: contrib/hosted/tg/arc4rootdom.c,v 1.1 2009/11/29 17:56:51 tg Exp $";
 
 #include <sys/param.h>
 #include <sys/types.h>
@@ -79,10 +79,11 @@ arc4random_pushb(const void *buf, size_t len)
 		uu.s.vu = arc4random();
 		gettimeofday(&uu.s.tv, NULL);
 
-		h = arc4random() & 0xFFFFFF00;
+		h = arc4random();
 		j = 0;
 		while (j < sizeof(uu.s)) {
 			h += ((uint8_t *)&uu)[j++];
+			++h;
 			h += h << 10;
 			h ^= h >> 6;
 		}
@@ -92,6 +93,7 @@ arc4random_pushb(const void *buf, size_t len)
 			c = ((const uint8_t *)buf)[n % len];
 			uu.buf[n % sizeof(uu.buf)] ^= c;
 			h += c;
+			++h;
 			h += h << 10;
 			h ^= h >> 6;
 			++n;

@@ -1,9 +1,10 @@
-/**	$MirOS: src/sys/arch/i386/i386/locore.s,v 1.10 2009/01/21 19:58:13 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/i386/locore.s,v 1.11 2010/09/19 18:55:31 tg Exp $ */
 /*	$OpenBSD: locore.s,v 1.77.2.1 2005/02/27 00:39:58 brad Exp $	*/
 /*	$NetBSD: locore.s,v 1.145 1996/05/03 19:41:19 christos Exp $	*/
 
 /*-
- * Copyright (c) 2010 Thorsten Glaser <tg@mirbsd.org>
+ * Copyright (c) 2010, 2011
+ *	Thorsten Glaser <tg@mirbsd.org>
  * Copyright (c) 1993, 1994, 1995 Charles M. Hannum.  All rights reserved.
  * Copyright (c) 1990 The Regents of the University of California.
  * All rights reserved.
@@ -210,11 +211,11 @@ start:	movw	$0x1234,0x472			# warm boot
 	pushfd
 
 	cld
-	xor	ebx,ebx
-	mov	bh,1
 	mov	ecx,1048576+65536
 	xor	esi,esi
 	xor	eax,eax
+	/* NZATInit */
+	xor	ebx,ebx
 	call	1f
 
 	/* assert: ecx == 0 */
@@ -223,7 +224,7 @@ start:	movw	$0x1234,0x472			# warm boot
 	mov	cl,4
 	call	1f
 
-	/* OAAT0Final */
+	/* NZAATFinish */
 	lea	eax,[ebx*8+ebx]
 	mov	ebx,eax
 	shr	ebx,11
@@ -233,9 +234,10 @@ start:	movw	$0x1234,0x472			# warm boot
 	add	eax,ebx
 	jmp	2f
 
-	/* OAAT0Update */
+	/* NZATUpdateMem */
 1:	lodsb
 	add	ebx,eax
+	inc	ebx
 	mov	edx,ebx
 	shl	edx,10
 	add	ebx,edx
