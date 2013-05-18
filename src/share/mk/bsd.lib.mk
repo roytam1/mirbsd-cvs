@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.lib.mk,v 1.39 2006/06/17 20:08:08 tg Exp $
+# $MirOS: src/share/mk/bsd.lib.mk,v 1.40 2006/07/02 23:31:50 tg Exp $
 # $OpenBSD: bsd.lib.mk,v 1.43 2004/09/20 18:52:38 espie Exp $
 # $NetBSD: bsd.lib.mk,v 1.67 1996/01/17 20:39:26 mycroft Exp $
 # @(#)bsd.lib.mk	5.26 (Berkeley) 5/2/91
@@ -182,7 +182,7 @@ lib${LIB}_pic.a:: ${SOBJS}
 	@rm -f lib${LIB}_pic.a
 	@${AR} cq lib${LIB}_pic.a $$(${LORDER} ${SOBJS} | tsort -q)
 
-${SHLIB_SONAME}: ${SOBJS} ${CRTBEGIN} ${CRTEND} ${CRTI} ${CRTN} ${LIBC} ${DPADD}
+${SHLIB_SONAME}: ${CRTI} ${CRTBEGIN} ${SOBJS} ${LIBC} ${DPADD} ${CRTEND} ${CRTN}
 .if defined(SHLIB_VERSION)
 	@echo building shared ${LIB} library \(version ${SHLIB_VERSION}\)
 .else

@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.prog.mk,v 1.22 2006/05/27 11:07:02 tg Exp $
+# $MirOS: src/share/mk/bsd.prog.mk,v 1.23 2006/06/17 20:08:08 tg Exp $
 # $OpenBSD: bsd.prog.mk,v 1.44 2005/04/15 17:18:57 espie Exp $
 # $NetBSD: bsd.prog.mk,v 1.55 1996/04/08 21:19:26 jtc Exp $
 # @(#)bsd.prog.mk	5.26 (Berkeley) 6/25/91
@@ -47,7 +47,7 @@ LINK.prog?=	${LINKER} ${LDFLAGS} ${LDSTATIC} \
 		${OBJS} -Wl,--start-group ${LDADD} -Wl,--end-group
 .    endif
 
-${PROG}: ${LIBCRT0} ${OBJS} ${LIBC} ${CRTBEGIN} ${CRTEND} ${CRTI} ${CRTN} ${DPADD}
+${PROG}: ${CRTI} ${CRTBEGIN} ${LIBCRT0} ${OBJS} ${LIBC} ${DPADD} ${CRTEND} ${CRTN}
 	${LINK.prog} -o $@
 .  else
 LINK.prog?=	NO
