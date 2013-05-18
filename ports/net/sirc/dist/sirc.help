@@ -1,7 +1,7 @@
 @main
 Welcome to sirc v. $version, by orabidoo  (last changed: $date),
 a small and simple IRC client written in perl, with extensions for
-$MirOS: ports/net/sirc/dist/sirc.help,v 1.2 2005/09/01 20:38:51 tg Exp $ by
+$MirOS: ports/net/sirc/dist/sirc.help,v 1.3 2006/01/01 04:50:43 tg Exp $ by
 Thorsten "mirabile" Glaser <tg@mirbsd.de> and others.
 
 To get help on a particular topic, type "/help <topic>"  (without the
@@ -288,6 +288,7 @@ and with the given password if you specify it, with the given nick
 if you specify it).
 The special values '0' means "your original server"; the value '1'
 means "the last server you connected to".
+Prefix an 's' to port to use a TLS secured/encrypted connection.
 Without arguments, tells you what your current server is.
 Example: /server newnick@irc.sdsc.edu:6666
 @set
@@ -455,7 +456,7 @@ Shows WHOIS information for the given user, but asking their
 server for it, which displays idle time.
 Short for /WHOIS <nick> <nick>.
 @newuser
-IRC is an international multi-user chat network organized in channels;
+IRC is an international multi-user chat network organised in channels;
 each IRC user is known by a nickname. Communication with other users
 is either by private messages or by talking in channels.
 
@@ -466,7 +467,7 @@ To get started, it will be useful to check the help on the following
 commands:  NICK, QUIT, LIST, WHOIS, MSG, JOIN, HOP, LL, keys
 @keys
 If you are using sirc with the full-screen interface (ssfe), these
-editing keys are recognized (with ^key meaning Control-key):
+editing keys are recognised (with ^key meaning Control-key):
   ^a              - go to the beginning of the line
   ^b, left arrow  - move left a letter
   ^d              - delete the character under the cursor

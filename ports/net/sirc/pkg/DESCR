@@ -20,3 +20,6 @@ The new command ACCEPT from ratbox-ircd (Freeforge et al.) is
 supported as well as the CAPAB IDENTIFY-MSG from dancer-ircd
 (Freenode/OPN et al.) which is invoked automatically and shows
 messages from identified users with different hooks («»[[¬]]).
+
+SSL is supported via /usr/sbin/openssl (which must be in your
+current $PATH) by prefixing the port number with an 's' letter.

@@ -59,6 +59,9 @@ Supported charsets are listed in Encode(3p).
 .TP
 .BR "-X"
 Sets the local character set (see the \fB-C\fR option above) to UTF-8.
+Automatically enabled if the current locale is a UTF-8 locale,
+and the operating system supports detection via the locale(1)
+command or the LANG, LC_CTYPE and LC_ALL environment variables.
 .TP
 .BR "-T"
 Do not show timestamps on messages.
@@ -84,7 +87,7 @@ the command /help.
 .PP
 The standard IRC commands that
 .B sirc
-recognizes are:
+recognises are:
 .PP
 .RS 5
 ADMIN, ALIAS, AWAY, BYE, CD, CLEAR, CONNECT, CTCP, DCC, DESCRIBE, DIE,
@@ -162,6 +165,9 @@ location of your .sircrc file; defaults to ~/.etc/sircrc.
 .BR "SIRCRCPL"
 location of your .sircrc.pl file; defaults to ~/.etc/sircrc.pl.
 .TP
+.BR "SIRCSSL"
+extra arguments to openssl; defaults to -CApath /etc/ssl/certs.
+.TP
 .BR "IRCFINGER"
 default reply to CTCP FINGERs.
 .TP
@@ -174,9 +180,13 @@ hostname to bind to, for hosts with  multiple (virtual) addresses.
 .SH BUGS
 None known, please report to the author.
 
+.SH CAVEATS
+For SSL, openssl(1) must be in your path.
+It is usually located in /usr/sbin on MirOS BSD.
+
 .SH AUTHOR
 .B sirc
 was written by Roger Espel Llima <roger.espel.llima@pobox.com>.
 IPv6 support was added by Hubert Feyrer <hubertf@netbsd.org>.
-UTF-8 support, later charset support, and optimizations
+UTF-8 support, later charset and TLS support, and optimisations
 were applied for \fBMirOS BSD\fR by Thorsten Glaser <tg@66h.42h.de>.
