@@ -1,4 +1,4 @@
-# $MirOS: CVSROOT/modules,v 1.36 2009/11/22 20:14:53 tg Exp $
+# $MirOS: CVSROOT/modules,v 1.37 2009/11/22 20:16:34 tg Exp $
 # from $OpenBSD: modules,v 1.17 1998/07/12 04:44:24 todd Exp $
 #-
 # Three different line formats are valid:
@@ -63,6 +63,7 @@ basedep		-a contrib/code/Snippets/tinyirc.c \
 cksum		src/bin/md5
 ed		src/bin/ed
 mksh		src/bin/mksh
+mtree		src/usr.sbin/mtree
 pax		src/bin/pax
 rdate		src/usr.sbin/rdate
 
