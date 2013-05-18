@@ -1,5 +1,5 @@
 <!-- PageID: wlog-9 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.22 2006/07/24 01:18:33 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.23 2006/07/24 01:25:36 tg Exp $</small>
 <h1>MirBSD &ndash; WTF is Verpeilungsfaktor?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -403,6 +403,18 @@
  <p>I probably forgot many thing but it's late and this FreeWRT thingy's
   been distracting me (let's let wbx handle stabilising ;) and it hasn't
   yet cooled down much either. So please forgive me.</p>
+</div>
+
+<div class="wlentry">
+ <h3 id="e20060726">26.07.2006 by tg@</h3>
+ <p>I planned to write a more lengthy wlog entry but since I have gecko2
+  here visiting me for a few days I don't get to do as much stuff as I'd
+  like to (but on the other hand he helps me cleaning up the appartement
+  but also makes me work :'( hard&#8230;). And now I even have headaches
+  and get some VPN DNS whatever confusion instead of working on distrib.
+  Also he tells me to goto bed at weird early hours, and so.</p>
+ <p>But the kitchen already looks more clean, and I did my job too.</p>
+ <p>It's <strong>too</strong> warm a summer.</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
