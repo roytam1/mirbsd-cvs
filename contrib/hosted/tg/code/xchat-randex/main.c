@@ -42,7 +42,9 @@
  */
 
 static const char __rcsid[] =
-    "$MirOS: contrib/hosted/tg/code/xchat-randex/main.c,v 1.14 2011/12/16 20:49:29 tg Exp $";
+    "$MirOS: contrib/hosted/tg/code/xchat-randex/main.c,v 1.15 2011/12/16 21:22:53 tg Exp $";
+
+#define RANDEX_PLUGIN_VERSION	"1.20"
 
 #include <sys/types.h>
 #if defined(HAVE_STDINT_H) && HAVE_STDINT_H
@@ -101,7 +103,7 @@ static struct {
 /* The XChat Plugin API 2.0 is not const clean */
 static char randex_name[] = "randex";
 static char randex_desc[] = "MirOS RANDomness EXchange protocol support";
-static char randex_vers[] = "1.12+CVS";
+static char randex_vers[] = RANDEX_PLUGIN_VERSION;
 static char null[] = "";
 
 int xchat_plugin_init(xchat_plugin *, char **, char **, char **, char *);
@@ -266,6 +268,9 @@ hookfn_rawirc(char *word[], char *word_eol[], void *user_data)
 	if (*rest == ':')
 		++rest;
 
+	if ((*rest == '+' || *rest == '-') && rest[1] == 1)
+		/* CAPAB IDENTIFY-MSG or similar */
+		++rest;
 	if (*rest == 1) {
 		++rest;
 		if (!strcasecmp(cmd, "privmsg") &&
