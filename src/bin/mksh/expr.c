@@ -22,7 +22,7 @@
 
 #include "sh.h"
 
-__RCSID("$MirOS: src/bin/mksh/expr.c,v 1.51 2011/12/11 01:56:43 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/expr.c,v 1.52 2011/12/16 20:03:02 tg Exp $");
 
 /* The order of these enums is constrained by the order of opinfo[] */
 enum token {
@@ -366,21 +366,25 @@ evalexpr(Expr_state *es, int prec)
 			break;
 		case O_DIV:
 		case O_DIVASN:
+#if !HAVE_SILENT_IDIVWRAPV
 			if (!es->natural && vr->val.i == -1 &&
 			    vl->val.i == ((mksh_ari_t)1 << 31)) {
 				/* -2147483648 / -1 = 2147483648 */
 				/* 80000000 / FFFFFFFF = 80000000 */
 				res = ((mksh_ari_t)1 << 31);
 			} else
+#endif
 				res = bivui(vl, /, vr);
 			break;
 		case O_MOD:
 		case O_MODASN:
+#if !HAVE_SILENT_IDIVWRAPV
 			if (!es->natural && vr->val.i == -1 &&
 			    vl->val.i == ((mksh_ari_t)1 << 31)) {
 				/* -2147483648 % -1 = 0 */
 				res = 0;
 			} else
+#endif
 				res = bivui(vl, %, vr);
 			break;
 		case O_PLUS:

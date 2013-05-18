@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/special/mksh/Makefile,v 1.48 2011/11/26 00:39:51 tg Exp $
+# $MirOS: src/distrib/special/mksh/Makefile,v 1.49 2011/12/08 22:19:17 tg Exp $
 #-
 # Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -49,6 +49,8 @@ CPPFLAGS+=	-DMKSH_ASSUME_UTF8 -DMKSH_DISABLE_DEPRECATED -DMKSH_SMALL \
 		-DHAVE_STRCASESTR=1 -DHAVE_STRLCPY=1 -DHAVE_FLOCK_DECL=1 \
 		-DHAVE_REVOKE_DECL=1 -DHAVE_SYS_SIGLIST_DECL=1 \
 		-DHAVE_PERSISTENT_HISTORY=0
+# probably differs between i386 and sparc
+CPPFLAGS+=	-DHAVE_SILENT_IDIVWRAPV=0
 COPTS+=		-std=gnu99 -Wall -fno-inline
 
 regress: ${PROG} check.pl check.t
