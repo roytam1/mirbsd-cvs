@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/baselive/Makefile,v 1.10 2006/10/14 23:18:30 tg Exp $
+# $MirOS: src/distrib/baselive/Makefile,v 1.11 2006/10/16 19:27:50 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -70,6 +70,7 @@ unpack-md:
 ${IMAGE}:
 	test ! -e ${TMPMOUNT} || (cd ${.CURDIR}; ${MAKE} unconfig)
 	${SUDO} mkdir -p ${TMPMOUNT}
+	${SUDO} chown 0:0 ${TMPMOUNT}
 	${SUDO} cp ${WRKDIR}/dev/MAKEDEV ${TMPMOUNT}/
 	cd ${TMPMOUNT} && ${SUDO} ${MKSH} MAKEDEV all
 	-${SUDO} dd if=/dev/arandom bs=512 count=4 of=${TMPMOUNT}/.rs
@@ -146,8 +147,8 @@ cdrom-generate:
 	    sort -uo RMD160 RMD160; \
 	    gzip -n9 RMD160; \
 	    dd if=/dev/zero count=2 >>RMD160.gz; \
-	    ${SUDO} chown 0:0 00-README RMD160.gz; \
-	    ${SUDO} chmod 444 00-README RMD160.gz; \
+	    ${SUDO} chown 0:0 00-README RMD160.gz boot* bsd*; \
+	    ${SUDO} chmod 444 00-README RMD160.gz boot* bsd*; \
 	    ${SUDO} chown 0:0 .; ${SUDO} chmod 555 .; \
 	    ${SUDO} ${MKSH} ${.CURDIR}/mklocatedb.sh ${REALOBJDIR}/${IMAGE}
 	${SUDO} mkisofs -R -f -L -d -D -N -v -v ${CDROM_MDOPTS} \
