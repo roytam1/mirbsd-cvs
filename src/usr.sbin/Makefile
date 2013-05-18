@@ -1,4 +1,4 @@
-# $MirOS: src/usr.sbin/Makefile,v 1.11 2005/12/20 18:53:48 tg Exp $
+# $MirOS: src/usr.sbin/Makefile,v 1.12 2006/01/01 15:43:48 tg Exp $
 # $OpenBSD: Makefile,v 1.110 2004/05/04 23:27:21 deraadt Exp $
 
 .include <bsd.own.mk>
@@ -15,7 +15,6 @@
   SUBDIR+= chroot
   SUBDIR+= config
   SUBDIR+= cron
-  SUBDIR+= ctm
   SUBDIR+= dev_mkdb
   SUBDIR+= dhcpd
   SUBDIR+= dhcrelay
@@ -32,7 +31,7 @@
 # SUBDIR+= hotplugd
   SUBDIR+= httpd
 .endif
-  SUBDIR+= ifstated
+# SUBDIR+= ifstated
   SUBDIR+= ifwatchd
   SUBDIR+= inetd
   SUBDIR+= iostat
@@ -49,7 +48,6 @@
   SUBDIR+= mtrace
   SUBDIR+= mtree
   SUBDIR+= ndp
-  SUBDIR+= netgroup_mkdb
   SUBDIR+= ntpd
   SUBDIR+= openssl
 # SUBDIR+= ospfctl
