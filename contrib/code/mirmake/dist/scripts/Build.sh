@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.98 2008/03/09 13:42:52 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.99 2008/03/09 13:55:47 tg Exp $
 #-
 # Copyright (c) 2006, 2008
 #	Thorsten “mirabilos” Glaser <tg@mirbsd.de>
@@ -210,7 +210,7 @@ sed_exp="-e 's#@@machine@@#${new_machin}#g' \
 cp $d_src/lib/libc/stdlib/getopt_long.c $d_src/lib/libc/string/strlfun.c \
     $d_src/include/*.h $d_src/usr.bin/mkdep/mkdep.sh $d_build/
 cp $d_src/share/mk/*.mk $d_build/mk/
-cp $d_src/include/{getopt,md4,md5,rmd160,sha1,sha2,tiger}.h \
+cp $d_src/include/{getopt,adler32,md4,md5,rmd160,sfv,sha1,sha2,suma,tiger,whirlpool}.h \
     $d_script/../contrib/mirmake.h $d_build/F/
 
 # Patch sources
@@ -480,12 +480,16 @@ fi
 rm -rf $d_build/libmirmake
 mkdir $d_build/libmirmake
 cd $d_build/libmirmake
+sed -e 's/hashinc/adler32.h/g' -e 's/HASH/ADLER32/g' \
+    $d_src/lib/libc/hash/helper.c >adler32hl.c
 sed -e 's/hashinc/md4.h/g' -e 's/HASH/MD4/g' \
     $d_src/lib/libc/hash/helper.c >md4hl.c
 sed -e 's/hashinc/md5.h/g' -e 's/HASH/MD5/g' \
     $d_src/lib/libc/hash/helper.c >md5hl.c
 sed -e 's/hashinc/rmd160.h/g' -e 's/HASH/RMD160/g' \
     $d_src/lib/libc/hash/helper.c >rmd160hl.c
+sed -e 's/hashinc/sfv.h/g' -e 's/HASH/SFV/g' \
+    $d_src/lib/libc/hash/helper.c >sfvhl.c
 sed -e 's/hashinc/sha1.h/g' -e 's/HASH/SHA1/g' \
     $d_src/lib/libc/hash/helper.c >sha1hl.c
 sed -e 's/hashinc/sha2.h/g' -e 's/HASH_\{0,1\}/SHA256_/g' \
@@ -494,9 +498,14 @@ sed -e 's/hashinc/sha2.h/g' -e 's/HASH_\{0,1\}/SHA384_/g' \
     $d_src/lib/libc/hash/helper.c >sha384hl.c
 sed -e 's/hashinc/sha2.h/g' -e 's/HASH_\{0,1\}/SHA512_/g' \
     $d_src/lib/libc/hash/helper.c >sha512hl.c
+sed -e 's/hashinc/suma.h/g' -e 's/HASH/SUMA/g' \
+    $d_src/lib/libc/hash/helper.c >sumahl.c
 sed -e 's/hashinc/tiger.h/g' -e 's/HASH/TIGER/g' \
     $d_src/lib/libc/hash/helper.c >tigerhl.c
-cp  $d_src/lib/libc/hash/{md4,md5,rmd160,sha1,sha2,tiger}.c \
+sed -e 's/hashinc/whirlpool.h/g' -e 's/HASH/WHIRLPOOL/g' \
+    $d_src/lib/libc/hash/helper.c >whirlpoolhl.c
+cp  $d_src/lib/libc/hash/{adh32,md4,md5,rmd160,sfv,sha1,sha2,suma,tiger,whirlpool}.c \
+    $d_src/lib/libc/hash/suma-i386.S \
     $d_src/lib/libc/stdlib/{getopt_long,strtoll}.c \
     $d_src/lib/libc/stdio/{{,v}asprintf,mktemp}.c .
 SRCS="${add_fgetln%.[co]}.c $add_strlfun $add_arcfour" \
