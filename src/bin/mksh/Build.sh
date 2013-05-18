@@ -466,8 +466,6 @@ BeOS)
 		oswarn="$oswarn${nl}itself in a second stage"
 		;;
 	esac
-	# BeOS has no real tty either
-	add_cppflags -DMKSH_UNEMPLOYED
 	;;
 BSD/OS)
 	: ${HAVE_SETLOCALE_CTYPE=0}
