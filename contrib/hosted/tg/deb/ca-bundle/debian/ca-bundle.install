@@ -1,8 +1,5 @@
-# $MirOS$
-#-
 bsd/certdata.txt usr/share/ca-bundle
 bsd/keystore.jks usr/share/ca-bundle
-debian/lintian/ca-bundle usr/share/lintian/overrides
 generated/ca-certificates.crt usr/share/ca-bundle
 generated/ksslcalist usr/share/ca-bundle
 generated/pem/* usr/share/ca-bundle/certs
