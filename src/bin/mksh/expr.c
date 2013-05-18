@@ -22,7 +22,7 @@
 
 #include "sh.h"
 
-__RCSID("$MirOS: src/bin/mksh/expr.c,v 1.40 2009/12/05 20:17:58 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/expr.c,v 1.41 2009/12/08 19:23:34 tg Exp $");
 
 /* The order of these enums is constrained by the order of opinfo[] */
 enum token {
@@ -160,7 +160,7 @@ enum error_type {
 };
 
 static void evalerr(Expr_state *, enum error_type, const char *)
-    __attribute__((noreturn));
+    MKSH_A_NORETURN;
 static struct tbl *evalexpr(Expr_state *, int);
 static void exprtoken(Expr_state *);
 static struct tbl *do_ppmm(Expr_state *, enum token, struct tbl *, bool);
