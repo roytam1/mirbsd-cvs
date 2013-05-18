@@ -2,7 +2,7 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.123 2008/06/21 19:45:13 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.124 2008/06/21 22:37:19 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R33d</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -744,6 +744,7 @@ mws_content <<'EOF'
  <li>HP-UX 11i v3 B.11.31 U PA-RISC 9000/800 (hppa aCC HP92453-01 B.11.X.36086-36089-36092.GP, ld 92453-07 B.11.60 070209)</li>
  <li>Mac OSX Leopard 10.5.2 Darwin 9.2.0 (i386 gcc4.0.1 Apple Inc. build 5465)</li>
  <li>Mac OSX Leopard 10.5.3 (9D34) Darwin 9.3.0 (i386 gcc4.2.1 Apple Inc. build 5558)</li>
+ <li>Mac OSX Leopard 10.5.3 (9D34) Darwin 9.3.0 (i386 llvmgcc4.2.1-Apple_5555-LLVM_2030)</li>
  <li>Mac OSX Leopard Server 10.5.2 Darwin 9.2.0 (macppc gcc3.3 20030304 Apple Computer, Inc. build 1823, ld64-77)</li>
  <li>Mac OSX Leopard Server 10.5.2 Darwin 9.2.0 (macppc gcc4.0.1 Apple Inc. build 5465)</li>
  <li>Solaris 8 Generic_117350-41 (sparc,V8+ sun4u gcc3.4.3)</li>
