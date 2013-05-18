@@ -1,6 +1,7 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.24 2002/10/24 22:20:04 naddy Exp $
 
-COMMENT=			Motif CD player
+COMMENT=	Motif CD player
 
 PKGNAME=	${DISTNAME}-1
 DISTNAME=	xmcd-2.6
@@ -15,6 +16,7 @@ PERMIT_DISTFILES_FTP=	Yes
 MASTER_SITES=	http://www.ibiblio.org/tkan/download/xmcd/src/
 
 USE_MOTIF=	any
+USE_X11=	Yes
 CONFIGURE_STYLE= imake
 NO_REGRESS=	Yes
 

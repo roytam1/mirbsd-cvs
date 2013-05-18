@@ -1,7 +1,8 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.4 2004/01/30 08:39:48 xsa Exp $
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
-COMMENT=			Python interface to XMMS
+COMMENT=	Python interface to XMMS
 DISTNAME=	pyxmms-1.06
 PKGNAME=	${DISTNAME:S/py/py-/}-0
 CATEGORIES=	audio
@@ -22,7 +23,7 @@ LIB_DEPENDS=	xmms.3::audio/xmms
 MODPY_DISTUTILS_BUILD=		build_ext
 MODPY_DISTUTILS_BUILDARGS=	-I${LOCALBASE}/include \
 				-L${LOCALBASE}/lib
-
+USE_X11=	Yes
 NO_REGRESS=	Yes
 
 post-install:

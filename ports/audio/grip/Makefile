@@ -1,7 +1,7 @@
-# $MirOS: ports/audio/grip/Makefile,v 1.3 2006/02/09 11:11:04 tg Exp $
+# $MirOS: ports/audio/grip/Makefile,v 1.4 2006/09/14 00:07:02 tg Exp $
 # $OpenBSD: Makefile,v 1.8 2002/12/29 19:29:56 fgsch Exp $
 
-COMMENT=			front-end to external cd audio rippers and mp3 encoders
+COMMENT=		front-end to external cd audio rippers and mp3 encoders
 V=			3.2.0
 DISTNAME=		grip-${V}
 CATEGORIES=		audio
@@ -23,6 +23,7 @@ LIB_DEPENDS=	ghttp::www/libghttp \
 		vte::devel/vte
 MODULES+=		devel/pkgconfig
 
+USE_X11=		Yes
 USE_GMAKE=		Yes
 USE_CXX=		Yes
 NO_REGRESS=		Yes

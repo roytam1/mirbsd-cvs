@@ -1,7 +1,7 @@
-# $MirOS: ports/audio/lame/Makefile,v 1.3 2005/12/28 17:45:26 tg Exp $
+# $MirOS: ports/audio/lame/Makefile,v 1.4 2006/09/14 00:07:03 tg Exp $
 # $OpenBSD: Makefile,v 1.26 2005/12/23 15:03:07 espie Exp $
 
-COMMENT=			lame ain't an MP3 encoder
+COMMENT=		lame ain't an MP3 encoder
 VERSION=		3.96.1
 DISTNAME=		lame-${VERSION}
 CATEGORIES=		audio
@@ -31,6 +31,7 @@ CONFIGURE_ARGS+=	--disable-nasm
 .endif
 
 .if ${FLAVOR:L} != "no_x11"
+USE_X11=		Yes
 CONFIGURE_ARGS+=	--enable-mp3x \
 			--with-gtk-prefix=${LOCALBASE}
 LIB_DEPENDS+=		gtk.1.2,gdk.1.2::x11/gtk+1

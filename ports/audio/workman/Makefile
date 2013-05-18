@@ -1,6 +1,7 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.24 2002/10/24 22:20:04 naddy Exp $
 
-COMMENT=			OpenLook-based CD player
+COMMENT=	OpenLook-based CD player
 DISTNAME=	WorkMan-1.3a
 PKGNAME=	${DISTNAME:L}-0
 CATEGORIES=	audio
@@ -12,6 +13,7 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
+USE_X11=	Yes
 LIB_DEPENDS=	xview.3.2,olgx.3.2::x11/xview/lib
 BUILD_DEPENDS=	::x11/xview/config
 
