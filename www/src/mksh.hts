@@ -3,7 +3,7 @@
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.222 2009/04/13 18:01:51 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.223 2009/04/13 18:21:28 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R37c</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -798,6 +798,19 @@ mws_content <<'EOF'
  <li>Minix 3 3.1.4~r4203? (i386 gcc)</li>
 <li style="list-style:none;">– other build system integration –</li>
  <li>See the <a href="#otheros">Inclusion</a> section for general information</li>
+ <li>Debian GNU/kFreeBSD sid 7.1-1-686 (i386 gcc4.3.3-5) <em>by ganymede1 buildd via Debian</em></li>
+ <li>Debian GNU/kFreeBSD sid 7.1-1-amd64 (amd64 gcc4.3.3-5) <em>by ganymede2 buildd via Debian</em></li>
+ <li>Debian GNU sid GNU-Mach 1.3.99/Hurd-0.3 i386-AT386 (i386 gcc4.3.3-5) <em>by mozart buildd via Debian</em></li>
+ <li>Debian GNU/Linux sid 2.6.26-1-alpha-generic (alpha gcc4.3.3-5 +glibc +dietlibc) <em>by goedel buildd via Debian</em></li>
+ <li>Debian GNU/Linux sid 2.6.26-rc5-iop32x armv5tel (armel gcc4.3.3-5) <em>by ALL6500 buildd via Debian</em></li>
+ <li>Debian GNU/Linux sid 2.6.26-1-parisc (hppa gcc4.3.3-5 +glibc +dietlibc) <em>by penalosa buildd via Debian</em></li>
+ <li>Debian GNU/Linux sid 2.6.26-2-amd64 (i386 gcc4.3.3-7 +glibc +dietlibc) <em>by puccini buildd via Debian</em></li>
+ <li>Debian GNU/Linux sid 2.6.18-dsa-mckinley (ia64 gcc4.3.3-5 +glibc +dietlibc) <em>by mundy buildd via Debian</em></li>
+ <li>Debian GNU/Linux sid 2.6.25-rc3-00000-g84d8498-dirty (mips gcc4.3.3-5 +glibc +dietlibc) <em>by ball buildd via Debian</em></li>
+ <li>Debian GNU/Linux sid 2.6.24.1 (mipsel gcc4.3.3-5 +glibc +dietlibc) <em>by rem buildd via Debian</em></li>
+ <li>Debian GNU/Linux sid 2.6.26-1-powerpc64 (macppc gcc4.3.3-7 +glibc +dietlibc) <em>by praetorius buildd via Debian</em></li>
+ <li>Debian GNU/Linux sid 2.6.26-1-s390x (s390 gcc4.3.3-5) <em>by debian-31.osdl.marist.edu buildd via Debian</em></li>
+ <li>Debian GNU/Linux sid 2.6.28.7 (sparcV8 gcc4.3.3-5 +glibc +dietlibc) <em>by lebrun buildd via Debian</em></li>
  <li>Fedora GNU/Linux Core 9 2.6.18-128.1.1.el5 (i386 gcc4.3.0-8) <em>by x86-4 buildd via Koji/EPEL packager</em></li>
  <li>Fedora GNU/Linux Core 9 2.6.18-128.el5 (macppc gcc4.3.0-8) <em>by ppc8 buildd via Koji/EPEL packager</em></li>
  <li>Fedora GNU/Linux Core 9 2.6.18-128.el5 (ppc64 gcc4.3.0-8) <em>by ppc10 buildd via Koji/EPEL packager</em></li>
