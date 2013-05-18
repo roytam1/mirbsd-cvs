@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.6 2006/01/03 03:07:56 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.7 2006/04/06 11:07:31 tg Exp $ */
 /*	$OpenBSD: installboot.c,v 1.47 2004/07/15 21:44:16 tom Exp $	*/
 /*	$NetBSD: installboot.c,v 1.5 1995/11/17 23:23:50 gwr Exp $ */
 
@@ -84,7 +84,7 @@
 #include <unistd.h>
 #include <util.h>
 
-__RCSID("$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.6 2006/01/03 03:07:56 tg Exp $");
+__RCSID("$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.7 2006/04/06 11:07:31 tg Exp $");
 
 extern	char *__progname;
 int	verbose, nowrite, nheads, nsectors, userspec = 0;
@@ -123,8 +123,7 @@ static int	record_block(u_int8_t *, daddr_t, u_int, struct disklabel *);
 
 static int record_block(u_int8_t *bt, daddr_t blk, u_int bs,
 	struct disklabel *dl);
-static int do_record(u_int8_t *bt, daddr_t blk, u_int bs,
-	struct disklabel *dl);
+static int do_record(u_int8_t *bt, daddr_t blk, u_int bs);
 
 
 static void
@@ -675,7 +674,7 @@ record_block(u_int8_t *bt, daddr_t blk, u_int bs, struct disklabel *dl)
 		 */
 		if (!W_num) goto flush_end;
 		if ((nheads == -1) || (nsectors == -1)) {
-			retval += do_record(bt+retval, W_ofs, W_num, dl);
+			retval += do_record(bt+retval, W_ofs, W_num);
 			goto flush_end;
 		}
 
@@ -683,19 +682,19 @@ record_block(u_int8_t *bt, daddr_t blk, u_int bs, struct disklabel *dl)
 		if (i < (nsectors-1)) {
 			i = nsectors - i;
 			if (i > W_num) i=W_num;
-			retval += do_record(bt+retval, W_ofs, i, dl);
+			retval += do_record(bt+retval, W_ofs, i);
 			W_ofs += i;
 			W_num -= i;
 		}
 
 		while (W_num > nsectors) {
-			retval += do_record(bt+retval, W_ofs, nsectors, dl);
+			retval += do_record(bt+retval, W_ofs, nsectors);
 			W_ofs += nsectors;
 			W_num -= nsectors;
 		}
 
 		if (W_num)
-			retval += do_record(bt+retval, W_ofs, W_num, dl);
+			retval += do_record(bt+retval, W_ofs, W_num);
 
 	flush_end:
 		W_ofs=0; W_num=0;
@@ -710,7 +709,7 @@ record_block(u_int8_t *bt, daddr_t blk, u_int bs, struct disklabel *dl)
 }
 
 static int
-do_record(u_int8_t *bt, daddr_t blk, u_int bs, struct disklabel *dl)
+do_record(u_int8_t *bt, daddr_t blk, u_int bs)
 {
 	static u_int i = 0;
 	u_int8_t tv, len;
