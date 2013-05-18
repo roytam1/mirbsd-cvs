@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/scripts/import-3rdpty,v 1.23 2005/11/23 15:47:53 tg Exp $
+# $MirOS: src/scripts/import-3rdpty,v 1.24 2005/11/23 18:04:44 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -23,7 +23,7 @@
 # rect or other, however caused, arising in any way out of the usage
 # of this work, even if advised of the possibility of such damage.
 
-print -r -- '========= $MirOS: src/scripts/import-3rdpty,v 1.23 2005/11/23 15:47:53 tg Exp $ ========='
+print -r -- '========= $MirOS: src/scripts/import-3rdpty,v 1.24 2005/11/23 18:04:44 tg Exp $ ========='
 
 ignlist=0
 force=0
@@ -34,7 +34,8 @@ while getopts "fhnp" option; do
 	h)	print Syntax:
 		print "\t$0 [-fnp] module tag"
 		print "\t$0 [-fnp] - path vendor tag"
-		print modules: binutils cvs lynx openbsd rcs texinfo -
+		print modules: binutils cdk cvs expat lynx openbsd png
+		print \\trcs texinfo -
 		exit 0
 		;;
 	n)	DO_CVS="print -- \$ cvs"
@@ -233,11 +234,73 @@ binutils)
 	vendor=FSF
 	vpath=src/gnu/usr.bin/binutils
 	;;
+cdk)
+	IGNORELIST="\
+		CHANGES \
+		COPYING \
+		EXPANDING \
+		INSTALL \
+		Makefile.in \
+		NOTES \
+		README \
+		TODO \
+		VERSION \
+		aclocal.m4 \
+		cdk-4.9.11.lsm \
+		cdk.spec \
+		config.guess \
+		config.sub \
+		configure \
+		configure.in \
+		headers.sh \
+		include/cdk_version.hin \
+		include/config.hin \
+		install-sh \
+		manlinks.sed \
+		manlinks.sh \
+		mkdirs.sh \
+	"
+	vendor=cdk
+	vpath=src/lib/libcdk
+	;;
 cvs)
 	IGNORELIST="\
 	"
 	vendor=FSF
 	vpath=src/gnu/usr.bin/cvs
+	;;
+expat)
+	IGNORELIST="\
+		Changes \
+		MANIFEST \
+		Makefile.in \
+		README \
+		configure \
+		configure.in \
+		doc/expat.png \
+		doc/reference.html \
+		doc/style.css \
+		doc/valid-xhtml10.png \
+		doc/xmlwf.sgml \
+		expat.dsw \
+		expat_config.h.in \
+		lib/Makefile.MPW \
+		lib/expat.dsp \
+		lib/expat_static.dsp \
+		lib/expatw.dsp \
+		lib/expatw_static.dsp \
+		lib/libexpat.def \
+		lib/libexpatw.def \
+		lib/macconfig.h \
+		lib/winconfig.h \
+		xmlwf/ct.c \
+		xmlwf/readfilemap.c \
+		xmlwf/win32filemap.c \
+		xmlwf/xmlwf.dsp \
+		xmlwf/xmlwin32url.cxx \
+	"
+	vendor=expat
+	vpath=src/lib/libexpat
 	;;
 lynx)
 	IGNORELIST="\
@@ -399,6 +462,7 @@ openbsd)
 		include/wctype.h \
 		kerberosIV \
 		kerberosV \
+		lib/bumpversion \
 		lib/csu \
 		lib/i18n_module \
 		lib/libarch/alpha \
@@ -450,14 +514,20 @@ openbsd)
 		lib/libc/yp \
 		lib/libcom_err \
 		lib/libcompat/regexp/COPYRIGHT \
+		lib/libcompat/regexp/COPYRIGHT \
 		lib/libcurses++ \
 		lib/libdes/README \
+		lib/libdes/README \
+		lib/libdes/VERSION \
 		lib/libdes/VERSION \
 		lib/libdes/asm \
 		lib/libdes/des_locl.org \
+		lib/libdes/des_locl.org \
+		lib/libedit/readline/Makefile \
 		lib/libedit/readline/Makefile \
 		lib/libedit/tokenizer.h \
 		lib/libevent/compat \
+		lib/libevent/err.c \
 		lib/libevent/err.c \
 		lib/libevent/sample \
 		lib/libevent/test \
@@ -470,13 +540,20 @@ openbsd)
 		lib/libkafs \
 		lib/libkrb5 \
 		lib/libkvm/kvm_alpha.c \
+		lib/libkvm/kvm_alpha.c \
+		lib/libkvm/kvm_arm.c \
 		lib/libkvm/kvm_arm.c \
 		lib/libkvm/kvm_hppa.c \
+		lib/libkvm/kvm_hppa.c \
 		lib/libkvm/kvm_m68k.c \
+		lib/libkvm/kvm_m68k.c \
+		lib/libkvm/kvm_m88k.c \
 		lib/libkvm/kvm_m88k.c \
 		lib/libkvm/kvm_mips64.c \
 		lib/libkvm/kvm_powerpc.c \
 		lib/libkvm/kvm_sparc64.c \
+		lib/libkvm/kvm_sparc64.c \
+		lib/libkvm/kvm_vax.c \
 		lib/libkvm/kvm_vax.c \
 		lib/libm/arch/alpha \
 		lib/libm/arch/hppa \
@@ -484,8 +561,13 @@ openbsd)
 		lib/libm/arch/mc68881 \
 		lib/libm/arch/vax \
 		lib/libm/noieee_src \
+		lib/libm/src/w_cabs.c \
+		lib/libm/src/w_cabsf.c \
+		lib/libossaudio/shlib_version \
 		lib/libossaudio/shlib_version \
 		lib/libpcap/CHANGES \
+		lib/libpcap/CHANGES \
+		lib/libpcap/README \
 		lib/libpcap/README \
 		lib/libpthread/arch/alpha \
 		lib/libpthread/arch/arm \
@@ -499,7 +581,10 @@ openbsd)
 		lib/libpthread/arch/sparc64 \
 		lib/libpthread/arch/vax \
 		lib/librpcsvc/yp.x \
+		lib/librpcsvc/yp.x \
 		lib/librpcsvc/yppasswd.x \
+		lib/librpcsvc/yppasswd.x \
+		lib/libssl/cert.pem \
 		lib/libssl/cert.pem \
 		lib/libssl/crypto/arch/alpha \
 		lib/libssl/crypto/arch/arm \
@@ -511,16 +596,80 @@ openbsd)
 		lib/libssl/crypto/arch/powerpc \
 		lib/libssl/crypto/arch/sparc64 \
 		lib/libssl/crypto/arch/vax \
+		lib/libssl/src/CHANGES \
+		lib/libssl/src/CHANGES.SSLeay \
+		lib/libssl/src/INSTALL \
+		lib/libssl/src/INSTALL.DJGPP \
+		lib/libssl/src/INSTALL.MacOS \
+		lib/libssl/src/INSTALL.OS2 \
+		lib/libssl/src/INSTALL.VMS \
+		lib/libssl/src/INSTALL.W32 \
+		lib/libssl/src/INSTALL.WCE \
 		lib/libssl/src/MacOS \
+		lib/libssl/src/NEWS \
+		lib/libssl/src/README.ENGINE \
 		lib/libssl/src/VMS \
+		lib/libssl/src/apps/CA.com \
+		lib/libssl/src/apps/CA.pl.in \
+		lib/libssl/src/apps/ca-cert.srl \
+		lib/libssl/src/apps/ca-key.pem \
+		lib/libssl/src/apps/ca-req.pem \
+		lib/libssl/src/apps/cert.pem \
+		lib/libssl/src/apps/client.pem \
 		lib/libssl/src/apps/demoCA \
+		lib/libssl/src/apps/der_chop.in \
+		lib/libssl/src/apps/dh1024.pem \
+		lib/libssl/src/apps/dh2048.pem \
+		lib/libssl/src/apps/dh4096.pem \
+		lib/libssl/src/apps/dh512.pem \
+		lib/libssl/src/apps/dsa-ca.pem \
+		lib/libssl/src/apps/dsa-pca.pem \
+		lib/libssl/src/apps/dsa1024.pem \
+		lib/libssl/src/apps/dsa512.pem \
+		lib/libssl/src/apps/dsap.pem \
+		lib/libssl/src/apps/install.com \
+		lib/libssl/src/apps/makeapps.com \
+		lib/libssl/src/apps/openssl-vms.cnf \
+		lib/libssl/src/apps/pca-cert.srl \
+		lib/libssl/src/apps/pca-key.pem \
+		lib/libssl/src/apps/pca-req.pem \
+		lib/libssl/src/apps/privkey.pem \
+		lib/libssl/src/apps/req.pem \
+		lib/libssl/src/apps/rsa8192.pem \
+		lib/libssl/src/apps/s1024key.pem \
+		lib/libssl/src/apps/s1024req.pem \
+		lib/libssl/src/apps/s512-key.pem \
+		lib/libssl/src/apps/s512-req.pem \
+		lib/libssl/src/apps/server.pem \
+		lib/libssl/src/apps/server.srl \
+		lib/libssl/src/apps/server2.pem \
 		lib/libssl/src/apps/set \
+		lib/libssl/src/apps/testCA.pem \
+		lib/libssl/src/apps/winrand.c \
 		lib/libssl/src/bugs \
 		lib/libssl/src/certs \
+		lib/libssl/src/crypto/crypto-lib.com \
+		lib/libssl/src/crypto/des/FILES0 \
+		lib/libssl/src/crypto/des/INSTALL \
+		lib/libssl/src/crypto/des/Imakefile \
+		lib/libssl/src/crypto/des/KERBEROS \
+		lib/libssl/src/crypto/des/VERSION \
+		lib/libssl/src/crypto/des/des-lib.com \
+		lib/libssl/src/crypto/des/options.txt \
+		lib/libssl/src/crypto/install.com \
+		lib/libssl/src/crypto/threads/ptest.bat \
+		lib/libssl/src/crypto/threads/pthreads-vms.com \
+		lib/libssl/src/crypto/threads/win32.bat \
 		lib/libssl/src/demos \
+		lib/libssl/src/install.com \
+		lib/libssl/src/makevms.com \
 		lib/libssl/src/ms \
+		lib/libssl/src/openssl.doxy \
+		lib/libssl/src/openssl.spec \
 		lib/libssl/src/os2 \
 		lib/libssl/src/shlib \
+		lib/libssl/src/ssl/install.com \
+		lib/libssl/src/ssl/ssl-lib.com \
 		lib/libssl/src/test \
 		lib/libssl/src/times \
 		lib/libssl/src/tools \
@@ -529,6 +678,7 @@ openbsd)
 		lib/libz/ChangeLog \
 		lib/libz/README \
 		lib/libz/crc32.h \
+		lib/libz/inffast.h \
 		lib/libz/inffixed.h \
 		lib/libz/trees.h \
 		libexec/comsat \
@@ -793,6 +943,44 @@ openbsd)
 	"
 	vendor=openbsd
 	vpath=src
+	;;
+png)
+	IGNORELIST="\
+		ANNOUNCE \
+		CHANGES \
+		INSTALL \
+		KNOWNBUG \
+		LICENSE \
+		Makefile.am \
+		Makefile.in \
+		README \
+		TODO \
+		Y2KINFO \
+		aclocal.m4 \
+		autogen.sh \
+		config.guess \
+		config.h.in \
+		config.sub \
+		configure \
+		configure.ac \
+		depcomp \
+		example.c \
+		install-sh \
+		libpng.txt \
+		ltmain.sh \
+		missing \
+		mkinstalldirs \
+		pngbar.jpg \
+		pngbar.png \
+		pnggccrd.c \
+		pngnow.png \
+		pngtest.c \
+		pngtest.png \
+		pngvcrd.c \
+		test-pngtest.sh \
+	"
+	vendor=png
+	vpath=src/lib/libpng
 	;;
 rcs)
 	IGNORELIST="\
