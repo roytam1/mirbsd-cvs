@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/cmd_i386.c,v 1.14 2009/01/01 23:59:02 tg Exp $	*/
+/**	$MirOS: src/sys/arch/i386/stand/libsa/cmd_i386.c,v 1.15 2009/01/02 01:42:07 tg Exp $	*/
 /*	$OpenBSD: cmd_i386.c,v 1.29 2006/09/18 21:14:15 mpf Exp $	*/
 
 /*
@@ -325,10 +325,11 @@ Xmdexec(void)
 
 	switch (type) {
 	case 1:
-		jaddr = baddr = 0x00007C00;
+		baddr = 0x07C00000;
+		jaddr = 0x00007C00;
 		break;
 	case 2:
-		baddr = 0x00008000;
+		baddr = 0x08000000;
 		jaddr = 0x00008200;
 		break;
 	}
