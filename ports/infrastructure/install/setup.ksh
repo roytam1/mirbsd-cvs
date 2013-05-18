@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.48 2006/01/25 20:50:50 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.49 2006/02/07 21:36:36 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -559,7 +559,7 @@ if [[ ! -s $localbase/db/mmake.cfg ]]; then
 	EOF
 fi
 
-f_ver=$(<$portsdir/infrastructure/pkgtools/VERSION)
+f_ver=$(cd $portsdir/essentials/pkgtools && mmake show=_VERSION)
 if [[ $(cd $localbase/db/pkg && echo pkgtools-$f_ver-*) \
     != "pkgtools-$f_ver-*" ]]; then
 	: # Current package tools are already installed

@@ -1,4 +1,4 @@
-# $MirOS: ports/essentials/pkgtools/Makefile,v 1.10 2006/01/29 21:08:57 tg Exp $
+# $MirOS: ports/essentials/pkgtools/Makefile,v 1.11 2006/02/09 09:15:11 tg Exp $
 
 COMMENT=		"MirPorts Framework package tools"
 CATEGORIES=		essentials infrastructure
@@ -22,6 +22,8 @@ PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes
 
 NO_REGRESS=		Yes
+# used by installer, do not modify
+_VERSION=		${_CVS_DISTF:R:S/${CVS_DISTFILE}-//}
 
 MAKE_ENV+=		BINOWN=${BINOWN:Q}
 MAKE_ENV+=		PORTSDIR=${PORTSDIR:Q}
