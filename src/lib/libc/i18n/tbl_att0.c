@@ -3,9 +3,9 @@
 #define mir18n_attributes
 #include "mir18n.h"
 
-__RCSID("$MirOS: src/lib/libc/i18n/tbl_att0.c,v 1.4 2007/07/15 19:24:21 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/tbl_att0.c,v 1.5 2008/11/30 12:48:02 tg Exp $");
 
-/* generated automatically from UnicodeData-5.2.0d3.txt (BMP) */
+/* generated automatically from UnicodeData6.0.0.txt (BMP) */
 
 const unsigned char __C_attribute_table_pg[256] = {
 	/* 0x0000 */ cntrl,
