@@ -1,8 +1,9 @@
-# $MirOS: ports/math/ent/Makefile,v 1.2 2005/08/21 11:49:16 tg Exp $
+# $MirOS: ports/math/ent/Makefile,v 1.3 2006/09/14 00:10:54 tg Exp $
 
-COMMENT=			estimate randomness of sample data
+COMMENT=		estimate randomness of sample data
 CATEGORIES=		math security
 DISTNAME=		ent-19981020
+DASH_VER=		1
 DISTFILES=		random.zip
 DIST_SUBDIR=		${DISTNAME}
 RESPONSIBLE=		Thorsten Glaser <tg@66h.42h.de>

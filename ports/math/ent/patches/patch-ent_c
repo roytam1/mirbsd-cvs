@@ -1,0 +1,52 @@
+$MirOS$
+--- ent.c.orig	Tue Oct 20 17:13:53 1998
++++ ent.c	Sat Jul  7 20:41:09 2007
+@@ -25,6 +25,12 @@
+ #include <unistd.h>
+ #endif
+ 
++#include <sys/param.h>
++#if defined(MirBSD) && (MirBSD > 0x0A15)
++#include <stdlib.h>
++#include <adler32.h>
++#endif
++
+ #include "iso8859.h"
+ #include "randtest.h"
+ 
+@@ -127,7 +133,12 @@ int main(int argc, char *argv[])
+ 	    fold = FALSE,	      /* Fold upper to lower */
+ 	    binary = FALSE,	      /* Treat input as a bitstream */
+ 	    terse = FALSE;	      /* Terse (CSV format) output */
++#if defined(MirBSD) && (MirBSD > 0x0A15)
++	ADLER32_CTX ctx;
++
++	ADLER32Init(&ctx);
++#endif
+ 
+         while ((opt = getopt(argc, argv, "bcftu?BCFTU")) != -1) {
+ 	    switch (toISOlower(opt)) {
+                  case 'b':
+@@ -176,6 +187,11 @@ int main(int argc, char *argv[])
+ 	while ((oc = fgetc(fp)) != EOF) {
+ 	   unsigned char ocb;
+ 
++#if defined(MirBSD) && (MirBSD > 0x0A15)
++	   ocb = oc;
++	   ADLER32Update(&ctx, &ocb, 1);
++#endif
++
+ 	   if (fold && isISOalpha(oc) && isISOupper(oc)) {
+ 	      oc = toISOlower(oc);
+ 	   }
+@@ -195,6 +211,10 @@ int main(int argc, char *argv[])
+ 	   rt_add(&ocb, 1);
+ 	}
+ 	V fclose(fp);
++
++#if defined(MirBSD) && (MirBSD > 0x0A15)
++	arc4random_pushb(&ctx, sizeof (ctx));
++#endif
+ 
+ 	/* Complete calculation and return sequence metrics */
+ 

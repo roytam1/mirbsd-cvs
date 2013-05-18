@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/math/ent/files/Makefile,v 1.1.7.1 2005/03/18 15:50:04 tg Exp $
 
 PROG=	ent
 SRCS=	ent.c iso8859.c randtest.c
@@ -9,8 +9,8 @@ LDADD+=	-lm
 DPADD+=	${LIBM}
 
 regress: ${PROG}
-	cd ${.CURDIR} && (PATH=. ${SHELL} entest.bat) \
-	    && diff -du entest.mas entest.bak
+	cd ${.CURDIR} && env PATH=. ${SHELL} entest.bat && \
+	    diff -du entest.mas entest.bak
 
 beforeinstall:
 	${BSD_INSTALL_DATA_DIR} ${PREFIX}/share/doc/ent
