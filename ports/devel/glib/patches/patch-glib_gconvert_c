@@ -1,0 +1,17 @@
+$MirOS$
+--- glib/gconvert.c.orig	Sun Jun  4 20:34:31 2006
++++ glib/gconvert.c	Sun Jun  4 20:34:35 2006
+@@ -40,13 +40,6 @@
+ 
+ #include "glibintl.h"
+ 
+-#if defined(USE_LIBICONV_GNU) && !defined (_LIBICONV_H)
+-#error GNU libiconv in use but included iconv.h not from libiconv
+-#endif
+-#if !defined(USE_LIBICONV_GNU) && defined (_LIBICONV_H)
+-#error GNU libiconv not in use but included iconv.h is from libiconv
+-#endif
+-
+ #include "galias.h"
+ 
+ GQuark 
