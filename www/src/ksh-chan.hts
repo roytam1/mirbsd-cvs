@@ -3,7 +3,7 @@
 
 mws_setname hosted/ksh-chan "The #ksh on Freenode page"
 mws_setheadline 'Channel page for #ksh'
-mws_putheader '$MirOS: www/src/ksh-chan.hts,v 1.8 2010/06/19 17:13:54 tg Exp $'
+mws_putheader '$MirOS: www/src/ksh-chan.hts,v 1.9 2010/07/04 17:52:29 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of contents</h2>
 EOF
@@ -22,9 +22,12 @@ mws_content <<'EOF'
  ones listed on the <a href="http://freenode.net/">Freenode website</a>, such
  as <tt>irc.eu.freenode.net</tt> or <tt>irc.ipv6.freenode.net</tt>, or, of
  course, a specific server like <tt>calkins.freenode.net</tt> (IPv6, Italy)
- or <tt>kornbluth.freenode.net</tt> (IPv4, Germany). The port to use is 6667.
+ or <tt>kornbluth.freenode.net</tt> (IPv4, Germany). The port to use is 7000
+ or 7070 if you can do <a
+ href="http://ubuntu-tutorials.com/2010/01/30/accessing-freenode-irc-network-via-ssl-secure-connection/">SSL</a>,
+ 6667 otherwise (discouraged).
  Tor users can connect to <tt>mejokbp2brhw4omd.onion</tt> (anonymous hidden
- Tor service) or <tt>5t7o4shdbhotfuzp.onion</tt> (nick/pass authenticated,
+ Tor service) or <tt>p4fsi4ockecnea7l.onion</tt> (nick/pass authenticated,
  see the website for details).</p>
 
 <h2 id="meta">Guidelines</h2>
@@ -44,9 +47,9 @@ mws_content <<'EOF'
 </ul>
 
 <h2 id="vsns">Korn Shell versions</h2>
-<p>This information is current as of: 2010-06-17 (17 June 2010)</p>
+<p>This information is current as of: 2010-11-23 (23 November 2010)</p>
 <p><a href="http://www.kornshell.com/">AT&amp;T Korn Shell</a>: latest is
- ksh93u- dated 2010-06-14 (14 June 2010)</p>
+ ksh93u- dated 2010-11-22 (22 November 2010)</p>
 <p><a href="@@RELPATH@@mksh.htm">MirBSD Korn Shell</a>: latest is
  mksh R39c, dated 2010-02-25 (25 February 2010); link to <a
  href="@@RELPATH@@mksh.htm#clog">development trunk changelog</a></p>
