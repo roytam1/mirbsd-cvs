@@ -1129,7 +1129,7 @@ yyrecursive(int subtype MKSH_A_UNUSED)
 	struct yyrecursive_state *ys;
 	int stok, etok;
 
-	if (subtype == FUNSUB) {
+	if (subtype != COMSUB) {
 		stok = '{';
 		etok = '}';
 	} else {

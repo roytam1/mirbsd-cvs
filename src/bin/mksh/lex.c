@@ -421,8 +421,14 @@ yylex(int cf)
 						wp += cz;
 					}
 				} else if (c == '{') /*}*/ {
-					c = getsc();
-					if (ctype(c, C_IFSWS)) {
+					if ((c = getsc()) == '|') {
+						/*
+						 * non-subenvironment
+						 * value substitution
+						 */
+						c = VALSUB;
+						goto subst_command2;
+					} else if (ctype(c, C_IFSWS)) {
 						/*
 						 * non-subenvironment
 						 * "command" substitution

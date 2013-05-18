@@ -1182,6 +1182,15 @@ work, and in that
 .Ic exit
 terminates the parent shell.
 .Pp
+Another variant of substitution are the valsubs (value substitutions)
+.Pf ${\*(Ba\& Ns Ar command Ns \&;}
+which are also executed in the current environment, like funsubs, but
+share their I/O with the parent; instead, they evaluate to whatever
+the, initially empty, expression-local variable
+.Ev REPLY
+is set to within the
+.Ar command Ns No s .
+.Pp
 If a substitution appears outside of double quotes, the results of the
 substitution are generally subject to word or field splitting according to
 the current value of the
