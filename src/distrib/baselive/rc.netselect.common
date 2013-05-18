@@ -1,6 +1,6 @@
-# $MirOS: src/distrib/baselive/rc.netselect.common,v 1.7 2007/06/15 23:46:48 tg Exp $
+# $MirOS: src/distrib/baselive/rc.netselect.common,v 1.8 2007/07/31 22:23:49 tg Exp $
 #-
-# Copyright (c) 2006
+# Copyright (c) 2006, 2007
 #	Thorsten Glaser <tg@mirbsd.de>
 #
 # Provided that these terms and disclaimer and all copyright notices
@@ -22,11 +22,40 @@
 # damage or existence of a defect, except proven that it results out
 # of said person's immediate fault when using the work as intended.
 
+function get_kbdtype {
+	[[ -x /sbin/kbd ]] || return
+	print
+	while :; do
+		set -o noglob
+		print -n "kbd(8) mapping? ('?' for list) "
+		read resp
+		: ${resp:=none}
+		set +o noglob
+		[[ $resp = none ]] && return
+		[[ $resp = @(\?|+([0-9])) && -z ${layouts[0]} ]] && \
+		    set -A layouts -- $(kbd -lq | \
+		    egrep '^..\.?(nodead|dvorak)?$' | sort)
+		[[ $resp = +([0-9]) ]] && resp=${layouts[$resp]}
+		[[ $resp = [a-z]* ]] && if kbd $resp; then
+			echo $resp >/etc/kbdtype
+			return
+		fi
+		[[ $resp = \? ]] || continue
+		print Available keyboard mappings:
+		typeset -iR3 i=0
+		while (( i < ${#layouts[*]} )); do
+			print "$i) ${layouts[i]}"
+			let i++
+		done | rs
+	done
+}
+
 function show_info {
 	print
 	print 'To get support, use lynx(1) with the following resources:'
 	print 'online man pages: http://www.mirbsd.org/cman/'
 	print 'interactive help: irc.freenode.net #MirBSD'
+	get_kbdtype
 	[[ -e /NONFREE.TXT || -e /nonfree.txt ]] || return
 	print
 	print 'ATTENTION: this Live CD contains possibly non-free or'
