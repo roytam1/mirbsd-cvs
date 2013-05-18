@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/scripts/roff2htm,v 1.13 2005/11/15 20:36:57 tg Exp $
+# $MirOS: src/scripts/roff2htm,v 1.14 2005/11/15 20:39:40 tg Exp $
 # $ekkoBSD: catman2html.sh,v 1.2 2004/03/07 03:02:53 stephen Exp $
 #-
 # Copyright (c) 2004, 2005
@@ -26,7 +26,7 @@
 # rect or other, however caused, arising in any way out of the usage
 # of this work, even if advised of the possibility of such damage.
 #-
-# Based upon regular expressions by:
+# Parts of the regular expression set below is based upon work by:
 # Copyright (c) 1995
 #	Panagiotis J. Christias <christia@theseas.ntua.gr>
 #-
@@ -56,6 +56,7 @@ gendate=
 
 do_convert()
 {
+	let isblank=0
 	expand								\
 	| sed								\
 	    -e '/-$/N
@@ -106,9 +107,15 @@ s/\([0-9A-z][-.,0-9A-z]*\)-\n\(  *\)\([0-9A-z][-.,0-9A-z]*([1-9][A-z]*)\)\([^ ]*
 	    -e '$s#$#</pre>#'						\
 	    -e 's#<pre></pre>##g'					\
 	    -e 's#</pre><pre>##g'					\
-	| awk								\
-	   '/^$/	{ if(!blank) { print; blank=1 } }
-	    /^..*$/	{ print; blank=0 }'
+	| while IFS= read line; do
+		if [[ $line = *@([!	  ])* ]]; then
+			print -r -- "$line"
+			let isblank=0
+		elif (( isblank == 0 )); then
+			print
+			let isblank++
+		fi
+	done
 }
 
 output_header()
@@ -124,7 +131,7 @@ output_header()
 		</head><body>
 		<h1>MirOS Manual: <a href="../man${2}/${1}.htm"><tt>${1}(${2})</tt></a></h1>
 		<p style="font-size:xx-small;">Generated on ${gendate} by
-		 \$MirOS: src/scripts/roff2htm,v 1.13 2005/11/15 20:36:57 tg Exp $</p>
+		 \$MirOS: src/scripts/roff2htm,v 1.14 2005/11/15 20:39:40 tg Exp $</p>
 		<hr />
 	EOF
 }
