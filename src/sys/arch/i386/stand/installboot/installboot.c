@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.31 2009/01/31 18:51:19 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.32 2009/06/07 11:46:28 tg Exp $ */
 /*	$OpenBSD: installboot.c,v 1.47 2004/07/15 21:44:16 tom Exp $	*/
 /*	$NetBSD: installboot.c,v 1.5 1995/11/17 23:23:50 gwr Exp $ */
 
@@ -20,6 +20,12 @@
  * of dealing in the work, even if advised of the possibility of such
  * damage or existence of a defect, except proven that it results out
  * of said person's immediate fault when using the work as intended.
+ *-
+ * Notes:
+ *	- this still splits by geometry, even if bootxx does that
+ *	  by itself for quite a while
+ *	- the -M option could be implemented similar to bxinst.i386
+ *	- this is superfluous once we have getextent_ffs and a frontend
  */
 
 /*
@@ -86,7 +92,7 @@
 #include <unistd.h>
 #include <util.h>
 
-__RCSID("$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.31 2009/01/31 18:51:19 tg Exp $");
+__RCSID("$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.32 2009/06/07 11:46:28 tg Exp $");
 
 extern const char *__progname;
 int	verbose, nowrite, nheads, nsectors, userspec = 0;
