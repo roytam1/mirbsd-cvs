@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/biosdev.c,v 1.27 2009/01/10 23:43:08 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/libsa/biosdev.c,v 1.28 2009/01/11 00:32:40 tg Exp $ */
 /*	$OpenBSD: biosdev.c,v 1.74 2008/06/25 15:32:18 reyk Exp $	*/
 
 /*
@@ -710,7 +710,8 @@ disk_trylabel(struct diskinfo *dip)
 		totsiz = 2880;
 
 		if (!(bd->bios_number & 0x80) || bd->flags & BDI_EL_TORITO ||
-		    (*((char *)bios_bootpte) & 0x7F))
+		    (((char *)bios_bootpte)[0] & 0x7F) ||
+		    !((char *)bios_bootptr)[4])
 			bzero(bios_bootpte, 16);
 		if (bd->bios_number & 0x80) {
 			/* read MBR */
