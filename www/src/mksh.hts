@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.354 2010/08/15 12:58:27 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.355 2010/08/24 15:19:56 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -495,8 +495,10 @@ exec /usr/bin/ld "${args[@]}"</pre>
  process is currently not feasible with an Android.mk file but possible
  if the CPPFLAGS and signames.inc are pregenerated; sys_signame[] has
  been pushed upstream and is currently under evaluation). Integration
- into the SDK and hence Android proper, as <tt>/bin/sh</tt>, is also
- pushed into Gerrit and under evaluation.</p>
+ into both AOSP and the Google master, as <tt>/system/bin/sh</tt>, has
+ been done and it can be enabled on a per-target basis at the moment;
+ the next (end of 2010 or so) release of Android is expected to ship
+ with mksh as its one and only shell.</p>
 
 <h5 class="cr" id="oe_iphone">Platform: iPhone</h5>
 <p>This is just <a href="#oe_osx">Mac OSX</a>, compile (natively, or
@@ -843,7 +845,10 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <li class="cr"><img class="fr" width="60" height="60" alt="[Android-x86 logo]"
  src="@@RELPATH@@pics/logos/andr_x86.png" />The <a
  href="http://www.android-x86.org/">Android-x86 Project</a> has
- mksh as <tt>/bin/sh</tt> since 2010-02-25.</li>
+ mksh as <tt>/bin/sh</tt> since 2010-02-25. AOSP and the Google
+ master build mksh and ash since 2010-08-24/25, and it can be
+ enabled as <tt>/system/bin/sh</tt> on a per-target basis or the
+ default can be switched from ash, which is expected for Gingerbread.</li>
 <li class="cr"><img class="fr" width="66" height="62" alt="[Grml logo]"
  src="@@RELPATH@@pics/logos/grml.png" /><a
  href="http://www.ubuntu.com/">Ubuntu GNU/Linux</a>, the <a
