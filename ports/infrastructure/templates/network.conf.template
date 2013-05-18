@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/templates/network.conf.template,v 1.20 2007/02/15 21:44:05 tg Exp $
+# $MirOS: ports/infrastructure/templates/network.conf.template,v 1.21 2007/02/17 05:52:26 tg Exp $
 # $OpenBSD: network.conf.template,v 1.107 2007/01/18 11:21:15 steven Exp $
 
 #
@@ -269,3 +269,11 @@ MASTER_SITE_BERLIOS+=	\
 	http://download.berlios.de/ \
 	http://download2.berlios.de/ \
 
+MASTER_SITE_FINK+=	\
+	http://distfiles.ber.de.eu.finkmirrors.net/ \
+	http://distfiles.ams.nl.eu.finkmirrors.net/ \
+	http://distfiles.nte.fr.eu.finkmirrors.net/ \
+	http://distfiles.master.finkmirrors.net/ \
+	http://distfiles.msn.wi.us.finkmirrors.net/mirrors/fink/distfiles/ \
+	http://distfiles.sjc.ca.us.finkmirrors.net/ \
+	http://distfiles.hnd.jp.asi.finkmirrors.net/
