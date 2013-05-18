@@ -1,9 +1,9 @@
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
-mws_setname irc "Internet Relay Chat: synchronously communicating with developers"
+mws_setname donations "Donations"
 mws_subdir 0
-mws_putheader '$MirOS: www/src/danke.hts,v 1.1 2007/08/30 09:37:13 tg Exp $'
+mws_putheader '$MirOS: www/src/danke.hts,v 1.2 2007/09/30 19:33:50 tg Exp $'
 mws_content <<'EOF'
 <h1>Donating to the MirOS Project</h1>
 <h2>Considering to donate?</h2>
@@ -64,6 +64,7 @@ mws_content <<'EOF'
  later anyway.</p></form>
 
 <h2 id="donators">Donations received so far</h2><ul>
+<li>Sebastian Schwarz</li>
 <li>...</li>
 </ul>
 EOF
