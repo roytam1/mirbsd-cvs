@@ -5,11 +5,11 @@ end in C, called ssfe.
 ssfe actually comes quite handy, you can use it for example
 as front-end for netcat/telnet (MUDs) or bnbot (chatting).
 
-It sends characters encoded by default in utf-8 to the server
-and in iso-8859-1 to the terminal, unless the locale(1) command
+It sends characters encoded by default in UTF-8 to the server
+and in ISO-8859-1 to the terminal, unless the locale(1) command
 or start-up environment variables determine UTF-8 mode (for
 non-dumb mode only). Control characters are stripped off.
-The client has also support for sending iso-8859-1 on the wire
+The client has also support for sending ISO-8859-1 on the wire
 and any character set supported by p5-Encode to the terminal.
 Overlong lines are split automatically to smaller chunks.
 

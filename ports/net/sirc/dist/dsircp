@@ -1,5 +1,5 @@
 #!/usr/bin/env perl
-# $MirOS: ports/net/sirc/dist/dsircp,v 1.31 2011/12/16 18:15:36 tg Exp $
+# $MirOS: ports/net/sirc/dist/dsircp,v 1.32 2011/12/16 19:21:48 tg Exp $
 #-
 # dsircp: dumb-mode small irc client in perl
 # by orabidoo <roger.espel.llima@pobox.com>
@@ -7,7 +7,7 @@
 # Copyright (C) 1995-1997 Roger Espel Llima
 # Copyright (c) 2002-2003 Hubert Feyrer
 # Copyright (c) Phil Stracchino
-# Copyright (c) 2001-2011 Thorsten Glaser
+# Copyright (c) 2001-2012 Thorsten Glaser
 #
 # This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
 # the utmost extent permitted by applicable law, neither express nor
@@ -221,7 +221,7 @@ $opt_T && ($set{"SHOWTIME"}="off");
 &update_charset();
 
 if ($set{"LOCALHOST"}) {
-  $bindaddr=&resolve($set{"LOCALHOST"});
+  $bindaddr=&resolve($set{"LOCALHOST"}, 0);
 }
 
 @ARGV=();  # ignore any more arguments
@@ -275,7 +275,7 @@ sub resolve {
     return pack("N", $_[0]+0);
   } elsif ($_[0] =~ /^(\d+)\.(\d+)\.(\d+)\.(\d+)$/) {
     return pack("c4", $1, $2, $3, $4);
-  } elsif ($have_socket == 6) {
+  } elsif (($have_socket == 6) && ($_[1] == 1)) {
     local $rc;
 
     $rc = (gethostbyname2($_[0], AF_INET6))[4];
@@ -372,7 +372,9 @@ sub connect {
     $ssl_pid = $pid;
     $ssl_efd = $spe;
   } else {
-    local($adr, $otherend)=&resolve($host);
+    local $try_ipv6_if_available = 2;
+ retry_resolve:
+    local($adr, $otherend)=&resolve($host, --$try_ipv6_if_available);
     &tell("*\cbE\cb* Hostname '$host' not found"), return 0 unless $adr;
     if ($use_ipv6) {
       $otherend=pack_sockaddr_in6($port, $adr);
@@ -391,8 +393,14 @@ sub connect {
     }
     $trysock=$fh;
     $SIG{'QUIT'}='sigquit';
-    &print("*\cbE\cb* Can't connect to host: $!"), close($fh),
-      $SIG{'QUIT'}='IGNORE', return 0 unless connect($fh, $otherend);
+    unless (connect($fh, $otherend)) {
+      &print("*\cbE\cb* Can't connect to host: $!");
+      $SIG{'QUIT'}='IGNORE', &print("*** Retrying with Legacy IP"),
+        goto retry_resolve if ($use_ipv6);
+      close($fh);
+      $SIG{'QUIT'}='IGNORE';
+      return 0;
+    }
     $SIG{'QUIT'}='IGNORE';
     if ($use_ipv6) {
         $bindaddr=(unpack_sockaddr_in6(getsockname($fh)))[2] if !$bindaddr;
@@ -882,7 +890,7 @@ sub doset {
     $set{$var}=$val if $val =~ /^(on|off)$/;
   } elsif ($var eq 'LOCALHOST') {
     &restrict || return;
-    local($ad)=&resolve($val);
+    local($ad)=&resolve($val, 0);
     $set{$var}=$val, $bindaddr=$ad if $ad;
   } elsif ($var eq 'LOADPATH') {
     @loadpath=split(/:/, $val);
