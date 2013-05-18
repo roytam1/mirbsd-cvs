@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/gnu.port.mk,v 1.18 2006/02/20 18:57:27 tg Exp $
+# $MirOS: ports/infrastructure/mk/gnu.port.mk,v 1.19 2006/06/29 21:56:01 tg Exp $
 # $OpenBSD: gnu.port.mk,v 1.19 2004/06/06 11:49:08 espie Exp $
 
 AUTOCONF_NEW?=		No
@@ -82,6 +82,8 @@ CONFIGURE_ARGS+=	--sysconfdir=${SYSCONFDIR:Q}
 .    endif
 .  endif
 .endif
+CONFIGURE_ARGS+=	--infodir=${PREFIX:Q}/info
+CONFIGURE_ARGS+=	--mandir=${PREFIX:Q}/man
 
 # Files
 .if ${MODGNU_MIRLIBTOOL:L} == "yes"
