@@ -355,6 +355,14 @@
 ./usr/libdata/perl5/Net/netent.pm
 ./usr/libdata/perl5/Net/protoent.pm
 ./usr/libdata/perl5/Net/servent.pm
+./usr/libdata/perl5/OpenBSD
+./usr/libdata/perl5/OpenBSD/Makewhatis
+./usr/libdata/perl5/OpenBSD/Makewhatis.pm
+./usr/libdata/perl5/OpenBSD/Makewhatis/Check.pm
+./usr/libdata/perl5/OpenBSD/Makewhatis/Find.pm
+./usr/libdata/perl5/OpenBSD/Makewhatis/Formated.pm
+./usr/libdata/perl5/OpenBSD/Makewhatis/Unformated.pm
+./usr/libdata/perl5/OpenBSD/Makewhatis/Whatis.pm
 ./usr/libdata/perl5/PerlIO
 ./usr/libdata/perl5/PerlIO.pm
 ./usr/libdata/perl5/PerlIO/via
@@ -1240,6 +1248,9 @@
 ./usr/share/info/gnat-style.info
 ./usr/share/info/gnat_rm.info
 ./usr/share/info/gnat_ugn_unw.info
+./usr/share/info/gpc.info
+./usr/share/info/gpcs-de.info
+./usr/share/info/gpcs.info
 ./usr/share/info/ld.info
 ./usr/share/info/ldint.info
 ./usr/share/info/stabs.info
@@ -1932,7 +1943,7 @@
 ./usr/share/sendmail/siteconfig/uucp.ucbarpa.m4
 ./usr/share/sendmail/siteconfig/uucp.ucbvax.m4
 ./var/anoncvs/anoncvs/bin/cat
+./var/anoncvs/anoncvs/bin/cvs
 ./var/anoncvs/anoncvs/bin/pwd
 ./var/anoncvs/anoncvs/bin/rm
 ./var/anoncvs/anoncvs/bin/sh
-./var/anoncvs/anoncvs/usr/bin/cvs

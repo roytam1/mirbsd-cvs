@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.21 2005/06/13 20:48:48 tg Exp $
+# $MirOS: src/Makefile,v 1.22 2005/06/14 13:04:39 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .include <bsd.own.mk>
@@ -133,6 +133,8 @@ _DISTS=	base x11 htman
 .endif
 
 do-dist:
+	@echo Initialising sudo as ${SUDO:Q}
+	${SUDO} true
 	@echo "============================================================"
 	@echo Initiating MirOS Build...
 	@date
@@ -151,14 +153,18 @@ do-dist:
 	    && exec ${SUDO} ${MAKE} distrib-dirs DESTDIR=
 	cd ${.CURDIR} && exec ${MAKE} b-r
 .ifndef QUICK_DIST
+	@date
 	cd ${.CURDIR}/X11 && exec ${MAKE} b-r
 .endif
+	@date
 	cd ${.CURDIR}/gcc && exec ${MAKE} b-r
 	cd ${.CURDIR}/gnu/usr.bin/texinfo && exec ${SUDO} ${MAKE} \
 	    -f Makefile.bsd-wrapper mkinfodir DESTDIR=${BSDRELDIR}/base
 .ifndef QUICK_DIST
+	@date
 	cd ${.CURDIR} && exec ${MAKE} do-htman
 .endif
+	@date
 	@echo "============================================================"
 	@echo "Checking files:"
 	@echo ""

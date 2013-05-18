@@ -1664,7 +1664,6 @@
 ./usr/libdata/perl5/site_perl/i386-mirbsd/scsi/scsi_tape.ph
 ./usr/libdata/perl5/site_perl/i386-mirbsd/scsi/scsiconf.ph
 ./usr/libdata/perl5/site_perl/i386-mirbsd/scsi/sdvar.ph
-./usr/libdata/perl5/site_perl/i386-mirbsd/scsi/ses.ph
 ./usr/libdata/perl5/site_perl/i386-mirbsd/scsi/ss_mustek.ph
 ./usr/libdata/perl5/site_perl/i386-mirbsd/scsi/ssvar.ph
 ./usr/libdata/perl5/site_perl/i386-mirbsd/search.ph
@@ -1881,6 +1880,7 @@
 ./usr/libdata/perl5/site_perl/i386-mirbsd/uvm/uvm_vnode.ph
 ./usr/libdata/perl5/site_perl/i386-mirbsd/varargs.ph
 ./usr/libdata/perl5/site_perl/i386-mirbsd/vis.ph
+./usr/libdata/perl5/site_perl/i386-mirbsd/wchar.ph
 ./usr/libdata/perl5/site_perl/i386-mirbsd/zconf.ph
 ./usr/libdata/perl5/site_perl/i386-mirbsd/zlib.ph
 ./usr/local/libdata/perl5/site_perl/i386-mirbsd
