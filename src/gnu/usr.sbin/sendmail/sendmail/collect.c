@@ -869,7 +869,8 @@ readerr:
 			if (LogLevel > 6)
 				sm_syslog(LOG_NOTICE, e->e_id,
 					"message size (%ld) exceeds maximum (%ld)",
-					e->e_msgsize, MaxMessageSize);
+					PRT_NONNEGL(e->e_msgsize),
+					MaxMessageSize);
 		}
 	}
 

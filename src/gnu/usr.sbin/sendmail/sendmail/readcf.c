@@ -14,6 +14,7 @@
 #include <sendmail.h>
 #include <sm/sendmail.h>
 
+SM_RCSID("$MirOS$")
 SM_RCSID("@(#)$Id$")
 
 #if NETINET || NETINET6

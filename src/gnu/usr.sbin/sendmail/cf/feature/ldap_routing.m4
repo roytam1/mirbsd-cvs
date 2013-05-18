@@ -11,7 +11,7 @@ divert(-1)
 #
 
 divert(0)
-VERSIONID(`$MirOS: src/gnu/usr.sbin/sendmail/cf/feature/ldap_routing.m4,v 1.4 2009/01/30 09:38:43 tg Exp $')
+VERSIONID(`$MirOS: src/gnu/usr.sbin/sendmail/cf/feature/ldap_routing.m4,v 1.5 2010/12/19 17:17:58 tg Exp $')
 VERSIONID(`$Id$')
 divert(-1)
 

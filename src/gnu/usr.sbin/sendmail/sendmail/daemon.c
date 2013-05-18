@@ -827,6 +827,7 @@ getrequests(e)
 			OutChannel = outchannel;
 			DisConnected = false;
 
+
 #if XLA
 			if (!xla_host_ok(RealHostName))
 			{
@@ -4405,6 +4406,8 @@ hostnamebyanyaddr(sap)
 	saveretry = _res.retry;
 	if (_res.retry * _res.retrans > 20)
 		_res.retry = 20 / _res.retrans;
+	if (_res.retry == 0)
+		_res.retry = 1;
 # endif /* NAMED_BIND */
 
 	switch (sap->sa.sa_family)

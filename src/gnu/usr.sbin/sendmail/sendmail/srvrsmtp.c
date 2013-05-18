@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1998-2010 Sendmail, Inc. and its suppliers.
+ * Copyright (c) 1998-2010, 2012 Sendmail, Inc. and its suppliers.
  *	All rights reserved.
  * Copyright (c) 1983, 1995-1997 Eric P. Allman.  All rights reserved.
  * Copyright (c) 1988, 1993
@@ -17,7 +17,7 @@
 # include <libmilter/mfdef.h>
 #endif /* MILTER */
 
-SM_RCSID("$MirOS: src/gnu/usr.sbin/sendmail/sendmail/srvrsmtp.c,v 1.12 2010/12/19 17:18:34 tg Exp $")
+SM_RCSID("$MirOS: src/gnu/usr.sbin/sendmail/sendmail/srvrsmtp.c,v 1.13 2011/07/02 15:51:14 tg Exp $")
 SM_RCSID("@(#)$Id$")
 
 #include <sm/time.h>
@@ -31,6 +31,7 @@ SM_RCSID("@(#)$Id$")
 static int saslmechs __P((sasl_conn_t *, char **));
 #endif /* SASL */
 #if STARTTLS
+#  include <openssl/err.h>
 # include <sysexits.h>
 
 static SSL_CTX	*srv_ctx = NULL;	/* TLS server context */
@@ -1915,11 +1916,18 @@ smtp(nullserver, d_flags, e)
 
 				if (LogLevel > 5)
 				{
+					unsigned long l;
+					const char *sr;
+
+					l = ERR_peek_error();
+					sr = ERR_reason_error_string(l);
 					sm_syslog(LOG_WARNING, NOQID,
-						  "STARTTLS=server, error: accept failed=%d, SSL_error=%d, errno=%d, retry=%d, relay=%.100s",
-						  r, ssl_err, errno, i,
+						  "STARTTLS=server, error: accept failed=%d, reason=%s, SSL_error=%d, errno=%d, retry=%d, relay=%.100s",
+						  r, sr == NULL ? "unknown"
+								: sr,
+						  ssl_err, errno, i,
 						  CurSmtpClient);
-					if (LogLevel > 8)
+					if (LogLevel > 9)
 						tlslogerr("server");
 				}
 				tls_ok_srv = false;
@@ -3483,7 +3491,7 @@ smtp_data(smtp, e)
 	collect(InChannel, true, NULL, e, true);
 
 	/* redefine message size */
-	(void) sm_snprintf(buf, sizeof(buf), "%ld", e->e_msgsize);
+	(void) sm_snprintf(buf, sizeof(buf), "%ld", PRT_NONNEGL(e->e_msgsize));
 	macdefine(&e->e_macro, A_TEMP, macid("{msg_size}"), buf);
 
 	/* rscheck() will set Errors or EF_DISCARD if it trips */
@@ -3561,7 +3569,7 @@ smtp_data(smtp, e)
 	}
 
 	/* Milter may have changed message size */
-	(void) sm_snprintf(buf, sizeof(buf), "%ld", e->e_msgsize);
+	(void) sm_snprintf(buf, sizeof(buf), "%ld", PRT_NONNEGL(e->e_msgsize));
 	macdefine(&e->e_macro, A_TEMP, macid("{msg_size}"), buf);
 
 	/* abort message filters that didn't get the body & log msg is OK */

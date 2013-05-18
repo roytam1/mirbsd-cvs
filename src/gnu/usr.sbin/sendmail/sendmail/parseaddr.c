@@ -242,6 +242,7 @@ parseaddr(addr, a, flags, delim, delimptr, e, isrcpt)
 **
 **	Parameters:
 **		addr -- the address to check.
+**		  note: this is the complete address (including display part)
 **		delimptr -- if non-NULL: end of address to check, i.e.,
 **			a pointer in the address string.
 **		isrcpt -- true iff the address is for a recipient.

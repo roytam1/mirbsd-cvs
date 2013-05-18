@@ -1152,7 +1152,7 @@ logsender(e, msgid)
 	(void) sm_snprintf(sbp, SPACELEFT(sbuf, sbp),
 		"from=%.200s, size=%ld, class=%d, nrcpts=%d",
 		e->e_from.q_paddr == NULL ? "<NONE>" : e->e_from.q_paddr,
-		e->e_msgsize, e->e_class, e->e_nrcpts);
+		PRT_NONNEGL(e->e_msgsize), e->e_class, e->e_nrcpts);
 	sbp += strlen(sbp);
 	if (msgid != NULL)
 	{
@@ -1191,7 +1191,7 @@ logsender(e, msgid)
 							    83));
 	sm_syslog(LOG_INFO, e->e_id,
 		  "size=%ld, class=%ld, nrcpts=%d",
-		  e->e_msgsize, e->e_class, e->e_nrcpts);
+		  PRT_NONNEGL(e->e_msgsize), e->e_class, e->e_nrcpts);
 	if (msgid != NULL)
 		sm_syslog(LOG_INFO, e->e_id,
 			  "msgid=%s",

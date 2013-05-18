@@ -10,7 +10,7 @@
  * the sendmail distribution.
  *
  *
- *	$MirOS: src/gnu/usr.sbin/sendmail/include/sm/conf.h,v 1.5 2010/12/19 17:18:06 tg Exp $
+ *	$MirOS: src/gnu/usr.sbin/sendmail/include/sm/conf.h,v 1.6 2011/07/02 15:51:03 tg Exp $
  *	$Id$
  */
 
@@ -2946,7 +2946,7 @@ typedef void		(*sigfunc_t) __P((int));
 # if defined(USE_LIBBSD)
 #  include <bsd/stdlib.h>
 # endif
-#  define get_random()	((long) arc4random() & 0x7FFFFFFF)
+#  define get_random()	((long)(arc4random() & 0x7FFFFFFF))
 #else
 # if HASRANDOM
 #  define get_random()	random()

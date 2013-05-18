@@ -13,7 +13,7 @@
 
 #include <sendmail.h>
 
-SM_RCSID("$MirOS: src/gnu/usr.sbin/sendmail/sendmail/util.c,v 1.5 2008/05/07 13:15:30 tg Exp $")
+SM_RCSID("$MirOS: src/gnu/usr.sbin/sendmail/sendmail/util.c,v 1.6 2010/12/19 17:18:38 tg Exp $")
 SM_RCSID("@(#)$Id$")
 
 #include <sm/sendmail.h>
@@ -2640,7 +2640,13 @@ proc_list_drop(pid, st, other)
 		mark_work_group_restart(ProcListVec[i].proc_other, st);
 	}
 	else if (type == PROC_QUEUE)
+	{
 		CurRunners -= ProcListVec[i].proc_count;
+
+		/* CHK_CUR_RUNNERS() can't be used here: uses syslog() */
+		if (CurRunners < 0)
+			CurRunners = 0;
+	}
 }
 
 /*
@@ -2704,6 +2710,14 @@ proc_list_probe()
 					  (int) ProcListVec[i].proc_pid);
 			ProcListVec[i].proc_pid = NO_PID;
 			SM_FREE_CLR(ProcListVec[i].proc_task);
+
+			if (ProcListVec[i].proc_type == PROC_QUEUE)
+			{
+				CurRunners -= ProcListVec[i].proc_count;
+				CHK_CUR_RUNNERS("proc_list_probe", i,
+						ProcListVec[i].proc_count);
+			}
+
 			CurChildren--;
 		}
 		else
@@ -2854,3 +2868,4 @@ count_open_connections(hostaddr)
 	}
 	return n;
 }
+

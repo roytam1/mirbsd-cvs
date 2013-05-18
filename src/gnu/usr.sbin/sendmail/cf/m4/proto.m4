@@ -14,7 +14,7 @@ divert(-1)
 #
 divert(0)
 
-VERSIONID(`$MirOS: src/gnu/usr.sbin/sendmail/cf/m4/proto.m4,v 1.5 2010/12/19 17:17:59 tg Exp $')
+VERSIONID(`$MirOS: src/gnu/usr.sbin/sendmail/cf/m4/proto.m4,v 1.6 2011/07/02 15:51:02 tg Exp $')
 VERSIONID(`$Id$')
 
 # level CF_LEVEL config file format
@@ -1541,8 +1541,9 @@ R<?> <e s> <$+>			$#error $@ nouser $: "550 User unknown"')
 R<?> <$*> <$+>			$@ $2',
 `dnl
 # return the original address
-R<> <> <$+> <@ $+> <$*>		$@ $1')',
-`dnl')
+R<> <> <$+> <@ $+> <$*>		$@ $1')
+')
+
 
 ifelse(substr(confDELIVERY_MODE,0,1), `d', `errprint(`WARNING: Antispam rules not available in deferred delivery mode.
 ')')

@@ -14,7 +14,7 @@
 
 #include <sendmail.h>
 
-SM_RCSID("$MirOS: src/gnu/usr.sbin/sendmail/sendmail/map.c,v 1.7 2008/12/17 00:42:56 tg Exp $")
+SM_RCSID("$MirOS: src/gnu/usr.sbin/sendmail/sendmail/map.c,v 1.8 2010/12/19 17:18:26 tg Exp $")
 SM_RCSID("@(#)$Id$")
 
 #if LDAPMAP
@@ -3442,7 +3442,7 @@ ldapmap_open(map, mode)
 		{
 			if (LogLevel > 1)
 				sm_syslog(LOG_NOTICE, CurEnv->e_id,
-					  "timeout conning to LDAP server %.100s",
+					  "timeout connecting to LDAP server %.100s",
 					  id);
 		}
 
@@ -3771,11 +3771,11 @@ ldapmap_lookup(map, name, av, statp)
 		if (!bitset(MF_OPTIONAL, map->map_mflags))
 		{
 			if (bitset(MF_NODEFER, map->map_mflags))
-				syserr("Error getting LDAP results in map %s",
-				       map->map_mname);
+				syserr("Error getting LDAP results, map=%s, name=%s",
+				       map->map_mname, name);
 			else
-				syserr("451 4.3.5 Error getting LDAP results in map %s",
-				       map->map_mname);
+				syserr("451 4.3.5 Error getting LDAP results, map=%s, name=%s",
+				       map->map_mname, name);
 		}
 		errno = save_errno;
 		return NULL;
@@ -3789,7 +3789,7 @@ ldapmap_lookup(map, name, av, statp)
 	{
 		if (LogLevel > 9)
 			sm_syslog(LOG_INFO, CurEnv->e_id,
-				  "ldap %.100s => %s", name,
+				  "ldap=%s, %.100s=>%s", map->map_mname, name,
 				  vp == NULL ? "<NULL>" : vp);
 		if (bitset(MF_MATCHONLY, map->map_mflags))
 			result = map_rewrite(map, name, strlen(name), NULL);

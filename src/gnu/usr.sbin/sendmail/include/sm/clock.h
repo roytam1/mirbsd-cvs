@@ -59,7 +59,7 @@ extern SIGFUNC_DECL	sm_tick __P((int));
 /*
 **  SM_SETEVENT -- set an event to happen at a specific time in seconds.
 **
-**	Translates the seconds into millseconds and calls sm_seteventm()
+**	Translates the seconds into milliseconds and calls sm_seteventm()
 **	to get a specific event to happen in the future at a specific time.
 **
 **	Parameters:
