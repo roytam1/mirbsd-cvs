@@ -1,5 +1,5 @@
-/* $MirOS: src/lib/libc/string/strlfun.c,v 1.8 2006/11/08 22:48:59 tg Exp $ */
-/* _MirOS: src/lib/libc/string/strlfun.c,v 1.8 2006/11/08 22:48:59 tg Exp $ */
+/* $MirOS: src/lib/libc/string/wcslfun.c,v 1.4 2006/11/08 22:54:55 tg Exp $ */
+/* _MirOS: src/lib/libc/string/strlfun.c,v 1.9 2006/11/08 23:01:50 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -30,7 +30,7 @@
 #include <sys/types.h>
 #include <wchar.h>
 
-__RCSID("$MirOS: src/lib/libc/string/strlfun.c,v 1.8 2006/11/08 22:48:59 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/string/wcslfun.c,v 1.4 2006/11/08 22:54:55 tg Exp $");
 
 /*
  * Appends src to wide string dst of size siz (unlike wcsncat, siz is the
