@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/biosdev.c,v 1.10 2008/12/28 18:18:04 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/libsa/biosdev.c,v 1.11 2008/12/28 18:57:28 tg Exp $ */
 /*	$OpenBSD: biosdev.c,v 1.74 2008/06/25 15:32:18 reyk Exp $	*/
 
 /*
@@ -729,7 +729,7 @@ disk_trylabel(struct diskinfo *dip)
 		if (bd->bios_heads == 0 || bd->bios_sectors == 0)
 			goto out;
 
-		totsiz = 1474560;
+		totsiz = 2880;
 
 		if (bd->bios_number & 0x80) {
 			/* read MBR */
