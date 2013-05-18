@@ -1,6 +1,6 @@
-# $MirOS: contrib/hosted/tg/historic/mksw3b,v 1.3 2009/05/17 13:21:26 tg Exp $
+# $MirOS: contrib/hosted/tg/historic/mksw3b,v 1.4 2011/07/16 17:45:44 tg Exp $
 #-
-# Copyright (c) 2006, 2009, 2011
+# Copyright (c) 2006, 2009, 2011, 2012
 #	Thorsten Glaser <tg@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
@@ -59,7 +59,7 @@ for file in y*; do
 				local k=${foo[i]}
 				foo[i]=${foo[j]}
 				foo[j]=$k
-				mirpax -w -x cpio -b 512 -M dist ${foo[*]} | gzip -n9 >mksh4.cgz
+				mirpax -w -x ustar -b 512 -M dist ${foo[*]} | gzip -n9 >mksh4.cgz
 				integer newsize=$($statcmd mksh4.cgz)
 				print "$newsize\t${foo[*]}"
 				foo[j]=${foo[i]}
@@ -73,7 +73,7 @@ for file in y*; do
 			done
 			let ++i
 		done
-		mirpax -w -x cpio -b 512 -M dist ${foo[*]} | gzip -n9 >mksh4.cgz
+		mirpax -w -x ustar -b 512 -M dist ${foo[*]} | gzip -n9 >mksh4.cgz
 		integer newsize=$($statcmd mksh4.cgz)
 		print "$newsize\t${foo[*]}"
 		if (( newsize < xsize )); then
