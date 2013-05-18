@@ -1,5 +1,5 @@
 <!-- PageID: wlog-8 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.48 2006/03/02 00:25:20 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.49 2006/03/02 00:41:10 tg Exp $</small>
 <h1>MirBSD &ndash; WTF, We Have a Release!?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -700,6 +700,33 @@ celebrate this event, rotate the wlog and start a new one.</p>
   connection to a GSM provider but it's away as soon as I try to place a
   call). Any ideas? No, I won't change cell phones. Only fix.</p>
  <p>No idea what else to write. BENNY! I'm still waiting!</p>
+</div>
+
+<div class="wlentry">
+ <h3 id="e20060319">19.03.2006 by tg@</h3>
+ <p>I haven't been as lazy (or, well, occupied) yesterday and today as I
+  was before (despite stomach illness) and started migrating thor to the
+  new dedicated server which is now also running IRC, VPN, etc. and uses
+  sophisticated firewalling. In the process, I have fixed a bug (code vs
+  documentation) in readlink(1) and updated some ports. Today I also ran
+  through style(9) and made it consistent, even discovered (undocumented
+  switch) the Bill Shannon mode of indent(1) doing to <b>sizeof</b> what
+  we want.</p>
+ <p>Since thor is going to be defunct in two, three days, I will have to
+  work some more to &quot;make it&quot;. Also I'm setting up DNS anew; I
+  will still be using MirDNS as DynDNS clone with heartbeat protocol and
+  djbdns as backend on maou and herc, but Tonnerre and TGEN offered me a
+  backup NS each which I'll gladly be using provided NOTIFY and AXFR are
+  working properly. I also enhanced inetd(8) by DJB ucspi-tcp compatible
+  environment variables.</p>
+ <p>Maybe I'll use <tt>mirbsd.org</tt> as primary domain now and the old
+  <tt>66h.42h.de</tt> will serve as fallback in case &#39764;&#29579; is
+  unreachable (it's pretty stable unless I try to build a snapshot).</p>
+ <p>I bought a Nokia 6150 (old enough so I know I can use it) via ePray,
+  still waiting for it to arrive (and hopefully a PSU too). I do already
+  have the leather bag though... doesn't help me much.</p>
+ <p>Seems like spring is coming. Still cold but good bearable in the sun
+  which is shining quite well the last few days.</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
