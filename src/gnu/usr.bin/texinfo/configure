@@ -1413,7 +1413,7 @@ fi
     # path for INSTALL within a source directory, because that will
     # break other packages using the cache if that directory is
     # removed, or if the path is relative.
-    INSTALL=$ac_install_sh
+    INSTALL="$SHELL $ac_install_sh"
   fi
 fi
 echo "$as_me:$LINENO: result: $INSTALL" >&5
@@ -3259,7 +3259,7 @@ fi
     # path for INSTALL within a source directory, because that will
     # break other packages using the cache if that directory is
     # removed, or if the path is relative.
-    INSTALL=$ac_install_sh
+    INSTALL="$SHELL $ac_install_sh"
   fi
 fi
 echo "$as_me:$LINENO: result: $INSTALL" >&5

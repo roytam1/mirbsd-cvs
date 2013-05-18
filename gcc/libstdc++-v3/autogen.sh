@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: gcc/libstdc++-v3/autogen.sh,v 1.8 2005/07/05 23:46:10 tg Exp $
+# $MirOS: gcc/libstdc++-v3/autogen.sh,v 1.9 2005/12/17 05:46:12 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -47,24 +47,20 @@ for a in $files ChangeLog ltmain.sh; do
 	[[ -e $a ]] || ln -s /tmp/empty $a
 done
 
-for f in libtool.m4 ltmain.sh m4salt.inc m4sugar.inc; do
-	ln -s /usr/src/gnu/share/$f ..
-done
-
 set -e
 set -x
-[[ ! -e acinclude.m4 ]] || if [[ -d m4 ]]; then
-	aclocal --acdir=/usr/local/share/aclocal-$AUTOMAKE_VERSION -I m4
+[[ ! -e aclocal.m4 ]] || if [[ -d m4 ]]; then
+	aclocal --acdir=$(aclocal --print-ac-dir) -I m4
 elif [[ -d ../m4 ]]; then
-	aclocal --acdir=/usr/local/share/aclocal-$AUTOMAKE_VERSION -I ../m4
+	aclocal --acdir=$(aclocal --print-ac-dir) -I ../m4
 else
-	aclocal --acdir=/usr/local/share/aclocal-$AUTOMAKE_VERSION -I .
+	aclocal --acdir=$(aclocal --print-ac-dir) -I .
 fi
 print '1,$g!\${multi_basedir}/config-ml\.in!s!!${GNUSYSTEM_AUX_DIR}/config-ml.in!\nwq' \
     | ed -s aclocal.m4
 f=configure.ac
 [[ ! -e $f ]] && f=configure.in
-fgrep -q AC_CONFIG_HEADER $f && autoheader
+fgrep -q -e AC_CONFIG_HEADER -e AM_CONFIG_HEADER $f && autoheader
 set +e
 let rv=0
 [[ ! -e Makefile.am ]] || automake --foreign -a $AM_FLAGS || let rv=$?

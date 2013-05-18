@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/gnu/usr.bin/autogen.sh,v 1.7 2005/12/16 16:20:26 tg Exp $
+# $MirOS: src/gnu/usr.bin/autogen.sh,v 1.8 2005/12/17 05:46:12 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@mirbsd.de>
@@ -49,7 +49,7 @@ done
 
 set -e
 set -x
-[[ ! -e acinclude.m4 ]] || if [[ -d m4 ]]; then
+[[ ! -e aclocal.m4 ]] || if [[ -d m4 ]]; then
 	aclocal --acdir=$(aclocal --print-ac-dir) -I m4
 elif [[ -d ../m4 ]]; then
 	aclocal --acdir=$(aclocal --print-ac-dir) -I ../m4
