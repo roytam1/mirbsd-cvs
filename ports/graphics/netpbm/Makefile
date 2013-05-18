@@ -1,4 +1,4 @@
-# $MirOS: ports/graphics/netpbm/Makefile,v 1.4 2006/05/05 19:51:52 tg Exp $
+# $MirOS: ports/graphics/netpbm/Makefile,v 1.5 2006/09/14 00:10:00 tg Exp $
 # $OpenBSD: Makefile,v 1.30 2004/02/23 08:20:11 pvalchev Exp $
 # $NetBSD: Makefile,v 1.25 1999/03/04 14:18:54 tron Exp $
 
@@ -12,9 +12,9 @@ CATEGORIES=		graphics
 MASTER_SITES=		${MASTER_SITE_SOURCEFORGE:=netpbm/}
 EXTRACT_SUFX=		.tgz
 HOMEPAGE=		http://netpbm.sourceforge.net/
-LIB_DEPENDS=		tiff.35::graphics/tiff \
-			jpeg.62::graphics/jpeg \
-			png.2::graphics/png
+LIB_DEPENDS=		tiff::graphics/tiff \
+			jpeg::graphics/jpeg \
+			png::graphics/png
 
 MULTI_PACKAGES=		-hpcd
 SUBPACKAGE?=
