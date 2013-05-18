@@ -1357,6 +1357,15 @@ Currently,
 must start with a space, opening parenthesis or digit to be recognised.
 .El
 .Pp
+Note that
+.Ar pattern
+may need to be escaped as an extended globbing pattern
+.Pq @(...) ,
+with single quotes
+.Pq \&'...\&'
+or double quotes
+.Pq \&"...\&" .
+.Pp
 The following special parameters are implicitly set by the shell and cannot be
 set directly using assignments:
 .Bl -tag -width "1 ... 9"
@@ -2985,7 +2994,7 @@ This command is usually accessed with the predefined
 .Ic alias r=\*(aqfc \-e \-\*(aq
 or by prefixing an interactive mode input line with
 .Sq \&!
-.Pq extension .
+.Pq wbx extension .
 .Pp
 .It Ic fg Op Ar job ...
 Resume the specified job(s) in the foreground.
