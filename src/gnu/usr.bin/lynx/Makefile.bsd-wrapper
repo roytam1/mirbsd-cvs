@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.bin/lynx/Makefile.bsd-wrapper,v 1.16 2007/06/09 17:29:31 tg Exp $
+# $MirOS: src/gnu/usr.bin/lynx/Makefile.bsd-wrapper,v 1.17 2007/06/12 21:37:02 tg Exp $
 # $OpenBSD: Makefile.bsd-wrapper,v 1.12 2003/05/01 18:59:36 avsm Exp $
 
 MAN=		lynx.1
@@ -7,7 +7,7 @@ FSFMAKEFILE=	makefile
 
 .include <bsd.own.mk>
 
-CPPFLAGS+=	-DZCONST=const -DLYNX_VERSION=\"2.8.7dev.5-MirOS\"
+CPPFLAGS+=	-DZCONST=const -DLYNX_VERSION=\"2.8.7dev.7-MirOS\"
 
 CFARGS+=	--prefix=/usr \
 		--sysconfdir=/etc \
@@ -76,9 +76,10 @@ HTMLFILES=	Lynx_users_guide.html about_lynx.html help_files.txt \
 		keystrokes/other_help.html keystrokes/print_help.html \
 		keystrokes/scrolling_help.html keystrokes/test_display.html \
 		keystrokes/visited_help.html keystrokes/xterm_help.html
-HTMLSAMPLES=	blue-background.lss bright-blue.lss cernrules.txt \
-		installdirs.html jumpsUnix.html keepviewer lynx-keymaps \
-		lynxdump mailcap mailto-form.pl mild-colors.lss mime.types
+HTMLSAMPLES=	blue-background.lss bright-blue.lss cernrules.txt home.htm \
+		installdirs.html jumps.htm jumpsUnix.html keepviewer \
+		lynx-keymaps lynx_bookmarks.htm lynxdump mailcap mime.types \
+		mailto-form.pl midnight.lss mild-colors.lss opaque.lss
 HTMLTESTS=	ALT88592.html ISO_LATIN1_test.html README.txt \
 		TestComment.html c1.html iso-8859-1.html iso-8859-2.html \
 		koi8-r.html quickbrown.html raw8bit.html sgml.html \

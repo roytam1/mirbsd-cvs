@@ -5903,7 +5903,7 @@ static BOOL IsOurSymlink(const char *name)
 
 	    if (cutoff != 0) {
 		HTSprintf0(&clone, "%.*s%s%s",
-			   cutoff - name,
+			   (int)(cutoff - name),
 			   name, PATHSEP_STR, buffer);
 		FREE(buffer);
 		buffer = clone;
