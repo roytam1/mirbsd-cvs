@@ -1,8 +1,10 @@
-/**	$MirOS: src/sys/arch/i386/include/ansi.h,v 1.8 2006/09/20 17:45:31 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/include/ansi.h,v 1.9 2008/12/10 21:45:45 tg Exp $ */
 /*	$OpenBSD: ansi.h,v 1.9 2004/01/03 14:08:52 espie Exp $	*/
 /*	$NetBSD: ansi.h,v 1.7 1996/11/15 22:38:50 jtc Exp $	*/
 
 /*-
+ * Copyright (c) 2009
+ *	Thorsten Glaser <tg@mirbsd.org>
  * Copyright (c) 1990, 1993
  *	The Regents of the University of California.  All rights reserved.
  *
@@ -53,10 +55,16 @@
 #define	_BSD_TIME_T_	long long		/* time() */
 #endif
 #define	_BSD_TIME_T_IS_64_BIT
-#if !defined(lint) && defined(__GNUC__) && __GNUC__ >= 3
-#define _BSD_VA_LIST_	__builtin_va_list
+#if defined(lint)
+#define _BSD_VA_LIST	char *			/* MI but possibly wrong */
+#elif (defined(__GNUC__) && (__GNUC__ >= 3)) || \
+    (defined(__PCC__) && ((__PCC__ > 0) || (__PCC_MINOR__ > 9) || \
+     ((__PCC_MINOR__ == 9) && (__PCC_MINORMINOR__ > 8)))) || \
+    (defined(__llvm__) && defined(__clang__)) || \
+    defined(__NWCC__)
+#define _BSD_VA_LIST_	__builtin_va_list	/* MI and correct */
 #else
-#define	_BSD_VA_LIST_	char *			/* va_list */
+#define _BSD_VA_LIST_	char *			/* MD */
 #endif
 #define _BSD_CLOCKID_T_	int
 #define _BSD_TIMER_T_	int

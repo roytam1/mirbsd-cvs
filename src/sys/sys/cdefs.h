@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/sys/cdefs.h,v 1.21 2008/11/10 01:40:14 tg Exp $ */
+/**	$MirOS: src/sys/sys/cdefs.h,v 1.22 2009/09/27 11:35:18 tg Exp $ */
 /*	$OpenBSD: cdefs.h,v 1.18 2005/05/27 21:28:12 millert Exp $	*/
 /*	$NetBSD: cdefs.h,v 1.16 1996/04/03 20:46:39 christos Exp $	*/
 
@@ -124,7 +124,7 @@
  * the distribution version of 2.5.5).
  * For GCC 3, the ANSI parser seems to be able to cope with attributes.
  */
-#if !__GNUC_PREREQ__(2, 5)
+#if !__GNUC_PREREQ__(2, 5) && !defined(__NWCC__)
 #define	__attribute__(x)	/* delete __attribute__ if no or old gcc */
 #if defined(__GNUC__) && !defined(__STRICT_ANSI__)
 #define	__dead		__volatile

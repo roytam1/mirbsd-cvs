@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/include/stdbool.h,v 1.2 2007/09/21 10:43:36 tg Exp $ */
 /* $OpenBSD: stdbool.h,v 1.3 2004/10/02 12:55:31 espie Exp $ */
 
 /*
@@ -11,7 +11,8 @@
 
 #ifndef __cplusplus
 
-#if (defined(__GNUC__) && __GNUC__ >= 3) || defined(__PCC__)
+#if (defined(__GNUC__) && __GNUC__ >= 3) || defined(__PCC__) || \
+    defined(__NWCC__)
 /* Support for _C99: type _Bool is already built-in. */
 #define false	0
 #define true	1
