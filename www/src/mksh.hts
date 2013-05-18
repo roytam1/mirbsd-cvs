@@ -1,10 +1,10 @@
-# $MirOS: www/src/mksh.hts,v 1.66 2007/10/02 18:55:01 tg Exp $
+# $MirOS: www/src/mksh.hts,v 1.67 2007/10/09 10:02:37 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.66 2007/10/02 18:55:01 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.67 2007/10/09 10:02:37 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R31c</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -176,6 +176,7 @@ mws_content <<'EOF'
  <tt>/usr/xpg4/bin/sh</tt>, ash, dash), or a super-set (GNU bash) to work; the
  Z Shell could work too, but the C shell (csh, tcsh) or “bsh” or a scripting
  shell like the wish won’t. Accepted arguments are:</p><ul>
+<li><tt>-j</tt> – parallel build (mksh R31d and up)</li>
 <li><tt>-q</tt> – output almost nothing</li>
 <li><tt>-Q</tt> – be (only) a little less verbose</li>
 <li><tt>-r</tt> – don’t try to build a pre-formatted version
@@ -215,10 +216,12 @@ mws_content <<'EOF'
 </ul>
 <p>You can override certain mirtoconf checks by setting environment variables
  like <tt>HAVE_REVOKE=0</tt> (default for Linux) – if these are set to 0 or 1,
- the values are used; if unset, the values are probed.</p>
-<p>Starting in mksh R31, the mknod(8) builtin can be disabled by HAVE_MKNOD=0
- and enabled by HAVE_MKNOD=1.
- Other useful items are HAVE_SETLOCALE_CTYPE=0, HAVE_PERSISTENT_HISTORY=0.</p>
+ the values are used; if unset, the values are probed (unless overridden by a
+ different check, such as MKSH_SMALL), if set to ‘x’ the probe is forced.<br />
+ Useful items to enable/disable are HAVE_MKNOD (set to 0 to disable, set to x
+ to re-enable for MKSH_SMALL), HAVE_SETLOCALE_CTYPE (set to 0 if you know that
+ it won’t ever or will always return UTF-8), HAVE_PERSISTENT_HISTORY (0 to not
+ include this feature).</p>
 
 <h4 id="oespec">Operating Environment specific notes</h4>
 
@@ -265,7 +268,8 @@ mws_content <<'EOF'
 <p>ICC emulates GCC quite well (too well for my taste), is fully supported in
  mksh R30 and above on several platforms, but spits out <strong>lots</strong>
  (and I <em>mean</em> huge ugly lots) of bogus warnings during compile. We’re
- not going to work around these; let Intel fix their compiler instead.</p>
+ not going to work around these; let Intel fix their compiler instead. Some of
+ these warnings were even responsible for bugs in mksh.</p>
 <p>I could not get the Intel Compiler 10 for Windows® to work.</p>
 <p>mksh enables the ICC stack protector option automaticaly. Compilates
  usually require the Intel shared libraries to be around.</p>
@@ -288,7 +292,7 @@ mws_content <<'EOF'
 <h5 id="oe_pcc">Compiler: PCC (BSD)</h5>
 <p>Support for the Caldera/SCO UNIX® based, BSD-licenced portable C compiler
  in the <a href="http://www.ludd.ltu.se/~ragge/pcc/">ragge version</a> 0.9.8
- and pcc-070920 has been added past mksh R31c; as of now, you need to use an
+ and pcc-071009 has been added with mksh R31d; as of now, you need to use an
  environment option of <tt>HAVE_CAN_OTWO=0 HAVE_CAN_OPTIMISE=0</tt> (disable
  optimisation) because otherwise the “continue” command is broken and thusly
  the regression test suite does not pass.</p>
@@ -414,8 +418,9 @@ mws_content <<'EOF'
  formatting time.</p>
 
 <h2 id="upgrade">For packagers: Upgrades</h2>
-<p>If you have mksh R31b, you do not need to upgrade to mksh R31c, unless
- you use Solaris and arc4random.c did not compile properly.</p>
+<p>In mksh R31d, parallel make with ‘-j’ was added (no limitation on number
+ of childs though), this even works with Solaris 8 <tt>/bin/sh</tt>. The
+ <tt>MKSH_NEED_MKNOD</tt> define is no longer honoured.</p>
 <p>From mksh R31 to R31b, arc4random.c has been upgraded.</p>
 <p>From mksh R30 to R31, there are no surprises. The “arc4random.c” file
  is available from mircvs://contrib/code/Snippets/arc4random.c now, and
@@ -583,6 +588,7 @@ mws_content <<'EOF'
 <p>The MirOS Project has tested mksh on the following operating systems,
  asked people to test, and hunted mksh down in these packaging systems:</p>
 <ul>
+ <li>MirOS #10 RC7 (i386 pcc20071009) <em>optimisation disabled</em></li>
  <li>MirOS #10 RC6 (sparc gcc3.4.6)</li>
  <li>MirOS #10 RC2 (i386 gcc3.4.6)</li>
  <li>MirOS #10 RC1 (i386 SUNcc5.9 Linux_i386 2007/05/03, GNU ld 2.13.90.0.2 20020802)</li>
@@ -628,6 +634,7 @@ mws_content <<'EOF'
  <li>Debian GNU 4.0 sid GNU-Mach/1.3.99 Hurd/0.3 (i386 gcc4.1.2-7)</li>
  <li>DragonFly 1.9-DEVELOPMENT Feb 20, 2007 (i386 gcc3.4.6)</li>
  <li>NetBSD 3.0_STABLE (i386 gcc3.3.3)</li>
+ <li>NetBSD 3.0_STABLE (i386 pcc0.9.8) <em>optimisation disabled</em></li>
  <li>OpenBSD 4.1-current GENERIC#1241 May 17, 2007 (sparc64 gcc3.3.5)</li>
  <li>FreeBSD 6.2-RELEASE (IA64 gcc3.4.6)</li>
  <li>Mac OSX Tiger 10.4.10 Darwin 8.10.0 (macppc gcc4.0.1 Apple build 5363)</li>
@@ -697,6 +704,12 @@ mws_content <<'EOF'
  <li>Begin supporting pcc (the ragge version of the Portable C Compiler)</li>
  <li>Add pushd/popd/dirs functions (csh) and precmd/chpwd hooks (zsh) to
   <tt>dot.mkshrc</tt> which now requires readlink(1) with <tt>-f</tt></li>
+ <li>Improve wording of manual page</li>
+ <li>Enable colour escapes in <tt>dot.mkshrc</tt> since almost nobody groks
+  how to do it right from the manual</li>
+ <li>Remove <tt>-DMKSH_NEED_MKNOD</tt> checks, they were deprecated anyway</li>
+ <li>Implement parallel make in <tt>Build.sh</tt></li>
+ <li>Fix another busy-loop spinning problem introduced by an icc warning</li>
 </ul>
 <p>The mksh R31c (Solaris-only) upgrade for cnuke@ was caused by:</p><ul>
  <li>Clean up <tt>Build.sh</tt> and “test … -o …” doesn’t exist in Bourne</li>
