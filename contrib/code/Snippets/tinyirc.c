@@ -63,7 +63,7 @@
 #define	__RCSID(x)	static const char __rcsid[] __attribute__((used)) = (x)
 #endif
 
-__RCSID("$MirOS: contrib/code/Snippets/tinyirc.c,v 1.16 2008/12/02 15:18:58 tg Exp $");
+__RCSID("$MirOS: contrib/code/Snippets/tinyirc.c,v 1.17 2008/12/02 16:37:00 tg Exp $");
 
 #ifndef __dead
 #define __dead
@@ -374,7 +374,8 @@ static int doprivmsg(void)
 		column = printf("*C*");
 		column = wordwrapout(bp, column);
 		skipout = 1;
-		snprintf(lineout, LINELEN, "NOTICE %s :\001RANDOM ");
+		snprintf(lineout, LINELEN, "NOTICE %s :\001RANDOM ",
+		    tok_in[0]);
 		while (strlen(lineout) < 240) {
 			char buf[9];
 
