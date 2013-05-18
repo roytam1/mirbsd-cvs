@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.138 2009/01/14 19:43:24 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.139 2009/01/15 21:26:48 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -2780,4 +2780,37 @@ Author: tg@
  a few hours of Friday and all of Monday (as a weekend shift is scheduled
  soonish anyway). Just gecko2@ can’t get off early ☹ Daniel says we could
  go for DVDs, but I estimate we won’t make it in time this time.</p>
+----
+Date: 18.01.2009 20:23
+Author: tg@
+Title: So much for a weekend
+
+<p><a href="@@RELPATH@@permalinks/wlog-10_e20090102-tg-g10014.htm">I seem
+ to have written</a> about it already. Damn. Cost me nearly the entire of
+ this weekend day (yesterday it was more lashing the alliance with mika),
+ and then I still had to fix it – turns out makefs(8) was at fault again.
+ Now who’d have expected this?</p>
+<p>Owkay. We have a working bootloader (sans the scheduled rewrite of the
+ cd9660 filesystem, see my last wlog entry), a cleaned up system for both
+ creating the baselive (and DuaLive™ and Triforce™) CDs, stuff for making
+ the <tt>bsd.rd</tt> for grml, a working <tt>ports/sysutils/pxegrub</tt>,
+ the legal issues cleaned up, the makefs(8) bug fixed, lynx(1) updated as
+ well as bugfixed (UTF-8 was broken), the MBR source code portable to not
+ include &lt;machine/asm.h&gt;, and the worst problem with the OpenLDAP’s
+ port MESSAGE fixed (discovered at work).</p>
+<p>Now it’s later than intended again, but I’ll regenerate the port index
+ later tonight, head to bed then work, and will set up tear tomorrow, for
+ building the snapshot-to-be-uploaded, while writing a new bootloader man
+ page. That should about be it.</p>
+<p>I wonder if we should rename MirOS #11 to #12 and issue a release from
+ what we have in -current now (pretty stable it is, plus #10 isn’t really
+ maintained) like I did in the early years, when I start breaking HEAD to
+ merge OpenBSD changes into it. Mh, talk with Benny and replaced.</p>
+<p>This 40 work hours per week scheme is annoying. But I guess if all had
+ 34 work hours per week, they’d need additional personnell which has high
+ cost overhead. Damn! If I divided my salary by 40/34, I could still make
+ a living (not much worse than now; still can’t afford much).</p>
+<p>Woohoo. replaced commits, n0-1 (FreeWRT) joins the RANDEX contributors
+ club and joins <tt>##/dev/arandom</tt>. Just Benny was on vacation, and,
+ again, I didn’t know of it ☺</p>
 ----
