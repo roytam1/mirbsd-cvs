@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.93 2008/11/06 22:30:01 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.94 2008/11/08 22:24:33 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -1967,4 +1967,19 @@ Title: WTF we have a symlink
 <p>I had a good laugh at J�rg “schily” Schilling learning English:
  <tt>&amp;dp[14] /* Hunreds of a Seconds */</tt> – That he doesn’t grok
  licencing is already well-known, so no need to bash that again.</p>
+----
+Date: 09.11.2008 02:36
+Author: tg@
+Title: website fun
+
+<p>Now that the website is running on MirOS httpd(8), we can have some
+ fun… SSL and such. The following picture may not be displayed if you
+ use a nōn-rsync’d mirror, but can be worth the fun:</p>
+<p><img src="@@ABSPATH@@/connimg.cgi" alt="connection info" /></p>
+<p>An <a href="@@ABSPATH@@/conninfo.cgi">ASCII connection info</a>
+ version is, of course, available as well, but images can be embedded
+ more easily. For example, if you were to read <a
+ href="https://www.mirbsd.org/permalinks/wlog-10_e20081109-tg.htm">this
+ wlog entry via SSL</a> (link provided courtesy to readers using Planet
+ Symlink), the information would differ.</p>
 ----
