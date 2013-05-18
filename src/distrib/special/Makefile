@@ -1,11 +1,11 @@
-# $MirOS: src/distrib/special/Makefile,v 1.11 2006/09/29 22:25:36 tg Exp $
+# $MirOS: src/distrib/special/Makefile,v 1.12 2007/01/26 18:39:48 tg Exp $
 #-
 # Tools which must be compiled differently for
 # the small or floppy ramdiscs because of missing
 # libraries or simply to be smaller
 
 .if ${MACHINE} == "i386"
-  SUBDIR+=	chat
+# SUBDIR+=	chat
   SUBDIR+=	dl-noman	# without integrated manpage
 .endif
   SUBDIR+=	dmesg
@@ -21,7 +21,7 @@
   SUBDIR+=	more
 .if ${MACHINE} == "i386"
   SUBDIR+=	ppp
-  SUBDIR+=	pppd
+# SUBDIR+=	pppd
   SUBDIR+=	sshd
 .endif
   SUBDIR+=	vnconfig
