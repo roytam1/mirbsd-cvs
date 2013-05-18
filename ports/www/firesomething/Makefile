@@ -1,4 +1,4 @@
-# $MirOS: ports/www/firesomething/Makefile,v 1.51 2010/02/21 09:36:57 bsiegert Exp $
+# $MirOS: ports/www/firesomething/Makefile,v 1.52 2010/07/22 15:10:31 tg Exp $
 # $OpenBSD: Makefile,v 1.41 2005/11/15 09:21:52 wilfried Exp $
 
 # mnbsd/amd64, mnbsd/sparc64 missing
@@ -9,11 +9,11 @@ ONLY_FOR_PLATFORM=	MidnightBSD:*:i386 \
 			OpenBSD:*:powerpc OpenBSD:*:sparc OpenBSD:*:sparc64
 
 COMMENT=		one of the successors to the Netscape browser engine
-COMMENT-nssckbi=	CA certificate bundle for NSS (Mirzilla Firetapir)
+COMMENT-nssckbi=	X.509v3 CA certificate bundle for NSS (Mirzilla Firetapir)
 VER=			3.0.18
 DISTNAME=		mozilla
 PKGNAME=		firesomething-${VER}-${DASH_VER}
-FULLPKGNAME-nssckbi=	nssckbi-1.75-3
+FULLPKGNAME-nssckbi=	nssckbi-1.75-4
 CATEGORIES=		www
 HOMEPAGE=		http://www.mozilla.org/projects/firefox/
 
@@ -24,6 +24,8 @@ PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
 .include <mirports.sys.mk>
+
+CERTDIR=		${PORTSDIR}/essentials/ca-certificates
 
 MASTER_SITES=		http://ftp.eu.mozilla.org/pub/mozilla.org/firefox/releases/${VER}/source/ \
 			http://ftp.mozilla.org/pub/mozilla.org/firefox/releases/${VER}/source/ \
@@ -106,7 +108,7 @@ CONFIGURE_ENV=		${MAKE_ENV}
 post-extract:
 	@cp ${FILESDIR}/xptc* ${WRKSRC}/xpcom/reflect/xptcall/src/md/unix/
 	cd ${WRKSRC}/security/nss/lib/ckfw/builtins/ && \
-	    cp ${FILESDIR}/certdata.{c,txt} . && \
+	    cp ${CERTDIR:Q}/certdata.{c,txt} . && \
 	    touch certdata.txt && sleep 1 && touch certdata.c
 	cd ${WRKSRC}/security/coreconf && \
 	    cp FreeBSD.mk MidnightBSD.mk && \

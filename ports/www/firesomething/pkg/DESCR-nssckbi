@@ -1,3 +1,3 @@
-Netscape Security Library: Built-In Root CA Certificate bundle
+Netscape Security Library: Built-In X.509v3 CA Certificate bundle
 
-Built from MirBSD CA bundle 20091115
+Built from MirBSD CA bundle 20101212

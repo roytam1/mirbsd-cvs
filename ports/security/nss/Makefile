@@ -1,9 +1,9 @@
-# $MirOS: ports/security/nss/Makefile,v 1.2 2010/03/28 15:42:30 bsiegert Exp $
+# $MirOS: ports/security/nss/Makefile,v 1.3 2010/07/22 15:10:12 tg Exp $
 
 COMMENT=		Network Security Services from the Mozilla project
 VERSION=		3.12.4
 MAJOR_VERSION=		3
-DASH_VER=		2
+DASH_VER=		4
 V=			${VERSION:S/./_/g}
 DISTNAME=		nss-${VERSION}
 CATEGORIES=		security devel
@@ -22,6 +22,7 @@ USE_GMAKE=		Yes
 
 WRKDIST=		${WRKDIR}/${DISTNAME}/mozilla
 WRKSRC=			${WRKDIST}/security/nss
+CERTDIR=		${PORTSDIR}/essentials/ca-certificates
 
 LIB_DEPENDS+=		nspr4,plc4,plds4::devel/nspr
 LIB_DEPENDS+=		sqlite3::databases/sqlite
@@ -46,7 +47,7 @@ PC_SED=			sed -e "s,@prefix@,$(TRUEPREFIX)," \
 
 post-extract:
 	cd ${WRKSRC}/lib/ckfw/builtins/ && \
-	    cp ${FILESDIR}/certdata.{c,txt} . && \
+	    cp ${CERTDIR:Q}/certdata.{c,txt} . && \
 	    touch certdata.txt && sleep 1 && touch certdata.c
 	cd ${WRKDIST}/security/coreconf && \
 	    cp FreeBSD.mk MidnightBSD.mk && \
