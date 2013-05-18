@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/livecd/Makefile,v 1.8 2006/04/05 23:58:35 tg Exp $
+# $MirOS: src/distrib/i386/livecd/Makefile,v 1.9 2006/04/06 00:58:25 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -31,8 +31,8 @@ bsd.gz: ${REALOBJDIR}/../generic/bsd
 	gzip -n9 bsd
 
 nukefiles:
-	cd workdir/usr && ${SUDO} rm -rf X11R6/lib/X11/doc X11R6/man \
-	    lib/libgcj.* share/{doc,gnat,info,java,man}
+	cd workdir/usr && ${SUDO} rm -rf \
+	    X11R6/{lib/X11/doc,man} share/{doc,info,man}
 
 makeimg:
 	${SUDO} mkisofs -R -T -L -d -D -N -v -v \
