@@ -1231,3 +1231,26 @@ Author: tg@
   just wonder why I always have to fix <em>their</em> bugs&#8230;</p>
  <p>Nah, I have no intent in reviving this wlog, just ranting once.</p>
 ----
+Date: 12.06.2007
+Author: tg@
+Title: SPARC port updates
+
+<p>Okay, since this thing is here anyway, let's use it to update you
+ people on the progress of the sparc port.</p>
+<p>The kernel boots and runs fine. The hardware seems to be okay,
+ the new HDD (sd0) gets a little warm at times, but that doesn't
+ seem to cause any problems.</p>
+<p>I reliably get segmentation faults for a lot of things – usually
+ things that access the network, more rarely during compiling. Can't
+ get stack traces as the stack is corrupt.</p>
+<p>Just to be safe, I'll try out the other 9 GB HDD tyler got me.
+ Maybe this one <em>is</em> the cause of the troubles, but I don't
+ think so. On the other hand, I might just try to upgrade the existing
+ #9 snapshot to #10 via source and with NO_ADA=Yes set. If that works…</p>
+<p>As I said, having sparc support is not a release criterium for #10,
+ but it'd still be nice to have. I already spotted bugs… but don't expect
+ me to hack much on it, I've got a dayjob requiring full attention and
+ hacking skills (mostly embedded GNU/Linux for mips, though, but luckily
+ most shell scripting I do is in <a href="@@RELPATH@@mksh.htm">mksh</a>,
+ and I can use <a href="/?jupp">jupp</a>; no BSD make there though).</p>
+----
