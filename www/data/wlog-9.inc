@@ -2140,3 +2140,48 @@ Author: tg@
  gain a bunch of 68-pin ./. 80-pin connectors. ☹</p>
 <p>The remainder of my new server is looking good, though.</p>
 ----
+Date: 28.09.2007
+Author: tg@
+
+<p>We’re actually very very close to release. I’m helf off by the issues
+ with the SCSI cabling (see my earlier posting), my laziness (or rather,
+ I’d like to call it being unable to enter deep hacking mode for a while
+ ☺ honestly!), and a few missing things.</p>
+<p>Well, I went and did some of the things. I read much source of kernel
+ random(4) and random(9) stuff as well as OpenSSL, fixed a lot of things
+ I found (oO ☻) and wrote a script (mircvs://contrib/code/Snippets/ is a
+ good place for them…) to create a seed file for “openssl genrsa -rand”.
+ This can be used to generate a <em>large</em> (4 Kib or so) secret key;
+ since I still have the sparc and nwt (80486DX-33) around, I’ll just use
+ two keys on tear: this one publically and an 1024 bit key bound only to
+ the LAN (might even make it IPv6 only to annoy my visitors even more…).
+ I also made arandom(4) reseed much more often if we have a hardware RNG
+ (every 64 seconds instead of 10 minutes; I hope that’s okay, but we get
+ 64 Bytes of new entropy every 10 ms, so I guess…).</p>
+<p>syslog(3) and friends are stupid, they truncate waay too often; I did
+ a würgaround in logger(1) for now, letting it split up conservatively –
+ at 512 bytes already; doesn’t catch all-binaries but what the hey…</p>
+<p>There’s a new <tt>src/distrib/tools</tt> directory now, with releng’s
+ playground. Like MirOS #7ter, we want to make the release CD dual-arch,
+ bootable. But since #7, things have changed – you can use our ISOs as a
+ kind of Live-HDD, Live-CompactFlash, etc. so this functionality must be
+ retained (I know how now, I just have to code it… and get my sparc PROM
+ to boot off a burned CD-RW). And I could even do this to the #10 series
+ mini-ISO (cdrom10.iso). Having an ISO of approximately 8 MiB size, boot
+ both architectures off it. Yay! (as benz would say)</p>
+<p>pcc’s in the works, I like the activity but not the split and some of
+ the directions… but at the moment I’ll only monitor (and contribute the
+ needed MirOS support bits, of course) since we’re busy with other – and
+ much more important – things, the impending release for instance.</p>
+<p><tt>herc</tt> is in the <a href="http://www.pool.ntp.org/">NTP server
+ pool</a>… so will <tt>tear</tt> be, but I wonder if we should do a same
+ for entropy distribution (like randomnumbers.info et al. do)? Since the
+ box has a hardware RNG and a pretty good in-kernel mixer, I’m having it
+ exported to the public anyway (but not too well-known since my internet
+ connection cannot handle much load).</p>
+<p>Speaking of entropy… ICQ logs conversations proactively, according to
+ ciruZ, so we sort of decided to just send random data to each other. We
+ didn’t set it up yet, but is anyone else interested? Does ICQ close the
+ accounts when they just send to random other accounts? I have some very
+ evil ideas for mksh scripts… *grins*</p>
+----
