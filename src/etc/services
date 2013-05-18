@@ -1,5 +1,5 @@
 # $MirSecuCron$
-# $MirOS: src/etc/services,v 1.7 2008/04/09 03:10:06 tg Exp $
+# $MirOS: src/etc/services,v 1.8 2009/07/18 14:09:07 tg Exp $
 # $OpenBSD: services,v 1.66 2007/03/04 12:46:25 jmc Exp $
 #
 # Network services, Internet style
@@ -328,6 +328,7 @@ icb		7326/tcp		# Internet Citizen's Band
 spamd		8025/tcp		# spamd(8)
 spamd-sync	8025/udp		# spamd(8) synchronisation
 spamd-cfg	8026/tcp		# spamd(8) configuration
+git		9418/tcp		# patch management / content tracker
 wnn4_Cn		22289/tcp		# Wnn4 (Chinese input)
 wnn6_Cn		22289/tcp
 wnn4_Kr		22305/tcp		# Wnn4 (Korean input)
