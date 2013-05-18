@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.143 2009/09/15 15:33:41 tg Exp $
+# $MirOS: src/Makefile,v 1.144 2009/11/15 12:39:33 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -209,7 +209,8 @@ _do-htinfo:
 	    cp gnat{_ugn_unw,_rm,-style}.html ${BSDOBJDIR}/htman/texinfo/
 .endif
 .if ${NO_PASCAL:L} == "no"
-	cp ${BSDSRCDIR}/gcc/gpcdoc/gpc{,s,s-de}.html ${BSDOBJDIR}/htman/texinfo/
+	cd ${BSDOBJDIR}/gcc/gpcdoc && \
+	    cp gpc{,-hr,s{,-de,-hr}}.html ${BSDOBJDIR}/htman/texinfo/
 .endif
 
 base-distbuild:
