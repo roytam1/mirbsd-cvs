@@ -580,7 +580,7 @@ Subject: when ranting helps
 <p>I wish ranting would help with my internet connection… gotta fight with
  the ISP/Telco now.</p>
 ----
-Date: 21.04.2008 21:33
+Date: 21.04.2008 19:33
 Author: bsiegert@
 
 <p>Just returning from a week in the south, and feeling well. By sheer
@@ -598,4 +598,29 @@ Author: bsiegert@
  author&mdash;very responsive indeed!&mdash;says this is not yet fixed
  but promised to send me a hg snapshot. While here, we now have a
  mercurial (hg) port ;).</p>
+----
+Date: 21.04.2008 20:13
+Author: tg@
+Subject: more creative uses for ttftot42
+
+<p>The ttftot42 utility I asked bsiegert@ to port was actually mentioned
+ in some GNU groff documentation as a possible way to use OpenType fonts
+ in ps/pdf manpages. I always liked the Gentium font (which we use for
+ the MirOS CI/CD), and starting from when I first saw it, I hated anything
+ remotely looking like the Courier font, so I guess this means that the
+ PDF version of mksh’s online manpage will soon have a new look.</p>
+<p style="margin-bottom:0px;">On an unrelated note:</p>
+<div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;">
+ <pre>
+	Apr 21 20:09:06 herc ppp[28555]: tun0: LCP: deflink: RecvTerminateReq(206) state = Opened
+	Apr 21 20:09:06 herc ppp[28555]: tun0: LCP: deflink: LayerDown
+	Apr 21 20:09:06 herc ppp[28555]: tun0: LCP: deflink: SendTerminateAck(206) state = Opened
+	Apr 21 20:09:06 herc ppp[28555]: tun0: LCP: deflink: State change Opened --> Stopping
+	Apr 21 20:09:06 herc ppp[28555]: tun0: CCP: deflink: State change Stopped --> Closed
+	Apr 21 20:09:06 herc ppp[28555]: tun0: CCP: deflink: State change Closed --> Initial
+	Apr 21 20:09:06 herc ppp[28555]: tun0: Phase: deflink: open -> lcp
+ </pre>
+</div><p style="margin-top:0px;">(not using pppoe(4), to enable debugging)</p>
+<p>For me, this very much looks like my ISP doesn’t like my nose or something
+ and wants the ADSL (ppp(8)+pppoe(8)) session to terminate.</p>
 ----
