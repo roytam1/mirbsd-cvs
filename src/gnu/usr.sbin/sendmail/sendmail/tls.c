@@ -1036,10 +1036,11 @@ inittls(ctx, req, srv, certfile, keyfile, cacertpath, cacertfile, dhparam)
 	}
 
 	/* load certificate locations and default CA paths */
-	if (bitset(TLS_S_CERTP_EX, status) && bitset(TLS_S_CERTF_EX, status))
+	if (bitset(TLS_S_CERTP_EX, status) || bitset(TLS_S_CERTF_EX, status))
 	{
-		if ((r = SSL_CTX_load_verify_locations(*ctx, cacertfile,
-						       cacertpath)) == 1)
+		if ((r = SSL_CTX_load_verify_locations(*ctx,
+		    bitset(TLS_S_CERTF_EX, status) ? cacertfile : NULL,
+		    bitset(TLS_S_CERTP_EX, status) ? cacertpath : NULL)) == 1)
 		{
 # if !TLS_NO_RSA
 			if (bitset(TLS_I_RSA_TMP, req))
@@ -1068,8 +1069,9 @@ inittls(ctx, req, srv, certfile, keyfile, cacertpath, cacertfile, dhparam)
 			/* install verify callback */
 			SSL_CTX_set_cert_verify_callback(*ctx, tls_verify_cb,
 							 NULL);
-			SSL_CTX_set_client_CA_list(*ctx,
-				SSL_load_client_CA_file(cacertfile));
+			if (bitset(TLS_S_CERTF_EX, status))
+				SSL_CTX_set_client_CA_list(*ctx,
+					SSL_load_client_CA_file(cacertfile));
 		}
 		else
 		{
@@ -1083,7 +1085,8 @@ inittls(ctx, req, srv, certfile, keyfile, cacertpath, cacertfile, dhparam)
 			{
 				sm_syslog(LOG_WARNING, NOQID,
 					  "STARTTLS=%s, error: load verify locs %s, %s failed: %d",
-					  who, cacertpath, cacertfile, r);
+				    who, bitset(TLS_S_CERTP_EX, status) ? cacertpath : "(not set)",
+				    bitset(TLS_S_CERTF_EX, status) ? cacertfile : "(not set)", r);
 				if (LogLevel > 9)
 					tlslogerr(who);
 			}

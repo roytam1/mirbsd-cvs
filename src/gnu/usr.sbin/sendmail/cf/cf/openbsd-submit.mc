@@ -1,6 +1,6 @@
 divert(-1)
 #
-# $MirOS: src/gnu/usr.sbin/sendmail/cf/cf/submit.mc,v 1.8 2008/05/07 13:15:16 tg Exp $
+# $MirOS: src/gnu/usr.sbin/sendmail/cf/cf/openbsd-submit.mc,v 1.2 2008/12/17 00:42:55 tg Exp $
 #
 # Copyright (c) 2004, 2005, 2006, 2008
 #	Thorsten "mirabilos" Glaser <tg@MirBSD.org>
@@ -20,7 +20,7 @@ divert(-1)
 
 divert(0)dnl
 VERSIONID(`$OpenBSD: openbsd-submit.mc,v 1.1 2008/10/03 16:29:05 millert Exp $')
-VERSIONID(`$MirOS: src/gnu/usr.sbin/sendmail/cf/cf/submit.mc,v 1.8 2008/05/07 13:15:16 tg Exp $')
+VERSIONID(`$MirOS: src/gnu/usr.sbin/sendmail/cf/cf/openbsd-submit.mc,v 1.2 2008/12/17 00:42:55 tg Exp $')
 define(`confCF_VERSION', `Submit')dnl
 OSTYPE(openbsd)dnl
 define(`_USE_DECNET_SYNTAX_', `1')dnl support DECnet
@@ -29,6 +29,7 @@ define(`confBIND_OPTS', `WorkAroundBrokenAAAA')dnl
 define(`confDONT_INIT_GROUPS', `True')dnl
 define(`confEIGHT_BIT_HANDLING', `mimefy')dnl
 define(`confDEF_CHAR_SET', `utf-8')dnl
+define(`confCACERT_PATH', `/etc/ssl/certs')dnl
 define(`_DEF_SMTP_MAILER_FLAGS', `LmDFMuX')dnl
 define(`SMTP_MAILER_FLAGS', `67E')dnl
 define(`confCT_FILE', `-o MAIL_SETTINGS_DIR`'trusted-users')dnl
