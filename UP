@@ -38,7 +38,7 @@ case $1 {
 [[ -n $1 || -n $2 ]] && shift
 [[ -e $HOME/.etc/anonkey.mirbsd ]] && sshx="$sshx -i $HOME/.etc/anonkey.mirbsd"
 set -x
-nice rsync -rxlztpgaK --delete --stats --exclude=/ign/ "$sshx" $p "$@" \
+nice rsync -rxlztpgaHK --delete --stats --exclude=/ign/ "$sshx" $p "$@" \
     ${CVSROOT:-_anoncvs@herc.mirbsd.org:/cvs}/ $vd
 cd $wd
 [[ $a = 1 ]] && exec /bin/mksh -c "umount $vd; mount $vd"

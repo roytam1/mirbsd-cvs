@@ -1,5 +1,5 @@
 <!-- PageID: anoncvs -->
-<small class="rcsid">$MirOS: www/content/YW5vbmN2cw__.inc,v 1.14 2006/10/29 22:22:42 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/YW5vbmN2cw__.inc,v 1.15 2007/03/12 01:17:16 tg Exp $</small>
 <h1>Anonymous CVS access to the MirOS repository</h1>
 
 <h3 id="what">What is anonCVS?</h3>
@@ -35,11 +35,11 @@
  as a base for rsync use in order to speed up the initial
  synchronisation and reduce load and traffic on the servers.
  These files are, of course, gzsig(1)d.</p>
-<pre>nice rsync --delete -rxlztpgK --rsync-path=/bin/rsync \
+<pre>nice rsync --delete -rxlztpgHK --rsync-path=/bin/rsync \
   anoncvs@anoncvs.mirbsd.org:/cvs/ /var/anoncvs/anoncvs/cvs
-nice rsync --delete -rxlztpgK --rsync-path=/bin/rsync \
+nice rsync --delete -rxlztpgHK --rsync-path=/bin/rsync \
   anoncvs@anoncvs2.mirbsd.org:/ocvs/ /var/anoncvs/anoncvs/ocvs
-nice rsync --delete -rxlztpgK --rsync-path=/bin/rsync \
+nice rsync --delete -rxlztpgHK --rsync-path=/bin/rsync \
   anoncvs@anoncvs.mirbsd.org:/MirOS/ /var/www/htdocs/MirOS
 </pre><p>
  Please be sure to check for problems (the CVS snapshot might contain
