@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/tools/Makefile,v 1.28 2008/10/30 17:47:34 tg Exp $
+# $MirOS: src/distrib/tools/Makefile,v 1.29 2009/01/17 12:21:01 tg Exp $
 
 all: sundsklbl
 
@@ -9,6 +9,9 @@ all: i386_chain
 .endif
 
 CHAINSECTOR?=	24
+.if defined(SERIALSPEED)
+CDROM?=		cdrom${SERIALSPEED}.iso
+.endif
 CDROM?=		cdrom${OSrev}.iso
 DSTTOPDIR?=	/var/www/htdocs/v${OSrev}
 
@@ -68,7 +71,14 @@ makecdimage: .PHONY
 	strip --target=a.out-sunos-big cddir/b_sparc.ldr
 	ln cddir/v${OSrev}/sparc/bsd.rd cddir/vmunix		# for kicks
 	cp ${.CURDIR}/../common/00-README cddir/
+.if defined(SERIALSPEED)
+	sed 's/@/${SERIALSPEED}/g' ${.CURDIR}/boot.cfg.serial >cddir/boot.cfg
+.else
 	cp ${.CURDIR}/../common/boot.cfg.i386 cddir/boot.cfg
+.endif
+.if defined(WAIT)
+	@print === press RETURN; read x
+.endif
 	makefs -t cd9660 -o "$$(print -r -- ${CDROM_OPTS} | tr ' ~' ', ')" \
 	    ${CDROM}~ cddir
 	# pad for a geometry of 16 heads, 32 sectors per track
