@@ -1,4 +1,4 @@
-#	$MirOS: src/sys/dev/pci/files.pci,v 1.3 2005/07/04 01:06:29 tg Exp $
+#	$MirOS: src/sys/dev/pci/files.pci,v 1.4 2010/04/16 22:44:05 tg Exp $
 #	$OpenBSD: files.pci,v 1.151 2004/03/06 03:16:20 krw Exp $
 #	$NetBSD: files.pci,v 1.20 1996/09/24 17:47:15 christos Exp $
 #
@@ -494,6 +494,11 @@ file	dev/pci/if_vge.c		vge
 device	stge: ether, ifnet, mii, ifmedia, mii_phy, mii_bitbang
 attach	stge at pci
 file	dev/pci/if_stge.c		stge
+
+# Attansic/Atheros L1C/L2C Gigabit Ethernet
+device	alc: ether, ifnet, mii, ifmedia, mii_phy
+attach	alc at pci
+file	dev/pci/if_alc.c		alc
 
 # AMD 768MPX power management controller
 device	amdpm {}
