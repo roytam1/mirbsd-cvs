@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/Snippets/tinyirc.c,v 1.12 2007/07/17 20:08:16 tg Exp $ */
+/* $MirOS: contrib/code/Snippets/tinyirc.c,v 1.13 2007/07/18 20:30:43 tg Exp $ */
 
 /* Configuration options */
 /* please change the default server to one near you. */
@@ -77,7 +77,7 @@
 #define	__RCSID(x)	static const char __rcsid[] __attribute__((used)) = (x)
 #endif
 
-__RCSID("$MirOS: contrib/code/Snippets/tinyirc.c,v 1.12 2007/07/17 20:08:16 tg Exp $");
+__RCSID("$MirOS: contrib/code/Snippets/tinyirc.c,v 1.13 2007/07/18 20:30:43 tg Exp $");
 
 struct dlist {
     char name[64];
@@ -669,7 +669,7 @@ void userinput(void)
 	case '\10':		/* C-h */
 	    if (curx)
 	case '\4':		/* C-d */
-	    {
+	    if (curli) {
 		if ((ch == '\4') && (curx < curli))
 		    curx++;
 		if (curli == curx)
@@ -739,6 +739,7 @@ void userinput(void)
 	    wasdate = 0;
 	    break;
 	case '\26':		/* ^V */
+	    /* quote - press ^V^V^A to insert a ^A, it's invisible tho */
 	    read(stdinfd, &ch, 1);
 	    /* FALLTHROUGH */
 	default:
