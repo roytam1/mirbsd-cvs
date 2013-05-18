@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.220 2008/10/12 13:35:04 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.221 2008/10/12 13:53:12 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -935,16 +935,16 @@ EXTRACT_ONLY?=		${_DISTFILES}
 .if !empty(EXTRACT_ONLY:M*.zip)
 _USE_ZIP?=		Yes
 .endif
-.if !empty(EXTRACT_ONLY:M*.tar.bz2) || !empty(EXTRACT_ONLY:M*.tbz) || \
-    !empty(EXTRACT_ONLY:M*.cpio.bz2) || !empty(EXTRACT_ONLY:M*.cbz) || \
+.if !empty(EXTRACT_ONLY:M*.bz2) || \
+    !empty(EXTRACT_ONLY:M*.tbz) || !empty(EXTRACT_ONLY:M*.cbz) || \
     (defined(PATCHFILES) && !empty(_PATCHFILES:M*.bz2))
 _USE_BZIP2?=		Yes
 .endif
 .if !empty(EXTRACT_ONLY:L:M*.l[zh][ha])
 _USE_LHARC?=		Yes
 .endif
-.if !empty(EXTRACT_ONLY:M*.tar.lzma) || !empty(EXTRACT_ONLY:M*.tlz) || \
-    !empty(EXTRACT_ONLY:M*.cpio.lzma) || !empty(EXTRACT_ONLY:M*.clz)
+.if !empty(EXTRACT_ONLY:M*.lzma) || \
+    !empty(EXTRACT_ONLY:M*.tlz) || !empty(EXTRACT_ONLY:M*.clz)
 _USE_LZMA?=		Yes
 .endif
 _USE_ZIP?=		No
@@ -966,8 +966,11 @@ EXTRACT_CASES+=		\
 .if ${_USE_BZIP2:L} != "no"
 BUILD_DEPENDS+=		:bzip2-*:archivers/bzip2
 EXTRACT_CASES+=		\
-    *.tar.bz2 | *.tbz | *.cpio.bz2 | *.cbz) \
-	${BZIP2} -dc ${FULLDISTDIR}/$$archive | ${TAR} xf - ;;
+    *.tar.bz2 | *.tbz | *.cpio.bz2 | *.cbz)				\
+	${BZIP2} -dc ${FULLDISTDIR}/$$archive | ${TAR} xf - ;;		\
+    *.bz2)								\
+	${BZIP2} -dc ${FULLDISTDIR}/$$archive				\
+	    >$$(basename $$archive .bz2) ;;				\
 .endif
 .if ${_USE_LHARC:L} != "no"
 BUILD_DEPENDS+=		:lha-*:archivers/lha
@@ -978,8 +981,11 @@ EXTRACT_CASES+=		\
 .if ${_USE_LZMA:L} != "no"
 BUILD_DEPENDS+=		:lzma-*:archivers/lzma
 EXTRACT_CASES+=		\
-    *.tar.lzma | *.tlz | *.cpio.lzma | *.clz) \
-	lzma -dc ${FULLDISTDIR}/$$archive | ${TAR} xf - ;;
+    *.tar.lzma | *.tlz | *.cpio.lzma | *.clz)				\
+	lzma -dc ${FULLDISTDIR}/$$archive | ${TAR} xf - ;;		\
+    *.lzma)								\
+	lzma -dc ${FULLDISTDIR}/$$archive				\
+	    >$$(basename $$archive .lzma) ;;				\
 .endif
 EXTRACT_CASES+=		\
     *.tar.gz | *.t.gz | *.tgz | *.cpio.gz | *.cgz | *.mcz)		\
