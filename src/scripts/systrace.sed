@@ -1,14 +1,30 @@
 Policy: @@PROG@@, Emulation: native
+	native-__getcwd: permit
 	native-__semctl: permit
 	native-__sysctl: permit
-	native-accept: true then permit log
+	native-accept: permit
 	native-bind: sockaddr match "/tmp" then permit
 	native-bind: sockaddr match "/var/tmp" then permit
+	native-bind: sockaddr match "@@RO_DIR@@" then deny[eperm]
+	native-bind: sockaddr match "@@RW_DIR@@" then permit
+	native-bind: sockaddr match "/<non-existent filename>: *" then deny[enoent]
 	native-break: permit
 	native-chdir: permit
-	native-chflags: permit
-	native-chmod: permit
-	native-chown: permit
+	native-chflags: filename match "/tmp" then permit
+	native-chflags: filename match "/var/tmp" then permit
+	native-chflags: filename match "@@RO_DIR@@" then deny[eperm]
+	native-chflags: filename match "@@RW_DIR@@" then permit
+	native-chflags: filename match "/<non-existent filename>: *" then deny[enoent]
+	native-chmod: filename match "/tmp" then permit
+	native-chmod: filename match "/var/tmp" then permit
+	native-chmod: filename match "@@RO_DIR@@" then deny[eperm]
+	native-chmod: filename match "@@RW_DIR@@" then permit
+	native-chmod: filename match "/<non-existent filename>: *" then deny[enoent]
+	native-chown: filename match "/tmp" then permit
+	native-chown: filename match "/var/tmp" then permit
+	native-chown: filename match "@@RO_DIR@@" then deny[eperm]
+	native-chown: filename match "@@RW_DIR@@" then permit
+	native-chown: filename match "/<non-existent filename>: *" then deny[enoent]
 	native-chroot: permit
 	native-clock_gettime: permit
 	native-close: permit
@@ -20,6 +36,9 @@ Policy: @@PROG@@, Emulation: native
 	native-connect: sockaddr match "/dev/log" then permit
 	native-connect: sockaddr match "/tmp" then permit
 	native-connect: sockaddr match "/var/tmp" then permit
+	native-connect: sockaddr match "@@RO_DIR@@" then deny[eperm]
+	native-connect: sockaddr match "@@RW_DIR@@" then permit
+	native-connect: sockaddr match "/<non-existent filename>: *" then deny[enoent]
 	native-dup2: permit
 	native-dup: permit
 	native-execve: true then permit
@@ -75,16 +94,23 @@ Policy: @@PROG@@, Emulation: native
 	native-kevent: permit
 	native-kill: permit
 	native-kqueue: permit
-	native-lchown: permit
+	native-lchown: filename match "/tmp" then permit
+	native-lchown: filename match "/var/tmp" then permit
+	native-lchown: filename match "@@RO_DIR@@" then deny[eperm]
+	native-lchown: filename match "@@RW_DIR@@" then permit
+	native-lchown: filename match "/<non-existent filename>: *" then deny[enoent]
 	native-link: filename match "/tmp" and filename[1] match "/tmp" then permit
 	native-link: filename match "/var/tmp" and filename[1] match "/var/tmp" then permit
 	native-link: filename match "@@RO_DIR@@" or filename[1] match "@@RO_DIR@@" then deny[eperm]
 	native-link: filename match "@@RW_DIR@@" and filename[1] match "@@RW_DIR@@" then permit
-	native-link: filename[1] match "/<non-existent filename>: *" then deny[enoent]
-	native-listen: true then permit log
+	native-link: filename match "/<non-existent filename>: *" then deny[enoent]
+	native-listen: permit
 	native-lseek: permit
 	native-madvise: permit
-	native-mkfifo: permit
+	native-mknod: filename match "/tmp" then permit
+	native-mknod: filename match "/var/tmp" then permit
+	native-mknod: filename match "@@RO_DIR@@" then deny[eperm]
+	native-mknod: filename match "@@RW_DIR@@" then permit
 	native-mlock: permit
 	native-mlockall: permit
 	native-mmap: permit
@@ -99,15 +125,25 @@ Policy: @@PROG@@, Emulation: native
 	native-poll: permit
 	native-pread: permit
 	native-pwrite: permit
+	native-quotactl: permit
 	native-read: permit
 	native-readv: permit
 	native-recvfrom: permit
 	native-recvmsg: permit
-	native-rename: permit
+	native-rename: filename match "/tmp" and filename[1] match "/tmp" then permit
+	native-rename: filename match "/tmp" and filename[1] match "/var/tmp" then permit
+	native-rename: filename match "@@RO_DIR@@" or filename[1] match "@@RO_DIR@@" then deny[eperm]
+	native-rename: filename match "/tmp" and filename[1] match "@@RW_DIR@@" then permit
+	native-rename: filename match "/var/tmp" and filename[1] match "/var/tmp" then permit
+	native-rename: filename match "/var/tmp" and filename[1] match "@@RW_DIR@@" then permit
+	native-rename: filename match "@@RW_DIR@@" and filename[1] match "@@RW_DIR@@" then permit
+	native-rename: filename match "/<non-existent filename>: *" then deny[enoent]
 	native-rfork: permit
 	native-sched_yield: permit
 	native-select: permit
+	native-semctl: permit
 	native-semget: permit
+	native-semop: permit
 	native-sendmsg: permit
 	native-sendto: permit
 	native-setegid: permit
@@ -141,7 +177,6 @@ Policy: @@PROG@@, Emulation: native
 	native-symlink: filename match "/var/tmp" then permit
 	native-symlink: filename match "@@RO_DIR@@" then deny[eperm]
 	native-symlink: filename match "@@RW_DIR@@" then permit
-	native-symlink: filename match "/<non-existent filename>: *" then deny[enoent]
 	native-symlink: string eq "" and filename eq "" then deny[enoent]
 	native-sync: permit
 	native-threxit: permit
@@ -154,3 +189,4 @@ Policy: @@PROG@@, Emulation: native
 	native-wait4: permit
 	native-write: permit
 	native-writev: permit
+

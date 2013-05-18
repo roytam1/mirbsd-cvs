@@ -101,6 +101,9 @@ struct intercept_pid {
 	uid_t uid;		/* current uid */
 	gid_t gid;		/* current gid */
 
+#ifndef LOGIN_NAME_MAX
+#define LOGIN_NAME_MAX	MAXLOGNAME
+#endif
 	char username[LOGIN_NAME_MAX];
 	char home[MAXPATHLEN];	/* current home dir for uid */
 
