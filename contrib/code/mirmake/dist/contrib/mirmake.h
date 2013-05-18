@@ -1,7 +1,7 @@
-/* $MirOS: contrib/code/mirmake/dist/contrib/mirmake.h,v 1.44 2008/12/29 20:15:11 tg Exp $ */
+/* $MirOS: contrib/code/mirmake/dist/contrib/mirmake.h,v 1.45 2008/12/29 22:36:19 tg Exp $ */
 
 /*-
- * Copyright (c) 2005, 2006, 2008
+ * Copyright (c) 2005, 2006, 2008, 2009
  *	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
  * Partially based upon some code
  * Copyright (c) 1991, 1993
@@ -42,7 +42,9 @@
 #include <sys/cdefs.h>
 #include <sys/types.h>
 #include <sys/param.h>
-#if !defined(__APPLE__) && !defined(__GLIBC__)
+#if defined(__GLIBC__)
+#include <endian.h>
+#elif !defined(__APPLE__)
 #include <sys/endian.h>
 #endif
 
@@ -225,6 +227,7 @@
 #define uint64_t u_int64_t
 #include <libkern/OSByteOrder.h>
 #elif defined(__GLIBC__)
+#include <byteswap.h>
 #include <stdint.h>
 #elif defined(__INTERIX)
 #define uint64_t u_int64_t
@@ -246,6 +249,38 @@
 #define htobe64(x)	OSSwapHostToBigInt64(x)
 #endif
 
+/* GNU libc */
+#if !defined(htobe16) && defined(__bswap_16) && defined(_ENDIAN_H)
+#if __BYTE_ORDER == __LITTLE_ENDIAN
+#define letoh16(x)	(x)
+#define letoh32(x)	(x)
+#define letoh64(x)	(x)
+#define betoh16(x)	__bswap_16(x)
+#define betoh32(x)	__bswap_32(x)
+#define betoh64(x)	__bswap_64(x)
+#define htole16(x)	(x)
+#define htole32(x)	(x)
+#define htole64(x)	(x)
+#define htobe16(x)	__bswap_16(x)
+#define htobe32(x)	__bswap_32(x)
+#define htobe64(x)	__bswap_64(x)
+#elif __BYTE_ORDER == __BIG_ENDIAN
+#define letoh16(x)	__bswap_16(x)
+#define letoh32(x)	__bswap_32(x)
+#define letoh64(x)	__bswap_64(x)
+#define betoh16(x)	(x)
+#define betoh32(x)	(x)
+#define betoh64(x)	(x)
+#define htole16(x)	__bswap_16(x)
+#define htole32(x)	__bswap_32(x)
+#define htole64(x)	__bswap_64(x)
+#define htobe16(x)	(x)
+#define htobe32(x)	(x)
+#define htobe64(x)	(x)
+#endif
+#endif
+
+/* apparently, MidnightBSD needs these */
 #if defined(be16toh) && !defined(betoh16)
 #define betoh16(x)	be16toh(x)
 #define betoh32(x)	be32toh(x)
