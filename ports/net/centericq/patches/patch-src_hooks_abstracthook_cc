@@ -1,7 +1,22 @@
-$MirOS: ports/net/centericq/patches/patch-src_hooks_abstracthook_cc,v 1.1 2006/10/29 02:45:12 tg Exp $
---- src/hooks/abstracthook.cc.orig	Sun Dec 23 21:49:27 2007
-+++ src/hooks/abstracthook.cc	Sun Dec 23 21:49:33 2007
-@@ -46,7 +46,9 @@ time_t timer_current = time(0);
+$MirOS: ports/net/centericq/patches/patch-src_hooks_abstracthook_cc,v 1.2 2007/12/23 23:27:28 bsiegert Exp $
+--- src/hooks/abstracthook.cc.orig	Sun Aug 17 00:39:03 2008
++++ src/hooks/abstracthook.cc	Sun Aug 17 00:52:22 2008
+@@ -42,11 +42,24 @@
+ 
+ #define NOTIFBUF 512
+ 
++extern "C" char *sautoconv_c(const char *);
++
++static string sautoconv(const string &atext) {
++	const char *ccp;
++	string r;
++
++	ccp = sautoconv_c(atext.c_str());
++	r = ccp;
++	return r;
++}
++
+ time_t timer_current = time(0);
  
  abstracthook::abstracthook(protocolname aproto)
      : proto(aproto), searchdest(0)
@@ -12,7 +27,7 @@ $MirOS: ports/net/centericq/patches/patch-src_hooks_abstracthook_cc,v 1.1 2006/1
  
  void abstracthook::init() {
  }
-@@ -233,6 +235,18 @@ string abstracthook::ruscrlfconv(const s
+@@ -233,6 +246,19 @@ string abstracthook::ruscrlfconv(const s
  
  string abstracthook::rusconv(const string &tdir, const string &text) {
      string r;
@@ -24,9 +39,10 @@ $MirOS: ports/net/centericq/patches/patch-src_hooks_abstracthook_cc,v 1.1 2006/1
 +			return siconv(text, "utf-8", protocharset);
 +		if (tdir == "wk" || tdir == "uk")
 +			return siconv(text, protocharset, "utf-8");
++		return text;
 +	}
 +#endif
-+	return text;
++	return sautoconv(text);
 +    }
  
      if(!conf.getcpconvert(proto) && tdir.find("u") == -1)

@@ -1,4 +1,4 @@
-# $MirOS: ports/net/centericq/Makefile,v 1.33 2008/05/01 00:52:33 tg Exp $
+# $MirOS: ports/net/centericq/Makefile,v 1.34 2008/05/07 22:48:34 tg Exp $
 # $OpenBSD: Makefile,v 1.24 2004/02/03 08:37:55 brad Exp $
 
 # bus error on start
@@ -7,15 +7,17 @@ NOT_FOR_PLATFORM+=	Darwin:*:*
 COMMENT=		curses-based multiprotocol IM client implementation
 DISTNAME=		centericq-${V}
 V=			4.21.0
-DASH_VER=		14
+DASH_VER=		15
 CATEGORIES=		net
 PATCHFILES=		centericq-${V}.msn.patch:0
 PATCH_DIST_STRIP=	-p1
 MASTER_SITES=		http://konst.org.ua/download/ \
 			http://konst.home.welcomehome.org/ \
 			http://centericq.de/archive/source/releases/
-MASTER_SITES0=		http://unkie.org/tmp/ \
-			http://centericq.de/archive/contrib/patches/
+# unfetchable
+#MASTER_SITES0=		http://unkie.org/tmp/ \
+#			http://centericq.de/archive/contrib/patches/
+MASTER_SITES0=		${_MASTER_SITE_MIRBSD}
 HOMEPAGE=		http://konst.org.ua/en/centericq
 RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.de>
 
@@ -25,7 +27,7 @@ PERMIT_PACKAGE_FTP=     Yes
 PERMIT_DISTFILES_CDROM= Yes
 PERMIT_DISTFILES_FTP=   Yes
 
-FLAVOURS=		no_msn gnupg
+FLAVOURS=		no_msn
 FLAVOUR?=
 
 GCC_VERSION!=		${CC} -v 2>&1 | fgrep "cc version" | sed 's!^.*cc version \([0-9\.]*\).*$!\1!'
@@ -52,12 +54,8 @@ CPPFLAGS+=		-DPORT_VERSION=\"${V}-${DASH_VER}\"
 CONFIGURE_ARGS+=	--disable-msn
 .endif
 
-.if ${FLAVOUR:L:Mgnupg}
 CONFIGURE_ARGS+=	--with-gpgme=${LOCALBASE:Q}
 LIB_DEPENDS+=		gpgme::security/gpgme
-.else
-CONFIGURE_ARGS+=	--without-gpgme
-.endif
 
 MODGNU_RECURSE_DIRS=	${WRKSRC}/connwrap-0.1 ${WRKSRC}/firetalk-0.1 \
 			${WRKSRC}/kkconsui-0.1 ${WRKSRC}/kkstrtext-0.1 \
@@ -66,6 +64,9 @@ MODGNU_RECURSE_DIRS=	${WRKSRC}/connwrap-0.1 ${WRKSRC}/firetalk-0.1 \
 			${WRKSRC}/libmsn-3.2 ${WRKSRC}/libyahoo2-0.1 ${WRKSRC}
 
 DOCS=			ChangeLog FAQ README
+
+post-extract:
+	cp ${FILESDIR}/sautoconv.c ${WRKSRC}/connwrap-0.1/
 
 pre-patch:
 	for dpatch in ${.CURDIR}/dpatch/*.dpatch.diff; do \
