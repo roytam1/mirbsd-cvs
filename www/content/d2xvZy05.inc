@@ -1,5 +1,5 @@
 <!-- PageID: wlog-9 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.66 2006/11/13 21:54:30 bsiegert Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.67 2006/11/13 23:11:23 tg Exp $</small>
 <h1>MirBSD &ndash; WTF is Verpeilungsfaktor?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -1139,6 +1139,22 @@ plot [150:200] 	"bs06.4Kmin.txt" using 1:3 with lines title "exc{\350}s en chlor
  <p>I did upload a St. Martin snapshot to unixforge (you can download it
   <a href="http://www.mirbsd.org/MirOS/ISOs/">here</a>), but there isn't
   a changelog yet, that's why it wasn't announced. Just so you know.</p>
+</div>
+
+<div class="wlentry">
+ <h3 id="e20061123">23.11.2006 by tg@</h3>
+ <p>Great thanks to Pascal Bleser from FOSDEM for building SuSE packages
+  of mksh(1). Benny already says, in a few years people won't talk about
+  me as &quot;the MirBSD man&quot; any more but as "the mksh developer".
+  And he kind of likes the shell, he admits, even though he prefers that
+  Plan 9 shell called rc. He says the other *nix shells aren't really in
+  active development anyway and only add bload (for example zmodload). I
+  do invest quite some time in mksh, and it stays a scripting shell, but
+  with good interactive usability.</p>
+ <p>And a rant: X11 doesn't do everything right. Even that old venerable
+  Windows&reg; 3.1 did do mouse-keyboard event serialisation right. When
+  the system is under load and I type into an xterm and press the middle
+  mouse button in between, the mouse lags. Seriously, quite a lot.</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
