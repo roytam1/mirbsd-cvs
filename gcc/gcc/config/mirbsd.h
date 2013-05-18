@@ -1,4 +1,4 @@
-/* $MirOS: gcc/gcc/config/mirbsd.h,v 1.21 2009/02/25 17:41:42 tg Exp $ */
+/* $MirOS: gcc/gcc/config/mirbsd.h,v 1.22 2009/09/12 13:52:38 tg Exp $ */
 
 /* Base configuration file for all MirOS BSD targets.
    Copyright (C) 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2005, 2006, 2007,
@@ -140,10 +140,6 @@ Boston, MA 02111-1307, USA.  */
 
 #undef TARGET_MEM_FUNCTIONS
 #define TARGET_MEM_FUNCTIONS 1
-
-/* Otherwise, since we support weak, gthr.h erroneously tries to use
-   #pragma weak.  */
-#define GTHREAD_USE_WEAK 0
 
 /* Handle #pragma weak and #pragma pack.  */
 
