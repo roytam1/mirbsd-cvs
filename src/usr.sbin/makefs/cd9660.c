@@ -106,7 +106,7 @@
 
 #include <sys/cdefs.h>
 #if defined(__RCSID) && !defined(__lint)
-__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/cd9660.c,v 1.25 2010/03/06 21:29:02 tg Exp $");
+__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/cd9660.c,v 1.26 2010/03/06 22:38:46 tg Exp $");
 __RCSID("$NetBSD: cd9660.c,v 1.26 2009/01/16 18:02:24 pooka Exp $");
 #endif  /* !__lint */
 
@@ -449,6 +449,7 @@ cd9660_parse_opts(const char *option, fsinfo_t *fsopts __unused)
 		diskStructure.omit_trailing_period = 1;
 	else if (CD9660_IS_COMMAND_ARG(var, "no-emul-boot") ||
 		 CD9660_IS_COMMAND_ARG(var, "no-boot") ||
+		 CD9660_IS_COMMAND_ARG(var, "boot-info-table") ||
 		 CD9660_IS_COMMAND_ARG(var, "hard-disk-boot")) {
 		cd9660_eltorito_add_boot_option(var, 0);
 		

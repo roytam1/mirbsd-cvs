@@ -1,4 +1,4 @@
-/*	$NetBSD: cd9660_eltorito.h,v 1.4 2005/10/30 07:33:57 dyoung Exp $	*/
+/*	$NetBSD: cd9660_eltorito.h,v 1.5 2009/07/04 14:31:38 ahoka Exp $	*/
 
 /*
  * Copyright (c) 2005 Daniel Watt, Walter Deignan, Ryan Gabrys, Alan
@@ -145,6 +145,7 @@ struct cd9660_boot_image {
 	u_char targetMode;
 	u_char system;
 	u_char bootable;
+	u_char infoTable;
 	/*
 	 * If the boot image exists in the filesystem
 	 * already, this is a pointer to that node. For the sake

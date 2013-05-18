@@ -1,4 +1,4 @@
-.\"	$MirOS: src/usr.sbin/makefs/makefs.8,v 1.10 2010/03/06 22:27:50 tg Exp $
+.\"	$MirOS: src/usr.sbin/makefs/makefs.8,v 1.11 2010/03/06 22:38:47 tg Exp $
 .\"	$NetBSD: makefs.8,v 1.32 2009/01/20 20:47:25 bjh21 Exp $
 .\"
 .\" Copyright (c) 2001-2003 Wasabi Systems, Inc.
@@ -284,6 +284,9 @@ Use the
 extension to encode
 .Tn RISC OS
 metadata.
+.It Sy boot\-info\-table
+Write a legacy 56-byte table at offset 8 into the boot image
+.Pq see below .
 .It Sy boot\-load\-segment
 Set load segment for the boot image.
 .It Sy bootimage
@@ -342,6 +345,27 @@ Force uid 0, gid 0, and rationalised permission bits for RockRidge entries.
 Volume set identifier of the image.
 .El
 .Pp
+The
+.Sy boot\-info\-table
+currently consists of the following fields (all 7.3.1 numbers),
+offsets relative to the boot image:
+.Bl -tag -width XXX -offset indent -compact
+.It Sy 0
+8 bytes: kept as is, not part of checksum
+.It Sy 8
+LBA of PVD
+.It Sy 12
+LBA of boot image
+.It Sy 16
+Size in bytes of boot image
+.It Sy 20
+32-bit additive sum of all 32-bit words of boot image
+.It Sy 24
+40 reserved bytes (MBZ)
+.It Sy 64
+Begin of checksummed data, kept as is
+.El
+.Pp
 Dates (to override) are in 8.4.26.1 format
 .Pq Ar YYYYmmddHHMMSS00
 and Universal Time, i.e. with zero offset from Greenwich Mean Time.
@@ -355,6 +379,9 @@ The
 .Nm
 utility appeared in
 .Nx 1.6 .
+.Pp
+Support for overriding PVD dates and the boot info table was added in
+.Mx 11 .
 .Sh AUTHORS
 .An Luke Mewburn
 .Aq lukem@NetBSD.org
