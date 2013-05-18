@@ -3,7 +3,7 @@
 
                       Specification Document
 
-                                  Version 1.02β - 28 February 2007
+                                  Version 1.03β - 28 February 2007
 
 
 Copyright © 2006, 2007
@@ -68,7 +68,7 @@ The command-line utility will support three operations:
 * fwcf setup		to be run by the rc bootup script early
 * fwcf commit		similar to Cisco ‘write’
 * fwcf erase		similar to Cisco ‘erase startup-config’
-* fwcf status		NEW IN 1.02: check if commit is needed
+* fwcf status		NEW IN 1.03: check if commit is needed
 
 This utility is implemented as rapid prototype as a shell script in
 ash, using one C helper programme. Later versions will be pure C.
@@ -85,7 +85,7 @@ verified and data extracted to /tmp/.fwcf/temp, possibly overwriting
 pre-existing files†. Then, the /tmp/.fwcf/temp filesystem will be re-
 bound to /etc and, finally, the mountpoint at /tmp/.fwcf/temp unloaded.
 
-NEW IN 1.02: If /etc/.fwcf_deleted exists, the files listed in it,
+NEW IN 1.03: If /etc/.fwcf_deleted exists, the files listed in it,
 newline-separated, will be removed from and relative to /etc, then
 the file itself will be removed.
 
@@ -93,17 +93,17 @@ Data from the end of the fwcf data in the flash partition to the
 end of the 64 KiB block the end of data resides in will be written
 to /dev/urandom.
 
-NEW IN 1.02: Afterwards, a sorted list of all files is given to the
+NEW IN 1.03: Afterwards, a sorted list of all files is given to the
 busybox md5sum applet, the output is stored as /tmp/.fwcf/status.gz
 
 If the “fwcf” mtd partition does not start with the four letters
 FWCF on invoking ‘fwcf setup’, it is erased (i.e. populated with
 an empty FWCF filesystem).
 
-NEW IN 1.02: If run with ‘-N’, it will not read out the data from
+NEW IN 1.03: If run with ‘-N’, it will not read out the data from
 flash and force an “unclean startup”, as described below.
 
-†) NEW IN 1.02: If this fails, but the “fwcf” mtd partition starts
+†) NEW IN 1.03: If this fails, but the “fwcf” mtd partition starts
 with FWCF, i.e. we cannot read the flash filesystem, possibly because
 it's from an incompatible format or unknown compressor, a flag file
 is created as /etc/.fwcf_unclean to prevent a following commit which
@@ -114,8 +114,8 @@ would lead to data loss. The user must remove this file to override.
 ―――――――――――――――――――――――――――――――
 
 A new memory filesystem (tmpfs) will be createt at /tmp/.fwcf/temp
-and populated with the data currently in /etc. Now, NEW IN 1.02,
-the /tmp/.fwcf/status.gz file is recreated. Then, ALSO NEW IN 1.02,
+and populated with the data currently in /etc. Now, NEW IN 1.03,
+the /tmp/.fwcf/status.gz file is recreated. Then, ALSO NEW IN 1.03,
 files in /tmp/.fwcf/root but not in /tmp/.fwcf/temp will be listed
 in /tmp/.fwcf/temp/.fwcf_deleted, newline-separated. Now, all files
 with exactly the same content in /tmp/.fwcf/root will be removed
@@ -123,7 +123,7 @@ from /tmp/.fwcf/temp. Any remaining files will be packed into the
 fwcf format documented below and written to the flash partition,
 padded to a multiple of 64 KiB with data read from /dev/urandom.
 
-Unclean setups, NEW IN 1.02, will prevent a commit, unless the
+Unclean setups, NEW IN 1.03, will prevent a commit, unless the
 file /etc/.fwcf_unclean is removed manually, or the ‘-f’ option
 is given.
 
@@ -145,7 +145,7 @@ will be written instead, for the added benefit of improving the
 quality of the kernel PRNG even over total reconfigurations.
 
 
-2.4. Operation of ‘fwcf status’ (NEW IN 1.02)
+2.4. Operation of ‘fwcf status’ (NEW IN 1.03)
 ――――――――――――――――――――――――――――――― ┄┄┄┄┄┄┄┄┄┄┄┄┄
 
 For all files in /etc, the ‘md5sum’ busybox applet is run, output
@@ -374,4 +374,4 @@ They are provided as hint only and not part of the specifi-
 cation itself. They may change without notice.
 
 ⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼
-$MirOS: contrib/hosted/fwcf/fwcf.txt,v 1.28 2007/02/28 21:08:22 tg Exp $
+$MirOS: contrib/hosted/fwcf/fwcf.txt,v 1.29 2007/02/28 21:14:31 tg Exp $
