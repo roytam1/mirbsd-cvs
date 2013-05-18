@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/ramdisk/Makefile,v 1.5 2006/07/03 23:17:50 tg Exp $
+# $MirOS: src/distrib/ramdisk/Makefile,v 1.6 2006/07/04 23:11:45 tg Exp $
 # $OpenBSD: Makefile,v 1.26 2004/02/28 04:53:30 jolan Exp $
 
 CBIN=		instbin
@@ -157,13 +157,13 @@ clean cleandir:
 .endif
 	/bin/rm -f *.core ${IMAGE} ${CBIN} ${CBIN}.mk ${CBIN}.cache \
 	${CBIN}.conf *.o *.lo *.c bsd bsd.* ${DO_BSDRD_NAME} ${DO_BSDRD_UC} \
-	    ${FS} ${REALIMAGE}
+	    ${FS} ${REALIMAGE} ${RDSETROOT}
 	/bin/rm -rf ${MOUNT_POINT}
 
 cleannobsd:
 	/bin/rm -f *.core ${IMAGE} ${CBIN} ${CBIN}.mk ${CBIN}.cache \
 	${CBIN}.conf *.o *.lo *.c bsd.* ${DO_BSDRD_NAME} ${DO_BSDRD_UC} \
-	    ${FS} ${REALIMAGE}
+	    ${FS} ${REALIMAGE} ${RDSETROOT}
 	/bin/rm -rf ${MOUNT_POINT}
 
 beforeinstall:
