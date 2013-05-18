@@ -1,8 +1,10 @@
-/* $MirOS: src/sys/dev/ic/tpm.c,v 1.3 2009/02/22 16:27:26 tg Exp $ */
+/* $MirOS: src/sys/dev/ic/tpm.c,v 1.4 2010/06/27 15:09:07 tg Exp $ */
 
 /*-
- * Copyright (c) 2009 Thorsten Glaser <tg@mirbsd.org>
- * Copyright (c) 2003 Rick Wash <rwash@citi.umich.edu>
+ * Copyright (c) 2009, 2010
+ *	Thorsten Glaser <tg@mirbsd.org>
+ * Copyright (c) 2003
+ *	Rick Wash <rwash@citi.umich.edu>
  *
  * Permission to use, copy, modify, and distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -219,7 +221,7 @@ void
 tpm_attach(struct device *parent, struct device *self, void *aux)
 {
 	struct tpm_attach_args *ta = aux;
-	int s;
+	int notattach;
 
 	if (tpm_sc && tpm_sc->initialised) {
 		printf("tpm: second %sch ignored\n", "atta");
@@ -227,30 +229,16 @@ tpm_attach(struct device *parent, struct device *self, void *aux)
 	}
 
 	tpm_sc = (void *)self;
-	tpm_sc->base = ta->base;
 	tpm_sc->type = ta->chiptype;
 
-	s = splhigh();
-	/* talk directly to the chip */
-	outb(TPM_ADDR, 0x0D);		/* unlock 4F */
-	outb(TPM_DATA, 0x55);
-	outb(TPM_ADDR, 0x0A);		/* int disable */
-	outb(TPM_DATA, 0x00);
 	outb(TPM_ADDR, 0x08);		/* base addr lo */
-	outb(TPM_DATA, tpm_sc->base & 0xFF);
+	tpm_sc->base = inb(TPM_DATA);
 	outb(TPM_ADDR, 0x09);		/* base addr hi */
-	outb(TPM_DATA, (tpm_sc->base & 0xFF00) >> 8);
-	outb(TPM_ADDR, 0x0D);		/* lock 4F */
-	outb(TPM_DATA, 0xAA);
-	splx(s);
+	tpm_sc->base |= inb(TPM_DATA) << 8;
 
 	/* Query the chip for its version */
 	outb(TPM_ADDR, 0x00);
 	tpm_sc->version[0] = inb(TPM_DATA);
-	if (tpm_sc->version[0] == 0xFF) {
-		printf("\ntpm: version query failed\n");
-		return;
-	}
 	outb(TPM_ADDR, 0x01);
 	tpm_sc->version[1] = inb(TPM_DATA);
 	outb(TPM_ADDR, 0x02);
@@ -261,10 +249,6 @@ tpm_attach(struct device *parent, struct device *self, void *aux)
 	/* Query the chip for its vendor */
 	outb(TPM_ADDR, 0x04);
 	tpm_sc->vendor[0] = inb(TPM_DATA);
-	if (tpm_sc->vendor[0] == 0xFF) {
-		printf("\ntpm: vendor query failed\n");
-		return;
-	}
 	outb(TPM_ADDR, 0x05);
 	tpm_sc->vendor[1] = inb(TPM_DATA);
 	outb(TPM_ADDR, 0x06);
@@ -273,10 +257,21 @@ tpm_attach(struct device *parent, struct device *self, void *aux)
 	tpm_sc->vendor[3] = inb(TPM_DATA);
 	tpm_sc->vendor[4] = '\0';
 
-	printf(" port 0x%X (%s), version %d.%d.%d.%d, vendor %s\n",
-	    tpm_sc->base, tpm_chip_names[tpm_sc->type],
-	    tpm_sc->version[0], tpm_sc->version[1], tpm_sc->version[2],
-	    tpm_sc->version[3], tpm_sc->vendor);
+	notattach = (tpm_sc->vendor[0] == 0xFF) ? 1 : 0;
+	printf(" port 0x%X (%s), version ", tpm_sc->base,
+	    tpm_chip_names[tpm_sc->type]);
+	if (tpm_sc->version[0] == 0xFF) {
+		notattach |= 2;
+		printf("failed");
+	} else
+		printf("%d.%d.%d.%d", tpm_sc->version[0], tpm_sc->version[1],
+		    tpm_sc->version[2], tpm_sc->version[3]);
+	printf(", vendor %s, %sattached\n",
+	    (notattach & 1) ? "failed" : (const char *)tpm_sc->vendor,
+	    notattach ? "not " : "");
+
+	if (notattach)
+		return;
 
 	timeout_set(&tpm_sc->tmo, tpm_intr, tpm_sc);
 	timeout_add(&tpm_sc->tmo, 1);

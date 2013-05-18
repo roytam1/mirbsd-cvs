@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/dev/ic/tpm.h,v 1.1 2009/02/16 21:21:01 tg Exp $ */
+/* $MirOS: src/sys/dev/ic/tpm.h,v 1.2 2009/02/22 12:24:25 tg Exp $ */
 
 /*-
  * Copyright (c) 2009 Thorsten Glaser <tg@mirbsd.org>
@@ -62,7 +62,6 @@ enum tpm_chip_type {
 
 struct tpm_attach_args {
 	char *busname;
-	uint16_t base;
 	enum tpm_chip_type chiptype;
 };
 

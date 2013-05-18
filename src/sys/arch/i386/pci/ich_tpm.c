@@ -1,7 +1,7 @@
-/* $MirOS: src/sys/arch/i386/pci/ich_tpm.c,v 1.1 2009/02/16 21:21:02 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/pci/ich_tpm.c,v 1.2 2009/02/22 12:25:37 tg Exp $ */
 
 /*-
- * Copyright (c) 2009
+ * Copyright (c) 2009, 2010
  *	Thorsten Glaser <tg@mirbsd.org>
  *
  * Provided that these terms and disclaimer and all copyright notices
@@ -52,7 +52,6 @@ void ichpcib_attach_tpm(struct device *parent, struct device *self,
     struct pci_attach_args *pa)
 {
 	enum tpm_chip_type chiptype = TPM_INVALID_CHIP;
-	int lpcenable, tpminfo;
 	struct tpm_attach_args ta;
 	struct cfdata cf;
 
@@ -76,29 +75,7 @@ void ichpcib_attach_tpm(struct device *parent, struct device *self,
 	if (chiptype == TPM_INVALID_CHIP)
 		return;
 
-	/* Enable the LPC */
-	lpcenable = pci_conf_read(pa->pa_pc, pa->pa_tag, PCI_GEN1_DEC);
-	lpcenable |= 0x20000000;
-	pci_conf_write(pa->pa_pc, pa->pa_tag, PCI_GEN1_DEC, lpcenable);
-	/* Verify it was turned on */
-	if ((chiptype == ICH3LPCM) || (chiptype == ICH4LPCM)) {
-		lpcenable = pci_conf_read(pa->pa_pc, pa->pa_tag, PCI_GEN1_DEC);
-		if ((lpcenable & 0x20000000) == 0) {
-			printf("tpm: cannot enable LPC\n");
-			return;
-		}
-	}
-
-	/* Initialise TPM */
-	tpminfo = pci_conf_read(pa->pa_pc, pa->pa_tag, PCI_GEN2_DEC);
-	tpminfo = (tpminfo & 0xffff0000) | (TPM_ATMEL_BASE & 0xfff0);
-	/* if ((chiptype == ICH3LPCM) || (chiptype == ICH4LPCM)) */
-		tpminfo |= 0x00000001;
-	pci_conf_write(pa->pa_pc, pa->pa_tag, PCI_GEN2_DEC, tpminfo);
-
-
 	bzero(&ta, sizeof (ta));
-	ta.base = TPM_ATMEL_BASE;
 	ta.chiptype = chiptype;
 
 	bzero(&cf, sizeof (cf));
