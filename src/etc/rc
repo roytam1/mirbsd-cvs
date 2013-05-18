@@ -1,4 +1,4 @@
-# $MirOS: src/etc/rc,v 1.45 2006/08/19 00:46:39 tg Exp $
+# $MirOS: src/etc/rc,v 1.46 2006/08/19 00:59:15 tg Exp $
 # $OpenBSD: rc,v 1.277 2006/01/12 21:54:15 deraadt Exp $
 #-
 # System startup script run by init on autoboot or after single-user.
@@ -472,7 +472,7 @@ if [[ $ntpd_flags != NO ]]; then
 fi
 
 echo .
-[[ $rdate_flags = NO ]] || print -nr -- $rdate_flags
+[[ $rdate_flags = NO ]] || print -r -- $rdate_flags
 
 mount -a -t nfs
 
@@ -576,7 +576,7 @@ fi
 print "dev $consdev ($consinfo)" | logger -t 'console information'
 if [[ $consdev != nochg ]]; then
 #	print -n adjusting /etc/ttys ...
-	print -n 'adjusting /etc/ttys (to /etc/ttys.gen for now)...'
+	print -n 'adjusting /etc/ttys.gen (for now)...'
 	[[ -e /etc/ttys.gen ]] || cp /etc/ttys /etc/ttys.gen
 	x=$(uname -m)
 	if [[ $x = i386 ]]; then
@@ -646,6 +646,7 @@ if [[ $consdev != nochg ]]; then
 			fi
 		fi
 	fi
+	print ' done.'
 fi
 
 # Copy over /dev/{null,zero} into anoncvs chroot, it needs it
