@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.420 2011/07/26 17:37:07 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.421 2011/07/28 16:30:51 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -100,7 +100,7 @@ mws_content <<'EOF'
  notices are not removed in their entirety; modifying is allowed (but if
  the result is still called mksh, it’s discouraged; talk with us if you
  feel you have to modify mksh). The individual licences used are the MirOS
- licence, and (for BSD compatibility on other oerating systems) the 3-clause
+ licence, and (for BSD compatibility on other operating systems) the 3-clause
  UCB licence and the ISC licence; <a href="@@ABSPATH@@/TaC-mksh.txt">full
  terms</a> are available. pdksh originally was public domain, with a few
  exceptions, but these files are not part of mksh R21 or up. The mksh(1) author
