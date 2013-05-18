@@ -1560,7 +1560,7 @@ EXTERN mksh_ari_t histsize;	/* history size */
 EXTERN struct timeval j_usrtime, j_systime;
 
 #define notoktomul(fac1, fac2)	(((fac1) != 0) && ((fac2) != 0) && \
-				    ((SIZE_MAX / (fac1)) < (fac2)))
+				    ((SIZE_MAX / (fac2)) < (fac1)))
 #define notoktoadd(val, cnst)	((val) > (SIZE_MAX - (cnst)))
 #define checkoktoadd(val, cnst) do {					\
 	if (notoktoadd((val), (cnst)))					\
