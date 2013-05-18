@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/vnconfig/vnconfig.c,v 1.8 2006/02/22 00:22:00 tg Exp $ */
+/**	$MirOS: src/usr.sbin/vnconfig/vnconfig.c,v 1.9 2006/02/22 00:44:27 tg Exp $ */
 /*	$OpenBSD: vnconfig.c,v 1.16 2004/09/14 22:35:51 deraadt Exp $	*/
 /*
  * Copyright (c) 2006 Thorsten Glaser
@@ -61,7 +61,7 @@
 #include <openssl/evp.h>
 #include <openssl/pem.h>
 
-__RCSID("$MirOS: src/usr.sbin/vnconfig/vnconfig.c,v 1.8 2006/02/22 00:22:00 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/vnconfig/vnconfig.c,v 1.9 2006/02/22 00:44:27 tg Exp $");
 
 #define DEFAULT_VND	"vnd0"
 
@@ -83,7 +83,7 @@ static int make_key(const char *, FILE *, const char *);
 int
 main(int argc, char **argv)
 {
-	int ch, rv, action = VND_CONFIG, flags = 0, keylen;
+	int ch, rv, action = VND_CONFIG, flags = 0, keylen = 0;
 	char *key = NULL, *key2 = NULL;
 	char *keyfile = NULL, *algo = NULL;
 	FILE *keyfp = NULL;
