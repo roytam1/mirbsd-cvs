@@ -1,5 +1,5 @@
 <!-- PageID: mksh -->
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.100 2007/04/30 20:02:10 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.101 2007/05/01 21:11:23 tg Exp $</small>
 
 <h1>mksh(1) R29</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
@@ -538,6 +538,10 @@
 <li>A sensible website</li>
 <li>Build on more platforms</li>
 <li>Build with platforms' native tools</li>
+<li>bash-style <a
+ href="http://article.gmane.org/gmane.os.miros.general/5580">array
+ initialisation</a> (mapping <tt>x=(a b c)</tt> to <tt>set -A
+ x -- a b c</tt>)</li>
 </ul>
 
 <h2 id="prefetch">Requirements</h2>
