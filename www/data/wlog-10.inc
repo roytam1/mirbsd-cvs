@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.123 2008/12/28 21:45:21 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.124 2008/12/30 21:41:29 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -2411,4 +2411,19 @@ Tag: security
 <p>Both tinyirc and mksh(1) now use TIOCGWINSZ more properly
  and aggressively. The shell, in particular, now <em>always</em>
  has <tt>COLUMNS</tt> and <tt>LINES</tt> set.</p>
+----
+Date: 31.12.2008 00:30
+Author: tg@
+Title: mksh-current GNU/Cygwin32 binaries (snapshot)
+Tag: mksh
+
+<p>An <a href="@@RELPATH@@mksh.htm">mksh</a>-current <a
+ href="https://eurynome.mirbsd.org/~tg/pub/mksh-36.9.20081229-cygwin.tgz">cygwin
+ snapshot</a> I just built for smultron, our graphical artist
+ friend from MidnightBSD (which, by the way, also packages
+ mksh(1)). He just did this:</p>
+<object data="@@RELPATH@@pics/mksh.svg"
+ type="image/svg+xml" width="256" height="200"><img alt="mksh Logo"
+ src="@@RELPATH@@pics/mksh128x100.png" /></object>
+<p>We’ll see what we do with that “m”…</p>
 ----
