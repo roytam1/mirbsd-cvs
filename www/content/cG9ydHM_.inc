@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/cG9ydHM_.inc,v 1.5 2005/11/16 22:37:42 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/cG9ydHM_.inc,v 1.6 2005/12/20 09:00:39 tg Exp $</small>
 <h1>MirPorts: The MirOS Ports Framework</h1>
 
 <h2>Installation instructions</h2>
@@ -17,7 +17,7 @@
 <p>Basically:</p><pre>
  $ cd /usr/ports/editors/joe
  $ <b>m</b>make install clean
- $ echo export EDITOR=/usr/mpkg/bin/jupp >>~/.profile
+ $ echo export EDITOR=/usr/mpkg/bin/jupp &gt;&gt;~/.profile
 </pre>
 
 <h2>Writing ports for the framework</h2>

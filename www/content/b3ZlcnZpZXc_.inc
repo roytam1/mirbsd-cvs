@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/b3ZlcnZpZXc_.inc,v 1.12 2006/01/13 03:49:36 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/b3ZlcnZpZXc_.inc,v 1.13 2006/01/15 22:42:38 tg Exp $</small>
 <h1>Quick Overview &ndash; All in one page</h1>
 
 <h2>Status</h2><p>
@@ -23,8 +23,8 @@
    (rsyncd only)</li>
   <li>_anoncvs@thor.66h.42h.de:/cvs (empty pw) (IPv6 enabled)
    (anoncvs and anonrsync)</li>
-  <li>_anoncvs@mirbsd.org:/cvs (empty pw)
-   (anoncvs and anonrsync)</li>
+  <!-- li>_anoncvs@mirbsd.org:/cvs (empty pw)
+   (anoncvs and anonrsync)</li -->
   <li>_anoncvs@herc.66h.42h.de:/cvs (port 57; private) (IPv6 enabled)
    (anoncvs and anonrsync)</li>
   <li>rsync://rsync.allbsd.org/mirbsd-old-cvs/ (empty pw) (IPv6 enabled)
@@ -91,3 +91,4 @@
  <li>tg@ <a href="http://blackhole.pca.dfn.de:11371/pks/lookup?op=vindex&amp;fingerprint=on&amp;search=0xD7967B31">0xD7967B31</a> (revoked)</li>
  <li>tg@ <a href="http://blackhole.pca.dfn.de:11371/pks/lookup?op=vindex&amp;fingerprint=on&amp;search=0x8F1F22ED">0x8F1F22ED (well known)</a> (revoked)</li>
 </ul>
+<p>Note that <tt>tg@</tt> does not use PGP at all any more.</p>

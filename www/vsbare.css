@@ -1,4 +1,4 @@
-/* $MirOS: www/vsbare.css,v 1.8 2005/04/13 11:47:06 tg Exp $ */
+/* $MirOS: www/vsbare.css,v 1.10 2005/12/27 18:59:36 bsiegert Exp $ */
 /*-
  * The MirOS Project - Webpages
  * Copyrighted material; read LICENCE for terms of use.
@@ -79,7 +79,7 @@ strong:hover {
 .content {
 	margin-top:100px; margin-left:204px;
 	padding-left:2px;
-	min-height:880px;
+	min-height:224px;
 }
 
 .hdrflf {

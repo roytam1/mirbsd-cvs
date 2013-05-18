@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/Z2V0dGluZw__.inc,v 1.6 2005/12/30 02:07:24 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/Z2V0dGluZw__.inc,v 1.7 2006/01/13 03:49:35 tg Exp $</small>
 <h1>How to get MirOS</h1>
 
 <h3>Introduction</h3>
@@ -15,12 +15,11 @@
 
 <h3>Buy CDs with MirOS on them</h3>
 <p>Usually, on exhibitions such as the <a
- href="http://www.froscon.org/">FROSCON, St. Augustin (near Bonn), .de</a>,
- href="http://www.linuxtag.de/">LinuxTag, Karlsruhe, .de</a> or the <a
+ href="http://www.froscon.org/">FROSCON, St. Augustin (near Bonn), .de</a>, <a
+ href="http://www.ccc.de/congress/">Chaos Communication Congress, Berlin, .de</a>, <a
+ href="http://www.linuxtag.de/">LinuxTag, Karlsruhe, .de</a> (no longer), or the <a
  href="http://www.fosdem.org/">FOSDEM, Bruxelles, .be</a> there is a
- BSD booth which hosts the MirOS people. The <a href="https://www.ccc.de/">20th
- Chaos Communication Congre&szlig;</a> which will take place in Berlin, .de,
- also is a good chance to meet all three MirOS developers. You can buy CDs
+ BSD booth which hosts the MirOS people. You can buy CDs
  on these events (to be exact, you can ask for a CD and donate something in
  return so we can pay our expenses - we aren't making money with it. The
  so-called "minimal donations" are negotiatable).

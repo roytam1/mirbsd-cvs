@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/bWFpbg__.inc,v 1.38 2005/12/29 17:48:56 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWFpbg__.inc,v 1.39 2006/01/15 22:42:38 tg Exp $</small>
 <h1>MirBSD &nbsp; MirLinux &nbsp; MirPorts &nbsp; &mdash; &nbsp; Main Page</h1>
 <h2>Welcome to the MirOS Project!</h2>
 <p>This project is driven by a small number of people, that's why this
@@ -41,9 +41,10 @@
 <p>MERCHANDISING: There are still T-Shirts up for order. Contact <a
  href="mailto:tg@66h.42h.de">tg@</a> for purchase information. ONLY ONE
  WHITE "LinuxTag 2004" T-SHIRT LEFT, NO REPRINTS. BUY THIS RARITY!
- <b>Meet us at <a href="http://www.ccc.de/congress/2005/">22C3</a>!</b></p>
+ <b>Meet us at <a href="http://www.fosdem.org/">FOSDEM</a> 2006!</b></p>
 <p><a href="/MirOS/CVS/cvsrepo-20051207.cgz">CVSREPO</a>: December 7th, 2005:
  seed file (150.5 MiB, gzsig(1)d) for reducing the initial transfer costs.
  We'd like to offer CTM; it is available on request but nobody asked yet.</p>
-<p><a href="/MirOS/CVS/cvsroot-20050316.cgz">CVSROOT</a>: March 16th, 2005:
- final and complete seed file (325 MB) for the historic old repository.</p>
+<p><a href="/MirOS/CVS/cvsroot-historic.cgz">CVSROOT</a>: January 20th, 2006:
+ final and complete seed file (473 MiB) for all three historic old CVS
+ repositories (pre-CVS, ocvs, ncvs). This will no longer be updated.</p>

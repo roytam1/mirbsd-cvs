@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.16 2006/01/18 07:02:40 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.17 2006/01/18 08:30:33 tg Exp $</small>
 <h1>MirBSD &ndash; WTF, We Have a Release!?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -235,6 +235,25 @@ celebrate this event, rotate the wlog and start a new one.</p>
  <p>Older mailing list activity includes: an analysis of handling this
   year's leap second (FreeBSD 0, MirOS 2), FOSDEM, user enquiries, and
   spam. I suggest you read it for yourself.</p>
+</div>
+
+<div class="wlentry">
+ <h3>20.01.2006 by tg@</h3>
+ <p>Published a cpio ball of ocvs+ncvs1 and historic. bsiegert@ agreed
+  they be closed and sealed now. It's only on herc and maou tho.</p>
+ <p>Slowly going on with setting up maou. After all, thor''ll cease to
+  exist mid-February, IIRC.</p>
+ <p>Removed ads. G**gle closed my account for supposed abuse.</p>
+ <p>Added Debian GNU/Linux i386 emulation libs; makes Opera work. I'll
+  hack it up even further though.</p>
+ <p>I think I'll use /usr/bin/logger in axfrdns (net/djbdns).</p>
+ <p>Planning on putting this on Planet Symlink (by a conversion script
+  to be hacked) &ndash; aus der es-ist-zwar-kein-blog-aber-warum-nicht
+  Abteilung... I wonder if XTaran will do it.</p>
+ <p>Enough for today. Gotta do some work; then dinner at the Croatian,
+  with wbx, le, Angelo (the first Mac OSX worm creator), Judith, miro,
+  bogus etc.; then using <a href="http://www.netzladen.org/">the usual
+  place</a> to hang around, maybe hack on the website some more.</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>

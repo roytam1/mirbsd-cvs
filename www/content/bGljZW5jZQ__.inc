@@ -1,7 +1,7 @@
-<small class="rcsid">$MirOS: www/content/bGljZW5jZQ__.inc,v 1.2 2005/06/06 13:19:58 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bGljZW5jZQ__.inc,v 1.3 2005/12/06 00:00:43 tg Exp $</small>
 <h1>The MirOS Licence Template</h1>
 
-<pre>/* &#36;MirOS: src/share/misc/licence.template,v 1.3 2005/12/04 16:03:44 tg Rel $ */
+<pre>/* &#36;MirOS: src/share/misc/licence.template,v 1.4 2005/12/15 02:46:54 tg Rel $ */
 
 /*-
  * Copyright (c) year, year, year...
@@ -72,8 +72,8 @@
  *
  * We believe you are not liable for code inserted which is intellec-
  * tual property of third parties, if you were not aware of the fact,
- * and act appropriately as soon as you get aware of this problem and
- * seek a an amicable solution for all parties.
+ * and act appropriately as soon as you become aware of this problem,
+ * and seek a an amicable solution for all parties.
  *
  * REFERENCES:
  * <a href="#rf1" id="fn1">[1]</a> <a href="http://www.opensource.org/docs/definition_plain.php">http://www.opensource.org/docs/definition_plain.php</a>

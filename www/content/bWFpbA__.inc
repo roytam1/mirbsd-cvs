@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/bWFpbA__.inc,v 1.1 2004/11/12 17:54:23 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWFpbA__.inc,v 1.2 2005/02/05 22:43:39 tg Exp $</small>
 <h1>The Mailing Lists</h1>
 
 <p>We've got a <a href="mailto:miros-discuss@66h.42h.de">discussion
@@ -16,3 +16,8 @@
  for the <a href="http://news.gmane.org/gmane.os.miros.general">discussion
  list</a> or the <a href="http://news.gmane.org/gmane.os.miros.cvs">source
  changes</a>.</p>
+
+<p>Both <a href="http://marc.theaimsgroup.com/?l=miros-discuss">the
+ discussion</a> and <a href="http://marc.theaimsgroup.com/?l=miros-changes">CVS
+ changes</a> lists are now also at marc.thaimsgroup.com, thanks to
+ the insisting of Diana Eichert.</p>
