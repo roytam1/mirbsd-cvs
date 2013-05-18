@@ -1,10 +1,11 @@
-# $MirOS: src/distrib/ramtools/Makefile.inc,v 1.2 2006/05/26 18:50:30 tg Exp $
+# $MirOS: src/distrib/ramtools/Makefile.inc,v 1.3 2006/05/26 19:01:17 tg Exp $
 
 .ifndef _MODSRC_DISTRIB_SPECIAL_MAKEFILE_INC
 _MODSRC_DISTRIB_SPECIAL_MAKEFILE_INC=1
 
 .include <bsd.own.mk>
 
+CPPFLAGS+=	-D_USE_OLD_CURSES_
 COPTS+=		-Os
 NOMAN=		yes
 LDSTATIC=	# empty

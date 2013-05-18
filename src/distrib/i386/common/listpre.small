@@ -1,7 +1,7 @@
-# $MirOS: src/distrib/i386/common/listpre.small,v 1.1 2006/05/15 19:20:15 tg Exp $
+# $MirOS: src/distrib/i386/common/listpre.small,v 1.2 2006/05/26 18:15:07 tg Exp $
 
 SRCDIRS distrib/ramtools distrib/special
 SRCDIRS bin sbin usr.bin usr.sbin
 SRCDIRS sys/arch/i386/stand libexec
 
-LIBS	-lutil -lotermcap -ll -lm -lz
+LIBS	-lutil -locurses -ll -lm -lz
