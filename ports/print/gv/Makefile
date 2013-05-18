@@ -1,13 +1,11 @@
-# $MirOS: ports/print/gv/Makefile,v 1.3 2006/04/30 17:08:02 bsiegert Exp $
+# $MirOS: ports/print/gv/Makefile,v 1.4 2006/09/14 00:12:42 tg Exp $
 # $OpenBSD: Makefile,v 1.23 2004/01/04 21:32:18 espie Exp $
 
-COMMENT=			PostScript and PDF previewer
+COMMENT=	PostScript and PDF previewer
 
 DISTNAME=	gv-3.5.8
-PKGNAME=	${DISTNAME}-4
+DASH_VER=	5
 CATEGORIES=	print
-
-RESPONSIBLE=	Benny Siegert <bsiegert@gmx.de>
 
 HOMEPAGE=	http://wwwthep.physik.uni-mainz.de/~plass/gv/
 MASTER_SITES=	ftp://ftpthep.physik.uni-mainz.de/pub/gv/unix/
@@ -19,11 +17,10 @@ PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
 LIB_DEPENDS=	Xaw3d.6.1::x11/Xaw3d
-RUN_DEPENDS=	:ghostscript-*:print/ghostscript/gnu
-
-CFLAGS+=	-g 
+RUN_DEPENDS=	:ghostscript-*:print/ghostscript/artifex
 
 CONFIGURE_STYLE=	imake
+USE_X11=		Yes
 
 NO_REGRESS=	Yes
 
