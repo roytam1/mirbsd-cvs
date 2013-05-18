@@ -2211,3 +2211,25 @@ Author: tg@
  you should be ashamed of yourself.) Coverity mostly relies on pkgsrc® –
  otherwise I’d have posted results of their latest scans already.</p>
 ----
+Date: 05.10.2007
+Author: tg@
+
+<p>Today, not only <img alt="Teaching the younguns: fun in the outdoors"
+ src="http://www.opencaching.de/statpics/106521.jpg" />me, but also <img
+ src="http://www.opencaching.de/images/statpics/statpic120445.jpg"
+ alt="weird nick, eh?" />gecko2 found another two caches. And: I think I
+ hooked up Benny, as I found a couple in the vicinity of his hometown at
+ his parents’ place.</p>
+----
+Date: 07.10.2007
+Author: tg@
+
+<p>Phew, we got a #10RC7 for both i386 and (days later) sparc now. Now I
+ can refine the manifold-boot setup CD (7 MiB or so), maybe I’ll be able
+ to create it on only one architecture, since “self-installing bootxx we
+ are almost there”, and hardlink the HTML docs which are the same on all
+ architectures (ignoring bugs in nroff(1) on sparc).</p>
+<p>But first, let’s go geocacheing again, with Dr. Pfeffer, Addy, gecko2
+ (alias Turodagnir) and myself. It’s good weather today. And because I’m
+ not going to have tomorrow off I’d better enjoy the weekend.</p>
+----
