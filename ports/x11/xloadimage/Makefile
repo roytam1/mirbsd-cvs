@@ -1,11 +1,12 @@
-# $MirOS: ports/x11/xloadimage/Makefile,v 1.7 2006/09/14 00:16:00 tg Exp $
+# $MirOS: ports/x11/xloadimage/Makefile,v 1.8 2006/10/01 03:31:48 tg Exp $
 # $OpenBSD: Makefile,v 1.24 2004/05/18 08:45:33 xsa Exp $
 
 COMMENT=		graphics file viewer for X11
 VERSION=		4.1
 REVISION=		16	# Debian
+DASH_VER=		2
 DISTNAME=		xloadimage.${VERSION}
-PKGNAME=		xloadimage-${VERSION}.${REVISION}-1
+PKGNAME=		xloadimage-${VERSION}.${REVISION}-${DASH_VER}
 CATEGORIES=		x11 graphics
 
 # BSD
@@ -21,9 +22,9 @@ MASTER_SITES0=	ftp://ftp.de.debian.org/debian/pool/main/x/xloadimage/ \
 PATCHFILES=		xloadimage_${VERSION}-${REVISION}.diff.gz:0
 PATCH_DIST_STRIP=	-p1
 
-LIB_DEPENDS=		png.2::graphics/png \
-			jpeg::graphics/jpeg \
-			tiff.35::graphics/tiff
+LIB_DEPENDS+=		jpeg::graphics/jpeg \
+			tiff::graphics/tiff
+MODULES+=		graphics/png
 
 USE_X11=		Yes
 CONFIGURE_STYLE=	gnu
