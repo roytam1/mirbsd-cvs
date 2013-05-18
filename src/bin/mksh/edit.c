@@ -1697,7 +1697,9 @@ x_delete(int nc, int push)
 	 */
 	if ((i = xx_cols - 2 - x_col) > 0 || xep - xlp == 0) {
 		nw = (nw < i) ? nw : i;
-		i = ++nw;
+		if (xbp == xbuf)
+			++nw;
+		i = nw;
 		while (i--)
 			x_e_putc2(' ');
 		i = nw;
