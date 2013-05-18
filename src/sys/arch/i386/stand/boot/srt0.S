@@ -1,7 +1,7 @@
-/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.83 2009/10/27 15:38:32 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.84 2009/10/27 16:00:05 tg Exp $ */
 
 /*-
- * Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009
+ * Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2012
  *	Thorsten Glaser <tg@mirbsd.org>
  *
  * Provided that these terms and disclaimer and all copyright notices
@@ -163,7 +163,12 @@ Linit:	/* qemu sucks, int3 doesn’t work */
 	mov	ds,ax
 	mov	es,ax
 
-#ifndef SMALL_BOOT
+#ifdef SMALL_BOOT
+	xor	eax,eax
+	mov	ah,dl
+	mov	al,ds:[ebx + offset Ldrvi - offset _start]
+	mov	ds:[ebx + offset Ldrvi - offset _start],eax
+#else
 	/* store away structure pointers */
 	mov	ds:[ebx + offset pxe_plus - offset _start],ecx
 	mov	ds:[ebx + offset pxe_bang - offset _start],edi
