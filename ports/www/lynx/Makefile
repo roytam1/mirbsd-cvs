@@ -1,11 +1,13 @@
-# $MirOS: ports/www/lynx/Makefile,v 1.5 2006/08/26 14:28:18 tg Exp $
+# $MirOS: ports/www/lynx/Makefile,v 1.6 2006/08/26 23:35:00 tg Exp $
 
 COMMENT=			standard text-mode world wide web browser
 CATEGORIES=			www essentials
-VERSION=			2.8.6dev.18f
+VERSION=			2.8.6pre.3
 PL=				0
 DISTNAME=			lynx${VERSION:C/[a-z]$//}
+.if ${VERSION} != ${VERSION:C/[a-z]$//}
 PATCHFILES=			lynx${VERSION}.patch.gz:0
+.endif
 PKGNAME=			lynx-${VERSION}-${PL}
 HOMEPAGE=			http://lynx.browser.org/
 RESPONSIBLE=			Thorsten Glaser <tg@mirbsd.de>
@@ -27,7 +29,6 @@ NO_REGRESS=			Yes
 MODULES=			converters/libiconv
 CONFIGURE_STYLE=		gnu
 CONFIGURE_ARGS+=		--with-ssl --with-zlib --enable-japanese-utf8 \
-				--libdir=${SYSCONFDIR} \
 		--enable-addrlist-page --enable-charset-choice \
 		--enable-color-style --disable-full-paths --enable-warnings \
 		--enable-internal-links --enable-kbd-layout --enable-ipv6 \
@@ -37,13 +38,11 @@ CONFIGURE_ARGS+=		--with-ssl --with-zlib --enable-japanese-utf8 \
 .if ${MACHINE_OS} == "Interix"
 CONFIGURE_ARGS+=		--disable-ipv6
 .endif
-EXTRA_XAKE_FLAGS+=		docdir=${PREFIX}/share/doc/lynx_doc \
-				helpdir=${PREFIX}/share/doc/lynx_help
 CPPFLAGS+=			-DLYNX_VERSION=\"${VERSION}-MirPorts-${PL}\"
 
 post-install:
 	mv -f ${WRKINST}${SYSCONFDIR}/lynx.{cfg,lss} \
-	    ${PREFIX}/share/doc/lynx_doc/samples/
+	    ${PREFIX}/share/lynx_doc/samples/
 	-rm -rf ${WRKINST}${SYSCONFDIR}
 
 .include <bsd.port.mk>
