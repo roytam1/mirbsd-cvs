@@ -1,9 +1,8 @@
-/* $MirOS: src/lib/libc/locale/wcstod.c,v 1.3 2006/05/30 20:50:46 tg Exp $ */
 /*	$OpenBSD: wcstod.c,v 1.1 2005/07/01 08:59:27 espie Exp $	*/
 /* $NetBSD: wcstod.c,v 1.4 2001/10/28 12:08:43 yamt Exp $ */
 
 /*-
- * Copyright (c) 2006, 2010 MirOS Project,
+ * Copyright (c) 2006, 2010, 2012 MirOS Project,
  * Copyright (c)1999, 2000, 2001 Citrus Project,
  * All rights reserved.
  *
@@ -38,12 +37,12 @@
 #include <wchar.h>
 #include <wctype.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libc/locale/wcstod.c,v 1.4 2010/01/07 22:34:52 tg Exp $");
 
 const wchar_t mbsd_digits_Ldec[] = L"0123456789";
 
-long double
-wcstold(const wchar_t *__restrict__ nptr, wchar_t **__restrict__ endptr)
+double
+wcstod(const wchar_t *__restrict__ nptr, wchar_t **__restrict__ endptr)
 {
 	const wchar_t *src;
 	size_t size;
@@ -60,7 +59,7 @@ wcstold(const wchar_t *__restrict__ nptr, wchar_t **__restrict__ endptr)
 	}
 
 	/* get length of string */
-	start = src;	
+	start = src;
 	if (wcschr(L"+-", *src))
 		src++;
 	size = wcsspn(src, mbsd_digits_Ldec);
@@ -93,15 +92,15 @@ wcstold(const wchar_t *__restrict__ nptr, wchar_t **__restrict__ endptr)
 		char *end;
 		const wchar_t *s;
 		size_t size_converted;
-		long double result;
-		
+		double result;
+
 		buf = malloc(size + 1);
 		if (!buf) {
 			/* error */
 			errno = ENOMEM; /* XXX */
 			return 0;
 		}
-			
+
 		s = start;
 		memset(&st, 0, sizeof(st));
 		size_converted = wcsrtombs(buf, &s, size, &st);
@@ -131,14 +130,8 @@ wcstold(const wchar_t *__restrict__ nptr, wchar_t **__restrict__ endptr)
 	return 0;
 }
 
-double
-wcstod(const wchar_t *__restrict__ nptr, wchar_t **__restrict__ endptr)
-{
-	return ((double)wcstold(nptr, endptr));
-}
-
 float
 wcstof(const wchar_t *__restrict__ nptr, wchar_t **__restrict__ endptr)
 {
-	return ((float)wcstold(nptr, endptr));
+	return ((float)wcstod(nptr, endptr));
 }
