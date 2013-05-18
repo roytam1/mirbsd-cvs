@@ -1,10 +1,10 @@
-# $MirOS: src/etc/root.profile,v 1.5 2007/06/15 23:43:46 tg Exp $
+# $MirOS: src/etc/root.profile,v 1.6 2007/08/01 13:07:37 tg Exp $
 #-
 # initialisation for bourne shell (worst case)
 
 # this is only run if /etc/profile has not been executed
 if test -z "$USER_ID"; then
-	PATH=/sbin:/usr/sbin:/bin:/usr/bin
+	PATH=/sbin:/usr/sbin:/bin:/usr/bin:/usr/dbin:/usr/dsbin
 	HOME=/
 	test -d /root && HOME=/root
 	PS1='# '

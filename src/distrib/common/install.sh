@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/common/install.sh,v 1.12 2007/06/30 02:57:49 tg Exp $
+# $MirOS: src/distrib/common/install.sh,v 1.13 2007/08/24 14:40:34 tg Exp $
 # $OpenBSD: install.sh,v 1.152 2005/04/21 21:41:33 krw Exp $
 # $NetBSD: install.sh,v 1.5.2.8 1996/08/27 18:15:05 gwr Exp $
 #
@@ -478,7 +478,7 @@ chown -R $_rootuid:$_rootuid /mnt/home/$_rootuser
 /mnt/usr/sbin/pwd_mkdb -pd /mnt/etc master.passwd
 
 cat >/mnt/etc/rc.once <<-'EOF'
-	export TZ=UTC PATH=/bin:/usr/bin:/sbin:/usr/sbin
+	export TZ=UTC PATH=/usr/dbin:/bin:/usr/bin:/usr/dsbin:/sbin:/usr/sbin
 	cd /
 	# lock to prevent double-runs
 	print -n postinstall run-once >/var/run/cron.maintenance

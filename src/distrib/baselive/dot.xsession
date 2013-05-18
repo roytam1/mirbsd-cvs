@@ -1,7 +1,7 @@
 #!/bin/mksh
-# $MirOS: src/distrib/baselive/dot.xsession,v 1.7 2007/07/31 22:32:12 tg Exp $
+# $MirOS: src/distrib/baselive/dot.xsession,v 1.8 2007/08/01 21:37:53 tg Exp $
 #-
-# Copyright (c) 2006, 2007
+# Copyright (c) 2006, 2007, 2008
 #	Thorsten Glaser <tg@mirbsd.de>
 #
 # Provided that these terms and disclaimer and all copyright notices
@@ -27,7 +27,7 @@ test x"$1" = x"failsafe" && exec /usr/X11R6/bin/xterm -geometry 80x24-0-0
 
 test -n "$KSH_VERSION" || exec /bin/mksh "$0" "$@"
 
-export PATH=/usr/bin:/bin:/usr/X11R6/bin:/usr/sbin:/sbin
+export PATH=/usr/dbin:/usr/bin:/bin:/usr/X11R6/bin:/usr/dsbin:/usr/sbin:/sbin
 for i in /usr/mpkg/bin /usr/local/bin ~/.etc/bin; do
 	[[ -d $i/. ]] && PATH=$i:$PATH
 done

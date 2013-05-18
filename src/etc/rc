@@ -1,4 +1,4 @@
-# $MirOS: src/etc/rc,v 1.78 2007/09/28 20:46:54 tg Exp $
+# $MirOS: src/etc/rc,v 1.79 2008/03/20 21:13:28 tg Exp $
 # $OpenBSD: rc,v 1.277 2006/01/12 21:54:15 deraadt Exp $
 #-
 # System startup script run by init on autoboot or after single-user.
@@ -570,6 +570,7 @@ if [[ -f /sbin/ldconfig ]]; then
 	[[ -d /usr/X11R6/lib ]] && shlib_dirs="/usr/X11R6/lib $shlib_dirs"
 	[[ -d /usr/mpkg/lib ]] && shlib_dirs="/usr/mpkg/lib $shlib_dirs"
 	ldconfig $shlib_dirs
+	PATH=/usr/dsbin:/sbin:/usr/dbin:/bin:/usr/sbin:/usr/bin
 fi
 
 if [[ -x /usr/libexec/vi.recover && -d /var/tmp/vi.recover ]]; then
