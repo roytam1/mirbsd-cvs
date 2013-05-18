@@ -1,5 +1,5 @@
 <!-- PageID: wlog-9 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.1 2006/06/25 23:25:15 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.2 2006/06/27 14:20:57 tg Exp $</small>
 <h1>MirBSD &ndash; WTF is Verpeilungsfaktor?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -29,6 +29,10 @@
  <p>Benny is moving homes at the moment.</p>
  <p>Oh, and FrOSCon was a full success, best event I ever attended. I've
   intended to write more here but I'm still done with.</p>
+ <p>Which &lt;censored/&gt; set the maximum datasize for sparc to a mere
+  128 MiB, in contrast to i386's 1 GiB? Bumped to 320 MiB in order to be
+  able to build gcc&#8230; kernel really seems stable now, compiled both
+  cross and natively.</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
