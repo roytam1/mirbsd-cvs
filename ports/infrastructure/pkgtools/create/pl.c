@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/create/pl.c,v 1.20 2006/09/24 20:40:48 tg Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/create/pl.c,v 1.21 2006/11/19 22:34:06 tg Exp $ */
 /*	$OpenBSD: pl.c,v 1.11 2003/08/15 00:03:22 espie Exp $	*/
 
 /*
@@ -29,7 +29,7 @@
 #include <md5.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/create/pl.c,v 1.20 2006/09/24 20:40:48 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/create/pl.c,v 1.21 2006/11/19 22:34:06 tg Exp $");
 
 ld_type_t LdType = LD_STATIC;
 
@@ -108,6 +108,8 @@ check_lib(package_t *pkg, plist_t *p, char *cwd)
 	case LD_BSD:
 #ifndef AS_USER
 	    {
+		if (!find_plist(pkg, PLIST_UNEXEC, "ldconfig -U"))
+			add_plist(pkg, PLIST_UNEXEC, "ldconfig -U");
 		if (!find_plist(pkg, PLIST_UNEXEC, "ldconfig -R"))
 			add_plist(pkg, PLIST_UNEXEC, "ldconfig -R");
 		tmp = strconcat("ldconfig -m %D/", dirname(p->name));
