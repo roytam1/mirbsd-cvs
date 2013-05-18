@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/gnu.port.mk,v 1.55 2009/08/16 17:25:44 tg Exp $
+# $MirOS: ports/infrastructure/mk/gnu.port.mk,v 1.56 2009/12/06 15:23:05 tg Exp $
 # $OpenBSD: gnu.port.mk,v 1.19 2004/06/06 11:49:08 espie Exp $
 
 AUTOCONF_NEW?=		No
@@ -80,6 +80,7 @@ REORDER_DEPENDENCIES+=	${PORTSDIR}/infrastructure/templates/automake.dep
 .if ${CONFIGURE_STYLE:L:Mautoconf}
 BUILD_DEPENDS+=		${MODGNU_AUTOCONF_DEPS}
 MAKE_ENV+=		AUTOCONF_VERSION=${AUTOCONF_VERSION}
+CONFIGURE_ENV+=		AUTOCONF_VERSION=${AUTOCONF_VERSION}
 .  if !${CONFIGURE_STYLE:L:Mno-autoheader}
 CONFIGURE_STYLE+=	autoheader
 .  endif
