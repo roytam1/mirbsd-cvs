@@ -1,9 +1,0 @@
-@comment $MirOS$
-${P5SITE}/Test/Warn.pm
-@comment ${P5ARCH}/auto/Test/Warn/.packlist
-man/man3/Test::Warn${P5MAN3EXT}
-@comment @dirrm ${P5ARCH}/auto/Test/Warn
-@comment @dirrm ${P5ARCH}/auto/Test
-@comment @dirrm ${P5ARCH}/auto
-@comment @dirrm ${P5ARCH}
-@dirrm ${P5SITE}/Test

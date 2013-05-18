@@ -1,3 +1,0 @@
-@comment $MirOS$
-@comment $OpenBSD: PFRAG.shared,v 1.3 2000/07/04 01:33:56 krw Exp $
-@lib lib/liba2ps.so.1.0
