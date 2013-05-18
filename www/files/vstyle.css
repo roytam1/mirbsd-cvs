@@ -1,7 +1,83 @@
-/* $MirOS: www/files/vstyle.css,v 1.11 2008/12/04 14:01:30 tg Exp $ */
+/* $MirOS: www/files/vstyle.css,v 1.12 2008/12/09 13:18:23 tg Exp $ */
+
 /*-
  * The MirOS Project - Webpages
  * Copyrighted material; read LICENCE for terms of use.
+ */
+
+
+/*
+ * Fonts: MSIE EOT first, CSS3 second
+ */
+
+@font-face {
+        font-family: Gentium;
+        font-style: normal;
+        font-weight: normal;
+        src: url(/FNT/GenR102.eot);
+}
+
+@font-face {
+        font-family: Gentium;
+        font-style: italic;
+        font-weight: normal;
+        src: url(/FNT/GenI102.eot);
+}
+
+@font-face {
+        font-family: Gentium;
+        font-style: normal;
+        font-weight: bold;
+        src: url(/FNT/GenBasB.eot);
+}
+
+@font-face {
+        font-family: Gentium;
+        font-style: italic;
+        font-weight: bold;
+        src: url(/FNT/GenBasBI.eot);
+}
+
+
+@font-face {
+        font-family: Gentium;
+        font-style: normal;
+        font-weight: normal;
+        src: local(Gentium),
+            url(/FNT/GenR102.ttf) format("truetype"),
+            url(/FNT/GenR102.eot) format("embedded-opentype");
+}
+
+@font-face {
+        font-family: Gentium;
+        font-style: italic;
+        font-weight: normal;
+        src: local(Gentium),
+            url(/FNT/GenI102.ttf) format("truetype"),
+            url(/FNT/GenI102.eot) format("embedded-opentype");
+}
+
+@font-face {
+        font-family: Gentium;
+        font-style: normal;
+        font-weight: bold;
+        src: local(Gentium Basic),
+            url(/FNT/GenBasB.ttf) format("truetype"),
+            url(/FNT/GenBasB.eot) format("embedded-opentype");
+}
+
+@font-face {
+        font-family: Gentium;
+        font-style: italic;
+        font-weight: bold;
+        src: local(Gentium Basic),
+            url(/FNT/GenBasBI.ttf) format("truetype"),
+            url(/FNT/GenBasBI.eot) format("embedded-opentype");
+}
+
+
+/*
+ * Styles
  */
 
 body {
