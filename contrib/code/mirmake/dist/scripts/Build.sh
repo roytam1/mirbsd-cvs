@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.99 2008/03/09 13:55:47 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.100 2008/03/09 14:16:07 tg Exp $
 #-
 # Copyright (c) 2006, 2008
 #	Thorsten “mirabilos” Glaser <tg@mirbsd.de>
@@ -117,7 +117,7 @@ case $new_machos in
 Darwin)
 	_obfm=Mach-O
 	_rtld=dyld
-	CPPFLAGS="$CPPFLAGS -DHAVE_STRLCPY -DHAVE_STRLCAT -D__DARWIN_UNIX03=0"
+	CPPFLAGS="$CPPFLAGS -DHAVE_STRLCPY -DHAVE_STRLCAT"
 	;;
 *Interix)
 	_obfm=PE

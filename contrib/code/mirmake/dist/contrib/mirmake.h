@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/mirmake/dist/contrib/mirmake.h,v 1.29 2008/03/09 13:42:51 tg Exp $ */
+/* $MirOS: contrib/code/mirmake/dist/contrib/mirmake.h,v 1.30 2008/03/09 13:55:04 tg Exp $ */
 
 /*-
  * Copyright (c) 2005, 2006, 2008
@@ -46,12 +46,6 @@
 #if defined(__INTERIX)
 /* stock Interix/SFU needs this, MirInterix not */
 #define _ALL_SOURCE
-#endif
-
-#if defined(__APPLE__)
-/* stock Mac OSX Leopard needs this, due to symbol mangling conflicts */
-#undef __DARWIN_UNIX03
-#define __DARWIN_UNIX03 0
 #endif
 
 #include <sys/cdefs.h>
