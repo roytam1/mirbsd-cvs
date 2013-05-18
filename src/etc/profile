@@ -1,4 +1,4 @@
-# $MirOS: src/etc/profile,v 1.27 2006/07/21 16:44:21 tg Exp $
+# $MirOS: src/etc/profile,v 1.28 2006/07/23 18:44:25 tg Exp $
 #-
 umask 022
 [ -z "$KSH_VERSION" ] && alias print='echo -e'
@@ -125,25 +125,25 @@ function Lstripcom	# strip comments from file
 	set +o noglob
 }
 
-if [ -O /tmp/.ssh-agent/$USER_ID ]; then
+if [ -O /tmp/ssh-agent/$USER_ID ]; then
 	# If the agent is not running, remove stale files
-	[[ ! -e /tmp/.ssh-agent/$USER_ID/socket ]] \
-	    && rm -f /tmp/.ssh-agent/$USER_ID/{agent,keyread} \
+	[[ ! -e /tmp/ssh-agent/$USER_ID/socket ]] \
+	    && rm -f /tmp/ssh-agent/$USER_ID/{agent,keyread} \
 	    ~/.etc/ssh/.{ctl,pid}.*
 	# Start ssh-agent if it is not already started
-	if [[ ! -e /tmp/.ssh-agent/$USER_ID/agent ]]; then
-		ssh-agent -s -a /tmp/.ssh-agent/$USER_ID/socket \
-		    >/tmp/.ssh-agent/$USER_ID/agent
+	if [[ ! -e /tmp/ssh-agent/$USER_ID/agent ]]; then
+		ssh-agent -s -a /tmp/ssh-agent/$USER_ID/socket \
+		    >/tmp/ssh-agent/$USER_ID/agent
 	fi
 	# Do the following only if ssh-agent is running
-	if [[ -e /tmp/.ssh-agent/$USER_ID/socket ]]; then
+	if [[ -e /tmp/ssh-agent/$USER_ID/socket ]]; then
 		# Read configuration file if it exists
-		[[ -e /tmp/.ssh-agent/$USER_ID/agent ]] \
-		    && . /tmp/.ssh-agent/$USER_ID/agent >&2
+		[[ -e /tmp/ssh-agent/$USER_ID/agent ]] \
+		    && . /tmp/ssh-agent/$USER_ID/agent >&2
 		# Read in the keys, if not already done
-		if [[ ! -e /tmp/.ssh-agent/$USER_ID/keyread ]]; then
+		if [[ ! -e /tmp/ssh-agent/$USER_ID/keyread ]]; then
 			ssh-add
-			touch /tmp/.ssh-agent/$USER_ID/keyread
+			touch /tmp/ssh-agent/$USER_ID/keyread
 		fi
 	fi
 fi
