@@ -498,6 +498,10 @@ BeOS)
 BSD/OS)
 	: ${HAVE_SETLOCALE_CTYPE=0}
 	;;
+Coherent)
+	oswarn="; it has major issues"
+	check_categories="$check_categories nosymlink"
+	;;
 CYGWIN*)
 	: ${HAVE_SETLOCALE_CTYPE=0}
 	;;

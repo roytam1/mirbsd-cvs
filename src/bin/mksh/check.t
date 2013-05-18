@@ -73,8 +73,8 @@ name: selftest-direct-builtin-call
 description:
 	Check that direct builtin calls work
 stdin:
-	ln -s "$__progname" cat
-	ln -s "$__progname" echo
+	ln -s "$__progname" cat || cp "$__progname" cat
+	ln -s "$__progname" echo || cp "$__progname" echo
 	./echo -c 'echo  foo' | ./cat -u
 expected-stdout:
 	-c echo  foo
@@ -1036,7 +1036,7 @@ description:
 need-pass: no
 # the mv command fails on Cygwin
 # Hurd aborts the testsuite (permission denied)
-category: !os:cygwin,!os:gnu,!os:msys
+category: !os:cygwin,!os:gnu,!os:msys,!nosymlink
 file-setup: file 644 "x"
 	mkdir noread noread/target noread/target/subdir
 	ln -s noread link
@@ -1895,7 +1895,7 @@ description:
 # breaks on FreeMiNT (cannot unlink dangling symlinks)
 # breaks on MSYS (does not support symlinks)
 # breaks on Dell UNIX 4.0 R2.2 (SVR4) where unlink also fails
-category: !os:mint,!os:msys,!os:svr4.0
+category: !os:mint,!os:msys,!os:svr4.0,!nosymlink
 file-setup: dir 755 "dir"
 file-setup: symlink 644 "dir/abc"
 	non-existent-file
@@ -5780,10 +5780,10 @@ description:
 	Check that sh mode is *not* automatically turned on
 category: !binsh
 stdin:
-	ln -s "$__progname" ksh
-	ln -s "$__progname" sh
-	ln -s "$__progname" ./-ksh
-	ln -s "$__progname" ./-sh
+	ln -s "$__progname" ksh || cp "$__progname" ksh
+	ln -s "$__progname" sh || cp "$__progname" sh
+	ln -s "$__progname" ./-ksh || cp "$__progname" ./-ksh
+	ln -s "$__progname" ./-sh || cp "$__progname" ./-sh
 	for shell in {,-}{,k}sh; do
 		print -- $shell $(./$shell +l -c \
 		    '[[ $(set +o) == *@(-o sh)@(| *) ]] && echo sh || echo nosh')
@@ -5799,10 +5799,10 @@ description:
 	Check that sh mode *is* automatically turned on
 category: binsh
 stdin:
-	ln -s "$__progname" ksh
-	ln -s "$__progname" sh
-	ln -s "$__progname" ./-ksh
-	ln -s "$__progname" ./-sh
+	ln -s "$__progname" ksh || cp "$__progname" ksh
+	ln -s "$__progname" sh || cp "$__progname" sh
+	ln -s "$__progname" ./-ksh || cp "$__progname" ./-ksh
+	ln -s "$__progname" ./-sh || cp "$__progname" ./-sh
 	for shell in {,-}{,k}sh; do
 		print -- $shell $(./$shell +l -c \
 		    '[[ $(set +o) == *@(-o sh)@(| *) ]] && echo sh || echo nosh')
