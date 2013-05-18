@@ -2,8 +2,8 @@
 # $Id$
 # sync MirOS CVS repo from primary anoncvs mirror
 
-if wd=$(readlink -nf .); then
-	vd=$(readlink -nf $(dirname $0))
+if wd=$(realpath .); then
+	vd=$(realpath $(dirname $0))
 else
 	wd=$(pwd)
 	cd $(dirname $0)
@@ -36,7 +36,11 @@ case $1 {
 [[ -e $HOME/.etc/anonkey.mirbsd ]] && sshx="$sshx -i $HOME/.etc/anonkey.mirbsd"
 set -x
 nice rsync -rxlztpgaHK --delete --stats --exclude=/ign/ "$sshx" $p "$@" \
-    ${CVSROOT:-anoncvs@anoncvs.mirbsd.org:$what}/ $vd
+    ${CVSROOT:-_anoncvs@anoncvs.mirbsd.org:$what}/ $vd
+rv=$?
 cd $wd
-[[ $a = 1 ]] && exec /bin/mksh -c "umount $vd; mount $vd"
-exit 0
+if [[ $a = 1 ]]; then
+	umount $vd || rv=1
+	mount $vd || rv=1
+fi
+exit $rv
