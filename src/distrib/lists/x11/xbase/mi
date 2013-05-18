@@ -136,6 +136,7 @@
 ./usr/X11R6/bin/xrandr
 ./usr/X11R6/bin/xrdb
 ./usr/X11R6/bin/xrefresh
+./usr/X11R6/bin/xsel
 ./usr/X11R6/bin/xset
 ./usr/X11R6/bin/xsetmode
 ./usr/X11R6/bin/xsetpointer
@@ -1348,6 +1349,7 @@
 ./usr/X11R6/man/cat1/xrandr.0
 ./usr/X11R6/man/cat1/xrdb.0
 ./usr/X11R6/man/cat1/xrefresh.0
+./usr/X11R6/man/cat1/xsel.0
 ./usr/X11R6/man/cat1/xset.0
 ./usr/X11R6/man/cat1/xsetmode.0
 ./usr/X11R6/man/cat1/xsetpointer.0

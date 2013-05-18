@@ -596,6 +596,7 @@
 ./man1/xrandr.htm
 ./man1/xrdb.htm
 ./man1/xrefresh.htm
+./man1/xsel.htm
 ./man1/xset.htm
 ./man1/xsetmode.htm
 ./man1/xsetpointer.htm
