@@ -37,7 +37,7 @@
 	.globl	_C_LABEL(_rtt)
 	.globl	_C_LABEL(bios_bootdev)
 	.globl	_C_LABEL(bios_bootpte)
-	.globl	_ASM_LABEL(pmm_init)
+	.globl	idt_init
 	.globl	Gdtr
 
 	.text
@@ -92,6 +92,16 @@ _start:
 	jmpl	$(SA_LINKADDR >> 4), $(relocated-_start)	/* Now relocate */
 
 relocated:
+	.intel_syntax noprefix
+	cli
+	mov	ax,cs
+	mov	ds,ax
+	mov	es,ax
+	mov	ax,0x3000
+	mov	ss,ax
+	mov	esp,0x0000FFFC
+	/* Set up an interrupt descriptor table for protected mode. */
+	call	idt_init
 	/*
 	 * In 16-bit mode, we have segment registers == 0x4000, and
 	 * offsets work from here, with offset(_start) == 0.
@@ -100,27 +110,13 @@ relocated:
 	 * offset(_start) == 0x40000.  This is how we're linked.
 	 *
 	 * Now transition to protected mode.
-	 *
-	 * First, initialise the global descriptor table.
 	 */
-	cli
-	push	%cs
-	pop	%ds
-	addr32 data32 lgdt (Gdtr - SA_LINKADDR)
-
-	movl	%cr0, %eax
-	orl	$CR0_PE, %eax
-	data32 movl %eax, %cr0
-	data32 ljmp $8, $1f		/* Seg sel 0x08 is flat 32-bit code */
-1:
+	call	real_to_prot
 	.code32
-	movl	$0x10, %eax		/* Seg sel 0x10 is flat 32-bit data */
-	mov	%ax, %ds
-	mov	%ax, %es
+	mov	ax,ds
+	.att_syntax
 	mov	%ax, %fs
 	mov	%ax, %gs
-	mov	%ax, %ss
-	movl	$BOOTSTACK, %esp
 #ifdef DEBUG
 	movl	$0xb8000, %ebx
 	movl	$0x07420742, (%ebx)
@@ -130,8 +126,6 @@ relocated:
 	movl	%edx, _C_LABEL(bios_bootdev)
 	pushl	%edx			/* boot() takes this as a parameter */
 
-	/* Set up an interrupt descriptor table for protected mode. */
-	call	_ASM_LABEL(pmm_init)
 #ifdef DEBUG
 	movl	$0xb80a4, %ebx
 	movl	$0x07520752, (%ebx)

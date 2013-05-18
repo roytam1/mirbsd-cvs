@@ -1,4 +1,4 @@
-/*	$MirOS: src/sys/arch/i386/stand/libsa/gidt.S,v 1.17 2009/01/10 12:39:08 tg Exp $ */
+/*	$MirOS: src/sys/arch/i386/stand/libsa/gidt.S,v 1.18 2009/01/10 13:41:19 tg Exp $ */
 /*	$OpenBSD: gidt.S,v 1.32 2006/12/26 19:30:44 tom Exp $	*/
 
 /*
@@ -111,13 +111,13 @@ Idtr:	.word	. - idt - 1
 	mov	ebx,offset IPROC(e);			\
 	mov	ax,bx; stosw;				\
 	mov	ax,S32TEXT; stosw;			\
-	mov	al,0; stosb;				\
-	mov	al,(0x80 | SDT_SYS386TGT); stosb;	\
-	mov	eax,ebx; shr eax,16; stosw		\
+	mov	eax,ebx;				\
+	mov	ax,(0x80 | SDT_SYS386TGT)<<8; stosd	\
 
-	.globl	_ASM_LABEL(pmm_init)
-pmm_init:
-	mov	edi,offset idt
+	.globl	idt_init
+	.code16
+idt_init:
+	mov	edi,offset idt - SA_LINKADDR
 	cld
 		/* internal / CPU (0-31) */
 	idte(de); idte(db); idte(nmi); idte(bp); idte(of); idte(br)
@@ -139,8 +139,8 @@ pmm_init:
 	idtb(36); idtb(37); idtb(38); idtb(39); idtb(40); idtb(41)
 	idtb(42); idtb(43); idtb(44); idtb(45); idtb(46); idtb(47)
 
-	lidt	Idtr
 	ret
+	.code32
 
 	.att_syntax
 

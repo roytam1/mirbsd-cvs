@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.45 2009/01/10 13:24:46 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.46 2009/01/10 13:41:18 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009
@@ -86,7 +86,8 @@
 	.globl	_C_LABEL(boot)
 	.globl	_C_LABEL(edata)
 	.globl	_C_LABEL(end)
-	.globl	_ASM_LABEL(pmm_init)
+	.globl	idt_init
+	.globl	real_to_prot
 #ifndef SMALL_BOOT
 	.globl	prot_to_real
 #endif
@@ -238,13 +239,14 @@ LisRel:	UD(5)			/** E: done reloc, or not needed */
  */
 
 Lmain:	UD(6)			/** F: jump successful */
-	mov	ax,SA_LINKSEG
+	mov	ax,0x3000
 	mov	ss,ax
-	mov	esp,offset istackend - SA_LINKADDR
+	mov	esp,0x0000FFFC
 	mov	ax,cs
 	mov	ds,ax
 	mov	es,ax
 	push	dx
+	call	idt_init
 	sti
 
 	/* check if drive is a CD */
@@ -285,7 +287,7 @@ LnoCD:
 #ifdef BOOTSELECT_HOOK
 	UD(37)			/** e: calling the hook */
 	call	Lhook
-	push	eax
+	mov	esi,eax
 #endif
 	UD(14)			/** N: preparing 32-bit */
 	pop	dx
@@ -293,26 +295,10 @@ LnoCD:
 	pop	dx
 	mov	ebx,offset _rval - SA_LINKADDR
 	mov	dh,[bx]		/* carry this over to VPAM */
-#ifdef BOOTSELECT_HOOK
-	pop	esi
-#endif
 	cli
-	addr32 data32 lgdt (Gdtr - SA_LINKADDR)
-	mov	ax,1
-	lmsw	ax		/* switch to protected mode */
-	data32 jmp 8,offset Lpmode
-
-	/*
-	 * 32-bit code in 16-bit code segment
-	 * attention when adding code fragments below!
-	 */
-
+	call	real_to_prot
 	.code32
-Lpmode:	mov	eax,0x10
-	mov	ss,ax
-	mov	esp,0x0003FFFC
-	mov	es,ax
-	mov	ds,ax
+	mov	ax,ds
 	mov	fs,ax
 	mov	gs,ax
 	push	edx
@@ -320,24 +306,13 @@ Lpmode:	mov	eax,0x10
 	push	esi
 #endif
 	UD32(15)		/** O: 32-bit reached */
-	call	_ASM_LABEL(pmm_init)
 	UD32(16)		/** P: PMM initialised */
 	/* zero out .bss section */
 	xor	eax,eax
 	mov	ecx,offset _C_LABEL(end)
 	mov	edi,offset _C_LABEL(edata)
 	sub	ecx,edi
-	/* 1) align */
-1:	test	di,3
-	jz	2f
-	stosb
-	dec	ecx
-	jnz	1b
-	/* 2) rest in whole dwords, don’t care about overhang */
-2:	add	ecx,3
-	shr	ecx,2
-	cld
-	rep	stosd
+	rep	stosb
 #ifdef BOOTSELECT_HOOK
 	/* store saved hook value */
 	pop	ecx
@@ -399,8 +374,6 @@ Lmb2rm:	lgdt	Gdtr
 	mov	ax,0xB800
 	mov	gs,ax
 	mov	bx,SA_LINKSEG
-	mov	ss,bx
-	mov	esp,offset istackend - SA_LINKADDR
 	push	dx
 	mov	ax,bx
 	add	ah,0x10
