@@ -2185,3 +2185,29 @@ Author: tg@
  accounts when they just send to random other accounts? I have some very
  evil ideas for mksh scripts… *grins*</p>
 ----
+Date: 01.10.2007
+Author: tg@
+
+<p>Why does it always have to be us BSDers that have to find the bugs in
+ crappy GNU saftware? Today’s thanks go to Peter Valchev for being truly
+ helpful in tracking down something that I first thought of as an endian
+ difference issue in UMAC-64 (the new one in ssh(1), you know). It turns
+ out this was a bug in libgcc, and while libc contains “better” code, it
+ wasn’t used due to the linkage order. Fixed. Thanks, pvalchev!</p>
+<p>We’re a lot closer to release, despite the recent fluctuation, as I’m
+ done with preparing the manifold-boot CD stuff and could quite simplify
+ sparc support overall, as a side result. Now, just minor stuff is still
+ to be done (especially my new server and the SCSI cabling), and we need
+ a few full OS rebuilds… *sigh* so much for sleeping quietly, subsequent
+ nights I will enjoy the sounds of a SPARCstation again.</p>
+<p>I wonder where Benny is, he hasn’t been contactable for a while. Last
+ thing I remember is he tried moving to France again. There you go…</p>
+<p>The guy from the company where I bought my new server called today. A
+ service to the customer… they always call and see if one is happy. That
+ is new to me (as is that weird chassis) but not bad.</p>
+<p>pkgsrc® is hereby officially dead. I cannot write an eMail (or rather
+ I get bounces) to the official MAINTAINER address of mksh, and nobody’s
+ caring. Hey, even Debian does get it! (And <a href="@@RELPATH@@mksh.htm#otheros">others</a>…
+ you should be ashamed of yourself.) Coverity mostly relies on pkgsrc® –
+ otherwise I’d have posted results of their latest scans already.</p>
+----
