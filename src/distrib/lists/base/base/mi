@@ -466,7 +466,7 @@
 ./usr/lib/i18n/libmapper_zone.so.5.0
 ./usr/lib/libc.so.41.6
 ./usr/lib/libcrypto.so.14.1
-./usr/lib/libcurses.so.14.0
+./usr/lib/libcurses.so.14.1
 ./usr/lib/libdes.so.11.0
 ./usr/lib/libedit.so.7.0
 ./usr/lib/libevent.so.1.4
@@ -478,8 +478,8 @@
 ./usr/lib/libm.so.6.1
 ./usr/lib/libmenu.so.6.0
 ./usr/lib/libmenuw.so.6.0
-./usr/lib/libncurses.so.14.0
-./usr/lib/libncursesw.so.14.0
+./usr/lib/libncurses.so.14.1
+./usr/lib/libncursesw.so.14.1
 ./usr/lib/libocurses.so.8.0
 ./usr/lib/libossaudio.so.0.0
 ./usr/lib/libotermcap.so.8.0
@@ -491,8 +491,8 @@
 ./usr/lib/libsectok.so.9.0
 ./usr/lib/libskey.so.8.0
 ./usr/lib/libssl.so.12.0
-./usr/lib/libtermcap.so.14.0
-./usr/lib/libtermlib.so.14.0
+./usr/lib/libtermcap.so.14.1
+./usr/lib/libtermlib.so.14.1
 ./usr/lib/libusbhid.so.6.0
 ./usr/lib/libutil.so.14.0
 ./usr/lib/libz.so.5.3

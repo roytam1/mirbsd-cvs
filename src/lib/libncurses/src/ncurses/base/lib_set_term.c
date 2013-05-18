@@ -46,7 +46,7 @@
 
 MODULE_ID("$Id$")
 #ifdef __MirBSD__
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libncurses/src/ncurses/base/lib_set_term.c,v 1.4 2009/09/06 12:46:46 tg Exp $");
 #endif
 
 NCURSES_EXPORT(SCREEN *)
@@ -404,6 +404,7 @@ _nc_setupscreen(short slines, short const scolumns, FILE *output)
     {
 	char *env = _nc_get_locale();
 	SP->_legacy_coding = ((env == 0)
+			      || (_nc_overridden_locale() && !_nc_unicode_locale())
 			      || !strcmp(env, "C")
 			      || !strcmp(env, "POSIX"));
     }

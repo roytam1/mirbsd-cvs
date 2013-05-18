@@ -342,17 +342,52 @@ do_prototype(void)
 }
 
 /*
+ * Override the locale which is in effect.
+ */
+static char *_nc_locale_string = NULL;
+static int _nc_locale_isutf8;
+
+NCURSES_EXPORT(int)
+_nc_overridden_locale(void)
+{
+	return (_nc_locale_string == NULL ? 0 : 1);
+}
+
+NCURSES_EXPORT(void)
+_nc_set_locale(char *newlocale)
+{
+	if ((_nc_locale_string = newlocale) != NULL) {
+		if (strstr(newlocale, "UTF-8") != NULL ||
+		    strstr(newlocale, "utf-8") != NULL ||
+		    strstr(newlocale, "UTF8") != NULL ||
+		    strstr(newlocale, "utf8") != NULL)
+			_nc_locale_isutf8 = 1;
+		else
+			_nc_locale_isutf8 = 0;
+	}
+}
+
+/*
  * Find the locale which is in effect.
  */
+#ifdef __MirBSD__
+static char _nc_get_locale_storage[16];
+#endif
+
 NCURSES_EXPORT(char *)
 _nc_get_locale(void)
 {
-#ifdef __MirBSD__
-    static char lcl[] = "en_US.UTF-8";
-
-    return (lcl);
-#else
     char *env;
+
+    if (_nc_overridden_locale()) {
+	env = _nc_locale_string;
+	goto _nc_get_locale_out;
+    }
+
+#ifdef __MirBSD__
+    /* this result is constant in MirBSD */
+    memcpy(env = _nc_get_locale_storage, "en_US.UTF-8", 12);
+#else
 #if HAVE_LOCALE_H
     /*
      * This is preferable to using getenv() since it ensures that we are using
@@ -366,9 +401,10 @@ _nc_get_locale(void)
 	;
     }
 #endif
+#endif
+ _nc_get_locale_out:
     T(("_nc_get_locale %s", _nc_visbuf(env)));
     return env;
-#endif
 }
 
 /*
@@ -377,16 +413,23 @@ _nc_get_locale(void)
 NCURSES_EXPORT(int)
 _nc_unicode_locale(void)
 {
+#ifndef __MirBSD__
+    int result = 0;
+    char *env;
+#endif
+
+    if (_nc_overridden_locale())
+	return (_nc_locale_isutf8);
+
 #ifdef __MirBSD__
     return (1);
 #else
-    int result = 0;
 #if HAVE_LANGINFO_CODESET
-    char *env = nl_langinfo(CODESET);
+    env = nl_langinfo(CODESET);
     result = !strcmp(env, "UTF-8");
     T(("_nc_unicode_locale(%s) ->%d", env, result));
 #else
-    char *env = _nc_get_locale();
+    env = _nc_get_locale();
     if (env != 0) {
 	if (strstr(env, ".UTF-8") != 0) {
 	    result = 1;

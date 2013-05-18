@@ -1,8 +1,8 @@
-# $MirOS: src/lib/libncurses/Makefile,v 1.8 2006/11/02 13:53:54 tg Exp $
+# $MirOS: src/lib/libncurses/Makefile,v 1.9 2007/05/17 18:38:32 tg Exp $
 
 LIB=		ncurses
 LIBLINKS=	curses ncursesw termcap termlib
-SHLIB_VERSION?=	14.0
+SHLIB_VERSION?=	14.1
 
 NCMANSRCS+=	curs_add_wch.3x
 NCMANSRCS+=	curs_add_wchstr.3x

@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /* $Id$ */
 
 /* mouse interface */
@@ -103,6 +104,10 @@ extern NCURSES_EXPORT(bool) mouse_trafo (int*, int*, bool);              /* gene
 
 extern NCURSES_EXPORT(int) mcprint (char *, int);	/* direct data to printer */
 extern NCURSES_EXPORT(int) has_key (int);		/* do we have given key? */
+
+/* idem-definition for feature availability */
+#undef _nc_set_locale
+#define _nc_set_locale _nc_set_locale
 
 /* Debugging : use with libncurses_g.a */
 

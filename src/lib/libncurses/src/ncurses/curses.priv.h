@@ -1064,7 +1064,9 @@ extern NCURSES_EXPORT(int) _nc_has_mouse (void);
 
 /* lib_setup.c */
 extern NCURSES_EXPORT(char *) _nc_get_locale(void);
+extern NCURSES_EXPORT(void) _nc_set_locale(char *);
 extern NCURSES_EXPORT(int) _nc_unicode_locale(void);
+extern NCURSES_EXPORT(int) _nc_overridden_locale(void);
 extern NCURSES_EXPORT(int) _nc_locale_breaks_acs(void);
 extern NCURSES_EXPORT(int) _nc_setupterm(NCURSES_CONST char *, int , int *, bool);
 
