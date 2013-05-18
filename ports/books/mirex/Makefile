@@ -1,9 +1,9 @@
-# $MirOS: ports/books/mirex/Makefile,v 1.18 2008/03/14 14:53:25 tg Exp $
+# $MirOS: ports/books/mirex/Makefile,v 1.19 2008/03/27 14:56:34 tg Exp $
 
 COMMENT=		MirOS sample files, keys and information
 CATEGORIES=		books
 CVS_DISTREPO=		${_MIROS_ANONCVS}
-CVS_DISTDATE=		2008/03/27
+CVS_DISTDATE=		2008/08/27
 CVS_DISTMODS=		contrib/samples src/share/doc/README src/share/misc
 CVS_DISTFILE=		mirex
 RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.de>
