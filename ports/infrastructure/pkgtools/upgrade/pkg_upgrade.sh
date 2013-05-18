@@ -1,5 +1,5 @@
 #!/usr/bin/env mksh
-# $MirOS: ports/infrastructure/pkgtools/upgrade/pkg_upgrade.sh,v 1.32 2008/10/05 01:17:54 tg Exp $
+# $MirOS: ports/infrastructure/pkgtools/upgrade/pkg_upgrade.sh,v 1.33 2008/10/05 16:10:06 tg Exp $
 #-
 # Copyright (c) 2006, 2007, 2008
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -26,15 +26,13 @@
 me=${0##*/}
 cwd=$(realpath .)
 
-function usage
-{
+function usage {
 	print -u2 Usage:
-	print -u2 "\t$me [-afqs] pkgname.cgz"
+	print -u2 "\t$me [-afqsv] pkgname.cgz"
 	exit 1
 }
 
-function twiddle_plists
-{
+function twiddle_plists {
 	export oldcontents newcontents stubfiles
 	awk '
 	BEGIN {
@@ -73,8 +71,7 @@ function twiddle_plists
 	}' $newcontents $oldcontents > $oldcontents_new
 }
 
-function build_stub
-{
+function build_stub {
 	print -u2 "$me: building stub package shlibs-$OLDPKGS"
 	stubpkgdir=$TMPDIR/shlibs-$OLDPKGS
 	oldpkgdir=$PKG_DBDIR/$OLDPKGS
@@ -126,6 +123,7 @@ auto=0
 force=0
 quiet=0
 stubs=0
+fv=
 while getopts "afhqs" option; do
 	case $option {
 	(a)	auto=1 ;;
@@ -133,6 +131,7 @@ while getopts "afhqs" option; do
 	(h)	usage ;;
 	(q)	quiet=1 ;;
 	(s)	stubs=1 ;;
+	(v)	fv=-v ;;
 	(*)	usage ;;
 	}
 done
@@ -181,7 +180,7 @@ if [[ -z "$OLDPKGS" ]]; then
 	# we can safely go on
 	[[ $quiet = 1 ]] || print -u2 "$me: adding previously uninstalled '${1##*/}'"
 	rm -rf $TMPDIR
-	exec pkg_add "$npkg"
+	exec pkg_add $fv "$npkg"
 fi
 
 if [[ $OLDPKGS = *[$IFS]* ]]; then
@@ -230,10 +229,10 @@ stubfiles=$TMPDIR/+STUB				# files to put into shlibs stub
 
 if grep -qi '^@option base-package' $TMPDIR/+CONTENTS; then
 	print -u2 "$me: '$OLDPKGS' is a base package, unregistering only"
-	pkg_delete $fd -C -U $OLDPKGS && pkg_add $fa -Nq "$npkg"
+	pkg_delete $fv $fd -C -U $OLDPKGS && pkg_add $fv $fa -Nq "$npkg"
 else
 	[[ $stubs = 1 && -s $stubfiles ]] && build_stub
-	pkg_delete -C $fd $OLDPKGS && pkg_add $fa "$npkg"
+	pkg_delete $fv -C $fd $OLDPKGS && pkg_add $fv $fa "$npkg"
 fi
 
 # forward dependency information of backward dependencies of old package
