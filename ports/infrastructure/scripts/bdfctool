@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: X11/extras/bdfctool/bdfctool.sh,v 1.8 2012/08/23 19:36:21 tg Exp $
+# $MirOS: X11/extras/bdfctool/bdfctool.sh,v 1.9 2012/08/23 20:26:15 tg Exp $
 #-
 # Copyright © 2012
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -20,19 +20,24 @@
 # of said person’s immediate fault when using the work as intended.
 
 uascii=-1
-while getopts "acdeh" ch; do
+ufast=0
+while getopts "acdeFh" ch; do
 	case $ch {
 	(a) uascii=1 ;;
 	(+a) uascii=0 ;;
-	(c|d|e|h) mode=$ch ;;
+	(c|d|e) mode=$ch ;;
+	(F) ufast=1 ;;
+	(+F) ufast=0 ;;
+	(h) mode=$ch ;;
 	(*) mode= ;;
 	}
 done
 shift $((OPTIND - 1))
 (( $# )) && mode=
 
-if [[ $mode = ?(h) ]]; then
-	print -ru2 "Usage: ${0##*/} -c | -d | -e [-a]"
+if [[ $mode = ?(h) ]] || [[ $mode != e && $uascii != -1 ]] || \
+    [[ $mode != d && $ufast != 0 ]]; then
+	print -ru2 "Usage: ${0##*/} -c | -d [-F] | -e [-a]"
 	[[ $mode = h ]]; exit $?
 fi
 
@@ -108,11 +113,6 @@ if [[ $mode = e ]]; then
 		done
 	done
 	exit 0
-fi
-
-if (( uascii != -1 )); then
-	print -ru2 "E: ±a not allowed for -$mode mode"
-	exit 1
 fi
 
 Fdef=		# currently valid 'd' line
@@ -541,14 +541,36 @@ if [[ $line != '=bdfc 1' ]]; then
 	exit 2
 fi
 
-parse_bdfc
+if (( ufast )); then
+	if ! T=$(mktemp /tmp/bdfctool.XXXXXXXXXX); then
+		print -u2 E: cannot make temporary file
+		exit 4
+	fi
+	# quickly parse bdfc header
+	set -A last
+	while IFS= read -r line; do
+		[[ $line = C ]] && break
+		last+=("$line")
+		[[ $line = \' || $line = "' "* ]] && continue
+		if [[ $line = h* ]]; then
+			Fhead+=("${last[@]}")
+		else
+			Fprop+=("${last[@]}")
+		fi
+		set -A last
+	done
+	Fprop+=("${last[@]}")
+else
+	# parse entire bdfc file into memory
+	parse_bdfc
+fi
 
 # analyse data for BDF
 numprop=0
 for line in "${Fprop[@]}"; do
 	[[ $line = p* ]] && let ++numprop
 done
-numchar=${#Gdata[*]}
+(( ufast )) || numchar=${#Gdata[*]}
 
 # write BDF stream
 print 'STARTFONT 2.1'
@@ -577,33 +599,76 @@ print ENDPROPERTIES
 for line in "${last[@]}"; do
 	print -r -- "$line"
 done
-print CHARS $((numchar))
-for x in ${!Gdata[*]}; do
-	IFS=$'\n'
-	set -A xcomm -- ${Gcomm[x]}
-	IFS=$' \t\n'
-	for line in "${xcomm[@]}"; do
-		print -r -- "COMMENT${line#\'}"
+if (( ufast )); then
+	numchar=0
+	# directly transform font data
+	set -A last
+	while IFS= read -r line; do
+		[[ $line = . ]] && break
+		if [[ $line = \' || $line = "' "* ]]; then
+			last+=("$line")
+			continue
+		fi
+		set -A f -- $line
+		if [[ ${f[0]} = d ]]; then
+			set -A xprop -- $line
+			continue
+		fi
+		typeset -Uui16 -Z7 ch=16#${f[1]}
+		for line in "${last[@]}"; do
+			print -r -- "COMMENT${line#\'}"
+		done
+		set -A last
+		IFS=:
+		set -A bmp -- ${f[3]}
+		IFS=$' \t\n'
+		cat <<-EOF
+			STARTCHAR ${f[4]:-uni${ch#16#}}
+			ENCODING $((ch))
+			SWIDTH ${xprop[1]} ${xprop[2]}
+			DWIDTH ${xprop[3]} ${xprop[4]}
+			BBX ${f[2]} ${#bmp[*]} ${xprop[5]} ${xprop[6]}
+			BITMAP
+		EOF
+		for line in "${bmp[@]}"; do
+			print $line
+		done
+		print ENDCHAR
+		let ++numchar
+	done >"$T"
+	Fcomm+=("${last[@]}")
+	print CHARS $((numchar))
+	cat "$T"
+	rm -f "$T"
+else
+	print CHARS $((numchar))
+	for x in ${!Gdata[*]}; do
+		IFS=$'\n'
+		set -A xcomm -- ${Gcomm[x]}
+		IFS=$' \t\n'
+		for line in "${xcomm[@]}"; do
+			print -r -- "COMMENT${line#\'}"
+		done
+		set -A xprop -- ${Gprop[x]}
+		set -A f -- ${Gdata[x]}
+		IFS=:
+		set -A bmp -- ${f[3]}
+		IFS=$' \t\n'
+		typeset -Uui16 -Z7 ch=16#${f[1]}
+		cat <<-EOF
+			STARTCHAR ${f[4]:-uni${ch#16#}}
+			ENCODING $((ch))
+			SWIDTH ${xprop[1]} ${xprop[2]}
+			DWIDTH ${xprop[3]} ${xprop[4]}
+			BBX ${f[2]} ${#bmp[*]} ${xprop[5]} ${xprop[6]}
+			BITMAP
+		EOF
+		for line in "${bmp[@]}"; do
+			print $line
+		done
+		print ENDCHAR
 	done
-	set -A xprop -- ${Gprop[x]}
-	set -A f -- ${Gdata[x]}
-	IFS=:
-	set -A bmp -- ${f[3]}
-	IFS=$' \t\n'
-	typeset -Uui16 -Z7 ch=16#${f[1]}
-	cat <<-EOF
-		STARTCHAR ${f[4]:-uni${ch#16#}}
-		ENCODING $((ch))
-		SWIDTH ${xprop[1]} ${xprop[2]}
-		DWIDTH ${xprop[3]} ${xprop[4]}
-		BBX ${f[2]} ${#bmp[*]} ${xprop[5]} ${xprop[6]}
-		BITMAP
-	EOF
-	for line in "${bmp[@]}"; do
-		print $line
-	done
-	print ENDCHAR
-done
+fi
 for line in "${Fcomm[@]}"; do
 	print -r -- "COMMENT${line#\'}"
 done
