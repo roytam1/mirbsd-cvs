@@ -608,7 +608,6 @@
 ./usr/lib/libm.so.6.0
 ./usr/lib/libmenu.so.6.0
 ./usr/lib/libmenuw.so.6.0
-./usr/lib/libmilter.so.2.0
 ./usr/lib/libncurses.so.14.0
 ./usr/lib/libncursesw.so.14.0
 ./usr/lib/libocurses.so.8.0
