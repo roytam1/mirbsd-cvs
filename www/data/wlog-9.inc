@@ -2482,6 +2482,9 @@ Date: 28.10.2007
  for T-Com (that does not exist as a brand any more anyway, I think) and
  for our channel motto <i>Technik ist schei&szlig;e und funktioniert
  nicht.</i> How right.</p>
+
+<p><b>Update 20071231:</b> T-Com exchanged the router without a fuss.
+ Apparently, this is a known problem.</p>
 ----
 Date: 29.10.2007
 Author: tg@
@@ -2530,6 +2533,9 @@ Author: bsiegert@
  <tt>src/usr.bin/perl</tt>, the other in <tt>ports/devel/pcre</tt>.
  Please update those two. A binary package to replace perl in base will
  be available RSN.</p>
+
+<p><b>Update 20071126:</b> See <a
+ href="@@RELPATH@@permalinks/news_e20071126-nn.htm">news entry</a>.</p>
 ----
 Author: bsiegert@
 Date: 26.12.2007
@@ -2544,4 +2550,29 @@ Date: 26.12.2007
  was a bit more cumbersome than usual though: our ICE train was replaced
  by an InterCity. No reservations, not enough space and worst of all: no
  coffee.</p>
+----
+Author: bsiegert@
+Date: 31.12.2007
+Title: mksh bug
+
+<p>The problem from the last entry really seems to be a bug in ksh. In
+ mksh, unsetting a non-existing variable gives a return value of 1. If
+ <tt>set -e</tt> is active, then the script breaks at this point. This
+ behaviour seems to be the same for the other ksh instances such as
+ pdksh. From the mksh(1) manpage:</p>
+
+<blockquote>Unset the named parameters (-v, the default) or functions
+ (-f).  The exit status is non-zero if any of the parameters were
+ already unset, zero otherwise.</blockquote>
+
+<p>However, SUSv3 clearly mandates that <tt>unset</tt> must return a
+ zero exit state in this case. And it seems to be a sane thing
+ actually: in any case, the result is the same afterwards, i.e. the
+ variable is unset. I could care less if it was set before. Btw, both
+ bash and tcsh return 0. zsh returns 1.</p>
+
+<p>I think I will leave this here for tg@'s return. It will be up to
+ him to decide.</p>
+
+<p>Oh well, today is december 31. Happy new year 2008, everyone!</p>
 ----

@@ -535,6 +535,8 @@ Date: 26.11.2007
 <p>The following ports also had security updates: <tt>print/cups</tt>
  (fixed in 1.2.11-1), <tt>devel/pcre</tt> (fixed in 7.4-0). Please
  upgrade those if you have them installed.</p>
+
+<p><b>Update 20071221:</b> cups-1.2.11-3 is out with more fixes.</p>
 ----
 Title: MirOS at 24C3
 Date: 26.12.2007
