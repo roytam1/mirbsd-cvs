@@ -1,5 +1,5 @@
 #!/usr/bin/perl
-# $MirOS: ports/net/sirc/dist/dsircp,v 1.11 2007/03/01 21:34:15 tg Exp $
+# $MirOS: ports/net/sirc/dist/dsircp,v 1.12 2007/05/20 23:01:27 tg Exp $
 #-
 # dsircp: dumb-mode small irc client in perl
 # by orabidoo <roger.espel.llima@pobox.com>
@@ -7,7 +7,7 @@
 # Copyright (C) 1995-1997 Roger Espel Llima
 # Copyright (c) 2002-2003 Hubert Feyrer
 # Copyright (c) Phil Stracchino
-# Copyright (c) 2001-2007 Thorsten Glaser
+# Copyright (c) 2001-2008 Thorsten Glaser
 #
 # This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
 # the utmost extent permitted by applicable law, neither express nor
@@ -89,6 +89,7 @@ couldn't be found. Have you even bothered to run 'install'?\n";
 }
 use Encode;
 use POSIX ":sys_wait_h";
+use BSD::arc4random qw(arc4random_pushk arc4random_bytes);
 
 &Getopts('n:s:p:u:i:l:L:H:rqQR78UC:XT');
 
@@ -732,8 +733,7 @@ sub ctcp {
   $a && ($a=' '.$a);
   $to = (&eq($towho, $nick) ? "you" : $towho);
   &tell("*** $who$puh1 did a CTCP $what$a to $to")
-#   unless $what =~ /^(ACTION|PING|DCC)$/;
-    unless $what =~ /^(ACTION|PING)$/;
+    unless $what =~ /^(ACTION|ENTROPY|PING)$/;
   if ($what eq 'ACTION') {
     &dohooks("action", $towho, $args);
     if (&eq($towho, $nick)) {
@@ -752,8 +752,7 @@ sub ctcp {
   } elsif ($what eq 'TIME') {
     &reply("TIME ".&date(time));
   } elsif ($what eq 'CLIENTINFO') {
-#   &reply("CLIENTINFO ACTION, CLIENTINFO, DCC, ECHO, ERRMSG, FINGER, PING, TIME, USERINFO, VERSION");
-    &reply("CLIENTINFO ACTION, CLIENTINFO, ECHO, ERRMSG, FINGER, PING, TIME, USERINFO, VERSION");
+    &reply("CLIENTINFO ACTION, CLIENTINFO, ECHO, ENTROPY, ERRMSG, FINGER, PING, TIME, USERINFO, VERSION");
   } elsif ($what eq 'FINGER') {
     &reply("FINGER ".$set{"FINGER"});
   } elsif ($what eq 'USERINFO') {
@@ -769,6 +768,11 @@ sub ctcp {
     &tell("*** $who$puh1 did a CTCP PING to $to");
   } elsif ($what eq 'ECHO' || $what eq 'ERRMSG') {
     &reply("$what $args");
+  } elsif ($what eq 'ENTROPY') {
+    my $evalue = pack("u", arc4random_bytes(32, "$who$puh1$towho$args"));
+    chop($evalue);
+    &tell("*D* $who$puh1 did a CTCP $what$a to $to");
+    &reply("RANDOM $evalue");
   } elsif (0) { #$what eq 'DCC') {
     &getarg;
     if ($newarg eq 'CHAT' || $newarg eq 'SEND' && !$restrict) {
@@ -890,16 +894,23 @@ sub doset {
 
 sub ctcpreply {
   local($ctcp, $rest)=split(/ +/, $_[1], 2);
+  local $vis = 1;
+  local $towho = $_[0];
   $ctcp =~ tr/a-z/A-Z/;
-  &dohooks("ctcp_reply", $_[0], $ctcp, $rest);
+  &dohooks("ctcp_reply", $towho, $ctcp, $rest);
   if ($ctcp eq 'PING') {
     $rest = (time-$rest);
     $rest .= ($rest == 1) ? " second" : " seconds";
+  } elsif ($ctcp eq 'RANDOM') {
+    arc4random_pushk("$who$puh1$puh2$towho$rest");
+    &tell("*D* $who did a CTSP $ctcp $rest to $towho");
+    $vis = 0;
   }
-  if (&eq($_[0], $nick)) {
+  return unless $vis;
+  if (&eq($towho, $nick)) {
     &tell("*** CTCP $ctcp reply from $who$puh1: $rest");
   } else {
-    &tell("*** CTCP $ctcp reply to $_[0] from $who$puh2: $rest");
+    &tell("*** CTCP $ctcp reply to $towho from $who$puh2: $rest");
   }
 }
 
