@@ -75,6 +75,10 @@ static void handle_key_event(XKeyEvent *e) {
 			if (c->height < 1)
 				c->height = 1;
 			moveresize(c);
+			setmouse(c->window, c->width + c->border - 1,
+					c->height + c->border - 1);
+			/* Need to think about this - see note about shaped
+			 * windows in TODO */
 			break;
 		case KEY_KILL:
 			send_wm_delete(c); break;
