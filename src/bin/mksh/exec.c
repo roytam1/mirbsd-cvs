@@ -2,22 +2,20 @@
 
 #include "sh.h"
 
-__RCSID("$MirOS: src/bin/mksh/exec.c,v 1.22.2.1 2007/03/03 21:37:54 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/exec.c,v 1.22.2.2 2007/03/03 21:43:48 tg Exp $");
 
-static int	comexec(struct op *, struct tbl *volatile, char **,
-		    int volatile);
-static void	scriptexec(struct op *, char **)
+static int comexec(struct op *, struct tbl *volatile, const char **,
+    int volatile);
+static void scriptexec(struct op *, char **)
     __attribute__((noreturn));
-static int	call_builtin(struct tbl *, char **);
-static int	iosetup(struct ioword *, struct tbl *);
-static int	herein(const char *, int);
-static char	*do_selectargs(char **, bool);
-static int	dbteste_isa(Test_env *, Test_meta);
+static int call_builtin(struct tbl *, const char **);
+static int iosetup(struct ioword *, struct tbl *);
+static int herein(const char *, int);
+static char *do_selectargs(char **, bool);
+static int dbteste_isa(Test_env *, Test_meta);
 static const char *dbteste_getopnd(Test_env *, Test_op, int);
-static int	dbteste_eval(Test_env *, Test_op, const char *, const char *,
-		    int);
-static void	dbteste_error(Test_env *, int, const char *);
-
+static int dbteste_eval(Test_env *, Test_op, const char *, const char *, int);
+static void dbteste_error(Test_env *, int, const char *);
 
 /*
  * execute command tree
@@ -30,7 +28,7 @@ execute(struct op *volatile t,
 	volatile int rv = 0;
 	int pv[2];
 	char ** volatile ap;
-	char *s, *cp;
+	const char *s, *cp;
 	struct ioword **iowp;
 	struct tbl *tp = NULL;
 
@@ -104,7 +102,7 @@ execute(struct op *volatile t,
 
 	switch (t->type) {
 	case TCOM:
-		rv = comexec(t, tp, ap, flags);
+		rv = comexec(t, tp, (const char **)ap, flags);
 		break;
 
 	case TPAREN:
@@ -343,7 +341,12 @@ execute(struct op *volatile t,
 		ap = makenv();
 		restoresigs();
 		cleanup_proc_env();
-		execve(t->str, t->args, ap);
+		{
+			union mksh_ccphack cargs;
+
+			cargs.ro = t->args;
+			execve(t->str, cargs.rw, ap);
+		}
 		if (errno == ENOEXEC)
 			scriptexec(t, ap);
 		else
@@ -368,12 +371,13 @@ execute(struct op *volatile t,
  */
 
 static int
-comexec(struct op *t, struct tbl *volatile tp, char **ap, volatile int flags)
+comexec(struct op *t, struct tbl *volatile tp, const char **ap,
+    volatile int flags)
 {
 	int i;
 	volatile int rv = 0;
-	char *cp;
-	char **lastp;
+	const char *cp;
+	const char **lastp;
 	static struct op texec; /* Must be static (XXX but why?) */
 	int type_flags;
 	int keepasn_ok;
@@ -503,7 +507,7 @@ comexec(struct op *t, struct tbl *volatile tp, char **ap, volatile int flags)
 
 	switch (tp->type) {
 	case CSHELL:			/* shell built-in */
-		rv = call_builtin(tp, ap);
+		rv = call_builtin(tp, (const char **)ap);
 		break;
 
 	case CFUNC:			/* function call */
@@ -667,6 +671,7 @@ static void
 scriptexec(struct op *tp, char **ap)
 {
 	const char *sh;
+	union mksh_ccphack args;
 
 	sh = str_val(global("EXECSHELL"));
 	if (sh && *sh)
@@ -675,9 +680,10 @@ scriptexec(struct op *tp, char **ap)
 		sh = "/bin/sh";
 
 	*tp->args-- = tp->str;
-	*tp->args = sh;
+	args.ro = tp->args;
+	*args.ro = sh;
 
-	execve(tp->args[0], tp->args, ap);
+	execve(args.rw[0], args.rw, ap);
 
 	/* report both the program that was run and the bogus shell */
 	errorf("%s: %s: %s", tp->str, sh, strerror(errno));
@@ -691,7 +697,7 @@ shcomexec(char **wp)
 	tp = ktsearch(&builtins, *wp, hash(*wp));
 	if (tp == NULL)
 		internal_errorf(1, "shcomexec: %s", *wp);
-	return call_builtin(tp, wp);
+	return (call_builtin(tp, (const char **)wp));
 }
 
 /*
@@ -767,7 +773,7 @@ define(const char *name, struct op *t)
  * add builtin
  */
 void
-builtin(const char *name, int (*func) (char **))
+builtin(const char *name, int (*func) (const char **))
 {
 	struct tbl *tp;
 	Tflag flag;
@@ -969,7 +975,7 @@ search(const char *name, const char *lpath,
 }
 
 static int
-call_builtin(struct tbl *tp, char **wp)
+call_builtin(struct tbl *tp, const char **wp)
 {
 	int rv;
 
@@ -1195,7 +1201,7 @@ herein(const char *content, int sub)
 static char *
 do_selectargs(char **ap, bool print_menu)
 {
-	static const char *const read_args[] = {
+	static const char *read_args[] = {
 		"read", "-r", "REPLY", NULL
 	};
 	char *s;
