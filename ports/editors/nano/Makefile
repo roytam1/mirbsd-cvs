@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/editors/nano/Makefile,v 1.5 2008/03/09 20:13:11 tg Exp $
 # $OpenBSD: Makefile,v 1.36 2004/02/20 21:30:38 naddy Exp $
 
 COMMENT=		free Pico clone with some new features
@@ -8,7 +8,7 @@ CATEGORIES=		editors
 HOMEPAGE=		http://www.nano-editor.org/
 MASTER_SITES=		${HOMEPAGE}dist/v2.0/
 
-# GPL
+# GPLv3
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 PERMIT_PACKAGE_CDROM=	Yes
