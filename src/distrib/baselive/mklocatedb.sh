@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/baselive/mklocatedb.sh,v 1.3 2006/08/19 01:28:51 tg Exp $
+# $MirOS: src/distrib/baselive/mklocatedb.sh,v 1.4 2006/10/02 07:03:16 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -58,7 +58,7 @@ mount_mfs -s 300000 swap $root/home || cleanup
 mount_mfs -s 600000 swap $root/tmp || cleanup
 mount_mfs -s 20480 swap $root/usr/X11R6/lib/X11 || cleanup
 mount_mfs -s 300000 swap $root/var || cleanup
-pax -r -pe -f stand/fsrw.dat || cleanup
+gzip -dc stand/fsrw.dat | pax -r -pe || cleanup
 cp -r etc/skel home/live || cleanup
 chown -R 32762:32762 home/live || cleanup
 chroot $root /usr/libexec/locate.updatedb --fcodes=- --tmpdir=/var/tmp \

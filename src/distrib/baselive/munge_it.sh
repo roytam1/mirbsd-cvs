@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/baselive/munge_it.sh,v 1.9 2006/09/30 21:02:24 tg Exp $
+# $MirOS: src/distrib/baselive/munge_it.sh,v 1.10 2006/10/02 07:03:17 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -72,7 +72,7 @@ ed -s etc/ntpd.conf <<-'EOMD'
 EOMD
 ed -s etc/rc <<-'EOMD'
 	1i
-		# $MirOS: src/distrib/baselive/munge_it.sh,v 1.9 2006/09/30 21:02:24 tg Exp $
+		# $MirOS: src/distrib/baselive/munge_it.sh,v 1.10 2006/10/02 07:03:17 tg Exp $
 	.
 	/shutdown request/ka
 	/^fi/a
@@ -102,7 +102,7 @@ ed -s etc/rc <<-'EOMD'
 		print '... done'
 		sleep 2
 		print -n 'extracting mfs contents...'
-		pax -r -pe -f /stand/fsrw.dat
+		gzip -dc /stand/fsrw.dat | pax -r -pe
 		print ' done'
 		sleep 1
 		cp -r etc/skel home/live
@@ -244,7 +244,7 @@ mv usr/X11R6/lib/X11/fonts usr/X11R6/lib/fonts
 (cd usr/X11R6/lib/X11; ln -s ../fonts)
 # tmp because of perms
 find dev/.root etc tmp usr/X11R6/lib/X11 var | sort | \
-    cpio -oC512 -Hsv4crc -Mset >stand/fsrw.dat
+    cpio -oC512 -Hsv4crc -Mset | gzip -n9 >stand/fsrw.dat
 rm -rf dev/.root usr/X11R6/lib/X11 var sys
 mkdir -p usr/X11R6/lib/X11 usr/mpkg usr/ports var
 
