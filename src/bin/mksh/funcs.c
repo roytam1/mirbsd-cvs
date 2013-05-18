@@ -2494,7 +2494,7 @@ c_test(const char **wp)
 				return !0;
 			if (argc == 3) {
 				opnd1 = (*te.getopnd)(&te, TO_NONOP, 1);
-				if ((op = (*te.isa)(&te, TM_BINOP)) != TO_NONOP) {
+				if ((op = (*te.isa)(&te, TM_BINOP))) {
 					opnd2 = (*te.getopnd)(&te, op, 1);
 					res = (*te.eval)(&te, op, opnd1,
 					    opnd2, 1);
@@ -2788,7 +2788,7 @@ test_primary(Test_env *te, int do_eval)
 		}
 		return res;
 	}
-	if ((op = (*te->isa)(te, TM_UNOP)) != TO_NONOP) {
+	if ((op = (*te->isa)(te, TM_UNOP))) {
 		/* unary expression */
 		opnd1 = (*te->getopnd)(te, op, do_eval);
 		if (!opnd1) {
@@ -2803,7 +2803,7 @@ test_primary(Test_env *te, int do_eval)
 		(*te->error)(te, 0, "expression expected");
 		return 0;
 	}
-	if ((op = (*te->isa)(te, TM_BINOP)) != TO_NONOP) {
+	if ((op = (*te->isa)(te, TM_BINOP))) {
 		/* binary expression */
 		opnd2 = (*te->getopnd)(te, op, do_eval);
 		if (!opnd2) {
