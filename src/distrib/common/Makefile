@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/Makefile,v 1.17 2007/01/26 19:08:04 tg Exp $
+# $MirOS: src/distrib/common/Makefile,v 1.18 2007/01/26 19:14:33 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -13,6 +13,9 @@ MACHCONF?=	${MACHINE}
 .endif
 
 # compiler options
+.if ${COPTS:M-O*:N-Os}
+COPTS+=		-Os
+.endif
 .if !${COPTS:M-Os}
 COPTS+=		-Os
 .endif

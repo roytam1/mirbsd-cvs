@@ -1,4 +1,4 @@
-# $MirOS: src/sys/conf/Makefile.inc,v 1.17 2006/12/11 23:55:04 tg Exp $
+# $MirOS: src/sys/conf/Makefile.inc,v 1.18 2006/12/13 00:28:35 tg Exp $
 #-
 # Copyright (c) 2005, 2006
 #	Thorsten "mirabilos" Glaser <tg@mirbsd.de>
@@ -35,7 +35,13 @@ CDIAGFLAGS=	-Werror -Wall -Wstrict-prototypes -Wmissing-prototypes \
 .if ${IDENT:M-DNO_PROPOLICE}
 CDIAGFLAGS+=	-fno-stack-protector
 .endif
-COPTS?=		-O2
+COPTS?=		-Os
+.if ${COPTS:M-O*:N-Os}
+COPTS+=		-Os
+.endif
+.if !${COPTS:M-Os}
+COPTS+=		-Os
+.endif
 CFLAGS=		${DEBUG} ${CDIAGFLAGS} ${CMACHFLAGS} \
 		${COPTS:S/-g//:C/-g[0-9]//} ${PIPE} ${CSYS}
 AFLAGS=		-x assembler-with-cpp -traditional-cpp -D_LOCORE
