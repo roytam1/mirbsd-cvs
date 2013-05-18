@@ -91,14 +91,16 @@ wcstok			 wchar.h	C:wcstok	libhaible/wcstok.c
 wcstol			#wchar.h	-
 wcstold			#wchar.h	-
 wcstoll			#wchar.h	-
-wcstombs	stub	 stdlib.h	C:wcstombs	STUB! i18n/multibyte.c
+wcstombs		 stdlib.h	C:wcstombs	libhaible/wcstombs.c
+wcstombs	dep	 stdlib.h	C:wcstombs	STUB! i18n/multibyte.c
 wcstoul			#wchar.h	-
 wcstoull		#wchar.h	-
 wcswcs			 wchar.h	H:wmemchr	string/wcsstr.c
 wcswidth		 wchar.h	-		libhaible/wcswidth.c
 wcsxfrm			#wchar.h	H:wmemchr
 wctob			 wchar.h	C:wctob		i18n/wctob.c
-wctomb		stub	 stdlib.h	C:wctomb	STUB! i18n/multibyte.c
+wctomb			 stdlib.h	C:wctomb	libhaible/wctomb.c
+wctomb		ok	 stdlib.h	C:wctomb	STUB! i18n/multibyte.c
 wctrans			 wctype.h	H:wctrans	libhaible/wctrans.c
 wctype			 wchar.h	H:wctype	libhaible/wctype.c
 wcwidth			 wchar.h	-		libhaible/wcwidth.c
