@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.127 2008/12/31 18:00:58 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.128 2008/12/31 19:10:35 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -2506,4 +2506,48 @@ tg@bleu:~ $ print $_
  in English: “Jens’, Max’ and Joe’s CDs”</p>
 <p>ciruZ now has a blog too… with two ruby scripts. I prefer mine in
  <a href="@@RELPATH@@mksh.htm">mksh</a> very much, thank you :þ</p>
+----
+Date: 01.01.2009 17:26
+Author: tg@
+Title: USB stick boot (mission impossible Ⅱ)
+Tag: hardware bug
+
+<p>After my earlier escapades, which you might have <a
+ href="@@RELPATH@@permalinks/wlog-10_e20081231-tg-g10011.htm">read</a>
+ about, here’s some news regarding USB sticks:</p><ul>
+<li>The IBM X40 can boot, but always uses a geometry of LBA translated
+ into 255 heads, 63 sectors per track, contrary to the “USB ZIP” one
+ which demands 64 heads, 32 sectors per track.</li>
+<li>The ALIX.1c does recognise the stick’s physical or USB ZIP geometry,
+ since they match each other and what the BSD kernel thinks:<br />
+ <tt>sd0: 241MB, 241 cyl, 64 head, 32 sec, 512 bytes/sec, 495607 sec total</tt><br />
+ However, it still cannot boot MS-DOS® 7.10 from the stick. WTF?</li>
+<li>The VIA C7 can still not boot from the stick. It doesn’t even
+ appear in the boot menu. Interestingly enough, it does try to boot
+ from SCSI even if unlisted (disabling the AHA-2940U2B BIOS helps
+ to disable it, but I don’t even <em>know</em> where that MBR code
+ which it did boot came from…)</li>
+<li>I still hate ATX. I fragged a K6-2 mainboard when trying to
+ power it on due to a flash(?) (German: Überschlagsblitz). Also,
+ I definitively have a lack of hardware with an ISA slot, a floppy
+ drive, and USB.</li>
+<li>The (old) <tt>herc</tt> hardware might work, but its keyboard
+ controller is damaged, ISTR I wrote about it ages ago. Some day,
+ I’ll either solder in a new one or use a USB keyboard to bring it
+ back working (to hack a hercules framebugger).</li>
+</ul>
+<p>So the way out of this misére is a “machine sector &lt;type&gt;
+ &lt;filename&gt;” command for boot(8/i386). It should be able, at
+ least, to load: an MBR/PBR, a GNU GRUB stage2, stage2_eltorito
+ (with boot-info-table emulation), SYSLINUX, ISOLINUX, EXTLINUX,
+ an MS-DOS® 7.x IO.SYS. But at the beginning, I’m content with less.
+ Because it seems to be impossible to boot DOS from a USB stick,
+ due to the varying CHS geometries, MEMDISK might be the way to
+ go for a triple-boot stick. A combined grml+MirBSD thing would
+ not be hindered by it because both SYSLINUX and boot(8/i386) use
+ the LBA access method if available.</p>
+<p>Benny beat me, he did the first commit this year. Congrats!
+ Oh, and the second and the third. But I’ll write the first wlog
+ entry, hahaha, and <strong>the Developers’ Weblog is <em>not</em>
+ a blog!</strong> Oh, and the fourth.</p>
 ----
