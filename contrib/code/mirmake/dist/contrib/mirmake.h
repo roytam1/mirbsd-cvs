@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/mirmake/dist/contrib/mirmake.h,v 1.35 2008/03/12 22:26:37 tg Exp $ */
+/* $MirOS: contrib/code/mirmake/dist/contrib/mirmake.h,v 1.36 2008/04/06 22:20:06 tg Exp $ */
 
 /*-
  * Copyright (c) 2005, 2006, 2008
@@ -232,6 +232,7 @@
 __BEGIN_DECLS
 
 #if !defined(BSD) && !defined(__APPLE__)
+char *fgetln(FILE *, size_t *);
 size_t strlcat(char *, const char *, size_t);
 size_t strlcpy(char *, const char *, size_t);
 #endif

@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/mirmake/dist/contrib/fgetln.c,v 1.1 2007/03/31 00:03:50 tg Exp $ */
+/* $MirOS: contrib/code/mirmake/dist/contrib/fgetln.c,v 1.2 2007/03/31 00:04:54 tg Exp $ */
 
 /*-
  * Copyright (c) 2007
@@ -27,9 +27,11 @@
 #include <stdio.h>
 #include <string.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: contrib/code/mirmake/dist/contrib/fgetln.c,v 1.2 2007/03/31 00:04:54 tg Exp $");
 
+#if !defined(_MIRMAKE_H) || !defined(_MIRMAKE_DEFNS)
 char *fgetln(FILE *, size_t *);
+#endif
 
 char *
 fgetln(FILE *stream, size_t *len)
