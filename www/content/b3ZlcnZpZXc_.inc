@@ -1,5 +1,5 @@
 <!-- PageID: overview -->
-<small class="rcsid">$MirOS: www/content/b3ZlcnZpZXc_.inc,v 1.22 2006/05/08 20:54:57 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/b3ZlcnZpZXc_.inc,v 1.23 2006/05/29 18:42:39 tg Exp $</small>
 <h1>Quick Overview &ndash; All in one page</h1>
 
 <h2>Maintenance</h2>
@@ -12,7 +12,7 @@
 <h2>Status</h2><p>
  <a href="/?ann-8">MirOS #8</a> is the latest release.
  MirOS #8-stable has been opened; a sendmail update has been released (XXX insert link).
- The <a href="http://f.scarywater.net/miros/">BitTorrent tracker</a> contains a snapshot from 2006-05-29.
+ The <a href="http://f.scarywater.net/miros/">BitTorrent tracker</a> contains a snapshot from 2006-06-04.
  The <a href="/MirOS/current/i386/">latest snapshot</a> of the current development version (i386) is from 2006-04-20.
  MirPorts infrastructure and new installer (<a href="/?ports">docs</a>) are stable and working on MirOS, OpenBSD and Darwin. Interix does not work.
  We expect quite a percentage of individual ports to be broken or out of date due to lack of manpower.
@@ -30,6 +30,8 @@
  <li>AnonCVS and AnonRSYNC<ul>
   <li>rsync://rsync.allbsd.org/mirbsd-cvs/ (empty pw) (IPv6 enabled)
    (rsyncd only)</li>
+  <li>anoncvs@unixforge.de:/cvs (IPv4) aka
+   anoncvs@hephaistos.tb.as8758.net:/cvs (IPv6), pw:anoncvs</li>
   <li>_anoncvs@mirsolutions.de:/cvs aka _anoncvs@anoncvs.66h.42h.de:/cvs
    (empty pw) &ndash; IPv4 only (anoncvs and anonrsync)</li>
   <li>_anoncvs@mirbsd.org:/cvs (empty pw)
