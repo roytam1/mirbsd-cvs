@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/lib/str.c,v 1.10 2007/05/02 21:24:14 bsiegert Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/lib/str.c,v 1.11 2008/03/09 17:22:57 tg Exp $ */
 /*	$OpenBSD: str.c,v 1.11 2003/07/04 17:31:19 avsm Exp $	*/
 
 /*
@@ -24,7 +24,7 @@
 #include <fnmatch.h>
 #include "lib.h"
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/str.c,v 1.10 2007/05/02 21:24:14 bsiegert Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/str.c,v 1.11 2008/03/09 17:22:57 tg Exp $");
 
 /* Convert a filename (which can be relative to the current directory) to
  * an absolute one. Returns a pointer to a static internal buffer.
@@ -364,12 +364,15 @@ multiversion_match(const char *pattern, const char *pkg)
 
 	/* short-cut path if the name does not match */
 	ver = find_version(pkg);
+	if ((cp = find_version(pattern)) == NULL)
+		errx(1, "multiversion_match(): malformed pattern '%s'!", pattern);
+	/* name must have the same size, of course */
+	if ((ver - pkg) != (cp - pattern))
+		return 0;
 	if (strncmp(pattern, pkg, (size_t)(ver - pkg)))
 		return 0;
 
 	ver++; /* jump over '-' */
-	if ((cp = find_version(pattern)) == NULL)
-		errx(1, "multiversion_match(): malformed pattern '%s'!", pattern);
 	snprintf(name, sizeof(name), cp + 1);
 	token = name;
 
