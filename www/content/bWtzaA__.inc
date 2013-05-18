@@ -1,5 +1,5 @@
 <!-- PageID: mksh -->
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.65 2006/11/09 15:16:38 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.66 2006/11/11 02:29:57 tg Exp $</small>
 
 <h1>mksh(1) R28</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
@@ -47,14 +47,15 @@
   was fixed between gcc 2.7.2 and gcc 2.7.2.1&#8230;</li>
  <li>Avoid unaligned memory access causing SIGBUS on IA-64 on Debian</li>
  <li>Convert to autoconf-style check for function and header file existence
-  of arc4random(3), arc4random_push(3), setlocale(3) and LC_CTYPE,
-  nl_langinfo(3) and CODESET, setmode(3), strlcat(3), strlcpy(3),
-  and &lt;sys/param.h&gt;</li>
+  of &lt;sys/param.h&gt;, arc4random(3), arc4random_push(3),
+  setlocale(3) and LC_CTYPE, nl_langinfo(3) and CODESET, getmode(3) and
+  setmode(3), strcasestr(3), and strlcpy(3)</li>
  <li>Add <tt>set -o utf8-hack</tt> aka <tt>mksh -U</tt> which
   changes the Emacs editing mode to an experimental CESU-8 aware
   multibyte mode (not implemented using wide chars unless internally
   needed; does not require OS support); check setlocale(LC_CTYPE, "")
-  and nl_langinfo(CODESET) if found to auto-enable utf-8 mode</li>
+  and nl_langinfo(CODESET) if found to auto-enable utf-8 mode
+  in interactive shells</li>
  <li>Simplify and clean up code; try to remove or replace function calls
   by smaller equivalents; spot a few non-fatal off-by-one errors</li>
  <li>If Build.sh is called with <tt>-DMKSH_SMALL</tt> in the CPPFLAGS
@@ -80,7 +81,19 @@
  <li>Change the eaccess() code to not use setreuid(2) and friends, like
   OpenBSD ksh and apparently pdksh. I'm not too sure about the implications,
   except that they only affect setuid shell scripts.</li>
- <li>Use setresuid(2) and friends instead of seteuid(2), setuid(2) etc.</li>
+ <li>Use setresuid(2) and friends, and setgroups(3) and &lt;grp.h&gt; instead
+  of seteuid(2), setuid(2) etc. on operating systems that support them</li>
+ <li>Work around (i.e. remove) all but two <tt>-Wcast-qual</tt> issues</li>
+ <li>Work around a bug in the GNU implementation of the Berkeley mdoc macros
+  which comes with GNU groff (only visible in MirOS with groff -mgdoc, but
+  shows on other operating systems), discovered by crib in IRC</li>
+ <li><tt>$RANDOM</tt> is always an unsigned 15-bit decimal integer, for all
+  Korn shell derivates; idea from twkm in IRC</li>
+ <li>Improve/correct description of typeset command in manpage, and
+  implementation of <tt>typeset -p</tt> in mksh</li>
+ <li>Remove the non-standard emacs-usemeta and vi-show8 shell options,
+  assume the user either has a 7-bit environment, an 8-bit clean terminal,
+  or a UTF-8 environment (preferred), and the dummy sh option</li>
 </ul>
 <p>Upgrading to mksh R28 with these changes is highly recommended:</p><ul>
  <li>For these who build software as root, the regression testsuite
@@ -367,6 +380,10 @@
  <li>3110135037 230291 /MirOS/dist/mir/mksh/mksh-R28.cpio.gz</li>
  <li>MD5 (mksh-R28.cpio.gz) = 1869f79961c365c65116974706a56c67</li>
 </ul>
+
+<p>There is a <a href="http://users.unixforge.de/~tglaser/mksh_28.9.20061121.dsc">Debian
+ experimental source package</a> (<b>dget</b>table) of mksh-current,
+ GnuPG-signed as the Debian guys want. (Just in case, cksum is: 4040256249 963)</p>
 
 <h2>Installation</h2>
 <p>If you ever sit in front of an unfriendly operating
