@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.380 2012/01/07 16:56:13 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.381 2012/01/07 17:18:03 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -8930,4 +8930,18 @@ Tag: debian pcli tip
 <p><a href="http://sourceforge.net/projects/clpbar/">clpbar</a> might also
  be worth looking into. XTaran points out sid has this as bar.</p>
 <p>PSA: Last of June, 2012, will be a leap second.</p>
+----
+Date: 22.01.2012 12:58
+Author: bsiegert@
+Title: Today's piece of Unix history
+
+<p>Courtesy of <a
+ href="https://plus.google.com/101960720994009339267/posts/3WDmR2RTTrv">Rob
+ Pike on Google+</a> and Richard Kettlewell in the comments:</p>
+
+<p>In Plan 9 and Research Unix, rm(1) also removes empty directories.
+ Why doesn't it in Unix? In V7 Unix, only privileged users could
+ unlink() a directory. Thus, rmdir(1) was a setuid executable. rm(1)
+ actually called rmdir(1) via fork()+exec() in its recursive mode. Of
+ course, there were some bugs in rmdir ...</p>
 ----
