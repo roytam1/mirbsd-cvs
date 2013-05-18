@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/baselive/Makefile,v 1.41 2008/11/01 02:07:46 tg Exp $
+# $MirOS: src/distrib/baselive/Makefile,v 1.42 2008/11/06 23:03:02 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -18,8 +18,9 @@ STUFFDIR=	${DUALIVE}/i386
 .MAIN: all
 
 KERNEL_PREP=	print 'rootdev 6 0\nquit' | config -ef bsd.tmp
-.if exists(${REALOBJDIR}/../../sys/arch/i386/stand/liveboot/boot)
+.if exists(${REALOBJDIR}/../../sys/arch/i386/stand/liveboot/.)
 BOOT=		${REALOBJDIR}/../../sys/arch/i386/stand/liveboot/boot
+DO_LIVEBOOT=	#defined
 .endif
 CDROM_OPTS+=	bootimage=i386\;b_torito.ldr
 CDROM_OPTS+=	no-emul-boot
@@ -189,6 +190,8 @@ nukefiles:
 
 makeimg: cdrom-prepare cdrom-generate
 
+#LIVEBOOT_ARGS+=	…
+
 cdrom-prepare: bsd.gz
 	${SUDO} dd if=bsd.gz obs=2048 conv=osync of=${WRKDIR}/bsd
 .if ${DUALIVE:L} != "no"
@@ -207,6 +210,12 @@ cdrom-prepare: bsd.gz
 	print -n v${OSrev}/sparc/bsd.rd\\0 | \
 	    ${SUDO} dd of=${WRKDIR}/b_sparc.ldr bs=1 seek=$$ofs conv=notrunc
 	${SUDO} strip --target=a.out-sunos-big ${WRKDIR}/b_sparc.ldr
+.endif
+.ifdef DO_LIVEBOOT
+	cd ${.CURDIR}/../../sys/arch/i386/stand/liveboot; \
+	    ${MAKE} ${LIVEBOOT_FLAGS} depend && \
+	    ${MAKE} ${LIVEBOOT_FLAGS} clean && \
+	    exec ${MAKE} ${LIVEBOOT_FLAGS}
 .endif
 	cd ${WRKDIR}; \
 	    ${SUDO} cp ${BOOT} b_i386.ldr; \
