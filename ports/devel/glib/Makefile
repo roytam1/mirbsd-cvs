@@ -1,8 +1,8 @@
-# $MirOS: ports/devel/glib/Makefile,v 1.10 2006/09/14 00:08:12 tg Exp $
+# $MirOS: ports/devel/glib/Makefile,v 1.11 2006/11/02 01:55:37 tg Exp $
 # $OpenBSD: Makefile,v 1.19 2004/12/22 06:31:05 espie Exp $
 
-COMMENT=			general-purpose utility library
-COMMENT-docs=			glib2 documentation
+COMMENT=		general-purpose utility library
+COMMENT-docs=		glib2 documentation
 VERSION=		2.8.1
 DASH_VER=		4
 DISTNAME=		glib-${VERSION}

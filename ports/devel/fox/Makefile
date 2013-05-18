@@ -1,13 +1,11 @@
-# $MirOS: ports/devel/fox/Makefile,v 1.3 2006/02/09 11:11:20 tg Exp $
+# $MirOS: ports/devel/fox/Makefile,v 1.4 2006/09/14 00:08:10 tg Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2003/11/13 18:50:39 espie Exp $
 
-COMMENT=			C++ toolkit for GUI
+COMMENT=		C++ toolkit for GUI
 
 CATEGORIES=		devel x11
 VERSION=		1.1.41
-DASH_VER=		-0
 DISTNAME=		fox-${VERSION}
-PKGNAME=		${DISTNAME}${DASH_VER}
 HOMEPAGE=		http://www.fox-toolkit.org/
 MASTER_SITES=		${HOMEPAGE}/ftp/
 

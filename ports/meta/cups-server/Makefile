@@ -1,9 +1,8 @@
-# $MirOS: ports/meta/cups-server/Makefile,v 1.2 2006/11/09 18:35:52 tg Exp $
+# $MirOS: ports/meta/cups-server/Makefile,v 1.3 2006/11/09 18:37:15 tg Exp $
 
 COMMENT=		meta package for a CUPS server
 VERSION=		2.6
-DASH_VER=		-0
-PKGNAME=		meta-cups-${VERSION}${DASH_VER}
+PKGNAME=		meta-cups-${VERSION}-${DASH_VER}
 CATEGORIES=		meta print
 HOMEPAGE=		http://www.cups.org/
 RESPONSIBLE=		Benny Siegert <bsiegert@gmx.de>

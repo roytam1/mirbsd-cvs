@@ -1,20 +1,19 @@
-# $MirOS: ports/databases/postgresql/Makefile,v 1.4 2005/07/06 19:21:28 bsiegert Exp $
+# $MirOS: ports/databases/postgresql/Makefile,v 1.5 2006/09/14 00:07:57 tg Exp $
 # $OpenBSD: Makefile,v 1.68 2004/02/04 07:39:18 sturm Exp $
 
-COMMENT=			PostgreSQL RDBMS clients and utilities
-COMMENT-tcl=			PostgreSQL RDBMS tcl libraries and utilities
-COMMENT-server=			PostgreSQL RDBMS server software
-COMMENT-docs=			PostgreSQL RDBMS documentation
+COMMENT=		PostgreSQL RDBMS clients and utilities
+COMMENT-tcl=		PostgreSQL RDBMS tcl libraries and utilities
+COMMENT-server=		PostgreSQL RDBMS server software
+COMMENT-docs=		PostgreSQL RDBMS documentation
 
-VERSION=	8.0.1
-DASH_VER=	-1
-DISTNAME=	postgresql-${VERSION}
-PKGNAME=	${DISTNAME}${DASH_VER}
-PKGNAME-server=	postgresql-server-${VERSION}${DASH_VER}
-PKGNAME-docs=	postgresql-docs-${VERSION}${DASH_VER}
-PKGNAME-tcl=	postgresql-tcl-${VERSION}${DASH_VER}
-CATEGORIES=	databases
-HOMEPAGE=	http://www.postgresql.org/
+VERSION=		8.0.1
+DASH_VER=		1
+DISTNAME=		postgresql-${VERSION}
+PKGNAME-server=		postgresql-server-${VERSION}-${DASH_VER}
+PKGNAME-docs=		postgresql-docs-${VERSION}-${DASH_VER}
+PKGNAME-tcl=		postgresql-tcl-${VERSION}-${DASH_VER}
+CATEGORIES=		databases
+HOMEPAGE=		http://www.postgresql.org/
 
 # BSD
 PERMIT_DISTFILES_CDROM=	"without fee clause"

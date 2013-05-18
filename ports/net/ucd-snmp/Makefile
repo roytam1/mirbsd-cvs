@@ -1,14 +1,13 @@
-# $MirOS: ports/net/ucd-snmp/Makefile,v 1.2 2005/07/06 19:21:33 bsiegert Exp $
+# $MirOS: ports/net/ucd-snmp/Makefile,v 1.3 2006/09/14 00:12:25 tg Exp $
 # $OpenBSD: Makefile,v 1.38 2003/04/22 15:15:57 danh Exp $
 
-COMMENT=			extensible SNMP implementation
-VERSION=	4.2.6
-DASH_VER=	-1
-DISTNAME=	ucd-snmp-${VERSION}
-PKGNAME=	${DISTNAME}${DASH_VER}
-CATEGORIES=     net
-MASTER_SITES=   ${MASTER_SITE_SOURCEFORGE:=net-snmp/}
-HOMEPAGE=	http://net-snmp.sourceforge.net/
+COMMENT=		extensible SNMP implementation
+VERSION=		4.2.6
+DASH_VER=		1
+DISTNAME=		ucd-snmp-${VERSION}
+CATEGORIES=     	net
+MASTER_SITES=   	${MASTER_SITE_SOURCEFORGE:=net-snmp/}
+HOMEPAGE=		http://net-snmp.sourceforge.net/
 
 
 PERMIT_PACKAGE_CDROM=	Yes

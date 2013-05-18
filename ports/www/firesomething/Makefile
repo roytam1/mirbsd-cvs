@@ -1,12 +1,11 @@
-# $MirOS: ports/www/firesomething/Makefile,v 1.11 2006/07/30 15:07:23 bsiegert Exp $
+# $MirOS: ports/www/firesomething/Makefile,v 1.12 2006/09/14 00:14:35 tg Exp $
 # $OpenBSD: Makefile,v 1.41 2005/11/15 09:21:52 wilfried Exp $
 
 ONLY_FOR_PLATFORM=	*:*:alpha *:*:i386 *:*:sparc *:*:sparc64 *:*:amd64 *:*:powerpc
-COMMENT=			one of the successors to the Netscape browser engine
+COMMENT=		one of the successors to the Netscape browser engine
 VER=			1.5.0.5
-DASH_VER=		-0
 DISTNAME=		mozilla
-PKGNAME=		firesomething-${VER}${DASH_VER}
+PKGNAME=		firesomething-${VER}-${DASH_VER}
 CATEGORIES=		www
 HOMEPAGE=		http://www.mozilla.org/projects/firefox/
 

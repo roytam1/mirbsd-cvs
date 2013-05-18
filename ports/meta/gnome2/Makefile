@@ -1,9 +1,8 @@
-# $MirOS: ports/meta/gnome2/Makefile,v 1.4 2006/11/09 18:35:52 tg Exp $
+# $MirOS: ports/meta/gnome2/Makefile,v 1.5 2006/11/09 18:37:16 tg Exp $
 
-COMMENT=			meta-package to install all of GNOME 2
+COMMENT=		meta-package to install all of GNOME 2
 VERSION=		2.8.1
-DASH_VER=		-0
-PKGNAME=		meta-gnome2-${VERSION}${DASH_VER}
+PKGNAME=		meta-gnome2-${VERSION}-${DASH_VER}
 CATEGORIES=		meta x11/gnome
 HOMEPAGE=		http://www.gnome.org/
 RESPONSIBLE=		Benny Siegert <bsiegert@gmx.de>

@@ -1,12 +1,10 @@
-# $MirOS: ports/plan9/rc/Makefile,v 1.3 2006/02/09 09:36:14 tg Exp $
+# $MirOS: ports/plan9/rc/Makefile,v 1.4 2006/09/14 00:12:35 tg Exp $
 # $OpenBSD: Makefile,v 1.13 2003/05/15 03:25:56 markus Exp $
 
-COMMENT=			clone of plan9 shell
+COMMENT=		clone of plan9 shell
 
 VERSION=		1.7.1
-DASH_VER=		-0
 DISTNAME=		rc-${VERSION}
-PKGNAME=		rc-${VERSION}${DASH_VER}
 CATEGORIES=		plan9 shells
 RESPONSIBLE=		Benny Siegert <bsiegert@gmx.de>
 MASTER_SITES=		http://www.star.le.ac.uk/~tjg/rc/release/ \

@@ -1,4 +1,4 @@
-# $MirOS: ports/graphics/tiff/Makefile,v 1.11 2006/09/14 00:10:08 tg Exp $
+# $MirOS: ports/graphics/tiff/Makefile,v 1.12 2006/10/01 03:31:47 tg Exp $
 # $OpenBSD: Makefile,v 1.29 2004/05/18 23:35:35 brad Exp $
 
 COMMENT=		library routines for working with TIFF images
@@ -6,10 +6,9 @@ COMMENT-cxx=		C++ API for working with TIFF images
 DESCR=			${PKGDIR}/DESCR
 V=			3.7.4
 _V=			${V:R:S/.//}.${V:E}
-DASH_VER=		-1
+DASH_VER=		1
 DISTNAME=		tiff-${V}
-PKGNAME=		${DISTNAME}${DASH_VER}
-PKGNAME-cxx=		tiff-cxx-${V}${DASH_VER}
+PKGNAME-cxx=		tiff-cxx-${V}-${DASH_VER}
 CATEGORIES=		graphics
 MASTER_SITES=		ftp://ftp.remotesensing.org/pub/libtiff/
 HOMEPAGE=		http://www.remotesensing.org/libtiff/

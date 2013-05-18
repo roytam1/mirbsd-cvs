@@ -1,14 +1,13 @@
-# $MirOS: ports/x11/gnome/libgnomeprint/Makefile,v 1.7 2006/06/03 16:02:42 bsiegert Exp $
+# $MirOS: ports/x11/gnome/libgnomeprint/Makefile,v 1.8 2006/09/14 00:15:19 tg Exp $
 # $OpenBSD: Makefile,v 1.9 2004/12/15 13:57:56 alek Exp $
 
-COMMENT=			printing framework for GNOME
-COMMENT-cups=			CUPS module for printing framework for GNOME
+COMMENT=		printing framework for GNOME
+COMMENT-cups=		CUPS module for printing framework for GNOME
 
 VERSION=		2.8.1
-DASH_VER=		-1
+DASH_VER=		1
 DISTNAME=		libgnomeprint-${VERSION}
-PKGNAME=		${DISTNAME}${DASH_VER}
-PKGNAME-cups=		libgnomeprint-cups-${VERSION}${DASH_VER}
+PKGNAME-cups=		libgnomeprint-cups-${VERSION}-${DASH_VER}
 CATEGORIES=		x11/gnome devel
 
 HOMEPAGE=		http://www.gnome.org/projects/gnome-print/

@@ -1,13 +1,12 @@
 # $OpenBSD: Makefile,v 1.26 2004/05/14 18:59:18 lebel Exp $
 
-COMMENT=			Z shell, Bourne shell-compatible, release flavor
-COMMENT-zftp=			Z shell embedded ftp client
+COMMENT=		Z shell, Bourne shell-compatible, release flavor
+COMMENT-zftp=		Z shell embedded ftp client
 
-VERSION=	4.2.0
-DASH_VER=	-0
-PKGNAME=	zsh-${VERSION:C/-//g}${DASH_VER}
-DISTNAME=	zsh-${VERSION}
-CATEGORIES=	shells
+VERSION=		4.2.0
+PKGNAME=		zsh-${VERSION:C/-//g}-${DASH_VER}
+DISTNAME=		zsh-${VERSION}
+CATEGORIES=		shells
 MASTER_SITES=	ftp://ftp.zsh.org/zsh/ \
 		http://www.zsh.org/pub/ \
 		ftp://ftp.sterling.com/zsh/ \
@@ -17,7 +16,7 @@ MASTER_SITES=	ftp://ftp.zsh.org/zsh/ \
 		ftp://ftp.ips.oz.au/pub/packages/zsh/ \
 		ftp://ftp.uit.no/pub/unix/shells/zsh/
 
-HOMEPAGE=	http://www.zsh.org/
+HOMEPAGE=		http://www.zsh.org/
 
 
 PERMIT_PACKAGE_CDROM=	Yes
@@ -45,7 +44,7 @@ CONFIGURE_ARGS+=--disable-dynamic
 MULTI_PACKAGES=	-zftp
 SUBPACKAGE?=
 .  for i in ${MULTI_PACKAGES}
-PKGNAME$i=	zsh$i-${VERSION:C/-//g}${DASH_VER}
+PKGNAME$i=	zsh$i-${VERSION:C/-//g}-${DASH_VER}
 .  endfor
 .  if defined(PACKAGING) && !empty(SUBPACKAGE)
 RUN_DEPENDS=	::shells/zsh/stable

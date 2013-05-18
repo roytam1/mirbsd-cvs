@@ -1,8 +1,6 @@
-# $MirOS: ports/www/gtk-webcore/Makefile.inc,v 1.1 2005/06/14 16:49:25 bsiegert Exp $
+# $MirOS: ports/www/gtk-webcore/Makefile.inc,v 1.2 2006/02/09 11:15:34 tg Exp $
 
 VERSION=		0.5.0
-DASH_VER?=		0
-PKGNAME=		${DISTNAME}-${DASH_VER}
 CATEGORIES=		www x11 x11/gnome
 
 HOMEPAGE=		http://gtk-webcore.sourceforge.net

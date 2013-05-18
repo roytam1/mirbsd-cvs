@@ -1,20 +1,19 @@
-# $MirOS: ports/multimedia/transcode/Makefile,v 1.5 2006/06/03 16:02:40 bsiegert Exp $
+# $MirOS: ports/multimedia/transcode/Makefile,v 1.6 2006/09/14 00:11:28 tg Exp $
 # $OpenBSD: Makefile,v 1.2 2004/06/24 19:27:00 sturm Exp $
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=			video stream processing tools
-COMMENT-dv=			transcode plugins utilizing libdv
-COMMENT-mjpegtools=			transcode plugins utilizing mjpegtools
-COMMENT-xvidcore=			transcode plugins utilizing xvidcore
+COMMENT=		video stream processing tools
+COMMENT-dv=		transcode plugins utilizing libdv
+COMMENT-mjpegtools=	transcode plugins utilizing mjpegtools
+COMMENT-xvidcore=	transcode plugins utilizing xvidcore
 
 VERSION=		0.6.12
-DASH_VER=		-1
+DASH_VER=		1
 DISTNAME=		transcode-${VERSION}
-PKGNAME=		${DISTNAME}${DASH_VER}
-PKGNAME-dv=		transcode-dv-${VERSION}${DASH_VER}
-PKGNAME-mjpegtools=	transcode-mjpegtools-${VERSION}${DASH_VER}
-PKGNAME-xvidcore=	transcode-xvidcore-${VERSION}${DASH_VER}
+PKGNAME-dv=		transcode-dv-${VERSION}-${DASH_VER}
+PKGNAME-mjpegtools=	transcode-mjpegtools-${VERSION}-${DASH_VER}
+PKGNAME-xvidcore=	transcode-xvidcore-${VERSION}-${DASH_VER}
 
 CATEGORIES=	multimedia graphics audio
 HOMEPAGE=	http://zebra.fh-weingarten.de/~transcode/

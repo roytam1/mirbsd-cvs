@@ -1,12 +1,11 @@
-# $MirOS: ports/x11/blackbox/Makefile,v 1.2 2005/07/06 19:21:38 bsiegert Exp $
+# $MirOS: ports/x11/blackbox/Makefile,v 1.3 2006/09/14 00:15:09 tg Exp $
 # $OpenBSD: Makefile,v 1.34 2004/02/25 02:35:17 naddy Exp $
 
-COMMENT=			small & pretty window manager for 8 and more bits displays
+COMMENT=		small & pretty window manager for 8 and more bits displays
 
 VERSION=		0.65.0
-DASH_VER=		-1
+DASH_VER=		1
 DISTNAME=		blackbox-${VERSION}
-PKGNAME=		blackbox-${VERSION}${DASH_VER}
 CATEGORIES=		x11
 
 HOMEPAGE=		http://blackboxwm.sourceforge.net/

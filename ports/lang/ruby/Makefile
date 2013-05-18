@@ -1,15 +1,14 @@
-# $MirOS: ports/lang/ruby/Makefile,v 1.3 2006/02/01 15:42:15 tg Exp $
+# $MirOS: ports/lang/ruby/Makefile,v 1.4 2006/09/14 00:10:27 tg Exp $
 # $OpenBSD: Makefile,v 1.27 2004/02/20 22:52:57 couderc Exp $
 
 # to fix this, use ${OStriplet} or OSname+OSREV or OSname+OSver
 BROKEN="OSname and OSrev abuse in lang/ruby/Makefile"
 
-COMMENT=			object oriented script language with threads
+COMMENT=		object oriented script language with threads
 
 VERSION=		1.8.1
-DASH_VER=		-1
+DASH_VER=		1
 DISTNAME=		ruby-${VERSION}
-PKGNAME=		${DISTNAME}${DASH_VER}
 CATEGORIES=		lang
 
 HOMEPAGE=		http://www.ruby-lang.org/

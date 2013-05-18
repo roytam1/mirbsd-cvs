@@ -1,14 +1,13 @@
-# $MirOS: ports/x11/gtk+/Makefile,v 1.8 2006/02/09 11:15:51 tg Exp $
+# $MirOS: ports/x11/gtk+/Makefile,v 1.9 2006/09/14 00:15:24 tg Exp $
 # $OpenBSD: Makefile,v 1.14 2004/03/30 15:48:29 sturm Exp $
 
-NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
+NOT_FOR_PLATFORM=		${NOPIC_PLATFORMS}
 COMMENT=			multi-platform graphical toolkit
 COMMENT-docs=			gtk+-2 documentation
 VERSION=			2.8.6
 DISTNAME=			gtk+-${VERSION}
-DASH_VER=			-0
-PKGNAME=			gtk+2-${VERSION}${DASH_VER}
-PKGNAME-docs=			gtk+2-docs-${VERSION}${DASH_VER}
+PKGNAME=			gtk+2-${VERSION}-${DASH_VER}
+PKGNAME-docs=			gtk+2-docs-${VERSION}-${DASH_VER}
 CATEGORIES=			x11 devel
 HOMEPAGE=			http://www.gtk.org
 RESPONSIBLE=			Benny Siegert <bsiegert@gmx.de>
