@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/Makefile.sparc-big,v 1.5 2008/10/21 01:35:59 tg Exp $
+# $MirOS: src/distrib/common/Makefile.sparc-big,v 1.6 2008/10/21 01:43:01 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.14 2002/05/01 19:21:28 mickey Exp $
 
 RAWLABEL=
@@ -9,8 +9,20 @@ FLOPPY=		no
 CDROM_PAD=	8 * 16
 
 cdrom-mdcopy:
+	# fix path to default kernel file in second-stage boot loader
+	set -A sect_text -- $$(objdump -wh --target=a.out-sunos-big \
+	    ${WRKDIR}/b_${MACHINE}.ldr | fgrep .text); \
+	(( fofs_text = 0x$${sect_text[5]} )); \
+	nm --target=a.out-sunos-big ${WRKDIR}/b_${MACHINE}.ldr |& \
+	while read -p adr typ sym; do \
+		[[ $$sym = @(___defkernel|_start) ]] || continue; \
+		eval typeset -i10 sym$$sym=0x\$$adr; \
+	done; \
+	typeset -Uui10 ofs; \
+	(( ofs = sym___defkernel - sym_start + fofs_text )); \
+	print -n v${OSrev}/${MACHINE}/bsd.rd\\0 | \
+	    dd of=${WRKDIR}/b_${MACHINE}.ldr bs=1 seek=$$ofs conv=notrunc
 	ln ${WRKDIR}/v${OSrev}/${MACHINE}/bsd.rd ${WRKDIR}/vmunix # for kicks
-	ln ${WRKDIR}/v${OSrev}/${MACHINE}/bsd.rd ${WRKDIR}/bsd	# no comment…
 
 cdrom-mdboot:
 	getextent_cd9660 -f ${CDROM} b_${MACHINE}.ldr | ${MKSH} ${BOOTSH} \

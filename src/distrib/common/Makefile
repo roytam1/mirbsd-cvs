@@ -210,7 +210,9 @@ cdrom-prepare: bsd.rd
 		pax -v -rw -pe . ${WRKDIR}/contrib/; \
 	fi
 	cp ${BOOT} ${WRKDIR}/b_${MACHINE}.ldr
+.if exists(${TOPDIR}/common/boot.cfg.${MACHINE})
 	cp ${TOPDIR}/common/boot.cfg.${MACHINE} ${WRKDIR}/boot.cfg
+.endif
 	cp bsd.rd ${BOOTSH} ${WRKDIR}/v${OSrev}/${MACHINE}/
 	cp ${TOPDIR}/common/00-README ${WRKDIR}/
 	chmod -R u+w ${WRKDIR}
