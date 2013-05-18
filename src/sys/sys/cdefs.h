@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/sys/cdefs.h,v 1.23 2009/10/16 17:35:57 tg Exp $ */
+/**	$MirOS: src/sys/sys/cdefs.h,v 1.24 2010/01/01 18:27:41 tg Exp $ */
 /*	$OpenBSD: cdefs.h,v 1.18 2005/05/27 21:28:12 millert Exp $	*/
 /*	$NetBSD: cdefs.h,v 1.16 1996/04/03 20:46:39 christos Exp $	*/
 
@@ -278,7 +278,7 @@
  *	__POSIX_VISIBLE
  *	__XPG_VISIBLE
  *	__ISO_C_VISIBLE
- *	__OPENBSD_VISIBLE
+ *	__BSD_VISIBLE
  */
 
 /*
@@ -420,6 +420,12 @@
 #endif
 #ifndef __OPENBSD_VISIBLE
 # define __OPENBSD_VISIBLE	1
+#endif
+
+/* transitional period */
+#undef __BSD_VISIBLE
+#ifdef __OPENBSD_VISIBLE
+#define __BSD_VISIBLE		__OPENBSD_VISIBLE
 #endif
 
 #endif /* !_CDEFS_H_ */
