@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/stand/bootxx/Makefile,v 1.11 2009/06/29 20:10:26 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/bootxx/Makefile,v 1.12 2009/06/29 20:32:38 tg Exp $
 
 PROG=		bootxx
 SRCS+=		bootxx.S
@@ -28,6 +28,9 @@ ${.CURDIR}/disasm: ${PROG}
 BOOT_TYPE?=	bsd
 .if (${BOOT_TYPE:L} == "grub") || (${BOOT_TYPE:L} == "grubfat")
 CPPFLAGS+=	-USA_LINKSEG -DSA_LINKSEG=0x0800 -DBOOT_GRUB
+.  if ${BOOT_TYPE:L} == "grubfat"
+CPPFLAGS+=	BPB_SPACE
+.  endif
 
 all: boot${BOOT_TYPE:L}.mksh
 
