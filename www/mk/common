@@ -1,4 +1,4 @@
-rcsid_common='$MirOS: www/mk/common,v 1.1 2007/06/09 23:29:53 tg Exp $'
+rcsid_common='$MirOS: www/mk/common,v 1.2 2008/07/24 13:09:38 tg Exp $'
 #-
 # Copyright (c) 2007, 2008
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -21,7 +21,11 @@ rcsid_common='$MirOS: www/mk/common,v 1.1 2007/06/09 23:29:53 tg Exp $'
 # RFC 2396 and some optional characters _plus_ apostrophe
 # -> escapes all shell meta-characters as well
 function uri_escape {
-	print -nr -- "$*" | sed -e '
+	if (( $# )); then
+		print -nr -- "$@"
+	else
+		cat
+	fi | sed -e '
 	    s.%.%25.g
 	    s.;.%3B.g
 	    s./.%2F.g
@@ -49,4 +53,23 @@ function uri_escape {
 	    s.`.%60.g
 	    s.'\''.%27.g
 	'
+}
+
+# escape XHTML characters (three mandatory XML ones plus double quotes,
+# the latter in an XML safe fashion numerically though)
+function xhtml_escape {
+	if (( $# )); then
+		print -nr -- "$@"
+	else
+		cat
+	fi | sed \
+	    -e 's&\&amp;g' \
+	    -e 's<\&lt;g' \
+	    -e 's>\&gt;g' \
+	    -e 's"\&#34;g'
+}
+
+# escape ampersands for sed (pipe only: post-processing)
+function sed_escape {
+	sed -e 's&\\\&g'
 }

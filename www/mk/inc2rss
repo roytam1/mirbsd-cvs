@@ -1,4 +1,4 @@
-rcsid_inc2rss='$MirOS: www/mk/inc2rss,v 1.28 2009/03/22 15:01:08 tg Exp $'
+rcsid_inc2rss='$MirOS: www/mk/inc2rss,v 1.29 2009/07/16 15:43:08 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -11,9 +11,6 @@ name=$1
 
 #DEPEND mk/parser
 . "$TOP"/mk/parser
-
-#DEPEND mk/common
-. "$TOP"/mk/common
 
 #DEPEND mk/htsconv
 . "$TOP"/mk/htsconv
@@ -64,6 +61,7 @@ function rss_putfooter {
 }
 
 function rss_output {
+	local rcmd i x
 	integer ent=$1
 	rpath=$2
 	eid=$(uri_escape "${e_id[ent]}")
@@ -106,8 +104,20 @@ function rss_output {
 		print "<author>${eauthor}</author>\n"
 	fi
 	print "<description>"
-	mws_content <<<"${ei_body[ent]%%@(<!-- RSS stop -->)*}" | \
-	    sed -e 's&\&amp;g' -e 's<\&lt;g' -e 's>\&gt;g'
+	if [[ -n ${e_pictures[ent]} ]]; then
+		set -A rcmd -- sed
+		for i in ${e_pictures[ent]}; do
+			i=${i%%:*}
+			eval x='${e_picture'$i'[ent]}'
+			rcmd[${#rcmd[*]}]=-e
+			rcmd[${#rcmd[*]}]="s@!PICTURE${i}!@$(xhtml_escape \
+			    "$x" | sed_escape)g"
+		done
+	else
+		rcmd=cat
+	fi
+	"${rcmd[@]}" <<<"${ei_body[ent]%%@(<!-- RSS stop -->)*}" | \
+	    mws_content | xhtml_escape
 	print "</description></item>"
 }
 

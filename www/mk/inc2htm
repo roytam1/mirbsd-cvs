@@ -1,4 +1,4 @@
-rcsid_inc2htm='$MirOS: www/mk/inc2htm,v 1.24 2009/06/21 11:01:20 tg Exp $'
+rcsid_inc2htm='$MirOS: www/mk/inc2htm,v 1.25 2009/07/19 15:21:36 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -10,9 +10,6 @@ name=$1
 
 #DEPEND mk/parser
 . "$TOP"/mk/parser
-
-#DEPEND mk/common
-. "$TOP"/mk/common
 
 #DEPEND mk/htsconv
 . "$TOP"/mk/htsconv
@@ -35,6 +32,8 @@ done
 cd "$wd"
 
 function output {
+	local rcmd i j x
+
 	rpath=$1
 	efe="${rpath}${ei_srcf[ent]}_${eid}.htm#${eid}_${ei_srcf[ent]}"
 	title="${e_date[ent]}${e_author[ent]+ by }${e_author[ent]}"
@@ -58,10 +57,27 @@ function output {
 		done
 		subtitle="$subtitle</div>$nl"
 	fi
+	if [[ -n ${e_pictures[ent]} ]]; then
+		set -A rcmd -- sed
+		for i in ${e_pictures[ent]}; do
+			case $i {
+			(*:*)	j=${i#*:}; i=${i%%:*} ;;
+			(*)	j= ;;
+			}
+			eval x='${e_picture'$i'[ent]}'
+			rcmd[${#rcmd[*]}]=-e
+			rcmd[${#rcmd[*]}]="s@!PICTURE${i}!@$(mws_makepiclink \
+			    "$x" "$j" d | sed_escape)g"
+		done
+	else
+		rcmd=cat
+	fi
 	cat <<-EOF
 		<div class="wltitle">
 		<h2 class="wlentry" id="${e_id[ent]}_${ei_srcf[ent]}"><a href="${efe}">${title}</a></h2>
 		${subtitle}</div>
+	EOF
+	"${rcmd[@]}" <<-EOF
 		${ei_body[ent]/'<!-- RSS stop -->'}
 		</div>
 	EOF

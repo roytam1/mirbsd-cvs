@@ -1,4 +1,4 @@
-/* $MirOS: www/files/vstyle.css,v 1.22 2009/09/25 19:52:06 tg Exp $ */
+/* $MirOS: www/files/vstyle.css,v 1.23 2009/10/30 17:05:33 tg Exp $ */
 
 /*-
  * The MirOS Project - Webpages
@@ -272,9 +272,9 @@ tt {
 }
 
 .revbox {
-	background:#000000;
+	background:#242424;
 	color:#FFFFFF;
-	padding:3px;
+	padding:7px;
 }
 
 .b {

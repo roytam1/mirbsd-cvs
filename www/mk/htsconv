@@ -1,7 +1,10 @@
-rcsid_htsconv='$MirOS: www/mk/htsconv,v 1.41 2009/09/25 18:39:08 tg Exp $'
+rcsid_htsconv='$MirOS: www/mk/htsconv,v 1.42 2009/10/30 16:41:21 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
+
+#DEPEND mk/common
+. "$TOP"/mk/common
 
 mws__pagename=
 mws__header=
@@ -69,6 +72,15 @@ function mws_makepic {
 	print $hpic
 }
 
+function mws_makepiclink {
+	local ptext pfile
+
+	pfile=$(mws_makepic "$@")
+	ptext=$(xhtml_escape "$1")
+
+	print "<img src=\"@@RELPATH@@hashed/$pfile\" alt=\"$ptext\" />"
+}
+
 function mws_putheader {
 	local rcsid=$1 hpic
 
@@ -76,11 +88,8 @@ function mws_putheader {
 		print -u2 Internal error: mws_basepath not called!
 		exit 1
 	fi
-	if [[ -n $mws__headline ]]; then
-		hpic=$(mws_makepic "$mws__headline" "$mws__fontsize" s)
-		mws__headline="$nl<h1><img alt=\"$mws__headline\""
-		mws__headline="$mws__headline src=\"@@RELPATH@@hashed/$hpic\" /></h1>"
-	fi
+	[[ -n $mws__headline ]] && mws__headline="$nl<h1>$(mws_makepiclink \
+	    "$mws__headline" "$mws__fontsize" s)</h1>"
 	mws__content <<-EOF
 		<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
 		 "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
