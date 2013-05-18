@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.48 2006/05/26 19:45:37 tg Exp $
+# $MirOS: src/Makefile,v 1.49 2006/05/26 20:01:12 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -214,7 +214,7 @@ _do-dist:
 .endif
 .ifdef QUICK_DIST
 	@echo QUICK dist-build mode active:
-	@echo not building XFree86®, ports or HTML manual pages.
+	@echo not building XFree86®, ports, live CD or HTML manual pages.
 .endif
 	@echo "============================================================"
 	${SUDO} rm -rf ${BSDOBJDIR} ${BSDRELDIR}
@@ -286,7 +286,8 @@ _do-dist:
 	@date
 	@/bin/ls -Fl ${BSDRELDIR}/rel
 	@echo "============================================================"
-.if exists(${BSDSRCDIR}/distrib/${MACHINE}/livecd/Makefile)
+.if exists(${BSDSRCDIR}/distrib/${MACHINE}/livecd/Makefile) && \
+    !defined(QUICK_DIST)
 	cd ${BSDSRCDIR}/distrib/${MACHINE}/livecd && ${MAKE} it #cleanworkdir
 	@echo
 	@echo Done with MirOS Snapshot generation.
