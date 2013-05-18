@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/bootxx/bootxx.S,v 1.4 2007/02/26 03:07:07 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/bootxx/bootxx.S,v 1.5 2007/02/26 03:53:00 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2007
@@ -117,7 +117,13 @@ LTENTRY(Lmain)
 	mov	ax,offset LsBRK
 	xchg	bh,[bpbtpc+1]
 	and	bh,0x80
-	jnz	LbCHS
+	jnz	LbCHS		/* yep, hardcoded via bootloader */
+	push	ax
+	mov	ah,2		/* get shift state of keyboard */
+	int	0x16
+	and	al,3		/* any shift key pressed? */
+	pop	ax
+	jnz	LbCHS		/* if so, go to single sector mode */
 	/* check for LBA vs. CHS */
 	mov	ah,0x41		/* LBA installation check */
 	mov	bx,0x55AA	/* magic */
