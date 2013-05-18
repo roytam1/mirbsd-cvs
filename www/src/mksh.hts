@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.319 2010/02/23 22:11:27 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.320 2010/02/25 11:58:54 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -22,7 +22,7 @@ mws_content <<'EOF'
  <li>information about <a href="mksh_old.htm">old versions</a></li>
 </ul>
 
-<h2>mksh(1) R39b</h2>
+<h2>mksh(1) R39c</h2>
 
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
  implementation of the Korn Shell programming language and a successor to the
@@ -42,8 +42,8 @@ mws_content <<'EOF'
  src="@@RELPATH@@pics/mksh128x100.png" /></object></td></tr></table>
 
 <h2 id="prefetch">Introduction</h2>
-<p>The current version of mksh is <strong>mksh R39b</strong> from
- <em>29 January 2010</em>.</p>
+<p>The current version of mksh is <strong>mksh R39c</strong> from
+ <em>25 February 2010</em>.</p>
 <p>Thanks to “Der Verein <a href="http://www.trash.net/verein/">trash.net</a>”
  for sponsoring access to a Solaris 8 box. Thanks to HP TestDrive/PvP, which
  helps in keeping mksh portable to several Unixes and compilers, and track down
@@ -171,14 +171,14 @@ mws_content <<'EOF'
  extract from the CPIO distfile and is available even on a stock Microsoft®
  Windows® installation (<tt>\WINNT\SYSTEM32\PAX.EXE</tt>).</p>
 <h3 id="mirrors">Known Mirrors</h3><ul>
- <li><a href="https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R39b.cpio.gz">https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R39b.cpio.gz</a></li>
- <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R39b.cpio.gz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R39b.cpio.gz</a></li>
+ <li><a href="https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R39c.cpio.gz">https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R39c.cpio.gz</a></li>
+ <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R39c.cpio.gz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R39c.cpio.gz</a></li>
 </ul>
 <h3 id="hashes">Checksums and Hashes</h3><ul>
- <li>RMD160 (mksh-R39b.cpio.gz) = 5f7a5ff75700b229f0886521a069de46001e6a8e</li>
- <li>TIGER (mksh-R39b.cpio.gz) = 6436c46a99467389966bae3fec5434be21cfd76245e13fa8</li>
- <li>2720723829 294189 /MirOS/dist/mir/mksh/mksh-R39b.cpio.gz</li>
- <li>MD5 (mksh-R39b.cpio.gz) = 91274beff2be95260a51234d2c7bb4f7</li>
+ <li>RMD160 (mksh-R39c.cpio.gz) = 02a74d4158bef6cf98012ff60c3c0bfe5b095924</li>
+ <li>TIGER (mksh-R39c.cpio.gz) = 7ce2a8601bdac532cad2b3bfc7434571e29731224fb73464</li>
+ <li>1146532199 296033 /MirOS/dist/mir/mksh/mksh-R39c.cpio.gz</li>
+ <li>MD5 (mksh-R39c.cpio.gz) = 0c3cd172b47eefcdf9a302baa42f5092</li>
  <li style="list-style:none;">All official distfiles are gzsig(1)d.</li>
 </ul>
 
@@ -191,9 +191,9 @@ mws_content <<'EOF'
 <p>The first example is using BSD paxtar (MirOS BSD, OpenBSD, NetBSD®), or
  “bsdtar” (DragonFly); the second and third use cpio(1) or pax(1) and are
  for most operating systems; the fourth is for Debian.</p><ul>
-<li>$ tar xzf mksh-R39b.cpio.gz &amp;&amp; cd mksh</li>
-<li>$ gzip -dc mksh-R39b.cpio.gz | cpio -mid &amp;&amp; cd mksh</li>
-<li>$ gzip -dc mksh-R39b.cpio.gz | pax -r &amp;&amp; cd mksh</li>
+<li>$ tar xzf mksh-R39c.cpio.gz &amp;&amp; cd mksh</li>
+<li>$ gzip -dc mksh-R39c.cpio.gz | cpio -mid &amp;&amp; cd mksh</li>
+<li>$ gzip -dc mksh-R39c.cpio.gz | pax -r &amp;&amp; cd mksh</li>
 </ul>
 
 <h3 id="compile">Compilation</h3>
@@ -239,8 +239,8 @@ mws_content <<'EOF'
 <li><tt>CC</tt> (cc) – the C compiler used</li>
 <li><tt>CFLAGS</tt> (-O2 / -xO2) – optimiser and other compiler flags used</li>
 <li><tt>CPPFLAGS</tt> (no default) – additional cpp(1) flags</li>
-<li><tt>LDFLAGS</tt> (set on AIX for libcrypt) – additional CCLD flags</li>
-<li><tt>LIBS</tt> (-lcrypt on AIX and Interix; empty otherwise) – additional
+<li><tt>LDFLAGS</tt> – additional CCLD flags</li>
+<li><tt>LIBS</tt> (-lcrypt on Interix; empty otherwise) – additional
  libraries to pull in</li>
 <li><tt>NOWARN</tt> (-Wno-error / -errwarn=%none) – $CC option to disable
  bailing out at errors; used during mirtoconf checks</li>
@@ -481,8 +481,6 @@ mws_content <<'EOF'
 
 <h5 id="oe_aix">OS: AIX</h5>
 <p>Support for AIX with xlC appeared in mksh R30.</p>
-<p>If passing custom LDFLAGS, don’t forget the export symbols required for
- using libcrypt. If passing custom LIBS, don’t forget <tt>-lcrypt</tt>.</p>
 
 <h5 id="oe_beos">OS: BeOS / Haiku</h5>
 <p>ahoka@ has begun porting, but it doesn’t work yet.</p>
@@ -674,6 +672,9 @@ mws_content <<'EOF'
  changes in the build system (<tt>Build.sh</tt> and friends, compiler
  support, packaging conventions, bad examples, etc). This is also <em>not</em>
  <a href="#caveat">the users' upgrade caveat list</a>.</p>
+<p>mksh R39c should fix a bug that could have led to accidental removal of
+ the manpage when building in the source directory. AIX builds no longer
+ uselessly pull in libcrypt.</p>
 <p>mksh R39b now has a separate <a href="#caveat">caveat</a> section listing
  the most relevant user-visible changes, split off this packagers' list.
  The optional, undesirable, unsupported printf(1) builtin is now documented
@@ -829,6 +830,13 @@ mws_content <<'EOF'
 <h2 id="caveat">Users' Upgrade Caveat</h2>
 <p>This does not necessarily list new features, only these which users
  should be aware of for existing scripts.</p>
+<p id="c39c">R39c: Evaluation of things like <tt>${foo:-bar}</tt> and
+ <tt>"${foo+bar}"</tt> now behave standards-compliant (SUSv4) and more
+ like all other shells, sans bugs. In particular, if a <tt>${}</tt>
+ expression is double-quoted, the apostrophe/single quote loses its
+ special meaning within, whereas it still acts as quote character if
+ the expression is not double quoted. Other special characters' meanings
+ have been updated to match standardised/expected behaviour.</p>
 <p id="c39b">R39b: Due to a lot of bugfixes and some enhancements, take
  care when upgrading. The realpath builtin is now always available. There
  are now both “±o sh” and “±o posix”, and they <a href="#r39b">differ</a>
@@ -866,13 +874,14 @@ mws_content <<'EOF'
   limits in a single invocation from oksh (thanks millert) -->
  <li>[ahoka] Begin porting to <a href="http://www.haiku-os.org/">Haiku</a>
   and, implicitly, BeOS (not finished yet)</li>
- <li>[tg] Build system, ode and testsuite cleanup, also for style(9)</li>
+<p id="r39c">mksh R39c is an important minor bugfix release:</p><ul>
+ <li>[tg] Build system, code, docs and testsuite cleanup, also style(9)</li>
  <li>[tg] Build.sh now requires people to whitelist conftest*.c</li>
  <li>[tg] AIX builds no longer pull in libcrypt uselessly by default</li>
- <li>[tg] Parse and evaluate <tt>${parameter op word}</tt> correctly (NOT COMPLETE YET!)</li>
+ <li>[tg] Parse and evaluate <tt>${parameter op word}</tt> correctly</li>
  <li>[tg] Fix possible SIGSEGV in interactive mode <tt>bind</tt> builtin due
   to mis-optimisation of gcc combined with a bogus prototype; discovered by
-  Grml's Frank Terbeck</li>
+  Grml.org's Frank Terbeck (ft), thanks!</li>
  <li>[tg] Prevent Build.sh from accidentally removing <tt>mksh.1</tt></li>
 </ul>
 <p id="r39b">mksh R39b is a major stability and bugfix update:</p><ul>

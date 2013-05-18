@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/news.inc,v 1.132 2010/02/14 19:28:02 tg Exp $
+RCSID: $MirOS: www/data/news.inc,v 1.133 2010/02/23 22:57:47 tg Exp $
 Title: Older news from the MirOS Project
 Date: 01.03.2006
 
@@ -1890,4 +1890,17 @@ Tag: bug snapshot
  <tt>/usr/ports/infrastructure</tt> directory to get later versions,
  which fixed these. (Half of the problems were inherited from OpenBSD,
  whose use of a Bourne shell construct predates POSIX/SUSv4.)</p>
+----
+Title: mksh R39c released
+Date: 25.02.2010 21:40
+Author: tg@
+Tag: mksh
+
+<p>The <a href="@@RELPATH@@mksh.htm#r39b">MirBSD Korn Shell R39c</a> has
+ been released. This upgrade is strongly recommended for everyone. Focus
+ is on minor but important bug fixes. The recently introduced list of <a
+ href="@@RELPATH@@mksh.htm#c39c">caveats</a> contains language-relevant
+ user-visible changes.</p>
+<p>We are proud to announce that the android-x86 project's <tt>/bin/sh</tt>
+ is now an mksh(1) as well.</p>
 ----
