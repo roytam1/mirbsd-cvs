@@ -1,4 +1,4 @@
-/* $MirOS: www/files/vstyle.css,v 1.23 2009/10/30 17:05:33 tg Exp $ */
+/* $MirOS: www/files/vstyle.css,v 1.24 2009/10/31 17:02:38 tg Exp $ */
 
 /*-
  * The MirOS Project - Webpages
@@ -194,10 +194,6 @@ div.wlentry {
 	margin:0px;
 }
 
-div.wlentry a {
-	font-style:italic;
-}
-
 div.wltitle {
 	padding-bottom:3px;
 	border-bottom:2px solid #666;
@@ -211,6 +207,7 @@ h2.wlentry {
 
 h2 a {
 	text-decoration:none;
+	font-style:italic;
 	border-bottom:none !important;
 }
 
