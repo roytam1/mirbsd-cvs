@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.sbin/httpd/src/modules/standard/mod_dir.c,v 1.2 2005/03/13 19:16:55 tg Exp $ */
+/* $MirOS: src/usr.sbin/httpd/src/modules/standard/mod_dir.c,v 1.3 2005/05/04 18:31:07 tg Exp $ */
 
 /* ====================================================================
  * The Apache Software License, Version 1.1
@@ -71,10 +71,7 @@
 #include "http_main.h"
 #include "util_script.h"
 
-#ifndef __RCSID
-#define	__RCSID(x)	static const char __rcsid[] = (x)
-#endif
-__RCSID("$MirOS: src/usr.sbin/httpd/src/modules/standard/mod_dir.c,v 1.2 2005/03/13 19:16:55 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/httpd/src/modules/standard/mod_dir.c,v 1.3 2005/05/04 18:31:07 tg Exp $");
 
 module MODULE_VAR_EXPORT dir_module;
 

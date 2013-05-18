@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/httpd/src/modules/standard/mod_log_config.c,v 1.4 2005/05/04 18:31:07 tg Exp $ */
+/**	$MirOS: src/usr.sbin/httpd/src/modules/standard/mod_log_config.c,v 1.5 2006/04/03 20:54:47 tg Exp $ */
 /*	$OpenBSD: mod_log_config.c,v 1.17 2005/02/09 12:13:10 henning Exp $ */
 
 /* ====================================================================
@@ -190,10 +190,7 @@
 #include "fdcache.h"
 #include <limits.h>
 
-#ifndef __RCSID
-#define	__RCSID(x)	static const char __rcsid[] = (x)
-#endif
-__RCSID("$MirOS: src/usr.sbin/httpd/src/modules/standard/mod_log_config.c,v 1.4 2005/05/04 18:31:07 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/httpd/src/modules/standard/mod_log_config.c,v 1.5 2006/04/03 20:54:47 tg Exp $");
 
 module MODULE_VAR_EXPORT config_log_module;
 

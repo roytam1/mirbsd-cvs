@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.sbin/httpd/src/main/util.c,v 1.5 2006/04/03 20:54:42 tg Exp $ */
+/* $MirOS: src/usr.sbin/httpd/src/main/util.c,v 1.6 2006/09/20 23:45:08 tg Exp $ */
 
 /* ====================================================================
  * The Apache Software License, Version 1.1
@@ -81,10 +81,7 @@
  */
 #include "test_char.h"
 
-#ifndef __RCSID
-#define	__RCSID(x)	static const char __rcsid[] = (x)
-#endif
-__RCSID("$MirOS: src/usr.sbin/httpd/src/main/util.c,v 1.5 2006/04/03 20:54:42 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/httpd/src/main/util.c,v 1.6 2006/09/20 23:45:08 tg Exp $");
 
 /* we assume the folks using this ensure 0 <= c < 256... which means
  * you need a cast to (unsigned char) first, you can't just plug a

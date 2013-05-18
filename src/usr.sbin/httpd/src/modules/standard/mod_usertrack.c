@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.sbin/httpd/src/modules/standard/mod_usertrack.c,v 1.3 2005/05/04 18:31:08 tg Exp $ */
+/* $MirOS: src/usr.sbin/httpd/src/modules/standard/mod_usertrack.c,v 1.4 2006/04/03 20:54:49 tg Exp $ */
 
 /* ====================================================================
  * The Apache Software License, Version 1.1
@@ -100,10 +100,7 @@
 #include "http_core.h"
 #include <sys/time.h>
 
-#ifndef __RCSID
-#define	__RCSID(x)	static const char __rcsid[] = (x)
-#endif
-__RCSID("$MirOS: src/usr.sbin/httpd/src/modules/standard/mod_usertrack.c,v 1.3 2005/05/04 18:31:08 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/httpd/src/modules/standard/mod_usertrack.c,v 1.4 2006/04/03 20:54:49 tg Exp $");
 
 module MODULE_VAR_EXPORT usertrack_module;
 

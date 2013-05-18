@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/httpd/src/modules/standard/mod_rewrite.c,v 1.6 2006/07/28 16:31:12 tg Exp $ */
+/**	$MirOS: src/usr.sbin/httpd/src/modules/standard/mod_rewrite.c,v 1.7 2006/09/20 23:45:10 tg Exp $ */
 /*	$OpenBSD: mod_rewrite.c,v 1.25 2006/07/28 13:52:30 henning Exp $ */
 
 /* ====================================================================
@@ -100,10 +100,7 @@
 #include <sys/types.h>
 #include <sys/uio.h>
 
-#ifndef __RCSID
-#define	__RCSID(x)	static const char __rcsid[] = (x)
-#endif
-__RCSID("$MirOS: src/usr.sbin/httpd/src/modules/standard/mod_rewrite.c,v 1.6 2006/07/28 16:31:12 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/httpd/src/modules/standard/mod_rewrite.c,v 1.7 2006/09/20 23:45:10 tg Exp $");
 
 /*
 ** +-------------------------------------------------------+
