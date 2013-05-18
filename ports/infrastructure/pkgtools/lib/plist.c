@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/lib/plist.c,v 1.17 2009/11/29 13:56:37 bsiegert Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/lib/plist.c,v 1.18 2009/12/08 18:49:17 bsiegert Exp $ */
 /*	$OpenBSD: plist.c,v 1.17 2003/08/21 20:24:57 espie Exp $	*/
 
 /*
@@ -26,7 +26,7 @@
 #include <md5.h>
 #include "rcdb.h"
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/plist.c,v 1.17 2009/11/29 13:56:37 bsiegert Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/plist.c,v 1.18 2009/12/08 18:49:17 bsiegert Exp $");
 
 /* this struct defines a plist command type */
 typedef struct cmd_t {
@@ -127,11 +127,13 @@ void add_plist_at(package_t *p, plist_t *after, pl_ent_t type, const char *arg)
  * the file is only added if it is not already in the plist as a file
  * entry.
  */
-void add_plist_glob(package_t *pkg, plist_t *after, const char *dir, const char *pattern, bool nodups)
+void
+add_plist_glob(package_t *pkg, plist_t *after, const char *dir, const char *pattern,
+    bool nodups)
 {
 	glob_t pglob;
 	int fd;
-	unsigned int i;
+	int i;
 
 	memset(&pglob, 0, sizeof(pglob));
 	fd = open(".", O_RDONLY, 0);
@@ -656,7 +658,7 @@ delete_extra(plist_t *p, const char *Where, const rm_cfg_t remove_config, bool d
 		    return;
 		}
 	    }
-		
+
 	    if (Verbose)
 		printf("Delete extra file %s\n", fname);
 	    if (!Fake && unlink(fname) == -1)
