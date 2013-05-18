@@ -365,3 +365,5 @@ you might get an error; although, support for more features
 can surely be added.
 .Pp
 The current practical limit on glyph width is 32.
+0-bit wide glyphs cause an error; those with height 0 are
+silently converted to an unset 1x1 bitmap.

@@ -252,7 +252,7 @@ function parse_bdfc_glyph {
 			exit 2
 		fi
 		if (( f[2] < 1 || f[2] > 32 )); then
-			print -ru2 "E: width ${f[2]} not in 1#32 at line $lno"
+			print -ru2 "E: width ${f[2]} not in 1‥32 at line $lno"
 			exit 2
 		fi
 		[[ ${f[4]} = "uni${ch#16#}" ]] && unset f[4]
@@ -444,20 +444,24 @@ function parse_bdf {
 			else
 				ck='[0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F]'
 			fi
-			bmps=
-			numlines=${cb[2]}
-			while IFS= read -r line; do
-				(( ++lno ))
-				if eval [[ '$line' != "$ck" ]]; then
-					print -ru2 "E: invalid hex encoding" \
-					    "for U+${ch#16#} (dec. $((ch)))" \
-					    "on line $lno: '$line'"
-					exit 2
-				fi
-				bmps+=$line:
-				(( --numlines )) || break
-			done
-			f[3]=${bmps%:}
+			if (( (numlines = cb[2]) )); then
+				bmps=
+				while IFS= read -r line; do
+					(( ++lno ))
+					if eval [[ '$line' != "$ck" ]]; then
+						print -ru2 "E: invalid hex encoding" \
+						    "for U+${ch#16#} (dec. $((ch)))" \
+						    "on line $lno: '$line'"
+						exit 2
+					fi
+					bmps+=$line:
+					(( --numlines )) || break
+				done
+				f[3]=${bmps%:}
+			else
+				f[2]=1
+				f[3]=00
+			fi
 			if ! IFS= read -r line || [[ $line != ENDCHAR ]]; then
 				print -ru2 "E: expected ENDCHAR after line $lno"
 				exit 2
