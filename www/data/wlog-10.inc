@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.226 2009/08/11 21:18:16 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.227 2009/08/12 14:35:11 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -4693,7 +4693,7 @@ Language: de
  und so mögen ja alle schön und gut sein… (gcc verwendet immerhin bei
  LC_MESSAGES=en_GB.UTF-8 „<span xml:lang="en">the Queen’s English</span>“
  (so halbwegs) und statt U+0060 (‘`’, muß sterben) typographisch korrekte
- Anführungszeichen (‘’). Aber… man kann sich bei „span xml:lang="en">tab
+ Anführungszeichen (‘’). Aber… man kann sich bei „<span xml:lang="en">tab
  completion</span>“ <em>leicht</em> auf „Tab-Vervollständigung“ einigen,
  alles muß man jedoch nicht übersetzen. Auf der Webseite (nicht im RSS)
  gibt’s ein Bild dazu.</p><!-- RSS stop -->
