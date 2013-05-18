@@ -1,17 +1,11 @@
-/* $MirOS: src/lib/libc/include/mir18n.h,v 1.15 2007/02/02 21:15:51 tg Exp $ */
+/* $MirOS: src/lib/libc/include/mir18n.h,v 1.16 2007/02/07 16:15:32 tg Exp $ */
 
 #ifndef _LIBC_MIR18N_H
 #define _LIBC_MIR18N_H
 
-#ifndef __STDC_ISO_10646__
-#error This code assumes that wchar_t is UCS-2HE
-#endif
-
 #if !defined(WCHAR_MAX)
 #error Include <wchar.h> first
-#endif
-
-#if WCHAR_MAX != 0xFFFD
+#elif WCHAR_MAX != 0xFFFD
 #error This code assumes that wchar_t is UCS-2HE
 #endif
 

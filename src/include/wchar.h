@@ -1,4 +1,4 @@
-/* $MirOS: src/include/wchar.h,v 1.14 2007/02/02 21:13:40 tg Exp $ */
+/* $MirOS: src/include/wchar.h,v 1.15 2007/02/06 23:33:00 tg Exp $ */
 
 /*-
  * Copyright (c) 2007
@@ -41,10 +41,15 @@ typedef	__WCHAR_TYPE__	wchar_t;
 typedef	__WINT_TYPE__	wint_t;
 #endif
 
-/* makedepend may not define __WCHAR_MAX__ */
-#if defined(__WCHAR_MAX__) && (__WCHAR_MAX__ != 65535U)
+#ifndef __IN_MKDEP
+/* makedepend may not define the constants we are checking for */
+#if __WCHAR_MAX__ != 65535U
 #error GCC __WCHAR_MAX__ does not indicate UCS-2
 #endif
+#ifndef __STDC_ISO_10646__
+#error This code assumes that wchar_t is UCS-2HE
+#endif
+#endif /* !__IN_MKDEP */
 
 typedef unsigned int wctype_t;
 typedef struct {
