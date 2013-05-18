@@ -1,6 +1,6 @@
 $MirOS: ports/misc/screen/patches/patch-etc_etcscreenrc,v 1.12 2011/09/02 21:49:03 tg Exp $
 --- etc/etcscreenrc.orig	Fri Dec  5 13:45:51 2003
-+++ etc/etcscreenrc	Wed Oct 12 19:57:18 2011
++++ etc/etcscreenrc	Wed Oct 12 20:09:42 2011
 @@ -1,20 +1,21 @@
 +# $MirSecuCron$
 +# $MirOS: ports/misc/screen/patches/patch-etc_etcscreenrc,v 1.12 2011/09/02 21:49:03 tg Exp $
@@ -48,7 +48,7 @@ $MirOS: ports/misc/screen/patches/patch-etc_etcscreenrc,v 1.12 2011/09/02 21:49:
  #the vt100 description does not mention "dl". *sigh*
  termcap  vt100 dl=5\E[M
  terminfo vt100 dl=5\E[M
-@@ -55,20 +63,20 @@ terminfo sun 'up=^K:AL=\E[%p1%dL:DL=\E[%
+@@ -55,15 +63,15 @@ terminfo sun 'up=^K:AL=\E[%p1%dL:DL=\E[%
  #xterm understands both im/ic and doesn't have a status line.
  #Note: Do not specify im and ic in the real termcap/info file as
  #some programs (e.g. vi) will (no,no, may (jw)) not work anymore.
@@ -68,18 +68,8 @@ $MirOS: ports/misc/screen/patches/patch-etc_etcscreenrc,v 1.12 2011/09/02 21:49:
  
  #
  # Do not use xterms alternate window buffer. 
- # This one would not add lines to the scrollback buffer.
--#termcap xterm|xterms|xs ti=\E7\E[?47l
-+#termcap  xterm|xterms|xs ti=\E7\E[?47l
- #terminfo xterm|xterms|xs ti=\E7\E[?47l
- 
- #make hp700 termcap/info better
-@@ -78,17 +86,41 @@ terminfo hp700 'Z0=\E[?3h:Z1=\E[?3l:hs:t
- #wyse-75-42 must have defflow control (xo = "terminal uses xon/xoff")
- #(nowadays: nx = padding doesn't work, have to use xon/off)
- #essential to have it here, as this is a slow terminal.
--termcap wy75-42 nx:xo:Z0=\E[?3h\E[31h:Z1=\E[?3l\E[31h
-+termcap  wy75-42 nx:xo:Z0=\E[?3h\E[31h:Z1=\E[?3l\E[31h
+@@ -81,14 +89,38 @@ terminfo hp700 'Z0=\E[?3h:Z1=\E[?3l:hs:t
+ termcap wy75-42 nx:xo:Z0=\E[?3h\E[31h:Z1=\E[?3l\E[31h
  terminfo wy75-42 nx:xo:Z0=\E[?3h\E[31h:Z1=\E[?3l\E[31h
  
 -#remove some stupid / dangerous key bindings
