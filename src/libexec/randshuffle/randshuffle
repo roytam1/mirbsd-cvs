@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/libexec/randshuffle/randshuffle,v 1.17 2007/03/01 22:59:48 tg Exp $
+# $MirOS: src/libexec/randshuffle/randshuffle,v 1.19 2007/06/09 15:22:10 tg Exp $
 #-
 # Copyright (c) 2006, 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -24,6 +24,8 @@
 # of said person's immediate fault when using the work as intended.
 
 export PATH=/bin:/usr/bin:/sbin:/usr/sbin
+
+[[ $1 = -f ]] && alias sleep=true
 
 sleep $((RANDOM % 120 + 30))
 (print -r "$$ $((RANDOM << 15 | RANDOM)) $PPID $SECONDS $TMOUT $KSH_VERSION"; \
