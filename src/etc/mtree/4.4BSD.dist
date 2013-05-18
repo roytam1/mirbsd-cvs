@@ -1,4 +1,4 @@
-# $MirOS: src/etc/mtree/4.4BSD.dist,v 1.7 2005/09/11 02:25:30 tg Exp $
+# $MirOS: src/etc/mtree/4.4BSD.dist,v 1.8 2005/09/23 10:51:07 tg Exp $
 # $OpenBSD: 4.4BSD.dist,v 1.176 2005/06/03 22:25:50 deraadt Exp $
 
 /set type=dir uname=root gname=wheel mode=0755
@@ -1568,11 +1568,6 @@ etc		type=dir uname=root gname=wheel mode=755
 #./var/anoncvs/anoncvs/tmp
 tmp		type=dir uname=root gname=wheel mode=1777
 #./var/anoncvs/anoncvs/tmp
-..
-
-#./var/anoncvs/anoncvs/var
-var		type=dir uname=root gname=wheel mode=755
-#./var/anoncvs/anoncvs/var
 ..
 
 #./var/anoncvs/anoncvs
