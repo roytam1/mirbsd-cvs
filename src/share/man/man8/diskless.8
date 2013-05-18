@@ -27,7 +27,7 @@
 .\" (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 .\" THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .\"
-.Dd October 2, 1994
+.Dd $Mdocdate$
 .Dt DISKLESS 8
 .Os
 .Sh NAME
@@ -191,9 +191,9 @@ manual page for more information.
 .It 4.
 If booting a Sun or Motorola client, install a copy of the
 appropriate diskless boot loader (such as
-.Pa boot.net
+.Pa boot
 from the root directory of the
-.Ox
+.Mx
 sparc tree) in the
 .Pa /tftpboot
 directory.
@@ -203,7 +203,7 @@ in HEX, a dot, and the architecture name (all upper case).
 For example:
 .Bd -literal -offset indent
 # cd /tftpboot
-# ln -s boot.net C0C5600C.SUN4
+# ln -s boot C0C5600C.SUN4
 .Ed
 .Pp
 Some architectures, such as the Sun3 and Ultrasparc machines, do not append the
