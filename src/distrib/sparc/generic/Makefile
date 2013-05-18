@@ -1,4 +1,8 @@
-# $MirOS: src/distrib/sparc/generic/Makefile,v 1.3 2006/06/11 01:41:43 tg Exp $
+# $MirOS: src/distrib/sparc/generic/Makefile,v 1.4 2006/06/12 11:39:17 tg Exp $
+
+.include <bsd.own.mk>
+CFLAGS+=	${CDIAGFLAGS} ${COPTS}
+HOSTCFLAGS?=	${CFLAGS}
 
 RAMDISK=	GENERIC
 SYSDIR=		${.CURDIR}/../../../sys
