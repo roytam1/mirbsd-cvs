@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.bin/cvs/contrib/Makefile.am,v 1.4 2005/12/05 22:12:42 tg Exp $
+# $MirOS: src/gnu/usr.bin/cvs/contrib/Makefile.am,v 1.5 2010/09/16 20:55:48 tg Exp $
 ## Process this file with automake to produce Makefile.in
 # Makefile for GNU CVS contributed sources.
 # Do not use this makefile directly, but only from `../Makefile'.
@@ -23,18 +23,11 @@ contribdir = $(pkgdatadir)/contrib
 contrib_SCRIPTS = \
 	clmerge \
 	cln_hist \
-	commit_prep \
 	cvs2vendor \
-	cvs_acls \
 	debug_check_log \
-	log \
-	log_accum \
-	mfpipe \
-	newcvsroot \
 	pvcs2rcs \
 	rcs-to-cvs \
 	rcs2log \
-	rcslock \
 	sandbox_status \
 	sccs2rcs \
 	validate_repo
@@ -42,7 +35,6 @@ contrib_SCRIPTS = \
 contrib_DATA = \
 	README \
 	intro.doc \
-	rcs-5.7-commitid.patch
 
 contrib_MANS = \
 	rcs2log.1 \

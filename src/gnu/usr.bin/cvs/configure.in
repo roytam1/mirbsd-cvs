@@ -1,4 +1,4 @@
-dnl $MirOS: src/gnu/usr.bin/cvs/configure.in,v 1.12 2011/07/28 15:54:32 tg Exp $
+dnl $MirOS: src/gnu/usr.bin/cvs/configure.in,v 1.13 2011/12/04 20:12:53 tg Exp $
 dnl
 dnl configure.in for cvs
 
@@ -1411,14 +1411,14 @@ dnl associate the setting of the execute bit with the individual scripts
 AC_CONFIG_FILES(contrib/validate_repo, [chmod +x contrib/validate_repo])
 AC_CONFIG_FILES(contrib/clmerge, [chmod +x contrib/clmerge])
 AC_CONFIG_FILES(contrib/cln_hist, [chmod +x contrib/cln_hist])
-AC_CONFIG_FILES(contrib/commit_prep, [chmod +x contrib/commit_prep])
-AC_CONFIG_FILES(contrib/cvs_acls, [chmod +x contrib/cvs_acls])
-AC_CONFIG_FILES(contrib/log, [chmod +x contrib/log])
-AC_CONFIG_FILES(contrib/log_accum, [chmod +x contrib/log_accum])
-AC_CONFIG_FILES(contrib/mfpipe, [chmod +x contrib/mfpipe])
+dnl AC_CONFIG_FILES(contrib/commit_prep, [chmod +x contrib/commit_prep])
+dnl AC_CONFIG_FILES(contrib/cvs_acls, [chmod +x contrib/cvs_acls])
+dnl AC_CONFIG_FILES(contrib/log, [chmod +x contrib/log])
+dnl AC_CONFIG_FILES(contrib/log_accum, [chmod +x contrib/log_accum])
+dnl AC_CONFIG_FILES(contrib/mfpipe, [chmod +x contrib/mfpipe])
 AC_CONFIG_FILES(contrib/pvcs2rcs, [chmod +x contrib/pvcs2rcs])
 AC_CONFIG_FILES(contrib/rcs2log:contrib/rcs2log.sh, [chmod +x contrib/rcs2log])
-AC_CONFIG_FILES(contrib/rcslock, [chmod +x contrib/rcslock])
+dnl AC_CONFIG_FILES(contrib/rcslock, [chmod +x contrib/rcslock])
 AC_CONFIG_FILES(contrib/sccs2rcs, [chmod +x contrib/sccs2rcs])
 AC_CONFIG_FILES(doc/mkman:doc/mkman.pl, [chmod +x doc/mkman])
 
