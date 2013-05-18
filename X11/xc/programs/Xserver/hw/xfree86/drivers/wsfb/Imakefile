@@ -29,7 +29,7 @@ SubdirLibraryRule($(OBJS))
 
 ModuleObjectRule()
 
-ObjectModuleTarget(wsfb,$(OBJS))
+ObjectModuleTarget(wsfb,$(OBJS),drivers)
 
 InstallObjectModule(wsfb,$(MODULEDIR),drivers)
 
