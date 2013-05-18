@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.336 2011/06/06 21:36:56 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.337 2011/06/06 22:05:51 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -7812,4 +7812,118 @@ Tag: debian mksh pcli
   <tt>IFS= read -rs &lt;&lt;&lt;"unset \\\$(export);${x//$nl/\'\$\'\\\\n\'\'}"</tt>
 </div><p class="boxfoot">Of course, this makes a nice function,
  for your <tt>~/.mkshrc</tt> or somesuch.</p>
+----
+Date: 11.07.2011 20:21
+Author: tg@
+Title: Yugoslawia, I’ll be back
+Tag: debian event
+
+<ul>
+ <li>√ Agreement to pay from company</li>
+ <li>√ Going to drive with some apparently speed-loving brits</li>
+ <li>√ Registration accepted</li>
+ <li>√ Dienstreiseantrag prepared</li>
+ <li>· Sent that beast to the office ticket queue</li>
+</ul><p>So yes, this means I’m <img alt="going to DebConf 11"
+ src="http://kitenet.net/~joey/blog/pics/debconf11_banner.png" />
+ to what used to be Yugoslawia when I was there the last time,
+ although in the Poreč region of Istria, Hrvatska.</p>
+<p>Thanks to my <a href="https://www.tarent.de/">my boss</a>
+ who’s sending me there.</p>
+----
+Date: 11.07.2011 20:37
+Author: tg@
+Title: New releases
+Tag: debian mksh
+
+<p>You might have noticed the release of <a
+ href="@@RELPATH@@mksh.htm#r40">mksh R40</a> recently, after
+ more than a year of development. Well, stay tuned for both
+ R40b (with accumulated fixes) and R41 (intent to speed up
+ array handling a lot and prepare for what we postponed to
+ mksh R42 now – associative, multi-dimensional arrays).</p>
+<p>You should also upgrade, if you have not yet done so, to <a
+ href="@@RELPATH@@kwalletcli.htm#r2_11">kwalletcli 2.11</a>.</p>
+<p>Finally, <a href="@@RELPATH@@jupp.htm#r3_1j15">jupp 3.1.15</a>
+ was left out to the world, including Minix 3 users this time,
+ by special request of one of these on our mailing list. In
+ addition to the MidnightBSD mport – which has been there in
+ like forever – and the MirPort and the FreeWRT package, in
+ December 2011 a user submitted it to FreeBSD® ports, and Benny
+ is going to add it to NetBSD® pkgsrc® soon, he said. (He also
+ updated their mksh source package. Thanks!) I’ve been asked by
+ two people, independent from each other, when I’ll upload it to
+ Debian proper, instead of the private-repo packaging. Maybe I
+ should indeed do that, comments?</p>
+----
+Date: 11.07.2011 20:42
+Author: tg@
+Title: “Big Brother”, or: Help wanted – arguments against monitoring employees
+Tag: debian rant
+
+<p style="font-size:small;">English version of this posting</p>
+<p>The head system administrator of a henceforth unnamed company
+ I happen to be employed at wants to force us to use the shell’s
+ persistent history feature – disabled by default in <a
+ href="@@RELPATH@@mksh.htm">mksh</a> as is sensible, for privacy
+ reasons – on <em>all</em> systems, so he can retrace what we do
+ (of course, his wording was more like, “so he can reconstruct how
+ I fixed a problem the last time it occurred” – yeah, sure).</p>
+<p>Now I’ve escalated this to the boss, since this just cannot
+ happen, what’ll be next, video monitoring our offices or what…
+ and the boss said he sees my concerns and would like a meeting
+ to get an agreement between all parties involved. Most sysadmin
+ coworkers actually don’t even think about this, they are <a
+ href="https://duckduckgo.com/?kp=-1&amp;kl=wt-wt&amp;kb=t&amp;kh=1&amp;kj=g2&amp;km=l&amp;ka=monospace&amp;ku=1&amp;ko=s&amp;k1=-1&amp;kv=1&amp;q=sheeple">sheeple</a>,
+ really; but my project manager (for when I’m not a sysadmin but
+ a programmer) and the leaderess of our QA department agree with
+ me, luckily.</p>
+<p>Now I’m in dire need of <strong>arguments</strong>, especially
+ German-Legalese, to fight this total surveillance of employees,
+ mostly targetted at these who use the command line almost exclusively,
+ which I’m a prime example of. Please mail me at my address, which is
+ not <tt>junk@mirbsd.org</tt> but with “tg” instead of the waste part
+ here to catch address grabbers (sending mail to that address yields
+ a 24-hour total blacklist of your IPv4 address – I’ve yet to get
+ enough spam via IPv6 to say filtering it is worth the cost).</p>
+<p>Thanks in advance!</p>
+----
+Date: 11.07.2011 20:49
+Author: tg@
+Title: Hilfe gesucht: Mitarbeiterüberwachung
+Tag: debian rant
+Language: de_DE-1901
+
+<p style="font-size:small;">Deutsche Version dieses Postings</p>
+<p>Der Leiter der Abteilung Systemadministration einer Firma, welche
+ in diesem Artikel ungenannt bleiben soll, wo der Zufall es will, daß
+ ich für sie arbeite, möchte uns Mitarbeiter dazu zwingen, das Feature
+ der persistenten Historie (also einen niedergeschriebenen Verlauf der
+ abgesetzten Befehle) der Shell (Kommandozeile) auf <em>allen</em> Systemen
+ zu benutzen. Nun hat die <a href="@@RELPATH@@mksh.htm">mksh</a> dies
+ vernünftigerweise, während immer noch verfügbar, standardmäßig aus Gründen
+ der Privatsphäre deaktiviert, und ich finde, dies sollte sich nicht ändern.
+ Es kann ja nicht sein, daß man mir beim Arbeiten über die Schulter guckt;
+ was kommt als nächstes, Videoüberwachung der Büros? (Seine Argumentation
+ läuft darauf hinaus, daß er nachvollziehen/verstehen kann, wie ich (ha!
+ ich! nicht die anderen, nein, ich!) ein Problem das letzte Mal gelöst
+ habe; es ist aber nichts anderes als rekonstruïeren zu können, wer wann
+ was eingetippt/gemacht hat. Naja, Argumentationen sind eh’ relativ,
+ andere jagen Flugzeuge in ihre eigenen Verteidigungsministerien, welche
+ gerade zufällig umgebaut werden…)</p>
+<p>Ich habe dies natürlich in die Führungsetage eskaliert, und unser
+ Geschäftsführer versteht meine Bedenken und möchte nun ein Gespräch
+ anraunen, um eine Lösung zu finden. Die meisten meiner Kollegen im
+ Bereich Systemadministration denken leider nichtmals drüber nach,
+ obschon ich in anderen Bereichen Gleichgesinnte gefunden habe. Einen
+ Betriebsrat haben wir auch – großer Fehler, ich weiß – nicht (aber
+ ich säße eh’ nicht drin, ich hasse Politik jeder Art).</p>
+<p>Dies läßt mich in dringender Not, <strong>Argumente</strong> wider
+ diese Totalüberwachung aller (insbesondere auf der Kommandozeile
+ arbeitenden… also besonders mich) Kollegen zu finden, idealerweise
+ solche, die durch deutsches Recht gestützt sind. Wenn ihr solche
+ habt, <em>bitte</em> mailt die schnell an meine eMail-Adresse, welche
+ da nicht <tt>junk@mirbsd.org</tt> lautet, sondern mit einem „tg“ vor
+ dem Klammeraffen (dies dient der Abwehr unerwünschter Werbemails).</p>
+<p>Vielen Dank bereits im Voraus!</p>
 ----
