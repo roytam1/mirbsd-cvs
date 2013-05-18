@@ -26,7 +26,7 @@ option		NO_PROPOLICE		# remove stack protector
 option		BOOT_CONFIG		# add support for boot -c
 option		TIMEZONE=0		# time zone to adjust RTC time by
 option		DST=0			# daylight saving time used by RTC
-option		MINIROOTSIZE=3072	# size of ramdisk array
+option		MINIROOTSIZE=2880	# size of ramdisk array
 option		RAMDISK_HOOKS		# allow using initrd
 
 #option		CRYPTO			# Cryptographic framework
@@ -468,7 +468,7 @@ tx*	at pci? dev ? function ?		# SMC 83C170 EPIC ethernet
 tl*	at pci? dev ? function ?		# Compaq Thunderlan ethernet
 vr*	at pci? dev ? function ?		# VIA Rhine ethernet
 wb*	at pci? dev ? function ?		# Winbond W89C840F ethernet
-#sf*	at pci? dev ? function ?		# Adaptec AIC-6915 ethernet
+sf*	at pci? dev ? function ?		# Adaptec AIC-6915 ethernet
 sis*	at pci? dev ? function ?		# SiS 900/7016 ethernet
 ste*	at pci? dev ? function ?		# Sundance ST201 ethernet
 dc*	at pci? dev ? function ?		# 21143, "tulip" clone ethernet
@@ -483,7 +483,7 @@ dc*	at pci? dev ? function ?		# 21143, "tulip" clone ethernet
 #stge*	at pci? dev ? function ?		# Sundance TC9021 GigE
 #lge*	at pci? dev ? function ?		# Level1 LXT1001 GigE
 #hme*	at pci? dev ? function ?		# Sun Happy Meal
-#bce*	at pci? dev ? function ?		# Broadcom BCM4401
+bce*	at pci? dev ? function ?		# Broadcom BCM4401
 #re*	at pci?					# Realtek 8169/8169S/8110S
 #re*	at cardbus?
 #vge*	at pci?					# VIA VT612x
