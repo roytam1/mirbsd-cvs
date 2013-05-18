@@ -1,4 +1,4 @@
-# $MirOS: CVSROOT/checkoutlist,v 1.2 2005/02/04 23:25:47 tg Exp $
+# $MirOS: CVSROOT/checkoutlist,v 1.3 2005/12/05 21:25:08 tg Exp $
 #-
 # The "checkoutlist" file is used to support additional version controlled
 # administrative files in $CVSROOT/CVSROOT, such as template files.
@@ -19,3 +19,4 @@ genlog		Fatal: Unable to find ChangeLog rotating output driver!
 mklogci		Fatal: Unable to find ChangeLog commit/import logger!
 mklogtag	Fatal: Unable to find ChangeLog symbolic tag logger!
 tracker		Fatal: Unable to find ChangeLog directory list keeper!
+up		Error: Unable to find automatic mirror synchronisation script!
