@@ -1,5 +1,5 @@
 <!-- PageID: wlog-8 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.54 2006/03/27 21:20:52 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.55 2006/03/29 21:15:32 tg Exp $</small>
 <h1>MirBSD &ndash; WTF, We Have a Release!?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -902,6 +902,10 @@ celebrate this event, rotate the wlog and start a new one.</p>
   what my plans for the "C" locale were. Well, we do export nl_langinfo,
   setlocale etc. as weak symbols for users to override so I suppose I'll
   do the switch. But quietly, so Benny doesn't realise it. (Damn.)</p>
+ <p>I still have DNS trouble which bogus cannot reproduce; his dig shows
+  tld1 answering, host doesn't, he can't ping www.mirbsd.org. But I just
+  got an eMail from someone using www.mirbsd.org so I guess something is
+  just really FUBAR or wrong here.</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
