@@ -1434,12 +1434,12 @@
  * ignore it. - kw */
 /* $Format: "#define LYNX_VERSION \"$ProjectVersion$\""$ */
 #ifndef LYNX_VERSION
-#define LYNX_VERSION "2.8.8dev.7"
+#define LYNX_VERSION "2.8.8dev.8"
 #endif
 #define LYNX_WWW_HOME "http://lynx.isc.org/"
 #define LYNX_WWW_DIST "http://lynx.isc.org/current/"
 /* $Format: "#define LYNX_DATE \"$ProjectDate$\""$ */
-#define LYNX_DATE "Sat, 11 Dec 2010 07:26:32 -0800"
+#define LYNX_DATE "Mon, 10 Jan 2011 03:56:05 -0800"
 #define LYNX_DATE_OFF 5		/* truncate the automatically-generated date */
 #define LYNX_DATE_LEN 11	/* truncate the automatically-generated date */
 
