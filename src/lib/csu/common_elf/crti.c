@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/csu/common_elf/crti.c,v 1.4 2005/06/26 18:07:53 tg Exp $ */
+/* $MirOS: src/lib/csu/common_elf/crti.c,v 1.5 2005/12/17 05:46:13 tg Exp $ */
 /* From: $NetBSD: crti.c,v 1.2 2002/11/23 17:21:22 thorpej Exp $ */
 
 /*-
@@ -19,8 +19,14 @@
  * or other damage, or direct damage except proven a consequence of a
  * direct error of said person and intended use of this work, loss or
  * other issues arising in any way out of its use, even if advised of
- * the possibility of such damage or existence of a nontrivial bug.
- *-
+ * the possibility of such damage or existence of a defect.
+ */
+
+/* this is safe because it's either in .comment or in .data and ld reorders */
+#include <sys/cdefs.h>
+__RCSID("$MirOS$");
+
+/*-
  * Mark all objects having a PT_NOTE section identifying
  * ourselves as MirOS BSD executables / (shared) objects
  *
@@ -50,12 +56,6 @@ __asm__(".section .note.miros.ident,\"a\",@progbits"
 "\n2:	.p2align 2"
 "\n3:	.long	0"			/* desc */
 "\n4:	.p2align 2");
-
-
-/* the obvious __RCSID */
-
-__asm__(".section .comment"
-"\n	.asciz	\"$MirOS: src/lib/csu/common_elf/crti.c,v 1.4 2005/06/26 18:07:53 tg Exp $\"");
 
 
 /*-

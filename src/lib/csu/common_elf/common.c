@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/csu/common_elf/common.c,v 1.3 2005/04/25 23:11:37 tg Exp $
+/* $MirOS: src/lib/csu/common_elf/common.c,v 1.4 2006/06/02 00:18:01 tg Exp $
  * derived from the following files:
  * $NetBSD: common.c,v 1.16 2004/08/26 21:01:12 thorpej Exp $
  * $OpenBSD: crt0.c,v 1.11 2003/06/27 22:30:38 deraadt Exp $
@@ -40,9 +40,11 @@
  * <<Id: LICENSE,v 1.2 2000/06/14 15:57:33 cgd Exp>>
  */
 
-#ifndef	_COMMON_H
+#ifndef _COMMON_H
 #error	not a stand-alone file
 #endif
+
+__RCSID("$MirOS$");
 
 static char *
 _strrchr(char *p, int ch)
@@ -58,7 +60,7 @@ _strrchr(char *p, int ch)
 /* NOTREACHED */
 }
 
-#ifdef	MCRT0
+#ifdef MCRT0
 __asm__(".text"
     "\n_eprol:");
 #endif
@@ -86,7 +88,7 @@ void ___start(int argc, char **argv, char **envp,
 	if (ps_strings !=(struct ps_strings *)0)
 		__ps_strings = ps_strings;
 
-#ifdef	MCRT0
+#ifdef MCRT0
 	atexit(_mcleanup);
 	monstartup((u_long)&_eprol, (u_long)&_etext);
 #endif
@@ -98,8 +100,3 @@ void ___start(int argc, char **argv, char **envp,
 }
 
 char *__progname = "";
-
-/*
- * NOTE: Leave the RCS ID _after_ ___start(), in case it gets placed in .text.
- */
-__RCSID("$MirOS: src/lib/csu/common_elf/common.c,v 1.3 2005/04/25 23:11:37 tg Exp $");

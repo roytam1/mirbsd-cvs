@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/csu/common_elf/common.h,v 1.3 2005/04/25 23:11:38 tg Exp $
+/* $MirOS: src/lib/csu/common_elf/common.h,v 1.4 2006/06/15 19:18:48 tg Exp $
  * derived from the following files:
  * $NetBSD: common.h,v 1.10 2004/08/26 20:57:47 thorpej Exp $
  */
@@ -47,6 +47,8 @@
 #include <sys/syscall.h>
 #include <stdlib.h>
 
+__RCSID("$MirOS$");
+
 typedef void Obj_Entry;
 
 char *__progname;
@@ -59,7 +61,7 @@ extern void _init(void);
 extern void _fini(void);
 static char *_strrchr(char *, int);
 
-#ifdef	MCRT0
+#ifdef MCRT0
 extern void monstartup(u_long, u_long);
 extern void _mcleanup(void);
 extern unsigned char _etext, _eprol;

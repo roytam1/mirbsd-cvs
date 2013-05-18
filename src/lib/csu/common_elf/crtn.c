@@ -38,5 +38,7 @@
 
 #include "dot_init.h"
 
+__RCSID("$MirOS$");
+
 MD_INIT_SECTION_EPILOGUE;
 MD_FINI_SECTION_EPILOGUE;
