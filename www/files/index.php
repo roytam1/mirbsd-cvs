@@ -1,10 +1,8 @@
 <?php
-/* $MirOS: www/files/index.php,v 1.7 2008/05/03 02:05:26 tg Exp $ */
+/* $MirOS: www/files/index.php,v 1.8 2008/05/03 02:11:16 tg Exp $ */
 /*-
  * The MirOS Project - Webpages
  * Copyrighted material; read LICENCE for terms of use.
- *-
- * This is the "master" CMS manager file. It streams content.
  */
 
 /*
@@ -90,119 +88,14 @@ function get_include_contents($filename) {
 	}
 	/* --- end www3 hooks --- */
 
- // Declare global variables
- unset($tg_svr);
- unset($tg_bws);
- unset($tg_pts);
- unset($tg_sur);
- unset($tg_pfad);
- unset($tg_pflv);
- unset($tg_htt0);
- unset($tg_htt1);
- unset($tg_htlv);
- unset($tg_realm);
-
- // get server environment
- $tg_svr = strtolower($_SERVER["HTTP_HOST"]);
- if (strpos($tg_svr, ":")) {
-	$tg_svp = substr($tg_svr, strpos($tg_svr, ":") + 1);
-	$tg_svr = substr($tg_svr, 0, strpos($tg_svr, ":"));
- } else	$tg_svp = "80";
- $tg_bws = $_SERVER["HTTP_USER_AGENT"];
- $tg_pts = $_SERVER["REQUEST_URI"];
- if (!empty($_SERVER["SCRIPT_URI"])) {
-	$tg_sur = $_SERVER["SCRIPT_URI"];
- } else {
-	$tg_sur = "http://" . $tg_svr . $tg_pts;
- }
-
- // Try to find out the offset to this file per server
- $i = substr_count($tg_pts, "/");
- $sl = $i ? $i - 1 : 0;
- $tg_ist = 2;
-
- // get local variables:
- //  $sl = number of subdirectory layers			(default: 0 [DEL:1])
- //  $ht = HTML type (0=transitional 1=strict 2=XHTML/1.1)	(default: 2)
-
- if (!isset($sl)) { $sl = "0"; }
- if (!isset($ht)) { $ht = "2"; }
-
- // Generate possible subdirectory layers
- if ($sl == "0") {
-	$tg_pfad = "";
-	$tg_pflv = 0;
- } else if ($sl == "1") {
-	$tg_pfad = "../";
-	$tg_pflv = 1;
- } else if ($sl == "2") {
-	$tg_pfad = "../../";
-	$tg_pflv = 2;
- } else if ($sl == "3") {
-	$tg_pfad = "../../../";
-	$tg_pflv = 3;
- } else if ($sl == "4") {
-	$tg_pfad = "../../../../";
-	$tg_pflv = 4;
- } else if ($sl == "5") {
-	$tg_pfad = "../../../../../";
-	$tg_pflv = 5;
- } else if ($sl == "6") {
-	$tg_pfad = "../../../../../../";
-	$tg_pflv = 6;
- } else if ($sl == "7") {
-	$tg_pfad = "../../../../../../../";
-	$tg_pflv = 7;
- } else if ($sl == "8") {
-	$tg_pfad = "../../../../../../../../";
-	$tg_pflv = 8;
- } else {
-	header("Content-type: text/plain");
-	echo "Script error: subdirectory layers!\r\n";
-	exit;
- }
-
- unset($tg_noie);
- $tg_realm = 2;
-
- // Fill in HTML flavour dependant variables
- if ($ht == "0") {
-	$tg_htt0 = "XHTML 1.0 Transitional";
-	$tg_htt1 = "xhtml1/DTD/xhtml1-transitional";
-	$tg_htlv = 0;
- } else if ($ht == "1") {
-	$tg_htt0 = "XHTML 1.0 Strict";
-	$tg_htt1 = "xhtml1/DTD/xhtml1-strict";
-	$tg_htlv = 1;
- } else if ($ht == "2") {
-	$tg_htt0 = "XHTML 1.1";
-	$tg_htt1 = "xhtml11/DTD/xhtml11";
-	$tg_htlv = 2;
- } else {
-	header("Content-type: text/plain");
-	echo "Script error: HTML subtype!\r\n";
-	exit;
- }
-
- // Unset locals
- unset($i);
- unset($sl);
- unset($ht);
- unset($tmp);
-
- // Marker that this script has been executed
- $tg_init = "v11";
-
  // Send HTTP headers our way
  header("Content-type: text/html; charset=utf-8");
- // XXX? header("Pragma: no-cache");
 
  // Send HTML headers our way
  echo "<?xml version=\"1.0\"?>\r\n";
-?><!DOCTYPE html PUBLIC "-//W3C//DTD <?php echo "${tg_htt0}"; ?>//EN"
- "http://www.w3.org/TR/<?php echo "${tg_htt1}"; ?>.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"<?php
-	if ($tg_htlv < 2) echo ' lang="en"';	?>><head>
+?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+ "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"><head>
  <meta name="MSSmartTagsPreventParsing" content="TRUE" />
  <link rel="stylesheet" type="text/css" href="vstyle.css" />
  <meta name="author" content="Thorsten Glaser" />
@@ -221,7 +114,7 @@ function get_include_contents($filename) {
 <div class="index">
  <ul class="lv1">
   <li><a href="/main.htm">Main</a><ul class="lv2">
-	<li><a href="/wlog-9.htm">Weblog</a> for #9</li>
+	<li><a href="/wlog-10.htm">Weblog</a> for #10</li>
 	<li><a href="/?older">Old News</a> &amp; Log</li>
   </ul></li>
   <li><a href="/?about">About</a></li>
@@ -266,12 +159,10 @@ function get_include_contents($filename) {
  <img class="hdrlnks" src="pics/logo-grey.png"
   alt="MirOS Logo" />
 </div>
-<div class="footer">
-&bull; <a href="http://mirbsd.de/impressum">Impressum</a> &bull;
-<a href="http://validator.w3.org/check/referer">Valid <?php
-	echo substr_replace($tg_htt0, "/", strpos($tg_htt0, " "), 1)."!</a>\n";
-?> - <a href="http://jigsaw.w3.org/css-validator/validator?warning=1&amp;profile=none&amp;uri=<?php
-	echo urlencode($tg_sur);	?>">Valid CSS!</a><?php
-?> - <small><a href="mailto:miros-discuss@66h.42h.de">eMail</a>
- contact to</small> the MirOS Project</div>
+<div class="footer"><p>• <a
+ href="http://mirbsd.de/impressum">Impressum</a> • <a
+ href="http://validator.w3.org/check/referer">Valid HTML!</a> • <a
+ href="mailto:miros-discuss@66h.42h.de">E-Mail</a> contact to the
+ MirOS Project •</p>
+</div>
 </body></html>
