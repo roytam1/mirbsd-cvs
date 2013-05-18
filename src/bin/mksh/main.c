@@ -34,7 +34,7 @@
 #include <locale.h>
 #endif
 
-__RCSID("$MirOS: src/bin/mksh/main.c,v 1.241 2012/11/26 22:49:48 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/main.c,v 1.245 2012/11/30 19:58:47 tg Exp $");
 
 extern char **environ;
 
@@ -254,7 +254,7 @@ main_init(int argc, const char *argv[], Source **sp, struct block **lp)
 #ifdef MKSH_BINSHREDUCED
 		/* set FSH if we're called as -sh or /bin/sh or so */
 		if (!strcmp(ccp, "sh"))
-			change_flag(FSH, OF_FIRSTTIME, 1);
+			change_flag(FSH, OF_FIRSTTIME, true);
 #endif
 	}
 
@@ -329,7 +329,7 @@ main_init(int argc, const char *argv[], Source **sp, struct block **lp)
 	 * by the environment or the user. Also, we want tab completion
 	 * on in vi by default.
 	 */
-	change_flag(FEMACS, OF_SPECIAL, 1);
+	change_flag(FEMACS, OF_SPECIAL, true);
 #if !MKSH_S_NOVI
 	Flag(FVITABCOMPLETE) = 1;
 #endif
