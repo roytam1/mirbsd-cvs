@@ -1,11 +1,11 @@
-# $MirOS: www/src/jupp.hts,v 1.37 2012/08/23 20:03:39 tg Exp $
+# $MirOS: www/src/jupp.hts,v 1.38 2012/09/02 15:07:32 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/juppp "jupp – Programmer’s Editor"
 mws_setheadline jupp – the Editor which sucks less
-mws_putheader '$MirOS: www/src/jupp.hts,v 1.37 2012/08/23 20:03:39 tg Exp $'
+mws_putheader '$MirOS: www/src/jupp.hts,v 1.38 2012/09/02 15:07:32 tg Exp $'
 mws_content <<'EOF'
 <p>The current version is <em>joe-2.8jupp2</em> for MS-DOS® compatible systems,
  and <em>joe-3.1jupp22</em> for Unix/GNU compatible systems. This page is
@@ -286,9 +286,25 @@ $ $SUDO make install</pre>
 </ul>
 
 <h2 id="clog">ChangeLog for Unix</h2>
-<!--
-<p>[2011-10-05] Changes in the current development version:</p><ul>
--->
+<p>[2012-12-20] Changes in the current development version:</p><ul>
+ <li>Recognise more Python keywords in syntax highlighting
+  (patch contributed by Eike Jesinghaus)</li>
+ <li>Allow building against bionic libc (for Android)</li>
+ <li>Overhaul and harmonise syntax detection and editor defaults
+  across all six *rc files (except jupp continues having no
+  wordwrap by default and now disables guess_indent except in
+  *.txt files); improve shell/mail wildcards; recognise a lot
+  more diff files by pathname or content patterns</li>
+ <li>Securely make backup files using mkstemp(3) to avoid /tmp
+  being exploited (security issue reported by Han Boetes)</li>
+ <li>Print math results more precisely; if possible, as integer</li>
+ <li>Permit hexadecimal input in math expressions (which include
+  goto columns, lines and offsets, repeat counts, numeric options)</li>
+ <li>Hook up GOTO “byte” offset command as ^QO, “col”umn as ^Q-
+  and scratch (with præfix) as ^K- in jupprc</li>
+ <li>^KE no longer trashes buffers cloned by ^KO (therefore, ^K; does
+  not need to split the screen before ctags(1) search any more)</li>
+</ul>
 <p id="r3_1j22">[2012-09-02] Changes for joe-3.1jupp22:</p><ul>
  <li>Fix ternary operator PHP syntax highlighting hiccup</li>
  <li>Fix C string percent handling syntax highlighting hiccup</li>
