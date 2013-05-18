@@ -1,4 +1,4 @@
-/*	$OpenBSD: domacro.c,v 1.11 2004/07/20 03:50:25 deraadt Exp $	*/
+/*	$OpenBSD: domacro.c,v 1.13 2006/05/16 23:43:16 ray Exp $	*/
 /*	$NetBSD: domacro.c,v 1.10 1997/07/20 09:45:45 lukem Exp $	*/
 
 /*
@@ -37,7 +37,7 @@
 
 #include "ftp_var.h"
 
-__RCSID("$MirOS: src/usr.bin/ftp/domacro.c,v 1.2 2005/03/15 18:44:52 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ftp/domacro.c,v 1.3 2005/04/29 18:35:08 tg Exp $");
 
 void
 domacro(int argc, char *argv[])
@@ -98,7 +98,7 @@ TOP:
 					}
 					break;
 				}
-				/* intentional drop through */
+				/* FALLTHROUGH */
 			    default:
 				*cp2++ = *cp1;
 				break;

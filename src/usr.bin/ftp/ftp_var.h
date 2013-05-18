@@ -1,5 +1,5 @@
-/**	$MirOS: src/usr.bin/ftp/ftp_var.h,v 1.2 2005/03/13 18:32:59 tg Exp $ */
-/*	$OpenBSD: ftp_var.h,v 1.22 2003/06/03 02:56:08 millert Exp $	*/
+/**	$MirOS: src/usr.bin/ftp/ftp_var.h,v 1.3 2006/04/11 20:17:14 tg Exp $ */
+/*	$OpenBSD: ftp_var.h,v 1.23 2006/05/16 16:20:42 deraadt Exp $	*/
 /*	$NetBSD: ftp_var.h,v 1.18 1997/08/18 10:20:25 lukem Exp $	*/
 
 /*
@@ -88,6 +88,7 @@ int fclose(FILE *);
 
 #define	FTP_PORT	21	/* default if ! getservbyname("ftp/tcp") */
 #define	HTTP_PORT	80	/* default if ! getservbyname("http/tcp") */
+#define	HTTPS_PORT	443	/* default if ! getservbyname("https/tcp") */
 			/* User-Agent string sent to web server */
 #define	HTTP_USER_AGENT	"User-Agent: MirOS ftp(1), http://mirbsd.de/"
 #ifndef	GATE_PORT
@@ -173,6 +174,9 @@ int	unix_proxy;		/* proxy is unix, can use binary for ascii */
 
 char *ftpport;			/* port number to use for ftp connections */
 char *httpport;			/* port number to use for http connections */
+#ifndef SMALL
+char *httpsport;		/* port number to use for https connections */
+#endif
 char *gateport;			/* port number to use for gateftp connections */
 
 jmp_buf	toplevel;		/* non-local goto stuff for cmd scanner */

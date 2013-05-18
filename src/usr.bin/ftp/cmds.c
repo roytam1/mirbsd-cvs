@@ -1,4 +1,4 @@
-/*	$OpenBSD: cmds.c,v 1.48 2004/09/16 04:39:16 deraadt Exp $	*/
+/*	$OpenBSD: cmds.c,v 1.52 2006/05/19 04:05:35 ray Exp $	*/
 /*	$NetBSD: cmds.c,v 1.27 1997/08/18 10:20:15 lukem Exp $	*/
 
 /*
@@ -80,7 +80,7 @@
 #include "ftp_var.h"
 #include "pathnames.h"
 
-__RCSID("$MirOS: src/usr.bin/ftp/cmds.c,v 1.2 2005/03/15 18:44:51 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ftp/cmds.c,v 1.3 2005/04/29 18:35:08 tg Exp $");
 
 jmp_buf	jabort;
 char   *mname;
@@ -563,7 +563,7 @@ mget(int argc, char *argv[])
 {
 	sig_t oldintr;
 	int ch, ointer;
-	char *cp, *tp, *tp2, tmpbuf[MAXPATHLEN];
+	char *cp, *tp, *tp2, tmpbuf[MAXPATHLEN], localcwd[MAXPATHLEN];
 
 	if (argc < 2 && !another(&argc, &argv, "remote-files")) {
 		fprintf(ttyout, "usage: %s remote-files\n", argv[0]);
@@ -572,6 +572,9 @@ mget(int argc, char *argv[])
 	}
 	mname = argv[0];
 	mflag = 1;
+	if (getcwd(localcwd, sizeof(localcwd)) == NULL)
+		err(1, "can't get cwd");
+
 	oldintr = signal(SIGINT, mabort);
 	(void)setjmp(jabort);
 	while ((cp = remglob(argv, proxy, NULL)) != NULL) {
@@ -579,7 +582,14 @@ mget(int argc, char *argv[])
 			mflag = 0;
 			continue;
 		}
-		if (mflag && confirm(argv[0], cp)) {
+		if (!mflag)
+			continue;
+		if (!fileindir(cp, localcwd)) {
+			fprintf(ttyout, "Skipping non-relative filename `%s'\n",
+			    cp);
+			continue;
+		}
+		if (confirm(argv[0], cp)) {
 			tp = cp;
 			if (mcase) {
 				for (tp2 = tmpbuf; (ch = *tp++) != 0; )
@@ -767,12 +777,13 @@ sethash(int argc, char *argv[])
 	else if (strcasecmp(argv[1], "off") == 0)
 		hash = 0;
 	else {
-		long nmark;
-		char *ep;
+		int nmark;
+		const char *errstr;
 
-		nmark = strtol(argv[1], &ep, 10);
-		if (nmark < 1 || nmark > INT_MAX || *ep != '\0') {
-			fprintf(ttyout, "%s: bad bytecount value.\n", argv[1]);
+		nmark = strtonum(argv[1], 1, INT_MAX, &errstr);
+		if (errstr) {
+			fprintf(ttyout, "bytecount value is %s: %s\n",
+			    errstr, argv[1]);
 			code = -1;
 			return;
 		}
@@ -928,17 +939,17 @@ setdebug(int argc, char *argv[])
 		else if (strcasecmp(argv[1], "off") == 0)
 			debug = 0;
 		else {
-			char *ep;
-			long val;
+			const char *errstr;
+			int val;
 
-			val = strtol(argv[1], &ep, 10);
-			if (val < 0 || val > INT_MAX || *ep != '\0') {
-				fprintf(ttyout, "%s: bad debugging value.\n",
-				    argv[1]);
+			val = strtonum(argv[1], 0, INT_MAX, &errstr);
+			if (errstr) {
+				fprintf(ttyout, "debugging value is %s: %s\n",
+				    errstr, argv[1]);
 				code = -1;
 				return;
 			}
-			debug = (int)val;
+			debug = val;
 		}
 	} else
 		debug = !debug;
@@ -1136,7 +1147,7 @@ mls(int argc, char *argv[])
 {
 	sig_t oldintr;
 	int ointer, i;
-	char mode[1], *dest, *odest;
+	char lmode[1], *dest, *odest;
 
 	if (argc < 2 && !another(&argc, &argv, "remote-files"))
 		goto usage;
@@ -1159,8 +1170,8 @@ usage:
 	oldintr = signal(SIGINT, mabort);
 	(void)setjmp(jabort);
 	for (i = 1; mflag && i < argc-1; ++i) {
-		*mode = (i == 1) ? 'w' : 'a';
-		recvrequest("LIST", dest, argv[i], mode, 0, 0);
+		*lmode = (i == 1) ? 'w' : 'a';
+		recvrequest("LIST", dest, argv[i], lmode, 0, 0);
 		if (!mflag && fromatty) {
 			ointer = interactive;
 			interactive = 1;
@@ -1185,7 +1196,7 @@ shell(int argc, char *argv[])
 {
 	pid_t pid;
 	sig_t old1, old2;
-	char shellnam[MAXPATHLEN], *shell, *namep;
+	char shellnam[MAXPATHLEN], *shellp, *namep;
 	int wait_status;
 
 	old1 = signal (SIGINT, SIG_IGN);
@@ -1195,28 +1206,28 @@ shell(int argc, char *argv[])
 			(void)close(pid);
 		(void)signal(SIGINT, SIG_DFL);
 		(void)signal(SIGQUIT, SIG_DFL);
-		shell = getenv("SHELL");
-		if (shell == NULL || *shell == '\0')
-			shell = _PATH_BSHELL;
-		namep = strrchr(shell, '/');
+		shellp = getenv("SHELL");
+		if (shellp == NULL || *shellp == '\0')
+			shellp = _PATH_BSHELL;
+		namep = strrchr(shellp, '/');
 		if (namep == NULL)
-			namep = shell;
+			namep = shellp;
 		shellnam[0] = '-';
 		(void)strlcpy(shellnam + 1, ++namep, sizeof(shellnam) - 1);
 		if (strcmp(namep, "sh") != 0)
 			shellnam[0] = '+';
 		if (debug) {
-			fputs(shell, ttyout);
+			fputs(shellp, ttyout);
 			fputc('\n', ttyout);
 			(void)fflush(ttyout);
 		}
 		if (argc > 1) {
-			execl(shell, shellnam, "-c", altarg, (char *)0);
+			execl(shellp, shellnam, "-c", altarg, (char *)0);
 		}
 		else {
-			execl(shell, shellnam, (char *)0);
+			execl(shellp, shellnam, (char *)0);
 		}
-		warn("%s", shell);
+		warn("%s", shellp);
 		code = -1;
 		exit(1);
 	}
@@ -1240,7 +1251,7 @@ shell(int argc, char *argv[])
 void
 user(int argc, char *argv[])
 {
-	char acct[80];
+	char acctname[80];
 	int n, aflag = 0;
 
 	if (argc < 2)
@@ -1260,9 +1271,10 @@ user(int argc, char *argv[])
 		if (argc < 4) {
 			(void)fputs("Account: ", ttyout);
 			(void)fflush(ttyout);
-			(void)fgets(acct, sizeof(acct) - 1, stdin);
-			acct[strlen(acct) - 1] = '\0';
-			argv[3] = acct; argc++;
+			(void)fgets(acctname, sizeof(acctname) - 1, stdin);
+			acctname[strlen(acctname) - 1] = '\0';
+			argv[3] = acctname;
+			argc++;
 		}
 		n = command("ACCT %s", argv[3]);
 		aflag++;
@@ -1398,11 +1410,6 @@ quote1(const char *initial, int argc, char *argv[])
 	(void)strlcpy(buf, initial, sizeof(buf));
 	if (argc > 1) {
 		for (i = 1, len = strlen(buf); i < argc && len < sizeof(buf)-1; i++) {
-
-			/* Sanity check */
-			if (len >= sizeof(buf) - 1)
-				break;
-
 			/* Space for next arg */
 			if (len > 1)
 				buf[len++] = ' ';
@@ -1862,7 +1869,7 @@ LOOP:
 					}
 					break;
 				}
-				/* intentional drop through */
+				/* FALLTHROUGH */
 			default:
 				*cp1++ = *cp2;
 				break;

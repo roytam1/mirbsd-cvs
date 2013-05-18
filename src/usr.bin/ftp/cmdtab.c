@@ -1,4 +1,4 @@
-/*	$OpenBSD: cmdtab.c,v 1.19 2005/07/11 15:40:43 fgsch Exp $	*/
+/*	$OpenBSD: cmdtab.c,v 1.20 2006/04/25 05:45:20 tedu Exp $	*/
 /*	$NetBSD: cmdtab.c,v 1.17 1997/08/18 10:20:17 lukem Exp $	*/
 
 /*
@@ -33,7 +33,7 @@
 #include <stdio.h>
 #include "ftp_var.h"
 
-__RCSID("$MirOS: src/usr.bin/ftp/cmdtab.c,v 1.3 2005/04/29 18:35:08 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ftp/cmdtab.c,v 1.4 2005/11/23 17:36:14 tg Exp $");
 
 /*
  * User FTP -- Command Tables.

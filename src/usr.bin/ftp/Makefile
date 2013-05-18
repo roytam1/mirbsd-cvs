@@ -1,5 +1,5 @@
-# $MirOS: src/usr.bin/ftp/Makefile,v 1.3 2005/04/13 16:10:27 tg Exp $
-# $OpenBSD: Makefile,v 1.20 2003/11/20 23:32:26 tedu Exp $
+# $MirOS: src/usr.bin/ftp/Makefile,v 1.4 2006/05/26 18:48:50 tg Exp $
+# $OpenBSD: Makefile,v 1.21 2006/05/16 16:20:42 deraadt Exp $
 
 .include <bsd.own.mk>
 
@@ -22,8 +22,8 @@ CPPFLAGS+=	-DINET6
 .ifdef SMALL
 CPPFLAGS+=	-DSMALL
 .else
-LDADD+=		-ledit
-DPADD+=		${LIBEDIT}
+LDADD+=		-ledit -lssl -lcrypto
+DPADD+=		${LIBEDIT} ${LIBSSL} ${LIBCRYPTO}
 .endif
 
 LDADD+=		-lcurses -lutil

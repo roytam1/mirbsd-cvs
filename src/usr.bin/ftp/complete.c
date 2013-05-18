@@ -1,4 +1,4 @@
-/*	$OpenBSD: complete.c,v 1.17 2004/09/16 04:39:16 deraadt Exp $	*/
+/*	$OpenBSD: complete.c,v 1.19 2006/06/23 20:35:25 steven Exp $	*/
 /*	$NetBSD: complete.c,v 1.10 1997/08/18 10:20:18 lukem Exp $	*/
 
 /*-
@@ -38,7 +38,6 @@
  */
 
 #ifndef SMALL
-
 /*
  * FTP user program - command and file completion routines
  */
@@ -52,7 +51,7 @@
 
 #include "ftp_var.h"
 
-__RCSID("$MirOS: src/usr.bin/ftp/complete.c,v 1.2 2005/03/15 18:44:52 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ftp/complete.c,v 1.3 2005/04/29 18:35:08 tg Exp $");
 
 static int	     comparstr(const void *, const void *);
 static unsigned char complete_ambiguous(char *, int, StringList *);
@@ -235,8 +234,7 @@ complete_remote(char *word, int list)
 	if (dirchange || strcmp(dir, lastdir) != 0) {	/* dir not cached */
 		char *emesg;
 
-		if (dirlist != NULL)
-			sl_free(dirlist, 1);
+		sl_free(dirlist, 1);
 		dirlist = sl_init();
 
 		mflag = 1;

@@ -1,4 +1,4 @@
-/*	$OpenBSD: util.c,v 1.40 2005/04/11 15:16:50 deraadt Exp $	*/
+/*	$OpenBSD: util.c,v 1.43 2006/05/16 23:43:16 ray Exp $	*/
 /*	$NetBSD: util.c,v 1.12 1997/08/18 10:20:27 lukem Exp $	*/
 
 /*-
@@ -81,6 +81,7 @@
 #include <err.h>
 #include <errno.h>
 #include <fcntl.h>
+#include <libgen.h>
 #include <limits.h>
 #include <glob.h>
 #include <pwd.h>
@@ -95,7 +96,7 @@
 #include "ftp_var.h"
 #include "pathnames.h"
 
-__RCSID("$MirOS: src/usr.bin/ftp/util.c,v 1.2 2005/03/15 18:44:52 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ftp/util.c,v 1.3 2005/04/29 18:35:09 tg Exp $");
 
 static void updateprogressmeter(int);
 
@@ -245,13 +246,13 @@ setpeer(int argc, char *argv[])
 int
 ftp_login(const char *host, char *user, char *pass)
 {
-	char tmp[80], *acct = NULL, hostname[MAXHOSTNAMELEN];
+	char tmp[80], *acctname = NULL, host_name[MAXHOSTNAMELEN];
 	char anonpass[MAXLOGNAME + 1 + MAXHOSTNAMELEN];	/* "user@hostname" */
 	int n, aflag = 0, retry = 0;
 	struct passwd *pw;
 
 	if (user == NULL) {
-		if (ruserpass(host, &user, &pass, &acct) < 0) {
+		if (ruserpass(host, &user, &pass, &acctname) < 0) {
 			code = -1;
 			return (0);
 		}
@@ -262,7 +263,7 @@ ftp_login(const char *host, char *user, char *pass)
 	 */
 	if ((user == NULL || pass == NULL) && anonftp) {
 		memset(anonpass, 0, sizeof(anonpass));
-		memset(hostname, 0, sizeof(hostname));
+		memset(host_name, 0, sizeof(host_name));
 
 		/*
 		 * Set up anonymous login password.
@@ -273,7 +274,7 @@ ftp_login(const char *host, char *user, char *pass)
 			else
 				user = pw->pw_name;
 		}
-		gethostname(hostname, sizeof(hostname));
+		gethostname(host_name, sizeof(host_name));
 #ifndef DONT_CHEAT_ANONPASS
 		/*
 		 * Every anonymous FTP server I've encountered
@@ -321,12 +322,12 @@ tryagain:
 	}
 	if (n == CONTINUE) {
 		aflag++;
-		if (acct == NULL)
-			acct = getpass("Account:");
-		n = command("ACCT %s", acct);
+		if (acctname == NULL)
+			acctname = getpass("Account:");
+		n = command("ACCT %s", acctname);
 	}
 	if ((n != COMPLETE) ||
-	    (!aflag && acct != NULL && command("ACCT %s", acct) != COMPLETE)) {
+	    (!aflag && acctname != NULL && command("ACCT %s", acctname) != COMPLETE)) {
 		warnx("Login failed.");
 		if (retry || !anonftp)
 			return (0);
@@ -385,7 +386,7 @@ another(int *pargc, char ***pargv, const char *prompt)
 char *
 remglob(char *argv[], int doswitch, char **errbuf)
 {
-	char temp[MAXPATHLEN], *cp, *mode;
+	char temp[MAXPATHLEN], *cp, *lmode;
 	static char buf[MAXPATHLEN], **args;
 	static FILE *ftemp = NULL;
 	int oldverbose, oldhash, fd;
@@ -435,8 +436,8 @@ remglob(char *argv[], int doswitch, char **errbuf)
 		hash = 0;
 		if (doswitch)
 			pswitch(!proxy);
-		for (mode = "w"; *++argv != NULL; mode = "a")
-			recvrequest("NLST", temp, *argv, mode, 0, 0);
+		for (lmode = "w"; *++argv != NULL; lmode = "a")
+			recvrequest("NLST", temp, *argv, lmode, 0, 0);
 		if ((code / 100) != COMPLETE) {
 			if (errbuf != NULL)
 				*errbuf = reply_string;
@@ -470,16 +471,16 @@ remglob(char *argv[], int doswitch, char **errbuf)
 int
 confirm(const char *cmd, const char *file)
 {
-	char line[BUFSIZ];
+	char str[BUFSIZ];
 
 	if (!interactive || confirmrest)
 		return (1);
 top:
 	fprintf(ttyout, "%s %s? ", cmd, file);
 	(void)fflush(ttyout);
-	if (fgets(line, sizeof(line), stdin) == NULL)
+	if (fgets(str, sizeof(str), stdin) == NULL)
 		return (0);
-	switch (tolower(*line)) {
+	switch (tolower(*str)) {
 		case 'n':
 			return (0);
 		case 'p':
@@ -627,6 +628,39 @@ remotemodtime(const char *file, int noisy)
 		code = ocode;
 	return (rtime);
 }
+
+/*
+ * Ensure file is in or under dir.
+ * Returns 1 if so, 0 if not (or an error occurred).
+ */
+int
+fileindir(const char *file, const char *dir)
+{
+	char	parentdirbuf[MAXPATHLEN], *parentdir;
+	char	realdir[MAXPATHLEN];
+	size_t	dirlen;
+
+		 			/* determine parent directory of file */
+	(void)strlcpy(parentdirbuf, file, sizeof(parentdirbuf));
+	parentdir = dirname(parentdirbuf);
+	if (strcmp(parentdir, ".") == 0)
+		return 1;		/* current directory is ok */
+
+					/* find the directory */
+	if (realpath(parentdir, realdir) == NULL) {
+		warn("Unable to determine real path of `%s'", parentdir);
+		return 0;
+	}
+	if (realdir[0] != '/')		/* relative result is ok */
+		return 1;
+
+	dirlen = strlen(dir);
+	if (strncmp(realdir, dir, dirlen) == 0 &&
+	    (realdir[dirlen] == '/' || realdir[dirlen] == '\0'))
+		return 1;
+	return 0;
+}
+
 
 /*
  * Returns true if this is the controlling/foreground process, else false.

@@ -1,4 +1,4 @@
-/*	$OpenBSD: stringlist.c,v 1.6 2004/09/16 04:39:16 deraadt Exp $	*/
+/*	$OpenBSD: stringlist.c,v 1.7 2006/04/25 05:45:20 tedu Exp $	*/
 /*	$NetBSD: stringlist.c,v 1.2 1997/01/17 07:26:20 lukem Exp $	*/
 
 /*
@@ -39,7 +39,7 @@
 
 #include "stringlist.h"
 
-__RCSID("$MirOS: src/usr.bin/ftp/stringlist.c,v 1.2 2005/03/15 18:44:52 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ftp/stringlist.c,v 1.3 2005/04/29 18:35:09 tg Exp $");
 
 #define _SL_CHUNKSIZE	20
 

@@ -1,4 +1,4 @@
-/*	$OpenBSD: ftp.c,v 1.57 2004/09/16 04:39:16 deraadt Exp $	*/
+/*	$OpenBSD: ftp.c,v 1.65 2006/06/23 20:35:25 steven Exp $	*/
 /*	$NetBSD: ftp.c,v 1.27 1997/08/18 10:20:23 lukem Exp $	*/
 
 /*
@@ -84,7 +84,7 @@
 
 #include "ftp_var.h"
 
-__RCSID("$MirOS: src/usr.bin/ftp/ftp.c,v 1.3 2005/03/15 18:44:52 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ftp/ftp.c,v 1.4 2005/04/29 18:35:08 tg Exp $");
 
 union sockunion {
 	struct sockinet {
@@ -101,14 +101,11 @@ union sockunion {
 
 union sockunion myctladdr, hisctladdr, data_addr;
 
-union sockunion hisctladdr;
-union sockunion data_addr;
 int	data = -1;
 int	abrtflag = 0;
 jmp_buf	ptabort;
 int	ptabflg;
 int	ptflag = 0;
-union sockunion myctladdr;
 off_t	restart_point = 0;
 
 
@@ -147,6 +144,10 @@ hookup(char *host, char *port)
 			snprintf(pbuf, sizeof(pbuf), "%d", GATE_PORT);
 		else if (strcmp(port, "http") == 0)
 			snprintf(pbuf, sizeof(pbuf), "%d", HTTP_PORT);
+#ifndef SMALL
+		else if (strcmp(port, "https") == 0)
+			snprintf(pbuf, sizeof(pbuf), "%d", HTTPS_PORT);
+#endif
 		if (pbuf[0])
 			error = getaddrinfo(host, pbuf, &hints, &res0);
 	}
@@ -198,7 +199,9 @@ hookup(char *host, char *port)
 				warn("connect to address %s", hbuf);
 			}
 			cause = "connect";
+			error = errno;
 			close(s);
+			errno = error;
 			s = -1;
 			continue;
 		}
@@ -326,7 +329,7 @@ int
 getreply(int expecteof)
 {
 	char current_line[BUFSIZ];	/* last line of previous reply */
-	int c, n, line;
+	int c, n, lineno;
 	int dig;
 	int originalcode = 0, continuation = 0;
 	sig_t oldintr;
@@ -335,7 +338,7 @@ getreply(int expecteof)
 
 	memset(current_line, 0, sizeof(current_line));
 	oldintr = signal(SIGINT, cmdabort);
-	for (line = 0 ;; line++) {
+	for (lineno = 0 ;; lineno++) {
 		dig = n = code = 0;
 		cp = current_line;
 		while ((c = fgetc(cin)) != '\n') {
@@ -419,7 +422,7 @@ getreply(int expecteof)
 			(void)putc(c, ttyout);
 			(void)fflush (ttyout);
 		}
-		if (line == 0) {
+		if (lineno == 0) {
 			size_t len = cp - current_line;
 
 			if (len > sizeof(reply_string))
@@ -571,19 +574,19 @@ sendrequest(const char *cmd, const char *local, const char *remote,
 
 	if (restart_point &&
 	    (strcmp(cmd, "STOR") == 0 || strcmp(cmd, "APPE") == 0)) {
-		int rc;
+		int rc = -1;
 
-		rc = -1;
 		switch (curtype) {
 		case TYPE_A:
-			rc = fseek(fin, (long) restart_point, SEEK_SET);
+			rc = fseeko(fin, restart_point, SEEK_SET);
 			break;
 		case TYPE_I:
 		case TYPE_L:
-			rc = lseek(fileno(fin), restart_point, SEEK_SET);
+			if (lseek(fileno(fin), restart_point, SEEK_SET) != -1)
+				rc = 0;
 			break;
 		}
-		if (rc < 0) {
+		if (rc == -1) {
 			warn("local: %s", local);
 			restart_point = 0;
 			progress = oprogress;
@@ -591,7 +594,7 @@ sendrequest(const char *cmd, const char *local, const char *remote,
 				(*closefunc)(fin);
 			return;
 		}
-		if (command("REST %ld", (long) restart_point)
+		if (command("REST %lld", (long long) restart_point)
 			!= CONTINUE) {
 			restart_point = 0;
 			progress = oprogress;
@@ -877,7 +880,7 @@ recvrequest(const char *cmd, const char * volatile local, const char *remote,
 	if (setjmp(recvabort))
 		goto abort;
 	if (is_retr && restart_point &&
-	    command("REST %ld", (long) restart_point) != CONTINUE)
+	    command("REST %lld", (long long) restart_point) != CONTINUE)
 		return;
 	if (remote) {
 		if (command("%s %s", cmd, remote) != PRELIM) {
@@ -920,8 +923,7 @@ recvrequest(const char *cmd, const char * volatile local, const char *remote,
 	if (fstat(fileno(fout), &st) < 0 || st.st_blksize == 0)
 		st.st_blksize = BUFSIZ;
 	if (st.st_blksize > bufsize) {
-		if (buf)
-			(void)free(buf);
+		(void)free(buf);
 		buf = malloc((unsigned)st.st_blksize);
 		if (buf == NULL) {
 			warn("malloc");
@@ -1430,7 +1432,7 @@ noport:
 
 	if (sendport) {
 		char hname[NI_MAXHOST], pbuf[NI_MAXSERV];
-		int af;
+		int af_tmp;
 		union sockunion tmp;
 
 		tmp = data_addr;
@@ -1444,14 +1446,14 @@ noport:
 		case AF_INET6:
 			if (tmp.su_family == AF_INET6)
 				tmp.su_sin6.sin6_scope_id = 0;
-			af = (tmp.su_family == AF_INET) ? 1 : 2;
+			af_tmp = (tmp.su_family == AF_INET) ? 1 : 2;
 			if (getnameinfo((struct sockaddr *)&tmp,
 			    tmp.su_len, hname, sizeof(hname),
 			    pbuf, sizeof(pbuf), NI_NUMERICHOST | NI_NUMERICSERV)) {
 				result = ERROR;
 			} else {
 				result = command("EPRT |%d|%s|%s|",
-				    af, hname, pbuf);
+				    af_tmp, hname, pbuf);
 				if (result != COMPLETE) {
 					epsv4bad = 1;
 					if (debug) {

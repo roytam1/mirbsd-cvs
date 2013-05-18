@@ -1,5 +1,5 @@
-/**	$MirOS: src/usr.bin/ftp/main.c,v 1.4 2005/04/29 18:35:08 tg Exp $ */
-/*	$OpenBSD: main.c,v 1.58 2004/07/20 03:50:26 deraadt Exp $	*/
+/**	$MirOS: src/usr.bin/ftp/main.c,v 1.5 2005/04/30 22:54:26 tg Exp $ */
+/*	$OpenBSD: main.c,v 1.61 2006/05/16 16:20:42 deraadt Exp $	*/
 /*	$NetBSD: main.c,v 1.24 1997/08/18 10:20:26 lukem Exp $	*/
 
 /*
@@ -60,12 +60,6 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-static const char copyright[] =
-"@(#) Copyright (c) 1985, 1989, 1993, 1994\n\
-	The Regents of the University of California.  All rights reserved.\n";
-#endif /* not lint */
-
 /*
  * FTP User Program -- Command Interface.
  */
@@ -84,7 +78,9 @@ static const char copyright[] =
 
 #include "ftp_var.h"
 
-__RCSID("$MirOS: src/usr.bin/ftp/main.c,v 1.4 2005/04/29 18:35:08 tg Exp $");
+__COPYRIGHT("Copyright (c) 1985, 1989, 1993, 1994\n\
+	The Regents of the University of California.  All rights reserved.\n");
+__RCSID("$MirOS: src/usr.bin/ftp/main.c,v 1.5 2005/04/30 22:54:26 tg Exp $");
 
 int family = PF_UNSPEC;
 
@@ -99,6 +95,9 @@ main(volatile int argc, char *argv[])
 
 	ftpport = "ftp";
 	httpport = "http";
+#ifndef SMALL
+	httpsport = "https";
+#endif
 	gateport = getenv("FTPSERVERPORT");
 	if (gateport == NULL || *gateport == '\0')
 		gateport = "ftpgate";
@@ -171,7 +170,7 @@ main(volatile int argc, char *argv[])
 	if (isatty(fileno(ttyout)) && !dumb_terminal && foregroundproc())
 		progress = 1;		/* progress bar on if tty is usable */
 
-	while ((ch = getopt(argc, argv, "46AEadegimno:pP:r:tvV")) != -1) {
+	while ((ch = getopt(argc, argv, "46AadEegimno:pP:r:tvV")) != -1) {
 		switch (ch) {
 		case '4':
 			family = PF_INET;
@@ -184,10 +183,6 @@ main(volatile int argc, char *argv[])
 			passivemode = 0;
 			break;
 
-		case 'E':
-			epsv4 = 0;
-			break;
-
 		case 'a':
 			anonftp = 1;
 			break;
@@ -195,6 +190,10 @@ main(volatile int argc, char *argv[])
 		case 'd':
 			options |= SO_DEBUG;
 			debug++;
+			break;
+
+		case 'E':
+			epsv4 = 0;
 			break;
 
 		case 'e':
@@ -388,7 +387,7 @@ cmdscanner(int top)
 	HistEvent hev;
 #endif
 
-	if (!top
+	if (!top 
 #ifndef SMALL
 	    && !editing
 #endif /* !SMALL */
@@ -546,7 +545,7 @@ makeargv(void)
 					cursor_argo = ap-argbase; \
 					cursor_pos = NULL; \
 				} }
-
+						
 #endif /* !SMALL */
 
 /*
@@ -726,10 +725,17 @@ void
 usage(void)
 {
 	(void)fprintf(stderr,
-	    "usage: %s [-46AadegimnptVv] [-P port] [-r seconds] [host [port]]\n"
+	    "usage: %s [-46AadEegimnptVv] [-P port] [-r seconds] [host [port]]\n"
 	    "       %s [-o output] ftp://[user:password@]host[:port]/file[/]\n"
 	    "       %s [-o output] http://host[:port]/file\n"
+#ifndef SMALL
+	    "       %s [-o output] https://host[:port]/file\n"
+#endif
 	    "       %s [-o output] host:[/path/]file[/]\n",
+#ifndef SMALL
+	    __progname, __progname, __progname, __progname, __progname);
+#else
 	    __progname, __progname, __progname, __progname);
+#endif
 	exit(1);
 }

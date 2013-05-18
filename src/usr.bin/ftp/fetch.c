@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: fetch.c,v 1.55 2005/07/18 02:55:59 fgsch Exp $	*/
+/**	$MirOS: src/usr.bin/ftp/fetch.c,v 1.5 2006/06/14 21:48:35 tg Exp $ */
+/*	$OpenBSD: fetch.c,v 1.68 2006/07/07 12:00:25 ray Exp $	*/
 /*	$NetBSD: fetch.c,v 1.14 1997/08/18 10:20:20 lukem Exp $	*/
 
 /*-
@@ -54,28 +54,46 @@
 #include <ctype.h>
 #include <err.h>
 #include <libgen.h>
+#include <limits.h>
 #include <netdb.h>
 #include <fcntl.h>
 #include <signal.h>
 #include <stdio.h>
+#include <stdarg.h>
 #include <errno.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 #include <util.h>
 
+#ifndef SMALL
+#include <openssl/ssl.h>
+#include <openssl/err.h>
+#else
+#define SSL void
+#endif
+
 #include "ftp_var.h"
 
-__RCSID("$MirOS: src/usr.bin/ftp/fetch.c,v 1.4 2005/11/23 17:36:14 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ftp/fetch.c,v 1.5 2006/06/14 21:48:35 tg Exp $");
 
 static int	url_get(const char *, const char *, const char *);
 void		aborthttp(int);
 void		abortfile(int);
 char		hextochar(const char *);
 char		*urldecode(const char *);
+int		ftp_printf(FILE *, SSL *, const char *, ...) __attribute__((format(printf, 3, 4)));
+char		*ftp_readline(FILE *, SSL *, size_t *);
+size_t		ftp_read(FILE *, SSL *, char *, size_t);
+#ifndef SMALL
+int		proxy_connect(int, char *);
+int		SSL_vprintf(SSL *, const char *, va_list);
+char		*SSL_readline(SSL *, size_t *);
+#endif
 
 #define	FTP_URL		"ftp://"	/* ftp URL prefix */
 #define	HTTP_URL	"http://"	/* http URL prefix */
+#define	HTTPS_URL	"https://"	/* https URL prefix */
 #define	FILE_URL	"file:"		/* file URL prefix */
 #define FTP_PROXY	"ftp_proxy"	/* env var with ftp proxy location */
 #define HTTP_PROXY	"http_proxy"	/* env var with http proxy location */
@@ -98,31 +116,43 @@ static int	redirect_loop;
 static int
 url_get(const char *origline, const char *proxyenv, const char *outfile)
 {
-	char pbuf[NI_MAXSERV], hbuf[NI_MAXHOST], *cp, *ep, *portnum, *path;
-	char *hosttail, *cause = "unknown", *line, *host, *port, *buf = NULL;
+	char pbuf[NI_MAXSERV], hbuf[NI_MAXHOST], *cp, *portnum, *path;
+	char *hosttail, *cause = "unknown", *newline, *host, *port, *buf = NULL;
 	int error, i, isftpurl = 0, isfileurl = 0, isredirect = 0, rval = -1;
 	struct addrinfo hints, *res0, *res;
 	const char * volatile savefile;
-	char * volatile proxy = NULL;
+	char * volatile proxyurl = NULL;
 	volatile int s = -1, out;
 	volatile sig_t oldintr;
 	FILE *fin = NULL;
 	off_t hashbytes;
-	size_t len;
+	const char *errstr;
+	size_t len, wlen;
+#ifndef SMALL
+	char *sslpath = NULL, *sslhost = NULL;
+	int ishttpsurl = 0;
+	SSL_CTX *ssl_ctx = NULL;
+#endif
+	SSL *ssl = NULL;
 
-	line = strdup(origline);
-	if (line == NULL)
+	newline = strdup(origline);
+	if (newline == NULL)
 		errx(1, "Can't allocate memory to parse URL");
-	if (strncasecmp(line, HTTP_URL, sizeof(HTTP_URL) - 1) == 0)
-		host = line + sizeof(HTTP_URL) - 1;
-	else if (strncasecmp(line, FTP_URL, sizeof(FTP_URL) - 1) == 0) {
-		host = line + sizeof(FTP_URL) - 1;
+	if (strncasecmp(newline, HTTP_URL, sizeof(HTTP_URL) - 1) == 0)
+		host = newline + sizeof(HTTP_URL) - 1;
+	else if (strncasecmp(newline, FTP_URL, sizeof(FTP_URL) - 1) == 0) {
+		host = newline + sizeof(FTP_URL) - 1;
 		isftpurl = 1;
-	} else if (strncasecmp(line, FILE_URL, sizeof(FILE_URL) - 1) == 0) {
-		host = line + sizeof(FILE_URL) - 1;
+	} else if (strncasecmp(newline, FILE_URL, sizeof(FILE_URL) - 1) == 0) {
+		host = newline + sizeof(FILE_URL) - 1;
 		isfileurl = 1;
+#ifndef SMALL
+	} else if (strncasecmp(newline, HTTPS_URL, sizeof(HTTPS_URL) - 1) == 0) {
+		host = newline + sizeof(HTTPS_URL) - 1;
+		ishttpsurl = 1;
+#endif
 	} else
-		errx(1, "url_get: Invalid URL '%s'", line);
+		errx(1, "url_get: Invalid URL '%s'", newline);
 
 	if (isfileurl) {
 		path = host;
@@ -157,14 +187,22 @@ url_get(const char *origline, const char *proxyenv, const char *outfile)
 	if (!strcmp(savefile, "/"))
 		savefile = strdup(host);
 
-	if (proxyenv != NULL) {				/* use proxy */
-		proxy = strdup(proxyenv);
-		if (proxy == NULL)
+	if (!isfileurl && proxyenv != NULL) {		/* use proxy */
+#ifndef SMALL
+		if (ishttpsurl) {
+			sslpath = strdup(path);
+			sslhost = strdup(host);
+			if (! sslpath || ! sslhost)
+				errx(1, "Can't allocate memory for https path/host.");
+		}
+#endif
+		proxyurl = strdup(proxyenv);
+		if (proxyurl == NULL)
 			errx(1, "Can't allocate memory for proxy URL.");
-		if (strncasecmp(proxy, HTTP_URL, sizeof(HTTP_URL) - 1) == 0)
-			host = proxy + sizeof(HTTP_URL) - 1;
-		else if (strncasecmp(proxy, FTP_URL, sizeof(FTP_URL) - 1) == 0)
-			host = proxy + sizeof(FTP_URL) - 1;
+		if (strncasecmp(proxyurl, HTTP_URL, sizeof(HTTP_URL) - 1) == 0)
+			host = proxyurl + sizeof(HTTP_URL) - 1;
+		else if (strncasecmp(proxyurl, FTP_URL, sizeof(FTP_URL) - 1) == 0)
+			host = proxyurl + sizeof(FTP_URL) - 1;
 		else {
 			warnx("Malformed proxy URL: %s", proxyenv);
 			goto cleanup_url_get;
@@ -177,7 +215,7 @@ url_get(const char *origline, const char *proxyenv, const char *outfile)
 		path = strchr(host, '/');	/* remove trailing / on host */
 		if (!EMPTYSTRING(path))
 			*path++ = '\0';
-		path = line;
+		path = newline;
 	}
 
 	if (isfileurl) {
@@ -278,15 +316,24 @@ url_get(const char *origline, const char *proxyenv, const char *outfile)
 	memset(&hints, 0, sizeof(hints));
 	hints.ai_family = family;
 	hints.ai_socktype = SOCK_STREAM;
+#ifndef SMALL
+	port = portnum ? portnum : (ishttpsurl ? httpsport : httpport);
+#else
 	port = portnum ? portnum : httpport;
+#endif
 	error = getaddrinfo(host, port, &hints, &res0);
+	/*
+	 * If the services file is corrupt/missing, fall back
+	 * on our hard-coded defines.
+	 */
 	if (error == EAI_SERVICE && port == httpport) {
-		/*
-		 * If the services file is corrupt/missing, fall back
-		 * on our hard-coded defines.
-		 */
 		snprintf(pbuf, sizeof(pbuf), "%d", HTTP_PORT);
 		error = getaddrinfo(host, pbuf, &hints, &res0);
+#ifndef SMALL
+	} else if (error == EAI_SERVICE && port == httpsport) {
+		snprintf(pbuf, sizeof(pbuf), "%d", HTTPS_PORT);
+		error = getaddrinfo(host, pbuf, &hints, &res0);
+#endif
 	}
 	if (error) {
 		warnx("%s: %s", gai_strerror(error), host);
@@ -309,9 +356,13 @@ url_get(const char *origline, const char *proxyenv, const char *outfile)
 
 again:
 		if (connect(s, res->ai_addr, res->ai_addrlen) < 0) {
+			int save_errno;
+
 			if (errno == EINTR)
 				goto again;
+			save_errno = errno;
 			close(s);
+			errno = save_errno;
 			s = -1;
 			cause = "connect";
 			continue;
@@ -324,6 +375,10 @@ again:
 		else
 			port = NULL;
 
+#ifndef SMALL
+		if (proxyenv && sslhost)
+			proxy_connect(s, sslhost);
+#endif
 		break;
 	}
 	freeaddrinfo(res0);
@@ -332,24 +387,53 @@ again:
 		goto cleanup_url_get;
 	}
 
+#ifndef SMALL
+	if (ishttpsurl) {
+		if (proxyenv && sslpath) {
+			ishttpsurl = 0;
+			proxyurl = NULL;
+			path = sslpath;
+		}
+		SSL_library_init();
+		SSL_load_error_strings();
+		SSLeay_add_ssl_algorithms();
+		ssl_ctx = SSL_CTX_new(SSLv23_client_method());
+		ssl = SSL_new(ssl_ctx);
+		if (ssl == NULL || ssl_ctx == NULL) {
+			ERR_print_errors_fp(ttyout);
+			goto cleanup_url_get;
+		}
+		if (SSL_set_fd(ssl, s) == 0) {
+			ERR_print_errors_fp(ttyout);
+			goto cleanup_url_get;
+		}
+		if (SSL_connect(ssl) <= 0) {
+			ERR_print_errors_fp(ttyout);
+			goto cleanup_url_get;;
+		}
+	} else {
+		fin = fdopen(s, "r+");
+	}
+#else
 	fin = fdopen(s, "r+");
+#endif
 
 	if (verbose)
 		fprintf(ttyout, "Requesting %s", origline);
 	/*
 	 * Construct and send the request. Proxy requests don't want leading /.
 	 */
-	if (proxy) {
+	if (proxyurl) {
 		if (verbose)
 			fprintf(ttyout, " (via %s)\n", proxyenv);
 		/*
 		 * Host: directive must use the destination host address for
 		 * the original URI (path).  We do not attach it at this moment.
 		 */
-		fprintf(fin, "GET %s HTTP/1.0\r\n%s\r\n\r\n", path,
+		ftp_printf(fin, ssl, "GET %s HTTP/1.0\r\n%s\r\n\r\n", path,
 		    HTTP_USER_AGENT);
 	} else {
-		fprintf(fin, "GET /%s HTTP/1.1\r\nHost: ", path);
+		ftp_printf(fin, ssl, "GET /%s HTTP/1.0\r\nHost: ", path);
 		if (strchr(host, ':')) {
 			char *h, *p;
 
@@ -362,29 +446,32 @@ again:
 				errx(1, "Can't allocate memory.");
 			if ((p = strchr(h, '%')) != NULL)
 				*p = '\0';
-			fprintf(fin, "[%s]", h);
+			ftp_printf(fin, ssl, "[%s]", h);
 			free(h);
 		} else
-			fprintf(fin, "%s", host);
+			ftp_printf(fin, ssl, "%s", host);
 
 		/*
 		 * Send port number only if it's specified and does not equal
 		 * 80. Some broken HTTP servers get confused if you explicitly
 		 * send them the port number.
 		 */
+#ifndef SMALL
+		if (port && strcmp(port, (ishttpsurl ? "443" : "80")) != 0)
+			ftp_printf(fin, ssl, ":%s", port);
+#else
 		if (port && strcmp(port, "80") != 0)
-			fprintf(fin, ":%s", port);
-		fprintf(fin, "\r\nConnection: close\r\n%s\r\n\r\n",
-		    HTTP_USER_AGENT);
+			ftp_printf(fin, ssl, ":%s", port);
+#endif
+		ftp_printf(fin, ssl, "\r\n%s\r\n\r\n", HTTP_USER_AGENT);
 		if (verbose)
 			fprintf(ttyout, "\n");
 	}
-	if (fflush(fin) == EOF) {
+	if (fin != NULL && fflush(fin) == EOF) {
 		warn("Writing HTTP request");
 		goto cleanup_url_get;
 	}
-
-	if ((buf = fparseln(fin, &len, NULL, "\0\0\0", 0)) == NULL) {
+	if ((buf = ftp_readline(fin, ssl, &len)) == NULL) {
 		warn("Receiving HTTP reply");
 		goto cleanup_url_get;
 	}
@@ -416,11 +503,12 @@ again:
 	free(buf);
 	filesize = -1;
 
-	while (1) {
-		if ((buf = fparseln(fin, &len, NULL, "\0\0\0", 0)) == NULL) {
+	for (;;) {
+		if ((buf = ftp_readline(fin, ssl, &len)) == NULL) {
 			warn("Receiving HTTP reply");
 			goto cleanup_url_get;
 		}
+
 		while (len > 0 && (buf[len-1] == '\r' || buf[len-1] == '\n'))
 			buf[--len] = '\0';
 		if (len == 0)
@@ -433,8 +521,8 @@ again:
 #define CONTENTLEN "Content-Length: "
 		if (strncasecmp(cp, CONTENTLEN, sizeof(CONTENTLEN) - 1) == 0) {
 			cp += sizeof(CONTENTLEN) - 1;
-			filesize = strtol(cp, &ep, 10);
-			if (filesize < 1 || *ep != '\0')
+			filesize = strtonum(cp, 0, LLONG_MAX, &errstr);
+			if (errstr != NULL)
 				goto improper;
 #define LOCATION "Location: "
 		} else if (isredirect &&
@@ -446,12 +534,10 @@ again:
 				fclose(fin);
 			else if (s != -1)
 				close(s);
-			if (proxy)
-				free(proxy);
-			free(line);
+			free(proxyurl);
+			free(newline);
 			rval = url_get(cp, proxyenv, outfile);
-			if (buf)
-				free(buf);
+			free(buf);
 			return (rval);
 		}
 	}
@@ -485,10 +571,12 @@ again:
 	if ((buf = malloc(4096)) == NULL)
 		errx(1, "Can't allocate memory for transfer buffer");
 	i = 0;
-	while ((len = fread(buf, sizeof(char), 4096, fin)) > 0) {
+	len = 1;
+	while (len > 0) {
+		len = ftp_read(fin, ssl, buf, 4096);
 		bytes += len;
-		for (cp = buf; len > 0; len -= i, cp += i) {
-			if ((i = write(out, cp, len)) == -1) {
+		for (cp = buf, wlen = len; wlen > 0; wlen -= i, cp += i) {
+			if ((i = write(out, cp, wlen)) == -1) {
 				warn("Writing %s", savefile);
 				goto cleanup_url_get;
 			}
@@ -536,15 +624,19 @@ improper:
 	warnx("Improper response from %s", host);
 
 cleanup_url_get:
+#ifndef SMALL
+	if (ssl) {
+		SSL_shutdown(ssl);
+		SSL_free(ssl);
+	}
+#endif
 	if (fin != NULL)
 		fclose(fin);
 	else if (s != -1)
 		close(s);
-	if (buf)
-		free(buf);
-	if (proxy)
-		free(proxy);
-	free(line);
+	free(buf);
+	free(proxyurl);
+	free(newline);
 	return (rval);
 }
 
@@ -594,8 +686,8 @@ int
 auto_fetch(int argc, char *argv[], char *outfile)
 {
 	char *xargv[5];
-	char *cp, *line, *host, *dir, *file, *portnum;
-	char *user, *pass, *pathstart;
+	char *cp, *url, *host, *dir, *file, *portnum;
+	char *username, *pass, *pathstart;
 	char *ftpproxy, *httpproxy;
 	int rval, xargc;
 	volatile int argpos;
@@ -620,25 +712,29 @@ auto_fetch(int argc, char *argv[], char *outfile)
 	/*
 	 * Loop through as long as there's files to fetch.
 	 */
-	for (rval = 0; (rval == 0) && (argpos < argc); free(line), argpos++) {
+	for (rval = 0; (rval == 0) && (argpos < argc); free(url), argpos++) {
 		if (strchr(argv[argpos], ':') == NULL)
 			break;
-		host = dir = file = portnum = user = pass = NULL;
+		host = dir = file = portnum = username = pass = NULL;
 
 		/*
 		 * We muck with the string, so we make a copy.
 		 */
-		line = strdup(argv[argpos]);
-		if (line == NULL)
+		url = strdup(argv[argpos]);
+		if (url == NULL)
 			errx(1, "Can't allocate memory for auto-fetch.");
 
 		/*
 		 * Try HTTP URL-style arguments first.
 		 */
-		if (strncasecmp(line, HTTP_URL, sizeof(HTTP_URL) - 1) == 0 ||
-		    strncasecmp(line, FILE_URL, sizeof(FILE_URL) - 1) == 0) {
+		if (strncasecmp(url, HTTP_URL, sizeof(HTTP_URL) - 1) == 0 ||
+#ifndef SMALL
+		    /* even if we compiled without SSL, url_get will check */
+		    strncasecmp(url, HTTPS_URL, sizeof(HTTPS_URL) -1) == 0 ||
+#endif
+		    strncasecmp(url, FILE_URL, sizeof(FILE_URL) - 1) == 0) {
 			redirect_loop = 0;
-			if (url_get(line, httpproxy, outfile) == -1)
+			if (url_get(url, httpproxy, outfile) == -1)
 				rval = argpos + 1;
 			continue;
 		}
@@ -648,12 +744,12 @@ auto_fetch(int argc, char *argv[], char *outfile)
 		 * set, use url_get() instead of standard ftp.
 		 * Finally, try host:file.
 		 */
-		host = line;
-		if (strncasecmp(line, FTP_URL, sizeof(FTP_URL) - 1) == 0) {
+		host = url;
+		if (strncasecmp(url, FTP_URL, sizeof(FTP_URL) - 1) == 0) {
 			char *passend, *passagain, *userend;
 
 			if (ftpproxy) {
-				if (url_get(line, ftpproxy, outfile) == -1)
+				if (url_get(url, ftpproxy, outfile) == -1)
 					rval = argpos + 1;
 				continue;
 			}
@@ -667,7 +763,7 @@ auto_fetch(int argc, char *argv[], char *outfile)
 			passend = strchr(host, '@');
 			if (passend && userend && userend < passend &&
 			    (!dir || passend < dir)) {
-				user = host;
+				username = host;
 				pass = userend + 1;
 				host = passend + 1;
 				*userend = *passend = '\0';
@@ -678,13 +774,13 @@ auto_fetch(int argc, char *argv[], char *outfile)
 					goto bad_ftp_url;
 				}
 
-				if (EMPTYSTRING(user) || EMPTYSTRING(pass)) {
+				if (EMPTYSTRING(username) || EMPTYSTRING(pass)) {
 bad_ftp_url:
 					warnx("Invalid URL: %s", argv[argpos]);
 					rval = argpos + 1;
 					continue;
 				}
-				user = urldecode(user);
+				username = urldecode(username);
 				pass = urldecode(pass);
 			}
 
@@ -764,7 +860,7 @@ bad_ftp_url:
 		if (debug)
 			fprintf(ttyout,
 			    "user %s:%s host %s port %s dir %s file %s\n",
-			    user, pass, host, portnum, dir, file);
+			    username, pass, host, portnum, dir, file);
 
 		/*
 		 * Set up the connection.
@@ -781,12 +877,12 @@ bad_ftp_url:
 			xargc = 3;
 		}
 		oautologin = autologin;
-		if (user != NULL)
+		if (username != NULL)
 			autologin = 0;
 		setpeer(xargc, xargv);
 		autologin = oautologin;
 		if ((connected == 0) ||
-		    ((connected == 1) && !ftp_login(host, user, pass))) {
+		    ((connected == 1) && !ftp_login(host, username, pass))) {
 			warnx("Can't connect or login to host `%s'", host);
 			rval = argpos + 1;
 			continue;
@@ -876,8 +972,10 @@ urldecode(const char *str)
 			*ret = ' ';
 			continue;
 		}
-		/* Can't use strtol here because next char after %xx may be
-		 * a digit. */
+
+		/* Cannot use strtol here because next char
+		 * after %xx may be a digit.
+		 */
 		if (c == '%' && isxdigit(str[i+1]) && isxdigit(str[i+2])) {
 			*ret = hextochar(&str[i+1]);
 			i+=2;
@@ -918,8 +1016,140 @@ isurl(const char *p)
 
 	if (strncasecmp(p, FTP_URL, sizeof(FTP_URL) - 1) == 0 ||
 	    strncasecmp(p, HTTP_URL, sizeof(HTTP_URL) - 1) == 0 ||
+#ifndef SMALL
+	    strncasecmp(p, HTTPS_URL, sizeof(HTTPS_URL) - 1) == 0 ||
+#endif
 	    strncasecmp(p, FILE_URL, sizeof(FILE_URL) - 1) == 0 ||
 	    strstr(p, ":/"))
 		return (1);
 	return (0);
 }
+
+char *
+ftp_readline(FILE *fp, SSL *ssl, size_t *lenp)
+{
+	if (fp != NULL)
+		return fparseln(fp, lenp, NULL, "\0\0\0", 0);
+#ifndef SMALL
+	else if (ssl != NULL)
+		return SSL_readline(ssl, lenp);
+#endif
+	else
+		return NULL;
+}
+
+size_t
+ftp_read(FILE *fp, SSL *ssl, char *buf, size_t len)
+{
+	size_t ret;
+	if (fp != NULL)
+		ret = fread(buf, sizeof(char), len, fp);
+#ifndef SMALL
+	else if (ssl != NULL) {
+		int nr;
+
+		if (len > INT_MAX)
+			len = INT_MAX;
+		if ((nr = SSL_read(ssl, buf, (int)len)) <= 0)
+			ret = 0;
+		else
+			ret = nr;
+	}
+#endif
+	else
+		ret = 0;
+	return (ret);
+}
+
+int
+ftp_printf(FILE *fp, SSL *ssl, const char *fmt, ...)
+{
+	int ret;
+	va_list ap;
+
+	va_start(ap, fmt);
+
+	if (fp != NULL)
+		ret = vfprintf(fp, fmt, ap);
+#ifndef SMALL
+	else if (ssl != NULL)
+		ret = SSL_vprintf((SSL*)ssl, fmt, ap);
+#endif
+	else
+		ret = 0;
+
+	va_end(ap);
+	return (ret);
+}
+
+#ifndef SMALL
+int
+SSL_vprintf(SSL *ssl, const char *fmt, va_list ap)
+{
+	int ret;
+	char *string;
+
+	if ((ret = vasprintf(&string, fmt, ap)) == -1)
+		return ret;
+	ret = SSL_write(ssl, string, ret);
+	free(string);
+	return ret;
+}
+
+char *
+SSL_readline(SSL *ssl, size_t *lenp)
+{
+	size_t i, len;
+	char *buf, *q, c;
+
+	len = 128;
+	if ((buf = malloc(len)) == NULL)
+		errx(1, "Can't allocate memory for transfer buffer");
+	for (i = 0; ; i++) {
+		if (i >= len - 1) {
+			if ((q = realloc(buf, 2 * len)) == NULL)
+				errx(1, "Can't expand transfer buffer");
+			buf = q;
+			len *= 2;
+		}
+		if (SSL_read(ssl, &c, 1) <= 0)
+			break;
+		buf[i] = c;
+		if (c == '\n')
+			break;
+	}
+	*lenp = i;
+	return (buf);
+}
+
+int
+proxy_connect(int socket, char *host)
+{
+	int l;
+	char buf[1024];
+	char *connstr, *hosttail, *port;
+
+	if (*host == '[' && (hosttail = strrchr(host, ']')) != NULL &&
+		(hosttail[1] == '\0' || hosttail[1] == ':')) {
+		host++;
+		*hosttail++ = '\0';
+	} else
+		hosttail = host;
+
+	port = strrchr(hosttail, ':');               /* find portnum */
+	if (port != NULL)
+		*port++ = '\0';
+	if (!port)
+		port = "443";
+
+	l = asprintf(&connstr, "CONNECT %s:%s HTTP/1.1\n\n", host, port);
+	if (l == -1)
+		errx(1, "Could not allocate memory to assemble connect string!");
+	if (debug)
+		printf("%s", connstr);
+	if (write(socket, connstr, l) != l)
+		err(1, "Could not send connect string");
+	read(socket, &buf, sizeof(buf)); /* only proxy header XXX: error handling? */
+	return(200);
+}
+#endif

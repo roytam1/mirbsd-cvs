@@ -1,4 +1,4 @@
-/*	$OpenBSD: ruserpass.c,v 1.18 2004/07/20 03:50:26 deraadt Exp $	*/
+/*	$OpenBSD: ruserpass.c,v 1.20 2006/05/16 23:43:16 ray Exp $	*/
 /*	$NetBSD: ruserpass.c,v 1.14 1997/07/20 09:46:01 lukem Exp $	*/
 
 /*
@@ -44,7 +44,7 @@
 #include "ftp_var.h"
 
 __SCCSID("@(#)ruserpass.c	8.4 (Berkeley) 4/27/95");
-__RCSID("$MirOS: src/usr.bin/ftp/ruserpass.c,v 1.2 2005/03/15 18:44:52 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ftp/ruserpass.c,v 1.3 2005/04/29 18:35:09 tg Exp $");
 
 static	int token(void);
 static	FILE *cfile;
@@ -105,7 +105,7 @@ next:
 
 	case DEFAULT:
 		usedefault = 1;
-		/* FALL THROUGH */
+		/* FALLTHROUGH */
 
 	case MACH:
 		if (!usedefault) {
