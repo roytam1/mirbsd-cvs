@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/biosdev.c,v 1.31 2009/01/11 13:36:05 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/libsa/biosdev.c,v 1.32 2009/01/11 13:43:47 tg Exp $ */
 /*	$OpenBSD: biosdev.c,v 1.74 2008/06/25 15:32:18 reyk Exp $	*/
 
 /*
@@ -97,6 +97,7 @@ int
 bios_getdiskinfo(int dev, bios_diskinfo_t *pdi)
 {
 	u_int rv;
+	int lback;
 
 	/* Just reset, don't check return code */
 	rv = biosdreset(dev);
@@ -121,13 +122,19 @@ bios_getdiskinfo(int dev, bios_diskinfo_t *pdi)
 		    pdi->bios_heads, pdi->bios_sectors);
 	}
 #endif
+
+	lback = biosdev_lbaprobe(dev);
+
 	if (rv & 0xff) {
-		if (dev >= 0x88 && (biosdev_lbaprobe(dev) & 16)) {
-			/* fake for CD-ROMs */
-			pdi->bios_heads = 1;
-			pdi->bios_cylinders = 100;
+		if ((lback & 0x19) == 0x19) {
+			/* CD-ROM, LBA (only) */
+			pdi->bios_heads = 15;
+			pdi->bios_cylinders = 15;
 			pdi->bios_sectors = 32;
-			pdi->flags |= BDI_EL_TORITO;
+		} else if ((lback & 0x09) == 0x09) {
+			printf("bios_getdiskinfo(%X): LBA but no CHS, not "
+			    "a CD-ROM? please report %X\n", dev, lback);
+			return 1;
 		} else
 			return 1;
 	}
@@ -138,50 +145,14 @@ bios_getdiskinfo(int dev, bios_diskinfo_t *pdi)
 	pdi->bios_cylinders &= 0x3ff;
 	pdi->bios_cylinders++;
 
-	/* NOTE:
-	 * This currently hangs/reboots some machines
-	 * The IBM ThinkPad 750ED for one.
-	 *
-	 * Funny that an IBM/MS extension would not be
-	 * implemented by an IBM system...
-	 *
-	 * Future hangs (when reported) can be "fixed"
-	 * with getSYSCONFaddr() and an exceptions list.
-	 */
-	if (dev & 0x80 && (dev == 0x80 || dev == 0x81 || dev == 0xFF /*bios_bootdev*/)) {
-		int bm;
-
-#ifdef BIOS_DEBUG
-		if (debug)
-			printf("getinfo: try #41, 0x%x\n", dev);
-#endif
-		/* EDD support check */
-		__asm __volatile(DOINT(0x13) "; setc %b0"
-			 : "=a" (rv), "=c" (bm)
-			 : "0" (0x4100), "b" (0x55aa), "d" (dev) : "cc");
-		if (!(rv & 0xff) && (BIOS_regs.biosr_bx & 0xffff) == 0xaa55)
-			pdi->bios_edd = (bm & 0xffff) | ((rv & 0xff) << 16);
-		else
-			pdi->bios_edd = -1;
-
-#ifdef BIOS_DEBUG
-		if (debug) {
-			printf("getinfo: got #41\n");
-			printf("disk 0x%x: 0x%x\n", dev, bm);
-		}
-#endif
-		/*
-		 * If extended disk access functions are not supported
-		 * there is not much point on doing EDD.
-		 */
-		if (!(pdi->bios_edd & EXT_BM_EDA))
-			pdi->bios_edd = -1;
-	} else
-		pdi->bios_edd = -1;
-
-	/* Skip sanity check for CHS options in EDD mode. */
-	if (pdi->bios_edd != -1)
-		return 0;
+	pdi->flags &= ~(BDI_LBA | BDI_EL_TORITO);
+	if ((lback & 0x09) == 0x09) {
+		pdi->flags |= BDI_LBA;
+		if (lback & 0x10)
+			pdi->flags |= BDI_EL_TORITO;
+		/* skip sanity check for CHS options in EDD mode */
+		return (0);
+	}
 
 	/* Sanity check */
 	if (!pdi->bios_cylinders || !pdi->bios_heads || !pdi->bios_sectors) {
@@ -192,7 +163,6 @@ bios_getdiskinfo(int dev, bios_diskinfo_t *pdi)
 		return(1);
 	}
 
-	/* CD-ROMs sometimes return heads == 1 */
 	if (pdi->bios_heads < 2) {
 #ifdef BIOS_DEBUG
 		printf("sanity: c/h/s heads < 2\n");
@@ -331,7 +301,7 @@ real_io(int rw, bios_diskinfo_t *bd, daddr_t off, int nsect, void *buf)
 	/* Try to do operation up to 5 times */
 	for (error = 1, j = 5; j-- && error; ) {
 		/* CHS or LBA access? */
-		if (bd->bios_edd != -1) {
+		if (bd->flags & BDI_LBA) {
 			error = EDD_rw(rw, dev, off, nsect, buf);
 		} else {
 			int cyl, head, sect;
@@ -531,9 +501,9 @@ biosopen(struct open_file *f, ...)
 
 #ifdef BIOS_DEBUG
 	if (debug) {
-		printf("BIOS geometry: heads=%u, s/t=%u; EDD=%d\n",
+		printf("BIOS geometry: heads=%u, s/t=%u; EDD=%s\n",
 		    dip->bios_info.bios_heads, dip->bios_info.bios_sectors,
-		    dip->bios_info.bios_edd);
+		    bd->flags & BDI_LBA ? "on" : "off");
 	}
 #endif
 

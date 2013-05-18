@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/diskprobe.c,v 1.15 2009/01/10 23:43:08 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/libsa/diskprobe.c,v 1.16 2009/01/11 00:32:41 tg Exp $ */
 /*	$OpenBSD: diskprobe.c,v 1.29 2007/06/18 22:11:20 krw Exp $	*/
 
 /*
@@ -150,8 +150,7 @@ hardprobe_one(int i)
 		dip->name[0] = 'c';
 		dip->name[2] = '0' + cddv++;
 	}
-	printf(" %s%s", dip->name,
-	    (dip->bios_info.bios_edd > 0 ? "+" : ""));
+	printf(" %s%s", dip->name, dip->bios_info.flags & BDI_LBA ? "+" : "");
 
 	/* Try to find the label, to figure out device type */
 	if ((bios_getdisklabel(&dip->bios_info, &dip->disklabel)) ) {

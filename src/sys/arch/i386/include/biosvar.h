@@ -145,7 +145,6 @@ typedef struct _bios_diskinfo {
 	u_int bios_cylinders;	/* BIOS cylinders */
 	u_int bios_heads;	/* BIOS heads */
 	u_int bios_sectors;	/* BIOS sectors */
-	int bios_edd;		/* EDD support */
 
 	/* BSD section */
 	dev_t bsd_dev;		/* BSD device */
@@ -160,6 +159,7 @@ typedef struct _bios_diskinfo {
 #define BDI_BADLABEL	0x00000004	/* Had another disklabel */
 #define BDI_EL_TORITO	0x00000008	/* 2,048-byte sectors */
 #define BDI_NOTADISK	0x00000010	/* not a disc */
+#define BDI_LBA		0x00000020	/* EDD access via LBA functions *.
 #define BDI_PICKED	0x80000000	/* kernel-only: cksum matched */
 
 } bios_diskinfo_t;

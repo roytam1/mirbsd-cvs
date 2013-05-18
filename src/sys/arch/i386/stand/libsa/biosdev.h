@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: biosdev.h,v 1.31 2007/04/27 10:08:34 tom Exp $	*/
 
 /*
@@ -29,18 +30,6 @@
 
 #ifndef	_MACHINE_LIBSA_BIOSDEV_H
 #define	_MACHINE_LIBSA_BIOSDEV_H
-
-/*
- * Extension support bitmap definition (returned by 41h)
- */
-#define EXT_BM_EDA	0x01	/* Extended disk access functions	*/
-				/*  (42h-44h, 47h and 48h) supported.	*/
-#define EXT_BM_RDC	0x02	/* Removable drive controller functions	*/
-				/*  (45h, 46h, 48h, 49h and INT 15 52h)	*/
-				/*  supported.				*/
-#define EXT_BM_EDD	0x04	/* Enhanced disk drive functions	*/
-				/*  (48h and 4eh) supported.		*/
-#define EXT_BM_RSV	0xf8	/* Reserved (0)				*/
 
 struct consdev;
 struct open_file;
