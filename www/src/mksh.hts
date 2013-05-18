@@ -2,7 +2,7 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.142 2008/07/11 15:09:36 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.143 2008/07/11 15:13:23 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R35</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -508,6 +508,9 @@ mws_content <<'EOF'
  formatting time.</p>
 
 <h2 id="upgrade">For packagers: Upgrades</h2>
+<p>At <a href="http://freshmeat.net/projects/mksh">Freshmeat</a> you can
+ subscribe to get automatically notified (with a summary of changes, not
+ the complete changelog, see below) whenever new releases are put out.</p>
 <p><strong>Note:</strong> This is <em>not</em> <a href="#clog">the
  ChangeLog</a>, these are the packager-visible upgrade notes regarding
  changes in the build system (<tt>Build.sh</tt> and friends, compiler
@@ -784,8 +787,11 @@ mws_content <<'EOF'
  <li>MirOS #10-current (i386 gcc3.4.6) via MirOS SRPM</li>
  <li>OpenBSD 4.3 GENERIC#207 (zaurus gcc3.3.5) via MirOS OpenBSD-Port</li>
  <li>Debian GNU/Linux 4.0 etch 2.6.18-4-686 (i386 gcc4.1.1-21) via MirOS SRPM</li>
+ <li>Debian GNU/Linux 4.0 testing 2.6.24-1-686 (i386 gcc4.3.1-2 libc6-2.7-10 + dietlibc-0.31-1) via MirOS Debian package</li>
  <li style="list-style:none;">– tests by third parties (Build.sh) –</li>
- <li>MidnightBSD 0.1.1-RELEASE (amd64 gcc3.4.4-20050518)</li>
+ <li>MidnightBSD 0.1.1-RELEASE (amd64 gcc3.4.4-20050518), by Lucas Holt</li>
+ <li>SGI IRIX64 6.5 (mips:R10K mipspro7.4.4m) <em>except</em> locale support, by Elias Pipping</li>
+ <li>SGI IRIX64 6.5 (mips:R10K gcc3.4.1) <em>except</em> locale support, by Elias Pipping</li>
 </ul>
 <h3 id="regress_dev">Development Versions</h3>
 <ul>
@@ -817,8 +823,6 @@ mws_content <<'EOF'
  <li style="list-style:none;">– tests by third parties (Build.sh) –</li>
  <li>HP OSF/1 V4.0F 1229 (alpha DEC C V5.9-005) <em>by Jupp Schugt</em></li>
  <li>HP OSF/1 V4.0F 1229 (alpha gcc2.8.1 alpha-dec-osf4.0d) <em>by Jupp Schugt</em></li>
- <li>SGI IRIX64 (mips gcc3.4.1 mips-sgi-irix6.5) <em>by Elias Pipping</em></li>
- <li>SGI IRIX64 6.5 (mips:R10k mipspro7.4.4m) <em>by Elias Pipping</em></li>
 </ul>
 <h3 id="regress_old">Older Releases</h3>
 <ul>
@@ -956,6 +960,7 @@ mws_content <<'EOF'
   &lt;awmorp@gmail.com&gt; – maybe the rest is a kernel bug?)</li>
  <!-- li>Import the GNU bash- and zsh-style ability to get and set multiple
   limits in a single invocation from oksh (thanks millert) -->
+ <li>IRIX also has no UTF-8 locale at all, confirmed by Elias Pipping</li>
 </ul>
 <p id="r35">mksh R35 comes with helluva changes:</p><ul>
   <li>Simplify and refactor the ulimit builtin, partially from oksh</li>
