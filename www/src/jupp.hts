@@ -1,14 +1,14 @@
-# $MirOS: www/src/jupp.hts,v 1.34 2012/06/08 00:56:57 tg Exp $
+# $MirOS: www/src/jupp.hts,v 1.35 2012/06/08 21:43:00 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/juppp "jupp – Programmer’s Editor"
 mws_setheadline jupp – the Editor which sucks less
-mws_putheader '$MirOS: www/src/jupp.hts,v 1.34 2012/06/08 00:56:57 tg Exp $'
+mws_putheader '$MirOS: www/src/jupp.hts,v 1.35 2012/06/08 21:43:00 tg Exp $'
 mws_content <<'EOF'
 <p>The current version is <em>joe-2.8jupp2</em> for MS-DOS® compatible systems,
- and <em>joe-3.1jupp20</em> for Unix/GNU compatible systems. This page is
+ and <em>joe-3.1jupp21</em> for Unix/GNU compatible systems. This page is
  accessible under <a href="http://mirbsd.de/jupp">http://mirbsd.de/jupp</a>
  canonically.</p>
 
@@ -63,7 +63,13 @@ mws_content <<'EOF'
 </ul>
 
 <p>Neat tricks:</p><ul>
- <li>Help: ^J – navigate with Esc+. and back with Esc+,</li>
+ <li>The notation “^X”, where X is a commercial at sign, an uppercase letter,
+  square bracket, backslash, a(nother) caret or an underscore, means to press
+  the <tt>Ctrl</tt> key and hold it down while hitting the second key, then
+  release the <tt>Ctrl</tt> key again. Most key sequences in jupp use either
+  the ^Xy (or ^X^Y or ^XY) style or the ^[. style – “^[” is <tt>Esc</tt></li>
+ <li>Help: <tt>^J</tt> – navigate with <tt>Esc</tt>+<tt>.</tt> and back
+  with <tt>Esc</tt>+<tt>,</tt> (there are several pages)</li>
  <li>The last reference card of the online help system contains an
   ascii(7) table / 8-bit character map</li>
  <li>Search for non-ASCII characters in jupp:<br />
@@ -92,8 +98,8 @@ mws_content <<'EOF'
 <h2 id="fetch">Retrieval</h2>
 <h3>Direct download</h3>
 <p>You can download jupp at least from one of the following mirrors:</p><ul>
- <li><a href="https://www.mirbsd.org/MirOS/dist/jupp/joe-3.1jupp20.tgz">https://www.mirbsd.org/MirOS/dist/jupp/joe-3.1jupp20.tgz</a></li>
- <li><a href="http://pub.allbsd.org/MirOS/dist/jupp/joe-3.1jupp20.tgz">http://pub.allbsd.org/MirOS/dist/jupp/joe-3.1jupp20.tgz</a></li>
+ <li><a href="https://www.mirbsd.org/MirOS/dist/jupp/joe-3.1jupp21.tgz">https://www.mirbsd.org/MirOS/dist/jupp/joe-3.1jupp21.tgz</a></li>
+ <li><a href="http://pub.allbsd.org/MirOS/dist/jupp/joe-3.1jupp21.tgz">http://pub.allbsd.org/MirOS/dist/jupp/joe-3.1jupp21.tgz</a></li>
  <li style="list-style:none;">↑ Unix │ DOS ↓</li>
  <li><a href="https://www.mirbsd.org/MirOS/dist/jupp/joe-2.8jupp2.cpio.gz">https://www.mirbsd.org/MirOS/dist/jupp/joe-2.8jupp2.cpio.gz</a></li>
  <li><a href="http://pub.allbsd.org/MirOS/dist/jupp/joe-2.8jupp2.cpio.gz">http://pub.allbsd.org/MirOS/dist/jupp/joe-2.8jupp2.cpio.gz</a></li>
@@ -101,10 +107,10 @@ mws_content <<'EOF'
 </ul>
 <p>Please do not forget to check the received file’s integry using both
  gzsig(1) and one of the hashes below:</p><ul>
- <li>RMD160 (joe-3.1jupp20.tgz) = e60bbb2322115532a0d9b9f7a65d225af2e56132</li>
- <li>TIGER (joe-3.1jupp20.tgz) = cf37e9d73fd623abef64106a7ba0d9901b566852b2a48fd3</li>
- <li>1737494148 440346 /MirOS/dist/jupp/joe-3.1jupp20.tgz</li>
- <li>MD5 (joe-3.1jupp20.tgz) = 6be8d315ee73e7d50d30c37abcf40599</li>
+ <li>RMD160 (joe-3.1jupp21.tgz) = b16cf6ecbcf3b8d7e18c9affe11a880c1ce5cf2d</li>
+ <li>TIGER (joe-3.1jupp21.tgz) = 42d815d3dfd7b9ce1de3482729b9748eef6b1ae697a652b4</li>
+ <li>4164541011 440602 /MirOS/dist/jupp/joe-3.1jupp21.tgz</li>
+ <li>MD5 (joe-3.1jupp21.tgz) = 71f693274b7de73b3133b633572e3536</li>
  <li style="list-style:none;">↑ Unix │ DOS ↓</li>
  <li>RMD160 (joe-2.8jupp2.cpio.gz) = a4e8b49faae7dcda377479311092d9868207fe41</li>
  <li>TIGER (joe-2.8jupp2.cpio.gz) = c3a234efde9365e3b3d28094ce6133babc9c7325d8613555</li>
@@ -114,9 +120,9 @@ mws_content <<'EOF'
 
 <h3>Unpacking</h3>
 <p>Use a command like<br />
- <tt>$ tar xzf joe-3.1jupp20.tgz</tt> # paxtar, bsdtar, GNU tar, …<br />
- <tt>$ gzip -dc joe-3.1jupp20.tgz | cpio -idm</tt> # any cpio<br />
- <tt>$ pax -r -z &lt;joe-3.1jupp20.tgz</tt> # any POSIX® archiver<br />
+ <tt>$ tar xzf joe-3.1jupp21.tgz</tt> # paxtar, bsdtar, GNU tar, …<br />
+ <tt>$ gzip -dc joe-3.1jupp21.tgz | cpio -idm</tt> # any cpio<br />
+ <tt>$ pax -r -z &lt;joe-3.1jupp21.tgz</tt> # any POSIX® archiver<br />
  to extract the distfile. The DOS version requires similar commands,
  although GNU tar will not be able to extract the <tt>.cpio.gz</tt> archive.
  Both extract into a sub-directory <tt>jupp/</tt> (not versioned).</p>
@@ -276,6 +282,11 @@ $ $SUDO make install</pre>
 <!--
 <p>[2011-10-05] Changes in the current development version:</p><ul>
 -->
+<p id="r3_1j21">[2012-07-18] Changes for joe-3.1jupp21:</p><ul>
+ <li>Fix use of uninitialised memory</li>
+ <li>Do not underflow attribute buffer in syntax highlighting code</li>
+ <li>Use automake version fixing <tt>CVE-2012-3386</tt></li>
+</ul>
 <p id="r3_1j20">[2012-06-08] Changes for joe-3.1jupp20:</p><ul>
  <li>Fix mistakes in the ctime replacement code for klibc</li>
  <li>Fix mistakes in the configure script</li>

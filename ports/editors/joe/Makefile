@@ -1,8 +1,8 @@
-# $MirOS: ports/editors/joe/Makefile,v 1.23 2012/06/08 00:56:56 tg Exp $
+# $MirOS: ports/editors/joe/Makefile,v 1.24 2012/06/08 21:42:57 tg Exp $
 
 COMMENT=		Joe's Own Editor (jupp)
 CATEGORIES=		editors
-DISTNAME=		joe-3.1jupp20
+DISTNAME=		joe-3.1jupp21
 HOMEPAGE=		http://mirbsd.de/jupp
 RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.org>
 
@@ -19,6 +19,15 @@ WRKDIST=		${WRKDIR}/jupp
 CONFIGURE_STYLE=	gnu
 CONFIGURE_ARGS+=	--disable-termidx
 EXTRA_FAKE_FLAGS=	sysconfdir=${TRUEPREFIX:Q}/share/examples
+
+.include <mirports.sys.mk>
+
+.ifdef __CRAZY
+CFLAGS+=		-Wno-unused-parameter -Wno-missing-field-initializers \
+			-Wno-old-style-definition -Wno-strict-prototypes \
+			-Wno-cast-qual \
+			-Wno-missing-prototypes -Wno-missing-declarations
+.endif
 
 post-install:
 	${INSTALL_DATA_DIR} ${PREFIX:Q}/share/doc/joe
