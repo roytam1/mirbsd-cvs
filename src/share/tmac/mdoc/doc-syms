@@ -1,8 +1,8 @@
-.\"	$MirOS: src/share/tmac/mdoc/doc-syms,v 1.5 2006/08/11 00:12:01 tg Exp $
+.\"	$MirOS: src/share/tmac/mdoc/doc-syms,v 1.6 2006/08/11 00:33:03 tg Exp $
 .\"	$OpenBSD: doc-syms,v 1.57 2005/06/05 19:39:27 jmc Exp $
 .\"
-.\" Copyright (c) 2003, 2004
-.\"	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+.\" Copyright (c) 2003, 2004, 2006
+.\"	Thorsten Glaser <tg@mirbsd.org>
 .\" Copyright (c) 1991
 .\"	The Regents of the University of California.
 .\" All rights reserved.
