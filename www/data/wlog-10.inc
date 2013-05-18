@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.418 2013/03/05 16:56:54 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.419 2013/03/24 16:24:17 bsiegert Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -9916,4 +9916,22 @@ Tag: pkgsrc
  machines. This time, I will try to automate this process with Ansible,
  making up the recipes as I go along, and then (more importantly)
  publish these recipes for others to use and to share.</p>
+----
+Date: 24.03.2013 21:39
+Author: tg@
+Title: Earthcache Master (Bronze)
+Tag: debian geocache
+
+<p>Since a while…</p><table>
+<tr><td align="center">I am a proud</td></tr>
+<tr><td align="center"><a href="http://www.earthcache.org/"><img
+ src="http://img.geocaching.com/user/1847de56-1d37-4def-b22b-97b71bd2f1fd.jpg"
+ style="border:0;" alt="EarthCache Master" /></a></td></tr>
+</table>
+<p>On the other hand… I should probably put up my own, local, list
+ of found caches, considering what happened to me on “Open”caching.
+ And maybe write intros for people new to geocaching, since it’d be
+ virtually no work now had I done it initially. (And for fanfiction
+ readers! I wish I’d kept a list of <em>read</em> fics, not just of
+ these I currently read and/or are currently unfinished.)</p>
 ----
