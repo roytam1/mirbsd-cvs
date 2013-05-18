@@ -1,5 +1,5 @@
 vers(__file__,
-	{-$MirOS: src/etc/etc.i386/MAKEDEV.md,v 1.6 2005/07/23 15:36:58 tg Exp $-})dnl
+	{-$MirOS: src/etc/etc.i386/MAKEDEV.md,v 1.7 2005/08/02 12:02:06 tg Exp $-})dnl
 vers(__file__,
 	{-$OpenBSD: MAKEDEV.md,v 1.32 2005/06/29 18:23:27 todd Exp $-},
 etc.MACHINE)dnl
@@ -48,7 +48,7 @@ _TITLE(term)
 _DEV(com, 8)
 _DEV(ttyc, 38)
 _TITLE(pty)
-_DEV(ptm, 81)
+_DEV(ptm, 82)
 _DEV(pty, 6)
 _DEV(tty, 5)
 _TITLE(cons)
@@ -81,7 +81,7 @@ _DEV(cry, 70)
 _DEV(fdesc, 22)
 dnl #notyet#_DEV(gpio, 83)
 _DEV(gpr, 80)
-dnl #notyet#_DEV(hotplug, 82)
+dnl #notyet#_DEV(hotplug, 81)
 _DEV(iop, 75)
 _DEV(joy, 26)
 _DEV(lkm, 28)
