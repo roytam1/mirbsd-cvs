@@ -1,8 +1,7 @@
-# $MirOS: ports/lang/python/2.5/Makefile,v 1.16 2009/10/13 19:10:18 bsiegert Exp $
+# $MirOS: ports/lang/python/2.5/Makefile,v 1.17 2010/01/06 17:32:37 bsiegert Exp $
 
 VERSION=		2.5
-PATCHLEVEL=		.4
-DASH_VER=		1
+PATCHLEVEL=		.5
 
 LIB_DEPENDS+=		ffi::devel/libffi
 LIB_DEPENDS+=		gdbm::databases/gdbm
