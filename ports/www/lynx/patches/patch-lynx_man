@@ -1,11 +1,11 @@
-$MirOS: ports/www/lynx/patches/patch-lynx_man,v 1.2 2008/12/17 00:24:42 tg Exp $
+$MirOS: ports/www/lynx/patches/patch-lynx_man,v 1.3 2009/01/18 20:22:04 tg Exp $
 
 	site policy
 
---- lynx.man.orig	Thu Jan  1 01:22:02 2009
-+++ lynx.man	Sun Jan 18 19:50:15 2009
-@@ -207,16 +207,16 @@ it is equivalent to setting the \fBCOLOR
- library like \fBncurses\fR, Lynx relies completely on the terminal
+--- lynx.man.orig	Mon Oct  4 09:44:32 2010
++++ lynx.man	Thu Dec 23 20:13:40 2010
+@@ -218,16 +218,16 @@ it is equivalent to setting the \fBCOLOR
+ library like \fBncurses\fR, \fILynx\fP relies completely on the terminal
  description to determine whether color mode is possible, and
  this flag is not needed and thus unavailable.)
 -A saved show_color=always setting found in a .lynxrc file at
@@ -24,7 +24,7 @@ $MirOS: ports/www/lynx/patches/patch-lynx_man,v 1.2 2008/12/17 00:24:42 tg Exp $
  for most systems, but ~/cookies for MS-DOS.
  .TP
  .B \-cookie_save_file\fR=\fIFILENAME
-@@ -403,7 +403,7 @@ within a mailto URL or form ACTION.
+@@ -416,7 +416,7 @@ within a mailto URL or form ACTION.
  .TP
  .B \-nocolor
  force color mode off, overriding terminal capabilities and any
@@ -33,21 +33,30 @@ $MirOS: ports/www/lynx/patches/patch-lynx_man,v 1.2 2008/12/17 00:24:42 tg Exp $
  .TP
  .B \-noexec
  disable local program execution. (DEFAULT)
-@@ -620,7 +620,7 @@ your domain (utmp required for selectivi
- - disallow USENET News posting.
- 
- .I options_save
--- disallow saving options in .lynxrc.
-+- disallow saving options in .etc/lynxrc.
- 
- .I outside_ftp
- - disallow ftps for people coming from outside your
-@@ -783,7 +783,7 @@ Logically OR the values to combine optio
- .br
- 4=TRST (table layout)
- .br
--8=config (lynx.cfg, .lynxrc, .lynx-keymaps, mime.types and mailcap contents)
-+8=config (lynx.cfg, .etc/lynxrc, .lynx-keymaps, mime.types and mailcap contents)
- .br
- 16=binary string copy/append, used in form data construction.
- .br
+@@ -634,7 +634,7 @@ disallow mail.
+ disallow USENET News posting.
+ .TP
+ .B options_save
+-disallow saving options in .lynxrc.
++disallow saving options in .etc/lynxrc.
+ .TP
+ .B outside_ftp
+ disallow ftps for people coming from outside your
+@@ -803,7 +803,7 @@ color-style
+ TRST (table layout)
+ .TP
+ .B 8
+-configuration (lynx.cfg, .lynxrc, .lynx-keymaps, mime.types and mailcap contents)
++configuration (lynx.cfg, .etc/lynxrc, .lynx-keymaps, mime.types and mailcap contents)
+ .TP
+ .B 16
+ binary string copy/append, used in form data construction.
+@@ -969,7 +969,7 @@ the contents of an /etc/organization fil
+ .TP
+ .B NNTPSERVER
+ If set, this variable specifies the default NNTP server that will be used
+-for \fBUSENET\fR news reading and posting with \fILynx\fR, via news: URL's.
++for \fBUSENET\fR news reading and posting with \fILynx\fR, via news: URLs.
+ .TP
+ .B ORGANIZATION
+ This variable, if set, provides the string used in the \fBOrganization:\fR

@@ -1,15 +1,15 @@
-$MirOS: ports/www/lynx/patches/patch-src_LYEdit_c,v 1.1 2008/03/12 12:05:25 tg Exp $
+$MirOS: ports/www/lynx/patches/patch-src_LYEdit_c,v 1.2 2008/12/17 00:24:42 tg Exp $
 
 	Intended for upstream inclusion
 	‣ http://mirbsd.de/jupp
 
---- src/LYEdit.c.orig	Mon Apr 28 00:10:02 2008
-+++ src/LYEdit.c	Wed Dec 17 00:22:36 2008
-@@ -30,6 +30,7 @@ BOOLEAN editor_can_position(void)
+--- src/LYEdit.c.orig	Mon Oct  4 09:44:32 2010
++++ src/LYEdit.c	Thu Dec 23 20:13:40 2010
+@@ -29,6 +29,7 @@ BOOLEAN editor_can_position(void)
+ 	"joe",			/* + rjoe */
  	"jove",
- 	"jpico",
  	"jstar",
 +	"jupp",
  	"nano",
- 	"pico",
- 	"rjoe",
+ 	"pico",			/* + jpico */
+ 	"vi"			/* + vim, xvi, vile, elvis, view... + likely false matches */

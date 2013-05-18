@@ -1,0 +1,15 @@
+$MirOS$
+
+	Fix spelling; suggested for upstream inclusion.
+
+--- WWW/Library/Implementation/HTTelnet.c.orig	Wed Nov 25 10:56:24 2009
++++ WWW/Library/Implementation/HTTelnet.c	Thu Dec 23 20:13:40 2010
+@@ -75,7 +75,7 @@ static int remote_session(char *acc_meth
+      * Modified to allow for odd chars in a username only if exists.
+      * 05-28-94 Lynx 2-3-1 Garrett Arch Blythe
+      */
+-    /* prevent telnet://hostname;rm -rf *  URL's (VERY BAD)
++    /* prevent telnet://hostname;rm -rf *  URLs (VERY BAD)
+      *  *cp=0;        // terminate at any ;,<,>,`,|,",' or space or return
+      * or tab to prevent security hole
+      */

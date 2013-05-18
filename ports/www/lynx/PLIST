@@ -1,13 +1,15 @@
-@comment $MirOS: ports/www/lynx/pkg/PLIST,v 1.8 2008/03/09 18:19:44 tg Exp $
+@comment $MirOS: ports/www/lynx/PLIST,v 1.1 2009/08/09 15:46:30 tg Exp $
 bin/lynx
 bin/oldlynx
 man/man1/lynx.1
+share/doc/lynx/lynx_doc/AUTHORS
 share/doc/lynx/lynx_doc/CHANGES
+@comment share/doc/lynx/lynx_doc/CHANGES.bak.orig
 share/doc/lynx/lynx_doc/COPYHEADER
 share/doc/lynx/lynx_doc/COPYHEADER.asc
 @comment share/doc/lynx/lynx_doc/COPYING
 @comment share/doc/lynx/lynx_doc/COPYING.asc
-@comment share/doc/lynx/lynx_doc/PROBLEMS
+share/doc/lynx/lynx_doc/PROBLEMS
 share/doc/lynx/lynx_doc/README
 share/doc/lynx/lynx_doc/docs/CHANGES2.3
 share/doc/lynx/lynx_doc/docs/CHANGES2.4
@@ -26,6 +28,7 @@ share/doc/lynx/lynx_doc/docs/README.defines
 share/doc/lynx/lynx_doc/docs/README.jp
 share/doc/lynx/lynx_doc/docs/README.metrics
 share/doc/lynx/lynx_doc/docs/README.options
+share/doc/lynx/lynx_doc/docs/README.release
 share/doc/lynx/lynx_doc/docs/README.rootcerts
 share/doc/lynx/lynx_doc/docs/README.ssl
 share/doc/lynx/lynx_doc/docs/README.sslcerts
@@ -33,7 +36,6 @@ share/doc/lynx/lynx_doc/docs/SOCKETSHR.announce
 share/doc/lynx/lynx_doc/docs/TCPWARE.announce
 share/doc/lynx/lynx_doc/docs/VMSWAIS.announce
 share/doc/lynx/lynx_doc/docs/djgpp.key
-@comment share/doc/lynx/lynx_doc/docs/index.html
 share/doc/lynx/lynx_doc/docs/pdcurses.key
 share/doc/lynx/lynx_doc/docs/slang.key
 share/doc/lynx/lynx_doc/docs/win-386.announce
@@ -41,7 +43,6 @@ share/doc/lynx/lynx_doc/samples/blue-background.lss
 share/doc/lynx/lynx_doc/samples/bright-blue.lss
 share/doc/lynx/lynx_doc/samples/cernrules.txt
 share/doc/lynx/lynx_doc/samples/home.htm
-@comment share/doc/lynx/lynx_doc/samples/index.html
 share/doc/lynx/lynx_doc/samples/installdirs.html
 share/doc/lynx/lynx_doc/samples/jumps.htm
 share/doc/lynx/lynx_doc/samples/jumpsUnix.html
@@ -73,7 +74,6 @@ share/doc/lynx/lynx_doc/test/bad-html.html
 share/doc/lynx/lynx_doc/test/c1.html
 share/doc/lynx/lynx_doc/test/cp-1252.html
 share/doc/lynx/lynx_doc/test/cp-1252a.html
-@comment share/doc/lynx/lynx_doc/test/index.html
 share/doc/lynx/lynx_doc/test/iso-8859-1.html
 share/doc/lynx/lynx_doc/test/iso-8859-1a.html
 share/doc/lynx/lynx_doc/test/iso-8859-2.html
@@ -93,7 +93,6 @@ share/doc/lynx/lynx_help/COPYHEADER
 @comment share/doc/lynx/lynx_help/COPYING
 share/doc/lynx/lynx_help/Lynx_users_guide.html
 share/doc/lynx/lynx_help/about_lynx.html
-@comment share/doc/lynx/lynx_help/index.html
 share/doc/lynx/lynx_help/keystrokes/alt_edit_help.html
 share/doc/lynx/lynx_help/keystrokes/bashlike_edit_help.html
 share/doc/lynx/lynx_help/keystrokes/bookmark_help.html
@@ -104,7 +103,6 @@ share/doc/lynx/lynx_help/keystrokes/environments.html
 share/doc/lynx/lynx_help/keystrokes/follow_help.html
 share/doc/lynx/lynx_help/keystrokes/gopher_types_help.html
 share/doc/lynx/lynx_help/keystrokes/history_help.html
-@comment share/doc/lynx/lynx_help/keystrokes/index.html
 share/doc/lynx/lynx_help/keystrokes/keystroke_help.html
 share/doc/lynx/lynx_help/keystrokes/movement_help.html
 share/doc/lynx/lynx_help/keystrokes/option_help.html

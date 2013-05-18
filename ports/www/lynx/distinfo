@@ -1,7 +1,12 @@
 $MirOS$
 
-MD5 (lynx2.8.7rel.1.tar.gz) = 124253e635f7c76bdffc47b9d036c812
-RMD160 (lynx2.8.7rel.1.tar.gz) = f3a68d1d16210398d76ddee06d62525bf83a93b9
-SHA1 (lynx2.8.7rel.1.tar.gz) = 92d82ae9c24314d1f6c8fb49719491c08757f80e
-SIZE (lynx2.8.7rel.1.tar.gz) = 3423782
-TIGER (lynx2.8.7rel.1.tar.gz) = 62610c1270a7e0097442ccd55c771b8217a7025f240276fd
+MD5 (lynx2.8.8dev.7.tar.gz) = f6218d11feaf4dc0ff806dd3c2699a92
+MD5 (lynx2.8.8dev.7a.patch.gz) = 2503c486827f2bec2f0cfe363457d0ab
+RMD160 (lynx2.8.8dev.7.tar.gz) = 0d8b0aebdd7bbca2a544d1832a13bf3185c0cd72
+RMD160 (lynx2.8.8dev.7a.patch.gz) = aeb9369e5e3bb780e63d45000c8491fc67619523
+SHA1 (lynx2.8.8dev.7.tar.gz) = f43f70e2396cbf03343b8a0142b8eddf6fdd3a0a
+SHA1 (lynx2.8.8dev.7a.patch.gz) = 9addd8a26111b61dd310de865c0fc3f10f1d7abf
+SIZE (lynx2.8.8dev.7.tar.gz) = 3451043
+SIZE (lynx2.8.8dev.7a.patch.gz) = 1448
+TIGER (lynx2.8.8dev.7.tar.gz) = 6217a4e2589346175369aabe5809ee456b6b963e807c3cc8
+TIGER (lynx2.8.8dev.7a.patch.gz) = f4962f8ab8a102a109b1fd9d088a1b5a22ed63b3e03dd03c

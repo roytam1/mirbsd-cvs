@@ -1,0 +1,15 @@
+$MirOS$
+
+	Fix spelling; suggested for upstream inclusion.
+
+--- lynx_help/keystrokes/environments.html.orig	Thu May 17 22:52:59 2007
++++ lynx_help/keystrokes/environments.html	Thu Dec 23 20:13:40 2010
+@@ -111,7 +111,7 @@ Environment Variables Used By Lynx:
+                            If set, this  variable  specifies  the
+                            default  NNTP server that will be used
+                            for USENET news  reading  and  posting
+-                           with Lynx, via news: URL's.
++                           with Lynx, via news: URLs.
+ 
+        ORGANIZATION
+                            This  variable,  if  set, provides the

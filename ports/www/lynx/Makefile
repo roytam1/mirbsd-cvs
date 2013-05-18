@@ -1,11 +1,9 @@
-# $MirOS: ports/www/lynx/Makefile,v 1.32 2009/12/26 15:18:41 tg Exp $
-
-BROKEN=			update in progress
+# $MirOS: ports/www/lynx/Makefile,v 1.33 2010/12/19 19:22:18 tg Exp $
 
 COMMENT=		standard text-mode world wide web browser
 CATEGORIES=		www essentials
-VSN=			2.8.8dev.7
-DASH_VER=		0		# in sync with MirOS-0A?? rev.
+VSN=			2.8.8dev.7a
+DASH_VER=		0		# in sync with MirOS-0AAD rev.
 DISTNAME=		lynx${VSN:C/[a-z]$//}
 .if ${VSN} != ${VSN:C/[a-z]$//}
 PATCHFILES=		lynx${VSN}.patch.gz:0
@@ -28,7 +26,7 @@ PERMIT_PACKAGE_FTP=	Yes
 FLAVOURS=		wide
 FLAVOUR?=		wide
 
-WRKDIST=		${WRKDIR}/lynx2-8-7
+WRKDIST=		${WRKDIR}/lynx2-8-8
 MAKE_FILE=		makefile
 CPPFLAGS+=		-DLYNX_VERSION=\"${VSN}-MirPorts-${DASH_VER}\"
 INSTALL_TARGET=		install-full
@@ -36,7 +34,8 @@ NO_REGRESS=		Yes
 
 MODULES+=		converters/libiconv
 CONFIGURE_STYLE=	autoconf no-autoheader
-CONFIGURE_ARGS+=	--enable-vertrace \
+CONFIGURE_ARGS+=	--enable-echo \
+			--enable-vertrace \
 			--enable-warnings \
 			--disable-nls \
 			--disable-full-paths \
@@ -48,28 +47,30 @@ CONFIGURE_ARGS+=	--enable-vertrace \
 			--enable-ipv6 \
 			--with-screen=ncursesw \
 			--enable-widec \
+			--enable-color-style \
 			--disable-htmlized-cfg \
 			--enable-locale-charset \
+			--disable-sessions \
+			--disable-session-cache \
 			--enable-addrlist-page \
-			--enable-ascii-ctypes \
-			--enable-charset-choice \
 			--enable-cjk \
 			--enable-japanese-utf8 \
-			--enable-color-style \
 			--disable-default-colors \
 			--enable-kbd-layout \
 			--enable-nested-tables \
+			--enable-ascii-ctypes \
+			--disable-idna \
+			--enable-justify-elts \
 			--enable-progressbar \
 			--disable-scrollbar \
-			--disable-sessions \
-			--disable-session-cache \
-			--enable-justify-elts \
+			--enable-charset-choice \
 			--enable-internal-links \
 			--enable-nsl-fork \
 			--enable-underlines \
 			--without-bzlib \
 			--with-zlib \
-			--without-x
+			--without-x \
+			--disable-rpath-hack
 # do not hardcode paths; do not scan for ports stuff
 # bzip2 is special and must always be disabled, otherwise
 # it tries to handle it internally as if linking with the
@@ -108,6 +109,7 @@ CONFIGURE_ARGS+=	--with-screen=ncurses \
 .endif
 
 post-install:
+	${INSTALL_DATA} ${WRKSRC}/AUTHORS ${PREFIX}/share/doc/lynx/lynx_doc/
 	${INSTALL_SCRIPT} ${WRKSRC}/samples/oldlynx ${PREFIX}/bin/
 
 .include <bsd.port.mk>
