@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.bin/Makefile,v 1.5 2006/06/16 22:01:13 tg Exp $
+# $MirOS: src/gnu/usr.bin/Makefile,v 1.6 2006/06/16 23:35:36 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -7,7 +7,7 @@
   SUBDIR+= anoncvs	# must be after CVS
   SUBDIR+= lynx
   SUBDIR+= mkisofs
-.if !defined(CROSS_MODE) || (${CROSS_MODE:L} != "yes")
+.if ${CROSS_MODE:L} != "yes"
   SUBDIR+= perl		# must be after binutils (why?)
 .endif
   SUBDIR+= rcs
