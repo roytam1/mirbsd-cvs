@@ -372,6 +372,7 @@ PW32*)
 	: ${HAVE_SETLOCALE_CTYPE=0}
 	;;
 QNX)
+	CPPFLAGS="$CPPFLAGS -D__NO_EXT_QNX"
 	oldish_ed=no-stderr-ed		# oldish /bin/ed is broken
 	: ${HAVE_SETLOCALE_CTYPE=0}
 	;;
