@@ -1,5 +1,5 @@
-#!/bin/sh
-# $MirOS: contrib/hosted/fwcf/fwcf.sh,v 1.32 2007/06/11 12:47:21 tg Exp $
+#!/bin/mksh
+# $MirOS: contrib/hosted/fwcf/fwcf.sh,v 1.33 2007/07/02 14:55:44 tg Exp $
 #-
 # Copyright (c) 2006, 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -43,13 +43,12 @@
 export PATH=/bin:/sbin:/usr/bin:/usr/sbin
 wd=$(pwd)
 cd /
-what='FreeWRT Configuration Filesytem (fwcf), Version 1.04
+what='FreeWRT Configuration Filesytem (fwcf), Version 1.05
 Copyright (c) 2006, 2007
 	Thorsten Glaser <tg@freewrt.org>
 '
 
-usage()
-{
+function usage {
 	cat >&2 <<EOF
 $what
 Usage:
@@ -59,76 +58,48 @@ EOF
 	exit 1
 }
 
-case $0 in
-*fwcf*)		me=fwcf ;;
-*halt*)		me=halt ;;
-*poweroff*)	me=poweroff ;;
-*reboot*)	me=reboot ;;
-*)		usage ;;
-esac
+case $0 {
+(*fwcf*)	me=fwcf ;;
+(*halt*)	me=halt ;;
+(*poweroff*)	me=poweroff ;;
+(*reboot*)	me=reboot ;;
+(*)		usage ;;
+}
 
-if test $me != fwcf; then
-	dflag=0
+if [[ $me != fwcf ]]; then
+	integer dflag=0
 	dval=
-	fflag=0
-	nofwcf=0
-	nflag=0
-	# parse arguments
-	for i
-	do
-		if test 2 = $dflag; then
-			dflag=1
-			dval=$i
-			continue
-		fi
-		ok=0
-		case $i in
-		-)
-			usage ;;
-		-*[!dFfn]*)
-			usage ;;
-		--)
-			ok=2 ;;
-		-*)
-			ok=1 ;;
-		esac
-		test 2 = $ok && break
-		test 1 = $ok || usage
-		case $i in
-		-*d)	dflag=2 ;;
-		-*d*)	usage ;;
-		esac
-		case $i in
-		-*F*)	nofwcf=1 ;;
-		esac
-		case $i in
-		-*f*)	fflag=1 ;;
-		esac
-		case $i in
-		-*n*)	nflag=1 ;;
-		esac
+	integer fflag=0
+	integer nofwcf=0
+	integer nflag=0
+	while getopts ":d:Ffn" ch; do
+		case $ch {
+		(d)	dflag=1; dval=$OPTARG ;;
+		(F)	nofwcf=1 ;;
+		(f)	fflag=1 ;;
+		(n)	nflag=1 ;;
+		(*)	usage ;;
+		}
 	done
-	test 2 = $dflag && usage
+	shift $((OPTIND - 1))
 
-	if test 0 = $nofwcf && test 0 = $fflag; then
-		if ! fwcf status -q; then
-			echo "error: will not $me: unsaved changes in /etc found!" >&2
-			echo "Either run 'fwcf commit' before trying to $me" >&2
-			echo "or retry with '$me -F${*+ }$*' to force a ${me}." >&2
-			echo "Run 'fwcf status' to see which files are changed." >&2
-			exit 2
-		fi
+	(( nofwcf == fflag == 0 )) && if ! fwcf status -q; then
+		print -u2 "error: will not $me: unsaved changes in /etc found!"
+		print -u2 "Either run 'fwcf commit' before trying to $me"
+		print -u2 "or retry with '$me -F${*+ }$*' to force a ${me}."
+		print -u2 "Run 'fwcf status' to see which files are changed."
+		exit 2
 	fi
 
-	test 1 = $fflag && me="$me -f"
-	test 1 = $nflag && me="$me -n"
-	test 1 = $dflag && me="$me -d '$dval'"
+	(( fflag )) && me="$me -f"
+	(( nflag )) && me="$me -n"
+	(( dflag )) && me="$me -d '$dval'"
 	eval exec busybox $me
 fi
 
-case $1 in
-commit|erase|setup|status|dump|restore) ;;
-*)	cat >&2 <<EOF
+case $1 {
+(commit|erase|setup|status|dump|restore) ;;
+(*)	cat >&2 <<EOF
 $what
 Syntax:
 	$0 commit [-f]
@@ -138,11 +109,11 @@ Syntax:
 	$0 { dump | restore } [<filename>]
 EOF
 	exit 1 ;;
-esac
+}
 
 part=/dev/mtd/$(fgrep '"fwcf"' /proc/mtd 2>/dev/null | sed 's/^mtd\([^:]*\):.*$/\1/')ro
-if ! test -e "$part"; then
-	echo 'fwcf: fatal error: no "fwcf" mtd partition found!' >&2
+if [[ ! -e $part ]]; then
+	print -u2 'fwcf: fatal error: no "fwcf" mtd partition found!'
 	exit 1
 fi
 
@@ -154,12 +125,12 @@ fi
 
 if test $1 = setup; then
 	if test -e /tmp/.fwcf; then
-		echo 'fwcf: error: "fwcf setup" already run!' >&2
+		print -u2 'fwcf: error: "fwcf setup" already run!'
 		exit 1
 	fi
 	mkdir /tmp/.fwcf
 	if test ! -d /tmp/.fwcf; then
-		echo 'fwcf: error: cannot create temporary directory!' >&2
+		print -u2 'fwcf: error: cannot create temporary directory!'
 		exit 4
 	fi
 	chown 0:0 /tmp/.fwcf
@@ -170,18 +141,17 @@ if test $1 = setup; then
 	mount -t tmpfs fwcf /tmp/.fwcf/temp
 	(cd /tmp/.fwcf/root; tar cf - .) | (cd /tmp/.fwcf/temp; tar xpf -)
 	unclean=0
-	if test x"$1" = x"-N"; then
+	if [[ $1 = -N ]]; then
 		unclean=2
 	else
 		x=$(dd if="$part" bs=4 count=1 2>/dev/null)
-		test x"$x" = x"FWCF" || fwcf.helper -Me | mtd -F write - fwcf
+		[[ $x = FWCF ]] || fwcf.helper -Me | mtd -F write - fwcf
 		if ! fwcf.helper -U /tmp/.fwcf/temp <"$part"; then
 			unclean=1
-			echo 'fwcf: error: cannot extract' >&2
+			print -u2 'fwcf: error: cannot extract'
 			echo unclean startup | logger -t 'fwcf setup'
 		fi
 		if test -e /tmp/.fwcf/temp/.fwcf_deleted; then
-			# this is safe even in ash (I hope)
 			while IFS= read -r file; do
 				rm -f "/tmp/.fwcf/temp/$file"
 			done </tmp/.fwcf/temp/.fwcf_deleted
@@ -191,7 +161,7 @@ if test $1 = setup; then
 	test $unclean = 0 || echo -n >/tmp/.fwcf/temp/.fwcf_unclean
 	rm -f /tmp/.fwcf/temp/.fwcf_done
 	if test -e /tmp/.fwcf/temp/.fwcf_done; then
-		echo 'fwcf: fatal: this is not Kansas any more' >&2
+		print -u2 'fwcf: fatal: this is not Kansas any more'
 		umount /tmp/.fwcf/temp
 		umount /tmp/.fwcf/root
 		rm -rf /tmp/.fwcf
@@ -199,7 +169,7 @@ if test $1 = setup; then
 	fi
 	echo -n >/tmp/.fwcf/temp/.fwcf_done
 	if test ! -e /tmp/.fwcf/temp/.fwcf_done; then
-		echo 'fwcf: fatal: cannot write to tmpfs' >&2
+		print -u2 'fwcf: fatal: cannot write to tmpfs'
 		umount /tmp/.fwcf/temp
 		umount /tmp/.fwcf/root
 		rm -rf /tmp/.fwcf
@@ -209,10 +179,10 @@ if test $1 = setup; then
 	mount --bind /tmp/.fwcf/temp /etc
 	if test ! -e /etc/.fwcf_done; then
 		umount /etc
-		echo 'fwcf: fatal: binding to /etc failed' >&2
+		print -u2 'fwcf: fatal: binding to /etc failed'
 		if test $unclean = 0; then
-			echo 'fwcf: configuration is preserved' \
-			    'in /tmp/.fwcf/temp' >&2
+			print -u2 'fwcf: configuration is preserved' \
+			    in /tmp/.fwcf/temp
 		else
 			umount /tmp/.fwcf/temp
 		fi
@@ -235,7 +205,7 @@ if test $1 = commit; then
 			fwcf: error: not yet initialised
 			explanation: "fwcf setup" was not yet run
 		EOF
-		test x"$1" = x"-f" || exit 11
+		[[ $1 = -f ]] || exit 11
 	fi
 	if test -e /etc/.fwcf_unclean; then
 		cat >&2 <<-EOF
@@ -245,7 +215,7 @@ if test $1 = commit; then
 			    result in data loss; to override this check, remove
 			    the file /etc/.fwcf_unclean and try again.
 		EOF
-		test x"$1" = x"-f" || exit 7
+		[[ $1 = -f ]] || exit 7
 	fi
 	mount -t tmpfs swap /tmp/.fwcf/temp
 	(cd /etc; tar cf - .) | (cd /tmp/.fwcf/temp; tar xpf -)
@@ -257,18 +227,18 @@ if test $1 = commit; then
 	rm -f /tmp/.fwcf/temp/.fwcf_* /tmp/.fwcf/temp/.rnd
 	find . -type f | while read f; do
 		f=${f#./}
-		if ! test -e "/tmp/.fwcf/temp/$f"; then
-			test x"$f" = x".rnd" && continue
+		if [[ ! -e /tmp/.fwcf/temp/$f ]]; then
+			[[ $f = .rnd ]] && continue
 			printf '%s\n' "$f" >>/tmp/.fwcf/temp/.fwcf_deleted
 			continue
 		fi
 		x=$(md5sum "$f" 2>/dev/null)
 		y=$(cd ../temp; md5sum "$f" 2>/dev/null)
-		test x"$x" = x"$y" && rm "../temp/$f"
+		[[ $x = $y ]] && rm "../temp/$f"
 	done
 	rv=0
 	if ! ( fwcf.helper -M /tmp/.fwcf/temp | mtd -F write - fwcf ); then
-		echo 'fwcf: error: cannot write to mtd!' >&2
+		print -u2 'fwcf: error: cannot write to mtd!'
 		rv=6
 	fi
 	umount /tmp/.fwcf/temp
@@ -281,21 +251,19 @@ if test $1 = status; then
 			fwcf: error: not yet initialised
 			explanation: "fwcf setup" was not yet run
 		EOF
-		test x"$1" = x"-f" || exit 11
+		[[ $1 = -f ]] || exit 11
 	fi
 	rm -f /tmp/.fwcf/*_status /tmp/.fwcf/*_files
 	rflag=0
 	q=printf	# or : (true) if -q
-	# XXX if we had mksh 'getopts' this would look nicer
 	shift
-	for arg in "$@"; do
-		case $arg in
-		-*r*)	rflag=1 ;;
-		esac
-		case $arg in
-		-*q*)	q=: ;;
-		esac
+	while getopts "rq" ch; do
+		case $ch {
+		(r)	rflag=1 ;;
+		(q)	q=: ;;
+		}
 	done
+	shift $((OPTIND - 1))
 	if test $rflag = 1; then
 		f=/tmp/.fwcf/rom_status
 		cd /tmp/.fwcf/root
@@ -305,8 +273,8 @@ if test $1 = status; then
 		f=/tmp/.fwcf/status
 		fwcf.helper -Zd $f.asz $f || rm -f $f
 	fi
-	if ! test -e $f; then
-		echo 'fwcf: error: old status file not found' >&2
+	if [[ ! -e $f ]]; then
+		print -u2 'fwcf: error: old status file not found'
 		exit 9
 	fi
 	cd /etc
@@ -330,9 +298,9 @@ if test $1 = status; then
 	while :; do
 		IFS=' ' read oldsum oldname <&3 || break
 		IFS=' ' read newsum newname <&4 || exit 255
-		test x"$oldname" = x"$newname" || exit 255
-		test x"$oldsum" = x"$newsum" && continue
-		test $gotany = 0 && $q '%-32s %-32s %s\n' \
+		[[ $oldname = $newname ]] || exit 255
+		[[ $oldsum = $newsum ]] && continue
+		[[ $gotany = 0 ]] && $q '%-32s %-32s %s\n' \
 		    'MD5 hash of old file' 'MD5 hash of new file' 'filename'
 		gotany=8
 		test $q = : && break
@@ -344,7 +312,7 @@ fi
 
 if test $1 = dump; then
 	fn=$2
-	test -n "$fn" || fn=-
+	[[ -n $fn ]] || fn=-
 	rm -rf /tmp/.fwcf.dump
 	mkdir -m 0700 /tmp/.fwcf.dump
 	cd /tmp/.fwcf.dump
@@ -357,25 +325,25 @@ if test $1 = dump; then
 	tar -cf - dump seed | (cd "$wd"; fwcf.helper -Z - $fn)
 	cd /
 	rm -rf /tmp/.fwcf.dump
-	case $fn in
-	-)	echo "fwcf: dump to standard output complete." >&2
+	case $fn {
+	(-)	print -u2 "fwcf: dump to standard output complete."
 		;;
-	*)	echo "fwcf: dump to '$fn' complete." >&2
+	(*)	print -u2 "fwcf: dump to '$fn' complete."
 		ls -l "$fn" >&2
 		;;
-	esac
+	}
 	exit 0
 fi
 
 if test $1 = restore; then
 	if test -e /tmp/.fwcf; then
-		echo 'fwcf: warning: "fwcf setup" already run!' >&2
-		echo 'please reboot after restoring; in no event' >&2
-		echo 'run "fwcf commit" to prevent data loss' >&2
+		print -u2 'fwcf: warning: "fwcf setup" already run!'
+		print -u2 'please reboot after restoring; in no event'
+		print -u2 'run "fwcf commit" to prevent data loss'
 		echo -n >/etc/.fwcf_unclean
 	fi
 	fn=$2
-	test -n "$fn" || fn=-
+	[[ -n $fn ]] || fn=-
 	rm -rf /tmp/.fwcf.restore
 	mkdir -m 0700 /tmp/.fwcf.restore
 	cd /tmp/.fwcf.restore
@@ -386,26 +354,26 @@ if test $1 = restore; then
 	fi
 	dd if=seed of=/dev/urandom bs=256 count=1 >/dev/null 2>&1
 	if test ! -e dump; then
-		echo 'fwcf: error: invalid backup' >&2
+		print -u2 'fwcf: error: invalid backup'
 		cd /
 		rm -rf /tmp/.fwcf.restore
 		exit 12
 	fi
 	if ! ( fwcf.helper -MD dump | mtd -F write - fwcf ); then
-		echo 'fwcf: error: cannot write to mtd!' >&2
+		print -u2 'fwcf: error: cannot write to mtd!'
 		exit 6
 	fi
 	cd /
 	rm -rf /tmp/.fwcf.restore
-	case $fn in
-	-)	echo "fwcf: restore from standard output complete." >&2
+	case $fn {
+	(-)	print -u2 "fwcf: restore from standard output complete."
 		;;
-	*)	echo "fwcf: restore from '$fn' complete." >&2
+	(*)	print -u2 "fwcf: restore from '$fn' complete."
 		ls -l "$fn" >&2
 		;;
-	esac
+	}
 	exit 0
 fi
 
-echo 'fwcf: cannot be reached...' >&2
+print -u2 'fwcf: cannot be reached...'
 exit 255
