@@ -1,11 +1,11 @@
-# $MirOS: www/src/jupp.hts,v 1.28 2011/07/27 19:08:26 tg Exp $
+# $MirOS: www/src/jupp.hts,v 1.29 2011/08/06 18:21:44 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/juppp "jupp – Programmer’s Editor"
 mws_setheadline jupp – the Editor which sucks less
-mws_putheader '$MirOS: www/src/jupp.hts,v 1.28 2011/07/27 19:08:26 tg Exp $'
+mws_putheader '$MirOS: www/src/jupp.hts,v 1.29 2011/08/06 18:21:44 tg Exp $'
 mws_content <<'EOF'
 <p>The current version is <em>joe-2.8jupp2</em> for MS-DOS® compatible systems,
  and <em>joe-3.1jupp17</em> for Unix/GNU compatible systems. This page is
@@ -214,7 +214,8 @@ $ $SUDO make install</pre>
 <h2 id="wishlist">Wishlist</h2>
 <p>It’d be cool if jupp could…</p><ul>
  <li>redraw a line if it has been scrolled and had combining
-  characters in it before</li>
+  characters in it before – actually, scrap that; make that:
+  handle Unicode combining characters, <em>at all</em>…</li>
  <li>look for <tt>${0}rc</tt> in <tt>$(dirname $0)/</tt> (somewhat
   superseded by the built-in minimal-<tt>jupprc</tt> now though…)</li>
  <li>soft line break: display as line-wrapped, but save no newlines</li>
