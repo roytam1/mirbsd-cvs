@@ -1,4 +1,4 @@
-/* $MirOS: src/gnu/usr.bin/lynx/src/LYMain.c,v 1.3 2005/03/27 22:52:43 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/lynx/src/LYMain.c,v 1.4 2005/04/14 18:50:13 tg Exp $ */
 
 #include <HTUtils.h>
 #include <HTTP.h>
@@ -1151,31 +1151,14 @@ int main(int argc,
     StrAllocCopy(system_mail_flags, "");
 #endif
 
-    /*
-     * Ugly code - but StrAlloc* is a macro :(
-     */
-    StrAllocCopy(LYUserAgent, "Mozilla/5.0 (UNIX; U; ");
-#if defined(__OpenBSD__)
-    StrAllocCat(LYUserAgent, "OpenBSD");
-#elif defined(__FreeBSD__)
-    StrAllocCat(LYUserAgent, "FreeBSD");
-#elif defined(__NetBSD__)
-    StrAllocCat(LYUserAgent, "NetBSD");
-#elif defined(__Linux__)
-    StrAllocCat(LYUserAgent, "GNU/Linux");
-#elif defined(WIN32)
-    StrAllocCat(LYUserAgent, "Win32");
-#elif defined(_WINDOWS)
-    StrAllocCat(LYUserAgent, "Windows (non-32 bit)");
-#elif defined(VMS)
-    StrAllocCat(LYUserAgent, "VMS");
-#else
-    StrAllocCat(LYUserAgent, "other");
-#endif
-    StrAllocCat(LYUserAgent, "; C; compatible) ");
-    StrAllocCat(LYUserAgent, LYNX_NAME);
+    StrAllocCopy(LYUserAgent, LYNX_NAME);
     StrAllocCat(LYUserAgent, "/");
     StrAllocCat(LYUserAgent, LYNX_VERSION);
+    /*
+     * rationale: certain web backends only give Mozilla or Internet
+     * Explorer users the "real" web page by checking the user agent
+     */
+    StrAllocCat(LYUserAgent, " (compatible; MSIE 6.0; UNIX)");
     if (HTLibraryVersion) {
 	StrAllocCat(LYUserAgent, " libwww-FM/");
 	StrAllocCat(LYUserAgent, HTLibraryVersion);
@@ -1183,34 +1166,6 @@ int main(int argc,
 #ifdef USE_SSL
     append_ssl_version(&LYUserAgent, "/");
 #endif /* USE_SSL */
-#ifndef __NO_MIRBSD_EXTENSION
-    StrAllocCat(LYUserAgent, " Revision/MirOS:");
-#if defined(__MirBSD__) || defined(__MirLinux__) || defined(__MirInterix__)
-#if defined(MACHINE_OS)
-    StrAllocCat(LYUserAgent, MACHINE_OS);
-#elif defined(__Linux__)
-    StrAllocCat(LYUserAgent, "Linux");
-#elif defined(__APPLE__) && defined(__MACH__)
-    StrAllocCat(LYUserAgent, "Darwin");
-#elif defined(BSD)
-    StrAllocCat(LYUserAgent, "BSD");
-#else
-    StrAllocCat(LYUserAgent, "unknown");
-#endif
-    StrAllocCat(LYUserAgent,
-	" (http://MirBSD.org/)");
-#else
-    StrAllocCat(LYUserAgent,
-	"other (third party building Lynx from MirBSD source)");
-#endif
-#endif
-	/*
-	 * the reason for the following one is:
-	 * certain web backends only give Netscape, Mozilla
-	 * or MS Internet Explorer users the "real" HTML
-	 * of the page by checking the user agent
-	 */
-    StrAllocCat(LYUserAgent, " fake (MSIE 5.5)");
     StrAllocCopy(LYUserAgentDefault, LYUserAgent);
 
 #ifdef VMS
