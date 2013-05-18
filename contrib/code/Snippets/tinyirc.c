@@ -5,7 +5,16 @@
 #define COMMANDCHAR	'/'
 /* each line of history adds 512 bytes to resident size */
 #define HISTLEN		8
-#define RELEASE_L	"TinyIRC 20081202 MirOS-contrib"
+#if defined(__MirBSD__)
+#define RELEASE_OS	"MirBSD"
+#elif defined(__OpenBSD__)
+#define RELEASE_OS	"OpenBSD"
+#elif defined(__CYGWIN32__)
+#define RELEASE_OS	"GNU/Cygwin32"
+#else
+#define RELEASE_OS	"unknown OS"
+#endif
+#define RELEASE_L	"TinyIRC 20081209 (" RELEASE_OS ") MirOS-contrib"
 #define RELEASE_S	"TinyIRC MirOS"
 /* tinyirc 1.0
 
@@ -63,10 +72,18 @@
 #define	__RCSID(x)	static const char __rcsid[] __attribute__((used)) = (x)
 #endif
 
-__RCSID("$MirOS: contrib/code/Snippets/tinyirc.c,v 1.18 2008/12/02 16:46:19 tg Exp $");
+__RCSID("$MirOS: contrib/code/Snippets/tinyirc.c,v 1.19 2008/12/02 17:12:00 tg Exp $");
 
 #ifndef __dead
 #define __dead
+#endif
+
+#if defined(__CYGWIN__) || defined(WIN32)
+u_int32_t arc4random(void);
+uint32_t arc4random_pushb(const void *, size_t);
+#elif !defined(__MirBSD__)
+#define arc4random_pushb(buf, len) arc4random_addrandom((u_char *)(buf),
+	    (int)(len))
 #endif
 
 struct dlist {
@@ -362,12 +379,7 @@ static int doprivmsg(void)
 	ctcp[i++ - 1] = 0;
 	tok_in[3][strlen(tok_in[3]) - 1] = 0;
 	if (!strcmp(ctcp, "ENTROPY")) {
-#ifdef __MirBSD__
 		arc4random_pushb(serverdata, sizeof (serverdata));
-#else
-		arc4random_addrandom((unsigned char *)serverdata,
-		    (int)sizeof (serverdata));
-#endif
 		snprintf(bp, sizeof (bp),
 		    "%s initiated the RANDEX protocol with %s",
 		    tok_in[0], *tok_in[2] == '#' ? tok_in[2] : "you");
