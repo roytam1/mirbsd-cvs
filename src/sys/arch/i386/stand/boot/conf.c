@@ -28,6 +28,7 @@
  */
 
 #ifdef SMALL_BOOT
+#undef USE_DOSFS
 #undef USE_PXE
 #endif
 
@@ -40,6 +41,7 @@
 #include <lib/libsa/fat.h>
 #include <lib/libsa/lmbmfs.h>
 #include <lib/libsa/dummydev.h>
+#include "dosfs.h"
 #ifdef USE_PXE
 #include <lib/libsa/nfs.h>
 #include <lib/libsa/tftp.h>
@@ -68,6 +70,10 @@ extern int Xpxe(void);
 static void lmbmfs_check(void);
 #endif
 
+#ifdef USE_DOSFS
+static void dosfs_check(void);
+#endif
+
 const char version[] = __BOOT_VER;
 int debug = 1;
 
@@ -84,6 +90,9 @@ void (*i386_probe1[])(void) = {
 void (*i386_probe2[])(void) = {
 #ifndef SMALL_BOOT
 	lmbmfs_check,
+#endif
+#ifdef USE_DOSFS
+	dosfs_check,
 #endif
  	diskprobe
 };
@@ -214,9 +223,86 @@ lmbmfs_check(void)
 }
 #endif
 
+#ifdef USE_DOSFS
+static struct fs_ops dos_fs_ops[] = {
+	{ dosfs_open, dosfs_close, dosfs_read, dosfs_write, dosfs_seek,
+	  dosfs_stat, dosfs_readdir, "dosfs" }
+};
+
+void
+dosfs_check(void)
+{
+	if (dosfs_init() == 0) {
+		start_dip = alloc(sizeof (struct diskinfo));
+		bzero(start_dip, sizeof (struct diskinfo));
+		memcpy(start_dip->name, "dos", 4);
+		start_dip->ops = dos_fs_ops;
+		start_dip->bios_info.flags = BDI_NOTADISK;
+		TAILQ_INSERT_TAIL(&disklist, start_dip, list);
+	}
+}
+#endif
+
 struct devsw_prefix_match devsw_match[] = {
 #ifndef SMALL_BOOT
 	{ &devsw[DEVSW_DUMMYDEV], lmbm_fs_ops, "lmbm", 0, 1 },
+#ifdef USE_DOSFS
+	{ &devsw[DEVSW_DUMMYDEV], dos_fs_ops, "dos", 0, 1 },
+#ifdef USE_DOSFS_LETTERS
+	{ &devsw[DEVSW_DUMMYDEV], dos_fs_ops, "a", 0, 0 },
+	{ &devsw[DEVSW_DUMMYDEV], dos_fs_ops, "b", 0, 0 },
+	{ &devsw[DEVSW_DUMMYDEV], dos_fs_ops, "c", 0, 0 },
+	{ &devsw[DEVSW_DUMMYDEV], dos_fs_ops, "d", 0, 0 },
+	{ &devsw[DEVSW_DUMMYDEV], dos_fs_ops, "e", 0, 0 },
+	{ &devsw[DEVSW_DUMMYDEV], dos_fs_ops, "f", 0, 0 },
+	{ &devsw[DEVSW_DUMMYDEV], dos_fs_ops, "g", 0, 0 },
+	{ &devsw[DEVSW_DUMMYDEV], dos_fs_ops, "h", 0, 0 },
+	{ &devsw[DEVSW_DUMMYDEV], dos_fs_ops, "i", 0, 0 },
+	{ &devsw[DEVSW_DUMMYDEV], dos_fs_ops, "j", 0, 0 },
+	{ &devsw[DEVSW_DUMMYDEV], dos_fs_ops, "k", 0, 0 },
+	{ &devsw[DEVSW_DUMMYDEV], dos_fs_ops, "l", 0, 0 },
+	{ &devsw[DEVSW_DUMMYDEV], dos_fs_ops, "m", 0, 0 },
+	{ &devsw[DEVSW_DUMMYDEV], dos_fs_ops, "n", 0, 0 },
+	{ &devsw[DEVSW_DUMMYDEV], dos_fs_ops, "o", 0, 0 },
+	{ &devsw[DEVSW_DUMMYDEV], dos_fs_ops, "p", 0, 0 },
+	{ &devsw[DEVSW_DUMMYDEV], dos_fs_ops, "q", 0, 0 },
+	{ &devsw[DEVSW_DUMMYDEV], dos_fs_ops, "r", 0, 0 },
+	{ &devsw[DEVSW_DUMMYDEV], dos_fs_ops, "s", 0, 0 },
+	{ &devsw[DEVSW_DUMMYDEV], dos_fs_ops, "t", 0, 0 },
+	{ &devsw[DEVSW_DUMMYDEV], dos_fs_ops, "u", 0, 0 },
+	{ &devsw[DEVSW_DUMMYDEV], dos_fs_ops, "v", 0, 0 },
+	{ &devsw[DEVSW_DUMMYDEV], dos_fs_ops, "w", 0, 0 },
+	{ &devsw[DEVSW_DUMMYDEV], dos_fs_ops, "x", 0, 0 },
+	{ &devsw[DEVSW_DUMMYDEV], dos_fs_ops, "y", 0, 0 },
+	{ &devsw[DEVSW_DUMMYDEV], dos_fs_ops, "z", 0, 0 },
+	{ &devsw[DEVSW_DUMMYDEV], dos_fs_ops, "A", 0, 0 },
+	{ &devsw[DEVSW_DUMMYDEV], dos_fs_ops, "B", 0, 0 },
+	{ &devsw[DEVSW_DUMMYDEV], dos_fs_ops, "C", 0, 0 },
+	{ &devsw[DEVSW_DUMMYDEV], dos_fs_ops, "D", 0, 0 },
+	{ &devsw[DEVSW_DUMMYDEV], dos_fs_ops, "E", 0, 0 },
+	{ &devsw[DEVSW_DUMMYDEV], dos_fs_ops, "F", 0, 0 },
+	{ &devsw[DEVSW_DUMMYDEV], dos_fs_ops, "G", 0, 0 },
+	{ &devsw[DEVSW_DUMMYDEV], dos_fs_ops, "H", 0, 0 },
+	{ &devsw[DEVSW_DUMMYDEV], dos_fs_ops, "I", 0, 0 },
+	{ &devsw[DEVSW_DUMMYDEV], dos_fs_ops, "J", 0, 0 },
+	{ &devsw[DEVSW_DUMMYDEV], dos_fs_ops, "K", 0, 0 },
+	{ &devsw[DEVSW_DUMMYDEV], dos_fs_ops, "L", 0, 0 },
+	{ &devsw[DEVSW_DUMMYDEV], dos_fs_ops, "M", 0, 0 },
+	{ &devsw[DEVSW_DUMMYDEV], dos_fs_ops, "N", 0, 0 },
+	{ &devsw[DEVSW_DUMMYDEV], dos_fs_ops, "O", 0, 0 },
+	{ &devsw[DEVSW_DUMMYDEV], dos_fs_ops, "P", 0, 0 },
+	{ &devsw[DEVSW_DUMMYDEV], dos_fs_ops, "Q", 0, 0 },
+	{ &devsw[DEVSW_DUMMYDEV], dos_fs_ops, "R", 0, 0 },
+	{ &devsw[DEVSW_DUMMYDEV], dos_fs_ops, "S", 0, 0 },
+	{ &devsw[DEVSW_DUMMYDEV], dos_fs_ops, "T", 0, 0 },
+	{ &devsw[DEVSW_DUMMYDEV], dos_fs_ops, "U", 0, 0 },
+	{ &devsw[DEVSW_DUMMYDEV], dos_fs_ops, "V", 0, 0 },
+	{ &devsw[DEVSW_DUMMYDEV], dos_fs_ops, "W", 0, 0 },
+	{ &devsw[DEVSW_DUMMYDEV], dos_fs_ops, "X", 0, 0 },
+	{ &devsw[DEVSW_DUMMYDEV], dos_fs_ops, "Y", 0, 0 },
+	{ &devsw[DEVSW_DUMMYDEV], dos_fs_ops, "Z", 0, 0 },
+#endif
+#endif
 #ifdef USE_PXE
 	{ &devsw[DEVSW_NET], tftp_fs_ops, "tftp", 1, 1 },
 	{ &devsw[DEVSW_NET], nfs_fs_ops, "nfs", 1, 1 },

@@ -59,6 +59,7 @@ SRCS+=	bootp.c bootparam.c rarp.c
 
 # boot filesystems
 SRCS+=	ufs.c nfs.c tftp.c cd9660.c fat.c lmbmfs.c
+SRCS+=	dosfs.c dosfslo.S
 SRCS+=	dummydev.c
 
 # debugger

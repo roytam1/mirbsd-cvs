@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/stand/boot/Makefile,v 1.31 2009/08/09 19:39:39 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/boot/Makefile,v 1.32 2009/08/30 14:16:31 tg Exp $
 
 SMALL_BOOT?=	No
 BOOTLDR_PATH?=	${.CURDIR}
@@ -49,6 +49,8 @@ DPADD+=		${DLIBSA}
 # comment this out if trouble
 CPPFLAGS+=	-DUSE_PXE -DIN_PXEBOOT
 SRCS+=		net.c
+# comment this out if trouble
+CPPFLAGS+=	-DUSE_DOSFS -DUSE_DOSFS_LETTERS
 .else
 CPPFLAGS+=	-DSMALL_BOOT
 V=		${REAL_V}-small
