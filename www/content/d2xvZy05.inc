@@ -1,5 +1,5 @@
 <!-- PageID: wlog-9 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.11 2006/07/06 00:25:02 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.12 2006/07/06 13:40:40 tg Exp $</small>
 <h1>MirBSD &ndash; WTF is Verpeilungsfaktor?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -223,6 +223,24 @@
   to commit that all-japanese wlog entry of his, though. (Wait! That one
   would even be committed to /?wlog-8 right? Damn boy you're late.)</p>
  <p>It actually <em>is</em> cooler than the days before, good.</p>
+</div>
+
+<div class="wlentry">
+ <h3 id="e20060708">08.07.2006 by tg@</h3>
+ <p>Sourcemage GNU/Linux users might now also be able to use mksh(1) and
+  Debian GNU/Linux has accepted the update. After mksh R27e though, I've
+  fixed the regression testsuite to pass if invoked as root, which a few
+  people seem to require&#8230; these who never learn&#8230; furthermore
+  I got rid of a few bytes in <tt>/etc/profile</tt> on FreeWRT (and thus
+  in ports/shells/mksh/pkg/DESCR too), using the <tt>local</tt> keyword,
+  ipv the <tt>typeset</tt> keyword.</p>
+ <p>We now have adduser(8) and openssl(1) asn1octetstream (which is also
+  documented in openssltool(1), and will be fed upstream), to complement
+  my vnconfig(8) -f addition. That was quite some hard work, done with a
+  bottle of Met and bottles of beer shared among us at yofuh's place. It
+  is HOT!</p>
+ <p>I also fixed contrib/samples/etc_profile for foreign hexdump(1) that
+  doesn't support %_aX, added some acronymes, and benz did cups.</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
