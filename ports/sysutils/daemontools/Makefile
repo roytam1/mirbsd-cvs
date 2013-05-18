@@ -1,4 +1,4 @@
-# $MirOS: ports/sysutils/daemontools/Makefile,v 1.7 2006/09/14 00:13:30 tg Exp $
+# $MirOS: ports/sysutils/daemontools/Makefile,v 1.8 2006/11/16 20:22:43 tg Exp $
 
 COMMENT=		collection of tools for managing unix services
 CATEGORIES=		sysutils
@@ -32,10 +32,13 @@ BINLIST=		envdir envuidgid fghack multilog pgrphack \
 			supervise svc svok svscan svstat tai64n tai64nlocal
 
 do-build:
-	@echo ${CC:Q} ${CFLAGS:M*:Q} >${WRKSRC}/admin/${DISTNAME}/src/conf-cc
-	@echo ${CC:Q} ${CFLAGS:M*:Q} ${LDFLAGS:M*:Q} \
-	    >${WRKSRC}/admin/${DISTNAME}/src/conf-ld
-	@echo ${PREFIX:Q} >${WRKSRC}/admin/${DISTNAME}/src/home
+	if [[ ! -e ${WRKSRC}/admin/${DISTNAME}/src/home ]]; then \
+		echo ${CC:Q} ${CFLAGS:M*:Q} \
+		    >${WRKSRC}/admin/${DISTNAME}/src/conf-cc; \
+		echo ${CC:Q} ${CFLAGS:M*:Q} ${LDFLAGS:M*:Q} \
+		    >${WRKSRC}/admin/${DISTNAME}/src/conf-ld; \
+		echo ${PREFIX:Q} >${WRKSRC}/admin/${DISTNAME}/src/home; \
+	fi
 	cd ${WRKSRC}/admin/${DISTNAME}/src && ${MAKE_PROGRAM} it
 
 do-install:
