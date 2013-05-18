@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/generic/Makefile,v 1.3 2006/08/17 14:09:21 tg Exp $
+# $MirOS: src/distrib/generic/Makefile,v 1.4 2007/02/09 19:12:20 tg Exp $
 
 .include <bsd.own.mk>
 CFLAGS+=	${CDIAGFLAGS} ${COPTS}
@@ -36,6 +36,8 @@ install-root:
 	else \
 		set -x; \
 		install -c -o root -g daemon -m 400 bsd /; \
+		install -c -o root -g wheel -m 644 \
+		    build/${RAMDISK}/kvm_bsd.db /var/db/; \
 	fi
 
 cleandir: clean
