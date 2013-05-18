@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/miniroot/dot.profile,v 1.13 2006/07/05 20:37:53 tg Exp $
+# $MirOS: src/distrib/miniroot/dot.profile,v 1.14 2006/07/05 20:40:55 tg Exp $
 # $OpenBSD: dot.profile,v 1.4 2002/09/13 21:38:47 deraadt Exp $
 # $NetBSD: dot.profile,v 1.1 1995/12/18 22:54:43 pk Exp $
 #
@@ -85,16 +85,11 @@ other terms used by MirOS or its contributed material.
 This work is provided "AS IS" and WITHOUT WARRANTY of any kind.\n'
 
 	mount -u $rootdisk / || mount -fuw /dev/rd0a /
-	rm -f /var/db/host.random /tmp/.TERM
+	rm -f /var/db/host.random
 
 	# set up some sane defaults
 	echo 'erase ^?, werase ^W, kill ^U, intr ^C, status ^T'
 	stty newcrt werase ^W intr ^C kill ^U erase ^? status ^T
-
-	# configure the terminal
-	TERM=$(. /install.sub; set_term; print ${TERM:-vt220})
-	print $TERM >/tmp/.TERM
-	export TERM=$(</tmp/.TERM)
 
 	# look if we're DHCP/TFTP enabled
 	if [ -e /usr/mdec/pxeboot ]; then
@@ -126,7 +121,7 @@ This work is provided "AS IS" and WITHOUT WARRANTY of any kind.\n'
 		}
 	done
 fi
-export TERM=$(</tmp/.TERM)
+export TERM=vt220
 echo -n '\nAvailable editor: ed'
 [ -s /ed.hlp ] && echo -n ' - help with # less /ed.hlp'
 echo '\n'
