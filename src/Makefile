@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.145 2009/12/27 17:05:39 tg Exp $
+# $MirOS: src/Makefile,v 1.146 2010/01/14 11:01:44 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -288,11 +288,12 @@ _do-dist:
 	}
 .  endif
 .endif
-	@[[ -x /usr/mpkg/bin/gmake ]] || { \
+	@if [[ ! -x /usr/mpkg/bin/gmake ]] || \
+	    ! /usr/mpkg/bin/gmake --version >/dev/null; then \
 		print 'To build gcc you must have GNU make installed!'; \
 		${SUDO} rm -rf ${HOME}; \
 		exit 1; \
-	}
+	fi
 .ifndef QUICK_DIST
 	@c='${CVSROOT}'; [[ $$c = @(:@(ext|pserver):|*@(@))*@(:/)* || \
 	    -e $$c/CVSROOT/config ]] || { \
