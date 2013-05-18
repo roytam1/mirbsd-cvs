@@ -3,7 +3,7 @@
 
 COMMENT=		SMB and CIFS client and server for UNIX
 DISTNAME=		samba-2.2.12
-DASH_VER=		1
+DASH_VER=		2
 CATEGORIES=		net
 MASTER_SITES=		http://us1.samba.org/samba/ftp/old-versions/ \
 			http://ca.samba.org/samba/ftp/old-versions/ \

@@ -1,6 +1,7 @@
-@comment $MirOS$
+@comment $MirOS: ports/net/samba2/pkg/PLIST,v 1.1.7.1 2005/03/18 15:49:02 tg Exp $
 @comment $OpenBSD: PLIST,v 1.7 2004/04/14 05:23:57 pvalchev Exp $
 bin/convert_smbpasswd
+bin/findsmb
 bin/make_printerdef
 bin/make_smbcodepage
 bin/make_unicodemap
@@ -57,7 +58,7 @@ lib/samba/codepages/unicode_map.KOI8-U
 libexec/nmbd
 libexec/smbd
 libexec/swat
-@comment man/man1/findsmb.1
+man/man1/findsmb.1
 man/man1/make_smbcodepage.1
 man/man1/make_unicodemap.1
 man/man1/nmblookup.1
