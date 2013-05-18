@@ -1,7 +1,7 @@
-# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.44 2008/03/09 17:22:56 tg Exp $
+# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.45 2008/03/12 23:43:12 tg Exp $
 #-
-# Copyright (c) 2005, 2006
-#	Thorsten Glaser <tg@mirbsd.de>
+# Copyright (c) 2005, 2006, 2008
+#	Thorsten “mirabilos” Glaser <tg@mirbsd.de>
 #
 # Licensee is hereby permitted to deal in this work without restric-
 # tion, including unlimited rights to use, publicly perform, modify,
@@ -70,7 +70,6 @@ _CKSUM_A=		${LOCALBASE}/bin/cksum -a
 .  else
 _CKSUM_A=
 .  endif
-HAS_TIMET64=		No
 NO_SYSTRACE=		not on Darwin
 FETCH_CMD?=		/usr/bin/ftp
 TAR=			${LOCALBASE}/bin/tar
@@ -89,7 +88,6 @@ CPPFLAGS+=		-I/usr/local/include/bind
 LDFLAGS+=		-Wl,--library-after=/usr/local/lib/bind
 LDADD+=			-lbind -ldb
 
-HAS_TIMET64=		No
 NO_SYSTRACE=		not on Interix
 P5ARCH=			${P5SITE}/x86-interix-thread-multi
 UNZIP=			/usr/contrib/bin/unzip
@@ -114,7 +112,6 @@ PATCH?=			${LOCALBASE}/bin/patch
 MKC_USAP?=		Yes
 PKG_ARGS_ADD+=		-Z
 PKG_SUFX=		.tgz
-HAS_TIMET64=		No
 FETCH_CMD=		/usr/bin/ftp -V -m
 
 .  if ${OSrev} < 35
@@ -138,7 +135,6 @@ M4=			${LOCALBASE}/bin/gm4
 .  else
 _CKSUM_A=
 .  endif
-HAS_TIMET64=		No
 NO_SYSTRACE=		not on MidnightBSD
 FETCH_CMD?=		/usr/bin/ftp
 PATCH?=			${LOCALBASE}/bin/patch
@@ -178,7 +174,6 @@ _MIROS_ANONCVS=		anoncvs@anoncvs.mirbsd.org:/cvs
 ARCH?=			${MACHINE_ARCH}
 FETCH_CMD?=		/usr/bin/ftp -EV -m
 HAS_CXX?=		base
-HAS_TIMET64?=		No
 LP64_PLATFORMS?=	*:*:alpha *:*:amd64 *:*:sparc64
 MKC_USAP?=		No
 MKSH?=			/bin/mksh
