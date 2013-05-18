@@ -1,4 +1,4 @@
-# $MirOS: src/etc/rc,v 1.43 2006/08/16 23:14:17 tg Exp $
+# $MirOS: src/etc/rc,v 1.44 2006/08/18 21:55:55 tg Exp $
 # $OpenBSD: rc,v 1.277 2006/01/12 21:54:15 deraadt Exp $
 #-
 # System startup script run by init on autoboot or after single-user.
@@ -195,6 +195,25 @@ done
 raidctl -P all
 
 swapctl -A -t blk
+
+# Try to find out what is our console device
+x=
+dmesg |&
+while read -p line; do
+	[[ $line = @(consdev:\ )* ]] && x=${line#consdev: }
+done
+consinfo="$(stty -f /dev/console speed) ${x:-NONE}"
+print -u2 console information: $consinfo
+[[ $x = NULL ]] && x=
+consdev=nochg
+[[ -n $x ]] && if [[ $x = INTERNAL* ]]; then
+	# wscons, for all we know
+	consdev=ttyC0
+elif [[ $x = REMOTE* || $x = NORMAL* ]]; then
+	# remote: serial console
+	# normal: shouldn't happen, serial console too
+	consdev=${x##* }
+fi
 
 # pick up configuration options
 . /etc/rc.conf
@@ -552,6 +571,59 @@ fi
 
 if [[ -x /usr/libexec/vi.recover && -d /var/tmp/vi.recover ]]; then
 	echo preserving editor files;	/usr/libexec/vi.recover
+fi
+
+print "dev $consdev ($consinfo)" | logger -t 'console information'
+if [[ $consdev != nochg ]]; then
+	print adjusting /etc/ttys
+	x=$(uname -m)
+	if [[ $x = i386 ]]; then
+		# clean up if we don't match
+		if ! grep "^#AUTOCONS:$consdev,$speed." /etc/ttys >&- 2>&-; then
+			print dummy editing actions on /etc/ttys
+			print \\t'%g/^#AUTOCONS/d'
+			print \\t'%g/\t#AUTOADD$/d'
+			print \\t'%g/\t#AUTODEL$/s/^#*//'
+			print \\t'%g/\t#AUTODEL$/s/\t#AUTODEL$//'
+		fi
+	fi
+	# if consdev=ttyC0: wscons, no change needed
+	if [[ $consdev = ttyC0 ]]; then
+		# wscons, reset to default on sparc, no action on i386
+		if [[ $x = sparc ]]; then
+			print dummy editing actions on /etc/ttys
+			print \\t'/console.*suncons/s/^#*//'
+			print \\t'/console.*std/s/^#*/#/'
+		fi
+	elif [[ $consdev = *,* ]]; then
+		# serial console, disable wscons
+		speed=${consinfo%% *}
+		if [[ $x = sparc ]]; then
+			# we just use /dev/console for both
+			print dummy editing actions on /etc/ttys
+			print \\t'/console.*suncons/s/^#*/#/'
+			print \\t'/console.*std/s/^#*//'
+			print \\t"/console.*std/s/std.[0-9]*/std.$speed/"
+		fi
+		if [[ $x = i386 ]]; then
+			# keep wscons but scan for the correct tty dev
+			td=
+			for tc in /dev/tty*; do
+				if [[ $(stat -f %Hr,%Lr $tc) = $consdev ]]; then
+					td=${tc#/dev/}
+					break
+				fi
+			done
+			[[ -n $td ]] && grep "^$td	.*std.$speed\".*	on" \
+				    /etc/ttys >&- 2>&- && td=
+			if [[ -n $td ]]; then
+				print dummy editing actions on /etc/ttys
+				print \\t"g/^$td\t/s/^.*$/#&\t#AUTODEL/'
+				print \\t"$td\t\"/usr/libexec/getty std.$speed\"\tvt100\ton  secure\t#AUTOADD"
+				print \\t"#AUTOCONS:$consdev,$speed."
+			fi
+		fi
+	fi
 fi
 
 # Copy over /dev/{null,zero} into anoncvs chroot, it needs it
