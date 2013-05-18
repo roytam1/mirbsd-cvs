@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/news.inc,v 1.98 2009/01/26 22:49:15 tg Exp $
+RCSID: $MirOS: www/data/news.inc,v 1.99 2009/01/29 17:54:40 tg Exp $
 Title: Older news from the MirOS Project
 Date: 01.03.2006
 
@@ -1318,7 +1318,7 @@ Title: MirOS #10/i386 binary packages problems
  please contact us on <a href="@@RELPATH@@irc.htm">IRC</a> or via the <a
  href="@@RELPATH@@rss.htm#lists">mailing list</a>.</p>
 ----
-Title: Bug in Parallels Desktop found ⇒ no longer supported
+Title: Bug in Parallels Desktop found ⇒ no longer supported [updated]
 Date: 26.01.2009 22:35
 Author: tg@
 Tag: bug snapshot
@@ -1352,4 +1352,7 @@ Tag: bug snapshot
  that MirOS ISOs can be dd(1)d to a hard disc and run from there. Just
  enter it as an additional hard disc drive instead of CD-ROM drive. Or
  use netboot (load b_i386.ldr and the bsd.rd kernel).</p>
+<p><strong>Update</strong> 31.01: <a href="@@RELPATH@@permalinks/wlog-10_e20090131-tg.htm">tg@
+ has hacked a workaround</a> &ndash; reporting this bug to Parallels is
+ still recommended though.</p>
 ----

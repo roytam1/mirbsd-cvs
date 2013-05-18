@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.148 2009/01/25 15:10:25 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.149 2009/01/25 20:48:48 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -3054,4 +3054,41 @@ Tag: geocache
  Brauser geht. MirPorts Framework Nutzer habens natürlich einfacher…</p>
 <p>Gleich geht’s erst mal zu meinem Stammrestaurant, einem Jugoslawen,
  ääh Kroaten (Primošten oder auch Dalmatien Grill) mit bogus…</p>
+----
+Author: tg@
+Title: more bootloaders *grml*
+Date: 31.01.2009 22:07
+Tag: bug event mksh snapshot unicode
+
+<p>To counter the bug in Parallels Desktop, I rewrote all of our Master
+ Boot Record (mbrldr, mbrmgr), Partition Boot Record (bootxx), and BIOS
+ disc detection code in boot(8/i386). I've also changed the magics, API
+ etc. a little between these, rewriting or removing quite some parts of
+ both installboot(8/i386) and <tt>bootxx.sh</tt> a.k.a. self-installing
+ bootblocks.</p>
+<p>Lucas “laffer1” Holt from <a href="http://www.midnightbsd.org/">that
+ cat's BSD</a> helped me testing, qemu and bare metal IBM X40 works, so
+ I suppose it's good. Can't test on VMware Server 2 right now.</p>
+<p>On the other front, I'm writing this wlog entry on MirGRML, which is
+ finally sort-of finished (which is why it has much less Unicode than a
+ regular posting from my laptop). lynx-cur in sid is broken though, due
+ to it using GnuTLS. Gah! Anyway, I see a sid “wtf” repo coming, and it
+ was workarounded; next time I'll just do things differently.</p>
+<p>Lukas “smultron” Upton, the graphician of our partner project mnbsd,
+ helped a little with the label (while I'm not versed in that field, if
+ I had gotten the right material to work with I could've managed it all
+ alone <em>this time</em>), and all that's left now is the Live-CD part
+ and baking (and testing! even on sparc...) the ISO 9660 image.</p>
+<p>There will be 297 MirBSD Triforce™ DuaLive™-CDs (two will go to Kiwi
+ land to swishy, one is already reserved for XTaran) and 50 MidnightBSD
+ Live DVDs at <a href="http://www.fosdem.org/">FOSDEM</a>.</p>
+<!-- RSS stop -->
+<p>gecko2@ and bsiegert@ were not too helpful today, although I have to
+ admit that real life often has precedence. I merely read some and went
+ to sleep early yesterday too (and disabled both POTS and cell phone so
+ that I couldn't be waked, haha!) instead of hacking late. Luckily, the
+ deadline is not that dead, and I'll almost certainly make it tomorrow,
+ in time. Thanks again, Daniel Seuffert from AllBSD.de, for all support
+ you and others give to the smaller BSDs. Heh, and laffer1 is not quite
+ done yet with his ISO (or UDF?) either.</p>
 ----
