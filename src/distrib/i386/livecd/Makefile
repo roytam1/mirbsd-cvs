@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/livecd/Makefile,v 1.7 2006/04/05 23:40:47 tg Exp $
+# $MirOS: src/distrib/i386/livecd/Makefile,v 1.8 2006/04/05 23:58:35 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -18,14 +18,17 @@ unpack:
 	cd workdir && ${SUDO} tar xzphf ${BSDRELDIR}/rel/${_i}${OSrev}.ngz
 .endfor
 
-prepimg:
+prepimg: bsd.gz
 	cd workdir && ${SUDO} mksh ${.CURDIR}/munge_it.sh
+	${SUDO} dd if=bsd.gz obs=2048 conv=osync of=workdir/bsd
 	${SUDO} dd if=${DESTDIR}/usr/mdec/boot obs=2048 conv=osync \
 	    of=workdir/etc/boot.386
-	${SUDO} dd if=${REALOBJDIR}/../ramdisk/bsd.rd obs=2048 conv=osync \
-	    of=workdir/bsd
-	${SUDO} install -c -o root -g wheel -m 644 ${.CURDIR}/boot.cfg \
-	    workdir/etc/
+
+bsd.gz: ${REALOBJDIR}/../generic/bsd
+	-rm -f bsd bsd.gz
+	gzip -d <${REALOBJDIR}/../generic/bsd >bsd
+	print 'rootdev 6 0\nquit' | config -ef bsd	# (6,0) = cd0a
+	gzip -n9 bsd
 
 nukefiles:
 	cd workdir/usr && ${SUDO} rm -rf X11R6/lib/X11/doc X11R6/man \
