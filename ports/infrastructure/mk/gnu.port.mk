@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/gnu.port.mk,v 1.37 2007/05/23 09:14:01 tg Exp $
+# $MirOS: ports/infrastructure/mk/gnu.port.mk,v 1.38 2007/08/06 09:42:14 tg Exp $
 # $OpenBSD: gnu.port.mk,v 1.19 2004/06/06 11:49:08 espie Exp $
 
 AUTOCONF_NEW?=		No
@@ -43,7 +43,7 @@ MODGNU_AUTOCONF_DEPS+=	:autoconf->=2.13-20070223,<2.14:devel/autoconf/2.13
 .elif ${AUTOCONF_VERSION} == "2.60"
 MODGNU_AUTOCONF_DEPS+=	:autoconf->=2.60-3,<2.61:devel/autoconf/2.60
 .else
-MODGNU_AUTOCONF_DEPS+=	::devel/autoconf/${AUTOCONF_VERSION}
+MODGNU_AUTOCONF_DEPS+=	:autoconf-${AUTOCONF_VERSION}-*:devel/autoconf/${AUTOCONF_VERSION}
 .endif
 
 # Dependencies

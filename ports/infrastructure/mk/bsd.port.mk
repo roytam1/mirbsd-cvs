@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.195 2008/03/14 15:25:22 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.196 2008/03/14 15:33:53 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -966,6 +966,7 @@ _CONFIGURE_SCRIPT=	./${CONFIGURE_SCRIPT}
 .endif
 
 CONFIGURE_ENV+=		PATH=${PORTPATH:Q}
+CONFIGURE_ENV+=		SHELL=${MKSH:Q} CONFIG_SHELL=${MKSH:Q}
 
 .if ${NO_SHARED_LIBS:L} == "yes"
 CONFIGURE_SHARED?=	--disable-shared
