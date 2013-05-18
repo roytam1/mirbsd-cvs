@@ -1,8 +1,8 @@
 #!/usr/bin/env mksh
-# $MirOS: CVSROOT/cvs-genperm,v 1.38 2008/10/26 22:13:43 tg Exp $
+# $MirOS: CVSROOT/cvs-genperm,v 1.39 2008/10/26 22:19:14 tg Exp $
 #-
-# Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008
-#	Thorsten Glaser <tg@mirbsd.de>
+# Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009
+#	Thorsten Glaser <tg@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
 # are retained or reproduced in an accompanying document, permission
@@ -23,11 +23,14 @@
 # MirOS Project's CVSROOT (or the MirBSD[tm] CVS Rep, for which this
 # script was originally designed).
 
+export LC_ALL=C
+unset LANGUAGE
+
 function fixperm {
 	m=$1
 	shift
 	for pname in "$@"; do
-		[[ -e $pname ]] && chmod "$m" "$pname"
+		[[ -e $pname ]] && chmod $m "$pname"
 	done
 }
 
@@ -130,7 +133,7 @@ find "$CVSROOT"$fr | while IFS= read -r pname; do
 			else
 				M=miros-cvsall
 			fi
-			chown "0:$M" "$pname"
+			chown 0:$M "$pname"
 		fi
 	else
 		print -r "Found weird '$name'"
