@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.365 2011/09/14 20:54:11 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.366 2011/09/21 13:34:58 bsiegert Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -8660,4 +8660,30 @@ Tag: pkgsrc
  condition in paxmirabilis, and it should also be elsewhere. For
  example, pax in Darwin accepts it although the manpage says
  otherwise. Strange.</p>
+----
+Date: 30.09.2011 16:07:21
+Author: tg@
+Title: Improvements welcome
+Tag: debian tip
+Comment: the mtime of this item is not by accident…
+
+<p>No I don’t really know any SQL. In fact, even at vocational
+ school, where we focussed on database normalisation anyway, I
+ tried hard to avoid the topic. Feel free to access here my <a
+ href="http://www.postgresql.org/docs/8.4/interactive/">entire
+ knowledge about SQL</a> ☺ (I did use Amaya, Arena and Arachne
+ though. Liked only Arachne out of these three, and then, only
+ under DOS, not its Unix version. Maybe the WWW could be named
+ AAA instead? But then, lynx(1) is the one true browser…)</p>
+<p>Ah, well. While at it… the entirety of my Perl knowledge is
+ here: perltoc(1) with quick links to perlfunc(1).</p>
+<p>The entirety of my (X)HTML and ECMAscript knowledge, DE: <a
+ href="http://de.selfhtml.org/">SELFHTML</a>; although, the <a
+ href="http://www.w3.org/TR/xhtml11/">spec and DTD</a> helped;
+ and to write my notes on JSON, I took a peek at the formal <a
+ href="http://www.ecma-international.org/publications/files/ECMA-ST/Ecma-262.pdf">ECMAscript spec</a>
+ as well… à propos, does anyone know a (good enough) indent(1)
+ equivalent for ECMAscript, as I am trying to strip down some,
+ inherited (GPL, yes) code for a hobby project, but Geo-people
+ seem to produce illegible code?</p>
 ----
