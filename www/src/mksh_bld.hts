@@ -1,18 +1,19 @@
-# $MirOS: www/src/mksh_bld.hts,v 1.7 2011/06/12 18:12:07 tg Exp $
+# $MirOS: www/src/mksh_bld.hts,v 1.8 2012/03/20 16:48:14 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh/build "mksh – build/regression tests"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh_bld.hts,v 1.7 2011/06/12 18:12:07 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh_bld.hts,v 1.8 2012/03/20 16:48:14 tg Exp $'
 mws_content <<'EOF'
 <p>Jump to <a href="#regress_fail">known failures</a></p>
 <h2><a href="mksh.htm">mksh</a> – builds and regression tests</h2>
 
 <p>The MirOS Project has tested various versions of mksh on the following
- operating systems, asked people to test, and hunted mksh down in these
- packaging systems:</p>
+ operating systems, asked people to test (see also the amazing RT’s <a
+ href="http://roy.orz.hm/soft/mksh-logs/">mksh build and test logs</a>),
+ and hunted mksh down in these packaging systems:</p>
 <ul>
 <li style="list-style:none;">– tests by the project, using Makefile –</li>
  <li>MirOS #10-current (i386 gcc3.4.6)</li>

@@ -503,9 +503,9 @@ char *ucstrstr(char *, const char *);
 #endif
 
 #if defined(DEBUG) || defined(__COVERITY__)
-#define mkssert(e)	((e) ? (void)0 : exit(255))
+#define mkssert(e)	do { if (!(e)) exit(255); } while (/* CONSTCOND */ 0)
 #else
-#define mkssert(e)	((void)0)
+#define mkssert(e)	do { } while (/* CONSTCOND */ 0)
 #endif
 
 #if (!defined(MKSH_BUILDMAKEFILE4BSD) && !defined(MKSH_BUILDSH)) || (MKSH_BUILD_R != 419)
