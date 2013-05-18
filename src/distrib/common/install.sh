@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/common/install.sh,v 1.25 2009/11/15 12:02:31 tg Exp $
+# $MirOS: src/distrib/common/install.sh,v 1.26 2009/11/15 12:39:34 tg Exp $
 # $OpenBSD: install.sh,v 1.152 2005/04/21 21:41:33 krw Exp $
 # $NetBSD: install.sh,v 1.5.2.8 1996/08/27 18:15:05 gwr Exp $
 #
@@ -97,8 +97,8 @@ if [ ! -f /etc/fstab ]; then
 			rm -f /tmp/fstab
 			# Make sure empty files exist so we don't have to
 			# keep checking for their existence before grep'ing.
-			cat /dev/null >$FILESYSTEMS
-			cat /dev/null >$SWAPLIST
+			: >$FILESYSTEMS
+			: >$SWAPLIST
 		else
 			# Force the user to think and type in a disk name by
 			# making 'done' the default choice.
