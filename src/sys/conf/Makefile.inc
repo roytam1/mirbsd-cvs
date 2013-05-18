@@ -1,4 +1,4 @@
-# $MirOS: src/sys/conf/Makefile.inc,v 1.5 2006/01/11 12:21:08 tg Exp $
+# $MirOS: src/sys/conf/Makefile.inc,v 1.6 2006/01/15 23:46:37 tg Exp $
 #-
 # Copyright (c) 2005, 2006
 #	Thorsten "mirabile" Glaser <tg@mirbsd.de>
@@ -38,6 +38,8 @@ CDIAGFLAGS+=	-fno-stack-protector
 .endif
 CDIAGFLAGS+=	-fno-builtin-printf -fno-builtin-log
 COPTS?=		-O2
+CFLAGS=		${DEBUG} ${CDIAGFLAGS} ${CMACHFLAGS} \
+		${COPTS:S/-g//:C/-g[0-9]//} ${PIPE} ${CSYS}
 AFLAGS=		-x assembler-with-cpp -traditional-cpp -D_LOCORE
 STRIPFLAGS=	-g -X -x
 
