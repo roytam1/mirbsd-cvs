@@ -176,6 +176,9 @@ function rcsedit {	# check out, edit, commit
 	done
 	cd "$t_cwd"
 }
+function ddg {		# DuckDuckGo Search
+	${BROWSER:-lynx} "https://duckduckgo.com/lite/?q=$*"
+}
 function ggs {		# Google Search
 	${BROWSER:-lynx} "http://www.google.com/search?hl=la&num=100&safe=off&q=$*"
 }
@@ -188,7 +191,7 @@ function ge {		# German English
 function ges {		# German Spanish
 	${BROWSER:-lynx} "http://dict.leo.org/esde?search=$*"
 }
-function espanol {	# explica en español
+function espanol {	# explica en espaÃ±ol
 	lynx -dump --nolist "http://buscon.rae.es/draeI/SrvltGUIBusUsual?TIPO_HTML=2&LEMA=$*"
 }
 function ulynx {	# uxterm lynx (UTF-8)
