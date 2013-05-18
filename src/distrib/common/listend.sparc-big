@@ -1,8 +1,9 @@
-# $MirOS: src/distrib/common/listend.sparc-big,v 1.1 2008/07/12 22:06:15 tg Exp $
+# $MirOS: src/distrib/common/listend.sparc-big,v 1.2 2008/07/12 23:05:11 tg Exp $
 
 # extra programmes
 LINK	instbin					bin/mt
 LINK	instbin					sbin/mount_msdos
+LINK	instbin					sbin/mount_nfs
 LINK	instbin					sbin/restore
 LINK	instbin					sbin/scsi
 LINK	instbin					usr/bin/find

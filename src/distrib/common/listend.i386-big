@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/listend.i386-big,v 1.27 2007/10/26 22:56:44 tg Exp $
+# $MirOS: src/distrib/common/listend.i386-big,v 1.28 2008/03/05 00:02:00 tg Exp $
 
 # extra programmes
 LINK	instbin					bin/ps
@@ -8,6 +8,7 @@ LINK	instbin					sbin/fdisk
 LINK	instbin					sbin/kbd
 LINK	instbin					sbin/mount_ext2fs
 LINK	instbin					sbin/mount_msdos
+LINK	instbin					sbin/mount_nfs
 LINK	instbin					sbin/mount_ntfs
 LINK	instbin					sbin/mountd
 LINK	instbin					sbin/newfs_msdos
@@ -19,7 +20,6 @@ LINK	instbin					sbin/raidctl
 LINK	instbin					sbin/restore
 LINK	instbin					sbin/scsi
 LINK	instbin					sbin/wicontrol
-#LINK	instbin					usr/bin/awk
 LINK	instbin					usr/bin/find
 LINK	instbin					usr/bin/gzsig
 LINK	instbin					usr/bin/less usr/bin/more
