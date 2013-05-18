@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/tools/Makefile,v 1.25 2008/10/21 01:43:01 tg Exp $
+# $MirOS: src/distrib/tools/Makefile,v 1.26 2008/10/21 19:54:36 tg Exp $
 
 all: sundsklbl
 
@@ -64,6 +64,7 @@ makecdimage: .PHONY
 	(( ofs = sym___defkernel - sym_start + fofs_text )); \
 	print -n v${OSrev}/sparc/bsd.rd\\0 | \
 	    dd of=cddir/b_sparc.ldr bs=1 seek=$$ofs conv=notrunc
+	strip --target=a.out-sunos-big cddir/b_sparc.ldr
 	ln cddir/v${OSrev}/sparc/bsd.rd cddir/vmunix		# for kicks
 	cp ${.CURDIR}/../common/00-README cddir/
 	cp ${.CURDIR}/../common/boot.cfg.i386 cddir/boot.cfg

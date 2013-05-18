@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/Makefile.sparc-big,v 1.6 2008/10/21 01:43:01 tg Exp $
+# $MirOS: src/distrib/common/Makefile.sparc-big,v 1.7 2008/10/21 19:39:21 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.14 2002/05/01 19:21:28 mickey Exp $
 
 RAWLABEL=
@@ -22,6 +22,7 @@ cdrom-mdcopy:
 	(( ofs = sym___defkernel - sym_start + fofs_text )); \
 	print -n v${OSrev}/${MACHINE}/bsd.rd\\0 | \
 	    dd of=${WRKDIR}/b_${MACHINE}.ldr bs=1 seek=$$ofs conv=notrunc
+	strip --target=a.out-sunos-big ${WRKDIR}/b_${MACHINE}.ldr
 	ln ${WRKDIR}/v${OSrev}/${MACHINE}/bsd.rd ${WRKDIR}/vmunix # for kicks
 
 cdrom-mdboot:
