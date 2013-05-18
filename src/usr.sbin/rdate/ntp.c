@@ -54,7 +54,7 @@
 
 #include "rdate.h"
 
-__RCSID("$MirOS: src/usr.sbin/rdate/ntp.c,v 1.17 2007/08/17 15:03:01 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/rdate/ntp.c,v 1.18 2009/08/01 13:55:30 tg Exp $");
 
 /*
  * NTP definitions.  Note that these assume 8-bit bytes - sigh.  There
@@ -116,6 +116,13 @@ static void unpack_ntp(struct ntp_data *, u_char *);
 static double current_time(double);
 static void create_timeval(double, struct timeval *, struct timeval *);
 static void debug_packet(const struct ntp_data *);
+static double dabs(double);
+
+static double
+dabs(double v)
+{
+	return (v < 0 ? -v : v);
+}
 
 void
 ntp_client(const char *hostname, int family, struct timeval *new,
@@ -172,7 +179,7 @@ ntp_client(const char *hostname, int family, struct timeval *new,
 	freeaddrinfo(res0);
 
 	if (debug)
-		fprintf(stderr, "Correction: %.6f +/- %.6f\n", offset, error);
+		fprintf(stderr, "Correction:  %.6f +/- %.6f\n", offset, error);
 
 	if (accepts < 1)
 		errx(1, "Unable to get a reasonable time estimate");
@@ -229,7 +236,7 @@ sync_ntp(int fd, const struct sockaddr *peer, double *offset, double *error,
 			++accepts;
 
 		if (debug)
-			fprintf(stderr, "Offset: %.6f +/- %.6f\n", x, y);
+			fprintf(stderr, "Offset:      %.6f +/- %.6f\n", x, y);
 
 		if ((a = x - *offset) < 0.0)
 			a = -a;
@@ -242,7 +249,7 @@ sync_ntp(int fd, const struct sockaddr *peer, double *offset, double *error,
 		}
 
 		if (debug)
-			fprintf(stderr, "Best: %.6f +/- %.6f\n", *offset,
+			fprintf(stderr, "Best:        %.6f +/- %.6f\n", *offset,
 			    *error);
 
 		if (a > b) {
@@ -395,9 +402,9 @@ retry:
 	y = data->transmit - data->current;
 
 	*off = (x + y) / 2;
-	*error = x - y;
+	*error = dabs(x - y);
 
-	x = (data->current - data->originate) / 2;
+	x = dabs((data->current - data->originate) / 2);
 
 	if (x > *error)
 		*error = x;
@@ -503,4 +510,6 @@ debug_packet(const struct ntp_data *data)
 	printf("current:     %f\n", data->current);
 	printf("xmitck:      0x%0llX\n", data->xmitck);
 	printf("recvck:      0x%0llX\n", data->recvck);
+	printf("Delay:       %f\n", (data->current - data->originate) -
+	    (data->transmit - data->receive));
 }
