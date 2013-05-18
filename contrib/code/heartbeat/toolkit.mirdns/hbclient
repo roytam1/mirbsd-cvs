@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/heartbeat/toolkit.mirdns/hbclient,v 1.4 2006/01/28 16:18:59 tg Exp $
+# $MirOS: contrib/code/heartbeat/toolkit.mirdns/hbclient,v 1.5 2008/11/08 22:24:25 tg Exp $
 #-
 # Copyright (c) 2004
 #	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
@@ -237,6 +237,7 @@ fi
 #-- we can run as hbClient now
 
 # daemonise or run under supervision
+#XXX this may be the cause for failures; rewrite and use "mksh -T-" instead!
 exec 0<&-
 [[ -n $STDOUT || $STDERR = 1 ]] || exec 1>&-
 if [[ -z $STDERR ]]; then

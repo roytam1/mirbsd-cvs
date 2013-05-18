@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/heartbeat/hbmulti,v 1.4 2006/03/20 00:32:36 tg Exp $
+# $MirOS: contrib/code/heartbeat/hbmulti,v 1.5 2006/03/27 07:19:54 tg Exp $
 #-
 # Copyright (c) 2004, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -304,6 +304,7 @@ fi
 #-- run as heartbeat client
 
 # daemonise or run under supervision
+#XXX this may be the cause for failures; rewrite and use "mksh -T-" instead!
 exec 0<&-
 [[ -n $STDOUT || $STDERR = 1 ]] || exec 1>&-
 if [[ -z $STDERR ]]; then
