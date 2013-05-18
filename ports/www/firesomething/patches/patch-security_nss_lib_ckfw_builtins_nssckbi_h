@@ -1,16 +1,16 @@
-$MirOS: ports/www/firesomething/patches/patch-security_nss_lib_ckfw_builtins_nssckbi_h,v 1.1 2009/08/04 08:26:18 tg Exp $
+$MirOS: ports/www/firesomething/patches/patch-security_nss_lib_ckfw_builtins_nssckbi_h,v 1.2 2009/11/15 01:10:57 tg Exp $
 
 	Raise along with FULLPKGNAME-nssckbi in Makefile
 	when ../files/certdata.c changes.
 
 --- security/nss/lib/ckfw/builtins/nssckbi.h.orig	Thu May 21 19:50:05 2009
-+++ security/nss/lib/ckfw/builtins/nssckbi.h	Sun Nov 15 02:06:22 2009
++++ security/nss/lib/ckfw/builtins/nssckbi.h	Thu Jul 22 14:59:23 2010
 @@ -76,7 +76,7 @@
   */
  #define NSS_BUILTINS_LIBRARY_VERSION_MAJOR 1
  #define NSS_BUILTINS_LIBRARY_VERSION_MINOR 75
 -#define NSS_BUILTINS_LIBRARY_VERSION "1.75"
-+#define NSS_BUILTINS_LIBRARY_VERSION "1.75.0.2"
++#define NSS_BUILTINS_LIBRARY_VERSION "1.75.0.3"
  
  /* These version numbers detail the semantic changes to the ckfw engine. */
  #define NSS_BUILTINS_HARDWARE_VERSION_MAJOR 1
