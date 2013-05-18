@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/gnu.port.mk,v 1.28 2007/02/22 21:45:34 bsiegert Exp $
+# $MirOS: ports/infrastructure/mk/gnu.port.mk,v 1.29 2007/05/07 20:23:34 bsiegert Exp $
 # $OpenBSD: gnu.port.mk,v 1.19 2004/06/06 11:49:08 espie Exp $
 
 AUTOCONF_NEW?=		No
@@ -118,8 +118,13 @@ _MODGNU_loop+=	print "Updating to MirLibtool in $$d"; \
 		$$L; for LP in $${L}${PATCHORIG} $$L; do test -e $$LP || \
 		continue; print "/^\\\# serial [0-9].* AC_PROG_LIBTOOL/ka\n" \
 		"'a,\$$g/^ifelse(\\[AC_DISABLE_FAST_INSTALL])/kb\n" \
-		"'b,\$$g/^AC_MSG_RESULT(\\[\$$SED])/+1kb\n'a,'bd\nwq" \
-		| ed -s $$LP 2>/dev/null || true; print "0a\n" \
+		"'b,\$$g/^AC_MSG_RESULT(\\[\$$SED])/+1kb\n'a,'bd\n" \
+		",g/m4_if(m4_PACKAGE_VERSION," \
+		"/s//m4_if(m4_ifdef([m4_PACKAGE_VERSIONNR]," \
+		"[m4_PACKAGE_VERSIONNR]," \
+		"[m4_bpatsubst(m4_defn([m4_PACKAGE_VERSION])," \
+		"[-.*], [])]), /\nwq" | \
+		ed -s $$LP 2>/dev/null || true; print "0a\n" \
 		"builtin([include], [libtool.m4])\n.\nwq" | ed -s $$LP; done;
 .endif
 
