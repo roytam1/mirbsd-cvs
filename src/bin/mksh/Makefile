@@ -1,9 +1,12 @@
-# $MirOS: src/bin/mksh/Makefile,v 1.8 2005/10/21 11:44:25 tg Exp $
+# $MirOS: src/bin/mksh/Makefile,v 1.9 2006/05/08 12:18:49 tg Exp $
 
 PROG=		mksh
 SRCS=		alloc.c edit.c eval.c exec.c expr.c funcs.c histrap.c \
 		jobs.c lex.c main.c misc.c shf.c syn.c tree.c var.c
 CDIAGFLAGS+=	-Wno-cast-qual
+
+LINKS+=		${BINDIR}/${PROG} ${BINDIR}/sh
+MLINKS+=	${PROG}.1 sh.1
 
 check:
 	@cd ${.CURDIR} && ${MAKE} regress V=-v

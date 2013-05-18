@@ -1,4 +1,4 @@
-# $MirOS: src/bin/sh/Makefile,v 1.7 2006/07/21 21:35:39 tg Exp $
+# $MirOS: src/bin/sh/Makefile,v 1.8 2006/07/21 21:39:37 tg Exp $
 # $NetBSD: Makefile,v 1.80 2005/06/26 19:10:49 christos Exp $
 
 PROG=		nbsh
@@ -13,8 +13,8 @@ DPADD+=		${LIBL}
 LDADD+=		-ll
 
 CLEANFILES+=	${PROG}.1
-LINKS+=		${BINDIR}/${PROG} ${BINDIR}/sh
-MLINKS+=	${PROG}.1 sh.1
+#LINKS+=	${BINDIR}/${PROG} ${BINDIR}/sh
+#MLINKS+=	${PROG}.1 sh.1
 
 CFLAGS_arith_lex.o= -Wno-old-style-definition -Wno-missing-noreturn
 
