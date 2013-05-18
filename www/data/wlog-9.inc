@@ -1375,3 +1375,17 @@ Author: tg@
  not seem to be affected). But hey, I eventually found the bug. Now, all I
  wait for is Sun to release their compiler under MIT licence… as if.</p>
 ----
+Date: 11.07.2007
+Author: tg@
+
+<p>I think one of the two HDDs in herc which compose the RAID 1 (software,
+ using raid(4) – RAIDframe) is definitively failing. I need a replacement;
+ maybe I'll do as few activity as possible on <tt>/MirOS/</tt> and the CVS
+ repository in the meantime to extend its life span. This sucks, and I see
+ I won't be able to relax next weekend either.</p>
+<p>We have a new snapshot – MirOS #10 RC2 – yet not announced on the front
+ page because I need to rsync it to the mirrors first (RAID issue) and put
+ up a torrent (time issue, I do have a dayjob now). But it should appear @
+ the http mirrors (heph and allbsd.org) soon, in <tt>/MirOS/current/</tt>,
+ as usual.</p>
+----
