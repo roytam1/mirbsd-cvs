@@ -4283,34 +4283,12 @@ expected-stdout:
 	ohne
 	﻿: mit
 ---
-name: utf8bom-2a
+name: utf8bom-2
 description:
 	Check that we can execute BOM-shebangs
 	XXX if the OS can already execute them, we lose
 	note: cygwin execve(2) doesn't return to us with ENOEXEC, we lose
-category: pdksh,!os:cygwin,!os:uwin-nt,!oldish-perl
-env-setup: !FOO=BAR!
-stdin:
-	print '#!'"$__progname"'\nprint "a=$ENV{FOO}";' >t1
-	print '﻿#!'"$__progname"'\nprint "a=$ENV{FOO}";' >t2
-	print '#!'"$__perlname"'\nprint "a=$ENV{FOO}\n";' >t3
-	print '﻿#!'"$__perlname"'\nprint "a=$ENV{FOO}\n";' >t4
-	chmod +x t?
-	./t1
-	./t2
-	./t3
-	./t4
-expected-stdout:
-	a=/nonexistant{FOO}
-	a=/nonexistant{FOO}
-	a=BAR
-	a=BAR
----
-name: utf8bom-2b
-description:
-	Check that we can execute BOM-shebangs
-	XXX if the OS can already execute them, we lose
-category: pdksh,oldish-perl
+category: pdksh,!os:cygwin,!os:uwin-nt
 env-setup: !FOO=BAR!
 stdin:
 	print '#!'"$__progname"'\nprint "a=$ENV{FOO}";' >t1
@@ -4328,7 +4306,7 @@ expected-stdout:
 	a=BAR
 	a=BAR
 expected-stderr-pattern:
-	/nrecogni.ed/
+	/(Unrecognized character .... ignored at \..t4 line 1)*/
 ---
 name: utf8bom-3
 description:
