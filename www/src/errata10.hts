@@ -1,4 +1,4 @@
-mws_putheader '$MirOS: www/src/errata10.hts,v 1.8 2008/05/17 19:13:40 tg Exp $'
+mws_putheader '$MirOS: www/src/errata10.hts,v 1.9 2008/05/19 18:45:57 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -13,6 +13,8 @@ mws_content <<'EOF'
 <p>By upgrading to the <tt>MIRBSD_10</tt> branch on CVS in the
  <tt>src</tt> module, you gain the following fixes:</p><ul>
 <li>
+ Use CPUID for FPU detection (from OpenBSD), to enable GeodeLX CPUs to work
+</li><li>
  Pull up mksh-R34(beta), new <tt>/etc/skel/.mkshrc</tt>, fixed profile
 </li><li>
  Update <tt>/etc/ssh/ssh_known_hosts</tt>
