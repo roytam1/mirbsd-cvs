@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.cfwrap.mk,v 1.19 2007/03/09 10:40:52 tg Exp $
+# $MirOS: src/share/mk/bsd.cfwrap.mk,v 1.20 2008/04/10 14:07:45 tg Exp $
 
 .if !defined(BSD_CFWRAP_MK)
 BSD_CFWRAP_MK=1
@@ -38,7 +38,7 @@ CLEANFILES+=	config.cache config.log
 FSFMAKE?=	${XVARS} ${MAKE} ${FSFMARGS} ${XARGS}
 FSFSRC?=	${.CURDIR}
 .if !defined(FSFOBJDIR)
-FSFOBJDIR!=	readlink -nf ${.OBJDIR}
+FSFOBJDIR!=	realpath ${.OBJDIR}
 .endif
 
 .PATH: ${FSFSRC}

@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.obj.mk,v 1.7 2008/02/24 11:58:08 tg Exp $
+# $MirOS: src/share/mk/bsd.obj.mk,v 1.8 2008/03/09 13:38:15 tg Exp $
 # $OpenBSD: bsd.obj.mk,v 1.12 2003/10/28 17:09:33 espie Exp $
 # $NetBSD: bsd.obj.mk,v 1.9 1996/04/10 21:08:05 thorpej Exp $
 
@@ -27,11 +27,11 @@ __objdir=	${__baseobjdir}
 .    endif
 
 .    if defined(USR_OBJMACHINE)
-__usrobjdir!=	readlink -nf ${BSDOBJDIR}.${MACHINE} 2>&- || \
+__usrobjdir!=	realpath ${BSDOBJDIR}.${MACHINE} 2>&- || \
 		    print -nr -- ${BSDOBJDIR:Q}.${MACHINE:Q}
 __usrobjdirpf=
 .    else
-__usrobjdir!=	readlink -nf ${BSDOBJDIR} 2>&- || print -nr -- ${BSDOBJDIR:Q}
+__usrobjdir!=	realpath ${BSDOBJDIR} 2>&- || print -nr -- ${BSDOBJDIR:Q}
 .      if defined(OBJMACHINE)
 __usrobjdirpf=	.${MACHINE}
 .      else
@@ -44,8 +44,8 @@ _SUBDIRUSE:
 obj! _SUBDIRUSE
 	@cd ${.CURDIR}; \
 	tryobjdir=0; here=.; \
-	if bsdsrcdir=$$(readlink -nf ${BSDSRCDIR} 2>&-); then \
-		here=$$(readlink -nf .); \
+	if bsdsrcdir=$$(realpath ${BSDSRCDIR} 2>&-); then \
+		here=$$(realpath .); \
 		subdir=$${here#$${bsdsrcdir}/}; \
 		[[ $$here = $$subdir ]] || tryobjdir=1; \
 	fi; \
