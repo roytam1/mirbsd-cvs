@@ -2388,7 +2388,7 @@ Title: light bulbs
 ----
 Date: 30.12.2008 21:34
 Author: tg@
-Title: MD5 attack lead to faking an X.509v3 Intermediate CA
+Title: MD5 attack lead to faking an X.509v3 Intermediate CA [updated]
 Tag: security
 
 <p>I’ve updated <tt>src/etc/ssl.certs.shar</tt>, read <a
@@ -2399,6 +2399,17 @@ Tag: security
  the CAs agree wanting to switch to SHA-1 (yuck, broken as
  well). Only, do they get a new root certificate (probably
  not), and where does an OS vendor get such news?</p>
+<p><strong>Update:</strong> This appears to be not needed, as per <a
+ href="http://broadcast.oreilly.com/2009/01/new-pki-problem-resolved.html">this
+ comment</a>. However, how credible is this person? Where is proof?
+ I’d recommend everyone who has not yet read it to look at <a
+ href="http://cm.bell-labs.com/who/ken/trust.html">On Trusting
+ Trust</a>. Anyway, the CA certificates are now trusted again;
+ let’s just hope the <em>backdated</em> demo intermediate CA was
+ the only one generated in the meantime. We really need my <a
+ href="http://thread.gmane.org/gmane.comp.web.lynx.devel/6096">SSL
+ known_certs proposal</a>, I think. What’s with these MD2 certs
+ anyway? <small>(end of update)</small></p>
 <!-- RSS stop --><p>On other notes, we have a new logo for <a
  href="@@RELPATH@@mksh.htm">mksh</a>, thanks smultron.
  Hand-editing SVG is so much fun ☺ no really, in <a
