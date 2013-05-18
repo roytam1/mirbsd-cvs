@@ -1,9 +1,9 @@
-# $MirOS: ports/lang/python/2.5/Makefile,v 1.13 2008/12/06 16:03:06 tg Exp $
+# $MirOS: ports/lang/python/2.5/Makefile,v 1.14 2009/05/30 20:38:25 tg Exp $
 
 VERSION=		2.5
 PATCHLEVEL=		.4
 NOT_FOR_PLATFORM=	Darwin:*:*	# until PFRAG.dylib is synched
-					# to avoid needing to bump DASH_VER
+#					# to avoid needing to bump DASH_VER
 
 LIB_DEPENDS+=		ffi::devel/libffi
 LIB_DEPENDS+=		gdbm::databases/gdbm
