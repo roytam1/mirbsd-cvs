@@ -634,7 +634,6 @@ histsave(int *lnp, const char *cmd, bool dowrite MKSH_A_UNUSED, bool ignoredups)
 	char **hp;
 	char *c, *cp;
 
-	mkssert(cmd != NULL);
 	strdupx(c, cmd, APERM);
 	if ((cp = strchr(c, '\n')) != NULL)
 		*cp = '\0';
