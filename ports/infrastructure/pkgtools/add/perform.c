@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.14 2006/12/23 02:36:15 tg Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.15 2006/12/23 03:18:10 tg Exp $ */
 /* $OpenBSD: perform.c,v 1.32 2003/08/21 20:24:56 espie Exp $	*/
 
 /*
@@ -29,7 +29,7 @@
 #include <signal.h>
 #include <errno.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.14 2006/12/23 02:36:15 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.15 2006/12/23 03:18:10 tg Exp $");
 
 static int pkg_do(char *);
 static int sanity_check(char *);
@@ -598,8 +598,10 @@ register_dep_(char *pkg, char *dep)
     if (asprintf(&cp, "%s%s\n", PkgDeps ? PkgDeps : "", dep) < 0)
 	    pwarnx("cannot allocate memory for PkgDeps list!\n"
 		    "dependency registration is incomplete");
-	else
+	else {
+	    free(PkgDeps);
 	    PkgDeps = cp;
+	}
 }
 
 /* write the dependencies of a package into its dbdir and register them */
