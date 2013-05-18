@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/ksh-chan.inc,v 1.9 2012/10/03 18:04:33 tg Exp $
+RCSID: $MirOS: www/data/ksh-chan.inc,v 1.10 2012/11/11 12:20:39 tg Exp $
 Title: Homepage of the original Korn Shell
 Link: http://www.kornshell.com/
 
@@ -74,6 +74,26 @@ Sven Mascheck also has a shell detector, with emphasis on
 shells without any version variable; mostly supports old
 Bourne-compatible shells including POSIX and Korn Shell
 and some Z Shell but no C Shell or TCL.
+----
+Title: shbot, as seen in #bash and #ksh
+Link: https://github.com/geirha/shbot
+Block: yes
+
+<p class="boxhead"><tt>shbot</tt> is a bot that takes from an IRC
+ channel or query commands of the form…</p><div class="boxtext">
+ <pre>
+	k# print ${.sh.version}
+	m# print $KSH_VERSION
+ </pre>
+</div><p class="boxfoot">… runs them in a throw-away VM and show
+ the result back to the requestor.</p>
+<p>The <a href="http://www.vidarholen.net/contents/evalbot/">original
+ evalbot code</a> might be of interest, as well as the <a
+ href="https://github.com/geirha/shbot/blob/master/triggers">current
+ list of triggers</a> for the <tt>shbot</tt> instance on <a
+ href="@@RELPATH@@irc.htm">Freenode</a>. Query “sbot” to <tt>greybot</tt>
+ to get what <tt>geirha</tt> says is the closest thing to documentation
+ at the moment.</p>
 ----
 Title: Morris Bolsky, The KornShell Command and Programming Language
 ISBN: 978-0-13-516972-8 (0-13-516972-0)
