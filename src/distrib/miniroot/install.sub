@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/miniroot/install.sub,v 1.10 2005/09/26 22:55:26 tg Exp $
+# $MirOS: src/distrib/miniroot/install.sub,v 1.11 2005/11/19 21:50:38 tg Exp $
 # $OpenBSD: install.sub,v 1.388 2005/07/02 00:55:48 uwe Exp $
 # $NetBSD: install.sub,v 1.5.2.8 1996/09/02 23:25:02 pk Exp $
 #
@@ -1623,9 +1623,8 @@ ROOTDEV=
 
 VERSION=8
 
-VNAME="$(( $VERSION / 10 )).$(( $VERSION % 10 ))"
 SETDIR="v${VERSION}/$ARCH"
-OBSD="MirOS/BSD/$ARCH $VNAME"
+OBSD="MirOS BSD #$VERSION/$ARCH"
 SERVERLIST=/tmp/serverlist
 
 # Do not limit ourselves during installs or upgrades.
