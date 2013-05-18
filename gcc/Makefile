@@ -1,4 +1,4 @@
-# $MirOS: gcc/Makefile,v 1.15 2006/02/14 20:47:52 tg Exp $
+# $MirOS: gcc/Makefile,v 1.16 2006/03/01 13:55:45 tg Exp $
 
 .include <bsd.own.mk>
 .include "${GNUSYSTEM_AUX_DIR}/locations.mk"
@@ -18,7 +18,7 @@ BUILD_TGTS=	all clean depend lint prereq tags
 INSTALL_TGTS=	includes install
 
 .ifdef _CROSSBUILD
-EXTRA_ENV=	PATH=/bin:/usr/bin:/sbin:/usr/sbin:${GCC_PREFIX}/bin
+EXTRA_ENV=	PATH=/bin:/usr/bin:/sbin:/usr/sbin:${GCC_PREFIX}/${GCC_TARGET}/bin
 .else
 EXTRA_ENV=	PATH=/bin:/usr/bin:/sbin:/usr/sbin
 .endif
