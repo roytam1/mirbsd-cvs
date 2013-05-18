@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.307 2010/01/02 16:46:50 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.308 2010/01/10 02:08:32 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -91,9 +91,8 @@ mws_content <<'EOF'
  the result is still called mksh, it’s discouraged; talk with us if you
  feel you have to modify mksh). The individual licences used are the MirOS
  licence, and (for BSD compatibility on other oerating systems) the 3-clause
- UCB licence and the ISC licence; <a
- href="/cvs.cgi/src/bin/mksh/copyright?rev=HEAD">full terms</a> are
- available via CVSweb. pdksh originally was public domain, with a few
+ UCB licence and the ISC licence; <a href="@@ABSPATH@@/TaC-mksh.txt">full
+ terma</a> are available. pdksh originally was public domain, with a few
  exceptions, but these files are not part of mksh R21 or up. The mksh(1) author
  (mirabilos) acknowledges the contributions of these people who dedicated pdksh
  and oksh to the public, and asserts a collective copyright on the code.
@@ -1066,6 +1065,8 @@ mws_content <<'EOF'
  <li>[tg] dot.mkshrc: Use [[ -o utf8-mode ]] instead of [[ $- = *U* ]]</li>
  <li>[tg] Apply errno save/restore related fix from (sync with) oksh</li>
  <li>[tg] Switch hash table collision resolution algorithm to Python’s</li>
+ <li>[tg] Build.sh: output message when switching from autoconfiguration to
+  building / output generation (requested by Matt “lewellyn” Lewandowsky)</li>
 </ul>
 <p id="r39">mksh R39 evolved into these through various means:</p><ul>
  <li>[tg] Shut up a bogus gcc warning during configuration process</li>

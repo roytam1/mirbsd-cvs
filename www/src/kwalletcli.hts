@@ -1,6 +1,6 @@
 mws_setname subprojects/kwalletcli "kwalletcli – CLI for the KDE Wallet"
 mws_setheadline CLI for the KDE Wallet
-mws_putheader '$MirOS: www/src/kwalletcli.hts,v 1.10 2009/10/31 17:02:39 tg Exp $'
+mws_putheader '$MirOS: www/src/kwalletcli.hts,v 1.11 2009/11/28 21:27:22 tg Exp $'
 mws_content <<'EOF'
 <table width="100%"><tr><td>
 <p>There isn’t any content yet. Please see <a
@@ -11,11 +11,11 @@ mws_content <<'EOF'
  type="image/svg+xml" width="128" height="128"><img alt="kwalletcli Logo"
  src="@@RELPATH@@pics/kwalletcli128.png" /></object></td></tr></table>
 
-<p>We have a 2.00 distfile; website and packaging coming soon.</p><ul>
- <li>RMD160 (kwalletcli-2.00.tar.gz) = 8ad374033bc01b40d90ab3494b140f2bdcb7c431</li>
- <li>TIGER (kwalletcli-2.00.tar.gz) = 22d81debfe0ab6f78c35859aab8467ad03abb899086fc24a</li>
- <li>37285699 55636 <a href="@@ABSPATH@@/MirOS/dist/hosted/kwalletcli/kwalletcli-2.00.tar.gz">/MirOS/dist/hosted/kwalletcli/kwalletcli-2.00.tar.gz</a></li>
- <li>MD5 (kwalletcli-2.00.tar.gz) = 5709400a3029bac03e339338cfc8751a</li>
+<p>We have a 2.01 distfile; website and packaging coming soon.</p><ul>
+ <li>RMD160 (kwalletcli-2.01.tar.gz) = 9508bd04a12de686ceb3789669e971ba44ee44e9</li>
+ <li>TIGER (kwalletcli-2.01.tar.gz) = a781eb1001ed94341b474643969372574ad2da819f0a204a</li>
+ <li>4219952765 56307 <a href="@@ABSPATH@@/MirOS/dist/hosted/kwalletcli/kwalletcli-2.01.tar.gz">/MirOS/dist/hosted/kwalletcli/kwalletcli-2.01.tar.gz</a></li>
+ <li>MD5 (kwalletcli-2.01.tar.gz) = 38c89c6720beb345e8e038235a7824f6</li>
 </ul>
 EOF
 ttxt="kwalletcli"
@@ -26,6 +26,9 @@ mws_content <<EOF
 <h2 class="revbox">${tpic}</h2>
 <p>Update: we also have KDE4 bindings and a logo in a new distfile;
  Debian packaging (KDE3 for Lenny/Hardy, KDE4 for sid), etc. coming soon…</p>
+<p>Update 19.01.2010: KDE3 packaging done, KDE4 packaging will be in NEW
+ anytime soon. This page shall be fleshed out then as well. Release 2.01
+ contains minor bugfixes.</p>
 EOF
 mws_putfooter
 exit 0
