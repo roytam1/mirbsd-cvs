@@ -1,4 +1,4 @@
-# $MirOS: src/share/misc/bsdstats,v 1.40 2007/05/17 02:16:11 tg Exp $
+# $MirOS: src/share/misc/bsdstats,v 1.41 2007/05/18 07:31:24 tg Exp $
 # $FreeBSD: ports/sysutils/bsdstats/files/300.statistics,v 1.38 2006/12/05 13:49:45 scrappy Exp $
 #-
 # Copyright (c) 2007
@@ -49,7 +49,7 @@ for dir in /usr/mpkg /usr/pkg /usr/local /sw; do
 	done
 done
 
-rcsid_code='$MirOS: src/share/misc/bsdstats,v 1.40 2007/05/17 02:16:11 tg Exp $'
+rcsid_code='$MirOS: src/share/misc/bsdstats,v 1.41 2007/05/18 07:31:24 tg Exp $'
 
 if [[ $(uname -M 2>&1) = *MirBSD* ]]; then
 	opsys=MirBSD
@@ -150,7 +150,7 @@ function report_ports {
 	qs="token=$stats_key&key=$stats_token$qs"
 	qs="POST $path HTTP/1.0
 Host: $host
-User-Agent: bsdstats \$MirOS: src/share/misc/bsdstats,v 1.40 2007/05/17 02:16:11 tg Exp $
+User-Agent: bsdstats \$MirOS: src/share/misc/bsdstats,v 1.41 2007/05/18 07:31:24 tg Exp $
 Connection: close
 Content-Type: application/x-www-form-urlencoded
 Content-Length: ${#qs}
@@ -160,6 +160,86 @@ $qs"
 	    print -r -- "$qs" | nc $host $port 2>/dev/null)
 	logit "ports report to $host:$port with '$qs' -> ${res:-ERROR}"
 	[[ $res = *OK* ]] || ok=0
+}
+
+bmake=
+function doports_pkgsrc {
+	# look for pkgsrc's bmake
+	[[ -n $bmake ]] || bmake=/usr/pkg/bin/bmake
+	[[ -x $bmake ]] || bmake=$(whence -p bmake 2>&-)
+	# use BSD make (usually in /usr/bin), but not GNU make
+	[[ -x $bmake ]] || [[ $opsys = GNU* ]] || bmake=$(whence -p make 2>&-)
+	# (we could also check --version output tho)
+	[[ -x $bmake ]] || print warning: cannot find bmake
+	[[ -x $bmake ]] || return
+	(find "$1" -name +BUILD_INFO 2>/dev/null | sort) |&
+	while IFS= read -pr fn; do
+		name=${fn%/*}		# directory
+		name=${name##*/}	# pkgname
+		[[ $name = *@(nb)+([0-9]) ]] || name=${name}nb0
+		eval $(print 'all:\n\t@print -r -- "dir=${PKGPATH:Q}' \
+		    'flavours=${PKG_OPTIONS:Q}"\n.include "'"$fn\"" | \
+		    $bmake -f - all)	# subdir, flavours
+		qs="$qs&port[]=$(uri_escape "${dir%%/*}")"
+		for flavour in $flavours; do
+			name=$name,$flavour
+		done
+		qs="$qs:$(uri_escape "$name")"
+	done
+}
+
+function doports_fbsd {
+	(find "$1" -name +CONTENTS -print0 2>/dev/null | \
+	    xargs -0 grep '^@comment.*ORIGIN' | \
+	    sed 's!^[^:]*/\([^/:]*\)/+CONTENTS:.*ORIGIN:\([^/]*\).*$!\1:\2!' | \
+	    sort) |&
+	while IFS=: read -pr name dir; do
+		qs="$qs&port[]=$(uri_escape "$dir"):$(uri_escape "$name")"
+	done
+}
+
+function doports_openmir {
+	t=$2
+	(find "$1" -name +CONTENTS -print0 2>/dev/null | \
+	    xargs -0 grep '^@comment.*subdir=' | \
+	    sed 's!^[^:]*/\([^/:]*\)/+CONTENTS:.*subdir=\([^, ]*\).*$!\1:\2!' | \
+	    sort) |&
+	while IFS=: read -pr name dir; do
+		qs="$qs&port[]=$(uri_escape "${dir%%/*}")"
+		# convert stem-version-pl-flavour-...
+		# to stem-version_MirPorts_pl,flavour,...
+		# and stem-version[p1]-flavour-...
+		# to stem-versionp0,flavour,...
+		stem=${name%%-[0-9]*}
+		name=${name#$stem-}		# version(-pl)-flavour
+		vers=${name%%-[a-zA-z]*}	# version(-pl)
+		name=$(print -r -- "${name#$vers}" | tr - ,)	# -flavour
+		if [[ $t = 0 ]]; then
+			# still undecided, look which patchlevel style we have
+			# MirPorts Framework (Debian style), since July 2005
+			[[ $vers = *-+([0-9]) ]] && t=1
+			# OpenBSD Ports; old MirPorts (e.g. on MirOS #7)
+			[[ $vers = *p+([0-9]) ]] && t=2
+		fi
+		if [[ $t = 1 ]]; then
+			vers=${vers%-+([0-9])}-MirPorts${vers#${vers%-+([0-9])}}
+		else # default to OpenBSD ports style if no patchlevel given
+			[[ $vers = *p+([0-9]) ]] || vers=${vers}p0
+		fi
+		qs="$qs:$(uri_escape "$stem-$(print -r "$vers" | tr - _)$name")"
+	done
+}
+
+function dodevs_fbsd {
+	# taken from scrappy's script, neither optimised nor tested
+	for line in $(/usr/sbin/pciconf -l); do
+		qs="$qs&dev[]=$(uri_escape "$(echo "$line" | \
+		    awk -F\@ '{print $1}')")"
+		qs="$qs:$(uri_escape "$(echo "$line" | \
+		    awk '{print $4}' | cut -c8-15)")"
+		qs="$qs:$(uri_escape "$(echo "$line" | \
+		    awk '{print $2}' | cut -c9-14)")"
+	done
 }
 
 host=${rpt#http://}
@@ -277,67 +357,49 @@ if (( now > (stats_report_time + 10 * 86400) )); then
 		res=$(sleep $((RANDOM % 99 + 21)); $fetch "$rpt$uri" 2>/dev/null)
 		logit "cpu report $uri -> ${res:-ERROR}"
 		[[ $res = *OK* ]] || ok=0
+		# Hardware report: PCI devices
+		uri="report_devices.php?token=$stats_key&key=$stats_token"
+		qs=
+		if [[ -x /usr/sbin/pciconf ]]; then
+			dodevs_fbsd
+		fi
+		if [[ -n $qs ]]; then
+			res=$(sleep $((RANDOM % 99 + 21)); \
+			    $fetch "$rpt$uri$qs" 2>/dev/null)
+			logit "devices report $uri -> ${res:-ERROR}"
+			[[ $res = *OK* ]] || ok=0
+		fi
 		# Software report
 		qs=
-		# report MirPorts Framework installed binary packages
-		(find /usr/mpkg/db/pkg -name +CONTENTS -print0 2>/dev/null | \
-		    xargs -0 grep '^@comment.*subdir=' | \
-		    sed 's!^[^:]*/\([^/:]*\)/+CONTENTS:.*subdir=\([^, ]*\).*$!\1:\2!' | \
-		    sort) |&	# interesting that we _need_ the parens here oO
-		while IFS=: read -pr name dir; do
-			qs="$qs&port[]=$(uri_escape "${dir%%/*}")"
-			# convert stem-version-pl-flavour-...
-			# to stem-version_MirPorts_pl,flavour,...
-			stem=${name%%-[0-9]*}
-			name=${name#$stem-}		# version-pl-flavour
-			vers=${name%%-[a-zA-z]*}	# version-pl
-			name=${name#$vers}		# -flavour
-			vers=${vers%-+([0-9])}-MirPorts${vers#${vers%-+([0-9])}}
-			vers=$(print -r "$vers" | tr - _)
-			name=$(print -r -- "$name" | tr - ,)
-			qs="$qs:$(uri_escape "$stem-$vers$name")"
-		done
-		# scan for NetBSD pkgsrc installed binary packages
-		res=
-		for dir in /usr/pkg/pkgdb /usr/pkg/db/pkg /var/db/pkg; do
-			[[ -e $dir ]] || continue
-			for file in $dir/*/+BUILD_INFO; do
-				[[ -e $file ]] || continue
-				res=y
-				break 2
+		# scan for FreeBSD Ports, MirPorts, OpenBSD Ports, pkgsrc
+		for dir in /{,usr/,opt/}*/{db/pkg,pkgdb}; do
+			[[ -e $dir || continue ]]
+			for file in $dir/*/+CONTENTS; do
+				if [[ -e ${dir%CONTENTS}BUILD_INFO ]]; then
+					# pkgsrc
+					doports_pkgsrc "$dir"
+				elif fgrep -q '@comment ORIGIN' "$file"; then
+					# FreeBSD Ports
+					doports_fbsd "$dir"
+				elif fgrep -q '@comment portdir=' "$file"; then
+					# MirPorts Framework
+					doports_openmir "$dir" 1
+				elif fgrep -q '@comment subdir=' "$file"; then
+					# OpenBSD Ports
+					# MirPorts before Jan 2006
+					doports_openmir "$dir" 0
+				else
+					print unknown ports type in "'$dir'"
+				fi
+				break
 			done
 		done
-		[[ -n $res ]] || dir=/nonexistent
-		(find $dir -name +BUILD_INFO 2>/dev/null | sort) |&
-		while IFS= read -pr fn; do
-			name=${fn%/*}		# directory
-			name=${name##*/}	# pkgname
-			[[ $name = *@(nb)+([0-9]) ]] || name=${name}nb0
-			# look for pkgsrc's bmake
-			bmake=/usr/pkg/bin/bmake
-			[[ -x $bmake ]] || bmake=$(whence -p bmake 2>&-)
-			# use BSD make (usually in /usr/bin), but not GNU make
-			[[ -x $bmake ]] || [[ $opsys = GNU* ]] || \
-			    bmake=$(whence -p make 2>&-)
-			# (we could also check --version output tho)
-			[[ -x $bmake ]] || print warning: cannot find bmake
-			[[ -x $bmake ]] || break
-			eval $(print 'all:\n\t@print -r -- "dir=${PKGPATH:Q}' \
-			    'flavours=${PKG_OPTIONS:Q}"\n.include "'"$fn\"" | \
-			    $bmake -f - all)	# subdir, flavours
-			qs="$qs&port[]=$(uri_escape "${dir%%/*}")"
-			for flavour in $flavours; do
-				name=$name,$flavour
-			done
-			qs="$qs:$(uri_escape "$name")"
-		done
-		# look for Debian installed software
+		# look for Debian package management
 		(whence -p dpkg-query >&- 2>&- && \
 		    dpkg-query -Wf '${Section}\t${Package}\t${Version}\n') |&
 		while IFS='	' read -pr section name ver; do
-			qs="$qs&port[]=$(uri_escape "$section")"
-			name="$name-$(print -nr -- "$ver" | tr ':-' ';_')"
-			qs="$qs:$(uri_escape "$name")"
+			qs="$qs&port[]=$(uri_escape "$section"):$(uri_escape \
+			    "$name-$(print -nr -- "$ver" | tr ':-' ';_')")"
 		done
 		# send info about any found binary packages now at once
 		[[ -z $qs ]] || report_ports
