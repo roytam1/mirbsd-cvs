@@ -102,6 +102,7 @@
 ./etc/sliphome/slip.hosts
 ./etc/sliphome/slip.login
 ./etc/spwd.db
+./etc/ssh/root:config
 ./etc/ssh/ssh_config
 ./etc/ssh/ssh_known_hosts
 ./etc/ssh/sshd_config
