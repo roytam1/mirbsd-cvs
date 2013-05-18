@@ -1,5 +1,15 @@
-# $MirOS: ports/www/php/extensions/Makefile,v 1.19 2008/03/09 17:23:39 tg Exp $
+# $MirOS: ports/www/php/extensions/Makefile,v 1.20 2008/05/02 15:32:47 tg Exp $
 # $OpenBSD: Makefile,v 1.17 2005/12/29 23:06:28 sturm Exp $
+
+.if ${FLAVOUR} == "no_x11 no_bz2 no_curl no_dba no_dbase no_dbx no_fam no_filepro no_gmp no_imap no_ldap no_mcrypt no_mhash no_mysql no_ncurses no_odbc no_pgsql no_shmop no_soap no_snmp no_sybase_ct no_xmlrpc no_xsl"
+# XXX eeevil kludge, probably bug in systrace or something
+# XXX symptoms:
+# mv: rename autoh24064 to main/php_config.h.in: No such file or directory
+# mv: rename autoh3004 to main/php_config.h.in: Invalid argument
+# XXX during autoheader run, and many more later
+# XXX maybe too long pathnames?
+NO_SYSTRACE=		Yes
+.endif
 
 FULLPKGNAME=		php-extensions-${V}-${PV}
 COMMENT=		informational package about PHP5 extensions
