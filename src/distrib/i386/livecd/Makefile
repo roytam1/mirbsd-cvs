@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/livecd/Makefile,v 1.5 2006/04/05 23:23:54 tg Exp $
+# $MirOS: src/distrib/i386/livecd/Makefile,v 1.6 2006/04/05 23:39:47 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -31,7 +31,7 @@ nukefiles:
 	    lib/libgcj.* share/{doc,gnat,info,java,man}
 
 makeimg:
-	mkisofs -R -T -L -d -D -N -v -v \
+	${SUDO} mkisofs -R -T -L -d -D -N -v -v \
 	    -b etc/boot.386 -c etc/boot.cat \
 	    -P "The http://MirBSD.org/ team and its contributors" \
 	    -p "Copyright © 2002-2006 by The MirOS Project" \
