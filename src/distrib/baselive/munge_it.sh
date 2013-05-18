@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/baselive/munge_it.sh,v 1.29 2007/09/28 22:54:07 tg Exp $
+# $MirOS: src/distrib/baselive/munge_it.sh,v 1.30 2008/03/04 23:48:58 tg Exp $
 #-
 # Copyright (c) 2006, 2007, 2008
 #	Thorsten “mirabilos” Glaser <tg@mirbsd.de>
@@ -9,10 +9,6 @@
 # is granted to deal in this work without restriction, including un-
 # limited rights to use, publicly perform, distribute, sell, modify,
 # merge, give away, or sublicence.
-#
-# Advertising materials mentioning features or use of this work must
-# display the following acknowledgement:
-#	This product includes material provided by Thorsten Glaser.
 #
 # This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
 # the utmost extent permitted by applicable law, neither express nor
@@ -57,9 +53,9 @@ ed -s etc/inetd.conf <<-'EOMD'
 	wq
 EOMD
 ed -s etc/master.passwd <<-'EOMD'
-	/^root:/s!/root!/dev/.root!
+	/^root:/s!:/:!:/dev/.root:!
 	/^nobody:/i
-		live:$2a$04$NCMhVFfIg3afYRXLCDGjcOPYJxem4lxSLcthQT5AaejUaAAvIWdCW:32762:32762:staff:0:0:MirOS BSD Live CD User:/home/live:/bin/mksh
+		live:$2a$04$NCMhVFfIg3afYRXLCDGjcOPYJxem4lxSLcthQT5AaejUaAAvIWdCW:32762:32762:staff:0:0:MirOS BSD Live CD User:/home/live:/usr/dbin/mksh
 	.
 	wq
 EOMD
@@ -72,7 +68,7 @@ ed -s etc/ntpd.conf <<-'EOMD'
 EOMD
 ed -s etc/rc <<-'EOMD'
 	1i
-		# $MirOS: src/distrib/baselive/munge_it.sh,v 1.29 2007/09/28 22:54:07 tg Exp $
+		# $MirOS: src/distrib/baselive/munge_it.sh,v 1.30 2008/03/04 23:48:58 tg Exp $
 	.
 	/cprng.*pr16/d
 	i
