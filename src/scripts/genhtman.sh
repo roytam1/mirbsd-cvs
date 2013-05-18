@@ -1,8 +1,8 @@
 #!/bin/mksh
-# $MirOS: src/scripts/genhtman.sh,v 1.8 2005/06/05 15:22:55 tg Exp $
+# $MirOS: src/scripts/genhtman.sh,v 1.9 2005/12/17 05:46:22 tg Exp $
 #-
 # Copyright (c) 2005
-#	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+#	Thorsten "mirabile" Glaser <tg@mirbsd.de>
 #
 # Licensee is hereby permitted to deal in this work without restric-
 # tion, including unlimited rights to use, publicly perform, modify,
@@ -28,24 +28,19 @@ convert_all $BSDOBJDIR/htman/man $BSDOBJDIR/htman/htm
 for s in papers psd smm usd; do
 	typeset -u u=$s
 	mkdir -p $BSDOBJDIR/htman/htm/man$u
-	[[ -e $BSDOBJDIR/htman/papers/$s/Title.txt ]] && {
-		output_header Title $u
-		do_convert <$BSDOBJDIR/htman/papers/$s/Title.txt
-		output_footer
-	} >$BSDOBJDIR/htman/htm/man$u/Title.htm
-	[[ -e $BSDOBJDIR/htman/papers/$s/contents.txt ]] && {
-		output_header Contents $u
-		do_convert <$BSDOBJDIR/htman/papers/$s/contents.txt
-		output_footer
-	} >$BSDOBJDIR/htman/htm/man$u/contents.htm
+	print DirectoryIndex /dev/null >$BSDOBJDIR/htman/htm/man$u/.htaccess
+	[[ -e $BSDOBJDIR/htman/papers/$s/Title.txt ]] && \
+	    do_conversion Title $u \
+	    <$BSDOBJDIR/htman/papers/$s/Title.txt \
+	    >$BSDOBJDIR/htman/htm/man$u/Title.htm
+	[[ -e $BSDOBJDIR/htman/papers/$s/contents.txt ]] && \
+	    do_conversion Contents $u \
+	    <$BSDOBJDIR/htman/papers/$s/contents.txt \
+	    >$BSDOBJDIR/htman/htm/man$u/Contents.htm
 	for f in $BSDOBJDIR/htman/papers/$s/*/paper.txt; do
 		t="${f#$BSDOBJDIR/htman/papers/$s/}"
 		t="${t%/paper.txt}"
-		{
-			output_header $t $u
-			do_convert <$f
-			output_footer
-		} >$BSDOBJDIR/htman/htm/man$u/$t.htm
+		do_conversion $t $u <$f >$BSDOBJDIR/htman/htm/man$u/$t.htm
 	done
 done
 exit 0

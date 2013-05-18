@@ -1,3 +1,4 @@
+./man1/.htaccess
 ./man1/Mail.htm
 ./man1/XFree86.htm
 ./man1/Xdmx.htm
@@ -623,6 +624,7 @@
 ./man1/zgrep.htm
 ./man1/zmore.htm
 ./man1/znew.htm
+./man4/.htaccess
 ./man4/aac.htm
 ./man4/ac97.htm
 ./man4/acphy.htm
@@ -1006,6 +1008,7 @@
 ./man4/yds.htm
 ./man4/ym.htm
 ./man4/zero.htm
+./man5/.htaccess
 ./man5/.rhosts.htm
 ./man5/XF86Config.htm
 ./man5/a.out.htm
@@ -1113,7 +1116,10 @@
 ./man5/vgrindefs.htm
 ./man5/wsconsctl.conf.htm
 ./man5/wtmp.htm
+./man6/.htaccess
 ./man6/intro.htm
+./man7/.htaccess
+./man7/BSD-Licence.htm
 ./man7/X.htm
 ./man7/XStandards.htm
 ./man7/Xsecurity.htm
@@ -1142,6 +1148,7 @@
 ./man7/securelevel.htm
 ./man7/symlink.htm
 ./man7/term.htm
+./man8/.htaccess
 ./man8/MAKEDEV.htm
 ./man8/UKC.htm
 ./man8/ac.htm
@@ -1423,6 +1430,7 @@
 ./man8/zdump.htm
 ./man8/zic.htm
 ./man8/zzz.htm
+./manSMM/.htaccess
 ./manSMM/01.setup.htm
 ./manSMM/02.config.htm
 ./manSMM/03.fsck_ffs.htm
@@ -1438,8 +1446,9 @@
 ./manSMM/16.security.htm
 ./manSMM/17.password.htm
 ./manSMM/18.net.htm
+./manSMM/Contents.htm
 ./manSMM/Title.htm
-./manSMM/contents.htm
+./manUSD/.htaccess
 ./manUSD/01.begin.htm
 ./manUSD/03.shell.htm
 ./manUSD/05.dc.htm
@@ -1467,5 +1476,5 @@
 ./manUSD/27.invert.htm
 ./manUSD/28.bib.htm
 ./manUSD/29.diction.htm
+./manUSD/Contents.htm
 ./manUSD/Title.htm
-./manUSD/contents.htm

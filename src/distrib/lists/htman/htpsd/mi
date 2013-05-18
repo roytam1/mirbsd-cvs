@@ -1,3 +1,4 @@
+./man2/.htaccess
 ./man2/WCOREDUMP.htm
 ./man2/WIFCONTINUED.htm
 ./man2/WIFEXITED.htm
@@ -193,6 +194,7 @@
 ./man2/waitpid.htm
 ./man2/write.htm
 ./man2/writev.htm
+./man3/.htaccess
 ./man3/AllPlanes.htm
 ./man3/BF_cbc.htm
 ./man3/BF_cbc_encrypt.htm
@@ -4228,6 +4230,7 @@
 ./man3/ynf.htm
 ./man3/zlibCompileFlags.htm
 ./man3/zlibVersion.htm
+./man3p/.htaccess
 ./man3p/AnyDBM_File.htm
 ./man3p/Attribute::Handlers.htm
 ./man3p/AutoLoader.htm
@@ -4570,6 +4573,7 @@
 ./man3p/vars.htm
 ./man3p/warnings.htm
 ./man3p/warnings::register.htm
+./man9/.htaccess
 ./man9/FREE.htm
 ./man9/FREF.htm
 ./man9/FRELE.htm
@@ -5043,6 +5047,7 @@
 ./man9/vwaitforio.htm
 ./man9/wakeup.htm
 ./man9/writedisklabel.htm
+./manPAPERS/.htaccess
 ./manPAPERS/beyond4.3.htm
 ./manPAPERS/cvs-paper.htm
 ./manPAPERS/diskperf.htm
@@ -5058,6 +5063,7 @@
 ./manPAPERS/px.htm
 ./manPAPERS/relengr.htm
 ./manPAPERS/sysperf.htm
+./manPSD/.htaccess
 ./manPSD/01.cacm.htm
 ./manPSD/02.implement.htm
 ./manPSD/03.iosys.htm
@@ -5079,5 +5085,5 @@
 ./manPSD/21.ipc.htm
 ./manPSD/22.lint.htm
 ./manPSD/23.Cknr.htm
+./manPSD/Contents.htm
 ./manPSD/Title.htm
-./manPSD/contents.htm

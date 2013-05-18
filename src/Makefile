@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.27 2005/12/21 19:25:03 tg Exp $
+# $MirOS: src/Makefile,v 1.28 2005/12/21 19:26:58 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .include <bsd.own.mk>
@@ -109,12 +109,13 @@ do-htman:
 	    && lndir ${BSDRELDIR}/base/usr/share/doc/${_doc} \
 	    && ${MAKE}
 .endfor
-	BSDOBJDIR="${BSDOBJDIR}" BSDRELDIR="${BSDRELDIR}" \
-	    BSDSRCDIR="${BSDSRCDIR}" SUDO="${SUDO}" OSrev="${OSrev}" \
+	cp ${BSDOBJDIR}/share/doc/legal/LICENCE-BSD.0 \
+	    ${BSDOBJDIR}/htman/man/cat7/BSD-Licence.0
+	BSDOBJDIR="${BSDOBJDIR}" BSDSRCDIR="${BSDSRCDIR}" \
 	    ${SHELL} ${.CURDIR}/scripts/genhtman.sh
 	${SUDO} mkdir -p ${BSDRELDIR}/htman
 	cd ${BSDOBJDIR}/htman/htm \
-	    && find man* -name \*.htm | ${SUDO} cpio -pdlu ${BSDRELDIR}/htman
+	    && find man* -type f | ${SUDO} cpio -pdlu ${BSDRELDIR}/htman/
 	${SUDO} chown -R 0:0 ${BSDRELDIR}/htman/*
 	${SUDO} chmod -R a=rX ${BSDRELDIR}/htman/*
 
