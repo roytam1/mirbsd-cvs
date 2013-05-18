@@ -1,9 +1,9 @@
-# $MirOS: src/gnu/usr.sbin/sendmail/cf/cf/Makefile,v 1.8 2008/12/17 00:42:55 tg Exp $
+# $MirOS: src/gnu/usr.sbin/sendmail/cf/cf/Makefile,v 1.9 2010/12/19 17:17:55 tg Exp $
 # $OpenBSD: Makefile,v 1.24 2008/10/03 16:29:05 millert Exp $
 #
 #  Makefile for configuration files.
 #
-#	$Sendmail: Makefile,v 8.60 2005/06/14 02:16:34 gshapiro Exp $
+#	$Id$
 #
 
 #
