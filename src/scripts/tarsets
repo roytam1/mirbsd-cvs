@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/share/misc/licence.template,v 1.20 2006/12/11 21:04:56 tg Rel $
+# $MirOS: src/scripts/tarsets,v 1.8 2007/06/15 16:07:08 tg Exp $
 #-
 # Copyright (c) 2004, 2006, 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -59,11 +59,6 @@ case $1 {
 	if [[ -z $RELEASEDIR ]]; then
 		print -u2 "Must set RELEASEDIR before calling $me!"
 		exit 1
-	fi
-
-	if [[ -z $lists ]]; then
-		print -u2 "Error, LISTS are empty!"
-		exit 2
 	fi
 
 	print "Generating release tarballs for MirOS #${rel}/${arch}"
