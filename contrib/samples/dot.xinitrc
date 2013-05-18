@@ -1,7 +1,7 @@
 #!/bin/sh
-# $MirOS$
+# $MirOS: contrib/samples/dot.xinitrc,v 1.1.7.1 2005/02/05 01:59:40 tg Exp $
 #-
-# Copyright (c) 2003, 2004
+# Copyright (c) 2003, 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
 #
 # Licensee is hereby permitted to deal in this work without restric-
@@ -55,9 +55,9 @@ if [ -e /usr/local/lib/X11/fonts/terminus ]; then
 	/usr/X11R6/bin/xterm -class TXTerm -fg black -geom 90x11+475+648 \
 	    -bg cornflowerblue -fn 6x10 -e tail -f /var/log/messages &
   else
-	/usr/X11R6/bin/xterm +sb -fg black -geom 78x10+0+636 \
+	/usr/X11R6/bin/xterm +sb -fg black -geom 78x10+1+637 \
 	    -bg slateblue -e top &
-	/usr/X11R6/bin/xterm +sb -fg black -geom 90x11+475+620 \
+	/usr/X11R6/bin/xterm +sb -fg black -geom 90x11+475+637 \
 	    -bg cornflowerblue -e tail -f /var/log/messages &
 fi
 

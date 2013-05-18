@@ -26,7 +26,7 @@ The file ~/.etc/bin/xtm referred in said file is this one:
 
 ---- cutting here may damage your screen surface -----
 #!/bin/mksh
-# $MirOS: contrib/samples/myXenvironment,v 1.1.7.1 2005/02/05 01:59:40 tg Exp $
+# $MirOS: contrib/samples/myXenvironment,v 1.2 2005/07/07 13:06:36 tg Exp $
 if [[ $1 = vga ]]; then
 	# exec xtm vga ...
 	shift
@@ -36,22 +36,23 @@ elif [[ -e /usr/local/lib/X11/fonts/terminus ]]; then
 	if [[ $1 = big ]]; then
 		# exec xtm big ...
 		shift
-		/usr/X11R6/bin/xterm -class TXTerm -geom 101x33+0+0 \
+		/usr/X11R6/bin/xterm -class TXTerm -geom 101x33+1+1 \
 		    -fn -xos4-terminus-medium-r-normal--20-200-72-72-c-100-iso8859-1 \
 		    "$@" &
 		exit 0
 	else
-		exec /usr/X11R6/bin/xterm -class TXTerm -geom 127x41+0+0 \
+		exec /usr/X11R6/bin/xterm -class TXTerm -geom 127x41+1+1 \
 		    -fn -xos4-terminus-medium-r-normal--16-160-72-72-c-80-iso8859-1 \
 		    "$@"
 	fi
 else
-	exec /usr/X11R6/bin/xterm -geom 113x42+0+0 -fn 9x15 "$@"
+	exec /usr/X11R6/bin/xterm -geom 113x42+1+1 -fn 9x15 "$@"
 fi
 ---- cutting here may damage your screen surface -----
 
 When I want to have two windows open the same time, e.g.
-for chatting, I use ~/.etc/bin/xchat for it:
+for chatting, I used ~/.etc/bin/xchat for it (see below)
+but recently I'm just invoking GNU screen.
 
 ---- cutting here may damage your screen surface -----
 #!/bin/sh
