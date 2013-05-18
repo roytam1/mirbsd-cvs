@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.53 2006/06/09 01:23:35 tg Exp $
+# $MirOS: src/Makefile,v 1.54 2006/06/16 15:16:56 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -18,9 +18,9 @@ CVSROOT?=/cvs
   SUBDIR+= usr.sbin
 .if ${CROSS_MODE:L} != "yes"
   SUBDIR+= share
+.endif
   SUBDIR+= gnu
   SUBDIR+= sys
-.endif
 .if make(clean) || make(cleandir) || make(obj)
   SUBDIR+= distrib
 .endif
