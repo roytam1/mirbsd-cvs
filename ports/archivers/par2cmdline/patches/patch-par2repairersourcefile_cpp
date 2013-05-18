@@ -1,6 +1,6 @@
 $OpenBSD: patch-par2repairersourcefile_cpp,v 1.1.1.1 2004/01/23 05:20:48 jolan Exp $
---- par2repairersourcefile.cpp.orig	2003-05-26 13:01:27.000000000 -0500
-+++ par2repairersourcefile.cpp	2004-01-21 18:06:05.000000000 -0600
+--- par2repairersourcefile.cpp.orig	Mon May 26 20:01:05 2003
++++ par2repairersourcefile.cpp	Tue Mar 20 20:59:30 2007
 @@ -68,9 +68,12 @@ void Par2RepairerSourceFile::ComputeTarg
  
    // Strip the path from the filename
@@ -17,10 +17,12 @@ $OpenBSD: patch-par2repairersourcefile_cpp,v 1.1.1.1 2004/01/23 05:20:48 jolan E
    {
      filename = filename.substr(where+1);
    }
-@@ -141,3 +144,16 @@ void Par2RepairerSourceFile::SetBlocks(u
+@@ -139,5 +142,18 @@ void Par2RepairerSourceFile::SetBlocks(u
+ 
+       datablock.SetLength(blocklength);
      }
-   }
- }
++  }
++}
 +
 +// Determine the block count from the file size and block size.
 +void Par2RepairerSourceFile::SetBlockCount(u64 blocksize)
@@ -32,5 +34,5 @@ $OpenBSD: patch-par2repairersourcefile_cpp,v 1.1.1.1 2004/01/23 05:20:48 jolan E
 +  else
 +  {
 +    blockcount = 0;
-+  }
-+}
+   }
+ }

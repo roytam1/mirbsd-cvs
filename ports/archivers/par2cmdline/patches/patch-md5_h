@@ -1,6 +1,6 @@
 $OpenBSD: patch-md5_h,v 1.1.1.1 2004/01/23 05:20:48 jolan Exp $
---- md5.h.orig	2003-05-26 13:01:20.000000000 -0500
-+++ md5.h	2004-01-22 15:52:42.000000000 -0600
+--- md5.h.orig	Mon May 26 20:00:58 2003
++++ md5.h	Tue Mar 20 20:59:30 2007
 @@ -114,14 +114,7 @@ protected:
  
  inline bool MD5Hash::operator==(const MD5Hash &other) const
@@ -25,7 +25,12 @@ $OpenBSD: patch-md5_h,v 1.1.1.1 2004/01/23 05:20:48 jolan Exp $
 -    return true;
 -  else if (*(u32*)(&hash[12]) > *(u32*)(&other.hash[12]))
 -    return false;
--
++  size_t index = 15;
++  while (index > 0 && hash[index] == other.hash[index])
++  {
++    index--;
++  }
+ 
 -  else if (*(u32*)(&hash[8]) < *(u32*)(&other.hash[8]))
 -    return true;
 -  else if (*(u32*)(&hash[8]) > *(u32*)(&other.hash[8]))
@@ -40,12 +45,6 @@ $OpenBSD: patch-md5_h,v 1.1.1.1 2004/01/23 05:20:48 jolan Exp $
 -    return true;
 -  else 
 -    return false;
-+  size_t index = 15;
-+  while (index > 0 && hash[index] == other.hash[index])
-+  {
-+    index--;
-+  }
-+
 +  return hash[index] < other.hash[index];
  }
  inline bool MD5Hash::operator>=(const MD5Hash &other) const 

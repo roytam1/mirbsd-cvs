@@ -1,6 +1,7 @@
+# $MirBSD$
 # $OpenBSD: Makefile,v 1.2 2004/02/25 02:35:15 naddy Exp $
 
-COMMENT=			command line implementation of the PAR v2.0 specification
+COMMENT=	command line implementation of the PAR v2.0 specification
 DISTNAME=	par2cmdline-0.3
 CATEGORIES=	archivers
 MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=parchive/}
@@ -14,6 +15,7 @@ PERMIT_DISTFILES_FTP=	Yes
 PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes
 
+USE_CXX=	Yes
 CONFIGURE_STYLE=gnu
 
 post-install:
