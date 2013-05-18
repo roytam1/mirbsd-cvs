@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.333 2010/04/09 19:32:52 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.334 2010/04/20 09:15:43 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -750,6 +750,8 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <li><a href="http://www.gentoo.org/">Gentoo GNU/Linux</a> has an mksh <a
  href="http://sources.gentoo.org/viewcvs.py/gentoo-x86/app-shells/mksh/">ebuild</a>
  created by <a href="http://www.hboeck.de/">Hanno Böck</a>.</li>
+<li>Red Hat Enterprise Linux (RHEL 6) will ship mksh for their customers
+ to use with their ksh88 and pdksh scripts, as well as an optional shell.</li>
 <li><a href="http://fedoraproject.org/">Fedora</a> GNU/Linux 8, 9, 10, 11,
  and <a href="http://www.redhat.com/rhel/">RHEL</a> 4 and 5 (via EPEL) now
  officially contain <a
@@ -802,6 +804,8 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <li><a href="http://www.archlinux.org/">Arch GNU/Linux</a> users can install
  an <a href="http://aur.archlinux.org/packages.php?do_Details=1&amp;ID=3431">mksh
  package</a> by Daniel “homsn” Hommel. No idea about Arch Hurd, though.</li>
+<li><a href="http://t2-project.org/">T2 SDE</a> (ROCK Linux) contains a <a
+ href="http://t2-project.org/packages/mksh.html">package</a> as well.</li>
 <li><a href="http://www.freebsd.org/">FreeBSD®</a> Ports (for FreeBSD, very old
  <a href="http://www.dragonflybsd.org/">DragonFly BSD</a> versions and <a
  href="http://www.desktopbsd.net/">DesktopBSD</a>) also have a <a
@@ -831,9 +835,8 @@ exec /usr/bin/ld "${args[@]}"</pre>
  with mksh as an option. It’s NetBSD® based, mostly.</li>
 <li>The MirPorts Framework brings mksh to OpenBSD, Mac OSX and Interix as
  well as older MirOS BSD versions, which have mksh as native Korn Shell.</li>
-<li><a href="http://www.openbsd.org/">OpenBSD</a> ports do <em>not</em>
- package mksh, but an <a href="@@ABSPATH@@/MirOS/dist/mir/mksh/ports/mksh-obsdport.tgz">inofficial
- port</a> is available.</li>
+<li>An <a href="http://thread.gmane.org/gmane.os.openbsd.ports/41322">inofficial
+ port</a> for <a href="http://www.openbsd.org/">OpenBSD</a> is available</li>
 <li>ChinaLinux mirrors (and apparently packages) mksh.</li>
 <li>Some US-American Apple Users’ Group (the <a
  href="http://www.hmug.org/pub/MacOS_X/BSD/Applications/Shells/mksh/">HMUG</a>)
@@ -853,16 +856,15 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <li>There are probably many more, please drop us a note!</li>
 <li><a href="http://linux.softpedia.com/get/System/Shells/MirBSD-Korn-Shell-24602.shtml">Softpedia</a>
  lists mksh, just like the FSF/UNESCO directory.</li>
-<li>The <a href="@@ABSPATH@@/MirOS/dist/mir/mksh/ports/">ports directory</a>
- may contain additional ports in source and/or binary form.</li>
-<li><strong>Missing packaging:</strong> Redhat and SuSE native (use OBS for
- both or EPEL for RHEL), MacPorts (none at all), Mandriva (use OBS; being
- worked on), iPhoneOS (compile yourself; being worked on), Knoppix and
+<li><strong>Missing packaging:</strong> SuSE native (use OBS for now),
+ MacPorts (none at all), Mandriva (use OBS; being worked on), OpenEmbedded
+ (being worked on), iPhoneOS (compile yourself; being worked on), Knoppix and
  SIDUX (just add them), Nexenta (need a contact person), Arch native (use
  AUR), PC-BSD (use pkgsrc® or so; need a contact person for PBI), OpenSolaris
  (being worked on), OpenBSD (use unofficial port), BeOS (maybe broken) / Haiku,
  Plan 9 (slightly broken), Syllable Desktop (broken, kernel issue, may have
- been fixed in the meantime), ...</li>
+ been fixed in the meantime), Pardus (maybe being worked on?), NetBSD base
+ system (under discussion; pkgsrc® has it), Maemo/MeeGo, Palm WebOS, ...</li>
 </ul>
 <p>These packages are not official and have not always been tested by mksh
  developers; please keep this in mind.</p>
@@ -933,6 +935,8 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Fix single quotes in "${foo#bar}" (differs from "${foo-bar}")</li>
  <li>[oksh] Fix mknod(8) usage message: b|c are <em>not</em> optional</li>
  <li>[tg, oksh] Fix "${x#?}" expansion when quoted (quotes, space)</li>
+ <li>[tg] Make default temporary directory configurable at compile time</li>
+ <li>[tg] Fix performance deficiencies in the built-in realpath function</li>
 </ul>
 <p id="r39c">mksh R39c is an important minor bugfix release:</p><ul>
  <li>[tg] Build system, code, docs and testsuite cleanup, also style(9)</li>
