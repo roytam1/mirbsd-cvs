@@ -1,4 +1,4 @@
-# $MirOS: src/share/misc/licence.template,v 1.24 2008/04/22 11:43:31 tg Rel $
+# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.50 2008/05/01 00:52:32 tg Exp $
 #-
 # Copyright (c) 2005, 2006, 2008
 #	Thorsten “mirabilos” Glaser <tg@mirbsd.de>
@@ -125,6 +125,7 @@ PATCH?=			${LOCALBASE}/bin/patch
 TAR=			${LOCALBASE}/bin/tar
 BZIP2=			/usr/bin/bzip2
 CHOWN=			/usr/sbin/chown
+OScompat?=		6
 .endif
 
 #---
@@ -148,6 +149,7 @@ HAS_CKSUM?=		Yes
 CKSUM_CMD?=		/bin/cksum
 _STAT_SIZE=		#defined
 .  endif
+OScompat?=		3.5
 .endif
 
 #--- End of OS Dependencies
