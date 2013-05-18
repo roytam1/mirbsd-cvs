@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/news.inc,v 1.91 2008/12/04 19:10:34 tg Exp $
+RCSID: $MirOS: www/data/news.inc,v 1.92 2008/12/10 18:40:16 tg Exp $
 Title: Older news from the MirOS Project
 Date: 01.03.2006
 
@@ -1207,4 +1207,22 @@ Tag: pcc
  syntax which is <em>totally different</em> from the CPP standard. It also
  pre-defines neither <em>any</em> macros nor include paths. Be warned, and
  expect some breakage until everything is sorted out.</p>
+----
+Date: 26.12.2008 16:54
+Author: tg@
+Title: HEADS-UP for MirOS-current
+
+<p>If you want to track MirOS-current, be aware that <tt>/usr/libexec/cpp</tt>
+ changed and <tt>/usr/bin/cpp</tt> is gone; you <strong>must</strong> compile
+ and install a new <tt>cpp</tt> first, then stuff like rpcgen(1) and lint(1),
+ then remove the <tt>/usr/bin/cpp</tt> script.</p>
+<p>Furthermore, the gcc-provided shared libraries and items have moved from
+ <tt>/usr/lib</tt> to <tt>/usr/lib/gcc/<i>OStriplet</i>/3.4.6</tt> which you
+ should add to <tt>shlib_dirs</tt> in <tt>/etc/rc.conf.local</tt> until you
+ have rebuilt everything (base system and ports). Both mgcc and llvm-gcc add
+ appropriate DT_RPATH to programmes and shared objects compiled with them and
+ use their own crtstuff; <tt>mircvs://src/lib/csu/</tt> now provides crtstuff
+ for use with <em>pcc</em>(!) instead.</p>
+<p>Expect a new i386 snapshot some time soon; sparc snapshots are planned
+ more for the long term but could be compiled on request (ETA one week).</p>
 ----
