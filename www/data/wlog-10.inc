@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.98 2008/11/10 22:05:15 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.99 2008/11/11 01:53:57 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -2015,4 +2015,23 @@ Title: compilers
 <p>TODO: there is an LGPL’d lzmadec binary, C only even; do something with
  it, possibly to ease use of <tt>.clz</tt> binary packages. Recent storage
  needs have become utterly ridiculous.</p>
+----
+Date: 12.11.2008 23:55
+Author: tg@
+Title: small updates
+
+<p><tt>/MirOS/current/i386/fixes10.ngz</tt> holds a new libm, with which
+ you can use the three new binary packages (lzma, llvm, llvm-gcc4.2) I’ve
+ just placed in <tt>/Pkgs/current/i386/</tt> for your fun. These all have
+ been compiled using mgcc-10uA3, as llvm-gcc4.2 is not up to the task.</p>
+<p>The new “aalloc” area-based omalloc-employing pool allocator is still
+ unfinished; I need to make cookies work and perhaps add more ifdefs to
+ make it smaller for MKSH_SMALL users (installer, FreeWRT, …). However,
+ feel free to read it and send me comments. I admit it might want to be
+ cleaned up a little, but first it’s got to be finished. Do not use it
+ yet; it’s intended for both mksh and libobjfw though. Also, I’d like to
+ hear of possible optimisations or more security stuff one can throw in;
+ the current scheme is the compromise looking best to me. Remember that
+ it was written with mmap malloc (and omalloc – Otto Moerbeek zĳn malloc)
+ and malloc.conf(5) MALLOC_OPTIONS guard/junk/protection in mind.</p>
 ----
