@@ -1,4 +1,4 @@
-@c $MirOS: gcc/gcc/doc/invoke.texi,v 1.13 2006/01/31 22:32:43 tg Exp $
+@c $MirOS: gcc/gcc/doc/invoke.texi,v 1.14 2007/01/07 00:51:58 tg Exp $
 @c
 @c Copyright (C) 1988, 1989, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
 @c 2000, 2001, 2002, 2003, 2004, 2005, 2007
@@ -11,7 +11,7 @@
 Copyright @copyright{} 1988, 1989, 1992, 1993, 1994, 1995, 1996, 1997,
 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005 Free Software Foundation, Inc.
 Copyright @copyright{} 1998-2004 Hiroaki Etoh, assigned to the FSF.
-Copyright @copyright{} 2004-2005 Thorsten Glaser, assigned to the FSF.
+Copyright @copyright{} 2004-2007 Thorsten Glaser, assigned to the FSF.
 
 Permission is granted to copy, distribute and/or modify this document
 under the terms of the GNU Free Documentation License, Version 1.2 or
@@ -3666,6 +3666,9 @@ perform loop unrolling or function inlining when you specify @option{-O2}.
 As compared to @option{-O}, this option increases both compilation time
 and the performance of the generated code.
 
+In MirOS, some security-tradeoff optimisations are @emph{not} enabled
+at this level.
+
 @option{-O2} turns on all optimization flags specified by @option{-O}.  It
 also turns on the following optimization flags:
 @gccoptlist{-fforce-mem @gol
@@ -3674,7 +3677,6 @@ also turns on the following optimization flags:
 -fcse-follow-jumps  -fcse-skip-blocks @gol
 -frerun-cse-after-loop  -frerun-loop-opt @gol
 -fgcse  -fgcse-lm  -fgcse-sm  -fgcse-las @gol
--fdelete-null-pointer-checks @gol
 -fexpensive-optimizations @gol
 -fregmove @gol
 -fschedule-insns  -fschedule-insns2 @gol
@@ -3682,7 +3684,6 @@ also turns on the following optimization flags:
 -fcaller-saves @gol
 -fpeephole2 @gol
 -freorder-blocks  -freorder-functions @gol
--fstrict-aliasing @gol
 -funit-at-a-time @gol
 -falign-functions  -falign-jumps @gol
 -falign-loops  -falign-labels @gol
@@ -3695,6 +3696,7 @@ invoking @option{-O2} on programs that use computed gotos.
 @opindex O3
 Optimize yet more.  @option{-O3} turns on all optimizations specified by
 @option{-O2} and also turns on the @option{-finline-functions},
+@option{-fdelete-null-pointer-checks}, @option{-fstrict-aliasing},
 @option{-fweb}, @option{-frename-registers} and @option{-funswitch-loops}
 options.
 
@@ -3923,7 +3925,7 @@ The default is @option{-fzero-initialized-in-bss}.
 Perform the optimizations of loop strength reduction and
 elimination of iteration variables.
 
-Enabled at levels @option{-O3}.
+Enabled at levels @option{-O2}, @option{-O3}, @option{-Os}.
 
 @item -fthread-jumps
 @opindex fthread-jumps
@@ -4050,7 +4052,7 @@ safely dereference null pointers.  Use
 @option{-fno-delete-null-pointer-checks} to disable this optimization
 for programs which depend on that behavior.
 
-Enabled at levels @option{-O3}.
+Enabled at level @option{-O3}.
 
 @item -fexpensive-optimizations
 @opindex fexpensive-optimizations
@@ -4294,7 +4296,7 @@ node, an alias set for the node.  Nodes in different alias sets are not
 allowed to alias.  For an example, see the C front-end function
 @code{c_get_alias_set}.
 
-Enabled at levels @option{-O3}.
+Enabled at level @option{-O3}.
 
 @item -falign-functions
 @itemx -falign-functions=@var{n}
@@ -4381,7 +4383,7 @@ passes, such as CSE, loop optimizer and trivial dead code remover.  It can,
 however, make debugging impossible, since variables will no longer stay in a
 ``home register''.
 
-Enabled at levels @option{-O3}.
+Enabled at level @option{-O3}.
 
 @item -fno-cprop-registers
 @opindex fno-cprop-registers

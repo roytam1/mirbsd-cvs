@@ -1,4 +1,6 @@
-@c Copyright (C) 1988,1989,1992,1993,1994,1996,1998,1999,2000,2001,2002,2003,2004
+@c $MirOS$
+@c
+@c Copyright (C) 1988,1989,1992,1993,1994,1996,1998,1999,2000,2001,2002,2003,2004,2007
 @c Free Software Foundation, Inc.
 @c This is part of the GCC manual.
 @c For copying conditions, see the file gcc.texi.
@@ -3807,8 +3809,8 @@ main (void)
 
 If you replaced @code{short_a} with @code{short} in the variable
 declaration, the above program would abort when compiled with
-@option{-fstrict-aliasing}, which is on by default at @option{-O2} or
-above in recent GCC versions.
+@option{-fstrict-aliasing}, which is on by default at @option{-O3} or
+above in MirOS GCC versions.
 
 @subsection i386 Type Attributes
 
