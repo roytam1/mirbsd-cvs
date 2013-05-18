@@ -1,7 +1,8 @@
+$MirOS$
 $OpenBSD: patch-doc_gc_man,v 1.2 2002/10/26 13:25:26 todd Exp $
---- doc/gc.man.orig	Tue Sep 21 18:55:00 1999
-+++ doc/gc.man	Fri Oct 25 11:53:09 2002
-@@ -68,6 +68,48 @@ This may temporarily write protect pages
+--- doc/gc.man.orig	Tue Mar 23 01:35:53 2004
++++ doc/gc.man	Mon May 28 14:57:55 2007
+@@ -82,6 +82,48 @@ This may temporarily write protect pages
  .LP
  Other facilities not discussed here include limited facilities to support incremental collection on machines without appropriate VM support, provisions for providing more explicit object layout information to the garbage collector, more direct support for ``weak'' pointers, support for ``abortable'' garbage collections during idle time, etc.
  .LP

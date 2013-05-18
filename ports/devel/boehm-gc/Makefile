@@ -1,13 +1,13 @@
-# $MirOS: ports/devel/boehm-gc/Makefile,v 1.7 2006/02/09 11:11:18 tg Exp $
+# $MirOS: ports/devel/boehm-gc/Makefile,v 1.8 2006/09/14 00:08:04 tg Exp $
 # $OpenBSD: Makefile,v 1.29 2004/03/04 17:49:26 espie Exp $
 # $FreeBSD: Makefile,v 1.4 1999/01/10 20:12:06 steve Exp $
 
 NOT_FOR_PLATFORM=	*:*:hppa {Open,Mir}BSD:*:powerpc *:*:vax
 
-COMMENT=			garbage collection and memory leak detection for C and C++
-VERSION=	6.2
+COMMENT=	garbage collection and memory leak detection for C and C++
+VERSION=	6.8
 DISTNAME=	gc${VERSION}
-PKGNAME=	boehm-gc-${VERSION}-1
+PKGNAME=	boehm-gc-${VERSION}-${DASH_VER}
 CATEGORIES=	devel
 MASTER_SITES=	${HOMEPAGE}gc_source/
 HOMEPAGE=	http://www.hpl.hp.com/personal/Hans_Boehm/gc/

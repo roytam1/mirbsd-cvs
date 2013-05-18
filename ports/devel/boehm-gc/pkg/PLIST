@@ -1,3 +1,4 @@
+@comment $MirOS$
 @comment $OpenBSD: PLIST,v 1.6 2003/10/15 12:58:11 todd Exp $
 include/gc.h
 include/gc/gc.h
@@ -63,8 +64,8 @@ share/gc/gcdescr.html
 share/gc/gcinterface.html
 share/gc/leak.html
 share/gc/scale.html
+share/gc/simple_example.html
 share/gc/tree.html
-%%SHARED%%
 @dirrm share/gc
 @dirrm include/private
 @dirrm include/gc

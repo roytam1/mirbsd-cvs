@@ -1,7 +1,8 @@
+$MirOS$
 $OpenBSD: patch-os_dep_c,v 1.5 2003/10/16 04:11:15 todd Exp $
---- os_dep.c.orig	2003-06-13 14:11:00.000000000 -0500
-+++ os_dep.c	2003-10-16 02:31:36.000000000 -0500
-@@ -391,6 +391,30 @@ static void *tiny_sbrk(ptrdiff_t increme
+--- os_dep.c.orig	Sat Apr 22 01:26:24 2006
++++ os_dep.c	Mon May 28 14:57:55 2007
+@@ -393,6 +393,30 @@ static void *tiny_sbrk(ptrdiff_t increme
    }
  #endif
  

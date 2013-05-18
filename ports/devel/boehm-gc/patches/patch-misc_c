@@ -1,7 +1,8 @@
+$MirOS$
 $OpenBSD: patch-misc_c,v 1.5 2003/10/16 04:11:15 todd Exp $
---- misc.c.orig	2003-05-29 10:50:10.000000000 -0500
-+++ misc.c	2003-10-16 02:31:36.000000000 -0500
-@@ -635,7 +635,14 @@ void GC_init_inner()
+--- misc.c.orig	Fri Feb 10 20:38:23 2006
++++ misc.c	Mon May 28 14:57:55 2007
+@@ -664,7 +664,14 @@ void GC_init_inner()
  #   if defined(SEARCH_FOR_DATA_START)
  	GC_init_linux_data_start();
  #   endif
@@ -16,4 +17,4 @@ $OpenBSD: patch-misc_c,v 1.5 2003/10/16 04:11:15 todd Exp $
 +#   if defined(NETBSD) && defined(__ELF__)
  	GC_init_netbsd_elf();
  #   endif
- #   if defined(GC_PTHREADS) || defined(GC_SOLARIS_THREADS)
+ #   if defined(GC_PTHREADS) || defined(GC_SOLARIS_THREADS) \

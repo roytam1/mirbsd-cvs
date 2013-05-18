@@ -1,7 +1,8 @@
+$MirOS$
 $OpenBSD: patch-configure_in,v 1.1 2003/10/15 17:11:36 todd Exp $
---- configure.in.orig	2003-10-15 06:16:18.000000000 -0500
-+++ configure.in	2003-10-15 06:17:19.000000000 -0500
-@@ -236,27 +236,13 @@ AC_SUBST(CXXINCLUDES)
+--- configure.in.orig	Wed Jun  7 07:01:29 2006
++++ configure.in	Mon May 28 14:57:55 2007
+@@ -276,27 +276,13 @@ AC_SUBST(CXXINCLUDES)
  AC_MSG_CHECKING(whether to build shared libraries)
  AC_ENABLE_SHARED
  

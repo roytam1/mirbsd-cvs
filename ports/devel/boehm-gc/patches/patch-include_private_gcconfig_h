@@ -1,8 +1,9 @@
+$MirOS$
 $OpenBSD: patch-include_private_gcconfig_h,v 1.12 2004/03/15 02:47:24 pvalchev Exp $
---- include/private/gcconfig.h.orig	2003-06-16 20:01:23.000000000 -0600
-+++ include/private/gcconfig.h	2004-03-14 14:19:44.000000000 -0700
-@@ -97,7 +97,7 @@
- #    define ARM32
+--- include/private/gcconfig.h.orig	Fri Jul  7 23:07:42 2006
++++ include/private/gcconfig.h	Mon May 28 15:14:20 2007
+@@ -102,7 +102,7 @@
+ #    define SH
  #    define mach_type_known
  # endif
 -# if defined(vax)
@@ -10,7 +11,7 @@ $OpenBSD: patch-include_private_gcconfig_h,v 1.12 2004/03/15 02:47:24 pvalchev E
  #    define VAX
  #    ifdef ultrix
  #	define ULTRIX
-@@ -216,6 +216,10 @@
+@@ -233,6 +233,10 @@
  #    define I386
  #    define mach_type_known
  # endif
@@ -21,24 +22,7 @@ $OpenBSD: patch-include_private_gcconfig_h,v 1.12 2004/03/15 02:47:24 pvalchev E
  # if defined(LINUX) && defined(__x86_64__)
  #    define X86_64
  #    define mach_type_known
-@@ -278,6 +282,16 @@
- #    define POWERPC
- #    define mach_type_known
- # endif
-+# if defined(__OpenBSD__) && (defined(__powerpc__))
-+#   define POWERPC
-+#   define OPENBSD
-+#   define mach_type_known
-+# endif
-+# if defined(__OpenBSD__) && (defined(__mc68020__) || defined(__mc68020))
-+#   define M68K
-+#   define OPENBSD
-+#   define mach_type_known
-+# endif
- # if defined(__APPLE__) && defined(__MACH__) && defined(__i386__)
- #    define DARWIN
- #    define I386
-@@ -326,6 +340,10 @@
+@@ -366,6 +370,10 @@
      /* DGUX defined */
  #   define mach_type_known
  # endif
@@ -49,56 +33,17 @@ $OpenBSD: patch-include_private_gcconfig_h,v 1.12 2004/03/15 02:47:24 pvalchev E
  # if defined(_WIN32_WCE)
      /* SH3, SH4, MIPS already defined for corresponding architectures */
  #   if defined(SH3) || defined(SH4)
-@@ -595,8 +613,8 @@
- #   ifdef OPENBSD
- #	define OS_TYPE "OPENBSD"
- #	define HEURISTIC2
--	extern char etext[];
--#	define DATASTART ((ptr_t)(etext))
-+#	define DATASTART GC_data_start
-+#	define USE_GENERIC_PUSH_REGS
- #   endif
- #   ifdef NETBSD
- #	define OS_TYPE "NETBSD"
-@@ -761,6 +779,14 @@
- #     define DATASTART GC_data_start
- #     define DYNAMIC_LOADING
- #   endif
-+#   ifdef OPENBSD
-+#     define ALIGNMENT 4
-+#     define OS_TYPE "OPENBSD"
-+#     define HEURISTIC2
-+      extern char etext;
-+#     define DATASTART GC_data_start
-+#     define DYNAMIC_LOADING
-+#   endif
- #   ifdef NOSYS
- #     define ALIGNMENT 4
- #     define OS_TYPE "NOSYS"
-@@ -897,9 +923,9 @@
- #   endif
- #   ifdef OPENBSD
- #     define OS_TYPE "OPENBSD"
--#     define STACKBOTTOM ((ptr_t) 0xf8000000)
--      extern int etext[];
--#     define DATASTART ((ptr_t)(etext))
-+#     define HEURISTIC2
-+#     define DATASTART GC_data_start
-+#     define DYNAMIC_LOADING
- #   endif
- #   ifdef NETBSD
- #     define OS_TYPE "NETBSD"
-@@ -1145,6 +1171,9 @@
+@@ -1250,6 +1258,9 @@
  #   endif
  #   ifdef OPENBSD
  #	define OS_TYPE "OPENBSD"
-+#	define HEURISTIC2
-+#       define DATASTART GC_data_start
-+#       define DYNAMIC_LOADING
++#     define HEURISTIC2
++#     define DATASTART GC_data_start
++#     define DYNAMIC_LOADING
  #   endif
  #   ifdef FREEBSD
  #	define OS_TYPE "FREEBSD"
-@@ -1173,7 +1202,7 @@
+@@ -1285,11 +1296,11 @@
  #   ifdef BSDI
  #	define OS_TYPE "BSDI"
  #   endif
@@ -106,36 +51,28 @@ $OpenBSD: patch-include_private_gcconfig_h,v 1.12 2004/03/15 02:47:24 pvalchev E
 +#   if defined(NETBSD) \
          || defined(THREE86BSD) || defined(BSDI)
  #	define HEURISTIC2
- 	extern char etext[];
-@@ -1435,7 +1464,7 @@
- #   define MACH_TYPE "ALPHA"
- #   define ALIGNMENT 8
- #   define CPP_WORDSZ 64
--#   ifndef LINUX
-+#   if !defined(LINUX)
- #     define USE_GENERIC_PUSH_REGS
-       /* Gcc and probably the DEC/Compaq compiler spill pointers to preserved */
-       /* fp registers in some cases when the target is a 21264.  The assembly */
-@@ -1449,6 +1478,7 @@
- #	define ELFCLASS32 32
- #	define ELFCLASS64 64
- #	define ELF_CLASS ELFCLASS64
-+#   	define CPP_WORDSZ 64
- #       define DYNAMIC_LOADING
+-	extern char etext[];
+-#	define DATASTART ((ptr_t)(etext))
++#	define DATASTART GC_data_start
++#	define USE_GENERIC_PUSH_REGS
  #   endif
+ #   ifdef NEXT
+ #	define OS_TYPE "NEXT"
+@@ -1599,11 +1610,11 @@
  #   ifdef OPENBSD
-@@ -1456,9 +1486,8 @@
+ #	define OS_TYPE "OPENBSD"
  #	define HEURISTIC2
++#   	define CPP_WORDSZ 64
  #   	ifdef __ELF__	/* since OpenBSD/Alpha 2.9 */
  #	   define DATASTART GC_data_start
 -#   	   define ELFCLASS32 32
 -#   	   define ELFCLASS64 64
  #   	   define ELF_CLASS ELFCLASS64
-+#	   define DYNAMIC_LOADING
++#          define DYNAMIC_LOADING
  #       else		/* ECOFF, until OpenBSD/Alpha 2.7 */
  #   	   define DATASTART ((ptr_t) 0x140000000)
  #   	endif
-@@ -1614,16 +1643,22 @@
+@@ -1783,16 +1794,22 @@
  #   define ALIGNMENT 4
  #   define ALIGN_DOUBLE
      extern int etext[];
@@ -159,7 +96,22 @@ $OpenBSD: patch-include_private_gcconfig_h,v 1.12 2004/03/15 02:47:24 pvalchev E
  # endif
  
  # ifdef S370
-@@ -1765,6 +1800,13 @@
+@@ -1896,6 +1913,14 @@
+ #     define OS_TYPE "MSWINCE"
+ #     define DATAEND /* not needed */
+ #   endif
++#   ifdef OPENBSD
++#     define ALIGNMENT 4
++#     define OS_TYPE "OPENBSD"
++#     define HEURISTIC2
++      extern char etext;
++#     define DATASTART GC_data_start
++#     define DYNAMIC_LOADING
++#   endif
+ #   ifdef NOSYS
+       /* __data_start is usually defined in the target linker script.  */
+       extern int __data_start[];
+@@ -1978,6 +2003,13 @@
  #   endif
  #   define CACHE_LINE_SIZE 64
  #   define USE_GENERIC_PUSH_REGS

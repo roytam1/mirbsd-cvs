@@ -1,6 +1,5 @@
-This port is really a buggy mess; don't be surprised if it doesn't
-run correctly. The Boehm-Weiser garbage collection package, for C
-and C++ - garbage collection and memory leak detection libraries.
+The Boehm-Weiser garbage collection package, for C and C++ - garbage
+collection and memory leak detection libraries.
 
 A garbage collector is something which automatically frees malloc'd
 memory for you by working out what parts of memory your program
