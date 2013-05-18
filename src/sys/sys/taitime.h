@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/sys/taitime.h,v 1.3 2007/08/08 18:48:48 tg Exp $ */
+/* $MirOS: src/sys/sys/taitime.h,v 1.4 2011/10/28 23:07:24 tg Exp $ */
 
 /*-
  * Copyright (c) 2007, 2011
@@ -23,6 +23,12 @@
 #ifndef _SYS_TAITIME_H_
 #define _SYS_TAITIME_H_
 
+#include <syskern/mirtime.h>
+
+#ifndef _IN_TAITIME_IMPLEMENTATION
+#warning "sys/taitime.h is deprecated"
+#endif
+
 /*
  * Represents the current date and time of day in seconds
  * since 1970-01-01 00:00:00 (beginning of the TAI year),
@@ -42,27 +48,7 @@ typedef	struct {
 } tai64na_t;
 
 /* Modified Julian Date */
-typedef struct {
-	time_t	mjd;
-	int32_t	sec;
-} mjd_t;
-
-#if !defined(__STRUCT_TM_DECLARED)
-struct tm {
-	int tm_sec;		/* seconds [0-60] */
-	int tm_min;		/* minutes [0-59] */
-	int tm_hour;		/* hours [0-23] */
-	int tm_mday;		/* day of month [1-31] */
-	int tm_mon;		/* month of year - 1 [0-11] */
-	time_t tm_year;		/* year - 1900 */
-	int tm_wday;		/* day of week (0 = sunday) */
-	int tm_yday;		/* day of year [0-365] */
-	int tm_isdst;		/* summer time effective? [0/1] */
-	long tm_gmtoff;		/* offset from UTC in seconds */
-	char *tm_zone;		/* abbreviation of timezone name */
-};
-#define __STRUCT_TM_DECLARED
-#endif
+typedef mirtime_mjd mjd_t;
 
 #if defined(_KERNEL) || __OPENBSD_VISIBLE
 __BEGIN_DECLS

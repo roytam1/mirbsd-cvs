@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/sys/time.h,v 1.3 2007/02/07 20:43:28 tg Exp $ */
+/**	$MirOS: src/sys/sys/time.h,v 1.4 2007/05/19 21:31:58 tg Exp $ */
 /*	$OpenBSD: time.h,v 1.17 2003/08/14 05:34:47 kevlo Exp $	*/
 /*	$NetBSD: time.h,v 1.18 1996/04/23 10:29:33 mycroft Exp $	*/
 
@@ -37,6 +37,7 @@
 #define _SYS_TIME_H_
 
 #include <sys/types.h>
+#include <syskern/mirtime.h>
 
 /*
  * Structure returned by gettimeofday(2) system call,
@@ -176,12 +177,12 @@ void	microtime(struct timeval *tv);
 int	settime(struct timeval *tv);
 int	ratecheck(struct timeval *, const struct timeval *);
 int	ppsratecheck(struct timeval *, int *, int);
-#else /* !_KERNEL */
+
+#else /* !(_KERNEL || _STANDALONE) */
+
 #include <time.h>
 
 #ifndef _POSIX_SOURCE
-#include <sys/cdefs.h>
-
 __BEGIN_DECLS
 int	adjtime(const struct timeval *, struct timeval *);
 int	clock_getres(clockid_t, struct timespec *);

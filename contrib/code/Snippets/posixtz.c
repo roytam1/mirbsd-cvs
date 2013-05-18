@@ -1,14 +1,14 @@
 #if 0 /* this line is a comment in mirmake */
 # @mgcc: ignore from here
 #-
-# $MirOS: contrib/code/Snippets/posixtz.c,v 1.3 2008/05/03 01:09:24 tg Exp $
+# $MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $
 #-
-# Copyright (c) 2008
-#	Thorsten “mirabilos” Glaser <tg@mirbsd.de>
+# Copyright © 2008, 2011
+#	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
 # are retained or reproduced in an accompanying document, permission
-# is granted to deal in this work without restriction, including un-
+# is granted to deal in this work without restriction, including un‐
 # limited rights to use, publicly perform, distribute, sell, modify,
 # merge, give away, or sublicence.
 #
@@ -49,14 +49,19 @@ CLEANFILES+=	libposixtz.so
 #endif /* this line is a comment in mirmake */
 
 #include <sys/param.h>
-#include <sys/taitime.h>
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdlib.h>
 #include <time.h>
 
-__RCSID("$MirOS: contrib/code/Snippets/posixtz.c,v 1.3 2008/05/03 01:09:24 tg Exp $");
+#ifndef SYSKERN_MIRTIME_H
+/* MirOS #10 API */
+#include <sys/taitime.h>
+#endif
 
+__RCSID("$MirOS: contrib/code/Snippets/posixtz.c,v 1.4 2008/08/08 12:34:21 tg Exp $");
+
+#ifndef SYSKERN_MIRTIME_H
 /* import libc private interface – XXX subject to change without notice! */
 extern tai64_t _leaps[];
 extern bool _leaps_initialised;
@@ -69,6 +74,7 @@ switch_to_posix(void)
 	_leaps[0] = 0;
 	_leaps_initialised = true;
 }
+#endif
 
 #undef SKIP_LEAPSECS
 #undef SKIPPED_LEAPSECS

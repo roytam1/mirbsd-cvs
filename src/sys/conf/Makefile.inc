@@ -1,4 +1,4 @@
-# $MirOS: src/sys/conf/Makefile.inc,v 1.35 2009/02/16 21:10:04 tg Exp $
+# $MirOS: src/sys/conf/Makefile.inc,v 1.36 2010/07/30 21:03:36 tg Exp $
 #-
 # Copyright (c) 2005, 2006, 2007, 2008
 #	Thorsten "mirabilos" Glaser <tg@mirbsd.de>
@@ -54,7 +54,7 @@ CPPFLAGS+=	-DZCONST=const
 #	${SYSTEM_LD_HEAD}
 #	${SYSTEM_LD} swapxxx.o
 #	${SYSTEM_LD_TAIL}
-SYSTEM_OBJ?=	locore.o init_ssp.o config_gz.o tai_leaps.o \
+SYSTEM_OBJ?=	locore.o init_ssp.o config_gz.o mirtime_getleaps.o \
 		param.o ioconf.o ${OBJS} ${LIBKERN} ${LIBCOMPAT}
 SYSTEM_DEP?=	Makefile ${SYSTEM_OBJ}
 SYSTEM_LD_HEAD?=rm -f $@
@@ -150,9 +150,9 @@ machdep.o: Makefile
 config_gz.o: $S/conf/config_gz.S config.gz
 	${NORMAL_S}
 
-tai_leaps.c: $S/conf/tai_make.c
-	${HOSTCC} ${HOSTCFLAGS} ${HOSTCPPFLAGS} -o tai_make $>
-	./tai_make >$@ || (rm -f $@; false)
+mirtime_getleaps.c: $S/conf/make_leaps.c
+	${HOSTCC} ${HOSTCFLAGS} ${HOSTCPPFLAGS} -o make_leaps $>
+	./make_leaps >$@ || (rm -f $@; false)
 
 config.gz: config.txt
 	-@rm -f $@
@@ -161,10 +161,10 @@ config.gz: config.txt
 clean::
 	rm -f eddep *bsd *.unstripped tags *.[io] [a-z]*.s config.gz \
 	    [Ee]rrs linterrs makelinks genassym genassym.o assym.h \
-	    tai_make tai_leaps.c ${ZLIB_CLEANFLS}
+	    make_leaps mirtime_getleaps.c ${ZLIB_CLEANFLS}
 
 depend:: .depend
-.depend: ${SRCS} assym.h param.c ${APMINC} ${ZLIB_GENHDRS} tai_leaps.c
+.depend: ${SRCS} assym.h param.c ${APMINC} ${ZLIB_GENHDRS} mirtime_getleaps.c
 	CC=${CC:Q} ${MKDEP} -D_ASM_SOURCE ${AFLAGS} ${CPPFLAGS} \
 	    ${_MDINC}/locore.s
 	CC=${CC:Q} ${MKDEP} -a ${CFLAGS} ${CPPFLAGS} param.c ioconf.c ${CFILES}

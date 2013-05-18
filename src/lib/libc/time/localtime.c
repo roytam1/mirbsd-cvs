@@ -1,6 +1,6 @@
 /*-
- * Copyright (c) 2004, 2005, 2007
- *	Thorsten Glaser <tg@mirbsd.de>
+ * Copyright (c) 2004, 2005, 2007, 2011
+ *	Thorsten Glaser <tg@mirbsd.org>
  * Based upon work placed in the public domain 1996-06-05 by
  *	Arthur David Olson (arthur_david_olson@nih.gov)
  *
@@ -9,10 +9,6 @@
  * is granted to deal in this work without restriction, including un-
  * limited rights to use, publicly perform, distribute, sell, modify,
  * merge, give away, or sublicence.
- *
- * Advertising materials mentioning features or use of this work must
- * display the following acknowledgement:
- *	This product includes material provided by Thorsten Glaser.
  *
  * This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
  * the utmost extent permitted by applicable law, neither express nor
@@ -25,8 +21,9 @@
  */
 
 #include <sys/param.h>
+
 __SCCSID("@(#)localtime.c	7.80");
-__RCSID("$MirOS: src/lib/libc/time/localtime.c,v 1.15 2008/04/05 21:53:57 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/time/localtime.c,v 1.16 2009/11/09 21:30:56 tg Exp $");
 
 struct tm *offtime(const time_t * const, const long);
 
@@ -38,8 +35,7 @@ struct tm *offtime(const time_t * const, const long);
 
 /* LINTLIBRARY */
 
-#include <sys/taitime.h>
-#include <stdbool.h>
+#include <syskern/mirtime.h>
 #include "private.h"
 #include "tzfile.h"
 #include "fcntl.h"
@@ -179,13 +175,6 @@ static int tmcomp(const struct tm *atmp, const struct tm *btmp);
 static time_t transtime(time_t janfirst, int year, const struct rule *rulep, long offset);
 static int tzload(const char *name, struct state *sp);
 static int tzparse(const char *name, struct state *sp, int lastditch);
-time_t *tm_getleaps(void);
-void _initialise_leaps(void);
-
-/* private interface; sync with taileaps.c */
-extern bool _leaps_initialised;
-extern tai64_t _leaps[];
-extern void _pushleap(time_t);
 
 static struct state lclmem;
 static struct state gmtmem;
@@ -1060,21 +1049,13 @@ tzset_basic(void)
 	settzname();
 }
 
-/*
-** This function also cleans the leap second table first.
-*/
 void
 tzset(void)
 {
 	_THREAD_PRIVATE_MUTEX_LOCK(lcl);
 	tzset_basic();
 	_THREAD_PRIVATE_MUTEX_UNLOCK(lcl);
-
-	if (!_leaps_initialised) {
-		_leaps[0] = (tai64_t)0;
-		_leaps_initialised = true;
-		_initialise_leaps();
-	}
+	mirtime_getleaps();
 }
 
 /*
@@ -1221,6 +1202,10 @@ offtime(const time_t * const timep, const long offset)
 	return gmtsub(timep, offset, &tm);
 }
 
+/*
+** Return the number of leap years through the end of the given year
+** where, to make the math easy, the answer for year zero is defined as zero.
+*/
 static int
 leaps_thru_end_of(y)
 register const int	y;
@@ -1713,26 +1698,35 @@ timeoff(tmp, offset)
 	return time1(tmp, gmtsub, offset);
 }
 
-/* private interface */
-void
-_initialise_leaps(void)
+const time_t *
+mirtime_getleaps(void)
 {
-	struct state sp;
-	int i;
+#ifdef SKIP_LEAPSECS
+	static time_t noleaps = 0;
 
-	/* load leap seconds for UTC */
-	gmtload(&sp);
+	return (&noleaps);
+#else
+	static int initialised = 0;
+	static time_t leaps[TZ_MAX_LEAPS + 1];
 
-	/* sanity */
-	if ((!sp.leapcnt) || (sp.lsis[0].ls_trans != 78796800)
-	    || (sp.leapcnt > TZ_MAX_LEAPS)) {
-		_leaps_initialised = false;
-		return;
+	if (__predict_false(!initialised)) {
+		int i;
+		struct state sp;
+
+		memset(leaps, 0, sizeof(leaps));
+
+		/* load leap seconds for UTC */
+		gmtload(&sp);
+
+		/* sanity check */
+		if ((sp.leapcnt > 0) && (sp.leapcnt <= TZ_MAX_LEAPS) &&
+		    (sp.lsis[0].ls_trans == 78796800)) {
+			/* add leap seconds to table */
+			for (i = 0; i < sp.leapcnt; ++i)
+				leaps[i] = sp.lsis[i].ls_trans;
+			initialised = 1;
+		}
 	}
-
-	/* copy over */
-	for (i = 0; i < sp.leapcnt; ++i)
-		/* XXX this does not handle negative leap seconds */
-		/* XXX should abort(3) if they occur */
-		_pushleap(sp.lsis[i].ls_trans);
+	return (leaps);
+#endif
 }

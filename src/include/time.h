@@ -1,4 +1,4 @@
-/**	$MirOS: src/include/time.h,v 1.8 2007/02/07 20:43:21 tg Exp $ */
+/**	$MirOS: src/include/time.h,v 1.9 2008/12/10 21:37:39 tg Exp $ */
 /*	$OpenBSD: time.h,v 1.16 2003/08/01 17:38:33 avsm Exp $	*/
 /*	$NetBSD: time.h,v 1.9 1994/10/26 00:56:35 cgd Exp $	*/
 
@@ -44,6 +44,7 @@
 
 #include <machine/types.h>
 #include <machine/ansi.h>
+#include <syskern/mirtime.h>
 
 #ifndef	NULL
 #ifdef 	__GNUG__
@@ -60,34 +61,12 @@ typedef	_BSD_CLOCK_T_	clock_t;
 #undef	_BSD_CLOCK_T_
 #endif
 
-#ifdef	_BSD_TIME_T_
-typedef	_BSD_TIME_T_	time_t;
-#undef	_BSD_TIME_T_
-#endif
-
 #if !defined(_GCC_SIZE_T)
 #define	_GCC_SIZE_T
 typedef	__SIZE_TYPE__	size_t;
 #endif
 
 #define CLOCKS_PER_SEC	100
-
-#if !defined(__STRUCT_TM_DECLARED)
-struct tm {
-	int	tm_sec;		/* seconds after the minute [0-60] */
-	int	tm_min;		/* minutes after the hour [0-59] */
-	int	tm_hour;	/* hours since midnight [0-23] */
-	int	tm_mday;	/* day of the month [1-31] */
-	int	tm_mon;		/* months since January [0-11] */
-	time_t	tm_year;	/* years since 1900 */
-	int	tm_wday;	/* days since Sunday [0-6] */
-	int	tm_yday;	/* days since January 1 [0-365] */
-	int	tm_isdst;	/* Daylight Saving Time flag */
-	long	tm_gmtoff;	/* offset from UTC in seconds */
-	char	*tm_zone;	/* timezone abbreviation */
-};
-#define __STRUCT_TM_DECLARED
-#endif
 
 __BEGIN_DECLS
 #ifndef _ANSI_LIBRARY

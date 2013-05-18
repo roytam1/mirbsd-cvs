@@ -1,11 +1,7 @@
-/**	$MirOS: src/lib/libc/time/private.h,v 1.2 2005/03/06 20:28:50 tg Exp $ */
+/**	$MirOS: src/lib/libc/time/private.h,v 1.3 2005/09/22 20:33:01 tg Exp $ */
 /*	$OpenBSD: private.h,v 1.17 2005/07/05 13:40:51 millert Exp $	*/
 #ifndef PRIVATE_H
 #define PRIVATE_H
-
-/*
- * MirOS TAI64 routines
- */
 
 /*
 ** This file is in the public domain, so clarified as of

@@ -1,6 +1,6 @@
-$MirOS: ports/net/tor/patches/patch-configure_in,v 1.2 2007/08/06 09:47:34 tg Exp $
+$MirOS: ports/net/tor/patches/patch-configure_in,v 1.3 2008/03/04 02:24:15 tg Exp $
 --- configure.in.orig	Thu Jan 17 19:49:03 2008
-+++ configure.in	Tue Mar  4 02:15:39 2008
++++ configure.in	Sun Nov 20 04:48:06 2011
 @@ -44,7 +44,7 @@ AC_ARG_ENABLE(threads,
  
  if test x$enable_threads = x; then
@@ -19,16 +19,7 @@ $MirOS: ports/net/tor/patches/patch-configure_in,v 1.2 2007/08/06 09:47:34 tg Ex
  
  dnl ------------------------------------------------------
  dnl Where do you live, openssl?  And how do we call you?
-@@ -492,6 +492,8 @@ dnl These headers are not essential
- 
- AC_CHECK_HEADERS(stdint.h sys/types.h inttypes.h sys/param.h sys/wait.h limits.h sys/limits.h netinet/in.h arpa/inet.h machine/limits.h syslog.h sys/time.h sys/resource.h inttypes.h utime.h sys/utime.h sys/mman.h netintet/in.h netinet/in6.h sys/syslimits.h)
- 
-+AC_CHECK_HEADERS(sys/taitime.h)
-+
- AC_CHECK_HEADERS(net/if.h, [net_if_found=1], [net_if_found=0],
- [#ifdef HAVE_SYS_TYPES_H
- #include <sys/types.h>
-@@ -529,7 +531,7 @@ if test x$transparent = xtrue ; then
+@@ -529,7 +529,7 @@ if test x$transparent = xtrue ; then
     if test x$transparent_ok = x1 ; then
       AC_DEFINE(USE_TRANSPARENT, 1, "Define to enable transparent proxy support")
       case $host in
@@ -37,7 +28,7 @@ $MirOS: ports/net/tor/patches/patch-configure_in,v 1.2 2007/08/06 09:47:34 tg Ex
           AC_DEFINE(OPENBSD, 1, "Define to handle pf on OpenBSD properly") ;;
       esac
     else
-@@ -861,9 +863,8 @@ AC_DEFINE_UNQUOTED(LOCALSTATEDIR,"$LOCAL
+@@ -861,9 +861,8 @@ AC_DEFINE_UNQUOTED(LOCALSTATEDIR,"$LOCAL
  # Set CFLAGS _after_ all the above checks, since our warnings are stricter
  # than autoconf's macros like.
  if test $ac_cv_c_compiler_gnu = yes; then

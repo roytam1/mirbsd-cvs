@@ -1,6 +1,6 @@
 /*-
- * Copyright (c) 2004, 2005, 2007
- *	Thorsten Glaser <tg@mirbsd.de>
+ * Copyright (c) 2004, 2005, 2007, 2011
+ *	Thorsten Glaser <tg@mirbsd.org>
  *
  * Provided that these terms and disclaimer and all copyright notices
  * are retained or reproduced in an accompanying document, permission
@@ -17,41 +17,41 @@
  * damage or existence of a defect, except proven that it results out
  * of said person's immediate fault when using the work as intended.
  *-
- * Generate dump of leap secons.
+ * Generate a dump of what leap seconds userspace currently knows of,
+ * for use within an environment where tzdata is not available.
  */
 
-#include <sys/types.h>
-#include <sys/taitime.h>
 #include <err.h>
 #include <stdio.h>
 #include <time.h>
 
-__RCSID("$MirOS: src/sys/lib/libkern/tai_make.c,v 1.5 2007/02/07 20:43:27 tg Exp $");
+__RCSID("$MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $");
 
 static const char preamble[] =
-"/* AUTOMATICALLY GENERATED - DO NOT EDIT! */\n\n"
-"#include <sys/types.h>\n"
-"#include <sys/taitime.h>\n\n"
-"__RCSID(\"From: $MirOS: src/sys/lib/libkern/tai_make.c,v 1.5 2007/02/07 20:43:27 tg Exp $\");\n\n"
-"static tai64_t _leaps[] = {\n";
+"/* AUTOMATICALLY GENERATED - DO NOT EDIT! */\n"
+"\n"
+"#include <sys/time.h>\n"
+"\n"
+"__RCSID(\"From: $MirOS$\");\n"
+"\n"
+"static time_t _leaps[] = {\n";
 
 static const char epilogue[] =
-/* spare for config(8) */
-"\t0,\n"
-"\t0,\n"
-"\t0,\n"
-"\t0,\n"
-"\t0,\n"
-"\t0,\n"
-
-/* last one must be 0 */
-"\t0,\n"
-/* all bits to 1, for config(8) as marker */
-"\t-1LL\n"
-
-/* rest of the C file */
-"};\n\n"
-"tai64_t *\ntai_leaps(void)\n"
+"	/* spare for config(8) */\n"
+"	0,\n"
+"	0,\n"
+"	0,\n"
+"	0,\n"
+"	0,\n"
+"	0,\n"
+"	/* last one must be 0 */\n"
+"	0,\n"
+"	/* past last one must be -1 */\n"
+"	(time_t)-1\n"
+"};\n"
+"\n"
+"const time_t *\n"
+"mirtime_getleaps(void)\n"
 "{\n"
 "	return (_leaps);\n"
 "}\n";
@@ -59,18 +59,13 @@ static const char epilogue[] =
 int
 main(int argc, char *argv[])
 {
-	int64_t *t;
+	time_t *lp;
 
-	if (sizeof (int64_t) != sizeof (tai64_t))
-		errx(1, "tai64_t is not int64_t");
-
-	t = (int64_t *)tai_leaps();
-	if (*t == 0)
-		errx(1, "leap second table empty");
+	lp = mirtime_getleaps();
 
 	fputs(preamble, stdout);
-	while (*t)
-		printf("\t0x%16llXLL,\n", *t++);
+	while (*lp)
+		printf("\t0x%16llXLL,\n", *lp++);
 	fputs(epilogue, stdout);
 
 	return (0);

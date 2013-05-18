@@ -1,7 +1,5 @@
-/* $MirOS: src/lib/libc/time/tailibc.c,v 1.1 2007/02/07 20:43:24 tg Exp $ */
-
 /*-
- * Copyright (c) 2004, 2005, 2006, 2007
+ * Copyright (c) 2004, 2005, 2006, 2007, 2011
  *	Thorsten Glaser <tg@mirbsd.de>
  *
  * Provided that these terms and disclaimer and all copyright notices
@@ -9,10 +7,6 @@
  * is granted to deal in this work without restriction, including un-
  * limited rights to use, publicly perform, distribute, sell, modify,
  * merge, give away, or sublicence.
- *
- * Advertising materials mentioning features or use of this work must
- * display the following acknowledgement:
- *	This product includes material provided by Thorsten Glaser.
  *
  * This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
  * the utmost extent permitted by applicable law, neither express nor
@@ -26,9 +20,10 @@
 
 #include <sys/param.h>
 #include <sys/time.h>
+#define _IN_TAITIME_IMPLEMENTATION
 #include <sys/taitime.h>
 
-__RCSID("$MirOS: src/lib/libc/time/tailibc.c,v 1.1 2007/02/07 20:43:24 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/time/tailibc.c,v 1.2 2007/02/07 21:08:20 tg Exp $");
 
 #ifdef L_tai_time
 tai64_t
@@ -49,6 +44,7 @@ tai_time(tai64_t *v)
 
 	return (t);
 }
+__warn_references(tai_time, "tai_time is deprecated; use the new mirtime API instead");
 #endif
 
 #ifdef L_taina_time
@@ -65,6 +61,7 @@ taina_time(tai64na_t *t)
 	t->secs = tp.tv_sec + __TAI64_BIAS;
 	t->nano = (int32_t)tp.tv_nsec;
 }
+__warn_references(taina_time, "taina_time is deprecated; use the new mirtime API instead");
 #endif
 
 #ifdef L_djbtai
@@ -85,6 +82,7 @@ exporttai(uint8_t *dst, tai64na_t *src)
 	target->nano = htobe32(__BOUNDINTU(999999999, src->nano));
 	target->atto = htobe32(__BOUNDINTU(999999999, src->atto));
 }
+__warn_references(exporttai, "exporttai is deprecated; use the new mirtime API instead");
 
 void
 importtai(uint8_t *src, tai64na_t *dst)
@@ -103,4 +101,5 @@ importtai(uint8_t *src, tai64na_t *dst)
 	dst->nano = __BOUNDINTU(999999999, betoh32(source->nano));
 	dst->atto = __BOUNDINTU(999999999, betoh32(source->atto));
 }
+__warn_references(importtai, "importtai is deprecated; use the new mirtime API instead");
 #endif

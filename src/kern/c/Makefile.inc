@@ -1,4 +1,4 @@
-# $MirOS: src/kern/c/Makefile.inc,v 1.23 2011/07/06 22:22:07 tg Exp $
+# $MirOS: src/kern/c/Makefile.inc,v 1.25 2011/07/17 17:21:02 tg Exp $
 
 .ifndef _KERNBASE_C_MAKEFILE_INC
 _KERNBASE_C_MAKEFILE_INC=	#defined
@@ -30,15 +30,24 @@ _KERNBASE_C_MAKEFILE_INC=	#defined
 # NUSRCS, UIF_NUSRCS:	userland
 # LSRCS, UIF_LSRCS:	lint libraries (userland)
 
-UIF_KUSRCS+=	tai_isleap.c taitime.c -DL_tai_isleap
-UIF_KUSRCS+=	tai_timet2tai.c taitime.c -DL_timet2tai
-UIF_KUSRCS+=	tai_tai2timet.c taitime.c -DL_tai2timet
-UIF_KUSRCS+=	tai_utc2tai.c taitime.c -DL_utc2tai
-UIF_KUSRCS+=	tai_tai2utc.c taitime.c -DL_tai2utc
-UIF_KUSRCS+=	tai_mjd2tai.c taitime.c -DL_mjd2tai
-UIF_KUSRCS+=	tai_tai2mjd.c taitime.c -DL_tai2mjd
-UIF_KUSRCS+=	tai_mjd2tm.c taitime.c -DL_mjd2tm
-UIF_KUSRCS+=	tai_tm2mjd.c taitime.c -DL_tm2mjd
+UIF_NUSRCS+=	tai_isleap.c taitime.c -DL_tai_isleap
+UIF_NUSRCS+=	tai_timet2tai.c taitime.c -DL_timet2tai
+UIF_NUSRCS+=	tai_tai2timet.c taitime.c -DL_tai2timet
+UIF_NUSRCS+=	tai_utc2tai.c taitime.c -DL_utc2tai
+UIF_NUSRCS+=	tai_tai2utc.c taitime.c -DL_tai2utc
+UIF_NUSRCS+=	tai_mjd2tai.c taitime.c -DL_mjd2tai
+UIF_NUSRCS+=	tai_tai2mjd.c taitime.c -DL_tai2mjd
+UIF_NUSRCS+=	tai_mjd2tm.c taitime.c -DL_mjd2tm
+UIF_NUSRCS+=	tai_tm2mjd.c taitime.c -DL_tm2mjd
+
+UIF_KUSRCS+=	timet2posix.c mirtime.c -DL_timet2posix
+UIF_KUSRCS+=	posix2timet.c mirtime.c -DL_posix2timet
+UIF_KUSRCS+=	timet2mjd.c mirtime.c -DL_timet2mjd
+UIF_KUSRCS+=	mjd2timet.c mirtime.c -DL_mjd2timet
+UIF_KUSRCS+=	mjd_explode.c mirtime.c -DL_mjd_explode
+UIF_KUSRCS+=	mjd_implode.c mirtime.c -DL_mjd_implode
+UIF_KUSRCS+=	mirtime_isleap.c mirtime.c -DL_mirtime_isleap
+UIF_KUSRCS+=	mirtime_macrobodies.c mirtime.c -DL_mirtime_macrobodies
 
 UIF_XSRCS+=	strlcpy.c strlfun.c -DL_strlcpy
 UIF_XSRCS+=	strlcat.c strlfun.c -DL_strlcat
