@@ -1,0 +1,20 @@
+@comment $MirOS$
+lib/X11/fonts/ttf-sil-gentium-basic/FONTLOG.txt
+lib/X11/fonts/ttf-sil-gentium-basic/GENTIUM-FAQ.txt
+lib/X11/fonts/ttf-sil-gentium-basic/GenBasB.ttf
+lib/X11/fonts/ttf-sil-gentium-basic/GenBasBI.ttf
+lib/X11/fonts/ttf-sil-gentium-basic/GenBasI.ttf
+lib/X11/fonts/ttf-sil-gentium-basic/GenBasR.ttf
+lib/X11/fonts/ttf-sil-gentium-basic/GenBkBasB.ttf
+lib/X11/fonts/ttf-sil-gentium-basic/GenBkBasBI.ttf
+lib/X11/fonts/ttf-sil-gentium-basic/GenBkBasI.ttf
+lib/X11/fonts/ttf-sil-gentium-basic/GenBkBasR.ttf
+lib/X11/fonts/ttf-sil-gentium-basic/OFL-FAQ.txt
+lib/X11/fonts/ttf-sil-gentium-basic/OFL.txt
+lib/X11/fonts/ttf-sil-gentium-basic/fonts.cache-1
+lib/X11/fonts/ttf-sil-gentium-basic/fonts.dir
+lib/X11/fonts/ttf-sil-gentium-basic/fonts.scale
+@dirrm lib/X11/fonts/ttf-sil-gentium-basic
+@dirrm lib/X11/fonts
+@exec print "Add '%B' to your font path, for example"
+@exec print "with 'xset fp+ %B; xset fp rehash'."

@@ -1,0 +1,19 @@
+@comment $MirOS$
+@pkgcfl gentium-*
+lib/X11/fonts/ttf-sil-gentium/FONTLOG
+lib/X11/fonts/ttf-sil-gentium/GENTIUM-FAQ
+lib/X11/fonts/ttf-sil-gentium/GenAI${V}.ttf
+lib/X11/fonts/ttf-sil-gentium/GenAR${V}.ttf
+lib/X11/fonts/ttf-sil-gentium/GenI${V}.ttf
+lib/X11/fonts/ttf-sil-gentium/GenR${V}.ttf
+lib/X11/fonts/ttf-sil-gentium/OFL
+lib/X11/fonts/ttf-sil-gentium/OFL-FAQ
+lib/X11/fonts/ttf-sil-gentium/QUOTES
+lib/X11/fonts/ttf-sil-gentium/README
+lib/X11/fonts/ttf-sil-gentium/fonts.cache-1
+lib/X11/fonts/ttf-sil-gentium/fonts.dir
+lib/X11/fonts/ttf-sil-gentium/fonts.scale
+@dirrm lib/X11/fonts/ttf-sil-gentium
+@dirrm lib/X11/fonts
+@exec print "Add '%B' to your font path, for example"
+@exec print "with 'xset fp+ %B; xset fp rehash'."
