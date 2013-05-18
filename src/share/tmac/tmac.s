@@ -1,9 +1,9 @@
-.\" $MirOS: src/share/tmac/tmac.s,v 1.2 2006/11/04 05:43:43 tg Exp $
+.\" $MirOS: src/share/tmac/tmac.s,v 1.3 2008/11/08 22:24:17 tg Exp $
 .\"
 .\" Copyright (c) 1979, 1980, 1981, 1986, 1988, 1990, 1991, 1992
 .\"     The Regents of the University of California.
 .\" Copyright (C) Caldera International Inc.  2001-2002.
-.\" Copyright (c) 2003, 2004, 2006
+.\" Copyright (c) 2003, 2004, 2006, 2012
 .\"	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
 .\" All rights reserved.
 .\"
@@ -998,13 +998,13 @@
 .if t .ds Q ``
 .if t .ds U ''
 .if t .ds - \(em
-.ds ' \h'\w'e'u/5'\z\'\h'-\w'e'u/5'
-.ds ` \h'\w'e'u/5'\z\`\h'-\w'e'u/5'
-.ds ^ \h'\w'o'u/10'\z^\h'-\w'o'u/10'
-.ds , \h'\w'c'u/5'\z,\h'-\w'c'u/5'
-.ds : \h'\w'u'u/5'\u\z.\h'\w'u'u*2/5'\z.\d\h'-\w'u'u*3/5'
-.ds ~ \h'\w'n'u/10'\z~\h'-\w'n'u/10'
-.ds C \h'\w'c'u/5'\v'-.6m'\s-4\zv\s+4\v'.6m'\h'-\w'c'u/5'
+.ds ' \h'\weu/5'\z\'\h'-\weu/5'
+.ds ` \h'\weu/5'\z\`\h'-\weu/5'
+.ds ^ \h'\wou/10'\z^\h'-\wou/10'
+.ds , \h'\wcu/5'\z,\h'-\wcu/5'
+.ds : \h'\wuu/5'\u\z.\h'\wuu*2/5'\z.\d\h'-\wuu*3/5'
+.ds ~ \h'\wnu/10'\z~\h'-\wnu/10'
+.ds C \h'\wcu/5'\v'-.6m'\s-4\zv\s+4\v'.6m'\h'-\wcu/5'
 .	\" AM - better accent marks
 .de AM
 .so \*(//acc.ms

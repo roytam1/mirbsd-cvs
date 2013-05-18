@@ -1,6 +1,7 @@
-.\" $MirOS: src/share/tmac/tmac.doc.old,v 1.4 2009/11/22 17:08:21 tg Exp $
+.\" $MirOS: src/share/tmac/tmac.doc.old,v 1.5 2009/11/22 17:11:29 tg Exp $
 .\"
-.\" Copyright (c) 2009 Thorsten Glaser.
+.\" Copyright (c) 2009, 2012
+.\"	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
 .\" Slightly modified by jjc@jclark.com to work with groff as well.
 .\" Copyright (c) 1990 The Regents of the University of California.
 .\" All rights reserved.
@@ -141,7 +142,7 @@
 .\}
 .\"	INDENTS - Subheaders(sI), Text(Ti) between Section Headers and Subsects
 .if t \{\
-.	nr sI \w'\fC,'u*5
+.	nr sI \w\fC,u*5
 .	nr Ti \n(sIu
 .\}
 .if n \{\
@@ -1123,14 +1124,14 @@
 .\"
 .\" sW returns number of characters in a string
 .if t \{\
-.nr fW \w'\fC,'
+.nr fW \w\fC,
 .de sW
-.nr sW \w'\fC\\$1'
+.nr sW \w\fC\\$1
 .\}
 .if n \{\
-.nr fW \w'0'
+.nr fW \w0
 .de sW
-.nr sW \w'\\$1'
+.nr sW \w\\$1
 .\}
 .ie \\n(sW>=\\n(fW \{\
 .	ie \\n(sW%\\n(fW .nr sW (\\n(sW/\\n(fW)+1
@@ -1269,10 +1270,10 @@
 .ie "\\*(iM"Op" \{\
 .	if \\n(aO .aO
 .if t \{\
-.	if (\\n(.lu-\\n(.ku-\\n(.ou-(2*\\n(fWu))<\w'\fC\\*(f1'u .br
+.	if (\\n(.lu-\\n(.ku-\\n(.ou-(2*\\n(fWu))<\w\fC\\*(f1 .br
 .\}
 .if n \{\
-.	nr aa \w'\\*(f1'u
+.	nr aa \w\*(f1u
 .\" .	nr qq \\n(.lu-\\n(.ku-\\n(.ou
 .\" \&aa == \\n(aa, f1==\\*(f1, qq==\\n(qq
 .	if (\\n(.lu-\\n(.ku-\\n(.ou-\\n(aau)<=(8*\\n(fWu) .br
@@ -1678,7 +1679,7 @@
 .ie "\\$1"st" \{\
 .	nr bb \\n(\\$2\\n(\\$3u
 .	ti -\\n(bbu
-.	ie (\\n(\\$2\\n(\\$3u-2n)<=\w'\\*(f1'u \{\&\\*(f1\\*(tP
+.	ie (\\n(\\$2\\n(\\$3u-2n)<=\w\\*(f1u \{\&\\*(f1\\*(tP
 .		if \\n(tP==0 .br
 .	\}
 .	el \\*(f1\h'|\\n(\\$2\\n(\\$3u'\c
@@ -1753,28 +1754,28 @@
 .el \{\
 .	Pp
 .	if \\n(.$==1 \{\
-.		ta \w'\\$1    'u
-.		nr eW \w'\\$1    'u
+.		ta \w\\$1    u
+.		nr eW \w\\$1    u
 '		in \\n(.iu+\\n(eWu
 .	\}
 .	if \\n(.$==2 \{\
-.		ta \w'\\$1    'u +\w'\\$2    'u
-.		nr eW \w'\\$1    'u+\w'\\$2    'u
+.		ta \w\\$1    u +\w\\$2    u
+.		nr eW \w\\$1    u+\w\\$2    u
 '		in \\n(.iu+\\n(eWu
 .	\}
 .	if \\n(.$==3 \{\
-.		ta \w'\\$1    'u +\w'\\$2    'u +\w'\\$3    'u
-.		nr eW \w'\\$1    'u+\w'\\$2    'u+\w'\\$3    'u
+.		ta \w\\$1    u +\w\\$2    u +\w\\$3    u
+.		nr eW \w\\$1    u+\w\\$2    u+\w\\$3    u
 '		in \\n(.iu+\\n(eWu
 .	\}
 .	if \\n(.$==4 \{\
-.	ta \w'\\$1    'u +\w'\\$2    'u +\w'\\$3    'u +\w'\\$4    'u
-.	nr eW \w'\\$1    'u+\w'\\$2    'u+\w'\\$3    'u +\w'\\$4    'u
+.	ta \w\\$1    u +\w\\$2    u +\w\\$3    u +\w\\$4    u
+.	nr eW \w\\$1    u+\w\\$2    u+\w\\$3    u +\w\\$4    u
 '	in \\n(.iu+\\n(eWu
 .	\}
 .	if \\n(.$==5 \{\
-.ta \w'\\$1    'u +\w'\\$2    'u +\w'\\$3    'u +\w'\\$4    'u +\w'\\$5    'u
-.nr eW \w'\\$1    'u +\w'\\$2    'u +\w'\\$3    'u +\w'\\$4    'u +\w'\\$5    'u
+.ta \w\\$1    u +\w\\$2    u +\w\\$3    u +\w\\$4    u +\w\\$5    u
+.nr eW \w\\$1    u +\w\\$2    u +\w\\$3    u +\w\\$4    u +\w\\$5    u
 '	in \\n(.iu+\\n(eWu
 .	\}
 .\}

@@ -1,6 +1,8 @@
 .nr _0 \n(.c
-.\" $MirOS: src/share/tmac/tmac.e,v 1.1.7.1 2005/03/06 16:33:41 tg Exp $
+.\" $MirOS: src/share/tmac/tmac.e,v 1.2 2006/11/04 05:43:43 tg Exp $
 .\"
+.\" Copyright (c) 2012
+.\"	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
 .\" Copyright (c) 1988 The Regents of the University of California.
 .\" All rights reserved.
 .\"
@@ -444,13 +446,13 @@
 ..
 .de n1			\" *** line numbering 1
 .nm 1
-.xl -\w'0000'u
+.xl -\w0000u
 .nr ?n 1
 ..
 .de n2			\" *** line numbering 2
 .nm \\$1
 .ie \\n(.$ \
-.	xl -\w'0000'u
+.	xl -\w0000u
 .el \
 .	xl \\n($lu
 ..
@@ -521,10 +523,10 @@
 .if \\n(.$>1 \
 .	nr _0 \\$2n
 .@p \\n(_0u
-.if \\w"\\$1" \
+.if \\w\\$1 \
 \{\
 .	ti -\\n(_0u
-.	ie \\w"\\$1">=\\n(_0 \
+.	ie \\w\\$1>=\\n(_0 \
 \{\
 \&\\$1
 .		br
@@ -537,17 +539,17 @@
 .if \\n($p<0 \
 .	nr $p 0			\" reset number after .bu
 .nr $p +1			\" increment paragraph number
-.@p \w'\0(000)\0'u
-.ti -\w'\0(000)\0'u
-\0(\\n($p)\h'|\w'\0(000)\0'u'\c
+.@p \w\0(000)\0u
+.ti -\w\0(000)\0u
+\0(\\n($p)\h'|\w\0(000)\0u'\c
 ..
 .de bu			\" *** bulleted paragraph
 .br
 .if \\n($p<0 \
 .	ns			\" don't space between .bu paragraphs
 .nr $p 0-1			\" mark "bulleted paragraph" mode
-.@p \w'\0\(bu\0'u
-.ti -\w'\0\(bu\0'u
+.@p \w\0\(bu\0u
+.ti -\w\0\(bu\0u
 \0\(bu\0\c
 ..
 .de @p			\" --- initialize for paragraph
@@ -587,8 +589,8 @@
 .	sz \\n(sp
 .	if \\$3>0 \
 .		$\\$3
-.	if \w"\\$2">0 \\$2.
-.	if \w"\\$1">0 \\$1\f1\ \ \&
+.	if \w\\$2>0 \\$2.
+.	if \w\\$1>0 \\$1\f1\ \ \&
 .\}
 .el \
 .	sp \\n(psu
@@ -886,7 +888,7 @@
 ..
 .de bi			\" *** enter word in bold italics
 .ft 2
-.ie t \&\k~\\$1\h'|\\n~u+(\\w' 'u/4u)'\\$1\fP\\$2
+.ie t \&\k~\\$1\h'|\\n~u+(\\w u/4u)'\\$1\fP\\$2
 .el \&\\$1\fP\\$2
 ..
 .de bx			\" *** enter boxed word
@@ -1027,9 +1029,9 @@
 .	nr ch +1
 .ie \\n(_M=1 CHAPTER\ \ \\n(ch
 .el .if \\n(_M=2 APPENDIX\ \ \\n(ch
-.if \w"\\$1" .sp 3-\\n(.L
-.if \w"\\$1" \\$1
-.if (\\n(_M<3):(\w"\\$1") \
+.if \w\\$1 .sp 3-\\n(.L
+.if \w\\$1 \\$1
+.if (\\n(_M<3):(\w\\$1) \
 .	sp 4-\\n(.L
 .ce 0
 .ft

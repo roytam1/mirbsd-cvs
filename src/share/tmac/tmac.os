@@ -1,9 +1,9 @@
-.\" $MirOS: src/share/tmac/tmac.os,v 1.1.7.1 2005/03/06 16:33:41 tg Exp $
+.\" $MirOS: src/share/tmac/tmac.os,v 1.2 2008/11/08 22:24:17 tg Exp $
 .\"
 .\" Copyright (c) 1979, 1980, 1981, 1986, 1988, 1990, 1991, 1992
 .\"     The Regents of the University of California.
 .\" Copyright (C) Caldera International Inc.  2001-2002.
-.\" Copyright (c) 2003, 2004
+.\" Copyright (c) 2003, 2004, 2012
 .\"	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
 .\" All rights reserved.
 .\"
@@ -1405,18 +1405,18 @@ Naperville, Illinois 60540
 ..
 .em EM
 . \"  ACCENTS  say \*'e or \*`e to get e acute or e grave
-.ds ' \h'\w'e'u*4/10'\z\(aa\h'-\w'e'u*4/10'
-.ds ` \h'\w'e'u*4/10'\z\(ga\h'-\w'e'u*4/10'
+.ds ' \h'\weu*4/10'\z\(aa\h'-\weu*4/10'
+.ds ` \h'\weu*4/10'\z\(ga\h'-\weu*4/10'
 . \"  UMLAUT  \*:u, etc.
 .ds : \v'-0.6m'\h'(1u-(\\n(.fu%2u))*0.13m+0.06m'\z.\h'0.2m'\z.\h'-((1u-(\\n(.fu%2u))*0.13m+0.26m)'\v'0.6m'
 . \" TILDE and CIRCUMFLEX
 .ds ^ \\k:\h'-\\n(.fu+1u/2u*2u+\\n(.fu-1u*0.13m+0.06m'\z^\h'|\\n:u'
 .ds ~ \\k:\h'-\\n(.fu+1u/2u*2u+\\n(.fu-1u*0.13m+0.06m'\z~\h'|\\n:u'
 .	\" czech v symbol
-.ds C \\k:\\h'+\\w'e'u/4u'\\v'-0.6m'\\s6v\\s0\\v'0.6m'\\h'|\\n:u'
-.ds v \\k:\\h'+\\w'e'u/4u'\\v'-0.6m'\\s6v\\s0\\v'0.6m'\\h'|\\n:u'
+.ds C \\k:\\h'+\\weu/4u'\\v'-0.6m'\\s6v\\s0\\v'0.6m'\\h'|\\n:u'
+.ds v \\k:\\h'+\\weu/4u'\\v'-0.6m'\\s6v\\s0\\v'0.6m'\\h'|\\n:u'
 .		\" cedilla
-.ds , \\k:\\h'\\w'c'u*0.4u'\\z,\\h'|\\n:u'
+.ds , \\k:\\h'\\wcu*0.4u'\\z,\\h'|\\n:u'
 .de []
 .][ \\$1
 ..

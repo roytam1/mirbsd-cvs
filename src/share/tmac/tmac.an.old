@@ -1,4 +1,4 @@
-.\" $MirOS: src/share/tmac/tmac.an.old,v 1.9 2008/11/08 22:24:16 tg Exp $
+.\" $MirOS: src/share/tmac/tmac.an.old,v 1.10 2012/05/21 23:39:40 tg Exp $
 .\"
 .\" Copyright (c) 1979, 1980, 1981, 1986, 1988, 1990, 1991, 1992
 .\"     The Regents of the University of California.
@@ -339,7 +339,7 @@
 .ns
 ..
 .deTF
-.IP "" "\w'\f5\\$1\ \ \fP'u"
+.IP "" "\w\f5\\$1\ \ \fPu"
 .PD0
 ..
 .	# make special case of shift out of italic
@@ -416,7 +416,7 @@
 .ll \\n(LLu
 .in \\n()Ru+\\n(INu+\\n()Iu
 .ti \\n(INu
-.ie !\\n()Iu+\\n()Ru-\w@\\*(]X@u-3p \{\\*(]X
+.ie !\\n()Iu+\\n()Ru-\w\\*(]Xu-3p \{\\*(]X
 .br\}
 .el \\*(]X\h@|\\n()Iu+\\n()Ru@\c
 .\}

@@ -1,4 +1,8 @@
 .nr _0 \n(c.
+.\" $MirOS: src/share/tmac/me/me.7,v 1.1.7.1 2005/03/06 16:33:42 tg Exp $
+.\"
+.\" Copyright (c) 2012
+.\"	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
 .\" Copyright (c) 1988 The Regents of the University of California.
 .\" All rights reserved.
 .\"
@@ -59,7 +63,7 @@
 .	if "\\*(|x"_" \
 .		ig ..
 .	am %\\*(|X ..
-.	if \w"\\$2">(\\n(.l-\\n(.i-\\n(.k) \
+.	if \w\\$2>(\\n(.l-\\n(.i-\\n(.k) \
 .		ti +\\n(xuu
 \\\\a\\\\t\\$2\\*(|x
 ...
@@ -83,7 +87,7 @@
 .ds |X x
 .if \\n(.$>0 \
 .	ds |X \\$1
-.xl -(\\n(xuu+\w'...'u)
+.xl -(\\n(xuu+\w...u)
 .di |x
 .%\\*(|X
 .br

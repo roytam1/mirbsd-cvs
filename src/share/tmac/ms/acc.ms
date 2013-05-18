@@ -1,9 +1,9 @@
-.\" $MirOS: src/share/tmac/ms/acc.ms,v 1.1.7.1 2005/03/06 16:33:42 tg Exp $
+.\" $MirOS: src/share/tmac/ms/acc.ms,v 1.2 2008/11/08 22:24:18 tg Exp $
 .\"
 .\" Copyright (c) 1979, 1980, 1981, 1986, 1988, 1990, 1991, 1992
 .\"     The Regents of the University of California.
 .\" Copyright (C) Caldera International Inc.  2001-2002.
-.\" Copyright (c) 2003, 2004
+.\" Copyright (c) 2003, 2004, 2012
 .\"	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
 .\" All rights reserved.
 .\"
@@ -77,10 +77,10 @@
 .	ds ^ \\k:\h'-(\\n(.wu*10/11-\*(#H)'^\h'|\\n:u'
 .	ds , \\k:\h'-(\\n(.wu*8/10)',\h'|\\n:u'
 .	ds ~ \\k:\h'-(\\n(.wu-\*(#H-.1m)'~\h'|\\n:u'
-.	ds ? \s-2c\h'-\w'c'u*7/10'\u\h'\*(#H'\zi\d\s+2\h'\w'c'u*8/10'
-.	ds ! \s-2\(or\s+2\h'-\w'\(or'u'\v'-.8m'.\v'.8m'
+.	ds ? \s-2c\h'-\wcu*7/10'\u\h'\*(#H'\zi\d\s+2\h'\wcu*8/10'
+.	ds ! \s-2\(or\s+2\h'-\w\(oru'\v'-.8m'.\v'.8m'
 .	ds / \\k:\h'-(\\n(.wu*8/10-\*(#H)'\z\(sl\h'|\\n:u'
-.	ds q o\h'-\w'o'u*8/10'\s-4\v'.4m'\z\(*i\v'-.4m'\s+4\h'\w'o'u*8/10'
+.	ds q o\h'-\wou*8/10'\s-4\v'.4m'\z\(*i\v'-.4m'\s+4\h'\wou*8/10'
 .\}
 .	\" troff and (daisy-wheel) nroff accents
 .ds : \\k:\h'-(\\n(.wu*8/10-\*(#H+.1m+\*(#F)'\v'-\*(#V'\z.\h'.2m+\*(#F'.\h'|\\n:u'\v'\*(#V'
@@ -89,15 +89,15 @@
 .ds _ \\k:\h'-(\\n(.wu*9/10-\*(#H+(\*(#F*2/3))'\v'-.4m'\z\(hy\v'.4m'\h'|\\n:u'
 .ds . \\k:\h'-(\\n(.wu*8/10)'\v'\*(#V*4/10'\z.\v'-\*(#V*4/10'\h'|\\n:u'
 .ds 3 \*(#[\v'.2m'\s-2\&3\s0\v'-.2m'\*(#]
-.ds o \\k:\h'-(\\n(.wu+\w'\(de'u-\*(#H)/2u'\v'-.3n'\*(#[\z\(de\v'.3n'\h'|\\n:u'\*(#]
-.ds d- \h'\*(#H'\(pd\h'-\w'~'u'\v'-.25m'\f2\(hy\fP\v'.25m'\h'-\*(#H'
-.ds D- D\\k:\h'-\w'D'u'\v'-.11m'\z\(hy\v'.11m'\h'|\\n:u'
-.ds th \*(#[\v'.3m'\s+1I\s-1\v'-.3m'\h'-(\w'I'u*2/3)'\s-1o\s+1\*(#]
-.ds Th \*(#[\s+2I\s-2\h'-\w'I'u*3/5'\v'-.3m'o\v'.3m'\*(#]
-.ds ae a\h'-(\w'a'u*4/10)'e
-.ds Ae A\h'-(\w'A'u*4/10)'E
-.ds oe o\h'-(\w'o'u*4/10)'e
-.ds Oe O\h'-(\w'O'u*4/10)'E
+.ds o \\k:\h'-(\\n(.wu+\w\(deu-\*(#H)/2u'\v'-.3n'\*(#[\z\(de\v'.3n'\h'|\\n:u'\*(#]
+.ds d- \h'\*(#H'\(pd\h'-\w~u'\v'-.25m'\f2\(hy\fP\v'.25m'\h'-\*(#H'
+.ds D- D\\k:\h'-\wDu'\v'-.11m'\z\(hy\v'.11m'\h'|\\n:u'
+.ds th \*(#[\v'.3m'\s+1I\s-1\v'-.3m'\h'-(\wIu*2/3)'\s-1o\s+1\*(#]
+.ds Th \*(#[\s+2I\s-2\h'-\wIu*3/5'\v'-.3m'o\v'.3m'\*(#]
+.ds ae a\h'-(\wau*4/10)'e
+.ds Ae A\h'-(\wAu*4/10)'E
+.ds oe o\h'-(\wou*4/10)'e
+.ds Oe O\h'-(\wOu*4/10)'E
 .	\" corrections for vroff
 .if v .ds ~ \\k:\h'-(\\n(.wu*9/10-\*(#H)'\s-2\u~\d\s+2\h'|\\n:u'
 .if v .ds ^ \\k:\h'-(\\n(.wu*10/11-\*(#H)'\v'-.4m'^\v'.4m'\h'|\\n:u'
