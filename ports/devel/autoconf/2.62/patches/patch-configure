@@ -1,6 +1,7 @@
+$MirOS$
 $OpenBSD: patch-configure,v 1.1.1.1 2008/08/19 23:52:19 espie Exp $
---- configure.orig	Sat Jul 19 11:54:55 2008
-+++ configure	Sat Jul 19 11:55:39 2008
+--- configure.orig	Sat Apr  5 22:56:49 2008
++++ configure	Sat Nov 21 23:28:31 2009
 @@ -2386,13 +2386,7 @@ do
      for ac_exec_ext in '' $ac_executable_extensions; do
        ac_path_M4="$as_dir/$ac_prog$ac_exec_ext"

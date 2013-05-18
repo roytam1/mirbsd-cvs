@@ -1,39 +1,47 @@
-# $MirOS: ports/devel/autoconf/2.62/Makefile,v 1.1 2009/11/18 20:48:06 bsiegert Exp $
-# $OpenBSD: Makefile,v 1.2 2009/06/12 19:22:57 matthieu Exp $
+# $MirOS: ports/devel/autoconf/2.61/Makefile,v 1.4 2009/11/21 17:24:39 tg Exp $
 
-COMMENT =	automatically configure source code on many Un*x platforms
+COMMENT=		automatically configure source code on many Un*x platforms
+VSN=			2.62
+DISTNAME=		autoconf-${VSN}
+DASH_VER=		1
+CATEGORIES=		devel
+HOMEPAGE=		http://www.gnu.org/software/autoconf/
 
-DISTNAME =	autoconf-2.62
-CATEGORIES =	devel
-MASTER_SITES =	${MASTER_SITE_GNU:=autoconf/}
+# GNU GPLv2+ (v3 files not installed)
+PERMIT_DISTFILES_CDROM=	Yes
+PERMIT_DISTFILES_FTP=	Yes
+PERMIT_PACKAGE_CDROM=	Yes
+PERMIT_PACKAGE_FTP=	Yes
 
-HOMEPAGE =	http://www.gnu.org/software/autoconf/
+.include <mirports.sys.mk>
 
-# GPL
-PERMIT_DISTFILES_CDROM =Yes
-PERMIT_DISTFILES_FTP =	Yes
-PERMIT_PACKAGE_CDROM =	Yes
-PERMIT_PACKAGE_FTP =	Yes
-
-BUILD_DEPENDS =		:help2man-*:devel/help2man
-RUN_DEPENDS =		::devel/metaauto
-USE_M4=			new
+MASTER_SITES=		${MASTER_SITE_GNU:=autoconf/}
+BUILD_DEPENDS+=		:help2man-*:devel/help2man
+USE_M4=			new	# XXX maybe "old" is enough?
 MODULES+=		m4
 B_R_DEPENDS+=		${MODM4_DEPENDS}
 
-SUFFIX =		-2.62
-CONFIGURE_STYLE =	gnu
-CONFIGURE_ARGS +=	--program-suffix=${SUFFIX} \
-			--without-lispdir \
-			--mandir=${PREFIX}/man \
-			--infodir=${PREFIX}/info
-EXTRA_XAKE_FLAGS +=	pkgdatadir=${PREFIX}/share/autoconf${SUFFIX} EMACS=no lispdir=
-CONFIGURE_ENV +=	${EXTRA_XAKE_FLAGS}
+CONFIGURE_STYLE=	gnu
+AUTOCONF_NEW=		Yes
+CONFIGURE_ARGS+=	--program-suffix=-${VSN:Q}
+CONFIGURE_ENV+=		AWK=${AWK:Q}
 CONFIGURE_ENV+=		M4=${M4:Q}
-CONFIGURE_ENV +=	AWK="${AWK}" ac_cv_sh_n_works=yes
-MODGNU_CONFIG_GUESS_DIRS =${WRKSRC}/build-aux
-SUBST_VARS =		SUFFIX
-REGRESS_DEPENDS =	::devel/automake/1.9
-REGRESS_FLAGS +=	AUTOMAKE_VERSION=1.9
+CONFIGURE_ENV+=		EMACS=no
+EXTRA_XAKE_FLAGS+=	pkgdatadir=${PREFIX:Q}/share/${DISTNAME:Q}
+
+# many tests appear to fail, for whitespace and lineno. diffs only
+REGRESS_DEPENDS+=	::devel/automake/1.9
+REGRESS_FLAGS+=		AUTOMAKE_VERSION=1.9
+
+pre-configure:
+	print ',g/'${VSN:S/./\./g:Q}'/s//&-MirPorts-${DASH_VER}/g\nwq' | \
+	    ed -s ${WRKSRC}/configure
+
+post-install:
+	cd ${PREFIX:Q}/info && for a in *.info*; do \
+		[[ $$a = *-${VSN:Q}* ]] && continue; \
+		pre=$${a%%.info*}; post=$${a#$$pre}; \
+		mv "$$a" "$${pre}-${VSN:Q}$$post"; \
+	done
 
 .include <bsd.port.mk>
