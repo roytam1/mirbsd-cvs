@@ -57,7 +57,7 @@
 #define	__RCSID(x)	static const char __rcsid[] __attribute__((used)) = (x)
 #endif
 
-__RCSID("$MirOS: ports/comms/ssfe/dist/ssfe.c,v 1.9 2007/01/09 01:04:31 tg Exp $");
+__RCSID("$MirOS: ports/comms/ssfe/dist/ssfe.c,v 1.10 2007/01/09 01:20:44 tg Exp $");
 
 #define BUF_SIZE 4096
 #define MAX_COLS 4096
@@ -136,6 +136,11 @@ extern unsigned char *tgoto(unsigned char *cm, int col, int line);
 #else
 extern unsigned char *tgoto();
 #endif
+#endif
+
+#ifdef USE_LIBBSD
+extern size_t strlcat(char *, const char *, size_t);
+extern size_t strlcpy(char *, const char *, size_t);
 #endif
 
 #ifdef __GNUC__

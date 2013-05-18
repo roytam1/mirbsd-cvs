@@ -1,9 +1,9 @@
-# $MirOS: ports/comms/ssfe/Makefile,v 1.11 2008/10/13 22:28:23 tg Exp $
+# $MirOS: ports/comms/ssfe/Makefile,v 1.12 2008/11/08 23:03:35 tg Exp $
 
 COMMENT=		split-screen front end for dumb programmes
 CATEGORIES=		comms devel misc
 DIST_NAME=		ssfe
-DIST_DATE=		20070109
+DIST_DATE=		20120623
 DIST_SOURCE=		port
 DASH_VER=		1
 RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.org>
