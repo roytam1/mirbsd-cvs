@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.29 2005/12/22 01:12:33 tg Exp $
+# $MirOS: src/Makefile,v 1.30 2005/12/30 14:05:14 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -145,6 +145,7 @@ _DISTS=	base x11 htman
 .endif
 
 _do-dist:
+	mkdir -p ${HOME}/.etc/systrace
 .ifdef QUICK_DIST
 .  if ${NO_JAVA:L} == "no"
 	@[[ -e /usr/X11R6/include/X11/X.h && -e /usr/X11R6/lib/libX11.a ]] \
@@ -152,7 +153,6 @@ _do-dist:
 		 exit 1; }
 .  endif
 .endif
-	mkdir -p ${HOME}/.etc/systrace
 	@echo Initialising sudo as ${SUDO:Q}
 	${SUDO} true
 	@echo "============================================================"

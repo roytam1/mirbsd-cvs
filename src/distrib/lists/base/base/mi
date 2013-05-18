@@ -647,7 +647,6 @@
 ./usr/sbin/accton
 ./usr/sbin/activadm
 ./usr/sbin/activinit
-./usr/sbin/adduser
 ./usr/sbin/apm
 ./usr/sbin/apmd
 ./usr/sbin/apxs
@@ -669,11 +668,6 @@
 ./usr/sbin/edquota
 ./usr/sbin/faithd
 ./usr/sbin/fdformat
-./usr/sbin/group
-./usr/sbin/groupadd
-./usr/sbin/groupdel
-./usr/sbin/groupinfo
-./usr/sbin/groupmod
 ./usr/sbin/httpd
 ./usr/sbin/ifstated
 ./usr/sbin/ifwatchd
@@ -716,9 +710,7 @@
 ./usr/sbin/rdconfig
 ./usr/sbin/repquota
 ./usr/sbin/rip6query
-./usr/sbin/rmgroup
 ./usr/sbin/rmt
-./usr/sbin/rmuser
 ./usr/sbin/rotatelogs
 ./usr/sbin/route6d
 ./usr/sbin/rpc.bootparamd
@@ -750,11 +742,6 @@
 ./usr/sbin/traceroute6
 ./usr/sbin/trpt
 ./usr/sbin/usbdevs
-./usr/sbin/user
-./usr/sbin/useradd
-./usr/sbin/userdel
-./usr/sbin/userinfo
-./usr/sbin/usermod
 ./usr/sbin/vipw
 ./usr/sbin/visudo
 ./usr/sbin/vnconfig
@@ -1896,7 +1883,6 @@
 ./usr/share/man/cat5/ttys.0
 ./usr/share/man/cat5/types.0
 ./usr/share/man/cat5/tzfile.0
-./usr/share/man/cat5/usermgmt.conf.0
 ./usr/share/man/cat5/utmp.0
 ./usr/share/man/cat5/uuencode.0
 ./usr/share/man/cat5/vgrindefs.0
@@ -1937,7 +1923,6 @@
 ./usr/share/man/cat8/accton.0
 ./usr/share/man/cat8/activadm.0
 ./usr/share/man/cat8/activinit.0
-./usr/share/man/cat8/adduser.0
 ./usr/share/man/cat8/afterboot.0
 ./usr/share/man/cat8/ancontrol.0
 ./usr/share/man/cat8/apm.0
@@ -1990,11 +1975,6 @@
 ./usr/share/man/cat8/ftpd.0
 ./usr/share/man/cat8/genassym.sh.0
 ./usr/share/man/cat8/getty.0
-./usr/share/man/cat8/group.0
-./usr/share/man/cat8/groupadd.0
-./usr/share/man/cat8/groupdel.0
-./usr/share/man/cat8/groupinfo.0
-./usr/share/man/cat8/groupmod.0
 ./usr/share/man/cat8/growfs.0
 ./usr/share/man/cat8/halt.0
 ./usr/share/man/cat8/httpd.0
@@ -2106,9 +2086,7 @@
 ./usr/share/man/cat8/repquota.0
 ./usr/share/man/cat8/restore.0
 ./usr/share/man/cat8/rip6query.0
-./usr/share/man/cat8/rmgroup.0
 ./usr/share/man/cat8/rmt.0
-./usr/share/man/cat8/rmuser.0
 ./usr/share/man/cat8/rotatelogs.0
 ./usr/share/man/cat8/route.0
 ./usr/share/man/cat8/route6d.0
@@ -2183,11 +2161,6 @@
 ./usr/share/man/cat8/update.0
 ./usr/share/man/cat8/updatedb.0
 ./usr/share/man/cat8/usbdevs.0
-./usr/share/man/cat8/user.0
-./usr/share/man/cat8/useradd.0
-./usr/share/man/cat8/userdel.0
-./usr/share/man/cat8/userinfo.0
-./usr/share/man/cat8/usermod.0
 ./usr/share/man/cat8/vipw.0
 ./usr/share/man/cat8/visudo.0
 ./usr/share/man/cat8/vmstat.0

@@ -236,7 +236,6 @@
 ./var/crash/minfree
 ./var/cron/at.deny
 ./var/cron/cron.deny
-./var/cron/log
 ./var/cron/tabs/root
 ./var/db/locate.database
 ./var/log/messages

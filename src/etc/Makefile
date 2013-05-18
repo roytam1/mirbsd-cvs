@@ -1,4 +1,4 @@
-# $MirOS: src/etc/Makefile,v 1.15 2005/12/24 02:33:16 tg Exp $
+# $MirOS: src/etc/Makefile,v 1.16 2006/01/03 03:54:56 tg Exp $
 # $OpenBSD: Makefile,v 1.226 2005/05/26 23:06:06 mcbride Exp $
 
 TZDIR=		/usr/share/zoneinfo
@@ -194,12 +194,13 @@ release: distribution snap_pre snap_md
 	@cd ${.CURDIR} && ${MAKE} release-finish DESTDIR="${DESTDIR}"
 
 release-finish:
-	cd ${DESTDIR}/snapshot && [[ ! -e bsd.rd ]] || gzip -n9 bsd.rd
+	cd ${DESTDIR}/snapshot && [[ ! -e bsd.rd ]] || ${SUDO} gzip -n9 bsd.rd
 	-cd ${DESTDIR}/snapshot; for f in bsd* *boot* *BOOT* cd*.iso \
 	    *.fs *.fs.gz; do test ! -e $$f || \
 		${SUDO} cp $$f ${BSDRELDIR}/rel; \
 	 done
-	cd ${BSDRELDIR}/rel && [[ ! -e bsd.rd.gz ]] || mv bsd.rd.gz bsd.rd
+	cd ${BSDRELDIR}/rel && [[ ! -e bsd.rd.gz ]] || \
+	    ${SUDO} mv bsd.rd.gz bsd.rd
 .  ifdef MACHINE_HAS_TOOLS
 	${SUDO} mkdir -p ${BSDRELDIR}/rel/tools
 	${SUDO} cp ${DESTDIR}/snapshot/tools/* ${BSDRELDIR}/rel/tools/
@@ -302,7 +303,7 @@ install-generated:
 DHSIZE=	1024 1536 2048 3072 4096
 update-moduli:
 	{ \
-		echo '# $$MirOS: src/etc/Makefile,v 1.15 2005/12/24 02:33:16 tg Exp $$'; \
+		echo '# $$MirOS: src/etc/Makefile,v 1.16 2006/01/03 03:54:56 tg Exp $$'; \
 		echo '# Time Type Tests Tries Size Generator Modulus'; \
 		for i in ${DHSIZE}; do \
 			ssh-keygen -b $$i -G /dev/stdout; \

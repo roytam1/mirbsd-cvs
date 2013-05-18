@@ -1110,7 +1110,6 @@
 ./man5/ttys.htm
 ./man5/types.htm
 ./man5/tzfile.htm
-./man5/usermgmt.conf.htm
 ./man5/utmp.htm
 ./man5/uuencode.htm
 ./man5/vgrindefs.htm
@@ -1155,7 +1154,6 @@
 ./man8/accton.htm
 ./man8/activadm.htm
 ./man8/activinit.htm
-./man8/adduser.htm
 ./man8/afterboot.htm
 ./man8/ancontrol.htm
 ./man8/apm.htm
@@ -1210,11 +1208,6 @@
 ./man8/ftpd.htm
 ./man8/genassym.sh.htm
 ./man8/getty.htm
-./man8/group.htm
-./man8/groupadd.htm
-./man8/groupdel.htm
-./man8/groupinfo.htm
-./man8/groupmod.htm
 ./man8/growfs.htm
 ./man8/halt.htm
 ./man8/httpd.htm
@@ -1331,9 +1324,7 @@
 ./man8/repquota.htm
 ./man8/restore.htm
 ./man8/rip6query.htm
-./man8/rmgroup.htm
 ./man8/rmt.htm
-./man8/rmuser.htm
 ./man8/rotatelogs.htm
 ./man8/route.htm
 ./man8/route6d.htm
@@ -1410,11 +1401,6 @@
 ./man8/update.htm
 ./man8/updatedb.htm
 ./man8/usbdevs.htm
-./man8/user.htm
-./man8/useradd.htm
-./man8/userdel.htm
-./man8/userinfo.htm
-./man8/usermod.htm
 ./man8/vipw.htm
 ./man8/visudo.htm
 ./man8/vmstat.htm
