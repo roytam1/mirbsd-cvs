@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.110 2006/05/28 20:45:17 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.111 2006/06/23 15:56:27 bsiegert Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -1189,9 +1189,12 @@ _upgrade-${_i}:
 
 MODSIMPLE_configure= \
 	cd ${WRKCONF} && ${_SYSTRACE_CMD} ${SETENV} REALOS=${OStype:Q} \
-	    CC=${CC:Q} ac_cv_path_CC=${CC:Q} CFLAGS=${CFLAGS:C/ *$//:Q} \
+	    CC=${CC:Q} ac_cv_path_CC=${CC:Q} CPPFLAGS=${CPPFLAGS:C/ *$//:Q} \
+	    CFLAGS="$$(print -nr -- '${CFLAGS}' | \
+		sed 's${CPPFLAGS:S/\\/\\\\/g}')" \
+	    CXXFLAGS="$$(print -nr -- '${CXXFLAGS}' | \
+		sed 's${CPPFLAGS:S/\\/\\\\/g}')" \
 	    CXX=${CXX:Q} ac_cv_path_CXX=${CXX:Q} LDFLAGS=${LDFLAGS:Q} \
-	    CXXFLAGS=${CXXFLAGS:C/ *$//:Q} CPPFLAGS=${CPPFLAGS:C/ *$//:Q} \
 	    INSTALL="/usr/bin/install -c -o ${BINOWN} -g ${BINGRP}" \
 	    ac_given_INSTALL="/usr/bin/install -c -o ${BINOWN} -g ${BINGRP}" \
 	    INSTALL_PROGRAM=${INSTALL_PROGRAM:Q} YACC=${YACC:Q} \
