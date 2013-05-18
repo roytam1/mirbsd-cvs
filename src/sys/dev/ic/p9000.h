@@ -1,4 +1,4 @@
-/*	$OpenBSD: p9000.h,v 1.1 2003/06/17 21:21:33 miod Exp $	*/
+/*	$OpenBSD: p9000.h,v 1.4 2007/05/22 04:14:03 jsg Exp $	*/
 /*
  * Copyright (c) 2003, Miodrag Vallat.
  *
@@ -28,9 +28,7 @@
  * Weitek Power9000 and Power9100 definitions.
  *
  * Although the datasheet is not available anymore, a good source of
- * information is:
- * http://thorkildsen.no/faqsys/docs/weitek.txt
- * as well as several code examples in XFree86 3.x (vga256/p9x00) and the
+ * documentation is several code examples in XFree86 3.x (vga256/p9x00) and the
  * {Net,Open}BSD source trees.
  */
 
@@ -53,9 +51,14 @@
 #define	SCR_PIXEL_16BPP					0x0c000000
 #define	SCR_PIXEL_24BPP					0x1c000000
 #define	SCR_PIXEL_32BPP					0x14000000
+#define	SCR_SWAP_WORDS					0x00002000
+#define	SCR_SWAP_BYTES					0x00001000
+#define	SCR_SWAP_BITS					0x00000800
 #define	SCR_READ_BUFFER_MASK				0x00000400
 #define	SCR_WRITE_BUFFER_MASK				0x00000200
 #define	SCR_ID_MASK					0x00000007
+#define	SCR_SC(sc0, sc1, sc2, sc3) \
+    (((sc0) << 14) | ((sc1) << 17) | ((sc2) << 20) | ((sc3) << 29))
 
 /* Interrupt status register */
 #define	P9000_INTERRUPT					0x00000008
@@ -183,26 +186,26 @@
 /* Control and conditions registers */
 
 /* Out of range */
-#define	P9000_PE_OOR					0x00000084
+#define	P9000_PE_OOR					0x00000184
 /* Index register (0-3, for meta coordinates) */
-#define	P9000_PE_INDEX					0x0000008c
+#define	P9000_PE_INDEX					0x0000018c
 /* Window offset (16x16)*/
-#define	P9000_PE_WINOFFSET				0x00000090
+#define	P9000_PE_WINOFFSET				0x00000190
 /* Clipping window */
-#define	P9000_PE_WINMIN					0x00000094
-#define	P9000_PE_WINMAX					0x00000098
+#define	P9000_PE_WINMIN					0x00000194
+#define	P9000_PE_WINMAX					0x00000198
 /* X Clip register */
-#define	P9000_X_CLIPPING				0x000000a0
+#define	P9000_X_CLIPPING				0x000001a0
 /* Y Clip register */
-#define	P9000_Y_CLIPPING				0x000000a4
+#define	P9000_Y_CLIPPING				0x000001a4
 /* X Edge Less Than register */
-#define	P9000_X_EDGE_LESS				0x000000a8
+#define	P9000_X_EDGE_LESS				0x000001a8
 /* X Edge Greater Than register */
-#define	P9000_X_EDGE_GREATER				0x000000ac
+#define	P9000_X_EDGE_GREATER				0x000001ac
 /* Y Edge Less Than register */
-#define	P9000_Y_EDGE_LESS				0x000000b0
+#define	P9000_Y_EDGE_LESS				0x000001b0
 /* Y Edge Greater Than register */
-#define	P9000_Y_EDGE_GREATER				0x000000b4
+#define	P9000_Y_EDGE_GREATER				0x000001b4
 
 /*
  * Drawing engine

@@ -1,4 +1,4 @@
-/*	$OpenBSD: vigra.c,v 1.9 2003/06/28 17:05:33 miod Exp $	*/
+/*	$OpenBSD: vigra.c,v 1.16 2006/06/02 20:00:54 miod Exp $	*/
 
 /*
  * Copyright (c) 2002, 2003, Miodrag Vallat.
@@ -30,8 +30,8 @@
 /*
  * Driver for the Vigra VS series of SBus framebuffers.
  *
- * The VS10, VS11 and VS12 models are supported. VS10-EK should also work
- * (but it might be driven by the regular cgthree driver?)
+ * The VS10, VS11 and VS12 models are supported. VS10-EK is handled by the
+ * regular cgthree driver.
  *
  * The monochrome VS14, 16 grays VS15, and color VS18 are not supported.
  */
@@ -173,55 +173,36 @@ union vigracmap {
 /* per-display variables */
 struct vigra_softc {
 	struct	sunfb sc_sunfb;		/* common base part */
-	struct	sbusdev sc_sd;		/* sbus device */
 	struct	rom_reg	sc_phys;	/* phys address description */
 	volatile struct	csregs *sc_regs;/* control registers */
 	volatile union dac *sc_ramdac;	/* ramdac registers */
 	union	vigracmap sc_cmap;	/* current colormap */
 	int	sc_g300;
 	struct	intrhand sc_ih;
-	int	sc_nscreens;
 };
 
-struct wsscreen_descr vigra_stdscreen = {
-	"std",
-};
-
-const struct wsscreen_descr *vigra_scrlist[] = {
-	&vigra_stdscreen,
-};
-
-struct wsscreen_list vigra_screenlist = {
-	sizeof(vigra_scrlist) / sizeof(struct wsscreen_descr *),
-	    vigra_scrlist
-};
-
-int vigra_ioctl(void *, u_long, caddr_t, int, struct proc *);
-int vigra_alloc_screen(void *, const struct wsscreen_descr *, void **,
-    int *, int *, long *);
-void vigra_free_screen(void *, void *);
-int vigra_show_screen(void *, void *, int, void (*cb)(void *, int, int),
-    void *);
-paddr_t vigra_mmap(void *, off_t, int);
-void vigra_setcolor(void *, u_int, u_int8_t, u_int8_t, u_int8_t);
-int vigra_getcmap(union vigracmap *, struct wsdisplay_cmap *, int);
-int vigra_putcmap(union vigracmap *, struct wsdisplay_cmap *, int);
-void vigra_loadcmap_immediate(struct vigra_softc *, int, int);
-static __inline__ void vigra_loadcmap_deferred(struct vigra_softc *,
-    u_int, u_int);
-void vigra_burner(void *, u_int, u_int);
-int vigra_intr(void *);
+void	vigra_burner(void *, u_int, u_int);
+int	vigra_getcmap(union vigracmap *, struct wsdisplay_cmap *, int);
+int	vigra_intr(void *);
+int	vigra_ioctl(void *, u_long, caddr_t, int, struct proc *);
+static __inline__
+void	vigra_loadcmap_deferred(struct vigra_softc *, u_int, u_int);
+void	vigra_loadcmap_immediate(struct vigra_softc *, int, int);
+paddr_t	vigra_mmap(void *, off_t, int);
+int	vigra_putcmap(union vigracmap *, struct wsdisplay_cmap *, int);
+void	vigra_setcolor(void *, u_int, u_int8_t, u_int8_t, u_int8_t);
 
 struct wsdisplay_accessops vigra_accessops = {
 	vigra_ioctl,
 	vigra_mmap,
-	vigra_alloc_screen,
-	vigra_free_screen,
-	vigra_show_screen,
+	NULL,	/* alloc_screen */
+	NULL,	/* free_screen */
+	NULL,	/* show_screen */
 	NULL,	/* load_font */
 	NULL,	/* scrollback */
 	NULL,	/* getchar */
 	vigra_burner,
+	NULL	/* pollc */
 };
 
 int	vigramatch(struct device *, void *, void *);
@@ -260,7 +241,6 @@ vigraattach(struct device *parent, struct device *self, void *args)
 {
 	struct vigra_softc *sc = (struct vigra_softc *)self;
 	struct confargs *ca = args;
-	struct wsemuldisplaydev_attach_args waa;
 	int node, row, isconsole = 0;
 	char *nam;
 
@@ -323,15 +303,10 @@ vigraattach(struct device *parent, struct device *self, void *args)
 	    && sc->sc_sunfb.sf_width != 1280) ? 0 : RI_CLEAR);
 	fbwscons_setcolormap(&sc->sc_sunfb, vigra_setcolor);
 
-	vigra_stdscreen.capabilities = sc->sc_sunfb.sf_ro.ri_caps;
-	vigra_stdscreen.nrows = sc->sc_sunfb.sf_ro.ri_rows;
-	vigra_stdscreen.ncols = sc->sc_sunfb.sf_ro.ri_cols;
-	vigra_stdscreen.textops = &sc->sc_sunfb.sf_ro.ri_ops;
-
 	if (isconsole) {
 		switch (sc->sc_sunfb.sf_width) {
 		case 640:
-			row = vigra_stdscreen.nrows - 1;
+			row = sc->sc_sunfb.sf_ro.ri_rows - 1;
 			break;
 		case 800:
 		case 1280:
@@ -342,17 +317,10 @@ vigraattach(struct device *parent, struct device *self, void *args)
 			break;
 		}
 
-		fbwscons_console_init(&sc->sc_sunfb, &vigra_stdscreen, row,
-		    vigra_burner);
+		fbwscons_console_init(&sc->sc_sunfb, row);
 	}
 
-	sbus_establish(&sc->sc_sd, &sc->sc_sunfb.sf_dev);
-
-	waa.console = isconsole;
-	waa.scrdata = &vigra_screenlist;
-	waa.accessops = &vigra_accessops;
-	waa.accesscookie = sc;
-	config_found(self, &waa, wsemuldisplaydevprint);
+	fbwscons_attach(&sc->sc_sunfb, &vigra_accessops, isconsole);
 }
 
 int
@@ -394,6 +362,8 @@ vigra_ioctl(void *v, u_long cmd, caddr_t data, int flags, struct proc *p)
 
 	case WSDISPLAYIO_SVIDEO:
 	case WSDISPLAYIO_GVIDEO:
+		break;
+
 	case WSDISPLAYIO_GCURPOS:
 	case WSDISPLAYIO_SCURPOS:
 	case WSDISPLAYIO_GCURMAX:
@@ -406,43 +376,6 @@ vigra_ioctl(void *v, u_long cmd, caddr_t data, int flags, struct proc *p)
 	return (0);
 }
 
-int
-vigra_alloc_screen(void *v, const struct wsscreen_descr *type, void **cookiep,
-    int *curxp, int *curyp, long *attrp)
-{
-	struct vigra_softc *sc = v;
-
-	if (sc->sc_nscreens > 0)
-		return (ENOMEM);
-
-	*cookiep = &sc->sc_sunfb.sf_ro;
-	*curyp = 0;
-	*curxp = 0;
-	sc->sc_sunfb.sf_ro.ri_ops.alloc_attr(&sc->sc_sunfb.sf_ro,
-	    WSCOL_BLACK, WSCOL_WHITE, WSATTR_WSCOLORS, attrp);
-	sc->sc_nscreens++;
-	return (0);
-}
-
-void
-vigra_free_screen(void *v, void *cookie)
-{
-	struct vigra_softc *sc = v;
-
-	sc->sc_nscreens--;
-}
-
-int
-vigra_show_screen(void *v, void *cookie, int waitok,
-    void (*cb)(void *, int, int), void *cbarg)
-{
-	return (0);
-}
-
-/*
- * Return the address that would map the given device at the given
- * offset, allowing for the given protection, or return -1 for error.
- */
 paddr_t
 vigra_mmap(void *v, off_t offset, int prot)
 {

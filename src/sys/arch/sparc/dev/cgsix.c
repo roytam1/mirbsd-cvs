@@ -1,4 +1,4 @@
-/*	$OpenBSD: cgsix.c,v 1.28 2003/06/28 17:05:33 miod Exp $	*/
+/*	$OpenBSD: cgsix.c,v 1.37 2006/12/03 16:38:13 miod Exp $	*/
 /*	$NetBSD: cgsix.c,v 1.33 1997/08/07 19:12:30 pk Exp $ */
 
 /*
@@ -111,7 +111,6 @@
 /* per-display variables */
 struct cgsix_softc {
 	struct	sunfb sc_sunfb;		/* common base part */
-	struct	sbusdev sc_sd;		/* sbus device */
 	struct	rom_reg sc_phys;	/* phys addr of h/w */
 	volatile struct bt_regs *sc_bt;		/* Brooktree registers */
 	volatile int *sc_fhc;			/* FHC register */
@@ -120,52 +119,35 @@ struct cgsix_softc {
 	volatile struct cgsix_tec_xxx *sc_tec;	/* TEC registers */
 	union	bt_cmap sc_cmap;	/* Brooktree color map */
 	struct	intrhand sc_ih;
-	int	sc_nscreens;
 };
 
-struct wsscreen_descr cgsix_stdscreen = {
-	"std",
-};
+void	cgsix_burner(void *, u_int, u_int);
+int	cgsix_intr(void *);
+int	cgsix_ioctl(void *, u_long, caddr_t, int, struct proc *);
+static __inline__
+void	cgsix_loadcmap_deferred(struct cgsix_softc *, u_int, u_int);
+paddr_t	cgsix_mmap(void *, off_t, int);
+void	cgsix_reset(struct cgsix_softc *, u_int);
+void	cgsix_setcolor(void *, u_int, u_int8_t, u_int8_t, u_int8_t);
 
-const struct wsscreen_descr *cgsix_scrlist[] = {
-	&cgsix_stdscreen,
-};
-
-struct wsscreen_list cgsix_screenlist = {
-	sizeof(cgsix_scrlist) / sizeof(struct wsscreen_descr *), cgsix_scrlist
-};
-
-int cgsix_ioctl(void *, u_long, caddr_t, int, struct proc *);
-int cgsix_alloc_screen(void *, const struct wsscreen_descr *, void **,
-    int *, int *, long *);
-void cgsix_free_screen(void *, void *);
-int cgsix_show_screen(void *, void *, int, void (*cb)(void *, int, int),
-    void *);
-paddr_t cgsix_mmap(void *, off_t, int);
-void cgsix_setcolor(void *, u_int, u_int8_t, u_int8_t, u_int8_t);
-static __inline__ void cgsix_loadcmap_deferred(struct cgsix_softc *,
-    u_int, u_int);
-void cgsix_reset(struct cgsix_softc *, u_int);
-void cgsix_burner(void *, u_int, u_int);
-int cgsix_intr(void *);
-
-void cgsix_ras_init(struct cgsix_softc *);
-void cgsix_ras_copyrows(void *, int, int, int);
-void cgsix_ras_copycols(void *, int, int, int, int);
-void cgsix_ras_erasecols(void *, int, int, int, long int);
-void cgsix_ras_eraserows(void *, int, int, long int);
-void cgsix_ras_do_cursor(struct rasops_info *);
+void	cgsix_ras_copyrows(void *, int, int, int);
+void	cgsix_ras_copycols(void *, int, int, int, int);
+void	cgsix_ras_do_cursor(struct rasops_info *);
+void	cgsix_ras_erasecols(void *, int, int, int, long);
+void	cgsix_ras_eraserows(void *, int, int, long);
+void	cgsix_ras_init(struct cgsix_softc *);
 
 struct wsdisplay_accessops cgsix_accessops = {
 	cgsix_ioctl,
 	cgsix_mmap,
-	cgsix_alloc_screen,
-	cgsix_free_screen,
-	cgsix_show_screen,
+	NULL,	/* alloc_screen */
+	NULL,	/* free_screen */
+	NULL,	/* show_screen */
 	NULL,	/* load_font */
 	NULL,	/* scrollback */
 	NULL,	/* getchar */
 	cgsix_burner,
+	NULL	/* pollc */
 };
 
 int	cgsixmatch(struct device *, void *, void *);
@@ -179,78 +161,63 @@ struct cfdriver cgsix_cd = {
 	NULL, "cgsix", DV_DULL
 };
 
-/*
- * Match a cgsix.
- */
 int
-cgsixmatch(parent, vcf, aux)
-	struct device *parent;
-	void *vcf, *aux;
+cgsixmatch(struct device *parent, void *vcf, void *aux)
 {
 	struct cfdata *cf = vcf;
 	struct confargs *ca = aux;
 	struct romaux *ra = &ca->ca_ra;
 
-	/*
-	 * Mask out invalid flags from the user.
-	 */
-	cf->cf_flags &= FB_USERMASK;
-
 	if (strcmp(ra->ra_name, cf->cf_driver->cd_name) &&
 	    strcmp(ra->ra_name, "SUNW,cgsix"))
 		return (0);
 
-	if (ca->ca_bustype == BUS_SBUS)
+	switch (ca->ca_bustype) {
+	case BUS_SBUS:
 		return (1);
-
+	case BUS_OBIO:
 #if defined(SUN4)
-	if (CPU_ISSUN4 && (ca->ca_bustype == BUS_OBIO)) {
-		void *tmp;
+		if (CPU_ISSUN4) {
+			void *tmp;
 
-		/*
-		 * Check for a pfour framebuffer.  This is done somewhat
-		 * differently on the cgsix than other pfour framebuffers.
-		 */
-		bus_untmp();
-		tmp = (caddr_t)mapdev(ra->ra_reg, TMPMAP_VA, CGSIX_FHC_OFFSET,
-				      NBPG);
-		if (probeget(tmp, 4) == -1)
-			return (0);
+			/*
+			 * Check for a pfour framebuffer.  This is done
+			 * somewhat differently on the cgsix than other
+			 * pfour framebuffers.
+			 */
+			bus_untmp();
+			tmp = (caddr_t)mapdev(ra->ra_reg, TMPMAP_VA,
+			    CGSIX_FHC_OFFSET, NBPG);
+			if (probeget(tmp, 4) == -1)
+				return (0);
 
-		if (fb_pfour_id(tmp) == PFOUR_ID_FASTCOLOR) {
-			cf->cf_flags |= FB_PFOUR;
-			return (1);
+			if (fb_pfour_id(tmp) == PFOUR_ID_FASTCOLOR)
+				return (1);
 		}
-	}
 #endif
-
-	return (0);
+		/* FALLTHROUGH */
+	default:
+		return (0);
+	}
 }
 
-/*
- * Attach a display.
- */
 void
-cgsixattach(parent, self, args)
-	struct device *parent, *self;
-	void *args;
+cgsixattach(struct device *parent, struct device *self, void *args)
 {
 	struct cgsix_softc *sc = (struct cgsix_softc *)self;
 	struct confargs *ca = args;
-	struct wsemuldisplaydev_attach_args waa;
-	int node = 0, i;
-	volatile struct bt_regs *bt;
+	int node = 0;
 	int isconsole = 0, sbus = 1;
-	char *nam = NULL;
+	char *nam;
 	u_int fhcrev;
 
-	sc->sc_sunfb.sf_flags = self->dv_cfdata->cf_flags;
+	printf(": ");
 
 	/*
 	 * Map just BT, FHC, FBC, THC, and video RAM.
 	 */
 	sc->sc_phys = ca->ca_ra.ra_reg[0];
-	sc->sc_bt = bt = (volatile struct bt_regs *)
+	sc->sc_bt = (volatile struct bt_regs *)
 	   mapiodev(ca->ca_ra.ra_reg, CGSIX_BT_OFFSET, CGSIX_BT_SIZE);
 	sc->sc_fhc = (volatile int *)
 	   mapiodev(ca->ca_ra.ra_reg, CGSIX_FHC_OFFSET, CGSIX_FHC_SIZE);
@@ -264,37 +231,17 @@ cgsixattach(parent, self, args)
 	switch (ca->ca_bustype) {
 	case BUS_OBIO:
 		sbus = node = 0;
-		if (ISSET(sc->sc_sunfb.sf_flags, FB_PFOUR))
-			nam = "cgsix/p4";
-		else
-			nam = "cgsix";
-
-#if defined(SUN4M)
-		if (CPU_ISSUN4M) {   /* 4m has framebuffer on obio */
-			node = ca->ca_ra.ra_node;
-			nam = getpropstring(node, "model");
-			break;
-		}
-#endif
+		SET(sc->sc_sunfb.sf_flags, FB_PFOUR);
+		nam = "p4";
 		break;
-
-	case BUS_VME32:
-	case BUS_VME16:
-		sbus = node = 0;
-		nam = "cgsix";
-		break;
-
 	case BUS_SBUS:
 		node = ca->ca_ra.ra_node;
 		nam = getpropstring(node, "model");
 		break;
-
-	case BUS_MAIN:
-		printf("cgsix on mainbus?\n");
-		return;
 	}
 
-	printf(": %s", nam);
+	if (*nam != '\0')
+		printf("%s, ", nam);
 
 #if defined(SUN4)
 	if (CPU_ISSUN4) {
@@ -322,11 +269,6 @@ cgsixattach(parent, self, args)
 
 	/* reset cursor & frame buffer controls */
 	cgsix_reset(sc, fhcrev);
-
-	/* grab initial (current) color map */
-	bt->bt_addr = 0;
-	for (i = 0; i < 256 * 3; i++)
-		((char *)&sc->sc_cmap)[i] = bt->bt_cmap >> 24;
 
 	/* enable video */
 	cgsix_burner(sc, 1, 0);
@@ -366,38 +308,19 @@ cgsixattach(parent, self, args)
 		cgsix_ras_init(sc);
 	}
 
-	cgsix_stdscreen.capabilities = sc->sc_sunfb.sf_ro.ri_caps;
-	cgsix_stdscreen.nrows = sc->sc_sunfb.sf_ro.ri_rows;
-	cgsix_stdscreen.ncols = sc->sc_sunfb.sf_ro.ri_cols;
-	cgsix_stdscreen.textops = &sc->sc_sunfb.sf_ro.ri_ops;
-
-	printf(", %dx%d, rev %d\n", sc->sc_sunfb.sf_width,
+	printf("%dx%d, rev %d\n", sc->sc_sunfb.sf_width,
 	    sc->sc_sunfb.sf_height, fhcrev);
 
 	if (isconsole) {
-		fbwscons_console_init(&sc->sc_sunfb, &cgsix_stdscreen,
-		    sc->sc_sunfb.sf_width >= 1024 ? -1 : 0, cgsix_burner);
+		fbwscons_console_init(&sc->sc_sunfb,
+		    sc->sc_sunfb.sf_width >= 1024 ? -1 : 0);
 	}
 
-#if defined(SUN4C) || defined(SUN4M)
-	if (sbus)
-		sbus_establish(&sc->sc_sd, &sc->sc_sunfb.sf_dev);
-#endif
-
-	waa.console = isconsole;
-	waa.scrdata = &cgsix_screenlist;
-	waa.accessops = &cgsix_accessops;
-	waa.accesscookie = sc;
-	config_found(self, &waa, wsemuldisplaydevprint);
+	fbwscons_attach(&sc->sc_sunfb, &cgsix_accessops, isconsole);
 }
 
 int
-cgsix_ioctl(dev, cmd, data, flags, p)
-	void *dev;
-	u_long cmd;
-	caddr_t data;
-	int flags;
-	struct proc *p;
+cgsix_ioctl(void *dev, u_long cmd, caddr_t data, int flags, struct proc *p)
 {
 	struct cgsix_softc *sc = dev;
 	struct wsdisplay_cmap *cm;
@@ -436,6 +359,8 @@ cgsix_ioctl(dev, cmd, data, flags, p)
 
 	case WSDISPLAYIO_SVIDEO:
 	case WSDISPLAYIO_GVIDEO:
+		break;
+
 	case WSDISPLAYIO_GCURPOS:
 	case WSDISPLAYIO_SCURPOS:
 	case WSDISPLAYIO_GCURMAX:
@@ -448,56 +373,11 @@ cgsix_ioctl(dev, cmd, data, flags, p)
 	return (0);
 }
 
-int
-cgsix_alloc_screen(v, type, cookiep, curxp, curyp, attrp)
-	void *v;
-	const struct wsscreen_descr *type;
-	void **cookiep;
-	int *curxp, *curyp;
-	long *attrp;
-{
-	struct cgsix_softc *sc = v;
-
-	if (sc->sc_nscreens > 0)
-		return (ENOMEM);
-
-	*cookiep = &sc->sc_sunfb.sf_ro;
-	*curyp = 0;
-	*curxp = 0;
-	sc->sc_sunfb.sf_ro.ri_ops.alloc_attr(&sc->sc_sunfb.sf_ro,
-	    WSCOL_BLACK, WSCOL_WHITE, WSATTR_WSCOLORS, attrp);
-	sc->sc_nscreens++;
-	return (0);
-}
-
-void
-cgsix_free_screen(v, cookie)
-	void *v;
-	void *cookie;
-{
-	struct cgsix_softc *sc = v;
-
-	sc->sc_nscreens--;
-}
-
-int
-cgsix_show_screen(v, cookie, waitok, cb, cbarg)
-	void *v;
-	void *cookie;
-	int waitok;
-	void (*cb)(void *, int, int);
-	void *cbarg;
-{
-	return (0);
-}
-
 /*
  * Clean up hardware state (e.g., after bootup or after X crashes).
  */
 void
-cgsix_reset(sc, fhcrev)
-	struct cgsix_softc *sc;
-	u_int fhcrev;
+cgsix_reset(struct cgsix_softc *sc, u_int fhcrev)
 {
 	volatile struct cgsix_tec_xxx *tec;
 	int fhc;
@@ -532,15 +412,8 @@ cgsix_reset(sc, fhcrev)
 	bt->bt_ctrl |= 0x03 << 24;
 }
 
-/*
- * Return the address that would map the given device at the given
- * offset, allowing for the given protection, or return -1 for error.
- */
 paddr_t
-cgsix_mmap(v, offset, prot)
-	void *v;
-	off_t offset;
-	int prot;
+cgsix_mmap(void *v, off_t offset, int prot)
 {
 	struct cgsix_softc *sc = v;
 
@@ -553,14 +426,11 @@ cgsix_mmap(v, offset, prot)
 		    PMAP_NC);
 	}
 
-	return (-1);	/* not a user-map offset */
+	return (-1);
 }
 
 void
-cgsix_setcolor(v, index, r, g, b)
-	void *v;
-	u_int index;
-	u_int8_t r, g, b;
+cgsix_setcolor(void *v, u_int index, u_int8_t r, u_int8_t g, u_int8_t b)
 {
 	struct cgsix_softc *sc = v;
 
@@ -579,9 +449,7 @@ cgsix_loadcmap_deferred(struct cgsix_softc *sc, u_int start, u_int ncolors)
 }
 
 void
-cgsix_burner(v, on, flags)
-	void *v;
-	u_int on, flags;
+cgsix_burner(void *v, u_int on, u_int flags)
 {
 	struct cgsix_softc *sc = v;
 	int s;
@@ -601,8 +469,7 @@ cgsix_burner(v, on, flags)
 }
 
 int
-cgsix_intr(v)
-	void *v;
+cgsix_intr(void *v)
 {
 	struct cgsix_softc *sc = v;
 	u_int32_t thcm;
@@ -636,8 +503,7 @@ cgsix_intr(v)
 	while ((fbc)->fbc_s & FBC_S_GXINPROGRESS)
 
 void
-cgsix_ras_init(sc)
-	struct cgsix_softc *sc;
+cgsix_ras_init(struct cgsix_softc *sc)
 {
 	u_int32_t m;
 
@@ -649,9 +515,7 @@ cgsix_ras_init(sc)
 }
 
 void
-cgsix_ras_copyrows(cookie, src, dst, n)
-	void *cookie;
-	int src, dst, n;
+cgsix_ras_copyrows(void *cookie, int src, int dst, int n)
 {
 	struct rasops_info *ri = cookie;
 	struct cgsix_softc *sc = ri->ri_hw;
@@ -699,9 +563,7 @@ cgsix_ras_copyrows(cookie, src, dst, n)
 }
 
 void
-cgsix_ras_copycols(cookie, row, src, dst, n)
-	void *cookie;
-	int row, src, dst, n;
+cgsix_ras_copycols(void *cookie, int row, int src, int dst, int n)
 {
 	struct rasops_info *ri = cookie;
 	struct cgsix_softc *sc = ri->ri_hw;
@@ -752,14 +614,12 @@ cgsix_ras_copycols(cookie, row, src, dst, n)
 }
 
 void
-cgsix_ras_erasecols(cookie, row, col, n, attr)
-	void *cookie;
-	int row, col, n;
-	long int attr;
+cgsix_ras_erasecols(void *cookie, int row, int col, int n, long attr)
 {
 	struct rasops_info *ri = cookie;
 	struct cgsix_softc *sc = ri->ri_hw;
 	volatile struct cgsix_fbc *fbc = sc->sc_fbc;
+	int fg, bg;
 
 	if ((row < 0) || (row >= ri->ri_rows))
 		return;
@@ -775,6 +635,8 @@ cgsix_ras_erasecols(cookie, row, col, n, attr)
 	col *= ri->ri_font->fontwidth;
 	row *= ri->ri_font->fontheight;
 
+	ri->ri_ops.unpack_attr(cookie, attr, &fg, &bg, NULL);
+
 	fbc->fbc_clip = 0;
 	fbc->fbc_s = 0;
 	fbc->fbc_offx = 0;
@@ -784,7 +646,7 @@ cgsix_ras_erasecols(cookie, row, col, n, attr)
 	fbc->fbc_clipmaxx = ri->ri_width - 1;
 	fbc->fbc_clipmaxy = ri->ri_height - 1;
 	fbc->fbc_alu = FBC_ALU_FILL;
-	fbc->fbc_fg = ri->ri_devcmap[(attr >> 16) & 0xf];
+	fbc->fbc_fg = ri->ri_devcmap[bg];
 	fbc->fbc_arecty = ri->ri_yorigin + row;
 	fbc->fbc_arectx = ri->ri_xorigin + col;
 	fbc->fbc_arecty = ri->ri_yorigin + row + ri->ri_font->fontheight - 1;
@@ -794,14 +656,12 @@ cgsix_ras_erasecols(cookie, row, col, n, attr)
 }
 
 void
-cgsix_ras_eraserows(cookie, row, n, attr)
-	void *cookie;
-	int row, n;
-	long int attr;
+cgsix_ras_eraserows(void *cookie, int row, int n, long attr)
 {
 	struct rasops_info *ri = cookie;
 	struct cgsix_softc *sc = ri->ri_hw;
 	volatile struct cgsix_fbc *fbc = sc->sc_fbc;
+	int fg, bg;
 
 	if (row < 0) {
 		n += row;
@@ -812,6 +672,8 @@ cgsix_ras_eraserows(cookie, row, n, attr)
 	if (n <= 0)
 		return;
 
+	ri->ri_ops.unpack_attr(cookie, attr, &fg, &bg, NULL);
+
 	fbc->fbc_clip = 0;
 	fbc->fbc_s = 0;
 	fbc->fbc_offx = 0;
@@ -821,7 +683,7 @@ cgsix_ras_eraserows(cookie, row, n, attr)
 	fbc->fbc_clipmaxx = ri->ri_width - 1;
 	fbc->fbc_clipmaxy = ri->ri_height - 1;
 	fbc->fbc_alu = FBC_ALU_FILL;
-	fbc->fbc_fg = ri->ri_devcmap[(attr >> 16) & 0xf];
+	fbc->fbc_fg = ri->ri_devcmap[bg];
 	if ((n == ri->ri_rows) && (ri->ri_flg & RI_FULLCLEAR)) {
 		fbc->fbc_arecty = 0;
 		fbc->fbc_arectx = 0;
@@ -841,8 +703,7 @@ cgsix_ras_eraserows(cookie, row, n, attr)
 }
 
 void
-cgsix_ras_do_cursor(ri)
-	struct rasops_info *ri;
+cgsix_ras_do_cursor(struct rasops_info *ri)
 {
 	struct cgsix_softc *sc = ri->ri_hw;
 	int row, col;

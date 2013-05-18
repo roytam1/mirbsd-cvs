@@ -1,4 +1,4 @@
-/*	$OpenBSD: mgx.c,v 1.5 2003/06/28 17:05:33 miod Exp $	*/
+/*	$OpenBSD: mgx.c,v 1.11 2006/06/02 20:00:54 miod Exp $	*/
 /*
  * Copyright (c) 2003, Miodrag Vallat.
  * All rights reserved.
@@ -27,7 +27,7 @@
  */
 
 /*
- * Driver for the Southlan Media Systems (now Quantum 3D) MGX and MGXPlus
+ * Driver for the Southland Media Systems (now Quantum 3D) MGX and MGXPlus
  * frame buffers.
  *
  * Pretty crude, due to the lack of documentation. Works as a dumb frame
@@ -80,54 +80,34 @@
 /* per-display variables */
 struct mgx_softc {
 	struct	sunfb	sc_sunfb;	/* common base device */
-	struct	sbusdev sc_sd;		/* sbus device */
 	struct	rom_reg sc_phys;
 	u_int8_t	sc_cmap[256 * 3];	/* shadow colormap */
 	volatile u_int8_t *sc_vidc;	/* ramdac registers */
-
-	int	sc_nscreens;
 };
 
-struct wsscreen_descr mgx_stdscreen = {
-	"std",
-};
-
-const struct wsscreen_descr *mgx_scrlist[] = {
-	&mgx_stdscreen,
-};
-
-struct wsscreen_list mgx_screenlist = {
-	sizeof(mgx_scrlist) / sizeof(struct wsscreen_descr *),
-	    mgx_scrlist
-};
-
-int mgx_ioctl(void *, u_long, caddr_t, int, struct proc *);
-int mgx_alloc_screen(void *, const struct wsscreen_descr *, void **,
-    int *, int *, long *);
-void mgx_free_screen(void *, void *);
-int mgx_show_screen(void *, void *, int, void (*cb)(void *, int, int),
-    void *);
-paddr_t mgx_mmap(void *, off_t, int);
-void mgx_setcolor(void *, u_int, u_int8_t, u_int8_t, u_int8_t);
-int mgx_getcmap(u_int8_t *, struct wsdisplay_cmap *);
-int mgx_putcmap(u_int8_t *, struct wsdisplay_cmap *);
-void mgx_loadcmap(struct mgx_softc *, int, int);
-void mgx_burner(void *, u_int ,u_int);
+void	mgx_burner(void *, u_int ,u_int);
+int	mgx_getcmap(u_int8_t *, struct wsdisplay_cmap *);
+int	mgx_ioctl(void *, u_long, caddr_t, int, struct proc *);
+void	mgx_loadcmap(struct mgx_softc *, int, int);
+paddr_t	mgx_mmap(void *, off_t, int);
+int	mgx_putcmap(u_int8_t *, struct wsdisplay_cmap *);
+void	mgx_setcolor(void *, u_int, u_int8_t, u_int8_t, u_int8_t);
 
 struct wsdisplay_accessops mgx_accessops = {
 	mgx_ioctl,
 	mgx_mmap,
-	mgx_alloc_screen,
-	mgx_free_screen,
-	mgx_show_screen,
+	NULL,	/* alloc_screen */
+	NULL,	/* free_screen */
+	NULL,	/* show_screen */
 	NULL,	/* load_font */
 	NULL,	/* scrollback */
 	NULL,	/* getchar */
-	mgx_burner
+	mgx_burner,
+	NULL	/* pollc */
 };
 
-int mgxmatch(struct device *, void *, void *);
-void mgxattach(struct device *, struct device *, void *);
+int	mgxmatch(struct device *, void *, void *);
+void	mgxattach(struct device *, struct device *, void *);
 
 struct cfattach mgx_ca = {
 	sizeof(struct mgx_softc), mgxmatch, mgxattach
@@ -163,7 +143,6 @@ mgxattach(struct device *parent, struct device *self, void *args)
 {
 	struct mgx_softc *sc = (struct mgx_softc *)self;
 	struct confargs *ca = args;
-	struct wsemuldisplaydev_attach_args waa;
 	int node, fbsize;
 	int isconsole;
 
@@ -208,26 +187,14 @@ mgxattach(struct device *parent, struct device *self, void *args)
 	bzero(sc->sc_cmap, sizeof(sc->sc_cmap));
 	fbwscons_setcolormap(&sc->sc_sunfb, mgx_setcolor);
 
-	mgx_stdscreen.capabilities = sc->sc_sunfb.sf_ro.ri_caps;
-	mgx_stdscreen.nrows = sc->sc_sunfb.sf_ro.ri_rows;
-	mgx_stdscreen.ncols = sc->sc_sunfb.sf_ro.ri_cols;
-	mgx_stdscreen.textops = &sc->sc_sunfb.sf_ro.ri_ops;
-
 	printf(", %dx%d\n",
 	    sc->sc_sunfb.sf_width, sc->sc_sunfb.sf_height);
 
 	if (isconsole) {
-		fbwscons_console_init(&sc->sc_sunfb,
-		    &mgx_stdscreen, -1, mgx_burner);
+		fbwscons_console_init(&sc->sc_sunfb, -1);
 	}
 
-	sbus_establish(&sc->sc_sd, &sc->sc_sunfb.sf_dev);
-
-	waa.console = isconsole;
-	waa.scrdata = &mgx_screenlist;
-	waa.accessops = &mgx_accessops;
-	waa.accesscookie = sc;
-	config_found(self, &waa, wsemuldisplaydevprint);
+	fbwscons_attach(&sc->sc_sunfb, &mgx_accessops, isconsole);
 }
 
 /*
@@ -271,6 +238,10 @@ mgx_ioctl(void *dev, u_long cmd, caddr_t data, int flags, struct proc *p)
 		mgx_loadcmap(sc, cm->index, cm->count);
 		break;
 
+	case WSDISPLAYIO_SVIDEO:
+	case WSDISPLAYIO_GVIDEO:
+		break;
+
 	default:
 		return (-1);
 	}
@@ -292,39 +263,6 @@ mgx_mmap(void *v, off_t offset, int prot)
 	}
 
 	return (-1);
-}
-
-int
-mgx_alloc_screen(void *v, const struct wsscreen_descr *type,
-    void **cookiep, int *curxp, int *curyp, long *attrp)
-{
-	struct mgx_softc *sc = v;
-
-	if (sc->sc_nscreens > 0)
-		return (ENOMEM);
-
-	*cookiep = &sc->sc_sunfb.sf_ro;
-	*curyp = 0;
-	*curxp = 0;
-	sc->sc_sunfb.sf_ro.ri_ops.alloc_attr(&sc->sc_sunfb.sf_ro,
-	     0, 0, 0, attrp);
-	sc->sc_nscreens++;
-	return (0);
-}
-
-void
-mgx_free_screen(void *v, void *cookie)
-{
-	struct mgx_softc *sc = v;
-
-	sc->sc_nscreens--;
-}
-
-int
-mgx_show_screen(void *v, void *cookie, int waitok,
-    void (*cb)(void *, int, int), void *cbarg)
-{
-	return (0);
 }
 
 void

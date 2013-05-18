@@ -1,4 +1,4 @@
-/*	$OpenBSD: cgthree.c,v 1.24 2003/08/01 19:24:49 miod Exp $	*/
+/*	$OpenBSD: cgthree.c,v 1.32 2006/12/03 16:38:13 miod Exp $	*/
 /*	$NetBSD: cgthree.c,v 1.33 1997/05/24 20:16:11 pk Exp $ */
 
 /*
@@ -107,50 +107,31 @@
 /* per-display variables */
 struct cgthree_softc {
 	struct	sunfb sc_sunfb;		/* common base part */
-	struct	sbusdev sc_sd;		/* sbus device */
 	struct rom_reg	sc_phys;	/* phys address description */
 	volatile struct fbcontrol *sc_fbc;	/* Brooktree registers */
 	union	bt_cmap sc_cmap;	/* Brooktree color map */
 	struct intrhand sc_ih;
-	int	sc_nscreens;
 };
 
-struct wsscreen_descr cgthree_stdscreen = {
-	"std",
-};
-
-const struct wsscreen_descr *cgthree_scrlist[] = {
-	&cgthree_stdscreen,
-};
-
-struct wsscreen_list cgthree_screenlist = {
-	sizeof(cgthree_scrlist) / sizeof(struct wsscreen_descr *),
-	    cgthree_scrlist
-};
-
-int cgthree_ioctl(void *, u_long, caddr_t, int, struct proc *);
-int cgthree_alloc_screen(void *, const struct wsscreen_descr *, void **,
-    int *, int *, long *);
-void cgthree_free_screen(void *, void *);
-int cgthree_show_screen(void *, void *, int, void (*cb)(void *, int, int),
-    void *);
-paddr_t cgthree_mmap(void *, off_t, int);
-void cgthree_setcolor(void *, u_int, u_int8_t, u_int8_t, u_int8_t);
-static __inline__ void cgthree_loadcmap_deferred(struct cgthree_softc *,
-    u_int, u_int);
-void cgthree_burner(void *, u_int, u_int);
-int cgthree_intr(void *);
+void	cgthree_burner(void *, u_int, u_int);
+int	cgthree_intr(void *);
+int	cgthree_ioctl(void *, u_long, caddr_t, int, struct proc *);
+static __inline__
+void	cgthree_loadcmap_deferred(struct cgthree_softc *, u_int, u_int);
+paddr_t	cgthree_mmap(void *, off_t, int);
+void	cgthree_setcolor(void *, u_int, u_int8_t, u_int8_t, u_int8_t);
 
 struct wsdisplay_accessops cgthree_accessops = {
 	cgthree_ioctl,
 	cgthree_mmap,
-	cgthree_alloc_screen,
-	cgthree_free_screen,
-	cgthree_show_screen,
+	NULL,	/* alloc_screen */
+	NULL,	/* free_screen */
+	NULL,	/* show_screen */
 	NULL,	/* load_font */
 	NULL,	/* scrollback */
 	NULL,	/* getchar */
 	cgthree_burner,
+	NULL	/* pollc */
 };
 
 int	cgthreematch(struct device *, void *, void *);
@@ -186,13 +167,8 @@ struct cg3_videoctrl {
 	},
 };
 
-/*
- * Match a cgthree.
- */
 int
-cgthreematch(parent, vcf, aux)
-	struct device *parent;
-	void *vcf, *aux;
+cgthreematch(struct device *parent, void *vcf, void *aux)
 {
 	struct cfdata *cf = vcf;
 	struct confargs *ca = aux;
@@ -202,59 +178,34 @@ cgthreematch(parent, vcf, aux)
 	    strcmp("cgRDI", ra->ra_name))
 		return (0);
 
-	if (ca->ca_bustype == BUS_SBUS)
-		return (1);
+	if (ca->ca_bustype != BUS_SBUS)
+		return (0);
 
-	ra->ra_len = NBPG;
-	return (probeget(ra->ra_vaddr, 4) != -1);
+	return (1);
 }
 
-/*
- * Attach a display.
- */
 void
-cgthreeattach(parent, self, args)
-	struct device *parent, *self;
-	void *args;
+cgthreeattach(struct device *parent, struct device *self, void *args)
 {
 	struct cgthree_softc *sc = (struct cgthree_softc *)self;
 	struct confargs *ca = args;
-	struct wsemuldisplaydev_attach_args waa;
-	int node = 0, isrdi = 0, i;
+	int node, isrdi = 0, i;
 	volatile struct bt_regs *bt;
-	int isconsole = 0, sbus = 1;
-	char *nam = NULL;
+	int isconsole = 0;
+	char *nam;
 
-	switch (ca->ca_bustype) {
-	case BUS_OBIO:
-		if (CPU_ISSUN4M) {	/* 4m has framebuffer on obio */
-			sbus = 0;
-			node = ca->ca_ra.ra_node;
-			nam = getpropstring(node, "model");
-			if (*nam == '\0')
-				nam = "cgthree";
-			break;
-		}
-	case BUS_VME32:
-	case BUS_VME16:
-		sbus = node = 0;
-		nam = "cgthree";
-		break;
+	printf(": ");
 
-	case BUS_SBUS:
-		node = ca->ca_ra.ra_node;
-		nam = getpropstring(node, "model");
-		if (*nam == '\0')
-			nam = "cgthree";
-		break;
-	}
+	node = ca->ca_ra.ra_node;
 
-	if (!strcmp(ca->ca_ra.ra_name, "cgRDI")) {
+	if (strcmp(ca->ca_ra.ra_name, "cgRDI") == 0) {
 		isrdi = 1;
 		nam = "cgRDI";
-	}
+	} else
+		nam = getpropstring(node, "model");
 
-	printf(": %s", nam);
+	if (nam != NULL && *nam != '\0')
+		printf("%s, ", nam);
 
 	isconsole = node == fbnode;
 
@@ -288,14 +239,9 @@ cgthreeattach(parent, self, args)
 	sc->sc_ih.ih_arg = sc;
 	intr_establish(ca->ca_ra.ra_intr[0].int_pri, &sc->sc_ih, IPL_FB);
 
-	/* grab initial (current) color map */
-	bt = &sc->sc_fbc->fbc_dac;
-	bt->bt_addr = 0;
-	for (i = 0; i < 256 * 3 / 4; i++)
-		sc->sc_cmap.cm_chip[i] = bt->bt_cmap;
-
 	/* enable video */
 	cgthree_burner(sc, 1, 0);
+	bt = &sc->sc_fbc->fbc_dac;
 	BT_INIT(bt, 0);
 
 	fb_setsize(&sc->sc_sunfb, 8, 1152, 900, node, ca->ca_bustype);
@@ -303,7 +249,7 @@ cgthreeattach(parent, self, args)
 	    round_page(sc->sc_sunfb.sf_fbsize));
 	sc->sc_sunfb.sf_ro.ri_hw = sc;
 
-	printf(", %dx%d\n", sc->sc_sunfb.sf_width, sc->sc_sunfb.sf_height);
+	printf("%dx%d\n", sc->sc_sunfb.sf_width, sc->sc_sunfb.sf_height);
 
 	/*
 	 * If the framebuffer width is under 1024x768, which is the case for
@@ -321,35 +267,16 @@ cgthreeattach(parent, self, args)
 	    (sc->sc_sunfb.sf_width >= 1024) ? 0 : RI_CLEAR);
 	fbwscons_setcolormap(&sc->sc_sunfb, cgthree_setcolor);
 
-	cgthree_stdscreen.capabilities = sc->sc_sunfb.sf_ro.ri_caps;
-	cgthree_stdscreen.nrows = sc->sc_sunfb.sf_ro.ri_rows;
-	cgthree_stdscreen.ncols = sc->sc_sunfb.sf_ro.ri_cols;
-	cgthree_stdscreen.textops = &sc->sc_sunfb.sf_ro.ri_ops;
-
 	if (isconsole) {
-		fbwscons_console_init(&sc->sc_sunfb, &cgthree_stdscreen,
-		    sc->sc_sunfb.sf_width >= 1024 ? -1 : 0, cgthree_burner);
+		fbwscons_console_init(&sc->sc_sunfb,
+		    sc->sc_sunfb.sf_width >= 1024 ? -1 : 0);
 	}
 
-#if defined(SUN4C) || defined(SUN4M)
-	if (sbus)
-		sbus_establish(&sc->sc_sd, &sc->sc_sunfb.sf_dev);
-#endif
-
-	waa.console = isconsole;
-	waa.scrdata = &cgthree_screenlist;
-	waa.accessops = &cgthree_accessops;
-	waa.accesscookie = sc;
-	config_found(self, &waa, wsemuldisplaydevprint);
+	fbwscons_attach(&sc->sc_sunfb, &cgthree_accessops, isconsole);
 }
 
 int
-cgthree_ioctl(v, cmd, data, flags, p)
-	void *v;
-	u_long cmd;
-	caddr_t data;
-	int flags;
-	struct proc *p;
+cgthree_ioctl(void *v, u_long cmd, caddr_t data, int flags, struct proc *p)
 {
 	struct cgthree_softc *sc = v;
 	struct wsdisplay_fbinfo *wdf;
@@ -388,6 +315,8 @@ cgthree_ioctl(v, cmd, data, flags, p)
 
 	case WSDISPLAYIO_SVIDEO:
 	case WSDISPLAYIO_GVIDEO:
+		break;
+
 	case WSDISPLAYIO_GCURPOS:
 	case WSDISPLAYIO_SCURPOS:
 	case WSDISPLAYIO_GCURMAX:
@@ -400,58 +329,8 @@ cgthree_ioctl(v, cmd, data, flags, p)
 	return (0);
 }
 
-int
-cgthree_alloc_screen(v, type, cookiep, curxp, curyp, attrp)
-	void *v;
-	const struct wsscreen_descr *type;
-	void **cookiep;
-	int *curxp, *curyp;
-	long *attrp;
-{
-	struct cgthree_softc *sc = v;
-
-	if (sc->sc_nscreens > 0)
-		return (ENOMEM);
-
-	*cookiep = &sc->sc_sunfb.sf_ro;
-	*curyp = 0;
-	*curxp = 0;
-	sc->sc_sunfb.sf_ro.ri_ops.alloc_attr(&sc->sc_sunfb.sf_ro,
-	    WSCOL_BLACK, WSCOL_WHITE, WSATTR_WSCOLORS, attrp);
-	sc->sc_nscreens++;
-	return (0);
-}
-
-void
-cgthree_free_screen(v, cookie)
-	void *v;
-	void *cookie;
-{
-	struct cgthree_softc *sc = v;
-
-	sc->sc_nscreens--;
-}
-
-int
-cgthree_show_screen(v, cookie, waitok, cb, cbarg)
-	void *v;
-	void *cookie;
-	int waitok;
-	void (*cb)(void *, int, int);
-	void *cbarg;
-{
-	return (0);
-}
-
-/*
- * Return the address that would map the given device at the given
- * offset, allowing for the given protection, or return -1 for error.
- */
 paddr_t
-cgthree_mmap(v, offset, prot)
-	void *v;
-	off_t offset;
-	int prot;
+cgthree_mmap(void *v, off_t offset, int prot)
 {
 	struct cgthree_softc *sc = v;
 
@@ -467,10 +346,7 @@ cgthree_mmap(v, offset, prot)
 }
 
 void
-cgthree_setcolor(v, index, r, g, b)
-	void *v;
-	u_int index;
-	u_int8_t r, g, b;
+cgthree_setcolor(void *v, u_int index, u_int8_t r, u_int8_t g, u_int8_t b)
 {
 	struct cgthree_softc *sc = v;
 
@@ -485,9 +361,7 @@ cgthree_loadcmap_deferred(struct cgthree_softc *sc, u_int start, u_int ncolors)
 }
 
 void
-cgthree_burner(v, on, flags)
-	void *v;
-	u_int on, flags;
+cgthree_burner(void *v, u_int on, u_int flags)
 {
 	struct cgthree_softc *sc = v;
 	int s;
@@ -504,8 +378,7 @@ cgthree_burner(v, on, flags)
 }
 
 int
-cgthree_intr(v)
-	void *v;
+cgthree_intr(void *v)
 {
 	struct cgthree_softc *sc = v;
 

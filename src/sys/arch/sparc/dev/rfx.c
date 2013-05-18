@@ -1,4 +1,4 @@
-/*	$OpenBSD: rfx.c,v 1.4 2004/03/01 22:27:09 miod Exp $	*/
+/*	$OpenBSD: rfx.c,v 1.11 2006/06/02 20:00:54 miod Exp $	*/
 
 /*
  * Copyright (c) 2004, Miodrag Vallat.
@@ -106,37 +106,16 @@ struct rfx_cmap {
 
 struct rfx_softc {
 	struct	sunfb		 sc_sunfb;
-	struct	sbusdev		 sc_sd;
 	struct	rom_reg		 sc_phys;
 	struct	intrhand	 sc_ih;
 
 	struct rfx_cmap		 sc_cmap;
 	volatile u_int8_t	*sc_ramdac;
 	volatile u_int32_t	*sc_ctrl;
-
-	int			 sc_nscreens;
 };
 
-struct wsscreen_descr rfx_stdscreen = {
-	"std",
-};
-
-const struct wsscreen_descr *rfx_scrlist[] = {
-	&rfx_stdscreen,
-};
-
-struct wsscreen_list rfx_screenlist = {
-	sizeof(rfx_scrlist) / sizeof(struct wsscreen_descr *),
-	    rfx_scrlist
-};
-
-int	rfx_alloc_screen(void *, const struct wsscreen_descr *, void **,
-	    int *, int *, long *);
 void	rfx_burner(void *, u_int, u_int);
-void	rfx_free_screen(void *, void *);
 int	rfx_ioctl(void *, u_long, caddr_t, int, struct proc *);
-int	rfx_show_screen(void *, void *, int, void (*cb)(void *, int, int),
-	    void *);
 paddr_t	rfx_mmap(void *, off_t, int);
 
 int	rfx_getcmap(struct rfx_cmap *, struct wsdisplay_cmap *);
@@ -149,17 +128,20 @@ void	rfx_setcolor(void *, u_int, u_int8_t, u_int8_t, u_int8_t);
 struct wsdisplay_accessops rfx_accessops = {
 	rfx_ioctl,
 	rfx_mmap,
-	rfx_alloc_screen,
-	rfx_free_screen,
-	rfx_show_screen,
+	NULL,	/* alloc_screen */
+	NULL,	/* free_screen */
+	NULL,	/* show_screen */
 	NULL,	/* load_font */
 	NULL,	/* scrollback */
 	NULL,	/* getchar */
 	rfx_burner,
+	NULL	/* pollc */
 };
 
 int	rfxmatch(struct device *, void *, void *);
 void	rfxattach(struct device *, struct device *, void *);
+
+#if defined(OpenBSD)
 
 struct cfattach rfx_ca = {
 	sizeof (struct rfx_softc), rfxmatch, rfxattach
@@ -168,6 +150,12 @@ struct cfattach rfx_ca = {
 struct cfdriver rfx_cd = {
 	NULL, "rfx", DV_DULL
 };
+
+#else
+
+CFATTACH_DECL(rfx, sizeof (struct rfx_softc), rfxmatch, rfxattach, NULL, NULL);
+
+#endif
 
 /*
  * Match a supported RasterFlex card.
@@ -207,7 +195,6 @@ rfxattach(struct device *parent, struct device *self, void *args)
 	struct confargs *ca = args;
 	const char *device = ca->ca_ra.ra_name;
 	struct rfx_config cf;
-	struct wsemuldisplaydev_attach_args waa;
 	int node, cflen, isconsole = 0;
 
 	/* skip vendor name (could be CWARE, VITec, ...) */
@@ -292,26 +279,14 @@ rfxattach(struct device *parent, struct device *self, void *args)
 	bzero(&sc->sc_cmap, sizeof(sc->sc_cmap));
 	fbwscons_setcolormap(&sc->sc_sunfb, rfx_setcolor);
 
-	rfx_stdscreen.capabilities = sc->sc_sunfb.sf_ro.ri_caps;
-	rfx_stdscreen.nrows = sc->sc_sunfb.sf_ro.ri_rows;
-	rfx_stdscreen.ncols = sc->sc_sunfb.sf_ro.ri_cols;
-	rfx_stdscreen.textops = &sc->sc_sunfb.sf_ro.ri_ops;
-
 	if (isconsole) {
-		fbwscons_console_init(&sc->sc_sunfb, &rfx_stdscreen, -1,
-		    rfx_burner);
+		fbwscons_console_init(&sc->sc_sunfb, -1);
 	}
 
 	/* enable video */
 	rfx_burner(sc, 1, 0);
 
-	sbus_establish(&sc->sc_sd, &sc->sc_sunfb.sf_dev);
-
-	waa.console = isconsole;
-	waa.scrdata = &rfx_screenlist;
-	waa.accessops = &rfx_accessops;
-	waa.accesscookie = sc;
-	config_found(self, &waa, wsemuldisplaydevprint);
+	fbwscons_attach(&sc->sc_sunfb, &rfx_accessops, isconsole);
 }
 
 /*
@@ -355,6 +330,10 @@ rfx_ioctl(void *v, u_long cmd, caddr_t data, int flags, struct proc *p)
 		rfx_loadcmap(sc, cm->index, cm->count);
 		break;
 
+	case WSDISPLAYIO_SVIDEO:
+	case WSDISPLAYIO_GVIDEO:
+		break;
+
 	default:
 		return (-1);
         }
@@ -376,39 +355,6 @@ rfx_mmap(void *v, off_t offset, int prot)
 	}
 
 	return (-1);
-}
-
-int
-rfx_alloc_screen(void *v, const struct wsscreen_descr *type, void **cookiep,
-    int *curxp, int *curyp, long *attrp)
-{
-	struct rfx_softc *sc = v;
-
-	if (sc->sc_nscreens > 0)
-		return (ENOMEM);
-
-	*cookiep = &sc->sc_sunfb.sf_ro;
-	*curyp = 0;
-	*curxp = 0;
-	sc->sc_sunfb.sf_ro.ri_ops.alloc_attr(&sc->sc_sunfb.sf_ro,
-	    WSCOL_BLACK, WSCOL_WHITE, WSATTR_WSCOLORS, attrp);
-	sc->sc_nscreens++;
-	return (0);
-}
-
-void
-rfx_free_screen(void *v, void *cookie)
-{
-	struct rfx_softc *sc = v;
-
-	sc->sc_nscreens--;
-}
-
-int
-rfx_show_screen(void *v, void *cookie, int waitok,
-    void (*cb)(void *, int, int), void *cbarg)
-{
-	return (0);
 }
 
 void
@@ -526,7 +472,7 @@ rfx_initialize(struct rfx_softc *sc, struct rfx_config *cf)
 	 * Skip copyright notice
 	 */
 	data += RFX_INIT_OFFSET / sizeof(u_int32_t);
-	cnt = RFX_INIT_SIZE - RFX_INIT_OFFSET / sizeof(u_int32_t);
+	cnt = (RFX_INIT_SIZE - RFX_INIT_OFFSET) / sizeof(u_int32_t);
 	cnt >>= 1;
 
 	/*
@@ -557,9 +503,4 @@ rfx_initialize(struct rfx_softc *sc, struct rfx_config *cf)
 
 		cnt--;
 	}
-
-#ifdef DEBUG
-	if (cnt == 0)
-		printf("%s: incoherent initialization data!\n");
-#endif
 }

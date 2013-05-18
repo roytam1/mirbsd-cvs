@@ -1,4 +1,4 @@
-/*	$OpenBSD: cgtwo.c,v 1.29 2003/06/28 17:05:33 miod Exp $	*/
+/*	$OpenBSD: cgtwo.c,v 1.36 2006/12/03 16:40:06 miod Exp $	*/
 /*	$NetBSD: cgtwo.c,v 1.22 1997/05/24 20:16:12 pk Exp $ */
 
 /*
@@ -105,51 +105,35 @@ struct cgtwo_softc {
 	struct	sunfb sc_sunfb;		/* common base part */
 	struct	rom_reg	sc_phys;	/* display RAM (phys addr) */
 	volatile struct cg2statusreg *sc_reg;	/* CG2 control registers */
+	volatile u_short *sc_ppmask;
 	volatile u_short *sc_cmap;
-#define sc_redmap(cmap)		((u_short *)(cmap))
-#define sc_greenmap(cmap)	((u_short *)(cmap) + CG2_CMSIZE)
-#define sc_bluemap(cmap)	((u_short *)(cmap) + 2 * CG2_CMSIZE)
-	int	sc_nscreens;
+#define sc_redmap(cmap)		((cmap))
+#define sc_greenmap(cmap)	((cmap) + CG2_CMSIZE)
+#define sc_bluemap(cmap)	((cmap) + 2 * CG2_CMSIZE)
 };
 
-struct wsscreen_descr cgtwo_stdscreen = {
-	"std",
-};
-
-const struct wsscreen_descr *cgtwo_scrlist[] = {
-	&cgtwo_stdscreen,
-};
-
-struct wsscreen_list cgtwo_screenlist = {
-	sizeof(cgtwo_scrlist) / sizeof(struct wsscreen_descr *),
-	    cgtwo_scrlist
-};
-
-int cgtwo_ioctl(void *, u_long, caddr_t, int, struct proc *);
-int cgtwo_alloc_screen(void *, const struct wsscreen_descr *, void **,
-    int *, int *, long *);
-void cgtwo_free_screen(void *, void *);
-int cgtwo_show_screen(void *, void *, int, void (*)(void *, int, int), void *);
-paddr_t cgtwo_mmap(void *, off_t, int);
-int cgtwo_putcmap(volatile u_short *, struct wsdisplay_cmap *);
-int cgtwo_getcmap(volatile u_short *, struct wsdisplay_cmap *);
-void cgtwo_setcolor(void *, u_int, u_int8_t, u_int8_t, u_int8_t);
-void cgtwo_burner(void *, u_int, u_int);
+void	cgtwo_burner(void *, u_int, u_int);
+int	cgtwo_getcmap(struct cgtwo_softc *, struct wsdisplay_cmap *);
+int	cgtwo_ioctl(void *, u_long, caddr_t, int, struct proc *);
+paddr_t	cgtwo_mmap(void *, off_t, int);
+int	cgtwo_putcmap(struct cgtwo_softc *, struct wsdisplay_cmap *);
+void	cgtwo_setcolor(void *, u_int, u_int8_t, u_int8_t, u_int8_t);
 
 struct wsdisplay_accessops cgtwo_accessops = {
 	cgtwo_ioctl,
 	cgtwo_mmap,
-	cgtwo_alloc_screen,
-	cgtwo_free_screen,
-	cgtwo_show_screen,
+	NULL,	/* alloc_screen */
+	NULL,	/* free_screen */
+	NULL,	/* show_screen */
 	NULL,	/* load_font */
 	NULL,	/* scrollback */
 	NULL,	/* getchar */
 	cgtwo_burner,
+	NULL	/* pollc */
 };
 
-int cgtwomatch(struct device *, void *, void *);
-void cgtwoattach(struct device *, struct device *, void *);
+int	cgtwomatch(struct device *, void *, void *);
+void	cgtwoattach(struct device *, struct device *, void *);
 
 struct cfattach cgtwo_ca = {
 	sizeof(struct cgtwo_softc), cgtwomatch, cgtwoattach
@@ -159,13 +143,8 @@ struct cfdriver cgtwo_cd = {
 	NULL, "cgtwo", DV_DULL
 };
 
-/*
- * Match a cgtwo.
- */
 int
-cgtwomatch(parent, vcf, aux)
-	struct device *parent;
-	void *vcf, *aux;
+cgtwomatch(struct device *parent, void *vcf, void *aux)
 {
 	struct cfdata *cf = vcf;
 	struct confargs *ca = aux;
@@ -187,33 +166,13 @@ cgtwomatch(parent, vcf, aux)
 	return (0);
 }
 
-/*
- * Attach a display.
- */
 void
-cgtwoattach(parent, self, args)
-	struct device *parent, *self;
-	void *args;
+cgtwoattach(struct device *parent, struct device *self, void *args)
 {
 	struct cgtwo_softc *sc = (struct cgtwo_softc *)self;
 	struct confargs *ca = args;
-	struct wsemuldisplaydev_attach_args waa;
 	int node = 0;
 	int isconsole = 0;
-	char *nam = NULL;
-
-	switch (ca->ca_bustype) {
-	case BUS_VME16:
-		node = 0;
-		nam = "cgtwo";
-		break;
-
-	default:
-		panic("cgtwoattach: impossible bustype");
-		/* NOTREACHED */
-	}
-
-	printf(": %s", nam);
 
 	if (CPU_ISSUN4) {
 		struct eeprom *eep = (struct eeprom *)eeprom_va;
@@ -236,16 +195,22 @@ cgtwoattach(parent, self, args)
 
 	sc->sc_reg = (volatile struct cg2statusreg *)
 	    mapiodev(ca->ca_ra.ra_reg,
-		     CG2_ROPMEM_OFF + offsetof(struct cg2fb, status.reg),
-		     sizeof(struct cg2statusreg));
+		CG2_ROPMEM_OFF + offsetof(struct cg2fb, status.reg),
+		sizeof(struct cg2statusreg));
+
+	sc->sc_ppmask = (volatile u_short *)
+	    mapiodev(ca->ca_ra.ra_reg,
+		CG2_ROPMEM_OFF + offsetof(struct cg2fb, ppmask.reg),
+		sizeof(u_short));
 
 	sc->sc_cmap = (volatile u_short *)
 	    mapiodev(ca->ca_ra.ra_reg,
-		     CG2_ROPMEM_OFF + offsetof(struct cg2fb, redmap[0]),
-		     3 * CG2_CMSIZE);
+		     CG2_ROPMEM_OFF + offsetof(struct cg2fb, redmap),
+		     3 * CG2_CMSIZE * sizeof(u_short));
 
 	/* enable video */
-	cgtwo_burner(sc, 1, 0);
+	*sc->sc_ppmask = 0xffff;	/* enable all color planes... */
+	cgtwo_burner(sc, 1, 0);		/* ... and video signals */
 
 	fb_setsize(&sc->sc_sunfb, 8, 1152, 900, node, ca->ca_bustype);
 	sc->sc_sunfb.sf_ro.ri_bits = mapiodev(&sc->sc_phys, CG2_PIXMAP_OFF,
@@ -254,32 +219,17 @@ cgtwoattach(parent, self, args)
 	fbwscons_init(&sc->sc_sunfb, isconsole ? 0 : RI_CLEAR);
 	fbwscons_setcolormap(&sc->sc_sunfb, cgtwo_setcolor);
 
-	cgtwo_stdscreen.capabilities = sc->sc_sunfb.sf_ro.ri_caps;
-	cgtwo_stdscreen.nrows = sc->sc_sunfb.sf_ro.ri_rows;
-	cgtwo_stdscreen.ncols = sc->sc_sunfb.sf_ro.ri_cols;
-	cgtwo_stdscreen.textops = &sc->sc_sunfb.sf_ro.ri_ops;
-
-	printf(", %dx%d\n", sc->sc_sunfb.sf_width, sc->sc_sunfb.sf_height);
+	printf(": %dx%d\n", sc->sc_sunfb.sf_width, sc->sc_sunfb.sf_height);
 
 	if (isconsole) {
-		fbwscons_console_init(&sc->sc_sunfb, &cgtwo_stdscreen, -1,
-		    cgtwo_burner);
+		fbwscons_console_init(&sc->sc_sunfb, -1);
 	}
 
-	waa.console = isconsole;
-	waa.scrdata = &cgtwo_screenlist;
-	waa.accessops = &cgtwo_accessops;
-	waa.accesscookie = sc;
-	config_found(self, &waa, wsemuldisplaydevprint);
+	fbwscons_attach(&sc->sc_sunfb, &cgtwo_accessops, isconsole);
 }
 
 int
-cgtwo_ioctl(v, cmd, data, flags, p)
-	void *v;
-	u_long cmd;
-	caddr_t data;
-	int flags;
-	struct proc *p;
+cgtwo_ioctl(void *v, u_long cmd, caddr_t data, int flags, struct proc *p)
 {
 	struct cgtwo_softc *sc = v;
 	struct wsdisplay_fbinfo *wdf;
@@ -303,20 +253,22 @@ cgtwo_ioctl(v, cmd, data, flags, p)
 		
 	case WSDISPLAYIO_GETCMAP:
 		cm = (struct wsdisplay_cmap *)data;
-		error = cgtwo_getcmap(sc->sc_cmap, cm);
+		error = cgtwo_getcmap(sc, cm);
 		if (error)
 			return (error);
 		break;
 
 	case WSDISPLAYIO_PUTCMAP:
 		cm = (struct wsdisplay_cmap *)data;
-		error = cgtwo_putcmap(sc->sc_cmap, cm);
+		error = cgtwo_putcmap(sc, cm);
 		if (error)
 			return (error);
 		break;
 
 	case WSDISPLAYIO_SVIDEO:
 	case WSDISPLAYIO_GVIDEO:
+		break;
+
 	case WSDISPLAYIO_GCURPOS:
 	case WSDISPLAYIO_SCURPOS:
 	case WSDISPLAYIO_GCURMAX:
@@ -329,54 +281,8 @@ cgtwo_ioctl(v, cmd, data, flags, p)
 	return (0);
 }
 
-int
-cgtwo_alloc_screen(v, type, cookiep, curxp, curyp, attrp)
-	void *v;
-	const struct wsscreen_descr *type;
-	void **cookiep;
-	int *curxp, *curyp;
-	long *attrp;
-{
-	struct cgtwo_softc *sc = v;
-
-	if (sc->sc_nscreens > 0)
-		return (ENOMEM);
-
-	*cookiep = &sc->sc_sunfb.sf_ro;
-	*curyp = 0;
-	*curxp = 0;
-	sc->sc_sunfb.sf_ro.ri_ops.alloc_attr(&sc->sc_sunfb.sf_ro,
-	    WSCOL_BLACK, WSCOL_WHITE, WSATTR_WSCOLORS, attrp);
-	sc->sc_nscreens++;
-	return (0);
-}
-
-void
-cgtwo_free_screen(v, cookie)
-	void *v;
-	void *cookie;
-{
-	struct cgtwo_softc *sc = v;
-
-	sc->sc_nscreens--;
-}
-
-int
-cgtwo_show_screen(v, cookie, waitok, cb, cbarg)
-	void *v;
-	void *cookie;
-	int waitok;
-	void (*cb)(void *, int, int);
-	void *cbarg;
-{
-	return (0);
-}
-
 paddr_t
-cgtwo_mmap(v, offset, prot)
-	void *v;
-	off_t offset;
-	int prot;
+cgtwo_mmap(void *v, off_t offset, int prot)
 {
 	struct cgtwo_softc *sc = v;
 
@@ -392,9 +298,7 @@ cgtwo_mmap(v, offset, prot)
 }
 
 void
-cgtwo_burner(v, on, flags)
-	void *v;
-	u_int on, flags;
+cgtwo_burner(void *v, u_int on, u_int flags)
 {
 	struct cgtwo_softc *sc = v;
 	int s;
@@ -408,12 +312,11 @@ cgtwo_burner(v, on, flags)
 }
 
 int
-cgtwo_getcmap(hwcmap, cmap)
-	volatile u_short *hwcmap;
-	struct wsdisplay_cmap *cmap;
+cgtwo_getcmap(struct cgtwo_softc *sc, struct wsdisplay_cmap *cmap)
 {
 	u_int index = cmap->index, count = cmap->count, i;
 	u_char red[CG2_CMSIZE], green[CG2_CMSIZE], blue[CG2_CMSIZE];
+	volatile u_short *hwcmap = sc->sc_cmap;
 	int error;
 	volatile u_short *p;
 
@@ -421,7 +324,10 @@ cgtwo_getcmap(hwcmap, cmap)
 	if (index >= CG2_CMSIZE || count >= CG2_CMSIZE - index)
 		return (EINVAL);
 
-	/* XXX - Wait for retrace? */
+	while (sc->sc_reg->retrace == 0)
+		DELAY(1);
+
+	sc->sc_reg->update_cmap = 0;
 
 	/* Copy hardware to local arrays. */
 	p = &sc_redmap(hwcmap)[index];
@@ -433,6 +339,8 @@ cgtwo_getcmap(hwcmap, cmap)
 	p = &sc_bluemap(hwcmap)[index];
 	for (i = 0; i < count; i++)
 		blue[i] = *p++;
+
+	sc->sc_reg->update_cmap = 1;
 
 	/* Copy local arrays to user space. */
 	if ((error = copyout(red, cmap->red, count)) != 0)
@@ -446,12 +354,11 @@ cgtwo_getcmap(hwcmap, cmap)
 }
 
 int
-cgtwo_putcmap(hwcmap, cmap)
-	volatile u_short *hwcmap;
-	struct wsdisplay_cmap *cmap;
+cgtwo_putcmap(struct cgtwo_softc *sc, struct wsdisplay_cmap *cmap)
 {
 	u_int index = cmap->index, count = cmap->count, i;
 	u_char red[CG2_CMSIZE], green[CG2_CMSIZE], blue[CG2_CMSIZE];
+	volatile u_short *hwcmap = sc->sc_cmap;
 	int error;
 	volatile u_short *p;
 
@@ -466,7 +373,10 @@ cgtwo_putcmap(hwcmap, cmap)
 	if ((error = copyin(cmap->blue, blue, count)) != 0)
 		return (error);
 
-	/* XXX - Wait for retrace? */
+	while (sc->sc_reg->retrace == 0)
+		DELAY(1);
+
+	sc->sc_reg->update_cmap = 0;
 
 	/* Copy from local arrays to hardware. */
 	p = &sc_redmap(hwcmap)[index];
@@ -479,32 +389,24 @@ cgtwo_putcmap(hwcmap, cmap)
 	for (i = 0; i < count; i++)
 		*p++ = blue[i];
 
+	sc->sc_reg->update_cmap = 1;
+
 	return (0);
 }
 
 void
-cgtwo_setcolor(v, index, r, g, b)
-	void *v;
-	u_int index;
-	u_int8_t r, g, b;
+cgtwo_setcolor(void *v, u_int index, u_int8_t r, u_int8_t g, u_int8_t b)
 {
 	struct cgtwo_softc *sc = v;
-#if 0
-	struct wsdisplay_cmap cm;
 
-	cm.red = &r;
-	cm.green = &g;
-	cm.blue = &b;
-	cm.index = index;
-	cm.count = 1;
+	while (sc->sc_reg->retrace == 0)
+		DELAY(1);
 
-	cgtwo_putcmap(sc->sc_cmap, &cm);
-#else
-
-	/* XXX - Wait for retrace? */
+	sc->sc_reg->update_cmap = 0;
 
 	sc_redmap(sc->sc_cmap)[index] = r;
 	sc_greenmap(sc->sc_cmap)[index] = g;
 	sc_bluemap(sc->sc_cmap)[index] = b;
-#endif
+
+	sc->sc_reg->update_cmap = 1;
 }
