@@ -1,7 +1,7 @@
-$MirOS: ports/print/cups/patches/patch-Makefile,v 1.4 2006/11/08 18:25:44 bsiegert Exp $
---- Makefile.orig	Mon Mar 12 21:48:50 2007
-+++ Makefile	Thu Mar 15 19:13:26 2007
-@@ -99,39 +99,6 @@ install:	installhdrs
+$MirOS: ports/print/cups/patches/patch-Makefile,v 1.5 2007/03/15 19:22:40 bsiegert Exp $
+--- Makefile.orig	Mon May  7 21:10:31 2007
++++ Makefile	Sat May 19 15:33:05 2007
+@@ -100,48 +100,6 @@ install:	installhdrs
  	echo Installing cups-config script...
  	$(INSTALL_DIR) -m 755 $(BINDIR)
  	$(INSTALL_SCRIPT) cups-config $(BINDIR)/cups-config
@@ -27,12 +27,21 @@ $MirOS: ports/print/cups/patches/patch-Makefile,v 1.4 2006/11/08 18:25:44 bsiege
 -			echo Installing StartupItems files...; \
 -			$(INSTALL_SCRIPT) init/PrintingServices $(BUILDROOT)$(INITDDIR)/PrintingServices; \
 -			$(INSTALL_DATA) init/StartupParameters.plist $(BUILDROOT)$(INITDDIR)/StartupParameters.plist; \
--			$(INSTALL_DIR) -m 755 $(BUILDROOT)$(INITDDIR)/Resources/English.lproj; \
+-			$(INSTALL_DIR) $(BUILDROOT)$(INITDDIR)/Resources/English.lproj; \
 -			$(INSTALL_DATA) init/Localizable.strings $(BUILDROOT)$(INITDDIR)/Resources/English.lproj/Localizable.strings; \
 -		elif test "$(INITDDIR)" = "/System/Library/LaunchDaemons"; then \
 -			echo Installing LaunchDaemons configuration files...; \
 -			$(INSTALL_DATA) init/org.cups.cupsd.plist $(BUILDROOT)$(DEFAULT_LAUNCHD_CONF); \
 -			$(INSTALL_DATA) init/org.cups.cups-lpd.plist $(BUILDROOT)/System/Library/LaunchDaemons; \
+-			case `uname -r` in \
+-				8.*) \
+-				$(INSTALL_DIR) $(BUILDROOT)/System/Library/StartupItems/PrintingServices; \
+-				$(INSTALL_SCRIPT) init/PrintingServices.launchd $(BUILDROOT)/System/Library/StartupItems/PrintingServices/PrintingServices; \
+-				$(INSTALL_DATA) init/StartupParameters.plist $(BUILDROOT)/System/Library/StartupItems/PrintingServices/StartupParameters.plist; \
+-				$(INSTALL_DIR) $(BUILDROOT)/System/Library/StartupItems/PrintingServices/Resources/English.lproj; \
+-				$(INSTALL_DATA) init/Localizable.strings $(BUILDROOT)/System/Library/StartupItems/PrintingServices/Resources/English.lproj/Localizable.strings; \
+-				;; \
+-			esac \
 -		else \
 -			echo Installing RC script...; \
 -			$(INSTALL_SCRIPT) init/cups.sh $(BUILDROOT)$(INITDDIR)/cups; \
@@ -41,7 +50,7 @@ $MirOS: ports/print/cups/patches/patch-Makefile,v 1.4 2006/11/08 18:25:44 bsiege
  	if test "x$(DBUSDIR)" != x; then \
  		echo Installing cups.conf in $(DBUSDIR)...;\
  		$(INSTALL_DIR) -m 755 $(BUILDROOT)$(DBUSDIR); \
-@@ -142,18 +109,18 @@ install:	installhdrs
+@@ -152,18 +110,18 @@ install:	installhdrs
  		$(INSTALL_DIR) -m 755 $(BUILDROOT)$(XINETD); \
  		$(INSTALL_DATA) init/cups-lpd $(BUILDROOT)$(XINETD)/cups-lpd; \
  	fi
