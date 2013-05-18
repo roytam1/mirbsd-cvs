@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/mirmake/Makefile,v 1.12 2006/05/27 20:45:32 tg Exp $
+# $MirOS: ports/devel/mirmake/Makefile,v 1.13 2006/06/23 15:25:16 tg Exp $
 
 COMMENT=		"portable MirOS make(1) variant"
 DISTNAME=		mirmake-20060623
@@ -17,12 +17,6 @@ WRKDIST=		${WRKDIR}/mirmake
 NO_REGRESS=		Yes
 MAKE_ENV+=		NROFF=${NROFF:C/ *$//:Q}
 
-.if ${OStype} == "Darwin"
-FMANDIR=		man/man
-.else
-FMANDIR=		man/cat
-.endif
-
 .if ${OStype} == "Interix"
 SED_PLIST+=		| sed -e '/^IFSFU:/s///'
 .else
@@ -31,7 +25,7 @@ SED_PLIST+=		| sed -e '/^IFSFU:/d'
 
 do-build:
 	cd ${WRKBUILD} && ${SETENV} ${MAKE_ENV} ${MKSH} ./Build.sh \
-	    ${OStype} ${PREFIX} ${FMANDIR} mmake \
+	    ${OStype} ${PREFIX} man/cat mmake \
 	    ${MACHINE} ${MACHINE_ARCH} ${MACHINE_OS} \
 	    ${MKSH} ${BINOWN}:${BINGRP}
 
