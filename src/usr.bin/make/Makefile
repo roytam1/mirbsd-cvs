@@ -1,4 +1,4 @@
-# $MirOS: src/usr.bin/make/Makefile,v 1.9 2005/11/24 13:32:32 tg Exp $
+# $MirOS: src/usr.bin/make/Makefile,v 1.10 2005/11/24 13:51:53 tg Exp $
 # $OpenBSD: Makefile,v 1.38 2004/01/28 02:50:28 espie Exp $
 
 .include <bsd.own.mk>
@@ -21,11 +21,12 @@ SRCS+=	lstAddNew.c lstAppend.c lstConcat.c lstConcatDestroy.c \
 .ifdef MAKE_BOOTSTRAP
 MKFEATURES?=	-DHAS_STDBOOL_H -D_PATH_DEFSYSPATH=\"/usr/share/mk\"
 CPPFLAGS+=	-Iohash -DMACHINE_OS=\"${MACHINE_OS}\" -DMAKE_BOOTSTRAP
-SRCS+=		ohash_create_entry.c ohash_delete.c ohash_do.c \
+OHASH_SRCS=	ohash_create_entry.c ohash_delete.c ohash_do.c \
 		ohash_entries.c ohash_enum.c ohash_init.c ohash_interval.c \
 		ohash_lookup_interval.c ohash_lookup_memory.c \
 		ohash_qlookup.c ohash_qlookupi.c
 .PATH:		${.CURDIR}/ohash
+SRCS+=		${OHASH_SRCS}
 .else
 MKFEATURES?=	-DUSE_TIMESPEC
 .endif
@@ -57,7 +58,7 @@ varhashconsts.h: generate
 condhashconsts.h: generate
 	${.OBJDIR}/generate 2 ${MAGICCONDSLOTS} >$@
 
-generate: generate.c stats.c memory.c
+generate: generate.c stats.c memory.c ${OHASH_SRCS}
 	${HOSTCC} ${LDSTATIC} -o $@ ${CFLAGS} ${CPPFLAGS} $> ${LDADD}
 
 check: regress.o str.o memory.o buf.o
