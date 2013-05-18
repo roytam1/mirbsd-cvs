@@ -1136,3 +1136,22 @@ Title: mksh – The iShell [updated]
  five architectures (amd64 arm i386 powerpc ppc64) now. This is the <a
  href="https://eurynome.mirbsd.org/pub/fat-mksh.gz">iShell</a>, indeed.</p>
 ----
+Date: 19.07.2008 22:17
+Author: tg@
+Title: plans for the immediate future
+
+<p>My plans are as follows: after squishing out all remaining bugs, I’ll
+ publish another MirOS-current snapshot (i386 baselive, i386 installer,
+ sparc installer, some selected few binary packages for both arches),
+ announce that on the website, and make a CVS repository tarball.</p>
+<p>After that, I’ll concentrate on setting up the new servers (tear and
+ euynome) fully, and dispose of rant-featuring-herc. Features I wanted,
+ such as full AES vnd(4) encryption, DJBDNS with no split v4/v6 transport
+ binaries, etc. will have to wait.</p>
+<p>With the infrastructure in place, we can start hacking again. We had
+ planned on bringing out MirOS #10bis in time for FOSDEM, but it looks
+ more like just another -stable snapshot, and maybe another month for
+ the second release of -stable; Benny will have to work some on the branch
+ prior to its tagging (I’ll concentrate on -current), especially because
+ we want to use X11 (and gcc) from HEAD, since these are not branched.</p>
+----
