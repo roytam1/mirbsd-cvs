@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/distrib/common/Makefile.sparc-mr,v 1.1 2006/08/18 21:08:02 tg Exp $
 
 RAWLABEL=
 
@@ -17,3 +17,5 @@ FLOPPY=		No
 CDROM=		No
 
 INST_FILES=	${IMAGE}
+
+${IMAGE}: ${REALOBJDIR}/../generic/bsd
