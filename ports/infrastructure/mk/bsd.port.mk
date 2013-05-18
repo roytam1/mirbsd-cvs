@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.212 2008/09/17 20:05:36 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.213 2008/09/21 14:18:21 bsiegert Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -402,13 +402,7 @@ CXX:=			false
 .endif
 
 .if ${USE_CCACHE:L} == "yes"
-CCACHE_DEPENDS?=	::devel/ccache
-BUILD_DEPENDS+=		${CCACHE_DEPENDS}
-CCACHE_DIR?=		${HOME}/.etc/ccache
-CC:=			env CCACHE_DIR=${CCACHE_DIR:Q} ccache ${CC}
-.  if ${NO_CXX:L} == "no"
-CXX:=			env CCACHE_DIR=${CCACHE_DIR:Q} ccache ${CXX}
-.  endif
+MODULES+=		devel/ccache
 .endif
 
 MAKE_FILE?=		Makefile
