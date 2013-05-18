@@ -1,4 +1,4 @@
-/* $OpenBSD: ssh-keyscan.c,v 1.73 2006/08/03 03:34:42 deraadt Exp $ */
+/* $OpenBSD: ssh-keyscan.c,v 1.74 2006/10/06 02:29:19 djm Exp $ */
 /*
  * Copyright 1995, 1996 by David Mazieres <dm@lcs.mit.edu>.
  *
@@ -41,7 +41,7 @@
 #include "misc.h"
 #include "hostfile.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/ssh/ssh-keyscan.c,v 1.4 2006/09/20 21:41:05 tg Exp $");
 
 /* Flag indicating whether IPv4 or IPv6.  This can be set on the command line.
    Default value is AF_UNSPEC means both IPv4 and IPv6. */

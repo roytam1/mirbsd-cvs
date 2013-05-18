@@ -1,4 +1,4 @@
-/* $OpenBSD: ssh-agent.c,v 1.152 2006/08/04 20:46:05 stevesk Exp $ */
+/* $OpenBSD: ssh-agent.c,v 1.153 2006/10/06 02:29:19 djm Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -35,12 +35,11 @@
  */
 
 #include <sys/param.h>
+#include <sys/time.h>
 #include <sys/queue.h>
 #include <sys/resource.h>
-#include <sys/types.h>
 #include <sys/socket.h>
 #include <sys/un.h>
-#include <sys/time.h>
 
 #include <openssl/evp.h>
 #include <openssl/md5.h>
@@ -65,7 +64,7 @@
 #include "log.h"
 #include "misc.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/ssh/ssh-agent.c,v 1.8 2006/09/20 21:41:05 tg Exp $");
 
 #ifdef SMARTCARD
 #include "scard.h"

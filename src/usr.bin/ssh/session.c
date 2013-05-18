@@ -1,4 +1,4 @@
-/* $OpenBSD: session.c,v 1.219 2006/08/29 10:40:19 djm Exp $ */
+/* $OpenBSD: session.c,v 1.220 2006/10/09 23:36:11 djm Exp $ */
 /*
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
  *                    All rights reserved
@@ -75,7 +75,7 @@
 #include "session.h"
 #include "monitor_wrap.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/ssh/session.c,v 1.12 2006/09/20 21:41:02 tg Exp $");
 
 /* func */
 
@@ -749,7 +749,7 @@ do_setup_env(Session *s, const char *shell)
 
 	/* Initialize the environment. */
 	envsize = 100;
-	env = xmalloc(envsize * sizeof(char *));
+	env = xcalloc(envsize, sizeof(char *));
 	env[0] = NULL;
 
 	if (!options.use_login) {

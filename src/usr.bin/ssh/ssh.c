@@ -1,4 +1,4 @@
-/* $OpenBSD: ssh.c,v 1.293 2006/08/03 03:34:42 deraadt Exp $ */
+/* $OpenBSD: ssh.c,v 1.294 2006/10/06 02:29:19 djm Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -96,7 +96,7 @@
 #include "scard.h"
 #endif
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/ssh/ssh.c,v 1.15 2006/09/20 21:41:06 tg Exp $");
 
 extern char *__progname;
 
