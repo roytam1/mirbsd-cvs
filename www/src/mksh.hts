@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.345 2010/07/17 22:14:42 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.346 2010/07/18 17:29:54 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1035,6 +1035,8 @@ exec /usr/bin/ld "${args[@]}"</pre>
   the manual page and fix some formatting errors with GNU groff’s mdoc</li>
  <li>[tg] Make printf.c.1.15 use mksh’s shf_* routines instead of stdio</li>
  <li>[tg] Fix <tt>-Wc++-compat</tt> except implicit casts from/to "void *"</li>
+ <li>[tg] Correct shf buffer I/O routines to avoid a memory corruption bug
+  discovered by Waldemar Brodkorb and other bad effects</li>
 </ul>
 <p id="r39c">mksh R39c is an important minor bugfix release:</p><ul>
  <li>[tg] Build system, code, docs and testsuite cleanup, also style(9)</li>
