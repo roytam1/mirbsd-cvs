@@ -1,4 +1,4 @@
-# $MirOS: www/Makefile,v 1.72 2011/02/08 22:13:27 bsiegert Exp $
+# $MirOS: www/Makefile,v 1.73 2011/02/12 23:00:00 bsiegert Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -184,7 +184,7 @@ validation: .PHONY ${VOBJS}
 	@print '\nValidation complete.'
 
 .PHONY: clean cleandir depend install deinstall reinstall _reinstall \
-	cp-herc cp-heph rs-heph rs-eurynome
+	cp-herc cp-heph rs-heph rs-eurynome rs-pfau
 
 #cp-herc: site.tgz.stamp
 #	ssh hercs 'cd /var/www/oldsite; tar xzvf -' <site.tgz
@@ -198,6 +198,9 @@ rs-heph:
 rs-eurynome:
 	rsync -rxlztpgavPHK --rsh='ssh -4' dst/ eurynome:/var/anoncvs/anoncvs/www/
 
+rs-pfau:
+	rsync -rxlztpgavPHK --rsh='ssh -4' dst/ pfau:/Web/
+
 depend: .depend
 
 .depend: ${TOP}/mk/mkdepend ${DEPSRCS}
@@ -207,7 +210,7 @@ depend: .depend
 
 lazy: .PHONY
 	cd ${.CURDIR} && make depend && make && \
-	    make _reinstall && exec make rs-eurynome rs-heph tagslst
+	    make _reinstall && exec make rs-eurynome rs-heph rs-pfau tagslst
 
 tagslst: .PHONY
 	@(echo === TAGS USED/UNUSED/ACCOUNTED FOR ==; cat stamp_tag_* | \
