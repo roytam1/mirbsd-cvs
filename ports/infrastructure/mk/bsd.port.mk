@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.248 2009/02/01 12:02:07 bsiegert Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.249 2009/03/29 13:04:05 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -2382,7 +2382,7 @@ ${_FAKE_COOKIE}: ${_BUILD_COOKIE} ${WRKPKG}/mtree.spec
 .    endif
 .  endfor
 .  if target(post-install)
-	@cd ${.CURDIR} && exec ${SUDO} ${_SYSTRACE_CMD} \
+	@cd ${.CURDIR} && exec ${SUDO} ${_SYSTRACE_CMD} env FLAVOUR=${FLAVOUR} \
 	    ${MAKE} post-install ${_FAKE_SETUP}
 .  endif
 .  for _p in ${PROTECT_MOUNT_POINTS}
