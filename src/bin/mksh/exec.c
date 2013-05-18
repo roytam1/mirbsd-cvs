@@ -2,7 +2,7 @@
 
 #include "sh.h"
 
-__RCSID("$MirOS: src/bin/mksh/exec.c,v 1.22.2.3 2007/03/03 22:38:23 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/exec.c,v 1.22.2.4 2007/03/03 22:51:18 tg Exp $");
 
 static int comexec(struct op *, struct tbl *volatile, const char **,
     int volatile);
@@ -62,11 +62,11 @@ execute(struct op *volatile t,
 		/* POSIX says expand command words first, then redirections,
 		 * and assignments last..
 		 */
-		ap = (const char **)eval(t->args,
-		    t->u.evalflags | DOBLANK | DOGLOB | DOTILDE);
+		uap = eval(t->args, t->u.evalflags | DOBLANK|DOGLOB|DOTILDE);
 		if (flags & XTIME)
 			/* Allow option parsing (bizarre, but POSIX) */
-			timex_hook(t, &ap);
+			timex_hook(t, &uap);
+		ap = (const char **)uap;
 		if (Flag(FXTRACE) && ap[0]) {
 			shf_fprintf(shl_out, "%s",
 				substitute(str_val(global("PS4")), 0));
