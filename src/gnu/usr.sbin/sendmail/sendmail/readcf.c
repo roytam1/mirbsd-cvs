@@ -124,6 +124,10 @@ readcf(cfname, safe, e)
 		| SSL_OP_NO_TICKET
 #endif
 		;
+#ifdef SSL_OP_DONT_INSERT_EMPTY_FRAGMENTS
+	Srv_SSL_Options &= ~SSL_OP_DONT_INSERT_EMPTY_FRAGMENTS;
+	Clt_SSL_Options &= ~SSL_OP_DONT_INSERT_EMPTY_FRAGMENTS;
+#endif
 #endif /* STARTTLS */
 	if (DontLockReadFiles)
 		sff |= SFF_NOLOCK;

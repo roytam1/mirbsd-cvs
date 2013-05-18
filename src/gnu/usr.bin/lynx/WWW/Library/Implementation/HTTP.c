@@ -121,9 +121,15 @@ SSL *HTGetSSLHandle(void)
 	ssl_ctx = SSL_CTX_new();
 	X509_set_default_verify_paths(ssl_ctx->cert);
 #else
+	long ssl_opts;
+
+	ssl_opts = SSL_OP_ALL;
+#ifdef SSL_OP_DONT_INSERT_EMPTY_FRAGMENTS
+	ssl_opts &= ~SSL_OP_DONT_INSERT_EMPTY_FRAGMENTS;
+#endif
 	SSLeay_add_ssl_algorithms();
 	ssl_ctx = SSL_CTX_new(SSLv23_client_method());
-	SSL_CTX_set_options(ssl_ctx, SSL_OP_ALL);
+	SSL_CTX_set_options(ssl_ctx, ssl_opts);
 	SSL_CTX_set_default_verify_paths(ssl_ctx);
 	SSL_CTX_set_verify(ssl_ctx, SSL_VERIFY_PEER, HTSSLCallback);
 #endif /* SSLEAY_VERSION_NUMBER < 0x0800 */
