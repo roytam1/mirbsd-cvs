@@ -28,7 +28,7 @@
 # http://www.freebsd.org/cgi/cvsweb.cgi/src/tools/regression/bin/test/regress.sh?rev=HEAD
 
 expected-stdout:
-	@(#)MIRBSD KSH R40 2011/12/29
+	@(#)MIRBSD KSH R40 2011/12/30
 description:
 	Check version of shell.
 stdin:

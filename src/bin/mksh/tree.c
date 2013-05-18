@@ -895,7 +895,7 @@ dumptree(struct shf *shf, struct op *t)
 	int i;
 	const char **w, *name;
 	struct op *t1;
-	static int nesting = 0;
+	static int nesting;
 
 	for (i = 0; i < nesting; ++i)
 		shf_putc('\t', shf);
