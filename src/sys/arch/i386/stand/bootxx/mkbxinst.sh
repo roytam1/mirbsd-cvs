@@ -1,5 +1,5 @@
 #!/bin/mksh
-rcsid='$MirOS: src/sys/arch/i386/stand/bootxx/mkbxinst.sh,v 1.17 2009/06/07 12:09:31 tg Exp $'
+rcsid='$MirOS: src/sys/arch/i386/stand/bootxx/mkbxinst.sh,v 1.18 2009/06/07 13:07:46 tg Exp $'
 #-
 # Copyright (c) 2007, 2008, 2009
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -188,7 +188,7 @@ if (( g_code[0] )); then
 	if (( g_code[0] < 1 || g_code[1] < 1 || g_code[1] > 256 ||
 	    g_code[2] < 1 || g_code[2] > 63 )); then
 		print -u2 Invalid geometry, values out of bounds.
-	elif [[ $(print "(${g_code[0]} * ${g_code[1]} * {g_code[2]})" \
+	elif [[ $(print "(${g_code[0]} * ${g_code[1]} * ${g_code[2]})" \
 	    "> 4294967295" | bc) = 1 ]]; then
 		print -u2 Invalid geometry, more than 2 TiB of data.
 	else
