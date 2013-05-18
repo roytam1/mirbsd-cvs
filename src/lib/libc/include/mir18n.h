@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/include/mir18n.h,v 1.10 2006/11/01 20:23:30 tg Exp $ */
+/* $MirOS: src/lib/libc/include/mir18n.h,v 1.11 2006/11/06 18:54:40 tg Exp $ */
 
 #ifndef _LIBC_MIR18N_H
 #define _LIBC_MIR18N_H
@@ -34,6 +34,10 @@
 
 /* highest allowed character in 'CESU-8' (UTF-8) locale */
 #define MIR18N_MB_MAX	0xFFFD
+
+#ifndef __STDC_ISO_10646__
+#error This code assumes that wchar_t is UCS-2HE
+#endif
 
 #ifndef __bool_true_false_are_defined
 #include <stdbool.h>

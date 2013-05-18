@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/i18n/wcwidth.c,v 1.3 2006/11/01 18:35:21 tg Exp $ */
+/* $MirOS: src/lib/libc/i18n/wcwidth.c,v 1.4 2006/11/01 20:01:20 tg Exp $ */
 /* $XTermId: wcwidth.c,v 1.17 2006/03/20 00:36:19 tom Exp $ */
 /* $XFree86: xc/programs/xterm/wcwidth.c,v 1.8 2006/03/20 00:36:19 dickey Exp $ */
 
@@ -15,6 +15,10 @@
  * the possibility of such damage or existence of a defect.
  */
 
+#ifndef __STDC_ISO_10646__
+#error This code assumes that wchar_t is UCS
+#endif
+
 /*
  * Markus Kuhn -- 2003-05-20 (Unicode 4.0)
  *
@@ -25,7 +29,7 @@
 
 #include <wchar.h>
 
-__RCSID("$MirOS: src/lib/libc/i18n/wcwidth.c,v 1.3 2006/11/01 18:35:21 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/wcwidth.c,v 1.4 2006/11/01 20:01:20 tg Exp $");
 
 struct interval {
 	wchar_t first;
