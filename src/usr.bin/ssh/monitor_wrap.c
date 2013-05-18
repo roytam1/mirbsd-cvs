@@ -1,4 +1,4 @@
-/* $OpenBSD: monitor_wrap.c,v 1.54 2006/08/12 20:46:46 miod Exp $ */
+/* $OpenBSD: monitor_wrap.c,v 1.55 2007/02/19 10:45:58 dtucker Exp $ */
 /*
  * Copyright 2002 Niels Provos <provos@citi.umich.edu>
  * Copyright 2002 Markus Friedl <markus@openbsd.org>
@@ -62,7 +62,7 @@
 #include "session.h"
 #include "servconf.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/monitor_wrap.c,v 1.5 2006/09/20 21:41:00 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/monitor_wrap.c,v 1.6 2006/09/21 21:47:30 tg Exp $");
 
 /* Imports */
 extern int compat20;
@@ -231,8 +231,6 @@ mm_getpwnamallow(const char *username)
 	if (newopts->banner != NULL)
 		newopts->banner = buffer_get_string(&m, NULL);
 	copy_set_server_options(&options, newopts, 1);
-	if (newopts->banner != NULL)
-		xfree(newopts->banner);
 	xfree(newopts);
 
 	buffer_free(&m);

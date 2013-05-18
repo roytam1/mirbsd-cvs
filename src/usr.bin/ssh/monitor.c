@@ -1,4 +1,4 @@
-/* $OpenBSD: monitor.c,v 1.89 2006/11/07 10:31:31 markus Exp $ */
+/* $OpenBSD: monitor.c,v 1.90 2007/02/19 10:45:58 dtucker Exp $ */
 /*
  * Copyright 2002 Niels Provos <provos@citi.umich.edu>
  * Copyright 2002 Markus Friedl <markus@openbsd.org>
@@ -71,7 +71,7 @@
 #include "compat.h"
 #include "ssh2.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/monitor.c,v 1.7 2006/09/21 21:47:30 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/monitor.c,v 1.8 2006/11/09 02:42:05 tg Exp $");
 
 /* Imports */
 extern ServerOptions options;

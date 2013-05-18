@@ -1,4 +1,4 @@
-/* $OpenBSD: servconf.c,v 1.167 2006/12/14 10:01:14 dtucker Exp $ */
+/* $OpenBSD: servconf.c,v 1.170 2007/03/01 10:28:02 dtucker Exp $ */
 /*
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
  *                    All rights reserved
@@ -38,7 +38,7 @@
 #include "channels.h"
 #include "groupaccess.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/servconf.c,v 1.14 2006/09/21 21:54:43 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/servconf.c,v 1.15 2007/01/25 16:18:37 tg Exp $");
 
 static void add_listen_addr(ServerOptions *, char *, u_short);
 static void add_one_listen_addr(ServerOptions *, char *, u_short);
@@ -274,22 +274,22 @@ static struct {
 	{ "syslogfacility", sLogFacility, SSHCFG_GLOBAL },
 	{ "loglevel", sLogLevel, SSHCFG_GLOBAL },
 	{ "rhostsauthentication", sDeprecated, SSHCFG_GLOBAL },
-	{ "rhostsrsaauthentication", sRhostsRSAAuthentication, SSHCFG_GLOBAL },
-	{ "hostbasedauthentication", sHostbasedAuthentication, SSHCFG_GLOBAL },
+	{ "rhostsrsaauthentication", sRhostsRSAAuthentication, SSHCFG_ALL },
+	{ "hostbasedauthentication", sHostbasedAuthentication, SSHCFG_ALL },
 	{ "hostbasedusesnamefrompacketonly", sHostbasedUsesNameFromPacketOnly, SSHCFG_GLOBAL },
-	{ "rsaauthentication", sRSAAuthentication, SSHCFG_GLOBAL },
-	{ "pubkeyauthentication", sPubkeyAuthentication, SSHCFG_GLOBAL },
+	{ "rsaauthentication", sRSAAuthentication, SSHCFG_ALL },
+	{ "pubkeyauthentication", sPubkeyAuthentication, SSHCFG_ALL },
 	{ "dsaauthentication", sPubkeyAuthentication, SSHCFG_GLOBAL }, /* alias */
-	{ "kerberosauthentication", sUnsupported, SSHCFG_GLOBAL },
+	{ "kerberosauthentication", sUnsupported, SSHCFG_ALL },
 	{ "kerberosorlocalpasswd", sUnsupported, SSHCFG_GLOBAL },
 	{ "kerberosticketcleanup", sUnsupported, SSHCFG_GLOBAL },
 	{ "kerberosgetafstoken", sUnsupported, SSHCFG_GLOBAL },
 	{ "kerberostgtpassing", sUnsupported, SSHCFG_GLOBAL },
 	{ "afstokenpassing", sUnsupported, SSHCFG_GLOBAL },
-	{ "gssapiauthentication", sUnsupported, SSHCFG_GLOBAL },
+	{ "gssapiauthentication", sUnsupported, SSHCFG_ALL },
 	{ "gssapicleanupcredentials", sUnsupported, SSHCFG_GLOBAL },
 	{ "passwordauthentication", sPasswordAuthentication, SSHCFG_ALL },
-	{ "kbdinteractiveauthentication", sKbdInteractiveAuthentication, SSHCFG_GLOBAL },
+	{ "kbdinteractiveauthentication", sKbdInteractiveAuthentication, SSHCFG_ALL },
 	{ "challengeresponseauthentication", sChallengeResponseAuthentication, SSHCFG_GLOBAL },
 	{ "skeyauthentication", sChallengeResponseAuthentication, SSHCFG_GLOBAL }, /* alias */
 	{ "checkmail", sDeprecated, SSHCFG_GLOBAL },
@@ -873,7 +873,7 @@ parse_flag:
 		else
 			fatal("%s line %d: Bad yes/no/clientspecified "
 			    "argument: %s", filename, linenum, arg);
-		if (*intptr == -1)
+		if (*activep && *intptr == -1)
 			*intptr = value;
 		break;
 
@@ -1225,6 +1225,19 @@ parse_server_match_config(ServerOptions *options, const char *user,
 	copy_set_server_options(options, &mo, 0);
 }
 
+/* Helper macros */
+#define M_CP_INTOPT(n) do {\
+	if (src->n != -1) \
+		dst->n = src->n; \
+} while (0)
+#define M_CP_STROPT(n) do {\
+	if (src->n != NULL) { \
+		if (dst->n != NULL) \
+			xfree(dst->n); \
+		dst->n = src->n; \
+	} \
+} while(0)
+
 /*
  * Copy any supported values that are set.
  *
@@ -1235,33 +1248,27 @@ parse_server_match_config(ServerOptions *options, const char *user,
 void
 copy_set_server_options(ServerOptions *dst, ServerOptions *src, int preauth)
 {
-	if (src->password_authentication != -1)
-		dst->password_authentication = src->password_authentication;
-	if (src->permit_empty_passwd != -1)
-		dst->permit_empty_passwd = src->permit_empty_passwd;
-	if (src->banner != NULL) {
-		if (dst->banner != NULL)
-			xfree(dst->banner);
-		dst->banner = src->banner;
-	}
+	M_CP_INTOPT(password_authentication);
+	M_CP_INTOPT(rsa_authentication);
+	M_CP_INTOPT(pubkey_authentication);
+	M_CP_INTOPT(hostbased_authentication);
+	M_CP_INTOPT(kbd_interactive_authentication);
+	M_CP_INTOPT(permit_empty_passwd);
+
+	M_CP_INTOPT(allow_tcp_forwarding);
+	M_CP_INTOPT(gateway_ports);
+	M_CP_INTOPT(x11_display_offset);
+	M_CP_INTOPT(x11_forwarding);
+	M_CP_INTOPT(x11_use_localhost);
+
+	M_CP_STROPT(banner);
 	if (preauth)
 		return;
-	if (src->allow_tcp_forwarding != -1)
-		dst->allow_tcp_forwarding = src->allow_tcp_forwarding;
-	if (src->gateway_ports != -1)
-		dst->gateway_ports = src->gateway_ports;
-	if (src->adm_forced_command != NULL) {
-		if (dst->adm_forced_command != NULL)
-			xfree(dst->adm_forced_command);
-		dst->adm_forced_command = src->adm_forced_command;
-	}
-	if (src->x11_display_offset != -1)
-		dst->x11_display_offset = src->x11_display_offset;
-	if (src->x11_forwarding != -1)
-		dst->x11_forwarding = src->x11_forwarding;
-	if (src->x11_use_localhost != -1)
-		dst->x11_use_localhost = src->x11_use_localhost;
+	M_CP_STROPT(adm_forced_command);
 }
+
+#undef M_CP_INTOPT
+#undef M_CP_STROPT
 
 void
 parse_server_config(ServerOptions *options, const char *filename, Buffer *conf,
@@ -1284,4 +1291,8 @@ parse_server_config(ServerOptions *options, const char *filename, Buffer *conf,
 	if (bad_options > 0)
 		fatal("%s: terminating, %d bad configuration options",
 		    filename, bad_options);
+
+	/* challenge-response is implemented via keyboard interactive */
+	if (options->challenge_response_authentication == 1)
+		options->kbd_interactive_authentication = 1;
 }

@@ -34,8 +34,8 @@
 .\" (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 .\" THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .\"
-.\" $MirOS: src/usr.bin/ssh/sshd_config.5,v 1.16 2006/09/21 21:54:43 tg Exp $
-.\" $OpenBSD: sshd_config.5,v 1.71 2007/01/02 09:57:25 jmc Exp $
+.\" $MirOS: src/usr.bin/ssh/sshd_config.5,v 1.17 2007/01/25 16:18:39 tg Exp $
+.\" $OpenBSD: sshd_config.5,v 1.74 2007/03/01 16:19:33 jmc Exp $
 .Dd September 25, 1999
 .Dt SSHD_CONFIG 5
 .Os
@@ -493,9 +493,14 @@ Available keywords are
 .Cm Banner ,
 .Cm ForceCommand ,
 .Cm GatewayPorts ,
+.Cm GSSApiAuthentication ,
+.Cm KbdInteractiveAuthentication ,
+.Cm KerberosAuthentication ,
 .Cm PasswordAuthentication ,
 .Cm PermitEmptyPasswords ,
 .Cm PermitOpen ,
+.Cm RhostsRSAAuthentication ,
+.Cm RSAAuthentication ,
 .Cm X11DisplayOffset ,
 .Cm X11Forwarding ,
 and

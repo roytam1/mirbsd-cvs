@@ -1,4 +1,4 @@
-/* $OpenBSD: auth2.c,v 1.113 2006/08/03 03:34:41 deraadt Exp $ */
+/* $OpenBSD: auth2.c,v 1.114 2007/03/01 10:28:02 dtucker Exp $ */
 /*
  * Copyright (c) 2000 Markus Friedl.  All rights reserved.
  *
@@ -43,7 +43,7 @@
 #include "pathnames.h"
 #include "monitor_wrap.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/ssh/auth2.c,v 1.5 2006/09/20 21:40:56 tg Exp $");
 
 /* import */
 extern ServerOptions options;
@@ -83,10 +83,6 @@ static char *authmethods_get(void);
 void
 do_authentication2(Authctxt *authctxt)
 {
-	/* challenge-response is implemented via keyboard interactive */
-	if (options.challenge_response_authentication)
-		options.kbd_interactive_authentication = 1;
-
 	dispatch_init(&dispatch_protocol_error);
 	dispatch_set(SSH2_MSG_SERVICE_REQUEST, &input_service_request);
 	dispatch_run(DISPATCH_BLOCK, &authctxt->success, authctxt);
