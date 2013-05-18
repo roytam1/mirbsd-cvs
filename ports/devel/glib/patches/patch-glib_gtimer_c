@@ -1,0 +1,24 @@
+$MirOS$
+--- glib/gtimer.c.orig	Fri Oct  6 18:44:10 2006
++++ glib/gtimer.c	Thu Mar  6 21:27:50 2008
+@@ -543,6 +543,7 @@ gchar *
+ g_time_val_to_iso8601 (GTimeVal *time_)
+ {
+   gchar *retval;
++  time_t real_tv_sec;
+ 
+   g_return_val_if_fail (time_->tv_usec >= 0 && time_->tv_usec < G_USEC_PER_SEC, NULL);
+ 
+@@ -550,9 +551,11 @@ g_time_val_to_iso8601 (GTimeVal *time_)
+ #define ISO_8601_FORMAT "%Y-%m-%dT%H:%M:%SZ"
+   retval = g_new0 (gchar, ISO_8601_LEN + 1);
+   
++  /* time_->tv_sec is of type glong, not time_t */
++  real_tv_sec = time_->tv_sec;
+   strftime (retval, ISO_8601_LEN,
+ 	    ISO_8601_FORMAT,
+-	    gmtime (&(time_->tv_sec)));
++	    gmtime (&real_tv_sec));
+   
+   return retval;
+ }
