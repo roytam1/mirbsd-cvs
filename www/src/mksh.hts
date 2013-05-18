@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.258 2009/07/30 19:11:48 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.259 2009/08/01 22:01:18 tg Exp $'
 mws_content <<'EOF'
 <h2>mksh(1) R38c</h2>
 
@@ -33,8 +33,8 @@ mws_content <<'EOF'
  <li>Inclusion in <a href="#otheros">operating systems</a></li>
  <li><a href="mksh_old.htm#contrib">comparision</a> with other shells</li>
  <li><a href="#regress">Testsuite Results</a> (regression tests)</li>
- <li><a href="#vsn">on version numbers</a> – for packagers</li>
- <li><a href="#plans">future plans</a></li>
+ <li><a href="mksh_old.htm#vsn">on version numbers</a> – for packagers</li>
+ <li><a href="mksh_old.htm#plans">future plans</a></li>
  <li><a href="#clog">ChangeLog</a></li>
  <li>information about <a href="mksh_old.htm">old versions</a></li>
 </ul>
@@ -114,7 +114,7 @@ mws_content <<'EOF'
  GNU/HURD or GNU/Linux; Sun Solaris (8, 9, 10, 11), OpenSolaris; AIX; IRIX;
  HP-UX 11i; OSF/1; ULTRIX; Minix 3<br />To run the
  regression test suite, you will need a not too antiquated Perl with POSIX.pm
- as well as <tt><a href="#editor">/bin</a>/ed</tt> (whose installation is
+ as well as <tt><a href="mksh_old.htm#editor">/bin</a>/ed</tt> (whose installation is
  strongly suggested anyway, because it’s the standard <tt>FCEDIT</tt> history
  editor and standard UNIX® text editor), as well as a controlling terminal,
  usually <tt>/dev/tty</tt> or provided from script(1) or GNU screen.</p>
@@ -165,7 +165,7 @@ mws_content <<'EOF'
  format, check the Debian Project for availability, although they often do
  not carry the latest version. The pax(1) utility (the POSIX Archiver) can
  extract from the CPIO distfile and is available even on a stock Microsoft®
- Windows® installation.</p>
+ Windows® installation (<tt>\WINNT\SYSTEM32\PAX.EXE</tt>).</p>
 <h3 id="mirrors">Known Mirrors</h3><ul>
  <li><a href="https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R38c.cpio.gz">https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R38c.cpio.gz</a></li>
  <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R38c.cpio.gz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R38c.cpio.gz</a></li>
@@ -505,7 +505,7 @@ mws_content <<'EOF'
  Minix 1 and Minix 2 will never be supported due to size constraints on
  16-bit platforms, unless a user contributes code.</p>
 <p>Minix 3 contains a <tt>/usr/bin/ed</tt> which, even if copied to the
- correct directory (<a href="#editor"><tt>/bin</tt></a>), will fail the
+ correct directory (<a href="mksh_old.htm#editor"><tt>/bin</tt></a>), will fail the
  regression tests due to bugs. A modern ed(1), if compiled, might help
  with it similarily to QNX, but MirBSD ed needs very many patches, so
  this was not tried.</p>
@@ -629,16 +629,9 @@ mws_content <<'EOF'
 <p>mksh R38b works on QNX 6.4 out of the box.</p>
 <p>mksh R38 offers <tt>-DMKSH_MIDNIGHTBSD01ASH_COMPAT</tt> and users
  should be warned about the “!string” line and UTF-8 mode changes.</p>
-<p>mksh R37c now honours <tt>-DMKSH_CONSERVATIVE_FDS</tt> and ACK.
- The regression test suite keeps <tt>LOCPATH</tt> around.</p>
-<p>mksh R37b now honours <tt>-DMKSH_UNEMPLOYED</tt> for the jobless
- mode required on, at least, Minix 3.</p>
 <p>Freshmeat announcements <strong>have ceased</strong> because the
  site switched to a very user-unfriendly HTML (especially Lynx). Use
  the <a href="@@RELPATH@@tag_mksh.rss">RSS feed</a> instead.</p>
-<p>mksh R37 has a new ‘-combine’ <tt>Build.sh</tt> option. The
- <tt>-DMKSH_AFREE_DEBUG</tt> flag is gone due to a new allocator,
- which however honours <tt>-DUSE_REALLOC_MALLOC=0</tt>.</p>
 <p><a href="mksh_old.htm#upgrade">older entries</a></p>
 
 <h2 id="otheros">Inclusion in other operating systems</h2><ul>
@@ -756,14 +749,15 @@ mws_content <<'EOF'
  <li>Solaris 10 Generic_137111-08 sun4u (sparc64 gcc3.4.6)</li>
  <li>Solaris 10 Generic_137111-08 sun4u (sparc:V8+ SUNWcc5.9 124867-08 2008/10/07, ld 5.10-1.489)</li>
  <li>Solaris 10 Generic_137111-08 sun4u (sparc64 SUNWcc5.9 124867-08 2008/10/07, ld 5.10-1.489)</li>
- <li>Debian GNU/Linux sid 2.6.18-6-686 (i386 gcc4.5.0-r148747 gcc-snapshot_20090620-1) <em>but <tt>-combine</tt> is broken again *sigh…*</em></li>
- <li>Debian GNU/Linux sid 2.6.18-6-686 (i386 gcc4.4.0-11)</li>
+ <li>Debian GNU/Linux sid 2.6.18-6-686 (i386 gcc4.5.0-r149777 gcc-snapshot_20090817-1) <em>but <tt>-combine</tt> is broken again *sigh…*</em></li>
+ <li>Debian GNU/Linux sid 2.6.18-6-686 (i386 gcc4.4.1-1)</li>
  <li>Debian GNU/Linux sid 2.6.18-6-686 (i386 nwcc0.7.9)</li>
+ <li>Debian GNU/Linux sid 2.6.18-6-686 (i386 TenDRA-4.1.2-18)</li>
  <li>ecce!GNU/Linux 1.00 2.0.38a (i386 libc5 gcc2.7.2.3) <em>with</em> HAVE_SETLOCALE_CTYPE=0 (libc5)</li>
  <li style="list-style:none;">– other build system integration –</li>
- <li>Debian GNU/Linux sid 2.6.18-6-686 (i386 gcc4.3.3-14 +eglibc2.9-20) <em>via Debian package</em></li>
- <li>Debian GNU/Linux sid 2.6.18-6-686 (i386 gcc4.3.3-14 +dietlibc0.31-1.2) <em>via Debian package</em></li>
- <li>Debian GNU/Linux sid 2.6.18-6-686 (i386 gcc4.3.3-14 +klibc1.5.15-2~tg+1) <em>via Debian package</em></li>
+ <li>Debian GNU/Linux sid 2.6.18-6-686 (i386 gcc4.3.3-15 +eglibc2.9-23) <em>via Debian package</em></li>
+ <li>Debian GNU/Linux sid 2.6.18-6-686 (i386 gcc4.3.3-15 +dietlibc0.31-1.2) <em>via Debian package</em></li>
+ <li>Debian GNU/Linux sid 2.6.18-6-686 (i386 gcc4.3.3-15 +klibc1.5.15-2~tg+1) <em>via Debian package</em></li>
 </ul>
 <h3 id="regress_rel">Current Release</h3>
 <ul>
@@ -791,7 +785,6 @@ mws_content <<'EOF'
  <li>Debian GNU/Linux 4.0 etch 2.6.18-6-686 (i386 gcc4.1.1-21)</li>
  <li>Debian GNU/Linux 5.0 lenny 2.6.18-6-686 (i386 gcc4.1.2-25)</li>
  <li>Debian GNU/Linux 5.0 lenny 2.6.18-6-686 (i386 gcc4.3.2-1.1)</li>
- <li>Debian GNU/Linux 5.0 lenny 2.6.18-6-686 (i386 TenDRA-4.1.2-18)</li>
  <li>Minix 3 3.1.4~r4203? (i386 ACK)</li>
  <li>Minix 3 3.1.4~r4203? (i386 gcc)</li>
 <li style="list-style:none;">– other build system integration –</li>
@@ -913,75 +906,6 @@ mws_content <<'EOF'
   Use Compaq C instead, if this happens for you as well.</li>
 </ul>
 
-<h2 id="vsn">Recommendations on version numbering</h2>
-<p>mksh by default uses a version numbering scheme that uses full integers,
- prefixed by a capital letter R significing “Release”. If minor updates are
- required or requested, a lower-case letter from the standard latin alphabet
- will be appended, starting at ‘b’ and ending at ‘z’ (but usually way before
- or at ‘i’). If a packaging system cannot handle version numbers such as
- <tt>mksh-R29b</tt> (source) → <tt>mksh-R29b-1</tt>, <tt>mksh-R29bp1</tt>
- (binary), packagers OUGHT TO map this to a numerical system as follows:
- <tt>mksh-29.2-1</tt>, <tt>mksh-29.2.1</tt>, <tt>mksh-29.2nb0</tt>, depending
- on the packaging-system local policy for build numbers / patchlevels.</p>
-<p>Schemes to AVOID are <tt>mirbsdksh-1.29b</tt>, <tt>mksh-2.9.2</tt>, or
- worse. Please adhere to our recommendations so that users are able to locate
- mksh in their operation environment of choice.</p>
-
-<h3 id="editor">/bin/ed</h3>
-<p>While we’re at it – recommendations for packagers – there is another set
- of do’s and dont’s: location of the UNIX® standard text editor. As outlined
- in traditional unixoid operating system standards, manifested into POSIX,
- and – for these three-letter words that aren’t Unix, no matter which of the
- kernels they use in their variety of so-called distributions – the <a
- href="http://www.pathname.com/fhs/pub/fhs-2.3.html#SPECIFICOPTIONS2">FHS</a>
- (FSSTND): ed lives in <tt>/bin/ed</tt>, period.</p>
-<p>Patching mksh’s code to look for ed in ANY other location is a MUST NOT.</p>
-
-<h2 id="plans">Future Plans</h2><ul>
-<li>bash-style multiline command line editing, as an option (the current
- horizontally scrolled one is finally (with R28) bug-free even with
- multiline and very long prompts optionally with embedded newlines,
- and more suitable for small terminals)</li>
-<li>Ensure arithmetics are properly bound to <tt>mksh_ari_t</tt> and
- <tt>mksh_uari_t</tt> and offer switching to 64 bit, including as
- array index type, as a compile time option;
- seeing as some systems (DEC?) may not have a 64 bit type</li>
-<li>Adding <tt>goto</tt> and <tt>label</tt> keywords/commands</li>
-<li>Adding builtins <tt>fstat</tt>, <tt>lstat</tt>, <tt>traverse</tt>, …</li>
-<li>for a b in …; do (like make(1) does)</li>
-<li>${foo:S/bar/baz/g} and maybe ${foo:C/bar/baz/x} via regex(3)</li>
-<li>A sensible website</li>
-<li>Build and actually work on more platforms – DJGPP, PW32,
- Plan 9, Syllable – debug these</li>
-<li>Mode for no input line editing at all (required for Plan 9)
- and no Emacs just Vi mode (requested by unknown at FOSDEM 2009 – yuck)</li>
-<li>Real Unicode command line editing code</li>
-<li>Real Unicode internal op – ${foo:2:3} now works with MirOS OPTU-8
- but having internal representation being MirOS OPTU-16 would help in
- the long term</li>
-<li>Build with more platforms’ native tools or other compilers
- – ACK, kencc, ICC/UWIN, egcs/UWIN, tcc</li>
-<li>Add the ability to handle embedded NUL bytes in strings read,
- for example in the hexdump “utility” (regression test)
- <br />XXX this might be a bad idea actually, cf. php’s insecurity</li>
-<li>Bugfix for suspending <tt>a &amp;&amp; b</tt> chain</li>
-<li>echo diff &lt;(echo 1) &lt;(echo 2)</li>
-<li>;&amp; and ;;&amp; in case like zsh</li>
-<li>read with timeout like ksh93</li>
-<li>read -e like ksh93</li>
-<li>maybe associative arrays? meh, rather the bloat… naah</li>
-<li>Fix <a href="https://bugzilla.redhat.com/show_bug.cgi?id=496791">RedHat
- BZ#496791</a> without breaking things like<pre>
-	echo $(typeset -i10 x=16#20; echo $x)
-	echo $(typeset -Uui16 x=16#$(id -u)
-	)
-	echo $(c=1; d=1
-	typeset -Uui16 a=36#foo; c=2
-	typeset -Uui16 b=36 #foo; d=2
-	echo $a $b $c $d)
- </pre> etc.</li>
-</ul>
-
 <h2 id="clog">Recent Changes</h2>
 <p>Changes in the current (unreleased) development version:</p><ul>
  <li>Begin porting mksh to the <a href="http://9fans.net/">Plan 9</a>
@@ -1011,13 +935,15 @@ mws_content <<'EOF'
  <li>[tg] Build system and regression test code and comment improvements:
   better and more comments matching reality better; more reliability w.r.t.
   passed CPPFLAGS; more of the MKSH_SMALL changes may be overridden, all of
-  them are now enumerated on the webpage</li>
+  them are now enumerated on the webpage; fixed some breakage; portability</li>
  <li>[tg] MKSH_NOPWNAM and MKSH_SMALL will now both disable the <tt>~fac/</tt>
   (homedir) expansion code wholly if defined, not just getpwnam(3) calls</li>
  <li>[tg] shells without job control no longer define the standard "stop" and
   "suspend" aliases (they are pointless anyway); regression tests know</li>
  <li>[tg] use system RCS ID macros on MirBSD if decent enough</li>
  <li>[tg] shut up bogus gcc 4.5/trunk warnings caused by over-optimisation</li>
+ <li>[tg] restore ANSI C compilability broken in R38 (speed up, even)</li>
+ <li>[tg] use memcpy(3) ipv strlcpy(3) if possible and safe and secure</li>
 </ul>
 <p id="r38c">mksh R38c contains the following fixes:</p><ul>
  <li>[tg] Fix regression tests on OSes insisting on a shebang (Cygwin)</li>
@@ -1072,77 +998,15 @@ mws_content <<'EOF'
  <li>[tg] Ensure no function uses more than 768 bytes of stack either</li>
  <li>[tg, wbx] Add extension to make “!string” lines work like in GNU bash</li>
 </ul>
-<p id="r37c">mksh R37c provides these follow-up fixes:</p><ul>
- <li>[tg] Improve præprocessor detection/work in <tt>Build.sh</tt></li>
- <li>[tg] Decouple MKSH_CONSERVATIVE_FDS from MKSH_SMALL</li>
- <li>[tg] Enable MKSH_CONSERVATIVE_FDS by default on Minix 3</li>
- <li>[tg] Work around the (in-)famous ACK "const" bug</li>
- <li>[tg] Optimise structure alignment and padding; Closes: #522778</li>
- <li>[tg] Retain <tt>LOCPATH</tt> (for glibc locale) in <tt>check.pl</tt></li>
- <li>[tg] Document, simplify and clean up the code better</li>
- <li>[tg] Use <i>mirbsd.org</i> eMail addresses consistently</li>
-</ul>
-<p id="r37b">mksh R37b comes with the following fixes on top:</p><ul>
- <li>[tg] Clean up build system and <tt>dot.mkshrc</tt> some more</li>
- <li>[tg] Add getrusage(2) implementation using times(3) if none found</li>
- <li>[tg] Add jobless mode (for Minix 3, Plan 9, …)</li>
- <li>[tg] Detect the Amsterdam Compiler Kit in the build system</li>
- <li>[tg] If no <tt>RLIM_INFINITY</tt> don’t try to do ulimit</li>
- <li>[tg] Work around gcc4 strict warnings vs. broken system headers</li>
- <li>[tg] Work around systems with mmap(2) but no munmap(2)</li>
- <li>[tg] Fix (disallow) bind key macro recursion (instead of beeping and
-  going into an endless loop), allow multi-line bind key macros (mostly
-  from Alexander Hall), remove dead code (the beeping) and optimise</li>
- <li>[tg] Add (commented out, undesired, standards compliance breaking)
-  compatibility code to MidnightBSD 0.1 <tt>/bin/sh</tt> for ctriv</li>
- <li>[tg] Clarify the mksh(1) manual page even more</li>
- <li>[tg] Port to <a href="http://www.minix3.org/">Minix 3</a> + GCC</li>
-</ul>
-<p id="r37">mksh R37 has major standards compliance improvements:</p><ul>
- <li>[tg] Rename <tt>-o utf8-hack</tt> to <tt>-o utf8-mode</tt></li>
- <li>[tg] Fix spacing mode error (pasto) in the mdoc(7) format manpage</li>
- <li>[tg] Implement <tt>$((#…))</tt> unsigned arithmetic calculation,
-  needed for arc4random_uniform(3)-in-korn-shell implementation</li>
- <li>[tg] Really preserve LD_LIBRARY_PATH in <tt>check.pl</tt></li>
- <li>[tg] New <tt>Build.sh</tt> option ‘-combine’ for building mksh(1) at
-  once with “-fwhole-program --combine” (gcc4, llvm-gcc4) if available</li>
- <li>[tg] Always set <tt>COLUMNS</tt> and <tt>LINES</tt> trying as hard
-  as we can, using <tt>TIOCGWINSZ</tt> even if used without FTALKING,
-  and with the sane 80x24 default if the ioctl(2) fails</li>
- <li>[tg] Handle _POSIX_VDISABLE being undefined (e.g. Linux/klibc)</li>
- <li>[tg] &lt;sys/file.h&gt; is only required for flock(2)</li>
- <li>[tg] Fix multi-column output routine for the corner case if the
-  screen is less wide than one output column; 10x Gábor Gergely</li>
- <li>[tg] Fix ${foo/@(%)/\\x} in UTF-8 mode (utf_widthadj for control
-  characters U+0080‥U+009F is slightly broken; this fix shifts the
-  brokenness into the command line editing mode only)</li>
- <li>[tg] Introduce <tt>mksh_ari_t</tt> and <tt>mksh_uari_t</tt>
-  internal types to limit arithmetics to 32 bit on all systems;
-  currently depending on the already-used standard <tt>int32_t</tt>
-  and <tt>uint32_t</tt> types. Future expansion to 64 bit possible.
-  Document that shell integer variables use this type.</li>
- <li>[tg] The variables PGRP, PPID, RANDOM and USER_ID are now unsigned</li>
- <li>[tg] Fix two off-by-ones breaking PS1 ending with a newline; bug
-  reported by Matthias Diener</li>
- <li>[tg] Just pass through C1 control characters for now</li>
- <li>[tg] Code and internal interfaces cleanup</li>
- <li>[tg] Regression test fixes for Cygwin env(1) being unsorted</li>
- <li>[tg] Replace the memory allocator by something equally simple
-  and homegrown but optimised for use with mksh and free checking</li>
- <li>[tg] Import a couple of minor fixes (e.g. spelling) from oksh</li>
- <li>[tg] Fix problems with "set -e" for real; from oksh, Closes: #518359</li>
- <li>[tg] In "set -o posix" mode, have limited echo(1) to improve
-  standards compliance; the exact feature set is open for discussion,
-  e.g. with pkgsrc® people; for now, only <tt>-n</tt> as first arg</li>
- <li>[tg] Make test builtin operator precedence consistent; from oksh</li>
- <li>[tg] Revamp and fold and enhance the regression tests</li>
- <li>[tg] Document somewhat surprising behaviour in mksh(1) better;
-  here: <tt>[ x -eq y ]</tt>; for gps23 from <tt>#ksh</tt></li>
- <li>[tg] Reduce memory consumption by allocator simplification</li>
- <li>[tg] Fix bugs spotted by DEC ucode cc (ULTRIX) and gcc 1.42 (BSD/OS)</li>
- <li>[laffer1] Make mksh the default <tt>/bin/sh</tt> in MidnightBSD</li>
-</ul>
 <p><a href="mksh_old.htm#clog">older changes</a></p>
+
+<p style="margin-bottom: 500px">&nbsp;</p>
+<p>Do <em>not</em> send mail to <a
+ href="mailto:junk@mirbsd.de">junk@mirbsd.de</a>, <a
+ href="mailto:junk@mirsolutions.de">junk@mirsolutions.de</a>, <a
+ href="mailto:junk@mirbsd.org">junk@mirbsd.org</a> or <a
+ href="mailto:junk@mirbsd.org">junk@mirbsd.org</a>.
+ It won't do good to you.</p>
 EOF
 mws_putfooter
 exit 0
