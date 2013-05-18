@@ -2,7 +2,7 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.149 2008/07/14 14:40:48 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.150 2008/07/14 15:46:50 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R35</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -724,6 +724,20 @@ mws_content <<'EOF'
 <h2 id="regress">Official Testing</h2>
 <p>The MirOS Project has tested mksh on the following operating systems,
  asked people to test, and hunted mksh down in these packaging systems:</p>
+<h3 id="regress_dev">Development Versions post release</h3>
+<ul>
+ <li style="list-style:none;">– tests by the project, using Build.sh –</li>
+ <li>BSDi BSD/OS 3.1 #4 M300-043 (i386 gcc2.7.2.1)</li>
+ <li>BSDi BSD/OS 3.1 #4 M300-043 (i386 gcc1.42)</li>
+ <li>Debian GNU/Linux 4.0 testing 2.6.25-2-686 (i386 llvmgcc4.2.1-Apple_5555-LLVM_r52845)</li>
+ <li style="list-style:none;">– tests by the project, using ports –</li>
+ <li>Debian GNU/Linux 4.0 testing 2.6.25-2-686 (i386 gcc4.3.1-2) libc6-2.7-10 + dietlibc-0.31-1 + libbsd-0.0-3) via MirOS Debian package</li>
+ <li style="list-style:none;">– tests by third parties (Build.sh) –</li>
+ <li>HP OSF/1 V4.0F 1229 (alpha DEC C V5.9-005) by Jupp Schugt</li>
+ <li>HP OSF/1 V4.0F 1229 (alpha gcc2.8.1 alpha-dec-osf4.0d) by Jupp Schugt</li>
+ <li>SGI IRIX64 6.5 (mips:R10K mipspro7.4.4m) by Elias Pipping</li>
+ <li>SGI IRIX64 6.5 (mips:R10K gcc3.4.1) by Elias Pipping</li>
+</ul>
 <h3 id="regress_rel">Current Release</h3>
 <ul>
  <li style="list-style:none;">– tests by the project, using Makefile –</li>
@@ -766,7 +780,7 @@ mws_content <<'EOF'
  <li>Debian GNU 4.0 sid GNU-Mach 1.3.99/Hurd-0.3 i686-AT386 (i386 gcc4.3.1-5)</li>
  <li>Debian GNU 4.0 sid GNU-Mach 1.3.99/Hurd-0.3 i686-AT386 (i386 gcc4.3.1-5) + arc4random.c</li>
  <li>Cygwin_NT-5.0 1.5.25(0.156/4/2) 2008-04-17 12:11 i586 win2kSP2 (i386 gcc3.4.4)</li>
- <li>Cygwin_NT-5.0 1.5.25(0.156/4/2) 2008-04-17 12:11 i586 win2kSP2 (i386 gcc3.4.4) + arc4random</li>
+ <li>Cygwin_NT-5.0 1.5.25(0.156/4/2) 2008-04-17 12:11 i586 win2kSP2 (i386 gcc3.4.4) + arc4random.c</li>
  <li>Debian GNU/Linux 4.0 etch 2.6.18-6-mckinley (IA64 gcc4.1.1-21)</li>
  <li>Debian GNU/Linux 4.0 etch 2.6.18-4-686 (i386 gcc1:3.3.6-15)</li>
  <li>Debian GNU/Linux 4.0 etch 2.6.18-4-686 (i386 gcc4.1.1-21)</li>
@@ -776,7 +790,6 @@ mws_content <<'EOF'
  <li>Debian GNU/Linux 4.0 testing 2.6.24-1-686 (i386 gcc4.1.2-23)</li>
  <li>Debian GNU/Linux 4.0 testing 2.6.24-1-686 (i386 gcc4.2.4-2+b1)</li>
  <li>Debian GNU/Linux 4.0 testing 2.6.24-1-686 (i386 gcc4.3.1-2)</li>
- <li>Debian GNU/Linux 4.0 testing 2.6.24-1-686 (i386 llvmgcc4.2.1-Apple_5555-LLVM_r52845)</li>
  <li>Debian GNU/Linux 4.0 sid 2.6.18-6-vserver-s390x (S/390 gcc4.3.1-2)</li>
  <li>ecce!GNU/Linux 1.00 2.0.38a (i386 libc5 gcc2.7.2.3) <em>except</em> locale support</li>
  <li>Mandriva GNU/Linux CS 2006.0 2.6.12-22mdksmp (i386 gcc4.0.1-5mdk)</li>
@@ -789,19 +802,12 @@ mws_content <<'EOF'
  <li>MirOS #10-current (i386 gcc3.4.6) via MirPorts Framework</li>
  <li>OpenBSD 4.3 GENERIC#207 (zaurus gcc3.3.5) via MirOS OpenBSD-Port</li>
  <li>Debian GNU/Linux 4.0 etch 2.6.18-4-686 (i386 gcc4.1.1-21) via MirOS SRPM</li>
- <li>Debian GNU/Linux 4.0 testing 2.6.24-1-686 (i386 gcc4.3.1-2 libc6-2.7-10 + dietlibc-0.31-1) via MirOS Debian package</li>
  <li style="list-style:none;">– tests by third parties (Build.sh) –</li>
  <li>MidnightBSD 0.1.1-RELEASE (amd64 gcc3.4.4-20050518), by Lucas Holt</li>
- <li>HP OSF/1 V4.0F 1229 (alpha DEC C V5.9-005) <em>by Jupp Schugt</em></li>
- <li>HP OSF/1 V4.0F 1229 (alpha gcc2.8.1 alpha-dec-osf4.0d) <em>by Jupp Schugt</em></li>
- <li>SGI IRIX64 6.5 (mips:R10K mipspro7.4.4m) <em>except</em> locale support, by Elias Pipping</li>
- <li>SGI IRIX64 6.5 (mips:R10K gcc3.4.1) <em>except</em> locale support, by Elias Pipping</li>
 </ul>
-<h3 id="regress_dev">Development Versions</h3>
+<h3 id="regress_dvo">Development Versions older than last release</h3>
 <ul>
  <li style="list-style:none;">– tests by the project, using Build.sh –</li>
- <li>BSDi BSD/OS 3.1 #4 M300-043 (i386 gcc2.7.2.1)</li>
- <li>BSDi BSD/OS 3.1 #4 M300-043 (i386 gcc1.42)</li>
  <li>MidnightBSD 0.1.1-RELEASE (sparc64 gcc3.4.4-20050518)</li>
  <li>Debian GNU/kFreeBSD 4.0 sid 6.2-1-686 (i386 gcc1:3.3.6-15)</li>
  <li>Debian GNU/kFreeBSD 4.0 sid 6.2-1-686 (i386 gcc3.4.6-6)</li>
@@ -969,7 +975,10 @@ mws_content <<'EOF'
   by Elias Pipping, patch by Jared Yanovich, help from Todd C. Miller</li>
  <li>Protect a little against people not running “./test.sh -v” but calling
   it with, for instance, GNU bash (as homsn did…)</li>
- <li>Honour <tt>$PERL</tt> environment variable in test.sh, improve scan</li>
+ <li>Honour <tt>$PERL</tt> environment variable in test.sh, improve scanning
+  for Perl, do not use potentially undefined $^O, print Perl version</li>
+ <li>Add &lt;sys/types.h&gt; as &lt;ulimit.h&gt; requirement (dietlibc)</li>
+ <li>Work around bug in BSD/OS 3.1 /bin/ksh (PD KSH v5.2.8 96/08/19)</li>
 </ul>
 <p id="r35">mksh R35 comes with helluva changes:</p><ul>
   <li>Simplify and refactor the ulimit builtin, partially from oksh</li>
