@@ -1,5 +1,7 @@
-MD5 (t1lib-5.1.0.tar.gz) = a05bed4aa63637052e60690ccde70421
-RMD160 (t1lib-5.1.0.tar.gz) = f12710159aa8a92e8feb5d934dc45875d198bb58
-SHA1 (t1lib-5.1.0.tar.gz) = 6866561027aa32b0efb1a1aad0aa38cb5e01a299
-SIZE (t1lib-5.1.0.tar.gz) = 1838635
-TIGER (t1lib-5.1.0.tar.gz) = 0e0a69ec603542ebcfdaff2ac7a80a0a3401878f7ec1465e
+$MirOS$
+
+MD5 (t1lib-5.1.1.tar.gz) = b1b86b5014364d92ab3b7cee6c81e29d
+RMD160 (t1lib-5.1.1.tar.gz) = 4421f5d86de810682304b36ca129b5aeb37bf2a1
+SHA1 (t1lib-5.1.1.tar.gz) = 98418741cb9e0a27d65c2313f93bd1ef53ec1833
+SIZE (t1lib-5.1.1.tar.gz) = 1838914
+TIGER (t1lib-5.1.1.tar.gz) = 9ae15e04e67e409ce97660ea6cdd67140d2040f10492672d
