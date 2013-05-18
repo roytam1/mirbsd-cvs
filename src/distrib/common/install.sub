@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/install.sub,v 1.30 2008/03/15 21:13:00 tg Exp $
+# $MirOS: src/distrib/common/install.sub,v 1.31 2008/04/02 18:56:16 tg Exp $
 # $OpenBSD: install.sub,v 1.388 2005/07/02 00:55:48 uwe Exp $
 # $NetBSD: install.sub,v 1.5.2.8 1996/09/02 23:25:02 pk Exp $
 #
@@ -1552,8 +1552,9 @@ questions() {
 
 	ask_yn "Start ntpd(8) by default?" yes
 	if [[ $resp = y ]]; then
-		echo "ntpd_flags=-s		# enabled during install" \
+		echo "ntpd_flags=		# enabled during install" \
 		    >>/mnt/etc/rc.conf.local
+		echo "rdate_flags='-nv ntp.mirbsd.org'" >>/mnt/etc/rc.conf.local
 	fi
 
 	echo 'To keep an estimate of the installed user base and to support'
