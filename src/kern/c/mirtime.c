@@ -28,7 +28,7 @@
 #include <sys/types.h>
 #include <syskern/mirtime.h>
 
-__RCSID("$MirOS: src/kern/c/mirtime.c,v 1.1 2011/11/20 04:57:09 tg Exp $");
+__RCSID("$MirOS: src/kern/c/mirtime.c,v 1.2 2011/11/20 21:30:56 tg Exp $");
 
 #ifdef L_timet2posix
 time_t
@@ -117,7 +117,7 @@ mjd2timet(mirtime_mjd *mjd)
 
 #ifdef L_mjd_explode
 struct tm *
-mjd_explode(struct tm *tm, mirtime_mjd *mjd)
+mjd_explode(struct tm *tm, const mirtime_mjd *mjd)
 {
 	int sec, day, yday, mon;
 	time_t year;
@@ -219,7 +219,7 @@ mjd_explode(struct tm *tm, mirtime_mjd *mjd)
 
 #ifdef L_mjd_implode
 mirtime_mjd *
-mjd_implode(mirtime_mjd *mjd, struct tm *tm)
+mjd_implode(mirtime_mjd *mjd, const struct tm *tm)
 {
 	time_t day;
 	int x, y;

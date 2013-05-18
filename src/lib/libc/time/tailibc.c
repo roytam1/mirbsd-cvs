@@ -22,8 +22,9 @@
 #include <sys/time.h>
 #define _IN_TAITIME_IMPLEMENTATION
 #include <sys/taitime.h>
+#include <stdlib.h>
 
-__RCSID("$MirOS: src/lib/libc/time/tailibc.c,v 1.2 2007/02/07 21:08:20 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/time/tailibc.c,v 1.3+ 2011/11/20 04:57:13 tg Exp $");
 
 #ifdef L_tai_time
 tai64_t
@@ -102,4 +103,39 @@ importtai(uint8_t *src, tai64na_t *dst)
 	dst->atto = __BOUNDINTU(999999999, betoh32(source->atto));
 }
 __warn_references(importtai, "importtai is deprecated; use the new mirtime API instead");
+#endif
+
+#ifdef L_tai_leaps
+
+/*
+ * this is to stay ABI compatible, i.e. avoid a libc major bump;
+ * we don't care about _initialise_leaps, _leaps, _leaps_initialised
+ * and _pushleap since they were internal symbols anyway, though
+ */
+
+tai64_t *
+tai_leaps(void)
+{
+	static int initialised = 0;
+	static tai64_t *tp, tnull = 0;
+
+	if (!initialised) {
+		size_t n = 0;
+		const time_t *lp;
+
+		lp = mirtime_getleaps();
+		while (lp[n++])
+			/* nothing */;
+		if ((tp = calloc(n, sizeof(tai64_t))) == NULL) {
+			/* yuk, cry ffs? */
+			return (&tnull);
+		}
+		tp[--n] = 0;
+		while (n--)
+			tp[n] = timet2tai(lp[n]);
+		initialised = 1;
+	}
+	return (tp);
+}
+__warn_references(tai_leaps, "tai_leaps is deprecated; use the new mirtime API instead");
 #endif

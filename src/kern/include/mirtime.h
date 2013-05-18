@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/kern/include/mirtime.h,v 1.1 2011/11/20 04:57:10 tg Exp $ */
 
 /* Do not include this header, include <time.h> and/or <sys/time.h> */
 
@@ -67,8 +67,8 @@ time_t tm2timet(struct tm *);
 #endif
 
 /* internal conversion between broken-down calendaric date and MJD */
-struct tm *mjd_explode(struct tm *, mirtime_mjd *);
-mirtime_mjd *mjd_implode(mirtime_mjd *, struct tm *);
+struct tm *mjd_explode(struct tm *, const mirtime_mjd *);
+mirtime_mjd *mjd_implode(mirtime_mjd *, const struct tm *);
 
 /* internal leap second management */
 const time_t *mirtime_getleaps(void);

@@ -1,4 +1,4 @@
-# $MirOS: src/sys/conf/Makefile.inc,v 1.36 2010/07/30 21:03:36 tg Exp $
+# $MirOS: src/sys/conf/Makefile.inc,v 1.37 2011/11/20 04:57:14 tg Exp $
 #-
 # Copyright (c) 2005, 2006, 2007, 2008
 #	Thorsten "mirabilos" Glaser <tg@mirbsd.de>
@@ -26,6 +26,8 @@ SIZE?=		size
 STRIP?=		strip
 
 KERNBASE?=	$S/../kern
+
+depend:: beforedepend .WAIT
 
 INCLUDES=	-nostdinc -I. -I$S/arch -I$S -I${KERNBASE}/include
 CDIAGFLAGS=	-Werror -Wall -Wstrict-prototypes -Wmissing-prototypes \
@@ -164,6 +166,9 @@ clean::
 	    make_leaps mirtime_getleaps.c ${ZLIB_CLEANFLS}
 
 depend:: .depend
+beforedepend:
+	rm -f syskern
+	ln -s ${KERNBASE:Q}/include syskern
 .depend: ${SRCS} assym.h param.c ${APMINC} ${ZLIB_GENHDRS} mirtime_getleaps.c
 	CC=${CC:Q} ${MKDEP} -D_ASM_SOURCE ${AFLAGS} ${CPPFLAGS} \
 	    ${_MDINC}/locore.s

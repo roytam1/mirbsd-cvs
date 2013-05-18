@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libc/time/Makefile.inc,v 1.6 2011/11/20 02:11:29 tg Exp $
+# $MirOS: src/lib/libc/time/Makefile.inc,v 1.7 2011/11/20 04:57:12 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.8 2000/08/22 16:19:50 millert Exp $
 
 .PATH: ${LIBCSRCDIR}/time
@@ -12,6 +12,7 @@ CFLAGS_strftime.o+= -Wno-old-style-definition
 UIF_KUSRCS+=	tai_time.c tailibc.c -DL_tai_time
 UIF_KUSRCS+=	taina_time.c tailibc.c -DL_taina_time
 UIF_KUSRCS+=	tai_djb.c tailibc.c -DL_djbtai
+UIF_KUSRCS+=	tai_leaps.c tailibc.c -DL_tai_leaps
 
 MLINKS+=ctime.3 asctime.3 ctime.3 difftime.3 ctime.3 gmtime.3 \
 	ctime.3 localtime.3 ctime.3 mktime.3 ctime.3 asctime_r.3 \

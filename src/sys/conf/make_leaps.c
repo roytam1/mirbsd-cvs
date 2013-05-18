@@ -25,16 +25,16 @@
 #include <stdio.h>
 #include <time.h>
 
-__RCSID("$MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $");
+__RCSID("$MirOS: src/sys/conf/make_leaps.c,v 1.1 2011/11/20 04:57:14 tg Exp $");
 
 static const char preamble[] =
 "/* AUTOMATICALLY GENERATED - DO NOT EDIT! */\n"
 "\n"
 "#include <sys/time.h>\n"
 "\n"
-"__RCSID(\"From: $MirOS$\");\n"
+"__RCSID(\"From: $MirOS: src/sys/conf/make_leaps.c,v 1.1 2011/11/20 04:57:14 tg Exp $\");\n"
 "\n"
-"static time_t _leaps[] = {\n";
+"static time_t _leaps_tt[] = {\n";
 
 static const char epilogue[] =
 "	/* spare for config(8) */\n"
@@ -53,19 +53,19 @@ static const char epilogue[] =
 "const time_t *\n"
 "mirtime_getleaps(void)\n"
 "{\n"
-"	return (_leaps);\n"
+"	return (_leaps_tt);\n"
 "}\n";
 
 int
-main(int argc, char *argv[])
+main(void)
 {
-	time_t *lp;
+	const time_t *lp;
 
 	lp = mirtime_getleaps();
 
 	fputs(preamble, stdout);
 	while (*lp)
-		printf("\t0x%16llXLL,\n", *lp++);
+		printf("\t0x%016llXLL,\n", *lp++);
 	fputs(epilogue, stdout);
 
 	return (0);
