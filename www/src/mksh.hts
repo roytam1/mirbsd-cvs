@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.301 2009/11/22 14:27:51 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.302 2009/11/28 15:55:33 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -963,9 +963,10 @@ mws_content <<'EOF'
   limits in a single invocation from oksh (thanks millert) -->
  <li>[ahoka] Begin porting to <a href="http://www.haiku-os.org/">Haiku</a>
   and, implicitly, BeOS (not finished yet)</li>
- <li>[tg] Clean up some more strict gcc 2.95 warnings: casting errors
-  (constness, signedness, type width/class) and catch possibly unaligned
-  pointer dereferences early; remove code/rodata redundancies</li>
+ <li>[tg] Clean up some more strict *roff or compiler warnings: dashes,
+  undefined macros; casting errors (constness, signedness, type width/class)
+  and catch possibly unaligned pointer dereferences early; remove code/rodata
+  redundancies, plug memory leaks</li>
  <li>[smultron] Tweak the manual page: point out the word “colour”</li>
  <li>[tg] Optimise dot.mkshrc DJB’s CDB hash implementations; add Bob
   Jenkins’ one-at-a-time hash; fix signedness in expressions; let the
@@ -1064,7 +1065,6 @@ mws_content <<'EOF'
   wording that let people think we’d ever support POSuX character classes</li>
  <li>[tg] New <tt>${%foo}</tt> returning width of $foo in screen columns</li>
  <li>[tg] Fix subtle possible portability problem wrt. <tt>CHILD_MAX</tt></li>
- <li>[tg] Fix some warnings in code and manual page</li>
  <li>[tg] Honour <tt>±U</tt> on command line of an interactive shell</li>
 </ul>
 <p id="r39">mksh R39 evolved into these through various means:</p><ul>
