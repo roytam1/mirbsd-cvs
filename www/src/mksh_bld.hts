@@ -1,11 +1,11 @@
-# $MirOS: www/src/mksh_bld.hts,v 1.6 2010/08/15 13:00:16 tg Exp $
+# $MirOS: www/src/mksh_bld.hts,v 1.7 2011/06/12 18:12:07 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh/build "mksh – build/regression tests"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh_bld.hts,v 1.6 2010/08/15 13:00:16 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh_bld.hts,v 1.7 2011/06/12 18:12:07 tg Exp $'
 mws_content <<'EOF'
 <p>Jump to <a href="#regress_fail">known failures</a></p>
 <h2><a href="mksh.htm">mksh</a> – builds and regression tests</h2>
@@ -118,6 +118,7 @@ mws_content <<'EOF'
  <li>MidnightBSD 0.2.1-RELEASE-p2 (i386 pcc20081028-MirPorts-0)</li>
  <li>NetBSD 3.0_STABLE (i386 gcc3.3.3_nb3_20040520)</li>
  <li>OpenBSD 4.3 GENERIC#207 (zaurus gcc3.3.5)</li>
+ <li>BSDi BSD/OS 4.1 #0 (i386 gcc2.91.66 egcs-1.1.2)</li>
  <li>BSDi BSD/OS 3.1 #4 M300-043 (i386 gcc2.7.2.1)</li>
  <li>BSDi BSD/OS 3.1 #4 M300-043 (i386 gcc1.42)</li>
  <li>AIX 5.3 (powerpc gcc4.0.0_powerpc-ibm-aix5.1.0.0, LD 1.65 04/06/2005)</li>
