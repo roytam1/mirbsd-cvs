@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/sys.mk,v 1.74 2006/09/24 17:48:33 tg Exp $
+# $MirOS: src/share/mk/sys.mk,v 1.75 2006/09/29 21:57:08 tg Exp $
 # $OpenBSD: sys.mk,v 1.45 2005/03/07 00:06:00 deraadt Exp $
 # $NetBSD: sys.mk,v 1.27 1996/04/10 05:47:19 mycroft Exp $
 # @(#)sys.mk	5.11 (Berkeley) 3/13/91
@@ -21,7 +21,7 @@ OStype=		MirBSD
 # Sync these with <sys/param.h>
 unix=		We run ${OStype}.
 OSrev=		9		# MirOS version (major)
-OSrpl=		160		# MirOS patchlevel
+OSrpl=		161		# MirOS patchlevel
 OScompat=	3.5		# OpenBSD compatibility revision
 .if !defined(OSNAME) || empty(OSNAME)
 OSNAME!=	uname -s
@@ -29,7 +29,7 @@ OSNAME!=	uname -s
 OSname=		${OSNAME:L}
 OStriplet?=	${MACHINE_ARCH}-ecce-${OSname}${OSrev}
 _MIRMAKE_EXE=	/usr/bin/make
-_MIRMAKE_VER=	20060924
+_MIRMAKE_VER=	20060929
 
 .SUFFIXES:	.out .a .ln .o .s .S .c .m .cc .cxx .y .l .i .h .sh .m4
 .LIBS:		.a
@@ -146,7 +146,7 @@ CTAGS?=		/usr/bin/ctags
 .s:
 	${LINK.s} -o ${.TARGET} ${.IMPSRC} ${LDLIBS}
 .s.o:
-	${COMPILE.s} ${ASFLAGS_${.TARGET}:M*} ${.IMPSRC}
+	${COMPILE.s} ${AFLAGS_${.TARGET}:M*} ${.IMPSRC}
 .s.a:
 	${COMPILE.s} ${.IMPSRC}
 	${AR} ${ARFLAGS} $@ $*.o
@@ -155,7 +155,7 @@ CTAGS?=		/usr/bin/ctags
 .S:
 	${LINK.S} -o ${.TARGET} ${.IMPSRC} ${LDLIBS}
 .S.o:
-	${COMPILE.S} ${ASFLAGS_${.TARGET}:M*} ${.IMPSRC}
+	${COMPILE.S} ${AFLAGS_${.TARGET}:M*} ${.IMPSRC}
 .S.i:
 	${COMPILE.S} -o ${.TARGET} -E ${.IMPSRC}
 .S.a:
