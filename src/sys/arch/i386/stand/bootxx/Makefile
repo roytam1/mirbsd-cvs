@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/stand/bootxx/Makefile,v 1.7 2009/05/26 19:38:09 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/bootxx/Makefile,v 1.8 2009/06/07 10:44:16 tg Exp $
 
 PROG=		bootxx
 SRCS+=		bootxx.S
@@ -27,7 +27,7 @@ ${.CURDIR}/disasm: ${PROG}
 
 BOOT_TYPE?=	bsd
 .if ${BOOT_TYPE:L} == "grub"
-CPPFLAGS+=	-USA_LINKSEG -DSA_LINKSEG=0x0800 -DBOOT_GRUB
+CPPFLAGS+=	-USA_LINKSEG -DSA_LINKSEG=0x0800 -DBOOT_GRUB -DUSE_PTAB
 
 all: bootgrub.mksh
 

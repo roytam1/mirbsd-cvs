@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/bootxx/bootxx.S,v 1.18 2009/05/26 19:26:29 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/bootxx/bootxx.S,v 1.19 2009/06/07 11:30:23 tg Exp $ */
 
 /*-
  * Copyright (c) 2009
@@ -291,7 +291,13 @@ LsLBA:	mov	ah,0x42
 	.type	bktbl,@object
 bktbl:	.long	0xCAFEBABE
 
+#ifdef USE_PTAB
+	. = _start + 0x01BE
+#else
 	. = _start + 0x01FE
+#endif
 	.globl	bkend
 	.type	bkend,@object
-bkend:	.word	0xAA55
+bkend:
+	. = _start + 0x01FE
+	.word	0xAA55
