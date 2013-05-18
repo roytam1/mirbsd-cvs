@@ -38,7 +38,7 @@
 #include "ntpd.h"
 #include "ntp.h"
 
-__RCSID("$MirOS: src/usr.sbin/ntpd/ntp.c,v 1.19 2008/05/13 12:20:05 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/ntpd/ntp.c,v 1.20 2008/05/13 20:58:02 tg Exp $");
 
 #define	PFD_PIPE_MAIN	0
 #define	PFD_MAX		1
@@ -473,7 +473,7 @@ priv_adjtime(void)
 
 		/* ignore false-tickers (off by a second from median) */
 		peer_delta = offset_median - peers[i]->update.offset;
-		if (peer_delta > 1. || peer_delta < 1.)
+		if (peer_delta > 1. || peer_delta < -1.)
 			peer_weight = 0;
 
 		/* this is safe here despite shallow copy */
