@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.202 2009/06/22 12:35:50 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.203 2009/06/29 21:09:35 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -4203,4 +4203,21 @@ Tag: geocache
  <img src="https://call.mirbsd.org/sp.cgi?tc" alt="Rare Jewels" />
  <img src="https://call.mirbsd.org/sp.cgi?nc" alt="Broken Webpages²" />
  <br />I still plan on inventarising them…</p>
+----
+Title: hot
+Date: 03.07.2009 19:21
+Author: tg@
+
+<p>About 30°C in the bureau don't make working easy. At least, <a
+ href="http://www.tarent.com/">my employer</a> saw the need and
+ bought ventilators for every office room which did not yet have
+ one. Within approximately three hours after being told of the
+ need. <em>Nice!</em> It was still too hot to work, and <tt>apt</tt>
+ is a buggy pile of... whatever. Maybe I should search for my own
+ ventilator, so it doesn't get that hot at home. I actually was ill
+ again yesterday due to the heat (and it got worse instead of better
+ over the late morning, when I thought I could sleep it out).</p>
+<p>NetBSD® makefs(8) overwrote meaningful data with padding if you
+ told it to not pad (fixed), and one of its header files comes with
+ CR-LF (DOS) line endings. Nice, eh?</p>
 ----
