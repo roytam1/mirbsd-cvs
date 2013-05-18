@@ -1,5 +1,5 @@
-# $MirOS: src/sys/arch/sparc/conf/RAMDISK,v 1.11 2007/08/12 19:01:27 tg Exp $
-# $miros: src/sys/arch/sparc/conf/GENERIC,v 1.17 2007/08/24 14:50:25 tg Exp $
+# $MirOS: src/sys/arch/sparc/conf/RAMDISK,v 1.12 2007/08/24 14:50:25 tg Exp $
+# $miros: src/sys/arch/sparc/conf/GENERIC,v 1.18 2007/08/25 15:46:16 tg Exp $
 
 machine		sparc			# arch, used by config; REQUIRED
 
@@ -453,3 +453,8 @@ fd*	at fdc0					# the drive itself
 
 # Prestoserve NVRAM
 #presto*	at sbus?
+
+# Software RAID, pretty large, will not fit into RELOC on the ramdisc
+#option		RAIDDEBUG			# be verbose about what it does
+#option		RAID_AUTOCONFIG			# automatically configure devices
+#pseudo-device	raid		4		# RAIDframe disk driver
