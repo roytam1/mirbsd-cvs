@@ -23,11 +23,12 @@
 #include <string.h>
 #include <unistd.h>
 #include <util.h>
+#include <wchar.h>
 
 #include "common.h"
 #include "extern.h"
 
-__RCSID("$MirOS: src/usr.bin/sdiff/sdiff.c,v 1.3 2007/05/07 02:46:04 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/sdiff/sdiff.c,v 1.4 2007/05/07 02:46:56 tg Exp $");
 
 #define WIDTH 130
 /*
@@ -382,14 +383,22 @@ main(int argc, char **argv)
  * The column value is updated as we go along.
  */
 static void
-printcol(const char *s, size_t *col, const size_t col_max)
+printcol(const char *src, size_t *col, const size_t col_max)
 {
+	wchar_t wc;
+	int n;
 
-	for (; *s && *col < col_max; ++s) {
+	while ((wc = *(const unsigned char *)src) && *col < col_max) {
 		size_t new_col;
 
-		switch (*s) {
-		case '\t':
+		if ((n = (wc <= 0x7F) ? 1 : mbtowc(&wc, src, 5)) < 0) {
+			wc = 0xFFFD;
+			n = 1;
+		}
+		src += n;
+
+		switch (wc) {
+		case L'\t':
 			/*
 			 * If rounding to next multiple of eight causes
 			 * an integer overflow, just return.
@@ -410,10 +419,10 @@ printcol(const char *s, size_t *col, const size_t col_max)
 			break;
 
 		default:
-			++(*col);
+			*col += (wc <= 0x7F) ? 1 : wcwidth(wc);
 		}
 
-		putchar(*s);
+		putwchar(wc);
 	}
 }
 
