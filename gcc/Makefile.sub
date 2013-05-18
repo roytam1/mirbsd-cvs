@@ -63,6 +63,11 @@ prereq: _SUBDIRUSE
 
 .endif
 
+# cross-compiling a native compiler?
+.if (${CROSS_MODE:L} == "yes") && !defined(_CROSSBUILD)
+  SKIPDIR+= libada
+.endif
+
 .if defined(SUBONLY) && !empty(SUBONLY)
   SUBDIR:= ${SUBONLY}
   SKIPDIR:= #empty
