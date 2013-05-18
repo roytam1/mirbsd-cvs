@@ -40,7 +40,7 @@
 
 #include "readelf.h"
 
-__RCSID("$MirOS: src/usr.bin/file/readelf.c,v 1.5 2007/06/24 21:29:32 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/file/readelf.c,v 1.6 2007/07/10 14:22:36 tg Exp $");
 
 #ifdef	ELFCORE
 private int dophn_core(struct magic_set *, int, int, int, off_t, int, size_t);
@@ -352,6 +352,10 @@ donote(struct magic_set *ms, unsigned char *nbuf, size_t offset, size_t size,
 			break;
 		case GNU_OS_KNETBSD:
 			if (file_printf(ms, "kNetBSD") == -1)
+				return size;
+			break;
+		case GNU_OS_SYLLABLE:
+			if (file_printf(ms, "Syllable") == -1)
 				return size;
 			break;
 		default:

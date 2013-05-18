@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.bin/file/readelf.h,v 1.3 2007/06/24 20:37:25 tg Exp $ */
+/**	$MirOS: src/usr.bin/file/readelf.h,v 1.4 2007/06/24 21:29:32 tg Exp $ */
 /*	$OpenBSD: readelf.h,v 1.5 2004/05/19 02:32:36 tedu Exp $ */
 /*
  * Copyright (c) Christos Zoulas 2003.
@@ -241,5 +241,6 @@ typedef struct {
 #define GNU_OS_SOLARIS	2
 #define GNU_OS_KFREEBSD	3
 #define GNU_OS_KNETBSD	4
+#define GNU_OS_SYLLABLE	5
 
 #endif
