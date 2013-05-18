@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.104 2006/02/21 03:36:05 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.105 2006/02/21 12:59:25 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -702,13 +702,13 @@ PKG_ARGS+=		${PKG_ARGS_ADD}
 .if !defined(_COMMENT)
 ERRORS+=		"Missing port comment in Makefile."
 .endif
-.if ${FULLPKGNAME:C/^.*-([^-]*)-[0-9][0-9]*(-[a-zA-Z][^-]*)*$/\1/:C/^[0-9][0-9._a-zA-Z]*$//}
-ERRORS+=		"Invalid version number in main package '${FULLPKGNAME}': ${FULLPKGNAME:C/^.*-([^-]*)-[0-9][0-9]*(-[a-zA-Z][^-]*)*$/\1/:C/^[0-9][0-9._a-zA-Z]*$//}."
+.if ${FULLPKGNAME:C/-[0-9][0-9]*(-[a-zA-Z][^-]*)*$//:C/^.*-([^-]*)$/\1/:C/^[0-9][0-9._a-zA-Z]*$//}
+ERRORS+=		"Invalid version number in main package '${FULLPKGNAME}': ${FULLPKGNAME:C/-[0-9][0-9]*(-[a-zA-Z][^-]*)*$//:C/^.*-([^-]*)$/\1/:C/^[0-9][0-9._a-zA-Z]*$//}."
 .endif
 .if defined(MULTI_PACKAGES) && !empty(MULTI_PACKAGES)
 .  for _s in ${MULTI_PACKAGES}
-.    if ${FULLPKGNAME${_s}:C/^.*-([^-]*)-[0-9][0-9]*(-[a-zA-Z][^-]*)*$/\1/:C/^[0-9][0-9._a-zA-Z]*$//}
-ERRORS+=		"Invalid version number in '${_s}' subpackage '${FULLPKGNAME${_s}}': ${FULLPKGNAME${_s}:C/^.*-([^-]*)-[0-9][0-9]*(-[a-zA-Z][^-]*)*$/\1/:C/^[0-9][0-9._a-zA-Z]*$//}."
+.    if ${FULLPKGNAME${_s}:C/-[0-9][0-9]*(-[a-zA-Z][^-]*)*$//:C/^.*-([^-]*)$/\1/:C/^[0-9][0-9._a-zA-Z]*$//}
+ERRORS+=		"Invalid version number in '${_s}' subpackage '${FULLPKGNAME${_s}}': ${FULLPKGNAME${_s}:C/-[0-9][0-9]*(-[a-zA-Z][^-]*)*$//:C/^.*-([^-]*)$/\1/:C/^[0-9][0-9._a-zA-Z]*$//}."
 .    endif
 .  endfor
 .endif
