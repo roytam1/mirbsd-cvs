@@ -1,10 +1,10 @@
-# $MirOS: ports/lang/python/python.port.mk,v 1.2 2005/11/04 14:02:33 tg Exp $
+# $MirOS: ports/lang/python/python.port.mk,v 1.3 2007/07/19 20:34:48 bsiegert Exp $
 # $OpenBSD: python.port.mk,v 1.10 2004/08/06 07:33:19 xsa Exp $
 
 MODPY_VERSION?=		2.3
 MODPY_MINPKG?=		2.3.5-1
 
-_MODPY_BUILD_DEPENDS=	:python->=${MODPY_MINPKG}:lang/python/${MODPY_VERSION},no_cxx
+_MODPY_BUILD_DEPENDS=	:python->=${MODPY_MINPKG}:lang/python/${MODPY_VERSION}
 
 .if ${NO_BUILD:L} == "no"
 BUILD_DEPENDS+=		${_MODPY_BUILD_DEPENDS}

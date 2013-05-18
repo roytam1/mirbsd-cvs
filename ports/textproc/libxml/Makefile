@@ -1,9 +1,9 @@
-# $MirOS: ports/textproc/libxml/Makefile,v 1.15 2008/03/09 17:23:35 tg Exp $
+# $MirOS: ports/textproc/libxml/Makefile,v 1.16 2008/03/16 17:36:30 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.76 2004/04/21 04:42:26 robert Exp $
 
 COMMENT=		XML parsing library
 VERSION=		2.6.31
-DASH_VER=		1
+DASH_VER=		2
 DISTNAME=		libxml2-${VERSION}
 PKGNAME=		libxml-${VERSION}-${DASH_VER}
 CATEGORIES=		textproc
@@ -41,7 +41,7 @@ CPPFLAGS+=		-DMIRPORTS_LOCALBASE=\"${LOCALBASE:Q}\"
 
 .if ${FLAVOUR:L:Mpython}
 CONFIGURE_ARGS+=	--with-python
-B_R_DEPENDS+=		::lang/python/2.3,no_cxx
+B_R_DEPENDS+=		::lang/python/2.3
 .else
 CONFIGURE_ARGS+=	--without-python
 .endif
