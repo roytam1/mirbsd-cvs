@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.213 2008/09/21 14:18:21 bsiegert Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.214 2008/09/23 19:56:31 bsiegert Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -228,7 +228,7 @@ DESTDIRNAME?=		DESTDIR
 DESTDIR?=		${WRKINST}
 P5SITE=			libdata/perl5/site_perl
 
-MAKE_FLAGS?=		CC=${CC:Q}
+MAKE_FLAGS?=		CC=${_PASS_CC:Q}
 .if !defined(FAKE_FLAGS)
 FAKE_FLAGS=		${DESTDIRNAME}=${WRKINST:Q}
 .endif
@@ -397,13 +397,38 @@ NO_CXX=			C++ is not supported on this system
 .else
 NO_CXX=			not explicitly requested by this port
 .endif
+_ORIG_CC:=		${CC}
+_ORIG_CXX:=		${CXX}
+_USE_CC:=		${CC}
+_USE_CXX:=		${CXX}
 .if ${NO_CXX:L} != "no"
-CXX:=			false
+_USE_CXX:=		false
 .endif
 
 .if ${USE_CCACHE:L} == "yes"
-MODULES+=		devel/ccache
+CCACHE_DEPENDS?=	::devel/ccache
+BUILD_DEPENDS+=		${CCACHE_DEPENDS}
+CCACHE_DIR?=		${HOME}/.etc/ccache
+.  if !empty(CCACHE_DEPENDS)
+_USE_CC:=		env CCACHE_DIR=${CCACHE_DIR:Q} ccache ${_USE_CC}
+.    if ${NO_CXX:L} == "no"
+_USE_CXX:=		env CCACHE_DIR=${CCACHE_DIR:Q} ccache ${_USE_CXX}
+.    endif
+.  endif
 .endif
+
+.if !empty(WRKOBJDIR_${PKGPATH})
+WRKDIR?=		${WRKOBJDIR_${PKGPATH}}/${PKGNAME}${_FLAVOUR_EXT2}
+.else
+WRKDIR?=		${.CURDIR}/w-${PKGNAME}${_FLAVOUR_EXT2}
+.endif
+
+.undef CC
+.undef CXX
+_PASS_CC=		${WRKDIR:Q}/bin/mpcc
+_PASS_CXX=		${WRKDIR:Q}/bin/mpcxx
+CC=			${_PASS_CC}
+CXX=			${_PASS_CXX}
 
 MAKE_FILE?=		Makefile
 PORTHOME?=		/${PKGNAME}_writes_to_HOME
@@ -411,7 +436,7 @@ PORTHOME?=		/${PKGNAME}_writes_to_HOME
 MAKE_ENV+=		HOME=${PORTHOME:Q} PATH=${PORTPATH:Q} \
 			PREFIX=${PREFIX:Q} TRUEPREFIX=${PREFIX:Q} \
 			LOCALBASE=${LOCALBASE:Q} X11BASE=${X11BASE:Q} \
-			CC=${CC:Q} CXX=${CXX:Q} CFLAGS=${CFLAGS:M*:Q} \
+			CC=${_PASS_CC:Q} CXX=${_PASS_CXX:Q} CFLAGS=${CFLAGS:M*:Q} \
 			LDFLAGS=${LDFLAGS:Q} ${DESTDIRNAME}= \
 			BINOWN=${BINOWN:Q} BINGRP=${BINGRP:Q} \
 			EXTRA_SYS_MK_INCLUDES=\"${PORTSDIR:Q}/infrastructure/mk/mirports.bsd.mk\"
@@ -448,12 +473,6 @@ BZIP2?=			bzip2
 WRKINST?=		${FAKEOBJDIR_${PKGPATH}}/${PKGNAME}${_FLAVOUR_EXT2}
 .else
 WRKINST?=		${WRKDIR}/fake-${ARCH}${_FLAVOUR_EXT2}
-.endif
-
-.if !empty(WRKOBJDIR_${PKGPATH})
-WRKDIR?=		${WRKOBJDIR_${PKGPATH}}/${PKGNAME}${_FLAVOUR_EXT2}
-.else
-WRKDIR?=		${.CURDIR}/w-${PKGNAME}${_FLAVOUR_EXT2}
 .endif
 
 WRKSRC?=		${WRKDIST}
@@ -1206,11 +1225,11 @@ MODSIMPLE_configure=	cd ${WRKCONF} && \
 			    ${SH} ${_CONFIGURE_SCRIPT} ${CONFIGURE_ARGS}
 
 MODSIMPLE_configure_env=REALOS=${OStype:Q} MKSH=${MKSH:Q} \
-			ac_cv_path_CC=${CC:Q} ac_cv_path_CXX=${CXX:Q} \
-			CC=${CC:Q} CFLAGS="$$(print -nr -- '${CFLAGS}' | \
+			ac_cv_path_CC=${_PASS_CC:Q} ac_cv_path_CXX=${_PASS_CXX:Q} \
+			CC=${_PASS_CC:Q} CFLAGS="$$(print -nr -- '${CFLAGS}' | \
 			    sed -e 's${CPPFLAGS:S\\\\\\g}g' \
 			    -e 's/[ 	]*$$//')" \
-			CXX=${CXX:Q} CXXFLAGS="$$(print -nr -- '${CXXFLAGS}' | \
+			CXX=${_PASS_CXX:Q} CXXFLAGS="$$(print -nr -- '${CXXFLAGS}' | \
 			    sed -e 's${CPPFLAGS:S\\\\\\g}g' \
 			    -e 's/[ 	]*$$//')" \
 			LD=${LD:Q} LDFLAGS=${LDFLAGS:Q} CPPFLAGS=${CPPFLAGS:Q} \
@@ -1333,12 +1352,12 @@ ${_SYSTRACE_COOKIE}:
 		cat ${.CURDIR}/systrace.filter >>$@; \
 	fi
 	@sed ${_SYSTRACE_SED_SUBST} ${SYSTRACE_FILTER} >>$@
-. if ${USE_CCACHE:L} == "yes"
+.  if ${USE_CCACHE:L} == "yes"
 	@for cmd in chmod chown fswrite lchown link mknod rename symlink; do \
 		print '\tnative-'$$cmd: filename match \
 		    \"${CCACHE_DIR:Q}\" then permit; \
 	done >>$@
-. endif
+.  endif
 .endfor
 	@if [ -f ${.CURDIR}/systrace.policy ]; then \
 		sed ${_SYSTRACE_SED_SUBST} ${.CURDIR}/systrace.policy >>$@; \
@@ -1903,6 +1922,13 @@ ${_WRKDIR_COOKIE}:
 	@rm -rf ${WRKDIR}
 	@mkdir -p ${WRKDIR} ${WRKDIR}/bin
 	@ln -s ${_MIRMAKE_EXE} ${WRKDIR}/bin/make
+	@print '#!'${MKSH:Q}'\nexec' ${_USE_CC:Q} '"$$@"' >${WRKDIR}/bin/mpcc
+.if ${NO_CXX:L} != "no"
+	@print '#!'${MKSH:Q}'\nexit 1' >${WRKDIR:Q}/bin/mpcxx
+.else
+	@print '#!'${MKSH:Q}'\nexec' ${_USE_CXX:Q} '"$$@"' >${WRKDIR}/bin/mpcxx
+.endif
+	@chmod ${BINMODE} ${WRKDIR}/bin/mp{cc,cxx}
 	@${_MAKE_COOKIE} $@
 
 ${_EXTRACT_COOKIE}: ${_WRKDIR_COOKIE} ${_SYSTRACE_COOKIE}
@@ -2069,8 +2095,8 @@ ${_CONFIGURE_COOKIE}: ${_PATCH_COOKIE}
 	    -e 's/@@OStype@@/${OStype}/' \
 	    <${PORTSDIR}/infrastructure/db/uname.sed >${WRKDIR}/bin/uname
 .  endif
-	print '#!${SHELL}\nexec ${CC} "$$@"' >${WRKDIR}/bin/cc
-	chmod ${BINMODE} ${WRKDIR}/bin/*
+	ln -s ${WRKDIR}/bin/mpcc ${WRKDIR}/bin/cc
+	chmod ${BINMODE} ${WRKDIR}/bin/uname
 .  if ${MACHINE} != "i386"
 	ln -sf ${WRKSRC}/RULES/i386-openbsd-cc.rul \
 	    ${WRKSRC:Q}/RULES/${MACHINE:Q}-openbsd-cc.rul
@@ -2573,12 +2599,13 @@ _fetch-onefile:
 # foobar
 
 .if (${MACHINE_OS} == "Darwin") || (${OStype} == "MidnightBSD")
-.  if exists(${CC})
-CC_SPECS=	${CC}
-.  elif exists(/usr/bin/${CC})
-CC_SPECS=	/usr/bin/${CC}
+.  if exists(${_ORIG_CC})
+CC_SPECS=	${_ORIG_CC}
+.  elif exists(/usr/bin/${_ORIG_CC})
+CC_SPECS=	/usr/bin/${_ORIG_CC}
 .  else
-CC_SPECS!=	which ${CC:Q} 2>&- || which $$(echo ${CC:Q}|sed 's/ .*//') 2>&-
+CC_SPECS!=	whence -p ${_ORIG_CC:Q} 2>&- || \
+		whence -p $$(echo ${_ORIG_CC:Q} | sed 's/ .*//') 2>&-
 .    if !exists(${CC_SPECS})
 CC_SPECS:=
 .    endif
@@ -2589,14 +2616,14 @@ ${LOCALBASE}/db/specs: ${CC_SPECS}
 		print -u2 Error: cannot make temporary file; \
 		exit 1; \
 	fi; \
-	${CC} -dumpspecs >$$t; \
+	${_ORIG_CC} -dumpspecs >$$t; \
 	if fgrep -q /usr/bin/libtool $$t; then \
 		print 'g!/usr/bin/libtool!s!!${LOCALBASE}/db/libtool!g\nwq' | \
 		    ed -s $$t; \
 	else \
-		reallinker=$$(${CC} -print-prog-name=collect2); \
+		reallinker=$$(${_ORIG_CC} -print-prog-name=collect2); \
 		[[ -x $$reallinker ]] || \
-		    reallinker=$$(${CC} -print-prog-name=ld); \
+		    reallinker=$$(${_ORIG_CC} -print-prog-name=ld); \
 		print '/^\*linker:$$/+1s!^collect2!${LOCALBASE}/db/collect2' \
 		    "-Ww,collect2 $$reallinker!\nwq" | ed -s $$t; \
 	fi; \
