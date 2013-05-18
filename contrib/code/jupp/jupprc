@@ -560,7 +560,7 @@ mode,"usetabs",rtn	% % -usetabs% % % % % % % % % % %Zusetabs% %
 }
 
 {SearchOptions
-\i   Help Screen    turn off with ^KH    prev. screen ^[,    next screen ^[.     \i
+\i   Help Screen    turn off with ^J     prev. screen ^[,    next screen ^[.     \i
 \i \iSearch options:                                                              \i \i
 \i \i   r Replace                                                                 \i \i
 \i \i   k Restrict search to highlighted block, which can be rectangular          \i \i
