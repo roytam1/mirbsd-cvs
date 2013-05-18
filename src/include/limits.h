@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/include/limits.h,v 1.2 2005/09/22 19:53:04 tg Exp $ */
 /*	$OpenBSD: limits.h,v 1.11 2004/06/09 17:32:10 millert Exp $	*/
 /*	$NetBSD: limits.h,v 1.7 1994/10/26 00:56:00 cgd Exp $	*/
 
@@ -87,7 +87,9 @@
 #define LOGIN_NAME_MAX		MAXLOGNAME
 
 /* maximum length of a multibyte character sequence (all locales) */
+#ifndef MB_LEN_MAX
 #define MB_LEN_MAX		3	/* corresponding to UCS-2 */
+#endif
 
 #include <sys/limits.h>
 #include <sys/syslimits.h>

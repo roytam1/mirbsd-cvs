@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.2 2005/03/03 19:43:30 tg Rel $ */
+/* $MirOS: src/lib/libc/i18n/wcrtomb.c,v 1.1 2005/09/30 21:45:27 tg Exp $ */
 
 /*-
  * Copyright (c) 2005
@@ -25,10 +25,9 @@
  */
 
 #include <errno.h>
-#include <locale.h>
 #include <wchar.h>
 
-__RCSID("$MirOS: src/lib/libc/i18n/wctob.c,v 1.3 2005/09/22 21:52:28 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/wcrtomb.c,v 1.1 2005/09/30 21:45:27 tg Exp $");
 
 size_t
 wcrtomb(char *__restrict__ sb, wchar_t wc, mbstate_t *__restrict__ ps)
@@ -45,7 +44,7 @@ wcrtomb(char *__restrict__ sb, wchar_t wc, mbstate_t *__restrict__ ps)
 		return (numb + 1);
 	}
 
-	if (__predict_true(!locale_is_utf8)) {
+	if (__predict_true(!__locale_is_utf8)) {
 		if (wc < 0x0100) {
 			*sb = wc;
 			return (1);

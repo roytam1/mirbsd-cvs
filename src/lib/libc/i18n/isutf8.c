@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/i18n/isutf8.c,v 1.1 2005/09/22 21:48:02 tg Exp $ */
+/* $MirOS: src/lib/libc/i18n/isutf8.c,v 1.2 2005/09/22 21:52:28 tg Exp $ */
 
 /*-
  * Copyright (c) 2005
@@ -20,8 +20,6 @@
  * of this work, even if advised of the possibility of such damage.
  */
 
-#include <locale.h>
+__RCSID("$MirOS: src/lib/libc/i18n/isutf8.c,v 1.2 2005/09/22 21:52:28 tg Exp $");
 
-__RCSID("$MirOS: src/lib/libc/i18n/isutf8.c,v 1.1 2005/09/22 21:48:02 tg Exp $");
-
-int locale_is_utf8 = 0;
+int __locale_is_utf8 = 0;

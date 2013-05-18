@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.2 2005/03/03 19:43:30 tg Rel $ */
+/* $MirOS: src/lib/libc/i18n/wctob.c,v 1.4 2005/09/30 21:45:27 tg Exp $ */
 
 /*-
  * Copyright (c) 2005
@@ -24,13 +24,12 @@
  * of this work, even if advised of the possibility of such damage.
  */
 
-#include <locale.h>
 #include <wchar.h>
 
-__RCSID("$MirOS: src/lib/libc/i18n/wctob.c,v 1.3 2005/09/22 21:52:28 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/wctob.c,v 1.4 2005/09/30 21:45:27 tg Exp $");
 
 int
 wctob(wint_t c)
 {
-	return ((c <= (locale_is_utf8 ? 0x7E : 0xFF)) ? (int)c : EOF);
+	return ((c <= (__locale_is_utf8 ? 0x7E : 0xFF)) ? (int)c : EOF);
 }

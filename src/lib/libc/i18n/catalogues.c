@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/i18n/catalogues.c,v 1.2 2005/09/22 21:47:01 tg Exp $ */
+/* $MirOS: src/lib/libc/i18n/catalogues.c,v 1.3 2005/09/30 21:45:26 tg Exp $ */
 
 /*-
  * Copyright (c) 2005
@@ -23,10 +23,9 @@
 #include <sys/param.h>
 #include <sys/localedef.h>
 #include <langinfo.h>
-#include <locale.h>
 #include <nl_types.h>
 
-__RCSID("$MirOS: src/lib/libc/i18n/catalogues.c,v 1.2 2005/09/22 21:47:01 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/catalogues.c,v 1.3 2005/09/30 21:45:26 tg Exp $");
 
 /* fake NLS support */
 

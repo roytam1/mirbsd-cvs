@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.2 2005/03/03 19:43:30 tg Rel $ */
+/* $MirOS: src/lib/libc/i18n/mbrtowc.c,v 1.1 2005/09/30 21:45:26 tg Exp $ */
 
 /*-
  * Copyright (c) 2005
@@ -25,10 +25,9 @@
  */
 
 #include <errno.h>
-#include <locale.h>
 #include <wchar.h>
 
-__RCSID("$MirOS: src/lib/libc/i18n/wctob.c,v 1.3 2005/09/22 21:52:28 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/mbrtowc.c,v 1.1 2005/09/30 21:45:26 tg Exp $");
 
 size_t
 mbrtowc(wchar_t *__restrict__ pwc, const char *__restrict__ sb,
@@ -45,7 +44,7 @@ mbrtowc(wchar_t *__restrict__ pwc, const char *__restrict__ sb,
 
 	if (__predict_false(sb == NULL)) {
 		/* '\0' can only appear as first character */
-		if (!locale_is_utf8 || !ps->count)
+		if (!__locale_is_utf8 || !ps->count)
 			return (0);
 ilseq:
 		errno = EILSEQ;
@@ -56,7 +55,7 @@ ilseq:
 		goto not_enough;
 	c = *s++;
 
-	if (__predict_true(!locale_is_utf8))
+	if (__predict_true(!__locale_is_utf8))
 		goto one_char;
 
 	if (__predict_true(ps->count == 0)) {

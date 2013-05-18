@@ -1,4 +1,4 @@
-/**	$MirOS: src/include/stdlib.h,v 1.4 2005/09/22 19:53:04 tg Exp $ */
+/**	$MirOS: src/include/stdlib.h,v 1.5 2005/09/30 22:07:32 tg Exp $ */
 /*	$OpenBSD: stdlib.h,v 1.34 2005/05/27 17:45:56 millert Exp $	*/
 /*	$NetBSD: stdlib.h,v 1.25 1995/12/27 21:19:08 jtc Exp $	*/
 
@@ -88,7 +88,13 @@ typedef struct {
 
 #define	RAND_MAX	0x7fffffff
 
-#define	MB_CUR_MAX	__libc_mb_cur_max
+/* maximum length of a multibyte character sequence (all locales) */
+#ifndef MB_LEN_MAX
+#define MB_LEN_MAX	3	/* corresponding to UCS-2 */
+#endif
+
+/* maximum length of a multibyte character sequence (current locale) */
+#define	MB_CUR_MAX	(__locale_is_utf8 ? MB_LEN_MAX : 1)
 
 #include <sys/cdefs.h>
 
@@ -102,6 +108,8 @@ typedef struct {
 #endif
 
 __BEGIN_DECLS
+extern int __locale_is_utf8;
+
 __dead void	 abort(void);
 int	 abs(int);
 int	 atexit(void (*)(void));
@@ -250,8 +258,6 @@ int	mbtowc(wchar_t *__restrict__, const char *__restrict__, size_t);
 int	wctomb(char *, wchar_t);
 size_t	mbstowcs(wchar_t *__restrict__, const char *__restrict__, size_t);
 size_t	wcstombs(char *__restrict__, const wchar_t *__restrict__, size_t);
-
-extern int __libc_mb_cur_max;
 __END_DECLS
 
 #endif /* _STDLIB_H_ */

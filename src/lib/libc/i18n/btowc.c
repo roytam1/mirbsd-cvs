@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/i18n/btowc.c,v 1.2 2005/09/22 21:48:02 tg Exp $ */
+/* $MirOS: src/lib/libc/i18n/btowc.c,v 1.3 2005/09/22 21:52:28 tg Exp $ */
 
 /*-
  * Copyright (c) 2005
@@ -20,15 +20,14 @@
  * of this work, even if advised of the possibility of such damage.
  */
 
-#include <locale.h>
 #include <wchar.h>
 
-__RCSID("$MirOS: src/lib/libc/i18n/btowc.c,v 1.2 2005/09/22 21:48:02 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/btowc.c,v 1.3 2005/09/22 21:52:28 tg Exp $");
 
 wint_t
 btowc(int c)
 {
-	int max = locale_is_utf8 ? 0x7E : 0xFF;
+	int max = __locale_is_utf8 ? 0x7E : 0xFF;
 
 	if ((c >= 0) && (c <= max))
 		return ((wchar_t)c);
