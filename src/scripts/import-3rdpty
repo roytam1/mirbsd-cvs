@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/scripts/import-3rdpty,v 1.27 2005/12/04 15:13:38 tg Exp $
+# $MirOS: src/scripts/import-3rdpty,v 1.28 2005/12/04 15:59:37 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -23,7 +23,7 @@
 # rect or other, however caused, arising in any way out of the usage
 # of this work, even if advised of the possibility of such damage.
 
-print -r -- '========= $MirOS: src/scripts/import-3rdpty,v 1.27 2005/12/04 15:13:38 tg Exp $ ========='
+print -r -- '========= $MirOS: src/scripts/import-3rdpty,v 1.28 2005/12/04 15:59:37 tg Exp $ ========='
 
 ignlist=0
 force=0
@@ -1032,6 +1032,7 @@ openbsd)
 		usr.sbin/acpidump \
 		usr.sbin/afs \
 		usr.sbin/amd \
+		usr.sbin/authpf \
 		usr.sbin/bgpctl \
 		usr.sbin/bgpd \
 		usr.sbin/bind \
