@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/listend.i386-big,v 1.38 2010/01/07 20:56:09 tg Exp $
+# $MirOS: src/distrib/common/listend.i386-big,v 1.39 2010/01/17 00:36:25 tg Exp $
 
 # extra programmes
 LINK	instbin					bin/mt
@@ -14,6 +14,7 @@ LINK	instbin					sbin/raidctl
 LINK	instbin					sbin/restore
 LINK	instbin					sbin/scsi
 LINK	instbin					sbin/wicontrol
+LINK	instbin					usr/bin/cdio
 LINK	instbin					usr/bin/encrypt
 LINK	instbin					usr/bin/find
 LINK	instbin					usr/bin/gzsig
@@ -31,6 +32,7 @@ LINK	instbin					usr/sbin/dhcpd
 LINK	instbin					usr/sbin/fdformat
 LINK	instbin					usr/sbin/ifwatchd
 LINK	instbin					usr/sbin/inetd
+LINK	instbin					usr/sbin/makefs
 LINK	instbin					usr/sbin/ntpd
 LINK	instbin					usr/sbin/openssl
 LINK	instbin					usr/sbin/pwd_mkdb
