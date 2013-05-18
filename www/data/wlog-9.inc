@@ -1489,4 +1489,5 @@ Author: tg@
  am too lazy to figure out the GPS position of my home right now). Now, if
  I had a <strong>huge</strong> battery on this laptop (the current one can
  hold an hour or so only), I could use it for geocacheing.</p>
+<p>UPDATE: This even led to spotting bugs in MirPorts and CacheWolf.</p>
 ----
