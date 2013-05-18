@@ -1,7 +1,7 @@
 #!/bin/mksh
-# $MirOS: src/share/misc/licence.template,v 1.14 2006/08/09 19:35:23 tg Rel $
+# $MirOS: ports/infrastructure/install/ld-wrapper.ksh,v 1.4 2006/08/16 19:43:53 tg Exp $
 #-
-# Copyright (c) 2006
+# Copyright (c) 2006, 2008
 #	Thorsten Glaser <tg@mirbsd.de>
 #
 # Licensee is hereby permitted to deal in this work without restric-
@@ -32,6 +32,8 @@ _LD=/usr/bin/ld
 set -A args
 libafter=
 for arg in "$@"; do
+	[[ $arg = @(-Wl,)* ]] && \
+	    arg=$(print -nr -- ${arg#-Wl,} | tr ',' ' ')
 	if [[ $arg != @(--library-after=)* ]]; then
 		args[${#args[*]}]=$arg
 		continue
