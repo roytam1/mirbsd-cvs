@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.129 2008/07/10 14:40:53 tg Exp $
+# $MirOS: src/Makefile,v 1.130 2008/07/10 18:10:06 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -13,10 +13,6 @@ NO_ADA?=	Yes
 NO_PASCAL?=	Yes
 .endif
 NOMAN?=		no
-.if ${MACHINE_ARCH} == "sparc"
-# cannot be implemented until boot(8/sparc) parses boot.cfg
-NO_LIVECD=	ENOCOFFEE
-.endif
 CVSROOT?=	/cvs
 ANONCVSROOT?=	anoncvs@anoncvs.mirbsd.org:/cvs
 _SAFEPATH=	/usr/dbin:/bin:/usr/bin:/usr/dsbin:/sbin:/usr/sbin:/usr/X11R6/bin
@@ -233,15 +229,6 @@ base-distinstall:
 	    ${MAKE} -f Makefile.bsd-wrapper mkinfodir
 	-rm -f ${_STFILE_DEST}
 
-dist-q:
-	cd ${.CURDIR} && exec /usr/bin/env -i MAKEFLAGS=${MFLAGS:M*:Q} \
-	    HOME=$$(/usr/bin/mktemp -d /var/tmp/buildhome.XXXXXXXXXX) \
-	    PATH=${_SAFEPATH} TZ=UTC \
-	    ${MAKE} BATCH=Yes _do-dist 2>&1 | tee -a ${.CURDIR}/Build.log
-	@date | tee -a ${.CURDIR}/Build.log
-	-[[ -d ${BSDRELDIR}/rel && -s ${.CURDIR}/Build.log ]] && \
-	    ${SUDO} cp ${.CURDIR}/Build.log ${BSDRELDIR}/rel/
-
 dist:
 	cd ${.CURDIR} && exec /usr/bin/env -i MAKEFLAGS=${MFLAGS:M*:Q} \
 	    HOME=$$(/usr/bin/mktemp -d /var/tmp/buildhome.XXXXXXXXXX) \
@@ -251,14 +238,26 @@ dist:
 	-[[ -d ${BSDRELDIR}/rel && -s ${.CURDIR}/Build.log ]] && \
 	    ${SUDO} cp ${.CURDIR}/Build.log ${BSDRELDIR}/rel/
 
+dist-q:
+	cd ${.CURDIR} && exec /usr/bin/env -i MAKEFLAGS=${MFLAGS:M*:Q} \
+	    HOME=$$(/usr/bin/mktemp -d /var/tmp/buildhome.XXXXXXXXXX) \
+	    PATH=${_SAFEPATH} TZ=UTC BATCH=Yes \
+	    ${MAKE} _do-dist 2>&1 | tee -a ${.CURDIR}/Build.log
+	@date | tee -a ${.CURDIR}/Build.log
+	-[[ -d ${BSDRELDIR}/rel && -s ${.CURDIR}/Build.log ]] && \
+	    ${SUDO} cp ${.CURDIR}/Build.log ${BSDRELDIR}/rel/
+
+dist-ql: dist-q
+	cd ${.CURDIR} && exec /usr/bin/env -i MAKEFLAGS=${MFLAGS:M*:Q} \
+	    HOME=/ PATH=${_SAFEPATH} TZ=UTC ${MAKE} _do-livecd
+
+dist-qlq: dist-q
+	cd ${.CURDIR} && exec /usr/bin/env -i MAKEFLAGS=${MFLAGS:M*:Q} \
+	    HOME=/ PATH=${_SAFEPATH} TZ=UTC BATCH=Yes ${MAKE} _do-livecd
+
 _DISTS=		base
-.if !exists(${BSDSRCDIR}/contrib/code/Snippets/tinyirc.c) || \
-    !exists(${BSDSRCDIR}/contrib/code/jupp/jupprc)
-NO_LIVECD=	incomplete
-.endif
 .ifdef QUICK_DIST2
 QUICK_DIST=	implied
-NO_LIVECD=	implied
 .else
 _DISTS+=	x11
 .endif
@@ -318,16 +317,6 @@ _do-dist:
 .  ifdef QUICK_DIST2
 	@echo not building XFree86® either.
 .  endif
-.endif
-.ifdef NO_LIVECD
-.  if ${MACHINE_ARCH} == "sparc"
-	@echo SPARC dist-build mode active:
-.  elif ${NO_LIVECD} == "incomplete"
-	@echo Your checkout is not complete:
-.  elif !defined(QUICK_DIST)
-	@echo QUICK dist-build mode active:
-.  endif
-	@echo not building the baselive CD image.
 .endif
 	@echo ============================================================
 .if ${DIST_RESTART} > 0
@@ -487,15 +476,23 @@ _do-dist:
 	@${SUDO} touch ${BSDRELDIR}/rel/Not_an_official_release!
 .endif
 	@/bin/ls -Fl ${BSDRELDIR}/rel
-.if !defined(NO_LIVECD)
 	@date
-.endif
 	@echo ============================================================
-.if !defined(NO_LIVECD)
+
+_do-livecd:
+	@echo ============================================================
+.if (${MACHINE_ARCH} == "sparc")
+	@echo Cannot build the Baselive CD on sparc.
+.elif !exists(${BSDSRCDIR}/contrib/code/Snippets/tinyirc.c) || \
+    !exists(${BSDSRCDIR}/contrib/code/jupp/jupprc)
+	@echo Cannot build the Baselive CD: your checkout is incomplete.
+.elif defined(QUICK_DIST2)
+	@echo Cannot build the Baselive CD: QUICK_DIST mode selected.
+.else
 	cd ${BSDSRCDIR}/distrib/baselive && \
-	    ${MAKE} BATCH=${BATCH:Q} it #cleanworkdir
+	    BATCH=${BATCH:Q} ${MAKE} it #cleanworkdir
 	@echo
-	@echo Done with MirOS Snapshot generation.
+	@echo Done with MirOS Baselive-CD generation.
 	@/bin/ls -Fl ${BSDOBJDIR}/distrib/baselive/livecd${OSrev}.iso
 	@echo ============================================================
 .endif
@@ -503,9 +500,10 @@ _do-dist:
 cflags:
 	@print -r -- CFLAGS=\'${CFLAGS:N-Werror:Q} ${COPTS:N-Werror:Q}\'
 
-.PHONY:	beforeinstall afterinstall mksystrace mksystrace-obj mksystrace-dest \
-	build-pre contbuild distrib-dirs b-r release do-htman \
-	base-distbuild base-distinstall dist-q dist _do-dist cleandir cflags
+.PHONY:	_do-dist _do-livecd afterinstall b-r base-distbuild base-distinstall \
+	beforeinstall build-pre cflags cleandir contbuild dist dist-q \
+	dist-ql dist-qlq distrib-dirs do-htman mksystrace mksystrace-dest \
+	mksystrace-obj release
 
 .include <bsd.subdir.mk>
 

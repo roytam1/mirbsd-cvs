@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/baselive/Makefile,v 1.27 2008/07/09 23:57:21 tg Exp $
+# $MirOS: src/distrib/baselive/Makefile,v 1.28 2008/07/10 01:33:15 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -158,6 +158,7 @@ cdrom-prepare: bsd.gz
 
 cdrom-generate:
 .if ${BATCH:L} != "yes"
+	@print WRKDIR is \"${WRKDIR:Q}\"
 	@print Build coordination: press RETURN to continue...; read dummy
 .endif
 	[[ ! -s ${WRKDIR}/loot ]] || \
