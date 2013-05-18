@@ -76,6 +76,10 @@
 #define __INTERNAL_CAPS_VISIBLE	/* we need to see has_hardware_tabs */
 #include <progs.priv.h>
 
+#if HAVE_SYS_PARAM_H
+#include <sys/param.h>
+#endif
+
 #include <errno.h>
 #include <stdio.h>
 #include <termcap.h>
@@ -105,7 +109,7 @@ char *ttyname(int fd);
 
 MODULE_ID("$Id$")
 #ifdef __MirBSD__
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libncurses/src/progs/tset.c,v 1.4 2009/09/06 12:46:48 tg Exp $");
 #endif
 
 extern char **environ;
@@ -126,6 +130,11 @@ static int terasechar = -1;	/* new erase character */
 static int intrchar = -1;	/* new interrupt character */
 static int tkillchar = -1;	/* new kill character */
 static int tlines, tcolumns;	/* window size */
+
+static __dead void exit_error(void);
+static __dead void err(const char *, ...) GCC_PRINTFLIKE(1,2);
+static __dead void failed(const char *);
+static __dead void usage(void);
 
 #define LOWERCASE(c) ((isalpha(UChar(c)) && isupper(UChar(c))) ? tolower(UChar(c)) : (c))
 
@@ -973,7 +982,7 @@ set_init(void)
  * Return TRUE if we set any tab stops, FALSE if not.
  */
 static bool
-set_tabs()
+set_tabs(void)
 {
     if (set_tab && clear_all_tabs) {
 	int c;
