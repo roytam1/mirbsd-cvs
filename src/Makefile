@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.130 2008/07/10 18:10:06 tg Exp $
+# $MirOS: src/Makefile,v 1.131 2008/07/12 21:39:51 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -433,7 +433,7 @@ _do-dist:
 	    ${SUDO} ${SHELL} ${BSDSRCDIR}/scripts/tarsets check
 .endfor
 	@echo ============================================================
-.if ${BATCH:L} == "yes"
+.if ${BATCH:L} != "yes"
 	@date
 	@read a?'Press Return to continue...'
 .endif
