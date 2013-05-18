@@ -1,9 +1,8 @@
-# $MirOS: ports/net/rsync/Makefile,v 1.6 2005/09/23 11:06:15 tg Exp $
+# $MirOS: ports/net/rsync/Makefile,v 1.7 2006/02/09 09:36:11 tg Exp $
 # $OpenBSD: Makefile,v 1.41 2004/05/11 13:39:17 naddy Exp $
 
 COMMENT=		"mirroring/synchronisation over low bandwidth links"
-DISTNAME=		rsync-2.6.6
-PKGNAME=		${DISTNAME}-1
+DISTNAME=		rsync-2.6.8
 CATEGORIES=		net
 HOMEPAGE=		http://rsync.samba.org/
 RESPONSIBLE=		Thorsten Glaser <tg@66h.42h.de>
@@ -17,10 +16,8 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-MASTER_SITES=		ftp://ftp.samba.org/pub/rsync/ \
-			ftp://ftp.samba.org/pub/rsync/old-versions/ \
-			http://ftp.samba.org/ftp/rsync/ \
-			ftp://ftp.funet.fi/pub/mirrors/rsync.samba.org/pub/rsync/
+MASTER_SITES=		http://rsync.samba.org/ftp/rsync/ \
+			http://rsync.samba.org/ftp/rsync/old-versions/
 
 CONFIGURE_STYLE=	gnu
 CONFIGURE_ARGS+=	--with-included-popt \
@@ -28,7 +25,8 @@ CONFIGURE_ARGS+=	--with-included-popt \
 			--with-rsyncd-conf="${SYSCONFDIR}/rsyncd.conf"
 
 .if ${FLAVOR:L} == "static"
-# copy this to /var/anoncvs/anoncvs/usr/bin/rsync, chmod 111
+# copy this to /var/anoncvs/anoncvs/bin/rsync, chmod 111
+CONFIGURE_ENV+=		ac_cv_header_iconv_h=no
 LDSTATIC=		-static
 .endif
 
@@ -36,6 +34,6 @@ DOCDIR=			${PREFIX}/share/doc/rsync
 
 post-install:
 	${INSTALL_DATA_DIR} ${DOCDIR}
-	${INSTALL_DATA} ${WRKSRC}/tech_report.tex ${DOCDIR}
+	${INSTALL_DATA} ${WRKSRC}/tech_report.tex ${DOCDIR}/
 
 .include <bsd.port.mk>
