@@ -1,4 +1,4 @@
-# $MirOS: src/lib/Makefile,v 1.7 2006/06/08 23:57:35 tg Exp $
+# $MirOS: src/lib/Makefile,v 1.8 2006/07/03 16:30:32 tg Exp $
 # $OpenBSD: Makefile,v 1.49 2003/05/14 01:46:51 hin Exp $
 # $NetBSD: Makefile,v 1.20.4.1 1996/06/14 17:22:38 cgd Exp $
 
@@ -22,6 +22,7 @@
   SUBDIR+= libl
   SUBDIR+= libm
   SUBDIR+= libmenu
+# SUBDIR+= libncurses
   SUBDIR+= libocurses
   SUBDIR+= libossaudio
   SUBDIR+= libpanel
