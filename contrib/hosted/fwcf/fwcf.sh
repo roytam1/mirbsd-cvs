@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: contrib/hosted/fwcf/fwcf.sh,v 1.29 2007/03/13 18:31:07 tg Exp $
+# $MirOS: contrib/hosted/fwcf/fwcf.sh,v 1.30 2007/03/31 00:29:56 tg Exp $
 #-
 # Copyright (c) 2006, 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -41,6 +41,8 @@
 # 255 - internal error
 
 export PATH=/bin:/sbin:/usr/bin:/usr/sbin
+wd=$(pwd)
+cd /
 
 case $1 in
 commit|erase|setup|status|dump|restore) ;;
@@ -273,7 +275,7 @@ if test $1 = dump; then
 		exit 10
 	fi
 	dd if=/dev/urandom of=seed bs=256 count=1 >/dev/null 2>&1
-	tar -cf - dump seed | fwcf.helper -Z - $fn
+	tar -cf - dump seed | (cd "$wd"; fwcf.helper -Z - $fn)
 	cd /
 	rm -rf /tmp/.fwcf.dump
 	case $fn in
@@ -298,7 +300,7 @@ if test $1 = restore; then
 	rm -rf /tmp/.fwcf.restore
 	mkdir -m 0700 /tmp/.fwcf.restore
 	cd /tmp/.fwcf.restore
-	if ! fwcf.helper -Zd "$fn" | tar -xf -; then
+	if ! (cd "$wd"; fwcf.helper -Zd "$fn") | tar -xf -; then
 		cd /
 		rm -rf /tmp/.fwcf.restore
 		exit 12
