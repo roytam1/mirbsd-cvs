@@ -1,4 +1,4 @@
-/*	$MirOS: src/sys/arch/i386/stand/libsa/gidt.S,v 1.15 2009/01/10 12:20:57 tg Exp $ */
+/*	$MirOS: src/sys/arch/i386/stand/libsa/gidt.S,v 1.16 2009/01/10 12:32:52 tg Exp $ */
 /*	$OpenBSD: gidt.S,v 1.32 2006/12/26 19:30:44 tom Exp $	*/
 
 /*
@@ -270,6 +270,7 @@ EMUh:
 	mov	%al, intno
 
 	call	prot_to_real
+	.code16
 
 	push	%ds
 
@@ -299,6 +300,7 @@ intno	= . - 1
 	addr32 movl %eax, (2f - SA_LINKADDR)
 
 	call	real_to_prot
+	.code32
 
 	# movl $Leax, %eax
 	.byte 0xb8
@@ -333,20 +335,20 @@ intno	= . - 1
 	popa
 	iret
 
+	.intel_syntax noprefix
 #ifndef SMALL_BOOT
 /* Call buffer at 07c0:0000 in real mode to simulate a BIOS boot */
 ENTRY(bootbuf)
 	cli
-	pop	%eax		/* Don't need return address */
-	pop	%esi		/* Buffer Source (linear) */
-	pop	%ecx		/* Size */
-	pop	%ebp		/* Buffer Target (ES:DI) */
-	pop	%edx		/* Device (and flags) */
-	pop	%edi		/* Initial CS:IP */
-
-	.intel_syntax noprefix
+	pop	eax		/* Don't need return address */
+	pop	esi		/* Buffer Source (linear) */
+	pop	ecx		/* Size */
+	pop	ebp		/* Buffer Target (ES:DI) */
+	pop	edx		/* Device (and flags) */
+	pop	edi		/* Initial CS:IP */
 
 	call	prot_to_real
+	.code16
 
 	/* set up flags, real mode stack */
 	xor	eax,eax
@@ -428,6 +430,7 @@ Ltcend:	pop	si		/* offset Ltcbeg */
 	mov	cx,offset Ltcend - offset Ltcbeg
 	rep	movsb
 	lret			/* temporary CS:IP (0000:0610h) on stack */
+#endif
 
 /*-
  * Switch from protected mode to real mode.
@@ -465,7 +468,7 @@ Lp2r16:	mov	eax,esp
 	mov	ds,ax
 	mov	es,ax
 	/* load real mode IDT */
-	data32 addr32 lidt (offset Idtr_real - SA_LINKADDR)
+	data32 addr32 lidt (Idtr_real - SA_LINKADDR)
 	ret
 
 /*-
@@ -485,7 +488,7 @@ real_to_prot:
 	mov	esp,eax
 	mov	ax,SA_LINKSEG
 	mov	ds,ax
-	data32 addr32 lgdt (offset Gdtr - SA_LINKADDR)
+	data32 addr32 lgdt (Gdtr - SA_LINKADDR)
 	/* enter protected mode */
 	mov	eax,cr0
 	or	eax,CR0_PE
@@ -505,4 +508,3 @@ Lr2p32:	.code32
 	add	eax,SA_LINKADDR
 	push	eax
 	ret
-#endif
