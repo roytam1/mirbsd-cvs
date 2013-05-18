@@ -1,4 +1,4 @@
-/**	$MirOS: src/sbin/fdisk/part.c,v 1.5 2009/11/04 13:23:59 tg Exp $	*/
+/**	$MirOS: src/sbin/fdisk/part.c,v 1.6 2010/04/22 21:30:05 tg Exp $	*/
 /*	$OpenBSD: part.c,v 1.42 2006/06/09 17:01:47 deraadt Exp $	*/
 
 /*
@@ -40,7 +40,7 @@
 #include "misc.h"
 #include "mbr.h"
 
-__RCSID("$MirOS: src/sbin/fdisk/part.c,v 1.5 2009/11/04 13:23:59 tg Exp $");
+__RCSID("$MirOS: src/sbin/fdisk/part.c,v 1.6 2010/04/22 21:30:05 tg Exp $");
 
 int	PRT_check_chs(prt_t *partn);
 
@@ -110,6 +110,7 @@ static const struct part_type {
 	{ 0x85, "Linux ext.  "},   /* Linux extended */
 	{ 0x86, "NT FAT VS   "},   /* NT FAT volume set */
 	{ 0x87, "NTFS VS     "},   /* NTFS volume set or HPFS mirrored */
+	{ 0x88, "O.ADK cfgfs "},   /* OpenADK cfgfs or fwcf */
 	{ 0x93, "Amoeba FS   "},   /* Amoeba filesystem */
 	{ 0x94, "Amoeba BBT  "},   /* Amoeba bad block table */
 	{ 0x96, "ISO 9660    "},   /* ISO 9660 (CHRP, manifold-boot) */
