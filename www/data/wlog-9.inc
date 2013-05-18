@@ -3011,4 +3011,7 @@ Author: tg@
 <p>Sorry for all the delay in the release announcement and publication,
  but first we have to get the ISOs ready – since they contain i386, sparc,
  source <em>and</em> CVS it’s a tad difficult and quite time-consuming.</p>
+<p>Ha! Giving support in <tt>#cvs</tt> in IRC and being called life saviour,
+ master, etc. is really giving me the chills, in a good way.</p>
+<p>I’m exhausted, will continue hacking on the release tomorrow.</p>
 ----
