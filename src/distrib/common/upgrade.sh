@@ -1,7 +1,10 @@
 #!/bin/mksh
-# $MirOS: src/distrib/common/upgrade.sh,v 1.9 2009/12/28 17:26:58 tg Exp $
+# $MirOS: src/distrib/common/upgrade.sh,v 1.10 2010/01/07 20:56:09 tg Exp $
 # $OpenBSD: upgrade.sh,v 1.61 2005/04/02 14:27:08 krw Exp $
 # $NetBSD: upgrade.sh,v 1.2.4.5 1996/08/27 18:15:08 gwr Exp $
+#
+# Copyright © 2010
+#	Thorsten Glaser <tg@mirbsd.org>
 #
 # Copyright (c) 1997-2004 Todd Miller, Theo de Raadt, Ken Westerback
 # All rights reserved.
@@ -198,6 +201,10 @@ if [[ -d /mnt/usr/include/objc/. ]]; then
 	done
 	[[ -n $found ]] && rm -rf /mnt/usr/include/objc
 fi
+[[ -s /mnt/etc/rc ]] && /mnt/bin/ed -s /mnt/etc/rc <<-'EOF'
+	,g/set -o arc4random/s/^/#disabled by $MirOS$#/
+	wq
+EOF
 
 # Perform final steps common to both an install and an upgrade.
 finish_up
