@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/faq.inc,v 1.3 2009/02/19 15:36:10 tg Exp $
+RCSID: $MirOS: www/data/faq.inc,v 1.4 2009/02/19 15:39:09 tg Exp $
 Title: Why don't I have colours on the console?
 
 <p>The first virtual terminal is the system console, unless the
@@ -32,4 +32,36 @@ Section: Common ssh(1) and sshd(8) problems	XXX do this differently!
 Title: How do I upgrade my system to latest -stable or -current?
 
 <p>[… maybe write mircvs://www/src/uptodate.hts]</p>
+----
+Title: I don’t want the nightly calendar mails!
+
+<pre>rm -f ~/.etc/calendar/calendar</pre>
+<p>Get back from <tt>/etc/skel/.etc/calendar/calendar</tt> if needed.</p>
+----
+Title: Services? Stop, restart, …
+
+<p class="boxhead">Use <tt>ports/sysutils/daemontools</tt> for external
+ things. And, maybe, httpd(8), like this:</p><div class="boxtext">
+ <pre>
+	tg@blau:~ $ ssh www.mirbsd.org cat /service/httpd/run
+	#!/bin/mksh
+
+	exec 2&gt;&amp;1
+
+	# enable core dumps for debugging
+	cd /service/httpd
+	ulimit -c unlimited
+
+	exec /usr/sbin/httpd -F -u -DSSL
+ </pre>
+</div><p class="boxfoot">Don’t forget to chmod +x it.</p>
+<p>Other services:</p><ul>
+ <li>ntpd(8): <tt>cd /; sudo env -i /usr/sbin/ntpd <span
+  class="u">-t</span></tt> (where <tt>-t</tt> is your
+  <tt>$ntpd_flags</tt> from <tt>/etc/rc.conf{,.local}</tt>)</li>
+ <li>sshd(8): <tt>cd /; sudo <a
+  href="@@ABSPATH@@/cvs.cgi/src/scripts/cleanenv">cleanenv</a>
+  - /usr/sbin/sshd</tt> (append <tt>$sshd_flags</tt> from
+  <tt>/etc/rc.conf{,.local}</tt> if you have any)</li>
+</ul>
 ----

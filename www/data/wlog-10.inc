@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.297 2010/07/11 12:19:28 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.298 2010/07/11 12:20:03 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -6681,4 +6681,137 @@ Tag: bug debian event geocache mksh news release snapshot
 <p>I could probably write more but at the moment just want to lie
  down and die until it gets cooler… even the rain didn’t help. My
  feet hurt (Montparnasse-Bienvenue didn’t help) too.</p>
+----
+Title: On ASLR (Address Space Layout Randomisation)
+Author: tg@
+Date: 12.07.2010 20:28
+Tag: debian mksh
+
+<p>I’ve got some interesting results using r1.1 of an example <a
+ href="@@ABSPATH@@/cvs.cgi/contrib/hosted/tg/testaslr.c">test
+ programme</a> (r1.2 got cleaned up and more output) on various
+ systems, regarding ASLR. The 1.1 revision tests everything <a
+ href="@@RELPATH@@mksh.htm#clog">mksh</a> R40+ will use (except
+ there will probably no larger than page sized allocations) for
+ its LCG PRNG. On OpenBSD (MirBSD, ÆrieBSD) malloc(3) uses <a
+ href="http://www.openbsd.org/papers/auug04/mgp00005.html">in
+ fact</a> mmap(2), which is randomised. (Though <tt>-pie</tt>
+ doesn’t yet work as it’s supposed to.) Some OSes are better
+ than others… but look for yourself. (Read on to continue, not
+ part of the RSS for size reasons. This wlog entry may be updated
+ – with bumped date – unperiodically.)</p><!-- RSS stop -->
+
+<h3>MirBSD-current/i386</h3>
+<pre>tg@blau:~ $ mgcc -static x.c
+x.c:0: note: someone does not honour COPTS correctly, passed 0 times
+x.c: In function `foo':
+x.c:27: warning: function returns address of local variable
+tg@blau:~ $ ./a.out
+0xa9332000 0xaba65000 0xa0ae7000 0xcfbed990 0xcfbed994
+tg@blau:~ $ ./a.out
+0xa91b4000 0xa02b1000 0xa1602000 0xcfbf8680 0xcfbf8684
+tg@blau:~ $ ./a.out
+0x9f731000 0x9cb2a000 0xa94ca000 0xcfbf5840 0xcfbf5844
+tg@blau:~ $ ./a.out
+0x9c2af000 0xa6a0b000 0xa4ce1000 0xcfbefac0 0xcfbefac4
+tg@blau:~ $ ./a.out
+0xa3b61000 0xa96de000 0xa96df000 0xcfbedcc0 0xcfbedcc4</pre>
+
+<h3>Debian Ätsch/i386</h3>
+<pre>tg@frozenfish:~ $ gcc -static x.c
+x.c: In function ‘foo’:
+x.c:27: warning: function returns address of local variable
+x.c: In function ‘bar’:
+x.c:33: warning: function returns address of local variable
+tg@frozenfish:~ $ ./a.out
+0x80b2a20 0x80b2a30 0xb7745008 0xbf985ce0 0xbf985cd4
+tg@frozenfish:~ $ ./a.out
+0x80b2a20 0x80b2a30 0xb7726008 0xbfb911b0 0xbfb911a4
+tg@frozenfish:~ $ ./a.out
+0x80b2a20 0x80b2a30 0xb7784008 0xbf83d040 0xbf83d034
+tg@frozenfish:~ $ ./a.out
+0x80b2a20 0x80b2a30 0xb77e8008 0xbfc0f840 0xbfc0f834
+
+tg@frozenfish:~ $ sid
+I: [sid chroot] Running command: “mksh -l”
+tg@frozenfish:~ $ gcc -static x.c
+x.c: In function ‘foo’:
+x.c:27: warning: function returns address of local variable
+x.c: In function ‘bar’:
+x.c:33: warning: function returns address of local variable
+tg@frozenfish:~ $ ./a.out
+0x80c86a8 0x80c86b8 0xb77c3008 0xbfaa1900 0xbfaa18f4
+tg@frozenfish:~ $ ./a.out
+0x80c86a8 0x80c86b8 0xb77d2008 0xbfcc0260 0xbfcc0254
+tg@frozenfish:~ $ ./a.out
+0x80c86a8 0x80c86b8 0xb77c1008 0xbfbe2120 0xbfbe2114
+tg@frozenfish:~ $ uname -a
+Linux frozenfish 2.6.18-6-686 #1 SMP Fri Feb 19 23:40:03 UTC 2010 i686 GNU/Linux</pre>
+
+<h3>Solaris 8/sparc64</h3>
+<pre>tg@stinky:~ $ gcc -static x.c
+x.c: In function `foo':
+x.c:27: warning: function returns address of local variable
+tg@stinky:~ $ ./a.out
+595f0 59bf0 59d00 ffbefbb4 ffbefb5c
+tg@stinky:~ $ ./a.out
+595f0 59bf0 59d00 ffbefbb4 ffbefb5c
+tg@stinky:~ $ ./a.out
+595f0 59bf0 59d00 ffbefbb4 ffbefb5c
+tg@stinky:~ $ gcc x.c
+x.c: In function `foo':
+x.c:27: warning: function returns address of local variable
+tg@stinky:~ $ ./a.out
+20950 20f50 21060 ffbefb3c ffbefae4
+tg@stinky:~ $ ./a.out
+20950 20f50 21060 ffbefb3c ffbefae4</pre>
+
+<h3>MidnightBSD/amd64</h3>
+<pre>mirabilos@stargazer:~ $ uname -a
+MidnightBSD stargazer.midnightbsd.org 0.3-CURRENT MidnightBSD 0.3-CURRENT #1: Thu May 27
+22:13:45 EDT 2010     root@stargazer.midnightbsd.org:/usr/obj/usr/src/sys/GENERIC  amd64
+mirabilos@stargazer:~ $ gcc -static x.c
+x.c: In function 'foo':
+x.c:27: warning: function returns address of local variable
+x.c: In function 'bar':
+x.c:33: warning: function returns address of local variable
+mirabilos@stargazer:~ $ ./a.out
+0x800603080 0x800605040 0x800700000 0x7fffffffe62c 0x7fffffffe62c
+mirabilos@stargazer:~ $ ./a.out
+0x800603080 0x800605040 0x800700000 0x7fffffffe63c 0x7fffffffe63c
+mirabilos@stargazer:~ $ ./a.out
+0x800603080 0x800605040 0x800700000 0x7fffffffe62c 0x7fffffffe62c</pre>
+
+<h3>Debian sid/mipsel</h3>
+<p>(QEMU, thanks to Aurélien! approx. 7 months old Debian unstable)</p>
+<pre>root@debian-mipsel:~ # gcc-4.4 -static x.c
+x.c: In function 'foo':
+x.c:27: warning: function returns address of local variable
+x.c: In function 'bar':
+x.c:33: warning: function returns address of local variable
+root@debian-mipsel:~ # ./a.out
+0x4aa740 0x4aa750 0x2aaa8008 0x7fa417e8 0x7fa417d8
+root@debian-mipsel:~ # ./a.out
+0x4aa740 0x4aa750 0x2aaa8008 0x7fc67708 0x7fc676f8
+root@debian-mipsel:~ # ./a.out
+0x4aa740 0x4aa750 0x2aaa8008 0x7fb68238 0x7fb68228
+root@debian-mipsel:~ # ./a.out
+0x4aa740 0x4aa750 0x2aaa8008 0x7fc586c8 0x7fc586b8
+root@debian-mipsel:~ # uname -a
+Linux debian-mipsel 2.6.32-trunk-4kc-malta #1 Mon Jan 11 03:45:08 UTC 2010 mips GNU/Linux</pre>
+
+<h3>Gentoo GNU/Linux on amd64</h3>
+<p>gcc-4.4.4, glibc-2.11.2-r0, 2.6.35-rc4 x86_64</p>
+<pre>0x20cc010 0x20cc030 0x7fef0c497010 0x7fff32148fec 0x7fff32148fec
+ 0xa35010  0xa35030 0x7f575d0e4010 0x7fff0dd7220c 0x7fff0dd7220c
+0x1f90010 0x1f90030 0x7f8657107010 0x7fff6116813c 0x7fff6116813c
+ 0x9dd010  0x9dd030 0x7f1eab0a6010 0x7fff3dcc638c 0x7fff3dcc638c</pre>
+
+<h3>Conclusion</h3>
+<p>Not everyone does ASLR… but there’s enough variety (and with
+ eglibc’s AT_RANDOM even proper entropy) inside for our purposes.
+ On OpenBSD and MirBSD, we’ll still use KERN_ARND as it’s extremely
+ cheap entropy (code paths checked on both) but not for every call
+ of <tt>$RANDOM</tt>. On things like Debian/m68k mksh(1) ought to
+ have gained a possibly noticeable speed-up.</p>
 ----
