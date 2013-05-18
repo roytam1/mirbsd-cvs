@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.319 2011/01/15 22:06:16 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.320 2011/01/23 21:31:14 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -7332,4 +7332,22 @@ Tag: event mksh
  when you haven’t got a deliverable yet. Real Life <em>will</em> interfere.
  Oh, and Murphy, of course. (mksh R41 might have the associative arrays
  then. But mksh-current has <tt>${foo@#}</tt> which is <tt>hash($foo)</tt>.</p>
+----
+Date: 13.02.2011 00:07
+Author: tg@
+Title: FOSDEM was a blast!
+Tag: debian event mksh
+
+<p>I just need to work more on bilocality. While I did find two geocaches,
+ one at the South/Noon Train Station (taalverwarringen…), one in the buurt
+ of the University, I did manage to miss the AW building completely and
+ utterly. Wow. Except, that Haiku guy came over to talk for a bit (nice).
+ And I drew. An Atari logo with swirl, for that weird stuff I recently have
+ been <a href="https://wiki.debian.org/M68k/Cowbuilder">found doing</a>.</p>
+<p>More <a href="@@RELPATH@@mksh.htm#clog">mksh-current</a> news coming soon,
+ stay tuned. In the meanwhile, I met bonsaikitten IRL (at FOSDEM, yes, too)
+ who kindly made a “live ebuild”, i.e. a source package building -current.</p>
+<p>Finally let’s say a big thank you to the person mostly manning our booth,
+ gecko2, and to Benny for talking to people, getting That Other Packaging
+ Thingy working, and pimping the website a bit.</p>
 ----
