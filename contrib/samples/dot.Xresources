@@ -1,5 +1,5 @@
 ! $MirSecuCron$
-! $MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $
+! $MirOS: contrib/samples/dot.Xresources,v 1.12 2010/01/21 10:58:13 tg Exp $
 !-
 ! Copyright © 2003, 2004, 2005, 2006, 2007, 2009, 2010
 !	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
@@ -39,6 +39,7 @@ XTerm*cursorColor:		black
 XTerm*VT100*colorMode:		true
 XTerm*VT100*boldColors:		false
 XTerm*VT100*dynamicColors:	true
+XTerm*VT100*utf8:		true
 XTerm*VT100*color0:		black
 XTerm*VT100*color1:		red3
 XTerm*VT100*color2:		green3
@@ -59,7 +60,6 @@ XTerm*VT100*color14:		cyan
 XTerm*VT100*color15:		white
 XTerm*VT100*colorUL:		yellow
 XTerm*VT100*colorBD:		white
-XTerm*VT100*utf8:		true
 XTerm*fontMenu*font1*Label:	Unicode
 XTerm*VT100*utf8Fonts.font1:	-misc-fixed-medium-r-normal--18-120-100-100-c-90-iso10646-1
 XTerm*VT100*utf8Fonts.font2:	-misc-fixed-medium-r-normal--7-70-75-75-c-50-iso10646-1
@@ -123,6 +123,7 @@ TXTerm*cursorColor:		black
 TXTerm*VT100*colorMode:		true
 TXTerm*VT100*boldColors:	false
 TXTerm*VT100*dynamicColors:	true
+TXTerm*VT100*utf8:		true
 TXTerm*VT100*color0:		black
 TXTerm*VT100*color1:		red3
 TXTerm*VT100*color2:		green3
@@ -143,7 +144,6 @@ TXTerm*VT100*color14:		cyan
 TXTerm*VT100*color15:		white
 TXTerm*VT100*colorUL:		yellow
 TXTerm*VT100*colorBD:		white
-TXTerm*VT100*utf8:		true
 TXTerm*visualBell:		true
 
 !--- an XTerm with vga font ---
@@ -174,6 +174,8 @@ VXTerm*cursorColor:		black
 VXTerm*VT100*colorBDMode:	false
 VXTerm*VT100*boldColors:	true
 VXTerm*VT100*boldMode:		false
+VXTerm*VT100*dynamicColors:	true
+VXTerm*VT100*utf8:		false
 VXTerm*font:			-misc-vga-bold-r-normal--14-110-96-96-c-80-ibm-cp437
 VXTerm*boldFont:		-misc-vga-bold-r-normal--14-110-96-96-c-80-ibm-cp437
 VXTerm*VT100*color0:		black
@@ -196,7 +198,6 @@ VXTerm*VT100*color14:		cyan
 VXTerm*VT100*color15:		white
 VXTerm*VT100*colorUL:		yellow
 VXTerm*VT100*colorBD:		white
-VXTerm*VT100*utf8:		false
 VXTerm*visualBell:		true
 
 !--- generic utf-8 XTerm settings ---
@@ -235,7 +236,6 @@ UXTerm*VT100*color14:		cyan
 UXTerm*VT100*color15:		white
 UXTerm*VT100*colorUL:		yellow
 UXTerm*VT100*colorBD:		white
-UXTerm*VT100*utf8:		true
 UXTerm*fontMenu*font1*Label:	xTerm-like
 UXTerm*fontMenu*font3*Label:	narrow tall
 UXTerm*fontMenu*font4*Label:	wide short
@@ -269,6 +269,7 @@ KTerm*cursorColor:		black
 KTerm*VT100*colorMode:		true
 KTerm*VT100*boldColors:		false
 KTerm*VT100*dynamicColors:	true
+KTerm*VT100*utf8:		false
 KTerm*VT100*color0:		black
 KTerm*VT100*color1:		red3
 KTerm*VT100*color2:		green3
@@ -289,7 +290,6 @@ KTerm*VT100*color14:		cyan
 KTerm*VT100*color15:		white
 KTerm*VT100*colorUL:		yellow
 KTerm*VT100*colorBD:		white
-KTerm*VT100*utf8:		false
 KTerm*visualBell:		true
 KTerm*VT100*kanjiMode:		euc
 KTerm*VT100*Translations:	#override \
