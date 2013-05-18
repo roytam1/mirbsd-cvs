@@ -1,9 +1,9 @@
-# $MirOS: ports/devel/cvs/Makefile,v 1.21 2011/07/28 15:54:30 tg Exp $
+# $MirOS: ports/devel/cvs/Makefile,v 1.22 2011/12/04 19:19:43 tg Exp $
 
 COMMENT=		Concurrent Versions System
 CATEGORIES=		devel essentials
 VSN=			1.12.13
-DASH_VER=		12		# in sync with MirOS-0AAF.1 revision
+DASH_VER=		14		# in sync with MirOS-0AB0.1 revision
 HOMEPAGE=		http://www.nongnu.org/cvs/
 RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.org>
 
@@ -15,6 +15,11 @@ PERMIT_PACKAGE_FTP=	Yes
 
 DISTNAME=		cvs-${VSN}
 MASTER_SITES=		${MASTER_SITE_GNU:gnu/=non-gnu/cvs/source/feature/${VSN}/}
+MASTER_SITES0=		${MASTER_SITE_DEBIAN:=c/cvs/}
+DISTFILES=		${DISTNAME}${EXTRACT_SUFX} \
+			cvs_1.12.13+real-8_i386.deb:0
+PATCHFILES=		cvs_1.12.13+real-8.diff.gz:0
+PATCH_DIST_STRIP=	-p1
 
 CONFIGURE_STYLE=	autogen
 AUTOCONF_NEW=		Yes
@@ -53,13 +58,31 @@ pre-configure:
 	print '%g/\(MirPorts-\)QQ/s//\1${DASH_VER}/g\nwq' | \
 	    ed -s ${WRKSRC}/configure
 
+post-build:
+	# we install the PDFs generated in Debian, they are closer
+	cd ${WRKDIR}; tar xzf data.tar.gz
+	gzip -d <${WRKDIR}/usr/share/doc/cvs/cvs-paper.pdf.gz \
+	    >${WRKBUILD}/cvs-paper.pdf
+	gzip -d <${WRKDIR}/usr/share/doc/cvs/cvs.pdf.gz \
+	    >${WRKBUILD}/cvs.pdf
+	gzip -d <${WRKDIR}/usr/share/doc/cvs/cvsclient.pdf.gz \
+	    >${WRKBUILD}/cvsclient.pdf
+	# we install cvs-switchroot(1) from Debian now
+	gzip -d <${WRKDIR}/usr/share/man/man1/cvs-switchroot.1.gz \
+	    >${WRKBUILD}/cvs-switchroot.1
+
 post-install:
 	cd ${WRKSRC} && ${INSTALL_DATA} AUTHORS BUGS DEVEL-CVS FAQ HACKING \
 	    MINOR-BUGS NEWS PROJECTS README TODO doc/HACKING.DOCS \
-	    doc/RCSFILES doc/*.ms doc/*.pdf doc/*.rtf ${PREFIX}/share/cvs/
+	    doc/RCSFILES doc/*.ms doc/*.rtf ${PREFIX}/share/cvs/
 	cd ${WRKSRC}/contrib && ${INSTALL_DATA} cvs_acls.html cvshelp.man \
 	    descend.man descend.sh rcs2sccs.sh sandbox_status.man \
 	    ${PREFIX}/share/cvs/contrib/
 	${INSTALL_MAN} ${WRKSRC}/contrib/rcs2log.1 ${PREFIX}/man/man1/
+	cd ${WRKBUILD} && ${INSTALL_DATA} cvs-paper.pdf cvs.pdf \
+	    cvsclient.pdf ${PREFIX}/share/cvs/
+	${INSTALL_SCRIPT} ${WRKDIR}/usr/bin/cvs-switchroot ${PREFIX}/bin/
+	${INSTALL_MAN} ${WRKBUILD}/cvs-switchroot.1 ${PREFIX}/man/man1/
+	mv ${PREFIX}/share/cvs ${PREFIX}/share/doc/
 
 .include <bsd.port.mk>
