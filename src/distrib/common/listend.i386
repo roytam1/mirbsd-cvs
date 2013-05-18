@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/listend.i386,v 1.12 2007/05/26 23:03:07 tg Exp $
+# $MirOS: src/distrib/common/listend.i386,v 1.13 2007/06/08 07:32:42 tg Exp $
 
 # we want the disklabel without manual page
 CRUNCHSPECIAL disklabel	srcdir distrib/special/dl-noman
@@ -20,6 +20,7 @@ SPECIAL	install -c -o 0 -g 0 -m 555 ${BSDOBJDIR}/sys/arch/i386/stand/fdboot/boot
 SPECIAL	cd dev; ./MAKEDEV ptm pty0; rm ?typ[a-zA-Z]
 SPECIAL	cd dev; ./MAKEDEV ramdisk
 TERMCAP	vt100,vt220,wsvt25,dumb,wsvtg		usr/share/misc/termcap
+SPECIAL	print '/r:1,128/s//f:1, &/\nwq' | ed -s .profile
 
 # install stuff
 SCRIPT	${TOPDIR}/common/install.i386		install.md
