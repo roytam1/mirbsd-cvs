@@ -1,4 +1,4 @@
-/*	$OpenBSD: malloc.c,v 1.148 2012/11/02 18:18:15 djm Exp $	*/
+/*	$OpenBSD: malloc.c,v 1.149 2012/12/22 07:32:17 otto Exp $	*/
 /*
  * Copyright (c) 2008 Otto Moerbeek <otto@drijf.net>
  *
@@ -48,8 +48,8 @@
 
 #include "thread_private.h"
 
-__IDSTRING(malloc_type, "@(#) omalloc 1.148 (OpenBSD)");
-__RCSID("$MirOS: src/lib/libc/stdlib/malloc.c,v 1.8 2010/12/23 18:33:33 tg Exp $");
+__IDSTRING(malloc_type, "@(#) omalloc 1.149 (OpenBSD)");
+__RCSID("$MirOS: src/lib/libc/stdlib/malloc.c,v 1.9 2012/12/21 21:49:18 tg Exp $");
 
 #if defined(__sparc__) && !defined(__sparcv9__)
 #define MALLOC_PAGESHIFT	(13U)
