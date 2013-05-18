@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.313 2010/10/16 19:55:02 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.314 2010/11/06 15:10:04 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -7199,4 +7199,17 @@ Tag: debian event mksh
  one in Germany as well) of Chemistry and has returned to hacking some
  (World of) Google-Go(o) code. I expect MirBSD activity to slowly raise
  once we can come back. Please accept our apologies.</p>
+----
+Title: Sorry for accidentally spamming ~60 people/lists
+Author: tg@
+Date: 07.11.2010 14:18
+Tag: debian
+
+<p>When doing porter uploads, one must not forget to pass
+ <tt>-m"My Name &lt;my@email.addr&gt;"</tt> to dpkg-buildpackage,
+ e.g. with <tt>--debbuildopts</tt> for cowbuilder. Thanks Aurélien
+ and sorry to everyone who got the upload mails.</p>
+<p>(How are the rules for sponsored uploads? I get conflicting info
+ on these, and indeed, the one I sponsored never showed up on my QA
+ DDPO page…)</p>
 ----
