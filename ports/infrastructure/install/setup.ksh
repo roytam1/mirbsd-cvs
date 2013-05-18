@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.49 2006/02/07 21:36:36 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.50 2006/02/20 20:09:06 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -527,12 +527,6 @@ warn_makecfg=0
 if [[ ! -s $localbase/db/mmake.cfg ]]; then
 	cat >$localbase/db/mmake.cfg <<-EOF
 		# Default to include system-wide configuration
-		.if exists(/etc/\${MAKE:T}.cfg)
-		.  include "/etc/\${MAKE:T}.cfg"
-		.elif exists(/etc/make.cfg)
-		.  include "/etc/make.cfg"
-		.endif
-
 	EOF
 	if [[ -e /etc/mk.conf ]]; then
 		cat >>$localbase/db/mmake.cfg <<-EOF
@@ -542,6 +536,10 @@ if [[ ! -s $localbase/db/mmake.cfg ]]; then
 		EOF
 	fi
 	cat >>$localbase/db/mmake.cfg <<-EOF
+		.if exists(/etc/make.cfg)
+		.  include "/etc/make.cfg"
+		.endif
+
 		# Some stubs
 	EOF
 	if [[ $myuid = root ]]; then
