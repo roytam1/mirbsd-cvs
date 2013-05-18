@@ -1,20 +1,21 @@
-$MirOS: ports/www/lynx/patches/patch-lynx_cfg,v 1.9 2008/12/17 00:24:42 tg Exp $
+$MirOS: ports/www/lynx/patches/patch-lynx_cfg,v 1.10 2009/01/18 20:22:04 tg Exp $
 
 	mostly site policy and compatibility, usability
 
---- lynx.cfg.orig	Thu Jan  1 01:22:02 2009
-+++ lynx.cfg	Sun Jan 18 19:50:15 2009
-@@ -1,7 +1,7 @@
-+# $MirOS: src/gnu/usr.bin/lynx/lynx.cfg,v 1.24 2009/01/18 19:40:51 tg Exp $
- # $LynxId: lynx.cfg,v 1.169 2009/01/01 01:10:31 tom Exp $
+--- lynx.cfg.orig	Tue Jun 23 23:53:34 2009
++++ lynx.cfg	Sun Aug  9 15:39:05 2009
+@@ -1,7 +1,8 @@
++# $MirSecuCron$
++# $MirOS: src/gnu/usr.bin/lynx/lynx.cfg,v 1.27 2009/08/09 15:31:26 tg Exp $
+ # $LynxId: lynx.cfg,v 1.180 2009/06/07 17:02:21 tom Exp $
  # lynx.cfg file.
 -# The default placement for this file is /usr/local/lib/lynx.cfg (Unix)
 -#                                     or Lynx_Dir:lynx.cfg (VMS)
 +# The default placement for this file is /etc/lynx.cfg
  #
  # $Format: "#PRCS LYNX_VERSION \"$ProjectVersion$\""$
- #PRCS LYNX_VERSION "2.8.7dev.12"
-@@ -12,7 +12,7 @@
+ #PRCS LYNX_VERSION "2.8.7rel.1"
+@@ -12,7 +13,7 @@
  # Definition pairs are of the form  VARIABLE:DEFINITION
  # NO spaces are allowed between the pair items.
  #
@@ -23,7 +24,7 @@ $MirOS: ports/www/lynx/patches/patch-lynx_cfg,v 1.9 2008/12/17 00:24:42 tg Exp $
  #  the default location of this file in the userdefs.h file and recompile,
  #  or specify its location on the command line with the "-cfg"
  #  command line option.
-@@ -93,12 +93,12 @@
+@@ -93,12 +94,12 @@
  #
  # Normally we expect you will connect to a remote site, e.g., the Lynx starting
  # site:
@@ -38,7 +39,7 @@ $MirOS: ports/www/lynx/patches/patch-lynx_cfg,v 1.9 2008/12/17 00:24:42 tg Exp $
  #
  # Your choice of STARTFILE should reflect your site's needs, and be a URL that
  # you can connect to reliably.  Otherwise users will become confused and think
-@@ -452,7 +452,7 @@ DEFAULT_INDEX_FILE:http://lynx.isc.org/
+@@ -452,7 +453,7 @@ DEFAULT_INDEX_FILE:http://lynx.isc.org/
  # values and their relationship to the locale value is not.  GNU libiconv
  # happens to give useful values, but other implementations are not guaranteed
  # to do this.
@@ -47,7 +48,7 @@ $MirOS: ports/www/lynx/patches/patch-lynx_cfg,v 1.9 2008/12/17 00:24:42 tg Exp $
  
  
  .h2 ASSUME_CHARSET
-@@ -467,7 +467,7 @@ DEFAULT_INDEX_FILE:http://lynx.isc.org/
+@@ -467,7 +468,7 @@ DEFAULT_INDEX_FILE:http://lynx.isc.org/
  # ASSUME_CHARSET can also be changed via the 'o'ptions menu but will
  # not be saved as permanent value in user's .lynxrc file to avoid more chaos.
  #
@@ -56,7 +57,7 @@ $MirOS: ports/www/lynx/patches/patch-lynx_cfg,v 1.9 2008/12/17 00:24:42 tg Exp $
  
  
  .h2 ASSUMED_DOC_CHARSET_CHOICE
-@@ -595,7 +595,7 @@ DEFAULT_INDEX_FILE:http://lynx.isc.org/
+@@ -595,7 +596,7 @@ DEFAULT_INDEX_FILE:http://lynx.isc.org/
  # the 'o'ptions menu and save that preference in their RC file.
  # This may be a comma-separated list of languages in decreasing preference.
  #
@@ -65,7 +66,7 @@ $MirOS: ports/www/lynx/patches/patch-lynx_cfg,v 1.9 2008/12/17 00:24:42 tg Exp $
  
  
  .h2 PREFERRED_CHARSET
-@@ -614,7 +614,7 @@ DEFAULT_INDEX_FILE:http://lynx.isc.org/
+@@ -614,7 +615,7 @@ DEFAULT_INDEX_FILE:http://lynx.isc.org/
  # the sending of an unacceptable response is also allowed.  See RFC 2068
  # (http://www.ics.uci.edu/pub/ietf/uri/rfc2068.txt).
  #
@@ -74,7 +75,7 @@ $MirOS: ports/www/lynx/patches/patch-lynx_cfg,v 1.9 2008/12/17 00:24:42 tg Exp $
  
  
  .h2 CHARSETS_DIRECTORY
-@@ -695,22 +695,22 @@ DEFAULT_INDEX_FILE:http://lynx.isc.org/
+@@ -695,22 +696,22 @@ DEFAULT_INDEX_FILE:http://lynx.isc.org/
  # Set the threshold # of lines Lynx must render before it
  # redraws the screen in PARTIAL mode.  Anything < 0 implies
  # use of the screen size.
@@ -104,7 +105,7 @@ $MirOS: ports/www/lynx/patches/patch-lynx_cfg,v 1.9 2008/12/17 00:24:42 tg Exp $
  # Quoting from
  #	http://www.romulus2.com/articles/guides/misc/bitsbytes.shtml
  # In December 1998, the International Electrotechnical Commission (IEC)
-@@ -720,9 +720,6 @@ DEFAULT_INDEX_FILE:http://lynx.isc.org/
+@@ -720,9 +721,6 @@ DEFAULT_INDEX_FILE:http://lynx.isc.org/
  # metric prefixes and adding the first two letters of the word "binary".  Thus,
  # for instance, instead of Kilobyte (KB) or Gigabyte (GB), the new terms would
  # be kibibyte (KiB) or gibibyte (GiB).
@@ -114,7 +115,7 @@ $MirOS: ports/www/lynx/patches/patch-lynx_cfg,v 1.9 2008/12/17 00:24:42 tg Exp $
  #SHOW_KB_NAME:KiB
  
  .h1 Timeouts
-@@ -854,8 +851,8 @@ DEFAULT_INDEX_FILE:http://lynx.isc.org/
+@@ -859,8 +857,8 @@ DEFAULT_INDEX_FILE:http://lynx.isc.org/
  # number of documents to cache (rather than the maximum number only if
  # DEFAULT_VIRTUAL_MEMORY_SIZE has been exceeded, as with VAXC/VAX).
  #
@@ -125,7 +126,7 @@ $MirOS: ports/www/lynx/patches/patch-lynx_cfg,v 1.9 2008/12/17 00:24:42 tg Exp $
  
  
  .h2 SOURCE_CACHE
-@@ -871,7 +868,7 @@ DEFAULT_INDEX_FILE:http://lynx.isc.org/
+@@ -876,7 +874,7 @@ DEFAULT_INDEX_FILE:http://lynx.isc.org/
  # NONE is the default; the document source is not cached, and is reloaded
  #   from the network when needed.
  #
@@ -134,7 +135,7 @@ $MirOS: ports/www/lynx/patches/patch-lynx_cfg,v 1.9 2008/12/17 00:24:42 tg Exp $
  
  
  .h2 SOURCE_CACHE_FOR_ABORTED
-@@ -881,7 +878,7 @@ DEFAULT_INDEX_FILE:http://lynx.isc.org/
+@@ -886,7 +884,7 @@ DEFAULT_INDEX_FILE:http://lynx.isc.org/
  # be preserved (and used as cache), if set to DROP lynx will drop the
  # source cache for that document (i.e. only completely downloaded documents
  # will be cached in that case).
@@ -143,7 +144,7 @@ $MirOS: ports/www/lynx/patches/patch-lynx_cfg,v 1.9 2008/12/17 00:24:42 tg Exp $
  
  .h2 ALWAYS_RESUBMIT_POSTS
  # If ALWAYS_RESUBMIT_POSTS is set TRUE, Lynx always will resubmit forms
-@@ -1119,7 +1116,7 @@ DEFAULT_INDEX_FILE:http://lynx.isc.org/
+@@ -1124,7 +1122,7 @@ DEFAULT_INDEX_FILE:http://lynx.isc.org/
  # default or that defined here can be toggled via the -force_secure
  # command line switch.
  #
@@ -152,7 +153,7 @@ $MirOS: ports/www/lynx/patches/patch-lynx_cfg,v 1.9 2008/12/17 00:24:42 tg Exp $
  
  
  .h1 Internal Behavior
-@@ -1308,7 +1305,7 @@ DEFAULT_INDEX_FILE:http://lynx.isc.org/
+@@ -1313,7 +1311,7 @@ DEFAULT_INDEX_FILE:http://lynx.isc.org/
  # line break.  Note that the valid way to insert extra blank lines in HTML
  # is via a PRE block with only newlines in the block.
  #
@@ -161,7 +162,7 @@ $MirOS: ports/www/lynx/patches/patch-lynx_cfg,v 1.9 2008/12/17 00:24:42 tg Exp $
  
  
  .h2 TAGSOUP
-@@ -1411,7 +1408,7 @@ DEFAULT_INDEX_FILE:http://lynx.isc.org/
+@@ -1416,7 +1414,7 @@ DEFAULT_INDEX_FILE:http://lynx.isc.org/
  # The default is FALSE, so that the feature needs to be enabled here
  # explicitly if you want it.
  #
@@ -170,7 +171,7 @@ $MirOS: ports/www/lynx/patches/patch-lynx_cfg,v 1.9 2008/12/17 00:24:42 tg Exp $
  
  
  .h2 COOKIE_FILE
-@@ -1420,7 +1417,7 @@ DEFAULT_INDEX_FILE:http://lynx.isc.org/
+@@ -1425,7 +1423,7 @@ DEFAULT_INDEX_FILE:http://lynx.isc.org/
  # USE_PERSISTENT_COOKIES and the PERSISTENT_COOKIES option is enabled.
  # The cookie file can also be specified in .lynxrc or on the command line.
  #
@@ -179,7 +180,7 @@ $MirOS: ports/www/lynx/patches/patch-lynx_cfg,v 1.9 2008/12/17 00:24:42 tg Exp $
  
  
  .h2 COOKIE_SAVE_FILE
-@@ -1433,7 +1430,7 @@ DEFAULT_INDEX_FILE:http://lynx.isc.org/
+@@ -1438,7 +1436,7 @@ DEFAULT_INDEX_FILE:http://lynx.isc.org/
  # COOKIE_FILE if it is not set.  With a non-interactive Lynx session (e.g.,
  # -dump), cookies will only be saved to file if COOKIE_SAVE_FILE is set.
  #
@@ -188,7 +189,7 @@ $MirOS: ports/www/lynx/patches/patch-lynx_cfg,v 1.9 2008/12/17 00:24:42 tg Exp $
  
  
  .h1 Mail-related
-@@ -1574,7 +1571,7 @@ DEFAULT_INDEX_FILE:http://lynx.isc.org/
+@@ -1579,7 +1577,7 @@ DEFAULT_INDEX_FILE:http://lynx.isc.org/
  # It will be prepended by the user's home directory.
  # NOTE that a file ending in .html or other suffix mapped to text/html
  # should be used to ensure its treatment as HTML.  The built-in default
@@ -197,7 +198,7 @@ $MirOS: ports/www/lynx/patches/patch-lynx_cfg,v 1.9 2008/12/17 00:24:42 tg Exp $
  # the HOME directory is desired, the path should begin with "./" (e.g.,
  # ./BM/lynx_bookmarks.html), but the subdirectory must already exist.
  # Lynx will create the bookmark file, if it does not already exist, on
-@@ -1586,7 +1583,7 @@ DEFAULT_INDEX_FILE:http://lynx.isc.org/
+@@ -1591,7 +1589,7 @@ DEFAULT_INDEX_FILE:http://lynx.isc.org/
  # (see below), via the 'o'ptions menu, and can save those definitions
  # in the .lynxrc file.
  #
@@ -206,7 +207,7 @@ $MirOS: ports/www/lynx/patches/patch-lynx_cfg,v 1.9 2008/12/17 00:24:42 tg Exp $
  
  
  .h2 MULTI_BOOKMARK_SUPPORT
-@@ -1669,6 +1666,7 @@ DEFAULT_INDEX_FILE:http://lynx.isc.org/
+@@ -1674,6 +1672,7 @@ DEFAULT_INDEX_FILE:http://lynx.isc.org/
  #POSITIONABLE_EDITOR:jove
  #POSITIONABLE_EDITOR:jpico
  #POSITIONABLE_EDITOR:jstar
@@ -214,7 +215,19 @@ $MirOS: ports/www/lynx/patches/patch-lynx_cfg,v 1.9 2008/12/17 00:24:42 tg Exp $
  #POSITIONABLE_EDITOR:nano
  #POSITIONABLE_EDITOR:pico
  #POSITIONABLE_EDITOR:rjoe
-@@ -1992,7 +1990,7 @@ DEFAULT_INDEX_FILE:http://lynx.isc.org/
+@@ -1857,7 +1856,11 @@ DEFAULT_INDEX_FILE:http://lynx.isc.org/
+ .ex
+ #DOWNLOADER:Save OS/390 binary file: iconv -f IBM-1047 -t ISO8859-1 %s >%s:FALSE
+ 
++# These are configured by The MirOS Project:
++DOWNLOADER:View in less:less -f '%s':FALSE
++DOWNLOADER:Spawn editor:"${VISUAL-${EDITOR-ed}}" '%s':FALSE
+ 
++
+ .h1 Interaction
+ 
+ .h2 NO_DOT_FILES
+@@ -1997,7 +2000,7 @@ DEFAULT_INDEX_FILE:http://lynx.isc.org/
  # prefer the more conservative action of requiring an explicit Y or y to
  # confirm.  The default defined here will override that in userdefs.h.
  #
@@ -223,7 +236,7 @@ $MirOS: ports/www/lynx/patches/patch-lynx_cfg,v 1.9 2008/12/17 00:24:42 tg Exp $
  
  
  .h1 HTML Parsing
-@@ -2330,7 +2328,7 @@ MINIMAL_COMMENTS:TRUE
+@@ -2335,7 +2338,7 @@ MINIMAL_COMMENTS:TRUE
  # XLOADIMAGE_COMMAND definition.
  # If you use xli, you may want to add the -quiet flag.
  #
@@ -232,7 +245,7 @@ $MirOS: ports/www/lynx/patches/patch-lynx_cfg,v 1.9 2008/12/17 00:24:42 tg Exp $
  
  .h2 VIEWER
  # MIME types may be assigned to external viewers using
-@@ -3287,7 +3285,7 @@ COLOR:6:brightred:black
+@@ -3292,7 +3295,7 @@ COLOR:6:brightred:black
  # otherwise. Set this setting to TRUE if you prefer numbered links, but wish
  # to get valid HTML source when printing or mailing when in psrc view.
  # Default is FALSE.
@@ -241,7 +254,7 @@ $MirOS: ports/www/lynx/patches/patch-lynx_cfg,v 1.9 2008/12/17 00:24:42 tg Exp $
  
  
  .h1 HTML Parsing
-@@ -3323,19 +3321,17 @@ COLOR:6:brightred:black
+@@ -3328,19 +3331,17 @@ COLOR:6:brightred:black
  #	<p />
  #	<a />
  # When the option is false, lynx will not treat the tag as an ending.
@@ -266,7 +279,7 @@ $MirOS: ports/www/lynx/patches/patch-lynx_cfg,v 1.9 2008/12/17 00:24:42 tg Exp $
  
  .h2 JUSTIFY_MAX_VOID_PERCENT
  # JUSTIFY_MAX_VOID_PERCENT - Appearance
-@@ -3363,7 +3359,7 @@ COLOR:6:brightred:black
+@@ -3368,7 +3369,7 @@ COLOR:6:brightred:black
  # explicit activation can also be requested with the -tna command line
  # option.
  #
@@ -275,7 +288,7 @@ $MirOS: ports/www/lynx/patches/patch-lynx_cfg,v 1.9 2008/12/17 00:24:42 tg Exp $
  
  .h2 LEFTARROW_IN_TEXTFIELD_PROMPT
  # LEFTARROW_IN_TEXTFIELD_PROMPT
-@@ -3373,7 +3369,7 @@ COLOR:6:brightred:black
+@@ -3378,7 +3379,7 @@ COLOR:6:brightred:black
  # only if the contents of the fields have been changed since entering it.
  # If set to TRUE, the confirmation prompt is always issued.
  #
@@ -284,7 +297,7 @@ $MirOS: ports/www/lynx/patches/patch-lynx_cfg,v 1.9 2008/12/17 00:24:42 tg Exp $
  
  
  .h1 Timeouts
-@@ -3414,7 +3410,7 @@ COLOR:6:brightred:black
+@@ -3419,7 +3420,7 @@ COLOR:6:brightred:black
  # one lynx.cfg setting.
  .nf
  #ENABLE_LYNXRC:accept_all_cookies:ON
@@ -293,7 +306,7 @@ $MirOS: ports/www/lynx/patches/patch-lynx_cfg,v 1.9 2008/12/17 00:24:42 tg Exp $
  #ENABLE_LYNXRC:auto_session:OFF
  #ENABLE_LYNXRC:bookmark_file:ON
  #ENABLE_LYNXRC:case_sensitive_searching:ON
-@@ -3430,35 +3426,35 @@ COLOR:6:brightred:black
+@@ -3435,37 +3436,37 @@ COLOR:6:brightred:black
  #ENABLE_LYNXRC:emacs_keys:ON
  #ENABLE_LYNXRC:file_editor:ON
  #ENABLE_LYNXRC:file_sorting_method:ON
@@ -312,6 +325,8 @@ $MirOS: ports/www/lynx/patches/patch-lynx_cfg,v 1.9 2008/12/17 00:24:42 tg Exp $
 +ENABLE_LYNXRC:make_links_for_all_images:ON
 +ENABLE_LYNXRC:make_pseudo_alts_for_inlines:ON
  #ENABLE_LYNXRC:multi_bookmark:ON
+-#ENABLE_LYNXRC:no_pause:OFF
++ENABLE_LYNXRC:no_pause:ON
  #ENABLE_LYNXRC:personal_mail_address:ON
  #ENABLE_LYNXRC:preferred_charset:ON
 -#ENABLE_LYNXRC:preferred_encoding:OFF
@@ -326,6 +341,7 @@ $MirOS: ports/www/lynx/patches/patch-lynx_cfg,v 1.9 2008/12/17 00:24:42 tg Exp $
 -#ENABLE_LYNXRC:scrollbar:OFF
 +ENABLE_LYNXRC:scrollbar:ON
  #ENABLE_LYNXRC:select_popups:ON
+ #ENABLE_LYNXRC:send_useragent:OFF
  #ENABLE_LYNXRC:session_file:OFF
 -#ENABLE_LYNXRC:set_cookies:OFF
 +ENABLE_LYNXRC:set_cookies:ON

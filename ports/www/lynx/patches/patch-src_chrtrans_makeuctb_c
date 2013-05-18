@@ -1,10 +1,10 @@
-$MirOS: ports/www/lynx/patches/patch-src_chrtrans_makeuctb_c,v 1.6 2008/03/09 18:19:43 tg Exp $
+$MirOS: ports/www/lynx/patches/patch-src_chrtrans_makeuctb_c,v 1.7 2009/01/18 20:22:05 tg Exp $
 
 	security - string cleanup
 
---- src/chrtrans/makeuctb.c.orig	Thu Jan  1 01:22:02 2009
-+++ src/chrtrans/makeuctb.c	Sun Jan 18 19:50:15 2009
-@@ -302,6 +302,7 @@ int main(int argc, char **argv)
+--- src/chrtrans/makeuctb.c.orig	Mon Feb  2 01:40:38 2009
++++ src/chrtrans/makeuctb.c	Sun Aug  9 15:35:31 2009
+@@ -301,6 +301,7 @@ int main(int argc, char **argv)
      int fp0 = 0, fp1 = 0, un0, un1;
      char *p, *p1;
      char *tbuf, ch;
@@ -12,7 +12,7 @@ $MirOS: ports/www/lynx/patches/patch-src_chrtrans_makeuctb_c,v 1.6 2008/03/09 18
  
      if (argc < 2 || argc > 5) {
  	usage();
-@@ -328,12 +329,12 @@ int main(int argc, char **argv)
+@@ -327,12 +328,12 @@ int main(int argc, char **argv)
      } else if (ctbl == stdin) {
  	chdr = stdout;
  	hdrname = "stdout";
@@ -28,7 +28,7 @@ $MirOS: ports/www/lynx/patches/patch-src_chrtrans_makeuctb_c,v 1.6 2008/03/09 18
      } else {
  	perror("malloc");
  	done(EX_NOINPUT);
-@@ -549,7 +550,7 @@ int main(int argc, char **argv)
+@@ -547,7 +548,7 @@ int main(int argc, char **argv)
  	     * Allocate a string large enough for the worst-case use in the
  	     * loop using sprintf.
  	     */
@@ -37,7 +37,7 @@ $MirOS: ports/www/lynx/patches/patch-src_chrtrans_makeuctb_c,v 1.6 2008/03/09 18
  
  	    if (!(p1 = tbuf)) {
  		fprintf(stderr, "%s: Out of memory\n", tblname);
-@@ -586,7 +587,7 @@ int main(int argc, char **argv)
+@@ -584,7 +585,7 @@ int main(int argc, char **argv)
  		for (ch = *(++p); (ch = *p) != '\0'; p++, p1++) {
  		    if (UCH(ch) < 32 || ch == '\\' || ch == '\"' ||
  			UCH(ch) >= 127) {

@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/samples/import-3rdpty,v 1.29 2009/04/16 12:22:24 tg Exp $
+# $MirOS: contrib/samples/import-3rdpty,v 1.30 2009/05/30 00:10:36 tg Exp $
 #-
 # Copyright (c) 2004, 2005, 2006, 2007, 2008
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -19,7 +19,7 @@
 # damage or existence of a defect, except proven that it results out
 # of said person's immediate fault when using the work as intended.
 
-print -ru2 -- '========= $MirOS: contrib/samples/import-3rdpty,v 1.29 2009/04/16 12:22:24 tg Exp $ ========='
+print -ru2 -- '========= $MirOS: contrib/samples/import-3rdpty,v 1.30 2009/05/30 00:10:36 tg Exp $ ========='
 
 ignlist=0
 force=0
@@ -470,10 +470,14 @@ case $module {
 		samples/lynx-demo.cfg \
 		samples/lynx.bat \
 		samples/lynx.com \
+		samples/lynx.ico \
+		scripts/config.djgpp.sh \
+		scripts/conf.mingw.sh \
 		scripts/index.html \
 		scripts/man2hlp.sh \
 		scripts/tbl2html.pl \
 		src/*.opt \
+		src/LYIcon.rc \
 		src/LYVMSdef.h \
 		src/Xsystem.c \
 		src/chrtrans/*.com \
@@ -1486,7 +1490,7 @@ case $module {
 	fi
 	;;
 (lynx)
-	[[ $tag = lynx-[2-9]_+([0-9])_+([0-9])?(@(dev|pre)_+([0-9])?([a-z])) ]] \
+	[[ $tag = lynx-[2-9]_+([0-9])_+([0-9])?(@(dev|pre|rel)_+([0-9])?([a-z])) ]] \
 	    || tagerr=1
 	realtag=$tag
 	tagformat=lynx-2_8_xdev_ya

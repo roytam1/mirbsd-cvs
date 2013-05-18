@@ -1,9 +1,9 @@
-$MirOS: ports/www/lynx/patches/patch-lynx_help_Lynx_users_guide_html,v 1.3 2007/08/03 12:14:23 tg Exp $
+$MirOS: ports/www/lynx/patches/patch-lynx_help_Lynx_users_guide_html,v 1.4 2008/03/09 18:19:43 tg Exp $
 
 	site policy
 
---- lynx_help/Lynx_users_guide.html.orig	Sun Feb 17 22:00:35 2008
-+++ lynx_help/Lynx_users_guide.html	Sun Mar  9 17:50:39 2008
+--- lynx_help/Lynx_users_guide.html.orig	Sun Jul  5 23:52:09 2009
++++ lynx_help/Lynx_users_guide.html	Sun Aug  9 15:35:30 2009
 @@ -485,7 +485,7 @@ to the net.bio.net WAIS server. [<A HREF
  
  The Lynx <em>Options Menu</em> may be accessed by pressing the '<em>o</em>'
@@ -13,7 +13,7 @@ $MirOS: ports/www/lynx/patches/patch-lynx_help_Lynx_users_guide_html,v 1.3 2007/
  are marked (!) in the form-based menu (as below). Many other options
  are stored in the <A HREF="#lynx.cfg">lynx.cfg</A> file.
  
-@@ -574,7 +574,7 @@ and is accessed by setting FORMS_OPTIONS
+@@ -579,7 +579,7 @@ and is accessed by setting FORMS_OPTIONS
  
       (E)ditor                     : emacs
       (D)ISPLAY variable           : aixtest.cc.ukans.edu:0.0
@@ -22,7 +22,7 @@ $MirOS: ports/www/lynx/patches/patch-lynx_help_Lynx_users_guide_html,v 1.3 2007/
       (F)TP sort criteria          : By Filename
       (P)ersonal mail address      : montulli@netscape.com
       (S)earching type             : CASE INSENSITIVE
-@@ -616,7 +616,7 @@ change.
+@@ -621,7 +621,7 @@ change.
  
  <p>When you are done changing options use the '<em>r</em>' command to
  return to Lynx or the '<em>&gt;</em>' command to save the options to a
@@ -31,7 +31,7 @@ $MirOS: ports/www/lynx/patches/patch-lynx_help_Lynx_users_guide_html,v 1.3 2007/
  
  <p>The following table describes the options available on the
  <em>Options Menu</em>:
-@@ -901,7 +901,7 @@ return to Lynx or the '<em>&gt;</em>' co
+@@ -952,7 +952,7 @@ return to Lynx or the '<em>&gt;</em>' co
              If set to OFF or NEVER, color mode will be turned off.<BR>
              ALWAYS and
              NEVER are not offered in anonymous accounts.  If saved to a
@@ -40,7 +40,7 @@ $MirOS: ports/www/lynx/patches/patch-lynx_help_Lynx_users_guide_html,v 1.3 2007/
              cause Lynx to set color mode on at startup if supported.
              If Lynx is built with the slang library, this is equivalent to
              having included the <em>-color</em> command line switch or having the
-@@ -917,7 +917,7 @@ return to Lynx or the '<em>&gt;</em>' co
+@@ -968,7 +968,7 @@ return to Lynx or the '<em>&gt;</em>' co
              slang library is used) can be overridden with the <em>-color</em>
              switch.<BR>
              If the setting is OFF or ON
@@ -49,7 +49,7 @@ $MirOS: ports/www/lynx/patches/patch-lynx_help_Lynx_users_guide_html,v 1.3 2007/
              the default startup behavior is retained, such that color mode
              will be turned on at startup only if the terminal info indicates
              that you have a color-capable terminal, or (when the
-@@ -1791,14 +1791,14 @@ There are 3 choices in <em>lynx.cfg</em>
+@@ -1882,14 +1882,14 @@ There are 3 choices in <em>lynx.cfg</em>
  </pre><p>
  You can also use the <em>Options Menu</em>, as outlined below:
  <pre>
@@ -66,7 +66,7 @@ $MirOS: ports/www/lynx/patches/patch-lynx_help_Lynx_users_guide_html,v 1.3 2007/
  the other two cannot be saved between sessions.
  </pre><p>
  In the Form-based Menu, the 3-way `Show images' selection
-@@ -2267,7 +2267,7 @@ The SET_COOKIES symbol can be further mo
+@@ -2358,7 +2358,7 @@ The SET_COOKIES symbol can be further mo
  If ACCEPT_ALL_COOKIES is set TRUE, and SET_COOKIES is TRUE, Lynx will accept
  all cookies.  Additionally, the cookies that are automatically accepted or
  rejected by Lynx can be further modified with the COOKIE_ACCEPT_DOMAINS and
@@ -75,7 +75,7 @@ $MirOS: ports/www/lynx/patches/patch-lynx_help_Lynx_users_guide_html,v 1.3 2007/
  comma-separated list of domains to perform the desired action.  The domain
  listed in these options must be identical to the domain the cookie comes
  from, there is no wildcard matching.  If a domain is specific in both
-@@ -2288,7 +2288,7 @@ command, normally mapped to <em>Ctrl-K</
+@@ -2379,7 +2379,7 @@ command, normally mapped to <em>Ctrl-K</
  href="keystrokes/cookie_help.html">Cookie Jar Page</a>. If Lynx has been
  compiled with the --enable-persistent-cookies flag, then unexpired cookies
  will be stored between sessions in the filename set with the COOKIE_FILE
@@ -84,7 +84,7 @@ $MirOS: ports/www/lynx/patches/patch-lynx_help_Lynx_users_guide_html,v 1.3 2007/
  
  <p>A common use of cookies by http servers is simply to track the
  documents visited by individual users.  Though this can be useful to the
-@@ -2572,14 +2572,14 @@ where
+@@ -2663,14 +2663,14 @@ where
                         library like ncurses, Lynx relies completely on the terminal
                         description to determine whether color mode is possible, and
                         this flag is not needed and thus unavailable.)
@@ -102,7 +102,7 @@ $MirOS: ports/www/lynx/patches/patch-lynx_help_Lynx_users_guide_html,v 1.3 2007/
                      for most systems, but ~/cookies for MS-DOS.
               <dt><code>-cookie_save_file=FILENAME</code>
                  <dd>specifies a file to use to store cookies.
-@@ -2721,7 +2721,7 @@ where
+@@ -2812,7 +2812,7 @@ where
                      within a mailto URL or form ACTION.
               <dt><code>-nocolor</code>
                  <dd>force color mode off, overriding terminal capabilities and any
@@ -111,7 +111,7 @@ $MirOS: ports/www/lynx/patches/patch-lynx_help_Lynx_users_guide_html,v 1.3 2007/
               <dt><code>-noexec</code>
                  <dd>disable local program execution. (DEFAULT)
               <dt><code>-nofilereferer</code>
-@@ -2918,7 +2918,7 @@ where
+@@ -3009,7 +3009,7 @@ where
                  <dt>news_post
                          <dd>disallow USENET News posting,
                  <dt>options_save
@@ -120,7 +120,7 @@ $MirOS: ports/www/lynx/patches/patch-lynx_help_Lynx_users_guide_html,v 1.3 2007/
                  <dt>outside_ftp
                          <dd>disallow ftps for people coming from outside your
                              domain.
-@@ -3067,7 +3067,7 @@ where
+@@ -3158,7 +3158,7 @@ where
                      <dt>4
                         <dd>TRST (table layout)
                      <dt>8
@@ -129,7 +129,7 @@ $MirOS: ports/www/lynx/patches/patch-lynx_help_Lynx_users_guide_html,v 1.3 2007/
                      <dt>16
                         <dd>binary string copy/append, used in form data construction.
                      </dl>
-@@ -3143,7 +3143,7 @@ for this rather technical information.
+@@ -3234,7 +3234,7 @@ for this rather technical information.
  
  Lynx has several levels of customization:
  from the Options Menu (accessible on-line,

@@ -1,11 +1,11 @@
-$MirOS: ports/www/lynx/patches/patch-userdefs_h,v 1.11 2008/12/17 00:24:42 tg Exp $
+$MirOS: ports/www/lynx/patches/patch-userdefs_h,v 1.12 2009/01/18 20:22:05 tg Exp $
 
 	Upstream (Lynx) should at least enable KANJI_CODE_OVERRIDE by
 	default and incorporate the #ifndef LYNX_VERSION part.
 	Setting PREFERRED_LANGUAGE to "" is a sensible thing to do too.
 
---- userdefs.h.orig	Thu Jan  1 01:22:02 2009
-+++ userdefs.h	Sun Jan 18 19:50:15 2009
+--- userdefs.h.orig	Sun Jun  7 00:30:11 2009
++++ userdefs.h	Sun Aug  9 15:35:30 2009
 @@ -333,7 +333,7 @@
   * use any default viewers for image types.  Note that open is used as
   * the default for NeXT, instead of the XLOADIMAGE_COMMAND definition.
@@ -61,17 +61,17 @@ $MirOS: ports/www/lynx/patches/patch-userdefs_h,v 1.11 2008/12/17 00:24:42 tg Ex
  
  /********************************
   * BIBP_GLOBAL_SERVER is the default global server for bibp: links, used
-@@ -1420,7 +1421,9 @@
+@@ -1426,7 +1427,9 @@
   * the version definition with the Project Version on checkout.  Just
   * ignore it. - kw */
  /* $Format: "#define LYNX_VERSION \"$ProjectVersion$\""$ */
 +#ifndef LYNX_VERSION
- #define LYNX_VERSION "2.8.7dev.12"
+ #define LYNX_VERSION "2.8.7rel.1"
 +#endif
  #define LYNX_WWW_HOME "http://lynx.isc.org/"
  #define LYNX_WWW_DIST "http://lynx.isc.org/current/"
  /* $Format: "#define LYNX_DATE \"$ProjectDate$\""$ */
-@@ -1457,7 +1460,7 @@
+@@ -1471,7 +1474,7 @@
  #ifdef FNAMES_8_3
  #define FNAME_LYNXRC "lynx.rc"
  #else
@@ -80,7 +80,7 @@ $MirOS: ports/www/lynx/patches/patch-userdefs_h,v 1.11 2008/12/17 00:24:42 tg Ex
  #endif /* FNAMES_8_3 */
  #endif
  
-@@ -1465,7 +1468,7 @@
+@@ -1479,7 +1482,7 @@
  #ifdef FNAMES_8_3
  #define FNAME_LYNX_COOKIES "cookies"
  #else
@@ -89,7 +89,7 @@ $MirOS: ports/www/lynx/patches/patch-userdefs_h,v 1.11 2008/12/17 00:24:42 tg Ex
  #endif /* FNAMES_8_3 */
  #endif
  
-@@ -1631,11 +1634,11 @@
+@@ -1645,11 +1648,11 @@
  
  /*****************************
   * Uncomment the following line to enable the kanji code override routine.

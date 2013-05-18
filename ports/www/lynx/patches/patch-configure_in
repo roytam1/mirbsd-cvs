@@ -1,10 +1,10 @@
-$MirOS: ports/www/lynx/patches/patch-configure_in,v 1.1 2008/12/17 00:24:41 tg Exp $
+$MirOS: ports/www/lynx/patches/patch-configure_in,v 1.2 2009/01/18 20:22:04 tg Exp $
 
 	Fix -Werror builds
 
---- configure.in.orig	Sun Jan 18 19:41:33 2009
-+++ configure.in	Sun Jan 18 19:50:15 2009
-@@ -189,7 +189,7 @@ AC_MSG_RESULT($with_warnings)
+--- configure.in.orig	Sun Apr 26 16:24:07 2009
++++ configure.in	Sun Aug  9 15:35:30 2009
+@@ -196,7 +196,7 @@ AC_MSG_RESULT($with_warnings)
  if test "$with_warnings" = "yes"
  then
  	CF_GCC_ATTRIBUTES

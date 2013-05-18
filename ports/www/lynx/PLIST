@@ -1,4 +1,4 @@
-@comment $MirOS: ports/www/lynx/pkg/PLIST,v 1.7 2007/08/03 12:14:24 tg Exp $
+@comment $MirOS: ports/www/lynx/pkg/PLIST,v 1.8 2008/03/09 18:19:44 tg Exp $
 bin/lynx
 bin/oldlynx
 man/man1/lynx.1
@@ -21,9 +21,11 @@ share/doc/lynx/lynx_doc/docs/IBMPC-charsets.announce
 share/doc/lynx/lynx_doc/docs/OS-390.announce
 share/doc/lynx/lynx_doc/docs/README.TRST
 share/doc/lynx/lynx_doc/docs/README.chartrans
+share/doc/lynx/lynx_doc/docs/README.cookies
 share/doc/lynx/lynx_doc/docs/README.defines
 share/doc/lynx/lynx_doc/docs/README.jp
 share/doc/lynx/lynx_doc/docs/README.metrics
+share/doc/lynx/lynx_doc/docs/README.options
 share/doc/lynx/lynx_doc/docs/README.rootcerts
 share/doc/lynx/lynx_doc/docs/README.ssl
 share/doc/lynx/lynx_doc/docs/README.sslcerts
@@ -49,6 +51,7 @@ share/doc/lynx/lynx_doc/samples/lynx-demo.cfg
 share/doc/lynx/lynx_doc/samples/lynx-keymaps
 @comment share/doc/lynx/lynx_doc/samples/lynx.bat
 @comment share/doc/lynx/lynx_doc/samples/lynx.com
+share/doc/lynx/lynx_doc/samples/lynx.ico
 @comment share/doc/lynx/lynx_doc/samples/lynx.lss
 @comment share/doc/lynx/lynx_doc/samples/lynx.lss.orig
 share/doc/lynx/lynx_doc/samples/lynx_bookmarks.htm
@@ -66,10 +69,15 @@ share/doc/lynx/lynx_doc/test/ALT88592.html
 share/doc/lynx/lynx_doc/test/ISO_LATIN1_test.html
 share/doc/lynx/lynx_doc/test/README.txt
 share/doc/lynx/lynx_doc/test/TestComment.html
+share/doc/lynx/lynx_doc/test/bad-html.html
 share/doc/lynx/lynx_doc/test/c1.html
+share/doc/lynx/lynx_doc/test/cp-1252.html
+share/doc/lynx/lynx_doc/test/cp-1252a.html
 @comment share/doc/lynx/lynx_doc/test/index.html
 share/doc/lynx/lynx_doc/test/iso-8859-1.html
+share/doc/lynx/lynx_doc/test/iso-8859-1a.html
 share/doc/lynx/lynx_doc/test/iso-8859-2.html
+share/doc/lynx/lynx_doc/test/iso-8859-2a.html
 share/doc/lynx/lynx_doc/test/koi8-r.html
 share/doc/lynx/lynx_doc/test/quickbrown.html
 share/doc/lynx/lynx_doc/test/raw8bit.html

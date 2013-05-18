@@ -1,9 +1,8 @@
-# $MirOS: ports/www/lynx/Makefile,v 1.26 2009/01/18 20:22:03 tg Exp $
+# $MirOS: ports/www/lynx/Makefile,v 1.27 2009/01/18 23:24:53 tg Exp $
 
 COMMENT=		standard text-mode world wide web browser
 CATEGORIES=		www essentials
-VERSION=		2.8.7dev.12
-DASH_VER=		1
+VERSION=		2.8.7rel.1
 DISTNAME=		lynx${VERSION:C/[a-z]$//}
 .if ${VERSION} != ${VERSION:C/[a-z]$//}
 PATCHFILES=		lynx${VERSION}.patch.gz:0
@@ -49,7 +48,7 @@ CONFIGURE_ARGS+=	--enable-vertrace \
 			--disable-htmlized-cfg \
 			--enable-locale-charset \
 			--enable-addrlist-page \
-			--disable-ascii-ctypes \
+			--enable-ascii-ctypes \
 			--enable-charset-choice \
 			--enable-cjk \
 			--enable-japanese-utf8 \
