@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/diskprobe.c,v 1.16 2009/01/11 00:32:41 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/libsa/diskprobe.c,v 1.17 2009/01/11 13:58:07 tg Exp $ */
 /*	$OpenBSD: diskprobe.c,v 1.29 2007/06/18 22:11:20 krw Exp $	*/
 
 /*
@@ -113,7 +113,8 @@ hardprobe(void)
 {
 	int i;
 
-	hardprobe_one(i386_biosdev);
+	if (i386_biosdev & 0x80)
+		hardprobe_one(i386_biosdev);
 	for (i = 0x80; i < 0x88; i++)
 		if (i != i386_biosdev)
 			hardprobe_one(i);
