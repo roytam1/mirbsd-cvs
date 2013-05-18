@@ -1,4 +1,4 @@
-# $MirOS: src/scripts/roff2htm,v 1.51 2007/10/18 21:03:59 tg Exp $
+# $MirOS: src/scripts/roff2htm,v 1.52 2007/10/18 21:08:55 tg Exp $
 # $ekkoBSD: catman2html.sh,v 1.2 2004/03/07 03:02:53 stephen Exp $
 #-
 # Copyright (c) 2004, 2005, 2006, 2007
@@ -135,13 +135,13 @@ function output_header {
  <title>RTFM '$1\($2')</title>
  <meta name="robots" content="index, follow" />
 </head><body>
-<h1>MirOS Manual: <a href="../man'$2/$1'.htm"><tt>'$1\($2')</tt></a></h1>'
+<h1>MirOS Manual: <a href="../man'$2/$1'.htm">'$1\($2')</a></h1>'
 }
 
 function output_footer {
 	print '<hr /><p style="font-size:xx-small;">Generated on' \
 	    $roff2htm_gendate 'by
- <tt>$MirOS: src/scripts/roff2htm,v 1.51 2007/10/18 21:03:59 tg Exp $</tt></p>
+ <tt>$MirOS: src/scripts/roff2htm,v 1.52 2007/10/18 21:08:55 tg Exp $</tt></p>
 <p>These manual pages are <a href="../man7/BSD-Licence.htm">copyrighted</a>
  by their respective writers; their source is available at our <a
  href="http://cvs.mirbsd.de/">CVSweb</a>, AnonCVS, and other mirrors.
@@ -196,6 +196,7 @@ function convert_page {
 	fi
 
 	if (( linkonly )); then
+		typeset newpage=$page newsect=$sect
 		# just link the target too, since the source is linked
 		bn=${fn##*/}			# basename
 		page=${bn%.0}			# manual page name
@@ -204,6 +205,12 @@ function convert_page {
 		sect=${as%%/*}			# section
 		print -ru2 -- $tn ← man${sect}/${page}.htm
 		ln -f $2/man${sect}/${page}.htm $tn
+		# patch in the additional name(s)
+		ed -s $tn <<-EOF
+			/<title>/s#</title>#, $newpage($newsect)&#
+			/<h1>/s#</h1>#, <a href="../man$newsect/$newpage.htm">$newpage($newsect)</a>&#
+			wq
+		EOF
 	else
 		do_conversion_verbose $page $sect $fn $tn
 	fi
@@ -220,7 +227,7 @@ function convert_all {
 	typeset tp=${2:-$(pwd)/mbsdman}		# target basepath
 	typeset x f
 
-	find ${1:-/usr/share/man}/cat{1,2,3,3p,4,5,6,7,8,9} -name \*.0 |&
+	(find ${1:-/usr/share/man}/cat{[1-9],3p} -name \*.0 | sort) |&
 	for x in 1 2 3 3p 4 5 6 7 8 9; do
 		mkdir -p $tp/man$x	# one per section
 		output_htaccess >$tp/man$x/.htaccess
