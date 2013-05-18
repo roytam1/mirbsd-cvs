@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: contrib/hosted/fwcf/fwcf.sh,v 1.27 2007/03/08 08:02:46 tg Exp $
+# $MirOS: contrib/hosted/fwcf/fwcf.sh,v 1.28 2007/03/09 22:40:53 tg Exp $
 #-
 # Copyright (c) 2006, 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -45,7 +45,7 @@ export PATH=/bin:/sbin:/usr/bin:/usr/sbin
 case $1 in
 commit|erase|setup|status|dump|restore) ;;
 *)	cat >&2 <<EOF
-FreeWRT Configuration Filesytem (fwcf), Version 1.03-beta
+FreeWRT Configuration Filesytem (fwcf), Version 1.03
 Copyright (c) 2006, 2007
 	Thorsten Glaser <tg@freewrt.org>
 

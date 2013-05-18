@@ -3,7 +3,7 @@
 
                       Specification Document
 
-                                  Version 1.03β - 28 February 2007
+                                      Version 1.03 - 13 March 2007
 
 
 Copyright © 2006, 2007
@@ -421,12 +421,6 @@ likely to contain the following changes:
 • Revisit the current size limits and file types.
 • Implement a r̲e̲a̲l̲ file type “deleted”, replacing the hack
   with the .fwcf_deleted file.
-• Some kind of “reboot hook”: check if the filesystem has
-  been changed after the last ‘fwcf commit’ operation. (What
-  exactly is a change? Do we take care of mtimes? Currently,
-  we're tending to a list of MD5 hashes for the files in the
-  filesystem, ignoring all non-regular files. This will be
-  implemented as “fwcf status” operation.)
 
 These future directions have come up during or after the
 fwcf 1.00 release process, and from the discussion thereafter.
@@ -434,4 +428,4 @@ They are provided as hint only and not part of the specifi-
 cation itself. They may change without notice.
 
 ⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼
-$MirOS: contrib/hosted/fwcf/fwcf.txt,v 1.34 2007/03/09 21:34:55 tg Exp $
+$MirOS: contrib/hosted/fwcf/fwcf.txt,v 1.35 2007/03/09 22:40:53 tg Exp $

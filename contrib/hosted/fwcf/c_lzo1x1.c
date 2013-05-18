@@ -1,4 +1,4 @@
-/* $MirOS: contrib/hosted/fwcf/c_lzo1x1.c,v 1.3 2006/09/24 21:59:13 tg Exp $ */
+/* $MirOS: contrib/hosted/fwcf/c_lzo1x1.c,v 1.4 2006/09/26 10:25:02 tg Exp $ */
 
 /*-
  * MiniLZO (LZO1X-1) compression plug-in for FWCF
@@ -19,14 +19,14 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  *
- * Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
- * express, or implied, to the maximum extent permitted by applicable
- * law, without malicious intent or gross negligence; in no event may
- * licensor, an author or contributor be held liable for any indirect
- * or other damage, or direct damage except proven a consequence of a
- * direct error of said person and intended use of this work, loss or
- * other issues arising in any way out of its use, even if advised of
- * the possibility of such damage or existence of a defect.
+ * This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
+ * the utmost extent permitted by applicable law, neither express nor
+ * implied; without malicious intent or gross negligence. In no event
+ * may a licensor, author or contributor be held liable for indirect,
+ * direct, other damage, loss, or other issues arising in any way out
+ * of dealing in the work, even if advised of the possibility of such
+ * damage or existence of a defect, except proven that it results out
+ * of said person's immediate fault when using the work as intended.
  */
 
 #include <sys/param.h>
@@ -37,7 +37,7 @@
 #include "defs.h"
 #include "compress.h"
 
-__RCSID("$MirOS: contrib/hosted/fwcf/c_lzo1x1.c,v 1.3 2006/09/24 21:59:13 tg Exp $");
+__RCSID("$MirOS: contrib/hosted/fwcf/c_lzo1x1.c,v 1.4 2006/09/26 10:25:02 tg Exp $");
 
 #define C_LZO1X1_T1(a,b)			c_lzo1x1_ ## a ## _ ## b
 #define C_LZO1X1_T2(a,b)			C_LZO1X1_T1(a,b)
