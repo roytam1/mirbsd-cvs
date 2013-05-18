@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.84 2008/10/13 22:43:18 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.85 2008/10/13 22:44:22 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -1737,4 +1737,39 @@ Title: mksh – please test release candidate
  made Minix 3 work… pdksh runs there, mksh didn’t last time I tried
  (with gcc, but once that’s up ACK should be easy). Or Plan 9.</p>
 <p>If you’re on Ohloh, please add mksh to one of your stacks.</p>
+----
+Date: 19.10.2008 20:20
+Author: tg@
+Title: Getting closer
+
+<p>I’ve built i386 and sparc intermediate snapshots. We’ve been fixing
+ things lately, so that another combined DuaLive CD is not so far off,
+ before the more weird things (such as the 4.4OpenBSD merge) start to
+ happen. On an unrelated side note, my SPARCstation 20 is crunching for
+ BOINC at the moment, at about 75 MIPS only though…</p>
+<p>Maybe LLVM 2.4 and llvm-gcc 4.2 will hit the MirPorts Framework now,
+ because we need a recent compiler for some things (Objective-C, or to
+ compile Webkit), and it’s better in terms of licencing (BSD + GPLv2),
+ quality and portability than FSF GCC. Maybe someone ports Iced Tea so
+ that comrad will be happy. I don’t know. It’s all our spare time.</p>
+<p>There are a few things in libpng that need to be taken care of
+ first though, but the other recent security issues (ftpd(8) must die
+ anyway, IPv6 ndp, …) were handled. Maybe others, let’s see.</p>
+<p>Ah, and of course I need to get the Live CD functionality fixed and
+ switched to use NetBSD® makefs(8) instead of J�rg’s mkisofs first.</p>
+<p>I still don’t believe in Web 2.0, Communities, etc. For example, on
+ Ohloh (I still need to take care to not write oh lol!) there are quite
+ some projects, but “nobody” (well, almost) uses them. CacheWolf, the
+ geocaching software of choice, starts a conversion from the Ewe VM to
+ the supposedly superiour Eve VM, but I yet fail to see success, still
+ people want to already switch over the svn trunk, and only bugfix in
+ the 1.0 branch… as if anything were usable before next spring, and a
+ full replacement before end of next year or so, guesstimated………</p>
+<p>Jonathan complains about the brokenness of software, libobjfw is
+ suffering from GNU libobjc runtime bugs (a layer deeper, that is).
+ I so feel with him, I know the feeling so well… sometimes it would
+ really be better to be a cat. I also quite met with Azraël, Florian’s
+ (my best friend) animal half – with approximately 13 kg much more of
+ a beast than the neighbour’s cat I nicknamed “Mir” (just to name it
+ after a BSD) and behaving much more “cool”, but very nice.</p>
 ----
