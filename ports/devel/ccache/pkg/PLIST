@@ -1,3 +1,0 @@
-@comment $OpenBSD: PLIST,v 1.1.1.1 2002/07/21 18:52:54 naddy Exp $
-bin/ccache
-man/man1/ccache.1

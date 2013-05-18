@@ -1,7 +1,0 @@
-@comment $OpenBSD: PLIST,v 1.8 2000/07/20 03:48:38 jasoni Exp $
-include/proplist.h
-lib/libPropList.a
-lib/libPropList.la
-%%SHARED%%
-share/doc/libproplist/README
-@dirrm share/doc/libproplist
