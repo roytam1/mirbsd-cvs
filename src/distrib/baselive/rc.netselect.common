@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/baselive/rc.netselect.common,v 1.5 2006/12/20 18:01:04 tg Exp $
+# $MirOS: src/distrib/baselive/rc.netselect.common,v 1.6 2006/12/21 23:14:25 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -69,8 +69,8 @@ function set_hostname
 
 function get_net_ifnames
 {
-	local foo
-	integer i
+	typeset foo
+	typeset -i i
 
 	set -A foo -- $(ifconfig -l)
 	i=${#foo[*]}

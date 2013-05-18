@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/install.i386,v 1.1 2006/08/17 14:09:21 tg Exp $
+# $MirOS: src/distrib/common/install.i386,v 1.2 2007/05/24 23:04:04 tg Exp $
 # $OpenBSD: install.md,v 1.28 2005/04/02 14:34:46 krw Exp $
 #
 #
@@ -49,7 +49,7 @@ ARCH=ARCH
 
 # $1 is the disk to check
 md_checkfordisklabel() {
-	local rval=0
+	typeset rval=0
 
 	disklabel -r $1 >/dev/null 2>/tmp/checkfordisklabel
 
@@ -62,7 +62,7 @@ md_checkfordisklabel() {
 }
 
 md_prep_fdisk() {
-	local _disk=$1
+	typeset _disk=$1
 
 	ask_yn "Do you want to use *all* of $_disk for MirBSD?"
 	if [[ $resp == y ]]; then
@@ -104,7 +104,7 @@ __EOT
 }
 
 md_prep_disklabel() {
-	local _disk=$1
+	typeset _disk=$1
 
 	md_prep_fdisk $_disk
 

@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/share/misc/licence.template,v 1.20 2006/12/11 21:04:56 tg Rel $
+# $MirOS: src/distrib/baselive/dot.xsession,v 1.5 2007/02/20 00:19:34 tg Exp $
 #-
 # Copyright (c) 2006, 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -39,7 +39,7 @@ xclock -render -update 1 -geometry 50x50-1+1 &
 
 text=twm:0,evilwm-session:101,evilwm-bare:102,failsafe:1
 failsafe='xterm -geometry 80x24-0-0'
-integer number=103
+typeset -i number=103
 set -A wm
 wm[0]=twm
 wm[101]=evilwm-session
