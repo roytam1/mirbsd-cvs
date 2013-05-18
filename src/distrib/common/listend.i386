@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/listend.i386,v 1.8 2007/01/26 19:05:09 tg Exp $
+# $MirOS: src/distrib/common/listend.i386,v 1.9 2007/02/19 22:19:04 tg Exp $
 
 # we want the disklabel without manual page
 CRUNCHSPECIAL disklabel	srcdir distrib/special/dl-noman
@@ -7,10 +7,11 @@ CRUNCHSPECIAL disklabel	srcdir distrib/special/dl-noman
 LINK	instbin					sbin/fdisk
 LINK	instbin					sbin/mount_ext2fs
 LINK	instbin					sbin/mount_msdos
-LINK	instbin					sbin/wicontrol
+#LINK	instbin					sbin/wicontrol
 LINK	instbin					usr/bin/more usr/bin/less
 
 # these don't fit
+SPECIAL	rmdir etc/isdn etc/ssh
 
 # devices stuff
 SPECIAL	cd dev; ./MAKEDEV ptm pty0; rm ?typ[a-zA-Z]
@@ -29,3 +30,5 @@ SPECIAL	chmod 755 install.md
 #COPY	${DESTDIR}/etc/ppp/peers/isp.sample	etc/ppp/peers/isp
 #COPY	${DESTDIR}/etc/ppp/peers/isp.chat.sample etc/ppp/peers/isp.chat
 #SPECIAL	ln -sf etc/ppp/pap-secrets etc/ppp/chap-secrets
+#- or
+SPECIAL	rmdir etc/ppp

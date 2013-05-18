@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.98 2007/05/09 06:57:47 tg Exp $
+# $MirOS: src/Makefile,v 1.99 2007/05/09 06:59:43 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -109,7 +109,7 @@ do-htman:
 	    ${SHELL} ${BSDSRCDIR}/scripts/systrace.mk ${MAKE} ${SHELL}
 .for _set _dir in x11 X11R6 base share
 	cd ${BSDRELDIR}/${_set}/usr/${_dir}/man && \
-	    find * -type f | cpio -pdlu ${BSDOBJDIR}/htman/man
+	    find * -type f -o -type l | cpio -pdlu ${BSDOBJDIR}/htman/man
 .endfor
 	cd ${BSDOBJDIR}/htman && tar xzf \
 	    ${BSDRELDIR}/rel/ports${OSrev}.ngz usr/ports/Setup.sh.8 && \

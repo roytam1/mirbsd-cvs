@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/stand/libz/Makefile,v 1.6 2006/10/15 01:35:54 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/libz/Makefile,v 1.7 2007/03/02 03:13:26 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -6,6 +6,7 @@
 S=		${.CURDIR}/../../../..
 CPPFLAGS+=	${SACFLAGS:M-[DI]*} -I${S}/lib/libsa
 COPTS+=		${SACFLAGS:N-[DI]*} ${DEBUGFLAGS}
+CPPFLAGS+=	-DZCONST=const
 
 # This is used to build a small libz
 CPPFLAGS+=	-DSLOW -DSMALL -DNOBYFOUR -DNO_GZIP

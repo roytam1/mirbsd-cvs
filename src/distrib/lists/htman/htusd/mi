@@ -61,6 +61,7 @@
 ./man1/arch.htm
 ./man1/as.htm
 ./man1/at.htm
+./man1/atobm.htm
 ./man1/atq.htm
 ./man1/atrm.htm
 ./man1/audioctl.htm
@@ -74,6 +75,7 @@
 ./man1/bdftruncate.htm
 ./man1/beforelight.htm
 ./man1/bitmap.htm
+./man1/bmtoa.htm
 ./man1/brainfuck.htm
 ./man1/c++filt.htm
 ./man1/c2ph.htm
@@ -646,6 +648,13 @@
 ./man1/xsystrace.htm
 ./man1/xterm.htm
 ./man1/xtrap.htm
+./man1/xtrapchar.htm
+./man1/xtrapin.htm
+./man1/xtrapinfo.htm
+./man1/xtrapout.htm
+./man1/xtrapproto.htm
+./man1/xtrapreset.htm
+./man1/xtrapstats.htm
 ./man1/xvctl.htm
 ./man1/xvidtune.htm
 ./man1/xvinfo.htm

@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/sparc/stand/libz/Makefile,v 1.4 2006/10/07 21:36:21 tg Exp $
+# $MirOS: src/sys/arch/sparc/stand/libz/Makefile,v 1.5 2007/03/02 03:13:27 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -6,6 +6,7 @@
 S=		${.CURDIR}/../../../..
 CFLAGS+=	${SACFLAGS} ${DEBUGFLAGS}
 CPPFLAGS+=	-I${S}/lib/libsa
+CPPFLAGS+=	-DZCONST=const
 
 # This is used to build a small libz
 CPPFLAGS+=	-DSLOW -DSMALL -DNOBYFOUR -DNO_GZIP
