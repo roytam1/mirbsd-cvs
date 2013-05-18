@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.58 2009/01/11 17:08:29 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.59 2009/01/11 19:49:19 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009
@@ -96,88 +96,82 @@ Lmbhdr:	.long	0x1BADB002		/* magic */
 	.long	Lmbrun - SA_LINKADDR + 0x00100000	/* entry_addr */
 #endif
 
-Linit:	xor	eax,eax
-	push	eax
+Linit:
+#ifndef SMALL_BOOT
+	mov	cx,es
+	shl	ecx,16
+	mov	cx,bx		/* ECX: PXENV+ */
+	mov	bp,sp
+	mov	edi,[bp+6]	/* EDI: !PXE */
+	rol	esi,16
+	mov	si,ds		/* ESI: SI:DS */
+#endif
+
+	xor	ebp,ebp
+	push	ebp
 	popfd
-	pop	ax
-#ifndef SMALL_BOOT
-	mov	bp,sp		/* for later (!PXE pointer) */
-#endif
-	push	dx
+	pop	bp
 
-	// flags 0
-	// 0ax = x:Lrval noreloc
-	// ecx = trash
-	// edx = trash (original dx)
-	// Tbx = x:offset PXENV+
-	// Tsp = x:original stack usable pointer
-	// Tbp = x:original stack original pointer (incl. !PXE at +4)
-	// Tsi = x:offset partition table entry
-	// edi = trash
-	//  es = segment PXENV+
-	//  cs = ?
-	//  ss = ?
-	//  ds = segment partition table entry
+	/* make cs:(e)bx = offset _start */
+	lea	ebx,[ebp + offset _start - offset Lrval]
+	/* make ebp = flat offset _start */
+	mov	bp,cs
+	shl	ebp,4
+	add	ebp,ebx
+	/* make ax = _start + 64K (approx.) */
+	mov	eax,ebp
+	shr	eax,4
+	add	ax,0x1000
+	/* set up initial stack */
+	mov	ss,ax
+	mov	esp,0x00003FEC
 
-	/* find out current position in memory */
-	lea	ecx,[eax + offset _start - offset Lrval]
-	mov	ax,cs
-	shl	eax,4
-	lea	edx,[eax + ecx]
+	/* first stage: before relocation */
 
-	// 0cx = offset _start rel. CS
-	// edx = linear _start noreloc
-
-#ifndef SMALL_BOOT
-	/* store away the partition and two PXE structures */
-	rol	ebx,16
-	mov	bx,es
-	rol	ebx,16
-	mov	cs:[ecx + offset pxe_plus - offset _start],ebx
-	mov	ebx,ss:[bp+4]
-	mov	cs:[ecx + offset pxe_bang - offset _start],ebx
-	xor	ebx,ebx
-	pop	bx		/* initial DX */
-	cmp	byte ptr cs:[ecx + offset i386_biosflags - offset _start],0x6D
-	je	1f
-	push	cs
-	pop	es
-	lea	di,[ecx + offset bios_bootpte - offset _start]
-	movsd
-	movsd
-	movsd
-	movsd
-	jmp	3f
-1:	shl	bx,8
-	cmp	edx,0x00007C00
-	jne	2f
-	or	ebx,0x01040000		/* PXE, do scan */
-2:	mov	bl,cs:[ecx + offset Ldrvi - offset _start]
-	mov	cs:[ecx + offset Ldrvi - offset _start],ebx
-3:
-#endif
-
-	/* set up segments */
+	/* set up segment registers */
 	mov	ax,cs
 	mov	ds,ax
 	mov	es,ax
 
 #ifndef SMALL_BOOT
-	/* find out if we're a DOS or SYSLINUX programme */
-	cmp	cx,0x0100
+	/* store away structure pointers */
+	mov	ds:[ebx + offset pxe_plus - offset _start],ecx
+	mov	ds:[ebx + offset pxe_bang - offset _start],edi
+	cmp	byte ptr ds:[ebx + offset i386_biosflags - offset _start],0x6D
+	je	1f
+	mov	ds,si
+	rol	esi,16
+	lea	di,[ebx + offset bios_bootpte - offset _start]
+	movsd
+	movsd
+	movsd
+	movsd
+	mov	ax,cs
+	mov	ds,ax
+	jmp	3f
+1:	xor	eax,eax
+	mov	ah,dl
+	cmp	ebp,0x00007C00
+	jne	2f
+	or	eax,0x01040000		/* PXE, do scan */
+2:	mov	al,ds:[ebx + offset Ldrvi - offset _start]
+	mov	ds:[ebx + offset Ldrvi - offset _start],eax
+3:	/* find out if we're a DOS or SYSLINUX COMBOOT programme */
+	cmp	bx,0x0100
 	jne	Lnocom
 	cmp	word ptr ds:[0],0x20CD
 	jne	Lnocom
 
-	/* from DOS or SYSLINUX no PXE */
+	push	ebp
+	push	ebx
+
 	xor	eax,eax
-	mov	ds:[ecx + offset pxe_bang - offset _start],eax
-	mov	ds:[ecx + offset pxe_plus - offset _start],eax
+	/* from DOS or SYSLINUX: no PXE or bootpte */
+	lea	edi,[ebx + offset pxe_bang - offset _start]
+	mov	cx,6
+	rep	stosd
 
-	push	edx
-	push	ecx
-
-	mov	ah,0x30		/* DOS/SYSLINUX: get DOS version */
+	mov	ah,0x30		/* get DOS version */
 	int	0x21
 	cmp	eax,0x59530000
 	jne	Lnolx
@@ -193,6 +187,8 @@ Linit:	xor	eax,eax
 	int	0x22
 	mov	ax,0x000A	/* SYSLINUX: get information */
 	int	0x22
+	push	cs
+	pop	ds
 	pop	ecx
 	cmp	al,0x31
 	jb	Linvlinux
@@ -207,43 +203,43 @@ Lpxelinux:
 	mov	ax,es
 	shl	eax,16
 	mov	ax,bx
-	mov	cs:[ecx + offset pxe_bang - offset _start],eax
-	mov	cs:[ecx + offset pxe_plus - offset _start],eax
+	mov	ds:[ecx + offset pxe_bang - offset _start],eax
+	mov	ds:[ecx + offset pxe_plus - offset _start],eax
 	xor	edx,edx
-	mov	dh,4		/* probably PXE :) but do not scan */
+	mov	ah,4		/* probably PXE :) but do not scan */
 	mov	bx,3		/* clean up but retain PXE and UNDI */
-	jmp	Loklx
+	jmp	Lislx
 
 Lsyslinux:
 Lextlinux:
 	mov	eax,es:[bx]
-	mov	cs:[ecx + offset bios_bootpte - offset _start],eax
+	mov	ds:[ecx + offset bios_bootpte - offset _start],eax
 	mov	eax,es:[bx+4]
-	mov	cs:[ecx + offset bios_bootpte - offset _start + 4],eax
+	mov	ds:[ecx + offset bios_bootpte - offset _start + 4],eax
 	mov	eax,es:[bx+8]
-	mov	cs:[ecx + offset bios_bootpte - offset _start + 8],eax
+	mov	ds:[ecx + offset bios_bootpte - offset _start + 8],eax
 	mov	eax,es:[bx+12]
-	mov	cs:[ecx + offset bios_bootpte - offset _start + 12],eax
+	mov	ds:[ecx + offset bios_bootpte - offset _start + 12],eax
 Lisolinux:
 Linvlinux:
 	and	edx,0xFF
 	mov	dh,1
 	xor	bx,bx		/* clean up everything */
-Loklx:	or	dh,2
+Lislx:	or	dh,2
 	shl	edx,8
-	mov	dl,cs:[ecx + offset Ldrvi - offset _start]
-	mov	cs:[ecx + offset Ldrvi - offset _start],edx
+	mov	dl,ds:[ecx + offset Ldrvi - offset _start]
+	mov	ds:[ecx + offset Ldrvi - offset _start],edx
 
-	push	ecx
 	mov	ax,0x000C	/* SYSLINUX: final cleanup */
 	mov	dx,bx		/* see above */
 	int	0x22
-	pop	ecx
-	jmp	Lokcom		/* we're done */
+	jmp	Liscom
 
 Lnolx:	/* DOS */
 	mov	ah,0x19
 	int	0x21
+	push	cs
+	pop	ds
 	pop	ecx
 	lea	ebx,[ecx + offset Ldrvi - offset _start]
 	mov	ah,al		/* ign ign dosdrv dosdrv */
@@ -254,169 +250,72 @@ Lnolx:	/* DOS */
 	inc	ax		/* 01 = flag: DOS drive valid */
 	xchg	ah,al		/* ign dosdrv flag=1 biosdrv */
 	shl	eax,8		/* dosdrv flag biosdrv zero */
-	mov	al,cs:[bx]	/* dosdrv flag biosdrv partp */
-	mov	cs:[bx],eax
+	mov	al,ds:[bx]	/* dosdrv flag biosdrv partp */
+	mov	ds:[bx],eax
 
-Lokcom:
+Liscom:	pop	ebp
 	xor	eax,eax
 	push	eax
 	popfd
-
-	pop	edx
-Lnocom:
+Lnocom:	/* flags are (already) okay */
 #endif
 
-	cmp	edx,SA_LINKADDR
-	je	LisRel
-
-	// flags 0
-	// eax = trash
-	// 0cx = offset _start rel. CS (PRESERVE)
-	// edx = linear _start noreloc (PRESERVE)
-	// ebx = trash
-	// Tsp = x:original stack usable pointer
-	// ebp = trash
-	// esi = trash
-	// edi = trash
-	//  es = trash
-	//  cs = ?
-	//  ss = ?
-	//  ds = trash
-
-	/* set up initial stack */
-	lea	eax,[edx + offset cmd_buf + CMD_BUFF_SIZE - 4 - offset _start]
-	mov	ebx,eax
+	/* load source address (_start) normalised */
+	mov	ebx,ebp
 	shr	ebx,4
-	and	bx,0xF000	/* BX:AX = far ptr initial stack */
-	and	ax,0xFFFC
-	mov	ss,bx
-	movzx	esp,ax
-
-	// 0sp = bit  0..15 of istack
-	//  ss = bit 16..19 of istack
-
-	mov	si,dx
+	mov	ds,bx
+	mov	si,bp
 	and	si,0x000F
-	mov	eax,edx
-	shr	eax,4
-	mov	ds,ax		/* DS:SI = _start (noreloc) min. */
 
-	// Tsi = _start (noreloc) bit 0..3
-	//  ds = _start (noreloc) bit 4..19
+	/* check if we need to relocate */
+	cmp	ebp,SA_LINKADDR
+	je	LdoRel		/* to set up the stack */
+	cmp	ebp,0x1C000
+	jbe	LdoRel		/* way below target */
+	cmp	ebp,0x50000
+	jae	LdoRel		/* somewhat above target */
 
-	cmp	edx,0x30000
-	jb	LdoRel
-	cmp	edx,0x4FFFF
-	ja	LdoRel
-
-	/* relocate twice, ugh */
+	/* eek, relocate twice */
+	mov	ax,0x7000
+	mov	ss,ax
+	mov	sp,0x3FFC
 	mov	ax,0x6000
+	push	ax
 	mov	es,ax
 	xor	di,di
-	mov	cx,0xFFF0
-	rep	movsb
-
-	// ecx = trash
-	//  es = 0x6000
-	// location 6000:0000h
-
-	mov	ax,es
-	mov	ds,ax
-	mov	ss,ax
-	mov	esp,offset cmd_buf + CMD_BUFF_SIZE - 4 - offset _start
-
-	// 0sp = istack rel. _start
-	//  ss = 0x6000 (seg _start)
-	//  ds = 0x6000
-
-	push	ds
 	mov	eax,offset LdoRel - offset _start
 	push	ax
-	xor	si,si
-
-	// jump to 6000:LdoRel
-	// ds:si = 6000:0000h
-	// ss:sp = 6000:istack
-
+	push	es
+	push	di
+	mov	cx,0xFFF0
+	rep	movsb
+	pop	si
+	pop	ds
 	lret
 
+LdoRel:	mov	ax,0x3000
+	mov	ss,ax
+	mov	esp,0x0000FFFC
+	cmp	ebp,SA_LINKADDR
+	je	LisRel
 
-	// flags 0
-	// eax = trash
-	// ecx = trash
-	// edx = linear _start noreloc
-	// ebx = trash
-	// Tsp = some usable stack pointer
-	// ebp = trash
-	// Tsi = from where to move (bit 0..3)
-	// edi = trash
-	//  es = trash
-	//  cs = ?
-	//  ss = some usable stack segment outside ]30000;4FFFF]
-	//  ds = from where to move (bit 4..19)
-	// code position outside ]30000;4FFFF]
-
-LdoRel:	mov	ax,SA_LINKSEG
+	mov	ax,SA_LINKSEG
 	mov	es,ax
 	xor	di,di
 	mov	cx,0xFFF0
 	rep	movsb
 
-	// flags 0
-	// eax = trash
-	// ecx = trash
-	// edx = linear _start noreloc
-	// ebx = trash
-	// Tsp = some usable stack pointer
-	// ebp = trash
-	// esi = trash
-	// edi = trash
-	//  es = trash
-	//  cs = ?
-	//  ss = ?
-	//  ds = trash
-	// code position 4000:0000
-
-LisRel:	xor	eax,eax
-	push	eax
-	popfd
-
-	mov	ax,SA_LINKSEG
+	/* assumes flags=0, SS:ESP set up to 3000:0000FFFCh */
+LisRel:	mov	ax,SA_LINKSEG
 	mov	ds,ax
 	mov	es,ax
-	mov	fs,ax
-	mov	gs,ax
-
 	push	ax
 	mov	eax,offset Lstart - offset _start
 	push	ax
 	lret
 
 	/* whew, we're relocated */
-Lstart:	mov	ax,0x3000
-	mov	ss,ax
-	mov	esp,0x0000FFFC
-
-	// 0sp = 0x0000FFFC	final stack
-	//  ss = 0x3000		final stack
-
-	// flags 0
-	// eax = 0
-	// ecx = trash
-	// edx = trash
-	// ebx = trash
-	// 0sp = ofs final stack (0x0000FFFC)
-	// ebp = trash
-	// esi = trash
-	// edi = trash
-	//  es = SA_LINKSEG
-	//  cs = SA_LINKSEG
-	//  ss = seg final stack (0x3000)
-	//  ds = SA_LINKSEG
-	//  fs = SA_LINKSEG
-	//  gs = SA_LINKSEG
-
-	call	idt_init
+Lstart:	call	idt_init
 #ifdef BOOTSELECT_HOOK
 	sti
 	.globl	Lhook
@@ -456,7 +355,10 @@ Lsta32:	.code32
 	/* Multiboot entry point */
 	.p2align 4,0x90
 Lmbrun:	mov	edx,[ebx+12]		/* boot_device */
-	cld
+	mov	esp,0x0003FFFC
+	xor	eax,eax
+	push	eax
+	popfd
 	mov	esi,0x00100000
 	mov	edi,SA_LINKADDR
 	mov	ecx,0x4000
@@ -464,15 +366,10 @@ Lmbrun:	mov	edx,[ebx+12]		/* boot_device */
 	mov	eax,offset Lmb2rm
 	jmp	eax
 	/* relocated */
-Lmb2rm:	mov	esp,0x0003FFFC
-	xor	eax,eax
-	push	eax
-	popfd
-
-	mov	edi,offset Ldrvi
+Lmb2rm:	mov	edi,offset Ldrvi
 	shr	edx,16
 	mov	eax,edx
-	lodsb			/* user partition type */
+	mov	al,[edi]	/* user partition type */
 	stosd			/* drive information */
 	xor	eax,eax
 	stosd			/* pxe_bang */
@@ -484,7 +381,7 @@ Lmb2rm:	mov	esp,0x0003FFFC
 	mov	[have_pxe],eax	/* do not even try */
 
 	lgdt	Gdtr
-	call	prot_to_real
+	call	prot_to_real	/* converts stack */
 	.code16
 	jmp	LisRel
 #endif
