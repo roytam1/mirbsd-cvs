@@ -13,6 +13,7 @@
 ./etc/X11/xdm
 ./etc/X11/xdm/authdir
 ./etc/X11/xdm/pixmaps
+./etc/X11/xdm/pixmaps/MirOS.xpm
 ./etc/X11/xdm/pixmaps/XFree86.xpm
 ./etc/X11/xdm/pixmaps/XFree86bw.xpm
 ./etc/X11/xinit
