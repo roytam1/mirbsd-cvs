@@ -1,9 +1,0 @@
-@comment $MirOS$
-@comment $OpenBSD: PFRAG.shared,v 1.7 2003/06/26 18:20:20 jakob Exp $
-@lib lib/libsasl2.so.2.17
-@lib lib/sasl2/libanonymous.so.2.17
-@lib lib/sasl2/libcrammd5.so.2.17
-@lib lib/sasl2/libdigestmd5.so.2.17
-@lib lib/sasl2/liblogin.so.2.17
-@lib lib/sasl2/libplain.so.2.17
-@lib lib/sasl2/libsasldb.so.2.17
