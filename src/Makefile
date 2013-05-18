@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.110 2007/08/07 18:05:10 tg Exp $
+# $MirOS: src/Makefile,v 1.111 2007/08/19 12:16:20 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -130,21 +130,19 @@ do-htman:
 	    find * -type f | cpio -pdlu ${BSDOBJDIR}/htman/man
 .for _doc in papers psd smm usd
 	mkdir -p ${BSDOBJDIR}/htman/papers/${_doc}
-	cd ${BSDOBJDIR}/htman/papers/${_doc} \
-	    && lndir ${BSDRELDIR}/base/usr/share/doc/${_doc} \
-	    && ${_STCMD} -f ${BSDOBJDIR}/htman/.policy.mk ${MAKE}
+	cd ${BSDOBJDIR}/htman/papers/${_doc} && \
+	    lndir ${BSDRELDIR}/base/usr/share/doc/${_doc} && \
+	    ${_STCMD_HTMAN} ${MAKE}
 .endfor
 	mkdir -p ${BSDOBJDIR}/htman/texinfo
 	cd ${BSDOBJDIR} && env WRITEDIR=${BSDOBJDIR:Q} \
 	    ${SHELL} ${BSDSRCDIR}/scripts/systrace.mk ${MAKE} ${SHELL}
-	cd ${.CURDIR} && ${_STCMD} -f ${BSDOBJDIR}/.policy.mk \
-	    ${MAKE} do-htinfo
+	cd ${.CURDIR} && ${_STFILE_OBJ} ${MAKE} do-htinfo
 	-rm -f ${BSDOBJDIR}/.policy.mk
 	cp ${BSDOBJDIR}/share/doc/legal/LICENCE-BSD.0 \
 	    ${BSDOBJDIR}/htman/man/cat7/BSD-Licence.0
 	BSDOBJDIR=${BSDOBJDIR:Q} BSDSRCDIR=${BSDSRCDIR:Q} \
-	    ${_STCMD} -f ${BSDOBJDIR}/htman/.policy.mk \
-	    ${SHELL} ${.CURDIR}/scripts/genhtman.sh
+	    ${_STCMD_HTMAN} ${SHELL} ${.CURDIR}/scripts/genhtman.sh
 	. ${.CURDIR}/scripts/roff2htm; output_htaccess >${BSDOBJDIR}/htman/H
 	-rm -f ${BSDOBJDIR}/htman/.policy.mk
 	${SUDO} mkdir -p ${BSDRELDIR}/htman/{docs,manINFO}
