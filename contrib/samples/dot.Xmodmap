@@ -1,4 +1,4 @@
-! $MirOS: contrib/samples/dot.Xmodmap,v 1.24.4.2 2012/06/08 23:49:02 tg Exp $
+! $MirOS: contrib/samples/dot.Xmodmap,v 1.24.4.3 2012/06/08 23:58:00 tg Exp $
 !-
 ! Copyright © 2004, 2007, 2008, 2010, 2012
 !	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
@@ -18,7 +18,7 @@
 ! damage or existence of a defect, except proven that it results out
 ! of said person’s immediate fault when using the work as intended.
 !-
-! MirKBD Revision 3WIP, English (Europe) with Meta key, for x.org
+! MirKBD Revision 3WIP, English (Europe) with Meta key, for x.org-V2
 !
 ! Advanced .Xmodmap file with US-based layout plus Meta and Compose,
 ! for 105-key PC keyboards (usable with 102-key or laptop keyboards,
@@ -26,9 +26,9 @@
 ! All ISO-8859-1 code points are directly typable on a 101-key board
 ! and most directly typable code points are a part of codepage 1252.
 !
-! This file is m̲o̲s̲t̲l̲y̲ documented in kbd-xf86 in this directory, but
-! has been modified to work on wheezy (remember X -retro): U+009B is
-! not allowed.
+! This file has been modified to work on wheezy (remember X -retro);
+! U+009B is not allowed, the rest is m̲o̲s̲t̲l̲y̲ documented in "kbd-xf86"
+! in this directory.
 !
 ! Diversions from pristine XFree86(R) and Windows(R) 2000 US layout:
 ! • The Alt_L key generates Meta_L	(adds 0x80 to latin1 code)
@@ -79,19 +79,19 @@
 !   parentheses: (unshift/shift) 〈〉 《》 / 〔〕 【】/ 「」 『』
 ! Note: ☁ = available for reassignment
 
-keycode	0x09 =	grave		Escape			U00E0
-keycode	0x43 =	F1		XF86_Switch_VT_1	U263B	U250C
-keycode	0x44 =	F2		XF86_Switch_VT_2	U263A	U2500
-keycode	0x45 =	F3		XF86_Switch_VT_3	U2639	U2510
-keycode	0x46 =	F4		XF86_Switch_VT_4	U1E9E	U2502
-keycode	0x47 =	F5		XF86_Switch_VT_5	UFFFD	U2514
-keycode	0x48 =	F6		XF86_Switch_VT_6	U2260	U2518
-keycode	0x49 =	F7		XF86_Switch_VT_7	U2018	U251C
-keycode	0x4A =	F8		XF86_Switch_VT_8	U2019	U2524
-keycode	0x4B =	F9		XF86_Switch_VT_9	U0332	U253C
-keycode	0x4C =	F10		XF86_Switch_VT_10	U0305	U252C
-keycode	0x5F =	F11		XF86_Switch_VT_11	U2023	U2534
-keycode	0x60 =	F12		XF86_Switch_VT_12	U2025	U2588
+keycode	0x09 =	grave		Escape			U00E0	NoSymbol
+keycode	0x43 =	F1		F1			U263B	U250C	NoSymbol NoSymbol XF86_Switch_VT_1
+keycode	0x44 =	F2		F2			U263A	U2500	NoSymbol NoSymbol XF86_Switch_VT_2
+keycode	0x45 =	F3		F3			U2639	U2510	NoSymbol NoSymbol XF86_Switch_VT_3
+keycode	0x46 =	F4		F4			U1E9E	U2502	NoSymbol NoSymbol XF86_Switch_VT_4
+keycode	0x47 =	F5		F5			UFFFD	U2514	NoSymbol NoSymbol XF86_Switch_VT_5
+keycode	0x48 =	F6		F6			U2260	U2518	NoSymbol NoSymbol XF86_Switch_VT_6
+keycode	0x49 =	F7		F7			U2018	U251C	NoSymbol NoSymbol XF86_Switch_VT_7
+keycode	0x4A =	F8		F8			U2019	U2524	NoSymbol NoSymbol XF86_Switch_VT_8
+keycode	0x4B =	F9		F9			U0332	U253C	NoSymbol NoSymbol XF86_Switch_VT_9
+keycode	0x4C =	F10		F10			U0305	U252C	NoSymbol NoSymbol XF86_Switch_VT_10
+keycode	0x5F =	F11		F11			U2023	U2534	NoSymbol NoSymbol XF86_Switch_VT_11
+keycode	0x60 =	F12		F12			U2025	U2588	NoSymbol NoSymbol XF86_Switch_VT_12
 keycode	0x6B =	Print		Sys_Req
 keycode	0x4E =	Scroll_Lock	Pointer_Accelerate
 keycode	0x7F =	Pause		Break
@@ -114,9 +114,9 @@ keycode	0x76 =	Insert		Insert		U3008		U300A
 keycode	0x6E =	Home		Home		U3014		U3010
 keycode	0x70 =	Prior		Prior		U300C		U300E
 keycode	0x4D =	Num_Lock	Pointer_EnableKeys
-keycode	0x6A =	KP_Divide	XF86_Ungrab
-keycode	0x3F =	KP_Multiply	XF86_ClearGrab
-keycode	0x52 =	KP_Subtract	XF86_Prev_VMode
+keycode	0x6A =	KP_Divide KP_Divide KP_Divide KP_Divide KP_Divide KP_Divide XF86_Ungrab
+keycode	0x3F =	KP_Multiply KP_Multiply KP_Multiply KP_Multiply KP_Multiply KP_Multiply XF86_ClearGrab
+keycode	0x52 =	KP_Subtract KP_Subtract KP_Subtract KP_Subtract KP_Subtract KP_Subtract XF86_Prev_VMode
 
 keycode	0x17 =	Tab		ISO_Left_Tab	U201C		U201D
 keycode	0x18 =	q		Q		U00F1		U00D1
@@ -138,7 +138,7 @@ keycode	0x75 =	Next		Next		U300D		U300F
 keycode	0x4F =	KP_Home		KP_7
 keycode	0x50 =	KP_Up		KP_8
 keycode	0x51 =	KP_Prior	KP_9
-keycode	0x56 =	KP_Add		XF86_Next_VMode
+keycode	0x56 =	KP_Add		KP_Add		KP_Add		KP_Add KP_Add KP_Add XF86_Next_VMode
 
 keycode	0x42 =	U2026		U20AC		U201E		U2122
 keycode	0x26 =	a		A		U00E1		U00C1
