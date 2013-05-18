@@ -15,11 +15,6 @@
  */
 
 /*-
- * The adler32 algorithm is
- * Copyright (C) 1995 Mark Adler
- */
-
-/*-
  * Copyright (c) 2007
  *	Thorsten Glaser <tg@mirbsd.de>
  *
@@ -55,6 +50,7 @@
 #include <time.h>
 #include <unistd.h>
 
+#include <adler32.h>
 #include <md4.h>
 #include <md5.h>
 #include <rmd160.h>
@@ -65,7 +61,7 @@
 #include <tiger.h>
 #include <whirlpool.h>
 
-__RCSID("$MirOS: src/bin/md5/cksum.c,v 1.1 2007/05/07 15:46:23 tg Exp $");
+__RCSID("$MirOS: src/bin/md5/cksum.c,v 1.2 2007/05/07 15:50:39 tg Exp $");
 
 #define MAX_DIGEST_LEN			128
 
@@ -92,11 +88,6 @@ typedef struct SYSVSUMContext {
 	u_int32_t crc;
 	off_t len;
 } SYSVSUM_CTX;
-
-#define	ADLER32_DIGEST_LENGTH		4
-#define	ADLER32_DIGEST_STRING_LENGTH	(ADLER32_DIGEST_LENGTH * 2 + 1)
-
-typedef uint32_t ADLER32_CTX;
 
 typedef uint64_t SIZE_CTX;
 
@@ -150,12 +141,6 @@ void SYSVSUM_Final(SYSVSUM_CTX *);
 char *SYSVSUM_End(SYSVSUM_CTX *, char *);
 char *SYSVSUM_Data(const u_int8_t *, size_t, char *);
 
-void ADLER32_Init(ADLER32_CTX *);
-void ADLER32_Update(ADLER32_CTX *, const uint8_t *, size_t)
-    __attribute__((__bounded__(__string__,2,3)));
-char *ADLER32_End(ADLER32_CTX *, char *)
-    __attribute__((__bounded__(__minbytes__,2,ADLER32_DIGEST_STRING_LENGTH)));
-
 #define NHASHES	16
 struct hash_functions {
 	const char *name;
@@ -202,9 +187,9 @@ struct hash_functions {
 		"ADLER32",
 		ADLER32_DIGEST_LENGTH * 2,
 		NULL,
-		(void (*)(void *))ADLER32_Init,
-		(void (*)(void *, const unsigned char *, unsigned int))ADLER32_Update,
-		(char *(*)(void *, char *))ADLER32_End,
+		(void (*)(void *))ADLER32Init,
+		(void (*)(void *, const unsigned char *, unsigned int))ADLER32Update,
+		(char *(*)(void *, char *))ADLER32End,
 		digest_printbin_string,
 		digest_print,
 		digest_print_string
@@ -1081,61 +1066,10 @@ SYSVSUM_End(SYSVSUM_CTX *ctx, char *outstr)
 }
 
 void
-ADLER32_Init(ADLER32_CTX *ctx)
-{
-	if (ctx != NULL)
-		*ctx = 1;
-}
-
-/*-
- * See also:
- *	contrib/hosted/fwcf/adler.h
- *	src/bin/md5/cksum.c
- *	src/kern/z/adler32s.c
- *	src/kern/z/adler32_i386.S
- */
-void
-ADLER32_Update(ADLER32_CTX *ctx, const uint8_t *buf, size_t len)
-{
-	uint32_t s1, s2, n;
-
-	if (ctx == NULL)
-		return;
-
-	s1 = (s2 = *ctx) & 0xFFFF;;
-	s2 >>= 16;
-
-#define ADLER_BASE 65521 /* largest prime smaller than 65536 */
-#define ADLER_NMAX 5552	 /* largest n: 255n(n+1)/2 + (n+1)(BASE-1) <= 2^32-1 */
-	while (len) {
-		len -= (n = MIN(len, ADLER_NMAX));
-		while (n--) {
-			s1 += *buf++;
-			s2 += s1;
-		}
-		s1 %= ADLER_BASE;
-		s2 %= ADLER_BASE;
-	}
-
-	*ctx = s1 | (s2 << 16);
-}
-
-char *
-ADLER32_End(ADLER32_CTX *ctx, char *res)
-{
-	if (res)
-		snprintf(res, ADLER32_DIGEST_STRING_LENGTH, "%08X", *ctx);
-	else if (asprintf(&res, "%08X", *ctx) == -1)
-		res = NULL;
-
-	return (res);
-}
-
-void
 cksum_addpool(const char *s __attribute__((unused)))
 {
 	ADLER32_CTX tmp;
 
-	ADLER32_Update(&tmp, (const uint8_t *)s, strlen(s));
+	ADLER32Update(&tmp, (const uint8_t *)s, strlen(s));
 	arc4random_pushb(&tmp, sizeof (ADLER32_CTX));
 }

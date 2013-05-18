@@ -243,6 +243,13 @@
 ./man2/write.htm
 ./man2/writev.htm
 ./man3/.htaccess
+./man3/ADLER32Data.htm
+./man3/ADLER32End.htm
+./man3/ADLER32File.htm
+./man3/ADLER32FileChunk.htm
+./man3/ADLER32Final.htm
+./man3/ADLER32Init.htm
+./man3/ADLER32Update.htm
 ./man3/AllPlanes.htm
 ./man3/BF_cbc.htm
 ./man3/BF_cbc_encrypt.htm

@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libz/Makefile,v 1.19 2006/06/11 01:19:19 tg Exp $
+# $MirOS: src/lib/libz/Makefile,v 1.20 2007/02/06 21:04:10 tg Exp $
 # $OpenBSD: Makefile,v 1.13 2005/07/20 21:29:00 jmc Exp $
 
 SHLIB_VERSION?=	5.3
@@ -42,7 +42,7 @@ MLINKS=	compress.3 zlibVersion.3 compress.3 deflateInit.3 \
 	compress.3 gzdirect.3 \
 	compress.3 gzclose.3 compress.3 gzerror.3 \
 	compress.3 gzclearerr.3 \
-	compress.3 adler32.3 compress.3 adler32_combine.3 \
+	compress.3 adler32_combine.3 \
 	compress.3 crc32.3 compress.3 crc32_combine.3
 
 # MirOS extension

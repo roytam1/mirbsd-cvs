@@ -26,6 +26,7 @@
 ./usr/bin/unprotoize
 ./usr/include/FlexLexer.h
 ./usr/include/a.out.h
+./usr/include/adler32.h
 ./usr/include/altq
 ./usr/include/altq/altq.h
 ./usr/include/altq/altq_cbq.h
@@ -4317,6 +4318,13 @@
 ./usr/share/man/cat2/waitpid.0
 ./usr/share/man/cat2/write.0
 ./usr/share/man/cat2/writev.0
+./usr/share/man/cat3/ADLER32Data.0
+./usr/share/man/cat3/ADLER32End.0
+./usr/share/man/cat3/ADLER32File.0
+./usr/share/man/cat3/ADLER32FileChunk.0
+./usr/share/man/cat3/ADLER32Final.0
+./usr/share/man/cat3/ADLER32Init.0
+./usr/share/man/cat3/ADLER32Update.0
 ./usr/share/man/cat3/BF_cbc.0
 ./usr/share/man/cat3/BF_cbc_encrypt.0
 ./usr/share/man/cat3/BF_cfb64_encrypt.0

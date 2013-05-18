@@ -1,13 +1,15 @@
-# $MirOS: src/lib/libc/hash/Makefile.inc,v 1.4 2007/05/07 14:06:07 tg Exp $
+# $MirOS: src/lib/libc/hash/Makefile.inc,v 1.5 2007/05/07 15:21:18 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.17 2004/05/03 17:30:14 millert Exp $
 
 # hash functions
 .PATH: ${LIBCSRCDIR}/hash
 
 HELPER=	md4hl.c md5hl.c rmd160hl.c sha1hl.c sha256hl.c sha384hl.c sha512hl.c \
-	sfvhl.c sumahl.c tigerhl.c whirlpoolhl.c
-SRCS+=	md4.c md5.c rmd160.c sfv.c sha1.c sha2.c tiger.c whirlpool.c ${HELPER}
-MAN+=	md4.3 md5.3 rmd160.3 sfv.3 sha1.3 sha2.3 suma.3 tiger.3 whirlpool.3
+	adler32hl.c sfvhl.c sumahl.c tigerhl.c whirlpoolhl.c
+SRCS+=	adh32.c md4.c md5.c rmd160.c sfv.c sha1.c sha2.c tiger.c whirlpool.c \
+	${HELPER}
+MAN+=	adler32.3 md4.3 md5.3 rmd160.3 sfv.3 sha1.3 sha2.3 suma.3 tiger.3 \
+	whirlpool.3
 
 .if exists(suma-${MACHINE_ARCH}.S)
 SRCS+=	suma-${MACHINE_ARCH}.S
@@ -15,6 +17,10 @@ SRCS+=	suma-${MACHINE_ARCH}.S
 SRCS+=	suma.c
 .endif
 
+MLINKS+=adler32.3 ADLER32Init.3    adler32.3 ADLER32Update.3
+MLINKS+=adler32.3 ADLER32Data.3
+MLINKS+=adler32.3 ADLER32Final.3   adler32.3 ADLER32End.3
+MLINKS+=adler32.3 ADLER32File.3    adler32.3 ADLER32FileChunk.3
 MLINKS+=md4.3 MD4Transform.3 md4.3 MD4Init.3 md4.3 MD4Final.3
 MLINKS+=md4.3 MD4Update.3    md4.3 MD4End.3  md4.3 MD4File.3
 MLINKS+=md4.3 MD4FileChunk.3 md4.3 MD4Pad.3  md4.3 MD4Data.3
@@ -62,6 +68,9 @@ md4.3:  mdX.3
 md5.3:  mdX.3
 	sed -e 's/mdX/md5/g' -e 's/mdY/md4/g' -e 's/MDX/MD5/g' $> > $@
 .endif
+
+adler32hl.c:	helper.c
+	sed -e 's/hashinc/adler32.h/g' -e 's/HASH/ADLER32/g' $> > $@
 
 md4hl.c:	helper.c
 	sed -e 's/hashinc/md4.h/g' -e 's/HASH/MD4/g' $> > $@

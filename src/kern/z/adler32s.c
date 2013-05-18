@@ -1,4 +1,4 @@
-/* $MirOS: src/kern/z/adler32s.c,v 1.3 2007/03/13 18:22:53 tg Exp $ */
+/* $MirOS: src/kern/z/adler32s.c,v 1.4 2007/05/07 15:50:40 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -27,7 +27,7 @@
  *-
  * See also:
  *	contrib/hosted/fwcf/adler.h
- *	src/bin/md5/cksum.c
+ *	src/lib/libc/hash/adh32.c
  *	src/kern/z/adler32s.c
  *	src/kern/z/adler32_i386.S
  */
@@ -52,7 +52,7 @@
 #endif
 #endif
 
-zRCSID("$MirOS: src/kern/z/adler32s.c,v 1.3 2007/03/13 18:22:53 tg Exp $")
+zRCSID("$MirOS: src/kern/z/adler32s.c,v 1.4 2007/05/07 15:50:40 tg Exp $")
 
 unsigned long adler32(unsigned long, const unsigned char *, unsigned);
 

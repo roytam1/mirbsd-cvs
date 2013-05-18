@@ -1,4 +1,4 @@
-# $MirOS: src/include/Makefile,v 1.20 2007/05/07 14:06:06 tg Exp $
+# $MirOS: src/include/Makefile,v 1.21 2007/05/07 15:21:17 tg Exp $
 # $OpenBSD: Makefile,v 1.135 2005/07/10 06:53:44 grange Exp $
 # $NetBSD: Makefile,v 1.59 1996/05/15 21:36:43 jtc Exp $
 # @(#)Makefile	5.45.1.1 (Berkeley) 5/6/91
@@ -9,8 +9,8 @@
 .include <bsd.own.mk>
 
 # Missing: mp.h
-FILES=	a.out.h ar.h assert.h bitstring.h blf.h bm.h bsd_auth.h cast.h \
-	cpio.h ctype.h curses.h db.h dbm.h des.h dirent.h disktab.h \
+FILES=	a.out.h adler32.h ar.h assert.h bitstring.h blf.h bm.h bsd_auth.h \
+	cast.h cpio.h ctype.h curses.h db.h dbm.h des.h dirent.h disktab.h \
 	dlfcn.h elf_abi.h err.h fnmatch.h fstab.h fts.h ftw.h getopt.h \
 	glob.h grp.h iconv.h ieeefp.h ifaddrs.h inttypes.h iso646.h kvm.h \
 	langinfo.h libgen.h limits.h link.h link_aout.h link_elf.h \

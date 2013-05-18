@@ -1,4 +1,4 @@
-.\" $MirOS: src/lib/libc/hash/tiger.3,v 1.2 2006/09/24 17:48:32 tg Exp $
+.\" $MirOS: src/lib/libc/hash/whirlpool.3,v 1.1 2007/05/07 14:06:07 tg Exp $
 .\"-
 .\" Copyright (c) 2007
 .\"	Thorsten Glaser <tg@mirbsd.de>
@@ -121,12 +121,15 @@ printf("0x%s\en", WHIRLPOOLData(buf, strlen(buf), output));
 .Ed
 .Sh SEE ALSO
 .Xr cksum 1 ,
+.Xr adler32 3 ,
 .Xr md4 3 ,
 .Xr md5 3 ,
 .Xr rmd160 3 ,
+.Xr sfv 3 ,
 .Xr sha1 3 ,
 .Xr sha2 3 ,
-.Xr tiger 3
+.Xr suma 3 ,
+.Xr tiger 3 ,
 .Pp
 .Pa http://planeta.terra.com.br/informatica/paulobarreto/WhirlpoolPage.html
 .Sh HISTORY
