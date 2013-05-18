@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/stand/liveboot/Makefile,v 1.10 2009/02/23 09:44:46 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/liveboot/Makefile,v 1.11 2009/06/29 16:20:42 tg Exp $
 
 BOOTSELECT_HOOK=yes
 BOOTLDR_PATH=	${.CURDIR}/../boot
@@ -51,7 +51,7 @@ install:
 .PATH: ${BOOTLDR_PATH}
 .include "${BOOTLDR_PATH}/Makefile"
 
-.if ${BSD4GRML:L} != "no"
+.if (${BSD4GRML:L} != "no") && (${NOMAN:L} == "no")
 all: ldbsd.txt
 
 ldbsd.txt: __MANALL
