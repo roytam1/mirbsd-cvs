@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/grml/Makefile,v 1.4 2009/06/29 16:47:10 tg Exp $
+# $MirOS: src/distrib/common/grml/Makefile,v 1.5 2009/06/29 18:18:59 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -23,6 +23,8 @@ CDROM_OPTS+=	no-emul-boot
 
 CLEANFILES+=	ldbsd.* LICENCE.TXT gpl_srcs.tgz
 
+all: templates/bsd4grml.stamp
+
 bsd: ${BSDOBJDIR}/distrib/generic/bsd
 	cp -f $> $@
 
@@ -45,10 +47,10 @@ gnustuff: .PHONY
 	(cd gplsrcs && find * -type f | sort | cpio -oC512 -Hustar -Mdist | \
 	    gzip -n9) >gpl_srcs.tgz
 
-cleandir: clean_gplsrcs
+cleannobsd: clean_grmldirs
 
-clean_gplsrcs:
-	-rm -rf gplsrcs
+clean_grmldirs:
+	-rm -rf gplsrcs templates
 
 .include "../Makefile"
 
@@ -73,17 +75,21 @@ ldbsd.stamp:
 	@exit 1
 .endif
 
+templates/bsd4grml.stamp: ${CDROM}
+
 cdrom-mdcopy:
 	dd if=/dev/arandom bs=2048 count=1 of=eltorito.loo
-	cd ${WRKDIR} && \
-	    mkdir -p boot/addons/bsd4grml && \
-	    mv v${OSrev}/${MACHINE}/bsd.rd boot/addons/bsd4grml/ && \
-	    rm -rf contrib v${OSrev} 00-README boot.cfg
-	cp ${.CURDIR}/boot.* ${WRKDIR}/boot/addons/bsd4grml/
-	cp LICENCE.TXT gpl_srcs.tgz ldbsd.{com,txt} \
-	    ${WRKDIR}/boot/addons/bsd4grml/
-	ln ${WRKDIR}/b_${MACHINE}.ldr ${WRKDIR}/boot/addons/bsd4grml/ldbsd.iso
-	chmod 0644 ${WRKDIR}/boot/addons/bsd4grml/*
+	-rm -rf templates
+	mkdir -p templates/boot/addons/bsd4grml
+	mv ${WRKDIR}/v${OSrev}/${MACHINE}/bsd.rd templates/boot/addons/bsd4grml/
+	cd ${WRKDIR} && rm -rf *
+	cp ${.CURDIR}/boot.* LICENCE.TXT gpl_srcs.tgz ldbsd.{com,iso,txt} \
+	    templates/boot/addons/bsd4grml/
+	chmod 0644 templates/boot/addons/bsd4grml/*
+	cd templates && pax -rw -l -pe boot ${WRKDIR}/
+	rm -f templates/boot/addons/bsd4grml/ldbsd.iso
+	ln ${WRKDIR}/boot/addons/bsd4grml/ldbsd.iso ${WRKDIR}/b_${MACHINE}.ldr
+	@:>templates/bsd4grml.stamp
 
 cdrom-mdboot:
 	getextent_cd9660 -f ${CDROM} b_${MACHINE}.ldr | \
