@@ -1,7 +1,7 @@
-/* $MirOS: src/share/misc/licence.template,v 1.2 2005/03/03 19:43:30 tg Rel $ */
+/* $MirOS: src/lib/libc/gen/i18n.c,v 1.1.7.1 2005/03/06 16:33:39 tg Exp $ */
 
 /*-
- * Copyright (c) 2003, 2004
+ * Copyright (c) 2003, 2004, 2005
  *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
  * Derived from work placed into the public domain by
  *	J.T. Conklin <jtc@netbsd.org>
@@ -31,7 +31,7 @@
 #include <locale.h>
 #include <nl_types.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libc/gen/i18n.c,v 1.1.7.1 2005/03/06 16:33:39 tg Exp $");
 
 /* fake locale support */
 
@@ -54,12 +54,6 @@ const struct lconv _DefaultLocaleConv = {
 	CHAR_MAX, CHAR_MAX, CHAR_MAX, CHAR_MAX,
 	CHAR_MAX, CHAR_MAX, CHAR_MAX, CHAR_MAX
 };
-
-char *
-__weak_setlocale(int category, const char *locale)
-{
-	return "C";
-}
 
 struct lconv *
 __weak_localeconv(void)
@@ -160,30 +154,5 @@ __weak_nl_langinfo(nl_item item)
 	return (char *)s;
 }
 
-__weak_alias(setlocale, __weak_setlocale);
 __weak_alias(localeconv, __weak_localeconv);
 __weak_alias(nl_langinfo, __weak_nl_langinfo);
-
-/* fake NLS support */
-
-nl_catd
-_catopen(const char *name, int oflag)
-{
-	return (nl_catd) 0;
-}
-
-int
-_catclose(nl_catd catd)
-{
-	return 0;
-}
-
-char *
-_catgets(nl_catd catd, int set_id, int msg_id, const char *s)
-{
-	return (char *) s;
-}
-
-__weak_alias(catopen, _catopen);
-__weak_alias(catclose, _catclose);
-__weak_alias(catgets, _catgets);

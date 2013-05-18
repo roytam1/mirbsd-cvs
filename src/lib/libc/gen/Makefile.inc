@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libc/gen/Makefile.inc,v 1.2 2005/03/06 20:28:39 tg Exp $
+# $MirOS: src/lib/libc/gen/Makefile.inc,v 1.3 2005/09/22 20:39:58 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.37 2005/02/01 15:12:28 millert Exp $
 
 # gen sources
@@ -21,7 +21,7 @@ SRCS+=  alarm.c assert.c auth_subr.c authenticate.c \
         telldir.c time.c times.c timezone.c tolower_.c ttyname.c \
         ttyslot.c toupper_.c ualarm.c uname.c unvis.c usleep.c \
         utime.c valloc.c vis.c wait.c wait3.c waitpid.c warn.c \
-        warnx.c vwarn.c vwarnx.c verr.c verrx.c i18n.c
+        warnx.c vwarn.c vwarnx.c verr.c verrx.c
 
 # indirect reference stubs, to be removed soon.
 SRCS+=	_sys_errlist.c _sys_nerr.c _sys_siglist.c
