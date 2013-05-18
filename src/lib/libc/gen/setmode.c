@@ -1,4 +1,4 @@
-/**	$MirOS: src/lib/libc/gen/setmode.c,v 1.6 2006/11/08 23:18:04 tg Exp $ */
+/**	$MirOS: src/lib/libc/gen/setmode.c,v 1.7 2007/03/04 03:46:41 tg Exp $ */
 /*	$OpenBSD: setmode.c,v 1.17 2005/08/08 08:05:34 espie Exp $	*/
 /*	$NetBSD: setmode.c,v 1.15 1997/02/07 22:21:06 christos Exp $	*/
 
@@ -57,7 +57,7 @@
 #endif
 
 __SCCSID("@(#)setmode.c	8.2 (Berkeley) 3/25/94");
-__RCSID("$MirOS: src/lib/libc/gen/setmode.c,v 1.6 2006/11/08 23:18:04 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/gen/setmode.c,v 1.7 2007/03/04 03:46:41 tg Exp $");
 
 /* for mksh */
 #ifdef ksh_isdigit
@@ -184,7 +184,7 @@ setmode(const char *p)
 	int perm, who;
 	char op, *ep;
 	BITCMD *set, *saveset, *endset;
-	sigset_t sigset, sigoset;
+	sigset_t signset, sigoset;
 	mode_t mask;
 	int equalopdone = 0, permXbits, setlen;
 	u_long perml;
@@ -198,8 +198,8 @@ setmode(const char *p)
 	 * the caller is opening files inside a signal handler, protect them
 	 * as best we can.
 	 */
-	sigfillset(&sigset);
-	(void)sigprocmask(SIG_BLOCK, &sigset, &sigoset);
+	sigfillset(&signset);
+	(void)sigprocmask(SIG_BLOCK, &signset, &sigoset);
 	(void)umask(mask = umask(0));
 	mask = ~mask;
 	(void)sigprocmask(SIG_SETMASK, &sigoset, NULL);
