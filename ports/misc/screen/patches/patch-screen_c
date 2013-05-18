@@ -1,4 +1,4 @@
-$MirOS: ports/misc/screen/patches/patch-screen_c,v 1.7 2007/03/02 05:20:05 tg Exp $
+$MirOS: ports/misc/screen/patches/patch-screen_c,v 1.8 2007/03/04 20:00:50 tg Exp $
 $OpenBSD: shmpatch-screen_c,v 1.1 2003/11/22 00:56:58 espie Exp $
 --- screen.c.orig	Mon Sep  8 14:26:19 2003
 +++ screen.c	Sun Mar  4 19:47:45 2007
@@ -119,7 +119,7 @@ $OpenBSD: shmpatch-screen_c,v 1.1 2003/11/22 00:56:58 espie Exp $
 +#if defined(ENCODINGS) && defined(UTF8) && defined(POSIX)
 +static const char sfe_qs[] = "\030\032\r\xE2\x82\xAC.\033[6n";
 +__RCSID("$miros: src/usr.sbin/wsconfig/wsconfig.c,v 1.12 2007/03/04 20:00:51 tg Exp $");
-+__RCSID("$MirOS: ports/misc/screen/patches/patch-screen_c,v 1.7 2007/03/02 05:20:05 tg Exp $");
++__RCSID("$MirOS: ports/misc/screen/patches/patch-screen_c,v 1.8 2007/03/04 20:00:50 tg Exp $");
 +
 +int
 +scan_for_encoding(fd)
@@ -138,7 +138,7 @@ $OpenBSD: shmpatch-screen_c,v 1.1 2003/11/22 00:56:58 espie Exp $
 +		goto out;
 +	if ((size_t)write(fd, sfe_qs, strlen(sfe_qs)) != strlen(sfe_qs))
 +		goto out;
-+	sleep1000(50 /* ms */);
++	sleep1000(250 /* ms */);
 +	i = read(fd, sbuf, sizeof (sbuf));
 +	if (i > 5 && sbuf[0] == 033 && sbuf[1] == '[') {
 +		j = 2;
