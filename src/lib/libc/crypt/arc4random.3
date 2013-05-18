@@ -1,4 +1,4 @@
-.\" $MirOS: src/lib/libc/crypt/arc4random.3,v 1.9 2008/12/27 21:17:54 tg Exp $
+.\" $MirOS: src/lib/libc/crypt/arc4random.3,v 1.10 2009/11/29 15:21:21 tg Exp $
 .\" $OpenBSD: arc4random.3,v 1.27 2008/12/23 18:31:02 deraadt Exp $
 .\"
 .\" Copyright 1997 Niels Provos <provos@physnet.uni-hamburg.de>
@@ -31,7 +31,7 @@
 .\"
 .\" Manual page, using -mandoc macros
 .\"
-.Dd $Mdocdate: December 27 2008 $
+.Dd $Mdocdate: November 29 2009 $
 .Dt ARC4RANDOM 3
 .Os
 .Sh NAME
@@ -186,3 +186,15 @@ first appeared in
 It originally was a function, but has been deprecated and folded into
 .Fn arc4random_pushb
 soon afterwards.
+.Sh BUGS
+The
+.Fn arc4random_addrandom
+prototype should use
+.Ft "const u_char *"
+and
+.Ft size_t
+similar to
+.Fn arc4random_pushb .
+The
+.Ox
+developers however do not produce const-clean code or APIs.

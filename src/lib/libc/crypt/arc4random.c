@@ -47,7 +47,7 @@
 #include <syskern/libckern.h>
 #include "thread_private.h"
 
-__RCSID("$MirOS: src/lib/libc/crypt/arc4random.c,v 1.24 2009/11/09 22:35:50 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/crypt/arc4random.c,v 1.25 2009/11/29 14:57:01 tg Exp $");
 
 struct arc4_stream {
 	u_int8_t i;
@@ -98,16 +98,16 @@ arc4_init(void)
 }
 
 static void
-arc4_addrandom(u_char *dat, int datlen)
+arc4_addrandom(const u_char *dat, size_t datlen)
 {
-	int n;
+	size_t n = 0;
 	uint8_t si;
 
 	rs.i--;
-	for (n = 0; n < 256; n++) {
+	while (n < 256) {
 		rs.i++;
 		si = rs.s[rs.i];
-		rs.j = (uint8_t)(rs.j + si + dat[n % datlen]);
+		rs.j = (uint8_t)(rs.j + si + dat[n++ % datlen]);
 		rs.s[rs.i] = rs.s[rs.j];
 		rs.s[rs.j] = si;
 	}
