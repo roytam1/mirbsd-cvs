@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: util.h,v 1.26 2004/07/13 21:09:48 millert Exp $	*/
 /*	$NetBSD: util.h,v 1.2 1996/05/16 07:00:22 thorpej Exp $	*/
 
@@ -115,6 +116,14 @@ int	uu_lock_txfr(const char *_ttyname, pid_t _pid);
 int     uu_unlock(const char *_ttyname);
 int	fmt_scaled(long long number, char *result);
 int	scan_scaled(char *scaled, long long *result);
+
+struct login_cap;
+typedef struct login_cap login_cap_t;
+
+char	*getnewpasswd(struct passwd *, login_cap_t *, int);
+int	 local_passwd(char *, int);
+int	 pwd_check(login_cap_t *, const char *);
+int	 pwd_gettries(login_cap_t *);
 __END_DECLS
 
 #endif /* !_UTIL_H_ */

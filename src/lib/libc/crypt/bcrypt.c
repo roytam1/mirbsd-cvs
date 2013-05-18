@@ -56,7 +56,7 @@
 #include <pwd.h>
 #include <blf.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libc/crypt/bcrypt.c,v 1.3 2006/07/04 12:51:50 tg Exp $");
 
 /* This implementation is adaptable to current computing power.
  * You can have up to 2^31 rounds which should be enough for some
@@ -68,6 +68,8 @@ __RCSID("$MirOS$");
 #define BCRYPT_BLOCKS 6		/* Ciphertext blocks */
 #define BCRYPT_MINROUNDS 16	/* we have log2(rounds) in salt */
 
+extern const uint8_t mbsd_digits_bcrypt[65];
+
 static void encode_salt(char *, u_int8_t *, u_int16_t, u_int8_t);
 static void encode_base64(u_int8_t *, u_int8_t *, u_int16_t);
 static void decode_base64(u_int8_t *, u_int16_t, const u_int8_t *);
@@ -75,9 +77,6 @@ static void decode_base64(u_int8_t *, u_int16_t, const u_int8_t *);
 static char    encrypted[_PASSWORD_LEN];
 static char    gsalt[7 + (BCRYPT_MAXSALT * 4 + 2) / 3 + 1];
 static char    error[] = ":";
-
-static const u_int8_t Base64Code[] =
-"./ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
 static const u_int8_t index_64[128] = {
 	255, 255, 255, 255, 255, 255, 255, 255, 255, 255,
@@ -285,24 +284,24 @@ encode_base64(u_int8_t *buffer, u_int8_t *data, u_int16_t len)
 	u_int8_t c1, c2;
 	while (p < data + len) {
 		c1 = *p++;
-		*bp++ = Base64Code[(c1 >> 2)];
+		*bp++ = mbsd_digits_bcrypt[(c1 >> 2)];
 		c1 = (c1 & 0x03) << 4;
 		if (p >= data + len) {
-			*bp++ = Base64Code[c1];
+			*bp++ = mbsd_digits_bcrypt[c1];
 			break;
 		}
 		c2 = *p++;
 		c1 |= (c2 >> 4) & 0x0f;
-		*bp++ = Base64Code[c1];
+		*bp++ = mbsd_digits_bcrypt[c1];
 		c1 = (c2 & 0x0f) << 2;
 		if (p >= data + len) {
-			*bp++ = Base64Code[c1];
+			*bp++ = mbsd_digits_bcrypt[c1];
 			break;
 		}
 		c2 = *p++;
 		c1 |= (c2 >> 6) & 0x03;
-		*bp++ = Base64Code[c1];
-		*bp++ = Base64Code[c2 & 0x3f];
+		*bp++ = mbsd_digits_bcrypt[c1];
+		*bp++ = mbsd_digits_bcrypt[c2 & 0x3f];
 	}
 	*bp = '\0';
 }

@@ -29,6 +29,11 @@
 #include <string.h>
 #include <stdlib.h>
 
+__RCSID("$MirOS$");
+
+extern const uint8_t mbsd_digits_dec[11];
+extern const uint8_t mbsd_digits_hex[17];
+
 static int	inet_net_pton_ipv4(const char *, u_char *, size_t);
 
 /*
@@ -75,9 +80,6 @@ inet_net_pton(int af, const char *src, void *dst, size_t size)
 static int
 inet_net_pton_ipv4(const char *src, u_char *dst, size_t size)
 {
-	static const char
-		xdigits[] = "0123456789abcdef",
-		digits[] = "0123456789";
 	int n, ch, tmp, dirty, bits;
 	const u_char *odst = dst;
 
@@ -93,7 +95,8 @@ inet_net_pton_ipv4(const char *src, u_char *dst, size_t size)
 		       isascii(ch) && isxdigit(ch)) {
 			if (isupper(ch))
 				ch = tolower(ch);
-			n = strchr(xdigits, ch) - xdigits;
+			n = (const uint8_t *)strchr(mbsd_digits_hex, ch) -
+			    &mbsd_digits_hex[0];
 			assert(n >= 0 && n <= 15);
 			*dst |= n;
 			if (!dirty++)
@@ -110,7 +113,8 @@ inet_net_pton_ipv4(const char *src, u_char *dst, size_t size)
 		for (;;) {
 			tmp = 0;
 			do {
-				n = strchr(digits, ch) - digits;
+				n = (const uint8_t *)strchr(mbsd_digits_dec,
+				    ch) - &mbsd_digits_dec[0];
 				assert(n >= 0 && n <= 9);
 				tmp *= 10;
 				tmp += n;
@@ -138,7 +142,8 @@ inet_net_pton_ipv4(const char *src, u_char *dst, size_t size)
 		ch = *src++;	/* Skip over the /. */
 		bits = 0;
 		do {
-			n = strchr(digits, ch) - digits;
+			n = (const uint8_t *)strchr(mbsd_digits_dec, ch) -
+			    &mbsd_digits_dec[0];
 			assert(n >= 0 && n <= 9);
 			bits *= 10;
 			bits += n;

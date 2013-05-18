@@ -33,7 +33,9 @@
 #include <net/if_dl.h>
 #include <string.h>
 
-__RCSID("$MirOS: src/lib/libc/net/linkaddr.c,v 1.4 2005/09/22 20:40:03 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/net/linkaddr.c,v 1.5 2009/11/09 21:30:51 tg Exp $");
+
+extern const uint8_t mbsd_digits_hex[17];
 
 /* States*/
 #define NAMING	0
@@ -114,8 +116,6 @@ link_addr(const char *addr, struct sockaddr_dl *sdl)
 	return;
 }
 
-static char hexlist[] = "0123456789abcdef";
-
 char *
 link_ntoa(const struct sockaddr_dl *sdl)
 {
@@ -139,12 +139,12 @@ link_ntoa(const struct sockaddr_dl *sdl)
 			*out++ = '.';
 		i = *in++;
 		if (i > 0xf) {
-			out[1] = hexlist[i & 0xf];
+			out[1] = mbsd_digits_hex[i & 0xf];
 			i >>= 4;
-			out[0] = hexlist[i];
+			out[0] = mbsd_digits_hex[i];
 			out += 2;
 		} else
-			*out++ = hexlist[i];
+			*out++ = mbsd_digits_hex[i];
 	}
 	*out = 0;
 	return (obuf);

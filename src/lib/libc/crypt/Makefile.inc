@@ -1,10 +1,10 @@
-# $MirOS: src/lib/libc/crypt/Makefile.inc,v 1.4 2008/04/06 16:35:16 tg Exp $
+# $MirOS: src/lib/libc/crypt/Makefile.inc,v 1.5 2008/12/27 21:56:26 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.15 2003/08/12 01:22:17 deraadt Exp $
 
 .PATH: ${LIBCSRCDIR}/arch/${MACHINE_ARCH}/crypt ${LIBCSRCDIR}/crypt
 
 SRCS+=	cast.c crypt.c crypt2.c md5crypt.c arc4random.c blowfish.c
-SRCS+=  bcrypt.c skipjack.c
+SRCS+=  bcrypt.c pwd_gensalt.c skipjack.c to64.c
 
 MAN+=	crypt.3 blowfish.3 arc4random.3
 MLINKS+=crypt.3 encrypt.3 crypt.3 setkey.3 crypt.3 des_cipher.3

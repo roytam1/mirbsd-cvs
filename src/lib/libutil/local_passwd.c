@@ -29,11 +29,6 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-/*static const char sccsid[] = "from: @(#)local_passwd.c	5.5 (Berkeley) 5/6/91";*/
-static const char rcsid[] = "$OpenBSD: local_passwd.c,v 1.37 2005/05/01 18:47:06 deraadt Exp $";
-#endif /* not lint */
-
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/uio.h>
@@ -50,14 +45,14 @@ static const char rcsid[] = "$OpenBSD: local_passwd.c,v 1.37 2005/05/01 18:47:06
 #include <util.h>
 #include <login_cap.h>
 
+__SCCSID("@(#)local_passwd.c	5.5 (Berkeley) 5/6/91");
+__RCSID("$MirOS$");
+
 #define UNCHANGED_MSG	"Password unchanged.\n"
 
 static uid_t uid;
-extern int pwd_check(login_cap_t *, char *);
-extern int pwd_gettries(login_cap_t *);
 
-char *getnewpasswd(struct passwd *, login_cap_t *, int);
-void kbintr(int);
+static void kbintr(int);
 
 int
 local_passwd(char *uname, int authenticated)
@@ -207,8 +202,8 @@ getnewpasswd(struct passwd *pw, login_cap_t *lc, int authenticated)
 }
 
 /* ARGSUSED */
-void
-kbintr(int signo)
+static void
+kbintr(int signo __attribute__((unused)))
 {
 	write(STDOUT_FILENO, "\n", 1);
 	write(STDOUT_FILENO, UNCHANGED_MSG, sizeof(UNCHANGED_MSG) - 1);

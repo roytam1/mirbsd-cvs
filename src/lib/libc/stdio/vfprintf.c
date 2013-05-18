@@ -1,7 +1,7 @@
-/* $MirOS: src/lib/libc/stdio/vfprintf.c,v 1.7 2008/04/03 18:02:53 tg Exp $ */
+/* $MirOS: src/lib/libc/stdio/vfprintf.c,v 1.8 2008/08/02 00:57:30 tg Exp $ */
 
 /*-
- * Copyright (c) 2007, 2008
+ * Copyright (c) 2007, 2008, 2010
  *	Thorsten Glaser <tg@mirbsd.de>
  *
  * Provided that these terms and disclaimer and all copyright notices
@@ -19,6 +19,11 @@
  * damage or existence of a defect, except proven that it results out
  * of said person's immediate fault when using the work as intended.
  */
+
+#include <sys/types.h>
+
+extern const uint8_t mbsd_digits_hex[17];
+extern const uint8_t mbsd_digits_HEX[17];
 
 /*	$OpenBSD: vfprintf.c,v 1.32 2005/08/08 08:05:36 espie Exp $ */
 /*-
@@ -59,7 +64,6 @@
  * This code is large and complicated...
  */
 
-#include <sys/types.h>
 #include <sys/mman.h>
 
 #include <stddef.h>
@@ -74,7 +78,7 @@
 #include "local.h"
 #include "fvwrite.h"
 
-__RCSID("$MirOS: src/lib/libc/stdio/vfprintf.c,v 1.7 2008/04/03 18:02:53 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/stdio/vfprintf.c,v 1.8 2008/08/02 00:57:30 tg Exp $");
 
 static void __find_arguments(const char *fmt0, va_list ap, va_list **argtable,
     size_t *argtablesiz);
@@ -215,7 +219,7 @@ vfprintf(FILE *fp, const char *fmt0, _BSD_VA_LIST_ ap)
 	int dprec;		/* a copy of prec if [diouxX], 0 otherwise */
 	int realsz;		/* field size expanded by dprec */
 	int size;		/* size of converted field or string */
-	char *xdigs;		/* digits for [xX] conversion */
+	const uint8_t *xdigs;	/* digits for [xX] conversion */
 #define NIOV 8
 	struct __suio uio;	/* output information: summary */
 	struct __siov iov[NIOV];/* ... and individual io vectors */
@@ -652,7 +656,7 @@ vfprintf(FILE *fp, const char *fmt0, _BSD_VA_LIST_ ap)
 			/* NOSTRICT */
 			_uquad = (u_long)GETARG(void *);
 			base = HEX;
-			xdigs = "0123456789abcdef";
+			xdigs = mbsd_digits_hex;
 			flags |= HEXPREFIX;
 			ch = 'x';
 			goto nosign;
@@ -734,10 +738,10 @@ vfprintf(FILE *fp, const char *fmt0, _BSD_VA_LIST_ ap)
 			base = DEC;
 			goto nosign;
 		case 'X':
-			xdigs = "0123456789ABCDEF";
+			xdigs = mbsd_digits_HEX;
 			goto hex;
 		case 'x':
-			xdigs = "0123456789abcdef";
+			xdigs = mbsd_digits_hex;
  hex:			_uquad = UARG();
 			base = HEX;
 			/* leading 0x/X only if non-zero */

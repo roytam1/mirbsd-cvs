@@ -35,7 +35,9 @@
  *	@(#)cclass.h	8.3 (Berkeley) 3/20/94
  */
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libc/regex/cclass.h,v 1.2 2007/02/12 05:37:50 tg Exp $");
+
+extern const uint8_t mbsd_digits_dec[11];
 
 /* character-class table */
 static struct cclass {
@@ -50,7 +52,7 @@ static struct cclass {
 	{ "blank",	" \t",		""} ,
 	{ "cntrl",	"\007\b\t\n\v\f\r\1\2\3\4\5\6\16\17\20\21\22\23\24\
 \25\26\27\30\31\32\33\34\35\36\37\177",	""} ,
-	{ "digit",	"0123456789",	""} ,
+	{ "digit",	mbsd_digits_dec,	""} ,
 	{ "graph",	"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz\
 0123456789!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~",
 					""} ,

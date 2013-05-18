@@ -25,6 +25,12 @@
 #include <string.h>
 #include <errno.h>
 
+__RCSID("$MirOS$");
+
+extern const uint8_t mbsd_digits_dec[11];
+extern const uint8_t mbsd_digits_hex[17];
+extern const uint8_t mbsd_digits_HEX[17];
+
 /*
  * WARNING: Don't even consider trying to compile this on a system where
  * sizeof(int) < 4.  sizeof(int) > 4 is fine; all the world's not a VAX.
@@ -72,7 +78,6 @@ inet_pton(int af, const char *src, void *dst)
 static int
 inet_pton4(const char *src, u_char *dst)
 {
-	static const char digits[] = "0123456789";
 	int saw_digit, octets, ch;
 	u_char tmp[INADDRSZ], *tp;
 
@@ -80,10 +85,10 @@ inet_pton4(const char *src, u_char *dst)
 	octets = 0;
 	*(tp = tmp) = 0;
 	while ((ch = *src++) != '\0') {
-		const char *pch;
+		const uint8_t *pch;
 
-		if ((pch = strchr(digits, ch)) != NULL) {
-			u_int new = *tp * 10 + (pch - digits);
+		if ((pch = strchr(mbsd_digits_dec, ch)) != NULL) {
+			u_int new = *tp * 10 + (pch - &mbsd_digits_dec[0]);
 
 			if (new > 255)
 				return (0);
@@ -124,8 +129,6 @@ inet_pton4(const char *src, u_char *dst)
 static int
 inet_pton6(const char *src, u_char *dst)
 {
-	static const char xdigits_l[] = "0123456789abcdef",
-			  xdigits_u[] = "0123456789ABCDEF";
 	u_char tmp[IN6ADDRSZ], *tp, *endp, *colonp;
 	const char *xdigits, *curtok;
 	int ch, saw_xdigit;
@@ -144,8 +147,8 @@ inet_pton6(const char *src, u_char *dst)
 	while ((ch = *src++) != '\0') {
 		const char *pch;
 
-		if ((pch = strchr((xdigits = xdigits_l), ch)) == NULL)
-			pch = strchr((xdigits = xdigits_u), ch);
+		if ((pch = strchr((xdigits = mbsd_digits_hex), ch)) == NULL)
+			pch = strchr((xdigits = mbsd_digits_HEX), ch);
 		if (pch != NULL) {
 			val <<= 4;
 			val |= (pch - xdigits);

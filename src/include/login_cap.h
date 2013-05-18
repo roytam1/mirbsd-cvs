@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: login_cap.h,v 1.13 2005/01/28 17:17:22 millert Exp $	*/
 
 /*-
@@ -104,6 +105,8 @@ int	secure_path(char *);
 int	setclasscontext(char *, unsigned int);
 int	setusercontext(login_cap_t *, struct passwd *, uid_t, unsigned int);
 
+void	mbsd_crypt_32to64(const uint8_t *, char *, uint32_t, int);
+int	pwd_gensalt(char *, int, login_cap_t *, char);
 __END_DECLS
 
 #endif /* _LOGIN_CAP_H_ */

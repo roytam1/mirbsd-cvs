@@ -1,9 +1,9 @@
-/* $MirOS: src/lib/libc/locale/wcstod.c,v 1.2 2006/05/30 20:49:41 tg Exp $ */
+/* $MirOS: src/lib/libc/locale/wcstod.c,v 1.3 2006/05/30 20:50:46 tg Exp $ */
 /*	$OpenBSD: wcstod.c,v 1.1 2005/07/01 08:59:27 espie Exp $	*/
 /* $NetBSD: wcstod.c,v 1.4 2001/10/28 12:08:43 yamt Exp $ */
 
 /*-
- * Copyright (c) 2006 MirOS Project,
+ * Copyright (c) 2006, 2010 MirOS Project,
  * Copyright (c)1999, 2000, 2001 Citrus Project,
  * All rights reserved.
  *
@@ -38,6 +38,10 @@
 #include <wchar.h>
 #include <wctype.h>
 
+__RCSID("$MirOS$");
+
+const wchar_t mbsd_digits_Ldec[] = L"0123456789";
+
 long double
 wcstold(const wchar_t *__restrict__ nptr, wchar_t **__restrict__ endptr)
 {
@@ -59,18 +63,18 @@ wcstold(const wchar_t *__restrict__ nptr, wchar_t **__restrict__ endptr)
 	start = src;	
 	if (wcschr(L"+-", *src))
 		src++;
-	size = wcsspn(src, L"0123456789");
+	size = wcsspn(src, mbsd_digits_Ldec);
 	src += size;
 	if (*src == L'.') {/* XXX use localeconv */
 		src++;
-		size = wcsspn(src, L"0123456789");
+		size = wcsspn(src, mbsd_digits_Ldec);
 		src += size;
 	}
 	if (wcschr(L"Ee", *src)) {
 		src++;
 		if (wcschr(L"+-", *src))
 			src++;
-		size = wcsspn(src, L"0123456789");
+		size = wcsspn(src, mbsd_digits_Ldec);
 		src += size;
 	}
 	size = src - start;

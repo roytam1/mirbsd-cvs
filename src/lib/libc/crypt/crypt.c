@@ -56,6 +56,8 @@
 # include <stdio.h>
 #endif
 
+__RCSID("$MirOS$");
+
 void _des_init(void);
 void _des_setup_salt(int32_t);
 int _des_do_des(u_int32_t, u_int32_t, u_int32_t *, u_int32_t *, int);
@@ -179,10 +181,7 @@ static u_int32_t key_perm_maskl[8][128], key_perm_maskr[8][128];
 static u_int32_t comp_maskl[8][128], comp_maskr[8][128];
 static u_int32_t old_rawkey0, old_rawkey1;
 
-static u_char	ascii64[] =
-	 "./0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-/*	  0000000000111111111122222222223333333333444444444455555555556666 */
-/*	  0123456789012345678901234567890123456789012345678901234567890123 */
+extern const uint8_t mbsd_digits_md5crypt[65];
 
 static __inline int
 ascii_to_bin(char ch)
@@ -677,21 +676,21 @@ crypt(const char *key, const char *setting)
 	 * Now encode the result...
 	 */
 	l = (r0 >> 8);
-	*p++ = ascii64[(l >> 18) & 0x3f];
-	*p++ = ascii64[(l >> 12) & 0x3f];
-	*p++ = ascii64[(l >> 6) & 0x3f];
-	*p++ = ascii64[l & 0x3f];
+	*p++ = mbsd_digits_md5crypt[(l >> 18) & 0x3f];
+	*p++ = mbsd_digits_md5crypt[(l >> 12) & 0x3f];
+	*p++ = mbsd_digits_md5crypt[(l >> 6) & 0x3f];
+	*p++ = mbsd_digits_md5crypt[l & 0x3f];
 
 	l = (r0 << 16) | ((r1 >> 16) & 0xffff);
-	*p++ = ascii64[(l >> 18) & 0x3f];
-	*p++ = ascii64[(l >> 12) & 0x3f];
-	*p++ = ascii64[(l >> 6) & 0x3f];
-	*p++ = ascii64[l & 0x3f];
+	*p++ = mbsd_digits_md5crypt[(l >> 18) & 0x3f];
+	*p++ = mbsd_digits_md5crypt[(l >> 12) & 0x3f];
+	*p++ = mbsd_digits_md5crypt[(l >> 6) & 0x3f];
+	*p++ = mbsd_digits_md5crypt[l & 0x3f];
 
 	l = r1 << 2;
-	*p++ = ascii64[(l >> 12) & 0x3f];
-	*p++ = ascii64[(l >> 6) & 0x3f];
-	*p++ = ascii64[l & 0x3f];
+	*p++ = mbsd_digits_md5crypt[(l >> 12) & 0x3f];
+	*p++ = mbsd_digits_md5crypt[(l >> 6) & 0x3f];
+	*p++ = mbsd_digits_md5crypt[l & 0x3f];
 	*p = 0;
 
 	return((char *)output);

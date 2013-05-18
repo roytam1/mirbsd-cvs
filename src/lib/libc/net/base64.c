@@ -56,11 +56,12 @@
 #include <stdlib.h>
 #include <string.h>
 
+__RCSID("$MirOS$");
+
 /* XXX abort illegal in library */
 #define Assert(Cond) if (!(Cond)) abort()
 
-static const char Base64[] =
-	"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+extern const uint8_t mbsd_digits_base64[65];
 static const char Pad64 = '=';
 
 /* (From RFC1521 and draft-ietf-dnssec-secext-03.txt)
@@ -151,10 +152,10 @@ b64_ntop(u_char const *src, size_t srclength,  char *target, size_t targsize)
 
 		if (datalength + 4 > targsize)
 			return (-1);
-		target[datalength++] = Base64[output[0]];
-		target[datalength++] = Base64[output[1]];
-		target[datalength++] = Base64[output[2]];
-		target[datalength++] = Base64[output[3]];
+		target[datalength++] = mbsd_digits_base64[output[0]];
+		target[datalength++] = mbsd_digits_base64[output[1]];
+		target[datalength++] = mbsd_digits_base64[output[2]];
+		target[datalength++] = mbsd_digits_base64[output[3]];
 	}
     
 	/* Now we worry about padding. */
@@ -173,12 +174,12 @@ b64_ntop(u_char const *src, size_t srclength,  char *target, size_t targsize)
 
 		if (datalength + 4 > targsize)
 			return (-1);
-		target[datalength++] = Base64[output[0]];
-		target[datalength++] = Base64[output[1]];
+		target[datalength++] = mbsd_digits_base64[output[0]];
+		target[datalength++] = mbsd_digits_base64[output[1]];
 		if (srclength == 1)
 			target[datalength++] = Pad64;
 		else
-			target[datalength++] = Base64[output[2]];
+			target[datalength++] = mbsd_digits_base64[output[2]];
 		target[datalength++] = Pad64;
 	}
 	if (datalength >= targsize)
@@ -198,7 +199,7 @@ b64_pton(char const *src, u_char *target, size_t targsize)
 {
 	size_t tarindex;
 	int state, ch;
-	char *pos;
+	const uint8_t *pos;
 
 	state = 0;
 	tarindex = 0;
@@ -210,7 +211,7 @@ b64_pton(char const *src, u_char *target, size_t targsize)
 		if (ch == Pad64)
 			break;
 
-		pos = strchr(Base64, ch);
+		pos = strchr(mbsd_digits_base64, ch);
 		if (pos == 0) 		/* A non-base64 character. */
 			return (-1);
 
@@ -219,7 +220,7 @@ b64_pton(char const *src, u_char *target, size_t targsize)
 			if (target) {
 				if (tarindex >= targsize)
 					return (-1);
-				target[tarindex] = (pos - Base64) << 2;
+				target[tarindex] = (pos - &mbsd_digits_base64[0]) << 2;
 			}
 			state = 1;
 			break;
@@ -227,8 +228,8 @@ b64_pton(char const *src, u_char *target, size_t targsize)
 			if (target) {
 				if (tarindex + 1 >= targsize)
 					return (-1);
-				target[tarindex]   |=  (pos - Base64) >> 4;
-				target[tarindex+1]  = ((pos - Base64) & 0x0f)
+				target[tarindex]   |=  (pos - &mbsd_digits_base64[0]) >> 4;
+				target[tarindex+1]  = ((pos - &mbsd_digits_base64[0]) & 0x0f)
 							<< 4 ;
 			}
 			tarindex++;
@@ -238,8 +239,8 @@ b64_pton(char const *src, u_char *target, size_t targsize)
 			if (target) {
 				if (tarindex + 1 >= targsize)
 					return (-1);
-				target[tarindex]   |=  (pos - Base64) >> 2;
-				target[tarindex+1]  = ((pos - Base64) & 0x03)
+				target[tarindex]   |=  (pos - &mbsd_digits_base64[0]) >> 2;
+				target[tarindex+1]  = ((pos - &mbsd_digits_base64[0]) & 0x03)
 							<< 6;
 			}
 			tarindex++;
@@ -249,7 +250,7 @@ b64_pton(char const *src, u_char *target, size_t targsize)
 			if (target) {
 				if (tarindex >= targsize)
 					return (-1);
-				target[tarindex] |= (pos - Base64);
+				target[tarindex] |= (pos - &mbsd_digits_base64[0]);
 			}
 			tarindex++;
 			state = 0;

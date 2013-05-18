@@ -16,21 +16,11 @@
 #include <stdio.h>
 #include <string.h>
 #include <md5.h>
-#include <string.h>
+#include <login_cap.h>
 
-static unsigned char itoa64[] =		/* 0 ... 63 => ascii - 64 */
-	"./0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+__RCSID("$MirOS$");
 
-static void to64(char *, u_int32_t, int);
-
-static void
-to64(char *s, u_int32_t v, int n)
-{
-	while (--n >= 0) {
-		*s++ = itoa64[v&0x3f];
-		v >>= 6;
-	}
-}
+extern const uint8_t mbsd_digits_md5crypt[65];
 
 /*
  * UNIX password
@@ -133,12 +123,12 @@ md5crypt(const char *pw, const char *salt)
 
 	p = passwd + strlen(passwd);
 
-	l = (final[ 0]<<16) | (final[ 6]<<8) | final[12]; to64(p,l,4); p += 4;
-	l = (final[ 1]<<16) | (final[ 7]<<8) | final[13]; to64(p,l,4); p += 4;
-	l = (final[ 2]<<16) | (final[ 8]<<8) | final[14]; to64(p,l,4); p += 4;
-	l = (final[ 3]<<16) | (final[ 9]<<8) | final[15]; to64(p,l,4); p += 4;
-	l = (final[ 4]<<16) | (final[10]<<8) | final[ 5]; to64(p,l,4); p += 4;
-	l =		       final[11]		; to64(p,l,2); p += 2;
+	l = (final[ 0]<<16) | (final[ 6]<<8) | final[12]; mbsd_crypt_32to64(mbsd_digits_md5crypt, p,l,4); p += 4;
+	l = (final[ 1]<<16) | (final[ 7]<<8) | final[13]; mbsd_crypt_32to64(mbsd_digits_md5crypt, p,l,4); p += 4;
+	l = (final[ 2]<<16) | (final[ 8]<<8) | final[14]; mbsd_crypt_32to64(mbsd_digits_md5crypt, p,l,4); p += 4;
+	l = (final[ 3]<<16) | (final[ 9]<<8) | final[15]; mbsd_crypt_32to64(mbsd_digits_md5crypt, p,l,4); p += 4;
+	l = (final[ 4]<<16) | (final[10]<<8) | final[ 5]; mbsd_crypt_32to64(mbsd_digits_md5crypt, p,l,4); p += 4;
+	l =		       final[11]		; mbsd_crypt_32to64(mbsd_digits_md5crypt, p,l,2); p += 2;
 	*p = '\0';
 
 	/* Don't leave anything around in vm they could use. */

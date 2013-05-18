@@ -1,4 +1,4 @@
-/**	$MirOS: src/lib/libc/hash/helper.c,v 1.4 2005/09/22 20:09:06 tg Exp $ */
+/**	$MirOS: src/lib/libc/hash/helper.c,v 1.5 2007/05/07 15:21:18 tg Exp $ */
 /*	$OpenBSD: helper.c,v 1.8 2005/08/08 08:05:35 espie Exp $	*/
 
 /*
@@ -22,7 +22,10 @@
 
 #include <hashinc>
 
-__RCSID("$MirOS: src/lib/libc/hash/helper.c,v 1.4 2005/09/22 20:09:06 tg Exp $ helper for HASH hash");
+__RCSID("$MirOS: src/lib/libc/hash/helper.c,v 1.5 2007/05/07 15:21:18 tg Exp $ helper for HASH hash");
+
+extern const uint8_t mbsd_digits_hex[17];
+extern const uint8_t mbsd_digits_HEX[17];
 
 /* ARGSUSED */
 char *
@@ -31,9 +34,9 @@ HASHEnd(HASH_CTX *ctx, char *buf)
 	int i;
 	u_int8_t digest[HASH_DIGEST_LENGTH];
 #ifdef HASH_DIGEST_UPPERCASE
-	static const char hex[] = "0123456789ABCDEF";
+#define hex mbsd_digits_HEX
 #else
-	static const char hex[] = "0123456789abcdef";
+#define hex mbsd_digits_hex
 #endif
 
 	if (buf == NULL && (buf = malloc(HASH_DIGEST_STRING_LENGTH)) == NULL)

@@ -59,7 +59,7 @@
  */
 
 #include <sys/cdefs.h>
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libc/gen/vis.c,v 1.2 2007/05/07 02:26:12 tg Exp $");
 __RCSID("$OpenBSD: vis.c,v 1.19 2005/09/01 17:15:49 millert Exp $");
 __RCSID("$NetBSD: vis.c,v 1.35 2006/08/28 20:42:12 christos Exp $");
 
@@ -74,10 +74,12 @@ __RCSID("$NetBSD: vis.c,v 1.35 2006/08/28 20:42:12 christos Exp $");
 #include <stdio.h>
 #include <string.h>
 
+extern const uint8_t mbsd_digits_hex[17];
+
 #define isoctal(c)	(((u_char)(c)) >= '0' && ((u_char)(c)) <= '7')
 #define iswhite(c)	(c == ' ' || c == '\t' || c == '\n')
 #define issafe(c)	(c == '\b' || c == '\a' || c == '\r' || isgraph((u_char)(c)))
-#define xtoa(c)		"0123456789abcdef"[c]
+#define xtoa(c)		mbsd_digits_hex[c]
 
 #define MAXEXTRAS	9
 

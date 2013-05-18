@@ -41,8 +41,9 @@
 #include <time.h>
 #include <login_cap.h>
 
-void	to64(char *, int32_t, int n);
-int	pwd_gensalt(char *, int, login_cap_t *, char);
+__RCSID("$MirOS$");
+
+extern const uint8_t mbsd_digits_bcrypt[65];
 
 #define	YPCIPHER_DEF		"old"
 #define	LOCALCIPHER_DEF		"blowfish,6"
@@ -79,7 +80,7 @@ pwd_gensalt(char *salt, int saltlen, login_cap_t *lc, char type)
 			free(oldnext);
 			return 0;
 		}
-		to64(&salt[0], arc4random(), 2);
+		mbsd_crypt_32to64(mbsd_digits_bcrypt, &salt[0], arc4random(), 2);
 		salt[2] = '\0';
 	} else if (!strcmp(now, "newsalt")) {
 		u_int32_t rounds = 7250;
@@ -96,8 +97,8 @@ pwd_gensalt(char *salt, int saltlen, login_cap_t *lc, char type)
 		else if (rounds > 0xffffff)
 			rounds = 0xffffff;
 		salt[0] = _PASSWORD_EFMT1;
-		to64(&salt[1], (u_int32_t) rounds, 4);
-		to64(&salt[5], arc4random(), 4);
+		mbsd_crypt_32to64(mbsd_digits_bcrypt, &salt[1], (u_int32_t) rounds, 4);
+		mbsd_crypt_32to64(mbsd_digits_bcrypt, &salt[5], arc4random(), 4);
 		salt[9] = '\0';
 	} else if (!strcmp(now, "md5")) {
 		if (saltlen < 13) {	/* $1$8salt$\0 */
@@ -106,8 +107,8 @@ pwd_gensalt(char *salt, int saltlen, login_cap_t *lc, char type)
 		}
 
 		strlcpy(salt, "$1$", saltlen);
-		to64(&salt[3], arc4random(), 4);
-		to64(&salt[7], arc4random(), 4);
+		mbsd_crypt_32to64(mbsd_digits_bcrypt, &salt[3], arc4random(), 4);
+		mbsd_crypt_32to64(mbsd_digits_bcrypt, &salt[7], arc4random(), 4);
 		strlcpy(&salt[11], "$", saltlen - 11);
 	} else if (!strcmp(now, "blowfish")) {
 		int rounds = 6;
@@ -126,16 +127,4 @@ pwd_gensalt(char *salt, int saltlen, login_cap_t *lc, char type)
 	}
 	free(oldnext);
 	return 1;
-}
-
-static unsigned char itoa64[] =	 /* 0 ... 63 => ascii - 64 */
-	"./0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-
-void
-to64(char *s, int32_t v, int n)
-{
-	while (--n >= 0) {
-		*s++ = itoa64[v&0x3f];
-		v >>= 6;
-	}
 }

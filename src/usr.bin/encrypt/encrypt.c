@@ -38,7 +38,7 @@
 #include <unistd.h>
 #include <login_cap.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/encrypt/encrypt.c,v 1.2 2008/09/06 14:36:04 tg Exp $");
 
 /*
  * Very simple little program, for encrypting passwords from the command
@@ -53,6 +53,7 @@ __RCSID("$MirOS$");
 #define DO_SAME    5
 
 extern const char *__progname;
+extern const uint8_t mbsd_digits_bcrypt[65];
 char buffer[_PASSWORD_LEN];
 
 void	usage(void) __dead;
@@ -91,8 +92,6 @@ print_passwd(char *string, int operation, void *extra)
 {
 	char msalt[3], *salt = NULL;
 	login_cap_t *lc;
-	int pwd_gensalt(char *, int, login_cap_t *, char);
-	void to64(char *, int32_t, int n);
 
 	switch(operation) {
 	case DO_MAKEKEY:
@@ -109,8 +108,8 @@ print_passwd(char *string, int operation, void *extra)
 
 	case DO_MD5:
 		strlcpy(buffer, "$1$", sizeof buffer);
-		to64(&buffer[3], arc4random(), 4);
-		to64(&buffer[7], arc4random(), 4);
+		mbsd_crypt_32to64(mbsd_digits_bcrypt, &buffer[3], arc4random(), 4);
+		mbsd_crypt_32to64(mbsd_digits_bcrypt, &buffer[7], arc4random(), 4);
 		strlcpy(buffer + 11, "$", sizeof buffer - 11);
 		salt = buffer;
 		break;

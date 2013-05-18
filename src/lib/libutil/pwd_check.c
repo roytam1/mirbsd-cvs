@@ -46,13 +46,15 @@
 #include <login_cap.h>
 #include <signal.h>
 
+__RCSID("$MirOS$");
+
 struct pattern {
-	char *match;
+	const char *match;
 	int flags;
-	char *response;
+	const char *response;
 };
 
-struct pattern patterns[] = {
+static const struct pattern patterns[] = {
 	{
 		"^[0-9]*$",
 		REG_EXTENDED|REG_NOSUB,
@@ -81,7 +83,7 @@ struct pattern patterns[] = {
 };
 
 int
-pwd_check(login_cap_t *lc, char *password)
+pwd_check(login_cap_t *lc, const char *password)
 {
 	regex_t rgx;
 	int i, res, min_len;
