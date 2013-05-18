@@ -1,4 +1,4 @@
-# $MirOS: src/usr.bin/make/Makefile,v 1.11 2005/11/24 14:00:33 tg Exp $
+# $MirOS: src/usr.bin/make/Makefile,v 1.12 2005/11/24 14:12:28 tg Exp $
 # $OpenBSD: Makefile,v 1.38 2004/01/28 02:50:28 espie Exp $
 
 .include <bsd.own.mk>
@@ -60,7 +60,7 @@ condhashconsts.h: generate
 	${.OBJDIR}/generate 2 ${MAGICCONDSLOTS} >$@
 
 generate: generate.c stats.c memory.c ${OHASH_SRCS}
-	${HOSTCC} ${LDSTATIC} -o $@ ${CFLAGS} ${CPPFLAGS} $> ${LDADD}
+	${HOSTCC} ${LDSTATIC} -o $@ ${HOSTCFLAGS} ${CPPFLAGS} $> ${LDADD}
 
 check: regress.o str.o memory.o buf.o
 	${CC} -o $@ ${CFLAGS} $> ${LDADD}
