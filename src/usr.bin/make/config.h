@@ -1,7 +1,7 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
-/**	$MirOS$ */
+/**	$MirOS: src/usr.bin/make/config.h,v 1.3 2005/11/24 13:20:32 tg Exp $ */
 /*	$OpenBSD: config.h,v 1.14 2003/06/03 02:56:11 millert Exp $	*/
 /*	$NetBSD: config.h,v 1.7 1996/11/06 17:59:03 christos Exp $	*/
 
@@ -110,7 +110,9 @@
 #endif
 
 #ifdef __OpenBSD__
+#ifndef HAS_EXTENDED_GETCWD
 #define HAS_EXTENDED_GETCWD
+#endif
 #endif
 
 #ifdef HAS_EXTENDED_GETCWD
