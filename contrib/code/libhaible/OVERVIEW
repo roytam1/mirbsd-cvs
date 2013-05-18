@@ -1,4 +1,4 @@
-$MirOS: contrib/code/libhaible/OVERVIEW,v 1.4 2006/05/30 18:10:40 tg Exp $
+$MirOS: contrib/code/libhaible/OVERVIEW,v 1.5 2006/05/30 18:21:35 tg Exp $
 $function name		header		manpage		source location
 $ 
 $ Info: # = commented out
@@ -21,7 +21,7 @@ iswalnum		 wctype.h	C:iswalnum
 iswalpha		 wctype.h	C:iswalnum
 iswblank		 wctype.h	C:iswalnum
 iswcntrl		 wctype.h	C:iswalnum
-iswctype		 wctype.h	-
+iswctype		 wctype.h	H:iswctype
 iswdigit		 wctype.h	C:iswalnum
 iswgraph		 wctype.h	C:iswalnum
 iswlower		 wctype.h	C:iswalnum
@@ -32,10 +32,10 @@ iswupper		 wctype.h	C:iswalnum
 iswxdigit		 wctype.h	C:iswalnum
 localeconv		 locale.h	C:setlocale
 mblen			 stdlib.h	C:mblen
-mbrlen			#wchar.h	-
+mbrlen			#wchar.h	#:mbrlen
 mbrtowc			 wchar.h	C:mbrtowc
 mbsinit			 wchar.h	C:mbsinit
-mbsrtowcs		#wchar.h	-
+mbsrtowcs		#wchar.h	#:mbsrtowcs
 mbstowcs		 stdlib.h	C:mbstowcs
 mbtowc			 stdlib.h	C:mbtowc
 nl_langinfo		 langinfo.h	C:nl_langinfo
@@ -44,7 +44,7 @@ putwchar		 wchar.h	C:putwc
 setlocale		 locale.h	C:setlocale
 swprintf		#wchar.h	-
 swscanf			#wchar.h	-
-towctrans		 wctype.h	-
+towctrans		 wctype.h	H:towctrans
 towlower		 wctype.h	C:towlower
 towupper		 wctype.h	C:towlower
 ungetwc			 wchar.h	C:ungetwc
@@ -73,7 +73,7 @@ wcsncmp			 wchar.h	C:wmemchr
 wcsncpy			 wchar.h	C:wmemchr
 wcspbrk			 wchar.h	C:wmemchr
 wcsrchr			 wchar.h	C:wmemchr
-wcsrtombs		#wchar.h	-
+wcsrtombs		#wchar.h	#:wcsrtombs
 wcsspn			 wchar.h	C:wmemchr
 wcsstr			 wchar.h	C:wmemchr
 wcstod			#wchar.h	-
@@ -90,8 +90,8 @@ wcswidth		 wchar.h	-
 wcsxfrm			#wchar.h	-
 wctob			 wchar.h	C:wctob
 wctomb			 stdlib.h	C:wctomb
-wctrans			 wctype.h	-
-wctype			 wchar.h	-
+wctrans			 wctype.h	H:wctrans
+wctype			 wchar.h	H:wctype
 wcwidth			 wchar.h	-
 wmemchr			 wchar.h	C:wmemchr
 wmemcmp			 wchar.h	C:wmemchr
