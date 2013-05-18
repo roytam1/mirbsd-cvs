@@ -1,14 +1,14 @@
-# $MirOS: www/src/jupp.hts,v 1.41 2012/12/22 00:06:17 tg Exp $
+# $MirOS: www/src/jupp.hts,v 1.42 2012/12/30 22:14:34 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/juppp "jupp – Programmer’s Editor"
 mws_setheadline jupp – the Editor which sucks less
-mws_putheader '$MirOS: www/src/jupp.hts,v 1.41 2012/12/22 00:06:17 tg Exp $'
+mws_putheader '$MirOS: www/src/jupp.hts,v 1.42 2012/12/30 22:14:34 tg Exp $'
 mws_content <<'EOF'
 <p>The current version is <em>joe-2.8jupp2</em> for MS-DOS® compatible systems,
- and <em>joe-3.1jupp23</em> for Unix/GNU compatible systems. This page is
+ and <em>joe-3.1jupp24</em> for Unix/GNU compatible systems. This page is
  accessible under <a href="http://mirbsd.de/jupp">http://mirbsd.de/jupp</a>
  canonically.</p>
 
@@ -109,8 +109,8 @@ mws_content <<'EOF'
 <h2 id="fetch">Retrieval</h2>
 <h3>Direct download</h3>
 <p>You can download jupp at least from one of the following mirrors:</p><ul>
- <li><a href="https://www.mirbsd.org/MirOS/dist/jupp/joe-3.1jupp23.tgz">https://www.mirbsd.org/MirOS/dist/jupp/joe-3.1jupp23.tgz</a></li>
- <li><a href="http://pub.allbsd.org/MirOS/dist/jupp/joe-3.1jupp23.tgz">http://pub.allbsd.org/MirOS/dist/jupp/joe-3.1jupp23.tgz</a></li>
+ <li><a href="https://www.mirbsd.org/MirOS/dist/jupp/joe-3.1jupp24.tgz">https://www.mirbsd.org/MirOS/dist/jupp/joe-3.1jupp24.tgz</a></li>
+ <li><a href="http://pub.allbsd.org/MirOS/dist/jupp/joe-3.1jupp24.tgz">http://pub.allbsd.org/MirOS/dist/jupp/joe-3.1jupp24.tgz</a></li>
  <li style="list-style:none;">↑ Unix │ DOS ↓</li>
  <li><a href="https://www.mirbsd.org/MirOS/dist/jupp/joe-2.8jupp2.cpio.gz">https://www.mirbsd.org/MirOS/dist/jupp/joe-2.8jupp2.cpio.gz</a></li>
  <li><a href="http://pub.allbsd.org/MirOS/dist/jupp/joe-2.8jupp2.cpio.gz">http://pub.allbsd.org/MirOS/dist/jupp/joe-2.8jupp2.cpio.gz</a></li>
@@ -118,10 +118,10 @@ mws_content <<'EOF'
 </ul>
 <p>Please do not forget to check the received file’s integry using both
  gzsig(1) and one of the hashes below:</p><ul>
- <li>RMD160 (joe-3.1jupp23.tgz) = d3d89330de3b4dc037b97b7f5652f6e57cd695cb</li>
- <li>TIGER (joe-3.1jupp23.tgz) = e34d0a17215be8ef95931ea25e781cdc16c6fc2a7ab245f4</li>
- <li>666812604 446234 /MirOS/dist/jupp/joe-3.1jupp23.tgz</li>
- <li>MD5 (joe-3.1jupp23.tgz) = 96bcaaa4d17c0a99a76d287a0237e1fa</li>
+ <li>RMD160 (joe-3.1jupp24.tgz) = 33cd25bcf9aae34c02a22c31d4273e2585e16fe1</li>
+ <li>TIGER (joe-3.1jupp24.tgz) = 54d51ba790c266b97defb7e8142ef27368397b2cb5d8bf6c</li>
+ <li>1903881675 446572 /MirOS/dist/jupp/joe-3.1jupp24.tgz</li>
+ <li>MD5 (joe-3.1jupp24.tgz) = dbb299c31860d43acef21b709e67e9fb</li>
  <li style="list-style:none;">↑ Unix │ DOS ↓</li>
  <li>RMD160 (joe-2.8jupp2.cpio.gz) = a4e8b49faae7dcda377479311092d9868207fe41</li>
  <li>TIGER (joe-2.8jupp2.cpio.gz) = c3a234efde9365e3b3d28094ce6133babc9c7325d8613555</li>
@@ -131,9 +131,9 @@ mws_content <<'EOF'
 
 <h3>Unpacking</h3>
 <p>Use a command like<br />
- <tt>$ tar xzf joe-3.1jupp23.tgz</tt> # paxtar, bsdtar, GNU tar, …<br />
- <tt>$ gzip -dc joe-3.1jupp23.tgz | cpio -idm</tt> # any cpio<br />
- <tt>$ pax -r -z &lt;joe-3.1jupp23.tgz</tt> # any POSIX® archiver<br />
+ <tt>$ tar xzf joe-3.1jupp24.tgz</tt> # paxtar, bsdtar, GNU tar, …<br />
+ <tt>$ gzip -dc joe-3.1jupp24.tgz | cpio -idm</tt> # any cpio<br />
+ <tt>$ pax -r -z &lt;joe-3.1jupp24.tgz</tt> # any POSIX® archiver<br />
  to extract the distfile. The DOS version requires similar commands,
  although GNU tar will not be able to extract the <tt>.cpio.gz</tt> archive.
  Both extract into a sub-directory <tt>jupp/</tt> (not versioned).</p>
@@ -297,6 +297,12 @@ $ $SUDO make install</pre>
 <!--
 <p>[2012-12-21] Changes in the current development version:</p><ul>
 -->
+<p id="r3_1j24">[2013-01-05] Changes for joe-3.1jupp24:</p><ul>
+ <li>Bugfix for all *<tt>rc</tt> files: <tt>-guess_indent</tt> is a global
+  option, not a per-file option; using it as the latter led to spurious
+  whitespace mis-detection, remove them</li>
+ <li>Treat <tt>*.asc</tt> and <tt>*.doc</tt> like <tt>*.txt</tt></li>
+</ul>
 <p id="r3_1j23">[2012-12-30] Changes for joe-3.1jupp23:</p><ul>
  <li>Overhaul and harmonise syntax detection and editor defaults
   across all six <tt>*rc</tt> files (except jupp continues having no
