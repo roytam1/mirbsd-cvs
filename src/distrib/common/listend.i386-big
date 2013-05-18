@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/listend.i386-big,v 1.13 2007/03/18 02:53:53 tg Exp $
+# $MirOS: src/distrib/common/listend.i386-big,v 1.14 2007/03/18 02:54:38 tg Exp $
 
 # extra programmes
 LINK	instbin					bin/ps
@@ -81,4 +81,4 @@ SPECIAL	${DESTDIR}/usr/sbin/pwd_mkdb -d ./etc /etc/master.passwd
 
 SPECIAL	mkdir -p .etc/ssh
 SPECIAL	chmod 700 .etc .etc/ssh
-SPECIAL	cp ${DESTDIR}/etc/skel/.etc/ssh/known_hosts .etc/ssh/known_hosts
+SPECIAL	cp ${DESTDIR}/etc/ssh/ssh_known_hosts .etc/ssh/known_hosts
