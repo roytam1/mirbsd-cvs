@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: contrib/code/mirmake/Build.sh,v 1.28 2007/10/26 22:22:25 tg Exp $
+# $MirOS: contrib/code/mirmake/Build.sh,v 1.29 2007/10/26 22:35:18 tg Exp $
 #-
 # Copyright (c) 2004, 2005, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -62,8 +62,18 @@ Interix)
 	[ x"$MAC" = x"i386" ] && MAR=i386
 	[ -z "$BIN" ] && BIN=-
 	;;
-BSD|Darwin|Linux)
+BSD|Darwin)
 	# Okay, we know this MACHINE_OS
+	;;
+Linux)
+	# austriancoder's GNU/Linux has _no_ uname option to
+	# display the correct machine architecture, nor some
+	# kind of arch(1) utility like OpenBSD; from FreeWRT
+	case $MAC in
+	i[3456789]86)
+		MAR=i386
+		;;
+	esac
 	;;
 *)
 	echo "Error: we cannot continue with this MACHINE_OS"
