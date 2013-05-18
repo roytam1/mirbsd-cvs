@@ -1,4 +1,4 @@
-# $MirOS: src/etc/Makefile,v 1.25 2006/09/24 18:13:38 tg Exp $
+# $MirOS: src/etc/Makefile,v 1.26 2006/10/15 02:11:38 tg Exp $
 # $OpenBSD: Makefile,v 1.226 2005/05/26 23:06:06 mcbride Exp $
 
 TZDIR=		/usr/share/zoneinfo
@@ -13,7 +13,6 @@ NOOBJ=		yes
 
 # -rw-r--r--
 BINOWN=	root
-BINGRP=	wheel
 BIN1=	ccd.conf changelist daily dhclient.conf dhcpd.conf \
 	dhcpd.interfaces etc.${MACHINE}/disktab exports \
 	ftpchroot ftpusers gettytab group hosts hosts.lpd \
@@ -52,19 +51,19 @@ etc-files:
 	@exit 1
 .else
 etc-files:
-	${INSTALL} -c -o ${BINOWN} -g ${BINGRP} -m 644 ${BIN1} ${DESTDIR}/etc/
+	${INSTALL} -c -o ${BINOWN} -g ${CONFGRP} -m 644 ${BIN1} ${DESTDIR}/etc/
 	chmod 640 ${DESTDIR}/etc/inetd.conf
 	${SHELL} ttys.pty | cat etc.${MACHINE}/ttys - >${DESTDIR}/etc/ttys && \
 	    chown ${BINOWN} ${DESTDIR}/etc/ttys && \
-	    chgrp ${BINGRP} ${DESTDIR}/etc/ttys && \
+	    chgrp ${CONFGRP} ${DESTDIR}/etc/ttys && \
 	    chmod 644 ${DESTDIR}/etc/ttys
 	cat sysctl.conf etc.${MACHINE}/sysctl.conf >${DESTDIR}/etc/sysctl.conf && \
 	    chown ${BINOWN} ${DESTDIR}/etc/sysctl.conf && \
-	    chgrp ${BINGRP} ${DESTDIR}/etc/sysctl.conf && \
+	    chgrp ${CONFGRP} ${DESTDIR}/etc/sysctl.conf && \
 	    chmod 644 ${DESTDIR}/etc/sysctl.conf
 	cat fbtab.head etc.${MACHINE}/fbtab fbtab.tail >${DESTDIR}/etc/fbtab && \
 	    chown ${BINOWN} ${DESTDIR}/etc/fbtab && \
-	    chgrp ${BINGRP} ${DESTDIR}/etc/fbtab && \
+	    chgrp ${CONFGRP} ${DESTDIR}/etc/fbtab && \
 	    chmod 644 ${DESTDIR}/etc/fbtab
 .  for _i in ${BINMD}
 	if [ -e ${.CURDIR}/etc.${MACHINE}/${_i}.md ]; then \
@@ -74,10 +73,10 @@ etc-files:
 		sed -e '/@@MDPART@@/d' ${.CURDIR}/${_i}; \
 	  fi >${DESTDIR}/etc/${_i}; \
 	    chown ${BINOWN} ${DESTDIR}/etc/${_i} && \
-	    chgrp ${BINGRP} ${DESTDIR}/etc/${_i} && \
+	    chgrp ${CONFGRP} ${DESTDIR}/etc/${_i} && \
 	    chmod 644 ${DESTDIR}/etc/${_i}
 .  endfor
-	${INSTALL} -c -o ${BINOWN} -g ${BINGRP} -m 664 ${BIN2} ${DESTDIR}/etc/
+	${INSTALL} -c -o ${BINOWN} -g ${CONFGRP} -m 664 ${BIN2} ${DESTDIR}/etc/
 	${INSTALL} -c -o root -g wheel -m 600 hosts.equiv ${DESTDIR}/etc/
 	${INSTALL} -c -o root -g wheel -m 600 crontab ${DESTDIR}/var/cron/tabs/root
 	${INSTALL} -c -o root -g wheel -m 600 master.passwd ${DESTDIR}/etc/
@@ -174,7 +173,7 @@ etc-files:
 	${INSTALL} -c -o root -g wheel -m 440 ../usr.bin/sudo/sudoers \
 		${DESTDIR}/etc/sudoers
 	cd ${DESTDIR}/etc/ssl/certs && ${SHELL} ${.CURDIR}/ssl.certs.shar && \
-		chown ${BINOWN}:${BINGRP} * && chmod 444 *
+		chown ${BINOWN}:${CONFGRP} * && chmod 444 *
 .endif # destdir
 
 snap_md:
@@ -243,7 +242,7 @@ clean-generated:
 .ifdef DESTDIR
 install-generated: make-generated
 .  for _i in ${BINMD}
-	${INSTALL} -c -o ${BINOWN} -g ${BINGRP} -m 644 \
+	${INSTALL} -c -o ${BINOWN} -g ${CONFGRP} -m 644 \
 	    ${_i}.generated ${DESTDIR}/etc/${_i}
 .  endfor
 .else
@@ -254,7 +253,7 @@ install-generated:
 DHSIZE=	1024 1536 2048 3072 4096
 update-moduli:
 	{ \
-		echo '# $$MirOS: src/etc/Makefile,v 1.25 2006/09/24 18:13:38 tg Exp $$'; \
+		echo '# $$MirOS: src/etc/Makefile,v 1.26 2006/10/15 02:11:38 tg Exp $$'; \
 		echo '# Time Type Tests Tries Size Generator Modulus'; \
 		for i in ${DHSIZE}; do \
 			ssh-keygen -b $$i -G /dev/stdout; \
