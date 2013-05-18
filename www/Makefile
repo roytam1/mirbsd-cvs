@@ -1,4 +1,4 @@
-# $MirOS: www/Makefile,v 1.69 2010/03/27 18:03:34 tg Exp $
+# $MirOS: www/Makefile,v 1.70 2010/04/09 19:29:16 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -205,8 +205,8 @@ depend: .depend
 	${U_ENV} ${MKSH} ${TOP}/mk/mkdepend ${DEPSRCS}
 
 lazy: .PHONY
-	cd ${.CURDIR} && make obj && make depend && \
-	    make && make _reinstall && exec make rs-eurynome rs-heph tagslst
+	cd ${.CURDIR} && make depend && make && \
+	    make _reinstall && exec make rs-eurynome rs-heph tagslst
 
 tagslst: .PHONY
 	@(echo === TAGS USED/UNUSED/ACCOUNTED FOR ==; cat stamp_tag_* | \
