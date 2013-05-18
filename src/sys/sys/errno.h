@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/sys/errno.h,v 1.7 2008/11/08 23:04:24 tg Exp $ */
+/**	$MirOS: src/sys/sys/errno.h,v 1.8 2008/12/10 20:08:39 tg Exp $ */
 /*	$OpenBSD: errno.h,v 1.14 2005/06/17 21:48:03 espie Exp $	*/
 /*	$NetBSD: errno.h,v 1.10 1996/01/20 01:33:53 jtc Exp $	*/
 
@@ -189,7 +189,8 @@ __END_DECLS
 #define	ENOATTR		83		/* Attribute not found */
 #define	EILSEQ		84		/* Illegal byte sequence */
 #define	ENOCOFFEE	85		/* Programmer needs more coffee */
-#define	ELAST		85		/* Must be equal largest errno */
+#define	ECANCELED	86		/* Operation canceled */
+#define	ELAST		86		/* Must be equal largest errno */
 #endif /* _POSIX_SOURCE */
 
 #ifdef _KERNEL

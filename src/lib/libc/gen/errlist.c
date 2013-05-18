@@ -29,7 +29,7 @@
  */
 
 #include <sys/cdefs.h>
-__RCSID("$MirOS: src/lib/libc/gen/errlist.c,v 1.3 2005/09/22 20:39:59 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/gen/errlist.c,v 1.4 2006/01/31 20:47:14 tg Exp $");
 
 #ifdef lint
 char *
@@ -141,5 +141,6 @@ const char *const
 	"Attribute not found",			/* 83 - ENOATTR */
 	"Illegal byte sequence",		/* 84 - EILSEQ */
 	"Need more coffee",			/* 85 - ENOCOFFEE */
+	"Operation canceled",			/* 86 - ECANCELED */
 };
 int _sys_nerr = { sizeof _sys_errlist/sizeof _sys_errlist[0] };
