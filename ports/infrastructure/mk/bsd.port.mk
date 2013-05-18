@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.182 2007/06/07 18:00:45 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.183 2007/07/09 18:39:05 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -1671,9 +1671,10 @@ checksum: fetch
 	if [ ! -f $$checksum_file ]; then \
 		${ECHO_MSG} ">> No checksum file."; \
 	else \
+		_CIPHERS='${_CIPHERS}'; \
 		(( new_cksum )) && if [[ ! -e ${WRKDIR}/.sums ]]; then \
 			mkdir -p ${WRKDIR}; \
-			syntax=; first=; \
+			syntax=; first=; _CIPHERS=; sp=; \
 			for cipher in ${_CIPHERS}; do \
 				if ! (echo | ${_CKSUM_A} $$cipher \
 				    >/dev/null 2>&1); then \
@@ -1681,6 +1682,8 @@ checksum: fetch
 				else \
 					syntax="$$syntax$$first$$cipher"; \
 					first=" -a "; \
+					_CIPHERS=$$_CIPHERS$$sp$$cipher; \
+					sp=" "; \
 				fi; \
 			done; \
 			(cd ${DISTDIR} && ${_CKSUM_A} $$syntax \
@@ -1689,7 +1692,7 @@ checksum: fetch
 		cd ${DISTDIR}; OK=true; list=; \
 		for file in ${_CKSUMFILES}; do \
 			match=; \
-			for cipher in ${_CIPHERS}; do \
+			for cipher in $$_CIPHERS; do \
 				if [[ $$cipher = cksum ]]; then \
 					s=$$(grep "$$file\$$" \
 					    $$checksum_file || true); \
