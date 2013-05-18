@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/tools/Makefile,v 1.12 2007/10/16 22:07:55 tg Exp $
+# $MirOS: src/distrib/tools/Makefile,v 1.13 2007/10/16 22:45:12 tg Exp $
 
 all: sundsklbl
 
@@ -63,10 +63,7 @@ makecdimage: .PHONY
 	@exit 1
 .endif
 	fgrep b_sparc.ldr mkisofs.log | \
-	    while read start end rest; do \
-	    print -- $$((start * 4)) $$((end * 4 + 3)); \
-	done | \
-	    ${MKSH} ${BSDSRCDIR}/usr.sbin/installboot/bxinst.sparc | \
+	    ${MKSH} ${BSDSRCDIR}/usr.sbin/installboot/bxinst.sparc -S 2 | \
 	    cat ${.CURDIR}/dual_chain.bin - | \
 	    dd of=${CDROM} conv=notrunc
 
