@@ -43,19 +43,21 @@
 #include <stdint.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: src/libexec/cprng/cprng.c,v 1.7 2007/07/18 21:47:12 tg Exp $");
+__RCSID("$MirOS: src/libexec/cprng/cprng.c,v 1.8 2007/07/18 23:12:34 tg Exp $");
 
+#ifndef MAYPROF
 #if defined(SIGPROF) && defined(ITIMER_PROF)
-#define MAYPROF
+#define MAYPROF	1
 #else
-#undef MAYPROF
+#define MAYPROF	0
+#endif
 #endif
 
 volatile sig_atomic_t glocke;
 useconds_t littlesleep = 2000;
 uint8_t obuf[1024];
-#ifdef MAYPROF
-	bool doprof = false;
+#if MAYPROF
+bool doprof = false;
 #endif
 
 static void laeuten(int);
@@ -92,7 +94,7 @@ getbits(void)
 
 	glocke = 0;
 	setitimer(
-#ifdef MAYPROF
+#if MAYPROF
 	    doprof ? ITIMER_PROF :
 #endif
 	    ITIMER_REAL, &itv, NULL);
@@ -142,7 +144,7 @@ main(int argc, char *argv[])
 	int c = 0;
 	char *cp;
 
-#ifdef MAYPROF
+#if MAYPROF
 	signal(SIGPROF, laeuten);
 #endif
 	signal(SIGALRM, laeuten);
