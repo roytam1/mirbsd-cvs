@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.357 2010/08/28 20:26:26 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.358 2010/08/28 20:31:24 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -12,6 +12,7 @@ mws_content <<'EOF'
   mailing lists, RSS feeds, …)</li>
  <li><a href="#build">Installation</a></li>
  <li><a href="#upgrade">Upgrade</a> your packages from older mksh</li>
+ <li><a href="#getcvs">Development version</a></li>
  <li>Inclusion in <a href="#otheros">operating systems</a></li>
  <li><a href="mksh_old.htm#contrib">comparision</a> with other shells</li>
  <li><a href="mksh_bld.htm">Testsuite Results</a> (regression tests)</li>
@@ -163,7 +164,8 @@ mws_content <<'EOF'
  environments</a> unless you really want to compile mksh from source yourself
  or create a package for your operating system of choice.</p>
 <p>First off, you have to download the source code from any of the mirrors
- listed below, or any other mirror you know of. Official source code
+ listed below, or any other mirror you know of. Alternatively, use the <a
+ href="#getcvs">development version</a> from CVS. Official source code
  distributions are a cpio(1) compressed “old-style” (portable octal) archive,
  compressed with gzip(1) (zlib’s deflate algorithm) and digitally signed with
  gzsig(1) using the MirOS Project’s <a href="/gzsigkey.cer">current signature
@@ -241,7 +243,9 @@ mws_content <<'EOF'
  with <tt>-llvm</tt> to parallelise LLVM Bytecode generation, though.</p>
 <p>The build script also honours the following environment variables:</p><ul>
 <li><tt>CC</tt> (cc) – the C compiler used</li>
-<li><tt>CFLAGS</tt> (-O2 / -xO2) – optimiser and other compiler flags used</li>
+<li><tt>CFLAGS</tt> (-O2 / -xO2) – optimiser and other compiler flags used
+ (set to anything containing a letter or digit to prevent <tt>Build.sh</tt>
+ from automatically adding optimisation flags)</li>
 <li><tt>CPPFLAGS</tt> (no default) – additional cpp(1) flags</li>
 <li><tt>LDFLAGS</tt> – additional CCLD flags</li>
 <li><tt>LIBS</tt> (-lcrypt on Interix; empty otherwise) – additional
@@ -778,6 +782,20 @@ exec /usr/bin/ld "${args[@]}"</pre>
  the <a href="@@RELPATH@@tag_mksh.rss">RSS feed</a> instead.</p>
 <p><a href="mksh_old.htm#upgrade">older entries</a></p>
 
+<h2 id="getcvs">Download the development version via CVS</h2>
+<p>You can use cvs(GNU) to download the development version of mksh(1),
+ commonly called HEAD (or “trunk” to some). Beware of bugs though we
+ strive to make it installable (at least on MirBSD ☺) at all times.</p>
+<pre>% env CVS_RSH=ssh cvs -qd _anoncvs@anoncvs.mirbsd.org:/cvs co -PA mksh</pre>
+<p>You might also want to get the <tt>printf.c</tt> builtin:</p>
+<pre>% env CVS_RSH=ssh cvs -qd _anoncvs@anoncvs.mirbsd.org:/cvs co printf</pre>
+<p>Installation instructions as <a href="#compile">above</a>, although
+ the <tt>Build.sh</tt> options, CPPFLAGS, etc. might have changed a
+ little in the meantime. In general, you want the following:</p>
+<pre>% cd mksh
+% sh Build.sh -r</pre>
+<p>Optionally set CC and other variables, as usual.</p>
+
 <h2 id="otheros">Inclusion in other operating systems</h2><ul>
 <li class="cr"><img class="fr" width="52" height="64" alt="[Debian logo]"
  src="@@RELPATH@@pics/logos/debian.png" /><a
@@ -1065,6 +1083,11 @@ exec /usr/bin/ld "${args[@]}"</pre>
   related compiler warnings</li>
  <li>[tg] Add “cat” builtin (defers to external if options are given)</li>
  <li>[tg] Reduce size by improved string pooling</li>
+ <li>[tg] Document 「x=$(eval $(cat)) &lt;&lt;'EOF'」 workaround for the <a
+  href="https://bugzilla.redhat.com/show_bug.cgi?id=496791">$(…)
+  parsing bug</a> in the mksh(1) manual page and on the Red Hat Bugzilla</li>
+ <li>[tg] Add support for handling a “--” argument to more builtins</li>
+ <li>[tg] Correct some error messages</li>
 </ul>
 <p id="r39c">mksh R39c is an important minor bugfix release:</p><ul>
  <li>[tg] Build system, code, docs and testsuite cleanup, also style(9)</li>
