@@ -1,10 +1,10 @@
-# $MirOS: www/src/mksh_old.hts,v 1.16 2009/04/13 17:17:27 tg Exp $
+# $MirOS: www/src/mksh_old.hts,v 1.17 2009/04/13 17:37:35 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh/old "mksh – old versions"
-mws_putheader '$MirOS: www/src/mksh_old.hts,v 1.16 2009/04/13 17:17:27 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh_old.hts,v 1.17 2009/04/13 17:37:35 tg Exp $'
 mws_content <<'EOF'
 <h1><a href="mksh.htm">mksh</a> – old versions</h1>
 <p>This page lists information about mksh R36b and earlier.</p>
@@ -117,10 +117,20 @@ mws_content <<'EOF'
   <li style="list-style:none;">– other build system integration –</li>
    <li>Debian GNU/kFreeBSD 4.0 sid 7.0-1-586 (i386 gcc4.3.0-2) <em>via MirOS provided Debian package</em></li>
    <li>Debian GNU/kFreeBSD 4.0 sid 7.0-1-586 (i386 gcc4.3.0-2) <em>via MirOS provided SRPM package</em></li>
+   <li>Debian GNU/Linux 4.0 etch 2.6.18-4-686 (i386 gcc4.1.1-21) <em>via OBS SRPM package</em></li>
    <li>Debian GNU/Linux 4.0 etch 2.6.18-4-k7 (i386 gcc4.1.1-21) <em>via MirOS provided Debian package</em></li>
    <li>Debian GNU/Linux 4.0 etch 2.6.18-4-k7 (i386 gcc4.1.1-21) <em>via MirOS provided SRPM package</em></li>
    <li>Debian GNU/Linux 4.0 testing 2.6.22-3-686 (i386 gcc4.2.3-1) <em>via MirOS provided Debian package</em></li>
+   <li>Fedora GNU/Linux Core 8 2.6.18-92.1.10.el5 (i386 gcc4.1.2-33) <em>by x86-7 buildd via Koji/EPEL packager</em></li>
+   <li>Fedora GNU/Linux Core 8 2.6.18-92.1.10.el5 (amd64 gcc4.1.2-33) <em>by x86-7 buildd via Koji/EPEL packager</em></li>
+   <li>Fedora GNU/Linux Core 8 2.6.18-92.1.10.el5 (macppc gcc4.1.2-33) <em>by ppc5 buildd via Koji/EPEL packager</em></li>
+   <li>Fedora GNU/Linux Core 8 2.6.18-92.1.10.el5 (ppc64 gcc4.1.2-33) <em>by ppc2 buildd via Koji/EPEL packager</em></li>
+   <li>Fedora GNU/Linux Core 9 2.6.26.6-68.fc9.sparc64.smp (sparc:v8+ gcc4.3.0-11) <em>by daedalus buildd via Koji/EPEL packager</em></li>
+   <li>Fedora GNU/Linux Core 9 2.6.26.6-68.fc9.sparc64.smp (sparc64 gcc4.3.0-11) <em>by korolev buildd via Koji/EPEL packager</em></li>
+   <li>Fedora GNU/Linux Core 9 2.6.18-53.el5 (S/390 gcc4.3.0-8) <em>by zedora3 buildd via Koji/EPEL packager</em></li>
    <li>Fedora GNU/Linux Core 10 2.6.27.9-159.fc10.x86_64 (amd64 gcc4.4.0-0.23)</li>
+   <li>Fedora GNU/Linux Core 10 2.6.26.6-68.fc9.sparc64.smp (sparc:v8+ gcc4.3.2-4) <em>by korolev buildd via Koji/EPEL packager</em></li>
+   <li>Fedora GNU/Linux Core 10 2.6.26.6-68.fc9.sparc64.smp (sparc64 gcc4.3.2-4) <em>by daedalus buildd via Koji/EPEL packager</em></li>
    <li>Red Hat FC8 2.6.23.15-137.fc8 (i386 gcc4.1.2-33) <em>via MirOS provided SRPM package</em></li>
    <li>Red Hat FC8 2.6.23.15-137.fc8 (amd64 gcc4.1.2-33) <em>via MirOS provided SRPM package</em></li>
  </ul></li>
