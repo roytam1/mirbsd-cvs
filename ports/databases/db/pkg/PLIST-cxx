@@ -1,4 +1,0 @@
-@comment $MirOS$
-@pkgcfl db4-cxx-*
-include/db4/db_cxx.h
-lib/libdb_cxx.la

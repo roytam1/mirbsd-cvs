@@ -1,4 +1,0 @@
-@comment $MirOS$
-@comment $OpenBSD: PFRAG.shared,v 1.2 2003/12/03 00:56:43 jolan Exp $
-@lib lib/liblua.so.5.0
-@lib lib/liblualib.so.5.0

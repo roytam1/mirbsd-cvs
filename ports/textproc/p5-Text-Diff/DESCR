@@ -1,8 +1,0 @@
-diff() provides a basic set of services akin to the GNU diff utility. It
-is not anywhere near as feature complete as GNU diff, but it is better
-integrated with Perl and available on all platforms. It is often faster
-than shelling out to a system's diff executable for small files, and
-generally slower on larger files.
-
-This package also contains Text::Diff::Table, a plugin output formatter
-for Text::Diff that generates "table" style diffs.
