@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.150 2006/12/11 22:59:21 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.151 2006/12/20 15:29:26 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -1681,7 +1681,7 @@ checksum: fetch
 	if [ ! -f $$checksum_file ]; then \
 		${ECHO_MSG} ">> No checksum file."; \
 	else \
-		if (( new_cksum )); then \
+		(( new_cksum )) && if [[ ! -e ${WRKDIR}/.sums ]]; then \
 			mkdir -p ${WRKDIR}; \
 			syntax=; first=; \
 			for cipher in ${_CIPHERS}; do \
@@ -1693,7 +1693,6 @@ checksum: fetch
 					first=" -a "; \
 				fi; \
 			done; \
-			rm -f ${WRKDIR}/.sums; \
 			(cd ${DISTDIR} && ${_CKSUM_A} $$syntax \
 			    ${_CKSUMFILES} >${WRKDIR}/.sums); \
 		fi; \
