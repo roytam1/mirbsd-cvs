@@ -27,7 +27,7 @@
 #include <sys/sysctl.h>
 #endif
 
-__RCSID("$MirOS: src/bin/mksh/var.c,v 1.149 2012/05/09 23:21:00 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/var.c,v 1.150 2012/06/25 16:31:18 tg Exp $");
 
 /*-
  * Variables
@@ -39,7 +39,6 @@ __RCSID("$MirOS: src/bin/mksh/var.c,v 1.149 2012/05/09 23:21:00 tg Exp $");
  * if (flag&EXPORT), val.s contains "name=value" for E-Z exporting.
  */
 
-static struct tbl vtemp;
 static struct table specials;
 static uint32_t lcg_state = 5381;
 
