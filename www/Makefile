@@ -1,4 +1,4 @@
-# $MirOS: www/Makefile,v 1.17 2007/09/30 19:33:49 tg Exp $
+# $MirOS: www/Makefile,v 1.18 2008/01/19 22:12:52 bsiegert Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -44,12 +44,15 @@ DEPSRCS+=	${SRCS:S,^,src/,}
 INCSRCS+=	${WLOGS:S/^/wlog-/}
 
 .for _i in ${INCSRCS}
-GENSRCS+=	stamp_${_i}
+GENSRCS+=	stamp_htm_${_i} stamp_rss_${_i}
 
-stamp_${_i}: getdate ${DEPS_mk_inc2htm} ${DEPS_mk_inc2rss} \
+stamp_htm_${_i}: getdate ${DEPS_mk_inc2htm} \
     ${TOP}/data/${_i}.inc ${TOP}/data/${_i}.cfg
 	${U_ENV} ${MKSH} ${TOP}/mk/inc2htm ${_i} >$@
-	${U_ENV} ${MKSH} ${TOP}/mk/inc2rss ${_i} >>$@
+
+stamp_rss_${_i}: getdate ${DEPS_mk_inc2rss} \
+    ${TOP}/data/${_i}.inc ${TOP}/data/${_i}.cfg
+	${U_ENV} ${MKSH} ${TOP}/mk/inc2rss ${_i} >$@
 .endfor
 DEPSRCS+=	mk/inc2htm mk/inc2rss
 OBJS+=		${GENSRCS}
@@ -101,7 +104,7 @@ _reinstall:
 .hts.htm:
 	@rm -f $@.tmp
 	@print '( . mk/htsconv; . $< ) >$@'
-	(export ${U_ENV}; cd ${DST}; . ${TOP}/mk/htsconv; . $<) >$@.tmp || \
+	@(export ${U_ENV}; cd ${DST}; . ${TOP}/mk/htsconv; . $<) >$@.tmp || \
 	    (rm -f $@.tmp; exit 1)
 	@(. ${TOP}/mk/htsconv; mws_moveifchange $@.tmp $@)
 
