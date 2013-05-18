@@ -1048,10 +1048,12 @@ tty_init(bool init_ttystate, bool need_tty)
 #endif
 	  if ((tfd = open("/dev/tty", O_RDWR, 0)) < 0) {
 		tty_devtty = false;
+#ifndef MKSH_DISABLE_TTY_WARNING
 		if (need_tty)
 			warningf(false, "%s: %s %s: %s",
 			    "No controlling tty", "open", "/dev/tty",
 			    strerror(errno));
+#endif
 	}
 	if (tfd < 0) {
 		do_close = false;
@@ -1060,8 +1062,10 @@ tty_init(bool init_ttystate, bool need_tty)
 		else if (isatty(2))
 			tfd = 2;
 		else {
+#ifndef MKSH_DISABLE_TTY_WARNING
 			if (need_tty)
 				warningf(false, "can't find tty fd");
+#endif
 			return;
 		}
 	}

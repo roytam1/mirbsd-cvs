@@ -2108,6 +2108,7 @@ MKSH_CONSERVATIVE_FDS		fd 0-9 for scripts, shell only up to 31
 MKSH_DEFAULT_EXECSHELL		"/bin/sh" (do not change)
 MKSH_DEFAULT_TMPDIR		"/tmp" (do not change)
 MKSH_DISABLE_DEPRECATED		disable code paths scheduled for later removal
+MKSH_DISABLE_TTY_WARNING	shut up warning about ctty if OS cant be fixed
 MKSH_DONT_EMIT_IDSTRING		omit RCS IDs from binary
 MKSH_MIDNIGHTBSD01ASH_COMPAT	set -o sh: additional compatibility quirk
 MKSH_NOPROSPECTOFWORK		disable jobs, co-processes, etc. (do not use)
