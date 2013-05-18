@@ -1,4 +1,4 @@
-# $MirOS: src/etc/root/dot.profile,v 1.4 2005/07/23 15:00:35 tg Exp $
+# $MirOS: src/etc/root/dot.profile,v 1.5 2005/09/23 09:26:13 tg Exp $
 # $OpenBSD: dot.profile,v 1.5 2005/03/30 21:18:33 millert Exp $
 #
 # sh/ksh/mksh/bash initialisation
@@ -16,5 +16,10 @@ if [ -z "$USER_ID" ]; then
 	fi
 	# End of /etc/profile replacement
 fi
+
+function Lretrocfg	# retrieve kernel config file
+{
+	$SUDO cat ${1:-/bsd} | strings -n4 | sed -n 's/^=CF=//p'
+}
 
 # Add local stuff here:

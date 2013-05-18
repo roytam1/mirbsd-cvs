@@ -1,4 +1,4 @@
-# $MirOS: src/etc/profile,v 1.14 2006/01/03 02:16:29 tg Exp $
+# $MirOS: src/etc/profile,v 1.15 2006/01/03 02:22:45 tg Exp $
 #-
 umask 022
 [ -z "$KSH_VERSION" ] && alias print='echo -e'
@@ -107,14 +107,6 @@ function bye
 	exit
 	logout
 }
-function ggs		# Google Search
-{
-	${BROWSER:-lynx} "http://www.google.com/search?hl=la&num=100&safe=off&q=$*"
-}
-function ggr		# Google GRoups
-{
-	${BROWSER:-lynx} "http://groups.google.com/groups?hl=la&num=100&safe=off&as_umsgid=$*"
-}
 function ge		# German English
 {
 	${BROWSER:-lynx} "http://dict.leo.org/?search=$*"
@@ -137,10 +129,6 @@ function Lstripcom	# strip comments from file
 		[[ -n $_line ]] && print -r -- $_line
 	done
 	set +o noglob
-}
-function Lretrocfg	# retrieve kernel config file
-{
-	$SUDO cat ${1:-/bsd} | strings -n4 | sed -n 's/^=CF=//p'
 }
 
 if [ -O /tmp/.ssh-agent/$USER_ID ]; then
