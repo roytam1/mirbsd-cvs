@@ -1,5 +1,5 @@
 <!-- PageID: fornow -->
-<small class="rcsid">$MirOS: www/content/Zm9ybm93.inc,v 1.6 2006/06/15 19:18:52 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/Zm9ybm93.inc,v 1.7 2006/08/12 19:33:19 tg Exp $</small>
 <h1>MirOS Website (for now)</h1>
 
 <h2>Yeah, we lost</h2>
@@ -29,23 +29,23 @@
  work (linking to a directory containing all versions; you might
  want to adjust the mirror though), and the current version.</p><ul>
 <li>MirOS RELEASE<ul>
-  <li><a href="/MirOS/ISOs/">ISO (i386)</a> 2005-12-23 (MIR51223.ISO)</li>
-  <li><a href="/MirOS/v8/">direct download</a> 2005-12-23 (MirOS #8)</li>
+  <li><a href="/MirOS/ISOs/">ISO (i386)</a> 2006-06-25 (MIR60625.ISO)</li>
+  <li><a href="/MirOS/v9/">direct download</a> 2005-12-23 (MirOS #9)</li>
   <li><a href="/MirOS/ISOs/">ISO (sparc)</a> 2004-06-05 (mbsd7quater.iso)</li>
   <li><a href="/MirOS/v7.4/bsd/sparc/">direct download</a> MirOS #7quater</li>
  </ul></li>
 <li>MirOS CURRENT<ul>
-  <li><a href="http://f.scarywater.net/miros/">BitTorrent</a> 2006-06-04</li>
-  <li><a href="/MirOS/current/i386/">direct download (i386)</a> 2006-04-20</li>
-  <li><a href="/MirOS/ISOs/">ISO (i386)</a> 2006-04-20</li>
+  <li><a href="http://f.scarywater.net/miros/">BitTorrent</a> 2006-10-29</li>
+  <li><a href="/current/i386/">direct download (i386)</a> 2006-10-16</li>
+  <li><a href="/MirOS/ISOs/">ISO (i386)</a> 2006-10-15</li>
   <li>(nothing yet for sparc)</li>
  </ul></li>
-<li><a href="/MirOS/current/">MirPorts Framework</a> 2006-04-20</li>
-<li><a href="/MirOS/dist/mir/mksh/">mksh</a> R26c</li>
-<li><a href="/MirOS/dist/mir/make/">MirMake</a> 2006-03-27</li>
-<li><a href="/MirOS/dist/jupp/">jupp</a> joe-3.1jupp5</li>
+<li><a href="/current/i386/ports9.ngz">MirPorts Framework</a> 2006-10-16</li>
+<li><a href="/MirOS/dist/mir/mksh/">mksh</a> R28</li>
+<li><a href="/MirOS/dist/mir/make/">MirMake</a> 2006-10-13</li>
+<li><a href="/MirOS/dist/jupp/">jupp</a> joe-3.1jupp6</li>
 <li><a href="/MirOS/BT/">mirrored torrents</a> (see above)</li>
-<li><a href="/MirOS/CVS/">CVS Repo</a> 2006-04-12</li>
+<li><a href="/MirOS/CVS/">CVS Repo</a> 2006-10-04</li>
 <li><a href="/MirOS/CVS/">CVS root</a> historic</li>
 <li>AnonCVS and AnonRSYNC: <tt>anoncvs@anoncvs.mirbsd.org:/cvs</tt></li>
 <li id="pkey">The following SSH key can be used to get access to
@@ -81,6 +81,7 @@
 
 <h2>Other useful links</h2><ul>
 <li><a href="http://mira.66h.42h.de/pub/jdos16.exe">Jupp 2.8 for MS-DOS&reg;</a></li>
+<li><a href="http://mira.66h.42h.de/pub/jupp-w32.exe">Jupp 3.1.6 for Win32</a></li>
 <li><a href="http://mira.66h.42h.de/pub/KBDmir1U.exe">Keyboard driver with Meta key for Windows NT&reg;/2000</a> and up</li>
-<li><a href="http://mira.66h.42h.de/pub/openntpd-3.7p1-leapsecs.diff">Leap second diff against portable OpenNTPD 3.7p1</a> (see <a href="http://www.openntpd.org/">OpenNTPD homepage</a>)</li>
+<li><a href="http://mira.66h.42h.de/pub/openntpd-3.9p1-leapsecs.diff">Leap second diff against portable OpenNTPD 3.9p1</a> (see <a href="http://www.openntpd.org/">OpenNTPD homepage</a>)</li>
 </ul>

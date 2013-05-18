@@ -1,5 +1,5 @@
 <!-- PageID: main -->
-<small class="rcsid">$MirOS: www/content/bWFpbg__.inc,v 1.56 2006/08/09 16:19:46 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWFpbg__.inc,v 1.57 2006/10/04 08:56:52 tg Exp $</small>
 
 <h1>Welcome to the MirOS Project!</h1>
 
@@ -28,6 +28,14 @@
 
 <p>Please read the <a href="/?irc">FreeForge IRC network information</a> as
  well.</p>
+
+<div class="newsentry"> <!-- have to add this to css -->
+ <h3>29.10.2006: MirOS #9-current (i386) snapshot: wide curses</h3>
+ <p>I18N on a new level &ndash; bug fixes in the base system;
+  replacement of libncurses-5.2 with libncursesw-5.5 as the system
+  curses library; UTF-8 fixes for some ports. Minor bug and security
+  fixes in the rest of the system.</p>
+</div>
 
 <div class="newsentry"> <!-- have to add this to css -->
  <h3>04.10.2006: MirOS #9-current (i386) snapshot: Security Fix</h3>

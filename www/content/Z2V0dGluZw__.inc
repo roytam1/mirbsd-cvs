@@ -1,5 +1,5 @@
 <!-- PageID: getting -->
-<small class="rcsid">$MirOS: www/content/Z2V0dGluZw__.inc,v 1.15 2006/07/30 21:18:36 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/Z2V0dGluZw__.inc,v 1.16 2006/07/30 21:28:39 tg Exp $</small>
 <h1>How to get MirOS</h1>
 
 <p>MirOS consists of several parts: the base system (including X11), the
@@ -35,6 +35,7 @@
  costs for us. You will find all downloads on <a
  href="http://f.scarywater.net/miros/">our tracker page</a>. <b>Please leave
  the download window open for as long as possible after you finish.</b></p>
+<p>HTTP downloads may be not as current or complete as BitTorrent ones.</p>
 
 <table style="border: 1px solid #333333">
  <tr>
@@ -59,7 +60,7 @@
    <a href="http://f.scarywater.net/miros/">via BitTorrent</a></p></td>
  </tr><tr>
   <td style="border: 1px solid #333333"><p><b>Development snapshots (current, i386 or sparc)</b></p></td>
-  <td style="border: 1px solid #333333"><p><a href="/MirOS/current/">via HTTP</a> &ndash;
+  <td style="border: 1px solid #333333"><p><a href="/current/">via HTTP</a> &ndash;
    <a href="http://f.scarywater.net/miros/">via BitTorrent</a></p></td>
  </tr>
 </table>

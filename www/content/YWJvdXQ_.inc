@@ -1,5 +1,5 @@
 <!-- PageID: about -->
-<small class="rcsid">$MirOS: www/content/YWJvdXQ_.inc,v 1.12 2006/07/30 21:18:36 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/YWJvdXQ_.inc,v 1.13 2006/07/30 21:28:39 tg Exp $</small>
 
 <p>On this page:</p>
 
@@ -74,6 +74,10 @@ to elaborate more -->
  <li>Improved random number generator</li>
  <li>Uses sv4cpio with/without CRC instead of tar archives as its package
   format; support for new formats in cpio</li>
+ <li>Improved support for UTF-8 and the Unicode BMP, including wide
+  character support for libncurses ("libncursesw") and friends</li>
+ <li>Out-of-the-box support for the <a href="http://bsdstats.org/">BSDstats
+  Project</a></li>
 </ul>
 
 <h2 id="livecd">Live CD</h2>

@@ -1,5 +1,5 @@
 <!-- PageID: history -->
-<small class="rcsid">$MirOS: www/content/aGlzdG9yeQ__.inc,v 1.3 2006/01/15 22:42:37 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/aGlzdG9yeQ__.inc,v 1.4 2006/01/27 00:14:28 tg Exp $</small>
 <h1>History of MirOS</h1>
 
 <p>On <a href="http://marc.theaimsgroup.com/?m=103065556502499">August
@@ -135,6 +135,7 @@ Here are some of these I can quickly grep from the changelog:
 10.12.2004	Start of ncvs (CVS repository using GNU cvs 1.12)
 04.01.2005	Import of the GNU Compiler Collection 3.4.4 (-stable)
 22.01.2005	First working snapshot with gcc 3.4-stable etc., no X11.
+mid 2006	We realise our website is orphaned
 
 Releases:
 
@@ -158,8 +159,9 @@ May-June 2004	The great incompatibility - large parts of infrastructure
 17.09.2004	Now, all functions are SSP protected.
 28.12.2004	#7quinquies (#7-stable for i386), maybe ending #7 lifetime
 23.12.2005	#8 (gcc 3.4 in-tree; i386 BSD)
-late 2006	#9 (sync with OpenBSD 3.9; rewritten installer)
-maybe 2008	#10 (syspkgs, more architectures, maybe new cvs repo)
+25.06.2006	#9 (iconv, basic i18n)
+late 2007	#11 (sync with OpenBSD 4.0; rewritten installer)
+maybe 2009	#12 (syspkgs, more architectures, maybe new cvs repo)
 
 
 cu

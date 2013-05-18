@@ -1,5 +1,5 @@
 <!-- PageID: anoncvs -->
-<small class="rcsid">$MirOS: www/content/YW5vbmN2cw__.inc,v 1.12 2006/02/15 13:20:35 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/YW5vbmN2cw__.inc,v 1.13 2006/06/12 23:48:56 tg Exp $</small>
 <h1>Anonymous CVS access to the MirOS repository</h1>
 
 <h3 id="what">What is anonCVS?</h3>
@@ -28,7 +28,7 @@
  excessive use of the rsync command, since it imposes a lot of traffic.
 <br />
  Please consider using a <a
- href="/MirOS/CVS/cvsrepo-20060215.cgz">recent (2006-02-15) snapshot</a>
+ href="/MirOS/CVS/cvsrepo-20061004.cgz">recent (2006-10-04) snapshot</a>
  tarball (gzsig(1)d)
  of the CVS Repository (or for the old CVSROOT, the final snapshot from <a
  href="/MirOS/CVS/cvsroot-historic.cgz">2006-01-20</a>)
@@ -36,11 +36,11 @@
  synchronisation and reduce load and traffic on the servers.
  These files are, of course, gzsig(1)d.</p>
 <pre>nice rsync --delete -rxlztpgK --rsync-path=/bin/rsync \
-  _anoncvs@mirbsd.org:/cvs/ /var/anoncvs/anoncvs/cvs
+  anoncvs@anoncvs.mirbsd.org:/cvs/ /var/anoncvs/anoncvs/cvs
 nice rsync --delete -rxlztpgK --rsync-path=/bin/rsync \
-  _anoncvs@mirbsd.org:/ocvs/ /var/anoncvs/anoncvs/ocvs
+  anoncvs@anoncvs2.mirbsd.org:/ocvs/ /var/anoncvs/anoncvs/ocvs
 nice rsync --delete -rxlztpgK --rsync-path=/bin/rsync \
-  _anoncvs@mirbsd.org:/MirOS/ /var/www/htdocs/MirOS
+  anoncvs@anoncvs.mirbsd.org:/MirOS/ /var/www/htdocs/MirOS
 </pre><p>
  Please be sure to check for problems (the CVS snapshot might contain
  lock files, because our way of mirroring isn't fully optimised yet),

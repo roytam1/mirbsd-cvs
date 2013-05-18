@@ -1,5 +1,5 @@
 <!-- PageID: bt -->
-<small class="rcsid">$MirOS: www/content/YnQ_.inc,v 1.3 2006/07/06 00:12:18 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/YnQ_.inc,v 1.4 2006/10/04 08:56:52 tg Exp $</small>
 <!-- http://www.mirbsd.org/?bt#id -->
 <h1>BitTorrent information</h1>
 <p><strong>Warning:</strong> Not finished yet.</p>
@@ -28,16 +28,13 @@
 <h4 id="r8semel">MirOS #8</h4>
 <h4 id="r7quater">#7quater</h4>
 <h3>Snapshots</h3>
-<h4 id="s20061004">2006-10-04</h4>
-<p>i386 Live and Installation CD (ISO, gzip(1)ped, bootable via El
+<h4 id="s20061029">2006-10-29</h4>
+<p>i386 Live and Installation CD (ISO, bzip2'd, bootable via El
  Torito, bootable as &quot;Live Hard Disc&quot;). No source cpioballs.
- Highly recommended security fix pack.</p>
+ First libncursesw snapshot.</p>
 <h4 id="s20060706">2006-07-06</h4>
 <p>First inofficial sparc snapshot, just to publish what I've been
  done for two weeks on a 75 MHz HyperSPARC after cross-compiling the
  whole mess. No X11, miniroot, Live-CD, testing. Most manpages, but
  two libcs (due to an intermediate major bump while building). This
  one will be deprecated really soon in favour of MirOS #9bis release.</p>
-<h4 id="s20060617">2006-06-17</h4>
-<p>This one's actually a life CD, MirOS #9-beta, old, but Live CD and
- thus not yet disabled on the tracker yet. Please seed it too. i386.</p>

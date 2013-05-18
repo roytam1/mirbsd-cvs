@@ -1,5 +1,5 @@
 <!-- PageID: wlog-9 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.57 2006/10/29 03:22:07 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.58 2006/10/29 16:24:40 tg Exp $</small>
 <h1>MirBSD &ndash; WTF is Verpeilungsfaktor?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -1008,7 +1008,10 @@ plot [150:200] 	"bs06.4Kmin.txt" using 1:3 with lines title "exc{\350}s en chlor
   Duo has struck again, old fun in a new location, and I found my second
   cache rather easily.</p>
  <p>Other than that, I guess we have a new snapshot, and frozen-bubble 2
-  with multiplayer is said to be out. I'll check that ASAP.</p>
+  with multiplayer is said to be out. I'll check that ASAP. Update: It's
+  <a href="http://www.frozen-bubble.org/">true</a>, but IMHO, the new <a
+  href="http://www.frozen-bubble.org/downloads/">dependencies</a> suck a
+  little.</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
