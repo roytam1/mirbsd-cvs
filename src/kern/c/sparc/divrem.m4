@@ -1,4 +1,3 @@
-/*	$OpenBSD: divrem.m4,v 1.5 2003/06/02 20:18:32 millert Exp $	*/
 /*
  * Copyright (c) 1992, 1993
  *	The Regents of the University of California.  All rights reserved.
@@ -30,13 +29,11 @@
  * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
- *
- * from: Header: divrem.m4,v 1.4 92/06/25 13:23:57 torek Exp
  */
 
 #include <machine/asm.h>
 
-RCSID("$MirOS$")
+RCSID("$MirOS: src/kern/c/sparc/divrem.m4,v 1.1 2008/08/01 18:31:02 tg Exp $")
 RCSID("@(#)divrem.m4	8.1 (Berkeley) 6/4/93")
 
 	.text
@@ -51,6 +48,7 @@ RCSID("@(#)divrem.m4	8.1 (Berkeley) 6/4/93")
  *
  * m4 parameters:
  *  NAME	name of function to generate
+ *  NAME2	secondary name of function to generate
  *  OP		OP=div => %o0 / %o1; OP=rem => %o0 % %o1
  *  S		S=true => signed; S=false => unsigned
  *
@@ -127,8 +125,13 @@ L.$1.eval(TWOSUPN+$2):
 	', `	DEVELOP_QUOTIENT_BITS(incr($1), `eval(2*$2-1)')')
 	ifelse($1, 1, `9:')')
 
+#include <machine/asm.h>
 #include <machine/trap.h>
 
+#ifdef _KERNEL
+	.globl NAME2
+NAME2:
+#endif
 #ifndef STRONG_SPARC
 .weak NAME
 #else

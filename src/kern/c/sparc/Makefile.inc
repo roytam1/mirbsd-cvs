@@ -1,4 +1,4 @@
-# $MirOS: src/kern/c/sparc/Makefile.inc,v 1.7 2008/10/16 12:54:41 tg Exp $
+# $MirOS: src/kern/c/sparc/Makefile.inc,v 1.8 2008/10/16 13:15:17 tg Exp $
 
 XSRCS+=		htonl.c htons.c ntohl.c ntohs.c
 
@@ -25,6 +25,6 @@ CLEANFILES+=	rem.S sdiv.S udiv.S urem.S
     urem urem rem false
 ${_t}.S: ${KERNBASE}/c/sparc/divrem.m4
 	@print building ${.TARGET:Q} from ${.ALLSRC:Q}
-	@(print "define(NAME,\`.${_n}')define(OP,\`${_o}')define(S,\`${_s}')"; \
+	@(print "define(NAME,\`.${_n}')define(NAME2,\`_C_LABEL(_${_n})')define(OP,\`${_o}')define(S,\`${_s}')"; \
 	  cat ${.ALLSRC}) | m4 >$@
 .endfor
