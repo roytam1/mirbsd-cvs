@@ -1,8 +1,0 @@
-/* $MirOS: src/etc/skel/calendar,v 1.2 2006/05/03 20:32:41 tg Exp $ */
-
-#ifdef UNICODE
-#undef _calendar_noallcharsets
-#else
-#define _calendar_noallcharsets
-#endif
-#include <calendar.all>
