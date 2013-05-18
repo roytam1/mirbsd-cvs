@@ -38,7 +38,7 @@
 #endif
 #endif
 
-__RCSID("$MirOS: src/bin/mksh/funcs.c,v 1.197 2011/09/07 15:24:15 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/funcs.c,v 1.198 2011/11/09 22:17:25 tg Exp $");
 
 #if HAVE_KILLPG
 /*
@@ -2968,11 +2968,11 @@ test_eval(Test_env *te, Test_op op, const char *opnd1, const char *opnd2,
 
 	/* -O */
 	case TO_FILUID:
-		return (stat(opnd1, &b1) == 0 && b1.st_uid == ksheuid);
+		return (stat(opnd1, &b1) == 0 && (uid_t)b1.st_uid == ksheuid);
 
 	/* -G */
 	case TO_FILGID:
-		return (stat(opnd1, &b1) == 0 && b1.st_gid == getegid());
+		return (stat(opnd1, &b1) == 0 && (gid_t)b1.st_gid == getegid());
 
 	/*
 	 * Binary Operators
