@@ -1,5 +1,5 @@
 <!-- PageID: wlog-9 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.61 2006/11/01 18:07:10 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.62 2006/11/02 00:37:08 tg Exp $</small>
 <h1>MirBSD &ndash; WTF is Verpeilungsfaktor?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -1043,6 +1043,19 @@ plot [150:200] 	"bs06.4Kmin.txt" using 1:3 with lines title "exc{\350}s en chlor
  <p>Actually I won't implement the conversion routine for the editors as
   I found that it's much easier to just open a pipe to iconv(1), which I
   added (written myself) today. locale(1) was taken from TNF though.</p>
+</div>
+
+<div class="wlentry">
+ <h3 id="e20061104">04.11.2006 by tg@</h3>
+ <p>I'm not allowed to be the first one. FreeBSD&reg; Ports beat me by a
+  mere 16 hours, porting frozen-bubble 2. NetBSD&reg; pkgsrc&reg; hasn't
+  updated from version 1, and OpenBSD ports don't even know what that is
+  (probably they don't read <a href="http://www.symlink.ch/">news</a>? I
+  don't care though, as MirPorts work on that too). It doesn't play back
+  the demos (signal 27, SIGPROF, during shelling out to bzcat), and once
+  perl crashed with signal 6 (SIGABRT) for me, but that might just be an
+  overly large memory eater&#8230;</p>
+ <p>On the low-tech side, I fixed more stuff in nroff(1). I like it.</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
