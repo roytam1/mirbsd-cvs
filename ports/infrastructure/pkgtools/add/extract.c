@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/add/extract.c,v 1.13 2008/03/27 21:00:37 bsiegert Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/add/extract.c,v 1.14 2009/10/20 19:32:48 bsiegert Exp $ */
 /* $OpenBSD: extract.c,v 1.16 2003/07/04 17:31:19 avsm Exp $ */
 
 /*
@@ -28,7 +28,7 @@
 #include "add.h"
 #include "rcdb.h"
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/add/extract.c,v 1.13 2008/03/27 21:00:37 bsiegert Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/add/extract.c,v 1.14 2009/10/20 19:32:48 bsiegert Exp $");
 
 #if 0 /* defined(__OpenBSD__) && !defined(__MirBSD__) */
 /* this gets rid of the requirement to run paxmirabilis
@@ -340,9 +340,6 @@ extract_plist(const char *home, package_t *pkg)
 	    }
 	    if (!Fake && system(cmd))
 		pwarnx("command '%s' failed", cmd);
-//	    if (Verbose) {
-//		system("echo pause; read x");
-//	    }
 	    break;
 
 	case PLIST_DIR_RM:
@@ -393,7 +390,7 @@ extract_plist(const char *home, package_t *pkg)
 		}
 		free(tmp);
 	    } else {
-		char *tf, *cp = NULL;
+		char *tf;
 		if (!last_file) {
 		    pwarnx("sample: no file given");
 		    break;
@@ -410,7 +407,7 @@ extract_plist(const char *home, package_t *pkg)
 			else
 			    apply_perms(NULL, tf);
 		    }
-		} else if (strcmp(cp = MD5File(tf, NULL), find_last_md5(p)))
+		} else if (strcmp(MD5File(tf, NULL), find_last_md5(p)))
 		    pwarnx("Config file '%s' was NOT updated, please do so yourself using the new version at '%s/%s'",
 			tf, Directory, last_file);
 		else if (Verbose)
