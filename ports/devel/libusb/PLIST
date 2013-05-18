@@ -1,8 +1,0 @@
-@comment $MirOS$
-bin/libusb-config
-include/usb.h
-include/usbpp.h
-lib/libusb.la
-lib/libusbpp.la
-lib/pkgconfig/libusb.pc
-@dirrm lib/pkgconfig
