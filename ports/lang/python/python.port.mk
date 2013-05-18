@@ -1,4 +1,4 @@
-# $MirOS: ports/lang/python/python.port.mk,v 1.8 2008/10/04 19:10:09 tg Exp $
+# $MirOS: ports/lang/python/python.port.mk,v 1.9 2008/10/05 00:41:28 tg Exp $
 # $OpenBSD: python.port.mk,v 1.10 2004/08/06 07:33:19 xsa Exp $
 
 CATEGORIES+=		lang/python
@@ -11,7 +11,10 @@ MODPY_MINPKG?=		2.5.2-9
 .else
 MODPY_MINPKG?=		${MODPY_VERSION}
 .endif
+.ifndef MODPY_MAXPKG
 MODPY_MAXPKG!=		print ${MODPY_VERSION:R}.$$((${MODPY_VERSION:E} + 1))
+.MAKEFLAGS:=		${.MAKEFLAGS} MODPY_MAXPKG=${MODPY_MAXPKG:Q}
+.endif
 
 _MODPY_BUILD_DEPENDS=	:python->=${MODPY_MINPKG},<=${MODPY_MAXPKG}:lang/python/${MODPY_VERSION}
 

@@ -1,4 +1,4 @@
-# $MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $
+# $MirOS: ports/infrastructure/mk/m4.port.mk,v 1.1 2009/11/21 16:44:33 tg Exp $
 #-
 # Copyright (c) 2009
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -30,7 +30,7 @@ USE_M4?=		any
 _HAVE_BSD_M4!=		if [[ $$(${M4} -g \
 			    <<<'changequote(","){format("%4s", "foo")}' \
 			    2>&-) = '{ foo}' ]]; then echo Yes; else echo No; fi
-MAKEFLAGS+=		_HAVE_BSD_M4=${_HAVE_BSD_M4:Q}
+.MAKEFLAGS:=		${.MAKEFLAGS} _HAVE_BSD_M4=${_HAVE_BSD_M4:Q}
 .  endif
 .  if ${_HAVE_BSD_M4:L} != "yes"
 USE_M4+=		gnu
@@ -45,7 +45,7 @@ USE_M4+=		gnu
 _HAVE_OLD_M4!=		if [[ $$(${M4} -g \
 			    <<<'changequote(","){format("%.8s", "foo")}' \
 			    2>&-) = '{foo}' ]]; then echo Yes; else echo No; fi
-MAKEFLAGS+=		_HAVE_OLD_M4=${_HAVE_OLD_M4:Q}
+.MAKEFLAGS:=		${.MAKEFLAGS} _HAVE_OLD_M4=${_HAVE_OLD_M4:Q}
 .  endif
 .  if ${_HAVE_OLD_M4:L} != "yes"
 USE_M4+=		gnu
@@ -60,7 +60,7 @@ USE_M4+=		gnu
 _HAVE_NEW_M4!=		if [[ $$(${M4} -gP \
 			    <<<'m4_changequote(","){m4_format("%.8s", "foo")}' \
 			    2>&-) = '{foo}' ]]; then echo Yes; else echo No; fi
-MAKEFLAGS+=		_HAVE_NEW_M4=${_HAVE_NEW_M4:Q}
+.MAKEFLAGS:=		${.MAKEFLAGS} _HAVE_NEW_M4=${_HAVE_NEW_M4:Q}
 .  endif
 .  if ${_HAVE_NEW_M4:L} != "yes"
 USE_M4+=		gnu

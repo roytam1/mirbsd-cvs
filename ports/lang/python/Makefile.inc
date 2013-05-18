@@ -1,4 +1,4 @@
-# $MirOS: ports/lang/python/Makefile.inc,v 1.21 2009/05/30 20:38:24 tg Exp $
+# $MirOS: ports/lang/python/Makefile.inc,v 1.22 2009/10/13 19:10:17 bsiegert Exp $
 # $OpenBSD: Makefile.inc,v 1.32 2005/06/06 20:47:04 alek Exp $
 
 .include <mirports.sys.mk>
@@ -69,8 +69,14 @@ SED_PLIST+=	| sed -e '/^IFNIS:/s///'
 .endif
 
 # Same algorithm as in configure
+.ifndef _MD_SYSTEM
 _MD_SYSTEM!=	uname -s | tr -d '[/ ]' | tr '[[A-Z]]' '[[a-z]]'
+.MAKEFLAGS:=	${.MAKEFLAGS} _MD_SYSTEM=${_MD_SYSTEM:Q}
+.endif
+.ifndef _MD_RELEASE
 _MD_RELEASE!=	uname -r | tr -d '[/ ]' | sed 's/^[[A-Z]]\.//' | sed 's/\..*//'
+.MAKEFLAGS:=	${.MAKEFLAGS} _MD_RELEASE=${_MD_RELEASE:Q}
+.endif
 .if ${OStype:MDarwin}
 MACHDEP=	${_MD_SYSTEM}
 .else

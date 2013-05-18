@@ -1,4 +1,4 @@
-# $MirOS: ports/net/centericq/Makefile,v 1.36 2008/10/04 19:03:20 tg Exp $
+# $MirOS: ports/net/centericq/Makefile,v 1.37 2009/08/16 17:18:16 tg Exp $
 # $OpenBSD: Makefile,v 1.24 2004/02/03 08:37:55 brad Exp $
 
 # bus error on start
@@ -30,7 +30,10 @@ PERMIT_DISTFILES_FTP=   Yes
 FLAVOURS=		no_msn
 FLAVOUR?=
 
+.ifndef GCC_VERSION
 GCC_VERSION!=		${_ORIG_CC} -v 2>&1 | fgrep "cc version" | sed 's!^.*cc version \([0-9\.]*\).*$!\1!'
+.MAKEFLAGS:=		${.MAKEFLAGS} GCC_VERSION=${GCC_VERSION:Q}
+.endif
 .if ${GCC_VERSION:M3.2*} || ${GCC_VERSION:M3.3*}
 FLAVOUR+=		no_msn	# needs gcc 3.4+
 .endif

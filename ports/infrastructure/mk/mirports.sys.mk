@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.55 2009/12/04 22:54:01 tg Exp $
+# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.55 2009/12/04 22:55:02 tg Exp $
 #-
 # Copyright (c) 2005, 2006, 2008
 #	Thorsten “mirabilos” Glaser <tg@mirbsd.de>
@@ -23,35 +23,43 @@
 # Basic defaults.
 .if !defined(OSNAME) || empty(OSNAME)
 OSNAME!=		uname -s
+.MAKEFLAGS:=		${.MAKEFLAGS} OSNAME=${OSNAME:Q}
 .endif
 .if !defined(OSname) || empty(OSname)
 OSname=			${OSNAME:L}
+.MAKEFLAGS:=		${.MAKEFLAGS} OSname=${OSname:Q}
 .endif
 
 # Determine version number. OSREV is uname -r, OSver is major.minor
-.if ${OStype} == "MirBSD"
+.if !defined(OSver) || !defined(OSREV)
+.  if ${OStype} == "MirBSD"
 OSver!=	print '.include "/usr/share/mk/sys.mk"\nall:\n.ifdef OSrelm\n\t@echo' \
 	    '$${OSrel}.$${OSrelm}\n.else\n\t@echo $${OSrev}.$${OSrpl}\n.endif' \
 	    | MAKEFLAGS= ${MAKE} -rf - all
 # fake 'uname -r' for speed
 OSREV=	${OSver:R}
-.elif ${OStype} == "MidnightBSD"
+.  elif ${OStype} == "MidnightBSD"
 OSver!=	uname -r | sed 's/^\([0-9]*\)\.\([0-9]*\)[^0-9]*.*$$/\1.\2/'
 OSREV=	${OSver}
-.elif ${OStype} == "OpenBSD"
+.  elif ${OStype} == "OpenBSD"
 OSver!=	print '.include "/usr/share/mk/sys.mk"\nall:\n\t@echo $${OSREV}' \
 	    | MAKEFLAGS= ${MAKE} -rf - all
 # fake 'uname -r' for speed
 OSREV=	${OSver}
-.elif ${OStype} == "Interix"
-.  error Fill in later!
-.elif ${OStype} == "Darwin"
+.  elif ${OStype} == "Interix"
+.    error Fill in later!
+.  elif ${OStype} == "Darwin"
 OSREV!=	uname -r
 OSver=	${OSREV:C/^([0-9]*\.[0-9]*)\..*$/\1/}
-.else
-.  error Unknown OStype '${OStype}'!
+.  else
+.    error Unknown OStype '${OStype}'!
+.  endif
+.MAKEFLAGS:=	${.MAKEFLAGS} OSver=${OSver:Q} OSREV=${OSREV:Q}
 .endif
-OSrev=	${OSREV:S/.//}
+.ifndef OSrev
+OSrev=		${OSREV:S/.//}
+.MAKEFLAGS:=	${.MAKEFLAGS} OSrev=${OSrev:Q}
+.endif
 
 #--- Specific OS Dependencies
 
@@ -206,7 +214,10 @@ USE_X11?=		No
 #--- former pkgpath.mk
 
 .ifndef	PKGPATH
+.  ifndef _PORTSDIR
 _PORTSDIR!=		realpath ${PORTSDIR}
+.MAKEFLAGS:=		${.MAKEFLAGS} _PORTSDIR=${_PORTSDIR:Q}
+.  endif
 _CURDIR!=		realpath ${.CURDIR}
 PKGPATH=		${_CURDIR:S,${_PORTSDIR}/,,}
 .endif
@@ -273,7 +284,6 @@ _depfile_fragment= \
 		export _DEPENDS_FILE; \
 		trap "rm -f $${_DEPENDS_FILE}" 0 1 2 3 5 13 15; \
 	fi
-
 
 MIRPORTS_SYS_MK=	done
 .endif

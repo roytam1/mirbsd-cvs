@@ -1,4 +1,4 @@
-# $MirOS: ports/editors/vim/stable/Makefile,v 1.16 2008/03/09 17:22:37 tg Exp $
+# $MirOS: ports/editors/vim/stable/Makefile,v 1.17 2009/08/16 17:23:04 tg Exp $
 # $OpenBSD: Makefile,v 1.93 2004/06/09 18:43:16 lebel Exp $
 
 COMMENT=		vi clone, many additional features
@@ -25,8 +25,11 @@ PATCHFILES=		7.1.001-100.gz:0
 PATCHFILES+=		7.1.101-200.gz:0
 
 # WTF?
-_patches!=		jot -w%03d - 201 ${REVISION} 1
-.for p in ${_patches}
+.ifndef vim_patches
+vim_patches!=		jot -w%03d - 201 ${REVISION} 1
+.MAKEFLAGS:=		${.MAKEFLAGS} vim_patches=${vim_patches:Q}
+.endif
+.for p in ${vim_patches}
 PATCHFILES+=		7.1.${p}:0
 .endfor
 

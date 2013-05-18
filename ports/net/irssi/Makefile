@@ -1,4 +1,4 @@
-# $MirOS: ports/net/irssi/Makefile,v 1.18 2009/08/02 14:34:59 tg Exp $
+# $MirOS: ports/net/irssi/Makefile,v 1.19 2009/10/24 18:28:24 tg Exp $
 # $OpenBSD: Makefile,v 1.24 2004/05/13 07:11:56 pvalchev Exp $
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
@@ -40,7 +40,10 @@ CONFIGURE_ARGS+=	--datadir=${PREFIX:Q}/share/doc \
 FLAVOURS=		socks
 FLAVOUR?=
 
+.ifndef PERL_VERSION
 PERL_VERSION!=		perl -V:version | sed s/[^0-9]//g
+.MAKEFLAGS:=		${.MAKEFLAGS} PERL_VERSION=${PERL_VERSION:Q}
+.endif
 
 .if ${PERL_VERSION} >= 582
 CONFIGURE_ARGS+=	--with-perl-lib=${PREFIX:Q}/libdata/perl5/site_perl

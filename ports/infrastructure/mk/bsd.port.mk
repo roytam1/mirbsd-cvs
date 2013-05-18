@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.269 2009/12/12 23:48:51 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.270 2009/12/20 12:34:58 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -1846,7 +1846,10 @@ ${_BUILDLIBLIST}: ${_FAKE_COOKIE}
 
 
 .for _i in ${EMUL}
+.  ifndef HAS_EMUL_${_i}
 HAS_EMUL_${_i}!=sysctl -n kern.emul.${_i} 2>/dev/null
+.MAKEFLAGS:=	${.MAKEFLAGS} HAS_EMUL_${_i}=${HAS_EMUL_${_i}:Q}
+.  endif
 .  if ${HAS_EMUL_${_i}} != "1"
 IGNORE+=	"needs ${_i} emulation, which is turned off, see compat_${_i}(8)"
 .  endif
@@ -2826,8 +2829,11 @@ CC_SPECS=	${_ORIG_CC}
 .  elif exists(/usr/bin/${_ORIG_CC})
 CC_SPECS=	/usr/bin/${_ORIG_CC}
 .  else
+.    ifndef CC_SPECS
 CC_SPECS!=	whence -p ${_ORIG_CC:Q} 2>&- || \
 		whence -p $$(echo ${_ORIG_CC:Q} | sed 's/ .*//') 2>&-
+.MAKEFLAGS:=	${.MAKEFLAGS} CC_SPECS=${CC_SPECS:Q}
+.    endif
 .    if !exists(${CC_SPECS})
 CC_SPECS:=
 .    endif

@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/libreadline/Makefile,v 1.9 2008/08/19 19:35:56 bsiegert Exp $
+# $MirOS: ports/devel/libreadline/Makefile,v 1.10 2008/08/26 13:53:02 tg Exp $
 
 COMMENT=		history and line editing library similar to libedit
 CATEGORIES=		devel
@@ -16,8 +16,11 @@ PERMIT_PACKAGE_FTP=	Yes
 MASTER_SITES=		${MASTER_SITE_GNU:=readline/}
 MASTER_SITES0=		${MASTER_SITE_GNU:=readline/${DISTNAME}-patches/}
 
-_patches!=		jot -w%03d - 1 12 1
-.for _p in ${_patches}
+.ifndef rl_patches
+rl_patches!=		jot -w%03d - 1 12 1
+.MAKEFLAGS:=		${.MAKEFLAGS} rl_patches=${rl_patches:Q}
+.endif
+.for _p in ${rl_patches}
 PATCHFILES+=		${DISTNAME:S/-//:S/.//}-${_p}:0
 .endfor
 
