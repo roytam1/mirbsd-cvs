@@ -1,13 +1,13 @@
-# $MirOS: src/lib/libc/string/Makefile.inc,v 1.10 2006/06/02 12:58:53 tg Exp $
+# $MirOS: src/lib/libc/string/Makefile.inc,v 1.11 2006/06/16 16:50:00 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.17 2005/05/26 12:56:01 otto Exp $
 
 # string sources
 .PATH: ${LIBCSRCDIR}/arch/${MACHINE_ARCH}/string ${LIBCSRCDIR}/string
 
 SRCS+=	bm.c memccpy.c strcasecmp.c strcasestr.c strcoll.c strdup.c \
-	strerror.c strerror_r.c strlfun.c strmode.c strsignal.c strtok.c \
-	strxfrm.c \
-	wcscat.c wcschr.c wcscmp.c wcscpy.c wcscspn.c wcslfun.c \
+	strerror.c strerror_r.c strmode.c strsignal.c strtok.c \
+	strxfrm.c strlcat.c strlcpy.c \
+	wcscat.c wcschr.c wcscmp.c wcscpy.c wcscspn.c wcslcat.c wcslcpy.c \
 	wcslen.c wcsncat.c wcsncmp.c wcsncpy.c wcspbrk.c wcsrchr.c wcsspn.c \
 	wcsstr.c wcswcs.c wmemchr.c wmemcmp.c wmemcpy.c \
 	wmemmove.c wmemset.c
@@ -30,6 +30,14 @@ CFLAGS_wcsrchr.o+= -Wno-cast-qual
 CFLAGS_wcsstr.o+= -Wno-cast-qual
 CFLAGS_wcswcs.o+= -Wno-cast-qual
 CFLAGS_wmemchr.o+= -Wno-cast-qual
+
+.for _i _j in str STR wcs WCS
+.  for _k _l in cpy CAT cat CPY
+CLEANFILES+=	${_i}l${_k}.c
+${_i}l${_k}.c: ${_i}lfun.c
+	-unifdef -DHAVE_${_j}L${_l}=1 $> >$@
+.  endfor
+.endfor
 
 # machine-dependent net sources
 # m-d Makefile.inc must include sources for:

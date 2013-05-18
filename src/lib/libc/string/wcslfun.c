@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/string/wcslfun.c,v 1.5 2006/11/08 23:02:30 tg Exp $ */
+/* $MirOS: src/lib/libc/string/wcslfun.c,v 1.6 2006/11/08 23:22:07 tg Exp $ */
 /* _MirOS: src/lib/libc/string/strlfun.c,v 1.10 2006/11/08 23:18:04 tg Exp $ */
 
 /*-
@@ -30,8 +30,9 @@
 #include <sys/types.h>
 #include <wchar.h>
 
-__RCSID("$MirOS: src/lib/libc/string/wcslfun.c,v 1.5 2006/11/08 23:02:30 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/string/wcslfun.c,v 1.6 2006/11/08 23:22:07 tg Exp $");
 
+#if !defined(HAVE_WCSLCAT) || (HAVE_WCSLCAT == 0)
 /*
  * Appends src to wide string dst of size siz (unlike wcsncat, siz is the
  * full size of dst, not space left).  At most siz-1 wide characters
@@ -56,6 +57,7 @@ wcslcat(wchar_t *dst, const wchar_t *src, size_t dlen)
 	dst[n] = L'\0';
 	return (n + slen);
 }
+#endif
 
 /* $OpenBSD: strlcpy.c,v 1.10 2005/08/08 08:05:37 espie Exp $ */
 
@@ -67,6 +69,7 @@ wcslcat(wchar_t *dst, const wchar_t *src, size_t dlen)
  * copyright notice and this permission notice appear in all copies.
  */
 
+#if !defined(HAVE_WCSLCPY) || (HAVE_WCSLCPY == 0)
 /*
  * Copy src to wide string dst of size siz.  At most siz-1 wide characters
  * will be copied.  Always NUL terminates (unless siz == 0).
@@ -97,3 +100,4 @@ wcslcpy(wchar_t *dst, const wchar_t *src, size_t siz)
 	/* count doesn't include NUL */
 	return (s - src - 1);
 }
+#endif
