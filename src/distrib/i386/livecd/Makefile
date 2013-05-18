@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/livecd/Makefile,v 1.33 2006/04/19 21:27:06 tg Exp $
+# $MirOS: src/distrib/i386/livecd/Makefile,v 1.34 2006/04/19 21:28:27 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -17,6 +17,7 @@ unpack:
 .for _i in base dev etc gnu xbase xetc
 	cd workdir && ${SUDO} tar xzphf ${BSDRELDIR}/rel/${_i}${OSrev}.ngz
 .endfor
+	mkdir workdir/usr/mpkg
 	cd workdir && ln -s ${.CURDIR}/../iso/00-README
 	cd workdir/v${OSrev} && ln -s ${BSDRELDIR}/rel i386
 	cd workdir/etc; \
