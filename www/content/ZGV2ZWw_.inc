@@ -1,5 +1,5 @@
 <!-- PageID: devel -->
-<small class="rcsid">$MirOS: www/content/ZGV2ZWw_.inc,v 1.11 2006/03/02 00:25:20 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/ZGV2ZWw_.inc,v 1.12 2006/04/10 12:39:11 tg Exp $</small>
 <h1>MirOS Project Members</h1>
 <p>The links below show details about every MirOS Project
  team member - developer or contributor. The content is whatever
@@ -16,17 +16,20 @@
 <li>wbx@ (Waldemar Brodkorb)</li>
 </ul><h2>Sponsors</h2>
 <h4>Webspace</h4><ul>
+<li>Bastian "waldi" Blank</li>
+<li>Eimann (historic)</li>
 <li>Robin S. Socha (historic)</li>
 <li>Joshua C. Steele (historic)</li>
-</ul><h4>misc. services</h4><ul>
-<li>Bastian "waldi" Blank</li>
-<li>Andreas "ScottyTM" Kupfer</li>
-<li>Eike Frost</li>
-<li>Eimann (http://eimann.etherkiller.de/)</li>
+</ul><h4>DNS</h4><ul>
 <li>Ingo "bogus" Dyck</li>
+<li>Andreas "ScottyTM" Kupfer</li>
+</ul><h4>mailing lists</h4><ul>
 <li>Diana Eichert</li>
 <li>The guys at GMane</li>
 <li>The guys at marc.theaimsgroup.com</li>
+</ul><h4>mirroring</h4><ul>
+<li>Eike Frost</li>
 <li>Hiroki Sato and the guys at allbsd.org</li>
+</ul><h4>services</h4><ul>
 <li>Der Verein <a href="http://www.trash.net/verein/">trash.net</a></li>
 </ul>
