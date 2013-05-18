@@ -1,4 +1,4 @@
-# $MirOS: src/share/termtypes/Makefile,v 1.3 2006/06/16 22:55:10 tg Exp $
+# $MirOS: src/share/termtypes/Makefile,v 1.4 2006/10/28 19:32:38 tg Exp $
 # $OpenBSD: Makefile,v 1.15 2000/02/17 19:58:34 millert Exp $
 #
 # Take termcap/terminfo master file and generate termcap/terminfo .db files
@@ -13,7 +13,7 @@ CLEANFILES+=	terminfo.src termcap.src terminfo.db termcap.db
 all: terminfo.db termcap.db
 
 terminfo.src: termtypes.master
-	${TIC} -I -x ${.ALLSRC} | sed \
+	${TIC} -r -I -x ${.ALLSRC} | sed \
 	    -e 's,/usr/share/lib/tabset,/usr/share/tabset,g' \
 	    -e 's,/usr/lib/tabset,/usr/share/tabset,g' \
 	    >$@
@@ -32,7 +32,7 @@ terminfo.db: terminfo.src
 	cap_mkdb -cif terminfo terminfo.src
 
 termcap.src: termtypes.master
-	${TIC} -C -x ${.ALLSRC} | sed \
+	${TIC} -r -C -x ${.ALLSRC} | sed \
 	    -e 's,/usr/share/lib/tabset,/usr/share/tabset,g' \
 	    -e 's,/usr/lib/tabset,/usr/share/tabset,g' \
 	    > ${.TARGET}
