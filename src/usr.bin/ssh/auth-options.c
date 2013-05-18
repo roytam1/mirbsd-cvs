@@ -23,7 +23,9 @@
 #include "monitor_wrap.h"
 #include "auth.h"
 
-/* Flags set authorized_keys flags */
+__RCSID("$MirOS$");
+
+/* Flags set authorised_keys flags */
 int no_port_forwarding_flag = 0;
 int no_agent_forwarding_flag = 0;
 int no_x11_forwarding_flag = 0;

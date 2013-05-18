@@ -247,7 +247,7 @@ client_x11_get_proto(const char *display, const char *xauth_path,
 		}
 		/*
 		 * Handle FamilyLocal case where $DISPLAY does
-		 * not match an authorization entry.  For this we
+		 * not match an authorisation entry.  For this we
 		 * just try "xauth list unix:displaynum.screennum".
 		 * XXX: "localhost" match to determine FamilyLocal
 		 *      is not perfect.

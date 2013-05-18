@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/usr.bin/ssh/pathnames.h,v 1.3 2006/04/19 10:40:50 tg Exp $ */
 /* $OpenBSD: pathnames.h,v 1.16 2006/03/25 22:22:43 djm Exp $ */
 
 /*
@@ -80,15 +80,15 @@
 /*
  * File containing a list of those rsa keys that permit logging in as this
  * user.  This file need not be readable by anyone but the user him/herself,
- * but does not contain anything particularly secret.  If the user\'s home
+ * but does not contain anything particularly secret.  If the user's home
  * directory resides on an NFS volume where root is mapped to nobody, this
  * may need to be world-readable.  (This file is read by the daemon which is
  * running as root.)
  */
-#define _PATH_SSH_USER_PERMITTED_KEYS	".etc/ssh/authorized_keys"
+#define _PATH_SSH_USER_PERMITTED_KEYS	".etc/ssh/authorised_keys"
 
 /* rarely known feature */
-#define _PATH_SSH_USER_PERMITTED_KEYS2	".etc/ssh/authorised_keys"
+#define _PATH_SSH_USER_PERMITTED_KEYS2	".ssh/authorized_keys"
 
 /*
  * Per-user and system-wide ssh "rc" files.  These files are executed with

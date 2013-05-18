@@ -1,4 +1,4 @@
-.\"	$MirOS: src/usr.bin/ssh/ssh-keygen.1,v 1.7 2005/12/20 19:57:36 tg Exp $
+.\"	$MirOS: src/usr.bin/ssh/ssh-keygen.1,v 1.8 2006/01/30 15:47:04 tg Exp $
 .\"	$OpenBSD: ssh-keygen.1,v 1.72 2005/11/28 05:16:53 dtucker Exp $
 .\"
 .\"  -*- nroff -*-
@@ -409,7 +409,8 @@ will read this file when a login attempt is made.
 .It Pa ~/.etc/ssh/identity.pub
 Contains the protocol version 1 RSA public key for authentication.
 The contents of this file should be added to
-.Pa ~/.etc/ssh/authorized_keys
+.Pa ~/.etc/ssh/authorised_keys
+.Po or Pa ~/.ssh/authorized_keys Pc
 on all machines
 where the user wishes to log in using RSA authentication.
 There is no need to keep the contents of this file secret.
@@ -427,7 +428,8 @@ will read this file when a login attempt is made.
 .It Pa ~/.etc/ssh/id_dsa.pub
 Contains the protocol version 2 DSA public key for authentication.
 The contents of this file should be added to
-.Pa ~/.etc/ssh/authorized_keys
+.Pa ~/.etc/ssh/authorised_keys
+.Po or Pa ~/.ssh/authorized_keys Pc
 on all machines
 where the user wishes to log in using public key authentication.
 There is no need to keep the contents of this file secret.
@@ -445,7 +447,8 @@ will read this file when a login attempt is made.
 .It Pa ~/.etc/ssh/id_rsa.pub
 Contains the protocol version 2 RSA public key for authentication.
 The contents of this file should be added to
-.Pa ~/.etc/ssh/authorized_keys
+.Pa ~/.etc/ssh/authorised_keys
+.Po or Pa ~/.ssh/authorized_keys Pc
 on all machines
 where the user wishes to log in using public key authentication.
 There is no need to keep the contents of this file secret.

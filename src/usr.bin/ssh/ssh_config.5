@@ -34,7 +34,7 @@
 .\" (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 .\" THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .\"
-.\" $MirOS: src/usr.bin/ssh/ssh_config.5,v 1.12 2006/04/19 10:40:56 tg Exp $
+.\" $MirOS: src/usr.bin/ssh/ssh_config.5,v 1.13 2006/06/02 20:50:52 tg Exp $
 .\" $OpenBSD: ssh_config.5,v 1.94 2006/05/29 16:10:03 jmc Exp $
 .Dd September 25, 1999
 .Dt SSH_CONFIG 5
@@ -417,7 +417,7 @@ The default is
 .Pp
 X11 forwarding should be enabled with caution.
 Users with the ability to bypass file permissions on the remote host
-(for the user's X11 authorization database)
+(for the user's X11 authorisation database)
 can access the local X11 display through the forwarded connection.
 An attacker may then be able to perform activities such as keystroke monitoring
 if the
@@ -1032,7 +1032,7 @@ to allow a key to be used from anywhere within an organisation
 except from the
 .Dq dialup
 pool,
-the following entry (in authorized_keys) could be used:
+the following entry (in authorised_keys) could be used:
 .Pp
 .Dl from=\&"!*.dialup.example.com,*.example.com\&"
 .Sh FILES

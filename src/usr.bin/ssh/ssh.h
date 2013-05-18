@@ -31,7 +31,7 @@
 #define SSH_MAX_IDENTITY_FILES		100
 
 /*
- * Maximum length of lines in authorized_keys file.
+ * Maximum length of lines in authorised_keys file.
  * Current value permits 16kbit RSA and RSA1 keys and 8kbit DSA keys, with
  * some room for options and comments.
  */

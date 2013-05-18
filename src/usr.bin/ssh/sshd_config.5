@@ -34,7 +34,7 @@
 .\" (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 .\" THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .\"
-.\" $MirOS: src/usr.bin/ssh/sshd_config.5,v 1.10 2006/03/27 19:48:57 tg Exp $
+.\" $MirOS: src/usr.bin/ssh/sshd_config.5,v 1.11 2006/04/19 10:40:57 tg Exp $
 .\" $OpenBSD: sshd_config.5,v 1.57 2006/03/14 16:32:48 markus Exp $
 .Dd September 25, 1999
 .Dt SSHD_CONFIG 5
@@ -146,17 +146,17 @@ See
 in
 .Xr ssh_config 5
 for more information on patterns.
-.It Cm AuthorizedKeysFile
+.It Cm AuthorisedKeysFile
 Specifies the file that contains the public keys that can be used
 for user authentication.
-.Cm AuthorizedKeysFile
+.Cm AuthorisedKeysFile
 may contain tokens of the form %T which are substituted during connection
 setup.
 The following tokens are defined: %% is replaced by a literal '%',
 %h is replaced by the home directory of the user being authenticated, and
 %u is replaced by the username of that user.
 After expansion,
-.Cm AuthorizedKeysFile
+.Cm AuthorisedKeysFile
 is taken to be an absolute path or one relative to the user's home
 directory.
 The default is

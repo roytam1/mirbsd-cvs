@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.bin/ssh/auth.h,v 1.5 2006/04/19 10:40:44 tg Exp $ */
+/* $MirOS: src/usr.bin/ssh/auth.h,v 1.6 2006/06/02 20:50:46 tg Exp $ */
 /* $OpenBSD: auth.h,v 1.53 2006/04/20 09:27:09 djm Exp $ */
 
 /*
@@ -131,8 +131,8 @@ struct passwd * getpwnamallow(const char *user);
 char	*get_challenge(Authctxt *);
 int	verify_response(Authctxt *, const char *);
 
-char	*authorized_keys_file(struct passwd *);
-char	*authorized_keys_file2(struct passwd *);
+char	*authorised_keys_file(struct passwd *);
+char	*authorised_keys_file2(struct passwd *);
 
 int
 secure_filename(FILE *, const char *, struct passwd *, char *, size_t);

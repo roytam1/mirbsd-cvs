@@ -11,7 +11,7 @@
  */
 
 #include "includes.h"
-__RCSID("$MirOS: src/usr.bin/ssh/servconf.c,v 1.8 2006/04/19 10:40:51 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/servconf.c,v 1.9 2006/06/02 20:50:48 tg Exp $");
 
 #include "ssh.h"
 #include "log.h"
@@ -88,8 +88,8 @@ initialize_server_options(ServerOptions *options)
 	options->use_dns = -1;
 	options->client_alive_interval = -1;
 	options->client_alive_count_max = -1;
-	options->authorized_keys_file = NULL;
-	options->authorized_keys_file2 = NULL;
+	options->authorised_keys_file = NULL;
+	options->authorised_keys_file2 = NULL;
 	options->num_accept_env = 0;
 	options->permit_tun = -1;
 
@@ -194,15 +194,15 @@ fill_default_server_options(ServerOptions *options)
 		options->client_alive_interval = 0;
 	if (options->client_alive_count_max == -1)
 		options->client_alive_count_max = 3;
-	if (options->authorized_keys_file2 == NULL) {
-		/* authorized_keys_file2 falls back to authorized_keys_file */
-		if (options->authorized_keys_file != NULL)
-			options->authorized_keys_file2 = options->authorized_keys_file;
+	if (options->authorised_keys_file2 == NULL) {
+		/* authorised_keys_file2 falls back to authorised_keys_file */
+		if (options->authorised_keys_file != NULL)
+			options->authorised_keys_file2 = options->authorised_keys_file;
 		else
-			options->authorized_keys_file2 = (char *)_PATH_SSH_USER_PERMITTED_KEYS2;
+			options->authorised_keys_file2 = (char *)_PATH_SSH_USER_PERMITTED_KEYS2;
 	}
-	if (options->authorized_keys_file == NULL)
-		options->authorized_keys_file = (char *)_PATH_SSH_USER_PERMITTED_KEYS;
+	if (options->authorised_keys_file == NULL)
+		options->authorised_keys_file = (char *)_PATH_SSH_USER_PERMITTED_KEYS;
 	if (options->permit_tun == -1)
 		options->permit_tun = SSH_TUNMODE_NO;
 
@@ -230,7 +230,7 @@ typedef enum {
 	sMaxStartups, sMaxAuthTries,
 	sBanner, sUseDNS, sHostbasedAuthentication,
 	sHostbasedUsesNameFromPacketOnly, sClientAliveInterval,
-	sClientAliveCountMax, sAuthorizedKeysFile, sAuthorizedKeysFile2,
+	sClientAliveCountMax, sAuthorisedKeysFile, sAuthorisedKeysFile2,
 	sAcceptEnv, sPermitTunnel,
 	sUsePrivilegeSeparation,
 	sDeprecated, sUnsupported
@@ -298,8 +298,8 @@ static struct {
 	{ "reversemappingcheck", sDeprecated },
 	{ "clientaliveinterval", sClientAliveInterval },
 	{ "clientalivecountmax", sClientAliveCountMax },
-	{ "authorizedkeysfile", sAuthorizedKeysFile },
-	{ "authorizedkeysfile2", sAuthorizedKeysFile2 },
+	{ "authorisedkeysfile", sAuthorisedKeysFile },
+	{ "authorisedkeysfile2", sAuthorisedKeysFile2 },
 	{ "useprivilegeseparation", sUsePrivilegeSeparation},
 	{ "acceptenv", sAcceptEnv },
 	{ "permittunnel", sPermitTunnel },
@@ -833,13 +833,13 @@ parse_flag:
 	 * These options can contain %X options expanded at
 	 * connect time, so that you can specify paths like:
 	 *
-	 * AuthorizedKeysFile	/etc/ssh_keys/%u
+	 * AuthorisedKeysFile	/etc/ssh_keys/%u
 	 */
-	case sAuthorizedKeysFile:
-	case sAuthorizedKeysFile2:
-		charptr = (opcode == sAuthorizedKeysFile ) ?
-		    &options->authorized_keys_file :
-		    &options->authorized_keys_file2;
+	case sAuthorisedKeysFile:
+	case sAuthorisedKeysFile2:
+		charptr = (opcode == sAuthorisedKeysFile ) ?
+		    &options->authorised_keys_file :
+		    &options->authorised_keys_file2;
 		goto parse_filename;
 
 	case sClientAliveInterval:

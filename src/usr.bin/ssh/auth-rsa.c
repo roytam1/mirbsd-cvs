@@ -15,7 +15,7 @@
  */
 
 #include "includes.h"
-__RCSID("$MirOS: src/usr.bin/ssh/auth-rsa.c,v 1.5 2006/02/22 01:23:48 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/auth-rsa.c,v 1.6 2006/04/19 10:40:43 tg Exp $");
 
 #include <sys/stat.h>
 
@@ -48,7 +48,7 @@ extern ServerOptions options;
 extern u_char session_id[16];
 
 /*
- * The .etc/ssh/authorized_keys file contains public keys, one per line, in the
+ * The .etc/ssh/authorised_keys file contains public keys, one per line, in the
  * following format:
  *   options bits e n comment
  * where bits, e and n are decimal numbers,
@@ -167,8 +167,8 @@ auth_rsa_key_allowed(struct passwd *pw, BIGNUM *client_n, Key **rkey)
 	/* Temporarily use the user's uid. */
 	temporarily_use_uid(pw);
 
-	/* The authorized keys. */
-	file = authorized_keys_file(pw);
+	/* The authorised keys. */
+	file = authorised_keys_file(pw);
 	debug("trying public RSA key file %s", file);
 
 	/* Fail quietly if file does not exist */
@@ -178,7 +178,7 @@ auth_rsa_key_allowed(struct passwd *pw, BIGNUM *client_n, Key **rkey)
 		xfree(file);
 		return (0);
 	}
-	/* Open the file containing the authorized keys. */
+	/* Open the file containing the authorised keys. */
 	f = fopen(file, "r");
 	if (!f) {
 		/* Restore the privileged uid. */

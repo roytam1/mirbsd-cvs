@@ -24,7 +24,7 @@
  */
 
 #include "includes.h"
-__RCSID("$MirOS: src/usr.bin/ssh/auth2-pubkey.c,v 1.3 2006/02/22 01:23:48 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/auth2-pubkey.c,v 1.4 2006/04/19 10:40:44 tg Exp $");
 
 #include <sys/stat.h>
 
@@ -187,7 +187,7 @@ user_key_allowed2(struct passwd *pw, Key *key, char *file)
 		restore_uid();
 		return 0;
 	}
-	/* Open the file containing the authorized keys. */
+	/* Open the file containing the authorised keys. */
 	f = fopen(file, "r");
 	if (!f) {
 		/* Restore the privileged uid. */
@@ -254,21 +254,21 @@ user_key_allowed2(struct passwd *pw, Key *key, char *file)
 	return found_key;
 }
 
-/* check whether given key is in .etc/ssh/authorized_keys* */
+/* check whether given key is in .etc/ssh/authorised_keys* */
 int
 user_key_allowed(struct passwd *pw, Key *key)
 {
 	int success;
 	char *file;
 
-	file = authorized_keys_file(pw);
+	file = authorised_keys_file(pw);
 	success = user_key_allowed2(pw, key, file);
 	xfree(file);
 	if (success)
 		return success;
 
 	/* try suffix "2" for backward compat, too */
-	file = authorized_keys_file2(pw);
+	file = authorised_keys_file2(pw);
 	success = user_key_allowed2(pw, key, file);
 	xfree(file);
 	return success;

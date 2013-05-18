@@ -34,7 +34,7 @@
 .\" (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 .\" THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .\"
-.\" $MirOS: src/usr.bin/ssh/ssh.1,v 1.14 2006/04/19 10:40:55 tg Exp $
+.\" $MirOS: src/usr.bin/ssh/ssh.1,v 1.15 2006/06/02 20:50:51 tg Exp $
 .\" $OpenBSD: ssh.1,v 1.260 2006/05/29 16:13:23 jmc Exp $
 .Dd September 25, 1999
 .Dt SSH 1
@@ -595,7 +595,7 @@ This can also be specified on a per-host basis in a configuration file.
 .Pp
 X11 forwarding should be enabled with caution.
 Users with the ability to bypass file permissions on the remote host
-(for the user's X authorization database)
+(for the user's X authorisation database)
 can access the local X11 display through the forwarded connection.
 An attacker may then be able to perform activities such as keystroke monitoring.
 .Pp
@@ -709,8 +709,8 @@ contains a brief discussion of the two algorithms.
 .Pp
 The file
 .Pa ~/.etc/ssh/authorised_keys
-(or
-.Pa ~/.etc/ssh/authorized_keys )
+(or, portably,
+.Pa ~/.ssh/authorized_keys )
 lists the public keys that are permitted for logging in.
 When the user logs in, the
 .Nm
@@ -718,7 +718,7 @@ program tells the server which key pair it would like to use for
 authentication.
 The client proves that it has access to the private key
 and the server checks that the corresponding public key
-is authorized to accept the account.
+is authorised to accept the account.
 .Pp
 The user creates his/her key pair by running
 .Xr ssh-keygen 1 .
@@ -743,7 +743,7 @@ The user should then copy the public key
 to
 .Pa ~/.etc/ssh/authorised_keys
 (or, portably,
-.Pa ~/.etc/ssh/authorized_keys )
+.Pa ~/.ssh/authorized_keys )
 in his/her home directory on the remote machine.
 The
 .Pa authorised_keys
@@ -966,7 +966,7 @@ connections over the encrypted channel.
 .Pp
 .Nm
 will also automatically set up Xauthority data on the server machine.
-For this purpose, it will generate a random authorization cookie,
+For this purpose, it will generate a random authorisation cookie,
 store it in Xauthority on the server, and verify that any forwarded
 connections carry this cookie and replace it by the real cookie when
 the connection is opened.
@@ -1110,7 +1110,7 @@ The user should normally not set
 .Ev DISPLAY
 explicitly, as that
 will render the X11 connection insecure (and will require the user to
-manually copy any required authorization cookies).
+manually copy any required authorisation cookies).
 .It Ev HOME
 Set to the path of the user's home directory.
 .It Ev LOGNAME
@@ -1214,7 +1214,7 @@ manual page.
 This file is not highly sensitive, but the recommended
 permissions are read/write for the user, and not accessible by others.
 .Pp
-.It ~/.etc/ssh/authorized_keys
+.It ~/.ssh/authorized_keys
 Portable name for the above file.
 .Pp
 .It ~/.etc/ssh/config

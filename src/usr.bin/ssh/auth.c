@@ -24,7 +24,7 @@
  */
 
 #include "includes.h"
-__RCSID("$MirOS: src/usr.bin/ssh/auth.c,v 1.3 2006/02/22 02:16:44 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/auth.c,v 1.4 2006/04/19 10:40:44 tg Exp $");
 
 #include <sys/stat.h>
 
@@ -227,7 +227,7 @@ auth_root_allowed(char *method)
  * This returns a buffer allocated by xmalloc.
  */
 static char *
-expand_authorized_keys(const char *filename, struct passwd *pw)
+expand_authorised_keys(const char *filename, struct passwd *pw)
 {
 	char *file, ret[MAXPATHLEN];
 	int i;
@@ -244,21 +244,21 @@ expand_authorized_keys(const char *filename, struct passwd *pw)
 
 	i = snprintf(ret, sizeof(ret), "%s/%s", pw->pw_dir, file);
 	if (i < 0 || (size_t)i >= sizeof(ret))
-		fatal("expand_authorized_keys: path too long");
+		fatal("expand_authorised_keys: path too long");
 	xfree(file);
 	return (xstrdup(ret));
 }
 
 char *
-authorized_keys_file(struct passwd *pw)
+authorised_keys_file(struct passwd *pw)
 {
-	return expand_authorized_keys(options.authorized_keys_file, pw);
+	return expand_authorised_keys(options.authorised_keys_file, pw);
 }
 
 char *
-authorized_keys_file2(struct passwd *pw)
+authorised_keys_file2(struct passwd *pw)
 {
-	return expand_authorized_keys(options.authorized_keys_file2, pw);
+	return expand_authorised_keys(options.authorised_keys_file2, pw);
 }
 
 /* return ok if key exists in sysfile or userfile */

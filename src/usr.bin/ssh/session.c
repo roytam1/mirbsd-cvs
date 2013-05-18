@@ -34,7 +34,7 @@
  */
 
 #include "includes.h"
-__RCSID("$MirOS: src/usr.bin/ssh/session.c,v 1.9 2006/04/19 10:40:52 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/session.c,v 1.10 2006/06/02 20:50:49 tg Exp $");
 
 #include <sys/wait.h>
 #include <sys/un.h>
@@ -1907,7 +1907,7 @@ session_setup_x11fwd(Session *s)
 		fatal("gethostname: %.100s", strerror(errno));
 	/*
 	 * auth_display must be used as the displayname when the
-	 * authorization entry is added with xauth(1).  This will be
+	 * authorisation entry is added with xauth(1).  This will be
 	 * different than the DISPLAY string for localhost displays.
 	 */
 	if (options.x11_use_localhost) {

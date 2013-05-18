@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/usr.bin/ssh/servconf.h,v 1.5 2006/04/19 10:40:52 tg Exp $ */
 /* $OpenBSD: servconf.h,v 1.73 2006/03/25 22:22:43 djm Exp $ */
 
 /*
@@ -119,8 +119,8 @@ typedef struct {
 					 * disconnect the session
 					 */
 
-	char   *authorized_keys_file;	/* File containing public keys */
-	char   *authorized_keys_file2;
+	char   *authorised_keys_file;	/* File containing public keys */
+	char   *authorised_keys_file2;
 
 	int	permit_tun;
 }       ServerOptions;

@@ -21,7 +21,7 @@ struct envstring {
 	char   *s;
 };
 
-/* Flags that may be set in authorized_keys options. */
+/* Flags that may be set in authorised_keys options. */
 extern int no_port_forwarding_flag;
 extern int no_agent_forwarding_flag;
 extern int no_x11_forwarding_flag;
