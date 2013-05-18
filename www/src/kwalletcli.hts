@@ -1,6 +1,6 @@
 mws_setname subprojects/kwalletcli "kwalletcli – CLI for the KDE Wallet"
 mws_setheadline CLI for the KDE Wallet
-mws_putheader '$MirOS: www/src/kwalletcli.hts,v 1.15 2010/02/14 19:52:26 tg Exp $'
+mws_putheader '$MirOS: www/src/kwalletcli.hts,v 1.16 2010/03/03 11:36:10 tg Exp $'
 mws_content <<'EOF'
 <h2>Table of Content</h2>
 EOF
@@ -136,7 +136,7 @@ mws_content <<'EOF'
  storing Jabber passwords in the KDE Wallet in an encrypted manner,
  since version 0.13 (committed after some discussion; Gajim already
  supported gnome-keyring though).</p>
-<p><a href="http://www.tarent.com/">tarent GmbH</a>, which sponsored
+<p><a href="https://www.tarent.de/">tarent GmbH</a>, which sponsored
  development of kwalletcli, has been using it to make the live of its
  employees on their GNU/Linux desktops easier, since mid-2009.</p>
 EOF

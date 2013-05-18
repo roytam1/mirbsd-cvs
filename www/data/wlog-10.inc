@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.285 2010/02/23 22:57:48 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.286 2010/02/24 18:59:12 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -2931,7 +2931,7 @@ Title: Sponsor for FOSDEM
 Date: 21.01.2009 20:02
 Tag: event
 
-<p>My employer, <a href="http://www.tarent.com/">tarent Gesellschaft
+<p>My employer, <a href="https://www.tarent.de/">tarent Gesellschaft
  für Software-Entwicklung und IT-Beratung mbH</a>, is sponsoring the
  entirety of the attending MirOS Project representatives – which are
  bsiegert@ and gecko2@ as well as me – for FOSDEM, covering the Bonn
@@ -4237,7 +4237,7 @@ Date: 03.07.2009 19:21
 Author: tg@
 
 <p>About 30°C in the bureau don't make working easy. At least, <a
- href="http://www.tarent.com/">my employer</a> saw the need and
+ href="https://www.tarent.de/">my employer</a> saw the need and
  bought ventilators for every office room which did not yet have
  one. Within approximately three hours after being told of the
  need. <em>Nice!</em> It was still too hot to work, and <tt>apt</tt>
@@ -4306,7 +4306,7 @@ Tag: mksh
  addressed the scenario except for a corner case (interestingly, as the
  world is small, discovered in a Debian(!) init script from a package
  maintained by aforementioned formorer, on a DomU running Lenny at <a
- href="http://www.tarent.com/">work</a> - don't underestimate the effect
+ href="https://www.tarent.de/">work</a> - don't underestimate the effect
  of synergy) but would really like to talk to some of the OpenBSD devs
  about it; they mostly know what they're doing, even if I worked on ksh
  for longer than most of them, many eyes do help, and most of the time
@@ -4341,7 +4341,7 @@ Date: 08.07.2009 15:54
 Author: tg@
 
 <p>I have developed <tt>kwalletcli</tt>, a command-line interface to the
- KDE Wallet, for <a href="http://www.tarent.com/">tarent GmbH</a>, and
+ KDE Wallet, for <a href="https://www.tarent.de/">tarent GmbH</a>, and
  would like public feedback, before releasing an 1.00 version, both on <a
  href="@@ABSPATH@@/cvs.cgi/contrib/hosted/tg/code/kwalletcli/">the source
  code</a> and <a href="https://eurynome.mirbsd.org/debs/dists/hardy/wtf/pkgs/kwalletcli/kwalletcli_0.94-1.dsc">an
@@ -5161,7 +5161,7 @@ Tag: mksh
  both fine in that regard) with <tt># HOME=/data /data/mksh</tt> in the shell.
  I may post an Android specific patch for <tt>dot.mkshrc</tt> some day.</p>
 <p><strong>Update</strong> 10.10. – .gz → .tgz and Cygwin binary now too!</p>
-<!-- RSS stop --><p>On a side note, <a href="http://www.tarent.com/">my
+<!-- RSS stop --><p>On a side note, <a href="https://www.tarent.de/">my
  employer</a> is still looking for Java&trade; developers in Bonn or Berlin.
  The actual advertisement is on Xing; look and submit an application if you
  can find yourself there (knowing German is an <strong>important</strong>
@@ -5500,7 +5500,7 @@ Tag: debian
  <a href="http://www.fosdem.org/">next one</a> is so close to the UK they
  probably will be there by themselves.)</p>
 <p>I must admit I also have the context switching problem (but hey, that’s
- what you get for being a sysadmin, and <a href="http://www.tarent.com/">our</a>
+ what you get for being a sysadmin, and <a href="https://www.tarent.de/">our</a>
  <a href="http://www.gepa3.de/shop/index.php">coffee</a> (GEPA, <span
  xml:lang="de_DE-1901">ganze Bohne, im Eimer, fair gehandelt</span>),
  even if not <a href="@@RELPATH@@anargeek.htm@koffie">Café Libertad</a>,
@@ -5534,7 +5534,7 @@ Tag: android debian mksh
 <p>In case someone ever needs it, a collection of scripts called <a
  href="https://evolvis.org/projects/bw2mw/">BitWeaver → MediaWiki</a>
  does exactly that and has been released under GNU GPLv2 (only) courtesy
- of <a href="http://www.tarent.com/">my employer</a>. Cheers!</p>
+ of <a href="https://www.tarent.de/">my employer</a>. Cheers!</p>
 ----
 Title: Happy Benzday!
 Author: tg@
@@ -5672,7 +5672,7 @@ Tag: rant
 Language: de_DE-1901
 
 <p>SWB. Stehen, Warten, Beten.</p><!-- RSS stop -->
-<p>Am Dienstag Abend waren <a href="http://www.tarent.com/">wir</a> mit <a
+<p>Am Dienstag Abend waren <a href="https://www.tarent.de/">wir</a> mit <a
  href="http://www.gnurandal.com/">Roland</a> in der Bonner Innenstadt.
  Hiernach wollte ich gerne nach Hause fahren, aber die StadtWerke Bonn
  machten mir, wie so oft, einen Strich durch die Rechnung.</p>
@@ -6299,4 +6299,14 @@ Tag: debian mksh rant
  and the title, were too strong. I also would like to excuse for
  going so low as to write an ad-hominem attack, which I've since
  redacted.</p>
+----
+Title: CLI for the KDE Wallet • 2.02
+Date: 03.03.2010 11:43
+Author: tg@
+
+<p>The <a href="@@RELPATH@@kwalletcli.htm">Command-Line Interface
+ for the KDE Wallet</a>, Version 2.02, has been released and dput
+ into Debian unstable. (The lenny-backports version will follow.)
+ It took me quite a while to reproduce, then track down, the bug;
+ having unrelated problems at the same time didn’t help either…</p>
 ----
