@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/common/Makefile.inc,v 1.12 2006/04/07 12:15:58 tg Exp $
+# $MirOS: src/distrib/i386/common/Makefile.inc,v 1.13 2006/04/07 13:09:33 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.15 2004/11/25 22:02:08 deraadt Exp $
 
 .ifndef _MODSRC_DISTRIB_I386_COMMON_MAKEFILE_INC
@@ -46,6 +46,7 @@ MAKE_CLEAN?=	${MAKE} clean
 
 DO_FLOPPY?=	Yes
 DO_BSDRD_NAME?=	bsd.rd
+DO_BSDRD_UC=	${DO_BSDRD_NAME}.uncompressed
 
 .if ${DO_FLOPPY:L} == "yes"
 all:	${FS}
@@ -79,18 +80,18 @@ NBLKS?=		8192
 # minfree, opt, b/i  trks, sects, cpg
 NEWFSARGS=	-m 0 -o space -c 16 -i 3072
 
-bsd.gz: ${DO_BSDRD_NAME}.uncompressed
-	cp ${DO_BSDRD_NAME}.uncompressed bsd.strip
+bsd.gz: ${DO_BSDRD_UC}
+	cp ${DO_BSDRD_UC} bsd.strip
 	${STRIP} --strip-all -R .comment -R .eh_frame ${STRIP_ADDS} bsd.strip
 	gzip -nc9 bsd.strip >bsd.gz
 
-${DO_BSDRD_NAME}.uncompressed: ${IMAGE} bsd rdsetroot
-	gzip -d <bsd >${DO_BSDRD_NAME}.uncompressed
-	print 'rootdev 17 0\nquit' | config -ef bsd	# (17,0) = rd0a
-	${REALOBJDIR}/rdsetroot ${DO_BSDRD_NAME}.uncompressed <${IMAGE}
+${DO_BSDRD_UC}: ${IMAGE} bsd rdsetroot
+	gzip -d <bsd >${DO_BSDRD_UC}
+	print 'rootdev 17 0\nquit' | config -ef ${DO_BSDRD_UC}	# (17,0) = rd0a
+	${REALOBJDIR}/rdsetroot ${DO_BSDRD_UC} <${IMAGE}
 
-${DO_BSDRD_NAME}: ${DO_BSDRD_NAME}.uncompressed
-	gzip -n9 <${DO_BSDRD_NAME}.uncompressed >${DO_BSDRD_NAME}
+${DO_BSDRD_NAME}: ${DO_BSDRD_UC}
+	gzip -n9 <${DO_BSDRD_UC} >${DO_BSDRD_NAME}
 
 .ifndef KERNEL_LOCAL_BUILD
 .  include "${.CURDIR}/../generic/Makefile.kernel"
