@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/sys/param.h,v 1.90 2010/09/20 00:07:26 tg Exp $ */
+/**	$MirOS: src/sys/sys/param.h,v 1.91 2011/01/15 21:52:45 tg Exp $ */
 /*	$OpenBSD: param.h,v 1.54 2004/02/27 18:06:55 deraadt Exp $	*/
 /*	$NetBSD: param.h,v 1.23 1996/03/17 01:02:29 thorpej Exp $	*/
 
@@ -48,7 +48,7 @@
 #define	BSD	199306		/* System version (year & month). */
 #define BSD4_3	1
 #define BSD4_4	1
-#define	MirBSD	0x0AAE		/* minor 10-7F=prerelease; 80=release
+#define	MirBSD	0x0AAF		/* minor 10-7F=prerelease; 80=release
 				 * minor 81-9F=stable; A0-FF=unlocked
 				 */
 #ifndef _LOCORE
