@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.288 2009/10/10 21:49:55 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.289 2009/10/15 12:58:56 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1027,6 +1027,14 @@ mws_content <<'EOF'
  <li>[tg] Fix lazy evaluation of assignments by ternary operator, #445651</li>
  <li>[tg] Work around Cygwin bugs (quirks) hindering the testsuite</li>
  <li>[tg] In FSH mode, “echo [-n] 'foo\x40bar'” shall not be expanded</li>
+ <li>[tg] Let <tt>Build.sh</tt> run with AIX bsh (SVR3 Bourne Shell)</li>
+ <li>[tg] Let <tt>set -- $(false); echo $?</tt> return 0 (POSIXly correct)
+  in FSH mode, 1 (needed for getopt(1) support) otherwise</li>
+ <li>[tg] Changes of variables inside Bourne style POSIX functions indeed
+  affect the current execution environment (of the function caller)</li>
+ <li>[tg] Fix getopts behaviour (sync with AT&amp;T ksh93 not ksh88)</li>
+ <li>[tg] “eval $(false)” shall return 0 (Debian Closes: #550717)</li>
+ <li>[tg] Ensure that <tt>/* apo'strophes in comments */</tt> work</li>
 </ul>
 <p id="r39">mksh R39 evolved into these through various means:</p><ul>
  <li>[tg] Shut up a bogus gcc warning during configuration process</li>
