@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/net/if_ethersubr.c,v 1.9 2007/03/02 03:13:29 tg Exp $ */
+/**	$MirOS: src/sys/net/if_ethersubr.c,v 1.10 2008/04/09 05:45:43 tg Exp $ */
 /*	$OpenBSD: if_ethersubr.c,v 1.81 2004/11/28 23:39:45 canacar Exp $	*/
 /*	$NetBSD: if_ethersubr.c,v 1.19 1996/05/07 02:40:30 thorpej Exp $	*/
 
@@ -89,6 +89,8 @@ didn't get a copy, you may request one from <license@ipv6.nrl.navy.mil>.
 #include <sys/timeout.h>
 
 #include <machine/cpu.h>
+
+#include <dev/rndvar.h>
 
 #include <net/if.h>
 #include <net/netisr.h>

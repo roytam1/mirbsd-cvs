@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/kern/subr_log.c,v 1.3 2007/03/02 03:13:28 tg Exp $ */
+/**	$MirOS: src/sys/kern/subr_log.c,v 1.4 2008/04/09 05:45:43 tg Exp $ */
 /*	$OpenBSD: subr_log.c,v 1.13 2005/04/20 00:08:50 deraadt Exp $	*/
 /*	$NetBSD: subr_log.c,v 1.11 1996/03/30 22:24:44 christos Exp $	*/
 
@@ -48,6 +48,8 @@
 #include <sys/syslog.h>
 #include <sys/conf.h>
 #include <sys/poll.h>
+
+#include <dev/rndvar.h>
 
 #define LOG_RDPRI	(PZERO + 1)
 
