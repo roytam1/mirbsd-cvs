@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.481 2012/12/04 20:25:20 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.482 2012/12/05 20:08:12 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1123,6 +1123,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Fix getn and some cases of possible array bounds trespasses</li>
  <li>[chris2, dalias, tg] Use -fno-asynchronous-unwind-tables with GCC</li>
  <li>[tg] Fix a few warnings from libFirm/cparser (mostly -Wsign-compare)</li>
+ <li>[tg] Correct mistake when doing hashtable lookup collision resolution</li>
 </ul>
 <p id="r41">mksh R41 brings a number of bugfixes and new features:</p><ul>
  <li>[tg] Drop “set ±o arc4random” (deprecated in R40)</li>
