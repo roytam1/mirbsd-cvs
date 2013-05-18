@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.153 2009/02/03 00:59:34 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.154 2009/02/04 19:43:24 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -3192,4 +3192,42 @@ Title: MirOS heartbeat protocol implementation: abuse as NTP monitoring
  which we currently use a homegrown Jabber bot (don’t ask…) which does
  the template cloning (zfs, iSCSI) and other setup. Other suggestions,
  tools to avoid, success stories, links, documentation welcome.</p>
+----
+Author: tg@
+Date: 07.02.2009 15:35
+Title: FOSDEM Tag 0
+Tag: event
+
+<p>Gestern, Freitag Abend, war der Tag 0 der FOSDEM. Natürlich waren
+ wir – die anderen beiden tarentler Fabian Köster und der Vortragende <a
+ href="http://rschuster.blogs.evolvis.org/2008/12/21/serving-cross-compiled-openjdk-with-icedtea/">Robert
+ Schuster</a>, gecko2@ und ich – beim Beer Event, später auch mit
+ bsiegert@. Das Bier war lecker, allerdings habe ich zwar nicht zu
+ viel aber wohl zu varietätenreich getrunken, sodaß es mir in der
+ Nacht nicht so wirklich gut ging und ich noch Bauchschmerzen habe.
+ Also keinen mit dem Debian Projektleiter trinken.</p>
+<p>Benny hat lustige Sympathiën von Leuten aus anderen Projekten
+ bekommen, aber ich darf leider nicht drüber schreiben.</p>
+----
+Author: tg@
+Date: 07.02.2009 15:38
+Title: FOSDEM Tag 1
+Tag: event
+
+<p>Das Aufbauen verpaßt, aber wir haben ein „m“ (Bild wird später
+ nachgereicht, sollte smultron freuen), viele Kontakte, und die
+ englischen Flyer sind <em>jetzt schon</em> alle, die CDs runter
+ auf ¼ oder so.</p>
+<p>Der Unicode-syscons-Vortrag war für mich leider nicht so
+ ertragreich; dadurch, daß wir vt100 wscons(4) haben, und durch
+ meinen script(1) <tt>-lns</tt> Hack, haben wir schon mehr Probleme
+ gelöst und Wissen angebaut als er. Ed Schouten ist aber anscheinend
+ ein vielversprechender talentierter Jungentwickler.</p>
+<p>Cool, ich habe ein bißchen WLAN! Mal schnell ein bißchen wlog
+ Einträge verfassen, Benny und gecko2 wollen ja nicht.</p>
+<p>Jetzt nur noch den NetBSD®-Kollegen neben uns zum Installieren
+ des RANDEX-Plugins verlassen…</p>
+<p>Wer setzt uns eigentlich direkt neben OpenBSD? Zum Glück gibts
+ eine große Barriere, daher ist bislang, außer Laserpointerattacken
+ (sogar direkt in Bennys Auge) noch nichts passiert…</p>
 ----
