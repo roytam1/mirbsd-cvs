@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.subdir.mk,v 1.14 2008/10/16 19:47:54 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.subdir.mk,v 1.15 2009/02/24 18:10:17 bsiegert Exp $
 # $OpenBSD: bsd.port.subdir.mk,v 1.64 2004/04/07 13:06:33 espie Exp $
 # $FreeBSD: bsd.port.subdir.mk,v 1.20 1997/08/22 11:16:15 asami Exp $
 #
@@ -104,6 +104,7 @@ _subdir_fragment= \
 				fi; \
 			done <bulklist; \
 		else \
+			f=; \
 			eval $${echo_msg} "===\> $$d"; \
 			if ! eval $$toset ${MAKE} $$target; then \
 				${REPORT_PROBLEM}; \
