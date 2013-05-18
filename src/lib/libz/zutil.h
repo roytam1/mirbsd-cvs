@@ -1,4 +1,4 @@
-/**	$MirOS: src/lib/libz/zutil.h,v 1.7 2005/07/24 23:19:04 tg Exp $ */
+/**	$MirOS: src/lib/libz/zutil.h,v 1.8 2005/12/04 23:14:40 tg Exp $ */
 /*	$OpenBSD: zutil.h,v 1.9 2005/07/20 15:56:42 millert Exp $	*/
 /* zutil.h -- internal interface and configuration of the compression library
  * Copyright (C) 1995-2005 Jean-loup Gailly.
@@ -17,19 +17,20 @@
 #include "zlib.h"
 
 #undef zRCSID
-#ifdef _STANDALONE
-#include <stand.h>
-#define	zRCSID(x)	/* nothing */
+#if defined(_STANDALONE)
+# include <stand.h>
+# define zRCSID(x)	/* nothing */
+#elif defined(_KERNEL)
+# include <sys/systm.h>
+# define zRCSID(x)	/* nothing */
 #else
-#ifndef _KERNEL
-#ifdef STDC
+# ifdef STDC
 #  include <stddef.h>
 #  include <string.h>
 #  include <stdlib.h>
-#endif
-#include <errno.h>
-#endif
-#define	zRCSID(x)	__RCSID(x);
+# endif
+# include <errno.h>
+# define zRCSID(x)	__RCSID(x);
 #endif
 
 #ifndef local
@@ -95,7 +96,11 @@ extern const char * const z_errmsg[10]; /* indexed by 2-zlib_error */
 #  endif
 #endif
 
+#ifdef _KERNEL
+#define zmemcpy memmove
+#else
 #define zmemcpy memcpy
+#endif
 #define zmemcmp memcmp
 #define zmemzero(dest, len) memset(dest, 0, len)
 
