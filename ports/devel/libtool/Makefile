@@ -1,12 +1,14 @@
-# $MirOS: ports/devel/libtool/Makefile,v 1.7 2006/06/30 21:14:24 tg Exp $
+# $MirOS: ports/devel/libtool/Makefile,v 1.8 2006/09/14 00:08:24 tg Exp $
 
-COMMENT=			complete GNU libtool with MirLibtool patches added
+COMMENT=		complete GNU libtool with MirLibtool patches added
 CATEGORIES=		devel
 CVS_DISTREPO=		:pserver:anonymous@cvs.sv.gnu.org:/sources/libtool
 CVS_DISTDATE=		2006/06/30
 CVS_DISTTAGS=		branch-1-5
 CVS_DISTMODS=		libtool
-PKGNAME=		libtool-1.5.23a.${CVS_DISTDATE:C![/:]!!g:Q:S!\\ !!}-1
+DASH_VER=		2
+_DATE=			${CVS_DISTDATE:C![/:]!!g:Q:S!\\ !!}
+PKGNAME=		libtool-1.5.23a.${_DATE}-${DASH_VER}
 HOMEPAGE=		http://www.gnu.org/software/libtool/
 
 # GNU GPLv2
@@ -21,8 +23,10 @@ CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
 AUTOCONF_NEW=		Yes
 AUTOMAKE_VERSION=	1.9
 
-#XXX hack
-.ifdef LT_HAVE_CXX
+FLAVORS=		no_cxx
+FLAVOR?=
+
+.if !${FLAVOR:Mno_cxx}
 USE_CXX=		Yes
 REGRESS_TARGET=		check
 .else
