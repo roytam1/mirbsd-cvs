@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/mbr/mbr.S,v 1.1 2007/02/26 00:13:27 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/mbr/mbr.S,v 1.2 2007/02/26 01:46:49 tg Exp $ */
 
 /*-
  * Copyright (c) 2004, 2005, 2007
@@ -26,11 +26,16 @@
 
 #include <machine/asm.h>
 
+#define LDENTRY(x)	OTYPE(_ASM_LABEL(x)); _ASM_LABEL(x):
+#define LTENTRY(x)	FTYPE(_ASM_LABEL(x)); _ASM_LABEL(x):
+#define GDENTRY(x)	.globl _ASM_LABEL(x); LDENTRY(x)
+#define GTENTRY(x)	.globl _ASM_LABEL(x); LTENTRY(x)
+
 	.intel_syntax noprefix
 	.code16
 	.text
 
-ALTENTRY(_start)
+GTENTRY(_start)
 	xor	eax,eax
 	push	eax
 	popfd
@@ -53,24 +58,24 @@ ALTENTRY(_start)
 	lret
 
 	/* entry message */
-DENTRY(Lmsg)
+LDENTRY(Lmsg)
 	.ascii	"Mir-" __BOOT_VER
 #ifdef BOOTMANAGER
 	/* Lm<nn> are patch points */
 	.ascii	": 0="
-DENTRY(Lm00)
+LDENTRY(Lm00)
 	.ascii	"00 1="
-DENTRY(Lm01)
+LDENTRY(Lm01)
 	.ascii	"00 2="
-DENTRY(Lm02)
+LDENTRY(Lm02)
 	.ascii	"00 3="
-DENTRY(Lm03)
+LDENTRY(Lm03)
 	.ascii	"00 4=MBR 5=fdd CR=deflt\r\n"
 #endif
 	.asciz	">"
 
 	/* message that we cannot boot correctly */
-DENTRY(Lmsgf)
+LDENTRY(Lmsgf)
 	.asciz	"bad magic\r\n"
 
 	/* output NUL-terminated string from ds:si */
@@ -250,28 +255,28 @@ LpBY2:	stosw
 
 	. = 0x01B7
 	.size	apart, 1
-DENTRY(apart)
+LDENTRY(apart)
 	.byte	0xFF		/* default partition [0..3] or none */
 
 	. = 0x01B8
 	/* Microsoft® NT volume ID, or so I think */
 
 	. = 0x01BE
-DENTRY(Lptab)
+LDENTRY(Lptab)
 	/* partition table */
 
 	. = 0x01F8
 	/* this is pre-installation only */
 	.size	L___hint, 2
-DENTRY(L___hint)
+LDENTRY(L___hint)
 #ifdef	BOOTMANAGER
 	.word	Ltimeout	/* timeout, measured in ticks, for fdisk */
 #else
 	.word	0xFFFF
 #endif
-DENTRY(L___rest)
+LDENTRY(L___rest)
 
 	. = 0x01FE
 	.size	L___magic, 2
-DENTRY(L___magic)
+LDENTRY(L___magic)
 	.word	0xAA55
