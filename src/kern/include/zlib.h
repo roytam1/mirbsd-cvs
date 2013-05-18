@@ -1,4 +1,4 @@
-/* $MirOS: src/kern/include/zlib.h,v 1.4 2007/02/06 20:26:22 tg Exp $ */
+/* $MirOS: src/kern/include/zlib.h,v 1.5 2007/03/02 01:57:06 tg Exp $ */
 /* zlib.h -- interface of the 'zlib' general purpose compression library
   version 1.2.3, July 18th, 2005
 
@@ -1373,8 +1373,9 @@ __END_DECLS
 #endif /* !ZLIB_FREESTANDING */
 
 #ifndef _STANDALONE		/* kernel or userland, but not bootloader */
-/* MirOS extension: adler32() entropy hack */
+/* MirOS extension: adler32() and crc32() entropy hack */
 #define ZLIB_HAS_ADLERPUSH
+#define ZLIB_HAS_CRC32PUSH
 #endif
 
 #endif /* ZLIB_H */

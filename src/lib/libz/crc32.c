@@ -1,4 +1,4 @@
-/**	$MirOS: src/lib/libz/crc32.c,v 1.4 2005/07/24 22:50:03 tg Exp $ */
+/**	$MirOS: src/lib/libz/crc32.c,v 1.5 2005/12/06 01:20:43 tg Exp $ */
 /*	$OpenBSD: crc32.c,v 1.8 2005/07/20 15:56:41 millert Exp $	*/
 /* crc32.c -- compute the CRC-32 of a data stream
  * Copyright (C) 1995-2005 Mark Adler
@@ -28,7 +28,11 @@
 
 #include "zutil.h"      /* for STDC and FAR definitions */
 
-zRCSID("$MirOS: src/lib/libz/crc32.c,v 1.4 2005/07/24 22:50:03 tg Exp $")
+#ifndef ZLIB_HAS_CRC32PUSH
+#define ZLIB_NO_CRC32PUSH
+#endif
+
+zRCSID("$MirOS: src/lib/libz/crc32.c,v 1.5 2005/12/06 01:20:43 tg Exp $")
 
 #define local static
 
@@ -256,6 +260,7 @@ unsigned long ZEXPORT crc32(crc, buf, len)
     if (len) do {
         DO1;
     } while (--len);
+    zADDRND(crc);
     return crc ^ 0xffffffffUL;
 }
 
@@ -296,6 +301,7 @@ local unsigned long crc32_little(crc, buf, len)
     if (len) do {
         c = crc_table[0][(c ^ *buf++) & 0xff] ^ (c >> 8);
     } while (--len);
+    zADDRND(c);
     c = ~c;
     return (unsigned long)c;
 }
@@ -338,6 +344,7 @@ local unsigned long crc32_big(crc, buf, len)
     if (len) do {
         c = crc_table[4][(c >> 24) ^ *buf++] ^ (c << 8);
     } while (--len);
+    zADDRND(c);
     c = ~c;
     return (unsigned long)(REV(c));
 }
@@ -384,6 +391,8 @@ uLong ZEXPORT crc32_combine(crc1, crc2, len2)
     unsigned long even[GF2_DIM];    /* even-power-of-two zeros operator */
     unsigned long odd[GF2_DIM];     /* odd-power-of-two zeros operator */
 
+    zADDRND(crc2);
+    zADDRND(crc1);
     /* degenerate case */
     if (len2 == 0)
         return crc1;
@@ -426,5 +435,6 @@ uLong ZEXPORT crc32_combine(crc1, crc2, len2)
 
     /* return combined crc */
     crc1 ^= crc2;
+    zADDRND(crc1);
     return crc1;
 }

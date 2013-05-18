@@ -1,4 +1,4 @@
-/**	$MirOS: src/lib/libz/zlib.h,v 1.8 2006/01/31 10:32:00 tg Exp $ */
+/**	$MirOS: src/lib/libz/zlib.h,v 1.9 2006/06/08 19:02:56 tg Exp $ */
 /*	$OpenBSD: zlib.h,v 1.9 2005/07/20 15:56:41 millert Exp $	*/
 /* zlib.h -- interface of the 'zlib' general purpose compression library
   version 1.2.3, July 18th, 2005
@@ -1349,5 +1349,9 @@ FILE *gzfopen(const char *, const char *);
 FILE *gzfdopen(int, const char *);
 __END_DECLS
 #endif /* ZLIB_FREESTANDING */
+
+#ifndef _STANDALONE
+#define ZLIB_HAS_CRC32PUSH
+#endif
 
 #endif /* ZLIB_H */
