@@ -1,5 +1,3 @@
-/* $MirOS: src/lib/libexpat/xmlwf/xmlwf.c,v 1.4 2005/11/03 22:28:14 tg Exp $ */
-
 /* Copyright (c) 1998, 1999 Thai Open Source Software Center Ltd
    See the file COPYING for copying permission.
 */
@@ -779,7 +777,7 @@ tmain(int argc, XML_Char **argv)
       XML_SetProcessingInstructionHandler(parser, nopProcessingInstruction);
     }
     else if (outputDir) {
-      size_t nlen;
+      size_t outNameLen;
       const XML_Char *file = useStdin ? T("STDIN") : argv[i];
       if (tcsrchr(file, T('/')))
         file = tcsrchr(file, T('/')) + 1;
@@ -787,11 +785,11 @@ tmain(int argc, XML_Char **argv)
       if (tcsrchr(file, T('\\')))
         file = tcsrchr(file, T('\\')) + 1;
 #endif
-      outName = (XML_Char *)malloc((tcslen(outputDir) + tcslen(file) + 2)
-                       * sizeof(XML_Char));
-      tcscpy(outName, outputDir);
-      tcscat(outName, T("/"));
-      tcscat(outName, file);
+      outName = (XML_Char *)malloc(outNameLen=((tcslen(outputDir) + tcslen(file) + 2)
+                       * sizeof(XML_Char)));
+      tcscpy(outName, outputDir, outNameLen);
+      tcscat(outName, T("/"), outNameLen);
+      tcscat(outName, file, outNameLen);
       fp = tfopen(outName, T("wb"));
       if (!fp) {
         tperror(outName);
