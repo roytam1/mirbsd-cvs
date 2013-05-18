@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/bootxx/bootxx.S,v 1.13 2009/01/10 23:52:48 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/bootxx/bootxx.S,v 1.14 2009/01/10 23:53:27 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2007, 2009
@@ -20,13 +20,22 @@
  * of said person's immediate fault when using the work as intended.
  */
 
+/* we somewhat assume ELF binutils with this, others might work... */
+#define _ASM_LABEL(x)	x
+#define FTYPE(x)	.type x,@function
+#define OTYPE(x)	.type x,@object
+
+#define LDENTRY(x)	OTYPE(_ASM_LABEL(x)); _ASM_LABEL(x):
+#define LTENTRY(x)	FTYPE(_ASM_LABEL(x)); _ASM_LABEL(x):
+#define GDENTRY(x)	.globl _ASM_LABEL(x); LDENTRY(x)
+#define GTENTRY(x)	.globl _ASM_LABEL(x); LTENTRY(x)
+
+/* ... as long as they do Intel syntax (since 1999 or earlier) */
 	.intel_syntax noprefix
 	.code16
 	.text
 
-	.type	_start, @function
-	.globl	_start
-_start:
+GTENTRY(_start)
 	xor	ax,ax
 	push	ax
 	popf
@@ -44,43 +53,46 @@ _start:
 	/* jump to 'cs:offset Lmain' */
 	lret
 
-Lmsg:	.ascii	__BOOT_VER
+LDENTRY(Lmsg)
+	.ascii	__BOOT_VER
 	.asciz	" Loading "
 
-Lerr:	.ascii	"bad magic"
-Lldf:	.ascii	" ERR"
-Lcrlf:	.asciz	"\r\n"
+LDENTRY(Lerr)
+	.ascii	"bad magic"
+LDENTRY(Lldf)
+	.ascii	" ERR"
+LDENTRY(Lcrlf)
+	.asciz	"\r\n"
 
 #define BLKCNT	(blkend - blktbl)
-	.size	blkcnt, 1
-	.type	blkcnt, @object
-	.globl	blkcnt
-blkcnt:	.byte	BLKCNT
+GDENTRY(blkcnt)
+	.byte	BLKCNT
+	.size	blkcnt,1
 
-Lldp:	.word	LsLBA
+LDENTRY(Lldp)
+	.word	LsLBA
 
-	.size	partp, 1
-	.type	partp, @object
-	.globl	partp
-partp:	.byte	0		/* must be Ldrv - 1 */
-Ldrv:	.byte	0x80
+GDENTRY(partp)
+	.byte	0		/* must be Ldrv - 1 */
+	.size	partp,1
+LDENTRY(Ldrv)
+	.byte	0x80
 
-	.size	bpbspt, 2
-	.type	bpbspt, @object
-	.globl	bpbspt
-bpbspt:	.word	18
+GDENTRY(bpbspt)
+	.word	18
+	.size	bpbspt,2
 
-	.size	bpbtpc, 2
-	.type	bpbtpc, @object
-	.globl	bpbtpc
-bpbtpc:	.word	2
+GDENTRY(bpbtpc)
+	.word	2
+	.size	bpbtpc,2
 
 	/* output NUL-terminated string from ds:si */
-	.globl	Lotxt
-Lotxt0:	mov	ah,0x0E
+LTENTRY(Lotxt0)
+	mov	ah,0x0E
 	mov	bx,7
 	int	0x10
-Lotxt:	lodsb
+GTENTRY(Lotxt)
+	lodsb
 	or	al,al
 	jnz	Lotxt0
 	ret
@@ -97,7 +109,8 @@ Lbarf:	call	Lotxt			/* something went wrong */
 	int	0x16
 	jmp	0xF000,0xFFF0
 
-Lmain:	mov	[Ldrv],dl	/* save boot device */
+LTENTRY(Lmain)
+	mov	[Ldrv],dl	/* save boot device */
 	/* say hello */
 	mov	si,offset Lmsg
 	call	Lotxt
@@ -163,7 +176,7 @@ Lmlp1:	/* main load loop */
 				   divided by size of one paragraph */
 	secsizofs = . - 1
 	.globl	secsizofs
-	.size	secsizofs, 1
+	.size	secsizofs,1
 	add	bx,ax		/* increment load addr. segment accordingly */
 	push	bx		/* and save for next round */
 	push	cx		/* save blkcnt */
@@ -286,13 +299,10 @@ LsIN0:	pusha
 	popa
 	jmp	LsIN0
 
-	.type	blktbl, @object
-	.globl	blktbl
-blktbl:
+GDENTRY(blktbl)
 	/* free space for block table till end of sector */
 
 	. = 0x1FE
-	.size	blkend, 2
-	.globl	blkend
-blkend:
+GDENTRY(blkend)
 	.word	0xAA55
+	.size	blkend,2

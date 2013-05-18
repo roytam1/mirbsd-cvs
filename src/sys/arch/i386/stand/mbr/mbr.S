@@ -1,8 +1,8 @@
-/* $MirOS: src/sys/arch/i386/stand/mbr/mbr.S,v 1.7 2008/12/28 20:15:23 tg Exp $ */
+/* $MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $ */
 
 /*-
- * Copyright (c) 2004, 2005, 2007, 2008
- *	Thorsten Glaser <tg@mirbsd.de>
+ * Copyright (c) 2004, 2005, 2007, 2008, 2009
+ *	Thorsten Glaser <tg@mirbsd.org>
  *
  * Provided that these terms and disclaimer and all copyright notices
  * are retained or reproduced in an accompanying document, permission
@@ -18,15 +18,24 @@
  * of dealing in the work, even if advised of the possibility of such
  * damage or existence of a defect, except proven that it results out
  * of said person's immediate fault when using the work as intended.
+ *-
+ * Compile commands:
+ *	$ gcc -D_ASM_SOURCE -DBOOTMANAGER -D__BOOT_VER=\"0AA5\" -c mbr.S
+ *	$ ld -nostdlib -Ttext 0 -N -Bstatic --oformat binary mbr.o -o mbrmgr
+ * __BOOT_VER must be a string of max. 4 bytes (there simply is no more space)
  */
 
-#include <machine/asm.h>
+/* we somewhat assume ELF binutils with this, others might work... */
+#define _ASM_LABEL(x)	x
+#define FTYPE(x)	.type x,@function
+#define OTYPE(x)	.type x,@object
 
 #define LDENTRY(x)	OTYPE(_ASM_LABEL(x)); _ASM_LABEL(x):
 #define LTENTRY(x)	FTYPE(_ASM_LABEL(x)); _ASM_LABEL(x):
 #define GDENTRY(x)	.globl _ASM_LABEL(x); LDENTRY(x)
 #define GTENTRY(x)	.globl _ASM_LABEL(x); LTENTRY(x)
 
+/* ... as long as they do Intel syntax (since 1999 or earlier) */
 	.intel_syntax noprefix
 	.code16
 	.text
@@ -110,7 +119,7 @@ Lmain:	mov	si,offset Lmsg
 	mov	di,cx		/* save it in edi for later */
 	shl	edi,16
 	mov	di,dx		/* 32-bit result in edi */
-	.size	Ltimeout, 4
+	.size	Ltimeout,4
 OTYPE(Ltimeout)
 	add	edi,183		/* 10 seconds, rounded up one tick */
 	Ltimeout = . - 4	/* offset of the "183" above */
@@ -255,7 +264,7 @@ LpBY2:	stosw
 #endif
 
 	. = 0x01B7
-	.size	apart, 1
+	.size	apart,1
 LDENTRY(apart)
 	.byte	0xFF		/* default partition [0..3] or none */
 
@@ -268,7 +277,7 @@ LDENTRY(Lptab)
 
 	. = 0x01F8
 	/* this is pre-installation only */
-	.size	L___hint, 2
+	.size	L___hint,2
 LDENTRY(L___hint)
 #ifdef	BOOTMANAGER
 	.word	Ltimeout	/* timeout, measured in ticks, for fdisk */
@@ -278,6 +287,6 @@ LDENTRY(L___hint)
 LDENTRY(L___rest)
 
 	. = 0x01FE
-	.size	L___magic, 2
+	.size	L___magic,2
 LDENTRY(L___magic)
 	.word	0xAA55
