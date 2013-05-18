@@ -1,4 +1,4 @@
-/**	$MirOS: src/lib/libc/crypt/arc4random.c,v 1.11 2007/08/09 17:28:55 tg Exp $ */
+/**	$MirOS: src/lib/libc/crypt/arc4random.c,v 1.12 2007/08/09 17:47:15 tg Exp $ */
 /*	$OpenBSD: arc4random.c,v 1.14 2005/06/06 14:57:59 kjell Exp $	*/
 
 /*
@@ -46,7 +46,7 @@
 #include <string.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: src/lib/libc/crypt/arc4random.c,v 1.11 2007/08/09 17:28:55 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/crypt/arc4random.c,v 1.12 2007/08/09 17:47:15 tg Exp $");
 
 #ifdef __GNUC__
 #define inline __inline
@@ -207,33 +207,39 @@ arc4random_pushb(const void *buf, size_t len)
 	uint32_t v, i, k;
 	size_t j;
 	int mib[2];
-	uint8_t sbuf[256];
-	tai64na_t tai64tm;
+	union {
+		uint8_t buf[256];
+		tai64na_t tai64tm;
+		uint32_t xbuf[2];
+	} idat;
 
 	v = (rand() << 16) + len;
-	for (j = 0; j < len; ++j)
-		v += ((const uint8_t *)buf)[j];
-	len = MAX(MIN(len, 256), sizeof (tai64na_t));
+	taina_time(&idat.tai64tm);
+	for (j = 0; j < len; ++j) {
+		register uint8_t c;
+
+		c = ((const uint8_t *)buf)[j];
+		v += c;
+		idat.buf[j % 256] ^= c;
+	}
+	while (j < 256)
+		idat.buf[j] ^= ((const uint8_t *)buf)[j % len];
 	v += (k = arc4random()) & 3;
-	memmove(sbuf, buf, len);
-	taina_time(&tai64tm);
 	v += (intptr_t)buf & 0xFFFFFFFF;
-	for (j = 0; j < sizeof (tai64na_t); ++j)
-		sbuf[j] ^= ((uint8_t *)&tai64tm)[j];
 
 	mib[0] = CTL_KERN;
 	mib[1] = KERN_ARND;
 	j = sizeof (i);
 
-	if (sysctl(mib, 2, &i, &j, sbuf, len) != 0) {
-		memcpy(&i, sbuf + len - 1 - sizeof (i), sizeof (i));
-		i ^= (((v & 1) + 1) * (rand() & 0xFF)) ^ arc4random();
-	}
+	if (sysctl(mib, 2, &i, &j, &idat.buf[0], len) != 0)
+		i = idat.xbuf[0] ^
+		    (((v & 1) + 1) * (rand() & 0xFF)) ^ arc4random();
 
-	memcpy(sbuf, &v, sizeof (uint32_t));
-	memcpy(sbuf + sizeof (uint32_t), &i, sizeof (uint32_t));
-	memcpy(sbuf + 2 * sizeof (uint32_t), &tai64tm, sizeof (tai64na_t));
-	arc4_addrandom(&rs, sbuf, 2 * sizeof (uint32_t) + sizeof (tai64na_t));
+	taina_time(&idat.tai64tm);
+	idat.xbuf[0] ^= v;
+	idat.xbuf[1] ^= i ^ (k & 12);
+	j = MAX(sizeof (tai64na_t), 2 * sizeof (uint32_t));
+	arc4_addrandom(&rs, &idat.buf[0], j);
 
-	return ((k & ~3) ^ i);
+	return ((k & ~15) ^ i);
 }
