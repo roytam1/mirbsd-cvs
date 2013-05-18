@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/include/mir18n.h,v 1.8 2006/11/01 18:22:40 tg Exp $ */
+/* $MirOS: src/lib/libc/include/mir18n.h,v 1.9 2006/11/01 18:31:11 tg Exp $ */
 
 #ifndef _LIBC_MIR18N_H
 #define _LIBC_MIR18N_H
@@ -40,7 +40,17 @@
 #endif
 
 __BEGIN_DECLS
-extern bool __locale_is_utf8;	/* actually CESU-8 if true, ASCII if false */
+/*
+ * Current system-wide locale in use:
+ * - false:
+ *	LC_ALL = 'C'
+ *	CODESET = 'ISO_646.irv:1991'
+ * - true:
+ *	LANG = 'C'
+ *	LC_CTYPE = 'en_US.CESU-8'
+ *	CODESET = 'UTF-8'	# XXX because nobody knows what CESU-8 is ;-)
+ */
+extern bool __locale_is_utf8;	/* safe 'cause wchar_t=short => UTF-8=CESU-8 */
 __END_DECLS
 
 #ifdef mir18n_attributes
