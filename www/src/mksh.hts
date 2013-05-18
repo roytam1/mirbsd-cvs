@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.344 2010/07/13 13:46:54 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.345 2010/07/17 22:14:42 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1023,7 +1023,9 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[oksh] Simplify some code; RCSID and comment sync with OpenBSD ksh</li>
  <li>[oksh] Apply diff from manuel giraud to keep track of LINENO in a trap</li>
  <li>[tg] Remove arc4random(3) functionality; seed an LCG depending on the
-  OS doing Address Space Layout Randomisation; speed up</li>
+  OS doing Address Space Layout Randomisation; speed up (on MirBSD/OpenBSD,
+  sysctl(3) KERN_ARND will still be used during seeding; with -DMKSH_A4PB,
+  use of arc4random_pushb(3) e.g. for seeding on Cygwin can be forced)</li>
  <li>[tg] Fix spelling in <tt>dot.mkshrc</tt></li>
  <li>[tg] Implement “live” window resize for the Emacs editing mode</li>
  <li>[tg] More fixes for bugs found by Valgrind and LLVM+Clang scan-build</li>
