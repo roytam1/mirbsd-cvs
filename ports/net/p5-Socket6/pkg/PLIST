@@ -1,8 +1,8 @@
-@comment $MirOS$
+@comment $MirOS: ports/net/p5-Socket6/pkg/PLIST,v 1.1.7.1 2005/03/18 15:48:50 tg Exp $
 ${P5ARCH}/Socket6.pm
 @comment ${P5ARCH}/auto/Socket6/.packlist
 ${P5ARCH}/auto/Socket6/Socket6.bs
-${P5ARCH}/auto/Socket6/Socket6.so
+${P5ARCH}/auto/Socket6/Socket6.${P5DLEXT}
 @dirrm ${P5ARCH}/auto/Socket6
 @dirrm ${P5ARCH}/auto
 @dirrm ${P5ARCH}
