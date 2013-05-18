@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/lib/str.c,v 1.8 2006/11/06 15:59:35 bsiegert Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/lib/str.c,v 1.9 2006/11/19 22:34:07 tg Exp $ */
 /*	$OpenBSD: str.c,v 1.11 2003/07/04 17:31:19 avsm Exp $	*/
 
 /*
@@ -24,7 +24,7 @@
 #include <fnmatch.h>
 #include "lib.h"
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/str.c,v 1.8 2006/11/06 15:59:35 bsiegert Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/str.c,v 1.9 2006/11/19 22:34:07 tg Exp $");
 
 /* Convert a filename (which can be relative to the current directory) to
  * an absolute one. Returns a pointer to a static internal buffer.
@@ -116,7 +116,8 @@ find_version(const char *name)
     if (!name)
 	return NULL;
     for (idx = strchr(name + 1, '-'); idx && *idx && !isdigit(idx[1])
-		&& idx[1] != '<' && idx[1] != '>'; idx = strchr(idx + 1, '-'));
+		&& idx[1] != '<' && idx[1] != '>'  && idx[1] != '*';
+		idx = strchr(idx + 1, '-'));
 
     return idx;
 }
@@ -143,6 +144,21 @@ nuke_version(char *name, bool wildcard)
     return ret;
 }
 
+/* Find the flavour in a package name.
+ */
+char *
+find_flavor(const char *name)
+{
+    char *idx;
+
+    if (!name)
+	return NULL;
+    for (idx = strchr(name + 1, '-'); idx && *idx && !isalpha(idx[1])
+		&& idx[1] != '!'; idx = strchr(idx + 1, '-'));
+
+    return idx;
+}
+
 /* Lowercase a whole string */
 void
 str_lowercase(char *str)
@@ -161,6 +177,42 @@ enum deweycmp_ops {
 	LE,
 	NONE
 };
+
+/* match flavor part of a package against a flavor pattern
+ * used by multiversion_match below
+ */
+static int
+flavorcmp(char *pkg_flavor, char *pattern)
+{
+	char tmp[FILENAME_MAX];
+	char *token, *cp;		/* outer strsep loop */
+	char *pkg_token, *pkg_match;	/* inner strsep loop */
+	bool may_not_match, did_match = false;
+
+	if (!pattern)
+		return 1;
+	if (pkg_flavor)
+		pkg_flavor++; /* jump over '-' */
+	
+	token = pattern;
+	while ((cp = strsep(&token, ",")) != NULL) {
+		may_not_match = (*cp == '!');
+		if (may_not_match)
+			cp++;
+		/* check against all flavors of pkg */
+		if (pkg_flavor)
+			snprintf(tmp, sizeof(tmp), pkg_flavor);
+		else
+			*tmp = '\0';
+		pkg_token = pkg_flavor;
+		while ((pkg_match = strsep(&pkg_token, "-")) != NULL)
+			did_match |= !strcmp(cp, pkg_match);
+		if ((may_not_match && did_match) ||
+				(!may_not_match && !did_match))
+			return 0;
+	}
+	return 1;
+}
 
 /* compare two dewey decimal numbers */
 static int
@@ -304,9 +356,11 @@ glob_match(const char *pattern, const char *pkg)
 static int
 multiversion_match(const char *pattern, const char *pkg)
 {
-	char			*cp, *ver, *token;
-	char			name[FILENAME_MAX];
+	char *cp, *ver, *token;
+	char *flavor = NULL;
+	char name[FILENAME_MAX];
 	enum deweycmp_ops op;
+	int result = 0;
 
 	/* short-cut path if the name does not match */
 	ver = find_version(pkg);
@@ -319,18 +373,33 @@ multiversion_match(const char *pattern, const char *pkg)
 	snprintf(name, sizeof(name), cp + 1);
 	token = name;
 
+	/* Does the match have a flavor part? */
+	flavor = find_flavor(name);
+	if (flavor) {
+		*flavor = '\0'; /* limit multiver match to non-flavor part */
+		flavor++;
+	}
+
 	while ((cp = strsep(&token, ",")) != NULL) {
 		op = NONE;
 		if (*cp == '>')
 			op = (cp[1] == '=') ? GE : GT;
 		else if (*cp == '<')
 			op = (cp[1] == '=') ? LE : LT;
-		if (op == NONE && glob_match(cp, ver))
-			return 1;
-		if (op != NONE && !deweycmp(ver, op, (op == GE || op == LE) ? cp + 2 : cp + 1))
-			return 0;
+		if (op == NONE && glob_match(cp, ver)) {
+			result = 1;
+			break;
+		}
+		if (op != NONE) {
+		       	result = deweycmp(ver, op, (op == GE || op == LE) ?
+					cp + 2 : cp + 1);
+			if (!result)
+				break;
+		}
 	}
-	return 1;
+	if (!result || !flavor)
+		return result;
+	return flavorcmp(find_flavor(find_version(pkg)), flavor);
 }
 
 /* perform simple match on "pkg" against "pattern" */
@@ -349,17 +418,25 @@ simple_match(const char *pattern, const char *pkg)
 int
 pmatch(const char *pattern, const char *pkg)
 {
+	char *cp;
+
 	if (strchr(pattern, '{')) {
 		/* emulate csh-type alternates */
 		return alternate_match(pattern, pkg);
 	}
-	if (strchr(pattern, ',')) {
+	if (strpbrk(pattern, ",!")) {
 		/* perform match on multiple versions */
 		return multiversion_match(pattern, pkg);
 	}
-	if (strpbrk(pattern, "<>")) {
-		/* perform relational dewey match on version number */
-		return dewey_match(pattern, pkg);
+	if ((cp = strpbrk(pattern, "<>"))) {
+		if (!strchr(cp, '-')) {
+			/* perform relational dewey match on version number */
+			return dewey_match(pattern, pkg);
+		} else {
+			/* special case: one version, one flavor */
+			return multiversion_match(pattern, pkg);
+		}
+			
 	}
 	if (strpbrk(pattern, "*?[]")) {
 		/* glob match */
