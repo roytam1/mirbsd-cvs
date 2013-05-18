@@ -1,12 +1,14 @@
-# $MirOS: src/usr.sbin/Makefile,v 1.12 2006/01/01 15:43:48 tg Exp $
+# $MirOS: src/usr.sbin/Makefile,v 1.13 2006/06/09 00:55:24 tg Exp $
 # $OpenBSD: Makefile,v 1.110 2004/05/04 23:27:21 deraadt Exp $
 
 .include <bsd.own.mk>
 
   SUBDIR+= ac
   SUBDIR+= accton
+.if (${MACHINE} == "amd64") || (${MACHINE} == "i386")
   SUBDIR+= apm
   SUBDIR+= apmd
+.endif
   SUBDIR+= arp
 # SUBDIR+= authpf
   SUBDIR+= bad144
