@@ -1,10 +1,11 @@
-$MirOS: ports/www/lynx/patches/patch-src_LYMain_c,v 1.10 2009/01/18 20:22:05 tg Exp $
+$MirOS: ports/www/lynx/patches/patch-src_LYMain_c,v 1.11 2009/08/09 15:46:32 tg Exp $
 
 	site policy
+	also contains a spelling change; suggested for upstream inclusion
 
---- src/LYMain.c.orig	Sun Jul  5 23:52:09 2009
-+++ src/LYMain.c	Sun Aug  9 15:35:31 2009
-@@ -1162,6 +1162,9 @@ int main(int argc,
+--- src/LYMain.c.orig	Sat Dec 11 15:26:08 2010
++++ src/LYMain.c	Thu Dec 23 20:13:40 2010
+@@ -1163,6 +1163,9 @@ int main(int argc,
      StrAllocCopy(LYUserAgent, LYNX_NAME);
      StrAllocCat(LYUserAgent, "/");
      StrAllocCat(LYUserAgent, LYNX_VERSION);
@@ -14,19 +15,28 @@ $MirOS: ports/www/lynx/patches/patch-src_LYMain_c,v 1.10 2009/01/18 20:22:05 tg 
      if (HTLibraryVersion) {
  	StrAllocCat(LYUserAgent, " libwww-FM/");
  	StrAllocCat(LYUserAgent, HTLibraryVersion);
-@@ -2068,10 +2071,7 @@ int main(int argc,
+@@ -2070,10 +2073,7 @@ int main(int argc,
       * synchronized.  - FM
       */
-     if (!bookmark_page || *bookmark_page == '\0') {
+     if (isEmpty(bookmark_page)) {
 -	temp = NULL;
 -	HTSprintf0(&temp, "lynx_bookmarks%s", HTML_SUFFIX);
 -	set_default_bookmark_page(temp);
 -	FREE(temp);
 +	set_default_bookmark_page("./.etc/bookmark.htm");
      }
-     if (!BookmarkPage || *BookmarkPage == '\0') {
+     if (isEmpty(BookmarkPage)) {
  	set_default_bookmark_page(bookmark_page);
-@@ -3002,7 +3002,7 @@ disallow execution of Lynx CGI URLs" },
+@@ -2966,7 +2966,7 @@ within userdefs.h." },
+ #endif
+ 	{ "file_url", "\
+ disallow using G)oto, served links or bookmarks for\n\
+-file: URL's" },
++file: URLs" },
+ 	{ "goto", "disable the 'g' (goto) command" },
+ #if !defined(HAVE_UTMP) || defined(VMS) /* not selective */
+ 	{ "inside_ftp", "\
+@@ -3004,7 +3004,7 @@ disallow execution of Lynx CGI URLs" },
  	{ "mail", "disallow mail" },
  	{ "multibook", "disallow multiple bookmark files" },
  	{ "news_post", "disallow USENET News posting." },
@@ -35,7 +45,7 @@ $MirOS: ports/www/lynx/patches/patch-src_LYMain_c,v 1.10 2009/01/18 20:22:05 tg 
  #if !defined(HAVE_UTMP) || defined(VMS) /* not selective */
  	{ "outside_ftp", "\
  disallow ftps coming from outside your\n\
-@@ -3168,38 +3168,7 @@ static int version_fun(char *next_arg GC
+@@ -3170,38 +3170,7 @@ static int version_fun(char *next_arg GC
      printf("%s\n", result);
      free(result);
  

@@ -1,0 +1,33 @@
+$MirOS$
+
+	Fix spelling; suggested for upstream inclusion.
+
+--- src/LYGetFile.c.orig	Sat Dec 11 15:26:08 2010
++++ src/LYGetFile.c	Thu Dec 23 20:13:40 2010
+@@ -182,7 +182,7 @@ int getfile(DocInfo *doc, int *target)
+      * Check to see if this is a universal document ID that lib WWW wants to
+      * handle.
+      *
+-     * Some special URL's we handle ourselves.  :)
++     * Some special URLs we handle ourselves.  :)
+      */
+     if ((url_type = is_url(doc->address)) != 0) {
+ 	if (LYValidate && !LYPermitURL) {
+@@ -942,7 +942,7 @@ int getfile(DocInfo *doc, int *target)
+ 		    LYFreePostData(doc);
+ 		}
+ 		/*
+-		 * Go to top to check for URL's which get special handling
++		 * Go to top to check for URLs which get special handling
+ 		 * and/or security checks in Lynx.  - FM
+ 		 */
+ 		goto Try_Redirected_URL;
+@@ -957,7 +957,7 @@ int getfile(DocInfo *doc, int *target)
+ 	    lynx_mode = NORMAL_LYNX_MODE;
+ 
+ 	    /*
+-	     * Some URL's don't actually return a document; compare
++	     * Some URLs don't actually return a document; compare
+ 	     * doc->address with the document that is actually loaded and
+ 	     * return NULLFILE if not loaded.  If www_search_result is not -1
+ 	     * then this is a reference to a named anchor within the same

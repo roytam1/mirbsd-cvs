@@ -1,0 +1,33 @@
+$MirOS$
+
+	Fix spelling; suggested for upstream inclusion.
+
+--- src/LYMainLoop.c.orig	Mon Oct  4 09:44:32 2010
++++ src/LYMainLoop.c	Thu Dec 23 20:13:40 2010
+@@ -900,7 +900,7 @@ static int find_link_near_col(int col,
+ 
+ /*
+  * This is a special feature to traverse every http link derived from startfile
+- * and check for errors or create crawl output files.  Only URL's that begin
++ * and check for errors or create crawl output files.  Only URLs that begin
+  * with "traversal_host" are searched - this keeps the search from crossing to
+  * other servers (a feature, not a bug!).
+  */
+@@ -1950,7 +1950,7 @@ static void handle_LYK_DIRED_MENU(BOOLEA
+ 
+     /*
+      * If we are viewing a local directory listing or a local file which is not
+-     * temporary, invoke CSwing with the URL's directory converted to VMS path
++     * temporary, invoke CSwing with the URLs directory converted to VMS path
+      * specs and passed as the argument, so we start up CSwing positioned on
+      * that node of the directory tree.  Otherwise, pass the current default
+      * directory as the argument.  - FM
+@@ -7293,7 +7293,7 @@ int mainloop(void)
+ 	    break;
+ 
+ #ifdef EXP_ADDRLIST_PAGE
+-	case LYK_ADDRLIST:	/* always list URL's (only) */
++	case LYK_ADDRLIST:	/* always list URLs (only) */
+ 	    if (handle_LYK_ADDRLIST(&cmd))
+ 		goto new_cmd;
+ 	    break;
