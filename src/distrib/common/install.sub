@@ -1673,11 +1673,12 @@ SERIALDEV=$(get_serialdev)
 # the contents of the other sets, not the other way around.
 THESETS="bsd bsd.rd $MDSETS"
 DEFAULTSETS="bsd"
-for s in base etc gnu dev xbase xetc unfree pkgutl ports source xfree site; do
-	[[ $MODE == upgrade && $s == ?(x)etc ]] && continue
-	THESETS="$THESETS ${s}${VERSION}.ngz"
-	isin $s xbase xetc unfree pkgutl ports source xfree site || \
-	    DEFAULTSETS="$DEFAULTSETS ${s}${VERSION}.ngz"
+for _set in base etc gnu dev ada xbase xetc unfree pkgutl ports source \
+    xfree site; do
+	[[ $MODE == upgrade && $_set == ?(x)etc ]] && continue
+	THESETS="$THESETS ${_set}${VERSION}.ngz"
+	isin $_set ada xbase xetc unfree pkgutl ports source xfree site || \
+	    DEFAULTSETS="$DEFAULTSETS ${_set}${VERSION}.ngz"
 done
 # Since etc${VERSION}.ngz is not in DEFAULTSETS for upgrades, it can always be
 # in SANESETS.
