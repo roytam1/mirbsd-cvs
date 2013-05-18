@@ -1,25 +1,9 @@
-# $MirOS: src/distrib/sparc/Makefile,v 1.5 2006/07/03 22:08:05 tg Exp $
+# $MirOS: src/distrib/sparc/Makefile,v 1.6 2006/07/05 04:47:33 tg Exp $
 
 .include <bsd.own.mk>
 
-REL_NO_KERNEL?=	No
-.if ${REL_NO_KERNEL:L} != "yes"
 REL_NO_GENERIC?=No
 REL_NO_RAMDISK?=No
-REL_NO_MINIROOT?=No
-REL_NO_FLOPPY?=	No
-REL_NO_AUTOISO?=No
-.else
-REL_NO_GENERIC=	Yes
-REL_NO_RAMDISK=	Yes
-REL_NO_MINIROOT=Yes
-REL_NO_FLOPPY=	Yes
-REL_NO_AUTOISO=	Yes
-.endif
-
-.if ${REL_NO_RAMDISK:L} == "yes"
-REL_NO_AUTOISO=	Yes
-.endif
 
 .if make(obj) || make(clean) || make(cleandir) || make(cleannobsd)
 _DESCEND=	yes
@@ -35,16 +19,8 @@ SUBDIR+=	../generic
 
 .if ${_DESCEND} == "yes" || ${REL_NO_RAMDISK:L} != "yes"
 SUBDIR+=	../ramdisk
-.endif
-
-.if ${_DESCEND} == "yes" || ${REL_NO_MINIROOT:L} != "yes"
 #SUBDIR+=	../miniroot
 .endif
-
-.if ${_DESCEND} == "yes" || ${REL_NO_AUTOISO:L} != "yes"
-SUBDIR+=	cdfs
-.endif
-
 
 cleannobsd: _SUBDIRUSE
 
