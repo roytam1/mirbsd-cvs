@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.468 2012/08/24 21:33:45 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.469 2012/09/02 15:07:32 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1163,6 +1163,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Fix ulimit builtin usage to match what limits we actually know</li>
  <li>[tg] Allow overriding /etc location, experts only (LP: #1039713)</li>
  <li>[tg] Update to Unicode 6.1.0</li>
+ <li>[tg, Todd Miller] Avoid changing ps(1) output by accident</li>
 </ul>
 <p>Changes in the current (unreleased) stable branch:</p><ul>
  <li>[tg] Fix a bug in the manual page</li>
