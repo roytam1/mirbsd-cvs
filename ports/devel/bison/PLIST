@@ -1,5 +1,4 @@
-@comment $MirOS: ports/devel/bison/pkg/PLIST,v 1.1.7.1 2005/03/18 15:44:28 tg Exp $
-@comment $OpenBSD: PLIST,v 1.6 2003/12/16 17:34:06 naddy Exp $
+@comment $MirOS$
 @unexec install-info --delete --info-dir=%D/info %D/info/bison.info
 bin/bison
 info/bison.info
