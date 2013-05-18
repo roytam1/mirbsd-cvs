@@ -1,4 +1,4 @@
-.\" $MirOS: src/share/man/man9/style.9,v 1.16 2010/08/28 16:52:58 tg Exp $
+.\" $MirOS: src/share/man/man9/style.9,v 1.17 2011/05/05 00:00:27 tg Exp $
 .\"-
 .\" Copyright (c) 2002-2011 The MirOS Project.
 .\" Copyright (c) ? OpenBSD
@@ -86,7 +86,7 @@
 .\" with -mandoc, it might implement .Mx itself, but we want to
 .\" use our own definition. And .Dd must come *first*, always.
 .\"
-.Dd $Mdocdate: August 28 2010 $
+.Dd $Mdocdate: May 5 2011 $
 .\"
 .\" Check which macro package we use, and do other -mdoc setup.
 .\"
@@ -853,7 +853,9 @@ functions where the compiler does not know the type.
 .Pp
 Don't use
 .Ql \&!
-for tests unless it's a boolean, i.e., use
+for tests unless it's a boolean (or an integral flag used in a boolean
+context, almost certainly with a bitwise AND operation, since otherwise
+using a bool would be correct), i.e., use
 .Bd -literal -offset indent
 if (p != NULL && *p == \*(aq\e0\*(aq)
 .Ed
