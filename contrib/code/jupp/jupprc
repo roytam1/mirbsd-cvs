@@ -305,6 +305,7 @@
 *.l
 -syntax lex
 -c_comment
+-cpp_comment
 
  === LISP
 *.lisp
@@ -461,6 +462,7 @@
 *.y
 -syntax yacc
 -c_comment
+-cpp_comment
 
 :defmenu juppoptions
 mode,"transpose",rtn	% % Transpose menus% % % %Ztranspose% % 
@@ -584,7 +586,7 @@ mode,"usetabs",rtn	% % -usetabs% % % % % % % % % % %Zusetabs% %
 \i \i^[? Query    ^QM Math     \u\bCharSEARCH\b\u  \u\bQUOTE\b\u       \u\bDELETE\b\u      \u\bBOOKMARKS\b\u      \i \i
 \i \i^[D Dump     ^[H Message  ^QH forwrd   ` Ctrl-    ^[Y yank    ^K 0-9 Set     \i \i
 \i \i^[ 0-9 Play  ^N  Play #0  ^QG backwd  ^P Meta-    ^[O word<   ^Q 0-9 Goto    \i \i
-\i \i \u\bIn math mode\b\u, hex does not work. All ops are floating point internally.     \i \i
+\i \i \u\bIn math mode\b\u, use 0xCAFE for hex. Press ^[. four times for more help.       \i \i
 \i \i \u\bPredefined variables:\b\u byte col height line lines top width                  \i \i
 }
 
