@@ -2,7 +2,7 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.189 2008/11/14 15:59:13 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.190 2008/11/14 16:02:18 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R36</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -667,7 +667,7 @@ mws_content <<'EOF'
  MidnightBSD 0.2-CURRENT from 18th August 2007 onwards has mksh as both <a
  href="http://cvsweb.midnightbsd.org/src/contrib/mksh/"><tt>/bin/mksh</tt></a>
  and <a href="http://cvsweb.midnightbsd.org/src/bin/mksh/"><tt>/bin/ksh</tt></a>,
- i.e. it is the default Korn shell.</li>
+ i.e. it is the default MidnightBSD Korn shell.</li>
 <li><a href="http://www.pkgsrc.org/">NetBSD® pkgsrc®</a> (native also on recent
  DragonFly BSD; available for many other operating systems as well) has a <a
  href="http://cvsweb.netbsd.org/bsdweb.cgi/pkgsrc/shells/mksh/">package</a>
@@ -1040,6 +1040,20 @@ mws_content <<'EOF'
  <li>[tg] Work around llvm-gcc-4.2.1 -Wformat pickyness</li>
  <li>[tg] Add new <tt>Build.sh</tt> option ‘-llvm’ (clang, llvm-gcc)</li>
  <li>[tg] Speed up mirtoconf if ‘-DMKSH_ASSUME_UTF8’ is set</li>
+ <li>[tg] Add the workaround for Debian #492377 into the main mirtoconf
+  function (hiding gcc errors during the configure phase) because Gentoo
+  has similar scanner issues; reported by Hanno Böck</li>
+ <li>[tg] Prepare code for new memory allocator (unfinished)</li>
+ <li>[tg] Use a (nmemb, size) API for allocation to check for overflows</li>
+ <li>[tg] If an MKSH_SMALL has arc4random(3), skip the rand(3)/srand(3)
+  fall-back altogether to shrink size, also removed need for time(3)</li>
+ <li>[tg] Fix alias expansion recursion check if the word to be expanded
+  is immediately followed by end of input, add test case; spotted by
+  Michael Hlavinka in pdksh and mksh; Closes: RedHat #474115</li>
+ <li>[tg] Fix string/wdstring confusion preventing bashiop (&amp;&gt;foo)
+  to work inside a function, add regression test, limit to 99 fds</li>
+ <li>[tg] Rename <tt>-o utf8-hack</tt> to <tt>-o utf8-mode</tt> and change
+  regression tests to <tt>set -U</tt> or <tt>set +U</tt> instead</li>
 </ul>
 <p id="r36">mksh R36 features the following changes:</p><ul>
  <li>Fix <tt>Build.sh</tt> invocation without ‘-r’, 10x Elias Pipping</li>
