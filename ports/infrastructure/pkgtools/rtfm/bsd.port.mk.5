@@ -1,4 +1,4 @@
-.\" $MirOS: ports/infrastructure/pkgtools/rtfm/bsd.port.mk.5,v 1.22 2008/05/25 20:56:38 tg Exp $
+.\" $MirOS: ports/infrastructure/pkgtools/rtfm/bsd.port.mk.5,v 1.23 2008/10/05 19:04:34 tg Exp $
 .\" $OpenBSD: bsd.port.mk.5,v 1.134 2004/02/18 13:39:02 xsa Exp $
 .\"
 .\" Copyright (c) 2007, 2008 Thorsten Glaser
@@ -63,7 +63,7 @@
 .\" with -mandoc, it might implement .Mx itself, but we want to
 .\" use our own definition. And .Dd must come *first*, always.
 .\"
-.Dd $Mdocdate: May 25 2008 $
+.Dd $Mdocdate: October 5 2008 $
 .\"
 .\" Implement .Mx (MirBSD)
 .\"
@@ -1567,6 +1567,32 @@ ${SED_PLIST} is invoked as a pipeline after inserting PFRAG.shared fragments.
 .It Ev SCRIPTDIR
 Location for scripts related to the current port (default: scripts.${ARCH}
 or scripts).
+.It Ev SVN_DIST*
+Enables an operation mode where the distfile is
+fetched from Subversion.
+The following variables can be set by the user:
+.Bl -tag -width SVN_DISTFILE
+.It Ev SVN_DISTDIR
+Name of the top-level directory to check out to.
+Optional (derived from the basename of
+.Ev SVN_DISTPATH ) .
+.It Ev SVN_DISTFILE
+The file name prefix.
+Optional (derived from the basename of
+.Ev SVN_DISTDIR ) .
+.It Ev SVN_DISTREPO
+Repository to check out from (full path).
+.It Ev SVN_DISTREV
+Revision to check out.
+.El
+.Pp
+For the full documentation for these variables, see
+.Xr cvs-distfiles 7 .
+.Pp
+.Ev WRKDIST
+is set automatically to ${WRKDIR}/${SVN_DISTDIR}.
+.Ev PKGNAME
+defaults to ${SVN_DISTFILE}-${SVN_DISTREV}-${DASH_VER}.
 .It Ev SUBPACKAGE
 Set to the sub package suffix when building a package in a multi-package port.
 Read-only.
