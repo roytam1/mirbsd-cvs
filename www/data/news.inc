@@ -226,6 +226,10 @@ Date: 22.06.2007
 <p>As you can see, we're continuing our not only tradition but also mission
  to provide working, reliable software. (If you try interactively typing one
  of the last two examples, mksh just waits for the closing parenthesis.)</p>
+<p>Furthermore, <a href="@@RELPATH@@permalinks/news_e20070605-nn.htm">our
+ portability promise</a> is kept – mksh now also compiles fine with the vendor
+ tools on HP-UX, which even have found a little shortcoming in the code I only
+ can shake my head about… no idea who coded <em>that</em> ugly thing…</p>
 <p>On unrelated news, bsiegert@ has continued his work on bringing the GNOME
  ports into shape for the impending release of MirOS #10.</p>
 ----
