@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/include/ansi.h,v 1.5 2005/09/22 19:45:24 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/include/ansi.h,v 1.6 2005/11/21 19:31:57 tg Exp $ */
 /*	$OpenBSD: ansi.h,v 1.9 2004/01/03 14:08:52 espie Exp $	*/
 /*	$NetBSD: ansi.h,v 1.7 1996/11/15 22:38:50 jtc Exp $	*/
 
@@ -70,6 +70,13 @@
 #else
 /* LONGLONG */
 #define _BSD_OFF_T_	long long		/* file offset */
+#endif
+
+#ifndef __SIZE_TYPE__
+#define	__SIZE_TYPE__		unsigned int
+#define	__PTRDIFF_TYPE__	int
+#define	__WCHAR_TYPE__		unsigned short
+#define	__WINT_TYPE__		unsigned int
 #endif
 
 #endif	/* _ANSI_H_ */
