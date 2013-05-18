@@ -2,7 +2,7 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.133 2008/07/09 19:56:17 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.134 2008/07/09 21:45:14 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R33d</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -720,6 +720,9 @@ mws_content <<'EOF'
  <li>MirOS #10-current (i386 gcc3.4.6)</li>
  <li style="list-style:none;">– tests by the project, using Build.sh –</li>
  <li>MirOS #10-current (i386 pcc-20080709)</li>
+ <li>OpenBSD 4.3 GENERIC#207 (zaurus gcc3.3.5)</li>
+ <li>MidnightBSD 0.2-CURRENT (i386 gcc3.4.6-20060305)</li>
+ <li>MidnightBSD 0.2-CURRENT (i386 pcc-20080502-MirPorts-0) + <tt>LIBS=-lgcc</tt></li>
 </ul>
 <h3 id="regress_dev">Development Versions</h3>
 <ul>
@@ -735,10 +738,8 @@ mws_content <<'EOF'
  <li>BSDi BSD/OS 3.1 #4 M300-043 (i386 gcc1.42)</li>
  <li>DragonFly 1.9-DEVELOPMENT Feb 17, 2007 (i386 gcc3.4.6)</li>
  <li>FreeBSD 6.2-RELEASE (i386 gcc3.4.6-20060305)</li>
- <li>MidnightBSD 0.2-CURRENT (i386 gcc3.4.6-20060305)</li>
  <li>MidnightBSD 0.1.1-RELEASE (sparc64 gcc3.4.4-20050518)</li>
  <li>NetBSD 3.0_STABLE (i386 gcc3.3.3_nb3_20040520)</li>
- <li>OpenBSD 4.3 GENERIC#207 (zaurus gcc3.3.5)</li>
  <li>Debian GNU/kFreeBSD 4.0 sid 6.2-1-686 (i386 gcc1:3.3.6-15)</li>
  <li>Debian GNU/kFreeBSD 4.0 sid 6.2-1-686 (i386 gcc3.4.6-6)</li>
  <li>Debian GNU/kFreeBSD 4.0 sid 6.2-1-686 (i386 gcc4.0.3-7)</li>
