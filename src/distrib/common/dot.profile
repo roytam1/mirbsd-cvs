@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/dot.profile,v 1.58 2010/09/25 12:01:48 tg Exp $
+# $MirOS: src/distrib/common/dot.profile,v 1.59 2011/02/18 23:06:02 tg Exp $
 # $OpenBSD: dot.profile,v 1.4 2002/09/13 21:38:47 deraadt Exp $
 # $NetBSD: dot.profile,v 1.1 1995/12/18 22:54:43 pk Exp $
 #
@@ -153,7 +153,7 @@ This work is provided "AS IS" and WITHOUT WARRANTY of any kind.\n'
 	print -n >/.profile.done
 
 	# reset arandom(4) – in a subshell for arc4_stir_pid
-	(typeset -i1 x=RANDOM; print -n "${x#1#}" >/dev/arandom)
+	typeset -i1 x=RANDOM; print -n "${x#1#}" >/dev/arandom
 
 	# try to spawn a second shell
 	mksh -lT1 >/dev/null 2>&1
@@ -175,6 +175,7 @@ This work is provided "AS IS" and WITHOUT WARRANTY of any kind.\n'
 else
 	stty newcrt werase ^W intr ^C kill ^U erase ^? status ^T
 fi
+RANDOM=$(dd if=/dev/arandom count=1 bs=4 2>/dev/null | hexdump -e '1/4 "%u"')
 export TERM=vt220 IRCUSER=MirBSD_s IRCNICK=MirOS_BSD-$RANDOM
 print -n '\nAvailable editor: ed'
 [ -x /usr/bin/vi ] && print -n ' (n)vi'
