@@ -1,6 +1,6 @@
-$MirOS: ports/net/wget/patches/patch-doc_wget_texi,v 1.2 2005/06/29 14:04:45 tg Exp $
---- doc/wget.texi.orig	Mon Aug  8 22:54:16 2005
-+++ doc/wget.texi	Thu Nov 10 21:23:08 2005
+$MirOS: ports/net/wget/patches/patch-doc_wget_texi,v 1.3 2005/11/10 22:20:43 tg Exp $
+--- doc/wget.texi.orig	Sat Oct 14 23:26:50 2006
++++ doc/wget.texi	Sat Oct 14 23:26:50 2006
 @@ -11,6 +11,11 @@
  @setchapternewpage on
  @c %**end of header
@@ -13,7 +13,7 @@ $MirOS: ports/net/wget/patches/patch-doc_wget_texi,v 1.2 2005/06/29 14:04:45 tg 
  @iftex
  @c Remove this if you don't use A4 paper.
  @afourpaper
-@@ -189,7 +194,7 @@ Built-in features offer mechanisms to tu
+@@ -187,7 +192,7 @@ Built-in features offer mechanisms to tu
  The progress of individual downloads is traced using a progress gauge.
  Interactive downloads are tracked using a ``thermometer''-style gauge,
  whereas non-interactive ones are traced with dots, each dot
@@ -22,7 +22,7 @@ $MirOS: ports/net/wget/patches/patch-doc_wget_texi,v 1.2 2005/06/29 14:04:45 tg 
  gauge can be customized to your preferences.
  
  @item
-@@ -763,7 +768,7 @@ seconds.
+@@ -761,7 +766,7 @@ seconds.
  Limit the download speed to @var{amount} bytes per second.  Amount may
  be expressed in bytes, kilobytes with the @samp{k} suffix, or megabytes
  with the @samp{m} suffix.  For example, @samp{--limit-rate=20k} will
