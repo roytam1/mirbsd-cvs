@@ -1,5 +1,5 @@
 <!-- PageID: wlog-4 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy00.inc,v 1.3 2006/01/27 00:14:30 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy00.inc,v 1.4 2006/01/27 00:54:11 tg Exp $</small>
 <p><img src="/pics/logo-mirbsd.png" width="240" height="60" alt="Logo" /></p>
 <h1>MirBSD - More connectivity than ever</h1>
 <p>This is an archived weblog of the development leading to <a
@@ -180,7 +180,7 @@
  <br /><tt># fdisk -ef FILENAME_THAT_DOES_NOT_EXIST wd0</tt><br />
  and it will complain about being unable to open the MBR code file and
  use its own which I synched with the !BOOTMANAGER one.</p>
-<p>26.05.2003<br />Due to <a href="http://marc.theaimsgroup.com/?m=105396955009013"
+<p>26.05.2003<br />Due to <a href="http://marc.info/?m=105396955009013"
  id="issues">certain recent issues</a> I <strong>restrain
  from trying to help people by back-porting my changes to OpenBSD</strong>,
  they will have to use MirBSD instead. No licence restrictions though.

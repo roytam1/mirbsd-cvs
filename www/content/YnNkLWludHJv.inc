@@ -1,5 +1,5 @@
 <!-- PageID: bsd-intro -->
-<small class="rcsid">$MirOS: www/content/YnNkLWludHJv.inc,v 1.4 2006/01/27 00:14:27 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/YnNkLWludHJv.inc,v 1.5 2006/01/27 00:54:10 tg Exp $</small>
 <h1>What is BSD? What is OpenBSD?</h1>
 
 <h2>Introduction</h2>
@@ -218,7 +218,7 @@
   (<a href="http://mirbsd.de/">alternative start page</a>)
   home page for users, with anoncvs and cvsweb, and a <a
   href="/?mirwarum">German essay about why SourceMill chose MirBSD</a>.</li>
- <li><a href="http://marc.theaimsgroup.com/">Mailing list ARChives</a></li>
+ <li><a href="http://marc.info/">Mailing list ARChives</a></li>
  <li><a href="http://www.freebsd.org/">FreeBSD</a> home page</li>
  <li><a href="http://www.netbsd.org/">NetBSD</a> home page</li>
  <li>MicroBSD is now defunct, although some of their security
@@ -293,7 +293,7 @@
   for Unix&reg; systems</li>
  <li><a href="http://catalog.com/hopkins/unix-haters/handbook.html">The
   UNIX&reg;-Haters Handbook</a></li>
- <li>About <a href="http://marc.theaimsgroup.com/?l=openbsd-misc&amp;m=103203098724291&amp;w=2">
+ <li>About <a href="http://marc.info/?l=openbsd-misc&amp;m=103203098724291&amp;w=2">
   using rdate(8)</a> to sync your workstation's time, by mirabile</li>
  <li>The <a href="http://sites.inka.de/mips/unix/unixphil.html">Unix
   Philosophy</a> (German) by naddy@openbsd.org</li>

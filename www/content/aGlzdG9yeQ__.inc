@@ -1,8 +1,8 @@
 <!-- PageID: history -->
-<small class="rcsid">$MirOS: www/content/aGlzdG9yeQ__.inc,v 1.4 2006/01/27 00:14:28 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/aGlzdG9yeQ__.inc,v 1.5 2006/10/29 22:22:43 tg Exp $</small>
 <h1>History of MirOS</h1>
 
-<p>On <a href="http://marc.theaimsgroup.com/?m=103065556502499">August
+<p>On <a href="http://marc.info/?m=103065556502499">August
  29th, 2002</a>, <a href="http://theos.com/">Theo de Raadt</a>, leader
  of the operating system project <a href="http://www.openbsd.org/">OpenBSD</a>,
  co-founder of its predecessor <a href="http://www.netbsd.org/">NetBSD</a>,

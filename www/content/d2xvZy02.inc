@@ -1,5 +1,5 @@
 <!-- PageID: wlog-6 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy02.inc,v 1.3 2006/01/27 00:14:30 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy02.inc,v 1.4 2006/01/27 00:54:11 tg Exp $</small>
 <p><img src="/pics/logo-mirbsd.png" width="240" height="60" alt="Logo" /></p>
 <h1>MirBSD - Enjoying Social Events</h1>
 <p>This is an archived weblog of the development leading to <a
@@ -165,7 +165,7 @@
  Statically link gzip/compress - you'll be glad for <strong>that</strong>
  in the future. Change mdoc/man from MirBSD to MirOS where it makes sense.
  And a whole bunch of licence cleanup.<br /><strong>One Year MirBSD</strong>,
- and six days now. <a href="http://marc.theaimsgroup.com/?m=103065556502499">It
+ and six days now. <a href="http://marc.info/?m=103065556502499">It
  all started with this reply</a>, when I decided to have my own, patched,
  <tt>/usr/src</tt>. That was on 29 August 2002, when Theo de Raadt, founder
  and chief benevolent dictator of OpenBSD, rejected my port of the useful

@@ -1,10 +1,55 @@
-<!-- PageID: older -->
-<small class="rcsid">$MirOS: www/content/b2xkZXI_.inc,v 1.27 2006/06/25 23:25:15 tg Exp $</small>
+# This file is part of the website of The MirOS Project, which is
+# copyrighted material, please read the LICENCE file for details.
+
+mws_setname oldnews "Old News and Weblog"
+mws_subdir 0
+mws_putheader '$MirOS$'
+mws_content <<'EOF'
 <h1>Older News and Weblogs</h1>
-<h3>Old News</h3>
+
+<h2>Old Weblog</h2><ul>
+<li><a href="/?wlog-0">From the beginning to December 2002</a> after
+ the first BSD-mirabile snapshot ever (derived from OpenBSD-current-mirabile)
+ has been uploaded to the world wide web</li>
+<li><a href="/?wlog-1">From December 2002 to January 2003</a>
+ starting with release of MirBSD Snapshot #1</li>
+<li><a href="/?wlog-2">February of 2002</a>, starting with release
+ of <a>MirBSD Snapshot #2 RC4=RELEASE</a>, a
+ fully static a.out system with exec-ELF capability. Ending with a
+ working, self-hosted, ELF system.</li>
+<li><a href="/?wlog-3">From March 2003 to mid of April 2003</a> starting
+ with release of <a>MirBSD/i386 Snapshot #3</a>.</li>
+<li><a href="/?wlog-4">From Easter 2003 to Pentecost 2003</a> starting with
+ preparations to release (CVS Tag: MIRBSD_4) <a>MirBSD#4</a></li>
+<li><a href="/?wlog-5">From mid-June 2003 to LinuxTag 2003</a> starting with
+ the greatest release ever (CVS Tag: MIRBSD_5) of the
+ <b>MirBSD #5</b> (interim) codebase. Read the archived [a
+ href="/historic/ann-5.htm"] release announcement for details.</li>
+<li><a href="/?wlog-6">From LinuxTag 2003 to Autumn 2003</a> starting with
+ the internal completion of the <tt>LinuxTag Special Edition</tt> of
+ MirBSD, only available for visitors at the cost of 10 Euro.</li>
+<li><a href="/?wlog-7">From Autumn 2003 to 22C3 (2005)</a> the seemingly
+ endless weblog during the lifetime of the #7 release.</li>
+<li><a href="/?wlog-8">Starting at 22C3 to FrOSCon 2006</a>, the life
+ of MirOS #8 ended exactly half a year (plus two days to recover) after
+ its surprising, impressive, release.</li>
+<li><a href="@@RELPATH@@wlog-9.htm">Starting at FrOSCon 2006 to mid of
+ March 2008</a>, MirOS #9-current revived the sparc architecture, thus
+ making MirOS one of the best supported operating systems for the 32-bit
+ sparc machines, since other operating systems dropped support for them,
+ and, apparently, “the” reference implementation of X11 in the flavour <a
+ href="http://www.xfree86.org/">XFree86®</a>, for the same reason. Also,
+ internationalisation was started, Unicode is now supported, and the
+ overall system became more stable and reliable, less surprising, lacking
+ only in synchronisation with more recent device driver support.</li>
+</ul><p>For the current developers' weblog, please refer to the <a
+ href="@@RELPATH@@wlog-10.htm">weblog past MirOS BSD #10</a> starting
+ mid-March 2008.</p>
+
+<h2>Old News</h2>
 <p><a href="#newsend">Skip to News bottom</a></p><ul>
 
-<li>More <a href="/news.htm">recent MirOS oldnews</a></li>
+<li>More <a href="@@RELPATH@@news.htm">recent MirOS oldnews</a></li>
 
 <li>06.04.2006<br />The Ada and GCJ compilers are no longer delivered with
 	MirOS-current. Users who require them must now build these drivers
@@ -48,8 +93,8 @@
 	httpd(8) are now stored in a different format displaying SSL infos
 	(whether SSL was used and which crypto suite chosen).</li>
 
-<li>15.02.2006<br />There is a <a href="/MirOS/current/i386-20060215/">new
-	snapshot</a> with all the features below (attention: ssh/scp(1) is
+<li>15.02.2006<br />There is a new
+	snapshot with all the features below (attention: ssh/scp(1) is
 	not updated regarding CVE-2006-0225 yet). There is also a new repo
 	seed. Ports of this snapshot are not used to update #8 because the
 	overall quality is in an unknown state.</li>
@@ -895,38 +940,9 @@
 	into the HEAD branch where applicable.</li>
 
 </ul><p id="newsend">For current news, please refer to the <a
- href="/news_all.htm">main news page</a>.</p>
+ href="@@RELPATH@@news_all.htm">main news page</a>.</p>
 
-<h3>Old Weblog</h3><ul>
-<li><a href="/?wlog-0">From the beginning to December 2002</a> after
- the first BSD-mirabile snapshot ever (derived from OpenBSD-current-mirabile)
- has been uploaded to the world wide web</li>
-<li><a href="/?wlog-1">From December 2002 to January 2003</a>
- starting with release of MirBSD Snapshot #1</li>
-<li><a href="/?wlog-2">February of 2002</a>, starting with release
- of <a>MirBSD Snapshot #2 RC4=RELEASE</a>, a
- fully static a.out system with exec-ELF capability. Ending with a
- working, self-hosted, ELF system.</li>
-<li><a href="/?wlog-3">From March 2003 to mid of April 2003</a> starting
- with release of <a>MirBSD/i386 Snapshot #3</a>.</li>
-<li><a href="/?wlog-4">From Easter 2003 to Pentecost 2003</a> starting with
- preparations to release (CVS Tag: MIRBSD_4) <a>MirBSD#4</a></li>
-<li><a href="/?wlog-5">From mid-June 2003 to LinuxTag 2003</a> starting with
- the greatest release ever (CVS Tag: MIRBSD_5) of the
- <b>MirBSD #5</b> (interim) codebase. Read the archived [a
- href="/historic/ann-5.htm"]release announcement for details.</li>
-<li><a href="/?wlog-6">From LinuxTag 2003 to Autumn 2003</a> starting with
- the internal completion of the <tt>LinuxTag Special Edition</tt> of
- MirBSD, only available for visitors at the cost of 10 Euro.</li>
-<li><a href="/?wlog-7">From Autumn 2003 to 22C3 (2005)</a> the seemingly
- endless weblog during the lifetime of the #7 release.</li>
-<li><a href="/?wlog-8">Starting at 22C3 to FrOSCon 2006</a>, the life
- of MirOS #8 ended exactly half a year (plus two days to recover) after
- its surprising, impressive, release.</li>
-</ul><p>For the current developers' weblog, please refer to the <a
- href="/?wlog-9">weblog past MirOS BSD #9</a> starting at FrOSCon 2006.</p>
-
-<h3>ChangeLog</h3><ul>
+<h2>Old ChangeLog</h2><ul>
 <li><a href="/?clog-2004">Snapshots released 2004</a></li>
 <li><a href="/?clog-2005">Snapshots released 2005</a></li>
 <li><a href="/?clog-2006">Snapshots released 2006</a></li>
@@ -934,3 +950,6 @@
  snapshots uploaded &ndash; both for developers and users. A stripped
  down version (for user view) is being used for putting info into
  freshmeat and similar websites.</p>
+EOF
+mws_putfooter
+exit 0

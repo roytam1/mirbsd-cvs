@@ -1,5 +1,5 @@
 <!-- PageID: wlog-8 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.89 2006/06/19 12:16:20 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.90 2006/06/25 23:25:15 tg Exp $</small>
 <h1>MirBSD &ndash; WTF, We Have a Release!?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -853,7 +853,7 @@ celebrate this event, rotate the wlog and start a new one.</p>
  <p>I will have to write an ASN.1 OCTET STREAM encoding/decoding module,
   in PEM format, like vnconfig(8) uses for its keys, for openssltool(1),
   for the sake of completeness. Well, later, as time permits.</p>
- <p>Still <a href="http://marc.theaimsgroup.com/?m=114359728005822">have
+ <p>Still <a href="http://marc.info/?m=114359728005822">have
   to debug</a> the heartbeat server stuff and MirDNS #3. Also will be as
   time permits.</p>
  <p>Time ought to already have permitted bsiegert@ to commit his pending

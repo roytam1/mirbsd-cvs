@@ -2917,3 +2917,98 @@ Author: tg@
 <p>… and I actually did, this will lead to some changes, even a few real
  improvements not only for mnbsd but for mbsd too.</p>
 ----
+Date: 13.03.2008
+Author: tg@
+Title: Das Beste zum Schluß
+
+<p xml:lang="de">Für lange Zugfahrten o.ä, wo man keine Lust hat zu hacken, ist
+ ganz gut dies hier geeignet: z.Zt. 128 je ca. 200 Lynx-Seiten umfassende <a
+ href="http://www.thorsten-oberbossel.de/deutsch/hp/fanfic.shtml">Harry Potter
+ Fanfics</a>, die ein recht logisches, aber manchmal nerviges Universum, das
+ jedoch sich streng nach dem Original richtet, aufspannen. Einfach runterladen
+ und dann offline lesen.</p>
+<p xml:lang="de">Ich bin ja ehrlich gesagt immer noch am sicken, daß Freenode
+ mir einfach den Nick „lynx“ geklaut hat… jetzt kann ich gar nicht mehr so
+ deutlich anzeigen, daß ich am Schmökern bin. Merke: wer „linked nicks“ hat,
+ sollte diese <em>trotzdem</em> alle 29 Tage mal touchieren, da man im Staff
+ nicht nachfragt, selbst wenn der Hauptkontakt gerade online ist.</p>
+<p xml:lang="en">I’m still pissed about Freenode taking the nick “lynx” away
+ from right under my arse, having been online with the main nick of “linked
+ nicks” (the NickServ feature), just because I had not used that nickname for
+ a while. Note: touch all alternative nicks every 29 days. RichiH says it’s
+ policy to at least ask the owner, but seemingly they don’t.</p>
+----
+Date: 13.03.2008
+Author: tg@
+
+<p>Today, I helped wbx@ to clean up his basement: DECstations, SPARCstations,
+ VAXstations, Alphas, mac68k, hppa, SGI O2 and Indy, and some other boxen
+ either went to the recycling company today or will tomorrow. gecko2@ retains
+ some mac68k and maybe one hppa, I try to get some 32-bit sparc parts, and
+ bogus got an E450 (heavy!) and an Ultra1 for toying around with, as he now
+ exclusively runs Solaris.</p>
+<p>It’s annoying that not every CPU works in every SPARCstation – for example,
+ the two SPARCstation 10 we found have 33 MHz CPUs and 400 MiB HDDs, one has
+ OpenBSD on it, one Solaris 5. Nice. Tomorrow we’ll look at the two
+ SPARCstation 5 which are still there. The monitor sadly doesn’t work. Maybe
+ one VGA conversion cable from the SGIs will help, but I don’t have a monitor
+ capable of doing the sunfb 1152x900 (maybe with a zx(4) card…)</p>
+<p>The SPARCstation 20 of mine (“demo”) has finished building the release
+ kernels and tarballs, so I can proceed with the release engineering process
+ ASAP. Like I said, we’ll do a unified medium. As with i386, the preliminary
+ dist sets may show up on the download mirrors already for a while…</p>
+<p>Building the release took about 6h22′ at 1 GHz on i386, and 81h22′ on 75
+ MHz on sparc, for what it’s worth.</p>
+----
+Date: 13.03.2008
+Author: tg@
+Title: GPLv3
+
+<p>It’s really annoying. This is actually a pre-release issue. There is a
+ port, editors/nano, which snuck in before the release, containing GPLv3
+ licenced stuff. This means that I either have to remove nano from the
+ mirports tree for #10 or read the GPLv3 and allow it into the tree.</p>
+<p>Looking for OpenBSD’s opinion on GPLv3 in ports, I found that my “dear
+ friend”, the oksh developer, has struck again: his oksh-0.3 is GPLv3’d
+ now. (At least he did not remove the UCB copyright from some files.) And
+ to add insult to injury, the description of <a
+ href="http://linux.softpedia.com/get/System/Shells/oksh-9881.shtml">oksh
+ at Softpedia</a>, which is almost certainly provided by my “dear friend”
+ Henry Jensen &lt;hjensen@delilinux.de&gt;, pretends that mksh(1) is not
+ Bourne compatible (which it is, at least no less than oksh) and buggy,
+ which it definitively is <strong>not</strong>. He said that, at the time
+ of his forking, mksh was buggy, but could not tell me one single actual
+ point. His only complaint against mksh was that it does not support the
+ GNU bash-like <tt>$PS1</tt> hackery. *sigh* (Did I mention that oksh-0.1
+ violated the MirOS licence on mksh?)</p>
+<p>Phew, I read through it. And I think we have a sort of <a
+ href="http://marc.info/?m=120545412919084">official stance</a> on the
+ GPLv3 (even though bsiegert@ of course has to agree to make it truly
+ official). I still don’t like it, but it could be worse, and for ports
+ we do not need to care <em>that</em> much.</p>
+----
+Date: 14.03.2008
+Author: tg@
+
+<p>Yay! I got a SPARCstation 20, a SPARCstation 10, and a SPARCstation 5,
+ several CPUs and sbus cards, an external HDD, an external CD, and some
+ more toys, from wbx@ – he has no sparc parts left now. Sad, as he is the
+ initiator of MirOS/sparc. Good, because I can cluster them now. I could
+ test the framebuffer, XFree86®, even build binary packages with distcc
+ if Benny ports it (I still have to get on friendly terms with distcc
+ first though, and I won’t use it for official releases).</p>
+<p>Being the better OpenBSD sometimes sucks. For instance, if our make(1)
+ implicit rules generate <tt>grammar.h</tt> from <tt>grammar.y</tt>, and
+ not <tt>y.tab.h</tt>, as a certain <tt>lex.l</tt> wanted to include. Well,
+ that could be fixed – re-rolled ports10.ngz with new games/bsdgames.</p>
+<p>I’m building a number of selected binary packages on the sparc and very
+ few basic ones for i386, to add to the release ISO. (More binary packages
+ can be downloaded from our mirrors later.) This is holding us a little,
+ but I’ve got plenty of time over the weekend to carefully finish the
+ release engineering process. Better than having bugs, eh?</p>
+<p>I actually found a bug in <tt>gnu.port.mk</tt> during porting to mnbsd;
+ gecko2@ had found it too but I couldn’t reproduce it back then.</p>
+<p>Sorry for all the delay in the release announcement and publication,
+ but first we have to get the ISOs ready – since they contain i386, sparc,
+ source <em>and</em> CVS it’s a tad difficult and quite time-consuming.</p>
+----

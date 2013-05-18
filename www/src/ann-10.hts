@@ -1,0 +1,12 @@
+mws_putheader '$MirOS$'
+#-
+# This file is part of the website of The MirOS Project, which is
+# copyrighted material, please read the LICENCE file for details.
+
+mws_setname announcements/10 "MirOS #10 Release Announcement"
+mws_content <<'EOF'
+<p>Sorry, this is just a placeholder page, until the formal release
+ announcement is committed. This should be the case every day now.</p>
+EOF
+mws_putfooter
+exit 0

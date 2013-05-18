@@ -661,3 +661,16 @@ Date: 10.03.2008
 <p><a href="@@RELPATH@@wlog.rss">http://www.mirbsd.org/wlog.rss</a></p>
 <p>Of course, you can instead continue to use the versioned feeds.</p>
 ----
+Title: MirPorts running on MidnightBSD
+Date: 14.03.2008
+
+<p>The <a href="@@RELPATH@@ports.htm">MirPorts Framework</a> now
+ also runs on <a href="http://www.midnightbsd.org/">MidnightBSD</a>,
+ in addition to MirOS BSD (native), OpenBSD (legacy), Darwin and
+ Mac OSX, and Interix (in theory). Support of individual ports for
+ certain operating environments may not yet be given, but the
+ infrastructure already works. Sadly, systrace(1) is not part of
+ the MidnightBSD base system. MirPorts work independently of the
+ native mports system, do not depend on it or interfere with it,
+ as usual, and can be installed per user or system-wide.</p>
+----

@@ -1,5 +1,5 @@
 <!-- PageID: wlog-7 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.79 2006/02/05 19:03:18 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.80 2006/03/19 21:23:20 tg Exp $</small>
 <h1>MirBSD &ndash; RELEASE TIME!!! Stable Services for Commercial Customers</h1>
 <h3>News <small><a href="#eof">bottom</a></small></h3>
 <h6>Note: all these entries are from tg@ up to November 3rd, when the
@@ -214,7 +214,7 @@
  severe bugs which have been catched due to new NULL (including one in UVM!).
  Add tun0 to MAKEDEV for ramdisk. Fix mk.conf REL_NO_KERNEL. Sync
  sys/netccitt with NetBSD (XXX needs tweaking, but not as much as OpenBSD one
- with dtom). Mail marc.theaimsgroup.com again wrt. archiving the MirOS
+ with dtom). Mail marc.info again wrt. archiving the MirOS
  mailing lists.</p>
 <p>16.11.2003 by tg@<br />Unbreak audio/lame. Synchronize master.passwd and
  group with what MirPorts expects (MFCd). Update magicpoint. Fix ISDN manual

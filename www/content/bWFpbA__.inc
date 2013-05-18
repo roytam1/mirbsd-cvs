@@ -1,5 +1,5 @@
 <!-- PageID: mail -->
-<small class="rcsid">$MirOS: www/content/bWFpbA__.inc,v 1.4 2006/01/27 00:14:29 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWFpbA__.inc,v 1.5 2006/02/18 13:54:39 tg Exp $</small>
 <h1>The Mailing Lists</h1>
 
 <p>We've got a <a href="mailto:miros-discuss@66h.42h.de">discussion
@@ -18,8 +18,8 @@
  list</a> or the <a href="http://news.gmane.org/gmane.os.miros.cvs">source
  changes</a>.</p>
 
-<p>Both <a href="http://marc.theaimsgroup.com/?l=miros-discuss">the
- discussion</a> and <a href="http://marc.theaimsgroup.com/?l=miros-changes">CVS
+<p>Both <a href="http://marc.info/?l=miros-discuss">the
+ discussion</a> and <a href="http://marc.info/?l=miros-changes">CVS
  changes</a> lists are now also at marc.thaimsgroup.com, thanks to
  the insisting of Diana Eichert.</p>
 

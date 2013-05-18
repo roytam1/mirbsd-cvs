@@ -19,15 +19,18 @@ BSDSRCDIR?=/nonexistant
 
 U_ENV+=		TOP=${TOP:Q} DST=${DST:Q} MKSH=${MKSH:Q} SHELL=${MKSH:Q}
 
-SRCS+=		danke.hts devel.hts
+SRCS+=		ann-10.hts
+SRCS+=		danke.hts
+SRCS+=		devel.hts
 SRCS+=		getting.hts
 SRCS+=		irc.hts
 SRCS+=		jupp.hts
 SRCS+=		main.hts
 SRCS+=		mksh.hts mksh_old.hts
+SRCS+=		oldnews.hts
 SRCS+=		ports.hts
 SRCS+=		projects.hts
-WLOGS=		9
+WLOGS=		9 10
 
 INCSRCS+=	news
 news.cut: stamp_htm_news

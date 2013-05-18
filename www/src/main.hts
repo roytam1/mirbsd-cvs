@@ -37,6 +37,8 @@ mws_content <<'EOF'
   href="http://www.mirbsd.org/news.rss">http://www.mirbsd.org/news.rss</a></li>
  <li>Developers’ weblog (most recent): <a
   href="http://www.mirbsd.org/wlog.rss">http://www.mirbsd.org/wlog.rss</a></li>
+ <li>Developers’ weblog (post MirOS #10): <a
+  href="http://www.mirbsd.org/wlog-10.rss">http://www.mirbsd.org/wlog-10.rss</a></li>
  <li>Developers’ weblog (post MirOS #9): <a
   href="http://www.mirbsd.org/wlog-9.rss">http://www.mirbsd.org/wlog-9.rss</a></li>
  <li style="list-style:none;">– autoconverted mailing list –</li>
