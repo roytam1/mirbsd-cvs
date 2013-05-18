@@ -3,8 +3,8 @@
 
 COMMENT=		general-purpose utility library
 COMMENT-docs=		glib2 documentation
-VERSION=		2.12.6
-DASH_VER=		0
+VERSION=		2.8.1
+DASH_VER=		4
 DISTNAME=		glib-${VERSION}
 PKGNAME=		glib2-${VERSION}-${DASH_VER}
 PKGNAME-docs=           glib2-docs-${VERSION}-${DASH_VER}
@@ -17,7 +17,7 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-MASTER_SITES=		ftp://ftp.gtk.org/pub/glib/2.12/
+MASTER_SITES=		ftp://ftp.gtk.org/pub/gtk/v2.8/
 EXTRACT_SUFX=           .tar.bz2
 
 MULTI_PACKAGES=         -docs
@@ -41,7 +41,7 @@ CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		Yes
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
 CONFIGURE_ARGS+=	--enable-static
-CONFIGURE_ARGS+=	--disable-dependency-tracking
-CONFIGURE_ARGS+=	--disable-libtool-lock
+CONFIGURE_ARGS+=	--disable-dependency-tracking \
+			--disable-libtool-lock \
 
 .include <bsd.port.mk>
