@@ -485,7 +485,7 @@
 ./usr/lib/libotermcap.so.7.0
 ./usr/lib/libpanel.so.6.0
 ./usr/lib/libpanelw.so.6.0
-./usr/lib/libpcap.so.5.0
+./usr/lib/libpcap.so.6.0
 ./usr/lib/libpng.so.7.1
 ./usr/lib/libpthread.so.10.0
 ./usr/lib/libsectok.so.8.0
@@ -3287,7 +3287,6 @@
 ./usr/share/zoneinfo/ROC
 ./usr/share/zoneinfo/ROK
 ./usr/share/zoneinfo/Singapore
-./usr/share/zoneinfo/SystemV
 ./usr/share/zoneinfo/Turkey
 ./usr/share/zoneinfo/UCT
 ./usr/share/zoneinfo/US
@@ -3345,6 +3344,7 @@
 ./var/tmp
 ./var/tmp/vi.recover
 ./var/www
+./var/www/bin
 ./var/www/cgi-bin
 ./var/www/conf
 ./var/www/htdocs

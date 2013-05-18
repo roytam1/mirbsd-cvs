@@ -1,4 +1,4 @@
-# $MirOS: src/usr.sbin/isdn/isdnd/Makefile,v 1.2 2005/03/13 19:17:03 tg Exp $
+# $MirOS: src/usr.sbin/isdn/isdnd/Makefile,v 1.3 2005/03/15 22:13:31 tg Exp $
 # $NetBSD: Makefile,v 1.5 2001/12/31 19:41:37 thorpej Exp $
 
 PROG=		isdnd
@@ -8,8 +8,9 @@ SRCS=		rc_parse.y rc_scan.l main.c rc_config.c log.c curses.c	\
 		holiday.c
 MAN=		isdnd.8 isdnd.rc.5 isdnd.rates.5 isdnd.acct.5
 CLEANFILES+=	rc_parse.c rc_parse.h
+SRC_PATH?=	${.CURDIR}
 
-CPPFLAGS+=	-I${.CURDIR}/../isdnmonitor -I${.CURDIR}/../isdntel -I.
+CPPFLAGS+=	-I${SRC_PATH}/../isdnmonitor -I${SRC_PATH}/../isdntel -I.
 
 LDADD+=		-ly -ll
 DPADD+=		${LIBY} ${LIBL}

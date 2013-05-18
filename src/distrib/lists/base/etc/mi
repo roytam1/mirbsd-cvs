@@ -38,6 +38,7 @@
 ./etc/mail/relay-domains
 ./etc/mail/sendmail.cf
 ./etc/mail/service.switch
+./etc/mail/spamd.conf
 ./etc/mail/submit.cf
 ./etc/mail/trusted-users
 ./etc/mail/virtusertable
@@ -96,7 +97,6 @@
 ./etc/skel/.mailrc
 ./etc/sliphome/slip.hosts
 ./etc/sliphome/slip.login
-./etc/spamd.conf
 ./etc/spwd.db
 ./etc/ssh/ssh_config
 ./etc/ssh/sshd_config
