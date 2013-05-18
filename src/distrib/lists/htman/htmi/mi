@@ -74,6 +74,7 @@
 ./man1/cvs.htm
 ./man1/cxpm.htm
 ./man1/date.htm
+./man1/db.htm
 ./man1/dbmmanage.htm
 ./man1/dc.htm
 ./man1/dd.htm
@@ -628,6 +629,7 @@
 ./man1/zfgrep.htm
 ./man1/zforce.htm
 ./man1/zgrep.htm
+./man1/zless.htm
 ./man1/zmore.htm
 ./man1/znew.htm
 ./man2/.htaccess
@@ -3005,6 +3007,7 @@
 ./man3/arc4random_addrandom.htm
 ./man3/arc4random_push.htm
 ./man3/arc4random_pushb.htm
+./man3/arc4random_pushk.htm
 ./man3/arc4random_stir.htm
 ./man3/asctime.htm
 ./man3/asctime_r.htm

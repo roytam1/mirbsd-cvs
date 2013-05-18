@@ -89,6 +89,7 @@
 ./sbin/ccdconfig
 ./sbin/chown
 ./sbin/clri
+./sbin/dbins
 ./sbin/dhclient
 ./sbin/dhclient-script
 ./sbin/disklabel
@@ -204,6 +205,7 @@
 ./usr/bin/ctags
 ./usr/bin/cu
 ./usr/bin/cut
+./usr/bin/db
 ./usr/bin/dbmmanage
 ./usr/bin/dc
 ./usr/bin/deliv
@@ -593,7 +595,7 @@
 ./usr/lib/i18n/libmapper_serial.so.5.0
 ./usr/lib/i18n/libmapper_std.so.5.0
 ./usr/lib/i18n/libmapper_zone.so.5.0
-./usr/lib/libc.so.41.0
+./usr/lib/libc.so.41.1
 ./usr/lib/libcrypto.so.14.1
 ./usr/lib/libcurses.so.14.0
 ./usr/lib/libdes.so.11.0
@@ -1717,6 +1719,7 @@
 ./usr/share/man/cat1/cu.0
 ./usr/share/man/cat1/cut.0
 ./usr/share/man/cat1/date.0
+./usr/share/man/cat1/db.0
 ./usr/share/man/cat1/dbmmanage.0
 ./usr/share/man/cat1/dc.0
 ./usr/share/man/cat1/dd.0
