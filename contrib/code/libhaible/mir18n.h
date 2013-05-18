@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/libhaible/mir18n.h,v 1.6 2006/05/30 10:02:16 tg Exp $ */
+/* $MirOS: contrib/code/libhaible/mir18n.h,v 1.7 2006/05/30 10:22:09 tg Exp $ */
 
 #ifndef _LIBC_MIR18N_H
 #define _LIBC_MIR18N_H
@@ -9,10 +9,6 @@
 #define MIR18N_SB_CVT	0xFF
 /* highest allowed character in 'UTF-8' locale */
 #define MIR18N_MB_MAX	0xFFFD
-
-#ifndef __BEGIN_DECLS
-#include <sys/cdefs.h>
-#endif
 
 #ifndef __bool_true_false_are_defined
 #include <stdbool.h>
@@ -80,11 +76,6 @@ __END_DECLS
 #endif
 
 #ifdef mir18n_caseconv
-/* for uint16_t */
-#ifndef __BIT_TYPES_DEFINED__
-#include <machine/types.h>
-#endif
-
 /* namespace definitions for the UCD tables */
 #define nop_page mir18n_attribute_nop_page
 #define tolower_page mir18n_caseconv_tolower

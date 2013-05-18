@@ -1,9 +1,11 @@
-/* $MirOS: contrib/code/libhaible/attribute.c,v 1.7 2006/05/23 11:44:19 tg Exp $ */
+/* $MirOS: contrib/code/libhaible/attribute.c,v 1.8 2006/06/01 21:26:22 tg Exp $ */
+
+#include <sys/cdefs.h>
 
 #define mir18n_attributes
 #include "mir18n.h"
 
-__RCSID("$MirOS: contrib/code/libhaible/attribute.c,v 1.7 2006/05/23 11:44:19 tg Exp $");
+__RCSID("$MirOS: contrib/code/libhaible/attribute.c,v 1.8 2006/06/01 21:26:22 tg Exp $");
 
 /* generated automatically from UnicodeData-5.0.0d10.txt (BMP) */
 

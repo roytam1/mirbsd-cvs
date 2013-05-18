@@ -1,9 +1,11 @@
-/* $MirOS: contrib/code/libhaible/attribute.c,v 1.8 2006/06/01 21:26:22 tg Exp $ */
+/* $MirOS: contrib/code/libhaible/towu_tbl.c,v 1.1 2006/06/01 21:39:01 tg Exp $ */
+
+#include <sys/types.h>
 
 #define mir18n_caseconv
 #include "mir18n.h"
 
-__RCSID("$MirOS: contrib/code/libhaible/attribute.c,v 1.8 2006/06/01 21:26:22 tg Exp $");
+__RCSID("$MirOS: contrib/code/libhaible/towu_tbl.c,v 1.1 2006/06/01 21:39:01 tg Exp $");
 
 /* generated automatically from UnicodeData-5.0.0d10.txt (BMP) */
 
