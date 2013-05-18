@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.54 2009/01/11 14:11:27 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.55 2009/01/11 14:40:27 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009
@@ -76,6 +76,7 @@ bios_bootpte:
 	.size	bios_bootpte,16
 	.long	0, 0, 0, 0	/* 16 bytes from initial DS:SI */
 
+#ifndef SMALL_BOOT
 	/* Multiboot header */
 	.p2align 2
 Lmbhdr:	.long	0x1BADB002		/* magic */
@@ -87,6 +88,7 @@ Lmbhdr:	.long	0x1BADB002		/* magic */
 	.long	0					/* load_end_addr */
 	.long	0					/* bss_end_addr */
 	.long	Lmbrun - SA_LINKADDR + 0x00100000	/* entry_addr */
+#endif
 
 Linit:	xor	eax,eax
 	push	eax
@@ -351,6 +353,7 @@ Lstart:	call	idt_init
 	call	boot
 	jmp	_rtt
 
+#ifndef SMALL_BOOT
 	/* Multiboot entry point */
 	.p2align 4,0x90
 Lmbrun:	mov	edx,[ebx+12]		/* boot_device */
@@ -385,6 +388,7 @@ Lmb2rm:	mov	esp,0x0003FFFC
 	.code16
 	mov	ax,SA_LINKSEG
 	jmp	Lmb16e
+#endif
 
 	.p2align 4
 	.globl	cmd_buf
