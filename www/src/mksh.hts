@@ -3,7 +3,7 @@
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.244 2009/06/08 20:52:32 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.245 2009/06/10 19:51:07 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R38c</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -1009,6 +1009,7 @@ mws_content <<'EOF'
   limits in a single invocation from oksh (thanks millert) -->
  <li>[ahoka] Begin porting to <a href="http://www.haiku-os.org/">Haiku</a>
   and, implicitly, BeOS (not finished yet)</li>
+ <li>[tg] Shut up a bogus gcc warning during configuration process</li>
 </ul>
 <p id="r38c">mksh R38c contains the following fixes:</p><ul>
  <li>[tg] Fix regression tests on OSes insisting on a shebang (Cygwin)</li>
