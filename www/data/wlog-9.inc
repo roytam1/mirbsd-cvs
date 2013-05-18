@@ -2129,3 +2129,14 @@ Author: tg@
  despite planning to not hack. I guess I should get a life. On the other
  hand, the weather isn’t promising enough for that.)</p>
 ----
+Date: 27.09.2007
+Author: tg@
+
+<p>Why does every friggin’ SPARCstation 20 from the last millennium make
+ it easier to build a SCSI-based system with the modernst SCA hard discs
+ (U-320 LVD) than a brand-new not-even-off-the-shelf server system?</p>
+<p>The good part is I learned much more about SCSI today <em>again</em>.
+ <br />The bad part is: I gave out 1 € (plus 10 € shipping…) on ePray to
+ gain a bunch of 68-pin ./. 80-pin connectors. ☹</p>
+<p>The remainder of my new server is looking good, though.</p>
+----

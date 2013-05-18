@@ -307,6 +307,13 @@ Author: tg@
  to the person who wishes to remain anonymous for providing us the ability
  to do this porting work.</p>
 ----
+Date: 27.06.2007
+Title: fixed some annoying kernel bug
+
+<p>On boot, if the kernel were to drop into ddb(4), it would panic again,
+ rebooting over and over, due to an uninitialised timeout(9) in random(9);
+ this was fixed today.</p>
+----
 Title: mksh R30 released
 Date: 28.06.2007
 
@@ -461,4 +468,6 @@ Date: 09.09.2007
  (aka cnuke@)’s very late bug report, which was done IRL instead of via IRC
  or eMail, which are the usual channels. This release fixes arc4random.c on
  SunOS due to them bad OpenBSD guys using non-standard types in an API.</p>
+<p>Update 2: Everyone should upgrade to mksh R31b or later, due to the bug
+ fixes and their relevance.</p>
 ----
