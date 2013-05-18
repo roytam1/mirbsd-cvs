@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.455 2012/05/04 23:01:29 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.456 2012/05/07 17:03:05 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -715,13 +715,11 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <h5 class="cr" id="oe_syll"><img width="186" height="64" alt="[Syllable logo]"
  class="fr" src="@@RELPATH@@pics/logos/syllable.png" />OS: Syllable Desktop</h5>
 <p><strong>Needs retesting with mksh R40+</strong> (port unfinished)</p>
-<p>This does not yet work due to a signal passing bug in the AtheOS kernel,
- we were told by their developers. However, mksh R33 is at the same level
- of support as Plan 9 now.</p>
-<p>Chances are a more recent mksh works with a more recent Syllable.
- With <tt>-DMKSH_NOPROSPECTOFWORK</tt> it will probably work. (Note that
- this option produces a shell not supporting standard Korn Shell scripts.)</p>
-<p>With <tt>-DMKSH_NO_SIGSUSPEND</tt> it may even work somewhat better.</p>
+<p>This OE is <a href="http://forum.syllable.org/viewtopic.php?p=8171">suffering
+ from bugs</a>, although R41 works better than ever before. When deactivating
+ any and all job handling with <tt>-DMKSH_NOPROSPECTOFWORK</tt> it works a bit
+ better. (Note that this option produces a shell not supporting standard Korn
+ Shell scripts.)</p>
 <p>Syllable Server will work, as it is, <em>at the moment</em>, “just” a
  GNU/Linux distribution with a different GUI. This may change though.</p>
 
@@ -1130,6 +1128,8 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Enable some options by default for some ports, for instance, since
   BeOS can never have a controlling tty, the option disabling that warning</li>
  <li>[tg] Some bugfixes, prompted by RT and Valgrind</li>
+ <li>[RT] Disable sigsuspend(2) on Syllable Desktop</li>
+ <li>[tg] Fix several issues with typeset -p (LP: #993847)</li>
 </ul>
 <p>Changes in the current (unreleased) stable branch:</p><ul>
  <li>[tg] Fix a bug in the manual page</li>
