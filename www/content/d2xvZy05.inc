@@ -1,5 +1,5 @@
 <!-- PageID: wlog-9 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.51 2006/10/18 23:55:00 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.52 2006/10/22 14:17:29 bsiegert Exp $</small>
 <h1>MirBSD &ndash; WTF is Verpeilungsfaktor?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -898,6 +898,54 @@ plot [150:200] 	"bs06.4Kmin.txt" using 1:3 with lines title "exc{\350}s en chlor
   above. Open the pdf in Acrobat Reader. It should have only your graph
   without any additional white space around. For the insertion into your
   LaTeX document, use the same lines as above.</p>
+</div>
+
+<div class="wlentry">
+ <h3 id="e20061022">22.10.2006 by bsiegert@</h3>
+ <p>While I was in the train today, I looked at some of the more arcane
+  inner workings of MirPorts: internal dependency handling.</p>
+ <p>Packages have dependencies. There are three types of them in
+  MirPorts: build, run and library dependencies. I won't talk about the
+  former here. MirPorts inherited a very convoluted way of handling
+  those dependencies from OpenBSD, including several passes over the
+  packing list using various scripts and the infamous <tt>pkg</tt>
+  utility. <tt>pkg</tt> is essentially undocumented and constitutes a
+  failed attempt of Marc Espie to rewrite the pkgtools in perl. It has
+  only one subcommand, <tt>pkg dependencies</tt> with three
+  sub-subcommands <tt>show</tt>, <tt>solve</tt> and <tt>check</tt>.</p>
+ <p>Dependencies are declared via the LIB_DEPENDS and RUN_DEPENDS
+  variables in the port Makefile, for example:</p>
+ <pre>LIB_DEPENDS=           apr::devel/apr/apr</pre>
+ <p>From there, they are passed to a recursive solver in bsd.port.mk,
+  which outputs commands like</p>
+ <pre>@libdepend apr-util-0.9.12-0-bsddb:apr.0.9:apr-*:apr-0.9.12-0</pre>
+ <p>into <tt>w-*/pkg/depends</tt>. The four arguments are called name,
+  libspec, pattern, and def. The <tt>@newdepend</tt> directive is for
+  run depends and does not have a libspec. The <tt>depends</tt> file is
+  fed to <tt>pkg dependencies solve</tt>, which replaces these lines
+  by</p>
+ <pre>@comment libdepend apr.0.9:subversion-1.4.0-0-bsddb:apr-*:apr-0.9.12-0</pre>
+ <p>Note the changed order of the arguments! What it also does is
+  resolve the dependency and write a <i>static</i> <tt>@pkgdep</tt> line
+  like</p>
+ <pre>@pkgdep apr-0.9.12-0</pre>
+ <p>on top. All of those are output into w-*/pkg/PLIST. Upon
+  installation, <tt>pkg_add</tt> only cares about the <tt>@pkgdep</tt>
+  directives.</p>
+ <p>There are a number of problems with this approach. I would like to
+  replace <tt>pkg</tt> entirely by C code inside the pkgtools. The
+  advantage is a much reduced complexity, the removal of the liability
+  that is pkg, and more flexibility: If packages are upgradeable, the
+  final resolution of the dependencies should be done by
+  <tt>pkg_add</tt> when installing the package. If you have a newer
+  version of a dependency installed, we can check if the library version
+  matches and still allow the installation. <tt>pkg_upgrade</tt> would
+  also profit massively, as the current implementation leaves the
+  <tt>@pkgdep</tt> lines intact so that they are effectively
+  unfulfilled. This project is promising but it will take me some time.
+  Be patient.</p>
+ <p>If you want to discuss this, please use the miros-discuss mailing
+  list.</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
