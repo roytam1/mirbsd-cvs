@@ -79,7 +79,7 @@
 __COPYRIGHT("@(#) Copyright (c) 1980, 1992, 1993\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)script.c	8.1 (Berkeley) 6/6/93");
-__RCSID("$MirOS: src/usr.bin/script/script.c,v 1.11 2007/03/06 01:29:36 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/script/script.c,v 1.12 2007/03/06 03:15:11 tg Exp $");
 
 #include <sys/time.h>
 #include <sys/ioctl.h>
@@ -358,9 +358,9 @@ dooutput(void)
 	unsigned char *cbuf = NULL;
 #ifndef SMALL
 	time_t tvec;
+#endif
 #ifndef NO_CONV
 	mbstate_t state = { 0, 0 };
-#endif
 #endif
 	ssize_t outcc = 0, cc, fcc, off;
 

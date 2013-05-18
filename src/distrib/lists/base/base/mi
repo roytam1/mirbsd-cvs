@@ -490,7 +490,7 @@
 ./usr/lib/libpthread.so.10.0
 ./usr/lib/libsectok.so.8.0
 ./usr/lib/libskey.so.7.0
-./usr/lib/libssl.so.11.1
+./usr/lib/libssl.so.11.2
 ./usr/lib/libtermcap.so.14.0
 ./usr/lib/libtermlib.so.14.0
 ./usr/lib/libusbhid.so.5.0
