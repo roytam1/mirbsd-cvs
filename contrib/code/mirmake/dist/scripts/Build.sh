@@ -1,7 +1,7 @@
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.135 2010/01/10 13:34:07 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.136 2010/06/05 22:27:17 tg Exp $
 #-
-# Copyright (c) 2006, 2008
-#	Thorsten Glaser <tg@mirbsd.de>
+# Copyright (c) 2006, 2008, 2011
+#	Thorsten Glaser <tg@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
 # are retained or reproduced in an accompanying document, permission
@@ -101,7 +101,6 @@ Darwin:*:*)
 	;;
 Interix:*:*)
 	[[ -z $new_binids ]] && new_binids=-
-	CPPFLAGS="$CPPFLAGS -D_ALL_SOURCE"
 	[[ $new_macarc = i[3456789x]86 ]] && new_macarc=i386
 	/usr/bin/install -c -m 555 $d_script/../contrib/mktemp.sh \
 	    /usr/bin/mktemp
@@ -119,11 +118,12 @@ case $new_machos in
 Darwin)
 	_obfm=Mach-O
 	_rtld=dyld
-	CPPFLAGS="$CPPFLAGS -DHAVE_STRLCPY -DHAVE_STRLCAT"
+	CPPFLAGS="$CPPFLAGS -DHAVE_STRLCPY -DHAVE_STRLCAT -D_DARWIN_C_SOURCE"
 	;;
 *Interix)
 	_obfm=PE
 	_rtld=GNU
+	CPPFLAGS="$CPPFLAGS -D_ALL_SOURCE"
 	;;
 BSD)
 	# MirOS BSD
@@ -156,6 +156,7 @@ GNU)
 	# namespace uses; just make sure __unused is not used in code
 	# we intend to port, otherwise it may break on GNU/Linux
 	dunused='-D__unused=__unused '
+	CPPFLAGS="$CPPFLAGS -D_GNU_SOURCE"
 	;;
 esac
 

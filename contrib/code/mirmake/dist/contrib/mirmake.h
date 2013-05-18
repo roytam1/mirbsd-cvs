@@ -1,7 +1,7 @@
-/* $MirOS: contrib/code/mirmake/dist/contrib/mirmake.h,v 1.46 2009/03/15 14:54:36 tg Exp $ */
+/* $MirOS: contrib/code/mirmake/dist/contrib/mirmake.h,v 1.47 2009/11/09 17:59:21 tg Exp $ */
 
 /*-
- * Copyright (c) 2005, 2006, 2008, 2009
+ * Copyright (c) 2005, 2006, 2008, 2009, 2011
  *	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
  * Partially based upon some code
  * Copyright (c) 1991, 1993
@@ -36,7 +36,16 @@
 
 #if defined(__INTERIX)
 /* stock Interix/SFU needs this, MirInterix not */
+#undef _ALL_SOURCE
 #define _ALL_SOURCE
+#elif defined(__APPLE__)
+/* some OSX versions started to require this to fight POSIX header idiocy */
+#undef _DARWIN_C_SOURCE
+#define _DARWIN_C_SOURCE
+#elif defined(__GLIBC__)
+/* similarily, allow all extensions */
+#undef _GNU_SOURCE
+#define _GNU_SOURCE
 #endif
 
 #include <sys/cdefs.h>
