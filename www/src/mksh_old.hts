@@ -1,11 +1,11 @@
-# $MirOS: www/src/mksh_old.hts,v 1.36 2011/01/21 22:49:25 tg Exp $
+# $MirOS: www/src/mksh_old.hts,v 1.37 2011/02/18 22:42:16 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh/old "mksh – old versions"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh_old.hts,v 1.36 2011/01/21 22:49:25 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh_old.hts,v 1.37 2011/02/18 22:42:16 tg Exp $'
 mws_content <<'EOF'
 <h2><a href="mksh.htm">mksh</a> – old versions</h2>
 
@@ -1244,16 +1244,6 @@ mws_content <<'EOF'
 <li>Real Unicode internal op – ${foo:2:3} now works with MirOS OPTU-8
  but having internal representation being MirOS OPTU-16 would help in
  the long term</li>
-<li>fix <a href="https://bugzilla.redhat.com/show_bug.cgi?id=496791">RedHat
- BZ#496791</a> without breaking things like<pre>
-	echo $(typeset -i10 x=16#20; echo $x)
-	echo $(typeset -Uui16 x=16#$(id -u)
-	)
-	echo $(c=1; d=1
-	typeset -Uui16 a=36#foo; c=2
-	typeset -Uui16 b=36 #foo; d=2
-	echo $a $b $c $d)
- </pre> etc.</li>
 <li><tt>/etc/mkshrc</tt> (maybe only if ~/.mkshrc does not exist,
  with similar rules; ENV=/ could be the magic "default" value;
  maybe go through $ENV -&gt; ~/.mkshrc -&gt; /etc/mkshrc by both
