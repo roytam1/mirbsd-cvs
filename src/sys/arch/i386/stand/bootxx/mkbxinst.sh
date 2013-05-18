@@ -1,5 +1,5 @@
 #!/bin/mksh
-rcsid='$MirOS: src/sys/arch/i386/stand/bootxx/mkbxinst.sh,v 1.19 2009/06/07 17:53:29 tg Exp $'
+rcsid='$MirOS: src/sys/arch/i386/stand/bootxx/mkbxinst.sh,v 1.20 2009/06/07 18:00:43 tg Exp $'
 #-
 # Copyright (c) 2007, 2008, 2009
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -128,7 +128,7 @@ function record_block {
 	fi
 }
 
-typeset -i partp=0 numheads=0 numsecs=0 sscale=0 bsh=9 mbrpno=0
+typeset -i partp=0 numheads=0 numsecs=0 sscale=0 bsh=9 mbrpno=0 mbrptp=0
 set -A g_code 0 0 0
 
 while getopts ":0:1AB:g:h:M:p:S:s:" ch; do
@@ -155,9 +155,24 @@ while getopts ":0:1AB:g:h:M:p:S:s:" ch; do
 			print -u2 warning: invalid head count "'$OPTARG'"
 			numheads=0
 		fi ;;
-	(M)	if (( (mbrpno = OPTARG) < 1 || OPTARG > 4 )); then
+	(M)	if [[ $OPTARG != +([0-9])?(:?(0[Xx])+([0-9])) ]]; then
+			print -u2 warning: invalid partition info "'$OPTARG'"
+			mbrpno=0
+			mbrptp=0
+		fi
+		saveIFS=$IFS
+		IFS=:
+		set -A mbr_code -- $OPTARG
+		IFS=$saveIFS
+		(( mbrpno = mbr_code[0] ))
+		(( mbrptp = mbr_code[1] ))
+		if (( mbrpno < 1 || mbrpno > 4 )); then
 			print -u2 warning: invalid partition number "'$OPTARG'"
 			mbrpno=0
+		fi
+		if (( mbrptp < 1 || mbrptp > 255 )); then
+			print -u2 warning: invalid partition type "'$OPTARG'"
+			mbrptp=0
 		fi ;;
 	(p)	if (( (partp = OPTARG) < 1 || OPTARG > 255 )); then
 			print -u2 warning: invalid partition type "'$OPTARG'"
@@ -268,7 +283,7 @@ if (( psz )); then
 	thecode[mbrpno++]=0
 	thecode[mbrpno++]=1
 	thecode[mbrpno++]=0
-	(( thecode[mbrpno++] = (partp ? partp : 0x27) ))
+	(( thecode[mbrpno++] = (mbrptp ? mbrptp : partp ? partp : 0x27) ))
 	(( thecode[mbrpno++] = g_code[1] - 1 ))
 	(( cylno = g_code[0] > 1024 ? 1023 : g_code[0] - 1 ))
 	(( thecode[mbrpno++] = g_code[2] | ((cylno & 0x0300) >> 2) ))
