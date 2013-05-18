@@ -1,8 +1,9 @@
 0a
-# $MirOS: contrib/code/mirmake/dist/scripts/bsd.own.mk.ed,v 1.6 2005/09/12 21:53:26 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/bsd.own.mk.ed,v 1.7 2005/10/02 18:49:03 tg Exp $
 .
 /^SKEY?=/;/^.ifdef __CRAZY/-1d
 /^DEBUGLIBS.=/s/Yes/No/
+/^DEBUGPROGS.=/s/Yes/No/
 /^OBJECT_FMT=/s/\(OBJECT_FMT=[	 ]*\).*$/\1@@obfm@@/
 /^RTLD_TYPE=/s/\(RTLD_TYPE=[	 ]*\).*$/\1@@rtld@@/
 /^MKSH?=/s/\(MKSH?=[	 ]*\).*$/\1@@mksh@@/
