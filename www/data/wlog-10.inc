@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.95 2008/11/09 02:41:06 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.96 2008/11/09 02:51:35 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -1988,4 +1988,31 @@ Title: website fun
  whose idiotic development team opposes against them. For what it’s
  worth, unchecked SSL is still better than no SSL at all (especially
  for entropy ☺) unless you think encrypted = authentic identify.</p>
+----
+Date: 10.11.2008 21:39
+Author: tg@
+Title: compilers
+
+<p>First off, <a href="@@ABSPATH@@/MirOS/gzsigkey.cer">the X.509v3
+ certificate</a> for gzsig(1) has been renewed. While, strictly spoken,
+ this is not necessary, it eases validation.</p>
+<p>MirPorts now not only contain ports for various compilers such as <a
+ href="http://pcc.ludd.ltu.se/">pcc</a> (which does not suck anymore), <a
+ href="http://clang.llvm.org/">LLVM+Clang</a> (which does suck, because
+ it’s written in ugly CFrustFrust) and <a href="http://llvm.org/">llvm-gcc
+ 4.2</a>, it can also peruse them to compile packages:</p><ul>
+<li><tt>$ mmake <i>USE_COMPILER=system</i></tt> # mgcc (C, C++), Default</li>
+<li><tt>$ mmake USE_COMPILER=pcc</tt> # pcc (C only)</li>
+<li><tt>$ mmake USE_COMPILER=llvm</a> # llvm-gcc (C, C++, Fortran 77/9x)</li>
+</ul><p>While clang cannot yet be used there really, the <tt>Build.sh</tt>
+ script of <a href="@@RELPATH@@mksh.htm">mksh</a> can use its “ccc” compiler
+ driver (which however is experimental) as well as llvm-gcc to build mksh(1)…
+ to native code, or to intermediate bytecode (with link-time intra-module
+ optimisation and final assembly into native code).</p>
+<p>The LLVM Interpreter lli also, surprisingly, works. No patch required.</p>
+<p>This (LLVM) is for MirOS-current i386 only; Darwin probably just needs to
+ be tested, whereas MidnightBSD and OpenBSD require some more work.</p>
+<p>TODO: there is an LGPL’d lzmadec binary, C only even; do something with
+ it, possibly to ease use of <tt>.clz</tt> binary packages. Recent storage
+ needs have become utterly ridiculous.</p>
 ----
