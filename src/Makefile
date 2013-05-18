@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.58 2006/07/01 00:34:59 tg Exp $
+# $MirOS: src/Makefile,v 1.59 2006/07/01 00:46:50 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -206,6 +206,7 @@ _do-dist:
 	${SUDO} rm -rf ${BSDOBJDIR} ${BSDRELDIR}
 	cd ${.CURDIR} && exec ${MAKE} distrib-dirs DESTDIR=
 	cd ${.CURDIR} && exec ${MAKE} b-r
+.ifndef QUICK_DIST
 	@date
 	cd ${.CURDIR}/X11 && exec ${MAKE} b-r
 .endif
