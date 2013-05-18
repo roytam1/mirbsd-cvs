@@ -1,5 +1,5 @@
 <!-- PageID: wlog-9 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.7 2006/07/03 01:46:29 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.8 2006/07/04 02:52:47 tg Exp $</small>
 <h1>MirBSD &ndash; WTF is Verpeilungsfaktor?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -155,6 +155,31 @@
  <p>I have a mosquito lamp now &ndash; UV light and a high-voltage thing
   killing them. But they're flying away from that and around in the room
   as if it were disgusting them. *sigh*</p>
+</div>
+
+<div class="wlentry">
+ <h3 id="e20060704">04.07.2006 by tg@</h3>
+ <p>It's been even hotter, thus I'm still not sleeping (I'm 7 hours past
+  midnight already) but enjoying the only cool hours right now. Insects,
+  these beasts! They've been plagueing me worse than ever tonight.</p>
+ <p>Yay! The libc major bump turned out to be necessary, an API changed,
+  an API vanished. And the sparc snapshot due will even have both shared
+  libraries &ndash; rebuilding everything takes too long and I so dearly
+  want to get rid of NFS. At least, I'm now already diving in the depths
+  of src/distrib/ and will try my best to make as few regressions as can
+  (no miniroot yet, as time permits).</p>
+ <p>I wonder if we can use NetBSD&reg;'s makefs(8) for the floppies (any
+  case, it'd just rock!) and maybe mr.fs and miniroot9.fs too (with some
+  flag to make space or something). One also should look at its ISO 9660
+  building capabilities later (for MirOS #10 then).</p>
+ <p>I guess I'll have to bring out an i386 snapshot too, after the login
+  manager changes I suggested to miros-discuss@ the other day, and to be
+  fulfilling the &quot;debt&quot; to bring all the security updates out.
+  The overall code is still sort of flaky, but improving. I wonder if it
+  would be better to first fix everything known on sparc (including that
+  miniroot, and maybe even a text-only live CD) beforehand, as to unveil
+  pending MI bugs.</p>
+ <p>Is anyone reading this here anyway?</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
