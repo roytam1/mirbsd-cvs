@@ -722,9 +722,11 @@ static int HTLoadHTTP(const char *arg,
 	ssl_all_cns = NULL;
 	/* get host we're connecting to */
 	ssl_host = HTParse(url, "", PARSE_HOST);
-	/* strip port number */
-	if ((p = strchr(ssl_host, ':')) != NULL)
+	/* strip port number or extract hostname component */
+	if ((p = strchr(ssl_host, (ssl_host[0] == '[') ? ']' : ':')) != NULL)
 	    *p = '\0';
+	if (ssl_host[0] == '[')
+	    ssl_host++;
 	/* validate all CNs found in DN */
 	while ((cert_host = strstr(ssl_dn_start, "/CN=")) != NULL) {
 	    status_sslcertcheck = 1;	/* 1 = could not verify CN */
@@ -736,9 +738,12 @@ static int HTLoadHTTP(const char *arg,
 		ssl_dn_start = p;	/* yes this points to the NUL byte */
 	    } else
 		ssl_dn_start = NULL;
-	    /* strip port number */
-	    if ((p = strchr(cert_host, ':')) != NULL)
+	    /* strip port number (XXX [ip]:port encap here too? -TG) */
+	    if ((p = strchr(cert_host,
+			    (cert_host[0] == '[') ? ']' : ':')) != NULL)
 		*p = '\0';
+	    if (cert_host[0] == '[')
+		cert_host++;
 	    /* verify this CN */
 	    if (!strcasecomp_asterisk(ssl_host, cert_host)) {
 		status_sslcertcheck = 2;	/* 2 = verified peer */
@@ -746,11 +751,6 @@ static int HTLoadHTTP(const char *arg,
 		HTSprintf0(&msg,
 			   gettext("Verified connection to %s (cert=%s)"),
 			   ssl_host, cert_host);
-		_HTProgress(msg);
-		FREE(msg);
-		X509_NAME_oneline(X509_get_issuer_name(SSL_get_peer_certificate(handle)),
-				  ssl_dn, sizeof (ssl_dn));
-		HTSprintf0(&msg, gettext("Certificate issued by: %s"), ssl_dn);
 		_HTProgress(msg);
 		FREE(msg);
 		/* no need to continue the verification loop */
@@ -788,8 +788,18 @@ static int HTLoadHTTP(const char *arg,
 		FREE(ssl_all_cns);
 		goto done;
 	    }
+	    HTSprintf0(&msg,
+		       gettext("UNVERIFIED connection to %s (cert=%s)"),
+		       ssl_host, ssl_all_cns);
+	    _HTProgress(msg);
+	    FREE(msg);
 	}
 
+	X509_NAME_oneline(X509_get_issuer_name(SSL_get_peer_certificate(handle)),
+			  ssl_dn, sizeof (ssl_dn));
+	HTSprintf0(&msg, gettext("Certificate issued by: %s"), ssl_dn);
+	_HTProgress(msg);
+	FREE(msg);
 	HTSprintf0(&msg,
 		   gettext("Secure %d-bit %s (%s) HTTP connection"),
 		   SSL_get_cipher_bits(handle, NULL),
