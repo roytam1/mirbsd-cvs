@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.128 2006/09/13 22:07:11 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.129 2006/09/13 23:34:01 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -415,7 +415,11 @@ GMAKE?=			gmake
 CHECKSUM_FILE?=		${.CURDIR}/distinfo
 
 # Don't touch!!! Used for generating checksums.
+.ifdef CKSUM_HAS_SIZE
+_CIPHERS=		rmd160 tiger sha1 md5
+.else
 _CIPHERS=		rmd160 sha1 md5
+.endif
 
 _PORTPATH?=		${LOCALBASE}/bin:/usr/local/bin:/usr/bin:/bin:${X11BASE}/bin:/usr/sbin:/sbin:${LOCALBASE}/sbin
 PORTPATH?=		${WRKDIR}/bin:${_PORTPATH}
@@ -1278,7 +1282,11 @@ README_NAME?=		${TEMPLATES}/README.port
 
 REORDER_DEPENDENCIES?=
 
+.ifdef CKSUM_HAS_SIZE
+_size_fragment=		stat -f 'SIZE (%N) = %z'
+.else
 _size_fragment=		print "SIZE ($$file) =" $$(wc -c <"$$file")
+.endif
 
 ###
 ### end of variable setup. Only targets now
@@ -1426,37 +1434,46 @@ ${WRKPKG}/MESSAGE${SUBPACKAGE}: ${MESSAGE}
 makesum: fetch-all
 .if !defined(NO_CHECKSUM)
 	@rm -f ${CHECKSUM_FILE}
+.ifdef CKSUM_HAS_SIZE
+	@cd ${DISTDIR} && cksum ${_CIPHERS:S/^/-a /} -a size \
+	    ${_CKSUMFILES} >>${CHECKSUM_FILE}
+.else
 	@x=bad; cd ${DISTDIR} && \
 	    for cipher in ${_CIPHERS}; do \
 		${_CKSUM_A} $$cipher ${_CKSUMFILES} \
 		    >>${CHECKSUM_FILE} && x=ok || true; \
 	    done; test $$x = ok
-	@for file in ${_IGNOREFILES}; do \
-		echo "MD5 ($$file) = IGNORE" >>${CHECKSUM_FILE}; \
-	done
 	@cd ${DISTDIR} && \
 	    for file in ${_CKSUMFILES}; do \
 		${_size_fragment} >>${CHECKSUM_FILE}; \
 	    done
+.endif
+	@for file in ${_IGNOREFILES}; do \
+		echo "MD5 ($$file) = IGNORE" >>${CHECKSUM_FILE}; \
+	done
 	@sort -u -o ${CHECKSUM_FILE} ${CHECKSUM_FILE}
 .endif
-
 
 addsum: fetch-all
 .if !defined(NO_CHECKSUM)
 	@touch ${CHECKSUM_FILE}
+.ifdef CKSUM_HAS_SIZE
+	@cd ${DISTDIR} && cksum ${_CIPHERS:S/^/-a /} -a size \
+	    ${_CKSUMFILES} >>${CHECKSUM_FILE}
+.else
 	@x=bad; cd ${DISTDIR} && \
 	    for cipher in ${_CIPHERS}; do \
 		${_CKSUM_A} $$cipher ${_CKSUMFILES} \
 		    >>${CHECKSUM_FILE} && x=ok || true; \
 	    done; test $$x = ok
-	@for file in ${_IGNOREFILES}; do \
-		echo "MD5 ($$file) = IGNORE" >>${CHECKSUM_FILE}; \
-	done
 	@cd ${DISTDIR} && \
 	    for file in ${_CKSUMFILES}; do \
 		${_size_fragment} >>${CHECKSUM_FILE}; \
 	    done
+.endif
+	@for file in ${_IGNOREFILES}; do \
+		echo "MD5 ($$file) = IGNORE" >>${CHECKSUM_FILE}; \
+	done
 	@sort -u -o ${CHECKSUM_FILE} ${CHECKSUM_FILE}
 	@if [ $$(sed -e 's/\=.*$$//' ${CHECKSUM_FILE} | uniq -d \
 	    | wc -l) -ne 0 ]; then \
