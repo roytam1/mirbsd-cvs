@@ -1,5 +1,5 @@
 <!-- PageID: wlog-9 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.20 2006/07/21 19:02:34 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.21 2006/07/22 05:24:37 tg Exp $</small>
 <h1>MirBSD &ndash; WTF is Verpeilungsfaktor?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -363,6 +363,46 @@
   and current ports, and we thusly found a small buglet in MirPorts (GNU
   stuff) which got fixed as well. (growfs(8) works well.) I also did few
   more minor things to clean up and prepare for other changes.</p>
+</div>
+
+<div class="wlentry">
+ <h3 id="e20060723">23.07.2006 by tg@</h3>
+ <p>I planned to write a more lengthy wlog entry but since I have gecko2
+  here visiting me for a few days I don't get to do as much stuff as I'd
+  like to (but on the other hand he helps me cleaning up the appartement
+  and spots a few rare MirPorts bugs). Thus, this must suffice:</p>
+ <p>I wonder why Benny is still using the ancient operating system, Plan
+  9, when there is <a href="http://sshdos.sf.net/">an SSH v.2 client</a>
+  for the progressive operating system MS-DOS&reg; &ndash; he should use
+  that instead, so he could directly commit from there. (For the record,
+  an <a href="http://ftp.kiarchive.ru/pub/msdos/unixlike/korn/">MS-Shell
+  2.3</a>, along with a few unix-like utilities, runs on 8088 CPUs quite
+  fine, along with <a href="http://www.fdisk.com/doslynx/bobcat.htm">the
+  best web browser ever</a> (but if you have an 80386, you be better use
+  <a href="http://www.rahul.net/dkaufman/">the real thing, complete with
+  HTTPS/SSL support</a> instead). The site even has an entropy gathering
+  d&aelig;mon (URANDOM$), so&#8230; Benny, now please get and install <a
+  href="http://www.drdos.net/">some DOS</a> or my well-known image.</p>
+ <p>That MS-DOS shell above has got most (not all tho) mksh(1) features!
+  Yay for the Korn Shell!</p>
+ <p>If you update MirPorts, don't forget to re-run Setup.sh(8)</p>
+ <p>I've finally got my lazy arse around to start the redesign and sparc
+  enhancement of <tt>src/distrib/</tt>, but couldn't yet finish the work
+  as &#12466;&#12483;&#12467;&#12491;&#12367;&#12435; wants me to sleep.
+  I've even merged bsd.rd, floppy <em>and</em> iso9660 images generation
+  into that and will try to make it even better. The sparc miniroot was,
+  still, not touched by me though. Also, there's no live CD yet :)</p>
+ <p>Don't forget to always use <b>irc.mirbsd.org:6668</b> to connect the
+  Freeforge IRC network (use port 6666 if your IRC client does not speak
+  TLS/SSL and you're too lazy to add an irc bridge in inetd.conf(5)). We
+  still sit in <tt>#bsd</tt> and <tt>#mirbsd</tt> (as well as Freenode's
+  <tt>#mksh</tt>).</p>
+ <p>mksh(1) is now /bin/sh, the other one is nbsh(1) (/bin/nbsh) for now
+  until the bugs are fixed. When MirOS #9bis gets released, its codebase
+  will be tagged as the next version of mksh (R27f) as well.</p>
+ <p>I probably forgot many thing but it's late and this FreeWRT thingy's
+  been distracting me (let's let wbx handle stabilising ;) and it hasn't
+  yet cooled down much either. So please forgive me.</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
