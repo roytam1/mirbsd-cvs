@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.own.mk,v 1.24 2005/10/02 18:49:03 tg Exp $
+# $MirOS: src/share/mk/bsd.own.mk,v 1.25 2005/10/06 20:59:43 tg Exp $
 # $OpenBSD: bsd.own.mk,v 1.92 2005/01/18 00:28:42 mickey Exp $
 # $NetBSD: bsd.own.mk,v 1.24 1996/04/13 02:08:09 thorpej Exp $
 
@@ -23,12 +23,10 @@ DEFFLAGS=	No
 EXPERIMENTAL=	Yes
 .endif
 
-# Automatic CC/COPTS assignment system
 DEFFLAGS?=	Yes
-
 .if ${DEFFLAGS:L} != "no"
 CC?=		mgcc
-COPTS?=		${DEFCOPTS} ${GCEXTRA}
+COPTS?=		${_DEFCOPTS} ${GCEXTRA}
 .endif
 
 .ifdef __CRAZY
