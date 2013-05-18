@@ -2724,6 +2724,10 @@
 ./man3/ispunct.htm
 ./man3/isspace.htm
 ./man3/isupper.htm
+./man3/iswalnum.htm
+./man3/iswalpha.htm
+./man3/iswlower.htm
+./man3/iswupper.htm
 ./man3/isxdigit.htm
 ./man3/item_count.htm
 ./man3/item_description.htm
@@ -2871,7 +2875,11 @@
 ./man3/malloc.htm
 ./man3/math.htm
 ./man3/mathf.htm
+./man3/mblen.htm
 ./man3/mbrtowc.htm
+./man3/mbsinit.htm
+./man3/mbstowcs.htm
+./man3/mbtowc.htm
 ./man3/mcprint.htm
 ./man3/md4.htm
 ./man3/md5.htm
@@ -4033,6 +4041,8 @@
 ./man3/touchline.htm
 ./man3/touchwin.htm
 ./man3/toupper.htm
+./man3/towlower.htm
+./man3/towupper.htm
 ./man3/tparam.htm
 ./man3/tparm.htm
 ./man3/tputs.htm
@@ -4146,7 +4156,9 @@
 ./man3/wcsspn.htm
 ./man3/wcsstr.htm
 ./man3/wcstok.htm
+./man3/wcstombs.htm
 ./man3/wctob.htm
+./man3/wctomb.htm
 ./man3/wcursyncup.htm
 ./man3/wdelch.htm
 ./man3/wdeleteln.htm
