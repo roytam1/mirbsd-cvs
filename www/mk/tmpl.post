@@ -7,7 +7,8 @@
  href="http://mirbsd.de/impressum">Impressum</a> • <a
  href="http://validator.w3.org/check/referer">Valid HTML!</a> • <a
  href="mailto:miros-discuss@66h.42h.de">E-Mail</a> contact to the
- MirOS Project <!-- $MirOS: www/mk/tmpl.post,v 1.5 2007-12-28 14:56:25 bsiegert Exp $
+ MirOS Project <!-- $MirOS: www/mk/tmpl.post,v 1.6 2007/12/28 17:52:12 bsiegert Exp $
  -->•</p>
- @@HEADER@@</div>
+ @@HEADER@@
+</div>
 </body></html>

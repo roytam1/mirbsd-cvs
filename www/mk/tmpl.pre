@@ -8,10 +8,9 @@
  <meta name="copyright" content="All rights reserved. Redistribution except for scientific and educational uses strictly prohibited." />
  <meta name="owner" content="The MirOS Project and The MirPorts Framework" />
  <meta name="licence" content="see the source files in CVSWEB for details" />
- <!-- $MirOS: www/mk/tmpl.pre,v 1.9 2007-12-28 17:52:12 bsiegert Exp $ -->
+ <!-- $MirOS: www/mk/tmpl.pre,v 1.10 2008/02/07 19:59:28 bsiegert Exp $ -->
  <title>MirOS/MirPorts: a wonderful operating system for a world of peace</title>
- <meta name="robots" content="index, follow" />
- @@RSS@@
+ <meta name="robots" content="index, follow" />@@RSS@@
  <!--
 	This is copyrighted material. For the full licence text, see the file
 	LICENCE in the current directory. In no event may text from this page

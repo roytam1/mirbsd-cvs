@@ -1,4 +1,4 @@
-# $MirOS: www/mk/htsconv,v 1.13 2008/02/07 19:59:27 bsiegert Exp $
+# $MirOS: www/mk/htsconv,v 1.14 2008/02/22 21:58:38 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -15,8 +15,8 @@ function mws_setname {
 }
 
 function mws_setrss {
-	mws__rss="
-<link rel=\"alternate\" type=\"application/rss+xml\" title=\"RSS\" href=\"$1\">"
+	mws__rss="\
+ <link rel=\"alternate\" type=\"application/rss+xml\" title=\"RSS\" href=\"$1\">"
 	# this is for not doing the newline when no RSS is applicable
 }
 
@@ -31,10 +31,10 @@ function mws_subdir {
 function mws_putheader {
 	local rcsid=$1
 #DEPEND mk/tmpl.pre
-	mws_content <"$TOP"/mk/tmpl.pre
+	mws__content <"$TOP"/mk/tmpl.pre
 	mws__header="<p class=\"rcsdiv\">Generated <!-- $mws__difftag --> on"
 	mws__header="$mws__header <span class=\"rcsid\">$(TZ=UTC date +'%F %T')</span>"
-	mws__header="$mws__header"' by <span class="rcsid">$MirOS: www/mk/htsconv,v 1.13 2008/02/07 19:59:27 bsiegert Exp $</span>'
+	mws__header="$mws__header"' by <span class="rcsid">$MirOS: www/mk/htsconv,v 1.14 2008/02/22 21:58:38 tg Exp $</span>'
 	[[ -n $rcsid ]] && mws__header="$mws__header from <span class=\"rcsid\">$rcsid</span>"
 	mws__header="$mws__header</p>"
 }
@@ -61,6 +61,10 @@ function mws_content {
 		print -u2 Internal error: mws_putheader not called!
 		exit 1
 	fi
+	mws__content "$@"
+}
+
+function mws__content {
 	sed \
 	    -e 's\([0-9A-z][-.,0-9A-z]*\)(\(DOCS\))<a href="@@RELPATH@@htman/i386/man\2/\1.htm">&</a>g' \
 	    -e 's\([0-9A-z][-.,0-9A-z]*\)(\(PAPERS\))<a href="@@RELPATH@@htman/i386/man\2/\1.htm">&</a>g' \

@@ -1,4 +1,4 @@
-# $MirOS: www/Makefile,v 1.18 2008/01/19 22:12:52 bsiegert Exp $
+# $MirOS: www/Makefile,v 1.19 2008/02/22 21:49:30 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -29,7 +29,7 @@ SRCS+=		projects.hts
 WLOGS=		9
 
 INCSRCS+=	news
-news.cut: stamp_news
+news.cut: stamp_htm_news
 CLEANFILES+=	news.cut
 
 .PATH: ${TOP}/src
