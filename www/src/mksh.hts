@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.256 2009/07/19 15:14:22 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.257 2009/07/25 21:32:09 tg Exp $'
 mws_content <<'EOF'
 <h2>mksh(1) R38c</h2>
 
@@ -31,7 +31,7 @@ mws_content <<'EOF'
  <li><a href="#build">Installation</a></li>
  <li><a href="#upgrade">Upgrade</a> your packages from older mksh</li>
  <li>Inclusion in <a href="#otheros">operating systems</a></li>
- <li><a href="#contrib">comparision</a> with other shells</li>
+ <li><a href="mksh_old.htm#contrib">comparision</a> with other shells</li>
  <li><a href="#regress">Testsuite Results</a> (regression tests)</li>
  <li><a href="#vsn">on version numbers</a> – for packagers</li>
  <li><a href="#plans">future plans</a></li>
@@ -72,7 +72,7 @@ mws_content <<'EOF'
  (Did I miss anyone? Mail me if so. Some of these are past, anyway.)</p>
 <p>What is mksh(1)? – Short answer: The MirBSD Korn Shell. Okay, but what
  exactly does it do, or why another shell? These questions will be answered
- <a href="#contrib">below</a> for the people interested. Right now, you only
+ <a href="mksh_old.htm#contrib">here</a> for the people interested. Right now, you only
  need to know that mksh is a <a href="http://www.debian.org/social_contract#guidelines">DFSG</a>-free
  and <a href="http://www.opensource.org/docs/osd">OSD</a>-compliant (and OSI
  approved)
@@ -136,7 +136,7 @@ mws_content <<'EOF'
  href="@@ABSPATH@@/man/mksh.1">HTML</a> and <a
  href="@@ABSPATH@@/MirOS/dist/mir/mksh/mksh.pdf">PDF</a> format.
  Reading books about Korn Shells in general is recommended as further help,
- but beware of the <a href="#contrib">differences</a> to other shells. Some
+ but beware of the <a href="mksh_old.htm#contrib">differences</a> to other shells. Some
  ISBNs are listed at the end of the manual page.</p>
 <p>If you require additional assistance or want to discuss bugs, features
  or enhancements, write to the <a href="mailto:miros-discuss@mirbsd.org">mailing
@@ -240,6 +240,9 @@ mws_content <<'EOF'
  Plan9 (not yet) PW32* (not yet) QNX SunOS syllable (not yet) ULTRIX UWIN*</li>
 <li><tt>TARGET_OSREV</tt> (uname -r) – the operating system revision number
  for these that need it; currently: QNX (R38c+)</li>
+<li style="list-style:none;">Feature selectors:</li>
+<li><tt>USE_PRINTF_BUILTIN=1</tt> – add <tt>printf.c</tt> to the list of
+ files to be compiled and set a flag so it is used as builtin</li>
 </ul>
 <p>If <tt>CPPFLAGS</tt> contain any of the following definitions, the resulting
  binary will be compiled with a specific flavour:</p><ul>
@@ -613,7 +616,12 @@ mws_content <<'EOF'
  and alias/function name conflicts regarding whitespace before parenthesēs,
  as well as a much enhanced <tt>dot.mkshrc</tt> sample file I urge to install.
  People using a Makefile to build it may need to regenerate their set of
- CPPFLAGS used; CPPFLAGS handling in general has improved.</p>
+ CPPFLAGS used; CPPFLAGS handling in general has improved. There is now a
+ defined but unsupported way to make printf(1) a builtin; this is <em>not</em>
+ tested and adds a huge SLOB of foreign code to the build, lets the shell use
+ stdio and floating point, making it bloated and fragile; if you still want
+ it (hi Md), set <tt>USE_PRINTF_BUILTIN=1</tt> and add <tt>printf.c</tt> from
+ <tt>mircvs://src/usr.bin/printf/</tt> to the build.</p>
 <p>mksh R38c adds QNX fixes, build system fixes, and the (not recommended)
  ability to use <tt>-DMKSH_ASSUME_UTF8=0</tt> to skip the environment checks
  for locale (leading to one (supposedly un-)expected regression test failure).
@@ -731,71 +739,6 @@ mws_content <<'EOF'
 </ul>
 <p>These packages are not official and have not always been tested by mksh
  developers; please keep this in mind.</p>
-
-<h2 id="contrib">Other Shells and more</h2>
-<p>mksh is a successor of pdksh but not affiliated with the pdksh
- developers or contributors. mksh is not affiliated with the AT&amp;T
- Korn Shell, its past or present owners, other than that both attempt
- to implement the Korn Shell programming language.</p>
-<p>mksh targets users who desire a compact, fast, reliable, secure
- shell not cut off modern extensions; a shell with Unicode support;
- an actively developed, current, and portable product; one with
- developers that listen to their users’ requests and implement them
- if they actually make sense.</p>
-<p>mksh aims to replace pdksh in all but very rare use cases (such as
- support for checking the Unix mbox) and in all operating environments
- (thus including patches from pdksh on e.g. Debian).</p>
-
-<h3 id="co-diffs">Differences</h3>
-<p>mksh is a direct descendant from the OpenBSD <tt>/bin/ksh</tt> and
- contains all of its bug fixes and enhancements <strong>except</strong>
- the “GNU bash-like <tt>$PS1</tt>” and “POSIX character class support
- in globbing” changes and the incompatible “ulimit can handle multiple
- limits in one invocation” difference. Some of the more weird diffs in
- oksh have not been merged either. The DeliLinux developer who
- is responsible for packaging oksh for GNU/Linux should instead use mksh
- and port that diff over (be careful to not break the fixes to the command
- line editing modes, these are subtilely broken in OpenBSD). Even better,
- the OpenBSD people should not only commit a port of mksh but replace their
- ksh with it (optionally retaining that GNU bash-like $PS1 stuff). The
- <tt>set -o emacs-usemeta</tt> command is no longer needed because the
- emacs editing mode has been changed for Unicode/UTF-8 mode, which adds a
- new <tt>set -o utf8-hack</tt> mode. The <tt>set -o sh</tt> command has
- been completely removed, <tt>set -o posix</tt> merely turns off brace
- expansion as side effect. There is no limit (well, 2³² – for now…) on
- array sizes any more. Many bugs and security holes have been closed in
- mksh and are still in oksh and OpenBSD ksh. The user interface has much
- less bugs and surprises; emacs editing mode is enabled by default.
- In contrast to oksh, <tt>set -o arc4random</tt> can be used to control
- which generator for <tt>$RANDOM</tt> is used.</p>
-<p>mksh is the heir of pdksh and contains all the latest fixes from upstream
- (so ca. 1995) and Debian. It is the only pdksh derivate currently being
- under active development. See above for other
- differences. The code really has been cleaned up and no longer contains any
- material under licences more restrictive than the BSD licence.</p>
-<p>AT&amp;T ksh88 and ksh93 compare to mksh substantially, but share no code;
- the user interface is slightly different especially for ksh88; many editing
- commands work (only slightly) differently as well. mksh implements many, but
- by far not all, ksh93 features, but most ksh88 features. No floating point.
- The last command of a pipeline is executed in a subshell.</p>
-<p>mksh can do many things GNU bash can’t, for example better arrays, the
- ksh Co-processes, etc. but is much faster and smaller. In contrast to bash,
- mksh is still being actively developed (bash almost only receives small
- changes or weird stuff like programmable tab completion). GNU bash’s array
- initialiser syntax is not yet supported. We don’t aim at being fully bash
- compatible, but some of the surprises for converts will be removed. Funnily,
- bash4 now contains some things first introduced in mksh.</p>
-<p>The Z shell (zsh) isn’t even remotely ksh compatible in its “emulate ksh”
- operation mode, and we don’t compare to it.</p>
-<p>mksh is <em>mostly</em> bourne shell compatible (but ^ as alias for | is
- not supported, like most modern shells). mksh is also POSIX sh compatible.
- Some constructs are not supported, for example<br />
- <tt>((foo; bar) 2>&amp;1 || baz)</tt><br />which has to be rewritten as<br />
- <tt>( (foo; bar) 2>&amp;1 || baz)</tt><br />because ((…)) is shell arithmetics;
- brace expansion is turned on by default; etc.</p>
-<p>mksh R33 supports more (later versions even more) bash/ksh93/zsh constructs
- than its predecessors; sometimes, not all cases (e.g. applying string trimming
- on arrays) are supported, but you probably will not notice that.</p>
 
 <h2 id="regress">Official Testing</h2>
 <p>The MirOS Project has tested mksh on the following operating systems,
@@ -1058,7 +1001,7 @@ mws_content <<'EOF'
  <li>[tg] Aligh “set -o nounset” / “set -u” behaviour with future POSIX
   standard, as discussed with GNU bash maintainers, David Korn from AT&amp;T
   ksh93, and The Open Group; prompted by use of it in Debian, cf. #522255</li>
- <li>[tg] «development branch» add a way to make printf(1) a builtin</li>
+ <li>[tg] add an unsupported way to make printf(1) a builtin</li>
  <li>[tg] Build system and regression test code and comment improvements:
   better and more comments matching reality better; more reliability w.r.t.
   passed CPPFLAGS; more of the MKSH_SMALL changes may be overridden, all of
@@ -1067,6 +1010,7 @@ mws_content <<'EOF'
   (homedir) expansion code wholly if defined, not just getpwnam(3) calls</li>
  <li>[tg] shells without job control no longer define the standard "stop" and
   "suspend" aliases (they are pointless anyway); regression tests know</li>
+ <li>[tg] use system RCS ID macros on MirBSD if decent enough</li>
 </ul>
 <p id="r38c">mksh R38c contains the following fixes:</p><ul>
  <li>[tg] Fix regression tests on OSes insisting on a shebang (Cygwin)</li>

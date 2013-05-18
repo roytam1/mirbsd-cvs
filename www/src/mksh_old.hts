@@ -1,11 +1,11 @@
-# $MirOS: www/src/mksh_old.hts,v 1.19 2009/04/13 18:21:29 tg Exp $
+# $MirOS: www/src/mksh_old.hts,v 1.20 2009/06/21 11:01:25 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh/old "mksh – old versions"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh_old.hts,v 1.19 2009/04/13 18:21:29 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh_old.hts,v 1.20 2009/06/21 11:01:25 tg Exp $'
 mws_content <<'EOF'
 <h2><a href="mksh.htm">mksh</a> – old versions</h2>
 
@@ -36,6 +36,71 @@ mws_content <<'EOF'
 <p>The build script also honours the following environment variables:</p><ul>
 <li><tt>CPP</tt> ($CC -E -) – the C præprocessor used</li>
 </ul>
+
+<h2 id="contrib">Other Shells and more</h2>
+<p>mksh is a successor of pdksh but not affiliated with the pdksh
+ developers or contributors. mksh is not affiliated with the AT&amp;T
+ Korn Shell, its past or present owners, other than that both attempt
+ to implement the Korn Shell programming language.</p>
+<p>mksh targets users who desire a compact, fast, reliable, secure
+ shell not cut off modern extensions; a shell with Unicode support;
+ an actively developed, current, and portable product; one with
+ developers that listen to their users’ requests and implement them
+ if they actually make sense.</p>
+<p>mksh aims to replace pdksh in all but very rare use cases (such as
+ support for checking the Unix mbox) and in all operating environments
+ (thus including patches from pdksh on e.g. Debian).</p>
+
+<h3 id="co-diffs">Differences</h3>
+<p>mksh is a direct descendant from the OpenBSD <tt>/bin/ksh</tt> and
+ contains all of its bug fixes and enhancements <strong>except</strong>
+ the “GNU bash-like <tt>$PS1</tt>” and “POSIX character class support
+ in globbing” changes and the incompatible “ulimit can handle multiple
+ limits in one invocation” difference. Some of the more weird diffs in
+ oksh have not been merged either. The DeliLinux developer who
+ is responsible for packaging oksh for GNU/Linux should instead use mksh
+ and port that diff over (be careful to not break the fixes to the command
+ line editing modes, these are subtilely broken in OpenBSD). Even better,
+ the OpenBSD people should not only commit a port of mksh but replace their
+ ksh with it (optionally retaining that GNU bash-like $PS1 stuff). The
+ <tt>set -o emacs-usemeta</tt> command is no longer needed because the
+ emacs editing mode has been changed for Unicode/UTF-8 mode, which adds a
+ new <tt>set -o utf8-hack</tt> mode. The <tt>set -o sh</tt> command has
+ been completely removed, <tt>set -o posix</tt> merely turns off brace
+ expansion as side effect. There is no limit (well, 2³² – for now…) on
+ array sizes any more. Many bugs and security holes have been closed in
+ mksh and are still in oksh and OpenBSD ksh. The user interface has much
+ less bugs and surprises; emacs editing mode is enabled by default.
+ In contrast to oksh, <tt>set -o arc4random</tt> can be used to control
+ which generator for <tt>$RANDOM</tt> is used.</p>
+<p>mksh is the heir of pdksh and contains all the latest fixes from upstream
+ (so ca. 1995) and Debian. It is the only pdksh derivate currently being
+ under active development. See above for other
+ differences. The code really has been cleaned up and no longer contains any
+ material under licences more restrictive than the BSD licence.</p>
+<p>AT&amp;T ksh88 and ksh93 compare to mksh substantially, but share no code;
+ the user interface is slightly different especially for ksh88; many editing
+ commands work (only slightly) differently as well. mksh implements many, but
+ by far not all, ksh93 features, but most ksh88 features. No floating point.
+ The last command of a pipeline is executed in a subshell.</p>
+<p>mksh can do many things GNU bash can’t, for example better arrays, the
+ ksh Co-processes, etc. but is much faster and smaller. In contrast to bash,
+ mksh is still being actively developed (bash almost only receives small
+ changes or weird stuff like programmable tab completion). GNU bash’s array
+ initialiser syntax is not yet supported. We don’t aim at being fully bash
+ compatible, but some of the surprises for converts will be removed. Funnily,
+ bash4 now contains some things first introduced in mksh.</p>
+<p>The Z shell (zsh) isn’t even remotely ksh compatible in its “emulate ksh”
+ operation mode, and we don’t compare to it.</p>
+<p>mksh is <em>mostly</em> bourne shell compatible (but ^ as alias for | is
+ not supported, like most modern shells). mksh is also POSIX sh compatible.
+ Some constructs are not supported, for example<br />
+ <tt>((foo; bar) 2>&amp;1 || baz)</tt><br />which has to be rewritten as<br />
+ <tt>( (foo; bar) 2>&amp;1 || baz)</tt><br />because ((…)) is shell arithmetics;
+ brace expansion is turned on by default; etc.</p>
+<p>mksh R33 supports more (later versions even more) bash/ksh93/zsh constructs
+ than its predecessors; sometimes, not all cases (e.g. applying string trimming
+ on arrays) are supported, but you probably will not notice that.</p>
 
 <h3 id="co-hints">Hints and other useful stuff</h3>
 <p>mksh does not write a history file by default any longer; set the
