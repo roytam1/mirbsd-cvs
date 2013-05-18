@@ -23,6 +23,7 @@ use vars qw($VERSION %IRSSI);
 $VERSION = sprintf "%d.%02d",
     q$MirOS: ports/net/irssi/files/randex.pl,v 1.11 2009/01/08 19:48:58 tg Exp $
     =~ m/,v (\d+)\.(\d+) /;
+# do not send mail to junk@mirbsd.org
 %IRSSI = (
 	authors		=> 'Thorsten Glaser',
 	contact		=> 'tg@mirbsd.org',
