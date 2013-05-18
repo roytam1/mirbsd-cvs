@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/Snippets/tinyirc.c,v 1.6 2006/05/29 15:56:56 tg Exp $ */
+/* $MirOS: contrib/code/Snippets/tinyirc.c,v 1.7 2006/05/29 18:43:18 tg Exp $ */
 
 /* Configuration options */
 static const char DEFAULTSERVER[] = "irc.mirbsd.org";
@@ -77,7 +77,7 @@ static const char DEFAULTSERVER[] = "irc.mirbsd.org";
 #define	__RCSID(x)	static const char __rcsid[] __attribute__((used)) = (x)
 #endif
 
-__RCSID("$MirOS: contrib/code/Snippets/tinyirc.c,v 1.6 2006/05/29 15:56:56 tg Exp $");
+__RCSID("$MirOS: contrib/code/Snippets/tinyirc.c,v 1.7 2006/05/29 18:43:18 tg Exp $");
 
 struct dlist {
     char name[64];
@@ -670,7 +670,7 @@ void userinput(void)
 	case '\4':		/* C-d */
 	case '\10':		/* C-h */
 	    if (curx) {
-		if (ch == '\4' && curx < curli)
+		if ((ch == '\4') && (curx < curli))
 		    curx++;
 		if (curli == curx)
 		    linein[(--curx)] = '\0';
