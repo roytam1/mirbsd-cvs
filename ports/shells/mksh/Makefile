@@ -1,8 +1,8 @@
-# $MirOS: ports/shells/mksh/Makefile,v 1.14 2006/05/27 20:45:34 tg Exp $
+# $MirOS: ports/shells/mksh/Makefile,v 1.15 2006/06/23 15:16:05 tg Exp $
 
 COMMENT=		"MirBSD Korn Shell"
-DISTNAME=		mksh-R27d
-PKGNAME=		mksh-27.3-0
+DISTNAME=		mksh-R27e
+PKGNAME=		mksh-27.4-0
 CATEGORIES=		shells
 HOMEPAGE=		http://mirbsd.de/mksh
 
@@ -35,6 +35,6 @@ do-install:
 	${INSTALL_MAN} ${WRKBUILD}/mksh.cat1 ${PREFIX}/man/cat1/mksh.0
 
 do-regress:
-	${BSH} ${WRKBUILD}/Test.sh
+	${BSH} ${WRKBUILD}/Test.sh -v
 
 .include <bsd.port.mk>
