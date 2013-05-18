@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.166 2009/02/24 20:57:24 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.167 2009/03/02 18:06:19 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -3446,6 +3446,7 @@ Title: Compiling for MirBSD™ on Debian
 Author: tg@
 Date: 02.03.2009 18:00
 Title: getting closer, slowly
+Tag: bug geocache
 
 <p>We’re slowly getting closer to spring! It was about 12°C even in
  the late afternoon of the weekend, and I took out my bike on Sunday
@@ -3464,5 +3465,11 @@ Title: getting closer, slowly
  that code on MirBSD® can assume wrapping semantics and 8/16/32/64 bit
  wide integral types, big or little endian. No 9 bit bytes, 36 bit PDP
  endian integers, saturation arithmetics. Ever. It’s a promise.</p>
+<p>The IcedTea cross-compile patch and the OpenJDK BSD patchkit are
+ not build system compatible. I probably need to go the route of using
+ compat_openbsd(8) for it. Kurt Miller said if I sigh Sun’s agreement
+ chances are good MirBSD support making it upstream (into the patchkit,
+ for now, but maybe eventually into OpenJDK 7). MirUsers will just have
+ to use a binary package I provide for bootstrap.</p>
 <p>More… some other time. Still wish humans would hibernate too…</p>
 ----
