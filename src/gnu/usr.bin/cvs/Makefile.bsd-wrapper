@@ -1,5 +1,8 @@
-# $MirOS: src/gnu/usr.bin/cvs/Makefile.bsd-wrapper,v 1.6 2005/07/09 17:43:44 tg Exp $
+# $MirOS: src/gnu/usr.bin/cvs/Makefile.bsd-wrapper,v 1.7 2006/10/02 04:19:42 tg Exp $
 # $OpenBSD: Makefile.bsd-wrapper,v 1.44 2004/01/02 09:01:24 millert Exp $
+
+# MirOS patchlevel
+FSFMARGS+=	MIROS_BASE_EXTRA_CFLAGS=-D\'PACKAGE_STRINGADD=\"-09AC\"\'
 
 # ATTN: see below
 
