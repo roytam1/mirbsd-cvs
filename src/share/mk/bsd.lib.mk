@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.lib.mk,v 1.23 2005/10/06 22:02:47 tg Exp $
+# $MirOS: src/share/mk/bsd.lib.mk,v 1.24 2005/10/06 22:04:21 tg Exp $
 # $OpenBSD: bsd.lib.mk,v 1.43 2004/09/20 18:52:38 espie Exp $
 # $NetBSD: bsd.lib.mk,v 1.67 1996/01/17 20:39:26 mycroft Exp $
 # @(#)bsd.lib.mk	5.26 (Berkeley) 5/2/91
@@ -259,15 +259,19 @@ realinstall:
 	${LINK.shlib} -install_name ${LIBDIR}/${SHLIB_SONAME} \
 	    -o ${SHLIB_SONAME}
 .    endif
+.    if ${DEBUGLIBS:L} != "yes"
 	${INSTALL} ${INSTALL_COPY} -o ${LIBOWN} -g ${LIBGRP} -m ${LIBMODE} \
 	    ${SHLIB_SONAME} ${DESTDIR}${LIBDIR}/
-.    if ${DEBUGLIBS:L} == "yes"
-	-rm -f ${DESTDIR}${LIBDIR}/${SHLIB_SONAME}.dbg
-	cd ${DESTDIR}${LIBDIR} && \
-	    objcopy --only-keep-debug ${SHLIB_SONAME} ${SHLIB_SONAME}.dbg && \
-	    objcopy --strip-debug --add-gnu-debuglink=${SHLIB_SONAME}.dbg \
-	    ${SHLIB_SONAME} && chmod ${SHAREMODE} ${SHLIB_SONAME}.dbg && \
-	    chown ${LIBOWN}:${LIBGRP} ${SHLIB_SONAME}.dbg
+.    else
+	-rm -f ${DESTDIR}${LIBDIR}/${SHLIB_SONAME}.{dbg,tmp}
+	${INSTALL} ${INSTALL_COPY} -o ${LIBOWN} -g ${LIBGRP} -m ${LIBMODE} \
+	    ${SHLIB_SONAME} ${DESTDIR}${LIBDIR}/${SHLIB_SONAME}.tmp
+	objcopy --only-keep-debug ${SHLIB_SONAME} \
+	    ${DESTDIR}${LIBDIR}/${SHLIB_SONAME}.dbg && cd ${DESTDIR}${LIBDIR} \
+	    && objcopy --strip-debug --add-gnu-debuglink=${SHLIB_SONAME}.dbg \
+	    ${SHLIB_SONAME}.tmp && chmod ${SHAREMODE} ${SHLIB_SONAME}.dbg && \
+	    chown ${LIBOWN}:${LIBGRP} ${SHLIB_SONAME}.dbg && ln -f \
+	    ${SHLIB_SONAME}.tmp ${SHLIB_SONAME} && rm -f ${SHLIB_SONAME}.tmp
 .    endif
 .    for _i in ${SHLIB_LINKS}
 	@rm -f ${DESTDIR}${LIBDIR}/${_i}
