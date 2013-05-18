@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/Makefile,v 1.54 2010/08/06 15:40:01 tg Exp $
+# $MirOS: src/distrib/common/Makefile,v 1.55 2010/08/06 20:27:50 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -214,7 +214,7 @@ cdrom-prepare: bsd.rd
 .endif
 .if defined(LGRUBCFG)
 	mkdir -p ${WRKDIR}/boot/grub
-	cp ${TOPDIR}/${LGRUBCFG}/loopback.* ${WRKDIR}/boot/grub/
+	cp ${TOPDIR}/common/${LGRUBCFG}/loopback.* ${WRKDIR}/boot/grub/
 .endif
 	cp bsd.rd ${BOOTSH} ${WRKDIR}/v${OSrev}/${MACHINE}/
 	cp ${TOPDIR}/common/00-README ${WRKDIR}/
