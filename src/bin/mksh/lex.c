@@ -22,7 +22,7 @@
 
 #include "sh.h"
 
-__RCSID("$MirOS: src/bin/mksh/lex.c,v 1.97 2009/09/24 17:15:31 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/lex.c,v 1.98 2009/10/02 18:08:34 tg Exp $");
 
 /*
  * states while lexing word
@@ -460,7 +460,8 @@ yylex(int cf)
 					*wp++ = '\0';
 					*wp++ = CSUBST;
 					*wp++ = 'X';
-				} else if (c == '\'') {
+				} else if (c == '\'' && (state == SBASE)) {
+					/* XXX which other states are valid? */
 					*wp++ = OQUOTE;
 					ignore_backslash_newline++;
 					PUSH_STATE(SEQUOTE);
