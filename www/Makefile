@@ -1,4 +1,4 @@
-# $MirOS: www/Makefile,v 1.35 2008/11/08 15:37:42 tg Exp $
+# $MirOS: www/Makefile,v 1.36 2008/11/08 16:28:45 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -65,17 +65,17 @@ DEPSRCS+=	${SRCS:S,^,src/,}
 INCSRCS+=	${WLOGS:S/^/wlog-/}
 
 .for _i in ${INCSRCS}
+DEPSRCS+=	data/${_i}.cfg
 GENSRCS+=	stamp_htm_${_i} stamp_rss_${_i}
 
-stamp_htm_${_i}: ${DEPS_mk_inc2htm} \
-    ${TOP}/data/${_i}.inc ${TOP}/data/${_i}.cfg
+stamp_htm_${_i}: ${DEPS_mk_inc2htm} ${DEPS_data_${_i}_cfg}
 	${U_ENV} ${MKSH} ${TOP}/mk/inc2htm ${_i} >$@ || (rm -f $@; exit 1)
 
-stamp_rss_${_i}: ${DEPS_mk_inc2rss} strftm \
-    ${TOP}/data/${_i}.inc ${TOP}/data/${_i}.cfg
+stamp_rss_${_i}: ${DEPS_mk_inc2rss} strftm ${DEPS_data_${_i}_cfg}
 	${U_ENV} PATH=.:$$PATH ${MKSH} ${TOP}/mk/inc2rss ${_i} >$@ || \
 	    (rm -f $@; exit 1)
 .endfor
+
 DEPSRCS+=	mk/inc2htm mk/inc2rss
 OBJS+=		${GENSRCS}
 CLEANFILES+=	${GENSRCS}
