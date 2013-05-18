@@ -1,3 +1,10 @@
+----------------
+Upgraders beware
+----------------
+
+LOCALSTATEDIR may have changed, you might need to move things;
+current value is: ${LOCALSTATEDIR}
+
 -----------------------------------
 openldap-server is almost installed
 -----------------------------------
