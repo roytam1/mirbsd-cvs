@@ -1,10 +1,12 @@
-# $MirOS: src/gnu/usr.sbin/sendmail/libmilter/Makefile,v 1.5 2007/02/05 17:13:43 tg Exp $
+# $MirOS: src/gnu/usr.sbin/sendmail/libmilter/Makefile,v 1.6 2007/02/05 17:44:28 tg Exp $
 # $OpenBSD: Makefile,v 1.11 2007/02/04 13:17:35 millert Exp $
 
 .include <bsd.own.mk>
 
 LIB=		milter
 HDRS=		mfapi.h milter.h mfdef.h
+HDRSRC=		${.CURDIR}/../include/libmilter
+HDRDST=		${DESTDIR}/usr/include/libmilter
 DOCS=		api.html design.html figure1.jpg figure2.jpg index.html \
 		installation.html other.html overview.html sample.html \
 		smfi_addheader.html smfi_addrcpt.html smfi_addrcpt_par.html \
@@ -26,15 +28,6 @@ SRCS=		main.c engine.c listener.c worker.c handler.c comm.c smfi.c \
 CPPFLAGS+=	-D_FFR_MILTER_ROOT_UNSAFE -ULDAPMAP -pthread \
 		-Dsm_snprintf=snprintf
 .PATH:		${.CURDIR}/../libsm
-
-includes:
-	${INSTALL} -d -o ${BINOWN} -g ${BINGRP} -m ${DIRMODE} \
-	    ${DESTDIR}/usr/include/libmilter
-.for _i in ${HDRS}
-	${INSTALL} ${INSTALL_COPY} -o ${BINOWN} -g ${BINGRP} \
-	    -m ${NONBINMODE} ${.CURDIR}/../include/libmilter/${_i} \
-	    ${DESTDIR}/usr/include/libmilter/${_i}
-.endfor
 
 beforeinstall:
 	cmp -s ${.CURDIR}/README ${DESTDIR}${SHAREDIR}/sendmail/README.milter \
