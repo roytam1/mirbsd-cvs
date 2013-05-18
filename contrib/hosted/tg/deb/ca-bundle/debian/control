@@ -1,4 +1,6 @@
 Source: ca-bundle
+Origin: WTF
+Bugs: mailto:wtf@mirbsd.org
 Section: misc
 Priority: optional
 Maintainer: Thorsten Glaser <tg@mirbsd.de>
@@ -13,9 +15,9 @@ Recommends: openssl
 Conflicts: ca-certificates, ca-certificates-java
 Replaces: ca-certificates, ca-certificates-java,
  cacao-oj6-jre-headless, gajim, ia32-sun-java5-bin, ia32-sun-java6-bin,
- j2re1.4, java-gcj-compat-headless, kdelibs-data, kdelibs-data-kde3,
- kdelibs5-data, libapache-mod-ssl, libgcj10, openjdk-6-jre-headless,
- sun-java5-bin, sun-java6-bin, sympa, jxplorer
+ j2re1.4, java-gcj-compat-headless, kdelibs-data, kdelibs5-data,
+ kdelibs-data-kde3, kdelibs-data-trinity, libapache-mod-ssl, libgcj10,
+ openjdk-6-jre-headless, sun-java5-bin, sun-java6-bin, sympa, jxplorer
 Provides: ca-certificates, ca-certificates-java
 Enhances: curl, gajim, gnutls-bin, libgnutls13, libgnutls26, libssl0.9.8,
  lynx-cur, openssl,

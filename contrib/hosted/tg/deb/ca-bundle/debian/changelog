@@ -1,8 +1,17 @@
 ca-bundle (20101212+1) xunstable; urgency=low
 
   * KDE 3 uses /opt/trinity in their .deb packages now… /* */
+  * Merge ca-bundle_20110214 source package
+  * Replaces: kdelibs-data-trinity (from tarent)
 
- -- Thorsten Glaser <tg@mirbsd.de>  Mon, 13 Dec 2010 09:37:49 +0001
+ -- Thorsten Glaser <tg@mirbsd.de>  Mon, 13 Dec 2010 09:37:49 +0003
+
+ca-bundle (20110214) unstable; urgency=low
+
+  * KDE 3 is now called Trinity (TDE)
+  * Add Origin and Bugs headers
+
+ -- Thorsten Glaser <tg@mirbsd.de>  Mon, 14 Feb 2011 09:27:09 +0000
 
 ca-bundle (20101212) unstable; urgency=low
 
