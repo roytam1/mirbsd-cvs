@@ -1,7 +1,7 @@
 /*	$NetBSD: makefs.c,v 1.26 2006/10/22 21:11:56 christos Exp $	*/
 
 /*
- * Copyright (c) 2009
+ * Copyright (c) 2009, 2010
  *	Thorsten Glaser <tg@mirbsd.org>
  * Copyright (c) 2001-2003 Wasabi Systems, Inc.
  * All rights reserved.
@@ -48,7 +48,7 @@
 #include <sys/cdefs.h>
 #if defined(__RCSID) && !defined(__lint)
 __RCSID("$NetBSD: makefs.c,v 1.26 2006/10/22 21:11:56 christos Exp $");
-__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/makefs.c,v 1.10 2010/03/06 21:29:04 tg Exp $");
+__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/makefs.c,v 1.11 2010/03/06 23:24:14 tg Exp $");
 #endif	/* !__lint */
 
 #include <sys/param.h>
@@ -87,6 +87,7 @@ static fstype_t fstypes[] = {
 };
 
 u_int		debug;
+size_t		maxpathlen;
 struct timespec	start_time;
 
 static	fstype_t *get_fstype(const char *);
@@ -102,6 +103,20 @@ main(int argc, char *argv[])
 	fsnode		*root;
 	int	 	 ch, len;
 	char		*specfile;
+
+#ifdef MAXPATHLEN
+	maxpathlen = MAXPATHLEN;
+#elif !defined(_PC_PATH_MAX)
+	maxpathlen = 1024;
+#else
+	{
+		long r;
+
+		if ((r = sysconf(_PC_PATH_MAX)) == -1)
+			err(1, "sysconf(_PC_PATH_MAX) == -1");
+		maxpathlen = r;
+	}
+#endif
 
 	setprogname(argv[0]);
 

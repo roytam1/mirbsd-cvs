@@ -1,7 +1,7 @@
 /*	$NetBSD: walk.c,v 1.24 2008/12/28 21:51:46 christos Exp $	*/
 
 /*
- * Copyright (c) 2009
+ * Copyright (c) 2009, 2010
  *	Thorsten Glaser <tg@mirbsd.org>
  * Copyright (c) 2001 Wasabi Systems, Inc.
  * All rights reserved.
@@ -43,7 +43,7 @@
 
 #include <sys/cdefs.h>
 #if defined(__RCSID) && !defined(__lint)
-__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/walk.c,v 1.9 2010/03/06 21:29:05 tg Exp $");
+__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/walk.c,v 1.10 2010/03/06 23:24:15 tg Exp $");
 __RCSID("$NetBSD: walk.c,v 1.24 2008/12/28 21:51:46 christos Exp $");
 #endif	/* !__lint */
 
@@ -83,10 +83,12 @@ walk_dir(const char *dir, fsnode *parent)
 	fsnode		*first, *cur, *prev;
 	DIR		*dirp;
 	struct dirent	*dent;
-	char		path[MAXPATHLEN + 1];
+	char		*path;
 	struct stat	stbuf;
 
 	assert(dir != NULL);
+	if ((path = malloc(maxpathlen + 1)) == NULL)
+		err(1, "malloc");
 
 	if (debug & DEBUG_WALK_DIR)
 		printf("walk_dir: %s %p\n", dir, parent);
@@ -98,8 +100,8 @@ walk_dir(const char *dir, fsnode *parent)
 			continue;
 		if (debug & DEBUG_WALK_DIR_NODE)
 			printf("scanning %s/%s\n", dir, dent->d_name);
-		if ((size_t)snprintf(path, sizeof(path), "%s/%s", dir, dent->d_name)
-		    >= sizeof(path))
+		if ((size_t)snprintf(path, maxpathlen, "%s/%s", dir, dent->d_name)
+		    >= maxpathlen)
 			errx(1, "Pathname too long.");
 		if (lstat(path, &stbuf) == -1)
 			err(1, "Can't lstat `%s'", path);
@@ -150,21 +152,23 @@ walk_dir(const char *dir, fsnode *parent)
 		if (!cur->inode->serno)
 			cur->inode->serno = vinode++;
 		if (S_ISLNK(cur->type)) {
-			char	slink[PATH_MAX+1];
-			int	llen;
+			int llen;
+			char *slink;
 
-			llen = readlink(path, slink, sizeof(slink) - 1);
+			if ((slink = malloc(stbuf.st_size + 1)) == NULL)
+				err(1, "malloc");
+			llen = readlink(path, slink, stbuf.st_size);
 			if (llen == -1)
 				err(1, "Readlink `%s'", path);
 			slink[llen] = '\0';
-			if ((cur->symlink = strdup(slink)) == NULL)
-				err(1, "Memory allocation error");
+			cur->symlink = slink;
 		}
 	}
 	for (cur = first; cur != NULL; cur = cur->next)
 		cur->first = first;
 	if (closedir(dirp) == -1)
 		err(1, "Can't closedir `%s'", dir);
+	free(path);
 	return (first);
 }
 
@@ -274,12 +278,14 @@ apply_specfile(const char *specfile, const char *dir, fsnode *parent, int specon
 static void
 apply_specdir(const char *dir, NODE *specnode, fsnode *dirnode, int speconly)
 {
-	char	 path[MAXPATHLEN + 1];
+	char	 *path;
 	NODE	*curnode;
 	fsnode	*curfsnode;
 
 	assert(specnode != NULL);
 	assert(dirnode != NULL);
+	if ((path = malloc(maxpathlen + 1)) == NULL)
+		err(1, "malloc");
 
 	if (debug & DEBUG_APPLY_SPECFILE)
 		printf("apply_specdir: %s %p %p\n", dir, specnode, dirnode);
@@ -333,8 +339,8 @@ apply_specdir(const char *dir, NODE *specnode, fsnode *dirnode, int speconly)
 			if (strcmp(curnode->name, curfsnode->name) == 0)
 				break;
 		}
-		if ((size_t)snprintf(path, sizeof(path), "%s/%s",
-		    dir, curnode->name) >= sizeof(path))
+		if ((size_t)snprintf(path, maxpathlen, "%s/%s",
+		    dir, curnode->name) >= maxpathlen)
 			errx(1, "Pathname too long.");
 		if (curfsnode == NULL) {	/* need new entry */
 			struct stat	stbuf;
@@ -403,6 +409,7 @@ apply_specdir(const char *dir, NODE *specnode, fsnode *dirnode, int speconly)
 			apply_specdir(path, curnode, curfsnode->child, speconly);
 		}
 	}
+	free(path);
 }
 
 static void
@@ -497,13 +504,15 @@ void
 dump_fsnodes(const char *dir, fsnode *root)
 {
 	fsnode	*cur;
-	char	path[MAXPATHLEN + 1];
+	char	*path;
 
 	assert (dir != NULL);
+	if ((path = malloc(maxpathlen + 1)) == NULL)
+		err(1, "malloc");
 	printf("dump_fsnodes: %s(%d) %p\n", dir, root->inode->serno, root);
 	for (cur = root; cur != NULL; cur = cur->next) {
-		if ((size_t)snprintf(path, sizeof(path), "%s/%s", dir, cur->name)
-		    >= sizeof(path))
+		if ((size_t)snprintf(path, maxpathlen, "%s/%s", dir, cur->name)
+		    >= maxpathlen)
 			errx(1, "Pathname too long.");
 
 		if (debug & DEBUG_DUMP_FSNODES_VERBOSE)
@@ -527,6 +536,7 @@ dump_fsnodes(const char *dir, fsnode *root)
 		}
 	}
 	printf("dump_fsnodes: finished %s\n", dir);
+	free(path);
 }
 
 

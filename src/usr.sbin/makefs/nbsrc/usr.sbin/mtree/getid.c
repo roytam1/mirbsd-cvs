@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/makefs/nbsrc/usr.sbin/mtree/getid.c,v 1.6 2008/10/31 19:45:31 tg Exp $ */
+/**	$MirOS: src/usr.sbin/makefs/nbsrc/usr.sbin/mtree/getid.c,v 1.7 2009/07/23 19:32:26 tg Exp $ */
 /*	$NetBSD: getid.c,v 1.7 2008/04/28 20:24:17 martin Exp $	*/
 /*	from: NetBSD: getpwent.c,v 1.48 2000/10/03 03:22:26 enami Exp */
 /*	from: NetBSD: getgrent.c,v 1.41 2002/01/12 23:51:30 lukem Exp */
@@ -69,7 +69,7 @@
 
 #include <sys/cdefs.h>
 __RCSID("$NetBSD: getid.c,v 1.7 2008/04/28 20:24:17 martin Exp $");
-__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/nbsrc/usr.sbin/mtree/getid.c,v 1.6 2008/10/31 19:45:31 tg Exp $");
+__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/nbsrc/usr.sbin/mtree/getid.c,v 1.7 2009/07/23 19:32:26 tg Exp $");
 
 #include <sys/param.h>
 
@@ -124,8 +124,8 @@ static	struct passwd	_pw_passwd;	/* password structure */
 static	int		_pw_stayopen;	/* keep fd's open */
 static	int		_pw_filesdone;
 
-static	char		grfile[MAXPATHLEN];
-static	char		pwfile[MAXPATHLEN];
+static	char		*grfilep = NULL;
+static	char		*pwfilep = NULL;
 
 static	char		*members[MAXGRP];
 static	char		grline[MAXLINELENGTH];
@@ -142,8 +142,8 @@ setup_getid(const char *dir)
 	gi_endpwent();
 
 				/* build paths to new databases */
-	snprintf(grfile, sizeof(grfile), "%s/group", dir);
-	snprintf(pwfile, sizeof(pwfile), "%s/master.passwd", dir);
+	asprintf(&grfilep, "%s/group", dir);
+	asprintf(&pwfilep, "%s/master.passwd", dir);
 
 				/* try to open new databases */
 	if (!grstart() || !pwstart())
@@ -220,9 +220,9 @@ grstart(void)
 		rewind(_gr_fp);
 		return 1;
 	}
-	if (grfile[0] == '\0')			/* sanity check */
+	if (!grfilep)				/* sanity check */
 		return 0;
-	return (_gr_fp = fopen(grfile, "r")) ? 1 : 0;
+	return (_gr_fp = fopen(grfilep, "r")) ? 1 : 0;
 }
 
 
@@ -361,9 +361,9 @@ pwstart(void)
 		rewind(_pw_fp);
 		return 1;
 	}
-	if (pwfile[0] == '\0')			/* sanity check */
+	if (!pwfilep)				/* sanity check */
 		return 0;
-	return (_pw_fp = fopen(pwfile, "r")) ? 1 : 0;
+	return (_pw_fp = fopen(pwfilep, "r")) ? 1 : 0;
 }
 
 

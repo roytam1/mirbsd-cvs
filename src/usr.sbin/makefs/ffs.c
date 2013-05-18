@@ -73,7 +73,7 @@
 
 #include <sys/cdefs.h>
 #if defined(__RCSID) && !defined(__lint)
-__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/ffs.c,v 1.10 2009/07/23 19:32:23 tg Exp $");
+__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/ffs.c,v 1.11 2010/03/06 21:29:03 tg Exp $");
 __RCSID("$NetBSD: ffs.c,v 1.44 2009/04/28 22:49:26 joerg Exp $");
 #endif	/* !__lint */
 
@@ -735,14 +735,17 @@ ffs_populate_dir(const char *dir, fsnode *root, fsinfo_t *fsopts)
 	dirbuf_t	dirbuf;
 	union dinode	din;
 	void		*membuf;
-	char		path[MAXPATHLEN + 1];
+	char		*path;
 	ffs_opt_t	*ffs_opts = fsopts->fs_specific;
+	int		rv = 0;
 
 	assert(dir != NULL);
 	assert(root != NULL);
 	assert(fsopts != NULL);
 	assert(ffs_opts != NULL);
 
+	if ((path = malloc(maxpathlen + 1)) == NULL)
+		err(1, "malloc");
 	(void)memset(&dirbuf, 0, sizeof(dirbuf));
 
 	if (debug & DEBUG_FS_POPULATE)
@@ -790,8 +793,8 @@ ffs_populate_dir(const char *dir, fsnode *root, fsinfo_t *fsopts)
 			continue;		/* skip hard-linked entries */
 		cur->inode->flags |= FI_WRITTEN;
 
-		if ((size_t)snprintf(path, sizeof(path), "%s/%s", dir, cur->name)
-		    >= sizeof(path))
+		if ((size_t)snprintf(path, maxpathlen, "%s/%s", dir, cur->name)
+		    >= maxpathlen)
 			errx(1, "Pathname too long.");
 
 		if (cur->child != NULL)
@@ -831,11 +834,11 @@ ffs_populate_dir(const char *dir, fsnode *root, fsinfo_t *fsopts)
 	for (cur = root; cur != NULL; cur = cur->next) {
 		if (cur->child == NULL)
 			continue;
-		if ((size_t)snprintf(path, sizeof(path), "%s/%s", dir, cur->name)
-		    >= sizeof(path))
+		if ((size_t)snprintf(path, maxpathlen, "%s/%s", dir, cur->name)
+		    >= maxpathlen)
 			errx(1, "Pathname too long.");
 		if (! ffs_populate_dir(path, cur->child, fsopts))
-			return (0);
+			goto out;
 	}
 
 	if (debug & DEBUG_FS_POPULATE)
@@ -844,7 +847,10 @@ ffs_populate_dir(const char *dir, fsnode *root, fsinfo_t *fsopts)
 		/* cleanup */
 	if (dirbuf.buf != NULL)
 		free(dirbuf.buf);
-	return (1);
+	rv = 1;
+ out:
+	free(path);
+	return (rv);
 }
 
 

@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/makefs/makefs.h,v 1.11 2010/03/06 21:29:04 tg Exp $ */
+/**	$MirOS: src/usr.sbin/makefs/makefs.h,v 1.12 2010/03/06 23:24:15 tg Exp $ */
 /*	$NetBSD: makefs.h,v 1.20 2008/12/28 21:51:46 christos Exp $	*/
 
 /*
@@ -199,6 +199,7 @@ void		cd9660_makefs(const char *, const char *, fsnode *, fsinfo_t *);
 
 
 extern	u_int		debug;
+extern	size_t		maxpathlen;
 extern	struct timespec	start_time;
 
 /*
