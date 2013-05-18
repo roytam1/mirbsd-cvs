@@ -1,4 +1,3 @@
-/**	$MirOS: src/usr.bin/ftp/fetch.c,v 1.6 2006/10/03 19:22:17 tg Exp $ */
 /*	$OpenBSD: fetch.c,v 1.74 2007/06/13 13:52:26 pyr Exp $	*/
 /*	$NetBSD: fetch.c,v 1.14 1997/08/18 10:20:20 lukem Exp $	*/
 
@@ -76,7 +75,7 @@
 
 #include "ftp_var.h"
 
-__RCSID("$MirOS: src/usr.bin/ftp/fetch.c,v 1.6 2006/10/03 19:22:17 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ftp/fetch.c,v 1.7 2007/07/15 20:01:07 tg Exp $");
 
 static int	url_get(const char *, const char *, const char *);
 void		aborthttp(int);
@@ -408,7 +407,7 @@ again:
 	}
 	freeaddrinfo(res0);
 	if (s < 0) {
-		warn("%s", cause);
+		warn("%s (%s)", cause, hbuf);
 		goto cleanup_url_get;
 	}
 

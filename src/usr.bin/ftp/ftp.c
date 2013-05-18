@@ -84,7 +84,7 @@
 
 #include "ftp_var.h"
 
-__RCSID("$MirOS: src/usr.bin/ftp/ftp.c,v 1.5 2006/10/03 19:22:17 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ftp/ftp.c,v 1.6 2007/07/15 20:01:08 tg Exp $");
 
 union sockunion {
 	struct sockinet {
@@ -165,6 +165,7 @@ hookup(char *host, char *port)
 	else
 		strlcpy(hostnamebuf, host, sizeof(hostnamebuf));
 	hostname = hostnamebuf;
+	strlcpy(hbuf, hostname, sizeof(hbuf));
 	
 	s = -1;
 	for (res = res0; res; res = res->ai_next) {
@@ -210,7 +211,7 @@ hookup(char *host, char *port)
 		break;
 	}
 	if (s < 0) {
-		warn("%s", cause);
+		warn("%s (%s)", cause, hbuf);
 		code = -1;
 		freeaddrinfo(res0);
 		return 0;
