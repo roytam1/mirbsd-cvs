@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/stand/bootxx/Makefile,v 1.4 2008/10/21 18:50:59 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/bootxx/Makefile,v 1.5 2009/01/31 18:51:19 tg Exp $
 
 PROG=		bootxx
 SRCS+=		bootxx.S
@@ -24,3 +24,8 @@ ${.CURDIR}/disasm: ${PROG}
 	objdump -dS -Mintel,i8086 ${PROG}~ >$@
 
 .include <bsd.prog.mk>
+
+BOOT_TYPE?=	bsd
+.if ${BOOT_TYPE:L} == "grub"
+CPPFLAGS+=	-USA_LINKSEG -DSA_LINKSEG=0x0800 -DBOOT_GRUB
+.endif

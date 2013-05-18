@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/bootxx/bootxx.S,v 1.16 2009/01/31 18:51:19 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/bootxx/bootxx.S,v 1.17 2009/02/08 20:57:14 tg Exp $ */
 
 /*-
  * Copyright (c) 2009
@@ -27,7 +27,12 @@
 	.globl	_start
 	.type	_start,@function
 _start:	xor	ecx,ecx
+#ifdef BOOT_GRUB
+	mov	bx,0x3000	/* we load to 08000 so put stack further up */
+	mov	ss,bx
+#else
 	mov	ss,cx
+#endif
 	mov	sp,0xFFFC
 	push	ecx
 	popfd
@@ -208,6 +213,7 @@ L...1:	add	bh,ah		/* add the 512 bytes */
 	jnz	Lloop
 
 Ldone:	/* check bootloader magic */
+#ifndef BOOT_GRUB
 	xor	eax,eax
 	push	ax		/* return address */
 	mov	ax,[partp]
@@ -215,10 +221,22 @@ Ldone:	/* check bootloader magic */
 	cmp	eax,0x696D4F00
 	mov	si,offset Lmmsg
 	jne	Lbarf
+#endif
 	mov	si,offset Lbmsg
 	call	Lotxt
+#ifndef BOOT_GRUB
 	mov	si,offset _start
 	ret
+#else
+	xor	edx,edx
+	push	dx		/* initial CS */
+	dec	edx		/* EDX := FFFFFFFF */
+	mov	dl,[Ldrv]	/* boot BIOS drive number */
+	mov	ax,0x8200
+	push	ax		/* initial IP */
+	cli			/* be nice to a GNU every once in a while */
+	lret
+#endif
 
 LsCHS:	mov	ax,8[si]
 	mov	dx,10[si]
