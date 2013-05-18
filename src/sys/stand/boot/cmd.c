@@ -1,4 +1,4 @@
-/**	$MirOS$	*/
+/**	$MirOS: src/sys/stand/boot/cmd.c,v 1.2 2005/03/06 21:28:33 tg Exp $	*/
 /*	$OpenBSD: cmd.c,v 1.52 2003/11/08 19:17:28 jmc Exp $	*/
 
 /*
@@ -39,11 +39,15 @@
 static int Xboot(void);
 static int Xecho(void);
 static int Xhelp(void);
+#ifndef SMALL_BOOT
 static int Xls(void);
+#endif
 static int Xnop(void);
 static int Xreboot(void);
 static int Xstty(void);
+#ifndef SMALL_BOOT
 static int Xtime(void);
+#endif
 #ifdef MACHINE_CMD
 static int Xmachine(void);
 extern const struct cmd_table MACHINE_CMD[];
@@ -58,18 +62,24 @@ const struct cmd_table cmd_table[] = {
 	{"echo",   CMDT_CMD, Xecho},
 	{"env",    CMDT_CMD, Xenv},
 	{"help",   CMDT_CMD, Xhelp},
+#ifndef SMALL_BOOT
 	{"ls",     CMDT_CMD, Xls},
+#endif
 #ifdef MACHINE_CMD
 	{"machine",CMDT_MDC, Xmachine},
 #endif
 	{"reboot", CMDT_CMD, Xreboot},
 	{"set",    CMDT_SET, Xset},
 	{"stty",   CMDT_CMD, Xstty},
+#ifndef SMALL_BOOT
 	{"time",   CMDT_CMD, Xtime},
+#endif
 	{NULL, 0},
 };
 
+#ifndef SMALL_BOOT
 static void ls(char *, struct stat *);
+#endif
 static int readline(char *, size_t, int);
 char *nextword(char *);
 static char *whatcmd(const struct cmd_table **ct, char *);
@@ -380,6 +390,7 @@ Xstty(void)
 	return 0;
 }
 
+#ifndef SMALL_BOOT
 static int
 Xtime(void)
 {
@@ -449,6 +460,7 @@ ls(char *name, struct stat *sb)
 	    (u_long)sb->st_size, name);
 }
 #undef lsrwx
+#endif
 
 int doboot = 1;
 

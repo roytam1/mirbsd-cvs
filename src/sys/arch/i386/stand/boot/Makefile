@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/stand/boot/Makefile,v 1.8 2006/06/30 23:18:05 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/boot/Makefile,v 1.9 2006/07/23 23:41:28 tg Exp $
 
 .include "${.CURDIR}/../Makefile.inc"
 
@@ -23,7 +23,7 @@ MLINKS=	boot.8 boot.cfg.8
 PROG=		boot
 LD?=		ld
 SIZE?=		size
-LDFLAGS+=	-nostdlib -Bstatic
+LDFLAGS+=	-nostdlib -Bstatic --no-undefined
 INSTALL_STRIP=
 .PATH:		${S}/stand/boot
 
@@ -49,7 +49,8 @@ DPADD=		${LIBSA} ${LIBZ}
 all:		${PROG}
 
 ${PROG}:	$(OBJS) $(DPADD)
-	$(LD) $(LDFLAGS) -o ${PROG} $(OBJS) $(LDADD) 2>&1 | tee ld.out
+	$(LD) $(LDFLAGS) $(OBJS) --start-group $(LDADD) --end-group \
+	    -o ${PROG} 2>&1 | tee ld.out
 	@if fgrep 'undefined reference' ld.out; then \
 		echo "*** Attention: undefined references found!"; \
 		exit 1; \

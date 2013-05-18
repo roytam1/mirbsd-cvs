@@ -1,8 +1,8 @@
-/**	$MirOS: src/sys/stand/boot/boot.c,v 1.6 2006/04/10 18:43:35 tg Exp $	*/
+/**	$MirOS: src/sys/stand/boot/boot.c,v 1.7 2006/04/10 19:15:16 tg Exp $	*/
 /*	$OpenBSD: boot.c,v 1.30 2004/01/29 00:54:08 tom Exp $	*/
 
 /*
- * Copyright (c) 2002, 2003, 2004 Thorsten Glaser
+ * Copyright (c) 2002, 2003, 2004, 2006 Thorsten Glaser
  * Copyright (c) 2003 Dale Rahn
  * Copyright (c) 1997,1998 Michael Shalayeff
  * All rights reserved.
@@ -67,7 +67,9 @@ boot(dev_t bootdev)
 #ifdef IN_PXEBOOT
 	uint32_t ip;
 #endif
+#if defined(IN_PXEBOOT) || !defined(SMALL_BOOT)
 	char myconf[32];
+#endif
 
 	machdep();
 
@@ -98,7 +100,7 @@ boot(dev_t bootdev)
 
 	if ((st = read_conf()))
 		printf("Attempt to read %s failed.\n", cmd.conf);
-#else
+#elif !defined(SMALL_BOOT)
 	if (hook_value) {
 		cmd.boothowto = 0;
 		snprintf(myconf, sizeof (myconf), "/etc/boot.%d",

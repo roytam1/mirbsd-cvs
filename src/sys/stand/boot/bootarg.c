@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/stand/boot/bootarg.c,v 1.2 2005/03/06 21:28:33 tg Exp $	*/
+/**	$MirOS: src/sys/stand/boot/bootarg.c,v 1.3 2005/11/23 21:55:22 tg Exp $	*/
 /*	$OpenBSD: bootarg.c,v 1.10 2003/08/11 06:23:07 deraadt Exp $	*/
 
 /*
@@ -75,4 +75,3 @@ makebootargs(caddr_t v, size_t *lenp)
 	p = (bootarg_t *)q;
 	p->ba_type = BOOTARG_END;
 }
-

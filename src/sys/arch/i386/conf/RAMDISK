@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/conf/RAMDISK,v 1.2 2006/07/24 01:12:36 tg Exp $
+# $MirOS: src/sys/arch/i386/conf/RAMDISK,v 1.3 2006/08/18 21:36:28 tg Exp $
 # _MirOS: src/sys/arch/i386/conf/GENERIC,v 1.29 2006/07/06 13:32:07 tg Exp $
 
 machine		i386			# arch, used by config; REQUIRED
@@ -349,10 +349,10 @@ scsibus* at ahc?
 #scsibus* at iha?
 #isp*	at pci? dev ? function ?	# Qlogic ISP [12]0x0 SCSI/FibreChannel
 #scsibus* at isp?
-aic0	at isa? port 0x340 irq 11	# Adaptec 152[02] SCSI controllers
-aic*	at pcmcia? function ?		# PCMCIA based aic SCSI controllers
-aic*	at isapnp? 			# isapnp configured aic SCSI controllers
-scsibus* at aic?
+#aic0	at isa? port 0x340 irq 11	# Adaptec 152[02] SCSI controllers
+#aic*	at pcmcia? function ?		# PCMCIA based aic SCSI controllers
+#aic*	at isapnp? 			# isapnp configured aic SCSI controllers
+#scsibus* at aic?
 #esp*	at pcmcia? function ?		# PCMCIA based NCR 53C9X SCSI
 #scsibus* at esp?
 #ncr*	at pci? dev ? function ?	# NCR 538XX SCSI controllers(old)
