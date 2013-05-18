@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.114 2008/04/06 23:09:43 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.115 2008/04/06 23:20:21 tg Exp $
 #-
 # Copyright (c) 2006, 2008
 #	Thorsten “mirabilos” Glaser <tg@mirbsd.de>
@@ -532,7 +532,7 @@ fi
 rm -rf $d_build/lndir
 cd $d_src/usr.bin; find lndir | cpio -pdlu $d_build
 cd $d_build/lndir
-CPPFLAGS="$CPPFLAGS -I$d_src/include" \
+CPPFLAGS="$CPPFLAGS -I$d_src/include" LDADD=$d_build/libmirmake/libmirmake.a \
     ${d_build}/bmake -m ${d_build}/mk NOMAN=yes NOOBJ=yes || exit 1
 cd $top
 cat >>Install.sh <<EOF
