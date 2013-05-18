@@ -1,6 +1,6 @@
-! $MirOS: contrib/samples/dot.Xmodmap,v 1.24.2.1 2011/06/01 11:32:30 tg Exp $
+! $MirOS: contrib/samples/dot.Xmodmap,v 1.24.2.1.2.1 2012/04/24 08:12:48 tg Exp $
 !-
-! Copyright © 2004, 2007, 2008, 2010
+! Copyright © 2004, 2007, 2008, 2010, 2012
 !	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
 ! Copyright © 2012
 !	Thorsten Glaser <t.glaser@tarent.de>
@@ -63,14 +63,14 @@
 ! • The ModeSwitch-Shift-F9 combination generates U+253C (┼) cross
 ! • The ModeSwitch-Shift-F10 combination generates U+252C (┬) h-dn
 ! • The ModeSwitch-Shift-F11 combination generates U+2534 (┴) h-up
-! • The ModeSwitch-Shift-F12☁combination generates U+2588 (█) fblk
+! • The ModeSwitch-Shift-F12 combination generates U+2588 (█) fblk
 ! • ModeSwitch and arrow keys generates single-dashed (without) or
 !   double-dashed (with shift) pictograph U+21[9D][0123] ↑←↓→ ⇑⇐⇓⇒
-! • ModeSwitch + {Ins,Del}, {Home,End}, {PgUp,PgDn} generate☁ wide
+! • ModeSwitch + {Ins,Del}, {Home,End}, {PgUp,PgDn} generates wide
 !   parentheses: (unshift/shift) 〈〉 《》 / 〔〕 【】/ 「」 『』 
-! Note: ☁ = available for reassignment
+! • ModeSwitch-Shift-{Space,Esc} are wide space/creative heaven ䷀
 
-keycode	0x09 =	grave		Escape			U00E0
+keycode	0x09 =	grave		Escape			U00E0	U4DC0
 keycode	0x43 =	F1		XF86_Switch_VT_1	U263B	U250C
 keycode	0x44 =	F2		XF86_Switch_VT_2	U263A	U2500
 keycode	0x45 =	F3		XF86_Switch_VT_3	U2639	U2510
@@ -170,7 +170,7 @@ keycode	0x6C =	KP_Enter	Return
 keycode	0x25 =	Control_L	Control_L
 keycode	0x73 =	Meta_L		Meta_L
 keycode	0x40 =	Alt_L		Alt_L
-keycode	0x41 =	space		space		U00A0		U00A0
+keycode	0x41 =	space		space		U00A0		U3000
 keycode	0x71 =	Mode_switch	Mode_switch
 keycode	0x74 =	Meta_R		Meta_R
 keycode	0x75 =	Multi_key	Multi_key
