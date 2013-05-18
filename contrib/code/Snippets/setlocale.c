@@ -1,5 +1,3 @@
-/* $MirOS: contrib/code/Snippets/setlocale.c,v 1.2 2007/06/07 12:30:37 tg Exp $ */
-
 /*-
  * Copyright (c) 2005, 2007
  *	Thorsten Glaser <tg@mirbsd.de>
@@ -37,7 +35,7 @@
 #undef setlocale
 
 static const char __rcsid_1[] = "$miros: src/lib/libc/i18n/charsets.c,v 1.17 2007/06/07 16:41:04 tg Exp $";
-static const char __rcsid_2[] = "$MirOS: contrib/code/Snippets/setlocale.c,v 1.2 2007/06/07 12:30:37 tg Exp $";
+static const char __rcsid_2[] = "$MirOS: contrib/code/Snippets/setlocale.c,v 1.4 2007/06/07 16:41:04 tg Exp $";
 
 /* simple locale support (C and UTF-8) */
 

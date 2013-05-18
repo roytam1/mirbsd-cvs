@@ -1,5 +1,3 @@
-/* $MirOS: src/lib/libc/i18n/charsets.c,v 1.15 2007/02/02 21:06:20 tg Exp $ */
-
 /*-
  * Copyright (c) 2007
  *	Thorsten Glaser <tg@mirbsd.de>
@@ -33,7 +31,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-__RCSID("$MirOS: src/lib/libc/i18n/charsets.c,v 1.15 2007/02/02 21:06:20 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/charsets.c,v 1.16 2007/06/07 16:39:32 tg Exp $");
 
 #define STR_C	"C"
 #define STR_UTF	"en_US.UTF-8"
@@ -52,6 +50,8 @@ setlocale(int category, const char *locale __attribute__((unused)))
 	memmove(lc_ctype, STR_UTF, sizeof (lc_ctype));
 	return (lc_ctype);
 }
+
+#undef setlocale
 
 #ifdef __weak_alias
 __weak_alias(setlocale, __weak_setlocale);
