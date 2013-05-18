@@ -1,14 +1,15 @@
-# $MirOS: ports/archivers/unzip/Makefile,v 1.3 2005/07/07 21:17:04 bsiegert Exp $
+# $MirOS: ports/archivers/unzip/Makefile,v 1.4 2006/02/09 11:11:01 tg Exp $
 # $OpenBSD: Makefile,v 1.32 2003/08/17 23:48:40 brad Exp $
 
 COMMENT=	"extract, list & test files in a ZIP archive"
-VERSION=	5.50
+VERSION=	5.52
 DISTNAME=	unzip${VERSION:S/.//}
-PKGNAME=	unzip-${VERSION}-2
+PKGNAME=	unzip-${VERSION}-0
 CATEGORIES=	archivers
 MASTER_SITES=	ftp://ftp.info-zip.org/pub/infozip/src/ \
-		ftp://ftp.uu.net/pub/archiving/zip/src/ \
-		ftp://ftp.icce.rug.nl/infozip/src/
+		ftp://mirror.switch.ch/ftp/mirror/infozip/src/ \
+		http://www.mirrorservice.org/sites/ftp.info-zip.org/pub/infozip/src/ \
+		${MASTER_SITE_SOURCEFORGE:=infozip/}
 HOMEPAGE=	http://www.ctan.org/tex-archive/tools/zip/info-zip/UnZip.html
 
 # Conditional
