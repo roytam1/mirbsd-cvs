@@ -1,30 +1,29 @@
-/* $MirOS: src/lib/libc/i18n/langinfo.c,v 1.14 2006/11/05 12:06:33 tg Exp $ */
+/* $MirOS: src/lib/libc/i18n/langinfo.c,v 1.15 2007/02/02 19:28:33 tg Exp $ */
 
 /*-
- * Copyright (c) 2003, 2004, 2005, 2006
+ * Copyright (c) 2003, 2004, 2005, 2006, 2007
  *	Thorsten Glaser <tg@mirbsd.de>
  * Derived from work placed into the public domain by
  *	J.T. Conklin <jtc@netbsd.org>
  *
- * Licensee is hereby permitted to deal in this work without restric-
- * tion, including unlimited rights to use, publicly perform, modify,
- * merge, distribute, sell, give away or sublicence, provided all co-
- * pyright notices above, these terms and the disclaimer are retained
- * in all redistributions or reproduced in accompanying documentation
- * or other materials provided with binary redistributions.
+ * Provided that these terms and disclaimer and all copyright notices
+ * are retained or reproduced in an accompanying document, permission
+ * is granted to deal in this work without restriction, including un-
+ * limited rights to use, publicly perform, distribute, sell, modify,
+ * merge, give away, or sublicence.
  *
  * Advertising materials mentioning features or use of this work must
  * display the following acknowledgement:
  *	This product includes material provided by Thorsten Glaser.
  *
- * Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
- * express, or implied, to the maximum extent permitted by applicable
- * law, without malicious intent or gross negligence; in no event may
- * licensor, an author or contributor be held liable for any indirect
- * or other damage, or direct damage except proven a consequence of a
- * direct error of said person and intended use of this work, loss or
- * other issues arising in any way out of its use, even if advised of
- * the possibility of such damage or existence of a defect.
+ * This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
+ * the utmost extent permitted by applicable law, neither express nor
+ * implied; without malicious intent or gross negligence. In no event
+ * may a licensor, author or contributor be held liable for indirect,
+ * direct, other damage, loss, or other issues arising in any way out
+ * of dealing in the work, even if advised of the possibility of such
+ * damage or existence of a defect, except proven that it results out
+ * of said person's immediate fault when using the work as intended.
  *-
  * Fake locale support, just enough to fool people. Functions are de-
  * fined weak in case someone wants to override these.
@@ -37,9 +36,7 @@
 #include <locale.h>
 #include <stdlib.h>
 
-#include "mir18n.h"
-
-__RCSID("$MirOS: src/lib/libc/i18n/langinfo.c,v 1.14 2006/11/05 12:06:33 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/langinfo.c,v 1.15 2007/02/02 19:28:33 tg Exp $");
 
 /* fake locale support */
 
@@ -80,8 +77,7 @@ __weak_nl_langinfo(nl_item item)
 
 	switch (item) {
 	case CODESET:
-		/* "UTF-8" should actually be "CESU-8" but who groks THAT? */
-		s = __locale_is_utf8 ? "UTF-8" : "ISO_646.irv:1991";
+		s = "UTF-8";
 		break;
 	case D_T_FMT:
 		s = _DefaultTimeLocale.d_t_fmt;

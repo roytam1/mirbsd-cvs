@@ -1,4 +1,24 @@
-/* $MirOS: src/include/wchar.h,v 1.11 2006/11/20 23:50:47 tg Exp $ */
+/* $MirOS: src/share/misc/licence.template,v 1.20 2006/12/11 21:04:56 tg Rel $ */
+
+/*-
+ * Copyright (c) 2007
+ *	Thorsten Glaser <tg@mirbsd.de>
+ *
+ * Provided that these terms and disclaimer and all copyright notices
+ * are retained or reproduced in an accompanying document, permission
+ * is granted to deal in this work without restriction, including un-
+ * limited rights to use, publicly perform, distribute, sell, modify,
+ * merge, give away, or sublicence.
+ *
+ * This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
+ * the utmost extent permitted by applicable law, neither express nor
+ * implied; without malicious intent or gross negligence. In no event
+ * may a licensor, author or contributor be held liable for indirect,
+ * direct, other damage, loss, or other issues arising in any way out
+ * of dealing in the work, even if advised of the possibility of such
+ * damage or existence of a defect, except proven that it results out
+ * of said person's immediate fault when using the work as intended.
+ */
 
 #ifndef	_WCHAR_H_
 #define	_WCHAR_H_
@@ -53,7 +73,7 @@ size_t	mbrtowc(wchar_t *__restrict__, const char *__restrict__, size_t,
 	    mbstate_t *__restrict__);
 int	mbsinit(const mbstate_t *);
 size_t	mbslen(const char *);
-#if __OPENBSD_VISIBLE || (defined(_GNU_SOURCE) && !defined(__STRICT_ANSI__))
+#if __OPENBSD_VISIBLE
 size_t	mbsnrtowcs(wchar_t *__restrict__, const char **__restrict__,
 	    size_t, size_t, mbstate_t *__restrict__);
 #endif
@@ -80,7 +100,7 @@ int	wcsncasecmp(const wchar_t *, const wchar_t *, size_t);
 wchar_t	*wcsncat(wchar_t *__restrict__, const wchar_t *__restrict__, size_t);
 int	wcsncmp(const wchar_t *, const wchar_t *, size_t);
 wchar_t	*wcsncpy(wchar_t *__restrict__, const wchar_t *__restrict__, size_t);
-#if __OPENBSD_VISIBLE || (defined(_GNU_SOURCE) && !defined(__STRICT_ANSI__))
+#if __OPENBSD_VISIBLE
 size_t	wcsnrtombs(char *__restrict__, const wchar_t **__restrict__,
 	    size_t, size_t, mbstate_t *__restrict__);
 #endif
@@ -146,5 +166,72 @@ __END_DECLS
 #define getwchar() getwc(stdin)
 #define putwc(wc, f) fputwc((wc), (f))
 #define putwchar(wc) putwc((wc), stdout)
+
+#ifdef __GNUC__
+#define btowc(c)	__extension__({			\
+	wint_t __WC_tmp = (c);				\
+	(__WC_tmp > 0x7F ? WEOF : __WC_tmp);		\
+})
+#define mblen(s,n)	__extension__({			\
+	mbstate_t __WC_state = { 0, 0 };		\
+	int __WC_rv;					\
+	(((__WC_rv = mbrtowc(NULL, (s), (n),		\
+	    &__WC_state)) < 0) ? -1 : __WC_rv);		\
+})
+#define mbsinit(c)	__extension__({			\
+	const mbstate_t *ps = (c);			\
+	((ps == NULL) ? -1 : ps->count == 0 ? 1 : 0);	\
+})
+#define mbslen(c)	__extension__({			\
+	const uint8_t *__WC_s = (c);			\
+	size_t __WC_num = 0;				\
+	while (*__WC_s) {				\
+		if ((*__WC_s & 0xC0) != 0x80)		\
+			++__WC_num;			\
+		++__WC_s;				\
+	}						\
+	(__WC_num);					\
+})
+#define mbstowcs(pwcs,s,n)	__extension__({		\
+	mbstate_t __WC_ps = { 0, 0 };			\
+	const char *__WC_sb = (s);			\
+	(mbsrtowcs((pwcs), &__WC_sb, (n), &__WC_ps));	\
+})
+#define mbtowc(pwc,s,n)	__extension__({			\
+	mbstate_t __WC_state = { 0, 0 };		\
+	int __WC_rv;					\
+	(((__WC_rv = mbrtowc((pwc), (s), (n),		\
+	    &__WC_state)) < 0) ? -1 : __WC_rv);		\
+})
+#define wcstombs(s,pwcs,n)	__extension__({		\
+	mbstate_t __WC_ps = { 0, 0 };			\
+	const wchar_t *__WC_sb = (pwcs);		\
+	(wcsrtombs((s), &__WC_sb, (n), &__WC_ps));	\
+})
+#define wcswidth(s,n)	__extension__({			\
+	int __WC_width = 0, __WC_i, __WC_n = (n);	\
+	const wchar_t *__WC_s = (s);			\
+	while (__WC_n--) {				\
+		if (*__WC_s == L'\0')			\
+			break;				\
+		if ((__WC_i = wcwidth(*__WC_s))	< 0) {	\
+			__WC_width = -1;		\
+			break;				\
+		}					\
+		__WC_width += __WC_i;			\
+		__WC_s++;				\
+	}						\
+	(__WC_width);					\
+})		
+#define wctob(c)	__extension__({			\
+	wint_t __WC_tmp = (c);				\
+	(__WC_tmp > 0x7F ? EOF : (int)__WC_tmp);	\
+})
+#define wctomb(s,c)	__extension__({			\
+	mbstate_t __WC_ps = { 0, 0 };			\
+	char *__WC_s = (s);				\
+	(__WC_s ? wcrtomb(__WC_s, (c), &__WC_ps) : 0);	\
+})
+#endif
 
 #endif

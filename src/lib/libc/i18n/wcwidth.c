@@ -1,18 +1,18 @@
-/* $MirOS: src/lib/libc/i18n/wcwidth.c,v 1.4 2006/11/01 20:01:20 tg Exp $ */
+/* $MirOS: src/lib/libc/i18n/wcwidth.c,v 1.5 2006/11/09 02:49:37 tg Exp $ */
 /* $XTermId: wcwidth.c,v 1.17 2006/03/20 00:36:19 tom Exp $ */
 /* $XFree86: xc/programs/xterm/wcwidth.c,v 1.8 2006/03/20 00:36:19 dickey Exp $ */
 
 /*
  * Adapted for MirBSD libc
  *
- * Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
- * express, or implied, to the maximum extent permitted by applicable
- * law, without malicious intent or gross negligence; in no event may
- * licensor, an author or contributor be held liable for any indirect
- * or other damage, or direct damage except proven a consequence of a
- * direct error of said person and intended use of this work, loss or
- * other issues arising in any way out of its use, even if advised of
- * the possibility of such damage or existence of a defect.
+ * This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
+ * the utmost extent permitted by applicable law, neither express nor
+ * implied; without malicious intent or gross negligence. In no event
+ * may a licensor, author or contributor be held liable for indirect,
+ * direct, other damage, loss, or other issues arising in any way out
+ * of dealing in the work, even if advised of the possibility of such
+ * damage or existence of a defect, except proven that it results out
+ * of said person's immediate fault when using the work as intended.
  */
 
 #ifndef __STDC_ISO_10646__
@@ -29,7 +29,7 @@
 
 #include <wchar.h>
 
-__RCSID("$MirOS: src/lib/libc/i18n/wcwidth.c,v 1.4 2006/11/01 20:01:20 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/wcwidth.c,v 1.5 2006/11/09 02:49:37 tg Exp $");
 
 struct interval {
 	wchar_t first;

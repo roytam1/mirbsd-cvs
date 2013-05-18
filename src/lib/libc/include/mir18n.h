@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/include/mir18n.h,v 1.12 2006/11/09 02:49:37 tg Exp $ */
+/* $MirOS: src/lib/libc/include/mir18n.h,v 1.13 2007/02/02 19:28:34 tg Exp $ */
 
 #ifndef _LIBC_MIR18N_H
 #define _LIBC_MIR18N_H
@@ -14,24 +14,6 @@
 #if WCHAR_MAX != 0xFFFD
 #error This code assumes that wchar_t is UCS-2HE
 #endif
-
-#ifndef __bool_true_false_are_defined
-#include <stdbool.h>
-#endif
-
-__BEGIN_DECLS
-/*
- * Current system-wide locale in use:
- * - false:
- *	LC_ALL = 'C'
- *	CODESET = 'ISO_646.irv:1991'
- * - true:
- *	LANG = 'C'
- *	LC_CTYPE = 'en_US.CESU-8'
- *	CODESET = 'UTF-8'	# XXX because nobody knows what CESU-8 is ;-)
- */
-extern bool __locale_is_utf8;	/* safe 'cause wchar_t=short => UTF-8=CESU-8 */
-__END_DECLS
 
 #ifdef mir18n_attributes
 /* from Bruno Haible's libutf8 */
@@ -98,8 +80,6 @@ __END_DECLS
 
 __BEGIN_DECLS
 extern const uint16_t nop_page[256];
-extern const uint16_t * const tolower_table[0x100];
-extern const uint16_t * const toupper_table[0x100];
 __END_DECLS
 #endif
 

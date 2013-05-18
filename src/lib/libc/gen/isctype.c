@@ -1,7 +1,7 @@
-/* $MirOS: src/lib/libc/gen/isctype.c,v 1.5 2007/02/02 17:53:57 tg Exp $ */
+/* $MirOS: src/lib/libc/gen/isctype.c,v 1.6 2007/02/02 19:28:30 tg Exp $ */
 
 /*-
- * Copyright (c) 2006
+ * Copyright (c) 2006, 2007
  *	Thorsten Glaser <tg@mirbsd.de>
  *
  * Provided that these terms and disclaimer and all copyright notices
@@ -23,9 +23,8 @@
 #define _ANSI_LIBRARY
 #include <ctype.h>
 #include <stdio.h>
-#include "mir18n.h"
 
-__RCSID("$MirOS: src/lib/libc/gen/isctype.c,v 1.5 2007/02/02 17:53:57 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/gen/isctype.c,v 1.6 2007/02/02 19:28:30 tg Exp $");
 
 #undef isalnum
 #undef isalpha
@@ -44,38 +43,35 @@ __RCSID("$MirOS: src/lib/libc/gen/isctype.c,v 1.5 2007/02/02 17:53:57 tg Exp $")
 #undef tolower
 #undef toupper
 
-#define __CTYPE_IMPL(t)							     \
-	int is ## t (int c)						     \
-	{								     \
-		if ((c < 0) || (c >= 128))				     \
-			return (0);					     \
-		return ((__C_attribute_table_pg[c] & (_ctp_ ## t & 0xFF)) && \
-		    !(__C_attribute_table_pg[c] & (_ctp_ ## t >> 8)));	     \
+#define __CTYPE_IMPL2(t)			\
+	int is ## t (int c)			\
+	{					\
+		return __CTYPE_IMPL(c,t);	\
 	}
 
-__CTYPE_IMPL(alnum)
-__CTYPE_IMPL(alpha)
-__CTYPE_IMPL(blank)
-__CTYPE_IMPL(cntrl)
-__CTYPE_IMPL(digit)
-__CTYPE_IMPL(graph)
-__CTYPE_IMPL(lower)
-__CTYPE_IMPL(print)
-__CTYPE_IMPL(punct)
-__CTYPE_IMPL(space)
-__CTYPE_IMPL(upper)
-__CTYPE_IMPL(xdigit)
+__CTYPE_IMPL2(alnum)
+__CTYPE_IMPL2(alpha)
+__CTYPE_IMPL2(blank)
+__CTYPE_IMPL2(cntrl)
+__CTYPE_IMPL2(digit)
+__CTYPE_IMPL2(graph)
+__CTYPE_IMPL2(lower)
+__CTYPE_IMPL2(print)
+__CTYPE_IMPL2(punct)
+__CTYPE_IMPL2(space)
+__CTYPE_IMPL2(upper)
+__CTYPE_IMPL2(xdigit)
 
 int
 isascii(int c)
 {
-	return ((unsigned int)c <= 0177);
+	return ((unsigned int)c < 0x80);
 }
 
 int
 toascii(int c)
 {
-	return (c & 0177);
+	return (c & 0x7F);
 }
 
 int

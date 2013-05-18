@@ -1,4 +1,4 @@
-/* $MirOS: src/include/ctype.h,v 1.9 2007/02/02 17:53:55 tg Exp $ */
+/* $MirOS: src/include/ctype.h,v 1.10 2007/02/02 19:22:37 tg Exp $ */
 
 /*-
  * Copyright (c) 2006, 2007
@@ -25,7 +25,7 @@
 
 #include <sys/cdefs.h>
 
-/* Idea from Bruno Haible's libutf8 */
+/* from src/lib/libc/include/mir18n.h,v 1.14 */
 #define _ctp_alnum	0x000C
 #define _ctp_alpha	0x0004
 #define _ctp_blank	0x0040
@@ -92,6 +92,7 @@ int	toascii(int);
 #define isspace(c)	__CTYPE_IMPL((c),space)
 #define isupper(c)	__CTYPE_IMPL((c),upper)
 #define isxdigit(c)	__CTYPE_IMPL((c),xdigit)
+
 #ifdef __GNUC__
 #define tolower(c)	__extension__({			\
 	char __CTYPE_Tl = (c);				\
@@ -109,9 +110,9 @@ int	toascii(int);
 #endif
 
 #if !defined(_ANSI_SOURCE) && !defined(_POSIX_SOURCE)
-#define isascii(c)	((unsigned int)(c) <= 0177)
+#define isascii(c)	((unsigned int)(c) < 0x80)
 #define isblank(c)	__CTYPE_IMPL((c),blank)
-#define toascii(c)	((c) & 0177)
+#define toascii(c)	((c) & 0x7F)
 
 #define _tolower(c)	((c) - 'A' + 'a')
 #define _toupper(c)	((c) - 'a' + 'A')
