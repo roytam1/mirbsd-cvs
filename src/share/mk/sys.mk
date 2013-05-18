@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/sys.mk,v 1.65 2006/06/17 17:12:33 tg Exp $
+# $MirOS: src/share/mk/sys.mk,v 1.66 2006/06/17 20:03:31 tg Exp $
 # $OpenBSD: sys.mk,v 1.45 2005/03/07 00:06:00 deraadt Exp $
 # $NetBSD: sys.mk,v 1.27 1996/04/10 05:47:19 mycroft Exp $
 # @(#)sys.mk	5.11 (Berkeley) 3/13/91
@@ -47,15 +47,13 @@ COMPILE.S?=	${CC} -D_ASM_SOURCE ${AFLAGS} ${CPPFLAGS} -c
 LINK.S?=	${CC} -D_ASM_SOURCE ${AFLAGS} ${CPPFLAGS} ${LDFLAGS}
 
 CC?=		mgcc
+HOSTCC?=	mgcc
 
 PIPE?=		-pipe
 
 CFLAGS?=	-O2 ${PIPE} ${DEBUG}
 COMPILE.c?=	${CC} ${CFLAGS} ${CPPFLAGS} -c
 LINK.c?=	${CC} ${CFLAGS} ${CPPFLAGS} ${LDFLAGS}
-
-HOSTCC?=	mgcc
-HOSTCFLAGS?=	${CFLAGS}
 
 CXX?=		c++
 CXXFLAGS?=	${CFLAGS}
