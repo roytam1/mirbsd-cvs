@@ -1363,10 +1363,11 @@ assign_string (tree target, tree source)
                 length = integer_zero_node;
               else
                 {
-#if 0
-                  /* Use save_expr, so the length is not computed twice (for the
-                     number of chars to move and the assignment to the target length). */
-                  length = save_expr (fold (build_pascal_binary_op (MIN_EXPR, PASCAL_STRING_LENGTH (source), capacity)));
+#if 1
+                  /* Use save_expr_string, so the string is not evaluated 2 or 3 times (for the
+                     number of chars to move, assignment to the target length and the chars). */
+                  source = save_expr_string (source);
+                  length = fold (build_pascal_binary_op (MIN_EXPR, PASCAL_STRING_LENGTH (source), capacity));
                   /* The target needs to be an lvalue, but the source might
                      be e.g. an array returned by a function or whatever. */
                   expr1 = build_memcpy (build_unary_op (ADDR_EXPR, PASCAL_STRING_VALUE (target), 1),
