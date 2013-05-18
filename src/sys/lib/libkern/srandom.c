@@ -1,8 +1,8 @@
-/* $MirOS: src/sys/lib/libkern/srandom.c,v 1.2 2005/03/06 21:28:05 tg Exp $ */
+/* $MirOS: src/sys/lib/libkern/srandom.c,v 1.4 2006/02/23 01:18:20 tg Exp $ */
 
 /*-
- * Copyright (c) 2003
- *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+ * Copyright (c) 2003, 2006
+ *	Thorsten Glaser <tg@mirbsd.de>
  *
  * Licensee is hereby permitted to deal in this work without restric-
  * tion, including unlimited rights to use, publicly perform, modify,
@@ -49,7 +49,7 @@ srandom(u_long seed)
 	}
 	s2 = (s1 & 0x7F) << 24;
 	s1 = (s1 & 0xFFFFFF80) >> 7;
-	_randseed = (s1 & 0x01FFFFFF);
-	s1 = random();
-	_randseed = s1 ^ s2;
+	_randseed ^= (s1 & 0x01FFFFFF);
+	random();
+	_randseed = (_randseed ^ s2) & 0x7FFFFFFF;
 }
