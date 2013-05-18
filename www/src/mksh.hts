@@ -2,7 +2,7 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.173 2008/10/20 19:29:21 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.174 2008/10/24 21:23:30 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R35b</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -769,7 +769,7 @@ mws_content <<'EOF'
  <li>AIX 5.3 32-bit (powerpc xlC9.0 070428, LD 1.65 04/06/2005)</li>
  <li>AIX 5.3 64-bit (powerpc xlC9.0 070428, LD 1.65 04/06/2005)</li>
  <li>DEC OSF/1 X2.0-8 (Rev. 155) (mips cc3.0 ucode ld3.0) <em>without</em> testsuite check</li>
- <li>DEC ULTRIX 4.5 0 RISC (mips cc3.0 ucode9.2)</li>
+ <li>DEC ULTRIX 4.5 0 RISC (mips cc3.0 ucode ld3.0)</li>
  <li>HP Tru64 OSF/1 V5.1B 2650 (alpha Compaq C V6.5-011 Rev. 2650)</li>
  <li>HP Tru64 OSF/1 V5.1B 2650 (alpha gcc2.97-tru64-010710 alphaev56)</li>
  <li>Mac OSX Leopard 10.5.5 (9F33) Darwin 9.5.0 (i386 llvmgcc4.2.1-Apple_5555-LLVM_2039)</li>
