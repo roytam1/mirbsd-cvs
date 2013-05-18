@@ -2115,4 +2115,17 @@ Author: tg@
  see if svk can be of use to access svn repositories, since I’m bound to
  use them in a couple of projects of mine. Well, not my projects, since,
  obviously, they would be using CVS then, but which I work on.</p>
+<p>Benny and XTaran have won, <a href="@@RELPATH@@mksh.htm">mksh</a> (or
+ rather, <tt>dot.mkshrc</tt>) now has <tt>dirs</tt>, <tt>pushd</tt>, and
+ <tt>popd</tt> (exactly as csh(1) had them). The hooks <tt>chpwd</tt> as
+ well as <tt>precmd</tt> were added to please some zsh freaks. (The dirs
+ stuff uses <tt>chpwd</tt> now, for simplicity.)</p>
+<p>mksh(1) still doesn’t correctly work (continue is broken) with the <a
+ href="http://www.feyrer.de/NetBSD/blog.html/nb_20070917_0016.html">promising</a> <a
+ href="http://undeadly.org/cgi?action=article&amp;sid=20070915195203&amp;mode=expanded">portable
+ C compiler</a> though. <a href="http://marc.info/?m=119066747905967">It
+ really is a pity</a>, but I don’t have a clue (yet).</p>
+<p>(Damn, now I coded a whole lot of crap, even added C7 RNG/AES support
+ despite planning to not hack. I guess I should get a life. On the other
+ hand, the weather isn’t promising enough for that.)</p>
 ----
