@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/stand/boot/Makefile,v 1.24 2009/01/11 13:09:21 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/boot/Makefile,v 1.25 2009/01/11 14:13:41 tg Exp $
 
 SMALL_BOOT?=	No
 
@@ -10,9 +10,6 @@ SADIR=${.CURDIR}/..
 .include "${KERNBASE}/Makefile.inc"
 
 CPPFLAGS+=	${DEBUGFLAGS}
-#CPPFLAGS+=	-DLOUD #-DEXTRALOUD
-#CPPFLAGS+=	-DUTEST #-DUHARD #-DUANAL
-#CPPFLAGS+=	-DDEBUG_OFS
 CPPFLAGS+=	${SACFLAGS:M-[DI]*}
 COPTS+=		${SACFLAGS:N-[DI]*}
 
